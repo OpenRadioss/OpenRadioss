@@ -1,0 +1,99 @@
+Copyright>        OpenRadioss
+Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
+Copyright>    
+Copyright>        This program is free software: you can redistribute it and/or modify
+Copyright>        it under the terms of the GNU Affero General Public License as published by
+Copyright>        the Free Software Foundation, either version 3 of the License, or
+Copyright>        (at your option) any later version.
+Copyright>    
+Copyright>        This program is distributed in the hope that it will be useful,
+Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+Copyright>        GNU Affero General Public License for more details.
+Copyright>    
+Copyright>        You should have received a copy of the GNU Affero General Public License
+Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+Copyright>    
+Copyright>    
+Copyright>        Commercial Alternative: Altair Radioss Software 
+Copyright>    
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+C.../COM04/
+C
+      COMMON /COM04/ 
+     .   NUMMAT, NUMNOD, NUMSKW, NUMBCS, NANALY, 
+     .   NUMELQ, NUMELS, NUMELC, NUMELT, NUMGEO,
+     .   NFUNCT, NCONLD, NINVEL, NLASER, NINTER,
+     .   NRWALL, NRBODY, NODMAS,  
+     .   NFXVEL, NRIVET, NUMELR, NUMELP, NSECT , 
+     .   NRBAG , NJOINT, NUMELTG,NSLAG , NFACX ,
+     .   NUMPOR, NACCELM,NSENSOR,NPRETEN,NVOLU,NMONVOL,
+     .   NPART,  NSURF,  NSUBS,  NGRAV,  NRBY2 ,
+     .   NGRNOD, NGRBRIC,NGRQUAD,NGRSHEL,NGRSH3N,
+     .   NGRBEAM,NGRTRUS,NGRSPRI,NLINK,  INVSTR,
+     .   NSLIN,  NUMELX, NCONX,  ISUMNX, NANIM1D,
+     .   NR2RLNK, NUMFRAM,  SCODVER, SMINVER, SSRCVER,
+     .   NUMELS10,NUMELS20,IDAMPG,NIBVEL,NUMELS16,
+     .   NUMELS8,NACTIV ,NDAMP,NUMELTG6,NUMELS8A,
+     .   NRBYKIN, NBCSKIN, SEGINDX ,NEXMAD,
+     .   NMADPRT,NMADSH4,NMADSH3,NMADSOL,NMADNOD,
+     .   NFXBODY,NEIG   ,NINTSUB,NUMCNOD,NVENTTOT,
+     .   NUMNOD0,NUMELC0,NUMELTG0,NINTEMP,NMERGED,
+     .   NRBYM,
+     .   NGSLNRBYM,NFRBYM, NIRBYM,NRBE3,NUMCONV, 
+     .   NFXTEMP,NCONVEC,NIMTEMP,NGRNOD0,NGRBRIC0,
+     .   NGRQUAD0,NGRSHEL0,NGRSH3N0,NGRBEAM0,NGRTRUS0,
+     .   NGRSPRI0,NSURF0,NSLIN0,NPLYXFEM,NGRPART,
+     .   NGRPART0,NGPE,NTHPART,NUMRADIA,NRADIA,
+     .   NTABLE,NBBOX,NBBOX0,NRBE2,NHRBE2,
+     .   NSTATE,NUMNODXFE,NUMELCXFE,NUMELTGXFE,
+     .   NBGAUGE,NLOAD,DIM_FRONT_SKY,NTRANSF,NLOADC,
+     .   NLOADP,SIZFIELD,SIZLOADP,NALELK,NCLUSTER,NDEFAULT,
+     .   NUMELIG3D,FIRSTNOD_ISOGEO,ISFEM,NLOADB,SIZLOADB,
+     .   NLOADP_F, NLOADP_B, NUMNOR, NINTER25, NPERTURB,
+     .   NUMSTACK, NUMPLY,   NS10E,  NINIGRAV,NINTERFRIC,NINIMAP1D,
+     .   NFUNC2D,NINIMAP2D,NUMFAKENODIGEO,NUMNODIGE0,NRBMERGE, 
+     .   NUMMAT_FILE, HM_NUMMAT, NUMGEO_FILE, HM_NUMGEO,
+     .   NUMBRICK,NUMTETRA4,NUMPENTA6,NXTRA_NODE,NUMELTRIA,HM_NINVEL,NINVEL_FILE,
+     .   HM_NINTER,NFRIC_ORIENT,NBCSCYC,NLOADP_HYD,NINTLOADP,NINTLOADP21,NB_MERGE_NODE,
+     .   NRBODY0
+      INTEGER NUMMAT, NUMNOD, NUMSKW, NUMBCS, NANALY,
+     .   NUMELQ, NUMELS, NUMELC, NUMELT, NUMGEO,
+     .   NFUNCT, NCONLD, NINVEL, NLASER, NINTER,
+     .   NRWALL, NRBODY, NODMAS, 
+     .   NFXVEL, NRIVET, NUMELR, NUMELP, NSECT , 
+     .   NRBAG , NJOINT, NUMELTG,NSLAG , NFACX ,
+     .   NUMPOR, NACCELM,NSENSOR,NPRETEN,NVOLU,NMONVOL,
+     .   NPART,  NSURF,  NSUBS,  NGRAV,  NRBY2 ,
+     .   NGRNOD, NGRBRIC,NGRQUAD,NGRSHEL,NGRSH3N,
+     .   NGRBEAM,NGRTRUS,NGRSPRI,NLINK,  INVSTR,
+     .   NSLIN,  NUMELX, NCONX,  ISUMNX, NANIM1D,
+     .   NR2RLNK, NUMFRAM, SCODVER, SMINVER, SSRCVER,
+     .   NUMELS10,NUMELS20,IDAMPG,NIBVEL,NUMELS16,
+     .   NUMELS8,NACTIV ,NDAMP,NUMELTG6,NUMELS8A,
+     .   NRBYKIN, NBCSKIN, SEGINDX ,NEXMAD,
+     .   NMADPRT,NMADSH4,NMADSH3,NMADSOL,NMADNOD,
+     .   NFXBODY,NEIG   ,NINTSUB,NUMCNOD,NVENTTOT,
+     .   NUMNOD0,NUMELC0,NUMELTG0, NINTEMP,NMERGED,
+     .   NRBYM,
+     .   NGSLNRBYM,NFRBYM, NIRBYM,NRBE3,NUMCONV, 
+     .   NFXTEMP,NCONVEC,NIMTEMP,NGRNOD0, NGRBRIC0,
+     .   NGRQUAD0,NGRSHEL0,NGRSH3N0,NGRBEAM0,NGRTRUS0,
+     .   NGRSPRI0,NSURF0,NSLIN0,NPLYXFEM,NGRPART,
+     .   NGRPART0,NGPE,NTHPART,NUMRADIA,NRADIA,
+     .   NTABLE,NBBOX,NBBOX0,NRBE2,NHRBE2,
+     .   NSTATE,NUMNODXFE,NUMELCXFE,NUMELTGXFE,
+     .   NBGAUGE,NLOAD,DIM_FRONT_SKY,NTRANSF,NLOADC,
+     .   NLOADP,SIZFIELD,SIZLOADP,NALELK,NCLUSTER,NDEFAULT,
+     .   NUMELIG3D,FIRSTNOD_ISOGEO,ISFEM,NLOADB,SIZLOADB,
+     .   NLOADP_F, NLOADP_B, NUMNOR, NINTER25, NPERTURB ,
+     .   NUMSTACK, NUMPLY,   NS10E,  NINIGRAV,NINTERFRIC,NINIMAP1D,
+     .   NFUNC2D,NINIMAP2D,NUMFAKENODIGEO,NUMNODIGE0,NRBMERGE, 
+     .   NUMMAT_FILE, HM_NUMMAT, NUMGEO_FILE, HM_NUMGEO,
+     .   NUMBRICK,NUMTETRA4,NUMPENTA6,NXTRA_NODE,NUMELTRIA,HM_NINVEL,NINVEL_FILE,
+     .   HM_NINTER,NFRIC_ORIENT,NBCSCYC,NLOADP_HYD,NINTLOADP,NINTLOADP21,NB_MERGE_NODE,
+     .   NRBODY0
+C--------1---------2---------3---------4---------5---------6---------7--
+

@@ -1,0 +1,262 @@
+#------------------------------------------------------------------------------
+# 100001 - 100100: File handling:
+
+/MESSAGE/100001/TITLE
+** ERROR IN INPUT FORMAT
+/MESSAGE/100001/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+Model file %s not found
+
+/MESSAGE/100002/TITLE
+** ERROR IN INPUT FORMAT
+/MESSAGE/100002/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+Include file %s not found
+
+
+#------------------------------------------------------------------------------
+# 100101 - 100200: Parsing:
+
+/MESSAGE/100101/TITLE
+** ERROR IN INPUT FORMAT
+/MESSAGE/100101/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+STRING "%s" found instead of an integer
+/MESSAGE/100101/SOLUTION
+Please check input format and its consistency with Invers value from /BEGIN option.
+
+/MESSAGE/100102/TITLE
+** ERROR IN INPUT FORMAT
+/MESSAGE/100102/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+STRING "%s" found instead of a floating point value
+/MESSAGE/100102/SOLUTION
+Please check input format and its consistency with Invers value from /BEGIN option.
+
+/MESSAGE/100103/TITLE
+** ERROR IN INPUT OPTIONS
+/MESSAGE/100103/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+Cannot read an integer value
+/MESSAGE/100103/SOLUTION
+Please check input format and its consistency with Invers value from /BEGIN option.
+   
+/MESSAGE/100104/TITLE
+** ERROR IN INPUT FORMAT
+/MESSAGE/100104/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+Cannot read a floating point value
+/MESSAGE/100104/SOLUTION
+Please check input format and its consistency with Invers value from /BEGIN option.
+
+/MESSAGE/100105/TITLE
+** ERROR IN INPUT FORMAT
+/MESSAGE/100105/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+PARAMETER spans over more than one cell and is not found.
+
+#------------------------------------------------------------------------------
+# 100201 - 100300: Global model problems:
+   
+/MESSAGE/100201/TITLE
+** ERROR IN INPUT FORMAT
+/MESSAGE/100201/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+File is not a valid deck, mandatory first card "#RADIOSS STARTER" missing.
+
+/MESSAGE/100202/TITLE
+** ERROR IN INPUT FORMAT
+/MESSAGE/100202/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+INPUT FORMAT %d NOT SUPPORTED
+
+/MESSAGE/100210/TITLE
+** ERROR IN INPUT OPTIONS
+/MESSAGE/100210/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+Unrecognized option:
+%s
+
+/MESSAGE/100211/TITLE
+** WARNING IN INPUT OPTIONS
+/MESSAGE/100211/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+Unsupported option %s in format < %s
+
+/MESSAGE/100212/TITLE
+** WARNING IN INPUT OPTIONS
+/MESSAGE/100212/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+Card cannot be read. Object might be incomplete
+
+/MESSAGE/100213/TITLE
+** WARNING IN INPUT OPTIONS
+/MESSAGE/100213/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+unsupported field exits at the end of line
+/MESSAGE/100213/SOLUTION
+    Please check input format and its consistency with Invers value from /BEGIN option.
+
+/MESSAGE/100214/TITLE
+** WARNING IN INPUT OPTIONS
+/MESSAGE/100214/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+unsupported field exits
+/MESSAGE/100214/SOLUTION
+    Please check input format and its consistency with Invers value from /BEGIN option.
+
+/MESSAGE/100215/TITLE
+** ERROR IN INPUT OPTIONS
+/MESSAGE/100215/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+End of file reached
+
+/MESSAGE/100216/TITLE
+** ERROR IN INPUT OPTIONS
+/MESSAGE/100216/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+Unable to read this line
+
+/MESSAGE/100217/TITLE
+** WARNING IN INPUT OPTIONS
+/MESSAGE/100217/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+card is missing
+/MESSAGE/100217/SOLUTION
+Please check input format and its consistency with Invers value from /BEGIN option.
+
+
+/MESSAGE/100218/TITLE
+** WARNING IN INPUT OPTIONS
+/MESSAGE/100218/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+Card missing. Object might be incomplete.
+
+/MESSAGE/100219/TITLE
+** WARNING IN INPUT OPTIONS
+/MESSAGE/100219/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+Unexpected card, will be ignored:
+%s
+
+#------------------------------------------------------------------------------
+# 109001 - 109100: Internal errors:
+
+/MESSAGE/109001/TITLE
+** ERROR IN CFG-FILE ENVIRONMENT
+/MESSAGE/109001/DESCRIPTION
+Error while reading cfg-files:
+%s
+
+/MESSAGE/109002/TITLE
+** ERROR IN ENVIRONMENT
+/MESSAGE/109002/DESCRIPTION
+Cannot open message file %s
+
+#------------------------------------------------------------------------------
+# 109997: Unknown:
+
+/MESSAGE/109997/TITLE
+** INFO WITHOUT ID
+/MESSAGE/109997/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+%s
+
+/MESSAGE/109998/TITLE
+** WARNING WITHOUT ID
+/MESSAGE/109998/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+%s
+
+/MESSAGE/109999/TITLE
+** ERROR WITHOUT ID
+/MESSAGE/109999/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+%s
+
+#------------------------------------------------------------------------------
+# 200001 -        : Dyna import:
+
+/MESSAGE/200001/TITLE
+** ERROR IN LS-DYNA IMPORT
+/MESSAGE/200001/DESCRIPTION
+%s (id: %u, name: %s) is not supported
+
+/MESSAGE/200002/TITLE
+** WARNING IN LS-DYNA IMPORT
+/MESSAGE/200002/DESCRIPTION
+%s (id: %u, name: %s) VAD=3 - motion will not be correct - the function needs to be manually converted
+
+/MESSAGE/200003/TITLE
+** ERROR IN LS-DYNA IMPORT
+/MESSAGE/200003/DESCRIPTION
+%s (id: %u, name: %s) G0=GI 
+
+/MESSAGE/200004/TITLE
+** ERROR IN LS-DYNA IMPORT
+/MESSAGE/200004/DESCRIPTION
+%s (id: %u, name: %s) Failure in forces/moments not taken into account
+
+/MESSAGE/200011/TITLE
+** ERROR IN LS-DYNA IMPORT
+/MESSAGE/200011/DESCRIPTION
+%s (id: %u, name: %s): Field %s not supported
+
+/MESSAGE/200012/TITLE
+** ERROR IN LS-DYNA IMPORT
+/MESSAGE/200012/DESCRIPTION
+%s (name: %s): Field %s not supported
+
+/MESSAGE/200021/TITLE
+** WARNING IN LS-DYNA IMPORT
+/MESSAGE/200021/DESCRIPTION
+%s (id: %u, name: %s): Field %s not supported
+
+/MESSAGE/200022/TITLE
+** WARNING IN LS-DYNA IMPORT
+/MESSAGE/200022/DESCRIPTION
+%s (name: %s): Field %s not supported
+
+/MESSAGE/200023/TITLE
+** ERROR IN LS-DYNA IMPORT
+/MESSAGE/200023/DESCRIPTION
+duplicate %s id %d
+
+/MESSAGE/200024/TITLE
+** ERROR IN LS-DYNA IMPORT
+/MESSAGE/200024/DESCRIPTION
+%s (id: %u, name: %s) : IRID<0 is not supported
+
+/MESSAGE/200025/TITLE
+** WARNING IN LS-DYNA IMPORT
+/MESSAGE/200025/DESCRIPTION
+%s (id: %u, name: %s) : TYPE=3 is not supported
+
+/MESSAGE/200026/TITLE
+** WARNING IN LS-DYNA IMPORT
+/MESSAGE/200026/DESCRIPTION
+%s (id: %u, name: %s) : ELFORM=%d is not supported
+
+#------------------------------------------------------------------------------

@@ -1,0 +1,1082 @@
+#
+#  qafile (group miniqa) : QA.files_miniqa
+#
+unsetenv DO_QA
+
+##TOLERANCES :
+##----------
+##
+##    !!!!!!
+##POUR LES ENTIERS : %= Relative_Int_Tolerance et |.|= Int_Tolerance
+##POUR LES REELS   : %= Diff_Tolerance         et |.|= Abs_Tolerance
+##
+
+##global tolerances are setted in QA.constants (for real small values like mass error)
+
+#BB 
+# il faut definir les tolerancs en tete de fichier QA.Files_ 
+# car "use_reset_tolerances" est defini dans QA. constant
+
+if precision == sp Diff_Tolerance 0.0115
+if precision == sp Relative_Int_Tolerance 0.0115
+
+
+##TEMPS definis pour cette QA avec un executable mainline linux64 8threads sur neo :
+##-----
+## a <= 1mn
+## b <= 2mn
+## c <= 3mn
+## d <= 5mn 
+## e > 5mn
+
+##LIMITATIONS :
+##-----------
+## P : parallel restrictions
+## S : SP restrictions
+## M : electric fence restrictions (M pour --args='-core=min')
+## T : threads restrictions (SMP nok)
+
+##keywords dbef_nok pour test trop long avec electric fence
+
+if precision == sp Diff_Tolerance 0.0101
+if precision == sp Relative_Int_Tolerance 0.0101
+
+##MATERIAU TESTE EN miniqa : 1, 2, 3, 4, 19, 22, 23, 25, 27, 28, 33, 34, 35, 38, 49, 50, 62, 66, 76 + HYD_VISC (loi 11?)
+#ET LE small_test ? Il est dans la 8.0
+
+#--------------------------------------------------------------------------------
+#1.1
+test #abS
+if precision == sp test #
+## path=miniqa/ACCELEROMETRES/data
+keywords  liste_nuit sp_nok modif_nok miniqa
+input	../miniqa/ACCELEROMETRES/data/ACCELERO_0000.rad
+execute -starter
+input	../miniqa/ACCELEROMETRES/data/ACCELERO_0001.rad
+extract	../miniqa/ACCELEROMETRES/data/ref.extract
+local	ERROR	Diff_Tolerance	0.6
+local	KENERGYT	Diff_Tolerance	0.0008
+go -engine
+#--------------------------------------------------------------------------------
+#1.2
+test #aa
+## path=miniqa/AIRBAG/jetting41b/data
+keywords  liste_nuit monvol miniqa converted
+input	../miniqa/AIRBAG/jetting41b/data/JETV41B_0000.rad
+execute -starter
+input	../miniqa/AIRBAG/jetting41b/data/JETV41B_0001.rad
+extract	../miniqa/AIRBAG/jetting41b/data/ref.extract
+local	TIME	Diff_Tolerance	0.00180252353294619
+local	EXTWORK	Diff_Tolerance	0.00564875042793556
+local	IENERGY	Diff_Tolerance	0.00575043128234618
+local	KENERGYT	Diff_Tolerance	0.0346178967994774
+local	TSTEP	Diff_Tolerance	0.0288372093023255
+if precision == sp local TSTEP Diff_Tolerance 0.0115
+if precision == sp local KENERGYT Diff_Tolerance 0.012
+go -engine
+#--------------------------------------------------------------------------------
+#1.3
+test #aa
+## path=miniqa/ALE2D/bar2_v41/data
+keywords  liste_nuit ale miniqa skew quad converted
+input	../miniqa/ALE2D/bar2_v41/data/BAR2V41B_0000.rad
+execute -starter
+input	../miniqa/ALE2D/bar2_v41/data/BAR2V41B_0001.rad
+extract	../miniqa/ALE2D/bar2_v41/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.4
+test #aa
+## path=miniqa/COQUES3N/ct3a/data
+keywords  liste_nuit miniqa converted
+input	../miniqa/COQUES3N/ct3a/data/CT3AV4_0000.rad
+execute -starter
+input	../miniqa/COQUES3N/ct3a/data/CT3AV4_0001.rad
+extract	../miniqa/COQUES3N/ct3a/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.5
+test aa
+## path=miniqa/CRASH/crashtriangles/data
+keywords  liste_nuit miniqa converted
+input	../miniqa/CRASH/crashtriangles/data/TRITUBV4_0000.rad
+execute -starter
+input	../miniqa/CRASH/crashtriangles/data/TRITUBV4_0001.rad
+extract	../miniqa/CRASH/crashtriangles/data/ref.extract
+local	TIME	Diff_Tolerance	0.00266915788068853
+local	CYCLE	Int_Tolerance	140
+local	IENERGY	Diff_Tolerance	0.10230179028133
+local	KENERGYT	Diff_Tolerance	0.0043731778425656
+local	TSTEP	Diff_Tolerance	0.0885553470919324
+go -engine
+#--------------------------------------------------------------------------------
+#1.6
+test aa
+## path=miniqa/CRASH/crashsection/box1_42/data
+keywords  liste_nuit miniqa inivel_tra converted
+input	../miniqa/CRASH/crashsection/box1_42/data/BOX1BL_0000.rad
+execute -starter
+input	../miniqa/CRASH/crashsection/box1_42/data/BOX1BL_0001.rad
+extract	../miniqa/CRASH/crashsection/box1_42/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.7
+test #aa
+## path=miniqa/INTERF/INT_2/pl_dam_ilev/data
+keywords  liste_nuit int2 miniqa converted
+input	../miniqa/INTERF/INT_2/pl_dam_ilev/data/PLREG41B_0000.rad
+execute -starter
+input	../miniqa/INTERF/INT_2/pl_dam_ilev/data/PLREG41B_0001.rad
+extract	../miniqa/INTERF/INT_2/pl_dam_ilev/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.8
+test #aa
+## path=miniqa/INTERF/INT_7/friction
+keywords  liste_nuit int7 miniqa converted
+input	../miniqa/INTERF/INT_7/friction/data/FRICT41_0000.rad
+execute -starter
+input	../miniqa/INTERF/INT_7/friction/data/FRICT41_0001.rad
+extract	../miniqa/INTERF/INT_7/friction/data/ref.extract
+if precision == sp local IENERGY Abs_Tolerance 6.0e-5
+if precision == sp local KENERGYR Diff_Tolerance 0.026
+go -engine
+#--------------------------------------------------------------------------------
+#1.9
+test #aa
+## path=miniqa/INTERF/INT_7/idel7=2/data
+keywords  liste_nuit int7 miniqa inivel_tra converted
+input	../miniqa/INTERF/INT_7/idel7=2/data/IDEL8_0000.rad
+execute -starter
+input	../miniqa/INTERF/INT_7/idel7=2/data/IDEL8_0001.rad
+extract	../miniqa/INTERF/INT_7/idel7=2/data/ref.extract
+local	KENERGYR	Diff_Tolerance	0.000601775236949067
+if precision == sp local ERROR Abs_Tolerance 0.35
+if precision == sp local KENERGYT Diff_Tolerance 0.007
+go -engine
+#--------------------------------------------------------------------------------
+#1.10
+test #aa
+## path=miniqa/INTERF/INT_7/small_boule/data
+keywords  liste_nuit int7 miniqa impvel converted
+input	../miniqa/INTERF/INT_7/small_boule/data/BOULE1V4_0000.rad
+execute -starter
+input	../miniqa/INTERF/INT_7/small_boule/data/BOULE1V4_0001.rad
+extract	../miniqa/INTERF/INT_7/small_boule/data/ref.extract
+local	TIME	Diff_Tolerance	0.0038971161340608
+local	IENERGY	Diff_Tolerance	0.0167785234899329
+local	TSTEP	Diff_Tolerance	0.0102627257799673
+if precision == sp local KENERGYT Abs_Tolerance 12.5
+if precision == sp local KENERGYR Abs_Tolerance 6.0
+if precision == sp local EXTWORK Diff_Tolerance 0.008
+go -engine
+ 
+##Four different models : 
+##1- INTERF/INT_7/small_boule/data
+##   Description : test d'une balle s'ecrasant contre un mur avec igap=0 et multimp=0
+##2- INTERF/INT_7/igsti/small_boule_igsti/data
+##   Description : test d'une balle s'ecrasant contre un mur avec igap=2 (gapscale) et igsti=4
+##3- INTERF/INT_7/igsti/small_boule_igsti/dtmin/data
+##   Description : test d'une balle s'ecrasant contre un mur avec igap=0 (gapscale) et igsti=5
+##4- INTERF/INT_7/igsti/small_boule_igsti/dtmin_02/data
+##   Description : meme modele que precedent mais avec dtmin=0.2 dans /INTER/TYPE19 
+##   + Tfin=0.0025 au lieu de 0.5 + un /DT/INTER/DEL qui n'existe pas en 3-
+##(ordre de creation des modeles)
+#--------------------------------------------------------------------------------
+#1.11
+test #aa
+# Test moved in QA 8.x as 8.1671
+go -engine
+#--------------------------------------------------------------------------------
+#1.12
+test #aa
+## path=miniqa/INTERF/INT_7/igsti/small_boule_igsti
+keywords  liste_nuit int7 miniqa converted
+input	../miniqa/INTERF/INT_7/igsti/small_boule_igsti/data/BOULEV44_0000.rad
+execute -starter
+input	../miniqa/INTERF/INT_7/igsti/small_boule_igsti/data/BOULEV44_0001.rad
+extract	../miniqa/INTERF/INT_7/igsti/small_boule_igsti/data/ref.extract
+local	CYCLE	Int_Tolerance	10
+local	IENERGY	Diff_Tolerance	0.00239043824701195
+local	TSTEP	Diff_Tolerance	0.00123355263157901
+if precision == sp local KENERGYT Diff_Tolerance 0.05
+if precision == sp local KENERGYR Diff_Tolerance 0.02
+go -engine
+
+#KET et RKE petits et en plus, oscillent
+
+##Four different models : 
+##1- INTERF/INT_7/small_boule/data
+##   Description : test d'une balle s'ecrasant contre un mur avec igap=0 et multimp=0
+##2- INTERF/INT_7/igsti/small_boule_igsti/data
+##   Description : test d'une balle s'ecrasant contre un mur avec igap=2 (gapscale) et igsti=4
+##3- INTERF/INT_7/igsti/small_boule_igsti/dtmin/data
+##   Description : test d'une balle s'ecrasant contre un mur avec igap=0 (gapscale) et igsti=5
+##4- INTERF/INT_7/igsti/small_boule_igsti/dtmin_02/data
+##   Description : meme modele que precedent mais avec dtmin=0.2 dans /INTER/TYPE19 
+##   + Tfin=0.0025 au lieu de 0.5 + un /DT/INTER/DEL qui n'existe pas en 3-
+##(ordre de creation des modeles)
+
+#--------------------------------------------------------------------------------
+#1.13
+test #aa
+## path=miniqa/INTERF/int357/data
+keywords  liste_nuit miniqa int3 int5 int7 converted
+input	../miniqa/INTERF/int357/data/INT357_0000.rad
+execute -starter
+input	../miniqa/INTERF/int357/data/INT357_0001.rad
+extract	../miniqa/INTERF/int357/data/ref.extract
+if precision == sp local IENERGY Diff_Tolerance 0.0175
+if precision == sp local KENERGYR Diff_Tolerance 0.017
+go -engine
+#--------------------------------------------------------------------------------
+#1.14
+test #aa
+# Test archived in tests/archives/KIN_CONSTRAINTS/BOUNDARY_COND/inivel/axis/input_51
+go -engine
+#--------------------------------------------------------------------------------
+#1.15
+test #aa
+## path=miniqa/KIN_CONSTRAINTS/RBODY/ROTA/data
+keywords  liste_nuit rbody miniqa impvel converted
+input	../miniqa/KIN_CONSTRAINTS/RBODY/ROTA/data/BLOCK_0000.rad
+execute -starter
+input	../miniqa/KIN_CONSTRAINTS/RBODY/ROTA/data/BLOCK_0001.rad
+extract	../miniqa/KIN_CONSTRAINTS/RBODY/ROTA/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.16
+test #aa
+## path=miniqa/LOIS/FOAM/FOAM429/input_100/isolid_101/data
+keywords  liste_nuit foam miniqa version_100
+copy	../miniqa/LOIS/FOAM/FOAM429/input_100/isolid_101/data/readme.txt
+input	../miniqa/LOIS/FOAM/FOAM429/input_100/isolid_101/data/FOAM_V10_0000.rad
+execute -starter
+input	../miniqa/LOIS/FOAM/FOAM429/input_100/isolid_101/data/FOAM_V10_0001.rad
+extract	../miniqa/LOIS/FOAM/FOAM429/input_100/isolid_101/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.17
+test #aa
+## path=miniqa/LOIS/LOI2/BESH/input_44/data
+keywords  liste_nuit impvel miniqa beam beam converted
+input	../miniqa/LOIS/LOI2/BESH/input_44/data/BESHV44_0000.rad
+execute -starter
+input	../miniqa/LOIS/LOI2/BESH/input_44/data/BESHV44_0001.rad
+extract	../miniqa/LOIS/LOI2/BESH/input_44/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.18
+test #aa
+## path=miniqa/LOIS/LOI12/test1/data
+keywords  version_90 liste_nuit modif_nok miniqa sol_orth converted
+input	../miniqa/LOIS/LOI12/test1/data/LOI12_0000.rad
+execute -starter
+input	../miniqa/LOIS/LOI12/test1/data/LOI12_0001.rad
+extract	../miniqa/LOIS/LOI12/test1/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.19
+test #aa
+## path=miniqa/LOIS/LOI13/solide/data
+keywords  liste_nuit version_100 miniqa 
+input	../miniqa/LOIS/LOI13/solide/data/MODELE_0000.rad
+execute -starter
+input	../miniqa/LOIS/LOI13/solide/data/MODELE_0001.rad
+extract	../miniqa/LOIS/LOI13/solide/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.20
+test #aa
+## path=miniqa/LOIS/LOI14/data
+keywords  liste_nuit miniqa modif_nok impvel sol_orth converted
+input	../miniqa/LOIS/LOI14/data/LOI14_0000.rad
+execute -starter
+input	../miniqa/LOIS/LOI14/data/LOI14_0001.rad
+extract	../miniqa/LOIS/LOI14/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.21
+test #aa
+## path=miniqa/LOIS/LOI21/data
+keywords  liste_nuit miniqa input_31 converted
+input	../miniqa/LOIS/LOI21/data/M21AV31_0000.rad
+execute -starter
+input	../miniqa/LOIS/LOI21/data/M21AV31_0001.rad
+extract	../miniqa/LOIS/LOI21/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.22
+test #aa
+## path=miniqa/LOIS/LOI22/sol2223/version_100/data
+keywords  liste_nuit version_100 miniqa converted
+input	../miniqa/LOIS/LOI22/sol2223/version_100/data/LOI2223_0000.rad
+execute -starter
+input	../miniqa/LOIS/LOI22/sol2223/version_100/data/LOI2223_0001.rad
+extract	../miniqa/LOIS/LOI22/sol2223/version_100/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.23
+test #aa
+## path=miniqa/LOIS/LOI25/test_crasurv_bloc/input_44/data
+keywords  liste_nuit miniqa impvel converted
+input	../miniqa/LOIS/LOI25/test_crasurv_bloc/input_44/data/L25CRASB_0000.rad
+execute -starter
+input	../miniqa/LOIS/LOI25/test_crasurv_bloc/input_44/data/L25CRASB_0001.rad
+extract	../miniqa/LOIS/LOI25/test_crasurv_bloc/input_44/data/ref.extract
+local	IENERGY	Abs_Tolerance	4900
+local	KENERGYR	Abs_Tolerance	54.094
+local	EXTWORK	Abs_Tolerance	5000
+if precision == sp local KENERGYR Diff_Tolerance 0.5
+go -engine
+ 
+#RKE petit et en plus, oscille
+#--------------------------------------------------------------------------------
+#1.24
+test #aa
+## path=miniqa/LOIS/LOI27/B_POKE_9/data
+keywords  liste_nuit miniqa converted
+input	../miniqa/LOIS/LOI27/B_POKE_9/data/B_POKE_9_0000.rad
+execute -starter
+input	../miniqa/LOIS/LOI27/B_POKE_9/data/B_POKE_9_0001.rad
+extract	../miniqa/LOIS/LOI27/B_POKE_9/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.25
+test #aa
+## path=miniqa/LOIS/LOI35/NewTests/Coques/test2/data
+keywords  liste_nuit miniqa modif_nok converted
+input	../miniqa/LOIS/LOI35/NewTests/Coques/test2/data/TEST5C_0000.rad
+execute -starter
+input	../miniqa/LOIS/LOI35/NewTests/Coques/test2/data/TEST5C_0001.rad
+extract	../miniqa/LOIS/LOI35/NewTests/Coques/test2/data/ref.extract
+local	TIME	Diff_Tolerance	0.000251762336354522
+local	EXTWORK	Diff_Tolerance	0.000367107195300987
+local	IENERGY	Diff_Tolerance	0.000375234521575944
+go -engine
+#--------------------------------------------------------------------------------
+#1.26
+test #aa
+## path=miniqa/LOIS/LOI38/DMAFNLIN/input_44/isolid_1/data
+keywords  liste_nuit miniqa skew sol_orth law28 law33 law34 law35 law38 converted
+input	../miniqa/LOIS/LOI38/DMAFNLIN/input_44/isolid_1/data/DMAFNLIN_0000.rad
+execute -starter
+input	../miniqa/LOIS/LOI38/DMAFNLIN/input_44/isolid_1/data/DMAFNLIN_0001.rad
+extract	../miniqa/LOIS/LOI38/DMAFNLIN/input_44/isolid_1/data/ref.extract
+local	EXTWORK	Diff_Tolerance	0.00402414486921529
+local	IENERGY	Diff_Tolerance	0.00438448566610455
+if precision == sp local KENERGYT Abs_Tolerance 1.0
+go -engine
+
+#Ce modele a l'avantage de tester les lois : 28, 33, 34, 35, 38 mais dans un ancien input
+#--------------------------------------------------------------------------------
+#1.27
+test #aa
+## path=miniqa/LOIS/LOI44/solides_8pt/data
+keywords  liste_nuit miniqa
+input	../miniqa/LOIS/LOI44/solides_8pt/data/44SLD8_0000.rad
+execute -starter
+input	../miniqa/LOIS/LOI44/solides_8pt/data/44SLD8_0001.rad
+extract	../miniqa/LOIS/LOI44/solides_8pt/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.28
+test #aa
+## path=miniqa/LOIS/LOI49/bar2_v44/loi_4_49/data
+keywords  liste_nuit miniqa skew inivel_tra quad law4 law49 converted
+input	../miniqa/LOIS/LOI49/bar2_v44/loi_4_49/data/BAR2V41B_0000.rad
+execute -starter
+input	../miniqa/LOIS/LOI49/bar2_v44/loi_4_49/data/BAR2V41B_0001.rad
+extract	../miniqa/LOIS/LOI49/bar2_v44/loi_4_49/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.29
+test #aa
+## path=miniqa/LOIS/LOI50/test1/pid_6/input_44/data
+keywords  liste_nuit miniqa impvel skew sol_orth converted
+input	../miniqa/LOIS/LOI50/test1/pid_6/input_44/data/M50B_0000.rad
+execute -starter
+input	../miniqa/LOIS/LOI50/test1/pid_6/input_44/data/M50B_0001.rad
+extract	../miniqa/LOIS/LOI50/test1/pid_6/input_44/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.30
+test #aa
+## path=miniqa/LOIS/LOI62/cisaillement/data
+keywords  liste_nuit version_51 miniqa converted
+copy	../miniqa/LOIS/LOI62/cisaillement/data/INCLUD_PID
+copy	../miniqa/LOIS/LOI62/cisaillement/data/INCLUD_MID_62
+input	../miniqa/LOIS/LOI62/cisaillement/data/TEST62_0000.rad
+execute -starter
+input	../miniqa/LOIS/LOI62/cisaillement/data/TEST62_0001.rad
+extract	../miniqa/LOIS/LOI62/cisaillement/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.31
+test #aa
+## path=miniqa/LOIS/LOI66/test_shell/data
+keywords  liste_nuit version_1002 miniqa law66 converted
+copy	../miniqa/LOIS/LOI66/test_shell/data/DEUXELCD0B
+input	../miniqa/LOIS/LOI66/test_shell/data/DEUXELC_0000.rad
+execute -starter
+input	../miniqa/LOIS/LOI66/test_shell/data/DEUXELC_0001.rad
+extract	../miniqa/LOIS/LOI66/test_shell/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.32
+test #aa
+## path=miniqa/LOIS/LOI68/cisaillement/test1/input_51/data
+keywords  liste_nuit version_51 miniqa skew sol_orth
+copy	../miniqa/LOIS/LOI68/cisaillement/test1/input_51/data/alire
+input	../miniqa/LOIS/LOI68/cisaillement/test1/input_51/data/CISA12_0000.rad
+execute -starter
+input	../miniqa/LOIS/LOI68/cisaillement/test1/input_51/data/CISA12_0001.rad
+extract	../miniqa/LOIS/LOI68/cisaillement/test1/input_51/data/ref.extract
+local	IENERGY     Diff_Tolerance	0.0025
+local	KENERGYT	Abs_Tolerance	0.0002
+local	KENERGYR	Abs_Tolerance	8.0e-05
+local	EXTWORK	Diff_Tolerance	0.002
+if precision == sp local IENERGY Diff_Tolerance 0.007
+if precision == sp local KENERGYT Diff_Tolerance 0.0265
+if precision == sp local EXTWORK Diff_Tolerance 0.007
+if precision == sp local KENERGYR Abs_Tolerance 0.12e-3
+go -engine
+#--------------------------------------------------------------------------------
+#1.33
+test #aaS
+if precision == sp test #
+## path=miniqa/LOIS/LOI76/shell/test1/compression/data
+keywords  liste_nuit version_1003 sp_nok miniqa law66 law76 converted 
+copy	../miniqa/LOIS/LOI76/shell/test1/compression/data/COMPD0B
+input	../miniqa/LOIS/LOI76/shell/test1/compression/data/COMP_0000.rad
+execute -starter
+input	../miniqa/LOIS/LOI76/shell/test1/compression/data/COMP_0001.rad
+extract	../miniqa/LOIS/LOI76/shell/test1/compression/data/ref.extract
+local	ERROR	Abs_Tolerance	0.1
+local	TIME	Diff_Tolerance	0.00200267022696937
+local	CYCLE	Int_Tolerance	20
+local	EXTWORK	Diff_Tolerance	0.181732874569909
+local	IENERGY	Diff_Tolerance	0.190684588934042
+local	TSTEP	Diff_Tolerance	0.00603035974215006
+go -engine
+#--------------------------------------------------------------------------------
+#1.34
+test #aa
+## path=miniqa/onefile_rad/data
+keywords  liste_nuit spmd_only version_100 onefile miniqa
+input	../miniqa/onefile_rad/data/CRA2AV4_0000.rad
+extract	../miniqa/onefile_rad/data/ref.extract
+execute -starter
+local	TIME	Diff_Tolerance	0.00300450676014032
+local	TSTEP	Diff_Tolerance	0.532181357006975
+local	IENERGY	Diff_Tolerance	0.0141006097560976
+local	KENERGYT	Diff_Tolerance	0.00318471337579618
+if precision == sp local CYCLE Relative_Int_Tolerance 0.011
+if precision == sp local TSTEP Diff_Tolerance 0.05
+if precision == sp local STEP Diff_Tolerance 0.048
+if precision == sp local ERROR Abs_Tolerance 0.15
+if precision == sp local EXTWORK Diff_Tolerance 0.02
+if module = win64 local TSTEP Diff_Tolerance 0.001
+go -engine
+#--------------------------------------------------------------------------------
+#1.35
+test #aa
+## path=miniqa/OPTIONS/damp/damping_all_nodes/input_44/data
+keywords  liste_nuit miniqa converted
+input	../miniqa/OPTIONS/damp/damping_all_nodes/input_44/data/DAMPC_0000.rad
+execute -starter
+input	../miniqa/OPTIONS/damp/damping_all_nodes/input_44/data/DAMPC_0001.rad
+extract	../miniqa/OPTIONS/damp/damping_all_nodes/input_44/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.36
+test #aa
+## path=miniqa/OPTIONS/desacti/test2/version_5/data
+keywords  liste_nuit sensor miniqa modif_nok quad converted
+copy	../miniqa/OPTIONS/desacti/test2/version_5/data/HYPED0B
+input	../miniqa/OPTIONS/desacti/test2/version_5/data/HYPE_0000.rad
+execute -starter
+input	../miniqa/OPTIONS/desacti/test2/version_5/data/HYPE_0001.rad
+extract	../miniqa/OPTIONS/desacti/test2/version_5/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.37
+test #aa
+## path=miniqa/OPTIONS/frame_or_skew/MOV/frame/data
+keywords  liste_nuit miniqa frame skew inivel_rot converted
+input	../miniqa/OPTIONS/frame_or_skew/MOV/frame/data/THFRAME_0000.rad
+execute -starter
+input	../miniqa/OPTIONS/frame_or_skew/MOV/frame/data/THFRAME_0001.rad
+extract	../miniqa/OPTIONS/frame_or_skew/MOV/frame/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.38
+test #aa
+## path=miniqa/REFERENCE_STATE_FILES/REFSTA/SOLIDES/law42/data
+keywords  liste_nuit version_90 miniqa modif_nok
+copy	../miniqa/REFERENCE_STATE_FILES/REFSTA/SOLIDES/law42/data/fileRS0
+input	../miniqa/REFERENCE_STATE_FILES/REFSTA/SOLIDES/law42/data/FILE_0000.rad
+execute -starter
+input	../miniqa/REFERENCE_STATE_FILES/REFSTA/SOLIDES/law42/data/FILE_0001.rad
+extract	../miniqa/REFERENCE_STATE_FILES/REFSTA/SOLIDES/law42/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.39
+test #aa
+## path=miniqa/RESSORT/couple/data
+keywords  liste_nuit impvel miniqa converted
+input	../miniqa/RESSORT/couple/data/TYPE8M_0000.rad
+execute -starter
+input	../miniqa/RESSORT/couple/data/TYPE8M_0001.rad
+extract	../miniqa/RESSORT/couple/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.40
+test #aa
+## path=miniqa/RESSORT/prop_type8/ecrouissage/data
+keywords  liste_nuit prop_type8 miniqa converted
+input	../miniqa/RESSORT/prop_type8/ecrouissage/data/TYPE8H1_0000.rad
+execute -starter
+input	../miniqa/RESSORT/prop_type8/ecrouissage/data/TYPE8H1_0001.rad
+extract	../miniqa/RESSORT/prop_type8/ecrouissage/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.41
+test #aa
+## path=miniqa/RESSORT/prop_type25/input_51/data
+keywords  liste_nuit version_51 prop_type25 miniqa
+input	../miniqa/RESSORT/prop_type25/input_51/data/SPR250_0000.rad
+execute -starter
+input	../miniqa/RESSORT/prop_type25/input_51/data/SPR250_0001.rad
+extract	../miniqa/RESSORT/prop_type25/input_51/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.42
+test #aaS
+if precision == sp test #
+## path=miniqa/RESSORT/prop_type32/ILOCK2/data
+keywords  version_100 liste_nuit prop_type32 sp_nok miniqa
+input	../miniqa/RESSORT/prop_type32/ILOCK2/data/SPR_PRE_2FLAG_0000.rad
+execute -starter
+input	../miniqa/RESSORT/prop_type32/ILOCK2/data/SPR_PRE_2FLAG_0001.rad
+extract	../miniqa/RESSORT/prop_type32/ILOCK2/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.43
+test #aa
+## path=miniqa/RESSORT/kjoint2/data
+keywords prop_kjoint2 liste_nuit miniqa
+input ../miniqa/RESSORT/kjoint2/data/JOINT_0000.rad
+execute -starter
+input ../miniqa/RESSORT/kjoint2/data/JOINT_0001.rad
+extract ../miniqa/RESSORT/kjoint2/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.44
+test #aa
+## path=miniqa/RESTART/cra2/data
+keywords  liste_nuit liste_nuit restart miniqa converted
+input	../miniqa/RESTART/cra2/data/CRA2V44_0000.rad
+execute -starter
+input	../miniqa/RESTART/cra2/data/CRA2V44_0001.rad
+execute -engine
+input	../miniqa/RESTART/cra2/data/CRA2V44_0002.rad
+extract	../miniqa/RESTART/cra2/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.45
+test #aaS
+if precision == sp test #
+## path=miniqa/RUPTURE/Wierzbcki/User_law/shell/input_51/data
+keywords  liste_nuit version_51 rupture miniqa sp_nok
+input	../miniqa/RUPTURE/Wierzbcki/User_law/shell/input_51/data/1SHELL_0000.rad
+execute -starter
+input	../miniqa/RUPTURE/Wierzbcki/User_law/shell/input_51/data/1SHELL_0001.rad
+extract	../miniqa/RUPTURE/Wierzbcki/User_law/shell/input_51/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.46
+test #aa
+## path=miniqa/SOLIDES/inibri_stress/data
+keywords  liste_nuit miniqa icare2limitation skew int11 converted
+input	../miniqa/SOLIDES/inibri_stress/data/TEST_002_0000.rad
+execute -starter
+input	../miniqa/SOLIDES/inibri_stress/data/TEST_002_0001.rad
+extract	../miniqa/SOLIDES/inibri_stress/data/ref.extract
+local	CYCLE	Abs_Tolerance	230
+local	TSTEP	Abs_Tolerance	3.5328e-07
+local	IENERGY	Abs_Tolerance	10100050
+local	KENERGYT	Abs_Tolerance	1304989.41
+#if precision == sp local CYCLE Relative_Int_Tolerance 0.015
+#if precision == sp local IENERGY Diff_Tolerance 0.043
+#if precision == sp local KENERGYT Abs_Tolerance 1000.
+go -engine
+#--------------------------------------------------------------------------------
+#1.47
+test #aa
+## path=miniqa/SOLIDES/TYPE6_LAW28/data
+keywords  liste_nuit miniqa sol_orth converted
+input	../miniqa/SOLIDES/TYPE6_LAW28/data/LAW28_0000.rad
+execute -starter
+input	../miniqa/SOLIDES/TYPE6_LAW28/data/LAW28_0001.rad
+extract	../miniqa/SOLIDES/TYPE6_LAW28/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.48
+test #aa
+## path=miniqa/SOLIDES/nv_elts/poutre_flex/flexion/H101/data
+keywords  liste_nuit miniqa isolid_101 converted
+input	../miniqa/SOLIDES/nv_elts/poutre_flex/flexion/H101/data/CONV_ELS_0000.rad
+execute -starter
+input	../miniqa/SOLIDES/nv_elts/poutre_flex/flexion/H101/data/CONV_ELS_0001.rad
+extract	../miniqa/SOLIDES/nv_elts/poutre_flex/flexion/H101/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.49
+test #aa
+## path=miniqa/SOLIDES/nv_elts/poutre_flex/flexion/H112/data
+keywords  liste_nuit miniqa isolid_112 converted
+input	../miniqa/SOLIDES/nv_elts/poutre_flex/flexion/H112/data/CONV_ELS_0000.rad
+execute -starter
+input	../miniqa/SOLIDES/nv_elts/poutre_flex/flexion/H112/data/CONV_ELS_0001.rad
+extract	../miniqa/SOLIDES/nv_elts/poutre_flex/flexion/H112/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.50
+test #aa
+## path=miniqa/SOLIDES/nv_elts/poutre_flex/flexion/HEPH/icpre_1/data
+keywords  liste_nuit miniqa isolid_24 icpre_1 converted
+input	../miniqa/SOLIDES/nv_elts/poutre_flex/flexion/HEPH/icpre_1/data/CONV_ELS_0000.rad
+execute -starter
+input	../miniqa/SOLIDES/nv_elts/poutre_flex/flexion/HEPH/icpre_1/data/CONV_ELS_0001.rad
+extract	../miniqa/SOLIDES/nv_elts/poutre_flex/flexion/HEPH/icpre_1/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.51
+test #aa
+## path=miniqa/SOLIDES/nv_elts/poutre_flex/flexion/HSEPH/data
+keywords  liste_nuit miniqa isolid_15 converted
+input	../miniqa/SOLIDES/nv_elts/poutre_flex/flexion/HSEPH/data/CONV_ELS_0000.rad
+execute -starter
+input	../miniqa/SOLIDES/nv_elts/poutre_flex/flexion/HSEPH/data/CONV_ELS_0001.rad
+extract	../miniqa/SOLIDES/nv_elts/poutre_flex/flexion/HSEPH/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.52
+test #aa
+## path=miniqa/SOLIDES/nv_elts/poutre_flex/flexion/PA6/data
+keywords  liste_nuit miniqa isolid_15 converted
+input	../miniqa/SOLIDES/nv_elts/poutre_flex/flexion/PA6/data/CONV_EL6_0000.rad
+execute -starter
+input	../miniqa/SOLIDES/nv_elts/poutre_flex/flexion/PA6/data/CONV_EL6_0001.rad
+extract	../miniqa/SOLIDES/nv_elts/poutre_flex/flexion/PA6/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.53
+test #aa
+## path=miniqa/SUBMODEL/TRANSF/data
+keywords  liste_nuit submodel miniqa converted
+input	../miniqa/SUBMODEL/TRANSF/data/BOULE1V5_0000.rad
+execute -starter
+input	../miniqa/SUBMODEL/TRANSF/data/BOULE1V5_0001.rad
+extract	../miniqa/SUBMODEL/TRANSF/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.54
+test #aa
+## path=miniqa/SUBMODEL/update_v_100/ACTIV/data
+keywords  version_100 liste_nuit submodel miniqa inivel_tra quad
+input	../miniqa/SUBMODEL/update_v_100/ACTIV/data/HYPE_SUB_0000.rad
+execute -starter
+input	../miniqa/SUBMODEL/update_v_100/ACTIV/data/HYPE_SUB_0001.rad
+extract	../miniqa/SUBMODEL/update_v_100/ACTIV/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.55
+test #aa
+## path=miniqa/SUBMODEL/update_v_100/PLOAD/data
+keywords  version_100 liste_nuit submodel miniqa int7 int11
+input	../miniqa/SUBMODEL/update_v_100/PLOAD/data/BOXBEAM_SUB_0000.rad
+execute -starter
+input	../miniqa/SUBMODEL/update_v_100/PLOAD/data/BOXBEAM_SUB_0001.rad
+extract	../miniqa/SUBMODEL/update_v_100/PLOAD/data/ref.extract
+local	EXTWORK	Diff_Tolerance	0.000239693192713327
+local	KENERGYT	Diff_Tolerance	0.000527426160337553
+go -engine
+#--------------------------------------------------------------------------------
+#1.56
+test #aa
+## path=miniqa/SUBMODEL/update_v_100/FAIL/Jonhson_Cook/data
+keywords  version_100 liste_nuit submodel miniqa modif_nok
+input	../miniqa/SUBMODEL/update_v_100/FAIL/Jonhson_Cook/data/SPECT_SUB_0000.rad
+execute -starter
+input	../miniqa/SUBMODEL/update_v_100/FAIL/Jonhson_Cook/data/SPECT_SUB_0001.rad
+extract	../miniqa/SUBMODEL/update_v_100/FAIL/Jonhson_Cook/data/ref.extract
+local	MASERR	Diff_Tolerance	0.00031223980016654
+go -engine
+#--------------------------------------------------------------------------------
+#1.57
+test #aa
+## path=miniqa/FLUIDE_NEW/COMPA1B/data
+keywords  liste_nuit fluid miniqa int12 ale law11 converted
+input	../miniqa/FLUIDE_NEW/COMPA1B/data/COMPA1B_0000.rad
+execute -starter
+input	../miniqa/FLUIDE_NEW/COMPA1B/data/COMPA1B_0001.rad
+extract	../miniqa/FLUIDE_NEW/COMPA1B/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.58
+test #aa
+# Test moved in QA 8.x as 8.1674
+go -engine
+#--------------------------------------------------------------------------------
+#1.59
+test #aa
+## path=miniqa/FLUIDE_NEW/EBCS/INIV/data
+keywords  liste_nuit fluid ebcs restart miniqa ale converted 
+input	../miniqa/FLUIDE_NEW/EBCS/INIV/data/INIV_0000.rad
+execute -starter
+input	../miniqa/FLUIDE_NEW/EBCS/INIV/data/INIV_0001.rad
+execute -engine
+input	../miniqa/FLUIDE_NEW/EBCS/INIV/data/INIV_0002.rad
+execute -engine
+input	../miniqa/FLUIDE_NEW/EBCS/INIV/data/INIV_0003.rad
+extract	../miniqa/FLUIDE_NEW/EBCS/INIV/data/ref.extract
+if precision == sp local EXTWORK Abs_Tolerance 0.0405
+go -engine
+#--------------------------------------------------------------------------------
+#1.60
+test #aa
+# Test moved in QA 8.x as 8.1675
+go -engine
+#--------------------------------------------------------------------------------
+#1.61
+test #aa
+# Test moved in QA 8.x as 8.1676
+go -engine
+#--------------------------------------------------------------------------------
+#1.62
+test #aa
+# Test moved in QA 8.x as 8.1677
+go -engine
+#--------------------------------------------------------------------------------
+#1.63
+test #aa
+# Test moved in QA 8.x as 8.1678
+go -engine
+#--------------------------------------------------------------------------------
+#1.64
+test #aa
+## path=miniqa/SPH/WavesCompression/data
+keywords  liste_nuit spmd_51a sph modif_nok frame skew converted
+copy	../miniqa/SPH/WavesCompression/data/CUBCD0B
+input	../miniqa/SPH/WavesCompression/data/CUBC_0000.rad
+execute -starter
+input	../miniqa/SPH/WavesCompression/data/CUBC_0001.rad
+extract	../miniqa/SPH/WavesCompression/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.65
+test #aa
+## path=miniqa/OPTIONS/NEW_BOX_V11/BOX_GRBRICK/data
+keywords  liste_nuit version_110 law70 modif_nok skew miniqa
+input	../miniqa/OPTIONS/NEW_BOX_V11/BOX_GRBRICK/data/FOAM_GRBRICK_0000.rad
+execute -starter
+input	../miniqa/OPTIONS/NEW_BOX_V11/BOX_GRBRICK/data/FOAM_GRBRICK_0001.rad
+extract	../miniqa/OPTIONS/NEW_BOX_V11/BOX_GRBRICK/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.66
+test #aa
+## path=miniqa/OPTIONS/NEW_BOX_V11/BOX_GRSHEL/data
+keywords  liste_nuit version_110 law70 modif_nok skew miniqa
+input	../miniqa/OPTIONS/NEW_BOX_V11/BOX_GRSHEL/data/FOAM_GRSHEL_0000.rad
+execute -starter
+input	../miniqa/OPTIONS/NEW_BOX_V11/BOX_GRSHEL/data/FOAM_GRSHEL_0001.rad
+extract	../miniqa/OPTIONS/NEW_BOX_V11/BOX_GRSHEL/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.67
+test #aa
+## path=miniqa/OPTIONS/damp/new_test_v11/data
+keywords  liste_nuit version_110220 miniqa
+input	../miniqa/OPTIONS/damp/new_test_v11/data/FFO25SCB_0000.rad
+execute -starter
+input	../miniqa/OPTIONS/damp/new_test_v11/data/FFO25SCB_0001.rad
+extract	../miniqa/OPTIONS/damp/new_test_v11/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.68
+test #aa
+## path=miniqa/EOS/EOS_PUFF_2/data
+keywords  liste_nuit version_110220 miniqa
+input	../miniqa/EOS/EOS_PUFF_2/data/EOSPUFFDET3DCU_0000.rad
+execute -starter
+input	../miniqa/EOS/EOS_PUFF_2/data/EOSPUFFDET3DCU_0001.rad
+extract	../miniqa/EOS/EOS_PUFF_2/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.69
+test #aa
+## path=miniqa/RUPTURE/FAIL_TAB/ELEM_SAMP/data
+keywords  liste_nuit version_110220 miniqa
+input	../miniqa/RUPTURE/FAIL_TAB/ELEM_SAMP/data/1ELEM_SAMP_0000.rad
+execute -starter
+input	../miniqa/RUPTURE/FAIL_TAB/ELEM_SAMP/data/1ELEM_SAMP_0001.rad
+extract	../miniqa/RUPTURE/FAIL_TAB/ELEM_SAMP/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.70
+test #aa
+## path=miniqa/LOIS/LEAK_MAT/run2_LAW19_quads/data
+keywords  liste_nuit version_120 leakmat law19 miniqa int7 int11
+copy	../miniqa/LOIS/LEAK_MAT/run2_LAW19_quads/data/REFSTA_file
+input	../miniqa/LOIS/LEAK_MAT/run2_LAW19_quads/data/RBPLI_0000.rad
+execute -starter
+input	../miniqa/LOIS/LEAK_MAT/run2_LAW19_quads/data/RBPLI_0001.rad
+extract	../miniqa/LOIS/LEAK_MAT/run2_LAW19_quads/data/ref.extract
+local	ERROR	Diff_Tolerance	0.0416666666666667
+local	TIME	Diff_Tolerance	0.000299401197604731
+local	IENERGY	Diff_Tolerance	0.000832466181061303
+local	KENERGYT	Diff_Tolerance	0.000473148805299215
+go -engine
+#--------------------------------------------------------------------------------
+#1.71
+test #aa
+## path=miniqa/LOIS/LEAK_MAT/run2_LAW58_quads/data
+keywords   liste_nuit version_120 leakmat law58 miniqa int7 int11
+copy	../miniqa/LOIS/LEAK_MAT/run2_LAW58_quads/data/REFSTA_file
+input	../miniqa/LOIS/LEAK_MAT/run2_LAW58_quads/data/RBPLI_0000.rad
+execute -starter
+input	../miniqa/LOIS/LEAK_MAT/run2_LAW58_quads/data/RBPLI_0001.rad
+extract	../miniqa/LOIS/LEAK_MAT/run2_LAW58_quads/data/ref.extract
+local	TIME	Diff_Tolerance	0.00868104172500707
+local	ERROR	Diff_Tolerance	0.1875
+local	IENERGY	Diff_Tolerance	0.0306691449814128
+local	KENERGYT	Diff_Tolerance	0.0082913165266106
+local	EXTWORK	Diff_Tolerance	0.00487012987012969
+if precision == sp local ERROR Abs_Tolerance 1.15
+if precision == sp local TIME Diff_Tolerance 0.0325
+if precision == sp local TSTEP Diff_Tolerance 0.13
+if precision == sp local IENERGY Diff_Tolerance 0.025
+if precision == sp local KENERGYT Diff_Tolerance 0.016
+go -engine
+#--------------------------------------------------------------------------------
+#1.72
+test #aa
+## path=miniqa/INTERF/INT_7/fpenmax/data
+keywords   liste_nuit version_120 int7 miniqa
+input	../miniqa/INTERF/INT_7/fpenmax/data/model_0000.rad
+execute -starter
+input	../miniqa/INTERF/INT_7/fpenmax/data/model_0001.rad
+extract	../miniqa/INTERF/INT_7/fpenmax/data/ref.extract
+local	EXTWORK	Diff_Tolerance	0.000527148128624087
+local	KENERGYT	Diff_Tolerance	0.000527148128624087
+go -engine
+#--------------------------------------------------------------------------------
+#1.73
+test #aa
+## path=miniqa/PROP/spring_beam_Hardening7/Type4/Hardening7/data
+keywords liste_nuit prop_type4 miniqa
+input	../miniqa/PROP/spring_beam_Hardening7/Type4/Hardening7/data/R01CV3_0000.rad
+execute -starter
+input	../miniqa/PROP/spring_beam_Hardening7/Type4/Hardening7/data/R01CV3_0001.rad
+extract	../miniqa/PROP/spring_beam_Hardening7/Type4/Hardening7/data/ref.extract
+if precision == sp local ERROR Abs_Tolerance 0.35
+if precision == sp local KENERGYT Abs_Tolerance 20.
+go -engine
+#--------------------------------------------------------------------------------
+#1.74
+test #aa
+## path=miniqa/PROP/spring_beam_Hardening7/Type8/Hardening6/data
+keywords liste_nuit prop_type8 miniqa
+input	../miniqa/PROP/spring_beam_Hardening7/Type8/Hardening6/data/R01CV3_0000.rad
+execute -starter
+input	../miniqa/PROP/spring_beam_Hardening7/Type8/Hardening6/data/R01CV3_0001.rad
+extract	../miniqa/PROP/spring_beam_Hardening7/Type8/Hardening6/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.75
+test #aa
+## path=miniqa/PROP/spring_beam_Hardening7/Type13/Hardening7/data
+keywords liste_nuit version_120 prop_type13 miniqa
+input	../miniqa/PROP/spring_beam_Hardening7/Type13/Hardening7/data/R01CV3_0000.rad
+execute -starter
+input	../miniqa/PROP/spring_beam_Hardening7/Type13/Hardening7/data/R01CV3_0001.rad
+extract	../miniqa/PROP/spring_beam_Hardening7/Type13/Hardening7/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.76
+test #aaMS
+# Test moved in QA 8.x as 8.1672
+go -engine
+#--------------------------------------------------------------------------------
+#1.77
+test #aa
+## path=miniqa/PROP/PROPSOL_ORTH_Istrain/data
+keywords   liste_nuit version_120210 prop_type6 miniqa
+input	../miniqa/PROP/PROPSOL_ORTH_Istrain/data/Test_traction_0000.rad
+execute -starter
+input	../miniqa/PROP/PROPSOL_ORTH_Istrain/data/Test_traction_0001.rad
+extract	../miniqa/PROP/PROPSOL_ORTH_Istrain/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.78
+test #aa
+## path=miniqa/LOIS/LOI51/JWL/01-PG_degenerated/01b_dP-E/data
+keywords   liste_nuit version_120210 law51 miniqa ale
+input	../miniqa/LOIS/LOI51/JWL/01-PG_degenerated/01b_dP-E/data/L51_JWL_PG_dP-E_0000.rad
+execute -starter
+input	../miniqa/LOIS/LOI51/JWL/01-PG_degenerated/01b_dP-E/data/L51_JWL_PG_dP-E_0001.rad
+extract	../miniqa/LOIS/LOI51/JWL/01-PG_degenerated/01b_dP-E/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.79
+test #aa
+## path=miniqa/LOIS/LOI51/JWL/01-PG_degenerated/01a_P-E/data
+keywords   liste_nuit version_120210 law51 miniqa ale
+input	../miniqa/LOIS/LOI51/JWL/01-PG_degenerated/01a_P-E/data/L51_JWL_PG_P-E_0000.rad
+execute -starter
+input	../miniqa/LOIS/LOI51/JWL/01-PG_degenerated/01a_P-E/data/L51_JWL_PG_P-E_0001.rad
+extract	../miniqa/LOIS/LOI51/JWL/01-PG_degenerated/01a_P-E/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#Add again AMS model in miniqa :
+#1.80
+test #aa
+## path=miniqa/AMS/boxbeam/data
+keywords  liste_nuit version_1002 ams miniqa
+input  ../miniqa/AMS/boxbeam/data/BOXBEAM_0000.rad
+execute -starter
+input  ../miniqa/AMS/boxbeam/data/BOXBEAM_0001.rad
+extract ../miniqa/AMS/boxbeam/data/ref.extract
+local TIME Diff_Tolerance 0.0051
+local TSTEP Diff_Tolerance 0.0051
+local IENERGY Diff_Tolerance 0.0051
+local KENERGYT Diff_Tolerance 0.0051
+local KENERGYR Diff_Tolerance 0.0051
+local EXTWORK Diff_Tolerance 0.0051
+local IENERGY Relative_Int_Tolerance 0.0051
+local KENERGYT Relative_Int_Tolerance 0.0051
+local KENERGYR Relative_Int_Tolerance 0.0051
+local EXTWORK Relative_Int_Tolerance 0.0051
+if precision == sp local KENERGYT Diff_Tolerance 0.018
+if precision == sp local KENERGYR Diff_Tolerance 0.075
+go -engine
+#--------------------------------------------------------------------------------
+#Add missing model
+#1.81
+test #aa
+## path=miniqa/INTERF/INT_7/igsti/small_boule_igsti/dtmin_02/data
+keywords  liste_nuit miniqa impvel int7 int19
+input	../miniqa/INTERF/INT_7/igsti/small_boule_igsti/dtmin_02/data/BOULE1V5_0000.rad
+execute -starter
+input	../miniqa/INTERF/INT_7/igsti/small_boule_igsti/dtmin_02/data/BOULE1V5_0001.rad
+extract	../miniqa/INTERF/INT_7/igsti/small_boule_igsti/dtmin_02/data/ref.extract
+go -engine
+
+##Four different models : 
+##1- INTERF/INT_7/small_boule/data
+##   Description : test d'une balle s'ecrasant contre un mur avec igap=0 et multimp=0
+##2- INTERF/INT_7/igsti/small_boule_igsti/data
+##   Description : test d'une balle s'ecrasant contre un mur avec igap=2 (gapscale) et igsti=4
+##3- INTERF/INT_7/igsti/small_boule_igsti/dtmin/data
+##   Description : test d'une balle s'ecrasant contre un mur avec igap=0 (gapscale) et igsti=5
+##4- INTERF/INT_7/igsti/small_boule_igsti/dtmin_02/data
+##   Description : meme modele que precedent mais avec dtmin=0.2 dans /INTER/TYPE19 
+##   + Tfin=0.0025 au lieu de 0.5 + un /DT/INTER/DEL qui n'existe pas en 3-
+##(ordre de creation des modeles)
+
+#--------------------------------------------------------------------------------
+#Add new model in miniqa :
+#1.82
+test #aa 
+## path=miniqa/IMPOSED/IMPDISP_FGEO/data
+keywords  liste_nuit miniqa impdisp law1
+input	../miniqa/IMPOSED/IMPDISP_FGEO/data/mapSimple_0000.rad
+execute -starter
+input	../miniqa/IMPOSED/IMPDISP_FGEO/data/mapSimple_0001.rad
+extract	../miniqa/IMPOSED/IMPDISP_FGEO/data/ref.extract
+go -engine
+
+#To test new /IMPDISP/FGEO. Use also /MOVE_FUNCT
+#Provenance : Francis A.
+#"New input /IMPDISP/FGEO, /IMPVEL/FGEO"Prescribed Final Geometry, CL 34131, Ticket 328029
+#--------------------------------------------------------------------------------
+##Add an implicit model in miniqa :
+#1.83
+test #aa
+# Test moved in QA 8.x as 8.1673
+go -engine
+#--------------------------------------------------------------------------------
+#1.84
+test aa
+## path=miniqa/SMOKE_TEST/data
+keywords  miniqa smoke_test converted
+input   ../miniqa/SMOKE_TEST/data/TWISBEAM_0000.rad
+copy   ../miniqa/SMOKE_TEST/data/TWISBEAMD0B
+execute -starter
+input   ../miniqa/SMOKE_TEST/data/TWISBEAM_0001.rad
+extract ../miniqa/SMOKE_TEST/data/ref.extract
+go -engine
+#--------------------------------------------------------------------------------
+#1.85
+test #aa
+## path=miniqa/RESTART/int7_small_boule_rst/data
+keywords  liste_nuit int7 miniqa impvel restart_engine converted
+input	../miniqa/RESTART/int7_small_boule_rst/data/BOULE1V4_0000.rad
+execute -starter
+input	../miniqa/RESTART/int7_small_boule_rst/data/BOULE1V4_0001.rad
+execute -engine
+input	../miniqa/RESTART/int7_small_boule_rst/data/BOULE1V4_0002.rad
+extract	../miniqa/RESTART/int7_small_boule_rst/data/ref.extract
+local	TIME	Diff_Tolerance	0.00317965023847386
+local	IENERGY	Diff_Tolerance	0.00359227660529861
+local	TSTEP	Diff_Tolerance	0.0887352886232019
+if precision == sp local TSTEP Abs_Tolerance 4.0e-06
+if precision == sp local KENERGYT Abs_Tolerance 12.5
+if precision == sp local KENERGYR Abs_Tolerance 6.0
+if precision == sp local EXTWORK Diff_Tolerance 0.008
+go -engine
+#--------------------------------------------------------------------------------
+#1.86
+test #aa
+report_to rdqa
+if precision == sp test #
+## path=miniqa/ALEFVM/01.DAM_BREAK_EULER_LAW37/data
+keywords  miniqa alefvm law51
+input	../miniqa/ALEFVM/01.DAM_BREAK_EULER_LAW37/data/BARRAGE_0000.rad
+execute -starter -np=1
+input	../miniqa/ALEFVM/01.DAM_BREAK_EULER_LAW37/data/BARRAGE_0001.rad
+extract	../miniqa/ALEFVM/01.DAM_BREAK_EULER_LAW37/data/ref.extract
+go -engine -np=1
+#--------------------------------------------------------------------------------
+#1.87
+test #aa
+if precision == sp test #
+## SPMD + SMP LIMITATION (mono thread, qa script will force np=1)
+## path=miniqa/INTERF/INT_22/1D_U-SURF_9ELEMS_LAW6_Linear_EOS_EULER_0.FVM/data
+keywords  miniqa alefvm law51
+input	../miniqa/INTERF/INT_22/1D_U-SURF_9ELEMS_LAW6_Linear_EOS_EULER_0.FVM/data/9BRICKS_0000.rad
+copy 	../miniqa/INTERF/INT_22/1D_U-SURF_9ELEMS_LAW6_Linear_EOS_EULER_0.FVM/data/MAT51.txt
+copy 	../miniqa/INTERF/INT_22/1D_U-SURF_9ELEMS_LAW6_Linear_EOS_EULER_0.FVM/data/materials.inc
+execute -starter -np=1
+input	../miniqa/INTERF/INT_22/1D_U-SURF_9ELEMS_LAW6_Linear_EOS_EULER_0.FVM/data/9BRICKS_0001.rad
+extract	../miniqa/INTERF/INT_22/1D_U-SURF_9ELEMS_LAW6_Linear_EOS_EULER_0.FVM/data/ref.extract
+go -engine -np=1
+#--------------------------------------------------------------------------------
+#1.88
+test #aa
+## path=miniqa/AMS/auto_element_selection/data
+keywords dt_cst_ams initia_x2
+input ../miniqa/AMS/auto_element_selection/data/tstpeel_AUTOPART_0000.rad
+execute -starter
+input ../miniqa/AMS/auto_element_selection/data/tstpeel_AUTOPART_0001.rad
+extract ../miniqa/AMS/auto_element_selection/data/ref.extract
+local	KENERGYR	Diff_Tolerance	0.00257069408740355
+if precision == sp local CYCLE Abs_Tolerance 1010
+if precision == sp local TIME Diff_Tolerance 0.021
+if precision == sp local IENERGY Diff_Tolerance 0.03
+if precision == sp local KENERGYT Diff_Tolerance 0.06
+if precision == sp local EXTWORK Diff_Tolerance 0.03
+go -engine

@@ -1,0 +1,234 @@
+Copyright>        OpenRadioss
+Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
+Copyright>    
+Copyright>        This program is free software: you can redistribute it and/or modify
+Copyright>        it under the terms of the GNU Affero General Public License as published by
+Copyright>        the Free Software Foundation, either version 3 of the License, or
+Copyright>        (at your option) any later version.
+Copyright>    
+Copyright>        This program is distributed in the hope that it will be useful,
+Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+Copyright>        GNU Affero General Public License for more details.
+Copyright>    
+Copyright>        You should have received a copy of the GNU Affero General Public License
+Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+Copyright>    
+Copyright>    
+Copyright>        Commercial Alternative: Altair Radioss Software 
+Copyright>    
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+      INTEGER X1PHI
+      PARAMETER (X1PHI=1)
+      INTEGER Y1PHI
+      PARAMETER (Y1PHI=2)
+      INTEGER Z1PHI
+      PARAMETER (Z1PHI=3)
+      INTEGER X2PHI
+      PARAMETER (X2PHI=4)
+      INTEGER Y2PHI
+      PARAMETER (Y2PHI=5)
+      INTEGER Z2PHI
+      PARAMETER (Z2PHI=6)
+      INTEGER X3PHI
+      PARAMETER (X3PHI=7)
+      INTEGER Y3PHI
+      PARAMETER (Y3PHI=8)
+      INTEGER Z3PHI
+      PARAMETER (Z3PHI=9)
+      INTEGER RX1PHI
+      PARAMETER (RX1PHI=10)
+      INTEGER RY1PHI
+      PARAMETER (RY1PHI=11)
+      INTEGER RZ1PHI
+      PARAMETER (RZ1PHI=12)
+      INTEGER RX2PHI
+      PARAMETER (RX2PHI=13)
+      INTEGER RY2PHI
+      PARAMETER (RY2PHI=14)
+      INTEGER RZ2PHI
+      PARAMETER (RZ2PHI=15)
+      INTEGER E1XPHI
+      PARAMETER (E1XPHI=16)
+      INTEGER E1YPHI
+      PARAMETER (E1YPHI=17)
+      INTEGER E1ZPHI
+      PARAMETER (E1ZPHI=18)
+      INTEGER E2XPHI
+      PARAMETER (E2XPHI=19)
+      INTEGER E2YPHI
+      PARAMETER (E2YPHI=20)
+      INTEGER E2ZPHI
+      PARAMETER (E2ZPHI=21)
+      INTEGER E3XPHI
+      PARAMETER (E3XPHI=22)
+      INTEGER E3YPHI
+      PARAMETER (E3YPHI=23)
+      INTEGER E3ZPHI
+      PARAMETER (E3ZPHI=24)
+      INTEGER VX1GPHI
+      PARAMETER (VX1GPHI=25)
+      INTEGER VY1GPHI
+      PARAMETER (VY1GPHI=26)
+      INTEGER VZ1GPHI
+      PARAMETER (VZ1GPHI=27)
+      INTEGER VX2GPHI
+      PARAMETER (VX2GPHI=28)
+      INTEGER VY2GPHI
+      PARAMETER (VY2GPHI=29)
+      INTEGER VZ2GPHI
+      PARAMETER (VZ2GPHI=30)
+      INTEGER VX1PHI
+      PARAMETER (VX1PHI=31)
+      INTEGER VY1PHI
+      PARAMETER (VY1PHI=32)
+      INTEGER VZ1PHI
+      PARAMETER (VZ1PHI=33)
+      INTEGER VX2PHI
+      PARAMETER (VX2PHI=34)
+      INTEGER VY2PHI
+      PARAMETER (VY2PHI=35)
+      INTEGER VZ2PHI
+      PARAMETER (VZ2PHI=36)
+      INTEGER ALPHI
+      PARAMETER (ALPHI=37)
+      INTEGER EXXPHI
+      PARAMETER (EXXPHI=38)
+      INTEGER EXYPHI
+      PARAMETER (EXYPHI=39)
+      INTEGER EXZPHI
+      PARAMETER (EXZPHI=40)
+      INTEGER RX1GPHI
+      PARAMETER (RX1GPHI=41)
+      INTEGER RY1GPHI
+      PARAMETER (RY1GPHI=42)
+      INTEGER RZ1GPHI
+      PARAMETER (RZ1GPHI=43)
+      INTEGER RX2GPHI
+      PARAMETER (RX2GPHI=44)
+      INTEGER RY2GPHI
+      PARAMETER (RY2GPHI=45)
+      INTEGER RZ2GPHI
+      PARAMETER (RZ2GPHI=46)
+      INTEGER KXXPHI
+      PARAMETER (KXXPHI=47)
+      INTEGER KYYPHI
+      PARAMETER (KYYPHI=48)
+      INTEGER KZZPHI
+      PARAMETER (KZZPHI=49)
+      INTEGER RXAVPHI
+      PARAMETER (RXAVPHI=50)
+      INTEGER RYAVPHI
+      PARAMETER (RYAVPHI=51)
+      INTEGER RZAVPHI
+      PARAMETER (RZAVPHI=52)
+      INTEGER F1PHI
+      PARAMETER (F1PHI=53)
+      INTEGER F2PHI
+      PARAMETER (F2PHI=54)
+      INTEGER F3PHI
+      PARAMETER (F3PHI=55)
+      INTEGER M1PHI
+      PARAMETER (M1PHI=56)
+      INTEGER M2PHI
+      PARAMETER (M2PHI=57)
+      INTEGER M3PHI
+      PARAMETER (M3PHI=58)
+      INTEGER F11PHI
+      PARAMETER (F11PHI=59)
+      INTEGER F21PHI
+      PARAMETER (F21PHI=60)
+      INTEGER F31PHI
+      PARAMETER (F31PHI=61)
+      INTEGER F12PHI
+      PARAMETER (F12PHI=62)
+      INTEGER F22PHI
+      PARAMETER (F22PHI=63)
+      INTEGER F32PHI
+      PARAMETER (F32PHI=64)
+      INTEGER M11PHI
+      PARAMETER (M11PHI=65)
+      INTEGER M21PHI
+      PARAMETER (M21PHI=66)
+      INTEGER M31PHI
+      PARAMETER (M31PHI=67)
+      INTEGER M12PHI
+      PARAMETER (M12PHI=68)
+      INTEGER M22PHI
+      PARAMETER (M22PHI=69)
+      INTEGER M32PHI
+      PARAMETER (M32PHI=70)
+      INTEGER G11PHI
+      PARAMETER (G11PHI=71)
+      INTEGER G21PHI
+      PARAMETER (G21PHI=72)
+      INTEGER G31PHI
+      PARAMETER (G31PHI=73)
+      INTEGER G12PHI
+      PARAMETER (G12PHI=74)
+      INTEGER G22PHI
+      PARAMETER (G22PHI=75)
+      INTEGER G32PHI
+      PARAMETER (G32PHI=76)
+      INTEGER DEGMBPHI
+      PARAMETER (DEGMBPHI=77)
+      INTEGER DEGFXPHI
+      PARAMETER (DEGFXPHI=78)
+      INTEGER DWELMPHI
+      PARAMETER (DWELMPHI=79)
+      INTEGER DWELFPHI
+      PARAMETER (DWELFPHI=80)
+      INTEGER CAPHI
+      PARAMETER (CAPHI=81)
+      INTEGER YMAXPHI
+      PARAMETER (YMAXPHI=82)
+      INTEGER YLDPHI
+      PARAMETER (YLDPHI=83)
+      INTEGER RRPHI
+      PARAMETER (RRPHI=83)
+      INTEGER EPSPPHI
+      PARAMETER (EPSPPHI=84)
+      INTEGER DEGSHPHI
+      PARAMETER (DEGSHPHI=85)
+      INTEGER ESPPHI
+      PARAMETER (ESPPHI=86)
+      INTEGER YEQPHI
+      PARAMETER (YEQPHI=87)
+      INTEGER DWPLAPHI
+      PARAMETER (DWPLAPHI=88)
+      INTEGER FA1PHI
+      PARAMETER (FA1PHI=89)
+      INTEGER FA2PHI
+      PARAMETER (FA2PHI=90)
+      INTEGER FA3PHI
+      PARAMETER (FA3PHI=91)
+      INTEGER MA1PHI
+      PARAMETER (MA1PHI=92)
+      INTEGER MA2PHI
+      PARAMETER (MA2PHI=93)
+      INTEGER MA3PHI
+      PARAMETER (MA3PHI=94)
+C ds005  17/2/00  +++
+      INTEGER YMPHI
+      PARAMETER (YMPHI=95)
+      INTEGER A1PHI
+      PARAMETER (A1PHI=96)
+      INTEGER B1PHI
+      PARAMETER (B1PHI=97)
+      INTEGER B2PHI
+      PARAMETER (B2PHI=98)
+      INTEGER B3PHI
+      PARAMETER (B3PHI=99)
+      INTEGER GPHI
+      PARAMETER (GPHI=100)
+      INTEGER DMPMPHI
+      PARAMETER (DMPMPHI=101)
+      INTEGER DMPFPHI
+      PARAMETER (DMPFPHI=102)
+      INTEGER CBPHI
+      PARAMETER (CBPHI=103)
+      INTEGER CNPHI
+      PARAMETER (CNPHI=104)
+C ds005  17/2/00  ---

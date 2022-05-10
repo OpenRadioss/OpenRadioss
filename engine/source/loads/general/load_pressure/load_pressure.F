@@ -1,0 +1,759 @@
+Copyright>        OpenRadioss
+Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
+Copyright>    
+Copyright>        This program is free software: you can redistribute it and/or modify
+Copyright>        it under the terms of the GNU Affero General Public License as published by
+Copyright>        the Free Software Foundation, either version 3 of the License, or
+Copyright>        (at your option) any later version.
+Copyright>    
+Copyright>        This program is distributed in the hope that it will be useful,
+Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+Copyright>        GNU Affero General Public License for more details.
+Copyright>    
+Copyright>        You should have received a copy of the GNU Affero General Public License
+Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+Copyright>    
+Copyright>    
+Copyright>        Commercial Alternative: Altair Radioss Software 
+Copyright>    
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+Chd|====================================================================
+Chd|  LOAD_PRESSURE                 source/loads/general/load_pressure/load_pressure.F
+Chd|-- called by -----------
+Chd|        RESOL                         source/engine/resol.F         
+Chd|-- calls ---------------
+Chd|        FINTER                        source/tools/curve/finter.F   
+Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|====================================================================
+      SUBROUTINE LOAD_PRESSURE (ILOADP    ,LOADP     ,LLOADP ,NPC     ,TF      ,
+     2                          A         ,V         ,X      ,SKEW    ,SENSOR  ,
+     3                          LSENSOR   ,IADC     ,FSKY    ,FEXT    ,TAGNCONT,
+     4                          KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER, H3D_DATA)
+C-----------------------------------------------
+C   M o d u l e s
+C----------------------------------------------- 
+      USE H3D_MOD
+C-----------------------------------------------
+C   M o d u l e s 
+C-----------------------------------------------
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+#include      "comlock.inc"
+#include      "param_c.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "com01_c.inc"
+#include      "com04_c.inc"
+#include      "com06_c.inc"
+#include      "com08_c.inc"
+#include      "impl1_c.inc"
+#include      "scr05_c.inc"
+#include      "scr14_c.inc"
+#include      "scr16_c.inc"
+#include      "task_c.inc"
+#include      "parit_c.inc"
+#include      "alefvm.inc"
+#include      "tabsiz_c.inc"
+C-----------------------------------------------
+C   E x t e r n a l  F u n c t i o n s
+C-----------------------------------------------
+      INTEGER  GET_U_NUMSENS,GET_U_SENS_FPAR,GET_U_SENS_IPAR,
+     .         GET_U_SENS_VALUE,SET_U_SENS_VALUE
+      EXTERNAL GET_U_NUMSENS,GET_U_SENS_FPAR,GET_U_SENS_IPAR,
+     .         GET_U_SENS_VALUE,SET_U_SENS_VALUE
+C-----------------------------------------------,
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER NPC(*),LLOADP(SLLOADP)
+      INTEGER ILOADP(SIZLOADP,*),LSENSOR(NSENSI,*),
+     .        TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
+     .        KLOADPINTER(NINTER+1),LOADPINTER((NINTER+1)*NLOADP_HYD),
+     .        LOADP_HYD_INTER(NLOADP_HYD)
+      INTEGER  IADC(*) 
+      my_real
+     .   LOADP(SLOADP,*), TF(*), A(3,*), V(3,*), 
+     .   X(3,*), SKEW(LSKEW,*), SENSOR(NSENSR,*),
+     .   FSKY(8,LSKY), FEXT(3,*)
+      TYPE(H3D_DATABASE) :: H3D_DATA
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER NL, N1, ISK, N2, N3, N4, N5, NG1, NG2, NG3, NG4, ISENS,K,LL,IERR,
+     .        IAD ,NP ,IFUNC ,NPRES ,NINTERP ,IDIR ,INORM ,NPL ,IANIM,
+     .        SEGCONT ,N ,IADN , IJK ,UP_BOUND,TAGN1,TAGN2,TAGN3,TAGN4
+      my_real
+     .   NX, NY, NZ, AXI, AA, A0, VV, FX, FY, FZ, AX, DYDX, TS,
+     .   SIXTH,TFEXTT,X_OLD, F1, F2,FCX,FCY,NORM 
+      my_real FINTER, ZFx,ZFy,ZFz, ZZFx,ZZFy,ZZFz,PS, Zx,Zy,Zz,FINTER_SMOOTH
+      EXTERNAL FINTER,FINTER_SMOOTH
+C=======================================================================
+      TFEXTT = ZERO
+
+      IANIM  = ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
+     .         ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT
+C
+      IF(IPARIT.EQ.0) THEN
+C code SPMD Parith/OFF or SMP 
+       DO  NP=1,NLOADP_HYD
+
+           NPRES = ILOADP(1,NP)
+           IFUNC = ILOADP(3,NP)
+           IAD = ILOADP(4,NP)
+           NINTERP = ILOADP(5,NP)
+	   IDIR = ILOADP(6,NP)   
+           ISENS =  ILOADP(7,NP) 
+           ISK = ILOADP(8,NP)    
+           INORM = ILOADP(9,NP)
+           FCY = LOADP(1,NP)
+           FCX = LOADP(2,NP)
+C
+           IF(ISENS.EQ.0)THEN
+              TS=TT
+           ELSE
+              TS = TT-SENSOR(2,ISENS)
+              IF(TS.LT.ZERO)CYCLE
+           ENDIF    
+
+
+           F1 = FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
+           AA = FCY*F1  
+
+           DO N=1, NPRES/4
+C
+              N1 = LLOADP(IAD+4*(N-1))
+              N2 = LLOADP(IAD+4*(N-1)+1)
+              N3 = LLOADP(IAD+4*(N-1)+2)
+              N4 = LLOADP(IAD+4*(N-1)+3)
+
+C----------------
+C       Check if segment is in contact 
+C----------------
+             SEGCONT = 0
+
+             TAGN1 = 0
+             TAGN2 = 0
+             TAGN3 = 0
+             TAGN4 = 0
+
+             IF(NINTERP > 0 ) THEN           
+                NPL = LOADP_HYD_INTER(NP)
+                IF(N4/=0) THEN
+                   IF(TAGNCONT(NPL,N1)==1.AND.TAGNCONT(NPL,N2)==1.AND.
+     .                TAGNCONT(NPL,N3)==1.AND.TAGNCONT(NPL,N4)==1) THEN
+                      SEGCONT = 1
+                   ELSE
+                      TAGN1 = TAGNCONT(NPL,N1)
+                      TAGN2 = TAGNCONT(NPL,N2)
+                      TAGN3 = TAGNCONT(NPL,N3)
+                      TAGN4 = TAGNCONT(NPL,N4)
+                   ENDIF
+                ELSE
+                   IF(TAGNCONT(NPL,N1)==1.AND.TAGNCONT(NPL,N2)==1.AND.
+     .                TAGNCONT(NPL,N3)==1) THEN
+                      SEGCONT = 1
+                   ELSE
+                      TAGN1 = TAGNCONT(NPL,N1)
+                      TAGN2 = TAGNCONT(NPL,N2)
+                      TAGN3 = TAGNCONT(NPL,N3)
+                   ENDIF
+                ENDIF    
+             ENDIF
+
+             IF(SEGCONT == 0) THEN
+
+               IF(N4.NE.0)THEN
+
+                  NX = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
+                  NY = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
+                  NZ = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
+                  IF(INORM == 1) THEN
+                     FX = AA*NX*UNHUIT
+                     FY = AA*NY*UNHUIT
+                     FZ = AA*NZ*UNHUIT
+                  ELSEIF(INORM==2) THEN
+                     NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
+                     IF(ISK == 0) THEN
+                        IF(IDIR == 1 ) THEN
+                           FX = AA*UNHUIT*NORM
+                           FY = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==2) THEN
+                           FY = AA*UNHUIT*NORM
+                           FX = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==3) THEN
+                           FZ = AA*UNHUIT*NORM
+                           FX = ZERO
+                           FY = ZERO
+                        ENDIF
+                     ELSE 
+                        IF(IDIR == 1 ) THEN
+                           FX = AA*UNHUIT*NORM*SKEW(1,ISK)
+                           FY = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==2) THEN
+                           FY = AA*UNHUIT*NORM*SKEW(2,ISK)
+                           FX = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==3) THEN
+                           FZ = AA*UNHUIT*NORM*SKEW(3,ISK)
+                           FX = ZERO
+                           FY = ZERO
+                        ENDIF
+                     ENDIF
+                  ELSEIF(INORM==3) THEN
+   
+                     IF(ISK == 0) THEN
+                        IF(IDIR == 1 ) THEN
+                           FX = AA*UNHUIT*NX
+                           FY = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==2) THEN
+                           FY = AA*UNHUIT*NY
+                           FX = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==3) THEN
+                           FZ = AA*UNHUIT*NZ
+                           FX = ZERO
+                           FY = ZERO
+                        ENDIF
+                     ELSE 
+                        IF(IDIR == 1 ) THEN
+                           FX = AA*UNHUIT*SKEW(1,ISK)*NX
+                           FY = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==2) THEN
+                           FY = AA*UNHUIT*SKEW(2,ISK)*NY
+                           FX = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==3) THEN
+                           FZ = AA*UNHUIT*SKEW(3,ISK)*NZ
+                           FX = ZERO
+                           FY = ZERO
+                        ENDIF
+                     ENDIF
+                  ENDIF
+C  
+                  IF(TAGN1 == 0) THEN
+                    A(1,N1)=A(1,N1)+FX
+                    A(2,N1)=A(2,N1)+FY
+                    A(3,N1)=A(3,N1)+FZ
+                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                       FEXT(1,N1) = FEXT(1,N1)+FX
+                       FEXT(2,N1) = FEXT(2,N1)+FY
+                       FEXT(3,N1) = FEXT(3,N1)+FZ
+                    ENDIF
+                  ENDIF
+C
+                  IF(TAGN2 == 0) THEN
+                     A(1,N2)=A(1,N2)+FX
+                     A(2,N2)=A(2,N2)+FY
+                     A(3,N2)=A(3,N2)+FZ
+                     IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                        FEXT(1,N2) = FEXT(1,N2)+FX
+                        FEXT(2,N2) = FEXT(2,N2)+FY
+                        FEXT(3,N2) = FEXT(3,N2)+FZ
+                     ENDIF
+                  ENDIF
+C
+                  IF(TAGN3 == 0) THEN                  
+                    A(1,N3)=A(1,N3)+FX
+                    A(2,N3)=A(2,N3)+FY
+                    A(3,N3)=A(3,N3)+FZ
+                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                       FEXT(1,N3) = FEXT(1,N3)+FX
+                       FEXT(2,N3) = FEXT(2,N3)+FY
+                       FEXT(3,N3) = FEXT(3,N3)+FZ
+                    ENDIF
+                  ENDIF
+C
+                  IF(TAGN4 == 0) THEN
+                     A(1,N4)=A(1,N4)+FX
+                     A(2,N4)=A(2,N4)+FY
+                     A(3,N4)=A(3,N4)+FZ
+                     IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                       FEXT(1,N4) = FEXT(1,N4)+FX
+                       FEXT(2,N4) = FEXT(2,N4)+FY
+                       FEXT(3,N4) = FEXT(3,N4)+FZ
+                     ENDIF
+                 ENDIF
+C
+                  TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
+     +                         +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
+     +                         +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
+C
+               ELSE
+                ! true triangles.
+                  NX = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))
+                  NY = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))
+                  NZ = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
+
+                  IF(INORM == 1) THEN
+                     FX = AA*NX*UNSIX
+                     FY = AA*NY*UNSIX
+                     FZ = AA*NZ*UNSIX
+                  ELSEIF(INORM==2) THEN
+                     NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
+                     IF(ISK == 0) THEN
+                        IF(IDIR == 1 ) THEN
+                           FX = AA*UNSIX*NORM
+                           FY = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==2) THEN
+                           FY = AA*UNSIX*NORM
+                           FX = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==3) THEN
+                           FZ = AA*UNSIX*NORM
+                           FX = ZERO
+                           FY = ZERO
+                        ENDIF
+                     ELSE 
+                        IF(IDIR == 1 ) THEN
+                           FX = AA*UNSIX*NORM*SKEW(1,ISK)
+                           FY = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==2) THEN
+                           FY = AA*UNSIX*NORM*SKEW(2,ISK)
+                           FX = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==3) THEN
+                           FZ = AA*UNSIX*NORM*SKEW(3,ISK)
+                           FX = ZERO
+                           FY = ZERO
+                        ENDIF
+                     ENDIF
+                  ELSEIF(INORM==3) THEN
+   
+                     IF(ISK == 0) THEN
+                        IF(IDIR == 1 ) THEN
+                           IF(NX /= ZERO) FX = AA*UNSIX*NX
+                           FY = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==2) THEN
+                           IF(NY /= ZERO) FY = AA*UNSIX*NY
+                           FX = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==3) THEN
+                           IF(NZ /= ZERO) FZ = AA*UNSIX*NZ
+                           FX = ZERO
+                           FY = ZERO
+                        ENDIF
+                     ELSE 
+                        IF(IDIR == 1 ) THEN
+                           FX = AA*UNSIX*SKEW(1,ISK)*NX
+                           FY = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==2) THEN
+                           FY = AA*UNSIX*SKEW(2,ISK)*NY
+                           FX = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==3) THEN
+                           FZ = AA*UNSIX*SKEW(3,ISK)*NZ
+                           FX = ZERO
+                           FY = ZERO
+                        ENDIF
+                     ENDIF
+                  ENDIF
+C  
+                  IF(TAGN1 == 0) THEN
+                    A(1,N1)=A(1,N1)+FX
+                    A(2,N1)=A(2,N1)+FY
+                    A(3,N1)=A(3,N1)+FZ
+                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                       FEXT(1,N1) = FEXT(1,N1)+FX
+                       FEXT(2,N1) = FEXT(2,N1)+FY
+                       FEXT(3,N1) = FEXT(3,N1)+FZ
+                    ENDIF
+                  ENDIF
+C
+                  IF(TAGN2 == 0) THEN
+                     A(1,N2)=A(1,N2)+FX
+                     A(2,N2)=A(2,N2)+FY
+                     A(3,N2)=A(3,N2)+FZ
+                     IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                        FEXT(1,N2) = FEXT(1,N2)+FX
+                        FEXT(2,N2) = FEXT(2,N2)+FY
+                        FEXT(3,N2) = FEXT(3,N2)+FZ
+                     ENDIF
+                  ENDIF
+C
+                  IF(TAGN3 == 0) THEN                  
+                    A(1,N3)=A(1,N3)+FX
+                    A(2,N3)=A(2,N3)+FY
+                    A(3,N3)=A(3,N3)+FZ
+                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                       FEXT(1,N3) = FEXT(1,N3)+FX
+                       FEXT(2,N3) = FEXT(2,N3)+FY
+                       FEXT(3,N3) = FEXT(3,N3)+FZ
+                    ENDIF
+                  ENDIF
+
+                  TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)) 
+     +                              + FY*(V(2,N1)+V(2,N2)+V(2,N3))
+     +                              + FZ*(V(3,N1)+V(3,N2)+V(3,N3)))
+               ENDIF
+C
+          ENDIF
+C
+        ENDDO
+C
+       ENDDO
+C
+#include "atomic.inc"
+       TFEXT = TFEXT + TFEXTT
+#include "atomend.inc"
+C
+      ELSE
+C-------------------------
+C code SPMD Parith/ON
+C-------------------------
+
+       DO  NP=1,NLOADP_HYD
+
+           NPRES = ILOADP(1,NP)
+           IFUNC = ILOADP(3,NP)
+           IAD = ILOADP(4,NP)
+           NINTERP = ILOADP(5,NP)
+	   IDIR = ILOADP(6,NP)   
+           ISENS =  ILOADP(7,NP) 
+           ISK = ILOADP(8,NP)    
+           INORM = ILOADP(9,NP)
+           FCY = LOADP(1,NP)
+           FCX = LOADP(2,NP)
+C
+           IF(ISENS.EQ.0)THEN
+              TS=TT
+           ELSE
+              TS = TT-SENSOR(2,ISENS)
+              IF(TS.LT.ZERO)CYCLE
+           ENDIF    
+
+         ! -------------
+         ! flush fsky array to 0.
+          DO N = 1,NPRES/4
+             N1=LLOADP(IAD+4*(N-1))
+             N2=LLOADP(IAD+4*(N-1)+1)
+             N3=LLOADP(IAD+4*(N-1)+2)
+             N4=LLOADP(IAD+4*(N-1)+3)
+
+             IF(N4.NE.0 .AND. N1.NE.N2 .AND. N1.NE.N3 .AND. N1.NE.N4 .AND.
+     .                      N2.NE.N3 .AND. N2.NE.N4 .AND. N3.NE.N4 )THEN
+                UP_BOUND=4
+             ELSE
+                UP_BOUND=3
+             ENDIF
+             DO IJK=1,UP_BOUND
+                IADN = IADC(IAD + 4*(N-1)+(IJK-1))
+                FSKY(1:3,IADN) = ZERO
+             ENDDO
+          ENDDO
+          ! -------------
+
+
+           F1 = FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
+           AA = FCY*F1  
+
+           DO N=1, NPRES/4
+              N1 = LLOADP(IAD+4*(N-1))
+              N2 = LLOADP(IAD+4*(N-1)+1)
+              N3 = LLOADP(IAD+4*(N-1)+2)
+              N4 = LLOADP(IAD+4*(N-1)+3)
+
+C----------------
+C       Check if segment is in contact 
+C----------------
+             SEGCONT = 0
+
+             TAGN1 = 0
+             TAGN2 = 0
+             TAGN3 = 0
+             TAGN4 = 0
+
+             IF(NINTERP > 0 ) THEN           
+                NPL = LOADP_HYD_INTER(NP)
+                IF(N4/=0) THEN
+                   IF(TAGNCONT(NPL,N1)==1.AND.TAGNCONT(NPL,N2)==1.AND.
+     .                TAGNCONT(NPL,N3)==1.AND.TAGNCONT(NPL,N4)==1) THEN
+                      SEGCONT = 1
+                   ELSE
+                      TAGN1 = TAGNCONT(NPL,N1)
+                      TAGN2 = TAGNCONT(NPL,N2)
+                      TAGN3 = TAGNCONT(NPL,N3)
+                      TAGN4 = TAGNCONT(NPL,N4)
+                   ENDIF
+                ELSE
+                   IF(TAGNCONT(NPL,N1)==1.AND.TAGNCONT(NPL,N2)==1.AND.
+     .                TAGNCONT(NPL,N3)==1) THEN
+                      SEGCONT = 1
+                   ELSE
+                      TAGN1 = TAGNCONT(NPL,N1)
+                      TAGN2 = TAGNCONT(NPL,N2)
+                      TAGN3 = TAGNCONT(NPL,N3)
+                   ENDIF
+                ENDIF    
+             ENDIF
+            
+             IF(SEGCONT == 0) THEN
+
+               IF(N4.NE.0)THEN
+
+                  NX = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
+                  NY = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
+                  NZ = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
+                  IF(INORM == 1) THEN
+                     FX = AA*NX*UNHUIT
+                     FY = AA*NY*UNHUIT
+                     FZ = AA*NZ*UNHUIT
+                  ELSEIF(INORM==2) THEN
+                     NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
+                     IF(ISK == 0) THEN
+                        IF(IDIR == 1 ) THEN
+                           FX = AA*UNHUIT*NORM
+                           FY = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==2) THEN
+                           FY = AA*UNHUIT*NORM
+                           FX = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==3) THEN
+                           FZ = AA*UNHUIT*NORM
+                           FX = ZERO
+                           FY = ZERO
+                        ENDIF
+                     ELSE 
+                        IF(IDIR == 1 ) THEN
+                           FX = AA*UNHUIT*NORM*SKEW(1,ISK)
+                           FY = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==2) THEN
+                           FY = AA*UNHUIT*NORM*SKEW(2,ISK)
+                           FX = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==3) THEN
+                           FZ = AA*UNHUIT*NORM*SKEW(3,ISK)
+                           FX = ZERO
+                           FY = ZERO
+                        ENDIF
+                     ENDIF
+                  ELSEIF(INORM==3) THEN
+   
+                     IF(ISK == 0) THEN
+                        IF(IDIR == 1 ) THEN
+                           FX = AA*UNHUIT*NX
+                           FY = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==2) THEN
+                           FY = AA*UNHUIT*NY
+                           FX = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==3) THEN
+                           FZ = AA*UNHUIT*NZ
+                           FX = ZERO
+                           FY = ZERO
+                        ENDIF
+                     ELSE 
+                        IF(IDIR == 1 ) THEN
+                           FX = AA*UNHUIT*SKEW(1,ISK)*NX
+                           FY = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==2) THEN
+                           FY = AA*UNHUIT*SKEW(2,ISK)*NY
+                           FX = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==3) THEN
+                           FZ = AA*UNHUIT*SKEW(3,ISK)*NZ
+                           FX = ZERO
+                           FY = ZERO
+                        ENDIF
+                     ENDIF
+                  ENDIF
+C   
+                  IF(TAGN1 == 0) THEN
+                    IADN = IADC(IAD+4*(N-1))
+                    FSKY(1,IADN) = FX
+                    FSKY(2,IADN) = FY
+                    FSKY(3,IADN) = FZ
+                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                       FEXT(1,N1) = FEXT(1,N1) + FX
+                       FEXT(2,N1) = FEXT(2,N1) + FY
+                       FEXT(3,N1) = FEXT(3,N1) + FZ
+                    ENDIF
+                  ENDIF
+C
+                  IF(TAGN2 == 0) THEN
+                    IADN = IADC(IAD+4*(N-1)+1)
+                    FSKY(1,IADN) = FX
+                    FSKY(2,IADN) = FY
+                    FSKY(3,IADN) = FZ
+                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                       FEXT(1,N2) = FEXT(1,N2) + FX
+                       FEXT(2,N2) = FEXT(2,N2) + FY
+                       FEXT(3,N2) = FEXT(3,N2) + FZ
+                    ENDIF
+                  ENDIF
+C
+                  IF(TAGN3 == 0) THEN
+                    IADN = IADC(IAD+4*(N-1)+2)
+                    FSKY(1,IADN) = FX
+                    FSKY(2,IADN) = FY
+                    FSKY(3,IADN) = FZ
+                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                       FEXT(1,N3) = FEXT(1,N3) + FX
+                       FEXT(2,N3) = FEXT(2,N3) + FY
+                       FEXT(3,N3) = FEXT(3,N3) + FZ
+                    ENDIF
+                  ENDIF
+C
+                  IF(TAGN4 == 0) THEN
+                    IADN = IADC(IAD+4*(N-1)+3)
+                    FSKY(1,IADN) = FX
+                    FSKY(2,IADN) = FY
+                    FSKY(3,IADN) = FZ
+                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                       FEXT(1,N4) = FEXT(1,N4) + FX
+                       FEXT(2,N4) = FEXT(2,N4) + FY
+                       FEXT(3,N4) = FEXT(3,N4) + FZ
+                    ENDIF
+                  ENDIF
+C
+                  TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
+     +                         +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
+     +                         +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
+C
+               ELSE
+
+                ! true triangles.
+                  NX = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))
+                  NY = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))
+                  NZ = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
+
+                  IF(INORM == 1) THEN
+                     FX = AA*NX*UNSIX
+                     FY = AA*NY*UNSIX
+                     FZ = AA*NZ*UNSIX
+                  ELSEIF(INORM==2) THEN
+                     NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
+                     IF(ISK == 0) THEN
+                        IF(IDIR == 1 ) THEN
+                           FX = AA*UNSIX*NORM
+                           FY = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==2) THEN
+                           FY = AA*UNSIX*NORM
+                           FX = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==3) THEN
+                           FZ = AA*UNSIX*NORM
+                           FX = ZERO
+                           FY = ZERO
+                        ENDIF
+                     ELSE 
+                        IF(IDIR == 1 ) THEN
+                           FX = AA*UNSIX*NORM*SKEW(1,ISK)
+                           FY = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==2) THEN
+                           FY = AA*UNSIX*NORM*SKEW(2,ISK)
+                           FX = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==3) THEN
+                           FZ = AA*UNSIX*NORM*SKEW(3,ISK)
+                           FX = ZERO
+                           FY = ZERO
+                        ENDIF
+                     ENDIF
+                  ELSEIF(INORM==3) THEN
+   
+                     IF(ISK == 0) THEN
+                        IF(IDIR == 1 ) THEN
+                           IF(NX /= ZERO) FX = AA*UNSIX*NX
+                           FY = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==2) THEN
+                           IF(NY /= ZERO) FY = AA*UNSIX*NY
+                           FX = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==3) THEN
+                           IF(NZ /= ZERO) FZ = AA*UNSIX*NZ
+                           FX = ZERO
+                           FY = ZERO
+                        ENDIF
+                     ELSE 
+                        IF(IDIR == 1 ) THEN
+                           FX = AA*UNSIX*SKEW(1,ISK)*NX
+                           FY = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==2) THEN
+                           FY = AA*UNSIX*SKEW(2,ISK)*NY
+                           FX = ZERO
+                           FZ = ZERO
+                        ELSEIF(IDIR==3) THEN
+                           FZ = AA*UNSIX*SKEW(3,ISK)*NZ
+                           FX = ZERO
+                           FY = ZERO
+                        ENDIF
+                     ENDIF
+                  ENDIF
+C  
+                  IF(TAGN1 == 0) THEN
+                    IADN = IADC(IAD+4*(N-1))
+                    FSKY(1,IADN) = FX
+                    FSKY(2,IADN) = FY
+                    FSKY(3,IADN) = FZ
+                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                       FEXT(1,N1) = FEXT(1,N1) + FX
+                       FEXT(2,N1) = FEXT(2,N1) + FY
+                       FEXT(3,N1) = FEXT(3,N1) + FZ
+                    ENDIF
+                  ENDIF
+C
+                  IF(TAGN2 == 0) THEN
+                    IADN = IADC(IAD+4*(N-1)+1)
+                    FSKY(1,IADN) = FX
+                    FSKY(2,IADN) = FY
+                    FSKY(3,IADN) = FZ
+                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                       FEXT(1,N2) = FEXT(1,N2) + FX
+                       FEXT(2,N2) = FEXT(2,N2) + FY
+                       FEXT(3,N2) = FEXT(3,N2) + FZ
+                    ENDIF
+                  ENDIF
+C
+                  IF(TAGN3 == 0) THEN
+                    IADN = IADC(IAD+4*(N-1)+2)
+                    FSKY(1,IADN) = FX
+                    FSKY(2,IADN) = FY
+                    FSKY(3,IADN) = FZ
+                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                       FEXT(1,N3) = FEXT(1,N3) + FX
+                       FEXT(2,N3) = FEXT(2,N3) + FY
+                       FEXT(3,N3) = FEXT(3,N3) + FZ
+                    ENDIF
+                  ENDIF
+
+                  TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)) 
+     +                              + FY*(V(2,N1)+V(2,N2)+V(2,N3))
+     +                              + FZ*(V(3,N1)+V(3,N2)+V(3,N3)))
+
+               ENDIF
+C
+          ENDIF
+C
+        ENDDO
+C
+       ENDDO
+C
+#include "atomic.inc"
+        TFEXT = TFEXT + TFEXTT
+#include "atomend.inc"
+C
+      ENDIF
+      RETURN
+      END

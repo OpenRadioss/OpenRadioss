@@ -1,0 +1,157 @@
+Copyright>        OpenRadioss
+Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
+Copyright>    
+Copyright>        This program is free software: you can redistribute it and/or modify
+Copyright>        it under the terms of the GNU Affero General Public License as published by
+Copyright>        the Free Software Foundation, either version 3 of the License, or
+Copyright>        (at your option) any later version.
+Copyright>    
+Copyright>        This program is distributed in the hope that it will be useful,
+Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+Copyright>        GNU Affero General Public License for more details.
+Copyright>    
+Copyright>        You should have received a copy of the GNU Affero General Public License
+Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+Copyright>    
+Copyright>    
+Copyright>        Commercial Alternative: Altair Radioss Software 
+Copyright>    
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+
+Chd|====================================================================
+Chd|  SPMD_WRT_XYZNOD               source/mpi/anim/spmd_wrt_xyznod.F
+Chd|-- called by -----------
+Chd|        XYZNOD                        source/output/anim/generate/xyznod.F
+Chd|-- calls ---------------
+Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|====================================================================
+       SUBROUTINE SPMD_WRT_XYZNOD(X,WEIGHT,NODGLOB,NUM)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+#include      "r4r8_p.inc"
+#ifdef MPI
+#include "mpif.h"
+#endif
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "com01_c.inc"
+#include      "com04_c.inc"
+#include      "scr05_c.inc"
+#include      "task_c.inc"
+#include      "spmd_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+       my_real
+     .   X(3,*)
+       INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF
+C-----------------------------------------------
+C   L O C A L   V A R I A B L E S
+C-----------------------------------------------
+#ifdef MPI
+      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
+      INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2,SI,MSGTYP2
+
+      REAL, DIMENSION(:,:), ALLOCATABLE :: BUFSR,XGLOB
+      INTEGER, DIMENSION(:), ALLOCATABLE :: IBUF
+
+      DATA MSGOFF/7026/
+      DATA MSGOFF2/7027/
+       
+C-----------------------------------------------
+
+       ALLOCATE(BUFSR(3,NUMNODM))
+       ALLOCATE(XGLOB(3,NUM))
+       ALLOCATE(IBUF(NUMNODM))
+        
+       IF (ISPMD.NE.0) THEN
+
+         SIZ = 0
+         DO I=1,NUMNOD
+           IF (WEIGHT(I).EQ.1) THEN
+             SIZ = SIZ + 1
+             IBUF(SIZ) = NODGLOB(I)
+             BUFSR(1,SIZ) = X(1,I)
+             BUFSR(2,SIZ) = X(2,I) 
+             BUFSR(3,SIZ) = X(3,I) 
+           END IF
+         END DO
+
+Cow a cause de la version simple precision, on ne peux pas metre l'entier
+Cow dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
+Cow de noeuds au max
+
+         MSGTYP = MSGOFF2 
+         CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
+     .     MPI_COMM_WORLD,ierror)
+
+Cow
+         MSGTYP = MSGOFF
+         CALL MPI_SEND(BUFSR,3*SIZ,MPI_REAL4,IT_SPMD(1),MSGTYP,
+     .     MPI_COMM_WORLD,ierror)
+
+
+       ELSE
+
+          DO I=1,NUMNOD
+            IF (WEIGHT(I).EQ.1) THEN
+              NG = NODGLOB(I)
+              XGLOB(1,NG) = X(1,I)
+              XGLOB(2,NG) = X(2,I)
+              XGLOB(3,NG) = X(3,I)
+            ENDIF
+          ENDDO
+
+
+          DO I=2,NSPMD
+
+Cow Reception du buffer entier des adresses NODGLOB
+            MSGTYP = MSGOFF2
+
+            CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
+     .                    MPI_COMM_WORLD,STATUS,ierror)
+	    CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+
+            CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
+     .                  MPI_COMM_WORLD,STATUS,ierror)
+
+Cow Reception du buffer flottant des adresses NODGLOB
+
+            MSGTYP2 = MSGOFF 
+
+            CALL MPI_RECV(BUFSR,SIZ*3,MPI_REAL4,IT_SPMD(I),MSGTYP2,
+     .                  MPI_COMM_WORLD,STATUS,ierror)
+         
+            NREC = SIZ 
+
+
+            DO K = 1, NREC
+              NG = IBUF(K)
+              XGLOB(1,NG) = BUFSR(1,K)
+              XGLOB(2,NG) = BUFSR(2,K)
+              XGLOB(3,NG) = BUFSR(3,K)
+            ENDDO
+          ENDDO
+Cow
+Cow 
+          DO I=1,NUMNODG
+           CALL WRITE_R_C(XGLOB(1,I),1)
+           CALL WRITE_R_C(XGLOB(2,I),1)
+           CALL WRITE_R_C(XGLOB(3,I),1)
+         END DO
+        END IF
+
+
+       DEALLOCATE(BUFSR)
+       DEALLOCATE(XGLOB)
+       DEALLOCATE(IBUF)
+
+#endif
+       RETURN
+       END

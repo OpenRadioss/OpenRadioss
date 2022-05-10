@@ -1,0 +1,143 @@
+Copyright>        OpenRadioss
+Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
+Copyright>    
+Copyright>        This program is free software: you can redistribute it and/or modify
+Copyright>        it under the terms of the GNU Affero General Public License as published by
+Copyright>        the Free Software Foundation, either version 3 of the License, or
+Copyright>        (at your option) any later version.
+Copyright>    
+Copyright>        This program is distributed in the hope that it will be useful,
+Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+Copyright>        GNU Affero General Public License for more details.
+Copyright>    
+Copyright>        You should have received a copy of the GNU Affero General Public License
+Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+Copyright>    
+Copyright>    
+Copyright>        Commercial Alternative: Altair Radioss Software 
+Copyright>    
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+Chd|====================================================================
+Chd|  SHSUB1                        source/elements/shell/subcycling/shsub1.F
+Chd|-- called by -----------
+Chd|        RESOL                         source/engine/resol.F         
+Chd|-- calls ---------------
+Chd|====================================================================
+      SUBROUTINE SHSUB1(
+     1  LSHSUB,V    ,VR   ,DSAVE ,
+     2  D     ,ITASK ,NODFT ,NODLT ,
+     3  FSKY  ,FSKYV ,DR    ,DRSAVE,
+     4  A     ,ASAVE ,AR    ,ARSAVE,
+     5  STIFN   ,STSAVE  ,STIFR   ,STRSAVE ,
+     6  FSAVSAV )
+C----6---------------------------------------------------------------7---------8
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   G l o b a l   P a r a m e t e r s
+C-----------------------------------------------
+#include      "mvsiz_p.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "com01_c.inc"
+#include      "com02_c.inc"
+#include      "com04_c.inc"
+#include      "com06_c.inc"
+#include      "com08_c.inc"
+#include      "scr06_c.inc"
+#include      "units_c.inc"
+#include      "task_c.inc"
+#include      "parit_c.inc"
+#include      "param_c.inc"
+#include      "subc_c.inc"
+C-----------------------------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER ITASK,NODFT,NODLT,LSHSUB(*)
+      my_real
+     .   V(3,*),VR(3,*),DSAVE(3,*),D(3,*),FSKY(*),
+c     FSKY(8,LSKY),FSKYV(LSKY,8)
+     .   FSKYV(*), DR(3,*), DRSAVE(3,*),
+     .   A(3,*), ASAVE(3,*), AR(3,*), ARSAVE(3,*),
+     .   STIFN(*), STSAVE(*), STIFR(*), STRSAVE(*),
+     .   FSAVSAV(NTHVKI,*)
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER N,LCOD, INDX2(1024), I,IPRI,NINDX2,
+     .        J,KFT1,NISKFT,NISKLT,K
+      my_real
+     . FAC, VMX, VMY, VMZ
+C-----------------------------------------------
+        FAC=ZERO
+        IF(DT1.GT.ZERO)FAC=UN/DT1
+C       stockage temporaire, JUSQU'A L'ASSEMBLAGE DES FORCES SHELLS
+        DO N=NODFT,NODLT
+           ASAVE(1,N) =A(1,N)
+           ASAVE(2,N) =A(2,N)
+           ASAVE(3,N) =A(3,N)
+           A(1,N)=ZERO
+           A(2,N)=ZERO
+           A(3,N)=ZERO
+Clm        STSAVE inutile dans le fichier restart
+           STSAVE(N)=STIFN(N)
+           STIFN(N) =EM20
+           ARSAVE(1,N)=AR(1,N)
+           ARSAVE(2,N)=AR(2,N)
+           ARSAVE(3,N)=AR(3,N)
+           AR(1,N)=ZERO
+           AR(2,N)=ZERO
+           AR(3,N)=ZERO
+Clm        STRSAVE inutile dans le fichier restart
+           STRSAVE(N)=STIFR(N)
+           STIFR(N)  =EM20
+        ENDDO
+C       stockage temporaire, fin
+C
+C       noeuds frontieres
+        DO I=ITASK+1,NSHFRONT,NTHREAD
+          N=LSHSUB(I)
+          VMX=FAC*(D(1,N)-DSAVE(1,N))
+          VMY=FAC*(D(2,N)-DSAVE(2,N))
+          VMZ=FAC*(D(3,N)-DSAVE(3,N))
+          DSAVE(1,N)=V(1,N)
+          DSAVE(2,N)=V(2,N)
+          DSAVE(3,N)=V(3,N)
+          V(1,N)=VMX
+          V(2,N)=VMY
+          V(3,N)=VMZ
+        ENDDO
+        DO I=ITASK+1,NSHFRONT,NTHREAD
+          N=LSHSUB(I)
+          VMX=FAC*(DR(1,N)-DRSAVE(1,N))
+          VMY=FAC*(DR(2,N)-DRSAVE(2,N))
+          VMZ=FAC*(DR(3,N)-DRSAVE(3,N))
+          DRSAVE(1,N)=VR(1,N)
+          DRSAVE(2,N)=VR(2,N)
+          DRSAVE(3,N)=VR(3,N)
+          VR(1,N)=VMX
+          VR(2,N)=VMY
+          VR(3,N)=VMZ
+        ENDDO
+C
+        DO I=ITASK+1,NSECT,NTHREAD
+         DO J=1,NTHVKI
+           FSAVSAV(J,I)=ZERO
+         END DO
+        END DO
+C
+        IF(IPARIT.GT.0)THEN
+          NISKFT =  1+ITASK*8*LSKY/NTHREAD
+          NISKLT = (ITASK+1)*8*LSKY/NTHREAD
+          DO  I=NISKFT,NISKLT
+            FSKY(I)=ZERO
+          ENDDO
+        ENDIF
+C
+        RETURN
+        END

@@ -1,0 +1,172 @@
+Copyright>        OpenRadioss
+Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
+Copyright>    
+Copyright>        This program is free software: you can redistribute it and/or modify
+Copyright>        it under the terms of the GNU Affero General Public License as published by
+Copyright>        the Free Software Foundation, either version 3 of the License, or
+Copyright>        (at your option) any later version.
+Copyright>    
+Copyright>        This program is distributed in the hope that it will be useful,
+Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+Copyright>        GNU Affero General Public License for more details.
+Copyright>    
+Copyright>        You should have received a copy of the GNU Affero General Public License
+Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+Copyright>    
+Copyright>    
+Copyright>        Commercial Alternative: Altair Radioss Software 
+Copyright>    
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+Chd|====================================================================
+Chd|  FAIL_RTCL_C                   source/materials/fail/rtcl/fail_rtcl_c.F
+Chd|-- called by -----------
+Chd|        MULAWC                        source/materials/mat_share/mulawc.F
+Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
+Chd|-- calls ---------------
+Chd|====================================================================
+      SUBROUTINE FAIL_RTCL_C (
+     1     NEL      ,NUPARAM  ,NUVAR    ,TIME     ,TIMESTEP ,UPARAM   ,
+     2     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,NPTOT    ,
+     3     NGL      ,DPLA     ,UVAR     ,OFF      ,DFMAX    ,TDELE    ,
+     4     AREA     ,FOFF     ,IGTYP    ,OFFL     ,NOFF     ,IPT      ,
+     5     THK0     )
+C!-----------------------------------------------
+C!   I m p l i c i t   T y p e s
+C!-----------------------------------------------
+#include "implicit_f.inc"
+C!---------+---------+---+---+-------------------
+#include "mvsiz_p.inc"
+#include "scr17_c.inc"
+#include "units_c.inc"
+#include "comlock.inc"
+#include "param_c.inc"
+#include "impl1_c.inc"
+C!-----------------------------------------------
+      INTEGER NEL, NUPARAM, NUVAR,NGL(NEL),IGTYP,NOFF(NEL),IPT,
+     .        NPTOT
+      my_real TIME,TIMESTEP,UPARAM(*),
+     .   SIGNXX(NEL),SIGNYY(NEL),OFFL(NEL),
+     .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),UVAR(NEL,NUVAR),
+     .   DPLA(NEL),OFF(NEL),DFMAX(NEL),TDELE(NEL),AREA(NEL),THK0(NEL)
+      INTEGER, DIMENSION(NEL), INTENT(INOUT) :: FOFF
+C!-----------------------------------------------
+C!   L o c a l   V a r i a b l e s
+C!-----------------------------------------------
+      INTEGER I,J,INDX(NEL),NINDX,CONDITION1(NEL),CONDITION2(NEL),INST
+      my_real 
+     .        NHARD,EPSCAL,P,triaxs,vmises,hydros,EPS_CR,F_RTCL,PTHK
+C!--------------------------------------------------------------
+      !=======================================================================
+      ! - INITIALISATION OF COMPUTATION ON TIME STEP
+      !=======================================================================
+      ! Recovering model parameters
+      EPSCAL = UPARAM(1)
+      INST   = NINT(UPARAM(2))
+      NHARD  = UPARAM(3)
+      PTHK   = UPARAM(4)
+c
+      ! Store initial element size
+      IF (UVAR(1,1) == ZERO) THEN 
+        DO I = 1,NEL
+          UVAR(I,1) = SQRT(AREA(I))
+          UVAR(I,2) = THK0(I)
+        ENDDO
+      ENDIF
+
+      ! Checking element failure and recovering user variable
+      DO I = 1,NEL
+        IF (DFMAX(I) >= UN .AND. PTHK > ZERO .AND. OFF(I) == UN) THEN
+          SIGNXX(I) = ZERO
+          SIGNYY(I) = ZERO
+          SIGNXY(I) = ZERO
+          SIGNYZ(I) = ZERO
+          SIGNZX(I) = ZERO           
+        ENDIF
+      ENDDO
+C
+      ! Initialization of variable
+      NINDX = 0  
+c      
+      !====================================================================
+      ! - LOOP OVER THE ELEMENT TO COMPUTE THE DAMAGE VARIABLE
+      !====================================================================       
+      DO I=1,NEL
+c
+        ! If the element is not broken
+        IF (OFF(I) ==  UN .AND. DPLA(I) /= ZERO) THEN
+c        
+          ! Computation of hydrostatic stress, Von Mises stress, and stress triaxiality
+          hydros = (SIGNXX(I)+ SIGNYY(I))/TROIS
+          vmises = SQRT((SIGNXX(I)**2)+(SIGNYY(I)**2)-(SIGNXX(I)*SIGNYY(I))+(TROIS*SIGNXY(I)**2))
+          triaxs = hydros / MAX(EM20,vmises)
+          IF (triaxs > DTIERS)  triaxs = DTIERS
+          IF (triaxs < -DTIERS) triaxs = -DTIERS
+c
+          ! Computing the plastic strain at failure according to stress triaxiality
+          IF (triaxs < -TIERS) THEN 
+            F_RTCL = ZERO
+          ELSEIF ((triaxs >= -TIERS).AND.(triaxs < TIERS)) THEN
+            F_RTCL = DEUX*((UN+triaxs*SQRT(DOUZE-VINGT7*(triaxs**2)))/
+     .                  (TROIS*triaxs+SQRT(DOUZE-VINGT7*(triaxs**2))))
+          ELSE
+            F_RTCL = EXP(-UNDEMI)*EXP(TDEMI*triaxs)
+          ENDIF
+c 
+          ! Computation of simple tension failure strain (according to mesh size)
+          IF (INST == 2) THEN 
+            EPS_CR = NHARD + (EPSCAL - NHARD)*(UVAR(I,2)/UVAR(I,1))
+          ELSE
+            EPS_CR = EPSCAL
+          ENDIF
+c
+          ! Computation of damage variables
+          DFMAX(I) = DFMAX(I) + F_RTCL*DPLA(I)/MAX(EPS_CR,EM6)
+          DFMAX(I) = MIN(UN,DFMAX(I))
+c
+          ! Checking element failure using global damage
+          IF (OFFL(I) == UN .AND. DFMAX(I) >= UN) THEN
+            OFFL(I) = ZERO
+            NOFF(I) = NOFF(I) + 1
+            IF (PTHK < ZERO) FOFF(I) = 0
+            IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 51 .OR. IGTYP == 52) FOFF(I) = 0
+            NINDX = NINDX + 1
+            INDX(NINDX) = I  
+            CONDITION1(NINDX) = IPT
+            IF (IGTYP /= 51 .AND. IGTYP /= 52) THEN
+              IF (NOFF(I) >= (ABS(PTHK)*REAL(NPTOT)) .AND. PTHK > ZERO) THEN
+                TDELE(I) = TIME
+                OFF(I)   = ZERO
+                IDEL7NOK = 1
+                CONDITION2(NINDX) = 1
+              ENDIF
+            ENDIF
+          ENDIF
+        ENDIF 
+      ENDDO
+c------------------------
+c------------------------
+      IF (NINDX > 0) THEN        
+        DO J=1,NINDX             
+          I = INDX(J)         
+#include "lockon.inc"
+         IF(CONDITION1(J) >= 1)  THEN         
+           WRITE(IOUT, 2000) NGL(I),CONDITION1(J),TIME
+           WRITE(ISTDO,2000) NGL(I),CONDITION1(J),TIME
+         ENDIF      
+         IF(CONDITION2(J)==1) THEN
+           WRITE(ISTDO,2200) NGL(I),TIME
+           WRITE(IOUT, 2200) NGL(I),TIME
+         ENDIF          
+#include "lockoff.inc" 
+        END DO                   
+      END IF   ! NINDX         
+c------------------------
+ 2000 FORMAT(1X,'FOR SHELL ELEMENT (RTCL)',I10,1X,'LAYER',I3,':',/,
+     .       1X,'STRESS TENSOR SET TO ZERO',1X,'AT TIME :',1PE12.4)
+
+ 2200 FORMAT(1X,' *** RUPTURE OF SHELL ELEMENT (RTCL)',I10,1X,
+     . ' AT TIME :',1PE12.4)
+      END

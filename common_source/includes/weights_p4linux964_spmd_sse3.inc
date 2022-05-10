@@ -1,0 +1,1545 @@
+Copyright>        OpenRadioss
+Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
+Copyright>    
+Copyright>        This program is free software: you can redistribute it and/or modify
+Copyright>        it under the terms of the GNU Affero General Public License as published by
+Copyright>        the Free Software Foundation, either version 3 of the License, or
+Copyright>        (at your option) any later version.
+Copyright>    
+Copyright>        This program is distributed in the hope that it will be useful,
+Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+Copyright>        GNU Affero General Public License for more details.
+Copyright>    
+Copyright>        You should have received a copy of the GNU Affero General Public License
+Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+Copyright>    
+Copyright>    
+Copyright>        Commercial Alternative: Altair Radioss Software 
+Copyright>    
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+!       Material & element costs
+!       optimized for Sandy Bridge machine (AVX)
+!       Used machine : Pajero --> Intel(R) Xeon(R) CPU E5-4650 0 @ 2.70GHz
+  
+
+! temps de reference correspond au temps /elt/materiaux loi2 0 pt integ
+       TPSREF =  .0000007658      
+
+! -------------
+!    SOLIDES
+! -------------
+
+
+!   Tableau SOL1TNL
+!   ---------------
+!
+!   Temps par elt/cycle pour les materiaux solides
+!   SOL1TNL(I,J)=
+!   1er  Champ : numero du materiaux
+!   2eme Option particuliere
+!
+
+!   Tableau SOL8TNL
+!   ---------------
+!
+!   SOL8TNL(I,J)=
+!   1er  Champ : numero du materiux
+!   2eme Option particuliere
+!
+
+!   Tableau SOLTELT
+!   ---------------
+!
+!   Temps de traitement de l'hourglas et des routines elts /elt/cycle
+!
+!   SOLTELT(I)=
+!   1er  Champ : option d'hourglas
+
+       DO J=1,3
+         DO I=0,MAXLAW
+          SOL1TNL(I,J) = .0000001512    
+          SOL8TNL(I,J) = .0000006297    
+          TET4TNL(I,J) = .0000001542   
+          TET10TNL(I,J)= .0000005545   
+         ENDDO
+        ENDDO
+!       special option for solid
+        SOL_OPTION(1:10,1:5) = 0.
+!       special option for non-local
+        NLOCAL_OPTION(1:10) = 0.
+
+!     LAW 01
+       SOL1TNL(1,1) = .0000001301    
+       SOL8TNL(1,1) = .0000003212    
+       TET4TNL(1,1) = .0000001229   
+       TET10TNL(1,1)= .0000004662    
+!     LAW 02
+       SOL1TNL(2,1) = .0000001512    
+       SOL8TNL(2,1) = .0000006297   
+       TET4TNL(2,1) = .0000001542   
+       TET10TNL(2,1)= .0000005545   
+!     LAW 02 ICC=1
+       SOL1TNL(2,2) = .0000002051   
+       SOL8TNL(2,2) = .0000010080   
+       TET4TNL(2,2) = .0000001820   
+       TET10TNL(2,2)= .0000007670   
+!     LAW 03
+       SOL1TNL(3,1) = .0000002145    
+       SOL8TNL(3,1) = .0000006086
+       TET4TNL(3,1) = .0000002292   
+       TET10TNL(3,1)= .0000009112   
+!     LAW 04
+       SOL1TNL(4,1) = .0000001555
+       SOL8TNL(4,1) = .0000006050
+       TET4TNL(4,1) = .0000002547    
+       TET10TNL(4,1)= .0000009900   
+!     LAW 06
+       SOL1TNL(6,1) = .0000002483    
+       SOL8TNL(6,1) = .0000006004
+       TET4TNL(6,1) = .0000002412   
+       TET10TNL(6,1)= .0000007858   
+!     LAW 10
+       SOL1TNL(10,1) = .0000002024  
+       SOL8TNL(10,1) = .0000013650  
+       TET4TNL(10,1) = .0000001815  
+       TET10TNL(10,1)= .0000006534  
+!     LAW 12
+       SOL1TNL(12,1) = .0000003941  
+       SOL8TNL(12,1) = .0000038700  
+       TET4TNL(12,1) = .0000003670  
+       TET10TNL(12,1)= .0000013560  
+!     LAW 21
+       SOL1TNL(21,1) = .0000001872  
+       SOL8TNL(21,1) = .0000013840  
+       TET4TNL(21,1) = .0000001811  
+       TET10TNL(21,1)= .0000006885  
+!     LAW 22
+       SOL1TNL(22,1) = .0000001854  
+       SOL8TNL(22,1) = .0000013990  
+       TET4TNL(22,1) = .0000001663  
+       TET10TNL(22,1)= .0000007349  
+!     LAW 23
+       SOL1TNL(23,1) = .0000001890  
+       SOL8TNL(23,1) = .0000014360  
+       TET4TNL(23,1) = .0000001850  
+       TET10TNL(23,1)= .0000007381  
+!     LAW 24
+       SOL1TNL(24,1) = .0000006082  
+       SOL8TNL(24,1) = .0000042810  
+       TET4TNL(24,1) = .0000004260
+       TET10TNL(24,1)= .0000020050
+!     LAW 25
+       SOL1TNL(25,1) = .0000004227
+       SOL8TNL(25,1) = .0000031570 
+       TET4TNL(25,1) = .0000003445 
+       TET10TNL(25,1)= .0000016050 
+!     LAW 28
+       SOL1TNL(28,1) = .0000003664 
+       SOL8TNL(28,1) = .0000021385 
+       TET4TNL(28,1) = .0000003168 
+       TET10TNL(28,1)= .0000013620 
+!     LAW 33	0 fct
+       SOL1TNL(33,1) = .0000004453 
+       SOL8TNL(33,1) = .0000021870 
+       TET4TNL(33,1) = .0000004027 
+       TET10TNL(33,1)= .0000015750 
+!     LAW 33	1 fct
+       SOL1TNL(33,2) = .0000006103 
+       SOL8TNL(33,2) = .0000025320 
+       TET4TNL(33,2) = .0000005659  
+       TET10TNL(33,2)= .0000018270 
+!     LAW 34
+       SOL1TNL(34,1) = .0000002516  
+       SOL8TNL(34,1) = .0000012240  
+       TET4TNL(34,1) = .0000002258  
+       TET10TNL(34,1)= .0000008617 
+!     LAW 35
+       SOL1TNL(35,1) = .0000003070  
+       SOL8TNL(35,1) = .0000017020  
+       TET4TNL(35,1) = .0000002691  
+       TET10TNL(35,1)= .0000010870  
+!     LAW 36 1 fonction
+       SOL1TNL(36,1) = .0000003096  
+       SOL8TNL(36,1) = .0000016040 
+       TET4TNL(36,1) = .0000002877
+       TET10TNL(36,1)= .0000009584
+!     LAW 36 5 fonctions
+       SOL1TNL(36,2) = .0000003358 
+       SOL8TNL(36,2) = .0000016420 
+       TET4TNL(36,2) = .0000002724 
+       TET10TNL(36,2)= .0000010120 
+!     LAW 36 10 fonctions
+       SOL1TNL(36,3) = .0000003702 
+       SOL8TNL(36,3) = .0000016950 
+       TET4TNL(36,3) = .0000002854 
+       TET10TNL(36,3)= .0000010970 
+!     LAW 38
+       SOL1TNL(38,1) = .0000008197   
+       SOL8TNL(38,1) = .0000057300   
+       TET4TNL(38,1) = .0000006935   
+       TET10TNL(38,1)= .0000025160   
+!     LAW 40
+       SOL1TNL(40,1) = .0000004917   
+       SOL8TNL(40,1) = .0000030250   
+       TET4TNL(40,1) = .0000004015   
+       TET10TNL(40,1)= .0000013700   
+!     LAW 41
+       SOL1TNL(41,1) = .0000004092
+       TET4TNL(41,1) = .0000004068
+       TET10TNL(41,1)= .0000017520
+!     LAW 42
+       SOL1TNL(42,1) = .0000006159
+       SOL8TNL(42,1) = .0000041410
+       TET4TNL(42,1) = .0000006126 
+       TET10TNL(42,1)= .0000023340 
+C M = 1 
+       SOL1TNL(42,2) = .0000006763 
+       SOL8TNL(42,2) = .0000045820 
+       TET4TNL(42,2) = .0000006537 
+       TET10TNL(42,2)= .0000023430 
+C M = 2 
+       SOL1TNL(42,3) = .0000007634 
+       SOL8TNL(42,3) = .0000051210 
+       TET4TNL(42,3) = .0000006823 
+       TET10TNL(42,3)= .0000027020 
+!     LAW 44
+       SOL1TNL(44,1) = .0000003088 
+       SOL8TNL(44,1) = .0000016320 
+       TET4TNL(44,1) = .0000002999 
+       TET10TNL(44,1)= .0000010160 
+!     LAW 48
+       SOL1TNL(48,1) = .0000002994 
+       SOL8TNL(48,1) = .0000015830 
+       TET4TNL(48,1) = .0000002660 
+       TET10TNL(48,1)= .0000009488 
+!     LAW 50
+       SOL1TNL(50,1) = .0000004482 
+       SOL8TNL(50,1) = .0000027100 
+       TET4TNL(50,1) = .0000004178 
+       TET10TNL(50,1)= .0000018130 
+!     LAW 52
+       SOL1TNL(52,1) = .0000002826 
+       SOL8TNL(52,1) = .0000015560 
+       TET4TNL(52,1) = .0000002650 
+       TET10TNL(52,1)= .0000010590 
+!     LAW 53
+       SOL1TNL(53,1) = .0000004006 
+       SOL8TNL(53,1) = .0000022760 
+       TET4TNL(53,1) = .0000003889 
+       TET10TNL(53,1)= .0000014540 
+!     LAW 59 (user solid property) IGT=43
+       SOL1TNL(59,1) = .0000002207 
+       SOL8TNL(59,1) = .0000002207 
+       TET4TNL(59,1) = .0000002207 
+       TET10TNL(59,1)= .0000002207 
+!     LAW 60
+       SOL1TNL(60,1) = .0000004239   
+       SOL8TNL(60,1) = .0000024010  
+       TET4TNL(60,1) = .0000003718  
+       TET10TNL(60,1)= .0000014290  
+!     LAW 62
+       ! M = 0
+       SOL1TNL(62,1) = .0000009680  
+       SOL8TNL(62,1) = .0000068900  
+       TET4TNL(62,1) = .0000009896 
+       TET10TNL(62,1)= .0000039430
+       ! M = 1
+       SOL1TNL(62,2) = .0000010850
+       SOL8TNL(62,2) = .0000078600
+       TET4TNL(62,2) = .0000010760
+       TET10TNL(62,2)= .0000043120
+       ! M = 2
+       SOL1TNL(62,3) = .0000011420
+       SOL8TNL(62,3) = .0000084600 
+       TET4TNL(62,3) = .0000011150  
+       TET10TNL(62,3)= .0000045435 
+!     LAW 65
+       SOL1TNL(65,1) = .0000004282 
+       SOL8TNL(65,1) = .0000030270 
+       TET4TNL(65,1) = .0000003897 
+       TET10TNL(65,1)= .0000015160 
+!     LAW 66
+       SOL1TNL(66,1) = .0000005367 
+       SOL8TNL(66,1) = .0000031200 
+       TET4TNL(66,1) = .0000003860 
+       TET10TNL(66,1)= .0000015470 
+!     LAW 68
+       SOL1TNL(68,1) = .0000006413 
+!       SOL8TNL(68,1) = .0000028940
+       TET4TNL(68,1) = .0000006475   
+       TET10TNL(68,1)= .0000025900   
+!     LAW 69
+       ! M = 0 (no visc)
+       SOL1TNL(69,1) = .0000005245 
+       SOL8TNL(69,1) = .0000040350 
+       TET4TNL(69,1) = .0000005135 
+       TET10TNL(69,1)= .0000020020 
+       ! M = 1 (visc)
+       SOL1TNL(69,2) = .0000006120 
+       SOL8TNL(69,2) = .0000048180 
+       TET4TNL(69,2) = .0000006347 
+       TET10TNL(69,2)= .0000024700 
+       ! M = 2 (visc)
+       SOL1TNL(69,3) = .0000006370 
+       SOL8TNL(69,3) = .0000051600 
+       TET4TNL(69,3) = .0000006740 
+       TET10TNL(69,3)= .0000025500 
+!     LAW 70 
+!     1 funct / 22 points
+       SOL1TNL(70,1) = .0000003413 
+       SOL8TNL(70,1) = .0000026830 
+       TET4TNL(70,1) = .0000003395 
+       TET10TNL(70,1)= .0000013970 
+!     overcost number of point
+       SOL1TNL(70,2) = .0000000020  
+       SOL8TNL(70,2) = .0000000160
+       TET4TNL(70,2) = .0000000018  
+       TET10TNL(70,2)= .0000000072 
+!     overcost number of function
+       SOL1TNL(70,3) = .0000000010  
+       SOL8TNL(70,3) = .0000000078
+       TET4TNL(70,3) = .0000000009  
+       TET10TNL(70,3)= .0000000036 
+!     LAW 71
+       SOL1TNL(71,1) = .0000006332 
+       SOL8TNL(71,1) = .0000021590 
+       TET4TNL(71,1) = .0000004840 
+       TET10TNL(71,1)= .0000018860 
+!     LAW 72
+       SOL1TNL(72,1) = .0000004335 
+       SOL8TNL(72,1) = .0000032810 
+       TET4TNL(72,1) = .0000003947 
+       TET10TNL(72,1)= .0000016170  
+!     LAW 74
+       SOL1TNL(74,1) = .0000003704  
+       SOL8TNL(74,1) = .0000027610 
+       TET4TNL(74,1) = .0000003402  
+       TET10TNL(74,1)= .0000013590   
+!     LAW 76
+       SOL1TNL(76,1) = .0000002745  
+       SOL8TNL(76,1) = .0000021280 
+       TET4TNL(76,1) = .0000002739 
+       TET10TNL(76,1)= .0000011500  
+!     LAW 77
+       SOL1TNL(77,1) = .0000004887  
+       SOL8TNL(77,1) = .0000038100   
+       TET4TNL(77,1) = .0000005200   
+       TET10TNL(77,1)= .0000020120   
+!     LAW 78
+       SOL1TNL(78,1) = .0000003087   
+       SOL8TNL(78,1) = .0000023090   
+       TET4TNL(78,1) = .0000002902   
+       TET10TNL(78,1)= .0000012520   
+!     LAW 79
+       SOL1TNL(79,1) = .0000003060  
+       SOL8TNL(79,1) = .0000020220  
+       TET4TNL(79,1) = .0000002684   
+       TET10TNL(79,1)= .0000011400   
+!     LAW 81
+       SOL1TNL(81,1) = .0000004223   
+       SOL8TNL(81,1) = .0000031430  
+       TET4TNL(81,1) = .0000002750 
+       TET10TNL(81,1)= .0000012470    
+!     LAW 82
+       ! M = 1
+       SOL1TNL(82,1) = .0000005645  
+       SOL8TNL(82,1) = .0000043090  
+       TET4TNL(82,1) = .0000005553  
+       TET10TNL(82,1)= .0000020840  
+       ! M = 2
+       SOL1TNL(82,2) = .0000006735  
+       SOL8TNL(82,2) = .0000045120  
+       TET4TNL(82,2) = .0000006743  
+       TET10TNL(82,2)= .0000025890  
+       ! M = 3
+       SOL1TNL(82,3) = .0000007826  
+       SOL8TNL(82,3) = .0000052410  
+       TET4TNL(82,3) = .0000008028  
+       TET10TNL(82,3)= .0000030570  
+!     LAW 83 (user solid property) IGT=43
+       SOL1TNL(83,1) = .0000013690  
+       SOL8TNL(83,1) = .0000013690  
+       TET4TNL(83,1) = .0000013690
+       TET10TNL(83,1)= .0000013690
+!     LAW 84
+       SOL1TNL(84,1) = .0000002771
+       SOL8TNL(84,1) = .0000018140
+       TET4TNL(84,1) = .0000002489
+       TET10TNL(84,1)= .0000007861
+!     LAW 88
+       SOL1TNL(88,1) = .0000003902
+       SOL8TNL(88,1) = .0000296600
+       TET4TNL(88,1) = .0000003749
+       TET10TNL(88,1)= .0000014590
+!     LAW 90
+!       SOL1TNL(90,1) = .000000    
+!     LAW 92
+       SOL1TNL(92,1) = .0000004932 
+       SOL8TNL(92,1) = .0000037140 
+       TET4TNL(92,1) = .0000004553 
+       TET10TNL(92,1)= .0000017860 
+!     LAW 95
+       SOL1TNL(95,1) = .0000005950 
+       SOL8TNL(95,1) = .0000045150 
+       TET4TNL(95,1) = .0000005905 
+       TET10TNL(95,1)= .0000021230
+!     LAW 97
+       SOL1TNL(97,1) = .0000003053
+       SOL8TNL(97,1) = .0000022300
+       TET4TNL(97,1) = .0000002500
+       TET10TNL(97,1)= .0000009410
+!     LAW 100 : material cost = base cost + viscosity cost + N * network cost
+!     LAW 100 (base)
+       SOL1TNL(100,1) = .0000002280
+       SOL8TNL(100,1) = .0000002280
+       TET4TNL(100,1) = .0000002280
+       TET10TNL(100,1)= .0000002280
+
+!     LAW 100 (viscosity)
+       SOL1TNL(100,2) = .0000001390
+       SOL8TNL(100,2) = .0000001390
+       TET4TNL(100,2) = .0000001390
+       TET10TNL(100,2)= .0000001390
+
+!     LAW 100 (network)
+       SOL1TNL(100,3) = .0000002000
+       SOL8TNL(100,3) = .0000002000
+       TET4TNL(100,3) = .0000002000
+       TET10TNL(100,3)= .0000002000 
+!     LAW 101
+!       SOL1TNL(101,1) = .0000002493
+!       SOL8TNL(101,1) = .0000018090
+!       TET4TNL(101,1) = .0000002246
+!       TET10TNL(101,1)= .0000009194
+!     LAW 102
+       SOL1TNL(102,1) = .0000002770
+       SOL8TNL(102,1) = .0000020330
+       TET4TNL(102,1) = .0000002560
+       TET10TNL(102,1)= .0000010010
+!     LAW 103
+       SOL1TNL(103,1) = .0000003287
+       SOL8TNL(103,1) = .0000023320
+       TET4TNL(103,1) = .0000003141
+       TET10TNL(103,1)= .0000011940
+!     LAW 104
+       ! Nice algo
+       SOL1TNL(104,1) = .0000002150
+       SOL8TNL(104,1) = .0000002150
+       TET4TNL(104,1) = .0000002150
+       TET10TNL(104,1) = .0000002150
+       ! Newton algo
+       SOL1TNL(104,2) = .0000003200
+       SOL8TNL(104,2) = .0000003200
+       TET4TNL(104,2) = .0000003200
+       TET10TNL(104,2) = .0000003200
+       ! iloc=1
+       SOL_OPTION(1,1) = .0000000600
+       ! iloc=2
+       SOL_OPTION(1,2) = .0000000800
+       ! iloc=3
+       SOL_OPTION(1,3) = .0000001100
+!     LAW 106
+!       SOL1TNL(106,1) = .0000002493
+!       SOL8TNL(106,1) = .0000018090
+!       TET4TNL(106,1) = .0000002246
+!       TET10TNL(106,1)= .0000009194
+!     LAW 187
+       SOL1TNL(187,1) = .0000003805
+       SOL8TNL(187,1) = .0000029720
+       TET4TNL(187,1) = .0000003709
+       TET10TNL(187,1)= .0000021430
+
+       IF (IPARI0.EQ.1) THEN
+!        SOLTELT : 
+!        1 --> ISOLID = 1
+!        2 --> ISOLID = 2
+!        3 --> ISOLID = 24
+!        4 --> ISOLID = 12
+!        5 --> ISOLID = 14 HA8 with NPT=2*2*2 (fixed part of element cost)
+!        6 --> ISOLID = 14 HA8 (overcost for NPT > 2*2*2)
+!              HA8 cost : COST = HA8 (222) cost + (NPT-8) * overcost
+!        7 --> ISOLID = 17 H8C
+!        8 --> IGTYP  = 43
+!        9 --> ISOLID = 18 H8C
+!        NLOCAL_OPTION
+!        1 --> sol
+!        2 --> shell
+!
+!        TET4ELT :
+!        1 --> TETRA 4
+!        2 --> TETRA 4 with IROT = 1
+!        TETRA10ELT
+!        1 --> TETRA10
+
+         SOLTELT(1)  =.0000009528 
+         SOLTELT(2)  =.0000008540 
+         SOLTELT(3)  =.0000013420 
+         SOLTELT(4)  =.0000015180 
+         SOLTELT(5)  =.0000041200 
+         SOLTELT(6)  =.0000003812 
+         SOLTELT(7)  =.0000026600 
+         SOLTELT(8)  =.0000012750 
+         SOLTELT(9)  =.0000030520
+         TET4TELT(1) =.0000004744 
+         TET4TELT(2) =.0000016460 
+         TET10TELT(1)=.0000018340 
+         NLOCAL_OPTION(1) = .0000002450
+       ELSE
+         SOLTELT(1)  =.0000006901 
+         SOLTELT(2)  =.0000005650 
+         SOLTELT(3)  =.0000011240 
+         SOLTELT(4)  =.0000013490 
+         SOLTELT(5)  =.0000036580 
+         SOLTELT(6)  =.0000004100 
+         SOLTELT(7)  =.0000022490 
+         SOLTELT(8)  =.0000009907 
+         SOLTELT(9)  =.0000023800
+         TET4TELT(1) =.0000002688 
+         TET4TELT(2) =.0000014960 
+         TET10TELT(1)=.0000016200 
+         NLOCAL_OPTION(1) = .0000002450
+       ENDIF
+
+! -------------
+!    Coques
+! -------------
+
+
+
+!   Tableau SHTNL
+!   ---------------
+!
+!   Temps par elt/cycle pour les materieux coques
+!   SHTNL(I,J,K)=
+!   1er  Champ : numero du materiaux
+!   2 champs : nbre de pts d integration, de taille 0:4
+!              4 sont consideres :
+!              * 0 : 0pt d integ
+!              * 1 : 1pt d integ
+!              * 2 : 3pt d integ
+!              * 3 : 5pt d integ
+!              Les autres temps pour les NPT, sont calculees par interpolation avec ces 3
+!              valeurs.
+!
+!   3e champ : option particuliere au besoin
+!
+! -------------
+!    Triangles
+! -------------
+
+!   Tableau TRITNL
+!   ---------------
+!
+!   Temps par elt/cycle pour les materieux coques
+!   TRITNL(I,J,K)=
+!   1er  Champ : numero du materiaux
+!   2e champ : nbre de pts d integration, de taille 0:4
+!              4 sont consideres :
+!              * 0 : 0pt d integ
+!              * 1 : 1pt d integ
+!              * 2 : 3pt d integ
+!              * 3 : 5pt d integ
+!              Les autres temps pour les NPT, sont calculees par interpolation avec ces 3
+!              valeurs.
+!
+!   3e champ : option particuliere au besoin
+!
+!
+!   Tableau TRITELT
+!   ---------------
+!
+!  Temps par elt/cycle pour le traitement de l hourglas en fct de /IPARITH
+
+        DO I=1,3
+         DO J = 0, MAXLAW
+         SHTNL(J,0,I) = .0000001480  
+         SHTNL(J,1,I) = .0000002013
+         SHTNL(J,2,I) = .0000003894  
+         SHTNL(J,3,I) = .0000005561  
+C
+         TRITNL(J,0,I)= .0000001373  
+         TRITNL(J,1,I)= .0000002035  
+         TRITNL(J,2,I)= .0000003892  
+         TRITNL(J,3,I)= .0000005410  
+         ENDDO
+        ENDDO
+!       special option for shell or shell3n
+        SHTNL_OPTION(1:10,1:5) = 0.
+!     LAW 01
+         SHTNL(1,0,1) = .0000000897  
+         SHTNL(1,1,1) = .0000000811  
+         SHTNL(1,2,1) = .0000001004  
+         SHTNL(1,3,1) = .0000001032  
+C
+         TRITNL(1,0,1)= .0000000999  
+         TRITNL(1,1,1)= .0000000797  
+         TRITNL(1,2,1)= .0000001024  
+         TRITNL(1,3,1)= .0000000999  
+!     LAW 02
+         SHTNL(2,0,1) = .0000001480  
+         SHTNL(2,1,1) = .0000002013
+         SHTNL(2,2,1) = .0000003894  
+         SHTNL(2,3,1) = .0000005561  
+C
+         TRITNL(2,0,1)= .0000001373  
+         TRITNL(2,1,1)= .0000002035  
+         TRITNL(2,2,1)= .0000003892  
+         TRITNL(2,3,1)= .0000005410  
+!     LAW 02 CC
+         SHTNL(2,0,2) = .0000001606   
+         SHTNL(2,1,2) = .0000002124
+         SHTNL(2,2,2) = .0000004265   
+         SHTNL(2,3,2) = .0000006057   
+C
+         TRITNL(2,0,2)= .0000001751   
+         TRITNL(2,1,2)= .0000002033
+         TRITNL(2,2,2)= .0000004272 
+         TRITNL(2,3,2)= .0000006010 
+!     LAW 15
+         SHTNL(15,0,1) = .0000003761
+         SHTNL(15,1,1) = .0000003761 
+         SHTNL(15,2,1) = .0000008287 
+         SHTNL(15,3,1) = .0000012890 
+C
+         TRITNL(15,0,2)= .0000003652 
+         TRITNL(15,1,2)= .0000003711 
+         TRITNL(15,2,2)= .0000008201 
+         TRITNL(15,3,2)= .0000011750 
+
+!     LAW 19
+         SHTNL(19,0,1) = .0000002260 
+         SHTNL(19,1,1) = .0000002260 
+         SHTNL(19,2,1) = .0000004591 
+         SHTNL(19,3,1) = .0000006188 
+C
+         TRITNL(19,0,1)= .0000002100
+         TRITNL(19,1,1)= .0000002100 
+         TRITNL(19,2,1)= .0000004189
+         TRITNL(19,3,1)= .0000005672 
+!     LAW 22
+         SHTNL(22,0,1) = .0000002349 
+         SHTNL(22,1,1) = .0000002947 
+         SHTNL(22,2,1) = .0000005349 
+         SHTNL(22,3,1) = .0000008162 
+C
+         TRITNL(22,0,1)= .0000002209 
+         TRITNL(22,1,1)= .0000003017    
+         TRITNL(22,2,1)= .0000005351    
+         TRITNL(22,3,1)= .0000008017    
+!     LAW 25  
+         SHTNL(25,0,1) = .0000002511    
+         SHTNL(25,1,1) = .0000002509    
+         SHTNL(25,2,1) = .0000005094    
+         SHTNL(25,3,1) = .0000008026    
+C
+         TRITNL(25,0,1)= .0000002519    
+         TRITNL(25,1,1)= .0000002455    
+         TRITNL(25,2,1)= .0000005096    
+         TRITNL(25,3,1)= .0000007655    
+!     LAW 25 Crasurv (/TYPE11)
+         SHTNL(25,0,2) = .0000004487    
+         SHTNL(25,1,2) = .0000004487    
+         SHTNL(25,2,2) = .0000009845    
+         SHTNL(25,3,2) = .0000015870    
+C
+         TRITNL(25,0,2)= .0000003866    
+         TRITNL(25,1,2)= .0000003786    
+         TRITNL(25,2,2)= .0000009420    
+         TRITNL(25,3,2)= .0000013980    
+!     LAW 27 (0pt incompatible)
+         SHTNL(27,0,1) = .0000003490   
+         SHTNL(27,1,1) = .0000003490   
+         SHTNL(27,2,1) = .0000007537   
+         SHTNL(27,3,1) = .0000011150   
+C
+         TRITNL(27,0,1)= .0000003438   
+         TRITNL(27,1,1)= .0000003396   
+         TRITNL(27,2,1)= .0000007083   
+         TRITNL(27,3,1)= .0000010850   
+!     LAW 32
+         SHTNL(32,0,1) = .0000001841   
+         SHTNL(32,1,1) = .0000002502
+         SHTNL(32,2,1) = .0000004972 
+         SHTNL(32,3,1) = .0000006134 
+C
+         TRITNL(32,0,1)= .0000002125  
+         TRITNL(32,1,1)= .0000002362  
+         TRITNL(32,2,1)= .0000005149  
+         TRITNL(32,3,1)= .0000007843  
+!     LAW 35 (0pt incompatible)
+         SHTNL(35,0,1) = .0000002696  
+         SHTNL(35,1,1) = .0000002696  
+         SHTNL(35,2,1) = .0000005399 
+         SHTNL(35,3,1) = .0000008694 
+C
+         TRITNL(35,0,1)= .0000002629   
+         TRITNL(35,1,1)= .0000002629 
+         TRITNL(35,2,1)= .0000005365 
+         TRITNL(35,3,1)= .0000009575   
+!     LAW 36 - 1 fct
+         SHTNL(36,0,1) = .0000002453 
+         SHTNL(36,1,1) = .0000002975  
+         SHTNL(36,2,1) = .0000005370  
+         SHTNL(36,3,1) = .0000007957  
+C
+         TRITNL(36,0,1)= .0000002315   
+         TRITNL(36,1,1)= .0000003005   
+         TRITNL(36,2,1)= .0000005141   
+         TRITNL(36,3,1)= .0000008021   
+!     LAW 36 - 5 fct
+         SHTNL(36,0,2) = .0000002832     
+         SHTNL(36,1,2) = .0000003655     
+         SHTNL(36,2,2) = .0000005902     
+         SHTNL(36,3,2) = .0000008500     
+C
+         TRITNL(36,0,2)= .0000002975     
+         TRITNL(36,1,2)= .0000003608     
+         TRITNL(36,2,2)= .0000005945     
+         TRITNL(36,3,2)= .0000008260     
+!     LAW 36 - 10 fct 
+         SHTNL(36,0,3) = .0000003180     
+         SHTNL(36,1,3) = .0000003850     
+         SHTNL(36,2,3) = .0000006500     
+         SHTNL(36,3,3) = .0000009020     
+C
+         TRITNL(36,0,3)= .0000003060     
+         TRITNL(36,1,3)= .0000003820     
+         TRITNL(36,2,3)= .0000006540     
+         TRITNL(36,3,3)= .0000009000     
+!     LAW 42
+         SHTNL(42,0,1) = .0000005524   
+         SHTNL(42,1,1) = .0000005524   
+         SHTNL(42,2,1) = .0000013820   
+         SHTNL(42,3,1) = .0000022760   
+!     LAW 42 M = 1 
+         SHTNL(42,0,2) = .0000015100   
+         SHTNL(42,1,2) = .0000015100  
+         SHTNL(42,2,2) = .0000045280  
+         SHTNL(42,3,2) = .0000074640  
+!     LAW 42 M = 2 
+         SHTNL(42,0,3) = .0000017720  
+         SHTNL(42,1,3) = .0000017720  
+         SHTNL(42,2,3) = .0000053370  
+         SHTNL(42,3,3) = .0000088600  
+!     LAW 42
+         TRITNL(42,0,1)= .0000005586  
+         TRITNL(42,1,1)= .0000005586  
+         TRITNL(42,2,1)= .0000015540  
+         TRITNL(42,3,1)= .0000022710  
+!     LAW 42 M = 1 
+         TRITNL(42,0,2)= .0000015000  
+         TRITNL(42,1,2)= .0000015000  
+         TRITNL(42,2,2)= .0000044580  
+         TRITNL(42,3,2)= .0000073400  
+!     LAW 42 M = 2 
+         TRITNL(42,0,3)= .0000017200  
+         TRITNL(42,1,3)= .0000017200  
+         TRITNL(42,2,3)= .0000052700  
+         TRITNL(42,3,3)= .0000087000  
+!     LAW 43
+         SHTNL(43,0,1) = .0000002796  
+         SHTNL(43,1,1) = .0000002918  
+         SHTNL(43,2,1) = .0000006119  
+         SHTNL(43,3,1) = .0000009136  
+C
+         TRITNL(43,0,1)= .0000002856   
+         TRITNL(43,1,1)= .0000002743   
+         TRITNL(43,2,1)= .0000006279   
+         TRITNL(43,3,1)= .0000008749   
+!     LAW 44
+         SHTNL(44,0,1) = .0000002640   
+         SHTNL(44,1,1) = .0000002640  
+         SHTNL(44,2,1) = .0000005714   
+         SHTNL(44,3,1) = .0000008505  
+C
+         TRITNL(44,0,1)= .0000002802  
+         TRITNL(44,1,1)= .0000002802 
+         TRITNL(44,2,1)= .0000005076  
+         TRITNL(44,3,1)= .0000007598    
+!     LAW 48
+         SHTNL(48,0,1) = .0000002811   
+         SHTNL(48,1,1) = .0000002811   
+         SHTNL(48,2,1) = .0000005285  
+         SHTNL(48,3,1) = .0000007925  
+C
+         TRITNL(48,0,1)= .0000002764  
+         TRITNL(48,1,1)= .0000002764  
+         TRITNL(48,2,1)= .0000005447  
+         TRITNL(48,3,1)= .0000007677  
+!     LAW 52
+         SHTNL(52,0,1) = .0000002313 
+         SHTNL(52,1,1) = .0000002313 
+         SHTNL(52,2,1) = .0000004775 
+         SHTNL(52,3,1) = .0000007161 
+C
+         TRITNL(52,0,1)= .0000002422 
+         TRITNL(52,1,1)= .0000002422 
+         TRITNL(52,2,1)= .0000004612 
+         TRITNL(52,3,1)= .0000007237 
+!     LAW 57
+         SHTNL(57,0,1) = .0000005039 
+         SHTNL(57,1,1) = .0000005039 
+         SHTNL(57,2,1) = .0000013330 
+         SHTNL(57,3,1) = .0000021130 
+C
+         TRITNL(57,0,1)= .0000005568 
+         TRITNL(57,1,1)= .0000005568 
+         TRITNL(57,2,1)= .0000014330 
+         TRITNL(57,3,1)= .0000022840 
+!     LAW 58
+!        No visc (FLAGUL==0)
+         SHTNL(58,0,1) = .0000005435  
+         SHTNL(58,1,1) = .0000006044  
+         SHTNL(58,2,1) = .0000017910  
+         SHTNL(58,3,1) = .0000028510  
+C
+         TRITNL(58,0,1)= .0000005733  
+         TRITNL(58,1,1)= .0000005733  
+         TRITNL(58,2,1)= .0000015320  
+         TRITNL(58,3,1)= .0000023640  
+!     LAW 60
+         SHTNL(60,0,1) = .0000003498  
+         SHTNL(60,1,1) = .0000003992  
+         SHTNL(60,2,1) = .0000008897  
+         SHTNL(60,3,1) = .0000013350  
+!
+         TRITNL(60,0,1)= .0000003850  
+         TRITNL(60,1,1)= .0000003997  
+         TRITNL(60,2,1)= .0000009103  
+         TRITNL(60,3,1)= .0000014110  
+!     LAW 62
+         ! M = 0             
+         SHTNL(62,0,1) = .0000008089  
+         SHTNL(62,1,1) = .0000008089  
+         SHTNL(62,2,1) = .0000021360  
+         SHTNL(62,3,1) = .0000034950  
+         ! M = 1            
+         SHTNL(62,0,2) = .0000014640  
+         SHTNL(62,1,2) = .0000014640  
+         SHTNL(62,2,2) = .0000041200  
+         SHTNL(62,3,2) = .0000067100  
+         ! M = 2             
+         SHTNL(62,0,3) = .0000017390  
+         SHTNL(62,1,3) = .0000017390  
+         SHTNL(62,2,3) = .0000048970  
+         SHTNL(62,3,3) = .0000079110  
+C
+         ! M = 0
+         TRITNL(62,0,1)= .0000008167  
+         TRITNL(62,1,1)= .0000008167  
+         TRITNL(62,2,1)= .0000021660  
+         TRITNL(62,3,1)= .0000034760  
+         ! M = 1
+         TRITNL(62,0,1)= .0000014950  
+         TRITNL(62,1,1)= .0000014950  
+         TRITNL(62,2,1)= .0000040800  
+         TRITNL(62,3,1)= .0000067340   
+         ! M = 2
+         TRITNL(62,0,1)= .0000017140   
+         TRITNL(62,1,1)= .0000017140   
+         TRITNL(62,2,1)= .0000048680   
+         TRITNL(62,3,1)= .0000079480   
+!     LAW 63
+         SHTNL(63,0,1) = .0000002904   
+         SHTNL(63,1,1) = .0000002904   
+         SHTNL(63,2,1) = .0000006582   
+         SHTNL(63,3,1) = .0000009983   
+C
+         TRITNL(63,0,1)= .0000002766  
+         TRITNL(63,1,1)= .0000002766  
+         TRITNL(63,2,1)= .0000005871
+         TRITNL(63,3,1)= .0000008944
+!     LAW 64
+         SHTNL(64,0,1) = .0000003364 
+         SHTNL(64,1,1) = .0000003364 
+         SHTNL(64,2,1) = .0000007866 
+         SHTNL(64,3,1) = .0000011920 
+C
+         TRITNL(64,0,1)= .0000003426  
+         TRITNL(64,1,1)= .0000003426  
+         TRITNL(64,2,1)= .0000007550  
+         TRITNL(64,3,1)= .0000011970  
+!     LAW 65
+         SHTNL(65,0,1) = .0000003350  
+         SHTNL(65,1,1) = .0000003350  
+         SHTNL(65,2,1) = .0000007280  
+         SHTNL(65,3,1) = .0000011240  
+C
+         TRITNL(65,0,1)= .0000003324  
+         TRITNL(65,1,1)= .0000003324  
+         TRITNL(65,2,1)= .0000007364  
+         TRITNL(65,3,1)= .0000011200  
+!     LAW 66
+         SHTNL(66,0,1) = .0000003310  
+         SHTNL(66,1,1) = .0000003310  
+         SHTNL(66,2,1) = .0000007200  
+         SHTNL(66,3,1) = .0000011010  
+C
+         TRITNL(66,0,1)= .0000003725  
+         TRITNL(66,1,1)= .0000003666  
+         TRITNL(66,2,1)= .0000007924  
+         TRITNL(66,3,1)= .0000011650  
+!     LAW 69 
+         ! M = 0 (no visc)
+         SHTNL(69,0,1) = .0000013330  
+         SHTNL(69,1,1) = .0000013330  
+         SHTNL(69,2,1) = .0000032970  
+         SHTNL(69,3,1) = .0000054280  
+         ! M = 1 (visc)
+         SHTNL(69,0,2) = .0000014210   
+         SHTNL(69,1,2) = .0000014210   
+         SHTNL(69,2,2) = .0000039620   
+         SHTNL(69,3,2) = .0000064560   
+         ! M = 2 (visc)
+         SHTNL(69,0,3) = .0000016580   
+         SHTNL(69,1,3) = .0000016580   
+         SHTNL(69,2,3) = .0000045270   
+         SHTNL(69,3,3) = .0000074700   
+C
+         ! M = 0 (no visc)
+         TRITNL(69,0,1)= .0000010400   
+         TRITNL(69,1,1)= .0000010400   
+         TRITNL(69,2,1)= .0000027280   
+         TRITNL(69,3,1)= .0000044630   
+         ! M = 1
+         TRITNL(69,0,2)= .0000012490   
+         TRITNL(69,1,2)= .0000012490   
+         TRITNL(69,2,2)= .0000035000   
+         TRITNL(69,3,2)= .0000055580   
+         ! M = 2
+         TRITNL(69,0,3)= .0000014430   
+         TRITNL(69,1,3)= .0000014430   
+         TRITNL(69,2,3)= .0000040510   
+         TRITNL(69,3,3)= .0000065830   
+!     LAW 71 (incompatible npt=0)
+         SHTNL(71,0,1) = .0000005878   
+         SHTNL(71,1,1) = .0000005878   
+         SHTNL(71,2,1) = .0000014690   
+         SHTNL(71,3,1) = .0000024250   
+C
+         TRITNL(71,0,1)= .0000006319  
+         TRITNL(71,1,1)= .0000006919  
+         TRITNL(71,2,1)= .0000015420  
+         TRITNL(71,3,1)= .0000024620  
+!     LAW 72
+         SHTNL(72,0,1) = .0000003671  
+         SHTNL(72,1,1) = .0000003671  
+         SHTNL(72,2,1) = .0000007838  
+         SHTNL(72,3,1) = .0000012730  
+C
+         TRITNL(72,0,1)= .0000003591  
+         TRITNL(72,1,1)= .0000003591  
+         TRITNL(72,2,1)= .0000007633  
+         TRITNL(72,3,1)= .0000011460  
+!     LAW 73
+         SHTNL(73,0,1) = .0000003456  
+         SHTNL(73,1,1) = .0000003689  
+         SHTNL(73,2,1) = .0000007752  
+         SHTNL(73,3,1) = .0000012010  
+C
+         TRITNL(73,0,1)= .0000003618  
+         TRITNL(73,1,1)= .0000003371  
+         TRITNL(73,2,1)= .0000007637  
+         TRITNL(73,3,1)= .0000012300  
+!     LAW 76
+         SHTNL(76,0,1) = .0000007383  
+         SHTNL(76,1,1) = .0000007476  
+         SHTNL(76,2,1) = .0000018800  
+         SHTNL(76,3,1) = .0000029980  
+C
+         TRITNL(76,0,1)= .0000007008  
+         TRITNL(76,1,1)= .0000007008  
+         TRITNL(76,2,1)= .0000018360  
+         TRITNL(76,3,1)= .0000029000  
+!     LAW 78
+         SHTNL(78,0,1) = .0000002921  
+         SHTNL(78,1,1) = .0000002921  
+         SHTNL(78,2,1) = .0000005980  
+         SHTNL(78,3,1) = .0000009682  
+C
+         TRITNL(78,0,1)= .0000002936  
+         TRITNL(78,1,1)= .0000002939  
+         TRITNL(78,2,1)= .0000005670  
+         TRITNL(78,3,1)= .0000008430  
+!     LAW 80
+         SHTNL(80,0,1) = .0000015110  
+         SHTNL(80,1,1) = .0000014400  
+         SHTNL(80,2,1) = .0000040060  
+         SHTNL(80,3,1) = .0000065840  
+C
+         TRITNL(80,0,1)= .0000013660  
+         TRITNL(80,1,1)= .0000013660  
+         TRITNL(80,2,1)= .0000039870  
+         TRITNL(80,3,1)= .0000063540  
+!     LAW 82 (incompatible NPT=0) 
+!        N = 1
+         SHTNL(82,0,1) = .0000006991  
+         SHTNL(82,1,1) = .0000007022  
+         SHTNL(82,2,1) = .0000017930  
+         SHTNL(82,3,1) = .0000028300  
+!
+         TRITNL(82,0,1)= .0000006886  
+         TRITNL(82,1,1)= .0000007115  
+         TRITNL(82,2,1)= .0000017680  
+         TRITNL(82,3,1)= .0000028740  
+!        N = 2
+         SHTNL(82,0,2) = .0000010470  
+         SHTNL(82,1,2) = .0000010430  
+         SHTNL(82,2,2) = .0000027830  
+         SHTNL(82,3,2) = .0000045710  
+!
+         TRITNL(82,0,2)= .0000010690  
+         TRITNL(82,1,2)= .0000010330  
+         TRITNL(82,2,2)= .0000028430  
+         TRITNL(82,3,2)= .0000046350  
+!        N = 3
+         SHTNL(82,0,3) = .0000013880 
+         SHTNL(82,1,3) = .0000014040 
+         SHTNL(82,2,3) = .0000038590 
+         SHTNL(82,3,3) = .0000063230 
+!
+         TRITNL(82,0,3)= .0000014340 
+         TRITNL(82,1,3)= .0000014220 
+         TRITNL(82,2,3)= .0000038320 
+         TRITNL(82,3,3)= .0000063450 
+!     LAW 87
+         SHTNL(87,0,1) = .0000003592 
+         SHTNL(87,1,1) = .0000003592 
+         SHTNL(87,2,1) = .0000007907 
+         SHTNL(87,3,1) = .0000011520 
+!
+         TRITNL(87,0,1)= .0000003754 
+         TRITNL(87,1,1)= .0000003874 
+         TRITNL(87,2,1)= .0000008403 
+         TRITNL(87,3,1)= .0000012850 
+!     LAW 93
+         SHTNL(93,0,1) = .0000002801 
+         SHTNL(93,1,1) = .0000002801 
+         SHTNL(93,2,1) = .0000005238 
+         SHTNL(93,3,1) = .0000007912 
+!
+         TRITNL(93,0,1)= .0000002629 
+         TRITNL(93,1,1)= .0000002629 
+         TRITNL(93,2,1)= .0000005262   
+         TRITNL(93,3,1)= .0000008110
+!     LAW 104
+         ! Nice algo
+         SHTNL(104,0,1) = .0000002823
+         SHTNL(104,1,1) = .0000002823
+         SHTNL(104,2,1) = .0000005580
+         SHTNL(104,3,1) = .0000008341
+         ! Newton algo
+         SHTNL(104,0,2) = .0000004489
+         SHTNL(104,1,2) = .0000004489
+         SHTNL(104,2,2) = .0000008839
+         SHTNL(104,3,2) = .0000011360
+         ! Nice algo
+         TRITNL(104,0,1) = .0000002823
+         TRITNL(104,1,1) = .0000002823
+         TRITNL(104,2,1) = .0000005580
+         TRITNL(104,3,1) = .0000008341
+         ! Newton algo
+         TRITNL(104,0,2) = .0000004489
+         TRITNL(104,1,2) = .0000004489
+         TRITNL(104,2,2) = .0000008839
+         TRITNL(104,3,2) = .0000011360
+         ! iloc=1
+         SHTNL_OPTION(1,1) = .0000000900
+         ! iloc=2
+         SHTNL_OPTION(1,2) = .0000001000
+         ! iloc=3
+         SHTNL_OPTION(1,3) = .0000002300   
+C Temps de traitement de la partie elementaire sans la loi materielle fonction de IPARITH
+        IF (IPARI0.EQ.1) THEN
+!       SHELT :
+!       1-->5 --> /SHELL 
+!       6-->10 --> /SH_COMP or TYPE10
+!       11-->15 --> /SH_SANDW or TYPE11
+!       15-->20 --> /SH_ORTH or TYPE9
+!       20-->25 --> /SH_FABR or TYPE16
+!       IDRILL = 0
+!       1/6/11/16/21 --> Q4 
+!       2/7/12/17/22 --> QEPH 
+!       3/8/13/18/23 --> BATOZ 
+!       IDRILL = 1
+!       none         --> Q4 
+!       4/9 /14/19/24 --> QEPH 
+!       5/10/15/20/25 --> BATOZ 
+!       TRIELT :
+!       1 --> tri    
+!       NLOCAL_OPTION
+!       1 --> sol
+!       2 --> shell
+!         /SHELL
+          SHTELT(1) = .0000005629   
+          SHTELT(2) = .0000007050   
+          SHTELT(3) = .0000013190
+          SHTELT(4) = .0000009213   
+          SHTELT(5) = .0000016710   
+!         /SH_COMP
+          SHTELT(6) = .0000007170   
+          SHTELT(7) = .0000009040
+          SHTELT(8) = .0000015630
+          SHTELT(9) = .0000011660
+          SHTELT(10)= .0000018400
+!         /SH_SANDW
+          SHTELT(11) = .0000006329
+          SHTELT(12) = .0000008915
+          SHTELT(13) = .0000014100
+          SHTELT(14) = .0000012220
+          SHTELT(15) = .0000018450
+!         /SH_ORTH
+          SHTELT(16) = .0000004117
+          SHTELT(17) = .0000007741
+          SHTELT(18) = .0000014700
+          SHTELT(19) = .0000010510
+          SHTELT(20) = .0000016530
+!         /SH_FABR
+          SHTELT(21) = .0000006739
+          SHTELT(22) = .0000007792
+          SHTELT(23) = .0000014680
+          SHTELT(24) = .0000011780
+          SHTELT(25) = .0000018450
+
+!         /TYPE51
+          SHTELT(26) = .0000014800
+          SHTELT(27) = .0000017300
+          SHTELT(28) = .0000035000
+          SHTELT(29) = .0000017700
+          SHTELT(30) = .0000051700
+  
+          TRITELT(1)= .0000004724  
+
+          NLOCAL_OPTION(2) = .0000001000
+        ELSE
+!         /SHELL
+          SHTELT(1) = .0000004647   
+          SHTELT(2) = .0000005736   
+          SHTELT(3) = .0000012330   
+          SHTELT(4) = .0000007605   
+          SHTELT(5) = .0000013700   
+!         /SH_COMP
+          SHTELT(6) = .0000005935
+          SHTELT(7) = .0000007462
+          SHTELT(8) = .0000013800
+          SHTELT(9) = .0000009625   
+          SHTELT(10)= .0000015200   
+!         /SH_SANDW
+          SHTELT(11) = .0000005224
+          SHTELT(12) = .0000007354
+          SHTELT(13) = .0000012600
+          SHTELT(14) = .0000010100   
+          SHTELT(15) = .0000015200   
+!         /SH_ORTH
+          SHTELT(16) = .0000003400
+          SHTELT(17) = .0000006300
+          SHTELT(18) = .0000013040
+          SHTELT(19) = .0000008676 
+          SHTELT(20) = .0000013600   
+!         /SH_FABR
+          SHTELT(21) = .0000005500
+          SHTELT(22) = .0000006440
+          SHTELT(23) = .0000012700
+          SHTELT(24) = .0000009658   
+          SHTELT(25) = .0000015100  
+
+!         /TYPE51
+          SHTELT(26) = .0000012300
+          SHTELT(27) = .0000014400
+          SHTELT(28) = .0000029000
+          SHTELT(29) = .0000014700
+          SHTELT(30) = .0000038500
+
+          TRITELT(1)= .0000003936  
+
+          NLOCAL_OPTION(2) = .0000001000
+
+        ENDIF
+
+! il y a un facteur multiplicatif sur les coques de Batoz, car on rentre 4x dans cmain3.
+
+       BATOZMULT = 3.8
+
+! *******************************************************************
+!                         Failure model
+! *******************************************************************
+! Johnson       : 1
+! Tbutcher      : 2
+! Wilkins       : 3
+! user1         : 4
+! user2         : 5
+! user3         : 6
+! FLD           : 7     (for shell only)
+! Spalling      : 8     (for solid only)
+! Wierzbicki    : 9
+! Tensstrain    : 10 
+! Energy        : 11
+! ???           : 12
+! Chang         : 13    (for shell only)    
+! Hashin        : 14
+! Yamada        : 15
+! Puck          : 16
+! XFEM_Tbutcher : 17
+! Lad_dama      : 18    (for solid only)    
+! Power_da      : 19
+! Connect       : 20    (for solid only)    
+! XFEM_Johns    : 21
+! XFEM_FLD      : 22
+! TAB1          : 23
+! Orthstra      : 24    (for shell only)    
+! NXT           : 25    (for shell only)    
+! Snconnect     : 26    (for solid only)    
+! EMC           : 27    (for solid only)    
+! Wind          : 28    (for shell only)    
+! Sahraei1      : 29    (for solid only)    
+! Biquadratic   : 30
+!                             _
+! SHELL : 1--> 0 ou 1pt        |
+!         2--> 3 pts           |--- MLN < 28 or ==32
+!         3--> 5 pts          _|
+!         4--> 0 ou 1pt        |
+!         5--> 3 pts           |--- MLN >= 28 or /=32
+!         6--> 5 pts          _|
+!
+! SOLIDE       : 1 ----> MLN <28 or ==49
+!                2 ----> MLN >=28 or /=49
+! --------------------------------------------------------
+         DO I=1,MAXFAIL
+          DO J=1,3
+           RUPTURE_SOL(I,J)   = 0.
+           RUPTURE_SOL12(I,J) = 0.
+           RUPTURE_TET4(I,J)  = 0.
+           RUPTURE_TET10(I,J) = 0.
+          ENDDO
+          DO J=1,6
+           RUPTURE_SHELL(I,J) = 0.
+          ENDDO
+         ENDDO
+! --------------------
+! Johnson
+         ! MLN <28 or ==32                      
+         RUPTURE_SHELL(1,1)  = .00000007517     
+         RUPTURE_SHELL(1,2)  = .00000019090     
+         RUPTURE_SHELL(1,3)  = .00000031460     
+
+         ! MLN >=28 or /=32
+         RUPTURE_SHELL(1,4)  = .00000003021     
+         RUPTURE_SHELL(1,5)  = .00000007567     
+         RUPTURE_SHELL(1,6)  = .00000011620     
+
+         ! MLN <28 or ==49
+         RUPTURE_SOL(1,1)    = .00000008839     
+         RUPTURE_SOL12(1,1)  = .00000017710     
+         RUPTURE_TET4(1,1)   = .00000008021     
+         RUPTURE_TET10(1,1)  = .00000033420     
+	 ! MLN >=28 or /=49
+         RUPTURE_SOL(1,2)    = .00000002696     
+         RUPTURE_SOL12(1,2)  = .00000015790     
+         RUPTURE_TET4(1,2)   = .00000002663     
+         RUPTURE_TET10(1,2)  = .00000010360     
+! --------------------
+! Tbutcher
+         ! MLN <28 or ==49
+         RUPTURE_SHELL(2,1)  = .00000004873     
+         RUPTURE_SHELL(2,2)  = .00000010840     
+         RUPTURE_SHELL(2,3)  = .00000016340     
+
+         RUPTURE_SHELL(2,4)  = .00000003994     
+         RUPTURE_SHELL(2,5)  = .00000010130     
+         RUPTURE_SHELL(2,6)  = .00000015690     
+
+         ! MLN <28 or ==49
+         RUPTURE_SOL(2,1)    = .00000004718     
+         RUPTURE_SOL12(2,1)  = .00000031390     
+         RUPTURE_TET4(2,1)   = .00000010090     
+         RUPTURE_TET10(2,1)  = .00000040130     
+
+         ! MLN >=28 or /=49
+         RUPTURE_SOL(2,2)    = .00000004949     
+         RUPTURE_SOL12(2,2)  = .00000030290     
+         RUPTURE_TET4(2,2)   = .00000004449     
+         RUPTURE_TET10(2,2)  = .00000016800     
+! --------------------
+! Wilkins
+         ! MLN <28 or ==49
+         RUPTURE_SHELL(3,1)  = .00000011660     
+         RUPTURE_SHELL(3,2)  = .00000032760     
+         RUPTURE_SHELL(3,3)  = .00000052680     
+
+         RUPTURE_SHELL(3,4)  = .00000011410     
+         RUPTURE_SHELL(3,5)  = .00000032760     
+         RUPTURE_SHELL(3,6)  = .00000052910     
+
+         ! MLN <28 or ==49
+         RUPTURE_SOL(3,1)    = .00000023210     
+         RUPTURE_SOL12(3,1)  = .00000131700     
+         RUPTURE_TET4(3,1)   = .00000016440     
+         RUPTURE_TET10(3,1)  = .00000075060     
+
+         ! MLN >=28 or /=49
+         RUPTURE_SOL(3,2)    = .00000016870     
+         RUPTURE_SOL12(3,2)  = .00000129800     
+         RUPTURE_TET4(3,2)   = .00000011060     
+         RUPTURE_TET10(3,2)  = .00000051000     
+! --------------------
+! FLD (only for shell)
+         ! MLN <28 or ==32
+         RUPTURE_SHELL(7,1)  = .00000010900     
+         RUPTURE_SHELL(7,2)  = .00000021590     
+         RUPTURE_SHELL(7,3)  = .00000031890     
+
+         ! MLN >=28 or /=32
+         RUPTURE_SHELL(7,4)  = .00000007162     
+         RUPTURE_SHELL(7,5)  = .00000019550     
+         RUPTURE_SHELL(7,6)  = .00000031220     
+! --------------------
+! Spalling (only for solid)
+
+         ! MLN <28 or ==49
+         RUPTURE_SOL(8,1)    = .00000009428     
+         RUPTURE_SOL12(8,1)  = .00000025070     
+         RUPTURE_TET4(8,1)   = .00000009402     
+         RUPTURE_TET10(8,1)  = .00000038110     
+
+         ! MLN >=28 or /=49
+         RUPTURE_SOL(8,2)    = .00000003871     
+         RUPTURE_SOL12(8,2)  = .00000023730     
+         RUPTURE_TET4(8,2)   = .00000003716     
+         RUPTURE_TET10(8,2)  = .00000014820     
+! --------------------
+! Wierzbicki
+         ! MLN <28 or ==49
+         RUPTURE_SHELL(9,1)  = .00000025370     
+         RUPTURE_SHELL(9,2)  = .00000071910     
+         RUPTURE_SHELL(9,3)  = .00000118100     
+
+         RUPTURE_SHELL(9,4)  = .00000024610     
+         RUPTURE_SHELL(9,5)  = .00000071940     
+         RUPTURE_SHELL(9,6)  = .00000118500     
+
+         ! MLN <28 or ==49
+         RUPTURE_SOL(9,1)    = .00000008443     
+         RUPTURE_SOL12(9,1)  = .00000011190     
+         RUPTURE_TET4(9,1)   = .00000008236     
+         RUPTURE_TET10(9,1)  = .00000032530     
+
+         ! MLN >=28 or /=49
+         RUPTURE_SOL(9,2)    = .00000002591     
+         RUPTURE_SOL12(9,2)  = .00000016310     
+         RUPTURE_TET4(9,2)   = .00000002483     
+         RUPTURE_TET10(9,2)  = .00000008821     
+! --------------------
+! Tensstrain
+         ! MLN <28 or ==32 
+         RUPTURE_SHELL(10,1) = .00000009068     
+         RUPTURE_SHELL(10,2) = .00000016430     
+         RUPTURE_SHELL(10,3) = .00000023120     
+
+         ! MLN >=28 or /=32
+         RUPTURE_SHELL(10,4) = .00000004473     
+         RUPTURE_SHELL(10,5) = .00000012650     
+         RUPTURE_SHELL(10,6) = .00000019170     
+
+         ! MLN <28 or ==49
+         RUPTURE_SOL(10,1)   = .00000013990     
+         RUPTURE_SOL12(10,1) = .00000025600     
+         RUPTURE_TET4(10,1)  = .00000010960     
+         RUPTURE_TET10(10,1) = .00000047680     
+
+         ! MLN >=28 or /=49
+         RUPTURE_SOL(10,2)   = .00000008052     
+         RUPTURE_SOL12(10,2) = .00000056320     
+         RUPTURE_TET4(10,2)  = .00000005430     
+         RUPTURE_TET10(10,2) = .00000025250     
+! --------------------
+! Energy
+         ! MLN <28 or ==49
+         RUPTURE_SHELL(11,1) = .00000005295     
+         RUPTURE_SHELL(11,2) = .00000011720     
+         RUPTURE_SHELL(11,3) = .00000017760     
+
+         RUPTURE_SHELL(11,4) = .00000003770     
+         RUPTURE_SHELL(11,5) = .00000010100     
+         RUPTURE_SHELL(11,6) = .00000015840     
+
+         ! MLN <28 or ==49
+         RUPTURE_SOL(11,1)   = .00000009413     
+         RUPTURE_SOL12(11,1) = .00000009015     
+         RUPTURE_TET4(11,1)  = .00000009164     
+         RUPTURE_TET10(11,1) = .00000037960     
+
+         ! MLN >=28 or /=49
+         RUPTURE_SOL(11,2)   = .00000003883     
+         RUPTURE_SOL12(11,2) = .00000025910     
+         RUPTURE_TET4(11,2)  = .00000003753     
+         RUPTURE_TET10(11,2) = .00000014030     
+! --------------------
+! Chang (only for shell)
+         ! MLN <28 or ==49
+         RUPTURE_SHELL(13,1) = .00000004822     
+         RUPTURE_SHELL(13,2) = .00000010740     
+         RUPTURE_SHELL(13,3) = .00000016000     
+         ! MLN >=28 or /=49
+         RUPTURE_SHELL(13,4) = .00000003770     
+         RUPTURE_SHELL(13,5) = .00000010100     
+         RUPTURE_SHELL(13,6) = .00000015840     
+! --------------------
+! Hashin
+         ! MLN <28 or ==49
+         RUPTURE_SHELL(14,1) = .00000007989     
+         RUPTURE_SHELL(14,2) = .00000025240     
+         RUPTURE_SHELL(14,3) = .00000040300     
+
+         RUPTURE_SHELL(14,4) = .00000007989     
+         RUPTURE_SHELL(14,5) = .00000025240     
+         RUPTURE_SHELL(14,6) = .00000040300     
+
+         ! MLN <28 or ==49
+         RUPTURE_SOL(14,1)   = .00000013480     
+         RUPTURE_SOL12(14,1) = .00000107400     
+         RUPTURE_TET4(14,1)  = .00000012500     
+         RUPTURE_TET10(14,1) = .00000054770     
+
+         ! MLN >=28 or /=49
+         RUPTURE_SOL(14,2)   = .00000001289     
+         RUPTURE_SOL12(14,2) = .00000010990     
+         RUPTURE_TET4(14,2)  = .00000001302     
+         RUPTURE_TET10(14,2) = .00000005823     
+! --------------------
+! Puck (compatible MLN<28)
+         ! MLN <28 or ==49
+         RUPTURE_SHELL(16,1) = .00000007462     
+         RUPTURE_SHELL(16,2) = .00000018470     
+         RUPTURE_SHELL(16,3) = .00000028840     
+
+         RUPTURE_SHELL(16,4) = .00000006606     
+         RUPTURE_SHELL(16,5) = .00000017190     
+         RUPTURE_SHELL(16,6) = .00000027600     
+
+         ! MLN <28 or ==49
+         RUPTURE_SOL(16,1)   = .00000013060     
+         RUPTURE_SOL12(16,1) = .00000008806     
+         RUPTURE_TET4(16,1)  = .00000012170     
+         RUPTURE_TET10(16,1) = .00000042400     
+
+         RUPTURE_SOL(16,2)   = .00000005419     
+         RUPTURE_SOL12(16,2) = .00000007646     
+         RUPTURE_TET4(16,2)  = .00000001338     
+         RUPTURE_TET10(16,2) = .00000004460     
+! --------------------
+! Lad_Dama (compatible MLN<28) (only for solid)
+         ! MLN <28 or ==49
+         RUPTURE_SOL(18,1)   = .00000016890     
+         RUPTURE_SOL12(18,1) = .00000008820     
+         RUPTURE_TET4(18,1)  = .00000013980     
+         RUPTURE_TET10(18,1) = .00000058630     
+
+         RUPTURE_SOL(18,2)   = .00000016890     
+         RUPTURE_SOL12(18,2) = .00000008820     
+         RUPTURE_TET4(18,2)  = .00000013980     
+         RUPTURE_TET10(18,2) = .00000058630     
+! --------------------
+! Connect (compatible MLN==59 et 83)
+         ! MLN==59
+         RUPTURE_SOL(20,1)   = .00000054140     
+         RUPTURE_SOL12(20,1) = .00000054140     
+         RUPTURE_TET4(20,1)  = .00000054140     
+         RUPTURE_TET10(20,1) = .00000054140     
+        ! MLN==83
+         RUPTURE_SOL(20,2)   = .00000054140     
+         RUPTURE_SOL12(20,2) = .00000054140     
+         RUPTURE_TET4(20,2)  = .00000054140     
+         RUPTURE_TET10(20,2) = .00000054140     
+! -------------------- 
+! Tab1 
+         ! MLN <28 or ==49
+         RUPTURE_SHELL(23,1) = .00000021020     
+         RUPTURE_SHELL(23,2) = .00000060850     
+         RUPTURE_SHELL(23,3) = .00000098850     
+
+         RUPTURE_SHELL(23,4) = .00000021590     
+         RUPTURE_SHELL(23,5) = .00000062580     
+         RUPTURE_SHELL(23,6) = .0000009949     
+
+         ! MLN <28 or ==49
+         RUPTURE_SOL(23,1)   = .00000031120     
+         RUPTURE_SOL12(23,1) = .00000192900     
+         RUPTURE_TET4(23,1)  = .00000026620     
+         RUPTURE_TET10(23,1) = .00000118100     
+
+        ! MLN >=28 or /=49
+         RUPTURE_SOL(23,2)   = .00000025940     
+         RUPTURE_SOL12(23,2) = .00000198600     
+         RUPTURE_TET4(23,2)  = .00000022330     
+         RUPTURE_TET10(23,2) = .00000096400     
+! --------------------
+! NXT (only for shell)
+         ! MLN <28 or ==32 
+         RUPTURE_SHELL(25,1) = .00000014880     
+         RUPTURE_SHELL(25,2) = .00000032860     
+         RUPTURE_SHELL(25,3) = .00000051100     
+
+         ! MLN >=28 or /=32 
+         RUPTURE_SHELL(25,4) = .00000008550     
+         RUPTURE_SHELL(25,5) = .00000024030     
+         RUPTURE_SHELL(25,6) = .00000038060     
+! --------------------
+! Snconnect (compatible MLN==59 et 83)
+         ! MLN==59
+         RUPTURE_SOL(26,1)   = .00000065150     
+         RUPTURE_SOL12(26,1) = .00000065150     
+         RUPTURE_TET4(26,1)  = .00000065150     
+         RUPTURE_TET10(26,1) = .00000065150     
+         ! MLN==83
+         RUPTURE_SOL(26,2)   = .00000065150     
+         RUPTURE_SOL12(26,2) = .00000065150     
+         RUPTURE_TET4(26,2)  = .00000065150     
+         RUPTURE_TET10(26,2) = .00000065150     
+! --------------------
+! EMC (only for solid)
+         ! MLN <28 or ==49
+         RUPTURE_SOL(27,1)   = .00000007774     
+         RUPTURE_SOL12(27,1) = .00000013030     
+         RUPTURE_TET4(27,1)  = .00000007539     
+         RUPTURE_TET10(27,1) = .00000029830     
+
+        ! MLN >=28 or /=49
+         RUPTURE_SOL(27,2)   = .00000001913     
+         RUPTURE_SOL12(27,2) = .00000010660     
+         RUPTURE_TET4(27,2)  = .00000001654     
+         RUPTURE_TET10(27,2) = .00000006008     
+! --------------------
+! Alter (only shell/tri)
+         ! MLN <28 or ==49
+         RUPTURE_SHELL(28,1) = .0000001580
+         RUPTURE_SHELL(28,2) = .0000003324
+         RUPTURE_SHELL(28,3) = .0000006238    
+
+         RUPTURE_SHELL(28,4) = .0000001580
+         RUPTURE_SHELL(28,5) = .0000003324
+         RUPTURE_SHELL(28,6) = .0000006238      
+! --------------------
+! Biquad
+         ! MLN <28 or ==49
+         RUPTURE_SHELL(30,1) = .00000003069     
+         RUPTURE_SHELL(30,2) = .00000005533     
+         RUPTURE_SHELL(30,3) = .00000008252     
+
+         RUPTURE_SHELL(30,4) = .00000003133     
+         RUPTURE_SHELL(30,5) = .00000006587     
+         RUPTURE_SHELL(30,6) = .00000010300     
+
+         ! MLN <28 or ==49
+         RUPTURE_SOL(30,1)   = .00000008026     
+         RUPTURE_SOL12(30,1) = .00000013200     
+         RUPTURE_TET4(30,1)  = .00000007523     
+         RUPTURE_TET10(30,1) = .00000030150     
+
+         RUPTURE_SOL(30,2)   = .00000001929     
+         RUPTURE_SOL12(30,2) = .00000011930     
+         RUPTURE_TET4(30,2)  = .00000001793     
+         RUPTURE_TET10(30,2) = .00000006588     
+! --------------------

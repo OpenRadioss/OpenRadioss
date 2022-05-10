@@ -1,0 +1,1 @@
+         -arch=linux64_gf  (SMP executable / Gfortran compiler)

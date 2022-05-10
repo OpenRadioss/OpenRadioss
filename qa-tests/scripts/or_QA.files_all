@@ -1,0 +1,53 @@
+#
+# qafile : or_QA.files_all
+#
+
+# Letters for QA groups (i.e. used in 'test' command)
+# a    -   short QA
+# b    -   long QA
+# c    -   ??? 20+ examples
+# d    -   (doc) tutorial tests - file 60.0 (tutorial)
+# f    -   hyperform tests - files 18.0 28.0 (hfs full_hfs)
+# g    -   Validation of the results, mostly long run
+# h    -   hwsolver.tcl qa
+# i    -   ??? 3 examples in 3.0 
+# m    -   mbd tests - file 43.0 49.0 (mbd testyk_flexprep)
+# t    -   tough tests - file 41.0 52.0 (full_os tough_models)
+# s    -   ??? 7 examples e.g. 3 in 26.0 (testhj)
+# E    -   excluded tests for --echo_test ( failure is legitimate)
+# P    -   excluded tests for parallel OS qa
+# R    -   exclude RAM estimate errors (e.g. when I8 solver or min-core)
+
+# RADIOSS QA :
+# 3 letters defined in QA.files with "test abc"
+#
+# the 1st one defines the speed :
+# a    -   very short QA (miniqa, ...)
+# b    -   short QA
+# c    -   mi long QA
+# d    -   long QA
+# e    -   very long QA
+#
+# the 2nd one (may) define(s) the groups :
+# a   -   CRASH ? 
+# b   -   ALE ?
+# c   -   FVMBAG ?
+# d   -   STAMPING ?
+#
+# the 3rd one defines the limitation:
+# P    -   SPMD limitation
+# E    -   electric fence limitation
+# S    -   Single Precision limitation
+
+# To exclude any test use 'test #whatever', i.e. use '#' as a speed flag
+# this test will never be executed, unless explicitly called for
+
+# Use following to find all files for a given group (e.g. 's'):
+# perl ./qa_script <exec> --list_only Xs
+# but some file subdirectories are not checked out by default (full_os,
+# full_hfs, mbd, tough_models
+
+
+# 1
+include or_QA.files_1miniqa
+

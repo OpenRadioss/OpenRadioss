@@ -1,0 +1,8 @@
+Provenance : interne
+Date de derniere modification : 26/05/2000
+Confidentiel ? non
+Description : box1 mis au format par bloc
+note : les differences entre BOX1V23 et BOX1BL viennent de l'hourglass
+Modification du jeu de donnees :
+- BB, le 22/04/04 : Tfreq=0.001 au lieu de 1-10
+Responsable : jbm

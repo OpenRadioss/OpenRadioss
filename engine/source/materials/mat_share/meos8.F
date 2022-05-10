@@ -1,0 +1,204 @@
+Copyright>        OpenRadioss
+Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
+Copyright>    
+Copyright>        This program is free software: you can redistribute it and/or modify
+Copyright>        it under the terms of the GNU Affero General Public License as published by
+Copyright>        the Free Software Foundation, either version 3 of the License, or
+Copyright>        (at your option) any later version.
+Copyright>    
+Copyright>        This program is distributed in the hope that it will be useful,
+Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+Copyright>        GNU Affero General Public License for more details.
+Copyright>    
+Copyright>        You should have received a copy of the GNU Affero General Public License
+Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+Copyright>    
+Copyright>    
+Copyright>        Commercial Alternative: Altair Radioss Software 
+Copyright>    
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+Chd|====================================================================
+Chd|  MEOS8                         source/materials/mat_share/meos8.F
+Chd|-- called by -----------
+Chd|        MMAIN8                        source/materials/mat_share/mmain8.F
+Chd|-- calls ---------------
+Chd|        MQVISC8                       source/materials/mat_share/mqvisc8.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|====================================================================
+      SUBROUTINE MEOS8(PM,OFF,SIG,EINT,RHO,QOLD,VOL,
+     .                 RK,T,RE,STIFN,NEL,
+     .                 D1,D2,D3,VNEW,DELTAX,RHO0,DVOL,VD2,VIS,
+     .                 MAT,NC,NGL,GEO,PID,
+     .                 DT2T ,NELTST,ITYPTST, OFFG,MSSA,
+     .                 DMELS,BUFLY ,SSP)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE ELBUFDEF_MOD         
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   G l o b a l   P a r a m e t e r s
+C-----------------------------------------------
+#include      "mvsiz_p.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "param_c.inc"
+#include      "com08_c.inc"
+#include      "vect01_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER MAT(MVSIZ),NC(8,MVSIZ),NGL(MVSIZ),PID(MVSIZ)
+      INTEGER NEL,NELTST,ITYPTST
+C     REAL ou REAL*8
+      my_real
+     . PM(NPROPM,*),
+     . OFF(MVSIZ) ,SIG(NEL,6), EINT(NEL), RHO(NEL) , QOLD(NEL),
+     . VOL(NEL) ,RK(*)       , T(*)       , RE(*)      , STIFN(*)   ,
+     . D1(*)      , D2(*)      , D3(*)      ,
+     . VNEW(MVSIZ), DELTAX(MVSIZ)           , RHO0(MVSIZ), DVOL(MVSIZ),
+     . VD2(MVSIZ) , VIS(MVSIZ),GEO(NPROPG,*), DT2T, OFFG(*),
+     . MSSA(*)    , DMELS(*)   , SSP(MVSIZ)
+      TYPE (BUF_LAY_), TARGET :: BUFLY
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I,J,II,JPT,IPT,MX,JJ(6)
+C     REAL ou REAL*8
+      my_real
+     .   AMU(MVSIZ), AMU2(MVSIZ), ESPE(MVSIZ),
+     .   C1(MVSIZ), C2(MVSIZ), C3(MVSIZ), C4(MVSIZ),
+     .   C5(MVSIZ), C6(MVSIZ), G(MVSIZ) , POLD(MVSIZ), DPDM(MVSIZ),
+     .   A(MVSIZ) , B(MVSIZ) , PC(MVSIZ), PNEW(MVSIZ), DF(MVSIZ),
+     .   PSH(MVSIZ),
+     .   DVV     
+      my_real,
+     .  DIMENSION(:), POINTER :: SIGP
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+C=======================================================================
+      MX     =MAT(LFT)
+C
+      DO J=1,6
+        JJ(J) = NEL*(J-1)
+      ENDDO
+C
+      DO I=LFT,LLT
+        G(I)   =PM(22,MX)
+        C1(I)  =PM(31,MX)
+        C2(I)  =PM(32,MX)
+        C3(I)  =PM(33,MX)
+        C4(I)  =PM(34,MX)
+        C5(I)  =PM(35,MX)
+        C6(I)  =PM(36,MX)
+        PC(I)  =PM(37,MX)
+        PSH(I) =PM(88,MX)
+      ENDDO
+C
+      DO I=LFT,LLT
+        POLD(I)=(SIG(I,1)+SIG(I,2)+SIG(I,3)) * THIRD
+        SIG(I,1)=ZERO
+        SIG(I,2)=ZERO
+        SIG(I,3)=ZERO
+        SIG(I,4)=ZERO
+        SIG(I,5)=ZERO
+        SIG(I,6)=ZERO
+      ENDDO
+C
+      DO I=LFT,LLT
+        DF(I)  =RHO0(I)/RHO(I)
+        AMU(I) =UN/DF(I)-UN
+        AMU2(I)= MAX(ZERO,AMU(I))**2
+        ESPE(I)=DF(I)*EINT(I)/ MAX(EM15,VNEW(I))
+      ENDDO
+C--------------------------------------------------
+C     VITESSE DU SON APPROCHEE COURANTE
+C--------------------------------------------------
+      DO I=LFT,LLT
+        DPDM(I)=UNP333*G(I)
+     .    +C2(I)+DEUX*C3(I)*MAX(ZERO,AMU(I))+TROIS*C4(I)*AMU(I)*AMU(I)
+     .         +C6(I)*ESPE(I)
+     .         +(C5(I)+C6(I)*AMU(I))*DF(I)*DF(I)*
+     .  (PSH(I)+C1(I)+(C2(I)+C4(I)*AMU(I)*AMU(I))*AMU(I)+C3(I)*AMU2(I)+
+     .         (C5(I)+C6(I)*AMU(I))*ESPE(I))
+      ENDDO
+C
+      DO I=LFT,LLT
+        SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
+      ENDDO
+C--------------------------------------------------
+C     VISCOSITE VOLUMETRIQUE ET PAS DE TEMPS
+C--------------------------------------------------
+      CALL MQVISC8(PM,OFF,RHO,RK,T,RE,STIFN,EINT,
+     .                   D1,D2,D3,VNEW,DVOL,
+     .                   VD2,DELTAX,VIS,QOLD,SSP,
+     .                   MAT,NC,NGL,GEO,PID,
+     .                   DT2T ,NELTST,ITYPTST,OFFG,MSSA,
+     .                   DMELS,NEL)
+C--------------------------------------------------
+C     PRESSION
+C--------------------------------------------------
+      DO I=LFT,LLT
+        EINT(I)=EINT(I)+UNDEMI*DVOL(I)*(POLD(I)-PSH(I))*OFF(I)
+        ESPE(I)=DF(I)*EINT(I)/ MAX(EM15,VNEW(I))
+      ENDDO
+C
+      DO I=LFT,LLT
+        A(I)=C1(I)+AMU(I)*(C2(I)+C4(I)*AMU(I)*AMU(I))+C3(I)*AMU2(I)
+        B(I)=C5(I)+C6(I)*AMU(I)
+      ENDDO
+C
+      DO I=LFT,LLT
+        DVV=UNDEMI*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
+        PNEW(I)=(A(I)+(ESPE(I)-PSH(I)*DVV)*B(I))/(UN + B(I)*DVV)
+        PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)
+      ENDDO
+C
+      DO I=LFT,LLT
+        EINT(I)=EINT(I) - UNDEMI*DVOL(I)*(PNEW(I)+PSH(I))
+      ENDDO
+C--------------------------------------------------
+C     CONTRIBUTION VOLUMIQUE AUX POINTS DE GAUSS
+C--------------------------------------------------
+      DO IPT=1,NPT
+        LBUF => BUFLY%LBUF(1,1,IPT)
+        SIGP => BUFLY%LBUF(1,1,IPT)%SIG(1:NEL*6)
+        JPT=(IPT-1)*LLT
+        DO I=LFT,LLT
+          SIGP(JJ(1)+I)= SIGP(JJ(1)+I)-PNEW(I)
+          SIGP(JJ(2)+I)= SIGP(JJ(2)+I)-PNEW(I)
+          SIGP(JJ(3)+I)= SIGP(JJ(3)+I)-PNEW(I)
+          SIGP(JJ(4)+I)= SIGP(JJ(4)+I)        
+          SIGP(JJ(5)+I)= SIGP(JJ(5)+I)        
+          SIGP(JJ(6)+I)= SIGP(JJ(6)+I)       
+        ENDDO
+C--------------------------------------------------
+C     CONTRAINTE MOYENNE (OUTPUT)
+C--------------------------------------------------
+        DO I=LFT,LLT
+          SIG(I,1)=SIG(I,1)+UNHUIT*SIGP(JJ(1)+I)
+          SIG(I,2)=SIG(I,2)+UNHUIT*SIGP(JJ(2)+I)
+          SIG(I,3)=SIG(I,3)+UNHUIT*SIGP(JJ(3)+I)
+          SIG(I,4)=SIG(I,4)+UNHUIT*SIGP(JJ(4)+I)
+          SIG(I,5)=SIG(I,5)+UNHUIT*SIGP(JJ(5)+I)
+          SIG(I,6)=SIG(I,6)+UNHUIT*SIGP(JJ(6)+I)   
+        ENDDO
+      ENDDO ! DO IPT=1,NPT
+C---------------------------------------------
+C
+C  DIVISION PAR LE VOLUME POUR L'ALE <(:o))=
+C  VOL EST LE VOLUME INITIAL EN LAG.
+C
+C---------------------------------------------
+      DO I=LFT,LLT
+        EINT(I)=EINT(I) / MAX(EM15,VOL(I))
+      ENDDO
+C-----------
+      RETURN
+      END

@@ -1,0 +1,428 @@
+Chd|====================================================================
+Chd|  MAT121_NICE                   source/materials/mat/mat121/mat121_nice.F
+Chd|-- called by -----------
+Chd|        SIGEPS121                     source/materials/mat/mat121/sigeps121.F
+Chd|-- calls ---------------
+Chd|        VINTER2                       source/tools/curve/vinter.F   
+Chd|====================================================================
+      SUBROUTINE MAT121_NICE(
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,NPF     ,
+     2         TF      ,TIMESTEP,TIME    ,UPARAM  ,UVAR    ,RHO     ,PLA     ,
+     3         DPLA    ,SOUNDSP ,EPSD    ,OFF     ,
+     4         DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
+     5         EPSPXX  ,EPSPYY  ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX  ,
+     6         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
+     7         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
+     8         SIGY    ,ET      ,SEQ     )
+      !=======================================================================
+      !      Implicit types
+      !=======================================================================
+#include      "implicit_f.inc"
+      !=======================================================================
+      !      Common
+      !=======================================================================
+#include      "param_c.inc" 
+#include      "com01_c.inc"
+#include      "scr17_c.inc"
+      !=======================================================================
+      !      Dummy arguments
+      !=======================================================================
+      INTEGER NEL,NUPARAM,NUVAR,NPF(*),NFUNC,IFUNC(NFUNC)
+      INTEGER ,DIMENSION(NEL), INTENT(IN)    :: NGL
+      my_real 
+     .   TIME,TIMESTEP,TF(*)
+      my_real,DIMENSION(NUPARAM), INTENT(IN) :: 
+     .   UPARAM
+      my_real,DIMENSION(NEL), INTENT(IN)     :: 
+     .   RHO,
+     .   DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX,
+     .   EPSPXX,EPSPYY,EPSPZZ,EPSPXY,EPSPYZ,EPSPZX,
+     .   SIGOXX,SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX
+      my_real ,DIMENSION(NEL), INTENT(OUT)   :: 
+     .   SOUNDSP,SIGY,ET,
+     .   SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX
+      my_real ,DIMENSION(NEL), INTENT(INOUT)       :: 
+     .   PLA,DPLA,EPSD,OFF,SEQ
+      my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
+     .   UVAR
+      !=======================================================================
+      !      Local Variables
+      !=======================================================================
+      INTEGER I,II,Ivisc,NINDX,INDEX(NEL),IPOS(NEL),IAD(NEL),ILEN(NEL)
+      my_real 
+     .   YOUNG(NEL),BULK(NEL),G(NEL),NU,NNU,TANG(NEL),LAM(NEL),G2(NEL),
+     .   AFILTR,Xscale_SIG0,Yscale_SIG0,Xscale_YOUN,Yscale_YOUN,
+     .   Xscale_TANG,Yscale_TANG
+      my_real
+     .   DPDT,DLAM,DDEP,DEPXX,DEPYY,DEVEPSPXX,DEVEPSPYY,DEVEPSPZZ,TREPSP,LDAV,
+     .   NORMXX,NORMYY,NORMZZ,NORMXY,NORMYZ,NORMZX,DENOM,DFDSIG2,DPDT_NL,DEPSDT,
+     .   DPHI,DTINV
+      my_real, DIMENSION(NEL) ::
+     .   SXX,SYY,SZZ,SXY,SYZ,SZX,SIGVM,YLD,HARDP,PHI,DEZZ,YLD0,DYLD0DEPSD,
+     .   DYOUNDEPSD,DTANGDEPSD,TRSIG,DPHI_DLAM,TEST,DPXX,DPYY,DPXY,
+     .   DPZZ,DPYZ,DPZX,DSIGXX,DSIGYY,DSIGZZ,DSIGXY,DSIGYZ,DSIGZX,PHI0
+c
+      !=======================================================================
+      ! - INITIALISATION OF COMPUTATION ON TIME STEP
+      !=======================================================================
+      ! Recovering model parameters
+      ! Elastic parameters     
+      YOUNG(1:NEL) = UPARAM(1)  ! Young modulus
+      BULK(1:NEL)  = UPARAM(2)  ! Bulk modulus 
+      G(1:NEL)     = UPARAM(3)  ! Shear modulus 
+      G2(1:NEL)    = UPARAM(4)  ! 2*Shear modulus
+      LAM(1:NEL)   = UPARAM(5)  ! Lame coefficient
+      NU           = UPARAM(6)  ! Poisson ration 
+      NNU          = UPARAM(7)  ! NU/(1-NU) 
+      ! Flags for computation
+      Ivisc        = NINT(UPARAM(12)) ! Viscosity formulation      
+      ! Strain-rate filtering (if Ivisc = 0)
+      AFILTR       = MIN(UN, UPARAM(14)*TIMESTEP)
+      ! Initial yield stress vs strain-rate curve
+      Xscale_SIG0  = UPARAM(16) ! Strain-rate scale factor
+      Yscale_SIG0  = UPARAM(17) ! Initial yield stress scale factor
+      ! Young modulus vs strain-rate curve
+      Xscale_YOUN  = UPARAM(18) ! Strain-rate scale factor
+      Yscale_YOUN  = UPARAM(19) ! Young modulus scale factor
+      ! Tangent modulus vs strain-rate curve
+      IF (IFUNC(3) > 0) THEN 
+        Xscale_TANG  = UPARAM(20) ! Strain-rate scale factor
+        Yscale_TANG  = UPARAM(21) ! Tangent modulus scale factor 
+        TANG(1:NEL)  = ZERO
+      ELSE
+        TANG(1:NEL)  = UPARAM(21) ! Constant tangent modulus
+      ENDIF
+      DTINV          = UN/MAX(TIMESTEP,EM20) ! Inverse of timestep
+c      
+      ! Recovering internal variables
+      DO I=1,NEL
+        IF (OFF(I) < EM01) OFF(I) = ZERO
+        IF (OFF(I) < UN)   OFF(I) = OFF(I)*QCINQ
+        ! User inputs
+        PHI0(I)       = UVAR(I,1) ! Previous yield function value
+        ! Standard inputs
+        DPLA(I)       = ZERO ! Initialization of the plastic strain increment
+        ET(I)         = UN   ! Initialization of hourglass coefficient
+        HARDP(I)      = ZERO ! Initialization of hourglass coefficient
+        DPXX(I)       = ZERO ! Initialization of the XX plastic strain increment
+        DPYY(I)       = ZERO ! Initialization of the YY plastic strain increment
+        DPZZ(I)       = ZERO ! Initialization of the ZZ plastic strain increment
+        DPXY(I)       = ZERO ! Initialization of the XY plastic strain increment
+        DPYZ(I)       = ZERO ! Initialization of the YZ plastic strain increment
+        DPZX(I)       = ZERO ! Initialization of the ZX plastic strain increment
+        DYLD0DEPSD(I) = ZERO ! Initialization of the derivative of SIG0
+        DYOUNDEPSD(I) = ZERO ! Initialization of the derivative of YOUN
+        DTANGDEPSD(I) = ZERO ! Initialization of the derivative of TANG
+      ENDDO
+c      
+      ! Filling the strain-rate vector
+      IF (Ivisc == 0) THEN 
+        ! Compute effective strain-rate
+        DO I = 1,NEL
+          TREPSP    = TIERS*(EPSPXX(I) + EPSPYY(I) + EPSPZZ(I))
+          DEVEPSPXX = EPSPXX(I) - TREPSP
+          DEVEPSPYY = EPSPYY(I) - TREPSP
+          DEVEPSPZZ = EPSPZZ(I) - TREPSP
+          DEPSDT    = DTIERS*(DEVEPSPXX**2 + DEVEPSPYY**2 + DEVEPSPZZ**2 +
+     .                        DEUX*(EPSPXY(I)**2) + DEUX*(EPSPYZ(I)**2) + 
+     .                        DEUX*(EPSPZX(I)**2))
+          DEPSDT    = SQRT(MAX(DEPSDT,ZERO))
+          EPSD(I)   = AFILTR * DEPSDT + (UN - AFILTR) * EPSD(I)
+        ENDDO
+      ELSE
+        ! Reset plastic strain-rate
+        EPSD(1:NEL) = ZERO
+      ENDIF    
+c   
+      ! Compute the initial yield stress
+      IPOS(1:NEL)      = 1
+      IAD (1:NEL)      = NPF(IFUNC(1)) / 2 + 1
+      ILEN(1:NEL)      = NPF(IFUNC(1)+1) / 2 - IAD(1:NEL) - IPOS(1:NEL)
+      CALL VINTER2(TF,IAD,IPOS,ILEN,NEL,EPSD/Xscale_SIG0,DYLD0DEPSD,YLD0)
+      YLD0(1:NEL)       = Yscale_SIG0*YLD0(1:NEL)
+      IF (Ivisc == 1) THEN
+        IF (UVAR(1,2) == ZERO) THEN 
+          DYLD0DEPSD(1:NEL) = Yscale_SIG0*DYLD0DEPSD(1:NEL)
+        ELSE
+          DYLD0DEPSD(1:NEL) = UVAR(1:NEL,2)
+        ENDIF
+      ENDIF
+      ! Compute the Young modulus
+      IF (IFUNC(2) > 0) THEN
+        IPOS(1:NEL)    = 1
+        IAD (1:NEL)    = NPF(IFUNC(2)) / 2 + 1
+        ILEN(1:NEL)    = NPF(IFUNC(2)+1) / 2 - IAD(1:NEL) - IPOS(1:NEL)
+        CALL VINTER2(TF,IAD,IPOS,ILEN,NEL,EPSD/Xscale_YOUN,DYOUNDEPSD,YOUNG) 
+        YOUNG(1:NEL)   = Yscale_YOUN*YOUNG(1:NEL)
+        G(1:NEL)       = UNDEMI * YOUNG(1:NEL) / (UN + NU)
+        G2(1:NEL)      = YOUNG(1:NEL) / (UN + NU)
+        BULK(1:NEL)    = TIERS * YOUNG(1:NEL) / (UN - NU*DEUX)
+        LAM(1:NEL)     = G2(1:NEL) * NU /(UN - DEUX*NU)  
+      ENDIF
+      ! Compute the Tangent modulus
+      IF (IFUNC(3) > 0) THEN 
+        IPOS(1:NEL) = 1
+        IAD (1:NEL) = NPF(IFUNC(3)) / 2 + 1
+        ILEN(1:NEL) = NPF(IFUNC(3)+1) / 2 - IAD(1:NEL) - IPOS(1:NEL)
+        CALL VINTER2(TF,IAD,IPOS,ILEN,NEL,EPSD/Xscale_TANG,DTANGDEPSD,TANG) 
+        TANG(1:NEL) = Yscale_TANG*TANG(1:NEL)     
+        IF (Ivisc == 1) THEN 
+          IF (UVAR(1,3) == ZERO) THEN    
+            DTANGDEPSD(1:NEL) = Yscale_TANG*DTANGDEPSD(1:NEL)
+          ELSE
+            DTANGDEPSD(1:NEL) = UVAR(1:NEL,3)
+          ENDIF
+        ENDIF
+      ENDIF
+      ! Check tangent modulus value + Assembling the yield stress
+      DO I = 1,NEL
+        IF (TANG(I) >= 0.99D0*YOUNG(I)) THEN 
+          TANG(I) = 0.99D0*YOUNG(I)
+        ENDIF
+        YLD(I) = YLD0(I) + (YOUNG(I)*TANG(I)/(YOUNG(I)-TANG(I)))*PLA(I)
+      ENDDO
+c      
+      !========================================================================
+      ! - COMPUTATION OF TRIAL VALUES
+      !========================================================================      
+      DO I=1,NEL
+        ! Computation of the trial stress tensor
+        LDAV = (DEPSXX(I) + DEPSYY(I) + DEPSZZ(I)) * LAM(I)
+        SIGNXX(I) = SIGOXX(I) + DEPSXX(I)*G2(I) + LDAV
+        SIGNYY(I) = SIGOYY(I) + DEPSYY(I)*G2(I) + LDAV
+        SIGNZZ(I) = SIGOZZ(I) + DEPSZZ(I)*G2(I) + LDAV
+        SIGNXY(I) = SIGOXY(I) + DEPSXY(I)*G(I)
+        SIGNYZ(I) = SIGOYZ(I) + DEPSYZ(I)*G(I)
+        SIGNZX(I) = SIGOZX(I) + DEPSZX(I)*G(I)
+        ! Computation of the trace of the trial stress tensor
+        TRSIG(I)  = SIGNXX(I) + SIGNYY(I) + SIGNZZ(I)
+        ! Computation of the deviatoric trial stress tensor
+        SXX(I)    = SIGNXX(I) - TRSIG(I) * THIRD
+        SYY(I)    = SIGNYY(I) - TRSIG(I) * THIRD
+        SZZ(I)    = SIGNZZ(I) - TRSIG(I) * THIRD
+        SXY(I)    = SIGNXY(I)
+        SYZ(I)    = SIGNYZ(I)
+        SZX(I)    = SIGNZX(I)
+        ! Von Mises equivalent stress
+        SIGVM(I)  = TDEMI*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2) + TROIS*SXY(I)**2
+     .              + TROIS*SYZ(I)**2 + TROIS*SZX(I)**2
+        SIGVM(I)  = SQRT(SIGVM(I))
+      ENDDO
+c      
+      !========================================================================
+      ! - COMPUTATION OF YIELD FONCTION
+      !========================================================================
+      PHI(1:NEL) = SIGVM(1:NEL) - YLD(1:NEL)
+c     
+      ! Checking plastic behavior for all elements
+      NINDX = 0
+      DO I=1,NEL         
+        IF (PHI(I) > ZERO .AND. OFF(I) == UN) THEN
+          NINDX=NINDX+1
+          INDEX(NINDX)=I
+        ENDIF
+      ENDDO
+c      
+      !====================================================================
+      ! - PLASTIC CORRECTION WITH NICE - EXPLICIT METHOD
+      !====================================================================
+      IF (NINDX > 0) THEN   
+#include "vectorize.inc" 
+        ! Loop over yielding elements
+        DO II=1,NINDX 
+c      
+          ! Number of the element with plastic behaviour  	
+          I = INDEX(II)  
+c        
+          ! Computation of the trial stress increment
+          LDAV = (DEPSXX(I) + DEPSYY(I) + DEPSZZ(I)) * LAM(I)
+          DSIGXX(I) = DEPSXX(I)*G2(I) + LDAV
+          DSIGYY(I) = DEPSYY(I)*G2(I) + LDAV
+          DSIGZZ(I) = DEPSZZ(I)*G2(I) + LDAV
+          DSIGXY(I) = DEPSXY(I)*G(I)   
+          DSIGYZ(I) = DEPSYZ(I)*G(I)     
+          DSIGZX(I) = DEPSZX(I)*G(I)
+c        
+          ! Computation of the old Von Mises stress
+          TRSIG(I)  = SIGOXX(I) + SIGOYY(I) + SIGOZZ(I)
+          SXX(I)    = SIGOXX(I) - TRSIG(I) * THIRD
+          SYY(I)    = SIGOYY(I) - TRSIG(I) * THIRD
+          SZZ(I)    = SIGOZZ(I) - TRSIG(I) * THIRD
+          SXY(I)    = SIGOXY(I)
+          SYZ(I)    = SIGOYZ(I)
+          SZX(I)    = SIGOZX(I) 
+          SIGVM(I)  = TDEMI*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2) + TROIS*SXY(I)**2
+     .                + TROIS*SYZ(I)**2 + TROIS*SZX(I)**2
+          SIGVM(I)  = SQRT(SIGVM(I))
+c        
+          ! Note     : in this part, the purpose is to compute for each iteration
+          ! a plastic multiplier allowing to update internal variables to satisfy
+          ! the consistency condition. 
+          ! Its expression is : DLAMBDA = - (PHI + DPHI) / DPHI_DLAMBDA
+          ! -> PHI  : current value of yield function (known)
+          ! -> DPHI : yield function prediction (to compute)
+          ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
+          !                   into account of internal variables kinetic : 
+          !                   plasticity, temperature and damage (to compute)
+c        
+          ! 1 - Computation of DPHI_DSIG the normal to the yield surface
+          !-------------------------------------------------------------
+          NORMXX = TDEMI*SXX(I)/SIGVM(I)
+          NORMYY = TDEMI*SYY(I)/SIGVM(I)
+          NORMZZ = TDEMI*SZZ(I)/SIGVM(I)
+          NORMXY = TROIS*SXY(I)/SIGVM(I)
+          NORMYZ = TROIS*SYZ(I)/SIGVM(I)
+          NORMZX = TROIS*SZX(I)/SIGVM(I)
+c        
+          ! Restoring previous value of the yield function
+          PHI(I) = PHI0(I)
+c
+          ! Computation of yield surface trial increment DPHI       
+          DPHI = NORMXX * DSIGXX(I)  
+     .         + NORMYY * DSIGYY(I)   
+     .         + NORMZZ * DSIGZZ(I)
+     .         + NORMXY * DSIGXY(I)
+     .         + NORMYZ * DSIGYZ(I)
+     .         + NORMZX * DSIGZX(I)   
+c          
+          ! 2 - Computation of DPHI_DLAMBDA
+          !---------------------------------------------------------
+c        
+          !   a) Derivative with respect stress increments tensor DSIG
+          !   --------------------------------------------------------
+          DFDSIG2 = NORMXX * NORMXX * G2(I)
+     .            + NORMYY * NORMYY * G2(I)
+     .            + NORMZZ * NORMZZ * G2(I)
+     .            + NORMXY * NORMXY * G(I)
+     .            + NORMYZ * NORMYZ * G(I)
+     .            + NORMZX * NORMZX * G(I)
+c         
+          !   b) Derivatives with respect to plastic strain P
+          !   ------------------------------------------------
+          HARDP(I) = (YOUNG(I)*TANG(I)/(YOUNG(I)-TANG(I)))  
+          IF (Ivisc == 1) THEN   
+            HARDP(I) = HARDP(I) + DYLD0DEPSD(I)*DTINV + 
+     .                 ((YOUNG(I)*DTANGDEPSD(I)*(YOUNG(I) - TANG(I))
+     .                 + YOUNG(I)*TANG(I)*DTANGDEPSD(I))/
+     .                 ((YOUNG(I) - TANG(I))**2))*DTINV*PLA(I)     
+          ENDIF
+c            
+          ! 3 - Computation of plastic multiplier and variables update
+          !----------------------------------------------------------
+c          
+          ! Derivative of PHI with respect to DLAM
+          DPHI_DLAM(I) = - DFDSIG2 - HARDP(I)
+          DPHI_DLAM(I) = SIGN(MAX(ABS(DPHI_DLAM(I)),EM20),DPHI_DLAM(I))      
+c          
+          ! Computation of the plastic multiplier
+          DLAM = -(PHI(I)+DPHI)/DPHI_DLAM(I)   
+c          
+          ! Plastic strains tensor update
+          DPXX(I) = DLAM * NORMXX
+          DPYY(I) = DLAM * NORMYY
+          DPZZ(I) = DLAM * NORMZZ
+          DPXY(I) = DLAM * NORMXY
+          DPYZ(I) = DLAM * NORMYZ
+          DPZX(I) = DLAM * NORMZX
+c          
+          ! Elasto-plastic stresses update   
+          SIGNXX(I) = SIGNXX(I) - DPXX(I)*G2(I)
+          SIGNYY(I) = SIGNYY(I) - DPYY(I)*G2(I)
+          SIGNZZ(I) = SIGNZZ(I) - DPZZ(I)*G2(I)
+          SIGNXY(I) = SIGNXY(I) - DPXY(I)*G(I)
+          SIGNYZ(I) = SIGNYZ(I) - DPYZ(I)*G(I)
+          SIGNZX(I) = SIGNZX(I) - DPZX(I)*G(I)
+c
+          ! Computation of the trace of the new stress tensor
+          TRSIG(I)  = SIGNXX(I) + SIGNYY(I) + SIGNZZ(I)
+          ! Computation of the new deviatoric stress tensor
+          SXX(I)    = SIGNXX(I) - TRSIG(I) * THIRD
+          SYY(I)    = SIGNYY(I) - TRSIG(I) * THIRD
+          SZZ(I)    = SIGNZZ(I) - TRSIG(I) * THIRD
+          SXY(I)    = SIGNXY(I)
+          SYZ(I)    = SIGNYZ(I)
+          SZX(I)    = SIGNZX(I)
+c          
+          ! Cumulated plastic strain and strain rate update
+          DPLA(I) = MAX(ZERO,DPLA(I) + DLAM)
+          PLA(I)  = MAX(ZERO,PLA(I) + DLAM)
+          IF (Ivisc == 1) THEN 
+            EPSD(I) = DPLA(I)*DTINV
+          ENDIF
+c          
+          ! Von Mises equivalent stress update
+          SIGVM(I)  = TDEMI*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2) + TROIS*SXY(I)**2
+     .                + TROIS*SYZ(I)**2 + TROIS*SZX(I)**2
+          SIGVM(I)  = SQRT(SIGVM(I))
+c
+          IF (Ivisc == 0) THEN 
+            ! Yield stress update
+            YLD(I) = YLD0(I) + (YOUNG(I)*TANG(I)/(YOUNG(I)-TANG(I)))*PLA(I)
+            ! Yield function value update
+            PHI(I) = SIGVM(I) - YLD(I)
+          ENDIF
+c             
+        ENDDO
+        ! End of the loop over yielding elements 
+c
+        ! Update variable for full viscoplastic formulation
+        IF (Ivisc == 1) THEN 
+          ! Compute the initial yield stress
+          IPOS(1:NEL)     = 1
+          IAD (1:NEL)     = NPF(IFUNC(1)) / 2 + 1
+          ILEN(1:NEL)     = NPF(IFUNC(1)+1) / 2 - IAD(1:NEL) - IPOS(1:NEL)
+          CALL VINTER2(TF,IAD,IPOS,ILEN,NEL,EPSD/Xscale_SIG0,DYLD0DEPSD,YLD0) 
+          YLD0(1:NEL)       = Yscale_SIG0*YLD0(1:NEL)
+          DYLD0DEPSD(1:NEL) = Yscale_SIG0*DYLD0DEPSD(1:NEL)
+          ! Compute the Tangent modulus
+          IF (IFUNC(3) > 0) THEN 
+            IPOS(1:NEL) = 1
+            IAD (1:NEL) = NPF(IFUNC(3)) / 2 + 1
+            ILEN(1:NEL) = NPF(IFUNC(3)+1) / 2 - IAD(1:NEL) - IPOS(1:NEL)
+            CALL VINTER2(TF,IAD,IPOS,ILEN,NEL,EPSD/Xscale_TANG,DTANGDEPSD,TANG) 
+            TANG(1:NEL) = Yscale_TANG*TANG(1:NEL)          
+            DTANGDEPSD(1:NEL) = Yscale_TANG*DTANGDEPSD(1:NEL)
+          ENDIF
+          ! Updating values
+          DO II=1,NINDX 
+            I = INDEX(II)
+            ! Check tangent modulus value 
+            IF (TANG(I) >= 0.99D0*YOUNG(I)) THEN 
+              TANG(I) = 0.99D0*YOUNG(I)
+              DTANGDEPSD(I) = ZERO
+            ENDIF
+            ! Yield stress update
+            YLD(I) = YLD0(I) + (YOUNG(I)*TANG(I)/(YOUNG(I)-TANG(I)))*PLA(I)
+            ! Yield function value update
+            PHI(I) = SIGVM(I) - YLD(I)
+          ENDDO
+        ENDIF 
+      ENDIF
+      !===================================================================
+      ! - END OF PLASTIC CORRECTION WITH NICE - EXPLICIT 1 METHOD
+      !=================================================================== 
+c
+      ! Storing new values
+      DO I=1,NEL  
+        ! Storage of yield function value
+        IF (DPLA(I) > ZERO) THEN 
+          UVAR(I,1) = PHI(I)
+        ELSE
+          UVAR(I,1) = ZERO
+        ENDIF
+        ! Storage of derivatives in case of viscoplastic formulation
+        IF (Ivisc == 1) THEN 
+          UVAR(I,2) = DYLD0DEPSD(I)
+          UVAR(I,3) = DTANGDEPSD(I)
+        ENDIF
+        ! USR Outputs
+        SEQ(I) = SIGVM(I) ! SIGEQ
+        ! Coefficient for hourglass
+        ET(I) = HARDP(I) / (HARDP(I) + YOUNG(I)) 
+        ! Computation of the sound speed   
+        SOUNDSP(I) = SQRT((BULK(I) + QTIERS*G(I))/RHO(I))
+        ! Storing the yield stress
+        SIGY(I) = YLD(I)  
+      ENDDO
+c      
+      END

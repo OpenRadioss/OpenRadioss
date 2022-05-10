@@ -1,0 +1,55 @@
+Chd|====================================================================
+Chd|  MATPARAM_R2R_VOID             source/elements/elbuf_init/matparam_r2r_void.F
+Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
+Chd|-- calls ---------------
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|====================================================================
+      SUBROUTINE MATPARAM_R2R_VOID(MATPARAM_TAB, MATPARAM_INI, NUMMAT0  ,NUMMAT  )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MATPARAM_DEF_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "scr17_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER NUMMAT0,NUMMAT
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT ) :: MATPARAM_TAB
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT0) :: MATPARAM_INI
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I
+C=======================================================================
+c     Copy matparam from standard materials
+c
+      DO I = 1,NUMMAT0
+        MATPARAM_TAB(I)%ILAW               = MATPARAM_INI(I)%ILAW
+        MATPARAM_TAB(I)%MAT_ID             = MATPARAM_INI(I)%MAT_ID
+        MATPARAM_TAB(I)%COMPRESSIBILITY    = MATPARAM_INI(I)%COMPRESSIBILITY
+        MATPARAM_TAB(I)%SMSTR              = MATPARAM_INI(I)%SMSTR
+        MATPARAM_TAB(I)%STRAIN_FORMULATION = MATPARAM_INI(I)%STRAIN_FORMULATION
+        MATPARAM_TAB(I)%NTABLE             = MATPARAM_INI(I)%NTABLE           
+      ENDDO
+c
+c     Fill matparam for additional rad2rad void materials
+c
+      DO I = NUMMAT0+1,NUMMAT
+        MATPARAM_TAB(I)%ILAW               = 0
+        MATPARAM_TAB(I)%MAT_ID             = 0
+        MATPARAM_TAB(I)%COMPRESSIBILITY    = 0   
+        MATPARAM_TAB(I)%SMSTR              = 0             
+        MATPARAM_TAB(I)%STRAIN_FORMULATION = 0
+        MATPARAM_TAB(I)%NTABLE             = 0            
+      ENDDO
+c-----------------------------------------------
+      RETURN
+      END

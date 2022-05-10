@@ -1,0 +1,23 @@
+Provenance : interne
+Date de derniere modification : 03/05/02
+Confidentiel ? non
+
+Description : fichier de test standard, lire motcle pour l'identification
+
+Batterie : 
+- Differences numeriques 11.0 / 10.0 suite a la correction el11-3, changelist 4944 du 11mai 09:
+  Amelioration de la formulation pour lever des problemes potentiels de conditions cinematiques incompatibles
+  ( pour des modeles avec ou sans conditions cinematiques incompatibles )
+
+- BB, le 12 mai 2009 : mise a jour des references pour la version 11main :
+  . cp -pR v11main_linux964_tmp_auto_neo reference_53_linux964_neo
+  . cp -pR v11main_hpp4linux964_spmd_tmp_auto_neo reference_53_hpp4linux964_spmd_neo
+  suite a la correction el11-3, changelist 4944 du 11mai 09
+
+- test introduit dans la batterie de tests a partir du 19 mars
+test modifie le 03/05/02 : format 41 bloc avec multimp=12 pour l'interface de type 7 + temps final modifie (cylindre completement ecrase)
+
+Modification du jeu de donnees :
+- BB, le 030305 : /VERS/30 remplace par /VERS/41
+
+Responsable : bb

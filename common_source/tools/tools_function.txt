@@ -1,0 +1,269 @@
+Tools : Radioss Toolbox
+
+set_tools.cpp
+-------------
+
+remove_duplicates ( int * array, int * size, int *new_size)
+   -------------------------------------------------------------------------------------
+    remove_duplicates : removes dupplicates in a sorted array - result is in same array
+   -------------------------------------------------------------------------------------
+    int * array1      : input/output - array
+    int * size        : input  - size of array
+    int * new_size    : output - new_size after duplicate removal
+   ------------------------------------------------------------------
+
+
+union_2_sorted_sets (int * array1, int * array1_size,
+                     int * array2, int * array2_size,
+                     int * result, int * result_size );
+   -----------------------------------------------------------------------------------------------------
+    union_2_sorted_sets : union 2 sets of sorted arrays.
+    The Arrays shall not contain 2 time same entity
+    The result arrays must be already allocated & big enough, result_size is the size of the nex set.
+   -----------------------------------------------------------------------------------------------------
+    int * array1      : input  - array1
+    int * array1_size : input  - size of array1
+    int * array2      : input  - array2
+    int * array2_size : input  - size of array2
+    int * result      : output - result
+    int * result_size : output - number of members in result
+   ------------------------------------------------------------------------------------------------  
+ 
+
+
+interect_2_sorted_sets(int * array1, int * array1_size,
+                       int * array2, int * array2_size,
+                       int * result, int * result_size )
+   -----------------------------------------------------------------------------------------------------
+    interect_2_sorted_sets : intersections of 2 sets of sorted arrays.
+    The Arrays shall not contain 2 time same entity
+    The result arrays must be already allocated & big enough, result_size is the size of the nex set.
+   -----------------------------------------------------------------------------------------------------
+    int * array1      : input  - array1
+    int * array1_size : input  - size of array1
+    int * array2      : input  - array2
+    int * array2_size : input  - size of array2
+    int * result      : output - result
+    int * result_size : output - number of members in result
+   ------------------------------------------------------------------------------------------------  
+
+
+difference_2_sorted_sets(int * array1, int * array1_size,
+                         int * array2, int * array2_size,
+                         int * result, int * result_size )
+   -----------------------------------------------------------------------------------------------------
+    difference_2_sorted_sets : defference of 2 sets of sorted arrays.
+    Does array1-array2 : Removes all members of array2 in array1
+    The Arrays shall not contain 2 time same entity
+    The result arrays must be already allocated & big enough, result_size is the size of the nex set.
+   -----------------------------------------------------------------------------------------------------
+    int * array1      : input  - array1
+    int * array1_size : input  - size of array1
+    int * array2      : input  - array2
+    int * array2_size : input  - size of array2
+    int * result      : output - result
+    int * result_size : output - number of members in result
+   ------------------------------------------------------------------------------------------------ 
+
+
+set_surface_lines.cpp
+---------------------
+Dedicates to Surface & Lines 
+
+
+void union_surface(int * s1_nd1, int * s1_nd2, int * s1_nd3, int* s1_nd4,int * s1_eltyp,int * s1_elid,int * s1_nmemb,
+                   int * s2_nd1, int * s2_nd2, int * s2_nd3, int* s2_nd4,int * s2_eltyp,int * s2_elid,int * s2_nmemb,
+                   int * nmember )
+   ----------------------------------------------------------------------------
+    union_surface : union of 2 surfaces according to their 4 node IDs
+                    this is dedicated for Fortran call
+                    -> fills a global vector in C++,
+                    other routine pass the values back to Fortran
+   ----------------------------------------------------------------------------
+   INPUT
+     s1_nd1 - s1_nd4 : 1st surface - 4 nodes
+     s1_eltyp        : 1st surface - element type
+     s1_elid         : 1st surface - element ID
+     s1_nmemb        : 1st surface - number of surfzce segments.
+
+     s2_nd1 - s2_nd4 : 2nd surface - 4 nodes
+     s2_eltyp        : 2nd surface - element type
+     s2_elid         : 2nd surface - element ID
+     s2_nmemb        : 2nd surface - number of surface segments.
+
+   OUTPUT
+     int * nmember : number of surface segments 
+   ----------------------------------------------------------------------------
+
+void delete_surface_(int * s1_nd1, int * s1_nd2, int * s1_nd3, int* s1_nd4,int * s1_eltyp,int * s1_elid,int * s1_nmemb,
+                     int * s2_nd1, int * s2_nd2, int * s2_nd3, int* s2_nd4,int * s2_eltyp,int * s2_elid,int * s2_nmemb,
+                     int * nmember )
+   ----------------------------------------------------------------------------
+    delete_surface : remove all elements from surface 2 in surface 1
+                    this is dedicated for Fortran call
+                    -> fills a global vector in C++,
+                    other routine pass the values back to Fortran
+   ----------------------------------------------------------------------------
+   INPUT
+     s1_nd1 - s1_nd4 : 1st surface - 4 nodes
+     s1_eltyp        : 1st surface - element type
+     s1_elid         : 1st surface - element ID
+     s1_nmemb        : 1st surface - number of surface segments.
+
+     s2_nd1 - s2_nd4 : 2nd surface - 4 nodes
+     s2_eltyp        : 2nd surface - element type
+     s2_elid         : 2nd surface - element ID
+     s2_nmemb        : 2nd surface - number of surface segments.
+
+   OUTPUT
+     int * nmember : number of surface segments 
+   ----------------------------------------------------------------------------
+
+
+void intersect_surface_(int * s1_nd1, int * s1_nd2, int * s1_nd3, int* s1_nd4,int * s1_eltyp,int * s1_elid,int * s1_nmemb,
+                        int * s2_nd1, int * s2_nd2, int * s2_nd3, int* s2_nd4,int * s2_eltyp,int * s2_elid,int * s2_nmemb,
+                        int * nmember )
+ ----------------------------------------------------------------------------
+    intersect_surface : intersection between surface 1 & surface 2
+                    this is dedicated for Fortran call
+                    -> fills a global vector in C++,
+                    other routine pass the values back to Fortran
+ ----------------------------------------------------------------------------
+   INPUT
+     s1_nd1 - s1_nd4 : 1st surface - 4 nodes
+     s1_eltyp        : 1st surface - element type
+     s1_elid         : 1st surface - element ID
+     s1_nmemb        : 1st surface - number of surface segments.
+
+     s2_nd1 - s2_nd4 : 2nd surface - 4 nodes
+     s2_eltyp        : 2nd surface - element type
+     s2_elid         : 2nd surface - element ID
+     s2_nmemb        : 2nd surface - number of surface segments.
+
+   OUTPUT
+     int * nmember : number of surface segments 
+   ----------------------------------------------------------------------------
+
+
+
+void union_line(int * s1_nd1, int * s1_nd2, int * s1_eltyp,int * s1_elid,int * s1_nmemb,
+                int * s2_nd1, int * s2_nd2, int * s2_eltyp,int * s2_elid,int * s2_nmemb,
+                int * nmember )
+   ----------------------------------------------------------------------------
+    union_line : union of 2 lines according to their 4 node IDs
+                    this is dedicated for Fortran call
+                    -> fills a global vector in C++,
+                    other routine pass the values back to Fortran
+   ----------------------------------------------------------------------------
+   INPUT
+     s1_nd1 - s1_nd2 : 1st surface - 4 nodes
+     s1_eltyp        : 1st surface - element type
+     s1_elid         : 1st surface - element ID
+     s1_nmemb        : 1st surface - number of surfzce segments.
+
+     s2_nd1 - s2_nd2 : 2nd surface - 4 nodes
+     s2_eltyp        : 2nd surface - element type
+     s2_elid         : 2nd surface - element ID
+     s2_nmemb        : 2nd surface - number of surface segments.
+
+   OUTPUT
+     int * nmember : number of surface segments 
+   ----------------------------------------------------------------------------
+
+
+
+void _FCALL delete_line_(int * s1_nd1, int * s1_nd2, int * s1_eltyp,int * s1_elid,int * s1_nmemb,
+                         int * s2_nd1, int * s2_nd2, int * s2_eltyp,int * s2_elid,int * s2_nmemb,
+                         int * nmember )
+   ----------------------------------------------------------------------------
+    delete_line :   delete all elements from Surface 2 in Surface according to their 2 node IDs + ElementID
+                    this is dedicated for Fortran call
+                    -> fills a global vector in C++,
+                    other routine pass the values back to Fortran
+   ----------------------------------------------------------------------------
+   INPUT
+     s1_nd1 - s1_nd2 : 1st line - 2 nodes
+     s1_eltyp        : 1st line - element type
+     s1_elid         : 1st line - element ID
+     s1_nmemb        : 1st line - number of surfzce segments.
+
+     s2_nd1 - s2_nd2 : 2nd line - 2 nodes
+     s2_eltyp        : 2nd line - element type
+     s2_elid         : 2nd line - element ID
+     s2_nmemb        : 2nd line - number of surface segments.
+
+   OUTPUT
+     int * nmember : number of surface segments 
+   ----------------------------------------------------------------------------
+
+
+void _FCALL intersect_line_(int * s1_nd1, int * s1_nd2, int * s1_eltyp,int * s1_elid,int * s1_nmemb,
+                            int * s2_nd1, int * s2_nd2, int * s2_eltyp,int * s2_elid,int * s2_nmemb,
+                            int * nmember )
+   ----------------------------------------------------------------------------
+    intersect_line : line intersection between line1 and line2 according to their 2 node IDs + ElementID
+                    this is dedicated for Fortran call
+                    -> fills a global vector in C++,
+                    other routine pass the values back to Fortran
+   ----------------------------------------------------------------------------
+   INPUT
+     s1_nd1 - s1_nd2 : 1st line - 2 nodes
+     s1_eltyp        : 1st line - element type
+     s1_elid         : 1st line - element ID
+     s1_nmemb        : 1st line - number of surfzce segments.
+
+     s2_nd1 - s2_nd2 : 2nd line - 2 nodes
+     s2_eltyp        : 2nd line - element type
+     s2_elid         : 2nd line - element ID
+     s2_nmemb        : 2nd line - number of surface segments.
+
+   OUTPUT
+     int * nmember : number of surface segments 
+   ----------------------------------------------------------------------------
+
+
+
+
+void  get_merged_surface ( int * s_nd1, int * s_nd2, int * s_nd3, int* s_nd4,int * s_eltyp,int * s_elid )
+ ----------------------------------------------------------------------------
+    get_merged_surface_ : Pass the surface vector in Fortran & deletes the surface.
+   ----------------------------------------------------------------------------
+   OUTPUT
+     s_nd1 - s_nd4 : 1st surface - 2 nodes
+     s_eltyp        : 1st surface - element type
+     s_elid         : 1st surface - element ID
+   ----------------------------------------------------------------------------  
+
+void get_merged_lines ( int * s_nd1, int * s_nd2,int * s_eltyp,int * s_elid )
+   ----------------------------------------------------------------------------
+    get_merged_lines_ : Pass the line vector in Fortran & deletes the surface.
+   ----------------------------------------------------------------------------
+   OUTPUT
+     s_nd1 - s_nd2 : 1st surface - 2 nodes
+     s_eltyp        : 1st surface - element type
+     s_elid         : 1st surface - element ID
+   ----------------------------------------------------------------------------  
+
+
+quicksort.F
+-----------
+   RECURSIVE SUBROUTINE QUICKSORT(A, IDX, FIRST, LAST)
+   -----------------------------------------------------------------------------------------------------
+   Quicksort for Float Array
+   -----------------------------------------------------------------------------------------------------
+   my_real A  : in/output - Array to sort
+   int IDX(*) : in/output - INDEX result
+   int FIRST  : input - First occucence of A to sort
+   int LAST   : input - Last occurence of A to sort
+
+
+trirap.F
+--------
+   TRIRAP(N,TAB,N2)
+   -----------------------------------------------------------------------------------------------------
+   Another quicksort implemtation
+   -----------------------------------------------------------------------------------------------------
+   int N      : input - First occucence of A to sort
+   my_real A  : in/output - Array to sort
+   int N2     : input - Last occurence of A to sort
+

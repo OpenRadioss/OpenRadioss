@@ -1,0 +1,254 @@
+#
+# CMake project file for Radioss Starter
+# --------------------------------------
+ 
+cmake_minimum_required (VERSION 2.8)
+project (Radioss_Engine)
+
+# Verbose
+# -------
+# set (CMAKE_VERBOSE_MAKEFILE on)
+
+
+# Languace settings & Compiler Settings
+# -------------------------------------
+enable_language (Fortran)
+enable_language (C)
+enable_language (CXX)
+
+
+
+if ( NOT DEFINED COM) 
+set (cdir "" )
+else()
+set (cdir "_c" )
+endif()
+
+include (CMake_Compilers${cdir}/cmake_${arch}_compilers.txt)
+
+# source files & include directories
+# -------------------------------------
+
+set (source_directory ${CMAKE_CURRENT_SOURCE_DIR})
+set (include_directory "${CMAKE_CURRENT_SOURCE_DIR}/share" )
+
+# Source file settings
+# --------------------
+
+if ( NOT DEFINED COM) 
+
+#Fortran source files
+file(GLOB_RECURSE source_files  ${source_directory}/source/*.F ${source_directory}/stub/*.F ${source_directory}/share/*.F  ${source_directory}/../common_source/*.F   )
+
+if ( NOT DEFINED WITH_LINEAR_ALGEBRA) 
+# remove files related to linear algebra
+file(GLOB_RECURSE remove_files ${source_directory}/source/implicit/dsolve/*.F )
+list(REMOVE_ITEM source_files ${remove_files})
+endif()
+
+#C source files
+file(GLOB_RECURSE c_source_files ${source_directory}/source/*.c ${source_directory}/stub/*.c ${source_directory}/share/*.c ${source_directory}/../common_source/*.c )
+
+#C++ source files
+file(GLOB_RECURSE cpp_source_files ${source_directory}/source/*.cpp ${source_directory}/stub/*.cpp ${source_directory}/share/*.cpp ${source_directory}/../common_source/*.cpp )
+
+file(GLOB_RECURSE include_files ${include_directory}/*.inc ${include_directory}/*.h ${source_directory}/../common_source/*.inc ${source_directory}/../common_source/*.h )
+
+# Engine name
+set (ex_version "engine")
+
+else()
+
+#Fortran source files
+file(GLOB_RECURSE source_files  ${source_directory}/source/*.F ${source_directory}/com/*.F ${source_directory}/share/*.F  ${source_directory}/../common_source/*.F   )
+
+if ( NOT DEFINED WITH_LINEAR_ALGEBRA) 
+# remove files related to linear algebra
+file(GLOB_RECURSE remove_files ${source_directory}/source/implicit/dsolve/*.F ${source_directory}/com/eig/*.F  )
+list(REMOVE_ITEM source_files ${remove_source})
+endif()
+
+
+#C source files
+file(GLOB_RECURSE c_source_files ${source_directory}/source/*.c ${source_directory}/com/*.c ${source_directory}/share/*.c ${source_directory}/../common_source/*.c )
+
+#C++ source files
+file(GLOB_RECURSE cpp_source_files ${source_directory}/source/*.cpp ${source_directory}/com/*.cpp ${source_directory}/share/*.cpp ${source_directory}/../common_source/*.cpp )
+
+file(GLOB_RECURSE include_files ${include_directory}/*.inc ${include_directory}/*.h  ${include_directory}/com/*.inc ${include_directory}/com/*.h ${source_directory}/../common_source/*.inc ${source_directory}/../common_source/*.h ../thid_party_com/*.h )
+
+include (CMake_Compilers_c/cmake_eng_version.txt)
+set (ex_version "e_${version}")
+
+endif()
+
+
+# includes directory list
+# -----------------------
+
+set (include_dir_list "")
+
+foreach (incfile ${include_files})
+    get_filename_component(dir ${incfile} PATH)
+    list (APPEND include_dir_list ${dir})
+endforeach()
+
+list(REMOVE_DUPLICATES include_dir_list)
+
+# compatibility with previous Makefile system / remove old _inc_xxxx directory
+file(GLOB_RECURSE delete_old_inc ${source_directory}/share/_inc_*/*.inc)
+foreach (incfile ${delete_old_inc})
+    get_filename_component(dir ${incfile} PATH)
+    list (REMOVE_ITEM include_dir_list ${dir})
+endforeach()
+
+
+# Precision Settings
+# ------------------
+
+if (precision STREQUAL "sp")
+  set (precision_dir "sp")
+  set (precision_include_remove ${source_directory}/share/r8 )
+  set (exec_prec "_sp")
+
+else ()
+  set (precision "dp")
+  set (precision_dir "dp")
+  set (precision_include_remove ${source_directory}/share/r4 )
+  set (exec_prec "")
+endif ()
+
+if (debug STREQUAL "1")
+  set (exec_deb "_db")
+else ()
+  set (exec_deb "")
+endif ()
+
+list(REMOVE_ITEM include_dir_list ${precision_include_remove})
+
+
+#
+# Configure Compilers 
+# Compiler, link Flags, ...
+# 
+# using "arch" Variable 
+# ----------------------------------------------------------
+
+if (NOT DEFINED arch)
+   set (arch "linux64_gf")
+endif ()
+
+if ( NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/CMake_Compilers${cdir}/cmake_${arch}.txt )
+   message(STATUS "CMake_Compilers${cdir}/cmake_${arch}.txt  file not fount ")
+   set (arch "none")
+endif ( NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/CMake_Compilers${cdir}/cmake_${arch}.txt )
+
+
+if ( NOT (arch STREQUAL "none") )
+   message(STATUS "Loading ${arch} settings")
+   include (${CMAKE_CURRENT_SOURCE_DIR}/CMake_Compilers${cdir}/cmake_${arch}.txt)
+
+else ()
+   if (WIN32)
+     message(FATAL_ERROR "Windows not done yet") 
+   endif (WIN32)
+
+   if(UNIX)
+     include (CMake_Compilers${cdir}/cmake_configure_linux.txt)
+   endif (UNIX)
+endif ()
+
+
+#
+# executable name
+# ---------------------------------
+set ( EXEC_NAME "${ex_version}_${RELNAME}${exec_prec}${exec_deb}"  )
+
+
+#
+# Print some configuration messages
+# ---------------------------------
+message (" " )
+message (STATUS "Fortran Compiler: ${CMAKE_Fortran_COMPILER}")
+message (STATUS "C Compiler: ${CMAKE_C_COMPILER}")
+message (STATUS "CPP Compiler: ${CMAKE_CPP_COMPILER}")
+message (STATUS "Exec name: ${EXEC_NAME} ")
+message (STATUS "MPI: ${mpiver} ")
+message (STATUS "Flags release: ${CMAKE_Fortran_FLAGS_RELEASE} ")
+message (STATUS "Precision: ${precision} ")
+message (STATUS "debug: ${debug} ")
+if ( DEFINED ADF )
+   message (STATUS "Addflag : ${ADF} ")
+endif()
+
+if ( NOT DEFINED com )
+   message (STATUS "Build_type : o")
+else()
+   message (STATUS "Build_type : c")
+endif()
+
+
+message (" " )
+
+
+#
+# Adding some dependencies for files which are generated before compilation
+# Create preprocessed files starter_message_description.inc
+# --------------------------------------------------------------------------
+  
+#create subdirectory to store created includes
+set ( Build_includes_directory ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/includes_${EXEC_NAME} )
+file(MAKE_DIRECTORY ${Build_includes_directory} )
+list(APPEND include_dir_list ${Build_includes_directory} )
+message (" dir : ${Build_includes_directory} added")
+
+
+
+#include generated with a text files
+add_custom_command(    
+         OUTPUT 
+            ${Build_includes_directory}/engine_message_description.inc
+         COMMAND 
+            perl ../../Compiling_tools/script/build_message.pl ${source_directory}/source/output/message/engine_message_description.txt > ${Build_includes_directory}/engine_message_description.inc
+         DEPENDS 
+              ${source_directory}/source/output/message/engine_message_description.txt
+         )
+
+#include always rebuild 
+add_custom_command(    
+         OUTPUT 
+            ${Build_includes_directory}/__foo.inc 
+            ${Build_includes_directory}/build_info.inc
+            ${Build_includes_directory}/btag.inc
+         COMMAND 
+            sh ../../Compiling_tools/script/or_compile_info_cm.sh linux64 0 e 0 linux64  > ${Build_includes_directory}/build_info.inc
+         COMMAND 
+            sh ../../Compiling_tools/script/or_compile_info2_cm.sh linux64 0 e 0 linux64  > ${Build_includes_directory}/btag.inc
+         )
+
+
+# make sure that the default is a RELEASE
+if (NOT CMAKE_BUILD_TYPE)
+  set (CMAKE_BUILD_TYPE RELEASE CACHE STRING
+      "Choose the type of build, options are: None Debug Release."
+      FORCE)
+endif (NOT CMAKE_BUILD_TYPE)
+
+
+add_custom_target( alway_execute ALL DEPENDS ${Build_includes_directory}/__foo.inc )
+
+
+add_executable (${EXEC_NAME} ${source_files} ${source_files_common} ${c_source_files} ${cpp_source_files} ${Build_includes_directory}/engine_message_description.inc ${Build_includes_directory}/build_info.inc ${Build_includes_directory}/btag.inc )
+
+target_include_directories(${EXEC_NAME} PRIVATE ${include_dir_list}  )
+target_link_libraries(${EXEC_NAME} ${LINK} )
+
+# Fortran to link
+set_property(TARGET ${EXEC_NAME} PROPERTY LINKER_LANGUAGE Fortran)
+
+# install executables and scripts
+install (TARGETS ${EXECUTABLES}
+         RUNTIME DESTINATION "bin")
+install (PROGRAMS ${SCRIPTS}
+         DESTINATION "bin")
+
