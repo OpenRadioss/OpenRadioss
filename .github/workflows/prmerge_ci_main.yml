@@ -1,0 +1,368 @@
+name: PR Merge CI MAIN
+
+on:
+
+  push:
+    branches:
+      - main
+
+env:
+  CLOSE_BRANCH: 0
+  SERVBOT_PAT: ${{ secrets.SERVBOT_PAT }}
+  TEAM_RESTRICTIVE_CLOSED_BRANCH: ${{ secrets.TEAM_RESTRICTIVE_CLOSED_BRANCH }}
+  FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+  TO_EMAIL: ${{ secrets.TO_EMAIL }}
+  QA_TIMEOUT_PER_TEST: 150
+
+jobs:
+
+
+  build:
+    if: ${{ github.repository_owner == 'OpenRadioss' }}
+    # DEV ONLY # runs-on: ["${{ matrix.build }}","dev_pmci"]
+    runs-on: ["${{ matrix.build }}","prmerge_ci"]
+    container: 
+      image: fr-qafactorydev.europe.altair.com/build-linux64_gf:ompi411
+      credentials: 
+        username: ${{secrets.DOCKER_REGISTRY_USER}}
+        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+      volumes: 
+        - /etc/localtime:/etc/localtime:ro
+
+    env:
+      BUILD_NB_THREAD: 2
+      STATUS_BUILD: 0
+
+    strategy:
+      # If one job fails othere are canceled
+      fail-fast: true
+      matrix:
+        include:
+          - build: starter_linux64_gf
+            precision: dp
+            os: linux64
+            binary: starter
+
+          - build: starter_linux64_gf_sp
+            precision: sp
+            os: linux64
+            binary: starter
+
+          - build: engine_linux64_gf_ompi
+            precision: dp
+            os: linux64
+            binary: engine
+            mpi: ompi
+
+          - build: engine_linux64_gf_ompi_sp
+            precision: sp
+            os: linux64
+            binary: engine
+            mpi: ompi
+
+    steps:
+
+      # Set the working dir suffixed with branch name
+      - uses: haya14busa/action-cond@v1
+        id: set_workdir
+        with:
+          cond: ${{ github.base_ref == '' }}
+          if_true: ${{github.ref_name}}
+          if_false: ${{github.base_ref}}
+
+      - name: Create branch oriented WS directory & integration WS
+        run: |
+          mkdir -p ${{ steps.set_workdir.outputs.value }}
+
+      - name: Clean local exe dir
+        working-directory: ${{ steps.set_workdir.outputs.value }}
+        run: |
+          rm -rf exec
+          md5sum exec/* || echo "Nothing in exec/" 
+
+      # Get last git modifications, don't clean before (way to keep persistent obj files)
+      - uses: actions/checkout@v2
+        with:
+          path: ${{ steps.set_workdir.outputs.value }}
+          clean: 'false'
+          lfs: 'true'
+
+      - name: Running build
+        working-directory: ${{ steps.set_workdir.outputs.value }}
+        run: |
+          mpi_opts=''
+          if [ ! -z ${{ matrix.mpi }} ]
+          then
+            mpi_opts="-mpi=${{ matrix.mpi }}"
+          fi
+
+          cmd="./build_script.sh -arch=${{ matrix.os }}_gf -prec=${{ matrix.precision }} -nt=${{ env.BUILD_NB_THREAD }} $mpi_opts"
+          echo "========================================="
+          echo "--  BUILD ${{ matrix.build }} --"   
+          echo "--  $cmd --"   
+          echo "========================================="
+          source /home/adminqa/.bashrc
+          chmod 755 Compiling_tools/script/*
+          chmod 755 ${{ matrix.binary }}/build_script.sh 
+          
+          # USED for development only (avoid using lfs)
+          test ! -e extlib && ln -s /__w/_tool/extlib .
+
+          md5sum exec/* || echo "Nothing in exec/" 
+          mkdir exec
+          cd ${{ matrix.binary }}
+          eval $cmd
+          cd ..
+
+          # Exiting with failure is no bins generated, should be handle by build_script soon
+          md5sum exec/* || exit 1
+         
+          # Set correct end of step status (if not an email will be sent)
+          echo "STATUS_BUILD=1" >> $GITHUB_ENV
+
+      - name: Managing step execution
+        if: ${{ always() }}
+        run: |
+
+          MAILMSG="Some error(s) has(ve) been raised during workflow execution:\n\n"
+          echo -e "\n#### STATUS_STEP_BUILD ${{ matrix.build }} ###"
+          if [ "$STATUS_BUILD" = 0 ]
+          then
+            echo -e "Status\t[ \033[31;2;1mFAILED\033[0m ]" 
+            MAILMSG="The build ${{ matrix.build }} has failed \n"
+
+            # Send email 
+            # Close the branch 
+            echo "CLOSE_BRANCH=1" >> $GITHUB_ENV
+
+            # Setting SMTP server (docker host)
+            DOCKER_HOST=`/sbin/ip route|awk '/default/ { print $3 }'`
+            echo "set smtp=smtp://${DOCKER_HOST}:25" >> /etc/mail.rc 
+
+            # Print message in log 
+            echo -e $MAILMSG
+
+            # Send email
+            echo -e "$MAILMSG\nThe branch is closed" | Mail -r $FROM_EMAIL -s "Error in Github CI (${{github.sha}})" $TO_EMAIL
+
+            # Exit fail to see it as a failure
+            exit 1
+
+          else
+            echo -e "Status\t[ \033[32;2;1mOK\033[0m ]"
+          fi
+
+      # Upload artifact
+      - name: Upload built artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: bins-${{ matrix.os }}-${{ matrix.precision }}
+          path: ${{ steps.set_workdir.outputs.value }}/exec
+        if: ${{ env.CLOSE_BRANCH == 0 }} 
+
+      # Close the branch (= restrict push to team devopsadmins) if needed
+      # Owner is not mandatory here ... PAT is sufficient ??? seems that as servbot has permissions on this repo so his PAT is sufficient ...
+      - uses: octokit/request-action@v2.x
+        id: close_branch_build
+        env:
+          GITHUB_TOKEN: ${{ env.SERVBOT_PAT }}
+          REQUEST_BODY: "['${{ env.TEAM_RESTRICTIVE_CLOSED_BRANCH}}']"
+        with:
+          route: PUT /repos/${{ github.repository }}/branches/main/protection/restrictions/teams
+          data: ${{ env.REQUEST_BODY }}
+        if: ${{ always() && env.CLOSE_BRANCH == 1 }} 
+
+      # It the closing went wrong we send an email
+      - name: "Check result of closing branch and warn if it fails"
+        run: |
+          # No need to configure SMTP server, already done in previous steps
+
+          MAILMSG="Some error(s) has(ve) been raised during workflow execution:\n\n"
+          MAILMSG+="A branch closing is needed but has failed\n\n"
+          MAILMSG+="Return status API is : ${{ steps.close_branch_build.outputs.status }}\n\n"
+          MAILMSG+="Check more detailed datas in CI logs\n"
+
+          # Print message in log 
+          echo -e $MAILMSG
+          echo -e "\nClose return data API is : ${{ steps.close_branch_build.outputs.data }}"
+
+          # Send email
+          echo -e "$MAILMSG" | Mail -r $FROM_EMAIL -s "Error in Github CI (${{github.sha}}) on closing branch" $TO_EMAIL
+
+          # Exit fail to see it as a failure
+          exit 1
+
+        if: ${{ always() && env.CLOSE_BRANCH == 1 && steps.close_branch_build.outputs.status != 200 }} 
+
+
+  qa:
+    needs: build
+    # DEV ONLY # runs-on: ["qa_${{ matrix.os }}","dev"]
+    runs-on: ["qa_${{ matrix.os }}","prmerge_ci"]
+    container: 
+      image: fr-qafactorydev.europe.altair.com/qa-linux64_gf:ompi411
+      credentials: 
+        username: ${{secrets.DOCKER_REGISTRY_USER}}
+        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+      volumes: 
+        - /etc/localtime:/etc/localtime:ro
+
+    env:
+      hm_reader_extlib: ../../extlib/hm_reader
+      hm_reader_cfgfiles: ../../hm_cfg_files
+      homeuser: /home/adminqa
+      mpi: ompi
+      STATUS_QA: 0
+
+    strategy:
+      # If one job fails othere are canceled
+      fail-fast: false
+      matrix:
+        os: [linux64]
+        # precision: [dp,sp]
+        precision: [dp]
+        
+    steps:
+
+      # Get git related to the commit
+      - uses: actions/checkout@v2
+        with:
+          lfs: 'true'
+
+      - name: Clean local exe dir
+        working-directory: ${{ steps.set_workdir.outputs.value }}
+        run: |
+          rm -rf exec
+
+      # Download artifacts
+      - uses: actions/download-artifact@v2
+        with:
+          name: bins-${{ matrix.os }}-${{ matrix.precision }}
+          path: exec
+
+      - name: Running qa
+        run: |
+
+          # USED for development only (avoid using lfs)
+          test ! -e extlib && ln -s /__w/_tool/extlib .
+
+          md5sum exec/* || echo "Nothing in exec/" 
+          if [ "${{ matrix.precision }}" = "dp" ]
+          then
+            precision_ext=""
+          else
+            precision_ext="_${{ matrix.precision }}"
+          fi
+
+          chmod 755 exec/*
+          cd qa-tests/scripts
+          chmod 755 or_qa_script or_radioss.pl 
+
+          source ${{ env.homeuser }}/.bashrc
+          export LD_LIBRARY_PATH=${{ env.hm_reader_extlib }}/${{ matrix.os }}:$LD_LIBRARY_PATH
+
+
+          cmd="./or_qa_script ../../exec/engine_${{ matrix.os }}_gf_${{ env.mpi }}${precision_ext} 1.0 --env:RAD_CFG_PATH=${{ env.hm_reader_cfgfiles }} --system_run --env:OMP_STACKSIZE=400m --exec_script_args='mpiexec -np 4' --env:OMP_NUM_THREADS=2 --output_failures_stdout --xtra_args='--timeoutscript=${{ env.QA_TIMEOUT_PER_TEST }}'"
+          echo "========================================="
+          echo "--  QA ${{ matrix.os }}_${{ matrix.precision }} --"   
+          echo "--  $cmd --"   
+          echo "========================================="
+          eval $cmd 
+
+          # Getting failed test
+          nbtestsfailed=$(grep "# Runs Failed\s*:" QA.summary | tail -n 1 | awk -F' ' '{print $NF}')
+          # Checking if no test has run at all (maybe exec errors)
+          nbtestsok=$(grep "# Runs Successful\s*:" QA.summary | tail -n 1 | awk -F' ' '{print $NF}')
+
+          if [ $nbtestsfailed = 0 ] || [ $nbtestsok -gt 0 ]
+          then 
+            # Set correct end of step status (if not an email will be sent)
+            echo "STATUS_QA=1" >> $GITHUB_ENV
+          fi      
+
+      - name: Managing step execution
+        if: ${{ always() }}
+        run: |
+
+          MAILMSG="Some error(s) has(ve) been raised during workflow execution:\n\n"
+          echo -e "\n#### STATUS_STEP_QA ${{ matrix.build }} ###"
+          if [ "$STATUS_QA" = 0 ]
+          then
+            echo -e "Status\t[ \033[31;2;1mFAILED\033[0m ]" 
+            MAILMSG="The QA ${{ matrix.os }}-${{ matrix.precision }} has failed \n"
+
+            # Send email 
+            # Close the branch 
+            echo "CLOSE_BRANCH=1" >> $GITHUB_ENV
+
+            # Setting SMTP server (docker host)
+            DOCKER_HOST=`/sbin/ip route|awk '/default/ { print $3 }'`
+            echo "set smtp=smtp://${DOCKER_HOST}:25" >> /etc/mail.rc 
+            echo "tail -n 5 /etc/mail.rc"
+            tail -n 5 /etc/mail.rc
+
+            # Print message in log 
+            echo -e $MAILMSG
+
+            # Send email
+            echo -e "$MAILMSG\nThe branch is closed" | Mail -r $FROM_EMAIL -s "Error in Github CI (${{github.sha}})" $TO_EMAIL
+
+            # Exit fail to see it as a failure
+            exit 1
+
+          else
+            echo -e "Status\t[ \033[32;2;1mOK\033[0m ]"
+          fi
+
+      # Close the branch (= restrict push to team devopsadmins) if needed
+      # Owner is not mandatory here ... PAT is sufficient ??? seems that as servbot has permissions on this repo so his PAT is sufficient ...
+      - uses: octokit/request-action@v2.x
+        id: close_branch_qa
+        env:
+          GITHUB_TOKEN: ${{ env.SERVBOT_PAT }}
+          REQUEST_BODY: "['${{ env.TEAM_RESTRICTIVE_CLOSED_BRANCH}}']"
+        with:
+          route: PUT /repos/${{ github.repository }}/branches/main/protection/restrictions/teams
+          data: ${{ env.REQUEST_BODY }}
+        if: ${{ always() && env.CLOSE_BRANCH == 1 }} 
+
+      # It the closing went wrong we send an email
+      - name: "Check result of closing branch and warn if it fails"
+        run: |
+          # No need to configure SMTP server, already done in previous steps
+
+          MAILMSG="Some error(s) has(ve) been raised during workflow execution:\n\n"
+          MAILMSG+="A branch closing is needed but has failed\n\n"
+          MAILMSG+="Return status API is : ${{ steps.close_branch_qa.outputs.status }}\n\n"
+          MAILMSG+="Check more detailed datas in CI logs\n"
+
+          # Print message in log 
+          echo -e $MAILMSG
+          echo -e "\nClose return data API is : ${{ steps.close_branch_qa.outputs.data }}"
+
+          # Send email
+          echo -e "$MAILMSG" | Mail -r $FROM_EMAIL -s "Error in Github CI (${{github.sha}}) on closing branch" $TO_EMAIL
+
+          # Exit fail to see it as a failure
+          exit 1
+
+        if: ${{ always() && env.CLOSE_BRANCH == 1 && steps.close_branch_qa.outputs.status != 200 }} 
+
+
+  # Call the sync CI if build and qa are OK 
+  # Secrets variables must be passed
+  call-workflow-sync-git2perforce:
+    needs: qa
+    uses: ./.github/workflows/prmerge_ci_sync.yml
+    secrets: 
+      DOCKER_REGISTRY_USER: ${{secrets.DOCKER_REGISTRY_USER}}
+      DOCKER_REGISTRY_PASSWD: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+      SERVBOT_USER: ${{ secrets.SERVBOT_USER }}
+      SERVBOT_PAT: ${{ secrets.SERVBOT_PAT }}
+      P4PORT: ${{secrets.P4PORT}}
+      P4USER: ${{secrets.P4USER}}
+      P4PASSWD: ${{secrets.P4PASSWD}}
+      RUN_FIRST_TIME: ${{secrets.RUN_FIRST_TIME}}
+      TEAM_RESTRICTIVE_CLOSED_BRANCH: ${{ secrets.TEAM_RESTRICTIVE_CLOSED_BRANCH }}      
+      FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+      TO_EMAIL: ${{ secrets.TO_EMAIL }} 
