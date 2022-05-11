@@ -17,7 +17,7 @@ Windows users may want to use [git bash](https://gitforwindows.org/) or [WSL](ht
 * From your local git directory, review your git user name and [email](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-user-account/managing-email-preferences/setting-your-commit-email-address). If you don't want to expose your email address: 
     * Check the boxes `Keep my email addresses private` and  `Block command line pushes that expose my email` [here](https://github.com/settings/emails)
     * Type `git config --global user.email "<ID+username>@users.noreply.github.com"`, where `ID+username` can be found [here](https://github.com/settings/emails)
-* Add the main the official repository as a remote: `git remote add upstream git@github.com:OpenRadioss/ml_test.git`. Now `origin` points to your fork, and `upstream` points to the official OpenRadioss repository
+* Add the main the official repository as a remote: `git remote add upstream git@github.com:OpenRadioss/OpenRadioss.git`. Now `origin` points to your fork, and `upstream` points to the official OpenRadioss repository
 * optional: for git version > 1.7.9 you can set `git config --global pull.rebase true` to force rebasing
 
 ## Contribution workflow 
