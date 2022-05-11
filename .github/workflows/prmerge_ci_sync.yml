@@ -157,7 +157,13 @@ jobs:
           fi
 
           echo "::set-output name=sync_option::$SCRIPT_OPT"
+
+          pwd 
+          echo "Writing .p4config"
           echo -e "P4USER=$P4USER\nP4PORT=$P4PORT\nP4CLIENT=$P4CLIENT" > .p4config
+          ls -1
+
+          exit 1
 
           # Set correct end of step status (if not an email will be sent)
           echo "STATUS_STEP_PERFORCE_LAST_KNOWN_GIT_COMMIT=1" >> $GITHUB_ENV
