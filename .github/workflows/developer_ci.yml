@@ -177,9 +177,9 @@ jobs:
           eval $cmd 
 
           # Getting failed test
-          nbtestsfailed=$(grep "# Runs Failed\s*:" QA.summary | tail -n 1 | awk -F' ' '{print $NF}')
+          nbtestsfailed=$(grep "# Runs Failed\s*:" QA.summary | tail -n 1 | awk -F' ' '{print $5}')
           # Checking if no test has run at all (maybe exec errors)
-          nbtestsok=$(grep "# Runs Successful\s*:" QA.summary | tail -n 1 | awk -F' ' '{print $NF}')
+          nbtestsok=$(grep "# Runs Successful\s*:" QA.summary | tail -n 1 | awk -F' ' '{print $5}')
 
           if [ $nbtestsfailed -gt 0 ] || [ $nbtestsok = 0 ]
           then 
