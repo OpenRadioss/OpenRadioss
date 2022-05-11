@@ -143,7 +143,7 @@ jobs:
             echo -e $MAILMSG
 
             # Send email
-            echo -e "$MAILMSG\nThe branch is closed" | Mail -r $FROM_EMAIL -s "Error in Github CI (${{github.sha}})" $TO_EMAIL
+            echo -e "$MAILMSG\nThe branch is closed" | Mail -r $FROM_EMAIL -s "Error in Github CI repo ${{ github.repository }} (${{github.sha}})" $TO_EMAIL
 
             # Exit fail to see it as a failure
             exit 1
@@ -187,7 +187,7 @@ jobs:
           echo -e "\nClose return data API is : ${{ steps.close_branch_build.outputs.data }}"
 
           # Send email
-          echo -e "$MAILMSG" | Mail -r $FROM_EMAIL -s "Error in Github CI (${{github.sha}}) on closing branch" $TO_EMAIL
+          echo -e "$MAILMSG" | Mail -r $FROM_EMAIL -s "Error in Github CI repo ${{ github.repository }} (${{github.sha}}) on closing branch" $TO_EMAIL
 
           # Exit fail to see it as a failure
           exit 1
@@ -305,7 +305,7 @@ jobs:
             echo -e $MAILMSG
 
             # Send email
-            echo -e "$MAILMSG\nThe branch is closed" | Mail -r $FROM_EMAIL -s "Error in Github CI (${{github.sha}})" $TO_EMAIL
+            echo -e "$MAILMSG\nThe branch is closed" | Mail -r $FROM_EMAIL -s "Error in Github CI repo ${{ github.repository }} (${{github.sha}})" $TO_EMAIL
 
             # Exit fail to see it as a failure
             exit 1
@@ -341,7 +341,7 @@ jobs:
           echo -e "\nClose return data API is : ${{ steps.close_branch_qa.outputs.data }}"
 
           # Send email
-          echo -e "$MAILMSG" | Mail -r $FROM_EMAIL -s "Error in Github CI (${{github.sha}}) on closing branch" $TO_EMAIL
+          echo -e "$MAILMSG" | Mail -r $FROM_EMAIL -s "Error in Github CI repo ${{ github.repository }} (${{github.sha}}) on closing branch" $TO_EMAIL
 
           # Exit fail to see it as a failure
           exit 1

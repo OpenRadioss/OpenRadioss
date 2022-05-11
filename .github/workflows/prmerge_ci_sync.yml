@@ -157,13 +157,7 @@ jobs:
           fi
 
           echo "::set-output name=sync_option::$SCRIPT_OPT"
-
-          pwd 
-          echo "Writing .p4config"
           echo -e "P4USER=$P4USER\nP4PORT=$P4PORT\nP4CLIENT=$P4CLIENT" > .p4config
-          ls -1
-
-          exit 1
 
           # Set correct end of step status (if not an email will be sent)
           echo "STATUS_STEP_PERFORCE_LAST_KNOWN_GIT_COMMIT=1" >> $GITHUB_ENV
@@ -276,8 +270,7 @@ jobs:
             then 
               # Try to resolve can be useful if destination repository already exist
               p4 resolve -am
-              # p4 submit -d "${message}"
-              p4 opened
+              p4 submit -d "${message}"
             fi
 
             # Set correct end of step status (if not an email will be sent)
@@ -402,7 +395,7 @@ jobs:
             echo -e $MAILMSG
 
             # Send email
-            echo -e "$MAILMSG\nThe branch is closed" | Mail -r $FROM_EMAIL -s "Error in Github CI (${{github.sha}})" $TO_EMAIL
+            echo -e "$MAILMSG\nThe branch is closed" | Mail -r $FROM_EMAIL -s "Error in Github CI repo ${{ github.repository }} (${{github.sha}})" $TO_EMAIL
 
             # Exit fail to see it as a failure
             exit 1
@@ -436,7 +429,7 @@ jobs:
           echo -e "\nClose return data API is : ${{ steps.close_branch.outputs.data }}"
 
           # Send email
-          echo -e "$MAILMSG" | Mail -r $FROM_EMAIL -s "Error in Github CI (${{github.sha}}) on closing branch" $TO_EMAIL
+          echo -e "$MAILMSG" | Mail -r $FROM_EMAIL -s "Error in Github CI repo ${{ github.repository }} (${{github.sha}}) on closing branch" $TO_EMAIL
 
           # Exit fail to see it as a failure
           exit 1
