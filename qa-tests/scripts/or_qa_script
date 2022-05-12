@@ -6878,7 +6878,6 @@ sub check_new_files {
                     opendir(CDIR, $create_ref_dir) or die $!;
                     while (my $cdirfile = readdir(CDIR)) {
                         $cdirfile =~ /A[0-9][0-9][0-9](\.gz)?$/ and do {
-                          print "TRACE DEL TO GIT $create_ref_dir/$cdirfile\n";
                           system("git rm -f $create_ref_dir/$cdirfile");
                         };
                     }
@@ -6953,7 +6952,6 @@ sub check_new_files {
                     if ($i_copy and $create_ref_dir) {
                       my $tmpcmd="cp -fp $file $create_ref_dir";
                       system($tmpcmd) and printf $tmpcmd."\n";;
-                      print "TRACE ADD TO GIT $create_ref_dir/$file\n";
                       system("git add $create_ref_dir/$file");
                     }
                     my $tmpcmd="cp -fp $file $keep_dir";
