@@ -40,7 +40,6 @@ $qacards              = "" ;
 $look_for_gz          = ".gz";
 $force_extract_overwrite = 0;
 $have_extract2        = 0;
-$p4_cmd               = "p4" ;  # changed to $ENV{"P4_COMMAND"} on NT 
 $force_echo           = 0;
 $echo_radioss         = 0;
 $echo_radioss_tolerances = 0;
@@ -58,7 +57,7 @@ $show_extract         = 0;
 $infinity             = 0;
 $skip_tests           = 0;  # dummy run, without exec
 $use_reset_tolerances = 0;  # phlex tolerance is for few tests or more
-$input_ext            = ".fem" ; # This is define FEM command for QA.files
+$input_ext            = ".fem" ; # This is define FEM command for or_QA.files
 $input_path           = "";
 $run_id_file          = ".run.id";
 $exe_name_file        = ".qa_last_exe_name";
@@ -82,7 +81,7 @@ $extractinif          = 0;
 $has_stack            = 0;
 $has_match            = 0;
 $use_abs_values       = 0; # for local/global comparison without sign
-$fix_qa_files         = 0; # add/fix marks to QA.files_bak
+$fix_qa_files         = 0; # add/fix marks to or_QA.files_bak
 $double_check         = 0; # repeat qa to make sure that failures are true
 $repeat_qa            = 0; # number of repeats to all qa
 $timeout              = 0; # if set, exec will set alarm to kill runaways
@@ -107,7 +106,6 @@ $extract_suffix       = "" ; # optional suffix for extract files
 $echo_test            = 0 ;  # special mode for ECHO
 $run_err_list         = 0 ;  # 1 to count success runs (in '@' mode)
 $no_lic_falures       = "";
-$p4_fixed_qa          = "";
 $del_suffix_extract   = 0;
 $use_which_extract    = 1;
 $check_newfile        = 0;
@@ -256,9 +254,9 @@ $sanity_stop      = 1 ; # set to zero to run till end
 $full_diffs       = 1 ;
 $quiet            = 0 ; # run really quiet
 $perldebug        = "" ; # call or_radioss.pl with perl -d 
-$p4_opened = ""; # list of modified files - if active
+$git_opened = ""; # list of modified files - if active
 @p4_local_files = (); # list of all files to checkin inside single example
-$p4_deleted = "";
+$git_deleted = "";
 $files_at_start = 0;
 $wall_at_start = 0.0;
 $cpu_at_start = 0.0;
@@ -286,7 +284,7 @@ $extract_path = "";  # extract files path (possibly relative to input file)
 
 @global_keywords = () ; # from --keywords
 $has_global_keywords = 0;
-@local_keywords  = () ; # from keywords in QA.files
+@local_keywords  = () ; # from keywords in or_QA.files
 
 $p1= "";$p4= "";$p5= ""; # to avoid warnings with non-standard df
 $loc_zero = 0;
@@ -406,10 +404,6 @@ delete $ENV{"CWD"} ; # This is to un-fool p4 e.g. when softlinks are present
 $tmp = 0;
 $n = 0;
 $run_mark = "" ;
-
-if ( $platform ne "NT" && ( ! -e "../SCRIPTS" ) ) {
-    system 'ln -s scripts ../SCRIPTS' ;
-}
 
 ####################################################### &read_arg_options
 &read_arg_options () ;
@@ -1112,7 +1106,7 @@ if ( $local_fem_file && $local_fem_file ne "NONE" ) {
     $root = "";
 }
 ####################################################################
-#   HERE done with preparations, read QA.files.. and processing
+#   HERE done with preparations, read or_QA.files.. and processing
 ####################################################################
 
 
@@ -1571,7 +1565,7 @@ while (<$infile>) {
       # XXXXXX enable automatically DO_QA=on when running qa_script for a 'qaprint' qa
       # This array will store qaprint status (enabled or not) depending on the QA number, to retrieve the information in email sending step
       if ($1 eq 'DO_QA' and $2 eq 'ON') {
-        $include_file_name =~ /^QA.files_((\d)+).*$/ and do {
+        $include_file_name =~ /^or_QA.files_((\d)+).*$/ and do {
           my $qa_id = $1;
           push (@qaprint_qas_enabled,$qa_id) if (!grep(/^$qa_id$/,@qaprint_qas_enabled));
         };
@@ -1970,79 +1964,6 @@ if ( $in_include > 0 ) {
     }
     close ( $infile );
 
-    # XXXXXX Add tolerance for all model (provide automatic way to do it from qa_script)
-    # If tolerances have been added, we re-write the qafile
-    # Print counters
-    # Send aborted/warnings email 
-    if ($sensitivity_set_recommended_tolerances and ($qafile_must_be_rewritten or $qafile_must_alert_by_mail)) {
-      print "\n\n--------- AUTOMATED TOLERANCE INSERTION : Set up recommended tolerances into file $qafile_file_current\n\n";
-      if ($qafile_must_be_rewritten) {
-        system ("$p4_cmd edit $qafile_file_current");
-        open (QAFILEOUT, "> $qafile_file_current") || die "Pb open $qafile_file_current : $!";
-        print QAFILEOUT @qafile_current;
-        close (QAFILEOUT);
-        print "\n    *** Diff with perforce ***\n";
-        system ("$p4_cmd diff $qafile_file_current");
-        print "    *** End diff with perforce ***\n\n";
-        if ($sensitivity_set_recommended_tolerances_submit) {
-          print "Submiting new $qafile_file_current\n";
-          system ("$p4_cmd submit -d 'QA Sensibility automatic tolerances add ($qafile_file_current)' $qafile_file_current");
-        }
-      }
-      if ($qafile_must_alert_by_mail) {
-        # Sending alert email if some tolerance don't respect our constraints
-        my $from='xxxxxx';
-        my $to='xxxxxx';
-        my $cc = '';
-        my $cl = 0;
-        if ( $executable =~ m=(.*)/([^/]*)/([^/]*)$= ) {
-          $cl = $2;
-        }
-
-        my $subject ="[QA NEW TEST] sensitivity automated insertion rejected jobid=".$ENV{'JOBID'}." qafile=$qafile_file_current cl=$cl";
-        my $body = '';
-        if (scalar(keys %sensitivity_test_alert_email_abort)) {
-          $body .= "Auto inserting recommended tolerances has been <b><u><span style='color:red'>ABORTED</span></u></b> because of high values not respecting the constraints for the following tests:<br />";
-          for my $elem (sort test_sort keys %sensitivity_test_alert_email_abort) {
-            $body .= "<br /><b>".$elem."&nbsp;&nbsp;".$sensitivity_test_alert_email_abort{$elem}{'Input_path'}."</b><br />";
-            for my $elem2 (@{$sensitivity_test_alert_email_abort{$elem}{'msg'}}) {
-              $body .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>".$elem2."</b><br />";
-            }
-          }
-          $body .= "<br /><hr />";
-        }
-        if (scalar(keys %sensitivity_test_alert_email_warnings)) {
-          $body .= "<br />";
-          $body .= "Auto inserting recommended tolerances has raised some <b><u><span style='color:blue'>WARNINGS</span></u></b> for the following tests:<br />";
-          for my $elem (sort test_sort keys %sensitivity_test_alert_email_warnings) {
-            $body .= "<br /><b>".$elem."&nbsp;&nbsp;".$sensitivity_test_alert_email_warnings{$elem}{'Input_path'}."</b><br />";
-            for my $elem2 (@{$sensitivity_test_alert_email_warnings{$elem}{'msg'}}) {
-              $body .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>".$elem2."</b><br />";
-            }        
-          }
-        }
-
-        $body .= "<br /><hr /><br />";
-        print "\nTolerances insertion summary:\n";
-        print "\t- inserted in ".$sensitivity_cpts{'inserted'}." tests\n";
-        print "\t- insertion aborted in ".$sensitivity_cpts{'aborted'}." tests\n";
-        print "\t- nothing to insert in ".$sensitivity_cpts{'empty'}." tests\n";
-        my $cpt_total = $sensitivity_cpts{'inserted'} + $sensitivity_cpts{'aborted'} + $sensitivity_cpts{'empty'};
-        print "TOTAL: ".$cpt_total."\n\n";
-
-        $body .= "Tolerances<br /><ul>";
-        $body .= "<li>inserted in <b>".$sensitivity_cpts{'inserted'}."</b> tests</li>";
-        $body .= "<li>insertion aborted in <b>".$sensitivity_cpts{'aborted'}."</b> tests</li>";
-        $body .= "<li>nothing to insert in <b>".$sensitivity_cpts{'empty'}."</b> tests</li></ul>";
-        $body .= "TOTAL: <b>".$cpt_total."</b> tests<br />";
-
-        my @attachments;
-        push (@attachments,$sensitivity_stats_for_email);
-        &send_mail($from,$to,$cc,$subject,$body,undef,\@attachments);
-      }
-      print "\n\n--------- END AUTOMATED TOLERANCE INSERTION : Set up recommended tolerances into file $qafile_file_current\n\n";
-    }
-
     $infile = "TCLS";
     $cur_file_name = $qa_fem_files_file;
     $in_include = 0;
@@ -2216,7 +2137,7 @@ sub go {
 
     &do_copy_commands;
     if ( $force_fail ) {
-# fail to exec copy command in the QA.files_...
+# fail to exec copy command in the or_QA.files_...
   $failtype ="serious_1";
   goto SERIOUS_FAILURE ;
     }
@@ -2289,7 +2210,7 @@ sub go {
         #   $Run_file = actual file in local directory
         #   $root     = same without any extension
         # from input data:
-        #   $fem_file       - coming from QA.files
+        #   $fem_file       - coming from or_QA.files
         #   $local_fem_file - fixed, possibly empty
 
         if ( $local_fem_file ) {
@@ -2357,51 +2278,7 @@ sub go {
 # Get the date
    $date = localtime ;
 
-# ******************************************************************
-# ATAG
-    if ( $fix_atag ) {
-  $atagfile = "$Run_file".".new";
-  if ( -e $atagfile ) {
-      unlink $atagfile ;
-  }
-  print "$run_test_id: " ;
-  system ( "./mktag.exe $Run_file >> Atag.log" );
-  $has_no_atag = 0;
-  if ( -e $atagfile ) {
-      # grep for NO-ATAG-ALLOWED
-      $has_no_atag = 2;
-      open (TAGFILE, "< $atagfile" );
-      while (<TAGFILE>) {
-    if ( /NO-ATAG-ALLOWED/ ) {
-        $has_no_atag = 1;
-        print ">> ATAG disallowed\n" ;
-        last;
-    }
-      }
-      close (TAGFILE);
-      if ( $has_no_atag == 1 ) {
-    unlink $atagfile ;
-      }
-  }
-  if ( $has_no_atag == 2 ) {
-      unlink $Run_file ;
-      system ("cp $atagfile $Run_file") ;
-      # rename  ( "$atagfile", "new-fem" ) ;
 
-      if ( $fem_is_zipped ) {
-    $p4_file = $fem_file . ".gz" ;
-      } else {
-    $p4_file = $fem_file ;
-      }
-      system ("$p4_cmd edit $p4_file" );
-      if ( $fem_is_zipped ) {
-    system ("gzip --best < $Run_file > $p4_file") ;
-      } else {
-    unlink $fem_file ;
-    system ("cp $Run_file $fem_file") ;
-      }
-  } else { if ( $no_skip_atag == 0 ) { goto SKIP ; } }
-    }
 # ******************************************************************
 # ****************       E X E C       *****************************
 # ******************************************************************
@@ -2834,8 +2711,8 @@ sub go {
           &out_file ( $out_buffer );
         }
         if($use_which_extract==1 && $del_suffix_extract==1) {
-         system ("$p4_cmd delete $base_extract_file$extract_suffix");
-         $p4_deleted .= " $base_extract_file$extract_suffix";
+         system ("git rm $base_extract_file$extract_suffix");
+         $git_deleted .= " $base_extract_file$extract_suffix";
         }
         my $failure_key="$full_test_id";
         #     update test status if requested
@@ -3382,8 +3259,8 @@ sub go {
               #original_extract_file=../testmpi/qshl3_sz1_mpi.extract2
         if ( $extract_suffix && (-f $base_extract_file.$extract_suffix) ) {
             system ("cp -f $extract_file $base_extract_file$extract_suffix");
-            system ("$p4_cmd edit $base_extract_file$extract_suffix");
-            $p4_opened .= " $base_extract_file$extract_suffix" ;
+            system ("git add $base_extract_file$extract_suffix");
+            $git_opened .= " $base_extract_file$extract_suffix" ;
         } elsif ( $extract_suffix ) {
             &out_file ( "\n*****" .
             "\n Can't ovewrite original extract file when" .
@@ -3392,10 +3269,8 @@ sub go {
             "****\n" ) ;
         } else {
             if (-f $base_extract_file) {
-              system ("$p4_cmd edit $base_extract_file");
               system ("cp -f $extract_file $base_extract_file");
-              $p4_opened .= " $base_extract_file";
-              &chk_4_alt_extract_in_p4 ;
+              $git_opened .= " $base_extract_file";
             }
             elsif ( $add_missing_extract == 0 ) {
               &out_file ( "Original extract file $base_extract_file does not exist : overwrite_extract skipped." );
@@ -3411,8 +3286,8 @@ sub go {
           print ("**** Bad example $full_test_id - Check input data: \n Disallowed OSDIAG, SYSSETTING or ECHO, or missing \"include qadiags.inc\". \n\n" );
             } else {
           system ("cp -f $extract_file $base_extract_file");
-          system ("$p4_cmd add $base_extract_file");
-          $p4_opened .= " $base_extract_file";
+          system ("git add $base_extract_file");
+          $git_opened .= " $base_extract_file";
             }
             # check extract file for bad exit:
             $tmp = &grep ( $extract_file, "SignalHandler|prgerr_|misknt_|suspect_|OptiStructErrNo" );
@@ -3422,15 +3297,15 @@ sub go {
             
             while ( @p4_local_files ) {
           $tmp = pop ( @p4_local_files );
-          system ("$p4_cmd add $tmp");
-          $p4_opened .= " $tmp";
+          system ("git add $tmp");
+          $git_opened .= " $tmp";
             }
             
         } elsif($extract_suffix && (!-f $base_extract_file.$extract_suffix)){
             if ( ! $noerrqa ) { $knt_bad_add .= " $full_test_id"; }
             system ("cp -f $extract_file $base_extract_file$extract_suffix");
-            system ("$p4_cmd add $base_extract_file$extract_suffix");
-            $p4_opened .= " $base_extract_file$extract_suffix";
+            system ("git add $base_extract_file$extract_suffix");
+            $git_opened .= " $base_extract_file$extract_suffix";
         }
           }
        }
@@ -3524,8 +3399,8 @@ sub go {
               &out_file ( $out_buffer );
           }
           if($use_which_extract==1 && $del_suffix_extract==1) {
-             system ("$p4_cmd delete $base_extract_file$extract_suffix");
-             $p4_deleted .= " $base_extract_file$extract_suffix";
+             system ("git rm $base_extract_file$extract_suffix");
+             $git_deleted .= " $base_extract_file$extract_suffix";
           }
           my $failure_key="$full_test_id";
     #     update test status if requested
@@ -3554,7 +3429,7 @@ sub go {
 
 #
 # clean remove root based files
-# fileclean 3: Delete files to be deleted defined in the QA.files_*. after each qa
+# fileclean 3: Delete files to be deleted defined in the or_QA.files_*. after each qa
 #
     &clean_up ;
 #   this will delete the files specified by rename    
@@ -3967,17 +3842,10 @@ if ( ! $required_example && ! $run_list && $longest_time && !$count_timeout ) {
 if ( $nlonglino > 0 ) {
     &out_file ( "     # $nlonglino out files longer than 2000 lines\n     $long_out_line" ) ;
 }
-if ( $p4_fixed_qa ) {
-    &out_file ( "     ### Following extract files were fixed but have alternate versions:\n" ) ;
-    &out_file ( "       $p4_fixed_qa\n"); 
-}
-  
+
 }
 &out_file ( $eq_line ) ;
 
-if ( $#changelists < 1 ) {
-      &out_file ( "Disabling tracking: no available older executables\n" ) ;
-}
 
 # Add 3 sec sleep to let or_qa_timeout.pl kill himself, jenkins could have issue if command not killed yet, seen since 2021.1
 if (defined $ENV{'JOB_NAME'} and $ENV{'JOB_NAME'} ne '') {
@@ -4183,44 +4051,29 @@ if ( $num_runs_failed ) {
 
 ## Reports for special runs
 
-if ( $p4_opened || $p4_deleted || $p4_fixed_qa ) {
+if ( $git_opened || $git_deleted ) {
     print("\n Changed extract files need to be submitted:\n\n");
-    print(" The list is in the file \"p4_files\"\n");
-    open ( P4FILES, "> p4_files" );
-    print  P4FILES "$p4_opened\n" ;
-    close  P4FILES ;
-    print   "$p4_opened\n" ;
-    
-    if ( $p4_deleted ) {
-  open ( P4FILES, "> p4_files_del" );
-  print  P4FILES "$p4_deleted\n" ;
-  close  P4FILES ;
-  print  "\n following files need to be deleted:\n" ;
-  print(" The list is in the file \"p4_files_del\"\n");
-  print  "$p4_deleted\n" ;
+    print(" The list is in the file \"git_files\"\n");
+    open ( GITFILES, "> p4_files" );
+    print  GITFILES "$git_opened\n" ;
+    close  GITFILES ;
+    print   "$git_opened\n" ;
+    for my $elem (split(' ',$git_opened)) {
+      system("git add $elem");
     }
     
-    if ( $p4_cmd ne "echo" ) {
-  print("\nFollowing p4 controlled files need to be submitted:\n\n");
-  system("$p4_cmd opened ../...");
+    if ( $git_deleted ) {
+      open ( GITFILES, "> git_files_del" );
+      print  GITFILES "$git_deleted\n" ;
+      close  GITFILES ;
+      print  "\n following files need to be deleted:\n" ;
+      print(" The list is in the file \"git_files_del\"\n");
+      print  "$git_deleted\n" ;
     }
     
-    if ( $p4_fixed_qa ) {
-  print "===============================================\n" ;
-  print " **** Following extract files need manual checkin\n\t because alternate versions exists:\n" ;
-  print ( " $p4_fixed_qa\n");
-
-  print "To do manual checkin you need for each example:\n";
-  print " - select which extract file needs to be fixed in\n";
-  print "\t (those are listed on the screen aboveor in file QA.summary\n";
-  print "\t  search for \"Trying extract\" for each example)\n";
-  print " - p4 edit this_extract_file\n";
-  print " - copy Extracted_data/QA_NN.NN_*.extract_ this_extract_file\n";
-  print " - where NN.NN is test id from the above list\n";
-  print "And at the end submit all changes.\n";
-  print "Remeber to do this manual fix for all alternate extracts...";
-  print "===============================================\n" ;
-    }
+    print("\nFollowing git controlled files need to be submitted:\n\n");
+    system("git status -uno");
+    
     if ( $knt_bad_ovr ) {
   print ( "\n    ***** WARNING ***** \n       Following fixed QA examples ended up with ERROR - please verify\n  $knt_bad_ovr \n\n" );
     }
@@ -4962,7 +4815,7 @@ sub mesystem {
 }
 
 #======================================================================
-# fileclean 3: Delete files to be deleted defined in the QA.files_*. after each qa
+# fileclean 3: Delete files to be deleted defined in the or_QA.files_*. after each qa
 sub clean_up {
 #     print "Clean_up:: ", join("::",@to_delete), ";;",
 # join("::",@to_delete_copy), "\n" if ($debug);
@@ -5953,13 +5806,7 @@ sub sensitivity_report {
     open(my $fh,">$file");
     print $fh $extract_file_sens;
     close($fh);
-    if ($sensitivity_set_extract) {
-      printf "Set up extract file ...\n";
-      printf "  => overwrite extract file $base_extract_file$extract_suffix with $file\n";
-      system ("$p4_cmd edit $base_extract_file$extract_suffix");
-      system ("cp -f $file $base_extract_file$extract_suffix");
-      printf "Set up extract file done.\n";
-    }
+
     my $stat_file=&preserve_1_file ($file, $saved_files_dir, $qa_fem_files_file, "sens") ;
     &out_file("Stat file :  $stat_file created.\n");
     $file=$full_test_id."_".$extract_file."_sens_stats";
@@ -6038,7 +5885,7 @@ sub sensitivity_report {
           }
         }
 
-        # Check several cases when there are already tolerances in QA.files
+        # Check several cases when there are already tolerances in or_QA.files
         if ($auto_insert) {
 
           # Get the already present tolerances (old) for this test
@@ -6157,7 +6004,7 @@ sub sensitivity_report {
         # print Dumper %extract_result;
         # print "------------------------------\n";
 
-        # If all constraints are respected we auto fill the QA.files
+        # If all constraints are respected we auto fill the or_QA.files
         if ($auto_insert) {
           print "\n\tInsertion allowed\n";
 
@@ -6649,7 +6496,7 @@ sub run_in_dir {
   $newdir = $newdir."/scripts";
     }
     chdir $pwd or die "Cant go back ??\n" ;
-    system "cp -f QA.files* or_QA.constants *.inc $newdir/" ;
+    system "cp -f or_QA.files* or_QA.constants *.inc $newdir/" ;
     if ( -f "or_QA.constants.local" ) {
   system "cp -f or_QA.constants.local $newdir/" ;
     }
@@ -6734,36 +6581,7 @@ sub fmt_time_db {
     my $runcputime = sprintf("%02d:%02d:%02d",$timehours , $timemins,$timessecs);
     return $runcputime;
 }
-##########################################################################
-sub chk_4_alt_extract_in_p4 {
 
-    my ($nu_temp, );
-
-    $nu_temp = 0 ;
-    if ( $have_extract2 || $extractinif >= 0 ) {
-  $nu_temp = 2 ; }
-    if ( $uname ne "Linux" && $nu_temp == 0 ) { return 0; }
-
-    if ( $nu_temp == 0 ) {
-  $nu_temp = `$p4_cmd fstat -Rh $base_extract_file...| grep depotFile | wc -l`;
-    }
-    if ( $nu_temp > 1 ) {
-  if ( $p4_fixed_qa ) {
-      $p4_fixed_qa .= ",$full_test_id";
-  } else {
-      $p4_fixed_qa = "$full_test_id";
-  }
-  if ( $have_extract2 ) {
-      &out_file ( "Multiple extracts present (extract2 commands found)\n" ) ;
-  } elsif ( $extractinif ) {
-      &out_file ( "Multiple extracts present (conditional extract command(s) found)\n" ) ;
-  } else {
-      &out_file ( "Multiple extracts present in perforce:\n" ) ;
-      &out_file ( `$p4_cmd fstat -Rh $base_extract_file...| grep depotFile` . "\n" ); 
-  }
-    }
-    return ($nu_temp>1);
-}
 ##########################################################################
 sub rmtree {
     $dir = $_[0];
@@ -7056,8 +6874,14 @@ sub check_new_files {
                   if (-d $create_ref_dir) {
                     $cmd=0;
                     print "Cleaning files under $create_ref_dir ...\n";
-                    system("p4 revert $create_ref_dir/...");
-                    system("rm -f $create_ref_dir/*A[0-9][0-9][0-9] $create_ref_dir/*A[0-9][0-9][0-9].gz");
+                    # system("p4 revert $create_ref_dir/...");
+                    opendir(CDIR, $create_ref_dir) or die $!;
+                    while (my $cdirfile = readdir(CDIR)) {
+                        $cdirfile =~ /A[0-9][0-9][0-9](\.gz)?$/ and do {
+                          print "TRACE DEL TO GIT $create_ref_dir/$cdirfile\n";
+                          system("git rm -f $create_ref_dir/$cdirfile");
+                        };
+                    }
                   }
                   else {$cmd=system("mkdir -p $create_ref_dir")};
                   print "Create reference dir status=$cmd\n";
@@ -7129,22 +6953,19 @@ sub check_new_files {
                     if ($i_copy and $create_ref_dir) {
                       my $tmpcmd="cp -fp $file $create_ref_dir";
                       system($tmpcmd) and printf $tmpcmd."\n";;
+                      print "TRACE ADD TO GIT $create_ref_dir/$file\n";
+                      system("git add $create_ref_dir/$file");
                     }
                     my $tmpcmd="cp -fp $file $keep_dir";
                     system($tmpcmd) and printf $tmpcmd."\n";;
-                  }
-                  if ($create_ref > 0) { 
-                    my $ref_dir="$input_path/reference";
-                    printf "Reconcile directory : \n$ref_dir/ \n";
-                    $cmd="p4 reconcile -dea $ref_dir/...";
-                    system($cmd);
-                  }            
+                  }         
                 }
                 else {
                   printf "Cannot create keep results directory : $keep_dir\n";
                   printf "Cannot copy new files to keep results directory.\n";
                 }
               }
+
       print "\n";
         }else{
           #at the end
@@ -8500,7 +8321,7 @@ while ( $ARGV[$tmp] ) {
     print "\t--version report exec version in QA.summary\n" ;
     print "\t--clean[-all]  housecleaning\n" ;
     print "\t--check_timings\n" ;
-    print "\t--fix_qa_files - create QA.files.bak with good marks\n" ;
+    print "\t--fix_qa_files - create or_QA.files.bak with good marks\n" ;
     #     print "\t--atag --atag_all\n" ; valid but not documented
     print "\t--check_qa - check for diags/echo/incl qadiags\n" ;
     print "\t--crlf - check out files for not-clean-ASCII\n" ;
@@ -8531,7 +8352,7 @@ while ( $ARGV[$tmp] ) {
     print "\t--check_newfile check if any leftover\n" ;
     print "\t--tracker_shortcut_limits=max_cls,max_failures\n" ;
     print "\t--sensitivity_check perform a sensitivity study by running several times each test\n" ;
-    print "\t--sensitivity_set_recommended_tolerances automatically insert proposed tolerances into the related QA.files if they respect the rule from qa_sensitivity_contraints\n";
+    print "\t--sensitivity_set_recommended_tolerances automatically insert proposed tolerances into the related or_QA.files if they respect the rule from qa_sensitivity_contraints\n";
     print "\t--sensitivity_set_recommended_tolerances_submit same as --sensitivity_set_recommended_tolerances, in addition submit the changes on perforce\n";
     print "\t  default values are N=10 and Xalea=1e-6\n" ;
     print "\t--sensitivity_n=[N] set up N value for sensitivity (sensitivity is activated)\n" ;
@@ -8638,25 +8459,6 @@ if ( $force_extract_overwrite || $add_missing_extract || $fix_atag ) {
   print "$selfref_pass $force_extract_overwrite $add_missing_extract\n";
   die "ERROR: --selfreference with --add/--overwrite_extract\n";
     }
-    if ( -t STDIN && -t STDOUT ) {
-  # interactive run, check if perforce is ok
-  if ( $ENV{"P4_COMMAND"} ) {
-      $p4_cmd  = $ENV{"P4_COMMAND"} ;
-  } else {
-      if ( $platform eq "NT" ) {
-    $p4_cmd   = "echo" ;
-    print("*** To automatically call perforce for modified files:\n");
-    print("*** use:     SET P4_COMMAND=p4 or p4_cygwin\n");
-      }
-  }
-  if ( ! `$p4_cmd login -s` ) {
-      print "please login into perforce. If you can\'t then use:\n" .
-    "\tsetenv P4_COMMAND echo\n" ;
-      exit();
-  }
-    } else {
-  die "--add/--overwrite_extract not allowed in batch mode\n";
-    }
 }
 
 my $required_example1=&sort_ids($required_example);
@@ -8713,7 +8515,7 @@ sub sort_ids () {
         }
       }
       else { 
-        die "Cannot find valid QA.files related to $id";
+        die "Cannot find valid or_QA.files related to $id";
       }
 
     }
