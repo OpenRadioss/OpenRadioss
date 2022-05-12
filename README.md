@@ -1,5 +1,5 @@
 # Welcome to OpenRadioss
-
+            
 [Letter](https://openradioss.atlassian.net/wiki/spaces/OPENRADIOSS/blog/2022/04/08/5570561/An+Open+Letter+to+the+Radioss+Community)  
 [reference guide](https://2022.help.altair.com/2022/simulation/pdfs/radopen/AltairRadioss_2022_ReferenceGuide.pdf)  
 [user guide](https://2022.help.altair.com/2022/simulation/pdfs/radopen/AltairRadioss_2022_UserGuide.pdf)  
