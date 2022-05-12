@@ -4024,7 +4024,7 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 C-----------------------------------------------
-C READ FILE dans l'ordre des sections lues sur le fichier
+C READ FILE dans l ordre des sections lues sur le fichier
 C  T = TT + DT2
 C-----------------------------------------------
        IF(NSPMD.EQ.1) THEN
@@ -4950,6 +4950,7 @@ C
         IF(ISPMD.EQ.0) THEN
           CALL CUR_FIL_C(4)
         END IF
+        L = 0
         DO WHILE(TT2.LE.TTT)
           IFRL1=IFRL2
           IFRL2=MOD(IFRL1+1,2)
@@ -5029,13 +5030,13 @@ C
             NSTRF(5) = IR2
 C
             CALL READ_R_C(R4,1)
+            IF(R4 .NE. ZERO) L = 0
             TT1=TT2
             TT2=R4
           ENDIF          
 C-----------------------------------------------
           CALL READ_I_C(LL,1)
           CALL READ_I_C(NSECR,1)
-          L = 0
           DO NR=1,NSECR
             CALL READ_I_C(ID_SEC,1)
             K0  = NSTRF(25)
