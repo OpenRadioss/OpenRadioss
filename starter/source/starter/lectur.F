@@ -6693,7 +6693,8 @@ C        PFLUID & PBLAST & LOAD PRESSURE
          END IF
          IF(NLOADP_B/=0)THEN
            CALL HM_READ_PBLAST(ITAB    ,ITABM1  ,UNITAB  ,IGRSURF,  NUMLOADP,
-     .                      ILOADP  ,LLOADP  ,LOADP   ,X , BUFSF,   LSUBMODEL)
+     .                        ILOADP   ,LLOADP  ,LOADP   ,X      , BUFSF    ,
+     .                        LSUBMODEL,RTRANS)
         ENDIF
          IF(NLOADP_HYD/=0)THEN
            CALL HM_READ_LOAD_PRESSURE(

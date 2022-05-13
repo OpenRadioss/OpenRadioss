@@ -43,7 +43,8 @@ Chd|        R2R_MOD                       share/modules1/r2r_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_PBLAST(ITAB    ,ITABM1    ,UNITAB   ,IGRSURF  ,NUMLOADP,
-     .                          ILOADP  ,IBUFLOADP ,FACLOADP, X, BUFSF, LSUBMODEL)
+     .                          ILOADP  ,IBUFLOADP ,FACLOADP, X, BUFSF, LSUBMODEL,
+     .                          RTRANS)
 C
 C-----------------------------------------------
 C FAC_M FACL FAC_T : enable to convert (custom) input unit to working unit system
@@ -82,11 +83,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER ITAB(NUMNOD), ITABM1(*), NUMLOADP, ILOADP(SIZLOADP,NUMLOADP), IBUFLOADP(*)
+      INTEGER ITAB(NUMNOD), ITABM1(NUMNOD), NUMLOADP, ILOADP(SIZLOADP,NUMLOADP), IBUFLOADP(*)
       my_real FACLOADP(LFACLOAD,NUMLOADP)
       my_real, INTENT(IN) :: X(3,NUMNOD)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       my_real, INTENT(INOUT) :: BUFSF(SBUFSF)
+      my_real, INTENT(IN) :: RTRANS(NTRANSF,NRTRANS)
 C-----------------------------------------------
       TYPE (SURF_)   ,TARGET, DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
@@ -100,7 +102,7 @@ C-----------------------------------------------
       INTEGER I,J,K,K1,K2,NOD, NCUR, IFRA, ISENS,NN,IGU,IGS,
      .        UID,IAD,ID,IFLAGUNIT,NCURS,TSENS, IFLAG, SURF_ID, internal_SURF_ID,
      .        FUN_HSP,ICFIELD8,IFRA1,IFRA2,ICFIELD12,ICFIELD9,ICFIELD13,
-     .        NCUR_HSP,NCUR_VEL,NCUR_CX,IABAC,PHI_I, IREC0, IADPL, itmp, IS
+     .        NCUR_HSP,NCUR_VEL,NCUR_CX,IABAC,PHI_I, IREC0, IADPL, itmp, IS, SUB_ID
       INTEGER CAPT,H,FUN_CX,FUN_VEL,
      .        I_SUBMAT_WATER, I_SUBMAT_AIR, IMLW, ITA_SHIFT,
      .        N1,N2,N3,N4,IERR1, ISIZ_SEG, NDT, ILD_PBLAST,IZ_UPDATE, IMODEL,NODE_ID
@@ -195,7 +197,8 @@ C-----------------------------------------------
       CALL HM_OPTION_START('/LOAD/PBLAST')
      
       DO K = 1, NLOADP_B
-         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_TITR = TITR, OPTION_ID = ID)
+         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_TITR = TITR, OPTION_ID = ID,
+     .                            SUBMODEL_ID = SUB_ID)         
          
             IAD      = NUMLOADP + 1
             SURF_ID    = 0 !target surface id
@@ -235,6 +238,8 @@ C-----------------------------------------------
             IF(XDET/=ZERO .OR. YDET/=ZERO .OR. ZDET/=ZERO)THEN
               BOOL_COORD=.TRUE.
             ENDIF
+            
+            IF(SUB_ID /= 0)CALL SUBROTPOINT(XDET,YDET,ZDET,RTRANS,SUB_ID,LSUBMODEL)
             
             FAC_M_bb = FAC_MASS*EP03                          
             FAC_L_bb = FAC_LENGTH*EP02                        
@@ -979,7 +984,7 @@ C-----------------------------------------------
                     DO WHILE (ITER<=NITER .AND. RES>TOL)                                                                                                                                                      
                       ITER=ITER+1                                                                                                                                                                             
                       IF(ABS(ZETA) < EM06)THEN                                                                                                                                                                
-                        !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b�)                                                                                                                                  
+                        !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b?)                                                                                                                                  
                         DIFF = kk*(-UNSIX + UNDOUZE*ZETA)                                                                                                                                                     
                         ZETA = ZETA - FUNCT/DIFF                                                                                                                                                              
                         FUNCT = UNDEMI*kk-UNSIX*kk*ZETA - I_inci                                                                                                                                              
@@ -1005,7 +1010,7 @@ C-----------------------------------------------
                     DO WHILE (ITER<=NITER .AND. RES>TOL)                                                                                                                                                      
                       ITER=ITER+1                                                                                                                                                                             
                       IF(ABS(ZETA) < EM06)THEN                                                                                                                                                                
-                        !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b�)                                                                                                                                  
+                        !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b?)                                                                                                                                  
                         DIFF = kk*(-UNSIX + UNDOUZE*ZETA)                                                                                                                                                     
                         ZETA = ZETA - FUNCT/DIFF                                                                                                                                                              
                         FUNCT = UNDEMI*kk-UNSIX*kk*ZETA - I_refl                                                                                                                                              
