@@ -42,7 +42,7 @@ Chd|====================================================================
      7      SIGOXX , SIGOYY , SIGOZZ  , SIGOXY, SIGOYZ, SIGOZX,
      8      SIGNXX , SIGNYY , SIGNZZ  , SIGNXY, SIGNYZ, SIGNZX,
      9      SIGVXX , SIGVYY , SIGVZZ  , SIGVXY, SIGVYZ, SIGVZX,
-     A      SOUNDSP, VISCMAX, UVAR    , OFF                    )
+     A      SOUNDSP, VISCMAX, UVAR    , OFF             )
 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER       NEL,     NUPARAM, NUVAR
+      INTEGER       NEL,     NUPARAM, NUVAR 
       my_real 
      .      TIME       , TIMESTEP   , UPARAM(NUPARAM),
      .      RHO   (NEL), RHO0  (NEL), VOLUME(NEL), EINT(NEL),
@@ -92,7 +92,7 @@ C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
       INTEGER I,J,K,L,NROT,KEN
-      INTEGER VPVEC
+      INTEGER VPVEC,ICASE
       my_real 
      . EY,C1,C2,ET,VMU,VMU0
      . , A,B,C,D,VAR
@@ -102,7 +102,7 @@ C----------------------------------------------------------------
      . , C1XY,C2XY,GTXY,VMUXY, C1YZ,C2YZ,GTYZ,VMUYZ
      . , C1ZX,C2ZX,GTZX,VMUZX, P0,PHI,GAMA0,FAC,FAC1
      . , S(3,3),SIGPR(3),DIRPR(3,3)
-     . , C1ZZ,C2ZZ,ETZZ,VMUZZ
+     . , C1ZZ,C2ZZ,ETZZ,VMUZZ,SIGT_CUTOFF,SIGC_CUTOFF
       my_real  
      .   E(MVSIZ),EDOT(MVSIZ),DAV,E1,E2,E3,E4,E5,E6,EPSP
      . , EPET(MVSIZ),EMET(MVSIZ),EPETS(MVSIZ),EMETS(MVSIZ)
@@ -134,9 +134,9 @@ C INITIALIZATION
       IF(ISIGI == 0) THEN
       IF(TIME.EQ.ZERO) THEN
         DO 1000 J=1,NUVAR
-        DO 1000 I=1,NEL
-          UVAR(I,J)=ZERO
- 1000   CONTINUE
+           DO 1000 I=1,NEL
+             UVAR(I,J)=ZERO
+ 1000     CONTINUE
       ENDIF
       ENDIF      
 
@@ -148,7 +148,7 @@ C INITIALIZATION
       P0    = UPARAM(6)
       PHI   = UPARAM(7)
       GAMA0 = UPARAM(8)
-
+      !!
       VPVEC = 0
 C COMPUTE VOLUMETRIC STRAIN-AIR PRESSURE
       DO 900 I=1,NEL
@@ -156,506 +156,440 @@ C COMPUTE VOLUMETRIC STRAIN-AIR PRESSURE
         VAR = -(P0*GAMA(I))/(UN+GAMA(I)-PHI+EM15)
         SIGAIR(I) = MAX(ZERO,VAR)
   900 CONTINUE
-
-      GOTO (1,2,3) ,ABS(KEN)+1
+      ICASE = ABS(KEN) + 1       
+      SELECT CASE (ICASE)
 C----------------------------------
-    1 CONTINUE
+       CASE(1)
 C----------------------------------
-      FAC = UPARAM(9)
-      FAC1 = UPARAM(10)
+         FAC = UPARAM(9)
+         FAC1 = UPARAM(10)
 
-      DO 100 I=1,NEL
-        IF(IFUNC(1).NE.0) THEN
-          SYIELD(I)=FAC*FINTER(IFUNC(1),GAMA(I),NPF,TF,B*C)
-        ELSE
-          SYIELD(I) = ABS(A+B*(UN+C*GAMA(I)))
-        ENDIF
-        IF(IFUNC(2).NE.0)THEN
-           DAV = (EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))*THIRD
-           E1 = EPSPXX(I) - DAV
-           E2 = EPSPYY(I) - DAV
-           E3 = EPSPZZ(I) - DAV
-           E4 = UNDEMI*EPSPXY(I)
-           E5 = UNDEMI*EPSPYZ(I)
-           E6 = UNDEMI*EPSPZX(I)
-           EPSP =UNDEMI*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
-           EPSP = SQRT(TROIS*EPSP)/TDEMI
-           SYIELD(I) = FAC1*SYIELD(I)*(FINTER(IFUNC(2),EPSP,NPF,TF,B*C))
-        ENDIF
-  100 CONTINUE
+         DO 100 I=1,NEL
+           IF(IFUNC(1).NE.0) THEN
+             SYIELD(I)=FAC*FINTER(IFUNC(1),GAMA(I),NPF,TF,B*C)
+           ELSE
+             SYIELD(I) = ABS(A+B*(UN+C*GAMA(I)))
+           ENDIF
+           IF(IFUNC(2).NE.0)THEN
+              DAV = (EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))*THIRD
+              E1 = EPSPXX(I) - DAV
+              E2 = EPSPYY(I) - DAV
+              E3 = EPSPZZ(I) - DAV
+              E4 = UNDEMI*EPSPXY(I)
+              E5 = UNDEMI*EPSPYZ(I)
+              E6 = UNDEMI*EPSPZX(I)
+              EPSP =UNDEMI*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
+              EPSP = SQRT(TROIS*EPSP)/TDEMI
+              SYIELD(I) = FAC1*SYIELD(I)*(FINTER(IFUNC(2),EPSP,NPF,TF,B*C))
+           ENDIF
+  100     CONTINUE
 
-      DO 110 I=1,NEL
-        SIGSXX(I)=SIGOXX(I)+SIGAIR(I)
-        SIGSYY(I)=SIGOYY(I)+SIGAIR(I)
-        SIGSZZ(I)=SIGOZZ(I)+SIGAIR(I)
-        SIGSXY(I)=SIGOXY(I)
-        SIGSYZ(I)=SIGOYZ(I)
-        SIGSZX(I)=SIGOZX(I)
-  110 CONTINUE
+          DO 110 I=1,NEL
+            SIGSXX(I)=SIGOXX(I)+SIGAIR(I)
+            SIGSYY(I)=SIGOYY(I)+SIGAIR(I)
+            SIGSZZ(I)=SIGOZZ(I)+SIGAIR(I)
+            SIGSXY(I)=SIGOXY(I)
+            SIGSYZ(I)=SIGOYZ(I)
+            SIGSZX(I)=SIGOZX(I)
+  110     CONTINUE
 
-C COMPUTE TRIAL STRESSES
-      DO 120 I=1,NEL
-        SIGSXX(I)=SIGSXX(I)+EY*EPSPXX(I)*TIMESTEP
-        SIGSYY(I)=SIGSYY(I)+EY*EPSPYY(I)*TIMESTEP
-        SIGSZZ(I)=SIGSZZ(I)+EY*EPSPZZ(I)*TIMESTEP
-        SIGSXY(I)=SIGSXY(I)+EY*EPSPXY(I)*TIMESTEP*UNDEMI
-        SIGSYZ(I)=SIGSYZ(I)+EY*EPSPYZ(I)*TIMESTEP*UNDEMI
-        SIGSZX(I)=SIGSZX(I)+EY*EPSPZX(I)*TIMESTEP*UNDEMI
-  120 CONTINUE
+C COMP    UTE TRIAL STRESSES
+          DO 120 I=1,NEL
+            SIGSXX(I)=SIGSXX(I)+EY*EPSPXX(I)*TIMESTEP
+            SIGSYY(I)=SIGSYY(I)+EY*EPSPYY(I)*TIMESTEP
+            SIGSZZ(I)=SIGSZZ(I)+EY*EPSPZZ(I)*TIMESTEP
+            SIGSXY(I)=SIGSXY(I)+EY*EPSPXY(I)*TIMESTEP*UNDEMI
+            SIGSYZ(I)=SIGSYZ(I)+EY*EPSPYZ(I)*TIMESTEP*UNDEMI
+            SIGSZX(I)=SIGSZX(I)+EY*EPSPZX(I)*TIMESTEP*UNDEMI
+  120     CONTINUE
 C si ancienne methode alors ....
-      IF (VPVEC.EQ.1) THEN
-       DO 130 I=1,NEL
-        S(1,1)=SIGSXX(I)
-        S(2,1)=SIGSXY(I)
-        S(2,2)=SIGSYY(I)
-        S(3,1)=SIGSZX(I)
-        S(3,2)=SIGSYZ(I)
-        S(3,3)=SIGSZZ(I)
+          IF (VPVEC.EQ.1) THEN
+           DO 130 I=1,NEL
+            S(1,1)=SIGSXX(I)
+            S(2,1)=SIGSXY(I)
+            S(2,2)=SIGSYY(I)
+            S(3,1)=SIGSZX(I)
+            S(3,2)=SIGSYZ(I)
+            S(3,3)=SIGSZZ(I)
 
 C TRANSFORM GLOBAL STRESSES (S_IJ) TO PRINCIPAL STRESSES (SIGPR_K)
-        CALL JACOBIEW(S,3,SIGPR,DIRPR,NROT)
+            CALL JACOBIEW(S,3,SIGPR,DIRPR,NROT)
 
 C YIELD CRITERIA - SCALING
-        SIGPR(1)=MIN(SYIELD(I),ABS(SIGPR(1)))*SIGN(UN,SIGPR(1))
-        SIGPR(2)=MIN(SYIELD(I),ABS(SIGPR(2)))*SIGN(UN,SIGPR(2))
-        SIGPR(3)=MIN(SYIELD(I),ABS(SIGPR(3)))*SIGN(UN,SIGPR(3))
+            SIGPR(1)=MIN(SYIELD(I),ABS(SIGPR(1)))*SIGN(UN,SIGPR(1))
+            SIGPR(2)=MIN(SYIELD(I),ABS(SIGPR(2)))*SIGN(UN,SIGPR(2))
+            SIGPR(3)=MIN(SYIELD(I),ABS(SIGPR(3)))*SIGN(UN,SIGPR(3))
 
 C TRANSFORM PRINCIPAL STRESSES (SIGMA_K) TO GLOBAL STRESSES (SIGMA_IJ)
-        DO 131 K=1,3
-          DO 131 L=1,3
-            S(K,L)=ZERO
-            IF(K.EQ.L) S(K,L)= SIGPR(K)
-  131   CONTINUE
-        CALL DREH(S,DIRPR,1,1,1)
+            DO 131 K=1,3
+              DO 131 L=1,3
+                S(K,L)=ZERO
+                IF(K.EQ.L) S(K,L)= SIGPR(K)
+  131       CONTINUE
+            CALL DREH(S,DIRPR,1,1,1)
    
-        SIGSXX(I)=S(1,1)
-        SIGSXY(I)=S(2,1)
-        SIGSYY(I)=S(2,2)
-        SIGSZX(I)=S(3,1)
-        SIGSYZ(I)=S(3,2)
-        SIGSZZ(I)=S(3,3)
-  130  CONTINUE
-C fin ancienne methode
-C sinon
-      ELSE
-        DO I = 1, NEL
-          SIGV(I,1) = SIGSXX(I)
-          SIGV(I,2) = SIGSYY(I)
-          SIGV(I,3) = SIGSZZ(I)
-          SIGV(I,4) = SIGSXY(I)
-          SIGV(I,5) = SIGSYZ(I)
-          SIGV(I,6) = SIGSZX(I)
-        ENDDO
-Cow         for a simple precision executing
-        IF (IRESP.EQ.1) THEN
-          CALL VALPVECDP_V(SIGV,SIGPRV,DIRPRV,NEL)
-        ELSE
-          CALL VALPVEC_V(SIGV,SIGPRV,DIRPRV,NEL)
-        ENDIF
-        DO I = 1, NEL
-C YIELD CRITERIA - SCALING
-          SIGPRV(I,1)=SIGN(MIN(SYIELD(I),ABS(SIGPRV(I,1))),SIGPRV(I,1))
-          SIGPRV(I,2)=SIGN(MIN(SYIELD(I),ABS(SIGPRV(I,2))),SIGPRV(I,2))
-          SIGPRV(I,3)=SIGN(MIN(SYIELD(I),ABS(SIGPRV(I,3))),SIGPRV(I,3))
+            SIGSXX(I)=S(1,1)
+            SIGSXY(I)=S(2,1)
+            SIGSYY(I)=S(2,2)
+            SIGSZX(I)=S(3,1)
+            SIGSYZ(I)=S(3,2)
+            SIGSZZ(I)=S(3,3)
+  130      CONTINUE
+C fin     ancienne methode
+C sino    n
+          ELSE
+            DO I = 1, NEL
+              SIGV(I,1) = SIGSXX(I)
+              SIGV(I,2) = SIGSYY(I)
+              SIGV(I,3) = SIGSZZ(I)
+              SIGV(I,4) = SIGSXY(I)
+              SIGV(I,5) = SIGSYZ(I)
+              SIGV(I,6) = SIGSZX(I)
+            ENDDO
+Cow for a simple precision executing
+            IF (IRESP.EQ.1) THEN
+              CALL VALPVECDP_V(SIGV,SIGPRV,DIRPRV,NEL)
+            ELSE
+              CALL VALPVEC_V(SIGV,SIGPRV,DIRPRV,NEL)
+            ENDIF
+            DO I = 1, NEL
+C YIEL D CRITERIA - SCALING
+              SIGPRV(I,1)=SIGN(MIN(SYIELD(I),ABS(SIGPRV(I,1))),SIGPRV(I,1))
+              SIGPRV(I,2)=SIGN(MIN(SYIELD(I),ABS(SIGPRV(I,2))),SIGPRV(I,2))
+              SIGPRV(I,3)=SIGN(MIN(SYIELD(I),ABS(SIGPRV(I,3))),SIGPRV(I,3))
 C TRANSFORM PRINCIPAL STRESSES (SIGMA_K) TO GLOBAL STRESSES (SIGMA_IJ)
-          SIGSXX(I) = DIRPRV(I,1,1)*DIRPRV(I,1,1)*SIGPRV(I,1)
-     .              + DIRPRV(I,1,2)*DIRPRV(I,1,2)*SIGPRV(I,2)
-     .              + DIRPRV(I,1,3)*DIRPRV(I,1,3)*SIGPRV(I,3)
-          SIGSYY(I) = DIRPRV(I,2,2)*DIRPRV(I,2,2)*SIGPRV(I,2)
-     .              + DIRPRV(I,2,3)*DIRPRV(I,2,3)*SIGPRV(I,3)
-     .              + DIRPRV(I,2,1)*DIRPRV(I,2,1)*SIGPRV(I,1)
-          SIGSZZ(I) = DIRPRV(I,3,3)*DIRPRV(I,3,3)*SIGPRV(I,3)
-     .              + DIRPRV(I,3,1)*DIRPRV(I,3,1)*SIGPRV(I,1)
-     .              + DIRPRV(I,3,2)*DIRPRV(I,3,2)*SIGPRV(I,2)
-          SIGSXY(I) = DIRPRV(I,1,1)*DIRPRV(I,2,1)*SIGPRV(I,1)
-     .              + DIRPRV(I,1,2)*DIRPRV(I,2,2)*SIGPRV(I,2)
-     .              + DIRPRV(I,1,3)*DIRPRV(I,2,3)*SIGPRV(I,3)
-          SIGSYZ(I) = DIRPRV(I,2,2)*DIRPRV(I,3,2)*SIGPRV(I,2)
-     .              + DIRPRV(I,2,3)*DIRPRV(I,3,3)*SIGPRV(I,3)
-     .              + DIRPRV(I,2,1)*DIRPRV(I,3,1)*SIGPRV(I,1)
-          SIGSZX(I) = DIRPRV(I,3,3)*DIRPRV(I,1,3)*SIGPRV(I,3)
-     .              + DIRPRV(I,3,1)*DIRPRV(I,1,1)*SIGPRV(I,1)
-     .              + DIRPRV(I,3,2)*DIRPRV(I,1,2)*SIGPRV(I,2)
-        ENDDO
-      ENDIF
-C fin chgt
-
+              SIGSXX(I) = DIRPRV(I,1,1)*DIRPRV(I,1,1)*SIGPRV(I,1)
+     .                  + DIRPRV(I,1,2)*DIRPRV(I,1,2)*SIGPRV(I,2)
+     .                  + DIRPRV(I,1,3)*DIRPRV(I,1,3)*SIGPRV(I,3)
+              SIGSYY(I) = DIRPRV(I,2,2)*DIRPRV(I,2,2)*SIGPRV(I,2)
+     .                  + DIRPRV(I,2,3)*DIRPRV(I,2,3)*SIGPRV(I,3)
+     .                  + DIRPRV(I,2,1)*DIRPRV(I,2,1)*SIGPRV(I,1)
+              SIGSZZ(I) = DIRPRV(I,3,3)*DIRPRV(I,3,3)*SIGPRV(I,3)
+     .                  + DIRPRV(I,3,1)*DIRPRV(I,3,1)*SIGPRV(I,1)
+     .                  + DIRPRV(I,3,2)*DIRPRV(I,3,2)*SIGPRV(I,2)
+              SIGSXY(I) = DIRPRV(I,1,1)*DIRPRV(I,2,1)*SIGPRV(I,1)
+     .                  + DIRPRV(I,1,2)*DIRPRV(I,2,2)*SIGPRV(I,2)
+     .                  + DIRPRV(I,1,3)*DIRPRV(I,2,3)*SIGPRV(I,3)
+              SIGSYZ(I) = DIRPRV(I,2,2)*DIRPRV(I,3,2)*SIGPRV(I,2)
+     .                  + DIRPRV(I,2,3)*DIRPRV(I,3,3)*SIGPRV(I,3)
+     .                  + DIRPRV(I,2,1)*DIRPRV(I,3,1)*SIGPRV(I,1)
+              SIGSZX(I) = DIRPRV(I,3,3)*DIRPRV(I,1,3)*SIGPRV(I,3)
+     .                  + DIRPRV(I,3,1)*DIRPRV(I,1,1)*SIGPRV(I,1)
+     .                  + DIRPRV(I,3,2)*DIRPRV(I,1,2)*SIGPRV(I,2)
+            ENDDO
+          ENDIF
+C 
 C COMPUTE UPDATED STRESSES AND SOUND SPEED
-      DO 140 I=1,NEL
-        SIGNXX(I)=OFF(I)*SIGSXX(I)-SIGAIR(I)
-        SIGNYY(I)=OFF(I)*SIGSYY(I)-SIGAIR(I)
-        SIGNZZ(I)=OFF(I)*SIGSZZ(I)-SIGAIR(I)
-        SIGNXY(I)=OFF(I)*SIGSXY(I)
-        SIGNYZ(I)=OFF(I)*SIGSYZ(I)
-        SIGNZX(I)=OFF(I)*SIGSZX(I)
+          DO 140 I=1,NEL
+            SIGNXX(I)=OFF(I)*SIGSXX(I)-SIGAIR(I)
+            SIGNYY(I)=OFF(I)*SIGSYY(I)-SIGAIR(I)
+            SIGNZZ(I)=OFF(I)*SIGSZZ(I)-SIGAIR(I)
+            SIGNXY(I)=OFF(I)*SIGSXY(I)
+            SIGNYZ(I)=OFF(I)*SIGSYZ(I)
+            SIGNZX(I)=OFF(I)*SIGSZX(I)
 
-        SOUNDSP(I)=SQRT(EY/RHO0(I))
-  140 CONTINUE
-      GOTO 9000
+            SOUNDSP(I)=SQRT(EY/RHO0(I))
+  140     CONTINUE
 
 C--------------------------
-    2 CONTINUE
+       CASE(2)  
 C--------------------------
-      C1    = UPARAM(9)
-      C2    = UPARAM(10)
-      ET    = UPARAM(11)
-      VMU   = UPARAM(12)
-      VMU0  = UPARAM(13)
-      FAC   = UPARAM(14)
-      FAC1  = UPARAM(15)
+         C1    = UPARAM(9)
+         C2    = UPARAM(10)
+         ET    = UPARAM(11)
+         VMU   = UPARAM(12)
+         VMU0  = UPARAM(13)
+         FAC   = UPARAM(14)
+         FAC1  = UPARAM(15)
 
 C COMPUTE YOUNG MODULUS, ETC.
-      DO 200 I=1,NEL
-        EDOT(I)=MAX(
-     &          ABS(EPSPXX(I)),ABS(EPSPYY(I)),ABS(EPSPZZ(I)),
-     &          ABS(EPSPXY(I)),ABS(EPSPYZ(I)),ABS(EPSPZX(I)))
-        E(I)=C1*EDOT(I)+C2
-        E(I)=MAX(E(I),EY)
-        EPET(I)=(E(I)+ET)/VMU
-        EMET(I)=(E(I)*ET)/VMU 
-        EPETS(I)=(E(I)+ET)/VMU0
-        EMETS(I)=DEUX*(E(I)*ET)/VMU0
-  200 CONTINUE
+         DO 200 I=1,NEL
+           EDOT(I)=MAX(
+     &             ABS(EPSPXX(I)),ABS(EPSPYY(I)),ABS(EPSPZZ(I)),
+     &             ABS(EPSPXY(I)),ABS(EPSPYZ(I)),ABS(EPSPZX(I)))
+           E(I)=C1*EDOT(I)+C2
+           E(I)=MAX(E(I),EY)
+           EPET(I)=(E(I)+ET)/VMU
+           EMET(I)=(E(I)*ET)/VMU 
+           EPETS(I)=(E(I)+ET)/VMU0
+           EMETS(I)=DEUX*(E(I)*ET)/VMU0
+  200    CONTINUE
 
 C COMPUTE YIELD STRESS
-      DO 210 I=1,NEL
-        IF(IFUNC(1).NE.0) THEN
-          SYIELD(I)=FAC*FINTER(IFUNC(1),GAMA(I),NPF,TF,B*C)
-        ELSE
-          SYIELD(I) = ABS(A+B*(UN+C*GAMA(I)))
-        ENDIF
-        IF(IFUNC(2).NE.0)THEN
-           DAV = (EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))*THIRD
-           E1 = EPSPXX(I) - DAV
-           E2 = EPSPYY(I) - DAV
-           E3 = EPSPZZ(I) - DAV
-           E4 = UNDEMI*EPSPXY(I)
-           E5 = UNDEMI*EPSPYZ(I)
-           E6 = UNDEMI*EPSPZX(I)
-           EPSP =UNDEMI*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
-           EPSP = SQRT(TROIS*EPSP)/TDEMI
-           SYIELD(I) = FAC1*SYIELD(I)*(FINTER(IFUNC(2),EPSP,NPF,TF,B*C))
-        ENDIF
-  210 CONTINUE
+         DO 210 I=1,NEL
+           IF(IFUNC(1).NE.0) THEN
+             SYIELD(I)=FAC*FINTER(IFUNC(1),GAMA(I),NPF,TF,B*C)
+           ELSE
+             SYIELD(I) = ABS(A+B*(UN+C*GAMA(I)))
+           ENDIF
+           IF(IFUNC(2).NE.0)THEN
+              DAV = (EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))*THIRD
+              E1 = EPSPXX(I) - DAV
+              E2 = EPSPYY(I) - DAV
+              E3 = EPSPZZ(I) - DAV
+              E4 = UNDEMI*EPSPXY(I)
+              E5 = UNDEMI*EPSPYZ(I)
+              E6 = UNDEMI*EPSPZX(I)
+              EPSP =UNDEMI*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
+              EPSP = SQRT(TROIS*EPSP)/TDEMI
+              SYIELD(I) = FAC1*SYIELD(I)*(FINTER(IFUNC(2),EPSP,NPF,TF,B*C))
+           ENDIF
+  210    CONTINUE
 
-      DO 220 I=1,NEL
-        SIGSXX(I)=SIGOXX(I)+SIGAIR(I)
-        SIGSYY(I)=SIGOYY(I)+SIGAIR(I)
-        SIGSZZ(I)=SIGOZZ(I)+SIGAIR(I)
-        SIGSXY(I)=SIGOXY(I)
-        SIGSYZ(I)=SIGOYZ(I)
-        SIGSZX(I)=SIGOZX(I)
+         DO 220 I=1,NEL
+           SIGSXX(I)=SIGOXX(I)+SIGAIR(I)
+           SIGSYY(I)=SIGOYY(I)+SIGAIR(I)
+           SIGSZZ(I)=SIGOZZ(I)+SIGAIR(I)
+           SIGSXY(I)=SIGOXY(I)
+           SIGSYZ(I)=SIGOYZ(I)
+           SIGSZX(I)=SIGOZX(I)
 
-        DEXX(I)=EPSXX(I)
-        DEYY(I)=EPSYY(I)
-        DEZZ(I)=EPSZZ(I)
-        DEXY(I)=EPSXY(I)* UNDEMI
-        DEYZ(I)=EPSYZ(I)* UNDEMI
-        DEZX(I)=EPSZX(I)* UNDEMI
+           DEXX(I)=EPSXX(I)
+           DEYY(I)=EPSYY(I)
+           DEZZ(I)=EPSZZ(I)
+           DEXY(I)=EPSXY(I)* UNDEMI
+           DEYZ(I)=EPSYZ(I)* UNDEMI
+           DEZX(I)=EPSZX(I)* UNDEMI
 
-        DEDTXX(I)=EPSPXX(I)
-        DEDTYY(I)=EPSPYY(I)
-        DEDTZZ(I)=EPSPZZ(I)
-        DEDTXY(I)=EPSPXY(I) * UNDEMI
-        DEDTYZ(I)=EPSPYZ(I) * UNDEMI
-        DEDTZX(I)=EPSPZX(I) * UNDEMI	
-  220 CONTINUE
-
+           DEDTXX(I)=EPSPXX(I)
+           DEDTYY(I)=EPSPYY(I)
+           DEDTZZ(I)=EPSPZZ(I)
+           DEDTXY(I)=EPSPXY(I) * UNDEMI
+           DEDTYZ(I)=EPSPYZ(I) * UNDEMI
+           DEDTZX(I)=EPSPZX(I) * UNDEMI
+  220    CONTINUE
 C COMPUTE STRESS RATES
-      DO 230 I=1,NEL
-        DSDTXX(I)=E(I)*DEDTXX(I)-EPET(I)*SIGSXX(I)+EMET(I)*DEXX(I)
-        DSDTYY(I)=E(I)*DEDTYY(I)-EPET(I)*SIGSYY(I)+EMET(I)*DEYY(I)
-        DSDTZZ(I)=E(I)*DEDTZZ(I)-EPET(I)*SIGSZZ(I)+EMET(I)*DEZZ(I)
-        DSDTXY(I)=E(I)*DEDTXY(I)-EPETS(I)*SIGSXY(I)+EMETS(I)*DEXY(I)
-        DSDTYZ(I)=E(I)*DEDTYZ(I)-EPETS(I)*SIGSYZ(I)+EMETS(I)*DEYZ(I)
-        DSDTZX(I)=E(I)*DEDTZX(I)-EPETS(I)*SIGSZX(I)+EMETS(I)*DEZX(I)
-  230 CONTINUE
+         DO 230 I=1,NEL
+           DSDTXX(I)=E(I)*DEDTXX(I)-EPET(I)*SIGSXX(I)+EMET(I)*DEXX(I)
+           DSDTYY(I)=E(I)*DEDTYY(I)-EPET(I)*SIGSYY(I)+EMET(I)*DEYY(I)
+           DSDTZZ(I)=E(I)*DEDTZZ(I)-EPET(I)*SIGSZZ(I)+EMET(I)*DEZZ(I)
+           DSDTXY(I)=E(I)*DEDTXY(I)-EPETS(I)*SIGSXY(I)+EMETS(I)*DEXY(I)
+           DSDTYZ(I)=E(I)*DEDTYZ(I)-EPETS(I)*SIGSYZ(I)+EMETS(I)*DEYZ(I)
+           DSDTZX(I)=E(I)*DEDTZX(I)-EPETS(I)*SIGSZX(I)+EMETS(I)*DEZX(I)
+  230    CONTINUE
 
 C COMPUTE TRIAL STRESSES
-      DO 240 I=1,NEL
-        SIGSXX(I)=SIGSXX(I)+DSDTXX(I)*TIMESTEP
-        SIGSYY(I)=SIGSYY(I)+DSDTYY(I)*TIMESTEP
-        SIGSZZ(I)=SIGSZZ(I)+DSDTZZ(I)*TIMESTEP
-        SIGSXY(I)=SIGSXY(I)+DSDTXY(I)*TIMESTEP
-        SIGSYZ(I)=SIGSYZ(I)+DSDTYZ(I)*TIMESTEP
-        SIGSZX(I)=SIGSZX(I)+DSDTZX(I)*TIMESTEP
-  240 CONTINUE
-      IF(KEN.LT.0)GOTO 255
+         DO 240 I=1,NEL
+           SIGSXX(I)=SIGSXX(I)+DSDTXX(I)*TIMESTEP
+           SIGSYY(I)=SIGSYY(I)+DSDTYY(I)*TIMESTEP
+           SIGSZZ(I)=SIGSZZ(I)+DSDTZZ(I)*TIMESTEP
+           SIGSXY(I)=SIGSXY(I)+DSDTXY(I)*TIMESTEP
+           SIGSYZ(I)=SIGSYZ(I)+DSDTYZ(I)*TIMESTEP
+           SIGSZX(I)=SIGSZX(I)+DSDTZX(I)*TIMESTEP
+  240    CONTINUE
+         IF(KEN.LT.0)GOTO 255
 C
 C si ancienne methode alors ....
-      IF (VPVEC.EQ.1) THEN
-       DO 250 I=1,NEL
-        S(1,1)=SIGSXX(I)
-        S(2,1)=SIGSXY(I)
-        S(2,2)=SIGSYY(I)
-        S(3,1)=SIGSZX(I)
-        S(3,2)=SIGSYZ(I)
-        S(3,3)=SIGSZZ(I)
+         IF (VPVEC.EQ.1) THEN
+          DO 250 I=1,NEL
+           S(1,1)=SIGSXX(I)
+           S(2,1)=SIGSXY(I)
+           S(2,2)=SIGSYY(I)
+           S(3,1)=SIGSZX(I)
+           S(3,2)=SIGSYZ(I)
+           S(3,3)=SIGSZZ(I)
 
 C TRANSFORM GLOBAL STRESSES (S_IJ) TO PRINCIPAL STRESSES (SIGPR_K)
-        CALL JACOBIEW(S,3,SIGPR,DIRPR,NROT)
+           CALL JACOBIEW(S,3,SIGPR,DIRPR,NROT)
 
 C YIELD CRITERIA - SCALING
-        SIGPR(1)=MIN(SYIELD(I),ABS(SIGPR(1)))*SIGN(UN,SIGPR(1))
-        SIGPR(2)=MIN(SYIELD(I),ABS(SIGPR(2)))*SIGN(UN,SIGPR(2))
-        SIGPR(3)=MIN(SYIELD(I),ABS(SIGPR(3)))*SIGN(UN,SIGPR(3))
+           SIGPR(1)=MIN(SYIELD(I),ABS(SIGPR(1)))*SIGN(UN,SIGPR(1))
+           SIGPR(2)=MIN(SYIELD(I),ABS(SIGPR(2)))*SIGN(UN,SIGPR(2))
+           SIGPR(3)=MIN(SYIELD(I),ABS(SIGPR(3)))*SIGN(UN,SIGPR(3))
 
 C TRANSFORM PRINCIPAL STRESSES (SIGMA_K) TO GLOBAL STRESSES (SIGMA_IJ)
-        DO 251 K=1,3
-          DO 251 L=1,3
-            S(K,L)=ZERO
-            IF(K.EQ.L) S(K,L)= SIGPR(K)
-  251   CONTINUE
-        CALL DREH(S,DIRPR,1,1,1)
+           DO 251 K=1,3
+             DO 251 L=1,3
+               S(K,L)=ZERO
+               IF(K.EQ.L) S(K,L)= SIGPR(K)
+  251      CONTINUE
+           CALL DREH(S,DIRPR,1,1,1)
    
-        SIGSXX(I)=S(1,1)
-        SIGSXY(I)=S(2,1)
-        SIGSYY(I)=S(2,2)
-        SIGSZX(I)=S(3,1)
-        SIGSYZ(I)=S(3,2)
-        SIGSZZ(I)=S(3,3)
-  250  CONTINUE
-      ELSE
+           SIGSXX(I)=S(1,1)
+           SIGSXY(I)=S(2,1)
+           SIGSYY(I)=S(2,2)
+           SIGSZX(I)=S(3,1)
+           SIGSYZ(I)=S(3,2)
+           SIGSZZ(I)=S(3,3)
+  250     CONTINUE
+        ELSE
 C fin ancienne methode
-        DO I = 1, NEL
-          SIGV(I,1) = SIGSXX(I)
-          SIGV(I,2) = SIGSYY(I)
-          SIGV(I,3) = SIGSZZ(I)
-          SIGV(I,4) = SIGSXY(I)
-          SIGV(I,5) = SIGSYZ(I)
-          SIGV(I,6) = SIGSZX(I)
-        ENDDO
-        CALL VALPVEC_V(SIGV,SIGPRV,DIRPRV,NEL)
-        DO I = 1, NEL
+           DO I = 1, NEL
+             SIGV(I,1) = SIGSXX(I)
+             SIGV(I,2) = SIGSYY(I)
+             SIGV(I,3) = SIGSZZ(I)
+             SIGV(I,4) = SIGSXY(I)
+             SIGV(I,5) = SIGSYZ(I)
+             SIGV(I,6) = SIGSZX(I)
+           ENDDO
+           CALL VALPVEC_V(SIGV,SIGPRV,DIRPRV,NEL)
+           DO I = 1, NEL
 C YIELD CRITERIA - SCALING
-          SIGPRV(I,1)=SIGN(MIN(SYIELD(I),ABS(SIGPRV(I,1))),SIGPRV(I,1))
-          SIGPRV(I,2)=SIGN(MIN(SYIELD(I),ABS(SIGPRV(I,2))),SIGPRV(I,2))
-          SIGPRV(I,3)=SIGN(MIN(SYIELD(I),ABS(SIGPRV(I,3))),SIGPRV(I,3))
+             SIGPRV(I,1)=SIGN(MIN(SYIELD(I),ABS(SIGPRV(I,1))),SIGPRV(I,1))
+             SIGPRV(I,2)=SIGN(MIN(SYIELD(I),ABS(SIGPRV(I,2))),SIGPRV(I,2))
+             SIGPRV(I,3)=SIGN(MIN(SYIELD(I),ABS(SIGPRV(I,3))),SIGPRV(I,3))
 C TRANSFORM PRINCIPAL STRESSES (SIGMA_K) TO GLOBAL STRESSES (SIGMA_IJ)
-          SIGSXX(I) = DIRPRV(I,1,1)*DIRPRV(I,1,1)*SIGPRV(I,1)
-     .              + DIRPRV(I,1,2)*DIRPRV(I,1,2)*SIGPRV(I,2)
-     .              + DIRPRV(I,1,3)*DIRPRV(I,1,3)*SIGPRV(I,3)
-          SIGSYY(I) = DIRPRV(I,2,2)*DIRPRV(I,2,2)*SIGPRV(I,2)
-     .              + DIRPRV(I,2,3)*DIRPRV(I,2,3)*SIGPRV(I,3)
-     .              + DIRPRV(I,2,1)*DIRPRV(I,2,1)*SIGPRV(I,1)
-          SIGSZZ(I) = DIRPRV(I,3,3)*DIRPRV(I,3,3)*SIGPRV(I,3)
-     .              + DIRPRV(I,3,1)*DIRPRV(I,3,1)*SIGPRV(I,1)
-     .              + DIRPRV(I,3,2)*DIRPRV(I,3,2)*SIGPRV(I,2)
-          SIGSXY(I) = DIRPRV(I,1,1)*DIRPRV(I,2,1)*SIGPRV(I,1)
-     .              + DIRPRV(I,1,2)*DIRPRV(I,2,2)*SIGPRV(I,2)
-     .              + DIRPRV(I,1,3)*DIRPRV(I,2,3)*SIGPRV(I,3)
-          SIGSYZ(I) = DIRPRV(I,2,2)*DIRPRV(I,3,2)*SIGPRV(I,2)
-     .              + DIRPRV(I,2,3)*DIRPRV(I,3,3)*SIGPRV(I,3)
-     .              + DIRPRV(I,2,1)*DIRPRV(I,3,1)*SIGPRV(I,1)
-          SIGSZX(I) = DIRPRV(I,3,3)*DIRPRV(I,1,3)*SIGPRV(I,3)
-     .              + DIRPRV(I,3,1)*DIRPRV(I,1,1)*SIGPRV(I,1)
-     .              + DIRPRV(I,3,2)*DIRPRV(I,1,2)*SIGPRV(I,2)
-        ENDDO
-      ENDIF
+             SIGSXX(I) = DIRPRV(I,1,1)*DIRPRV(I,1,1)*SIGPRV(I,1)
+     .                 + DIRPRV(I,1,2)*DIRPRV(I,1,2)*SIGPRV(I,2)
+     .                 + DIRPRV(I,1,3)*DIRPRV(I,1,3)*SIGPRV(I,3)
+             SIGSYY(I) = DIRPRV(I,2,2)*DIRPRV(I,2,2)*SIGPRV(I,2)
+     .                 + DIRPRV(I,2,3)*DIRPRV(I,2,3)*SIGPRV(I,3)
+     .                 + DIRPRV(I,2,1)*DIRPRV(I,2,1)*SIGPRV(I,1)
+             SIGSZZ(I) = DIRPRV(I,3,3)*DIRPRV(I,3,3)*SIGPRV(I,3)
+     .                 + DIRPRV(I,3,1)*DIRPRV(I,3,1)*SIGPRV(I,1)
+     .                 + DIRPRV(I,3,2)*DIRPRV(I,3,2)*SIGPRV(I,2)
+             SIGSXY(I) = DIRPRV(I,1,1)*DIRPRV(I,2,1)*SIGPRV(I,1)
+     .                 + DIRPRV(I,1,2)*DIRPRV(I,2,2)*SIGPRV(I,2)
+     .                 + DIRPRV(I,1,3)*DIRPRV(I,2,3)*SIGPRV(I,3)
+             SIGSYZ(I) = DIRPRV(I,2,2)*DIRPRV(I,3,2)*SIGPRV(I,2)
+     .                 + DIRPRV(I,2,3)*DIRPRV(I,3,3)*SIGPRV(I,3)
+     .                 + DIRPRV(I,2,1)*DIRPRV(I,3,1)*SIGPRV(I,1)
+             SIGSZX(I) = DIRPRV(I,3,3)*DIRPRV(I,1,3)*SIGPRV(I,3)
+     .                 + DIRPRV(I,3,1)*DIRPRV(I,1,1)*SIGPRV(I,1)
+     .                 + DIRPRV(I,3,2)*DIRPRV(I,1,2)*SIGPRV(I,2)
+          ENDDO
+        ENDIF
 C fin chgt
-  255 CONTINUE
+  255   CONTINUE
 C COMPUTE UPDATED STRESSES AND SOUND SPEED
-      DO 260 I=1,NEL
-        SIGNXX(I)=OFF(I)*SIGSXX(I)-SIGAIR(I)
-        SIGNYY(I)=OFF(I)*SIGSYY(I)-SIGAIR(I)
-        SIGNZZ(I)=OFF(I)*SIGSZZ(I)-SIGAIR(I)
-        SIGNXY(I)=OFF(I)*SIGSXY(I)
-        SIGNYZ(I)=OFF(I)*SIGSYZ(I)
-        SIGNZX(I)=OFF(I)*SIGSZX(I)
+        DO 260 I=1,NEL
+          SIGNXX(I)=OFF(I)*SIGSXX(I)-SIGAIR(I)
+          SIGNYY(I)=OFF(I)*SIGSYY(I)-SIGAIR(I)
+          SIGNZZ(I)=OFF(I)*SIGSZZ(I)-SIGAIR(I)
+          SIGNXY(I)=OFF(I)*SIGSXY(I)
+          SIGNYZ(I)=OFF(I)*SIGSYZ(I)
+          SIGNZX(I)=OFF(I)*SIGSZX(I)
 
-        SOUNDSP(I)=SQRT(E(I)/RHO0(I))
-  260 CONTINUE
-
-      GOTO 9000
-
+          SOUNDSP(I)=SQRT(E(I)/RHO0(I))
+  260   CONTINUE
 C--------------------------
-    3 CONTINUE
+      CASE(3)
 C--------------------------
+       FAC = UPARAM(9)
+       FAC1 = UPARAM(10)
+       SIGT_CUTOFF = UPARAM(11)
+       SIGC_CUTOFF = SIGT_CUTOFF
+       DO  I=1,NEL
+         IF(IFUNC(1).NE.0) THEN
+           SYIELD(I)=FAC*FINTER(IFUNC(1),GAMA(I),NPF,TF,B*C)
+         ELSE
+           SYIELD(I) = ABS(A+B*(UN+C*GAMA(I)))
+         ENDIF
+         IF(GAMA(I) > ZERO .AND. (GAMA(I)-UVAR(I,1)) < ZERO) SIGC_CUTOFF = ZERO
+         IF(IFUNC(2).NE.0)THEN
+            DAV = (EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))*THIRD
+            E1 = EPSPXX(I) - DAV
+            E2 = EPSPYY(I) - DAV
+            E3 = EPSPZZ(I) - DAV
+            E4 = UNDEMI*EPSPXY(I)
+            E5 = UNDEMI*EPSPYZ(I)
+            E6 = UNDEMI*EPSPZX(I)
+            EPSP =UNDEMI*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
+            EPSP = SQRT(TROIS*EPSP)/TDEMI
+            SYIELD(I) = FAC1*SYIELD(I)*(FINTER(IFUNC(2),EPSP,NPF,TF,B*C))
+         ENDIF
+       ENDDO
 
-      AXX   = UPARAM(9)
-      BXX   = UPARAM(10)
-      CXX   = UPARAM(11)
+       DO  I=1,NEL
+         SIGSXX(I)=SIGOXX(I)+SIGAIR(I)
+         SIGSYY(I)=SIGOYY(I)+SIGAIR(I)
+         SIGSZZ(I)=SIGOZZ(I)+SIGAIR(I)
+         SIGSXY(I)=SIGOXY(I)
+         SIGSYZ(I)=SIGOYZ(I)
+         SIGSZX(I)=SIGOZX(I)
+       ENDDO
 
-      AYY   = UPARAM(12)
-      BYY   = UPARAM(13)
-      CYY   = UPARAM(14)
-
-      AZZ   = UPARAM(15)
-      BZZ   = UPARAM(16)
-      CZZ   = UPARAM(17)
-
-      AXY   = UPARAM(18)
-      BXY   = UPARAM(19)
-      CXY   = UPARAM(20)
-
-      AYZ   = UPARAM(21)
-      BYZ   = UPARAM(22)
-      CYZ   = UPARAM(23)
-
-      AZX   = UPARAM(24)
-      BZX   = UPARAM(25)
-      CZX   = UPARAM(26)
-
-      C1XX  = UPARAM(27)
-      C2XX  = UPARAM(28)
-      ETXX  = UPARAM(29)
-      VMUXX = UPARAM(30)
-
-      C1YY  = UPARAM(31)
-      C2YY  = UPARAM(32)
-      ETYY  = UPARAM(33)
-      VMUYY = UPARAM(34)
-
-      C1ZZ  = UPARAM(35)
-      C2ZZ  = UPARAM(36)
-      ETZZ  = UPARAM(37)
-      VMUZZ = UPARAM(38)
-
-      C1XY  = UPARAM(39)
-      C2XY  = UPARAM(40)
-      GTXY  = UPARAM(41)*DEUX
-      VMUXY = UPARAM(42)*DEUX
-
-      C1YZ  = UPARAM(43)
-      C2YZ  = UPARAM(44)
-      GTYZ  = UPARAM(45)*DEUX
-      VMUYZ = UPARAM(46)*DEUX
-
-      C1ZX  = UPARAM(47)
-      C2ZX  = UPARAM(48)
-      GTZX  = UPARAM(49)*DEUX
-      VMUZX = UPARAM(50)*DEUX
-      FAC   = UPARAM(51)
-
-      DO 310 I=1,NEL
-        EMXX(I)=C1XX*EPSPXX(I)+C2XX
-        EMYY(I)=C1YY*EPSPYY(I)+C2YY
-        EMZZ(I)=C1ZZ*EPSPZZ(I)+C2ZZ
-
-        GMXY(I)=DEUX*(C1XY*EPSPXY(I)+C2XY)
-        GMYZ(I)=DEUX*(C1YZ*EPSPYZ(I)+C2YZ)
-        GMZX(I)=DEUX*(C1ZX*EPSPZX(I)+C2ZX)	
-
-        EPETXX(I)=(EMXX(I)+ETXX)/VMUXX
-        EMETXX(I)=(EMXX(I)*ETXX)/VMUXX 
-
-        EPETYY(I)=(EMYY(I)+ETYY)/VMUYY
-        EMETYY(I)=(EMYY(I)*ETYY)/VMUYY 
-
-        EPETZZ(I)=(EMZZ(I)+ETZZ)/VMUZZ
-        EMETZZ(I)=(EMZZ(I)*ETZZ)/VMUZZ
- 
-        GPGTXY(I)=(GMXY(I)+GTXY)/VMUXY
-        GMGTXY(I)=(GMXY(I)*GTXY)/VMUXY 
-
-        GPGTYZ(I)=(GMYZ(I)+GTYZ)/VMUYZ
-        GMGTYZ(I)=(GMYZ(I)*GTYZ)/VMUYZ
- 
-        GPGTZX(I)=(GMZX(I)+GTZX)/VMUZX
-        GMGTZX(I)=(GMZX(I)*GTZX)/VMUZX 
-
-  310 CONTINUE
-
-C COMPUTE SKELETAL STRESSES
-      DO 320 I=1,NEL
-        SIGSXX(I)=SIGOXX(I)+SIGAIR(I)
-        SIGSYY(I)=SIGOYY(I)+SIGAIR(I)
-        SIGSZZ(I)=SIGOZZ(I)+SIGAIR(I)
-        SIGSXY(I)=SIGOXY(I)
-        SIGSYZ(I)=SIGOYZ(I)
-        SIGSZX(I)=SIGOZX(I)
-
-        DEXX(I)=EPSXX(I)
-        DEYY(I)=EPSYY(I)
-        DEZZ(I)=EPSZZ(I)
-        DEXY(I)=EPSXY(I) * UNDEMI
-        DEYZ(I)=EPSYZ(I) * UNDEMI
-        DEZX(I)=EPSZX(I) * UNDEMI	
-
-        DEDTXX(I)=EPSPXX(I)
-        DEDTYY(I)=EPSPYY(I)
-        DEDTZZ(I)=EPSPZZ(I)
-        DEDTXY(I)=EPSPXY(I) * UNDEMI
-        DEDTYZ(I)=EPSPYZ(I) * UNDEMI
-        DEDTZX(I)=EPSPZX(I) * UNDEMI	
-  320 CONTINUE
-
-      DO 330 I=1,NEL
-      DSDTXX(I)=EMXX(I)*DEDTXX(I)-EPETXX(I)*SIGSXX(I)+EMETXX(I)*DEXX(I)
-      DSDTYY(I)=EMYY(I)*DEDTYY(I)-EPETYY(I)*SIGSYY(I)+EMETYY(I)*DEYY(I)
-      DSDTZZ(I)=EMZZ(I)*DEDTZZ(I)-EPETZZ(I)*SIGSZZ(I)+EMETZZ(I)*DEZZ(I)
-      DSDTXY(I)=GMXY(I)*DEDTXY(I)-GPGTXY(I)*SIGSXY(I)+GMGTXY(I)*DEXY(I)
-      DSDTYZ(I)=GMYZ(I)*DEDTYZ(I)-GPGTYZ(I)*SIGSYZ(I)+GMGTYZ(I)*DEYZ(I)
-      DSDTZX(I)=GMZX(I)*DEDTZX(I)-GPGTZX(I)*SIGSZX(I)+GMGTZX(I)*DEZX(I)
-  330 CONTINUE
-
-      DO 340 I=1,NEL
-        SIGSXX(I)=SIGSXX(I)+DSDTXX(I)*TIMESTEP
-        SIGSYY(I)=SIGSYY(I)+DSDTYY(I)*TIMESTEP
-        SIGSZZ(I)=SIGSZZ(I)+DSDTZZ(I)*TIMESTEP
-        SIGSXY(I)=SIGSXY(I)+DSDTXY(I)*TIMESTEP
-        SIGSYZ(I)=SIGSYZ(I)+DSDTXY(I)*TIMESTEP
-        SIGSZX(I)=SIGSZX(I)+DSDTYZ(I)*TIMESTEP
-  340 CONTINUE
-
-        IF(IFUNC(1).NE.0) THEN
-          SYXX(I)=FAC*FINTER(IFUNC(1),GAMA(I),NPF,TF,BXX*CXX)
-        ELSE
-          SYXX(I)=AXX+BXX*(1+CXX*GAMA(I))
-        ENDIF
-
-        IF(IFUNC(2).NE.0) THEN
-          SYYY(I)=FAC*FINTER(IFUNC(2),GAMA(I),NPF,TF,BYY*CYY)
-        ELSE
-          SYYY(I)=AYY+BYY*(1+CYY*GAMA(I))
-        ENDIF
-
-        IF(IFUNC(3).NE.0) THEN
-          SYZZ(I)=FAC*FINTER(IFUNC(3),GAMA(I),NPF,TF,BZZ*CZZ)
-        ELSE
-          SYZZ(I)=AZZ+BZZ*(1+CZZ*GAMA(I))
-        ENDIF
-
-        IF(IFUNC(4).NE.0) THEN
-          SYXY(I)=FAC*FINTER(IFUNC(4),GAMA(I),NPF,TF,BXY*CXY)
-        ELSE
-          SYXY(I)=AXY+BXY*(1+CXY*GAMA(I))
-        ENDIF
-
-        IF(IFUNC(5).NE.0) THEN
-          SYYZ(I)=FAC*FINTER(IFUNC(5),GAMA(I),NPF,TF,BYZ*CYZ)
-        ELSE
-          SYYZ(I)=AYZ+BYZ*(1+CYZ*GAMA(I))
-        ENDIF
-
-        IF(IFUNC(6).NE.0) THEN
-          SYZX(I)=FAC*FINTER(IFUNC(6),GAMA(I),NPF,TF,BZX*CZX)
-        ELSE
-          SYZX(I)=AZX+BZX*(1+CZX*GAMA(I))
-        ENDIF
-
-C YIELD CRITERIA - SCALING
-        SIGSXX(I)=MIN(ABS(SYXX(I)),ABS(SIGSXX(I)))*SIGN(UN,SIGSXX(I))
-        SIGSYY(I)=MIN(ABS(SYYY(I)),ABS(SIGSYY(I)))*SIGN(UN,SIGSYY(I))
-        SIGSZZ(I)=MIN(ABS(SYZZ(I)),ABS(SIGSZZ(I)))*SIGN(UN,SIGSZZ(I))
-        SIGSXY(I)=MIN(ABS(SYXY(I)),ABS(SIGSXY(I)))*SIGN(UN,SIGSXY(I))
-        SIGSYZ(I)=MIN(ABS(SYYZ(I)),ABS(SIGSYZ(I)))*SIGN(UN,SIGSYZ(I))
-        SIGSZX(I)=MIN(ABS(SYZX(I)),ABS(SIGSZX(I)))*SIGN(UN,SIGSZX(I))
-
+C COMPUTE TRIAL STRESSES
+        DO  I=1,NEL
+          SIGSXX(I)=SIGSXX(I)+EY*EPSPXX(I)*TIMESTEP
+          SIGSYY(I)=SIGSYY(I)+EY*EPSPYY(I)*TIMESTEP
+          SIGSZZ(I)=SIGSZZ(I)+EY*EPSPZZ(I)*TIMESTEP
+          SIGSXY(I)=SIGSXY(I)+EY*EPSPXY(I)*TIMESTEP*QUART
+          SIGSYZ(I)=SIGSYZ(I)+EY*EPSPYZ(I)*TIMESTEP*QUART
+          SIGSZX(I)=SIGSZX(I)+EY*EPSPZX(I)*TIMESTEP*QUART
+        ENDDO
+        DO I = 1, NEL
+            SIGV(I,1) = SIGSXX(I)
+            SIGV(I,2) = SIGSYY(I)
+            SIGV(I,3) = SIGSZZ(I)
+            SIGV(I,4) = SIGSXY(I)
+            SIGV(I,5) = SIGSYZ(I)
+            SIGV(I,6) = SIGSZX(I)
+        ENDDO
+Cow         for a simple precision executing
+          IF (IRESP.EQ.1) THEN
+            CALL VALPVECDP_V(SIGV,SIGPRV,DIRPRV,NEL)
+          ELSE
+            CALL VALPVEC_V(SIGV,SIGPRV,DIRPRV,NEL)
+          ENDIF
+          DO I =1, NEL
+C YIELD   CRITERIA - SCALING
+             IF(ABS(GAMA(I)) < EM10) THEN
+               SIGPRV(I,1)=SIGN(MIN(ABS(SIGPRV(I,1)), SIGT_CUTOFF),SIGPRV(I,1))
+               SIGPRV(I,2)=SIGN(MIN(ABS(SIGPRV(I,2)), SIGT_CUTOFF),SIGPRV(I,2))
+               SIGPRV(I,3)=SIGN(MIN(ABS(SIGPRV(I,3)), SIGT_CUTOFF),SIGPRV(I,3))
+             ELSEIF(GAMA(I) < ZERO )then            
+               !!IF(DELTA_GAMA(I) < ZERO)then 
+                  SIGPRV(I,1)=SIGN(MIN(SYIELD(I),ABS(SIGPRV(I,1))),SIGPRV(I,1))
+                  SIGPRV(I,2)=SIGN(MIN(SYIELD(I),ABS(SIGPRV(I,2))),SIGPRV(I,2))
+                  SIGPRV(I,3)=SIGN(MIN(SYIELD(I),ABS(SIGPRV(I,3))),SIGPRV(I,3))
+               !! ELSE
+                  SIGPRV(I,1)=MIN(SIGPRV(I,1), SIGT_CUTOFF)
+                  SIGPRV(I,2)=MIN(SIGPRV(I,2), SIGT_CUTOFF)
+                  SIGPRV(I,3)=MIN(SIGPRV(I,3), SIGT_CUTOFF)
+               !!  ENDIF   
+              ELSE
+                 SIGPRV(I,1)=SIGN(MIN(ABS(SIGPRV(I,1)), SIGT_CUTOFF),SIGPRV(I,1))
+                 SIGPRV(I,2)=SIGN(MIN(ABS(SIGPRV(I,2)), SIGT_CUTOFF),SIGPRV(I,2))
+                 SIGPRV(I,3)=SIGN(MIN(ABS(SIGPRV(I,3)), SIGT_CUTOFF),SIGPRV(I,3))
+                 !!SIGPRV(I,1)=MIN(SIGPRV(I,1), SIGT_CUTOFF)
+                 !!SIGPRV(I,2)=MIN(SIGPRV(I,2), SIGT_CUTOFF)
+                 !!SIGPRV(I,3)=MIN(SIGPRV(I,3), SIGT_CUTOFF)
+              !!  IF(DELTA_GAMA(I) < ZERO) THEN
+                  SIGPRV(I,1)=MAX(SIGPRV(I,1), ZERO)
+                  SIGPRV(I,2)=MAX(SIGPRV(I,2), ZERO)
+                  SIGPRV(I,3)=MAX(SIGPRV(I,3), ZERO)
+              !!  ENDIF
+              ENDIF  
+C TRANSF  ORM PRINCIPAL STRESSES (SIGMA_K) TO GLOBAL STRESSES (SIGMA_IJ)
+              SIGSXX(I) = DIRPRV(I,1,1)*DIRPRV(I,1,1)*SIGPRV(I,1)
+     .                  + DIRPRV(I,1,2)*DIRPRV(I,1,2)*SIGPRV(I,2)
+     .                  + DIRPRV(I,1,3)*DIRPRV(I,1,3)*SIGPRV(I,3)
+!!     
+              SIGSYY(I) = DIRPRV(I,2,2)*DIRPRV(I,2,2)*SIGPRV(I,2)
+     .                  + DIRPRV(I,2,3)*DIRPRV(I,2,3)*SIGPRV(I,3)
+     .                  + DIRPRV(I,2,1)*DIRPRV(I,2,1)*SIGPRV(I,1)
+!!     
+              SIGSZZ(I) = DIRPRV(I,3,3)*DIRPRV(I,3,3)*SIGPRV(I,3)
+     .                  + DIRPRV(I,3,1)*DIRPRV(I,3,1)*SIGPRV(I,1)
+     .                  + DIRPRV(I,3,2)*DIRPRV(I,3,2)*SIGPRV(I,2)
+!!     
+              SIGSXY(I) = DIRPRV(I,1,1)*DIRPRV(I,2,1)*SIGPRV(I,1)
+     .                  + DIRPRV(I,1,2)*DIRPRV(I,2,2)*SIGPRV(I,2)
+     .                  + DIRPRV(I,1,3)*DIRPRV(I,2,3)*SIGPRV(I,3)
+!!     
+              SIGSYZ(I) = DIRPRV(I,2,2)*DIRPRV(I,3,2)*SIGPRV(I,2)
+     .                  + DIRPRV(I,2,3)*DIRPRV(I,3,3)*SIGPRV(I,3)
+     .                  + DIRPRV(I,2,1)*DIRPRV(I,3,1)*SIGPRV(I,1)
+!!     
+              SIGSZX(I) = DIRPRV(I,3,3)*DIRPRV(I,1,3)*SIGPRV(I,3)
+     .                  + DIRPRV(I,3,1)*DIRPRV(I,1,1)*SIGPRV(I,1)
+     .                  + DIRPRV(I,3,2)*DIRPRV(I,1,2)*SIGPRV(I,2)
+!!      
+          ENDDO
+C fin chgt
 C COMPUTE UPDATED STRESSES AND SOUND SPEED
-      DO 350 I=1,NEL
-        SIGNXX(I)=OFF(I)*SIGSXX(I)-SIGAIR(I)
-        SIGNYY(I)=OFF(I)*SIGSYY(I)-SIGAIR(I)
-        SIGNZZ(I)=OFF(I)*SIGSZZ(I)-SIGAIR(I)
-        SIGNXY(I)=OFF(I)*SIGSXY(I)
-        SIGNYZ(I)=OFF(I)*SIGSYZ(I)
-        SIGNZX(I)=OFF(I)*SIGSZX(I)
-
-        SOUNDSP(I)=SQRT(MAX(EMXX(I),EMYY(I),EMZZ(I))/RHO0(I))
-
-  350 CONTINUE
-        
- 9000 CONTINUE
+C
+        DO  I=1,NEL
+          SIGNXX(I)=OFF(I)*SIGSXX(I)-SIGAIR(I)
+          SIGNYY(I)=OFF(I)*SIGSYY(I)-SIGAIR(I)
+          SIGNZZ(I)=OFF(I)*SIGSZZ(I)-SIGAIR(I)
+          SIGNXY(I)=OFF(I)*SIGSXY(I)
+          SIGNYZ(I)=OFF(I)*SIGSYZ(I)
+          SIGNZX(I)=OFF(I)*SIGSZX(I)
+          SOUNDSP(I)=SQRT(EY/RHO0(I))
+        ENDDO
+      END SELECT 
 
       RETURN
 
