@@ -132,7 +132,7 @@ C-----------------------------------------------
      .        IADBOXMAX,NSETS
       my_real
      .        X(3,NUMNOD),SKEW(LSKEW,SSKEW/LSKEW),BUFSF(LISURF1*NSURF),
-     .        RTRANS(NTRANSF,*),V(3,NUMNOD),RIGE(*),XIGE(*),VIGE(*),
+     .        RTRANS(NTRANSF,NRTRANS),V(3,NUMNOD),RIGE(*),XIGE(*),VIGE(*),
      .        WIGE(*),KNOT(*),KNOTLOCPC(*),KNOTLOCEL(*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       TYPE(MAPPING_STRUCT_), INTENT(IN) :: MAP_TABLES
@@ -488,7 +488,7 @@ C
                 EXIT                                                   
               ENDIF                                                    
             ENDDO                                                      
-            IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN                      
+            IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
               CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,    
      .                    I2=UID,I1=ID,C1='SURFACE',                   
      .               C2='SURFACE',                                     
@@ -1030,7 +1030,7 @@ C
             CALL HM_GET_FLOATV  ('Xc' ,XG,IS_AVAILABLE,LSUBMODEL,UNITAB)
             CALL HM_GET_FLOATV  ('Yc' ,YG,IS_AVAILABLE,LSUBMODEL,UNITAB)
             CALL HM_GET_FLOATV  ('Zc' ,ZG,IS_AVAILABLE,LSUBMODEL,UNITAB)                                                         
-            IF(SUB_ID .NE. 0)CALL SUBROTPOINT(XG,YG,ZG,RTRANS,SUB_ID,LSUBMODEL)             
+            IF(SUB_ID /= 0)CALL SUBROTPOINT(XG,YG,ZG,RTRANS,SUB_ID,LSUBMODEL)
             BUFSF(MAD+4)=XG                                                  
             BUFSF(MAD+5)=YG                                                  
             BUFSF(MAD+6)=ZG                                                  
@@ -1097,7 +1097,8 @@ C===============================
      .                            OPTION_TITR = TITR  ,
      .                            UNIT_ID     = UID,
      .                            KEYWORD2    = KEY   ,
-     .                            KEYWORD3    = KEY2)
+     .                            KEYWORD3    = KEY2,
+     .                            SUBMODEL_ID = SUB_ID)     
             IGRSURF(IGS)%TITLE = TITR
             IFLAGUNIT = 0
             DO J=1,NUNITS
@@ -1130,10 +1131,12 @@ C===============================
               CALL HM_GET_FLOATV  ('X_A' ,XP1,IS_AVAILABLE,LSUBMODEL,UNITAB)                                                            
               CALL HM_GET_FLOATV  ('Y_A' ,YP1,IS_AVAILABLE,LSUBMODEL,UNITAB)                                                            
               CALL HM_GET_FLOATV  ('Z_A' ,ZP1,IS_AVAILABLE,LSUBMODEL,UNITAB)
-                                                                        
+              IF(SUB_ID /= 0)CALL SUBROTPOINT(XP1,YP1,ZP1,RTRANS,SUB_ID,LSUBMODEL)
+
               CALL HM_GET_FLOATV  ('X_B' ,XP2,IS_AVAILABLE,LSUBMODEL,UNITAB)                                                            
               CALL HM_GET_FLOATV  ('Y_B' ,YP2,IS_AVAILABLE,LSUBMODEL,UNITAB)                                                            
               CALL HM_GET_FLOATV  ('Z_B' ,ZP2,IS_AVAILABLE,LSUBMODEL,UNITAB)                                                            
+              IF(SUB_ID /= 0)CALL SUBROTPOINT(XP2,YP2,ZP2,RTRANS,SUB_ID,LSUBMODEL)
 
               IF(IFLAGUNIT /= 0)THEN
                 XP1  = XP1  * FAC_L
