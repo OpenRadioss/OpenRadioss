@@ -76,7 +76,6 @@ C-----------------------------------------------
         INTEGER :: ISURF
         INTEGER :: SURF_DIST_SENSOR,ENERGY_SENSOR,SENSOR_TEMP
         INTEGER, DIMENSION(NSENSOR) :: INDX_SURF_DIST_SENSOR,INDX_ENERGY,INDX_TEMP
-        INTEGER :: TYPE_SENSOR_TEMP
         INTEGER :: SIZE_COMM17_MIN_MAX,SIZE_COMM17_MEAN
 
 !   *********************************************
@@ -376,24 +375,21 @@ c
             DO I=1,SENSOR_TEMP
                 K = INDX_TEMP(I)
                 COMM_SENS17%ID_SENS(I) = K
-                !   sensor max or min value : 1 data per sensor
-                TYPE_SENSOR_TEMP = SENSOR_TAB(K)%IPARAM(2)
-                IF(TYPE_SENSOR_TEMP==1.OR.TYPE_SENSOR_TEMP==2) SIZE_COMM17_MIN_MAX = SIZE_COMM17_MIN_MAX + 1
-                !   sensor mean value : 6 data per sensor (parith/on) / 1 data per sensor (parith/off) 
-                IF(TYPE_SENSOR_TEMP==3) THEN
-                    IF (IPARIT>0) THEN
-                        ALLOCATE( SENSOR_STRUCT(K)%FBSAV6_SENS(1,6,1) )
-                        SENSOR_STRUCT(K)%FBSAV6_SENS(1,1:6,1:1) = ZERO
-                        SIZE_COMM17_MEAN = SIZE_COMM17_MEAN + 6
-                    ELSE
-                        ALLOCATE( SENSOR_STRUCT(K)%FBSAV6_SENS(1,1,1) )
-                        SENSOR_STRUCT(K)%FBSAV6_SENS(1,1,1) = ZERO
-                        SIZE_COMM17_MEAN = SIZE_COMM17_MEAN + 1
-                    ENDIF
+                !   Temp max and min : 1 data per sensor
+                SIZE_COMM17_MIN_MAX = SIZE_COMM17_MIN_MAX + 1
+                !   Temp mean  : 6 data per sensor (parith/on) / 1 data per sensor (parith/off) 
+                IF (IPARIT>0) THEN
+                    ALLOCATE( SENSOR_STRUCT(K)%FBSAV6_SENS(1,6,1) )
+                    SENSOR_STRUCT(K)%FBSAV6_SENS(1,1:6,1:1) = ZERO
+                    SIZE_COMM17_MEAN = SIZE_COMM17_MEAN + 6
+                ELSE
+                    ALLOCATE( SENSOR_STRUCT(K)%FBSAV6_SENS(1,1,1) )
+                    SENSOR_STRUCT(K)%FBSAV6_SENS(1,1,1) = ZERO
+                    SIZE_COMM17_MEAN = SIZE_COMM17_MEAN + 1
                 ENDIF
             ENDDO    
             COMM_SENS17%BUFFER_SIZE_MIN_MAX = SIZE_COMM17_MIN_MAX
-            COMM_SENS17%BUFFER_SIZE_MEAN = SIZE_COMM17_MEAN
+            COMM_SENS17%BUFFER_SIZE_MEAN    = SIZE_COMM17_MEAN
         ENDIF
         !   ---------------------
 c-------------
