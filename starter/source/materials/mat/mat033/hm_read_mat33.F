@@ -98,10 +98,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KEN,IFN1,IFN2,IFN3,IFN4,IFN5,IFN6
+      INTEGER KEN,IFN1,IFN2,IFN3,IFN4,IFN5,IFN6,ICASE
 
       my_real 
-     .  E,A,B,C,P0,PHI,GAMA0,FAC
+     .  E,A,B,C,P0,PHI,GAMA0,FAC,SIGT_COFF
 
       my_real C1,C2,ET,VMU,VMU0
 
@@ -120,7 +120,6 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       NFUNC=0
-      NUVAR=0
       IS_CRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       ISRATE=0
@@ -155,177 +154,79 @@ C-----------------------------------------------
       PM(01)=RHOR
       PM(89)=RHO0
 
-      GOTO (1,2,3),ABS(KEN)+1
-
-      KEN=0
+      ICASE = ABS(KEN)+1
+      SELECT CASE (ICASE) 
 C-------------
-    1 CONTINUE
+        CASE(1,3)      
 C-------------
-
-      NUPARAM=10
-      CALL HM_GET_FLOATV('MAT_A0'    ,A    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_A1'    ,B    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_A2'    ,C    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-
-      UPARAM(1)=KEN    
-      UPARAM(2)=E
-      UPARAM(3)=A
-      UPARAM(4)=B
-      UPARAM(5)=C
-      UPARAM(6)=P0
-      UPARAM(7)=PHI
-      UPARAM(8)=GAMA0
-      UPARAM(9)=FAC
-      UPARAM(10)=FAC1
-
-      IFUNC(1)=IFN1
-      IFUNC(2)=IFN2
-      NFUNC=2
-      
-      GOTO 11
-
+c       KEN = 0 or KEN = 2
 C-------------
-    2 CONTINUE
 C-------------
-c      KEN=1
+          NUPARAM=11
+          CALL HM_GET_FLOATV('MAT_A0'             ,A            ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          CALL HM_GET_FLOATV('MAT_A1'             ,B            ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          CALL HM_GET_FLOATV('MAT_A2'             ,C            ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          CALL HM_GET_FLOATV('MAT_SIGT_CUTOFF'    ,SIGT_COFF    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+!!
+          UPARAM(1)=KEN    
+          UPARAM(2)=E
+          UPARAM(3)=A
+          UPARAM(4)=B
+          UPARAM(5)=C
+          UPARAM(6)=P0
+          UPARAM(7)=PHI
+          UPARAM(8)=GAMA0
+          UPARAM(9)=FAC
+          UPARAM(10)=FAC1
+          UPARAM(11)=SIGT_COFF
+
+          IFUNC(1)=IFN1
+          IFUNC(2)=IFN2
+          NFUNC=2
 C-------------
-
-      NUPARAM=15
-
-
-      CALL HM_GET_FLOATV('MAT_A0'    ,A    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_A1'    ,B    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_A2'    ,C    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-
-      CALL HM_GET_FLOATV('MAT_E1'    ,C1    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_E2'    ,C2    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_ETAN'  ,ET    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_ETA1'  ,VMU    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_ETA2'  ,VMU0    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-
-      IF (VMU.LE.0..OR.VMU0.LE.0.) THEN
-         CALL ANCMSG(MSGID=310,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
-     .               I1=MAT_ID,
-     .               C1=TITR)
-      ENDIF
-      UPARAM(1)=KEN    
-      UPARAM(2)=E
-      UPARAM(3)=A
-      UPARAM(4)=B
-      UPARAM(5)=C
-      UPARAM(6)=P0
-      UPARAM(7)=PHI
-      UPARAM(8)=GAMA0
-      UPARAM(9)=C1
-      UPARAM(10)=C2
-      UPARAM(11)=ET
-      UPARAM(12)=VMU
-      UPARAM(13)=VMU0
-      UPARAM(14)=FAC
-      UPARAM(15)=FAC1
-
-      IFUNC(1)=IFN1
-      IFUNC(2)=IFN2
-      NFUNC=2
-
-      GOTO 10
-
+       CASE(2)
 C-------------
-    3 CONTINUE
+c       KEN=1
 C-------------
-c      KEN=2
+          NUPARAM=15
+          CALL HM_GET_FLOATV('MAT_A0'    ,A    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          CALL HM_GET_FLOATV('MAT_A1'    ,B    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          CALL HM_GET_FLOATV('MAT_A2'    ,C    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+
+          CALL HM_GET_FLOATV('MAT_E1'    ,C1    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          CALL HM_GET_FLOATV('MAT_E2'    ,C2    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          CALL HM_GET_FLOATV('MAT_ETAN'  ,ET    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          CALL HM_GET_FLOATV('MAT_ETA1'  ,VMU    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          CALL HM_GET_FLOATV('MAT_ETA2'  ,VMU0    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+
+          IF (VMU.LE.0..OR.VMU0.LE.0.) THEN
+             CALL ANCMSG(MSGID=310,
+     .                   MSGTYPE=MSGERROR,
+     .                   ANMODE=ANINFO,
+     .                   I1=MAT_ID,
+     .                   C1=TITR)
+          ENDIF
+          UPARAM(1)=KEN    
+          UPARAM(2)=E
+          UPARAM(3)=A
+          UPARAM(4)=B
+          UPARAM(5)=C
+          UPARAM(6)=P0
+          UPARAM(7)=PHI
+          UPARAM(8)=GAMA0
+          UPARAM(9)=C1
+          UPARAM(10)=C2
+          UPARAM(11)=ET
+          UPARAM(12)=VMU
+          UPARAM(13)=VMU0
+          UPARAM(14)=FAC
+          UPARAM(15)=FAC1
+
+          IFUNC(1)=IFN1
+          IFUNC(2)=IFN2
+          NFUNC=2
+      END SELECT 
 C-------------
-
-      NUPARAM=51
-
-      AXX=ZERO;AYY=ZERO;AXY=ZERO;AYZ=ZERO;AZX=ZERO;AZZ=ZERO
-      BXX=ZERO;BYY=ZERO;BXY=ZERO;BYZ=ZERO;BZX=ZERO;BZZ=ZERO
-      CXX=ZERO;CYY=ZERO;CXY=ZERO;CYZ=ZERO;CZX=ZERO;CZZ=ZERO
-
-      C1XX=ZERO;C1YY=ZERO;C1XY=ZERO;C1YZ=ZERO;C1ZX=ZERO;C1ZZ=ZERO
-      C2XX=ZERO;C2YY=ZERO;C2XY=ZERO;C2YZ=ZERO;C2ZX=ZERO;C2ZZ=ZERO
-      ETXX=ZERO;ETYY=ZERO;ETZZ=ZERO;GTXY=ZERO;GTYZ=ZERO;GTZX=ZERO
-      VMUXX=ZERO;VMUYY=ZERO;VMUXY=ZERO;VMUYZ=ZERO;VMUZX=ZERO;VMUZZ=ZERO
-      
-      IFN1=0
-      IFN2=0
-      IFN3=0
-      IFN4=0
-      IFN5=0
-      IFN6=0
-
-      UPARAM(1)=KEN    
-      
-      UPARAM(6)=P0
-      UPARAM(7)=PHI
-      UPARAM(8)=GAMA0
-
-      UPARAM(9)=AXX
-      UPARAM(10)=BXX
-      UPARAM(11)=CXX
-
-      UPARAM(12)=AYY
-      UPARAM(13)=BYY
-      UPARAM(14)=CYY
-
-      UPARAM(15)=AZZ
-      UPARAM(16)=BZZ
-      UPARAM(17)=CZZ
-
-      UPARAM(18)=AXY
-      UPARAM(19)=BXY
-      UPARAM(20)=CXY
-
-      UPARAM(21)=AYZ
-      UPARAM(22)=BYZ
-      UPARAM(23)=CYZ
-
-      UPARAM(24)=AZX
-      UPARAM(25)=BZX
-      UPARAM(26)=CZX
-
-      UPARAM(27)=C1XX
-      UPARAM(28)=C2XX
-      UPARAM(29)=ETXX
-      UPARAM(30)=VMUXX
-
-      UPARAM(31)=C1YY
-      UPARAM(32)=C2YY
-      UPARAM(33)=ETYY
-      UPARAM(34)=VMUYY
-
-      UPARAM(35)=C1ZZ
-      UPARAM(36)=C2ZZ
-      UPARAM(37)=ETZZ
-      UPARAM(38)=VMUZZ
-
-      UPARAM(39)=C1XY
-      UPARAM(40)=C2XY
-      UPARAM(41)=GTXY
-      UPARAM(42)=VMUXY
-
-      UPARAM(43)=C1YZ
-      UPARAM(44)=C2YZ
-      UPARAM(45)=GTYZ
-      UPARAM(46)=VMUYZ
-
-      UPARAM(47)=C1ZX
-      UPARAM(48)=C2ZX
-      UPARAM(49)=GTZX
-      UPARAM(50)=VMUZX
-      UPARAM(51)=FAC
-
-      NFUNC=6
-      IFUNC(1)=IFN1
-      IFUNC(2)=IFN2
-      IFUNC(3)=IFN3
-      IFUNC(4)=IFN4
-      IFUNC(5)=IFN5
-      IFUNC(6)=IFN6
-      
-   10 CONTINUE
 C
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
@@ -346,6 +247,8 @@ c-----------------
       RETURN
    11 CONTINUE
 
+
+      
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,33
       WRITE(IOUT,1000)
 
@@ -354,7 +257,7 @@ c-----------------
       ELSE
         WRITE(IOUT,1002) RHO0           
         WRITE(IOUT,1200) E,KEN,IFN1,FAC,IFN2,FAC1,
-     &             A,B,C,P0,PHI,GAMA0
+     &             A,B,C,SIGT_COFF,P0,PHI,GAMA0
       ENDIF 
       
       RETURN
@@ -395,7 +298,8 @@ C              12345678901234567890123456789012345678901
      & ,5X,  'STRAIN RATE EFFECT SCALE FACTOR . . . .=',1PG20.13/
      & ,5X,  'USER CONSTANT FOR YIELD STRESS A. . . .=',1PG20.13/
      & ,5X,  'USER CONSTANT FOR YIELD STRESS B. . . .=',1PG20.13/
-     & ,5X,  'USER CONSTANT FOR YIELD STRESS C. . . .=',1PG20.13//
+     & ,5X,  'USER CONSTANT FOR YIELD STRESS C. . . .=',1PG20.13/
+     & ,5X,  'TENSION CUT OFF STRESS . . . . .. . . .=',1PG20.13//
      & ,5X,  'INITIAL FOAM PRESSURE . . . . . . . . .=',1PG20.13/
      & ,5X,  'RATIO OF FOAM TO POLYMER DENSITY. . . .=',1PG20.13/
      & ,5X,  'INITIAL VOLUMETRIC STRAIN. . . .. . . .=',1PG20.13/)
