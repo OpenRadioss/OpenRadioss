@@ -39,7 +39,7 @@ Chd|        GRP_SIZE_MOD                  share/modules1/grp_size_mod.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        RANDOM_MOD                    share/modules1/random_mod.F   
 Chd|====================================================================
-      SUBROUTINE EXECARGCHECK() 
+      SUBROUTINE EXECARGCHECK()
       USE CHECK_MOD
       USE INOUTFILE_MOD
       USE RANDOM_MOD
