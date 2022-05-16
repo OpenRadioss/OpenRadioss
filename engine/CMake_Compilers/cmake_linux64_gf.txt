@@ -1,11 +1,10 @@
 # Compiler predefinition
-# Simplifiy usage for target compilation
+# Simplify usage for target compilation
 #########################################
 
 
 # Executable name
 # ---------------
-
 
 
 # General machine flag setting
@@ -127,7 +126,6 @@ if ( sanitize STREQUAL "1" )
 set( FSANITIZE "-fsanitize=address -DSANITIZE") 
 endif()
 
-#Uncomment the following line to add mumps
 set(opt_flag "${opt_flag} ${mumps_flag} ${mumps_inc}")
 
 

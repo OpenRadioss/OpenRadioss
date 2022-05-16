@@ -1,0 +1,227 @@
+######################################### 
+#       ENGINE - INTEL COMPILER
+#########################################
+
+
+# General machine flag setting Depending on MPI
+set ( cppmach "-DCPP_mach=CPP_p4linux964" )
+set ( cpprel  "-DCPP_rel=00" )
+
+# Libraries to load according to MPI
+set ( mpiver "${MPI}" )
+if ( mpiver STREQUAL "smp")
+  #SMP 
+  set (mpi_suf "" )
+elseif ( mpiver STREQUAL "impi")
+  # Intel MPI 
+  set (mpi_suf "_${mpiver}" )
+  #MPI     
+  set (mpi_flag "-DMPI -I/opt/intel/oneapi/mpi/2021.2.0/include/ ")
+  set (mpi_lib "-L/opt/intel/oneapi/mpi/2021.2.0/lib -L/opt/intel/oneapi/mpi/2021.2.0/lib/release  -lmpi -lmpifort")
+
+else()
+  message( FATAL_ERROR "\n ERROR : -mpi=${mpiver} not available for this platform\n\n" )
+endif()
+
+set ( RELNAME ${arch}${mpi_suf})
+
+# Third party libraries
+# ---------------------
+#H3D
+set (h3d_inc "-I${source_directory}/../extlib/h3d/includes")
+if ( NOT DEFINED WITH_LINEAR_ALGEBRA) 
+set ( wo_linalg "-DWITHOUT_LINALG" )
+endif()
+
+
+# compiler Flags
+# --------------
+set (CMAKE_Fortran_FLAGS_DEBUG " " )
+set (CMAKE_Fortran_FLAGS_RELEASE " " )
+
+# Single / Double Precision
+# -------------------------
+if (precision STREQUAL "sp")
+  set (precision_flag "-DMYREAL4")
+else (precision STREQUAL "sp")
+  set (precision_flag "-DMYREAL8")
+endif (precision STREQUAL "sp")
+
+# Modules directory
+set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/CMakeFiles/modules_${EXEC_NAME} )
+set(CMAKE_Fortran_MODDIR_FLAG "-module " )
+
+message (STATUS "modules: ${CMAKE_Fortran_MODULE_DIRECTORY}")
+#---------------------------
+# Generic Compilation flags
+#---------------------------
+
+if ( debug STREQUAL "1" )
+set(opt_flag "-g3 -traceback -no-fma -O0 -fp-model precise -qopenmp")
+else ()
+set(opt_flag "-axSSE3,COMMON-AVX512 -no-fma -O3 -fp-model precise -fimf-use-svml=true -qopenmp")
+endif()
+set(Fortran "${wo_linalg} -ftz  -extend-source -assume buffered_io -align array64byte" )
+# MUMPS
+if(DEFINED mumps_root)
+    if ( mpiver STREQUAL "smp")
+       message( FATAL_ERROR "\n ERROR: cannot use MUMPS without -mpi=impi" )
+    endif()
+    if(DEFINED ENV{MKLROOT})
+      set (MKL_IDIR "$ENV{MKLROOT}/include")
+      set (MKL_LDIR "$ENV{MKLROOT}/lib/intel64")
+    else()
+      set (MKL_IDIR "/opt/intel/oneapi/mkl/latest/include")
+      set (MKL_LDIR "/opt/intel/oneapi/mkl/latest/lib/intel64")
+    endif()
+    set (MKL_lib "-L${MKL_LDIR} -I${MKL_IDIR} ${MLM_LDIR}/libmk_scalapack_lp64.a -Wl,--start-group ${MKL_LDIR}/libmkl_intel_lp64.a ${MKL_LDIR}/libmkl_intel_thread.a ${MKL_LDIR}/libmkl_core.a ${MKL_LDIR}/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group")
+    set(MUMPSLIB "${mumps_root}/lib")
+    set(mumps_inc "-I${mumps_root}/include")
+    set(mumps_flag "-Dpord -Dthr_all -DMUMPS5 -DAdd_")
+#   Ordering libraries 
+#   set(mumps_dep_path "${mumps_root}/../")
+#   set(mumps_dep_libs " <path to libraries like Scotch / Parmetis> ")
+    set(mumps_libs "${MUMPSLIB}/libdmumps.a ${MUMPSLIB}/libmumps_common.a ${MUMPSLIB}/libpord.a ${mumps_dep_libs}")
+    set(WITH_LINEAR_ALGEBRA "yes")
+    set(opt_flag "${opt_flag} ${mumps_flag} ${mumps_inc}")
+endif()
+
+
+# Fortran
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${opt_flag} ${precision_flag} ${Fortran} ${mpi_flag} ${MUMPS_flags}  ${cppmach} ${cpprel}" )
+
+# C source files
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${opt_flag} ${h3d_inc} ${precision_flag} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} -O2" )
+
+# CXX source files
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${opt_flag}  ${h3d_inc} ${precision_flag} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} -O2  -std=c++11" )
+
+# Linking flags
+set (CMAKE_EXE_LINKER_FLAGS " -static-intel -rdynamic -qopenmp -qopenmp-link=static" )
+
+#Libraries
+set (LINK "dl ${mumps_libs} ${MKL_lib} ${mpi_lib} -ldl -lrt -lstdc++"  )
+
+
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# Specific set of compilation flag
+
+set (F_O1_AXSSE3 " -O1 -axsse3 -no-fma -qopenmp -fp-model precise ${precision_flag} ${Fortran} ${MUMPS_flags} ${mpi_flag} ${cppmach} ${cpprel}")
+set (F_O2_AXSSE3 " -O2 -axsse3 -no-fma -qopenmp -fp-model precise ${precision_flag} ${Fortran} ${MUMPS_flags} ${mpi_flag} ${cppmach} ${cpprel}")
+set (F_O3_AXSSE3 " -O3 -axsse3 -no-fma -qopenmp -fp-model precise ${precision_flag} ${Fortran} ${MUMPS_flags} ${mpi_flag} ${cppmach} ${cpprel}")
+
+set (C_BASIC "${cppmach} ${cpprel}")
+
+if ( debug STREQUAL "0" )
+
+# outp_c_s.F
+set_source_files_properties( ${source_directory}/source/sty/outp_c_s.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+
+# outp_c_t.F
+set_source_files_properties( ${source_directory}/source/sty/outp_c_t.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+
+# outp_mt.F
+set_source_files_properties( ${source_directory}/source/sty/outp_mt.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+
+# outp_mt.F
+set_source_files_properties( ${source_directory}/source/sty/outp_no.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+
+# outp_n_v.F
+set_source_files_properties( ${source_directory}/source/sty/outp_n_v.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+
+# outp_n_v.F
+set_source_files_properties( ${source_directory}/source/sty/outp_r_s.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+
+# outp_r_t.F
+set_source_files_properties( ${source_directory}/source/sty/outp_r_t.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+
+# outp_sp_s.F
+set_source_files_properties( ${source_directory}/source/sty/outp_sp_s.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+
+# outp_sp_t.F
+set_source_files_properties( ${source_directory}/source/sty/outp_sp_t.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+
+# outp_s_s.F
+set_source_files_properties( ${source_directory}/source/sty/outp_s_s.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+
+# outp_s_s.F
+set_source_files_properties( ${source_directory}/source/sty/outp_s_t.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+
+# resol_init.F
+set_source_files_properties( ${source_directory}/source/engine/resol_init.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
+
+# cbasumg3.F
+set_source_files_properties( ${source_directory}/source/elements/shell/coqueba/cbasumg3.F PROPERTIES COMPILE_FLAGS ${F_O2_AXSSE3})
+
+# redkey0.F
+set_source_files_properties( ${source_directory}/source/input/redkey0.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
+
+# resol.F
+set_source_files_properties( ${source_directory}/source/engine/resol.F PROPERTIES COMPILE_FLAGS ${F_O2_AXSSE3})
+
+# i3fri3 / compiler issue in routine after new interface buffer development 
+set_source_files_properties( ${source_directory}/source/interfaces/inter3d/i3fri3.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
+
+# arralloc / compiler issue 
+set_source_files_properties( ${source_directory}/source/output/restart/arralloc.F PROPERTIES COMPILE_FLAGS ${F_O2_AXSSE3})
+
+# i11cor3.F
+set_source_files_properties( ${source_directory}/source/interfaces/int11/i11cor3.F PROPERTIES COMPILE_FLAGS ${F_O2_AXSSE3})
+
+# i11cor3.F
+set_source_files_properties( ${source_directory}/source/interfaces/int11/i11cor3.F PROPERTIES COMPILE_FLAGS ${F_O2_AXSSE3})
+
+# i11pen3.F
+set_source_files_properties( ${source_directory}/source/interfaces/intsort/i11pen3.F PROPERTIES COMPILE_FLAGS ${F_O2_AXSSE3})
+
+# i7cor3t.F
+set_source_files_properties( ${source_directory}/source/interfaces/int07/i7cor3t.F PROPERTIES COMPILE_FLAGS ${F_O2_AXSSE3})
+
+# i20cor3t.F
+set_source_files_properties( ${source_directory}/source/interfaces/int20/i20cor3t.F PROPERTIES COMPILE_FLAGS ${F_O2_AXSSE3})
+
+# i23cor3t.F
+set_source_files_properties( ${source_directory}/source/interfaces/int23/i23cor3t.F PROPERTIES COMPILE_FLAGS ${F_O2_AXSSE3})
+
+# i20sto.F
+set_source_files_properties( ${source_directory}/source/interfaces/intsort/i20sto.F PROPERTIES COMPILE_FLAGS ${F_O2_AXSSE3})
+
+# i24cor3t.F
+set_source_files_properties( ${source_directory}/source/interfaces/intsort/i24cor3t.F PROPERTIES COMPILE_FLAGS ${F_O2_AXSSE3})
+ 
+# i25cor3t.F
+set_source_files_properties( ${source_directory}/source/interfaces/intsort/i25cor3t.F PROPERTIES COMPILE_FLAGS ${F_O2_AXSSE3})
+
+# spbuc3.F
+set_source_files_properties( ${source_directory}/source/elements/sph/spbuc3.F PROPERTIES COMPILE_FLAGS ${F_O2_AXSSE3})
+
+# spclasv.F
+set_source_files_properties( ${source_directory}/source/elements/sph/spclasv.F PROPERTIES COMPILE_FLAGS ${F_O2_AXSSE3})
+
+# i7buce_crit.F
+set_source_files_properties( ${source_directory}/source/interfaces/intsort/i7buce_crit.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+
+# cupdt3.F
+set_source_files_properties( ${source_directory}/source/elements/shell/coque/cupdt3.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+
+# cupdtn3.F
+set_source_files_properties( ${source_directory}/source/elements/shell/coque/cupdtn3.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+
+# cbafori.F
+set_source_files_properties( ${source_directory}/source/elements/shell/coqueba/cbafori.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+
+# sigeps44c.F
+set_source_files_properties( ${source_directory}/source/materials/mat/mat044/sigeps44c.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+
+# i25pen3_e2s.F
+set_source_files_properties( ${source_directory}/source/interfaces/intsort/i25pen3_e2s.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+
+# c_basic
+set_source_files_properties( ${source_directory}/source/coupling/rad2rad/rad2rad_c.c PROPERTIES COMPILE_FLAGS ${C_BASIC})
+
+# ieee.c
+set_source_files_properties( ${source_directory}/source/output/tools/ieee.c PROPERTIES COMPILE_FLAGS ${C_BASIC})
+
+endif()
+
+

@@ -158,7 +158,7 @@ C
           ADSKY(N) = ADSKY(N) + 1
  150  CONTINUE
 C
-Cel traitement a part du 3eme noeud optionnel sauf type 12
+C traitement a part du 3eme noeud optionnel sauf type 12
       DO K=2,3
         DO I=1,NUMELR
           N = IXR(K,I) + 1
@@ -178,7 +178,6 @@ C
           ADSKY(N) = ADSKY(N) + 1
  170  CONTINUE
 
-Celdev024
       DO K=2,5
         DO I=1,NUMELUR
           N = IXUR(K,I) + 1
@@ -198,7 +197,6 @@ C
         DO I=2,NUMNOD+1
           ADSKY(I) = ADSKY(I) + ADSKY(I-1)
         END DO
-Cel080        ADSKY(1) = 1
         LCNE = ADSKY(NUMNOD+1)
         ALLOCATE(CNE(LCNE),STAT=IERR1)
 C
@@ -241,7 +239,7 @@ C poids Metis suivant
       DO I = 1, NCOND*NELEM
         IWD(I) = 0
       ENDDO
-Cel optimisation des poids par defaut
+C optimisation des poids par defaut
       CALL INITWG(WD,PM,GEO,IXS,IXQ,
      .            IXC,IXT,IXP,IXR,IXTG,
      .            IXUR,KXX,IGEO,ISOLNOD,DSARCH,
@@ -252,18 +250,17 @@ Cel optimisation des poids par defaut
      .            TABMP_L,IPART,IPARTC,IPARTG,
      .            IPARTS,NPART,POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
      .            MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,IDDLEVEL)
-Celdev030---
       DO I=1,NUMELS
         DO K=1,8
           N = IXS(K+1,I)
           CNE(ADSKY(N)) = I
           ADSKY(N) = ADSKY(N) + 1
           IF(N/=0)THEN
-Cel poids ddl
+C poids ddl
             IWD(NCOND*(I-1)+1) = IWD(NCOND*(I-1)+1)+DSDOF(N)
-Cel poids interface
+C poids interface
             IWD(NCOND*(I-1)+2) = IWD(NCOND*(I-1)+2)+IWCONT(N)
-Cel poids int2
+C poids int2
             IWD(NCOND*(I-1)+3) = IWD(NCOND*(I-1)+3)+IWCIN2(N)
           END IF
         ENDDO
@@ -287,11 +284,11 @@ C
           CNE(ADSKY(N)) = I+OFF
           ADSKY(N) = ADSKY(N) + 1
           IF(N/=0)THEN
-Cel poids ddl
+C poids ddl
             IWD(NCOND*(I+OFF-1)+1) = IWD(NCOND*(I+OFF-1)+1)+DSDOF(N)
-Cel poids interface
+C poids interface
             IWD(NCOND*(I+OFF-1)+2) = IWD(NCOND*(I+OFF-1)+2)+IWCONT(N)
-Cel poids int2
+C poids int2
             IWD(NCOND*(I+OFF-1)+3) = IWD(NCOND*(I+OFF-1)+3)+IWCIN2(N)
           END IF
         ENDDO
@@ -305,11 +302,11 @@ C
           CNE(ADSKY(N)) = I+OFF
           ADSKY(N) = ADSKY(N) + 1
           IF(N/=0)THEN
-Cel poids ddl
+C poids ddl
             IWD(NCOND*(I+OFF-1)+1) = IWD(NCOND*(I+OFF-1)+1)+DSDOF(N)
-Cel poids interface
+C poids interface
             IWD(NCOND*(I+OFF-1)+2) = IWD(NCOND*(I+OFF-1)+2)+IWCONT(N)
-Cel poids int2
+C poids int2
             IWD(NCOND*(I+OFF-1)+3) = IWD(NCOND*(I+OFF-1)+3)+IWCIN2(N)
           END IF
         ENDDO
@@ -323,11 +320,11 @@ C
           CNE(ADSKY(N)) = I+OFF
           ADSKY(N) = ADSKY(N) + 1
           IF(N/=0)THEN
-Cel poids ddl
+C poids ddl
             IWD(NCOND*(I+OFF-1)+1) = IWD(NCOND*(I+OFF-1)+1)+DSDOF(N)
-Cel poids interface
+C poids interface
             IWD(NCOND*(I+OFF-1)+2) = IWD(NCOND*(I+OFF-1)+2)+IWCONT(N)
-Cel poids int2
+C poids int2
             IWD(NCOND*(I+OFF-1)+3) = IWD(NCOND*(I+OFF-1)+3)+IWCIN2(N)
           END IF
         ENDDO
@@ -341,11 +338,11 @@ C
           CNE(ADSKY(N)) = I+OFF
           ADSKY(N) = ADSKY(N) + 1
           IF(N/=0)THEN
-Cel poids ddl
+C poids ddl
             IWD(NCOND*(I+OFF-1)+1) = IWD(NCOND*(I+OFF-1)+1)+DSDOF(N)
-Cel poids interface
+C poids interface
             IWD(NCOND*(I+OFF-1)+2) = IWD(NCOND*(I+OFF-1)+2)+IWCONT(N)
-Cel poids int2
+C poids int2
             IWD(NCOND*(I+OFF-1)+3) = IWD(NCOND*(I+OFF-1)+3)+IWCIN2(N)
           END IF
         ENDDO
@@ -354,11 +351,11 @@ Cel poids int2
           CNE(ADSKY(N)) = I+OFF
           ADSKY(N) = ADSKY(N) + 1
           IF(N/=0)THEN
-Cel poids ddl
+C poids ddl
             IWD(NCOND*(I+OFF-1)+1) = IWD(NCOND*(I+OFF-1)+1)+DSDOF(N)
-Cel poids interface
+C poids interface
             IWD(NCOND*(I+OFF-1)+2) = IWD(NCOND*(I+OFF-1)+2)+IWCONT(N)
-Cel poids int2
+C poids int2
             IWD(NCOND*(I+OFF-1)+3) = IWD(NCOND*(I+OFF-1)+3)+IWCIN2(N)
           END IF
         ENDIF
@@ -370,14 +367,13 @@ C
         DO K=1,3
           N = IXTG(K+1,I)
           CNE(ADSKY(N)) = I+OFF
-Celdev030          WD(I+OFF) = WTG
           ADSKY(N) = ADSKY(N) + 1
           IF(N/=0)THEN
-Cel poids ddl
+C poids ddl
             IWD(NCOND*(I+OFF-1)+1) = IWD(NCOND*(I+OFF-1)+1)+DSDOF(N)
-Cel poids interface
+C poids interface
             IWD(NCOND*(I+OFF-1)+2) = IWD(NCOND*(I+OFF-1)+2)+IWCONT(N)
-Cel poids int2
+C poids int2
             IWD(NCOND*(I+OFF-1)+3) = IWD(NCOND*(I+OFF-1)+3)+IWCIN2(N)
           END IF
         ENDDO
@@ -391,11 +387,11 @@ C
           CNE(ADSKY(N)) = I+OFF
           ADSKY(N) = ADSKY(N) + 1
           IF(N/=0)THEN
-Cel poids ddl
+C poids ddl
             IWD(NCOND*(I+OFF-1)+1) = IWD(NCOND*(I+OFF-1)+1)+DSDOF(N)
-Cel poids interface
+C poids interface
             IWD(NCOND*(I+OFF-1)+2) = IWD(NCOND*(I+OFF-1)+2)+IWCONT(N)
-Cel poids int2
+C poids int2
             IWD(NCOND*(I+OFF-1)+3) = IWD(NCOND*(I+OFF-1)+3)+IWCIN2(N)
           END IF
         ENDDO
@@ -410,11 +406,11 @@ C
           CNE(ADSKY(N)) = I+OFF
           ADSKY(N) = ADSKY(N) + 1
           IF(N/=0)THEN
-Cel poids ddl
+C poids ddl
             IWD(NCOND*(I+OFF-1)+1) = IWD(NCOND*(I+OFF-1)+1)+DSDOF(N)
-Cel poids interface
+C poids interface
             IWD(NCOND*(I+OFF-1)+2) = IWD(NCOND*(I+OFF-1)+2)+IWCONT(N)
-Cel poids int2
+C poids int2
             IWD(NCOND*(I+OFF-1)+3) = IWD(NCOND*(I+OFF-1)+3)+IWCIN2(N)
           END IF
         ENDDO
@@ -438,7 +434,6 @@ C.....construction des couples Ei Ej connectes par un point
           ENDDO
         ENDDO
       ENDDO
-Celdev030+++
 *      WRITE(*,*) 'LCNE ',LCNE,' CNE '
 *      WRITE(*,'(10I8)') (CNE(I),I=1,LCNE)
 *      WRITE(*,*) 'ADSKY '
@@ -463,27 +458,26 @@ C
           ENDDO
         ENDDO
       ENDDO
-Celdev030+++
       IF (IDDLEVEL==1) THEN
 C-----------------------------------------------
 C CONNECTIVITES INTERFACES
 C-----------------------------------------------
 C
-Cel seulement rajouter une connectivite entre noeud et facette
+C seulement rajouter une connectivite entre noeud et facette
 C
-Cel eviter conflit entre type 2 et type 7
+C eviter conflit entre type 2 et type 7
 C
-Cel cep temporairement utilise comme flag
+C cep temporairement utilise comme flag
         DO I = 1, NELEM
           CEP(I) = 0
         ENDDO
 C
         DO J = 1, 2
-Cel hierarchie type 2, type 7
+C hierarchie type 2, type 7
          DO I = 1, NELEMINT
           N=IXINT(5,I)
           NUMG1=CNE(ADSKY(N))
-Cel initialisation numg2 pour cas ou facette non trouvee (erreur)
+C initialisation numg2 pour cas ou facette non trouvee (erreur)
           NUMG2=NUMG1
           ITYPINT=ABS(IXINT(6,I))
           IF((ITYPINT==2.AND.J==1).OR.
@@ -545,7 +539,6 @@ C
         NOD2 = IENDT(2*I)
         NEWEDGE = 1
         DO I = 2, NEDGES
-Celdev030 test optimise
           IF ((NOD1/=IENDT(2*I-1).OR.NOD2/=IENDT(2*I)).AND.
      .         IENDT(2*I-1)/=IENDT(2*I)) THEN
             NEWEDGE = NEWEDGE + 1
@@ -614,15 +607,12 @@ C
       IF (NEDGES>0.AND.NSUB>1) THEN
         IWFLG=2
         NFLAG=1
-C old metis option kept for compatibility
         OPTIONS(1)=0
-#if defined(METIS5)
 C new Metis5 Definition
          DO I = 1, 40
            OPTIONS(I) = -1
          END DO
          OPTIONS(18)=1
-#endif
 C Domain decomposition CRASH ou FSI
         IF(DECTYP==3.OR.DECTYP==4)THEN
           IF(IFSI==0)THEN
@@ -656,7 +646,7 @@ C poids interface deja calcul
           END IF
           IF(ELEMD>0)THEN
             DO I = 1, NELEM
-Celem delete
+Cem delete
               IF(WD(I)==0.0001)THEN
                 IWD(NCOND*(I-1)+NCOND) = 1
               END IF
@@ -671,28 +661,16 @@ C KWAY METIS
             UBVEC(3) = 1.10   ! tolerance int2
             IF(IFSI/=0) UBVEC(4) = 1.05   ! tolerance elt ale
             IF(ELEMD/=0) UBVEC(NCOND) = 1.10  ! tolerance elements deletes si present
-#if defined(METIS5)
             IERR1 = METIS_PartGraphKway(
      1        NELEM,NCOND,XADJ,ADJNCY,
      2        IWD,vsize,adjwgt,NSUB,tpwgts,
      3        UBVEC,OPTIONS,NEC,CEP)
-#elif 1
-            CALL METIS_mCPartGraphKway(
-     1        NELEM,NCOND,XADJ,ADJNCY,IWD,0,
-     2        IWFLG,NFLAG,NSUB,UBVEC,OPTIONS,NEC,CEP)
-#endif
 C RSB METIS
           ELSEIF(DECTYP==4)THEN
-#if defined(METIS5)
           IERR1 = METIS_PartGraphRecursive(
      1      NELEM,NCOND,XADJ,ADJNCY,
      2      IWD,vsize,adjwgt,NSUB,tpwgts,
      3      UBVEC,OPTIONS,NEC,CEP)
-#elif 1
-          CALL METIS_mCPartGraphRecursive(
-     1      NELEM,NCOND,XADJ,ADJNCY,IWD,0,
-     2      IWFLG,NFLAG,NSUB,OPTIONS,NEC,CEP)
-#endif
           END IF
 C Domain decomposition pour implicit
         ELSE
@@ -706,30 +684,17 @@ C KWAY METIS IMPLICIT
             UBVEC(2) = 1.10   ! tolerance interf contact
             UBVEC(3) = 1.10   ! tolerance int2
             UBVEC(4) = 1.05   ! tolerance elements
-#if defined(METIS5)
             IERR1 = METIS_PartGraphKway(
      1        NELEM,NCOND,XADJ,ADJNCY,
      2        IWD,vsize,adjwgt,NSUB,tpwgts,
      3        UBVEC,OPTIONS,NEC,CEP)
-#elif 1
-            CALL METIS_mCPartGraphKway(
-     1        NELEM,NCOND,XADJ,ADJNCY,IWD,0,
-     2        IWFLG,NFLAG,NSUB,UBVEC,OPTIONS,NEC,CEP)
-#endif
 C RSB METIS IMPLICIT
           ELSEIF(DECTYP==6)THEN
-#if defined(METIS5)
             IERR1 = METIS_PartGraphRecursive(
      1        NELEM,NCOND,XADJ,ADJNCY,
      2        IWD,vsize,adjwgt,NSUB,tpwgts,
      3        UBVEC,OPTIONS,NEC,CEP)
-#elif 1
-            CALL METIS_mCPartGraphRecursive(
-     1        NELEM,NCOND,XADJ,ADJNCY,IWD,0,
-     2        IWFLG,NFLAG,NSUB,OPTIONS,NEC,CEP)
-#endif
           END IF
-
         END IF
 c      if(times==1247)then
 c        return
@@ -739,7 +704,7 @@ c      endif
         END DO
         DEALLOCATE(XADJ,ADJNCY)
       ELSE
-Cel un seul element ou elements non connectes
+C un seul element ou elements non connectes
         DO I = 1, NELEM
           CEP(I) = 0
         ENDDO

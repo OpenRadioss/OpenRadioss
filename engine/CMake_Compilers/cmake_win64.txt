@@ -1,5 +1,5 @@
 # Compiler predefinition
-# Simplifiy usage for target compilation
+# Simplify usage for target compilation
 #########################################
 
 
