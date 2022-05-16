@@ -38,7 +38,8 @@ Chd|====================================================================
      7      IGAP   ,GAP_S_L ,GAP_M_L,EDGE_L2 ,LEDGMAX ,
      8      IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,INACTI,
      9      IPARTS  ,NPARTNS ,LPARTNS ,IELEM ,ICODE   ,
-     A      ISKEW   ,DRAD, IS_LARGE_NODE, LARGE_NODE, NB_LARGE_NODES)
+     A      ISKEW   ,DRAD, IS_LARGE_NODE, LARGE_NODE  , 
+     B      NB_LARGE_NODES,PEN_OLD)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -111,7 +112,7 @@ C     REAL ou REAL*8
       my_real
      .   X(3,*),XYZM(6),STF(*),STFN(*),GAP_S(*),GAP_M(*),
      .   GAP_S_L(*),GAP_M_L(*), EDGE_L2(*),LEDGMAX,
-     .   MARGE,BGAPSMX, DRAD
+     .   MARGE,BGAPSMX, DRAD,PEN_OLD(5,NSN)
       INTEGER :: LARGE_NODE(NSN) ! list of nodes that have large research distance wrt solids
       INTEGER :: IS_LARGE_NODE(NSN) ! tag nodes that have large research distance wrt solids
       INTEGER :: NB_LARGE_NODES
@@ -138,7 +139,7 @@ C
       INTEGER,  DIMENSION(:),ALLOCATABLE :: IIX,IIY,IIZ
       my_real
      .   XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB,
-     .   XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,AAA
+     .   XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,AAA,NSNM
       INTEGER FIRST,NEW,LAST
       INTEGER, DIMENSION(NUMNOD) :: TAGNOD
 C-----------------------------------------------
@@ -420,6 +421,12 @@ c               IF(INACTI==5.OR.INACTI==-1)THEN Do it for all inacti
                    IF(IPM==IPS) GOTO 300
                  END IF
 c               END IF
+C------- exclude wrong normal dir PEN_OLD(1-3): normal of nn            
+               IF(INACTI/=0.AND.ILEV/=3)THEN
+                 NSNM = SX*PEN_OLD(1,JJ)+SY*PEN_OLD(2,JJ)
+     +                  +SZ*PEN_OLD(3,JJ)
+                 IF(NSNM > ZERO)GOTO 300
+               END IF               
 
 
 c    sousestimation de la distance**2 pour elimination de candidats

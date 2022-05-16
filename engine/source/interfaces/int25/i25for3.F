@@ -65,7 +65,7 @@ Chd|====================================================================
      E    FY4         ,FZ4      ,FXI       ,FYI        ,FZI       ,
      C    INTTH       ,DRAD     ,FHEATS    ,FHEATM     ,QFRIC     ,
      D    EFRICT      ,TAGNCONT ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
-     E    TYPSUB      )
+     E    TYPSUB      ,NCFIT    )
 
 C-----------------------------------------------
 C   M o d u l e s
@@ -126,7 +126,7 @@ C-----------------------------------------------
      .        INFLG_SUBS(*), INFLG_SUBM(*), ILAGM, ICURV(3), 
      .        ISKYI_SMS(*), NSMS(*),IGSTI,
      .        ISENSINT(*), IF_ADH(MVSIZ),
-     .        INDEXORTH(MVSIZ)  ,INDEXISOT(MVSIZ),TYPSUB(*)
+     .        INDEXORTH(MVSIZ)  ,INDEXISOT(MVSIZ),TYPSUB(*),NCFIT
       my_real
      .   STIGLO, X(3,*),
      .   A(3,*), MS(*), V(3,*), FSAV(*),FCONT(3,*),
@@ -328,7 +328,14 @@ c     .          print *,'i25for3 stif',STIF_OLD(2,N),pene_old(2,n),stif_old(1,n
 c     .                  itab(nsvg(i)),itab(ix1(i)),itab(ix2(i)),itab(ix3(i)),itab(ix4(i))
       ENDDO 
 C-------------------------------------------
-        IF(IVIS2.NE.-1)THEN ! NO ADHESION CASE
+        IF (NCFIT >0) THEN
+          DO I=1,JLT
+            IF(PENE(I) == ZERO)CYCLE
+            STIF(I) = STIF0(I)
+            IF(STIGLO.LE.ZERO) STIF(I) = UNDEMI*STIF(I) 
+            FNI(I)= -STIF(I) * PENE(I) 
+          ENDDO
+        ELSEIF(IVIS2.NE.-1)THEN ! NO ADHESION CASE
           DO I=1,JLT
             IF(PENE(I) == ZERO)CYCLE
             IF(STIGLO.LE.ZERO)THEN

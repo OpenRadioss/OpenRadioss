@@ -960,3 +960,73 @@ c		  STIF_R(I) = MIN(STIF_S,STF(L))/MAX(EM20,STIF(I))
 C
       RETURN
       END
+Chd|====================================================================
+Chd|  I_COR_EPFIT3                       source/interfaces/int24/i24cor3.F
+Chd|-- called by -----------
+Chd|        I25MAINF                      source/interfaces/int25/i25main.F
+Chd|-- calls ---------------
+Chd|====================================================================
+      SUBROUTINE I_COR_EPFIT3(
+     1               JLT      ,STFE    ,STIF    ,CAND_S ,CAND_M ,
+     3               NEDGE    ,NIN     ,INACTI  ,NCFIT   ,TNCY) 
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE TRI7BOX
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   G l o b a l   P a r a m e t e r s
+C-----------------------------------------------
+#include      "mvsiz_p.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "units_c.inc"
+#include      "com04_c.inc"
+#include      "com01_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER, DIMENSION(MVSIZ),INTENT(IN):: CAND_S, CAND_M
+      INTEGER JLT,NIN,NCFIT,INACTI,NEDGE
+C     REAL ou REAL*8
+      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: STIF
+      my_real, DIMENSION(NEDGE), INTENT(IN) :: STFE
+      my_real, INTENT(IN) :: TNCY
+C     REAL ou REAL*8
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I ,J  ,EM,ES, NN, IG,JFT, IX,  NI
+      my_real
+     .   STIF_S,STIF_R(MVSIZ),F_PFIT,FA,FB,FAB
+C-----------------------------------------------
+C--- fixing min(stif) with Inacti=-1
+      IF (INACTI==-1)THEN
+         DO I=1,JLT
+          EM = CAND_M(I)
+          NI = CAND_S(I)
+          IF(NI.LE.NEDGE)THEN
+            ES =NI
+            STIF_S =STFE(ES)
+          ELSE
+            NN = NI - NEDGE
+            STIF_S =STIFIE(NIN)%P(NN)
+          END IF
+c		  STIF_R(I) = MIN(STIF_S,STFE(EM))/MAX(EM20,STIF(I))
+		  STIF(I) = MIN(STIF_S,STFE(EM))
+         ENDDO
+      END IF
+      IF(NCFIT>0)THEN
+         FA = MIN(UN,TROIS*TNCY)
+         FAB= MAX(ZERO,TROIS*TNCY-UN)
+         FB = MAX(ZERO,TROIS*TNCY-DEUX)
+         F_PFIT = EM04*(FA+FAB)+FB
+         STIF(1:JLT)=F_PFIT*STIF(1:JLT)
+      END IF
+C
+      RETURN
+      END

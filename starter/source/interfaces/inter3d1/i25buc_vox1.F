@@ -44,7 +44,7 @@ Chd|====================================================================
      A   IPARTS,KNOD2ELS,NOD2ELS,
      B   IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,
      C   IXS, IXS10, IXS16, IXS20,ICODE,ISKEW ,
-     D   DRAD )
+     D   DRAD ,PEN_OLD)
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   M o d u l e s
@@ -87,7 +87,7 @@ C-----------------------------------------------
       INTEGER IXS(*), IXS10(*), IXS16(*), IXS20(*)
 C     REAL ou REAL*8
       my_real
-     .   STF(*),STFN(*),X(3,*),GAP_S(*),GAP_M(*),
+     .   STF(*),STFN(*),X(3,*),GAP_S(*),GAP_M(*),PEN_OLD(5,NSN),
      .   DIST,BUMULT,GAP,TZINF,MAXBOX,MINBOX,GAPMIN,GAPMAX,
      .   GAP_S_L(*),GAP_M_L(*),MARGE,GAP_N(4,*),BGAPSMX,DRAD
       INTEGER ID
@@ -494,7 +494,8 @@ C
      7   IGAP    ,GAP_S_L ,GAP_M_L ,EDGE_L2 ,LEDGMAX ,
      8   IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,INACTI,
      9   IPARTS  ,NPARTNS ,LPARTNS ,IELEM   ,ICODE   ,
-     A   ISKEW   ,DRAD, IS_LARGE_NODE, LARGE_NODE, NB_LARGE_NODES)
+     A   ISKEW   ,DRAD, IS_LARGE_NODE, LARGE_NODE, NB_LARGE_NODES,
+     B   PEN_OLD )
 C
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
 C
