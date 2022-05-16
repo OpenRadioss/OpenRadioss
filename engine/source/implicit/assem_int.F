@@ -139,7 +139,7 @@ C
          NINDEX=NINDEX+1
          INDEX(NINDEX)=I
         ELSE
-C--------spmd--slave remote--Kss->(tempo)FFI,DFI, Diag_Kmm->Diag_I[KI 0]
+C--------spmd--secnd remote--Kss->(tempo)FFI,DFI, Diag_Kmm->Diag_I[KI 0]
 c------------------------------------------------------------------[0 Dm]-
          CALL ASSEM_KII(N1(I),1,IDDL,IADK,K_DIAG,K_LT ,KI11(1,1,I),
      .                  ND   ,OFF(I)) 
@@ -321,7 +321,7 @@ C
          NINDEX=NINDEX+1
          INDEX(NINDEX)=I
         ELSE
-C--------spmd--slave remote--Kss->(tempo)FFI,DFI, Diag_Kmm->Diag_I[KI 0]
+C--------spmd--secnd remote--Kss->(tempo)FFI,DFI, Diag_Kmm->Diag_I[KI 0]
 c------------------------------------------------------------------[0 Dm]-
          CALL ASSEM_KII(M1(I),1,IDDL,IADK,K_DIAG,K_LT ,K1I11(1,1,I),
      .                  ND   ,OFF(I)) 

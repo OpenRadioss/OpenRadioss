@@ -282,7 +282,7 @@ C
      1                    NSVG   ,STIF   ,H1     ,H2     ,H3    ,
      2                    H4     ,PENE   ,STIGLO ,KI11   ,KI12  ,
      3                    KJ11   ,KJ12   ,KK11   ,KK12   ,KL11  ,
-     4                    KL12   ,SK_INT ,INTBUF_TAB%NOD_SLV_LGTH,
+     4                    KL12   ,SK_INT ,INTBUF_TAB%NOD_2RY_LGTH,
      .                    INTBUF_TAB%NOD_MAS_LGTH,
      5                    TAG_S  ,TAG_M  ,NSN    )
         DEALLOCATE(TAG_S,TAG_M)

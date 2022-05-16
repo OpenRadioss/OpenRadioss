@@ -1208,7 +1208,7 @@ C-----------------------------------------------
      .  H(4),US(3)
 C-------Missed SPMD----------------------------------------
        DO I = 1, JLT
-C--------slave node-----add case Ud_s >0
+C--------secnd node-----add case Ud_s >0
         IG = NS_IMP(I)
        IF (IG.LE.NSN) THEN
         N1 = NSV(IG)
@@ -1279,7 +1279,7 @@ C-----------------------------------------------
      .  HS(2) ,HM(2),US(3,2),VM
 C-----------------------------------------------
        DO I = 1, JLT
-C--------slave node-----
+C--------secnd node-----
         IG = NS_IMP(I)
        IF (IG.LE.NSN) THEN
         NS(1) = IRECTS(1,IG)
@@ -1730,7 +1730,7 @@ C-----------------------------------------------
 !      EQUIVALENCE (H4,BV(1,28)) ,(XFACE,BV(1,29))
 C-----------------------------------------------
        DO I = LFT    ,LLT
-C--------slave node-----
+C--------secnd node-----
         NS = NSVG(I)
         M(1)= JX1(I)
         M(2)= JX2(I)
@@ -1856,7 +1856,7 @@ C------NSV(NSN)--node number---
        K13=K12+NSN
 C------MSR(NMN)-----
        K14=K13+NMN
-C------IRTL(NSN)--master el number---
+C------IRTL(NSN)--main el number---
 c       DO J=1,NSN
 c        NS=INBUF(K12+J)
 c        IF (NDOF(NS).GT.0) THEN

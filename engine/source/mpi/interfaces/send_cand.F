@@ -86,7 +86,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER I,K,LEN,ATID,ATAG,ALEN,IDEB,INACTI_R,
-     .        MSGOFF,MSGTYP,INFO, PMASTER, LOC_PROC
+     .        MSGOFF,MSGTYP,INFO, PMAIN, LOC_PROC
       DATA MSGOFF/1000/
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
 C-----------------------------------------------
@@ -101,24 +101,24 @@ C
         RETURN
       ENDIF
 C
-Cel determination du proc master (celui qui fait joue le role de P0)
+Cel determination du proc main (celui qui fait joue le role de P0)
 C
       DO K = 1, NSPMD
         IF (isendto(NIN,K).NE.0.OR.
      .      ircvfrom(NIN,K).NE.0) THEN
-          PMASTER = K
+          PMAIN = K
           GOTO 110
         ENDIF
       ENDDO
  110  CONTINUE
 C temporary change for exchange and cumul
       IF(INACTI < 0) INACTI=0
-      IF (LOC_PROC.NE.PMASTER) THEN
+      IF (LOC_PROC.NE.PMAIN) THEN
         MSGTYP=MSGOFF        
-        CALL MPI_SEND(INACTI,1,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,
+        CALL MPI_SEND(INACTI,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,ierror)
 C p0 envoi la liste des noeuds pour lesquels stfn=0
-        CALL MPI_RECV(INACTI,1,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,   
+        CALL MPI_RECV(INACTI,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
      .                MPI_COMM_WORLD,STATUS,ierror)
       ELSE
         DO K = 1, NSPMD
@@ -204,7 +204,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER I,K,LEN,LENX,LENR,IDEB,P,NB,
-     .        MSGOFF,MSGTYP,INFO,PMASTER, LOC_PROC,
+     .        MSGOFF,MSGTYP,INFO,PMAIN, LOC_PROC,
      .        IENVOI(NSPMD)
       DATA MSGOFF/1001/
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
@@ -221,12 +221,12 @@ C
         RETURN
       ENDIF
 C
-Cel determination du proc master (celui qui fait joue le role de P0)
+Cel determination du proc main (celui qui fait joue le role de P0)
 C
       DO K = 1, NSPMD
         IF (ISENDTO(NIN,K).NE.0.OR.
      .      IRCVFROM(NIN,K).NE.0) THEN
-          PMASTER = K
+          PMAIN = K
           GOTO 110
         ENDIF
       ENDDO
@@ -267,13 +267,13 @@ Candidat frontiere
       END IF
       IENVOI(LOC_PROC) = LEN
 C
-      IF (LOC_PROC.NE.PMASTER) THEN
+      IF (LOC_PROC.NE.PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
-        CALL MPI_SEND(LEN,1,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,
+        CALL MPI_SEND(LEN,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,IERROR)
-        CALL MPI_RECV(LENX,1,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,   
+        CALL MPI_RECV(LENX,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
      .                MPI_COMM_WORLD,STATUS,IERROR)
       ELSE
 Calcul taille totale
@@ -300,7 +300,7 @@ C
         ENDDO
       ENDIF
 C envoi des stifness
-      CALL SPMD_SD_STFN(LOC_PROC,PMASTER ,LENX ,CAND_N,NSV    ,
+      CALL SPMD_SD_STFN(LOC_PROC,PMAIN ,LENX ,CAND_N,NSV    ,
      2                  I_STOK  ,NSN     ,STFN ,IENVOI,ISENDTO,
      3                  IRCVFROM,ITAB    ,NIN  )
 C
@@ -360,7 +360,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER I,K,LEN,LENX,LENR,IDEB,P,NB,
-     .        MSGOFF,MSGTYP,INFO,PMASTER, LOC_PROC,
+     .        MSGOFF,MSGTYP,INFO,PMAIN, LOC_PROC,
      .        IENVOI(NSPMD)
       DATA MSGOFF/1001/
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
@@ -377,12 +377,12 @@ C
         RETURN
       ENDIF
 C
-Cel determination du proc master (celui qui fait joue le role de P0)
+Cel determination du proc main (celui qui fait joue le role de P0)
 C
       DO K = 1, NSPMD
         IF (ISENDTO(NIN,K).NE.0.OR.
      .      IRCVFROM(NIN,K).NE.0) THEN
-          PMASTER = K
+          PMAIN = K
           GOTO 110
         ENDIF
       ENDDO
@@ -409,13 +409,13 @@ C traitement sur tout NSN pour les nds precedemment impactes (ne figurent pas da
       END DO
       IENVOI(LOC_PROC) = LEN
 C
-      IF (LOC_PROC.NE.PMASTER) THEN
+      IF (LOC_PROC.NE.PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
-        CALL MPI_SEND(LEN,1,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,
+        CALL MPI_SEND(LEN,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,IERROR)
-        CALL MPI_RECV(LENX,1,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,   
+        CALL MPI_RECV(LENX,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
      .                MPI_COMM_WORLD,STATUS,IERROR)
       ELSE
 Calcul taille totale
@@ -442,7 +442,7 @@ C
         ENDDO
       ENDIF
 C envoi des stifness
-      CALL SPMD_SD_STFN25(LOC_PROC,PMASTER ,LENX ,CAND_N,NSV    ,
+      CALL SPMD_SD_STFN25(LOC_PROC,PMAIN ,LENX ,CAND_N,NSV    ,
      2                  I_STOK  ,NSN     ,STFN ,IENVOI,ISENDTO,
      3                  IRCVFROM,ITAB    ,NIN  )
 C
@@ -503,7 +503,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER I,K,LEN,LENX,LENR,IDEB,P,NB,
-     .        MSGOFF,MSGTYP,INFO,PMASTER, LOC_PROC,
+     .        MSGOFF,MSGTYP,INFO,PMAIN, LOC_PROC,
      .        IENVOI(NSPMD)
       DATA MSGOFF/1002/
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
@@ -520,12 +520,12 @@ C
         RETURN
       ENDIF
 C
-Cel determination du proc master (celui qui fait joue le role de P0)
+Cel determination du proc main (celui qui fait joue le role de P0)
 C
       DO K = 1, NSPMD
         IF (ISENDTO(NIN,K).NE.0.OR.
      .      IRCVFROM(NIN,K).NE.0) THEN
-          PMASTER = K
+          PMAIN = K
           GOTO 110
         ENDIF
       ENDDO
@@ -566,13 +566,13 @@ Candidat frontiere
       END IF
       IENVOI(LOC_PROC) = LEN
 C
-      IF (LOC_PROC.NE.PMASTER) THEN
+      IF (LOC_PROC.NE.PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
-        CALL MPI_SEND(LEN,1,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,
+        CALL MPI_SEND(LEN,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,IERROR)
-        CALL MPI_RECV(LENX,1,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,   
+        CALL MPI_RECV(LENX,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
      .                MPI_COMM_WORLD,STATUS,IERROR)
       ELSE
 Calcul taille totale
@@ -599,7 +599,7 @@ C
         ENDDO
       ENDIF
 C envoi des stifness
-      CALL SPMD_SD_STFA20(LOC_PROC,PMASTER ,LENX ,CAND_N,NSV    ,
+      CALL SPMD_SD_STFA20(LOC_PROC,PMAIN ,LENX ,CAND_N,NSV    ,
      2                    I_STOK  ,NSN     ,STFA ,IENVOI,ISENDTO,
      3                    IRCVFROM,ITAB    ,NLG  ,NIN   )
 C
@@ -660,7 +660,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER I,K,LEN,LENX,LENR,IDEB,P,NB,
-     .        MSGOFF,MSGTYP,INFO,PMASTER, LOC_PROC,
+     .        MSGOFF,MSGTYP,INFO,PMAIN, LOC_PROC,
      .        IENVOI(NSPMD)
       DATA MSGOFF/1003/
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
@@ -677,12 +677,12 @@ C
         RETURN
       ENDIF
 C
-Cel determination du proc master (celui qui fait joue le role de P0)
+Cel determination du proc main (celui qui fait joue le role de P0)
 C
       DO K = 1, NSPMD
         IF (ISENDTO(NIN,K).NE.0.OR.
      .      IRCVFROM(NIN,K).NE.0) THEN
-          PMASTER = K
+          PMAIN = K
           GOTO 110
         ENDIF
       ENDDO
@@ -723,13 +723,13 @@ Candidat frontiere
       END IF
       IENVOI(LOC_PROC) = LEN
 C
-      IF (LOC_PROC.NE.PMASTER) THEN
+      IF (LOC_PROC.NE.PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
-        CALL MPI_SEND(LEN,1,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,
+        CALL MPI_SEND(LEN,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,IERROR)
-        CALL MPI_RECV(LENX,1,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,   
+        CALL MPI_RECV(LENX,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
      .                MPI_COMM_WORLD,STATUS,IERROR)
       ELSE
 Calcul taille totale
@@ -756,7 +756,7 @@ C
         ENDDO
       ENDIF
 C envoi des stifness
-      CALL SPMD_SD_STFN11(LOC_PROC,PMASTER ,LENX ,CAND_S,IRECTS ,
+      CALL SPMD_SD_STFN11(LOC_PROC,PMAIN ,LENX ,CAND_S,IRECTS ,
      2                    I_STOK  ,NRTS    ,STFS ,IENVOI,ISENDTO,
      3                    IRCVFROM,ITAB    ,NIN  )
 C
@@ -817,7 +817,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER I,K,LEN,LENX,LENR,IDEB,P,NB,
-     .        MSGOFF,MSGTYP,INFO,PMASTER, LOC_PROC,
+     .        MSGOFF,MSGTYP,INFO,PMAIN, LOC_PROC,
      .        IENVOI(NSPMD)
       DATA MSGOFF/1004/
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
@@ -834,12 +834,12 @@ C
         RETURN
       ENDIF
 C
-Cel determination du proc master (celui qui fait joue le role de P0)
+Cel determination du proc main (celui qui fait joue le role de P0)
 C
       DO K = 1, NSPMD
         IF (ISENDTO(NIN,K).NE.0.OR.
      .      IRCVFROM(NIN,K).NE.0) THEN
-          PMASTER = K
+          PMAIN = K
           GOTO 110
         ENDIF
       ENDDO
@@ -880,13 +880,13 @@ Candidat frontiere
       END IF
       IENVOI(LOC_PROC) = LEN
 C
-      IF (LOC_PROC.NE.PMASTER) THEN
+      IF (LOC_PROC.NE.PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
-        CALL MPI_SEND(LEN,1,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,
+        CALL MPI_SEND(LEN,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,IERROR)
-        CALL MPI_RECV(LENX,1,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,   
+        CALL MPI_RECV(LENX,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
      .                MPI_COMM_WORLD,STATUS,IERROR)
       ELSE
 Calcul taille totale
@@ -913,7 +913,7 @@ C
         ENDDO
       ENDIF
 C envoi des stifness
-      CALL SPMD_SD_STFN20E(LOC_PROC,PMASTER ,LENX ,CAND_S,IXLINS ,
+      CALL SPMD_SD_STFN20E(LOC_PROC,PMAIN ,LENX ,CAND_S,IXLINS ,
      2                     I_STOK  ,NLINSA  ,STFS ,IENVOI,ISENDTO,
      3                     IRCVFROM,ITAB    ,NLG  ,NIN   )
 C
@@ -931,7 +931,7 @@ Chd|-- calls ---------------
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE  SPMD_SD_STFN(
-     1   LOC_PROC,PMASTER ,LENX ,CAND_N,NSV    ,
+     1   LOC_PROC,PMAIN ,LENX ,CAND_N,NSV    ,
      2   I_STOK  ,NSN     ,STFN ,IENVOI,ISENDTO,
      3   IRCVFROM,ITAB    ,NIN  )
 C-----------------------------------------------
@@ -963,7 +963,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LOC_PROC, PMASTER, I_STOK, NSN, LENX, NIN,
+      INTEGER LOC_PROC, PMAIN, I_STOK, NSN, LENX, NIN,
      .        IENVOI(*), CAND_N(*), NSV(*), ITAB(*),
      .        ISENDTO(NINTER+1,*), IRCVFROM(NINTER+1,*)
       my_real
@@ -1021,15 +1021,15 @@ Candidat frontiere
         ENDDO
       END IF
 C
-      IF (LOC_PROC.NE.PMASTER) THEN
+      IF (LOC_PROC.NE.PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
         IF(LEN.GT.0) THEN
-          CALL MPI_SEND(IBUFFER,LEN,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,
+          CALL MPI_SEND(IBUFFER,LEN,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
         ENDIF
-        CALL MPI_RECV(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,   
+        CALL MPI_RECV(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
      .                MPI_COMM_WORLD,STATUS,IERROR)
       ELSE
 Calcul taille totale
@@ -1090,7 +1090,7 @@ Chd|-- calls ---------------
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE  SPMD_SD_STFN25(
-     1   LOC_PROC,PMASTER ,LENX ,CAND_N,NSV    ,
+     1   LOC_PROC,PMAIN ,LENX ,CAND_N,NSV    ,
      2   I_STOK  ,NSN     ,STFN ,IENVOI,ISENDTO,
      3   IRCVFROM,ITAB    ,NIN  )
 C-----------------------------------------------
@@ -1122,7 +1122,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LOC_PROC, PMASTER, I_STOK, NSN, LENX, NIN,
+      INTEGER LOC_PROC, PMAIN, I_STOK, NSN, LENX, NIN,
      .        IENVOI(*), CAND_N(*), NSV(*), ITAB(*),
      .        ISENDTO(NINTER+1,*), IRCVFROM(NINTER+1,*)
       my_real
@@ -1164,15 +1164,15 @@ C traitement sur tout NSN pour les nds precedemment impactes (ne figurent pas da
         END IF
       END DO
 C
-      IF (LOC_PROC.NE.PMASTER) THEN
+      IF (LOC_PROC.NE.PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
         IF(LEN.GT.0) THEN
-          CALL MPI_SEND(IBUFFER,LEN,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,
+          CALL MPI_SEND(IBUFFER,LEN,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
         ENDIF
-        CALL MPI_RECV(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,   
+        CALL MPI_RECV(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
      .                MPI_COMM_WORLD,STATUS,IERROR)
       ELSE
 Calcul taille totale
@@ -1233,7 +1233,7 @@ Chd|-- calls ---------------
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE  SPMD_SD_STFA20(
-     1   LOC_PROC,PMASTER ,LENX ,CAND_N,NSV    ,
+     1   LOC_PROC,PMAIN ,LENX ,CAND_N,NSV    ,
      2   I_STOK  ,NSN     ,STFA ,IENVOI,ISENDTO,
      3   IRCVFROM,ITAB    ,NLG  ,NIN   )
 C-----------------------------------------------
@@ -1265,7 +1265,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LOC_PROC, PMASTER, I_STOK, NSN, LENX, NIN,
+      INTEGER LOC_PROC, PMAIN, I_STOK, NSN, LENX, NIN,
      .        IENVOI(*), CAND_N(*), NSV(*), ITAB(*), NLG(*),
      .        ISENDTO(NINTER+1,*), IRCVFROM(NINTER+1,*)
       my_real
@@ -1323,15 +1323,15 @@ Candidat frontiere
         ENDDO
       END IF
 C
-      IF (LOC_PROC.NE.PMASTER) THEN
+      IF (LOC_PROC.NE.PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
         IF(LEN.GT.0) THEN
-          CALL MPI_SEND(IBUFFER,LEN,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,
+          CALL MPI_SEND(IBUFFER,LEN,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
         ENDIF
-        CALL MPI_RECV(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,   
+        CALL MPI_RECV(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
      .                MPI_COMM_WORLD,STATUS,IERROR)
       ELSE
 Calcul taille totale
@@ -1392,7 +1392,7 @@ Chd|-- calls ---------------
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE  SPMD_SD_STFN11(
-     1   LOC_PROC,PMASTER ,LENX ,CAND_S,IRECTS ,
+     1   LOC_PROC,PMAIN ,LENX ,CAND_S,IRECTS ,
      2   I_STOK  ,NRTS    ,STFS ,IENVOI,ISENDTO,
      3   IRCVFROM,ITAB    ,NIN  )
 C-----------------------------------------------
@@ -1424,7 +1424,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LOC_PROC, PMASTER, I_STOK, LENX, NIN, NRTS,
+      INTEGER LOC_PROC, PMAIN, I_STOK, LENX, NIN, NRTS,
      .        IENVOI(*), CAND_S(*), IRECTS(2,*), ITAB(*),
      .        ISENDTO(NINTER+1,*), IRCVFROM(NINTER+1,*)
       my_real
@@ -1495,15 +1495,15 @@ Candidat frontiere
         ENDDO
       ENDIF
 C
-      IF (LOC_PROC.NE.PMASTER) THEN
+      IF (LOC_PROC.NE.PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
         IF(LEN.GT.0) THEN
-          CALL MPI_SEND(IBUFFER,LEN,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,
+          CALL MPI_SEND(IBUFFER,LEN,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
         ENDIF
-        CALL MPI_RECV(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,   
+        CALL MPI_RECV(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
      .                MPI_COMM_WORLD,STATUS,IERROR)
       ELSE
 Calcul taille totale
@@ -1570,7 +1570,7 @@ Chd|-- calls ---------------
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE  SPMD_SD_STFN20E(
-     1   LOC_PROC,PMASTER ,LENX ,CAND_S,IXLINS ,
+     1   LOC_PROC,PMAIN ,LENX ,CAND_S,IXLINS ,
      2   I_STOK  ,NLINSA  ,STFS ,IENVOI,ISENDTO,
      3   IRCVFROM,ITAB    ,NLG  ,NIN   )
 C-----------------------------------------------
@@ -1602,7 +1602,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LOC_PROC, PMASTER, I_STOK, LENX, NIN, NLINSA,
+      INTEGER LOC_PROC, PMAIN, I_STOK, LENX, NIN, NLINSA,
      .        IENVOI(*), CAND_S(*), IXLINS(2,*), ITAB(*),
      .        ISENDTO(NINTER+1,*), IRCVFROM(NINTER+1,*), NLG(*)
       my_real
@@ -1677,15 +1677,15 @@ Candidat frontiere
         ENDDO
       ENDIF
 C
-      IF (LOC_PROC.NE.PMASTER) THEN
+      IF (LOC_PROC.NE.PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
         IF(LEN.GT.0) THEN
-          CALL MPI_SEND(IBUFFER,LEN,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,
+          CALL MPI_SEND(IBUFFER,LEN,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
         ENDIF
-        CALL MPI_RECV(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(PMASTER),MSGTYP,   
+        CALL MPI_RECV(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
      .                MPI_COMM_WORLD,STATUS,IERROR)
       ELSE
 Calcul taille totale
@@ -1835,7 +1835,7 @@ C-------------------------------------------------------------------------------
 C Check inactif interfaces and end of tri ( I21buce) 
 C------------------------------------------------------------------------------
       NIACTIF = 0 ! Number of actif and Tri interfaces
-      NODFITOT = 0  ! Global Number of remote master node
+      NODFITOT = 0  ! Global Number of remote main node
       NODFITOTS = 0 
       NODFITOTR = 0 
       INTERACTIF = 0
@@ -1870,7 +1870,7 @@ C
       ENDDO
 C
 C-------------------------------------------------------------------------------
-C First COMM : COMM number of master remote node 
+C First COMM : COMM number of main remote node 
 C------------------------------------------------------------------------------
       IF(NIACTIF /= 0) THEN
 C alloc comm structure 
@@ -1938,7 +1938,7 @@ C WAITING for receiving msg
            ENDIF
         ENDDO
 C-------------------------------------------------------------------------------
-C SECOND COMM : COMM master remote node 
+C SECOND COMM : COMM main remote node 
 C------------------------------------------------------------------------------
 C alloc comm structure 
         DO NI = 1, NIACTIF
@@ -2046,7 +2046,7 @@ C WAITING for receiving msg
          IF(ALLOCATED(IBUFS)) DEALLOCATE(IBUFS)
          IF(ALLOCATED(IBUFR)) DEALLOCATE(IBUFR)
 C-------------------------------------------------------------------------------
-C THIRD COMM : COMM master temperature 
+C THIRD COMM : COMM main temperature 
 C------------------------------------------------------------------------------
 C alloc comm structure 
 
@@ -2219,8 +2219,8 @@ C
       LOC_PROC = ISPMD+1
 C
       NIACTIF = 0 ! Number of actif and Tri interfaces
-      NODSITOT = 0  ! Global Number of remote master node
-      NODFITOT = 0  ! Global Number of remote master node
+      NODSITOT = 0  ! Global Number of remote main node
+      NODFITOT = 0  ! Global Number of remote main node
 C 
       LENS = 0   
       LENR = 0               
@@ -2429,8 +2429,8 @@ C
       LOC_PROC = ISPMD+1
 C
       NIACTIF = 0 ! Number of actif and Tri interfaces
-      NODSITOT = 0  ! Global Number of remote master node
-      NODFITOT = 0  ! Global Number of remote master node
+      NODSITOT = 0  ! Global Number of remote main node
+      NODFITOT = 0  ! Global Number of remote main node
 C 
       LENS(1:NSPMD) = 0   
       LENR(1:NSPMD) = 0  

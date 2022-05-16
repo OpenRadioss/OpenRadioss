@@ -128,21 +128,21 @@ cow51d1      END TYPE int_pointer
 C
       INTEGER NI2_FR,NRB_FR,NI2_FRS,NRB_FRS,NML,NBC_FR,NFX_FR,
      .        NRBE3_FR,NRBE3_FRS,NSPC_FR,NRBE2_FR,NRBE2_FRS
-C tableau de int de taille NSREM :noeuds slaves remotes dans l'order proc croissant
-C indiquant liste noeuds remote a recevoir du "proc master"
+C tableau de int de taille NSREM :noeuds secnds remotes dans l'order proc croissant
+C indiquant liste noeuds remote a recevoir du "proc main"
       INTEGER, DIMENSION(:), ALLOCATABLE :: FR_SREM
 C tableau de pointeurs IND_INT de taille NINTER :index de structure interface a FR_SREM
       TYPE(int_pointer2), DIMENSION(:), ALLOCATABLE :: IND_INT
 Cow51d1      TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: IND_INT
 C tableau de int SHF_INT de taille NINTER :nb de SREM des precedent interfaces
       INTEGER, DIMENSION(:), ALLOCATABLE :: SHF_INT
-C tableau de int de taille NSL :noeuds slaves locales  (apres upd)
+C tableau de int de taille NSL :noeuds secnds locales  (apres upd)
       INTEGER, DIMENSION(:), ALLOCATABLE :: ISL
 Cqz51f4+1 =ISL sauf mis a zero des noeuds doubles
       INTEGER, DIMENSION(:), ALLOCATABLE :: ISLM
-C tableau de int de taille NML :noeuds maitres locales (apres upd)
+C tableau de int de taille NML :noeuds mains locales (apres upd)
       INTEGER, DIMENSION(:), ALLOCATABLE :: IML
-C tableau de int de taille (NBINTC,NSPMD) :nb noeuds slaves locales (tempo)
+C tableau de int de taille (NBINTC,NSPMD) :nb noeuds secnds locales (tempo)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: INBSL
 Cqz51f4      INTEGER, DIMENSION(:), ALLOCATABLE :: INBSL
       INTEGER, DIMENSION(:), ALLOCATABLE :: IAD_SREM,IAD_SL

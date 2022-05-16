@@ -32,7 +32,7 @@ Chd|====================================================================
      1         X    ,NEDGE ,LEDGE ,NUMNOD ,GAP_E    ,GAP_E_L,
      2         IGAP0,IGAP  ,DRAD  ,BGAPEMX,BGAPEMX_L,KREMNODE, 
      3         REMNODE,NREMNODE,I_START,I_MEM_REM,INOD2LIN,
-     4         TAGSLAV,NOD2LIN)
+     4         TAGSECND,NOD2LIN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +54,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEDGE, NUMNOD,IGAP0,IGAP, NREMNODE
       INTEGER LEDGE(NLEDGE,*),KREMNODE(*),REMNODE(*),I_START,I_MEM_REM
-      INTEGER INOD2LIN(NUMNOD+1),TAGSLAV(NUMNOD),NOD2LIN(2*NEDGE)
+      INTEGER INOD2LIN(NUMNOD+1),TAGSECND(NUMNOD),NOD2LIN(2*NEDGE)
       my_real
      .        X(3,*),GAP_E(*),GAP_E_L(*),DRAD,BGAPEMX,BGAPEMX_L
 C-----------------------------------------------
@@ -82,12 +82,12 @@ C
         NOD2LIN(1:2*NEDGE)    = 0
         KNOD2LIN(1:NUMNOD+1) = 0
         INOD2LIN(1:NUMNOD+1) = 0
-        TAGSLAV(1:NUMNOD)    = 0
+        TAGSECND(1:NUMNOD)    = 0
         CPT = NEDGE
 C
         DO I=1,NEDGE
-          TAGSLAV(LEDGE(5,I)) = 1
-          TAGSLAV(LEDGE(6,I)) = 1
+          TAGSECND(LEDGE(5,I)) = 1
+          TAGSECND(LEDGE(6,I)) = 1
         ENDDO
 
 
@@ -196,7 +196,7 @@ C
                     ITAG(LIN1)=LEVEL
                     DO L=5,6
 
-                      IF ((TAGSLAV(LEDGE(L,LIN1))== 1).AND.(ORIGIN(LEDGE(L,LIN1)) /= LEDGE(J,LIN))
+                      IF ((TAGSECND(LEDGE(L,LIN1))== 1).AND.(ORIGIN(LEDGE(L,LIN1)) /= LEDGE(J,LIN))
      .                     .AND.((LEDGE(L,LIN1)) /= LEDGE(J,LIN)).AND.(TAGNOD(LEDGE(L,LIN1)) /= 2)) THEN
 C
                         NEW_DIST=DIST1(LEDGE(J,LIN))+
@@ -256,7 +256,7 @@ C
               LIN = LISTLINTOTAL(L)
               IF ((IM1 /= LEDGE(5,LIN)).AND.(IM1 /= LEDGE(6,LIN))
      .           .AND.(IM2 /= LEDGE(5,LIN)).AND.(IM2 /= LEDGE(6,LIN))) THEN
-C--- lines with common nodes with master lines are aready removed - no need to store them in remnode
+C--- lines with common nodes with main lines are aready removed - no need to store them in remnode
                 IF(IGAP0 == 0) THEN
                    GAPV = GAP_E(LIN)+DEUX*GAP_E(I)
                 ELSE

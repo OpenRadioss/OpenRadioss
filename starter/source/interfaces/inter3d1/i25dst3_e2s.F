@@ -329,7 +329,7 @@ C         IF(PENE(I)==ZERO) CYCLE
 
           IF(IABS(LEDGE(7,CAND_S(I)))/=1)CYCLE
 C---------------------------------------
-C         Solid on slave side !
+C         Solid on secnd side !
 C---------------------------------------
 C
 C
@@ -384,7 +384,7 @@ C         IF(PENE(I)==ZERO) CYCLE
 
           IF(IABS(LEDGE(7,CAND_S(I)))/=1)CYCLE
 C---------------------------------------
-C         Solid on slave side !
+C         Solid on secnd side !
 C---------------------------------------
 C
 C
@@ -412,7 +412,7 @@ C
 
           IF(IABS(LEDGE(7,CAND_S(I)))/=1)CYCLE
 C---------------------------------------
-C         Solid on slave side !
+C         Solid on secnd side !
 C---------------------------------------
           DO EJ=1,4
 
@@ -446,14 +446,14 @@ C---------------------------------------
         LBA(1:JLT,1:4) = -UN ! cf test LBA, LCA
         LCA(1:JLT,1:4) = ZERO
 C---------------------------------------
-C       Extraction des coordonnees et pre-filtrage des candidats vs diedre maitre
+C       Extraction des coordonnees et pre-filtrage des candidats vs diedre main
 C---------------------------------------
         DO I=1,JLT
 
 C         IF(PENE(I)==ZERO) CYCLE
 
 C---------------------------------------
-C         Solid on master side !
+C         Solid on main side !
 C---------------------------------------
 C
           IA=CAND_M(I)
@@ -545,7 +545,7 @@ C
         END DO
 
 C---------------------------------------
-C         Solid on master side !
+C         Solid on main side !
 C---------------------------------------
         DO I=1,JLT
 
@@ -568,7 +568,7 @@ C---------------------------------------
               I0=5
             END IF
 C-----------------------------------------
-C           Solid on master side !
+C           Solid on main side !
 C-----------------------------------------
 C
 C
@@ -608,7 +608,7 @@ C---------------------------------------
         DO I=1,JLT
 C         IF(PENE(I)==ZERO) CYCLE
 C---------------------------------------
-C         Solid on master side !
+C         Solid on main side !
 C---------------------------------------
           NJNDX=NJNDX+1
           JNDX(NJNDX)=I
@@ -623,10 +623,10 @@ C#include "vectorize.inc"
 C       DO K=1,NJNDX
 C         I=JNDX(K)
 C--------------------------------------
-C        Solid on master side !
+C        Solid on main side !
 C--------------------------------------
 C
-C          vu cas ou S1 (resp S2) est egal au 3eme noeud du triangle maitre
+C          vu cas ou S1 (resp S2) est egal au 3eme noeud du triangle main
 C       						    --------
 C          alors qu'il n'y a pas d'auto intersection de la part sur elle meme ::
 C       		      
@@ -654,7 +654,7 @@ C
 C
 C
 C---------------------------------------
-C         Solid on master side !
+C         Solid on main side !
 C---------------------------------------
           I=JNDX(K)
 C
@@ -845,7 +845,7 @@ C
 C
 C
 C---------------------------------------
-C         Solid on master side !
+C         Solid on main side !
 C---------------------------------------
           IF(LBA(I,1) < -EM02 .OR. LCA(I,1) < -EM02 .OR. LBA(I,1)+LCA(I,1) > UNP02)
      .      PENE(1,I)=ZERO

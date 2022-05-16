@@ -115,7 +115,7 @@ C     #######################################################
       IDEB=0
       DO WHILE(IDEB.LT.NRTM)
 C
-       !NRTM : nombre de faces maitresses
+       !NRTM : nombre de faces mains
        DO I=1,MIN(MVSIZ,NRTM-IDEB)
         J=IDEB+I
         IX1(I)=IRECT(1,J)

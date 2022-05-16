@@ -171,15 +171,15 @@ C---
         ENDDO
       ENDIF
 C---
-C tag group elements in master-box:
+C tag group elements in main-box:
 C---
       IF(ISU > 0)THEN
         IF(FLAG == 0)THEN
-          BOXELE = IBOX(ISU)%NENTITY  ! elements of master box
+          BOXELE = IBOX(ISU)%NENTITY  ! elements of main box
           NEL = BOXELE
         ELSE IF(FLAG == 1)THEN
-          BOXELE = IBOX(ISU)%NENTITY  ! elements of master box
-          IADISU = IBOX(ISU)%BOXIAD  ! addresses of elements in master box
+          BOXELE = IBOX(ISU)%NENTITY  ! elements of main box
+          IADISU = IBOX(ISU)%BOXIAD  ! addresses of elements in main box
           NEL = BOXELE
           DO I=1,BOXELE
             J=IBUFBOX(IADISU+I-1)

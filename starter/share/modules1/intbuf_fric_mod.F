@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER ::    FRICFORM        ! the friction formulation ( viscous or incremental)
       INTEGER ::    IFFILTER       !Friction filtering flag 
       INTEGER ::    S_TABPARTS_FRIC  ! number of parts  
-      INTEGER ::    IORTHFRIC          ! Flag for orthotropic friction 0 isotropic / 1 orthotropic like master material / 2 orthotropic and orthotropy axes are defined in friction model
+      INTEGER ::    IORTHFRIC          ! Flag for orthotropic friction 0 isotropic / 1 orthotropic like main material / 2 orthotropic and orthotropy axes are defined in friction model
       my_real ::    XFILTR_FRIC        !Filtering coefficient
 
       INTEGER, DIMENSION(:), ALLOCATABLE :: TABCOUPLEPARTS_FRIC    ! Table of couple of parts

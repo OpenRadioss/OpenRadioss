@@ -134,7 +134,7 @@ C ----------------------------------
       IF(FLAG==1)THEN
 
 C----------------------------------------------------------------------------------------------------
-C Partie Zero  IRTLM & TIME_S sont mis a zero quand les noeuds esclaves locaux ne sont pas candidats
+C Partie Zero  IRTLM & TIME_S sont mis a zero quand les noeuds seconds locaux ne sont pas candidats
 C----------------------------------------------------------------------------------------------------
            ALLOCATE(ISCAND(NUMNOD+I24MAXNSNE))
            ISCAND(1:NUMNOD+I24MAXNSNE)=0
@@ -251,9 +251,9 @@ C Send
                BBUFS(L)=  IRTLM_FI(NIN)%P(1,NN+IDEB(NIN))
                BBUFS(L+1)=IRTLM_FI(NIN)%P(2,NN+IDEB(NIN))
                BBUFS(L+2)=TIME_SFI(NIN)%P(NN+IDEB(NIN))
-               BBUFS(L+3)=SLAV_FRFI(NIN)%P(1,NN+IDEB(NIN))
-               BBUFS(L+4)=SLAV_FRFI(NIN)%P(2,NN+IDEB(NIN))
-               BBUFS(L+5)=SLAV_FRFI(NIN)%P(3,NN+IDEB(NIN))
+               BBUFS(L+3)=SECND_FRFI(NIN)%P(1,NN+IDEB(NIN))
+               BBUFS(L+4)=SECND_FRFI(NIN)%P(2,NN+IDEB(NIN))
+               BBUFS(L+5)=SECND_FRFI(NIN)%P(3,NN+IDEB(NIN))
                BBUFS(L+6)=PENE_OLDFI(NIN)%P(1,NN+IDEB(NIN))
                BBUFS(L+7)=STIF_OLDFI(NIN)%P(1,NN+IDEB(NIN))
 	       BBUFS(L+8)=PENE_OLDFI(NIN)%P(3,NN+IDEB(NIN))
@@ -367,29 +367,29 @@ C nothing to do
                        INTBUF_TAB(NIN)%TIME_S(ND) = BBUFR(IADR(P)+L+2)
                      ENDIF
                    ENDIF 
-C Merge SLAV_FR
+C Merge SECND_FR
 		   
 		   IF(ABS(BBUFR(IADR(P)+L+3)) > 
-     *                ABS(INTBUF_TAB(NIN)%SLAV_FR(6*(ND-1)+1)))
-     *                    INTBUF_TAB(NIN)%SLAV_FR(6*(ND-1)+1)   = BBUFR(IADR(P)+L+3)
+     *                ABS(INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+1)))
+     *                    INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+1)   = BBUFR(IADR(P)+L+3)
 C
                    IF(ABS(BBUFR(IADR(P)+L+4)) > 
-     *                ABS(INTBUF_TAB(NIN)%SLAV_FR(6*(ND-1)+2)))
-     *                    INTBUF_TAB(NIN)%SLAV_FR(6*(ND-1)+2)   = BBUFR(IADR(P)+L+4)
+     *                ABS(INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+2)))
+     *                    INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+2)   = BBUFR(IADR(P)+L+4)
 C
                    IF(ABS(BBUFR(IADR(P)+L+5)) > 
-     *                ABS(INTBUF_TAB(NIN)%SLAV_FR(6*(ND-1)+3)))
-     *                    INTBUF_TAB(NIN)%SLAV_FR(6*(ND-1)+3)   = BBUFR(IADR(P)+L+5)
+     *                ABS(INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+3)))
+     *                    INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+3)   = BBUFR(IADR(P)+L+5)
 
 C case equal abs but opposite sign
-                   IF(BBUFR(IADR(P)+L+3)==-INTBUF_TAB(NIN)%SLAV_FR(6*(ND-1)+1) )
-     *                INTBUF_TAB(NIN)%SLAV_FR(6*(ND-1)+1)   = ABS(BBUFR(IADR(P)+L+3))
+                   IF(BBUFR(IADR(P)+L+3)==-INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+1) )
+     *                INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+1)   = ABS(BBUFR(IADR(P)+L+3))
 C
-                   IF(BBUFR(IADR(P)+L+4)==-INTBUF_TAB(NIN)%SLAV_FR(6*(ND-1)+2) )
-     *                INTBUF_TAB(NIN)%SLAV_FR(6*(ND-1)+2) = ABS(BBUFR(IADR(P)+L+4))
+                   IF(BBUFR(IADR(P)+L+4)==-INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+2) )
+     *                INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+2) = ABS(BBUFR(IADR(P)+L+4))
 C
-                   IF(BBUFR(IADR(P)+L+5)==-INTBUF_TAB(NIN)%SLAV_FR(6*(ND-1)+3) )
-     *                INTBUF_TAB(NIN)%SLAV_FR(6*(ND-1)+3) = ABS(BBUFR(IADR(P)+L+5))
+                   IF(BBUFR(IADR(P)+L+5)==-INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+3) )
+     *                INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+3) = ABS(BBUFR(IADR(P)+L+5))
 C
 
 C Merge PENE_OLD
@@ -441,13 +441,13 @@ C Fin du send
 C -------------------
 C T24 E2E Merge ISPT2
 C -------------------
-C ISPT2 : Tag Array for slave nodes (not fictive nodes)
+C ISPT2 : Tag Array for secnd nodes (not fictive nodes)
 C         Set to 1 when 
-C               1/ Slave node is part of an Edge
+C               1/ Secnd node is part of an Edge
 C               2/ This Edge is impacting, eg fictive node has IRTLM not NULL
 C
 C     Note for Parallelism - at this Stage Remote nodes & nodes on Marter processor are merged.
-C     Fictive nodes (& slave surface IRTS) are only affected to 1 SPMD Domain. They can only be
+C     Fictive nodes (& secnd surface IRTS) are only affected to 1 SPMD Domain. They can only be
 C     either Local or remote (not neighbourg in term of SPMD domain).
 C     One can start to merge here and spred the info to the neighboug domains.
       IF(INT24E2EUSE == 1)THEN
@@ -458,7 +458,7 @@ C     One can start to merge here and spred the info to the neighboug domains.
             IF(NTY==24 .AND. IEDG4 > 0)THEN
                NSN = IPARI(5,NIN)
                DO SN=1,NSN
-C Basic case : Slave node is not part of an Edge
+C Basic case : Secnd node is not part of an Edge
                   INTBUF_TAB(NIN)%ISPT2(SN)=0
                   NSI = INTBUF_TAB(NIN)%ISEGPT(SN)
                   ND=INTBUF_TAB(NIN)%NSV(SN)
@@ -476,7 +476,7 @@ C Basic case : Slave node is not part of an Edge
           ENDDO
       ENDIF
 C-----------------------------------------------------------
-C 2eme partie - echanges sur les noeuds esclaves frontieres
+C 2eme partie - echanges sur les noeuds seconds frontieres
 C               pour toutes les interface type 24.
 C-----------------------------------------------------------
       LEN=3
@@ -538,9 +538,9 @@ C mise en place du irecieve
                       ISENDBUF(4,NB)=0                  
                  ENDIF
                  RSENDBUF(1,NB) = INTBUF_TAB(NIN)%TIME_S(ND)
-                 RSENDBUF(2,NB) = INTBUF_TAB(NIN)%SLAV_FR(6*(ND-1)+1)
-                 RSENDBUF(3,NB) = INTBUF_TAB(NIN)%SLAV_FR(6*(ND-1)+2)
-                 RSENDBUF(4,NB) = INTBUF_TAB(NIN)%SLAV_FR(6*(ND-1)+3)
+                 RSENDBUF(2,NB) = INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+1)
+                 RSENDBUF(3,NB) = INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+2)
+                 RSENDBUF(4,NB) = INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+3)
                  RSENDBUF(5,NB) = INTBUF_TAB(NIN)%PENE_OLD(5*(ND-1)+1)
                  RSENDBUF(6,NB) = INTBUF_TAB(NIN)%PENE_OLD(5*(ND-1)+3)
                  RSENDBUF(8,NB) = INTBUF_TAB(NIN)%PENE_OLD(5*(ND-1)+5)
@@ -665,30 +665,30 @@ c rien a faire
                         ENDIF
                     ENDIF
                  
-C Max pour les SLAV_FR
+C Max pour les SECND_FR
 		    IF (ABS(RRECBUF(2+(IDB-1)*RLEN)) > 
-     *                 (ABS(INTBUF_TAB(NIN)%SLAV_FR(6*(SN-1)+1)) ) )
-     *                 	INTBUF_TAB(NIN)%SLAV_FR(6*(SN-1)+1) = RRECBUF(2+(IDB-1)*RLEN)
+     *                 (ABS(INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+1)) ) )
+     *                 	INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+1) = RRECBUF(2+(IDB-1)*RLEN)
      
  		    IF (ABS(RRECBUF(3+(IDB-1)*RLEN)) > 
-     *                  ABS(INTBUF_TAB(NIN)%SLAV_FR(6*(SN-1)+2)) )
-     *                 	INTBUF_TAB(NIN)%SLAV_FR(6*(SN-1)+2) = RRECBUF(3+(IDB-1)*RLEN)
+     *                  ABS(INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+2)) )
+     *                 	INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+2) = RRECBUF(3+(IDB-1)*RLEN)
      
  		    IF (ABS(RRECBUF(4+(IDB-1)*RLEN)) > 
-     *                  ABS(INTBUF_TAB(NIN)%SLAV_FR(6*(SN-1)+3)) )
-     *                 	INTBUF_TAB(NIN)%SLAV_FR(6*(SN-1)+3) = RRECBUF(4+(IDB-1)*RLEN)
+     *                  ABS(INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+3)) )
+     *                 	INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+3) = RRECBUF(4+(IDB-1)*RLEN)
 
 C Case equal abs but opposite sign
-                    IF (RRECBUF(2+(IDB-1)*RLEN)==-INTBUF_TAB(NIN)%SLAV_FR(6*(SN-1)+1) )
-     *                  INTBUF_TAB(NIN)%SLAV_FR(6*(SN-1)+1)=
+                    IF (RRECBUF(2+(IDB-1)*RLEN)==-INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+1) )
+     *                  INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+1)=
      *                                      ABS(RRECBUF(2+(IDB-1)*RLEN))
 
-                    IF (RRECBUF(3+(IDB-1)*RLEN)==-INTBUF_TAB(NIN)%SLAV_FR(6*(SN-1)+2) )
-     *                  INTBUF_TAB(NIN)%SLAV_FR(6*(SN-1)+2)=
+                    IF (RRECBUF(3+(IDB-1)*RLEN)==-INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+2) )
+     *                  INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+2)=
      *                                      ABS(RRECBUF(3+(IDB-1)*RLEN))
 
-                    IF (RRECBUF(4+(IDB-1)*RLEN)==-INTBUF_TAB(NIN)%SLAV_FR(6*(SN-1)+3) )
-     *                  INTBUF_TAB(NIN)%SLAV_FR(6*(SN-1)+3)=
+                    IF (RRECBUF(4+(IDB-1)*RLEN)==-INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+3) )
+     *                  INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+3)=
      *                                      ABS(RRECBUF(4+(IDB-1)*RLEN))
 
 C Merge PENE_OLD
@@ -820,9 +820,9 @@ C Preparation du send
                  BBUFS(L  )=INTBUF_TAB(NIN)%IRTLM(2*(ND-1)+1)
                  BBUFS(L+1)=INTBUF_TAB(NIN)%IRTLM(2*(ND-1)+2)
                  BBUFS(L+2)=INTBUF_TAB(NIN)%TIME_S(ND)
-                 BBUFS(L+3)=INTBUF_TAB(NIN)%SLAV_FR(6*(ND-1)+1)
-                 BBUFS(L+4)=INTBUF_TAB(NIN)%SLAV_FR(6*(ND-1)+2)
-                 BBUFS(L+5)=INTBUF_TAB(NIN)%SLAV_FR(6*(ND-1)+3)
+                 BBUFS(L+3)=INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+1)
+                 BBUFS(L+4)=INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+2)
+                 BBUFS(L+5)=INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+3)
                  BBUFS(L+6)=INTBUF_TAB(NIN)%PENE_OLD(5*(ND-1)+1)
                  BBUFS(L+7)=INTBUF_TAB(NIN)%PENE_OLD(5*(ND-1)+3)
                  BBUFS(L+9)=INTBUF_TAB(NIN)%PENE_OLD(5*(ND-1)+5)
@@ -890,13 +890,13 @@ C--------------keep  STIF_OLDFI(NIN)%P(1,
                     IRTLM_FI(NIN)%P(2,IDEB(NIN)+K)=BBUFR(IADR(P)+L+1)
                     TIME_SFI(NIN)%P(IDEB(NIN)+K)=BBUFR(IADR(P)+L+2)
 C Same initialiation than in i24optcd :
-C           copy SLAV_FRFI(1,2,3) into SLAV_FRFI(4,5,6) & Flush SLAV_FRFI to zero
-                    SLAV_FRFI(NIN)%P(1,IDEB(NIN)+K)=ZERO
-                    SLAV_FRFI(NIN)%P(2,IDEB(NIN)+K)=ZERO
-                    SLAV_FRFI(NIN)%P(3,IDEB(NIN)+K)=ZERO
-                    SLAV_FRFI(NIN)%P(4,IDEB(NIN)+K)=BBUFR(IADR(P)+L+3)
-                    SLAV_FRFI(NIN)%P(5,IDEB(NIN)+K)=BBUFR(IADR(P)+L+4)
-                    SLAV_FRFI(NIN)%P(6,IDEB(NIN)+K)=BBUFR(IADR(P)+L+5)
+C           copy SECND_FRFI(1,2,3) into SECND_FRFI(4,5,6) & Flush SECND_FRFI to zero
+                    SECND_FRFI(NIN)%P(1,IDEB(NIN)+K)=ZERO
+                    SECND_FRFI(NIN)%P(2,IDEB(NIN)+K)=ZERO
+                    SECND_FRFI(NIN)%P(3,IDEB(NIN)+K)=ZERO
+                    SECND_FRFI(NIN)%P(4,IDEB(NIN)+K)=BBUFR(IADR(P)+L+3)
+                    SECND_FRFI(NIN)%P(5,IDEB(NIN)+K)=BBUFR(IADR(P)+L+4)
+                    SECND_FRFI(NIN)%P(6,IDEB(NIN)+K)=BBUFR(IADR(P)+L+5)
                     PENE_OLDFI(NIN)%P(1,IDEB(NIN)+K)=ZERO
                     PENE_OLDFI(NIN)%P(2,IDEB(NIN)+K)=BBUFR(IADR(P)+L+6)
 		    PENE_OLDFI(NIN)%P(3,IDEB(NIN)+K)=BBUFR(IADR(P)+L+7)
@@ -913,13 +913,13 @@ C           copy SLAV_FRFI(1,2,3) into SLAV_FRFI(4,5,6) & Flush SLAV_FRFI to zer
                     IRTLM_FI(NIN)%P(2,IDEB(NIN)+K)=BBUFR(IADR(P)+L+1)
                     TIME_SFI(NIN)%P(IDEB(NIN)+K)=BBUFR(IADR(P)+L+2)
 C Same initialiation than in i24optcd :
-C           copy SLAV_FRFI(1,2,3) into SLAV_FRFI(4,5,6) & Flush SLAV_FRFI to zero
-                    SLAV_FRFI(NIN)%P(1,IDEB(NIN)+K)=ZERO
-                    SLAV_FRFI(NIN)%P(2,IDEB(NIN)+K)=ZERO
-                    SLAV_FRFI(NIN)%P(3,IDEB(NIN)+K)=ZERO
-                    SLAV_FRFI(NIN)%P(4,IDEB(NIN)+K)=BBUFR(IADR(P)+L+3)
-                    SLAV_FRFI(NIN)%P(5,IDEB(NIN)+K)=BBUFR(IADR(P)+L+4)
-                    SLAV_FRFI(NIN)%P(6,IDEB(NIN)+K)=BBUFR(IADR(P)+L+5)
+C           copy SECND_FRFI(1,2,3) into SECND_FRFI(4,5,6) & Flush SECND_FRFI to zero
+                    SECND_FRFI(NIN)%P(1,IDEB(NIN)+K)=ZERO
+                    SECND_FRFI(NIN)%P(2,IDEB(NIN)+K)=ZERO
+                    SECND_FRFI(NIN)%P(3,IDEB(NIN)+K)=ZERO
+                    SECND_FRFI(NIN)%P(4,IDEB(NIN)+K)=BBUFR(IADR(P)+L+3)
+                    SECND_FRFI(NIN)%P(5,IDEB(NIN)+K)=BBUFR(IADR(P)+L+4)
+                    SECND_FRFI(NIN)%P(6,IDEB(NIN)+K)=BBUFR(IADR(P)+L+5)
                     PENE_OLDFI(NIN)%P(1,IDEB(NIN)+K)=ZERO
                     PENE_OLDFI(NIN)%P(2,IDEB(NIN)+K)=BBUFR(IADR(P)+L+6)
 		    PENE_OLDFI(NIN)%P(3,IDEB(NIN)+K)=BBUFR(IADR(P)+L+7)

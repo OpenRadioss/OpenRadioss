@@ -83,7 +83,7 @@ Chd|        SPLIT_SEG_NODLOC              source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_SEG_NODLOC_I24          source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_SEG_RVAL_I20            source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_SEG_SEGLOC              source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_SLV_CAND_IVAL_I21       source/restart/ddsplit/inter_tools.F
+Chd|        SPLIT_2RY_CAND_IVAL_I21       source/restart/ddsplit/inter_tools.F
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        W_INTBUF_SIZE                 source/restart/ddsplit/inter_tools.F
 Chd|        W_TYPE8                       source/restart/ddsplit/split_interfaces.F
@@ -173,14 +173,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: FLAG_INIT_24_25
       INTEGER, DIMENSION(:),ALLOCATABLE :: 
-     .         TAG_NODE_SLV,TAG_SEGM,TAG_SEGS,
+     .         TAG_NODE_2RY,TAG_SEGM,TAG_SEGS,
      .         TAG_NODE_MSR,TAG_SEGM2,TAG_II,TAGE_II,
      .         TAG_NODE_MSR2,TAG,TAG_IRTL,
      .         TAG_NLINS, TAG_NLINM,TAG_NLINS2, TAG_NLINM2,
      .         TAG_NLG,TAG_NLG2,IBUF8_L,TAG_NSNE,TAG_NMNE,
-     .         TAG_NSVE,TAG_MSRE, TAG_IELES, TAG_IELEM,TAG_NODE_SLV2,
+     .         TAG_NSVE,TAG_MSRE, TAG_IELES, TAG_IELEM,TAG_NODE_2RY2,
      .         TAG_LMSR,TAG_LMSR2,TAG_NSEG,TAG_NSEG2,
-     .         NODLOCAL24,TAG_SEG2S,TAG_NSNE_L,TAG_SM,TAG_SLV_INV,
+     .         NODLOCAL24,TAG_SEG2S,TAG_NSNE_L,TAG_SM,TAG_2RY_INV,
      .         KNOR2MSR,NOR2MSR,MSR_L_I21,MNDD_I21,TAG_SEGSS
 
       INTEGER 
@@ -399,10 +399,10 @@ c=====================================================================
 c=====================================================================
         ELSEIF(ITYP == 2)THEN
 c=====================================================================
-          ALLOCATE(TAG_NODE_SLV(NSN_L),TAG_SEGM(NRTM_L),
+          ALLOCATE(TAG_NODE_2RY(NSN_L),TAG_SEGM(NRTM_L),
      .             TAG_SEGM2(NRTM),TAG(NRTM),TAG_IRTL(NMN_L))
 !       useless initialization
-          TAG_NODE_SLV(1:NSN_L) = 0
+          TAG_NODE_2RY(1:NSN_L) = 0
           TAG_SEGM(1:NRTM_L) = 0
           TAG_SEGM2(1:NRTM) = 0
           TAG(1:NRTM) = 0
@@ -416,7 +416,7 @@ c=====================================================================
 
           !prepare addition arrays used for split
           CALL PREPARE_SPLIT_I2(PROC, INTBUF_TAB(NI), NSN      , NMN      ,
-     .                          NRTM, TAG_NODE_SLV  , TAG_SEGM , TAG_SEGM2,
+     .                          NRTM, TAG_NODE_2RY  , TAG_SEGM , TAG_SEGM2,
      .                          TAG_IRTL, TAG       , ITABI2M  , NODLOCAL ,
      .                          NBDDI2M , NIR       ,NUMNOD_L)
 
@@ -426,22 +426,22 @@ c split and write on disk integers arrays
           CALL SPLIT_SEG_NODLOC(INTBUF_TAB(NI)%IRECTM,NRTM_L,4,
      .                          TAG_SEGM,NODLOCAL) !KD(11)
           CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%NSV,NSN_L,
-     .                          TAG_NODE_SLV,NODLOCAL) !KD(12)
+     .                          TAG_NODE_2RY,NODLOCAL) !KD(12)
           CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%MSR,NMN_L,
      .                          TAG_IRTL,NODLOCAL) !KD(13)
 
           CALL SPLIT_NODE_IVAL2(INTBUF_TAB(NI)%IRTLM,NSN_L,1,
-     .                          TAG_SEGM2,TAG_NODE_SLV) !KD(14)
+     .                          TAG_SEGM2,TAG_NODE_2RY) !KD(14)
 
           IF (ILEV==10 .OR. ILEV==11 .OR. ILEV==12 .OR.
      *        ILEV==20 .OR. ILEV==21 .OR. ILEV==22) THEN
 
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IRUPT,NSN_L,1,
-     .                            TAG_NODE_SLV) !KD(14)
+     .                            TAG_NODE_2RY) !KD(14)
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%INORM,NSN_L,1,
-     .                            TAG_NODE_SLV) !KD(14)
+     .                            TAG_NODE_2RY) !KD(14)
           ELSEIF ((ILEV == 27).OR.(ILEV == 28)) THEN
-            CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IRUPT,NSN_L,1,TAG_NODE_SLV)
+            CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IRUPT,NSN_L,1,TAG_NODE_2RY)
             CALL SPLIT_SEG_IVAL2(INTBUF_TAB(NI)%MSEGTYP2,NRTM_L,TAG_SEGM,TAG_SEGM2)
           ENDIF
 
@@ -451,9 +451,9 @@ c split and write on disk floating arrays
           CALL COPY_RVAL(INTBUF_TAB(NI)%VARIABLES,NPARIR,1)   
 
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%CSTS,NSN_L,2,
-     .                            TAG_NODE_SLV) !JD(12)
+     .                            TAG_NODE_2RY) !JD(12)
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%DPARA,NSN_L,7,
-     .                            TAG_NODE_SLV) !JD(21)
+     .                            TAG_NODE_2RY) !JD(21)
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%NMAS(1),NMN_L,1,
      .                            TAG_IRTL) !JD(22)
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%NMAS(1+NMN),NMN_L,1,
@@ -465,131 +465,131 @@ c split and write on disk floating arrays
 
 
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%AREAS2,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(31)
+     .                            TAG_NODE_2RY) !JD(31)
           ENDIF
           IF (ILEV==10 .OR. ILEV==11 .OR. ILEV==12) THEN
 
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SMAS,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(23)
+     .                            TAG_NODE_2RY) !JD(23)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SINER,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(24)
+     .                            TAG_NODE_2RY) !JD(24)
 c            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%AREAS2,NSN_L,1,
-c     .                            TAG_NODE_SLV) !JD(31)
+c     .                            TAG_NODE_2RY) !JD(31)
 
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%UVAR,NSN_L,NUVAR,
-     .                            TAG_NODE_SLV) !JD(32)
+     .                            TAG_NODE_2RY) !JD(32)
 
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%XM0,NSN_L,3,
-     .                            TAG_NODE_SLV) !JD(33)
+     .                            TAG_NODE_2RY) !JD(33)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%DSM,NSN_L,3,
-     .                            TAG_NODE_SLV) !JD(34)
+     .                            TAG_NODE_2RY) !JD(34)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FSM,NSN_L,3,
-     .                            TAG_NODE_SLV) !JD(35)
+     .                            TAG_NODE_2RY) !JD(35)
 
           ELSEIF (ILEV==20 .OR. ILEV==21 .OR. ILEV==22) THEN
 
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SMAS,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(23)
+     .                            TAG_NODE_2RY) !JD(23)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SINER,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(24)
+     .                            TAG_NODE_2RY) !JD(24)
 c            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%AREAS2,NSN_L,1,
-c     .                            TAG_NODE_SLV) !JD(31)
+c     .                            TAG_NODE_2RY) !JD(31)
 
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%UVAR,NSN_L,NUVAR,
-     .                            TAG_NODE_SLV) !JD(32)
+     .                            TAG_NODE_2RY) !JD(32)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%XM0,NSN_L,3,
-     .                            TAG_NODE_SLV) !JD(33)
+     .                            TAG_NODE_2RY) !JD(33)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%DSM,NSN_L,3,
-     .                            TAG_NODE_SLV) !JD(34)
+     .                            TAG_NODE_2RY) !JD(34)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FSM,NSN_L,3,
-     .                            TAG_NODE_SLV) !JD(35)
+     .                            TAG_NODE_2RY) !JD(35)
 
             CALL COPY_RVAL(INTBUF_TAB(NI)%RUPT,6,1) !JD(36)
 
           ELSEIF (ILEV == 25) THEN
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SMAS,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(23)
+     .                            TAG_NODE_2RY) !JD(23)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SINER,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(24)
+     .                            TAG_NODE_2RY) !JD(24)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SPENALTY,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(25)
+     .                            TAG_NODE_2RY) !JD(25)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFR_PENALTY,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(26)
+     .                            TAG_NODE_2RY) !JD(26)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SKEW,NSN_L,9,
-     .                            TAG_NODE_SLV) !JD(33)
+     .                            TAG_NODE_2RY) !JD(33)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%DSM,NSN_L,3,
-     .                            TAG_NODE_SLV) !JD(34)
+     .                            TAG_NODE_2RY) !JD(34)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FSM,NSN_L,3,
-     .                            TAG_NODE_SLV) !JD(35)
+     .                            TAG_NODE_2RY) !JD(35)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FINI,NSN_L,3,
-     .                            TAG_NODE_SLV) !JD(36)
+     .                            TAG_NODE_2RY) !JD(36)
           ELSEIF (ILEV == 26) THEN
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SMAS,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(23)
+     .                            TAG_NODE_2RY) !JD(23)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SINER,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(24)
+     .                            TAG_NODE_2RY) !JD(24)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SPENALTY,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(25)
+     .                            TAG_NODE_2RY) !JD(25)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFR_PENALTY,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(26)
+     .                            TAG_NODE_2RY) !JD(26)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SKEW,NSN_L,9,
-     .                            TAG_NODE_SLV) !JD(33)
+     .                            TAG_NODE_2RY) !JD(33)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%DSM,NSN_L,12,
-     .                            TAG_NODE_SLV) !JD(34)
+     .                            TAG_NODE_2RY) !JD(34)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FSM,NSN_L,12,
-     .                            TAG_NODE_SLV) !JD(35)
+     .                            TAG_NODE_2RY) !JD(35)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FINI,NSN_L,24,
-     .                            TAG_NODE_SLV) !JD(36)
+     .                            TAG_NODE_2RY) !JD(36)
           ELSEIF (ILEV == 27) THEN
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SMAS,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(23)
+     .                            TAG_NODE_2RY) !JD(23)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SINER,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(24)
+     .                            TAG_NODE_2RY) !JD(24)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SPENALTY,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(25)
+     .                            TAG_NODE_2RY) !JD(25)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFR_PENALTY,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(26)
+     .                            TAG_NODE_2RY) !JD(26)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SKEW,NSN_L,9,
-     .                            TAG_NODE_SLV) !JD(33)
+     .                            TAG_NODE_2RY) !JD(33)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%DSM,NSN_L,3,
-     .                            TAG_NODE_SLV) !JD(34)
+     .                            TAG_NODE_2RY) !JD(34)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FSM,NSN_L,3,
-     .                            TAG_NODE_SLV) !JD(35)
+     .                            TAG_NODE_2RY) !JD(35)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FINI,NSN_L,6,
-     .                            TAG_NODE_SLV) !JD(36)
+     .                            TAG_NODE_2RY) !JD(36)
 
           ELSEIF (ILEV == 28) THEN
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SMAS,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(23)
+     .                            TAG_NODE_2RY) !JD(23)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SINER,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(24)
+     .                            TAG_NODE_2RY) !JD(24)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SPENALTY,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(25)
+     .                            TAG_NODE_2RY) !JD(25)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFR_PENALTY,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(26)
+     .                            TAG_NODE_2RY) !JD(26)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SKEW,NSN_L,9,
-     .                            TAG_NODE_SLV) !JD(33)
+     .                            TAG_NODE_2RY) !JD(33)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%DSM,NSN_L,3,
-     .                            TAG_NODE_SLV) !JD(34)
+     .                            TAG_NODE_2RY) !JD(34)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FSM,NSN_L,3,
-     .                            TAG_NODE_SLV) !JD(35)
+     .                            TAG_NODE_2RY) !JD(35)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FINI,NSN_L,6,
-     .                            TAG_NODE_SLV) !JD(36)
+     .                            TAG_NODE_2RY) !JD(36)
 
           ELSEIF(IPARI(17,NI).NE.0)THEN
 C si Idel2 actif
 C smas & siner (ZERO)   
 
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SMAS,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(23)
+     .                            TAG_NODE_2RY) !JD(23)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SINER,NSN_L,1,
-     .                            TAG_NODE_SLV) !JD(24)
+     .                            TAG_NODE_2RY) !JD(24)
 
           ENDIF
 
-          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%CSTS_BIS,NSN_L,2,TAG_NODE_SLV)
+          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%CSTS_BIS,NSN_L,2,TAG_NODE_2RY)
 
-          DEALLOCATE(TAG_NODE_SLV,TAG_SEGM,TAG_SEGM2,TAG,TAG_IRTL)
+          DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_SEGM2,TAG,TAG_IRTL)
 
 c=====================================================================
         ELSEIF(ITYP == 3)THEN
@@ -758,13 +758,13 @@ c=====================================================================
 c=====================================================================
         ELSEIF(ITYP == 7)THEN ! (ITYP == 18)
 c=====================================================================
-           ALLOCATE(TAG_NODE_SLV(NSN_FE_L),TAG_SEGM(NRTM_FE_L),
+           ALLOCATE(TAG_NODE_2RY(NSN_FE_L),TAG_SEGM(NRTM_FE_L),
      .          TAG_NODE_MSR(NMN_FE_L),TAG_SEGM2(NRTM_FE),TAG_II(II_STOK))
 
            ALLOCATE(I710XSAV(NMN))
            I710XSAV(1:NMN)=ZERO
                          
-           TAG_NODE_SLV(1:NSN_FE_L) = 0
+           TAG_NODE_2RY(1:NSN_FE_L) = 0
            TAG_SEGM(1:NRTM_FE_L) = 0
            TAG_SEGM2(1:NRTM_FE) = 0
            TAG_NODE_MSR(1:NMN_FE_L) = 0
@@ -773,7 +773,7 @@ c=====================================================================
 C     Interface type 18 for law151
 !prepare addition arrays used for split
               CALL PREPARE_SPLIT_I7(PROC          ,INTBUF_TAB(NI),IPARI(1,NI) ,
-     .             INTERCEP(1,NI),TAG_NODE_SLV,TAG_SEGM      ,
+     .             INTERCEP(1,NI),TAG_NODE_2RY,TAG_SEGM      ,
      .             TAG_SEGM2     ,TAG_NM        ,TAG_NODE_MSR,
      .             TAG_SCRATCH   ,NI, CEP, MULTI_FVM,I710XSAV,
      .             NINDX_NM      ,INDX_NM,NINDX_SCRT,INDX_SCRT,NODLOCAL,
@@ -789,7 +789,7 @@ c     split and write on disk integers arrays
 
               ! NSN -> brick ids
               CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%NSV,NSN_FE_L,
-     .             TAG_NODE_SLV,CEL)
+     .             TAG_NODE_2RY,CEL)
 
               CALL COPY_IVAL_IGEO(INTBUF_TAB(NI)%NSV,NSN_IGE,1,NSN_FE) 
               
@@ -800,7 +800,7 @@ c     split and write on disk integers arrays
               
               IF(INTTH.GT.0)THEN
                  CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IELEC,NSN_FE_L,1,
-     .                TAG_NODE_SLV) !KD(25)
+     .                TAG_NODE_2RY) !KD(25)
                  CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IELES,NRTM_FE_L,1,
      .                TAG_SEGM) !KD(24)
               ENDIF
@@ -808,7 +808,7 @@ c     split and write on disk integers arrays
               IF(NISUB.GT.0)THEN
                  CALL COPY_IVAL(INTBUF_TAB(NI)%LISUB,NISUB,1) !KD(28)
                  CALL COPY_IVAL(INTBUF_TAB(NI)%TYPSUB,NISUB,1) 
-                 CALL SPLIT_NISUB_I7(INTBUF_TAB(NI), NSN_FE_L, TAG_NODE_SLV, NRTM_FE_L,
+                 CALL SPLIT_NISUB_I7(INTBUF_TAB(NI), NSN_FE_L, TAG_NODE_2RY, NRTM_FE_L,
      .                TAG_SEGM      , NISUBS_L, NISUBM_L)
               ENDIF
               
@@ -839,12 +839,12 @@ c     split and write on disk floating arrays
               CALL COPY_RVAL(INTBUF_TAB(NI)%STFAC,1,1) !JD(10)
               CALL COPY_RVAL(INTBUF_TAB(NI)%VARIABLES,NPARIR,1) !JD(11)   
               
-              CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFNS,NSN_FE_L,1,TAG_NODE_SLV)
+              CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFNS,NSN_FE_L,1,TAG_NODE_2RY)
               CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFM,NRTM_FE_L,1,TAG_SEGM)
               
               IF(IGAP.NE.0)THEN
                  CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_M,NRTM_FE_L,1,TAG_SEGM) !JD(15)
-                 CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S,NSN_FE_L,1,TAG_NODE_SLV) !JD(16)
+                 CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S,NSN_FE_L,1,TAG_NODE_2RY) !JD(16)
               ENDIF
               
               SIZ = INTBUF_TAB_L(NI)%S_XSAV
@@ -863,12 +863,12 @@ c     split and write on disk floating arrays
               ENDIF
               
               IF(INTTH.GT.0) THEN
-                 CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%AREAS,NSN_FE_L,1,TAG_NODE_SLV) !JD(30)
+                 CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%AREAS,NSN_FE_L,1,TAG_NODE_2RY) !JD(30)
               ENDIF
               
               IF(IGAP==3)THEN
                  CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_ML,NRTM_FE_L,1,TAG_SEGM) !JD(31)
-                 CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_SL,NSN_FE_L,1,TAG_NODE_SLV) !JD(32)  
+                 CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_SL,NSN_FE_L,1,TAG_NODE_2RY) !JD(32)  
               ENDIF
               
 c     
@@ -900,7 +900,7 @@ c
            ELSE 
 !prepare addition arrays used for split
               CALL PREPARE_SPLIT_I7(PROC          ,INTBUF_TAB(NI),IPARI(1,NI) ,
-     .             INTERCEP(1,NI),TAG_NODE_SLV,TAG_SEGM      ,
+     .             INTERCEP(1,NI),TAG_NODE_2RY,TAG_SEGM      ,
      .             TAG_SEGM2     ,TAG_NM        ,TAG_NODE_MSR,
      .             TAG_SCRATCH   ,NI, CEP, MULTI_FVM,I710XSAV,
      .             NINDX_NM      ,INDX_NM,NINDX_SCRT,INDX_SCRT,NODLOCAL,
@@ -918,7 +918,7 @@ c     split and write on disk integers arrays
               CALL COPY_IVAL(INTBUF_TAB(NI)%IRECTM,NRTM_IGE,4)
               
               CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%NSV,NSN_FE_L,
-     .             TAG_NODE_SLV,NODLOCAL)
+     .             TAG_NODE_2RY,NODLOCAL)
               
               CALL COPY_IVAL_IGEO(INTBUF_TAB(NI)%NSV,NSN_IGE,1,NSN_FE) 
               
@@ -929,7 +929,7 @@ c     split and write on disk integers arrays
               
               IF(INTTH.GT.0)THEN
                  CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IELEC,NSN_FE_L,1,
-     .                TAG_NODE_SLV) !KD(25)
+     .                TAG_NODE_2RY) !KD(25)
                  CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IELES,NRTM_FE_L,1,
      .                TAG_SEGM) !KD(24)
               ENDIF
@@ -937,7 +937,7 @@ c     split and write on disk integers arrays
               IF(NISUB.GT.0)THEN
                  CALL COPY_IVAL(INTBUF_TAB(NI)%LISUB,NISUB,1) !KD(28)
                  CALL COPY_IVAL(INTBUF_TAB(NI)%TYPSUB,NISUB,1) 
-                 CALL SPLIT_NISUB_I7(INTBUF_TAB(NI), NSN_FE_L, TAG_NODE_SLV, NRTM_FE_L,
+                 CALL SPLIT_NISUB_I7(INTBUF_TAB(NI), NSN_FE_L, TAG_NODE_2RY, NRTM_FE_L,
      .                TAG_SEGM      , NISUBS_L, NISUBM_L)
               ENDIF
               
@@ -958,7 +958,7 @@ c     split candidates
     
               IF(INTFRIC.GT.0)THEN
                  CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IPARTFRICS,NSN_FE_L,1,
-     .                TAG_NODE_SLV) 
+     .                TAG_NODE_2RY) 
                  CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IPARTFRICM,NRTM_FE_L,1,
      .                TAG_SEGM) 
                  IF(INTBUF_FRIC_TAB(INTFRIC)%IORTHFRIC > 0) THEN
@@ -980,12 +980,12 @@ c     split and write on disk floating arrays
               CALL COPY_RVAL(INTBUF_TAB(NI)%STFAC,1,1) !JD(10)
               CALL COPY_RVAL(INTBUF_TAB(NI)%VARIABLES,NPARIR,1) !JD(11)   
               
-              CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFNS,NSN_FE_L,1,TAG_NODE_SLV)
+              CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFNS,NSN_FE_L,1,TAG_NODE_2RY)
               CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFM,NRTM_FE_L,1,TAG_SEGM)
               
               IF(IGAP.NE.0)THEN
                  CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_M,NRTM_FE_L,1,TAG_SEGM) !JD(15)
-                 CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S,NSN_FE_L,1,TAG_NODE_SLV) !JD(16)
+                 CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S,NSN_FE_L,1,TAG_NODE_2RY) !JD(16)
               ENDIF
               
               SIZ = INTBUF_TAB_L(NI)%S_XSAV
@@ -1004,12 +1004,12 @@ c     split and write on disk floating arrays
               ENDIF
               
               IF(INTTH.GT.0) THEN
-                 CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%AREAS,NSN_FE_L,1,TAG_NODE_SLV) !JD(30)
+                 CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%AREAS,NSN_FE_L,1,TAG_NODE_2RY) !JD(30)
               ENDIF
               
               IF(IGAP==3)THEN
                  CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_ML,NRTM_FE_L,1,TAG_SEGM) !JD(31)
-                 CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_SL,NSN_FE_L,1,TAG_NODE_SLV) !JD(32)  
+                 CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_SL,NSN_FE_L,1,TAG_NODE_2RY) !JD(32)  
               ENDIF
               
 c     
@@ -1047,19 +1047,19 @@ c
               ENDIF
 
            ENDIF                ! NOT LAW151
-           DEALLOCATE(TAG_NODE_SLV,TAG_SEGM,TAG_SEGM2,
+           DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_SEGM2,
      .          TAG_NODE_MSR,TAG_II)
            DEALLOCATE(I710XSAV)
 c=====================================================================
         ELSEIF(ITYP == 8)THEN
 c=====================================================================
           NBT8 = NBT8 + 1
-          ALLOCATE(TAG_NODE_SLV(NSN),TAG_SEGM(NRTM_L),TAG_NODE_MSR2(NMN),
+          ALLOCATE(TAG_NODE_2RY(NSN),TAG_SEGM(NRTM_L),TAG_NODE_MSR2(NMN),
      .             TAG_NODE_MSR(NMN_L),TAG_SEGM2(NRTM),TAG_II(II_STOK),
      .             TAG_LMSR(NMT_L), TAG_NSEG(NMN_L+1), 
      .             TAG_LMSR2(NMT), TAG_NSEG2(NMN+1))
 
-          TAG_NODE_SLV(1:NSN) = 0
+          TAG_NODE_2RY(1:NSN) = 0
           TAG_SEGM(1:NRTM_L) = 0
           TAG_SEGM2(1:NRTM) = 0
           TAG_NODE_MSR(1:NMN_L) = 0
@@ -1072,7 +1072,7 @@ c=====================================================================
  
           !prepare addition arrays used for split
           CALL PREPARE_SPLIT_I8(PROC          ,INTBUF_TAB(NI),IPARI(1,NI) ,
-     .                          INTERCEP(1,NI),TAG_NODE_SLV,TAG_SEGM      ,
+     .                          INTERCEP(1,NI),TAG_NODE_2RY,TAG_SEGM      ,
      .                          TAG_SEGM2     ,TAG_NM        ,TAG_NODE_MSR,
      .                  TAG_NODE_MSR2         ,TAG_LMSR      ,TAG_LMSR2, 
      .                  TAG_NSEG              ,TAG_NSEG2, 
@@ -1095,7 +1095,7 @@ c=====================================================================
 
 
 C           CALL COPY_IVAL(INTBUF_TAB(NI)%IRTLM,NSN,1)   !KD(14)
-            CALL FILTER_NODE_NODLOC(INTBUF_TAB(NI)%IRTLM,NSN,TAG_NODE_SLV,
+            CALL FILTER_NODE_NODLOC(INTBUF_TAB(NI)%IRTLM,NSN,TAG_NODE_2RY,
      .                              TAG_SEGM2) 
 
             CALL COPY_IVAL(II_STOK,1,1)
@@ -1103,7 +1103,7 @@ C           CALL COPY_IVAL(INTBUF_TAB(NI)%IRTLM,NSN,1)   !KD(14)
 
 !           CALL COPY_IVAL(INTBUF_TAB(NI)%ILOCS,NSN,1)   !KD(16)
 !           INTBUF_TAB(NI)%ILOCS = -1
-            CALL FILTER_NODE_NODLOC(INTBUF_TAB(NI)%ILOCS,NSN,TAG_NODE_SLV,
+            CALL FILTER_NODE_NODLOC(INTBUF_TAB(NI)%ILOCS,NSN,TAG_NODE_2RY,
      .                              TAG_NODE_MSR2) 
 
 
@@ -1117,7 +1117,7 @@ c    .           TAG_NODE_MSR,TAG_LMSR2)
             CALL COPY_IVAL(INTBUF_TAB(NI)%IRTLOM,NSN,1) !KD(18)
 
 
-c           CALL FILTER_NODE_NODLOC(INTBUF_TAB(NI)%IRTLOM,NSN,TAG_NODE_SLV,
+c           CALL FILTER_NODE_NODLOC(INTBUF_TAB(NI)%IRTLOM,NSN,TAG_NODE_2RY,
 c    .                              TAG_SEGM2) 
 
             CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%LMSR,NMT_L,
@@ -1147,24 +1147,24 @@ c           CALL COPY_RVAL(INTBUF_TAB(NI)%STF8,NSN,1) !JD(32)
             IF(NSPMD > 1) CALL W_TYPE8(PROC,T8(PROC+1,NBT8))
 
 !         ENDIF 
-          DEALLOCATE(TAG_NODE_SLV,TAG_SEGM,TAG_NODE_MSR2,
+          DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_NODE_MSR2,
      .             TAG_NODE_MSR,TAG_SEGM2,TAG_II,
      .             TAG_NSEG2,TAG_NSEG, TAG_LMSR2,TAG_LMSR)
 
 c=====================================================================
         ELSEIF(ITYP == 9)THEN
 c=====================================================================
-          ALLOCATE(TAG_NODE_SLV(NSN_L), TAG_NODE_MSR(NMN_L),
+          ALLOCATE(TAG_NODE_2RY(NSN_L), TAG_NODE_MSR(NMN_L),
      .             TAG_IELES(NRTS_L)  , TAG_IELEM(NRTM_L) )
 
-          TAG_NODE_SLV(1:NSN_L) = 0
+          TAG_NODE_2RY(1:NSN_L) = 0
           TAG_NODE_MSR(1:NMN_L) = 0
           TAG_IELES(1:NRTS_L) = 0
           TAG_IELEM(1:NRTM_L) = 0
 
           !prepare addition arrays used for split
           CALL PREPARE_SPLIT_I9(PROC          ,INTBUF_TAB(NI),IPARI(1,NI) ,
-     .                          TAG_NODE_SLV  ,TAG_NODE_MSR  ,TAG_SCRATCH ,
+     .                          TAG_NODE_2RY  ,TAG_NODE_MSR  ,TAG_SCRATCH ,
      .                          TAG_IELES     ,TAG_IELEM     ,         
      .                          CEP           ,CEL           ,NINDX_SCRT  ,INDX_SCRT)
           !split and write on disk integers arrays
@@ -1213,18 +1213,18 @@ cc     .                          TAG_IELES) !KD(24)
             CALL COPY_RVAL(INTBUF_TAB(NI)%S_FTSAV,NSN,3) !JD(27)
           ENDIF
 
-          DEALLOCATE(TAG_NODE_SLV, TAG_NODE_MSR, TAG_IELES, TAG_IELEM)
+          DEALLOCATE(TAG_NODE_2RY, TAG_NODE_MSR, TAG_IELES, TAG_IELEM)
 
 c=====================================================================
         ELSEIF(ITYP == 10)THEN
 c=====================================================================
 
-          ALLOCATE(TAG_NODE_SLV(NSN_L),TAG_SEGM(NRTM_L),
+          ALLOCATE(TAG_NODE_2RY(NSN_L),TAG_SEGM(NRTM_L),
      .             TAG_NODE_MSR(NMN_L),TAG_SEGM2(NRTM),TAG_II(II_STOK))
 
           ALLOCATE(I710XSAV(NMN))
 
-          TAG_NODE_SLV(1:NSN_L) = 0
+          TAG_NODE_2RY(1:NSN_L) = 0
           TAG_SEGM(1:NRTM_L) = 0
           TAG_SEGM2(1:NRTM) = 0
           TAG_NODE_MSR(1:NMN_L) = 0
@@ -1232,7 +1232,7 @@ c=====================================================================
 
           !prepare addition arrays used for split
           CALL PREPARE_SPLIT_I7(PROC          ,INTBUF_TAB(NI),IPARI(1,NI) ,
-     .                          INTERCEP(1,NI),TAG_NODE_SLV,TAG_SEGM      ,
+     .                          INTERCEP(1,NI),TAG_NODE_2RY,TAG_SEGM      ,
      .                          TAG_SEGM2     ,TAG_NM        ,TAG_NODE_MSR,
      .                          TAG_SCRATCH   ,NI, CEP, MULTI_FVM,I710XSAV,
      .                          NINDX_NM      ,INDX_NM,NINDX_SCRT,INDX_SCRT,NODLOCAL,
@@ -1248,14 +1248,14 @@ c split and write on disk integers arrays
           CALL SPLIT_SEG_NODLOC(INTBUF_TAB(NI)%IRECTM,NRTM_L,4,
      .                          TAG_SEGM,NODLOCAL)
           CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%NSV,NSN_L,
-     .                          TAG_NODE_SLV,NODLOCAL)
+     .                          TAG_NODE_2RY,NODLOCAL)
           CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%MSR,NMN_L,
      .                          TAG_NODE_MSR,NODLOCAL)
 
 
           IF(NISUB.GT.0)THEN
             CALL COPY_IVAL(INTBUF_TAB(NI)%LISUB,NISUB,1) !KD(28)
-            CALL SPLIT_NISUB_I7(INTBUF_TAB(NI), NSN_L   , TAG_NODE_SLV, NRTM_L,
+            CALL SPLIT_NISUB_I7(INTBUF_TAB(NI), NSN_L   , TAG_NODE_2RY, NRTM_L,
      .                          TAG_SEGM      , NISUBS_L, NISUBM_L)
           ENDIF
 
@@ -1274,12 +1274,12 @@ c split and write on disk floating arrays
           CALL COPY_RVAL(INTBUF_TAB(NI)%STFAC,1,1)  
           CALL COPY_RVAL(INTBUF_TAB(NI)%VARIABLES,NPARIR,1) 
 
-          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFNS,NSN_L,1,TAG_NODE_SLV)
+          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFNS,NSN_L,1,TAG_NODE_2RY)
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFM,NRTM_L,1,TAG_SEGM)
 
           IF(IGAP.NE.0)THEN
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_M,NRTM_L,1,TAG_SEGM)!JD(15)
-            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S,NSN_L,1,TAG_NODE_SLV)!JD(16)
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S,NSN_L,1,TAG_NODE_2RY)!JD(16)
           ELSE
             SIZ = INTBUF_TAB_L(NI)%S_GAP_M
             CALL COPY_RVAL(INTBUF_TAB(NI)%GAP_M,SIZ,1)
@@ -1303,18 +1303,18 @@ c split and write on disk floating arrays
             CALL COPY_RVAL(INTBUF_TAB(NI)%CAND_F,SIZ,1)
           ENDIF
 
-          DEALLOCATE(TAG_NODE_SLV,TAG_SEGM,TAG_SEGM2,
+          DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_SEGM2,
      .              TAG_NODE_MSR,TAG_II)
           DEALLOCATE(I710XSAV)
       
 c=====================================================================
         ELSEIF(ITYP == 11)THEN
 c=====================================================================
-          ALLOCATE(TAG_NODE_SLV(NSN_L),TAG_SEGM(NRTM_L),
+          ALLOCATE(TAG_NODE_2RY(NSN_L),TAG_SEGM(NRTM_L),
      .               TAG_SEGM2(NRTM),TAG_SEGS(NRTS_L),
      .               TAG_II(II_STOK),TAG_NODE_MSR(NMN_L),TAG_SEG2S(NRTS))
 
-          TAG_NODE_SLV(1:NSN_L) = 0
+          TAG_NODE_2RY(1:NSN_L) = 0
           TAG_SEGM(1:NRTM_L) = 0
           TAG_SEGM2(1:NRTM) = 0
           TAG_SEGS(1:NRTS_L) = 0
@@ -1324,7 +1324,7 @@ c=====================================================================
 
           !prepare addition arrays used for split
           CALL PREPARE_SPLIT_I11(PROC        , INTBUF_TAB(NI), IPARI(1,NI) ,
-     .                           TAG_NODE_SLV, TAG_SEGM      , TAG_SEGM2   ,
+     .                           TAG_NODE_2RY, TAG_SEGM      , TAG_SEGM2   ,
      .                           TAG_NM      , TAG_SEGS      , TAG_NODE_MSR,
      .                           TAG_SCRATCH , INTERCEP      , NI,NINDX_NM,INDX_NM,
      .                           NINDX_SCRT  ,INDX_SCRT      ,TAG_SEG2S)
@@ -1340,7 +1340,7 @@ c split and write on disk integers arrays
           CALL SPLIT_SEG_NODLOC(INTBUF_TAB(NI)%IRECTM,NRTM_L,2,
      .                          TAG_SEGM,NODLOCAL) !KD(11)
           CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%NSV,NSN_L,
-     .                          TAG_NODE_SLV,NODLOCAL) !KD(12)
+     .                          TAG_NODE_2RY,NODLOCAL) !KD(12)
           CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%MSR,NMN_L,
      .                          TAG_NODE_MSR,NODLOCAL) !KD(13)
 c
@@ -1441,7 +1441,7 @@ c split and write on disk floating arrays
      .                           II_STOK_L,TAG_II,MULTIMP,NCONT)
           ENDIF
 C
-          DEALLOCATE(TAG_NODE_SLV,TAG_SEGM,TAG_SEGM2,TAG_SEGS,
+          DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_SEGM2,TAG_SEGS,
      .              TAG_NODE_MSR,TAG_II,TAG_SEG2S)
 
 c=====================================================================
@@ -1537,15 +1537,15 @@ c=====================================================================
 c=====================================================================
         ELSEIF(ITYP == 17)THEN
 c=====================================================================
-          ALLOCATE(TAG_NODE_SLV(NSN_L), TAG_NODE_MSR(NME_L))
+          ALLOCATE(TAG_NODE_2RY(NSN_L), TAG_NODE_MSR(NME_L))
 
           NCONT = NSN_L
-          TAG_NODE_SLV(1:NSN_L) = 0
+          TAG_NODE_2RY(1:NSN_L) = 0
           TAG_NODE_MSR(1:NME_L) = 0
 
           !prepare addition arrays used for split
           CALL PREPARE_SPLIT_I17(PROC          ,INTBUF_TAB(NI),IPARI(1,NI) ,
-     .                          TAG_NODE_SLV   ,TAG_NODE_MSR  ,     
+     .                          TAG_NODE_2RY   ,TAG_NODE_MSR  ,     
      .                          CEP            ,CEL           ,IGRBRIC,
      .                          NSN_L, NME_L     ) 
 
@@ -1562,12 +1562,12 @@ c=====================================================================
           SIZ = INTBUF_TAB_L(NI)%S_XSAV
           CALL COPY_RVAL(INTBUF_TAB(NI)%XSAV,SIZ,1)
 
-          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%KS,NSN_L,2,TAG_NODE_SLV) !JD(16)
+          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%KS,NSN_L,2,TAG_NODE_2RY) !JD(16)
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%KM,NME_L,2,TAG_NODE_MSR) !JD(17)
-          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FROTS,NSN_L,7,TAG_NODE_SLV) !JD(18)
+          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FROTS,NSN_L,7,TAG_NODE_2RY) !JD(18)
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FROTM,NME_L,7,TAG_NODE_MSR) !JD(19)
 
-          DEALLOCATE(TAG_NODE_SLV, TAG_NODE_MSR)
+          DEALLOCATE(TAG_NODE_2RY, TAG_NODE_MSR)
 
 c=====================================================================
         ELSEIF(ITYP == 18)THEN
@@ -1579,14 +1579,14 @@ c=====================================================================
         ELSEIF(ITYP == 20)THEN
 c=====================================================================
 
-          ALLOCATE(TAG_NODE_SLV(NSN_L),TAG_SEGM(NRTM_L),TAG_NODE_MSR(NMN_L),
+          ALLOCATE(TAG_NODE_2RY(NSN_L),TAG_SEGM(NRTM_L),TAG_NODE_MSR(NMN_L),
      .             TAG_SEGM2(NRTM),TAG_II(II_STOK), TAGE_II(II_STOK_E),
      .             TAG_NLINS(NLINS_L),TAG_NLINM(NLINM_L),
      .             TAG_NLINS2(NLINS),TAG_NLINM2(NLINM),
      .             TAG_NLG(NLN_L),TAG_NLG2(NUMNOD), TAG_NSNE(NSNE_L),
      .             TAG_NMNE(NMNE_L),TAG_NSVE(NSNE_L),TAG_MSRE(NMNE_L) )
 
-          TAG_NODE_SLV(1:NSN_L) = 0
+          TAG_NODE_2RY(1:NSN_L) = 0
           TAG_SEGM(1:NRTM_L)    = 0
           TAG_SEGM2(1:NRTM)     = 0
           TAG_II(1:II_STOK)     = 0
@@ -1606,7 +1606,7 @@ c=====================================================================
           !prepare addition arrays used for split
           CALL PREPARE_SPLIT_I20(
      .            PROC       , INTBUF_TAB(NI),IPARI(1,NI) ,
-     .            TAG_NODE_SLV, TAG_SEGM  , TAG_NODE_MSR   ,
+     .            TAG_NODE_2RY, TAG_SEGM  , TAG_NODE_MSR   ,
      .            TAG_SEGM2   , TAG_NM    , TAG_NLINS, TAG_NLINM,
      .            TAG_NLINS2  , TAG_NLINM2, TAG_NLG  ,TAG_NLG2,
      .            TAG_SCRATCH , INTERCEP  , IPARI_L  , NI, TAG_NSNE,
@@ -1619,21 +1619,21 @@ c split and write on disk integers arrays
      .                            NRTM_L,4,TAG_SEGM,TAG_NLG2) !KD(11)
 
           CALL SPLIT_SEG_IVAL_I20(INTBUF_TAB(NI)%NSV,INTBUF_TAB(NI)%NLG,
-     .                            NSN_L,1,TAG_NODE_SLV,TAG_NLG2) !KD(12)
+     .                            NSN_L,1,TAG_NODE_2RY,TAG_NLG2) !KD(12)
 
           CALL SPLIT_SEG_IVAL_I20(INTBUF_TAB(NI)%MSR,INTBUF_TAB(NI)%NLG,
      .                            NMN_L,1,TAG_NODE_MSR,TAG_NLG2) !KD(13)
 
           IF(INTTH.GT.0)THEN
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IELEC,NSN_L,1,
-     .                          TAG_NODE_SLV) !KD(25)
+     .                          TAG_NODE_2RY) !KD(25)
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IELES,NRTM_L,1,
      .                          TAG_SEGM) !KD(24)
           ENDIF
 
           IF(NISUB.GT.0)THEN
             CALL COPY_IVAL(INTBUF_TAB(NI)%LISUB,NISUB,1) !KD(28)
-            CALL SPLIT_NISUB_I7(INTBUF_TAB(NI), NSN_L   , TAG_NODE_SLV, NRTM_L,
+            CALL SPLIT_NISUB_I7(INTBUF_TAB(NI), NSN_L   , TAG_NODE_2RY, NRTM_L,
      .                          TAG_SEGM      , NISUBS_L, NISUBM_L)
           ENDIF
 
@@ -1716,11 +1716,11 @@ c split and write on disk floating arrays
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFM,NRTM_L,1,TAG_SEGM)!JD(17)
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFS,NLINS_L,1,TAG_NLINS) !JD(36)
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%PENIM,NRTM_L,2,TAG_SEGM)!JD(21)
-          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%PENIS,NSN_L,2,TAG_NODE_SLV)!JD(20)
+          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%PENIS,NSN_L,2,TAG_NODE_2RY)!JD(20)
 
           IF(IGAP.NE.0)THEN
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_M,NRTM_L,1,TAG_SEGM)!JD(15)
-            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S,NSN_L,1,TAG_NODE_SLV)!JD(16)
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S,NSN_L,1,TAG_NODE_2RY)!JD(16)
           ENDIF
 
           SIZ = INTBUF_TAB_L(NI)%S_XSAV
@@ -1738,7 +1738,7 @@ c split and write on disk floating arrays
           ENDIF
 
           IF(INTTH.GT.0) THEN
-            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%AREAS,NSN_L,1,TAG_NODE_SLV)!JD(30)
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%AREAS,NSN_L,1,TAG_NODE_2RY)!JD(30)
           ENDIF
 
           IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7)THEN
@@ -1781,7 +1781,7 @@ c split and write on disk floating arrays
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_SE,NLINS_L,1,TAG_NLINS) !JD(34)
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%PENISE,NLINS_L,2,TAG_NLINS) !JD(40)
 
-          DEALLOCATE(TAG_NODE_SLV,TAG_SEGM,TAG_SEGM2,
+          DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_SEGM2,
      .               TAG_NODE_MSR,TAG_II,TAGE_II,TAG_NLINS,TAG_NLINM,
      .               TAG_NLINS2,TAG_NLINM2,TAG_NLG,TAG_NLG2,TAG_NSNE,TAG_NMNE,
      .               TAG_NSVE,TAG_MSRE )
@@ -1790,28 +1790,28 @@ c=====================================================================
         ELSEIF(ITYP == 21)THEN
 c=====================================================================      
          NMNG = IPARI(8,NI)
-          ALLOCATE(TAG_NODE_SLV(NSN_L),TAG_SEGM(NRTM_L),
-     .               TAG_NODE_SLV2(NSN),TAG_SEGS(NRTS_L),
+          ALLOCATE(TAG_NODE_2RY(NSN_L),TAG_SEGM(NRTM_L),
+     .               TAG_NODE_2RY2(NSN),TAG_SEGS(NRTS_L),
      .               TAG_NODE_MSR(NMN_L),TAG_II(II_STOK) ,
      .               MSR_L_I21(NMNG),MNDD_I21(NMNG))
 
-          TAG_NODE_SLV(1:NSN_L) = 0
+          TAG_NODE_2RY(1:NSN_L) = 0
           TAG_SEGM(1:NRTM_L) = 0
           TAG_SEGS(1:NRTS_L) = 0
-          TAG_NODE_SLV2(1:NSN) = 0
+          TAG_NODE_2RY2(1:NSN) = 0
           TAG_NODE_MSR(1:NMN_L) = 0
 
 
           !prepare addition arrays used for split
           CALL PREPARE_SPLIT_I21(PROC        , INTBUF_TAB(NI), IPARI(1,NI) ,
-     .                           TAG_NODE_SLV, TAG_SEGM      , TAG_NODE_SLV2,
+     .                           TAG_NODE_2RY, TAG_SEGM      , TAG_NODE_2RY2,
      .                           TAG_SEGS      , TAG_NODE_MSR,
      .                           TAG_SCRATCH , INTERCEP      , NI, INTTH   ,
      .                           NODLOCAL    , MSR_L_I21,MNDD_I21,NINDX_SCRT  ,INDX_SCRT)
  
   
           IF(II_STOK.GT.0)THEN
-            CALL PREPARE_SPLIT_CAND_I21(INTBUF_TAB(NI), TAG_NODE_SLV2, II_STOK, TAG_II,
+            CALL PREPARE_SPLIT_CAND_I21(INTBUF_TAB(NI), TAG_NODE_2RY2, II_STOK, TAG_II,
      .                                  II_STOK_L,PROC)
           ENDIF
 
@@ -1825,7 +1825,7 @@ c split and write on disk integers arrays
 
 
           CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%NSV,NSN_L,
-     .                          TAG_NODE_SLV,NODLOCAL) !KD(12)
+     .                          TAG_NODE_2RY,NODLOCAL) !KD(12)
 
           CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%MSR,NMN_L,
      .                          TAG_NODE_MSR,NODLOCAL) !KD(13)
@@ -1846,9 +1846,9 @@ c split MAIN candidates
           IF(INACTI.EQ.5.OR.INACTI.EQ.6)THEN
             CALL SPLIT_CAND_IVAL_I21(INTBUF_TAB(NI)%CAND_E,
      .            II_STOK_L,TAG_II,MULTIMP*NCONT,1) !KD(14)
-c split Slave candidates
-            CALL SPLIT_SLV_CAND_IVAL_I21(INTBUF_TAB(NI)%CAND_N,
-     .            II_STOK_L,TAG_II,TAG_NODE_SLV2,MULTIMP*NCONT) !KD(15)
+c split Secnd candidates
+            CALL SPLIT_2RY_CAND_IVAL_I21(INTBUF_TAB(NI)%CAND_N,
+     .            II_STOK_L,TAG_II,TAG_NODE_2RY2,MULTIMP*NCONT) !KD(15)
           ELSE
             ALLOCATE(TABI_ZERO(MULTIMP*NCONT))
             TABI_ZERO(1:MULTIMP*NCONT)=0
@@ -1861,7 +1861,7 @@ c split Slave candidates
 
           IF(INACTI.EQ.5.OR.INACTI.EQ.6)THEN
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IFPEN,NSN_L,1,
-     .                          TAG_NODE_SLV2) !KD(25)
+     .                          TAG_NODE_2RY2) !KD(25)
           ELSE
             ALLOCATE(TABI_ZERO(NSN_L))
             TABI_ZERO(1:NSN_L)=0            
@@ -1892,12 +1892,12 @@ c split and write on disk floating arrays
           CALL COPY_RVAL(INTBUF_TAB(NI)%VARIABLES,NPARIR,1)
           CALL COPY_RVAL(INTBUF_TAB(NI)%CSTS,NSN_L,2) 
           CALL COPY_RVAL(INTBUF_TAB(NI)%XM0,NMNG_L,3)  
-          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFNS,NSN_L,1,TAG_NODE_SLV)
+          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFNS,NSN_L,1,TAG_NODE_2RY)
 
 
           IF(INACTI.EQ.5.OR.INACTI.EQ.6)THEN
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%PENIS,NSN_L,1,
-     .                         TAG_NODE_SLV) !JD(18)
+     .                         TAG_NODE_2RY) !JD(18)
           ELSE
             ALLOCATE(TABR_ZERO(NSN_L))
             TABR_ZERO(1:NSN_L)=0
@@ -1905,9 +1905,9 @@ c split and write on disk floating arrays
             DEALLOCATE(TABR_ZERO)
           ENDIF
 
-          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S,NSN_L,1,TAG_NODE_SLV) ! Gap_S : JD(16)
+          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S,NSN_L,1,TAG_NODE_2RY) ! Gap_S : JD(16)
           IF(IGAP == 2)THEN
-            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S(1+NSN),NSN_L,1,TAG_NODE_SLV) ! Gap_S0 : JD(16)
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S(1+NSN),NSN_L,1,TAG_NODE_2RY) ! Gap_S0 : JD(16)
           ENDIF
 
           SIZ = INTBUF_TAB_L(NI)%S_XSAV
@@ -1915,15 +1915,15 @@ c split and write on disk floating arrays
 
           CALL COPY_RVAL(INTBUF_TAB(NI)%CRIT,12,1)
 
-          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%AREAS,NSN_L,1,TAG_NODE_SLV)!JD(30)
+          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%AREAS,NSN_L,1,TAG_NODE_2RY)!JD(30)
 
           IF(INACTI.EQ.5.OR.INACTI.EQ.6)THEN
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FTSAVX,NSN_L,1,
-     .                         TAG_NODE_SLV) !JD(27)
+     .                         TAG_NODE_2RY) !JD(27)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FTSAVY,NSN_L,1,
-     .                         TAG_NODE_SLV) !JD(28)
+     .                         TAG_NODE_2RY) !JD(28)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FTSAVZ,NSN_L,1,
-     .                         TAG_NODE_SLV) !JD(29) 
+     .                         TAG_NODE_2RY) !JD(29) 
           ELSE
              ALLOCATE(TABR_ZERO(NSN_L))
              TABR_ZERO(1:NSN_L)=0
@@ -1946,29 +1946,29 @@ c split and write on disk floating arrays
           CALL COPY_RVAL(INTBUF_TAB(NI)%ALPHA0,1,1)
 
           IF(INTTH > 0) THEN
-            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%AS,NSN_L,1,TAG_NODE_SLV)!JD(31)  
-            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%BS,NSN_L,1,TAG_NODE_SLV)!JD(32)
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%AS,NSN_L,1,TAG_NODE_2RY)!JD(31)  
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%BS,NSN_L,1,TAG_NODE_2RY)!JD(32)
           ENDIF
 
           IF(IGAP.GE.1) THEN
-            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%THKNOD0,NSN_L,1,TAG_NODE_SLV)!JD(33)  
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%THKNOD0,NSN_L,1,TAG_NODE_2RY)!JD(33)  
           ENDIF
 
           SIZ = INTBUF_TAB_L(NI)%S_NOD_NORMAL
           CALL COPY_RVAL(INTBUF_TAB(NI)%NOD_NORMAL,SIZ,1)
 
-          DEALLOCATE(TAG_NODE_SLV,TAG_SEGM,TAG_NODE_SLV2,TAG_SEGS,
+          DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_NODE_2RY2,TAG_SEGS,
      .             TAG_NODE_MSR,TAG_II,MSR_L_I21,MNDD_I21)
 
 c=====================================================================
         ELSEIF(ITYP == 22)THEN
 c=====================================================================
-          ALLOCATE(TAG_NODE_SLV(NSN_L),TAG_SEGM(NRTM_L),
+          ALLOCATE(TAG_NODE_2RY(NSN_L),TAG_SEGM(NRTM_L),
      .             TAG_NODE_MSR(NMN_L),TAG_SEGM2(NRTM),TAG_II(II_STOK))
 
           ALLOCATE(I710XSAV(NMN))
 
-          TAG_NODE_SLV(1:NSN_L) = 0
+          TAG_NODE_2RY(1:NSN_L) = 0
           TAG_SEGM(1:NRTM_L)    = 0
           TAG_SEGM2(1:NRTM)     = 0
           TAG_NODE_MSR(1:NMN_L) = 0
@@ -1976,7 +1976,7 @@ c=====================================================================
 
           !prepare addition arrays used for split
           CALL PREPARE_SPLIT_I7(PROC          ,INTBUF_TAB(NI),IPARI(1,NI) ,
-     .                          INTERCEP(1,NI),TAG_NODE_SLV,TAG_SEGM      ,
+     .                          INTERCEP(1,NI),TAG_NODE_2RY,TAG_SEGM      ,
      .                          TAG_SEGM2     ,TAG_NM        ,TAG_NODE_MSR,
      .                          TAG_SCRATCH   ,NI, CEP, MULTI_FVM,I710XSAV,
      .                          NINDX_NM      ,INDX_NM,NINDX_SCRT,INDX_SCRT,NODLOCAL,
@@ -1992,20 +1992,20 @@ c split and write on disk integers arrays
           CALL SPLIT_SEG_NODLOC(INTBUF_TAB(NI)%IRECTM,NRTM_L,4,
      .                          TAG_SEGM,NODLOCAL)
           CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%NSV,NSN_L,
-     .                          TAG_NODE_SLV,NODLOCAL)
+     .                          TAG_NODE_2RY,NODLOCAL)
           CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%MSR,NMN_L,
      .                          TAG_NODE_MSR,NODLOCAL)
 
           IF(INTTH.GT.0)THEN
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IELEC,NSN_L,1,
-     .                          TAG_NODE_SLV) !KD(25)
+     .                          TAG_NODE_2RY) !KD(25)
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IELES,NRTM_L,1,
      .                          TAG_SEGM) !KD(24)
           ENDIF
 
           IF(NISUB.GT.0)THEN
             CALL COPY_IVAL(INTBUF_TAB(NI)%LISUB,NISUB,1) !KD(28)
-            CALL SPLIT_NISUB_I7(INTBUF_TAB(NI), NSN_L   , TAG_NODE_SLV, NRTM_L,
+            CALL SPLIT_NISUB_I7(INTBUF_TAB(NI), NSN_L   , TAG_NODE_2RY, NRTM_L,
      .                          TAG_SEGM      , NISUBS_L, NISUBM_L)
           ENDIF
 
@@ -2033,12 +2033,12 @@ c split and write on disk floating arrays
           CALL COPY_RVAL(INTBUF_TAB(NI)%STFAC,1,1)  
           CALL COPY_RVAL(INTBUF_TAB(NI)%VARIABLES,NPARIR,1)   
 
-          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFNS,NSN_L,1,TAG_NODE_SLV)
+          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFNS,NSN_L,1,TAG_NODE_2RY)
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFM,NRTM_L,1,TAG_SEGM)
 
           IF(IGAP.NE.0)THEN
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_M,NRTM_L,1,TAG_SEGM)!JD(15)
-            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S,NSN_L,1,TAG_NODE_SLV)!JD(16)
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S,NSN_L,1,TAG_NODE_2RY)!JD(16)
           ENDIF
 
           SIZ = INTBUF_TAB_L(NI)%S_XSAV
@@ -2057,12 +2057,12 @@ c split and write on disk floating arrays
           ENDIF
 
           IF(INTTH.GT.0) THEN
-            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%AREAS,NSN_L,1,TAG_NODE_SLV)!JD(30)
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%AREAS,NSN_L,1,TAG_NODE_2RY)!JD(30)
           ENDIF
 
           IF(IGAP==3)THEN
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_ML,NRTM_L,1,TAG_SEGM)!JD(31)
-            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_SL,NSN_L,1,TAG_NODE_SLV)!JD(32)  
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_SL,NSN_L,1,TAG_NODE_2RY)!JD(32)  
           ENDIF
 
 c
@@ -2080,17 +2080,17 @@ c
      .                           II_STOK_L,TAG_II,MULTIMP,NCONT)
           ENDIF
 
-          DEALLOCATE(TAG_NODE_SLV,TAG_SEGM,TAG_SEGM2,
+          DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_SEGM2,
      .              TAG_NODE_MSR,TAG_II)
           DEALLOCATE(I710XSAV)
 c=====================================================================
         ELSEIF(ITYP == 23)THEN
 c=====================================================================
-          ALLOCATE(TAG_NODE_SLV(NSN_L),TAG_SEGM(NRTM_L),
+          ALLOCATE(TAG_NODE_2RY(NSN_L),TAG_SEGM(NRTM_L),
      .             TAG_NODE_MSR(NMN_L),TAG_SEGM2(NRTM),TAG_II(II_STOK))
            ALLOCATE(I710XSAV(NMN))
 
-          TAG_NODE_SLV(1:NSN_L) = 0
+          TAG_NODE_2RY(1:NSN_L) = 0
           TAG_SEGM(1:NRTM_L) = 0
           TAG_SEGM2(1:NRTM) = 0
           TAG_NODE_MSR(1:NMN_L) = 0
@@ -2098,7 +2098,7 @@ c=====================================================================
 
           !prepare addition arrays used for split
           CALL PREPARE_SPLIT_I7(PROC          ,INTBUF_TAB(NI),IPARI(1,NI) ,
-     .                          INTERCEP(1,NI),TAG_NODE_SLV,TAG_SEGM      ,
+     .                          INTERCEP(1,NI),TAG_NODE_2RY,TAG_SEGM      ,
      .                          TAG_SEGM2     ,TAG_NM        ,TAG_NODE_MSR,
      .                          TAG_SCRATCH   ,NI, CEP, MULTI_FVM,I710XSAV,
      .                          NINDX_NM      ,INDX_NM,NINDX_SCRT,INDX_SCRT,NODLOCAL,
@@ -2117,7 +2117,7 @@ c split and write on disk integers arrays
 
 
           CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%NSV,NSN_L,
-     .                          TAG_NODE_SLV,NODLOCAL)
+     .                          TAG_NODE_2RY,NODLOCAL)
           CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%MSR,NMN_L,
      .                          TAG_NODE_MSR,NODLOCAL)
 
@@ -2138,12 +2138,12 @@ c split and write on disk floating arrays
           CALL COPY_RVAL(INTBUF_TAB(NI)%STFAC,1,1)  
           CALL COPY_RVAL(INTBUF_TAB(NI)%VARIABLES,NPARIR,1)   
 
-          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFNS,NSN_L,1,TAG_NODE_SLV)
+          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFNS,NSN_L,1,TAG_NODE_2RY)
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFM,NRTM_L,1,TAG_SEGM)
 
           IF(IGAP.NE.0)THEN
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_M,NRTM_L,1,TAG_SEGM)!JD(15)
-            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S,NSN_L,1,TAG_NODE_SLV)!JD(16)
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S,NSN_L,1,TAG_NODE_2RY)!JD(16)
           ENDIF
 
           SIZ = INTBUF_TAB_L(NI)%S_XSAV
@@ -2166,26 +2166,26 @@ c split and write on disk floating arrays
           CALL SPLIT_CAND_RVAL(INTBUF_TAB(NI)%FTSAVZ,
      .                         II_STOK_L,TAG_II,MULTIMP,NCONT)
 
-          DEALLOCATE(TAG_NODE_SLV,TAG_SEGM,TAG_SEGM2,
+          DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_SEGM2,
      .              TAG_NODE_MSR,TAG_II )
           DEALLOCATE(I710XSAV)
 
 c=====================================================================
         ELSEIF(ITYP == 24) THEN
 c=====================================================================
-          ALLOCATE(TAG_NODE_SLV(NSN_L),TAG_SEGM(NRTM_L),
+          ALLOCATE(TAG_NODE_2RY(NSN_L),TAG_SEGM(NRTM_L),
      .             TAG_NODE_MSR(NMN_L),TAG_SEGM2(NRTM),TAG_II(II_STOK))
           ALLOCATE(TAG_SEGS(NRTSE_L),TAG_SEG2S(NRTSE),TAG_NSNE_L(NSNE_L))
-          ALLOCATE(TAG_NODE_SLV2(NSN),TAG_IELEM(NRTS_L),TAG_SEGSS(NRTS_L))
+          ALLOCATE(TAG_NODE_2RY2(NSN),TAG_IELEM(NRTS_L),TAG_SEGSS(NRTS_L))
 
 
           IF(IEDGE4 > 0) THEN
-               ALLOCATE(TAG_SLV_INV(NSN))
+               ALLOCATE(TAG_2RY_INV(NSN))
           ELSE
-               ALLOCATE(TAG_SLV_INV(1))
+               ALLOCATE(TAG_2RY_INV(1))
           ENDIF
 
-          TAG_NODE_SLV(1:NSN_L) = 0
+          TAG_NODE_2RY(1:NSN_L) = 0
           TAG_SEGM(1:NRTM_L) = 0
           TAG_SEGM2(1:NRTM) = 0
           TAG_NODE_MSR(1:NMN_L) = 0
@@ -2193,10 +2193,10 @@ c=====================================================================
           TAG_SEGS(1:NRTSE_L) = 0
           TAG_SEG2S(1:NRTSE) = 0
           TAG_NSNE_L(1:NSNE_L)=0
-          TAG_NODE_SLV2(1:NSN) = 0
+          TAG_NODE_2RY2(1:NSN) = 0
           TAG_IELEM(1:NRTS_L) = 0
           TAG_SEGSS(1:NRTS_L) = 0
-          IF(IEDGE4 > 0) TAG_SLV_INV(1:NSN)=0
+          IF(IEDGE4 > 0) TAG_2RY_INV(1:NSN)=0
           IF(FLAG_INIT_24_25) THEN
                 NODLOCAL24(1:NUMNOD) = NODLOCAL(1:NUMNOD)
                 NODLOCAL24(NUMNOD+1:NUMNOD+I24MAXNSNE) = 0
@@ -2204,12 +2204,12 @@ c=====================================================================
           ENDIF
 
           CALL PREPARE_SPLIT_I24(PROC          ,INTBUF_TAB(NI),IPARI(1,NI) ,
-     .                          INTERCEP(1,NI),TAG_NODE_SLV,TAG_SEGM      ,
+     .                          INTERCEP(1,NI),TAG_NODE_2RY,TAG_SEGM      ,
      .                          TAG_SEGM2     ,TAG_NM      ,TAG_NODE_MSR,
      .                          TAG_SCRATCH  ,NODLOCAL24,NODLOCAL ,
      .                          INTERCEP(2,NI),NUMNOD_L,TAG_NSNE_L,
-     .                          TAG_SEGS,TAG_SEG2S,NI,TAG_SLV_INV,IEDGE4,
-     .                          TAG_NODE_SLV2,TAG_IELEM,CEP,CEL,TAG_SEGSS,
+     .                          TAG_SEGS,TAG_SEG2S,NI,TAG_2RY_INV,IEDGE4,
+     .                          TAG_NODE_2RY2,TAG_IELEM,CEP,CEL,TAG_SEGSS,
      .                          NINDX_NM,INDX_NM,NINDX_SCRT  ,INDX_SCRT,
      .                          NINDX_NDLOCAL24,INDX_NDLOCAL24,INTERCEP(3,NI))
 
@@ -2221,22 +2221,22 @@ c split and write on disk integers arrays
 
           IF(INTNITSCHE  > 0) THEN
             CALL SPLIT_SEG_NODLOC(INTBUF_TAB(NI)%IRECTS,NRTS_L,4,
-     .                            TAG_SEGSS,TAG_NODE_SLV2)
+     .                            TAG_SEGSS,TAG_NODE_2RY2)
           ENDIF
 
           CALL SPLIT_SEG_NODLOC(INTBUF_TAB(NI)%IRECTM,NRTM_L,4,
      .                          TAG_SEGM,NODLOCAL)
           CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%NSV,NSN_L,
-     .                          TAG_NODE_SLV,NODLOCAL24)
+     .                          TAG_NODE_2RY,NODLOCAL24)
           CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%MSR,NMN_L,
      .                          TAG_NODE_MSR,NODLOCAL)
 C IRTML a besoin de num globaux
           CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IRTLM,NSN_L,2,
-     .                         TAG_NODE_SLV) !KD(18)
+     .                         TAG_NODE_2RY) !KD(18)
 
           IF(INTTH.GT.0)THEN
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IELEC,NSN_L,1,
-     .                          TAG_NODE_SLV) !KD(25)
+     .                          TAG_NODE_2RY) !KD(25)
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IELES,NRTM_L,1,
      .                          TAG_SEGM) !KD(24)
           ENDIF
@@ -2244,7 +2244,7 @@ C IRTML a besoin de num globaux
           IF(NISUB.GT.0)THEN
             CALL COPY_IVAL(INTBUF_TAB(NI)%LISUB,NISUB,1) !KD(28)
             CALL COPY_IVAL(INTBUF_TAB(NI)%TYPSUB,NISUB,1) 
-            CALL SPLIT_NISUB_I7(INTBUF_TAB(NI), NSN_L   , TAG_NODE_SLV, NRTM_L,
+            CALL SPLIT_NISUB_I7(INTBUF_TAB(NI), NSN_L   , TAG_NODE_2RY, NRTM_L,
      .                          TAG_SEGM      , NISUBS_L, NISUBM_L)
           ENDIF
 
@@ -2261,7 +2261,7 @@ c split candidates--> to modify when spmd for edge
 
          IF(INTFRIC.GT.0)THEN
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IPARTFRICS,NSN_L,1,
-     .                TAG_NODE_SLV) 
+     .                TAG_NODE_2RY) 
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IPARTFRICM,NRTM_L,1,
      .                TAG_SEGM) 
             IF(INTBUF_FRIC_TAB(INTFRIC)%IORTHFRIC > 0) THEN
@@ -2280,7 +2280,7 @@ c split candidates--> to modify when spmd for edge
 C-------ILEV=2 for remove S1/S1 S2/S2 in case of S1/S2 input
           IF(ILEV==2)THEN
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%NBINFLG,NSN_L,1,
-     .                           TAG_NODE_SLV) !KD(33)
+     .                           TAG_NODE_2RY) !KD(33)
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%MBINFLG,NRTM_L,1,
      .                           TAG_SEGM) !KD(34) 
           ELSEIF(IEDGE.GT.0)THEN
@@ -2306,7 +2306,7 @@ C----------MSEGTYP(KD(20)): seg type-------------------------
      .                        TAG_SEGM, TAG_SEGM2 ) !KD(20)
           IF(IEDGE.GT.0)THEN
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%ISEADD,NSN_L,1,
-     .                           TAG_NODE_SLV) !KD(35)
+     .                           TAG_NODE_2RY) !KD(35)
             CALL COPY_IVAL(INTBUF_TAB(NI)%ISEDGE,L24ADD,1) !KD(36)
           ENDIF
 C          
@@ -2317,7 +2317,7 @@ C
      .                           TAG_SEGM) !KD(41)
           ENDIF
           CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%ICONT_I,NSN_L,1,
-     .                         TAG_NODE_SLV) 
+     .                         TAG_NODE_2RY) 
 
 
 C------- NEW EDGE :IRTSE, IS2SE, IS2PT   -->corrige 5eme  
@@ -2331,10 +2331,10 @@ C          print*,PROC,',NSNE_L=',NSNE_L
           CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IS2PT,NSNE_L,1,
      .                         TAG_NSNE_L)
           CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%ISPT2,NSN_L,1,
-     .                         TAG_NODE_SLV)
+     .                         TAG_NODE_2RY)
 
           CALL SPLIT_ISEGPT_IVAL(INTBUF_TAB(NI)%ISEGPT,NSN_L,1,
-     .                          TAG_NODE_SLV,NI,TAG_SLV_INV ,PROC)
+     .                          TAG_NODE_2RY,NI,TAG_2RY_INV ,PROC)
 
           CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IS2ID,NSNE_L,1,
      .                         TAG_NSNE_L)
@@ -2351,12 +2351,12 @@ c split and write on disk floating arrays
 
           CALL COPY_RVAL(INTBUF_TAB(NI)%STFAC,1,1)  
           CALL COPY_RVAL(INTBUF_TAB(NI)%VARIABLES,NPARIR,1)   
-          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFNS,NSN_L,1,TAG_NODE_SLV)
+          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFNS,NSN_L,1,TAG_NODE_2RY)
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFM,NRTM_L,1,TAG_SEGM)
 
           IF(IGAP.NE.0)THEN
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_M,NRTM_L,1,TAG_SEGM)!JD(15)
-            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S,NSN_L,1,TAG_NODE_SLV)!JD(16)
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S,NSN_L,1,TAG_NODE_2RY)!JD(16)
           ENDIF
 
           SIZ = INTBUF_TAB_L(NI)%S_XSAV
@@ -2374,33 +2374,33 @@ c split and write on disk floating arrays
           ENDIF
 
           IF(INTTH.GT.0) THEN
-            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%AREAS,NSN_L,1,TAG_NODE_SLV)!JD(30)
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%AREAS,NSN_L,1,TAG_NODE_2RY)!JD(30)
           ENDIF
 
 
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAPN_M,NMN_L,1,
      .                            TAG_NODE_MSR) !JD(22)
-          CALL COPY_RVAL(INTBUF_TAB(NI)%SLAV_FR,NSN_L,6)!JD(27)
+          CALL COPY_RVAL(INTBUF_TAB(NI)%SECND_FR,NSN_L,6)!JD(27)
 
           !PEN_OLD,PEN_INI for Inacti=5 
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%PENE_OLD,NSN_L,5,
-     .                            TAG_NODE_SLV) !JD(31)
+     .                            TAG_NODE_2RY) !JD(31)
 
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STIF_OLD,NSN_L,2,
-     .                            TAG_NODE_SLV) !JD(31)
+     .                            TAG_NODE_2RY) !JD(31)
 
           CALL COPY_RVAL(INTBUF_TAB(NI)%TIME_S,NSN_L,1)!JD(33)
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_NM,NRTM_L,12,TAG_SEGM)!JD(34)
           IF (IEDGE.GT.0) THEN
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%EDGE8L2,NSN_L,1,
-     .                              TAG_NODE_SLV) !JD(35)
+     .                              TAG_NODE_2RY) !JD(35)
           ENDIF
 
 
           !-for implicit Kg-----
           IF (INTKG.GT.0) THEN
-            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%NOD_SLV_LGTH,NSN_L,1,
-     .                              TAG_NODE_SLV) !JD(42)
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%NOD_2RY_LGTH,NSN_L,1,
+     .                              TAG_NODE_2RY) !JD(42)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%NOD_MAS_LGTH,NMN_L,1,
      .                              TAG_NODE_MSR) !JD(43)
           ENDIF
@@ -2443,28 +2443,28 @@ c split and write on disk floating arrays
           ENDIF
           NINDX_NDLOCAL24 = 0
 
-          DEALLOCATE(TAG_NODE_SLV,TAG_SEGM,TAG_SEGM2,
+          DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_SEGM2,
      .              TAG_NODE_MSR,TAG_II,TAG_SEGS)
           DEALLOCATE(TAG_SEG2S)
           DEALLOCATE(TAG_NSNE_L)
-          DEALLOCATE(TAG_SLV_INV)
-          DEALLOCATE(TAG_NODE_SLV2,TAG_IELEM,TAG_SEGSS)
+          DEALLOCATE(TAG_2RY_INV)
+          DEALLOCATE(TAG_NODE_2RY2,TAG_IELEM,TAG_SEGSS)
 
 c=====================================================================
         ELSEIF(ITYP == 25) THEN
 c=====================================================================
-          ALLOCATE(TAG_NODE_SLV(NSN_L),TAG_SEGM(NRTM_L),
+          ALLOCATE(TAG_NODE_2RY(NSN_L),TAG_SEGM(NRTM_L),
      .             TAG_NODE_MSR(NMN_L),TAG_SEGM2(NRTM),TAG_II(II_STOK),
      .             TAG_SM(NADMSR),KNOR2MSR(NADMSR_L+1),NOR2MSR(4*NRTM_L),
-     .             TAG_NODE_SLV2(NSN))
+     .             TAG_NODE_2RY2(NSN))
 !          ALLOCATE(NODLOCAL24(NUMNOD))
 
-          TAG_NODE_SLV(1:NSN_L) = 0
+          TAG_NODE_2RY(1:NSN_L) = 0
           TAG_SEGM(1:NRTM_L) = 0
           TAG_SEGM2(1:NRTM)  = 0
           TAG_NODE_MSR(1:NMN_L) = 0
           TAG_II(1:II_STOK) = 0
-          TAG_NODE_SLV2(1:NSN) = 0
+          TAG_NODE_2RY2(1:NSN) = 0
 
           TAG_SM(1:NADMSR)  = 0
 
@@ -2478,10 +2478,10 @@ c=====================================================================
           KNOR2MSR(1:NADMSR_L+1)=0
           NOR2MSR(1:4*NRTM_L) =0
           CALL PREPARE_SPLIT_I25(PROC          ,INTBUF_TAB(NI),IPARI(1,NI) ,
-     .                          INTERCEP(1,NI),TAG_NODE_SLV,TAG_SEGM      ,
+     .                          INTERCEP(1,NI),TAG_NODE_2RY,TAG_SEGM      ,
      .                          TAG_SEGM2     ,TAG_NM      ,TAG_NODE_MSR,
      .                          TAG_SCRATCH   ,TAG_SM      ,KNOR2MSR    ,
-     .                          NOR2MSR       ,TAG_NODE_SLV2,NINDX_NM,INDX_NM,
+     .                          NOR2MSR       ,TAG_NODE_2RY2,NINDX_NM,INDX_NM,
      .                          NINDX_SCRT    ,INDX_SCRT)
 
           IF(II_STOK.GT.0)THEN
@@ -2507,22 +2507,22 @@ c split and write on disk integers arrays
           CALL SPLIT_SEG_NODLOC(INTBUF_TAB(NI)%IRECTM,NRTM_L,4,
      .                          TAG_SEGM,NODLOCAL)
           CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%NSV,NSN_L,
-     .                          TAG_NODE_SLV,NODLOCAL24)
+     .                          TAG_NODE_2RY,NODLOCAL24)
           CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%MSR,NMN_L,
      .                          TAG_NODE_MSR,NODLOCAL)
 C IRTML a besoin de num globaux
           CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IRTLM,NSN_L,4,
-     .                         TAG_NODE_SLV) !KD(18)
+     .                         TAG_NODE_2RY) !KD(18)
 
          IF(INTTH.GT.0)THEN
            CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IELES,NSN_L,1,
-     .                         TAG_NODE_SLV) 
+     .                         TAG_NODE_2RY) 
          ENDIF
 
           IF(NISUB.GT.0)THEN
             CALL COPY_IVAL(INTBUF_TAB(NI)%LISUB,NISUB,1) !KD(28)
             CALL COPY_IVAL(INTBUF_TAB(NI)%TYPSUB,NISUB,1) 
-            CALL SPLIT_NISUB_I25(INTBUF_TAB(NI), NSN_L   , TAG_NODE_SLV, NRTM_L,
+            CALL SPLIT_NISUB_I25(INTBUF_TAB(NI), NSN_L   , TAG_NODE_2RY, NRTM_L,
      1                          TAG_SEGM      , NISUBS_L, NISUBM_L, 
      2       IEDGE,
      3       NEDGE,
@@ -2564,7 +2564,7 @@ C         I_STOK(2:3) not needed into Restart file (null value can be written)
 C
          IF(INTFRIC.GT.0)THEN
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IPARTFRICS,NSN_L,1,
-     .                TAG_NODE_SLV) 
+     .                TAG_NODE_2RY) 
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IPARTFRICM,NRTM_L,1,
      .                TAG_SEGM) 
              IF(IEDGE/=0)THEN 
@@ -2581,7 +2581,7 @@ C
           IF(FLAGREMNODE == 2) THEN  
             CALL SPLIT_REMNODE_I25(PROC     ,INTBUF_TAB(NI), NRTM    , NRTM_L,
      .                            TAG_SEGM2,NREMNODE_L      , NODLOCAL ,NREMNOR, 
-     .                            NSN      , NSN_L , TAG_NODE_SLV2,ITAB,
+     .                            NSN      , NSN_L , TAG_NODE_2RY2,ITAB,
      .                            NUMNOD_L )
            IF(IEDGE.GT.0) CALL SPLIT_REMNODE_I25_EDGE(PROC     , INTBUF_TAB, NEDGE    , NEDGE_L,
      .                            TAG_EDGE   ,TAG_EDGE2        , TAG_SEGM2 , ITAB     ,NUMNOD_L  ,  
@@ -2591,7 +2591,7 @@ C
 C-------ILEV=2 for remove S1/S1 S2/S2 in case of S1/S2 input
           IF(ILEV==2)THEN
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%NBINFLG,NSN_L,1,
-     .                           TAG_NODE_SLV) 
+     .                           TAG_NODE_2RY) 
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%MBINFLG,NRTM_L,1,
      .                           TAG_SEGM) 
             IF(IEDGE.GT.0)THEN
@@ -2624,7 +2624,7 @@ c     .                          TAG_SEGM) !KD(41)
 c         ENDIF
 
           CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%ICONT_I,NSN_L,1,
-     .                         TAG_NODE_SLV) 
+     .                         TAG_NODE_2RY) 
 C---------EVOISIN
           CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%EVOISIN,NRTM_L,4,
      .                        TAG_SEGM)
@@ -2661,7 +2661,7 @@ C----------ADSKYN, IADNOR:
      .      NRTM_L,TAG_SEGM,TAG_SM,INTERCEP(1,NI))
 C----------No need to split ISLIDE (no need in Rfile) : Null values could be written.
           CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%ISLIDE,NSN_L,4,
-     .                         TAG_NODE_SLV) 
+     .                         TAG_NODE_2RY) 
 C----------write KNOR2MSR & NOR2MSR
           CALL COPY_IVAL(KNOR2MSR,NADMSR_L+1,1)
           CALL COPY_IVAL(NOR2MSR ,4*NRTM_L,1)
@@ -2671,7 +2671,7 @@ C----------No need to split CAND_OPT_N & CAND_OPT_E (no need in Rfile) : Null va
 C---------Adhesion case
           IF(IVIS2.EQ.-1) THEN
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IF_ADH,NSN_L,1,
-     .                            TAG_NODE_SLV)
+     .                            TAG_NODE_2RY)
           ENDIF
 C
           IF(IEDGE/=0)THEN
@@ -2702,12 +2702,12 @@ c split and write on disk floating arrays
 
           CALL COPY_RVAL(INTBUF_TAB(NI)%STFAC,1,1)  
           CALL COPY_RVAL(INTBUF_TAB(NI)%VARIABLES,NPARIR,1)   
-          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFNS,NSN_L,1,TAG_NODE_SLV)
+          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFNS,NSN_L,1,TAG_NODE_2RY)
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STFM,NRTM_L,1,TAG_SEGM)
 
           IF(IGAP.NE.0)THEN
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_M,NRTM_L,1,TAG_SEGM)!JD(15)
-            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S,NSN_L,1,TAG_NODE_SLV)!JD(16)
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S,NSN_L,1,TAG_NODE_2RY)!JD(16)
           ENDIF
 
           SIZ = INTBUF_TAB_L(NI)%S_XSAV
@@ -2725,12 +2725,12 @@ c split and write on disk floating arrays
           ENDIF
 
           IF(INTTH.GT.0.OR.IVIS2==-1) THEN
-            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%AREAS,NSN_L,1,TAG_NODE_SLV)!JD(30)
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%AREAS,NSN_L,1,TAG_NODE_2RY)!JD(30)
           ENDIF
 
           IF(IGAP==3)THEN
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_ML,NRTM_L,1,TAG_SEGM) 
-            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_SL,NSN_L,1,TAG_NODE_SLV) 
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_SL,NSN_L,1,TAG_NODE_2RY) 
           ENDIF
 
 C         IF(IEDGE/=0.AND.INACTI==5)THEN
@@ -2763,14 +2763,14 @@ C           WRITE(6,*) NI,"S_CAND_PS=",II_STOK_S_L*4,INTBUF_TAB_L(NI)%S_CAND_PS
      .                            TAG_NODE_MSR) !JD(22)
 
 
-          CALL COPY_RVAL(INTBUF_TAB(NI)%SLAV_FR,NSN_L,6)!JD(27)
+          CALL COPY_RVAL(INTBUF_TAB(NI)%SECND_FR,NSN_L,6)!JD(27)
 
           !PEN_OLD,PEN_INI for Inacti=5 
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%PENE_OLD,NSN_L,5,
-     .                            TAG_NODE_SLV) !JD(31)
+     .                            TAG_NODE_2RY) !JD(31)
 
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STIF_OLD,NSN_L,2,
-     .                            TAG_NODE_SLV) !JD(31)
+     .                            TAG_NODE_2RY) !JD(31)
 
           CALL COPY_RVAL(INTBUF_TAB(NI)%TIME_S,NSN_L,2)!JD(33)
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_NM,NRTM_L,4,TAG_SEGM)!JD(34)
@@ -2813,9 +2813,9 @@ c          CALL COPY_RVAL(INTBUF_TAB(NI)%LBM  ,4*MULTIMP*NCONT,1)
 c          CALL COPY_RVAL(INTBUF_TAB(NI)%LCM  ,4*MULTIMP*NCONT,1)
 C----------No need for VTX_BISECTOR in restart file
 C          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%VTX_BISECTOR,NADMSR_L,6,TAG_SM)
-          DEALLOCATE(TAG_NODE_SLV,TAG_SEGM,TAG_SEGM2,
+          DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_SEGM2,
      .              TAG_NODE_MSR,TAG_II,TAG_SM,
-     .              KNOR2MSR,NOR2MSR,TAG_NODE_SLV2)
+     .              KNOR2MSR,NOR2MSR,TAG_NODE_2RY2)
           DEALLOCATE(TAG_EDGE)
           DEALLOCATE(TAG_EDGE2)
           IF(IEDGE /=0)  DEALLOCATE(TAG_II_E2S)
@@ -2909,18 +2909,18 @@ C        WRITE(6,*) __FILE__,__LINE__,"SCOMM=",T8%S_COMM
          ENDDO
          DO P2=1,NSPMD
            IF(P2.NE.PROC + 1) THEN
-             NBS_INTERF = T8%BUFFER(P2)%NBSLAVE_TOT
-             NBM_INTERF = T8%BUFFER(P2)%NBMASTER
+             NBS_INTERF = T8%BUFFER(P2)%NBSECND_TOT
+             NBM_INTERF = T8%BUFFER(P2)%NBMAIN
 C            WRITE(6,*) __FILE__,__LINE__,P2,NBM_INTERF,NBS_INTERF 
           
             CALL WRITE_I_C(NBM_INTERF,1)
             CALL WRITE_I_C(NBS_INTERF,1)
            
-            !nb slaves per MAIN
+            !nb secnds per MAIN
             IF(NBM_INTERF > 0) THEN
-              CALL WRITE_I_C(T8%BUFFER(P2)%NBSLAVE,NBM_INTERF)
-              CALL WRITE_I_C(T8%BUFFER(P2)%MASTER_ID,NBM_INTERF)
-              CALL WRITE_I_C(T8%BUFFER(P2)%MASTER_UID,NBM_INTERF)
+              CALL WRITE_I_C(T8%BUFFER(P2)%NBSECND,NBM_INTERF)
+              CALL WRITE_I_C(T8%BUFFER(P2)%MAIN_ID,NBM_INTERF)
+              CALL WRITE_I_C(T8%BUFFER(P2)%MAIN_UID,NBM_INTERF)
             ENDIF
            ELSE !IF P2 == PROC + 1 
             NBS_INTERF = 0                         

@@ -68,7 +68,7 @@ C-----------------------------------------------
          NTY=IPARI(7,N)
          IF (NTY.NE.14.AND.NTY.NE.15) GOTO 100
 C        Interface Stifnesses at nodes ...
-C        J11+8 : Sauve DE pour calcul Travail des Forces Slaves.
+C        J11+8 : Sauve DE pour calcul Travail des Forces Secnds.
          DE=INTBUF_TAB(N)%VARIABLES(9)
          FSAV(7,N)=FSAV(7,N)+DE*DT2*UNDEMI
 C

@@ -41,7 +41,7 @@ Chd|====================================================================
 !       JOINT_MOD organization :
 !       the main /CYL_JOINT structure is CYL_JOINT
 !       the type(joint_node) proc structure is used for the restart writting
-!       the type(joint_master_node) structure is not really usefull :)
+!       the type(joint_main_node) structure is not really usefull :)
 !$ENDCOMMENT
             TYPE JOINT_NODE
                 INTEGER, DIMENSION(:), ALLOCATABLE :: NODE          ! list of node
@@ -49,9 +49,9 @@ Chd|====================================================================
                 INTEGER, DIMENSION(:), ALLOCATABLE :: WEIGHT        ! weight array (1 or 0)
             END TYPE JOINT_NODE
             TYPE JOINT_TYPE
-                INTEGER :: PROC_MASTER
+                INTEGER :: PROC_MAIN
                 INTEGER :: NUMBER_PROC
-                INTEGER, DIMENSION(:), ALLOCATABLE :: MASTER_NODE   ! master node
+                INTEGER, DIMENSION(:), ALLOCATABLE :: MAIN_NODE   ! main node
                 INTEGER, DIMENSION(:), ALLOCATABLE :: LIST_PROC     ! list of processor 
                 INTEGER, DIMENSION(:), ALLOCATABLE :: NB_NODE       ! number of node on 
                 TYPE(joint_node), DIMENSION(:), ALLOCATABLE :: PROC
@@ -62,9 +62,9 @@ Chd|====================================================================
             TYPE(joint_type), DIMENSION(:), ALLOCATABLE :: CYL_JOIN
             LOGICAL :: JOINT_SMS
 
-            TYPE JOINT_MASTER_NODE
+            TYPE JOINT_MAIN_NODE
                 INTEGER :: ID_JOINT
                 INTEGER :: NB_PROC
                 INTEGER, DIMENSION(:), ALLOCATABLE :: PROC_LIST
-            END TYPE JOINT_MASTER_NODE
+            END TYPE JOINT_MAIN_NODE
         END MODULE JOINT_MOD

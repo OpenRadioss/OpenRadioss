@@ -55,23 +55,23 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, PMASTER, J, JJ, ITAG, MSGOFF, STAT(MPI_STATUS_SIZE),
+      INTEGER I, PMAIN, J, JJ, ITAG, MSGOFF, STAT(MPI_STATUS_SIZE),
      .        IERR, NNS_ANIM
 C-----------------------------------------------
       DATA MSGOFF/7050/
 C-----------------------------------------------
 C
       DO I=1,NFVBAG
-         PMASTER=FVSPMD(I)%PMASTER
+         PMAIN=FVSPMD(I)%PMAIN
          IF (ISPMD.EQ.0) THEN
-            IF (ISPMD.EQ.PMASTER-1) THEN
+            IF (ISPMD.EQ.PMAIN-1) THEN
                DO J=1,FVDATA(I)%NNS_ANIM
                   JJ=FVOFF(2,I)+J
                   CALL WRITE_I_C(JJ,1)
                ENDDO
             ELSE
                ITAG=MSGOFF
-               CALL MPI_RECV(NNS_ANIM, 1, MPI_INTEGER, IT_SPMD(PMASTER),
+               CALL MPI_RECV(NNS_ANIM, 1, MPI_INTEGER, IT_SPMD(PMAIN),
      .                       ITAG, MPI_COMM_WORLD, STAT, IERR)
 C
                DO J=1,NNS_ANIM
@@ -80,7 +80,7 @@ C
                ENDDO
             ENDIF
          ELSE
-            IF (ISPMD.EQ.PMASTER-1) THEN
+            IF (ISPMD.EQ.PMAIN-1) THEN
                ITAG=MSGOFF
                CALL MPI_SEND(FVDATA(I)%NNS_ANIM, 1, MPI_INTEGER,
      .                       IT_SPMD(1), ITAG, MPI_COMM_WORLD,

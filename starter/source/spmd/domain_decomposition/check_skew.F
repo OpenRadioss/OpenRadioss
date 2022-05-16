@@ -96,7 +96,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: I,J,II,NN
         INTEGER :: NUMBER_SKEW_SP,SPRING_TYPE
-        INTEGER :: N1,N2,N3,IMASTER,SUM_NI,SIZE_SKEW,MAT_TYPE
+        INTEGER :: N1,N2,N3,IMAIN,SUM_NI,SIZE_SKEW,MAT_TYPE
         INTEGER, DIMENSION(:), ALLOCATABLE :: SKEW_PER_SP,LOCAL_P,P_SKEW
         INTEGER, DIMENSION(NSPMD) :: PROC_SKEW
 C-----------------------------------------------
@@ -185,22 +185,22 @@ C
 !       stick a SKEW on a given processor
         DO J=1,NUMBER_SKEW_SP
                 I = SKEW_PER_SP(J)
-                IMASTER = LOCAL_P(J)
+                IMAIN = LOCAL_P(J)
                 N1=ISKN(1,I)
                 N2=ISKN(2,I)
                 N3=ISKN(3,I)
                 SUM_NI = N1+N2+N3
                 IF(SUM_NI/=0) THEN
 
-                        CALL IFRONTPLUS(N1,IMASTER)
-                        CALL IFRONTPLUS(N2,IMASTER)
-                        CALL IFRONTPLUS(N3,IMASTER)
-                        IF(ISKWP(I)==0) ISKWP(I) = -IMASTER
+                        CALL IFRONTPLUS(N1,IMAIN)
+                        CALL IFRONTPLUS(N2,IMAIN)
+                        CALL IFRONTPLUS(N3,IMAIN)
+                        IF(ISKWP(I)==0) ISKWP(I) = -IMAIN
                         IF(TAG_SKN(I)>1) THEN
                                 P_SKEW(I) = P_SKEW(I) + 1
-                                MULTIPLE_SKEW(I)%PLIST(P_SKEW(I)) =  IMASTER
+                                MULTIPLE_SKEW(I)%PLIST(P_SKEW(I)) =  IMAIN
                         ELSE
-                                NSKWP(IMASTER) = NSKWP(IMASTER) + 1
+                                NSKWP(IMAIN) = NSKWP(IMAIN) + 1
                         ENDIF                                
                 ENDIF
         ENDDO
@@ -211,8 +211,8 @@ C
                 IF(SIZE_SKEW>1) THEN
                         PROC_SKEW(1:NSPMD) = 0
                         DO II=1,SIZE_SKEW
-                                IMASTER = MULTIPLE_SKEW(I)%PLIST(II)
-                                IF(IMASTER>0) PROC_SKEW(IMASTER) = PROC_SKEW(IMASTER) + 1
+                                IMAIN = MULTIPLE_SKEW(I)%PLIST(II)
+                                IF(IMAIN>0) PROC_SKEW(IMAIN) = PROC_SKEW(IMAIN) + 1
                         ENDDO
                         DO II=1,NSPMD
                                 IF(PROC_SKEW(II)>0) NSKWP(II) = NSKWP(II) + 1

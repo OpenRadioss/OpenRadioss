@@ -387,7 +387,7 @@ C-----Press-fit
        END IF
 	   IF (INACTI/=-1) IPARI(40,NIN) = 0 
 C----------------------------------------------------------------------
-C     Slave node previously impacted & Slave node is leaving the contact
+C     Secnd node previously impacted & Secnd node is leaving the contact
 C----------------------------------------------------------------------
       NSNFT= 1+(JTASK-1)*NSN/ NTHREAD
       NSNLT= JTASK*NSN/NTHREAD
@@ -409,7 +409,7 @@ C           No more contact (Reset Irtlm & PENE_OLD)
             INTBUF_TAB%IRTLM(4*(N-1)+3)=0
             INTBUF_TAB%IRTLM(4*(N-1)+4)=0
 C
-            INTBUF_TAB%SLAV_FR(6*(N-1)+1:6*N) = ZERO
+            INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) = ZERO
             INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)= ZERO
             INTBUF_TAB%PENE_OLD(5*(N-1)+1:5*N)= ZERO
 C       
@@ -428,7 +428,7 @@ C           No more contact (Reset Irtlm & PENE_OLD)
             IRTLM_FI(NIN)%P(3,N)=0
             IRTLM_FI(NIN)%P(4,N)=0
 C
-            SLAV_FRFI(NIN)%P (1:6,N)=ZERO
+            SECND_FRFI(NIN)%P (1:6,N)=ZERO
             PENE_OLDFI(NIN)%P(1:5,N)=ZERO
             STIF_OLDFI(NIN)%P(1:2,N)=ZERO
 C     
@@ -447,7 +447,7 @@ C           No more contact (Reset Irtlm & PENE_OLD)
             INTBUF_TAB%IRTLM(4*(N-1)+3)=0
             INTBUF_TAB%IRTLM(4*(N-1)+4)=0
 C
-            INTBUF_TAB%SLAV_FR(6*(N-1)+1:6*N) = ZERO
+            INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) = ZERO
             INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)= ZERO
             INTBUF_TAB%PENE_OLD(5*(N-1)+1:5*N)= ZERO
 C       
@@ -467,7 +467,7 @@ C           No more contact (Reset Irtlm & PENE_OLD)
             IRTLM_FI(NIN)%P(3,N)=0
             IRTLM_FI(NIN)%P(4,N)=0
 C
-            SLAV_FRFI(NIN)%P (1:6,N)=ZERO
+            SECND_FRFI(NIN)%P (1:6,N)=ZERO
             PENE_OLDFI(NIN)%P(1:5,N)=ZERO
             STIF_OLDFI(NIN)%P(1:2,N)=ZERO
 C
@@ -504,7 +504,7 @@ C     filtrer => ne garder que les contacts vrais
      1  I_STOK   ,INDEX2 ,INTBUF_TAB%CAND_OPT_N,INTBUF_TAB%CAND_OPT_E,NIN    ,
      2  NSN      ,NSNR   ,INACTI ,INTBUF_TAB%MSEGLO ,INTBUF_TAB%IRTLM ,
      3  INTBUF_TAB%PENM ,INTBUF_TAB%PENE_OLD ,JTASK ,ITAB,
-     4  INTBUF_TAB%NSV  ,INTBUF_TAB%SLAV_FR,INTBUF_TAB%TIME_S,
+     4  INTBUF_TAB%NSV  ,INTBUF_TAB%SECND_FR,INTBUF_TAB%TIME_S,
      .  INTBUF_TAB%STIF_OLD) 
 C
       CALL MY_BARRIER
@@ -678,7 +678,7 @@ C-------------------------------------------------------------------------------
      8  IVIS2        ,NELTST    ,ITYPTST      ,DT2T        ,
      A  KINET        ,NEWFRONT  ,ISECIN       ,NSTRF       ,SECFCUM  ,
      B  X            ,INTBUF_TAB%IRECTM,CE_LOC    ,MFROT       ,IFQ  ,
-     B  INTBUF_TAB%SLAV_FR,XFILTR_FRIC,IBAG   ,ICONTACT ,INTBUF_TAB%IRTLM,       
+     B  INTBUF_TAB%SECND_FR,XFILTR_FRIC,IBAG   ,ICONTACT ,INTBUF_TAB%IRTLM,       
      E  VISCN        ,VXI       ,VYI          ,VZI         ,MSI      ,
      F  KINI         ,NIN       ,NISUB        ,INTBUF_TAB%LISUB,INTBUF_TAB%ADDSUBS,
      G  INTBUF_TAB%ADDSUBM,INTBUF_TAB%LISUBS,INTBUF_TAB%LISUBM,

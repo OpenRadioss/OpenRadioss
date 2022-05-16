@@ -88,7 +88,7 @@ c        ENDDO
 !     allocate 1d array
       ALLOCATE( TAGI(NUMNOD) )
       TAGI(1:NUMNOD) = 0 
-C-------------pour master nodes---------
+C-------------pour main nodes---------
       DO N = 1, NS10E
         NN = ICNDS10(1,N)
         IF(NLOCAL(NN,PROC+1)/=1.OR.ITAGND(NN)>NS10E) CYCLE
@@ -101,7 +101,7 @@ C----- normally N1,N2 are local as  NN-----
          ENDDO
             IF(NLOCAL(N1,PROC+1)==1) THEN
               IF(TAGI(N1)==0.AND.NF > 1) THEN
-C decompte des frontieres de master nodes
+C decompte des frontieres de main nodes
                 DO P = 1, NSPMD
                   IF(NLOCAL(N1,P)==1)THEN
                     NBDDCNDM = NBDDCNDM + 1
@@ -109,7 +109,7 @@ C decompte des frontieres de master nodes
                 END DO
 C on ne se compte pas soi-meme
                 NBDDCNDM = NBDDCNDM - 1
-C pour ne pas prendre en compte 2 fois des noeuds master ds les frontieres
+C pour ne pas prendre en compte 2 fois des noeuds main ds les frontieres
 c                IF (NF > 1) NBDDCNDM = NBDDCNDM + 1
                 TAGI(N1) = 1
               END IF
@@ -117,7 +117,7 @@ c                IF (NF > 1) NBDDCNDM = NBDDCNDM + 1
 C----- N2 -------       
             IF(NLOCAL(N2,PROC+1)==1) THEN
               IF(TAGI(N2)==0.AND.NF > 1) THEN
-C decompte des frontieres de master nodes
+C decompte des frontieres de main nodes
                 DO P = 1, NSPMD
                   IF(NLOCAL(N2,P)==1)THEN
                     NBDDCNDM = NBDDCNDM + 1
@@ -125,7 +125,7 @@ C decompte des frontieres de master nodes
                 END DO
 C on ne se compte pas soi-meme
                 NBDDCNDM = NBDDCNDM - 1
-C pour ne pas prendre en compte 2 fois des noeuds master ds les frontieres
+C pour ne pas prendre en compte 2 fois des noeuds main ds les frontieres
 c                IF (NF > 1) NBDDCNDM = NBDDCNDM + 1
                 TAGI(N2) = 1
               END IF

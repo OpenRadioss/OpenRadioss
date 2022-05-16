@@ -98,14 +98,14 @@ C if IRM is negative, thant JRM must be zero
 C because split_interface
               ASSERT(.FALSE.)
 C edge at the boundary of spmd domains
-C slave side treated by the other domain 
+C secnd side treated by the other domain 
               S1 = UN ! exact stiffness not known, but it is nnz
 C MVOISIN = 0 <=> STFM( VOISIN )) = 0
               IF(MVOISIN(JEDG,JRM) == 0 ) S1 = ZERO
               S2 = STIFM(JRM)
             ELSEIF(IRM > 0 .AND. JRM < 0) THEN
 C edge at the boundary of SPMD domains
-C slave side treated by ISPMD
+C secnd side treated by ISPMD
               S1 = STIFM(IRM)
 !exact stiffness on the other side of the boundary is not known yet
 ! But we can determine if it is zero or not according to MVOISIN

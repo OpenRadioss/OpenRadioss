@@ -225,7 +225,7 @@ C
         ENDDO
       ENDIF
 C------------------------------------
-C     GAP NOEUDS ESCLAVES
+C     GAP NOEUDS SECONDS
 C------------------------------------
       IF(IGAP.GE.1)THEN
        DO I=1,NUMNOD
@@ -291,7 +291,7 @@ C------------------------------------
        ENDDO
       ENDIF
 C
-C calcul du surface esclave ---
+C calcul du surface second. ---
       IF(INTTH > 0 ) THEN
         IF(NADMESH==0)THEN
           DO I = 1,NSN    
@@ -389,7 +389,7 @@ C overwrite
       END IF
 C
 C------------------------------------
-C     GAP STIF FACES MAITRESSES
+C     GAP STIF FACES MAIN
 C------------------------------------
       DO 500 I=1,NRT
       STF(I)=ZERO
@@ -892,7 +892,7 @@ C      en SPMD il faut un element associe a l'arrete sinon erreur
   500 CONTINUE
   
 C------------------------------------
-C     GAP STIF FACES MAITRESSES IGE
+C     GAP STIF FACES MAIN IGE
 C------------------------------------
       DO 600 I=NRT+1,NRT+NRT_IGE
       STF(I)=ZERO
@@ -1099,7 +1099,7 @@ Ce warning pour les performances du tri.
         END IF
       END IF
 
-C -----Friction model  slave nodes parts------
+C -----Friction model  secnd nodes parts------
       IF(INTFRIC > 0) THEN
         IF(NUMELS.NE.0)THEN
           DO I = 1,NSN   

@@ -421,7 +421,7 @@ C      N6 = N5 + NUMELC + NUMELTG + NUMELQ + 6*NUMELS
 C    .         + NUMELT + NUMELP  + NUMELR
 C      N7 = N6 + NUMMAT
 
-!       need to communicate the SKEW array on master proc 
+!       need to communicate the SKEW array on main proc 
          CALL SPMD_SD_SKW_ANIM(SKEW,ISKWP)
          NEL3D = NUMELS + NUMSPH + 3*NUMELS16
          NEL2D = NUMELC + NUMELTG + NUMELQ + NUMELUR

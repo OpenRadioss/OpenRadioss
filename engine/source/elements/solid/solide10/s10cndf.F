@@ -82,7 +82,7 @@ C     REAL ou REAL*8
       my_real
      .   FX,FY,FZ ,FAC,STIF
 C======================================================================|
-C----pass1 : only N1,N2 are slave nodes of Int2
+C----pass1 : only N1,N2 are secnd nodes of Int2
        ISIZE =4
        IF (IPARIT==0.AND.NSPMD>1) THEN
 !$OMP SINGLE
@@ -278,7 +278,7 @@ C     REAL ou REAL*8
       my_real
      .   FX,FY,FZ ,FAC,STIF
 C======================================================================|
-C----pass2 : all excepting N1,N2 are slave nodes of Int2
+C----pass2 : all excepting N1,N2 are secnd nodes of Int2
        ISIZE =4
        IF (IPARIT==0.AND.NSPMD>1) THEN
 !$OMP SINGLE
@@ -614,12 +614,12 @@ C -------add RBE3  after
          END IF
         END IF
       END DO 
-C--------comm to synchro the case iabs(ITAGND(Nd))>NS10E master of int2
+C--------comm to synchro the case iabs(ITAGND(Nd))>NS10E main of int2
        IF (NSPMD>1) THEN
         SIZ = IAD_CNDS(NSPMD+1)-IAD_CNDS(1)
         CALL SPMD_EXCH_TAG_SCND(ITAGND,FR_CNDS,IAD_CNDS,SIZ)
        END IF
-C--------add edge nodes at the end :Slave of int2 ->used in pass1
+C--------add edge nodes at the end :Secnd of int2 ->used in pass1
        DO I = 1, NS10E
         N1 = ICNDS10(2,I)
         N2 = ICNDS10(3,I)

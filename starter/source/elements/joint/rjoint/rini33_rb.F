@@ -167,7 +167,7 @@ C-->
             DO N=1,NRBODY
               NSL=NPBY(2,N)
               IF (NPBY(1,N)==NOD(I)) THEN 
-C-- Tag for error message - Can't be attached to master node-              
+C-- Tag for error message - Can't be attached to main node-              
 		IDRB(I)=-N
                 UVAR(37+I,IEL)= N                
                 EXIT

@@ -463,7 +463,7 @@ C---     no friction filtering
            FTDFT=FNXT**2+FNYT**2+FNZT**2
 C
            IF(FTDFT.LE.FRIC2*FNDFN) THEN
-C---         tied slave point
+C---         tied secnd point
              A(N1)=ZERO
              A(N2)=ZERO
              A(N3)=ZERO     
@@ -479,7 +479,7 @@ C---         tied slave point
                ENDIF
             ENDIF 
            ELSE
-C---         sliding slave point     
+C---         sliding secnd point     
              FCOE=FRIC*SQRT(FNDFN/FTDFT)
              FNXT=FCOE*FNXT
              FNYT=FCOE*FNYT

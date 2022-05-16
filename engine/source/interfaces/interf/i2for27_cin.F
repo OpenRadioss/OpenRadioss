@@ -148,10 +148,10 @@ C
         IF (MSEGTYP2(L)==0) THEN
 C
 C--------------------------------------------------------------C
-C--- solid master segment -- moment equilibrium----------------C
+C--- solid main segment -- moment equilibrium----------------C
 C--------------------------------------------------------------C
 C               
-C---- rep local facette maitre
+C---- rep local facette main
 C  
             X1  = X(1,IX1)                                       
             Y1  = X(2,IX1)                                          
@@ -255,7 +255,7 @@ C
               FMZ(J) = H(J)*FLZ
             ENDDO
 C
-C---- update master forces (moment balance) - local coordinates RX
+C---- update main forces (moment balance) - local coordinates RX
             IF (IRODDL==1) THEN
               MXS = MXI*E1X + MYI*E1Y + MZI*E1Z
               MYS = MXI*E2X + MYI*E2Y + MZI*E2Z
@@ -410,10 +410,10 @@ C
         IF (MSEGTYP2(L)==0) THEN
 C
 C--------------------------------------------------------------C
-C--- solid master segment -- moment equilibrium----------------C
+C--- solid main segment -- moment equilibrium----------------C
 C--------------------------------------------------------------C
 C          
-C---- rep local facette maitre
+C---- rep local facette main
 C  
             X1  = X(1,IX1)                                       
             Y1  = X(2,IX1)                                          
@@ -517,7 +517,7 @@ C
               FMZ(J) = H(J)*FLZ
             ENDDO
 C
-C---- update master forces (moment balance)
+C---- update main forces (moment balance)
             IF (IRODDL==1) THEN
               MXS = MXI*E1X + MYI*E1Y + MZI*E1Z
               MYS = MXI*E2X + MYI*E2Y + MZI*E2Z
@@ -588,7 +588,7 @@ C
         END IF
 C
         IF(IDTMINS==2.OR.IDTMINS_INT/=0) THEN
-C----   For AMS scaling factor on stiffness is stored - only used for solid master surface
+C----   For AMS scaling factor on stiffness is stored - only used for solid main surface
           T2FAC_SMS(I) = (UN+STBRK)*(UN+STIFM)
         ENDIF
 C

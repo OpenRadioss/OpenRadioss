@@ -509,7 +509,7 @@ C
             ENDDO
             OFFEL=OFFEL+NUMELTGL
 C Traitement a faire pour RNUR et XELEM
-C Noeuds master de RBODY
+C Noeuds main de RBODY
             IAD=0
             DO I=1,NRBYKIN
                N=NPBY(1,I)
@@ -526,7 +526,7 @@ C Noeuds master de RBODY
                ENDDO
                IAD=IAD+NSN
             ENDDO
-C Noeuds master d'interface type 2
+C Noeuds main d'interface type 2
             DO I=1,NINT2
                N=IINT2(I)
                NRTS=IPARI(3,N)

@@ -274,7 +274,7 @@ C
 C
           DO I=1,JLT
            IF(CAND_S(I).LE.NRTS) THEN
-C     SLAVE EDGE AREA
+C     SECND EDGE AREA
              SECS=AREAS(CAND_S(I))
 C     AREA COMPUTING
              XS = XXS2(I)-XXS1(I)
@@ -284,13 +284,13 @@ C
              LS = SQRT(XS*XS + YS*YS + ZS*ZS)
 C
              AREAC(I) = LS*SECS
-C     SLAVE TEMPERATURE
+C     SECND TEMPERATURE
              TEMPI1(I) = TEMP(N1(I))
              TEMPI2(I) = TEMP(N2(I))
              IELECI(I)= IELEC(CAND_S(I))
            ELSE
              NN = CAND_S(I) - NRTS            
-C     SLAVE EDGE AREA
+C     SECND EDGE AREA
              SECS =AREASFI(NIN)%P(NN)
 C     AREA COMPUTING
              XS = XXS2(I)-XXS1(I)
@@ -300,7 +300,7 @@ C
              LS = SQRT(XS*XS + YS*YS + ZS*ZS)
 C
              AREAC(I) = LS*SECS
-C     SLAVE TEMPERATURE
+C     SECND TEMPERATURE
              TEMPI1(I) = TEMPFI(NIN)%P(N1(I))
              TEMPI2(I) = TEMPFI(NIN)%P(N2(I))
 
@@ -313,9 +313,9 @@ C
 C
           DO I=1,JLT
            IF(CAND_S(I).LE.NRTS) THEN
-C     SLAVE EDGE AREA
+C     SECND EDGE AREA
              SECS=AREAS(CAND_S(I))
-C     MASTER EDGE AREA
+C     main EDGE AREA
              SECM=AREAM(CAND_M(I))
 C     AREA COMPUTING
              XS = XXS2(I)-XXS1(I)
@@ -336,10 +336,10 @@ C     AREA COMPUTING
 
              AREAC(I) = MIN(AREA1,AREA2)
 
-C     SLAVE TEMPERATURE
+C     SECND TEMPERATURE
              TEMPI1(I) = TEMP(N1(I))
              TEMPI2(I) = TEMP(N2(I))
-C     MASTER TEMPERATURE
+C     main TEMPERATURE
              TEMPM1(I) = TEMP(M1(I))
              TEMPM2(I) = TEMP(M2(I))
 
@@ -347,9 +347,9 @@ C     MASTER TEMPERATURE
              IELESI(I)= IELES(CAND_M(I))
            ELSE
              NN = CAND_S(I) - NRTS            
-C     SLAVE NODAL AREA
+C     SECND NODAL AREA
              SECS =AREASFI(NIN)%P(NN)
-C     MASTER EDGE AREA
+C     main EDGE AREA
              SECM =AREAM(CAND_M(I))
 C     AREA COMPUTING
              XS = XXS2(I)-XXS1(I)
@@ -370,10 +370,10 @@ C     AREA COMPUTING
 
              AREAC(I) = MIN(AREA1,AREA2)*UNDEMI
 
-C     SLAVE TEMPERATURE
+C     SECND TEMPERATURE
              TEMPI1(I) = TEMPFI(NIN)%P(N1(I))
              TEMPI2(I) = TEMPFI(NIN)%P(N2(I))
-C     MASTER TEMPERATURE
+C     main TEMPERATURE
              TEMPM1(I) = TEMP(M1(I))
              TEMPM2(I) = TEMP(M2(I))
 

@@ -259,7 +259,7 @@ C
 
 c     reduction de la taille de boite:
 c     on garde une marge de TZINF quand on reduit la taille de boite
-c     pour eviter d'oublier des esclaves
+c     pour eviter d'oublier des seconds
 c
 c      |      Tzinf Tzinf                 |Tzinf
 c      |     <-----x----->                |<---->
@@ -270,16 +270,16 @@ c      |     .           #////////////////|/////./#          |
 c -----+----------------------------------+---------Ymax=    v
 c      |     .     |\\\\\#///  espace   //|/////./# Ymax_old
 c      |     .     |\\\\\#/// occupe par//|/////./#
-c      |     .     |\\\\\#///les maitres//|/////./#
+c      |     .     |\\\\\#///les mains//|/////./#
 c      |     .     |\\\\\#////////////////|/////./#
 c      |     .     |\\\\\#////////////////|/////./#
 c      |     .     |\\\\\#################|#####.##          ^
 c      |     .     |\\\  espace retenu  \\|     .            |
-c      |     .     |\\\pour les esclaves\\|     .            | Tzinf
+c      |     .     |\\\pour les seconds\\|     .            | Tzinf
 c      |     .     |\\\(nouvelle boite) \\|     .            |
 c      |     .     +----------------------|     ....Ymin     x
 c      |     .                            |     .            |
-c      |     .    (boite de recherche maitre)   .            | Tzinf
+c      |     .    (boite de recherche main)   .            | Tzinf
 c      |     .                            |     .            |
 c      |     .............................|.........Tymin    v
 c      |     .     .                      |     .
@@ -295,12 +295,12 @@ c            .   Xmin                        Txmax
 c          Txmin
 c
 c       si la boite est reduite du cote de Xmin on pourrait utiliser:
-c           Txmin = Xmin  avec Xmin = min(Xmaster)-Tzinf > Xmin_old
+c           Txmin = Xmin  avec Xmin = min(Xmain)-Tzinf > Xmin_old
 c       
 c       mais en utilisant:
-c           Txmin = Xmin-Tzinf (= min(Xmaster) - 2*Tzinf) 
+c           Txmin = Xmin-Tzinf (= min(Xmain) - 2*Tzinf) 
 c       on ne penalise pas I11INSIND 
-c       (il n'y a pas de maitre dans la zone surestimee)
+c       (il n'y a pas de main dans la zone surestimee)
 c       et le calcul de Xmin, Txmin ... est plus simple
 
 
@@ -381,7 +381,7 @@ c       et le calcul de Xmin, Txmin ... est plus simple
       TSMAX = SEUIL + TZINF
 
 C
-C    2- DIVISER LES ESCLAVES EN DEUX ZONES 
+C    2- DIVISER LES SECONDS EN DEUX ZONES 
 C
 
 c            +-----------+-----------+--Xjmax  
@@ -461,7 +461,7 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPN
         ENDIF
       ENDDO
 C
-C    3- DIVISER LES MAITRES
+C    3- DIVISER LES MAINS
 C
 
 c        Tzinf       Tzinf Tzinf      Tzinf
@@ -618,12 +618,12 @@ C
 C-------------------TEST SUR MEMOIRE DEPASSEE------------
 C
       IF(ADD(1,I_ADD)+NB_NC.GT.MAXSIZ) THEN
-C       PLUS DE PLACE DANS LA PILE DES COTES ESCLAVES BOITES TROP PETITES
+C       PLUS DE PLACE DANS LA PILE DES COTES SECONDS BOITES TROP PETITES
         I_MEM = 1
         RETURN
       ENDIF
       IF(ADD(2,I_ADD)+NB_EC.GT.MAXSIZ) THEN
-C       PLUS DE PLACE DANS LA PILE DES COTES MAITRES BOITES TROP PETITES
+C       PLUS DE PLACE DANS LA PILE DES COTES MAINS BOITES TROP PETITES
         I_MEM = 1
         RETURN
       ENDIF

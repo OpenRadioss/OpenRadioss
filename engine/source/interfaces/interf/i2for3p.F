@@ -80,7 +80,7 @@ C-----------------------------------------------
           I3=3*I
           I2=I3-1
           I1=I2-1
-Cel traitement 1er noeud slave
+Cel traitement 1er noeud secnd
           IF (WEIGHT(I).EQ.1) THEN
 C
            XMSI=MS(I)
@@ -145,7 +145,7 @@ Cel NIR = 4
           I3=3*I
           I2=I3-1
           I1=I2-1
-Cel traitement 1er noeud slave
+Cel traitement 1er noeud secnd
           IF (WEIGHT(I).EQ.1) THEN
 C
            XMSI=MS(I)
@@ -321,7 +321,7 @@ C
  	 I3=3*I
  	 I2=I3-1
  	 I1=I2-1
-Cel traitement 1er noeud slave
+Cel traitement 1er noeud secnd
          IF (WEIGHT(I).EQ.1) THEN
 C
  	  SS=CRST(1,II)
@@ -384,7 +384,7 @@ Cel NIR = 4
  	 I3=3*I
  	 I2=I3-1
  	 I1=I2-1
-Cel traitement 1er noeud slave
+Cel traitement 1er noeud secnd
  	 IF (WEIGHT(I).EQ.1) THEN
 C
  	  XMSI=MS(I)
@@ -554,7 +554,7 @@ C
         I3=3*I
         I2=I3-1
         I1=I2-1
-Cel traitement 1er noeud slave
+Cel traitement 1er noeud secnd
         IF (WEIGHT(I).EQ.1) THEN
 C
          SS=CRST(1,II)
@@ -601,7 +601,7 @@ Cel NIR = 4
         I3=3*I
         I2=I3-1
         I1=I2-1
-Cel traitement 1er noeud slave
+Cel traitement 1er noeud secnd
         IF (WEIGHT(I).EQ.1) THEN
 C
          XMSI=MS(I)
@@ -1154,12 +1154,12 @@ C MMASS(II) initialise a MS(J) a t=0 dans starter
         ENDDO
       ENDIF
 C------------------------------
-C     FORCES ET MOMENTS DES NOEUDS ESCLAVES 
-C     TRANSMIS AUX NOEUDS MAITRES SOUS 
+C     FORCES ET MOMENTS DES NOEUDS SECONDS 
+C     TRANSMIS AUX NOEUDS MAINS SOUS 
 C     FORME DE FORCES 
 C
-C     MASSES ET INERTIES DES NOEUDS ESCLAVES 
-C     TRANSMISES AUX NOEUDS MAITRES SOUS 
+C     MASSES ET INERTIES DES NOEUDS SECONDS 
+C     TRANSMISES AUX NOEUDS MAINS SOUS 
 C     FORME DE MASSES 
 C------------------------------
 C
@@ -1287,7 +1287,7 @@ C
          MR=DET*INX*MAX(MRX,MRY,MRZ)
 C
 C------------------------------------------------------
-C     MASSES & FORCES TRANSMISES AUX NOEUDS MAITRES
+C     MASSES & FORCES TRANSMISES AUX NOEUDS MAINS
 C------------------------------------------------------
          IF(ILEV.EQ.1)THEN
           XMSI=QUART*XMSI+MR

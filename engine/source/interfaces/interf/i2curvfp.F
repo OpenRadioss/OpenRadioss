@@ -134,7 +134,7 @@ C
           STFN=STIFN(IS)              
           STFR=STIFR(IS)                      
 C
-C---      slave forces -> rep local
+C---      secnd forces -> rep local
 C
           FSLOC(1) = ROT(1)*FXI + ROT(4)*FYI + ROT(7)*FZI
           FSLOC(2) = ROT(2)*FXI + ROT(5)*FYI + ROT(8)*FZI
@@ -143,7 +143,7 @@ C
           FSLOC(5) = ROT(2)*MXI + ROT(5)*MYI + ROT(8)*MZI  
           FSLOC(6) = ROT(3)*MXI + ROT(6)*MYI + ROT(9)*MZI  
 C
-C-------  transfer slave forces to master
+C-------  transfer secnd forces to main
           DO JJ=1,NIR                                               
             FMLOC(JJ,1) = H(JJ)*FSLOC(1)             
             FMLOC(JJ,2) = H(JJ)*FSLOC(2)             
@@ -155,7 +155,7 @@ C-------  transfer slave forces to master
      .                  + HXS(JJ)*FSLOC(4) + HPRT(JJ)*FSLOC(5)     
             FMLOC(JJ,6) = H(JJ)*FSLOC(6)             
           ENDDO                                                     
-C-------  transfer slave mass + inertia + stiffness to master
+C-------  transfer secnd mass + inertia + stiffness to main
           DO JJ=1,NIR                                               
             IM  = INOD(JJ)
             LEN = SQRT((X(1,IM)-XC)**2+(X(2,IM)-YC)**2+(X(3,IM)-ZC)**2)                       
@@ -197,7 +197,7 @@ C
             ENDIF
           ENDDO                                                     
 C
-C---      update master forces in global frame
+C---      update main forces in global frame
 C
           I0 = I0 + 1                                                     
           JJ = 1                                                          

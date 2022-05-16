@@ -165,7 +165,7 @@ Chd|====================================================================
      .                    NME   , NMOD   , V       , VR     , A     ,
      .                    AR    , MS     , IN      , NSN    , IDMAST,
      .                    ISH   , LMOD   , NSNT    , IFILE  , NSNI  ,
-     .                    IRCM  , PMASTER, IAD_ELEM, FR_ELEM)
+     .                    IRCM  , PMAIN, IAD_ELEM, FR_ELEM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -182,7 +182,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER FXBNOD(*), NME, NMOD, NSN, IDMAST, ISH, LMOD, NSNT,
-     .        IFILE, NSNI, IRCM, PMASTER, IAD_ELEM(2,*), FR_ELEM(*)
+     .        IFILE, NSNI, IRCM, PMAIN, IAD_ELEM(2,*), FR_ELEM(*)
       my_real
      .        FXBRPM(*), FXBMOD(*), FXBVIT(*), FXBACC(*), V(3,*),
      .        VR(3,*), A(3,*), AR(3,*), MS(*), IN(*)
@@ -195,7 +195,7 @@ C-----------------------------------------------
      .        USDT, ECBIDT, ECBIDR, VV(6), DT05, VX, VY, VZ, VRX, VRY,
      .        VRZ
 C-----------------------------------------------
-C   RESTITUTION DES VITESSES SUR LES SLAVES
+C   RESTITUTION DES VITESSES SUR LES SECNDS
 C-----------------------------------------------
       CALL FXSPIN(FXBRPM, FXBVIT, SPIN, R12, DT2)
 C
@@ -356,10 +356,10 @@ C
          ECBIDT=ECBIDT+UNDEMI*MS(N)*(VX*VX+VY*VY+VZ*VZ)/IFAC(N)
          ECBIDR=ECBIDR+UNDEMI*IN(N)*(VRX*VRX+VRY*VRY+VRZ*VRZ)/IFAC(N)
       ENDDO
-      IF (PMASTER.NE.ISPMD) FXBRPM(12)=ZERO  
+      IF (PMAIN.NE.ISPMD) FXBRPM(12)=ZERO  
       FXBRPM(12)=FXBRPM(12)-ECBIDT-ECBIDR
 C-----------------------------------------------
-C   RESTITUTION SUR LE MASTER
+C   RESTITUTION SUR LE MAIN
 C-----------------------------------------------
       IF (IDMAST.NE.0) THEN
          A(1,IDMAST)=FXBACC(10)

@@ -135,7 +135,7 @@ c provisoire
       INTEGER, DIMENSION(3) :: TMIN,TMAX
       my_real
      .   XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB,AAA,
-     .   XMAX_EDGS, XMIN_EDGS,   !cotes min/max des aretes esclaves et maitres
+     .   XMAX_EDGS, XMIN_EDGS,   !cotes min/max des aretes seconds et mains
      .   YMAX_EDGS, YMIN_EDGS,
      .   ZMAX_EDGS, ZMIN_EDGS,
      .   XMAX_EDGM, XMIN_EDGM,
@@ -218,7 +218,7 @@ C================================================================
 C         PRINTIF((STFE(I) == 0 .AND.LEDGE(6,I) == D_ES),STFE(I))
           IF(STFE(I)==ZERO) CYCLE   ! on ne retient pas les facettes detruites
 
-          IF(LEDGE(7,I) < 0) CYCLE   ! larete nest pas une arete esclave
+          IF(LEDGE(7,I) < 0) CYCLE   ! larete nest pas une arete second
           N1 = LEDGE(5,I)
           N2 = LEDGE(6,I)
           EID = LEDGE(8,I) 
@@ -416,11 +416,11 @@ C
       ALLOCATE(TAGEDG(1:NEDGE+NEDGE_REMOTE))
       TAGEDG(1:NEDGE+NEDGE_REMOTE)=0
 C================================================================
-C     Sorting vs master shell edges
+C     Sorting vs main shell edges
 C================================================================
       IF(SH_EDGE==0) GOTO 300
 C================================================================
-C 3   A partir des voxels occupes par une edge master, on est en
+C 3   A partir des voxels occupes par une edge main, on est en
 C     mesure de connaitre toutes les edges escalves dans ce voisinage.
 C     Ce qui permet de creer des couples cancidats pour le contact
 C     Si la penetration est positive.
@@ -435,10 +435,10 @@ C================================================================
         IF(STFE(IEDG)==ZERO) CYCLE   ! on ne retient pas les facettes detruites
         NE=LEDGE(1,IEDG)
 
-        IF(IABS(LEDGE(7,IEDG))==1) CYCLE ! Master solid edge
+        IF(IABS(LEDGE(7,IEDG))==1) CYCLE ! Main solid edge
 
         !-------------------------------------------!
-        !    (N1,N2) is the current master edge     !
+        !    (N1,N2) is the current main edge     !
         !-------------------------------------------!
 
         AAA = MARGE+BGAPEMX+GAPE(IEDG)
@@ -506,14 +506,14 @@ C--- IREMGAP - tag of deactivated lines
             DO WHILE(CHAIN_ADD /= 0)          ! BOUCLE SUR LES EDGES DU VOXEL COURANT
               JJ = LCHAIN_ELEM(CHAIN_ADD)       ! numeros des edge_id balayes dans le voxel courant
 
-              IF(TAGEDG(JJ)/=0)THEN ! edge deja traitee vs cette arete maitre
+              IF(TAGEDG(JJ)/=0)THEN ! edge deja traitee vs cette arete main
 
                 CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
                 CYCLE
               END IF
               TAGEDG(JJ)=1
 
-              !slave edge nodes, exclure couples avec noeud commun
+              !secnd edge nodes, exclure couples avec noeud commun
               IF (JJ.LE.NEDGE)THEN
                 SS1= ITAB(LEDGE(5,JJ))
                 SS2= ITAB(LEDGE(6,JJ))
@@ -555,7 +555,7 @@ C                 double-check
 
               IF(IABS(LEDGE(7,IEDG))/=1 .AND. EDGE_TYPE .NE. 1 )THEN
                 ! attention les traitements de i25dst3e pour les solides 
-                ! ne sont pas symetriques maitre esclave.
+                ! ne sont pas symetriques main second.
                 AS1 = MIN(SS1,SS2)
                 AS2 = MAX(SS1,SS2)
                 ! unicite des couples   
@@ -606,13 +606,13 @@ C-                Remote lines are identified by nodes
               J_STOK = J_STOK + 1 !on dispose d'un candidat
               ASSERT(JJ > 0) 
               ASSERT(JJ <= NEDGE + NEDGE_REMOTE)
-              PROV_S(J_STOK) = JJ      !edge slave
-              PROV_M(J_STOK) = IEDG    !edge master
+              PROV_S(J_STOK) = JJ      !edge secnd
+              PROV_M(J_STOK) = IEDG    !edge main
                                                             
               DEBUG_E2E(LEDGE(8,IEDG) ==  D_EM .AND. EID == D_ES,EID)
                                                             
 c              IF(DEJA==0) NEDG = NEDG + 1     !nombre d edges candidate au calcul de contact (debug)                 
-c              DEJA=1                          !l edge master IEDG fait l'objet d'une ecriture de candidat. On compte les edges master faisant l'objet dun couple candidate : on ne doit plus incrementer NEDG pour les autres edge slave testees.
+c              DEJA=1                          !l edge main IEDG fait l'objet d'une ecriture de candidat. On compte les edges main faisant l'objet dun couple candidate : on ne doit plus incrementer NEDG pour les autres edge secnd testees.
               CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
 C-----------------------------------------------------
               IF(J_STOK.EQ.NVSIZ)THEN
@@ -667,7 +667,7 @@ C--- IREMGAP - clean of tagremline
 
 
 C-------------------------------------------------------------------------
-C     FIN DU TRI vs Master shell edges
+C     FIN DU TRI vs Main shell edges
 C-------------------------------------------------------------------------
       IF(J_STOK.NE.0)CALL I25STO_EDG(
      1                 J_STOK ,IRECT  ,X     ,II_STOK,INACTI,
@@ -679,11 +679,11 @@ C-------------------------------------------------------------------------
  
  300  CONTINUE
 C================================================================
-C     Sorting vs master solid edges
+C     Sorting vs main solid edges
 C================================================================
       IF(SOL_EDGE==0) GOTO 400
 C================================================================
-C 3bis A partir des voxels occupes par une edge master, on est en
+C 3bis A partir des voxels occupes par une edge main, on est en
 C     mesure de connaitre toutes les edges escalves dans ce voisinage.
 C     Ce qui permet de creer des couples cancidats pour le contact
 C     Si la penetration est positive.
@@ -792,13 +792,13 @@ C debug only
                 EID = IREM_EDGE(E_GLOBAL_ID,JJ-NEDGE)
               END IF
 
-              IF(TAGEDG(JJ)/=0)THEN ! edge deja traitee vs cette arete maitre
+              IF(TAGEDG(JJ)/=0)THEN ! edge deja traitee vs cette arete main
                 CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
                 CYCLE
               END IF
               TAGEDG(JJ)=1
 
-              !slave edge nodes, exclure couples avec noeud commun
+              !secnd edge nodes, exclure couples avec noeud commun
               IF (JJ.LE.NEDGE)THEN
                 SS1= ITAB(LEDGE(5,JJ))
                 SS2= ITAB(LEDGE(6,JJ))
@@ -845,8 +845,8 @@ C           DEBUG_E2E(EID==D_ES.AND.INT_CHECKSUM(IDS,4,1)==D_EM,0)
 C ===================================================
 C-----------------------------------------------------                   
               J_STOK = J_STOK + 1 !on dispose d'un candidat
-              PROV_S(J_STOK) = JJ   !edge slave
-              PROV_M(J_STOK) = NE     !segment master
+              PROV_S(J_STOK) = JJ   !edge secnd
+              PROV_M(J_STOK) = NE     !segment main
 
 
 C DEBUG ONLY
@@ -903,7 +903,7 @@ C       Reset TAGEDG
 
       ENDDO       !NEXT IEDG
 C-------------------------------------------------------------------------
-C     FIN DU TRI vs Master solid edges
+C     FIN DU TRI vs Main solid edges
 C-------------------------------------------------------------------------
       IF(J_STOK.NE.0)CALL I25STO_E2S(
      1                 J_STOK ,IRECT  ,X        ,LL_STOK,INACTI,

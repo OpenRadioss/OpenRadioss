@@ -47,7 +47,7 @@ Chd|====================================================================
      9    GAPV        ,INACTI    ,INDEX   ,NISKYFI     ,
      A    KINET       ,NEWFRONT  ,ISECIN  ,NSTRF       ,SECFCUM   ,
      B    X           ,IRECT     ,CE_LOC  ,MFROT       ,IFQ       ,
-     C    FROT_P      ,SLAV_FR   ,ALPHA0  ,
+     C    FROT_P      ,SECND_FR   ,ALPHA0  ,
      D    IBAG        ,ICONTACT  ,IRTLM   ,
      E    VISCN       ,VXI       ,VYI     ,VZI         ,MSI       ,
      F    KINI        ,NIN       ,NISUB   ,LISUB       ,ADDSUBS   ,
@@ -65,7 +65,7 @@ Chd|====================================================================
      R    NM3         ,NREBOU    ,IRTSE   ,NSNE        ,IS2SE     ,
      S    IS2PT       ,MSEGTYP   ,JTASK   ,ISENSINT  ,
      U    FSAVPARIT   ,NFT       ,H3D_DATA,FRICC       ,VISCFFRIC ,
-     V    FRIC_COEFS  ,T2MASTER_SMS,INTNITSCHE,FORNEQSI,IORTHFRIC ,
+     V    FRIC_COEFS  ,T2MAIN_SMS,INTNITSCHE,FORNEQSI,IORTHFRIC ,
      W    FRIC_COEFS2 ,FRICC2    ,VISCFFRIC2,NFORTH    ,NFISOT    ,
      X    INDEXORTH   , INDEXISOT,DIR1      ,DIR2      ,T2FAC_SMS ,
      Y    F_PFIT      ,TAGNCONT  ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
@@ -127,12 +127,12 @@ C-----------------------------------------------
      .        NISUB, LISUB(*), ADDSUBS(*), ADDSUBM(*), LISUBS(*),
      .        LISUBM(*),ILAGM,ICURV(3), NREBOU,
      .        ISKYI_SMS(*), NSMS(*),IGSTI,IPLY(4,*),INOD_PXFEM(*),
-     .        IRTSE(5,*),NSNE ,IS2SE(2,*),IS2PT(*), ISENSINT(*),NFT,T2MASTER_SMS(6,*),
+     .        IRTSE(5,*),NSNE ,IS2SE(2,*),IS2PT(*), ISENSINT(*),NFT,T2MAIN_SMS(6,*),
      .        INDEXORTH(MVSIZ)  ,INDEXISOT(MVSIZ),INFLG_SUBS(*), INFLG_SUBM(*)
       my_real
      .   STIGLO,FROT_P(*), X(3,*),
      .   A(3,*), MS(*), V(3,*), FSAV(*),FCONT(3,*),
-     .   SLAV_FR(6,*),ALPHA0,
+     .   SECND_FR(6,*),ALPHA0,
      .   GAP, FRIC,VISC,VISCF,VIS,DT2T,STFN(*),STIFN(*),
      .   FSKYI(LSKYI,NFSKYI),FSAVSUB(NTHVKI,*), FNCONT(3,*),FTCONT(3,*),
      .   MSKYI_SMS(*),KMIN
@@ -1045,7 +1045,7 @@ C---------------------------------
                    IMPX=FXI(I)*DT12
                    IMPY=FYI(I)*DT12
                    IMPZ=FZI(I)*DT12
-Clm               master side :
+Clm               main side :
                    FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)+IMPX
                    FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)+IMPY
                    FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)+IMPZ
@@ -1220,7 +1220,7 @@ C boucle separee sinon bug PGI en SMP
                    IMPX=FXI(I)*DT12
                    IMPY=FYI(I)*DT12
                    IMPZ=FZI(I)*DT12
-Clm              master side :
+Clm              main side :
                    FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)+IMPX
                    FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)+IMPY
                    FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)+IMPZ
@@ -1780,10 +1780,10 @@ C++ Isotropic Friction
                 JG = NSVG(I)
                 IF(JG.GT.0) THEN
                   N = CAND_N_N(I)
-c             SLAV_FR(4:6,N) is the old friction force
-                  FX = SLAV_FR(4,N) + ALPHA*FX
-                  FY = SLAV_FR(5,N) + ALPHA*FY
-                  FZ = SLAV_FR(6,N) + ALPHA*FZ
+c             SECND_FR(4:6,N) is the old friction force
+                  FX = SECND_FR(4,N) + ALPHA*FX
+                  FY = SECND_FR(5,N) + ALPHA*FY
+                  FZ = SECND_FR(6,N) + ALPHA*FZ
                   FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                   FX = FX - FTN*N1(I)
                   FY = FY - FTN*N2(I)
@@ -1800,21 +1800,21 @@ c             SLAV_FR(4:6,N) is the old friction force
                   FZT(I) = FZ * BETA
 
 #include "lockon.inc"
-	          IF (ABS(FXT(I)- FNITXT(I))>ABS(SLAV_FR(1,N))) SLAV_FR(1,N) = FXT(I)- FNITXT(I)
-	          IF (ABS(FYT(I)- FNITYT(I))>ABS(SLAV_FR(2,N))) SLAV_FR(2,N) = FYT(I)- FNITYT(I)
-	          IF (ABS(FZT(I)- FNITZT(I))>ABS(SLAV_FR(3,N))) SLAV_FR(3,N) = FZT(I)- FNITZT(I)
+	          IF (ABS(FXT(I)- FNITXT(I))>ABS(SECND_FR(1,N))) SECND_FR(1,N) = FXT(I)- FNITXT(I)
+	          IF (ABS(FYT(I)- FNITYT(I))>ABS(SECND_FR(2,N))) SECND_FR(2,N) = FYT(I)- FNITYT(I)
+	          IF (ABS(FZT(I)- FNITZT(I))>ABS(SECND_FR(3,N))) SECND_FR(3,N) = FZT(I)- FNITZT(I)
 C case equal abs but opposite sign
-                  IF ((FXT(I)- FNITXT(I))==-SLAV_FR(1,N)) SLAV_FR(1,N) = ABS(FXT(I)- FNITXT(I))
-                  IF ((FYT(I)- FNITYT(I))==-SLAV_FR(2,N)) SLAV_FR(2,N) = ABS(FYT(I)- FNITYT(I))
-                  IF ((FZT(I)- FNITZT(I))==-SLAV_FR(3,N)) SLAV_FR(3,N) = ABS(FZT(I)- FNITZT(I))
+                  IF ((FXT(I)- FNITXT(I))==-SECND_FR(1,N)) SECND_FR(1,N) = ABS(FXT(I)- FNITXT(I))
+                  IF ((FYT(I)- FNITYT(I))==-SECND_FR(2,N)) SECND_FR(2,N) = ABS(FYT(I)- FNITYT(I))
+                  IF ((FZT(I)- FNITZT(I))==-SECND_FR(3,N)) SECND_FR(3,N) = ABS(FZT(I)- FNITZT(I))
 
 #include "lockoff.inc"
                 ELSE ! cas noeud remote en SPMD 
                   JG = -JG
-c             SLAV_FRFI(NIN)%P(4:6,JG) is the old friction force
-                  FX = SLAV_FRFI(NIN)%P(4,JG) + ALPHA*FX
-                  FY = SLAV_FRFI(NIN)%P(5,JG) + ALPHA*FY
-                  FZ = SLAV_FRFI(NIN)%P(6,JG) + ALPHA*FZ
+c             SECND_FRFI(NIN)%P(4:6,JG) is the old friction force
+                  FX = SECND_FRFI(NIN)%P(4,JG) + ALPHA*FX
+                  FY = SECND_FRFI(NIN)%P(5,JG) + ALPHA*FY
+                  FZ = SECND_FRFI(NIN)%P(6,JG) + ALPHA*FZ
                   FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                   FX = FX - FTN*N1(I)
                   FY = FY - FTN*N2(I)
@@ -1830,19 +1830,19 @@ c             SLAV_FRFI(NIN)%P(4:6,JG) is the old friction force
                   FYT(I) = FY * BETA
                   FZT(I) = FZ * BETA
 #include "lockon.inc"
-	          IF ( ABS(FXT(I)- FNITXT(I)) > ABS(SLAV_FRFI(NIN)%P(1,JG)) ) 
-     *                                  SLAV_FRFI(NIN)%P(1,JG) = FXT(I)- FNITXT(I)
-	          IF ( ABS(FYT(I)- FNITYT(I)) > ABS(SLAV_FRFI(NIN)%P(2,JG)) ) 
-     *                                  SLAV_FRFI(NIN)%P(2,JG) = FYT(I)- FNITYT(I)
-	          IF ( ABS(FZT(I)- FNITZT(I)) > ABS(SLAV_FRFI(NIN)%P(3,JG)) ) 
-     *                                  SLAV_FRFI(NIN)%P(3,JG) = FZT(I)- FNITZT(I)
+	          IF ( ABS(FXT(I)- FNITXT(I)) > ABS(SECND_FRFI(NIN)%P(1,JG)) ) 
+     *                                  SECND_FRFI(NIN)%P(1,JG) = FXT(I)- FNITXT(I)
+	          IF ( ABS(FYT(I)- FNITYT(I)) > ABS(SECND_FRFI(NIN)%P(2,JG)) ) 
+     *                                  SECND_FRFI(NIN)%P(2,JG) = FYT(I)- FNITYT(I)
+	          IF ( ABS(FZT(I)- FNITZT(I)) > ABS(SECND_FRFI(NIN)%P(3,JG)) ) 
+     *                                  SECND_FRFI(NIN)%P(3,JG) = FZT(I)- FNITZT(I)
 C 
-                  IF ((FXT(I)- FNITXT(I))== - SLAV_FRFI(NIN)%P(1,JG) )
-     *                             SLAV_FRFI(NIN)%P(1,JG) = ABS(FXT(I)- FNITXT(I))
-                  IF ((FYT(I)- FNITYT(I))== - SLAV_FRFI(NIN)%P(2,JG) )
-     *                             SLAV_FRFI(NIN)%P(2,JG) = ABS(FYT(I)- FNITYT(I))
-                  IF ((FZT(I)- FNITZT(I))== - SLAV_FRFI(NIN)%P(3,JG) )
-     *                             SLAV_FRFI(NIN)%P(3,JG) = ABS(FZT(I)- FNITZT(I))
+                  IF ((FXT(I)- FNITXT(I))== - SECND_FRFI(NIN)%P(1,JG) )
+     *                             SECND_FRFI(NIN)%P(1,JG) = ABS(FXT(I)- FNITXT(I))
+                  IF ((FYT(I)- FNITYT(I))== - SECND_FRFI(NIN)%P(2,JG) )
+     *                             SECND_FRFI(NIN)%P(2,JG) = ABS(FYT(I)- FNITYT(I))
+                  IF ((FZT(I)- FNITZT(I))== - SECND_FRFI(NIN)%P(3,JG) )
+     *                             SECND_FRFI(NIN)%P(3,JG) = ABS(FZT(I)- FNITZT(I))
 #include "lockoff.inc"
                 ENDIF
 C-------      total force
@@ -1862,10 +1862,10 @@ C--------implicit non converge---
               JG = NSVG(I)
               N = CAND_N_N(I)
               IF(JG.GT.0) THEN
-c             SLAV_FR(4:6,N) is the old friction force
-                FX = SLAV_FR(4,N) + ALPHA*FX
-                FY = SLAV_FR(5,N) + ALPHA*FY
-                FZ = SLAV_FR(6,N) + ALPHA*FZ
+c             SECND_FR(4:6,N) is the old friction force
+                FX = SECND_FR(4,N) + ALPHA*FX
+                FY = SECND_FR(5,N) + ALPHA*FY
+                FZ = SECND_FR(6,N) + ALPHA*FZ
                 FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                 FX = FX - FTN*N1(I)
                 FY = FY - FTN*N2(I)
@@ -1885,9 +1885,9 @@ c             SLAV_FR(4:6,N) is the old friction force
                 FZI(I)=FZI(I) + FZT(I)
               ELSE ! cas noeud remote en SPMD 
                 JG = -JG
-                FX = SLAV_FRFI(NIN)%P(4,JG) + ALPHA*FX
-                FY = SLAV_FRFI(NIN)%P(5,JG) + ALPHA*FY
-                FZ = SLAV_FRFI(NIN)%P(6,JG) + ALPHA*FZ
+                FX = SECND_FRFI(NIN)%P(4,JG) + ALPHA*FX
+                FY = SECND_FRFI(NIN)%P(5,JG) + ALPHA*FY
+                FZ = SECND_FRFI(NIN)%P(6,JG) + ALPHA*FZ
                 FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                 FX = FX - FTN*N1(I)
                 FY = FY - FTN*N2(I)
@@ -1924,10 +1924,10 @@ C++ Orthotropic Friction
                 JG = NSVG(I)
                 IF(JG.GT.0) THEN
                   N = CAND_N_N(I)
-c             SLAV_FR(4:6,N) is the old friction force
-                  FX = SLAV_FR(4,N) + ALPHA*FX
-                  FY = SLAV_FR(5,N) + ALPHA*FY
-                  FZ = SLAV_FR(6,N) + ALPHA*FZ
+c             SECND_FR(4:6,N) is the old friction force
+                  FX = SECND_FR(4,N) + ALPHA*FX
+                  FY = SECND_FR(5,N) + ALPHA*FY
+                  FZ = SECND_FR(6,N) + ALPHA*FZ
                   FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                   FX = FX - FTN*N1(I)
                   FY = FY - FTN*N2(I)
@@ -1943,20 +1943,20 @@ c             SLAV_FR(4:6,N) is the old friction force
                   FYT(I) = FY * BETA
                   FZT(I) = FZ * BETA
 #include "lockon.inc"
-	          IF (ABS(FXT(I)- FNITXT(I))>ABS(SLAV_FR(1,N))) SLAV_FR(1,N) = FXT(I)- FNITXT(I)
-	          IF (ABS(FYT(I)- FNITYT(I))>ABS(SLAV_FR(2,N))) SLAV_FR(2,N) = FYT(I)- FNITYT(I)
-	          IF (ABS(FZT(I)- FNITZT(I))>ABS(SLAV_FR(3,N))) SLAV_FR(3,N) = FZT(I)- FNITZT(I)
+	          IF (ABS(FXT(I)- FNITXT(I))>ABS(SECND_FR(1,N))) SECND_FR(1,N) = FXT(I)- FNITXT(I)
+	          IF (ABS(FYT(I)- FNITYT(I))>ABS(SECND_FR(2,N))) SECND_FR(2,N) = FYT(I)- FNITYT(I)
+	          IF (ABS(FZT(I)- FNITZT(I))>ABS(SECND_FR(3,N))) SECND_FR(3,N) = FZT(I)- FNITZT(I)
 C case equal abs but opposite sign
-                  IF ((FXT(I)- FNITXT(I))==-SLAV_FR(1,N)) SLAV_FR(1,N) = ABS(FXT(I)- FNITXT(I))
-                  IF ((FYT(I)- FNITYT(I))==-SLAV_FR(2,N)) SLAV_FR(2,N) = ABS(FYT(I)- FNITYT(I))
-                  IF ((FZT(I)- FNITZT(I))==-SLAV_FR(3,N)) SLAV_FR(3,N) = ABS(FZT(I)- FNITZT(I))
+                  IF ((FXT(I)- FNITXT(I))==-SECND_FR(1,N)) SECND_FR(1,N) = ABS(FXT(I)- FNITXT(I))
+                  IF ((FYT(I)- FNITYT(I))==-SECND_FR(2,N)) SECND_FR(2,N) = ABS(FYT(I)- FNITYT(I))
+                  IF ((FZT(I)- FNITZT(I))==-SECND_FR(3,N)) SECND_FR(3,N) = ABS(FZT(I)- FNITZT(I))
 #include "lockoff.inc"
                 ELSE ! cas noeud remote en SPMD 
                   JG = -JG
-c             SLAV_FRFI(NIN)%P(4:6,JG) is the old friction force
-                  FX = SLAV_FRFI(NIN)%P(4,JG) + ALPHA*FX
-                  FY = SLAV_FRFI(NIN)%P(5,JG) + ALPHA*FY
-                  FZ = SLAV_FRFI(NIN)%P(6,JG) + ALPHA*FZ
+c             SECND_FRFI(NIN)%P(4:6,JG) is the old friction force
+                  FX = SECND_FRFI(NIN)%P(4,JG) + ALPHA*FX
+                  FY = SECND_FRFI(NIN)%P(5,JG) + ALPHA*FY
+                  FZ = SECND_FRFI(NIN)%P(6,JG) + ALPHA*FZ
                   FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                   FX = FX - FTN*N1(I)
                   FY = FY - FTN*N2(I)
@@ -1972,19 +1972,19 @@ c             SLAV_FRFI(NIN)%P(4:6,JG) is the old friction force
                   FYT(I) = FY * BETA
                   FZT(I) = FZ * BETA
 #include "lockon.inc"
-	          IF ( ABS(FXT(I)- FNITXT(I)) > ABS(SLAV_FRFI(NIN)%P(1,JG)) ) 
-     *                                  SLAV_FRFI(NIN)%P(1,JG) = FXT(I)- FNITXT(I)
-	          IF ( ABS(FYT(I)- FNITYT(I)) > ABS(SLAV_FRFI(NIN)%P(2,JG)) ) 
-     *                                  SLAV_FRFI(NIN)%P(2,JG) = FYT(I)- FNITYT(I)
-	          IF ( ABS(FZT(I)- FNITZT(I)) > ABS(SLAV_FRFI(NIN)%P(3,JG)) ) 
-     *                                  SLAV_FRFI(NIN)%P(3,JG) = FZT(I)- FNITZT(I)
+	          IF ( ABS(FXT(I)- FNITXT(I)) > ABS(SECND_FRFI(NIN)%P(1,JG)) ) 
+     *                                  SECND_FRFI(NIN)%P(1,JG) = FXT(I)- FNITXT(I)
+	          IF ( ABS(FYT(I)- FNITYT(I)) > ABS(SECND_FRFI(NIN)%P(2,JG)) ) 
+     *                                  SECND_FRFI(NIN)%P(2,JG) = FYT(I)- FNITYT(I)
+	          IF ( ABS(FZT(I)- FNITZT(I)) > ABS(SECND_FRFI(NIN)%P(3,JG)) ) 
+     *                                  SECND_FRFI(NIN)%P(3,JG) = FZT(I)- FNITZT(I)
 C 
-                  IF ((FXT(I)- FNITXT(I))== - SLAV_FRFI(NIN)%P(1,JG) )
-     *                             SLAV_FRFI(NIN)%P(1,JG) = ABS(FXT(I)- FNITXT(I))
-                  IF ((FYT(I)- FNITYT(I))== - SLAV_FRFI(NIN)%P(2,JG) )
-     *                             SLAV_FRFI(NIN)%P(2,JG) = ABS(FYT(I)- FNITYT(I))
-                  IF ((FZT(I)- FNITZT(I))== - SLAV_FRFI(NIN)%P(3,JG) )
-     *                             SLAV_FRFI(NIN)%P(3,JG) = ABS(FZT(I)- FNITZT(I))
+                  IF ((FXT(I)- FNITXT(I))== - SECND_FRFI(NIN)%P(1,JG) )
+     *                             SECND_FRFI(NIN)%P(1,JG) = ABS(FXT(I)- FNITXT(I))
+                  IF ((FYT(I)- FNITYT(I))== - SECND_FRFI(NIN)%P(2,JG) )
+     *                             SECND_FRFI(NIN)%P(2,JG) = ABS(FYT(I)- FNITYT(I))
+                  IF ((FZT(I)- FNITZT(I))== - SECND_FRFI(NIN)%P(3,JG) )
+     *                             SECND_FRFI(NIN)%P(3,JG) = ABS(FZT(I)- FNITZT(I))
 #include "lockoff.inc"
                 ENDIF
 C-------      total force
@@ -2005,10 +2005,10 @@ C-------      total force
                 JG = NSVG(I)
                 IF(JG.GT.0) THEN
                   N = CAND_N_N(I)
-c             SLAV_FR(4:6,N) is the old friction force
-                  FX = SLAV_FR(4,N) + ALPHA*FX
-                  FY = SLAV_FR(5,N) + ALPHA*FY
-                  FZ = SLAV_FR(6,N) + ALPHA*FZ
+c             SECND_FR(4:6,N) is the old friction force
+                  FX = SECND_FR(4,N) + ALPHA*FX
+                  FY = SECND_FR(5,N) + ALPHA*FY
+                  FZ = SECND_FR(6,N) + ALPHA*FZ
                   FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                   FX = FX - FTN*N1(I)
                   FY = FY - FTN*N2(I)
@@ -2067,20 +2067,20 @@ c             SLAV_FR(4:6,N) is the old friction force
                  ENDIF
 
 #include "lockon.inc"
-	          IF (ABS(FXT(I))>ABS(SLAV_FR(1,N))) SLAV_FR(1,N) = FXT(I)
-	          IF (ABS(FYT(I))>ABS(SLAV_FR(2,N))) SLAV_FR(2,N) = FYT(I)
-	          IF (ABS(FZT(I))>ABS(SLAV_FR(3,N))) SLAV_FR(3,N) = FZT(I)
+	          IF (ABS(FXT(I))>ABS(SECND_FR(1,N))) SECND_FR(1,N) = FXT(I)
+	          IF (ABS(FYT(I))>ABS(SECND_FR(2,N))) SECND_FR(2,N) = FYT(I)
+	          IF (ABS(FZT(I))>ABS(SECND_FR(3,N))) SECND_FR(3,N) = FZT(I)
 C case equal abs but opposite sign
-                  IF (FXT(I)==-SLAV_FR(1,N)) SLAV_FR(1,N) = ABS(FXT(I))
-                  IF (FYT(I)==-SLAV_FR(2,N)) SLAV_FR(2,N) = ABS(FYT(I))
-                  IF (FZT(I)==-SLAV_FR(3,N)) SLAV_FR(3,N) = ABS(FZT(I))
+                  IF (FXT(I)==-SECND_FR(1,N)) SECND_FR(1,N) = ABS(FXT(I))
+                  IF (FYT(I)==-SECND_FR(2,N)) SECND_FR(2,N) = ABS(FYT(I))
+                  IF (FZT(I)==-SECND_FR(3,N)) SECND_FR(3,N) = ABS(FZT(I))
 #include "lockoff.inc"
                 ELSE ! cas noeud remote en SPMD 
                   JG = -JG
-c             SLAV_FRFI(NIN)%P(4:6,JG) is the old friction force
-                  FX = SLAV_FRFI(NIN)%P(4,JG) + ALPHA*FX
-                  FY = SLAV_FRFI(NIN)%P(5,JG) + ALPHA*FY
-                  FZ = SLAV_FRFI(NIN)%P(6,JG) + ALPHA*FZ
+c             SECND_FRFI(NIN)%P(4:6,JG) is the old friction force
+                  FX = SECND_FRFI(NIN)%P(4,JG) + ALPHA*FX
+                  FY = SECND_FRFI(NIN)%P(5,JG) + ALPHA*FY
+                  FZ = SECND_FRFI(NIN)%P(6,JG) + ALPHA*FZ
                   FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                   FX = FX - FTN*N1(I)
                   FY = FY - FTN*N2(I)
@@ -2140,19 +2140,19 @@ c             SLAV_FRFI(NIN)%P(4:6,JG) is the old friction force
 
                  ENDIF
 #include "lockon.inc"
-	          IF ( ABS(FXT(I)) > ABS(SLAV_FRFI(NIN)%P(1,JG)) ) 
-     *                                  SLAV_FRFI(NIN)%P(1,JG) = FXT(I)
-	          IF ( ABS(FYT(I)) > ABS(SLAV_FRFI(NIN)%P(2,JG)) ) 
-     *                                  SLAV_FRFI(NIN)%P(2,JG) = FYT(I)
-	          IF ( ABS(FZT(I)) > ABS(SLAV_FRFI(NIN)%P(3,JG)) ) 
-     *                                  SLAV_FRFI(NIN)%P(3,JG) = FZT(I)
+	          IF ( ABS(FXT(I)) > ABS(SECND_FRFI(NIN)%P(1,JG)) ) 
+     *                                  SECND_FRFI(NIN)%P(1,JG) = FXT(I)
+	          IF ( ABS(FYT(I)) > ABS(SECND_FRFI(NIN)%P(2,JG)) ) 
+     *                                  SECND_FRFI(NIN)%P(2,JG) = FYT(I)
+	          IF ( ABS(FZT(I)) > ABS(SECND_FRFI(NIN)%P(3,JG)) ) 
+     *                                  SECND_FRFI(NIN)%P(3,JG) = FZT(I)
 C 
-                  IF (FXT(I)== - SLAV_FRFI(NIN)%P(1,JG) )
-     *                             SLAV_FRFI(NIN)%P(1,JG) = ABS(FXT(I))
-                  IF (FYT(I)== - SLAV_FRFI(NIN)%P(2,JG) )
-     *                             SLAV_FRFI(NIN)%P(2,JG) = ABS(FYT(I))
-                  IF (FZT(I)== - SLAV_FRFI(NIN)%P(3,JG) )
-     *                             SLAV_FRFI(NIN)%P(3,JG) = ABS(FZT(I))
+                  IF (FXT(I)== - SECND_FRFI(NIN)%P(1,JG) )
+     *                             SECND_FRFI(NIN)%P(1,JG) = ABS(FXT(I))
+                  IF (FYT(I)== - SECND_FRFI(NIN)%P(2,JG) )
+     *                             SECND_FRFI(NIN)%P(2,JG) = ABS(FYT(I))
+                  IF (FZT(I)== - SECND_FRFI(NIN)%P(3,JG) )
+     *                             SECND_FRFI(NIN)%P(3,JG) = ABS(FZT(I))
 #include "lockoff.inc"
                 ENDIF
 C-------      total force
@@ -2177,10 +2177,10 @@ C--------implicit non converge---
               JG = NSVG(I)
               N = CAND_N_N(I)
               IF(JG.GT.0) THEN
-c             SLAV_FR(4:6,N) is the old friction force
-                FX = SLAV_FR(4,N) + ALPHA*FX
-                FY = SLAV_FR(5,N) + ALPHA*FY
-                FZ = SLAV_FR(6,N) + ALPHA*FZ
+c             SECND_FR(4:6,N) is the old friction force
+                FX = SECND_FR(4,N) + ALPHA*FX
+                FY = SECND_FR(5,N) + ALPHA*FY
+                FZ = SECND_FR(6,N) + ALPHA*FZ
                 FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                 FX = FX - FTN*N1(I)
                 FY = FY - FTN*N2(I)
@@ -2200,9 +2200,9 @@ c             SLAV_FR(4:6,N) is the old friction force
                 FZI(I)=FZI(I) + FZT(I)
               ELSE ! cas noeud remote en SPMD 
                 JG = -JG
-                FX = SLAV_FRFI(NIN)%P(4,JG) + ALPHA*FX
-                FY = SLAV_FRFI(NIN)%P(5,JG) + ALPHA*FY
-                FZ = SLAV_FRFI(NIN)%P(6,JG) + ALPHA*FZ
+                FX = SECND_FRFI(NIN)%P(4,JG) + ALPHA*FX
+                FY = SECND_FRFI(NIN)%P(5,JG) + ALPHA*FY
+                FZ = SECND_FRFI(NIN)%P(6,JG) + ALPHA*FZ
                 FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                 FX = FX - FTN*N1(I)
                 FY = FY - FTN*N2(I)
@@ -2235,10 +2235,10 @@ C            IFPEN(INDEX(I)) = 1
               JG = NSVG(I)
               N = CAND_N_N(I)
               IF(JG.GT.0) THEN
-c             SLAV_FR(4:6,N) is the old friction force
-                FX = SLAV_FR(4,N) + ALPHA*FX
-                FY = SLAV_FR(5,N) + ALPHA*FY
-                FZ = SLAV_FR(6,N) + ALPHA*FZ
+c             SECND_FR(4:6,N) is the old friction force
+                FX = SECND_FR(4,N) + ALPHA*FX
+                FY = SECND_FR(5,N) + ALPHA*FY
+                FZ = SECND_FR(6,N) + ALPHA*FZ
                 FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                 FX = FX - FTN*N1(I)
                 FY = FY - FTN*N2(I)
@@ -2303,9 +2303,9 @@ c             SLAV_FR(4:6,N) is the old friction force
                 FZI(I)=FZI(I) + FZT(I)
               ELSE ! cas noeud remote en SPMD 
                 JG = -JG
-                FX = SLAV_FRFI(NIN)%P(4,JG) + ALPHA*FX
-                FY = SLAV_FRFI(NIN)%P(5,JG) + ALPHA*FY
-                FZ = SLAV_FRFI(NIN)%P(6,JG) + ALPHA*FZ
+                FX = SECND_FRFI(NIN)%P(4,JG) + ALPHA*FX
+                FY = SECND_FRFI(NIN)%P(5,JG) + ALPHA*FY
+                FZ = SECND_FRFI(NIN)%P(6,JG) + ALPHA*FZ
                 FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                 FX = FX - FTN*N1(I)
                 FY = FY - FTN*N2(I)
@@ -2508,7 +2508,7 @@ C---------------------------------
                    IMPX=FXT(I)*DT12
                    IMPY=FYT(I)*DT12
                    IMPZ=FZT(I)*DT12
-Clm              master side :
+Clm              main side :
                    FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                    FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                    FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
@@ -2547,7 +2547,7 @@ C
                IMPX=FXT(I)*DT12
                IMPY=FYT(I)*DT12
                IMPZ=FZT(I)*DT12
-Clm           master side :
+Clm           main side :
                FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
@@ -2599,7 +2599,7 @@ C            Find if node is on Surface S1 -> S2  or S2 ->S1
                      IMPY=FYT(I)*DT12
                      IMPZ=FZT(I)*DT12
                      IF(IMS2 > 0) THEN
-Clm              master side :
+Clm              main side :
                         FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)-IMPX
                         FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)-IMPY
                         FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)-IMPZ
@@ -2664,7 +2664,7 @@ C
                 IMPX=-FXT(I)*DT12
                 IMPY=-FYT(I)*DT12
                 IMPZ=-FZT(I)*DT12
-Clm              master side :
+Clm              main side :
                 FSAVSUB1(4,KSUB)=FSAVSUB1(4,KSUB)+IMPX
                 FSAVSUB1(5,KSUB)=FSAVSUB1(5,KSUB)+IMPY
                 FSAVSUB1(6,KSUB)=FSAVSUB1(6,KSUB)+IMPZ
@@ -2724,7 +2724,7 @@ C boucle separee sinon bug PGI en SMP
                     IMPX=FXT(I)*DT12
                     IMPY=FYT(I)*DT12
                     IMPZ=FZT(I)*DT12
-Clm                master side :
+Clm                main side :
                     FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                     FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                     FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
@@ -2763,7 +2763,7 @@ C
                IMPX=FXT(I)*DT12
                IMPY=FYT(I)*DT12
                IMPZ=FZT(I)*DT12
-Clm           master side :
+Clm           main side :
                FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
@@ -3180,7 +3180,7 @@ ctmp+1 mic only
      2              NSVG  ,H1    ,H2   ,H3   ,H4   ,STIF   ,
      3              NIN   ,NOINT ,MSKYI_SMS, ISKYI_SMS,NSMS  ,
      4              KT    ,C     ,CF   ,DTMINI,DTI  ,
-     5              IRTSE ,NSNE  ,IS2SE,IS2PT ,T2MASTER_SMS  ,
+     5              IRTSE ,NSNE  ,IS2SE,IS2PT ,T2MAIN_SMS  ,
      6              T2FAC_SMS)
         IF(DTI.LT.DT2T)THEN
           DT2T    = DTI
@@ -4374,7 +4374,7 @@ Chd|====================================================================
      2                  NSVG  ,H1    ,H2   ,H3   ,H4    ,STIF   ,
      3                  NIN   ,NOINT ,MSKYI_SMS ,ISKYI_SMS,NSMS ,
      4                  KT    ,C     ,CF   ,DTMINI,DTI    ,
-     5                  IRTSE ,NSNE  ,IS2SE,IS2PT ,T2MASTER_SMS,
+     5                  IRTSE ,NSNE  ,IS2SE,IS2PT ,T2MAIN_SMS,
      6                  T2FAC_SMS)
 C-----------------------------------------------
 C   M o d u l e s
@@ -4408,7 +4408,7 @@ C-----------------------------------------------
       INTEGER JLT,NIN,NOINT,
      .        IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ),
      .        NSMS(*), ISKYI_SMS(LSKYI_SMS,*),IRTSE(5,*),NSNE,IS2SE(2,*),
-     .        IS2PT(*),T2MASTER_SMS(6,*)
+     .        IS2PT(*),T2MAIN_SMS(6,*)
       my_real
      .    H1(MVSIZ),H2(MVSIZ),H3(MVSIZ),H4(MVSIZ),STIF(MVSIZ),
      .    MSKYI_SMS(*), KT(MVSIZ), C(MVSIZ), CF(MVSIZ), DTMINI, DTI,T2FAC_SMS(*)
@@ -4420,7 +4420,7 @@ C-----------------------------------------------
      .        HH(MVSIZ),MAS, DTS,DTM_INT,FICI,FICS(4),FAC
 
 C-----------------------------------------------
-C     IF contact on nodes of TYPE2 additional connections must be created (T2MASTER_SMS(1) > 1)
+C     IF contact on nodes of TYPE2 additional connections must be created (T2MAIN_SMS(1) > 1)
 C-----------------------------------------------
 C
       NISKYL1 = 0
@@ -4438,10 +4438,10 @@ C
            FICI = UN
            CALL I24FORC_FIC(3,IRTSE,NSNE,IS2SE,IS2PT,NS,1,FICI,FICS,IXSS)
            DO J=1,4
-             NL = NL + T2MASTER_SMS(1,IXSS(J))*CEILING(FICS(J))
+             NL = NL + T2MAIN_SMS(1,IXSS(J))*CEILING(FICS(J))
            ENDDO
          ELSE
-             NL = T2MASTER_SMS(1,IG)
+             NL = T2MAIN_SMS(1,IG)
          ENDIF
        ELSE
          IF(ISEDGE_FI(NIN)%P(-IG)==1) THEN
@@ -4449,17 +4449,17 @@ C
            FICI = UN
            CALL I24FORC_FIC(3,IRTSE_FI(NIN)%P(1,1),NSNE,IS2SE_FI(NIN)%P(1,1), IS2PT_FI(NIN)%P(1),-IG,1,FICI,FICS,IXSS) 
            DO J=1,4
-             NL = NL + T2MASTER_SMS_FI(NIN)%P(1,IXSS(J))*CEILING(FICS(J))
+             NL = NL + T2MAIN_SMS_FI(NIN)%P(1,IXSS(J))*CEILING(FICS(J))
            ENDDO
          ELSE
-           NL = T2MASTER_SMS_FI(NIN)%P(1,-IG)
+           NL = T2MAIN_SMS_FI(NIN)%P(1,-IG)
          ENDIF
        ENDIF
 C
-       IF (H1(I).NE.ZERO) NISKYL1 = NISKYL1 + NL*T2MASTER_SMS(1,IX1(I))
-       IF (H2(I).NE.ZERO) NISKYL1 = NISKYL1 + NL*T2MASTER_SMS(1,IX2(I))
-       IF (H3(I).NE.ZERO) NISKYL1 = NISKYL1 + NL*T2MASTER_SMS(1,IX3(I))
-       IF (H4(I).NE.ZERO) NISKYL1 = NISKYL1 + NL*T2MASTER_SMS(1,IX4(I))
+       IF (H1(I).NE.ZERO) NISKYL1 = NISKYL1 + NL*T2MAIN_SMS(1,IX1(I))
+       IF (H2(I).NE.ZERO) NISKYL1 = NISKYL1 + NL*T2MAIN_SMS(1,IX2(I))
+       IF (H3(I).NE.ZERO) NISKYL1 = NISKYL1 + NL*T2MAIN_SMS(1,IX3(I))
+       IF (H4(I).NE.ZERO) NISKYL1 = NISKYL1 + NL*T2MAIN_SMS(1,IX4(I))
 C
       ENDDO
 C
@@ -4496,7 +4496,7 @@ C
 C-----------------------------------------------
 C-----------------------------------------------
 C      FAC = 1.0 for all cases
-C      FAC = 0.5 for type2 crossed connections - T2MASTER(i)*T2MASTER(j)=16
+C      FAC = 0.5 for type2 crossed connections - T2MAIN(i)*T2MAIN(j)=16
 C-----------------------------------------------
 C
        IG =NSVG(I)
@@ -4514,52 +4514,52 @@ C
            IF (FICS(J) > ZERO) THEN
             IF(H1(I).NE.ZERO)THEN
               FAC = T2FAC_SMS(IXSS(J))
-              IF (T2MASTER_SMS(1,IXSS(J))*T2MASTER_SMS(1,IX1(I))==16) FAC = UNDEMI*MAX(T2FAC_SMS(IXSS(J)),T2FAC_SMS(IX1(I)))
-              DO K=1,T2MASTER_SMS(1,IXSS(J))
-                  DO KK=1,T2MASTER_SMS(1,IX1(I))
+              IF (T2MAIN_SMS(1,IXSS(J))*T2MAIN_SMS(1,IX1(I))==16) FAC = UNDEMI*MAX(T2FAC_SMS(IXSS(J)),T2FAC_SMS(IX1(I)))
+              DO K=1,T2MAIN_SMS(1,IXSS(J))
+                  DO KK=1,T2MAIN_SMS(1,IX1(I))
                     NISKYL=NISKYL+1
                     MSKYI_SMS(NISKYL)=ABS(H1(I))*FICS(J)*FAC
-                    ISKYI_SMS(NISKYL,1)=T2MASTER_SMS(K+1,IXSS(J))
-                    ISKYI_SMS(NISKYL,2)=T2MASTER_SMS(KK+1,IX1(I))
+                    ISKYI_SMS(NISKYL,1)=T2MAIN_SMS(K+1,IXSS(J))
+                    ISKYI_SMS(NISKYL,2)=T2MAIN_SMS(KK+1,IX1(I))
                     ISKYI_SMS(NISKYL,3)=ISPMD+1
                   ENDDO
               ENDDO
             ENDIF
             IF(H2(I).NE.ZERO)THEN
               FAC = T2FAC_SMS(IXSS(J))
-              IF (T2MASTER_SMS(1,IXSS(J))*T2MASTER_SMS(1,IX2(I))==16) FAC = UNDEMI*MAX(T2FAC_SMS(IXSS(J)),T2FAC_SMS(IX2(I)))
-              DO K=1,T2MASTER_SMS(1,IXSS(J))
-                  DO KK=1,T2MASTER_SMS(1,IX2(I))
+              IF (T2MAIN_SMS(1,IXSS(J))*T2MAIN_SMS(1,IX2(I))==16) FAC = UNDEMI*MAX(T2FAC_SMS(IXSS(J)),T2FAC_SMS(IX2(I)))
+              DO K=1,T2MAIN_SMS(1,IXSS(J))
+                  DO KK=1,T2MAIN_SMS(1,IX2(I))
                     NISKYL=NISKYL+1
                     MSKYI_SMS(NISKYL)=ABS(H2(I))*FICS(J)*FAC
-                    ISKYI_SMS(NISKYL,1)=T2MASTER_SMS(K+1,IXSS(J))
-                    ISKYI_SMS(NISKYL,2)=T2MASTER_SMS(KK+1,IX2(I))
+                    ISKYI_SMS(NISKYL,1)=T2MAIN_SMS(K+1,IXSS(J))
+                    ISKYI_SMS(NISKYL,2)=T2MAIN_SMS(KK+1,IX2(I))
                     ISKYI_SMS(NISKYL,3)=ISPMD+1
                   ENDDO
               ENDDO
             ENDIF
             IF(H3(I).NE.ZERO)THEN
               FAC = T2FAC_SMS(IXSS(J))
-              IF (T2MASTER_SMS(1,IXSS(J))*T2MASTER_SMS(1,IX3(I))==16) FAC = UNDEMI*MAX(T2FAC_SMS(IXSS(J)),T2FAC_SMS(IX3(I)))
-              DO K=1,T2MASTER_SMS(1,IXSS(J))
-                  DO KK=1,T2MASTER_SMS(1,IX3(I))
+              IF (T2MAIN_SMS(1,IXSS(J))*T2MAIN_SMS(1,IX3(I))==16) FAC = UNDEMI*MAX(T2FAC_SMS(IXSS(J)),T2FAC_SMS(IX3(I)))
+              DO K=1,T2MAIN_SMS(1,IXSS(J))
+                  DO KK=1,T2MAIN_SMS(1,IX3(I))
                     NISKYL=NISKYL+1
                     MSKYI_SMS(NISKYL)=ABS(H3(I))*FICS(J)*FAC
-                    ISKYI_SMS(NISKYL,1)=T2MASTER_SMS(K+1,IXSS(J))
-                    ISKYI_SMS(NISKYL,2)=T2MASTER_SMS(KK+1,IX3(I))
+                    ISKYI_SMS(NISKYL,1)=T2MAIN_SMS(K+1,IXSS(J))
+                    ISKYI_SMS(NISKYL,2)=T2MAIN_SMS(KK+1,IX3(I))
                     ISKYI_SMS(NISKYL,3)=ISPMD+1
                   ENDDO
               ENDDO
             ENDIF
             IF(H4(I).NE.ZERO)THEN
               FAC = T2FAC_SMS(IXSS(J))
-              IF (T2MASTER_SMS(1,IXSS(J))*T2MASTER_SMS(1,IX4(I))==16) FAC = UNDEMI*MAX(T2FAC_SMS(IXSS(J)),T2FAC_SMS(IX4(I)))
-              DO K=1,T2MASTER_SMS(1,IXSS(J))
-                  DO KK=1,T2MASTER_SMS(1,IX4(I))
+              IF (T2MAIN_SMS(1,IXSS(J))*T2MAIN_SMS(1,IX4(I))==16) FAC = UNDEMI*MAX(T2FAC_SMS(IXSS(J)),T2FAC_SMS(IX4(I)))
+              DO K=1,T2MAIN_SMS(1,IXSS(J))
+                  DO KK=1,T2MAIN_SMS(1,IX4(I))
                     NISKYL=NISKYL+1
                     MSKYI_SMS(NISKYL)=ABS(H4(I))*FICS(J)*FAC
-                    ISKYI_SMS(NISKYL,1)=T2MASTER_SMS(K+1,IXSS(J))
-                    ISKYI_SMS(NISKYL,2)=T2MASTER_SMS(KK+1,IX4(I))
+                    ISKYI_SMS(NISKYL,1)=T2MAIN_SMS(K+1,IXSS(J))
+                    ISKYI_SMS(NISKYL,2)=T2MAIN_SMS(KK+1,IX4(I))
                     ISKYI_SMS(NISKYL,3)=ISPMD+1
                   ENDDO
               ENDDO
@@ -4568,56 +4568,56 @@ C
          END DO
         ELSE
 C-----------------------------------------------
-C-- Master / node contact
+C-- Main / node contact
 C-----------------------------------------------
           IF(H1(I).NE.ZERO)THEN
             FAC = T2FAC_SMS(IG)
-            IF (T2MASTER_SMS(1,IG)*T2MASTER_SMS(1,IX1(I))==16) FAC = UNDEMI*MAX(T2FAC_SMS(IG),T2FAC_SMS(IX1(I)))
-            DO K=1,T2MASTER_SMS(1,IG)
-                DO KK=1,T2MASTER_SMS(1,IX1(I))
+            IF (T2MAIN_SMS(1,IG)*T2MAIN_SMS(1,IX1(I))==16) FAC = UNDEMI*MAX(T2FAC_SMS(IG),T2FAC_SMS(IX1(I)))
+            DO K=1,T2MAIN_SMS(1,IG)
+                DO KK=1,T2MAIN_SMS(1,IX1(I))
                   NISKYL=NISKYL+1
                   MSKYI_SMS(NISKYL)=ABS(H1(I))*MAS*FAC
-                  ISKYI_SMS(NISKYL,1)=T2MASTER_SMS(K+1,IG)
-                  ISKYI_SMS(NISKYL,2)=T2MASTER_SMS(KK+1,IX1(I))
+                  ISKYI_SMS(NISKYL,1)=T2MAIN_SMS(K+1,IG)
+                  ISKYI_SMS(NISKYL,2)=T2MAIN_SMS(KK+1,IX1(I))
                   ISKYI_SMS(NISKYL,3)=ISPMD+1
                 ENDDO
             ENDDO
           END IF
           IF(H2(I).NE.ZERO)THEN
             FAC = T2FAC_SMS(IG)
-            IF (T2MASTER_SMS(1,IG)*T2MASTER_SMS(1,IX2(I))==16) FAC = UNDEMI*MAX(T2FAC_SMS(IG),T2FAC_SMS(IX2(I)))
-            DO K=1,T2MASTER_SMS(1,IG)
-                DO KK=1,T2MASTER_SMS(1,IX2(I))
+            IF (T2MAIN_SMS(1,IG)*T2MAIN_SMS(1,IX2(I))==16) FAC = UNDEMI*MAX(T2FAC_SMS(IG),T2FAC_SMS(IX2(I)))
+            DO K=1,T2MAIN_SMS(1,IG)
+                DO KK=1,T2MAIN_SMS(1,IX2(I))
                   NISKYL=NISKYL+1
                   MSKYI_SMS(NISKYL)=ABS(H2(I))*MAS*FAC
-                  ISKYI_SMS(NISKYL,1)=T2MASTER_SMS(K+1,IG)
-                  ISKYI_SMS(NISKYL,2)=T2MASTER_SMS(KK+1,IX2(I))
+                  ISKYI_SMS(NISKYL,1)=T2MAIN_SMS(K+1,IG)
+                  ISKYI_SMS(NISKYL,2)=T2MAIN_SMS(KK+1,IX2(I))
                   ISKYI_SMS(NISKYL,3)=ISPMD+1
                 ENDDO
             ENDDO
           END IF
           IF(H3(I).NE.ZERO)THEN
             FAC = T2FAC_SMS(IG)
-            IF (T2MASTER_SMS(1,IG)*T2MASTER_SMS(1,IX3(I))==16) FAC = UNDEMI*MAX(T2FAC_SMS(IG),T2FAC_SMS(IX3(I)))
-            DO K=1,T2MASTER_SMS(1,IG)
-                DO KK=1,T2MASTER_SMS(1,IX3(I))
+            IF (T2MAIN_SMS(1,IG)*T2MAIN_SMS(1,IX3(I))==16) FAC = UNDEMI*MAX(T2FAC_SMS(IG),T2FAC_SMS(IX3(I)))
+            DO K=1,T2MAIN_SMS(1,IG)
+                DO KK=1,T2MAIN_SMS(1,IX3(I))
                   NISKYL=NISKYL+1
                   MSKYI_SMS(NISKYL)=ABS(H3(I))*MAS*FAC
-                  ISKYI_SMS(NISKYL,1)=T2MASTER_SMS(K+1,IG)
-                  ISKYI_SMS(NISKYL,2)=T2MASTER_SMS(KK+1,IX3(I))
+                  ISKYI_SMS(NISKYL,1)=T2MAIN_SMS(K+1,IG)
+                  ISKYI_SMS(NISKYL,2)=T2MAIN_SMS(KK+1,IX3(I))
                   ISKYI_SMS(NISKYL,3)=ISPMD+1
                 ENDDO
             ENDDO
           END IF
           IF(H4(I).NE.ZERO)THEN
             FAC = T2FAC_SMS(IG)
-            IF (T2MASTER_SMS(1,IG)*T2MASTER_SMS(1,IX4(I))==16) FAC = UNDEMI*MAX(T2FAC_SMS(IG),T2FAC_SMS(IX4(I)))
-            DO K=1,T2MASTER_SMS(1,IG)
-                DO KK=1,T2MASTER_SMS(1,IX4(I))
+            IF (T2MAIN_SMS(1,IG)*T2MAIN_SMS(1,IX4(I))==16) FAC = UNDEMI*MAX(T2FAC_SMS(IG),T2FAC_SMS(IX4(I)))
+            DO K=1,T2MAIN_SMS(1,IG)
+                DO KK=1,T2MAIN_SMS(1,IX4(I))
                   NISKYL=NISKYL+1
                   MSKYI_SMS(NISKYL)=ABS(H4(I))*MAS*FAC
-                  ISKYI_SMS(NISKYL,1)=T2MASTER_SMS(K+1,IG)
-                  ISKYI_SMS(NISKYL,2)=T2MASTER_SMS(KK+1,IX4(I))
+                  ISKYI_SMS(NISKYL,1)=T2MAIN_SMS(K+1,IG)
+                  ISKYI_SMS(NISKYL,2)=T2MAIN_SMS(KK+1,IX4(I))
                   ISKYI_SMS(NISKYL,3)=ISPMD+1
                 ENDDO
             ENDDO
@@ -4641,56 +4641,56 @@ C
            IF (FICS(J) > ZERO) THEN
             IF(H1(I).NE.ZERO)THEN
               FAC = T2FAC_SMS_FI(NIN)%P(IXSS(J))
-              IF (T2MASTER_SMS_FI(NIN)%P(1,IXSS(J))*T2MASTER_SMS(1,IX1(I))==16)
+              IF (T2MAIN_SMS_FI(NIN)%P(1,IXSS(J))*T2MAIN_SMS(1,IX1(I))==16)
      .           FAC = UNDEMI*MAX(T2FAC_SMS_FI(NIN)%P(IXSS(J)),T2FAC_SMS(IX1(I)))
-              DO K=1,T2MASTER_SMS_FI(NIN)%P(1,IXSS(J))
-                  DO KK=1,T2MASTER_SMS(1,IX1(I))
+              DO K=1,T2MAIN_SMS_FI(NIN)%P(1,IXSS(J))
+                  DO KK=1,T2MAIN_SMS(1,IX1(I))
                     NISKYL=NISKYL+1
                     MSKYI_SMS(NISKYL)=ABS(H1(I))*FICS(J)*FAC
-                    ISKYI_SMS(NISKYL,1)=T2MASTER_SMS_FI(NIN)%P(K+1,IXSS(J))
-                    ISKYI_SMS(NISKYL,2)=T2MASTER_SMS(KK+1,IX1(I))
+                    ISKYI_SMS(NISKYL,1)=T2MAIN_SMS_FI(NIN)%P(K+1,IXSS(J))
+                    ISKYI_SMS(NISKYL,2)=T2MAIN_SMS(KK+1,IX1(I))
                     ISKYI_SMS(NISKYL,3)=PROCAMSFI(NIN)%P(IXSS(J))
                   ENDDO
               ENDDO
             END IF
             IF(H2(I).NE.ZERO)THEN
               FAC = T2FAC_SMS_FI(NIN)%P(IXSS(J))
-               IF (T2MASTER_SMS_FI(NIN)%P(1,IXSS(J))*T2MASTER_SMS(1,IX2(I))==16)
+               IF (T2MAIN_SMS_FI(NIN)%P(1,IXSS(J))*T2MAIN_SMS(1,IX2(I))==16)
      .           FAC = UNDEMI*MAX(T2FAC_SMS_FI(NIN)%P(IXSS(J)),T2FAC_SMS(IX2(I)))
-              DO K=1,T2MASTER_SMS_FI(NIN)%P(1,IXSS(J))
-                  DO KK=1,T2MASTER_SMS(1,IX2(I))
+              DO K=1,T2MAIN_SMS_FI(NIN)%P(1,IXSS(J))
+                  DO KK=1,T2MAIN_SMS(1,IX2(I))
                     NISKYL=NISKYL+1
                     MSKYI_SMS(NISKYL)=ABS(H2(I))*FICS(J)*FAC
-                    ISKYI_SMS(NISKYL,1)=T2MASTER_SMS_FI(NIN)%P(K+1,IXSS(J))
-                    ISKYI_SMS(NISKYL,2)=T2MASTER_SMS(KK+1,IX2(I))
+                    ISKYI_SMS(NISKYL,1)=T2MAIN_SMS_FI(NIN)%P(K+1,IXSS(J))
+                    ISKYI_SMS(NISKYL,2)=T2MAIN_SMS(KK+1,IX2(I))
                     ISKYI_SMS(NISKYL,3)=PROCAMSFI(NIN)%P(IXSS(J))
                   ENDDO
               ENDDO
             END IF
             IF(H3(I).NE.ZERO)THEN
               FAC = T2FAC_SMS_FI(NIN)%P(IXSS(J))
-              IF (T2MASTER_SMS_FI(NIN)%P(1,IXSS(J))*T2MASTER_SMS(1,IX3(I))==16)
+              IF (T2MAIN_SMS_FI(NIN)%P(1,IXSS(J))*T2MAIN_SMS(1,IX3(I))==16)
      .           FAC = UNDEMI*MAX(T2FAC_SMS_FI(NIN)%P(IXSS(J)),T2FAC_SMS(IX3(I)))
-              DO K=1,T2MASTER_SMS_FI(NIN)%P(1,IXSS(J))
-                  DO KK=1,T2MASTER_SMS(1,IX3(I))
+              DO K=1,T2MAIN_SMS_FI(NIN)%P(1,IXSS(J))
+                  DO KK=1,T2MAIN_SMS(1,IX3(I))
                     NISKYL=NISKYL+1
                     MSKYI_SMS(NISKYL)=ABS(H3(I))*FICS(J)*FAC
-                    ISKYI_SMS(NISKYL,1)=T2MASTER_SMS_FI(NIN)%P(K+1,IXSS(J))
-                    ISKYI_SMS(NISKYL,2)=T2MASTER_SMS(KK+1,IX3(I))
+                    ISKYI_SMS(NISKYL,1)=T2MAIN_SMS_FI(NIN)%P(K+1,IXSS(J))
+                    ISKYI_SMS(NISKYL,2)=T2MAIN_SMS(KK+1,IX3(I))
                     ISKYI_SMS(NISKYL,3)=PROCAMSFI(NIN)%P(IXSS(J))
                   ENDDO
               ENDDO
             END IF
             IF(H4(I).NE.ZERO)THEN
               FAC = T2FAC_SMS_FI(NIN)%P(IXSS(J))
-              IF (T2MASTER_SMS_FI(NIN)%P(1,IXSS(J))*T2MASTER_SMS(1,IX4(I))==16)
+              IF (T2MAIN_SMS_FI(NIN)%P(1,IXSS(J))*T2MAIN_SMS(1,IX4(I))==16)
      .           FAC = UNDEMI*MAX(T2FAC_SMS_FI(NIN)%P(IXSS(J)),T2FAC_SMS(IX4(I)))
-              DO K=1,T2MASTER_SMS_FI(NIN)%P(1,IXSS(J))
-                  DO KK=1,T2MASTER_SMS(1,IX4(I))
+              DO K=1,T2MAIN_SMS_FI(NIN)%P(1,IXSS(J))
+                  DO KK=1,T2MAIN_SMS(1,IX4(I))
                     NISKYL=NISKYL+1
                     MSKYI_SMS(NISKYL)=ABS(H4(I))*FICS(J)*FAC
-                    ISKYI_SMS(NISKYL,1)=T2MASTER_SMS_FI(NIN)%P(K+1,IXSS(J))
-                    ISKYI_SMS(NISKYL,2)=T2MASTER_SMS(KK+1,IX4(I))
+                    ISKYI_SMS(NISKYL,1)=T2MAIN_SMS_FI(NIN)%P(K+1,IXSS(J))
+                    ISKYI_SMS(NISKYL,2)=T2MAIN_SMS(KK+1,IX4(I))
                     ISKYI_SMS(NISKYL,3)=PROCAMSFI(NIN)%P(IXSS(J))
                   ENDDO
               ENDDO
@@ -4699,60 +4699,60 @@ C
           ENDDO
         ELSE
 C-----------------------------------------------
-C-- Master / node remote contact
+C-- Main / node remote contact
 C-----------------------------------------------
           IF(H1(I).NE.ZERO)THEN
               FAC = T2FAC_SMS_FI(NIN)%P(NN)
-              IF (T2MASTER_SMS_FI(NIN)%P(1,NN)*T2MASTER_SMS(1,IX1(I))==16)
+              IF (T2MAIN_SMS_FI(NIN)%P(1,NN)*T2MAIN_SMS(1,IX1(I))==16)
      .           FAC = UNDEMI*MAX(T2FAC_SMS_FI(NIN)%P(NN),T2FAC_SMS(IX1(I)))
-              DO K=1,T2MASTER_SMS_FI(NIN)%P(1,NN)
-                DO KK=1,T2MASTER_SMS(1,IX1(I))
+              DO K=1,T2MAIN_SMS_FI(NIN)%P(1,NN)
+                DO KK=1,T2MAIN_SMS(1,IX1(I))
                   NISKYL=NISKYL+1
                   MSKYI_SMS(NISKYL)=ABS(H1(I))*MAS*FAC
-                  ISKYI_SMS(NISKYL,1)=T2MASTER_SMS_FI(NIN)%P(K+1,NN)
-                  ISKYI_SMS(NISKYL,2)=T2MASTER_SMS(KK+1,IX1(I))
+                  ISKYI_SMS(NISKYL,1)=T2MAIN_SMS_FI(NIN)%P(K+1,NN)
+                  ISKYI_SMS(NISKYL,2)=T2MAIN_SMS(KK+1,IX1(I))
                   ISKYI_SMS(NISKYL,3)=PROCAMSFI(NIN)%P(NN)
                 ENDDO
               ENDDO
           END IF
           IF(H2(I).NE.ZERO)THEN
               FAC = T2FAC_SMS_FI(NIN)%P(NN)
-              IF (T2MASTER_SMS_FI(NIN)%P(1,NN)*T2MASTER_SMS(1,IX2(I))==16)
+              IF (T2MAIN_SMS_FI(NIN)%P(1,NN)*T2MAIN_SMS(1,IX2(I))==16)
      .           FAC = UNDEMI*MAX(T2FAC_SMS_FI(NIN)%P(NN),T2FAC_SMS(IX2(I)))
-              DO K=1,T2MASTER_SMS_FI(NIN)%P(1,NN)
-                DO KK=1,T2MASTER_SMS(1,IX2(I))
+              DO K=1,T2MAIN_SMS_FI(NIN)%P(1,NN)
+                DO KK=1,T2MAIN_SMS(1,IX2(I))
                   NISKYL=NISKYL+1
                   MSKYI_SMS(NISKYL)=ABS(H2(I))*MAS*FAC
-                  ISKYI_SMS(NISKYL,1)=T2MASTER_SMS_FI(NIN)%P(K+1,NN)
-                  ISKYI_SMS(NISKYL,2)=T2MASTER_SMS(KK+1,IX2(I))
+                  ISKYI_SMS(NISKYL,1)=T2MAIN_SMS_FI(NIN)%P(K+1,NN)
+                  ISKYI_SMS(NISKYL,2)=T2MAIN_SMS(KK+1,IX2(I))
                   ISKYI_SMS(NISKYL,3)=PROCAMSFI(NIN)%P(NN)
                 ENDDO
               ENDDO
           END IF
           IF(H3(I).NE.ZERO)THEN
               FAC = T2FAC_SMS_FI(NIN)%P(NN)
-              IF (T2MASTER_SMS_FI(NIN)%P(1,NN)*T2MASTER_SMS(1,IX3(I))==16)
+              IF (T2MAIN_SMS_FI(NIN)%P(1,NN)*T2MAIN_SMS(1,IX3(I))==16)
      .           FAC = UNDEMI*MAX(T2FAC_SMS_FI(NIN)%P(NN),T2FAC_SMS(IX3(I)))
-              DO K=1,T2MASTER_SMS_FI(NIN)%P(1,NN)
-                DO KK=1,T2MASTER_SMS(1,IX3(I))
+              DO K=1,T2MAIN_SMS_FI(NIN)%P(1,NN)
+                DO KK=1,T2MAIN_SMS(1,IX3(I))
                   NISKYL=NISKYL+1
                   MSKYI_SMS(NISKYL)=ABS(H3(I))*MAS*FAC
-                  ISKYI_SMS(NISKYL,1)=T2MASTER_SMS_FI(NIN)%P(K+1,NN)
-                  ISKYI_SMS(NISKYL,2)=T2MASTER_SMS(KK+1,IX3(I))
+                  ISKYI_SMS(NISKYL,1)=T2MAIN_SMS_FI(NIN)%P(K+1,NN)
+                  ISKYI_SMS(NISKYL,2)=T2MAIN_SMS(KK+1,IX3(I))
                   ISKYI_SMS(NISKYL,3)=PROCAMSFI(NIN)%P(NN)
                 ENDDO
             ENDDO
           END IF
           IF(H4(I).NE.ZERO)THEN
               FAC = T2FAC_SMS_FI(NIN)%P(NN)
-              IF (T2MASTER_SMS_FI(NIN)%P(1,NN)*T2MASTER_SMS(1,IX4(I))==16)
+              IF (T2MAIN_SMS_FI(NIN)%P(1,NN)*T2MAIN_SMS(1,IX4(I))==16)
      .           FAC = UNDEMI*MAX(T2FAC_SMS_FI(NIN)%P(NN),T2FAC_SMS(IX4(I)))
-              DO K=1,T2MASTER_SMS_FI(NIN)%P(1,NN)
-                DO KK=1,T2MASTER_SMS(1,IX4(I))
+              DO K=1,T2MAIN_SMS_FI(NIN)%P(1,NN)
+                DO KK=1,T2MAIN_SMS(1,IX4(I))
                   NISKYL=NISKYL+1
                   MSKYI_SMS(NISKYL)=ABS(H4(I))*MAS*FAC
-                  ISKYI_SMS(NISKYL,1)=T2MASTER_SMS_FI(NIN)%P(K+1,NN)
-                  ISKYI_SMS(NISKYL,2)=T2MASTER_SMS(KK+1,IX4(I))
+                  ISKYI_SMS(NISKYL,1)=T2MAIN_SMS_FI(NIN)%P(K+1,NN)
+                  ISKYI_SMS(NISKYL,2)=T2MAIN_SMS(KK+1,IX4(I))
                   ISKYI_SMS(NISKYL,3)=PROCAMSFI(NIN)%P(NN)
                 ENDDO
             ENDDO

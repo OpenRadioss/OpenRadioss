@@ -145,7 +145,7 @@ C-----------------------------------------------
      .         LNLINK(*), FR_LL(NSPMD+2,*), TAG_LNK_SMS(*), ITAB(*),
      .         LJOINT(*), FR_CJ(*), IADCJ(*),
      .         NPRW(*), LPRW(*), FR_WALL(*), NRWL_SMS(*),
-     .         KK, MASTER, KINET(*),
+     .         KK, MAIN, KINET(*),
      .         IXC(NIXC,*), IXTG(NIXTG,*),
      .         SH4TREE(KSH4TREE,*), SH3TREE(KSH3TREE,*), DIM,
      .         TAGMSR_RBY_SMS(*), JSM_SMS(*),

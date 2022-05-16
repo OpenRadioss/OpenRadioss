@@ -36,7 +36,7 @@ Chd|====================================================================
 !       creation of a file with hexa values of MULTI_FVM%VEL
 !       
 !       SPMD_COLLECT_MULTI_FVM organization :
-!        * gather of MULTI_FVM values on the master processor
+!        * gather of MULTI_FVM values on the main processor
 !        * sorting of the value according the global user ID of the
 !          element
 !        * creation of the *.adb file

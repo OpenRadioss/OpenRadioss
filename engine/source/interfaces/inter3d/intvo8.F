@@ -105,9 +105,9 @@ C-----------------------------------------------
      . HAS_MOVED,
      .   INDEX_IN_COMM,
      .   IX1, IX2, IX3,IX4,
-     .   NSV_A, !NSV reduced only to active slave on the proc
+     .   NSV_A, !NSV reduced only to active secnd on the proc
      .   NSV2,  !Numbering from NSV_A to NSV
-     .   IRTL_A !IRTL reduced only to active slave on the proc
+     .   IRTL_A !IRTL reduced only to active secnd on the proc
 C     REAL ou REAL*8
       my_real, DIMENSION(:), ALLOCATABLE :: TAB_RMAX
       my_real, DIMENSION(:), ALLOCATABLE :: DISTANCE,DIST
@@ -273,7 +273,7 @@ C
         FACE_A(1:NSN) = 0
 
         ! Compact NSV,IRTL,XI,ZI and FACE
-        ! by keeping only slave nodes that are 
+        ! by keeping only secnd nodes that are 
         ! active on this SPMD domain
         DO I = 1,NSN
            IF(INTBUF_TAB%ILOCS(I) > -1 .AND.

@@ -110,7 +110,7 @@ C
        MAS4= UNDEMI * DTS * ( DTS * K4(I) + C4(I) )
 C
        IF(IBM(I)>=0)THEN
-C        Assembling twice the force if the other segment supporting the master edge 
+C        Assembling twice the force if the other segment supporting the main edge 
 C        lies onto the same domain
          IF(CS_LOC(I).LE.NRTS) THEN
           IF(HM1(I).NE.ZERO)THEN

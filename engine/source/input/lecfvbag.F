@@ -166,7 +166,7 @@ C
                      ALLOCATE(XXX(3,NN))
                      CALL SPMD_FVB_GATH(IFV, X, XXX, RBID, RBID,
      .                                  1  )
-                     IF (ISPMD.EQ.FVSPMD(IFV)%PMASTER-1) THEN
+                     IF (ISPMD.EQ.FVSPMD(IFV)%PMAIN-1) THEN
                         DO J=1,NN
                            XX=XXX(1,J)
                            YY=XXX(2,J)

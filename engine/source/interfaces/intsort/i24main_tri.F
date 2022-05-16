@@ -51,7 +51,7 @@ Chd|====================================================================
      3                  ISENDTO ,IRCVFROM,RETRI   ,IAD_ELEM,FR_ELEM ,
      4                  ITAB    ,KINET   ,TEMP    ,NRTM_T  ,RENUM   ,
      5                  NSNFIOLD,ESHIFT  ,NUM_IMP ,IND_IMP ,NODNX_SMS,
-     6                  H3D_DATA,T2MASTER_SMS,FORNEQS,T2FAC_SMS)
+     6                  H3D_DATA,T2MAIN_SMS,FORNEQS,T2FAC_SMS)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -100,7 +100,7 @@ C-----------------------------------------------
      .        IPARI(NPARI,NINTER),  MWAG(*),
      .        ISENDTO(NINTER+1,*),IRCVFROM(NINTER+1,*),
      .        WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
-     .        RENUM(NUMNOD), NSNFIOLD(NSPMD), NODNX_SMS(*), T2MASTER_SMS(6,*)
+     .        RENUM(NUMNOD), NSNFIOLD(NSPMD), NODNX_SMS(*), T2MAIN_SMS(6,*)
 C     REAL ou REAL*8
       my_real 
      .    X(3,*), V(*), MS(*),TEMP(*),T2FAC_SMS(*)
@@ -315,11 +315,11 @@ C
      4      INTBUF_TAB%GAP_S,ITAB    ,KINET        ,IFQ          ,INACTI ,
      5      NSNFIOLD,IPARI(47,NIN),INTBUF_TAB%IELEC,INTBUF_TAB%AREAS,TEMP,
      6      NUM_IMP     ,NODNX_SMS,INTBUF_TAB%STIF_OLD,NTY   ,
-     7      INTBUF_TAB%IRTLM,INTBUF_TAB%TIME_S,INTBUF_TAB%SLAV_FR,INTBUF_TAB%PENE_OLD,
+     7      INTBUF_TAB%IRTLM,INTBUF_TAB%TIME_S,INTBUF_TAB%SECND_FR,INTBUF_TAB%PENE_OLD,
      8      INTBUF_TAB%STIF_OLD , INTBUF_TAB%NBINFLG,ILEV ,INTBUF_TAB%ICONT_I  , 
      9      INTBUF_TAB%XFIC ,INTBUF_TAB%VFIC ,IPARI(59,NIN),NSNE,INTBUF_TAB%IS2SE,
      A      INTBUF_TAB%IRTSE, INTBUF_TAB%IS2PT,INTBUF_TAB%ISEGPT,INTBUF_TAB%MSFIC,NRTSE,
-     B      INTBUF_TAB%IS2ID,INTBUF_TAB%ISPT2,IPARI(72,NIN),INTBUF_TAB%IPARTFRICS,T2MASTER_SMS,
+     B      INTBUF_TAB%IS2ID,INTBUF_TAB%ISPT2,IPARI(72,NIN),INTBUF_TAB%IPARTFRICS,T2MAIN_SMS,
      C      INTNITSCHE      ,FORNEQS         ,T2FAC_SMS)
 C
 C renumerotation locale des anciens candidats

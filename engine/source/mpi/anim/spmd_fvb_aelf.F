@@ -59,7 +59,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER ELOFF, I, PMASTER, J, K, KK, N, NN, IDP, ITAG, MSGOFF,
+      INTEGER ELOFF, I, PMAIN, J, K, KK, N, NN, IDP, ITAG, MSGOFF,
      .        NNTR, LEN, IAD, STAT(MPI_STATUS_SIZE), IERR,MSGOFF2
       my_real
      .        GAMA, SSP, FAC
@@ -71,9 +71,9 @@ C-----------------------------------------------
 C
       ELOFF=0
       DO I=1,NFVBAG
-         PMASTER=FVSPMD(I)%PMASTER
+         PMAIN=FVSPMD(I)%PMAIN
          IF (ISPMD.EQ.0) THEN
-            IF (ISPMD.EQ.PMASTER-1) THEN
+            IF (ISPMD.EQ.PMAIN-1) THEN
                DO J=1,FVDATA(I)%NPOLH
                   GAMA=FVDATA(I)%GPOLH(J)
                   SSP=SQRT((GAMA-UN)*GAMA*FVDATA(I)%EPOLH(J)/
@@ -113,13 +113,13 @@ C
                ELOFF=ELOFF+FVDATA(I)%NNTR
             ELSE
                ITAG=MSGOFF
-               CALL MPI_RECV(NNTR, 1, MPI_INTEGER, IT_SPMD(PMASTER),
+               CALL MPI_RECV(NNTR, 1, MPI_INTEGER, IT_SPMD(PMAIN),
      .                       ITAG, MPI_COMM_WORLD, STAT, IERR)
 C
                LEN=10*NNTR
                ALLOCATE(RBUF(LEN))
                ITAG=MSGOFF2
-               CALL MPI_RECV(RBUF, LEN, REAL, IT_SPMD(PMASTER),
+               CALL MPI_RECV(RBUF, LEN, REAL, IT_SPMD(PMAIN),
      .                       ITAG, MPI_COMM_WORLD, STAT, IERR)
 C
                DO J=1,NNTR
@@ -139,7 +139,7 @@ C
                DEALLOCATE(RBUF)
             ENDIF
          ELSE
-            IF (ISPMD.EQ.PMASTER-1) THEN
+            IF (ISPMD.EQ.PMAIN-1) THEN
                NNTR=FVDATA(I)%NNTR
                ITAG=MSGOFF
                CALL MPI_SEND(NNTR, 1, MPI_INTEGER, IT_SPMD(1),

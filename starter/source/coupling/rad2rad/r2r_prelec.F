@@ -122,7 +122,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,L,NI,GRM,GRS,IGU,MASTER,NUL,NOD,ISK,NRB
+      INTEGER I,J,L,NI,GRM,GRS,IGU,MAIN,NUL,NOD,ISK,NRB
       INTEGER GR_ID,COMPT,TAG,IAD,CUR_ID,NB_RBY
       INTEGER NB_KIN,NB_LAG,N1,N2,ID_RBY,DOMA,ISTER
       INTEGER ID_CYL,CCPL,DIFF,D1,D2,G1,G2,GX,IP,JOE,JIE
@@ -707,9 +707,9 @@ C-----RBE3 interne ->
 	      TAGRB3(I) = ID_RBE3
               COMPT = COMPT + 1 	     	  
 	    ELSE				    	  	  
-C-----RBE3   cheval -> on met tous le noeuds maitres sur l'interface
+C-----RBE3   cheval -> on met tous le noeuds mains sur l'interface
 	      IF (TAGNO(NPART+N2).NE.-1) THEN
-C-----on tag le rbe3 dans les domaines qui voeint l'esclave    
+C-----on tag le rbe3 dans les domaines qui voeint l'second    
 	        TAGRB3(I) = ID_RBE3
 	        COMPT = COMPT +1	    	       	          
 	      ENDIF 	      	         
@@ -851,13 +851,13 @@ C--> pour les inter type 2 on couple en type5 si il ya un risque de masse nulle
 C-->           	          	          	     	   
              IF (TAG.GT.0) THEN
 	      	COMPT_T2 = COMPT_T2 + 1	     
-C--> pretag elts cote maitre du contact pour les garder en void  <---C		   		      	          	     
+C--> pretag elts cote main du contact pour les garder en void  <---C		   		      	          	     
                 IF ((TAG==3).OR.(TAG==1).OR.(TAG==4)) THEN	   
                   CALL TAG_ELEM_VOID_R2R(IGRSURF(G2)%NSEG,IPARTS,
      .            IPARTC,IPARTG,IPARTSP,VAL,CONT,MODIF,MEMTR,0,0,EANI,
      .            IGRSURF(G2),IGRNOD,G2)
                 ENDIF		  
-C--> pretag elts cote esclave du contact pour les garder en void <---C					      
+C--> pretag elts cote second. du contact pour les garder en void <---C					      
                 IF ((TAG==2).OR.(TAG==1)) THEN
                   CALL TAG_ELEM_VOID_R2R(IGRNOD(G1)%NENTITY,IPARTS,
      .            IPARTC,IPARTG,IPARTSP,VAL,CONT,MODIF,MEMTR,0,1,EANI,
@@ -885,13 +885,13 @@ C--> on determine si l'interface est  cheval et asymetrique  <------C
 C-->           	          	          	     	   
              IF (TAG.GT.0) THEN
 	      	COMPT_T2 = COMPT_T2 + 1	     
-C--> pretag elts cote maitre du contact pour les garder en void  <---C		   		      	          	     
+C--> pretag elts cote main du contact pour les garder en void  <---C		   		      	          	     
                 IF ((TAG==3).OR.(TAG==1).OR.(TAG==4)) THEN	   
                   CALL TAG_ELEM_VOID_R2R(IGRSURF(G2)%NSEG,IPARTS,
      .            IPARTC,IPARTG,IPARTSP,VAL,CONT,MODIF,MEMTR,0,0,EANI,
      .            IGRSURF(G2),IGRNOD,G2)
                 ENDIF		  
-C--> pretag elts cote esclave du contact pour les garder en void <---C					      
+C--> pretag elts cote second. du contact pour les garder en void <---C					      
                 IF ((TAG==2).OR.(TAG==1)) THEN
                   IF (GRS > 0) THEN
                     CALL TAG_ELEM_VOID_R2R(IGRNOD(G1)%NENTITY,IPARTS,
@@ -1040,13 +1040,13 @@ C--> pour les inter type 2 on couple en type5 si il ya un risque de masse nulle
 C-->	               	          	          	     	   
              IF (TAG.GT.0) THEN
 	      	COMPT_T2 = COMPT_T2 + 1	     
-C--> pretag elts cote maitre du contact pour les garder en void  <---C		   		      	          	     
+C--> pretag elts cote main du contact pour les garder en void  <---C		   		      	          	     
                 IF ((TAG==3).OR.(TAG==1).OR.(TAG==4)) THEN	   
                   CALL TAG_ELEM_VOID_R2R(IGRSURF(G2)%NSEG,IPARTS,
      .            IPARTC,IPARTG,IPARTSP,VAL,CONT,MODIF,MEMTR,0,0,EANI,
      .            IGRSURF(G2),IGRNOD,G2)
                 ENDIF		  
-C--> pretag elts cote esclave du contact pour les garder en void <---C					      
+C--> pretag elts cote second. du contact pour les garder en void <---C					      
                 IF ((TAG==2).OR.(TAG==1)) THEN
                   CALL TAG_ELEM_VOID_R2R(IGRNOD(G1)%NENTITY,IPARTS,
      .            IPARTC,IPARTG,IPARTSP,VAL,CONT,MODIF,MEMTR,0,1,EANI,
@@ -1210,11 +1210,11 @@ C---------
 C---------
           NRB=NRB+1
 C---------
-          CALL HM_GET_INTV('node_ID',MASTER,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('node_ID',MAIN,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('sens_ID',ISENS,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('grnd_ID',IGU,IS_AVAILABLE,LSUBMODEL)
 C---------     	  
-          MASTER=USR2SYS(MASTER,ITABM1,MESS,ID_RBY)
+          MAIN=USR2SYS(MAIN,ITABM1,MESS,ID_RBY)
           DO J=1,NGRNOD         
 	    IF (IGRNOD(J)%ID.EQ.IGU) GR_ID = J
 	  END DO
@@ -1222,19 +1222,19 @@ C-----On check si le RBODY doit etre garde-------------------------
 	  TAG = 0
           COMPT=IGRNOD(GR_ID)%R2R_ALL
 	  COMPT2=IGRNOD(GR_ID)%R2R_SHARE
-C--> on check aussi le tag du noeud master	    	  	  
-	  IF (TAGNO(MASTER+NPART).GT.1) COMPT = COMPT + 1
-	  IF (TAGNO(MASTER+NPART).GT.1) COMPT2 = COMPT2 + 1
+C--> on check aussi le tag du noeud main	    	  	  
+	  IF (TAGNO(MAIN+NPART).GT.1) COMPT = COMPT + 1
+	  IF (TAGNO(MAIN+NPART).GT.1) COMPT2 = COMPT2 + 1
 	  IF (COMPT2.EQ.0) TAG = 1
-C-----On tag le noeud master---------------------------------------
+C-----On tag le noeud main---------------------------------------
 	  IF (COMPT.GT.0) THEN
 	    IF(TAG.EQ.1) THEN
 C-----RGBODY interne ->   
-              CALL MODIF_TAG(TAGNO(NPART+MASTER),1,MODIF)	      
+              CALL MODIF_TAG(TAGNO(NPART+MAIN),1,MODIF)	      
 	    ELSE  	    
-C-----RGBODY "a cheval" -> on met le master node dans le couplage 	    
-	      IF (TAGNO(MASTER+NPART).LT.3) THEN
-                CALL MODIF_TAG(TAGNO(NPART+MASTER),3,MODIF)
+C-----RGBODY "a cheval" -> on met le main node dans le couplage 	    
+	      IF (TAGNO(MAIN+NPART).LT.3) THEN
+                CALL MODIF_TAG(TAGNO(NPART+MAIN),3,MODIF)
                 IF (ISENS.NE.0) THEN
                CALL ANCMSG(MSGID=976,
      .                     MSGTYPE=MSGERROR,
@@ -1276,10 +1276,10 @@ C--------Provisoirement on interdit totalement les RBY/LAGMUL
      .                ANMODE=ANINFO,
      .                C1=LINE(1:L+9))
 C-----------------------------------------------------------------
-          CALL HM_GET_INTV('node_ID',MASTER,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('node_ID',MAIN,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('grnd_ID',IGU,IS_AVAILABLE,LSUBMODEL)
 C--------Provisoirement on interdit totalement les RBY/LAGMUL	     	  
-          MASTER=USR2SYS(MASTER,ITABM1,MESS,ID_RBY)
+          MAIN=USR2SYS(MAIN,ITABM1,MESS,ID_RBY)
           DO J=1,NGRNOD         
 	    IF (IGRNOD(J)%ID.EQ.IGU) GR_ID = J
 	  END DO
@@ -1289,21 +1289,21 @@ C-----On check si le RBODY doit etre garde-------------------------
 	  TAG = 0
           COMPT=IGRNOD(GR_ID)%R2R_ALL
 	  COMPT2=IGRNOD(GR_ID)%R2R_SHARE
-C--> on check aussi le tag du noeud master	    	  	  
-	  IF (TAGNO(MASTER+NPART).GT.1) COMPT = COMPT + 1
-	  IF (TAGNO(MASTER+NPART).GT.1) COMPT2 = COMPT2 + 1
+C--> on check aussi le tag du noeud main	    	  	  
+	  IF (TAGNO(MAIN+NPART).GT.1) COMPT = COMPT + 1
+	  IF (TAGNO(MAIN+NPART).GT.1) COMPT2 = COMPT2 + 1
 	  IF (COMPT2.EQ.0) TAG = 1
 	  
-C-----On tag le noeud master---------------------------------------
+C-----On tag le noeud main---------------------------------------
 
 	  IF (COMPT.GT.0) THEN
 	    IF(TAG.EQ.1) THEN
 C-----RGBODY interne ->   
-              CALL MODIF_TAG(TAGNO(NPART+MASTER),1,MODIF)           
+              CALL MODIF_TAG(TAGNO(NPART+MAIN),1,MODIF)           
 	    ELSE          
-C-----RGBODY "a cheval" -> on met le master node dans le couplage 	    
-	      IF (TAGNO(MASTER+NPART).LT.3) THEN
-                CALL MODIF_TAG(TAGNO(NPART+MASTER),3,MODIF)
+C-----RGBODY "a cheval" -> on met le main node dans le couplage 	    
+	      IF (TAGNO(MAIN+NPART).LT.3) THEN
+                CALL MODIF_TAG(TAGNO(NPART+MAIN),3,MODIF)
 	      ENDIF
 	    ENDIF
 C-----On tag les rbys a garder-------------------------------------	      

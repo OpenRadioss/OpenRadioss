@@ -400,7 +400,7 @@ C-----------------------------------------------
       CALL I17RST(LLT   ,RI_S(1,2),SI_S(1,2),TI_S(1,2),NI_M  ,
      2            XX    ,YY       ,ZZ       )
 C-----------------------------------------------
-C      choix face 1 2 3 4 face 5 6 7 8 cote esclave
+C      choix face 1 2 3 4 face 5 6 7 8 cote second
 C-----------------------------------------------
       DO I=1,LLT
         IF(ABS(SI_S(I,1)).LE.ABS(SI_S(I,2)))THEN
@@ -448,8 +448,8 @@ C
         ENDIF
       ENDDO
 C-----------------------------------------------
-C      calcul de SI_S=s(relatif element maitre) 
-c      des 8 noeuds de la face de l'element esclave
+C      calcul de SI_S=s(relatif element main) 
+c      des 8 noeuds de la face de l'element second
 C-----------------------------------------------
       DO J=1,8
         DO I=1,LLT
@@ -462,7 +462,7 @@ C-----------------------------------------------
       ENDDO
 C-----------------------------------------------
 C      calcul du point de distance min
-C      dSI_S/dr = 0 dSI_S/dt = 0     (r,t de l'element esclave) 
+C      dSI_S/dr = 0 dSI_S/dt = 0     (r,t de l'element second) 
 C-----------------------------------------------
 c                                                                                                                                                                           
 c   il est possible de calculer la surface effective 
@@ -481,7 +481,7 @@ c
      5             R_1M  ,R_2M  ,R_3M  ,R_4M  ,T_1M  ,T_2M   ,
      6             T_3M  ,T_4M  ,ICONT ,AREA  ,AREA_TOT,AREA_EL)
 C-----------------------------------------------
-C      choix face 1 2 3 4 face 5 6 7 8 cote maitre
+C      choix face 1 2 3 4 face 5 6 7 8 cote main
 C-----------------------------------------------
       DO I=1,LLT
         IF(S_CM(I).LE.0.)THEN
@@ -689,7 +689,7 @@ C             1                  5                  2
 C
 C-----------------------------------------------
 C
-C              esclave        maitre
+C              second.        main
 C     (1):   <R1S , TCS>    <R1M , T1M>
 C     (2):   <R2S , TCS>    <R2M , T2M>
 C     (3):   <RCS , T1S>    <R3M , T3M>
@@ -725,15 +725,15 @@ C    |             \ / \:::::/           | \           /
 C    |              +   \:::/            |  \         /    
 C    |            r1s\___\_/             |   \       /    
 C    |                    \              |    \     /    
-C    |Maitre               \             |     \   /    
+C    |main               \             |     \   /    
 C    O-----------------O----O------------O      \ /
 C                            \                   O    
 C                             \                 / \    
 C                              \               /   \   
 C      :::: Area                \             /     v  
 C      :::: commune              \           /      ts
-C      :::: Maitre Esclase        \         /    
-C                                  \Esclave/
+C      :::: main Esclase        \         /    
+C                                  \second/
 C                                   \     /
 C                                    \   /
 C                                     \ /
@@ -840,17 +840,17 @@ c          dfdt = B1 + B2 * r + B3 * t + B4 * r * t + B5 * r * r
 C-----------------------------------------------------------------------
 C     calcul de 4 points de l'iso S_M = +- 1
 C 
-C          esclave           maitre
+C          second.           main
 C     1: <R_1S , T_CS>    <R_1M , T_1M>
 C     2: <R_2S , T_CS>    <R_2M , T_2M>
 C     3: <R_CS , T_1S>    <R_3M , T_3M>
 C     4: <R_CS , T_2S>    <R_4M , T_4M> 
 C
-C     on borne r et t a +- 1 sur l'element esclave :
+C     on borne r et t a +- 1 sur l'element second. :
 C                -1 < R_1S < 1  et -1 < R_2S < 1 
 C                -1 < T_1S < 1  et -1 < T_2S < 1 
 c
-C     on borne r et t a +- 1 sur l'element maitre :
+C     on borne r et t a +- 1 sur l'element main :
 C                -1 < R_M < 1   et -1 < T_M < 1 
 C-----------------------------------------------------------------------
       CALL  I17ABC(LLT ,SI_S,R_CS,T_CS,
@@ -878,13 +878,13 @@ C  f = C1 + C2 t + C3 t^2
 C
       CALL I17RACINE_PENA(LLT,C3,C2,C1,T_1S,T_2S)
 C-----------------------------------------------
-C     calcul de la surface totale esclave
+C     calcul de la surface totale second
 C-----------------------------------------------
       CALL I17SURF(LLT   ,R_1S  ,R_2S  ,R_CS  ,R_CS    ,
      2             T_CS  ,T_CS  ,T_1S  ,T_2S  ,AREA_TOT,
      3             XXS   ,YYS   ,ZZS   ,AZERO )
 c-----------------------------------------------------------------------
-c      borne surface totale     la surface de l'esclave
+c      borne surface totale     la surface de l'second
 c-----------------------------------------------------------------------
       DO I=1,LLT
           XA = XXS(I,7)-XXS(I,5)
@@ -903,7 +903,7 @@ c          AAA = PI*QUART*ABS(XC*NX(I) + YC*NY(I) + ZC*NZ(I))
 c          IF(AREA_TOT(I) == ZERO)AREA_TOT(I) = AAA
       ENDDO
 c-----------------------------------------------------------------------
-c      decoupe de l'esclave 9x9
+c      decoupe de l'second 9x9
 c      calcul surface commune
 c-----------------------------------------------------------------------
       UNPEPS = UN+EM02
@@ -958,11 +958,11 @@ c-----------------------------------------------------------------------
         ENDIF
       ENDDO
 c-----------------------------------------------------------------------
-c      borne surface totale     la surface du maitre
+c      borne surface totale     la surface du main
 c-----------------------------------------------------------------------
       DO I=1,LLT
         IF(S_CM(I) < ZERO)THEN
-c         maitre 1234
+c         main 1234
           XA = XX(I,11)-XX(I,9)
           YA = YY(I,11)-YY(I,9)
           ZA = ZZ(I,11)-ZZ(I,9)
@@ -970,7 +970,7 @@ c         maitre 1234
           YB = YY(I,12)-YY(I,10)
           ZB = ZZ(I,12)-ZZ(I,10)
         ELSE
-c         maitre 5678
+c         main 5678
           XA = XX(I,15)-XX(I,13)
           YA = YY(I,15)-YY(I,13)
           ZA = ZZ(I,15)-ZZ(I,13)
@@ -987,12 +987,12 @@ c         maitre 5678
         IF(AREA_TOT(I) == ZERO)AREA_TOT(I) = AREA_EL(I)
       ENDDO
 C-----------------------------------------------
-C          calcul de Ni(r,s,t); dNi/dr; dNi/dt; normale esclave(-n)
+C          calcul de Ni(r,s,t); dNi/dr; dNi/dt; normale second(-n)
 C-----------------------------------------------
       CALL I17NORM(LLT  ,R_CS  ,S_CS  ,T_CS  ,
      2             NX   ,NY    ,NZ    ,XXS   ,YYS   ,ZZS   )
 C-----------------------------------------------
-C          calcul de la surface commune maitre-esclave
+C          calcul de la surface commune main-second
 C-----------------------------------------------
 c      CALL I17SURF(LLT   ,R_1M  ,R_2M  ,R_3M  ,R_4M  ,
 c     2             T_1M  ,T_2M  ,T_3M  ,T_4M  ,AREA  ,
@@ -1127,10 +1127,10 @@ C-----------------------------------------------
       my_real
      +   CC(MVSIZ),R1(MVSIZ),R2(MVSIZ),RS1,RS2,UNPEPS
 c-----------------------------------------------------------------------
-c  1: borne r(ou s au 2eme appel) a +-1 sur le maitre
+c  1: borne r(ou s au 2eme appel) a +-1 sur le main
 c-----------------------------------------------------------------------
 c-----------------------------------------------------------------------
-c  1.1: borne <r1,t> et <r,t1> a +-1 sur le maitre
+c  1.1: borne <r1,t> et <r,t1> a +-1 sur le main
 c-----------------------------------------------------------------------
         UNPEPS = UN + EM4
         DO I=1,LLT
@@ -1168,7 +1168,7 @@ c
                 R_S(I) = R2(I)
                 RS(I)  = RS2
             ELSE
-C pas de recouvrement maitre/esclave
+C pas de recouvrement main/second
                 ICONT(I)=0
             ENDIF
           ENDIF
@@ -1231,7 +1231,7 @@ C
         ENDIF
       ENDDO
 c-----------------------------------------------------------------------
-c      borne r (ou t) a +-1 sur l'esclave
+c      borne r (ou t) a +-1 sur l'second
 c-----------------------------------------------------------------------
 c      DO I=1,LLT
 c          R1(I) = MAX(-UN,MIN(UN,R1(I)))
@@ -1319,14 +1319,14 @@ c         esclace 1234 ou 5678
             Z1 = Z1-NI(K)*ZZ(I,K)
           ENDDO
         ELSEIF(SM(I) < ZERO)THEN
-c         maitre 1234
+c         main 1234
           DO K=1,4
             X1 = X1-NI(K)*XX(I,K)-NI(K+4)*XX(I,K+8)
             Y1 = Y1-NI(K)*YY(I,K)-NI(K+4)*YY(I,K+8)
             Z1 = Z1-NI(K)*ZZ(I,K)-NI(K+4)*ZZ(I,K+8)
           ENDDO
         ELSEIF(SM(I) > ZERO)THEN
-c         maitre 5678
+c         main 5678
           DO K=1,4
             X1 = X1-NI(K)*XX(I,K+4)-NI(K+4)*XX(I,K+12)
             Y1 = Y1-NI(K)*YY(I,K+4)-NI(K+4)*YY(I,K+12)
@@ -1365,14 +1365,14 @@ c         esclace 1234 ou 5678
             Z1 = Z1+NI(K)*ZZ(I,K)
           ENDDO
         ELSEIF(SM(I) < ZERO)THEN
-c         maitre 1234
+c         main 1234
           DO K=1,4
             X1 = X1+NI(K)*XX(I,K)+NI(K+4)*XX(I,K+8)
             Y1 = Y1+NI(K)*YY(I,K)+NI(K+4)*YY(I,K+8)
             Z1 = Z1+NI(K)*ZZ(I,K)+NI(K+4)*ZZ(I,K+8)
           ENDDO
         ELSEIF(SM(I) > ZERO)THEN
-c         maitre 5678
+c         main 5678
           DO K=1,4
             X1 = X1+NI(K)*XX(I,K+4)+NI(K+4)*XX(I,K+12)
             Y1 = Y1+NI(K)*YY(I,K+4)+NI(K+4)*YY(I,K+12)
@@ -1411,14 +1411,14 @@ c         esclace 1234 ou 5678
             Z2 = Z2-NI(K)*ZZ(I,K)
           ENDDO
         ELSEIF(SM(I) < ZERO)THEN
-c         maitre 1234
+c         main 1234
           DO K=1,4
             X2 = X2-NI(K)*XX(I,K)-NI(K+4)*XX(I,K+8)
             Y2 = Y2-NI(K)*YY(I,K)-NI(K+4)*YY(I,K+8)
             Z2 = Z2-NI(K)*ZZ(I,K)-NI(K+4)*ZZ(I,K+8)
           ENDDO
         ELSEIF(SM(I) > ZERO)THEN
-c         maitre 5678
+c         main 5678
           DO K=1,4
             X2 = X2-NI(K)*XX(I,K+4)-NI(K+4)*XX(I,K+12)
             Y2 = Y2-NI(K)*YY(I,K+4)-NI(K+4)*YY(I,K+12)
@@ -1457,14 +1457,14 @@ c         esclace 1234 ou 5678
             Z2 = Z2+NI(K)*ZZ(I,K)
           ENDDO
         ELSEIF(SM(I) < ZERO)THEN
-c         maitre 1234
+c         main 1234
           DO K=1,4
             X2 = X2+NI(K)*XX(I,K)+NI(K+4)*XX(I,K+8)
             Y2 = Y2+NI(K)*YY(I,K)+NI(K+4)*YY(I,K+8)
             Z2 = Z2+NI(K)*ZZ(I,K)+NI(K+4)*ZZ(I,K+8)
           ENDDO
         ELSEIF(SM(I) > ZERO)THEN
-c         maitre 5678
+c         main 5678
           DO K=1,4
             X2 = X2+NI(K)*XX(I,K+4)+NI(K+4)*XX(I,K+12)
             Y2 = Y2+NI(K)*YY(I,K+4)+NI(K+4)*YY(I,K+12)
@@ -1531,11 +1531,11 @@ C-----------------------------------------------
       my_real
      .   VX,VY,VZ,VN,AA
 C-----------------------------------------------------------------------
-C     calcul de Ni sur face  1 2 3 4 ou 5 6 7 8 du maitre (s=+-1)
+C     calcul de Ni sur face  1 2 3 4 ou 5 6 7 8 du main (s=+-1)
 C-----------------------------------------------------------------------
       CALL I17NI(LLT,RM ,TM ,NI_M )
 C-----------------------------------------------------------------------
-C     calcul de Ni sur face  1 2 3 4 ou 5 6 7 8 de l'esclave (s=+-1)
+C     calcul de Ni sur face  1 2 3 4 ou 5 6 7 8 de l'second (s=+-1)
 C-----------------------------------------------------------------------
       CALL I17NI(LLT,RS ,TS ,NI_S )
 C-----------------------------------------------
@@ -1687,10 +1687,10 @@ c
 c Fti = min[(Fti + Ki * Vti * dt) , mu*Fni]
 c
 c => limitation en cas de roulement glissement ou roulement adh   rence:
-c    si Fti est m   moris   e sur l'   l   ment maitre ou esclave, Fti est perdue
+c    si Fti est m   moris   e sur l'   l   ment main ou second, Fti est perdue
 c    quand on passe d'un    l   ment sur son voisin
 c
-c1- on consid   re une facette maitre contact   e par plusieurs esclaves
+c1- on consid   re une facette main contact   e par plusieurs seconds
 c
 c
 c Fti = min[(Sigt*Ai + Ki * Vti * dt) , mu*Fni]
@@ -1702,7 +1702,7 @@ c
 c    * Sigt vecteur contrainte de frottement
 c
 c
-c2- sym   trie maitre esclave
+c2- sym   trie main second
 c
 c Fti = min[((SigtM+SigtS)*Ai/2 + Ki * Vti * dt) , mu*Fni]
 c
@@ -1805,7 +1805,7 @@ c   Ri = A / 2pi di
 c   Ki = 8/3 E* (pi/A)^1/2  Ai/pi
 c   Fi = Ki di
 C-----------------------------------------------
-C          epaisseur maitre
+C          epaisseur main
 C-----------------------------------------------
           XE = ZERO
           YE = ZERO
@@ -1830,7 +1830,7 @@ C-----------------------------------------------
             stop 111
           endif
 C-----------------------------------------------
-C          vitesse relative esclave/maitre
+C          vitesse relative second/main
 C-----------------------------------------------
           VX = ZERO
           VY = ZERO

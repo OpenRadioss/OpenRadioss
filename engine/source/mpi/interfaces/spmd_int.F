@@ -1431,7 +1431,7 @@ Chd|====================================================================
      8   I24_STIF_OLD ,NBINFLG,ILEV ,I24_ICONT_I ,
      9   XFIC         ,VFIC   ,IEDGE4 ,NSNE,IS2SE,
      A   IRTSE,IS2PT,ISEGPT,MSFIC,NRTSE,IS2ID,ISPT2,
-     B   INTFRIC,IPARTFRICS,T2MASTER_SMS,INTNITSCHE,FORNEQS,
+     B   INTFRIC,IPARTFRICS,T2MAIN_SMS,INTNITSCHE,FORNEQS,
      C   T2FAC_SMS)
 C-----------------------------------------------
 C   M o d u l e s
@@ -1470,7 +1470,7 @@ C-----------------------------------------------
      .        IAD_ELEM(2,*), FR_ELEM(*), ITAB(*), KINET(*),
      .        IELEC(*),NUM_IMP, NODNX_SMS(*),I24_IRTLM(2,*),ITYP,
      .        NBINFLG(*),ILEV,I24_ICONT_I(*),IEDGE4,NSNE,IS2SE(2,*),IRTSE(5,*),
-     .        IS2PT(*),ISEGPT(*),NRTSE, NSNR,IS2ID(*),ISPT2(*),IPARTFRICS(*),T2MASTER_SMS(6,*)
+     .        IS2PT(*),ISEGPT(*),NRTSE, NSNR,IS2ID(*),ISPT2(*),IPARTFRICS(*),T2MAIN_SMS(6,*)
 
       my_real
      .        X(3,*), V(3,*), MS(*), BMINMAL(*), STIFN(*), GAP_S(*),
@@ -1507,7 +1507,7 @@ C-----------------------------------------------
       TYPE(real_pointer), DIMENSION(NSPMD) :: RBUF
       TYPE(int_pointer) , DIMENSION(NSPMD) :: IBUF     
 
-      INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_SN,INDEXE,TAG_SLV,NSV_INV
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_SN,INDEXE,TAG_2RY,NSV_INV
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -1515,12 +1515,12 @@ C
       IF(IEDGE4 /=0)THEN 
            ALLOCATE(TAG_SN(NUMNOD))
            ALLOCATE(INDEXE(NUMNOD+NSNE))
-           ALLOCATE(TAG_SLV(NSN))
+           ALLOCATE(TAG_2RY(NSN))
            ALLOCATE(NSV_INV(NUMNOD))
       ELSE
            ALLOCATE(TAG_SN(0))
            ALLOCATE(INDEXE(0))
-           ALLOCATE(TAG_SLV(0))
+           ALLOCATE(TAG_2RY(0))
            ALLOCATE(NSV_INV(0))
       ENDIF
 C================================================================
@@ -1666,7 +1666,7 @@ C weight < 0 temporairement pour ne conserver que les noeuds non frontiere
 C
           IF(IEDGE4 /=0)THEN 
              TAG_SN(1:NUMNOD)=0
-             TAG_SLV(1:NSN)=0
+             TAG_2RY(1:NSN)=0
           ENDIF
           
           L = IDEB
@@ -1706,7 +1706,7 @@ C Need an inverted NSV to add some Edge Nodes
                          INDEX(NB) = I
                          IF(IEDGE4>0) THEN
                                TAG_SN(NOD)=NB
-                               TAG_SLV(I)=NB
+                               TAG_2RY(I)=NB
                          ENDIF
                        ENDIF
                      ENDIF
@@ -1775,7 +1775,7 @@ C Have the E2E Fictive node at the end
           DO I=1,NBE
             NB = NB + 1
             INDEX(NB) = INDEXE(I)
-            TAG_SLV(INDEXE(I))=NB
+            TAG_2RY(INDEXE(I))=NB
           ENDDO
 C
           NBOX(P) = NB
@@ -1824,7 +1824,7 @@ c general case
                 IF(IEDGE4 >0)THEN
 C Local Node : 0, local sleeping node : -1 or E2E Node : 1
 C Local sleeping nodes are nodes which are not candidated but stays
-C in E2E IRTS Slave surface. Thay must be shipped, but removed from sorting
+C in E2E IRTS Secnd surface. Thay must be shipped, but removed from sorting
 C IBUF(8,ND) ->ISEDGE_FI
                   IF(TAG_SN(NOD)<0)THEN
  	            IBUF(P)%p(L2+8) = -1
@@ -1932,12 +1932,12 @@ C -- IDTMINS==2
                    RBUF(P)%p(L+RSHIFT)   = T2FAC_SMS(NOD)
                    IBUF(P)%p(L2+ISHIFT)  = NODNX_SMS(NOD)
                    IBUF(P)%p(L2+ISHIFT+1)= NOD
-                   IBUF(P)%p(L2+ISHIFT+2)= T2MASTER_SMS(1,NOD)
-                   IBUF(P)%p(L2+ISHIFT+3)= T2MASTER_SMS(2,NOD)
-                   IBUF(P)%p(L2+ISHIFT+4)= T2MASTER_SMS(3,NOD)
-                   IBUF(P)%p(L2+ISHIFT+5)= T2MASTER_SMS(4,NOD)
-                   IBUF(P)%p(L2+ISHIFT+6)= T2MASTER_SMS(5,NOD)
-                   IBUF(P)%p(L2+ISHIFT+7)= T2MASTER_SMS(6,NOD)           
+                   IBUF(P)%p(L2+ISHIFT+2)= T2MAIN_SMS(1,NOD)
+                   IBUF(P)%p(L2+ISHIFT+3)= T2MAIN_SMS(2,NOD)
+                   IBUF(P)%p(L2+ISHIFT+4)= T2MAIN_SMS(3,NOD)
+                   IBUF(P)%p(L2+ISHIFT+5)= T2MAIN_SMS(4,NOD)
+                   IBUF(P)%p(L2+ISHIFT+6)= T2MAIN_SMS(5,NOD)
+                   IBUF(P)%p(L2+ISHIFT+7)= T2MAIN_SMS(6,NOD)           
                  ELSE
 C E2E nodes (> NUMNOD) should not be need
 C IRTSE Nodes are used.
@@ -1967,12 +1967,12 @@ C -- IDTMINS_INT /= 0
                 NOD = NSV(I)
                 RBUF(P)%p(L+RSHIFT)   = T2FAC_SMS(NOD)
                 IBUF(P)%p(L2+ISHIFT)= NOD
-                IBUF(P)%p(L2+ISHIFT+1)= T2MASTER_SMS(1,NOD)
-                IBUF(P)%p(L2+ISHIFT+2)= T2MASTER_SMS(2,NOD)
-                IBUF(P)%p(L2+ISHIFT+3)= T2MASTER_SMS(3,NOD)
-                IBUF(P)%p(L2+ISHIFT+4)= T2MASTER_SMS(4,NOD)
-                IBUF(P)%p(L2+ISHIFT+5)= T2MASTER_SMS(5,NOD)
-                IBUF(P)%p(L2+ISHIFT+6)= T2MASTER_SMS(6,NOD)
+                IBUF(P)%p(L2+ISHIFT+1)= T2MAIN_SMS(1,NOD)
+                IBUF(P)%p(L2+ISHIFT+2)= T2MAIN_SMS(2,NOD)
+                IBUF(P)%p(L2+ISHIFT+3)= T2MAIN_SMS(3,NOD)
+                IBUF(P)%p(L2+ISHIFT+4)= T2MAIN_SMS(4,NOD)
+                IBUF(P)%p(L2+ISHIFT+5)= T2MAIN_SMS(5,NOD)
+                IBUF(P)%p(L2+ISHIFT+6)= T2MAIN_SMS(6,NOD)
                 L = L + RSIZ    
                 L2 = L2 + ISIZ
               END DO
@@ -2058,13 +2058,13 @@ C Is not an Edge
 	         IBUF(P)%p(L2+ISHIFT+4) = 0
 	         IBUF(P)%p(L2+ISHIFT+5) = 0
                  IBUF(P)%p(L2+ISHIFT+7) = ISPT2(I)
-                 IBUF(P)%p(L2+ISHIFT+6) = TAG_SLV(I)
+                 IBUF(P)%p(L2+ISHIFT+6) = TAG_2RY(I)
                ENDIF
 
 c                IF( ISEGPT(ND) < 0)THEN
 c                    IBUF(P)%p(L2+ISHIFT+6) = ISEGPT(ND)
 c                ELSE
-c                    IBUF(P)%p(L2+ISHIFT+6) = TAG_SLV(I)
+c                    IBUF(P)%p(L2+ISHIFT+6) = TAG_2RY(I)
 c                ENDIF
 
  
@@ -2338,7 +2338,7 @@ C E2E Node is candidate
             OLDNSNR = NSNFI(NIN)%P(P)	
             DO I = 1, OLDNSNR
               IF(IREM(1,I+IDEB).LT.0 .AND.IREM(8,I+IDEB)==1 ) THEN
-C go to where the Slave surfaces are stored
+C go to where the Secnd surfaces are stored
                  I24IREMPNSNE = IREM(7,I+IDEB)
 
                  ND = IREM(I24IREMPNSNE,I+IDEB)
@@ -2463,8 +2463,8 @@ C
          ALLOCATE(NODAMSFI(NIN)%P(NODFI),STAT=IERROR13)
          IF(ASSOCIATED(PROCAMSFI(NIN)%P)) DEALLOCATE(PROCAMSFI(NIN)%P)
          ALLOCATE(PROCAMSFI(NIN)%P(NODFI),STAT=IERROR14)
-         IF(ASSOCIATED(T2MASTER_SMS_FI(NIN)%P)) DEALLOCATE(T2MASTER_SMS_FI(NIN)%P)
-         ALLOCATE(T2MASTER_SMS_FI(NIN)%P(6,NODFI),STAT=IERROR14)
+         IF(ASSOCIATED(T2MAIN_SMS_FI(NIN)%P)) DEALLOCATE(T2MAIN_SMS_FI(NIN)%P)
+         ALLOCATE(T2MAIN_SMS_FI(NIN)%P(6,NODFI),STAT=IERROR14)
          IF(ASSOCIATED(T2FAC_SMS_FI(NIN)%P)) DEALLOCATE(T2FAC_SMS_FI(NIN)%P)
          ALLOCATE(T2FAC_SMS_FI(NIN)%P(NODFI),STAT=IERROR14)
         ELSEIF(IDTMINS_INT /= 0) THEN
@@ -2472,8 +2472,8 @@ C
          ALLOCATE(NODAMSFI(NIN)%P(NODFI),STAT=IERROR13)
          IF(ASSOCIATED(PROCAMSFI(NIN)%P)) DEALLOCATE(PROCAMSFI(NIN)%P)
          ALLOCATE(PROCAMSFI(NIN)%P(NODFI),STAT=IERROR14)
-         IF(ASSOCIATED(T2MASTER_SMS_FI(NIN)%P)) DEALLOCATE(T2MASTER_SMS_FI(NIN)%P)
-         ALLOCATE(T2MASTER_SMS_FI(NIN)%P(6,NODFI),STAT=IERROR14)
+         IF(ASSOCIATED(T2MAIN_SMS_FI(NIN)%P)) DEALLOCATE(T2MAIN_SMS_FI(NIN)%P)
+         ALLOCATE(T2MAIN_SMS_FI(NIN)%P(6,NODFI),STAT=IERROR14)
          IF(ASSOCIATED(T2FAC_SMS_FI(NIN)%P)) DEALLOCATE(T2FAC_SMS_FI(NIN)%P)
          ALLOCATE(T2FAC_SMS_FI(NIN)%P(NODFI),STAT=IERROR14)
         ENDIF 
@@ -2492,8 +2492,8 @@ C
           IF(ASSOCIATED(TIME_SFI(NIN)%P)) DEALLOCATE(TIME_SFI(NIN)%P)
           ALLOCATE(TIME_SFI(NIN)%P(NODFI),STAT=IERROR16)
 
-          IF(ASSOCIATED(SLAV_FRFI(NIN)%P)) DEALLOCATE(SLAV_FRFI(NIN)%P)
-          ALLOCATE(SLAV_FRFI(NIN)%P(6,NODFI),STAT=IERROR16)
+          IF(ASSOCIATED(SECND_FRFI(NIN)%P)) DEALLOCATE(SECND_FRFI(NIN)%P)
+          ALLOCATE(SECND_FRFI(NIN)%P(6,NODFI),STAT=IERROR16)
 
           IF(ASSOCIATED(PENE_OLDFI(NIN)%P))DEALLOCATE(PENE_OLDFI(NIN)%P)
           ALLOCATE(PENE_OLDFI(NIN)%P(5,NODFI),STAT=IERROR16)
@@ -2652,12 +2652,12 @@ C -- IDTMINS==2
                 T2FAC_SMS_FI(NIN)%P(NN2+J) = XREM(RSHIFT,I+IDEB)
                 NODNXFI(NIN)%P(NN2+J)   = IREM(ISHIFT,I+IDEB)
                 NODAMSFI(NIN)%P(NN2+J)  = IREM(ISHIFT+1,I+IDEB)
-                T2MASTER_SMS_FI(NIN)%P(1,NN2+J)  = IREM(ISHIFT+2,I+IDEB)
-                T2MASTER_SMS_FI(NIN)%P(2,NN2+J)  = IREM(ISHIFT+3,I+IDEB)
-                T2MASTER_SMS_FI(NIN)%P(3,NN2+J)  = IREM(ISHIFT+4,I+IDEB)
-                T2MASTER_SMS_FI(NIN)%P(4,NN2+J)  = IREM(ISHIFT+5,I+IDEB)
-                T2MASTER_SMS_FI(NIN)%P(5,NN2+J)  = IREM(ISHIFT+6,I+IDEB)
-                T2MASTER_SMS_FI(NIN)%P(6,NN2+J)  = IREM(ISHIFT+7,I+IDEB)
+                T2MAIN_SMS_FI(NIN)%P(1,NN2+J)  = IREM(ISHIFT+2,I+IDEB)
+                T2MAIN_SMS_FI(NIN)%P(2,NN2+J)  = IREM(ISHIFT+3,I+IDEB)
+                T2MAIN_SMS_FI(NIN)%P(3,NN2+J)  = IREM(ISHIFT+4,I+IDEB)
+                T2MAIN_SMS_FI(NIN)%P(4,NN2+J)  = IREM(ISHIFT+5,I+IDEB)
+                T2MAIN_SMS_FI(NIN)%P(5,NN2+J)  = IREM(ISHIFT+6,I+IDEB)
+                T2MAIN_SMS_FI(NIN)%P(6,NN2+J)  = IREM(ISHIFT+7,I+IDEB)
                 PROCAMSFI(NIN)%P(NN2+J) = P		 
               ENDDO
 	      RSHIFT = RSHIFT + 1
@@ -2670,12 +2670,12 @@ C -- IDTMINS_INT /= 0
 	        I = IAUX(J)
                 T2FAC_SMS_FI(NIN)%P(NN2+J) = XREM(RSHIFT,I+IDEB)
 		NODAMSFI(NIN)%P(NN2+J)  = IREM(ISHIFT,I+IDEB)
-                T2MASTER_SMS_FI(NIN)%P(1,NN2+J)  = IREM(ISHIFT+1,I+IDEB)
-                T2MASTER_SMS_FI(NIN)%P(2,NN2+J)  = IREM(ISHIFT+2,I+IDEB)
-                T2MASTER_SMS_FI(NIN)%P(3,NN2+J)  = IREM(ISHIFT+3,I+IDEB)
-                T2MASTER_SMS_FI(NIN)%P(4,NN2+J)  = IREM(ISHIFT+4,I+IDEB)
-                T2MASTER_SMS_FI(NIN)%P(5,NN2+J)  = IREM(ISHIFT+5,I+IDEB)
-                T2MASTER_SMS_FI(NIN)%P(6,NN2+J)  = IREM(ISHIFT+6,I+IDEB)  
+                T2MAIN_SMS_FI(NIN)%P(1,NN2+J)  = IREM(ISHIFT+1,I+IDEB)
+                T2MAIN_SMS_FI(NIN)%P(2,NN2+J)  = IREM(ISHIFT+2,I+IDEB)
+                T2MAIN_SMS_FI(NIN)%P(3,NN2+J)  = IREM(ISHIFT+3,I+IDEB)
+                T2MAIN_SMS_FI(NIN)%P(4,NN2+J)  = IREM(ISHIFT+4,I+IDEB)
+                T2MAIN_SMS_FI(NIN)%P(5,NN2+J)  = IREM(ISHIFT+5,I+IDEB)
+                T2MAIN_SMS_FI(NIN)%P(6,NN2+J)  = IREM(ISHIFT+6,I+IDEB)  
 		PROCAMSFI(NIN)%P(NN2+J) = P	   
               ENDDO
 	      RSHIFT = RSHIFT + 1
@@ -2691,12 +2691,12 @@ c INT24
                 IRTLM_FI(NIN)%P(2,NN2+J)  =IREM(ISHIFT+1,I+IDEB)
                 ICONT_I_FI(NIN)%P(NN2+J) = IREM(ISHIFT+2,I+IDEB)
                 TIME_SFI(NIN)%P(NN2+J )   =XREM(RSHIFT,I+IDEB)
-                SLAV_FRFI(NIN)%P(1,NN2+J) =ZERO
-                SLAV_FRFI(NIN)%P(2,NN2+J) =ZERO
-                SLAV_FRFI(NIN)%P(3,NN2+J) =ZERO
-                SLAV_FRFI(NIN)%P(4,NN2+J) =XREM(RSHIFT+1,I+IDEB)
-                SLAV_FRFI(NIN)%P(5,NN2+J) =XREM(RSHIFT+2,I+IDEB)
-                SLAV_FRFI(NIN)%P(6,NN2+J) =XREM(RSHIFT+3,I+IDEB)
+                SECND_FRFI(NIN)%P(1,NN2+J) =ZERO
+                SECND_FRFI(NIN)%P(2,NN2+J) =ZERO
+                SECND_FRFI(NIN)%P(3,NN2+J) =ZERO
+                SECND_FRFI(NIN)%P(4,NN2+J) =XREM(RSHIFT+1,I+IDEB)
+                SECND_FRFI(NIN)%P(5,NN2+J) =XREM(RSHIFT+2,I+IDEB)
+                SECND_FRFI(NIN)%P(6,NN2+J) =XREM(RSHIFT+3,I+IDEB)
                 PENE_OLDFI(NIN)%P(1,NN2+J)=ZERO
                 STIF_OLDFI(NIN)%P(1,NN2+J)=ZERO
                 PENE_OLDFI(NIN)%P(2,NN2+J)=XREM(RSHIFT+4,I+IDEB)
@@ -3033,7 +3033,7 @@ C-----------------------------------------------
       my_real,
      .    DIMENSION(:), ALLOCATABLE :: STIFFI_OLD
       my_real,
-     .     DIMENSION(:,:), ALLOCATABLE :: PENEFI_OLD, SLAV_FRFI_OLD
+     .     DIMENSION(:,:), ALLOCATABLE :: PENEFI_OLD, SECND_FRFI_OLD
       INTEGER, DIMENSION(:), ALLOCATABLE :: REMNOR_FI_TMP
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -3105,8 +3105,8 @@ C
 
         IF(ASSOCIATED(NSVFI(NIN)%P)) DEALLOCATE(NSVFI(NIN)%P)
         ALLOCATE(NSVFI(NIN)%P(NODFI),STAT=IERROR1)
-        IF(ASSOCIATED(PMASTERFI(NIN)%P)) DEALLOCATE(PMASTERFI(NIN)%P)
-        ALLOCATE(PMASTERFI(NIN)%P(NODFI),STAT=IERROR2)
+        IF(ASSOCIATED(PMAINFI(NIN)%P)) DEALLOCATE(PMAINFI(NIN)%P)
+        ALLOCATE(PMAINFI(NIN)%P(NODFI),STAT=IERROR2)
         IERROR1 = IERROR2 + IERROR1
         IF(ASSOCIATED(XFI(NIN)%P)) DEALLOCATE(XFI(NIN)%P)
         ALLOCATE(XFI(NIN)%P(3,NODFI),STAT=IERROR2)
@@ -3159,10 +3159,10 @@ c IF_ADHFI allocation is done later once NSNR_OLD is calculated
         ENDIF
 C
         NSNR_OLD=IPARI(24,NIN)
-        ALLOCATE(SLAV_FRFI_OLD(3,NSNR_OLD),PENEFI_OLD(4,NSNR_OLD),
+        ALLOCATE(SECND_FRFI_OLD(3,NSNR_OLD),PENEFI_OLD(4,NSNR_OLD),
      .           STIFFI_OLD(NSNR_OLD),
      .           STAT=IERROR16)
-        SLAV_FRFI_OLD(1:3,1:NSNR_OLD)=ZERO
+        SECND_FRFI_OLD(1:3,1:NSNR_OLD)=ZERO
         PENEFI_OLD(1:4,1:NSNR_OLD)   =ZERO
         STIFFI_OLD(1:NSNR_OLD)       =ZERO
 
@@ -3179,11 +3179,11 @@ C
         IF(ASSOCIATED(TIME_SFI(NIN)%P)) DEALLOCATE(TIME_SFI(NIN)%P)
         ALLOCATE(TIME_SFI(NIN)%P(2*NODFI),STAT=IERROR16)
 C
-        IF(ASSOCIATED(SLAV_FRFI(NIN)%P)) THEN
-          SLAV_FRFI_OLD(1:3,1:NSNR_OLD)=SLAV_FRFI(NIN)%P(1:3,1:NSNR_OLD)
-          DEALLOCATE(SLAV_FRFI(NIN)%P)
+        IF(ASSOCIATED(SECND_FRFI(NIN)%P)) THEN
+          SECND_FRFI_OLD(1:3,1:NSNR_OLD)=SECND_FRFI(NIN)%P(1:3,1:NSNR_OLD)
+          DEALLOCATE(SECND_FRFI(NIN)%P)
         END IF
-        ALLOCATE(SLAV_FRFI(NIN)%P(6,NODFI),STAT=IERROR16)
+        ALLOCATE(SECND_FRFI(NIN)%P(6,NODFI),STAT=IERROR16)
 C
         IF(ASSOCIATED(PENE_OLDFI(NIN)%P)) THEN
           PENEFI_OLD(1,1:NSNR_OLD)=PENE_OLDFI(NIN)%P(1,1:NSNR_OLD)
@@ -3242,7 +3242,7 @@ C
           CALL ARRET(2)
         ENDIF
 C
-        SLAV_FRFI(NIN)%P (1:6,1:NODFI)=ZERO
+        SECND_FRFI(NIN)%P (1:6,1:NODFI)=ZERO
         PENE_OLDFI(NIN)%P(1:5,1:NODFI)=ZERO
         STIF_OLDFI(NIN)%P(1:2,1:NODFI)=ZERO
 C
@@ -3302,7 +3302,7 @@ c general case
               NSVFI(NIN)%P(NN2+J) = -IREM(1,I+IDEB)
               ITAFI(NIN)%P(NN2+J) = IREM(2,I+IDEB)
               KINFI(NIN)%P(NN2+J) = IREM(3,I+IDEB)
-              PMASTERFI(NIN)%P(NN2+J) = P 
+              PMAINFI(NIN)%P(NN2+J) = P 
 
             
               !ignore specifics IREM and XREM indexes for INT24 sorting
@@ -3444,21 +3444,21 @@ C -- IDTMINS_INT /= 0
              	IOLDNSNFI = IREM(ISHIFT+5,I+IDEB)
 
              	IF(IOLDNSNFI /= 0)THEN
-             	  SLAV_FRFI(NIN)%P(1,NN2+J) =SLAV_FRFI_OLD(1,IOLDNSNFI+JDEB)
-             	  SLAV_FRFI(NIN)%P(2,NN2+J) =SLAV_FRFI_OLD(2,IOLDNSNFI+JDEB)
-             	  SLAV_FRFI(NIN)%P(3,NN2+J) =SLAV_FRFI_OLD(3,IOLDNSNFI+JDEB)
+             	  SECND_FRFI(NIN)%P(1,NN2+J) =SECND_FRFI_OLD(1,IOLDNSNFI+JDEB)
+             	  SECND_FRFI(NIN)%P(2,NN2+J) =SECND_FRFI_OLD(2,IOLDNSNFI+JDEB)
+             	  SECND_FRFI(NIN)%P(3,NN2+J) =SECND_FRFI_OLD(3,IOLDNSNFI+JDEB)
              	  PENE_OLDFI(NIN)%P(1,NN2+J)=PENEFI_OLD(1,IOLDNSNFI+JDEB)
              	  STIF_OLDFI(NIN)%P(1,NN2+J)=STIFFI_OLD(IOLDNSNFI+JDEB)
              	ELSE
-             	  SLAV_FRFI(NIN)%P(1,NN2+J) =ZERO
-             	  SLAV_FRFI(NIN)%P(2,NN2+J) =ZERO
-             	  SLAV_FRFI(NIN)%P(3,NN2+J) =ZERO
+             	  SECND_FRFI(NIN)%P(1,NN2+J) =ZERO
+             	  SECND_FRFI(NIN)%P(2,NN2+J) =ZERO
+             	  SECND_FRFI(NIN)%P(3,NN2+J) =ZERO
              	  PENE_OLDFI(NIN)%P(1,NN2+J)=ZERO
              	  STIF_OLDFI(NIN)%P(1,NN2+J)=ZERO
              	END IF
-c            	SLAV_FRFI(NIN)%P(4,NN2+J) =ZERO
-c            	SLAV_FRFI(NIN)%P(5,NN2+J) =ZERO
-c            	SLAV_FRFI(NIN)%P(6,NN2+J) =ZERO
+c            	SECND_FRFI(NIN)%P(4,NN2+J) =ZERO
+c            	SECND_FRFI(NIN)%P(5,NN2+J) =ZERO
+c            	SECND_FRFI(NIN)%P(6,NN2+J) =ZERO
              	PENE_OLDFI(NIN)%P(2,NN2+J)=ZERO
              	STIF_OLDFI(NIN)%P(2,NN2+J)=ZERO
               ENDDO
@@ -3477,27 +3477,27 @@ c            	SLAV_FRFI(NIN)%P(6,NN2+J) =ZERO
              	IOLDNSNFI = IREM(ISHIFT+5,I+IDEB)
 
              	IF(IOLDNSNFI /= 0)THEN
-             	  SLAV_FRFI(NIN)%P(1,NN2+J) =SLAV_FRFI_OLD(1,IOLDNSNFI+JDEB)
-             	  SLAV_FRFI(NIN)%P(2,NN2+J) =SLAV_FRFI_OLD(2,IOLDNSNFI+JDEB)
-             	  SLAV_FRFI(NIN)%P(3,NN2+J) =SLAV_FRFI_OLD(3,IOLDNSNFI+JDEB)
+             	  SECND_FRFI(NIN)%P(1,NN2+J) =SECND_FRFI_OLD(1,IOLDNSNFI+JDEB)
+             	  SECND_FRFI(NIN)%P(2,NN2+J) =SECND_FRFI_OLD(2,IOLDNSNFI+JDEB)
+             	  SECND_FRFI(NIN)%P(3,NN2+J) =SECND_FRFI_OLD(3,IOLDNSNFI+JDEB)
              	  PENE_OLDFI(NIN)%P(1,NN2+J)=PENEFI_OLD(1,IOLDNSNFI+JDEB)
              	  STIF_OLDFI(NIN)%P(1,NN2+J)=STIFFI_OLD(IOLDNSNFI+JDEB)
              	  PENE_OLDFI(NIN)%P(5,NN2+J)=PENEFI_OLD(2,IOLDNSNFI+JDEB)
              	  PENE_OLDFI(NIN)%P(3,NN2+J)=PENEFI_OLD(3,IOLDNSNFI+JDEB)
              	  PENE_OLDFI(NIN)%P(4,NN2+J)=PENEFI_OLD(4,IOLDNSNFI+JDEB)
              	ELSE
-             	  SLAV_FRFI(NIN)%P(1,NN2+J) =ZERO
-             	  SLAV_FRFI(NIN)%P(2,NN2+J) =ZERO
-             	  SLAV_FRFI(NIN)%P(3,NN2+J) =ZERO
+             	  SECND_FRFI(NIN)%P(1,NN2+J) =ZERO
+             	  SECND_FRFI(NIN)%P(2,NN2+J) =ZERO
+             	  SECND_FRFI(NIN)%P(3,NN2+J) =ZERO
              	  PENE_OLDFI(NIN)%P(1,NN2+J)=ZERO
              	  STIF_OLDFI(NIN)%P(1,NN2+J)=ZERO
              	  PENE_OLDFI(NIN)%P(5,NN2+J)=ZERO
              	  PENE_OLDFI(NIN)%P(3,NN2+J)=ZERO
              	  PENE_OLDFI(NIN)%P(4,NN2+J)=ZERO
              	END IF
-c            	SLAV_FRFI(NIN)%P(4,NN2+J) =ZERO
-c            	SLAV_FRFI(NIN)%P(5,NN2+J) =ZERO
-c            	SLAV_FRFI(NIN)%P(6,NN2+J) =ZERO
+c            	SECND_FRFI(NIN)%P(4,NN2+J) =ZERO
+c            	SECND_FRFI(NIN)%P(5,NN2+J) =ZERO
+c            	SECND_FRFI(NIN)%P(6,NN2+J) =ZERO
              	PENE_OLDFI(NIN)%P(2,NN2+J)=ZERO
              	STIF_OLDFI(NIN)%P(2,NN2+J)=ZERO
               ENDDO
@@ -3522,7 +3522,7 @@ Cel nsnr nouveau utile pour inacti
         NSNR = NN2
       ENDIF
 C-------------------------------------------------------------------------------
-C FLAGREMN REMOVE MASTER SEGMENTS : no reception but reconstruction of the tab REMNOR_FI
+C FLAGREMN REMOVE main SEGMENTS : no reception but reconstruction of the tab REMNOR_FI
 C-------------------------------------------------------------------------------
       IF(FLAGREMN == 2 ) THEN
          KI = 0
@@ -3581,7 +3581,7 @@ C
       IF(ALLOCATED(IREM)) DEALLOCATE(IREM)
 
       IF(ITY.EQ.25)THEN
-        DEALLOCATE(SLAV_FRFI_OLD,PENEFI_OLD,STIFFI_OLD)
+        DEALLOCATE(SECND_FRFI_OLD,PENEFI_OLD,STIFFI_OLD)
         IF(IVIS2==-1) DEALLOCATE(IFFI_ADH)
       END IF
 
@@ -3799,7 +3799,7 @@ C-----------------------------------------------
       my_real,
      .    DIMENSION(:), ALLOCATABLE :: PENEFI_OLD, STIFFI_OLD
       my_real,
-     .     DIMENSION(:,:), ALLOCATABLE :: SLAV_FRFI_OLD
+     .     DIMENSION(:,:), ALLOCATABLE :: SECND_FRFI_OLD
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -3846,8 +3846,8 @@ C
 
         IF(ASSOCIATED(NSVFI(NIN)%P)) DEALLOCATE(NSVFI(NIN)%P)
         ALLOCATE(NSVFI(NIN)%P(NODFI),STAT=IERROR1)
-        IF(ASSOCIATED(PMASTERFI(NIN)%P)) DEALLOCATE(PMASTERFI(NIN)%P)
-        ALLOCATE(PMASTERFI(NIN)%P(NODFI),STAT=IERROR2)
+        IF(ASSOCIATED(PMAINFI(NIN)%P)) DEALLOCATE(PMAINFI(NIN)%P)
+        ALLOCATE(PMAINFI(NIN)%P(NODFI),STAT=IERROR2)
         IERROR1 = IERROR2 + IERROR1
         IF(ASSOCIATED(XFI(NIN)%P)) DEALLOCATE(XFI(NIN)%P)
         ALLOCATE(XFI(NIN)%P(3,NODFI),STAT=IERROR2)
@@ -3899,8 +3899,8 @@ C
           IF(ASSOCIATED(TIME_SFI(NIN)%P)) DEALLOCATE(TIME_SFI(NIN)%P)
           ALLOCATE(TIME_SFI(NIN)%P(NODFI),STAT=IERROR16)
 
-          IF(ASSOCIATED(SLAV_FRFI(NIN)%P)) DEALLOCATE(SLAV_FRFI(NIN)%P)
-          ALLOCATE(SLAV_FRFI(NIN)%P(6,NODFI),STAT=IERROR16)
+          IF(ASSOCIATED(SECND_FRFI(NIN)%P)) DEALLOCATE(SECND_FRFI(NIN)%P)
+          ALLOCATE(SECND_FRFI(NIN)%P(6,NODFI),STAT=IERROR16)
 
           IF(ASSOCIATED(PENE_OLDFI(NIN)%P))DEALLOCATE(PENE_OLDFI(NIN)%P)
           ALLOCATE(PENE_OLDFI(NIN)%P(5,NODFI),STAT=IERROR16)
@@ -3986,7 +3986,7 @@ c general case
               NSVFI(NIN)%P(NN2+J) = -IREM(1,I+IDEB)
               ITAFI(NIN)%P(NN2+J) = IREM(2,I+IDEB)
               KINFI(NIN)%P(NN2+J) = IREM(3,I+IDEB)
-              PMASTERFI(NIN)%P(NN2+J) = P 
+              PMAINFI(NIN)%P(NN2+J) = P 
 
             
               !ignore specifics IREM and XREM indexes for INT24 sorting
@@ -4073,12 +4073,12 @@ c INT24
                 IRTLM_FI(NIN)%P(2,NN2+J)  =IREM(ISHIFT+1,I+IDEB)
                 ICONT_I_FI(NIN)%P(NN2+J) = IREM(ISHIFT+2,I+IDEB)
                 TIME_SFI(NIN)%P(NN2+J )   =XREM(RSHIFT,I+IDEB)
-                SLAV_FRFI(NIN)%P(1,NN2+J) =ZERO
-                SLAV_FRFI(NIN)%P(2,NN2+J) =ZERO
-                SLAV_FRFI(NIN)%P(3,NN2+J) =ZERO
-                SLAV_FRFI(NIN)%P(4,NN2+J) =XREM(RSHIFT+1,I+IDEB)
-                SLAV_FRFI(NIN)%P(5,NN2+J) =XREM(RSHIFT+2,I+IDEB)
-                SLAV_FRFI(NIN)%P(6,NN2+J) =XREM(RSHIFT+3,I+IDEB)
+                SECND_FRFI(NIN)%P(1,NN2+J) =ZERO
+                SECND_FRFI(NIN)%P(2,NN2+J) =ZERO
+                SECND_FRFI(NIN)%P(3,NN2+J) =ZERO
+                SECND_FRFI(NIN)%P(4,NN2+J) =XREM(RSHIFT+1,I+IDEB)
+                SECND_FRFI(NIN)%P(5,NN2+J) =XREM(RSHIFT+2,I+IDEB)
+                SECND_FRFI(NIN)%P(6,NN2+J) =XREM(RSHIFT+3,I+IDEB)
                 PENE_OLDFI(NIN)%P(1,NN2+J)=ZERO
                 STIF_OLDFI(NIN)%P(1,NN2+J)=ZERO
                 PENE_OLDFI(NIN)%P(2,NN2+J)=XREM(RSHIFT+4,I+IDEB)
@@ -6076,7 +6076,7 @@ C
 C
         ELSE
 C
-C Allocation Parith/ON Dans UPGRADE_REM_SLV
+C Allocation Parith/ON Dans UPGRADE_REM_2RY
 
        ENDIF
       ELSE ! INTTH .NE. 0
@@ -6120,7 +6120,7 @@ C Init a 0
 C
       ELSE ! IF PARITH/ON
 C
-C Allocation Parith/ON done in UPGRADE_REM_SLV
+C Allocation Parith/ON done in UPGRADE_REM_2RY
 C
          ENDIF !PARITH/ON
        ENDIF !INTTH

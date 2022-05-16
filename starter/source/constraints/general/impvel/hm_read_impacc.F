@@ -216,7 +216,7 @@ c--------------------------------------------------
           IBFV(3,I_VDA)  = FCT_ID
           IBFV(4,I_VDA)  = SENS_ID
           IBFV(5,I_VDA)  = 0
-          IBFV(6,I_VDA)  = 0  ! init dans lecrby (si vitesse de rotation sur master)
+          IBFV(6,I_VDA)  = 0  ! init dans lecrby (si vitesse de rotation sur main)
           IBFV(7,I_VDA)  = 0
           IBFV(8,I_VDA)  = 0
           IBFV(9,I_VDA)  = NOFRAME

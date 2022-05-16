@@ -143,14 +143,14 @@ C-----------------------------------------------
         IE                =  BRICK_LIST(NIN,IB)%ID 
         MLW               =  BRICK_LIST(NIN,IB)%MLW               
         NCELL             =  BRICK_LIST(NIN,IB)%NBCUT 
-        MCELL             =  BRICK_LIST(NIN,IB)%MasterID       
+        MCELL             =  BRICK_LIST(NIN,IB)%MainID       
         ICELL             =  0  
         DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}
           ICELL = ICELL +1
           IF (ICELL>NCELL .AND. NCELL.NE.0)ICELL=9 
-          !get_master_data
-          J      = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(1)
-          ICELLM = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(2)
+          !get_main_data
+          J      = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1)
+          ICELLM = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(2)
           IF(J==0)THEN
             IE_M   = IE
             IBM    = IB

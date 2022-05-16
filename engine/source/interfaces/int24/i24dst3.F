@@ -47,7 +47,7 @@ Chd|====================================================================
      C                  KINI   ,IRECT  ,IRTLM  ,TIME_S ,SUBTRIA,
      D                  INTTH  ,NSMS   ,PENE   ,XX0    ,YY0    ,
      E                  ZZ0    ,VX     ,VY     ,VZ     ,IXX    ,
-     F                  MVOISIN,PMAX_GAP,SLAV_FR,GAP_M ,PENE_OLD,
+     F                  MVOISIN,PMAX_GAP,SECND_FR,GAP_M ,PENE_OLD,
      G                  STIF_OLD,ITRIV ,ITAB   ,CAND_T ,IEDGE  ,
      H                  NFT     ,PENMIN,EPS0   ,NM1    ,NM2    ,
      I                  NM3     ,INTPLY ,DGAP_NM,ICONT_I,MARGE ,
@@ -93,7 +93,7 @@ C-----------------------------------------------
      .     VX1(MVSIZ),VX2(MVSIZ),VX3(MVSIZ),VX4(MVSIZ),VY1(MVSIZ),
      .     VY2(MVSIZ),VY3(MVSIZ),VY4(MVSIZ),VZ1(MVSIZ),VZ2(MVSIZ),
      .     VZ3(MVSIZ),VZ4(MVSIZ),VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),
-     .     TIME_S(NSN),PENE(MVSIZ),SLAV_FR(6,NSN),
+     .     TIME_S(NSN),PENE(MVSIZ),SECND_FR(6,NSN),
      .     XX0(MVSIZ,17),YY0(MVSIZ,17),ZZ0(MVSIZ,17),GAP_M(*),
      .     VX(MVSIZ,17),VY(MVSIZ,17),VZ(MVSIZ,17),GAPS(*),GAP_NM(12,*),
      .     PENE_OLD(5,NSN),STIF_OLD(2,NSN),PENMIN,EPS0,
@@ -3266,9 +3266,9 @@ c     .        IRTLM(1,N)==IRTLM_OLD(I))THEN
            IF(IRTLM(1,N) > 0)THEN
              IRTLM(1,N)=0
              TIME_S(N) = -EP20
-             SLAV_FR(4,N)= ZERO
-             SLAV_FR(5,N)= ZERO
-             SLAV_FR(6,N)= ZERO
+             SECND_FR(4,N)= ZERO
+             SECND_FR(5,N)= ZERO
+             SECND_FR(6,N)= ZERO
              IF (IMCONV==1) PENE_OLD(2,N) = ZERO
              PENE_OLD(5,N) = ZERO
              IF (IMCONV==1) STIF_OLD(2,N) = ZERO
@@ -3277,9 +3277,9 @@ c     .        IRTLM(1,N)==IRTLM_OLD(I))THEN
            IF(IRTLM_FI(NIN)%P(1,N-NSN) > 0)THEN
              IRTLM_FI(NIN)%P(1,N-NSN)=0
              TIME_SFI(NIN)%P(N-NSN) = -EP20
-             SLAV_FRFI(NIN)%P(4,N-NSN)= ZERO
-             SLAV_FRFI(NIN)%P(5,N-NSN)= ZERO
-             SLAV_FRFI(NIN)%P(6,N-NSN)= ZERO
+             SECND_FRFI(NIN)%P(4,N-NSN)= ZERO
+             SECND_FRFI(NIN)%P(5,N-NSN)= ZERO
+             SECND_FRFI(NIN)%P(6,N-NSN)= ZERO
              IF (IMCONV==1) PENE_OLDFI(NIN)%P(2,N-NSN) = ZERO
              PENE_OLDFI(NIN)%P(5,N-NSN) = ZERO
              IF (IMCONV==1) STIF_OLDFI(NIN)%P(2,N-NSN) = ZERO 
@@ -5084,7 +5084,7 @@ C------------------------------------------------
 ! | / 1 \ |
 ! |/     \|
 ! 1-------2
-!C-----case slave shell node/edge shell (12,23,34,41)
+!C-----case secnd shell node/edge shell (12,23,34,41)
 C--------edge selection: first look at smallest distance DNO,then final intersection
          NEG = 0
          DO J=1,4

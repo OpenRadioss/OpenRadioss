@@ -188,18 +188,18 @@ C-----------------------------------------------
       !---------------------------------------------------------!
       ! SECONDARY CELLS STACK                                       !
       !---------------------------------------------------------!
-      !STACK SECONDARY cells values from ones connected to current master cell  
+      !STACK SECONDARY cells values from ones connected to current main cell  
       IF(INT22>0)THEN                                                       
         NIN = 1                                                             
         DO IB=NBF,NBL                                                                                                        
-          NUM   = BRICK_LIST(NIN,IB)%SlaveList%Num                          
-          MCELL = BRICK_LIST(NIN,IB)%masterID      
+          NUM   = BRICK_LIST(NIN,IB)%SecndList%Num                          
+          MCELL = BRICK_LIST(NIN,IB)%mainID      
           dPHI  = ZERO        
           MLW   = BRICK_LIST(NIN,IB)%MLW
           IF(ITRIMAT.NE.0 .AND. MLW.NE.51)CYCLE                
           DO K=1,NUM                                                        
-            IBV    = BRICK_LIST(NIN,IB)%SlaveList%IBV(K)                    
-            ICELLv = BRICK_LIST(NIN,IB)%SlaveList%ICELLv(K)                 
+            IBV    = BRICK_LIST(NIN,IB)%SecndList%IBV(K)                    
+            ICELLv = BRICK_LIST(NIN,IB)%SecndList%ICELLv(K)                 
             dPHI   = dPHI + BRICK_LIST(NIN,IBv)%POLY(ICELLv)%dPHI != PHI(J)                        
           ENDDO                                                             
           dPHI = dPHI + BRICK_LIST(NIN,IB)%POLY(MCELL)%dPHI
@@ -213,7 +213,7 @@ C-----------------------------------------------
       DO IB=NBF,NBL
         IE    =  BRICK_LIST(NIN,IB)%ID
         MLW   =  BRICK_LIST(NIN,IB)%MLW
-        MCELL =  BRICK_LIST(NIN,IB)%masterID
+        MCELL =  BRICK_LIST(NIN,IB)%mainID
         dPHI   = BRICK_LIST(NIN,IB)%POLY(MCELL)%dPHI
         NG    =  BRICK_LIST(NIN,IB)%NG
         IDLOC =  BRICK_LIST(NIN,IB)%IDLOC       
@@ -322,7 +322,7 @@ C-----------------------------------------------
                 do ib=1,nb   
                   IE     =  BRICK_LIST(NIN,IB)%ID
                   MLW    =  BRICK_LIST(NIN,IB)%MLW
-                  MCELL  =  BRICK_LIST(NIN,IB)%masterID
+                  MCELL  =  BRICK_LIST(NIN,IB)%mainID
                   dPHI   =  BRICK_LIST(NIN,IB)%POLY(MCELL)%dPHI
                   NG     =  BRICK_LIST(NIN,IB)%NG
                   IDLOC  =  BRICK_LIST(NIN,IB)%IDLOC      

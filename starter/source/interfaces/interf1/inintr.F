@@ -321,7 +321,7 @@ C - with low stiffness
 C - included in the *main interface*
 C
 C *main interface* : interface that concern a lot of nodes with
-C significantly different velocities between slave and master
+C significantly different velocities between secnd and main
       displacement_max = 0.0
       NS = 0
       MAIN_INTERFACE_SIZE = -1 
@@ -386,7 +386,7 @@ C
      +           NMN + NSN > MAIN_INTERFACE_SIZE) THEN
                 IF( NMN + NSN > NUMNOD / 100 ) THEN
 C main interface = interface that has the maximum displacement velocity
-C between master and slave, and that contains at least 1% of the nodes 
+C between main and secnd, and that contains at least 1% of the nodes 
                   MAIN_INTERFACE_SIZE = NMN + NSN
                   ID_MAIN_INTERFACE = N
 C                 CONDITION(N) = .FALSE.

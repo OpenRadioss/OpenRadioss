@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, PMASTER, NNS_ANIM, NNTR, J, K, KK, L, LL, N1, N2, N3,
+      INTEGER I, PMAIN, NNS_ANIM, NNTR, J, K, KK, L, LL, N1, N2, N3,
      .        ITAG, LEN, MSGOFF, STAT(MPI_STATUS_SIZE), IERR,MSGOFF2
       my_real
      .        VVT(3)
@@ -68,9 +68,9 @@ C
       DATA MSGOFF2/7049/
 C
       DO I=1,NFVBAG
-         PMASTER=FVSPMD(I)%PMASTER
+         PMAIN=FVSPMD(I)%PMAIN
          IF (ISPMD.EQ.0) THEN
-            IF (ISPMD.EQ.PMASTER-1) THEN
+            IF (ISPMD.EQ.PMAIN-1) THEN
                NNS_ANIM=FVDATA(I)%NNS_ANIM
                NNTR=FVDATA(I)%NNTR
                ALLOCATE(VTR(3,NNTR), VV(3,NNS_ANIM), NPTR(NNTR),
@@ -144,13 +144,13 @@ C
                DEALLOCATE(VTR, VV, NPTR, NPN)
             ELSE
                ITAG=MSGOFF
-               CALL MPI_RECV(NNS_ANIM, 1, MPI_INTEGER, IT_SPMD(PMASTER),
+               CALL MPI_RECV(NNS_ANIM, 1, MPI_INTEGER, IT_SPMD(PMAIN),
      .                       ITAG, MPI_COMM_WORLD, STAT, IERR)
 C
                ALLOCATE(VV(3,NNS_ANIM))
                ITAG=MSGOFF2
                LEN=3*NNS_ANIM
-               CALL MPI_RECV(VV, LEN, REAL, IT_SPMD(PMASTER),
+               CALL MPI_RECV(VV, LEN, REAL, IT_SPMD(PMAIN),
      .                       ITAG, MPI_COMM_WORLD, STAT, IERR)
 C
                DO J=1,NNS_ANIM
@@ -165,7 +165,7 @@ C
                DEALLOCATE(VV)
             ENDIF
          ELSE
-            IF (ISPMD.EQ.PMASTER-1) THEN
+            IF (ISPMD.EQ.PMAIN-1) THEN
                NNS_ANIM=FVDATA(I)%NNS_ANIM
                ITAG=MSGOFF
                CALL MPI_SEND(NNS_ANIM, 1, MPI_INTEGER, IT_SPMD(1),

@@ -72,7 +72,7 @@ C
       NIR=2
       IF(N2D.EQ.0)NIR=4
 C-------------------------------------
-C     ACCELERATIONS DES NOEUDS MASTERS
+C     ACCELERATIONS DES NOEUDS MAINS
 C-------------------------------------
       DO I=1,NMN
         J=MSR(I)
@@ -92,7 +92,7 @@ C-------------------------------------
         IF(LCOD>0)CALL BCS2(A(J1),SKEW(1,ISK),ISK,LCOD)
       ENDDO
 C------------------------------------
-C     ACCELERATIONS DES NOEUDS SLAVES
+C     ACCELERATIONS DES NOEUDS SECNDS
 C------------------------------------
       DO II=1,NSN
         I=NSV(II)

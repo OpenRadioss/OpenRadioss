@@ -101,7 +101,7 @@ C============================================================
       DATA D_POLYH(1:8) /01,09,21,45,51,59,71,83/ !generic form                  
 
       !----------------------------------------------------!
-      !  MASTER NODES NUMBER                               !
+      !  main NODES NUMBER                               !
       !----------------------------------------------------!
       DATA N_TETRA /01/
       DATA N_PENTA /02/
@@ -717,7 +717,7 @@ C============================================================
       Gcorner(:,106)=(/-10,+03,-07,+06,+11,-11,0/)    !POLYC T-.11     
       
       !----------------------------------------------------!
-      !  SUBVOLUME 'G'RAPH : 'master 'N'ODES               !
+      !  SUBVOLUME 'G'RAPH : 'main 'N'ODES               !
       !----------------------------------------------------!
       !TETRA
       Gnode(:, 1)=(/1,0,0,0/) ; bGnode( 1)=B'10000000'
@@ -1071,18 +1071,18 @@ C============================================================
       UNLINKED_CELLS_L(0:NTHREAD-1,1:2,1:I22LEN)                      = 0         
       N_UNLINKED_L(0:NTHREAD-1)                                       = 0         
       DO NIN=1,INT22
-        OLD_SlaveList(NIN,1:I22LEN)%Num                               = 0         
-        OLD_SlaveList(NIN,1:I22LEN)%NumSlaveNodes                     = 0         
+        OLD_SecndList(NIN,1:I22LEN)%Num                               = 0         
+        OLD_SecndList(NIN,1:I22LEN)%NumSecndNodes                     = 0         
         DO J=1,24
-          OLD_SlaveList(NIN,1:I22LEN)%FM(J)                           = 0         
-          OLD_SlaveList(NIN,1:I22LEN)%FV(J)                           = 0         
-          OLD_SlaveList(NIN,1:I22LEN)%IV(J)                           = 0         
-          OLD_SlaveList(NIN,1:I22LEN)%IBV(J)                          = 0         
-          OLD_SlaveList(NIN,1:I22LEN)%ICELLv(J)                       = 0         
-          OLD_SlaveList(NIN,1:I22LEN)%VOL(J)                          = ZERO      
-          OLD_SlaveList(NIN,1:I22LEN)%NumNOD_Cell(J)                  = 0
+          OLD_SecndList(NIN,1:I22LEN)%FM(J)                           = 0         
+          OLD_SecndList(NIN,1:I22LEN)%FV(J)                           = 0         
+          OLD_SecndList(NIN,1:I22LEN)%IV(J)                           = 0         
+          OLD_SecndList(NIN,1:I22LEN)%IBV(J)                          = 0         
+          OLD_SecndList(NIN,1:I22LEN)%ICELLv(J)                       = 0         
+          OLD_SecndList(NIN,1:I22LEN)%VOL(J)                          = ZERO      
+          OLD_SecndList(NIN,1:I22LEN)%NumNOD_Cell(J)                  = 0
           DO K=1,8
-          OLD_SlaveList(NIN,1:I22LEN)%ListNodID(J,K)                  = 0
+          OLD_SecndList(NIN,1:I22LEN)%ListNodID(J,K)                  = 0
           ENDDO
         ENDDO!next J
       ENDDO!next NIN

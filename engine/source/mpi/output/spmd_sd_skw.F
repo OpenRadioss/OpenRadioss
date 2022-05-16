@@ -207,7 +207,7 @@ C-----------------------------------------------
 !$COMMENT
 !       SPMD_SD_SKW_ANIM description
 !       communication of SKEW array with a ALLGATHERV comm
-!       on master processor (proc 0) before the animation
+!       on main processor (proc 0) before the animation
 !       
 !       SPMD_SD_SKW_ANIM organization :
 !       - initialize the SBUF buffer with the local SKEW value
@@ -227,7 +227,7 @@ C-----------------------------------------------
 !                       DIPSPL(2) = 3
 !                       DIPSPL(3) = 5
 !
-!       RBUF (on master proc):
+!       RBUF (on main proc):
 !               1 | 4 | 100 | 2 | 3 | 5 | 99 | 102 | 1000
 !
 !$ENDCOMMENT
@@ -263,10 +263,10 @@ C-----------------------------------------------
         ENDDO
         TOTAL_RECV = TOTAL_RECV / 10              
 
-!       comm on proc 0 (master)       
+!       comm on proc 0 (main)       
         CALL MPI_GATHERV(SBUF,SENDCOUNT,REAL,RBUF,RECVCOUNT,DIPSPL,REAL,0,MPI_COMM_WORLD,IERROR)
                 
-!       fill the RBUF array (only master proc)
+!       fill the RBUF array (only main proc)
         IF(ISPMD==0) THEN
                 DO I=1,TOTAL_RECV
                         K = NINT(RBUF(10+(I-1)*10))

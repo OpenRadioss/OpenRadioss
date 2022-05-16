@@ -391,7 +391,7 @@ C=======================================================================
             VDZ(I) = MOM(I,3)/RHO(I) - WDZ(I)
             VD2(I) = VDX(I)*VDX(I)+VDY(I)*VDY(I)+VDZ(I)*VDZ(I)
           ELSE
-            MCELL = BRICK_LIST(NIN,IB)%MasterID
+            MCELL = BRICK_LIST(NIN,IB)%MainID
             IF (MCELL==0)THEN
               WDX(I) = ZERO
               WDY(I) = ZERO

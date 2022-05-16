@@ -71,7 +71,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NN, IRB, MASTER, J, INTDAMP, MSR, MSRR, IROT
+      INTEGER NN, IRB, MAIN, J, INTDAMP, MSR, MSRR, IROT
 C     REAL ou REAL*8
       my_real
      .   DW, ALPHA, MASS, VIS, STF, STR, INM, VX, VY, VZ,
@@ -133,21 +133,21 @@ C     Transfer Rbody => Interface
 C---------------------
       DO NN=1,NINTSTAMP
         IRB   =INTSTAMP(NN)%IRB
-        MASTER=INTSTAMP(NN)%MSR
-        INTSTAMP(NN)%V(1)  =V(1,MASTER)
-        INTSTAMP(NN)%V(2)  =V(2,MASTER)
-        INTSTAMP(NN)%V(3)  =V(3,MASTER)
-        INTSTAMP(NN)%D(1)  =D(1,MASTER)
-        INTSTAMP(NN)%D(2)  =D(2,MASTER)
-        INTSTAMP(NN)%D(3)  =D(3,MASTER)
-        INTSTAMP(NN)%XG(1) =X(1,MASTER)
-        INTSTAMP(NN)%XG(2) =X(2,MASTER)
-        INTSTAMP(NN)%XG(3) =X(3,MASTER)
+        MAIN=INTSTAMP(NN)%MSR
+        INTSTAMP(NN)%V(1)  =V(1,MAIN)
+        INTSTAMP(NN)%V(2)  =V(2,MAIN)
+        INTSTAMP(NN)%V(3)  =V(3,MAIN)
+        INTSTAMP(NN)%D(1)  =D(1,MAIN)
+        INTSTAMP(NN)%D(2)  =D(2,MAIN)
+        INTSTAMP(NN)%D(3)  =D(3,MAIN)
+        INTSTAMP(NN)%XG(1) =X(1,MAIN)
+        INTSTAMP(NN)%XG(2) =X(2,MAIN)
+        INTSTAMP(NN)%XG(3) =X(3,MAIN)
         IF(INTSTAMP(NN)%IROT/=0)THEN
-          INTSTAMP(NN)%VR(1) =VR(1,MASTER)
-          INTSTAMP(NN)%VR(2) =VR(2,MASTER)
-          INTSTAMP(NN)%VR(3) =VR(3,MASTER)
-          INTSTAMP(NN)%MASS  =MS(MASTER)
+          INTSTAMP(NN)%VR(1) =VR(1,MAIN)
+          INTSTAMP(NN)%VR(2) =VR(2,MAIN)
+          INTSTAMP(NN)%VR(3) =VR(3,MAIN)
+          INTSTAMP(NN)%MASS  =MS(MAIN)
           DO J=1,9
             INTSTAMP(NN)%ROT(J)=RBY(J,IRB)
           END DO

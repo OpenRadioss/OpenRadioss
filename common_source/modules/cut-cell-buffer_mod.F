@@ -75,24 +75,24 @@ Chd|====================================================================
         INTEGER                              :: Num_inv(48)             !to define bijection with adjacent cut cell
         INTEGER                              :: IV(48)                  !internal ID
         INTEGER                              :: IB(48)                  !cut cell id
-        INTEGER                              :: ICELL(48)               !slave cell id
-        INTEGER                              :: SlaveFACE(48)           !slave face ID to pickup correct flux
+        INTEGER                              :: ICELL(48)               !secnd cell id
+        INTEGER                              :: SecndFACE(48)           !secnd face ID to pickup correct flux
       END TYPE LIST_ADJ 
 
-      TYPE LIST_SLAVE
+      TYPE LIST_SECND
         my_real                              :: VOL_Unmerged
         INTEGER                              :: Num      
-        INTEGER                              :: NumSlaveNodes        
-        INTEGER                              :: FM(24)                  !Master face common face
-        INTEGER                              :: FV(24)                  !Slave corresponding face        
-        INTEGER                              :: IV(24)                  !brick id which contains slave cell
+        INTEGER                              :: NumSecndNodes        
+        INTEGER                              :: FM(24)                  !Main face common face
+        INTEGER                              :: FV(24)                  !Secnd corresponding face        
+        INTEGER                              :: IV(24)                  !brick id which contains secnd cell
         INTEGER                              :: IBV(24)                 !cut cell address in cut cell buffer
-        INTEGER                              :: ICELLv(24)              !slave cell id
-        my_real                              :: VOL(24)                 !slave cell volume
+        INTEGER                              :: ICELLv(24)              !secnd cell id
+        my_real                              :: VOL(24)                 !secnd cell volume
         my_real                              :: SURF_v(24)              !Area of linking face
         INTEGER                              :: NumNOD_Cell(24)         !noeuds sommets
         INTEGER                              :: ListNodID(24,8)         !Global nodes ID (max8) describing the cell, for each of 9 cells
-      END TYPE LIST_SLAVE 
+      END TYPE LIST_SECND 
  
       TYPE POLYFACE_ENTITY
         INTEGER                              :: NumPOINT                !gives number of points (node+intersec.pts) on a given cell face   (%NumPOINT_Face(6,9))  
@@ -136,15 +136,15 @@ Chd|====================================================================
         INTEGER                              :: NumNOD                  !noeuds sommets (%NumNOD_Cell(9))
         INTEGER                              :: NumPOINT                !nombre total de point decrivant le volume (%NumPOINT_Cell(9))              
         INTEGER                              :: ListNodID(8)            !Global nodes ID (max8) describing the cell, for each of 9 cells  (%ListNodID(8,9))
-        INTEGER                              :: IsMaster                !=1 master =0:slave  (index is icell)   (%IsMaster(9))
-        INTEGER                              :: WhereIsMaster(4)        !locate master cell to link with index1 : ICELL,  index2: (1)face, (2):icellm, (3):IDm, (4):IBm !(%WhereIsMaster(9,4))
+        INTEGER                              :: IsMain                !=1 main =0:secnd  (index is icell)   (%IsMain(9))
+        INTEGER                              :: WhereIsMain(4)        !locate main cell to link with index1 : ICELL,  index2: (1)face, (2):icellm, (3):IDm, (4):IBm !(%WhereIsMain(9,4))
         INTEGER                              :: ID_FREE_NODE            !post-treatment  (!ID_FREE_NODE(9) )
         my_real                              :: Adjacent_FLU1           ! Adjacent_FLU1(9) 
         my_real                              :: DDVOL                   !d/dT (DELTA V)
         my_real                              :: DDVOL_upw             
         my_real                              :: PHI                     !masse ou energie des cellules pour convection indirecte en 2 temps directs (plus simple pour spmd)
         my_real                              :: DPHI                    !delate masse ou energie : quantite transportee       
-        my_real                              :: VFRACm(4)               !master cell VFRAC
+        my_real                              :: VFRACm(4)               !main cell VFRAC
         my_real                              :: Vnew                    !volume des sous volumes elementaires (if exists)
         my_real                              :: Vold            
         my_real                              :: OLD_Vnew       
@@ -160,8 +160,8 @@ Chd|====================================================================
       TYPE NODE_ENTITY
         INTEGER                              :: OLD_WhichCell           ! [1,8] -> [1,9]             
         INTEGER                              :: WhichCell               !node local id in[1,8] -> [1,9] = local cut cell id.
-        INTEGER                              :: NodWasMaster            !=1 belonged to the master cell, 0 otherwise. (index is brick node)
-        INTEGER                              :: WhereWasMaster          !index=node : result=face              
+        INTEGER                              :: NodWasMain            !=1 belonged to the main cell, 0 otherwise. (index is brick node)
+        INTEGER                              :: WhereWasMain          !index=node : result=face              
       END TYPE NODE_ENTITY
 
       TYPE BRICK_ENTITY 
@@ -174,10 +174,10 @@ Chd|====================================================================
         INTEGER                              :: NBITS
         INTEGER                              :: NPQTS
         INTEGER                              :: NBCUT                   !nombre de plans de coupe
-        INTEGER                              :: MasterID
+        INTEGER                              :: MainID
         INTEGER                              :: WasCut
         INTEGER                              :: NewInBuffer        
-        INTEGER                              :: OldMasterStrongNode
+        INTEGER                              :: OldMainStrongNode
         INTEGER                              :: MLW
         INTEGER                              :: ITASK
         INTEGER                              :: SECID_Cell(8)           !cut local id in [1,8] -> [1,52] = sec type. Each possible cut is numbered from 1 to 52 ; 8 nodes => 8 possible cut cells
@@ -190,10 +190,10 @@ Chd|====================================================================
         INTEGER                              :: IsMergeTarget
         my_real                              :: N(6,3)                  !unitary normal vector on each 6 faces        
         my_real                              :: Vnew_SCell              !volume des sous volumes elementaires (if exists)
-        my_real                              :: Vold_SCell              !volume master (if exists)    : need for epsdot in sigeps51, merge/demerge, link switching , srho3   
+        my_real                              :: Vold_SCell              !volume main (if exists)    : need for epsdot in sigeps51, merge/demerge, link switching , srho3   
         my_real                              :: SCellCenter(3)          !Centroides de la supercellule
         my_real                              :: Face_Brick(6)
-        my_real                              :: UncutVol                !brick volume. the one in gbuf can up extended if slave is merged.
+        my_real                              :: UncutVol                !brick volume. the one in gbuf can up extended if secnd is merged.
         my_real                              :: FCELL(3)                !FVM force on centroid
         my_real                              :: FEXT_CELL(3)
         my_real                              :: SIG(0:6)                !0 is pressure 1:6 is tensor
@@ -206,14 +206,14 @@ Chd|====================================================================
         TYPE(NODE_ENTITY)                    :: NODE(8)
         TYPE(LIST_ADJ)                       :: ADJ_ELEMS               !a priori plus utile (buffer voisins indirects)
         TYPE(CUT_PLANE)                      :: PCUT(16)
-        TYPE(LIST_SLAVE)                     :: SlaveList               !list of slave cells linked to the given master cell
+        TYPE(LIST_SECND)                     :: SecndList               !list of secnd cells linked to the given main cell
         TYPE(EDGE_ENTITY)                    :: Edge(12)                !list of edges for velocity or coordinates
         CHARACTER*14                         :: SECTYPE(8)
         TYPE(MAT_ENTITY)                     :: bakMAT
       END TYPE BRICK_ENTITY
 
 
-      TYPE(LIST_SLAVE),DIMENSION(:,:),ALLOCATABLE    :: OLD_SlaveList
+      TYPE(LIST_SECND),DIMENSION(:,:),ALLOCATABLE    :: OLD_SecndList
 
       
       END MODULE

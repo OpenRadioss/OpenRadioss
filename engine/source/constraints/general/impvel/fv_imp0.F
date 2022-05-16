@@ -3538,9 +3538,9 @@ C-------definitively, using different system (nodal) seting [K] makes coding mor
 C-----will do in V12, should:
 C-1). create ITSKEW(inode),IRSKEW(inode)
 C-2). change [K] to each nodal system once assemblage elementary
-C-3). if slave,master node has not the same system:
+C-3). if secnd,main node has not the same system:
 C      condensation getKij -> change to global system
-C      change to system of master node -> putKij
+C      change to system of main node -> putKij
 C      do all kinematic constraints w/o exception.
 C-4) once resolved change U to global system for all local nodal one
 Chd|====================================================================

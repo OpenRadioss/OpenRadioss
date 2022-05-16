@@ -58,7 +58,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, NN, IAD, KAD, ITYP, NCA, IDSURF, PMASTER
+      INTEGER I, N, NN, IAD, KAD, ITYP, NCA, IDSURF, PMAIN
       INTEGER NTG, NTGI, NNT, KIBALE, KRBALE
       INTEGER K1, K2, KK2, KI4, KR5, KR6, KR7, NNS, NNI, NTGT
       INTEGER :: KR1, KR2, KR3, KR4
@@ -70,8 +70,8 @@ C-----------------------------------------------------------------------
          KRBALE=1+NRVOLU*NVOLU+LRCBAG+LRBAGJET+LRBAGHOL
          DO N=1,NVOLU
            NCA  = MONVOL(K1-1+3)
-           PMASTER = FR_MV(NSPMD+2,N)
-           IF(ISPMD+1 == PMASTER) THEN
+           PMAIN = FR_MV(NSPMD+2,N)
+           IF(ISPMD+1 == PMAIN) THEN
              ITYP = MONVOL(K1-1+2)
              IF(ITYP == 6.OR.ITYP == 8) THEN
                NTGI = MONVOL(K1-1+69)

@@ -100,8 +100,8 @@ C sur le meme schemas avec des
 C donn  es differentes
 C MODE =
 C   1 : PENE + PENEMIN
-C   2 : Vitesses noeuds esclaves
-C   3 : Accelerations noeuds esclaves
+C   2 : Vitesses noeuds seconds
+C   3 : Accelerations noeuds seconds
 
       LOC_PROC = ISPMD+1
       IADS = 0

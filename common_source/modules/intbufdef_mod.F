@@ -54,16 +54,16 @@ Chd|        I20INI3                       starter/source/interfaces/inter3d1/i20
 Chd|        I20STA                        starter/source/interfaces/inter3d1/inintr2.F
 Chd|        I20STIFN                      starter/source/interfaces/inter3d1/i20stifn.F
 Chd|        I24SETNODES                   starter/source/interfaces/inter3d1/i24setnodes.F
-Chd|        I24STSLAV                     starter/source/interfaces/inter3d1/i24stslav.F
+Chd|        I24STSECND                     starter/source/interfaces/inter3d1/i24stslav.F
 Chd|        I25SORS                       starter/source/interfaces/inter3d1/i25sors.F
-Chd|        I25STSLAV                     starter/source/interfaces/inter3d1/i25stslav.F
-Chd|        I2MASTER                      starter/source/interfaces/interf1/i2master.F
+Chd|        I25STSECND                     starter/source/interfaces/inter3d1/i25stslav.F
+Chd|        I2MAIN                      starter/source/interfaces/interf1/i2main.F
 Chd|        I2TID3                        starter/source/interfaces/inter3d1/i2tid3.F
 Chd|        I2_DTN                        starter/source/interfaces/inter3d1/i2_dtn.F
 Chd|        I2_DTN_27                     starter/source/interfaces/inter3d1/i2_dtn_27.F
 Chd|        I2_DTN_28                     starter/source/interfaces/inter3d1/i2_dtn_28.F
 Chd|        I7REMNODE                     starter/source/interfaces/inter3d1/i7remnode.F
-Chd|        I7STSLAV                      starter/source/interfaces/inter3d1/i7stslav.F
+Chd|        I7STSECND                      starter/source/interfaces/inter3d1/i7stslav.F
 Chd|        INIEND                        starter/source/interfaces/inter3d1/iniend.F
 Chd|        INIEND2D                      starter/source/interfaces/inter3d1/iniend.F
 Chd|        ININT2                        starter/source/interfaces/inter2d1/inint2.F
@@ -159,7 +159,7 @@ Chd|        SPLIT_SEG_NODLOC              starter/source/restart/ddsplit/inter_t
 Chd|        SPLIT_SEG_NODLOC_I24          starter/source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_SEG_RVAL_I20            starter/source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_SEG_SEGLOC              starter/source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_SLV_CAND_IVAL_I21       starter/source/restart/ddsplit/inter_tools.F
+Chd|        SPLIT_2RY_CAND_IVAL_I21       starter/source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_XSAV                    starter/source/restart/ddsplit/inter_tools.F
 Chd|        ST_QAPRINT_DRIVER             starter/source/output/qaprint/st_qaprint_driver.F
 Chd|        ST_QAPRINT_INTERFACES         starter/source/output/qaprint/st_qaprint_interfaces.F
@@ -171,7 +171,7 @@ Chd|        W_FRONT                       starter/source/restart/ddsplit/w_front
 Chd|        W_INTBUF_SIZE                 starter/source/restart/ddsplit/inter_tools.F
 Chd|        W_PON                         starter/source/restart/ddsplit/w_pon.F
 Chd|        W_TYPE8                       starter/source/restart/ddsplit/split_interfaces.F
-Chd|        SLAVE_SURFACE_ON_DOMAIN       starter/source/interfaces/inter3d1/i24setnodes.F
+Chd|        SECND_SURFACE_ON_DOMAIN       starter/source/interfaces/inter3d1/i24setnodes.F
 Chd|        MERGEMOD                      starter/share/modules1/merge_mod.F
 Chd|        ALEFVM_MAIN                   engine/source/ale/alefvm/alefvm_main.F
 Chd|        ALEMAIN                       engine/source/ale/alemain.F   
@@ -498,23 +498,23 @@ c   - define float arrays
 C=================================================
 c DEFINE SIZES (integers arrays)
 C=================================================
-        integer ::   S_IRECTS     !  4*NRTS     :IRECTS:CONNECTIVITES FACES ESCLAVES     :1,2,3,4
-        integer ::   S_IRECTM     !  4*NRTM_FE+4*9*NRTM_IGE :IRECTM:CONNECTIVITES FACES MAITRESSES  :1,2,3,4,5,6,7,8,20,24
-        integer ::   S_NSV        !  NSN        :NSV   :NOEUDS ESCLAVES                  :1,2,3,4,  7 
-        integer ::   S_MSR        !  NMN+16*NRTM_IGE  :MSR   :NOEUDS MAITRES                   :1,2,3,4
-        integer ::   S_IRTLM      !  NSN        :FACE MAITRESSE LA PLUS PROCHE    :1,2,3,4   
+        integer ::   S_IRECTS     !  4*NRTS     :IRECTS:CONNECTIVITES FACES SECONDS     :1,2,3,4
+        integer ::   S_IRECTM     !  4*NRTM_FE+4*9*NRTM_IGE :IRECTM:CONNECTIVITES FACES MAIN  :1,2,3,4,5,6,7,8,20,24
+        integer ::   S_NSV        !  NSN        :NSV   :NOEUDS SECONDS                  :1,2,3,4,  7 
+        integer ::   S_MSR        !  NMN+16*NRTM_IGE  :MSR   :NOEUDS MAINS                   :1,2,3,4
+        integer ::   S_IRTLM      !  NSN        :FACE MAIN LA PLUS PROCHE    :1,2,3,4   
         integer ::   S_IRUPT      !  NSN        :IRUPT :Flag rupture                     :2
-        integer ::   S_INORM      !  NSN        :INORM  :master orientation flag: type2 avec rupture
+        integer ::   S_INORM      !  NSN        :INORM  :main orientation flag: type2 avec rupture
         integer ::   S_IELEC      !  (type20)
-        integer ::   S_IELES      !  NRTS       :IELES :ELEMENT SLAVE                    :              9
+        integer ::   S_IELES      !  NRTS       :IELES :ELEMENT SECND                    :              9
         integer ::   S_LISUB      !  NISUB      :LISUB :LISTE DES SOUS-INTERFACES        :     7
         integer ::   S_TYPSUB     !  NISUB      :TYPSUB :TYPE OF SUBINTERFACES           :     25
-        integer ::   S_ADDSUBS    !  NSN+1      :ADDSUBS:ADRESSE DS ZONE DE SS INTERF. COTE ESCLAVE :     7, 10, 24, 25  
-        integer ::   S_ADDSUBM    !  NRTM+1     :ADDSUBM:ADRESSE DS ZONE DE SS INTERF. COTE MAITRE  :     7, 10, 24, 25
-        integer ::   S_LISUBS     !  NISUBS     :LISUBS :ZONE DES SS INTERF. COTE ESCLAVE           :     7, 10, 24, 25
-        integer ::   S_LISUBM     !  NISUBM     :LISUBM :ZONE DES SS INTERF. COTE MAITRE            :     7, 10, 24, 25
-        integer ::   S_INFLG_SUBS !  NISUBS     :INFLG_SUBS: ZONE D APPARTENANCE A S1/S2 DES SS INTERF. COTE ESCLAVE : 25
-        integer ::   S_INFLG_SUBM !  NISUBS     :INFLG_SUBS: ZONE D APPARTENANCE A S1/S2 DES SS INTERF.COTE MAITRE   : 25
+        integer ::   S_ADDSUBS    !  NSN+1      :ADDSUBS:ADRESSE DS ZONE DE SS INTERF. COTE SECOND. :     7, 10, 24, 25  
+        integer ::   S_ADDSUBM    !  NRTM+1     :ADDSUBM:ADRESSE DS ZONE DE SS INTERF. COTE MAIN  :     7, 10, 24, 25
+        integer ::   S_LISUBS     !  NISUBS     :LISUBS :ZONE DES SS INTERF. COTE SECOND.           :     7, 10, 24, 25
+        integer ::   S_LISUBM     !  NISUBM     :LISUBM :ZONE DES SS INTERF. COTE MAIN            :     7, 10, 24, 25
+        integer ::   S_INFLG_SUBS !  NISUBS     :INFLG_SUBS: ZONE D APPARTENANCE A S1/S2 DES SS INTERF. COTE SECOND. : 25
+        integer ::   S_INFLG_SUBM !  NISUBS     :INFLG_SUBS: ZONE D APPARTENANCE A S1/S2 DES SS INTERF.COTE MAIN   : 25
         integer ::   S_MSEGTYP    !  NRTM       :MSEGTYP: element type                   :      2,3,5,7,10,21,23; used only in Starter
         integer ::   S_CAND_E     !  MULTIMP*NSN:CAND_E:FACETTES CANDIDATES              :7,10,11,20   
         integer ::   S_CAND_N     !  MULTIMP*NSN:CAND_N:NOEUDS CANDIDATS                 :7,10,11,20  
@@ -523,41 +523,41 @@ C=================================================
         integer ::   S_IFPEN      !  MULTIMP*NSN:IFPEN :FLAG PENETR. (filtr frottement)  :           7
         integer ::   S_KREMNODE   !  NRTM+1     :KREMNODE:ADRESS NODES REMOVED FROM CONTACT IN REMNODE ARRAY :      7
         integer ::   S_REMNODE    !  NREMNODE   :REMNODE: NODES REMOVED FROM CONTACT     :      7
-        integer ::   S_ADCCM      !  NRTM       :ADDCM :adresse dans CHAINE du 1er maitre:                  11
-        integer ::   S_CHAIN      !  2*MULTIMP*NSN:CHAINE(1,adds) : bord esclave     :                  11
+        integer ::   S_ADCCM      !  NRTM       :ADDCM :adresse dans CHAINE du 1er main:                  11
+        integer ::   S_CHAIN      !  2*MULTIMP*NSN:CHAINE(1,adds) : bord second.     :                  11
 !type20
         integer ::   S_DAANC6     !  18*2*NLN   :DAANC6:contient 18*NLN double precision : 20       
         integer ::   S_NBINFLG    !  NBINFLG    :NLN    :Flags binaire noeuds            NBIN:      20, 24, 25
         integer ::   S_MBINFLG    !  MBINFLG    :NRTM  :Flag multiusage facettes        :      20, 24, 25
         integer ::   S_EBINFLG    !  EBINFLG    :NEDGE :Flag multiusage edges           :      25
         integer ::   S_NLG        !  NLN        :NLG   :LOCAL TO GLOBAL NODE             :      20
-        integer ::   S_ISLINS     !  2*NLINS    :ISLINS:SURFACE ESCLAVE et COTE          :      20
-        integer ::   S_ISLINM     !  2*NLINM    :ISLINM:SURFACE MAITRE et COTE           :      20
-        integer ::   S_IXLINS     !  2*NLINS    :IXLINS:CONNECTIVITES BORDS ESCLAVES     :      20
-        integer ::   S_IXLINM     !  2*NLINM    :IXLINM:CONNECTIVITES BORDS MAITRES      :      20
-        integer ::   S_NSVL       !  NSNE       :NSVL  :NOEUDS ESCLAVES DES LIGNES       :      20
-        integer ::   S_MSRL       !  NMNE       :MSRL  :NOEUDS MAITRES                   :      20
-        integer ::   S_LCAND_N    !  MULTIMP*NMNE:LCAND_N:LIGNES MAITRES CANDIDATES      :      20
-        integer ::   S_LCAND_S    !  MULTIMP*NSNE:LCAND_N:LIGNES ESCLAVES CANDIDATES     :      20
-        integer ::   S_ADCCM20    !  NLINM      :ADDCM :adresse dans CHAINE du 1er maitre:      20
-        integer ::   S_CHAIN20    !  2*MULTIMP*NSNE:CHAINE(1,adds) : bord esclave        :      20            11                                  !                       :CHAINE(2,adds) : adresse suivante       :      20  
+        integer ::   S_ISLINS     !  2*NLINS    :ISLINS:SURFACE SECOND. et COTE          :      20
+        integer ::   S_ISLINM     !  2*NLINM    :ISLINM:SURFACE MAIN et COTE           :      20
+        integer ::   S_IXLINS     !  2*NLINS    :IXLINS:CONNECTIVITES BORDS SECONDS     :      20
+        integer ::   S_IXLINM     !  2*NLINM    :IXLINM:CONNECTIVITES BORDS MAINS      :      20
+        integer ::   S_NSVL       !  NSNE       :NSVL  :NOEUDS SECONDS DES LIGNES       :      20
+        integer ::   S_MSRL       !  NMNE       :MSRL  :NOEUDS MAINS                   :      20
+        integer ::   S_LCAND_N    !  MULTIMP*NMNE:LCAND_N:LIGNES MAINS CANDIDATES      :      20
+        integer ::   S_LCAND_S    !  MULTIMP*NSNE:LCAND_N:LIGNES SECONDS CANDIDATES     :      20
+        integer ::   S_ADCCM20    !  NLINM      :ADDCM :adresse dans CHAINE du 1er main:      20
+        integer ::   S_CHAIN20    !  2*MULTIMP*NSNE:CHAINE(1,adds) : bord second.        :      20            11                                  !                       :CHAINE(2,adds) : adresse suivante       :      20  
 !type1
-        integer ::   S_ILOCS      !  NSN        :ILOCS :NOEUD MAITRE LE PLUS PROCHE      :1, ,3,4
-        integer ::   S_NSEGM      !  1+NMN      :NSEGM :ADRESSE DU VECTEUR LMSR (MAITRE) :1, ,3,4,5
-        integer ::   S_NRT        !  NRT        :LMSR  :FACES CONNECTEES AU NOEUD MAITRE :1, ,3,4,5
+        integer ::   S_ILOCS      !  NSN        :ILOCS :NOEUD MAIN LE PLUS PROCHE      :1, ,3,4
+        integer ::   S_NSEGM      !  1+NMN      :NSEGM :ADRESSE DU VECTEUR LMSR (MAIN) :1, ,3,4,5
+        integer ::   S_NRT        !  NRT        :LMSR  :FACES CONNECTEES AU NOEUD MAIN :1, ,3,4,5
 !type2
-        integer ::   S_MSEGTYP2   !  :NRTM      :MSEGTYP: master segment type sol/shell  :2
-        integer ::   S_CSTS_BIS   !  :NRTM      :MSEGTYP: master segment type sol/shell  :2
+        integer ::   S_MSEGTYP2   !  :NRTM      :MSEGTYP: main segment type sol/shell  :2
+        integer ::   S_CSTS_BIS   !  :NRTM      :MSEGTYP: main segment type sol/shell  :2
 !type3
-        integer ::   S_IRTLS      !  NMN        :IRTLS :FACE ESCLAVE LA PLUS PROCHE      :    3,4
-        integer ::   S_ILOCM      !  NMN        :ILOCM :NOEUD ESCLAVE LE PLUS PROCHE     :    3,4
+        integer ::   S_IRTLS      !  NMN        :IRTLS :FACE SECOND. LA PLUS PROCHE      :    3,4
+        integer ::   S_ILOCM      !  NMN        :ILOCM :NOEUD SECOND. LE PLUS PROCHE     :    3,4
         integer ::   S_IRTLOM     !  NSN        :IRTLOM:ANC. FACE MAITR. LA PLUS PROCHE  :    3,4
         integer ::   S_IRTLOS     !  NMN        :IRTLOS:ANC. FACE ESCLA. LA PLUS PROCHE  :    3,4
-        integer ::   S_NSEGS      !  1+NSN      :NSEGS :ADRESSE DU VECTEUR LNSV (ESCLAVE):    3,4,5
-        integer ::   S_LNSV       !  NRT        :LMSR  :FACES CONNECTEES AU NOEUD MAITRE :1, ,3,4,5
-        integer ::   S_LMSR       !  NRT        :LMSR  :FACES CONNECTEES AU NOEUD MAITRE :1, ,3,4,5
+        integer ::   S_NSEGS      !  1+NSN      :NSEGS :ADRESSE DU VECTEUR LNSV (SECOND):    3,4,5
+        integer ::   S_LNSV       !  NRT        :LMSR  :FACES CONNECTEES AU NOEUD MAIN :1, ,3,4,5
+        integer ::   S_LMSR       !  NRT        :LMSR  :FACES CONNECTEES AU NOEUD MAIN :1, ,3,4,5
 !type4
-        integer ::   S_IELEM      !  NRTM       :IELEM :ELEMENT MASTER                   :              9
+        integer ::   S_IELEM      !  NRTM       :IELEM :ELEMENT main                   :              9
 !type12
         integer ::   S_FCOUNT     !  NSN: 12
 !type14
@@ -568,37 +568,37 @@ C=================================================
         integer ::   S_MNDD       
         integer ::   S_MSR_L      
 !type24
-        integer ::   S_MVOISIN    !  4*NRTM     :MVOISIN: facettes maitres voisines:(at least two commun nodes) : 24
-        integer ::   S_NVOISIN    !  2*4*NRTM   :NVOISIN: Noeuds maitres voisines      :24
+        integer ::   S_MVOISIN    !  4*NRTM     :MVOISIN: facettes mains voisines:(at least two commun nodes) : 24
+        integer ::   S_NVOISIN    !  2*4*NRTM   :NVOISIN: Noeuds mains voisines      :24
         integer ::   S_MSEGLO     !  NRTM       :MSEGLO: global segment number (spmd)    :24, 25
         integer ::   S_MSEGTYP24  !  NRTM       :MSEGTYP: shell segment type             :24
 !type25
         integer ::   S_EVOISIN    !  4*NRTM            :EVOISIN: No edge voisine
-        integer ::   S_ADMSR      !  4*NRTM            :ADMSR  : adresse des normales aux noeuds maitres : 25
+        integer ::   S_ADMSR      !  4*NRTM            :ADMSR  : adresse des normales aux noeuds mains : 25
         integer ::   S_LEDGE      !  4*NEDGE           :LEDGE  : description des edges : 25
         integer ::   S_LBOUND     !  NADMSR            :LBOUND : Index des sommets sur les aretes libres : 25
         integer ::   S_ACTNOR     !  NADMSR            :ACTNOR : tag des normales actives (0/1) : 25
         integer ::   S_FARM       !  4*MULTIMP*NSN     :FARM   :Flag In/out wrt 4 sub-triangles : 25
         integer ::   S_ADSKYN     !  4*NRTM+1          :ADSKYN : skyline pour assemblage parith/on des normales : 25
         integer ::   S_IADNOR     !  4*NRTM            :IADNOR : skyline pour assemblage parith/on des normales : 25
-        integer ::   S_ISLIDE     !  4*NSN             :ISLIDE : sommets (0  4) sur lesquels le noeud slave glisse : 25
+        integer ::   S_ISLIDE     !  4*NSN             :ISLIDE : sommets (0  4) sur lesquels le noeud secnd glisse : 25
         integer ::   S_KNOR2MSR   !  NADMSR+1          :KNOR2MSR: adress of connected segments to normals in NOR2MSR : 25
         integer ::   S_NOR2MSR    !  ...               :NOR2MSR : connected segments to normals in NOR2MSR : 25
-        integer ::   S_CAND_OPT_N !  MULTIMP*NSN       :CAND_OPT_N : Candidats apres optimisation <=> nd esclave (i25optcd.F)
-        integer ::   S_CAND_OPT_E !  MULTIMP*NSN       :CAND_OPT_E : Candidats apres optimisation <=> segment maitre (i25optcd.F)
+        integer ::   S_CAND_OPT_N !  MULTIMP*NSN       :CAND_OPT_N : Candidats apres optimisation <=> nd second. (i25optcd.F)
+        integer ::   S_CAND_OPT_E !  MULTIMP*NSN       :CAND_OPT_E : Candidats apres optimisation <=> segment main (i25optcd.F)
         integer ::   S_IF_ADH     !  NSN               :IF_ADH: if adhesion spring exists (1) or not (0)  :  25
-        integer ::   S_CANDM_E2E  !  MULTIMP*NCONTE    :CANDM_E2E : Master line : Aretes candidates maitres (shell & beams))
-        integer ::   S_CANDS_E2E  !  MULTIMP*NCONTE    :CANDS_E2E : Slave line : Aretes candidates slaves 
-        integer ::   S_CANDM_E2S  !  MULTIMP*NCONTE    :CANDM_E2S : Master segment : Facettes candidates maitres (solid edges)
-        integer ::   S_CANDS_E2S  !  MULTIMP*NCONTE    :CANDS_E2S : Slave line : Aretes candidates slaves 
+        integer ::   S_CANDM_E2E  !  MULTIMP*NCONTE    :CANDM_E2E : Main line : Aretes candidates mains (shell & beams))
+        integer ::   S_CANDS_E2E  !  MULTIMP*NCONTE    :CANDS_E2E : Secnd line : Aretes candidates secnds 
+        integer ::   S_CANDM_E2S  !  MULTIMP*NCONTE    :CANDM_E2S : Main segment : Facettes candidates mains (solid edges)
+        integer ::   S_CANDS_E2S  !  MULTIMP*NCONTE    :CANDS_E2S : Secnd line : Aretes candidates secnds 
         integer ::   S_CANDL_MAX 
         integer ::   S_CANDS_MAX 
-        integer ::   S_ADDSUBE    !  NEDGE+1     :ADDSUBES:ADRESSE DS ZONE EDGES DE SS INTERF. COTE ESCLAVE             : 25   
-        integer ::   S_LISUBE     !  NISUBE      :LISUBE  :ZONE EDGES DES SS INTERF. COTE ESCLAVE                       : 25
-        integer ::   S_INFLG_SUBE !  NISUBE      :INFLG_SUBE :: ZONE D APPARTENANCE A S1/S2 DES SS INTERF.COTE MAITRE   : 25
+        integer ::   S_ADDSUBE    !  NEDGE+1     :ADDSUBES:ADRESSE DS ZONE EDGES DE SS INTERF. COTE SECOND.             : 25   
+        integer ::   S_LISUBE     !  NISUBE      :LISUBE  :ZONE EDGES DES SS INTERF. COTE SECOND.                       : 25
+        integer ::   S_INFLG_SUBE !  NISUBE      :INFLG_SUBE :: ZONE D APPARTENANCE A S1/S2 DES SS INTERF.COTE MAIN   : 25
 C-------S_ISEADD,S_ISEDGE,S_CAND_T will be cleaned after, for the moment with size 0
-        integer ::   S_ISEADD     !  ISEADD     :SLAVE EDGE ADDRESS                      :      24
-        integer ::   S_ISEDGE     !  L24ADD     :ISEDGE:SLAVE EDGES NODES AND FLAGS      :      24
+        integer ::   S_ISEADD     !  ISEADD     :SECND EDGE ADDRESS                      :      24
+        integer ::   S_ISEDGE     !  L24ADD     :ISEDGE:SECND EDGES NODES AND FLAGS      :      24
         integer ::   S_CAND_T     !  MULTIMP*NSN:CAND_T:Candidate type                   :      24
 c					  ! =0 node to surface candidate
 c					  ! =1 node or edge to surface candidate
@@ -619,19 +619,19 @@ C---- edge
 C---- ige
         integer ::   S_NIGE
 C---- INTER FRICTION PARTS
-        integer ::   S_IPARTFRICS!  NSN       :IPARTFRICS : number of part of slave nodes 
-        integer ::   S_IPARTFRICM!  NRTM      :IPARTFRICM : number of part of master segments
+        integer ::   S_IPARTFRICS!  NSN       :IPARTFRICS : number of part of secnd nodes 
+        integer ::   S_IPARTFRICM!  NRTM      :IPARTFRICM : number of part of main segments
         integer ::   S_IPARTFRIC_E!  NEDGE    :IPARTFRIC_E : number of part of egde int25
 C       Orthotropic friction 
         integer ::   S_IREP_FRICM !  NRTM      :IREP_FRIC : Orthotropic system formulation flag for reference vector for friction (same as IORTH/IREP for prop) 
 C---- Irem Gap option for inter type25
-        integer ::   S_KREMNOR!  NSN+1    :KREMNOR : skyline tab for master segment adress in REMNOR tab
-        integer ::   S_REMNOR!   REMNODE  :REMNOR  : tab for master segment forbidden for each slave node
+        integer ::   S_KREMNOR!  NSN+1    :KREMNOR : skyline tab for main segment adress in REMNOR tab
+        integer ::   S_REMNOR!   REMNODE  :REMNOR  : tab for main segment forbidden for each secnd node
         integer ::   S_KREMNODE_EDG   !  NEDGE+1    :KREMNODE_EDG:ADRESS LINES REMOVED FROM CONTACT IN REMNODE ARRAY :      25
         integer ::   S_REMNODE_EDG    !  NREMNODE   :REMNODE_EDG: LINES REMOVED FROM CONTACT     :      25
 C----Nitsche Method
-        integer ::   S_IELNRTS!  NRTS      :IELNRTS : number of slave element 
-        integer ::   S_ADRECTS!  4*NRTS    :ADRECTS : Adress of each slave node of the segment in IXS/IXS10/IXS20/IXS16 
+        integer ::   S_IELNRTS!  NRTS      :IELNRTS : number of secnd element 
+        integer ::   S_ADRECTS!  4*NRTS    :ADRECTS : Adress of each secnd node of the segment in IXS/IXS10/IXS20/IXS16 
         integer ::   S_FACNRTS!  NRTS      :FACNRTS : Corresponding facet in element IELNRTS 
         integer ::   S_E2S_ACTNOR!
 C=================================================
@@ -639,34 +639,34 @@ c DEFINE SIZES (float arrays)
 C=================================================
         integer ::   S_STFAC        !  1          :STFAC :FACTEUR DE RIGIDITE D'INTERFACE(MANAGER)
         integer ::   S_VARIABLES    !   +1, ...
-        integer ::   S_CSTS         !  2*NSN      :CSTS  :S ET T DES NOEUDS ESCLAVES       :   ,3,4,    
+        integer ::   S_CSTS         !  2*NSN      :CSTS  :S ET T DES NOEUDS SECONDS       :   ,3,4,    
         integer ::   S_DPARA        !  7*NSN      :DPARA :DET,B1,B2,B3,C1,C2,C3            :  2
-        integer ::   S_NMAS         !  NMN        :MMAS  :MASSE NOEUDS MASTERS             :  2
-        integer ::   S_SMAS         !  NSN      :SMAS : MASSE ET INERTIE DES NOEUDS SLAVE :   2  
-        integer ::   S_SINER        !  NSN      :SINER : MASSE ET INERTIE DES NOEUDS SLAVE :   2
-        integer ::   S_AREAS2       !  NSN       AREA       : slave area                  :  int2 with rupture  
-        integer ::   S_UVAR         !  NSN*NUVAR UVAR       : user buffer for slaves      :  int2 with rupture  
-        integer ::   S_XM0          !  NSN*3     XM0(x,y,z) : slave-master initial distance: int2 with rupture
+        integer ::   S_NMAS         !  NMN        :MMAS  :MASSE NOEUDS MAINS             :  2
+        integer ::   S_SMAS         !  NSN      :SMAS : MASSE ET INERTIE DES NOEUDS SECND :   2  
+        integer ::   S_SINER        !  NSN      :SINER : MASSE ET INERTIE DES NOEUDS SECND :   2
+        integer ::   S_AREAS2       !  NSN       AREA       : secnd area                  :  int2 with rupture  
+        integer ::   S_UVAR         !  NSN*NUVAR UVAR       : user buffer for secnds      :  int2 with rupture  
+        integer ::   S_XM0          !  NSN*3     XM0(x,y,z) : secnd-main initial distance: int2 with rupture
         integer ::   S_SPENALTY     !  NSN      :
         integer ::   S_STFR_PENALTY !  NSN      :S
-        integer ::   S_SKEW         !  ILEV=25  : NSN*3     XM0(x,y,z) : slave-master initial distance: int2 with rupture
-        integer ::   S_DSM          !  NSN*3     DSM(x,y,z) : slave-master displacement    :  int2 with rupture
-        integer ::   S_FSM          !  NSN*3     FSM(x,y,z) : slave-master force           :  int2 with rupture
+        integer ::   S_SKEW         !  ILEV=25  : NSN*3     XM0(x,y,z) : secnd-main initial distance: int2 with rupture
+        integer ::   S_DSM          !  NSN*3     DSM(x,y,z) : secnd-main displacement    :  int2 with rupture
+        integer ::   S_FSM          !  NSN*3     FSM(x,y,z) : secnd-main force           :  int2 with rupture
         integer ::   S_RUPT         !  6         RUPT       : penality/rupture parameters  :  int2 with rupture
         integer ::   S_FINI         !  ILEV=25   :3*NSN  :  int2 with rupture
-        integer ::   S_STFNS        !  NSN        :STFNS :RIGIDITE NOEUDS ESCLAVES         :   ,3,4,    7
-        integer ::   S_STFM         !  NRTM       :STFM  :RIGIDITE FACES MAITRESSES        :   ,3,4,    7  10,11
-        integer ::   S_STFS         !  NRTS       :STFS  :RIGIDITE FACES ESCLAVES          :   ,3,4          11
-        integer ::   S_PENIM        !  2*NRTM     :PENIM :pene initiale max / master       :     20           11
-        integer ::   S_PENIS        !  2*NRTS     :PENIS :pene initiale max / slave        :                  11
-        integer ::   S_GAP_M        !  NRTM       :GAP_M :GAP FACES MAITRESSES             :(7)10,11,24
-        integer ::   S_GAP_S        !  NSN        :GAP_S :GAP NOEUDS ESCLAVES              :(7)10,20
+        integer ::   S_STFNS        !  NSN        :STFNS :RIGIDITE NOEUDS SECONDS         :   ,3,4,    7
+        integer ::   S_STFM         !  NRTM       :STFM  :RIGIDITE FACES MAIN        :   ,3,4,    7  10,11
+        integer ::   S_STFS         !  NRTS       :STFS  :RIGIDITE FACES SECONDS          :   ,3,4          11
+        integer ::   S_PENIM        !  2*NRTM     :PENIM :pene initiale max / main       :     20           11
+        integer ::   S_PENIS        !  2*NRTS     :PENIS :pene initiale max / secnd        :                  11
+        integer ::   S_GAP_M        !  NRTM       :GAP_M :GAP FACES MAIN             :(7)10,11,24
+        integer ::   S_GAP_S        !  NSN        :GAP_S :GAP NOEUDS SECONDS              :(7)10,20
         integer ::   S_XSAV         !  3*MIN(NUMNOD,NSN+NMN):CRIT  :X(XYZ)                   :            7
         integer ::   S_CRIT         !  12         :CRIT  :MIN et MAX DEPLACEMENT (SPMD)    :            7 (10,11)
         integer ::   S_FRIC_P       !  10         :FRIC_P:FRICTION PARAMETERS              :        5,  7     24
         integer ::   S_XFILTR       !  1          :XFILTR:COEFF FILTRAGE FROTTEMENT     )  :        5,  7     24
-        integer ::   S_AREAS        !  NSN       AREA       : slave area                  :  7
-        integer ::   S_AREAM        !  NRTM      AREA       : master area                  :  11
+        integer ::   S_AREAS        !  NSN       AREA       : secnd area                  :  7
+        integer ::   S_AREAM        !  NRTM      AREA       : main area                  :  11
         integer ::   S_GAP_SL       !  NSN        :GAP_S_L :
         integer ::   S_GAP_ML       !  NRTM       :GAP_M_L :           
         integer ::   S_CAND_P       !  MULTIMP*NSN:CAND_P:PENETRATION INITIALE             :           (7)   
@@ -701,18 +701,18 @@ C---- ige
         integer ::   S_AVX_ANCR     !  9*NLN :A-V-X-ANCR :Accel Vit deplacement POINT D'ANCRAGE: 20
         integer ::   S_CRITX        !  
         integer ::   S_GAP_ME       !  
-        integer ::   S_STF          !  NLINM      :STFM  :RIGIDITE FACES MAITRESSES        :       20
-        integer ::   S_PENIME       !  2*NLINM    :PENIME:pene initiale max / edge master       :       20
+        integer ::   S_STF          !  NLINM      :STFM  :RIGIDITE FACES MAIN        :       20
+        integer ::   S_PENIME       !  2*NLINM    :PENIME:pene initiale max / edge main       :       20
         integer ::   S_GAP_SE       !   
-        integer ::   S_PENISE       !  2*NLINS    :PENISE:pene initiale max / edge slave   :       20
-        integer ::   S_STFNE        !  NSNE       :STFNE :RIGIDITE NOEUDS ESCLAVES         :       20
+        integer ::   S_PENISE       !  2*NLINS    :PENISE:pene initiale max / edge secnd   :       20
+        integer ::   S_STFNE        !  NSNE       :STFNE :RIGIDITE NOEUDS SECONDS         :       20
 !type1
         integer ::   S_N            !  3*NSN      :N     :NORMALE                          :1,
 !type3,4,5,9
-        integer ::   S_CSTM         !  2*NMN      :CSTM  :S ET T DES NOEUDS MAITRES        :   ,3,4,
-        integer ::   S_STFNM        !  NMN        :STFNM :RIGIDITE NOEUDS MAITRES          :   ,3,4
-        integer ::   S_FRICOS       !  3*NSN      :FRICOS:FORCE DE FRICTION(ESCLAVE)       :   ,3,4,    
-        integer ::   S_FRICOM       !  3*NMN      :FRICOM:FORCE DE FRICTION(MAITRE)        :   ,3,4,   
+        integer ::   S_CSTM         !  2*NMN      :CSTM  :S ET T DES NOEUDS MAINS        :   ,3,4,
+        integer ::   S_STFNM        !  NMN        :STFNM :RIGIDITE NOEUDS MAINS          :   ,3,4
+        integer ::   S_FRICOS       !  3*NSN      :FRICOS:FORCE DE FRICTION(SECOND)       :   ,3,4,    
+        integer ::   S_FRICOM       !  3*NMN      :FRICOM:FORCE DE FRICTION(MAIN)        :   ,3,4,   
         integer ::   S_FTSAV        !  3*NSN      :FTSAV :     SAUVEGARDE FILTRAGE         :        5         
 !type6
         integer ::   S_FCONT        !  1          :FCONT :                                 :          6  
@@ -753,16 +753,16 @@ C---- ige
 !type22
 !type23
 !type24
-        integer ::   S_GAPN_M       !  NMN        :GAPN_M:Nodal master gap                 :  24, 25 
-        integer ::   S_SLAV_FR      !  6*NSN      :SLAV_FR:new(1:3) and old(4:6) friction F:  24  
+        integer ::   S_GAPN_M       !  NMN        :GAPN_M:Nodal main gap                 :  24, 25 
+        integer ::   S_SECND_FR      !  6*NSN      :SECND_FR:new(1:3) and old(4:6) friction F:  24  
         integer ::   S_PENE_OLD     !  NSN*5      :PENE_OLD:Old penetration,PEN_ini(Inacti=5):       24
         integer ::   S_STIF_OLD     !  NSN*2      :STIF_OLD:Old stifness                   :       24
         integer ::   S_TIME_S       !  NSN        :TIME_S :   impact TIME                  :  24
         integer ::   S_GAP_NM       !  12*NRTM          
 C---------to be cleaned later
-        integer ::   S_EDGE8L2      !  NSN        :EDGE8L2: max half edge length on slave node: 24
-        integer ::   S_NOD_SLV_LGTH !  NSN        :NODAL SLAVE LENGTH (TO CAL. Kg)         :     24  
-        integer ::   S_NOD_MAS_LGTH !  NMN        :NODAL MASTER LENGTH (TO CAL. Kg)        :     24  
+        integer ::   S_EDGE8L2      !  NSN        :EDGE8L2: max half edge length on secnd node: 24
+        integer ::   S_NOD_2RY_LGTH !  NSN        :NODAL SECND LENGTH (TO CAL. Kg)         :     24  
+        integer ::   S_NOD_MAS_LGTH !  NMN        :NODAL main LENGTH (TO CAL. Kg)        :     24  
         integer ::   S_GAP_N0       !  12*NRTM        :
         integer ::   S_DGAP_NM      !  4*NRTM        :
         integer ::   S_DGAP_M       !  NRTM        :
@@ -778,7 +778,7 @@ C---------to be cleaned later
         integer ::   S_LBM          !  MULTIMP*NSN        :LBM:Coordinate LB wrt 4 triangles     :  25 
         integer ::   S_LCM          !  MULTIMP*NSN        :LCM:Coordinate LC wrt 4 triangles     :  25 
         integer ::   S_VTX_BISECTOR !  3*2*NADMSR         :                                      :  25
-        integer ::   S_CAND_PS      !  4*MULTIMPS*NCONTE:CAND_PS:PENETRATION INITIALE vs Solid Master Edges: 25
+        integer ::   S_CAND_PS      !  4*MULTIMPS*NCONTE:CAND_PS:PENETRATION INITIALE vs Solid Main Edges: 25
         integer ::   S_GAPE         !  NEDGE 
         integer ::   S_GAP_E_L      !  NEDGE 
         integer ::   S_STFE         !  NEDGE 
@@ -882,7 +882,7 @@ C--------to be cleaned later
         integer, DIMENSION(:) , POINTER ::  ISEGPT     
         integer, DIMENSION(:) , POINTER ::  IS2ID      ! Global ID Fictive Nodes   
 !type25
-        integer, DIMENSION(:) , POINTER ::  NSV_ON_PMASTER     !  
+        integer, DIMENSION(:) , POINTER ::  NSV_ON_PMAIN     !  
         integer, DIMENSION(:) , POINTER ::  EVOISIN   !  
         integer, DIMENSION(:) , POINTER ::  ADMSR     !  
         integer, DIMENSION(:) , POINTER ::  LEDGE     !  
@@ -1036,14 +1036,14 @@ C---- ige
         my_real, DIMENSION(:) , POINTER ::   THKNOD0    
 !type24
         my_real, DIMENSION(:) , POINTER ::   GAPN_M   
-        my_real, DIMENSION(:) , POINTER ::   SLAV_FR  
+        my_real, DIMENSION(:) , POINTER ::   SECND_FR  
         my_real, DIMENSION(:) , POINTER ::   PENE_OLD 
         my_real, DIMENSION(:) , POINTER ::   STIF_OLD 
         my_real, DIMENSION(:) , POINTER ::   TIME_S   
         my_real, DIMENSION(:) , POINTER ::   GAP_NM   
 C-------to be cleaned later        
         my_real, DIMENSION(:) , POINTER ::   EDGE8L2  
-        my_real, DIMENSION(:) , POINTER ::   NOD_SLV_LGTH 
+        my_real, DIMENSION(:) , POINTER ::   NOD_2RY_LGTH 
         my_real, DIMENSION(:) , POINTER ::   NOD_MAS_LGTH 
         my_real, DIMENSION(:) , POINTER ::   GAP_N0  
         my_real, DIMENSION(:) , POINTER ::   DGAP_NM 

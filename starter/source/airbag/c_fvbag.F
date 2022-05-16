@@ -29,7 +29,7 @@ Chd|        NLOCAL                        source/spmd/node/ddtools.F
 Chd|        FVBAG_MOD                     share/modules1/fvbag_mod.F    
 Chd|====================================================================
       SUBROUTINE C_FVBAG(
-     .    MONVOL,   NODLOCAL,  IXS     , PROC, NB_NODE, FVMASTER)
+     .    MONVOL,   NODLOCAL,  IXS     , PROC, NB_NODE, FVMAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -49,7 +49,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER 
      .   MONVOL(*), NODLOCAL(*), IXS(NIXS,*), PROC, NB_NODE,
-     .   FVMASTER(*)
+     .   FVMAIN(*)
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------   
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K1, K2, IFV, I, ITYP, NN, KI1, J, NMAX, PMASTER, P, NN_L,
+      INTEGER K1, K2, IFV, I, ITYP, NN, KI1, J, NMAX, PMAIN, P, NN_L,
      .        PP, JJ, NTG, NBA, NNA, KIA1, NNA_L, 
      .        K, KK, NNSA, NNSA_L, KI2,
      .        NTGM, NNI, NTGI, NNI_L
@@ -110,9 +110,9 @@ C Noeuds de l'enveloppe
             DO J=1,NNA
                IBUFA(J)=MONVOL(KIA1-1+J)
             ENDDO
-C Identification du PMASTER
+C Identification du PMAIN
             NMAX=0
-            PMASTER=1
+            PMAIN=1
             DO P=1,NSPMD
                NN_L=0
                DO J=1,NN
@@ -141,17 +141,17 @@ C Identification du PMASTER
                   ENDIF
                ENDDO
                IF(NN_L+NNI_L.GT.NMAX)THEN
-                  PMASTER=P
+                  PMAIN=P
                   NMAX=NN_L+NNI_L
                ENDIF
             ENDDO
 
 
-            IF ((ITYP.EQ.6.OR.ITYP.EQ.8) .AND. FVMASTER(IFV) >= 0) THEN
-           !FVMASTER(IFV) > 0 : The master processor was computed during domain decomposition
-              PMASTER = FVMASTER(IFV)
+            IF ((ITYP.EQ.6.OR.ITYP.EQ.8) .AND. FVMAIN(IFV) >= 0) THEN
+           !FVMAIN(IFV) > 0 : The main processor was computed during domain decomposition
+              PMAIN = FVMAIN(IFV)
             ENDIF 
-            FVSPMD(IFV)%PMASTER=PMASTER
+            FVSPMD(IFV)%PMAIN=PMAIN
 C Noeuds locaux
             NN_L=0
             DO J=1,NN
@@ -199,7 +199,7 @@ C Solides additionnels
             FVSPMD(IFV)%NNSA_L=0
             FVSPMD(IFV)%NELSA=0
             IF (NBA.GT.0) THEN 
-               IF (PROC.EQ.PMASTER) ALLOCATE(FVSPMD(IFV)%IXSA(8,NBA))
+               IF (PROC.EQ.PMAIN) ALLOCATE(FVSPMD(IFV)%IXSA(8,NBA))
                KIA1=K2+MONVOL(K1-1+19)-1
                DO J=1,NB_NODE
                   ITAG(J)=0
@@ -221,7 +221,7 @@ C Solides additionnels
                   ENDIF
                ENDDO
                FVSPMD(IFV)%NNSA=NNSA
-               IF (PROC.EQ.PMASTER) THEN
+               IF (PROC.EQ.PMAIN) THEN
                   DO J=1,NBA                            
                      JJ=MONVOL(KIA1-1+J)                
                      DO K=1,8                           

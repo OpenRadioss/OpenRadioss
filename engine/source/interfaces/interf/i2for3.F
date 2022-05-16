@@ -71,7 +71,7 @@ C-----------------------------------------------
       NIR=2
       IF(N2D.EQ.0)NIR=4
 C
-Cel spmd pre-traitement sur noeuds master + sauvegarde de la masse
+Cel spmd pre-traitement sur noeuds main + sauvegarde de la masse
 Cel sauvegarde de la masse initiale
 C
       IF(IMPL_S.GT.0) THEN
@@ -273,7 +273,7 @@ C=======================================================================
       NIR=2
       IF(N2D.EQ.0)NIR=4
 C
-Cel spmd pre-traitement sur noeuds master + sauvegarde de la masse
+Cel spmd pre-traitement sur noeuds main + sauvegarde de la masse
       IF (IMACH.EQ.3) THEN
        ELSE
 Cel sauvegarde de la masse initiale
@@ -474,7 +474,7 @@ C-----------------------------------------------
       NIR=2
       IF(N2D.EQ.0)NIR=4
 C
-Cel spmd pre-traitement sur noeuds master + sauvegarde de la masse
+Cel spmd pre-traitement sur noeuds main + sauvegarde de la masse
       IF (IMACH.EQ.3) THEN
       ELSE
 Cel sauvegarde de la masse initiale
@@ -1187,12 +1187,12 @@ C
       ENDIF
 
 C------------------------------
-C     FORCES ET MOMENTS DES NOEUDS ESCLAVES 
-C     TRANSMIS AUX NOEUDS MAITRES SOUS 
+C     FORCES ET MOMENTS DES NOEUDS SECONDS 
+C     TRANSMIS AUX NOEUDS MAINS SOUS 
 C     FORME DE FORCES 
 C
-C     MASSES ET INERTIES DES NOEUDS ESCLAVES 
-C     TRANSMISES AUX NOEUDS MAITRES SOUS 
+C     MASSES ET INERTIES DES NOEUDS SECONDS 
+C     TRANSMISES AUX NOEUDS MAINS SOUS 
 C     FORME DE MASSES 
 C------------------------------
       ZERO = 0
@@ -1230,7 +1230,7 @@ C
         ENDIF
         FACM = UN / NIR
 C----------------------------------------------------
-C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAITRE
+C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
 C----------------------------------------------------
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
@@ -1297,7 +1297,7 @@ C
         FY0=FYS*FACM
         FZ0=FZS*FACM
 C------------------------------------------------------
-C     FORCES TRANSMISES AUX NOEUDS MAITRES
+C     FORCES TRANSMISES AUX NOEUDS MAINS
 C------------------------------------------------------
         DO JJ=1,NIR
          J=IRECT(JJ,L)
@@ -1316,7 +1316,7 @@ C
         MR=DET*INX*MAX(MRX,MRY,MRZ)
 C
 C------------------------------------------------------
-C     MASSES TRANSMISES AUX NOEUDS MAITRES
+C     MASSES TRANSMISES AUX NOEUDS MAINS
 C------------------------------------------------------
         IF(ILEV.EQ.1)THEN
           XMSI=MAX(FACM*XMSI,MR)
@@ -1467,7 +1467,7 @@ C
         FY0=FYS*QUART
         FZ0=FZS*QUART
 C------------------------------------------------------
-C     FORCES TRANSMISES AUX NOEUDS MAITRES
+C     FORCES TRANSMISES AUX NOEUDS MAINS
 C------------------------------------------------------
         A(1,J1)=A(1,J1) + FX0 + A2*Z1 - A3*Y1
         A(2,J1)=A(2,J1) + FY0 + A3*X1 - A1*Z1
@@ -1492,7 +1492,7 @@ C
         MR=DET*INX*MAX(MRX,MRY,MRZ)
 C
 C------------------------------------------------------
-C     MASSES TRANSMISES AUX NOEUDS MAITRES
+C     MASSES TRANSMISES AUX NOEUDS MAINS
 C------------------------------------------------------
         IF(ILEV.EQ.1)THEN
           XMSI=QUART*XMSI+MR

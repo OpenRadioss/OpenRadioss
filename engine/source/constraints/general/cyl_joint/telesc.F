@@ -34,7 +34,7 @@ Chd|====================================================================
 !$COMMENT
 !       TELESC description
 !       telesc computes the inertia/force/acc/... of the secondary node on each processor
-!       then reduces the inertia/force/acc/... and update the force/acc of the master & secondary nodes
+!       then reduces the inertia/force/acc/... and update the force/acc of the main & secondary nodes
 !       
 !       TELESC organization :
 !        - mass / position computations for the secondary nodes
@@ -91,8 +91,8 @@ C     DIRECTION LIBRE
 C----------------------------
         !   --------------------
         !   initializaton
-        NA=CYL_JOIN(N_JOINT)%MASTER_NODE(1) !NOD(1)
-        NB=CYL_JOIN(N_JOINT)%MASTER_NODE(2) !NOD(2)
+        NA=CYL_JOIN(N_JOINT)%MAIN_NODE(1) !NOD(1)
+        NB=CYL_JOIN(N_JOINT)%MAIN_NODE(2) !NOD(2)
 
         N1=X(1,NB)-X(1,NA)
         N2=X(2,NB)-X(2,NA)
@@ -441,8 +441,8 @@ C
         VYY=VYY-N2*A0
         VZZ=VZZ-N3*A0
         !   --------------------
-        !   master proc updates the FSAV array for /TH
-        IF(CYL_JOIN(N_JOINT)%PROC_MASTER==ISPMD+1) THEN
+        !   main proc updates the FSAV array for /TH
+        IF(CYL_JOIN(N_JOINT)%PROC_MAIN==ISPMD+1) THEN
 #include "lockon.inc"
             FS(1)=FS(1)+AX*DT12
             FS(2)=FS(2)+AY*DT12

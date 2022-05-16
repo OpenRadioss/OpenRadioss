@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER K1, KK1, KIBALE, KRBALE, IFV, N, ITYP, PMASTER, NN, NTG,
+      INTEGER K1, KK1, KIBALE, KRBALE, IFV, N, ITYP, PMAIN, NN, NTG,
      .        ITAG, MSGOFF, LEN, IERR, STAT(MPI_STATUS_SIZE), IAD,
      .        I,MSGTAG
       my_real
@@ -76,8 +76,8 @@ C
          ITYP=MONVOL(K1-1+2)
          IF (ITYP.EQ.6.OR.ITYP.EQ.8) THEN
            IFV =MONVOL(K1-1+45)
-           PMASTER=FVSPMD(IFV)%PMASTER
-           IF (PMASTER.NE.1) THEN
+           PMAIN=FVSPMD(IFV)%PMAIN
+           IF (PMAIN.NE.1) THEN
 C
             NN =MONVOL(K1-1+32)+MONVOL(K1-1+68)
             NTG=MONVOL(K1-1+33)+MONVOL(K1-1+69)
@@ -86,7 +86,7 @@ C
             ALLOCATE(RBUF(LEN))
             IF (ISPMD.EQ.0) THEN
 C Proc 0 recoit
-               CALL MPI_RECV(RBUF, LEN, REAL, IT_SPMD(PMASTER),
+               CALL MPI_RECV(RBUF, LEN, REAL, IT_SPMD(PMAIN),
      .                       MSGTAG, MPI_COMM_WORLD, STAT, IERR)
 C
                IAD=KRBALE+MONVOL(K1-1+34)
@@ -97,8 +97,8 @@ C
                DO I=1,2*NTG
                   VOLMON(IAD+I-1)=RBUF(6*NN+I)
                ENDDO
-            ELSEIF (ISPMD.EQ.PMASTER-1) THEN
-C Proc master envoie
+            ELSEIF (ISPMD.EQ.PMAIN-1) THEN
+C Proc main envoie
                IAD=KRBALE+MONVOL(K1-1+34)
                DO I=1,6*NN
                   RBUF(I)=VOLMON(IAD+I-1)

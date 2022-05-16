@@ -287,7 +287,7 @@ C SSHIFT : decalage sur cand_e
      3       XMAXL        ,YMAXL        ,ZMAXL        ,C_MAXL,CURV_MAX,
      4       IPARI(39,NIN),INTBUF_TAB%IRECTM(1+4*SSHIFT),NRTM_T       ,SX    ,SY      ,
      5       SZ           ,SX2          ,SY2          ,SZ2            ,NMN_L)
-C ITHK == 1 : master gap should be updated with change in thickness
+C ITHK == 1 : main gap should be updated with change in thickness
       IF(ITHK == 1) THEN
         CALL I25GAPMSAVE(
      1       INTBUF_TAB%GAP_M ,INTBUF_TAB%GAPMSAV ,
@@ -397,7 +397,7 @@ C
      4      INTBUF_TAB%GAP_S,ITAB    ,KINET        ,IFQ          ,INACTI ,
      5      NSNFIOLD,IPARI(47,NIN),INTBUF_TAB%IELES,INTBUF_TAB%AREAS,TEMP,
      6      NUM_IMP     ,NODNX_SMS,INTBUF_TAB%GAP_SL,NTY   ,INTBUF_TAB%IRTLM,
-     7      INTBUF_TAB%TIME_S,INTBUF_TAB%SLAV_FR,INTBUF_TAB%PENE_OLD,INTBUF_TAB%STIF_OLD ,
+     7      INTBUF_TAB%TIME_S,INTBUF_TAB%SECND_FR,INTBUF_TAB%PENE_OLD,INTBUF_TAB%STIF_OLD ,
      8      INTBUF_TAB%NBINFLG,ILEV ,INTBUF_TAB%ICONT_I,IPARI(72,NIN),INTBUF_TAB%IPARTFRICS,
      9      ITIED ,IVIS2, INTBUF_TAB%IF_ADH,
      A      INTBUF_TAB%LEDGE,NEDGE,NLEDGE,INTBUF_TAB%STFM,

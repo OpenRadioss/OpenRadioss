@@ -103,8 +103,8 @@ C-----------------------------------------------
               CYCLE
             ENDIF
             TNOD(I,1:8) = ZERO
-            MCELL = BRICK_LIST(NIN,IB)%masterID
-            IF(MCELL==0)CYCLE ! next Master Cell            
+            MCELL = BRICK_LIST(NIN,IB)%mainID
+            IF(MCELL==0)CYCLE ! next Main Cell            
             FAC = BRICK_LIST(NIN,IB)%POLY(MCELL)%NumNOD
             IF(FAC.GT.0)THEN
               FAC=UN/FAC
@@ -347,8 +347,8 @@ C-----------------------------------------------
               CYCLE
             ENDIF
             TNOD(I,1:8) = ZERO
-            MCELL = BRICK_LIST(NIN,IB)%masterID
-            IF(MCELL==0)CYCLE ! next Master Cell            
+            MCELL = BRICK_LIST(NIN,IB)%mainID
+            IF(MCELL==0)CYCLE ! next Main Cell            
             FAC = BRICK_LIST(NIN,IB)%POLY(MCELL)%NumNOD
             IF(FAC.GT.0)THEN
               FAC=UN/FAC

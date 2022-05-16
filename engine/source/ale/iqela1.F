@@ -100,7 +100,7 @@ C-----------------------------------------------
       
       NIR=2
       IF(N2D.EQ.0)NIR=4
-      !master nodes
+      !main nodes
       DO I=1,NMN
        J=MSR(I)
        I3=3*I
@@ -112,7 +112,7 @@ C-----------------------------------------------
        E(I3)=ZERO
       ENDDO
 
-      !slave nodes
+      !secnd nodes
       DO II=1,NSN
        I=NSV(II)
        J=ILOC(II)
@@ -122,7 +122,7 @@ C-----------------------------------------------
           NN=IRECT(JJ,L)
           IY(JJ)=NN
          ENDDO
-         !parametric ccordinates on master face
+         !parametric ccordinates on main face
          SSS=CRST(1,II)
          TTT=CRST(2,II)
          !normal
@@ -163,7 +163,7 @@ C-----------------------------------------------
        ENDIF
       ENDDO!next II
 
-      !SUM(E(1:3,*)) is NF(1:3) on master segment 
+      !SUM(E(1:3,*)) is NF(1:3) on main segment 
 
       !---------------------------------
       ! /TH/INTER

@@ -140,7 +140,7 @@ C---------------------------------------------
       ENDDO	  
 
 C---------------------------------------------
-C     SLAVE NODAL SURFACE COMPUTATION
+C     SECND NODAL SURFACE COMPUTATION
 C---------------------------------------------
 C
       IF(NTY == 3) THEN

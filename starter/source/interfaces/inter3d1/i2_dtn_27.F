@@ -190,7 +190,7 @@ C          Additional form functions for distribution of mass / inertia - to avo
         ENDIF
 C
         IF (MSEGTYP2(L)==0) THEN
-C---- rep local facette maitre
+C---- rep local facette main
 C  
             X1  = X(1,IX1)                                       
             Y1  = X(2,IX1)                                          
@@ -283,7 +283,7 @@ C---- computation of kinematic parameters and stbrk - local coordinates
      .                       RX(4),RY(4),RZ(4),BID9,DWDU,E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,
      .                       NIR,BETAX,BETAY)                                
 C               
-C---- update master forces (moment balance) - local coordinates RX
+C---- update main forces (moment balance) - local coordinates RX
           IF (IRODDL==1) THEN             
 C--
               CALL I2LOCEQ_27(NIR    ,RS     ,RX     ,RY     ,RZ      ,    
@@ -414,10 +414,10 @@ C
           IX4 = IRECT(4,L)
 C
           IF ((MSEGTYP2(L)==1).AND.(IN(I)>EM20)) THEN
-C-- shell master segment --
+C-- shell main segment --
             IROT = UN
           ELSE
-C-- solid master segment --
+C-- solid main segment --
             IROT = ZERO
           ENDIF 
 C
@@ -442,7 +442,7 @@ C--         Shape functions of quadrangles
           ENDIF
 
 C------------------------------------------------                  
-C         rep local facette maitre
+C         rep local facette main
 C------------------------------------------------   
           X1  = X(1,IX1)                                       
           Y1  = X(2,IX1)                                          
@@ -569,17 +569,17 @@ C------------------------------------------------
 C
           IF (IROT > ZERO) THEN
 C
-C--   Slave node shell of  spring 
+C--   Secnd node shell of  spring 
 C
             LEN2 = XSM**2+YSM**2+ZSM**2  
             STR = (STFR(II)+STFN(II)*LEN2)*(VISC + SQRT(VISC**2 + UN))**2
 C
           ELSE
 C
-C--   Slave node of solids
+C--   Secnd node of solids
 C
             STR = ZERO
-c           update master forces (moment balance)  
+c           update main forces (moment balance)  
             CALL I2LOCEQ( NIR    ,RS     ,RX     ,RY     ,RZ      ,    
      .                  BID3   ,BID3   ,BID3    ,H(1) ,STIFM)
 C

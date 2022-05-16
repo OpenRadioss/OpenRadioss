@@ -63,8 +63,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: N,I,NUMBER_MASTER_NODE,IS_SMS_AVAILABLE
-        INTEGER, DIMENSION(2) :: MASTER_NODE
+        INTEGER :: N,I,NUMBER_MAIN_NODE,IS_SMS_AVAILABLE
+        INTEGER, DIMENSION(2) :: MAIN_NODE
         INTEGER, DIMENSION(NJOINT) :: NUMBER_NODE
         INTEGER, DIMENSION(:), ALLOCATABLE :: NODE_WEIGHT
 
@@ -85,8 +85,8 @@ C-----------------------------------------------
                 IF(NUMBER_NODE(N)>0) THEN
                     !   number of node for the current joint
                     CYL_JOIN(N)%NUMBER_NODE = NUMBER_NODE(N)
-                    !   proc master for the current joint
-                    CALL READ_I_C(CYL_JOIN(N)%PROC_MASTER,1)
+                    !   proc main for the current joint
+                    CALL READ_I_C(CYL_JOIN(N)%PROC_MAIN,1)
                     !   number of proc for the current joint
                     CALL READ_I_C(CYL_JOIN(N)%NUMBER_PROC,1)
                     !   list of proc for the current joint
@@ -117,17 +117,17 @@ C-----------------------------------------------
                 !   ------------------------------
                 !   number of sent node for mpi comm
                 CALL READ_I_C(CYL_JOIN(N)%COMM_MPI%SIZE_SR,NSPMD)
-                !   master node
-                ALLOCATE( CYL_JOIN(N)%MASTER_NODE(2) )
-                CALL READ_I_C(MASTER_NODE,2)
-                CYL_JOIN(N)%MASTER_NODE(1:2) = MASTER_NODE(1:2)
+                !   main node
+                ALLOCATE( CYL_JOIN(N)%MAIN_NODE(2) )
+                CALL READ_I_C(MAIN_NODE,2)
+                CYL_JOIN(N)%MAIN_NODE(1:2) = MAIN_NODE(1:2)
 
-                NUMBER_MASTER_NODE = 0
+                NUMBER_MAIN_NODE = 0
                 DO I=1,2
-                    IF(CYL_JOIN(N)%MASTER_NODE(I)>0) NUMBER_MASTER_NODE = NUMBER_MASTER_NODE + 1
+                    IF(CYL_JOIN(N)%MAIN_NODE(I)>0) NUMBER_MAIN_NODE = NUMBER_MAIN_NODE + 1
                 ENDDO
-                !   number of master node 
-                CYL_JOIN(N)%NUMBER_MASTER_NODE = NUMBER_MASTER_NODE
+                !   number of main node 
+                CYL_JOIN(N)%NUMBER_MAIN_NODE = NUMBER_MAIN_NODE
             ENDDO
             !   ------------------------------
             IS_SMS_AVAILABLE = 0

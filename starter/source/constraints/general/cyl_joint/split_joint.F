@@ -33,15 +33,15 @@ Chd|====================================================================
         SUBROUTINE SPLIT_JOINT( )
 !$COMMENT
 !       SPLIT_JOINT description
-!       split the node (secondary & master node) on the different processor
+!       split the node (secondary & main node) on the different processor
 !       
 !       SPLIT_JOINT organization :
 !       loop over the joint :
 !           - for each joint, loop over the node to find where is the node
 !           - for each node, add the ID node to the CYL_JOIN(I)%PROC(P)%NODE
-!           - count the max number of secondary node in order to find the master proc
-!           - if 1 secondary node is on a given proc --> need to add the 2 master nodes to the proc
-!           - if 1 master node is on a given proc --> need to add the other master to the proc
+!           - count the max number of secondary node in order to find the main proc
+!           - if 1 secondary node is on a given proc --> need to add the 2 main nodes to the proc
+!           - if 1 main node is on a given proc --> need to add the other main to the proc
 !$ENDCOMMENT
 C-----------------------------------------------
 C   M o d u l e s
@@ -81,26 +81,26 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NSPMD) :: PROC_LIST_1,PROC_LIST_2
         INTEGER, EXTERNAL :: NLOCAL  
 
-        LOGICAL, DIMENSION(:), ALLOCATABLE :: CHECK_MASTER
-        TYPE(joint_master_node), DIMENSION(:), ALLOCATABLE :: MASTER_AND_SECONDARY
+        LOGICAL, DIMENSION(:), ALLOCATABLE :: CHECK_MAIN
+        TYPE(joint_main_node), DIMENSION(:), ALLOCATABLE :: MAIN_AND_SECONDARY
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 
 C=======================================================================
         K = 0
-        ALLOCATE( CHECK_MASTER(NUMNOD) )
-        CHECK_MASTER(1:NUMNOD) = .false.
+        ALLOCATE( CHECK_MAIN(NUMNOD) )
+        CHECK_MAIN(1:NUMNOD) = .false.
         DO I=1,NJOINT
             DO J=1,2
-                N = CYL_JOIN(I)%MASTER_NODE(J)
-                CHECK_MASTER(N) = .true.
+                N = CYL_JOIN(I)%MAIN_NODE(J)
+                CHECK_MAIN(N) = .true.
             ENDDO
         ENDDO
-        ALLOCATE( MASTER_AND_SECONDARY(NUMNOD) )
+        ALLOCATE( MAIN_AND_SECONDARY(NUMNOD) )
         
-        MASTER_AND_SECONDARY(1:NUMNOD)%ID_JOINT = 0
-        MASTER_AND_SECONDARY(1:NUMNOD)%NB_PROC = 0
+        MAIN_AND_SECONDARY(1:NUMNOD)%ID_JOINT = 0
+        MAIN_AND_SECONDARY(1:NUMNOD)%NB_PROC = 0
 
         DO I=1,NJOINT                
             PROC_LIST(1:NSPMD) = -1
@@ -119,11 +119,11 @@ C=======================================================================
                     !returns in "PROC_LIST" array list of SPMD domains on which node I is sticked
                     !PROC_NUMBER is the number of SPMD domains on which node I is sticked
                     
-!                    IF( CHECK_MASTER(NN) ) THEN
-!                        MASTER_AND_SECONDARY(NN)%ID_JOINT = I
-!                        MASTER_AND_SECONDARY(NN)%NB_PROC = PROC_NUMBER
-!                        ALLOCATE( MASTER_AND_SECONDARY(NN)%PROC_LIST(PROC_NUMBER) )
-!                        MASTER_AND_SECONDARY(NN)%PROC_LIST(1:PROC_NUMBER) = PROC_LIST(1:PROC_NUMBER)
+!                    IF( CHECK_MAIN(NN) ) THEN
+!                        MAIN_AND_SECONDARY(NN)%ID_JOINT = I
+!                        MAIN_AND_SECONDARY(NN)%NB_PROC = PROC_NUMBER
+!                        ALLOCATE( MAIN_AND_SECONDARY(NN)%PROC_LIST(PROC_NUMBER) )
+!                        MAIN_AND_SECONDARY(NN)%PROC_LIST(1:PROC_NUMBER) = PROC_LIST(1:PROC_NUMBER)
 !                    ENDIF
 
                     ! add the secondary node to the CYL_JOINT structure for proc P
@@ -145,8 +145,8 @@ C=======================================================================
         ENDDO
 
         !   ----------------------
-        ! loop over the CYL_JOINT in order to find the proc master
-        ! and add the master nodes to the processor where at least 1 
+        ! loop over the CYL_JOINT in order to find the proc main
+        ! and add the main nodes to the processor where at least 1 
         ! secondary node is present
         K = 0
         DO I=1,NJOINT                
@@ -155,16 +155,16 @@ C=======================================================================
             NS = CYL_JOIN(I)%NB_SECONDARY_NODE
             NB_NODE = 0
             PROC_NUMBER = 0
-            CYL_JOIN(I)%PROC_MASTER = -1
+            CYL_JOIN(I)%PROC_MAIN = -1
             PROC_LIST(1:NSPMD) = 0
             DO P=1,NSPMD
                 IF(CYL_JOIN(I)%NB_NODE(P)>0) THEN
                     PROC_NUMBER = PROC_NUMBER + 1
                     PROC_LIST(PROC_NUMBER) = P
                     NB_NODE = CYL_JOIN(I)%NB_NODE(P)
-                    !   add the 2 master nodes on each proc
+                    !   add the 2 main nodes on each proc
                     DO IJK = 1,2
-                        M1 = CYL_JOIN(I)%MASTER_NODE(IJK)
+                        M1 = CYL_JOIN(I)%MAIN_NODE(IJK)
                         IF(NLOCAL(M1,P)==0) THEN
                             CALL IFRONTPLUS(M1,P)
                             CYL_JOIN(I)%NB_NODE(P) = CYL_JOIN(I)%NB_NODE(P) + 1
@@ -172,10 +172,10 @@ C=======================================================================
                             CYL_JOIN(I)%PROC(P)%NODE( CYL_JOIN(I)%NB_NODE(P) ) = CYL_JOIN(I)%SECONDARY_NODE(IJK)
                         ENDIF
                     ENDDO
-                    IF(CYL_JOIN(I)%NB_NODE(P)>=NB_NODE) CYL_JOIN(I)%PROC_MASTER = P
+                    IF(CYL_JOIN(I)%NB_NODE(P)>=NB_NODE) CYL_JOIN(I)%PROC_MAIN = P
                 ENDIF
-!                M1 = CYL_JOIN(I)%MASTER_NODE(1)
-!                M2 = CYL_JOIN(I)%MASTER_NODE(2)
+!                M1 = CYL_JOIN(I)%MAIN_NODE(1)
+!                M2 = CYL_JOIN(I)%MAIN_NODE(2)
 !                IF(NLOCAL(M1,P)==1) CALL IFRONTPLUS(M2,P)
 !                IF(NLOCAL(M2,P)==1) CALL IFRONTPLUS(M1,P)
             ENDDO
@@ -193,16 +193,16 @@ C=======================================================================
             NS = CYL_JOIN(I)%NB_SECONDARY_NODE
             NB_NODE = 0
             PROC_NUMBER = 0
-            CYL_JOIN(I)%PROC_MASTER = -1
+            CYL_JOIN(I)%PROC_MAIN = -1
             PROC_LIST(1:NSPMD) = 0
             DO P=1,NSPMD
                 IF(CYL_JOIN(I)%NB_NODE(P)>0) THEN
                     PROC_NUMBER = PROC_NUMBER + 1
                     PROC_LIST(PROC_NUMBER) = P
                     NB_NODE = CYL_JOIN(I)%NB_NODE(P)
-                    !   add the 2 master nodes on each proc
+                    !   add the 2 main nodes on each proc
                     DO IJK = 1,2
-                        M1 = CYL_JOIN(I)%MASTER_NODE(IJK)
+                        M1 = CYL_JOIN(I)%MAIN_NODE(IJK)
                         IF(NLOCAL(M1,P)==0) THEN
                             CALL IFRONTPLUS(M1,P)
                             CYL_JOIN(I)%NB_NODE(P) = CYL_JOIN(I)%NB_NODE(P) + 1
@@ -210,10 +210,10 @@ C=======================================================================
                             CYL_JOIN(I)%PROC(P)%NODE( CYL_JOIN(I)%NB_NODE(P) ) = CYL_JOIN(I)%SECONDARY_NODE(IJK)
                         ENDIF
                     ENDDO
-                    IF(CYL_JOIN(I)%NB_NODE(P)>=NB_NODE) CYL_JOIN(I)%PROC_MASTER = P
+                    IF(CYL_JOIN(I)%NB_NODE(P)>=NB_NODE) CYL_JOIN(I)%PROC_MAIN = P
                 ENDIF
-!                M1 = CYL_JOIN(I)%MASTER_NODE(1)
-!                M2 = CYL_JOIN(I)%MASTER_NODE(2)
+!                M1 = CYL_JOIN(I)%MAIN_NODE(1)
+!                M2 = CYL_JOIN(I)%MAIN_NODE(2)
 !                IF(NLOCAL(M1,P)==1) CALL IFRONTPLUS(M2,P)
 !                IF(NLOCAL(M2,P)==1) CALL IFRONTPLUS(M1,P)
             ENDDO
@@ -222,7 +222,7 @@ C=======================================================================
 
 
         !   ----------------------
-        ! check : if a master node is on a processor, need to add the other master node
+        ! check : if a main node is on a processor, need to add the other main node
 !        K = 0
 !        DO I=1,NJOINT                
 !            PROC_LIST(1:NSPMD) = -1
@@ -231,24 +231,24 @@ C=======================================================================
 !            NB_NODE = 0
 !            PROC_NUMBER = 0
 !            PROC_LIST_1(1:NSPMD) = 0
-!            CALL PLIST_IFRONT(PROC_LIST_1,CYL_JOIN(I)%MASTER_NODE(1),PROC_NUMBER_1)
+!            CALL PLIST_IFRONT(PROC_LIST_1,CYL_JOIN(I)%MAIN_NODE(1),PROC_NUMBER_1)
 !            PROC_NUMBER_2 = 0
 !            PROC_LIST_2(1:NSPMD) = 0
-!            CALL PLIST_IFRONT(PROC_LIST_2,CYL_JOIN(I)%MASTER_NODE(2),PROC_NUMBER_2)!
+!            CALL PLIST_IFRONT(PROC_LIST_2,CYL_JOIN(I)%MAIN_NODE(2),PROC_NUMBER_2)!
 !
 !            DO P=1,PROC_NUMBER_1
 !                PROC = PROC_LIST_1(P)
-!                CALL IFRONTPLUS(CYL_JOIN(I)%MASTER_NODE(2),PROC)
+!                CALL IFRONTPLUS(CYL_JOIN(I)%MAIN_NODE(2),PROC)
 !            ENDDO
 !            DO P=1,PROC_NUMBER_2
 !                PROC = PROC_LIST_2(P)
-!                CALL IFRONTPLUS(CYL_JOIN(I)%MASTER_NODE(1),PROC)
+!                CALL IFRONTPLUS(CYL_JOIN(I)%MAIN_NODE(1),PROC)
 !            ENDDO
 !            K=K+NS+1
 !        ENDDO
         !   ----------------------
 
-        DEALLOCATE( MASTER_AND_SECONDARY )
+        DEALLOCATE( MAIN_AND_SECONDARY )
 
         RETURN
         END SUBROUTINE SPLIT_JOINT
@@ -311,11 +311,11 @@ C=======================================================================
 
             NB_NODE = 0
             PROC_NUMBER = 0
-            CYL_JOIN(I)%PROC_MASTER = -1
+            CYL_JOIN(I)%PROC_MAIN = -1
             PROC_LIST(1:NSPMD) = 0
             DO P=1,NSPMD
-                M1 = CYL_JOIN(I)%MASTER_NODE(1)
-                M2 = CYL_JOIN(I)%MASTER_NODE(2)
+                M1 = CYL_JOIN(I)%MAIN_NODE(1)
+                M2 = CYL_JOIN(I)%MAIN_NODE(2)
 !                IF(NLOCAL(M1,P)==1) CALL IFRONTPLUS(M2,P)
 !                IF(NLOCAL(M2,P)==1) CALL IFRONTPLUS(M1,P)
 !                print*,' split_joint :',p,NLOCAL(M1,P),NLOCAL(M2,P)
@@ -326,11 +326,11 @@ C=======================================================================
             K=K+NS+1
 
                     PROC_NUMBER = 0
-        CALL PLIST_IFRONT(PROC_LIST,CYL_JOIN(I)%MASTER_NODE(1),PROC_NUMBER)
+        CALL PLIST_IFRONT(PROC_LIST,CYL_JOIN(I)%MAIN_NODE(1),PROC_NUMBER)
         print*,' ------- '
         print*,i,' M1:',a,PROC_LIST(1:PROC_NUMBER)
                     PROC_NUMBER = 0
-        CALL PLIST_IFRONT(PROC_LIST,CYL_JOIN(I)%MASTER_NODE(2),PROC_NUMBER)
+        CALL PLIST_IFRONT(PROC_LIST,CYL_JOIN(I)%MAIN_NODE(2),PROC_NUMBER)
         print*,i,' M2:',a,PROC_LIST(1:PROC_NUMBER)
         print*,' ------- '
         print*,' '

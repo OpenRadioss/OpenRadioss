@@ -290,7 +290,7 @@ Chd|-- calls ---------------
 Chd|        SUM_6_FLOAT                   source/system/parit.F         
 Chd|====================================================================
       SUBROUTINE SMS_RLINK1(MS    ,A    ,NSN  ,IC      ,NOD,
-     .                      WEIGHT,FRL6 ,IFLAG,IDOWN   ,PMASTER ,
+     .                      WEIGHT,FRL6 ,IFLAG,IDOWN   ,PMAIN ,
      .                      FRL   ,TAG_LNK,ITAB)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -306,7 +306,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSN, IC, IFLAG, IDOWN, NCNOD, PMASTER, TAG_LNK
+      INTEGER NSN, IC, IFLAG, IDOWN, NCNOD, PMAIN, TAG_LNK
       INTEGER NOD(*),WEIGHT(*), ITAB(*)
 C     REAL ou REAL*8
       my_real
@@ -461,7 +461,7 @@ Chd|        SUM_6_FLOAT                   source/system/parit.F
 Chd|====================================================================
       SUBROUTINE SMS_RLINK2(MS   ,A    ,NSN   ,IC   ,NOD  ,
      2                      SKEW,WEIGHT,FRL6  ,IFLAG,IDOWN,
-     3                      PMASTER,FRL,TAG_LNK,ITAB)
+     3                      PMAIN,FRL,TAG_LNK,ITAB)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -475,7 +475,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSN, IC, IFLAG, IDOWN, PMASTER, TAG_LNK
+      INTEGER NSN, IC, IFLAG, IDOWN, PMAIN, TAG_LNK
       INTEGER NOD(*),WEIGHT(*), ITAB(*), ISK
 C     REAL ou REAL*8
       my_real
@@ -648,7 +648,7 @@ Chd|        SUM_6_FLOAT                   source/system/parit.F
 Chd|====================================================================
       SUBROUTINE SMS_RLINK3(MS   ,X   ,A     ,V     ,NSN  ,
      2                      IC   ,NOD ,XFRAME,WEIGHT,FRL6 ,
-     3                      IFLAG,IDOWN,PMASTER,FRL,TAG_LNK,
+     3                      IFLAG,IDOWN,PMAIN,FRL,TAG_LNK,
      4                      ITAB )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -664,7 +664,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSN, IC, IFLAG, IDOWN, PMASTER, TAG_LNK
+      INTEGER NSN, IC, IFLAG, IDOWN, PMAIN, TAG_LNK
       INTEGER NOD(*),WEIGHT(*), ITAB(*)
 C     REAL ou REAL*8
       my_real

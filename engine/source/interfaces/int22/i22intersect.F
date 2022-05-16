@@ -151,7 +151,7 @@ C-----------------------------------------------
       INTEGER :: TAG_INDEX(NBRIC), I8(8,NBRIC),IFLG_DB
       my_real :: R8(8,NBRIC), DENOM, NORM, TOLCRIT,TOL
       
-      TYPE(LIST_SLAVE) :: OLD_SLAVE_LIST
+      TYPE(LIST_SECND) :: OLD_SECND_LIST
      
 C----------------------------------------------------------------
       A(1:5)=((/1,2,3,4,1/))

@@ -182,7 +182,7 @@ C-----------------------------------------------
      .                I1=IGEO(1,IG),C1=TITR,
      .                I2=IRB)
         ELSE
-        !Noeud master RB replique sur tous les procs pour calcul porosite SPMD
+        !Noeud main RB replique sur tous les procs pour calcul porosite SPMD
           IF(IMACH.EQ.3) THEN
             DO P = 1, NSPMD
 	      CALL IFRONTPLUS(IRB,P) 

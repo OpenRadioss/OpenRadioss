@@ -100,9 +100,9 @@ C-----------------------------------------------
       END DO
 C-----------------------------------------------
 C-----------------------------------------------
-C     Noeud maitre dans le repere de l'ellipsoide :
+C     Noeud main dans le repere de l'ellipsoide :
 C     pour calcul de l'amortissement.
-Clm   la position (el les vitesses) du noeud maitre sont transmises 
+Clm   la position (el les vitesses) du noeud main sont transmises 
 C     par l'objet qui utilise la surface (Rigid Body)
 C     - dans le Starter au Temps TT=0.
 C-----------------------------------------------
@@ -113,7 +113,7 @@ C-----------------------------------------------
       YM=ROT(4)*X1+ROT(5)*X2+ROT(6)*X3
       ZM=ROT(7)*X1+ROT(8)*X2+ROT(9)*X3
 C-----------------------------------------------
-C     Vitesse du noeud maitre en local.
+C     Vitesse du noeud main en local.
 C-----------------------------------------------
       V1=BUFSF(ADRBUF+19)
       V2=BUFSF(ADRBUF+20)
@@ -122,7 +122,7 @@ C-----------------------------------------------
       VYM=ROT(4)*V1+ROT(5)*V2+ROT(6)*V3
       VZM=ROT(7)*V1+ROT(8)*V2+ROT(9)*V3
 C-----------------------------------------------
-C     Vitesse  de rotation du noeud maitre en local.
+C     Vitesse  de rotation du noeud main en local.
 C-----------------------------------------------
       V1=BUFSF(ADRBUF+22)
       V2=BUFSF(ADRBUF+23)

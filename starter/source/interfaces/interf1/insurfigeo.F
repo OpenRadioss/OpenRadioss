@@ -82,7 +82,7 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER USR2SYS
 C=======================================================================   
-CC dans INTBUF_TAB%NIGE, on ecrit tout les points fictifs slave puis les points fictifs master
+CC dans INTBUF_TAB%NIGE, on ecrit tout les points fictifs secnd puis les points fictifs main
 c NIGE est offsete a l'appel de la routine
 
       DO J=1,MSN_IGE

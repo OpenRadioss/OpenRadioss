@@ -275,7 +275,7 @@ Chd|====================================================================
      .         RX   ,RY   ,RZ   ,VA   ,VB   ,
      .         VC   ,VD   ,VRM  ,VRS  ,DET  ,
      .         B1   ,B2   ,B3   ,C1   ,C2   ,
-     .         C3   ,IN_SLAVE)
+     .         C3   ,IN_SECND)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -307,7 +307,7 @@ C     REAL ou REAL*8
      .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
      .   A1,A2,A3,MR,MRX,MRY,MRZ,
      .   BB1,BB2,BB3,CC1,CC2,CC3,
-     .   MGX,MGY,MGZ,WX,WY,WZ,IN_SLAVE
+     .   MGX,MGY,MGZ,WX,WY,WZ,IN_SECND
 C=======================================================================
 C
       IF (TT == ZERO) THEN
@@ -352,8 +352,8 @@ C
       C1=XXX*YZ+ZX*XY
       C2=YYY*ZX+XY*YZ
 C
-      IF (IRODDL == 0 .OR. IN_SLAVE == ZERO) THEN
-C--    For solid slave node VRM=VRS=Vitesse rotation facette matire   
+      IF (IRODDL == 0 .OR. IN_SECND == ZERO) THEN
+C--    For solid secnd node VRM=VRS=Velocity rotation main segment 
         MGX = RY(1)*VA(3) + RY(2)*VB(3) + RY(3)*VC(3) + RY(4)*VD(3) 
      .      - RZ(1)*VA(2) - RZ(2)*VB(2) - RZ(3)*VC(2) - RZ(4)*VD(2)
         MGY = RZ(1)*VA(1) + RZ(2)*VB(1) + RZ(3)*VC(1) + RZ(4)*VD(1) 
@@ -413,7 +413,7 @@ Chd|====================================================================
      .         RX   ,RY   ,RZ   ,VA   ,VB   ,
      .         VC   ,VD   ,VRM  ,VRS  ,DET  ,
      .         B1   ,B2   ,B3   ,C1   ,C2   ,
-     .         C3   ,IN_SLAVE)
+     .         C3   ,IN_SECND)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -445,7 +445,7 @@ C     REAL ou REAL*8
      .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
      .   A1,A2,A3,MR,MRX,MRY,MRZ,
      .   BB1,BB2,BB3,CC1,CC2,CC3,
-     .   MGX,MGY,MGZ,WX,WY,WZ,IN_SLAVE
+     .   MGX,MGY,MGZ,WX,WY,WZ,IN_SECND
 C=======================================================================
 C
       IF (TT == ZERO) THEN
@@ -501,8 +501,8 @@ C
       VRM(2)=DET*(MGY*B2+MGZ*C1+MGX*C3)
       VRM(3)=DET*(MGZ*B3+MGX*C2+MGY*C1)
 C
-      IF (IRODDL == 0 .OR. IN_SLAVE == ZERO) THEN
-C--    For solid slave node VRM=VRS=Vitesse rotation facette matire      
+      IF (IRODDL == 0 .OR. IN_SECND == ZERO) THEN
+C--    For solid secnd node VRM=VRS=velocity main segment
         WX = VRM(1)
         WY = VRM(2)
         WZ = VRM(3)

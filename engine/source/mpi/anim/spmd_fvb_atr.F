@@ -56,7 +56,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER ELOFF, I, PMASTER, II, J, K, KK, N, NN, INOD(4), NND,
+      INTEGER ELOFF, I, PMAIN, II, J, K, KK, N, NN, INOD(4), NND,
      .        ITAG, MSGOFF, LEN, JJ, IAD, IADE, IADF,
      .        STAT(MPI_STATUS_SIZE), IERR, NNTR
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGT, IBUF
@@ -66,9 +66,9 @@ C-----------------------------------------------
 C
       ELOFF=0
       DO I=1,NFVBAG
-         PMASTER=FVSPMD(I)%PMASTER
+         PMAIN=FVSPMD(I)%PMAIN
          IF (ISPMD.EQ.0) THEN
-            IF (ISPMD.EQ.PMASTER-1) THEN
+            IF (ISPMD.EQ.PMAIN-1) THEN
                ALLOCATE(ITAGT(FVDATA(I)%NNTR))
                II=0
                DO J=1,FVDATA(I)%NNTR
@@ -111,13 +111,13 @@ C
                DEALLOCATE(ITAGT)
             ELSE
                ITAG=MSGOFF
-               CALL MPI_RECV(NNTR, 1, MPI_INTEGER, IT_SPMD(PMASTER),
+               CALL MPI_RECV(NNTR, 1, MPI_INTEGER, IT_SPMD(PMAIN),
      .                       ITAG, MPI_COMM_WORLD, STAT, IERR)
 C
                LEN=6*NNTR
                ALLOCATE(IBUF(LEN))
                ITAG=MSGOFF+1
-               CALL MPI_RECV(IBUF, LEN, MPI_INTEGER, IT_SPMD(PMASTER),
+               CALL MPI_RECV(IBUF, LEN, MPI_INTEGER, IT_SPMD(PMAIN),
      .                       ITAG, MPI_COMM_WORLD, STAT, IERR)
 C
                JJ=0
@@ -149,7 +149,7 @@ C
                DEALLOCATE(IBUF)
             ENDIF
          ELSE
-            IF (ISPMD.EQ.PMASTER-1) THEN
+            IF (ISPMD.EQ.PMAIN-1) THEN
                ITAG=MSGOFF
                CALL MPI_SEND(FVDATA(I)%NNTR, 1, MPI_INTEGER,
      .                       IT_SPMD(1), ITAG, MPI_COMM_WORLD,

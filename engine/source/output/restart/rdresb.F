@@ -209,7 +209,7 @@ C
 
         CALL READ_I_C(NODGLOB,SNODGLOB)
 
-        CALL READ_I_C(MASTER_PROC,SWEIGHT)
+        CALL READ_I_C(MAIN_PROC,SWEIGHT)
 
         CALL READ_I_C(WEIGHT,SWEIGHT)
 
@@ -1920,12 +1920,12 @@ C
             FVSPMD(I)%NSA=NSA
             FVSPMD(I)%NNSA=TABI(5)
             FVSPMD(I)%NELSA=NELSA
-            FVSPMD(I)%PMASTER=TABI(7)
+            FVSPMD(I)%PMAIN=TABI(7)
             FVSPMD(I)%NNA_L_GLOB = NNA_L
 
             COLOR = MIN(1,NN_L+NNI_L+NNA_L+NNSA_L) 
-            IF(ISPMD == FVSPMD(I)%PMASTER - 1) THEN
-            ! PMASTER will be zero in the subcommunicator
+            IF(ISPMD == FVSPMD(I)%PMAIN - 1) THEN
+            ! PMAIN will be zero in the subcommunicator
               KEY = 0 
               COLOR = 1
             ELSE
@@ -1964,7 +1964,7 @@ C
             ENDIF
             LEN = 1
             CALL READ_I_C(KMESH(I), LEN)
-            IF (ISPMD.NE.FVSPMD(I)%PMASTER-1) CYCLE
+            IF (ISPMD.NE.FVSPMD(I)%PMAIN-1) CYCLE
 C
             ALLOCATE(FVSPMD(I)%IXSA(8,NSA))
             LEN=8*NSA

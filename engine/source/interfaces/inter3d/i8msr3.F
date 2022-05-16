@@ -29,7 +29,7 @@ Chd|        I8_NEAREST_SEG                source/interfaces/inter3d/i8_nearest_s
 Chd|        INT8_MOD                      ../common_source/modules/int8_mod.F
 Chd|====================================================================
       SUBROUTINE I8MSR3(X,IRECT,LMSR,MSR,NSV,ILOC,IRTL,NSEG,XFACE, 
-     .           NBSLAVES,ITAB,HAS_MOVED,TAB_RMAX,TAB_RMAX_UID)
+     .           NBSECNDS,ITAB,HAS_MOVED,TAB_RMAX,TAB_RMAX_UID)
 C-----------------------------------------------
 C   I n f o r m a t i o n s            
 C-----------------------------------------------
@@ -56,7 +56,7 @@ C-----------------------------------------------
       my_real, INTENT(IN)  ::  X(3,*)
 	  
       INTEGER TAB_RMAX_UID(4,*),HAS_MOVED(*)
-      INTEGER NBSLAVES,ITAB(*)
+      INTEGER NBSECNDS,ITAB(*)
       my_real TAB_RMAX(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -79,13 +79,13 @@ C-----------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----A----+----B----+----C--
 
       ! At the end of this routine 
-      !HAS_MOVED(i) == 1 : the master node of the ith slave may have
+      !HAS_MOVED(i) == 1 : the main node of the ith secnd may have
       !changed (i.e. it has changed locally, or was not on this processor)
-      !HAS_MOVED(i) == 0 : the ith slave node keep the same master
+      !HAS_MOVED(i) == 0 : the ith secnd node keep the same main
 
-      HAS_MOVED(1:NBSLAVES) = 1
-      TAB_RMAX(1:NBSLAVES)  = ZERO
-      TAB_RMAX_UID(1:4,1:NBSLAVES) = 0 
+      HAS_MOVED(1:NBSECNDS) = 1
+      TAB_RMAX(1:NBSECNDS)  = ZERO
+      TAB_RMAX_UID(1:4,1:NBSECNDS) = 0 
 
       DO I=LFT,LLT
         IL=I+NFT
@@ -103,7 +103,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
          LSEG_NEW=0
 C
          IF(L.LE.0) GOTO 100
-       ! IF this slave has a master face from the previous cycle, 
+       ! IF this secnd has a main face from the previous cycle, 
        ! this one is checked first                                      
 
          FACE_GLOB_ID(1)  = ITAB(MSR(IRECT(1,L)))

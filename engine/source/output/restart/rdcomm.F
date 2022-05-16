@@ -1366,7 +1366,7 @@ C
       SDD_R2R_ELEM=TABVINT(NEXT)
       NEXT=NEXT+1
       R2R_SIU=TABVINT(NEXT)
-C heat trasfert for interface Type21 : master temperature is variable
+C heat trasfert for interface Type21 : main temperature is variable
       NEXT   = NEXT + 1
       FTEMPVAR21 = TABVINT(NEXT)
 C

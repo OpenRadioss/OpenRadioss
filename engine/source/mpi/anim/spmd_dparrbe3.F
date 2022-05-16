@@ -62,7 +62,7 @@ C-----------------------------------------------
       INTEGER SNRBE3,SIZRBE3,SBUFSIZ,PSNRBE3
       INTEGER NSN,IADG,IAD,SN,MN,NGRBE
 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: SLAVENODS,SZLOCRBE3,PGLOBRBE3
+      INTEGER, DIMENSION(:),ALLOCATABLE :: SECNDNODS,SZLOCRBE3,PGLOBRBE3
 
       INTEGER,  DIMENSION(:),ALLOCATABLE :: SENDBUF,RECBUF,
      *                                      P0RBE3BUF,IADRBE3
@@ -76,7 +76,7 @@ C MPI variables
       DATA MSGOFF/7022/
       DATA MSGOFF2/7023/
 C-----------------------------------------------
-      ALLOCATE(SLAVENODS(NRBE3G))
+      ALLOCATE(SECNDNODS(NRBE3G))
       ALLOCATE(SZLOCRBE3(NRBE3G))
       ALLOCATE(PGLOBRBE3(NRBE3G))
 C-----------------------------------------------
@@ -151,18 +151,18 @@ C ------------------------
          ENDIF
          DEALLOCATE(SENDBUF)
 
-C Envoi des noeuds slaves
-        SLAVENODS=0
+C Envoi des noeuds secnds
+        SECNDNODS=0
          DO I=1,NRBE3
            MN =  IRBE3(3,I)
 	   IF(MN.NE.0)THEN
              IF (WEIGHT(MN)==1) THEN
                NGRBE = IRBE3(10,I)
-               SLAVENODS(NGRBE)=NODGLOB(MN)
+               SECNDNODS(NGRBE)=NODGLOB(MN)
              ENDIF        
            ENDIF        
          ENDDO
-         CALL SPMD_GLOB_ISUM9(SLAVENODS,NRBE3G)
+         CALL SPMD_GLOB_ISUM9(SECNDNODS,NRBE3G)
 
       ELSE
 C --------------------------------------------------------------------
@@ -231,23 +231,23 @@ C Taille du buffer de reception
            ENDIF
          ENDDO
 C Reception des Noeuds SECONDARYs
-         SLAVENODS=0
+         SECNDNODS=0
          DO I=1,NRBE3
            MN =  IRBE3(3,I)
 	   IF(MN.NE.0)THEN
              IF (WEIGHT(MN)==1) THEN
                NGRBE = IRBE3(10,I)
-               SLAVENODS(NGRBE)=NODGLOB(MN)
+               SECNDNODS(NGRBE)=NODGLOB(MN)
              ENDIF        
            ENDIF        
          ENDDO
-         CALL SPMD_GLOB_ISUM9(SLAVENODS,NRBE3G)
+         CALL SPMD_GLOB_ISUM9(SECNDNODS,NRBE3G)
 
 C Ecriture sur disque
          DO I=1,NRBE3G
            NSN = IADRBE3(I+1) - IADRBE3(I)
            IADG =IADRBE3(I)
-           MN = SLAVENODS(I)
+           MN = SECNDNODS(I)
            ALLOCATE(IIN(2,NSN))
            NERBE3T(I)=NSN
            DO N=1,NSN
@@ -263,7 +263,7 @@ C Ecriture sur disque
       ENDIF
 
 C-----------------------------------------------
-      DEALLOCATE(SLAVENODS)
+      DEALLOCATE(SECNDNODS)
       DEALLOCATE(SZLOCRBE3)
       DEALLOCATE(PGLOBRBE3)
 

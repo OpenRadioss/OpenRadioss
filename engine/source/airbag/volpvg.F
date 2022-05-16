@@ -28,7 +28,7 @@ Chd|        MONVOL0                       source/airbag/monvol0.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE VOLPVGA(IVOLU ,RVOLU   ,VOL     ,FSAV    ,NVENT   ,
-     .                 IBAGHOL ,RBAGHOL ,PMASTER )
+     .                 IBAGHOL ,RBAGHOL ,PMAIN )
 C-----------------------------------------------
 C      MONITORED VOLUMES TYPE PERFECT GAS, INPUT STARTER >= 4.4 (PRESSURE).
 C-----------------------------------------------
@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IVOLU(*),NVENT,IBAGHOL(NIBHOL,*),PMASTER
+      INTEGER IVOLU(*),NVENT,IBAGHOL(NIBHOL,*),PMAIN
       my_real
      .   RVOLU(*),VOL,FSAV(*),RBAGHOL(NRBHOL,*)
 C-----------------------------------------------
@@ -171,7 +171,7 @@ C
       RVOLU(16) = VOL
       RVOLU(12) = PRES
 C
-      IF (ISPMD+1.EQ.PMASTER) THEN
+      IF (ISPMD+1.EQ.PMAIN) THEN
         TFEXT=TFEXT+(UNDEMI*(Q+QOLD+PRES+POLD)-PEXT)*DV
         FSAV(1)=AMTOT
         FSAV(2)=VOL
@@ -246,7 +246,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, K,IDEF,KK,PMASTER,
+      INTEGER I, K,IDEF,KK,PMAIN,
      .   II,IPVENT,NNC,KAD,IPORT,IPORP,IPORA,
      .   IOFF,NG,NEL,ISTRA,IEXPAN,IOK
 
@@ -264,7 +264,7 @@ C-----------------------------------------------
       my_real,
      .  DIMENSION(:), POINTER :: OFFG
 C-----------------------------------------------
-      PMASTER = FR_MV(NSPMD+2)
+      PMAIN = FR_MV(NSPMD+2)
       IDEF  = IVOLU(14)
       IF(IDEF.GT.0)GOTO 999
 C--------------------------------
@@ -301,7 +301,7 @@ C
      .               AND.DTPDEFC.GT.DTPDEFI.
      .               AND.VOL.GT.0.001*AREA**1.5) THEN
          IDEF=ABS(IDEF)
-         IF(ISPMD+1.EQ.PMASTER) THEN
+         IF(ISPMD+1.EQ.PMAIN) THEN
          WRITE(IOUT,*)
      .         ' *** MONITORED VOLUME MEMBRANE IS DEFLATED ***'
          WRITE(IOUT,*)' *** MONITORED VOLUME ',IVOLU(1),
@@ -311,7 +311,7 @@ C
         ENDIF
         IF(IDEF.LE.0 .AND. TT.GT.TVENT) THEN
          IDEF=ABS(IDEF)
-         IF(ISPMD+1.EQ.PMASTER) THEN
+         IF(ISPMD+1.EQ.PMAIN) THEN
          WRITE(IOUT,*) 
      .         ' *** MONITORED VOLUME VENTING STARTS ***'
          WRITE(IOUT,*) ' *** MONITORED VOLUME ',IVOLU(1),
@@ -467,7 +467,7 @@ C-------
            FLOUT= ZERO   
        ENDIF
 C-------
-       IF(ISPMD+1.EQ.PMASTER) THEN
+       IF(ISPMD+1.EQ.PMAIN) THEN
          FSAV(6)=AOUTOT
          FSAV(7)=FLOUT/MAX(EM20,AOUTOT)
        ENDIF

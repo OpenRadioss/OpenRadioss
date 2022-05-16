@@ -88,7 +88,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II, NAV, K,NFT,IEL, IDEF, KK, IPVENT, NNC,
      .   IPORT,IPORP,IPORA,IPORT1,IPORP1,IPORA1,IVDP,
-     .   IJ ,IV, RADVOIS,PMASTER,
+     .   IJ ,IV, RADVOIS,PMAIN,
      .   IN1,IN2,IN3,IN4,ITTF,IDTPDEF,
      .   IOFF,NG,IM,IFVENT,NFUNC,ITY,IAD,MTN,
      .   IVENTYP,ILEAKAGE,IBLOCKAGE
@@ -119,7 +119,7 @@ C     REAL ou REAL*8
      .   FRMV6(2,6), FRMV6B(6)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C 
-       PMASTER = FR_MV(NSPMD+2)
+       PMAIN = FR_MV(NSPMD+2)
        NAV   = IVOLU(3)
        ITTF  = IVOLU(17)
        TTF    =RVOLU(60)
@@ -221,7 +221,7 @@ C
      .              .AND.TT.LT.TSTOPE+TTF
      .              .AND.IDTPDEF.EQ.0) THEN
          IDEF=1
-         IF(ISPMD+1.EQ.PMASTER) THEN
+         IF(ISPMD+1.EQ.PMAIN) THEN
             WRITE(IOUT,'(A)') 
      .                  ' ** AIRBAG VENT HOLE MEMBRANE IS DEFLATED **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
@@ -244,7 +244,7 @@ C
         IF(IDEF.EQ.0 .AND. TT.GT.TVENT+TTF
      .               .AND. TT.LT.TSTOPE+TTF) THEN
          IDEF=1
-         IF(ISPMD+1.EQ.PMASTER) THEN
+         IF(ISPMD+1.EQ.PMAIN) THEN
             WRITE(IOUT,'(A)') ' ** AIRBAG VENTING STARTS **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
      .                  ' VENT HOLE NUMBER',IV   ,' ',VENTTITLE
@@ -253,7 +253,7 @@ C
         ENDIF
         IF(IDEF.EQ.1 .AND. TT.GE.TSTOPE+TTF) THEN
          IDEF=0
-         IF(IMACH.NE.3.OR.ISPMD+1.EQ.PMASTER) THEN
+         IF(IMACH.NE.3.OR.ISPMD+1.EQ.PMAIN) THEN
             WRITE(IOUT,'(A)') ' ** AIRBAG VENTING STOPS **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
      .                  ' VENT HOLE NUMBER',IV   ,' ',VENTTITLE
@@ -268,7 +268,7 @@ C
      .               AND.TT.LT.TSTOPE
      .              .AND.IDTPDEF.EQ.0) THEN
          IDEF=1
-         IF(ISPMD+1.EQ.PMASTER) THEN
+         IF(ISPMD+1.EQ.PMAIN) THEN
             WRITE(IOUT,'(A)') 
      .                  ' ** AIRBAG VENT HOLE MEMBRANE IS DEFLATED **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
@@ -291,7 +291,7 @@ C
         IF(IDEF.EQ.0 .AND. TT.GT.TVENT
      .               .AND. TT.LT.TSTOPE) THEN
          IDEF=1
-         IF(ISPMD+1.EQ.PMASTER) THEN
+         IF(ISPMD+1.EQ.PMAIN) THEN
             WRITE(IOUT,'(A)') ' ** AIRBAG VENTING STARTS **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
      .                  ' VENT HOLE NUMBER',IV   ,' ',VENTTITLE
@@ -300,7 +300,7 @@ C
         ENDIF
         IF(IDEF.EQ.1 .AND. TT.GE.TSTOPE) THEN
          IDEF=0
-         IF(IMACH.NE.3.OR.ISPMD+1.EQ.PMASTER) THEN
+         IF(IMACH.NE.3.OR.ISPMD+1.EQ.PMAIN) THEN
             WRITE(IOUT,'(A)') ' ** AIRBAG VENTING STOPS **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
      .                  ' VENT HOLE NUMBER',IV   ,' ',VENTTITLE
@@ -520,7 +520,7 @@ C
             FVDP=RBAGHOL(13,IV)
             U=FVDP*GET_U_FUNC(IVDP,(P-PEXT)*SCALP,DERI)
             FCHEMK= FCHEMK+(AOUT+AOUT1)*U
-            IF(ISPMD+1.EQ.PMASTER) RBAGHOL(18,IV)=U
+            IF(ISPMD+1.EQ.PMAIN) RBAGHOL(18,IV)=U
           ELSEIF(IFVENT==4) THEN
             AISENT1=AISENT1+AOUT+AOUT1
           ENDIF
@@ -536,17 +536,17 @@ C------------
             FVDP=RBAGHOL(13,IV)
             U=FVDP*GET_U_FUNC(IVDP,(P-PEXT)*SCALP,DERI)
             FCHEMK= FCHEMK+(AOUT+AOUT1)*U
-            IF(ISPMD+1.EQ.PMASTER) RBAGHOL(18,IV)=U
+            IF(ISPMD+1.EQ.PMAIN) RBAGHOL(18,IV)=U
           ELSEIF(IFVENT==3) THEN
             ACHEMK=ACHEMK+AOUT+AOUT1
             U=MAX(DEUX*(P-PEXT)/RO,ZERO)
             U=SQRT(U)
             FCHEMK= FCHEMK+(AOUT+AOUT1)*U
-            IF(ISPMD+1.EQ.PMASTER) RBAGHOL(18,IV)=U
+            IF(ISPMD+1.EQ.PMAIN) RBAGHOL(18,IV)=U
           ENDIF
          ENDIF
 C
-        IF(ISPMD+1.EQ.PMASTER) THEN
+        IF(ISPMD+1.EQ.PMAIN) THEN
             RBAGHOL(16,IV)=AOUT
             RBAGHOL(17,IV)=AOUT1
         ENDIF
@@ -620,7 +620,7 @@ C
          ENDIF
         ENDIF
 C
-        IF(ISPMD+1.EQ.PMASTER)THEN
+        IF(ISPMD+1.EQ.PMAIN)THEN
           DO IV=1,NVENT
             IDEF=IBAGHOL(1,IV)
             IVDP=IBAGHOL(9,IV)
@@ -652,7 +652,7 @@ C--------------
        RNM  =RVOLU(14)
        CV   =RNM/AMTOT/(GAMA-UN)
        CP   =GAMA*CV
-       IF(ISPMD+1.EQ.PMASTER) THEN
+       IF(ISPMD+1.EQ.PMAIN) THEN
          FSAV(1) =AMTOT
          FSAV(2) =VOL
          FSAV(3) =P
@@ -755,7 +755,7 @@ C---------------------------------------------
      .               .AND.VOL.GT.EM3*AREA**TDEMI)THEN
 
              IDEF=1
-             IF(ISPMD+1.EQ.PMASTER) THEN
+             IF(ISPMD+1.EQ.PMAIN) THEN
                WRITE(IOUT,*) 
      .          ' ** CHAMBER COMMUNICATION MEMBRANE IS DEFLATED **'
                WRITE(IOUT,*)
@@ -766,7 +766,7 @@ C---------------------------------------------
            ENDIF
            IF(IDEF.EQ.0 .AND. TT.GT.TVENT+TTF) THEN
              IDEF=1
-             IF(ISPMD+1.EQ.PMASTER) THEN
+             IF(ISPMD+1.EQ.PMAIN) THEN
                WRITE(IOUT,*) ' ** CHAMBER COMMUNICATION STARTS **'
                WRITE(IOUT,*) ' ** MONITORED VOLUME ',IVOLU(1),' **'
                WRITE(ISTDO,*)' ** COMMUNICATION STARTS **'
@@ -893,13 +893,13 @@ C IN
            RBAGVJET(NFT+10) = RBAGVJET(NFT+10)-DGEOUT
            ENDDO
          ENDDO
-         IF(ISPMD+1.EQ.PMASTER) THEN
+         IF(ISPMD+1.EQ.PMAIN) THEN
            FSAV(8)=FSAV(8)+AOUT
            FSAV(9)=FSAV(9)+FLOUT
          ENDIF
        ENDDO  ! I=1,NAV
 
-      IF(ISPMD+1.EQ.PMASTER) THEN
+      IF(ISPMD+1.EQ.PMAIN) THEN
         FSAV(9)=FSAV(9)/MAX(EM20,FSAV(8))
       ENDIF
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--

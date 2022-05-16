@@ -193,7 +193,7 @@ C
      6  IUSER  ,IPARG    ,DD_IAD     ,IGRV   ,IEXLNK ,KINET  ,
      7  IPARI  ,          NPRW       ,ICONX  ,NPBY   ,
      8  LPBY   ,LRIVET   ,NSTRF      ,LJOINT ,NODPOR, MONVOL ,ITHGRP,IAD_ELEM,
-     9  FR_ELEM,WEIGHT,   MASTER_PROC,ICODT,ICODR, ADSKY  ,IADS   ,ILINK  ,
+     9  FR_ELEM,WEIGHT,   MAIN_PROC,ICODT,ICODR, ADSKY  ,IADS   ,ILINK  ,
      A  LLINK  ,LINALE   ,NEFLSW     ,NNFLSW ,ICUT   ,CLUSTER,
      B          ITASK    ,IAF(IF01),
      C  X      ,D        ,V	     ,VR     ,DR     ,THKE   ,DAMP   ,MS     ,

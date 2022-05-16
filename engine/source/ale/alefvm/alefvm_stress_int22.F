@@ -87,7 +87,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I, II, J, K, IMAT, IALEFVM_FLG, IB, NIN, IBM, NGM, IDLOCM, ICUT,MCELL,NUM,IBv,ICELLv
-      INTEGER :: ISLAVE, ID, NP, IBs, ICELLs, Js, NumSLAVE
+      INTEGER :: ISECND, ID, NP, IBs, ICELLs, Js, NumSECND
       
       my_real :: P(MVSIZ) , 
      .           S1(MVSIZ)     , S2(MVSIZ)          , S3(MVSIZ), 
@@ -191,7 +191,7 @@ C-----------------------------------------------
         IB                                               = NINT(IAD22(I))
         IF(IB.LE.0)CYCLE 
         NBCUT                                            = BRICK_LIST(NIN,IB)%NBCUT
-        MCELL                                            = BRICK_LIST(NIN,IB)%MasterID
+        MCELL                                            = BRICK_LIST(NIN,IB)%MainID
         NCELL                                            = NBCUT
         ICELL                                            = MCELL
         BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%U_N     = ZERO
@@ -199,7 +199,7 @@ C-----------------------------------------------
         IF(NBCUT.GT.0)THEN
           S(1:6)                                         = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Surf                                                            
           S(0)                                           = BRICK_LIST(NIN,IB)%PCUT(ICELL)%SCUT(1)                                                                   
-          IBM                                            = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(4)                                                          
+          IBM                                            = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(4)                                                          
           NGM                                            = BRICK_LIST(NIN,IBM)%NG                                                                                   
           IDLOCM                                         = BRICK_LIST(NIN,IBM)%IDLOC                                                                                                                                                                                                                              
           ISGN                                           = UN                                                                                                                      
@@ -240,17 +240,17 @@ C-----------------------------------------------
         BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(5)%U_N       = U_N(5)                                                            
         BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(6)%U_N       = U_N(6)                                                            
         
-        NumSLAVE = BRICK_LIST(NIN,IB)%SlaveList%Num    
-        DO ISLAVE=1,NumSLAVE
-          IBs                                            = BRICK_LIST(NIN,IB)%SlaveList%IBV(ISlave)                                
-          ICELLs                                         = BRICK_LIST(NIN,IB)%SlaveList%ICELLv(ISlave)                             
-          Js                                             = BRICK_LIST(NIN,IBs)%POLY(ICELLs)%WhereIsMaster(1)                       
+        NumSECND = BRICK_LIST(NIN,IB)%SecndList%Num    
+        DO ISECND=1,NumSECND
+          IBs                                            = BRICK_LIST(NIN,IB)%SecndList%IBV(ISecnd)                                
+          ICELLs                                         = BRICK_LIST(NIN,IB)%SecndList%ICELLv(ISecnd)                             
+          Js                                             = BRICK_LIST(NIN,IBs)%POLY(ICELLs)%WhereIsMain(1)                       
           NBCUTv                                         = BRICK_LIST(NIN,IBs)%NBCUT
           !---face-0  
           !forcemment NBCUTv > 0                                                                                                                                                                                                                                                                                                                               
           S(1:6)                                         = BRICK_LIST(NIN,IBs)%POLY(ICELLs)%FACE(1:6)%Surf                                                                                                
           S(0)                                           = BRICK_LIST(NIN,IBs)%PCUT(ICELLs)%SCUT(1)                                                                                                       
-          IBM                                            = BRICK_LIST(NIN,IBs)%POLY(ICELLs)%WhereIsMaster(4)                                                                                                                                                                                                                                                                                                                                                                   
+          IBM                                            = BRICK_LIST(NIN,IBs)%POLY(ICELLs)%WhereIsMain(4)                                                                                                                                                                                                                                                                                                                                                                   
           ISGN                                           = UN    
           IDEB                                           = ICELLs
           IFIN                                           = ICELLs                                                                                                                                         
@@ -292,7 +292,7 @@ C-----------------------------------------------
           BRICK_LIST(NIN,IBs)%POLY(ICELLs)%FACE(4)%U_N   = U_N(4)                                                            
           BRICK_LIST(NIN,IBs)%POLY(ICELLs)%FACE(5)%U_N   = U_N(5)                                                            
           BRICK_LIST(NIN,IBs)%POLY(ICELLs)%FACE(6)%U_N   = U_N(6) 
-        ENDDO !next ISLAVE       
+        ENDDO !next ISECND       
       ENDDO!next I
       
 
@@ -327,7 +327,7 @@ C-----------------------------------------------
             if(ib.le.0)CYCLE
             NBCUT            = BRICK_LIST(NIN,IB)%NBCUT
             IF(NBCUT.GT.0)THEN
-             ICELL                 =  BRICK_LIST(NIN,IB)%masterID
+             ICELL                 =  BRICK_LIST(NIN,IB)%mainID
              IF(ICELL.EQ.0)CYCLE                        
                         
                print *,                    "      brique=", ixs(11,nft+i), "icell=", ICELL
@@ -379,13 +379,13 @@ C-----------------------------------------------
                write (*,FMT='(A,1E26.14)')    "    <U,N>                  =", BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%U_N          
             ENDIF!(NBCUT.GT.0)   
              
-             NUM = BRICK_LIST(NIN,IB)%SlaveList%Num
+             NUM = BRICK_LIST(NIN,IB)%SecndList%Num
              IBM = IB
-             DO ISLAVE=1,NUM
-               IB                                         = BRICK_LIST(NIN,IBM)%SlaveList%IBV(ISLAVE)              
-               ICELL                                      = BRICK_LIST(NIN,IBM)%SlaveList%ICELLv(ISLAVE) 
+             DO ISECND=1,NUM
+               IB                                         = BRICK_LIST(NIN,IBM)%SecndList%IBV(ISECND)              
+               ICELL                                      = BRICK_LIST(NIN,IBM)%SecndList%ICELLv(ISECND) 
                id                                         = BRICK_LIST(NIN,IB)%ID
-               print *,                    "      slave=", ixs(11,id), "icell=", ICELL
+               print *,                    "      secnd=", ixs(11,id), "icell=", ICELL
                write(*,FMT='(A24,1A26)')   "                        ",                     
      .                                    "#-stress Tensor (P+VIS+Q)#"          
 

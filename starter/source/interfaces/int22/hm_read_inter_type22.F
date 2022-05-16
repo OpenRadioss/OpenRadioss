@@ -142,7 +142,7 @@ C------------------------------------------------------------
 C
 C....* CHECKS *.............
 C
-       !IF MASTER SIDE IS NOT GIVEN            
+       !IF main SIDE IS NOT GIVEN            
        IF(ISU2.EQ.0) THEN                      
           CALL ANCMSG(MSGID=119,               
      .                MSGTYPE=MSGERROR,        

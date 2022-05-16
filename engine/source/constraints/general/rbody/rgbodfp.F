@@ -588,7 +588,7 @@ C        VL(3)=ZERO
        ENDIF
 C
 C      CALCUL D'UN PSEUDO MOMENT:
-C      EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAITRE (IMIN DU RB)
+C      EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
        AM(1,M)=IN(M)*AM(1,M)
        AM(2,M)=IN(M)*AM(2,M)
        AM(3,M)=IN(M)*AM(3,M)
@@ -602,7 +602,7 @@ C repere globale -> repere d'inertie principale
          AM(1,M)=RBY(1)*WA1+RBY(2)*WA2+RBY(3)*WA3
          AM(2,M)=RBY(4)*WA1+RBY(5)*WA2+RBY(6)*WA3
          AM(3,M)=RBY(7)*WA1+RBY(8)*WA2+RBY(9)*WA3
-C les contributions des vr ne sont ajoutees que sur le processeur maitre
+C les contributions des vr ne sont ajoutees que sur le processeur main
          VI(1)=RBY(1)*VR(1,M)+RBY(2)*VR(2,M)+RBY(3)*VR(3,M)
          VI(2)=RBY(4)*VR(1,M)+RBY(5)*VR(2,M)+RBY(6)*VR(3,M)
          VI(3)=RBY(7)*VR(1,M)+RBY(8)*VR(2,M)+RBY(9)*VR(3,M)
@@ -614,7 +614,7 @@ C les contributions des vr ne sont ajoutees que sur le processeur maitre
          END IF
 C
 C CALCUL D'UN PSEUDO MOMENT:
-C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAITRE (IMIN DU RB)
+C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
 C
          IF (IMPL_S.EQ.0) THEN
            WA1 = AM(1,M)*IN(M)/RBY(10)
@@ -653,7 +653,7 @@ C
         ELSEIF(N2D==1) THEN
 C
 C CALCUL D'UN PSEUDO MOMENT:
-C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAITRE (IMIN DU RB)
+C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
 C
          IF (IMPL_S.EQ.0) THEN
            WA1 = ZERO
@@ -678,14 +678,14 @@ C repere globale -> repere d'inertie principale
          AM(1,M)=RBY(1)*WA1
          AM(2,M)=ZERO
          AM(3,M)=ZERO
-C les contributions des vr ne sont ajoutees que sur le processeur maitre
+C les contributions des vr ne sont ajoutees que sur le processeur main
           VI(1)=RBY(1)*VR(1,M)
           VI(2)=ZERO
           VI(3)=ZERO
          CALL ROTBMR(VI,RBY,DT1)
 C
 C CALCUL D'UN PSEUDO MOMENT:
-C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAITRE (IMIN DU RB)
+C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
 C
          IF (IMPL_S.EQ.0) THEN
            WA1 = AM(1,M)*IN(M)/RBY(10)

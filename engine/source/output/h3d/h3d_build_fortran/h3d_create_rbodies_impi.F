@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-        INTEGER PMASTER,JENVOIE,I,J,K,L,S,B,M,P,N,
+        INTEGER PMAIN,JENVOIE,I,J,K,L,S,B,M,P,N,
      .          RECOISDE(NSPMD),
      .          PORBY(SPORBY),II(2),PTRPO(NSPMD+1),PTRPOO(NSPMD+1)
 Cow
@@ -70,7 +70,7 @@ Cow
 
      .          BUFSPO(SBUFSPO),NBNOD,SIZ,LPO,NSN,PTR,NOD,NN,NR,
      .          SRBY
-        INTEGER MASTERND(NRBYKIN)
+        INTEGER MAINND(NRBYKIN)
         INTEGER ID_RBY(NRBYKIN)
 
 Cow MPI variables 
@@ -83,24 +83,24 @@ Cow MPI variables
 
       LOC_PROC = ISPMD + 1 
 
-C SEND MASTER NODES TO PROC 0
+C SEND main NODES TO PROC 0
       DO J=1,NRBYKIN
-        PMASTER = FR_RBY2(3,J)
-        IF (LOC_PROC==ABS(PMASTER))THEN
-            MASTERND(J)=ITAB( NPBY(1,J) )-1
+        PMAIN = FR_RBY2(3,J)
+        IF (LOC_PROC==ABS(PMAIN))THEN
+            MAINND(J)=ITAB( NPBY(1,J) )-1
         ELSE
-            MASTERND(J)= 0
+            MAINND(J)= 0
         ENDIF
         ID_RBY(J)= NPBY(6,J) 
       ENDDO   
 
-      CALL SPMD_GLOB_ISUM9(MASTERND,NRBYKIN)
+      CALL SPMD_GLOB_ISUM9(MAINND,NRBYKIN)
 Cow init
        DO I=1,SBUFRECVM
            BUFRECVM(I)=0
        ENDDO
-Cow Remplissage du buffer d envoi proc ayant des noeuds slaves
-Cow vers proc ayant Noeud Master
+Cow Remplissage du buffer d envoi proc ayant des noeuds secnds
+Cow vers proc ayant Noeud Main
 
         L = 1
 
@@ -111,11 +111,11 @@ Cow vers proc ayant Noeud Master
 C
           DO J=1,NRBYKIN
 
-            PMASTER = FR_RBY2(3,J)
+            PMAIN = FR_RBY2(3,J)
             NBNOD =  FR_RBY2(1,J)
 
             IF ( NBNOD.NE.0  .AND.
-     .          ABS(PMASTER).EQ.I .AND. LOC_PROC.NE.I) THEN
+     .          ABS(PMAIN).EQ.I .AND. LOC_PROC.NE.I) THEN
 
                BUFSPM(L) = J
                BUFSPM(L+1) = NBNOD
@@ -149,7 +149,7 @@ Cow51d19+2
           ENDIF
         ENDDO
 
-Cow Procs qui contient des Noeuds Master... Reception des noeuds slaves des
+Cow Procs qui contient des Noeuds Main... Reception des noeuds secnds des
 Cow differents processeurs
 
         L=1
@@ -180,18 +180,18 @@ Cow52d19+++
         ENDDO
 Cow51d19---
         BUFRECP(NSPMD+1)=L
-Cow Maintenant que les procs masters ont tout
+Cow Maintenant que les procs mains ont tout
 Cow Il faut tout compacter dans le tableau d'envoi vers proc0
 
         L = 0
         K = 1
 
         DO I=1,NRBYKIN
-          PMASTER = FR_RBY2(3,I)
+          PMAIN = FR_RBY2(3,I)
 
-          IF (ABS(PMASTER).EQ.LOC_PROC) THEN
+          IF (ABS(PMAIN).EQ.LOC_PROC) THEN
 
-Cow on recopie du proc master les noeuds slaves
+Cow on recopie du proc main les noeuds secnds
                NBNOD = FR_RBY2(1,I)
 Cow sauvegarde du ptr pour mettre la taille du RB
                NN = L+1
@@ -199,9 +199,9 @@ Cow sauvegarde du ptr pour mettre la taille du RB
                NR = 1
 
                DO J = 1,NPBY(2,I)
-Cow des RBY qui on un PMASTER n  gatif n'ont pas forcement tous leur noeuds
+Cow des RBY qui on un PMAIN n  gatif n'ont pas forcement tous leur noeuds
 Cow avec weight(I)=1
-                 IF (PMASTER.LE.0) THEN
+                 IF (PMAIN.LE.0) THEN
                     BUFSPO(L+NR)=ITAB(LPBY(K+J-1))-1
                     NR = NR+1
                  ELSE
@@ -218,7 +218,7 @@ Cow avec weight(I)=1
 
 Cow le rb n'est pas local, on parcours les procs pour savoir s'il n a
 Cow pas des bouts de RB.
-             IF (PMASTER.GT.0) THEN
+             IF (PMAIN.GT.0) THEN
                DO P=1,NSPMD
 
                 IF (IAD_RBY2(2,P).GT.0) THEN
@@ -258,7 +258,7 @@ Cow envoi tableau vers proc 0
         ENDIF
 
 
-Cow je recois des messages des procs qui ont un noeud maitre de RB
+Cow je recois des messages des procs qui ont un noeud main de RB
         IF (ISPMD.EQ.0) THEN
           DO I=1,NSPMD
             RECOISDE(I)=0
@@ -295,7 +295,7 @@ ccc
           PTRPO(NSPMD+1)=LPO
 
           PTRPOO=PTRPO
-          CALL C_H3D_CREATE_RBODIES_IMPI(ITAB,NRBYKIN,MASTERND,ID_RBY,PTRPO,PTRPOO,PORBY,NSPMD,
+          CALL C_H3D_CREATE_RBODIES_IMPI(ITAB,NRBYKIN,MAINND,ID_RBY,PTRPO,PTRPOO,PORBY,NSPMD,
      .                                   COMPID_RBODIES)
            
           

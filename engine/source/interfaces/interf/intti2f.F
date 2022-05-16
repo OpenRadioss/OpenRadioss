@@ -122,7 +122,7 @@ C
 C
       IF (IMACH /= 3.OR.(IMACH == 3.AND.IPARIT == 0)) THEN
        IF((ILEV == 1.OR.ILEV == 3).AND.IRODDL /= 0)THEN
-C       FORMULATION SANS MOMENT SUR MASTER
+C       FORMULATION SANS MOMENT SUR MAIN
         CALL I2FOMO3(
      1   NSN       ,NMN       ,A         ,INTBUF_TAB%IRECTM,INTBUF_TAB%DPARA,
      2   INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,MS        ,WEIGHT    ,
@@ -132,7 +132,7 @@ C       FORMULATION SANS MOMENT SUR MASTER
      6   FNCONT    ,H3D_DATA  ,FNCONTP   ,FTCONTP   )
 
        ELSEIF(ILEV == 2)THEN
-C       FORMULATION AVEC MOMENT SUR MASTER
+C       FORMULATION AVEC MOMENT SUR MAIN
         CALL I2FOR3(
      1   NSN       ,NMN       ,A         ,INTBUF_TAB%IRECTM,INTBUF_TAB%CSTS,
      2   INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,MS        ,WEIGHT    ,
@@ -233,7 +233,7 @@ c
      .   H3D_DATA ,FNCONTP   ,FTCONTP   )                                                                                     
 C
        ELSEIF (ILEV == 30 .AND. IRODDL /= 0) THEN  
-c        formulation avec la courbure du master                   
+c        formulation avec la courbure du main                   
          CALL I2CURVF(
      .        MS        ,IN        ,X         ,V         ,VR        ,       
      .        A         ,AR        ,STIFN     ,STIFR     ,WEIGHT    ,       
@@ -243,7 +243,7 @@ c        formulation avec la courbure du master
      .        FTCONTP)
 C  
        ELSEIF(ILEV == 0 .OR. IRODDL == 0)THEN
-C       FORMULATION AVEC MOMENT SUR MASTER
+C       FORMULATION AVEC MOMENT SUR MAIN
         CALL I2FOR3N(
      1   NSN       ,NMN       ,A         ,INTBUF_TAB%IRECTM,INTBUF_TAB%CSTS,
      2   INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,MS   ,WEIGHT    ,
@@ -267,7 +267,7 @@ C parith/on spmd
 C attention aux routines duales du parith/on spmd
 C
        IF((ILEV == 1.OR.ILEV == 3).AND.IRODDL /= 0)THEN
-C       FORMULATION SANS MOMENT SUR MASTER
+C       FORMULATION SANS MOMENT SUR MAIN
         CALL I2FOMO3P(
      1   NSN       ,NMN       ,A         ,INTBUF_TAB%IRECTM,INTBUF_TAB%DPARA,
      2   INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,MS        ,WEIGHT    ,
@@ -277,7 +277,7 @@ C       FORMULATION SANS MOMENT SUR MASTER
      6   INTBUF_TAB%SMAS,INTBUF_TAB%SINER,V         ,INTBUF_TAB%CSTS,FSAV   ,
      7   FNCONT    ,H3D_DATA   ,FNCONTP   ,FTCONTP  )
        ELSEIF(ILEV == 2)THEN
-C       FORMULATION AVEC MOMENT SUR MASTER
+C       FORMULATION AVEC MOMENT SUR MAIN
         I0BASE = I0
         CALL I2FOR3P(
      1   NSN       ,NMN       ,A         ,INTBUF_TAB%CSTS,INTBUF_TAB%MSR,
@@ -391,7 +391,7 @@ c        formulation en cinematique - penalite
      .       INTBUF_TAB%NMAS,DMAST,ADM,H3D_DATA,FNCONTP   ,FTCONTP   ) 
 c
        ELSEIF (ILEV == 30 .AND. IRODDL /= 0) THEN  
-c        formulation avec la courbure du master  
+c        formulation avec la courbure du main  
          CALL I2CURVFP(
      .        MS        ,IN        ,X         ,V         ,VR        ,   
      .        A         ,AR        ,STIFN     ,STIFR     ,WEIGHT    ,   
@@ -401,7 +401,7 @@ c        formulation avec la courbure du master
      .        FSAV      ,FNCONT    ,H3D_DATA  ,FNCONTP   ,FTCONTP)
 C
        ELSEIF(ILEV == 0.OR.IRODDL == 0)THEN
-C       FORMULATION AVEC MOMENT SUR MASTER
+C       FORMULATION AVEC MOMENT SUR MAIN
           I0BASE = I0
          CALL I2FOR3PN(
      1   NSN       ,NMN       ,A         ,INTBUF_TAB%CSTS,INTBUF_TAB%NSV,

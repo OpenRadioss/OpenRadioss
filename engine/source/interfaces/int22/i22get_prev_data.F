@@ -41,9 +41,9 @@ C  This subroutine get data from cut cell buffer
 C  in previous cycle and update new buffer with
 C  consistent data if brick is sill there
 C  Example :
-C    * nodes which were master
+C    * nodes which were main
 C    * old volume
-C    * list of previous slaves (for merge/demerge)
+C    * list of previous secnds (for merge/demerge)
 C    * IIAD22 is also reset for all brick in
 C      previous buffer
 C-----------------------------------------------
@@ -153,30 +153,30 @@ c          IDX = TAG_INDEX_OLD(IB)
 c          BRICK_LIST(NIN,IB)%NewInBuffer = 0 
 c        ENDDO       
                                
-        !---NodWasMaster-------!
+        !---NodWasMain-------!
         DO IB=1,NBOLD(NIN)
-          I8(1:8,IB) = BRICK_LIST(NIN,IB)%NODE(1:8)%NodWasMaster    !sauvegarder avant de faire la modification ci-dessous
+          I8(1:8,IB) = BRICK_LIST(NIN,IB)%NODE(1:8)%NodWasMain    !sauvegarder avant de faire la modification ci-dessous
         ENDDO
         DO IB=1,NBOLD(NIN)
           IDX = LIST_B_OLD(NIN,IB)                             !doit etre alloue dans resol en meme temps que brick_list
           IF(TAG_INDEX(IDX).GT.0)THEN                          !la brick BUFBBRIC(IDX) est toujours dans le buffer
             IDX = TAG_INDEX(IDX)                               !position dans le nouveau buffer
-            BRICK_LIST(NIN,IDX)%NODE(1:8)%NodWasMaster = I8(1:8,IB)
+            BRICK_LIST(NIN,IDX)%NODE(1:8)%NodWasMain = I8(1:8,IB)
           ENDIF
         ENDDO!next IB
-        !---WhereWasMAster-----!
+        !---WhereWasMain-----!
         DO IB=1,NBOLD(NIN)
-          I8(1:8,IB) = BRICK_LIST(NIN,IB)%NODE(1:8)%WhereWasMaster !sauvegarder avant de faire la modification ci-dessous
+          I8(1:8,IB) = BRICK_LIST(NIN,IB)%NODE(1:8)%WhereWasMain !sauvegarder avant de faire la modification ci-dessous
         ENDDO
         DO IB=1,NBOLD(NIN)
           IDX = LIST_B_OLD(NIN,IB)                             !doit etre alloue dans resol en meme temps que brick_list
           IF(TAG_INDEX(IDX).GT.0)THEN                          !la brick BUFBBRIC(IDX) est toujours dans le buffer
             IDX = TAG_INDEX(IDX)                               !position dans le nouveau buffer
-            BRICK_LIST(NIN,IDX)%NODE(1:8)%WhereWasMaster = I8(1:8,IB)
+            BRICK_LIST(NIN,IDX)%NODE(1:8)%WhereWasMain = I8(1:8,IB)
           ENDIF
         ENDDO!next IB
         
-        !--Old master volume---!
+        !--Old main volume---!
         DO IB=1,NBOLD(NIN)
           R9(1,IB) = BRICK_LIST(NIN,IB)%Vold_SCell             !sauvegarder avant de faire la modification ci-dessous
         ENDDO
@@ -214,52 +214,52 @@ c        ENDDO
           ENDIF
         ENDDO!next IB
                 
-        !------SlaveList-------!
+        !------SecndList-------!
         DO IB=1,NBOLD(NIN)
           IDX = LIST_B_OLD(NIN,IB)                             !doit etre alloue dans resol en meme temps que brick_list
           IF(TAG_INDEX(IDX).GT.0)THEN                          !la brick BUFBBRIC(IDX) est toujours dans le buffer
             IDX = TAG_INDEX(IDX)                               !position dans le nouveau buffer
-            IF(BRICK_LIST(NIN,IB)%SlaveList%Num==0)CYCLE
-            OLD_SlaveList(NIN,IDX)%VOL_unmerged       = BRICK_LIST(NIN,IB)%SlaveList%VOL_unmerged
-            OLD_SlaveList(NIN,IDX)%Num                = BRICK_LIST(NIN,IB)%SlaveList%Num
-            OLD_SlaveList(NIN,IDX)%NumSlaveNodes      = BRICK_LIST(NIN,IB)%SlaveList%NumSlaveNodes
-            NUM                                       = BRICK_LIST(NIN,IB)%SlaveList%Num
+            IF(BRICK_LIST(NIN,IB)%SecndList%Num==0)CYCLE
+            OLD_SecndList(NIN,IDX)%VOL_unmerged       = BRICK_LIST(NIN,IB)%SecndList%VOL_unmerged
+            OLD_SecndList(NIN,IDX)%Num                = BRICK_LIST(NIN,IB)%SecndList%Num
+            OLD_SecndList(NIN,IDX)%NumSecndNodes      = BRICK_LIST(NIN,IB)%SecndList%NumSecndNodes
+            NUM                                       = BRICK_LIST(NIN,IB)%SecndList%Num
             DO J=1,NUM                      
-              OLD_SlaveList(NIN,IDX)%FM(J)            = BRICK_LIST(NIN,IB)%SlaveList%FM(J)     
-              OLD_SlaveList(NIN,IDX)%FV(J)            = BRICK_LIST(NIN,IB)%SlaveList%FV(J)     
-              OLD_SlaveList(NIN,IDX)%IV(J)            = BRICK_LIST(NIN,IB)%SlaveList%IV(J)
-              IBold                                   = BRICK_LIST(NIN,IB)%SlaveList%IBV(J)  
-              OLD_SlaveList(NIN,IDX)%IBV(J)           = TAG_INDEX(LIST_B_OLD(NIN,IBold))
-              OLD_SlaveList(NIN,IDX)%ICELLv(J)        = BRICK_LIST(NIN,IB)%SlaveList%ICELLv(J) 
-              OLD_SlaveList(NIN,IDX)%VOL(J)           = BRICK_LIST(NIN,IB)%SlaveList%VOL(J)    
-              OLD_SlaveList(NIN,IDX)%NumNOD_Cell(J)   = BRICK_LIST(NIN,IB)%SlaveList%NumNOD_Cell(J)  
-              OLD_SlaveList(NIN,IDX)%ListNodID(J,1:8) = BRICK_LIST(NIN,IB)%SlaveList%ListNodID(J,1:8) 
-              OLD_SlaveList(NIN,IDX)%SURF_V(J)        = BRICK_LIST(NIN,IB)%SlaveList%SURF_v(J)             
+              OLD_SecndList(NIN,IDX)%FM(J)            = BRICK_LIST(NIN,IB)%SecndList%FM(J)     
+              OLD_SecndList(NIN,IDX)%FV(J)            = BRICK_LIST(NIN,IB)%SecndList%FV(J)     
+              OLD_SecndList(NIN,IDX)%IV(J)            = BRICK_LIST(NIN,IB)%SecndList%IV(J)
+              IBold                                   = BRICK_LIST(NIN,IB)%SecndList%IBV(J)  
+              OLD_SecndList(NIN,IDX)%IBV(J)           = TAG_INDEX(LIST_B_OLD(NIN,IBold))
+              OLD_SecndList(NIN,IDX)%ICELLv(J)        = BRICK_LIST(NIN,IB)%SecndList%ICELLv(J) 
+              OLD_SecndList(NIN,IDX)%VOL(J)           = BRICK_LIST(NIN,IB)%SecndList%VOL(J)    
+              OLD_SecndList(NIN,IDX)%NumNOD_Cell(J)   = BRICK_LIST(NIN,IB)%SecndList%NumNOD_Cell(J)  
+              OLD_SecndList(NIN,IDX)%ListNodID(J,1:8) = BRICK_LIST(NIN,IB)%SecndList%ListNodID(J,1:8) 
+              OLD_SecndList(NIN,IDX)%SURF_V(J)        = BRICK_LIST(NIN,IB)%SecndList%SURF_v(J)             
             ENDDO 
             DO J=NUM+1,24                     
-              OLD_SlaveList(NIN,IDX)%FM(J)            = 0  
-              OLD_SlaveList(NIN,IDX)%FV(J)            = 0
-              OLD_SlaveList(NIN,IDX)%IV(J)            = 0
-              OLD_SlaveList(NIN,IDX)%IBV(J)           = 0
-              OLD_SlaveList(NIN,IDX)%ICELLv(J)        = 0
-              OLD_SlaveList(NIN,IDX)%VOL(J)           = ZERO 
-              OLD_SlaveList(NIN,IDX)%NumNOD_Cell(J)   = 0 
-              OLD_SlaveList(NIN,IDX)%ListNodID(J,1:8) = 0                             
+              OLD_SecndList(NIN,IDX)%FM(J)            = 0  
+              OLD_SecndList(NIN,IDX)%FV(J)            = 0
+              OLD_SecndList(NIN,IDX)%IV(J)            = 0
+              OLD_SecndList(NIN,IDX)%IBV(J)           = 0
+              OLD_SecndList(NIN,IDX)%ICELLv(J)        = 0
+              OLD_SecndList(NIN,IDX)%VOL(J)           = ZERO 
+              OLD_SecndList(NIN,IDX)%NumNOD_Cell(J)   = 0 
+              OLD_SecndList(NIN,IDX)%ListNodID(J,1:8) = 0                             
             ENDDO              
           ENDIF
         ENDDO!next IB
-        !---OldMasterStrongNode----!
+        !---OldMainStrongNode----!
         DO IB=1,NBOLD(NIN)
-          I8(1,IB) = BRICK_LIST(NIN,IB)%OldMasterStrongNode !sauvegarder avant de faire la modification ci-dessous
+          I8(1,IB) = BRICK_LIST(NIN,IB)%OldMainStrongNode !sauvegarder avant de faire la modification ci-dessous
         ENDDO
         DO IB=1,NBOLD(NIN)
           IDX = LIST_B_OLD(NIN,IB)                             !doit etre alloue dans resol en meme temps que brick_list
           IF(TAG_INDEX(IDX).GT.0)THEN                          !la brick BUFBBRIC(IDX) est toujours dans le buffer
             IDX = TAG_INDEX(IDX)                               !position dans le nouveau buffer
-            BRICK_LIST(NIN,IDX)%OldMasterStrongNode = I8(1,IB)
+            BRICK_LIST(NIN,IDX)%OldMainStrongNode = I8(1,IB)
           ENDIF
         ENDDO!next IB       
-        !---OldMasterStrongNode----!
+        !---OldMainStrongNode----!
         DO IB=1,NBOLD(NIN)
           I8(1,IB) = BRICK_LIST(NIN,IB)%NBCUT
         ENDDO

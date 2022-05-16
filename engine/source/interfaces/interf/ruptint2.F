@@ -70,7 +70,7 @@ C----------------------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  IERROR,IRUPT,IRUPT0,ISLAV
+      INTEGER  IERROR,IRUPT,IRUPT0,ISECND
       my_real
      .   DTIM,SIGN,SIGT,SIGN1,SIGT1,AREA,DFSIGN,DFSIGT,DSIG,
      .   SIGNMAX,SIGTMAX,DNMAX,DTMAX,FACN,FACT,
@@ -82,7 +82,7 @@ C-----------------------------------------------
 C=======================================================================
 C     MODULE COMPONENTS
 C-----------------------------------------------
-      ISLAV =  USERBUF%ISLAVE     
+      ISECND =  USERBUF%ISECND     
       AREA  =  USERBUF%AREA        
       DIS_N =  USERBUF%DXN       
       DIS_T =  USERBUF%DXT       
@@ -140,9 +140,9 @@ C
             FACT = ZERO
           ENDIF
           IF (ANIM_N(15)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1) 
-     .            PDAMA2(1,ISLAV)=MIN(CENT*DIS_NA/DNMAX,CENT)
+     .            PDAMA2(1,ISECND)=MIN(CENT*DIS_NA/DNMAX,CENT)
           IF (ANIM_N(16)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1) 
-     .            PDAMA2(2,ISLAV)=MIN(CENT*DIS_T/DTMAX,CENT)
+     .            PDAMA2(2,ISECND)=MIN(CENT*DIS_T/DTMAX,CENT)
         ELSEIF (IMOD == 1) THEN
           DIS_NA = DIS_NA / DNMAX
           DIS_T  = DIS_T  / DTMAX
@@ -152,9 +152,9 @@ C
             FACT = ZERO
           ENDIF
           IF (ANIM_N(15)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1) 
-     .            PDAMA2(1,ISLAV)=MIN(CENT*DIS_NA,CENT)
+     .            PDAMA2(1,ISECND)=MIN(CENT*DIS_NA,CENT)
           IF (ANIM_N(16)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1) 
-     .            PDAMA2(2,ISLAV)=MIN(CENT*DIS_T,CENT)
+     .            PDAMA2(2,ISECND)=MIN(CENT*DIS_T,CENT)
         ENDIF
 C
       ELSE    ! ISYM == 1 .AND. IRUPT == 0)
@@ -166,9 +166,9 @@ C
             FACT = ZERO
           ENDIF
           IF (ANIM_N(15)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1) 
-     .            PDAMA2(1,ISLAV)=MIN(CENT*DIS_NA/DNMAX,CENT)
+     .            PDAMA2(1,ISECND)=MIN(CENT*DIS_NA/DNMAX,CENT)
           IF (ANIM_N(16)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1) 
-     .            PDAMA2(2,ISLAV)=MIN(CENT*DIS_T/DTMAX,CENT)
+     .            PDAMA2(2,ISECND)=MIN(CENT*DIS_T/DTMAX,CENT)
         ENDIF
       ENDIF  ! ISYM
 C-----
@@ -186,7 +186,7 @@ C-----
           ELSEIF (IRUPT == -1) THEN
             WRITE(IOUT,*)'RUPTURE PARTIELLE' 
           ENDIF
-          WRITE(IOUT,*)'Time =',TT, ' SECONDARY =',ISL,ITAB(ISLAV)
+          WRITE(IOUT,*)'Time =',TT, ' SECONDARY =',ISL,ITAB(ISECND)
           if (IDBG == 2) WRITE(IOUT,*)'AREA  =',AREA                     
           WRITE(IOUT,*)'Dist N  =',DIS_N,  ' Dist T  =',DIS_T                             
           WRITE(IOUT,*)'DNmax  =',DNMAX,  ' DTmax  =',Dtmax                           
@@ -200,15 +200,15 @@ C
       IF (IRUPT0 == 0 .AND. IRUPT /= 0) THEN
         WRITE(IOUT,'(A,I9,A,E16.9,A,I9)')
      .            'INTERFACE TYPE 2 N ',NOINT, '  TIME= ',TT,                   
-     .            '   START RUPTURE SECONDARY NODE ',ITAB(ISLAV)
+     .            '   START RUPTURE SECONDARY NODE ',ITAB(ISECND)
         WRITE(*,'(A,I9,A,E16.9,A,I9)')
      .            'INTERFACE TYPE 2 N ',NOINT, '  TIME= ',TT,                   
-     .            '   START RUPTURE SECONDARY NODE ',ITAB(ISLAV)
+     .            '   START RUPTURE SECONDARY NODE ',ITAB(ISECND)
       ENDIF
       IF (IRUPT0 /= 1 .AND. IRUPT == 1) THEN                            
         WRITE(IOUT,'(A,I9,A,E16.9,A,I9)')
      .            'INTERFACE TYPE 2 N ',NOINT, '  TIME= ',TT,                   
-     .            '   TOTAL RUPTURE SECONDARY NODE ',ITAB(ISLAV)
+     .            '   TOTAL RUPTURE SECONDARY NODE ',ITAB(ISECND)
       ENDIF                                           
 C-----------
       UVAR(1) = SIGN   

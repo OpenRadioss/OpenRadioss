@@ -133,7 +133,7 @@ c                                 |   gap_search(search algorithm)
 c                                 |                          
 c                                 |                          
 c                                 |                          
-c                   0 Slave       |                          
+c                   0 Secnd       |                          
 c                   |             |  ^                       
 c                   | gap_s       |  |                       
 c                   |             |  |                       
@@ -142,7 +142,7 @@ c         --------------------    |  | gapv(penetration
 c            ^                    |  |      computation)
 c            | gap_m              |  |
 c            v                    v  | gapv = min(gapmax,
-c Master1 0------------------0 M2    |            gap_s+gap_m)
+c Main1 0------------------0 M2    |            gap_s+gap_m)
 c         |                       ^  |      + gap_sh
 c         | gap_sh                |  | 
 c         |                       |  |
@@ -197,10 +197,10 @@ C
              SX0=SX0*AAA
              SY0=SY0*AAA
              SZ0=SZ0*AAA
-c normale esclave:
-c  la normale esclave est enleve de la normale maitre
+c normale second:
+c  la normale second. est enleve de la normale main
 c  ce qui est equivalent a distribuer le shift
-c  sur l'esclace et les maitres
+c  sur l'esclace et les mains
              SXI = SOLIDN_NORMAL(1,IG)
              SYI = SOLIDN_NORMAL(2,IG)
              SZI = SOLIDN_NORMAL(3,IG)
@@ -857,7 +857,7 @@ c=====================================================================
       DO I=1,NRTM
         GAP_M(I) = GAP_M(I)-DEUX*GAP_SH(I)
       ENDDO
-c mise a zero du gap slave sur le bord des coques
+c mise a zero du gap secnd sur le bord des coques
 c ici NVS donne encore le noeud global, NSV sera modifie dans I20NLG 
       DO I=1,NLN
         J = NLG(I)

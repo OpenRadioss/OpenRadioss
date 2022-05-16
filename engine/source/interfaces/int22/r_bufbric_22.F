@@ -118,7 +118,7 @@ C---------------------------------------------------------------------C
         IF(IERR1.GT.0)GOTO 1000                                                                                                                                              
         IF(.NOT.ALLOCATED(IMERGEL))          ALLOCATE(IMERGEL(0:NTHREAD-1)                                    ,STAT=IERR1)                                                   
         IF(IERR1.GT.0)GOTO 1000                                                                                                                                              
-        IF(.NOT.ALLOCATED(OLD_SlaveList))    ALLOCATE(OLD_SlaveList(INT22,I22LEN)                             ,STAT=IERR1)                                                   
+        IF(.NOT.ALLOCATED(OLD_SecndList))    ALLOCATE(OLD_SecndList(INT22,I22LEN)                             ,STAT=IERR1)                                                   
         IF(IERR1.GT.0)GOTO 1000                                                                                                                                              
         IF(.NOT.ALLOCATED(UNLINKED_CELLS_L)) ALLOCATE(UNLINKED_CELLS_L(0:NTHREAD-1,2,I22LEN)                  ,STAT=IERR1)          !index2: 1:IB, 2:ICELL                   
         IF(IERR1.GT.0)GOTO 1000                                                                                                                                              
@@ -179,13 +179,13 @@ C---------------------------------------------------------------------C
                    CALL  READ_I_C( READ_ITAB                                 , I22LEN)         
                    BRICK_LIST(NIN,1:I22LEN)%NBCUT  = READ_ITAB(1:I22LEN)                     
                    CALL  READ_I_C( READ_ITAB                                 , I22LEN)        
-                   BRICK_LIST(NIN,1:I22LEN)%MasterID  = READ_ITAB(1:I22LEN)                      
+                   BRICK_LIST(NIN,1:I22LEN)%MainID  = READ_ITAB(1:I22LEN)                      
                    CALL  READ_I_C( READ_ITAB                                 , I22LEN)    
                    BRICK_LIST(NIN,1:I22LEN)%WasCut  = READ_ITAB(1:I22LEN)                          
                    CALL  READ_I_C( READ_ITAB                                 , I22LEN)   
                    BRICK_LIST(NIN,1:I22LEN)%NewInBuffer  = READ_ITAB(1:I22LEN)                           
                    CALL  READ_I_C( READ_ITAB                                 , I22LEN)  
-                   BRICK_LIST(NIN,1:I22LEN)%OldMasterStrongNode  = READ_ITAB(1:I22LEN)                            
+                   BRICK_LIST(NIN,1:I22LEN)%OldMainStrongNode  = READ_ITAB(1:I22LEN)                            
                    CALL  READ_I_C( READ_ITAB                                 , I22LEN)  
                    BRICK_LIST(NIN,1:I22LEN)%MLW  = READ_ITAB(1:I22LEN)                            
                    CALL  READ_I_C( READ_ITAB                                 , I22LEN)  
@@ -283,12 +283,12 @@ C---------------------------------------------------------------------C
                    ENDDO        
                    DO J=1,9 
                         CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                        BRICK_LIST(NIN,1:I22LEN)%POLY(J)%IsMaster = READ_ITAB(1:I22LEN)
+                        BRICK_LIST(NIN,1:I22LEN)%POLY(J)%IsMain = READ_ITAB(1:I22LEN)
                    ENDDO                  
                    DO I=1,4
                         DO J=1,9
                                 CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                                BRICK_LIST(NIN,1:I22LEN)%POLY(J)%WhereIsMaster(I) = READ_ITAB(1:I22LEN)
+                                BRICK_LIST(NIN,1:I22LEN)%POLY(J)%WhereIsMain(I) = READ_ITAB(1:I22LEN)
                         ENDDO                   
                    ENDDO
                    DO J=1,9 
@@ -447,11 +447,11 @@ C---------------------------------------------------------------------C
         ENDDO                 
         DO J=1,8 
                 CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                BRICK_LIST(NIN,1:I22LEN)%NODE(J)%NodWasMaster = READ_ITAB(1:I22LEN)
+                BRICK_LIST(NIN,1:I22LEN)%NODE(J)%NodWasMain = READ_ITAB(1:I22LEN)
         ENDDO        
         DO I=1,8 
                 CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                BRICK_LIST(NIN,1:I22LEN)%NODE(I)%WhereWasMaster = READ_ITAB(1:I22LEN)
+                BRICK_LIST(NIN,1:I22LEN)%NODE(I)%WhereWasMain = READ_ITAB(1:I22LEN)
         ENDDO        
        !=====%ADJ_ELEMS 
         CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
@@ -466,7 +466,7 @@ C---------------------------------------------------------------------C
                 CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
                 BRICK_LIST(NIN,1:I22LEN)%ADJ_ELEMS%ICELL(J) = READ_ITAB(1:I22LEN)
                 CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                BRICK_LIST(NIN,1:I22LEN)%ADJ_ELEMS%SlaveFACE(J) = READ_ITAB(1:I22LEN)
+                BRICK_LIST(NIN,1:I22LEN)%ADJ_ELEMS%SecndFACE(J) = READ_ITAB(1:I22LEN)
         ENDDO !next J
        !=====%PCUT
         DO I=1,16
@@ -503,33 +503,33 @@ C---------------------------------------------------------------------C
                    CALL  READ_DB ( READ_RTAB                                 , I22LEN)
                    BRICK_LIST(NIN,1:I22LEN)%PCUT(I)%Vel(3) = READ_RTAB(1:I22LEN)
         ENDDO !next J  
-       !=====%SlaveList
+       !=====%SecndList
         CALL  READ_DB ( READ_RTAB                                 , I22LEN)
-        BRICK_LIST(NIN,1:I22LEN)%SlaveList%VOL_Unmerged = READ_RTAB(1:I22LEN)
+        BRICK_LIST(NIN,1:I22LEN)%SecndList%VOL_Unmerged = READ_RTAB(1:I22LEN)
         CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-        BRICK_LIST(NIN,1:I22LEN)%SlaveList%Num = READ_ITAB(1:I22LEN)         
+        BRICK_LIST(NIN,1:I22LEN)%SecndList%Num = READ_ITAB(1:I22LEN)         
         CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-        BRICK_LIST(NIN,1:I22LEN)%SlaveList%NumSlaveNodes = READ_ITAB(1:I22LEN)   
+        BRICK_LIST(NIN,1:I22LEN)%SecndList%NumSecndNodes = READ_ITAB(1:I22LEN)   
         DO J=1,24
                 CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                BRICK_LIST(NIN,1:I22LEN)%SlaveList%FM(J) = READ_ITAB(1:I22LEN)        
+                BRICK_LIST(NIN,1:I22LEN)%SecndList%FM(J) = READ_ITAB(1:I22LEN)        
                 CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                BRICK_LIST(NIN,1:I22LEN)%SlaveList%FV(J) = READ_ITAB(1:I22LEN)
+                BRICK_LIST(NIN,1:I22LEN)%SecndList%FV(J) = READ_ITAB(1:I22LEN)
                 CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                BRICK_LIST(NIN,1:I22LEN)%SlaveList%IV(J) = READ_ITAB(1:I22LEN)
+                BRICK_LIST(NIN,1:I22LEN)%SecndList%IV(J) = READ_ITAB(1:I22LEN)
                 CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                BRICK_LIST(NIN,1:I22LEN)%SlaveList%IBV(J) = READ_ITAB(1:I22LEN)
+                BRICK_LIST(NIN,1:I22LEN)%SecndList%IBV(J) = READ_ITAB(1:I22LEN)
                 CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                BRICK_LIST(NIN,1:I22LEN)%SlaveList%ICELLv(J) = READ_ITAB(1:I22LEN)
+                BRICK_LIST(NIN,1:I22LEN)%SecndList%ICELLv(J) = READ_ITAB(1:I22LEN)
                 CALL  READ_DB ( READ_RTAB                                 , I22LEN)
-                BRICK_LIST(NIN,1:I22LEN)%SlaveList%VOL(J) = READ_RTAB(1:I22LEN)
+                BRICK_LIST(NIN,1:I22LEN)%SecndList%VOL(J) = READ_RTAB(1:I22LEN)
                 CALL  READ_DB ( READ_RTAB                                 , I22LEN)
-                BRICK_LIST(NIN,1:I22LEN)%SlaveList%SURF_v(J) = READ_RTAB(1:I22LEN)
+                BRICK_LIST(NIN,1:I22LEN)%SecndList%SURF_v(J) = READ_RTAB(1:I22LEN)
                 CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                BRICK_LIST(NIN,1:I22LEN)%SlaveList%NumNOD_Cell(J) = READ_ITAB(1:I22LEN)
+                BRICK_LIST(NIN,1:I22LEN)%SecndList%NumNOD_Cell(J) = READ_ITAB(1:I22LEN)
                 DO K=1,8                     
                         CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                        BRICK_LIST(NIN,1:I22LEN)%SlaveList%ListNodID(J,K) = READ_ITAB(1:I22LEN)
+                        BRICK_LIST(NIN,1:I22LEN)%SecndList%ListNodID(J,K) = READ_ITAB(1:I22LEN)
                 ENDDO
         ENDDO !next J
        !=====%Edge
@@ -615,33 +615,33 @@ C---------------------------------------------------------------------C
           ENDDO
         ENDIF     
 
-       !=====%OLD_SlaveList(NIN,1:I22LEN)
+       !=====%OLD_SecndList(NIN,1:I22LEN)
         CALL  READ_DB ( READ_RTAB                                 , I22LEN)
-        OLD_SlaveList(NIN,1:I22LEN)%VOL_Unmerged = READ_RTAB(1:I22LEN)
+        OLD_SecndList(NIN,1:I22LEN)%VOL_Unmerged = READ_RTAB(1:I22LEN)
         CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-        OLD_SlaveList(NIN,1:I22LEN)%Num = READ_ITAB(1:I22LEN)   
+        OLD_SecndList(NIN,1:I22LEN)%Num = READ_ITAB(1:I22LEN)   
         CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-        OLD_SlaveList(NIN,1:I22LEN)%NumSlaveNodes = READ_ITAB(1:I22LEN)
+        OLD_SecndList(NIN,1:I22LEN)%NumSecndNodes = READ_ITAB(1:I22LEN)
         DO J=1,24
                 CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                OLD_SlaveList(NIN,1:I22LEN)%FM(J) = READ_ITAB(1:I22LEN)    
+                OLD_SecndList(NIN,1:I22LEN)%FM(J) = READ_ITAB(1:I22LEN)    
                 CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                OLD_SlaveList(NIN,1:I22LEN)%FV(J) = READ_ITAB(1:I22LEN)
+                OLD_SecndList(NIN,1:I22LEN)%FV(J) = READ_ITAB(1:I22LEN)
                 CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                OLD_SlaveList(NIN,1:I22LEN)%IV(J) = READ_ITAB(1:I22LEN)     
+                OLD_SecndList(NIN,1:I22LEN)%IV(J) = READ_ITAB(1:I22LEN)     
                 CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                OLD_SlaveList(NIN,1:I22LEN)%IBV(J) = READ_ITAB(1:I22LEN)    
+                OLD_SecndList(NIN,1:I22LEN)%IBV(J) = READ_ITAB(1:I22LEN)    
                 CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                OLD_SlaveList(NIN,1:I22LEN)%ICELLv(J) = READ_ITAB(1:I22LEN)
+                OLD_SecndList(NIN,1:I22LEN)%ICELLv(J) = READ_ITAB(1:I22LEN)
                 CALL  READ_DB ( READ_RTAB                                 , I22LEN)
-                OLD_SlaveList(NIN,1:I22LEN)%VOL(J) = READ_RTAB(1:I22LEN)
+                OLD_SecndList(NIN,1:I22LEN)%VOL(J) = READ_RTAB(1:I22LEN)
                 CALL  READ_DB ( READ_RTAB                                 , I22LEN)
-                OLD_SlaveList(NIN,1:I22LEN)%SURF_v(J) = READ_RTAB(1:I22LEN)
+                OLD_SecndList(NIN,1:I22LEN)%SURF_v(J) = READ_RTAB(1:I22LEN)
                 CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                OLD_SlaveList(NIN,1:I22LEN)%NumNOD_Cell(J) = READ_ITAB(1:I22LEN)
+                OLD_SecndList(NIN,1:I22LEN)%NumNOD_Cell(J) = READ_ITAB(1:I22LEN)
                    DO K=1,8              
                 CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                OLD_SlaveList(NIN,1:I22LEN)%ListNodID(J,K) = READ_ITAB(1:I22LEN)
+                OLD_SecndList(NIN,1:I22LEN)%ListNodID(J,K) = READ_ITAB(1:I22LEN)
                    ENDDO
         ENDDO !next J
   

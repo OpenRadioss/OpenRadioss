@@ -62,10 +62,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER N,NN,K,J,P,I,NUMBER_MASTER_NODE,IS_SMS_AVAILABLE
+        INTEGER N,NN,K,J,P,I,NUMBER_MAIN_NODE,IS_SMS_AVAILABLE
         INTEGER, DIMENSION(:), ALLOCATABLE :: BUF_W
         INTEGER, DIMENSION(NSPMD) :: NB_NODE_WEIGHT
-        INTEGER, DIMENSION(2) :: MASTER_NODE
+        INTEGER, DIMENSION(2) :: MAIN_NODE
         INTEGER, DIMENSION(:), ALLOCATABLE :: SECONDARY_NODE
 C
         P = PROC + 1
@@ -95,8 +95,8 @@ C
             !   ----------------------
             !   if 1 or several nodes are on the current processor, write all the stuff
             IF(CYL_JOIN(N)%NB_NODE(P)>0) THEN
-                !   master processor
-                CALL WRITE_I_C(CYL_JOIN(N)%PROC_MASTER,1)
+                !   main processor
+                CALL WRITE_I_C(CYL_JOIN(N)%PROC_MAIN,1)
                 !   number of processor for the current joint
                 CALL WRITE_I_C(CYL_JOIN(N)%NUMBER_PROC,1)
                 !   list of processor for the current joint
@@ -118,9 +118,9 @@ C
             ENDDO
             !   number of node with weight = 1 (all processor) ; use for mpi comm
             CALL WRITE_I_C(NB_NODE_WEIGHT,NSPMD)
-            MASTER_NODE(1:2) = NODLOCAL(CYL_JOIN(N)%MASTER_NODE(1:2))     
-            !   master nodes (all processor)
-            CALL WRITE_I_C(MASTER_NODE,2)
+            MAIN_NODE(1:2) = NODLOCAL(CYL_JOIN(N)%MAIN_NODE(1:2))     
+            !   main nodes (all processor)
+            CALL WRITE_I_C(MAIN_NODE,2)
         ENDDO
 
         IS_SMS_AVAILABLE = 0

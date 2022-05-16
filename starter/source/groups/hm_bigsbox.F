@@ -171,17 +171,17 @@ C---
         ENDDO
       ENDIF
 C---
-C tag lines (ou surfaces) in master-box:
+C tag lines (ou surfaces) in main-box:
 C---
 C---count lines within BOX
       IF(ISU > 0)THEN
 C
         IF(FLAG == 0)THEN
-          BOXSEG = IBOX(ISU)%NENTITY  ! segments of master box
+          BOXSEG = IBOX(ISU)%NENTITY  ! segments of main box
           NSEG = NSEG + BOXSEG
         ELSE IF(FLAG == 1)THEN
-          BOXSEG = IBOX(ISU)%NENTITY  ! segments of master box
-          IADISU = IBOX(ISU)%BOXIAD  ! addresses of segments in master box
+          BOXSEG = IBOX(ISU)%NENTITY  ! segments of main box
+          IADISU = IBOX(ISU)%BOXIAD  ! addresses of segments in main box
           NSEG = NSEG + BOXSEG
           DO I=1,BOXSEG
            NN = NN + 1

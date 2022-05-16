@@ -118,7 +118,7 @@ C
 C          
           ENDIF
 C---------------------------------
-C         DISTANCE ENTRE LE NOEUD ESCLAVE 
+C         DISTANCE ENTRE LE NOEUD SECOND. 
 C             ET  LA  SURFACE(SURFFACE NODALE)
 C---------------------------------
 C-------------------------------------
@@ -173,7 +173,7 @@ C---------------------------------
 C        HEAT GENERATION DUE TO FRICTION
 C---------------------------------
             PHIM   = FHEAT * EFRICT(I) 
-            PHI1(I) = PHI1(I) + PHIM*H1(I) ! MASTER HEATING
+            PHI1(I) = PHI1(I) + PHIM*H1(I) ! main HEATING
             PHI2(I) = PHI2(I) + PHIM*H2(I)
             PHI3(I) = PHI3(I) + PHIM*H3(I)
             PHI4(I) = PHI4(I) + PHIM*H4(I)
@@ -214,7 +214,7 @@ C
 C          
           ENDIF
 C---------------------------------
-C         DISTANCE ENTRE LE NOEUD ESCLAVE 
+C         DISTANCE ENTRE LE NOEUD SECOND. 
 C             ET  LA  SURFACE(SURFFACE NODALE)
 C---------------------------------
 C-------------------------------------
@@ -274,7 +274,7 @@ C---------------------------------
 C        HEAT GENERATION DUE TO FRICTION
 C---------------------------------
             PHIM   = FHEAT * EFRICT(I) 
-            PHI1(I) = PHI1(I) + PHIM*H1(I) ! MASTER HEATING
+            PHI1(I) = PHI1(I) + PHIM*H1(I) ! main HEATING
             PHI2(I) = PHI2(I) + PHIM*H2(I)
             PHI3(I) = PHI3(I) + PHIM*H3(I)
             PHI4(I) = PHI4(I) + PHIM*H4(I)

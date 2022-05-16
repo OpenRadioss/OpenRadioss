@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPMD_EXCH_A_RB6G(NPBY,RBF6)
-C realise le cumul des acc et stiffness des noeuds master de rigid bodies
+C realise le cumul des acc et stiffness des noeuds main de rigid bodies
 C dans le cas ou tous les procs sont concernes gather/scatter proc0
 C-----------------------------------------------
 C   M o d u l e s
@@ -65,7 +65,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,LOC_PROC,A_AR,I,J,M,P,IRB,NN,
      .        MSGOFF,SIZ,IDEB,LEN
-      INTEGER STATUS(MPI_STATUS_SIZE), REQ(NSPMD), IERROR, PMASTER
+      INTEGER STATUS(MPI_STATUS_SIZE), REQ(NSPMD), IERROR, PMAIN
       DATA MSGOFF/166/
       PARAMETER (A_AR = 48)           ! 6*8
       DOUBLE PRECISION
@@ -73,11 +73,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      PMASTER=1
+      PMAIN=1
       LOC_PROC = ISPMD + 1
       LEN=NRBYKIN*(A_AR+1)
       IDEB=1
-      IF(LOC_PROC.EQ.PMASTER) THEN
+      IF(LOC_PROC.EQ.PMAIN) THEN
         DO P = 2, NSPMD
           MSGTYP = MSGOFF 
           CALL MPI_IRECV(
@@ -198,7 +198,7 @@ C-----------------------------------------------
           ENDDO
         ENDDO
         LEN=NRBYKIN*A_AR
-        CALL MPI_BCAST(RBF6,LEN,MPI_DOUBLE_PRECISION,IT_SPMD(PMASTER),
+        CALL MPI_BCAST(RBF6,LEN,MPI_DOUBLE_PRECISION,IT_SPMD(PMAIN),
      .                 MPI_COMM_WORLD,IERROR)
 C
       ELSE
@@ -261,10 +261,10 @@ C
         ENDDO
         MSGTYP = MSGOFF 
         LEN=IDEB-1
-        CALL MPI_SEND(BUF,LEN,MPI_DOUBLE_PRECISION,IT_SPMD(PMASTER),
+        CALL MPI_SEND(BUF,LEN,MPI_DOUBLE_PRECISION,IT_SPMD(PMAIN),
      .                MSGTYP,MPI_COMM_WORLD,IERROR)
         LEN=NRBYKIN*A_AR
-        CALL MPI_BCAST(RBF6,LEN,MPI_DOUBLE_PRECISION,IT_SPMD(PMASTER),
+        CALL MPI_BCAST(RBF6,LEN,MPI_DOUBLE_PRECISION,IT_SPMD(PMAIN),
      .                 MPI_COMM_WORLD,IERROR)
 C
       END IF

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-      FUNCTION LINK_WITH_UNIQUE_MASTER_CELL (
+      FUNCTION LINK_WITH_UNIQUE_MAIN_CELL (
      .                    SharedFACE, Centroid )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------- 
 ! With interface 22 Hexahedral cell is cut and
-! master one is the biggest one which is greater
+! main one is the biggest one which is greater
 ! then 50%. In case of multiple choice (2 are
 ! 50%-50% or several if criteria is reduced) we
 ! must ensure a unique choice which is repeatable
@@ -55,12 +55,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER   :: LINK_WITH_UNIQUE_MASTER_CELL
+      INTEGER   :: LINK_WITH_UNIQUE_MAIN_CELL
       my_real   :: SharedFACE(6), Centroid(3,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER   ::  IsMaster, N, IPOS, LEVEL, IIP
+      INTEGER   ::  IsMain, N, IPOS, LEVEL, IIP
       my_real   ::  SCORE(6), MAX, NextMAX, MySum
       my_real   ::  XYZmax(3)
 C-----------------------------------------------
@@ -78,7 +78,7 @@ C-----------------------------------------------
       IPOS      = MAXLOC(SharedFACE(1:6),1)
       
       IF(SharedFACE(IPOS) == ZERO) THEN
-        LINK_WITH_UNIQUE_MASTER_CELL = 0
+        LINK_WITH_UNIQUE_MAIN_CELL = 0
         RETURN
       ENDIF
       
@@ -87,7 +87,7 @@ C-----------------------------------------------
         MySUM = MySUM + SUM(SharedFACE(IPOS+1:6))
       ENDIF
       IF (MySUM == ZERO)THEN
-        LINK_WITH_UNIQUE_MASTER_CELL = IPOS
+        LINK_WITH_UNIQUE_MAIN_CELL = IPOS
         RETURN
       ENDIF
 
@@ -97,7 +97,7 @@ C-----------------------------------------------
            
       !find max
       MAX                          = SharedFACE(IPOS)       !init with maximum value
-      LINK_WITH_UNIQUE_MASTER_CELL = IPOS
+      LINK_WITH_UNIQUE_MAIN_CELL = IPOS
       !score it
       SCORE(IPOS) = 1000*(XYZmax(1)-Centroid(1,IPOS))+ 100*(XYZmax(2)-Centroid(2,IPOS))+ 10*(XYZmax(3)-Centroid(3,IPOS))      
       
@@ -113,7 +113,7 @@ C-----------------------------------------------
       ENDDO
 
       IPOS                         = MAXLOC(SCORE(1:6),1)
-      LINK_WITH_UNIQUE_MASTER_CELL = IPOS
+      LINK_WITH_UNIQUE_MAIN_CELL = IPOS
       
       RETURN
       END

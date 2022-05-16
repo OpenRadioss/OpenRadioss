@@ -163,7 +163,7 @@ c         on saute directement au dernier
         ENDIF
        ENDDO
 C================================================================
-C 2   recherche noeud esclave le plus proche de chaque maitre
+C 2   recherche noeud second. le plus proche de chaque main
 C================================================================
       DO NE=1,NMN
         MINDIST = EP30
@@ -299,7 +299,7 @@ C
       END DO
       KNOD2SEG(1)=0
 C----------------------------------------------------------------
-c 4 Remplissage LCSEG : List of Connected Segments to slave nodes
+c 4 Remplissage LCSEG : List of Connected Segments to secnd nodes
 C----------------------------------------------------------------
       II=0
       DO I=1,NSN

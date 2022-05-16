@@ -89,7 +89,7 @@ c
 c            
       ELSEIF (ILEV == 1.AND.IRODDL /= 0) THEN
 C
-C       FORMULATION SANS MOMENT SUR MASTER
+C       FORMULATION SANS MOMENT SUR MAIN
 C
         CALL I2VIROT3(NSN       ,NMN       ,
      2 A         ,INTBUF_TAB%IRECTM,
@@ -98,7 +98,7 @@ C
      5 X         ,WEIGHT)
       ELSEIF(ILEV == 2)THEN
 C
-C       FORMULATION AVEC MOMENT SUR MASTER
+C       FORMULATION AVEC MOMENT SUR MAIN
 C
         CALL I2VIT3(NSN       ,NMN       ,
      2 A         ,INTBUF_TAB%IRECTM,
@@ -136,14 +136,14 @@ C
      3        INTBUF_TAB%MSR,INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,INTBUF_TAB%IRUPT,WEIGHT ) 
          ENDIF                                                         
       ELSEIF (ILEV == 30 .AND. IRODDL /= 0) THEN       
-C       Formulation avec courbure du master 
+C       Formulation avec courbure du main 
          CALL I2CURVV(                                                  
      1       NSN       ,NMN       ,MS        ,V         ,A         ,     
      2       AR        ,VR        ,X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,     
      3       INTBUF_TAB%MSR,INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,WEIGHT    )   
 C
       ELSEIF(ILEV == 0.OR.IRODDL == 0)THEN
-C       FORMULATION AVEC MOMENT SUR MASTER
+C       FORMULATION AVEC MOMENT SUR MAIN
 C
         CALL I2VIT3N(NSN       ,NMN       ,
      2 A         ,INTBUF_TAB%IRECTM,

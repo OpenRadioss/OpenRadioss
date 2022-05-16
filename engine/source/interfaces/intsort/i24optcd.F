@@ -35,10 +35,10 @@ Chd|====================================================================
      2       IRECT  ,GAP_S  ,GAP_M   ,V         ,ICURV    ,
      3       STFN   ,ITASK  ,STF     ,NIN       ,NSN      ,
      4       IRTLM  ,TIME_S ,MSEGLO  ,COUNT_REMSLV,
-     5       SLAV_FR,NSNR   ,PENE_OLD,STIF_OLD  ,
+     5       SECND_FR,NSNR   ,PENE_OLD,STIF_OLD  ,
      6       PMAX_GAP,EDGE_L2,IEDGE  ,IGSTI  ,MVOISIN ,
      7       ICONT_I ,IS2SE,IRTSE, 
-     8       NSNE,NRTSE,IS2PT,ISPT2,ISEGPT,IEDG4,T2MASTER_SMS,
+     8       NSNE,NRTSE,IS2PT,ISPT2,ISEGPT,IEDG4,T2MAIN_SMS,
      9       LSKYI_SMS_NEW)
 C===============================================================
 C   M o d u l e s
@@ -74,11 +74,11 @@ C-----------------------------------------------
      .        IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),
      .        IRTLM(2,NSN),MSEGLO(*),COUNT_REMSLV(*),IGSTI ,MVOISIN(4,*),
      .        ICONT_I(*),IS2SE(2,*),IRTSE(5,*),NSNE,NRTSE,IS2PT(*),ISPT2(*),
-     .        ISEGPT(*),IEDG4,T2MASTER_SMS(6,*),LSKYI_SMS_NEW
+     .        ISEGPT(*),IEDG4,T2MAIN_SMS(6,*),LSKYI_SMS_NEW
       my_real
      .        GAP,PMAX_GAP,
      .        X(3,*),GAP_S(*),GAP_M(*),STFN(*),STF(*),
-     .        V(3,*),SLAV_FR(6,*),TIME_S(*),EDGE_L2(*),
+     .        V(3,*),SECND_FR(6,*),TIME_S(*),EDGE_L2(*),
      .        PENE_OLD(5,NSN),STIF_OLD(2,NSN)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -110,13 +110,13 @@ c      write(iout,*)'i24optcd 1'
       NSNL = (ITASK+1)*NSN / NTHREAD
       DO I = NSNF,NSNL 
 c copy old friction forces
-        SLAV_FR(4,I)=SLAV_FR(1,I)
-        SLAV_FR(5,I)=SLAV_FR(2,I)
-        SLAV_FR(6,I)=SLAV_FR(3,I)
+        SECND_FR(4,I)=SECND_FR(1,I)
+        SECND_FR(5,I)=SECND_FR(2,I)
+        SECND_FR(6,I)=SECND_FR(3,I)
 c set new friction forces at 0
-        SLAV_FR(1,I)=ZERO
-        SLAV_FR(2,I)=ZERO
-        SLAV_FR(3,I)=ZERO
+        SECND_FR(1,I)=ZERO
+        SECND_FR(2,I)=ZERO
+        SECND_FR(3,I)=ZERO
 
         TIME_S(I)=ZERO
         
@@ -284,7 +284,7 @@ C
                COUNT_CAND = COUNT_CAND+1
                IF(IG(IS) > NUMNOD) COUNT_CAND = COUNT_CAND + 3
              ELSE
-CC--         Count of contact connections for AMS (+ addtional connections related to contact on type2 - T2MASTER_SMS(1) > 1)
+CC--         Count of contact connections for AMS (+ addtional connections related to contact on type2 - T2MAIN_SMS(1) > 1)
                IF(IG(IS) > NUMNOD) THEN
                  COUNT_CAND = COUNT_CAND+4
                  NS = IG(IS) - NUMNOD
@@ -294,13 +294,13 @@ CC--         Count of contact connections for AMS (+ addtional connections relat
                    IE = IS2SE(2,NS)
                  ENDIF
                  DO KK=1,4
-                   COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MASTER_SMS(1,IRTSE(KK,IE))*
-     .             (T2MASTER_SMS(1,IX1(IS))+T2MASTER_SMS(1,IX2(IS))+T2MASTER_SMS(1,IX3(IS))+T2MASTER_SMS(1,IX4(IS)))
+                   COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MAIN_SMS(1,IRTSE(KK,IE))*
+     .             (T2MAIN_SMS(1,IX1(IS))+T2MAIN_SMS(1,IX2(IS))+T2MAIN_SMS(1,IX3(IS))+T2MAIN_SMS(1,IX4(IS)))
                  ENDDO
                ELSE
                  COUNT_CAND = COUNT_CAND+1
-                 COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MASTER_SMS(1,IG(IS))*
-     .           (T2MASTER_SMS(1,IX1(IS))+T2MASTER_SMS(1,IX2(IS))+T2MASTER_SMS(1,IX3(IS))+T2MASTER_SMS(1,IX4(IS)))
+                 COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MAIN_SMS(1,IG(IS))*
+     .           (T2MAIN_SMS(1,IX1(IS))+T2MAIN_SMS(1,IX2(IS))+T2MAIN_SMS(1,IX3(IS))+T2MAIN_SMS(1,IX4(IS)))
                ENDIF
 C
              ENDIF  
@@ -318,14 +318,14 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
           MG = IRTLM(1,CAND_N(I))
           IF(STF(L).NE.ZERO.AND.STFN(CAND_N(I)).NE.ZERO) THEN 
             IF(MG /= 0 .and. MG /= MSEGLO(CAND_E(I))) THEN 
-c slave in contact on an other master don't keep candidate
+c secnd in contact on an other main don't keep candidate
                TIME_S(CAND_N(I))=ZERO
             ELSEIF(MG == MSEGLO(CAND_E(I)))THEN
-c slave in contact on this master keep candidate
+c secnd in contact on this main keep candidate
              NLS=NLS+1
              LIST(NLS)=IS
             ELSE
-c slave not in contact
+c secnd not in contact
              IG(IS) = NSV(CAND_N(I))
              ZI = X(3,IG(IS))
              IX1(IS)=IRECT(1,L)
@@ -356,7 +356,7 @@ c PMAX_GAP is not used here (node not in contact)
             ENDIF
           ELSE
 C Shooting Nodes
-C Reset IRTLM when a Slave node is in contact with a Master surface
+C Reset IRTLM when a Secnd node is in contact with a Main surface
 C which was deleted.
            IF(STF(L)==ZERO)THEN
              MG = IRTLM(1,CAND_N(I))
@@ -380,11 +380,11 @@ C
           I=JS+IS
           MG = IRTLM(1,CAND_N(I))
           IF(MG == MSEGLO(CAND_E(I)))THEN
-c slave in contact on this master keep candidate
+c secnd in contact on this main keep candidate
             NLS=NLS+1
             LIST(NLS)=IS
           ELSE
-c slave not in contact
+c secnd not in contact
             YI=X(2,IG(IS))
             Y1=X(2,IX1(IS))
             Y2=X(2,IX2(IS))
@@ -416,13 +416,13 @@ C
           I=JS+IS
           MG = IRTLM(1,CAND_N(I))
           IF(MG == MSEGLO(CAND_E(I)))THEN
-c slave in contact on this master keep candidate
+c secnd in contact on this main keep candidate
               IF ((IDTMINS /= 2).AND.(IDTMINS_INT == 0)) THEN
                 CAND_N(I) = -CAND_N(I)
                 COUNT_CAND = COUNT_CAND+1
                 IF(IG(IS) > NUMNOD) COUNT_CAND = COUNT_CAND + 3
               ELSE
-CC--         Count of contact connections for AMS (+ addtional connections related to contact on type2 - T2MASTER_SMS(1) > 1)
+CC--         Count of contact connections for AMS (+ addtional connections related to contact on type2 - T2MAIN_SMS(1) > 1)
                 IG(IS) = NSV(CAND_N(I))
                 CAND_N(I) = -CAND_N(I)
                 L  = CAND_E(I)
@@ -440,17 +440,17 @@ C
                     IE = IS2SE(2,NS)
                   ENDIF
                   DO KK=1,4
-                    COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MASTER_SMS(1,IRTSE(KK,IE))*
-     .              (T2MASTER_SMS(1,IX1(IS))+T2MASTER_SMS(1,IX2(IS))+T2MASTER_SMS(1,IX3(IS))+T2MASTER_SMS(1,IX4(IS)))
+                    COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MAIN_SMS(1,IRTSE(KK,IE))*
+     .              (T2MAIN_SMS(1,IX1(IS))+T2MAIN_SMS(1,IX2(IS))+T2MAIN_SMS(1,IX3(IS))+T2MAIN_SMS(1,IX4(IS)))
                   ENDDO
                 ELSE
                   COUNT_CAND = COUNT_CAND+1
-                  COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MASTER_SMS(1,IG(IS))*
-     .            (T2MASTER_SMS(1,IX1(IS))+T2MASTER_SMS(1,IX2(IS))+T2MASTER_SMS(1,IX3(IS))+T2MASTER_SMS(1,IX4(IS)))
+                  COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MAIN_SMS(1,IG(IS))*
+     .            (T2MAIN_SMS(1,IX1(IS))+T2MAIN_SMS(1,IX2(IS))+T2MAIN_SMS(1,IX3(IS))+T2MAIN_SMS(1,IX4(IS)))
                 ENDIF
               ENDIF  
           ELSE
-c slave not in contact
+c secnd not in contact
             XI=X(1,IG(IS))
             X1=X(1,IX1(IS))
             X2=X(1,IX2(IS))
@@ -473,7 +473,7 @@ c PMAX_GAP is not used here (node not in contact)
                 COUNT_CAND = COUNT_CAND+1
                 IF(IG(IS) > NUMNOD) COUNT_CAND = COUNT_CAND + 3
               ELSE
-CC--         Count of contact connections for AMS (+ addtional connections related to contact on type2 - T2MASTER_SMS(1) > 1)
+CC--         Count of contact connections for AMS (+ addtional connections related to contact on type2 - T2MAIN_SMS(1) > 1)
                 IF(IG(IS) > NUMNOD) THEN
                   COUNT_CAND = COUNT_CAND+4
                   NS = IG(IS) - NUMNOD
@@ -483,13 +483,13 @@ CC--         Count of contact connections for AMS (+ addtional connections relat
                     IE = IS2SE(2,NS)
                   ENDIF
                   DO KK=1,4
-                    COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MASTER_SMS(1,IRTSE(KK,IE))*
-     .              (T2MASTER_SMS(1,IX1(IS))+T2MASTER_SMS(1,IX2(IS))+T2MASTER_SMS(1,IX3(IS))+T2MASTER_SMS(1,IX4(IS)))
+                    COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MAIN_SMS(1,IRTSE(KK,IE))*
+     .              (T2MAIN_SMS(1,IX1(IS))+T2MAIN_SMS(1,IX2(IS))+T2MAIN_SMS(1,IX3(IS))+T2MAIN_SMS(1,IX4(IS)))
                   ENDDO
                 ELSE
                   COUNT_CAND = COUNT_CAND+1
-                  COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MASTER_SMS(1,IG(IS))*
-     .            (T2MASTER_SMS(1,IX1(IS))+T2MASTER_SMS(1,IX2(IS))+T2MASTER_SMS(1,IX3(IS))+T2MASTER_SMS(1,IX4(IS)))
+                  COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MAIN_SMS(1,IG(IS))*
+     .            (T2MAIN_SMS(1,IX1(IS))+T2MAIN_SMS(1,IX2(IS))+T2MAIN_SMS(1,IX3(IS))+T2MAIN_SMS(1,IX4(IS)))
                 ENDIF
               ENDIF 
             ELSE
@@ -589,7 +589,7 @@ c PMAX_GAP is not used here (node not in contact)
                    CT = CT + 1
                    IF(ISEDGE_FI(NIN)%P(II)==1) CT = CT+3
                  ELSE
-CC--             Count of contact connections for AMS (+ addtional connections related to contact on type2 - T2MASTER_SMS(1) > 1)
+CC--             Count of contact connections for AMS (+ addtional connections related to contact on type2 - T2MAIN_SMS(1) > 1)
                    IF(ISEDGE_FI(NIN)%P(II)==1) THEN
                      CT = CT + 4
                      IF (IS2SE_FI(NIN)%P(1,II) > 0) THEN
@@ -598,13 +598,13 @@ CC--             Count of contact connections for AMS (+ addtional connections r
                        IE = IS2SE_FI(NIN)%P(2,II)
                      ENDIF
                      DO KK=1,4
-                       COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MASTER_SMS_FI(NIN)%P(1,IRTSE_FI(NIN)%P(KK,IE))*
-     .                 (T2MASTER_SMS(1,IX1(IS))+T2MASTER_SMS(1,IX2(IS))+T2MASTER_SMS(1,IX3(IS))+T2MASTER_SMS(1,IX4(IS)))
+                       COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MAIN_SMS_FI(NIN)%P(1,IRTSE_FI(NIN)%P(KK,IE))*
+     .                 (T2MAIN_SMS(1,IX1(IS))+T2MAIN_SMS(1,IX2(IS))+T2MAIN_SMS(1,IX3(IS))+T2MAIN_SMS(1,IX4(IS)))
                      ENDDO
                    ELSE
                      CT = CT + 1
-                     COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MASTER_SMS_FI(NIN)%P(1,II)*
-     .               (T2MASTER_SMS(1,IX1(IS))+T2MASTER_SMS(1,IX2(IS))+T2MASTER_SMS(1,IX3(IS))+T2MASTER_SMS(1,IX4(IS)))
+                     COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MAIN_SMS_FI(NIN)%P(1,II)*
+     .               (T2MAIN_SMS(1,IX1(IS))+T2MAIN_SMS(1,IX2(IS))+T2MAIN_SMS(1,IX3(IS))+T2MAIN_SMS(1,IX4(IS)))
                    ENDIF
                 ENDIF         
              ELSE
@@ -624,14 +624,14 @@ CC--             Count of contact connections for AMS (+ addtional connections r
             MG = IRTLM_FI(NIN)%P(1,II)
             IF(STF(L).NE.ZERO.AND.STIFI(NIN)%P(II).NE.ZERO) THEN 
               IF(MG /= 0 .and. MG /= MSEGLO(CAND_E(I))) THEN 
-c slave in contact on a remote master don't keep candidate
+c secnd in contact on a remote main don't keep candidate
                  TIME_SFI(NIN)%P(II)=ZERO 
               ELSEIF(MG == MSEGLO(CAND_E(I)))THEN
-c slave in contact on this master keep candidate
+c secnd in contact on this main keep candidate
                NLS=NLS+1
                LIST(NLS)=IS
               ELSE
-c slave not in contact
+c secnd not in contact
                ZI = XFI(NIN)%P(3,II)                                     
                IX1(IS)=IRECT(1,L)                                        
                Z1=X(3,IX1(IS))                                           
@@ -685,11 +685,11 @@ c      write(iout,*)'i24optcd 3'
             II = CAND_N(I)-NSN
             MG = IRTLM_FI(NIN)%P(1,II)
             IF(MG == MSEGLO(CAND_E(I)))THEN
-c slave in contact on this master keep candidate
+c secnd in contact on this main keep candidate
              NLS=NLS+1
              LIST(NLS)=IS
             ELSE
-c slave not in contact
+c secnd not in contact
              YI=XFI(NIN)%P(2,II)
              Y1=X(2,IX1(IS))
              Y2=X(2,IX2(IS))
@@ -723,14 +723,14 @@ c      write(iout,*)'i24optcd 4'
             II = CAND_N(I)-NSN
             MG = IRTLM_FI(NIN)%P(1,II)
             IF(MG == MSEGLO(CAND_E(I)))THEN
-c slave in contact on this master keep candidate
+c secnd in contact on this main keep candidate
              CAND_N(I) = -CAND_N(I)
              COUNT_CAND = COUNT_CAND+1
              IF ((IDTMINS /= 2).AND.(IDTMINS_INT == 0)) THEN
                CT = CT + 1
                IF(ISEDGE_FI(NIN)%P(II)==1) CT = CT+3
              ELSE
-CC--           Count of contact connections for AMS (+ addtional connections related to contact on type2 - T2MASTER_SMS(1) > 1)
+CC--           Count of contact connections for AMS (+ addtional connections related to contact on type2 - T2MAIN_SMS(1) > 1)
                L = CAND_E(I)
                IX1(IS)=IRECT(1,L)
                IX2(IS)=IRECT(2,L)
@@ -744,17 +744,17 @@ CC--           Count of contact connections for AMS (+ addtional connections rel
                    IE = IS2SE_FI(NIN)%P(2,II)
                  ENDIF
                  DO KK=1,4
-                   COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MASTER_SMS_FI(NIN)%P(1,IRTSE_FI(NIN)%P(KK,IE))*
-     .             (T2MASTER_SMS(1,IX1(IS))+T2MASTER_SMS(1,IX2(IS))+T2MASTER_SMS(1,IX3(IS))+T2MASTER_SMS(1,IX4(IS)))
+                   COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MAIN_SMS_FI(NIN)%P(1,IRTSE_FI(NIN)%P(KK,IE))*
+     .             (T2MAIN_SMS(1,IX1(IS))+T2MAIN_SMS(1,IX2(IS))+T2MAIN_SMS(1,IX3(IS))+T2MAIN_SMS(1,IX4(IS)))
                  ENDDO
                ELSE
                  CT = CT + 1
-                 COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MASTER_SMS_FI(NIN)%P(1,II)*
-     .           (T2MASTER_SMS(1,IX1(IS))+T2MASTER_SMS(1,IX2(IS))+T2MASTER_SMS(1,IX3(IS))+T2MASTER_SMS(1,IX4(IS)))
+                 COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MAIN_SMS_FI(NIN)%P(1,II)*
+     .           (T2MAIN_SMS(1,IX1(IS))+T2MAIN_SMS(1,IX2(IS))+T2MAIN_SMS(1,IX3(IS))+T2MAIN_SMS(1,IX4(IS)))
                ENDIF
               ENDIF  
             ELSE
-c slave not in contact
+c secnd not in contact
              XI = XFI(NIN)%P(1,II)
              X1=X(1,IX1(IS))
              X2=X(1,IX2(IS))
@@ -778,7 +778,7 @@ c PMAX_GAP is not used here (node not in contact)
                    CT = CT + 1
                    IF(ISEDGE_FI(NIN)%P(II)==1) CT = CT+3
                ELSE
-CC--             Count of contact connections for AMS (+ addtional connections related to contact on type2 - T2MASTER_SMS(1) > 1)
+CC--             Count of contact connections for AMS (+ addtional connections related to contact on type2 - T2MAIN_SMS(1) > 1)
                    IF(ISEDGE_FI(NIN)%P(II)==1) THEN
                      CT = CT + 4
                      IF (IS2SE_FI(NIN)%P(1,II) > 0) THEN
@@ -787,13 +787,13 @@ CC--             Count of contact connections for AMS (+ addtional connections r
                        IE = IS2SE_FI(NIN)%P(2,II)
                      ENDIF
                      DO KK=1,4
-                       COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MASTER_SMS_FI(NIN)%P(1,IRTSE_FI(NIN)%P(KK,IE))*
-     .                 (T2MASTER_SMS(1,IX1(IS))+T2MASTER_SMS(1,IX2(IS))+T2MASTER_SMS(1,IX3(IS))+T2MASTER_SMS(1,IX4(IS)))
+                       COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MAIN_SMS_FI(NIN)%P(1,IRTSE_FI(NIN)%P(KK,IE))*
+     .                 (T2MAIN_SMS(1,IX1(IS))+T2MAIN_SMS(1,IX2(IS))+T2MAIN_SMS(1,IX3(IS))+T2MAIN_SMS(1,IX4(IS)))
                      ENDDO
                    ELSE
                      CT = CT + 1
-                     COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MASTER_SMS_FI(NIN)%P(1,II)*
-     .               (T2MASTER_SMS(1,IX1(IS))+T2MASTER_SMS(1,IX2(IS))+T2MASTER_SMS(1,IX3(IS))+T2MASTER_SMS(1,IX4(IS)))
+                     COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MAIN_SMS_FI(NIN)%P(1,II)*
+     .               (T2MAIN_SMS(1,IX1(IS))+T2MAIN_SMS(1,IX2(IS))+T2MAIN_SMS(1,IX3(IS))+T2MAIN_SMS(1,IX4(IS)))
                    ENDIF
                ENDIF  
              ELSE

@@ -30,7 +30,7 @@ Chd|====================================================================
       SUBROUTINE AIRBAGA1(IVOLU  ,NJET    ,IBAGJET ,NVENT   ,IBAGHOL ,
      2                    ICBAG  ,RVOLU   ,RBAGJET ,RBAGHOL ,RCBAG   ,
      3                    RVOLUV ,NPC     ,TF      ,SENSOR  ,LSENSOR ,
-     4                    VOL    ,PMASTER ,GEO     ,IGEO    ,PM      )
+     4                    VOL    ,PMAIN ,GEO     ,IGEO    ,PM      )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPC(*),LSENSOR(NSENSI,*),IVOLU(*),NJET,IBAGJET(NIBJET,*),
-     .        NVENT,IBAGHOL(NIBHOL,*),ICBAG(NICBAG,*),PMASTER,
+     .        NVENT,IBAGHOL(NIBHOL,*),ICBAG(NICBAG,*),PMAIN,
      .        IGEO(NPROPGI,*)
 C     REAL ou REAL*8
       my_real
@@ -113,7 +113,7 @@ C
         IBAGHOL(12,IV) = IDPDEF 
         RBAGHOL(5,IV)  = DTPDEFC
       ENDDO
-      IF(IMACH.NE.3.OR.ISPMD+1.EQ.PMASTER) THEN
+      IF(IMACH.NE.3.OR.ISPMD+1.EQ.PMAIN) THEN
 C Mass loss & Enthalpy Loss
         DO IV=1,NVENT
           RBAGHOL(19,IV)= RBAGHOL(19,IV) + RBAGHOL(21,IV)*DT1
@@ -192,7 +192,7 @@ C
             RVOLU(11)= GMI
             RVOLU(14)= RMWI*GMI
             RVOLU(20)= GMI
-            IF(IMACH.NE.3.OR.ISPMD+1.EQ.PMASTER) THEN
+            IF(IMACH.NE.3.OR.ISPMD+1.EQ.PMAIN) THEN
               WRITE(IOUT,*)
      .        ' *** MONITORED VOLUME : INITIAL EQUILIBRIUM IS SET ***'
               WRITE(IOUT,'(A,I10,A,G20.13,A)') 
@@ -542,7 +542,7 @@ C------
        ELSE
         Q=-AMU*SQRT(P*AREA*ROT/VOL)*DV/AREA/DT1
        ENDIF
-       IF (IMACH.NE.3.OR.ISPMD+1.EQ.PMASTER) THEN
+       IF (IMACH.NE.3.OR.ISPMD+1.EQ.PMAIN) THEN
         TFEXT=TFEXT+(UNDEMI*(P+POLD+Q+QOLD)-PEXT)*DV
         RVOLU(32)=RVOLU(32) + (UNDEMI*(P+POLD)-PEXT)*DV
        ENDIF
@@ -578,13 +578,13 @@ Clm    DP/DRO GAZ PARFAIT+ADIABATIQUE=GAMA*R/MW*TBAG
        ENDIF
        IF(IDTMIN(9).EQ.1.AND.DT.LT.DTMIN1(9)) THEN
          TSTOP = TT
-         IF (IMACH.NE.3.OR.ISPMD+1.EQ.PMASTER) THEN
+         IF (IMACH.NE.3.OR.ISPMD+1.EQ.PMAIN) THEN
            WRITE(IOUT,*)  '-- MINIMUM MONITORED VOLUME TIME STEP '
            WRITE(ISTDO,*) '-- MINIMUM MONITORED VOLUME TIME STEP '
          ENDIF
        ELSEIF(IDTMIN(9).EQ.5.AND.DT.LT.DTMIN1(9)) THEN
          MSTOP = 2
-         IF (IMACH.NE.3.OR.ISPMD+1.EQ.PMASTER) THEN
+         IF (IMACH.NE.3.OR.ISPMD+1.EQ.PMAIN) THEN
            WRITE(IOUT,*)  '-- MINIMUM MONITORED VOLUME TIME STEP '
            WRITE(ISTDO,*) '-- MINIMUM MONITORED VOLUME TIME STEP '
          ENDIF

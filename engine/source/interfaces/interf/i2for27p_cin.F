@@ -144,10 +144,10 @@ C
           IF (MSEGTYP2(L)==0) THEN
 C
 C--------------------------------------------------------------C
-C--- solid master segment -- moment equilibrium----------------C
+C--- solid main segment -- moment equilibrium----------------C
 C--------------------------------------------------------------C
 C               
-C---- rep local facette maitre
+C---- rep local facette main
 C  
             X1  = X(1,IX1)                                       
             Y1  = X(2,IX1)                                          
@@ -252,7 +252,7 @@ C
                 FMZ(J) = H(J)*FLZ
               ENDDO
 C
-C---- update master forces (moment balance) - local coordinates RX
+C---- update main forces (moment balance) - local coordinates RX
               IF (IRODDL==1) THEN
                 MXS = AR(1,I)*E1X + AR(2,I)*E1Y + AR(3,I)*E1Z
                 MYS = AR(1,I)*E2X + AR(2,I)*E2Y + AR(3,I)*E2Z
@@ -344,7 +344,7 @@ C
            FSKYI2(5,NN) = STIFN(I)*(UN+STBRK)*(ABS(H(4))+STIFM*FAC_TRIANG)+STIFR(I)*STIFMR*DWDU*FAC_TRIANG
 C
            IF(IDTMINS==2.OR.IDTMINS_INT/=0) THEN
-C---- For AMS scaling factor on stiffness is stored - only used for solid master surface
+C---- For AMS scaling factor on stiffness is stored - only used for solid main surface
              T2FAC_SMS(I) = (UN+STBRK)*(UN+STIFM)
            ENDIF     
 C                   

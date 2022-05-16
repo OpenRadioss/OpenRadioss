@@ -63,7 +63,7 @@ C-----------------------------------------------
       my_real
      .   XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
      .   XX4, YY4, ZZ4, D13, XXC, YYC, ZZC, AL4,
-     .   PMASTER,LOC_PROC, V1, V2, V3, VV1, VV2,
+     .   PMAIN,LOC_PROC, V1, V2, V3, VV1, VV2,
      .   VV3, R, XN,YN,ZN,D,DX,DY,DZ, VV
 
       my_real

@@ -1344,7 +1344,7 @@ C
       TABVINT(LVARINT)= SDD_R2R_ELEM
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= R2R_SIU 
-C heat trasfert for interface Type21 : master temperature is variable
+C heat trasfert for interface Type21 : main temperature is variable
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = FTEMPVAR21
 C

@@ -81,20 +81,20 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IFIRST,ILAST,ISELF_IMPACTANT
       INTEGER, DIMENSION(:),ALLOCATABLE ::
-     .        KNOD2SEG,NOD2SEG,NODDEL,TAGNOD,ID_NOD,TAGSLAV,ITAGSEG,NOD2EXPAND
+     .        KNOD2SEG,NOD2SEG,NODDEL,TAGNOD,ID_NOD,TAGSECND,ITAGSEG,NOD2EXPAND
       my_real
      .        MINSEG
       my_real, DIMENSION(:),ALLOCATABLE ::
-     .        DIST1,GAPV,GAPSLAV,GAP_S_L_TMP
+     .        DIST1,GAPV,GAPSECND,GAP_S_L_TMP
 C-----------------------------------------------
 C
       ALLOCATE(KNOD2SEG(NUMNOD+1),NOD2SEG(4*NRTM),NODDEL(NUMNOD),
      .         TAGNOD(NUMNOD),ID_NOD(NUMNOD),NOD2EXPAND(NUMNOD),ITAGSEG(NRTM))
-      ALLOCATE(DIST1(NUMNOD),GAPV(NUMNOD),TAGSLAV(NUMNOD),
-     .         GAPSLAV(NUMNOD),GAP_S_L_TMP(NUMNOD))
+      ALLOCATE(DIST1(NUMNOD),GAPV(NUMNOD),TAGSECND(NUMNOD),
+     .         GAPSECND(NUMNOD),GAP_S_L_TMP(NUMNOD))
 C
       KNOD2SEG(1:NUMNOD+1) = 0
-      TAGSLAV (1:NUMNOD)   = 0
+      TAGSECND (1:NUMNOD)   = 0
       ID_NOD  (1:NUMNOD)   = 0
       NODDEL  (1:NUMNOD)   = 0
       TAGNOD  (1:NUMNOD)   = 0
@@ -102,7 +102,7 @@ C
       NOD2SEG (1:4*NRTM)   = 0
       ITAGSEG (1:NRTM)     = 0
       GAPV    (1:NUMNOD)   = ZERO
-      GAPSLAV (1:NUMNOD)   = ZERO
+      GAPSECND (1:NUMNOD)   = ZERO
       DIST1   (1:NUMNOD)   = EP30
 C
 C-----------------------------------------------
@@ -112,8 +112,8 @@ C-----------------------------------------------
      3         GAP_S_L ,GAP_M_L ,IGAP     ,INTBUF_TAB%KREMNODE,INTBUF_TAB%REMNODE ,
      4         GAP     ,DRAD    ,NREMNODE ,ILEV    ,NBINFLG ,
      5         MBINFLG ,IPARI   ,I_MEM_REM,GAPM_MX ,GAPS_MX ,
-     6         GAPM_L_MX ,GAPS_L_MX ,KNOD2SEG,NOD2SEG,TAGSLAV,
-     7         GAPSLAV   ,GAP_S_L_TMP,MINSEG )  
+     6         GAPM_L_MX ,GAPS_L_MX ,KNOD2SEG,NOD2SEG,TAGSECND,
+     7         GAPSECND   ,GAP_S_L_TMP,MINSEG )  
 C
       IF(ISELF_IMPACTANT==0) RETURN
 C
@@ -129,8 +129,8 @@ C-----------------------------------------------
      3         GAP_S_L ,GAP_M_L ,IGAP     ,INTBUF_TAB%KREMNODE,INTBUF_TAB%REMNODE ,
      4         GAP     ,DRAD    ,NREMNODE ,NOD2EXPAND,
      5         I_MEM_REM,GAPM_MX ,GAPS_MX ,
-     6         GAPM_L_MX ,GAPS_L_MX ,KNOD2SEG,NOD2SEG,TAGSLAV,
-     7         GAPSLAV ,NODDEL  ,TAGNOD   ,ID_NOD   ,DIST1  ,
+     6         GAPM_L_MX ,GAPS_L_MX ,KNOD2SEG,NOD2SEG,TAGSECND,
+     7         GAPSECND ,NODDEL  ,TAGNOD   ,ID_NOD   ,DIST1  ,
      8         GAPV    ,GAP_S_L_TMP,ITAGSEG ,MINSEG)   
 C
         IF (I_MEM_REM == 1) THEN
@@ -165,11 +165,11 @@ C-----------------------------------------------
         CALL I25REMNOR(NRTM    ,IRECT    ,NSV     ,NSN    ,NUMNOD ,
      2                 INTBUF_TAB%KREMNODE,INTBUF_TAB%REMNODE  ,INTBUF_TAB%KREMNOR ,
      .                                                   INTBUF_TAB%REMNOR ,IPARI  ,
-     3                 TAGSLAV )
+     3                 TAGSECND )
       END IF  
 C-----------------------------------------------
       DEALLOCATE(KNOD2SEG,NOD2SEG,NODDEL,ID_NOD,TAGNOD,ITAGSEG)
-      DEALLOCATE(DIST1,GAPV,TAGSLAV,GAPSLAV,GAP_S_L_TMP)
+      DEALLOCATE(DIST1,GAPV,TAGSECND,GAPSECND,GAP_S_L_TMP)
 C-----------------------------------------------
       RETURN
       END  
@@ -186,8 +186,8 @@ Chd|====================================================================
      3         GAP_S_L ,GAP_M_L ,IGAP     ,KREMNODE,REMNODE ,
      4         GAP     ,DRAD    ,NREMNODE ,ILEV    ,NBINFLG ,
      5         MBINFLG ,IPARI   ,I_MEM_REM,GAPM_MX ,GAPS_MX ,
-     6         GAPM_L_MX ,GAPS_L_MX ,KNOD2SEG,NOD2SEG,TAGSLAV,
-     7         GAPSLAV   ,GAP_S_L_TMP,MINSEG )  
+     6         GAPM_L_MX ,GAPS_L_MX ,KNOD2SEG,NOD2SEG,TAGSECND,
+     7         GAPSECND   ,GAP_S_L_TMP,MINSEG )  
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -208,11 +208,11 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ISELF_IMPACTANT, NTY, NSN, NRTM, NUMNOD,IGAP, NREMNODE , I_MEM_REM, ILEV
       INTEGER IRECT(4,*),ITAB(*),NSV(*),KREMNODE(*),REMNODE(*),
-     .        IPARI(*),KNOD2SEG(*),NOD2SEG(4*NRTM),TAGSLAV(*),NBINFLG(*),MBINFLG(*)
+     .        IPARI(*),KNOD2SEG(*),NOD2SEG(4*NRTM),TAGSECND(*),NBINFLG(*),MBINFLG(*)
       my_real
      .        GAPMIN, GAPMAX, GAP, DRAD, GAPM_MX, GAPS_MX, GAPM_L_MX, GAPS_L_MX, MINSEG
       my_real
-     .        X(3,*),GAP_S(*),GAP_M(*),GAP_S_L(*),GAP_M_L(*), GAPSLAV(*), GAP_S_L_TMP(*)
+     .        X(3,*),GAP_S(*),GAP_M(*),GAP_S_L(*),GAP_M_L(*), GAPSECND(*), GAP_S_L_TMP(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -227,12 +227,12 @@ C-----------------------------------------------
 C
 C     NOD2SEG(1:4*NRTM)    = 0
 C     KNOD2SEG(1:NUMNOD+1) = 0
-C     TAGSLAV(1:NUMNOD)    = 0
-C     GAPSLAV(1:NUMNOD)    = ZERO
+C     TAGSECND(1:NUMNOD)    = 0
+C     GAPSECND(1:NUMNOD)    = ZERO
 C
 C
       DO I=1,NSN
-        TAGSLAV(NSV(I)) = I
+        TAGSECND(NSV(I)) = I
       ENDDO
 C
       MINSEG = EP30
@@ -241,7 +241,7 @@ C
       IF(NTY /= 25 .OR. (NTY == 25 .AND. ILEV /=2))THEN
         DO I=1,NRTM
           DO J=1,4
-            IF( TAGSLAV(IRECT(J,I))  /= 0 ) THEN
+            IF( TAGSECND(IRECT(J,I))  /= 0 ) THEN
               ISELF_IMPACTANT = 1
             END IF
           ENDDO
@@ -249,7 +249,7 @@ C
       ELSE ! NTY == 25 and S1-S2
         DO I=1,NRTM
           DO J=1,4
-            N = TAGSLAV(IRECT(J,I))
+            N = TAGSECND(IRECT(J,I))
             IF( N  /= 0 ) THEN
               IMS1 = BITGET(MBINFLG(I),0)
               IMS2 = BITGET(MBINFLG(I),1)
@@ -305,7 +305,7 @@ C
         IF(IRECT(KMAX,I) == 0   .OR. 
      .    IRECT(3,I) == IRECT(4,I) ) KMAX = 3
         DO K=1,KMAX
-          IF(TAGSLAV(IRECT(K,I))  /= 0) CPT = CPT + 1
+          IF(TAGSECND(IRECT(K,I))  /= 0) CPT = CPT + 1
         END DO
         IF (CPT .NE. 0 ) THEN
           DO K=1,KMAX
@@ -330,7 +330,7 @@ C
         IF(IRECT(KMAX,I) == 0   .OR. 
      .      IRECT(3,I) == IRECT(4,I) ) KMAX = 3
         DO K=1,KMAX
-          IF(TAGSLAV(IRECT(K,I))  /= 0) CPT = CPT + 1
+          IF(TAGSECND(IRECT(K,I))  /= 0) CPT = CPT + 1
         END DO
         IF (CPT .NE. 0) THEN
           DO K=1,KMAX
@@ -350,7 +350,7 @@ C  Searching Algorith Connected nodes : D < SQRT(2.) * GAP
 C-----------------------------------------------
       IF(IGAP >= 1)THEN
         DO I=1,NSN
-          GAPSLAV(NSV(I)) = GAP_S(I)
+          GAPSECND(NSV(I)) = GAP_S(I)
         ENDDO
       ENDIF
 C-----------------------------------------------
@@ -374,8 +374,8 @@ Chd|====================================================================
      3         GAP_S_L ,GAP_M_L ,IGAP     ,KREMNODE,REMNODE ,
      4         GAP     ,DRAD    ,NREMNODE ,NOD2EXPAND,
      5         I_MEM_REM,GAPM_MX ,GAPS_MX ,
-     6         GAPM_L_MX ,GAPS_L_MX ,KNOD2SEG,NOD2SEG,TAGSLAV,
-     7         GAPSLAV ,NODDEL  ,TAGNOD   ,ID_NOD    ,DIST1  ,
+     6         GAPM_L_MX ,GAPS_L_MX ,KNOD2SEG,NOD2SEG,TAGSECND,
+     7         GAPSECND ,NODDEL  ,TAGNOD   ,ID_NOD    ,DIST1  ,
      8         GAPV    ,GAP_S_L_TMP,ITAGSEG,MINSEG  )  
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -398,13 +398,13 @@ C-----------------------------------------------
       INTEGER IFIRST, ILAST, NSN, NRTM, IGAP, NREMNODE , I_MEM_REM
       INTEGER IRECT(4,*),ITAB(*),NSV(*),KREMNODE(*),REMNODE(*)
       INTEGER KNOD2SEG(*),NOD2SEG(4*NRTM),NODDEL(*),TAGNOD(*),ID_NOD(*),NOD2EXPAND(*),
-     .        TAGSLAV(*),ITAGSEG(NRTM)
+     .        TAGSECND(*),ITAGSEG(NRTM)
        my_real
      .        GAPMIN, GAPMAX, GAP, DRAD, GAPM_MX, GAPS_MX, GAPM_L_MX, GAPS_L_MX, MINSEG
       my_real
      .        X(3,*),GAP_S(*),GAP_M(*),GAP_S_L(*),GAP_M_L(*)
       my_real 
-     .        DIST1(*), GAPV(*), GAPSLAV(*), GAP_S_L_TMP(*)
+     .        DIST1(*), GAPV(*), GAPSECND(*), GAP_S_L_TMP(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -480,7 +480,7 @@ C
 c 
                   DO L=1,KMAX
                     
-                    IF(TAGSLAV(IRECT(L,SEG1))== 0 .OR.
+                    IF(TAGSECND(IRECT(L,SEG1))== 0 .OR.
      .                 TAGNOD(IRECT(L,SEG1)) == 2)CYCLE
 
                     DIST1(IRECT(L,SEG1))=MIN(DIST1(IRECT(L,SEG1)),
@@ -496,12 +496,12 @@ c
                     ENDIF 
 
                     IF(IGAP==1 .OR. IGAP==2)THEN
-                      GAPV(IRECT(L,SEG1))=GAPSLAV(IRECT(L,SEG1))+GAP_M(I)
+                      GAPV(IRECT(L,SEG1))=GAPSECND(IRECT(L,SEG1))+GAP_M(I)
                       GAPV(IRECT(L,SEG1))=MIN(GAPMAX,GAPV(IRECT(L,SEG1)))
                       GAPV(IRECT(L,SEG1))=MAX(GAPMIN,GAPV(IRECT(L,SEG1)))
                       GAPV(IRECT(L,SEG1))=MAX(DRAD,GAPV(IRECT(L,SEG1)))
                     ELSEIF(IGAP==3)THEN
-                      GAPV(IRECT(L,SEG1))=GAPSLAV(IRECT(L,SEG1))+GAP_M(I)
+                      GAPV(IRECT(L,SEG1))=GAPSECND(IRECT(L,SEG1))+GAP_M(I)
                       GAPV(IRECT(L,SEG1))=
      .                   MIN(GAP_S_L_TMP(IRECT(L,SEG1))+GAP_M_L(I),GAPV(I))
                       GAPV(IRECT(L,SEG1))=MIN(GAPMAX,GAPV(IRECT(L,SEG1)))
@@ -614,7 +614,7 @@ Chd|====================================================================
       SUBROUTINE I25REMNOR(
      1         NRTM    ,IRECT    ,NSV     ,NSN    ,NUMNOD ,
      2         KREMNODE,REMNODE  ,KREMNOR ,REMNOR  ,IPARI ,
-     3         TAGSLAV )  
+     3         TAGSECND )  
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -635,7 +635,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NRTM, NUMNOD
       INTEGER IRECT(4,*),NSV(*),KREMNODE(*),REMNODE(*),
-     .        KREMNOR(*),REMNOR(*),IPARI(*),TAGSLAV(*)
+     .        KREMNOR(*),REMNOR(*),IPARI(*),TAGSECND(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -648,7 +648,7 @@ C
         K = KREMNODE(I)+1
         L = KREMNODE(I+1)         
         DO J=K,L
-           NS = TAGSLAV(REMNODE(J))
+           NS = TAGSECND(REMNODE(J))
            KREMNOR(NS) = KREMNOR(NS)+1
         ENDDO
       ENDDO
@@ -666,7 +666,7 @@ C
         K = KREMNODE(I)+1
         L = KREMNODE(I+1)         
         DO J=K,L
-           N = TAGSLAV(REMNODE(J))
+           N = TAGSECND(REMNODE(J))
            KREMNOR(N) = KREMNOR(N)+1
            REMNOR(KREMNOR(N)) = I
         ENDDO

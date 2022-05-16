@@ -1963,7 +1963,7 @@ C                     BBUFS(L+24) = INTBUF_TAB(NIN)%VTX_BISECTOR(TO1D(1,2,I2,3,2
 C                     BBUFS(L+25) = INTBUF_TAB(NIN)%VTX_BISECTOR(TO1D(2,2,I2,3,2))
 C                     BBUFS(L+26) = INTBUF_TAB(NIN)%VTX_BISECTOR(TO1D(3,2,I2,3,2))
 
-C                     BBUFS(L+27) = 1 ! master of the edge
+C                     BBUFS(L+27) = 1 ! main of the edge
 
                       L = L + LEN25E
                     ENDDO
@@ -3317,7 +3317,7 @@ c                     VTX_BISECTOR_FIE(NIN)%P(3,2,I+IDEB) = BBUFR(L+23)
 c                     VTX_BISECTOR_FIE(NIN)%P(1,3,I+IDEB) = BBUFR(L+24)
 c                     VTX_BISECTOR_FIE(NIN)%P(2,3,I+IDEB) = BBUFR(L+25)
 c                     VTX_BISECTOR_FIE(NIN)%P(3,3,I+IDEB) = BBUFR(L+26)
-c                     MASTER_FIE(NIN)%P(I+IDEB) = BBUFR(L+27)
+c                     MAIN_FIE(NIN)%P(I+IDEB) = BBUFR(L+27)
 
 
 

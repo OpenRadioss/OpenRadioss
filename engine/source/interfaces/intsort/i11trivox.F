@@ -76,7 +76,7 @@ C-----------------------------------------------
 !-----------------------------------------------
 !  SUBROUTINE AIM
 ! ==============
-! VOXEL SEARCH to find couple (edge,edge) with penetration among all possible couples defined by slave and master side.
+! VOXEL SEARCH to find couple (edge,edge) with penetration among all possible couples defined by secnd and main side.
 ! Temporary found candidate are written in Temporary array PROV_S and PROV_M in order to optimise OpenMP performances.
 ! There is no order.
 ! PROV_S(i),PROV_M(i) : is a potential candidate couple because edges are geometrically near each other.
@@ -98,11 +98,11 @@ C          4.........XMAX BOITE
 C          5.........YMAX BOITE
 C          6.........ZMAX BOITE
 C     IRECTM(2,*)  TABLEAU DES CONEC                 E
-C          1.........NODE 1 MASTER EDGE
-C          2.........NODE 2 MASTER EDGE
+C          1.........NODE 1 main EDGE
+C          2.........NODE 2 main EDGE
 C     IRECTS(2,*)  TABLEAU DES CONEC                 E
-C          1.........NODE 1 SLAVE EDGE
-C          2.........NODE 2 SLAVE EDGE
+C          1.........NODE 1 SECND EDGE
+C          2.........NODE 2 SECND EDGE
 C     X(3,*)       COORDONNEES NODALES               E
 C     II_STOK       niveau de stockage des couples
 C                                candidats impact    E/S
@@ -111,7 +111,7 @@ C     CAND_M       adresses des boites resultat elements
 C     NOINT        NUMERO USER DE L'INTERFACE
 C     TZINF        TAILLE ZONE INFLUENCE
 C     VOXEL(*,*,*) VOXEL PARTIONNEMENT DE l'ESPACE (NBX+2,NBY+2,NBZ+2) 
-C                  Stocke dans chaque voxel les edge slave.
+C                  Stocke dans chaque voxel les edge secnd.
 C                  En pratique designe la premier arrete d'une liste chainee
 C     MAX_ADD      adresse maximum pour les tableaux chaines
 C     NSN4         4*NSN TAILLE MAX ADMISE MAINTENANT POUR LES
@@ -153,7 +153,7 @@ C-----------------------------------------------
      .        XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, 
      .        YY1,YY2,ZZ1,ZZ2,
      .        AAA, DD,
-     .        XMAX_EDGS(NRTS+NRTSR), XMIN_EDGS(NRTS+NRTSR),   !cotes min/max des arrete esclaves et maitres
+     .        XMAX_EDGS(NRTS+NRTSR), XMIN_EDGS(NRTS+NRTSR),   !cotes min/max des arrete seconds et mains
      .        YMAX_EDGS(NRTS+NRTSR), YMIN_EDGS(NRTS+NRTSR),
      .        ZMAX_EDGS(NRTS+NRTSR), ZMIN_EDGS(NRTS+NRTSR),
      .        XMAX_EDGM(NRTM), XMIN_EDGM(NRTM),
@@ -225,7 +225,7 @@ C================================================================
         
         CURRENT_ADD=1 ! premiere adresse
 
-        DO I = 1,NRTS  !si besoin on peut inverser Master/Slave
+        DO I = 1,NRTS  !si besoin on peut inverser Main/Secnd
         
             IF(STFS(I).EQ.ZERO)CYCLE !on ne retient pas les facettes detruites
                  
@@ -353,7 +353,7 @@ C
 C           a faire
 C
 C================================================================
-        DO I = NRTS+1,NRTS+NRTSR  !si besoin on peut inverser Master/Slave       
+        DO I = NRTS+1,NRTS+NRTSR  !si besoin on peut inverser Main/Secnd       
 c            IF(STFS(I).EQ.ZERO)CYCLE !on ne retient pas les facettes detruites, deja fait dans SPMD_MACH::spmd_tri11vox
           J=I-NRTS          
           !-------------------------------------------!
@@ -469,7 +469,7 @@ C
       CALL MY_BARRIER  !le tableau voxel doit etre rempli avant de continuer 
                        !max_add doit etre le meme pour tout le monde.
 C================================================================
-C 3   A partir des voxels occupes par une edge master, on est en
+C 3   A partir des voxels occupes par une edge main, on est en
 C     mesure de connaitre toutes les edges escalves dans ce voisinage.
 C     Ce qui permet de creer des couples cancidats pour le contact
 C     Si la penetration est positive.
@@ -493,7 +493,7 @@ c       AAA = ZERO !MARGE
 
         
         !-------------------------------------------!
-        !    (N1,N2) is the current master edge     !
+        !    (N1,N2) is the current main edge     !
         !-------------------------------------------!
         N1 = IRECTM(1,IEDG)
         N2 = IRECTM(2,IEDG)
@@ -547,7 +547,7 @@ C--- IREMGAP - tag of deactivated lines
           ENDDO
         ENDIF
 C
-        !ON PARCOURS A NOUVEAU LES EDGES SLAVE DANS LE VOISINAGE DE L EDGE MASTER IEDG
+        !ON PARCOURS A NOUVEAU LES EDGES SECND DANS LE VOISINAGE DE L EDGE main IEDG
         !ON CONSTITUE ICI UN COUPLE
 
         DO IZ = IZ1,IZ2
@@ -558,7 +558,7 @@ C
             DO WHILE(CHAIN_ADD /= 0)          ! BOUCLE SUR LES EDGES DU VOXEL COURANT
               I = LCHAIN_ELEM(CHAIN_ADD)       ! numeros des edge_id balayes dans le voxel courant
 
-              !slave edge nodes, exclure couples avec noeud commun
+              !secnd edge nodes, exclure couples avec noeud commun
               IF (I.LE.NRTS)THEN
                 SS1=ITAB(IRECTS(1,I))
                 SS2=ITAB(IRECTS(2,I))              
@@ -603,12 +603,12 @@ C-                Remote lines are identified by nodes
               ENDIF  
   
               I_STOK = I_STOK + 1 !on dispose d'un candidat
-              PROV_S(I_STOK) = I    !edge slave
-              PROV_M(I_STOK) = IEDG !edge master
+              PROV_S(I_STOK) = I    !edge secnd
+              PROV_M(I_STOK) = IEDG !edge main
                                                             
               !print *, "candidat:",  IEDG, I
               IF(DEJA==0) NEDG = NEDG + 1     !nombre d edges candidate au calcul de contact (debug)                 
-              DEJA=1                          !l edge master IEDG fait l'objet d'une ecriture de candidat. On compte les edges master faisant l'objet dun couple candidate : on ne doit plus incrementer NEDG pour les autres edge slave testees.
+              DEJA=1                          !l edge main IEDG fait l'objet d'une ecriture de candidat. On compte les edges main faisant l'objet dun couple candidate : on ne doit plus incrementer NEDG pour les autres edge secnd testees.
               CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
 C-----------------------------------------------------
               IF(I_STOK.GE.NVSIZ)THEN

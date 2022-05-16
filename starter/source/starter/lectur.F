@@ -943,7 +943,7 @@ c---  Material data  --------------------------------------------------
 c---  Element group parameter table  --------------------------------------------------
       TYPE(GRP_PARAM_STRUCT_) , DIMENSION(:), ALLOCATABLE :: GROUP_PARAM_TAB   ! NGROUP
 C AMS
-      INTEGER, ALLOCATABLE, DIMENSION(:,:) :: T2MASTER_SMS
+      INTEGER, ALLOCATABLE, DIMENSION(:,:) :: T2MAIN_SMS
 C
       INTEGER :: SRNOISE1,SRNOISE2
 C T2 SPT 27/28
@@ -1002,7 +1002,7 @@ C
      .    STRSGLOB,STRAGLOB,ORTHOGLOB
       INTEGER  ISIGSH,IYLDINI,KSIGSH3,FAIL_INI(5),IUSOLYLD,IUSERL
 C
-      INTEGER FVMASTER(NVOLU + NMONVOL),NBSUBMAT
+      INTEGER FVMAIN(NVOLU + NMONVOL),NBSUBMAT
 C GROUPS OF GROUPS
       INTEGER :: MEM_MARGIN
       PARAMETER (MEM_MARGIN = 250000)
@@ -1108,7 +1108,7 @@ c   BEGINNING
 !     domain decomposition statistic
       DDSTAT(1:50,1:PARASIZ)=0
       I22LEN_L = 0 
-      FVMASTER(1:NVOLU + NMONVOL) = 0
+      FVMAIN(1:NVOLU + NMONVOL) = 0
       M51_IFLG6 = 0
       NVARTOTMAX = 0
       ERR_MSG='BEGINNING'
@@ -1175,7 +1175,7 @@ c     RNUR elements (obsolete) :
       NUMELUR = 0
 C
       ALLOCATE(EOS_TAG(0:MAXEOS))
-C Interface give CPU to Master surface - INITIALIZE ARRAY
+C Interface give CPU to Main surface - INITIALIZE ARRAY
 C new initiation for XFEM CRACK
 C
       ALLOCATE(INTERCEP(3,NINTER))
@@ -5391,14 +5391,14 @@ C
           ERR_MSG='AMS INITIALIZATION PHASE I'
           CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 C
-          ALLOCATE(TAGPRT_SMS(NPART),NATIV_SMS(NUMNOD),T2MASTER_SMS(4,NUMNOD),STAT=stat)
+          ALLOCATE(TAGPRT_SMS(NPART),NATIV_SMS(NUMNOD),T2MAIN_SMS(4,NUMNOD),STAT=stat)
 C
           IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                               MSGTYPE=MSGERROR,
      .                         C1='TAGPRT_SMS / NATIV_SMS / T2MAIN_SMS')
           TAGPRT_SMS=0
           NATIV_SMS(1:NUMNOD)=0
-          T2MASTER_SMS=0
+          T2MAIN_SMS=0
 C
           CALL INISMS(IGRPART  ,IPARTS     ,IPARTQ   ,IPARTC  ,
      .            IPARTT   ,IPARTP    ,IPARTR     ,IPARTUR  ,IPARTG  ,
@@ -5489,7 +5489,7 @@ C
      7           IPARTP    ,IPARTR ,IPARTUR  ,IPARTG   ,IPARTX    ,
      8           NPBY     ,LPBY     ,KINET   ,TAGSLV_RBY_SMS,IPARI ,
      9           INTBUF_TAB,LAD_SMS ,IPART   ,IGEO      ,NATIV_SMS ,
-     A           IAD_SMS   ,IDI_SMS,JAD_SMS  ,JDI_SMS  ,T2MASTER_SMS)
+     A           IAD_SMS   ,IDI_SMS,JAD_SMS  ,JDI_SMS  ,T2MAIN_SMS)
 
           DEALLOCATE(JDI_SMS)
 
@@ -5512,7 +5512,7 @@ C
      A           INTBUF_TAB,LAD_SMS   ,NPRW  ,LPRW    ,TAGMSR_RBY_SMS,
      C           INTSTAMP  ,IPART     ,IGEO  ,NATIV_SMS,IRBE2        ,
      D           LRBE2     ,IAD_SMS   ,IDI_SMS,JAD_SMS ,JDI_SMS  ,
-     E           T2MASTER_SMS)
+     E           T2MAIN_SMS)
 
           DEALLOCATE(JDI_SMS)
 
@@ -5542,10 +5542,10 @@ C
      9           TAGSLV_RBY_SMS,IPARI  ,INTBUF_TAB,
      A           LAD_SMS ,JSM_SMS ,INTSTAMP  ,IPART    ,
      B           IGEO    ,TAGMSR_RBY_SMS,NATIV_SMS,
-     C           IAD_SMS   ,IDI_SMS,JAD_SMS  ,JDI_SMS  ,T2MASTER_SMS)
+     C           IAD_SMS   ,IDI_SMS,JAD_SMS  ,JDI_SMS  ,T2MAIN_SMS)
 C
           DEALLOCATE(KINWORK)
-          DEALLOCATE(T2MASTER_SMS)
+          DEALLOCATE(T2MAIN_SMS)
           CALL TRACE_OUT1()
 C
 C         If no element selected AMS is deactivated
@@ -5643,7 +5643,7 @@ C
      1     TAILLE   ,POIN_UMP,TAB_UMP  ,
      2     POIN_UMP_OLD,TAB_UMP_OLD,CPUTIME_MP_OLD,
      3     NSNT, NMNT_2,TABMP_L,IQUAOFF,
-     4     IGRSURF  , FVMASTER,
+     4     IGRSURF  , FVMAIN,
      5     ITAB      ,IPART    ,IPARTC   ,IPARTG   ,IPARTS,
      6     POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
      7     MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,T_MONVOL,
@@ -7149,8 +7149,8 @@ C
            DO I = 1,NBT8 
               ALLOCATE(INTERT8(P,I)%BUFFER(NSPMD))
               DO J=1,NSPMD
-              INTERT8(P,I)%BUFFER(J)%NBMASTER = -1 
-              INTERT8(P,I)%BUFFER(J)%NBSLAVE_TOT = 0 
+              INTERT8(P,I)%BUFFER(J)%NBMAIN = -1 
+              INTERT8(P,I)%BUFFER(J)%NBSECND_TOT = 0 
               ENDDO
            ENDDO
          ENDDO
@@ -8883,7 +8883,7 @@ C-------------------------------------------------------------
 
 C-------------------------------------------------------------      
 C----------------------------------
-C     Interf. type 7 et 21 : affectation des rigidites cote esclave
+C     Interf. type 7 et 21 : affectation des rigidites cote second
 C----------------------------------
       ERR_MSG='INTERFACES STIFFNESS'
       ERR_CATEGORY='INTERFACES'
@@ -10549,7 +10549,7 @@ c          DO P = 1, NSPMD
      P         FR_WAVE      ,FAILWAVE    ,PARTS0         ,USER        ,ELBUF      ,                
      Q         RWBUF        ,RWSAV       ,RBY            ,RIVET       ,    
      R         SECBUF       ,VOLMON      ,RCONX          ,NLOC_DMG    ,                             
-     S         FVMASTER     ,LIBAGALE    ,LENTHG         ,LBUFMAT     ,LBUFGEO    ,    
+     S         FVMAIN     ,LIBAGALE    ,LENTHG         ,LBUFMAT     ,LBUFGEO    ,    
      T         LBUFSF       ,SXLAS                       ,LNOM_OPT    ,SILAS      ,    
      U         LENVOLU                   ,NPTS           ,CNE         ,LCNE       ,    
      V         ADDCNE       ,CNI2        ,LCNI2G         ,ADDCNI2     ,CEPI2      ,    

@@ -85,10 +85,10 @@ C-----------------------------------------------
         BRICK_LIST(:,:)%NBITS                             = -7
         BRICK_LIST(:,:)%NPQTS                             = -8
         BRICK_LIST(:,:)%NBCUT                             = -9
-        BRICK_LIST(:,:)%MasterID                          = -10        
+        BRICK_LIST(:,:)%MainID                          = -10        
         BRICK_LIST(:,:)%WasCut                            = -11
         BRICK_LIST(:,:)%NewInBuffer                       = 0
-        BRICK_LIST(:,:)%OldMasterStrongNode               = -13
+        BRICK_LIST(:,:)%OldMainStrongNode               = -13
         BRICK_LIST(:,:)%MLW                               = -14
         BRICK_LIST(:,:)%ITASK                             = -15
         
@@ -123,15 +123,15 @@ C-----------------------------------------------
         DO J=1,9 ; BRICK_LIST(:,:)%POLY(J)%ListNodID(I)   = -27      ;ENDDO        
         ENDDO
         
-        DO J=1,9 ; BRICK_LIST(:,:)%POLY(J)%IsMaster       = -28      ;ENDDO             
+        DO J=1,9 ; BRICK_LIST(:,:)%POLY(J)%IsMain       = -28      ;ENDDO             
 
-        DO J=1,8 ; BRICK_LIST(:,:)%NODE(J)%NodWasMaster   = -29      ;ENDDO         
+        DO J=1,8 ; BRICK_LIST(:,:)%NODE(J)%NodWasMain   = -29      ;ENDDO         
 
         DO I=1,4
-        DO J=1,9 ; BRICK_LIST(:,:)%POLY(J)%WhereIsMaster(I) = -30    ;ENDDO              
+        DO J=1,9 ; BRICK_LIST(:,:)%POLY(J)%WhereIsMain(I) = -30    ;ENDDO              
         ENDDO
 
-        DO I=1,8 ; BRICK_LIST(:,:)%NODE(I)%WhereWasMaster   = -31      ;ENDDO              
+        DO I=1,8 ; BRICK_LIST(:,:)%NODE(I)%WhereWasMain   = -31      ;ENDDO              
         
         DO I=1,3
         DO J=1,5 ; BRICK_LIST(:,:)%MergeTarget(I,J)       = -32      ;ENDDO                      
@@ -232,7 +232,7 @@ C-----------------------------------------------
           BRICK_LIST(:,:)%ADJ_ELEMS%IV(J)                 = -32
           BRICK_LIST(:,:)%ADJ_ELEMS%IB(J)                 = -33
           BRICK_LIST(:,:)%ADJ_ELEMS%ICELL(J)              = -34 
-          BRICK_LIST(:,:)%ADJ_ELEMS%SlaveFACE(J)          = -35    
+          BRICK_LIST(:,:)%ADJ_ELEMS%SecndFACE(J)          = -35    
         ENDDO !next J         
          
         DO I=1,14
@@ -252,19 +252,19 @@ C-----------------------------------------------
         ENDDO !next J
         ENDDO !next I  
         
-        BRICK_LIST(:,:)%SlaveList%VOL_Unmerged            = -142.D00
-        BRICK_LIST(:,:)%SlaveList%Num                     = -40                  
-        BRICK_LIST(:,:)%SlaveList%NumSlaveNodes           = -41                          
+        BRICK_LIST(:,:)%SecndList%VOL_Unmerged            = -142.D00
+        BRICK_LIST(:,:)%SecndList%Num                     = -40                  
+        BRICK_LIST(:,:)%SecndList%NumSecndNodes           = -41                          
         DO J=1,24
-          BRICK_LIST(:,:)%SlaveList%FM(J)                 = -42
-          BRICK_LIST(:,:)%SlaveList%FV(J)                 = -43          
-          BRICK_LIST(:,:)%SlaveList%IV(J)                 = -44
-          BRICK_LIST(:,:)%SlaveList%IBV(J)                = -45 
-          BRICK_LIST(:,:)%SlaveList%ICELLv(J)             = -46                     
-          BRICK_LIST(:,:)%SlaveList%VOL(J)                = -1.0D00     
-          BRICK_LIST(:,:)%SlaveList%NumNOD_Cell(J)        = -47 
+          BRICK_LIST(:,:)%SecndList%FM(J)                 = -42
+          BRICK_LIST(:,:)%SecndList%FV(J)                 = -43          
+          BRICK_LIST(:,:)%SecndList%IV(J)                 = -44
+          BRICK_LIST(:,:)%SecndList%IBV(J)                = -45 
+          BRICK_LIST(:,:)%SecndList%ICELLv(J)             = -46                     
+          BRICK_LIST(:,:)%SecndList%VOL(J)                = -1.0D00     
+          BRICK_LIST(:,:)%SecndList%NumNOD_Cell(J)        = -47 
           do k=1,8
-          BRICK_LIST(:,:)%SlaveList%ListNodID(J,k)        = -48               
+          BRICK_LIST(:,:)%SecndList%ListNodID(J,k)        = -48               
           enddo
         ENDDO !next J                  
 
@@ -317,23 +317,23 @@ C-----------------------------------------------
         BRICK_LIST(:,:)%bakMAT%sig(6)    = -68D00
         BRICK_LIST(:,:)%bakMAT%ssp       = -69D00
  
-       ALLOCATE(OLD_SlaveList(INT22,I22LEN) )
+       ALLOCATE(OLD_SecndList(INT22,I22LEN) )
        DO NIN=1,INT22
-       !=====%OLD_SlaveList(NIN,1:I22LEN)
-                   OLD_SlaveList(NIN,1:I22LEN)%VOL_Unmerged    = ZERO                 
-                   OLD_SlaveList(NIN,1:I22LEN)%Num             = 0                
-                   OLD_SlaveList(NIN,1:I22LEN)%NumSlaveNodes   = 0            
+       !=====%OLD_SecndList(NIN,1:I22LEN)
+                   OLD_SecndList(NIN,1:I22LEN)%VOL_Unmerged    = ZERO                 
+                   OLD_SecndList(NIN,1:I22LEN)%Num             = 0                
+                   OLD_SecndList(NIN,1:I22LEN)%NumSecndNodes   = 0            
         DO J=1,24
-                    OLD_SlaveList(NIN,1:I22LEN)%FM(J)          = 0               
-                    OLD_SlaveList(NIN,1:I22LEN)%FV(J)          = 0               
-                    OLD_SlaveList(NIN,1:I22LEN)%IV(J)          = 0                  
-                    OLD_SlaveList(NIN,1:I22LEN)%IBV(J)         = 0                  
-                    OLD_SlaveList(NIN,1:I22LEN)%ICELLv(J)      = 0                  
-                    OLD_SlaveList(NIN,1:I22LEN)%VOL(J)         = ZERO                  
-                    OLD_SlaveList(NIN,1:I22LEN)%SURF_v(J)      = ZERO                  
-                    OLD_SlaveList(NIN,1:I22LEN)%NumNOD_Cell(J) = 0                  
+                    OLD_SecndList(NIN,1:I22LEN)%FM(J)          = 0               
+                    OLD_SecndList(NIN,1:I22LEN)%FV(J)          = 0               
+                    OLD_SecndList(NIN,1:I22LEN)%IV(J)          = 0                  
+                    OLD_SecndList(NIN,1:I22LEN)%IBV(J)         = 0                  
+                    OLD_SecndList(NIN,1:I22LEN)%ICELLv(J)      = 0                  
+                    OLD_SecndList(NIN,1:I22LEN)%VOL(J)         = ZERO                  
+                    OLD_SecndList(NIN,1:I22LEN)%SURF_v(J)      = ZERO                  
+                    OLD_SecndList(NIN,1:I22LEN)%NumNOD_Cell(J) = 0                  
                    DO K=1,8
-                   OLD_SlaveList(NIN,1:I22LEN)%ListNodID(J,K)  = 0                            
+                   OLD_SecndList(NIN,1:I22LEN)%ListNodID(J,K)  = 0                            
                    ENDDO
         ENDDO !next J
         ENDDO!next NIN
@@ -355,10 +355,10 @@ C-----------------------------------------------
                    CALL WRITE_I_C( BRICK_LIST(NIN,1:I22LEN)%NBITS                               , I22LEN)                              
                    CALL WRITE_I_C( BRICK_LIST(NIN,1:I22LEN)%NPQTS                               , I22LEN)                              
                    CALL WRITE_I_C( BRICK_LIST(NIN,1:I22LEN)%NBCUT                               , I22LEN)                              
-                   CALL WRITE_I_C( BRICK_LIST(NIN,1:I22LEN)%MasterID                            , I22LEN)                              
+                   CALL WRITE_I_C( BRICK_LIST(NIN,1:I22LEN)%MainID                            , I22LEN)                              
                    CALL WRITE_I_C( BRICK_LIST(NIN,1:I22LEN)%WasCut                              , I22LEN)                              
                    CALL WRITE_I_C( BRICK_LIST(NIN,1:I22LEN)%NewInBuffer                         , I22LEN)                              
-                   CALL WRITE_I_C( BRICK_LIST(NIN,1:I22LEN)%OldMasterStrongNode                 , I22LEN)                              
+                   CALL WRITE_I_C( BRICK_LIST(NIN,1:I22LEN)%OldMainStrongNode                 , I22LEN)                              
                    CALL WRITE_I_C( BRICK_LIST(NIN,1:I22LEN)%MLW                                 , I22LEN)                              
                    CALL WRITE_I_C( BRICK_LIST(NIN,1:I22LEN)%ITASK                               , I22LEN)                              
         DO J=1,8 ; CALL WRITE_I_C( BRICK_LIST(NIN,1:I22LEN)%SecID_Cell(J)                       , I22LEN) ; ENDDO                      
@@ -397,9 +397,9 @@ C-----------------------------------------------
         DO I=1,8
         DO J=1,9 ; CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%POLY(J)%ListNodID(I)               , I22LEN) ; ENDDO                  
         ENDDO        
-        DO J=1,9 ; CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%POLY(J)%IsMaster                   , I22LEN) ; ENDDO                  
+        DO J=1,9 ; CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%POLY(J)%IsMain                   , I22LEN) ; ENDDO                  
         DO I=1,4
-        DO J=1,9 ; CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%POLY(J)%WhereIsMaster(I)           , I22LEN) ; ENDDO                  
+        DO J=1,9 ; CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%POLY(J)%WhereIsMain(I)           , I22LEN) ; ENDDO                  
         ENDDO
         DO J=1,9 ; CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%POLY(J)%ID_FREE_NODE               , I22LEN) ; ENDDO                  
        !=====%POLY(1:9) - REAL
@@ -462,8 +462,8 @@ C-----------------------------------------------
        !=====%NODE
         DO J=1,8 ; CALL WRITE_I_C( BRICK_LIST(NIN,1:I22LEN)%NODE(J)%OLD_WhichCell               , I22LEN) ; ENDDO                 
         DO J=1,8 ; CALL WRITE_I_C( BRICK_LIST(NIN,1:I22LEN)%NODE(J)%WhichCell                   , I22LEN) ; ENDDO                 
-        DO J=1,8 ; CALL WRITE_I_C( BRICK_LIST(NIN,1:I22LEN)%NODE(J)%NodWasMaster                , I22LEN) ; ENDDO        
-        DO I=1,8 ; CALL WRITE_I_C( BRICK_LIST(NIN,1:I22LEN)%NODE(I)%WhereWasMaster              , I22LEN) ; ENDDO        
+        DO J=1,8 ; CALL WRITE_I_C( BRICK_LIST(NIN,1:I22LEN)%NODE(J)%NodWasMain                , I22LEN) ; ENDDO        
+        DO I=1,8 ; CALL WRITE_I_C( BRICK_LIST(NIN,1:I22LEN)%NODE(I)%WhereWasMain              , I22LEN) ; ENDDO        
        !=====%ADJ_ELEMS
         CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%ADJ_ELEMS%Num                                 , I22LEN)                 
         DO J=1,48
@@ -471,7 +471,7 @@ C-----------------------------------------------
                    CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%ADJ_ELEMS%IV(J)                    , I22LEN)
                    CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%ADJ_ELEMS%IB(J)                    , I22LEN)
                    CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%ADJ_ELEMS%ICELL(J)                 , I22LEN)
-                   CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%ADJ_ELEMS%SlaveFACE(J)             , I22LEN)          
+                   CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%ADJ_ELEMS%SecndFACE(J)             , I22LEN)          
         ENDDO !next J
        !=====%PCUT
         DO I=1,16
@@ -493,21 +493,21 @@ C-----------------------------------------------
                    CALL WRITE_DB  ( BRICK_LIST(NIN,1:I22LEN)%PCUT(I)%Vel(2)                     , I22LEN)
                    CALL WRITE_DB  ( BRICK_LIST(NIN,1:I22LEN)%PCUT(I)%Vel(3)                     , I22LEN) 
         ENDDO !next J  
-       !=====%SlaveList
-        CALL WRITE_DB  ( BRICK_LIST(NIN,1:I22LEN)%SlaveList%VOL_Unmerged                        , I22LEN)
-        CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%SlaveList%Num                                 , I22LEN)                 
-        CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%SlaveList%NumSlaveNodes                       , I22LEN)        
+       !=====%SecndList
+        CALL WRITE_DB  ( BRICK_LIST(NIN,1:I22LEN)%SecndList%VOL_Unmerged                        , I22LEN)
+        CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%SecndList%Num                                 , I22LEN)                 
+        CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%SecndList%NumSecndNodes                       , I22LEN)        
         DO J=1,24
-                   CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%SlaveList%FM(J)                    , I22LEN)
-                   CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%SlaveList%FV(J)                    , I22LEN)         
-                   CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%SlaveList%IV(J)                    , I22LEN)
-                   CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%SlaveList%IBV(J)                   , I22LEN)
-                   CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%SlaveList%ICELLv(J)                , I22LEN)
-                   CALL WRITE_DB  ( BRICK_LIST(NIN,1:I22LEN)%SlaveList%VOL(J)                   , I22LEN)  
-                   CALL WRITE_DB  ( BRICK_LIST(NIN,1:I22LEN)%SlaveList%SURF_v(J)                , I22LEN)    
-                   CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%SlaveList%NumNOD_Cell(J)           , I22LEN)
+                   CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%SecndList%FM(J)                    , I22LEN)
+                   CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%SecndList%FV(J)                    , I22LEN)         
+                   CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%SecndList%IV(J)                    , I22LEN)
+                   CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%SecndList%IBV(J)                   , I22LEN)
+                   CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%SecndList%ICELLv(J)                , I22LEN)
+                   CALL WRITE_DB  ( BRICK_LIST(NIN,1:I22LEN)%SecndList%VOL(J)                   , I22LEN)  
+                   CALL WRITE_DB  ( BRICK_LIST(NIN,1:I22LEN)%SecndList%SURF_v(J)                , I22LEN)    
+                   CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%SecndList%NumNOD_Cell(J)           , I22LEN)
                    DO K=1,8
-                   CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%SlaveList%ListNodID(J,K)           , I22LEN)                       
+                   CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%SecndList%ListNodID(J,K)           , I22LEN)                       
                    ENDDO
         ENDDO !next J
        !=====%Edge
@@ -563,24 +563,24 @@ C-----------------------------------------------
         ENDIF     
       
 
-       !=====%OLD_SlaveList(NIN,1:I22LEN)
-                   CALL WRITE_DB  (OLD_SlaveList(NIN,1:I22LEN)%VOL_Unmerged                     , I22LEN)   
-                   CALL WRITE_I_C (OLD_SlaveList(NIN,1:I22LEN)%Num                              , I22LEN)      
-                   CALL WRITE_I_C (OLD_SlaveList(NIN,1:I22LEN)%NumSlaveNodes                    , I22LEN)   
+       !=====%OLD_SecndList(NIN,1:I22LEN)
+                   CALL WRITE_DB  (OLD_SecndList(NIN,1:I22LEN)%VOL_Unmerged                     , I22LEN)   
+                   CALL WRITE_I_C (OLD_SecndList(NIN,1:I22LEN)%Num                              , I22LEN)      
+                   CALL WRITE_I_C (OLD_SecndList(NIN,1:I22LEN)%NumSecndNodes                    , I22LEN)   
         DO J=1,24
-                   CALL WRITE_I_C ( OLD_SlaveList(NIN,1:I22LEN)%FM(J)                           , I22LEN)      
-                   CALL WRITE_I_C ( OLD_SlaveList(NIN,1:I22LEN)%FV(J)                           , I22LEN)      
-                   CALL WRITE_I_C ( OLD_SlaveList(NIN,1:I22LEN)%IV(J)                           , I22LEN)      
-                   CALL WRITE_I_C ( OLD_SlaveList(NIN,1:I22LEN)%IBV(J)                          , I22LEN)      
-                   CALL WRITE_I_C ( OLD_SlaveList(NIN,1:I22LEN)%ICELLv(J)                       , I22LEN)      
-                   CALL WRITE_DB  ( OLD_SlaveList(NIN,1:I22LEN)%VOL(J)                          , I22LEN)      
-                   CALL WRITE_DB  ( OLD_SlaveList(NIN,1:I22LEN)%SURF_v(J)                       , I22LEN)      
-                   CALL WRITE_I_C ( OLD_SlaveList(NIN,1:I22LEN)%NumNOD_Cell(J)                  , I22LEN)      
+                   CALL WRITE_I_C ( OLD_SecndList(NIN,1:I22LEN)%FM(J)                           , I22LEN)      
+                   CALL WRITE_I_C ( OLD_SecndList(NIN,1:I22LEN)%FV(J)                           , I22LEN)      
+                   CALL WRITE_I_C ( OLD_SecndList(NIN,1:I22LEN)%IV(J)                           , I22LEN)      
+                   CALL WRITE_I_C ( OLD_SecndList(NIN,1:I22LEN)%IBV(J)                          , I22LEN)      
+                   CALL WRITE_I_C ( OLD_SecndList(NIN,1:I22LEN)%ICELLv(J)                       , I22LEN)      
+                   CALL WRITE_DB  ( OLD_SecndList(NIN,1:I22LEN)%VOL(J)                          , I22LEN)      
+                   CALL WRITE_DB  ( OLD_SecndList(NIN,1:I22LEN)%SURF_v(J)                       , I22LEN)      
+                   CALL WRITE_I_C ( OLD_SecndList(NIN,1:I22LEN)%NumNOD_Cell(J)                  , I22LEN)      
                    DO K=1,8
-                   CALL WRITE_I_C ( OLD_SlaveList(NIN,1:I22LEN)%ListNodID(J,K)                  , I22LEN)                
+                   CALL WRITE_I_C ( OLD_SecndList(NIN,1:I22LEN)%ListNodID(J,K)                  , I22LEN)                
                    ENDDO
         ENDDO !next J
-        DEALLOCATE(OLD_SlaveList)
+        DEALLOCATE(OLD_SecndList)
   
         
       ENDDO !next NIN 

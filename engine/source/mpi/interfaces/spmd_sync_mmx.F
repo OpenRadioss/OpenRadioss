@@ -132,7 +132,7 @@ C TZINF
 C DELTA_PMAX_GAP
               SBUF(L+1) = DELTA_PMAX_GAP(NIN)
               L = L + 1
-C T25 master gap changes with thickness change
+C T25 main gap changes with thickness change
               SBUF(L+1) = MAXDGAP(NIN)
               L = L + 1
             END IF
@@ -178,7 +178,7 @@ C T25 master gap changes with thickness change
 C DELTA_PMAX_GAP
              DELTA_PMAX_GAP(NIN) = SBUF(L+1)
              L = L + 1
-C T25 master gap changes with thickness change
+C T25 main gap changes with thickness change
              MAXDGAP(NIN) = SBUF(L+1)
              L = L + 1
             END IF
@@ -279,7 +279,7 @@ C TZINF
 C DELTA_PMAX_GAP
               DELTA_PMAX_GAP(NIN)= MAX(DELTA_PMAX_GAP(NIN),SBUF(L) )
 	      L = L + 1
-C T25 master gap changes with thickness change
+C T25 main gap changes with thickness change
               MAXDGAP(NIN)= MAX(MAXDGAP(NIN),SBUF(L) )
 	      L = L + 1
             END IF
@@ -321,7 +321,7 @@ C
               L = L + 1
 	      SBUF(L+1) = DELTA_PMAX_GAP(NIN)
 	      L = L + 1
-C T25 master gap changes with thickness change
+C T25 main gap changes with thickness change
 	      SBUF(L+1) = MAXDGAP(NIN)
 	      L = L + 1
             END IF

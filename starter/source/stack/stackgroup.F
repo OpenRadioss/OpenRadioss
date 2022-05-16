@@ -549,8 +549,8 @@ C
             I = INDX(ID)
             II  = INDX_SH(I)
             PID =  PID_SH(I)
-!!            MASTER_PID(1,IS) =  PID_SH(II)  ! pid
-!!            MASTER_PID(2,IS) =  IWORKSH(1,II) ! npt
+!!            MAIN_PID(1,IS) =  PID_SH(II)  ! pid
+!!            MAIN_PID(2,IS) =  IWORKSH(1,II) ! npt
             NPT = IWORKSH(1,II)
 !C            ISUBSTACK(PID) = ISUBSTACK(PID) + 1
             IIS = II 
@@ -1038,8 +1038,8 @@ C
               I = INDX(ID)
               II  = INDX_SH(I)
               PID =  PID_SH(I)
-!!              MASTER_PID(1,IS) =  PID_SH(II)  ! pid
-!!              MASTER_PID(2,IS) =  IWORKSH(1,II) ! npt
+!!              MAIN_PID(1,IS) =  PID_SH(II)  ! pid
+!!              MAIN_PID(2,IS) =  IWORKSH(1,II) ! npt
               NPT = IWORKSH(1,II)
               IIS = II               
 C              

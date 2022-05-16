@@ -156,10 +156,10 @@ c norme des normales elementaires
              SX0=SX0*AAA
              SY0=SY0*AAA
              SZ0=SZ0*AAA
-c normale esclave: 
-c  la normale esclave est enleve de la normale maitre 
+c normale second: 
+c  la normale second. est enleve de la normale main 
 c  ce qui est equivalent a distribuer le shift 
-c  sur l'esclace et les maitres
+c  sur l'esclace et les mains
              IF(IG > 0) THEN
                SXI = SOLIDN_NORMAL(1,IG)
                SYI = SOLIDN_NORMAL(2,IG)

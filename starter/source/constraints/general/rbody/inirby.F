@@ -43,9 +43,9 @@ C===============================================
 C    RBY    EN SORTIE DE INIRBY
 C     1 -> 9 :  MATRICE ROTATION
 C    10 -> 12:  INERTIES PRINCIPALES RBODY
-C          13:  INERTIE MAITRE INITIALE SPHERIQUE
+C          13:  INERTIE MAIN INITIALE SPHERIQUE
 C          14:  MASSE RBODY
-C          15:  MASSE MAITRE INITIALE
+C          15:  MASSE MAIN INITIALE
 C    16 -> 20:  LIBRE
 C-----------------------------------------------
 C   M o d u l e s
@@ -185,7 +185,7 @@ C-----INITIAL COORDINATES ARE STORED FOR INIVEL/AXIS correction
         ENDDO
       ENDIF
 
-C-----CDG DES NOEUDS ESCLAVES + MAITRE
+C-----CDG DES NOEUDS SECONDS + MAIN
       IF(ICDG.EQ.1)THEN
         MASRB=MS(M)
         DO J=1,3
@@ -213,7 +213,7 @@ C
           X(J,M)=X(J,M)/MASRB
         ENDDO
 C
-C-----CDG DES NOEUDS ESCLAVES
+C-----CDG DES NOEUDS SECONDS
       ELSEIF(ICDG.EQ.2)THEN
         MASRB=ZERO
         DO J=1,3
@@ -245,7 +245,7 @@ C
 C
         MASRB=MASRB+MS(M)
 C
-C-----CDG DU NOEUD MAITRE
+C-----CDG DU NOEUD MAIN
       ELSEIF(ICDG.EQ.3)THEN
         DO J=1,3
           XG(J)=X(J,M)
@@ -265,7 +265,7 @@ C
            RETURN
         ENDIF
 C
-C-----CDG DU NOEUD MAITRE (MASSE DES ESCLAVES IGNOREE)
+C-----CDG DU NOEUD MAIN (MASSE DES SECONDS IGNOREE)
       ELSEIF(ICDG.EQ.4)THEN
         DO J=1,3
           XG(J)=X(J,M)
@@ -498,9 +498,9 @@ C--------------------------------------
       DO I=NRB-1,1,-1
         IF((NPBY(12,I)) == RBLEVEL-1) THEN ! Merge with Rb level n-1 
           DO J=1,3
-            XG(J)=X(J,M)  ! centre de gravite du rb maitre avant modif
+            XG(J)=X(J,M)  ! centre de gravite du rb main avant modif
           ENDDO
-          XMG=MASRB  ! masse du RB maitre avant modif
+          XMG=MASRB  ! masse du RB main avant modif
 c
           OPT_MERGE = NPBY(13,I)
           NPBY(11,NRB) = NPBY(11,I) 
@@ -864,7 +864,7 @@ C
          YGT = YGT - MS(M)*X(2,M) + MASRB*X(2,M)
          ZGT = ZGT - MS(M)*X(3,M) + MASRB*X(3,M)
 C
-C Rigidite au noeud maitre pour estimation DT.
+C Rigidite au noeud main pour estimation DT.
          IF (NS10E>0) THEN
            DO I=1,NSL
              N = LSN(I)
@@ -917,7 +917,7 @@ C
          YGT = YGT - MS(M)*X(2,M) + MASRB*X(2,M)
          ZGT = ZGT - MS(M)*X(3,M) + MASRB*X(3,M)
 C
-C Rigidite au noeud maitre pour estimation DT.
+C Rigidite au noeud main pour estimation DT.
 
          IF (NS10E>0) THEN
            DO I=1,NSL
@@ -960,7 +960,7 @@ C MATRICE d'inertie -> repere global
          YGT = YGT - MS(M)*X(2,M) + MASRB*X(2,M)
          ZGT = ZGT - MS(M)*X(3,M) + MASRB*X(3,M)
 C
-C Rigidite au noeud maitre pour estimation DT.
+C Rigidite au noeud main pour estimation DT.
          IF (NS10E>0) THEN
            DO I=1,NSL
              N = LSN(I)
@@ -1013,7 +1013,7 @@ C------------------> on reinjecte les ancienne valeures de la matrice dans le re
          ENDIF
        END IF
 C
-C-------INIVEL/AXIS must be corrected to take into account move of master node
+C-------INIVEL/AXIS must be corrected to take into account move of main node
         IF (RBY_INIAXIS(1,NRB) > 0) THEN
           DIST = SQRT((X(1,M)-X_MSN0(1))**2+(X(2,M)-X_MSN0(2))**2+(X(3,M)-X_MSN0(3))**2)
           IF ((DIST  > ZERO).AND.
@@ -1126,9 +1126,9 @@ C===============================================
 C    RBY    EN SORTIE DE INIRBY
 C     1 -> 9 :  MATRICE ROTATION
 C    10 -> 12:  INERTIES PRINCIPALES RBODY
-C          13:  INERTIE MAITRE INITIALE SPHERIQUE
+C          13:  INERTIE MAIN INITIALE SPHERIQUE
 C          14:  MASSE RBODY
-C          15:  MASSE MAITRE INITIALE
+C          15:  MASSE MAIN INITIALE
 C    16 -> 20:  LIBRE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1191,8 +1191,8 @@ C
       RBY(8,NRB)=ZERO
       RBY(9,NRB)=ZERO
 C---------------------------------
-C     RECHERCHE DES NOEUDS ESCLAVES
-C     DE SOUS RBY (NOEUD MAITRE PARMI LES ESCLAVES)
+C     RECHERCHE DES NOEUDS SECONDS
+C     DE SOUS RBY (NOEUD MAIN PARMI LES SECONDS)
 C---------------------------------
       DO I=1,NSL
          N=LSN(I)
@@ -1221,7 +1221,7 @@ C---INITIAL COORDINATES ARE STORED FOR INIVEL/AXIS correction
         ENDDO
       ENDIF
 
-C-----CDG DES NOEUDS ESCLAVES
+C-----CDG DES NOEUDS SECONDS
       MASRB=ZERO
       DO J=1,3
           X(J,M)=ZERO
@@ -1476,9 +1476,9 @@ C--------------------------------------
       DO I=NRB-1,1,-1
         IF((NPBY(12,I)) == RBLEVEL-1) THEN
           DO J=1,3
-            XG(J)=X(J,M)  ! centre de gravite du rb maitre avant modif
+            XG(J)=X(J,M)  ! centre de gravite du rb main avant modif
           ENDDO
-          XMG=MASRB  ! masse du RB maitre avant modif
+          XMG=MASRB  ! masse du RB main avant modif
 c
           OPT_MERGE = NPBY(13,I)
           NPBY(11,NRB) = NPBY(11,I) 
@@ -1662,7 +1662,7 @@ C
         MS(M) = ZERO
         IN(M) = ZERO
 C
-C-------INIVEL/AXIS must be corrected to take into account move of master node
+C-------INIVEL/AXIS must be corrected to take into account move of main node
         IF (RBY_INIAXIS(1,NRB) > 0) THEN
           DIST = SQRT((X(1,M)-X_MSN0(1))**2+(X(2,M)-X_MSN0(2))**2+(X(3,M)-X_MSN0(3))**2)
           IF ((DIST  > ZERO).AND.

@@ -396,7 +396,7 @@ C Write dummy IS2SE_FI : 2*NODFI
             ENDIF
 
             IF(ITYP.EQ.25)THEN
-C   write dummy PMASTERFI
+C   write dummy PMAINFI
               CALL WRITE_I_C(NSVFI,NODFI)
               LEN_IA = LEN_IA + NODFI
 C   write dummy irtlm_fi = 4xnodfi 
@@ -814,7 +814,7 @@ C
             IF(NEDGE_KEPT > 0) THEN
               CALL WRITE_I_C(I25_FIE(NI,PROC+1)%ID(1:NEDGE_KEPT),NEDGE_KEPT) ! NSVFIE
 C             CALL WRITE_I_C(TAGE(1:NODFI),NODFI) ! ITAFIE
-C             CALL WRITE_I_C(MASTER_FIE(1:NEDGE_KEPT),NEDGE_KEPT)!MASTER_FIE
+C             CALL WRITE_I_C(MAIN_FIE(1:NEDGE_KEPT),NEDGE_KEPT)!MAIN_FIE
 
 C LEDGE_FIE
               DO K = 1, NEDGE_KEPT

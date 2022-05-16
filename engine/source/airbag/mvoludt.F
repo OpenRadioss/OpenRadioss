@@ -66,7 +66,7 @@ C communication dans resol juste avant mvoludt et envoi a proc0 des volmon
 C evite difference en parallele quand processeur ne traite pas ts les airbags
 C voir formules sur min dty / max dtx
 C       IF(IMACH.EQ.3) THEN
-C debranchement a part pour le proc master (proc ayant a jour p,v,s)
+C debranchement a part pour le proc main (proc ayant a jour p,v,s)
 C         IF(FR_MV(NSPMD+2,I).NE.ISPMD+1) GOTO 100
 C       END IF
        IF(ITYP.NE.1)THEN

@@ -133,5 +133,5 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C 1100 FORMAT(2X,'**  ERROR SEGMENT',I5,' (NODES',2I8,
 C     .       ') HAS ZERO LENGTH')
 C 1200 FORMAT(/2X,'** ERROR TIED INTERFACE:',
-C     .       ' SLAVE NODE OUTSIDE MASTER SEGMENT')
+C     .       ' SECND NODE OUTSIDE main SEGMENT')
       END

@@ -41,8 +41,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     TIED/SLIDING INTERFACE TYPE 12
 C     (FLUID/FLUID)
-C     COMPUTATION OF S,T (slave node coordinates)
-C     check if slave is facing a master segment
+C     COMPUTATION OF S,T (secnd node coordinates)
+C     check if secnd is facing a main segment
 C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -74,17 +74,17 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       DO II=1,NSN
-        !slave node data
+        !secnd node data
         I   = NSV(II)  !itab(i) is user node_id
         J   = ILOC(II)
         K   = MSR(J)
-        L   = IRTL(II) !master segment
+        L   = IRTL(II) !main segment
         XS1 = X(1,I)
         YS1 = X(2,I)
         ZS1 = X(3,I)
-        !master segment data
+        !main segment data
         DO JJ=1,4
-          NN      = MSR(IRECT(JJ,L)) !itab( MSR(IRECT(JJ,L)) ) are master segment nodes
+          NN      = MSR(IRECT(JJ,L)) !itab( MSR(IRECT(JJ,L)) ) are main segment nodes
           XX1(JJ) = X(1,NN)
           XX2(JJ) = X(2,NN)
           XX3(JJ) = X(3,NN)

@@ -149,7 +149,7 @@ c          ENDIF
             H(4,K) = ZERO 
           ENDIF
 C------------------------------------------------                  
-C         rep local facette maitre
+C         rep local facette main
 C------------------------------------------------   
           X1  = X(1,IX1(K))                                       
           Y1  = X(2,IX1(K))                                          
@@ -381,11 +381,11 @@ C
             FMZ(J) = H(J,K)*FLZ
           ENDDO
 C----------------------------------------------------
-c         update master forces (moment balance)  
+c         update main forces (moment balance)  
           CALL I2LOCEQ( NIR    ,RS     ,RX     ,RY     ,RZ      ,    
      .                  FMX    ,FMY    ,FMZ    ,H(1,K) ,STIFM(K))      
 C----------------------------------------------------
-C         Slave forces -> global coordinates 
+C         Secnd forces -> global coordinates 
 C----------------------------------------------------
           DO J=1,4
             FX(J) = E1X*FMX(J) + E2X*FMY(J) + E3X*FMZ(J) 
@@ -418,7 +418,7 @@ C
 C         for SMS ::
           STIF(K) = (UN+STBRK)*STFN(II)
 C----------------------------------------------------
-C         Master forces 
+C         Main forces 
 C----------------------------------------------------
           IF (W == 1) THEN
             I0 = I0 + 1                                                   
@@ -568,7 +568,7 @@ C
          ENDIF
 
 C----------
-        ELSE  ! desactivated slave node
+        ELSE  ! desactivated secnd node
           NSVG(K)= -I
           L = IRTL(II)
 C

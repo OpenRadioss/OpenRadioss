@@ -71,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER M3, M2, M1, I, N, N3, N2, N1, K, PMASTER
+      INTEGER M3, M2, M1, I, N, N3, N2, N1, K, PMAIN
       my_real
      .   XWL, YWL, ZWL, VXW, VYW, VZW, FXN, FYN, FZN, FXT, FYT, FZT,
      .   VX, VY, VZ, UX, UY, UZ, XC, YC, ZC, DP, DV, DA, DVT,
@@ -154,12 +154,12 @@ c       FZN=FZN+FNZN*WEIGHT(N)
         FRIC =RWL(13)
         FRIC2=FRIC**2
         IF(FTDFT.LE.FRIC2*FNDFN.OR.ITIED.EQ.1) THEN
-C         POINT SLAVE TIED
+C         POINT SECND TIED
           V(N1)=VXW
           V(N2)=VYW
           V(N3)=VZW
         ELSE
-C         POINT SLAVE SLIDING
+C         POINT SECND SLIDING
           FCOE=FRIC*SQRT(FNDFN/FTDFT)
           FNXT=FCOE*FNXT
           FNYT=FCOE*FNYT
@@ -216,9 +216,9 @@ Cel si proc concerne par le rgwall
           IF(FR_WALL(ISPMD+1).NE.0) THEN
             CALL SPMD_EXCH_FR6(FR_WALL,FRWL6,6*6)
           ENDIF
-          PMASTER = FR_WALL(NSPMD+2)
+          PMAIN = FR_WALL(NSPMD+2)
         ELSE
-          PMASTER = 1
+          PMAIN = 1
         ENDIF
 
         FXN = FRWL6(1,1)+FRWL6(1,2)+FRWL6(1,3)+
@@ -239,7 +239,7 @@ Cel si proc concerne par le rgwall
           A(M3)=(FZT+FZN) / DT12
         ENDIF
 
-        IF(ISPMD+1.EQ.PMASTER)THEN
+        IF(ISPMD+1.EQ.PMAIN)THEN
 C
 CGW   TFEXT=TFEXT 
 CCG   L' ENERGIE DE FROTTEMENT EST MISE DS LES ELEMENTS

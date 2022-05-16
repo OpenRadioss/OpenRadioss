@@ -113,8 +113,8 @@ C-----------------------------------------------
 
       my_real
      .        RCONT
-      INTEGER SLAVE_SURFACE_ON_DOMAIN
-      EXTERNAL SLAVE_SURFACE_ON_DOMAIN
+      INTEGER SECND_SURFACE_ON_DOMAIN
+      EXTERNAL SECND_SURFACE_ON_DOMAIN
 C-----------------------------------------------
 !      IF (MULTI_FVM%IS_USED) THEN
 !         ALLOCATE(TAG(NUMELS + NUMNOD))
@@ -132,10 +132,10 @@ C Construction de IPARI_L - recopie initiale
 C-----------------------------------------------
       IPARI_L(1:NPARI,1:NINTER)=IPARI(1:NPARI,1:NINTER)
 C-----------------------------------------------
-C decompte nb total master nodes et noeuds master int 2 frontieres
+C decompte nb total main nodes et noeuds main int 2 frontieres
       NBDDI2M = 0
       I2NSN_L = 0
-C decompte nb total noeuds slave int 2 penalty
+C decompte nb total noeuds secnd int 2 penalty
       I2NSN25_L = 0
 C decompte impact interface type 7, 10, 11
       IMAXIMP_L = 0
@@ -186,7 +186,7 @@ C calcul IMAXIMP_L suivant interface
           DO I = 1, NRTM
             TAGE(I) = 0
           ENDDO
-C calcul nombre de noeuds slaves locaux
+C calcul nombre de noeuds secnds locaux
           NSN_L = 0
           DO K=1,NSN
             MY_NODE = INTBUF_TAB(NI)%NSV(K)
@@ -203,7 +203,7 @@ C calcul nombre de noeuds slaves locaux
           END DO
           IPARI_L(5,NI) = NSN_L
           NMN_L = 0
-C calcul nombre total slave penalty
+C calcul nombre total secnd penalty
           IF (ILEV == 25 .or. ILEV == 26 .or. ILEV == 27 .or. ILEV == 28) THEN
             DO K=1,NSN
               MY_NODE = INTBUF_TAB(NI)%NSV(K)
@@ -212,13 +212,13 @@ C calcul nombre total slave penalty
               ENDIF
             END DO
           END IF
-C calcul des masters independant des facettes pour resolution pb de cumul p/off
+C calcul des mains independant des facettes pour resolution pb de cumul p/off
           DO K = 1, NMN
             MY_NODE = INTBUF_TAB(NI)%MSR(K)
             IF( NODLOCAL(MY_NODE)/=0.AND.NODLOCAL(MY_NODE)<=NUMNOD_L ) THEN
               NMN_L = NMN_L + 1
               IF(TAGI2(INTBUF_TAB(NI)%MSR(K)).EQ.0) THEN
-C decompte des frontieres de master nodes
+C decompte des frontieres de main nodes
                 DO P = 1, NSPMD
                   IF(NLOCAL(INTBUF_TAB(NI)%MSR(K),P)==1)THEN
                     NBDDI2M = NBDDI2M + 1
@@ -226,7 +226,7 @@ C decompte des frontieres de master nodes
                 END DO
 C on ne se compte pas soi-meme
                 NBDDI2M = NBDDI2M - 1
-C pour ne pas prendre en compte 2 fois des noeuds master d'interfaces differentes ds les frontieres
+C pour ne pas prendre en compte 2 fois des noeuds main d'interfaces differentes ds les frontieres
                 TAGI2(INTBUF_TAB(NI)%MSR(K)) = 1
               END IF
             ENDIF
@@ -328,7 +328,7 @@ C TAGE flag servant pour inacti
               N3 = INTBUF_TAB(NI)%IRECTM(4*(K-1)+3)
               N4 = INTBUF_TAB(NI)%IRECTM(4*(K-1)+4)
               IF(ITY == 8) THEN
-               !conversion from master surface number
+               !conversion from main surface number
                ! to global number
                N1 = INTBUF_TAB(NI)%MSR(N1)
                N2 = INTBUF_TAB(NI)%MSR(N2)
@@ -437,7 +437,7 @@ C candidats initiaux pour inacti=5 ou restart type 10
      *       INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7.OR.IFQ/=0.OR.
      *       (ITY.EQ.24.AND.INACTI.EQ.-1).OR.
      *       (ITY.EQ.25.AND.(INACTI.EQ.-1.OR.INACTI.EQ.5))) THEN
-C traitement pour eviter bug si ts les noeuds slave stfn == zero
+C traitement pour eviter bug si ts les noeuds secnd stfn == zero
             IOK=0
             DO K = 1, II_STOK
               N = INTBUF_TAB(NI)%CAND_N(K)
@@ -706,7 +706,7 @@ C
               DO K = 1, II_STOK_E
                 N = INTBUF_TAB(NI)%CANDM_E2E(K)
                 E = INTBUF_TAB(NI)%LEDGE(NLEDGE*(N-1)+1)
-                IF (TAGE(E).NE.0) THEN ! Candidate on the proc where 1st segment sharing the master edge, belongs
+                IF (TAGE(E).NE.0) THEN ! Candidate on the proc where 1st segment sharing the main edge, belongs
                   II_STOK_EL = II_STOK_EL + 1
                 ENDIF
               ENDDO
@@ -720,7 +720,7 @@ C
               II_STOK_EL = 0
               DO K = 1, II_STOK_E
                 E = INTBUF_TAB(NI)%CANDM_E2S(K)
-                IF (TAGE(E).NE.0) THEN ! Candidate on the proc where 1st segment sharing the master edge, belongs
+                IF (TAGE(E).NE.0) THEN ! Candidate on the proc where 1st segment sharing the main edge, belongs
                   II_STOK_EL = II_STOK_EL + 1
                 ENDIF
               ENDDO
@@ -801,7 +801,7 @@ C
 C -------------------------------
 C IPARI_L Interface type 7, 8,10, 22, 23, 24, 25
 C -------------------------------
-          !for auto-impactant interfaces (slave nodes=master surface nodes)
+          !for auto-impactant interfaces (secnd nodes=main surface nodes)
           !IRECTS is used in lecins but no need in engine, set to 0 
           !to save memory consumption at engine 
           IF(INTNITSCHE == 0) IPARI_L(3,NI) = 0
@@ -1040,14 +1040,14 @@ C
           MULTIMP = IPARI(23,NI)
           IGN = IPARI(36,NI)
           IGE = IPARI(34,NI)
-C cote maitre
+C cote main
           NMN_L = 0
           DO K = 1, NMN
             IE = IGRBRIC(IGE)%ENTITY(K)
 C pas d'offset car solide
             IF(CEP(IE).EQ.PROC) NMN_L = NMN_L + 1
           END DO
-C cote slave
+C cote secnd
           NSN_L = 0
           DO K = 1, NSN
             IE = IGRBRIC(IGN)%ENTITY(K)
@@ -1368,7 +1368,7 @@ C
 C-----------------
 C IPARI_L TYPE 20
 C-----------------
-          !for auto-impactant interfaces (slave nodes=master surface nodes)
+          !for auto-impactant interfaces (secnd nodes=main surface nodes)
           !IRECTS is used in lecins but no need in engine, set to 0 
           !to save memory consumption at engine 
           IPARI_L(3,NI) = 0

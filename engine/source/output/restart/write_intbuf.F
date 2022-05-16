@@ -513,7 +513,7 @@ c====================================
         N = N+1
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_GAPN_M
         N = N+1
-        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_SLAV_FR
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_SECND_FR
         N = N+1
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_PENE_OLD
         N = N+1
@@ -525,7 +525,7 @@ c====================================
         N = N+1
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_EDGE8L2
         N = N+1
-        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_NOD_SLV_LGTH
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_NOD_2RY_LGTH
         N = N+1
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_NOD_MAS_LGTH
         N = N+1
@@ -1248,8 +1248,8 @@ c====================================
         SIZ = INTBUF_TAB(NI)%S_GAPN_M
         CALL WRITE_DB(INTBUF_TAB(NI)%GAPN_M,SIZ)
 
-        SIZ = INTBUF_TAB(NI)%S_SLAV_FR
-        CALL WRITE_DB(INTBUF_TAB(NI)%SLAV_FR,SIZ)
+        SIZ = INTBUF_TAB(NI)%S_SECND_FR
+        CALL WRITE_DB(INTBUF_TAB(NI)%SECND_FR,SIZ)
         
         SIZ = INTBUF_TAB(NI)%S_PENE_OLD
         CALL WRITE_DB(INTBUF_TAB(NI)%PENE_OLD,SIZ)
@@ -1266,8 +1266,8 @@ c====================================
         SIZ = INTBUF_TAB(NI)%S_EDGE8L2
         CALL WRITE_DB(INTBUF_TAB(NI)%EDGE8L2,SIZ)
 
-        SIZ = INTBUF_TAB(NI)%S_NOD_SLV_LGTH
-        CALL WRITE_DB(INTBUF_TAB(NI)%NOD_SLV_LGTH,SIZ)
+        SIZ = INTBUF_TAB(NI)%S_NOD_2RY_LGTH
+        CALL WRITE_DB(INTBUF_TAB(NI)%NOD_2RY_LGTH,SIZ)
 
         SIZ = INTBUF_TAB(NI)%S_NOD_MAS_LGTH
         CALL WRITE_DB(INTBUF_TAB(NI)%NOD_MAS_LGTH,SIZ)
@@ -1400,16 +1400,16 @@ C-----------------------------------------------
 
          ENDDO
          DO P2=1,NSPMD
-          NBS_INTERF = T8%BUFFER(P2)%NBSLAVE_TOT 
-          NBM_INTERF = T8%BUFFER(P2)%NBMASTER    
+          NBS_INTERF = T8%BUFFER(P2)%NBSECND_TOT 
+          NBM_INTERF = T8%BUFFER(P2)%NBMAIN    
 
           CALL WRITE_I_C(NBM_INTERF,1)
           CALL WRITE_I_C(NBS_INTERF,1)
-          !nb slaves per master
+          !nb secnds per main
           IF(NBM_INTERF > 0) THEN
-            CALL WRITE_I_C(T8%BUFFER(P2)%NBSLAVE,NBM_INTERF)
-            CALL WRITE_I_C(T8%BUFFER(P2)%MASTER_ID,NBM_INTERF)
-            CALL WRITE_I_C(T8%BUFFER(P2)%MASTER_UID,NBM_INTERF)
+            CALL WRITE_I_C(T8%BUFFER(P2)%NBSECND,NBM_INTERF)
+            CALL WRITE_I_C(T8%BUFFER(P2)%MAIN_ID,NBM_INTERF)
+            CALL WRITE_I_C(T8%BUFFER(P2)%MAIN_UID,NBM_INTERF)
           ELSE
 
           ENDIF

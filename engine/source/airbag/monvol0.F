@@ -102,7 +102,7 @@ C-----------------------------------------------
       INTEGER 
      .     I,ITYP,NCA,IAD,NN,IS,
      .     K1,K2,K6,KK1,KK2,
-     .     PMASTER,KIBJET,KRBJET,KIBHOL,KRBHOL,
+     .     PMAIN,KIBJET,KRBJET,KIBHOL,KRBHOL,
      .     NJET,IADJET,RADJET,NVENT,IADHOL,RADHOL
       my_real
      .     VOL
@@ -143,7 +143,7 @@ C
         IADHOL= KIBHOL+MONVOL(K1+11)
         RADHOL= KRBHOL+MONVOL(K1+12)
         IF(FR_MV(ISPMD+1,I).NE.0 .OR. FR_MV(NSPMD+2,I)==ISPMD+1) THEN
-          PMASTER = FR_MV(NSPMD+2,I)
+          PMAIN = FR_MV(NSPMD+2,I)
         ELSE
 C saut partie airbag si proc non concerne
           GO TO 100
@@ -163,19 +163,19 @@ C        IF (IMACH.NE.3.OR.IPARIT.EQ.0) THEN
 C=======================================================================
 C         VOLUME OUTPUT
 C=======================================================================
-          CALL VOLOUT(VOLMON(KK1),VOL,FSAV(1,I),PMASTER)
+          CALL VOLOUT(VOLMON(KK1),VOL,FSAV(1,I),PMAIN)
         ELSEIF(ITYP.EQ.2)THEN
 C=======================================================================
 C         VOLUME P=F(V)
 C=======================================================================
           CALL VOLPFV(MONVOL(K1),VOLMON(KK1),VOL,FSAV(1,I),NPC,
-     2                TF        ,PMASTER    )
+     2                TF        ,PMAIN    )
         ELSEIF(ITYP.EQ.3)THEN
 C=======================================================================
 C         GAS PARFAIT
 C=======================================================================
           CALL VOLPVGA(MONVOL(K1),VOLMON(KK1),VOL,FSAV(1,I),NVENT ,
-     2            MONVOL(IADHOL) ,VOLMON(RADHOL),PMASTER )
+     2            MONVOL(IADHOL) ,VOLMON(RADHOL),PMAIN )
         ELSEIF(ITYP.EQ.4.OR.ITYP.EQ.5)THEN
 C=======================================================================
 C         AIRBAGS
@@ -183,7 +183,7 @@ C=======================================================================
            CALL AIRBAGA(MONVOL(K1),NJET ,MONVOL(IADJET),NVENT ,MONVOL(IADHOL),
      2 MONVOL(K2),VOLMON(KK1),VOLMON(RADJET),VOLMON(RADHOL),VOLMON(KK2),
      3 VOLMON  ,NPC     ,TF      ,SENSOR  ,LSENSOR ,
-     4 VOL     ,PMASTER )
+     4 VOL     ,PMAIN )
         ELSEIF(ITYP.EQ.7.OR.ITYP.EQ.9)THEN
 C=======================================================================
 C         AIRBAGS1 (NOUVEAUX INJECTEURS)
@@ -191,13 +191,13 @@ C=======================================================================
            CALL AIRBAGA1(MONVOL(K1),NJET ,MONVOL(IADJET),NVENT ,MONVOL(IADHOL),
      2 MONVOL(K2),VOLMON(KK1),VOLMON(RADJET),VOLMON(RADHOL),VOLMON(KK2),
      3 VOLMON  ,NPC     ,TF      ,SENSOR  ,LSENSOR ,
-     4 VOL     ,PMASTER ,GEO     ,IGEO    ,PM)
+     4 VOL     ,PMAIN ,GEO     ,IGEO    ,PM)
         ELSEIF(ITYP.EQ.10)THEN
 C=======================================================================
 C         LINEAIRE FLUIDE
 C=======================================================================
           CALL VOLP_LFLUID(MONVOL(K1),VOLMON(KK1),VOL,FSAV(1,I),NPC,
-     2                    TF        ,PMASTER )
+     2                    TF        ,PMAIN )
         ENDIF
 C=======================================================================
         IF(ITYP.NE.1)THEN

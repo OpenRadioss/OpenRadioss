@@ -117,7 +117,7 @@ C-----
       END IF
 C
 C------------------------------------
-C     GAP FACES ESCLAVES
+C     GAP FACES SECONDS
 C------------------------------------
       DO 250 I=1,NRTS
       INRT=I
@@ -178,7 +178,7 @@ C
      .                  I2=I)
          ENDIF
        ELSE
-Ca verifier (esclave)      en SPMD il faut un element associe a l'arrete sinon erreur
+Ca verifier (second)      en SPMD il faut un element associe a l'arrete sinon erreur
          IF(NINT.GT.0) THEN
             CALL ANCMSG(MSGID=481,
      .                  MSGTYPE=MSGERROR,
@@ -199,7 +199,7 @@ Ca verifier (esclave)      en SPMD il faut un element associe a l'arrete sinon e
       ENDIF
   250 CONTINUE
 C------------------------------------
-C     TRAITEMENTS FACES MAITRES (Cherche elt pour SPMD)
+C     TRAITEMENTS FACES MAINS (Cherche elt pour SPMD)
 C------------------------------------
       DO 500 I=1,NRTM
       INRT=I
@@ -296,8 +296,8 @@ C
 
 C--------------------------------------------------------------
 C
-C calcul de l'aire esclave ---
-C calcul du surface esclave ---
+C calcul de l'aire second. ---
+C calcul du surface second. ---
       IF(INTTH > 0 ) THEN
 C
        IF(NUMELC.NE.0) THEN

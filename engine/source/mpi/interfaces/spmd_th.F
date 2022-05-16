@@ -244,9 +244,9 @@ Chd|-- called by -----------
 Chd|        RBYPID                        source/constraints/general/rbody/rbypid.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SPMD_PART_COM(TAG,MASTER,ICOMV)
-C rempli sur pmaster le tableau ICOMV suivant la valeur de TAG locale
-C ie sur MASTER : ICOMV(P) = "TAG sur p"
+      SUBROUTINE SPMD_PART_COM(TAG,MAIN,ICOMV)
+C rempli sur pmain le tableau ICOMV suivant la valeur de TAG locale
+C ie sur main : ICOMV(P) = "TAG sur p"
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -266,7 +266,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER TAG, MASTER, ICOMV(*)
+      INTEGER TAG, MAIN, ICOMV(*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -278,14 +278,14 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD+1
-      IF (LOC_PROC.NE.MASTER) THEN
+      IF (LOC_PROC.NE.MAIN) THEN
         MSGTYP=MSGOFF
-            CALL MPI_SEND(TAG,1,MPI_INTEGER,IT_SPMD(MASTER),
+            CALL MPI_SEND(TAG,1,MPI_INTEGER,IT_SPMD(MAIN),
      .                    MSGTYP,MPI_COMM_WORLD,IERROR)
       ELSE
-        ICOMV(MASTER) = TAG
+        ICOMV(MAIN) = TAG
         DO K=1,NSPMD
-          IF(K.NE.MASTER) THEN
+          IF(K.NE.MAIN) THEN
             MSGTYP=MSGOFF
             CALL MPI_RECV(TAG,1,MPI_INTEGER,IT_SPMD(K),
      .                    MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)

@@ -197,7 +197,7 @@ C------------------------------------
 
       ENDIF
 C------------------------------------
-C     GAP NOEUDS ESCLAVES
+C     GAP NOEUDS SECONDS
 C------------------------------------
       DO I=1,NUMNOD
         WA(I)=ZERO
@@ -384,7 +384,7 @@ C
 C----------------------------------
 
 C------------------------------------
-C     GAP STIF FACES MAITRESSES
+C     GAP STIF FACES MAIN
 C------------------------------------
       CALL I25GAPM(
      1 X     ,IRECT ,STF   ,IXS   ,PM    ,
@@ -476,12 +476,11 @@ C-------supposing only small segments (sub-triangles) for 10 nodes tetras ------
           GAP_N(1,I) = GAP_N(1,I)/4
         END IF
       END DO
-C--------
       IF (INACTI/=0) THEN
        CALL I24NORMNS(
      1 X     ,IRECT ,NRT   ,NSN   ,NSV   ,PEN_OLD)
       END IF
-C calcul du surface esclave ---
+C calcul du surface second. ---
       IF(INTTH > 0 .OR. IVIS2.EQ.-1) THEN
 
        IF(NUMELC.NE.0) THEN

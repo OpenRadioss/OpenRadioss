@@ -110,7 +110,7 @@ C
       ENDDO
 C
 C-----
-C-- Check of slave nodes of type2 + AMS + contact
+C-- Check of secnd nodes of type2 + AMS + contact
 C
       IF (ISMS /=0 ) THEN
 C
@@ -122,7 +122,7 @@ C
             NSN   =IPARI(5,N)
             DO II=1,NSN        
               J = INTBUF_TAB(N)%NSV(II)
-C-- Only slaves nodes with AMS are checked
+C-- Only secnds nodes with AMS are checked
               IF (NATIV_SMS(J).NE.0) TAGHIER(J) = UN
             ENDDO
           ENDIF

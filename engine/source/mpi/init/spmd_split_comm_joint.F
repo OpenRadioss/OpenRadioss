@@ -87,7 +87,7 @@ C-----------------------------------------------
         DO KK=1,NJOINT
 !           -----------------------------
             !   color the processor
-            IF(CYL_JOIN(KK)%NUMBER_NODE>0.OR.CYL_JOIN(KK)%NUMBER_MASTER_NODE>0) THEN
+            IF(CYL_JOIN(KK)%NUMBER_NODE>0.OR.CYL_JOIN(KK)%NUMBER_MAIN_NODE>0) THEN
                         CYL_JOIN(KK)%COMM_MPI%COLOR=1
                         KEY = 1
             ELSE

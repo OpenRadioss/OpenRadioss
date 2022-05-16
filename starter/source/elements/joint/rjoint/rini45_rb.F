@@ -102,7 +102,7 @@ C-->        Search of connected rbody ---
             DO N=1,NRBODY
               NSL=NPBY(2,N)
               IF (NPBY(1,N)==NOD(I)) THEN 
-C--             Tag for error message - Can't be attached to master node of rbody-              
+C--             Tag for error message - Can't be attached to main node of rbody-              
 		IDRB(I)=-N
                 UVAR(37+I,IEL)= N                
                 EXIT
@@ -152,7 +152,7 @@ C-->          no rbodies found - kjoint connected to structural node  ---
      .                      I3=ITAB(NOD(I)))
               ENDIF
             ELSEIF (IDRB(I) < 0) THEN
-C-->          kjoint connected to master node of rbody - error --	    
+C-->          kjoint connected to main node of rbody - error --	    
               CALL ANCMSG(MSGID=1768,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_2,

@@ -285,7 +285,7 @@ c=================================================================
         ENDIF
       ENDIF
 c-----------------------------------------------------------------
-c     nombre de noeuds dans l'interface(slave+master+edge)
+c     nombre de noeuds dans l'interface(secnd+main+edge)
 c-----------------------------------------------------------------
       IF(IALLO == 1)THEN
         DO I=1,NUMNOD

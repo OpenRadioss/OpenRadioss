@@ -303,7 +303,7 @@ C-----------------------------------------------
      .        LRS2,LRSS2
       my_real
      .       KSS(6,NSL)
-C------com. tableau de noeuds slaves remotes (a proc origine) et diag_ss
+C------com. tableau de noeuds secnds remotes (a proc origine) et diag_ss
       CALL SPMD_IFC1(NSREM  ,NSL ,KSS )
       IF (NSL.GT.0) CALL IMP_FRSN(IPARI ,INTBUF_TAB  ,NBINTC,INTLIST)
 C      IF ((NSREM+NSL).EQ.0) RETURN
@@ -816,7 +816,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG
 C-----------------------------------------------
        DO I = 1, JLT
-C--------slave node-----
+C--------secnd node-----
         IG = NS_IMP(I)
        IF (IG.GT.NSN) THEN
         NE=NE_IMP(I)
@@ -875,14 +875,14 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF (INTP_D.GT.0) THEN
        DO I = 1, NSL
-C--------slave node--------------
+C--------secnd node--------------
         N = ISL(I)
         IF (ILOC(N).EQ.0) ILOC(N)=I
        ENDDO
       ELSE
 
        DO I = 1, NSL
-C--------slave node-----
+C--------secnd node-----
         N = ISL(I)
         IF (ILOC(N).EQ.0) THEN
          N_IMPN=N_IMPN+1
@@ -947,7 +947,7 @@ C-----------------------------------------------
       INTEGER M,NSN,JI,L,NNOD,NJ,NL,NI
 C-----------------------------------------------
        DO I = 1, NSL
-C--------local slave node-----
+C--------local secnd node-----
         N = ISL(I)
          DO J = 1, MIN(3,NDOF(N))
           ND = IDDL(N)+J
@@ -964,7 +964,7 @@ C--------local slave node-----
        ENDDO
 C
        DO I = 1, NML
-C--------local master node-----
+C--------local main node-----
         N = IML(I)
          DO J = 1, MIN(3,NDOF(N))
           ND = IDDL(N)+J
@@ -1008,7 +1008,7 @@ C------int2-------
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud maitre est dependant aussi-----
+C-------si noeud main est dependant aussi-----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           DO J = 1 , MIN(3,NDOF(NJ))
@@ -1030,7 +1030,7 @@ C------RBE3-------
          N=IFRS3(I)
          NNOD=IRBE3(5,N)
          IAD=IRBE3(1,N)
-C-------si noeud maitre est dependant aussi-----
+C-------si noeud main est dependant aussi-----
          DO M=1,NNOD
           NJ=LRBE3(IAD+M)
           DO J = 1 , MIN(3,NDOF(NJ))
@@ -1111,7 +1111,7 @@ C-----------------------------------------------
       INTEGER M,NSN,L,NNOD,NJ,NL,NI
 C-----------------------------------------------
        DO I = 1, NSL
-C--------local slave node-----
+C--------local secnd node-----
         N = ISL(I)
          DO J = 1, MIN(3,NDOF(N))
           ND = IDDL(N)+J
@@ -1128,7 +1128,7 @@ C--------local slave node-----
        ENDDO
 C
        DO I = 1, NML
-C--------local master node-----
+C--------local main node-----
         N = IML(I)
          DO J = 1, MIN(3,NDOF(N))
           ND = IDDL(N)+J
@@ -1172,7 +1172,7 @@ C------int2-------
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud maitre est dependant aussi-----
+C-------si noeud main est dependant aussi-----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           DO J = 1 , MIN(3,NDOF(NJ))
@@ -1194,7 +1194,7 @@ C------RBE3-------
          N=IFRS3(I)
          NNOD=IRBE3(5,N)
          IAD=IRBE3(1,N)
-C-------si noeud maitre est dependant aussi-----
+C-------si noeud main est dependant aussi-----
          DO M=1,NNOD
           NJ=LRBE3(IAD+M)
           DO J = 1 , MIN(3,NDOF(NJ))
@@ -1356,7 +1356,7 @@ C--------RBE3--------------------
          IF (INLOC(NI).LE.NK_M) LNSS3=LNSS3+1
        ENDIF
       ENDDO
-CC-----active rigid body master nodes------
+CC-----active rigid body main nodes------
       LNS=0
       LNSS=0
       DO J=1,NRBYAC
@@ -1505,7 +1505,7 @@ c-------RBE3---------------
        IF (NRBE3_FR.NE.NSS3.OR.NRBE3_FRS.NE.NSS3_S)
      .        WRITE(*,*)'pb cal NRBE3_FR'
       ENDIF
-C-----active rigid body master nodes------
+C-----active rigid body main nodes------
       NRB_FR=0
       NRB_FRS=0
       IF (NSS.GT.0) THEN
@@ -1775,7 +1775,7 @@ C
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud maitre est dependant aussi-----
+C-------si noeud main est dependant aussi-----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           NDD = 0
@@ -1970,7 +1970,7 @@ C-------------RBE2----------------------
        ALLOCATE(DIAG_MR2(6,NRBE2_FRS),STAT=IERROR1)
        DIAG_MR2=ZERO
       ENDIF
-C--------local slave node-,d'abord independant----
+C--------local secnd node-,d'abord independant----
        DO I = 1, NSL
         N = ISL(I)
         DO J = 1, MIN(3,NDOF(N))
@@ -2271,7 +2271,7 @@ C-----------------------------------------------
        ENDDO
       ELSE
        DO I = 1, NSL
-C--------local slave node-----
+C--------local secnd node-----
         N = ISL(I)
          DO J = 1, MIN(3,NDOF(N))
           ID = IDDSL(J,I)
@@ -2388,7 +2388,7 @@ C-----------------------------------------------
        ENDDO
       ELSE
        DO I = 1, NSL
-C--------local slave node-----
+C--------local secnd node-----
         N = ISL(I)
          DO J = 1, MIN(3,NDOF(N))
           ID = IDDSL(J,I)
@@ -2855,7 +2855,7 @@ C------int2-------
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud maitre est dependant aussi-----
+C-------si noeud main est dependant aussi-----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
            DO J=1,NDOF(NJ)
@@ -3143,7 +3143,7 @@ C------int2-------
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud maitre est dependant aussi-----
+C-------si noeud main est dependant aussi-----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
            DO J=1,NDOF(NJ)
@@ -4680,7 +4680,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG,M1,M2
 C-----------------------------------------------
        DO I = 1, JLT
-C--------slave node-----
+C--------secnd node-----
         IG = NS_IMP(I)
        IF (IG.GT.NSN) THEN
         NE=NE_IMP(I)
@@ -5571,7 +5571,7 @@ C-------iddlm-----------------
       ENDDO
 C------s'il y a des neouds kin---IKC_SL(NSL)>0->IKC_SI----
       CALL INI_FRKC(NSREM  ,NSL ,IKC ,NDOF ,IDDL)
-C------com. [Ksm] slaves remotes dependant--s.KSI;r.KSL-IKC_SI,SL->nb [Ksm]--
+C------com. [Ksm] secnds remotes dependant--s.KSI;r.KSL-IKC_SI,SL->nb [Ksm]--
       CALL DIM_FRKM(NSREM  ,NSL  ,LSI   ,LSL  )
       LSI0 = LSI
       LSG = LSI+LSL
@@ -5594,7 +5594,7 @@ C--------condense KSL_FR------
      5    IAD_M     ,IRBE3     ,LRBE3     ,IRBE2     ,LRBE2     )
         LSI = IAD_M(NSL+1) -IAD_M(1)
         CALL IND_SLD(NSL  ,NDOF  ,KSS  )
-C-------utilise tempo KSI_FR pour K_SL modifie-(neouds maitres)----------------
+C-------utilise tempo KSI_FR pour K_SL modifie-(neouds mains)----------------
         IF(ALLOCATED(KSI_FR)) DEALLOCATE(KSI_FR)
         ALLOCATE(KSI_FR(9*LSI),STAT=IER3)
         CALL UPD_KSL(
@@ -5605,7 +5605,7 @@ C-------utilise tempo KSI_FR pour K_SL modifie-(neouds maitres)----------------
      5    IDDL      ,IKC       ,NDOF      ,IDDLM     ,UD        ,
      6    A         ,LB        ,KSS       ,KSL_FR    ,KSI_FR    ,
      7    IRBE3     ,LRBE3     ,FRBE3     ,IRBE2     ,LRBE2     )
-C-------s'il y a imposed Ud(slave local), il faut renvoyer UDSL->UDSI---------
+C-------s'il y a imposed Ud(secnd local), il faut renvoyer UDSL->UDSI---------
 C-------NFV: nb of /IMPVEL node in SL, use ISLM(NFV) to save node num.
         IF (IFDIS.GT.0) THEN
          CALL DIM_FVN(
@@ -6287,7 +6287,7 @@ C--------remove ICR---
         DO IS = 1,NSL
          IF (ISL(IS).EQ.NS) THEN
          DO J = 1,IKC_SL(IS)
-C----------------ns maitre int2 -------
+C----------------ns main int2 -------
           IF (INLOC(NS).GT.NSL) THEN
            CALL GET_IAD(IAD_M ,IAD_SLNR,JDI_SLNR,NS   ,IS  ,
      1                  J     ,IKC_SL(IS),NDOF ,IAD   )
@@ -6362,7 +6362,7 @@ C------Rigid bodies-------
         DO IS = 1,NSL
          IF (ISL(IS).EQ.NS) THEN
          DO J = 1,IKC_SL(IS)
-C----------------ns maitre int2 -------
+C----------------ns main int2 -------
           IF (INLOC(NS).GT.NSL) THEN
            CALL GET_IAD(IAD_M ,IAD_SLNR,JDI_SLNR,NS   ,IS  ,
      1                  J     ,IKC_SL(IS),NDOF ,IAD   )
@@ -7062,7 +7062,7 @@ C--------si Mi est aussi dependant------
       ENDDO
 C
       LNS=0
-C-----active rigid body master nodes------
+C-----active rigid body main nodes------
       DO J=1,NRBYAC
        IA(J)=0
        N=IRBYAC(J)
@@ -7241,7 +7241,7 @@ c--------RBE3--------------
         ENDIF
        ENDDO
       ENDIF
-C-----active rigid body master nodes------
+C-----active rigid body main nodes------
       NRB_FR=0
       NRB_FRS=0
       IF (NSS.GT.0) THEN
@@ -8037,7 +8037,7 @@ C-----------------------------------------------
      .  EJ(3),KSM(9),KNM(9,4),KRM(9,4),RBID
       my_real,
      .         DIMENSION(:),ALLOCATABLE :: KNM3,KRM3
-C-----only [ksm] to update : slave dependant :FRK_SI, slave inde. LT_SI,
+C-----only [ksm] to update : secnd dependant :FRK_SI, secnd inde. LT_SI,
 C     ----       --added inde,:FRK_SL-----------
        IFSS = 0
        IFSM = 1
@@ -8717,7 +8717,7 @@ c----------DIMENSION----
        NZ = 0
        IAD = 1
        DO I=1,NSREM
-C-----------SLAVE DEPEND.: FRK_SI---------
+C-----------SECND DEPEND.: FRK_SI---------
         IF (IKC_SI(I).GT.0) THEN
          DO J =1, NF_SI(I)
           DO K = 1,NDOFI
@@ -8745,7 +8745,7 @@ C-----------DEPEND. SUP-:FRK_SL--------
           ENDDO
           IAD = IAD + 1
          ENDDO
-C-----------SLAVE INDEPEND.:LT,FRK_SL---------
+C-----------SECND INDEPEND.:LT,FRK_SL---------
         ELSE
          DO K = 1,NDOFI
           NL = NL + 1
@@ -8802,7 +8802,7 @@ C
        IAD_SI(NL+1) = NZ+1
        DO P=1,NSPMD
         DO I=IAD_SREM(P),IAD_SREM(P+1)-1
-C-----------SLAVE DEPEND.: FRK_SI---------
+C-----------SECND DEPEND.: FRK_SI---------
         IF (IKC_SI(I).GT.0) THEN
          NR = IAD_SINR(I+1)-IAD_SINR(I)
          DO J =1, NF_SI(I)
@@ -8854,7 +8854,7 @@ C-----------DEPEND. SUP-:FRK_SL--------
           ENDDO
           IAD = IAD + 1
          ENDDO
-C-----------SLAVE INDEPEND.:LT,FRK_SL---------
+C-----------SECND INDEPEND.:LT,FRK_SL---------
         ELSE
          DO K = 1,NDOFI
           NL = NL + 1
@@ -8979,7 +8979,7 @@ C----------------------------
       NFV=0
 C--------imposed velocity---------------
        DO N = 1, NUMNOD
-C--------local slave node-----
+C--------local secnd node-----
         IF (INLOC(N).GT.0) THEN
          NS = 0
          DO J = 1, MIN(3,NDOF(N))
@@ -9034,7 +9034,7 @@ C-----------use islm-----------------
       NF=0
 C--------imposed velocity---------------
        DO N = 1, NUMNOD
-C--------local slave node-----
+C--------local secnd node-----
         IF (INLOC(N).GT.0) THEN
          NS=0
          DO J = 1, MIN(3,NDOF(N))
@@ -9639,7 +9639,7 @@ C
        IAD = 1
        IADI = 1
        DO I=1,NSREM
-C-----------SLAVE DEPEND.: FRK_SI---------
+C-----------SECND DEPEND.: FRK_SI---------
         IF (IKC_SI(I).GT.0) THEN
          DO J =1, NF_SI(I)
           DO K = 1,NDOFI
@@ -9650,7 +9650,7 @@ C-----------SLAVE DEPEND.: FRK_SI---------
           ENDDO
           IAD = IAD + 1
          ENDDO
-C-----------SLAVE INDEPEND.:LT,FRK_SL---------
+C-----------SECND INDEPEND.:LT,FRK_SL---------
         ELSE
          DO K = 1,NDOFI
           NL = NL + 1
@@ -10442,7 +10442,7 @@ C--------RBE3----
            ENDDO
         ENDIF
       ENDDO
-C-----active rigid body master nodes------
+C-----active rigid body main nodes------
       DO J=1,NRBYAC
        N=IRBYAC(J)
        K=IRBYAC(J+NRBYKIN)

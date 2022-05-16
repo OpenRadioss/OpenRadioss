@@ -76,7 +76,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: RSIZ,ISIZ
       ! Real and Integer buffer size
       INTEGER, INTENT(INOUT) :: NB(NSPMD,NINTER25) 
-      ! Number of slaves node to exchange (send or recv depending on MODE)
+      ! Number of secnds node to exchange (send or recv depending on MODE)
       INTEGER, INTENT(IN) :: COMM_PATTERN(NSPMD,NINTER25) 
       ! COMM_PATTERN(P,NIN) == 1 => Proc ISPMD and P shares nodes in NIN interface
 
@@ -254,17 +254,17 @@ Chd|====================================================================
      3                             FR_NOR, IAD_FRNOR, NB_SLID   ,ITAB, H3D_DATA,
      4                             INTFRIC,FLAGREMN , LREMNORMAX,NRTM,IVIS2 )
 c
-c -  Nodes in IREM are not necessarly from their PMASTER processor.
-c -  IREM is reordered according to ITAB for each PMASTER 
+c -  Nodes in IREM are not necessarly from their PMAIN processor.
+c -  IREM is reordered according to ITAB for each PMAIN 
 c        INDX_FOR_P(0) = positions in IREM of the sliding secnd nodes that
-c                        have 0 as PMASTER
+c                        have 0 as PMAIN
 c
 c -  IAUX( "position in new FI" ) =  value
 c           value = 0 =>  Secnd is sliding, but is a local node
 c                         IAUX_K("position in new FI") = position in INTBUF_TAB
-c           value < 0 => -value is position in INDX_FOR_P (slave is sliding)   
+c           value < 0 => -value is position in INDX_FOR_P (secnd is sliding)   
 c           value > 0 =>  value is position in old *FI structures
-c                          (TMP%ITAFI) (slave is not sliding)
+c                          (TMP%ITAFI) (secnd is not sliding)
 c    Remark "position in new FI" is the position in the new *FI structure considering
 c            before the removal of nodes that are actually local (and will be put into 
 c            INTBUF_TAB). 
@@ -279,17 +279,17 @@ c    are replaced by the values coming from [XI]REM.
 c
 c  Example using NSPMD = 4. 
 c  proc P3 recieved some incoming sliding nodes from P0 P1 & P2, and 
-c  store the slaves nodes that have P0 as PMASTER:
-c     - The node with UID 500 is sliding from P1 to P3 and has P0 as PMASTER 
+c  store the secnds nodes that have P0 as PMAIN:
+c     - The node with UID 500 is sliding from P1 to P3 and has P0 as PMAIN 
 c        This node is a new (was not included in the old *FI structures).  
 c        It will be store as the 1st remote nodes (ITAFI(nin)%P(5) = 500)
 c
-c     - The node 1000 is sliding from P0 to P3, and has P0 as PMASTER.
+c     - The node 1000 is sliding from P0 to P3, and has P0 as PMAIN.
 c       This node was already remote on P3
 c       (old position = I, new position = INDEX("old position = 1" ) = 5)
 c
 c
-c  "Pmaster"    "ITAB"
+c  "Pmain"    "ITAB"
 c   IREM(3,:)  IREM(2,:) 
 c        +----+----+
 c  Sent 1|    |....|
@@ -304,7 +304,7 @@ c       5|    |....|         |
 c  =================         |
 c       6|    |....|         |
 c        +----+----+         |   INDX_FOR_P(0) : array of index into IREM of 
-c       7| 0  | 500|<------+ |   +----+          Slaves that have 0 as PMASTER    
+c       7| 0  | 500|<------+ |   +----+          Secnds that have 0 as PMAIN    
 c  P     +----+----+       +-----|  7 |1         (sorted by USER ID)
 c  1    8| 0  | 600|<----+   |   +----+
 c        +----+----+     +-------|  8 |2
@@ -400,10 +400,10 @@ C-----------------------------------------------
       INTEGER IDEB_OLD  ! shift for old *FI
       INTEGER IDEB_SLID ! shift for new sliding nodes
       INTEGER PNEW,POLD,ID_OLD,ID_NEW 
-      INTEGER SNEW,SOLD,PMASTER,NB_SLID_TOT
+      INTEGER SNEW,SOLD,PMAIN,NB_SLID_TOT
       my_real,
      .    DIMENSION(:), ALLOCATABLE :: PENEFI_OLD, STIFFI_OLD
-      INTEGER MARGIN,N_NEW_SLAVE,UID
+      INTEGER MARGIN,N_NEW_SECND,UID
       TYPE(I25_TMP_STRUCT) :: TMP
       TYPE(int_pointer) , DIMENSION(NSPMD) :: INDX_FOR_P,UID_FOR_P
       INTEGER, ALLOCATABLE, DIMENSION(:) :: PERMUTATIONS, PROC_ORIG
@@ -470,9 +470,9 @@ C
 ! 
       DO I = 1,NB_SLID_TOT 
         UID = IREM(2,I)
-        P = IREM(3,I) ! PMASTER
+        P = IREM(3,I) ! PMAIN
         SINDEX(P) = SINDEX(P) +  1
-!       Array of pointer to XREM  (per PMASTER)
+!       Array of pointer to XREM  (per PMAIN)
         INDX_FOR_P(P)%P(SINDEX(P)) = I
         UID_FOR_P(P)%P(SINDEX(P)) = UID 
       ENDDO 
@@ -616,7 +616,7 @@ C =============================================================
             I = IAUX(J)
             K = IDEB_NEW+J-NBLOCAL
             IF(I > 0 )THEN
-              ! IAUX > 0 => Pointer to  slaves already in FI strcuture
+              ! IAUX > 0 => Pointer to  secnds already in FI strcuture
               L = IDEB_OLD+I
               XFI(NIN)%P(1,K)     = TMP%XFI%P(1,L)
               XFI(NIN)%P(2,K)     = TMP%XFI%P(2,L)
@@ -628,10 +628,10 @@ C =============================================================
               STIFI(NIN)%P(K)     = TMP%STIFI%P(L)                                       
               NSVFI(NIN)%P(K)     = TMP%NSVFI%P(L)
               ITAFI(NIN)%P(K)     = TMP%ITAFI%P(L) 
-              PMASTERFI(NIN)%P(K) = TMP%PMASTERFI%P(L)
+              PMAINFI(NIN)%P(K) = TMP%PMAINFI%P(L)
               KINFI(NIN)%P(K)     = TMP%KINFI%P(L)
             ELSEIF( I < 0 ) THEN
-              ! IAUX < 0 => Pointer to slaves new slaves in XREM
+              ! IAUX < 0 => Pointer to secnds new secnds in XREM
               L = INDX_FOR_P(P)%P(-I)
               XFI(NIN)%P(1,K)     = XREM(1,L)
               XFI(NIN)%P(2,K)     = XREM(2,L)
@@ -643,7 +643,7 @@ C =============================================================
               STIFI(NIN)%P(K)     = XREM(8,L)
               NSVFI(NIN)%P(K)     = IREM(1,L)
               ITAFI(NIN)%P(K)     = IREM(2,L)
-              PMASTERFI(NIN)%P(K) = IREM(3,L)
+              PMAINFI(NIN)%P(K) = IREM(3,L)
               KINFI(NIN)%P(K)     = IREM(4,L)
             ELSEIF(I == 0) THEN
               ! IAUX=0 => Secnd is known locally (in NSV),
@@ -840,9 +840,9 @@ C         IF(ITYP==25)THEN
                  L = IDEB_OLD+I
                  TIME_SFI(NIN)%P(2*(K-1)+1) = TMP%TIME_SFI%P(2*(L-1)+1)    
                  TIME_SFI(NIN)%P(2*(K-1)+2) = TMP%TIME_SFI%P(2*(L-1)+2)    
-                 SLAV_FRFI(NIN)%P(4,K) = TMP%SLAV_FRFI%P(4,L) 
-                 SLAV_FRFI(NIN)%P(5,K) = TMP%SLAV_FRFI%P(5,L) 
-                 SLAV_FRFI(NIN)%P(6,K) = TMP%SLAV_FRFI%P(6,L) 
+                 SECND_FRFI(NIN)%P(4,K) = TMP%SECND_FRFI%P(4,L) 
+                 SECND_FRFI(NIN)%P(5,K) = TMP%SECND_FRFI%P(5,L) 
+                 SECND_FRFI(NIN)%P(6,K) = TMP%SECND_FRFI%P(6,L) 
                  PENE_OLDFI(NIN)%P(2,K)= TMP%PENE_OLDFI%P(2,L)
                  STIF_OLDFI(NIN)%P(2,K)= TMP%STIF_OLDFI%P(2,L) 
                  PENE_OLDFI(NIN)%P(3,K)= TMP%PENE_OLDFI%P(3,L)
@@ -852,9 +852,9 @@ C         IF(ITYP==25)THEN
                  L = INDX_FOR_P(P)%P(-I)
                  TIME_SFI(NIN)%P(2*(K-1)+1) = XREM(RSHIFT+0,L)
                  TIME_SFI(NIN)%P(2*(K-1)+2) = XREM(RSHIFT+1,L)
-                 SLAV_FRFI(NIN)%P(4,K)      = XREM(RSHIFT+2,L)
-                 SLAV_FRFI(NIN)%P(5,K)      = XREM(RSHIFT+3,L)
-                 SLAV_FRFI(NIN)%P(6,K)      = XREM(RSHIFT+4,L)
+                 SECND_FRFI(NIN)%P(4,K)      = XREM(RSHIFT+2,L)
+                 SECND_FRFI(NIN)%P(5,K)      = XREM(RSHIFT+3,L)
+                 SECND_FRFI(NIN)%P(6,K)      = XREM(RSHIFT+4,L)
                  PENE_OLDFI(NIN)%P(2,K)     = XREM(RSHIFT+5,L)
                  STIF_OLDFI(NIN)%P(2,K)     = XREM(RSHIFT+6,L)
                  PENE_OLDFI(NIN)%P(3,K)     = XREM(RSHIFT+7,L)
@@ -865,9 +865,9 @@ C         IF(ITYP==25)THEN
                  L = IAUX_L(J) 
                  INTBUF_TAB%TIME_S(2*(K-1)+1)   = XREM(RSHIFT+0,L)
                  INTBUF_TAB%TIME_S(2*(K-1)+2)   = XREM(RSHIFT+1,L)
-                 INTBUF_TAB%SLAV_FR(6*(K-1)+4)  = XREM(RSHIFT+2,L)
-                 INTBUF_TAB%SLAV_FR(6*(K-1)+5)  = XREM(RSHIFT+3,L)
-                 INTBUF_TAB%SLAV_FR(6*(K-1)+6)  = XREM(RSHIFT+4,L)
+                 INTBUF_TAB%SECND_FR(6*(K-1)+4)  = XREM(RSHIFT+2,L)
+                 INTBUF_TAB%SECND_FR(6*(K-1)+5)  = XREM(RSHIFT+3,L)
+                 INTBUF_TAB%SECND_FR(6*(K-1)+6)  = XREM(RSHIFT+4,L)
                  INTBUF_TAB%PENE_OLD(5*(K-1)+2) = XREM(RSHIFT+5,L)
                  INTBUF_TAB%STIF_OLD(2*(K-1)+2) = XREM(RSHIFT+6,L)
                  INTBUF_TAB%PENE_OLD(5*(K-1)+3) = XREM(RSHIFT+7,L)
@@ -1029,7 +1029,7 @@ c ==============================================================
 !            WRITE(6,*) ispmd+1, "P = ",P
 !            WRITE(6,*) "NSNFI = ",NSNFI(NIN)%P(P)
 !            DO I = 1,NSNFI(NIN)%P(P) 
-!               WRITE(6,*) I,NSVFI(NIN)%P(J),ITAFI(NIN)%P(J), "on ",PMASTERFI(NIN)%P(J)
+!               WRITE(6,*) I,NSVFI(NIN)%P(J),ITAFI(NIN)%P(J), "on ",PMAINFI(NIN)%P(J)
 !               J = J + 1
 !            ENDDO
 !          ENDDO
@@ -1164,7 +1164,7 @@ C-----------------------------------------------
 
       TMP%NSNFI%P=>NSNFI(NIN)%P
       TMP%NSVFI%P=>NSVFI(NIN)%P
-      TMP%PMASTERFI%P=>PMASTERFI(NIN)%P
+      TMP%PMAINFI%P=>PMAINFI(NIN)%P
       TMP%XFI%P=>XFI(NIN)%P
       TMP%VFI%P=>VFI(NIN)%P
       TMP%MSFI%P=>MSFI(NIN)%P
@@ -1210,7 +1210,7 @@ C-----------------------------------------------
       ENDIF
       TMP%IRTLM_FI%P=>IRTLM_FI(NIN)%P
       TMP%TIME_SFI%P=>TIME_SFI(NIN)%P
-      TMP%SLAV_FRFI%P=>SLAV_FRFI(NIN)%P
+      TMP%SECND_FRFI%P=>SECND_FRFI(NIN)%P
       TMP%PENE_OLDFI%P=>PENE_OLDFI(NIN)%P
       TMP%STIF_OLDFI%P=>STIF_OLDFI(NIN)%P
       TMP%ICONT_I_FI%P=>ICONT_I_FI(NIN)%P
@@ -1235,7 +1235,7 @@ C     WRITE(6,*) "NEW SIZE:",NEW_SIZE
       MY_ALLOCATE(MSFI(NIN)%P,NEW_SIZE)
       MY_ALLOCATE(STIFI(NIN)%P,NEW_SIZE)
       MY_ALLOCATE(ITAFI(NIN)%P,NEW_SIZE)
-      MY_ALLOCATE(PMASTERFI(NIN)%P,NEW_SIZE)
+      MY_ALLOCATE(PMAINFI(NIN)%P,NEW_SIZE)
       MY_ALLOCATE(KINFI(NIN)%P,NEW_SIZE)
       MY_ALLOCATE2D(VFI(NIN)%P,3,NEW_SIZE)
       MY_ALLOCATE2D(XFI(NIN)%P,3,NEW_SIZE)
@@ -1274,8 +1274,8 @@ C     WRITE(6,*) "NEW SIZE:",NEW_SIZE
       ENDIF
       MY_ALLOCATE2D(IRTLM_FI(NIN)%P,4,NEW_SIZE)
       MY_ALLOCATE(TIME_SFI(NIN)%P,2*NEW_SIZE)
-      MY_ALLOCATE2D(SLAV_FRFI(NIN)%P,6,NEW_SIZE)
-      SLAV_FRFI(NIN)%P (1:6,1:NEW_SIZE)=ZERO
+      MY_ALLOCATE2D(SECND_FRFI(NIN)%P,6,NEW_SIZE)
+      SECND_FRFI(NIN)%P (1:6,1:NEW_SIZE)=ZERO
       MY_ALLOCATE2D(PENE_OLDFI(NIN)%P,5,NEW_SIZE)
       PENE_OLDFI(NIN)%P(1:5,1:NEW_SIZE)=ZERO
       MY_ALLOCATE2D(STIF_OLDFI(NIN)%P,2,NEW_SIZE)
@@ -1347,7 +1347,7 @@ C-----------------------------------------------
       DEALLOCATE(TMP%MSFI%P)
       DEALLOCATE(TMP%STIFI%P)
       DEALLOCATE(TMP%ITAFI%P)
-      DEALLOCATE(TMP%PMASTERFI%P)
+      DEALLOCATE(TMP%PMAINFI%P)
       DEALLOCATE(TMP%KINFI%P)
       IF(.TRUE.) THEN
         DEALLOCATE(TMP%ICODT_FI%P)
@@ -1384,7 +1384,7 @@ C-----------------------------------------------
       ENDIF
       DEALLOCATE(TMP%IRTLM_FI%P)
       DEALLOCATE(TMP%TIME_SFI%P)
-      DEALLOCATE(TMP%SLAV_FRFI%P)
+      DEALLOCATE(TMP%SECND_FRFI%P)
 
       DEALLOCATE(TMP%PENE_OLDFI%P)
 

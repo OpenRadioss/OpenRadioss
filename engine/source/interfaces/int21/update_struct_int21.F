@@ -163,7 +163,7 @@ C
             ENDIF
 !$OMP END MASTER
             CALL MY_BARRIER     !   there isn't any implicit barrier at the end 
-                                !   of an omp master condition
+                                !   of an omp main condition
         ENDIF    
 
         RETURN

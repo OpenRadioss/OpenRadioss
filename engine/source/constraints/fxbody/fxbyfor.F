@@ -84,7 +84,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NFX,ANOD,AMOD,AGLM,ACP,ALM,AFLS,ADLS,AVAR,ARPM,
      .        NME,NMOD,AMCD,ASE,ITN,NCYCLP1,AELM,ASIG,N2,NN2,
-     .        AGRVI,AGRVR,NLGRAV,NSN,I,PMASTER
+     .        AGRVI,AGRVR,NLGRAV,NSN,I,PMAIN
       my_real
      .        MFEXTP(LENVAR)
       INTEGER NSNT, NMMAX, IAD(NFXBODY), ANOD2, J
@@ -163,8 +163,8 @@ C
          NLGRAV=FXBIPM(25,NFX)
          AGRVI=FXBIPM(26,NFX)
          AGRVR=FXBIPM(27,NFX)
-         PMASTER=FXBIPM(39,NFX)
-         IF (ISPMD.EQ.PMASTER) THEN
+         PMAIN=FXBIPM(39,NFX)
+         IF (ISPMD.EQ.PMAIN) THEN
             IF (DT2T.GT.DTFAC1(11)*FXBRPM(ARPM)) THEN
                 DT2T=DTFAC1(11)*FXBRPM(ARPM)
                 ITYPTST=11

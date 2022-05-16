@@ -61,7 +61,7 @@ C     REAL ou REAL*8
       my_real
      .   GAPM, CRITERL, GAPSUPL
 C------------------------------------
-C     GAP VARIABLE NOEUDS ESCLAVES
+C     GAP VARIABLE NOEUDS SECONDS
 C------------------------------------
       NSNF = 1 + ITASK*NSN / NTHREAD
       NSNL = (ITASK+1)*NSN / NTHREAD

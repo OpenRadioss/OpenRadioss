@@ -423,8 +423,8 @@ c NO need to communicate in SPMD
                   ENDIF
                  END IF!(FLAGREMNODE == 2)THEN
 C                
-C Auto impact between master surface and slave Edge 
-C can happen with Remote nodes when Slave Nodes are on border between 2 domains 
+C Auto impact between main surface and secnd Edge 
+C can happen with Remote nodes when Secnd Nodes are on border between 2 domains 
 C and Fictive node is remote
                  IF(IREM(8,J)==1) THEN
                                                                ! Same than in I24FIC_GETN but for Remote Node

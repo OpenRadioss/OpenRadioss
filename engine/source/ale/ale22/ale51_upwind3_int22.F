@@ -141,7 +141,7 @@ C-----------------------------------------------
         IE                =  BRICK_LIST(NIN,IB)%ID 
         MLW               =  BRICK_LIST(NIN,IB)%MLW               
         NCELL             =  BRICK_LIST(NIN,IB)%NBCUT 
-        MCELL             =  BRICK_LIST(NIN,IB)%MasterID       
+        MCELL             =  BRICK_LIST(NIN,IB)%MainID       
         ICELL             =  0  
         IDLOC             =  BRICK_LIST(NIN,IB)%IDLOC
         IF(MLW.NE.51)CYCLE
@@ -151,7 +151,7 @@ C-----------------------------------------------
           !======================================================!
           !  MULTIMATERIAL UPWIND TREATMENT                      !          
           !======================================================!          
-          IE_M      = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(3)
+          IE_M      = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(3)
           MAT       = IXS(1,IE_M)               
           UPWL(1:6) = PM(16,MAT)
           REDUC     = PM(92,MAT)
@@ -218,22 +218,22 @@ C                DDVOL = DDVOL + cellFLUX(J,ICELL,IB)-UPWL(J)*ABS(cellFLUX(J,ICE
       !==============!
       
       !---------------------------------------------------------!
-      ! SLAVE CELLS STACK                                       !
+      ! SECND CELLS STACK                                       !
       !---------------------------------------------------------!
-      !STACK Slave cells values from ones connected to current master cell                                                        
+      !STACK Secnd cells values from ones connected to current main cell                                                        
       NIN = 1													       
       DO IB=NBF,NBL												             
      	NG    = BRICK_LIST(NIN,IB)%NG										       
      	IE    = BRICK_LIST(NIN,IB)%ID										       
      	IDLOC = BRICK_LIST(NIN,IB)%IDLOC									       
      	MLW   =  BRICK_LIST(NIN,IB)%MLW 									       
-     	NUM   = BRICK_LIST(NIN,IB)%SlaveList%Num								       
-     	MCELL = BRICK_LIST(NIN,IB)%masterID									       
+     	NUM   = BRICK_LIST(NIN,IB)%SecndList%Num								       
+     	MCELL = BRICK_LIST(NIN,IB)%mainID									       
      	IF(MLW.NE.51)CYCLE											       
      	DDVOL = ZERO												       
      	DO K=1,NUM												       
-     	  IBV	 = BRICK_LIST(NIN,IB)%SlaveList%IBV(K)  							       
-     	  ICELLv = BRICK_LIST(NIN,IB)%SlaveList%ICELLv(K)							       
+     	  IBV	 = BRICK_LIST(NIN,IB)%SecndList%IBV(K)  							       
+     	  ICELLv = BRICK_LIST(NIN,IB)%SecndList%ICELLv(K)							       
      	  DDVOL  = DDVOL + BRICK_LIST(NIN,IBv)%POLY(ICELLv)%DDVOL_upw						       
      	ENDDO													       
      	DDVOL = DDVOL + BRICK_LIST(NIN,IB)%POLY(MCELL)%DDVOL_upw						       

@@ -304,13 +304,13 @@ c============================================
         INTBUF_TAB(NIN)%S_THKNOD0       = 0
 !type 24 and type25
         INTBUF_TAB(NIN)%S_GAPN_M        = 0
-        INTBUF_TAB(NIN)%S_SLAV_FR       = 0
+        INTBUF_TAB(NIN)%S_SECND_FR       = 0
         INTBUF_TAB(NIN)%S_PENE_OLD      = 0
         INTBUF_TAB(NIN)%S_STIF_OLD      = 0
         INTBUF_TAB(NIN)%S_TIME_S        = 0
         INTBUF_TAB(NIN)%S_GAP_NM        = 0
         INTBUF_TAB(NIN)%S_EDGE8L2       = 0
-        INTBUF_TAB(NIN)%S_NOD_SLV_LGTH  = 0
+        INTBUF_TAB(NIN)%S_NOD_2RY_LGTH  = 0
         INTBUF_TAB(NIN)%S_NOD_MAS_LGTH  = 0
         INTBUF_TAB(NIN)%S_GAP_N0        = 0
         INTBUF_TAB(NIN)%S_DGAP_NM       = 0
@@ -421,7 +421,7 @@ C       Ige
         NMN_FE  = IPARI(80,NIN)
 C       NITSCHE METHOD
         INTNITSCHE = IPARI(86,NIN)
-C   T25 transient gap for master side 
+C   T25 transient gap for main side 
         ITHK = IPARI(91,NIN)
 
         IFLAGLOADP = IPARI(95,NIN)
@@ -1358,7 +1358,7 @@ C----   size real arrays
           INTBUF_TAB(NIN)%S_CRIT     = 12 
           IF (MFROT.NE.0)INTBUF_TAB(NIN)%S_FRIC_P   = 10
           IF (IFQ.NE.0) INTBUF_TAB(NIN)%S_XFILTR    = 1 
-          INTBUF_TAB(NIN)%S_SLAV_FR  = 6*NSN
+          INTBUF_TAB(NIN)%S_SECND_FR  = 6*NSN
           IF (INTTH > 0 )INTBUF_TAB(NIN)%S_AREAS  = NSN 
           INTBUF_TAB(NIN)%S_PENE_OLD   = 5*NSN 
           INTBUF_TAB(NIN)%S_STIF_OLD   = 2*NSN 
@@ -1371,7 +1371,7 @@ C----   size real arrays
            INTBUF_TAB(NIN)%S_MSFIC    = NSNE 
           END IF           
           IF(INTKG > 0 ) THEN
-            INTBUF_TAB(NIN)%S_NOD_SLV_LGTH  = NSN
+            INTBUF_TAB(NIN)%S_NOD_2RY_LGTH  = NSN
             INTBUF_TAB(NIN)%S_NOD_MAS_LGTH  = NMN
           ENDIF
           IF(INTPLY > 0)THEN
@@ -1530,7 +1530,7 @@ C----   size real arrays
           INTBUF_TAB(NIN)%S_CRIT     = 12 
           IF (MFROT.NE.0)INTBUF_TAB(NIN)%S_FRIC_P   = 10 
           IF (IFQ.NE.0) INTBUF_TAB(NIN)%S_XFILTR    = 1 
-          INTBUF_TAB(NIN)%S_SLAV_FR  = 6*NSN 
+          INTBUF_TAB(NIN)%S_SECND_FR  = 6*NSN 
           IF (INTTH > 0 .OR.IVIS2 == -1)INTBUF_TAB(NIN)%S_AREAS  = NSN
           INTBUF_TAB(NIN)%S_PENE_OLD   = 5*NSN 
           INTBUF_TAB(NIN)%S_STIF_OLD   = 2*NSN 
@@ -2018,8 +2018,8 @@ C
 !type24
           MY_ALLOCATE(INTBUF_TAB(NIN)%GAPN_M,INTBUF_TAB(NIN)%S_GAPN_M) !JD(22)
           INTBUF_TAB(NIN)%GAPN_M(1:INTBUF_TAB(NIN)%S_GAPN_M) = 0
-          MY_ALLOCATE(INTBUF_TAB(NIN)%SLAV_FR,INTBUF_TAB(NIN)%S_SLAV_FR) !JD(27)
-          INTBUF_TAB(NIN)%SLAV_FR(1:INTBUF_TAB(NIN)%S_SLAV_FR) = 0
+          MY_ALLOCATE(INTBUF_TAB(NIN)%SECND_FR,INTBUF_TAB(NIN)%S_SECND_FR) !JD(27)
+          INTBUF_TAB(NIN)%SECND_FR(1:INTBUF_TAB(NIN)%S_SECND_FR) = 0
           MY_ALLOCATE(INTBUF_TAB(NIN)%PENE_OLD,INTBUF_TAB(NIN)%S_PENE_OLD ) !JD(31)
           INTBUF_TAB(NIN)%PENE_OLD(1:INTBUF_TAB(NIN)%S_PENE_OLD) = 0
           MY_ALLOCATE(INTBUF_TAB(NIN)%STIF_OLD,INTBUF_TAB(NIN)%S_STIF_OLD) !JD(32)
@@ -2037,8 +2037,8 @@ C----------to be cleaned
           INTBUF_TAB(NIN)%VFIC(1:INTBUF_TAB(NIN)%S_VFIC) = 0
           MY_ALLOCATE(INTBUF_TAB(NIN)%MSFIC,INTBUF_TAB(NIN)%S_MSFIC) 
           INTBUF_TAB(NIN)%MSFIC(1:INTBUF_TAB(NIN)%S_MSFIC) = 0
-          MY_ALLOCATE(INTBUF_TAB(NIN)%NOD_SLV_LGTH,INTBUF_TAB(NIN)%S_NOD_SLV_LGTH) !JD(42)
-          INTBUF_TAB(NIN)%NOD_SLV_LGTH(1:INTBUF_TAB(NIN)%S_NOD_SLV_LGTH) = 0
+          MY_ALLOCATE(INTBUF_TAB(NIN)%NOD_2RY_LGTH,INTBUF_TAB(NIN)%S_NOD_2RY_LGTH) !JD(42)
+          INTBUF_TAB(NIN)%NOD_2RY_LGTH(1:INTBUF_TAB(NIN)%S_NOD_2RY_LGTH) = 0
           MY_ALLOCATE(INTBUF_TAB(NIN)%NOD_MAS_LGTH,INTBUF_TAB(NIN)%S_NOD_MAS_LGTH ) !JD(43)
           INTBUF_TAB(NIN)%NOD_MAS_LGTH(1:INTBUF_TAB(NIN)%S_NOD_MAS_LGTH) = 0
           MY_ALLOCATE(INTBUF_TAB(NIN)%GAP_N0,INTBUF_TAB(NIN)%S_GAP_N0 ) !JD(36)

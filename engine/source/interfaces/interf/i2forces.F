@@ -102,7 +102,7 @@ C
       Y4  = X(2,N4)
       Z4  = X(3,N4)
 C------------------------------------------------                  
-C     directions normale/tangente facette maitre
+C     directions normale/tangente facette main
       SX = X2 + X3 - X1 - X4
       SY = Y2 + Y3 - Y1 - Y4
       SZ = Z2 + Z3 - Z1 - Z4

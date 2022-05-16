@@ -311,7 +311,7 @@ Chd|        SPMD_TRI7VOX0                 source/mpi/interfaces/spmd_int.F
 Chd|        SPMD_TRI7VOX_OPTIMIZED        source/mpi/interfaces/spmd_tri7vox_optimized.F
 Chd|        SPTRIVOX                      source/elements/sph/sptrivox.F
 Chd|        UPDATE_STRUCT_INT21           source/interfaces/int21/update_struct_int21.F
-Chd|        UPGRADE_REM_SLV               source/mpi/interfaces/spmd_i7tool.F
+Chd|        UPGRADE_REM_2RY               source/mpi/interfaces/spmd_i7tool.F
 Chd|-- calls ---------------
 Chd|        POINTERDEF                    share/modules/pointerdef_mod.F
 Chd|====================================================================
@@ -320,7 +320,7 @@ Chd|====================================================================
 #include "my_real.inc"
       my_real, DIMENSION(:,:), ALLOCATABLE :: XREM
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IREM
-C tableau temporaire boite slave remote pour interface type 7, 10, 11 ou 20
+C tableau temporaire boite secnd remote pour interface type 7, 10, 11 ou 20
 C declare DOUBLE PRECISION pour tranfert entier
 C XREM(1) : X(1)
 C XREM(2) : X(2)
@@ -334,7 +334,7 @@ C XREM(8) : STFN
 C IREM(2): ITAB
 C IREM(3): KINET
 C XREM(9): GAP_S (optionnel)
-C tableau temporaire boite slave remote pour interface type 11
+C tableau temporaire boite secnd remote pour interface type 11
 C IREM(1) : num local
 C XREM(1) : X1(1)
 C XREM(2) : X1(2)
@@ -369,7 +369,7 @@ C IREM(4): NODNX_SMS(1) (optionnel)
 C IDTMINS_INT/=0
 C IREM(4): N1 (optionnel)
 C IREM(5): N2 (optionnel)
-C tableau temporaire boite slave remote pour interface type 17
+C tableau temporaire boite secnd remote pour interface type 17
 C XREM(1) : EMINXS(1)
 C XREM(2) : EMINXS(2)
 C XREM(3) : EMINXS(3)
@@ -410,15 +410,15 @@ C On utlise PANE_OLD
 
 C buffer envoi/reception forces interfaces
 C tableau de pointeurs NSVFI de taille NINTER
-C indiquant liste noeuds remote a recevoir du "proc master"
+C indiquant liste noeuds remote a recevoir du "proc main"
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: NSVFI
 
-C Proc master of the slave node. Assumes that only the master processor sends
-C slaves nodes
-      TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: PMASTERFI
+C Proc main of the secnd node. Assumes that only the main processor sends
+C secnds nodes
+      TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: PMAINFI
 
 C tableau de pointeurs NSNFI de taille NINTER
-C indiquant pour chaque interface type7 le nb de noeuds slave dans NSVFI
+C indiquant pour chaque interface type7 le nb de noeuds secnd dans NSVFI
 C par processeur
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: 
      .  NSNFI, NSNFI_SAV, ITAFI, KINFI, MATSFI,IPARTFRICSFI,IF_ADHFI,
@@ -464,12 +464,12 @@ C la liste des noeuds remote associe a une force dans FSKYI
 C tableau i20 partie edge
      .  ISKYFIE
 C tableau de pointeurs NSVSI de taille NINTER
-C indiquant liste noeuds remote a envoyer au "proc slave"
+C indiquant liste noeuds remote a envoyer au "proc secnd"
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: NSVSI,
 C tableau i20 partie edge
      .  NSVSIE
 C tableau de pointeurs NSNSI de taille NINTER
-C indiquant pour chaque interface type7, 10, 11 le nb de noeuds slave dans NSVSI
+C indiquant pour chaque interface type7, 10, 11 le nb de noeuds secnd dans NSVSI
 C par processeur
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: NSNSI,
 C tableau i20 partie edge
@@ -521,7 +521,7 @@ C T24 E2E
       TYPE(int_pointer)  , DIMENSION(:), ALLOCATABLE :: ISEDGE_FI
 
       TYPE(real_pointer), DIMENSION(:), ALLOCATABLE :: TIME_SFI
-      TYPE(real_pointer2), DIMENSION(:), ALLOCATABLE :: SLAV_FRFI
+      TYPE(real_pointer2), DIMENSION(:), ALLOCATABLE :: SECND_FRFI
       TYPE(real_pointer2), DIMENSION(:), ALLOCATABLE :: PENE_OLDFI
       TYPE(real_pointer2), DIMENSION(:), ALLOCATABLE :: STIF_OLDFI
 C Type 25 Interface
@@ -533,7 +533,7 @@ C Type 25 Interface
 
 C AMS TYPE2 + Contact
       TYPE(real_pointer), DIMENSION(:), ALLOCATABLE :: T2FAC_SMS_FI
-      TYPE(int_pointer2) , DIMENSION(:), ALLOCATABLE :: T2MASTER_SMS_FI
+      TYPE(int_pointer2) , DIMENSION(:), ALLOCATABLE :: T2MAIN_SMS_FI
 
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: CANDF_SI
 cc      my_real

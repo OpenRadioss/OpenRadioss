@@ -29,7 +29,7 @@ Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F
 Chd|====================================================================
       SUBROUTINE SPMD_FVB_GATH_BEGIN(IFV, X, XXX, XXXA, 
      .                                    V, VVV, VVVA)
-C Gather local X into XXX,XXXA,on the PMASTER of the FVM
+C Gather local X into XXX,XXXA,on the PMAIN of the FVM
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -65,7 +65,7 @@ C-----------------------------------------------
       INTEGER II, I, ITAG, LEN, ITAB(3,NSPMD-1),
      .        STAT(MPI_STATUS_SIZE,2*(NSPMD-1)), IERR, LENI, LENR,
      .        IAD, I1, I2, IAD1, IAD2,
-     .        J, J1, ITABL(3), PMASTER, MSGOFF
+     .        J, J1, ITABL(3), PMAIN, MSGOFF
 
       DATA MSGOFF/205/
 C
@@ -147,7 +147,7 @@ C ajout noeuds internes
          ITABL(1)=ITABL(1)+FVSPMD(IFV)%NNI_L
          ITABL(2)=FVSPMD(IFV)%NNA_L
          ITABL(3)= 0                  
-         PMASTER=FVSPMD(IFV)%PMASTER
+         PMAIN=FVSPMD(IFV)%PMAIN
 C
          LEN=ITABL(1)+ITABL(2)+ITABL(3)
          ALLOCATE(FVSPMD(IFV)%IBUF(LEN), FVSPMD(IFV)%RBUF(6*LEN))
@@ -222,7 +222,7 @@ Chd|====================================================================
      .                                    V, VVV, VVVA)
 
 C WAIT messages
-C Pmaster fills XXXA,VVVA
+C Pmain fills XXXA,VVVA
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -257,7 +257,7 @@ C-----------------------------------------------
       INTEGER II, I, ITAG, LEN, ITAB(3,NSPMD-1),
      .        STAT(MPI_STATUS_SIZE,2*(NSPMD-1)), IERR, LENI, LENR,
      .        IAD, I1, I2, IAD1, IAD2,
-     .        J, J1, ITABL(3), PMASTER, MSGOFF
+     .        J, J1, ITABL(3), PMAIN, MSGOFF
       DATA MSGOFF/205/
 C
 

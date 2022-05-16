@@ -580,7 +580,7 @@ C
             ENDIF
          ENDIF      
 C     
-C     suite traitement i7for3 et i10for3 sur noeud slave
+C     suite traitement i7for3 et i10for3 sur noeud secnd
 C     
          IF (INCONV .EQ. 1) THEN
             IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0.AND.
@@ -834,7 +834,7 @@ C-----------------------------------------------
        ENDIF
       ENDIF
 C
-C suite traitement i11for3 sur noeud slave
+C suite traitement i11for3 sur noeud secnd
 C
       IF(INCONV .EQ. 1) THEN
        IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0.AND.
@@ -1113,7 +1113,7 @@ C
           FROTS(4,NN) = FROTS(4,NN) + BUFR(69,I)                       
         ENDDO
 C
-C suite traitement i11for3 sur noeud slave
+C suite traitement i11for3 sur noeud secnd
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0.AND.
      .   (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
@@ -1392,7 +1392,7 @@ C Traitement interface type20
         ENDIF
       ENDIF
 C
-C suite traitement i7for3 et i10for3 sur noeud slave
+C suite traitement i7for3 et i10for3 sur noeud secnd
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0.AND.
      .   (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
@@ -1651,7 +1651,7 @@ C Traitement interface type20
        ENDIF
 C
 C
-C suite traitement i7for3 et i10for3 sur noeud slave
+C suite traitement i7for3 et i10for3 sur noeud secnd
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0.AND.
      .   (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
@@ -2053,7 +2053,7 @@ C
 
 
 C
-C suite traitement i7for3 et i10for3 sur noeud slave
+C suite traitement i7for3 et i10for3 sur noeud secnd
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0.AND.
      .   (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
@@ -2259,7 +2259,7 @@ C
         ENDIF
        ENDIF       
 C
-C suite traitement i7for3 et i10for3 sur noeud slave
+C suite traitement i7for3 et i10for3 sur noeud secnd
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0.AND.
      .   (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
@@ -2534,7 +2534,7 @@ C-----------------------------------------------
        ENDIF
       ENDIF
 C
-C suite traitement i11for3 sur noeud slave
+C suite traitement i11for3 sur noeud secnd
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0.AND.
      .   (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
@@ -2773,7 +2773,7 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 C
-C suite traitement i11for3 sur noeud slave
+C suite traitement i11for3 sur noeud secnd
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0.AND.
      .   (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
@@ -2969,7 +2969,7 @@ c        FROTS(4,NN) = FROTS(4,NN) + BUFR(5,I)
         END DO
       END DO
 C
-C suite traitement i11for3 sur noeud slave
+C suite traitement i11for3 sur noeud secnd
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0.AND.
      .   (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
@@ -3591,7 +3591,7 @@ C init Pointeur + lecture partie entiere
         IERROR = IERROR + IERROR1
         ALLOCATE(ITAFI(NINTER),STAT=IERROR1)
         IERROR = IERROR + IERROR1
-        ALLOCATE(PMASTERFI(NINTER),STAT=IERROR1)
+        ALLOCATE(PMAINFI(NINTER),STAT=IERROR1)
         IERROR = IERROR + IERROR1
         ALLOCATE(KINFI(NINTER),STAT=IERROR1)
         IERROR = IERROR + IERROR1
@@ -3762,7 +3762,7 @@ C INT 24 & 25
         IERROR = IERROR + IERROR1
         ALLOCATE (IRTLM_FI(NINTER),STAT=IERROR1)
         IERROR = IERROR + IERROR1
-        ALLOCATE (SLAV_FRFI(NINTER),STAT=IERROR1)
+        ALLOCATE (SECND_FRFI(NINTER),STAT=IERROR1)
         IERROR = IERROR + IERROR1
         ALLOCATE (PENE_OLDFI(NINTER),STAT=IERROR1)
         IERROR = IERROR + IERROR1
@@ -3843,7 +3843,7 @@ C
         ALLOCATE (PROCAMSFI(NINTER),STAT=IERROR1)
         IERROR = IERROR + IERROR1
 C
-        ALLOCATE (T2MASTER_SMS_FI(NINTER),STAT=IERROR1)
+        ALLOCATE (T2MAIN_SMS_FI(NINTER),STAT=IERROR1)
         IERROR = IERROR + IERROR1
         ALLOCATE (T2FAC_SMS_FI(NINTER),STAT=IERROR1)
         IERROR = IERROR + IERROR1
@@ -3866,7 +3866,7 @@ C
          IERROR = IERROR + IERROR1 
         ENDIF
 
-C       MY_ALLOCATE(MASTER_FIE,NINTER)
+C       MY_ALLOCATE(MAIN_FIE,NINTER)
         MY_ALLOCATE(GAPE_L_FIE,NINTER)
         MY_ALLOCATE(EDG_BISECTOR_FIE,NINTER)
         MY_ALLOCATE(VTX_BISECTOR_FIE,NINTER)
@@ -3879,7 +3879,7 @@ C
           NULLIFY(NSVFI(I)%p)
           NULLIFY(NSNFI(I)%p)
           NULLIFY(EDGE_FI(I)%p)
-          NULLIFY(PMASTERFI(I)%p)
+          NULLIFY(PMAINFI(I)%p)
           NULLIFY(NSNFI_SAV(I)%p)
           NULLIFY(NSNSI_SAV(I)%p)
           NULLIFY(ITAFI(I)%p)
@@ -3971,7 +3971,7 @@ C I18KINE
 C INT24 & 25
           NULLIFY(TIME_SFI(I)%P)
           NULLIFY(IRTLM_FI(I)%P)
-          NULLIFY(SLAV_FRFI(I)%P)
+          NULLIFY(SECND_FRFI(I)%P)
           NULLIFY(STIF_OLDFI(I)%P)
           NULLIFY(PENE_OLDFI(I)%P)
           NULLIFY(ICONT_I_FI(I)%P)
@@ -3985,13 +3985,13 @@ C INT24 & 25
           NULLIFY(KREMNOR_FI(I)%P)
 C INT25
           NULLIFY(ISLIDE_FI(I)%P)
-          NULLIFY(T2MASTER_SMS_FI(I)%p)
+          NULLIFY(T2MAIN_SMS_FI(I)%p)
           NULLIFY(T2FAC_SMS_FI(I)%p)
           NULLIFY(CANDF_SI(I)%P)
           NULLIFY(ISKEW_FI(I)%P)
           NULLIFY(ICODT_FI(I)%P)
 C INT25 E2E
-C         NULLIFY(MASTER_FIE(I)%P)
+C         NULLIFY(MAIN_FIE(I)%P)
           NULLIFY(GAPE_L_FIE(I)%P)
           NULLIFY(EDG_BISECTOR_FIE(I)%P)
           NULLIFY(VTX_BISECTOR_FIE(I)%P)
@@ -4186,9 +4186,9 @@ C
                  ENDIF
 C
                  IF (ITYP.EQ.25)THEN
-                  IF(.NOT.ASSOCIATED(PMASTERFI(I)%P))
-     *                      ALLOCATE(PMASTERFI(I)%P(LENR),STAT=IERROR1)
-                  CALL READ_I_C(PMASTERFI(I)%P(1),LENR)
+                  IF(.NOT.ASSOCIATED(PMAINFI(I)%P))
+     *                      ALLOCATE(PMAINFI(I)%P(LENR),STAT=IERROR1)
+                  CALL READ_I_C(PMAINFI(I)%P(1),LENR)
                   IF(.NOT.ASSOCIATED(IRTLM_FI(I)%P))
      *                      ALLOCATE(IRTLM_FI(I)%P(4,LENR),STAT=IERROR1)
                   CALL READ_I_C(IRTLM_FI(I)%P(1,1),4*LENR)
@@ -4211,7 +4211,7 @@ C                 CALL READ_I_C(ISKEW_FI(I)%P(1),LENR)
      *                      ALLOCATE(ISLIDE_FI(I)%P(4,LENR),STAT=IERROR1)
 C                 no need in restart file
                   ISLIDE_FI(I)%P(1:4,1:LENR)=0
-C Remove banned master segment
+C Remove banned main segment
                   IF(FLAGREMN==2) THEN
                     IF(.NOT.ASSOCIATED(KREMNOR_FI(I)%P))
      *                      ALLOCATE(KREMNOR_FI(I)%P(LENR+1),STAT=IERROR1)
@@ -4237,9 +4237,9 @@ C
                 IERROR = IERROR + IERROR1
                 CALL READ_I_C(PROCAMSFI(I)%P(1),LENR)
                 IF (ITYP==24) THEN
-                  ALLOCATE (T2MASTER_SMS_FI(I)%P(6,LENR),STAT=IERROR1)
+                  ALLOCATE (T2MAIN_SMS_FI(I)%P(6,LENR),STAT=IERROR1)
                   IERROR = IERROR + IERROR1
-                  CALL READ_I_C(T2MASTER_SMS_FI(I)%P(1,1),6*LENR)
+                  CALL READ_I_C(T2MAIN_SMS_FI(I)%P(1,1),6*LENR)
                 ENDIF
                ELSEIF(IDTMINS_INT_OLD /= 0) THEN
                 ALLOCATE (NODAMSFI(I)%P(LENR),STAT=IERROR1)
@@ -4249,9 +4249,9 @@ C
                 IERROR = IERROR + IERROR1
                 CALL READ_I_C(PROCAMSFI(I)%P(1),LENR)
                 IF (ITYP==24) THEN
-                  ALLOCATE (T2MASTER_SMS_FI(I)%P(6,LENR),STAT=IERROR1)
+                  ALLOCATE (T2MAIN_SMS_FI(I)%P(6,LENR),STAT=IERROR1)
                   IERROR = IERROR + IERROR1
-                  CALL READ_I_C(T2MASTER_SMS_FI(I)%P(1,1),6*LENR)
+                  CALL READ_I_C(T2MAIN_SMS_FI(I)%P(1,1),6*LENR)
                 ENDIF
                ENDIF 
 C
@@ -4272,10 +4272,10 @@ C
                    PROCAMSFI(I)%P(1:LENR)=0
                  ENDIF
                  IF (ITYP==24) THEN
-                   IF(.NOT.ASSOCIATED(T2MASTER_SMS_FI(I)%P)) THEN
-                     ALLOCATE (T2MASTER_SMS_FI(I)%P(6,LENR),STAT=IERROR1)
+                   IF(.NOT.ASSOCIATED(T2MAIN_SMS_FI(I)%P)) THEN
+                     ALLOCATE (T2MAIN_SMS_FI(I)%P(6,LENR),STAT=IERROR1)
                      IERROR = IERROR + IERROR1
-                     T2MASTER_SMS_FI(I)%P(1:6,1:LENR)=0
+                     T2MAIN_SMS_FI(I)%P(1:6,1:LENR)=0
                    ENDIF
                  ENDIF
                ELSEIF(IDTMINS_INT /= 0) THEN
@@ -4290,10 +4290,10 @@ C
                    PROCAMSFI(I)%P(1:LENR)=0
                  ENDIF
                  IF (ITYP==24) THEN
-                   IF(.NOT.ASSOCIATED(T2MASTER_SMS_FI(I)%P)) THEN
-                     ALLOCATE (T2MASTER_SMS_FI(I)%P(6,LENR),STAT=IERROR1)
+                   IF(.NOT.ASSOCIATED(T2MAIN_SMS_FI(I)%P)) THEN
+                     ALLOCATE (T2MAIN_SMS_FI(I)%P(6,LENR),STAT=IERROR1)
                      IERROR = IERROR + IERROR1
-                     T2MASTER_SMS_FI(I)%P(1:6,1:LENR)=0
+                     T2MAIN_SMS_FI(I)%P(1:6,1:LENR)=0
                    ENDIF
                  ENDIF           
                END IF
@@ -4401,8 +4401,8 @@ C
                  IERROR = IERROR + IERROR1
                END IF
                IF(ITYP == 24 .OR. ITYP == 25)THEN
-                 ALLOCATE(SLAV_FRFI(I)%P(6,LENR),STAT=IERROR1)
-                 SLAV_FRFI(I)%P(1:6,1:LENR)=ZERO
+                 ALLOCATE(SECND_FRFI(I)%P(6,LENR),STAT=IERROR1)
+                 SECND_FRFI(I)%P(1:6,1:LENR)=ZERO
                  IERROR = IERROR + IERROR1
                  ALLOCATE(PENE_OLDFI(I)%P(5,LENR),STAT=IERROR1)
                  PENE_OLDFI(I)%P(1:5,1:LENR)=ZERO
@@ -4738,7 +4738,7 @@ C                   ALLOCATE(FSKYFIE(I)%P(8,LSKYFI),STAT=IERROR1)
                 IF(LENR_EDGE.GT.0) THEN
                   MY_ALLOCATE(NSVFIE(I)%P,LENR_EDGE) !ok
                   MY_ALLOCATE(ITAFIE(I)%P,LENR_EDGE*2)
-C                 MY_ALLOCATE(MASTER_FIE(I)%P,LENR_EDGE)
+C                 MY_ALLOCATE(MAIN_FIE(I)%P,LENR_EDGE)
                   MY_ALLOCATE2D(LEDGE_FIE(I)%P,E_LEDGE_SIZE,LENR_EDGE) !ok
                   MY_ALLOCATE2D(XFIE(I)%P,3,LENR_EDGE*2) !ok
                   MY_ALLOCATE2D(VFIE(I)%P,3,LENR_EDGE*2) !ok
@@ -5075,7 +5075,7 @@ C rajout partie edge
               CALL READ_DB(TIME_SFI(I)%P(1),2*LENR)
           END IF
           IF (ITYP==24.OR.ITYP==25)THEN
-              CALL READ_DB(SLAV_FRFI(I)%P(1,1),6*LENR)
+              CALL READ_DB(SECND_FRFI(I)%P(1,1),6*LENR)
               CALL READ_DB(PENE_OLDFI(I)%P(1,1),5*LENR)
               CALL READ_DB(STIF_OLDFI(I)%P(1,1),2*LENR)
           ENDIF  ! fin partie type 24 & 25
@@ -5327,14 +5327,14 @@ C E2E Arrays
                   ENDIF
 C
                   IF (ITYP.EQ.25)THEN
-                    CALL WRITE_I_C(PMASTERFI(I)%P(1),LENR)
+                    CALL WRITE_I_C(PMAINFI(I)%P(1),LENR)
                     CALL WRITE_I_C(IRTLM_FI(I)%P(1,1),4*LENR)
                     CALL WRITE_I_C(ICONT_I_FI(I)%P(1),LENR)
 C                   Not added to rst files
 C                   CALL WRITE_I_C(ICODT_FI(I)%P(1),LENR)
 C                   CALL WRITE_I_C(ISKEW_FI(I)%P(1),LENR)
 
-C Remove banned master segment
+C Remove banned main segment
                     IF(IPARI(63,I)==2) THEN
                        CALL WRITE_I_C(KREMNOR_FI(I)%P(1),LENR+1)
                        IF(KREMNOR_FI(I)%P(LENR+1)/=0) THEN
@@ -5347,11 +5347,11 @@ C
                     CALL WRITE_I_C(NODNXFI(I)%P(1),LENR)
                     CALL WRITE_I_C(NODAMSFI(I)%P(1),LENR)
                     CALL WRITE_I_C(PROCAMSFI(I)%P(1),LENR)
-                    IF (ITYP.EQ.24) CALL WRITE_I_C(T2MASTER_SMS_FI(I)%P(1,1),6*LENR)
+                    IF (ITYP.EQ.24) CALL WRITE_I_C(T2MAIN_SMS_FI(I)%P(1,1),6*LENR)
                   ELSEIF(IDTMINS_INT/=0)THEN
                     CALL WRITE_I_C(NODAMSFI(I)%P(1),LENR)
                     CALL WRITE_I_C(PROCAMSFI(I)%P(1),LENR)
-                    IF (ITYP.EQ.24) CALL WRITE_I_C(T2MASTER_SMS_FI(I)%P(1,1),6*LENR)
+                    IF (ITYP.EQ.24) CALL WRITE_I_C(T2MAIN_SMS_FI(I)%P(1,1),6*LENR)
                   END IF
 C
                 ELSEIF(ITYP.EQ.10) THEN
@@ -5649,7 +5649,7 @@ C
                 CALL WRITE_DB(TIME_SFI(I)%P(1),2*LENR)
               END IF
               IF (ITYP==24.OR.ITYP==25)THEN
-                CALL WRITE_DB(SLAV_FRFI(I)%P(1,1),6*LENR)
+                CALL WRITE_DB(SECND_FRFI(I)%P(1,1),6*LENR)
                 CALL WRITE_DB(PENE_OLDFI(I)%P(1,1),5*LENR)
                 CALL WRITE_DB(STIF_OLDFI(I)%P(1,1),2*LENR)
               ENDIF  ! fin partie type 24 & 25
@@ -7413,7 +7413,7 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  UPGRADE_REM_SLV               source/mpi/interfaces/spmd_i7tool.F
+Chd|  UPGRADE_REM_2RY               source/mpi/interfaces/spmd_i7tool.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
@@ -7423,7 +7423,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
-      SUBROUTINE UPGRADE_REM_SLV(IPARI,COUNT_REMSLV,COUNT_REMSLVE)
+      SUBROUTINE UPGRADE_REM_2RY(IPARI,COUNT_REMSLV,COUNT_REMSLVE)
       USE TRI7BOX
       USE TRI25EBOX
       USE MESSAGE_MOD

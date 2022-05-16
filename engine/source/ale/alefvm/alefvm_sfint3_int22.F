@@ -82,7 +82,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: debug_outp
-      INTEGER :: idebug, idbf,idbl, IB, IBm, IBs, IADJ, MCELL, NumSLAVE, NADJ, ISLAVE
+      INTEGER :: idebug, idbf,idbl, IB, IBm, IBs, IADJ, MCELL, NumSECND, NADJ, ISECND
       INTEGER :: I, II, J, IBv, NBCUT, NBCUTv, K, IV
       INTEGER :: ICELLv, JV, ICELLs, ClosedSurface, IPRES_MOM, ISGN_NORM
       my_real :: F0(3), SURF, Pf
@@ -98,7 +98,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------
 
-c      0. Domaine d'integration : supercell = master u (U slave)
+c      0. Domaine d'integration : supercell = main u (U secnd)
 c      1. Calcul de Pf
 c      2. Calcul de Ff(1:3) = -Pf.S.n
 c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
@@ -127,14 +127,14 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
       !Inner Forces
       !------------
       DO IB=NBF,NBL
-        !---STARTING WITH MASTER CELL
+        !---STARTING WITH main CELL
         !-----------------------------------
         F0(1:3)           = ZERO
         II                = BRICK_LIST(NIN,IB)%ID
-        MCELL             = BRICK_LIST(NIN,IB)%MasterID
+        MCELL             = BRICK_LIST(NIN,IB)%MainID
         NBCUT             = BRICK_LIST(NIN,IB)%NBCUT         
         IF (MCELL==0)CYCLE  !no internal force to compute at this centroid
-        !init. with master cut faces
+        !init. with main cut faces
         P1  = BRICK_LIST(NIN,IB)%SIG(0)
         Z1  = BRICK_LIST(NIN,IB)%RHOC
         M1  = BRICK_LIST(NIN,IB)%MACH
@@ -225,7 +225,7 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
               ICELLv        = BRICK_LIST(NIN,IB)%POLY(MCELL)%FACE(J)%Adjacent_Cell(IADJ)
               IBM           = 0
               IF(IBv.NE.0)THEN
-                IBM         = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMaster(4)
+                IBM         = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMain(4)
                 IF(IBM == IB)CYCLE   ! inner face skipped  
                 AREAv       = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(Jv)%Surf
                 SURF        = MIN(AREA,AREAv)
@@ -261,19 +261,19 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
           
         ENDDO!next J
                 
-        !---GO ON WITH ATTACHED SLAVE CELLS
+        !---GO ON WITH ATTACHED SECND CELLS
         !-----------------------------------
-        NumSLAVE = BRICK_LIST(NIN,IB)%SlaveList%Num    
-        DO ISLAVE=1,NumSLAVE
-          IBs           = BRICK_LIST(NIN,IB)%SlaveList%IBV(ISlave)                                                                 
-          ICELLs        = BRICK_LIST(NIN,IB)%SlaveList%ICELLv(ISlave)                                                              
-          Js            = BRICK_LIST(NIN,IBs)%POLY(ICELLs)%WhereIsMaster(1)                                                        
+        NumSECND = BRICK_LIST(NIN,IB)%SecndList%Num    
+        DO ISECND=1,NumSECND
+          IBs           = BRICK_LIST(NIN,IB)%SecndList%IBV(ISecnd)                                                                 
+          ICELLs        = BRICK_LIST(NIN,IB)%SecndList%ICELLv(ISecnd)                                                              
+          Js            = BRICK_LIST(NIN,IBs)%POLY(ICELLs)%WhereIsMain(1)                                                        
           NBCUTv        = BRICK_LIST(NIN,IBs)%NBCUT
           !---Face-0                                                                                                               
           !----------------------------------- 
           
           !non ne pas sommer sur les plans de coupes il ne sont pas forcemment tous voisins :
-          !example : inter22/1D_EXPANSION/9ELEMS/LAW51/PerfectGas/EULER/SMALL_MASTER/0.FVM/MAT51
+          !example : inter22/1D_EXPANSION/9ELEMS/LAW51/PerfectGas/EULER/SMALL_MAIN/0.FVM/MAT51
           !print *, "pause" ; pause
           
          !! boucler si icells=9
@@ -319,7 +319,7 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
           !---Face-1:6                                                                                                               
           !-----------------------------------                                                                                     
           DO J=1,NV46                                                                                                              
-            IF(J.EQ.Js) CYCLE ! do no take into account internal face (inside supercell), i.e. between master cell and slave cell  
+            IF(J.EQ.Js) CYCLE ! do no take into account internal face (inside supercell), i.e. between main cell and secnd cell  
             NADJ     = BRICK_LIST(NIN,IBs)%POLY(ICELLs)%FACE(J)%NAdjCell 
             Z2       = ZERO                                                          
             IF(NADJ==0 .OR. ClosedSurface == 1)THEN
@@ -346,7 +346,7 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
                 ICELLv        = BRICK_LIST(NIN,IBs)%POLY(ICELLs)%FACE(J)%Adjacent_Cell(IADJ)
                 IBM           = 0
                 IF(IBv.NE.0)THEN
-                  IBM         = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMaster(4)
+                  IBM         = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMain(4)
                   AREAv       = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(Jv)%Surf
                   SURF        = MIN(AREA,AREAv)
                   P2          = BRICK_LIST(NIN,IBm)%SIG(0)
@@ -380,7 +380,7 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
               ENDDO!next IADJ
             ENDIF  !(NADJ==0)  
           ENDDO!next J   
-        ENDDO! next ISLAVE 
+        ENDDO! next ISECND 
         
 
         FINT_CELL(1,II) = F0(1)
@@ -412,7 +412,7 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
 
             do i=1,NB
               ii       = brick_list(nin,i)%id
-              MCELL    = BRICK_LIST(NIN,I)%MasterID
+              MCELL    = BRICK_LIST(NIN,I)%MainID
               IF (MCELL==0)CYCLE               
               print *,                    "      brique_=", ixs(11,ii)
               write(*,FMT='(A34,6A26)')   "                                  ",    

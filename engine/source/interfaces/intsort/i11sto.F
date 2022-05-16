@@ -96,8 +96,8 @@ C il faut un lock sur toute la boucle (modification de chaine)
 C-----------------------------------------------
 C elimination des couples deja trouves : une edge
 C escclave peut occuper plusieurs voxels. enbalyant les voxels
-C de l'edge maitre pour trouver les esclaves correspondantes
-C on peut donc trouver plusieurs occurence de l'edge esclave.
+C de l'edge main pour trouver les seconds correspondantes
+C on peut donc trouver plusieurs occurence de l'edge second.
 C-----------------------------------------------
         I_STOK = II_STOK
         DO I=1,J_STOK
@@ -226,8 +226,8 @@ C il faut un lock sur toute la boucle (modification de chaine)
 C-----------------------------------------------
 C elimination des couples deja trouves : une edge
 C escclave peut occuper plusieurs voxels. enbalyant les voxels
-C de l'edge maitre pour trouver les esclaves correspondantes
-C on peut donc trouver plusieurs occurence de l'edge esclave.
+C de l'edge main pour trouver les seconds correspondantes
+C on peut donc trouver plusieurs occurence de l'edge second.
 C-----------------------------------------------
         I_STOK = II_STOK
         DO I=1,J_STOK

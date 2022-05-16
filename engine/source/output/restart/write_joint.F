@@ -76,8 +76,8 @@ C-----------------------------------------------
             !   ------------------------------        
             DO N=1,NJOINT     
                 IF(NUMBER_NODE(N)>0) THEN
-                    !   proc master for the current joint
-                    CALL WRITE_I_C(CYL_JOIN(N)%PROC_MASTER,1)
+                    !   proc main for the current joint
+                    CALL WRITE_I_C(CYL_JOIN(N)%PROC_MAIN,1)
                     !   number of proc for the current joint
                     CALL WRITE_I_C(CYL_JOIN(N)%NUMBER_PROC,1)
                     !   list of proc for the current joint
@@ -89,8 +89,8 @@ C-----------------------------------------------
                 ENDIF
                 !   number of sent node for mpi comm
                 CALL WRITE_I_C(CYL_JOIN(N)%COMM_MPI%SIZE_SR,NSPMD)
-                !   master node
-                CALL WRITE_I_C(CYL_JOIN(N)%MASTER_NODE,2)
+                !   main node
+                CALL WRITE_I_C(CYL_JOIN(N)%MAIN_NODE,2)
             ENDDO
             !   ------------------------------
 

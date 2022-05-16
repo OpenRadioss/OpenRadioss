@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER NFX, NMOD, NME, LEN, AVAR, PMASTER, II, I, ITAG, MSGOFF,
+      INTEGER NFX, NMOD, NME, LEN, AVAR, PMAIN, II, I, ITAG, MSGOFF,
      .        REQ(NSPMD-1), STAT(MPI_STATUS_SIZE,NSPMD-1), IERR,
      .        J
       my_real
@@ -68,8 +68,8 @@ C
          NME=FXBIPM(17,NFX)
          LEN=NME+NMOD
          AVAR=FXBIPM(13,NFX)
-         PMASTER=FXBIPM(39,NFX)
-         IF (ISPMD.EQ.PMASTER) THEN
+         PMAIN=FXBIPM(39,NFX)
+         IF (ISPMD.EQ.PMAIN) THEN
             ALLOCATE(FF(LEN,NSPMD-1))
             II=0
             DO I=1,NSPMD
@@ -89,7 +89,7 @@ C
             DEALLOCATE(FF)
          ELSE
             ITAG=MSGOFF
-            CALL MPI_ISEND(MFEXTP(AVAR), LEN, REAL, IT_SPMD(PMASTER+1),
+            CALL MPI_ISEND(MFEXTP(AVAR), LEN, REAL, IT_SPMD(PMAIN+1),
      .                     ITAG, MPI_COMM_WORLD, REQ(1), IERR)
 C
             CALL MPI_WAIT(REQ, STAT, IERR)

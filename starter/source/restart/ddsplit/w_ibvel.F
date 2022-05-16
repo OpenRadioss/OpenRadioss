@@ -78,7 +78,7 @@ C
         ENDDO
         IBVTMP(3,I) = NSNL
         M = IBVEL(4,I)
-Coptimisation pour ne pas traiter les rb mous sans master et sans noeud slave
+Coptimisation pour ne pas traiter les rb mous sans main et sans noeud secnd
         IF(NLOCAL(M,PROC+1)==0.AND.NSNL.EQ.0)THEN
           IBVTMP(4,I) = -M
         ELSE

@@ -450,7 +450,7 @@ C-----------------------------------------------
       INTEGER LOC_PROC,A_AR,N,L,I,J,II,K,M,JJ, LEN,A_AR2,
      .        MSGTYP,MSGOFF,MSGOFF2,SIZ,IDEBR,IDEBS,ICC,IFRAM,
      .        IERROR, NBIRECV, NBISEND, INDEX, NBRBY, NBNOD,
-     .        PMASTER, IDEB, LENS, LENR, K0, K2, N1, N2, N3, NNOD,
+     .        PMAIN, IDEB, LENS, LENR, K0, K2, N1, N2, N3, NNOD,
      .        NELSEG,NN,NB,
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD), REQ_S(NSPMD),
@@ -500,7 +500,7 @@ C
 C 
       K0=NSTRF(25)
       DO I=1,NSECT
-        PMASTER = FR_SEC(NSPMD+1,I)
+        PMAIN = FR_SEC(NSPMD+1,I)
         N1 = NSTRF(K0+3)
         N2 = NSTRF(K0+4)
         N3 = NSTRF(K0+5)
@@ -509,8 +509,8 @@ C
         NELSEG = NSTRF(K0+7)+NSTRF(K0+8)+NSTRF(K0+9)+NSTRF(K0+10)+
      +           NSTRF(K0+11)+NSTRF(K0+12)+NSTRF(K0+13)
         IFRAM = NSTRF(K0+26)
-        IF(PMASTER.GT.0.AND.LOC_PROC.NE.PMASTER) THEN
-          L = IAD_STMP(PMASTER)
+        IF(PMAIN.GT.0.AND.LOC_PROC.NE.PMAIN) THEN
+          L = IAD_STMP(PMAIN)
           IF (IFRAM.LE.10.OR.N1.NE.0) THEN
             IF(N1.GT.0) THEN
               IF(WEIGHT(N1).EQ.1) THEN
@@ -590,9 +590,9 @@ C
                 L = L + A_AR
              END IF
           END IF
-          IAD_STMP(PMASTER)=L
+          IAD_STMP(PMAIN)=L
         ELSE
-C pmaster => stockage direct
+C pmain => stockage direct
           IF (IFRAM.LE.10.OR.N1.NE.0) THEN
             IF(N1.GT.0) THEN
               IF(WEIGHT(N1).EQ.1) THEN
@@ -676,8 +676,8 @@ C
         I = IRINDEX(INDEX)
         IDEB = IAD_RECV(I)
         DO N = 1, NSECT
-          PMASTER = FR_SEC(NSPMD+1,N)
-          IF(LOC_PROC.EQ.PMASTER) THEN
+          PMAIN = FR_SEC(NSPMD+1,N)
+          IF(LOC_PROC.EQ.PMAIN) THEN
             NB = FR_SEC(I,N)
             IF(NB.GT.0) THEN
               DO K = 1, NB
@@ -711,13 +711,13 @@ C
         CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
       END DO
 C
-C Calcul des valeurs nodales sur proc master si besoin (test global ?)
+C Calcul des valeurs nodales sur proc main si besoin (test global ?)
 C     
       K0=NSTRF(25)
       DO N = 1, NSECT
-        PMASTER = FR_SEC(NSPMD+1,N)
+        PMAIN = FR_SEC(NSPMD+1,N)
         IFRAM = NSTRF(K0+26)
-        IF(LOC_PROC.EQ.PMASTER) THEN
+        IF(LOC_PROC.EQ.PMAIN) THEN
           IF(MOD(IFRAM,10).EQ.1.OR.MOD(IFRAM,10).EQ.2)THEN
            IF(DSEC(N).NE.0) THEN
             XSEC(4,1,N) =  XSEC(4,1,N)/DSEC(N)
@@ -750,12 +750,12 @@ C reste a coder l'envoi des noeuds vers les procs concernes
         L = 0
         K0=NSTRF(25)
         DO N = 1, NSECT
-          PMASTER = FR_SEC(NSPMD+1,N)
+          PMAIN = FR_SEC(NSPMD+1,N)
           N1 = NSTRF(K0+3)
           N2 = NSTRF(K0+4)
           N3 = NSTRF(K0+5)
           IFRAM = NSTRF(K0+26)
-          IF(LOC_PROC.EQ.PMASTER) THEN
+          IF(LOC_PROC.EQ.PMAIN) THEN
             SBUF2(L+1) = N
             IF (IFRAM.LE.10.OR.N1.NE.0) THEN
               SBUF2(L+2) = XSEC(1,1,N)
@@ -1370,7 +1370,7 @@ C
         END IF
       END DO
 C
-C Remise a 0 de SECFCUM si P non master
+C Remise a 0 de SECFCUM si P non main
 C
       IF(SIZE.EQ.6) THEN
 #include "vectorize.inc"

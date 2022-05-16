@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-      FUNCTION GET_UNIQUE_MASTER_CELL (
+      FUNCTION GET_UNIQUE_MAIN_CELL (
      .                    NIN,   IB,   K )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------- 
 ! With interface 22 Hexahedral cell is cut and
-! master one is the biggest one which is greater
+! main one is the biggest one which is greater
 ! then 50%. In case of multiple choice (2 are
 ! 50%-50% or several if criteria is reduced) we
 ! must ensure a unique choice which is repeatable
@@ -56,11 +56,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER   :: NIN,IB,K
-      INTEGER   :: GET_UNIQUE_MASTER_CELL
+      INTEGER   :: GET_UNIQUE_MAIN_CELL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER   ::  IsMaster, N, IPOS, LEVEL, ICELL
+      INTEGER   ::  IsMain, N, IPOS, LEVEL, ICELL
       my_real   ::  CENTROID(3,K), SCORE(K), MIN, NextMIN
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
@@ -77,8 +77,8 @@ C-----------------------------------------------
       SCORE(1:K)    = ZERO
       
       DO ICELL = 1, 9
-        IsMaster = BRICK_LIST(NIN,IB)%POLY(ICELL)%IsMaster
-        IF(IsMaster==0)CYCLE
+        IsMain = BRICK_LIST(NIN,IB)%POLY(ICELL)%IsMain
+        IF(IsMain==0)CYCLE
         N = N + 1
         CENTROID(1:3,N) = BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1:3)
       ENDDO
@@ -99,7 +99,7 @@ C-----------------------------------------------
       ENDDO!next LEVEL
 
       IPOS                   = MAXLOC(SCORE(1:K),1)
-      GET_UNIQUE_MASTER_CELL = IPOS
+      GET_UNIQUE_MAIN_CELL = IPOS
       
       RETURN
       END

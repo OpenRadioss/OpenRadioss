@@ -2093,7 +2093,7 @@ C-------------------AFI,STNFI,VSCFI
                  ELSE
 C-----------------PARITON not yet with implicit----	       
 	             ENDIF
-C-----  IRTLM_FI,TIME_SFI,SLAV_FRFI,PENE_OLDFI,STIF_OLDFI
+C-----  IRTLM_FI,TIME_SFI,SECND_FRFI,PENE_OLDFI,STIF_OLDFI
                  IF(ITYP==24) THEN
                   LII7CP=LII7CP+2*LENR
                   LRI7CP=LRI7CP+LENR
@@ -2213,7 +2213,7 @@ C-----------------PARITON not yet with implicit----
 	           IID=IID+2*LENR
 	           CALL CP_REAL(LENR,TIME_SFI(I)%P(1),RI7CP(RID))
 	           RID=RID+LENR
-	           CALL CP_REAL(6*LENR,SLAV_FRFI(I)%P(1,1),RI7CP(RID))
+	           CALL CP_REAL(6*LENR,SECND_FRFI(I)%P(1,1),RI7CP(RID))
 	           RID=RID+6*LENR
 	           CALL CP_REAL(5*LENR,PENE_OLDFI(I)%P(1,1),RI7CP(RID))
 	           RID=RID+5*LENR
@@ -2422,10 +2422,10 @@ C-----------------PARITON not yet with implicit----
                  ALLOCATE(TIME_SFI(I)%P(LENR),STAT=IERR)
 	             CALL CP_REAL(LENR,RI7CP(RID),TIME_SFI(I)%P(1))
 	             RID=RID+LENR
-                 IF(ASSOCIATED(SLAV_FRFI(I)%P))
-     +                    DEALLOCATE(SLAV_FRFI(I)%P)
-                 ALLOCATE(SLAV_FRFI(I)%P(6,LENR),STAT=IERR)
-	             CALL CP_REAL(6*LENR,RI7CP(RID),SLAV_FRFI(I)%P(1,1))
+                 IF(ASSOCIATED(SECND_FRFI(I)%P))
+     +                    DEALLOCATE(SECND_FRFI(I)%P)
+                 ALLOCATE(SECND_FRFI(I)%P(6,LENR),STAT=IERR)
+	             CALL CP_REAL(6*LENR,RI7CP(RID),SECND_FRFI(I)%P(1,1))
 	             RID=RID+6*LENR
                  IF(ASSOCIATED(PENE_OLDFI(I)%P))
      +                    DEALLOCATE(PENE_OLDFI(I)%P)

@@ -86,7 +86,7 @@ C
       IF(N2D.EQ.0)NIR=4
 C
 C-------------------------------------
-C     ACCELERATIONS DES NOEUDS MASTERS
+C     ACCELERATIONS DES NOEUDS MAINS
 C-------------------------------------
       DO 10 I=1,NMN
       J=MSR(I)
@@ -119,7 +119,7 @@ C
 C
  10   CONTINUE
 C--------------------------------------
-C     ACCELERATIONS DES NOEUDS ESCLAVES
+C     ACCELERATIONS DES NOEUDS SECONDS
 C--------------------------------------
       DO 100 II=1,NSN
       IF(ILOC(II).LT.1) GO TO 100

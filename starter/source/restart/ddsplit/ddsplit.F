@@ -192,7 +192,7 @@ Chd|        W_LGAU                        source/restart/ddsplit/w_lgau.F
 Chd|        W_LLINK                       source/restart/ddsplit/w_llink.F
 Chd|        W_LSENS                       source/restart/ddsplit/w_lsens.F
 Chd|        W_MAD                         source/restart/ddsplit/w_mad.F
-Chd|        W_MASTER_PROC_WEIGHT          source/restart/ddsplit/w_master_proc_weight.F
+Chd|        W_MAIN_PROC_WEIGHT          source/restart/ddsplit/w_main_proc_weight.F
 Chd|        W_MONVOL                      source/restart/ddsplit/w_monvol.F
 Chd|        W_PLY_INFO                    source/restart/ddsplit/w_ply_info.F
 Chd|        W_PON                         source/restart/ddsplit/w_pon.F
@@ -283,7 +283,7 @@ Chd|====================================================================
      P   FR_WAVE      ,FAILWAVE     ,PARTS0         ,USERW        ,ELBUF       ,
      Q   RWL          ,RWSAV        ,RBY            ,RIVET        ,           
      R   SECBUF       ,RVOLU        ,RCONX          ,NLOC_DMG     ,
-     S   FVMASTER     ,LIBAGALE     ,LENTHG         ,LBUFMAT      ,LBUFGEO     ,           
+     S   FVMAIN     ,LIBAGALE     ,LENTHG         ,LBUFMAT      ,LBUFGEO     ,           
      T   LBUFSF       ,LENXLAS                      ,LNOM_OPT     ,LENLAS      ,           
      U   LENVOLU                    ,NPTS           ,CNE          ,LCNE        ,           
      V   ADDCNE       ,CNI2         ,LCNI2G         ,ADDCNI2      ,CEPI2       ,           
@@ -463,7 +463,7 @@ C-----------------------------------------------
      .        IBVEL(*),LBVEL(*),IACTIV(*),KINET(*),
      .        IPARI(*),NPRW(*),LPRW(*),
      .        NPBY(*),LPBY(*), IEXLNK(*),
-     .        IXRI(*),NSTRF(*),LJOINT(*),PORNOD(*),MONVOL(*),FVMASTER(*),
+     .        IXRI(*),NSTRF(*),LJOINT(*),PORNOD(*),MONVOL(*),FVMAIN(*),
      .        LAGBUF(*),ITHGRP(*),ITHBUF(*), FR_IAD(*),
      .        ICONTACT(*), IPARTSP(*), ISPCOND(*),
      .        DDSTAT(50), CNE(*), LCNE, ADDCNE(0:*),
@@ -1354,7 +1354,7 @@ C
      .     FXBNOD_L,  FXBMOD_L, FXBELM_L, FXBSIG_L, P-1   ,
      .     FXBMOD,    FXBSIG,   FXBIPM_L, FXBGRVI,
      .     FXBGRVI_L, LENNOD_L, ITASK)
-C Tableaux restants attribues au PMASTER
+C Tableaux restants attribues au PMAIN
          CALL C_FXBODY3(
      .     LENGLM_L, LENCP_L,   LENLM_L,  LENFLS_L, LENDLS_L,
      .     LENMCD_L, LENGRVR_L, FXBIPM_L, P-1     )
@@ -1428,10 +1428,10 @@ C--------------------------------------------
 !               ENDDO               
 !            ENDIF
             CALL C_FVBAG(
-     .           MONVOL,   NODLOCAL_MGM, IXS_TEMP,      P, NB_TOTAL_NODE, FVMASTER)
+     .           MONVOL,   NODLOCAL_MGM, IXS_TEMP,      P, NB_TOTAL_NODE, FVMAIN)
          ELSE
             CALL C_FVBAG(
-     .           MONVOL,   NODLOCAL, IXS,      P, NUMNOD,FVMASTER)
+     .           MONVOL,   NODLOCAL, IXS,      P, NUMNOD,FVMAIN)
          ENDIF
       ENDIF
 C--------------------------------------------
@@ -1783,9 +1783,9 @@ C--------------------------------------
 C--------------------------------------
 C     ECRITURE DE WEIGHT Deplacee
 C--------------------------------------
-      CALL W_MASTER_PROC_WEIGHT(NODGLOB,NUMNOD_L,NSPMD,P)
+      CALL W_MAIN_PROC_WEIGHT(NODGLOB,NUMNOD_L,NSPMD,P)
       LEN_IA = LEN_IA + 2*NUMNOD_L
-!      CALL WRMASTER_PROC(NODGLOB,NUMNOD_L,NSPMD)
+!      CALL WRMAIN_PROC(NODGLOB,NUMNOD_L,NSPMD)
 !      LEN_IA = LEN_IA + NUMNOD_L
 C--------------------------------------
 C     ECRITURE DE WEIGHT Deplacee
@@ -3583,17 +3583,17 @@ C 11: NUMELX_L
 C 12: NBDDPROC :  nb de proc frontiere
 C 13: NBDDBOUN :  nb de noeud frontiere
 C 14: NBDDNOD :   taille des comm en nb de noeuds
-C 15: NBDDNRB :   taille des comm en nb de noeuds master de rby
-C 16: NRBYKIN_L : nombre de rigid body master locaux
+C 15: NBDDNRB :   taille des comm en nb de noeuds main de rby
+C 16: NRBYKIN_L : nombre de rigid body main locaux
 C 17: NUMSPH_L : nombre de particules SPH locales
 C 18: MEMI : taille memoire locale entier MA
 C 19: MEMR : taille memoire locale reel AM
-C 20: NSNT_L : nombre de noeuds slaves d'interface de contact (7,10,11)
-C 21: NMNT_L : nombre de noeuds master d'interface de contact (7,10,11)
-C 22: NSNT2_L : nombre de noeuds slaves d'interface type2
-C 23: NMNT2_L : nombre de noeuds master d'interface type2
+C 20: NSNT_L : nombre de noeuds secnds d'interface de contact (7,10,11)
+C 21: NMNT_L : nombre de noeuds main d'interface de contact (7,10,11)
+C 22: NSNT2_L : nombre de noeuds secnds d'interface type2
+C 23: NMNT2_L : nombre de noeuds main d'interface type2
 C 24: RESTSIZE : Taille du restart en KB
-C 24: NSLARB_L : nombre de noeuds slave rigid body 
+C 24: NSLARB_L : nombre de noeuds secnd rigid body 
       DDSTAT(1) = NUMNOD_L
       DDSTAT(2) = NUMEL_L
       DDSTAT(3) = NUMELS_L

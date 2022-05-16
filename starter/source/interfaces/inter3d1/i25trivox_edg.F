@@ -120,7 +120,7 @@ c provisoire
       INTEGER, DIMENSION(3) :: TMIN,TMAX
       my_real
      .   XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB,AAA,
-     .   XMAX_EDGS, XMIN_EDGS,   !cotes min/max des aretes esclaves et maitres
+     .   XMAX_EDGS, XMIN_EDGS,   !cotes min/max des aretes seconds et mains
      .   YMAX_EDGS, YMIN_EDGS,
      .   ZMAX_EDGS, ZMIN_EDGS,
      .   XMAX_EDGM, XMIN_EDGM,
@@ -251,7 +251,7 @@ C
 	IIXYZ(2,I)=0
 	IIXYZ(3,I)=0
 	IIXYZ(4,I)=0
-C	IF(LEDGE(7,I) < 0) THEN ! larete nest pas une arete esclave
+C	IF(LEDGE(7,I) < 0) THEN ! larete nest pas une arete second
 C	  IIXYZ(1,I)=1
 C	ELSE
 C	  IIXYZ(1,I)=0
@@ -264,7 +264,7 @@ c        IF(LEDGE(7,I) < 0) THEN
 c          IIXYZ(1,I)=1
 c        ELSE
 c          IIXYZ(1,I)=0
-c        END IF   ! larete nest pas une arete esclave
+c        END IF   ! larete nest pas une arete second
 c	IIXYZ(2,I)=IX1
 c	IIXYZ(3,I)=IY1
 c	IIXYZ(4,I)=IZ1
@@ -288,7 +288,7 @@ c        write(500,'(3I10)') I,LEDGE(5,I),LEDGE(6,I)
         NE  =LEDGE(1,I)
         IF(STF(NE)==ZERO) CYCLE   ! on ne retient pas les facettes detruites
 
-        IF(LEDGE(7,I) < 0) CYCLE   ! larete nest pas une arete esclave
+        IF(LEDGE(7,I) < 0) CYCLE   ! larete nest pas une arete second
 
         N1 = LEDGE(5,I)
         N2 = LEDGE(6,I)
@@ -412,11 +412,11 @@ C       		   +------------+-----------+
 C Barrier to wait task0 treatment
 C     CALL MY_BARRIER
 C================================================================
-C     Sorting vs master shell edges
+C     Sorting vs main shell edges
 C================================================================
       IF(SH_EDGE==0) GOTO 300
 C================================================================
-C 3   A partir des voxels occupes par une edge master, on est en
+C 3   A partir des voxels occupes par une edge main, on est en
 C     mesure de connaitre toutes les edges escalves dans ce voisinage.
 C     Ce qui permet de creer des couples cancidats pour le contact
 C     Si la penetration est positive.
@@ -432,10 +432,10 @@ C================================================================
         NE=LEDGE(1,IEDG)
         IF(STF(NE)==ZERO) CYCLE   ! on ne retient pas les facettes detruites
 
-        IF(IABS(LEDGE(7,IEDG))==1) CYCLE ! Master solid edge
+        IF(IABS(LEDGE(7,IEDG))==1) CYCLE ! Main solid edge
 
         !-------------------------------------------!
-        !    (N1,N2) is the current master edge     !
+        !    (N1,N2) is the current main edge     !
         !-------------------------------------------!
 
         AAA = MARGE+BGAPEMX+GAPE(IEDG)
@@ -503,13 +503,13 @@ C--- IREMGAP - tag of deactivated lines
             DO WHILE(CHAIN_ADD /= 0)          ! BOUCLE SUR LES EDGES DU VOXEL COURANT
               JJ = LCHAIN_ELEM(CHAIN_ADD)       ! numeros des edge_id balayes dans le voxel courant
 
-              IF(TAGEDG(JJ)/=0)THEN ! edge deja traitee vs cette arete maitre
+              IF(TAGEDG(JJ)/=0)THEN ! edge deja traitee vs cette arete main
                 CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
                 CYCLE
               END IF
               TAGEDG(JJ)=1
 
-              !slave edge nodes, exclure couples avec noeud commun
+              !secnd edge nodes, exclure couples avec noeud commun
               IF (JJ.LE.NEDGE)THEN
                 SS1= ITAB(LEDGE(5,JJ))
                 SS2= ITAB(LEDGE(6,JJ))
@@ -542,7 +542,7 @@ C                 ISS2 = BITGET(IREM(I24IREMP+6,JJ-NEDGE),1)
 
               IF(IABS(LEDGE(7,IEDG))/=1 .AND. LEDGE(7,JJ)/=1)THEN
                 ! attention les traitements de i25dst3e pour les solides 
-                ! ne sont pas symetriques maitre esclave.
+                ! ne sont pas symetriques main second.
                 AS1 = MIN(SS1,SS2)
                 AS2 = MAX(SS1,SS2)
                 ! unicite des couples   
@@ -561,11 +561,11 @@ C             IREMPGAP - Taged lines are removded
               ENDIF    
 
               J_STOK = J_STOK + 1 !on dispose d'un candidat
-              PROV_S(J_STOK) = JJ      !edge slave
-              PROV_M(J_STOK) = IEDG    !edge master
+              PROV_S(J_STOK) = JJ      !edge secnd
+              PROV_M(J_STOK) = IEDG    !edge main
                                                             
 c              IF(DEJA==0) NEDG = NEDG + 1     !nombre d edges candidate au calcul de contact (debug)                 
-c              DEJA=1                          !l edge master IEDG fait l'objet d'une ecriture de candidat. On compte les edges master faisant l'objet dun couple candidate : on ne doit plus incrementer NEDG pour les autres edge slave testees.
+c              DEJA=1                          !l edge main IEDG fait l'objet d'une ecriture de candidat. On compte les edges main faisant l'objet dun couple candidate : on ne doit plus incrementer NEDG pour les autres edge secnd testees.
               CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
 C-----------------------------------------------------
               IF(J_STOK.EQ.NVSIZ)THEN
@@ -620,7 +620,7 @@ C--- IREMGAP - clean of tagremline
 
 
 C-------------------------------------------------------------------------
-C     FIN DU TRI vs Master shell edges
+C     FIN DU TRI vs Main shell edges
 C-------------------------------------------------------------------------
       IF(J_STOK.NE.0)CALL I25STO_EDG(
      1  	       J_STOK ,IRECT  ,X     ,II_STOK,INACTI,
@@ -632,11 +632,11 @@ C-------------------------------------------------------------------------
  
  300  CONTINUE
 C================================================================
-C     Sorting vs master solid edges
+C     Sorting vs main solid edges
 C================================================================
       IF(SOL_EDGE==0) GOTO 400
 C================================================================
-C 3bis A partir des voxels occupes par une edge master, on est en
+C 3bis A partir des voxels occupes par une edge main, on est en
 C     mesure de connaitre toutes les edges escalves dans ce voisinage.
 C     Ce qui permet de creer des couples cancidats pour le contact
 C     Si la penetration est positive.
@@ -723,13 +723,13 @@ C================================================================
             DO WHILE(CHAIN_ADD /= 0)          ! BOUCLE SUR LES EDGES DU VOXEL COURANT
               JJ = LCHAIN_ELEM(CHAIN_ADD)       ! numeros des edge_id balayes dans le voxel courant
 
-              IF(TAGEDG(JJ)/=0)THEN ! edge deja traitee vs cette arete maitre
+              IF(TAGEDG(JJ)/=0)THEN ! edge deja traitee vs cette arete main
                 CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
                 CYCLE
               END IF
               TAGEDG(JJ)=1
 
-              !slave edge nodes, exclure couples avec noeud commun
+              !secnd edge nodes, exclure couples avec noeud commun
               IF (JJ.LE.NEDGE)THEN
                 SS1= ITAB(LEDGE(5,JJ))
                 SS2= ITAB(LEDGE(6,JJ))
@@ -762,8 +762,8 @@ C                 ISS2 = BITGET(IREM(I24IREMP+6,JJ-NEDGE),1)
 C-----------------------------------------------------                   
 
               J_STOK = J_STOK + 1 !on dispose d'un candidat
-              PROV_S(J_STOK) = JJ   !edge slave
-              PROV_M(J_STOK) = NE     !segment master
+              PROV_S(J_STOK) = JJ   !edge secnd
+              PROV_M(J_STOK) = NE     !segment main
 
 C-----------------------------------------------------
               IF(J_STOK.EQ.NVSIZ)THEN
@@ -808,7 +808,7 @@ C       Reset TAGEDG
 
       ENDDO       !NEXT IEDG
 C-------------------------------------------------------------------------
-C     FIN DU TRI vs Master solid edges
+C     FIN DU TRI vs Main solid edges
 C-------------------------------------------------------------------------
       IF(J_STOK.NE.0)CALL I25STO_E2S(
      1                 J_STOK ,IRECT  ,X        ,LL_STOK,INACTI,

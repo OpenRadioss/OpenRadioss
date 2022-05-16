@@ -60,7 +60,7 @@ Chd|====================================================================
      1  TAILLE,POIN_UMP,TAB_UMP,
      2  POIN_UMP_OLD,TAB_UMP_OLD,CPUTIME_MP_OLD,
      3  NSNT, NMNT,TABMP_L,IQUAOFF,
-     4  IGRSURF,FVMASTER,
+     4  IGRSURF,FVMAIN,
      5  ITAB  ,IPART  ,IPARTC  ,IPARTG ,IPARTS  ,
      6  POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
      7  MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,T_MONVOL,
@@ -119,7 +119,7 @@ C-----------------------------------------------
      .        IPM(NPROPMI,*),IXS10(6,*),KXIG3D(NIXIG3D,NUMELIG3D),
      .        IQUAOFF(*),
      .        IXIG3D(*),NSNT, NMNT,TABMP_L,
-     .        FVMASTER(NVOLU)
+     .        FVMAIN(NVOLU)
       INTEGER :: ITAB(*)
       INTEGER, DIMENSION(LIPART1,*), INTENT(IN) :: IPART
       INTEGER, DIMENSION(*), INTENT(IN) :: IPARTC,IPARTG,IPARTS
@@ -243,7 +243,7 @@ C-----------------------------------------------
                
       NEC=0
       NFVMBAG = 0  
-      FVMASTER(1:NVOLU) = -1
+      FVMAIN(1:NVOLU) = -1
       FVM_ELEM(1:NVOLU) = 0
       FVM_DOMDEC = .FALSE.
       WD_MAX = 0.0D0
@@ -1862,7 +1862,7 @@ C
             NSN = NPBY(2,N) ! number of secondary nodes
 
             IF(NSN<40) THEN
-                M   = NPBY(1,N) ! master nodes
+                M   = NPBY(1,N) ! main nodes
                 !   -----------------------------
                 !   find the number of element in the rigid body
                 NUMBER_OF_ELEMENT_RBODY = 0 ! number of element in the current RBODY
@@ -1875,7 +1875,7 @@ C
                     ENDDO
                 ENDDO
                 ! ----------------
-                !   master node
+                !   main node
                 DO IJK = ADSKY(M),ADSKY(M+1)-1
                     NUMBER_OF_ELEMENT_RBODY = NUMBER_OF_ELEMENT_RBODY + 1
                 ENDDO
@@ -1897,7 +1897,7 @@ C
                     ENDDO
                 ENDDO
                 ! ----------------
-                !   master node
+                !   main node
                 DO IJK = ADSKY(M),ADSKY(M+1)-1
                     CC2 = IJK
                     NUMG2 = CNE(CC2)
@@ -2461,7 +2461,7 @@ C       Put all the elements of the cluster on the same proc
 
 
 C                                                         
-C       Save the PMASTER in FVMASTER 
+C       Save the PMAIN in FVMAIN 
         IF(NVOLU > 0 .AND. IDDLEVEL==1 .AND. FVM_DOMDEC) THEN
 
            OFFC = NUMELS+NUMELQ
@@ -2478,7 +2478,7 @@ C       Save the PMASTER in FVMASTER
 
               IF(NN > 0 .AND. (ITYP == 6 .OR. ITYP == 8)) THEN
                  CEPCLUSTER = CEP(FVM_ELEM(N))
-                 FVMASTER(NFVMBAG) = CEPCLUSTER 
+                 FVMAIN(NFVMBAG) = CEPCLUSTER 
               ENDIF 
            ENDDO         
         ENDIF
@@ -2637,22 +2637,22 @@ Cel un seul element ou elements non connectes ou un seul proc
         ENDDO
       ENDIF
 C
- 1000 FORMAT('#PROC    ELEMENT W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.',
+ 1000 FORMAT('#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.',
      .       '        INT2 W.         DOF W.') 
- 1100 FORMAT('#PROC    ELEMENT W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.',
+ 1100 FORMAT('#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.',
      .       '        INT2 W.         DOF W. AMS CONT ELT W') 
- 2000 FORMAT('#PROC    ELEMENT W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.',
+ 2000 FORMAT('#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.',
      .       '        INT2 W.    KIN COND W.')
- 3000 FORMAT('#PROC    ELEMENT W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.',
+ 3000 FORMAT('#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.',
      .       '        INT2 W.         SOL W.    KIN COND W.')
- 4000 FORMAT('#PROC    ELEMENT W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.',
+ 4000 FORMAT('#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.',
      .       '        INT2 W.         SOL W.     ELT DEL W.',
      .       '    KIN COND W.')
- 5000 FORMAT('#PROC    ELEMENT W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.',
+ 5000 FORMAT('#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.',
      .       '        INT2 W.     ELT DEL W.    KIN COND W.')
- 6000 FORMAT('#PROC    ELT LAG W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.',
+ 6000 FORMAT('#PROC    ELT LAG W.    SECND NOD W.   MAST NOD W.    CONT ELT W.',
      .       '        INT2 W.        ELT ALE W.')
- 7000 FORMAT('#PROC    ELT LAG W.    SLAV NOD W.    MAST NOD W.    CONT ELT W.',
+ 7000 FORMAT('#PROC    ELT LAG W.    SECND NOD W.   MAST NOD W.    CONT ELT W.',
      .       '        INT2 W.     ELT ALE W.     ELT DEL W.')
  8000 FORMAT(' METRIC      MINIMUM   MAXIMUM   AVERAGE',
      .       '   STANDARD DEVIATION')
@@ -4464,7 +4464,7 @@ Chd|====================================================================
      .     IGRSURF, T_MONVOL)
 C Description: computes a weight for each FVMBAG
 C this weight is added to an element of the skin of the airbag
-C PMASTER will be the processor in charge of this element 
+C PMAIN will be the processor in charge of this element 
 C FVM_DOMDEC set to .TRUE. if an FVMBAGS contains less than NUMNOD/2
 C nodes. Specific domain decomposition parameters will be used in that
 C case

@@ -151,7 +151,7 @@ C---------------------------
 C Data SPMD
 C---------------------------
       TYPE FVBAG_SPMD
-          INTEGER NN_L, NNA_L, NNSA, NNSA_L, NSA, NELSA, PMASTER, NNI_L,
+          INTEGER NN_L, NNA_L, NNSA, NNSA_L, NSA, NELSA, PMAIN, NNI_L,
      .    MPI_COMM, RANK, NSPMD,NNA_L_GLOB
           INTEGER, DIMENSION(:,:), POINTER :: IBUF_L, IBUFA_L, IBUFSA_L,
      .                                        IXSA, ELEMSA,ITAB

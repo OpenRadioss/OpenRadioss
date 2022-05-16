@@ -41,8 +41,8 @@ Chd|====================================================================
      .                  FLAG  ,  H3D_DATA)
 C
 C FVBAG0 called two times from RESOL
-C  FLAG = 1 : Gather information on PMASTER + Computations
-C  FLAG = 2 : Scatter information from PMASTER (inc. switch to UP)
+C  FLAG = 1 : Gather information on PMAIN + Computations
+C  FLAG = 2 : Scatter information from PMAIN (inc. switch to UP)
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -408,7 +408,7 @@ C-----------------------------------------------
      .        ITEMP, ITAGP(NPOLH), NV, ILVOUT, NPOLY, IPRI,
      .        IVENT, IDEF, IPORT, IPORP, IPORA, IPORT1, IPORP1, IPORA1,
      .        ITVENT, PHDT, I1, I2, NNSA, ICONT(NNT),IVDP,ITTF, IDPDEF,
-     .        IDTPDEF,PMASTER,N21,N22,TAGSURF(2,NELT+1),ITYPL,
+     .        IDTPDEF,PMAIN,N21,N22,TAGSURF(2,NELT+1),ITYPL,
      .        PREPARE_ANIM,IVENTYP
       INTEGER TITREVENT(20)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: SURF_INT,SURF_EXT
@@ -506,7 +506,7 @@ C
      .      CALL SPMD_FVB_IGATH(IFV, ICONTACT, ICONT)
 
 C
-         IF (ISPMD.NE.FVSPMD(IFV)%PMASTER-1) GOTO 1000
+         IF (ISPMD.NE.FVSPMD(IFV)%PMAIN-1) GOTO 1000
       END IF 
 C
 
@@ -2382,7 +2382,7 @@ C-----------------------------------------------
      .        ITEMP, ITAGP(NPOLH), NV, ILVOUT, NPOLY, IPRI,
      .        IVENT, IDEF, IPORT, IPORP, IPORA, IPORT1, IPORP1, IPORA1,
      .        ITVENT, PHDT, I1, I2, NNSA, ICONT(NNT),IVDP,ITTF, IDPDEF,
-     .        IDTPDEF,PMASTER,N21,N22,TAGSURF(2,NELT+1),ITYPL,
+     .        IDTPDEF,PMAIN,N21,N22,TAGSURF(2,NELT+1),ITYPL,
      .        PREPARE_ANIM,IVENTYP
       INTEGER TITREVENT(20)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: SURF_INT,SURF_EXT
@@ -2482,7 +2482,7 @@ C
      .      CALL SPMD_FVB_IGATH(IFV, ICONTACT, ICONT)
 
 C
-         IF (ISPMD.NE.FVSPMD(IFV)%PMASTER-1) GOTO 1000
+         IF (ISPMD.NE.FVSPMD(IFV)%PMAIN-1) GOTO 1000
       END IF 
 C
 

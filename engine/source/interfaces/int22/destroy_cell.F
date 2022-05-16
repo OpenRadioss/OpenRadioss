@@ -148,9 +148,9 @@ C-----------------------------------------------
           BRICK_LIST(NIN,IB)%PCUT(1)%NP               = 0
           BRICK_LIST(NIN,IB)%SECTYPE(1)               = 'REMOVED 0-CELL'  
           
-          BRICK_LIST(NIN,IB)%POLY(1)%WhereIsMaster(1:2) = 0           
-          BRICK_LIST(NIN,IB)%POLY(1)%WhereIsMaster(3)   = ID
-          BRICK_LIST(NIN,IB)%POLY(1)%WhereIsMaster(4)   = IB 
+          BRICK_LIST(NIN,IB)%POLY(1)%WhereIsMain(1:2) = 0           
+          BRICK_LIST(NIN,IB)%POLY(1)%WhereIsMain(3)   = ID
+          BRICK_LIST(NIN,IB)%POLY(1)%WhereIsMain(4)   = IB 
           
           !BRICK_LIST(NIN,IB)%POLY(1)%CellCENTER(1:3)  = BRICK_LIST(NIN,IB)%POLY(1)%CellCENTER(1:3)   !keep same one
                                                                       
@@ -196,9 +196,9 @@ c          ENDIF
           BRICK_LIST(NIN,IB)%POLY(1)%FACE(1:6)%NumPOINT  = 4
           BRICK_LIST(NIN,IB)%POLY(9)%FACE(1:6)%NumPOINT  = 0
           
-          BRICK_LIST(NIN,IB)%POLY(1)%WhereIsMaster(1:2) = 0           
-          BRICK_LIST(NIN,IB)%POLY(1)%WhereIsMaster(3)   = ID
-          BRICK_LIST(NIN,IB)%POLY(1)%WhereIsMaster(4)   = IB 
+          BRICK_LIST(NIN,IB)%POLY(1)%WhereIsMain(1:2) = 0           
+          BRICK_LIST(NIN,IB)%POLY(1)%WhereIsMain(3)   = ID
+          BRICK_LIST(NIN,IB)%POLY(1)%WhereIsMain(4)   = IB 
           
           DO K=1,6
           BRICK_LIST(NIN,IB)%POLY(1)%FACE(K)%Adjacent_Cell(1) = BRICK_LIST(NIN,IB)%POLY(9)%FACE(K)%Adjacent_Cell(1)
@@ -349,7 +349,7 @@ c          ENDIF
           BRICK_LIST(NIN,IB)%POLY(9)%ListNodID(NListNod9+1:8) = ListNodID(1:NumNODES_Cell)
           
           
-          BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(1:4) = BRICK_LIST(NIN,IB)%POLY(9)%WhereIsMaster(1:4)          
+          BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1:4) = BRICK_LIST(NIN,IB)%POLY(9)%WhereIsMain(1:4)          
 
           
           !---STEP 5

@@ -155,7 +155,7 @@ C
 C
       CART=' '
       PARGEO(1) = 0
-C   slave only in interfaces.
+C   secnd only in interfaces.
         PARGEO(2) = 0.0
 C------------------------------------------------------- 
       NUVAR(1) = 3

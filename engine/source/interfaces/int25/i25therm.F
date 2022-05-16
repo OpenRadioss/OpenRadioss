@@ -122,8 +122,8 @@ C-------------------------------------------------------------
          END IF  
 C
 C-----------------------------------------------
-C         Distance between slave node 
-C              and master segment 
+C         Distance between secnd node 
+C              and main segment 
 C-----------------------------------------------
          DIST = (SX2*SX1+SY2*SY1+SZ2*SZ1) / MAX(EM15,NORM)
          
@@ -141,7 +141,7 @@ C
           TSTIFM =   ZERO
           COND = ZERO
 C---------------------------------
-C         DISTANCE ENTRE LE NOEUD ESCLAVE 
+C         DISTANCE ENTRE LE NOEUD SECOND. 
 C             ET  LA  SURFACE(SURFFACE NODALE)
 C---------------------------------
 C-------------------------------------
@@ -242,7 +242,7 @@ C---------------------------------
 C        HEAT GENERATION DUE TO FRICTION
 C---------------------------------
             PHIM   = FHEATM * EFRICT(I) 
-            PHI1(I) = PHI1(I) + PHIM*H1(I) ! MASTER HEATING
+            PHI1(I) = PHI1(I) + PHIM*H1(I) ! main HEATING
             PHI2(I) = PHI2(I) + PHIM*H2(I)
             PHI3(I) = PHI3(I) + PHIM*H3(I)
             PHI4(I) = PHI4(I) + PHIM*H4(I)
@@ -288,8 +288,8 @@ C-------------------------------------------------------------
          END IF  
 C
 C-----------------------------------------------
-C         Distance between slave node 
-C              and master segment 
+C         Distance between secnd node 
+C              and main segment 
 C-----------------------------------------------
          DIST = (SX2*SX1+SY2*SY1+SZ2*SZ1) / MAX(EM15,NORM)
          PENRAD = ABS(DIST) - GAPV(I)
@@ -411,7 +411,7 @@ C---------------------------------
 C        HEAT GENERATION DUE TO FRICTION
 C---------------------------------
             PHIM   = FHEATM * EFRICT(I) 
-            PHI1(I) = PHI1(I) + PHIM*H1(I) ! MASTER HEATING
+            PHI1(I) = PHI1(I) + PHIM*H1(I) ! main HEATING
             PHI2(I) = PHI2(I) + PHIM*H2(I)
             PHI3(I) = PHI3(I) + PHIM*H3(I)
             PHI4(I) = PHI4(I) + PHIM*H4(I)

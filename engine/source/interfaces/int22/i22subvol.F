@@ -599,8 +599,8 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,2)= a2                          !polygon points (coordinates) 
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,3)= a3                          !polygon points (coordinates)                                 
             pSUBVOL(ICELL)%Vnew =  VOL
-            pNNodCell(ICELL)%NumNOD = MNOD !master(brick nodes)
-            pNPointCell(ICELL)%NumPOINT= NNOD !master + intersection
+            pNNodCell(ICELL)%NumNOD = MNOD !main(brick nodes)
+            pNPointCell(ICELL)%NumPOINT= NNOD !main + intersection
             BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)= SUM( (/a1(1),a2(1),a3(1),n1(1)/) ) / QUATRE
             BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)= SUM( (/a1(2),a2(2),a3(2),n1(2)/) ) / QUATRE
             BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(3)= SUM( (/a1(3),a2(3),a3(3),n1(3)/) ) / QUATRE
@@ -669,7 +669,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,3)= a3                          !polygon points (coordinates)           
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,4)= a4                          !polygon points (coordinates)                     
             pSUBVOL(ICELL)%Vnew =  VOL
-            pNNodCell(ICELL)%NumNOD = MNOD !master(brick nodes)
+            pNNodCell(ICELL)%NumNOD = MNOD !main(brick nodes)
             pNPointCell(ICELL)%NumPOINT= NNOD    
             BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)= SUM( (/a1(1),a2(1),a3(1),a4(1),n1(1),n2(1)/) ) / SIX
             BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)= SUM( (/a1(2),a2(2),a3(2),a4(2),n1(2),n2(2)/) ) / SIX
@@ -740,7 +740,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             VOL = SUM((/(vF(:,I)*C(1:3,Fa(I)),I=0,5)/))
             VOL = TIERS * ABS(VOL)
             pSUBVOL(ICELL)%Vnew =  VOL
-            pNNodCell(ICELL)%NumNOD = MNOD !master(brick nodes) 
+            pNNodCell(ICELL)%NumNOD = MNOD !main(brick nodes) 
             pNPointCell(ICELL)%NumPOINT= NNOD                 
             BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)= SUM( (/a1(1),a2(1),a3(1),a4(1),a5(1),n1(1),n2(1),n3(1)/) ) / HUIT
             BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)= SUM( (/a1(2),a2(2),a3(2),a4(2),a5(2),n1(2),n2(2),n3(2)/) ) / HUIT
@@ -813,7 +813,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             VOL = SUM((/(vF(:,I)*C(1:3,Fa(I)),I=0,5)/))
             VOL = TIERS * ABS(VOL)
             pSUBVOL(ICELL)%Vnew =  VOL
-            pNNodCell(ICELL)%NumNOD = MNOD !master(brick nodes)  
+            pNNodCell(ICELL)%NumNOD = MNOD !main(brick nodes)  
             pNPointCell(ICELL)%NumPOINT= NNOD                 
             BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)= SUM( (/a1(1),a2(1),a3(1),a4(1),n1(1),n2(1),n3(1),n4(1)/) ) / HUIT
             BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)= SUM( (/a1(2),a2(2),a3(2),a4(2),n1(2),n2(2),n3(2),n4(2)/) ) / HUIT
@@ -918,7 +918,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,5)= a5                          !polygon points (coordinates)           
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,6)= a6                          !polygon points (coordinates)           
             pSUBVOL(ICELL)%Vnew = VOL
-            pNNodCell(ICELL)%NumNOD = MNOD !master(brick nodes)  
+            pNNodCell(ICELL)%NumNOD = MNOD !main(brick nodes)  
             pNPointCell(ICELL)%NumPOINT= NNOD                
             BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)=SUM((/a1(1),a2(1),a3(1),a4(1),a5(1),a6(1),n1(1),n2(1),n3(1),n4(1)/))/DIX
             BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)=SUM((/a1(2),a2(2),a3(2),a4(2),a5(2),a6(2),n1(2),n2(2),n3(2),n4(2)/))/DIX
@@ -1002,7 +1002,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             VOL = SUM((/(vF(:,I)*C(1:3,Fa(I)),I=0,6)/))
             VOL = TIERS * ABS(VOL)
             pSUBVOL(ICELL)%Vnew = VOL
-            pNNodCell(ICELL)%NumNOD = MNOD !master(brick nodes)  
+            pNNodCell(ICELL)%NumNOD = MNOD !main(brick nodes)  
             pNPointCell(ICELL)%NumPOINT= NNOD                
             BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)= SUM((/a1(1),a2(1),a3(1),a4(1),a5(1),a6(1),n1(1),n2(1),n3(1),n4(1)/))/DIX
             BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)= SUM((/a1(2),a2(2),a3(2),a4(2),a5(2),a6(2),n1(2),n2(2),n3(2),n4(2)/))/DIX
@@ -1086,7 +1086,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             VOL = SUM((/(vF(:,I)*C(1:3,Fa(I)),I=0,6)/))
             VOL = TIERS * ABS(VOL)
             pSUBVOL(ICELL)%Vnew = VOL
-            pNNodCell(ICELL)%NumNOD = MNOD !master(brick nodes)  
+            pNNodCell(ICELL)%NumNOD = MNOD !main(brick nodes)  
             pNPointCell(ICELL)%NumPOINT= NNOD                
             BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)=SUM((/a1(1),a2(1),a3(1),a4(1),a5(1),a6(1),n1(1),n2(1),n3(1),n4(1)/))/DIX
             BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)=SUM((/a1(2),a2(2),a3(2),a4(2),a5(2),a6(2),n1(2),n2(2),n3(2),n4(2)/))/DIX
@@ -1166,7 +1166,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             VOL = SUM((/(vF(:,I)*C(1:3,Fa(I)),I=0,5)/))
             VOL = TIERS * ABS(VOL)
             pSUBVOL(ICELL)%Vnew =  VOL
-            pNNodCell(ICELL)%NumNOD = MNOD !master(brick nodes)  
+            pNNodCell(ICELL)%NumNOD = MNOD !main(brick nodes)  
             pNPointCell(ICELL)%NumPOINT= NNOD                
             BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)=SUM((/a1(1),a2(1),a3(1),a4(1),a5(1),a6(1),n1(1),n2(1),n3(1),n4(1)/))/DIX
             BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)=SUM((/a1(2),a2(2),a3(2),a4(2),a5(2),a6(2),n1(2),n2(2),n3(2),n4(2)/))/DIX
@@ -1998,7 +1998,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
 
         NTAG = SUM(ITAG(1:8))
         IF(NTAG.GT.0)THEN
-          !CLEAN DEGENERATED TETRA & HEXA  (USELESS AND WOULD NEED TO BE ATTACHED TO A MASTER CELL WHICH COULD NOT EXIST)
+          !CLEAN DEGENERATED TETRA & HEXA  (USELESS AND WOULD NEED TO BE ATTACHED TO A main CELL WHICH COULD NOT EXIST)
           NUMPT = 0
           DO K=1,8
             tmp_SECTYPE(K)    = BRICK_LIST(NIN,IB)%SECTYPE(K)
@@ -2075,8 +2075,8 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
 
       IF(BRICK_LIST(NIN,IB)%NBCUT == 0)THEN
         ICELL              = 1
-        pNNodCell(ICELL)%NumNOD   = 8  !master(brick nodes)
-        pNPointCell(ICELL)%NumPOINT = 8 !master + intersection
+        pNNodCell(ICELL)%NumNOD   = 8  !main(brick nodes)
+        pNPointCell(ICELL)%NumPOINT = 8 !main + intersection
         n1 => X(1:3, IXS(1+1,BRICK_LIST(NIN,IB)%ID ))
         n2 => X(1:3, IXS(1+2,BRICK_LIST(NIN,IB)%ID ))
         n3 => X(1:3, IXS(1+3,BRICK_LIST(NIN,IB)%ID ))

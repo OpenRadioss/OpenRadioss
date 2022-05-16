@@ -758,7 +758,7 @@ Ce warning pour les performances du tri.
         END IF
       END IF
 
-C calcul de la surface esclave ---
+C calcul de la surface second. ---
       IF(INTTH > 0 ) THEN
        IF(NELC.NE.0.OR.NELTG.NE.0) THEN
         DO I=1,NRT

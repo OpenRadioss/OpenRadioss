@@ -92,7 +92,7 @@ C
             NBY=MONVOL(K1-1+55)          
             NBRIC=NBX*NBY          
             NNB=(NBX+1)*(NBY+1)*2
-            IF (ISPMD.NE.FVSPMD(IFV)%PMASTER-1) THEN
+            IF (ISPMD.NE.FVSPMD(IFV)%PMAIN-1) THEN
                ALLOCATE(FVDATA(IFV)%BRIC(8,0),
      .                  FVDATA(IFV)%TBRIC(13,0),
      .                  FVDATA(IFV)%XB(3,0),

@@ -83,7 +83,7 @@ Chd|        I25STI3                       source/interfaces/inter3d1/i25sti3.F
 Chd|        I25STI_EDG                    source/interfaces/inter3d1/i25sti_edg.F
 Chd|        I2BUC1                        source/interfaces/inter3d1/i2buc1.F
 Chd|        I2CHK3                        source/interfaces/inter3d1/i2chk3.F
-Chd|        I2MASTER                      source/interfaces/interf1/i2master.F
+Chd|        I2MAIN                      source/interfaces/interf1/i2main.F
 Chd|        I2NINTDD                      source/spmd/domain_decomposition/grid2mat.F
 Chd|        I2SURFS                       source/interfaces/inter3d1/i2surfs.F
 Chd|        I2TID3                        source/interfaces/inter3d1/i2tid3.F
@@ -242,7 +242,7 @@ C-----------------------------------------------
       my_real
      .   RDUM(1)  ,PENE_MAX,PENMAX,FACF
       my_real, DIMENSION(:),ALLOCATABLE :: PENMIN
-      INTEGER, DIMENSION(:),ALLOCATABLE :: IPARTNS,INOD2LIN,TAGSLAV,NOD2LIN
+      INTEGER, DIMENSION(:),ALLOCATABLE :: IPARTNS,INOD2LIN,TAGSECND,NOD2LIN
       my_real, DIMENSION(:),ALLOCATABLE, TARGET :: XE
       my_real, DIMENSION(:),POINTER :: PTR_X
       INTEGER, POINTER :: pIXINT
@@ -403,9 +403,9 @@ C-----------------------------------------------------------------------
      2    INSCR(L16)      ,INTBUF_TAB%IRTLM    ,NSN              ,ITAB           ,IKINE         ,
      3    IKINE1          ,ID                  ,TITR             ,ILEV           ,NTY           ,
      4    INTBUF_TAB%CSTS_BIS)
-C selection master nodes utiles et recompactage buffer interface
-C      Attention NMN et K14 modifie par I2MASTER
-       CALL I2MASTER(INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%IRECTM,IPARI,
+C selection main nodes utiles et recompactage buffer interface
+C      Attention NMN et K14 modifie par I2MAIN
+       CALL I2MAIN(INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%IRECTM,IPARI,
      .               MWA,MWA(NUMNOD+1),INTBUF_TAB)
 C
        NMN = IPARI(6)
@@ -1077,7 +1077,7 @@ C
 C
        IF (IREMNODE == 1) THEN
 C
-          ALLOCATE(INOD2LIN(NUMNOD+1),TAGSLAV(NUMNOD),NOD2LIN(2*NRTM))
+          ALLOCATE(INOD2LIN(NUMNOD+1),TAGSECND(NUMNOD),NOD2LIN(2*NRTM))
           I_START = 1
           I_MEM_REM = 0
           DO WHILE (I_START < NRTM)
@@ -1086,7 +1086,7 @@ C
      1      X,NRTM,INTBUF_TAB%IRECTM,NRTS,INTBUF_TAB%IRECTS,
      2      NUMNOD,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,INTBUF_TAB%VARIABLES(13),IGAP,
      3      INTBUF_TAB%KREMNODE,INTBUF_TAB%REMNODE, INTBUF_TAB%VARIABLES(2), DRAD,IPARI(62),
-     4      I_START,I_MEM_REM,INOD2LIN,TAGSLAV,NOD2LIN)
+     4      I_START,I_MEM_REM,INOD2LIN,TAGSECND,NOD2LIN)
 C
 C           Reallocation of REMNODE arrays if necessary
 C
@@ -1098,7 +1098,7 @@ C
 C
           ENDDO
 C
-          DEALLOCATE(INOD2LIN,TAGSLAV,NOD2LIN)
+          DEALLOCATE(INOD2LIN,TAGSECND,NOD2LIN)
           IREMNODE = 0  
 C
         ENDIF
@@ -1282,7 +1282,7 @@ C      detecte les segments de surface nulle.
      7  XN2      ,YN2    ,ZN2    ,XN3     ,YN3   ,
      8  ZN3      ,XN4    ,YN4    ,ZN4      )
 C
-C      RECHERCHE DES ELTS SLAVE et CHECK DES ELTS MASTER  
+C      RECHERCHE DES ELTS SECND et CHECK DES ELTS main  
 C      + Preparation Thermique.
 C
        CALL I21ELS3(
@@ -1372,7 +1372,7 @@ C      detecte les segments de surface nulle.
      7  XN2      ,YN2    ,ZN2    ,XN3     ,YN3   ,
      8  ZN3      ,XN4    ,YN4    ,ZN4      )
 C
-C      CALCUL DU GAP / RECHERCHE DES ELTS SLAVE et CHECK DES ELTS MASTER  
+C      CALCUL DU GAP / RECHERCHE DES ELTS SECND et CHECK DES ELTS main  
 C
        CALL I23GAP3(
      1 X     ,INTBUF_TAB%IRECTS,INTBUF_TAB%IRECTM  ,NRTS      ,NRTM      ,
@@ -1533,14 +1533,14 @@ C---------GAP_S for fictive nodes
      1                     INTBUF_TAB%IS2PT ,NSN     ,IPARTNS   )
           CALL I24ISEGPT_INI(INTBUF_TAB%IRTSE   ,NSNE    ,INTBUF_TAB%IS2SE   ,INTBUF_TAB%NSV    ,
      1                 INTBUF_TAB%IS2PT ,NSN ,INTBUF_TAB%ISEGPT,3 ,INTBUF_TAB%ISPT2)
-C---------slave normal (nodal)------------------     
+C---------secnd normal (nodal)------------------     
           CALL I24FICV_INI(INTBUF_TAB%IRTSE   ,NSNE    ,INTBUF_TAB%IS2SE   ,INTBUF_TAB%NSV    ,
      1                     INTBUF_TAB%IS2PT ,NSN     ,INTBUF_TAB%PENE_OLD,3   )
           CALL I24FICI_INI(INTBUF_TAB%IRTSE   ,NSNE    ,INTBUF_TAB%IS2SE   ,INTBUF_TAB%NSV    ,
      1                     INTBUF_TAB%IS2PT ,NSN     ,INTBUF_TAB%NBINFLG )
         END IF
 
-C      INITIALIZE NODAL SLAVE,MASTER LENGHT FOR [K]geo(implicit) 
+C      INITIALIZE NODAL SECND,MAIN LENGHT FOR [K]geo(implicit) 
 C------------------
        IF(INTKG > 0 ) THEN
         CALL I24LL_KG(
@@ -1549,10 +1549,10 @@ C------------------
      3 NOINT     ,NSN0      ,INTBUF_TAB%NSV,IXTG      ,IXT         ,
      4 IXP       ,IPART     ,IPARTC      ,IPARTTG    ,THK          ,
      D THK_PART  ,IXR       ,ITAB        ,IXS10      ,IXS16        ,
-     E IXS20     ,NMN       ,INTBUF_TAB%MSR,INTBUF_TAB%NOD_SLV_LGTH,
+     E IXS20     ,NMN       ,INTBUF_TAB%MSR,INTBUF_TAB%NOD_2RY_LGTH,
      F INTBUF_TAB%NOD_MAS_LGTH)
         CALL I24FICS_INI(INTBUF_TAB%IRTSE   ,NSNE    ,INTBUF_TAB%IS2SE   ,INTBUF_TAB%NSV    ,
-     1                  INTBUF_TAB%IS2PT ,NSN     ,INTBUF_TAB%NOD_SLV_LGTH   )
+     1                  INTBUF_TAB%IS2PT ,NSN     ,INTBUF_TAB%NOD_2RY_LGTH   )
        END IF
 C      IL FAUT ENCORE FAIRE UN BUCKET SORT DANS LE STARTER
 C
@@ -1872,7 +1872,7 @@ C-----------------------------------------------------------
        GAPSCALE=INTBUF_TAB%VARIABLES(13) 
        ! Warning : VARIABLES(13) is modified after, to store GAPMIN
 
-       IF(IPARI(72) > 0) THEN ! friction model : saving parts id of master segments 
+       IF(IPARI(72) > 0) THEN ! friction model : saving parts id of main segments 
           ALLOCATE(IPARTSM(NRTM0))
           IPARTSM(1:NRTM0)=0
        ELSE
@@ -2000,7 +2000,7 @@ C
 C
         IF (IREMNODE_EDG == 1) THEN
 C
-          ALLOCATE(INOD2LIN(NUMNOD+1),TAGSLAV(NUMNOD),NOD2LIN(2*NEDGE))
+          ALLOCATE(INOD2LIN(NUMNOD+1),TAGSECND(NUMNOD),NOD2LIN(2*NEDGE))
           I_START = 1
           I_MEM_REM = 0
           DO WHILE (I_START < NEDGE)
@@ -2009,7 +2009,7 @@ C
      1      X      ,NEDGE  ,INTBUF_TAB%LEDGE,NUMNOD         ,INTBUF_TAB%GAPE     ,INTBUF_TAB%GAP_E_L    ,
      2      IGAP0  ,IGAP   ,DRAD            ,INTBUF_TAB%VARIABLES(40),BGAPEMX_L  ,INTBUF_TAB%KREMNODE_EDG,      
      3      INTBUF_TAB%REMNODE_EDG,IPARI(94),I_START        ,I_MEM_REM            ,INOD2LIN              ,
-     4      TAGSLAV ,NOD2LIN         )
+     4      TAGSECND ,NOD2LIN         )
 C
 C           Reallocation of REMNODE arrays if necessary
 C
@@ -2021,7 +2021,7 @@ C
 C
           ENDDO
 C
-          DEALLOCATE(INOD2LIN,TAGSLAV,NOD2LIN)
+          DEALLOCATE(INOD2LIN,TAGSECND,NOD2LIN)
           IREMNODE_EDG = 0  
 C
         ENDIF
@@ -2061,14 +2061,14 @@ C
 
          IF(I_MEME(1) /=0 .OR. I_MEME(2)/=0)THEN
            NCONTE   = IPARI(88)
-           IF(I_MEME(1)/=0)THEN ! Master shell edges
+           IF(I_MEME(1)/=0)THEN ! Main shell edges
              MULTIMPE = MAX(IPARI(87)+8,NINT(IPARI(87)*1.75))
              MULTIMPE = MAX(MULTIMPE,INTBUF_TAB%S_CANDL_MAX / MAX(1,NCONTE)) 
              INTBUF_TAB%S_CANDL_MAX = 
      .               MAX(MULTIMPE*NCONTE,INTBUF_TAB%S_CANDL_MAX)
              CALL UPGRADE_LCAND_EDG(NUMINT,MULTIMPE,INTBUF_TAB)
            END IF
-           IF(I_MEME(2)/=0)THEN ! Master Solid edges
+           IF(I_MEME(2)/=0)THEN ! Main Solid edges
              MULTIMPS = MAX(IPARI(89)+8,NINT(IPARI(89)*1.75))
              MULTIMPS = MAX(MULTIMPS,INTBUF_TAB%S_CANDS_MAX / MAX(1,NCONTE)) 
              INTBUF_TAB%S_CANDS_MAX = 

@@ -32,7 +32,7 @@ Chd|====================================================================
      1         X,NRTM,IRECTM,NRTS,IRECTS,
      2         NUMNOD,GAP_S ,GAP_M, GAPMIN,IGAP,
      3         KREMNODE,REMNODE,GAP,DRAD,NREMNODE,
-     4         I_START,I_MEM_REM,INOD2LIN,TAGSLAV,NOD2LIN)
+     4         I_START,I_MEM_REM,INOD2LIN,TAGSECND,NOD2LIN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,7 +53,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRTM,NRTS, NUMNOD,IGAP, NREMNODE
       INTEGER IRECTM(2,*),IRECTS(2,*),KREMNODE(*),REMNODE(*),I_START,I_MEM_REM
-      INTEGER INOD2LIN(NUMNOD+1),TAGSLAV(NUMNOD),NOD2LIN(2*NRTM)
+      INTEGER INOD2LIN(NUMNOD+1),TAGSECND(NUMNOD),NOD2LIN(2*NRTM)
       my_real
      .        X(3,*),GAP_S(*),GAP_M(*),GAP,DRAD,GAPMIN
 C-----------------------------------------------
@@ -81,17 +81,17 @@ C
         NOD2LIN(1:2*NRTM)    = 0
         KNOD2LIN(1:NUMNOD+1) = 0
         INOD2LIN(1:NUMNOD+1) = 0
-        TAGSLAV(1:NUMNOD)    = 0
+        TAGSECND(1:NUMNOD)    = 0
         CPT = 0
 C
         DO I=1,NRTS
-          TAGSLAV(IRECTS(1,I)) = 1
-          TAGSLAV(IRECTS(2,I)) = 1
+          TAGSECND(IRECTS(1,I)) = 1
+          TAGSECND(IRECTS(2,I)) = 1
         ENDDO
 C
         DO I=1,NRTM
           DO J=1,2
-            IF( TAGSLAV(IRECTM(J,I)) == 1 ) CPT = CPT + 1
+            IF( TAGSECND(IRECTM(J,I)) == 1 ) CPT = CPT + 1
           ENDDO
         ENDDO
 C
@@ -109,7 +109,7 @@ C
           DO I=1,NRTM
             CPT = 0
             DO K=1,2
-              IF(TAGSLAV(IRECTM(K,I)) == 1) CPT = CPT + 1
+              IF(TAGSECND(IRECTM(K,I)) == 1) CPT = CPT + 1
             END DO
             IF (CPT .NE. 0 ) THEN
               DO K=1,2
@@ -128,7 +128,7 @@ C
           DO I=1,NRTM
             CPT = 0
             DO K=1,2
-              IF(TAGSLAV(IRECTM(K,I)) == 1) CPT = CPT + 1
+              IF(TAGSECND(IRECTM(K,I)) == 1) CPT = CPT + 1
             END DO
             IF (CPT .NE. 0) THEN
               DO K=1,2
@@ -211,7 +211,7 @@ C
                     ITAG(LIN1)=LEVEL
                     DO L=1,2
 
-                      IF ((TAGSLAV(IRECTM(L,LIN1))== 1).AND.(ORIGIN(IRECTM(L,LIN1)) /= IRECTM(J,LIN))
+                      IF ((TAGSECND(IRECTM(L,LIN1))== 1).AND.(ORIGIN(IRECTM(L,LIN1)) /= IRECTM(J,LIN))
      .                     .AND.((IRECTM(L,LIN1)) /= IRECTM(J,LIN)).AND.(TAGNOD(IRECTM(L,LIN1)) /= 2)) THEN
 C
                         NEW_DIST=DIST1(IRECTM(J,LIN))+
@@ -271,7 +271,7 @@ C
               LIN = LISTLINTOTAL(L)
               IF ((IM1 /= IRECTM(1,LIN)).AND.(IM1 /= IRECTM(2,LIN))
      .           .AND.(IM2 /= IRECTM(1,LIN)).AND.(IM2 /= IRECTM(2,LIN))) THEN
-C--- lines with common nodes with master lines are aready removed - no need to store them in remnode
+C--- lines with common nodes with main lines are aready removed - no need to store them in remnode
                 IF ((DIST1(IRECTM(1,LIN)) <= DMAX).OR.(DIST1(IRECTM(2,LIN)) <= DMAX)) THEN
                   REMNODE(KREMNODE(I)+CPT1) = LIN
                   CPT1 = CPT1 + 1
@@ -290,7 +290,7 @@ C--- lines with common nodes with master lines are aready removed - no need to s
               LIN = LISTLINTOTAL(L)
               IF ((IM1 /= IRECTM(1,LIN)).AND.(IM1 /= IRECTM(2,LIN))
      .           .AND.(IM2 /= IRECTM(1,LIN)).AND.(IM2 /= IRECTM(2,LIN))) THEN
-C--- lines with common nodes with master lines are aready removed - no need to store them in remnode
+C--- lines with common nodes with main lines are aready removed - no need to store them in remnode
                 GAPV = GAP_S(LIN)+GAP_M(I)
                 GAPV = SQRT(DEUX)*MAX(DRAD,GAPMIN,GAPV)
                 IF ((DIST1(IRECTM(1,LIN)) <= GAPV).OR.(DIST1(IRECTM(2,LIN)) <= GAPV)) THEN

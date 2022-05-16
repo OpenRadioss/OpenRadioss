@@ -139,7 +139,7 @@ c associated rbody
           CALL HM_GET_FLOATV('DAMP1',DAMP,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('DAMP2',DAMPR,IS_AVAILABLE,LSUBMODEL,UNITAB)
 
-C associated rbody & master node
+C associated rbody & main node
           IRB=0
           DO N=1,NRBODY
             IF(INTSTAMP(NSTAMP)%IRB==NPBY(6,N))THEN

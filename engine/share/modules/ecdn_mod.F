@@ -53,14 +53,14 @@ C=================================================
 c DEFINE ARRAYS (float arrays) : work arrays
 C=================================================
         integer, DIMENSION(:) , POINTER ::  ITAGND   !  (1:NUMNOD) : id of ICNDS10 
-C-- in Engine ITAGND(ND)= id of ICNDS10 < 0 : degenerated iabs() > NS10E :master of Int2
-C------------ ITAGND(N1,N2)= id of Int2 :slave of Int2
+C-- in Engine ITAGND(ND)= id of ICNDS10 < 0 : degenerated iabs() > NS10E :main of Int2
+C------------ ITAGND(N1,N2)= id of Int2 :secnd of Int2
         integer, DIMENSION(:) , POINTER ::  FR_NBCCCND,FR_NBCCCND1   !  P/ON id 
          my_real
      .          , DIMENSION(:), ALLOCATABLE :: VND, STIFND,FSKYCND ! (3,NS10E),(4,LCNCND)
          my_real
      .          , DIMENSION(:), ALLOCATABLE :: VMD        ! (3,NUMNOD) workarray
-C-- For calculate rightly the KE of ND which is also master node of int2 
+C-- For calculate rightly the KE of ND which is also main node of int2 
         INTEGER NKEND 
         integer, DIMENSION(:) , ALLOCATABLE ::  IMAP2ND   !  to id of ICNDS10
          my_real

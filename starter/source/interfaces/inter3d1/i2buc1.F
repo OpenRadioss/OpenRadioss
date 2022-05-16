@@ -130,7 +130,7 @@ C     REAL ou REAL*8
       my_real
      .   DX1,DY1,DZ1,DX3,DY3,DZ3,DX4,DY4,DZ4,DX6,DY6,DZ6,
      .   DD1,DD2,DD3,DD4,DD,XMIN,YMIN,ZMIN,MAXBOX,MINBOX,XMAX,YMAX,ZMAX,
-     .   BID,TZINFMIN,THKSLAVE,THKMASTER,AREA,VOL,GAPV(MVSIZ),DSEARCH
+     .   BID,TZINFMIN,THKSECND,THKMAIN,AREA,VOL,GAPV(MVSIZ),DSEARCH
 C
 !      EQUIVALENCE (PROV_N,IV(1,6)) ,(PROV_E,IV(1,7))
 C=======================================================================
@@ -139,8 +139,8 @@ c
       DD = ZERO
       DSEARCH = TZINF05
       IF (IGNORE >= 2) THEN
-         THKSLAVE = ZERO
-         THKMASTER = ZERO
+         THKSECND = ZERO
+         THKMAIN = ZERO
 C        DD EST LA LONGEUR MAX DIAGONALES
         DO 5 L=1,NRTM
 C        CONNECTIVITES ELEMENT
@@ -167,11 +167,11 @@ C--         Cooques 4n
             MG=IXC(6,IEL)
             IP = IPARTC(IEL)
             IF ( THK_PART(IP) .NE. ZERO) THEN  
-              THKSLAVE = MAX(THKSLAVE,THK_PART(IP))
+              THKSECND = MAX(THKSECND,THK_PART(IP))
             ELSEIF ( THK(I) .NE. ZERO) THEN
-              THKSLAVE = MAX(THKSLAVE,THK(IEL))
+              THKSECND = MAX(THKSECND,THK(IEL))
             ELSE
-              THKSLAVE = MAX(THKSLAVE,GEO(1,MG))
+              THKSECND = MAX(THKSECND,GEO(1,MG))
             ENDIF
           ENDDO 
 C--         Cooques 3n
@@ -180,11 +180,11 @@ C--         Cooques 3n
             MG=IXTG(5,IEL)
             IP = IPARTTG(IEL)
             IF ( THK_PART(IP) .NE. ZERO) THEN  
-              THKSLAVE = MAX(THKSLAVE,THK_PART(IP))
+              THKSECND = MAX(THKSECND,THK_PART(IP))
             ELSEIF ( THK(I) .NE. ZERO) THEN
-              THKSLAVE = MAX(THKSLAVE,THK(IEL))
+              THKSECND = MAX(THKSECND,THK(IEL))
             ELSE
-              THKSLAVE = MAX(THKSLAVE,GEO(1,MG))
+              THKSECND = MAX(THKSECND,GEO(1,MG))
             ENDIF
           ENDDO
         ENDDO
@@ -203,21 +203,21 @@ C--         Cooques 3n
             MG=IXC(6,NELC)
             IP = IPARTC(NELC) 
             IF ( THK_PART(IP) .NE. ZERO) THEN  
-              THKMASTER = MAX(THKMASTER,THK_PART(IP))
+              THKMAIN = MAX(THKMAIN,THK_PART(IP))
             ELSEIF ( THK(I) .NE. ZERO) THEN
-              THKMASTER = MAX(THKMASTER,THK(NELC))
+              THKMAIN = MAX(THKMAIN,THK(NELC))
             ELSE
-              THKMASTER = MAX(THKMASTER,GEO(1,MG))
+              THKMAIN = MAX(THKMAIN,GEO(1,MG))
             ENDIF
           ELSEIF (NELTG .NE. 0)THEN
             MG=IXTG(5,NELTG)
             IP = IPARTTG(NELTG) 
             IF ( THK_PART(IP) .NE. ZERO) THEN  
-              THKMASTER = MAX(THKMASTER,THK_PART(IP))
+              THKMAIN = MAX(THKMAIN,THK_PART(IP))
             ELSEIF ( THK(I) .NE. ZERO) THEN
-              THKMASTER = MAX(THKMASTER,THK(NUMELC+NELTG))
+              THKMAIN = MAX(THKMAIN,THK(NUMELC+NELTG))
             ELSE
-              THKMASTER = MAX(THKMASTER,GEO(1,MG))
+              THKMAIN = MAX(THKMAIN,GEO(1,MG))
             ENDIF
           ELSEIF(NELS.NE.0 .AND. NELS <= NUMELS8 .AND. IGNORE == 2) THEN
             DO JJ=1,8
@@ -228,12 +228,12 @@ C--         Cooques 3n
             END DO
             CALL VOLINT(VOL)
 C
-            THKMASTER = MAX(THKMASTER,VOL/AREA)
+            THKMAIN = MAX(THKMAIN,VOL/AREA)
           ENDIF
         ENDDO
 C       TAILLE BUCKET MIN = TZINF05
         IF(TZINF05.EQ.ZERO)
-     .           TZINF05 = MAX(ZEP05*DD,0.6*(THKMASTER+THKSLAVE))
+     .           TZINF05 = MAX(ZEP05*DD,0.6*(THKMAIN+THKSECND))
         MAXBOX= DEUX*TZINF05
         MINBOX= UNDEMI*MAXBOX
         TZINFMIN = TZINF05

@@ -243,7 +243,7 @@ C
 C
       END DO
 C------------------------------------
-C     Coordonnees initiales cote maitre (1: active ; 0: inactive)
+C     Coordonnees initiales cote main (1: active ; 0: inactive)
 C------------------------------------
       DO I=1,NMN
         DO J=1,3

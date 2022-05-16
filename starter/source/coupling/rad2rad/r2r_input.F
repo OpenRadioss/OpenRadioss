@@ -129,7 +129,7 @@ C-----Generation carte interfaces-----
        
       DO I=START,NR2RLNK          
         IF (IEXTER(5,I).EQ.40) THEN
-C--->  type = 40 -> interface des noeuds master de RBODY -----	 
+C--->  type = 40 -> interface des noeuds main de RBODY -----	 
           WRITE(REF,1310) IEXTER(5,I)/10
         ELSEIF (IEXTER(5,I).EQ.50) THEN
 C--->  type = 50 -> interface type KINE----------------- -----	 

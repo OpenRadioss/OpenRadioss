@@ -491,7 +491,7 @@ C
                        WFLOW(3,NOSYS) = V3
                     ENDIF
                  ELSEIF(ITYPE == 4) THEN
-C--                 /INIVEL/AXIS -> tag of master nodes of rbody
+C--                 /INIVEL/AXIS -> tag of main nodes of rbody
                     IF ((.NOT.ALLOCATED(TAGNO_RBY)).AND.(NRBODY > 0)) THEN
                       ALLOCATE(TAGNO_RBY(NUMNOD))
                       TAGNO_RBY(1:NUMNOD) = 0
@@ -552,7 +552,7 @@ C
                        WFLOW(3,NOSYS) = V(3,NOSYS)
                     ENDIF
 C
-C--                 /INIVEL/AXIS -> data must be stored to update initial velocity when RBODY master node is moved (inirby.F)
+C--                 /INIVEL/AXIS -> data must be stored to update initial velocity when RBODY main node is moved (inirby.F)
                     IF (NRBODY > 0) THEN
                       IF (TAGNO_RBY(NOSYS) > 0) THEN
                         RBY_INIAXIS(1,TAGNO_RBY(NOSYS)) = UN

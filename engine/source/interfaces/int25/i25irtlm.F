@@ -97,7 +97,7 @@ C               Shooting Nodes
                 L = INTBUF_TAB%IRTLM(4*(N-1)+3)
                 IF(INTBUF_TAB%STFM(L)==ZERO)THEN
 C
-C                 Reset IRTLM when a Slave node is in contact with a Master surface which was deleted.
+C                 Reset IRTLM when a Secnd node is in contact with a Main surface which was deleted.
                   INTBUF_TAB%IRTLM(4*(N-1)+1)=0
                   INTBUF_TAB%IRTLM(4*(N-1)+2)=0
 C
@@ -108,7 +108,7 @@ C                 at the previous cycle => the node can not impact during THIS c
                   INTBUF_TAB%TIME_S(2*(N-1)+1) =  EP20
                   INTBUF_TAB%TIME_S(2*(N-1)+2) =  EP20
 C
-          	  INTBUF_TAB%SLAV_FR(6*(N-1)+1:6*N) = ZERO
+          	  INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) = ZERO
           	  INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)= ZERO
           	  INTBUF_TAB%PENE_OLD(5*(N-1)+1:5*N)= ZERO
 C
@@ -120,9 +120,9 @@ C                 N impacte sur mon domaine SPMD, sur le segment n  IRTLM(3,N)
                   INTBUF_TAB%CAND_OPT_E(I_STOK_RTLM)= L
 C
 C copy old friction forces
-                  INTBUF_TAB%SLAV_FR(6*(N-1)+4:6*N)=INTBUF_TAB%SLAV_FR(6*(N-1)+1:6*(N-1)+3)
+                  INTBUF_TAB%SECND_FR(6*(N-1)+4:6*N)=INTBUF_TAB%SECND_FR(6*(N-1)+1:6*(N-1)+3)
 C set new friction forces at 0
-                  INTBUF_TAB%SLAV_FR(6*(N-1)+1:6*(N-1)+3)=ZERO
+                  INTBUF_TAB%SECND_FR(6*(N-1)+1:6*(N-1)+3)=ZERO
                   INTBUF_TAB%PENE_OLD(5*(N-1)+2) = INTBUF_TAB%PENE_OLD(5*(N-1)+1)
                   INTBUF_TAB%PENE_OLD(5*(N-1)+1) = ZERO
                   INTBUF_TAB%STIF_OLD(2*(N-1)+2) = INTBUF_TAB%STIF_OLD(2*(N-1)+1) 
@@ -135,7 +135,7 @@ C                 se prepare a quitter le contact
               ELSE ! IF(INTBUF_TAB%IRTLM(4*(N-1)+4) == ISPMD+1)THEN
 C
 C               Seul le processeur qui a l ancien impact garde les informations correspondantes
-                INTBUF_TAB%SLAV_FR(6*(N-1)+1:6*N) =ZERO
+                INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) =ZERO
                 INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)=ZERO
                 INTBUF_TAB%PENE_OLD(5*(N-1)+1)  =ZERO
                 INTBUF_TAB%PENE_OLD(5*(N-1)+2)  =ZERO
@@ -150,7 +150,7 @@ C               se prepare a quitter le contact
             ELSE ! IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0)THEN 
 C reset all for future impact
 c              INTBUF_TAB%IRTLM(4*(N-1)+3)=0
-c              INTBUF_TAB%SLAV_FR(6*(N-1)+1:6*N) =ZERO
+c              INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) =ZERO
 c              INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)= ZERO
 c              INTBUF_TAB%PENE_OLD(5*(N-1)+1:5*N)= ZERO
                INTBUF_TAB%PENE_OLD(5*(N-1)+3)  =ZERO
@@ -173,7 +173,7 @@ C               Shooting Nodes
                 L = IRTLM_FI(NIN)%P(3,N)
                 IF(INTBUF_TAB%STFM(L)==ZERO)THEN
 C
-C                 Reset IRTLM when a Slave node is in contact with a Master surface which was deleted.
+C                 Reset IRTLM when a Secnd node is in contact with a Main surface which was deleted.
                   IRTLM_FI(NIN)%P(1,N)=0
                   IRTLM_FI(NIN)%P(2,N)=0
 C
@@ -184,7 +184,7 @@ C                 at the previous cycle => the node can not impact during THIS c
                   TIME_SFI(NIN)%P(2*(N-1)+1) =  EP20
                   TIME_SFI(NIN)%P(2*(N-1)+2) =  EP20
 C
-          	  SLAV_FRFI(NIN)%P (1:6,N)=ZERO
+          	  SECND_FRFI(NIN)%P (1:6,N)=ZERO
           	  PENE_OLDFI(NIN)%P(1:5,N)=ZERO
           	  STIF_OLDFI(NIN)%P(1:2,N)=ZERO
 C
@@ -194,9 +194,9 @@ C
                   INTBUF_TAB%CAND_OPT_E(I_STOK_RTLM)= L
 C
 C copy old friction forces
-                  SLAV_FRFI(NIN)%P(4:6,N)=SLAV_FRFI(NIN)%P(1:3,N)
+                  SECND_FRFI(NIN)%P(4:6,N)=SECND_FRFI(NIN)%P(1:3,N)
 C set new friction forces at 0
-                  SLAV_FRFI(NIN)%P(1:3,N)=ZERO
+                  SECND_FRFI(NIN)%P(1:3,N)=ZERO
                   PENE_OLDFI(NIN)%P(2,N) = PENE_OLDFI(NIN)%P(1,N)
                   PENE_OLDFI(NIN)%P(1,N) = ZERO
                   STIF_OLDFI(NIN)%P(2,N) = STIF_OLDFI(NIN)%P(1,N)
@@ -209,7 +209,7 @@ C                 se prepare a quitter le contact
               ELSE ! IF(IRTLM_FI(NIN)%P(4,N) == ISPMD+1)THEN
 C
 C               Seul le processeur qui a l ancien impact garde les informations correspondantes
-                SLAV_FRFI(NIN)%P(1:6,N) =ZERO
+                SECND_FRFI(NIN)%P(1:6,N) =ZERO
                 STIF_OLDFI(NIN)%P(1:2,N)=ZERO
                 PENE_OLDFI(NIN)%P(1,N)  =ZERO
                 PENE_OLDFI(NIN)%P(2,N)  =ZERO
@@ -224,7 +224,7 @@ C               se prepare a quitter le contact
             ELSE ! IF(IRTLM_FI(NIN)%P(1,N) > 0)THEN
 C reset all for future impact
 c              IRTLM_FI(NIN)%P(3,N)=0
-c              SLAV_FRFI(NIN)%P (1:6,N)=ZERO
+c              SECND_FRFI(NIN)%P (1:6,N)=ZERO
 c              PENE_OLDFI(NIN)%P(1:5,N)=ZERO
 c              STIF_OLDFI(NIN)%P(1:2,N)=ZERO
                PENE_OLDFI(NIN)%P(3,N)  =ZERO
@@ -249,7 +249,7 @@ C               Shooting Nodes
                 L = INTBUF_TAB%IRTLM(4*(N-1)+3)
                 IF(INTBUF_TAB%STFM(L)==ZERO)THEN
 C
-C                 Reset IRTLM when a Slave node is in contact with a Master surface which was deleted.
+C                 Reset IRTLM when a Secnd node is in contact with a Main surface which was deleted.
                   INTBUF_TAB%IRTLM(4*(N-1)+1)=0
                   INTBUF_TAB%IRTLM(4*(N-1)+2)=0
 C
@@ -260,7 +260,7 @@ C                 at the previous cycle => the node can not impact during THIS c
                   INTBUF_TAB%TIME_S(2*(N-1)+1) =  EP20
                   INTBUF_TAB%TIME_S(2*(N-1)+2) =  EP20
 C
-          	  INTBUF_TAB%SLAV_FR(6*(N-1)+1:6*N) = ZERO
+          	  INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) = ZERO
           	  INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)= ZERO
           	  INTBUF_TAB%PENE_OLD(5*(N-1)+1:5*N)= ZERO
                   INTBUF_TAB%IF_ADH(N) = 0    
@@ -273,9 +273,9 @@ C                 N impacte sur mon domaine SPMD, sur le segment n  IRTLM(3,N)
                   INTBUF_TAB%CAND_OPT_E(I_STOK_RTLM)= L
 C
 C copy old friction forces
-                  INTBUF_TAB%SLAV_FR(6*(N-1)+4:6*N)=INTBUF_TAB%SLAV_FR(6*(N-1)+1:6*(N-1)+3)
+                  INTBUF_TAB%SECND_FR(6*(N-1)+4:6*N)=INTBUF_TAB%SECND_FR(6*(N-1)+1:6*(N-1)+3)
 C set new friction forces at 0
-                  INTBUF_TAB%SLAV_FR(6*(N-1)+1:6*(N-1)+3)=ZERO
+                  INTBUF_TAB%SECND_FR(6*(N-1)+1:6*(N-1)+3)=ZERO
                   INTBUF_TAB%PENE_OLD(5*(N-1)+2) = INTBUF_TAB%PENE_OLD(5*(N-1)+1)
                   INTBUF_TAB%PENE_OLD(5*(N-1)+1) = ZERO
                   INTBUF_TAB%STIF_OLD(2*(N-1)+2) = INTBUF_TAB%STIF_OLD(2*(N-1)+1) 
@@ -288,7 +288,7 @@ C                 se prepare a quitter le contact
               ELSE ! IF(INTBUF_TAB%IRTLM(4*(N-1)+4) == ISPMD+1)THEN
 C
 C               Seul le processeur qui a l ancien impact garde les informations correspondantes
-                INTBUF_TAB%SLAV_FR(6*(N-1)+1:6*N) =ZERO
+                INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) =ZERO
                 INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)=ZERO
                 INTBUF_TAB%PENE_OLD(5*(N-1)+1)  =ZERO
                 INTBUF_TAB%PENE_OLD(5*(N-1)+2)  =ZERO
@@ -304,7 +304,7 @@ C               se prepare a quitter le contact
             ELSE ! IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0)THEN 
 C reset all for future impact
 c              INTBUF_TAB%IRTLM(4*(N-1)+3)=0
-c              INTBUF_TAB%SLAV_FR(6*(N-1)+1:6*N) =ZERO
+c              INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) =ZERO
 c              INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)= ZERO
 c              INTBUF_TAB%PENE_OLD(5*(N-1)+1:5*N)= ZERO
                INTBUF_TAB%TIME_S(2*(N-1)+1) = -EP20
@@ -325,7 +325,7 @@ C               Shooting Nodes
                 L = IRTLM_FI(NIN)%P(3,N)
                 IF(INTBUF_TAB%STFM(L)==ZERO)THEN
 C
-C                 Reset IRTLM when a Slave node is in contact with a Master surface which was deleted.
+C                 Reset IRTLM when a Secnd node is in contact with a Main surface which was deleted.
                   IRTLM_FI(NIN)%P(1,N)=0
                   IRTLM_FI(NIN)%P(2,N)=0
 C
@@ -336,7 +336,7 @@ C                 at the previous cycle => the node can not impact during THIS c
                   TIME_SFI(NIN)%P(2*(N-1)+1) =  EP20
                   TIME_SFI(NIN)%P(2*(N-1)+2) =  EP20
 C
-          	  SLAV_FRFI(NIN)%P (1:6,N)=ZERO
+          	  SECND_FRFI(NIN)%P (1:6,N)=ZERO
           	  PENE_OLDFI(NIN)%P(1:5,N)=ZERO
           	  STIF_OLDFI(NIN)%P(1:2,N)=ZERO
                   IF_ADHFI(NIN)%P(N) = 0
@@ -347,9 +347,9 @@ C
                   INTBUF_TAB%CAND_OPT_E(I_STOK_RTLM)= L
 C
 C copy old friction forces
-                  SLAV_FRFI(NIN)%P(4:6,N)=SLAV_FRFI(NIN)%P(1:3,N)
+                  SECND_FRFI(NIN)%P(4:6,N)=SECND_FRFI(NIN)%P(1:3,N)
 C set new friction forces at 0
-                  SLAV_FRFI(NIN)%P(1:3,N)=ZERO
+                  SECND_FRFI(NIN)%P(1:3,N)=ZERO
                   PENE_OLDFI(NIN)%P(2,N) = PENE_OLDFI(NIN)%P(1,N)
                   PENE_OLDFI(NIN)%P(1,N) = ZERO
                   STIF_OLDFI(NIN)%P(2,N) = STIF_OLDFI(NIN)%P(1,N)
@@ -362,7 +362,7 @@ C                 se prepare a quitter le contact
               ELSE ! IF(IRTLM_FI(NIN)%P(4,N) == ISPMD+1)THEN
 C
 C               Seul le processeur qui a l ancien impact garde les informations correspondantes
-                SLAV_FRFI(NIN)%P(1:6,N) =ZERO
+                SECND_FRFI(NIN)%P(1:6,N) =ZERO
                 STIF_OLDFI(NIN)%P(1:2,N)=ZERO
                 PENE_OLDFI(NIN)%P(1,N)  =ZERO
                 PENE_OLDFI(NIN)%P(2,N)  =ZERO
@@ -378,7 +378,7 @@ C               se prepare a quitter le contact
             ELSE ! IF(IRTLM_FI(NIN)%P(1,N) > 0)THEN
 C reset all for future impact
 c              IRTLM_FI(NIN)%P(3,N)=0
-c              SLAV_FRFI(NIN)%P (1:6,N)=ZERO
+c              SECND_FRFI(NIN)%P (1:6,N)=ZERO
 c              PENE_OLDFI(NIN)%P(1:5,N)=ZERO
 c              STIF_OLDFI(NIN)%P(1:2,N)=ZERO
                TIME_SFI(NIN)%P(2*(N-1)+1) = -EP20

@@ -69,20 +69,20 @@ C-----------------------------------------------
       INTEGER N_SURFP2,N_SURFT2,I1,I2,N_GRBP,N_GRBT
       INTEGER N_LINP,N_LINT,N_LINP2,N_LINT2      
 C=======================================================================
-C-->  Cote maitre : domaine dans lequel on traite les contacts interdomaines - recupere les elts void
-C-->  Cote esclave : domaine dans lequel on ne traite pas les contacts interdomaines
+C-->  Cote main : domaine dans lequel on traite les contacts interdomaines - recupere les elts void
+C-->  Cote second. : domaine dans lequel on ne traite pas les contacts interdomaines
 C=======================================================================
 C-->  TAG = -1 : interf. externe au domaine courant
 C-->  TAG =  0 : interf. interne au domaine courant
 C-->  TAG =  1 : interf. concernant les 2 domaines - cas general
-C-->  TAG =  2 : interf. concernant les 2 domaines - le cote maitre n'est que maitre dans l'interface
-C-->  TAG =  3 : interf. concernant les 2 domaines - le cote maitre n'est que esclave dans l'interface
+C-->  TAG =  2 : interf. concernant les 2 domaines - le cote main n'est que main dans l'interface
+C-->  TAG =  3 : interf. concernant les 2 domaines - le cote main n'est que second. dans l'interface
 C-->  TAG =  4 : interf. type2 connectant les 2 domainese
 C=======================================================================      
-C-->  N_np = nb noeud propes au domaine maitre
+C-->  N_np = nb noeud propes au domaine main
 C-->  N_nt = N_np + nb de noeuds communs aux 2 domaines
-C-->  N_ns = nb de noeuds vu cot    esclave
-C-->  N_surfp = nb de segments prope au domaine maitre
+C-->  N_ns = nb de noeuds vu cot    second
+C-->  N_surfp = nb de segments prope au domaine main
 C-->  N_surft = Nb_surfp + nb de segments communs aux 2 domaines	
 C=======================================================================
               
@@ -97,7 +97,7 @@ C--------------------------------------------------------------------C
 
       IF (FLAG.EQ.0) THEN
       
-C-->  determination du groupe de noeuds esclaves et elements maitres <--- 
+C-->  determination du groupe de noeuds seconds et elements mains <--- 
       DO J=1,NGRNOD	  
 	IF (IGRNOD(J)%ID.EQ.GRS) G1 = J
       END DO
@@ -112,7 +112,7 @@ C-->  cas d'erreurs     garder pour y traiter dans lecture des interfaces <---
       IF ((ISURF_R2R(1,G2)+ISURF_R2R(2,G2)).EQ.0) TAG2 = 0
 
       IF (IDDOM.NE.0) THEN
-C-->  traitement cote maitre   <---	     
+C-->  traitement cote main   <---	     
 	VAL = 1
 	W = 1
         N_NP = IGRNOD(G1)%NENTITY-IGRNOD(G1)%R2R_SHARE+IGRPP_R2R(1,G1)
@@ -121,7 +121,7 @@ C-->  traitement cote maitre   <---
         N_SURFP = ISURF_R2R(2,G2)+ISURF_R2R(4,G2) 
         N_SURFT = ISURF_R2R(1,G2)-ISURF_R2R(5,G2)  		    		   	   
       ELSE
-C-->  traitement cote esclave   <---	     
+C-->  traitement cote second.   <---	     
 	VAL = 0
 	W=0
 	N_NP = IGRNOD(G1)%NENTITY-IGRNOD(G1)%R2R_ALL+IGRPP_R2R(2,G1)
@@ -182,7 +182,7 @@ C-->  cas d'erreurs     traiter dans lecture des interfaces <---
       IF ((ISURF_R2R(1,G2)).EQ.0) TAG2=0
       
       IF (IDDOM.NE.0) THEN      
-C-->  traitement cote maitre   <---
+C-->  traitement cote main   <---
         W = 1 
         VAL = 1                
         N_SURFP=ISURF_R2R(2,G1)+ISURF_R2R(4,G1) 
@@ -190,7 +190,7 @@ C-->  traitement cote maitre   <---
         N_SURFT=ISURF_R2R(1,G1)-ISURF_R2R(5,G1) 
         N_SURFT2=ISURF_R2R(1,G2)-ISURF_R2R(5,G2)            
       ELSE
-C-->  traitement cote esclave  <---
+C-->  traitement cote second.  <---
         W = 0
         VAL = 0                 
         N_SURFP=IGRSURF(G1)%NSEG-ISURF_R2R(1,G1)+ISURF_R2R(5,G1)
@@ -239,7 +239,7 @@ C-->  cas d'erreurs     traiter dans lecture des interfaces <---
       IF ((ISLIN_R2R(1,G2)).EQ.0) TAG2=0
 
       IF (IDDOM.NE.0) THEN      
-C-->  traitement cote maitre   <---
+C-->  traitement cote main   <---
         W = 1 
         VAL = 1                
         N_LINP=ISLIN_R2R(2,G1)
@@ -247,7 +247,7 @@ C-->  traitement cote maitre   <---
         N_LINT=ISLIN_R2R(1,G1)
         N_LINT2=ISLIN_R2R(1,G2)            
       ELSE
-C-->  traitement cote esclave  <---
+C-->  traitement cote second.  <---
         W = 0
         VAL = 0                 
         N_LINP=IGRSLIN(G1)%NSEG-ISLIN_R2R(1,G1)
@@ -296,7 +296,7 @@ C-->  cas d'erreurs     traiter dans lecture des interfaces <---
       IF ((ISURF_R2R(1,G2)).EQ.0) TAG2=0
       
       IF (IDDOM.NE.0) THEN      
-C-->  traitement cote maitre   <---
+C-->  traitement cote main   <---
         W = 1 
         VAL = 1                
         N_GRBP=IGRBRIC_R2R(2,G1)+IGRBRIC_R2R(4,G1) 
@@ -304,7 +304,7 @@ C-->  traitement cote maitre   <---
         N_GRBT=IGRBRIC_R2R(1,G1)-IGRBRIC_R2R(5,G1) 
         N_SURFT2=ISURF_R2R(1,G2)-ISURF_R2R(5,G2)            
       ELSE
-C-->  traitement cote esclave  <---
+C-->  traitement cote second.  <---
         W = 0
         VAL = 0                 
         N_GRBP=IGRBRIC(G1)%NENTITY-IGRBRIC_R2R(1,G1)+IGRBRIC_R2R(5,G1)

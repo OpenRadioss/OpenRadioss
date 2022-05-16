@@ -79,8 +79,8 @@ C-----------------------------------------------
       INTEGER IWORK(70000),IOLD
       INTEGER IFLAGI1,IFLAGDBL,IRB
 C-----------------------------------
-C   NPBY( 1,N) = MASTER NODE
-C   NPBY( 2,N) = NUMBER OF SLAVE NODES
+C   NPBY( 1,N) = main NODE
+C   NPBY( 2,N) = NUMBER OF SECND NODES
 C   NPBY( 3,N) = ICDG
 C   NPBY( 4,N) = ISENS gw117
 C   NPBY( 5,N) = FLAG SPHERICAL INERTIA
@@ -90,7 +90,7 @@ C   NPBY( 8,N) = ISU
 C   NPBY( 9,N) = NSKEW
 C   NPBY(10,N) = IEXPAMS (AMS - Hidden)
 C                 = 1 (default) : AMS expansion ; = 2 (Hidden) : No expansion
-C   NPBY(11,N) = IAD => slave nodes LPBY(IAD+1:IAD+NSN)
+C   NPBY(11,N) = IAD => secnd nodes LPBY(IAD+1:IAD+NSN)
 C   NPBY(12,N) = RBODY LEVEL
 C   NPBY(13,N) = RBODY IFLAG
 C   NPBY(14,N) = NUMBER OF XTRA_NODE with Iflag=1
@@ -148,7 +148,7 @@ C
       ENDDO
       NUMSL_TMP=KK
 C-------------------------------------
-C Bilan slave nodes doubles (sans les XTRA_NODES qui sont teste avant)
+C Bilan secnd nodes doubles (sans les XTRA_NODES qui sont teste avant)
 C-------------------------------------
       IF (NRBYKIN > 1) THEN
       IWORK=0

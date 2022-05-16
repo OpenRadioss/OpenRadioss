@@ -141,7 +141,7 @@ C
         SDD_R2R_ELEM = 2*(NBDDKIN + NBDDACC)       
       ENDIF     
 C
-C Frontiere RBY (master nodes)
+C Frontiere RBY (main nodes)
 C
       NBDDNRB = 0
       NRBYKIN_L = 0
@@ -184,7 +184,7 @@ C proc = 0, recherche des autres procs ayant le noeud
         K = K + NSN + 1
       END DO
 C
-C Frontiere RBY MOU (master nodes)
+C Frontiere RBY MOU (main nodes)
 C
       NBDDNRBM = 0
       DO N = 1, NIBVEL
@@ -200,7 +200,7 @@ C
         ENDIF
       ENDDO
 C
-C Frontiere Rigid material (effectif master nodes)
+C Frontiere Rigid material (effectif main nodes)
 C
       NBDDNRBYM = 0
       NRBYMK_L = 0

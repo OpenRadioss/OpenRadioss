@@ -69,7 +69,7 @@ C
             DO N=1,NJOINT
                 NN=NINTER+NRWALL+NRBODY+NSECT+N
                 K = KIND(N)
-                CONDITION = ( (CYL_JOIN(N)%NUMBER_NODE>0).OR.(CYL_JOIN(N)%NUMBER_MASTER_NODE>0) )
+                CONDITION = ( (CYL_JOIN(N)%NUMBER_NODE>0).OR.(CYL_JOIN(N)%NUMBER_MAIN_NODE>0) )
                 IF(CONDITION) CALL TELESC(N,A,AR,V,VR,X,FSAV(1,NN),MS,IN,ITASK)
             END DO
         ELSE
@@ -77,7 +77,7 @@ C
                 IF(TAG_LNK_SMS(N)/=0)CYCLE
                 NN=NINTER+NRWALL+NRBODY+NSECT+N
                 K = KIND(N)
-                CONDITION = ( (CYL_JOIN(N)%NUMBER_NODE>0).OR.(CYL_JOIN(N)%NUMBER_MASTER_NODE>0) )
+                CONDITION = ( (CYL_JOIN(N)%NUMBER_NODE>0).OR.(CYL_JOIN(N)%NUMBER_MAIN_NODE>0) )
                 IF(CONDITION) CALL TELESC(N,A,AR,V,VR,X,FSAV(1,NN),MS,IN,ITASK)
             END DO
         END IF

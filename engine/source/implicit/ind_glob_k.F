@@ -1741,7 +1741,7 @@ C-----------------------------------------------
       INTEGER NSN,I,J,K,N,M,NS
 C-----------------------------------------------
       NKINE=0
-C----- master of rigid body first------
+C----- main of rigid body first------
       DO I=1,NRBYAC
        N=IRBYAC(I)
        M=NPBY(1,N)
@@ -1750,7 +1750,7 @@ C----- master of rigid body first------
         INLOC(M)=-NKINE
        ENDIF
       ENDDO
-C----- rbe2 master------
+C----- rbe2 main------
       DO I=1,NRBE2
        K = IRBE2(1,I)
        M = IRBE2(3,I)
@@ -1877,7 +1877,7 @@ C-----------------------------------------------
       DO K=0,NHIN2
        CALL I2_PREM(IPARI,K,NINT2,IINT2,NSI2)
       ENDDO 
-C------rigid body master------------- 
+C------rigid body main------------- 
       CALL RBYAC_IMP(NPBY,ITAB,SENSOR,NRBYAC,IRBYAC,NSRB)
       DO I=1,NRBYAC
        N=IRBYAC(I)
@@ -1922,7 +1922,7 @@ C
         ENDIF
        ENDDO
       END IF !(NSPMD > 1 .AND.NINTER > 0) THEN
-C-----if m is slave of rb
+C-----if m is secnd of rb
       NSRB2=0
       DO N=1,NRBE2
        M=IRBE2(3,N)
@@ -1978,13 +1978,13 @@ C-----------------------------------------------
       INTEGER NMN,J,K
       INTEGER I,N,M,L,NS,ID,NM,NSN,IAD,ILEV,NDOFM,IROT,IC
 C-----------------------------------------------
-C------interface 2---au cas surface maitre est deactive----------- 
+C------interface 2---au cas surface main est deactive----------- 
       DO I=1,NINT2
        N=IINT2(I)
        NSN = IPARI(5,N)
        NMN = IPARI(6,N)
        ILEV = IPARI(20,N)
-C------IRTL(NSN)--master el number---
+C------IRTL(NSN)--main el number---
        NDOFM=3
        IF (ILEV == 0) NDOFM=6
        DO J=1,NSN
@@ -2004,7 +2004,7 @@ C
        N=IINT2(I)
        NSN = IPARI(5,N)
        NMN = IPARI(6,N)
-C------IRTL(NSN)--master el number---
+C------IRTL(NSN)--main el number---
        DO J=1,NSN
         NS=INTBUF_TAB(N)%NSV(J) 
         IF (NDOF(NS).GT.0) THEN
@@ -2269,7 +2269,7 @@ C+++couplage entre int2----
           NI=INTBUF_TAB(N)%NSV(I)
           IF (NDOF(NI).GT.0) THEN
            NKE=INLOC(NI) 
-C------cherche-slave pairs-entre int2---
+C------cherche-secnd pairs-entre int2---
            DO I1=1,NSN1
             NJ=INTBUF_TAB(N1)%NSV(I1)
             IF (NDOF(NJ).GT.0.AND.
@@ -2524,7 +2524,7 @@ C------NSV(NSN)--node number---
        K13=K12+NSN
 C------MSR(NMN)-----
        K14=K13+NMN
-C------IRTL(NSN)--master el number---
+C------IRTL(NSN)--main el number---
        KFI=K14+NSN
        DO 20 J=1,NSN
         NS=INTBUF_TAB(N)%NSV(J)  
@@ -2729,7 +2729,7 @@ C
            ENDIF         
           ENDIF
          ENDDO 
-C-----create rigid body slave nodes with Kij block-(i,j have the same M)-----
+C-----create rigid body secnd nodes with Kij block-(i,j have the same M)-----
          DO N1=J+1,NSN
            NJ=LPBY(K+N1)
           IF (NKS > INK) THEN         
@@ -2771,7 +2771,7 @@ C+++couplage entre rigid bodies----
              NKS=INLOC(NI) 
              IF (NKS > INK) THEN         
               IF (INTAB(NROWI(NKS),ICOK(1,NKS),M)) THEN
-C------cherche-slave pairs----
+C------cherche-secnd pairs----
               DO N1=1,NS
                N2=LPBY(K+N1)
                IF (NDOF(N2).GT.0.AND.
@@ -2782,7 +2782,7 @@ C------cherche-slave pairs----
               ENDIF
              ELSE
               IF (INTAB(NROWI(NKS),ICOKM(1,NKS),M)) THEN
-C------cherche-slave pairs----
+C------cherche-secnd pairs----
               DO N1=1,NS
                N2=LPBY(K+N1)
                IF (NDOF(N2).GT.0.AND.
@@ -2886,7 +2886,7 @@ C------NSV(NSN)--node number---
        K13=K12+NSN
 C------MSR(NMN)-----
        K14=K13+IPARI(6,N)
-C------IRTL(NSN)--master el number---
+C------IRTL(NSN)--main el number---
        KFI=K14+NSN
        NSC2(J)=0
        DO I=1,NSN
@@ -2931,7 +2931,7 @@ C------IRTL(NSN)--master el number---
           ENDIF 
          ENDDO
          NS=NS+NSS2(ID)
-C-----with Kij block-(i,j slave)-----
+C-----with Kij block-(i,j secnd)-----
          DO N1=I+1,NSN
           NJ=INTBUF_TAB(N)%NSV(N1)
           L1=INTBUF_TAB(N)%IRTLM(N1)
@@ -3072,7 +3072,7 @@ C------------RBE3-----
         ENDIF 
         IRBE3(8,I) = NS
       ENDDO
-C-----active rigid body master nodes------
+C-----active rigid body main nodes------
       K=0
       NS= 0
       NK=1
@@ -3112,7 +3112,7 @@ C-----active rigid body master nodes------
            ENDIF 
           ENDDO 
           NS=NS+NSS(ID)
-C-----create rigid body slave nodes with Kij block-(i,j have the same M)-----
+C-----create rigid body secnd nodes with Kij block-(i,j have the same M)-----
           DO N1=I+1,NSN
            NJ=LPBY(K1+N1)
            IF (NKE <= INK) THEN         
@@ -3166,7 +3166,7 @@ C
              IF (NKE <= INK) THEN         
               IF (INTAB(NROWK(NKE),ICOK(1,NKE),M)) THEN
               NJ=0
-C------cherche-slave pairs----
+C------cherche-secnd pairs----
               DO N1=1,NS
                N2=LPBY(K+N1)
                IF (NDOF(N2).GT.0.AND.
@@ -3184,7 +3184,7 @@ C------cherche-slave pairs----
              ELSE
               IF (INTAB(NROWK(NKE),ICOKM(1,NKE-INK),M)) THEN
               NJ=0
-C------cherche-slave pairs----
+C------cherche-secnd pairs----
               DO N1=1,NS
                N2=LPBY(K+N1)
                IF (NDOF(N2).GT.0.AND.
@@ -3292,14 +3292,14 @@ C-----------------------------------------------
       DO N =1,NUMNOD
        INLOC(N)=0
       ENDDO
-c-----2. pepare icol for slave nodes using ikine;
+c-----2. pepare icol for secnd nodes using ikine;
       CALL DIM_KINE_P(
      1    IGEO      ,NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
      2    SENSOR    ,IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
      3    NDOF      ,NSI2      ,NSRB      ,NKINE     ,
      7    INLOC     ,IRBE3     ,IRBE2     ,LRBE2     ,LNK       ,
      8    INTBUF_TAB       )
-C----- pass for IND_GLOB_K, including RBE2 master	 
+C----- pass for IND_GLOB_K, including RBE2 main	 
       LCOKM=LNK
       NKINE0=NKINE
       IF (NKINE0.GT.0) THEN
@@ -3492,10 +3492,10 @@ C-----------------------------------------------
       INTEGER IAD_M(NSPMD+1),NSB2,NSRB2
       INTEGER, DIMENSION(:),ALLOCATABLE :: FR_M
 C-----------------------------------------------
-C-----NNMAX:max number of connected nodes(excepting master nodes of rbodies)
+C-----NNMAX:max number of connected nodes(excepting main nodes of rbodies)
 C  INLOC(NUMNOD) : global numnod in order of IDDL
-C   actuel order : non kinematical nodes;kinematical nodes; master nodes of rbodies
-C  ICOL(NKMAX,NRBYAC) for master nodes
+C   actuel order : non kinematical nodes;kinematical nodes; main nodes of rbodies
+C  ICOL(NKMAX,NRBYAC) for main nodes
 C  ICOL(NNMAX,NKINE-NRBYAC) for kine. nodes
 C  ICOL(NNMAX,NNSIZ) for other nodes
 C  NROW(NUMNOD) number of connected nodes use the mem. of iddl
@@ -3872,8 +3872,8 @@ C-----------------------------------------------
       INTEGER IAD_M(NSPMD+1)
       INTEGER, DIMENSION(:),ALLOCATABLE :: FR_M
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: ICOKFR
-C     m:master,s:slave NSS(NRBYAC):nombre de j: Kjm= sum(KjsCsm)
-C     NSC(NRBYAC):nombre de "slave line": ISIJ(2,NSC,NRBYAC)--
+C     m:main,s:secnd NSS(NRBYAC):nombre de j: Kjm= sum(KjsCsm)
+C     NSC(NRBYAC):nombre de "secnd line": ISIJ(2,NSC,NRBYAC)--
 C     nrowk(NKINE), icok size: NNMAX*(NKINE-NRBYAC)+NKMAX*NRBYAC:icok,icokm
 C------eventuellment actualiser NDOF due au OFF d'element-
 C-----1. calcul IADK,JDIK,par each NNSIZ using INLOC.
@@ -4139,7 +4139,7 @@ C
         ENDDO 
        ENDIF 
       ENDIF 
-C---master nodes of rbodies at last----
+C---main nodes of rbodies at last----
       DO NK=1,INK
         N=NK+NFT
         J=INLOC(N)
@@ -4159,7 +4159,7 @@ C---master nodes of rbodies at last----
      2    LENK      ,NROWK(NK),ICOKM(1,NJ),J         ,IKPAT     )
         ENDIF 
       ENDDO
-C--------IKPAT=2, rigid body master first----------
+C--------IKPAT=2, rigid body main first----------
       ELSE 
        IF (NKINE.GT.0) THEN
         NFT=0
@@ -4207,7 +4207,7 @@ C
           ENDIF
          ENDDO 
         ENDIF 
-C---master nodes of rbodies first----
+C---main nodes of rbodies first----
         DO NK=1,LCOKM
           N=NK+NFT
           J=INLOC(N)
@@ -5206,7 +5206,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG
 C-----------------------------------------------
        DO I = 1, JLT
-C--------slave node-----
+C--------secnd node-----
         IG = NS_IMP(I)
        IF (IG.LE.NSN) THEN
         N1 = NSV(IG)
@@ -5277,7 +5277,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------slave node-----
+C--------secnd node-----
         IG = NS_IMP(I)
        IF (IG.LE.NSN) THEN
         N1 = NSV(IG)
@@ -5337,7 +5337,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------slave node-----
+C--------secnd node-----
         IG = NS_IMP(I)
        IF (IG.LE.NSN) THEN
         N1 = NSV(IG)
@@ -5429,7 +5429,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG
 C-----------------------------------------------
        DO I = 1, JLT
-C--------slave node-----
+C--------secnd node-----
         IG = NS_IMP(I)
         N1 = NSV(IG)
         IF (ILOC(N1).EQ.0) THEN
@@ -5496,7 +5496,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------slave node-----
+C--------secnd node-----
         IG = NS_IMP(I)
         N1 = NSV(IG)
         NE=NE_IMP(I)
@@ -5554,7 +5554,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------slave node-----
+C--------secnd node-----
         IG = NS_IMP(I)
         N1 = NSV(IG)
         NE=NE_IMP(I)
@@ -5645,7 +5645,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG,IRTLM(4),NEI
 C-----------------------------------------------
        DO I = 1, JLT
-C--------slave node-----
+C--------secnd node-----
         IG = NS_IMP(I)
        IF (IG.LE.NSN) THEN
         N1 = NSV(IG)
@@ -5725,7 +5725,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------slave node-----
+C--------secnd node-----
         IG = NS_IMP(I)
        IF (IG.LE.NSN) THEN
         N1 = NSV(IG)
@@ -5793,7 +5793,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------slave node-----
+C--------secnd node-----
         IG = NS_IMP(I)
        IF (IG.LE.NSN) THEN
         N1 = NSV(IG)
@@ -6000,7 +6000,7 @@ C------NSV(NSN)--node number---
        K13=K12+NSN
 C------MSR(NMN)-----
        K14=K13+IPARI(6,N)
-C------IRTL(NSN)--master el number---
+C------IRTL(NSN)--main el number---
        KFI=K14+NSN
        DO I=1,NSN
         ID = I+K
@@ -6074,7 +6074,7 @@ C-----RBE2------
            NROW1(NI)=NROW1(NI)+1
           END IF
          ENDIF
-C---------for the case with master node--------	 
+C---------for the case with main node--------	 
          LNSB2= LNSB2+1
         ENDDO
         IF (INLOC(M).GT.0) NDOFI(M)=NDOF(M)
@@ -6149,7 +6149,7 @@ C------NSV(NSN)--node number---
          K13=K12+NSN
 C------MSR(NMN)-----
          K14=K13+IPARI(6,N)
-C------IRTL(NSN)--master el number---
+C------IRTL(NSN)--main el number---
          KFI=K14+NSN
          DO I=1,NSN
           NI=INTBUF_TAB(N)%NSV(I)
@@ -6255,7 +6255,7 @@ C------------RBE3-------------
          ENDDO
         ENDIF 
       ENDDO
-C-----active rigid body master nodes------
+C-----active rigid body main nodes------
       LNSS= 0
       DO J=1,NRBYAC
        IA(J)=0
@@ -6279,7 +6279,7 @@ C
          ENDIF
         ENDDO
       ENDDO
-C-----master nodes traitement spec.------
+C-----main nodes traitement spec.------
       DO J=1,NRBYAC
        IF (IA(J).EQ.1) THEN
         N=IRBYAC(J)
@@ -6401,7 +6401,7 @@ C------NSV(NSN)--node number---
        K13=K12+NSN
 C------MSR(NMN)-----
        K14=K13+IPARI(6,N)
-C------IRTL(NSN)--master el number---
+C------IRTL(NSN)--main el number---
        KFI=K14+NSN
        DO I=1,NSN
         ID = I+K
@@ -6555,7 +6555,7 @@ c---------RBE3-------------
          ENDDO
        ENDIF
       ENDDO
-C-----active rigid body master nodes------
+C-----active rigid body main nodes------
       K=0
       NS= 0
       DO J=1,NRBYAC
@@ -6630,7 +6630,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG,M1,M2
 C-----------------------------------------------
        DO I = 1, JLT
-C--------slave node-----
+C--------secnd node-----
         IG = NS_IMP(I)
        IF (IG.LE.NSN) THEN
         N1 = IRECTS(1,IG)
@@ -6701,7 +6701,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------slave node-----
+C--------secnd node-----
         IG = NS_IMP(I)
        IF (IG.LE.NSN) THEN
         N1 = IRECTS(1,IG)
@@ -6762,7 +6762,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------slave node-----
+C--------secnd node-----
         IG = NS_IMP(I)
        IF (IG.LE.NSN) THEN
         N1 = IRECTS(1,IG)
@@ -6870,7 +6870,7 @@ C-----------------------------------------------
       INTEGER NIN,NTY,NSN
       INTEGER I,J,K,L,NDOFI,N,IAD,N_IMP,
      .        NRTS,IDEL(NT_IMP),NEW_IAD
-C--------ramener NDOF des slaves remotes-----------------------------------
+C--------ramener NDOF des secnds remotes-----------------------------------
       IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
       ENDIF 
 C
@@ -6984,7 +6984,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG
 C-----------------------------------------------
        DO I = 1, JLT
-C--------slave node-----
+C--------secnd node-----
         IG = NS_IMP(I)
        IF (IG.LE.NSN) THEN
         N1 = NSV(IG)
@@ -7035,7 +7035,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG,M1,M2
 C-----------------------------------------------
        DO I = 1, JLT
-C--------slave node-----
+C--------secnd node-----
         IG = NS_IMP(I)
        IF (IG.LE.NSN) THEN
         N1 = IRECTS(1,IG)
@@ -7084,7 +7084,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG
 C-----------------------------------------------
        DO I = 1, JLT
-C--------slave node-----
+C--------secnd node-----
         IG = NS_IMP(I)
         N1 = NSV(IG)
         IDEL_INT(I) = NDOF(N1)

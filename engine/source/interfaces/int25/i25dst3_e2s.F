@@ -385,7 +385,7 @@ C Exclusions :
        
 C         IF(CAND_S(I) <= NEDGE) THEN
 C---------------------------------------
-C         Solid on slave side !
+C         Solid on secnd side !
 C---------------------------------------
 
           IF(IAS(I)==0 .OR. IBS(I)==0) THEN
@@ -461,7 +461,7 @@ C---------------------------------------
 
           IF(TYPEDGS(I)/=1)CYCLE
 C---------------------------------------
-C         Solid on slave side !
+C         Solid on secnd side !
 C---------------------------------------
 C
 C
@@ -489,7 +489,7 @@ C
 
           IF(TYPEDGS(I)/=1)CYCLE
 C---------------------------------------
-C         Solid on slave side !
+C         Solid on secnd side !
 C---------------------------------------
           DO EJ=1,4
 
@@ -527,14 +527,14 @@ C---------------------------------------
         LBA(1:JLT,1:4) = -UN ! cf test LBA, LCA
         LCA(1:JLT,1:4) = ZERO
 C---------------------------------------
-C       Extraction des coordonnees et pre-filtrage des candidats vs diedre maitre
+C       Extraction des coordonnees et pre-filtrage des candidats vs diedre main
 C---------------------------------------
         DO I=1,JLT
 
           IF(PENE2(1,I)+PENE2(2,I)+PENE2(3,I)+PENE2(4,I)==ZERO) CYCLE
 
 C---------------------------------------
-C         Solid on master side !
+C         Solid on main side !
 C---------------------------------------
 
           IX1(I)=IRECT(1,IAM(I))
@@ -624,7 +624,7 @@ C
         END DO
 
 C---------------------------------------
-C         Solid on master side !
+C         Solid on main side !
 C---------------------------------------
         DO I=1,JLT
 
@@ -649,7 +649,7 @@ C---------------------------------------
               I0=5
             END IF
 C-----------------------------------------
-C           Solid on master side !
+C           Solid on main side !
 C-----------------------------------------
 C
 C
@@ -696,7 +696,7 @@ C---------------------------------------
           IF(PENE2(1,I)+PENE2(2,I)+PENE2(3,I)+PENE2(4,I)==ZERO) CYCLE
 
 C---------------------------------------
-C         Solid on master side !
+C         Solid on main side !
 C---------------------------------------
           NJNDX=NJNDX+1
           JNDX(NJNDX)=I
@@ -712,7 +712,7 @@ C---------------------------------------
 C
 C
 C---------------------------------------
-C         Solid on master side !
+C         Solid on main side !
 C---------------------------------------
           I=JNDX(K)
 C
@@ -903,7 +903,7 @@ C
 C
 C
 C---------------------------------------
-C         Solid on master side !
+C         Solid on main side !
 C---------------------------------------
 
           IF(LBA(I,1) < -EM02 .OR. LCA(I,1) < -EM02 .OR. LBA(I,1)+LCA(I,1) > UNP02)

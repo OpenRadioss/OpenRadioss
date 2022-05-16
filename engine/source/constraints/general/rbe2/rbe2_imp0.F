@@ -211,12 +211,12 @@ C     REAL ou REAL*8
       my_real
      .   KDD(6,6),BD(6),XS,YS,ZS,TMP
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
         IP =5
         IMD = IDDL(M)+1
         ND = NDOF(M)
-C--------boucle slave nodes--
+C--------boucle secnd nodes--
        NTDOF=JT(1)+JT(2)+JT(3)+JR(1)+JR(2)+JR(3)
 C-----cas exception: e.g.:contact-----
        IF ((JT(1)+JT(2)+JT(3)).EQ.3.AND.JR(1).LT.0) THEN
@@ -302,7 +302,7 @@ C-------  Update ---
            IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(N) ,ITAB(M) ,IP )
              ENDIF
         ENDIF
-C-------fin -boucle slave nodes--
+C-------fin -boucle secnd nodes--
        ENDDO
 C
       RETURN
@@ -355,7 +355,7 @@ C     REAL ou REAL*8
       my_real
      .   KDD(6,6),BD(6),XS,YS,ZS,TMP,CDT(3,3),CDTR(3,3),CDR(3,3)
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
         IP =5
         IMD = IDDL(M)+1
@@ -366,7 +366,7 @@ C--------upd B--
          CALL RBE2_IMPBL(M      ,NSN    ,ISL   ,X   ,JT       ,
      1                   JR     ,NDOF   ,IDDL  ,B   ,SKEW     ,
      2                   IRAD   )
-C--------boucle slave nodes--
+C--------boucle secnd nodes--
        J1=0
        DO I=1,NSN
 C--------block diagonal Kmm--
@@ -453,7 +453,7 @@ C        ENDIF
      1                    JDIK ,DIAG_K,LT_K  ,N     ,IR    )
           ENDIF
         ENDIF
-C-------fin -boucle slave nodes--
+C-------fin -boucle secnd nodes--
        ENDDO
 C
       RETURN
@@ -550,7 +550,7 @@ C     REAL ou REAL*8
       my_real
      .   XS,YS,ZS,BD(6)
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
        IF (NDOF(M).LE.0) RETURN
 C
@@ -637,7 +637,7 @@ C     REAL ou REAL*8
      .   XS,YS,ZS,LXS,LYS,LZS,BD(6),BDL(6),BB(3),BM(3),
      .   CDT(3,3),CDTR(3,3),CDR(3,3)
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
        IF (NDOF(M).LE.0) RETURN
 C
@@ -1693,7 +1693,7 @@ C     REAL ou REAL*8
      .   XS,YS,ZS,TMP,CDT(3,3),CDTR(3,3),CDR(3,3),SKEW(LSKEW),
      .   KII(6,6)
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
         ND = NDOF(M)
         NT=JT(1)+JT(2)+JT(3)

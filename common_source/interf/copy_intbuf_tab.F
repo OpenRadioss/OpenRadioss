@@ -1010,9 +1010,9 @@ C=======================================================================
           INTBUF_TAB_C%EDGE8L2(I) = INTBUF_TAB%EDGE8L2(I)
         ENDDO
 
-        SIZ = INTBUF_TAB%S_NOD_SLV_LGTH
+        SIZ = INTBUF_TAB%S_NOD_2RY_LGTH
         DO I=1, SIZ
-          INTBUF_TAB_C%NOD_SLV_LGTH(I) = INTBUF_TAB%NOD_SLV_LGTH(I)
+          INTBUF_TAB_C%NOD_2RY_LGTH(I) = INTBUF_TAB%NOD_2RY_LGTH(I)
         ENDDO
 
         SIZ = INTBUF_TAB%S_NOD_MAS_LGTH
@@ -1754,9 +1754,9 @@ C=======================================================================
         INTBUF_TAB_C(NI)%S_EDGE8L2 = SIZ
         ALLOCATE(INTBUF_TAB_C(NI)%EDGE8L2(SIZ))
 
-        SIZ = INTBUF_TAB(NI)%S_NOD_SLV_LGTH
-        INTBUF_TAB_C(NI)%S_NOD_SLV_LGTH = SIZ
-        ALLOCATE(INTBUF_TAB_C(NI)%NOD_SLV_LGTH(SIZ))
+        SIZ = INTBUF_TAB(NI)%S_NOD_2RY_LGTH
+        INTBUF_TAB_C(NI)%S_NOD_2RY_LGTH = SIZ
+        ALLOCATE(INTBUF_TAB_C(NI)%NOD_2RY_LGTH(SIZ))
 
         SIZ = INTBUF_TAB(NI)%S_NOD_MAS_LGTH
         INTBUF_TAB_C(NI)%S_NOD_MAS_LGTH = SIZ

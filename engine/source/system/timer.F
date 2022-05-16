@@ -3752,7 +3752,7 @@ Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod
 Chd|        TIME_MOD                      share/modules/time_mod.F      
 Chd|====================================================================
         SUBROUTINE ADD_ELAPSED_TIME_MON_OFF( )
-!       When /MON/OFF is used, master processor 
+!       When /MON/OFF is used, main processor 
 !       must write the elapsed time
 C-----------------------------------------------
 C       M o d u l e s

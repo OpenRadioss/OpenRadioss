@@ -60,10 +60,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, NSN, ILP, N,P,M,NS,PROC1,SPLIST,SLMN_L0
-      INTEGER,DIMENSION(:), ALLOCATABLE :: MASTER_NODES,TAG,PLIST
+      INTEGER,DIMENSION(:), ALLOCATABLE :: MAIN_NODES,TAG,PLIST
 
 C-----------------------------------------------
-      ALLOCATE(MASTER_NODES(NRBE2))
+      ALLOCATE(MAIN_NODES(NRBE2))
       ALLOCATE(TAG(NUMNOD))
       ALLOCATE(PLIST(NSPMD))
 ! ------------------------
@@ -90,21 +90,21 @@ C----- only remove zero NSN (global) one to work the output(H3d)
 C-----remove local nsn_l=0 will get spmd issue in engine (M in front)
         IF (NLOCAL(M,PROC1)==1)THEN
           NRBE2_L = NRBE2_L+1
-C Stacking Master nodes.
-          MASTER_NODES(NRBE2_L)=M
+C Stacking Main nodes.
+          MAIN_NODES(NRBE2_L)=M
         END IF
       ENDDO
 C
 C Memory optimization - avoid NSPMD*NUMNOD array.
-C Fill a list with all RBE2 Master present on one domain
-C The issue, Master Nodes can appear twice, but one wants to 
+C Fill a list with all RBE2 Main present on one domain
+C The issue, Main Nodes can appear twice, but one wants to 
 C have it only one time.
 C One NUMNOD array is acceptable, other treatments in DDSPLIT take more.
 C
       TAG(1:NUMNOD)=0
 C
       DO I=1,NRBE2_L
-         M=MASTER_NODES(I)
+         M=MAIN_NODES(I)
 
          IF(TAG(M)==0)THEN
            TAG(M)=1
@@ -119,7 +119,7 @@ C          List of All domains where M is sticked
          ENDIF
       ENDDO 
 C --------------------------------
-      DEALLOCATE(MASTER_NODES)
+      DEALLOCATE(MAIN_NODES)
       DEALLOCATE(TAG)
 C --------------------------------
       RETURN

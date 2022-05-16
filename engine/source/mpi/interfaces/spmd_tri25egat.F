@@ -150,8 +150,8 @@ C         WRITE(6,*) __FILE__,"NSVFIE allocated size:",NEDGE_KEPT
 
           IF(ASSOCIATED(GAPFIE(NIN)%P)) DEALLOCATE(GAPFIE(NIN)%P)
           MY_ALLOCATE(GAPFIE(NIN)%P,NEDGE_KEPT)
-C         IF(ASSOCIATED(MASTER_FIE(NIN)%P)) DEALLOCATE(MASTER_FIE(NIN)%P)
-C         MY_ALLOCATE(MASTER_FIE(NIN)%P,NEDGE_KEPT)
+C         IF(ASSOCIATED(MAIN_FIE(NIN)%P)) DEALLOCATE(MAIN_FIE(NIN)%P)
+C         MY_ALLOCATE(MAIN_FIE(NIN)%P,NEDGE_KEPT)
           IF( IGAP == 3) THEN
             IF(ASSOCIATED(GAPE_L_FIE(NIN)%P)) DEALLOCATE(GAPE_L_FIE(NIN)%P)
             MY_ALLOCATE(GAPE_L_FIE(NIN)%P,NEDGE_KEPT)
@@ -283,7 +283,7 @@ C==========================
                  
                 STIFIE(NIN)%p(NN) = XREM_EDGE(E_STIFE,I+IDEB)
 
-C               MASTER_FIE(NIN)%P(NN) = XREM_EDGE(E_MASTER,I+IDEB)
+C               MAIN_FIE(NIN)%P(NN) = XREM_EDGE(E_MAIN,I+IDEB)
                 
                 L2 = E_EDG_BIS 
 C Simple -> double -> simple = pb PON? 

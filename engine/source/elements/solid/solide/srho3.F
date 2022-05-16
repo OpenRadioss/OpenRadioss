@@ -157,7 +157,7 @@ C--- due to /INIBRI/EREF
            DO I=LFT,LLT         
              IB       = NINT(TAG22(I))
              IF(IB==0)CYCLE
-             MCELL    = BRICK_LIST(NIN,IB)%masterID
+             MCELL    = BRICK_LIST(NIN,IB)%mainID
              DDVOL    = BRICK_LIST(NIN,IB)%POLY(MCELL)%DDVOL
              DVOL(I)  = DT1 * DDVOL
              IF(JEUL.NE.0)THEN

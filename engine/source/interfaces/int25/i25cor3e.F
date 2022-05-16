@@ -546,7 +546,7 @@ C
         ENDDO
       ENDIF
 C
-C----Friction model : slave part IDs---------
+C----Friction model : secnd part IDs---------
       IF(INTFRIC > 0) THEN
          DO I=1,JLT
 

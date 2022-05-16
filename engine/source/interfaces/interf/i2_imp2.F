@@ -136,7 +136,7 @@ C     REAL ou REAL*8
      .   H(4), SS, TT, SP,SM,TP,TM,DR1(3),XS,YS,ZS,XS0,YS0,ZS0,NUN,
      .   DS(3), LSM(3)
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
 C-------pour simplement etre coherent avec INTTI2, on ne distinque pas 3n,4n
       NUN=-UN
@@ -260,7 +260,7 @@ C     REAL ou REAL*8
       my_real
      .   RJ(3,3,4,NSN),RJT(3,3,4,NSN)
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
       CALL I2MATC(NSN,IRECT,DPARA,NSV,IRTL,X  ,
      1                            NIR,RJ ,RJT  )
@@ -277,7 +277,7 @@ C------------------------------------
        ENDIF 
        DO J=1,NIR(II)
         NJ=IRECT(J,L)
-C-------recupere salve dis : in function of master's translation--
+C-------recupere salve dis : in function of main's translation--
          DO K=1,3
           D(K,I)=D(K,I)+RJT(K,1,J,II)*D(1,NJ)+
      .           RJT(K,2,J,II)*D(2,NJ)+RJT(K,3,J,II)*D(3,NJ)
@@ -329,7 +329,7 @@ C     REAL ou REAL*8
      .   RJ(3,3,4,NSN),RJT(3,3,4,NSN),FACM,X0,Y0,Z0,
      .   LSM(3),DR2(3),DS(3),XM(4),YM(4),ZM(4),DT(3)
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
       CALL I2MATC(NSN,IRECT,DPARA,NSV,IRTL,X  ,
      1                            NIR,RJ ,RJT  )
@@ -351,7 +351,7 @@ C------------------------------------
        ENDIF
        FACM = UN / NIRI
 C----------------------------------------------------
-C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAITRE
+C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
 C----------------------------------------------------
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
@@ -371,7 +371,7 @@ C----------------------------------------------------
        call ZERO1(DT,3)
        DO J=1,NIR(II)
         NJ=IRECT(J,L)
-C-------recupere salve dis : in function of master's translation--
+C-------recupere salve dis : in function of main's translation--
           DO K=1,3
            DR2(K)=DR2(K)+RJ(K,1,J,II)*D(1,NJ)+
      .           RJ(K,2,J,II)*D(2,NJ)+RJ(K,3,J,II)*D(3,NJ)
@@ -561,7 +561,7 @@ C-------NDOF(M)> 3 comme rigid body---
          YS=X(2,I)-YS0
          ZS=X(3,I)-ZS0
         ENDIF 
-C-------Update K(master node),B---
+C-------Update K(main node),B---
        DO K =1,3
         D(K,I)=ZERO
        ENDDO

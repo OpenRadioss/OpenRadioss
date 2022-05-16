@@ -157,7 +157,7 @@ C
             H(4,K) = ZERO            
           ENDIF
 C------------------------------------------------                  
-C         rep local facette maitre
+C         rep local facette main
 C------------------------------------------------   
           X1  = X(1,IX1(K))                                       
           Y1  = X(2,IX1(K))                                          
@@ -434,7 +434,7 @@ C------------------------------------------------
 C
           IF (IRODDL == 1 .AND. IN(I) > ZERO) THEN
 C
-C--   Slave node shell of  spring 
+C--   Secnd node shell of  spring 
 C
           IF(IN(I)==ZERO.OR.MINER(IX1(K))==ZERO.OR.
      .                      MINER(IX2(K))==ZERO.OR.
@@ -483,7 +483,7 @@ C
 C
           ELSE
 C
-C--   Slave node of solids
+C--   Secnd node of solids
 C
           MGX = ZERO
           MGY = ZERO
@@ -505,7 +505,7 @@ C
           STR     = (STFR(II)+STFN(II)*LEN2)*(VISC + SQRT(VISC**2 + UN))**2
 C
 C----------------------------------------------------
-C         Slave forces/moments -> global coordinates 
+C         Secnd forces/moments -> global coordinates 
 C----------------------------------------------------
 C
           SAV_FOR_PENA(1,I) = SAV_FOR_PENA(1,I) - FTX
@@ -526,7 +526,7 @@ C
           ENDIF 
 C
 C----------------------------------------------------
-C         Master forces/moments 
+C         Main forces/moments 
 C----------------------------------------------------
 C
 C----     Transfer or moments in forces 
@@ -672,7 +672,7 @@ C
             FTCONTP(3,IX4(K)) = FTCONTP(3,IX4(K)) + FT(3)*H(4,K)*W
          ENDIF
 C----------
-        ELSE  ! desactivated slave node
+        ELSE  ! desactivated secnd node
           NSVG(K)= -I
           L = IRTL(II)
 C

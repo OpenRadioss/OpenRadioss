@@ -216,7 +216,7 @@ C     REAL ou REAL*8
       my_real
      .   KDD(6,6),BD(6),KII(6,6),KIJ(6,6),BI(6)
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
        IF (NDOF(NS).LE.0) RETURN
 C
@@ -248,7 +248,7 @@ C
         ENDDO
 C        CALL UPDK_BC(JT,JR,KDD,ISTIF)
 C
-C-------Update K(master node)---
+C-------Update K(main node)---
 C	IF (ISTIF.GT.0) THEN
          DO J=1,NML
           NJ=IML(J)
@@ -411,7 +411,7 @@ C     REAL ou REAL*8
       my_real
      .   BD(6),BI(6)
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
        IF (NDOF(NS).LE.0) RETURN
 C
@@ -427,7 +427,7 @@ C
          BD(K)=BD(K)*JT(K)
          BD(K+3)=BD(K+3)*JR(K)
         ENDDO
-C-------Update K(master node)---
+C-------Update K(main node)---
         DO J=1,NML
           NJ=IML(J)
           CALL UPDB_CDI(FDSTNB(1,J),MDSTNB(1,J),BD,BI,IROT)
@@ -544,7 +544,7 @@ C     REAL ou REAL*8
       my_real
      .   BD(6),BI(6)
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
 C
        I = NS
@@ -570,7 +570,7 @@ C
          BD(K)=BD(K)*JT(K) 
          BD(K+3)=BD(K+3)*JR(K) 
         ENDDO 
-C-------Update K(master node)---
+C-------Update K(main node)---
         DO J=1,NML
           NJ=IML(J)
          IF (NDOF(NJ)> 0) THEN
@@ -602,7 +602,7 @@ C
          BD(K)=BD(K)*JT(K)
          BD(K+3)=BD(K+3)*JR(K)
        ENDDO
-C-------Update K(master node)---
+C-------Update K(main node)---
         DO J=1,NML
           NJ=IML(J)
          IF (NDOF(NJ).EQ.0) THEN
@@ -1122,7 +1122,7 @@ C     REAL ou REAL*8
       my_real
      .   FDSTNB(18,NML),MDSTNB(18,NML)
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
        IF (NDOF(NS).LE.0) RETURN
         CALL RBE3CL(IML  ,ISK   ,NS      ,X      ,FRBE3  ,
@@ -1180,7 +1180,7 @@ C     REAL ou REAL*8
       my_real
      .   KDD(6,6),KII(6,6)
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
        IF (NDOF(NS).LE.0) RETURN
 C
@@ -1204,7 +1204,7 @@ C
         KDD(3,2) = KDD(2,3)
 C        CALL UPDFRK_BC(JT,KDD,ISTIF)
 C
-C-------Update K(master node)---
+C-------Update K(main node)---
 C        IF (ISTIF.GT.0) THEN
          DO J=1,NML
           NJ=IML(J)

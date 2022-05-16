@@ -58,7 +58,7 @@ C-----------------------------------------------
       ! @03. INIT/MULTITHREADING                                   !
       ! @04. INIT/ALLOCATION                                       !
       ! @05. RESET TAG22                                           !
-      ! @06. COMPUTE UNEXTENDED MASTER CELL VOLUMES                !
+      ! @06. COMPUTE UNEXTENDED main CELL VOLUMES                !
       ! @07. BUILDING BIJECTION APPLICATION for cut cells          !
       ! @08. ADJACENT BRICKS DATA IN CUT CELL BUFFER               !
       ! @09. AREA and VOLUME RATIO UPDATE for cut cells            !
@@ -71,13 +71,13 @@ C-----------------------------------------------
       ! @16. BUILD POLYGONAL TRACE FOR POLY9                       !
       ! @17. PRE-TREATMENT FOR DBLE SECONDARY WITH BOTH V=0            !
       ! @18. TAGGING SECONDARY CUT CELL                                !
-      ! @19. LINKING SECONDARY CELL TO A MASTER ONE                    !
-      ! @20. LIST ALL SECONDARY CELLS LINKED TO A GIVEN MASTER CELL    !
+      ! @19. LINKING SECONDARY CELL TO A main ONE                    !
+      ! @20. LIST ALL SECONDARY CELLS LINKED TO A GIVEN main CELL    !
       ! @21. INDIRECT LINKING                                      !
       ! @22. INDIRECT LINKING                                      !
-      ! @23. TAG SECONDARY CELLS WHICH ARE BASED ON FORMER MASTER NODE !
-      ! @24. VOLUME MERGING BETWEEN SECONDARY CELL & ITS MASTER ONE    !
-      ! @25. MATERIAL MERGING (IF MASTER HAS TO BE DEPORTED)       !
+      ! @23. TAG SECONDARY CELLS WHICH ARE BASED ON FORMER main NODE !
+      ! @24. VOLUME MERGING BETWEEN SECONDARY CELL & ITS main ONE    !
+      ! @25. MATERIAL MERGING (IF main HAS TO BE DEPORTED)       !
       ! @26. DEMERGING CRITERIA                                    !
       ! @27. MATERIAL DEMERGING                                    !
       ! @28. COMPUTE VOLD_Vnew_Cell for newly cell in buffer       !
@@ -85,11 +85,11 @@ C-----------------------------------------------
       ! @30. LINK SWITCHING                                        !
       ! @31. LEVEL2 NEIGHBORHOOD (FOR FLUXES & CONVECTION)         !
       ! @32. COUNT POINTS ON A GIVEN POLYHEDRON FACE               !
-      ! @33. LOCATE WHERE WAS MASTER FOR NEXT CYCLE                !
+      ! @33. LOCATE WHERE WAS main FOR NEXT CYCLE                !
       ! @34. SET IIAD22(1:NUMELS) = %ELBUG_TAB(NG)%TAG22(I)        !
       ! @35. SET MLW                                               !
       ! @36. RESET OLD SECONDARY LIST CONNECTIVIY                      !
-      ! @37. SET MASTER STRONG NODE                                !
+      ! @37. SET main STRONG NODE                                !
       ! @38. DRAW SUPERCELL CONNEXION WITH 1D TRUSSES              !
       ! @39. COMPUTE DVOL PREDICTION FOR EACH CELL                 !
       ! @40. BUILD SUPERCELL DVOL (PREDICTION)                     !
@@ -170,48 +170,48 @@ C-----------------------------------------------
       INTEGER                             :: IPOS, LLT_, LLT_o,LLT_v, IDLOCv, IPOSf, IPOSiadj,ICELLv,ICELLv2
       INTEGER                             :: INODES(8),INOD,INOD2,INODE,NNODES, NNODES2, ADD, ADD0, ITRIMAT, K, KV, Ko
       LOGICAL                             :: lDONE,lStillTruss,lFOUND,lCYCLE,lTARGET,lStillNode, lCOND1, lCOND2
-      my_real                             :: VolCELL, VolCELL51(TRIMAT), VolSLAVE51(TRIMAT),VolSLAVE,VolCELL51_OLD(TRIMAT)
-      my_real                             :: adjMASTER_vol(6), adjMASTER_face(6), adjMASTER_centroid(3,6),N(3,6), FAC
+      my_real                             :: VolCELL, VolCELL51(TRIMAT), VolSECND51(TRIMAT),VolSECND,VolCELL51_OLD(TRIMAT)
+      my_real                             :: adjMAIN_vol(6), adjMAIN_face(6), adjMAIN_centroid(3,6),N(3,6), FAC
       INTEGER                             :: IDadj_MCELLv(6), IVadj_MCELLv(6), IBadj_MCELLv(6)
       my_real,DIMENSION(:,:),ALLOCATABLE  :: F
       my_real, POINTER                    :: pVAR, pVARv, pVARo
       my_real, DIMENSION(:), POINTER      :: pVAR3      
       TYPE(G_BUFEL_)  ,POINTER            :: GBUF, GBUFv, GBUFo   
       TYPE(L_BUFEL_)  ,POINTER            :: LBUF 
-      TYPE(POLY_ENTITY),DIMENSION(:),    POINTER    :: pIsMaster  ,pIsMasterV
+      TYPE(POLY_ENTITY),DIMENSION(:),    POINTER    :: pIsMain  ,pIsMainV
       my_real,DIMENSION(:)  ,  POINTER    :: pFullFACE
-      TYPE(NODE_ENTITY),DIMENSION(:)  ,  POINTER    :: pNodWasMaster
+      TYPE(NODE_ENTITY),DIMENSION(:)  ,  POINTER    :: pNodWasMain
       !INTEGER,DIMENSION(:,:),  POINTER    :: pNAdjCELL      
       INTEGER,DIMENSION(:,:),  POINTER    :: pAdjBRICK, pAdjBRICKv
-      TYPE(NODE_ENTITY),DIMENSION(:)  ,  POINTER    :: pWhereWasMaster              
+      TYPE(NODE_ENTITY),DIMENSION(:)  ,  POINTER    :: pWhereWasMain              
       TYPE(NODE_ENTITY), DIMENSION(:), POINTER :: pWhichCellNod,pWhichCellNodv
-      INTEGER               ,  POINTER    :: pMasterID      
+      INTEGER               ,  POINTER    :: pMainID      
       my_real,DIMENSION(:)  ,  POINTER    :: UPARAM !=> BRICK_ENTITY%POLY()%Vnew 
       TYPE(POLY_ENTITY), DIMENSION(:), POINTER :: pSUBVOLv
       my_real               ,  POINTER    :: pSUBVOLD
       TYPE(POLY_ENTITY), DIMENSION(:), POINTER :: pSUBVOL
       CHARACTER*6                         :: char1     
       LOGICAL                             :: bool1, bool2
-      CHARACTER*10                        :: debugMASTERSLAVE
-      CHARACTER*10 ,ALLOCATABLE           :: debugMASTERSLAVEv(:,:,:)
-      INTEGER,ALLOCATABLE                 :: IsMasterV(:,:,:)      
+      CHARACTER*10                        :: debugMAINSECND
+      CHARACTER*10 ,ALLOCATABLE           :: debugMAINSECNDv(:,:,:)
+      INTEGER,ALLOCATABLE                 :: IsMainV(:,:,:)      
       TYPE(BUF_MAT_)  ,POINTER            :: MBUF,MBUFv, MBUFo 
       INTEGER                             :: ICRIT_MAT_DEPORTATION, ICRIT_DEMERGE
 !      INTEGER,ALLOCATABLE,DIMENSION(:,:,:):: TARGET_DATA !index1:facet - index2:adjacent_cell_number - index3:ib(cut_cell_id)
       INTEGER,ALLOCATABLE,DIMENSION(:,:,:):: ORIGIN_DATA !index1:facet - index2:adjacent_cell_number - index3:ib(cut_cell_id),J           
       INTEGER,ALLOCATABLE,DIMENSION(:)    :: Ntarget,Norigin
-      INTEGER                             :: MTN_,ITAR, IORIG, MASTER_TAG(6,9) !index1:Face !index2:icv=cell number
+      INTEGER                             :: MTN_,ITAR, IORIG, MAIN_TAG(6,9) !index1:Face !index2:icv=cell number
       INTEGER                             :: IPLA, ISOLNOD, FM, IBm,IBmCur,IBMo,IBMold, IDM, IE, IN, MT
       INTEGER                             :: ICELLTAG(9), ICELLTAG_OLD(9),IC, NAdjCELL,NAdjCELLv, IFV, FV, FV2
       INTEGER                             :: IVv,MCELLv, MCELLvv, NGvv,IDLOCvv, IBvv,IFVv
-      INTEGER                             :: GET_UNIQUE_MASTER_CELL, LINK_WITH_UNIQUE_MASTER_CELL,IADJ,NADJ,NADJv,IE_M
-      INTEGER                             :: NslaveNOD, NP, NP_NODE, JJ, NINTP(6,9), NNOD(6,9), NN, SECid, IDLOC, NewMnod(8), MLW
+      INTEGER                             :: GET_UNIQUE_MAIN_CELL, LINK_WITH_UNIQUE_MAIN_CELL,IADJ,NADJ,NADJv,IE_M
+      INTEGER                             :: NsecndNOD, NP, NP_NODE, JJ, NINTP(6,9), NNOD(6,9), NN, SECid, IDLOC, NewMnod(8), MLW
       INTEGER                             :: ITASKv, NTRUS, NPOINT, IRES(2), NewInBuffer
       INTEGER,ALLOCATABLE,DIMENSION(:,:)  :: DESTROY_DATA
-      INTEGER                             :: I22LOOP,IT,IUNLINK,ITASKB, J1,J2, NTAR, INod_W, IDEMERGE, INod_W_old, ISLAVE, IAD0,II
-      INTEGER                             :: FV_old, NumSLAVE, NumSLAVE2, IC1, IC2, ITARGET, NumTarget, WasCut, LID, IFAC, IEDG
+      INTEGER                             :: I22LOOP,IT,IUNLINK,ITASKB, J1,J2, NTAR, INod_W, IDEMERGE, INod_W_old, ISECND, IAD0,II
+      INTEGER                             :: FV_old, NumSECND, NumSECND2, IC1, IC2, ITARGET, NumTarget, WasCut, LID, IFAC, IEDG
       INTEGER                             :: Cod1, Cod2, Cod3, Icompl, Poly9woNodes, Poly9woNodesV, ISGN(2), ICODE, OLD_ICODE
-      INTEGER                             :: masterID,NC(8),MOLD,MNEW, IB2,NUM,IADBUF,NUPARAM,NGm,IDLOCm,ICELLm, NP_(9),NODE_ID
+      INTEGER                             :: mainID,NC(8),MOLD,MNEW, IB2,NUM,IADBUF,NUPARAM,NGm,IDLOCm,ICELLm, NP_(9),NODE_ID
       LOGICAL                             :: debug_outp,debug_outp2, lSKIP
 
       my_real,ALLOCATABLE, DIMENSION(:,:) :: VOL51, VOL51v  !index1:IB  index2:ITRIMAT
@@ -320,7 +320,7 @@ C-----------------------------------------------
       !------------------------------------------------------------!
       ! @02. INIT/PARAMETERS                                       !
       !------------------------------------------------------------!
-      IADV           = 0 ! 0: advection step off     1: advection step on     !When demerging a new master, advection is done from old master cell (possibly relocated due to a merging process) to new one.    
+      IADV           = 0 ! 0: advection step off     1: advection step on     !When demerging a new main, advection is done from old main cell (possibly relocated due to a merging process) to new one.    
       NIN            = 1
       dbVOL          = ZERO
       dbMASS         = ZERO 
@@ -367,10 +367,10 @@ C-----------------------------------------------
       !------------------------------------------------------------!
       ! @04. INIT/ALLOCATION                                       !
       !------------------------------------------------------------!      
-      ALLOCATE (debugMASTERSLAVEv(NBL-NBF+1,6,9))     
+      ALLOCATE (debugMAINSECNDv(NBL-NBF+1,6,9))     
 !      ALLOCATE (TARGET_DATA(tNB,9,1:2))          !index1:IB, index2:1:Ntarget<=9, index3:1=localface_2=adjacent_cell
       ALLOCATE (ORIGIN_DATA(NBF:NBL,9,1:3))       !index1:IB, index2:1:Ntarget<=9, index3:1=localface_2=adjacent_cell            
-      ALLOCATE (IsMasterV(NBF:NBL,6,9))       
+      ALLOCATE (IsMainV(NBF:NBL,6,9))       
       ALLOCATE (F(6,NBF:NBL))
       ALLOCATE (VOL51(NBF:NBL,TRIMAT),VOL51v(NBF:NBL,TRIMAT))
 c      ALLOCATE (Ntarget(NBF:NBL))       
@@ -408,7 +408,7 @@ c      ALLOCATE (Ntarget(NBF:NBL))
          ENDIF                                                  
        ENDDO    
       !------------------------------------------------------------!
-      ! @06. COMPUTE UNEXTENDED MASTER CELL VOLUMES                !
+      ! @06. COMPUTE UNEXTENDED main CELL VOLUMES                !
       !------------------------------------------------------------!
       DO NG=ITASK+1,NGROUP,NTHREAD                              
          IF(IPARG(8,NG) /= 1) THEN                              
@@ -876,7 +876,7 @@ c      ALLOCATE (Ntarget(NBF:NBL))
       !------------------------------------------------------------!      
       DO IB=NBF,NBL
         NCELL                    =  BRICK_LIST(NIN,IB)%NBCUT  
-        MCELL                    =  BRICK_LIST(NIN,IB)%MasterID
+        MCELL                    =  BRICK_LIST(NIN,IB)%MainID
         ID                       =  BRICK_LIST(NIN,IB)%ID
         NG                       =  BRICK_LIST(NIN,IB)%NG
         IDLOC                    =  BRICK_LIST(NIN,IB)%IDLOC   
@@ -1235,7 +1235,7 @@ C              print *, "sinit22_fvm marked closure hypothesis."
       !-------------------!
       
       !------------------------------------------------------------!
-      ! @17. PRE-TREATMENT FOR DBLE SLAVE WITH BOTH V=0            !
+      ! @17. PRE-TREATMENT FOR DBLE SECND WITH BOTH V=0            !
       !------------------------------------------------------------!
       NBL1 = NBL
       IF(I22_DEGENERATED == 1)THEN
@@ -1331,20 +1331,20 @@ C              print *, "sinit22_fvm marked closure hypothesis."
       !------------------------------------------------------------!
         DO IB=NBF,NBL
           NG = BRICK_LIST(NIN,IB)%NG
-            pMasterID      => BRICK_LIST(NIN,IB)%MasterID
-            pIsMaster(1:9) => BRICK_LIST(NIN,IB)%POLY(1:9)
-            pIsMaster(1:9)%IsMaster =  0           
-            pMasterID      =  0            
+            pMainID      => BRICK_LIST(NIN,IB)%MainID
+            pIsMain(1:9) => BRICK_LIST(NIN,IB)%POLY(1:9)
+            pIsMain(1:9)%IsMain =  0           
+            pMainID      =  0            
             IF(BRICK_LIST(NIN,IB)%NBCUT.EQ.0)THEN
-              pIsMaster(1)%IsMaster = 1
-              pMasterID    = 1            
+              pIsMain(1)%IsMain = 1
+              pMainID    = 1            
               CYCLE
             ENDIF      
             GBUF   => ELBUF_TAB(NGB(IB))%GBUF              
             VOL    =  BRICK_LIST(NIN,IB)%UncutVol
             NCELL  =  BRICK_LIST(NIN,IB)%NBCUT
             ICELL  =  0
-            !tag les potentiel masters
+            !tag les potentiel mains
             DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}
               ICELL = ICELL +1
               IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9          
@@ -1353,22 +1353,22 @@ C              print *, "sinit22_fvm marked closure hypothesis."
               FAC     = VolCELL / VOL
               IF(FAC.GT.CritMerge22)THEN
                 !print *, "CritMerge22=", CritMerge22
-                pIsMaster(ICELL)%IsMaster = 1
+                pIsMain(ICELL)%IsMain = 1
               ENDIF
             ENDDO!next ICELL
-            K = SUM(pIsMaster(1:9)%IsMaster)
-            !In case of several potential master :Unicity with Reproductibility (indepandant from numbering)          
+            K = SUM(pIsMain(1:9)%IsMain)
+            !In case of several potential main :Unicity with Reproductibility (indepandant from numbering)          
             IF(K.EQ.1)THEN
-              pMasterID = MAXLOC(pIsMaster(1:9)%IsMaster,1)
+              pMainID = MAXLOC(pIsMain(1:9)%IsMain,1)
             ELSEIF(K.GE.2)THEN
-              MCELL = GET_UNIQUE_MASTER_CELL(NIN,IB,K)
-              pIsMaster(1:9)%IsMaster   = 0
-              pIsMaster(MCELL)%IsMaster = 1
-              pMasterID        = MCELL
+              MCELL = GET_UNIQUE_MAIN_CELL(NIN,IB,K)
+              pIsMain(1:9)%IsMain   = 0
+              pIsMain(MCELL)%IsMain = 1
+              pMainID        = MCELL
             !In case of no cell satisfy criteria, choose cell 9 to avoid problem with partial cut
             ELSEIF(K.EQ.0)THEN
-              pIsMaster(9)%IsMaster     = 1
-              pMasterID        = 9
+              pIsMain(9)%IsMain     = 1
+              pMainID        = 9
             ENDIF                 
         ENDDO!next IB  
 
@@ -1376,45 +1376,45 @@ C              print *, "sinit22_fvm marked closure hypothesis."
         CALL MY_BARRIER()
       !-------------------!
       !------------------------------------------------------------!
-      ! @19. LINKING SECONDARY CELL TO A MASTER ONE                    !
+      ! @19. LINKING SECONDARY CELL TO A main ONE                    !
       !------------------------------------------------------------! 
       N_UNLINKED_L(ITASK) = 0      
-      !if no master cell is found, it becomes itself a master cell (example : INTERF/INT_22/1BRICK-EOS/CEL_only)                   
+      !if no main cell is found, it becomes itself a main cell (example : INTERF/INT_22/1BRICK-EOS/CEL_only)                   
       DO IB=NBF,NBL
         IE             =  BRICK_LIST(NIN,IB)%ID
         NCELL          =  BRICK_LIST(NIN,IB)%NBCUT 
         pAdjBRICK      => BRICK_LIST(NIN,IB)%Adjacent_Brick(1:6,1:5)
         !pAdjCELL       => BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(1:6)%Adjacent_Cell(1:5) 
         !pNAdjCell      => BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(1:6)%NAdjCell       
-        pIsMaster(1:9) => BRICK_LIST(NIN,IB)%POLY(1:9)   
-        pMasterID      => BRICK_LIST(NIN,IB)%MasterID 
-        MCELL          =  pMasterID        
+        pIsMain(1:9) => BRICK_LIST(NIN,IB)%POLY(1:9)   
+        pMainID      => BRICK_LIST(NIN,IB)%MainID 
+        MCELL          =  pMainID        
         ICELL          =  0
-        BRICK_LIST(NIN,IB)%POLY(1:9)%WhereIsMaster(1) = 0 
-        BRICK_LIST(NIN,IB)%POLY(1:9)%WhereIsMaster(2) = 0 
-        BRICK_LIST(NIN,IB)%POLY(1:9)%WhereIsMaster(3) = 0 
-        BRICK_LIST(NIN,IB)%POLY(1:9)%WhereIsMaster(4) = 0 
+        BRICK_LIST(NIN,IB)%POLY(1:9)%WhereIsMain(1) = 0 
+        BRICK_LIST(NIN,IB)%POLY(1:9)%WhereIsMain(2) = 0 
+        BRICK_LIST(NIN,IB)%POLY(1:9)%WhereIsMain(3) = 0 
+        BRICK_LIST(NIN,IB)%POLY(1:9)%WhereIsMain(4) = 0 
         IF(NCELL == 0) THEN
-          BRICK_LIST(NIN,IB)%POLY(MCELL)%WhereIsMaster(3)   = IE        
-          BRICK_LIST(NIN,IB)%POLY(MCELL)%WhereIsMaster(4)   = IB
+          BRICK_LIST(NIN,IB)%POLY(MCELL)%WhereIsMain(3)   = IE        
+          BRICK_LIST(NIN,IB)%POLY(MCELL)%WhereIsMain(4)   = IB
           CYCLE
         ENDIF
         DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}
           ICELL = ICELL +1
           IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9          
           !--------------------------------------!        
-          !if cell needs to be linked to a master one
+          !if cell needs to be linked to a main one
           IF(ICELL == MCELL)THEN
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(1:2) = 0           
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(3)   = IE
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(4)   = IB            
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1:2) = 0           
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(3)   = IE
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(4)   = IB            
           ELSE
-            adjMASTER_face(1:6)         = ZERO 
-            adjMASTER_centroid(1:3,1:6) = ZERO           
+            adjMAIN_face(1:6)         = ZERO 
+            adjMAIN_centroid(1:3,1:6) = ZERO           
             IDadj_MCELLv(1:6)           = 0                      
             IVadj_MCELLv(1:6)           = 0                                  
             IBadj_MCELLv(1:6)           = 0  
-            !Loop on face to list adjacent master cells
+            !Loop on face to list adjacent main cells
             IF(SUM(BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%NAdjCell) == 0)THEN
               print *, "**error : inter22 - Cell trapped. Check Lagrangian Surface surrounding BRICK ID:",
      .                 IXS(11,BRICK_LIST(NIN,IB)%ID) ; stop 2206
@@ -1426,44 +1426,44 @@ C              print *, "sinit22_fvm marked closure hypothesis."
               IV                        = pAdjBRICK(J,1)
               IBV                       = pAdjBRICK(J,4)
               IF(IBV==0)THEN
-                adjMASTER_face(J)       = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Surf
+                adjMAIN_face(J)       = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Surf
                 IDadj_MCELLv(J)         = 1 
                 IVadj_MCELLv(J)         = IV 
                 IBadj_MCELLv(J)         = 0               
-                adjMASTER_centroid(1,J) = SUM(X(1,IXS(2:9,IV))) / HUIT          
-                adjMASTER_centroid(2,J) = SUM(X(2,IXS(2:9,IV))) / HUIT          
-                adjMASTER_centroid(3,J) = SUM(X(3,IXS(2:9,IV))) / HUIT                                          
+                adjMAIN_centroid(1,J) = SUM(X(1,IXS(2:9,IV))) / HUIT          
+                adjMAIN_centroid(2,J) = SUM(X(2,IXS(2:9,IV))) / HUIT          
+                adjMAIN_centroid(3,J) = SUM(X(3,IXS(2:9,IV))) / HUIT                                          
               ELSE
                 DO K=1,NAdjCell
                   ICELLv = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_Cell(K)
                   JV     = pAdjBRICK(J,5)
-                  IF(BRICK_LIST(NIN,IBV)%POLY(ICELLv)%IsMaster   == 1)THEN
-                    adjMASTER_face(J)         = MIN (BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Surf, 
+                  IF(BRICK_LIST(NIN,IBV)%POLY(ICELLv)%IsMain   == 1)THEN
+                    adjMAIN_face(J)         = MIN (BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Surf, 
      .                                               BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(JV)%Surf)
-                    adjMASTER_centroid(1:3,J) = BRICK_LIST(NIN,IBV)%POLY(ICELLv)%CellCenter(1:3)
+                    adjMAIN_centroid(1:3,J) = BRICK_LIST(NIN,IBV)%POLY(ICELLv)%CellCenter(1:3)
                     IDadj_MCELLv(J)           = ICELLv
                     IVadj_MCELLv(J)           = IV 
                     IBadj_MCELLv(J)           = IBV                   
-                    EXIT !no more master cell out this face (only one)
+                    EXIT !no more main cell out this face (only one)
                   ENDIF
                 ENDDO!next K
               ENDIF
             ENDDO
-            sumFACE = SUM(adjMASTER_face(1:6))
+            sumFACE = SUM(adjMAIN_face(1:6))
             IF(sumFACE==ZERO)THEN
-c              print *, "**Waring inter22 : no master cell to link with cell from BRICK ID:",IXS(11,BRICK_LIST(NIN,IB)%ID)
+c              print *, "**Waring inter22 : no main cell to link with cell from BRICK ID:",IXS(11,BRICK_LIST(NIN,IB)%ID)
               N_UNLINKED_L(ITASK)                 = N_UNLINKED_L(ITASK) + 1
               UNLINKED_CELLS_L(ITASK,1,N_UNLINKED_L(ITASK)) = IB
               UNLINKED_CELLS_L(ITASK,2,N_UNLINKED_L(ITASK)) = ICELL 
               CYCLE !number of adjacent cell on given face J : no adjacent cell on face J means no need to search out there             
             ENDIF
-!           adjMASTER_face(1:6) = adjMASTER_face(1:6) / sumFACE
-            !IPOS = LINK_WITH_UNIQUE_MASTER_CELL(adjMASTER_face, adjMASTER_centroid)
-            IPOS = MAXLOC(adjMASTER_face(1:6),1)
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(1) = IPOS 
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(2) = IDadj_MCELLv(IPOS)
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(3) = IVadj_MCELLv(IPOS)                           
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(4) = IBadj_MCELLv(IPOS)          
+!           adjMAIN_face(1:6) = adjMAIN_face(1:6) / sumFACE
+            !IPOS = LINK_WITH_UNIQUE_MAIN_CELL(adjMAIN_face, adjMAIN_centroid)
+            IPOS = MAXLOC(adjMAIN_face(1:6),1)
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1) = IPOS 
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(2) = IDadj_MCELLv(IPOS)
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(3) = IVadj_MCELLv(IPOS)                           
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(4) = IBadj_MCELLv(IPOS)          
           ENDIF       
         ENDDO!next ICELL
       ENDDO     
@@ -1481,18 +1481,18 @@ c              print *, "**Waring inter22 : no master cell to link with cell fro
       
  
       !------------------------------------------------------------!
-      ! @20. LIST ALL SECONDARY CELLS LINKED TO A GIVEN MASTER CELL    !
+      ! @20. LIST ALL SECONDARY CELLS LINKED TO A GIVEN main CELL    !
       !-------------------------------------------------------- ---!
       DO IB=NBF,NBL
         NBCUT         =  BRICK_LIST(NIN,IB)%NBCUT
-        MCELL         =  BRICK_LIST(NIN,IB)%MasterID
+        MCELL         =  BRICK_LIST(NIN,IB)%MainID
         IF(MCELL == 0) CYCLE
         !pNAdjCELL     => BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(1:6)%NAdjCell
         IE            =  BRICK_LIST(NIN,IB)%ID        
-        NslaveNOD     =  0
-        NumSLAVE      =  0
-        BRICK_LIST(NIN,IB)%SlaveList%Num = 0      
-        BRICK_LIST(NIN,IB)%SlaveList%VOL_Unmerged = BRICK_LIST(NIN,IB)%POLY(MCELL)%Vnew
+        NsecndNOD     =  0
+        NumSECND      =  0
+        BRICK_LIST(NIN,IB)%SecndList%Num = 0      
+        BRICK_LIST(NIN,IB)%SecndList%VOL_Unmerged = BRICK_LIST(NIN,IB)%POLY(MCELL)%Vnew
         DO J=1,NV46
           Iv     = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,1) 
           NGv    = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,2) 
@@ -1503,24 +1503,24 @@ c              print *, "**Waring inter22 : no master cell to link with cell fro
           IF(IBv==0)CYCLE
           DO IADJ = 1,NADJ
             ICELLv    =  BRICK_LIST(NIN,IB)%POLY(MCELL)%FACE(J)%Adjacent_Cell(IADJ)
-            IE_M      =  BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMaster(3)
+            IE_M      =  BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMain(3)
             IF(IE_M/=IE)CYCLE
-            !slave cell IBV.ICELLv is added into the list since it is linked to IB.MCELL
-            NumSLAVE = NumSLAVE + 1
-            NslaveNOD   = NslaveNOD + BRICK_LIST(NIN,IBv)%POLY(ICELLv)%NumNOD
-            BRICK_LIST(NIN,IB)%SlaveList%FM(NumSlave)            = J
-            BRICK_LIST(NIN,IB)%SlaveList%FV(NumSlave)            = IFV
-            BRICK_LIST(NIN,IB)%SlaveList%IV(NumSlave)            = IV
-            BRICK_LIST(NIN,IB)%SlaveList%IBV(NumSlave)           = IBV
-            BRICK_LIST(NIN,IB)%SlaveList%ICELLv(NumSlave)        = ICELLv                               
-            BRICK_LIST(NIN,IB)%SlaveList%VOL(NumSlave)           = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%vnew
-            BRICK_LIST(NIN,IB)%SlaveList%NumNOD_cell(NumSlave)   = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%NumNOD                             
-            BRICK_LIST(NIN,IB)%SlaveList%ListNodID(NumSlave,1:8) = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%ListNodID(1:8)
-            BRICK_LIST(NIN,IB)%SlaveList%SURF_v(NumSlave)        = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(IFv)%SURF                                                  
+            !secnd cell IBV.ICELLv is added into the list since it is linked to IB.MCELL
+            NumSECND = NumSECND + 1
+            NsecndNOD   = NsecndNOD + BRICK_LIST(NIN,IBv)%POLY(ICELLv)%NumNOD
+            BRICK_LIST(NIN,IB)%SecndList%FM(NumSecnd)            = J
+            BRICK_LIST(NIN,IB)%SecndList%FV(NumSecnd)            = IFV
+            BRICK_LIST(NIN,IB)%SecndList%IV(NumSecnd)            = IV
+            BRICK_LIST(NIN,IB)%SecndList%IBV(NumSecnd)           = IBV
+            BRICK_LIST(NIN,IB)%SecndList%ICELLv(NumSecnd)        = ICELLv                               
+            BRICK_LIST(NIN,IB)%SecndList%VOL(NumSecnd)           = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%vnew
+            BRICK_LIST(NIN,IB)%SecndList%NumNOD_cell(NumSecnd)   = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%NumNOD                             
+            BRICK_LIST(NIN,IB)%SecndList%ListNodID(NumSecnd,1:8) = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%ListNodID(1:8)
+            BRICK_LIST(NIN,IB)%SecndList%SURF_v(NumSecnd)        = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(IFv)%SURF                                                  
           ENDDO!next IADJ
-          BRICK_LIST(NIN,IB)%SlaveList%Num = NumSLAVE        
+          BRICK_LIST(NIN,IB)%SecndList%Num = NumSECND        
         ENDDO!next J
-        BRICK_LIST(NIN,IB)%SlaveList%NumSlaveNodes      = NslaveNOD         
+        BRICK_LIST(NIN,IB)%SecndList%NumSecndNodes      = NsecndNOD         
       ENDDO
       
       !------------------------------------------------------------!
@@ -1540,7 +1540,7 @@ c              print *, "**Waring inter22 : no master cell to link with cell fro
           DO IADJ=1,NAdj
             JV                = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,5)
             ICELLv            = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_Cell(IADJ)          
-            IPOS              = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMaster(1)   
+            IPOS              = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMain(1)   
             IF(IPOS==0)CYCLE    
             IF(IBV.NE.0)THEN     
               AdjFACE(J,IADJ) = MIN (BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Surf, 
@@ -1557,7 +1557,7 @@ c              print *, "**Waring inter22 : no master cell to link with cell fro
         ICELLv    = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(IPOSf)%Adjacent_Cell(IPOSiadj) 
         IPOS      = 0
         IF(ICELLv.NE.0)
-     .  IPOS      = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMaster(1) 
+     .  IPOS      = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMain(1) 
         IF(IPOS==0 .OR. AdjFACE(IRES(1),IRES(2))==ZERO)THEN
           print *, "***error : inter22 unable to treat cell ",IXS(11,BRICK_LIST(NIN,IB)%ID)
           print *, "           Cell seems trapped with no adjacent cells"
@@ -1570,10 +1570,10 @@ c              print *, "**Waring inter22 : no master cell to link with cell fro
           stop 2208
         ENDIF
         J         = IPOSf*10 + IPOS
-        BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(1) = J 
-        BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(2) = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMaster(2) 
-        BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(3) = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMaster(3)
-        BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(4) = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMaster(4)       
+        BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1) = J 
+        BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(2) = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMain(2) 
+        BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(3) = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMain(3)
+        BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(4) = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMain(4)       
         IF((ibug22_UndirectLink==1.OR.ibug22_UndirectLink==-1) .AND. N_UNLINKED_L(ITASK)>0)THEN
           write(*,FMT='(A,I10,A1,I1,A,I2,I2,A1,I2,A2)') "unlinked cell:", IXS(11,BRICK_LIST(NIN,IB)%ID),
      .    ".",ICELL, " is now linked to faces ", IPOSf, IPOS,"(",J," )"
@@ -1582,70 +1582,70 @@ c              print *, "**Waring inter22 : no master cell to link with cell fro
 
       !------------------------------------------------------------!
       ! @22. INDIRECT LINKING                                      !
-      !      UPDATE MASTER CELL BUFFER                             !
+      !      UPDATE main CELL BUFFER                             !
       !------------------------------------------------------------!
       !need to wait all thread finishing to link before updating their supercll volume and their buffer
       !-------------------!
         CALL MY_BARRIER()
       !-------------------!
   
-      !MERGE DES VOLUMES ET MISE A JOUR BUFFER MASTER (master slave peut etre sur un autre thread : traitement OpenMP)
+      !MERGE DES VOLUMES ET MISE A JOUR BUFFER main (main secnd peut etre sur un autre thread : traitement OpenMP)
       DO IT=0,NTHREAD-1
         DO IUNLINK=1,N_UNLINKED_L(IT)
           IB     = UNLINKED_CELLS_L(IT,1,IUNLINK)
           ICELL  = UNLINKED_CELLS_L(IT,2,IUNLINK)  
-          IBM    = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(4)        
+          IBM    = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(4)        
           ITASKB = BRICK_LIST(NIN,IBM)%ITASK
           
 !          write (*,FMT='(A,I5,A,I5,I5,A,I5)') 
 !     .    "traitement ib=", ib, "itask,itaskb=", itask, itaskb,"   N_UNLINKED_L(IT)",N_UNLINKED_L(IT)
       IF(ITASKB/=ITASK)CYCLE
-          !Link Unlinked slave cell to master IB,ICELL
+          !Link Unlinked secnd cell to main IB,ICELL
           VolCELL   = BRICK_LIST(NIN,IB)%POLY(ICELL)%Vnew
           ID        = BRICK_LIST(NIN,IB)%ID
-          J         = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(1)
+          J         = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1)
           J1        = J/10
           J2        = MOD(J,10)
-          IBV       = BRICK_LIST(NIN,IB)%Adjacent_Brick(J1,4) !cell directly linked to a master
+          IBV       = BRICK_LIST(NIN,IB)%Adjacent_Brick(J1,4) !cell directly linked to a main
           IF(IBv.EQ.0)THEN
             print *, "inter22 :Error lagrangian surface is escaping eulerian domain."
             !with CALL ARRET() : truss might be with len=0 => time step issue.
             stop
           ENDIF          
           FM                                                    = BRICK_LIST(NIN,IBV)%Adjacent_Brick(J2,5)                   
-          NumSLAVE                                              = BRICK_LIST(NIN,IBM)%SlaveList%Num                          
-          NslaveNOD                                             = BRICK_LIST(NIN,IBM)%SlaveList%NumSlaveNodes                
-          NumSLAVE                                              = NumSLAVE + 1                                               
-          NslaveNOD                                             = NslaveNOD + BRICK_LIST(NIN,IB)%POLY(ICELL)%NumNOD 
-          BRICK_LIST(NIN,IBM)%SlaveList%Num                     = NumSLAVE
-          BRICK_LIST(NIN,IBM)%SlaveList%NumSlaveNodes           = NslaveNOD
-          BRICK_LIST(NIN,IBM)%SlaveList%FM(NumSLAVE)            = FM  
-          BRICK_LIST(NIN,IBM)%SlaveList%FV(NumSLAVE)            = J !J>10
-          BRICK_LIST(NIN,IBM)%SlaveList%IV(NumSLAVE)            = ID
-          BRICK_LIST(NIN,IBM)%SlaveList%IBV(NumSLAVE)           = IB
-          BRICK_LIST(NIN,IBM)%SlaveList%ICELLv(NumSLAVE)        = ICELL
-          BRICK_LIST(NIN,IBM)%SlaveList%VOL(NumSLAVE)           = VOLcell   
-          BRICK_LIST(NIN,IBM)%SlaveList%NumNOD_cell(NumSLAVE)   = BRICK_LIST(NIN,IB)%POLY(ICELL)%NumNOD
-          BRICK_LIST(NIN,IBM)%SlaveList%ListNodID(NumSLAVE,1:8) = BRICK_LIST(NIN,IB)%POLY(ICELL)%ListNodID(1:8)  
-          BRICK_LIST(NIN,IBM)%SlaveList%SURF_v(NumSlave)        = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J1)%SURF
+          NumSECND                                              = BRICK_LIST(NIN,IBM)%SecndList%Num                          
+          NsecndNOD                                             = BRICK_LIST(NIN,IBM)%SecndList%NumSecndNodes                
+          NumSECND                                              = NumSECND + 1                                               
+          NsecndNOD                                             = NsecndNOD + BRICK_LIST(NIN,IB)%POLY(ICELL)%NumNOD 
+          BRICK_LIST(NIN,IBM)%SecndList%Num                     = NumSECND
+          BRICK_LIST(NIN,IBM)%SecndList%NumSecndNodes           = NsecndNOD
+          BRICK_LIST(NIN,IBM)%SecndList%FM(NumSECND)            = FM  
+          BRICK_LIST(NIN,IBM)%SecndList%FV(NumSECND)            = J !J>10
+          BRICK_LIST(NIN,IBM)%SecndList%IV(NumSECND)            = ID
+          BRICK_LIST(NIN,IBM)%SecndList%IBV(NumSECND)           = IB
+          BRICK_LIST(NIN,IBM)%SecndList%ICELLv(NumSECND)        = ICELL
+          BRICK_LIST(NIN,IBM)%SecndList%VOL(NumSECND)           = VOLcell   
+          BRICK_LIST(NIN,IBM)%SecndList%NumNOD_cell(NumSECND)   = BRICK_LIST(NIN,IB)%POLY(ICELL)%NumNOD
+          BRICK_LIST(NIN,IBM)%SecndList%ListNodID(NumSECND,1:8) = BRICK_LIST(NIN,IB)%POLY(ICELL)%ListNodID(1:8)  
+          BRICK_LIST(NIN,IBM)%SecndList%SURF_v(NumSecnd)        = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J1)%SURF
         ENDDO!next IUNLINK
       ENDDO!next IT      
 
-      !augmenter le volume master 
+      !augmenter le volume main 
       !done later
 
 
       !------------------------------------------------------------!
-      ! @23. TAG SLAVE CELLS WHICH ARE BASED ON FORMER MASTER NODE !
+      ! @23. TAG SECND CELLS WHICH ARE BASED ON FORMER main NODE !
       !------------------------------------------------------------!       
-!      TARGET_DATA(:,:,:) = 0 !tag master cells linked to theses slave ones.      
+!      TARGET_DATA(:,:,:) = 0 !tag main cells linked to theses secnd ones.      
 !      Ntarget(NBF:NBL)   = 0 
       DO IB=NBF,NBL
         BRICK_LIST(NIN,IB)%Ntarget = 0
         NBCUT                      =  BRICK_LIST(NIN,IB)%NBCUT        
         NCELL                      =  NBCUT
         ICELL                      =  0
-        pNodWasMaster(1:8)         => BRICK_LIST(NIN,IB)%NODE(1:8)!%NodWasMaster 
+        pNodWasMain(1:8)         => BRICK_LIST(NIN,IB)%NODE(1:8)!%NodWasMain 
          pListNodID(1)%p(1:8)      => BRICK_LIST(NIN,IB)%POLY(1)%ListNodID(1:8)
          pListNodID(2)%p(1:8)      => BRICK_LIST(NIN,IB)%POLY(2)%ListNodID(1:8) 
          pListNodID(3)%p(1:8)      => BRICK_LIST(NIN,IB)%POLY(3)%ListNodID(1:8)
@@ -1655,17 +1655,17 @@ c              print *, "**Waring inter22 : no master cell to link with cell fro
          pListNodID(7)%p(1:8)      => BRICK_LIST(NIN,IB)%POLY(7)%ListNodID(1:8) 
          pListNodID(8)%p(1:8)      => BRICK_LIST(NIN,IB)%POLY(8)%ListNodID(1:8)  
          pListNodID(9)%p(1:8)      => BRICK_LIST(NIN,IB)%POLY(9)%ListNodID(1:8)   
-        MCELL                      =  BRICK_LIST(NIN,IB)%MasterID
+        MCELL                      =  BRICK_LIST(NIN,IB)%MainID
         NTAG                       =  0   
-        MASTER_TAG(:,:)            =  0
+        MAIN_TAG(:,:)            =  0
         
         BRICK_LIST(NIN,IB)%MergeTarget(1:3,1:5) = 0
         
-        INod_W = BRICK_LIST(NIN,IB)%OldMasterStrongNode
+        INod_W = BRICK_LIST(NIN,IB)%OldMainStrongNode
         IF( Inod_W*DT1 .GT. ZERO)THEN
           IF (BRICK_LIST(NIN,IB)%NODE(INOD_W)%WhichCell==MCELL)NCELL = -1
         ENDIF
-        !Finding slave cell inside current brick element, which are based on former master cell nodes
+        !Finding secnd cell inside current brick element, which are based on former main cell nodes
         !------LOOP--------!
         DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}
           ICELL = ICELL +1
@@ -1673,10 +1673,10 @@ c              print *, "**Waring inter22 : no master cell to link with cell fro
           IF(ICELL==MCELL)CYCLE
           MNOD                    =  BRICK_LIST(NIN,IB)%POLY(ICELL)%NumNOD
           CALL weighting_Cell_Nodes(NIN,IB,ICELL,INod_W, IDEMERGE)
-          IF(SUM(pNodWasMaster(pListNodID(ICELL)%p(1:MNOD))%NodWasMaster).EQ.0)CYCLE  !if none of the polyhedra nodes is based on a former master cell node : nothing to do
-          IF(pNodWasMaster(INod_W)%NodWasMaster<=0) CYCLE                          !(negatif en debug si IB nouveau dans le buffer)
-          !ICELL has at least one node from the previous master cell
-          ! lets get its master cell
+          IF(SUM(pNodWasMain(pListNodID(ICELL)%p(1:MNOD))%NodWasMain).EQ.0)CYCLE  !if none of the polyhedra nodes is based on a former main cell node : nothing to do
+          IF(pNodWasMain(INod_W)%NodWasMain<=0) CYCLE                          !(negatif en debug si IB nouveau dans le buffer)
+          !ICELL has at least one node from the previous main cell
+          ! lets get its main cell
           
           !Continuity Criteria To avoid unexpected merging.
           !Consistent only with kinematic time step "several cycle to fully cross an element".
@@ -1684,29 +1684,29 @@ c              print *, "**Waring inter22 : no master cell to link with cell fro
           UncutVOL = BRICK_LIST(NIN,IB)%UncutVol
           VAR      = VOL_S /  (UncutVOL)
           IF (VAR < CritDVol22)CYCLE
-          INod_W = BRICK_LIST(NIN,IB)%OldMasterStrongNode
-          IF(INod_W==0)CYCLE !nothing to merge if no master or no cut cell in previous cycle.
+          INod_W = BRICK_LIST(NIN,IB)%OldMainStrongNode
+          IF(INod_W==0)CYCLE !nothing to merge if no main or no cut cell in previous cycle.
           
-          IPOS                    = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(1)
-          ICV                     = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(2)
-          IBM                     = BRICK_LISt(NIN,IB)%POLY(ICELL)%WhereIsMaster(4)
-          NTAG                    = NTAG + 1  !number of slave cells wet by former master cell
-c          TARGET_DATA(IB,NTAG,1)  = IPOS      !facette localisant le plus grand master
-c          TARGET_DATA(IB,NTAG,2)  = ICV       !numero de cellule de ce master
+          IPOS                    = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1)
+          ICV                     = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(2)
+          IBM                     = BRICK_LISt(NIN,IB)%POLY(ICELL)%WhereIsMain(4)
+          NTAG                    = NTAG + 1  !number of secnd cells wet by former main cell
+c          TARGET_DATA(IB,NTAG,1)  = IPOS      !facette localisant le plus grand main
+c          TARGET_DATA(IB,NTAG,2)  = ICV       !numero de cellule de ce main
           BRICK_LIST(NIN,IB)%MergeTarget(1,NTAG) = IPOS
           BRICK_LIST(NIN,IB)%MergeTarget(2,NTAG) = ICV
           BRICK_LIST(NIN,IB)%MergeTarget(3,NTAG) = IBM         
         ENDDO! next ICELL
         !----END-LOOP------! 
-c        Ntarget(IB)                = NTAG ! number of slave cell whose nodes were wet by the former master cell.= number of master to do material deportation (if one master per slave cell)
+c        Ntarget(IB)                = NTAG ! number of secnd cell whose nodes were wet by the former main cell.= number of main to do material deportation (if one main per secnd cell)
         BRICK_LIST(NIN,IB)%NTarget = NTAG
-        ! Ntarget always lower or equal to 9 (max number of slave cell if one master per slave)
+        ! Ntarget always lower or equal to 9 (max number of secnd cell if one main per secnd)
         ! enumeration of the target
-        !ACHTUNG : what happen if 2 slave cells have the same master cell. Doubloon are not possible by tagging master target
+        !ACHTUNG : what happen if 2 secnd cells have the same main cell. Doubloon are not possible by tagging main target
       ENDDO!next IB
       
       !------------------------------------------------------------!
-      ! @24. VOLUME MERGING BETWEEN SLAVE CELL & ITS MASTER ONE    !
+      ! @24. VOLUME MERGING BETWEEN SECND CELL & ITS main ONE    !
       !      UNCONDITIONNAL                                        !
       !      for law51 old volume need also to be merged           !      
       !------------------------------------------------------------! 
@@ -1718,17 +1718,17 @@ c        Ntarget(IB)                = NTAG ! number of slave cell whose nodes we
         pAdjBRICK      => BRICK_LIST(NIN,IB)%Adjacent_Brick(1:6,1:5) 
         pSUBVOL(1:9)   => BRICK_LIST(NIN,IB)%POLY(1:9)
         MBUF           => ELBUF_TAB(NGB(IB))%BUFLY(1)%MAT(1,1,1)                         
-        MCELL          =  BRICK_LIST(NIN,IB)%MasterID
+        MCELL          =  BRICK_LIST(NIN,IB)%MainID
         ID             =  BRICK_LIST(NIN,IB)%ID
         NG             =  BRICK_LIST(NIN,IB)%NG
         IDLOC          =  BRICK_LIST(NIN,IB)%IDLOC       
         ICELL          =  0
         BRICK_LIST(NIN,IB)%Vnew_SCell = BRICK_LIST(NIN,IB)%POLY(MCELL)%Vnew     
         !------LOOP--------!
-        NumSLAVE = BRICK_LIST(NIN,IB)%SlaveList%Num
-        DO IC=1,NumSLAVE
-          ICELLv = BRICK_LIST(NIN,IB)%SlaveList%ICELLv(IC)  
-          IBv    = BRICK_LIST(NIN,IB)%SlaveList%IBv(IC)     
+        NumSECND = BRICK_LIST(NIN,IB)%SecndList%Num
+        DO IC=1,NumSECND
+          ICELLv = BRICK_LIST(NIN,IB)%SecndList%ICELLv(IC)  
+          IBv    = BRICK_LIST(NIN,IB)%SecndList%IBv(IC)     
           NGv    = BRICK_LIST(NIN,IBv)%NG                   
           IDLOCv = BRICK_LIST(NIN,IBv)%IDLOC                
           IV     = BRICK_LIST(NIN,IBv)%ID                   
@@ -1764,10 +1764,10 @@ c        Ntarget(IB)                = NTAG ! number of slave cell whose nodes we
       
       
       !------------------------------------------------------------!
-      ! @25. MATERIAL MERGING (IF MASTER HAS TO BE DEPORTED)       !
+      ! @25. MATERIAL MERGING (IF main HAS TO BE DEPORTED)       !
       !------------------------------------------------------------! 
-      ! if Ntarget > 0 then material deporation has to be done from former master cell buffer (GBUF)
-      ! to the N=Ntarget target master cells.
+      ! if Ntarget > 0 then material deporation has to be done from former main cell buffer (GBUF)
+      ! to the N=Ntarget target main cells.
       NBL1 = NBL
       IF(DT1.EQ.ZERO)NBL1 = 0
       if(IBUG22_merge/=0)then
@@ -1789,7 +1789,7 @@ c        Ntarget(IB)                = NTAG ! number of slave cell whose nodes we
         NTAR             =  BRICK_LIST(NIN,IB)%Ntarget
         LLT_             =  IPARG(2,NGB(IB))
         !------LOOP--------!
-        !loop on a master target to distribute former master data
+        !loop on a main target to distribute former main data
         DO ITAR = 1,NTAR
           J               =  BRICK_LIST(NIN,IB)%MergeTarget(1,ITAR)
           ICV             =  BRICK_LIST(NIN,IB)%MergeTarget(2,ITAR) 
@@ -1821,11 +1821,11 @@ c        Ntarget(IB)                = NTAG ! number of slave cell whose nodes we
           endif
           !-----------!
           !---------------------!  
-          !  MATERIAL MERGING   !  !only if master cell loose all its nodes, master (which became slave) contents is sent to the adjacent master.
+          !  MATERIAL MERGING   !  !only if main cell loose all its nodes, main (which became secnd) contents is sent to the adjacent main.
           !---------------------!
           ! example:
-          !  EINTv : target master on which slave cell is linked
-          !  EINT  : old master cell buffer
+          !  EINTv : target main on which secnd cell is linked
+          !  EINT  : old main cell buffer
           !-----------------------MONO-MATERIAL------------------------! 
           VOL                         =  BRICK_LIST(NIN,IB)%Vold_SCell
           SuperCellVOL_L(ITASK,0,IBv) =  SuperCellVOL_L(ITASK,0,IBv) + RATIO * VOL
@@ -2176,24 +2176,24 @@ c          print *, ""
       
       !------------------------------------------------------------!
       ! @26. DEMERGING CRITERIA                                    !
-      !         (IF MASTER HAS TO BE DEPORTED THEN                 !
-      !         DEMERGING WILL OCCURS IN NEW MASTER CELL)          !
+      !         (IF main HAS TO BE DEPORTED THEN                 !
+      !         DEMERGING WILL OCCURS IN NEW main CELL)          !
       !       STEP 1/2 - listing origin cell                       !
       !------------------------------------------------------------! 
-      ! if Ntar > 0 then material deporation has to be done from former master cell buffer (GBUF)
-      ! to the N=Ntar target master cells.
+      ! if Ntar > 0 then material deporation has to be done from former main cell buffer (GBUF)
+      ! to the N=Ntar target main cells.
       NBL1 = NBL
       IF(DT1.EQ.ZERO)NBL1       = 0
-      ORIGIN_DATA(:,:,:)        = 0 !tag master cells linked to theses slave ones.      
+      ORIGIN_DATA(:,:,:)        = 0 !tag main cells linked to theses secnd ones.      
       Norigin(NBF:NBL)          = 0 
       DO IB=NBF,NBL1
         NBCUT            =  BRICK_LIST(NIN,IB)%NBCUT        
         NCELL            =  NBCUT
         ICELL            =  0 
-        MCELL            =  BRICK_LIST(NIN,IB)%masterID
+        MCELL            =  BRICK_LIST(NIN,IB)%mainID
         GBUF             => ELBUF_TAB(NGB(IB))%GBUF
-        pNodWasMaster(1:8)    => BRICK_LIST(NIN,IB)%NODE(1:8)!%NodWasMaster
-        pWhereWasMaster(1:8)  => BRICK_LIST(NIN,IB)%NODE(1:8)!%WhereWasMaster
+        pNodWasMain(1:8)    => BRICK_LIST(NIN,IB)%NODE(1:8)!%NodWasMain
+        pWhereWasMain(1:8)  => BRICK_LIST(NIN,IB)%NODE(1:8)!%WhereWasMain
         brickID          =  BRICK_LIST(NIN,IB)%ID
         MBUF             => ELBUF_TAB(NGB(IB))%BUFLY(1)%MAT(1,1,1)         
         NTAG             =  0
@@ -2206,14 +2206,14 @@ ccc        print *, "demerging criteria for id=", ixs(11,brick_list(nin,ib)%id)
         !------CHECK NODES--------!
         DO K=1,MNOD
           INOD = BRICK_LIST(NIN,IB)%POLY(MCELL)%ListNodID(K)
-          IF(pNodWasMaster(INOD)%NodWasMaster==1)CYCLE !node not concerned
-          !Here node was slave and just became master
+          IF(pNodWasMain(INOD)%NodWasMain==1)CYCLE !node not concerned
+          !Here node was secnd and just became main
           NewMnod(INOD) = 1
         ENDDO
         
         !Continuity Criteria To avoid unexpected demerging.
         !Consistent only with kinematic time step "several cycle to fully cross an element".
-        VOL_M    = BRICK_LIST(NIN,IB)%slavelist%VOL_unmerged !BRICK_LIST(NIN,IB)%POLY(MCELL)vnew
+        VOL_M    = BRICK_LIST(NIN,IB)%secndlist%VOL_unmerged !BRICK_LIST(NIN,IB)%POLY(MCELL)vnew
         UncutVOL = BRICK_LIST(NIN,IB)%UncutVol
         VAR      = VOL_M / UncutVOL
 ccc        print *, "    VAR > 1-CritDVol22 : CYCLE", VAR > 1-CritDVol22, VAR, VOL_M
@@ -2223,26 +2223,26 @@ ccc        print *, "    MNOD==0)           : CYCLE", MNOD==0
         IF(MNOD==0)            CYCLE       
         CALL weighting_Cell_Nodes(NIN,IB,MCELL,INod_W,IDEMERGE)
         
-       ! IF(pNodWasMaster(BRICK_LIST(NIN,IB)%OldMasterStrongNode) == 1) IDEMERGE = 0
+       ! IF(pNodWasMain(BRICK_LIST(NIN,IB)%OldMainStrongNode) == 1) IDEMERGE = 0
        
-        INod_W_old = BRICK_LIST(NIN,IB)%OldMasterStrongNode
+        INod_W_old = BRICK_LIST(NIN,IB)%OldMainStrongNode
 ccc        print *, "    INOD_W_old==0 : CYCLE", INOD_W_old==0
         IF(INOD_W_old<=0)CYCLE
         IF(BRICK_LIST(NIN,IB)%NODE(INod_W_old)%WhichCell == MCELL) IDEMERGE = 0  
 ccc        print *, "    IDEMERGE= : ", IDEMERGE
         
         IF( IDEMERGE==1 ) THEN           !(negatif en debug si IB nouveau dans le buffer)        
-!        IF(pNodWasMaster(INod_W)<=0 ) THEN           !(negatif en debug si IB nouveau dans le buffer)       
-!        IF(SUM(NewMnod)>=MNOD/2 .AND. MNOD/=0)THEN         !DEMERGE criteria : all master nodes were slaveo ones
-        !get related master cell location (through its face)
+!        IF(pNodWasMain(INod_W)<=0 ) THEN           !(negatif en debug si IB nouveau dans le buffer)       
+!        IF(SUM(NewMnod)>=MNOD/2 .AND. MNOD/=0)THEN         !DEMERGE criteria : all main nodes were secndo ones
+        !get related main cell location (through its face)
           DO K=1,MNOD
             INOD = BRICK_LIST(NIN,IB)%POLY(MCELL)%ListNodID(K)        
-            J    = pWhereWasMaster(INOD)%WhereWasMaster
-            IF(J==0)CYCLE        !means node was already master
+            J    = pWhereWasMain(INOD)%WhereWasMain
+            IF(J==0)CYCLE        !means node was already main
             IF(ITAG(J)==1)CYCLE  !list without doublon
             ITAG(J) = 1   
-            !Check if master cell was moved (merged)
-            !Get master cut cell address
+            !Check if main cell was moved (merged)
+            !Get main cut cell address
             IF(J>=10)THEN
               J1    = J/10
               J2    = MOD(J,10)
@@ -2279,10 +2279,10 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
 
       !------------------------------------------------------------!
       ! @27. MATERIAL DEMERGING                                    !
-      ! STEP 2 : filling master cell with data from origin cells   !
+      ! STEP 2 : filling main cell with data from origin cells   !
       !------------------------------------------------------------! 
-      ! if Ntar > 0 then material deporation has to be done from former master cell buffer (GBUF)
-      ! to the N=Ntar target master cells.
+      ! if Ntar > 0 then material deporation has to be done from former main cell buffer (GBUF)
+      ! to the N=Ntar target main cells.
       NBL1 = NBL
       IF(DT1.EQ.ZERO)NBL1 = 0
       
@@ -2300,13 +2300,13 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
         IF(NBCUT==0)CYCLE        
         NCELL             =  NBCUT
         ICELL             =  0 
-        MCELL             =  BRICK_LIST(NIN,IB)%masterID
+        MCELL             =  BRICK_LIST(NIN,IB)%mainID
         GBUF              => ELBUF_TAB(NGB(IB))%GBUF
         LBUF              => ELBUF_TAB(NGB(IB))%BUFLY(1)%LBUF(1,1,1)
         !pAdjCELL          => BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(1:6)%Adjacent_Cell(1:5)          
         pAdjBRICK         => BRICK_LIST(NIN,IB)%Adjacent_Brick(1:6,1:3)
-        pNodWasMaster(1:8)     => BRICK_LIST(NIN,IB)%NODE(1:8)!%NodWasMaster
-        pWhereWasMaster(1:8)   => BRICK_LIST(NIN,IB)%NODE(1:8)!%WhereWasMaster
+        pNodWasMain(1:8)     => BRICK_LIST(NIN,IB)%NODE(1:8)!%NodWasMain
+        pWhereWasMain(1:8)   => BRICK_LIST(NIN,IB)%NODE(1:8)!%WhereWasMain
         pSUBVOL(1:9)      => BRICK_LIST(NIN,IB)%POLY(1:9)
         brickID           =  BRICK_LIST(NIN,IB)%ID
         IDLOC             =  BRICK_LIST(NIN,IB)%IDLOC
@@ -2317,7 +2317,7 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
         VOLorig(1:24)     =  ZERO
         VOLcell           =  ZERO
         VOLcell51(:)      =  ZERO
-        VolSLAVE51(:)     =  ZERO
+        VolSECND51(:)     =  ZERO
         VOL               =  ZERO
         RHO               =  ZERO
         EINT              =  ZERO
@@ -2360,23 +2360,23 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
             UVAR(1) = VolCell*MBUF%VAR(((1-1)*LLT_ + IDLOC))
           ELSEIF(MTN_.EQ.51)THEN
             IPOS          = 11                                          
-            volSLAVE51(1) = MBUF%VAR(IDLOC  + ((N0PHAS + (1-1)*NVPHAS )+IPOS-1)*LLT_)                                              
-            volSLAVE51(2) = MBUF%VAR(IDLOC  + ((N0PHAS + (2-1)*NVPHAS )+IPOS-1)*LLT_)                                              
-            volSLAVE51(3) = MBUF%VAR(IDLOC  + ((N0PHAS + (3-1)*NVPHAS )+IPOS-1)*LLT_)                                              
-            volSLAVE51(4) = MBUF%VAR(IDLOC  + ((N0PHAS + (4-1)*NVPHAS )+IPOS-1)*LLT_)                                              
+            volSECND51(1) = MBUF%VAR(IDLOC  + ((N0PHAS + (1-1)*NVPHAS )+IPOS-1)*LLT_)                                              
+            volSECND51(2) = MBUF%VAR(IDLOC  + ((N0PHAS + (2-1)*NVPHAS )+IPOS-1)*LLT_)                                              
+            volSECND51(3) = MBUF%VAR(IDLOC  + ((N0PHAS + (3-1)*NVPHAS )+IPOS-1)*LLT_)                                              
+            volSECND51(4) = MBUF%VAR(IDLOC  + ((N0PHAS + (4-1)*NVPHAS )+IPOS-1)*LLT_)                                              
             DO ITRIMAT=1,TRIMAT                                         
               DO IPOS = 1 , NVPHAS                                      
                 IF(IPOS==11) CYCLE                                       
                 K               = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}   
                 K1              = K * LLT_                             
-                UVAR(K+1)       = volSLAVE51(ITRIMAT) * MBUF%VAR(K1+IDLOC)                                           
+                UVAR(K+1)       = volSECND51(ITRIMAT) * MBUF%VAR(K1+IDLOC)                                           
               ENDDO!next IPOS                                           
             ENDDO!next ITRIMAT                                          
-            volSLAVE51(1:4)     = ZERO                                  
+            volSECND51(1:4)     = ZERO                                  
           ENDIF
         ENDIF
         
-        ! Velocity of master is velocity wherever inside the supercell. It will be used to make an advection step get pressure gradient which did not occur on previous step due to homogeneity.
+        ! Velocity of main is velocity wherever inside the supercell. It will be used to make an advection step get pressure gradient which did not occur on previous step due to homogeneity.
         VEL_M(1)    = GBUF%MOM(3*(IDLOC-1)+1) / GBUF%RHO(IDLOC)
         VEL_M(2)    = GBUF%MOM(3*(IDLOC-1)+2) / GBUF%RHO(IDLOC)
         VEL_M(3)    = GBUF%MOM(3*(IDLOC-1)+3) / GBUF%RHO(IDLOC)   
@@ -2403,13 +2403,13 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
             JV  = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,5)
           ENDIF           
 
-          NumSLAVE        = OLD_SlaveList(NIN,IBo)%Num  !this is list from previous cycle
+          NumSECND        = OLD_SecndList(NIN,IBo)%Num  !this is list from previous cycle
           !-----------------------------------------------!
-          !  GET SLAVE CONNECTED TO IT                    !
+          !  GET SECND CONNECTED TO IT                    !
           !-----------------------------------------------!
-          DO K=1,NumSLAVE
-            IF (OLD_SlaveList(NIN,IBo)%IBv(K) /= IB)CYCLE 
-            IF (OLD_SlaveList(NIN,IBo)%FM(K) /= JV)CYCLE   !next slave : this one is not connecter through master face id %FM
+          DO K=1,NumSECND
+            IF (OLD_SecndList(NIN,IBo)%IBv(K) /= IB)CYCLE 
+            IF (OLD_SecndList(NIN,IBo)%FM(K) /= JV)CYCLE   !next secnd : this one is not connecter through main face id %FM
             
           !---debug---!
           cod1 = ixs(11,brick_list(nin,ib)%id)
@@ -2440,7 +2440,7 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
  !           write (*,FMT='(I10,A,F30.16,A,F30.16)')
  !    .        Cod2," Vold=",brick_list(nin,ibo)%Vold_scell," Vnew=",brick_list(nin,ibo)%Vnew_scell 
 
-               tmp22array(4,IN22)= zero !brick_list(nin,ib)%Vold_scell    !value not consistent, old master was merge elsewhere so scell has change of side since a demerge process is emerging a new scell
+               tmp22array(4,IN22)= zero !brick_list(nin,ib)%Vold_scell    !value not consistent, old main was merge elsewhere so scell has change of side since a demerge process is emerging a new scell
                tmp22array(5,IN22)= brick_list(nin,ib)%Vnew_scell
                tmp22array(6,IN22)= zero !brick_list(nin,ibo)%Vold_scell
                tmp22array(7,IN22)= brick_list(nin,ibo)%Vnew_scell
@@ -2449,21 +2449,21 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
           endif
           !-----------!
                                 
-            !here slave is merged on the correct face, and also to the correct target master (IB)
-  !!!!!!!!!!!!!          VOLslave = OLD_SlaveList(NIN,IBo)%VOL(K)
+            !here secnd is merged on the correct face, and also to the correct target main (IB)
+  !!!!!!!!!!!!!          VOLsecnd = OLD_SecndList(NIN,IBo)%VOL(K)
            !-----------------------------------------------!
-           !  START TO CALCULATE SLAVE NEW QUANTITIES      !
+           !  START TO CALCULATE SECND NEW QUANTITIES      !
            !-----------------------------------------------!
-            VOLslave    = OLD_SlaveList(NIN,IBo)%VOL(K)
-           !!! VolslaveOLD = OLD_SlaveList(NIN,IBo)%VOL(K)
-            VOLcell  = VOLcell + VOLslave                   !cumulative salve volume from previous cycle = old volume for new master cell     
-           !!! VOLcellOLD = VOLcell + VOLslaveOLD       
+            VOLsecnd    = OLD_SecndList(NIN,IBo)%VOL(K)
+           !!! VolsecndOLD = OLD_SecndList(NIN,IBo)%VOL(K)
+            VOLcell  = VOLcell + VOLsecnd                   !cumulative salve volume from previous cycle = old volume for new main cell     
+           !!! VOLcellOLD = VOLcell + VOLsecndOLD       
             GBUF     => ELBUF_TAB(NGv)%GBUF 
             LBUF     => ELBUF_TAB(NGv)%BUFLY(1)%LBUF(1,1,1) 
             LLT_v    = IPARG(2,NGv)
-            !slave cell surf     
-            SURF_S   = OLD_SlaveList(NIN,IBo)%SURF_V(K)  
-            FV       = OLD_SlaveList(NIN,IBo)%FV(K)
+            !secnd cell surf     
+            SURF_S   = OLD_SecndList(NIN,IBo)%SURF_V(K)  
+            FV       = OLD_SecndList(NIN,IBo)%FV(K)
             IF(FV<10)THEN
               NORM_S(1:3) = BRICK_LIST(NIN,IB)%N(FV,1:3) 
             ELSE
@@ -2488,7 +2488,7 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
             !----------------------------------!
             ADV = ZERO
             IF(IADV==1)THEN
-            !MCELL         = BRICK_LIST(NIN,IB)%MasterID
+            !MCELL         = BRICK_LIST(NIN,IB)%MainID
             VM            = UN ! BRICK_LIST(NIN,IBm)%POLY(MCELL)%Vnew 
             ADV           = -UNDEMI* UNDEMI* DT1*VM*SURF_S* (VEL_M(1)*NORM_S(1)+VEL_M(2)*NORM_S(2)+VEL_M(3)*NORM_S(3)) 
             RHO_ADV       = RHO_ADV    + ADV * GBUF%RHO(IDLOCv)
@@ -2506,18 +2506,18 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
             !-------------------------------! 
             !  MONO-MATERIAL CUMULATION     !
             !-------------------------------!                                
-            RHO    = RHO    + VOLslave * GBUF%RHO(IDLOCv)
-            EINT   = EINT   + VOLslave * GBUF%EINT(IDLOCv)
-            MOM(1) = MOM(1) + VOLslave * GBUF%MOM(LLT_v*(1-1)+IDLOCv)
-            MOM(2) = MOM(2) + VOLslave * GBUF%MOM(LLT_v*(2-1)+IDLOCv)
-            MOM(3) = MOM(3) + VOLslave * GBUF%MOM(LLT_v*(3-1)+IDLOCv)                        
-            SIG(1) = SIG(1) + VOLslave * GBUF%SIG(LLT_v*(1-1)+IDLOCv)       
-            SIG(2) = SIG(2) + VOLslave * GBUF%SIG(LLT_v*(2-1)+IDLOCv)       
-            SIG(3) = SIG(3) + VOLslave * GBUF%SIG(LLT_v*(3-1)+IDLOCv)       
-            SIG(4) = SIG(4) + VOLslave * GBUF%SIG(LLT_v*(4-1)+IDLOCv)       
-            SIG(5) = SIG(5) + VOLslave * GBUF%SIG(LLT_v*(5-1)+IDLOCv)       
-            SIG(6) = SIG(6) + VOLslave * GBUF%SIG(LLT_v*(6-1)+IDLOCv)
-            SSP    = SSP    + VOLslave * LBUF%SSP(IDLOCv)
+            RHO    = RHO    + VOLsecnd * GBUF%RHO(IDLOCv)
+            EINT   = EINT   + VOLsecnd * GBUF%EINT(IDLOCv)
+            MOM(1) = MOM(1) + VOLsecnd * GBUF%MOM(LLT_v*(1-1)+IDLOCv)
+            MOM(2) = MOM(2) + VOLsecnd * GBUF%MOM(LLT_v*(2-1)+IDLOCv)
+            MOM(3) = MOM(3) + VOLsecnd * GBUF%MOM(LLT_v*(3-1)+IDLOCv)                        
+            SIG(1) = SIG(1) + VOLsecnd * GBUF%SIG(LLT_v*(1-1)+IDLOCv)       
+            SIG(2) = SIG(2) + VOLsecnd * GBUF%SIG(LLT_v*(2-1)+IDLOCv)       
+            SIG(3) = SIG(3) + VOLsecnd * GBUF%SIG(LLT_v*(3-1)+IDLOCv)       
+            SIG(4) = SIG(4) + VOLsecnd * GBUF%SIG(LLT_v*(4-1)+IDLOCv)       
+            SIG(5) = SIG(5) + VOLsecnd * GBUF%SIG(LLT_v*(5-1)+IDLOCv)       
+            SIG(6) = SIG(6) + VOLsecnd * GBUF%SIG(LLT_v*(6-1)+IDLOCv)
+            SSP    = SSP    + VOLsecnd * LBUF%SSP(IDLOCv)
             !-------------------------------!
             !  MULTI-MATERIAL CUMULULATION  !
             !-------------------------------!           
@@ -2529,11 +2529,11 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
               !UVAR(I,5) : volumetric fraction of gas  
               MBUFv       => ELBUF_TAB(NGv)%BUFLY(1)%MAT(1,1,1)  
               LLT_v       = IPARG(2,NGv)              
-              UVAR(5)     = UVAR(5) +VOLslave*MBUFv%VAR(((5-1)*LLT_v + IDLOCv))
-              UVAR(4)     = UVAR(4) +VOLslave*MBUFv%VAR(((4-1)*LLT_v + IDLOCv))
-              UVAR(3)     = UVAR(3) +VOLslave*MBUFv%VAR(((3-1)*LLT_v + IDLOCv))*MBUFv%VAR(((4-1)*LLT_v + IDLOCv))
-              UVAR(2)     = UVAR(2) +VOLslave*MBUFv%VAR(((2-1)*LLT_v + IDLOCv))*MBUFv%VAR(((5-1)*LLT_v + IDLOCv))          
-              UVAR(1)     = UVAR(1) +VOLslave*MBUFv%VAR(((1-1)*LLT_v + IDLOCv))
+              UVAR(5)     = UVAR(5) +VOLsecnd*MBUFv%VAR(((5-1)*LLT_v + IDLOCv))
+              UVAR(4)     = UVAR(4) +VOLsecnd*MBUFv%VAR(((4-1)*LLT_v + IDLOCv))
+              UVAR(3)     = UVAR(3) +VOLsecnd*MBUFv%VAR(((3-1)*LLT_v + IDLOCv))*MBUFv%VAR(((4-1)*LLT_v + IDLOCv))
+              UVAR(2)     = UVAR(2) +VOLsecnd*MBUFv%VAR(((2-1)*LLT_v + IDLOCv))*MBUFv%VAR(((5-1)*LLT_v + IDLOCv))          
+              UVAR(1)     = UVAR(1) +VOLsecnd*MBUFv%VAR(((1-1)*LLT_v + IDLOCv))
               UVAR_ADV(1) = UVAR_ADV(1) +ADV * MBUFv%VAR(((1-1)*LLT_v + IDLOCv))
 
             ELSEIF(MTN_.EQ.51)THEN
@@ -2549,12 +2549,12 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
                 K1                   = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                 Kv                   = K1 * LLT_v
                 Vfrac(ITRIMAT)       = MBUFv%VAR(Kv+IDLOCv)
-                VolSLAVE51(ITRIMAT)  = Vfrac(ITRIMAT) * VOLslave     !submaterial volume in slave cell 
-                VolCELL51(ITRIMAT)   = VolCELL51(ITRIMAT) + VolSLAVE51(ITRIMAT)                  !submaterial volume in ALL slave cell 
+                VolSECND51(ITRIMAT)  = Vfrac(ITRIMAT) * VOLsecnd     !submaterial volume in secnd cell 
+                VolCELL51(ITRIMAT)   = VolCELL51(ITRIMAT) + VolSECND51(ITRIMAT)                  !submaterial volume in ALL secnd cell 
               ENDDO!next ITRIMAT 
-              UVAR(1) = UVAR(1) + MBUFv%VAR((0*LLT_v + IDLOCv)) * VOLslave
-              UVAR(2) = UVAR(2) + MBUFv%VAR((1*LLT_v + IDLOCv)) * VOLslave
-              UVAR(3) = UVAR(3) + MBUFv%VAR((2*LLT_v + IDLOCv)) * VOLslave   
+              UVAR(1) = UVAR(1) + MBUFv%VAR((0*LLT_v + IDLOCv)) * VOLsecnd
+              UVAR(2) = UVAR(2) + MBUFv%VAR((1*LLT_v + IDLOCv)) * VOLsecnd
+              UVAR(3) = UVAR(3) + MBUFv%VAR((2*LLT_v + IDLOCv)) * VOLsecnd   
               UVAR_ADV(1) = UVAR_ADV(1) + MBUFv%VAR((0*LLT_v + IDLOCv)) * ADV
               UVAR_ADV(2) = UVAR_ADV(2) + MBUFv%VAR((1*LLT_v + IDLOCv)) * ADV
               UVAR_ADV(3) = UVAR_ADV(3) + MBUFv%VAR((2*LLT_v + IDLOCv)) * ADV 
@@ -2565,9 +2565,9 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
                   K1              = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                   Kv              = K1 * LLT_v
                   IF(IPOS==11)THEN
-                    UVAR(K1+1) = UVAR(K1+1) + volSLAVE51(ITRIMAT)                 
+                    UVAR(K1+1) = UVAR(K1+1) + volSECND51(ITRIMAT)                 
                   ELSE                  
-                    UVAR(K1+1) = UVAR(K1+1) + volSLAVE51(ITRIMAT) * MBUFv%VAR(Kv+IDLOCv)
+                    UVAR(K1+1) = UVAR(K1+1) + volSECND51(ITRIMAT) * MBUFv%VAR(Kv+IDLOCv)
                     UVAR_ADV(K1+1) = UVAR_ADV(K1+1) + ADV * MBUFv%VAR(Kv+IDLOCv)
                     IF(IADV==1)print *, "to do compute/get vfrac on face" !; pause
                   ENDIF
@@ -2577,17 +2577,17 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
             !---------------------------                             
 #include "lockon.inc"    
             !lock method : to be update later can be removed
-            !SUBSTRACTING SLAVE VOLUME FROM  SUPERCELL TO DEMERGE
+            !SUBSTRACTING SECND VOLUME FROM  SUPERCELL TO DEMERGE
             !--MONOMAT
-            BRICK_LIST(NIN,IBm)%Vold_Scell = BRICK_LIST(NIN,IBm)%Vold_Scell - VOLslave 
+            BRICK_LIST(NIN,IBm)%Vold_Scell = BRICK_LIST(NIN,IBm)%Vold_Scell - VOLsecnd 
             !--MULTIMAT
             IF(MTN_.EQ.51)THEN            
               DO ITRIMAT=1,TRIMAT
-                !remove submaterial volume in detached slave cell
+                !remove submaterial volume in detached secnd cell
                 IPOS                 = 11
                 K1                   = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}                                                  
                 Kv                   = K1 * LLT_v
-                MBUFv%VAR(Kv+IDLOCv) = MBUFv%VAR(Kv+IDLOCv) - VolSLAVE51(ITRIMAT)
+                MBUFv%VAR(Kv+IDLOCv) = MBUFv%VAR(Kv+IDLOCv) - VolSECND51(ITRIMAT)
               ENDDO!next ITRIMAT  
             ENDIF          
 #include "lockoff.inc"           
@@ -2621,7 +2621,7 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
           DO ITRIMAT=1,TRIMAT
             Ko = N0PHAS + (ITRIMAT-1)*NVPHAS
             IF(VOLcell51(ITRIMAT)/=ZERO)THEN
-              UVAR(Ko+01:Ko+10)     =  (UVAR(Ko+01:Ko+10)     + IADV*UVAR_ADV(Ko+01:Ko+10))     / VOLcell51(ITRIMAT)   !submaterial data are averaged with sum of submaterial slave volume      
+              UVAR(Ko+01:Ko+10)     =  (UVAR(Ko+01:Ko+10)     + IADV*UVAR_ADV(Ko+01:Ko+10))     / VOLcell51(ITRIMAT)   !submaterial data are averaged with sum of submaterial secnd volume      
               UVAR(Ko+12:Ko+NVPHAS) =  (UVAR(Ko+12:Ko+NVPHAS) + IADV*UVAR_ADV(Ko+12:Ko+NVPHAS)) / VOLcell51(ITRIMAT)   !except ipos=11 (volume)      
             ELSE
               UVAR(Ko+01) = ZERO         
@@ -2716,7 +2716,7 @@ c          print *, "demerge-1",  MBUF%VAR((1-1)*LLT_+IDLOC) , UVAR(1)
         !-----------------------------------------------!
         
         !-----------------------------------------------!
-        !  NEW MASTER CELL UPDATE                       ! 
+        !  NEW main CELL UPDATE                       ! 
         !-----------------------------------------------!              
         BRICK_LIST(NIN,IB)%Vold_SCell = VOLcell
         
@@ -2734,11 +2734,11 @@ c          print *, "demerge-1",  MBUF%VAR((1-1)*LLT_+IDLOC) , UVAR(1)
          ENDIF 
 
         !
-        !VOLcell = sum (VOLslacve) : each volslave is removed from 
-        !its former master cell and cumulative value is set in new 
-        !master cell to demerge.
+        !VOLcell = sum (VOLslacve) : each volsecnd is removed from 
+        !its former main cell and cumulative value is set in new 
+        !main cell to demerge.
         !-----------------------------------------------------!
-        ! ADVECTION STEP UPDATE ORIGIN CELL (PREVIOUS MASTER) !
+        ! ADVECTION STEP UPDATE ORIGIN CELL (PREVIOUS MAIN) !
         !-----------------------------------------------------!
         IF(IADV==1)THEN
           NG    = BRICK_LIST(NIN,IBm)%NG
@@ -2868,7 +2868,7 @@ c            pause
       !------------------------------------------------------------!
       IF(IBUG22_TRACKING.GT.0 .OR. IBUG22_TRACKING.EQ.-1.AND.ITASK==0)print *, "=== TOPOLOGICAL TRACKING ==="      
       !topology is changing so this is not trivial and must be taken into account
-      !example : a single slave hexa can be split into {1 penta + 2 tetra} so
+      !example : a single secnd hexa can be split into {1 penta + 2 tetra} so
       !it is not possible to just make difference between two polyhedra volumes.
       NBL1   = NBL
       IF(DT1.EQ.ZERO)THEN
@@ -2880,7 +2880,7 @@ c            pause
       ENDIF      
       DO IB=NBF,NBL1  
         ID     = BRICK_LIST(NIN,IB)%ID                        
-        MCELL  = BRICK_LIST(NIN,IB)%masterID            
+        MCELL  = BRICK_LIST(NIN,IB)%mainID            
         NCELL  = BRICK_LIST(NIN,IB)%NBCUT
         ICELL  = 0 
         M(:,:) = ZERO 
@@ -2947,7 +2947,7 @@ cc             ENDIF
          ENDIF!NCELL==0                
           
        ELSEIF(WASCUT == 0)THEN
-         MCELL      = BRICK_LIST(NIN,IB)%MasterID
+         MCELL      = BRICK_LIST(NIN,IB)%MainID
          M(1:9,1:9) = ZERO
          M(1,MCELL) = BRICK_LIST(NIN,IB)%POLY(MCELL)%Vnew
        
@@ -3060,7 +3060,7 @@ c          ENDIF
         pAdjBRICK           => BRICK_LIST(NIN,IB)%Adjacent_Brick(1:6,1:5) 
         pSUBVOL(1:9)        => BRICK_LIST(NIN,IB)%POLY(1:9)
         MBUF                => ELBUF_TAB(NGB(IB))%BUFLY(1)%MAT(1,1,1)                         
-        MCELL               =  BRICK_LIST(NIN,IB)%MasterID
+        MCELL               =  BRICK_LIST(NIN,IB)%MainID
         ID                  =  BRICK_LIST(NIN,IB)%ID
         NG                  =  BRICK_LIST(NIN,IB)%NG
         IDLOC               =  BRICK_LIST(NIN,IB)%IDLOC
@@ -3069,13 +3069,13 @@ c          ENDIF
         ICELL               =  0  
 c        print *, "check switch in brickID=", ixs(11,brick_list(nin,ib)%id)
         !------LOOP--------!
-        NumSLAVE   =  BRICK_LIST(NIN,IB)%SlaveList%Num
-        !BRICK_LIST(NIN,IB)%SlaveList%ISWITCH(1:NumSLAVE) = 0
-        DO IC=1,NumSLAVE
-          ICELLv   =  BRICK_LIST(NIN,IB)%SlaveList%ICELLv(IC)
-          IBv      =  BRICK_LIST(NIN,IB)%SlaveList%IBv(IC)
-          FM       =  BRICK_LIST(NIN,IB)%SlaveList%FM(IC)
-          FV       =  BRICK_LIST(NIN,IB)%SlaveList%FV(IC)
+        NumSECND   =  BRICK_LIST(NIN,IB)%SecndList%Num
+        !BRICK_LIST(NIN,IB)%SecndList%ISWITCH(1:NumSECND) = 0
+        DO IC=1,NumSECND
+          ICELLv   =  BRICK_LIST(NIN,IB)%SecndList%ICELLv(IC)
+          IBv      =  BRICK_LIST(NIN,IB)%SecndList%IBv(IC)
+          FM       =  BRICK_LIST(NIN,IB)%SecndList%FM(IC)
+          FV       =  BRICK_LIST(NIN,IB)%SecndList%FV(IC)
           brickID  =  BRICK_LIST(NIN,IB)%ID
           IBv      =  IBv
           NGv      =  BRICK_LIST(NIN,IBv)%NG
@@ -3088,12 +3088,12 @@ c        print *, "check switch in brickID=", ixs(11,brick_list(nin,ib)%id)
           J2       = 0 
           DO K1=1,NNODES !noeuds de la cellule esclabe attachee a IB
             INOD   = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%ListNodID(K1)
-            FV_old = BRICK_LIST(NIN,IBv)%NODE(INOD)%WhereWasMaster !FACE
-            IF (FV_old .EQ. 0)CYCLE !the node was wet by master cell : MERGE PROCESS APLLIES (see related chapter)
+            FV_old = BRICK_LIST(NIN,IBv)%NODE(INOD)%WhereWasMain !FACE
+            IF (FV_old .EQ. 0)CYCLE !the node was wet by main cell : MERGE PROCESS APLLIES (see related chapter)
             !OLD_M
             IF (FV_old .EQ. FV)CYCLE ! NO LINK CHANGE : this is still linked to the same direction
             !else FV_old /= FV : THERE WAS A SWITCH
-            ! GET PREVIOUS FACE TO GET PREVIOUS MASTER CELL
+            ! GET PREVIOUS FACE TO GET PREVIOUS main CELL
             IF(FV_old.LE.NV46)THEN
               IBmo   = BRICK_LIST(NIN,IBv)%Adjacent_Brick(FV_old,4)
             ELSE
@@ -3122,44 +3122,44 @@ c        print *, "check switch in brickID=", ixs(11,brick_list(nin,ib)%id)
             lCYCLE = .FALSE.
             !remove salve cell volume from IBMo(Vold) and add it in IBo(Vold)
             !addition is treated now since only current thread is handling this cell IBm \in [NBF,NBL]
-            !search corresponding slave cell in IBmo%old_slaves_lit
+            !search corresponding secnd cell in IBmo%old_secnds_lit
             lFOUND    = .FALSE. !if found old salve cell attached to INOD
-            NumSlave2 = OLD_SlaveList(NIN,IBmo)%Num
+            NumSecnd2 = OLD_SecndList(NIN,IBmo)%Num
             NGo       = BRICK_LIST(NIN,IBmo)%NG
             LLTo      = IPARG(2,NGo)
-            DO IC2 = 1, NumSlave2
-              !get previous slave cell
-              FV2      = OLD_SlaveList(NIN,IBmo)%FV(IC2)
-              ICELLv2  = OLD_SlaveList(NIN,IBmo)%ICELLv(IC2)              
-              IBv2     = OLD_SlaveList(NIN,IBmo)%IBv(IC2) 
-              !Si la cellule escalve etait liee par une autre face que FV_old alors ce n'etait pas la bonne cellule maitresse et on passe outres
+            DO IC2 = 1, NumSecnd2
+              !get previous secnd cell
+              FV2      = OLD_SecndList(NIN,IBmo)%FV(IC2)
+              ICELLv2  = OLD_SecndList(NIN,IBmo)%ICELLv(IC2)              
+              IBv2     = OLD_SecndList(NIN,IBmo)%IBv(IC2) 
+              !Si la cellule escalve etait liee par une autre face que FV_old alors ce n'etait pas la bonne cellule main et on passe outres
               IF(FV2 .NE. FV_old )CYCLE
-              !la cellule esclave est attachee a la cellule maitresse qui nous interesse IBmo
-              !si on arrive ici c'est que la cellule esclave (0, en partie, ou en totalite) change de liaison
+              !la cellule second. est attachee a la cellule main qui nous interesse IBmo
+              !si on arrive ici c'est que la cellule second. (0, en partie, ou en totalite) change de liaison
               !on verifie si un de ses noeuds correspond au noeud INOD de la nouvelle cellule escalve dans IBv
               !on boucle sur les noeuds sommets de l'ancienne  cellule pour voir quel noeud sommet a commute
               VolCELL  = ZERO
-              VolSLAVE = ZERO
-              NNODES2  = OLD_SlaveList(NIN,IBmo)%NumNOD_Cell(IC2)
+              VolSECND = ZERO
+              NNODES2  = OLD_SecndList(NIN,IBmo)%NumNOD_Cell(IC2)
               DO K2=1,NNODES2
-                INOD2  = OLD_SlaveList(NIN,IBmo)%ListNodID(IC2,K2)
+                INOD2  = OLD_SecndList(NIN,IBmo)%ListNodID(IC2,K2)
                 ICELL2 = BRICK_LIST(NIN,IBv2)%NODE(INOD2)%WhichCell
-                IBmCur = BRICK_LIST(NIN,IBv2)%POLY(ICELL2)%WhereIsMaster(4)
-                IF(IBmCur == IB) VolSLAVE = VolSLAVE + UN/NNODES*BRICK_LIST(NIN,IBv2)%POLY(ICELL2)%Vnew   !exemple brick 20 devient master dans cas 15.14 : le penta dans 41 a deux noeuds, si on boucle 2 fois on prend 2 fois son volume pour l'injecter dans bric 30.
+                IBmCur = BRICK_LIST(NIN,IBv2)%POLY(ICELL2)%WhereIsMain(4)
+                IF(IBmCur == IB) VolSECND = VolSECND + UN/NNODES*BRICK_LIST(NIN,IBv2)%POLY(ICELL2)%Vnew   !exemple brick 20 devient main dans cas 15.14 : le penta dans 41 a deux noeuds, si on boucle 2 fois on prend 2 fois son volume pour l'injecter dans bric 30.
                 VolCELL = VolCELL + UN/NNODES*BRICK_LIST(NIN,IBv2)%POLY(ICELL2)%Vnew
               ENDDO
-              if (VolSLAVE == ZERO)CYCLE
-              !BRICK_LIST(NIN,IB)%SlaveList%ISWITCH(IC) = 1
+              if (VolSECND == ZERO)CYCLE
+              !BRICK_LIST(NIN,IB)%SecndList%ISWITCH(IC) = 1
               !print *, ""
               !print *, "VolCell                          =", VolCell
-              !print *, "VolSLAVE                         =", VolSLAVE
-              RATIO =  VolSLAVE/VolCELL !est le ratio de prelevement dans le volume de l'ancienne cellule esclave            
+              !print *, "VolSECND                         =", VolSECND
+              RATIO =  VolSECND/VolCELL !est le ratio de prelevement dans le volume de l'ancienne cellule second.            
               !here IC2(cycle-1) corresponds to IC(cycle+0)
-              VOLcell =  RATIO * OLD_SlaveList(NIN,IBmo)%VOL(IC2)
+              VOLcell =  RATIO * OLD_SecndList(NIN,IBmo)%VOL(IC2)
               VOLD    =  BRICK_LIST(NIN,IBm)%Vold_SCell
               GBUFo   => ELBUF_TAB(NGB(IBmo))%GBUF  
               !---A.MATERIAL MERGING---!
-              !Ratio is <1 in case 1 slave split into several slave cells which different master links, then collect only relevant quantity not all from old slave cell.
+              !Ratio is <1 in case 1 secnd split into several secnd cells which different main links, then collect only relevant quantity not all from old secnd cell.
               EINT                            = VOLcell * GBUFo%EINT(IDLOCB(IBmo))            
               RHO                             = VOLcell * GBUFo%RHO(IDLOCB(IBmo))             
               MOM(1)                          = VOLcell * GBUFo%MOM(LLTo*(1-1) + IDLOCB(IBmo))         
@@ -3343,7 +3343,7 @@ C              print *, " --- set VOLD_L += VOLcell, IB, ID ", VOLcell , IBMo, i
                   IF(TMP22ARRAY(1,IB)==0)CYCLE
                    print *, "brick target                =", TMP22ARRAY(1,IB)
                    print *, "brick origin                =", TMP22ARRAY(2,IB)
-                   print *, "brick master                =", TMP22ARRAY(3,IB)
+                   print *, "brick main                =", TMP22ARRAY(3,IB)
                    print *, "adding",TMP22ARRAY(6,IB)   ,'to', TMP22ARRAY(4,IB)
                    print *, "updated target -old volume- =", TMP22ARRAY(5,IB)                          
                 ENDDO                
@@ -3419,15 +3419,15 @@ ccc          endif
       !------------------------------------------------------------!          
       DO IB=NBF,NBL
         NBCUT          =  BRICK_LIST(NIN,IB)%NBCUT  
-        pIsMaster(1:9)  => BRICK_LIST(NIN,IB)%POLY(1:9)     
+        pIsMain(1:9)  => BRICK_LIST(NIN,IB)%POLY(1:9)     
         !pAdjCELL       => BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(1:6)%Adjacent_Cell(1:5)  
         pAdjBRICK      => BRICK_LIST(NIN,IB)%Adjacent_Brick(1:6,1:5) 
-        pMasterID      => BRICK_LIST(NIN,IB)%MasterID                               
+        pMainID      => BRICK_LIST(NIN,IB)%MainID                               
         NCELL          =  NBCUT
         ICELL          =  0  
         IE             =  BRICK_LIST(NIN,IB)%ID
-        !on traite les cellules maitres pour eviter les lockon/lockoff (en evitant boucle sur les escalves)
-        MCELL          = pMasterID
+        !on traite les cellules mains pour eviter les lockon/lockoff (en evitant boucle sur les escalves)
+        MCELL          = pMainID
         IF(MCELL == 0)CYCLE ! next hexahedron cell
         BRICK_LIST(NIN,IB)%ADJ_ELEMS%Num  = 0      
         DO J=1,6
@@ -3441,24 +3441,24 @@ ccc          endif
             NadjCell =  BRICK_LIST(NIN,IB)%POLY(MCELL)%FACE(J)%NAdjCell
             DO IC=1,NadjCell            
               ICELLv          =  BRICK_LIST(NIN,IB)%POLY(MCELL)%FACE(J)%Adjacent_Cell(IC)
-              MCELLv          =  BRICK_LIST(NIN,IBv)%MasterID
+              MCELLv          =  BRICK_LIST(NIN,IBv)%MainID
               IF(ICELLv == MCELLv)CYCLE
-              !this adjacent cell is a slave one, use it as bridge to a new adjacent master cell.
-              !pWhereIsMasterV => BRICK_LIST(NIN,IBv)%POLY(1:9)%WhereIsMaster(1:4)
-              JV              =  BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMaster(1) !   pWhereIsMasterV(ICELLv,1)           
-              IDM             =  BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMaster(3)  !   pWhereIsMasterV(ICELLv,3)  
-              IF(IE/=IDM)THEN !slave cell merged to the master IB
-               !prendre tous les voisins maitre de la cellule salve sauf face JV
-               !ajouter un seul voisin celui au quel la slave cell est mergee
+              !this adjacent cell is a secnd one, use it as bridge to a new adjacent main cell.
+              !pWhereIsMainV => BRICK_LIST(NIN,IBv)%POLY(1:9)%WhereIsMain(1:4)
+              JV              =  BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMain(1) !   pWhereIsMainV(ICELLv,1)           
+              IDM             =  BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMain(3)  !   pWhereIsMainV(ICELLv,3)  
+              IF(IE/=IDM)THEN !secnd cell merged to the main IB
+               !prendre tous les voisins main de la cellule salve sauf face JV
+               !ajouter un seul voisin celui au quel la secnd cell est mergee
                 BRICK_LIST(NIN,IB)%ADJ_ELEMS%Num          = BRICK_LIST(NIN,IB)%ADJ_ELEMS%Num + 1
                 K                                         = BRICK_LIST(NIN,IB)%ADJ_ELEMS%Num
                 BRICK_LIST(NIN,IB)%ADJ_ELEMS%IV(K)        = IDM
                 BRICK_LIST(NIN,IB)%ADJ_ELEMS%IB(K)        = IBM
                 BRICK_LIST(NIN,IB)%ADJ_ELEMS%ICELL(K)     = ICELLv                        
-                BRICK_LIST(NIN,IB)%ADJ_ELEMS%SlaveFACE(K) = JV   !to retrieve cut face area
-              ELSE! !slave cell merged to master /= IB
+                BRICK_LIST(NIN,IB)%ADJ_ELEMS%SecndFACE(K) = JV   !to retrieve cut face area
+              ELSE! !secnd cell merged to main /= IB
                pAdjBRICKv  => BRICK_LIST(NIN,IBv)%Adjacent_Brick(1:6,1:5)               
-               DO J2=1,6 !loop on IV.icellv (slave) adjacent bricks
+               DO J2=1,6 !loop on IV.icellv (secnd) adjacent bricks
                  IF (J2==JV)CYCLE !behind JV there is IB itself, so skip it
                  IVv     =  pAdjBRICK(J2,1)
                  NGvv    =  pAdjBRICK(J2,2)
@@ -3468,8 +3468,8 @@ ccc          endif
                  IF(IVV == 0)CYCLE
                  
                  IF(IBvv > 0)THEN
-                   MCELLvv = BRICK_LIST(NIN,IBvv)%MasterID  
-                   !if master IVV.MCELvv has connexion with IV.ICELLv then add it
+                   MCELLvv = BRICK_LIST(NIN,IBvv)%MainID  
+                   !if main IVV.MCELvv has connexion with IV.ICELLv then add it
                    NAdjCellv = BRICK_LIST(NIN,IBvv)%POLY(MCELLvv)%FACE(IFvv)%NAdjCell
                    DO K=1,NAdjCellv
                      ICv = BRICK_LIST(NIN,IBvv)%POLY(MCELLvv)%FACE(IFvv)%Adjacent_Cell(K)
@@ -3479,7 +3479,7 @@ ccc          endif
                        BRICK_LIST(NIN,IB)%ADJ_ELEMS%IV(K2)        = Ivv
                        BRICK_LIST(NIN,IB)%ADJ_ELEMS%IB(K2)        = IBvv
                        BRICK_LIST(NIN,IB)%ADJ_ELEMS%ICELL(K2)     = ICELLv !=ICv                        
-                       BRICK_LIST(NIN,IB)%ADJ_ELEMS%SlaveFACE(K2) = J2  !to retrieve cut face area
+                       BRICK_LIST(NIN,IB)%ADJ_ELEMS%SecndFACE(K2) = J2  !to retrieve cut face area
                        EXIT
                    ENDDO!next K
                  ELSEIF(IBvv == 0)THEN                   
@@ -3488,7 +3488,7 @@ ccc          endif
                        BRICK_LIST(NIN,IB)%ADJ_ELEMS%IV(K2)        = Ivv
                        BRICK_LIST(NIN,IB)%ADJ_ELEMS%IB(K2)        = IBvv
                        BRICK_LIST(NIN,IB)%ADJ_ELEMS%ICELL(K2)     = 1                        
-                       BRICK_LIST(NIN,IB)%ADJ_ELEMS%SlaveFACE(K2) = J2  !to retrieve cut face area                  
+                       BRICK_LIST(NIN,IB)%ADJ_ELEMS%SecndFACE(K2) = J2  !to retrieve cut face area                  
                  ENDIF
                ENDDO!next J2
               ENDIF!(IE==IDM)
@@ -3504,7 +3504,7 @@ ccc          endif
       !------------------------------------------------------------!
       DO IB=NBF,NBL
         NBCUT          = BRICK_LIST(NIN,IB)%NBCUT
-        MCELL          = BRICK_LIST(NIN,IB)%MasterID
+        MCELL          = BRICK_LIST(NIN,IB)%MainID
         NCELL          = BRICK_LIST(NIN,IB)%NBCUT
         ICELL          = 0  
         NINTP(1:6,1:9) = 0
@@ -3545,12 +3545,12 @@ ccc          endif
       ENDDO   
       
       !------------------------------------------------------------!
-      ! @33. LOCATE WHERE WAS MASTER FOR NEXT CYCLE                !
+      ! @33. LOCATE WHERE WAS main FOR NEXT CYCLE                !
       !      & TAG ITS BRICK NODES   (update in i22intersect.F)    !
       !------------------------------------------------------------! 
       DO IB=NBF,NBL
-         pWhereWasMaster(1:8) => BRICK_LIST(NIN,IB)%NODE(1:8)!%WhereWasMaster
-        !pWhereIsMaster  => BRICK_LIST(NIN,IB)%POLY(1:9)%WhereIsMaster(1:4)        
+         pWhereWasMain(1:8) => BRICK_LIST(NIN,IB)%NODE(1:8)!%WhereWasMain
+        !pWhereIsMain  => BRICK_LIST(NIN,IB)%POLY(1:9)%WhereIsMain(1:4)        
          pListNodID(1)%p(1:8) => BRICK_LIST(NIN,IB)%POLY(1)%ListNodID(1:8)
          pListNodID(2)%p(1:8) => BRICK_LIST(NIN,IB)%POLY(2)%ListNodID(1:8) 
          pListNodID(3)%p(1:8) => BRICK_LIST(NIN,IB)%POLY(3)%ListNodID(1:8)
@@ -3560,27 +3560,27 @@ ccc          endif
          pListNodID(7)%p(1:8) => BRICK_LIST(NIN,IB)%POLY(7)%ListNodID(1:8) 
          pListNodID(8)%p(1:8) => BRICK_LIST(NIN,IB)%POLY(8)%ListNodID(1:8)  
          pListNodID(9)%p(1:8) => BRICK_LIST(NIN,IB)%POLY(9)%ListNodID(1:8)          
-        pNodWasMaster(1:8)   => BRICK_LIST(NIN,IB)%NODE(1:8)!%NodWasMaster                 
+        pNodWasMain(1:8)   => BRICK_LIST(NIN,IB)%NODE(1:8)!%NodWasMain                 
         NCELL           =  BRICK_LIST(NIN,IB)%NBCUT
         ICELL           =  0   
-        MCELL           =  BRICK_LIST(NIN,IB)%MasterID
-        ! nodes wet by master cell
+        MCELL           =  BRICK_LIST(NIN,IB)%MainID
+        ! nodes wet by main cell
         MNOD = BRICK_LIST(NIN,IB)%POLY(MCELL)%NumNOD           
-        pNodWasMaster(1:8)%NodWasMaster   = 0
-        pWhereWasMaster(1:8)%WhereWasMaster = 0
+        pNodWasMain(1:8)%NodWasMain   = 0
+        pWhereWasMain(1:8)%WhereWasMain = 0
         DO J=1,MNOD
-          pNodWasMaster(pListNodID(MCELL)%p(J))%NodWasMaster = 1        
+          pNodWasMain(pListNodID(MCELL)%p(J))%NodWasMain = 1        
         ENDDO
-        ! locate master cell for nodes of a given slave cell
+        ! locate main cell for nodes of a given secnd cell
         DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}
           ICELL = ICELL +1
           IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9          
           IF(ICELL == MCELL)CYCLE   
-          IPOS = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(1)  !pWhereIsMaster(ICELL,1)           
+          IPOS = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1)  !pWhereIsMain(ICELL,1)           
           MNOD = BRICK_LIST(NIN,IB)%POLY(ICELL)%NumNOD
-          !All polyhedron nodes have the same master cell : face=IPOS
+          !All polyhedron nodes have the same main cell : face=IPOS
           DO J=1,MNOD
-            pWhereWasMaster(pListNodID(ICELL)%p(J))%WhereWasMaster = IPOS
+            pWhereWasMain(pListNodID(ICELL)%p(J))%WhereWasMain = IPOS
           ENDDO!next J
         ENDDO!next ICELL 
       ENDDO      
@@ -3604,37 +3604,37 @@ ccc          endif
       ENDDO    
       
       !------------------------------------------------------------!
-      ! @36. RESET OLD SLAVE LIST CONNECTIVIY                      !
+      ! @36. RESET OLD SECND LIST CONNECTIVIY                      !
       !      WILL BE DEFINED IN I22_GET_PRV_DATA()                 !
       !------------------------------------------------------------!
       !RESET ONLY NON ZERO VALUES
       DO IB=NBF,NBL 
-        NumSLAVE = OLD_SlaveList(NIN,IB)%Num
-        IF (NumSLAVE==0)CYCLE
-        OLD_SlaveList(NIN,IB)%Num                = 0
-        OLD_SlaveList(NIN,IB)%NumSlaveNodes      = 0      
+        NumSECND = OLD_SecndList(NIN,IB)%Num
+        IF (NumSECND==0)CYCLE
+        OLD_SecndList(NIN,IB)%Num                = 0
+        OLD_SecndList(NIN,IB)%NumSecndNodes      = 0      
         DO J=1,24
-          OLD_SlaveList(NIN,IB)%FM(J)            = 0            
-          OLD_SlaveList(NIN,IB)%FV(J)            = 0
-          OLD_SlaveList(NIN,IB)%IV(J)            = 0
-          OLD_SlaveList(NIN,IB)%IBV(J)           = 0
-          OLD_SlaveList(NIN,IB)%ICELLv(J)        = 0
-          OLD_SlaveList(NIN,IB)%VOL(J)           = ZERO
-          OLD_SlaveList(NIN,IB)%NumNOD_Cell(J)   = 0
-          OLD_SlaveList(NIN,IB)%ListNodID(J,1:8) = 0          
+          OLD_SecndList(NIN,IB)%FM(J)            = 0            
+          OLD_SecndList(NIN,IB)%FV(J)            = 0
+          OLD_SecndList(NIN,IB)%IV(J)            = 0
+          OLD_SecndList(NIN,IB)%IBV(J)           = 0
+          OLD_SecndList(NIN,IB)%ICELLv(J)        = 0
+          OLD_SecndList(NIN,IB)%VOL(J)           = ZERO
+          OLD_SecndList(NIN,IB)%NumNOD_Cell(J)   = 0
+          OLD_SecndList(NIN,IB)%ListNodID(J,1:8) = 0          
         ENDDO             
       ENDDO!next IB      
 
       !------------------------------------------------------------!
-      ! @37. SET MASTER STRONG NODE                                !
+      ! @37. SET main STRONG NODE                                !
       !------------------------------------------------------------!
       DO IB=NBF,NBL 
-        MCELL = BRICK_LIST(NIN,IB)%masterID 
+        MCELL = BRICK_LIST(NIN,IB)%mainID 
         CALL weighting_Cell_Nodes(NIN,IB,MCELL,INod_W, IDEMERGE)
         IF(MCELL==0)THEN
-          BRICK_LIST(NIN,IB)%OldMasterStrongNode = 0
+          BRICK_LIST(NIN,IB)%OldMainStrongNode = 0
         ELSE
-          BRICK_LIST(NIN,IB)%OldMasterStrongNode = INOD_W
+          BRICK_LIST(NIN,IB)%OldMainStrongNode = INOD_W
         ENDIF
       ENDDO  
 
@@ -3647,16 +3647,16 @@ ccc          endif
       IF( ITASK==0 .AND. NTRUS.NE.0 )THEN
         II        = 1  ! firts node of group node
         DO IB=NBF,NBL 
-          MCELL = BRICK_LIST(NIN,IB)%masterID
+          MCELL = BRICK_LIST(NIN,IB)%mainID
           IF (MCELL==0              ) CYCLE
           IF (.NOT.lStillTruss) CYCLE
           Point0(1:3) = BRICK_LIST(NIN,IB)%POLY(MCELL)%CellCenter(1:3)
 
-          !LOOP ON SLAVE CELLS TO DRAW CONNEXION
-          NumSLAVE = BRICK_LIST(NIN,IB)%SlaveList%Num
-          DO ISlave=1,NumSlave
-            IBv           = BRICK_LIST(NIN,IB)%SlaveList%IBV(ISlave)   
-            ICELLv        = BRICK_LIST(NIN,IB)%SlaveList%ICELLv(ISlave)
+          !LOOP ON SECND CELLS TO DRAW CONNEXION
+          NumSECND = BRICK_LIST(NIN,IB)%SecndList%Num
+          DO ISecnd=1,NumSecnd
+            IBv           = BRICK_LIST(NIN,IB)%SecndList%IBV(ISecnd)   
+            ICELLv        = BRICK_LIST(NIN,IB)%SecndList%ICELLv(ISecnd)
             PointTMP(1:3) = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%CellCenter(1:3)
             !check if group has still one truss 
             IF (II.GT.NTRUS) THEN
@@ -3669,7 +3669,7 @@ ccc          endif
             !write (*,*) "set TRUS_id=", IXT(NIXT,IGRTRUSS(IGR)%ENTITY(II)) ,"  corr=(", Point0(1:3), ")-(" ,PointTMP(1:3) ,")"
             if(ibug22_truss==1)then
               write (*,FMT='(A,I10,A,I10,A,I10)') "set TRUS_id=", IXT(NIXT,IGRTRUSS(IGR)%ENTITY(II)) ,
-     .        " master=", ixs(11,brick_list(nin,ib)%id)  ," slave=", ixs(11,brick_list(nin,ibv)%id)
+     .        " main=", ixs(11,brick_list(nin,ib)%id)  ," secnd=", ixs(11,brick_list(nin,ibv)%id)
             endif   
             II = II + 1 !next truss 
           ENDDO                                
@@ -3742,13 +3742,13 @@ ccc          endif
       !THEN COMPUTE SUPERCELL GEOMETRICAL DVOL
       DO IB=NBF,NBL
         NCELL                               = BRICK_LIST(NIN,IB)%NBCUT                    
-        MCELL                               = BRICK_LIST(NIN,IB)%MasterID                 
+        MCELL                               = BRICK_LIST(NIN,IB)%MainID                 
         BRICK_LIST(NIN,IB)%DVOL             = BRICK_LIST(NIN,IB)%POLY(MCELL)%DVOL(1)   
         !------LOOP--------!
-        NumSLAVE                            = BRICK_LIST(NIN,IB)%SlaveList%Num
-        DO IC=1,NumSLAVE
-          ICELLv                            = BRICK_LIST(NIN,IB)%SlaveList%ICELLv(IC)  
-          IBv                               = BRICK_LIST(NIN,IB)%SlaveList%IBv(IC)     
+        NumSECND                            = BRICK_LIST(NIN,IB)%SecndList%Num
+        DO IC=1,NumSECND
+          ICELLv                            = BRICK_LIST(NIN,IB)%SecndList%ICELLv(IC)  
+          IBv                               = BRICK_LIST(NIN,IB)%SecndList%IBv(IC)     
           NGv                               = BRICK_LIST(NIN,IBv)%NG                   
           IDLOCv                            = BRICK_LIST(NIN,IBv)%IDLOC                
           IV                                = BRICK_LIST(NIN,IBv)%ID                       !'0' PREDICTION with old conformation
@@ -3887,7 +3887,7 @@ c                print *, "+--------vold            =",VOLD             ,"->",  
         DO IB=NBF,NBL     
            pSUBVOL(1:9)   => BRICK_LIST(NIN,IB)%POLY(1:9)
            pSUBVOLD  => BRICK_LIST(NIN,IB)%Vold_SCell
-           MCELL     =  BRICK_LIST(NIN,IB)%MasterID                                 
+           MCELL     =  BRICK_LIST(NIN,IB)%MainID                                 
            IF(MCELL==0)CYCLE 
            pSUBVOLD  = brick_list(nin,ib)%Vnew_Scell                                 
         ENDDO                  
@@ -3895,7 +3895,7 @@ c                print *, "+--------vold            =",VOLD             ,"->",  
       DO IB=NBF,NBL     
          pSUBVOL(1:9)     => BRICK_LIST(NIN,IB)%POLY(1:9)                       
          pSUBVOLD    => BRICK_LIST(NIN,IB)%Vold_SCell                          
-         MCELL       =  BRICK_LIST(NIN,IB)%MasterID                                 
+         MCELL       =  BRICK_LIST(NIN,IB)%MainID                                 
          !IF(MCELL==0)CYCLE                                 
          GBUF                 => ELBUF_TAB(NGB(IB))%GBUF                         
          IF(pSUBVOLD.GT.ZERO)GBUF%VOL(IDLOCB(IB)) =  pSUBVOLD
@@ -3922,8 +3922,8 @@ C     .          "  vold=",brick_list(nin,ib)%vold_scell,"  vnew=",brick_list(ni
           !pAdjCELL        => BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(1:6)%Adjacent_Cell(1:5)                    
           !pNAdjCELL       => BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(1:6)%NAdjCell
           pAdjBRICK       => BRICK_LIST(NIN,IB)%Adjacent_Brick(1:6,1:5)                       
-          pIsMaster(1:9)  => BRICK_LIST(NIN,IB)%POLY(1:9)                                 
-          pMasterID       => BRICK_LIST(NIN,IB)%MasterID                                      
+          pIsMain(1:9)  => BRICK_LIST(NIN,IB)%POLY(1:9)                                 
+          pMainID       => BRICK_LIST(NIN,IB)%MainID                                      
           ID              =  BRICK_LIST(NIN,IB)%ID                                            
           icell           =  0     
           MCELL           =  MCELL 
@@ -3938,12 +3938,12 @@ C     .          "  vold=",brick_list(nin,ib)%vold_scell,"  vnew=",brick_list(ni
             write (*,FMT='(A,1F30.20)') "|       volume: ",  vol                              
             write (*,FMT='(A,1F30.20)') "|  ext. volume: ",  brick_list(nin,ib)%Vnew_Scell                      
             write (*,FMT='(A,1F30.20)') "|        masse: ",  GBUF%VOL(IDLOCB(IB))  *  GBUF%RHO(IDLOCB(IB))                                               
-            if(brick_list(nin,ib)%SlaveList%Num>0)then
-              do j=1,brick_list(nin,ib)%SlaveList%Num
-                write (*,FMT='(A )')            "|          slave list : " 
-                write (*,FMT='(A,I10 )')        "|          +        J : ", brick_list(nin,ib)%SlaveList%FM(j)         
-                write (*,FMT='(A,I10 )')        "|          +       IB : ", brick_list(nin,ib)%SlaveList%IBv(j)
-                write (*,FMT='(A,I10 )')        "|          +  brickID : ", ixs(11,brick_list(nin,ib)%SlaveList%IV(j))
+            if(brick_list(nin,ib)%SecndList%Num>0)then
+              do j=1,brick_list(nin,ib)%SecndList%Num
+                write (*,FMT='(A )')            "|          secnd list : " 
+                write (*,FMT='(A,I10 )')        "|          +        J : ", brick_list(nin,ib)%SecndList%FM(j)         
+                write (*,FMT='(A,I10 )')        "|          +       IB : ", brick_list(nin,ib)%SecndList%IBv(j)
+                write (*,FMT='(A,I10 )')        "|          +  brickID : ", ixs(11,brick_list(nin,ib)%SecndList%IV(j))
               enddo        
             endif
             cycle                
@@ -3954,7 +3954,7 @@ C     .          "  vold=",brick_list(nin,ib)%vold_scell,"  vnew=",brick_list(ni
           DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}                      
            ICELL = ICELL +1        
            IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9          
-           debugMASTERSLAVE = '.........|'                                                    
+           debugMAINSECND = '.........|'                                                    
             mnod = BRICK_LIST(NIN,IB)%POLY(icell)%NumNOD
             write (*,FMT='(A )')    "|"                                                       
             if(icell/=9)then       
@@ -3966,7 +3966,7 @@ C     .          "  vold=",brick_list(nin,ib)%vold_scell,"  vnew=",brick_list(ni
             endif                  
                                    
             write (*,FMT='(A )')                   "|  |"                                     
-            write (*,FMT='(A,I1)')                 "|  +===Master/Slave=",  pIsMaster(ICELL)%IsMaster                                          
+            write (*,FMT='(A,I1)')                 "|  +===Main/Secnd=",  pIsMain(ICELL)%IsMain                                          
             write (*,FMT='(A,F30.20)')             "|  +======SUVOLUMES=",  pSUBVOL(ICELL)%Vnew
             write (*,FMT='(A,6F30.20)')            "|  +=======SUBFACES=",  BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Surf 
             write (*,FMT='(A,F30.20)')             "|  +=======CUT AERA=",  BRICK_LISt(NIN,IB)%PCUT(ICELL)%SCUT(1)      
@@ -4014,15 +4014,15 @@ C     .          "  vold=",brick_list(nin,ib)%vold_scell,"  vnew=",brick_list(ni
       !------------------------------------------------------------!    
       DO IB=NBF,NBL
         NCELL         = BRICK_LIST(NIN,IB)%NBCUT  
-        NumSLAVE      = BRICK_LIST(NIN,IB)%SlaveList%Num
-        MasterID      = BRICK_LIST(NIN,IB)%masterID
-        IF (MasterID ==0) CYCLE
-        VolCELL       = BRICK_LIST(NIN,IB)%POLY(masterID)%Vnew
+        NumSECND      = BRICK_LIST(NIN,IB)%SecndList%Num
+        MainID      = BRICK_LIST(NIN,IB)%mainID
+        IF (MainID ==0) CYCLE
+        VolCELL       = BRICK_LIST(NIN,IB)%POLY(mainID)%Vnew
         VOL           = VolCELL !cumul
-        pPOINT(1:3)   = BRICK_LIST(NIN,IB)%POLY(masterID)%CellCenter(1:3) * VolCELL
-        DO IC=1,NumSLAVE
-          ICELLv      = BRICK_LIST(NIN,IB)%SlaveList%ICELLv(IC)  
-          IBv         = BRICK_LIST(NIN,IB)%SlaveList%IBv(IC)     
+        pPOINT(1:3)   = BRICK_LIST(NIN,IB)%POLY(mainID)%CellCenter(1:3) * VolCELL
+        DO IC=1,NumSECND
+          ICELLv      = BRICK_LIST(NIN,IB)%SecndList%ICELLv(IC)  
+          IBv         = BRICK_LIST(NIN,IB)%SecndList%IBv(IC)     
           VolCELL     = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%Vnew
           Point0(1:3) = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%CellCenter(1:3)
           pPOINT(1)   = pPOINT(1) + VolCELL * Point0(1)          
@@ -4046,7 +4046,7 @@ C     .          "  vold=",brick_list(nin,ib)%vold_scell,"  vnew=",brick_list(ni
         IF( ITASK==0 .AND. NNODES.NE.0 )THEN
           II        = 1  ! firts node of group node
           DO IB=NBF,NBL 
-            MCELL = BRICK_LIST(NIN,IB)%masterID
+            MCELL = BRICK_LIST(NIN,IB)%mainID
             IF (MCELL==0              ) CYCLE
             IF (.NOT.lStillNode) CYCLE
             Point0(1:3) = BRICK_LIST(NIN,IB)%SCellCenter(1:3)
@@ -4242,8 +4242,8 @@ C     .          "  vold=",brick_list(nin,ib)%vold_scell,"  vnew=",brick_list(ni
       !------------------------------------------------------------!
       ! @50. DEALLOCATE                                            !
       !------------------------------------------------------------!      
-      IF(ALLOCATED(debugMASTERSLAVEv))DEALLOCATE (debugMASTERSLAVEv)
-      IF(ALLOCATED(IsMasterV))DEALLOCATE (IsMasterV)  
+      IF(ALLOCATED(debugMAINSECNDv))DEALLOCATE (debugMAINSECNDv)
+      IF(ALLOCATED(IsMainV))DEALLOCATE (IsMainV)  
       IF(ALLOCATED(F))DEALLOCATE (F)      
       IF(ALLOCATED(VOL51))DEALLOCATE (VOL51,VOL51v)          
       IF(ALLOCATED(ORIGIN_DATA))DEALLOCATE (ORIGIN_DATA)      

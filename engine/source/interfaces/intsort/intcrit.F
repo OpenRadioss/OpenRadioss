@@ -288,7 +288,7 @@ c         D8 = XX+XY+XZP
 C--------
 C
 c VMAXDT can be optimize : VMAXDT is a local overestimate of relative 
-c velocity between local master nodes and ALL slave nodes
+c velocity between local main nodes and ALL secnd nodes
 c (no need to communicate VMAXDT in SPMD)
          VMAXDT = UNP01*VV*DT1
          INTBUF_TAB(I)%VARIABLES(24) = VMAXDT
@@ -377,7 +377,7 @@ c         D8 = XX+XY+XZP
 C--------
 C
 c VMAXDT can be optimize : VMAXDT is a local overestimate of relative 
-c velocity between local master nodes and ALL slave nodes
+c velocity between local main nodes and ALL secnd nodes
 c (no need to communicate VMAXDT in SPMD)
          VMAXDT = UNP01*VV*DT1
          INTBUF_TAB(I)%VARIABLES(24) = VMAXDT

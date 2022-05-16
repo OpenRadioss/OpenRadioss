@@ -62,7 +62,7 @@ C LEDGEFIE and IREM
 #define E_GAP 15
 #define E_GAPL 16
 #define E_STIFE 17
-#define E_MASTER 18
+#define E_MAIN 18
 #define E_EDG_BIS 19
 #define E_VTX_BIS 22
 #define E_RBUF_SIZE 40

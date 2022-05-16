@@ -390,7 +390,7 @@ C
 C
 C=======================================================================
 C1   on a garde -zep01 < la,b,c < 0 pour retenir un contact dans le cas
-C    ou la surface maitre est concave
+C    ou la surface main est concave
 C
 C            / \
 C           /   \
@@ -400,7 +400,7 @@ C
 C=======================================================================
 C2   on rabat la,b,c pour revenir sur l'element lorsqu'on calcule 
 C    le critere: 
-C    vu dans le cas de surface maitre convexe avec grand element, 
+C    vu dans le cas de surface main convexe avec grand element, 
 C    la projection retenue est tres eloignee et peut-etre 
 C    hors de la boite lors du retri => parith on, KO
 C

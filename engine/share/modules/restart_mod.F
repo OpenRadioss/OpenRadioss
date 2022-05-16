@@ -83,9 +83,9 @@ Chd|====================================================================
      .      CNE_CRKXFEM,IADSDP_CRKXFEM,IADRCP_CRKXFEM,IBUFSSG_IO,
      .      IBC_PLY,IBORDNODE,IEDGESH,XNODANIMEL,NODEDGE,IEDGE,
      .      CRKNODIAD,DD_R2R_ELEM,KXIG3D,IXIG3D,
-     .      MASTER_PROC ,TAG_SKINS6,IBCSCYC,LBCSCYC,
+     .      MAIN_PROC ,TAG_SKINS6,IBCSCYC,LBCSCYC,
      .      IPART_DYNAIN,INTERLOADP,KLOADPINTER,LOADPINTER
-            !rank (1 to NSPMD) of the processor that is the master of the node 
+            !rank (1 to NSPMD) of the processor that is the main of the node 
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID_GLOBAL_VOIS,FACE_VOIS
 
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBFTEMP, IBCV, IBCR, IBFFLUX

@@ -142,7 +142,7 @@ c
 c
       CALL I6INI3(INTBUF_TAB%FS,INTBUF_TAB%FM,NSN,NMN)
 c
-c---  Loop over slave group
+c---  Loop over secnd group
 c
       DO NG=1,NGROUS
         NFT=(NG-1)*NVSIZ
@@ -229,13 +229,13 @@ c
 
       ENDDO
 c------------------
-C      INVERSION DES FM (PASSAGE SLAVE/MASTER)
+C      INVERSION DES FM (PASSAGE SECND/MAIN)
 c
        FMX=-FMX
        FMY=-FMY
        FMZ=-FMZ
 c      
-c---  Loop over master group 
+c---  Loop over main group 
 c       
        DO NG=1,NGROUM
          NFT=(NG-1)*NVSIZ

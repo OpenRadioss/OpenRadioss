@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, NSN_L, P, PMASTER, IMAX,
+      INTEGER I, N, NSN_L, P, PMAIN, IMAX,
      .        NODTMP(NSN),NODU(NSN)
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -103,16 +103,16 @@ C echange valeur fr_rl
           CALL SPMD_IBCAST(FR_RL(P),FR_RL(P),1,1,IT_SPMD(P),0)
         ENDDO
       END IF
-C determination du pmaster
+C determination du pmain
       IMAX = 0
-      PMASTER = 1
+      PMAIN = 1
       DO P = 1, NSPMD
         IF(FR_RL(P).GT.IMAX)THEN
-          PMASTER = P
+          PMAIN = P
           IMAX = FR_RL(P)
         END IF
       END DO
-      FR_RL(NSPMD+2) = PMASTER
+      FR_RL(NSPMD+2) = PMAIN
 C        
       RETURN
       END
@@ -207,7 +207,7 @@ C
         ! Verification des ID user avec comm globale
         IF(NSPMD > 1) CALL SPMD_GLOB_ISUM9(NODTMP,NSN+2)
         IF(ISPMD.EQ.0) THEN  
-         !stop if master nodes not found
+         !stop if main nodes not found
          DO I = NSN+1, NSN+2
           IF(NODTMP(I).EQ.0) THEN
             CALL ANCMSG(MSGID=186,ANMODE=ANINFO_BLIND,
@@ -247,7 +247,7 @@ C
         ! Verification des ID user avec comm globale
         IF(NSPMD > 1) CALL SPMD_GLOB_ISUM9(NODTMP,NSN+2)        
         IF(ISPMD.EQ.0) THEN  
-         !stop if master nodes not found
+         !stop if main nodes not found
          DO I = NSN+1, NSN+2
           IF(NODTMP(I).EQ.0) THEN
             CALL ANCMSG(MSGID=186,ANMODE=ANINFO_BLIND,

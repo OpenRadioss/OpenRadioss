@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  I7STSLAV                      source/interfaces/inter3d1/i7stslav.F
+Chd|  I7STSECND                      source/interfaces/inter3d1/i7stslav.F
 Chd|-- called by -----------
 Chd|        ININTR1                       source/interfaces/interf1/inintr1.F
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE I7STSLAV(IPARI,STIFINT,INTBUF_TAB )
+      SUBROUTINE I7STSECND(IPARI,STIFINT,INTBUF_TAB )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -60,7 +60,7 @@ C-----------------------------------------------
      .   I, J,
      .   INACTI,IGAP,MULTIMP,NSN0,ITY,NSNE,S
 C---------------------------------------------
-C     MISE A JOUR DES RIGIDITES NODALES EQUIVALENTES (COTE ESCLAVE)
+C     MISE A JOUR DES RIGIDITES NODALES EQUIVALENTES (COTE SECOND)
 C---------------------------------------------
       NSN   =IPARI(5)
       DO I=1,NSN
