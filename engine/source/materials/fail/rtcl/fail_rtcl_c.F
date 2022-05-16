@@ -31,8 +31,7 @@ Chd|====================================================================
      1     NEL      ,NUPARAM  ,NUVAR    ,TIME     ,TIMESTEP ,UPARAM   ,
      2     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,NPTOT    ,
      3     NGL      ,DPLA     ,UVAR     ,OFF      ,DFMAX    ,TDELE    ,
-     4     AREA     ,FOFF     ,IGTYP    ,OFFL     ,NOFF     ,IPT      ,
-     5     THK0     )
+     4     AREA     ,FOFF     ,IGTYP    ,OFFL     ,IPT      ,THK0     )
 C!-----------------------------------------------
 C!   I m p l i c i t   T y p e s
 C!-----------------------------------------------
@@ -45,7 +44,7 @@ C!---------+---------+---+---+-------------------
 #include "param_c.inc"
 #include "impl1_c.inc"
 C!-----------------------------------------------
-      INTEGER NEL, NUPARAM, NUVAR,NGL(NEL),IGTYP,NOFF(NEL),IPT,
+      INTEGER NEL, NUPARAM, NUVAR,NGL(NEL),IGTYP,IPT,
      .        NPTOT
       my_real TIME,TIMESTEP,UPARAM(*),
      .   SIGNXX(NEL),SIGNYY(NEL),OFFL(NEL),
@@ -55,9 +54,9 @@ C!-----------------------------------------------
 C!-----------------------------------------------
 C!   L o c a l   V a r i a b l e s
 C!-----------------------------------------------
-      INTEGER I,J,INDX(NEL),NINDX,CONDITION1(NEL),CONDITION2(NEL),INST
+      INTEGER I,J,INDX(NEL),NINDX,CONDITION(NEL),INST
       my_real 
-     .        NHARD,EPSCAL,P,triaxs,vmises,hydros,EPS_CR,F_RTCL,PTHK
+     .        NHARD,EPSCAL,P,triaxs,vmises,hydros,EPS_CR,F_RTCL
 C!--------------------------------------------------------------
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
@@ -66,7 +65,6 @@ C!--------------------------------------------------------------
       EPSCAL = UPARAM(1)
       INST   = NINT(UPARAM(2))
       NHARD  = UPARAM(3)
-      PTHK   = UPARAM(4)
 c
       ! Store initial element size
       IF (UVAR(1,1) == ZERO) THEN 
@@ -75,17 +73,6 @@ c
           UVAR(I,2) = THK0(I)
         ENDDO
       ENDIF
-
-      ! Checking element failure and recovering user variable
-      DO I = 1,NEL
-        IF (DFMAX(I) >= UN .AND. PTHK > ZERO .AND. OFF(I) == UN) THEN
-          SIGNXX(I) = ZERO
-          SIGNYY(I) = ZERO
-          SIGNXY(I) = ZERO
-          SIGNYZ(I) = ZERO
-          SIGNZX(I) = ZERO           
-        ENDIF
-      ENDDO
 C
       ! Initialization of variable
       NINDX = 0  
@@ -128,21 +115,11 @@ c
 c
           ! Checking element failure using global damage
           IF (OFFL(I) == UN .AND. DFMAX(I) >= UN) THEN
-            OFFL(I) = ZERO
-            NOFF(I) = NOFF(I) + 1
-            IF (PTHK < ZERO) FOFF(I) = 0
-            IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 51 .OR. IGTYP == 52) FOFF(I) = 0
-            NINDX = NINDX + 1
-            INDX(NINDX) = I  
-            CONDITION1(NINDX) = IPT
-            IF (IGTYP /= 51 .AND. IGTYP /= 52) THEN
-              IF (NOFF(I) >= (ABS(PTHK)*REAL(NPTOT)) .AND. PTHK > ZERO) THEN
-                TDELE(I) = TIME
-                OFF(I)   = ZERO
-                IDEL7NOK = 1
-                CONDITION2(NINDX) = 1
-              ENDIF
-            ENDIF
+            OFFL(I)          = ZERO
+            FOFF(I)          = 0
+            NINDX            = NINDX + 1
+            INDX(NINDX)      = I  
+            CONDITION(NINDX) = IPT
           ENDIF
         ENDIF 
       ENDDO
@@ -152,21 +129,14 @@ c------------------------
         DO J=1,NINDX             
           I = INDX(J)         
 #include "lockon.inc"
-         IF(CONDITION1(J) >= 1)  THEN         
-           WRITE(IOUT, 2000) NGL(I),CONDITION1(J),TIME
-           WRITE(ISTDO,2000) NGL(I),CONDITION1(J),TIME
-         ENDIF      
-         IF(CONDITION2(J)==1) THEN
-           WRITE(ISTDO,2200) NGL(I),TIME
-           WRITE(IOUT, 2200) NGL(I),TIME
-         ENDIF          
+          IF(CONDITION(J) >= 1)  THEN         
+            WRITE(IOUT, 2000) NGL(I),CONDITION(J),TIME
+            WRITE(ISTDO,2000) NGL(I),CONDITION(J),TIME
+          ENDIF
 #include "lockoff.inc" 
         END DO                   
       END IF   ! NINDX         
 c------------------------
  2000 FORMAT(1X,'FOR SHELL ELEMENT (RTCL)',I10,1X,'LAYER',I3,':',/,
      .       1X,'STRESS TENSOR SET TO ZERO',1X,'AT TIME :',1PE12.4)
-
- 2200 FORMAT(1X,' *** RUPTURE OF SHELL ELEMENT (RTCL)',I10,1X,
-     . ' AT TIME :',1PE12.4)
       END
