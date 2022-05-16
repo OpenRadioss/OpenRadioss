@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER   ::  IsMaster, N, IPOS, LEVEL, J, IFAC, I, NumNOD, ListNOD(8),K, NbCut
+      INTEGER   ::  IsMain, N, IPOS, LEVEL, J, IFAC, I, NumNOD, ListNOD(8),K, NbCut
       my_real   ::  ALPHA(8),TAG(6),RATIO(6), NFAC(8)
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
@@ -92,7 +92,7 @@ C-----------------------------------------------
          ALPHA(I)  = ALPHA(I) + RATIO(IFAC)
         ENDDO!next J
         IF(NFAC(I).GT.ZERO)ALPHA(I) = ALPHA(I) / NFAC(I)
-        IF(ALPHA(I)>CritDVol22 .AND. BRICK_LIST(NIN,IB)%NODE(I)%NodWasMaster==0)IDEMERGE=1
+        IF(ALPHA(I)>CritDVol22 .AND. BRICK_LIST(NIN,IB)%NODE(I)%NodWasMain==0)IDEMERGE=1
       ENDDO!next K
       
       IF(NumNOD>0) IRES = MAXLOC(ALPHA(1:8),1)

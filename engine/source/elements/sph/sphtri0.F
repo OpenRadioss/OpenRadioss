@@ -155,7 +155,7 @@ C
 	BMINMA(4) = BMINMA(4)-DBUC
 	BMINMA(5) = BMINMA(5)-DBUC
 	BMINMA(6) = BMINMA(6)-DBUC
-C   Computation of standard deviation of X master
+C   Computation of standard deviation of X main
 C   use the formula dev = sum(xi  )-n.m  
 C   mean value m by direction
         MX=BMINMA(7)/MAX(NMN,1)

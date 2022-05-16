@@ -34,7 +34,7 @@ Chd|====================================================================
      2       IRECT  ,GAP_S  ,GAP_M   ,V         ,ICURV    ,
      3       STFN   ,ITASK  ,STF     ,NIN       ,NSN      ,
      4       IRTLM  ,TIME_S ,MSEGLO  ,COUNT_REMSLV,ITAB   ,
-     5       SLAV_FR,NSNR   ,PENE_OLD,STIF_OLD  ,MSEGTYP  ,
+     5       SECND_FR,NSNR   ,PENE_OLD,STIF_OLD  ,MSEGTYP  ,
      6       NRTM   ,PMAX_GAP,I_OPT_STOK,CAND_OPT_E,CAND_OPT_N ,
      7       SIZOPT ,IGAP   ,GAP_S_L,GAP_M_L ,DRAD)
 C===============================================================
@@ -71,7 +71,7 @@ C-----------------------------------------------
       my_real
      .        GAP,PMAX_GAP,DRAD,
      .        X(3,*),GAP_S(*),GAP_M(*),STFN(*),STF(*),
-     .        V(3,*),SLAV_FR(6,*),TIME_S(*),
+     .        V(3,*),SECND_FR(6,*),TIME_S(*),
      .        PENE_OLD(5,NSN),STIF_OLD(2,NSN),
      .        GAP_S_L(*),GAP_M_L(*)
 C-----------------------------------------------

@@ -182,7 +182,7 @@ C------------------------------------------------------
 C---------infos pour th--------------------------------        
            IF (R2R_SIU.EQ.1) THEN            
              CALL SEND_IBUF_C(R2R_TH_FLAG,10)
-             IF (IDDOM.EQ.0) CALL SEND_IBUF_C(R2R_TH_MASTER,10)         
+             IF (IDDOM.EQ.0) CALL SEND_IBUF_C(R2R_TH_MAIN,10)         
            ENDIF      
         ENDIF              
       END IF

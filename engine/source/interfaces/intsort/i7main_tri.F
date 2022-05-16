@@ -303,7 +303,7 @@ C
         BMINMA(4)=BMINMA(4)-TZINF-CURV_MAX_MAX
         BMINMA(5)=BMINMA(5)-TZINF-CURV_MAX_MAX
         BMINMA(6)=BMINMA(6)-TZINF-CURV_MAX_MAX
-C Computation of standard deviation of X master
+C Computation of standard deviation of X main
 C use the formula dev = sum(xi  )-n.m  
 C mean value m by direction
         MX=BMINMA(7)/MAX(NMN_G,1)

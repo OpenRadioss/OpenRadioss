@@ -362,7 +362,7 @@ C--------------------------------------
       LEN_S = NPART   
         CALL WRITE_I_C(NODGLOB,SNODGLOB)
 
-        CALL WRITE_I_C(MASTER_PROC,SWEIGHT)
+        CALL WRITE_I_C(MAIN_PROC,SWEIGHT)
 
         CALL WRITE_I_C(WEIGHT,SWEIGHT)
 

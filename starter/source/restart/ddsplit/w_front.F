@@ -140,7 +140,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, P, PP, IPACC, IPKIN, NBDDNOD, IS,ITY,
-     .        MSR, NSL, PMASTER, ISLOCAL, IDEB, IFIN, OFFC, OFFTG, IAD,
+     .        MSR, NSL, PMAIN, ISLOCAL, IDEB, IFIN, OFFC, OFFTG, IAD,
      .        ISKIN, NBRB, J, K, KK, K0, K1, K2, K6, ISO, IMAX, ISBOUND,
      .        NBCJ, NSN, M, NN, N1, N2, N3, N4, NNOD, IFRAM, OFF, IP, IP0,
      .        NNOD_S, NSELS_S, NSELQ_S, NSELC_S, NSELT_S, NSELP_S,
@@ -614,7 +614,7 @@ C
         IF(MSR.NE.0) THEN
           ISO = 0
           IMAX = 0
-          PMASTER = 1
+          PMAIN = 1
           DO P = 1, NSPMD
             IF(NLOCAL(MSR,P)==1) THEN       
               DO KK = 1, NSL
@@ -625,17 +625,17 @@ C
               ENDDO
               ISO = ISO + DD_WALL(P,N)
               IF(DD_WALL(P,N).GT.IMAX)THEN
-                PMASTER = P
+                PMAIN = P
                 IMAX = DD_WALL(P,N)
               ELSEIF(DD_WALL(P,N).EQ.0)THEN
-C cas noeud MSR sur proc sans noeud slave
+C cas noeud MSR sur proc sans noeud secnd
                 DD_WALL(P,N) = -1
-                if (NSL==0) PMASTER = P
+                if (NSL==0) PMAIN = P
               ENDIF
             ENDIF
           ENDDO
           DD_WALL(NSPMD+1,N) = NSL
-          DD_WALL(NSPMD+2,N) = PMASTER
+          DD_WALL(NSPMD+2,N) = PMAIN
         ENDIF
         K = K + NSL
       ENDDO
@@ -654,7 +654,7 @@ C
         NSL = NPBY(2,N)
 C
         IMAX = 0
-        PMASTER = 1
+        PMAIN = 1
         DO P = 1, NSPMD
           DD_P(P) = 0
           IF(NLOCAL(MSR,P)==1) THEN       
@@ -665,7 +665,7 @@ C
               ENDIF
             ENDDO
             IF(DD_P(P).GT.IMAX)THEN
-              PMASTER = P
+              PMAIN = P
               IMAX = DD_P(P)
             ENDIF
           ELSE
@@ -676,10 +676,10 @@ C
         IF(NLOCAL(MSR,PROC)==1) THEN    
           DD_RBY2(1,N) = DD_P(PROC)
           DD_RBY2(2,N) = NSL
-          DD_RBY2(3,N) = PMASTER
-          IF(PMASTER.NE.PROC) THEN
-            IAD_RBY2(1,PMASTER) = IAD_RBY2(1,PMASTER) + DD_P(PROC)
-            IAD_RBY2(4,PMASTER) = IAD_RBY2(4,PMASTER) + 1
+          DD_RBY2(3,N) = PMAIN
+          IF(PMAIN.NE.PROC) THEN
+            IAD_RBY2(1,PMAIN) = IAD_RBY2(1,PMAIN) + DD_P(PROC)
+            IAD_RBY2(4,PMAIN) = IAD_RBY2(4,PMAIN) + 1
           ELSE
             DO P = 1, NSPMD
               IF(P.NE.PROC) THEN
@@ -694,32 +694,32 @@ C
 C cas aucun noeuds de rby
           DD_RBY2(1,N) = 0
           DD_RBY2(2,N) = 0
-          DD_RBY2(3,N) = PMASTER
+          DD_RBY2(3,N) = PMAIN
         ENDIF
 C
         ISLOCAL = 0
         DO P = 1, NSPMD
-          IF(P.NE.PMASTER) THEN
+          IF(P.NE.PMAIN) THEN
             IF(DD_P(P).NE.-1) THEN
               ISLOCAL = 1
             ENDIF
           ENDIF
         ENDDO
 Cel tag DD_RBY(3) a negatif pour reperage des rb sans echange.
-        IF(ISLOCAL.EQ.0) DD_RBY2(3,N) = -PMASTER
+        IF(ISLOCAL.EQ.0) DD_RBY2(3,N) = -PMAIN
 C
         K = K + NSL
       ENDDO
 C
-C comptage des masters
+C comptage des mains
 C
       DO P = 1, NSPMD
         DD_P(P) = 0
       ENDDO
       DO N = 1, NRBYKIN
-        PMASTER = DD_RBY2(3,N)
+        PMAIN = DD_RBY2(3,N)
 C si rby decoupe
-        IF(PMASTER.GT.0) DD_P(PMASTER) = DD_P(PMASTER)+1
+        IF(PMAIN.GT.0) DD_P(PMAIN) = DD_P(PMAIN)+1
       ENDDO
       DO P = 1, NSPMD
         IF(IAD_RBY2(3,P).NE.0)THEN
@@ -751,7 +751,7 @@ C
         MSR = IRBYM(1,N)
         NSL = IRBYM(2,N)
         IMAX = 0
-        PMASTER = 1
+        PMAIN = 1
         DO P = 1, NSPMD
           DD_P(P) = 0
           IF(MOD(FRONT_RM(MSR,P),10).EQ.1) THEN
@@ -768,7 +768,7 @@ C
               ENDIF
             ENDDO
             IF(DD_P(P).GT.IMAX)THEN
-              PMASTER = P
+              PMAIN = P
               IMAX = DD_P(P)
             ENDIF
           ELSE
@@ -780,11 +780,11 @@ C
         IF(MOD(FRONT_RM(MSR,PROC),10).EQ.1) THEN
           DD_RBYM2(1,N) = DD_P(PROC)
           DD_RBYM2(2,N) = NSL
-          DD_RBYM2(3,N) = PMASTER
+          DD_RBYM2(3,N) = PMAIN
 
-          IF(PMASTER.NE.PROC) THEN
-            IAD_RBYM2(1,PMASTER) = IAD_RBYM2(1,PMASTER) + DD_P(PROC)
-            IAD_RBYM2(4,PMASTER) = IAD_RBYM2(4,PMASTER) + 1
+          IF(PMAIN.NE.PROC) THEN
+            IAD_RBYM2(1,PMAIN) = IAD_RBYM2(1,PMAIN) + DD_P(PROC)
+            IAD_RBYM2(4,PMAIN) = IAD_RBYM2(4,PMAIN) + 1
           ELSE
             DO P = 1, NSPMD
               IF(P.NE.PROC) THEN
@@ -799,12 +799,12 @@ C
 C cas aucun noeuds rigid material
           DD_RBYM2(1,N) = 0
           DD_RBYM2(2,N) = 0
-          DD_RBYM2(3,N) = PMASTER
+          DD_RBYM2(3,N) = PMAIN
         ENDIF
 C
         ISLOCAL = 0
         DO P = 1, NSPMD
-          IF(P.NE.PMASTER) THEN
+          IF(P.NE.PMAIN) THEN
             IF(DD_P(P).NE.-1) THEN
               ISLOCAL = 1
             ENDIF
@@ -812,19 +812,19 @@ C
         ENDDO
 
 Cel tag DD_RBY(3) a negatif pour reperage des r material sans echange.
-        IF(ISLOCAL.EQ.0) DD_RBYM2(3,N) = -PMASTER
+        IF(ISLOCAL.EQ.0) DD_RBYM2(3,N) = -PMAIN
         K = K + NSL
       ENDDO
 C
-C comptage des masters
+C comptage des mains
 C
       DO P = 1, NSPMD
         DD_P(P) = 0
       ENDDO
       DO N = 1, NRBYM
-        PMASTER = DD_RBYM2(3,N)
+        PMAIN = DD_RBYM2(3,N)
 C si rigid material decoupe
-        IF(PMASTER.GT.0) DD_P(PMASTER) = DD_P(PMASTER)+1
+        IF(PMAIN.GT.0) DD_P(PMAIN) = DD_P(PMAIN)+1
       ENDDO
       DO P = 1, NSPMD
         IF(IAD_RBYM2(3,P).NE.0)THEN
@@ -892,23 +892,23 @@ C
           END IF
         END DO
         IMAX = 0
-        PMASTER = 1
+        PMAIN = 1
         DO P = 1, NSPMD
           IF(DD_MV(P,N).GT.IMAX)THEN
-            PMASTER = P
+            PMAIN = P
             IMAX = DD_MV(P,N)
           END IF
         END DO
         DD_MV(NSPMD+1,N) = NN
-        DD_MV(NSPMD+2,N) = PMASTER
+        DD_MV(NSPMD+2,N) = PMAIN
 C
-c specific case for FVMBAG AND FVMBAG1, get PMASTER directly
-c from PMASTER computed in C_FVBAG
+c specific case for FVMBAG AND FVMBAG1, get PMAIN directly
+c from PMAIN computed in C_FVBAG
         ITY=MONVOL(K1-1+2)
         IF (ITY.EQ.6.OR.ITY.EQ.8) THEN
           IFV = IFV+1    
-          PMASTER = FVSPMD(IFV)%PMASTER  
-          DD_MV(NSPMD+2,N) = PMASTER
+          PMAIN = FVSPMD(IFV)%PMAIN  
+          DD_MV(NSPMD+2,N) = PMAIN
         ENDIF
         
         K1 = K1 + NIMV
@@ -935,15 +935,15 @@ C
         K = K + NN
 C
         IMAX = 0
-        PMASTER = 1
+        PMAIN = 1
         DO P = 1, NSPMD
           IF(DD_LL(P,I).GT.IMAX)THEN
-            PMASTER = P
+            PMAIN = P
             IMAX = DD_LL(P,I)
           END IF
         END DO
         DD_LL(NSPMD+1,I) = NN
-        DD_LL(NSPMD+2,I) = PMASTER
+        DD_LL(NSPMD+2,I) = PMAIN
 C
       ENDDO
 C
@@ -1043,7 +1043,7 @@ C
         MSR = IBVEL(4,N)
 C
         IMAX = 0
-        PMASTER = 1
+        PMAIN = 1
         DO P = 1, NSPMD
           DD_P(P) = 0
           IF(NLOCAL(MSR,P)==1) THEN       
@@ -1060,7 +1060,7 @@ C
               ENDIF
             ENDDO
             IF(DD_P(P).GT.IMAX)THEN
-              PMASTER = P
+              PMAIN = P
               IMAX = DD_P(P)
             ENDIF
           ELSE
@@ -1071,10 +1071,10 @@ C
         IF(NLOCAL(MSR,PROC)==1) THEN    
           DD_RBM2(1,N) = DD_P(PROC)
           DD_RBM2(2,N) = NSL
-          DD_RBM2(3,N) = PMASTER
-          IF(PMASTER.NE.PROC) THEN
-            IAD_RBM2(1,PMASTER) = IAD_RBM2(1,PMASTER) + DD_P(PROC)
-            IAD_RBM2(4,PMASTER) = IAD_RBM2(4,PMASTER) + 1
+          DD_RBM2(3,N) = PMAIN
+          IF(PMAIN.NE.PROC) THEN
+            IAD_RBM2(1,PMAIN) = IAD_RBM2(1,PMAIN) + DD_P(PROC)
+            IAD_RBM2(4,PMAIN) = IAD_RBM2(4,PMAIN) + 1
           ELSE
             DO P = 1, NSPMD
               IF(P.NE.PROC) THEN
@@ -1089,32 +1089,32 @@ C
 C cas aucun noeuds de rby
           DD_RBM2(1,N) = 0
           DD_RBM2(2,N) = 0
-          DD_RBM2(3,N) = PMASTER
+          DD_RBM2(3,N) = PMAIN
         ENDIF
 C
         ISLOCAL = 0
         DO P = 1, NSPMD
-          IF(P.NE.PMASTER) THEN
+          IF(P.NE.PMAIN) THEN
             IF(DD_P(P).NE.-1) THEN
               ISLOCAL = 1
             ENDIF
           ENDIF
         ENDDO
 Cel tag DD_RBY(3) a negatif pour reperage des rb sans echange.
-        IF(ISLOCAL.EQ.0) DD_RBM2(3,N) = -PMASTER
+        IF(ISLOCAL.EQ.0) DD_RBM2(3,N) = -PMAIN
 C
         K = K + NSL
       ENDDO
 C
-C comptage des masters
+C comptage des mains
 C
       DO P = 1, NSPMD
         DD_P(P) = 0
       ENDDO
       DO N = 1, NIBVEL
-        PMASTER = DD_RBM2(3,N)
+        PMAIN = DD_RBM2(3,N)
 C si rbm decoupe
-        IF(PMASTER.GT.0) DD_P(PMASTER) = DD_P(PMASTER)+1
+        IF(PMAIN.GT.0) DD_P(PMAIN) = DD_P(PMAIN)+1
       ENDDO
       DO P = 1, NSPMD
         IF(IAD_RBM2(3,P).NE.0)THEN
@@ -1307,14 +1307,14 @@ C
         K0=NSTRF(K0+24)
 C
         IMAX = 0
-        PMASTER = 1
+        PMAIN = 1
         DO P = 1, NSPMD
           IF(DD_SEC(P,I).GT.IMAX)THEN
-            PMASTER = P
+            PMAIN = P
             IMAX = DD_SEC(P,I)
           END IF
         END DO
-        DD_SEC(NSPMD+1,I) = PMASTER
+        DD_SEC(NSPMD+1,I) = PMAIN
       END DO
 C
       DO P = 1, NSPMD+1
@@ -1325,15 +1325,15 @@ C
       ENDDO
 C noeuds N1, N2, N3 NNODE a echanger
       DO I = 1, NSECT
-        PMASTER = DD_SEC(NSPMD+1,I)
-        IF(PROC.EQ.PMASTER) THEN
+        PMAIN = DD_SEC(NSPMD+1,I)
+        IF(PROC.EQ.PMAIN) THEN
           DO P = 1, NSPMD
-            IF(P.NE.PMASTER) THEN
+            IF(P.NE.PMAIN) THEN
               IAD_SEC(2,P) = IAD_SEC(2,P) + DD_SEC(P,I)
             END IF
           END DO
         ELSE
-          IAD_SEC(1,PMASTER) = IAD_SEC(1,PMASTER) + DD_SEC(PROC,I)
+          IAD_SEC(1,PMAIN) = IAD_SEC(1,PMAIN) + DD_SEC(PROC,I)
         END IF
       END DO
 C renvoi des X  N1, N2, N3 NNODE aux procs possedant des elements de sections
@@ -1358,13 +1358,13 @@ C
         NSINT_S = NSTRF(IP+15)
         IP = IP + 30 + NSINT_S + NNOD_S
         IP0 = IP
-        PMASTER = DD_SEC(NSPMD+1,I)
+        PMAIN = DD_SEC(NSPMD+1,I)
 C determination du nombre de noeuds a echange
-        DD_P(PMASTER) = DD_P(PMASTER) + 1
-        IF(PROC.EQ.PMASTER) THEN
+        DD_P(PMAIN) = DD_P(PMAIN) + 1
+        IF(PROC.EQ.PMAIN) THEN
           DO P = 1, NSPMD
             IP = IP0
-            IF(P.NE.PMASTER) THEN
+            IF(P.NE.PMAIN) THEN
               IMAX = 0
               OFF = 0
               DO J = 1, NSELS_S
@@ -1478,7 +1478,7 @@ c                IAD_SEC(3,P) = IAD_SEC(3,P) + NN
  4000     CONTINUE
 C si element de la section present sur le proc
           IF(IMAX.EQ.1.OR.ISECUT.EQ.1) THEN
-            IAD_SEC(4,PMASTER) = IAD_SEC(4,PMASTER) + 1
+            IAD_SEC(4,PMAIN) = IAD_SEC(4,PMAIN) + 1
 
           END IF
         END IF
@@ -2153,14 +2153,14 @@ Cel TAGE flag servant pour inacti
             END DO
 C nb total de segments
             DD_I18(NSPMD+1,NN) = NRTM
-C PMASTER
-            PMASTER = 1
+C PMAIN
+            PMAIN = 1
             DO P = 2, NSPMD
-              IF(DD_I18(P,NN).GT.DD_I18(PMASTER,NN))THEN
-                PMASTER = P
+              IF(DD_I18(P,NN).GT.DD_I18(PMAIN,NN))THEN
+                PMAIN = P
               END IF
             END DO
-            DD_I18(NSPMD+2,NN) = PMASTER
+            DD_I18(NSPMD+2,NN) = PMAIN
           END IF
         END DO
       END IF 

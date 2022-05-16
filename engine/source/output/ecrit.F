@@ -158,7 +158,7 @@ C--------Multidomains : control of time history for subdomains-----------
       IF ((IRAD2R.EQ.1).AND.(R2R_SIU.EQ.1).AND.(IDDOM.NE.0)) THEN
         ITHIS=1
         DO I=1,10
-          IF (R2R_TH_MASTER(I).GT.0) ITHIS=0
+          IF (R2R_TH_MAIN(I).GT.0) ITHIS=0
         ENDDO
       ENDIF
 C get and reset elapsed time

@@ -170,7 +170,7 @@ C
       IERROR = SET_U_PNU(2,IFUNT,KFUNC)
       IERROR = SET_U_PNU(3,IFUNS,KFUNC)
 C
-C     this is the number of user variables per slave node used in engine:
+C     this is the number of user variables per secnd node used in engine:
 C
       NUVAR = 2
 C------------------------------

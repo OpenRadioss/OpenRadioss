@@ -21,8 +21,8 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Cts
-Cts Node definition for slave side of Itnerface Type18.
-Cts Input for slave side is a GRBRIC. Nodes are extracted 
+Cts Node definition for secnd side of Itnerface Type18.
+Cts Input for secnd side is a GRBRIC. Nodes are extracted 
 Cts from it into a sorted list
 Chd|====================================================================
 Chd|  INGRBRIC_NODES                source/interfaces/interf1/ingrbric_nodes.F

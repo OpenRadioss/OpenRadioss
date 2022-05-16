@@ -87,7 +87,7 @@ C en toute rigueur MAXSIZ = NME et MAXSIZS = NMES+NMESR
      .        XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX
 C------------------------------------
 C---------------------------------
-C     Init des boite maitre
+C     Init des boite main
 C---------------------------------
 C
       NB_EC = NME
@@ -292,7 +292,7 @@ C
 C-------------------TEST SUR MEMOIRE DEPASSEE------------
 C
       IF(ADD(2,I_ADD)+NB_EC.GT.MAXSIZ) THEN
-C       PLUS DE PLACE DANS LA PILE DES ELEMENTS MAITRES BOITES TROP PETITES
+C       PLUS DE PLACE DANS LA PILE DES ELEMENTS MAINS BOITES TROP PETITES
         CONT = -1
 ctmp+++
 c       WRITE(istdo,*)'MAXSIZ = ',MAXSIZ
@@ -302,7 +302,7 @@ ctmp---
         RETURN
       ENDIF
       IF(ADD(1,I_ADD)+NB_NC.GT.MAXSIZS) THEN
-C       PLUS DE PLACE DANS LA PILE DES ELEMENTS ESCLAVES BOITES TROP PETITES
+C       PLUS DE PLACE DANS LA PILE DES ELEMENTS SECONDS BOITES TROP PETITES
         CONT = -1
         RETURN
       ENDIF
@@ -393,7 +393,7 @@ C
           ENDIF
           SEUIL =(XYZM(DIR+3,I_ADD)+XYZM(DIR,I_ADD))*UNDEMI
 C
-C    2.2- DIVISER LES ELEMENTS ESCLAVES EN DEUX ZONES 
+C    2.2- DIVISER LES ELEMENTS SECONDS EN DEUX ZONES 
 C
           NB_NCN= 0
           NB_NCN1= 0
@@ -454,12 +454,12 @@ C                  ON STOCKE EN ECRASANT PROGRESSIVEMENT BPN
              ENDDO
            END IF
 C
-C    2.3- DIVISER LES ELEMENTS MAITRES
+C    2.3- DIVISER LES ELEMENTS MAINS
 C
           NB_ECN= 0
           ADDNE= ADD(2,I_ADD)
           IF(NB_NCN1.EQ.0) THEN
-C pas d'elements esclaves dans la deuxieme boite
+C pas d'elements seconds dans la deuxieme boite
 #include "vectorize.inc"
            DO I=1,NB_EC
             LE = BPE(I)
@@ -470,7 +470,7 @@ C             ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
             ENDIF
            ENDDO
           ELSEIF(NB_NCN.EQ.0) THEN
-C pas d'elements esclaves dans la premiere boite
+C pas d'elements seconds dans la premiere boite
 #include "vectorize.inc"
            DO I=1,NB_EC
             LE = BPE(I)

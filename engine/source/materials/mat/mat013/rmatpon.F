@@ -253,7 +253,7 @@ C------------------
 C
          ELSE
 C------------------------
-C  calcul des accelerations dans le r p re globale du maitre
+C  calcul des accelerations dans le r p re globale du main
 C----------------------------      
 C correction des momemt M = m  - VRRBY X I.VRRBY
 C 
@@ -264,7 +264,7 @@ C repere globale -> repere d'inertie principale
           ARRBY(1,M) = RB(1)*WA1 + RB(2)*WA2 + RB(3)*WA3
           ARRBY(2,M) = RB(4)*WA1 + RB(5)*WA2 + RB(6)*WA3
           ARRBY(3,M) = RB(7)*WA1 + RB(8)*WA2 + RB(9)*WA3
-C les contributions des VRRBY ne sont ajoutees que sur le processeur maitre
+C les contributions des VRRBY ne sont ajoutees que sur le processeur main
           VI(1) = RB(1)*VRRBY(1,M)+RB(2)*VRRBY(2,M)+RB(3)*VRRBY(3,M)
           VI(2) = RB(4)*VRRBY(1,M)+RB(5)*VRRBY(2,M)+RB(6)*VRRBY(3,M)
           VI(3) = RB(7)*VRRBY(1,M)+RB(8)*VRRBY(2,M)+RB(9)*VRRBY(3,M)
@@ -277,7 +277,7 @@ C
           ARRBY(3,M) = ARRBY(3,M)  
      .                   + ((RB(10)-RB(11))*VI(1)*VI(2))
 C CALCUL D'UN PSEUDO MOMENT: 
-C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAITRE (IMIN DU RB)
+C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
 C
           WA1 = ARRBY(1,M)*IN/RB(10)
           WA2 = ARRBY(2,M)*IN/RB(11)

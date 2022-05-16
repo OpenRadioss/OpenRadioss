@@ -1778,7 +1778,7 @@ C
        ENDIF
       ENDIF
 C===================================================================
-C     FORCES sur noeuds maitres
+C     FORCES sur noeuds mains
 C===================================================================
       DO I=1,JLT            
         FX1(I)=FXI(I)*H1(I)  
@@ -1805,7 +1805,7 @@ C===================================================================
       CALL FOAT_TO_6_FLOAT(1  ,JLT  ,FYI, FY6)
       CALL FOAT_TO_6_FLOAT(1  ,JLT  ,FZI, FZ6)
 #include "lockon.inc"
-c     noeuds esclave
+c     noeuds second
       DO I = 1,JLT
         IG = NSVG(I)
         IF(IG > 0)THEN
@@ -1880,8 +1880,8 @@ c     noeuds matre
 #include "lockoff.inc"
 C===================================================================
 C===================================================================
-C     mise a ZERO des FORCES sur noeuds maitres et esclave
-C     si PENE (sur noeud esclave) < GAPR (gap reel)
+C     mise a ZERO des FORCES sur noeuds mains et second
+C     si PENE (sur noeud second) < GAPR (gap reel)
 C===================================================================
       DO I = 1,JLT
         IF(GAPV(I) > GAPR(I))THEN
@@ -1948,7 +1948,7 @@ C             IFPEN(INDEX(I)) = 0
         ENDIF
       ENDDO
 C===================================================================
-C     FORCES sur noeuds maites et esclave
+C     FORCES sur noeuds maites et second
 C===================================================================
 C---------------------------------
       IF(INTTH == 0 .OR. IFORM == 0) THEN
@@ -3047,7 +3047,7 @@ C
        ENDIF
       ENDIF
 C===================================================================
-C     FORCES PARITH ON sur noeud d'ancrage ESCLAVE
+C     FORCES PARITH ON sur noeud d'ancrage SECOND
 C===================================================================
       CALL FOAT_TO_6_FLOAT(1  ,JLT  ,FX1, FX6)
       CALL FOAT_TO_6_FLOAT(1  ,JLT  ,FY1, FY6)
@@ -3108,7 +3108,7 @@ C          IL = - IG
       ENDDO
 #include "lockoff.inc"
 C===================================================================
-C     FORCES PARITH ON sur noeud d'ancrage MAITRE
+C     FORCES PARITH ON sur noeud d'ancrage MAIN
 C===================================================================
       CALL FOAT_TO_6_FLOAT(1  ,JLT  ,FX3, FX6)
       CALL FOAT_TO_6_FLOAT(1  ,JLT  ,FY3, FY6)
@@ -3137,11 +3137,11 @@ C===================================================================
       ENDDO
 #include "lockoff.inc"
 C===================================================================
-C     mise a ZERO des FORCES sur noeuds maites et esclave
-C     si PENE (su noeud esclave) < GAPR (gap reel)
+C     mise a ZERO des FORCES sur noeuds maites et second
+C     si PENE (su noeud second) < GAPR (gap reel)
 C===================================================================
 C===================================================================
-C     FORCES sur noeuds maites et esclave
+C     FORCES sur noeuds maites et second
 C===================================================================
 C---------------------------------
       IF(IPARIT.EQ.0)THEN

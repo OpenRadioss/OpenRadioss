@@ -454,7 +454,7 @@ C
             H(4) = ZERO 
           ENDIF
 C------------------------------------------------                  
-C         rep local facette maitre
+C         rep local facette main
 C------------------------------------------------   
           X1  = X(1,IX1)                                       
           Y1  = X(2,IX1)                                          
@@ -575,10 +575,10 @@ C------------------------------------------------
 
 C------------------------------------------------
 C
-C--   Slave node of solids
+C--   Secnd node of solids
 C
           STR = ZERO
-c         update master forces (moment balance)  
+c         update main forces (moment balance)  
           CALL I2LOCEQ( NIR    ,RS     ,RX     ,RY     ,RZ      ,    
      .                  BID4(1:4,1)   ,BID4(1:4,2)   ,BID4(1:4,3)    ,H(1) ,STIFM)
 C

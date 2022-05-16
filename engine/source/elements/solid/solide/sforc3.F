@@ -625,7 +625,7 @@ C------
       ENDIF
       
       IF(INT22>0)THEN
-        !sderi3 is updating GBUF%VOL with uncut brick volume. We must have polyedra mastercell volume for inter22
+        !sderi3 is updating GBUF%VOL with uncut brick volume. We must have polyedra maincell volume for inter22
         IF(I22_ALEUL == 1)THEN
           CALL VOLN22(VOLN,GBUF%TAG22,IXS)
         ENDIF

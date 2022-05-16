@@ -199,7 +199,7 @@ C---------------------------------
       AM3=X1*FV(2,I)-X2*FV(1,I)
 C---------------------------------
 C     Assemblage des FORCES, moments et rigidites d'interface
-C     au nd maitre.
+C     au nd main.
 C---------------------------------
       BUFSF(ADRBUF+25)=BUFSF(ADRBUF+25)-FV(1,I)
       BUFSF(ADRBUF+26)=BUFSF(ADRBUF+26)-FV(2,I)
@@ -227,7 +227,7 @@ C----------------------------------------------------------
        ENDDO
       ENDIF
 C---------------------------------
-C     Assemblage des FORCES aux noeuds esclaves.
+C     Assemblage des FORCES aux noeuds seconds.
 C---------------------------------
       IF (IPARIT.EQ.0) THEN
 C-----------------------------------------------
@@ -293,7 +293,7 @@ C------------------------------------------------------------
 #include "lockoff.inc"
       ENDIF
 C---------------------------------
-C     Pour Travail des forces sur noeuds esclaves
+C     Pour Travail des forces sur noeuds seconds
 C     1ere partie : ici
 C     2eme partie : apres calcul de DT2.
 C---------------------------------
@@ -539,7 +539,7 @@ C---------------------------------
       AM3=X1*FV(2,I)-X2*FV(1,I)
 C---------------------------------
 C     Assemblage des FORCES, moments et rigidites d'interface
-C     au nd maitre.
+C     au nd main.
 C---------------------------------
       BUFSF(ADRBUF+25)=BUFSF(ADRBUF+25)-FV(1,I)
       BUFSF(ADRBUF+26)=BUFSF(ADRBUF+26)-FV(2,I)
@@ -555,7 +555,7 @@ C        est majore par :
 C---------------------------------
       ENDDO
 C---------------------------------
-C     Assemblage des FORCES aux noeuds esclaves.
+C     Assemblage des FORCES aux noeuds seconds.
 C---------------------------------
       IF (IPARIT.EQ.0) THEN
 C-----------------------------------------------
@@ -621,7 +621,7 @@ C------------------------------------------------------------
 #include "lockoff.inc"
       ENDIF
 C---------------------------------
-C     Pour Travail des forces sur noeuds esclaves
+C     Pour Travail des forces sur noeuds seconds
 C     1ere partie : ici
 C     2eme partie : apres calcul de DT2.
 C---------------------------------

@@ -67,7 +67,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KDIR, NN, K, IROT, MASTER, INTDAMP
+      INTEGER KDIR, NN, K, IROT, MAIN, INTDAMP
 C     REAL ou REAL*8
       my_real
      .   MASS, STF, INM, STR, ALPHA, VIS, 
@@ -106,11 +106,11 @@ C-----------------------------------------------
           INTDAMP=INTSTAMP(NN)%INTDAMP
           MASS =INTSTAMP(NN)%MASS
           STF  =INTSTAMP(NN)%STF
-          MASTER =INTSTAMP(NN)%MSR
+          main =INTSTAMP(NN)%MSR
           IF(STF/=ZERO)THEN
             ALPHA=CVIS(NN)/SQRT(QUATRE*MASS*STF)
             STF  =STF*(SQRT(UN+ALPHA*ALPHA)+ALPHA)**2
-            STIFN(MASTER)=STIFN(MASTER)+STF
+            STIFN(MAIN)=STIFN(MAIN)+STF
           END IF
           IROT=INTSTAMP(NN)%IROT
           IF(IROT/=0)THEN
@@ -121,7 +121,7 @@ C-----------------------------------------------
             IF(STR/=ZERO)THEN
               ALPHA=CVISR(NN)/SQRT(QUATRE*INM*STR)
               STR  =STR*(SQRT(UN+ALPHA*ALPHA)+ALPHA)**2
-              STIFR(MASTER)=STIFR(MASTER)+STR
+              STIFR(MAIN)=STIFR(MAIN)+STR
             END IF
           END IF
         ENDDO
@@ -155,14 +155,14 @@ C-----------------------------------------------
           END IF
         ENDDO
         DO NN=1,NINTSTAMP
-          MASTER=INTSTAMP(NN)%MSR
-          IF(NODNX_SMS(MASTER)==0)THEN
+          MAIN=INTSTAMP(NN)%MSR
+          IF(NODNX_SMS(MAIN)==0)THEN
             MASS=INTSTAMP(NN)%MASS
             STF =INTSTAMP(NN)%STF
             IF(STF/=ZERO)THEN
               ALPHA=CVIS(NN)/SQRT(QUATRE*MASS*STF)
               STF  =STF*(SQRT(UN+ALPHA*ALPHA)+ALPHA)**2
-              STIFN(MASTER)=STIFN(MASTER)+STF
+              STIFN(MAIN)=STIFN(MAIN)+STF
             END IF
             IROT=INTSTAMP(NN)%IROT
             IF(IROT/=0)THEN
@@ -173,7 +173,7 @@ C-----------------------------------------------
               IF(STR/=ZERO)THEN
              	ALPHA=CVISR(NN)/SQRT(QUATRE*INM*STR)
              	STR  =STR*(SQRT(UN+ALPHA*ALPHA)+ALPHA)**2
-                STIFR(MASTER)=STIFR(MASTER)+STR
+                STIFR(MAIN)=STIFR(MAIN)+STR
               END IF
             END IF
           ELSE
@@ -184,7 +184,7 @@ C
 C
 C stabilite des amortisseurs (masse augment e)::
 C DM=UNDEMI*C*DTMINS/DTFACS <=> 2*DM/C=DTMINS/DTFACS 
-            DIAG_SMS(MASTER)=DIAG_SMS(MASTER)+UNDEMI*VIS*DTMINS/DTFACS
+            DIAG_SMS(MAIN)=DIAG_SMS(MAIN)+UNDEMI*VIS*DTMINS/DTFACS
 C
             IROT=INTSTAMP(NN)%IROT
             IF(IROT/=0)THEN
@@ -195,7 +195,7 @@ C
               IF(STR/=ZERO)THEN
              	ALPHA=CVISR(NN)/SQRT(QUATRE*INM*STR)
              	STR  =STR*(SQRT(UN+ALPHA*ALPHA)+ALPHA)**2
-                STIFR(MASTER)=STIFR(MASTER)+STR
+                STIFR(MAIN)=STIFR(MAIN)+STR
               END IF
             END IF
           END IF

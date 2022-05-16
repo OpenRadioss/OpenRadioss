@@ -78,7 +78,7 @@ C=======================================================================
       TAGNOS(1:NUMNOD) = 0
       IKINE1(1:3*NUMNOD) = 0
 C
-C     Tag des Slaves
+C     Tag des Secnds
 C
       DO N=1,NINTER
         NTY  = IPARI(7,N)
@@ -96,7 +96,7 @@ C
             IF (NBCSCYC > 0) KCOND = KCOND +ITAGCYC(ISL)
 C       
             IF (KCOND /= 0) PENTAG(ISL) = 1
-C--         Check of incompatibility with other spt27 or spt28 t2 interfaces - multiple connections with the same master on several interfaces alredy cleaned
+C--         Check of incompatibility with other spt27 or spt28 t2 interfaces - multiple connections with the same main on several interfaces alredy cleaned
             TAGNOS(ISL) = 1
           ENDDO
         ENDIF
@@ -121,7 +121,7 @@ C
         ENDDO
       ENDIF
 C
-C     Tag des Maitres pour TYPE2 symetrisees
+C     Tag des mains pour TYPE2 symetrisees
 C
       DO N=1,NINTER
         NTY = IPARI(7,N)

@@ -33,7 +33,7 @@ C-----------------------------------------------
 C   I n f o r m a t i o n s            
 C-----------------------------------------------
 C   This routine computes the global 
-C   ILOCS (i.e. master nodes of each slave).
+C   ILOCS (i.e. main nodes of each secnd).
 C   At the end of this routine, only one 
 C   processor will have ILOCS(i) > 0
 C-----------------------------------------------
@@ -88,7 +88,7 @@ C-----------------------------------------------
       BUFLEN=0
       DO I = 1,NSPMD
          IF(I-1 .NE.ISPMD) THEN
-         BUFLEN = BUFLEN+BUFFER(I)%NBSLAVE_TOT
+         BUFLEN = BUFLEN+BUFFER(I)%NBSECND_TOT
          ENDIF
       ENDDO
       ALLOCATE(BUFR_ID(BUFLEN)) 
@@ -105,16 +105,16 @@ C-----------------------------------------------
       BUFPOS = 1
       DO I = 1,NSPMD
        IF( ISPMD .NE. I-1) THEN
-        DO J = 1,BUFFER(I)%NBSLAVE_TOT
-         N = BUFFER(I)%SLAVE_ID(J)
+        DO J = 1,BUFFER(I)%NBSECND_TOT
+         N = BUFFER(I)%SECND_ID(J)
 C        BUFFER(I)%DISTANCE(J) = DISTANCE(N) 
          BUFS_DIST(BUFPOS + J -1) = DISTANCE(N) 
-C        BUFFER(I)%NEW_MASTER_UID(J) = ITAB(MSR(ILOC(N)))
+C        BUFFER(I)%NEW_MAIN_UID(J) = ITAB(MSR(ILOC(N)))
          BUFS_ID(BUFPOS + J -1) = ITAB(MSR(ILOC(N)))
 
         ENDDO
-        N =  BUFFER(I)%NBSLAVE_TOT
-        ! the number of slaves on the frontier has
+        N =  BUFFER(I)%NBSECND_TOT
+        ! the number of secnds on the frontier has
         ! to be the same on each side of the frontier
         IF( N > 0 ) THEN
         K = K + 1
@@ -150,31 +150,31 @@ C        BUFFER(I)%NEW_MASTER_UID(J) = ITAB(MSR(ILOC(N)))
          BUFPOS = TAB_BUFPOS(I) - 1
          I = TAB_RANK(I)
          IF(ISPMD .NE. I-1) THEN
-         N = BUFFER(I)%NBSLAVE_TOT
+         N = BUFFER(I)%NBSECND_TOT
          DO J = 1,N
-            K = BUFFER(I)%SLAVE_ID(J)
+            K = BUFFER(I)%SECND_ID(J)
 C           DIST1 = DISTANCE(K)
             DIST1 = BUFS_DIST(BUFPOS+J)
             DIST2 = BUFR_DIST(BUFPOS+J)
             RMAX_UID_REMOTE=BUFR_ID(BUFPOS+J)
 
-            !IF ISPMD STILL HAS THE SLAVE
+            !IF ISPMD STILL HAS THE SECND
             IF(ILOC(K) > 0) THEN
             RMAX_UID_LOCAL = ITAB(MSR(ILOC(K))) 
             IF(DIST1 > DIST2 .OR.
      .  (DIST1 == DIST2 .AND. RMAX_UID_LOCAL > RMAX_UID_REMOTE) .OR.
      .  (RMAX_UID_LOCAL == RMAX_UID_REMOTE .AND. I-1 < ISPMD)) THEN 
-!       IF the master remote is closer than the master local
+!       IF the main remote is closer than the main local
 !       OR the distance is the same, but the user id of the remote
-!       master is lower
-!       OR the user id of the master remote is the same than the local
-!       master (i.e. the new master is also on the boundary between i-1
+!       main is lower
+!       OR the user id of the main remote is the same than the local
+!       main (i.e. the new main is also on the boundary between i-1
 !       and ISPMD, but ISPMD > i-1
-!       THEN we remove the slave (it will be kept by the Proc i-1)
+!       THEN we remove the secnd (it will be kept by the Proc i-1)
                 DISTANCE(K)=DIST2
                 ILOC(k)= -1                                             
-!        Here, the slave will
-!        not have a new master internal to the ISPMD           
+!        Here, the secnd will
+!        not have a new main internal to the ISPMD           
 !        Still it can be put at the boundary of ISPMD by another
 !        process
              ENDIF
@@ -202,7 +202,7 @@ C-----------------------------------------------
 C   I n f o r m a t i o n s            
 C-----------------------------------------------
 C Computes INDEX_IN_COMM such that
-C if I is the master local id
+C if I is the main local id
 C INDEX_IN_COMM(i) = 
 C                     index of the node in
 C   Communication structure
@@ -254,13 +254,13 @@ Chd|        INTVO8                        source/interfaces/inter3d/intvo8.F
 Chd|-- calls ---------------
 Chd|        INT8_MOD                      ../common_source/modules/int8_mod.F
 Chd|====================================================================
-      SUBROUTINE SPMD_I8_COMMSLV(NBSLAVES,ILOC,NSV,
+      SUBROUTINE SPMD_I8_COMMSLV(NBSECNDS,ILOC,NSV,
      .            ITAB,BUFFER,FRONTIER,INDEX_IN_COMM)
 C-----------------------------------------------
 C   I n f o r m a t i o n s            
 C-----------------------------------------------
 C   Each processor communicates a 
-C   slave nodes that has a master nodes that is shared
+C   secnd nodes that has a main nodes that is shared
 C   with another processor 
 C-----------------------------------------------
 C   M o d u l e s
@@ -285,7 +285,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ::  NSV(*), ILOC(*), ITAB(*)
-      INTEGER :: NBSLAVES,INDEX_IN_COMM(*)
+      INTEGER :: NBSECNDS,INDEX_IN_COMM(*)
       TYPE(FRONT8)  FRONTIER(*)
       TYPE(BUFT8)  BUFFER(*)
 C-----------------------------------------------
@@ -298,10 +298,10 @@ C-----------------------------------------------
       INTEGER RQR(2*(NSPMD-1))
       INTEGER KSENT,KRECV
       INTEGER STAT(MPI_STATUS_SIZE,2*(NSPMD-1))
-      INTEGER TAG,NB_SLAVE_SENT(NSPMD),NB_SLAVE_RECV(NSPMD)
-      INTEGER NB_SLAVE_TOT
+      INTEGER TAG,NB_SECND_SENT(NSPMD),NB_SECND_RECV(NSPMD)
+      INTEGER NB_SECND_TOT
       INTEGER BUFLEN,BUFPOS(NSPMD),RMAX_UID_LOCAL,RMAX_UID_REMOTE
-      INTEGER IMASTER,ISLAVE
+      INTEGER IMAIN,ISECND
       INTEGER MSGOFF,MSGOFF2
       DATA MSGOFF/15002/
       DATA MSGOFF2/15003/
@@ -310,42 +310,42 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       !CALL STARTIME(98,1)
-      NB_SLAVE_SENT(1:NSPMD) = 0
-      NB_SLAVE_TOT = 0
-      DO I = 1,NBSLAVES
-        ! if the slave is active, and its master is in the frontier
+      NB_SECND_SENT(1:NSPMD) = 0
+      NB_SECND_TOT = 0
+      DO I = 1,NBSECNDS
+        ! if the secnd is active, and its main is in the frontier
         IF(ILOC(I) > 0) THEN 
         IF(INDEX_IN_COMM(ILOC(I))>0)THEN
            K = INDEX_IN_COMM(ILOC(I)) 
            DO J = 1,FRONTIER(K)%NBCOM
            P = FRONTIER(K)%PROCLIST(J)
-           NB_SLAVE_SENT(P) = NB_SLAVE_SENT(P) + 1
-           NB_SLAVE_TOT = NB_SLAVE_TOT +1
+           NB_SECND_SENT(P) = NB_SECND_SENT(P) + 1
+           NB_SECND_TOT = NB_SECND_TOT +1
            ENDDO
         ENDIF
         ENDIF
       ENDDO
 
 
-      ALLOCATE(BUFR_ID(NB_SLAVE_TOT*2))
+      ALLOCATE(BUFR_ID(NB_SECND_TOT*2))
 
 
       BUFPOS = 0          
       BUFPOS(1) = 1
       DO I = 1,NSPMD-1
-        BUFPOS(I+1) = 2*NB_SLAVE_SENT(I) + BUFPOS(I) 
+        BUFPOS(I+1) = 2*NB_SECND_SENT(I) + BUFPOS(I) 
       ENDDO
 
 
-      DO I = 1,NBSLAVES
-         ! if the slave is active, and its master is in the frontier
+      DO I = 1,NBSECNDS
+         ! if the secnd is active, and its main is in the frontier
          IF(ILOC(I)>0) THEN 
          IF(INDEX_IN_COMM(ILOC(I))>0)THEN
             K = INDEX_IN_COMM(ILOC(I)) 
             DO J = 1,FRONTIER(K)%NBCOM
             P = FRONTIER(K)%PROCLIST(J)
             N = FRONTIER(K)%BUF_INDEX(J)
-            ! we have to send the slave uid and the position in the
+            ! we have to send the secnd uid and the position in the
             ! frontier
             ! this position is also the position in the remote domain
             BUFR_ID(BUFPOS(P)) = ITAB(NSV(I)) 
@@ -356,21 +356,21 @@ C-----------------------------------------------
          ENDIF
       ENDDO
      
-      NB_SLAVE_RECV(1:NSPMD) = 0
+      NB_SECND_RECV(1:NSPMD) = 0
       K = 1 
       N = 1
 
       TAG =  MSGOFF
       K = 0
       DO I = 1,NSPMD
-        ! if ispmd shares master nodes with i
-        ! then send the number of slave to exchange
+        ! if ispmd shares main nodes with i
+        ! then send the number of secnd to exchange
 C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
-        IF(ISPMD .NE. I-1 .AND.BUFFER(I)%NBMASTER >0 ) THEN
+        IF(ISPMD .NE. I-1 .AND.BUFFER(I)%NBMAIN >0 ) THEN
         K = K +1
-        CALL MPI_ISEND(NB_SLAVE_SENT(I),1,
+        CALL MPI_ISEND(NB_SECND_SENT(I),1,
      .    MPI_INT,I-1,TAG,MPI_COMM_WORLD,RQS(K),IERR)
-        CALL MPI_IRECV(NB_SLAVE_RECV(I),1,
+        CALL MPI_IRECV(NB_SECND_RECV(I),1,
      .    MPI_INT,I-1,TAG,MPI_COMM_WORLD,RQR(K),IERR)
         ENDIF
       ENDDO
@@ -382,10 +382,10 @@ C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
       BUFLEN = 0
       DO I = 1,NSPMD
         IF(ISPMD .NE. I-1) THEN
-        BUFLEN = BUFLEN + NB_SLAVE_RECV(I) 
+        BUFLEN = BUFLEN + NB_SECND_RECV(I) 
         ENDIF
       ENDDO
-      !write(6,*) __file__,__line__,"nbsr(:)=",nb_slave_recv(1:nspmd)
+      !write(6,*) __file__,__line__,"nbsr(:)=",nb_secnd_recv(1:nspmd)
       ALLOCATE(BUFR_IDR(BUFLEN*2))
 
       IF( K > 0 ) CALL MPI_WAITALL(K, RQS,STAT,IERR)
@@ -396,17 +396,17 @@ C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
       L = 1 
       KSENT = 0
       KRECV = 0
-      !send the data corresponding of the slaves to exchange
+      !send the data corresponding of the secnds to exchange
       DO I = 1,NSPMD
         IF(ISPMD .NE. I-1) THEN
-          J = NB_SLAVE_SENT(I)*2
+          J = NB_SECND_SENT(I)*2
           IF(J > 0) THEN
             KSENT = KSENT + 1
             CALL MPI_ISEND(BUFR_ID(N),J,
      .      MPI_INT,I-1,TAG,MPI_COMM_WORLD,RQS(KSENT),IERR)
             N = N + J                
           ENDIF
-          J = NB_SLAVE_RECV(I)*2
+          J = NB_SECND_RECV(I)*2
           IF(J > 0) THEN
             KRECV = KRECV + 1
             CALL MPI_IRECV(BUFR_IDR(L),J,
@@ -424,21 +424,21 @@ C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
       L = 1 
       N = 1
       !In the following we suppose that only one SPMD domain
-      !has a slave activated
-      DO ISLAVE=1,NBSLAVES
-        RMAX_UID_LOCAL = ITAB(NSV(ISLAVE))
+      !has a secnd activated
+      DO ISECND=1,NBSECNDS
+        RMAX_UID_LOCAL = ITAB(NSV(ISECND))
         DO I = 1,NSPMD
           IF(ISPMD .NE. I-1) THEN
-           J = NB_SLAVE_RECV(I)
+           J = NB_SECND_RECV(I)
            IF(J > 0) THEN
-           ! if ISPMD recieves slaves from proc I
-           ! then find out if one these slaves is ISLAVE
+           ! if ISPMD recieves secnds from proc I
+           ! then find out if one these secnds is ISECND
            ! using user ids.
            DO K = L,L+J-1 
             RMAX_UID_REMOTE = BUFR_IDR(2*K-1) 
             IF(RMAX_UID_LOCAL == RMAX_UID_REMOTE) THEN
-            IMASTER = BUFR_IDR(2*K)
-            ILOC(ISLAVE) = BUFFER(I)%MASTER_ID(IMASTER)
+            IMAIN = BUFR_IDR(2*K)
+            ILOC(ISECND) = BUFFER(I)%MAIN_ID(IMAIN)
             ENDIF 
            ENDDO 
            ENDIF
@@ -461,13 +461,13 @@ Chd|        INTVO8                        source/interfaces/inter3d/intvo8.F
 Chd|-- calls ---------------
 Chd|        INT8_MOD                      ../common_source/modules/int8_mod.F
 Chd|====================================================================
-      SUBROUTINE SPMD_I8_UPDBUF(NBSLAVES,ILOC,NSV,
+      SUBROUTINE SPMD_I8_UPDBUF(NBSECNDS,ILOC,NSV,
      .            ITAB,BUFFER,FRONTIER,INDEX_IN_COMM)
 C-----------------------------------------------
 C   I n f o r m a t i o n s            
 C-----------------------------------------------
 C   Update the buffer structure that contains
-C   the slave nodes that have a master node
+C   the secnd nodes that have a main node
 C   which is shared by at least another processor 
 C-----------------------------------------------
 C   M o d u l e s
@@ -493,7 +493,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  ::   NSV(*), ILOC(*), ITAB(*)
       INTEGER  ::  INDEX_IN_COMM(*)
-      INTEGER  :: NBSLAVES
+      INTEGER  :: NBSECNDS
       TYPE(FRONT8)  FRONTIER(*)
       TYPE(BUFT8)  BUFFER(*)
 C-----------------------------------------------
@@ -505,56 +505,56 @@ C-----------------------------------------------
 
 #ifdef MPI
          !CALL STARTIME(99,1)
-         !compute the number of slave nodes per frontier master node 
+         !compute the number of secnd nodes per frontier main node 
          DO P = 1,NSPMD
           IF(ISPMD .NE. P-1) THEN
-          BUFFER(P)%NBSLAVE = 0 
+          BUFFER(P)%NBSECND = 0 
           ENDIF
          ENDDO
-         DO I = 1,NBSLAVES
-            ! If the slave is active, and its master is in the frontier
+         DO I = 1,NBSECNDS
+            ! If the secnd is active, and its main is in the frontier
             IF(ILOC(I)>0) THEN 
             IF(INDEX_IN_COMM(ILOC(I))>0)THEN
                K = INDEX_IN_COMM(ILOC(I)) 
                DO J = 1,FRONTIER(K)%NBCOM
                P = FRONTIER(K)%PROCLIST(J)
                N = FRONTIER(K)%BUF_INDEX(J)
-               BUFFER(P)%NBSLAVE(N) = BUFFER(P)%NBSLAVE(N) + 1
+               BUFFER(P)%NBSECND(N) = BUFFER(P)%NBSECND(N) + 1
                ENDDO
             ENDIF
             ENDIF
          ENDDO
 
          DO I =1, NSPMD
-         ! compute the global number of slave nodes to send to proc i
-            BUFFER(I)%NBSLAVE_TOT = 0
-            DO J = 1,BUFFER(I)%NBMASTER          
-               BUFFER(I)%NBSLAVE_TOT =  BUFFER(I)%NBSLAVE_TOT +
-     .         BUFFER(I)%NBSLAVE(J) 
+         ! compute the global number of secnd nodes to send to proc i
+            BUFFER(I)%NBSECND_TOT = 0
+            DO J = 1,BUFFER(I)%NBMAIN          
+               BUFFER(I)%NBSECND_TOT =  BUFFER(I)%NBSECND_TOT +
+     .         BUFFER(I)%NBSECND(J) 
             ENDDO
-C           IF(ASSOCIATED(BUFFER(I)%SLAVE_UID)) THEN
+C           IF(ASSOCIATED(BUFFER(I)%SECND_UID)) THEN
 C          
-              DEALLOCATE(BUFFER(I)%SLAVE_UID)
-              DEALLOCATE(BUFFER(I)%SLAVE_ID)
-C             DEALLOCATE(BUFFER(I)%NEW_MASTER_UID)
+              DEALLOCATE(BUFFER(I)%SECND_UID)
+              DEALLOCATE(BUFFER(I)%SECND_ID)
+C             DEALLOCATE(BUFFER(I)%NEW_MAIN_UID)
 C             DEALLOCATE(BUFFER(I)%DISTANCE)
 C             DEALLOCATE(BUFFER(I)%BUFR)
 C             DEALLOCATE(BUFFER(I)%BUFI)
 C           ENDIF
-            ALLOCATE(BUFFER(I)%SLAVE_UID(BUFFER(I)%NBSLAVE_TOT))
-            ALLOCATE(BUFFER(I)%SLAVE_ID(BUFFER(I)%NBSLAVE_TOT))
-C           ALLOCATE(BUFFER(I)%NEW_MASTER_UID(BUFFER(I)%NBSLAVE_TOT))
-C           ALLOCATE(BUFFER(I)%DISTANCE(BUFFER(I)%NBSLAVE_TOT))
-C           ALLOCATE(BUFFER(I)%BUFR(BUFFER(I)%NBSLAVE_TOT*2))
-C           ALLOCATE(BUFFER(I)%BUFI(BUFFER(I)%NBSLAVE_TOT*9))
-C           BUFFER(I)%BUFR(1:BUFFER(I)%NBSLAVE_TOT)=0
-C           BUFFER(I)%BUFI(1:BUFFER(I)%NBSLAVE_TOT)=0
+            ALLOCATE(BUFFER(I)%SECND_UID(BUFFER(I)%NBSECND_TOT))
+            ALLOCATE(BUFFER(I)%SECND_ID(BUFFER(I)%NBSECND_TOT))
+C           ALLOCATE(BUFFER(I)%NEW_MAIN_UID(BUFFER(I)%NBSECND_TOT))
+C           ALLOCATE(BUFFER(I)%DISTANCE(BUFFER(I)%NBSECND_TOT))
+C           ALLOCATE(BUFFER(I)%BUFR(BUFFER(I)%NBSECND_TOT*2))
+C           ALLOCATE(BUFFER(I)%BUFI(BUFFER(I)%NBSECND_TOT*9))
+C           BUFFER(I)%BUFR(1:BUFFER(I)%NBSECND_TOT)=0
+C           BUFFER(I)%BUFI(1:BUFFER(I)%NBSECND_TOT)=0
          ENDDO 
          
-         ! Fill the buffer of slave uid to send                                      
+         ! Fill the buffer of secnd uid to send                                      
          PT = 0
-         DO I = 1,NBSLAVES
-            ! if the slave is active, and its master is in the frontier
+         DO I = 1,NBSECNDS
+            ! if the secnd is active, and its main is in the frontier
            IF(ILOC(I) > 0) THEN
            IF(INDEX_IN_COMM(ILOC(I)) > 0)THEN
                K = INDEX_IN_COMM(ILOC(I)) 
@@ -562,8 +562,8 @@ C           BUFFER(I)%BUFI(1:BUFFER(I)%NBSLAVE_TOT)=0
                P = FRONTIER(K)%PROCLIST(J)
                N = FRONTIER(K)%BUF_INDEX(J)
                PT(P) = PT(P) + 1
-               BUFFER(P)%SLAVE_ID(PT(P)) = I
-               BUFFER(P)%SLAVE_UID(PT(P)) = ITAB(NSV(I))
+               BUFFER(P)%SECND_ID(PT(P)) = I
+               BUFFER(P)%SECND_UID(PT(P)) = ITAB(NSV(I))
 
                ENDDO
             ENDIF
@@ -590,7 +590,7 @@ C-----------------------------------------------
 C   I n f o r m a t i o n s            
 C-----------------------------------------------
 C   This routine computes the global 
-C   IRTL (i.e. master face of each slave).
+C   IRTL (i.e. main face of each secnd).
 C   At the end of this routine, only one processor
 C   will have IRTL(i) /= 0.
 C-----------------------------------------------
@@ -646,11 +646,11 @@ C-----------------------------------------------
       DATA MSGOFF/15004/
       DATA MSGOFF2/15005/
 
-      !AFTER THE EXCHANGE OF FRONT SLAVE, AND THE UPDATE OF THE BUFFER
-      !THE SLAVE AT EACH BOUNDARY ARE SHARED 
+      !AFTER THE EXCHANGE OF FRONT SECND, AND THE UPDATE OF THE BUFFER
+      !THE SECND AT EACH BOUNDARY ARE SHARED 
       BUFLEN=0
       DO I = 1,NSPMD
-         BUFLEN = BUFLEN+BUFFER(I)%NBSLAVE_TOT
+         BUFLEN = BUFLEN+BUFFER(I)%NBSECND_TOT
       ENDDO
 
       ALLOCATE(BUFR_ID(BUFLEN*5)) 
@@ -668,8 +668,8 @@ C-----------------------------------------------
       NBRQ = 0
       DO I = 1,NSPMD
        IF( ISPMD .NE. I-1) THEN
-        DO J = 1,BUFFER(I)%NBSLAVE_TOT
-         N = BUFFER(I)%SLAVE_ID(J)
+        DO J = 1,BUFFER(I)%NBSECND_TOT
+         N = BUFFER(I)%SECND_ID(J)
 C
          BUFS(BUFPOS2 - 1+(J-1)+1) = TAB_RMAX(N) 
          BUFS_ID(BUFPOS1 - 1 + (J-1)*5+1) = TAB_RMAX_UID(1,N) 
@@ -679,8 +679,8 @@ C
          BUFS_ID(BUFPOS1 - 1 + (J-1)*5+5) = HAS_MOVED(N) 
 
         ENDDO
-        N =  BUFFER(I)%NBSLAVE_TOT
-        ! The number of slaves on the frontier has
+        N =  BUFFER(I)%NBSECND_TOT
+        ! The number of secnds on the frontier has
         ! to be the same on each side of the frontier
         IF(N > 0) THEN
           TAG = MSGOFF
@@ -706,9 +706,9 @@ C
 
       DO I = 1,NSPMD
         IF(ISPMD .NE. I-1) THEN
-        N = BUFFER(I)%NBSLAVE_TOT
+        N = BUFFER(I)%NBSECND_TOT
         DO J = 1,N
-          K = BUFFER(I)%SLAVE_ID(J)
+          K = BUFFER(I)%SECND_ID(J)
           RMAX2 = BUFR((J-1)+1+BUFPOS2)
           RMAX_UID_REMOTE(1)   = BUFR_ID((J-1)*5+1+BUFPOS1)
           RMAX_UID_REMOTE(2)   = BUFR_ID((J-1)*5+2+BUFPOS1)
@@ -725,12 +725,12 @@ C
           IFLAG = IS_SUP_FACE_ID(RMAX_UID_LOCAL,RMAX_UID_REMOTE)
 
           IF(HAS_MOVED(K) == 1) THEN
-          ! the master face has changed on the local proc
+          ! the main face has changed on the local proc
           ! or is not on the local proc
           ! current proc not in charge of the face
           ! in the follwing cases
             IF(HAS_MOVED_ON_REMOTE == 0) THEN
-          ! the master face has not changed on the remote proc.
+          ! the main face has not changed on the remote proc.
               IRTL(K) =  0			  
             ELSEIF( RMAX1 < RMAX2 .OR. (RMAX1 == RMAX2 .AND. IFLAG == 1)) THEN			  
               IRTL(K) =  0
@@ -759,7 +759,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   I n f o r m a t i o n s            
 C-----------------------------------------------
-C   This routine communicates slave variables  
+C   This routine communicates secnd variables  
 C   (- Flag = 1 : Send) Commented                                     
 C   (- Flag = 2 : Recieve) Commented
 C   - Flag = 3 : Synchrone 

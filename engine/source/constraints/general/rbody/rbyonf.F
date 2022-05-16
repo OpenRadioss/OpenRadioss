@@ -121,7 +121,7 @@ c           END IF
 C En SPMD, il faut communiquer le RB concerne si N<>0 sur un proc
 C si rigid body present sur le proc N = rb trouve
               IF(N.NE.0) N = N*WEIGHT(NPBY(1,N))
-C reduction pour retrouver la valeur de N (N = 0 partout sauf sur le proc master)
+C reduction pour retrouver la valeur de N (N = 0 partout sauf sur le proc main)
               IF(NSPMD > 1) THEN
                 CALL SPMD_GLOB_ISUM9(N,1)
 C broadcast de N sur tous les procs
@@ -173,7 +173,7 @@ C
  120      CONTINUE
       ENDDO
 C------------------------------------
-C     tag des noeuds slaves rby avec gravite ou load/centri
+C     tag des noeuds secnds rby avec gravite ou load/centri
 C     pour calcul du travail des forces externes
 C-------------------------------------
       TAGSLV_RBY(1:NUMNOD)=0
@@ -293,7 +293,7 @@ C-------------------------------------------
 C-------------------------------------------
 C     ITAG :: Main node of active rbody w/o sensor => Rbody number
 C       is used for initialization of mass & inertia if the rbody is included into the rbody being activated
-C       i.e. mass and inertia of the "sub-rbody" slave nodes must not be counted twice
+C       i.e. mass and inertia of the "sub-rbody" secnd nodes must not be counted twice
 C-------------------------------------------
       DO I=1,NUMNOD
        ITAG(I)=0
@@ -542,7 +542,7 @@ C-------------------------------------------
         NPBY(7,N)=IACTI
       ENDDO
 C-------------------------------------
-C     tag des noeuds slaves rby avec gravite ou load/centri
+C     tag des noeuds secnds rby avec gravite ou load/centri
 C     pour calcul du travail des forces externes
 C-------------------------------------
       IF(ONOF1==0) GOTO 200

@@ -32,7 +32,7 @@ Chd|====================================================================
      2   STIFR,FR_I2M,IAD_I2M,LCOMI2M,ISIZE,
      3   NB_FRI2M,FR_LOCI2M,TAGNOD,INTTH2,FTHE,
      4   CONDN)
-C realise le cumul des acc et masses aux noeuds master d'int2
+C realise le cumul des acc et masses aux noeuds main d'int2
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

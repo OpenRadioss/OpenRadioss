@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER NFX, NMOD, NME, NSN, NVAR, PMASTER, IAD, NSNT, I, J, JJ,
+      INTEGER NFX, NMOD, NME, NSN, NVAR, PMAIN, IAD, NSNT, I, J, JJ,
      .        ITAG, MSGOFF, NSNP(NSPMD-1), NSNPMAX, LEN, K, KK, AVAR,
      .        IERR, REQ(NSPMD-1), STAT(MPI_STATUS_SIZE,NSPMD-1),
      .        II
@@ -69,9 +69,9 @@ C
          NME=FXBIPM(17,NFX)
          NSN=FXBIPM(18,NFX)
          AVAR=FXBIPM(13,NFX)
-         PMASTER=FXBIPM(39,NFX)
+         PMAIN=FXBIPM(39,NFX)
          IAD=IADN(NFX)
-         IF (ISPMD.EQ.PMASTER) THEN
+         IF (ISPMD.EQ.PMAIN) THEN
             NSNT=FXBIPM(40,NFX)
             ALLOCATE(FSKYL(NSNT,NME+NMOD))
             DO I=1,NME+NMOD
@@ -127,7 +127,7 @@ C
             DEALLOCATE(FSKYL)
          ELSE
             ITAG=MSGOFF
-            CALL MPI_ISEND(NSN, 1, MPI_INTEGER, IT_SPMD(PMASTER+1),
+            CALL MPI_ISEND(NSN, 1, MPI_INTEGER, IT_SPMD(PMAIN+1),
      .                     ITAG, MPI_COMM_WORLD, REQ(1), IERR)
             CALL MPI_WAIT(REQ, STAT, IERR)
 C
@@ -139,7 +139,7 @@ C
             ENDDO
             LEN=NSN*(1+NME+NMOD)
             ITAG=MSGOFF
-            CALL MPI_ISEND(FSKYL, LEN, REAL, IT_SPMD(PMASTER+1),
+            CALL MPI_ISEND(FSKYL, LEN, REAL, IT_SPMD(PMAIN+1),
      .                     ITAG, MPI_COMM_WORLD, REQ(1), IERR)
             CALL MPI_WAIT(REQ, STAT, IERR)
 C

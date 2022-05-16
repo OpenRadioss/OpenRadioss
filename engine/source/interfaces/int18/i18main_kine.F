@@ -91,25 +91,25 @@ C     initialisation MTF(1:14,1:NUMNOD)
 C=================================================================
 C
 c
-c     a reecrire sur maitres uniquement
+c     a reecrire sur mains uniquement
       NODF = 1 + (JTASK-1)*NUMNOD / NTHREAD
       NODL = JTASK*NUMNOD / NTHREAD
       DO I = NODF,NODL
-        MTF(1,I) = ZERO   ! Mxx maitres
-        MTF(2,I) = ZERO   ! Mxy maitres
-        MTF(3,I) = ZERO   ! Mxz maitres
-        MTF(4,I) = ZERO   ! Myy maitres
-        MTF(5,I) = ZERO   ! Myz maitres
-        MTF(6,I) = ZERO   ! Mzz maitres
-        MTF(7,I) = ZERO   ! Fx maitres
-        MTF(8,I) = ZERO   ! Fy maitres
-        MTF(9,I) = ZERO   ! Fz maitres
-        MTF(10,I)= ZERO   ! PENE cumulee sur esclave
+        MTF(1,I) = ZERO   ! Mxx mains
+        MTF(2,I) = ZERO   ! Mxy mains
+        MTF(3,I) = ZERO   ! Mxz mains
+        MTF(4,I) = ZERO   ! Myy mains
+        MTF(5,I) = ZERO   ! Myz mains
+        MTF(6,I) = ZERO   ! Mzz mains
+        MTF(7,I) = ZERO   ! Fx mains
+        MTF(8,I) = ZERO   ! Fy mains
+        MTF(9,I) = ZERO   ! Fz mains
+        MTF(10,I)= ZERO   ! PENE cumulee sur second
 c        MTF(11,I)= EP30   ! Distance relative min
         MTF(11,I)= ZERO   ! pene max
-        MTF(12,I) = ZERO  ! Nx esclave
-        MTF(13,I) = ZERO  ! Ny esclave
-        MTF(14,I) = ZERO  ! Nz esclave
+        MTF(12,I) = ZERO  ! Nx second
+        MTF(13,I) = ZERO  ! Ny second
+        MTF(14,I) = ZERO  ! Nz second
       ENDDO
 
       IF (NSPMD > 1)THEN
@@ -173,7 +173,7 @@ C -------------------
       CALL MY_BARRIER
 C -------------------
       IF (NSPMD > 1)THEN
-C     MSFI (MASSE des noeuds esclaves  n est pas mis a jour
+C     MSFI (MASSE des noeuds seconds  n est pas mis a jour
 C     la masse est necessaire pour les calculs ensuite
           CALL SPMD_I18KINE_COM_MS(IPARI,INTBUF_TAB,
      *                MTF,MS,ITAB)
@@ -214,15 +214,15 @@ C     COMM SPMD : MTF(10,*)=somme des PENE
 C     COMM SPMD : MTF(11,*)=min des distances relatives
 C     COMM SPMD : MTF(12:14,*)=sommes des normales
 c   1: envoie sur le proc qui possede le noeud
-c   2: cumul(ou min) sur les noeuds frontieres slave 18
-c   2: cumul sur les noeuds frontieres slave 18
+c   2: cumul(ou min) sur les noeuds frontieres secnd 18
+c   2: cumul sur les noeuds frontieres secnd 18
       IF (NSPMD > 1)THEN
          CALL SPMD_I18KINE_PENE_COM_POFF(IPARI,INTBUF_TAB,BID,
      *                      MTF,A,IAD_ELEM,FR_ELEM,1,BID,TAGPENE,ITAB,
      .                      H3D_DATA  )
 
-c     Besoin des accelerations pour le noeud esclave
-c     quand on a surface maitre, noeud esclave distant
+c     Besoin des accelerations pour le noeud second
+c     quand on a surface main, noeud second. distant
 c     Dans le meme cas, retour du MTF_PENE+MTF_PENEMIN pour les
 c     calculs suivants.
 
@@ -231,7 +231,7 @@ c     calculs suivants.
       ENDIF
 !$OMP END SINGLE
 C=================================================================
-C     calcul des forces et des masses a transmettre aux maitres
+C     calcul des forces et des masses a transmettre aux mains
 c     ponderation en pene/somme(pene)
 C=================================================================
 C -------------------
@@ -249,15 +249,15 @@ C -------------------
        ENDIF
       ENDDO
 C=================================================================
-C     COMM SPMD : MTF(1:9,*)= masses et forces des maitres
-C     comm sur les noeuds frontieres master int 18
+C     COMM SPMD : MTF(1:9,*)= masses et forces des mains
+C     comm sur les noeuds frontieres main int 18
 !$OMP SINGLE
       IF (NSPMD > 1)THEN
         CALL SPMD_I18KINE_MSF_COM_POFF(MTF,IAD_ELEM,FR_ELEM,ITAB)
       ENDIF
 !$OMP END SINGLE
 C=================================================================
-C     calcul des nouvelles accelerations des maitres
+C     calcul des nouvelles accelerations des mains
 C=================================================================
 C -------------------
       CALL MY_BARRIER
@@ -277,7 +277,7 @@ C -------------------
        ENDIF
       ENDDO
 C=================================================================
-c     si MTF(1,*) /= 0 le noeuds est maitre int 18 sur ce proc
+c     si MTF(1,*) /= 0 le noeuds est main int 18 sur ce proc
 c     et peut etre utilise comme flag
 
 c     => envoyer MTF(1,*) et A(1:3,*) pour TOUS les noeuds frontieres
@@ -370,7 +370,7 @@ C
          SLVNDTAG = 0
       ENDIF
 C=================================================================
-C     calcul des vitesses a imposer aux esclave
+C     calcul des vitesses a imposer aux second
 c     ponderation en pene/somme(pene)
 C=================================================================
 C -------------------
@@ -380,12 +380,12 @@ c
       NODF = 1 + (JTASK-1)*NUMNOD / NTHREAD
       NODL = JTASK*NUMNOD / NTHREAD
       DO I = NODF,NODL
-        MTF(1,I) = ZERO   ! vx esclave impose par maitre
-        MTF(2,I) = ZERO   ! vy esclave impose par maitre
-        MTF(3,I) = ZERO   ! vz esclave impose par maitre
-        MTF(4,I) = ZERO   ! vxp esclave old (v+a*dt)
-        MTF(5,I) = ZERO   ! vyp esclave old (v+a*dt)
-        MTF(6,I) = ZERO   ! vzp esclave old (v+a*dt)
+        MTF(1,I) = ZERO   ! vx second. impose par main
+        MTF(2,I) = ZERO   ! vy second. impose par main
+        MTF(3,I) = ZERO   ! vz second. impose par main
+        MTF(4,I) = ZERO   ! vxp second. old (v+a*dt)
+        MTF(5,I) = ZERO   ! vyp second. old (v+a*dt)
+        MTF(6,I) = ZERO   ! vzp second. old (v+a*dt)
       ENDDO
 
 !$OMP SINGLE
@@ -435,24 +435,24 @@ C -------------------
 C=================================================================
 
 C     a faire:
-C     COMM SPMD : MTF(1:6,*)= vitesses des esclaves
+C     COMM SPMD : MTF(1:6,*)= vitesses des seconds
 
 c   1: envoie sur le proc qui possede le noeud
-c   2: CUMUL sur les noeuds frontieres slave 18
+c   2: CUMUL sur les noeuds frontieres secnd 18
 !$OMP SINGLE
       IF (NSPMD > 1)THEN
         CALL SPMD_I18KINE_PENE_COM_POFF(IPARI,INTBUF_TAB,FCONT,
      *                      MTF,A,IAD_ELEM,FR_ELEM,2,SLVNDTAG,IBID,ITAB,
      .                      H3D_DATA )
 C Besoin en retour de reinitialiser les MTF_V sur les proc
-C qui n ont pas le noeud slave et qui l'ont en candidat
+C qui n ont pas le noeud secnd et qui l'ont en candidat
         CALL SPMD_I18KINE_COM_V(IPARI,INTBUF_TAB,MTF,A,ITAB)
       ENDIF
 !$OMP END SINGLE
 
 C=================================================================
 C=================================================================
-C     on impose les vitesses maitres aux esclaves
+C     on impose les vitesses mains aux seconds
 C     (en fait on impose l'acceleration correspondante)
 C=================================================================
 C -------------------
@@ -472,7 +472,7 @@ C -------------------
       ENDDO
 C=================================================================
 !$OMP SINGLE
-C     COMM SPMD : A(1:3,*)= acceleration des esclaves
+C     COMM SPMD : A(1:3,*)= acceleration des seconds
 
 c   1: envoie sur le proc qui possede le noeud qui ecrase l'acceleration
       IF (NSPMD > 1)THEN
@@ -626,7 +626,7 @@ cC -------------------
 
 C=================================================================
 C     calcul des pene,normale,Hi...
-C     et calcul de la pene cumulee pour chaque esclave MTF(10,i)
+C     et calcul de la pene cumulee pour chaque second. MTF(10,i)
 C=================================================================
       NBID=0
       BID=ZERO
@@ -851,7 +851,7 @@ C-----------------------------------------------
 C
 C=================================================================
 C     calcul des pene,normale,Hi...
-C     et calcul de la pene cumulee pour chaque esclave MTF(10,i)
+C     et calcul de la pene cumulee pour chaque second. MTF(10,i)
 C=================================================================
       NSN   =IPARI(5)
       NTY   =IPARI(7)
@@ -886,7 +886,7 @@ C     decoupage statique
       ENDIF
       DEBUT = NB_LOC*(JTASK-1)
 C=================================================================
-C     calcul des forces et des masses a transmettre aux maitres
+C     calcul des forces et des masses a transmettre aux mains
 c     ponderation en pene/somme(pene)
 C=================================================================
 c      DO NFT = DEBUT , DEBUT + I_STOK_LOC - 1 , NVSIZ
@@ -1132,7 +1132,7 @@ C     decoupage statique
       ENDIF
       DEBUT = NB_LOC*(JTASK-1)
 C=================================================================
-C     calcul des vitesses a imposer aux esclave
+C     calcul des vitesses a imposer aux second
 c     ponderation en pene/somme(pene)
 C=================================================================
 c      DO NFT = DEBUT , DEBUT + I_STOK_LOC - 1 , NVSIZ
@@ -1294,9 +1294,9 @@ C     decoupage statique
       ENDIF
       DEBUT = NB_LOC*(JTASK-1)
 C=================================================================
-C     on impose les vitesses maitres aux esclaves
+C     on impose les vitesses mains aux seconds
 C     (en fait on impose l'acceleration correspondante)
-C     et calcul des forces maitres et esclaves
+C     et calcul des forces mains et seconds
 C=================================================================
 c      DO NFT = DEBUT , DEBUT + I_STOK_LOC - 1 , NVSIZ
 c          JLT = MIN( NVSIZ, I_STOK_LOC - NFT )
@@ -1844,7 +1844,7 @@ cc     .              + N3(I) * I18KAFI(NIN)%P(3,NN) * FAC
 C
       ENDDO
 C---------------------------------
-C     transfers slave forces to master nodes
+C     transfers secnd forces to main nodes
 C---------------------------------
       DO I=1,JLT
         IF(PENE(I).GT.ZERO)THEN
@@ -1864,7 +1864,7 @@ C
           FY4(I)=FYI(I)*H4(I)
           FZ4(I)=FZI(I)*H4(I)
 C---------------------------------
-c       transfers slave tensorial mass to master nodes
+c       transfers secnd tensorial mass to main nodes
 C---------------------------------
 c
 c            | nx*nx nx*ny nx*nz |
@@ -2108,7 +2108,7 @@ c        NSVG(I) = NSV(CAND_N(I))
 
       ENDDO
 C---------------------------------
-C     le master impose sa vitesse normale au slave
+C     le main impose sa vitesse normale au secnd
 C      + calcul des forces pour post
 C---------------------------------
       DO I=1,JLT
@@ -2350,12 +2350,12 @@ c        NSVG(I) = NSV(CAND_N(I))
 
       ENDDO
 C---------------------------------
-C     le master impose sa vitesse normale au slave
+C     le main impose sa vitesse normale au secnd
 C      + calcul des forces pour post
 C---------------------------------
       DO I=1,JLT
         IF(PENE(I).GT.ZERO)THEN
-c si un esclave est traite plusieurs fois,
+c si un second. est traite plusieurs fois,
 c la meme vitesse sera imposee a chaque fois.
 c la force est ponderee avec FAC
           IG=NSVG(I)

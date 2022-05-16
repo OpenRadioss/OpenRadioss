@@ -36,7 +36,7 @@ Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F
 Chd|====================================================================
       SUBROUTINE SPMD_FVB_GATH(IFV, X, XXX, XXXA, XXXSA,
      .                         IDO)
-C Gather local X into XXX,XXXA,XXXSA on the PMASTER of the FVM
+C Gather local X into XXX,XXXA,XXXSA on the PMAIN of the FVM
 C depending on IDO
 
 C IF IDO = 1 : gather  X(1:NN_L)  into X
@@ -81,7 +81,7 @@ C-----------------------------------------------
       INTEGER II, I, ITAG, LEN, ITAB(3,NSPMD-1),REQ(2*(NSPMD-1)),
      .        STAT(MPI_STATUS_SIZE,2*(NSPMD-1)), IERR, LENI, LENR,
      .        IADI(NSPMD-1), IADR(NSPMD-1), IAD, I1, I2, IAD1, IAD2,
-     .        J, J1, ITABL(3), PMASTER, MSGOFF, IDO1, IDO2
+     .        J, J1, ITABL(3), PMAIN, MSGOFF, IDO1, IDO2
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBUF
       my_real
      .       , DIMENSION(:), ALLOCATABLE :: RBUF
@@ -219,7 +219,7 @@ C ajout noeuds internes
             ITABL(2)=0
             ITABL(3)=0
          ENDIF
-         PMASTER=FVSPMD(IFV)%PMASTER
+         PMAIN=FVSPMD(IFV)%PMAIN
 C
          LEN=ITABL(1)+ITABL(2)+ITABL(3)
          ALLOCATE(IBUF(LEN), RBUF(3*LEN))

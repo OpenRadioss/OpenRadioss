@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-C TRANSFORMATION TEMPORAIRE DANS LE REPERE MAITRE
+C TRANSFORMATION TEMPORAIRE DANS LE REPERE MAIN
         S11=FRIGAP(5)
         S21=FRIGAP(6)
         S31=FRIGAP(7)
@@ -76,7 +76,7 @@ C TRANSFORMATION TEMPORAIRE DANS LE REPERE MAITRE
          ENDIF
         ENDDO
        ELSE
-C RETOUR REPERE ESCLAVE
+C RETOUR REPERE SECOND
         DO II=1,NSN
          IF(TAGKINE(II).GT.0)THEN
            I=NSV(II)

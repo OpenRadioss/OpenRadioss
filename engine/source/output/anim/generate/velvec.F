@@ -271,7 +271,7 @@ C   L o c a l  V a r i a b l e s
 C----------------------------------------------
       my_real
      .   RWA(3,NSECT),RWAL(3,NRWALL)    ,V(3,NUMNOD)
-      INTEGER LOC_PROC,PMASTER
+      INTEGER LOC_PROC,PMAIN
 C=======================================================================
       LOC_PROC = ISPMD + 1
 C
@@ -378,8 +378,8 @@ C
         ENDDO
       ELSE
         DO I=1,NSECT
-         PMASTER = FR_SEC(NSPMD+1,I)
-          IF (PMASTER .EQ.LOC_PROC) THEN
+         PMAIN = FR_SEC(NSPMD+1,I)
+          IF (PMAIN .EQ.LOC_PROC) THEN
            RWA(1,I) = FOPT(1,I)
            RWA(2,I) = FOPT(2,I)
            RWA(3,I) = FOPT(3,I)
@@ -1120,8 +1120,8 @@ C-----------------------------------------------
          DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}                                                                            
            ICELL             = ICELL +1                                                                                                                        
            IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9   
-           IBM               = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(4)
-           ICELLM            = BRICK_LIST(NIN,IBM)%masterID
+           IBM               = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(4)
+           ICELLM            = BRICK_LIST(NIN,IBM)%mainID
            IF(IBM==0)THEN
              IBM             = IB                                                         
              ICELLM          = 1                                                          

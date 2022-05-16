@@ -109,7 +109,7 @@ C-----    CDG TOTAL
             X(J,M)=X(J,M)/MASRB
           ENDDO
         ELSEIF(ICDG.EQ.2)THEN
-C-----    CDG DES NOEUDS ESCLAVES
+C-----    CDG DES NOEUDS SECONDS
           MASRB=ZERO
           DO J=1,3
             X(J,M)=ZERO

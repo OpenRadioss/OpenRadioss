@@ -438,7 +438,7 @@ C WA utilise temporairement pour stocker VVVA
            END IF
          END DO
 C
-         IF (ISPMD.NE.FVSPMD(IFV)%PMASTER-1) GOTO 300      
+         IF (ISPMD.NE.FVSPMD(IFV)%PMAIN-1) GOTO 300      
       ENDIF
 C
       IF(TT == DT1) THEN

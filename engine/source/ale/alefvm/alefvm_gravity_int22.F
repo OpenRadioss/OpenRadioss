@@ -102,8 +102,8 @@ C-----------------------------------------------
         NVERTEX       = 0
         ACCEL(1:3,I)  = ZERO
         FCELL(1:3,II) = ZERO
-        !loop on master cell vertexes
-        MCELL         = BRICK_LIST(NIN,IB)%MasterID
+        !loop on main cell vertexes
+        MCELL         = BRICK_LIST(NIN,IB)%MainID
         MNOD          = BRICK_LIST(NIN,IB)%POLY(MCELL)%NumNOD 
         DO K=1,MNOD
           J           = BRICK_LIST(NIN,IB)%POLY(MCELL)%ListNodID(K)

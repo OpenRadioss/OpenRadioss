@@ -77,7 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
         
         IF(MODE==0) THEN
-        !       collect the local index arraies on the master processor
+        !       collect the local index arraies on the main processor
                 CALL MPI_GATHER(SINDEX,3*(NSECT+1),MPI_INTEGER,
      .                   RINDEX_PROC,3*(NSECT+1),MPI_INTEGER,0,MPI_COMM_WORLD,ierror)  
         !       sum all the size of local sended arraies in order to get the size 

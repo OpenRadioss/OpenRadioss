@@ -198,7 +198,7 @@ C-----------------------------------------------
         !-----------------------------------------------------------------!
         !   ECHANGE DES INFORMATIONS ENTRE LES DEUX FACES DE l'INTERFACE  !
         !-----------------------------------------------------------------!
-        ! 1- Transforme Valeurs elementaires en valeurs nodales cote esclave     
+        ! 1- Transforme Valeurs elementaires en valeurs nodales cote second.     
         !-----------------------------------------------------------------!      
         CALL I12NOD3(NRTS,INTBUF_TAB%IELES,INTBUF_TAB%IRECTS,SEGVAR,JCODV,
      .               WA(L1),INTBUF_TAB%FCOUNT,NSN)

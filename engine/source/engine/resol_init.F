@@ -448,7 +448,7 @@ C
               DO II = 1, NMN
                 I = INTBUF_TAB(NG)%MSR(II)
                 INTBUF_TAB(NG)%NMAS(NMN+II) = IN(I)
-C               For multidomains inertia of master nodes on multidomains interface msut be non zero
+C               For multidomains inertia of main nodes on multidomains interface msut be non zero
                 IF (IRAD2R.EQ.1) IN(I)=MAX(EM20,IN(I))
               END DO
             END IF

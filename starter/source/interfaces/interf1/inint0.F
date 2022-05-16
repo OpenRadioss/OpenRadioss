@@ -52,7 +52,7 @@ C-----------------------------------------------
 C
       IF(NRT.EQ.0) RETURN
 Cfa
-C   Compute ILOC nearest slave node from master node
+C   Compute ILOC nearest secnd node from main node
       DO II=1,NMN
          I=MSR(II)
          CMS=EP30
@@ -65,7 +65,7 @@ C   Compute ILOC nearest slave node from master node
          ENDDO
       ENDDO
 Cfa
-C   Compute NOD2SEG : List of Connected Segments to slave nodes
+C   Compute NOD2SEG : List of Connected Segments to secnd nodes
       DO I=1,NRT
          DO J=1,4
             IF(IRECT(J,I).EQ.0) CYCLE

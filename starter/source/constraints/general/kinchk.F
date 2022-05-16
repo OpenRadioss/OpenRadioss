@@ -133,7 +133,7 @@ C==============================================================
 C
 c      CALL ANCHECK(71)
 C----------------------------------------------------------
-C - no-autorised hierarchy :Check des noeuds maitres des RBE3 sont SECONDARY de RBE2,or INT2
+C - no-autorised hierarchy :Check des noeuds mains des RBE3 sont SECONDARY de RBE2,or INT2
 C----------------------------------------------------------
       NUN=0
       DO I=1,NRBE3
@@ -165,7 +165,7 @@ C----------------------------------------------------------
         ENDDO
       ENDDO
 C----------------------------------------------------------
-C - no-autorised hierarchy :Check des noeuds maitres des RBE2 SECONDARY de INT2
+C - no-autorised hierarchy :Check des noeuds mains des RBE2 SECONDARY de INT2
 C----------------------------------------------------------
       DO I=1,NRBE2
 	     M = IRBE2(3,I)
@@ -183,7 +183,7 @@ C----------------------------------------------------------
           ENDIF
       ENDDO
 C----------------------------------------------------------
-C - no-autorised hierarchy :Check des noeuds maitres des RBODY sont SECONDARY de RBE2
+C - no-autorised hierarchy :Check des noeuds mains des RBODY sont SECONDARY de RBE2
 C----------------------------------------------------------
       DO I=1,NRBODY
         M=NPBY(1,I)
@@ -203,7 +203,7 @@ C           NUN=NUN+1
          ENDIF
       ENDDO
 C----------------------------------------------------------
-C - no-autorised hierarchy :Check des noeuds maitres des RBODY sont SECONDARY de RBE3
+C - no-autorised hierarchy :Check des noeuds mains des RBODY sont SECONDARY de RBE3
 C----------------------------------------------------------
       DO I=1,NRBODY
         M=NPBY(1,I)
@@ -221,7 +221,7 @@ C----------------------------------------------------------
          ENDIF
       ENDDO
 C----------------------------------------------------------
-C - Check des noeuds maitres des RBE2 sont maitres de RBODY
+C - Check des noeuds mains des RBE2 sont mains de RBODY
 C----------------------------------------------------------
       DO I=1,NRBE2
 	     M = IRBE2(3,I)
@@ -241,7 +241,7 @@ C----------------------------------------------------------
          ENDDO
       ENDDO
 C----------------------------------------------------------
-C - Check des noeuds maitres des Rbody SECONDARY d'autres Rbodies
+C - Check des noeuds mains des Rbody SECONDARY d'autres Rbodies
 C----------------------------------------------------------
        KRB = 0
        DO N=1,NRBYKIN

@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  W_MASTER_PROC_WEIGHT          source/restart/ddsplit/w_master_proc_weight.F
+Chd|  W_MAIN_PROC_WEIGHT          source/restart/ddsplit/w_main_proc_weight.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
 Chd|====================================================================
-        SUBROUTINE W_MASTER_PROC_WEIGHT(NODGLOB,NUMNOD_L,NSPMD,PROC)
+        SUBROUTINE W_MAIN_PROC_WEIGHT(NODGLOB,NUMNOD_L,NSPMD,PROC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -65,21 +65,21 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I,N,P,G
-        INTEGER, DIMENSION(:), ALLOCATABLE :: MASTER_PROC 
+        INTEGER, DIMENSION(:), ALLOCATABLE :: MAIN_PROC 
         INTEGER, DIMENSION(:), ALLOCATABLE :: WEIGHT
 
 C-----------------------------------------------
 !       allocate 1d array
-        ALLOCATE( MASTER_PROC(NUMNOD_L) )
+        ALLOCATE( MAIN_PROC(NUMNOD_L) )
         ALLOCATE( WEIGHT(NUMNOD_L) )
 ! -----------------------------------
-        MASTER_PROC(1:NUMNOD_L) = 0
+        MAIN_PROC(1:NUMNOD_L) = 0
         WEIGHT(1:NUMNOD_L) = 0
         DO I = 1,NUMNOD_L
                 N = NODGLOB(I)
                 DO P = 1, NSPMD 
                         IF(NLOCAL(N,P)==1) THEN
-                                MASTER_PROC(I) = P 
+                                MAIN_PROC(I) = P 
                                 GOTO 10
                         ENDIF
                 ENDDO
@@ -87,16 +87,16 @@ C-----------------------------------------------
         ENDDO
         
         DO I=1,NUMNOD_L
-                IF(MASTER_PROC(I)==PROC) WEIGHT(I) = 1
+                IF(MAIN_PROC(I)==PROC) WEIGHT(I) = 1
         ENDDO        
 
-        CALL WRITE_I_C(MASTER_PROC,NUMNOD_L)
+        CALL WRITE_I_C(MAIN_PROC,NUMNOD_L)
         CALL WRITE_I_C(WEIGHT,NUMNOD_L)
 ! -----------------------------------
 !       deallocate 1d array
-        DEALLOCATE(MASTER_PROC )
+        DEALLOCATE(MAIN_PROC )
         DEALLOCATE( WEIGHT )
 ! -----------------------------------
         RETURN
 
-        END SUBROUTINE W_MASTER_PROC_WEIGHT
+        END SUBROUTINE W_MAIN_PROC_WEIGHT

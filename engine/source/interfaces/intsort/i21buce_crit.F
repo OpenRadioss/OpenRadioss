@@ -96,7 +96,7 @@ C
          J=NSV(I)
 C stfn = 0 <=> shooting nodes
          IF(STFN(I).NE.ZERO) THEN
-c xloc in master local frame
+c xloc in main local frame
            XLOC(1,I)=X(1,J)-INTSTAMP%XG(1)
            XLOC(2,I)=X(2,J)-INTSTAMP%XG(2)
            XLOC(3,I)=X(3,J)-INTSTAMP%XG(3)
@@ -108,7 +108,7 @@ c xloc in master local frame
          J=NSV(I)
 C stfn = 0 <=> shooting nodes
          IF(STFN(I).NE.ZERO) THEN
-c xloc in master local frame
+c xloc in main local frame
            XX=X(1,J)-INTSTAMP%XG(1)
            YY=X(2,J)-INTSTAMP%XG(2)
            ZZ=X(3,J)-INTSTAMP%XG(3)

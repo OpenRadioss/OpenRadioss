@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGTYP,INFO,P,PMASTER, LOC_PROC, J, L,
+      INTEGER MSGOFF,MSGTYP,INFO,P,PMAIN, LOC_PROC, J, L,
      .        IDEB, NBINDEX, INDEX, REQ(NSPMD-1)
       DATA MSGOFF/162/
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
@@ -79,9 +79,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      PMASTER = FR(NSPMD+2)
+      PMAIN = FR(NSPMD+2)
       LOC_PROC = ISPMD+1
-      IF(LOC_PROC.EQ.PMASTER) THEN
+      IF(LOC_PROC.EQ.PMAIN) THEN
         IDEB = 1
         L = 0
         DO P = 1, NSPMD
@@ -115,9 +115,9 @@ C
 C
       ELSE
         MSGTYP = MSGOFF
-        CALL MPI_SEND(FS6   ,LEN ,MPI_DOUBLE_PRECISION,IT_SPMD(PMASTER),
+        CALL MPI_SEND(FS6   ,LEN ,MPI_DOUBLE_PRECISION,IT_SPMD(PMAIN),
      .                MSGTYP,MPI_COMM_WORLD,IERROR)
-        CALL MPI_RECV(FS6   ,LEN ,MPI_DOUBLE_PRECISION,IT_SPMD(PMASTER),
+        CALL MPI_RECV(FS6   ,LEN ,MPI_DOUBLE_PRECISION,IT_SPMD(PMAIN),
      .                MSGTYP,MPI_COMM_WORLD,STATUS,IERROR    )
       ENDIF
 C

@@ -171,7 +171,7 @@ C-----NRTT:NRTM
 C     NRT_SH nb of shells before symetrization, NRT nb of MAIN segments before symetrization (symetrization in i24surfi)
       NRTT =NRT+NRT_SH
 C------------------------------------
-C     GAP NOEUDS ESCLAVES
+C     GAP NOEUDS SECONDS
 C------------------------------------
       DO I=1,NUMNOD
         WA(I)=ZERO
@@ -267,7 +267,7 @@ C
         GAPS1=MAX(GAPS1,GAP_S(I))
         GAPS_MN=MIN(GAPS_MN,GAP_S(I))
       ENDDO
-C calcul du surface esclave ---
+C calcul du surface second. ---
       IF(INTTH > 0 ) THEN
         IF(NADMESH==0)THEN
           DO I = 1,NSN    
@@ -708,7 +708,7 @@ C FACNRTS tab : Facet number in element connectuvty for each SECONDARY segment f
 
 C
 C------------------------------------
-C     GAP STIF FACES MAITRESSES
+C     GAP STIF FACES MAIN
 C------------------------------------
       IF (ILEV==2) THEN
 C------------ISU1 first      

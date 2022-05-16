@@ -1336,7 +1336,7 @@ C-----------------------------------------------
 #include      "warn_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
-C  THIS FUNCTION REMOVES MASTER NODE FROM SLAVE NODAL SET
+C  THIS FUNCTION REMOVES main NODE FROM SECND NODAL SET
 C  IN THE KINEMATIC CONSTRAINT DEFINITION 
 C-----------------------------------------------
       INTEGER M,IGU,IGS,ID,IBUF(*),ITABM1(*)

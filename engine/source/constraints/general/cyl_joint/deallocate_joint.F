@@ -68,7 +68,7 @@ C-----------------------------------------------
                     IF( ALLOCATED(CYL_JOIN(N)%NODE) ) DEALLOCATE( CYL_JOIN(N)%NODE )
                     IF( ALLOCATED(CYL_JOIN(N)%WEIGHT) ) DEALLOCATE( CYL_JOIN(N)%WEIGHT )
                 ENDIF
-                IF(ALLOCATED(CYL_JOIN(N)%MASTER_NODE) )DEALLOCATE( CYL_JOIN(N)%MASTER_NODE )
+                IF(ALLOCATED(CYL_JOIN(N)%MAIN_NODE) )DEALLOCATE( CYL_JOIN(N)%MAIN_NODE )
                 IF(ALLOCATED(CYL_JOIN(N)%COMM_MPI%SIZE_SR) )DEALLOCATE( CYL_JOIN(N)%COMM_MPI%SIZE_SR )
             ENDDO
             !   ------------------------------

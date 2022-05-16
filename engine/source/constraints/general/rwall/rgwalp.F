@@ -321,7 +321,7 @@ C
        FRIC=RWL(13)
        FRIC2=FRIC**2
        IF(FTDFT.LE.FRIC2*FNDFN.OR.ITIED.EQ.1) THEN
-C        POINT SLAVE TIED
+C        POINT SECND TIED
          A(N1)=ZERO
          A(N2)=ZERO
          A(N3)=ZERO 
@@ -335,7 +335,7 @@ C        POINT SLAVE TIED
             IF (IKC(JJ+2).EQ.0)IKC(JJ+2)=3
           ENDIF
        ELSE
-C        POINT SLAVE SLIDING
+C        POINT SECND SLIDING
          FCOE=FRIC*SQRT(FNDFN/MAX(EM20,FTDFT))
          FNXT=FCOE*FNXT
          FNYT=FCOE*FNYT

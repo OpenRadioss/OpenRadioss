@@ -146,7 +146,7 @@ C
           ALLOCATE(MS_PENA(0))
         ENDIF
 C
-C-- For parithoff inertia of master node must be saved
+C-- For parithoff inertia of main node must be saved
         ALLOCATE(SAV_MINER_POFF(SIZE_MINER_POFF))
         IF (SIZE_MINER_POFF>0) SAV_MINER_POFF(1:NUMNOD) = IN(1:NUMNOD)
 C
@@ -168,7 +168,7 @@ C      Calcul flag de rupture pour interface type 2 user
          ENDIF                                           
        ENDDO                                            
 C
-Cel correction pb poff si master dans plusieurs interfaces type2
+Cel correction pb poff si main dans plusieurs interfaces type2
       IF (IMACH == 3 .AND. IPARIT == 0) THEN                     
         IF (NHIN2 == 0) THEN                                  
           DO N=1,NINTER                                       
@@ -306,7 +306,7 @@ C---
                                                            
 C------------------------------------------------------------
       IF (IMACH == 3 .AND. I2OK == 1) THEN
-C version spmd avec plus d'1 proc : sommer A et AR sur les noeuds master
+C version spmd avec plus d'1 proc : sommer A et AR sur les noeuds main
         IF (IPARIT == 0.AND.NSPMD > 1) THEN
           IF(NHIN2 == 0) THEN
             LCOMI2M = IAD_I2M(NSPMD+1)
@@ -349,7 +349,7 @@ C         version spmd p/on
 C
 C Routine assemblage parith/ON
 C
-C Rare case where type2 interfaces are defined with no more active slave nodes
+C Rare case where type2 interfaces are defined with no more active secnd nodes
         IF(I2NSNT > 0)
      *    CALL ASSPARI2(
      1       A    ,AR    ,STIFN ,STIFR  ,MS               ,

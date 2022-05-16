@@ -557,7 +557,7 @@ C
             TABI(4)=FVSPMD(I)%NSA
             TABI(5)=FVSPMD(I)%NNSA
             TABI(6)=FVSPMD(I)%NELSA
-            TABI(7)=FVSPMD(I)%PMASTER
+            TABI(7)=FVSPMD(I)%PMAIN
             TABI(8)=FVSPMD(I)%NNI_L
             LEN=8
             CALL WRITE_I_C(TABI,LEN)
@@ -575,7 +575,7 @@ C
             ENDIF
             LEN = 1
             CALL WRITE_I_C(KMESH(I), LEN)
-            IF (ISPMD.NE.FVSPMD(I)%PMASTER-1) CYCLE
+            IF (ISPMD.NE.FVSPMD(I)%PMAIN-1) CYCLE
 C
             LEN=8*FVSPMD(I)%NSA
             IF (LEN.GT.0) THEN

@@ -128,7 +128,7 @@ C-----------------------------------------------
       INTEGER USR2SYS,NGR2USR,NODGRNR6
 C-----------------------------------------------
 C   NPBY(NNPBY,NRBYKIN), NNPBY=17
-C    1 : MASTER NODE
+C    1 : main NODE
 C    2 : NUMBER OF SECONDARY NODES
 C    3 : ICOG
 C    4 : ISENS 
@@ -141,7 +141,7 @@ C   10 : IEXPAMS (AMS - Hidden)
 C         = 1 (default) : AMS expansion ; = 2 (Hidden) : No expansion
 C   11 : IAD => SECONDARY nodes LPBY(IAD+1:IAD+NSN)
 C   12 : RIGID BODY LEVEL (IN MERGE RELATIONS)
-C   13 : MERGING FLAG FOR THE MASTER RIGID BODY
+C   13 : MERGING FLAG FOR THE main RIGID BODY
 C   14 : NUMBER OF SECONDARY NODES WITH MERGING FLAG = 1
 C   15 : NUMBER OF SECONDARY NODES WITH MERGING FLAG = 2 
 C   16 : NUMBER OF SECONDARY NODES WITH MERGING FLAG = 3
@@ -152,9 +152,9 @@ C   RBY(NRBY,NRBYKIN), NRBY=25
 C   LOADED DURING READING       AFTER INITIALIZATION (including in RD ENGINE)
 C   1   : Added Mass            1..9 :   Principal directions
 C   2..4: IXX, IYY, IZZ         10..12:  Principal inertia I1, I2, I3
-C   5..7: IXY, IYZ, IXZ         13:      Initial inertia of Master Node (cf deactivation of rbody)
+C   5..7: IXY, IYZ, IXZ         13:      Initial inertia of Main Node (cf deactivation of rbody)
 C                               14:      Rigid body mass
-C                               15:      Initial mass of master node (cf deactivation of rbody)
+C                               15:      Initial mass of main node (cf deactivation of rbody)
 C                               17..25:  Inertia matrix in global system
 C   26: FN : Normal force at failure (Ifail=1)
 C   27: FT : Shear force at failure (Ifail=1)
@@ -408,7 +408,7 @@ C
         WRITE(IOUT,1202) (ITAB(LPBY(I+K)),I=1,NSL)
         K=K+NSL
 C-------------------------------
-C VITESSE FIXE SUR MASTER EN ROT
+C VITESSE FIXE SUR main EN ROT
 C-------------------------------
         DO J=1,NFXVEL
           IF(IABS(IBFV(1,J)) == NPBY(1,NRB).AND.
@@ -417,7 +417,7 @@ C-------------------------------
           ENDIF
         ENDDO
 C-------------------------------
-C MASTER BELONGS TO MESH
+C main BELONGS TO MESH
 C-------------------------------
         NEL=KNOD2ELS(NPBY(1,NRB)+1) -KNOD2ELS(NPBY(1,NRB))
      .     +KNOD2ELC(NPBY(1,NRB)+1) -KNOD2ELC(NPBY(1,NRB))
@@ -452,7 +452,7 @@ C Recherche des Rigid Body ID doubles
 C-------------------------------------
       CALL UDOUBLE(NPBY(6,1),NNPBY,NRBYKIN,MESS,0,BID)
 C-------------------------------------
-C Recherche des Master Node ID doubles
+C Recherche des Main Node ID doubles
 C-------------------------------------
       IC = 442
       I = 0

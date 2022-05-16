@@ -184,7 +184,7 @@ Cgw        J3=3*MSR(IRECT(JJ,L))
           VMX=VMX+V(J1)*H(JJ)
           VMY=VMY+V(J2)*H(JJ)
           VMZ=VMZ+V(J3)*H(JJ)
-CFP (RESET MASSE MAITRE)
+CFP (RESET MASSE MAIN)
 Cel     MS(J)=MS(J)-XMSI*H(JJ)
         ENDDO
         A(I1)=AMX
@@ -197,7 +197,7 @@ Cel     MS(J)=MS(J)-XMSI*H(JJ)
 C
  70   CONTINUE
 C
-Cel restitution de la masse initiale sur noeuds master
+Cel restitution de la masse initiale sur noeuds main
       DO II=1,NMN
         J=MSR(II)
         MS(J)=MMASS(II)
@@ -351,7 +351,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
       NIR=2
       IF(N2D.EQ.0)NIR=4
-CFP (RESET MASSE MAITRE)
+CFP (RESET MASSE MAIN)
 C      DO II=1,NSN
 C        I=NSV(II)
 C        L=IRTL(II)
@@ -373,7 +373,7 @@ C         MS(J)=MS(J)-XMSI*H(JJ)
 C        ENDDO
 C      ENDDO
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
       DO II=1,NSN
        I=NSV(II)
@@ -388,7 +388,7 @@ Cgw        J4=MSR(IRECT(4,L))
         J3=IRECT(3,L)
         J4=IRECT(4,L)
 C----------------------------------------
-C       VITESSE MOYENNE DU SEGMENT MAITRE
+C       VITESSE MOYENNE DU SEGMENT MAIN
 C----------------------------------------
         VMX=QUART*(V(1,J1)+V(1,J2)+V(1,J3)+V(1,J4))
         VMY=QUART*(V(2,J1)+V(2,J2)+V(2,J3)+V(2,J4))
@@ -397,7 +397,7 @@ C----------------------------------------
         AMY=QUART*(A(2,J1)+A(2,J2)+A(2,J3)+A(2,J4))
         AMZ=QUART*(A(3,J1)+A(3,J2)+A(3,J3)+A(3,J4))	
 C----------------------------------------------------
-C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAITRE
+C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
 C----------------------------------------------------
         X1=X(1,J1)
         Y1=X(2,J1)
@@ -495,7 +495,7 @@ C
         ARZ=DET*(MRZ*B3+MRX*C2+MRY*C1)
 C
 C----------------------------------------------------
-C       VITESSE DE ROTATION DU NOEUD ESCLAVE
+C       VITESSE DE ROTATION DU NOEUD SECOND
 C----------------------------------------------------
         IF (IRODDL == 1) THEN
           VR(1,I)=VRX
@@ -506,7 +506,7 @@ C----------------------------------------------------
           AR(3,I)=ARZ
         ENDIF
 C----------------------------------------------------
-C       VITESSE DU NOEUD ESCLAVE
+C       VITESSE DU NOEUD SECOND
 C----------------------------------------------------
         V(1,I)=VMX + VRY*ZS - VRZ*YS
         V(2,I)=VMY + VRZ*XS - VRX*ZS

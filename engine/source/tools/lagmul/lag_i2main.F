@@ -401,7 +401,7 @@ C ---  ic = 3 (vz)
         SLL(IK) = NINT
         XLL(IK) = -UN
 C
-c       begin rotational dof of slave
+c       begin rotational dof of secnd
 C ---   ic = 4 (wx)
         NC = NC + 1
         IADLL(NC+1) = IADLL(NC) + NDL

@@ -34,8 +34,8 @@ C-----------------------------------------------
 C   D e s c r i p  t i o n
 C-----------------------------------------------
 C this subroutines update VOLN for cut cells.
-C Master cells have extended values of volume due
-C to slave cell merging. This extension data is 
+C Main cells have extended values of volume due
+C to secnd cell merging. This extension data is 
 C stored in cut cell buffer and is now used here
 C to update VOLN(*)
 C-----------------------------------------------
@@ -70,8 +70,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, II, IB, NCELL, IPOS, MCELL, NIN , NSlaves, IBV, ICELLv, NumSlave,ISLAVE
-      my_real :: VAR, AREAM, VOLM, VOLslaves
+      INTEGER :: I, II, IB, NCELL, IPOS, MCELL, NIN , NSecnds, IBV, ICELLv, NumSecnd,ISECND
+      my_real :: VAR, AREAM, VOLM, VOLsecnds
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------
@@ -87,8 +87,8 @@ C-----------------------------------------------
            IB        =  NINT(IAD22(I))
            IF(IB==0)CYCLE
            NCELL     =  BRICK_LIST(NIN,IB)%NBCUT      
-           MCELL     =  BRICK_LIST(NIN,IB)%MasterID
-           VOLN(I)   =  EM20*BRICK_LIST(NIN,IB)%UncutVOL  !!!ZERO !in case of no master cell                               
+           MCELL     =  BRICK_LIST(NIN,IB)%MainID
+           VOLN(I)   =  EM20*BRICK_LIST(NIN,IB)%UncutVOL  !!!ZERO !in case of no main cell                               
            IF(MCELL == 0)CYCLE          
           
            IF(BRICK_LIST(NIN,IB)%POLY(MCELL)%Vnew.GT.ZERO)THEN

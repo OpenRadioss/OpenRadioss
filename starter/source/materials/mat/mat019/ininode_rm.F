@@ -32,7 +32,7 @@ Chd|====================================================================
 C===============================================
 C            EN SORTIE    
 C    IRBY    Rigid node 
-C    SLN     slave node number by rigid material
+C    SLN     secnd node number by rigid material
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

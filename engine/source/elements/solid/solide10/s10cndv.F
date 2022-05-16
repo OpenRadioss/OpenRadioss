@@ -222,7 +222,7 @@ C     REAL ou REAL*8
       my_real
      .   AX,AY,AZ
 C======================================================================|
-C----for Nd as master of int2 only; Ad-> acce absolu
+C----for Nd as main of int2 only; Ad-> acce absolu
          DO I=1,NS10E
            ND  = ICNDS10(1,I)
 	  IF (IABS(ITAGND(IABS(ND)))>NS10E) THEN
@@ -283,7 +283,7 @@ C     REAL ou REAL*8
       my_real
      .   AX,AY,AZ
 C======================================================================|
-C----for Nd as master of int2 only; Ad-> acce relative
+C----for Nd as main of int2 only; Ad-> acce relative
          DO I=1,NS10E
            ND  = ICNDS10(1,I)
 	  IF (ND>0.AND.IABS(ITAGND(IABS(ND)))>NS10E) THEN

@@ -134,14 +134,14 @@ C-------------------------------------
       FYMI=A(JJ1)*XMSS
       FZMI=A(JJ1)*XMSS
 C-------------------------------------
-C     FORCE NORMALE SLAVE
+C     FORCE NORMALE SECND
 C-------------------------------------
       FSN=(FXI*N1+FYI*N2+FZI*N3)
       FXN=FSN*N1
       FYN=FSN*N2
       FZN=FSN*N3
 C-------------------------------------
-C     FORCE NORMALE MASTER (CORRECTIF)
+C     FORCE NORMALE main (CORRECTIF)
 C-------------------------------------
       FSM = (FXMI*N1+FYMI*N2+FZMI*N3)
       FXMN = FSM*N1
@@ -163,7 +163,7 @@ C-------------------------------------
       FST = SQRT(FXT*FXT+FYT*FYT+FZT*FZT)
       FAC = MIN(UN,FRIC*FSN/MAX(EM30,FST))
 C-------------------------------------
-C     FORCE FRICTION MASTER (CORRECTIF)
+C     FORCE FRICTION main (CORRECTIF)
 C-------------------------------------
       FXMT = FXMI - FXMN
       FYMT = FYMI - FYMN

@@ -99,7 +99,7 @@ C--------------------------------------------------------------
       GAPMX=EP30
       GAPMN=EP30
 C------------------------------------
-C     GAP VARIABLE NOEUDS ESCLAVES
+C     GAP VARIABLE NOEUDS SECONDS
 C------------------------------------
       IF(IGAP.GE.1)THEN
         DO I=1,NUMNOD
@@ -148,7 +148,7 @@ C---------------------
       ENDIF
 C
       IF(NELS+NELC+NELTG.EQ.0)THEN
-Ca verifier (esclave)      en SPMD il faut un element associe a l'arrete sinon erreur
+Ca verifier (second)      en SPMD il faut un element associe a l'arrete sinon erreur
          IF(NINT.GT.0) THEN
             CALL ANCMSG(MSGID=481,
      .               MSGTYPE=MSGERROR,
@@ -175,7 +175,7 @@ C-----
        ENDDO
       ENDIF
 C------------------------------------
-C     GAP FACES MAITRES
+C     GAP FACES MAINS
 C------------------------------------
       DO 350 I=1,NRTM
       INRT=I
@@ -218,7 +218,7 @@ c        END IF
       IF(IGAP/=0) GAP_M(I)=GAPM
 C
       IF(NELS+NELC+NELTG.EQ.0)THEN
-Ca verifier (esclave)      en SPMD il faut un element associe a l'arrete sinon erreur
+Ca verifier (second)      en SPMD il faut un element associe a l'arrete sinon erreur
          IF(NINT.GT.0) THEN
             CALL ANCMSG(MSGID=481,
      .               MSGTYPE=MSGERROR,
@@ -294,7 +294,7 @@ C
         GAPINF=MAX(GAPINF,GAPMIN)
       ENDIF
 C---------------------------------------------
-C     STiff cote maitre (1: active ; 0: inactive)
+C     STiff cote main (1: active ; 0: inactive)
 C------------------------------------
       DO I=1,NRTM
         STF(I)=UN

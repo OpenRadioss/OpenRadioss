@@ -871,7 +871,7 @@ C-------------------------------------------
         FYI(I) = FYN(I) + FYT(I)
         FZI(I) = FZN(I) + FZT(I) 
       ENDDO
-C--------master part-------
+C--------main part-------
        DO I=1,JLT
         FX=FXI(I)
         FY=FYI(I)
@@ -889,7 +889,7 @@ C--------master part-------
         A(3,IX3(I))=A(3,IX3(I))+FZ*H3(I)
         A(3,IX4(I))=A(3,IX4(I))+FZ*H4(I)
        ENDDO
-C--------slave part-------
+C--------secnd part-------
       IF(IMACH.NE.3) THEN
         DO I=1,JLT
           IG=NSVG(I)

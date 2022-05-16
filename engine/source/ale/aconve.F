@@ -352,7 +352,7 @@ C     ALE ON / OFF
           !--------------------------!
           !    INTERFACE 22          !
           !--------------------------! 
-         !Fill Slave cells linked to current master cell with master cell value.
+         !Fill Secnd cells linked to current main cell with main cell value.
          IF(INT22>0)THEN
            NIN = 1
            pIAD22 => ELBUF_TAB(NG)%GBUF%TAG22(LFT:LLT) 
@@ -360,12 +360,12 @@ C     ALE ON / OFF
              J                                      = I+NFT          
              IB                                     = pIAD22(I)
              IF(IB==0)CYCLE
-             NUM                                    = BRICK_LIST(NIN,IB)%SlaveList%Num
-             MCELL                                  = BRICK_LIST(NIN,IB)%masterID
+             NUM                                    = BRICK_LIST(NIN,IB)%SecndList%Num
+             MCELL                                  = BRICK_LIST(NIN,IB)%mainID
              BRICK_LIST(NIN,IB)%POLY(MCELL)%PHI     = PHI(J)            
              DO K=1,NUM
-               IBV                                  = BRICK_LIST(NIN,IB)%SlaveList%IBV(K)
-               ICELLv                               = BRICK_LIST(NIN,IB)%SlaveList%ICELLv(K)
+               IBV                                  = BRICK_LIST(NIN,IB)%SecndList%IBV(K)
+               ICELLv                               = BRICK_LIST(NIN,IB)%SecndList%ICELLv(K)
                BRICK_LIST(NIN,IBv)%POLY(ICELLv)%PHI = PHI(J)
              ENDDO
            ENDDO!next I

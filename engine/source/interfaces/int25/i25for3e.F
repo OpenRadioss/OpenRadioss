@@ -1445,7 +1445,7 @@ C
        ENDIF
       ENDIF
 C===================================================================
-C     FORCES sur noeuds maites et esclave
+C     FORCES sur noeuds maites et second
 C===================================================================
       IF(IPARIT.EQ.0)THEN
        IF(KDTINT.EQ.0)THEN

@@ -165,7 +165,7 @@ C
       IPARI(15)=NOINT
 C
       IF (ID_TYPE19 > 0) THEN
-C-- type11 generated from type19 - internal id of master type7 must be identified 
+C-- type11 generated from type19 - internal id of main type7 must be identified 
         NTYP = 19
         DO I=1,NI-1
           IF (NOM_OPT(1,I)==ID_TYPE19) THEN

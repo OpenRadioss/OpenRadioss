@@ -125,7 +125,7 @@ C-------------------------------------------------------------
          END IF  
 C
 C-----------------------------------------------
-C         CALCUL DISTANCE ENTRE LE NOEUD ESCLAVE 
+C         CALCUL DISTANCE ENTRE LE NOEUD SECOND. 
 C              ET  LA  SURFACE (SURFACE NODALE)
 C-----------------------------------------------
          DIST = (SX2*SX1+SY2*SY1+SZ2*SZ1) / MAX(EM15,NORM)
@@ -251,7 +251,7 @@ C-------------------------------------------------------------
          END IF  
 C
 C-----------------------------------------------
-C         CALCUL DISTANCE ENTRE LE NOEUD ESCLAVE 
+C         CALCUL DISTANCE ENTRE LE NOEUD SECOND. 
 C              ET  LA  SURFACE (SURFACE NODALE)
 C-----------------------------------------------
          DIST = (SX2*SX1+SY2*SY1+SZ2*SZ1) / MAX(EM15,NORM)

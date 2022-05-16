@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGOFF2,MSGTYP,INFO,P,PMASTER, LOC_PROC, J
+      INTEGER MSGOFF,MSGOFF2,MSGTYP,INFO,P,PMAIN, LOC_PROC, J
       DATA MSGOFF/110/
       DATA MSGOFF2/111/
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
@@ -64,9 +64,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      PMASTER = FR_WALL(NSPMD+2)
+      PMAIN = FR_WALL(NSPMD+2)
       LOC_PROC = ISPMD+1
-      IF(LOC_PROC.EQ.PMASTER) THEN
+      IF(LOC_PROC.EQ.PMAIN) THEN
         DO P = 1, NSPMD
           IF(LOC_PROC.NE.P.AND.FR_WALL(P).NE.0)THEN
             MSGTYP = MSGOFF
@@ -89,10 +89,10 @@ C
 C
       ELSE
         MSGTYP = MSGOFF
-        CALL MPI_SEND(FS    ,LEN           ,REAL  ,IT_SPMD(PMASTER),
+        CALL MPI_SEND(FS    ,LEN           ,REAL  ,IT_SPMD(PMAIN),
      .                MSGTYP,MPI_COMM_WORLD,IERROR)
         MSGTYP = MSGOFF2
-        CALL MPI_RECV(FS    ,LEN           ,REAL  ,IT_SPMD(PMASTER),
+        CALL MPI_RECV(FS    ,LEN           ,REAL  ,IT_SPMD(PMAIN),
      .                MSGTYP,MPI_COMM_WORLD,STATUS,IERROR    )
       ENDIF
 C

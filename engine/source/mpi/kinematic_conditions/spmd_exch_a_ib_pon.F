@@ -29,7 +29,7 @@ Chd|====================================================================
       SUBROUTINE SPMD_EXCH_A_IB_PON(
      1   LBVRS,FR_RBM  ,IAD_RBM,FSKYRBM,LSEND ,
      2   LRECV,LSKYRBMG)
-C realise le cumul des acc et stifness des noeuds master
+C realise le cumul des acc et stifness des noeuds main
 C  de rigid bodies mous en parit/on
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -62,7 +62,7 @@ C-----------------------------------------------
       INTEGER LOC_PROC,A_AR,N,L,I,J,II,K,M,JJ, LEN,
      .        MSGTYP,MSGOFF,MSGOFF2,SIZ,IDEBR,IDEBS,
      .        IERROR, NBIRECV, NBISEND, INDEX, NBRBY, NBNOD,
-     .        PMASTER, IDEB, LENS, LENR,
+     .        PMAIN, IDEB, LENS, LENR,
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD), REQ_S(NSPMD),
      .        IRINDEX(NSPMD), ISINDEX(NSPMD),
@@ -106,10 +106,10 @@ C-----------------------------------------------
 C
       IDEB = 0
       DO N = 1, NIBVEL
-        PMASTER = FR_RBM(3,N)
+        PMAIN = FR_RBM(3,N)
         NBNOD = FR_RBM(1,N)
-        IF(PMASTER.GT.0.AND.LOC_PROC.NE.PMASTER) THEN
-          L = IAD_STMP(PMASTER)
+        IF(PMAIN.GT.0.AND.LOC_PROC.NE.PMAIN) THEN
+          L = IAD_STMP(PMAIN)
           DO K = 1, NBNOD
             SBUF(L)   = FSKYRBM(1,IDEB+K)
             SBUF(L+1) = FSKYRBM(2,IDEB+K)
@@ -134,10 +134,10 @@ C
             SBUF(L+20)= FSKYRBM(21,IDEB+K)
             L = L + A_AR
           ENDDO
-          IAD_STMP(PMASTER)=L
+          IAD_STMP(PMAIN)=L
 
         ELSE
-C si proc master : stockage direct
+C si proc main : stockage direct
           DO K = 1, NBNOD
             II = NINT(FSKYRBM(1,IDEB+K))
             FSKYRBMG(1,II) = FSKYRBM(2,IDEB+K)
@@ -206,7 +206,7 @@ C
         ENDDO
       ENDDO
 C
-C Calcul des forces aux noeuds master sur proc master
+C Calcul des forces aux noeuds main sur proc main
 C
       IDEB = 0
       DO N = 1, NIBVEL
@@ -242,7 +242,7 @@ C
         CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
       ENDDO
 C
-C Envois des forces des noeuds master aux autres procs
+C Envois des forces des noeuds main aux autres procs
 C
       NBIRECV = 0
       IDEBR = 1

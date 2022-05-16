@@ -33,8 +33,8 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPMD_EXCH_A_RB6(
      1    NRBDIM,IAD_RBY,FR_RBY6,ICSIZE,RBF6)
-C realise le cumul des acc et stifness des noeuds master de rigid bodies
-C et realise le cumul d'autres qts des noeuds master de rigid bodies en AMS.
+C realise le cumul des acc et stifness des noeuds main de rigid bodies
+C et realise le cumul d'autres qts des noeuds main de rigid bodies en AMS.
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

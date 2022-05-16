@@ -285,9 +285,9 @@ c----------------------------------------------------
               LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
             CALL SPMD_I20EXCH_N(SOLIDN_NORMAL,IAD_ELEM,FR_ELEM,LENR)
 C Communication supplementaire normale sur proc remote en SPMD
-C allocation partie non edge sur taille NSNR (nb noeuds slave remote)
+C allocation partie non edge sur taille NSNR (nb noeuds secnd remote)
             ALLOCATE(SOLIDN_NORMAL_F (3,IPARI(24)))
-C allocation partie edge sur taille NLINR (nb lignes slave remote)
+C allocation partie edge sur taille NLINR (nb lignes secnd remote)
             ALLOCATE(SOLIDN_NORMAL_FE(3,2*IPARI(57)))
 	    CALL SPMD_I20NORMF(
      1 SOLIDN_NORMAL,SOLIDN_NORMAL_F,SOLIDN_NORMAL_FE,NIN     ,IRLEN20 ,
@@ -721,11 +721,11 @@ C         preparation candidats retenus
       ENDIF
 
 C----------------------------------------------------------------------
-C     3- FORCES entre NOEUD ESCLAVE et NOEUD D'ANCRAGE
+C     3- FORCES entre NOEUD SECOND. et NOEUD D'ANCRAGE
 C----------------------------------------------------------------------
       CALL MY_BARRIER
 C----------------------------------------------------------------------
-C     NOEUDS slave,master,edge
+C     NOEUDS secnd,main,edge
 C----------------------------------------------------------------------
       IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
       NLNFT1= (JTASK-1)*NLN/NTHREAD

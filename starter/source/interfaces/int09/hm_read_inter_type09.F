@@ -136,9 +136,9 @@ C=======================================================================
 C=======================================================================
 C     CARD 1 : Surfaces ids
 C=======================================================================
-      ! Master surface
+      ! Main surface
       CALL HM_GET_INTV('surf_IDA', ISU1, IS_AVAILABLE, LSUBMODEL)
-      ! Slave surface
+      ! Secnd surface
       CALL HM_GET_INTV('surf_IDL', ISU2, IS_AVAILABLE, LSUBMODEL)
       ! Checks
       IS1=1

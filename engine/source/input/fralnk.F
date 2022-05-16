@@ -83,7 +83,7 @@ C
          ENDIF
          CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
          READ(IUSC2,*,ERR=9990,END=9990)M1,M2
-         IF(M1.LE.0.OR.M2.LE.0)GOTO 9990      !Negative master node null or negative not allowed
+         IF(M1.LE.0.OR.M2.LE.0)GOTO 9990      !Negative main node null or negative not allowed
          !IF(KEY4(1:5)=='GRNOD')M1=-M1         !Tag on ale link for specific treatment in lectur.F
          
          !---------------------------------!
@@ -256,7 +256,7 @@ C
           K=K+1
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
           READ(IUSC2,*,ERR=9990,END=9990)M1,M2
-          IF(M1.LE.0.OR.M2.LE.0)GOTO 9990      !Negative master node null or negative not allowed                 
+          IF(M1.LE.0.OR.M2.LE.0)GOTO 9990      !Negative main node null or negative not allowed                 
           K=K+1
           KK=K
           NS=0    

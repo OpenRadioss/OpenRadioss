@@ -330,10 +330,10 @@ c        IF(NBCUT==0) print *, "     C Y C L E"
           ICELL1 = ICUT
           ICELL2 = 9
           !Surjection (icell1,icell2) ->> ( (mcell1,ibv1) , (mcell2,ibv2) )
-          IEM1   = BRICK_LIST(NIN,IB)%POLY(ICELL1)%WhereIsMaster(3)
-          IEM2   = BRICK_LIST(NIN,IB)%POLY(ICELL2)%WhereIsMaster(3)        
-          JM1    = BRICK_LIST(NIN,IB)%POLY(ICELL1)%WhereIsMaster(1)
-          JM2    = BRICK_LIST(NIN,IB)%POLY(ICELL2)%WhereIsMaster(1)        
+          IEM1   = BRICK_LIST(NIN,IB)%POLY(ICELL1)%WhereIsMain(3)
+          IEM2   = BRICK_LIST(NIN,IB)%POLY(ICELL2)%WhereIsMain(3)        
+          JM1    = BRICK_LIST(NIN,IB)%POLY(ICELL1)%WhereIsMain(1)
+          JM2    = BRICK_LIST(NIN,IB)%POLY(ICELL2)%WhereIsMain(1)        
           IF(IEM1==IE)THEN
             IBM1 = IB
           ELSE
@@ -468,8 +468,8 @@ C          print *, "FF=", FF(1), ITAB(IRECT(1:4,CE_LOC(I)))
           !-------------------------------!
           !Bijection : Scut=Icut <-> (icell1,icell2)
           !Surjection (icell1,icell2) ->> ( (mcell1,ibv1) , (mcell2,ibv2) )
-          IEM1          = BRICK_LIST(NIN,IB)%POLY(ICELL1)%WhereIsMaster(3)
-          JM1           = BRICK_LIST(NIN,IB)%POLY(ICELL1)%WhereIsMaster(1)
+          IEM1          = BRICK_LIST(NIN,IB)%POLY(ICELL1)%WhereIsMain(3)
+          JM1           = BRICK_LIST(NIN,IB)%POLY(ICELL1)%WhereIsMain(1)
           IBv           = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,4)
           IEv           = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,1)
           Jv            = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,5)
@@ -481,8 +481,8 @@ C          print *, "FF=", FF(1), ITAB(IRECT(1:4,CE_LOC(I)))
               ICELL2        = 9
             ENDIF
           IF(ICELL2 == 0) ICELL2 = 1          !closed surface hypothesis
-          IEM2          = BRICK_LIST(NIN,IBv)%POLY(ICELL2)%WhereIsMaster(3)        
-          JM2           = BRICK_LIST(NIN,IBv)%POLY(ICELL2)%WhereIsMaster(1)
+          IEM2          = BRICK_LIST(NIN,IBv)%POLY(ICELL2)%WhereIsMain(3)        
+          JM2           = BRICK_LIST(NIN,IBv)%POLY(ICELL2)%WhereIsMain(1)
           IF(IEM1==IE)THEN
             IBM1 = IB
           ELSE

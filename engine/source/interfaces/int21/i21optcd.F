@@ -193,11 +193,11 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
            IG(IS) = CAND_N(I)
            GAPF = MAX(GAPV(IS),DRAD)
 C          
-           XI = XLOC(1,IG(IS)) ! Slave node
+           XI = XLOC(1,IG(IS)) ! Secnd node
            YI = XLOC(2,IG(IS))
            ZI = XLOC(3,IG(IS))
 C
-           IX1(IS)=IRECT(1,L) ! Master Segment
+           IX1(IS)=IRECT(1,L) ! Main Segment
            IX2(IS)=IRECT(2,L)
            IX3(IS)=IRECT(3,L)
            IX4(IS)=IRECT(4,L)

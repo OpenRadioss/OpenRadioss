@@ -205,7 +205,7 @@ C-----------------------------------------------
      .        NSNI, IFILE, NMOD, NME, IRCM, ANOD, AMOD, NSN_L, NSNI_L,
      .        II, ASIG, IRCS, NELS, NELC, NELT, NELP, NELTG, AELM,
      .        NELS_L, NELC_L, NELT_L, NELP_L, NELTG_L, J, K, ELM(13),
-     .        LVSIG, IAD, JJ, ASIG2, ASIG_L2, LVSIG2, NMAX, PMASTER, PP,
+     .        LVSIG, IAD, JJ, ASIG2, ASIG_L2, LVSIG2, NMAX, PMAIN, PP,
      .        AGRVI_L, NLG, AGRVI, IADG, IADG_L, IG, NNO, NNO_L,
      .        NG_L(NGROUP), IADFXB(LENNOD_L),ITASK
       my_real
@@ -252,7 +252,7 @@ C
          DO I=1,NBIPM
             FXBIPM_L(I,NFX)=FXBIPM(I,NFX)
          ENDDO
-C Noeud Master
+C Noeud Main
          FXBIPM_L(2,NFX)=NODLOCAL(FXBIPM(2,NFX))
 C
          NSN=FXBIPM(3,NFX)
@@ -685,9 +685,9 @@ C Gravite
             IADG_L=IADG_L+2+NNO_L
          ENDDO
          AGRVI_L=AGRVI_L+IADG_L
-C Identification du PMASTER
+C Identification du PMAIN
          NMAX=0
-         PMASTER=1
+         PMAIN=1
          DO P=1,NSPMD
             NSN_L=0
             DO I=1,NSN
@@ -703,11 +703,11 @@ C Identification du PMASTER
                ENDIF
             ENDDO
             IF(NSN_L.GT.NMAX)THEN
-               PMASTER=P
+               PMAIN=P
                NMAX=NSN_L
             ENDIF
          ENDDO
-         FXBIPM_L(39,NFX)=PMASTER-1
+         FXBIPM_L(39,NFX)=PMAIN-1
          FXBIPM_L(40,NFX)=FXBIPM(18,NFX)
       ENDDO
       LENNOD_L=LENNOD_L*2
@@ -741,7 +741,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NTR, NFX, NMOD, NMST, NME, NLG, PMASTER
+      INTEGER NTR, NFX, NMOD, NMST, NME, NLG, PMAIN
 C
       LENGLM_L=0
       LENCP_L=0
@@ -757,7 +757,7 @@ C
          NMST=FXBIPM_L(5,NFX)
          NME=FXBIPM_L(17,NFX)
          NLG=FXBIPM_L(25,NFX)
-         PMASTER=FXBIPM_L(39,NFX)
+         PMAIN=FXBIPM_L(39,NFX)
 C
          FXBIPM_L(8 ,NFX)=LENGLM_L+1
          FXBIPM_L(9 ,NFX)=LENCP_L+1
@@ -767,7 +767,7 @@ C
          FXBIPM_L(15,NFX)=LENMCD_L+1
          FXBIPM_L(27,NFX)=LENGRVR_L+1
 C
-         IF (PMASTER.EQ.PROC) THEN
+         IF (PMAIN.EQ.PROC) THEN
             LENGLM_L =LENGLM_L +NME*(NME+1)/2
             LENCP_L  =LENCP_L  +NTR*NMOD*NME
             LENLM_L  =LENLM_L  +NMOD
@@ -812,7 +812,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NTR, NFX, NMOD, NMST, NME, NLG, PMASTER, AGLM, ACP, ALM,
+      INTEGER NTR, NFX, NMOD, NMST, NME, NLG, PMAIN, AGLM, ACP, ALM,
      .        AFLS, ADLS, AGRVR, AGLM_L, ACP_L, ALM_L, AFLS_L, ADLS_L,
      .        AGRVR_L, I
 C
@@ -822,7 +822,7 @@ C
          NMST=FXBIPM_L(5,NFX)
          NME=FXBIPM_L(17,NFX)
          NLG=FXBIPM_L(25,NFX)
-         PMASTER=FXBIPM_L(39,NFX)
+         PMAIN=FXBIPM_L(39,NFX)
 C
          AGLM =FXBIPM(8,NFX)
          ACP  =FXBIPM(9,NFX)
@@ -837,7 +837,7 @@ C
          ADLS_L =FXBIPM_L(12,NFX)
          AGRVR_L=FXBIPM_L(27,NFX)
 C
-         IF (PMASTER.EQ.PROC) THEN
+         IF (PMAIN.EQ.PROC) THEN
             DO I=1,NME*(NME+1)/2
                FXBGLM_L(AGLM_L+I-1)=FXBGLM(AGLM+I-1)
             ENDDO

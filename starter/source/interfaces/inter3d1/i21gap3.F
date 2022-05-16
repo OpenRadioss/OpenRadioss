@@ -109,7 +109,7 @@ C--------------------------------------------------------------
       GAPS1=ZERO
       GAPS2=ZERO
 C------------------------------------
-C     GAP FACES ESCLAVES
+C     GAP FACES SECONDS
 C------------------------------------
       DO 250 I=1,NRTS
         GAPM  =ZERO
@@ -117,7 +117,7 @@ C------------------------------------
         CALL I4GMX3(X,IRECTS,INRT,GAPMX)
   250 CONTINUE
 C-------------------------------------------------------
-C     THICKNESS PART ON SLAVE NODES FOR GAP CALCULATION
+C     THICKNESS PART ON SECND NODES FOR GAP CALCULATION
 C-------------------------------------------------------
       IF(IGAP.GE.1)THEN
          ALLOCATE (THK_PART_NODS(NUMNOD)        ,STAT=stat)
@@ -150,7 +150,7 @@ C-------------------------------------------------------
       ENDIF
 
 C------------------------------------
-C     GAP VARIABLE NOEUDS ESCLAVES
+C     GAP VARIABLE NOEUDS SECONDS
 C------------------------------------
       IF(IGAP.GE.1)THEN
        DO I=1,NSN
@@ -272,7 +272,7 @@ Ce warning pour les performances du tri.
         END IF
       END IF
 C------------------------------------
-C     STiff cote maitre (1: active ; 0: inactive)
+C     STiff cote main (1: active ; 0: inactive)
 C------------------------------------
       DO I=1,NRTM
         STF(I)=UN

@@ -87,7 +87,7 @@ C
         M  =NPBY(1,N)
         IF(NPBY(7,N)/=0.AND.MS(M)/=ZERO.AND.IN(M)/=ZERO)THEN
                              ! RBODY is active <=> not a rigid body activated with sensor
-                             ! A node may be slave of several rbodies (cf /RBODY/ON, /RBODY/OFF)
+                             ! A node may be secnd of several rbodies (cf /RBODY/ON, /RBODY/OFF)
                              ! Then an error could be written when starting the engine
           NSL=NPBY(2,N)
           IAD=NPBY(11,N)

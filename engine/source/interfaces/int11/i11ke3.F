@@ -121,7 +121,7 @@ C
       GAPMIN=INTBUF_TAB%VARIABLES(13)
       KMIN =INTBUF_TAB%VARIABLES(17)
       KMAX =INTBUF_TAB%VARIABLES(18)
-C------pour evider la desactivation des noeuds slaves------
+C------pour evider la desactivation des noeuds secnds------
       GAP_IMP=MIN(GAP_IMP,ZEP9*GAPMIN)
       IDESAC = 0
 C

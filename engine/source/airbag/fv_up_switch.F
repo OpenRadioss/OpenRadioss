@@ -19,7 +19,7 @@ Copyright>        Commercial Alternative: Altair Radioss Software
 Copyright>    
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
       SUBROUTINE FV_UP_SWITCH(NN, NEL, ELEM, NJET, NPOLY,LENH,NBA,
      2     IBAGJET, RBAGJET, NVENT    , IBAGHOL, RBAGHOL ,
      3     P      , RHO    , TK       , U      , SSPK    ,
@@ -108,7 +108,7 @@ C-----------------------------------------------
      .        ITEMP, ITAGP(NPOLH), NV, ILVOUT, IPRI,
      .        IVENT, IDEF, IPORT, IPORP, IPORA, IPORT1, IPORP1, IPORA1,
      .        ITVENT, PHDT, I1, I2, NNSA, ICONT(NNT),IVDP,ITTF, IDPDEF,
-     .        IDTPDEF,PMASTER,N21,N22,TAGSURF(2,NELT+1),ITYPL,
+     .        IDTPDEF,PMAIN,N21,N22,TAGSURF(2,NELT+1),ITYPL,
      .        PREPARE_ANIM,IVENTYP
       INTEGER TITREVENT(20)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: SURF_INT,SURF_EXT
@@ -215,7 +215,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
      .        CALL SPMD_FVB_IGATH(IFV, ICONTACT, ICONT)
 
      
-         IF (ISPMD.NE.FVSPMD(IFV)%PMASTER-1) RETURN
+         IF (ISPMD.NE.FVSPMD(IFV)%PMAIN-1) RETURN
       END IF 
 
 !     =================================     !

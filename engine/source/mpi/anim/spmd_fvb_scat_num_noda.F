@@ -58,11 +58,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER IERR,PMASTER
+      INTEGER IERR,PMAIN
 C-----------------------------------------------
 
-      PMASTER=FVSPMD(IFV)%PMASTER
-      CALL MPI_BCAST(VECTOR, LEN, REAL, PMASTER-1,
+      PMAIN=FVSPMD(IFV)%PMAIN
+      CALL MPI_BCAST(VECTOR, LEN, REAL, PMAIN-1,
      .               MPI_COMM_WORLD, IERR)
 
 #endif

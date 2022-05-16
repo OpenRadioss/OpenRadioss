@@ -357,7 +357,7 @@ C
           XMINB = BMINMA(4,P)
           YMINB = BMINMA(5,P)
           ZMINB = BMINMA(6,P)
-C ==================== Slave nodes ============================= 
+C ==================== Secnd nodes ============================= 
           DO I=1,NSN
             NOD = NSV(I)
             IF(WEIGHT(NOD).EQ.1)THEN
@@ -399,12 +399,12 @@ C remise de weight > 0
             WEIGHT(NOD) = WEIGHT(NOD)*(-1)
           ENDDO
 
-C ==================== Slave edges ============================= 
+C ==================== Secnd edges ============================= 
           DX=XMAXB-XMINB
           DY=YMAXB-YMINB
           DZ=ZMAXB-ZMINB
           NB_EDGE = 0
-! loop over edge that are local to ISPMD (ISPMD is master of the edge,
+! loop over edge that are local to ISPMD (ISPMD is main of the edge,
 ! even if it is a boundary edge
           IF(IEDGE /= 0) THEN
           DO I=1,NEDGE_LOCAL
@@ -435,7 +435,7 @@ C            First segment is on the other side of the boundary
 
            IF( STF > ZERO .AND. LEDGE(7,I) >= 0)  THEN
 C
-C            GAPE inutile ici (Redondant avec BGAPEMAX cote master) !
+C            GAPE inutile ici (Redondant avec BGAPEMAX cote main) !
              XMINS = MIN(X(1,N1),X(1,N2))!- GAPE(I)      
              YMINS = MIN(X(2,N1),X(2,N2))!- GAPE(I)      
              ZMINS = MIN(X(3,N1),X(3,N2))!- GAPE(I)      

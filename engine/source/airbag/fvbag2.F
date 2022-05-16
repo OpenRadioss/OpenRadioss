@@ -38,7 +38,7 @@ Chd|====================================================================
      .                  A,    LGAUGE , GAUGE , NNT   ,FEXT   , NSKIP,
      .                  H3D_DATA     ) 
 C
-C Boardcast data from PMASTER to other processors
+C Boardcast data from PMAIN to other processors
 C Arrays sended:
 C - GGG, GGA
 C - AAA
@@ -231,7 +231,7 @@ C     Automatic switch to uniform pressure when dispersion of pressure is low
             ENDIF 
             IVOLU(2) = 7
             IVOLU(15)=-1
-            IF(ISPMD+1 == FVSPMD(IFV)%PMASTER) THEN
+            IF(ISPMD+1 == FVSPMD(IFV)%PMAIN) THEN
                WRITE(IOUT,'(A,I10,A,E12.4/)') 
      .              ' ** MONITORED VOLUME ID: ',IVOLU(1),
      .              ' IS SWITCHED TO UNIFORM PRESSURE AT TIME',TT
@@ -260,7 +260,7 @@ C     Automatic switch to uniform pressure when dispersion of pressure is low
                CALL SPMD_IBCAST_SUBCOMM(IDEF,NVENT,0,FVSPMD(IFV)%MPI_COMM)
             ENDIF 
             
-            IF(ISPMD+1 == FVSPMD(IFV)%PMASTER) THEN
+            IF(ISPMD+1 == FVSPMD(IFV)%PMAIN) THEN
                WRITE(IOUT,'(A,I10,A,E12.4/)') 
      .              ' ** MONITORED VOLUME ID: ',IVOLU(1),
      .              ' IS SWITCHED TO 1 FINITE VOLUME AT TIME',TT

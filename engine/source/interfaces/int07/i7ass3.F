@@ -1896,7 +1896,7 @@ c     .   KNOTLOCY(PY+1,NCTRL,JLT),KNOTLOCZ(PZ+1,NCTRL,JLT)
 C======================================================================|
 
 C-------------------------------------
-C     ASSEMBLAGE FORCES - COTE MAITRE
+C     ASSEMBLAGE FORCES - COTE MAIN
 C-------------------------------------
 
       DO I=1,JLT
@@ -1911,7 +1911,7 @@ C-------------------------------------
       ENDIF
 
       JS=NIGE(IX1(I)-NUMNOD)
-c      print*,'JS master ', JS, KXIG3D(2,JS)
+c      print*,'JS main ', JS, KXIG3D(2,JS)
       IPID=KXIG3D(2,JS)
       NCTRL = KXIG3D(3,JS)
       IAD_KNOT = IGEO(40,IPID)
@@ -2307,7 +2307,7 @@ C
       ENDDO
 
 C-------------------------------------
-C     ASSEMBLAGE FORCES - COTE ESCLAVE
+C     ASSEMBLAGE FORCES - COTE SECOND
 C-------------------------------------
 
       FX(:) = 0

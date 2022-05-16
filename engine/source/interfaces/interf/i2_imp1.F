@@ -259,7 +259,7 @@ C     REAL ou REAL*8
      .   KII(6,6),BI(6),XS0(NSN),YS0(NSN),ZS0(NSN),
      .   XS,YS,ZS,XS1,YS1,ZS1,FACM,NUN
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
 C-------pour simplement etre coherent avec INTTI2, on ne distinque pas 3n,4n
 C-------on est oblige de distinque quand meme, sinon la matrice n'est plus positive
@@ -332,7 +332,7 @@ C-------NDOF(M)> 3 comme rigid body---
          ZS=X(3,I)-ZS0(II)
          CALL UPDKB_RB(NDOF(I),XS,YS,ZS,KDD,BD)
         ENDIF 
-CC-------Update K(master node),B---
+CC-------Update K(main node),B---
         DO J=1,NIR
           NJ=IRECT(J,L)
           ND = MIN(NDM,NDOF(NJ))
@@ -666,7 +666,7 @@ C     REAL ou REAL*8
       my_real
      .   KDD(6,6),BD(6),KII(6,6),BI(6),XS,YS,ZS,XS1,YS1,ZS1
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
       CALL I2MATC(NSN,IRECT,DPARA,NSV,IRTL,X,NIR,RJ ,RJT  )
       J1=0 
@@ -691,7 +691,7 @@ C------------------------------------
          KDD(K,J)=KDD(J,K)
         ENDDO 
         ENDDO 
-C-------Update K(master node),B---
+C-------Update K(main node),B---
         DO J=1,NIR(II)
          NJ=IRECT(J,L)
          ND=MIN(NDM,NDOF(NJ)) 
@@ -1270,7 +1270,7 @@ C------------------------------------
        ENDIF
        FACM = UN / NIR
 C----------------------------------------------------
-C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAITRE
+C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
 C----------------------------------------------------
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
@@ -1467,7 +1467,7 @@ C------------------------------------
        ENDIF
        FACM = UN / NIR
 C----------------------------------------------------
-C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAITRE
+C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
 C----------------------------------------------------
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
@@ -1622,7 +1622,7 @@ C
         FY0=FYS*FACM
         FZ0=FZS*FACM
 C------------------------------------------------------
-C     FORCES TRANSMISES AUX NOEUDS MAITRES
+C     FORCES TRANSMISES AUX NOEUDS MAINS
 C------------------------------------------------------
         DO JJ=1,NIR
          J=IRECT(JJ,L)
@@ -1821,7 +1821,7 @@ C-------NDOF(M)> 3 comme rigid body---
           K0(JJ)=KSS(JJ)
          ENDDO
         ENDIF 
-C-------Update K(master node),B---
+C-------Update K(main node),B---
        DO J=1,NIR
         NJ=IRECT(J,L)
         H2=H(J)*H(J)
@@ -1888,7 +1888,7 @@ C
        ENDIF
        FACM = UN / NIR
 C----------------------------------------------------
-C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAITRE
+C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
 C----------------------------------------------------
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
@@ -2048,7 +2048,7 @@ C     REAL ou REAL*8
      .   H(4),SS, TT, SP,SM,TP,TM,BD(6),
      .   BI(6),XS0,YS0,ZS0,XS,YS,ZS,NUN
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
 C-------pour simplement etre coherent avec INTTI2, on ne distinque pas 3n,4n
 C-------on est oblige de distinque quand meme, sinon la matrice n'est plus positive
@@ -2162,7 +2162,7 @@ C     REAL ou REAL*8
       my_real
      .   BD(6),BI(6),XS,YS,ZS
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
       CALL I2MATC(NSN,IRECT,DPARA,NSV,IRTL,X,NIR,RJ ,RJT  )
       ND = 3
@@ -2338,7 +2338,7 @@ C     REAL ou REAL*8
      .   H(4),SS, TT, SP,SM,TP,TM,BD(6),
      .   BI(6),XS0,YS0,ZS0,XS,YS,ZS,NUN
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
 C-------pour simplement etre coherent avec INTTI2, on ne distinque pas 3n,4n
 C-------on est oblige de distinque quand meme, sinon la matrice n'est plus positive
@@ -2467,7 +2467,7 @@ C     REAL ou REAL*8
       my_real
      .   BD(6),BI(6),XS,YS,ZS
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
       CALL I2MATC(NSN,IRECT,DPARA,NSV,IRTL,X,NIR,RJ ,RJT  )
       IF (IRODDL.NE.0) THEN
@@ -2560,7 +2560,7 @@ C     REAL ou REAL*8
      .   H(4),H2(4), SS, TT, SP,SM,TP,TM,KDD(6,6),BD(6),
      .   KII(6,6),BI(6),XS0,YS0,ZS0,XS,YS,ZS,XS1,YS1,ZS1,NUN
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
       NUN=-UN 
         I=NSV(II)
@@ -2612,7 +2612,7 @@ C-------NDOF(M)> 3 comme rigid body---
          ZS=X(3,I)-ZS0
         ENDIF 
        IF (ISS.GT.0) THEN
-C-------Update KSS(master node),B---
+C-------Update KSS(main node),B---
         IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
          H2(1)=H(1)*H(1)
          H2(2)=H(2)*H(2)
@@ -2726,7 +2726,7 @@ C     REAL ou REAL*8
      .   KII(6,6),BI(6),X0,Y0,Z0,XS,YS,ZS,XS1,YS1,ZS1,NUN,
      .   RJ(3,3,4),RJT(3,3,4)
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
         I=NSV(II)
         L=IRTL(II)
@@ -2813,7 +2813,7 @@ C-------RJT=1/4[I]+(Rs)RJ---
 C
         NDM = 3
        IF (ISS.GT.0) THEN
-CC-------Update KSS(master node),B---
+CC-------Update KSS(main node),B---
         DO K=1,NDOFI
          BD(K)=A(K,I) 
          KDD(K,K) = KSS(K)

@@ -136,7 +136,7 @@ C------SPH+Multidomains--------------------->
             FLG_SPHINOUT_R2R = MIN(1,FLG_SPHINOUT_R2R)
           ENDIF
        ENDIF
-C------Elimination des interfaces TYPE2 sans slaves nodes---------------->   
+C------Elimination des interfaces TYPE2 sans secnds nodes---------------->   
        IF (R2R_SIU.EQ.1) THEN
          DO I=1,NINTER
            NSN_GLOB = IPARI(5,I)
@@ -214,7 +214,7 @@ C-----
 C------	determination of the type of the interface
 	CALL SEND_IBUF_C(IDP,1)
 	CALL GET_IBUF_C(TYPLNK(IEX),1)
-	CALL GET_IBUF_C(MASTER_SIDE,1)
+	CALL GET_IBUF_C(MAIN_SIDE,1)
 	CALL GET_IBUF_C(RBYLNK(IEX),1)
 	CALL GET_IBUF_C(KINLNK(IEX),1)    
 	IF (RBYLNK(IEX).EQ.1) THEN
@@ -223,7 +223,7 @@ C------	determination of the type of the interface
 	ENDIF
 
 C--------------Mise a zero de weight2 pour les noeuds dupliqus--------        
-        IF ((TYPLNK(IEX).EQ.5).AND.(MASTER_SIDE.EQ.1)) THEN
+        IF ((TYPLNK(IEX).EQ.5).AND.(MAIN_SIDE.EQ.1)) THEN
            DO NN=1,NNG
              N = IGRNOD(IDG)%ENTITY(NN)
              WEIGHT_MD(N) = 0
@@ -386,19 +386,19 @@ C------	determination of the type of interface and link
         IF(ISPMD.EQ.0) THEN
 	  CALL SEND_IBUF_C(IDP,1)
 	  CALL GET_IBUF_C(TYPLNK(IEX),1)
-	  CALL GET_IBUF_C(MASTER_SIDE,1)            
+	  CALL GET_IBUF_C(MAIN_SIDE,1)            
 	  CALL GET_IBUF_C(RBYLNK(IEX),1)
    	  CALL GET_IBUF_C(KINLNK(IEX),1)              	  	  
 	ENDIF
 c------		
 	IF(NSPMD.GT.1) THEN
           CALL SPMD_IBCAST(TYPLNK(IEX),TYPLNK(IEX),1,1,0,2)
-          CALL SPMD_IBCAST(MASTER_SIDE,MASTER_SIDE,1,1,0,2)          
+          CALL SPMD_IBCAST(MAIN_SIDE,MAIN_SIDE,1,1,0,2)          
           CALL SPMD_IBCAST(RBYLNK(IEX),RBYLNK(IEX),1,1,0,2)
           CALL SPMD_IBCAST(KINLNK(IEX),KINLNK(IEX),1,1,0,2)            
 	ENDIF
 C--------------Mise a zero de weight2 pour les noeuds dupliqus--------        
-        IF ((TYPLNK(IEX).EQ.5).AND.(MASTER_SIDE.EQ.1)) THEN
+        IF ((TYPLNK(IEX).EQ.5).AND.(MAIN_SIDE.EQ.1)) THEN
           DO NN=1,NNG
             N = IGRNOD(IDG)%ENTITY(NN)
             WEIGHT_MD(N) = 0
@@ -957,7 +957,7 @@ C--------------> Echange RBY entre les procs-----------------------------
          CALL SPMD_RBCAST(RBY(1,N),RBY(1,N),NRBY,1,0,2)  		    	    	    			
       END DO
       
-C--------> Affectation de X,M et I sur chaque proc qui voie le noeud maitre-------
+C--------> Affectation de X,M et I sur chaque proc qui voie le noeud main-------
 
       DO I = 1,NNG
          N = GRNOD(I)

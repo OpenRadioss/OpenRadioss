@@ -82,7 +82,7 @@ C
       IF(ONFELT == 0.OR.ONFELT == 1)THEN
       NSN=FXBIPM(3)
 C-----------------------
-C     TAG DES NOEUDS ESCLAVES
+C     TAG DES NOEUDS SECONDS
 C-----------------------
       DO I=1,NUMNOD
        ITAG(I)=0

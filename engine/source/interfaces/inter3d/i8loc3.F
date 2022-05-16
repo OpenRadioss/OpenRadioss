@@ -34,8 +34,8 @@ C-----------------------------------------------
 C   I n f o r m a t i o n s            
 C-----------------------------------------------
 C   This routine computes the local  
-C   ILOCS (i.e. master nodes on the SPMD domain 
-C   of each slave).
+C   ILOCS (i.e. main nodes on the SPMD domain 
+C   of each secnd).
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

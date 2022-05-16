@@ -190,7 +190,7 @@ c                   endif
                 ELSE 
                   NIN   = 1 
                   IB    = NINT(GBUF%TAG22(I))
-                  MCELL = BRICK_LIST(NIN,IB)%MasterID
+                  MCELL = BRICK_LIST(NIN,IB)%MainID
                   DO J=2,NNOD+1
                     JJ=IX(J,NFT+I)
                     ICELL=BRICK_LIST(NIN,IB)%NODE(J-1)%WhichCell
@@ -198,7 +198,7 @@ c                   endif
                       D = GBUF%RHO(I)   
                       V = GBUF%VOL(I)                      
                     ELSE
-                      IPOS     =  BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(1) 
+                      IPOS     =  BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1) 
                       IF(IPOS.LE.NV46)THEN
                         IV     =  BRICK_LIST(NIN,IB)%Adjacent_Brick(IPOS,1)
                         NGv    =  BRICK_LIST(NIN,IB)%Adjacent_Brick(IPOS,2)

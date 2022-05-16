@@ -59,7 +59,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER II, I, ITAG, MSGOFF, REQ(NSPMD-1), IERR,
      .        STAT(MPI_STATUS_SIZE, NSPMD-1), LEN, IADI(NSPMD-1),
-     .        IAD, I1, I2, J1, J2, PMASTER, NNT, J, ITAB(NSPMD-1)
+     .        IAD, I1, I2, J1, J2, PMAIN, NNT, J, ITAB(NSPMD-1)
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBUF
       DATA MSGOFF/205/
 C
@@ -114,7 +114,7 @@ C
          ENDDO
          DEALLOCATE(IBUF)
       ELSE IF(FVSPMD(IFV)%RANK > 0) THEN
-         PMASTER=FVSPMD(IFV)%PMASTER
+         PMAIN=FVSPMD(IFV)%PMAIN
          NNT=FVSPMD(IFV)%NN_L+FVSPMD(IFV)%NNI_L
          ITAG=MSGOFF+FVSPMD(IFV)%RANK
          CALL MPI_ISEND(NNT, 1, MPI_INTEGER, 0,

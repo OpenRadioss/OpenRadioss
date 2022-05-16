@@ -40,7 +40,7 @@ C   D e s c r i p t i o n
 C----------------------------------------------- 
 C This subroutine is computing fluxes for cut cells.
 C Result are stored in cut cell buffer (currently called BRICK_LIST) 
-C Master Cell flux is already computed with the usual
+C Main Cell flux is already computed with the usual
 C subroutine (EFLUX3)
 C All Cell not in cut cell buffer only have uncut adjacent cells. Since
 C a cut cell has all its adjacent cells in the cut cell buffer.
@@ -101,12 +101,12 @@ C-----------------------------------------------
      .   UPW(1),REDUC,UPWL(6),MLN
       my_real :: RATIOFACE(6), VF(3), Norm(3,6), LNorm(6),TERM2
       INTEGER :: NBF,NBL, MCELL,MNOD,iNOD,NNOD(6),ICELLv,ICELLvv, numnod, numnodV
-      INTEGER,DIMENSION(:),   POINTER     :: pIsMaster, pIsMasterV  
+      INTEGER,DIMENSION(:),   POINTER     :: pIsMain, pIsMainV  
       INTEGER,                POINTER     :: pNum, pNumv
       TYPE(G_BUFEL_)  ,POINTER            :: GBUF   
       my_real                             :: AREA , BAK , PHI , SGN, FACE , Z(3), Zadj(3), ZZadj_, CF(3), ZCf(3),ZZadj(3)
       my_real                             :: PS, LAMBDA
-      INTEGER,POINTER                     :: pMasterID, pMasterIDv 
+      INTEGER,POINTER                     :: pMainID, pMainIDv 
       INTEGER                             :: NUM, NADJ, IADJ, JV, NG, IE_M, IEm, IBm
       my_real                             :: FACEv, DDVOL, VALEL(6), VALVOIS(6,6,5), SR1, SR2, SRF
       LOGICAL debug_outp,bFOUND
@@ -155,13 +155,13 @@ C-----------------------------------------------
 
       !======================================================!
       ! STEP A : CUT CELL FLUXES                             !
-      !    A.1 : MASTER & SLAVE CELLS FLUXES                 !
+      !    A.1 : main & SECND CELLS FLUXES                 !
       !======================================================!        
       DO IB=NBF,NBL  
         IE                =  BRICK_LIST(NIN,IB)%ID 
         MLW               =  BRICK_LIST(NIN,IB)%MLW               
         NCELL             =  BRICK_LIST(NIN,IB)%NBCUT 
-        MCELL             =  BRICK_LIST(NIN,IB)%MasterID       
+        MCELL             =  BRICK_LIST(NIN,IB)%MainID       
         ICELL             =  0  
         
         !======================================================!
@@ -191,9 +191,9 @@ C-----------------------------------------------
           ICELL      = ICELL +1
           IF (ICELL>NCELL .AND. NCELL.NE.0)ICELL=9
           NBCUT                         = BRICK_LIST(NIN,IB)%NBCUT
-          Jm                            = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(1)
-          IEm                           = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(3) 
-          IBm                           = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(4)          
+          Jm                            = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1)
+          IEm                           = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(3) 
+          IBm                           = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(4)          
           IDm                           = BRICK_LIST(NIN,IBm)%ID
           NGm                           = BRICK_LIST(NIN,IBm)%NG
           GBUF                          =>ELBUF_TAB(NGm)%GBUF                                
@@ -218,8 +218,8 @@ C-----------------------------------------------
               ELSE
                 !IF INSIDE CUT CELL                
                 IF(IBv/=0)THEN
-                  IEvm                    = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMaster(3)
-                  IBvm                    = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMaster(4) 
+                  IEvm                    = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMain(3)
+                  IBvm                    = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMain(4) 
                   NGvm                    = BRICK_LIST(NIN,IBvm)%NG
                   IDvm                    = BRICK_LIST(NIN,IBvm)%IDLOC
                   VALVOIS(J,1,IADj)       = FCELL(1,IEvm)
@@ -409,7 +409,7 @@ C-----------------------------------------------
               ENDIF
               Face                          = min(Face,FaceV)
               If(K==0 .OR. Kv==0) Face = ZERO !facette non communicante si pas de noeud de brique.
-              IF(IBv/=0 .AND. IBm==IBvm) Face=ZERO         !blocage flux entre le maitre et son escalve
+              IF(IBv/=0 .AND. IBm==IBvm) Face=ZERO         !blocage flux entre le main et son escalve
               cellFLUX(J,ICELL,IB,IADj)     = Face * cellFLUX(J,ICELL,IB,IADj)
 !              write (*,FMT='(5I10,E30.16)') ixs(11,IE), J,ICELL,IB,IADj, Face 
               brick_list(nin,ib)%POLY(icell)%FACE(j)%Adjacent_FLUX(iadj) = cellFLUX(J,ICELL,IB,IADj)
@@ -431,7 +431,7 @@ C-----------------------------------------------
             if (ibug22_flux22.gt.0 .and. ibug22_flux22.NE. ixs(11,ie))CYCLE 
             icell = 0
             ncell = brick_list(nin,ib)%nbcut
-            mcell = brick_list(nin,ib)%masterid
+            mcell = brick_list(nin,ib)%mainid
             NBCUT = ncell
             DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}
               ICELL      = ICELL +1
@@ -484,7 +484,7 @@ C-----------------------------------------------
         IE                =  BRICK_LIST(NIN,IB)%ID 
         MLW               =  BRICK_LIST(NIN,IB)%MLW               
         NCELL             =  BRICK_LIST(NIN,IB)%NBCUT 
-        MCELL             =  BRICK_LIST(NIN,IB)%MasterID       
+        MCELL             =  BRICK_LIST(NIN,IB)%MainID       
         ICELL             =  0  
         DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}
           ICELL = ICELL +1
@@ -501,7 +501,7 @@ C-----------------------------------------------
           !======================================================!
           !  MONOMATERIAL UPWIND TREATMENT                       !          
           !======================================================!          
-          IE_M      = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(3)
+          IE_M      = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(3)
           MAT       = IXS(1,IE_M)               
           UPWL(1:6) = PM(16,MAT)
           REDUC     = PM(92,MAT)
@@ -546,19 +546,19 @@ C-----------------------------------------------
       !==============!
 
       !---------------------------------------------------------!
-      ! SLAVE CELLS STACK                                       !
+      ! SECND CELLS STACK                                       !
       !---------------------------------------------------------!
-      !STACK Slave cells values from ones connected to current master cell  
+      !STACK Secnd cells values from ones connected to current main cell  
       IF(INT22>0)THEN                                                       
         NIN = 1                                                             
         DO IB=NBF,NBL                                                                                                        
           MLW   =  BRICK_LIST(NIN,IB)%MLW              
-          NUM   = BRICK_LIST(NIN,IB)%SlaveList%Num                          
-          MCELL = BRICK_LIST(NIN,IB)%masterID      
+          NUM   = BRICK_LIST(NIN,IB)%SecndList%Num                          
+          MCELL = BRICK_LIST(NIN,IB)%mainID      
           DDVOL = ZERO 
           DO K=1,NUM                                                        
-            IBV    = BRICK_LIST(NIN,IB)%SlaveList%IBV(K)                    
-            ICELLv = BRICK_LIST(NIN,IB)%SlaveList%ICELLv(K)                 
+            IBV    = BRICK_LIST(NIN,IB)%SecndList%IBV(K)                    
+            ICELLv = BRICK_LIST(NIN,IB)%SecndList%ICELLv(K)                 
             DDVOL  = DDVOL + BRICK_LIST(NIN,IBv)%POLY(ICELLv)%DDVOL 
           ENDDO                                                             
           DDVOL = DDVOL + BRICK_LIST(NIN,IB)%POLY(MCELL)%DDVOL 

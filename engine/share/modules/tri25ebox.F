@@ -51,7 +51,7 @@ Chd|        SPMD_TRI25EGAT                source/mpi/interfaces/spmd_tri25egat.F
 Chd|        SPMD_TRI25VOX                 source/mpi/interfaces/spmd_tri25vox.F
 Chd|        SPMD_TRI25VOX0                source/mpi/interfaces/spmd_tri25vox0.F
 Chd|        SPMD_TRI25VOX0_EDGE           source/mpi/interfaces/spmd_tri25vox0.F
-Chd|        UPGRADE_REM_SLV               source/mpi/interfaces/spmd_i7tool.F
+Chd|        UPGRADE_REM_2RY               source/mpi/interfaces/spmd_i7tool.F
 Chd|-- calls ---------------
 Chd|        POINTERDEF                    share/modules/pointerdef_mod.F
 Chd|====================================================================
@@ -81,7 +81,7 @@ Chd|====================================================================
       TYPE(real4_pointer3), DIMENSION(:), ALLOCATABLE :: VTX_BISECTOR_FIE
       TYPE(real_pointer3),  DIMENSION(:), ALLOCATABLE :: X_SEG_FIE 
       TYPE(real_pointer),   DIMENSION(:), ALLOCATABLE :: GAPE_L_FIE 
-C     TYPE(real_pointer),   DIMENSION(:), ALLOCATABLE :: MASTER_FIE 
+C     TYPE(real_pointer),   DIMENSION(:), ALLOCATABLE :: MAIN_FIE 
       TYPE(int_pointer2),   DIMENSION(:), ALLOCATABLE :: LEDGE_FIE 
 
 

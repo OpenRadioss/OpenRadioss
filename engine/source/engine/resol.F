@@ -406,7 +406,7 @@ Chd|        TSTP_EXCH_MADCPL              com/madymo/rad_madcpl.F
 Chd|        UPDATE_FAILWAVE               source/materials/fail/failwave/update_failwave.F
 Chd|        UPDATE_SLIPRING               source/tools/seatbelts/update_slipring.F
 Chd|        UPENR_CRK                     source/elements/xfem/upenr_crk.F
-Chd|        UPGRADE_REM_SLV               source/mpi/interfaces/spmd_i7tool.F
+Chd|        UPGRADE_REM_2RY               source/mpi/interfaces/spmd_i7tool.F
 Chd|        UPXFEM1                       source/elements/xfem/upxfem1.F
 Chd|        UPXFEM2                       source/elements/xfem/upxfem2.F
 Chd|        UPXFEM_TAGXP                  source/elements/xfem/upxfem_tagxp.F
@@ -492,7 +492,7 @@ Chd|====================================================================
      6  IUSER  ,IPARG  ,DD_IAD  ,IGRV   ,IEXLNK ,KINET  ,
      7  IPARI  ,        NPRW    ,ICONX  ,NPBY   ,
      8  LPBY   ,LRIVET ,NSTRF   ,LJOINT ,NODPOR ,MONVOL ,ITHGRP,IAD_ELEM,
-     9  FR_ELEM,WEIGHT,MASTER_PROC,ICODT,ICODR, ADSKY  ,IADS   ,ILINK  ,
+     9  FR_ELEM,WEIGHT,MAIN_PROC,ICODT,ICODR, ADSKY  ,IADS   ,ILINK  ,
      A  LLINK  ,LINALE ,NEFLSW  ,NNFLSW ,ICUT   ,CLUSTER,
      B          ITASK  ,INOISE  ,
      C  X      ,D      ,V       ,VR     ,DR     ,THKE   ,DAMP   ,MS     ,
@@ -746,7 +746,7 @@ C-----------------------------------------------
      .   ADSKY(*),IADS(*),LACCELM(3,*),LSENSOR(NSENSI,*),
      .   DD_IAD(NSPMD+1,*),FR_ELEM(*),
      .   IAD_ELEM(2,*),IAD_RBY(*),FR_RBY(*),NNLINK(10,*),LNLINK(*),
-     .   IAF(*),ITHGRP(*),IGRV(*),WEIGHT(*),MASTER_PROC(*),WEIGHT_MD(*),
+     .   IAF(*),ITHGRP(*),IGRV(*),WEIGHT(*),MAIN_PROC(*),WEIGHT_MD(*),
      .   KXX(NIXX,*),IXX(*),IEXLNK(NR2R,*),ITABM1(*),IUSER(*),
      .   IFRAME(LISKN,*),KXSP(NISP,*),IXSP(*),NOD2SP(*),
      .   ISPCOND(NISPCOND,*),ISPSYM(NSPCOND,*),IBVEL(NBVELP,*),LBVEL(*),
@@ -1126,7 +1126,7 @@ C-------------------------------------------------------------------------------
      . ,  DIMENSION(:),ALLOCATABLE :: WASPSYM
 C AMS
       INTEGER LSKYI_SMS_NEW
-      INTEGER, ALLOCATABLE, DIMENSION(:,:) :: T2MASTER_SMS
+      INTEGER, ALLOCATABLE, DIMENSION(:,:) :: T2MAIN_SMS
       my_real, DIMENSION(:),ALLOCATABLE :: T2FAC_SMS         
 C-----------------------------------------------------------------------------------
 C     FVMBAG: switch to UP
@@ -1163,7 +1163,7 @@ C-------------------------------------------------------------------------------
       INTEGER IFLAG, COMPTREAC ! Flag for computing reaction forces
 !     1. Storing Freac=Fint+Fext+Fcont
 !     2. Add acceleration fields (gravity, etc) to Freac
-!        Downloading velocities (cf so-called master/slave formulation)
+!        Downloading velocities (cf so-called main/secnd formulation)
 !        In RD, accelerations are computed so that the resulting velocity after integration 
 !                                                      will correspond to the expected velocity
 !               because sortie_main (output) is done before integration of accelerations
@@ -1674,7 +1674,7 @@ C for chkpt :: ISMSCH=1
      .               Y_SMS(3,NUMNOD), Z_SMS(3,NUMNOD),
      .               PREC_SMS(NUMNOD), XMOM_SMS(3,NUMNOD),
      .               PREC_SMS3(3,NUMNOD),DIAG_SMS3(3,NUMNOD),
-     .               T2MASTER_SMS(6,NUMNOD),
+     .               T2MAIN_SMS(6,NUMNOD),
      .               T2FAC_SMS(NUMNOD),
      .               STAT=IERROR)
             IF(IERROR/=0) THEN
@@ -1684,7 +1684,7 @@ C for chkpt :: ISMSCH=1
             ENDIF
             FR_RMS(1:NSPMD+1)=0
             FR_SMS(1:NSPMD+1)=0
-            T2MASTER_SMS = 0
+            T2MAIN_SMS = 0
             T2FAC_SMS = UN
           ELSEIF(IDTMINS_INT/=0)THEN
             ALLOCATE(TAGNOD_SMS(NUMNOD),NATIV_SMS(0),
@@ -1702,7 +1702,7 @@ C for chkpt :: ISMSCH=1
      .               Y_SMS(3,NUMNOD), Z_SMS(3,NUMNOD),
      .               PREC_SMS(NUMNOD), XMOM_SMS(3,NUMNOD),
      .               PREC_SMS3(3,NUMNOD),DIAG_SMS3(3,NUMNOD),
-     .               T2MASTER_SMS(6,NUMNOD),
+     .               T2MAIN_SMS(6,NUMNOD),
      .               T2FAC_SMS(NUMNOD),
      .               STAT=IERROR)
             IF(IERROR/=0) THEN
@@ -1713,7 +1713,7 @@ C for chkpt :: ISMSCH=1
             TAGNOD_SMS(1:NUMNOD)=0
             FR_RMS(1:NSPMD+1)=0
             FR_SMS(1:NSPMD+1)=0
-            T2MASTER_SMS = 0
+            T2MAIN_SMS = 0
             T2FAC_SMS = UN
           ELSE
             ALLOCATE(TAGNOD_SMS(0),NATIV_SMS(0),
@@ -1730,7 +1730,7 @@ C for chkpt :: ISMSCH=1
      .               X_SMS(0,0), P_SMS(0,0),
      .               Y_SMS(0,0), Z_SMS(0,0), PREC_SMS(0),
      .               XMOM_SMS(0,0), PREC_SMS3(0,0),DIAG_SMS3(0,0),
-     .               T2MASTER_SMS(0,0),
+     .               T2MAIN_SMS(0,0),
      .               T2FAC_SMS(0))
 C
 C init pointer
@@ -2326,7 +2326,7 @@ C
      9             IAD_ELEM  ,FR_ELEM,NPBY     ,LPBY     ,KINET    ,
      A             TAGSLV_RBY_SMS,IPARI  ,INTBUF_TAB,IADI2,
      B             LAD_SMS   ,IPART      ,IGEO      ,WEIGHT  ,NATIV_SMS,
-     C             IAD_SMS   ,IDI_SMS,JAD_SMS  ,JDI_SMS   ,T2MASTER_SMS)
+     C             IAD_SMS   ,IDI_SMS,JAD_SMS  ,JDI_SMS   ,T2MAIN_SMS)
             DEALLOCATE(JDI_SMS)
 
             ALLOCATE(JDI_SMS(NNZ_SMS),STAT=IERROR)
@@ -2350,7 +2350,7 @@ C
      B         TAGSLV_I21_SMS ,TAGMSR_I21_SMS, JADI21_SMS,INTSTAMP  ,
      .                                                    IPART     ,
      C         IGEO    ,WEIGHT  ,NATIV_SMS,IRBE2      ,LRBE2     ,
-     D         IAD_SMS ,IDI_SMS ,JAD_SMS  ,JDI_SMS    ,T2MASTER_SMS)
+     D         IAD_SMS ,IDI_SMS ,JAD_SMS  ,JDI_SMS    ,T2MAIN_SMS)
             DEALLOCATE(JDI_SMS)
             ALLOCATE(JDI_SMS(NNZ_SMS),STAT=IERROR)
             IF(IERROR/=0) THEN
@@ -2377,7 +2377,7 @@ C
      9             TAGSLV_RBY_SMS,IPARI  ,INTBUF_TAB,IADI2    ,
      A             LAD_SMS ,JSM_SMS ,TAGSLV_I21_SMS,INTSTAMP  ,IPART    ,
      B             IGEO    ,TAGMSR_RBY_SMS,WEIGHT,NATIV_SMS,
-     C             IAD_SMS ,IDI_SMS ,JAD_SMS ,JDI_SMS    ,T2MASTER_SMS)
+     C             IAD_SMS ,IDI_SMS ,JAD_SMS ,JDI_SMS    ,T2MAIN_SMS)
 
             DEALLOCATE(IAD_SMS,IDI_SMS)
 
@@ -2806,7 +2806,7 @@ C Implementing a dummy Madymo cycle
 #endif
 
       IF(NINTER25 .NE. 0) THEN
-        CALL SPMD_I25FRONT_INIT(ITAB,MASTER_PROC,INTBUF_TAB,IPARI)
+        CALL SPMD_I25FRONT_INIT(ITAB,MAIN_PROC,INTBUF_TAB,IPARI)
       ELSE
         NINTER25E = 0
       ENDIF
@@ -3405,8 +3405,8 @@ C===============================================================================
      H     IXTG     ,SENSOR  ,DELTA_PMAX_GAP,INTBUF_TAB,
      I     DELTA_PMAX_GAP_NODE,IAD_FRNOR,FR_NOR,
      J     NB25_CANDT,NB25_IMPCT,NB25_DST1,NB25_DST2,INTLIST25,
-     K     IAD_FREDG,FR_EDG,MASTER_PROC,NATIV_SMS,I_OPT_STOK ,
-     L     MULTI_FVM,IPARG  ,ELBUF_TAB, H3D_DATA, T2MASTER_SMS,
+     K     IAD_FREDG,FR_EDG,MAIN_PROC,NATIV_SMS,I_OPT_STOK ,
+     L     MULTI_FVM,IPARG  ,ELBUF_TAB, H3D_DATA, T2MAIN_SMS,
      M     LSKYI_SMS_NEW    ,FORNEQS  ,INT7ITIED,IDEL7NOK_SAV,MAXDGAP,
      N     T2FAC_SMS,ICODT,ISKEW ,FSKYN25  ,ADDCSRECT,PROCNOR)
 C
@@ -3436,7 +3436,7 @@ C ----------------------------------------------------
 C
 C Remote Secnd Nodes
        IF (NSPMD .GT.1)THEN
-         CALL UPGRADE_REM_SLV(IPARI,COUNT_REMSLV,COUNT_REMSLVE)
+         CALL UPGRADE_REM_2RY(IPARI,COUNT_REMSLV,COUNT_REMSLVE)
          COUNT_REMSLV(1:NINTER)= 0
          COUNT_REMSLVE(1:NINTER)= 0
        ENDIF
@@ -3978,7 +3978,7 @@ C Init var parallel SMP
      L     TABSENSOR         ,ISENSINT       ,NISUBMAX       ,NB25_CANDT      ,NB25_IMPCT     ,
      M     NB25_DST1         ,NB25_DST2      ,IXIG3D         ,KXIG3D          ,WIGE           ,
      N     KNOT              ,IGEO           ,MULTI_FVM      ,H3D_DATA        ,INTBUF_FRIC_TAB,
-     P     PSKIDS            ,T2MASTER_SMS   ,FORNEQS        ,KNOTLOCPC       ,KNOTLOCEL      ,
+     P     PSKIDS            ,T2MAIN_SMS   ,FORNEQS        ,KNOTLOCPC       ,KNOTLOCEL      ,
      Q     PINCH_DATA%APINCH(1,IDX_PINCH)    ,PINCH_DATA%STIFPINCH(IDX_PINCH) ,T2FAC_SMS      ,
      R     TAGNCONT          ,KLOADPINTER    ,LOADPINTER     ,LOADP_HYD_INTER)
 
@@ -5656,7 +5656,7 @@ C-----------------------------------------------------
       END IF
 
 C----------------------------------------------------------
-C         ADAPTIVE MESHING : FORCES AND STIFNESS FROM SECND TO MASTER
+C         ADAPTIVE MESHING : FORCES AND STIFNESS FROM SECND TO MAIN
 C-----------------------------------------------------
       IF(NADMESH.NE.0)THEN
         IF (IMON.GT.0) CALL STARTIME(37,1)
@@ -5752,7 +5752,7 @@ C
      I             NPRW  ,LPRW    ,FR_WALL   ,NRWL_SMS      ,RBY      ,
      J             X     ,A       ,AR        ,IN            ,V        ,
      K             VR    ,IRBE2   ,LRBE2     ,IRBE3         ,LRBE3    ,
-     L             IAD_RBE3M ,FR_RBE3M ,NATIV_SMS,T2MASTER_SMS,T2FAC_SMS)
+     L             IAD_RBE3M ,FR_RBE3M ,NATIV_SMS,T2MAIN_SMS,T2FAC_SMS)
 c
 !$OMP END PARALLEL
 
@@ -6383,7 +6383,7 @@ C--------------------------------------------------------------C
           IF (IRESP.EQ.1) CALL SEND_FBUFDP_C(TT_DP,1)
           IF (IRESP.NE.1) CALL SEND_FBUFDP_C(TT,1)
           IF ((R2R_SIU.EQ.1).AND.(IDDOM.NE.0)) THEN
-            CALL GET_IBUF_C(R2R_TH_MASTER,10)
+            CALL GET_IBUF_C(R2R_TH_MAIN,10)
           ENDIF
           CALL SEND_FBUF_C(DT2,1)
           CALL SEND_IBUF_C(R2R_MFILR,1)
@@ -6411,7 +6411,7 @@ C--------------------------------------------------------------C
            END IF
            CALL SPMD_RBCAST(RBUF,RBUF,2,1,0,2)
            CALL SPMD_IBCAST(MREST,MREST,1,1,0,2)
-           CALL SPMD_IBCAST(R2R_TH_MASTER,R2R_TH_MASTER,10,1,0,2)
+           CALL SPMD_IBCAST(R2R_TH_MAIN,R2R_TH_MAIN,10,1,0,2)
            IF(ISPMD.NE.0) THEN
              TT = RBUF(1)
              DT2 = RBUF(2)
@@ -7715,7 +7715,7 @@ C===============================================================================
       END IF
 
 C--------------------------------------------------
-C         CORPS RIGIDE VITESSES SUR NOEUDS ESCLAVES
+C         CORPS RIGIDE VITESSES SUR NOEUDS SECONDS
 C--------------------------------------------------
       IF(NRBYKIN.GT.0)THEN
 
@@ -7772,7 +7772,7 @@ C                                   SECTION NON PARALLELE SMP (Synchro RBYVIT)
 C========================================================================================
 
 C--------------------------------------------------
-C         CORPS FLEXIBLE RESOLUTION ET VITESSES SUR NOEUDS ESCLAVES
+C         CORPS FLEXIBLE RESOLUTION ET VITESSES SUR NOEUDS SECONDS
 C--------------------------------------------------
       IF (NFXBODY.GT.0) THEN
           CALL FXBYVIT(FXBIPM, FXBNOD, FXBMOD, FXBGLM, FXBLM ,
@@ -7832,7 +7832,7 @@ C===============================================================================
       IF(ISPMD.EQ.0)THEN
 
 C------------------------
-Clm       INTERFACES 14 & 15 : Seconde Partie du Travail Forces Slaves
+Clm       INTERFACES 14 & 15 : Seconde Partie du Travail Forces Secnds
 C                         (Avt Sorties).
 C--- //0 ----------------
         IF(NINTER.NE.0)THEN
@@ -9773,7 +9773,7 @@ C
         IF(ALLOCATED(SIG_L))            DEALLOCATE (SIG_L) 
         IF(ALLOCATED(VOLD_L))           DEALLOCATE (VOLD_L)         
         IF(ALLOCATED(IMERGEL))          DEALLOCATE (IMERGEL) 
-        IF(ALLOCATED(OLD_SlaveList))    DEALLOCATE (OLD_SlaveList)
+        IF(ALLOCATED(OLD_SecndList))    DEALLOCATE (OLD_SecndList)
         IF(ALLOCATED(UNLINKED_CELLS_L)) DEALLOCATE (UNLINKED_CELLS_L)
         IF(ALLOCATED(N_UNLINKED_L))     DEALLOCATE (N_UNLINKED_L)
         IF(ALLOCATED(V22MAX_L))         DEALLOCATE (V22MAX_L)         
@@ -9812,7 +9812,7 @@ C
      .             DIAG_SMS3, LT_SMS, 
      .             KAD_SMS, KDI_SMS , PK_SMS, LTK_SMS, 
      .             JADI_SMS, JDII_SMS, LTI_SMS, MSKYI_SMS, ISKYI_SMS,
-     .             XMOM_SMS, TAGMSR_RBY_SMS, T2MASTER_SMS)
+     .             XMOM_SMS, TAGMSR_RBY_SMS, T2MAIN_SMS)
 C
         DEALLOCATE(FTHREAC)
         DEALLOCATE(FTHDTM)

@@ -98,12 +98,12 @@ C MMASS(II) initialise a MS(J) a t=0 dans starter
       ENDIF
 C
 C------------------------------
-C     FORCES ET MOMENTS DES NOEUDS ESCLAVES 
-C     TRANSMIS AUX NOEUDS MAITRES SOUS 
+C     FORCES ET MOMENTS DES NOEUDS SECONDS 
+C     TRANSMIS AUX NOEUDS MAINS SOUS 
 C     FORME DE FORCES 
 C
-C     MASSES ET INERTIES DES NOEUDS ESCLAVES 
-C     TRANSMISES AUX NOEUDS MAITRES SOUS 
+C     MASSES ET INERTIES DES NOEUDS SECONDS 
+C     TRANSMISES AUX NOEUDS MAINS SOUS 
 C     FORME DE MASSES 
 C------------------------------
 C
@@ -240,7 +240,7 @@ C
          MR=DET*INX*MAX(MRX,MRY,MRZ)
 C
 C------------------------------------------------------
-C     MASSES & FORCES TRANSMISES AUX NOEUDS MAITRES
+C     MASSES & FORCES TRANSMISES AUX NOEUDS MAINS
 C------------------------------------------------------
 C
          FACT = UN

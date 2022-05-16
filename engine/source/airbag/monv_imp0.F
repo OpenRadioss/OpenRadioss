@@ -248,7 +248,7 @@ C------NSV(NSN)--node number---
        K13=K12+NSN
 C------MSR(NMN)-----
        K14=K13+IPARI(6,N)
-C------IRTL(NSN)--master el number---
+C------IRTL(NSN)--main el number---
        KFI=K14+NSN
        DO I=1,NSN
         NI=INTBUF_TAB(N)%NSV(I)
@@ -281,7 +281,7 @@ C--------RBE3--------------------
          LNS3=LNS3+1
        ENDIF
       ENDDO
-C-----active rigid body master nodes------
+C-----active rigid body main nodes------
       LNS=0
       DO J=1,NRBYAC
        N=IRBYAC(J)
@@ -363,7 +363,7 @@ C------NSV(NSN)--node number---
         K13=K12+NSN
 C------MSR(NMN)-----
         K14=K13+IPARI(6,N)
-C------IRTL(NSN)--master el number---
+C------IRTL(NSN)--main el number---
         KFI=K14+NSN
         DO I=1,NSN
          NI=INTBUF_TAB(N)%NSV(I)
@@ -410,7 +410,7 @@ C--------RBE3--------------------
        ENDDO
        IF (NR3.NE.NRBE3_MV) WRITE(*,*)'pb cal NRBE3_MV'
       ENDIF
-C-----active rigid body master nodes------
+C-----active rigid body main nodes------
       NRB=0
       IF (NRB_MV.GT.0) THEN
        DO J=1,NRBYAC
@@ -727,7 +727,7 @@ C------MSR(NMN)-----
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud maitre est dependant aussi-----
+C-------si noeud main est dependant aussi-----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           DO J = 1, NDOF(NJ)
@@ -889,7 +889,7 @@ C------MSR(NMN)-----
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud maitre est dependant aussi-----
+C-------si noeud main est dependant aussi-----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           ND = 0
@@ -1334,7 +1334,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C--------local slave node-,d'abord independant----
+C--------local secnd node-,d'abord independant----
         DO I=1,NI2_MV
          N=II2_MV(1,I)
          NI=II2_MV(2,I)
@@ -1671,7 +1671,7 @@ C------MSR(NMN)-----
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud maitre est dependant aussi-----
+C-------si noeud main est dependant aussi-----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           DO J = 1, NDOF(NJ)
@@ -1741,7 +1741,7 @@ C------MSR(NMN)-----
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud maitre est dependant aussi-----
+C-------si noeud main est dependant aussi-----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           DO J = 1, NDOF(NJ)
@@ -2203,7 +2203,7 @@ C------int2-------
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud maitre est dependant aussi-----
+C-------si noeud main est dependant aussi-----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
            DO J=1,NDOF(NJ)
@@ -2230,7 +2230,7 @@ C
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud maitre est dependant aussi-----
+C-------si noeud main est dependant aussi-----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
            DO J=1,NDOF(NJ)
@@ -2432,7 +2432,7 @@ C------MSR(NMN)-----
         K14=K13+IPARI(6,N)
          L=INTBUF_TAB(N)%IRTLM(NI)
          NL=4*(L-1)
-C------IRTL(NSN)--master el number---
+C------IRTL(NSN)--main el number---
         J10=IPARI(2,N)
         J11=J10+1
         J12=J11+NPARIR
@@ -2452,7 +2452,7 @@ C------IRTL(NSN)--master el number---
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud maitre est dependant aussi-----
+C-------si noeud main est dependant aussi-----
          DO M=1,NNOD
            NJ=INTBUF_TAB(N)%IRECTM(NL+M)
            DO J=1,NDOF(NJ)

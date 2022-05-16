@@ -289,7 +289,7 @@ C Merge IRTLM & TIME_S
 
                    ELSEIF(KLEAVE_R == -1)THEN
 C
-C                    IRTLM has been reset after master segment deletion (Idel)
+C                    IRTLM has been reset after main segment deletion (Idel)
                      INTBUF_TAB(NIN)%IRTLM(4*(ND-1)+1)  = 0
                      INTBUF_TAB(NIN)%IRTLM(4*(ND-1)+2)  = 0
                      INTBUF_TAB(NIN)%IRTLM(4*(ND-1)+3)  = -1
@@ -401,7 +401,7 @@ C Fin du send
       IF (ALLOCATED(BBUFS)) DEALLOCATE(BBUFS)
       IF (ALLOCATED(BBUFR)) DEALLOCATE(BBUFR)
 C-----------------------------------------------------------
-C 2eme partie - echanges sur les noeuds esclaves frontieres
+C 2eme partie - echanges sur les noeuds seconds frontieres
 C               pour toutes les interface type 25.
 C-----------------------------------------------------------
       IADS(1:NSPMD+1)=0
@@ -546,7 +546,7 @@ c        if(itab(sn)==29376)print *,'recoit avant',loc_proc,p,INTBUF_TAB(NIN)%IR
 
                 ELSEIF(KLEAVE_R == -1)THEN
 C
-C                 IRTLM has been reset after master segment deletion (Idel)
+C                 IRTLM has been reset after main segment deletion (Idel)
                   INTBUF_TAB(NIN)%IRTLM(4*(ND-1)+1)  = 0
                   INTBUF_TAB(NIN)%IRTLM(4*(ND-1)+2)  = 0
                   INTBUF_TAB(NIN)%IRTLM(4*(ND-1)+3)  = -1

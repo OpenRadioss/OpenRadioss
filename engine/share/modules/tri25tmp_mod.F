@@ -66,15 +66,15 @@ C On utlise PANE_OLD
 
 C buffer envoi/reception forces interfaces
 C tableau de pointeurs NSVFI de taille NINTER
-C indiquant liste noeuds remote a recevoir du "proc master"
+C indiquant liste noeuds remote a recevoir du "proc main"
       TYPE(int_pointer) :: NSVFI
 
-C Proc master of the slave node. Assumes that only the master processor sends
-C slaves nodes
-      TYPE(int_pointer) PMASTERFI
+C Proc main of the secnd node. Assumes that only the main processor sends
+C secnds nodes
+      TYPE(int_pointer) PMAINFI
 
 C tableau de pointeurs NSNFI de taille NINTER
-C indiquant pour chaque interface type7 le nb de noeuds slave dans NSVFI
+C indiquant pour chaque interface type7 le nb de noeuds secnd dans NSVFI
 C par processeur
       TYPE(int_pointer) :: 
      .  NSNFI, NSNFI_SAV, ITAFI, KINFI, MATSFI,
@@ -83,7 +83,7 @@ C tableau i20 specifique (flag nodal)
      .  NODNXFI, NODAMSFI, PROCAMSFI,
 C tableau i20 partie edge
      .  NSNFIE,NSVFIE,ITAFIE,NODNXFIE, NODAMSFIE, PROCAMSFIE,
-C Friction model : slave parts id
+C Friction model : secnd parts id
      .  IPARTFRICSFI,IPARTFRIC_FIE,
 C type25 interface adhesion
      .  IF_ADHFI
@@ -122,12 +122,12 @@ C la liste des noeuds remote associe a une force dans FSKYI
 C tableau i20 partie edge
      .  ISKYFIE
 C tableau de pointeurs NSVSI de taille NINTER
-C indiquant liste noeuds remote a envoyer au "proc slave"
+C indiquant liste noeuds remote a envoyer au "proc secnd"
       TYPE(int_pointer) :: NSVSI,
 C tableau i20 partie edge
      .  NSVSIE
 C tableau de pointeurs NSNSI de taille NINTER
-C indiquant pour chaque interface type7, 10, 11 le nb de noeuds slave dans NSVSI
+C indiquant pour chaque interface type7, 10, 11 le nb de noeuds secnd dans NSVSI
 C par processeur
       TYPE(int_pointer) :: NSNSI,
 C tableau i20 partie edge
@@ -163,7 +163,7 @@ C T24 E2E
       TYPE(int_pointer)   :: ISEDGE_FI
 
       TYPE(real_pointer) :: TIME_SFI
-      TYPE(real_pointer2) :: SLAV_FRFI
+      TYPE(real_pointer2) :: SECND_FRFI
       TYPE(real_pointer2) :: PENE_OLDFI
       TYPE(real_pointer2) :: STIF_OLDFI
 C Type 25 Interface

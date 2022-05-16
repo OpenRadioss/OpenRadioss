@@ -192,12 +192,12 @@ C     REAL ou REAL*8
      .   XS,YS,ZS,XS1,YS1,ZS1, KDD(6,6),BD(6)
 C-----------------------------------------------
       M    =NBY(1)
-C -------master utilise place de premier slave node (just like change node number)
+C -------main utilise place de premier secnd node (just like change node number)
       IF (IMACH.EQ.3.AND.M.LT.0) RETURN
        NSN  =NBY(2)
        IMD = IDDL(M)+1
         ND = 6
-C--------boucle slave nodes--
+C--------boucle secnd nodes--
        J1=0
        DO I=1,NSN
 C--------block diagonal Kmm--
@@ -236,7 +236,7 @@ C-------  Update ---
          J1=J1+NS(I)
         ENDIF
        ENDDO
-C-------fin -boucle slave nodes--
+C-------fin -boucle secnd nodes--
 C--------due au coupled block KIJ--
        DO I=1,NSC
         NI =ISI(1,I)
@@ -747,11 +747,11 @@ C     REAL ou REAL*8
      .   XS,YS,ZS,BD(6)
 C-----------------------------------------------
       M    =NBY(1)
-C -------master utilise place de premier slave node (just like change node number)
+C -------main utilise place de premier secnd node (just like change node number)
       IF ((IMACH.EQ.3.AND.M.LT.0).OR.NDOF(M).EQ.0) RETURN
        NSN  =NBY(2)
         ND = 6
-C--------boucle slave nodes--
+C--------boucle secnd nodes--
        J1=0
        DO I=1,NSN
 C--------block diagonal Kmm--
@@ -862,11 +862,11 @@ C     REAL ou REAL*8
      .   XS,YS,ZS,BD(6),AC(3,*) ,ACR(3,*)
 C-----------------------------------------------
       M    =NBY(1)
-C -------master utilise place de premier slave node (just like change node number)
+C -------main utilise place de premier secnd node (just like change node number)
       IF (IMACH.EQ.3.AND.M.LT.0) RETURN
        NSN  =NBY(2)
         ND = 6
-C--------boucle slave nodes--
+C--------boucle secnd nodes--
        J1=0
        DO I=1,NSN
 C--------block diagonal Kmm--
@@ -936,7 +936,7 @@ C     REAL ou REAL*8
       my_real
      .   KDD(6,6),BD(6),XS,YS,ZS
 C------------------------------------
-C     VITESSES DES NOEUDS ESCLAVES
+C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
         I=NS
         NDOFI = 3

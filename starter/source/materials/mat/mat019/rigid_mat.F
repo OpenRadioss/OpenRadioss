@@ -39,9 +39,9 @@ C    RBY    EN SORTIE DE INIRBY
 C a voir 
 C     1 -> 9 :  MATRICE ROTATION 
 C    10 -> 12:  INERTIES PRINCIPALES RBODY
-C          13:  INERTIE MAITRE INITIALE SPHERIQUE 
+C          13:  INERTIE MAIN INITIALE SPHERIQUE 
 C          14:  MASSE RBODY
-C          15:  MASSE MAITRE INITIALE
+C          15:  MASSE MAIN INITIALE
 C    17 -> 20:  INERTIES DANS LE REPERE GLOBALE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -97,7 +97,7 @@ C---------------------------------
 C     CORRECTION DE LA MASSE ET DU
 C     CENTRE DE GRAVITE DU MAIN
 C---------------------------------
-C-----CDG DES NOEUDS ESCLAVES
+C-----CDG DES NOEUDS SECONDS
          MASRB=ZERO
          XG(1)=ZERO
          XG(2)= ZERO
@@ -153,7 +153,7 @@ C--------------------------------------
                RBY(9) = RBY(9) + IN(N)+(XX+YY)*MS(N)               
           ENDDO
 C
-C Rigidite au noeud maitre pour estimation DT.
+C Rigidite au noeud main pour estimation DT.
 C
       DO I=1,NSL
         N = LSN(I + KK)

@@ -70,7 +70,7 @@ c     .    SURFN(NUMNOD),CDGX,CDGY,CDGZ,VOLUME,PBAG,ALPHA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  ERROR,NSKYI18G,PMASTER,I,J,K,L,N,NN,NBAG,
+      INTEGER  ERROR,NSKYI18G,PMAIN,I,J,K,L,N,NN,NBAG,
      .         PERM(NRTM)
       my_real 
      .    PRESMED,PRESMOY,SURFACE,SURFLOC,AAA,BBB,PRESM,PRESVOL,

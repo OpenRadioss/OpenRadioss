@@ -53,25 +53,25 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, PMASTER, J, ITAG, TAB(2), STAT(MPI_STATUS_SIZE), IERR,
+      INTEGER I, PMAIN, J, ITAG, TAB(2), STAT(MPI_STATUS_SIZE), IERR,
      .        ID, NPOLH_ANIM, MSGOFF
 C-----------------------------------------------
       DATA MSGOFF /7052/
 C-----------------------------------------------
 C
       DO I=1,NFVBAG
-         PMASTER=FVSPMD(I)%PMASTER
+         PMAIN=FVSPMD(I)%PMAIN
          IF (ISPMD.EQ.0) THEN
-            IF (ISPMD.NE.PMASTER-1) THEN
+            IF (ISPMD.NE.PMAIN-1) THEN
                ITAG=MSGOFF
-               CALL MPI_RECV(TAB, 2, MPI_INTEGER, IT_SPMD(PMASTER),
+               CALL MPI_RECV(TAB, 2, MPI_INTEGER, IT_SPMD(PMAIN),
      .                       ITAG, MPI_COMM_WORLD, STAT, IERR)
 C
                FVDATA(I)%ID=TAB(1)
                FVDATA(I)%NPOLH_ANIM=TAB(2)
             ENDIF
          ELSE
-            IF (ISPMD.EQ.PMASTER-1) THEN
+            IF (ISPMD.EQ.PMAIN-1) THEN
                TAB(1)=FVDATA(I)%ID
                TAB(2)=FVDATA(I)%NPOLH_ANIM
 C

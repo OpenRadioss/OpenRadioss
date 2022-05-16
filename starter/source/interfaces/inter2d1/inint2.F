@@ -35,7 +35,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        I1CHK2                        source/interfaces/inter2d1/i1chk2.F
 Chd|        I1TID2                        source/interfaces/inter2d1/i1tid2.F
-Chd|        I2MASTER                      source/interfaces/interf1/i2master.F
+Chd|        I2MAIN                      source/interfaces/interf1/i2main.F
 Chd|        I3PEN2                        source/interfaces/inter2d1/i3pen2.F
 Chd|        I3STI2                        source/interfaces/inter2d1/i3sti2.F
 Chd|        I9STI2                        source/interfaces/int09/i9sti2.F
@@ -160,8 +160,8 @@ C
        WRITE(IOUT,2200)
        CALL I1TID2(X,INTBUF_TAB%IRECTM,INTBUF_TAB%CSTS,INTBUF_TAB%MSR,INTBUF_TAB%NSV,
      1     INSCR(L16),INTBUF_TAB%IRTLM,NSN,ITAB ,ID,TITR)
-C selection master nodes utiles et recompactage buffer interface
-       CALL I2MASTER(INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%IRECTM,IPARI,
+C selection main nodes utiles et recompactage buffer interface
+       CALL I2MAIN(INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%IRECTM,IPARI,
      .  	     MWA,MWA(NUMNOD+1),INTBUF_TAB)
        GOTO 100
 C

@@ -780,7 +780,7 @@ C-----------------------------------------------
        IJT=0
       ENDIF
 C
-C retablit accelerations slaves == maitre 
+C retablit accelerations secnds == main 
 C (le terme de rotation AR x MN est dj pass au 2nd membre)
       IF(ISK<=1)THEN
         IF(JT(3).GT.0)A(3,M)=R(3,M)*PREC_SMS3(3,M)

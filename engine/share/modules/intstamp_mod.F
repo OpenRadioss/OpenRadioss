@@ -69,7 +69,7 @@ C         Associated Rbody
 C---------
           INTEGER IRB
 C---------
-C         Master node of Associated Rbody 
+C         Main node of Associated Rbody 
 C---------
           INTEGER MSR
 C---------

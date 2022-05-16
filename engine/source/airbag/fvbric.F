@@ -91,7 +91,7 @@ c         ENDDO
       ELSE
          CALL SPMD_FVB_GATH(IFV, X, XXX, RBID, RBID,
      .                      1  )
-         IF (ISPMD.NE.FVSPMD(IFV)%PMASTER-1) RETURN
+         IF (ISPMD.NE.FVSPMD(IFV)%PMAIN-1) RETURN
       ENDIF
       VX3=RVOLU(35)
       VY3=RVOLU(36)

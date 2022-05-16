@@ -35,8 +35,8 @@ C-----------------------------------------------
 C   D e s c r i p  t i o n
 C-----------------------------------------------
 C this subroutines update VOLN for cut cells.
-C Master cells have extended values of volume due
-C to slave cell merging. This extension data is 
+C Main cells have extended values of volume due
+C to secnd cell merging. This extension data is 
 C stored in cut cell buffer and is now used here
 C to update VOLN(*)
 C-----------------------------------------------
@@ -71,9 +71,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, II, IB, NCELL, IPOS, MCELL, NIN , NSlaves, IBV, ICELLv, NumSlave,ISLAVE,NBCUT,K
-      my_real :: VAR, AREAM, VOLM, VOLslaves, FACE0, FACE0M, VOLMAST
-      TYPE(POLY_ENTITY),DIMENSION(:),    POINTER    :: pIsMaster 
+      INTEGER :: I, II, IB, NCELL, IPOS, MCELL, NIN , NSecnds, IBV, ICELLv, NumSecnd,ISECND,NBCUT,K
+      my_real :: VAR, AREAM, VOLM, VOLsecnds, FACE0, FACE0M, VOLMAST
+      TYPE(POLY_ENTITY),DIMENSION(:),    POINTER    :: pIsMain 
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------
@@ -89,8 +89,8 @@ C-----------------------------------------------
            IB        =  NINT(IAD22(I))
            IF(IB==0)CYCLE
            NCELL     =  BRICK_LIST(NIN,IB)%NBCUT      
-           pIsMaster(1:9) => BRICK_LIST(NIN,IB)%POLY(1:9)!%IsMaster
-           MCELL     =  BRICK_LIST(NIN,IB)%MasterID
+           pIsMain(1:9) => BRICK_LIST(NIN,IB)%POLY(1:9)!%IsMain
+           MCELL     =  BRICK_LIST(NIN,IB)%MainID
            IF(MCELL == 0)THEN
              DELTAX(I) = EP30   !don't take into account this time step, nothing is stored here since MCELL=0.
              CYCLE
@@ -99,10 +99,10 @@ C-----------------------------------------------
            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
            !           CHARACTERISTIC LENGTH           !
            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-           NSlaves     = BRICK_LIST(NIN,IB)%SlaveList%Num
-           VOLslaves   = SUM(BRICK_LIST(NIN,IB)%SlaveList%VOL(1:NSlaves))
+           NSecnds     = BRICK_LIST(NIN,IB)%SecndList%Num
+           VOLsecnds   = SUM(BRICK_LIST(NIN,IB)%SecndList%VOL(1:NSecnds))
            VOLM        = BRICK_LIST(NIN,IB)%Vnew_SCell
-           MCELL       = BRICK_LIST(NIN,IB)%masterID
+           MCELL       = BRICK_LIST(NIN,IB)%mainID
            IF(MCELL==0)MCELL=1
            VOLMAST     = BRICK_LIST(NIN,IB)%POLY(MCELL)%Vnew
            NBCUT       = BRICK_LIST(NIN,IB)%NBCUT
@@ -117,13 +117,13 @@ C-----------------------------------------------
            !---meth1:supercell dx with 50% of brick dx (smooth time step)
            !DELTAX(I)   = UNDEMI * DELTAX(I)
            
-           !---meth2:supercell dx estimated with master cell dx (minorant)
+           !---meth2:supercell dx estimated with main cell dx (minorant)
            !DELTAX(I)   = VOLM/AREAM  
             
            !---meth3:isomorph supercell to equivlent brick(cube) 
            !DELTAX(I)   = (VOLN(I))**TIERS
            
-           !---meth4:isomorph master cell only to equivlent brick(cube) 
+           !---meth4:isomorph main cell only to equivlent brick(cube) 
            !DELTAX(I)   = VOLM**TIERS  
                     
            !---meth5: no specific treatment (FAST but only valid if time step scale factor <= 0.5 in engine file)
@@ -132,7 +132,7 @@ C-----------------------------------------------
            !---meth6: use scale factor on solid element to compute target 0.5
            !DELTAX(I)    = DTFAC22*DELTAX(I)
 
-           !---meth7: Vol(master)/area_max
+           !---meth7: Vol(main)/area_max
            DELTAX(I)   = VOLMAST/AREAM  
            
         ENDDO

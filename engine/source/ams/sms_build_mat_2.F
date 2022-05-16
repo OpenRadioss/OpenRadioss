@@ -57,7 +57,7 @@ Chd|====================================================================
      I             NPRW ,LPRW    ,FR_WALL  ,NRWL_SMS ,RBY           ,
      J             X    ,A       ,AR       ,IN       ,V             ,
      K             VR   ,IRBE2   ,LRBE2    ,IRBE3    ,LRBE3         ,
-     L             IAD_RBE3M ,FR_RBE3M,NATIV_SMS,T2MASTER_SMS,T2FAC_SMS)
+     L             IAD_RBE3M ,FR_RBE3M,NATIV_SMS,T2MAIN_SMS,T2FAC_SMS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -120,7 +120,7 @@ C-----------------------------------------------
      .        NPRW(*), LPRW(*), FR_WALL(*), NRWL_SMS(*),
      .        IRBE2(*), LRBE2(*), 
      .        IRBE3(*), LRBE3(*), IAD_RBE3M(*),FR_RBE3M(*), NATIV_SMS(*),
-     .        T2MASTER_SMS(6,*)
+     .        T2MAIN_SMS(6,*)
       my_real
      .        MS(*), MS0(*), LT_SMS(*), LTK_SMS(*), DIAG_SMS(*),
      .        DMELTG(*), DMELC(*), MSKYI_SMS(*), LTI_SMS(*),
@@ -843,7 +843,7 @@ C------------
           NAD_SMS(I)=LAD_SMS(I)+1
         END DO
 C
-C---    T2MASTER_SMS(6) must be updated if element failure
+C---    T2MAIN_SMS(6) must be updated if element failure
         IF (ISMSNOK==1) THEN
           DO N=1,NINTER
             NTY   = IPARI(7,N)
@@ -853,7 +853,7 @@ C---    T2MASTER_SMS(6) must be updated if element failure
               NSN=IPARI(5,N)
               DO II=1,NSN
                 I=INTBUF_TAB(N)%NSV(II)
-                IF (I < 0) T2MASTER_SMS(6,-I)=-1
+                IF (I < 0) T2MAIN_SMS(6,-I)=-1
               ENDDO
             ENDIF
           END DO
@@ -888,7 +888,7 @@ C
                   LTIJ = LT_SMS(KJ)
                   LT_SMS(KJ)=ZERO
 
-                  IF (T2MASTER_SMS(1,J) == 1) THEN
+                  IF (T2MAIN_SMS(1,J) == 1) THEN
 C-- No Type2 + AMS on J
                     LT_SMS(NAD_SMS(J)) = LTIJ
                     LT_SMS(NAD_SMS(N1))= LTIJ
@@ -910,8 +910,8 @@ C-- No Type2 + AMS on J
                     NAD_SMS(J) =NAD_SMS(J)+1
                     NAD_SMS(N4)=NAD_SMS(N4)+1
 C
-                  ELSEIF(T2MASTER_SMS(6,J)==0) THEN
-C-- Type2 crossed connection between master nodes - no failure on J
+                  ELSEIF(T2MAIN_SMS(6,J)==0) THEN
+C-- Type2 crossed connection between main nodes - no failure on J
 C
                     LT_SMS(NAD_SMS(J)) = ZERO
                     LT_SMS(NAD_SMS(N1))= ZERO
@@ -936,18 +936,18 @@ C
                     IF (I.GT.J) THEN
                       DO K =2,5
                         DO KK =2,5
-                          IF (T2MASTER_SMS(K,I).NE.T2MASTER_SMS(KK,J)) THEN
-                            LT_SMS(NAD_SMS(T2MASTER_SMS(K,I))) = UNDEMI*LTIJ
-                            LT_SMS(NAD_SMS(T2MASTER_SMS(KK,J)))= UNDEMI*LTIJ
-                            NAD_SMS(T2MASTER_SMS(K,I)) =NAD_SMS(T2MASTER_SMS(K,I))+1
-                            NAD_SMS(T2MASTER_SMS(KK,J))=NAD_SMS(T2MASTER_SMS(KK,J))+1
+                          IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                            LT_SMS(NAD_SMS(T2MAIN_SMS(K,I))) = UNDEMI*LTIJ
+                            LT_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))= UNDEMI*LTIJ
+                            NAD_SMS(T2MAIN_SMS(K,I)) =NAD_SMS(T2MAIN_SMS(K,I))+1
+                            NAD_SMS(T2MAIN_SMS(KK,J))=NAD_SMS(T2MAIN_SMS(KK,J))+1
                           ENDIF
                         ENDDO
                       ENDDO
                     ENDIF
 C
                   ELSE
-C-- Type2 crossed connection between master nodes - failure of master element of j
+C-- Type2 crossed connection between main nodes - failure of main element of j
 C
                     LT_SMS(NAD_SMS(J)) = LTIJ
                     LT_SMS(NAD_SMS(N1))= LTIJ
@@ -972,11 +972,11 @@ C
                     IF (I.GT.J) THEN
                       DO K =2,5
                         DO KK =2,5
-                          IF (T2MASTER_SMS(K,I).NE.T2MASTER_SMS(KK,J)) THEN
-                            LT_SMS(NAD_SMS(T2MASTER_SMS(K,I))) = ZERO
-                            LT_SMS(NAD_SMS(T2MASTER_SMS(KK,J)))= ZERO
-                            NAD_SMS(T2MASTER_SMS(K,I)) =NAD_SMS(T2MASTER_SMS(K,I))+1
-                            NAD_SMS(T2MASTER_SMS(KK,J))=NAD_SMS(T2MASTER_SMS(KK,J))+1
+                          IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                            LT_SMS(NAD_SMS(T2MAIN_SMS(K,I))) = ZERO
+                            LT_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))= ZERO
+                            NAD_SMS(T2MAIN_SMS(K,I)) =NAD_SMS(T2MAIN_SMS(K,I))+1
+                            NAD_SMS(T2MAIN_SMS(KK,J))=NAD_SMS(T2MAIN_SMS(KK,J))+1
                           ENDIF
                         ENDDO
                       ENDDO
@@ -991,7 +991,7 @@ C
                   J =JDI_SMS(KJ)
                   LTIJ = ZERO
 
-                  IF (T2MASTER_SMS(1,J) == 1) THEN
+                  IF (T2MAIN_SMS(1,J) == 1) THEN
 C-- No Type2 + AMS on J
                     LT_SMS(NAD_SMS(J)) = LTIJ
                     LT_SMS(NAD_SMS(N1))= LTIJ
@@ -1014,7 +1014,7 @@ C-- No Type2 + AMS on J
                     NAD_SMS(N4)=NAD_SMS(N4)+1
 
                   ELSE
-C-- Type2 crossed connection between master nodes
+C-- Type2 crossed connection between main nodes
 C
                     LT_SMS(NAD_SMS(J)) = ZERO
                     LT_SMS(NAD_SMS(N1))= ZERO
@@ -1039,11 +1039,11 @@ C
                     IF (I.GT.J) THEN
                     DO K =2,5
                       DO KK =2,5
-                        IF (T2MASTER_SMS(K,I).NE.T2MASTER_SMS(KK,J)) THEN
-                          LT_SMS(NAD_SMS(T2MASTER_SMS(K,I))) = UNDEMI*LTIJ
-                          LT_SMS(NAD_SMS(T2MASTER_SMS(KK,J)))= UNDEMI*LTIJ
-                          NAD_SMS(T2MASTER_SMS(K,I)) =NAD_SMS(T2MASTER_SMS(K,I))+1
-                          NAD_SMS(T2MASTER_SMS(KK,J))=NAD_SMS(T2MASTER_SMS(KK,J))+1
+                        IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                          LT_SMS(NAD_SMS(T2MAIN_SMS(K,I))) = UNDEMI*LTIJ
+                          LT_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))= UNDEMI*LTIJ
+                          NAD_SMS(T2MAIN_SMS(K,I)) =NAD_SMS(T2MAIN_SMS(K,I))+1
+                          NAD_SMS(T2MAIN_SMS(KK,J))=NAD_SMS(T2MAIN_SMS(KK,J))+1
                         ENDIF
                       ENDDO
                     ENDDO
@@ -1156,7 +1156,7 @@ C
                   LT_SMS(KJ)=ZERO
                   FAC_SCAL_J = T2FAC_SMS(J)
 
-                  IF (T2MASTER_SMS(1,J) == 1) THEN
+                  IF (T2MAIN_SMS(1,J) == 1) THEN
 C-- No Type2 + AMS on J
                     LTIJ = LTIJ*FAC_SCAL_I
 C
@@ -1180,8 +1180,8 @@ C
                     NAD_SMS(J) =NAD_SMS(J)+1
                     NAD_SMS(N4)=NAD_SMS(N4)+1
 C
-                  ELSEIF(T2MASTER_SMS(6,J)==0) THEN
-C-- Type2 crossed connection between master nodes - failure of master element of j
+                  ELSEIF(T2MAIN_SMS(6,J)==0) THEN
+C-- Type2 crossed connection between main nodes - failure of main element of j
 C
                     LTIJ = LTIJ*MAX(FAC_SCAL_I,FAC_SCAL_J)
 C
@@ -1208,18 +1208,18 @@ C
                     IF (I.GT.J) THEN
                     DO K =2,5
                       DO KK =2,5
-                        IF (T2MASTER_SMS(K,I).NE.T2MASTER_SMS(KK,J)) THEN
-                          LT_SMS(NAD_SMS(T2MASTER_SMS(K,I))) = UNDEMI*LTIJ
-                          LT_SMS(NAD_SMS(T2MASTER_SMS(KK,J)))= UNDEMI*LTIJ
-                          NAD_SMS(T2MASTER_SMS(K,I)) =NAD_SMS(T2MASTER_SMS(K,I))+1
-                          NAD_SMS(T2MASTER_SMS(KK,J))=NAD_SMS(T2MASTER_SMS(KK,J))+1
+                        IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                          LT_SMS(NAD_SMS(T2MAIN_SMS(K,I))) = UNDEMI*LTIJ
+                          LT_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))= UNDEMI*LTIJ
+                          NAD_SMS(T2MAIN_SMS(K,I)) =NAD_SMS(T2MAIN_SMS(K,I))+1
+                          NAD_SMS(T2MAIN_SMS(KK,J))=NAD_SMS(T2MAIN_SMS(KK,J))+1
                         ENDIF
                       ENDDO
                     ENDDO
                     ENDIF
 C
                   ELSE
-C-- Type2 crossed connection between master nodes - failure of master element of j
+C-- Type2 crossed connection between main nodes - failure of main element of j
 C
                     LT_SMS(NAD_SMS(J)) = LTIJ
                     LT_SMS(NAD_SMS(N1))= LTIJ
@@ -1244,11 +1244,11 @@ C
                     IF (I.GT.J) THEN
                     DO K =2,5
                       DO KK =2,5
-                        IF (T2MASTER_SMS(K,I).NE.T2MASTER_SMS(KK,J)) THEN
-                          LT_SMS(NAD_SMS(T2MASTER_SMS(K,I))) = ZERO
-                          LT_SMS(NAD_SMS(T2MASTER_SMS(KK,J)))= ZERO
-                          NAD_SMS(T2MASTER_SMS(K,I)) =NAD_SMS(T2MASTER_SMS(K,I))+1
-                          NAD_SMS(T2MASTER_SMS(KK,J))=NAD_SMS(T2MASTER_SMS(KK,J))+1
+                        IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                          LT_SMS(NAD_SMS(T2MAIN_SMS(K,I))) = ZERO
+                          LT_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))= ZERO
+                          NAD_SMS(T2MAIN_SMS(K,I)) =NAD_SMS(T2MAIN_SMS(K,I))+1
+                          NAD_SMS(T2MAIN_SMS(KK,J))=NAD_SMS(T2MAIN_SMS(KK,J))+1
                         ENDIF
                       ENDDO
                     ENDDO
@@ -1263,7 +1263,7 @@ C
                   J =JDI_SMS(KJ)
                   LTIJ = ZERO
 
-                  IF (T2MASTER_SMS(1,J) == 1) THEN
+                  IF (T2MAIN_SMS(1,J) == 1) THEN
 C-- No Type2 + AMS on J
                     LT_SMS(NAD_SMS(J)) = LTIJ
                     LT_SMS(NAD_SMS(N1))= LTIJ
@@ -1286,7 +1286,7 @@ C-- No Type2 + AMS on J
                     NAD_SMS(N4)=NAD_SMS(N4)+1
 C
                   ELSE
-C-- Type2 crossed connection between master nodes
+C-- Type2 crossed connection between main nodes
 C
                     LT_SMS(NAD_SMS(J)) = ZERO
                     LT_SMS(NAD_SMS(N1))= ZERO
@@ -1311,11 +1311,11 @@ C
                     IF (I.GT.J) THEN
                     DO K =2,5
                       DO KK =2,5
-                        IF (T2MASTER_SMS(K,I).NE.T2MASTER_SMS(KK,J)) THEN
-                          LT_SMS(NAD_SMS(T2MASTER_SMS(K,I))) = UNDEMI*LTIJ
-                          LT_SMS(NAD_SMS(T2MASTER_SMS(KK,J)))= UNDEMI*LTIJ
-                          NAD_SMS(T2MASTER_SMS(K,I)) =NAD_SMS(T2MASTER_SMS(K,I))+1
-                          NAD_SMS(T2MASTER_SMS(KK,J))=NAD_SMS(T2MASTER_SMS(KK,J))+1
+                        IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                          LT_SMS(NAD_SMS(T2MAIN_SMS(K,I))) = UNDEMI*LTIJ
+                          LT_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))= UNDEMI*LTIJ
+                          NAD_SMS(T2MAIN_SMS(K,I)) =NAD_SMS(T2MAIN_SMS(K,I))+1
+                          NAD_SMS(T2MAIN_SMS(KK,J))=NAD_SMS(T2MAIN_SMS(KK,J))+1
                         ENDIF
                       ENDDO
                     ENDDO

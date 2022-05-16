@@ -487,7 +487,7 @@ C --------------------------------------------------
          BD(K)=ZERO 
         ENDDO 
         CALL GET_KII(I ,IDDL ,IADK,DIAG_K,LT_K ,KDD,NDOF(I))
-C-------Update K(master node),B---
+C-------Update K(main node),B---
         DO J=1,NIR
           NJ=IRECT(J)
           ND = MIN(NDM,NDOF(NJ))

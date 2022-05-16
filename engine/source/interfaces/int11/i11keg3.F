@@ -919,7 +919,7 @@ C---------------------------------
        ENDDO
       ENDIF
 C      
-C--------master part-------
+C--------main part-------
 c
        DO I=1,JLT
 	NM1 = M1(I)
@@ -931,7 +931,7 @@ c
         A(2,NM2)=A(2,NM2)+FYI(I)*HM2(I)
         A(3,NM2)=A(3,NM2)+FZI(I)*HM2(I)
        ENDDO
-C--------slave part-------
+C--------secnd part-------
        DO I=1,JLT
          IF(CS_LOC(I).LE.NRTS) THEN
 	  NN1 = N1(I)

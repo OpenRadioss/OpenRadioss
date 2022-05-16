@@ -1169,9 +1169,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
-C PURPOSE: calculate displacement increment of slave node by displacement increment of master node.
+C PURPOSE: calculate displacement increment of secnd node by displacement increment of main node.
 C          the general ideal is that one local coordinate is created by W and the
-C          vector (LSM) pointing from master node to slave node. The local coordinate
+C          vector (LSM) pointing from main node to secnd node. The local coordinate
 C          can be expressed as
 C          Z = W,where W=(Wx, Wy, Wz)
 C          X = W CROSSPRODUCT LSM
@@ -1202,7 +1202,7 @@ C-----------------------------------------------
       END DO
       L = SQRT(L)
       IF( L .LT. EM20) THEN
-C SLAVE NODE COINCIDE WITH MASTER NODE, NO VELICITY IS CAUSED BY ROTATION
+C SECND NODE COINCIDE WITH main NODE, NO VELICITY IS CAUSED BY ROTATION
         RETURN
       END IF
 
@@ -1231,7 +1231,7 @@ C NO ROTATION VELOCITY
       END DO
       L = SQRT(L)
       IF( L .LE. EM20 )THEN
-C ROTATION AXIS COINCIDIE WITH THE VECTOR POINTING FROM MASTER TO SLAVE.
+C ROTATION AXIS COINCIDIE WITH THE VECTOR POINTING FROM main TO SECND.
 C SO NO VELOCITY WILL BE CAUSED BY THIS ROTATION
         RETURN
       END IF
@@ -1379,7 +1379,7 @@ C======================================================================|
       CALL SELECT_DOF(ICT, SKEW, TDOF1, TDOF2, TDOF3)
       CALL SELECT_DOF(ICR, SKEW, RDOF1, RDOF2, RDOF3)
 
-C transform velocity of master node from global coordinate to local coordinate
+C transform velocity of main node from global coordinate to local coordinate
       DO I = 1 , 3
         VLM(I) = ZERO
         VRLM(I) = ZERO
@@ -1400,7 +1400,7 @@ C transform velocity of master node from global coordinate to local coordinate
           GL0BLSM(J) = X(J,NS) - X(J,M)
         END DO
 
-C       transform vector pointing from master node to slave node to local coordinate
+C       transform vector pointing from main node to secnd node to local coordinate
         DO J = 1 , 3
           LOCALSM(J) = ZERO
           DO K = 1 , 3

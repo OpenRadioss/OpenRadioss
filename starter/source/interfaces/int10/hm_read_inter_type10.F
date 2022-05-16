@@ -123,7 +123,7 @@ c--------------------------------------------------------
      .                        C1=TITR)
 c
       IS1 = 2   ! SECONDARY  surface input by node group
-      IS2 = 1   ! master surface input by surface Id
+      IS2 = 1   ! main surface input by surface Id
       INGR2USR => IGRNOD(1:NGRNOD)%ID
       IF (ISU1 /= 0) ISU1 = NGR2USR(ISU1,INGR2USR,NGRNOD)
       INGR2USR => IGRSURF(1:NSURF)%ID

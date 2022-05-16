@@ -51,7 +51,7 @@ C
           NDDL = POSI(NN+1) - NPOS                        !   Number of additional degrees of freedom
           DO J = 1,NDDL                                   !   Loop over additional d.o.fs
             A(NPOS+J-1,1) = A(NPOS+J-1,1) + A(NPOS+J-1,K) !     Assembling acceleration on threads
-            A(NPOS+J-1,K) = ZERO                          !     Setting to zero the acceleration on the slave thread
+            A(NPOS+J-1,K) = ZERO                          !     Setting to zero the acceleration on the secnd thread
           ENDDO
         ENDDO
       ENDDO

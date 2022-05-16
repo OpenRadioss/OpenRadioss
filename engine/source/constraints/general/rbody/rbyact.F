@@ -36,7 +36,7 @@ Chd|====================================================================
       SUBROUTINE RBYACT(RBY,M,LSN ,NSL ,MS  ,
      .                  IN ,X,ITAB,SKEW,ISPH,
      .                  IWA,NPBYI,RBYI,LSNI ,
-     .                  PMASTER,ICOMM,WEIGHT,ID)
+     .                  PMAIN,ICOMM,WEIGHT,ID)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER M, NSL,ISPH, PMASTER, ICOMM(*), WEIGHT(*)
+      INTEGER M, NSL,ISPH, PMAIN, ICOMM(*), WEIGHT(*)
       INTEGER LSN(*), ITAB(*),IWA(*),NPBYI(NNPBY,*) ,LSNI(*),ID
 C     REAL ou REAL*8
       my_real
@@ -97,8 +97,8 @@ c        MASRB=MASRB*WEIGHT(M)
 c        XMG=XMG*WEIGHT(M)
 c      ENDIF
 C---------------------------------
-C     RECHERCHE DES NOEUDS ESCLAVES
-C     DE SOUS RBY (NOEUD MAITRE PARMI LES ESCLAVES)
+C     RECHERCHE DES NOEUDS SECONDS
+C     DE SOUS RBY (NOEUD MAIN PARMI LES SECONDS)
 C---------------------------------
       DO I=1,NSL
          N=LSN(I)
@@ -117,7 +117,7 @@ C---------------------------------
       ENDDO
 C---------------------------------
 C     CORRECTION DE LA MASSE ET DU
-C     CENTRE DE GRAVITE DU MASTER
+C     CENTRE DE GRAVITE DU MAIN
 C---------------------------------
       DO J=1,3
          XG(J)=X(J,M)
@@ -184,7 +184,7 @@ C
      +         RBF6(5,4)+RBF6(5,5)+RBF6(5,6)
 
       IF(MASRB.LE.ZERO)THEN
-        IF (ISPMD+1.EQ.PMASTER) THEN
+        IF (ISPMD+1.EQ.PMAIN) THEN
           CALL ANCMSG(MSGID=109,ANMODE=ANINFO,
      .            I1=NONOD)
         ENDIF
@@ -196,7 +196,7 @@ C
       ENDDO
 
 C--------------------------------------
-C     CORRECTION DE L'INERTIE DU MASTER
+C     CORRECTION DE L'INERTIE DU MAIN
 C--------------------------------------
       RBY(1)=RBY(1)+INERT
       RBY(5)=RBY(5)+INERT
@@ -240,7 +240,7 @@ C
            F8(I)=-YZ*MS(N)
            F9(I)=(XX+YY)*MS(N)
          ELSEIF(NI.GT.0.AND.WEIGHT(N).EQ.1)THEN
-C MASTER DE SOUS RBY
+C main DE SOUS RBY
            RBY(1)=RBY(1)-IN(N)
            RBY(5)=RBY(5)-IN(N)
            RBY(9)=RBY(9)-IN(N)
@@ -324,7 +324,7 @@ C
            F8(I)=-YZ*MS(N)
            F9(I)=YY*MS(N)
          ELSEIF(NI.GT.0.AND.WEIGHT(N).EQ.1)THEN
-C MASTER DE SOUS RBY
+C main DE SOUS RBY
            RBY(1)=RBY(1)-IN(N)
            RBY(5)=RBY(5)-IN(N)
            RBY(9)=RBY(9)-IN(N)
@@ -419,9 +419,9 @@ C
         RBY(9) = RBY(9) + RBFB6(9,1)+RBFB6(9,2)+RBFB6(9,3)+
      +          RBFB6(9,4)+RBFB6(9,5)+RBFB6(9,6)
 C----------------------------------------------
-C     MISE A ZERO DES MASSES ET INERTIES SLAVES voir up
+C     MISE A ZERO DES MASSES ET INERTIES SECNDS voir up
 C----------------------------------------------
-      IF (ISPMD+1.EQ.PMASTER) THEN
+      IF (ISPMD+1.EQ.PMAIN) THEN
         WRITE(IOUT,1000)
         WRITE(IOUT,1100) NONOD,X(1,M),X(2,M),X(3,M),
      .        MASRB,RBY(1),RBY(5),RBY(9),RBY(2),RBY(3),RBY(6)

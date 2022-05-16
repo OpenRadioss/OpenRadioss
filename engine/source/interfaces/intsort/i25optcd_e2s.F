@@ -202,7 +202,7 @@ C-----
       DO SG = FIRST,LAST,MSEG
        NSEG = MIN(MSEG,LAST-JS)
 C-----------------------------------------------
-C      solid edges on master side
+C      solid edges on main side
 C-----------------------------------------------
        IF(NSPMD.GT.1) THEN
 C

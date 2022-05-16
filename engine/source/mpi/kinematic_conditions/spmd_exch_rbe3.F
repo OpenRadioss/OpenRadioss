@@ -30,7 +30,7 @@ Chd|====================================================================
      1   A    ,AR     ,MS    ,IN     ,STIFN,
      2   STIFR,FR_M   ,IAD_M ,LCOMM  ,ISIZE,
      3   IROT  )
-C realise le cumul des acc et masses aux noeuds master d'Rbe3
+C realise le cumul des acc et masses aux noeuds main d'Rbe3
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

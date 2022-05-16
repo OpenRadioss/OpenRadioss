@@ -67,7 +67,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NFX,ANOD,AMOD,ACP,AGLM,ALM,AVAR,ARPM,NME,NMOD,AMCD,
      .        ASE,NSN,IDMAST,M,ISH,DMT,LMOD,ITN,NCYCLP1,N2,NN2,
-     .        NSNT,IBLO,IFILE,NSNI,IRCM,PMASTER
+     .        NSNT,IBLO,IFILE,NSNI,IRCM,PMAIN
       my_real
      .        TT2
 C
@@ -94,8 +94,8 @@ C
             DMT=24
          ENDIF
          IBLO=FXBIPM(28,NFX)
-         PMASTER=FXBIPM(39,NFX)
-         IF (ISPMD.EQ.PMASTER)
+         PMAIN=FXBIPM(39,NFX)
+         IF (ISPMD.EQ.PMAIN)
      .     CALL FXBODVP1(
      .FXBRPM(ARPM),FXBGLM(AGLM),FXBLM(ALM)  ,FXBMVN(ACP) ,FXBMCD(AMCD),
      .FXBSE(ASE)  ,FXBSV(ALM)  ,FXBVIT(AVAR),FXBACC(AVAR),NME         ,
@@ -128,13 +128,13 @@ C
             LMOD=NSNI*6
          ENDIF
          IRCM=FXBIPM(30,NFX)
-         PMASTER=FXBIPM(39,NFX)
+         PMAIN=FXBIPM(39,NFX)
          CALL FXBODVP2(
      .FXBRPM(ARPM),FXBNOD(ANOD),FXBMOD(AMOD),FXBVIT(AVAR),FXBACC(AVAR),
      .NME         ,NMOD        ,V           ,VR          ,A           ,
      .AR          ,MS          ,IN          ,NSN         ,IDMAST      ,
      .ISH         ,LMOD        ,NSNT        ,IFILE       ,NSNI        ,
-     .IRCM        ,PMASTER     ,IAD_ELEM    ,FR_ELEM     )
+     .IRCM        ,PMAIN     ,IAD_ELEM    ,FR_ELEM     )
       ENDDO
 C      
       RETURN

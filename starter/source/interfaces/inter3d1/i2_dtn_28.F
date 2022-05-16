@@ -369,7 +369,7 @@ C
             H(4) = ZERO            
           ENDIF
 C------------------------------------------------                  
-C         rep local facette maitre
+C         rep local facette main
 C------------------------------------------------   
           X1  = X(1,IX1)                                       
           Y1  = X(2,IX1)                                          

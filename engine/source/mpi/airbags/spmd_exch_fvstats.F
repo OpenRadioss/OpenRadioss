@@ -69,7 +69,7 @@ C
          IF (ITYP.EQ.6 .OR. ITYP.EQ.8) THEN
            IFV = IFV + 1
            ID=MONVOL(K1-1+1)
-           IF((FVSPMD(IFV)%PMASTER-1 .EQ. ISPMD) .OR. (NSPMD .EQ. 1)) THEN
+           IF((FVSPMD(IFV)%PMAIN-1 .EQ. ISPMD) .OR. (NSPMD .EQ. 1)) THEN
              BUFS(1,IFV)=ID                       
              BUFS(2,IFV)=MONVOL(K1-1+49)
              BUFS(3,IFV)=MONVOL(K1-1+70)
@@ -77,7 +77,7 @@ C
              BUFS(5,IFV)=MONVOL(K1-1+72)
              BUFS(6,IFV)=MONVOL(K1-1+73)
            ELSE
-      !Each processor fills the buffer with 0 if not PMASTER of the
+      !Each processor fills the buffer with 0 if not PMAIN of the
       !FVMBAG                    
              BUFS(1,IFV) = 0
              BUFS(2,IFV) = 0

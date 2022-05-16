@@ -393,7 +393,7 @@ Chd|====================================================================
       MODULE IMP_RWL
 #include "my_real.inc"
       INTEGER N_RWL
-C tableau de int de taille N_RWL :noeuds slaves de sliding RW 
+C tableau de int de taille N_RWL :noeuds secnds de sliding RW 
       INTEGER, DIMENSION(:), ALLOCATABLE :: IN_RWL
 C tableau de Direction normale reels de taille (3,N_RWL) 
       my_real, DIMENSION(:,:),ALLOCATABLE :: NOR_RWL

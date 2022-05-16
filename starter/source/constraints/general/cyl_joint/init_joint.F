@@ -64,7 +64,7 @@ C-----------------------------------------------
 C=======================================================================
 
         DO I=1,NJOINT
-            CYL_JOIN(I)%PROC_MASTER = -1        !   proc master
+            CYL_JOIN(I)%PROC_MAIN = -1        !   proc main
             CYL_JOIN(I)%NUMBER_PROC = 0         !   number of proc 
             CYL_JOIN(I)%NB_SECONDARY_NODE = 0   !   number of secondary node
             ALLOCATE( CYL_JOIN(I)%NB_NODE(NSPMD) )

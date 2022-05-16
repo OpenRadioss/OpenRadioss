@@ -66,11 +66,11 @@ C-----------------------------------------------
      .       DIMENSION(:,:), ALLOCATABLE :: FCONTG, FNCONTG, FTCONTG, PSKIDS
 
 C SPMD STRUCTURES :
-C NMNFI : Tab of pointers siz NINSTAMP => number of remote master node in NMVFI 
+C NMNFI : Tab of pointers siz NINSTAMP => number of remote main node in NMVFI 
 C          by SPMD domain
-C NMVFI/NMVSI : Tab of pointers => remote master node 
-C TEMPNOD : Tab of pointers => Local nodes corresponding to master node in NMVFI
-C NTEMP : Tab of pointers => Temperature of master node in NMVFI
+C NMVFI/NMVSI : Tab of pointers => remote main node 
+C TEMPNOD : Tab of pointers => Local nodes corresponding to main node in NMVFI
+C NTEMP : Tab of pointers => Temperature of main node in NMVFI
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: 
      .  NMNFI,NMNSI,NMVFI,NMVSI,TEMPNOD
 

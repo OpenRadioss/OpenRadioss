@@ -43,7 +43,7 @@ Chd|====================================================================
      8    IVIS2       ,NELTST    ,ITYPTST ,DT2T        ,
      A    KINET       ,NEWFRONT  ,ISECIN  ,NSTRF       ,SECFCUM   ,
      B    X           ,IRECT     ,CE_LOC  ,MFROT       ,IFQ       ,
-     C    SLAV_FR     ,ALPHA0    ,IBAG    ,ICONTACT    ,IRTLM     ,
+     C    SECND_FR     ,ALPHA0    ,IBAG    ,ICONTACT    ,IRTLM     ,
      E    VISCN       ,VXI       ,VYI     ,VZI         ,MSI       ,
      F    KINI        ,NIN       ,NISUB   ,LISUB       ,ADDSUBS   ,
      G    ADDSUBM     ,LISUBS    ,LISUBM  ,INFLG_SUBS  ,INFLG_SUBM,
@@ -130,7 +130,7 @@ C-----------------------------------------------
       my_real
      .   STIGLO, X(3,*),
      .   A(3,*), MS(*), V(3,*), FSAV(*),FCONT(3,*),
-     .   SLAV_FR(6,*),ALPHA0,
+     .   SECND_FR(6,*),ALPHA0,
      .   VISC,VISCF,VIS,DT2T,STFN(*),STIFN(*),
      .   FSAVSUB(NTHVKI,*), FNCONT(3,*),FTCONT(3,*),
      .   MSKYI_SMS(*),KMIN, VISCFLUID, SIGMAXADH, VISCADHFACT,
@@ -1685,12 +1685,12 @@ C++ Isotropic Friction
                 JG = NSVG(I)
                 IF(JG.GT.0) THEN
                   N = CAND_N_N(I)
-c             SLAV_FR(4:6,N) is the old friction force
+c             SECND_FR(4:6,N) is the old friction force
 c              if(itab(jg)==31774.or.itab(jg)==6992.or.itab(jg)==7106)
-c     .    print *,'slav_fr nat',itab(jg),SLAV_FR(4:6,N),PENE_OLD(1:5,N),STIF_OLD(1:2,N)
-                  FX = SLAV_FR(4,N) + ALPHA*FX
-                  FY = SLAV_FR(5,N) + ALPHA*FY
-                  FZ = SLAV_FR(6,N) + ALPHA*FZ
+c     .    print *,'slav_fr nat',itab(jg),SECND_FR(4:6,N),PENE_OLD(1:5,N),STIF_OLD(1:2,N)
+                  FX = SECND_FR(4,N) + ALPHA*FX
+                  FY = SECND_FR(5,N) + ALPHA*FY
+                  FZ = SECND_FR(6,N) + ALPHA*FZ
                   FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                   FX = FX - FTN*N1(I)
                   FY = FY - FTN*N2(I)
@@ -1704,21 +1704,21 @@ c     .    print *,'slav_fr nat',itab(jg),SLAV_FR(4:6,N),PENE_OLD(1:5,N),STIF_OL
                   FYT(I) = FY * BETA
                   FZT(I) = FZ * BETA
 C
-                  SLAV_FR(1,N) = FXT(I)
-                  SLAV_FR(2,N) = FYT(I)
-                  SLAV_FR(3,N) = FZT(I)
+                  SECND_FR(1,N) = FXT(I)
+                  SECND_FR(2,N) = FYT(I)
+                  SECND_FR(3,N) = FZT(I)
 
 C 
 c            if(itab(jg)==7444)
 c     .          print *,'i25for3 natif',itab(jg),pene(i),fxt(i),fyt(i),fzt(i),fxi(i),fyi(i),fzi(i)
                 ELSE ! cas noeud remote en SPMD 
                   JG = -JG
-c             SLAV_FRFI(NIN)%P(4:6,JG) is the old friction force
+c             SECND_FRFI(NIN)%P(4:6,JG) is the old friction force
 c              if(itafi(nin)%p(jg)==31774.or.itafi(nin)%p(jg)==6992.or.itafi(nin)%p(jg)==7106)
-c     .    print *,'slav_fr rem',itafi(nin)%p(jg),SLAV_FRFI(NIN)%P(4:6,JG),PENE_OLDFI(nin)%p(1:5,JG),STIF_OLDFI(nin)%p(1:2,JG)
-                  FX = SLAV_FRFI(NIN)%P(4,JG) + ALPHA*FX
-                  FY = SLAV_FRFI(NIN)%P(5,JG) + ALPHA*FY
-                  FZ = SLAV_FRFI(NIN)%P(6,JG) + ALPHA*FZ
+c     .    print *,'slav_fr rem',itafi(nin)%p(jg),SECND_FRFI(NIN)%P(4:6,JG),PENE_OLDFI(nin)%p(1:5,JG),STIF_OLDFI(nin)%p(1:2,JG)
+                  FX = SECND_FRFI(NIN)%P(4,JG) + ALPHA*FX
+                  FY = SECND_FRFI(NIN)%P(5,JG) + ALPHA*FY
+                  FZ = SECND_FRFI(NIN)%P(6,JG) + ALPHA*FZ
                   FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                   FX = FX - FTN*N1(I)
                   FY = FY - FTN*N2(I)
@@ -1731,9 +1731,9 @@ c     .    print *,'slav_fr rem',itafi(nin)%p(jg),SLAV_FRFI(NIN)%P(4:6,JG),PENE_
                   FYT(I) = FY * BETA
                   FZT(I) = FZ * BETA
 C
-                  SLAV_FRFI(NIN)%P(1,JG) = FXT(I)
-                  SLAV_FRFI(NIN)%P(2,JG) = FYT(I)
-                  SLAV_FRFI(NIN)%P(3,JG) = FZT(I)
+                  SECND_FRFI(NIN)%P(1,JG) = FXT(I)
+                  SECND_FRFI(NIN)%P(2,JG) = FYT(I)
+                  SECND_FRFI(NIN)%P(3,JG) = FZT(I)
 C 
 c            if(itafi(nin)%p(jg)==27715)
 c     .          print *,'i25for3 remote',itafi(nin)%p(jg),pene(i),fxt(i),fyt(i),fzt(i),fxi(i),fyi(i),fzi(i)
@@ -1763,10 +1763,10 @@ C--------implicit non converge---
                 JG = NSVG(I)
                 N = CAND_N_N(I)
                 IF(JG.GT.0) THEN
-c             SLAV_FR(1:3,N) is the old friction force
-                  FX = SLAV_FR(4,N) + ALPHA*FX
-                  FY = SLAV_FR(5,N) + ALPHA*FY
-                  FZ = SLAV_FR(6,N) + ALPHA*FZ
+c             SECND_FR(1:3,N) is the old friction force
+                  FX = SECND_FR(4,N) + ALPHA*FX
+                  FY = SECND_FR(5,N) + ALPHA*FY
+                  FZ = SECND_FR(6,N) + ALPHA*FZ
                   FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                   FX = FX - FTN*N1(I)
                   FY = FY - FTN*N2(I)
@@ -1783,9 +1783,9 @@ c             SLAV_FR(1:3,N) is the old friction force
                   FZI(I)=FZI(I) + FZT(I)
                 ELSE ! cas noeud remote en SPMD 
                   JG = -JG
-                  FX = SLAV_FRFI(NIN)%P(4,JG) + ALPHA*FX
-                  FY = SLAV_FRFI(NIN)%P(5,JG) + ALPHA*FY
-                  FZ = SLAV_FRFI(NIN)%P(6,JG) + ALPHA*FZ
+                  FX = SECND_FRFI(NIN)%P(4,JG) + ALPHA*FX
+                  FY = SECND_FRFI(NIN)%P(5,JG) + ALPHA*FY
+                  FZ = SECND_FRFI(NIN)%P(6,JG) + ALPHA*FZ
                   FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                   FX = FX - FTN*N1(I)
                   FY = FY - FTN*N2(I)
@@ -1820,12 +1820,12 @@ C++ Orthotropic Friction
                 JG = NSVG(I)
                 IF(JG.GT.0) THEN
                   N = CAND_N_N(I)
-c             SLAV_FR(4:6,N) is the old friction force
+c             SECND_FR(4:6,N) is the old friction force
 c              if(itab(jg)==31774.or.itab(jg)==6992.or.itab(jg)==7106)
-c     .    print *,'slav_fr nat',itab(jg),SLAV_FR(4:6,N),PENE_OLD(1:5,N),STIF_OLD(1:2,N)
-                  FX = SLAV_FR(4,N) + ALPHA*FX
-                  FY = SLAV_FR(5,N) + ALPHA*FY
-                  FZ = SLAV_FR(6,N) + ALPHA*FZ
+c     .    print *,'slav_fr nat',itab(jg),SECND_FR(4:6,N),PENE_OLD(1:5,N),STIF_OLD(1:2,N)
+                  FX = SECND_FR(4,N) + ALPHA*FX
+                  FY = SECND_FR(5,N) + ALPHA*FY
+                  FZ = SECND_FR(6,N) + ALPHA*FZ
                   FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                   FX = FX - FTN*N1(I)
                   FY = FY - FTN*N2(I)
@@ -1838,20 +1838,20 @@ c     .    print *,'slav_fr nat',itab(jg),SLAV_FR(4:6,N),PENE_OLD(1:5,N),STIF_OL
                   FYT(I) = FY * BETA
                   FZT(I) = FZ * BETA
 C
-                  SLAV_FR(1,N) = FXT(I)
-                  SLAV_FR(2,N) = FYT(I)
-                  SLAV_FR(3,N) = FZT(I)
+                  SECND_FR(1,N) = FXT(I)
+                  SECND_FR(2,N) = FYT(I)
+                  SECND_FR(3,N) = FZT(I)
 C 
 c            if(itab(jg)==7444)
 c     .          print *,'i25for3 natif',itab(jg),pene(i),fxt(i),fyt(i),fzt(i),fxi(i),fyi(i),fzi(i)
                 ELSE ! cas noeud remote en SPMD 
                   JG = -JG
-c             SLAV_FRFI(NIN)%P(4:6,JG) is the old friction force
+c             SECND_FRFI(NIN)%P(4:6,JG) is the old friction force
 c              if(itafi(nin)%p(jg)==31774.or.itafi(nin)%p(jg)==6992.or.itafi(nin)%p(jg)==7106)
-c     .    print *,'slav_fr rem',itafi(nin)%p(jg),SLAV_FRFI(NIN)%P(4:6,JG),PENE_OLDFI(nin)%p(1:5,JG),STIF_OLDFI(nin)%p(1:2,JG)
-                  FX = SLAV_FRFI(NIN)%P(4,JG) + ALPHA*FX
-                  FY = SLAV_FRFI(NIN)%P(5,JG) + ALPHA*FY
-                  FZ = SLAV_FRFI(NIN)%P(6,JG) + ALPHA*FZ
+c     .    print *,'slav_fr rem',itafi(nin)%p(jg),SECND_FRFI(NIN)%P(4:6,JG),PENE_OLDFI(nin)%p(1:5,JG),STIF_OLDFI(nin)%p(1:2,JG)
+                  FX = SECND_FRFI(NIN)%P(4,JG) + ALPHA*FX
+                  FY = SECND_FRFI(NIN)%P(5,JG) + ALPHA*FY
+                  FZ = SECND_FRFI(NIN)%P(6,JG) + ALPHA*FZ
                   FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                   FX = FX - FTN*N1(I)
                   FY = FY - FTN*N2(I)
@@ -1864,9 +1864,9 @@ c     .    print *,'slav_fr rem',itafi(nin)%p(jg),SLAV_FRFI(NIN)%P(4:6,JG),PENE_
                   FYT(I) = FY * BETA
                   FZT(I) = FZ * BETA
 C
-                  SLAV_FRFI(NIN)%P(1,JG) = FXT(I)
-                  SLAV_FRFI(NIN)%P(2,JG) = FYT(I)
-                  SLAV_FRFI(NIN)%P(3,JG) = FZT(I)
+                  SECND_FRFI(NIN)%P(1,JG) = FXT(I)
+                  SECND_FRFI(NIN)%P(2,JG) = FYT(I)
+                  SECND_FRFI(NIN)%P(3,JG) = FZT(I)
 C 
 c            if(itafi(nin)%p(jg)==27715)
 c     .          print *,'i25for3 remote',itafi(nin)%p(jg),pene(i),fxt(i),fyt(i),fzt(i),fxi(i),fyi(i),fzi(i)
@@ -1897,12 +1897,12 @@ C-------      total force
                 JG = NSVG(I)
                 IF(JG.GT.0) THEN
                   N = CAND_N_N(I)
-c             SLAV_FR(4:6,N) is the old friction force
+c             SECND_FR(4:6,N) is the old friction force
 c              if(itab(jg)==31774.or.itab(jg)==6992.or.itab(jg)==7106)
-c     .    print *,'slav_fr nat',itab(jg),SLAV_FR(4:6,N),PENE_OLD(1:5,N),STIF_OLD(1:2,N)
-                  FX = SLAV_FR(4,N) + ALPHA*FX
-                  FY = SLAV_FR(5,N) + ALPHA*FY
-                  FZ = SLAV_FR(6,N) + ALPHA*FZ
+c     .    print *,'slav_fr nat',itab(jg),SECND_FR(4:6,N),PENE_OLD(1:5,N),STIF_OLD(1:2,N)
+                  FX = SECND_FR(4,N) + ALPHA*FX
+                  FY = SECND_FR(5,N) + ALPHA*FY
+                  FZ = SECND_FR(6,N) + ALPHA*FZ
                   FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                   FX = FX - FTN*N1(I)
                   FY = FY - FTN*N2(I)
@@ -1960,20 +1960,20 @@ c     .    print *,'slav_fr nat',itab(jg),SLAV_FR(4:6,N),PENE_OLD(1:5,N),STIF_OL
 
                   ENDIF
 C
-                  SLAV_FR(1,N) = FXT(I)
-                  SLAV_FR(2,N) = FYT(I)
-                  SLAV_FR(3,N) = FZT(I)
+                  SECND_FR(1,N) = FXT(I)
+                  SECND_FR(2,N) = FYT(I)
+                  SECND_FR(3,N) = FZT(I)
 C 
 c            if(itab(jg)==7444)
 c     .          print *,'i25for3 natif',itab(jg),pene(i),fxt(i),fyt(i),fzt(i),fxi(i),fyi(i),fzi(i)
                 ELSE ! cas noeud remote en SPMD 
                   JG = -JG
-c             SLAV_FRFI(NIN)%P(4:6,JG) is the old friction force
+c             SECND_FRFI(NIN)%P(4:6,JG) is the old friction force
 c              if(itafi(nin)%p(jg)==31774.or.itafi(nin)%p(jg)==6992.or.itafi(nin)%p(jg)==7106)
-c     .    print *,'slav_fr rem',itafi(nin)%p(jg),SLAV_FRFI(NIN)%P(4:6,JG),PENE_OLDFI(nin)%p(1:5,JG),STIF_OLDFI(nin)%p(1:2,JG)
-                  FX = SLAV_FRFI(NIN)%P(4,JG) + ALPHA*FX
-                  FY = SLAV_FRFI(NIN)%P(5,JG) + ALPHA*FY
-                  FZ = SLAV_FRFI(NIN)%P(6,JG) + ALPHA*FZ
+c     .    print *,'slav_fr rem',itafi(nin)%p(jg),SECND_FRFI(NIN)%P(4:6,JG),PENE_OLDFI(nin)%p(1:5,JG),STIF_OLDFI(nin)%p(1:2,JG)
+                  FX = SECND_FRFI(NIN)%P(4,JG) + ALPHA*FX
+                  FY = SECND_FRFI(NIN)%P(5,JG) + ALPHA*FY
+                  FZ = SECND_FRFI(NIN)%P(6,JG) + ALPHA*FZ
                   FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                   FX = FX - FTN*N1(I)
                   FY = FY - FTN*N2(I)
@@ -2031,9 +2031,9 @@ c     .    print *,'slav_fr rem',itafi(nin)%p(jg),SLAV_FRFI(NIN)%P(4:6,JG),PENE_
 
                   ENDIF
 C
-                  SLAV_FRFI(NIN)%P(1,JG) = FXT(I)
-                  SLAV_FRFI(NIN)%P(2,JG) = FYT(I)
-                  SLAV_FRFI(NIN)%P(3,JG) = FZT(I)
+                  SECND_FRFI(NIN)%P(1,JG) = FXT(I)
+                  SECND_FRFI(NIN)%P(2,JG) = FYT(I)
+                  SECND_FRFI(NIN)%P(3,JG) = FZT(I)
 C 
 c            if(itafi(nin)%p(jg)==27715)
 c     .          print *,'i25for3 remote',itafi(nin)%p(jg),pene(i),fxt(i),fyt(i),fzt(i),fxi(i),fyi(i),fzi(i)
@@ -2064,10 +2064,10 @@ C--------implicit non converge---
                 JG = NSVG(I)
                 N = CAND_N_N(I)
                 IF(JG.GT.0) THEN
-c             SLAV_FR(1:3,N) is the old friction force
-                  FX = SLAV_FR(4,N) + ALPHA*FX
-                  FY = SLAV_FR(5,N) + ALPHA*FY
-                  FZ = SLAV_FR(6,N) + ALPHA*FZ
+c             SECND_FR(1:3,N) is the old friction force
+                  FX = SECND_FR(4,N) + ALPHA*FX
+                  FY = SECND_FR(5,N) + ALPHA*FY
+                  FZ = SECND_FR(6,N) + ALPHA*FZ
                   FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                   FX = FX - FTN*N1(I)
                   FY = FY - FTN*N2(I)
@@ -2084,9 +2084,9 @@ c             SLAV_FR(1:3,N) is the old friction force
                   FZI(I)=FZI(I) + FZT(I)
                 ELSE ! cas noeud remote en SPMD 
                   JG = -JG
-                  FX = SLAV_FRFI(NIN)%P(4,JG) + ALPHA*FX
-                  FY = SLAV_FRFI(NIN)%P(5,JG) + ALPHA*FY
-                  FZ = SLAV_FRFI(NIN)%P(6,JG) + ALPHA*FZ
+                  FX = SECND_FRFI(NIN)%P(4,JG) + ALPHA*FX
+                  FY = SECND_FRFI(NIN)%P(5,JG) + ALPHA*FY
+                  FZ = SECND_FRFI(NIN)%P(6,JG) + ALPHA*FZ
                   FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                   FX = FX - FTN*N1(I)
                   FY = FY - FTN*N2(I)
@@ -2122,10 +2122,10 @@ C            IFPEN(INDEX(I)) = 1
                 JG = NSVG(I)
                 N = CAND_N_N(I)
                 IF(JG.GT.0) THEN
-c             SLAV_FR(1:3,N) is the old friction force
-                  FX = SLAV_FR(4,N) + ALPHA*FX
-                  FY = SLAV_FR(5,N) + ALPHA*FY
-                  FZ = SLAV_FR(6,N) + ALPHA*FZ
+c             SECND_FR(1:3,N) is the old friction force
+                  FX = SECND_FR(4,N) + ALPHA*FX
+                  FY = SECND_FR(5,N) + ALPHA*FY
+                  FZ = SECND_FR(6,N) + ALPHA*FZ
                   FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                   FX = FX - FTN*N1(I)
                   FY = FY - FTN*N2(I)
@@ -2186,9 +2186,9 @@ c             SLAV_FR(1:3,N) is the old friction force
                   FZI(I)=FZI(I) + FZT(I)
                 ELSE ! cas noeud remote en SPMD 
                   JG = -JG
-                  FX = SLAV_FRFI(NIN)%P(4,JG) + ALPHA*FX
-                  FY = SLAV_FRFI(NIN)%P(5,JG) + ALPHA*FY
-                  FZ = SLAV_FRFI(NIN)%P(6,JG) + ALPHA*FZ
+                  FX = SECND_FRFI(NIN)%P(4,JG) + ALPHA*FX
+                  FY = SECND_FRFI(NIN)%P(5,JG) + ALPHA*FY
+                  FZ = SECND_FRFI(NIN)%P(6,JG) + ALPHA*FZ
                   FTN = FX*N1(I) + FY*N2(I) + FZ*N3(I)
                   FX = FX - FTN*N1(I)
                   FY = FY - FTN*N2(I)

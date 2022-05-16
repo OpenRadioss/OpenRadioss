@@ -104,7 +104,7 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER USR2SYS,NODGRNR6
-      INTEGER FMASTER(PARASIZ)
+      INTEGER FMAIN(PARASIZ)
       INTEGER  NLOCAL
       EXTERNAL NLOCAL      
 C
@@ -115,12 +115,12 @@ C     IRBE2(2,I) : TYPE 	usr' id temporaire (print)
 C     IRBE2(3,I) : INDEPENDENT NODE
 C     IRBE2(4,I) : REF_DOF
 C     IRBE2(5,I) : NUMBER OF DEPENDENT NODES
-C     IRBE2(6,I) : m_iad if same node as several Rbe2 master (init.in engine)
+C     IRBE2(6,I) : m_iad if same node as several Rbe2 main (init.in engine)
 C     IRBE2(7,I) : iskew
 C     IRBE2(8,I) : SBE2
 C     IRBE2(9,I) : hierarchy level 0-NHRBE2
 C     IRBE2(10,I) : id for modif/spmd
-C     IRBE2(11,I) : flag to associate REF_DOF to master node
+C     IRBE2(11,I) : flag to associate REF_DOF to main node
 C========================================================================|
       WRITE(IOUT,1000)
       IF (IPRI<5) WRITE(IOUT,1201)
@@ -280,19 +280,19 @@ C--------for decompo
         M = IRBE2(3,I)
         NS = IRBE2(5,I)
         IF (NSPMD > 1.AND.NS>0) THEN
-          FMASTER(1:NSPMD) = 0
+          FMAIN(1:NSPMD) = 0
           DO P = 1, NSPMD
             DO J = 1, NS
               IF (NLOCAL(LRBE2(IAD+J),P).NE.0)THEN
-                FMASTER(P) = 1
+                FMAIN(P) = 1
                 GO TO 85
               ENDIF
             ENDDO
  85         CONTINUE
           END DO
-C  noeud master sur les procs ayant au moins 1 SECONDARY
+C  noeud main sur les procs ayant au moins 1 SECONDARY
           DO P = 1, NSPMD
-            IF (FMASTER(P).EQ.1) THEN
+            IF (FMAIN(P).EQ.1) THEN
 	      CALL IFRONTPLUS(M,P)
             ENDIF
           ENDDO

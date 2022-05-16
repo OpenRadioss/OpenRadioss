@@ -149,7 +149,7 @@ C-----------------------------------------------
      .        INSNMAX, IPMAX, SUM, INSNP, LASTM,
      .        K, I, IS, NN_S, IAD, J, K1, K3, NN, NL,NL_L,
      .        NSN,NMN,P,N,N1,N2,N3,N4,NTY,NGROU,NEL,NG,L,M,NIR,
-     .        IMASTER,KK,NRTS,NRTM,PM,
+     .        IMAIN,KK,NRTS,NRTM,PM,
      .        OFF, PROC, NIN, ITY_OLD, ITY, MSR, NSL_L, NSL,
      .        IELS(NSPMD), P_SPH, INT2FLAG,INT2FRPLUS,
      .        ILEV,CNT,OFFSET,FINGEO,IAD1,IAD2,NUMLOADP,ITE2FRPLUS
@@ -231,7 +231,7 @@ C skew global fixe
           N2=ISKN(2,I+1)
           N3=ISKN(3,I+1)
           INSNMAX = 0
-          IMASTER = 1
+          IMAIN = 1
           IF(N1+N2+N3.NE.0) THEN
             DO P = 1, NSPMD
               NN = NLOCAL(N1,P)+
@@ -239,40 +239,40 @@ C skew global fixe
      +             NLOCAL(N3,P)       
               IF(NN.GT.INSNMAX)THEN
                 INSNMAX=NN
-                IMASTER=P
+                IMAIN=P
               END IF
             END DO
             IF(INSNMAX.NE.3)THEN
-              CALL IFRONTPLUS(N1,IMASTER)
-              CALL IFRONTPLUS(N2,IMASTER)
-              CALL IFRONTPLUS(N3,IMASTER)
+              CALL IFRONTPLUS(N1,IMAIN)
+              CALL IFRONTPLUS(N2,IMAIN)
+              CALL IFRONTPLUS(N3,IMAIN)
             END IF
           END IF
-          ISKWP(I+1) = IMASTER
-          NSKWP(IMASTER) = NSKWP(IMASTER)+1
+          ISKWP(I+1) = IMAIN
+          NSKWP(IMAIN) = NSKWP(IMAIN)+1
         END DO
        ELSE
         DO I=1,NUMSKW
           N1=ISKN(1,I+1)
           N2=ISKN(2,I+1) 
           INSNMAX = 0
-          IMASTER = 1
+          IMAIN = 1
           IF(N1+N2.NE.0) THEN
             DO P = 1, NSPMD
               NN = NLOCAL(N1,P)+
      .               NLOCAL(N2,P)
               IF(NN.GT.INSNMAX)THEN
                 INSNMAX=NN
-                IMASTER=P
+                IMAIN=P
               END IF
             END DO
             IF(INSNMAX.NE.2)THEN
-              CALL IFRONTPLUS(N1,IMASTER)
-              CALL IFRONTPLUS(N2,IMASTER)             
+              CALL IFRONTPLUS(N1,IMAIN)
+              CALL IFRONTPLUS(N2,IMAIN)             
             END IF
           END IF
-          ISKWP(I+1) = IMASTER
-          NSKWP(IMASTER) = NSKWP(IMASTER)+1
+          ISKWP(I+1) = IMAIN
+          NSKWP(IMAIN) = NSKWP(IMAIN)+1
         END DO
        END IF
       END IF                
@@ -644,16 +644,16 @@ C-----------------------------------------------------
           IAD = IRBE2(1,N)
           DO P = 1, NSPMD
             IF (NLOCAL(M,P).EQ.0) THEN
-              IMASTER = 0
+              IMAIN = 0
               DO J = 1, NSN
                 L = LRBE2(IAD+J)
                 IF(NLOCAL(L,P).NE.0)THEN
-                  IMASTER = 1
+                  IMAIN = 1
                   GO TO 186
                 ENDIF
               ENDDO
  186          CONTINUE
-              IF(IMASTER.EQ.1)THEN
+              IF(IMAIN.EQ.1)THEN
                 CALL IFRONTPLUS(M,P)
               ENDIF
             ENDIF
@@ -718,25 +718,25 @@ C-----------------------------------------------------
           NIR = IRBE3(5,N)
           K   = IRBE3(3,N)
           IAD = IRBE3(1,N)
-              IMASTER = 0
+              IMAIN = 0
               DO P = 1, NSPMD
                 IF (NLOCAL(K,P).NE.0) THEN
-                  IMASTER = 1
+                  IMAIN = 1
                 ENDIF
               ENDDO
-              IF (IMASTER.EQ.0) THEN
-                IMASTER = 1
+              IF (IMAIN.EQ.0) THEN
+                IMAIN = 1
                 DO J=1,NIR
                   KK = LRBE3(IAD+J)
                   DO P = 1, NSPMD
                     IF (NLOCAL(KK,P).NE.0) THEN
-                      IMASTER = P
+                      IMAIN = P
                       GOTO 51
                     ENDIF
                   ENDDO
                 ENDDO
  51             CONTINUE
-                CALL IFRONTPLUS(K,IMASTER)
+                CALL IFRONTPLUS(K,IMAIN)
               ENDIF
               DO P = 1, NSPMD
                 IF (NLOCAL(K,P).EQ.0) THEN
@@ -763,13 +763,13 @@ C-----------------------------------------------------
       IF (NRBYKIN.GT.0.AND.NSPMD.GT.1) THEN
 C--------------------------------------------------------------
 C Dans le cas de noeuds SECONDARYs de Rigid bodies non connectees
-C on les affecte sur le PMASTER
+C on les affecte sur le PMAIN
 C--------------------------------------------------------------
         K=0
         DO N = 1, NRBYKIN
           NSN = NPBY(2,N)
           M   = NPBY(1,N)
-C Recherche du 1er  proc qui a le noeud master
+C Recherche du 1er  proc qui a le noeud main
           DO P=1,NSPMD
             IF (NLOCAL(M,P).NE.0) GOTO 86
           ENDDO
@@ -793,16 +793,16 @@ C--------------------------------------------------------------
           M   = NPBY(1,N)
           DO P = 1, NSPMD
             IF(NLOCAL(M,P)==0)THEN
-              IMASTER = 0
+              IMAIN = 0
               DO J = 1, NSN
                 L = LPBY(K+J)
                 IF(NLOCAL(L,P).NE.0)THEN
-                  IMASTER = 1
+                  IMAIN = 1
                   GO TO 85
                 ENDIF
               ENDDO
  85           CONTINUE
-              IF(IMASTER.EQ.1)THEN
+              IF(IMAIN.EQ.1)THEN
                 CALL IFRONTPLUS(M,P)
               ENDIF
             ENDIF
@@ -842,7 +842,7 @@ C
             ELSE
               CALL IFRONTPLUS(M,IPMAX)
             ENDIF
-C cas au moins un master connecte mais aucun noeud SECONDARY de connecte
+C cas au moins un main connecte mais aucun noeud SECONDARY de connecte
           ELSEIF(INSNMAX.EQ.0) THEN
             IPMAX = LASTM
           ENDIF
@@ -911,16 +911,16 @@ C-----------------------------------------------------
           M   = IBVEL(4,N)
           DO P = 1, NSPMD
             IF (NLOCAL(M,P).EQ.0) THEN
-              IMASTER = 0
+              IMAIN = 0
               DO J = 1, NSN
                 L = LBVEL(K+J)
                 IF(NLOCAL(L,P).NE.0)THEN
-                  IMASTER = 1
+                  IMAIN = 1
                   GO TO 185
                 ENDIF
               ENDDO
  185          CONTINUE
-              IF(IMASTER.EQ.1)THEN
+              IF(IMAIN.EQ.1)THEN
                 CALL IFRONTPLUS(M,P)
               ENDIF
             ENDIF
@@ -987,16 +987,16 @@ C-----------------------------------------------------
         DO N = 1, NRBYM
           NSN = IRBYM(2,N)
           DO P = 1, NSPMD
-              IMASTER = 0
+              IMAIN = 0
               DO J = 1, NSN
                 L = LCRBYM(K+J)
                 IF(NLOCAL(L,P).NE.0)THEN
-                  IMASTER = 1
+                  IMAIN = 1
                   GO TO 195
                 ENDIF
               ENDDO
  195           CONTINUE
-              IF(IMASTER.EQ.1)THEN
+              IF(IMAIN.EQ.1)THEN
                 CALL FRONTPLUS_RM(FRONT_RM(N,P),1)
               ENDIF
           ENDDO
@@ -1035,7 +1035,7 @@ C
             ELSE
               CALL FRONTPLUS_RM(FRONT_RM(M,IPMAX),1)
             ENDIF
-C cas au moins un master connecte mais aucun noeud SECONDARY de connecte
+C cas au moins un main connecte mais aucun noeud SECONDARY de connecte
           ELSEIF(INSNMAX.EQ.0) THEN
             IPMAX = LASTM
           ENDIF
@@ -1103,25 +1103,25 @@ C-----------------------------------------------------
               L = INTBUF_TAB(N)%IRTLM(I)
               K = INTBUF_TAB(N)%NSV(I)
 C
-              IMASTER = 0
+              IMAIN = 0
               DO P = 1, NSPMD
                 IF (NLOCAL(K,P).NE.0) THEN
-                  IMASTER = 1
+                  IMAIN = 1
                 ENDIF
               ENDDO
-              IF (IMASTER.EQ.0) THEN
-                IMASTER = 1
+              IF (IMAIN.EQ.0) THEN
+                IMAIN = 1
                 DO J=1,NIR
                   KK = INTBUF_TAB(N)%IRECTM((L-1)*4+J)
                   DO P = 1, NSPMD
                     IF (NLOCAL(KK,P).NE.0) THEN
-                      IMASTER = P
+                      IMAIN = P
                       GOTO 50
                     ENDIF
                   ENDDO
                 ENDDO
  50             CONTINUE
-                CALL IFRONTPLUS(K,IMASTER)
+                CALL IFRONTPLUS(K,IMAIN)
                 INT2FRPLUS=1
 
               ENDIF
@@ -2852,7 +2852,7 @@ C 11: NUMELX_L
 C 12: NBDDPROC :  nb de proc frontiere
 C 13: NBDDBOUN :  nb de noeud frontiere
 C 14: NBDDNOD :   taille des comm en nb de noeuds
-C 15: NBDDNRB :   taille des comm en nb de noeuds master de rby
+C 15: NBDDNRB :   taille des comm en nb de noeuds main de rby
 C 16: NRBYKIN_L : nombre de rigid body MAIN locaux
 C 17: NUMSPH_L : nombre de particules SPH locales
 C 18: MEMI : taille memoire locale entier MA

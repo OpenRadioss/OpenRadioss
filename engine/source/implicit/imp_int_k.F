@@ -1919,7 +1919,7 @@ C------NSV(NSN)--node number---
        K13=K12+NSN
 C------MSR(NMN)-----
        K14=K13+IPARI(6,N)
-C------IRTL(NSN)--master el number---
+C------IRTL(NSN)--main el number---
        KFI=K14+NSN
        DO I=1,NSN
         NI=INTBUF_TAB(N)%NSV(I)
@@ -1937,7 +1937,7 @@ C--------RBE3--------------------
          LNS3=LNS3+1
        ENDIF
       ENDDO
-C-----active rigid body master nodes------
+C-----active rigid body main nodes------
       LNS=0
       DO J=1,NRBYAC
        N=IRBYAC(J)
@@ -2068,7 +2068,7 @@ C------NSV(NSN)--node number---
         K13=K12+NSN
 C------MSR(NMN)-----
         K14=K13+IPARI(6,N)
-C------IRTL(NSN)--master el number---
+C------IRTL(NSN)--main el number---
         KFI=K14+NSN
         DO I=1,NSN
          NI=INTBUF_TAB(N)%NSV(I)
@@ -2094,7 +2094,7 @@ C--------RBE3--------------------
        ENDDO
        IF (NR3.NE.NRBE3_MV) WRITE(*,*)'pb cal NRBE3_M'
       ENDIF 
-C-----active rigid body master nodes------
+C-----active rigid body main nodes------
       NRB=0
       IF (NRB_MV.GT.0) THEN
        DO J=1,NRBYAC
@@ -2297,7 +2297,7 @@ C------MSR(NMN)-----
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud maitre est dependant aussi-----
+C-------si noeud main est dependant aussi-----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           NDD = 0

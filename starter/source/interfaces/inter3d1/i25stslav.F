@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  I25STSLAV                     source/interfaces/inter3d1/i25stslav.F
+Chd|  I25STSECND                     source/interfaces/inter3d1/i25stslav.F
 Chd|-- called by -----------
 Chd|        ININTR1                       source/interfaces/interf1/inintr1.F
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE I25STSLAV(IPARI,STIFINT,INTBUF_TAB,SFAC )
+      SUBROUTINE I25STSECND(IPARI,STIFINT,INTBUF_TAB,SFAC )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -60,7 +60,7 @@ C-----------------------------------------------
       my_real
      .   S
 C---------------------------------------------
-C     MISE A JOUR DES RIGIDITES NODALES EQUIVALENTES (COTE ESCLAVE)
+C     MISE A JOUR DES RIGIDITES NODALES EQUIVALENTES (COTE SECOND)
 C---------------------------------------------
       NSN   =IPARI(5)
       IF (SFAC >ZERO) THEN

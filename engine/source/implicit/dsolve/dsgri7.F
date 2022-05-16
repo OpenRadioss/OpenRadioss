@@ -182,7 +182,7 @@ C
                      IF (LLL.EQ.NMAST(M)) IIM(M)=1
                   ENDDO
                ENDDO
-C Superelements contenant le noeud slave
+C Superelements contenant le noeud secnd
                IF (NIN.GT.0) THEN
                   NSSE=NSSE+1
                   TSSE(1,NSSE)=J
@@ -194,7 +194,7 @@ C Superelements contenant le noeud slave
                      TSSE(6+L,NSSE)=GRAPHE(J)%DGRAPH(ISD)%DDLS(LL)
                   ENDDO
                ENDIF
-C Superelement contenant la facette master
+C Superelement contenant la facette main
                LL=IIM(1)
                DO L=2,NNM
                   LL=LL*IIM(L)
@@ -211,8 +211,8 @@ C
             IF (TSSE(1,J).EQ.TMSE(1).AND.TSSE(2,J).EQ.TMSE(2)) IMSE=1
          ENDDO
          IF (IMSE.EQ.1) CYCLE
-C On rajoute les ddls translation slaves 
-C sur la frontiere du superelement master
+C On rajoute les ddls translation secnds 
+C sur la frontiere du superelement main
          NDSLV=0
          DO J=1,NDDL
             IF (GRAPHE(1)%LSDDL(1,J).EQ.NSLV.AND.
@@ -279,7 +279,7 @@ C Modification des allocations pour B et D
      .            GRAPHE(J)%DGRAPH(ISD)%D(NMAX,NDI+NDF+NSVMAX*NSDEC))
 C
          IF (NSSE.EQ.1) THEN
-C On rajoute les ddls slaves sur la frontiere du superelement slave
+C On rajoute les ddls secnds sur la frontiere du superelement secnd
             J=TSSE(1,1)
             ISD=TSSE(2,1)
             NIN=TSSE(3,1)
@@ -389,7 +389,7 @@ C On modifie seulement IFAC
                ENDDO
             ENDDO
          ENDIF
-C Remontee des ddls slave sur les elements parents
+C Remontee des ddls secnd sur les elements parents
          NCSE=1
          DO J=1,NSSE
             NCSE=NCSE+1
@@ -398,7 +398,7 @@ C Remontee des ddls slave sur les elements parents
          ENDDO
 C
          DO ILVL=1,NSLEVEL-1
-C 1- Identification si les ddls slave seront internes ou sur la frontiere
+C 1- Identification si les ddls secnd seront internes ou sur la frontiere
             DD1=0
             DD2=0
             DO J=1,NCSE
@@ -442,7 +442,7 @@ C
                IF (DD1.EQ.0.AND.DD2.EQ.0) THEN
                   IN=ITAGP(IDSLV(1))
                   IF (IN.EQ.0) THEN
-C On rajoute les ddls slave a l'interieur
+C On rajoute les ddls secnd a l'interieur
                      ALLOCATE(DDLS_TMP(NDFP+NDIP))
                      DO K=1,NDFP+NDIP
                         DDLS_TMP(K)=GRAPHE(JP)%DGRAPH(ISDP)%DDLS(K)
@@ -470,7 +470,7 @@ C Modification des allocations pour D
 C
                IN=ITAGP(IDSLV(1))
                IF (IN.EQ.0) THEN               
-C On rajoute les ddls slave sur la frontiere
+C On rajoute les ddls secnd sur la frontiere
                   ALLOCATE(DDLS_TMP(NDFP+NDIP))
                   DO K=1,NDFP+NDIP
                      DDLS_TMP(K)=GRAPHE(JP)%DGRAPH(ISDP)%DDLS(K)
@@ -499,7 +499,7 @@ C Modification des allocations pour B et D
      .    GRAPHE(JP)%DGRAPH(ISDP)%B(NSBMAX,NDFP),
      .    GRAPHE(JP)%DGRAPH(ISDP)%D(NMAX,NDIP+NDFP+NSVMAX*NSDEC))
                ELSEIF (IN.EQ.2) THEN
-C Les ddls slave sont deplaces de l'interieur vers la frontiere
+C Les ddls secnd sont deplaces de l'interieur vers la frontiere
                   ALLOCATE(DDLS_TMP(NDIP), ITAG(NDIP))
                   DO K=1,NDIP
                      ITAG(K)=0

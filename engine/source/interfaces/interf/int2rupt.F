@@ -189,7 +189,7 @@ C
           L=IRTL(II)
           IRUPT(II) = 0
           INORM(II) = 0  
-C         initial distance master-slave
+C         initial distance main-secnd
           S = CRST(1,II)                                         
           T = CRST(2,II)                                         
           SP=UN + S                                              
@@ -257,7 +257,7 @@ C
         DT12M = UN/DT12
       ENDIF                 
 C---------------
-C     Reset initial master & slave masse /inertia
+C     Reset initial main & secnd masse /inertia
 C---------------
       DO II=1,NMN        
         I=MSR(II)        
@@ -307,7 +307,7 @@ C
            N3  = IRECT(3,L)
            N4  = IRECT(4,L)
 C------------------------------------------------                  
-C         relative deplacement master-slave
+C         relative deplacement main-secnd
 C------------------------------------------------                  
            X0  = X(1,I)
            Y0  = X(2,I)
@@ -338,7 +338,7 @@ C--------- depl relatif total
            DSM(2,II) = DY
            DSM(3,II) = DZ
 C------------------------------------------------                  
-C          direction normale facette maitre
+C          direction normale facette main
 C------------------------------------------------                  
            SX = -(X2 + X3 - X1 - X4)
            SY = -(Y2 + Y3 - Y1 - Y4)
@@ -379,7 +379,7 @@ C          repere local
            VUY = VNZ * VTX - VNX * VTZ
            VUZ = VNX * VTY - VNY * VTX
 C------------------------------------------------                  
-C         force master/slave
+C         force main/secnd
 C------------------------------------------------                  
            IF (IRUPT(II) == 0) THEN
 C            pas de rupture - interface cinematique          
@@ -397,7 +397,7 @@ C            pas de rupture - interface cinematique
              FY = A(2,I) + (V(2,I) - VY)*MS(I)*DT12M 
              FZ = A(3,I) + (V(3,I) - VZ)*MS(I)*DT12M
            ELSEIF (IRUPT(II) == -1) THEN
-C            rupture partielle = spring master/slave        
+C            rupture partielle = spring main/secnd        
              FX  = STIFN(I)*DX
              FY  = STIFN(I)*DY              
              FZ  = STIFN(I)*DZ              
@@ -426,7 +426,7 @@ C------------------------------------------------
               CALL ENG_USERLIB_UINTBUF_VAR(I,AREA(II),DXNORM,ADXTANG,FNAREA,FTAREA,DTIME,RFLAG)
 
            ELSE
-             USERBUF%ISLAVE = I                                     
+             USERBUF%ISECND = I                                     
              USERBUF%AREA   = AREA(II)	        			
              USERBUF%DXN    = DXNORM         			     
              USERBUF%DXT    = ABS(DXTANG)       			     

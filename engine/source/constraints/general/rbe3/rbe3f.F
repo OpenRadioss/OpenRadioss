@@ -191,7 +191,7 @@ c--------------calcul dms,diner---
 C       DEALLOCATE(RSUM)
       END IF ! IF (NMT.GT.0)
 C
-C---  reset of slave nodes forces is necessary w/AMS
+C---  reset of secnd nodes forces is necessary w/AMS
       DO N=1,NRBE3
         NS  = IRBE3(3,N)
         IF(NS/=0) THEN
@@ -861,7 +861,7 @@ C     REAL ou REAL*8
       my_real
      .   MNS,DMAS0
 C======================================================================|
-C----accumulated slave masses---
+C----accumulated secnd masses---
       MNS= ZERO
 #include    "vectorize.inc"
       DO N=1,NRBE3
@@ -2036,7 +2036,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N,M,IAD,NS,NML,ITAG(NUMNOD)
-C NMT: number (no doublon) of master nodes,AD(M): index from NMT0->NMT
+C NMT: number (no doublon) of main nodes,AD(M): index from NMT0->NMT
 C======================================================================|
       DO N =1,NUMNOD
        ITAG(N) = 0
@@ -2091,7 +2091,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N,M,IAD,NS,NML,ITAG(NUMNOD)
-C NMT: number (no doublon) of master nodes,AD(M): index from NMT0->NMT
+C NMT: number (no doublon) of main nodes,AD(M): index from NMT0->NMT
 C======================================================================|
       DO N =1,NUMNOD
        ITAG(N) = 0

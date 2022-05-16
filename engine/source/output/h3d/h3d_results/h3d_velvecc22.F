@@ -98,8 +98,8 @@ C-----------------------------------------------
          DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}                                                                            
            ICELL             = ICELL +1                                                                                                                        
            IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9   
-           IBM               = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMaster(4)
-           ICELLM            = BRICK_LIST(NIN,IBM)%masterID
+           IBM               = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(4)
+           ICELLM            = BRICK_LIST(NIN,IBM)%mainID
            IF(IBM==0)THEN
              IBM             = IB                                                         
              ICELLM          = 1                                                          

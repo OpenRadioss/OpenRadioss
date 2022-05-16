@@ -55,7 +55,7 @@ C-----------------------------------------------
       NSNL = (ITASK+1)*NSN / NTHREAD
 C
       DO I = NSNF, NSNL
-C si tag nul sur noeuds slaves alors stifn = 0.
+C si tag nul sur noeuds secnds alors stifn = 0.
         IF (ITAG(NSV(I)) == 0.AND.STFN(I) > ZERO) THEN
 Cel       STFN(I) = ZERO => Prise en compte cycle suivant apres comm SPMD (cf i7for3)
           STFN(I) = -STFN(I)
@@ -106,7 +106,7 @@ C-----------------------------------------------
       NSNL = (ITASK+1)*NSN / NTHREAD
 C
       DO I = NSNF, NSNL
-C si tag nul sur noeuds slaves alors stifn = 0.
+C si tag nul sur noeuds secnds alors stifn = 0.
         ND = NSV(I)
         IF (ND > NUMNOD)THEN
           SE=IS2SE(1,ND-NUMNOD)
@@ -161,7 +161,7 @@ C-----------------------------------------------
       NSNL = (ITASK+1)*NSN / NTHREAD
 C
       DO I = NSNF, NSNL
-C si tag nul sur noeuds slaves alors stifn = 0. des le cycle courant
+C si tag nul sur noeuds secnds alors stifn = 0. des le cycle courant
         IF (ITAG(NSV(I)) == 0) THEN
           STFN(I) = ZERO
         END IF
@@ -205,7 +205,7 @@ C-----------------------------------------------
       NSNL = (ITASK+1)*NSN / NTHREAD
 C
       DO I = NSNF, NSNL
-C si tag nul sur noeuds slaves alors stifn = 0.
+C si tag nul sur noeuds secnds alors stifn = 0.
         IF (ITAG(NLG(NSV(I))) == 0.AND.STFA(NSV(I)) > ZERO) THEN
 Cel       STFA(NSV(I)) = ZERO => Prise en compte cycle suivant apres comm SPMD (cf i7for3)
           STFA(NSV(I)) = -STFA(NSV(I))
@@ -248,7 +248,7 @@ C-----------------------------------------------
 CC-----------------------------------------------
 C
 C ipari(16) : flag parallelisation interfaces sauf type 2
-C ipari(16) : nombre de noeuds slaves locaux int. type 2
+C ipari(16) : nombre de noeuds secnds locaux int. type 2
 C ipari(17) : flag delete facettes/noeuds int. type7, type2
 C ipari(17) = 0 => ras
 C ipari(17) = 1 => delete facettes+noeuds methode 1 
@@ -1469,7 +1469,7 @@ C Fin Partie non parallele
          NRTS =IPARI(3,NG)
          INC=2
          IF(IDEL == 1) THEN
-Cote maitre
+Cote main
            CALL CHK11MSR3NB(
      1     NMN    ,INTBUF_TAB(NG)%MSR ,ITAG          ,ITASK  ,INTBUF_TAB(NG)%IRECTM ,
      2     NRTM   ,INTBUF_TAB(NG)%STFM,ITAG(NUMNOD+1),IXS    ,IXC           ,
@@ -1479,7 +1479,7 @@ Cote maitre
      6     ADDCNEL,OFC          ,OFT           ,OFTG   ,OFUR          ,
      7     OFR    ,OFP          ,NINDEX1(NG)   ,IBUFS(IDBS+4),IND(IDB),
      8     TAGEL  )
-Cote slave
+Cote secnd
            CALL CHK11MSR3NB(
      1     NSN    ,INTBUF_TAB(NG)%NSV ,ITAG          ,ITASK  ,INTBUF_TAB(NG)%IRECTS,
      2     NRTS   ,INTBUF_TAB(NG)%STFS,ITAG(NUMNOD+1),IXS    ,IXC          ,
@@ -1491,7 +1491,7 @@ Cote slave
      +     IBUFS(IDBS+4+NINDEX1(NG)*INC), IND(IDB+NINDEX1(NG))       ,
      8     TAGEL  )
          ELSEIF(IDEL == 2)THEN
-Cote maitre
+Cote main
            CALL CHK11MSR3N(
      1     NMN    ,INTBUF_TAB(NG)%MSR ,ITAG          ,ITASK  ,INTBUF_TAB(NG)%IRECTM ,
      2     NRTM   ,INTBUF_TAB(NG)%STFM,ITAG(NUMNOD+1),IXS    ,IXC           ,
@@ -1501,7 +1501,7 @@ Cote maitre
      6     ADDCNEL,OFC          ,OFT           ,OFTG   ,OFUR          ,
      7     OFR    ,OFP          ,NINDEX1(NG)   ,IBUFS(IDBS+4),IND(IDB),
      8     TAGEL  )
-Cote slave
+Cote secnd
            CALL CHK11MSR3N(
      1     NSN    ,INTBUF_TAB(NG)%NSV ,ITAG          ,ITASK  ,INTBUF_TAB(NG)%IRECTS,
      2     NRTS   ,INTBUF_TAB(NG)%STFS,ITAG(NUMNOD+1),IXS    ,IXC          ,
@@ -1578,7 +1578,7 @@ C
          NMNE   =IPARI(56,NG)
          INC=2
          IF(IDEL == 1) THEN
-Cote maitre
+Cote main
 	   CALL CHK20EMSR3NB(
      1     NMNE   ,INTBUF_TAB(NG)%MSRL,ITAG	       ,ITASK  ,INTBUF_TAB(NG)%IXLINM ,
      2     NLINMA ,INTBUF_TAB(NG)%STF,ITAG(NUMNOD+1),IXS    ,IXC	      ,
@@ -1588,7 +1588,7 @@ Cote maitre
      6     ADDCNEL,OFC  	,OFT	       ,OFTG   ,OFUR	      ,
      7     OFR    ,OFP  	,NINDEX3(NG)   ,IBUFS(IDBS+4),IND(IDB),
      8     INTBUF_TAB(NG)%NLG	,TAGEL)
-Cote slave
+Cote secnd
 	   CALL CHK20EMSR3NB(
      1     NSNE   ,INTBUF_TAB(NG)%NSVL,ITAG	       ,ITASK  ,INTBUF_TAB(NG)%IXLINS,
      2     NLINSA ,INTBUF_TAB(NG)%STFS,ITAG(NUMNOD+1),IXS    ,IXC	     ,
@@ -1600,7 +1600,7 @@ Cote slave
      +     IBUFS(IDBS+4+NINDEX3(NG)*INC), IND(IDB+NINDEX3(NG))       ,
      8     INTBUF_TAB(NG)%NLG	,TAGEL)
          ELSEIF(IDEL == 2)THEN
-Cote maitre
+Cote main
 	   CALL CHK20EMSR3N(
      1     NMNE   ,INTBUF_TAB(NG)%MSRL,ITAG	       ,ITASK  ,INTBUF_TAB(NG)%IXLINM ,
      2     NLINMA ,INTBUF_TAB(NG)%STF,ITAG(NUMNOD+1),IXS    ,IXC	      ,
@@ -1610,7 +1610,7 @@ Cote maitre
      6     ADDCNEL,OFC  	,OFT	       ,OFTG   ,OFUR	      ,
      7     OFR    ,OFP  	,NINDEX3(NG)   ,IBUFS(IDBS+4),IND(IDB),
      8     INTBUF_TAB(NG)%NLG	,TAGEL)
-Cote slave
+Cote secnd
 	   CALL CHK20EMSR3N(
      1     NSNE   ,INTBUF_TAB(NG)%NSVL,ITAG	       ,ITASK  ,INTBUF_TAB(NG)%IXLINS,
      2     NLINSA ,INTBUF_TAB(NG)%STFS,ITAG(NUMNOD+1),IXS    ,IXC	     ,
@@ -1654,7 +1654,7 @@ C------
          END IF
          INC=4
          IF(IDEL == 1) THEN
-C cote slave
+C cote secnd
            CALL CHKMSR3NB(
      1       NSN      ,INTBUF_TAB(NG)%NSV,ITAG          ,ITASK,INTBUF_TAB(NG)%IRECTS,
      2       NRTS     ,INTBUF_TAB(NG)%STFS,ITAG(NUMNOD+1),IXS  ,IXC          ,
@@ -1663,7 +1663,7 @@ C cote slave
      5       OFC      ,OFT          ,OFTG          ,OFUR ,NINDEX1(NG)  ,
      6       IBUFS(IDBS+4),IND(IDB) ,TAGEL         ,NG   ,INTBUF_TAB(NG)%IRTLOS,
      7       INTBUF_TAB(NG)%ILOCM,INDSEGLO     ,IBUFSEGLO)
-C cote maitre
+C cote main
            CALL CHKMSR3NB(
      1       NMN      ,INTBUF_TAB(NG)%MSR,ITAG          ,ITASK,INTBUF_TAB(NG)%IRECTM,
      2       NRTM     ,INTBUF_TAB(NG)%STFM,ITAG(NUMNOD+1),IXS  ,IXC          ,
@@ -1673,7 +1673,7 @@ C cote maitre
      6       IBUFS(IDBS+4+NINDEX1(NG)*INC),IND(IDB+NINDEX1(NG)),TAGEL  ,
      7       NG   ,INTBUF_TAB(NG)%IRTLOS,INTBUF_TAB(NG)%ILOCM,INDSEGLO,IBUFSEGLO )
          ELSEIF(IDEL == 2)THEN
-C cote slave
+C cote secnd
            CALL CHKMSR3N(
      1       NSN      ,INTBUF_TAB(NG)%NSV,ITAG          ,ITASK,INTBUF_TAB(NG)%IRECTS,
      2       NRTS     ,INTBUF_TAB(NG)%STFS,ITAG(NUMNOD+1),IXS  ,IXC          ,
@@ -1682,7 +1682,7 @@ C cote slave
      5       OFC      ,OFT          ,OFTG          ,OFUR ,NINDEX1(NG)  ,
      6       IBUFS(IDBS+4),IND(IDB) ,TAGEL         ,NG,
      7   INTBUF_TAB(NG)%IRTLOS,INTBUF_TAB(NG)%ILOCM,INDSEGLO     ,IBUFSEGLO)
-C cote maitre
+C cote main
            CALL CHKMSR3N(
      1       NMN      ,INTBUF_TAB(NG)%MSR,ITAG         ,ITASK,INTBUF_TAB(NG)%IRECTM,
      2       NRTM     ,INTBUF_TAB(NG)%STFM,ITAG(NUMNOD+1),IXS  ,IXC          ,
@@ -1862,26 +1862,26 @@ C
      7          INTBUF_TAB(NG)%MSEGLO,INTBUF_TAB(NG)%MVOISIN,INDSEGLO,IBUFSEGLO)
          IDB = IDB+NINDEX1(NG)
         ELSEIF((NTY == 11).AND.IDEL.GE.1) THEN
-Cote maitre
+Cote main
          CALL SETMSR3(
      1          INTBUF_TAB(NG)%STFM,NINDEX1(NG),IBUFS(IDB),IND(IDB),NTY,
      2          IDEL         ,1, NEWFRONT(NG),NG,NRTM,
      7          INTBUF_TAB(NG)%MSEGLO,INTBUF_TAB(NG)%MVOISIN,INDSEGLO,IBUFSEGLO)
          IDB = IDB+NINDEX1(NG)
-Cote slave
+Cote secnd
          CALL SETMSR3(
      1          INTBUF_TAB(NG)%STFS,NINDEX2(NG),IBUFS(IDB),IND(IDB),NTY,
      2          IDEL         ,2, NEWFRONT(NG),NG,NRTM,
      7          INTBUF_TAB(NG)%MSEGLO,INTBUF_TAB(NG)%MVOISIN,INDSEGLO,IBUFSEGLO)
          IDB = IDB+NINDEX2(NG)
         ELSEIF(NTY == 3.AND.IDEL.GE.1) THEN
-C cote slave
+C cote secnd
          CALL SETMSR3(
      1          INTBUF_TAB(NG)%STFS,NINDEX1(NG),IBUFS(IDB),IND(IDB),NTY,
      2          IDEL         ,0, NEWFRONT(NG),NG,NRTM,
      7          INTBUF_TAB(NG)%MSEGLO,INTBUF_TAB(NG)%MVOISIN,INDSEGLO,IBUFSEGLO)
          IDB = IDB+NINDEX1(NG)
-C cote maitre
+C cote main
          CALL SETMSR3(
      1          INTBUF_TAB(NG)%STFM,NINDEX2(NG),IBUFS(IDB),IND(IDB),NTY,
      2          IDEL         ,0, NEWFRONT(NG),NG,NRTM,
@@ -1898,13 +1898,13 @@ C
 C Rajout type20 partie edge
 C
         IF(NTY == 20.AND.IDEL.GE.1)THEN
-Cote maitre
+Cote main
          CALL SETMSR3(
      1          INTBUF_TAB(NG)%STF,NINDEX3(NG),IBUFS(IDB),IND(IDB),-NTY,    ! -NTY => type20 edge
      2          IDEL         ,1, NEWFRONT(NG),NG,NRTM,
      7          INTBUF_TAB(NG)%MSEGLO,INTBUF_TAB(NG)%MVOISIN,INDSEGLO,IBUFSEGLO)
          IDB = IDB+NINDEX3(NG)
-Cote slave
+Cote secnd
          CALL SETMSR3(
      1          INTBUF_TAB(NG)%STFS,NINDEX4(NG),IBUFS(IDB),IND(IDB),-NTY,    ! -NTY => type20 edge
      2          IDEL         ,2, NEWFRONT(NG),NG,NRTM,
@@ -1994,7 +1994,7 @@ C
       IF(NTY.NE.3.AND.NTY.NE.5) THEN
 C mise a - uniquement pour optimiser les interfaces type 7, 10
         DO I = NMNF, NMNL
-C si tag nul sur noeuds master alors msr(i) = -msr(i)
+C si tag nul sur noeuds main alors msr(i) = -msr(i)
           IF (ITAG(ABS(MSR(I))) == 0) THEN
             MSR(I) = -ABS(MSR(I))
           ENDIF
@@ -2186,7 +2186,7 @@ C
       IF(NTY.NE.3.AND.NTY.NE.5) THEN
 C mise a - uniquement pour optimiser les interfaces type 7, 10
         DO I = NMNF, NMNL
-C si tag nul sur noeuds master alors msr(i) = -msr(i)
+C si tag nul sur noeuds main alors msr(i) = -msr(i)
           IF (ITAG(ABS(MSR(I))) == 0) THEN
             MSR(I) = -ABS(MSR(I))
           END IF
@@ -2371,7 +2371,7 @@ C
       IF(NTY.NE.3.AND.NTY.NE.5) THEN
 C mise a - uniquement pour optimiser les interfaces type 7, 10, 20
         DO I = NMNF, NMNL
-C si tag nul sur noeuds master alors msr(i) = -msr(i)
+C si tag nul sur noeuds main alors msr(i) = -msr(i)
         IF (ITAG(ABS(NLG(ABS(MSR(I))))) == 0) THEN
             MSR(I) = -ABS(MSR(I))
           ENDIF
@@ -2535,7 +2535,7 @@ C
       IF(NTY.NE.3.AND.NTY.NE.5) THEN
 C mise a - uniquement pour optimiser les interfaces type 7, 10, 20
         DO I = NMNF, NMNL
-C si tag nul sur noeuds master alors msr(i) = -msr(i)
+C si tag nul sur noeuds main alors msr(i) = -msr(i)
         IF (ITAG(ABS(NLG(ABS(MSR(I))))) == 0) THEN
             MSR(I) = -ABS(MSR(I))
           END IF
@@ -2701,7 +2701,7 @@ C-----------------------------------------------
       ICOMP = 0
 C
       DO I = NMNF, NMNL           
-C si tag nul sur noeuds master alors msr(i) = -msr(i)
+C si tag nul sur noeuds main alors msr(i) = -msr(i)
         IF (ITAG(ABS(MSR(I))) == 0) THEN
           MSR(I) = -ABS(MSR(I))
         ENDIF
@@ -2718,7 +2718,7 @@ C
           N1 = IRECT(1,I)
           N2 = IRECT(2,I)
           IF(ITAG(N1) == 0.OR.ITAG(N2) == 0) THEN
-C suivant facette maitre ou esclave
+C suivant facette main ou second
             IF(IFL == 1) THEN
               STF(I) = ZERO
             ELSE
@@ -2784,7 +2784,7 @@ C
              ENDIF
            END IF
            IF(ITAGL(N1)+ITAGL(N2) == 2)THEN
-C suivant facette maitre ou esclave
+C suivant facette main ou second
             IF(IFL == 1) THEN
               STF(I) = ZERO
             ELSE
@@ -2881,7 +2881,7 @@ C-----------------------------------------------
 C
 C mise a - uniquement pour optimiser les interfaces type 7, 10
       DO I = NMNF, NMNL
-C si tag nul sur noeuds master alors msr(i) = -msr(i)
+C si tag nul sur noeuds main alors msr(i) = -msr(i)
         IF (ITAG(ABS(MSR(I))) == 0) THEN
           MSR(I) = -ABS(MSR(I))
         END IF
@@ -2898,7 +2898,7 @@ C
           N1 = IRECT(1,I)
           N2 = IRECT(2,I)
           IF(ITAG(N1) == 0.OR.ITAG(N2) == 0) THEN
-C suivant facette maitre ou esclave
+C suivant facette main ou second
             IF(IFL == 1) THEN
               STF(I) = ZERO
             ELSE
@@ -2972,7 +2972,7 @@ C
 C
 C si aucun element actif : stif a 0
         IF(NSPMD == 1) THEN
-C suivant facette maitre ou esclave
+C suivant facette main ou second
           IF(IFL == 1) THEN
             STF(I) = ZERO
           ELSE
@@ -3062,7 +3062,7 @@ C-----------------------------------------------
       ICOMP = 0
 C
       DO I = NMNF, NMNL           
-C si tag nul sur noeuds master alors msr(i) = -msr(i)
+C si tag nul sur noeuds main alors msr(i) = -msr(i)
         IF (ITAG(ABS(NLG(ABS(MSR(I))))) == 0) THEN
           MSR(I) = -ABS(MSR(I))
         ENDIF
@@ -3081,7 +3081,7 @@ C
           N1  = NLG(N1L)
           N2  = NLG(N2L)
           IF(ITAG(N1) == 0.OR.ITAG(N2) == 0) THEN
-C suivant facette maitre ou esclave
+C suivant facette main ou second
             IF(IFL == 1) THEN
               STF(I) = ZERO
             ELSE
@@ -3150,7 +3150,7 @@ C
              ENDIF
            END IF
            IF(ITAGL(N1)+ITAGL(N2) == 2)THEN
-C suivant facette maitre ou esclave
+C suivant facette main ou second
             IF(IFL == 1) THEN
               STF(I) = ZERO
             ELSE
@@ -3249,7 +3249,7 @@ C-----------------------------------------------
 C
 C mise a - uniquement pour optimiser les interfaces type 7, 10
       DO I = NMNF, NMNL
-C si tag nul sur noeuds master alors msr(i) = -msr(i)
+C si tag nul sur noeuds main alors msr(i) = -msr(i)
         IF (ITAG(ABS(NLG(ABS(MSR(I))))) == 0) THEN
           MSR(I) = -ABS(MSR(I))
         END IF
@@ -3268,7 +3268,7 @@ C
           N1  = NLG(N1L)
           N2  = NLG(N2L)
           IF(ITAG(N1) == 0.OR.ITAG(N2) == 0) THEN
-C suivant facette maitre ou esclave
+C suivant facette main ou second
             IF(IFL == 1) THEN
               STF(I) = ZERO
             ELSE
@@ -3344,7 +3344,7 @@ C
 C
 C si aucun element actif : stif a 0
         IF(NSPMD == 1) THEN
-C suivant facette maitre ou esclave
+C suivant facette main ou second
           IF(IFL == 1) THEN
             STF(I) = ZERO
           ELSE
@@ -3810,7 +3810,7 @@ C
 c arebrancher       IF(NTY.NE.3.AND.NTY.NE.5) THEN
 c arebrancherC mise a - uniquement pour optimiser les interfaces type 7, 10
 c arebrancher        DO I = NMNF, NMNL
-c arebrancherC si tag nul sur noeuds master alors msr(i) = -msr(i)
+c arebrancherC si tag nul sur noeuds main alors msr(i) = -msr(i)
 c arebrancher          IF (ITAG(ABS(MSR(I))) == 0) THEN
 c arebrancher            MSR(I) = -ABS(MSR(I))
 c arebrancher          ENDIF
@@ -3964,7 +3964,7 @@ C
 c arebrancher      IF(NTY.NE.3.AND.NTY.NE.5) THEN
 c arebrancherC mise a - uniquement pour optimiser les interfaces type 7, 10
 c arebrancher        DO I = NMNF, NMNL
-c arebrancherC si tag nul sur noeuds master alors msr(i) = -msr(i)
+c arebrancherC si tag nul sur noeuds main alors msr(i) = -msr(i)
 c arebrancher          IF (ITAG(ABS(MSR(I))) == 0) THEN
 c arebrancher            MSR(I) = -ABS(MSR(I))
 c arebrancher          END IF
@@ -4106,7 +4106,7 @@ C-----------------------------------------------
             NN = BUFS(J)
             IF(NN > 0) THEN
               I  = NINDEX(J)
-C suivant facette maitre ou esclave
+C suivant facette main ou second
               STF(I) = ZERO
               IF(NTY==24.OR.NTY==25)THEN
                 NIND_SEGLO = NIND_SEGLO + 1
@@ -4136,7 +4136,7 @@ C suivant facette maitre ou esclave
             NN = BUFS(J)
             IF(NN > 0) THEN
               I  = NINDEX(J)
-C suivant facette maitre ou esclave
+C suivant facette main ou second
               IF(IFL == 1) THEN
                 STF(I) = ZERO
               ELSE
@@ -4151,7 +4151,7 @@ C suivant facette maitre ou esclave
             NN = BUFS(J)
             IF(NN == 0) THEN
               I  = NINDEX(J)
-C suivant facette maitre ou esclave
+C suivant facette main ou second
               IF(IFL == 1) THEN
                 STF(I) = ZERO
               ELSE

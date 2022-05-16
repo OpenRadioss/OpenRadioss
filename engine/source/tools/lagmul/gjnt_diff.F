@@ -317,7 +317,7 @@ C --- (vz)
       SLL(IK) = 0
 2      XLL(IK) = -UN
 C
-c      rotational dof of slave
+c      rotational dof of secnd
 C ---  (wx)
       NC = NC + 1
       IADLL(NC+1) = IADLL(NC) + 10

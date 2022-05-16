@@ -202,7 +202,7 @@ C
             NPOLH=MONVOL(K1-1+49)
 C
             IF (IMESH.EQ.1.AND.DT1.GT.ZERO.AND.NCYCLE.NE.0) THEN
-               IF (ISPMD.NE.FVSPMD(I)%PMASTER-1) THEN
+               IF (ISPMD.NE.FVSPMD(I)%PMAIN-1) THEN
                   ALLOCATE(FVDATA_OLD(I)%IFVNOD(3,0),
      .                     FVDATA_OLD(I)%RFVNOD(2,0),
      .                     FVDATA_OLD(I)%IFVTRI(6,0),
@@ -348,7 +348,7 @@ C
 C
             ELSEIF ((IMESH.EQ.0.AND.NCYCLE.EQ.0).OR. 
      .              (IMESH==0.AND.MCHECK > 0)) THEN
-               IF (ISPMD.NE.FVSPMD(IFV)%PMASTER-1) THEN
+               IF (ISPMD.NE.FVSPMD(IFV)%PMAIN-1) THEN
                   ALLOCATE(FVDATA(IFV)%IFVNOD(3,0),
      .                     FVDATA(IFV)%RFVNOD(2,0),
      .                     FVDATA(IFV)%IFVTRI(6,0),

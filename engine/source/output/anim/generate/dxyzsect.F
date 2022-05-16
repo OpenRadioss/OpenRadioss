@@ -66,7 +66,7 @@ C-----------------------------------------------
       my_real
      .   XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
      .   XX4, YY4, ZZ4, D13, XXC, YYC, ZZC, AL4,XWL,YWL,ZWL,
-     .   PMASTER,LOC_PROC
+     .   PMAIN,LOC_PROC
 
       my_real
      .   XSEC(3,3,NSECT)

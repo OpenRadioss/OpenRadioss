@@ -252,7 +252,7 @@ C
         MSR=NPBY(1,M)
         NSN=NPBY(2,M)
         IF(MSR >= 0) THEN
-C if msr slave of moving or lagrange wall => no ams
+C if msr secnd of moving or lagrange wall => no ams
           IWSMS=0
           K = 1
           DO N=1,NRWALL
@@ -1196,7 +1196,7 @@ Chd|====================================================================
      7             IPARTP    ,IPARTR ,IPARTUR  ,IPARTTG  ,IPARTX   ,
      8             NPBY      ,LPBY   ,KINET    ,TAGSLV_RBY_SMS,IPARI,
      9             INTBUF_TAB,LAD_SMS,IPART    ,IGEO     ,NATIV_SMS ,
-     A             IAD_SMS   ,IDI_SMS,JAD_SMS  ,JDI_SMS  ,T2MASTER_SMS)
+     A             IAD_SMS   ,IDI_SMS,JAD_SMS  ,JDI_SMS  ,T2MAIN_SMS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1237,7 +1237,7 @@ C-----------------------------------------------
      .        NPBY(NNPBY,*), LPBY(*), KINET(*), TAGSLV_RBY_SMS(*),
      .        IPARI(NPARI,*), 
      .        LAD_SMS(*), 
-     .        IPART(LIPART1,*), IGEO(NPROPGI,*),T2MASTER_SMS(4,*)
+     .        IPART(LIPART1,*), IGEO(NPROPGI,*),T2MAIN_SMS(4,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1350,7 +1350,7 @@ C inter/type2 : numbering
 C------------
       KINET(1:NUMNOD) = 0 
 C
-C     Tag des Maitres pour TYPE2 symetrisees
+C     Tag des mains pour TYPE2 symetrisees
 C
       DO N=1,NINTER
         NTY = IPARI(7,N)
@@ -1387,7 +1387,7 @@ C
       END DO
 C------------
 C
-C---- First pass - detection of master nodes for crossed type 2 connection
+C---- First pass - detection of main nodes for crossed type 2 connection
 C
       DO N=1,NINTER
         NTY   = IPARI(7,N)
@@ -1407,10 +1407,10 @@ C
      .                        .AND.NATIV_SMS(N2)==0
      .                        .AND.NATIV_SMS(N3)==0
      .                        .AND.NATIV_SMS(N4)==0) CYCLE
-            T2MASTER_SMS(1,I)  = N1
-            T2MASTER_SMS(2,I)  = N2
-            T2MASTER_SMS(3,I)  = N3
-            T2MASTER_SMS(4,I)  = N4
+            T2MAIN_SMS(1,I)  = N1
+            T2MAIN_SMS(2,I)  = N2
+            T2MAIN_SMS(3,I)  = N3
+            T2MAIN_SMS(4,I)  = N4
 
           ENDDO  
         ELSEIF(NTY.EQ.2 .AND. ILAGM.EQ.0 .AND.(ILEV==27.or.ILEV==28))THEN
@@ -1428,10 +1428,10 @@ C
      .                        .AND.NATIV_SMS(N2)==0
      .                        .AND.NATIV_SMS(N3)==0
      .                        .AND.NATIV_SMS(N4)==0) CYCLE
-              T2MASTER_SMS(1,I)  = N1
-              T2MASTER_SMS(2,I)  = N2
-              T2MASTER_SMS(3,I)  = N3
-              T2MASTER_SMS(4,I)  = N4
+              T2MAIN_SMS(1,I)  = N1
+              T2MAIN_SMS(2,I)  = N2
+              T2MAIN_SMS(3,I)  = N3
+              T2MAIN_SMS(4,I)  = N4
 
             ENDIF
           ENDDO        
@@ -1465,13 +1465,13 @@ C
               NODNX_SMS(N3)=NODNX_SMS(N3)+1
               NODNX_SMS(N4)=NODNX_SMS(N4)+1
               NNZ_SMS = NNZ_SMS + 8
-C-- Type2 crossed connection between master nodes
-              IF ((T2MASTER_SMS(1,J).GT.0).AND.(I.GT.J)) THEN
+C-- Type2 crossed connection between main nodes
+              IF ((T2MAIN_SMS(1,J).GT.0).AND.(I.GT.J)) THEN
                 DO K =1,4
                   DO KK =1,4
-                    IF (T2MASTER_SMS(K,I).NE.T2MASTER_SMS(KK,J)) THEN
-                      NODNX_SMS(T2MASTER_SMS(K,I))=NODNX_SMS(T2MASTER_SMS(K,I))+1
-                      NODNX_SMS(T2MASTER_SMS(KK,J))=NODNX_SMS(T2MASTER_SMS(KK,J))+1
+                    IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                      NODNX_SMS(T2MAIN_SMS(K,I))=NODNX_SMS(T2MAIN_SMS(K,I))+1
+                      NODNX_SMS(T2MAIN_SMS(KK,J))=NODNX_SMS(T2MAIN_SMS(KK,J))+1
                       NNZ_SMS = NNZ_SMS + 2
                     ENDIF
                   ENDDO
@@ -1526,13 +1526,13 @@ C           Kinematic node
                 NODNX_SMS(N3)=NODNX_SMS(N3)+1
                 NODNX_SMS(N4)=NODNX_SMS(N4)+1
                 NNZ_SMS = NNZ_SMS + 8
-C-- Type2 crossed connection between master nodes
-                IF ((T2MASTER_SMS(1,J).GT.0).AND.(I.GT.J)) THEN
+C-- Type2 crossed connection between main nodes
+                IF ((T2MAIN_SMS(1,J).GT.0).AND.(I.GT.J)) THEN
                   DO K =1,4
                     DO KK =1,4
-                      IF (T2MASTER_SMS(K,I).NE.T2MASTER_SMS(KK,J)) THEN
-                        NODNX_SMS(T2MASTER_SMS(K,I))=NODNX_SMS(T2MASTER_SMS(K,I))+1
-                        NODNX_SMS(T2MASTER_SMS(KK,J))=NODNX_SMS(T2MASTER_SMS(KK,J))+1
+                      IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                        NODNX_SMS(T2MAIN_SMS(K,I))=NODNX_SMS(T2MAIN_SMS(K,I))+1
+                        NODNX_SMS(T2MAIN_SMS(KK,J))=NODNX_SMS(T2MAIN_SMS(KK,J))+1
                         NNZ_SMS = NNZ_SMS + 2
                       ENDIF
                     ENDDO
@@ -1591,7 +1591,7 @@ Chd|====================================================================
      9             INTBUF_TAB,LAD_SMS ,NPRW    ,LPRW ,TAGMSR_RBY_SMS,
      A             INTSTAMP ,IPART    ,IGEO    ,NATIV_SMS,IRBE2   ,
      B             LRBE2    ,IAD_SMS  ,IDI_SMS ,JAD_SMS  ,JDI_SMS ,
-     C             T2MASTER_SMS)
+     C             T2MAIN_SMS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1637,7 +1637,7 @@ C-----------------------------------------------
      .        LAD_SMS(*), 
      .        NPRW(*), LPRW(*), TAGMSR_RBY_SMS(*),  
      .        IPART(LIPART1,*), IGEO(NPROPGI,*), NATIV_SMS(*),
-     .        IRBE2(NRBE2L,*), LRBE2(*), T2MASTER_SMS(4,*)
+     .        IRBE2(NRBE2L,*), LRBE2(*), T2MAIN_SMS(4,*)
 
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -1717,15 +1717,15 @@ C
               JDI_SMS(NAD_SMS(J))=N4
               NAD_SMS(J)=NAD_SMS(J)+1
 C
-C-- Type2 crossed connection between master nodes
-              IF ((T2MASTER_SMS(1,J).GT.0).AND.(I.GT.J)) THEN
+C-- Type2 crossed connection between main nodes
+              IF ((T2MAIN_SMS(1,J).GT.0).AND.(I.GT.J)) THEN
                 DO K =1,4
                   DO KK =1,4
-                    IF (T2MASTER_SMS(K,I).NE.T2MASTER_SMS(KK,J)) THEN
-                      JDI_SMS(NAD_SMS(T2MASTER_SMS(K,I)))=T2MASTER_SMS(KK,J)
-                      NAD_SMS(T2MASTER_SMS(K,I))=NAD_SMS(T2MASTER_SMS(K,I))+1
-                      JDI_SMS(NAD_SMS(T2MASTER_SMS(KK,J)))=T2MASTER_SMS(K,I)
-                      NAD_SMS(T2MASTER_SMS(KK,J))=NAD_SMS(T2MASTER_SMS(KK,J))+1
+                    IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                      JDI_SMS(NAD_SMS(T2MAIN_SMS(K,I)))=T2MAIN_SMS(KK,J)
+                      NAD_SMS(T2MAIN_SMS(K,I))=NAD_SMS(T2MAIN_SMS(K,I))+1
+                      JDI_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))=T2MAIN_SMS(K,I)
+                      NAD_SMS(T2MAIN_SMS(KK,J))=NAD_SMS(T2MAIN_SMS(KK,J))+1
                     ENDIF
                   ENDDO
                 ENDDO
@@ -1810,15 +1810,15 @@ C
                 JDI_SMS(NAD_SMS(J))=N4
                 NAD_SMS(J)=NAD_SMS(J)+1
 C
-C-- Type2 crossed connection between master nodes
-                IF ((T2MASTER_SMS(1,J).GT.0).AND.(I.GT.J)) THEN
+C-- Type2 crossed connection between main nodes
+                IF ((T2MAIN_SMS(1,J).GT.0).AND.(I.GT.J)) THEN
                   DO K =1,4
                     DO KK =1,4
-                      IF (T2MASTER_SMS(K,I).NE.T2MASTER_SMS(KK,J)) THEN
-                        JDI_SMS(NAD_SMS(T2MASTER_SMS(K,I)))=T2MASTER_SMS(KK,J)
-                        NAD_SMS(T2MASTER_SMS(K,I))=NAD_SMS(T2MASTER_SMS(K,I))+1
-                        JDI_SMS(NAD_SMS(T2MASTER_SMS(KK,J)))=T2MASTER_SMS(K,I)
-                        NAD_SMS(T2MASTER_SMS(KK,J))=NAD_SMS(T2MASTER_SMS(KK,J))+1
+                      IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                        JDI_SMS(NAD_SMS(T2MAIN_SMS(K,I)))=T2MAIN_SMS(KK,J)
+                        NAD_SMS(T2MAIN_SMS(K,I))=NAD_SMS(T2MAIN_SMS(K,I))+1
+                        JDI_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))=T2MAIN_SMS(K,I)
+                        NAD_SMS(T2MAIN_SMS(KK,J))=NAD_SMS(T2MAIN_SMS(KK,J))+1
                       ENDIF
                     ENDDO
                   ENDDO
@@ -1901,7 +1901,7 @@ Chd|====================================================================
      9             TAGSLV_RBY_SMS,IPARI,INTBUF_TAB,
      A             LAD_SMS   ,JSM_SMS  ,INTSTAMP  ,IPART     , 
      B             IGEO     ,TAGMSR_RBY_SMS,NATIV_SMS,
-     C             IAD_SMS   ,IDI_SMS,JAD_SMS  ,JDI_SMS  ,T2MASTER_SMS)
+     C             IAD_SMS   ,IDI_SMS,JAD_SMS  ,JDI_SMS  ,T2MAIN_SMS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1945,7 +1945,7 @@ C-----------------------------------------------
      .        NPBY(NNPBY,*), LPBY(*), KINET(*), TAGSLV_RBY_SMS(*),
      .        IPARI(NPARI,*), 
      .        LAD_SMS(*), JSM_SMS(*), 
-     .        IPART(LIPART1,*), IGEO(NPROPGI,*), TAGMSR_RBY_SMS(*), T2MASTER_SMS(4,*)
+     .        IPART(LIPART1,*), IGEO(NPROPGI,*), TAGMSR_RBY_SMS(*), T2MAIN_SMS(4,*)
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
@@ -2067,17 +2067,17 @@ C
               JDI_SMS(NAD_SMS(J))=N4
               NAD_SMS(J)=NAD_SMS(J)+1
 C
-C-- Type2 crossed connection between master nodes
-              IF ((T2MASTER_SMS(1,J).GT.0).AND.(I.GT.J)) THEN
+C-- Type2 crossed connection between main nodes
+              IF ((T2MAIN_SMS(1,J).GT.0).AND.(I.GT.J)) THEN
                 DO K =1,4
                   DO KK =1,4
-                    IF (T2MASTER_SMS(K,I).NE.T2MASTER_SMS(KK,J)) THEN
-                      JSM_SMS(NAD_SMS(T2MASTER_SMS(K,I)))=NAD_SMS(T2MASTER_SMS(KK,J))
-                      JSM_SMS(NAD_SMS(T2MASTER_SMS(KK,J)))=NAD_SMS(T2MASTER_SMS(K,I))
-                      JDI_SMS(NAD_SMS(T2MASTER_SMS(K,I)))=T2MASTER_SMS(KK,J)
-                      NAD_SMS(T2MASTER_SMS(K,I))=NAD_SMS(T2MASTER_SMS(K,I))+1
-                      JDI_SMS(NAD_SMS(T2MASTER_SMS(KK,J)))=T2MASTER_SMS(K,I)
-                      NAD_SMS(T2MASTER_SMS(KK,J))=NAD_SMS(T2MASTER_SMS(KK,J))+1
+                    IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                      JSM_SMS(NAD_SMS(T2MAIN_SMS(K,I)))=NAD_SMS(T2MAIN_SMS(KK,J))
+                      JSM_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))=NAD_SMS(T2MAIN_SMS(K,I))
+                      JDI_SMS(NAD_SMS(T2MAIN_SMS(K,I)))=T2MAIN_SMS(KK,J)
+                      NAD_SMS(T2MAIN_SMS(K,I))=NAD_SMS(T2MAIN_SMS(K,I))+1
+                      JDI_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))=T2MAIN_SMS(K,I)
+                      NAD_SMS(T2MAIN_SMS(KK,J))=NAD_SMS(T2MAIN_SMS(KK,J))+1
                     ENDIF
                   ENDDO
                 ENDDO
@@ -2183,17 +2183,17 @@ C           Kinematic node
                 JDI_SMS(NAD_SMS(J))=N4
                 NAD_SMS(J)=NAD_SMS(J)+1
 C
-C-- Type2 crossed connection between master nodes
-                IF ((T2MASTER_SMS(1,J).GT.0).AND.(I.GT.J)) THEN
+C-- Type2 crossed connection between main nodes
+                IF ((T2MAIN_SMS(1,J).GT.0).AND.(I.GT.J)) THEN
                   DO K =1,4
                     DO KK =1,4
-                      IF (T2MASTER_SMS(K,I).NE.T2MASTER_SMS(KK,J)) THEN
-                        JSM_SMS(NAD_SMS(T2MASTER_SMS(K,I)))=NAD_SMS(T2MASTER_SMS(KK,J))
-                        JSM_SMS(NAD_SMS(T2MASTER_SMS(KK,J)))=NAD_SMS(T2MASTER_SMS(K,I))
-                        JDI_SMS(NAD_SMS(T2MASTER_SMS(K,I)))=T2MASTER_SMS(KK,J)
-                        NAD_SMS(T2MASTER_SMS(K,I))=NAD_SMS(T2MASTER_SMS(K,I))+1
-                        JDI_SMS(NAD_SMS(T2MASTER_SMS(KK,J)))=T2MASTER_SMS(K,I)
-                        NAD_SMS(T2MASTER_SMS(KK,J))=NAD_SMS(T2MASTER_SMS(KK,J))+1
+                      IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                        JSM_SMS(NAD_SMS(T2MAIN_SMS(K,I)))=NAD_SMS(T2MAIN_SMS(KK,J))
+                        JSM_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))=NAD_SMS(T2MAIN_SMS(K,I))
+                        JDI_SMS(NAD_SMS(T2MAIN_SMS(K,I)))=T2MAIN_SMS(KK,J)
+                        NAD_SMS(T2MAIN_SMS(K,I))=NAD_SMS(T2MAIN_SMS(K,I))+1
+                        JDI_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))=T2MAIN_SMS(K,I)
+                        NAD_SMS(T2MAIN_SMS(KK,J))=NAD_SMS(T2MAIN_SMS(KK,J))+1
                       ENDIF
                     ENDDO
                   ENDDO

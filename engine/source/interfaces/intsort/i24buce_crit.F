@@ -146,7 +146,7 @@ C
             EDGE_L2_NEW = ZERO
             EDGE_L2_OLD = ZERO
             IF(IEDGE/=0)THEN
-c             compute slave edge half size
+c             compute secnd edge half size
               IAD = ISEADD(I)
               NES = ISEDGE(IAD)
               IF(NES/=0)THEN
@@ -245,7 +245,7 @@ C
             EDGE_L2_NEW = ZERO
             EDGE_L2_OLD = ZERO
             IF(IEDGE/=0)THEN
-c             compute slave edge half size
+c             compute secnd edge half size
               IAD = ISEADD(I)
               NES = ISEDGE(IAD)
               IF(NES/=0)THEN

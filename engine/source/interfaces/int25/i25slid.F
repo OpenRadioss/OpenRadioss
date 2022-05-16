@@ -666,7 +666,7 @@ Chd|====================================================================
      1                  I_STOK ,INDEX  ,CAND_N ,CAND_E ,NIN    ,
      2                  NSN    ,NSNR   ,INACTI ,MSEGLO ,IRTLM  ,
      3                  PENM   ,PENE_OLD,JTASK ,ITAB   ,
-     4                  NSV    ,SLAV_FR ,TIME_S,STIF_OLD )
+     4                  NSV    ,SECND_FR ,TIME_S,STIF_OLD )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -693,7 +693,7 @@ C-----------------------------------------------
      .        CAND_N(*),CAND_E(*), JTASK, ITAB(*), NSV(*)
       INTEGER MSEGLO(*), IRTLM(4,NSN)
       my_real
-     .     PENM(4,*), PENE_OLD(5,*), SLAV_FR(6,*), TIME_S(2,*), STIF_OLD(2,*)
+     .     PENM(4,*), PENE_OLD(5,*), SECND_FR(6,*), TIME_S(2,*), STIF_OLD(2,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1018,7 +1018,7 @@ Chd|====================================================================
      .                  NODNX_SMS,X      ,V      ,MS     ,TEMP   ,
      .                  INTBUF_TAB,RBUF  ,IBUF   ,
      4                  RSIZ   ,ISIZ   ,SIZBUFS,FR_SLIDE ,INDEX  ,
-     5                  MASTER_PROC ,INTFRIC,IVIS2, ICODT, ISKEW)
+     5                  MAIN_PROC ,INTFRIC,IVIS2, ICODT, ISKEW)
     
 C-----------------------------------------------
 C   M o d u l e s
@@ -1048,7 +1048,7 @@ C-----------------------------------------------
       INTEGER ITAB(*), INDEX(*), FR_SLIDE(4,*),
      .        KINET(*), NODNX_SMS(*)
       INTEGER IAD_FRNOR(NINTER25,NSPMD+1),FR_NOR(*), LENS,
-     .        NADD(*), KADD(*), MASTER_PROC(NUMNOD)
+     .        NADD(*), KADD(*), MAIN_PROC(NUMNOD)
       INTEGER, INTENT(IN) :: ICODT(*),ISKEW(*)
       my_real
      .        X(3,*), V(3,*), MS(*), TEMP(*)
@@ -1096,16 +1096,16 @@ C
                   RBUF(P,NI25)%p(LR+6) = V(3,NOD)
                   RBUF(P,NI25)%p(LR+7) = MS(NOD)
                   RBUF(P,NI25)%p(LR+8) = INTBUF_TAB%STFNS(I)   
-                  IBUF(P,NI25)%p(LI+1) = INTBUF_TAB%NSV_ON_PMASTER(I) 
-c                 IF(MASTER_PROC(NOD) == LOC_PROC) THEN
+                  IBUF(P,NI25)%p(LI+1) = INTBUF_TAB%NSV_ON_PMAIN(I) 
+c                 IF(MAIN_PROC(NOD) == LOC_PROC) THEN
 c                   IBUF(P,NI25)%p(LI+1) = -ITAB(NOD)
 c                   ! on peut metre ici directement le numero local
 c                 ELSE
 c                   IBUF(P,NI25)%p(LI+1) = -ITAB(NOD)
 c                 ENDIF
                   IBUF(P,NI25)%p(LI+2) = ITAB(NOD) 
-c                  if(itab(nod)==6992)print *,'prep_send nat',ispmd+1,p,li,master_proc(nod)   
-                  IBUF(P,NI25)%p(LI+3) = MASTER_PROC(NOD)  
+c                  if(itab(nod)==6992)print *,'prep_send nat',ispmd+1,p,li,main_proc(nod)   
+                  IBUF(P,NI25)%p(LI+3) = MAIN_PROC(NOD)  
                   IBUF(P,NI25)%p(LI+4) = KINET(NOD)
                 ELSE
                   II = I-NSN
@@ -1120,8 +1120,8 @@ c                  if(itab(nod)==6992)print *,'prep_send nat',ispmd+1,p,li,maste
 C                 To test search in SPMD_I25_FRONT
                   IBUF(P,NI25)%p(LI+1) = NSVFI(NIN)%P(II) 
                   IBUF(P,NI25)%p(LI+2) = ITAFI(NIN)%P(II)     
-c                  if(ITAFI(NIN)%P(II) ==6992)print *,'prep_send rem',ispmd+1,p,li,PMASTERFI(NIN)%P(II)    
-                  IBUF(P,NI25)%p(LI+3) = PMASTERFI(NIN)%P(II)    
+c                  if(ITAFI(NIN)%P(II) ==6992)print *,'prep_send rem',ispmd+1,p,li,PMAINFI(NIN)%P(II)    
+                  IBUF(P,NI25)%p(LI+3) = PMAINFI(NIN)%P(II)    
                   IBUF(P,NI25)%p(LI+4) = KINFI(NIN)%P(II)
                 END IF
                 LR = LR + RSIZ
@@ -1262,7 +1262,7 @@ C -- IDTMINS==2
                  IF(I <= NSN)THEN
                    NOD = INTBUF_TAB%NSV(I)
                    IBUF(P,NI25)%p(LI+ISHIFT)  = NODNX_SMS(NOD)
-                   IF(P/=MASTER_PROC(NOD)) THEN
+                   IF(P/=MAIN_PROC(NOD)) THEN
                     IBUF(P,NI25)%p(LI+ISHIFT+1)= IBUF(P,NI25)%p(LI+1)
                    ELSE
                     IBUF(P,NI25)%p(LI+ISHIFT+1)= NOD
@@ -1284,7 +1284,7 @@ C -- IDTMINS_INT /= 0
                 I = INDEX(IDEB+J)
                 IF(I <= NSN)THEN
                   NOD = INTBUF_TAB%NSV(I)
-                   IF(P/=MASTER_PROC(NOD)) THEN
+                   IF(P/=MAIN_PROC(NOD)) THEN
                     IBUF(P,NI25)%p(LI+ISHIFT)= IBUF(P,NI25)%p(LI+1)
                    ELSE
                     IBUF(P,NI25)%p(LI+ISHIFT)= NOD
@@ -1306,9 +1306,9 @@ C
                 IF(I <= NSN)THEN
                   RBUF(P,NI25)%p(LR+RSHIFT)    =INTBUF_TAB%TIME_S(2*(I-1)+1)
                   RBUF(P,NI25)%p(LR+RSHIFT+1)  =INTBUF_TAB%TIME_S(2*(I-1)+2)
-                  RBUF(P,NI25)%p(LR+RSHIFT+2)  =INTBUF_TAB%SLAV_FR(6*(I-1)+4)
-                  RBUF(P,NI25)%p(LR+RSHIFT+3)  =INTBUF_TAB%SLAV_FR(6*(I-1)+5)
-                  RBUF(P,NI25)%p(LR+RSHIFT+4)  =INTBUF_TAB%SLAV_FR(6*(I-1)+6)
+                  RBUF(P,NI25)%p(LR+RSHIFT+2)  =INTBUF_TAB%SECND_FR(6*(I-1)+4)
+                  RBUF(P,NI25)%p(LR+RSHIFT+3)  =INTBUF_TAB%SECND_FR(6*(I-1)+5)
+                  RBUF(P,NI25)%p(LR+RSHIFT+4)  =INTBUF_TAB%SECND_FR(6*(I-1)+6)
                   RBUF(P,NI25)%p(LR+RSHIFT+5)  =INTBUF_TAB%PENE_OLD(5*(I-1)+2)
                   RBUF(P,NI25)%p(LR+RSHIFT+6)  =INTBUF_TAB%STIF_OLD(2*(I-1)+2) 
                   RBUF(P,NI25)%p(LR+RSHIFT+7)  =INTBUF_TAB%PENE_OLD(5*(I-1)+3)
@@ -1318,9 +1318,9 @@ C
                   II = I-NSN
                   RBUF(P,NI25)%p(LR+RSHIFT)    =TIME_SFI(NIN)%P(2*(II-1)+1)
                   RBUF(P,NI25)%p(LR+RSHIFT+1)  =TIME_SFI(NIN)%P(2*(II-1)+2)
-                  RBUF(P,NI25)%p(LR+RSHIFT+2)  =SLAV_FRFI(NIN)%P(4,II)
-                  RBUF(P,NI25)%p(LR+RSHIFT+3)  =SLAV_FRFI(NIN)%P(5,II)
-                  RBUF(P,NI25)%p(LR+RSHIFT+4)  =SLAV_FRFI(NIN)%P(6,II)
+                  RBUF(P,NI25)%p(LR+RSHIFT+2)  =SECND_FRFI(NIN)%P(4,II)
+                  RBUF(P,NI25)%p(LR+RSHIFT+3)  =SECND_FRFI(NIN)%P(5,II)
+                  RBUF(P,NI25)%p(LR+RSHIFT+4)  =SECND_FRFI(NIN)%P(6,II)
                   RBUF(P,NI25)%p(LR+RSHIFT+5)  =PENE_OLDFI(NIN)%P(2,II)
                   RBUF(P,NI25)%p(LR+RSHIFT+6)  =STIF_OLDFI(NIN)%P(2,II) 
                   RBUF(P,NI25)%p(LR+RSHIFT+7)  =PENE_OLDFI(NIN)%P(3,II)

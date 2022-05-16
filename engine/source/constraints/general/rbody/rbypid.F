@@ -94,7 +94,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II, NG, ITY, NEL, NFT, IAD, IGOF, N, NI, LSKYRBKG,
-     .   M, ISPH, NALL,MLW, K, PMASTER, TAG, L,
+     .   M, ISPH, NALL,MLW, K, PMAIN, TAG, L,
      .   MX,ICOMM(NSPMD+2),ISTRAIN,NPT,IHBE, ID
 C     REAL ou REAL*8
       my_real
@@ -113,18 +113,18 @@ C======================================================================|
       M    = NPBY(1)
 C
       IF(NSPMD > 1)THEN
-C FR_RBY2(3,NRB) => proc master ; ICOMM : tableau de flag si comm necessaire pmaster => p
-        PMASTER = ABS(FR_RBY2(3,NRB))
+C FR_RBY2(3,NRB) => proc main ; ICOMM : tableau de flag si comm necessaire pmain => p
+        PMAIN = ABS(FR_RBY2(3,NRB))
         TAG = 1
         IF(M < 0) TAG = 0
-        CALL SPMD_PART_COM(TAG,PMASTER,ICOMM)
+        CALL SPMD_PART_COM(TAG,PMAIN,ICOMM)
         IF(M < 0) GOTO 100
 C pour utilisation de ICOMM dans SPMD_EXCH_FR6
 C FR_RBY2 ne peut pas directement etre utilise (pas de doublons)
         ICOMM(NSPMD+1) = 0
-        ICOMM(NSPMD+2) = PMASTER
+        ICOMM(NSPMD+2) = PMAIN
       ELSE
-        PMASTER = 1
+        PMAIN = 1
       ENDIF
 C
       ISPH = NPBY(5)
@@ -173,17 +173,17 @@ C
        CALL RBYACT(RBY   ,M     ,LPBY  ,NSN   ,MS    ,
      .             IN    ,X     ,ITAB  ,SKEW  ,ISPH  ,
      .             ITAG(1+NUMNOD),NPBYI,RBYI  ,LPBYI ,
-     .             PMASTER,ICOMM,WEIGHT,ID    )
+     .             PMAIN,ICOMM,WEIGHT,ID    )
 C----------------------------------------------
 C     QUANTITE DE MOUVEMENT +
-C     MISE A ZERO DES MASSES ET INERTIES SLAVES
+C     MISE A ZERO DES MASSES ET INERTIES SECNDS
 C----------------------------------------------
        IF(N2D==0) THEN
 C        ANALYSE 3D
         DO I=1,NSN
           N = LPBY(I)
           IF(ITAG(NUMNOD+N) > 0.AND.WEIGHT(N) == 1)THEN
-C noeud maitre de sous rby
+C noeud main de sous rby
             NI = ITAG(NUMNOD+N)
             F1(I) =  V(1,N)*MS(N)
             F2(I) =  V(2,N)*MS(N)
@@ -231,7 +231,7 @@ c            ZZMOM = ZZMOM + VR(1,N)*IG7 + VR(2,N)*IG8 + VR(3,N)*IG9
 c     .        +(X(1,N)-X(1,M))*V(2,N)*MS(N)
 c     .        -(X(2,N)-X(2,M))*V(1,N)*MS(N)
           ELSEIF(ITAG(NUMNOD+N) == 0.AND.WEIGHT(N) == 1)THEN
-C noeud ni maitre ni esclave de sous rby
+C noeud ni main ni second. de sous rby
             F1(I) = V(1,N)*MS(N)
             F2(I) = V(2,N)*MS(N)
             F3(I) = V(3,N)*MS(N)
@@ -272,7 +272,7 @@ C        ANALYSE 2D : Axisymetry
         DO I=1,NSN
           N = LPBY(I)
           IF(ITAG(NUMNOD+N) > 0.AND.WEIGHT(N) == 1)THEN
-C noeud maitre de sous rby
+C noeud main de sous rby
             NI = ITAG(NUMNOD+N)
             F1(I) =  V(1,N)*MS(N)
             F2(I) =  V(2,N)*MS(N)
@@ -293,7 +293,7 @@ C
      .             -(X(2,N)-X(2,M))*V(1,N)*MS(N)
 
           ELSEIF(ITAG(NUMNOD+N) == 0.AND.WEIGHT(N) == 1)THEN
-C noeud ni maitre ni esclave de sous rby
+C noeud ni main ni second. de sous rby
             F1(I) = V(1,N)*MS(N)
             F2(I) = V(2,N)*MS(N)
             F3(I) = V(3,N)*MS(N)
@@ -322,7 +322,7 @@ C        ANALYSE 2D : Plane symetry
         DO I=1,NSN
           N = LPBY(I)
           IF(ITAG(NUMNOD+N) > 0.AND.WEIGHT(N) == 1)THEN
-C noeud maitre de sous rby
+C noeud main de sous rby
             NI = ITAG(NUMNOD+N)
             F1(I) =  ZERO
             F2(I) =  V(2,N)*MS(N)
@@ -347,7 +347,7 @@ C
             F5(I) = VR(2,N)*IG5 + VR(3,N)*IG6
             F6(I) = VR(2,N)*IG8 + VR(3,N)*IG9
           ELSEIF(ITAG(NUMNOD+N) == 0.AND.WEIGHT(N) == 1)THEN
-C noeud ni maitre ni esclave de sous rby
+C noeud ni main ni second. de sous rby
             F1(I) = ZERO
             F2(I) = V(2,N)*MS(N)
             F3(I) = V(3,N)*MS(N)
@@ -444,7 +444,7 @@ C
 C
       IF(ONFELT == 0.OR.ONFELT == 1)THEN
 C-----------------------
-C     TAG DES NOEUDS ESCLAVES
+C     TAG DES NOEUDS SECONDS
 C-----------------------
       DO I=1,NSN
        ITAG(LPBY(I))=1
@@ -674,7 +674,7 @@ C----------------------------------------
        ENDIF
       ENDDO
 C-----------------------
-C     RESET TAG DES NOEUDS ESCLAVES
+C     RESET TAG DES NOEUDS SECONDS
 C-----------------------
       DO I=1,NSN
        ITAG(LPBY(I))=0

@@ -70,7 +70,7 @@ C-----------------------------------------------
       TYPE(BRICK_ENTITY)         ,POINTER :: pCC
       TYPE(LIST_ADJ)             ,POINTER :: pADJ
       TYPE(CUT_PLANE)            ,POINTER :: pPLANE
-      TYPE(LIST_SLAVE)           ,POINTER :: pSLAVE      
+      TYPE(LIST_SECND)           ,POINTER :: pSECND      
       TYPE(EDGE_ENTITY)          ,POINTER :: pEDGE
 C-----------------------------------------------
 C   P r e c o n d i t i o n s
@@ -101,7 +101,7 @@ C-----------------------------------------------
         !INTEGERS
         WRITE(unit=IUNIT,  fmt='(A ,2I10)')    "  (IB,iID)=", IB,pCC%ID
         WRITE(unit=IUNIT,  fmt='(A,11I10)')    " 1.", pCC%NG, pCC%IDLOC, pCC%ICODE, pCC%IDBLE, pCC%NBITS, pCC%NPQTS, pCC%NBCUT      
-     .                                       , pCC%MasterID , pCC%OldMasterStrongNode, pCC%MLW, pCC%ITASK        
+     .                                       , pCC%MainID , pCC%OldMainStrongNode, pCC%MLW, pCC%ITASK        
         WRITE(unit=IUNIT,  fmt='(A,08I10)    ')" 2.", pCC%SECID_Cell(1:8)     
         WRITE(unit=IUNIT,  fmt='(A,08I10)    ')" 3.", pCC%NODE(1:8)%OLD_WhichCell         
         WRITE(unit=IUNIT,  fmt='(A,08I10)    ')" 4.", pCC%NODE(1:8)%WhichCell         
@@ -120,10 +120,10 @@ C-----------------------------------------------
      .                                                 /)       
         WRITE(unit=IUNIT,  fmt='(A,54I10)    ')"12.", (/ (pCC%POLY(1:9)%FACE(J)%NAdjCell  ,J=1,6) /)        
         WRITE(unit=IUNIT,  fmt='(A,72I10)    ')"13.", (/ (pCC%POLY(1:9)%ListNodID(J)      ,J=1,8) /)          
-        WRITE(unit=IUNIT,  fmt='(A,09I10)    ')"14.", pCC%POLY(1:9)%IsMaster          
-        WRITE(unit=IUNIT,  fmt='(A,08I10)    ')"15.", pCC%NODE(1:8)%NodWasMaster                                                                                        
-        WRITE(unit=IUNIT,  fmt='(A,36I10)    ')"16.", (/ (pCC%POLY(1:9)%WhereIsMaster(J),J=1,4) /)
-        WRITE(unit=IUNIT,  fmt='(A,08I10)    ')"17.", pCC%NODE(1:8)%WhereWasMaster                       
+        WRITE(unit=IUNIT,  fmt='(A,09I10)    ')"14.", pCC%POLY(1:9)%IsMain          
+        WRITE(unit=IUNIT,  fmt='(A,08I10)    ')"15.", pCC%NODE(1:8)%NodWasMain                                                                                        
+        WRITE(unit=IUNIT,  fmt='(A,36I10)    ')"16.", (/ (pCC%POLY(1:9)%WhereIsMain(J),J=1,4) /)
+        WRITE(unit=IUNIT,  fmt='(A,08I10)    ')"17.", pCC%NODE(1:8)%WhereWasMain                       
         WRITE(unit=IUNIT,  fmt='(A,15I10)    ')"18.", pCC%MergeTarget(1:3,1:5)            
         WRITE(unit=IUNIT,  fmt='(A,01I10)    ')"19.", pCC%Ntarget
 
@@ -164,7 +164,7 @@ C-----------------------------------------------
         WRITE(unit=IUNIT,  fmt='(A,48I10)    ')"   ", pADJ%IV(1:48)          
         WRITE(unit=IUNIT,  fmt='(A,48I10)    ')"   ", pADJ%IB(1:48)         
         WRITE(unit=IUNIT,  fmt='(A,48I10)    ')"   ", pADJ%ICELL(1:48)                                             
-        WRITE(unit=IUNIT,  fmt='(A,48I10)    ')"   ", pADJ%SlaveFACE(1:48)                   
+        WRITE(unit=IUNIT,  fmt='(A,48I10)    ')"   ", pADJ%SecndFACE(1:48)                   
         ENDDO
 
         !CUT PLANE BUFFER
@@ -178,17 +178,17 @@ C-----------------------------------------------
         WRITE(unit=IUNIT,  fmt='(A,01I10)    ')"   ", pPLANE%NP
         ENDDO
         
-        !SLAVE CELL LIST
-        pSLAVE => BRICK_LIST(NIN,IB)%SlaveList        
-        WRITE(unit=IUNIT,  fmt='(A,01F20.14)' )"   ", pSLAVE%VOL_Unmerged         
-        WRITE(unit=IUNIT,  fmt='(A,01I10)' )   "   ", pSLAVE%Num                 
-        WRITE(unit=IUNIT,  fmt='(A,01I10)' )   "   ", pSLAVE%NumSlaveNodes                 
-        WRITE(unit=IUNIT,  fmt='(A,24I10)' )   "   ", pSLAVE%FM(1:24)                  
-        WRITE(unit=IUNIT,  fmt='(A,24I10)' )   "   ", pSLAVE%FV(1:24) 
-        WRITE(unit=IUNIT,  fmt='(A,24I10)' )   "   ", pSLAVE%IV(1:24) 
-        WRITE(unit=IUNIT,  fmt='(A,24I10)' )   "   ", pSLAVE%IBV(1:24) 
-        WRITE(unit=IUNIT,  fmt='(A,24I10)' )   "   ", pSLAVE%ICELLv(1:24)                                     
-        WRITE(unit=IUNIT,  fmt='(A,24F20.14)' )"   ", pSLAVE%VOL(1:24)
+        !SECND CELL LIST
+        pSECND => BRICK_LIST(NIN,IB)%SecndList        
+        WRITE(unit=IUNIT,  fmt='(A,01F20.14)' )"   ", pSECND%VOL_Unmerged         
+        WRITE(unit=IUNIT,  fmt='(A,01I10)' )   "   ", pSECND%Num                 
+        WRITE(unit=IUNIT,  fmt='(A,01I10)' )   "   ", pSECND%NumSecndNodes                 
+        WRITE(unit=IUNIT,  fmt='(A,24I10)' )   "   ", pSECND%FM(1:24)                  
+        WRITE(unit=IUNIT,  fmt='(A,24I10)' )   "   ", pSECND%FV(1:24) 
+        WRITE(unit=IUNIT,  fmt='(A,24I10)' )   "   ", pSECND%IV(1:24) 
+        WRITE(unit=IUNIT,  fmt='(A,24I10)' )   "   ", pSECND%IBV(1:24) 
+        WRITE(unit=IUNIT,  fmt='(A,24I10)' )   "   ", pSECND%ICELLv(1:24)                                     
+        WRITE(unit=IUNIT,  fmt='(A,24F20.14)' )"   ", pSECND%VOL(1:24)
 
         !EDGE BUFFER
         DO J=1,12

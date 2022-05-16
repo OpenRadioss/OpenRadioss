@@ -1039,7 +1039,7 @@ C       IF(ACTNOR(IRM)==0 .OR. STIFM(IRM)==ZERO) CYCLE
 ! Nod Normal should be recieved even if IRM 
 C is deleted
 C ISPMD may still send the edge during for contact detection
-C (i.e. ISPMD is PMASTER)
+C (i.e. ISPMD is PMAIN)
 
         IF(ACTNOR(IRM)==0) CYCLE
 

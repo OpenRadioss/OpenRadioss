@@ -947,7 +947,7 @@ C-----------------------------------------------
       CHARACTER*nchartitle, TITR
       LOGICAL IS1,IS2,ISD
 C=======================================================================
-C--------done before : switch to penalty if only ND is slave (N1,N2 not)
+C--------done before : switch to penalty if only ND is secnd (N1,N2 not)
 C-----------NOT necessary after tests---------------
 c      DO N=1,NINTER
 c        NTY  = IPARI(7,N)
@@ -1362,7 +1362,7 @@ C-----------------------------------------------
         ADSKY(I) = ADDCNCND(I)
       ENDDO
 C
-C ADDCNCND(I+1)-ADDCNCND(I): nb of node I (master)
+C ADDCNCND(I+1)-ADDCNCND(I): nb of node I (main)
         NIR = 2
         DO I=1,NS10E
           K = ICNDS10(1,I)

@@ -63,7 +63,7 @@ C-----------------------------------------------
       INTEGER SNRBE2,SIZRBE2,SBUFSIZ,PSNRBE2
       INTEGER NSN,IADG,IAD,SN,MN,NGRBE
 
-      INTEGER,  DIMENSION(:),ALLOCATABLE :: SZLOCRBE2,PGLOBRBE2,MASTERNODS
+      INTEGER,  DIMENSION(:),ALLOCATABLE :: SZLOCRBE2,PGLOBRBE2,MAINNODS
       INTEGER,  DIMENSION(:),ALLOCATABLE :: SENDBUF,RECBUF,
      *                                      P0RBE2BUF,IADRBE2
       INTEGER,  DIMENSION(:,:),ALLOCATABLE :: P0RECRBE2, IIN
@@ -78,10 +78,10 @@ C MPI variables
 C-----------------------------------------------
       ALLOCATE(SZLOCRBE2(NRBE2G))
       ALLOCATE(PGLOBRBE2(NRBE2G))
-      ALLOCATE(MASTERNODS(NRBE2G))
+      ALLOCATE(MAINNODS(NRBE2G))
 C-----------------------------------------------
 C     1ere etape - envoyer au proc 0 un tableau avec nombre
-C                  noeuds slaves locaux par RBE2 a envoyer
+C                  noeuds secnds locaux par RBE2 a envoyer
 C                  et preparation du buffer d envoi
 C                  (taille)
       NERBE2T = 0
@@ -152,18 +152,18 @@ C ------------------------
          ENDIF
          DEALLOCATE(SENDBUF)
 
-C Envoi des noeuds slaves
-        MASTERNODS = 0
+C Envoi des noeuds secnds
+        MAINNODS = 0
         DO I=1,NRBE2
           MN = IRBE2(3,I)
 	  IF(MN.NE.0)THEN
             IF (WEIGHT(MN)==1)THEN
               NGRBE = IRBE2(10,I)
-              MASTERNODS(NGRBE)=NODGLOB(MN)
+              MAINNODS(NGRBE)=NODGLOB(MN)
             ENDIF
 	  ENDIF
         ENDDO
-        CALL SPMD_GLOB_ISUM9(MASTERNODS,NRBE2G)
+        CALL SPMD_GLOB_ISUM9(MAINNODS,NRBE2G)
         
 
       ELSE
@@ -232,22 +232,22 @@ C Taille du buffer de reception
              DEALLOCATE(RECBUF)
            ENDIF
          ENDDO
-C  Reception des Noeuds masters
-         MASTERNODS=0
+C  Reception des Noeuds mains
+         MAINNODS=0
          DO I=1,NRBE2
            MN = IRBE2(3,I)
            IF (WEIGHT(MN)==1) THEN
              NGRBE = IRBE2(10,I)
-             MASTERNODS(NGRBE)=NODGLOB(MN)
+             MAINNODS(NGRBE)=NODGLOB(MN)
            ENDIF        
          ENDDO
-         CALL SPMD_GLOB_ISUM9(MASTERNODS,NRBE2G)
+         CALL SPMD_GLOB_ISUM9(MAINNODS,NRBE2G)
 
 C Ecriture sur disque
          DO I=1,NRBE2G
            NSN = IADRBE2(I+1) - IADRBE2(I)
            IADG =IADRBE2(I)
-           MN = MASTERNODS(I)
+           MN = MAINNODS(I)
            ALLOCATE(IIN(2,NSN))
            NERBE2T(I)=NSN
            DO N=1,NSN
@@ -265,7 +265,7 @@ C Ecriture sur disque
 
       DEALLOCATE(SZLOCRBE2)
       DEALLOCATE(PGLOBRBE2)
-      DEALLOCATE(MASTERNODS)
+      DEALLOCATE(MAINNODS)
 
 #endif
       RETURN

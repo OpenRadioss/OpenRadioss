@@ -111,7 +111,7 @@ C-----------------------------------------------
                     COMM_TRI7VOX(NIN)%PROC_MIN = -1
                     COMM_TRI7VOX(NIN)%RANK=-1
                     COMM_TRI7VOX(NIN)%COMM=-1
-                    !   compute the master proc for a given interface
+                    !   compute the main proc for a given interface
                     DO I = 1,COMM_TRI7VOX(NIN)%PROC_NUMBER
                         COMM_TRI7VOX(NIN)%PROC_MIN = min(COMM_TRI7VOX(NIN)%PROC_MIN,COMM_TRI7VOX(NIN)%PROC_LIST(I))
                     ENDDO

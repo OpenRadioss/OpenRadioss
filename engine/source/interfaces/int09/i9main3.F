@@ -162,7 +162,7 @@ C-----------------------------------------------------
      3    INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,MS        ,INTBUF_TAB%N,LCOD  ,
      4    ISKEW     ,FRIC      ,MSMN      ,MSMT      )
 C-----------------------------------------------------
-C     CALCUL DES ACCEL. MAITRES ET VITESSES ESCLAVES
+C     CALCUL DES ACCEL. MAINS ET VITESSES SECONDS
 C-----------------------------------------------------
       CALL I9AVEL
      1   (X         ,SKEW      ,A         ,FN        ,FT        ,

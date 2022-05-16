@@ -197,7 +197,7 @@ C FR_POR construit de maniere triviale
               FR_POR(I) = 1
             END DO
             FR_POR(NSPMD+1)=NG   ! nb noeuds total
-            FR_POR(NSPMD+2)=1    ! PMASTER
+            FR_POR(NSPMD+2)=1    ! PMAIN
             CALL SPMD_EXCH_FR6(FR_POR,FPOR6,6*6)
           END IF
 

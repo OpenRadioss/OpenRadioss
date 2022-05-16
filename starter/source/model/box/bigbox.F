@@ -152,15 +152,15 @@ C---
         ENDDO
       ENDIF
 C---
-C tag group nodes in master-box:
+C tag group nodes in main-box:
 C---
       IF(ISU > 0)THEN
         IF(FLAG == 0)THEN
-          BOXNODS = IBOX(ISU)%NENTITY  ! nodes of master box
+          BOXNODS = IBOX(ISU)%NENTITY  ! nodes of main box
           NNOD = BOXNODS
         ELSE IF(FLAG == 1)THEN
-          BOXNODS = IBOX(ISU)%NENTITY  ! nodes of master box
-          IADISU  = IBOX(ISU)%BOXIAD  ! addresses of nodes in master box
+          BOXNODS = IBOX(ISU)%NENTITY  ! nodes of main box
+          IADISU  = IBOX(ISU)%BOXIAD  ! addresses of nodes in main box
           NNOD = BOXNODS
           DO I=1,BOXNODS
             N=IBUFBOX(IADISU+I-1)
@@ -1399,15 +1399,15 @@ C---
        ENDIF
 
 C---
-C tag group elements in master-box:
+C tag group elements in main-box:
 C---
       IF(ISU > 0)THEN
         IF(FLAG == 0)THEN
-          BOXELE = IBOX(ISU)%NENTITY  ! elements of master box
+          BOXELE = IBOX(ISU)%NENTITY  ! elements of main box
           NEL = BOXELE
         ELSE IF(FLAG == 1)THEN
-          BOXELE = IBOX(ISU)%NENTITY  ! elements of master box
-          IADISU = IBOX(ISU)%BOXIAD  ! addresses of elements in master box
+          BOXELE = IBOX(ISU)%NENTITY  ! elements of main box
+          IADISU = IBOX(ISU)%BOXIAD  ! addresses of elements in main box
           NEL = BOXELE
           DO I=1,BOXELE
             J=IBUFBOX(IADISU+I-1)
@@ -1777,17 +1777,17 @@ C---
         ENDDO
       ENDIF
 C---
-C tag lines (ou surfaces) in master-box:
+C tag lines (ou surfaces) in main-box:
 C---
 C---count lines within BOX
       IF(ISU > 0)THEN
 C
         IF(FLAG == 0)THEN
-          BOXSEG = IBOX(ISU)%NENTITY  ! segments of master box
+          BOXSEG = IBOX(ISU)%NENTITY  ! segments of main box
           NSEG = NSEG + BOXSEG
         ELSE IF(FLAG == 1)THEN
-          BOXSEG = IBOX(ISU)%NENTITY  ! segments of master box
-          IADISU = IBOX(ISU)%BOXIAD  ! addresses of segments in master box
+          BOXSEG = IBOX(ISU)%NENTITY  ! segments of main box
+          IADISU = IBOX(ISU)%BOXIAD  ! addresses of segments in main box
           NSEG = NSEG + BOXSEG
           DO I=1,BOXSEG
            NN = NN + 1
@@ -2135,8 +2135,8 @@ C
 C  fill final  - IBUFSSG - for taged faces
 C
       IF(ISU > 0)THEN
-        BOXSEG = IBOX(ISU)%NENTITY  ! nb of surfaces in master box (/box/box)
-        IADISU = IBOX(ISU)%SURFIAD  ! addresses of surfaces in master box
+        BOXSEG = IBOX(ISU)%NENTITY  ! nb of surfaces in main box (/box/box)
+        IADISU = IBOX(ISU)%SURFIAD  ! addresses of surfaces in main box
         IF(FLAG == 0)THEN
           NSEG=NSEG+BOXSEG
         ELSE IF(FLAG == 1)THEN

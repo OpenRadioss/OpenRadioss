@@ -499,7 +499,7 @@ C
          WA(IXTG(3,I))=MAX(WA(IXTG(3,I)),DX)
          WA(IXTG(4,I))=MAX(WA(IXTG(4,I)),DX)
        ENDDO
-C--------exclude lines in master surfaces
+C--------exclude lines in main surfaces
 C       DO I=1,NUMELT
 C        MG=IXT(4,I)
 C        DX=UNDEMI*SQRT(GEO(1,MG))

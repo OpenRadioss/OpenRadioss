@@ -259,8 +259,8 @@ C
       LOC_PROC = ISPMD+1
 C
       NIACTIF = 0 ! Number of actif and Tri interfaces
-      NODSITOT = 0  ! Global Number of remote master node
-      NODFITOT = 0  ! Global Number of remote master node
+      NODSITOT = 0  ! Global Number of remote main node
+      NODFITOT = 0  ! Global Number of remote main node
 C 
       LENS(1:NSPMD) = 0   
       LENR(1:NSPMD) = 0  

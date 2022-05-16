@@ -57,7 +57,7 @@ C-----------------------------------------------
       NUM=NSEG(J+1)-NSEG(J)
       NPT=NSEG(J)-1
 C---------------------------------------------
-C     RECHERCHE DU NOEUD MASTER LE PLUS PROCHE
+C     RECHERCHE DU NOEUD main LE PLUS PROCHE
 C---------------------------------------------
       DO 100 JJ=1,NUM
       LL=LMSR(NPT+JJ)
@@ -72,7 +72,7 @@ C---------------------------------------------
       ENDIF
   100 CONTINUE
 C------------------------------------------------
-C     RECHERCHE DU SEGMENT MASTER LE PLUS PROCHE
+C     RECHERCHE DU SEGMENT main LE PLUS PROCHE
 C------------------------------------------------
       ILOC(II)=J
       RESULT=EP30

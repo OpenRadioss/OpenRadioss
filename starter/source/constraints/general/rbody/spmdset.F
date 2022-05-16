@@ -54,30 +54,30 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER P,J,FMASTER(NSPMD),S_FMASTER
+      INTEGER P,J,FMAIN(NSPMD),S_FMAIN
 C-----------------------------------------------------------------
       DO P = 1, NSPMD
-        FMASTER(P) = 0
+        FMAIN(P) = 0
       ENDDO
-      S_FMASTER = 0
+      S_FMAIN = 0
       DO P = 1, NSPMD
         DO J = 1, NSL
           IF (NLOCAL(LPBY(J+K),P).NE.0)THEN
-            FMASTER(P) = 1
-            S_FMASTER = S_FMASTER + 1
+            FMAIN(P) = 1
+            S_FMAIN = S_FMAIN + 1
             GO TO 85
           ENDIF
         ENDDO
 85      CONTINUE
       END DO
-C rigid body // noeud master sur les procs ayant au moins 1 slave
+C rigid body // noeud main sur les procs ayant au moins 1 secnd
       DO P = 1, NSPMD
-        IF (FMASTER(P) == 1) THEN
+        IF (FMAIN(P) == 1) THEN
           CALL IFRONTPLUS(NPBY(1,N),P)
         ENDIF
       ENDDO
-C rigid body // les slaves nodes ne sont pas connectes, on affecte arbitrairement le master sur le proc0
-      IF (S_FMASTER.EQ.0) CALL IFRONTPLUS(NPBY(1,N),1)
+C rigid body // les secnds nodes ne sont pas connectes, on affecte arbitrairement le main sur le proc0
+      IF (S_FMAIN.EQ.0) CALL IFRONTPLUS(NPBY(1,N),1)
       IF(NPBY(8,N).NE.0)THEN
         CALL IFRONTPLUS(NPBY(1,N),1)
       ENDIF

@@ -103,7 +103,7 @@ C-----------------------------------------------
      .   XF6(MVSIZ),YF6(MVSIZ),ZF6(MVSIZ),
      .   TEST
      
-      INTEGER,DIMENSION(:),   POINTER     :: pIsMaster       
+      INTEGER,DIMENSION(:),   POINTER     :: pIsMain       
      
       my_real :: TAG22(MVSIZ), RATIOFACE(6)
       
@@ -396,9 +396,9 @@ C-----------------------------------------------
           IF(IB.GT.0)THEN
             NBCUT        =  BRICK_LIST(NIN,IB)%NBCUT
             IF(NBCUT==0)CYCLE          
-            MCELL        =  BRICK_LIST(NIN,IB)%masterID                
+            MCELL        =  BRICK_LIST(NIN,IB)%mainID                
             pFACE        => BRICK_LIST(NIN,IB)%POLY(MCELL)%FACE(1:6)%Surf
-            pIsMaster    => BRICK_LIST(NIN,IB)%POLY(1:9)%IsMaster
+            pIsMain    => BRICK_LIST(NIN,IB)%POLY(1:9)%IsMain
             IF(MCELL == 0) CYCLE            
             pFullFACE    => BRICK_LIST(NIN,IB)%Face_Brick(1:6)        
             RATIOFACE(1) =  pFACE(1) / pFullFACE(1) 

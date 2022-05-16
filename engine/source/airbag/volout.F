@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        MONVOL0                       source/airbag/monvol0.F       
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE VOLOUT(RVOLU,VOL,FSAV,PMASTER)
+      SUBROUTINE VOLOUT(RVOLU,VOL,FSAV,PMAIN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -39,7 +39,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER PMASTER
+      INTEGER PMAIN
       my_real
      .   RVOLU(*),FSAV(*)
 C-----------------------------------------------
@@ -48,7 +48,7 @@ C-----------------------------------------------
       my_real
      .   VOL,AREA
 C-----------------------------------------------
-      IF (ISPMD+1.EQ.PMASTER) THEN
+      IF (ISPMD+1.EQ.PMAIN) THEN
         AREA = RVOLU(18)
 C
         FSAV(1)=ZERO

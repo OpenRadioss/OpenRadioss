@@ -32,7 +32,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
-      SUBROUTINE SPMD_I25FRONT_INIT(ITAB,MASTER_PROC,INTBUF_TAB,IPARI)
+      SUBROUTINE SPMD_I25FRONT_INIT(ITAB,MAIN_PROC,INTBUF_TAB,IPARI)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-      INTEGER, INTENT(IN) :: ITAB(NUMNOD),MASTER_PROC(NUMNOD)
+      INTEGER, INTENT(IN) :: ITAB(NUMNOD),MAIN_PROC(NUMNOD)
       INTEGER, INTENT(IN) :: IPARI(NPARI,NINTER)
 C     INTEGER, INTENT(IN) :: IRECVFROM(NINTER+1,*),ISENDTO(NINTER+1,*)
 C-----------------------------------------------
@@ -167,7 +167,7 @@ C     sizes of send buffers
         NSN = IPARI(MACRO_NSN,NIN)
         IF( ITY==25) THEN
           DO I = 1,NSN
-            P = MASTER_PROC(INTBUF_TAB(NIN)%NSV(I))
+            P = MAIN_PROC(INTBUF_TAB(NIN)%NSV(I))
             SIZ_SEND_BUF(NIN,P) = SIZ_SEND_BUF(NIN,P) + 1
           ENDDO
         ENDIF
@@ -197,7 +197,7 @@ C     sizes of send buffers
         NSN = IPARI(MACRO_NSN,NIN)
         IF( ITY==25) THEN
           DO I = 1,NSN
-            P = MASTER_PROC(INTBUF_TAB(NIN)%NSV(I))
+            P = MAIN_PROC(INTBUF_TAB(NIN)%NSV(I))
             SIZ_SEND_BUF(NIN,P) = SIZ_SEND_BUF(NIN,P) + 1
             II = SIZ_SEND_BUF(NIN,P) 
             IF(ISPMD+1 == P ) THEN
@@ -290,12 +290,12 @@ c                WRITE(6,*) "found at ",K
         ITY=IPARI(MACRO_ITY,NIN)
         NSN = IPARI(MACRO_NSN,NIN)
         IF( ITY==25) THEN
-          ALLOCATE(INTBUF_TAB(NIN)%NSV_ON_PMASTER(NSN))
+          ALLOCATE(INTBUF_TAB(NIN)%NSV_ON_PMAIN(NSN))
           DO I = 1, NSN
-            P = MASTER_PROC(INTBUF_TAB(NIN)%NSV(I))
+            P = MAIN_PROC(INTBUF_TAB(NIN)%NSV(I))
             SIZ_SEND_BUF(NIN,P) = SIZ_SEND_BUF(NIN,P) + 1
             II = SIZ_SEND_BUF(NIN,P) 
-            INTBUF_TAB(NIN)%NSV_ON_PMASTER(I) = SEND_BUF(NIN,P)%P(II) 
+            INTBUF_TAB(NIN)%NSV_ON_PMAIN(I) = SEND_BUF(NIN,P)%P(II) 
            ENDDO
         ENDIF
       ENDDO

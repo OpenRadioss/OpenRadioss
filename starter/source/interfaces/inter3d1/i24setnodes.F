@@ -135,13 +135,13 @@ C
 
 
 Chd|====================================================================
-Chd|  SLAVE_SURFACE_ON_DOMAIN       source/interfaces/inter3d1/i24setnodes.F
+Chd|  SECND_SURFACE_ON_DOMAIN       source/interfaces/inter3d1/i24setnodes.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-      INTEGER FUNCTION SLAVE_SURFACE_ON_DOMAIN(INTERCEP,SE,PROC)
+      INTEGER FUNCTION SECND_SURFACE_ON_DOMAIN(INTERCEP,SE,PROC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------    
@@ -173,13 +173,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NEXT,P
 C-----------------------------------------------
-      SLAVE_SURFACE_ON_DOMAIN = 0
+      SECND_SURFACE_ON_DOMAIN = 0
 
       P= INTERCEP%P(2+2*(SE-1)+1)
       NEXT=INTERCEP%P(2+2*(SE-1)+2) 
 
       IF (P==PROC)THEN
-         SLAVE_SURFACE_ON_DOMAIN = 1
+         SECND_SURFACE_ON_DOMAIN = 1
          RETURN
       ENDIF
 
@@ -189,7 +189,7 @@ C-----------------------------------------------
       ENDDO
 
       IF(P==PROC)THEN
-         SLAVE_SURFACE_ON_DOMAIN = 1
+         SECND_SURFACE_ON_DOMAIN = 1
       ENDIF
       
       RETURN 

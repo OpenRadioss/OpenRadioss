@@ -610,7 +610,7 @@ C-----for the moment RBE2 est spheric ---
       ELSE
        ITRA = 0
       END IF 
-C-----in case of JR=0 and IRAD=0, Inertia0 of Master is suppposed << In_s      
+C-----in case of JR=0 and IRAD=0, Inertia0 of Main is suppposed << In_s      
       IF ((JR(1)+JR(2)+JR(3)) >0 .OR. IRAD==0) THEN
        IROT = 1
       ELSE

@@ -60,7 +60,7 @@ C-----------------------------------------------
       INTEGER I,N,P, SZLOCRBE2(NRBE2G),PGLOBRBE2(NRBE2G),ID
       INTEGER SNRBE2,SIZRBE2,SBUFSIZ,PSNRBE2
       INTEGER NSN,IADG,IAD,SN,MN,NGRBE
-      INTEGER MASTERNODS(NRBE2G),ID_RBE2(NRBE2G)
+      INTEGER MAINNODS(NRBE2G),ID_RBE2(NRBE2G)
       INTEGER,  DIMENSION(:),ALLOCATABLE :: SENDBUF,RECBUF,
      *                                      P0RBE2BUF,IADRBE2
       INTEGER,  DIMENSION(:,:),ALLOCATABLE :: P0RECRBE2, IIN
@@ -74,7 +74,7 @@ C MPI variables
       DATA MSGOFF2/7021/
 C-----------------------------------------------
 C     1ere etape - envoyer au proc 0 un tableau avec nombre
-C                  noeuds slaves locaux par RBE2 a envoyer
+C                  noeuds secnds locaux par RBE2 a envoyer
 C                  et preparation du buffer d envoi
 C                  (taille)
       NERBE2T = 0
@@ -145,18 +145,18 @@ C ------------------------
          ENDIF
          DEALLOCATE(SENDBUF)
 
-C Envoi des noeuds slaves
-        MASTERNODS = 0
+C Envoi des noeuds secnds
+        MAINNODS = 0
         DO I=1,NRBE2
           MN = IRBE2(3,I)
 	  IF(MN.NE.0)THEN
             IF (WEIGHT(MN)==1)THEN
               NGRBE = IRBE2(10,I)
-              MASTERNODS(NGRBE)=ITAB(MN)
+              MAINNODS(NGRBE)=ITAB(MN)
             ENDIF
 	  ENDIF
         ENDDO
-        CALL SPMD_GLOB_ISUM9(MASTERNODS,NRBE2G)
+        CALL SPMD_GLOB_ISUM9(MAINNODS,NRBE2G)
 
 C Envoi des Ids
         ID_RBE2 = 0
@@ -239,16 +239,16 @@ C Taille du buffer de reception
              DEALLOCATE(RECBUF)
            ENDIF
          ENDDO
-C  Reception des Noeuds masters
-         MASTERNODS=0
+C  Reception des Noeuds mains
+         MAINNODS=0
          DO I=1,NRBE2
            MN = IRBE2(3,I)
            IF (WEIGHT(MN)==1) THEN
              NGRBE = IRBE2(10,I)
-             MASTERNODS(NGRBE)=ITAB(MN)
+             MAINNODS(NGRBE)=ITAB(MN)
            ENDIF        
          ENDDO
-         CALL SPMD_GLOB_ISUM9(MASTERNODS,NRBE2G)
+         CALL SPMD_GLOB_ISUM9(MAINNODS,NRBE2G)
 
 C Reception des Ids
         ID_RBE2 = 0
@@ -264,7 +264,7 @@ C Reception des Ids
         CALL SPMD_GLOB_ISUM9(ID_RBE2,NRBE2G)
 
 
-         CALL C_H3D_CREATE_RBE2_IMPI(ITAB,NRBE2G,IADRBE2,MASTERNODS,P0RBE2BUF,ID_RBE2,
+         CALL C_H3D_CREATE_RBE2_IMPI(ITAB,NRBE2G,IADRBE2,MAINNODS,P0RBE2BUF,ID_RBE2,
      .                               COMPID_RBE2S)
 
         ENDIF

@@ -568,7 +568,7 @@ C----------------------------
            IMP_INT=1
          ENDIF
        ELSEIF(KEY2(1:5).EQ.'ITRBY')THEN
-C-------max iter for slave dis calculation with finite rotation---       
+C-------max iter for secnd dis calculation with finite rotation---       
         READ(KEY3,'(I3)')ITRMAX
        ELSEIF(KEY2(1:4).EQ.'LRIG')THEN
         IMP_LR = 1

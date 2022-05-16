@@ -36,7 +36,7 @@ Chd|====================================================================
 !                        communicator creation
 !               - PROC_NUMBER : integer, number of processor
 !                               for a given interface
-!               - PROC_MIN : integer, master processor for a 
+!               - PROC_MIN : integer, main processor for a 
 !                            a given interface
 !               - COLOR : integer, color of the processor for
 !                         a given interface (used only for

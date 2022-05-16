@@ -323,7 +323,7 @@ Chd|        W_ISKN                        source/restart/ddsplit/w_iskn.F
 Chd|        W_JOINT_SMS                   source/constraints/general/cyl_joint/write_count_joint_sms.F
 Chd|        W_LLINK                       source/restart/ddsplit/w_llink.F
 Chd|        W_MAD                         source/restart/ddsplit/w_mad.F
-Chd|        W_MASTER_PROC_WEIGHT          source/restart/ddsplit/w_master_proc_weight.F
+Chd|        W_MAIN_PROC_WEIGHT          source/restart/ddsplit/w_main_proc_weight.F
 Chd|        W_PON                         source/restart/ddsplit/w_pon.F
 Chd|        W_PORO                        source/restart/ddsplit/w_poro.F
 Chd|        W_RBYK                        source/restart/ddsplit/w_rbyk.F
@@ -472,18 +472,18 @@ C--------------------------------------------------------------
              TAG(PROC,N4) = 1
           ENDDO
 
-          ! Compute the number of master nodes shared between 
+          ! Compute the number of main nodes shared between 
           ! each possible couple of proc (i,j) => S_FRONT8(i,j)
           S_FRONT8 = 0
           DO P = 1,NSPMD
              DO Q = P+1,NSPMD
                DO K = 1,NMN
                  IF(TAG(P,K) == 1 .AND. TAG(Q,K) == 1) THEN
-                 !The master is shared between procs P and Q
+                 !The main is shared between procs P and Q
                    LOCAL_ID = LOCAL_ID + 1
                    S_FRONT8(P,Q) = S_FRONT8(P,Q) + 1
                    S_FRONT8(Q,P) = S_FRONT8(Q,P) + 1
-                   ! the kth master node will have to be communucated
+                   ! the kth main node will have to be communucated
                    IF( INDEX_IN_FRONT(k) == 0) THEN 
                      INDEX_IN_FRONT(k) = LOCAL_ID
                    ENDIF
@@ -494,7 +494,7 @@ C--------------------------------------------------------------
           IDX(1:NSPMD) = 0
           INDEX_IN_COMM(1:NSPMD,1:NMN) = 0
           !INDEX_IN_COMM give an index to the communication structures
-          ! of each master node (or 0 if the master node is not shared)
+          ! of each main node (or 0 if the main node is not shared)
 
           DO K = 1,NMN
             Q = 0
@@ -510,26 +510,26 @@ C--------------------------------------------------------------
               ENDDO
             ENDIF
           ENDDO
-          ! symmetric allocation of arrays of size *nb master nodes in common* 
+          ! symmetric allocation of arrays of size *nb main nodes in common* 
           ! betwwen proc P and proc Q
           DO P = 1,NSPMD
              DO Q = P+1,NSPMD
               NM_SHARED = S_FRONT8(P,Q)
-              T8(P,NBT8)%BUFFER(Q)%NBMASTER = 0! NM_SHARED
-              ALLOCATE(T8(P,NBT8)%BUFFER(Q)%MASTER_ID(NM_SHARED))  
-              ALLOCATE(T8(P,NBT8)%BUFFER(Q)%MASTER_UID(NM_SHARED)) 
-              ALLOCATE(T8(P,NBT8)%BUFFER(Q)%NBSLAVE(NM_SHARED))     
-              T8(P,NBT8)%BUFFER(Q)%NBSLAVE(1:NM_SHARED) = 0
-              T8(Q,NBT8)%BUFFER(P)%NBMASTER = 0 !NM_SHARED
-              ALLOCATE(T8(Q,NBT8)%BUFFER(P)%MASTER_ID(NM_SHARED))     
-              ALLOCATE(T8(Q,NBT8)%BUFFER(P)%MASTER_UID(NM_SHARED))     
-              ALLOCATE(T8(Q,NBT8)%BUFFER(P)%NBSLAVE(NM_SHARED))     
-              T8(Q,NBT8)%BUFFER(P)%NBSLAVE(1:NM_SHARED) = 0
+              T8(P,NBT8)%BUFFER(Q)%NBMAIN = 0! NM_SHARED
+              ALLOCATE(T8(P,NBT8)%BUFFER(Q)%MAIN_ID(NM_SHARED))  
+              ALLOCATE(T8(P,NBT8)%BUFFER(Q)%MAIN_UID(NM_SHARED)) 
+              ALLOCATE(T8(P,NBT8)%BUFFER(Q)%NBSECND(NM_SHARED))     
+              T8(P,NBT8)%BUFFER(Q)%NBSECND(1:NM_SHARED) = 0
+              T8(Q,NBT8)%BUFFER(P)%NBMAIN = 0 !NM_SHARED
+              ALLOCATE(T8(Q,NBT8)%BUFFER(P)%MAIN_ID(NM_SHARED))     
+              ALLOCATE(T8(Q,NBT8)%BUFFER(P)%MAIN_UID(NM_SHARED))     
+              ALLOCATE(T8(Q,NBT8)%BUFFER(P)%NBSECND(NM_SHARED))     
+              T8(Q,NBT8)%BUFFER(P)%NBSECND(1:NM_SHARED) = 0
              ENDDO 
           ENDDO
 
 
-         !Compute the total number of master nodes to exchange per
+         !Compute the total number of main nodes to exchange per
          ! proc P
           DO P = 1,NSPMD
              K = IDX(P)
@@ -548,13 +548,13 @@ C--------------------------------------------------------------
 
 
           ! Fill the part of the structure that depends only
-          ! on master nodes
+          ! on main nodes
 
           ! To optimize the communication pattern in the engine, 
           ! The data dependencies are build in a symmetric fashion:
-          ! If procs P and Q share master K master nodes, then
-          ! T8(Q,NBT8)%BUFFER(P)%MASTER_UID(1:K) = 
-          ! T8(P,NBT8)%BUFFER(Q)%MASTER_UID(1:K)  
+          ! If procs P and Q share main K main nodes, then
+          ! T8(Q,NBT8)%BUFFER(P)%MAIN_UID(1:K) = 
+          ! T8(P,NBT8)%BUFFER(Q)%MAIN_UID(1:K)  
           IDX(1:NSPMD) = 1 
           S_FRONT8(1:NSPMD,1:NSPMD) = 0
           DO P = 1,NSPMD
@@ -563,19 +563,19 @@ C--------------------------------------------------------------
               IF(INDEX_IN_COMM(P,K) > 0) THEN 
                 DO Q = P+1,NSPMD
                   IF(INDEX_IN_COMM(Q,K).NE.0) THEN
-!                   Put the master node in the boundary of P with Q
+!                   Put the main node in the boundary of P with Q
                     LOCAL_ID = INDEX_IN_COMM(P,K)
                     NB = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NBCOM +1  
                     T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%PROCLIST(NB) = Q 
                     II = S_FRONT8(P,Q) + 1  
                     T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%BUF_INDEX(NB) = II 
-                    JJ = T8(P,NBT8)%BUFFER(Q)%NBMASTER+1
-                    T8(P,NBT8)%BUFFER(Q)%MASTER_ID(II) = K
-                    T8(P,NBT8)%BUFFER(Q)%MASTER_UID(II) =
+                    JJ = T8(P,NBT8)%BUFFER(Q)%NBMAIN+1
+                    T8(P,NBT8)%BUFFER(Q)%MAIN_ID(II) = K
+                    T8(P,NBT8)%BUFFER(Q)%MAIN_UID(II) =
      .                 ITAB(INTBUF_TAB(NI)%MSR(K)) 
 
                     S_FRONT8(P,Q) = II
-                    T8(P,NBT8)%BUFFER(Q)%NBMASTER = JJ
+                    T8(P,NBT8)%BUFFER(Q)%NBMAIN = JJ
                     T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NBCOM=NB 
                     T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NUMLOC = K 
 
@@ -585,12 +585,12 @@ C--------------------------------------------------------------
                     T8(Q,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%PROCLIST(NB) = P 
                     II = S_FRONT8(Q,P) + 1  
                     T8(Q,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%BUF_INDEX(NB) = II 
-                    JJ = T8(Q,NBT8)%BUFFER(P)%NBMASTER+1
-                    T8(Q,NBT8)%BUFFER(P)%MASTER_ID(II) = K
-                    T8(Q,NBT8)%BUFFER(P)%MASTER_UID(II) = 
+                    JJ = T8(Q,NBT8)%BUFFER(P)%NBMAIN+1
+                    T8(Q,NBT8)%BUFFER(P)%MAIN_ID(II) = K
+                    T8(Q,NBT8)%BUFFER(P)%MAIN_UID(II) = 
      .                 ITAB(INTBUF_TAB(NI)%MSR(K)) 
                     S_FRONT8(Q,P) = II
-                    T8(Q,NBT8)%BUFFER(P)%NBMASTER = JJ
+                    T8(Q,NBT8)%BUFFER(P)%NBMAIN = JJ
                     T8(Q,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NBCOM=NB 
                     T8(Q,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NUMLOC = K 
                   ENDIF 
@@ -601,7 +601,7 @@ C--------------------------------------------------------------
 
 
           DO P  =1,NSPMD
-          ! Count the number of actual slaves that have a master 
+          ! Count the number of actual secnds that have a main 
           ! shared between multiples procs
             DO I = 1,NSN
               IF(INDEX_IN_COMM(P,INTBUF_TAB(NI)%ILOCS(I)) > 0) THEN  
@@ -610,38 +610,38 @@ C--------------------------------------------------------------
                  DO K =1,NB
                   II = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%BUF_INDEX(K)  
                   Q = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%PROCLIST(K)  
-                  T8(P,NBT8)%BUFFER(Q)%NBSLAVE(II) = 
-     .            T8(P,NBT8)%BUFFER(Q)%NBSLAVE(II) + 1
-                  T8(P,NBT8)%BUFFER(Q)%NBSLAVE_TOT = 
-     .            T8(P,NBT8)%BUFFER(Q)%NBSLAVE_TOT + 1
+                  T8(P,NBT8)%BUFFER(Q)%NBSECND(II) = 
+     .            T8(P,NBT8)%BUFFER(Q)%NBSECND(II) + 1
+                  T8(P,NBT8)%BUFFER(Q)%NBSECND_TOT = 
+     .            T8(P,NBT8)%BUFFER(Q)%NBSECND_TOT + 1
                  ENDDO
               ENDIF
             ENDDO !NSN
            !DO Q = 1,NSPMD
            ! IF(Q.NE.P) THEN
-           !   ! Total number of slave node that have master nodes on processor
+           !   ! Total number of secnd node that have main nodes on processor
            !   ! P shared with processor Q
-           !   II = T8(P,NBT8)%BUFFER(Q)%NBSLAVE_TOT 
-           !   ALLOCATE(T8(P,NBT8)%BUFFER(Q)%SLAVE_ID(II))
-           !   ALLOCATE(T8(P,NBT8)%BUFFER(Q)%SLAVE_UID(II))
-           !   T8(P,NBT8)%BUFFER(Q)%SLAVE_ID(1:II) = 0
-           !   T8(P,NBT8)%BUFFER(Q)%SLAVE_UID(1:II) = 0
-           !   NB = T8(P,NBT8)%BUFFER(Q)%NBMASTER
+           !   II = T8(P,NBT8)%BUFFER(Q)%NBSECND_TOT 
+           !   ALLOCATE(T8(P,NBT8)%BUFFER(Q)%SECND_ID(II))
+           !   ALLOCATE(T8(P,NBT8)%BUFFER(Q)%SECND_UID(II))
+           !   T8(P,NBT8)%BUFFER(Q)%SECND_ID(1:II) = 0
+           !   T8(P,NBT8)%BUFFER(Q)%SECND_UID(1:II) = 0
+           !   NB = T8(P,NBT8)%BUFFER(Q)%NBMAIN
            !   IF(NB > 0) THEN
-           !   ! This array will keep pointers to slave_id per master
+           !   ! This array will keep pointers to secnd_id per main
            !     ALLOCATE(T8(P,NBT8)%BUFFER(Q)%BUFI(NB))
            !     T8(P,NBT8)%BUFFER(Q)%BUFI(1) = 1
            !     DO I = 2,NB                             
            !       T8(P,NBT8)%BUFFER(Q)%BUFI(I) = 
      .     !       T8(P,NBT8)%BUFFER(Q)%BUFI(I-1) + 
-     .     !       T8(P,NBT8)%BUFFER(Q)%NBSLAVE(I-1) 
+     .     !       T8(P,NBT8)%BUFFER(Q)%NBSECND(I-1) 
            !     ENDDO
            !   ENDIF
            ! ENDIF
            !ENDDO !Q = 1,NSPMD
            !DO I = 1,NSN
            !  IF(INTBUF_TAB(NI)%ILOCS(I) > 0 ) THEN
-           !  ! If this slave has a master shared by multiple proc
+           !  ! If this secnd has a main shared by multiple proc
            !   IF(INDEX_IN_COMM(P,INTBUF_TAB(NI)%ILOCS(I)) > 0) THEN  
            !     LOCAL_ID = INDEX_IN_COMM(P,INTBUF_TAB(NI)%ILOCS(I))  
            !     NB = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NBCOM 
@@ -649,8 +649,8 @@ C--------------------------------------------------------------
            !      II = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%BUF_INDEX(K)  
            !      Q = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%PROCLIST(K)  
            !      JJ = T8(P,NBT8)%BUFFER(Q)%BUFI(II)  
-           !      T8(P,NBT8)%BUFFER(Q)%SLAVE_ID(JJ) = I 
-           !      T8(P,NBT8)%BUFFER(Q)%SLAVE_UID(JJ)= ITAB(INTBUF_TAB(NI)%NSV(I)) 
+           !      T8(P,NBT8)%BUFFER(Q)%SECND_ID(JJ) = I 
+           !      T8(P,NBT8)%BUFFER(Q)%SECND_UID(JJ)= ITAB(INTBUF_TAB(NI)%NSV(I)) 
            !      T8(P,NBT8)%BUFFER(Q)%BUFI(II) = JJ + 1 
            !     ENDDO
            !   ENDIF
@@ -667,15 +667,15 @@ C--------------------------------------------------------------
 !             DO K =1,NB
 !                 II = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%BUF_INDEX(K)  
 !                 Q = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%PROCLIST(K)  
-!                 WRITE(6,*) 'Q=',Q,T8(P,NBT8)%BUFFER(Q)%MASTER_UID(II) 
+!                 WRITE(6,*) 'Q=',Q,T8(P,NBT8)%BUFFER(Q)%MAIN_UID(II) 
 !             ENDDO
 !           ENDDO
 !         ENDDO
 !         DO P = 1,NSPMD
 !         DO Q = 1,NSPMD
 !            IF(P .NE. Q) THEN
-!              DO II = 1,T8(P,NBT8)%BUFFER(Q)%NBMASTER
-!                 WRITE(6,*) "EXCH",P,Q,II,T8(P,NBT8)%BUFFER(Q)%MASTER_UID(II)
+!              DO II = 1,T8(P,NBT8)%BUFFER(Q)%NBMAIN
+!                 WRITE(6,*) "EXCH",P,Q,II,T8(P,NBT8)%BUFFER(Q)%MAIN_UID(II)
 !              ENDDO
 !            ENDIF
 !         ENDDO
@@ -794,7 +794,7 @@ C Allocate CEP INTERFACE
              INTERCEP(3,NI)%P(1:NRTS)=0
               
              DO K=1,NRTS
-               ! SLAVE SEGEMENT AND ELEMENT HAVE TO ON THE SAME MPI DOMAIN (only solids/ if other CEP(OFF+IE))
+               ! SECND SEGEMENT AND ELEMENT HAVE TO ON THE SAME MPI DOMAIN (only solids/ if other CEP(OFF+IE))
                 IE = INTBUF_TAB(NI)%IELNRTS(K)
                 IF(IE > 0) THEN
                   PROC = CEP(IE)

@@ -92,7 +92,7 @@ C---
              J    = IBOX(IB)%IBOXBOX(K)
              IBS  = ABS(J)
              IDBS = IBOX(IBS)%ID
-C            activate sublevel boxes of master box:
+C            activate sublevel boxes of main box:
              IF(IDBS == 0)THEN
                CALL ANCMSG(MSGID=796,
      .                     MSGTYPE=MSGERROR,
@@ -245,7 +245,7 @@ C---
              J    = IBOX(IB)%IBOXBOX(K)
              IBS  = ABS(J)
              IDBS = IBOX(IBS)%ID
-C            activate sublevel boxes of master box:
+C            activate sublevel boxes of main box:
              IF(IDBS == 0)THEN
                CALL ANCMSG(MSGID=796,
      .                     MSGTYPE=MSGERROR,
@@ -397,7 +397,7 @@ C---
              J    = IBOX(IB)%IBOXBOX(K)
              IBS  = ABS(J)
              IDBS = IBOX(IBS)%ID
-C activate sublevel boxes of master box:
+C activate sublevel boxes of main box:
              IF (IDBS == 0)THEN
                CALL ANCMSG(MSGID=796,
      .                     MSGTYPE=MSGERROR,

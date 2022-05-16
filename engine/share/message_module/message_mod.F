@@ -484,7 +484,7 @@ Chd|        TRACE_PRINT                   source/system/trace_back.F
 Chd|        TSTP_EXCH_MADCPL              com/madymo/rad_madcpl.F       
 Chd|        UPDATE_STRUCT_INT21           source/interfaces/int21/update_struct_int21.F
 Chd|        UPD_ASPC0                     source/constraints/general/bcs/bc_imp0.F
-Chd|        UPGRADE_REM_SLV               source/mpi/interfaces/spmd_i7tool.F
+Chd|        UPGRADE_REM_2RY               source/mpi/interfaces/spmd_i7tool.F
 Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
 Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
 Chd|        WCIUSC2                       source/input/wciusc2.F        

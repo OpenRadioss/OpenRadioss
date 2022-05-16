@@ -142,7 +142,7 @@ C
         WRITE (IOUT,1000) ID,NS                                        
         WRITE (IOUT,1100) (ITAB(LJOINT(K+J)),J=1,NS)                   
 
-        !   allocation of cyl_joint%secondary_node : ns = secondary node + master node
+        !   allocation of cyl_joint%secondary_node : ns = secondary node + main node
         ALLOCATE( CYL_JOIN(I)%SECONDARY_NODE(NS) )
         DO LJ=1,NS
             NU = ITAB(LJOINT(K+LJ))
@@ -157,9 +157,9 @@ C
         ENDDO
         ! save the number of secondary nodes 
         CYL_JOIN(I)%NB_SECONDARY_NODE = NS
-        ! save the master nodes 
-        ALLOCATE( CYL_JOIN(I)%MASTER_NODE(2) )
-        CYL_JOIN(I)%MASTER_NODE(1:2) = LJOINT(K+1:K+2)
+        ! save the main nodes 
+        ALLOCATE( CYL_JOIN(I)%MAIN_NODE(2) )
+        CYL_JOIN(I)%MAIN_NODE(1:2) = LJOINT(K+1:K+2)
         K=K+NS+1
 
       ENDDO

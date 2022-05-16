@@ -86,7 +86,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K, N, ITYP, ISL, IFQ, N2, N3, N4, N5, N6, N7, N8, L, M,
-     .        PMASTER, NSMS, 
+     .        PMAIN, NSMS, 
      .        KIND(NRWALL), ISLIND(NRWALL)
 C-----------------------------------------------
           ISL = 1
@@ -346,7 +346,7 @@ C
 !$OMP SINGLE
 C
 C Traitements Speciaux : Communications SPMD si moving present
-C + Sauvegarde Force et Impultion master
+C + Sauvegarde Force et Impultion main
 C
           IF(IMCONV == 1) THEN
             DO N=1,NRWALL
@@ -361,16 +361,16 @@ Cel si proc concerne par le rgwall
                   IF(FR_WALL(ISPMD+1,N).NE.0) THEN
                     CALL SPMD_EXCH_FR6(FR_WALL(1,N),FRWL6(1,1,N),7*6)
                   ENDIF
-                  PMASTER = FR_WALL(NSPMD+2,N)
+                  PMAIN = FR_WALL(NSPMD+2,N)
                 ELSE
-                  PMASTER = 1
+                  PMAIN = 1
                 ENDIF
               ELSE
-                PMASTER = 1
+                PMAIN = 1
               END IF
 C
               CALL SMS_RGWALT(
-     1          NPRW(N3),RWBUF(1,N),FRWL6(1,1,N),PMASTER,FSAV(1,N),
+     1          NPRW(N3),RWBUF(1,N),FRWL6(1,1,N),PMAIN,FSAV(1,N),
      2          FOPT(1,N))
             END DO
           END IF
@@ -387,7 +387,7 @@ Chd|-- called by -----------
 Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SMS_RGWALT(MSR ,RWL,FRWL6,PMASTER,FSAV,
+      SUBROUTINE SMS_RGWALT(MSR ,RWL,FRWL6,PMAIN,FSAV,
      2                  FOPT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -405,7 +405,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MSR, PMASTER
+      INTEGER MSR, PMAIN
 C     REAL ou REAL*8
       my_real
      .   RWL(*), FSAV(*),FOPT(6)
@@ -438,7 +438,7 @@ C F et XMT stockoques dans RWL et appliques debut cycle suivant
       RWL(19)=FZN+FZT
       RWL(20)=XMT
 C test pour ne cummuler qu'une fois en multiprocessors dans le cas moving
-      IF(ISPMD+1 == PMASTER.OR. MSR == 0) THEN
+      IF(ISPMD+1 == PMAIN.OR. MSR == 0) THEN
         DT15=UNDEMI*DT1
         DT25=UNDEMI*DT2
         FSAV(1)=FSAV(1)+RWL(21)+DT15*FXN

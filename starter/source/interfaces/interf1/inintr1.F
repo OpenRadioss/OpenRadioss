@@ -26,9 +26,9 @@ Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        I20STIFN                      source/interfaces/inter3d1/i20stifn.F
-Chd|        I24STSLAV                     source/interfaces/inter3d1/i24stslav.F
-Chd|        I25STSLAV                     source/interfaces/inter3d1/i25stslav.F
-Chd|        I7STSLAV                      source/interfaces/inter3d1/i7stslav.F
+Chd|        I24STSECND                     source/interfaces/inter3d1/i24stslav.F
+Chd|        I25STSECND                     source/interfaces/inter3d1/i25stslav.F
+Chd|        I7STSECND                      source/interfaces/inter3d1/i7stslav.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE ININTR1(IPARI   ,STIFINT, INTBUF_TAB ,STFAC)
@@ -68,7 +68,7 @@ C
        IF (NTY.EQ.7.OR.NTY.EQ.22)THEN
          IGSTI=IPARI(34,N)
          IF(IGSTI.GT.1)THEN
-           CALL I7STSLAV(
+           CALL I7STSECND(
      1      IPARI(1,N),STIFINT,INTBUF_TAB(N))
          ENDIF
        ELSEIF (NTY.EQ.20)THEN
@@ -76,25 +76,25 @@ C
        ELSEIF (NTY.EQ.21)THEN
          IGSTI=IPARI(34,N)
          IF(IGSTI.EQ.0)THEN
-           CALL I7STSLAV(
+           CALL I7STSECND(
      1      IPARI(1,N),STIFINT,INTBUF_TAB(N))
          END IF
        ELSEIF (NTY.EQ.23)THEN
          IGSTI=IPARI(34,N)
          IF(IGSTI.EQ.0)THEN
-           CALL I7STSLAV(
+           CALL I7STSECND(
      1      IPARI(1,N),STIFINT,INTBUF_TAB(N))
          END IF
        ELSEIF (NTY.EQ.24)THEN
          IGSTI=IPARI(34,N)
          IF(IGSTI.GT.1)THEN
-           CALL I24STSLAV(
+           CALL I24STSECND(
      1      IPARI(1,N),STIFINT,INTBUF_TAB(N),STFAC(N))
          ENDIF
        ELSEIF (NTY.EQ.25)THEN
          IGSTI=IPARI(34,N)
          IF(IGSTI.GT.1)THEN
-           CALL I25STSLAV(
+           CALL I25STSECND(
      1      IPARI(1,N),STIFINT,INTBUF_TAB(N),STFAC(N))
          ENDIF
        ENDIF

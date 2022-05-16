@@ -743,7 +743,7 @@ C
             ENDDO 
          ENDDO
       ENDIF
-C Complement de la matrice de rigidite d'interface pour slaves remote     
+C Complement de la matrice de rigidite d'interface pour secnds remote     
       DO I=1,NDDL_SL
         II=IDDL_SL(I)
          DO J=IAD_SS(I),IAD_SS(I+1)-1
@@ -938,7 +938,7 @@ C Matrice de rigidite d'interface
             ENDDO 
          ENDDO
       ENDIF
-C Complement de la matrice de rigidite d'interface pour slaves remote     
+C Complement de la matrice de rigidite d'interface pour secnds remote     
       DO I=1,NDDL_SL
         II=IDDL_SL(I)
          DO J=IAD_SS(I),IAD_SS(I+1)-1

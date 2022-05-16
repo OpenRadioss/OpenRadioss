@@ -134,7 +134,7 @@ C
         ITEMP(2) = IM
        ENDIF
 C
-C Envoi liste facettes esclaves/maitres en contact
+C Envoi liste facettes seconds/mains en contact
 C
        IF(NSPMD > 1) THEN
          CALL SPMD_IBCAST(ITEMP,ITEMP,1,2,0,2)

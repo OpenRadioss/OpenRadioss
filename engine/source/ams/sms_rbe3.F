@@ -62,7 +62,7 @@ C-----------------------------------------------
       ICOM = IAD_M(NSPMD+1)-IAD_M(1)
 c      IF (NSPMD.GT.1)CALL SPMD_MAX_II(IROTG,IAD_M,ICOM)
 C----- 
-Clm   when a slave node belongs to a domain, all master nodes also belong to the domain !!!
+Clm   when a secnd node belongs to a domain, all main nodes also belong to the domain !!!
 C----- 
       FINFIN=0
       DO WHILE(FINFIN==0)
@@ -619,7 +619,7 @@ C---
       DO N=1,NRBE3
         NS  = IRBE3(3,N)
         IF(NS/=0)THEN
-C         Reset residu for slave node
+C         Reset residu for secnd node
           DO J = 1,3
             IF(JT(J,N)/=0)A(J,NS)=ZERO
           END DO

@@ -87,7 +87,7 @@ C     REAL ou REAL*8
      .     TN1,TN2,TN3,TN4,TPG1,TPG2,TPG3,TPG4,UNT
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------------------------------
-C     Retrieve Thickness on active and slave levels
+C     Retrieve Thickness on active and secnd levels
 C-----------------------------------------------
       DO LEVEL=0,LEVELMAX-1
 

@@ -93,7 +93,7 @@ C-----------------------------------------------
      .        IEL,MG,IP,NELS,NELC,NELTG
 C     REAL ou REAL*8
       my_real
-     .     THKSLAVE,THKMASTER,DD,DX1,DY1,DZ1,DX3,DY3,DZ3,VOL,AREA
+     .     THKSECND,THKMAIN,DD,DX1,DY1,DZ1,DX3,DY3,DZ3,VOL,AREA
 C-----------------------------------------------
 C
 !      EQUIVALENCE (IX1,IV(1,1)) ,(IX2,IV(1,2)) ,(IX3,IV(1,3))
@@ -124,19 +124,19 @@ C
         ENDDO
       ELSEIF(IGNORE >= 2)THEN
         DO I=LFT,LLT
-          THKSLAVE = ZERO
-          THKMASTER = ZERO
+          THKSECND = ZERO
+          THKMAIN = ZERO
           II=CAND_N(I)
           DO IAD = KNOD2ELC(NSVG(I))+1,KNOD2ELC(NSVG(I)+1)
             IEL  = NOD2ELC(IAD)
             MG=IXC(6,IEL)
 	    IP = IPARTC(IEL)
             IF ( THK_PART(IP) .NE. ZERO) THEN  
-              THKSLAVE = THK_PART(IP)
+              THKSECND = THK_PART(IP)
 	    ELSEIF ( THK(IEL) .NE. ZERO) THEN
-	      THKSLAVE = THK(IEL)
+	      THKSECND = THK(IEL)
 	    ELSE
-              THKSLAVE = GEO(1,MG)
+              THKSECND = GEO(1,MG)
 	    ENDIF
           ENDDO 
 C--         Cooques 3n
@@ -145,11 +145,11 @@ C--         Cooques 3n
             MG=IXTG(5,IEL)
 	    IP = IPARTTG(IEL)
             IF ( THK_PART(IP) .NE. ZERO) THEN  
-              THKSLAVE = THK_PART(IP)
+              THKSECND = THK_PART(IP)
 	    ELSEIF ( THK(NUMELC+IEL) .NE. ZERO) THEN
-	      THKSLAVE = THK(NUMELC+IEL)
+	      THKSECND = THK(NUMELC+IEL)
 	    ELSE
-              THKSLAVE = GEO(1,MG)
+              THKSECND = GEO(1,MG)
 	    ENDIF
           ENDDO
           NELS = 0
@@ -166,21 +166,21 @@ C--         Cooques 3n
             MG=IXTG(5,NELTG)
 	    IP = IPARTTG(NELTG) 
             IF ( THK_PART(IP) .NE. ZERO) THEN  
-              THKMASTER = THK_PART(IP)
+              THKMAIN = THK_PART(IP)
 	    ELSEIF ( THK(NUMELC+NELTG) .NE. ZERO) THEN
-              THKMASTER = THK(NUMELC+NELTG)
+              THKMAIN = THK(NUMELC+NELTG)
 	    ELSE
-              THKMASTER = GEO(1,MG)
+              THKMAIN = GEO(1,MG)
 	    ENDIF
           ELSEIF(NELC.NE.0) THEN
             MG=IXC(6,NELC)
 	    IP = IPARTC(NELC) 
             IF ( THK_PART(IP) .NE. ZERO) THEN  
-              THKMASTER = THK_PART(IP)
+              THKMAIN = THK_PART(IP)
 	    ELSEIF ( THK(NELC) .NE. ZERO) THEN
-              THKMASTER = THK(NELC)
+              THKMAIN = THK(NELC)
 	    ELSE
-              THKMASTER = GEO(1,MG)
+              THKMAIN = GEO(1,MG)
 	    ENDIF
           ELSEIF(NELS.NE.0 .AND. NELS <= NUMELS8 .AND. IGNORE == 2) THEN
             DO JJ=1,8
@@ -191,7 +191,7 @@ C--         Cooques 3n
             END DO
             CALL VOLINT(VOL)
 C
-            THKMASTER = VOL/AREA
+            THKMAIN = VOL/AREA
           ENDIF
           DD = ZERO
           NODE1=IRECT(1,CAND_E(I))
@@ -208,7 +208,7 @@ C         LONGUEUR DIAG 2
           DY3=(X(2,NODE2)-X(2,NODE4))
           DZ3=(X(3,NODE2)-X(3,NODE4))
           DD=MIN(DD,SQRT(DX3**2+DY3**2+DZ3**2))
-          GAPV(I) = MAX(ZEP05*DD,ZEP6*(THKSLAVE+THKMASTER))
+          GAPV(I) = MAX(ZEP05*DD,ZEP6*(THKSECND+THKMAIN))
         ENDDO
       ELSE
         DO I=LFT,LLT

@@ -264,7 +264,7 @@ C
 C
       IF(IPARIT.EQ.0)THEN
 C---------------------------------
-C     FRICTION MASTER
+C     FRICTION MAIN
 C---------------------------------
         DO 420 I=LFT,LLT
         IL=I+NFT
@@ -296,7 +296,7 @@ C
         E(J2)=E(J2)+FY4(I)
         E(J3)=E(J3)+FZ4(I)
 C---------------------------------
-C     FRICTION SLAVE
+C     FRICTION SECND
 C---------------------------------
         IG=NSV(IL)
         I3=3*IG
@@ -781,7 +781,7 @@ C
 C
       IF(IPARIT.EQ.0)THEN
 C---------------------------------
-C     FRICTION MASTER
+C     FRICTION MAIN
 C---------------------------------
         DO 420 I=LFT,LLT
         IL=I+NFT
@@ -813,7 +813,7 @@ C
         E(J2)=E(J2)+FY4(I)
         E(J3)=E(J3)+FZ4(I)
 C---------------------------------
-C     FRICTION SLAVE
+C     FRICTION SECND
 C---------------------------------
         IG=NSV(IL)
         I3=3*IG

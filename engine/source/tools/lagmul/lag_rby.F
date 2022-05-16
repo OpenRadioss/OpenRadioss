@@ -178,7 +178,7 @@ C---        Trans z
             XLL(IK) =-RX
           ENDDO
         ELSEIF (NFRE.NE.0) THEN
-C         partial condensation: slaves = free nodes -1
+C         partial condensation: secnds = free nodes -1
           JF = TNSL+2*MSL
           IFX  = NPBYL(7,N)
           IFR  = NPBYL(8,N)
@@ -278,7 +278,7 @@ C---        Trans z
             SLL(IK) = 0
             XLL(IK) =-RX
           ENDDO
-C         slave = condensed node
+C         secnd = condensed node
           R1 = RBYL(11,N) - X(1,IFR)
           R2 = RBYL(12,N) - X(2,IFR)
           R3 = RBYL(13,N) - X(3,IFR)

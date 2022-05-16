@@ -77,7 +77,7 @@ Chd|        W_FRONT                       source/restart/ddsplit/w_front.F
 Chd|        W_TYPE8                       source/restart/ddsplit/split_interfaces.F
 Chd|        INTERSURFL                    source/spmd/node/ddtools.F    
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        SLAVE_SURFACE_ON_DOMAIN       source/interfaces/inter3d1/i24setnodes.F
+Chd|        SECND_SURFACE_ON_DOMAIN       source/interfaces/inter3d1/i24setnodes.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE FRONT_MOD

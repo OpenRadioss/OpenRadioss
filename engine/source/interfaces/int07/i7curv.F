@@ -624,18 +624,18 @@ C-----------------------------------------------
         ZA(I) = UNDEMI*(ZA(I)+ZB(I))
  
 C-----------------------------------------------
-c       vecteur: point calcul  -> noeud esclave 
+c       vecteur: point calcul  -> noeud second. 
 C-----------------------------------------------
         XD = XI(I) - XA(I)
         YD = YI(I) - YA(I)
         ZD = ZI(I) - ZA(I) 
 C-----------------------------------------------
-c       distance: surface cubique -> noeud esclave 
+c       distance: surface cubique -> noeud second. 
 C-----------------------------------------------
         DIST = NX*XD + NY*YD + NZ*ZD
 
 C-----------------------------------------------
-c       projection du noeud esclave sur la surface cubique
+c       projection du noeud second. sur la surface cubique
 C-----------------------------------------------
         XP = XI(I) - DIST*NX
         YP = YI(I) - DIST*NY

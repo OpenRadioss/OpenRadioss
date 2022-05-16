@@ -119,7 +119,7 @@ C------------------------------------------------------------
       WNF(3,IN)=ROT(3)*FX+ROT(6)*FY+ROT(9)*FZ
       ENDDO
 C------------------------------------------------------------
-C     ASSEMBLAGE AU NOEUD MAITRE DE LA SURFACE.
+C     ASSEMBLAGE AU NOEUD MAIN DE LA SURFACE.
 C------------------------------------------------------------
       DO I=1,NNC
       IN=KNC(I)
@@ -146,7 +146,7 @@ C-----
       BUFSF(ADRBUF+32)=BUFSF(ADRBUF+32)+DD*STF
       ENDDO
 C---------------------------------
-C     ASSEMBLAGE des FORCES aux NOEUDS ESCLAVES.
+C     ASSEMBLAGE des FORCES aux NOEUDS SECONDS.
 C---------------------------------
       IF (IPARIT.NE.0) THEN
 #include "lockon.inc"
@@ -216,7 +216,7 @@ C------------------------------------------------------------
 #include "lockoff.inc"
       ENDIF
 C---------------------------------
-C     Pour Travail des forces sur noeuds esclaves
+C     Pour Travail des forces sur noeuds seconds
 C     1ere partie : ici
 C     2eme partie : apres calcul de DT2.
 C---------------------------------

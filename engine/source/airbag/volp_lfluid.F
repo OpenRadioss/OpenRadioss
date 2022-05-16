@@ -27,7 +27,7 @@ Chd|        MONVOL0                       source/airbag/monvol0.F
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
-      SUBROUTINE VOLP_LFLUID(IVOLU, RVOLU, VOL, FSAV, NPC, TF, PMASTER)
+      SUBROUTINE VOLP_LFLUID(IVOLU, RVOLU, VOL, FSAV, NPC, TF, PMAIN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,7 +41,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPC(*),IVOLU(*), PMASTER
+      INTEGER NPC(*),IVOLU(*), PMAIN
 C
       my_real
      .   TF(*), RVOLU(*), FSAV(*), VOL
@@ -137,7 +137,7 @@ C   PMAX
       PRES = MIN(PRES,PMAX)
       Q = ZERO
 
-      IF (ISPMD+1.EQ.PMASTER) THEN
+      IF (ISPMD+1.EQ.PMAIN) THEN
         DV=VOL-VOLD
         TFEXT=TFEXT+(UNDEMI*(Q+QOLD+PRES+POLD))*DV
         FSAV(1)=GMASS

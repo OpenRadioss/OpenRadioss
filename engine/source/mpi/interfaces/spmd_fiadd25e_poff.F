@@ -133,7 +133,7 @@ C
                ENDIF
             ENDDO
 C     
-C     suite traitement i7for3 et i10for3 sur noeud slave
+C     suite traitement i7for3 et i10for3 sur noeud secnd
 C     
          IF (INCONV .EQ. 1) THEN
             IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0.AND.

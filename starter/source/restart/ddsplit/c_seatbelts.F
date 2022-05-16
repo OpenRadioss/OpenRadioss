@@ -85,7 +85,7 @@ C
         SLIPRING(I)%IDG = I
 C
         IF (NLOCAL(SLIPRING(I)%FRAM(1)%NODE(2),P)==1) THEN
-C--       Proc master of slipring
+C--       Proc main of slipring
           N_SLIPRING_L = N_SLIPRING_L + 1
           LOCAL_SLIP(I) = N_SLIPRING_L
         ENDIF 
@@ -106,7 +106,7 @@ C--         Count of remote anchor node (receve)
             COMPT = 0
             DO PP=1,NSPMD 
               IF ((PP /= P).AND.(NLOCAL(SLIPRING(I)%FRAM(J)%NODE(2),PP)==1)) THEN
-C--             Count of remote anchor node per master proc
+C--             Count of remote anchor node per main proc
                 N_REC_PROC(PP) = N_REC_PROC(PP) + 1
               ENDIF
             ENDDO
@@ -118,7 +118,7 @@ C
       DO I = 1, NRETRACTOR
         RETRACTOR(I)%IDG = I 
         IF (NLOCAL(RETRACTOR(I)%NODE(2),P)==1) THEN
-C--       Proc master of retractor
+C--       Proc main of retractor
           N_RETRACTOR_L = N_RETRACTOR_L + 1
           LOCAL_RETR(I) = N_RETRACTOR_L
           DO PP=1,NSPMD 
@@ -134,7 +134,7 @@ C--       Remote anchor node
           N_ANCHOR_REMOTE_L = N_ANCHOR_REMOTE_L + 1
           DO PP=1,NSPMD 
             IF ((PP /= P).AND.(NLOCAL(RETRACTOR(I)%NODE(2),PP)==1)) THEN
-C--           Count of remote anchor node per master proc
+C--           Count of remote anchor node per main proc
               N_REC_PROC(PP) = N_REC_PROC(PP) + 1
             ENDIF
           ENDDO
@@ -171,7 +171,7 @@ C
         DO J=1,SLIPRING(I)%NFRAM           
           IF (NLOCAL(SLIPRING(I)%FRAM(J)%NODE(2),P)==1) THEN
             IF (SLIPRING(I)%FRAM(J)%N_REMOTE_PROC > 0) THEN
-C--           Proc master of slipring
+C--           Proc main of slipring
               NN = NN + 1        
               DO PP=1,NSPMD 
                 IF ((PP /= P).AND.(NLOCAL(SLIPRING(I)%FRAM(J)%ANCHOR_NODE,PP)==1)) THEN
@@ -192,7 +192,7 @@ C
       DO I = 1, NRETRACTOR                
         IF (NLOCAL(RETRACTOR(I)%NODE(2),P)==1) THEN
           IF (RETRACTOR(I)%N_REMOTE_PROC > 0) THEN
-C--         Proc master of retractor
+C--         Proc main of retractor
             NN = NN + 1        
             DO PP=1,NSPMD 
               IF ((PP /= P).AND.(NLOCAL(RETRACTOR(I)%ANCHOR_NODE,PP)==1)) THEN

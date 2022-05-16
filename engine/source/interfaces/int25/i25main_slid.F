@@ -50,7 +50,7 @@ Chd|====================================================================
      1       IPARI    ,IAD_ELEM ,FR_ELEM  ,ITAB     ,SENSOR ,
      2       INTLIST25,INTBUF_TAB ,IAD_FRNOR,FR_NOR ,
      3       X        ,V       ,MS      ,TEMP   ,KINET   ,
-     4       NODNX_SMS,JTASK   ,NB_DST2, MASTER_PROC,
+     4       NODNX_SMS,JTASK   ,NB_DST2, MAIN_PROC,
      5       NEWFRONT ,ISENDTO ,IRCVFROM ,NBINTC,
      6       INTLIST ,ISLEN7   ,IRLEN7  ,IRLEN7T  ,ISLEN7T,
      7       NB_DST1 ,H3D_DATA, 
@@ -98,7 +98,7 @@ C-----------------------------------------------
       my_real
      .        SENSOR(NSENSR,*), X(3,*), V(3,*), MS(*), TEMP(*)
       TYPE(INTBUF_STRUCT_),DIMENSION(NINTER) :: INTBUF_TAB
-      INTEGER MASTER_PROC(NUMNOD)
+      INTEGER MAIN_PROC(NUMNOD)
       INTEGER NBINTC,ISLEN7,IRLEN7,
      .        IRLEN7T,ISLEN7T,
      .        NEWFRONT(*), INTLIST(*),
@@ -269,7 +269,7 @@ C-----------------------------------------------------------------------
 
         ELSE
 C-----------------------------------------------------------------------
-C         SPMD only <=> envoi de nds slaves qui glissent sur un sommet frontire
+C         SPMD only <=> envoi de nds secnds qui glissent sur un sommet frontire
 C-----------------------------------------------------------------------
 C
           ALLOCATE(NADD(NADMAX+1),STAT=IERROR)
@@ -386,7 +386,7 @@ C ==========================================================================
      5        NODNX_SMS ,X     ,V        ,MS    ,TEMP  ,
      .        INTBUF_TAB(NIN)  ,RBUFS, IBUFS,
      6        RSIZ(NI25),      ISIZ(NI25),  SIZBUFS, FR_SLIDE,INDXTOSEND, 
-     7        MASTER_PROC,INTFRIC ,IVIS2, ICODT,ISKEW) 
+     7        MAIN_PROC,INTFRIC ,IVIS2, ICODT,ISKEW) 
 
 
 C ==========================================================================
@@ -476,8 +476,8 @@ C  Ici on teste (2)
             DO P = 1,NSPMD
                DO I = 1,SIZBUFS(P)
          !       IF(IREM(3,NB_TOT+1) == ISPMD + 1) THEN 
-         !        ! If PMASTER is the current processor: adding to local structures
-         !        ! If current proc is PMASTER, then local number is in IREM
+         !        ! If PMAIN is the current processor: adding to local structures
+         !        ! If current proc is PMAIN, then local number is in IREM
          !        ! i.e. no search necessary
                   
          !       ELSE

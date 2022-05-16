@@ -215,7 +215,7 @@ C traitement necessaire pour rester p/on
       ELSE
          CALL SPMD_FVB_GATH(IFV, X, XXX, XXXA, XXXSA,
      .                      2  )
-         IF (ISPMD.NE.FVSPMD(IFV)%PMASTER-1) RETURN
+         IF (ISPMD.NE.FVSPMD(IFV)%PMAIN-1) RETURN
       ENDIF
       NULLIFY(FIRST)
       NULLIFY(PHFIRST)

@@ -30,7 +30,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|====================================================================
       SUBROUTINE I24MAIN_OPT_TRI(
      1                  IPARI   ,INTBUF_TAB,X    ,V      ,
-     2                  NIN     ,ITASK ,COUNT_REMSLV,T2MASTER_SMS,LSKYI_SMS_NEW)
+     2                  NIN     ,ITASK ,COUNT_REMSLV,T2MAIN_SMS,LSKYI_SMS_NEW)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER),ITASK, NIN,
-     .        COUNT_REMSLV(*),NSNR,T2MASTER_SMS(6,*),LSKYI_SMS_NEW
+     .        COUNT_REMSLV(*),NSNR,T2MAIN_SMS(6,*),LSKYI_SMS_NEW
 C     REAL ou REAL*8
       my_real 
      .   X(*), V(3,*)
@@ -104,10 +104,10 @@ C-----------------------------------------------------------
      2INTBUF_TAB%IRECTM,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,V,IPARI(39,NIN),
      3INTBUF_TAB%STFNS,ITASK     ,INTBUF_TAB%STFM,NIN      ,IPARI(5,NIN) ,
      4INTBUF_TAB%IRTLM,INTBUF_TAB%TIME_S,INTBUF_TAB%MSEGLO,COUNT_REMSLV,
-     5INTBUF_TAB%SLAV_FR,NSNR       ,INTBUF_TAB%PENE_OLD,INTBUF_TAB%STIF_OLD,
+     5INTBUF_TAB%SECND_FR,NSNR       ,INTBUF_TAB%PENE_OLD,INTBUF_TAB%STIF_OLD,
      6INTBUF_TAB%VARIABLES(23), INTBUF_TAB%EDGE8L2,IEDGE    ,IGSTI, INTBUF_TAB%MVOISIN ,
      7INTBUF_TAB%ICONT_I , INTBUF_TAB%IS2SE  , INTBUF_TAB%IRTSE,
-     8NSNEL,NRTSE , INTBUF_TAB%IS2PT,INTBUF_TAB%ISPT2,INTBUF_TAB%ISEGPT,IEDG4,T2MASTER_SMS,
+     8NSNEL,NRTSE , INTBUF_TAB%IS2PT,INTBUF_TAB%ISPT2,INTBUF_TAB%ISEGPT,IEDG4,T2MAIN_SMS,
      9LSKYI_SMS_NEW)
 C
       RETURN

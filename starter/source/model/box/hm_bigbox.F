@@ -153,15 +153,15 @@ C---
         ENDDO
       ENDIF
 C---
-C tag group nodes in master-box:
+C tag group nodes in main-box:
 C---
       IF(ISU > 0)THEN
         IF(FLAG == 0)THEN
-          BOXNODS = IBOX(ISU)%NENTITY  ! nodes of master box
+          BOXNODS = IBOX(ISU)%NENTITY  ! nodes of main box
           NNOD = BOXNODS
         ELSE IF(FLAG == 1)THEN
-          BOXNODS = IBOX(ISU)%NENTITY  ! nodes of master box
-          IADISU  = IBOX(ISU)%BOXIAD  ! addresses of nodes in master box
+          BOXNODS = IBOX(ISU)%NENTITY  ! nodes of main box
+          IADISU  = IBOX(ISU)%BOXIAD  ! addresses of nodes in main box
           NNOD = BOXNODS
           DO I=1,BOXNODS
             N=IBUFBOX(IADISU+I-1)

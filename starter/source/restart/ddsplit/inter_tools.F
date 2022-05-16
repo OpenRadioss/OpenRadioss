@@ -514,7 +514,7 @@ c====================================
       N = N+1
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_GAPN_M
       N = N+1
-      INTBUF_SIZE(N) = INTBUF_TAB_L%S_SLAV_FR
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_SECND_FR
       N = N+1
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_PENE_OLD
       N = N+1
@@ -526,7 +526,7 @@ c====================================
       N = N+1
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_EDGE8L2
       N = N+1
-      INTBUF_SIZE(N) = INTBUF_TAB_L%S_NOD_SLV_LGTH
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_NOD_2RY_LGTH
       N = N+1
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_NOD_MAS_LGTH
       N = N+1
@@ -1369,7 +1369,7 @@ Chd|        FRONT_MOD                     share/modules1/front_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I2(PROC, INTBUF_TAB  , NSN     , NMN      ,
-     +                            NRTM, TAG_NODE_SLV, TAG_SEGM, TAG_SEGM2,
+     +                            NRTM, TAG_NODE_2RY, TAG_SEGM, TAG_SEGM2,
      +                            TAG_IRTL, TAG     , ITABI2M , NODLOCAL ,
      +                            NBDDI2M , NIR     ,NUMNOD_L)
 C-----------------------------------------------
@@ -1397,7 +1397,7 @@ C-----------------------------------------------
      .        NSN,NRTM,NMN
       INTEGER, INTENT(IN) :: NUMNOD_L
 
-      INTEGER PROC,TAG_NODE_SLV(*),TAG_SEGM(*),TAG_SEGM2(*),TAG(*),
+      INTEGER PROC,TAG_NODE_2RY(*),TAG_SEGM(*),TAG_SEGM2(*),TAG(*),
      .        TAG_IRTL(*),ITABI2M(*),NBDDI2M,NIR
       INTEGER, DIMENSION(*), INTENT(IN) :: NODLOCAL
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
@@ -1444,7 +1444,7 @@ C ----------------------------------------
         MY_NODE = INTBUF_TAB%NSV(K)
         IF( NODLOCAL( MY_NODE )/=0.AND.NODLOCAL( MY_NODE )<=NUMNOD_L ) THEN 
           CNSN_L = CNSN_L+1
-          TAG_NODE_SLV(CNSN_L) = K
+          TAG_NODE_2RY(CNSN_L) = K
         ENDIF
       ENDDO
 
@@ -1468,8 +1468,8 @@ Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE SPLIT_NODE_IVAL2(TAB,DIM1,DIM2,TAG_SEGM2,TAG_NODE_SLV)
-c specific type2, need use of 2 TAG arrays (one for master segment, one for slave node)
+      SUBROUTINE SPLIT_NODE_IVAL2(TAB,DIM1,DIM2,TAG_SEGM2,TAG_NODE_2RY)
+c specific type2, need use of 2 TAG arrays (one for main segment, one for secnd node)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1490,7 +1490,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER TAB(*),TAG_SEGM2(*),TAG_NODE_SLV(*),DIM1,DIM2
+      INTEGER TAB(*),TAG_SEGM2(*),TAG_NODE_2RY(*),DIM1,DIM2
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1500,7 +1500,7 @@ C ----------------------------------------
       ALLOCATE(IBUF(DIM1*DIM2))
 
       DO I=1, DIM1
-        K=TAG_NODE_SLV(I)
+        K=TAG_NODE_2RY(I)
         DO J=1,DIM2
           IBUF(DIM2*(I-1)+J) = TAG_SEGM2(TAB(DIM2*(K-1)+J))
         ENDDO
@@ -1581,7 +1581,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I7(PROC     ,   INTBUF_TAB  , IPARI       ,
-     .                            INTERCEP ,   TAG_NODE_SLV, TAG_SEGM    ,
+     .                            INTERCEP ,   TAG_NODE_2RY, TAG_SEGM    ,
      .                            TAG_SEGM2,   TAG_NM      , TAG_NODE_MSR,
      .                            TAG_SCRATCH, NI, CEP, MULTI_FVM,I710XSAV,
      .                            NINDX_NM   , INDX_NM,NINDX_SCRT,INDX_SCRT,NODLOCAL,
@@ -1614,7 +1614,7 @@ C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
 
       INTEGER NI,PROC,IPARI(*),
-     .        TAG_NODE_SLV(*),TAG_SEGM(*),TAG_NM(*),TAG_NODE_MSR(*),
+     .        TAG_NODE_2RY(*),TAG_SEGM(*),TAG_NM(*),TAG_NODE_MSR(*),
      .        TAG_SEGM2(*),TAG_SCRATCH(*),CEP(*)
       INTEGER, INTENT(INOUT) :: NINDX_NM,NINDX_SCRT
       INTEGER, DIMENSION(*), INTENT(INOUT) :: INDX_NM,INDX_SCRT
@@ -1674,7 +1674,7 @@ C     Interface type 18 law 151
             N=INTBUF_TAB%NSV(K)
             IF(CEP(N) == PROC .AND.TAG_SCRATCH(N)==0) THEN
                CNSN_L = CNSN_L+1
-               TAG_NODE_SLV(CNSN_L) = K
+               TAG_NODE_2RY(CNSN_L) = K
                TAG_SCRATCH(N)=1
                NINDX_SCRT = NINDX_SCRT + 1
                INDX_SCRT(NINDX_SCRT) = N
@@ -1686,7 +1686,7 @@ C     Interface type 18 law 151
             IF(     (NODLOCAL(N)/=0.AND.NODLOCAL( N )<=NUMNOD_L)
      +         .AND.TAG_SCRATCH(N)==0) THEN
                CNSN_L = CNSN_L+1
-               TAG_NODE_SLV(CNSN_L) = K
+               TAG_NODE_2RY(CNSN_L) = K
                TAG_SCRATCH(N)=1
                NINDX_SCRT = NINDX_SCRT + 1
                INDX_SCRT(NINDX_SCRT) = N
@@ -1696,7 +1696,7 @@ C     Interface type 18 law 151
             N=INTBUF_TAB%NSV(K)
             IF(TAG_SCRATCH(N)==0) THEN
                CNSN_L = CNSN_L+1
-               TAG_NODE_SLV(CNSN_L) = K
+               TAG_NODE_2RY(CNSN_L) = K
                TAG_SCRATCH(N)=1
                NINDX_SCRT = NINDX_SCRT + 1
                INDX_SCRT(NINDX_SCRT) = N
@@ -2322,12 +2322,12 @@ C       TAG_EDGE2(global id ) = local id
 C local numbering of E2E candidates
       DO I = 1, II_STOK_E
         IF(TAG_EDGE2( INTBUF_TAB%CANDM_E2E(I)) > 0) THEN 
-         ! master edge is on this processor
+         ! main edge is on this processor
          ID = INTBUF_TAB%CANDM_E2E(I)
          IF( INTBUF_TAB%LEDGE(9+(ID-1)*NLEDGE) == PROC ) THEN
-C        master edge is owned by this processor
-C         master edge is local
-C         Slave is local
+C        main edge is owned by this processor
+C         main edge is local
+C         Secnd is local
           II_STOK_E_L = II_STOK_E_L + 1
           TAG_II_E2E(II_STOK_E_L) = I 
         ENDIF
@@ -2338,7 +2338,7 @@ C         Slave is local
       II_STOK_S_L = 0
       DO I = 1, II_STOK_S
         IF(SEGLOC( INTBUF_TAB%CANDM_E2S(I)) > 0) THEN
-C         master sgmt is local
+C         main sgmt is local
           II_STOK_S_L = II_STOK_S_L + 1
           TAG_II_E2S(II_STOK_S_L) = I 
         ENDIF
@@ -2415,14 +2415,14 @@ C local numbering of E2E candidates
       DO J = 1, II_STOK_E_L
         I = TAG_II_E2E(J)
         ASSERT(I > 0) 
-C       master edge is local
+C       main edge is local
         ID = ID + 1 
         CANDM_E2E(ID) = TAG_EDGE2(INTBUF_TAB%CANDM_E2E(I)) 
         IF(INTBUF_TAB%LEDGE(9+(INTBUF_TAB%CANDS_E2E(I)-1)*NLEDGE) == PROC ) THEN
-C       Slave is also local
+C       Secnd is also local
           CANDS_E2E(ID) = TAG_EDGE2(INTBUF_TAB%CANDS_E2E(I))
         ELSE
-C       Remote slave
+C       Remote secnd
 C         ASSERT(.FALSE.)
 C         CANDS_E2E(ID) = -INTBUF_TAB%CANDS_E2E(I)
           CANDS_E2E(ID) = ABS(I25_SPLIT_CAND(NIN,PROC+1)%CANDS_E2E(J)) + NEDGE_L
@@ -2439,17 +2439,17 @@ C     WRITE(6,*) PROC,"NBCAND=",II_STOK_S_L,I25_SPLIT_CAND(NIN,PROC+1)%NB_CAND_E
 
       DO J = 1, II_STOK_S_L
         I = TAG_II_E2S(J)
-C       master edge is local
+C       main edge is local
         ASSERT(I > 0) 
         ID = ID + 1 
         CANDM_E2S(ID) = SEGLOC(INTBUF_TAB%CANDM_E2S(I)) 
 C       IF(TAG_EDGE2(INTBUF_TAB%CANDS_E2S(I)) > 0) THEN
         IF(INTBUF_TAB%LEDGE(9+(INTBUF_TAB%CANDS_E2S(I)-1)*NLEDGE) == PROC ) THEN
-C       Slave is also local
+C       Secnd is also local
           CANDS_E2S(ID) = TAG_EDGE2(INTBUF_TAB%CANDS_E2S(I))
           ASSERT(CANDS_E2S(ID) == I25_SPLIT_CAND(NIN,PROC+1)%CANDS_E2S(J))
         ELSE
-C       Remote slave
+C       Remote secnd
 C         ASSERT(.FALSE.)
           CANDS_E2S(ID) = ABS(I25_SPLIT_CAND(NIN,PROC+1)%CANDS_E2S(J)) + NEDGE_L
 C         CANDS_E2S(ID) = - INTBUF_TAB%CANDS_E2S(I)
@@ -2480,7 +2480,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_REMNODE_I25(PROC     , INTBUF_TAB, NRTM    , NRTM_L ,
      .                            TAG_SEGM2 , NREMNODE  , NODLOCAL ,NREMNOR,
-     .                            NSN       , NSN_L     ,TAG_NODE_SLV2,ITAB,
+     .                            NSN       , NSN_L     ,TAG_NODE_2RY2,ITAB,
      .                             NUMNOD_L)
 C-----------------------------------------------
 C   M o d u l e s
@@ -2507,7 +2507,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER PROC ,NRTM ,NRTM_L ,NSN ,NSN_L ,NREMNOR ,
      .        TAG_SEGM2(*) ,NREMNODE ,NODLOCAL(*) ,
-     .        TAG_NODE_SLV2(*),ITAB(*)
+     .        TAG_NODE_2RY2(*),ITAB(*)
       INTEGER, INTENT(IN) :: NUMNOD_L
 
       TYPE(INTBUF_STRUCT_) :: INTBUF_TAB
@@ -2604,8 +2604,8 @@ C ----------------------------------------
 
       DEALLOCATE(IBUF1, IBUF2)
 
-C----Tab Master segment removed for each slave node----
-c   1st : reorganizing the tab : keep only local master segments
+C----Tab Main segment removed for each secnd node----
+c   1st : reorganizing the tab : keep only local main segments
 
          ALLOCATE(IBUF1(NSN_L+1),IBUF2(NREMNOR))
 
@@ -2616,7 +2616,7 @@ c   1st : reorganizing the tab : keep only local master segments
 
         DO N=1,NSN
 
-           NS = TAG_NODE_SLV2(N)
+           NS = TAG_NODE_2RY2(N)
            IF(NS .NE. 0)THEN
               SIZ = INTBUF_TAB%KREMNOR(N+1)-INTBUF_TAB%KREMNOR(N)
 
@@ -2663,7 +2663,7 @@ Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE SPLIT_NISUB_I7(INTBUF_TAB, NSN_L , TAG_NODE_SLV, NRTM_L,
+      SUBROUTINE SPLIT_NISUB_I7(INTBUF_TAB, NSN_L , TAG_NODE_2RY, NRTM_L,
      .                          TAG_SEGM  , NISUBS, NISUBM )
 C-----------------------------------------------
 C   M o d u l e s
@@ -2688,7 +2688,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NSN_L,NRTM_L,NISUBS,NISUBM,
-     .         TAG_NODE_SLV(*),TAG_SEGM(*)
+     .         TAG_NODE_2RY(*),TAG_SEGM(*)
 
       TYPE(INTBUF_STRUCT_) :: INTBUF_TAB
 C-----------------------------------------------
@@ -2722,7 +2722,7 @@ C ----------------------------------------
 
       DO K=1,NSN_L
         IBUF1(K) = NISUBS_L + 1       
-        J=TAG_NODE_SLV(K)
+        J=TAG_NODE_2RY(K)
         DO I = INTBUF_TAB%ADDSUBS(J),INTBUF_TAB%ADDSUBS(J+1)-1
           IBUF3(1+NISUBS_L) =  INTBUF_TAB%LISUBS(I)
           IF(INTBUF_TAB%S_INFLG_SUBS > 0) IBUF5(1+NISUBS_L) =  INTBUF_TAB%INFLG_SUBS(I)
@@ -2766,7 +2766,7 @@ Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE SPLIT_NISUB_I25(INTBUF_TAB, NSN_L , TAG_NODE_SLV, NRTM_L,
+      SUBROUTINE SPLIT_NISUB_I25(INTBUF_TAB, NSN_L , TAG_NODE_2RY, NRTM_L,
      1                          TAG_SEGM  , NISUBS, NISUBM ,
      2       IEDGE,
      3       NEDGE,
@@ -2799,7 +2799,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NSN_L,NRTM_L,NISUBS,NISUBM,
-     .         TAG_NODE_SLV(*),TAG_SEGM(*)
+     .         TAG_NODE_2RY(*),TAG_SEGM(*)
       INTEGER, INTENT(IN) :: IEDGE
       INTEGER, INTENT(IN) :: NEDGE
       INTEGER, INTENT(IN) :: NEDGE_L
@@ -2842,7 +2842,7 @@ C ----------------------------------------
 
       DO K=1,NSN_L
         IBUF1(K) = NISUBS_L + 1       
-        J=TAG_NODE_SLV(K)
+        J=TAG_NODE_2RY(K)
         DO I = INTBUF_TAB%ADDSUBS(J),INTBUF_TAB%ADDSUBS(J+1)-1
           IBUF3(1+NISUBS_L) =  INTBUF_TAB%LISUBS(I)
           IBUF5(1+NISUBS_L) =  INTBUF_TAB%INFLG_SUBS(I)
@@ -3174,7 +3174,7 @@ Chd|        INT8_MOD                      ../common_source/modules/int8_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I8(PROC     ,   INTBUF_TAB  , IPARI       ,
-     .                            INTERCEP ,   TAG_NODE_SLV, TAG_SEGM    ,
+     .                            INTERCEP ,   TAG_NODE_2RY, TAG_SEGM    ,
      .                            TAG_SEGM2,   TAG_NM      , TAG_NODE_MSR,
      .                            TAG_NODE_MSR2,TAG_LMSR,TAG_LMSR2, 
      .                            TAG_NSEG,TAG_NSEG2,
@@ -3208,7 +3208,7 @@ C-----------------------------------------------
       TYPE(INTERSURFP)     :: INTERCEP
       TYPE(INT8_STRUCT_) :: T8
       INTEGER NI,PROC,IPARI(*),
-     .        TAG_NODE_SLV(*),TAG_SEGM(*),TAG_NM(*),TAG_NODE_MSR(*),
+     .        TAG_NODE_2RY(*),TAG_SEGM(*),TAG_NM(*),TAG_NODE_MSR(*),
      .        TAG_NODE_MSR2(*),TAG_LMSR(*),TAG_LMSR2(*),
      .        TAG_NSEG(*),TAG_NSEG2(*),
      .        TAG_SEGM2(*),ITAB(*)
@@ -3238,7 +3238,7 @@ C ----------------------------------------
         N=INTBUF_TAB%MSR(N)
         IF(NLOCAL(N,PROC+1)==1) THEN
           CNSN_L = CNSN_L+1
-          TAG_NODE_SLV(K) = 1
+          TAG_NODE_2RY(K) = 1
         ENDIF
       ENDDO
 
@@ -3340,12 +3340,12 @@ C Compute TAG_LMSR,TAG_LMSR2,TAG_NSEG
       ENDDO
 
       IF(NSPMD > 1) THEN
-      ! renumber MASTER_ID locally 
+      ! renumber MAIN_ID locally 
        DO P2=1,NSPMD
           IF(P2.NE.PROC + 1) THEN
-          DO I = 1,T8%BUFFER(P2)%NBMASTER
-             T8%BUFFER(P2)%MASTER_ID(I) =
-     .       TAG_NODE_MSR2(T8%BUFFER(P2)%MASTER_ID(I)) 
+          DO I = 1,T8%BUFFER(P2)%NBMAIN
+             T8%BUFFER(P2)%MAIN_ID(I) =
+     .       TAG_NODE_MSR2(T8%BUFFER(P2)%MAIN_ID(I)) 
           ENDDO
           ENDIF
        ENDDO
@@ -3381,7 +3381,7 @@ Chd|        FRONT_MOD                     share/modules1/front_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I9(PROC        , INTBUF_TAB  , IPARI       ,
-     .                            TAG_NODE_SLV, TAG_NODE_MSR, TAG_SCRATCH ,
+     .                            TAG_NODE_2RY, TAG_NODE_MSR, TAG_SCRATCH ,
      .                            TAG_IELES   , TAG_IELEM    , 
      .                            CEP         , CEL ,NINDX_SCRT,INDX_SCRT)
 C-----------------------------------------------
@@ -3408,7 +3408,7 @@ C-----------------------------------------------
       TYPE(INTBUF_STRUCT_) :: INTBUF_TAB
 
       INTEGER PROC,IPARI(*),
-     .        TAG_NODE_SLV(*),TAG_NODE_MSR(*),
+     .        TAG_NODE_2RY(*),TAG_NODE_MSR(*),
      .        TAG_IELES(*)   ,TAG_IELEM(*),
      .        TAG_SCRATCH(*),CEP(*),CEL(*)
       INTEGER, INTENT(INOUT) :: NINDX_SCRT
@@ -3436,7 +3436,7 @@ C ----------------------------------------
         N=INTBUF_TAB%NSV(K)
         IF(NLOCAL(N,PROC+1)==1.AND.TAG_SCRATCH(N)==0) THEN
           CNSN_L = CNSN_L+1
-          TAG_NODE_SLV(CNSN_L) = K
+          TAG_NODE_2RY(CNSN_L) = K
           TAG_SCRATCH(N)=1
           NINDX_SCRT = NINDX_SCRT + 1
           INDX_SCRT(NINDX_SCRT) = N
@@ -3517,7 +3517,7 @@ Chd|        FRONT_MOD                     share/modules1/front_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I11(PROC        , INTBUF_TAB, IPARI       ,
-     .                             TAG_NODE_SLV, TAG_SEGM  , TAG_SEGM2   ,
+     .                             TAG_NODE_2RY, TAG_SEGM  , TAG_SEGM2   ,
      .                             TAG_NM      , TAG_SEGS  , TAG_NODE_MSR,
      .                             TAG_SCRATCH , INTERCEP  , NI ,NINDX_NM,INDX_NM,
      .                             NINDX_SCRT  , INDX_SCRT  ,TAG_SEGS2)
@@ -3545,7 +3545,7 @@ C-----------------------------------------------
       INTEGER 
      .        IPARI(*),NI
 
-      INTEGER PROC,TAG_NODE_SLV(*),TAG_SEGM(*),TAG_SEGM2(*),
+      INTEGER PROC,TAG_NODE_2RY(*),TAG_SEGM(*),TAG_SEGM2(*),
      .        TAG_NM(*),TAG_SEGS(*),TAG_NODE_MSR(*),TAG_SCRATCH(*),TAG_SEGS2(*)
       INTEGER, INTENT(INOUT) :: NINDX_NM,NINDX_SCRT
       INTEGER, DIMENSION(*), INTENT(INOUT) :: INDX_NM,INDX_SCRT
@@ -3587,7 +3587,7 @@ C IRECTS
         N=INTBUF_TAB%NSV(K)
         IF(NLOCAL(N,PROC+1)==1.AND.TAG_SCRATCH(N)==0) THEN
           CNSN_L = CNSN_L+1
-          TAG_NODE_SLV(CNSN_L) = K
+          TAG_NODE_2RY(CNSN_L) = K
           TAG_SCRATCH(N)=1
           NINDX_SCRT = NINDX_SCRT + 1
           INDX_SCRT(NINDX_SCRT) = N
@@ -3844,7 +3844,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I17(PROC        , INTBUF_TAB   , IPARI  ,
-     .                            TAG_NODE_SLV , TAG_NODE_MSR , 
+     .                            TAG_NODE_2RY , TAG_NODE_MSR , 
      .                            CEP          , CEL          , IGRBRIC ,
      .                            NSN_L        , NME_L)
 C-----------------------------------------------
@@ -3873,7 +3873,7 @@ C-----------------------------------------------
       TYPE(INTBUF_STRUCT_) :: INTBUF_TAB
 
       INTEGER PROC,IPARI(*),
-     .        TAG_NODE_SLV(*),TAG_NODE_MSR(*),
+     .        TAG_NODE_2RY(*),TAG_NODE_MSR(*),
      .        CEP(*),CEL(*),
      .        NME_L,NSN_L
 
@@ -3905,7 +3905,7 @@ C ----------------------------------------
         IE = IGRBRIC(IGN)%ENTITY(K)
 C       IF(CEP(IE).EQ.PROC) THEN
           CNSN_L = CNSN_L+1
-          TAG_NODE_SLV(CNSN_L) = K
+          TAG_NODE_2RY(CNSN_L) = K
 C       ENDIF
       ENDDO
       CNME_L = 0 
@@ -3937,7 +3937,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I20(
      .              PROC        , INTBUF_TAB, IPARI    ,
-     .              TAG_NODE_SLV, TAG_SEGM  , TAG_NODE_MSR,
+     .              TAG_NODE_2RY, TAG_SEGM  , TAG_NODE_MSR,
      .              TAG_SEGM2   , TAG_NM    , TAG_NLINS,TAG_NLINM,
      .              TAG_NLINS2  , TAG_NLINM2, TAG_NLG  ,TAG_NLG2,
      .              TAG_SCRATCH , INTERCEP  , IPARI_L  ,NI ,TAG_NSNE,
@@ -3968,7 +3968,7 @@ C-----------------------------------------------
       TYPE(INTERSURFP)     :: INTERCEP(3,NINTER)
 
       INTEGER PROC,IPARI(*),NI,
-     .        TAG_NODE_SLV(*),TAG_SEGM(*),TAG_NM(*),TAG_NODE_MSR(*),
+     .        TAG_NODE_2RY(*),TAG_SEGM(*),TAG_NM(*),TAG_NODE_MSR(*),
      .        TAG_SEGM2(*),TAG_SCRATCH(*),IPARI_L(NPARI,NINTER),
      .        TAG_NLINS(*), TAG_NLINM(*),TAG_NLINS2(*), TAG_NLINM2(*),
      .        TAG_NLG(*),TAG_NSNE(*),TAG_NMNE(*),TAG_NSVE(*),TAG_MSRE(*),
@@ -4008,8 +4008,8 @@ C ----------------------------------------
       NSNE   = IPARI(55)
       NMNE   = IPARI(56)
 
-      ! for type20, TAG_NM is used to tag master nodes, slave nodes,
-      ! line slave, line master
+      ! for type20, TAG_NM is used to tag main nodes, secnd nodes,
+      ! line secnd, line main
 
       ! prepare SPLIT_NRTM_R
       CNRTM_L = 0
@@ -4066,7 +4066,7 @@ C ----------------------------------------
         N =INTBUF_TAB%NLG(NL)
         IF(NLOCAL(N,PROC+1)==1.AND.TAG_SCRATCH(N)==0) THEN
           CNSN_L = CNSN_L+1
-          TAG_NODE_SLV(CNSN_L) = K
+          TAG_NODE_2RY(CNSN_L) = K
           TAG_SCRATCH(N)=1
           NINDX_SCRT = NINDX_SCRT + 1
           INDX_SCRT(NINDX_SCRT) = N
@@ -4894,7 +4894,7 @@ Chd|        FRONT_MOD                     share/modules1/front_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I21(PROC        , INTBUF_TAB  , IPARI       ,
-     .                             TAG_NODE_SLV, TAG_SEGM    , TAG_NODE_SLV2,
+     .                             TAG_NODE_2RY, TAG_SEGM    , TAG_NODE_2RY2,
      .                             TAG_SEGS    , TAG_NODE_MSR,
      .                             TAG_SCRATCH , INTERCEP    , NI, INTTH   ,
      .                             NODLOCAL    ,MSR_L_I21    ,MNDD_I21     ,
@@ -4924,7 +4924,7 @@ C-----------------------------------------------
       INTEGER 
      .        IPARI(*),NI
 
-      INTEGER PROC,TAG_NODE_SLV(*),TAG_SEGM(*),TAG_NODE_SLV2(*),
+      INTEGER PROC,TAG_NODE_2RY(*),TAG_SEGM(*),TAG_NODE_2RY2(*),
      .        TAG_SEGS(*),TAG_NODE_MSR(*),TAG_SCRATCH(*), NODLOCAL(*),
      .        MSR_L_I21(*),MNDD_I21(*)
       INTEGER, INTENT(INOUT) :: NINDX_SCRT
@@ -4969,8 +4969,8 @@ C ----------------------------------------
         N=INTBUF_TAB%NSV(K)
         IF(NLOCAL(N,PROC+1)==1.AND.TAG_SCRATCH(N)==0) THEN
           CNSN_L = CNSN_L+1
-          TAG_NODE_SLV(CNSN_L) = K
-          TAG_NODE_SLV2(K) = CNSN_L
+          TAG_NODE_2RY(CNSN_L) = K
+          TAG_NODE_2RY2(K) = CNSN_L
           TAG_SCRATCH(N)=1
           NINDX_SCRT = NINDX_SCRT + 1
           INDX_SCRT(NINDX_SCRT) = N
@@ -5011,7 +5011,7 @@ C ----------------------------------------
         ENDDO
         NINDX_SCRT = 0
 
-      !PREPARE MNDD TAB FOR MASTER TEMPERATURE COMMUNICATION
+      !PREPARE MNDD TAB FOR main TEMPERATURE COMMUNICATION
       ALLOCATE(PLIST(NSPMD)) 
       PLIST(1:NSPMD) = -1
       IF (INTTH == 2.OR.FLAGLOADP > 0) THEN
@@ -5028,7 +5028,7 @@ C ----------------------------------------
         END DO  
       ENDIF 
       DEALLOCATE(PLIST)
-      ! PREPARE MSRL TAB FOR LOCAL NODES NUMBERING==> MASTER TEMPERATURE COMMUNICATION     
+      ! PREPARE MSRL TAB FOR LOCAL NODES NUMBERING==> main TEMPERATURE COMMUNICATION     
       IF (INTTH == 2.OR.FLAGLOADP > 0) THEN
         MSR_L_I21(1:NMNG)=0
         DO I=1,NMNG
@@ -5096,14 +5096,14 @@ C ----------------------------------------
       RETURN
       END
 Chd|====================================================================
-Chd|  SPLIT_SLV_CAND_IVAL_I21       source/restart/ddsplit/inter_tools.F
+Chd|  SPLIT_2RY_CAND_IVAL_I21       source/restart/ddsplit/inter_tools.F
 Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE SPLIT_SLV_CAND_IVAL_I21(TAB    , II_STOK_L, TAG_II,TAG_NODE_SLV2,
+      SUBROUTINE SPLIT_2RY_CAND_IVAL_I21(TAB    , II_STOK_L, TAG_II,TAG_NODE_2RY2,
      .                               DIM1 )
 C introduce a second dimension
 C-----------------------------------------------
@@ -5127,7 +5127,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER TAB(*),TAG_II(*),II_STOK_L,
-     .        DIM1,TAG_NODE_SLV2(*)
+     .        DIM1,TAG_NODE_2RY2(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -5140,7 +5140,7 @@ C ----------------------------------------
       DO I=1,II_STOK_L
         K=TAG_II(I)
         N = TAB(K)
-        IBUF(I) = TAG_NODE_SLV2(N)
+        IBUF(I) = TAG_NODE_2RY2(N)
       ENDDO
 
       CALL WRITE_I_C(IBUF,DIM1)
@@ -5156,7 +5156,7 @@ Chd|-- calls ---------------
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE PREPARE_SPLIT_CAND_I21(INTBUF_TAB, TAG_NODE_SLV2, II_STOK, TAG_II,C_II,PROC)
+      SUBROUTINE PREPARE_SPLIT_CAND_I21(INTBUF_TAB, TAG_NODE_2RY2, II_STOK, TAG_II,C_II,PROC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -5177,7 +5177,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER TAG_NODE_SLV2(*),TAG_II(*),II_STOK, PROC
+      INTEGER TAG_NODE_2RY2(*),TAG_II(*),II_STOK, PROC
 
       TYPE(INTBUF_STRUCT_) :: INTBUF_TAB
 C-----------------------------------------------
@@ -5223,12 +5223,12 @@ Chd|        FRONT_MOD                     share/modules1/front_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I24(PROC     , INTBUF_TAB  , IPARI       ,
-     .                            INTERCEP , TAG_NODE_SLV, TAG_SEGM    ,
+     .                            INTERCEP , TAG_NODE_2RY, TAG_SEGM    ,
      .                            TAG_SEGM2, TAG_NM      , TAG_NODE_MSR,
      .                            TAG_SCRATCH,NODLOCAL24 ,NODLOCAL,
      .                            INTERCEP2,
-     .                            NUMNOD_L,TAG_NSNE,TAG_SEGS,TAG_SEGS2,NI,TAG_SLV_INV,
-     .                            IEDGE4,TAG_NODE_SLV2,TAG_IELEM,CEP,CEL,TAG_SEGSS,
+     .                            NUMNOD_L,TAG_NSNE,TAG_SEGS,TAG_SEGS2,NI,TAG_2RY_INV,
+     .                            IEDGE4,TAG_NODE_2RY2,TAG_IELEM,CEP,CEL,TAG_SEGSS,
      .                            NINDX_NM,INDX_NM,NINDX_SCRT,INDX_SCRT,
      .                            NINDX_NDLOCAL24,INDX_NDLOCAL24,INTERCEP3)
 C-----------------------------------------------
@@ -5256,10 +5256,10 @@ C-----------------------------------------------
       TYPE(INTERSURFP)     :: INTERCEP,INTERCEP2,INTERCEP3
 
       INTEGER PROC,INTNITSCHE,IPARI(*),
-     .        TAG_NODE_SLV(*),TAG_SEGM(*),TAG_NM(*),TAG_NODE_MSR(*),
+     .        TAG_NODE_2RY(*),TAG_SEGM(*),TAG_NM(*),TAG_NODE_MSR(*),
      .        TAG_SEGM2(*),TAG_SCRATCH(*),NODLOCAL24(*) ,NODLOCAL(*),
-     .        NUMNOD_L,TAG_NSNE(*),TAG_SEGS(*),TAG_SEGS2(*),NI,TAG_SLV_INV(*),IEDGE4,
-     .        TAG_NODE_SLV2(*),TAG_IELEM(*),CEP(*),CEL(*),TAG_SEGSS(*)
+     .        NUMNOD_L,TAG_NSNE(*),TAG_SEGS(*),TAG_SEGS2(*),NI,TAG_2RY_INV(*),IEDGE4,
+     .        TAG_NODE_2RY2(*),TAG_IELEM(*),CEP(*),CEL(*),TAG_SEGSS(*)
       INTEGER, INTENT(INOUT) ::NINDX_NM,NINDX_SCRT,NINDX_NDLOCAL24
       INTEGER, DIMENSION(*), INTENT(INOUT) ::INDX_NM,INDX_SCRT,INDX_NDLOCAL24
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
@@ -5284,8 +5284,8 @@ C-----------------------------------------------
      .        CNSN_L,CNRTM_L,CNMN_L,NRTSE,NSNE,NSN0,NSNE_COUNT,SE1,
      .        CNRTS_L
       INTEGER 
-     .   SLAVE_SURFACE_ON_DOMAIN,NRTSE_COUNT
-       EXTERNAL SLAVE_SURFACE_ON_DOMAIN
+     .   SECND_SURFACE_ON_DOMAIN,NRTSE_COUNT
+       EXTERNAL SECND_SURFACE_ON_DOMAIN
 C ----------------------------------------
       NRTS = IPARI(3)
       NRTM = IPARI(4)
@@ -5302,8 +5302,8 @@ C ----------------------------------------
         IF(    (NODLOCAL(N)/=0.AND.NODLOCAL(N)<=NUMNOD_L)
      +     .AND.TAG_SCRATCH(N)==0) THEN
           CNSN_L = CNSN_L+1
-          TAG_NODE_SLV(CNSN_L) = K
-          IF(IEDGE4 > 0) TAG_SLV_INV(K)=CNSN_L
+          TAG_NODE_2RY(CNSN_L) = K
+          IF(IEDGE4 > 0) TAG_2RY_INV(K)=CNSN_L
           TAG_SCRATCH(N)=1
           NINDX_SCRT = NINDX_SCRT + 1
           INDX_SCRT(NINDX_SCRT) = N
@@ -5315,8 +5315,8 @@ C ----------------------------------------
         SE1 = INTBUF_TAB%IS2SE(2*(N-1)+1)
         IF (INTERCEP2%P(SE1)==PROC+1)THEN
            CNSN_L = CNSN_L+1
-           TAG_NODE_SLV(CNSN_L) = K
-           TAG_SLV_INV(K)=CNSN_L
+           TAG_NODE_2RY(CNSN_L) = K
+           TAG_2RY_INV(K)=CNSN_L
         ENDIF
       ENDDO
 
@@ -5374,8 +5374,8 @@ C ----------------------------------------
       ENDDO
 
       DO I=1,CNSN_L
-        N = TAG_NODE_SLV(I)
-        TAG_NODE_SLV2(N) = I
+        N = TAG_NODE_2RY(I)
+        TAG_NODE_2RY2(N) = I
       ENDDO
 
 
@@ -6030,10 +6030,10 @@ Chd|        FRONT_MOD                     share/modules1/front_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I25(PROC     , INTBUF_TAB  , IPARI       ,
-     .                            INTERCEP , TAG_NODE_SLV, TAG_SEGM    ,
+     .                            INTERCEP , TAG_NODE_2RY, TAG_SEGM    ,
      .                            TAG_SEGM2, TAG_NM      , TAG_NODE_MSR,
      .                            TAG_SCRATCH, TAG_SM ,KNOR2MSR,NOR2MSR,
-     .                            TAG_NODE_SLV2,NINDX_NM,INDX_NM,NINDX_SCRT,INDX_SCRT)
+     .                            TAG_NODE_2RY2,NINDX_NM,INDX_NM,NINDX_SCRT,INDX_SCRT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -6059,9 +6059,9 @@ C-----------------------------------------------
       TYPE(INTERSURFP)     :: INTERCEP
 
       INTEGER PROC,IPARI(*),
-     .        TAG_NODE_SLV(*),TAG_SEGM(*),TAG_NM(*),TAG_NODE_MSR(*),
+     .        TAG_NODE_2RY(*),TAG_SEGM(*),TAG_NM(*),TAG_NODE_MSR(*),
      .        TAG_SEGM2(*),TAG_SCRATCH(*),TAG_SM(*),
-     .        KNOR2MSR(*), NOR2MSR(*), TAG_NODE_SLV2(*)
+     .        KNOR2MSR(*), NOR2MSR(*), TAG_NODE_2RY2(*)
       INTEGER, INTENT(INOUT) :: NINDX_NM,NINDX_SCRT
       INTEGER, DIMENSION(*), INTENT(INOUT) :: INDX_NM,INDX_SCRT
 C-----------------------------------------------
@@ -6086,9 +6086,9 @@ C ----------------------------------------
         N=INTBUF_TAB%NSV(K)
         IF(NLOCAL(N,PROC+1)==1.AND.TAG_SCRATCH(N)==0) THEN
           CNSN_L = CNSN_L+1
-          TAG_NODE_SLV(CNSN_L) = K
+          TAG_NODE_2RY(CNSN_L) = K
           TAG_SCRATCH(N)=1
-          TAG_NODE_SLV2(K) = CNSN_L
+          TAG_NODE_2RY2(K) = CNSN_L
           NINDX_SCRT = NINDX_SCRT + 1
           INDX_SCRT(NINDX_SCRT) = N
         ENDIF
@@ -7058,7 +7058,7 @@ Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE SPLIT_ISEGPT_IVAL(ISEGPT,NSN_L,DIM2,TAG_NODE_SLV,NI,TAG_SLV_INV,PROC)
+      SUBROUTINE SPLIT_ISEGPT_IVAL(ISEGPT,NSN_L,DIM2,TAG_NODE_2RY,NI,TAG_2RY_INV,PROC)
 c
 c split & write node array (type INTEGER) with global value
 c (see SPLIT_NODE_NODLOC for local values)
@@ -7083,8 +7083,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ISEGPT(*),TAG_NODE_SLV(*),NSN_L,DIM2,NI,PROC,
-     *        TAG_SLV_INV(*)
+      INTEGER ISEGPT(*),TAG_NODE_2RY(*),NSN_L,DIM2,NI,PROC,
+     *        TAG_2RY_INV(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -7094,7 +7094,7 @@ C ----------------------------------------
       ALLOCATE(IBUF(NSN_L))
 
       DO I=1, NSN_L
-        K=TAG_NODE_SLV(I)
+        K=TAG_NODE_2RY(I)
         DO J=1,DIM2
              IBUF(I) = 0
           IF(ISEGPT(K)==K)THEN
@@ -7106,7 +7106,7 @@ C ----------------------------------------
             IF(SN==0)THEN
              IBUF(I) = SN
             ELSE
-             FICT_SN = TAG_SLV_INV(SN)
+             FICT_SN = TAG_2RY_INV(SN)
              IBUF(I) = FICT_SN
             ENDIF
           ENDIF

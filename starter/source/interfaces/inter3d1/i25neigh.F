@@ -374,12 +374,12 @@ C       4: local number of the edge within "right" segment     ! Squeezing T, X.
 C       5: I1 = numero local du noeud 1 dans NSV(1:NSN)
 C       6: I2 = numero local du noeud 1 dans NSV(1:NSN)
 C       7: Type of the edge :
-C             < 0 <=> l'arete est uniquement maitre, pas esclave
+C             < 0 <=> l'arete est uniquement main, pas second
 C             +/-1 arete de solide
 C             +/-2 arete de coque
 C for engine:
 C       8: Global ID (id in starter)
-C       9: Weight = 1 => secondary slave handled by current domain
+C       9: Weight = 1 => secondary secnd handled by current domain
 C      10: orientation flag left seg
 C      11: first node of left seg
 C      12: second node left seg
@@ -676,7 +676,7 @@ C
               ISTORE=1 ! arete vive
             ELSEIF(SOL_EDGE==1)THEN
               LEDGE_TMP1(7,I)=-1 
-              ISTORE=1 ! all edges on master side
+              ISTORE=1 ! all edges on main side
             END IF
           ELSEIF(SOL_EDGE==2)THEN
             ISTORE=1
@@ -737,7 +737,7 @@ C
 
         ALLOCATE(ADDSUBN_TMP(NMN+1), ADDSUBN(NMN+1))
 C-----------------------------------------
-C       Calcul de ADDSUBN, LISUBN, INFLG_SUBN pour les noeuds maitres
+C       Calcul de ADDSUBN, LISUBN, INFLG_SUBN pour les noeuds mains
 C-----------------------------------------
         ADDSUBN_TMP(1:NMN+1)=0
         DO I=1,NRTM
@@ -1049,7 +1049,7 @@ C
        DO I=1,NUMNOD
         WA(I)=GAPSCALE*WA(I)
        END DO
-C--------exclude lines in master surfaces
+C--------exclude lines in main surfaces
 C       DO I=1,NUMELT
 C        MG=IXT(4,I)
 C        DX=UNDEMI*SQRT(GEO(1,MG))

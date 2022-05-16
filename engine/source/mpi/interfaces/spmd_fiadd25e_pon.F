@@ -166,7 +166,7 @@ C        ENDIF
 
 
 C
-C suite traitement i7for3 et i10for3 sur noeud slave
+C suite traitement i7for3 et i10for3 sur noeud secnd
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0.AND.
      .   (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.

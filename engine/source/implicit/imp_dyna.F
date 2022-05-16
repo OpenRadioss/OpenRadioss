@@ -1629,7 +1629,7 @@ C repere globale -> repere d'inertie principale
        AM(1,M)=RBY(1)*WA1+RBY(2)*WA2+RBY(3)*WA3
        AM(2,M)=RBY(4)*WA1+RBY(5)*WA2+RBY(6)*WA3
        AM(3,M)=RBY(7)*WA1+RBY(8)*WA2+RBY(9)*WA3
-C les contributions des vr ne sont ajoutees que sur le processeur maitre
+C les contributions des vr ne sont ajoutees que sur le processeur main
        VI(1)=RBY(1)*VR(1,M)+RBY(2)*VR(2,M)+RBY(3)*VR(3,M)
        VI(2)=RBY(4)*VR(1,M)+RBY(5)*VR(2,M)+RBY(6)*VR(3,M)
        VI(3)=RBY(7)*VR(1,M)+RBY(8)*VR(2,M)+RBY(9)*VR(3,M)
@@ -1643,7 +1643,7 @@ C
        AM(3,M) = AM(3,M) - (RBY(10)-RBY(11))*VI(1)*VI(2)*WEIGHT(M)
 C
 C CALCUL D'UN PSEUDO MOMENT:
-C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAITRE (IMIN DU RB)
+C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
 C--------
         WA1 = AM(1,M)*RBY(10)
         WA2 = AM(2,M)*RBY(11)

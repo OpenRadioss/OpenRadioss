@@ -81,7 +81,7 @@ C-----------------------------------------------
      *   DIMENSION(:), ALLOCATABLE :: BBUFS, BBUFR
       DATA MSGOFF/150/
 C-----------------------------------------------
-C Sur la type 18KINE, il faut communiquer les accelerations des nds esclaves
+C Sur la type 18KINE, il faut communiquer les accelerations des nds seconds
 
       LOC_PROC = ISPMD+1
       IADS = 0

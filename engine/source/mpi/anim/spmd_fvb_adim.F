@@ -63,7 +63,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER IDMAXL, I, ITAG, MSGOFF, IDMAXP(NSPMD-1), 
      .        REQ(NSPMD-1), IERR, STAT(MPI_STATUS_SIZE,NSPMD-1),
-     .        PMASTER, TAB(4),MSGTYP
+     .        PMAIN, TAB(4),MSGTYP
       DATA MSGOFF/7037/
 C
       IDMAXL=0
@@ -90,9 +90,9 @@ C
       ENDIF
 C
       DO I=1,NFVBAG
-         PMASTER=FVSPMD(I)%PMASTER
+         PMAIN=FVSPMD(I)%PMAIN
          IF (ISPMD.EQ.0) THEN
-            IF (ISPMD.EQ.PMASTER-1) THEN
+            IF (ISPMD.EQ.PMAIN-1) THEN
                NFVTR=NFVTR+FVDATA(I)%NNTR
                FVOFF(1,I)=NUMNODG+NODCUT+NSECT+NRWALL+NNWL
      .                   +NNSRG+NNSMD+NNSPHG+2*NUMELS16G+NFVNOD
@@ -102,7 +102,7 @@ C
                NFVSUBS=NFVSUBS+1
             ELSE
                MSGTYP=MSGOFF
-               CALL MPI_RECV(TAB, 3, MPI_INTEGER, IT_SPMD(PMASTER),
+               CALL MPI_RECV(TAB, 3, MPI_INTEGER, IT_SPMD(PMAIN),
      .                       MSGTYP, MPI_COMM_WORLD, STAT, IERR)
 C
                NFVTR=NFVTR+TAB(1)
@@ -114,7 +114,7 @@ C
                NFVSUBS=NFVSUBS+1
             ENDIF
          ELSE
-            IF (ISPMD.EQ.PMASTER-1) THEN
+            IF (ISPMD.EQ.PMAIN-1) THEN
                MSGTYP=MSGOFF
                TAB(1)=FVDATA(I)%NNTR
                TAB(2)=FVDATA(I)%NNS_ANIM

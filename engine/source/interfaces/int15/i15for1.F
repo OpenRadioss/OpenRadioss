@@ -120,7 +120,7 @@ C-----------------------------------------------
        ROT(I)=BUFSF(ADRBUF+7+I-1)
       END DO
 C-----------------------------------------------
-C     Noeud maitre dans le repere de l'ellipsoide :
+C     Noeud main dans le repere de l'ellipsoide :
 C-----------------------------------------------
       X1=BUFSF(ADRBUF+16)-BUFSF(ADRBUF+4)
       X2=BUFSF(ADRBUF+17)-BUFSF(ADRBUF+5)
@@ -129,7 +129,7 @@ C-----------------------------------------------
       YM=ROT(4)*X1+ROT(5)*X2+ROT(6)*X3
       ZM=ROT(7)*X1+ROT(8)*X2+ROT(9)*X3
 C-----------------------------------------------
-C     Vitesse du noeud maitre en local.
+C     Vitesse du noeud main en local.
 C-----------------------------------------------
       V1=BUFSF(ADRBUF+19)
       V2=BUFSF(ADRBUF+20)
@@ -138,7 +138,7 @@ C-----------------------------------------------
       VYM=ROT(4)*V1+ROT(5)*V2+ROT(6)*V3
       VZM=ROT(7)*V1+ROT(8)*V2+ROT(9)*V3
 C-----------------------------------------------
-C     Vitesse  de rotation du noeud maitre en local.
+C     Vitesse  de rotation du noeud main en local.
 C-----------------------------------------------
       V1=BUFSF(ADRBUF+22)
       V2=BUFSF(ADRBUF+23)

@@ -106,7 +106,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, KN, IKN, JJ, KK, II, IJ, N, M, IX, KMV
       INTEGER NG, ITY, NEL, NFT, ISOLNOD,ILOC4(4)
-      INTEGER MSR, NSN, KI, KJ, KL, NSR, LOC_PROC, NN, MASTER
+      INTEGER MSR, NSN, KI, KJ, KL, NSR, LOC_PROC, NN, MAIN
       INTEGER K1, IC, ISMS,
      .        NOD2ADD(NUMNOD), ICSIZE, IMOV, ITYP, ILAGM, ICOUNT,
      .        N2, N3, N4, N5, N6, N7

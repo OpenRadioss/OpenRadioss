@@ -140,7 +140,7 @@ C
           FY4(I)=FYI(I)*H4(I)
           FZ4(I)=FZI(I)*H4(I)
 c
-c         Force visc master        
+c         Force visc main        
 c
           J3=3*IRECT(1,L)
           J2=J3-1
@@ -170,7 +170,7 @@ C
           EM(J2)=EM(J2)+FY4(I)
           EM(J3)=EM(J3)+FZ4(I)
 c
-c         Force visc slave        
+c         Force visc secnd        
 c
           I3 = 3*IL
           I2 = I3-1

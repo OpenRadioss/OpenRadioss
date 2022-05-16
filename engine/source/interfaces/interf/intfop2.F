@@ -70,7 +70,7 @@ Chd|====================================================================
      L       TABSENSOR ,ISENSINT   ,NISUBMAX  ,NB25_CANDT,NB25_IMPCT,
      M       NB25_DST1 ,NB25_DST2  ,IXIG3D     ,KXIG3D   ,WIGE     ,
      N       KNOT      ,IGEO       ,MULTI_FVM  ,H3D_DATA ,INTBUF_FRIC_TAB,
-     P       PSKIDS    ,T2MASTER_SMS,FORNEQS   ,KNOTLOCPC,KNOTLOCEL,
+     P       PSKIDS    ,T2MAIN_SMS,FORNEQS   ,KNOTLOCPC,KNOTLOCEL,
      Q       APINCH    ,STIFPINCH   ,T2FAC_SMS ,TAGNCONT ,
      R       KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER)
 C-----------------------------------------------
@@ -132,7 +132,7 @@ C-----------------------------------------------
      .        IPARSENS,NISUB,I,NISUBMAX,
      .        NB25_CANDT(PARASIZ),NB25_IMPCT(PARASIZ),
      .        NB25_DST1(PARASIZ) ,NB25_DST2(PARASIZ)
-      INTEGER KXIG3D(NIXIG3D,*),IXIG3D(*),IGEO(NPROPGI,*),T2MASTER_SMS(6,*)
+      INTEGER KXIG3D(NIXIG3D,*),IXIG3D(*),IGEO(NPROPGI,*),T2MAIN_SMS(6,*)
       my_real 
      .        EMINX(*)
       my_real DT2T,
@@ -544,7 +544,7 @@ C
      E  PM         ,IPARG       ,IAD17       ,MSKYI_SMS   ,ISKYI_SMS   ,
      F  NODNX_SMS  ,MS0         ,INOD_PXFEM  ,MS_PLY      ,WAGAP       ,
      G  FBSAV6      ,ISENSINT(1,N),
-     H  DIMFB      ,H3D_DATA    ,INTBUF_FRIC_TAB  ,T2MASTER_SMS,FORNEQS ,
+     H  DIMFB      ,H3D_DATA    ,INTBUF_FRIC_TAB  ,T2MAIN_SMS,FORNEQS ,
      I  T2FAC_SMS  ,NPC         ,TF          ,TAGNCONT    ,KLOADPINTER ,
      J  LOADPINTER ,LOADP_HYD_INTER)
 
@@ -565,7 +565,7 @@ C
      E  PM        ,IPARG        ,IAD17        ,MSKYI_SMS  ,ISKYI_SMS   ,
      F  NODNX_SMS ,MS0          ,INOD_PXFEM   ,MS_PLY     ,WAGAP       ,
      G  FBSAV6     ,ISENSINT(1,N),
-     H  DIMFB     ,H3D_DATA     ,INTBUF_FRIC_TAB  ,T2MASTER_SMS,FORNEQS ,
+     H  DIMFB     ,H3D_DATA     ,INTBUF_FRIC_TAB  ,T2MAIN_SMS,FORNEQS ,
      I  T2FAC_SMS ,NPC         ,TF           ,TAGNCONT    ,KLOADPINTER ,
      J  LOADPINTER ,LOADP_HYD_INTER)
            IAD=IAD+NUM_IMP(N)

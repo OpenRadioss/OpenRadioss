@@ -135,7 +135,7 @@ C
         ENDIF
       ENDDO
 C
-C Mise a 0 de adm sur noeud non maitre
+C Mise a 0 de adm sur noeud non main
 C
       DO I = 1, NUMNOD
         IF(WEIGHT_MD(I).EQ.0) ADM(I) = ZERO

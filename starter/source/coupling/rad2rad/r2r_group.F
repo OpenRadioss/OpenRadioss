@@ -116,7 +116,7 @@ C-----------------------------------------------
       INTEGER STAT,I,J,IGR,IGRS,N,NUM,K,ADD,COMPT,IGS,IPID_L
       INTEGER ID_TEMP(NB_PART_SUB),NSUBDOM_LOC,P,TMP_PART(NPART)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IGROUP_TEMP2
-      INTEGER N_LNK_C,NI,GRM,GRS,MASTER,IGU,NUL,IAD_TMP,COMPT_T2
+      INTEGER N_LNK_C,NI,GRM,GRS,MAIN,IGU,NUL,IAD_TMP,COMPT_T2
       INTEGER MODIF,NINTER_PREC,FAC,IO_ERR,NUM_KJ,NSPCONDN,NSPHION
       INTEGER MEMTR(NUMNOD),FLG_SPH,COUNT,NEW_NSLASH_INT,NEW_HM_NINTER,NEW_NINTSUB,
      .        NEW_NINIVOL
@@ -267,7 +267,7 @@ C---------------> TAGNO(K) = -1 -> Noeud externe au domaine
 C---------------> TAGNO(K) = 0 -> Noeud free
 C---------------> TAGNO(K) = 1 -> Noeud interne au domaine
 C---------------> TAGNO(K) = 2 -> Noeud couple
-C---------------> TAGNO(K) = 3 -> Noeud couple -> master node de RBODY
+C---------------> TAGNO(K) = 3 -> Noeud couple -> main node de RBODY
 C---------------> TAGNO(K) = 4 -> Noeud couple pour contact
 C---------------Detag des Noeuds deja traites------------------------C
         CALL TAGNODS_R2R(IXS,IXS10,IXS20,IXS16,IPARTS,TAGNO,-1,N)       

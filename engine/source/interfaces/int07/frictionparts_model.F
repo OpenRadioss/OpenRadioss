@@ -122,12 +122,12 @@ C
          IPML = IPARTFRICMI(I)
 c
          IF(IPSL /= 0) THEN
-            IPS = TABPARTS_FRIC(IPSL)  ! PART of slave node
+            IPS = TABPARTS_FRIC(IPSL)  ! PART of secnd node
          ELSE
             IPS = 0
          ENDIF
          IF(IPML /= 0) THEN
-            IPM = TABPARTS_FRIC(IPML)  ! PART of master node
+            IPM = TABPARTS_FRIC(IPML)  ! PART of main node
          ELSE
             IPM = 0
          ENDIF
@@ -450,12 +450,12 @@ C
           IPML = IPARTFRICMI(I)
 c
           IF(IPSL /= 0) THEN
-             IPS = TABPARTS_FRIC(IPSL)  ! PART of slave node
+             IPS = TABPARTS_FRIC(IPSL)  ! PART of secnd node
           ELSE
              IPS = 0
           ENDIF
           IF(IPML /= 0) THEN
-             IPM = TABPARTS_FRIC(IPML)  ! PART of master node
+             IPM = TABPARTS_FRIC(IPML)  ! PART of main node
           ELSE
              IPM = 0
           ENDIF

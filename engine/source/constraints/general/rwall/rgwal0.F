@@ -70,7 +70,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K,N,N2,N3,N4,N5,N6, ITYP, ISL, IFQ, ILAGM, IMP,
-     .        PMASTER,IPARSENS,ISECT
+     .        PMAIN,IPARSENS,ISECT
 C-----------------------------------------------
           RBID = ZERO
 C Init global result to 0
@@ -143,7 +143,7 @@ C Explicit barrier required before communication
 
 C
 C Traitements Speciaux : Communications SPMD si moving present
-C + Sauvegarde Force et Impultion master
+C + Sauvegarde Force et Impultion main
 C
           IF(IMCONV == 1) THEN
             DO N=1,NRWALL
@@ -158,12 +158,12 @@ Cel si proc concerne par le rgwall
                   IF(FR_WALL(ISPMD+1,N).NE.0) THEN
                     CALL SPMD_EXCH_FR6(FR_WALL(1,N),FRWL6(1,1,N),7*6)
                   ENDIF
-                  PMASTER = FR_WALL(NSPMD+2,N)
+                  PMAIN = FR_WALL(NSPMD+2,N)
                 ELSE
-                  PMASTER = 1
+                  PMAIN = 1
                 ENDIF
               ELSE
-                PMASTER = 1
+                PMAIN = 1
               END IF
 C
               IPARSENS=0
@@ -173,11 +173,11 @@ C
               IF(ISECT/=0) THEN
                 IPARSENS=1
                 CALL RGWALT(
-     1            NPRW(N3),RWBUF(1,N),FRWL6(1,1,N),PMASTER,FSAV(1,N),
+     1            NPRW(N3),RWBUF(1,N),FRWL6(1,1,N),PMAIN,FSAV(1,N),
      2            FOPT(1,N),FBSAV6(1,1,ISECT) , IPARSENS)
               ELSE
                 CALL RGWALT(
-     1            NPRW(N3),RWBUF(1,N),FRWL6(1,1,N),PMASTER,FSAV(1,N),
+     1            NPRW(N3),RWBUF(1,N),FRWL6(1,1,N),PMAIN,FSAV(1,N),
      2            FOPT(1,N),RBID     , IPARSENS)
               ENDIF
             END DO
@@ -243,7 +243,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K, N, N2, N3, N4, N5, N6, ITYP, ISL, IFQ, ILAGM,
-     .        NDS,IMP, PMASTER, IBID,IPARSENS,ISECT
+     .        NDS,IMP, PMAIN, IBID,IPARSENS,ISECT
       my_real
      .        A(3,NUMNOD),BID,DTI
 C-----------------------------------------------
@@ -328,7 +328,7 @@ c!$OMP END DO
 
 C
 C Traitements Speciaux : Communications SPMD si moving present
-C + Sauvegarde Force et Impultion master
+C + Sauvegarde Force et Impultion main
 C
           IF(IMCONV == 1) THEN
             DO N=1,NRWALL
@@ -343,12 +343,12 @@ Cel si proc concerne par le rgwall
                   IF(FR_WALL(ISPMD+1,N).NE.0) THEN
                     CALL SPMD_EXCH_FR6(FR_WALL(1,N),FRWL6(1,1,N),7*6)
                   ENDIF
-                  PMASTER = FR_WALL(NSPMD+2,N)
+                  PMAIN = FR_WALL(NSPMD+2,N)
                 ELSE
-                  PMASTER = 1
+                  PMAIN = 1
                 ENDIF
               ELSE
-                PMASTER = 1
+                PMAIN = 1
               END IF
 C
               IPARSENS=0
@@ -358,11 +358,11 @@ C
               IF(ISECT/=0) THEN
                 IPARSENS=1
                 CALL RGWALT(
-     1            NPRW(N3),RWBUF(1,N),FRWL6(1,1,N),PMASTER,FSAV(1,N),
+     1            NPRW(N3),RWBUF(1,N),FRWL6(1,1,N),PMAIN,FSAV(1,N),
      2            FOPT(1,N),FBSAV6(1,1,ISECT) , IPARSENS)
               ELSE
                 CALL RGWALT(
-     1            NPRW(N3),RWBUF(1,N),FRWL6(1,1,N),PMASTER,FSAV(1,N),
+     1            NPRW(N3),RWBUF(1,N),FRWL6(1,1,N),PMAIN,FSAV(1,N),
      2            FOPT(1,N),RBID     , IPARSENS)
               ENDIF
             END DO
@@ -450,7 +450,7 @@ Chd|        RGWAL0                        source/constraints/general/rwall/rgwal
 Chd|        RGWAL0_IMP                    source/constraints/general/rwall/rgwal0.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE RGWALT(MSR ,RWL,FRWL6,PMASTER,FSAV,
+      SUBROUTINE RGWALT(MSR ,RWL,FRWL6,PMAIN,FSAV,
      2                  FOPT,FBSAV6,IPARSENS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -469,7 +469,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MSR, PMASTER, IPARSENS, I
+      INTEGER MSR, PMAIN, IPARSENS, I
 C     REAL ou REAL*8
       my_real
      .   RWL(*), FSAV(*),FOPT(6)
@@ -517,7 +517,7 @@ Cel changement formulation F et XMT stockoques dans RWL et appliques debut cycle
          RWL(19)=(FZN+FZT)/DT12
          RWL(20)=XMT
 C test  pour ne cummuler qu'une fois en multiprocessors dans le cas moving
-        IF(ISPMD+1 == PMASTER.OR. MSR == 0) THEN
+        IF(ISPMD+1 == PMAIN.OR. MSR == 0) THEN
           FSAV(1)=FSAV(1)+FXN
           FSAV(2)=FSAV(2)+FYN
           FSAV(3)=FSAV(3)+FZN
@@ -534,7 +534,7 @@ C test  pour ne cummuler qu'une fois en multiprocessors dans le cas moving
         RWL(19)=RWL(19)+(FZN+FZT)/DT12
         RWL(20)=RWL(20)+XMT
 C test pour ne cummuler qu'une fois en multiprocessors dans le cas moving
-        IF(ISPMD+1 == PMASTER.OR. MSR == 0) THEN
+        IF(ISPMD+1 == PMAIN.OR. MSR == 0) THEN
          FSAV(1)=FSAV(1)+FXN
          FSAV(2)=FSAV(2)+FYN
          FSAV(3)=FSAV(3)+FZN

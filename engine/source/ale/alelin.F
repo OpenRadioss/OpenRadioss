@@ -73,8 +73,8 @@ C
 C   NALELK    : number of ALE LINKS
 C   LINALE[:] : definition array
 C         [1] : user ID         (uID)
-C         [2] : master node     (M1)
-C         [3] : master node     (M2)
+C         [2] : main node     (M1)
+C         [3] : main node     (M2)
 C         [4] : number of nodes (N)
 C         [5] : direction XYZ   (IC)
 C         [6] : formulation     (IM)

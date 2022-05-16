@@ -137,7 +137,7 @@ C
 C
           ENDIF
 C------------------------------------------------
-C         rep local facette maitre
+C         rep local facette main
 C------------------------------------------------
           X1  = X(1,IX1(K))                                       
           Y1  = X(2,IX1(K))                                          
@@ -231,7 +231,7 @@ C
           ENDIF
 C
           IF (IRODDL == 0 .OR. IN(I) == ZERO) THEN
-C--------- Connection solide : calcul vitesse entrainement facette maitre Vi = Vi -VR ^ MS
+C--------- Connection solide : calcul vitesse entrainement facette main Vi = Vi -VR ^ MS
             VA(1) = VX1*E1X + VY1*E1Y + VZ1*E1Z
             VA(2) = VX1*E2X + VY1*E2Y + VZ1*E2Z
             VA(3) = VX1*E3X + VY1*E3Y + VZ1*E3Z
@@ -386,7 +386,7 @@ C
            STIFM(K) = ZERO
          ELSE
 C----------------------------------------------------
-c         update master forces (moment balance) 
+c         update main forces (moment balance) 
 C
            CALL I2LOCEQ( NIR    ,RS     ,RX     ,RY     ,RZ      ,    
      .                  FLOCX    ,FLOCY    ,FLOCZ    ,H ,STIFM(K))  
@@ -414,7 +414,7 @@ C----------------------------------------------------
            MRY(IR) = UNDEMI*(ZSM*FX(IR) - XSM*FZ(IR))
            MRZ(IR) = UNDEMI*(XSM*FY(IR) - YSM*FX(IR)) 
 c
-c          slave node
+c          secnd node
 
            A(1,I) = A(1,I) - FX(IR) 
            A(2,I) = A(2,I) - FY(IR) 
@@ -491,7 +491,7 @@ C
 c
          ENDDO ! IR = 1,NIR
 c--------------------------------------------
-c          master node
+c          main node
 c--------------------------------------------
            IF (W == 1) THEN
              I0 = I0 + 1                                                  
@@ -570,7 +570,7 @@ c
            ENDIF
 
 C------------------------------------------------
-         ELSE  ! desactivated slave node
+         ELSE  ! desactivated secnd node
            NSVG(K)= -I
            L = IRTL(II)
 C

@@ -713,7 +713,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C----- get edge NS1,NS2 and--Slave seg id :IE-
+C----- get edge NS1,NS2 and--Secnd seg id :IE-
       INTEGER IK1(4),IK2(4),IE1,IE2,IED
       DATA IK1 /1,2,3,4/
       DATA IK2 /2,3,4,1/

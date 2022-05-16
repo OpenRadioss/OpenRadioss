@@ -81,7 +81,7 @@ C
         IF ( NRBOD.NE.0 ) THEN
 C         ISURF(9,ISU)==1 (RIGID BODIES) !
 Clm       A chaque instant (et a TT=0. dans le Starter), 
-C         le Rigid Body transmet la position et les vitesses du noeud maitre 
+C         le Rigid Body transmet la position et les vitesses du noeud main 
 C         a la surface.
           IM=NPBY(1,NRBOD)
           ADRSRF=IGRSURF(ISU)%IAD_BUFR

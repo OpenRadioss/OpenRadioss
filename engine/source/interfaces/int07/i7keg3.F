@@ -1252,7 +1252,7 @@ C-------      total force
          ENDIF
         ENDIF 
 C      
-C--------master part-------
+C--------main part-------
 c
        DO I=1,JLT
         FX=FXI(I)
@@ -1271,7 +1271,7 @@ c
         A(3,IX3(I))=A(3,IX3(I))+FZ*H3(I)
         A(3,IX4(I))=A(3,IX4(I))+FZ*H4(I)
        ENDDO
-C--------slave part-------
+C--------secnd part-------
       IF(IMACH.NE.3) THEN
         DO I=1,JLT
           IG=NSVG(I)

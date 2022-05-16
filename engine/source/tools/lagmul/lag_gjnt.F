@@ -71,7 +71,7 @@ C======================================================================|
         N2  = GJBUFI(5,I)
         N3  = GJBUFI(6,I)
 C
-C---    Frame actualisation (master skew) at the beginning of the step        
+C---    Frame actualisation (main skew) at the beginning of the step        
         VRN(1) = VR(1,N0) + DT12*AR(1,N0)
         VRN(2) = VR(2,N0) + DT12*AR(2,N0)
         VRN(3) = VR(3,N0) + DT12*AR(3,N0)

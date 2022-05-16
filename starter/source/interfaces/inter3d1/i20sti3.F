@@ -153,7 +153,7 @@ C---------------------------------------------------------------
         GAPSCALE = UN
       ENDIF  
 C------------------------------------
-C     GAP NOEUDS ESCLAVES
+C     GAP NOEUDS SECONDS
 C------------------------------------
       IF(IGAP.GE.1)THEN
        DO I=1,NUMNOD
@@ -212,7 +212,7 @@ C------------------------------------
        ENDDO
       ENDIF
 C
-C calcul du surface esclave ---
+C calcul du surface second. ---
       IF(INTTH > 0 ) THEN
        DO I = 1,NSN    
           AREAS(I) = ZERO
@@ -234,7 +234,7 @@ C calcul du surface esclave ---
       ENDIF
 C
 C------------------------------------
-C     STIF NOEUDS ESCLAVES
+C     STIF NOEUDS SECONDS
 C------------------------------------
       IF(SLSFAC >= ZERO)THEN
        DO I=1,NUMELC
@@ -296,7 +296,7 @@ C------------------------------------
 C     SURFACE DE COQUE OU SOLIDE
 C------------------------------------
 C------------------------------------
-C     STIF FACES MAITRESSES
+C     STIF FACES MAIN
 C------------------------------------
 
       DO 500 I=1,NRT

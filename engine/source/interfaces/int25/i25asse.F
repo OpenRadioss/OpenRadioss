@@ -77,7 +77,7 @@ C
         IF(PENE(I)==ZERO) CYCLE
 C
         IF(IBM(I)>=0)THEN
-C         Assembling twice the force if the other segment supporting the master edge 
+C         Assembling twice the force if the other segment supporting the main edge 
 C         lies onto the same domain
 
           FX1(I)=DEUX*FX1(I)
@@ -205,7 +205,7 @@ C
         IF(PENE(I)==ZERO) CYCLE
 C
         IF(IBM(I)>=0)THEN
-C         Assembling twice the force if the other segment supporting the master edge 
+C         Assembling twice the force if the other segment supporting the main edge 
 C         lies onto the same domain
           FX1(I)=DEUX*FX1(I)
           FY1(I)=DEUX*FY1(I)

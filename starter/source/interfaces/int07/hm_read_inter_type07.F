@@ -218,7 +218,7 @@ C-- first type7 of type19
         NTYP = 19
         IPARI(71) = -1
       ELSEIF (ID_TYPE19 > 0) THEN
-C-- symetrical type7 of type19 - internal id of master type7 must be identified 
+C-- symetrical type7 of type19 - internal id of main type7 must be identified 
         NTYP = 19
         DO I=1,NI-1
           IF (NOM_OPT(1,I)==ID_TYPE19) THEN

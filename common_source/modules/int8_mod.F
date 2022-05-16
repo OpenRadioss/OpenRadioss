@@ -50,30 +50,30 @@ C-----------------------------------------------------------------------
 #include "my_real.inc"      
 
       TYPE BUFT8
-        integer ::  NBMASTER
-        integer ::  NBSLAVE_TOT
-        integer, DIMENSION(:) , POINTER ::  NBSLAVE !table of nbslave per master
-        integer, DIMENSION(:) , POINTER ::  MASTER_UID
-        integer, DIMENSION(:) , POINTER ::  MASTER_ID
-        integer, DIMENSION(:) , POINTER ::  SLAVE_UID
-        integer, DIMENSION(:) , POINTER ::  SLAVE_ID
+        integer ::  NBMAIN
+        integer ::  NBSECND_TOT
+        integer, DIMENSION(:) , POINTER ::  NBSECND !table of nbsecnd per main
+        integer, DIMENSION(:) , POINTER ::  MAIN_UID
+        integer, DIMENSION(:) , POINTER ::  MAIN_ID
+        integer, DIMENSION(:) , POINTER ::  SECND_UID
+        integer, DIMENSION(:) , POINTER ::  SECND_ID
 C Send buffer for I8MSR3
 C       my_real, DIMENSION(:) , POINTER ::  BUFR 
 C       integer, DIMENSION(:) , POINTER ::  BUFI 
 C Send Buffer for I8LOC3
 C       my_real, DIMENSION(:) , POINTER :: DISTANCE 
-C       integer, DIMENSION(:) , POINTER ::  NEW_MASTER_UID
+C       integer, DIMENSION(:) , POINTER ::  NEW_MAIN_UID
 
       END TYPE BUFT8 
       TYPE FRONT8
-        !Local number of the master node :
+        !Local number of the main node :
         integer ::  NUMLOC  
-        !User ID of the master node :
+        !User ID of the main node :
         integer ::  UID
-        ! number of time the inteface master has to be
+        ! number of time the inteface main has to be
         ! sent and received                                
         integer  ::  NBCOM !  
-        !List (of size NBCOM) of processors that share the master
+        !List (of size NBCOM) of processors that share the main
         integer, DIMENSION(:) , POINTER ::  PROCLIST  
         !Pointer to the structure BUFFER        
         integer, DIMENSION(:) , POINTER ::  BUF_INDEX  

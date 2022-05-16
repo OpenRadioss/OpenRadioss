@@ -65,7 +65,7 @@ Chd|====================================================================
      E                   PM      ,IPARG ,IAD17   ,MSKYI_SMS  ,ISKYI_SMS,
      F                   NODNX_SMS,MS0  ,INOD_PXFEM,MS_PLY    ,WAGAP  ,
      G                   FBSAV6   ,ISENSINT,
-     H                   DIMFB    ,H3D_DATA ,INTBUF_FRIC_TAB, T2MASTER_SMS,
+     H                   DIMFB    ,H3D_DATA ,INTBUF_FRIC_TAB, T2MAIN_SMS,
      I                   FORNEQS  ,T2FAC_SMS,NPC    ,TF       ,TAGNCONT,
      J                   KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
 C===============================================================
@@ -122,7 +122,7 @@ C-----------------------------------------------
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*)
       INTEGER IXS(*)  ,IXS16(*) ,IXS20(*)
       INTEGER IAD_ELEM(2,*),FR_ELEM(*), 
-     .        ISKYI_SMS(*), NODNX_SMS(*), ISENSINT(*),DIMFB,T2MASTER_SMS(6,*)
+     .        ISKYI_SMS(*), NODNX_SMS(*), ISENSINT(*),DIMFB,T2MAIN_SMS(6,*)
       my_real 
      .        EMINX(*)
 C     REAL ou REAL*8
@@ -473,7 +473,7 @@ C
      . SUBTRIA,
      D INTTH       ,NSMS        ,PENE        ,XX0         ,YY0         ,
      E ZZ0         ,VX          ,VY          ,VZ          ,IXX         ,
-     F INTBUF_TAB%MVOISIN,PMAX_GAP,INTBUF_TAB%SLAV_FR,INTBUF_TAB%GAP_M,
+     F INTBUF_TAB%MVOISIN,PMAX_GAP,INTBUF_TAB%SECND_FR,INTBUF_TAB%GAP_M,
      . INTBUF_TAB%PENE_OLD,
      G INTBUF_TAB%STIF_OLD,ITRIV      ,ITAB       ,CAND_T_N    ,IEDGE  ,      
      H NFT         ,PENMIN      ,EPS        ,NM1         ,NM2          ,
@@ -562,7 +562,7 @@ C-------------------------------------------------------------------------------
      9  GAPV         ,INACTI    ,INDEX2(NFT+1),NISKYFI ,
      A  KINET        ,NEWFRONT  ,ISECIN       ,NSTRF       ,SECFCUM  ,
      B  X            ,INTBUF_TAB%IRECTM,CE_LOC    ,MFROT       ,IFQ  ,
-     C  INTBUF_TAB%FRIC_P,INTBUF_TAB%SLAV_FR,XFILTR_FRIC,
+     C  INTBUF_TAB%FRIC_P,INTBUF_TAB%SECND_FR,XFILTR_FRIC,
      D  IBAG         ,ICONTACT ,INTBUF_TAB%IRTLM,       
      E  VISCN        ,VXI       ,VYI          ,VZI         ,MSI      ,
      F  KINI         ,NIN       ,NISUB        ,INTBUF_TAB%LISUB,INTBUF_TAB%ADDSUBS,
@@ -581,7 +581,7 @@ C-------------------------------------------------------------------------------
      R   NM3         ,NREBOU     ,INTBUF_TAB%IRTSE  ,NSNE    ,INTBUF_TAB%IS2SE   ,
      S  INTBUF_TAB%IS2PT,INTBUF_TAB%MSEGTYP24,JTASK       ,ISENSINT  ,
      U  FSAVPARIT   ,NFT        ,H3D_DATA    ,FRICC       ,VISCFFRIC ,
-     V  FRIC_COEFS  ,T2MASTER_SMS ,INTNITSCHE ,FORNEQSI   ,IORTHFRIC ,
+     V  FRIC_COEFS  ,T2MAIN_SMS ,INTNITSCHE ,FORNEQSI   ,IORTHFRIC ,
      W  FRIC_COEFS2 ,FRICC2      ,VISCFFRIC2  ,NFORTH     ,NFISOT    ,
      X  INDEXORTH   ,INDEXISOT   ,DIR1        ,DIR2       ,T2FAC_SMS ,F_PFIT,
      Y  TAGNCONT    ,KLOADPINTER ,LOADPINTER  ,LOADP_HYD_INTER,

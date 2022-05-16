@@ -316,7 +316,7 @@ C-----------------------------------------------
       CALL I17RST(LLT   ,RI_S(1,2),SI_S(1,2),TI_S(1,2),NI_M  ,
      2            XX    ,YY       ,ZZ       )
 C-----------------------------------------------
-C      choix face 1 2 3 4 face 5 6 7 8 cote esclave
+C      choix face 1 2 3 4 face 5 6 7 8 cote second
 C-----------------------------------------------
       DO I=1,LLT
         IF(ABS(SI_S(I,1)).LE.ABS(SI_S(I,2)))THEN
@@ -364,8 +364,8 @@ C
         ENDIF
       ENDDO
 C-----------------------------------------------
-C      calcul de SI_S=s(relatif element maitre) 
-c      des 8 noeuds de la face de l'element esclave
+C      calcul de SI_S=s(relatif element main) 
+c      des 8 noeuds de la face de l'element second
 C-----------------------------------------------
       DO J=1,8
         DO I=1,LLT
@@ -378,7 +378,7 @@ C-----------------------------------------------
       ENDDO
 C-----------------------------------------------
 C      calcul du point de distance min
-C      dSI_S/dr = 0 dSI_S/dt = 0     (r,t de l'element esclave) 
+C      dSI_S/dr = 0 dSI_S/dt = 0     (r,t de l'element second) 
 C-----------------------------------------------
       CALL I17MINI(LLT   ,R_CS  ,S_CS  ,T_CS  ,RI_S  ,SI_S   ,
      2             TI_S  ,NI_S  ,XXS   ,YYS   ,ZZS   ,XX     ,
@@ -387,7 +387,7 @@ C-----------------------------------------------
      5             R_1M  ,R_2M  ,R_3M  ,R_4M  ,T_1M  ,T_2M   ,
      6             T_3M  ,T_4M  ,ICONT )
 C-----------------------------------------------
-C      choix face 1 2 3 4 face 5 6 7 8 cote maitre
+C      choix face 1 2 3 4 face 5 6 7 8 cote main
 C-----------------------------------------------
       DO I=1,LLT
         IF(S_CM(I).LE.0.)THEN
@@ -536,11 +536,11 @@ C-----------------------------------------------
       my_real
      .   NI_ML(MVSIZ,8) ,NI_SL(MVSIZ,8)
 C-----------------------------------------------------------------------
-C     calcul de Ni sur face  1 2 3 4 ou 5 6 7 8 du maitre (s=+-1)
+C     calcul de Ni sur face  1 2 3 4 ou 5 6 7 8 du main (s=+-1)
 C-----------------------------------------------------------------------
       CALL I17NI(LLT,RM ,TM ,NI_ML )
 C-----------------------------------------------------------------------
-C     calcul de Ni sur face  1 2 3 4 ou 5 6 7 8 de l'esclave (s=+-1)
+C     calcul de Ni sur face  1 2 3 4 ou 5 6 7 8 de l'second (s=+-1)
 C-----------------------------------------------------------------------
       CALL I17NI(LLT,RS ,TS ,NI_SL )
 C-----------------------------------------------
@@ -1137,17 +1137,17 @@ c          print *,'it=',iter,' r=',r,' t=',t,' fr=',dfdr,' ft=',dfdt
 C-----------------------------------------------------------------------
 C     calcul de 4 points de l'iso S_M = +- 1
 C 
-C          esclave           maitre
+C          second.           main
 C     1: <R_1S , T_CS>    <R_1M , T_1M>
 C     2: <R_2S , T_CS>    <R_2M , T_2M>
 C     3: <R_CS , T_1S>    <R_3M , T_3M>
 C     4: <R_CS , T_2S>    <R_4M , T_4M> 
 C
-C     on borne r et t a +- 1 sur l'element esclave :
+C     on borne r et t a +- 1 sur l'element second. :
 C                -1 < R_1S < 1  et -1 < R_2S < 1 
 C                -1 < T_1S < 1  et -1 < T_2S < 1 
 c
-C     on borne r et t a +- 1 sur l'element maitre :
+C     on borne r et t a +- 1 sur l'element main :
 C                -1 < R_M < 1   et -1 < T_M < 1 
 C-----------------------------------------------------------------------
       CALL  I17ABC(LLT ,SI_S,R_CS,T_CS,
@@ -1175,7 +1175,7 @@ C  f = C1 + C2 t + C3 t^2
 C
       CALL I17RACINE(LLT,C3,C2,C1,T_1S,T_2S)
 c-----------------------------------------------------------------------
-c      borne r a +-1 sur le maitre
+c      borne r a +-1 sur le main
 c-----------------------------------------------------------------------
 C
       CALL  I17ABC(LLT ,RI_S,R_CS,T_CS,
@@ -1196,7 +1196,7 @@ c      CALL I17BORNE(LLT ,T_CS,C3  ,C2  ,C1  ,ICONT(1,1),R_CM)
       CALL I17BORNE(LLT ,T_1S,C3  ,C2  ,C1  ,ICONT(1,3),R_3M)
       CALL I17BORNE(LLT ,T_2S,C3  ,C2  ,C1  ,ICONT(1,4),R_4M)
 c-----------------------------------------------------------------------
-c  2: borne t a +-1 sur le maitre 
+c  2: borne t a +-1 sur le main 
 c-----------------------------------------------------------------------
       CALL  I17ABC(LLT ,TI_S,R_CS,T_CS,
      +             B1  ,B2  ,B3  ,C1  ,C2  ,C3  )
@@ -1261,7 +1261,7 @@ C
         T_CM(I) = B1(I) + (B2(I) + B3(I)*R_CS(I))*R_CS(I)
       ENDDO
 C-----------------------------------------------
-C          calcul de Ni(r,s,t); dNi/dr; dNi/dt; normale esclave(-n)
+C          calcul de Ni(r,s,t); dNi/dr; dNi/dt; normale second(-n)
 C-----------------------------------------------
       CALL I17NORM(LLT  ,R_CS  ,S_CS  ,T_CS  ,
      2             NX   ,NY    ,NZ    ,XXS   ,YYS   ,ZZS   )
@@ -1392,7 +1392,7 @@ C
         ENDIF
       ENDDO
 c-----------------------------------------------------------------------
-c      borne r (ou t) a +-1 sur l'esclave
+c      borne r (ou t) a +-1 sur l'second
 c-----------------------------------------------------------------------
       DO I=1,LLT
           R1(I) = MAX(-UN,MIN(UN,R1(I)))
@@ -1430,10 +1430,10 @@ C-----------------------------------------------
       my_real
      +   CC(MVSIZ),R1(MVSIZ),R2(MVSIZ),RS1,RS2
 c-----------------------------------------------------------------------
-c  1: borne r(ou s au 2eme appel) a +-1 sur le maitre
+c  1: borne r(ou s au 2eme appel) a +-1 sur le main
 c-----------------------------------------------------------------------
 c-----------------------------------------------------------------------
-c  1.1: borne <r1,t> et <r,t1> a +-1 sur le maitre
+c  1.1: borne <r1,t> et <r,t1> a +-1 sur le main
 c-----------------------------------------------------------------------
         DO I=1,LLT
           RS(I) = C(I) + ( B(I) + A(I)*R_S(I) )*R_S(I)
@@ -1470,7 +1470,7 @@ c
                 R_S(I) = R2(I)
                 RS(I)  = RS2
             ELSE
-C pas de recouvrement maitre/esclave
+C pas de recouvrement main/second
                 ICONT(I)=0
             ENDIF
           ENDIF

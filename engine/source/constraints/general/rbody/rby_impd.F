@@ -519,7 +519,7 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
-C PURPOSE: calculate displacement increment of slave node by displacement increment of master node.
+C PURPOSE: calculate displacement increment of secnd node by displacement increment of main node.
 C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

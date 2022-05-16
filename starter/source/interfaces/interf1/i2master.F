@@ -22,21 +22,21 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C
 Chd|====================================================================
-Chd|  I2MASTER                      source/interfaces/interf1/i2master.F
+Chd|  I2MAIN                      source/interfaces/interf1/i2main.F
 Chd|-- called by -----------
 Chd|        ININT2                        source/interfaces/inter2d1/inint2.F
 Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE I2MASTER(NSV,MSR,IRECTM,IPARI,
+      SUBROUTINE I2MAIN(NSV,MSR,IRECTM,IPARI,
      .                   TAG,MSRU,INTBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE INTBUFDEF_MOD 
 C-----------------------------------------------------------------------
-C recontruit MSR et IRECTM en fonction des master nodes utiles
+C recontruit MSR et IRECTM en fonction des main nodes utiles
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C
       ELSE
         NIR = 2
       ENDIF
-C determination des master nodes reellement utilises
+C determination des main nodes reellement utilises
       DO I = 1, NSN
         J = INTBUF_TAB%IRTLM(I)
         DO K = 1, NIR

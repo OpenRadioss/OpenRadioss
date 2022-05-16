@@ -291,7 +291,7 @@ C
 C       
 C--------------------------------------------------------
 C
-C  for update of gap when master segement is ply-xfem formulation
+C  for update of gap when main segement is ply-xfem formulation
 C           <
          DO II=1,NINDX
           I = INDX(II) 

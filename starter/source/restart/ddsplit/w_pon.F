@@ -137,8 +137,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, I, PROC_L, CC, CC_L, N1, N2, N3, N4,
      .        K, K0, K1, K6, NV, KN, JJ, INACTI,NG,NUMG0,
-     .        IS,NN,IAD,J,ITY,CLOAD,NUML,NUMG, II, MASTER,J_L,IPVENT,
-     .        NSL, NSL_L, KK, P,K_ L, MSR, PMASTER, NTY, NRTS,
+     .        IS,NN,IAD,J,ITY,CLOAD,NUML,NUMG, II, MAIN,J_L,IPVENT,
+     .        NSL, NSL_L, KK, P,K_ L, MSR, PMAIN, NTY, NRTS,
      .        NRTM, NSN, NMN, K10, K11, K12, K13, K14, L, NSN_L, OFFTG,
      .        OFFC,ITYP,NVENT,IV,IADHOL,KIBHOL,KIBJET,K2,NNC,KAD,NAV,J0,
      .        PROCNE(LCNE_L),
@@ -926,14 +926,14 @@ C
               NN = LPRW(K+KK)
               IF(NLOCAL(NN,PROC)==1) THEN
                 NSL_L = NSL_L + 1
-                MASTER = 0
+                main = 0
                 DO P = 1, PROC-1
                   IF(NLOCAL(NN,P)==1) THEN
                     GOTO 200
                   ENDIF
                 ENDDO
-                MASTER = 1
- 200            IF(MASTER.EQ.1) THEN
+                main = 1
+ 200            IF(MAIN.EQ.1) THEN
                   IADWAL(K_L+NSL_L) = KK
                 ELSE
                   IADWAL(K_L+NSL_L) = 0
@@ -957,22 +957,22 @@ C
        DO N = 1, NRBYKIN
         MSR=NPBY(1,N)
         NSL=NPBY(2,N)
-        PMASTER = ABS(DD_RBY2(3,N))
+        PMAIN = ABS(DD_RBY2(3,N))
         IF(NLOCAL(MSR,PROC)==1) THEN
           DO KK = 1, NSL
             NN = LPBY(K+KK)
             IF(NLOCAL(NN,PROC)==1)THEN
               NSL_L = NSL_L + 1
-              MASTER = 0
+              main = 0
               DO P = 1, PROC-1
                 IF(NLOCAL(NN,P)==1)THEN
                   GOTO 300
                 ENDIF
               ENDDO
-              MASTER = 1
- 300          IF(MASTER.EQ.1) THEN
-C numerotation fonction du pmaster des rby precedents
-                IADRBK(NSL_L) = KK+IDEBRBK(PMASTER)
+              main = 1
+ 300          IF(MAIN.EQ.1) THEN
+C numerotation fonction du pmain des rby precedents
+                IADRBK(NSL_L) = KK+IDEBRBK(PMAIN)
               ELSE
                 IADRBK(NSL_L) = 0
               ENDIF
@@ -980,7 +980,7 @@ C numerotation fonction du pmaster des rby precedents
           ENDDO
         ENDIF
         K = K + NSL
-        IDEBRBK(PMASTER) = IDEBRBK(PMASTER) + NSL
+        IDEBRBK(PMAIN) = IDEBRBK(PMAIN) + NSL
        ENDDO
       ENDIF
 CC
@@ -996,22 +996,22 @@ C
        DO N = 1, NRBYM
         MSR=IRBYM(1,N)
         NSL=IRBYM(2,N)
-        PMASTER = ABS(DD_RBYM2(3,N))
+        PMAIN = ABS(DD_RBYM2(3,N))
         IF(MOD(FRONT_RM(MSR,PROC),10).EQ.1) THEN
           DO KK = 1, NSL
             NN = LCRBYM(K+KK)
             IF(NLOCAL(NN,PROC)==1)THEN
               NSL_L = NSL_L + 1
-              MASTER = 0
+              main = 0
               DO P = 1, PROC-1
                 IF(NLOCAL(NN,P)==1)THEN         
                   GOTO 333
                 ENDIF
               ENDDO
-              MASTER = 1
- 333          IF(MASTER.EQ.1) THEN
-C numerotation fonction du pmaster des rigid material precedents
-                IADRBMK(NSL_L) = KK+IDEBRBK(PMASTER)
+              main = 1
+ 333          IF(MAIN.EQ.1) THEN
+C numerotation fonction du pmain des rigid material precedents
+                IADRBMK(NSL_L) = KK+IDEBRBK(PMAIN)
               ELSE
                 IADRBMK(NSL_L) = 0
               ENDIF
@@ -1019,7 +1019,7 @@ C numerotation fonction du pmaster des rigid material precedents
           ENDDO
         ENDIF
         K = K + NSL
-        IDEBRBK(PMASTER) = IDEBRBK(PMASTER) + NSL
+        IDEBRBK(PMAIN) = IDEBRBK(PMAIN) + NSL
        ENDDO
       ENDIF
 
@@ -1116,22 +1116,22 @@ C
        DO N = 1, NIBVEL
         NSL=IBVEL(3,N)
         MSR=IBVEL(4,N)
-        PMASTER = ABS(DD_RBM2(3,N))
+        PMAIN = ABS(DD_RBM2(3,N))
         IF(NLOCAL(MSR,PROC)==1) THEN    
           DO KK = 1, NSL
             NN = LBVEL(K+KK)
             IF(NLOCAL(NN,PROC)==1)THEN      
               NSL_L = NSL_L + 1
-              MASTER = 0
+              main = 0
               DO P = 1, PROC-1
                 IF(NLOCAL(NN,P)==1)THEN         
                   GOTO 3000
                 ENDIF
               ENDDO
-              MASTER = 1
- 3000         IF(MASTER.EQ.1) THEN
-C numerotation fonction du pmaster des rby precedents
-                IADRBM(NSL_L) = KK+IDEBRBK(PMASTER)
+              main = 1
+ 3000         IF(MAIN.EQ.1) THEN
+C numerotation fonction du pmain des rby precedents
+                IADRBM(NSL_L) = KK+IDEBRBK(PMAIN)
               ELSE
                 IADRBM(NSL_L) = 0
               ENDIF
@@ -1139,7 +1139,7 @@ C numerotation fonction du pmaster des rby precedents
           ENDDO
         ENDIF
         K = K + NSL
-        IDEBRBK(PMASTER) = IDEBRBK(PMASTER) + NSL
+        IDEBRBK(PMAIN) = IDEBRBK(PMAIN) + NSL
        ENDDO
       ENDIF
 C

@@ -49,10 +49,10 @@ Chd|====================================================================
             END TYPE COMM_MPI_JOINT
 
             TYPE JOINT_TYPE
-                INTEGER :: PROC_MASTER                                  !   proc master
-                INTEGER :: NUMBER_MASTER_NODE                           !   number of master node
+                INTEGER :: PROC_MAIN                                  !   proc main
+                INTEGER :: NUMBER_MAIN_NODE                           !   number of main node
                 INTEGER :: NUMBER_PROC,NUMBER_NODE,NUMBER_NODE_WEIGHT   !   number of proc / node / weight
-                INTEGER, DIMENSION(:), ALLOCATABLE :: MASTER_NODE   !   list of master node
+                INTEGER, DIMENSION(:), ALLOCATABLE :: MAIN_NODE   !   list of main node
                 INTEGER, DIMENSION(:), ALLOCATABLE :: LIST_PROC     !   list of processor
                 INTEGER, DIMENSION(:), ALLOCATABLE :: NODE          !   list of node
                 INTEGER, DIMENSION(:), ALLOCATABLE :: WEIGHT        !   weight array

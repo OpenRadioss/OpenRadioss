@@ -119,7 +119,7 @@ C-------------------------------------
            N2 = NINTER+NRWALL+N
 C          Cumul des Forces / Moments sur la surface :
 Clm        A chaque instant (et a TT=0. dans le Starter),
-C          le Rigid Body transmet la position du noeud maitre
+C          le Rigid Body transmet la position du noeud main
 C          a la surface
 C          ET
 Clm        Dans l'Interface TYPE 14, Les forces, moments (et rigidites)
@@ -191,7 +191,7 @@ C-------------------------------------
            N2 = NINTER+NRWALL+N
 C          Cumul des Forces / Moments sur la surface :
 Clm        A chaque instant (et a TT=0. dans le Starter),
-C          le Rigid Body transmet la position du noeud maitre
+C          le Rigid Body transmet la position du noeud main
 C          a la surface
 C          ET
 Clm        Dans l'Interface TYPE 14, Les forces, moments (et rigidites)
@@ -255,11 +255,11 @@ C Comm non multi-thread
 C
 C flag to enable/disable all to all communication for RBY.
            IF(NINTSTAMP == 0) THEN
-C routine A2A de calcul Parith/ON de A AR STIFN STIFR noeuds master RB
+C routine A2A de calcul Parith/ON de A AR STIFN STIFR noeuds main RB
             NRBDIM=8
             CALL SPMD_EXCH_A_RB6(
      1        NRBDIM,IAD_RBY,FR_RBY6,IAD_RBY(NSPMD+1),RBY6)
-C routine G/S de calcul Parith/ON de A AR STIFN STIFR noeuds master RB
+C routine G/S de calcul Parith/ON de A AR STIFN STIFR noeuds main RB
           ELSE
             CALL SPMD_EXCH_A_RB6G(NPBY,RBY6)
           END IF

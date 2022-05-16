@@ -3752,7 +3752,7 @@ C---------------------------------------------------------
          IF(NSTRF(K0)+NSTRF(K0+14).GT.0)THEN
 C
 C traitement des noeuds frontieres : 
-C cumul de SECFCUM sur proc master puis mise a zero ailleurs
+C cumul de SECFCUM sur proc main puis mise a zero ailleurs
 C
            K2 = K0 + 30 + NSTRF(K0+14)
            IF(IRODDL.NE.0)THEN

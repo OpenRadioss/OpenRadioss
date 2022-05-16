@@ -64,7 +64,7 @@ C======================================================================|
       NFRE= 0
       IFX = 0
       IFR = 0
-C---  master
+C---  main
       NS = LPBYL(MSL)
       IF (COMNTAG(NS).EQ.1) THEN
         NFIX = NFIX + 1
@@ -73,7 +73,7 @@ C---  master
         NFRE = NFRE + 1
         LPBYL(MSL2+NFRE) = NS
       ENDIF
-C---  and slaves
+C---  and secnds
       DO N=1,MSL-1
         NS = LPBYL(N)
         IF (COMNTAG(NS).EQ.1) THEN

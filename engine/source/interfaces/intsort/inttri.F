@@ -106,8 +106,8 @@ Chd|====================================================================
      I       INTBUF_TAB ,DELTA_PMAX_GAP_NODE,
      .                                IAD_FRNOR,FR_NOR,
      J       NB25_CANDT,NB25_IMPCT,NB25_DST1,NB25_DST2,INTLIST25,
-     K       IAD_FREDG,FR_EDG,MASTER_PROC,NATIV_SMS,I_OPT_STOK ,
-     L       MULTI_FVM,IPARG  ,ELBUF_TAB, H3D_DATA ,T2MASTER_SMS,
+     K       IAD_FREDG,FR_EDG,MAIN_PROC,NATIV_SMS,I_OPT_STOK ,
+     L       MULTI_FVM,IPARG  ,ELBUF_TAB, H3D_DATA ,T2MAIN_SMS,
      M       LSKYI_SMS_NEW,FORNEQS,INT7ITIED,IDEL7NOK_SAV,MAXDGAP,
      N       T2FAC_SMS,ICODT,ISKEW,FSKYN25,ADDCSRECT,PROCNOR)
 C-----------------------------------------------
@@ -173,8 +173,8 @@ C-----------------------------------------------
      .        IAD_FRNOR(*), FR_NOR(*), IAD_FREDG(*), FR_EDG(*), 
      .        NB25_CANDT(PARASIZ), NB25_IMPCT(PARASIZ), 
      .        NB25_DST1(PARASIZ), NB25_DST2(PARASIZ), IPARG(NPARG,*),
-     .        INTLIST25(*), MASTER_PROC(*), NATIV_SMS(*), I_OPT_STOK(NINTER),
-     .        T2MASTER_SMS(6,*), LSKYI_SMS_NEW, IDEL7NOK_SAV,
+     .        INTLIST25(*), MAIN_PROC(*), NATIV_SMS(*), I_OPT_STOK(NINTER),
+     .        T2MAIN_SMS(6,*), LSKYI_SMS_NEW, IDEL7NOK_SAV,
      .        ADDCSRECT(*), PROCNOR(*)
       INTEGER, INTENT(IN) ::  ICODT(*), ISKEW(*)
 !     INT7ITIED : check if an interface type 7 with ITIED /= 0 is used
@@ -453,7 +453,7 @@ C         IPARI(4,N) = NRTM ; IPARI(5,N)=NSN
      3      VMSR(1,N),DELTA_PMAX_GAP(N),DELTA_PMAX_DGAP(N),
      4      DELTA_PMAX_GAP_NODE(N),ITAB)
 C
-C ITHK = 1 : master gap should be modified as per change in thickness
+C ITHK = 1 : main gap should be modified as per change in thickness
           ITHK =  IPARI(91,N)
           IF(ITHK == 1) THEN          
             CALL I25MAIN_GAP(
@@ -551,7 +551,7 @@ C
      1          IPARI ,INTBUF_TAB(N),N     ,ITASK ,
      2          THKNOD)
 C
-C       remet a 0 le segment maitre le plus proche (IRTLM): avt barrier
+C       remet a 0 le segment main le plus proche (IRTLM): avt barrier
           CALL I21RESET(
      1          IPARI ,INTBUF_TAB(N),N     ,ITASK )
 C
@@ -831,7 +831,7 @@ c          IF(ITASK.EQ.NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
      4 ITAB    ,KINET        ,TEMP         ,NRTM_T  ,RENUM     ,
      5 NSNFIOLD,ESHIFT       ,IDUM         ,IDUM    ,NODNX_SMS ,
-     6 H3D_DATA,T2MASTER_SMS ,FORNEQS      ,T2FAC_SMS)
+     6 H3D_DATA,T2MAIN_SMS ,FORNEQS      ,T2FAC_SMS)
         ELSE
        CALL I24MAIN_TRI(
      1 IPARI   ,X       ,V   ,INTBUF_TAB(N),
@@ -839,7 +839,7 @@ c          IF(ITASK.EQ.NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
      4 ITAB    ,KINET        ,TEMP         ,NRTM_T  ,RENUM     ,
      5 NSNFIOLD,ESHIFT       ,IDUM         ,IDUM    ,NODNX_SMS ,
-     6 H3D_DATA,T2MASTER_SMS ,FORNEQS      ,T2FAC_SMS)
+     6 H3D_DATA,T2MAIN_SMS ,FORNEQS      ,T2FAC_SMS)
         END IF !(NSNE >0 ) THEN
 c-----------------------------------------------------------------------
         ELSEIF(NTY == 25.AND.TT.GE.TS)THEN
@@ -955,7 +955,7 @@ c          IF(ITASK.EQ.NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
           ESHIFT = ITASK*NRTM_T
           IF(ITASK.EQ.NTHREAD-1)NRTM_T=(IPARI(4,N)-IPARI(42,N))
      +                                -(NTHREAD-1)*NRTM_T
-C-------  KINET,MS used for commu remot slave, for the moment no need.   
+C-------  KINET,MS used for commu remot secnd, for the moment no need.   
          NSNE3 = 3*IPARI(55,N)
         IF (NSNE3 >0 ) THEN
          CALL MY_BARRIER
@@ -969,7 +969,7 @@ C-------  KINET,MS used for commu remot slave, for the moment no need.
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
      4 ITAB    ,KINET        ,TEMP         ,NRTM_T  ,RENUM     ,
      5 NSNFIOLD,ESHIFT       ,NUM_IMP(N)   ,IND_IMP(IADI),NODNX_SMS ,
-     6 H3D_DATA,T2MASTER_SMS ,FORNEQS      ,T2FAC_SMS)
+     6 H3D_DATA,T2MAIN_SMS ,FORNEQS      ,T2FAC_SMS)
             IADI = IADI+NUM_IMP(N)
         ELSE
        CALL I24MAIN_TRI(
@@ -978,7 +978,7 @@ C-------  KINET,MS used for commu remot slave, for the moment no need.
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
      4 ITAB    ,KINET        ,TEMP         ,NRTM_T  ,RENUM     ,
      5 NSNFIOLD,ESHIFT       ,NUM_IMP(N)   ,IND_IMP(IADI),NODNX_SMS ,
-     6 H3D_DATA,T2MASTER_SMS ,FORNEQS      ,T2FAC_SMS)
+     6 H3D_DATA,T2MAIN_SMS ,FORNEQS      ,T2FAC_SMS)
             IADI = IADI+NUM_IMP(N)
         END IF !(NSNE >0 ) THEN
 c-----------------------------------------------------------------------
@@ -992,7 +992,7 @@ c-----------------------------------------------------------------------
           SSHIFT = ITASK*NRTM_T
           IF(ITASK.EQ.NTHREAD-1)NRTM_T=(IPARI(4,N)-IPARI(42,N))
      +                                -(NTHREAD-1)*NRTM_T
-C-------  KINET,MS used for commu remot slave, for the moment no need.   
+C-------  KINET,MS used for commu remot secnd, for the moment no need.   
           CALL I25MAIN_TRI(
      1      IPARI   ,X       ,V       ,INTBUF_TAB(N),
      2      MS      ,N            ,ITASK        ,WEIGHT  ,
@@ -1191,7 +1191,7 @@ C statistique interface
      1      IPARI    ,IAD_ELEM ,FR_ELEM   ,ITAB     ,SENSOR ,
      2      INTLIST25,INTBUF_TAB ,IAD_FRNOR,FR_NOR ,
      3      X        ,V       ,MS      ,TEMP   ,KINET      ,
-     4      NATIV_SMS,ITASK+1 ,NB25_DST2, MASTER_PROC,
+     4      NATIV_SMS,ITASK+1 ,NB25_DST2, MAIN_PROC,
      5      NEWFRONT ,ISENDTO ,IRECVFROM ,NBINTC,
      6      INTLIST ,ISLEN7   ,IRLEN7  ,IRLEN7T  ,ISLEN7T,
      7      NB25_DST1(ITASK+1),H3D_DATA, 
@@ -1341,11 +1341,11 @@ C-----------------------------------------------------------------------
 !$OMP END SINGLE
           CALL I24MAIN_OPT_TRI(
      1       IPARI     ,INTBUF_TAB(N),XE  ,VE ,
-     2       N         ,ITASK        ,COUNT_REMSLV, T2MASTER_SMS,LSKYI_SMS_NEW)
+     2       N         ,ITASK        ,COUNT_REMSLV, T2MAIN_SMS,LSKYI_SMS_NEW)
          ELSE
           CALL I24MAIN_OPT_TRI(
      1       IPARI     ,INTBUF_TAB(N),X   ,V  ,
-     2       N         ,ITASK        ,COUNT_REMSLV, T2MASTER_SMS,LSKYI_SMS_NEW)
+     2       N         ,ITASK        ,COUNT_REMSLV, T2MAIN_SMS,LSKYI_SMS_NEW)
          ENd IF !(NSNE >0 ) THEN
 C-----------------------------------------------------------------------
         ELSEIF(NTY == 25.AND.TT.GE.TS)THEN

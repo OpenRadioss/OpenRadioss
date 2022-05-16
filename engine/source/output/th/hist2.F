@@ -191,12 +191,12 @@ C--------Multidomains : control of time history for subdomains-----------
       IF ((IRAD2R.EQ.1).AND.(R2R_SIU.EQ.1)) THEN
         R2R_TH_FLAG(SEEK_ID) = 0
         IF (IDDOM == 0) THEN
-          R2R_TH_MASTER(SEEK_ID) = 0
+          R2R_TH_MAIN(SEEK_ID) = 0
         ELSE
-          IF (R2R_TH_MASTER(SEEK_ID).EQ.0) THEN
+          IF (R2R_TH_MAIN(SEEK_ID).EQ.0) THEN
             THISC = EP30
             SIZE_MES = 0
-          ELSEIF (R2R_TH_MASTER(SEEK_ID).EQ.1) THEN
+          ELSEIF (R2R_TH_MAIN(SEEK_ID).EQ.1) THEN
             THISC = TT-EM20
             SIZE_MES = 1
           ENDIF
@@ -205,7 +205,7 @@ C--------Multidomains : control of time history for subdomains-----------
 C-----------------------------------------------------------------------    
       IF (TT.GE.THISC) THEN
 C---------------------------
-        IF (IDDOM == 0) R2R_TH_MASTER(SEEK_ID) = 1
+        IF (IDDOM == 0) R2R_TH_MAIN(SEEK_ID) = 1
         R2R_TH_FLAG(SEEK_ID) = 1          
 C---------------------------
         IF (IMPL_S.GT.0) THEN
@@ -1393,13 +1393,13 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,ITYP,NVENT,IVENTTOT,RADHOL,IV,PMASTER
+      INTEGER N,ITYP,NVENT,IVENTTOT,RADHOL,IV,PMAIN
 C-----------------------------------------------
       DO N=1,NVOLU
         ITYP	=IVOLU(2,N)
         IF(ITYP.GE.4.AND.ITYP.LE.9)THEN
-          PMASTER = FR_MV(NSPMD+2,N)
-          IF(ISPMD+1==PMASTER)THEN
+          PMAIN = FR_MV(NSPMD+2,N)
+          IF(ISPMD+1==PMAIN)THEN
             NVENT   =IVOLU(11,N)
             IVENTTOT=IVOLU(16,N)
             RADHOL  =IVOLU(13,N)

@@ -88,7 +88,7 @@ C-----------------------------------------------
         END DO
         DO I=1,NAV
           II = ICBAG(1,I)
-C si pmaster
+C si pmain
           IF(FR_MV(NSPMD+2,II).EQ.LOC_PROC)THEN
             NB = NB + 1
             BUFS(L+1)=II
@@ -137,7 +137,7 @@ C
             ICOMRC = 0
             DO I=1,NAV
               II = ICBAG(1,I)
-C si pmaster
+C si pmain
               IF(FR_MV(NSPMD+2,II).EQ.P.AND.
      +           FR_MV(LOC_PROC,II).EQ.0)THEN
                 ICOMRC = 1
@@ -181,13 +181,13 @@ C
           IF(ICOMSD(P).EQ.1) CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
         END DO
       ELSE !IFLAG .NE. 1
-C cas renvoi des pressions du pmaster du mv vers les processeurs traitant les mv voisins
+C cas renvoi des pressions du pmain du mv vers les processeurs traitant les mv voisins
         IF(FR_MV(NSPMD+2,IV).EQ.LOC_PROC)THEN
 C
           DO P = 1, NSPMD
             ICOMSD(P) = 0
           END DO
-C si pmaster
+C si pmain
           L = 0
           DO I=1,NAV
             II = ICBAG(1,I)
@@ -238,7 +238,7 @@ C
             END IF
           END DO
           IF(ICOMRC.EQ.1) THEN
-C pmaster
+C pmain
             P = FR_MV(NSPMD+2,IV)
             SIZ = 2*NAV+2*NJET*NAV
             IF(ITYP .EQ. 9) SIZ = SIZ +2*NJET*NAV*NGASES

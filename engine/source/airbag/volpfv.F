@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
       SUBROUTINE VOLPFV(IVOLU,RVOLU  ,VOL,FSAV,NPC,
-     2                  TF   ,PMASTER)
+     2                  TF   ,PMAIN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,7 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPC(*),IVOLU(*), PMASTER
+      INTEGER NPC(*),IVOLU(*), PMAIN
 C     REAL ou REAL*8
       my_real
      .   TF(*),RVOLU(*),FSAV(*)
@@ -90,7 +90,7 @@ C
          PRES = PRES * (V0-VINC) / (VOL-VINC)
       ENDIF
       Q = ZERO
-      IF (ISPMD+1.EQ.PMASTER) THEN
+      IF (ISPMD+1.EQ.PMAIN) THEN
         DV=VOL-VOLD
         TFEXT=TFEXT+(UNDEMI*(Q+QOLD+PRES+POLD))*DV
         FSAV(1)=ZERO

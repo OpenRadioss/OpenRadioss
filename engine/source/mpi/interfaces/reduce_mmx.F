@@ -123,7 +123,7 @@ C TZINF
 C TZINF
         RINOUT(L) = MAX(RINOUT(L),RIN(L))              
         L = L + 1
-C T25 master gap changes with thickness change
+C T25 main gap changes with thickness change
         RINOUT(L) = MAX(RINOUT(L),RIN(L))              
         L = L + 1
       END DO

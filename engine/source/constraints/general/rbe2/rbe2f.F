@@ -198,7 +198,7 @@ C======================================================================|
       ENDDO
       CALL FOAT_TO_6_FLOAT(1  ,NSL*3  ,AS ,AS6 )
       CALL FOAT_TO_6_FLOAT(1  ,NSL    ,STIS ,STIS6 )
-c---    summ slave forces pon
+c---    summ secnd forces pon
       DO I=1,NSL
         DO K=1,6
          F6(1,K) = F6(1,K) + AS6(K,1,I)
@@ -229,7 +229,7 @@ C-----------Nastran's formulation----
        ENDDO
        CALL FOAT_TO_6_FLOAT(1  ,NSL*3  ,AS ,AS6 )
        CALL FOAT_TO_6_FLOAT(1  ,NSL    ,STIS ,STIS6 )
-c---    summ slave moments pon
+c---    summ secnd moments pon
        DO I=1,NSL
         DO K=1,6
          M6(1,K) = M6(1,K)+AS6(K,1,I)
@@ -255,7 +255,7 @@ c---    summ slave moments pon
        ENDDO
        CALL FOAT_TO_6_FLOAT(1  ,NSL*3  ,AS ,AS6 )
        CALL FOAT_TO_6_FLOAT(1  ,NSL    ,STIS ,STIS6 )
-c---    summ slave moments pon
+c---    summ secnd moments pon
        DO I=1,NSL
         DO K=1,6
          M6(1,K) = M6(1,K)+AS6(K,1,I)
@@ -265,7 +265,7 @@ c---    summ slave moments pon
         ENDDO
        ENDDO
       END IF
-C---  reset of slave nodes forces is necessary w/AMS
+C---  reset of secnd nodes forces is necessary w/AMS
       IF(IJT/=0)THEN
        DO I=1,NSL
         NS  = ISL(I)
@@ -366,7 +366,7 @@ C======================================================================|
       ENDDO
       CALL FOAT_TO_6_FLOAT(1  ,NSL*3  ,AS ,AS6 )
       CALL FOAT_TO_6_FLOAT(1  ,NSL    ,STIS ,STIS6 )
-c---    summ slave forces pon
+c---    summ secnd forces pon
       DO I=1,NSL
         DO K=1,6
          F6(1,K) = F6(1,K) + AS6(K,1,I)
@@ -405,7 +405,7 @@ C
        ENDDO
        CALL FOAT_TO_6_FLOAT(1  ,NSL*3  ,AS ,AS6 )
        CALL FOAT_TO_6_FLOAT(1  ,NSL    ,STIS ,STIS6 )
-c---    summ slave moments pon
+c---    summ secnd moments pon
        DO I=1,NSL
         DO K=1,6
          M6(1,K) = M6(1,K)+AS6(K,1,I)
@@ -419,7 +419,7 @@ c---    summ slave moments pon
      1                SKEW  )
        END IF
       END IF
-C---  reset of slave nodes forces is necessary w/AMS
+C---  reset of secnd nodes forces is necessary w/AMS
       IF(IJT/=0)THEN
        DO I=1,NSL
         NS  = ISL(I)
@@ -732,10 +732,10 @@ C
 	ELSE
 	 NIH = IH(ITAG(M))
 	 IRBE2(6,N) = ITAG(M)
-C---------to avoid the double sum on A,AR for master nodes in the same IH
+C---------to avoid the double sum on A,AR for main nodes in the same IH
 	 IF (IRBE2(9,N).EQ.NIH) THEN
            IRBE2(6,N) = -ITAG(M)
-C---------case the same master in the same IH, but also before
+C---------case the same main in the same IH, but also before
          ELSE
            IH(ITAG(M)) = IRBE2(9,N)
          END IF

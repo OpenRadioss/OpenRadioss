@@ -128,7 +128,7 @@ C
       SS= MIN( UN,SS)
 C
       IF(NTY.EQ.5)THEN
-C rajout test sur stifness cote slave
+C rajout test sur stifness cote secnd
        IF (STFN(II).LT.ZERO) THEN
          STIF = ZERO
        ELSE

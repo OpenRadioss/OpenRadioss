@@ -136,7 +136,7 @@ C
 C
           ENDIF
 C------------------------------------------------
-C         rep local facette maitre
+C         rep local facette main
 C------------------------------------------------
           X1  = X(1,IX1(K))                                       
           Y1  = X(2,IX1(K))                                          
@@ -230,7 +230,7 @@ C
           ENDIF
 C
           IF (IRODDL == 0 .OR. (MINER(I) <= EM20)) THEN
-C--------- Connection solide : calcul vitesse entrainement facette maitre Vi = Vi -VR ^ MS
+C--------- Connection solide : calcul vitesse entrainement facette main Vi = Vi -VR ^ MS
             VA(1) = VX1*E1X + VY1*E1Y + VZ1*E1Z
             VA(2) = VX1*E2X + VY1*E2Y + VZ1*E2Z
             VA(3) = VX1*E3X + VY1*E3Y + VZ1*E3Z
@@ -386,7 +386,7 @@ C
            STIFM(K) = ZERO
          ELSE
 C----------------------------------------------------
-c         update master forces (moment balance) 
+c         update main forces (moment balance) 
 C
            CALL I2LOCEQ( NIR    ,RS     ,RX     ,RY     ,RZ      ,    
      .                  FLOCX    ,FLOCY    ,FLOCZ    ,H ,STIFM(K))  
@@ -413,7 +413,7 @@ C----------------------------------------------------
            MRY(IR) = UNDEMI*(ZSM*FX(IR) - XSM*FZ(IR))
            MRZ(IR) = UNDEMI*(XSM*FY(IR) - YSM*FX(IR)) 
 c
-c          slave node
+c          secnd node
 c
            SAV_FOR_PENA(1,I) = SAV_FOR_PENA(1,I) - FX(IR) 
            SAV_FOR_PENA(2,I) = SAV_FOR_PENA(2,I) - FY(IR) 
@@ -490,7 +490,7 @@ C
 C
          ENDDO ! IR = 1,NIR
 c--------------------------------------------
-c        master node
+c        main node
 c--------------------------------------------
            IF (W == 1) THEN
              DO IR = 1,NIR
@@ -506,7 +506,7 @@ c
                  AR(3,NM) = AR(3,NM) + MZ(IR) + MRZ(IR)
                  STIFR(NM) = STIFR(NM) + STR(IR,K)
                ENDIF
-             ENDDO ! loop over penalty springs / master nodes 
+             ENDDO ! loop over penalty springs / main nodes 
            ENDIF
 C------------------------------------------------
          ELSE

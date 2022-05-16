@@ -30,7 +30,7 @@ Chd|====================================================================
      1   A    ,AR     ,MS    ,IN     ,STIFN,
      2   STIFR,FR_I2M,IAD_I2M,LCOMI2M,ISIZE,
      3   TAGNOD,INTTH2,FTHE,CONDN)
-C realise le cumul des acc et masses aux noeuds master d'int2,
+C realise le cumul des acc et masses aux noeuds main d'int2,
 C cas ou il existe une hierarchie d'interfaces ds le modele
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
