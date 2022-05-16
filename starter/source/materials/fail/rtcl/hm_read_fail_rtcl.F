@@ -70,7 +70,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER Inst
       my_real 
-     .        N,EPSCAL,Pthk
+     .        N,EPSCAL
       LOGICAL :: IS_AVAILABLE,IS_CRYPTED
 C=======================================================================
       IS_CRYPTED   = .FALSE.
@@ -85,7 +85,6 @@ C===============================================================================
       CALL HM_GET_FLOATV ('MAT_EPSCAL' ,EPSCAL    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV   ('Inst'       ,Inst      ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('MAT_N'      ,N         ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV ('Pthk'       ,Pthk      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C======================================================================================
 C DEFAULT VALUES
 C======================================================================================
@@ -93,20 +92,16 @@ C===============================================================================
       IF (EPSCAL == ZERO) EPSCAL = 0.3D0
       ! Flag for mesh sensitivity in shells
       IF (Inst == 0) Inst = 2
-      ! Default percentage
-      IF (Pthk == ZERO) Pthk = UN
-      Pthk = MAX(MIN(Pthk,UN),ZERO)
 C======================================================================================
 c     Filling buffer tables
 C======================================================================================
       ! -> Number of parameters
-      NUPARAM    = 4
+      NUPARAM    = 3
       ! -> Number of user variables
       NUVAR      = 2   
       UPARAM(1)  = EPSCAL
       UPARAM(2)  = Inst
       UPARAM(3)  = N
-      UPARAM(4)  = Pthk
 C======================================================================================
 c--------------------------
 c     Printout data
@@ -115,7 +110,7 @@ c--------------------------
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1000)
-        WRITE(IOUT,1100) EPSCAL,Inst,N,Pthk
+        WRITE(IOUT,1100) EPSCAL,Inst,N
         WRITE(IOUT,1200)
       ENDIF
 c-----------------------------------------------------
@@ -130,8 +125,7 @@ c-----------------------------------------------------
      & 5X,'FLAG FOR REGULARIZATION OF MESH SENSITIVITY. . . . .=',I10,/,
      & 5X,'     = 1 : MESH REGULARIZATION NOT ACTIVATED         ',/,
      & 5X,'     = 2 : MESH REGULARIZATION ACTIVATED             ',/, 
-     & 5X,'HARDENING EXPONENT FOR REGULARIZATION. . . . . . . .=',1PG20.13,/,
-     & 5X,'RATIO OF DAMAGED INTEGRATION POINTS. . . . . . . . .=',1PG20.13,/)
+     & 5X,'HARDENING EXPONENT FOR REGULARIZATION. . . . . . . .=',1PG20.13,/)
  1200 FORMAT(
      & 5X,' ----------------------------------------------------',//)
 c----------- 
