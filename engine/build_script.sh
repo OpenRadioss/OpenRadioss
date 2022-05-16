@@ -27,7 +27,7 @@ function my_help()
   fi
   echo " " 
   echo "         Controlling MPI Libraries - if need choose one of the 3 Option Set"
-  echo "                                    If no options set, recommended OpenMPI directories are uses (default)"
+  echo "                                    If no options set, recommended OpenMPI directories are used (default)"
   echo "           1. -mpi-os                             : link with default MPI version installed on system"
   echo "                                                    libraries are in default installation "
   echo "           2. -mpi-root=[directory]               : set rootname to link with specific MPI installation"

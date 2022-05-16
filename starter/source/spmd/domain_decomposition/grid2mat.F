@@ -794,41 +794,48 @@ C
         ICNOD_SMS=0
       END IF
 C 
-      IF((ICINTS+ICINTM>100) .AND.
-     +   (NELEM < ICINTS+ICINTM .OR.
-     +    FLOAT(NELEM-ICINTS-ICINTM)/FLOAT(NELEM)<=ZEP95)) THEN
-        NCOND=NCOND+1
-        ICINTS=NCOND
-        NCOND=NCOND+1
-        ICINTM=NCOND
-      ELSE
-        IF(NSNT+NMNT>100) THEN
-         NCOND=NCOND+1
-         ICINTS=NCOND
-         NCOND=NCOND+1
-         ICINTM=NCOND
-        ELSE         
-         ICINTS=0           
-         ICINTM=0           
-        ENDIF
-      END IF
-      IF((ICINT2>100) .AND.
-     +   (NELEM < ICINT2 .OR.
-     +    FLOAT(NELEM-ICINT2)/FLOAT(NELEM)<=ZEP98)) THEN
-        NCOND=NCOND+1
-        ICINT2=NCOND
-      ELSE
-        ICINT2=0
-      END IF
-C test bypass contact for small test cases
-      IF((ICCAND>100) .AND.
-     +   (NELEM < ICCAND .OR.
-     +    FLOAT(NELEM-ICCAND)/FLOAT(NELEM)<=ZEP95)) THEN
-        NCOND=NCOND+1
-        ICCAND=NCOND
-      ELSE
-        ICCAND=0
-      END IF
+      IF(NELEM > 0) THEN
+        IF((ICINTS+ICINTM>100) .AND.
+     +     (NELEM < ICINTS+ICINTM .OR.
+     +      FLOAT(NELEM-ICINTS-ICINTM)/FLOAT(NELEM)<=ZEP95)) THEN
+          NCOND=NCOND+1
+          ICINTS=NCOND
+          NCOND=NCOND+1
+          ICINTM=NCOND
+        ELSE
+          IF(NSNT+NMNT>100) THEN
+           NCOND=NCOND+1
+           ICINTS=NCOND
+           NCOND=NCOND+1
+           ICINTM=NCOND
+          ELSE         
+           ICINTS=0           
+           ICINTM=0           
+          ENDIF
+        END IF
+        IF((ICINT2>100) .AND.
+     +     (NELEM < ICINT2 .OR.
+     +      FLOAT(NELEM-ICINT2)/FLOAT(NELEM)<=ZEP98)) THEN
+          NCOND=NCOND+1
+          ICINT2=NCOND
+        ELSE
+          ICINT2=0
+        END IF
+C test   bypass contact for small test cases
+        IF((ICCAND>100) .AND.
+     +     (NELEM < ICCAND .OR.
+     +      FLOAT(NELEM-ICCAND)/FLOAT(NELEM)<=ZEP95)) THEN
+          NCOND=NCOND+1
+          ICCAND=NCOND
+        ELSE
+          ICCAND=0
+        END IF
+      ELSE ! nelem = 0 (full sph)
+        ICINTS = 0
+        ICINTM = 0
+        ICINT2 = 0
+        ICCAND = 0
+      ENDIF
 C
       NK=0
 c      IF(NK > 0) THEN ! Test To bypass load-balancing of Kin.Cond. temporarily
@@ -2051,7 +2058,6 @@ C 2) recompute connexity to verify it is ok now
         NFLAG=1
 C old metis option kept for compatibility
         OPTIONS(1)=0
-#if defined(METIS5)
 C new Metis5 Definition
         IERROR = METIS_SetDefaultOptions(options)
 c         DO I = 1, 40
@@ -2083,7 +2089,6 @@ C        OPTIONS(17)=1 ! ignore
 C        OPTIONS(METIS NCUTS) = 1 (default) !
 C         OPTIONS(8) = 4              
 C        OPTIONS(8)=1 
-#endif
 C Domain decomposition CRASH ou FSI
         IF(ICFSI==0)THEN
           DO I = 1, NELEM
@@ -2181,7 +2186,6 @@ c        print *,'estimate memory=',i,nelem,XADJ(NELEM+1)
  1999    CONTINUE
          IF(DECTYP==3.OR.DECTYP==5)THEN
 C KWAY METIS
-#if defined(METIS5)
       
           IERR1 = Wrap_METIS_PartGraphKway(
      1      NELEM,NCOND,XADJ,ADJNCY,
@@ -2204,25 +2208,13 @@ C weight only on vertices
             print *,'writing graph with check:',it,'/',nedges*2
             CLOSE(99)
           END IF     
-#elif 1
-          CALL METIS_mCPartGraphKway(
-     1      NELEM,NCOND,XADJ,ADJNCY,IWD,0,
-     2      IWFLG,NFLAG,NNODE,UBVEC,OPTIONS,NEC,CEP)
-#endif
          ELSEIF(DECTYP==4.OR.DECTYP==6)THEN
 C RSB METIS
-#if defined(METIS5)
           IERR1 = Wrap_METIS_PartGraphRecursive(
      1      NELEM,NCOND,XADJ,ADJNCY,
      2      IWD,NNODE,
      3      UBVEC,OPTIONS,NEC,CEP)
-#elif 1
-          CALL METIS_mCPartGraphRecursive(
-     1      NELEM,NCOND,XADJ,ADJNCY,IWD,0,
-     2      IWFLG,NFLAG,NNODE,OPTIONS,NEC,CEP)
-#endif
         END IF
-C       1234567123456789012345123456789012345123456789012345123456789012345
             CALL STAT_DOMDEC(
      1           WIS      ,WI2     ,WFSI      ,WDEL      ,WDDL     ,
      2           WCAND    ,WSOL    ,WR2R      ,WKIN      ,IWD      ,
@@ -2232,8 +2224,6 @@ C       1234567123456789012345123456789012345123456789012345123456789012345
      6           CEP      ,NELEM   ,W         ,ICINTM    ,WIM      ,
      7           NCRITMAX ,WNOD_SMS,ICNOD_SMS)
       
-
-    
 
       IF(ICFSI > 0 .AND.  ICFSI < ICELEM) THEN 
 ! the order in DMIN,DMAX is independant of the order of constraints
@@ -2289,9 +2279,8 @@ c           ENDIF
 C---------------------------------------------------------------------
 C    Loop over domain decomposition until satisfactory load balancing for element
 C---------------------------------------------------------------------
-       MAX_TRY       = 3
-       WD_MAX_FACTOR = 2
-#if defined(METIS5)
+        MAX_TRY       = 3
+        WD_MAX_FACTOR = 2
         ALLOCATE(IWD_COPY(NCOND*NELEM))
         ALLOCATE(WD_COPY(NELEM))
         IF((DECTYP==4 .OR. DECTYP==6) .AND. IDDLEVEL==1 .AND. NELEM>10*NSPMD )THEN
@@ -2435,8 +2424,6 @@ C  RSB METIS
         ENDIF 
         DEALLOCATE(IWD_COPY)
         DEALLOCATE(WD_COPY)
-
-#endif
 C---------------------------------------------------------------------
 C       End of loop over domain decomposition                                             
 C---------------------------------------------------------------------
@@ -3267,40 +3254,26 @@ C old metis option kept for compatibility
       NCOND=1
       NNODE=NSPMD
       UBVEC(1)=1.01 ! tolerance on loadbalancing SPH cell
-#if defined(METIS5)
 C new Metis5 Definition
       IERR1 = METIS_SetDefaultOptions(options)
 C     OPTIONS(METIS_OPTION_NUMBERING) = 1 ! Fortran numbering -- position 17 en 5.0.2 et 18 en 5.1
       OPTIONS(18)=1
-#endif
 C
 C Proc attribution on NUMSPA cells
 C
       IF (NEDGES > 0 .AND. NSPMD > 1) THEN
 C KWAY METIS
         IF(DECTYP==3.OR.DECTYP==5)THEN
-#if defined(METIS5)
           IERR1 = Wrap_METIS_PartGraphKway(
      1      NUMSPHA,NCOND,XADJ,ADJNCY,
      2      IWD,NNODE,
      3      UBVEC,OPTIONS,NEC,CEPSL)
-#elif 1
-          CALL METIS_mCPartGraphKway(
-     1      NUMSPHA,NCOND,XADJ,ADJNCY,IWD,0,
-     2      IWFLG,NFLAG,NNODE,UBVEC,OPTIONS,NEC,CEPSL)
-#endif
         ELSEIF(DECTYP==4.OR.DECTYP==6)THEN
 C RSB METIS
-#if defined(METIS5)
           IERR1 = Wrap_METIS_PartGraphRecursive(
      1      NUMSPHA,NCOND,XADJ,ADJNCY,
      2      IWD,NNODE,
      3      UBVEC,OPTIONS,NEC,CEPSL)
-#elif 1
-          CALL METIS_mCPartGraphRecursive(
-     1      NUMSPHA,NCOND,XADJ,ADJNCY,IWD,0,
-     2      IWFLG,NFLAG,NNODE,OPTIONS,NEC,CEPSL)
-#endif
         END IF
 C
         DO N = 1, NUMSPHA
@@ -3366,7 +3339,6 @@ C
       RETURN
       END
       
-C NOUVELLE ROUTINE
 Chd|====================================================================
 Chd|  INTERLAGRAN                   source/spmd/domain_decomposition/grid2mat.F
 Chd|-- called by -----------

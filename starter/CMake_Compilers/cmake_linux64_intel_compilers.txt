@@ -1,0 +1,6 @@
+# Fixed compiler switches for linux64 binary
+set ( CMAKE_Fortran_COMPILER "ifx" )
+set ( CMAKE_C_COMPILER "icx" )
+set ( CMAKE_CXX_COMPILER "icx" )
+set ( CMAKE_CPP_COMPILER "icx" )
+

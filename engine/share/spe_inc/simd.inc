@@ -36,5 +36,4 @@ CDIR$ IVDEP
 #elif CPP_mach == CPP_p4linux964 || CPP_mach == p4win64
 !DIR$ SIMD
 #elif 1
-Ceric pas de dependance
 #endif

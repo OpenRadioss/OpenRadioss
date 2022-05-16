@@ -1,0 +1,112 @@
+######################################### 
+#       STARTER - INTEL COMPILER
+#########################################
+
+# ---------------
+# Executable name
+# ---------------
+
+set ( RELNAME ${arch}  )
+
+# General machine flag setting
+set ( cppmach "-DCPP_mach=CPP_p4linux964" )
+set ( cpprel  "-DCPP_rel=00" )
+
+# ---------------------
+# Third party libraries
+# ---------------------
+
+#Metis
+set (metis "${source_directory}/../extlib/metis/linux64/libmetis_linux64_gcc.a")
+
+#hm_reader
+set ( reader_lib "-L${source_directory}/../extlib/hm_reader/linux64/ -lhm_reader_linux64 ${source_directory}/../extlib/hm_reader/linux64/libapr-1.so.0 " )
+
+# MKL
+
+if(DEFINED ENV{MKLROOT})
+  set (MKL_IDIR "$ENV{MKLROOT}/include")
+  set (MKL_LDIR "$ENV{MKLROOT}/lib/intel64")
+else()
+  set (MKL_IDIR "/opt/intel/oneapi/mkl/latest/include")
+  set (MKL_LDIR "/opt/intel/oneapi/mkl/latest/lib/intel64")
+endif()
+set (MKL_lib "-L${MKL_LDIR} -I${MKL_IDIR} -Wl,--start-group ${MKL_LDIR}/libmkl_intel_lp64.a ${MKL_LDIR}/libmkl_intel_thread.a ${MKL_LDIR}/libmkl_core.a -Wl,--end-group")
+
+# --------------
+# compiler Flags
+# --------------
+
+set (CMAKE_Fortran_FLAGS_DEBUG " " )
+set (CMAKE_Fortran_FLAGS_RELEASE " " )
+
+set (CMAKE_C_FLAGS_DEBUG " " )
+set (CMAKE_C_FLAGS_RELEASE " " )
+
+set (CMAKE_CPP_FLAGS_DEBUG " " )
+set (CMAKE_CPP_FLAGS_RELEASE " " )
+
+# -------------------------
+# Single / Double Precision
+# -------------------------
+if (precision STREQUAL "sp")
+  set (precision_flag "-DMYREAL4")
+else (precision STREQUAL "sp")
+  set (precision_flag "-DMYREAL8")
+endif (precision STREQUAL "sp")
+
+# -----------------
+# Modules directory
+# -----------------
+
+set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/CMakeFiles/modules )
+set(CMAKE_Fortran_MODDIR_FLAG "-module " )
+
+message (STATUS "modules: ${CMAKE_Fortran_MODULE_DIRECTORY}")
+
+# -------------------------
+# Generic Compilation flags
+# -------------------------
+
+if ( debug STREQUAL "1" )
+  # Fortran
+  set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag} ${Tet_mesher_inc} ${cppmach} ${cpprel} -DCPP_comp=f90  -g -O0 -fp-model precise -qopenmp -ftz -extend-source -check uninit -fpe0 -ftrapuv  -traceback ${ADF} " )
+  
+  # C source files
+  set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} ${Tet_mesher_inc} ${cppmach} ${cpprel} -O0 -g   -traceback " )
+  
+  # CXX source files
+  set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} ${Tet_mesher_inc} ${cppmach} ${cpprel}  -O0 -g  -O0 -traceback -std=c++11" )
+else ()
+  # Fortran
+  set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "  ${precision_flag} ${Tet_mesher_inc} ${cppmach} ${cpprel} -DCPP_comp=f90  -axsse3 -O2 -fp-model precise -ftz -extend-source -qopenmp -assume buffered_io ${ADF} " )
+  
+  # C source files
+  set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} ${Tet_mesher_inc} ${cppmach} ${cpprel} -qopenmp " )
+  
+  # CXX source files
+  set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} ${Tet_mesher_inc} ${cppmach} ${cpprel}  -axsse3 -O2 -fopenmp -Wno-deprecated -fpermissive -std=c++11 -fPIC  " )
+endif()
+
+# Linking flags
+set (CMAKE_EXE_LINKER_FLAGS " -O2 -qopenmp -static-intel -qopenmp-link=static" )
+
+#Libraries
+set (LINK "dl ${xml_lib} ${flexpipe_lib} ${metis} ${reader_lib}  ${MKL_lib}  ${flexpipe} ${Tet_mesher_lib} -ldl -rdynamic -lstdc++"  )
+
+
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# Specific set of compilation flag
+
+set (F_O0_compiler_flags " ${precision_flag} ${cppmach} ${cpprel}  -axsse3  -extend-source -O0  -ftz -qopenmp -fp-model precise")
+set (F_O1_compiler_flags " ${precision_flag} ${cppmach} ${cpprel}  -axsse3  -extend-source -O1  -ftz -qopenmp -fp-model precise")
+
+
+#nbsph.F
+set_source_files_properties( ${source_directory}/source/elements/sph/nbsph.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
+
+#lectur.F
+set_source_files_properties( ${source_directory}/source/starter/lectur.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
+
+
+
