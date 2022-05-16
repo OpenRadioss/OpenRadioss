@@ -235,12 +235,12 @@ C     REAL ou REAL*8
       my_real
      .     RCURVI(MVSIZ), ANGLMI(MVSIZ), ANGLT, PADM,PENMIN,MARGE
       INTEGER NRTMFT, NRTMLT, NMNFT, NMNLT, NRADM, IS, IM
-      INTEGER ICURV,ILEV,NREBOU,NPT ,NRTSE,IEDG4,SFSAVPARIT
+      INTEGER ICURV,ILEV,NREBOU,NPT ,NRTSE,IEDG4,SFSAVPARIT,NCY_PFIT
       my_real
      .    XFILTR_FRIC,FRIC_COEFS(MVSIZ,10),VISCFFRIC(MVSIZ),FRICC(MVSIZ),
      .    FRIC_COEFS2(MVSIZ,10),VISCFFRIC2(MVSIZ),FRICC2(MVSIZ),
      .    DIR1(MVSIZ,3),DIR2(MVSIZ,3),DIR_FRICMI(MVSIZ,2),FRICC_E(4*MVSIZ),
-     .    VISCFFRIC_E(4*MVSIZ)
+     .    VISCFFRIC_E(4*MVSIZ),TNCY,T_PFIT,FINC
 
       INTEGER, DIMENSION(:) ,POINTER  :: TABCOUPLEPARTS_FRIC
       INTEGER, DIMENSION(:) ,POINTER  :: TABPARTS_FRIC 
@@ -303,7 +303,9 @@ C
       GAP   =INTBUF_TAB%VARIABLES(2)
       GAPMIN=INTBUF_TAB%VARIABLES(13)
       VISC  =INTBUF_TAB%VARIABLES(14)
-      VISCF =INTBUF_TAB%VARIABLES(15)
+C      VISCF =INTBUF_TAB%VARIABLES(15)
+      T_PFIT = INTBUF_TAB%VARIABLES(15)
+      VISCF = ZERO
 C
       GAPMAX=INTBUF_TAB%VARIABLES(16)
       KMIN  =INTBUF_TAB%VARIABLES(17)
@@ -364,6 +366,26 @@ Clm IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
       IF(IADM.NE.0)THEN
       END IF!(IADM.NE.0)
+C-----Press-fit 
+       IF (STARTT>ZERO.AND.T_PFIT==ZERO) THEN
+        T_PFIT=10000*DT12
+        INTBUF_TAB%VARIABLES(15) = T_PFIT
+       END IF
+       IF (T_PFIT>ZERO) THEN
+        IF (TT <=(STARTT+T_PFIT)) THEN 
+         TNCY = (TT+EM05-STARTT)/T_PFIT
+        ELSE
+         IPARI(40,NIN)= 0
+        END IF
+       ELSE
+        NCY_PFIT = IPARI(40,NIN)
+        IF (NCY_PFIT >0 .AND. NCYCLE> NCY_PFIT) IPARI(40,NIN) = 0
+		IF (IPARI(40,NIN)>0) THEN
+          FINC= UN/IPARI(40,NIN)
+          TNCY = (NCYCLE+1)*FINC
+		END IF
+       END IF
+	   IF (INACTI/=-1) IPARI(40,NIN) = 0 
 C----------------------------------------------------------------------
 C     Slave node previously impacted & Slave node is leaving the contact
 C----------------------------------------------------------------------
@@ -570,6 +592,10 @@ C         Extraction of global data to local arrays
      K  Y3         ,Z3       ,X4          ,Y4          ,Z4      ,
      L  INTTH      ,TEMP     ,TEMPI       ,INTBUF_TAB%IELES     ,IELESI      ,
      M  INTBUF_TAB%IELEM,IELEMI   )
+          CALL I_CORPFIT3(
+     1               JLT      ,INTBUF_TAB%STFM  ,INTBUF_TAB%STFNS,STIF      ,NSN    ,
+     2               CAND_E_N ,CAND_N_N,NIN     ,IGSTI   ,KMIN     ,
+     3               KMAX     ,INACTI  ,IPARI(40,NIN),TNCY ) 
 C
           JLT_NEW = 0
 C
@@ -674,7 +700,7 @@ C-------------------------------------------------------------------------------
      E  FY4         ,FZ4        ,FXI          ,FYI        ,FZI       ,
      C  INTTH       ,DRAD       ,FHEATS       ,FHEATM     ,QFRICINT(NIN),
      D  EFRICT      ,TAGNCONT   ,KLOADPINTER  ,LOADPINTER ,LOADP_HYD_INTER,
-     E  INTBUF_TAB%TYPSUB)
+     E  INTBUF_TAB%TYPSUB,IPARI(40,NIN))
 C
           IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
 
@@ -825,6 +851,9 @@ C         preparation candidats retenus
      F IAM          ,JAM          ,IBM          ,JBM          ,IAS     ,
      G JAS          ,IBS          ,JBS          ,ITAB         ,EDGE_ID ,
      H INTFRIC      ,INTBUF_TAB%IPARTFRIC_E     ,IPARTFRICSI  ,IPARTFRICMI)
+          CALL I_COR_EPFIT3(
+     1               JLT      ,INTBUF_TAB%STFE,STIF    ,CS_LOC ,CM_LOC ,
+     2               NEDGE    ,NIN     ,INACTI  ,IPARI(40,NIN),TNCY) 
 
           CALL I25DST3E(
      1      JLT    ,CS_LOC,CM_LOC ,HS1   ,HS2   ,
