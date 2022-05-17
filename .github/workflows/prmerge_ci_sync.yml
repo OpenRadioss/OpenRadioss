@@ -125,6 +125,7 @@ jobs:
             -$P4REPOSYNCPERFORCE/.github/... //$P4CLIENT/.github/...
             -$P4REPOSYNCPERFORCE/.gitattributes //$P4CLIENT/.gitattributes
             -$P4REPOSYNCPERFORCE/.p4config //$P4CLIENT/.p4config
+            -$P4REPOSYNCPERFORCE/extlib/... //$P4CLIENT/extlib/...
             " | p4 client -i;
           fi
 
@@ -194,6 +195,10 @@ jobs:
         working-directory: ${{ steps.set_workdir.outputs.value }}
         run: |
           git config --global advice.detachedHead false
+
+          # We don't want extlib to be synced
+          rm -rf extlib
+          ls -ls
 
           while read LINE
           do
