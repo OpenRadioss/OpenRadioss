@@ -275,7 +275,7 @@ C------2GT=3/2 Cii (factor 3 already inside CII)
 C---------reduce old result change		   
            GTMAX(I) = GMAX*ETI(I) + GVMAX
 C---- see if many QA return for HEPH 		   
-           ET(I)= UN+ETV
+           ET(I)= ETI(I)+ETV
           ENDDO
       ENDIF
 * STRAIN ENERGY = W(L1,L2,L3)=SUM_OF_1_TO_P (MUP(L1**ALP+L2**ALP+L3**ALP-3-

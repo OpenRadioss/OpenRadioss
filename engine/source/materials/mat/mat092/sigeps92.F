@@ -285,7 +285,7 @@ C---------reduce old result change
            RKMAX(I) = RKMAX(I)*(UN+RV_1(I)*RV_1(I))
            RKMAX(I) = MAX(RBULK,RKMAX(I))
 C----  
-           ET(I)= UN
+           ET(I)= MAX(UN,AMAX)
           ENDDO
 C
 C cauchy to glabale
