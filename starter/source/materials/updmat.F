@@ -176,8 +176,8 @@ c-----------------------------------------------------------------------
 c-------------------------
           CASE (36) 
 c------------------
-            CALL LAW36_UPD(IOUT   ,TITR   ,MAT_ID ,UPARAM ,NFUNC  ,
-     .                     IFUNC  ,FUNC_ID,NPC    ,PLD    )        
+            CALL LAW36_UPD(IOUT   ,TITR   ,MAT_ID ,NUPARAM,UPARAM ,
+     .                     NFUNC  ,IFUNC  ,FUNC_ID,NPC    ,PLD    )        
 c-------------------------
           CASE (42) 
 c------------------
