@@ -1664,8 +1664,7 @@ c
      1            JLT      ,NUPAR    ,NVARF    ,TT       ,DT1C     ,UPARAMF  ,
      2            SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,MPT      ,
      3            NGL      ,DPLA     ,UVARF    ,OFF      ,DFMAX    ,TDEL     ,
-     4            AREA     ,FOFF     ,IGTYP    ,OFFL     ,GBUF%NOFF,IPT      ,
-     5            THK0     )
+     4            AREA     ,FOFF     ,IGTYP    ,OFFL     ,IPT      ,THK0     )
 c-------------
               END SELECT
 c-------------
