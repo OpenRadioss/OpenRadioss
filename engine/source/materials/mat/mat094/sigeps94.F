@@ -270,7 +270,7 @@ C---------reduce old result change
 C---- see if many QA return for HEPH 		   
            RKMAX(I) = RBULK+DOUZE*D(2)*(RV(I) - UN)**2 + 30*D(3)*(RV(I) - UN)**4
            RKMAX(I) = MAX(RBULK,RKMAX(I))
-           ET(I)= UN
+           ET(I)= MAX(UN,AMAX)
           ENDDO
 C cauchy to glabale
       DO I=1,NEL

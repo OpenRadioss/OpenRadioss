@@ -118,7 +118,7 @@ C-----------------------------------------------
      .   DFHOUR(MVSIZ,3,4),FHOURT(3,4),DT05,RHO0,ETMAX,
      .   NU1(MVSIZ),NU2(MVSIZ),NU3(MVSIZ),NU4(MVSIZ),NEP,E0(MVSIZ),
      .   E_R,E_S,E_T,FAC,FAC1,FAC2,COEFH,HQ13P,HQ13N,HQ24P,HQ24N,FF,
-     .   SIG0V(MVSIZ,6),DAMA_G(MVSIZ,6)
+     .   SIG0V(MVSIZ,6),DAMA_G(MVSIZ,6),G0,C1
 C-----------------------------------------------
        IET =IINT
        COEFH = ZEP9999   
@@ -136,23 +136,30 @@ C +++ MAT Visco-----
       MX = MAT(LFT)
       RHO0=PM(1,MX)
       NU=PM(21,MX)
-      DO I=LFT,LLT
-
-       GG(I)=UNDEMI*RHO0*CXX(I)*CXX(I)*(UN -DEUX*NU)/(UN-NU)     
-       E0(I)=DEUX*(UN+NU)*GG(I)
-      ENDDO
+      G0=PM(22,MX)
+      C1=PM(32,MX)
+      SELECT CASE (MTN)
 C  +++ MAT Hydro---
-      IF (MTN.EQ.3 .OR.MTN.EQ.4 .OR.MTN.EQ.6 .OR. MTN == 70 ) THEN
-       MX = MAT(LFT)
-       DO I=LFT,LLT
-        GG(I)=PM(22,MX)
-        GG(I)=MAX(GG(I),VIS(I))    
-         E0(I)=DEUX*(UN+NU)*GG(I)
-       ENDDO
-      ENDIF 
+        CASE (3,4,6,70) 
+          DO I=LFT,LLT
+           GG(I)=MAX(G0,VIS(I))    
+          ENDDO        
+C  +++ MAT Hyper-elas----Et=1
+        CASE (62,95)
+          DO I=LFT,LLT
+           GG(I) = 0.75*(RHO(I)*CXX(I)*CXX(I)-C1)
+          ENDDO
+C  +++ MAT Hyper-elas----Et>1
+        CASE (42,69,82,92,94)
+          GG(LFT:LLT)=G0    
+        CASE DEFAULT
+          DO I=LFT,LLT
+           GG(I)=UNDEMI*RHO0*CXX(I)*CXX(I)*(UN -DEUX*NU)/(UN-NU)     
+          ENDDO
+      END SELECT
+C        
 C
       IF (IET > 1 .AND. MATVIS>0 ) THEN
-c      IF (IET > 1 .AND. MATVIS==1 ) THEN
        CALL SZETFAC(LFT,LLT,IET,MTN,ET,GG )
       ELSEIF (MATVIS.EQ.1.AND.ISMSTR.LT.10) THEN
        DO I=LFT,LLT
@@ -190,6 +197,7 @@ C
       ENDIF
       DO I=LFT,LLT
         G_3DT(I)=THIRD*OFF(I)*GG(I)*DT1
+        E0(I)=DEUX*(UN+NU)*GG(I)
       ENDDO
 C
 C MATERIAUX NON FLUIDES CXX->SPP
@@ -775,7 +783,7 @@ C-------IKT=2 for the moment----------
        SELECT CASE (MTN)
         CASE (2,36) 
         
-        CASE (42,62,69,82,88,92,94,111)                                          
+        CASE (42,62,69,82,88,92,94,95,111)                                          
 c          FAC_MIN=EP10
 c          FAC_MAX=ZERO
          DO I=LFT,LLT

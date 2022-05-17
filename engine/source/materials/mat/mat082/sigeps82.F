@@ -304,7 +304,7 @@ C---------reduce old result change
            GTMAX(I) = GMAX*ETI 
            RKMAX(I) = MAX(RBULK,RKMAX(I))
 C---- 		   
-           ET(I)= UN
+           ET(I)= MAX(UN,AMAX)
          ENDDO
 C cauchy to glabale
       DO I=1,NEL
