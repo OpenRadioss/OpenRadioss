@@ -129,7 +129,7 @@ C  NUMELS
             IF(IP == IPM)THEN
               DO K=1,8
                 N = IXS(K+1,I)
-                KMASS = MSS(K,I) / PARTSAV1_PON(IP)
+                KMASS = MSS(K,I) / MAX(EM20,PARTSAV1_PON(IP))
                 MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
                 MS(N) = MS(N) + MASS
                 TOTADDMAS = TOTADDMAS + MASS
@@ -144,7 +144,7 @@ C  NUMELS10
               IF(IP == IPM)THEN
                 DO K=1,6
                   N = IXS10(K,I-NUMELS8)
-                  KMASS = MSSX(K,I) / PARTSAV1_PON(IP)
+                  KMASS = MSSX(K,I) / MAX(EM20,PARTSAV1_PON(IP))
                   MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
                   IF(N.NE.0)THEN
                     MS(N) = MS(N) + MASS
@@ -162,7 +162,7 @@ C  NUMELS20
                IF(IP == IPM)THEN
                 DO K=1,12
                   N = IXS20(K,I-NUMELS8-NUMELS10)
-                  KMASS = MSSX(K,I) / PARTSAV1_PON(IP)
+                  KMASS = MSSX(K,I) / MAX(EM20,PARTSAV1_PON(IP))
                   MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
                   IF(N.NE.0)THEN
                     MS(N) = MS(N) + MASS
@@ -180,7 +180,7 @@ C  NUMELS20
               IF(IP == IPM)THEN
                 DO K=1,8
                   N = IXS16(K,I-NUMELS8-NUMELS10-NUMELS20)
-                  KMASS = MSSX(K,I) / PARTSAV1_PON(IP)
+                  KMASS = MSSX(K,I) / MAX(EM20,PARTSAV1_PON(IP))
                   MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
                   IF(N.NE.0)THEN
                     MS(N) = MS(N) + MASS
@@ -206,7 +206,7 @@ C
             I = INDEX(J)
             IP = IPARTQ(I)
             IF(IP == IPM)THEN
-              KMASS = MSQ(I) / PARTSAV1_PON(IP)
+              KMASS = MSQ(I) / MAX(EM20,PARTSAV1_PON(IP))
               MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
               DO K=1,4
                 N = IXQ(K+1,I)
@@ -257,10 +257,10 @@ C
               IP = IPARTC(I)
               IF(IP == IPM)THEN
                 IF(FLAG == 0)THEN
-                  KMASS = MSC(I) / PARTSAV1_PON(IP)
+                  KMASS = MSC(I) / MAX(EM20,PARTSAV1_PON(IP))
                 ELSE IF(FLAG == 1)THEN
                   AREA_EL = ELE_AREA(I)*QUART
-                  KMASS = AREA_EL / PART_AREA(IP)
+                  KMASS = AREA_EL / MAX(EM20,PART_AREA(IP))
                 END IF
                 MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
                 DO K=1,4
@@ -279,10 +279,10 @@ C
                   IP = IPARTC(I)
                   IF(IP == IPM)THEN
                     IF(FLAG == 0)THEN
-                      KMASS = MSC(I) / PARTSAV1_PON(IP)
+                      KMASS = MSC(I) / MAX(EM20,PARTSAV1_PON(IP))
                     ELSE IF(FLAG == 1)THEN
                       AREA_EL = ELE_AREA(I)*QUART
-                      KMASS = AREA_EL / PART_AREA(IP)
+                      KMASS = AREA_EL / MAX(EM20,PART_AREA(IP))
                     END IF
                     MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
                     DO K=1,4
@@ -300,10 +300,10 @@ C
                   IP = IPARTC(I)
                   IF(IP == IPM)THEN
                     IF(FLAG == 0)THEN
-                      KMASS = MSC(I) / PARTSAV1_PON(IP)
+                      KMASS = MSC(I) / MAX(EM20,PARTSAV1_PON(IP))
                     ELSE IF(FLAG == 1)THEN
                       AREA_EL = ELE_AREA(I)*QUART
-                      KMASS = AREA_EL / PART_AREA(IP)
+                      KMASS = AREA_EL / MAX(EM20,PART_AREA(IP))
                     END IF
                     MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
                     DO K=1,4
@@ -332,7 +332,7 @@ C
             I = INDEX(J)
             IP = IPARTT(I)
             IF(IP == IPM)THEN
-              KMASS = MST(I) / PARTSAV1_PON(IP)
+              KMASS = MST(I) / MAX(EM20,PARTSAV1_PON(IP))
               MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
               DO K=1,2
                 N = IXT(K+1,I)
@@ -357,7 +357,7 @@ C
             I = INDEX(J)
             IP = IPARTP(I)
             IF(IP == IPM)THEN
-              KMASS = MSP(I) / PARTSAV1_PON(IP)
+              KMASS = MSP(I) / MAX(EM20,PARTSAV1_PON(IP))
               MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
               N = IXP(2,I)
               MS(N) = MS(N) + MASS
@@ -385,7 +385,7 @@ C
             IF(IP == IPM)THEN
               DO K=1,2
                 N = IXR(K+1,I)
-                KMASS = MSR(K,I) / PARTSAV1_PON(IP)
+                KMASS = MSR(K,I) / MAX(EM20,PARTSAV1_PON(IP))
                 MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
                 MS(N) = MS(N) + MASS
                 TOTADDMAS = TOTADDMAS + MASS
@@ -393,7 +393,7 @@ C
               IGTYP = NINT(GEO(12,IXR(1,I)))
               IF(IGTYP.EQ.12) THEN
                 N = IXR(4,I)
-                KMASS = MSR(3,I) / PARTSAV1_PON(IP)
+                KMASS = MSR(3,I) / MAX(EM20,PARTSAV1_PON(IP))
                 MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
                 MS(N) = MS(N) + MASS
                TOTADDMAS = TOTADDMAS + MASS
@@ -419,10 +419,10 @@ C NUMELTG
               IF(IP == IPM)THEN
 !---
                 IF(FLAG == 0)THEN
-                  KMASS = MSTG(I) / PARTSAV1_PON(IP)
+                  KMASS = MSTG(I) / MAX(EM20,PARTSAV1_PON(IP))
                 ELSEIF(FLAG == 1)THEN
                   AREA_EL = ELE_AREA(I+NUMELC)
-                  KMASS = AREA_EL / PART_AREA(IP)
+                  KMASS = AREA_EL / MAX(EM20,PART_AREA(IP))
                 ENDIF
                 MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
 !---
@@ -442,10 +442,10 @@ C NUMELTG
                   IF(IP == IPM)THEN
 !---
                     IF(FLAG == 0)THEN
-                      KMASS = MSTG(I) / PARTSAV1_PON(IP)
+                      KMASS = MSTG(I) / MAX(EM20,PARTSAV1_PON(IP))
                     ELSEIF(FLAG == 1)THEN
                       AREA_EL = ELE_AREA(I+NUMELC)
-                      KMASS = AREA_EL / PART_AREA(IP)
+                      KMASS = AREA_EL / MAX(EM20,PART_AREA(IP))
                     ENDIF
                     MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
 !---
@@ -465,10 +465,10 @@ C NUMELTG
                   IF(IP == IPM)THEN
 !---
                     IF(FLAG == 0)THEN
-                      KMASS = MSTG(I) / PARTSAV1_PON(IP)
+                      KMASS = MSTG(I) / MAX(EM20,PARTSAV1_PON(IP))
                     ELSEIF(FLAG == 1)THEN
                       AREA_EL = ELE_AREA(I+NUMELC)
-                      KMASS = AREA_EL / PART_AREA(IP)
+                      KMASS = AREA_EL / MAX(EM20,PART_AREA(IP))
                     ENDIF
                     MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
 !---
