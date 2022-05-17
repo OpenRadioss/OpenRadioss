@@ -29,8 +29,8 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE LAW36_UPD(IOUT   ,TITR   ,MAT_ID ,UPARAM ,NFUNC  ,
-     .                     IFUNC  ,FUNC_ID,NPC    ,PLD    )
+      SUBROUTINE LAW36_UPD(IOUT   ,TITR   ,MAT_ID ,NUPARAM,UPARAM ,
+     .                     NFUNC  ,IFUNC  ,FUNC_ID,NPC    ,PLD    )
 C----------------------------------------------- 
 C   M o d u l e s
 C-----------------------------------------------
@@ -49,16 +49,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT_ID,IOUT, NFUNC
-      INTEGER NPC(*), FUNC_ID(*)
-      my_real UPARAM(*),PLD(*)
-      INTEGER, DIMENSION(NFUNC):: IFUNC
+      INTEGER MAT_ID,IOUT,NUPARAM,NFUNC
+      INTEGER, DIMENSION(NFUNC) :: IFUNC, FUNC_ID
+      INTEGER NPC(*)
+      my_real UPARAM(NUPARAM),PLD(*)
       CHARACTER*nchartitle  :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,IFE,IE,IX1,IX2,IY1,IY2,NRATE,IYLD,IFAIL
-      my_real :: EPSMAX,EPSLAST,X1,X2,Y1,Y2
+      INTEGER :: I,J,IFE,IE,IX1,IX2,IY1,IY2,NRATE,IYLD,IFAIL,FUNC1,FUNC2
+      my_real :: EPSMAX,EPSLAST,X1,X2,Y1,Y2,FAC1,FAC2,XINT,YINT
 C==================================================================== 
 c     Check if scale factor function of Young modulus is decreasing with plastic strain   
 c    
@@ -103,6 +103,29 @@ c
         IF (IFAIL == 0)       UPARAM(2*NRATE + 27) = 1    ! IFAIL
         UPARAM(2*NRATE + 28) = 1    ! YLDCHECK
       ENDIF                                      
+c-----------------------------------------------------------------------    
+c     Check if yield curves for different strain rates do not intersect
+c-----------------------------------------------------------------------
+      DO I = 1,NRATE
+        DO J = I+1,NRATE
+          FUNC1 = IFUNC(I)
+          FUNC2 = IFUNC(J)
+          FAC1  = UPARAM(NRATE + 6 + I)
+          FAC2  = UPARAM(NRATE + 6 + J)
+          IF (FUNC1 > 0 .and. FUNC2 > 0 .and. FUNC1 /= FUNC2) THEN
+            CALL FUNC_INTERS(TITR,MAT_ID,FUNC1 ,FUNC2 ,FAC1 ,FAC2 ,
+     .                 NPC ,PLD   ,XINT ,YINT )
+c
+            IF (XINT > ZERO .and. YINT > ZERO) THEN
+              CALL ANCMSG(MSGID=2064, MSGTYPE=MSGWARNING, ANMODE=ANINFO,        
+     .                    I1 = MAT_ID,                                               
+     .                    I2 = FUNC_ID(FUNC1),                                               
+     .                    I3 = FUNC_ID(FUNC2),                                               
+     .                    C1 = TITR   )
+            END IF
+          END IF
+        END DO                                                      
+      END DO
 c--------------------------------------------------------
       RETURN
       END

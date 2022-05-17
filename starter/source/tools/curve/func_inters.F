@@ -69,8 +69,8 @@ C=======================================================================
 ! Calculation intersection
           XINT = ZERO
           YINT = ZERO
-          NP1  = (NPC(FUNC+1)-NPC(FUNC))*UNDEMI  
-          NP2  = (NPC(FUND+1)-NPC(FUND))*UNDEMI 
+          NP1  = (NPC(FUNC+1)-NPC(FUNC))*UNDEMI  ! nb of points of the 1st curve
+          NP2  = (NPC(FUND+1)-NPC(FUND))*UNDEMI  ! nb of points of the 2nd curve 
           DO J=2,NP1+1
             J1=2*(J-2)
             S1=PLD(NPC(FUNC)+J1)
@@ -102,17 +102,13 @@ C=======================================================================
               IF (Y2>=T1 .AND. Y1<=T2 .AND. X2>=S1 .AND. X1<=S2) THEN
                 DYDX = (Y2-Y1) / (X2-X1)
                 DTDS = (T2-T1) / (S2-S1)
-                IF (DYDX > DTDS) THEN
                   SX = (T1-Y1-DTDS*S1+DYDX*X1) / (DYDX-DTDS)
                   TY =  T1 + DTDS*(SX - S1)
-                  !SX = (DTDS*S2-DYDX*X2-T2+Y2) / (DTDS-DYDX)
-                  !TY =  Y2 + DYDX*(SX - X2)
                   IF (TY>=Y1 .AND. TY<=Y2 .AND. SX>=X1 .AND. SX<=X2)THEN   
                     XINT = SX
                     YINT = TY
                     GOTO 350
                   ENDIF
-                ENDIF
               ENDIF
              ENDIF
             ENDDO
