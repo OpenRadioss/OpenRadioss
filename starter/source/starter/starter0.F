@@ -695,6 +695,13 @@ C------------------------------------------------
         CALL CPP_BUILD_MODEL(FNAME,LFNAME,EDI_RES)
         CALL STOPTIME(16,1)
       ENDIF
+C------------------------------------------------
+C WRITE PARAMETERS & LIST OF REPLACED PARAMETERS 
+C------------------------------------------------
+      CLOSE(IOUT)
+      CALL CPP_PRINT_PARAMETERS(FILNAM,ROOTLEN+9+OUTFILE_NAME_LEN)
+      OPEN(UNIT=IOUT,FILE=FILNAM(1:ROOTLEN+9+OUTFILE_NAME_LEN),
+     .    ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN',POSITION="APPEND")  
 C-------------------------------------------------------------------
 C     KEYWORD MAPPING TO RADIOSS PROCESS
 C-------------------------------------------------------------------
