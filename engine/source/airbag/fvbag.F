@@ -259,8 +259,8 @@ C
      M                 IGROUPTG,   IGROUPC,  ELBUF_TAB, FEXT, CFL_COEF, 
      N                 FVDATA(IFV)%PDISP_OLD, FVDATA(IFV)%PDISP)
                ELSE
-                  CALL FVBAG3(
-     1                 NNS,           NTG,           MONVOL(KI1), MONVOL(KI2), NJET,
+                  CALL FV_UP_SWITCH(
+     1                 NNS, NTG, MONVOL(KI2), NJET, FVDATA(IFV)%NPOLY, FVDATA(IFV)%LENH,NBA,
      2                 MONVOL(IADJET),VOLMON(RADJET),NVENT,MONVOL(IADHOL),VOLMON(RADHOL),
      3                 VOLMON(KR1),   VOLMON(KR2),   VOLMON(KR3), VOLMON(KR4),VOLMON(KR9),
      4                 X,             V,           A,           SENSOR,
@@ -277,11 +277,11 @@ C
      F                 VOLMON(KRA1), VOLMON(KRA2),VOLMON(KRA3),VOLMON(KRA4),MONVOL(KIA7),
      G                 NNA,   NTGA,        FVDATA(IFV)%IBPOLH, FVDATA(IFV)%DTPOLH,  NNT,
      H                 NTGT,  VOLMON(KRA5),VOLMON(KRA6),       MONVOL(KIA8),VOLMON(KRA7),
-     I                 LGAUGE,       GAUGE,        ITYP,               IGEO,VOLMON(KRA8),
+     I                 ITYP,               IGEO,VOLMON(KRA8),
      J                 GEO,   PM,    IPM,      FVDATA(IFV)%TPOLH,  VOLMON(KR8),
      K                 FVDATA(IFV)%CPDPOLH,    FVDATA(IFV)%CPEPOLH,  FVDATA(IFV)%CPFPOLH,
      L                 MONVOL(KI4),  IPARG,  MONVOL(KI5),
-     M                 IGROUPTG,   IGROUPC,  ELBUF_TAB, FEXT, CFL_COEF, 
+     M                 IGROUPTG,   IGROUPC,  ELBUF_TAB, CFL_COEF, 
      N                 FVDATA(IFV)%PDISP_OLD, FVDATA(IFV)%PDISP)
                ENDIF
             ELSEIF (FLAG == 2) THEN        
