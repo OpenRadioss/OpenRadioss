@@ -34,6 +34,7 @@ extern "C"
   void intvector_push_back_(std::vector<int>**, const int*);
   void intvector_get_size_(std::vector<int>**, int*);
   void intvector_get_redundant_(std::vector<int>**, int*, int*, int*);
+  void intvector_copy_(const std::vector<int>**, int*);
 
   void _FCALL INTVECTOR_CREATE(std::vector<int>** vec_ptr)
   {
@@ -58,6 +59,10 @@ extern "C"
   void _FCALL INTVECTOR_GET_REDUNDANT(std::vector<int>** vec_ptr, int* res, int* err, int* card)
   {
     intvector_get_redundant_(vec_ptr, res, err, card);
+  }
+  void _FCALL INTVECTOR_COPY(const std::vector<int>** vec_ptr, int* res)
+  {
+    intvector_copy_(vec_ptr, res);
   }
 }
 
@@ -98,5 +103,13 @@ void intvector_get_redundant_(std::vector<int>** vec_ptr, int* res, int* err, in
   } else {
     *res = 0;
     *err = 1;
+  }
+}
+// Copy the vector into the int*
+void intvector_copy_(const std::vector<int>** vec_ptr, int* res)
+{
+  auto iter = (*vec_ptr)->begin();
+  for ( ; iter != (*vec_ptr)->end() ; ++iter) {
+    (*res++) = *iter;
   }
 }

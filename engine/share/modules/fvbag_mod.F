@@ -81,6 +81,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
+      TYPE T_ELEM_TO_TRI
+      INTEGER :: MINUS_SIZE, PLUS_SIZE
+      INTEGER, DIMENSION(:), ALLOCATABLE :: MINUS, PLUS
+      END TYPE T_ELEM_TO_TRI
       TYPE FVBAG_DATA
 C-------------------------------
 C     Courant number (DT scale factor) 
@@ -121,6 +125,8 @@ C------------------------
          INTEGER, DIMENSION(:,:), POINTER :: IFVNOD, IFVTRI
          my_real
      .          , DIMENSION(:,:), POINTER :: RFVNOD
+         INTEGER, DIMENSION(:,:), ALLOCATABLE :: TRI_TO_ELEM
+         TYPE(T_ELEM_TO_TRI), DIMENSION(:), ALLOCATABLE :: ELEM_TO_TRI
 C------------------------
 C Variables volumes finis
 C------------------------
