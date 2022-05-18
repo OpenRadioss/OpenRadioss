@@ -90,9 +90,10 @@ C!        NPF,TF  : FUNCTION PARAMETER
 C!-----------------------------------------------
 C!   L o c a l   V a r i a b l e s
 C!-----------------------------------------------
-      INTEGER I,K,J,INDX(MVSIZ),NINDX,IREG,NSTEP,tab_IDfld,Itab,NCS,
+      INTEGER I,K,J,INDX(MVSIZ),NINDX,INDX2(MVSIZ),NINDX2,IREG,NSTEP,
      .        ISM,IPS,IG12,IG13,IE1C,IFLD,fct_IDg12,fct_IDg13,fct_IDe1c,
-     .        NCRIT,fct_IDel,IPOS(NEL,2),Ismooth,Istrain,IR,IS,IT,ILAY
+     .        NCRIT,fct_IDel,IPOS(NEL,2),Ismooth,Istrain,IR,IS,IT,ILAY,
+     .        tab_IDfld,Itab,NCS,INDX3(MVSIZ),NINDX3
       my_real 
      .        MINPRES,MAXPRES,SIGP1,TMAX,DTMIN,EPSDOT_SM,SIGVM,SIGTH,
      .        KF,EPSDOT_PS,MAXEPS,EFFEPS,VOLEPS,MINEPS,EPSSH,EPSDOT_FLD,
@@ -102,7 +103,7 @@ C!-----------------------------------------------
      .        Q,R,R_INTER,PHI,E11(NEL),E22(NEL),E33(NEL),VOL_STRAIN(NEL),DAV,E1D,
      .        E2D,E3D,E4D,E5D,E6D,S11(NEL),S22(NEL),S33(NEL),EFF_STRAIN(NEL),PSI,
      .        EPSMAX,SIGMAX,FACL(NEL),FACS(NEL),FACV(NEL),SH12,SH13,E1C,XVEC(NEL,2),
-     .        E1FLD(NEL),DFLD(NEL),HARDR(NEL),VTOT,VDAM,DENOM
+     .        E1FLD(NEL),DFLD(NEL),HARDR(NEL),VTOT,VDAM,DENOM,VFAIL(NEL)
       TYPE(BUF_FAIL_) ,POINTER :: FBUF
 C!--------------------------------------------------------------
       !=======================================================================
@@ -142,6 +143,14 @@ C!--------------------------------------------------------------
       Ismooth    = NINT(UPARAM(31))
       Istrain    = NINT(UPARAM(32))
 c
+      ! Initialization of variable
+      NINDX  = 0 
+      NINDX2 = 0
+      NINDX3 = 0
+      INDX(1:NEL)  = 0
+      INDX2(1:NEL) = 0 
+      INDX3(1:NEL) = 0 
+      VFAIL(1:NEL) = ZERO
       ! Recovering functions
       ! -> equivalent stress VS strain-rate
       ISM  = 0
@@ -195,19 +204,29 @@ c
       ! Checking element failure and recovering user variable
       DO I=1,NEL
        ! Integration point failure
-       IF (LOFF(I) < UN .AND. LOFF(I) >= EM08) THEN 
-         LOFF(I)   = UVAR(I,5)
-         LOFF(I)   = LOFF(I) - UN/NSTEP
-         IF (LOFF(I) <= EM08) LOFF(I) = ZERO
-         UVAR(I,5) = LOFF(I)
+       IF (TIME == ZERO) UVAR(I,5) = UN
+       IF (UVAR(I,5) < UN .AND. UVAR(I,5) > ZERO) THEN 
+         UVAR(I,5) = UVAR(I,5) - UN/NSTEP
+         IF (UVAR(I,5) <= EM08) THEN 
+           UVAR(I,5) = ZERO
+           IF (NPG > 1) THEN 
+             NINDX2        = NINDX2 + 1
+             INDX2(NINDX2) = I
+           ELSE
+             NINDX       = NINDX + 1
+             INDX(NINDX) = I
+             IDEL7NOK    = 1   
+             TDELE(I)    = TIME
+             OFF(I)      = ZERO
+           ENDIF
+         ENDIF
        ENDIF
-       IF (LOFF(I) < EM08) LOFF(I) = ZERO
-       SIGNXX(I) = SIGNXX(I)*LOFF(I)
-       SIGNYY(I) = SIGNYY(I)*LOFF(I)
-       SIGNZZ(I) = SIGNZZ(I)*LOFF(I)
-       SIGNXY(I) = SIGNXY(I)*LOFF(I)
-       SIGNYZ(I) = SIGNYZ(I)*LOFF(I)
-       SIGNZX(I) = SIGNZX(I)*LOFF(I)
+       SIGNXX(I) = SIGNXX(I)*UVAR(I,5)
+       SIGNYY(I) = SIGNYY(I)*UVAR(I,5)
+       SIGNZZ(I) = SIGNZZ(I)*UVAR(I,5)
+       SIGNXY(I) = SIGNXY(I)*UVAR(I,5)
+       SIGNYZ(I) = SIGNYZ(I)*UVAR(I,5)
+       SIGNZX(I) = SIGNZX(I)*UVAR(I,5)
        ! Regularization factors for length, surface and volume
        FACL(I) = UVAR(I,1)
        FACS(I) = UVAR(I,1)**2
@@ -215,7 +234,7 @@ c
        ! Storage of integration point volume
        IF (NPG > 1) THEN
          UVAR(I,3) = VOLN(I)
-         IF (LOFF(I) == ZERO) UVAR(I,4) = VOLN(I)
+         IF (UVAR(I,5) == ZERO) UVAR(I,4) = VOLN(I)
        ENDIF
       ENDDO
 c      
@@ -368,7 +387,7 @@ c
       ! - LOOP OVER THE ELEMENT TO CHECK THE EROSION CRITERIA
       !====================================================================    
       DO I = 1,NEL
-        IF ((LOFF(I) == UN).AND.(OFF(I)==UN)) THEN
+        IF ((UVAR(I,5) == UN).AND.(OFF(I)==UN)) THEN
           NCRIT = 0
           !  -> maximum pressure
           IF (P(I) >= MAXPRES*FACS(I)) NCRIT = NCRIT + 1
@@ -452,8 +471,20 @@ c
           !  -> Checking failure
           DFMAX(I) = REAL(NCRIT)/REAL(NCS)
           IF (NCRIT >= NCS) THEN 
-            LOFF(I)   = LOFF(I) - UN/NSTEP
-            UVAR(I,5) = LOFF(I)
+            UVAR(I,5) = UVAR(I,5) - UN/NSTEP
+            DFMAX(I)  = UN
+            IF (NSTEP == 1) THEN 
+              IF (NPG > 1) THEN 
+                NINDX2        = NINDX2 + 1
+                INDX2(NINDX2) = I
+              ELSE
+                NINDX       = NINDX + 1
+                INDX(NINDX) = I
+                IDEL7NOK    = 1   
+                TDELE(I)    = TIME
+                OFF(I)      = ZERO
+              ENDIF
+            ENDIF
           ENDIF
         ENDIF
 c
@@ -461,59 +492,42 @@ c
 c
       !====================================================================
       ! - LOOKING FOR ELEMENT DELETION
-      !====================================================================  
-      ! Initialization of variable
-      NINDX = 0        
+      !====================================================================      
       ! Fully integrated element
       IF (NPG > 1) THEN 
         IF ((IPG == NPG).AND.(ILAY1 == ELBUF_TAB%NLAY)) THEN 
           DO I = 1,NEL       
-            ! Initialization of volumes computation
-            VTOT = ZERO
-            VDAM = ZERO
-            ! Loop over integration points
-            DO ILAY = 1, ELBUF_TAB%NLAY
-              DO IR = 1, ELBUF_TAB%NPTR
-                DO IS = 1, ELBUF_TAB%NPTS
-                  DO IT = 1, ELBUF_TAB%NPTT
-                    FBUF => ELBUF_TAB%BUFLY(ILAY)%FAIL(IR,IS,IT)
-                    ! Compute total volume of the element
-                    VTOT = VTOT + FBUF%FLOC(IRUPT)%VAR(3+NEL*(I-1))
-                    ! Compute damaged volume of the element
-                    VDAM = VDAM + FBUF%FLOC(IRUPT)%VAR(4+NEL*(I-1))
+            IF (OFF(I) == UN) THEN 
+              ! Initialization of volumes computation
+              VTOT = ZERO
+              VDAM = ZERO
+              ! Loop over integration points
+              DO ILAY = 1, ELBUF_TAB%NLAY
+                DO IR = 1, ELBUF_TAB%NPTR
+                  DO IS = 1, ELBUF_TAB%NPTS
+                    DO IT = 1, ELBUF_TAB%NPTT
+                      FBUF => ELBUF_TAB%BUFLY(ILAY)%FAIL(IR,IS,IT)
+                      ! Compute total volume of the element
+                      VTOT = VTOT + FBUF%FLOC(IRUPT)%VAR(2*NEL+I)
+                      ! Compute damaged volume of the element
+                      VDAM = VDAM + FBUF%FLOC(IRUPT)%VAR(3*NEL+I)
+                    ENDDO
                   ENDDO
                 ENDDO
               ENDDO
-            ENDDO
-            ! Checking volume fraction criterion
-            IF (((VDAM/VTOT) >= VOLFRAC).AND.(OFF(I) == UN)) THEN
-              DFMAX(I)    = UN
-              NINDX       = NINDX + 1
-              INDX(NINDX) = I
-              IDEL7NOK    = 1   
-              TDELE(I)    = TIME
-              OFF(I)      = ZERO
+              ! Checking volume fraction criterion
+              IF ((VDAM/VTOT) >= VOLFRAC) THEN
+                DFMAX(I)      = UN
+                NINDX3        = NINDX3 + 1
+                INDX3(NINDX3) = I
+                VFAIL(I)      = VDAM/VTOT
+                IDEL7NOK      = 1   
+                TDELE(I)      = TIME
+                OFF(I)        = ZERO
+              ENDIF
             ENDIF
           ENDDO
         ENDIF
-      ! Under-integrated element
-      ELSE
-        DO I = 1,NEL
-          !Initialization for checking complete failure of the shell (all integration points)
-          IF (IPG == 1) THEN
-            OFF(I) = ZERO
-          ENDIF
-          !If one integration points is not fully broken, the brick remains
-          IF (LOFF(I)>ZERO) OFF(I) = UN
-          ! Integration point failure
-          IF (LOFF(I) == UN - UN/NSTEP) THEN
-            DFMAX(I)    = UN
-            NINDX       = NINDX + 1
-            INDX(NINDX) = I
-            IDEL7NOK    = 1   
-            TDELE(I)    = TIME
-          ENDIF
-        ENDDO
       ENDIF
 c------------------------
 c------------------------
@@ -522,13 +536,33 @@ c------------------------
           I = INDX(J)     
 #include "lockon.inc"
           WRITE(IOUT, 1000) NGL(I),TIME
-          WRITE(ISTDO,1100) NGL(I),TIME
+          WRITE(ISTDO,1000) NGL(I),TIME
 #include "lockoff.inc"
         END DO
-      END IF         
+      END IF    
+      IF (NINDX2 > 0) THEN
+        DO J=1,NINDX2
+          I = INDX2(J)     
+#include "lockon.inc"
+          WRITE(IOUT, 2000) NGL(I),IPG,TIME
+          WRITE(ISTDO,2000) NGL(I),IPG,TIME
+#include "lockoff.inc"
+        END DO
+      END IF      
+      IF (NINDX3 > 0) THEN
+        DO J=1,NINDX3
+          I = INDX3(J)     
+#include "lockon.inc"
+          WRITE(IOUT, 3000) NGL(I),VFAIL(I),TIME
+          WRITE(ISTDO,3000) NGL(I),VFAIL(I),TIME
+#include "lockoff.inc"
+        END DO
+      END IF     
 c------------------------
  1000 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER (GENE1) el#',I10,
-     .          ' AT TIME :',1PE12.4)     
- 1100 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER (GENE1) el#',I10,
-     .          ' AT TIME :',1PE12.4)
+     .          ' AT TIME :',1PE12.4)    
+ 2000 FORMAT(1X,'FOR SOLID ELEMENT (GENE1)',I10,1X,'GAUSS POINT',I10,':'
+     .       ,/,1X,'FAILURE',1X,'AT TIME :',1PE12.4) 
+ 3000 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER (GENE1) el#',I10,
+     .          ' DAMAGED VOLUME FRACTION :',1PE12.4,' AT TIME :',1PE12.4)    
       END

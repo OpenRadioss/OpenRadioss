@@ -158,7 +158,9 @@ C===============================================================================
       CALL HM_GET_INTV   ('fct_IDel' ,REG_FUNC    ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('EI_ref'   ,REF_SIZ     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 ! Default values      
-      IF (PTHK  == ZERO) PTHK  = -UN
+      IF (PTHK  == ZERO) PTHK  = UN
+      PTHK = MIN(PTHK,UN)
+      PTHK = MAX(ZERO,PTHK)
       IF (SFLAG == 0)    SFLAG = 2
 ! Units
       IF ((REF_SIZ == ZERO).AND.(REG_FUNC > 0)) THEN
@@ -481,7 +483,7 @@ C===============================================================================
       ! -> Number of user variables
       NUVAR = 3   
 c-----------------------------------------------------    
-      UPARAM(1) = PTHK-EM6
+      UPARAM(1) = PTHK
       UPARAM(2) = SFLAG
       UPARAM(3) = REF_SIZ
       UPARAM(4) = EPSD0

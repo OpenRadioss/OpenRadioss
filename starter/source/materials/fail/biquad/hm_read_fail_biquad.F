@@ -124,7 +124,9 @@ c---------------------------------------------------
       CALL HM_GET_FLOATV ('R4'          ,E3          ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
       CALL HM_GET_FLOATV ('R5'          ,E4          ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
 c---------------------------------------------------
-      IF (PTHK  == ZERO) PTHK  = -UN
+      IF (PTHK  == ZERO) PTHK  = UN
+      PTHK = MIN(PTHK,UN)
+      PTHK = MAX(ZERO,PTHK)
       IF (SFLAG == 0)    SFLAG = 1
 c---------------------------------------------------
 c     pre definition for user-input data when only 
@@ -163,7 +165,7 @@ c---------------------------------------------------
       UPARAM(4)  = X_2(1)
       UPARAM(5)  = X_2(2)
       UPARAM(6)  = X_2(3)
-      UPARAM(7)  = PTHK-EM6
+      UPARAM(7)  = PTHK
       UPARAM(8)  = 0
       UPARAM(11) = SFLAG
       UPARAM(12) = INST
