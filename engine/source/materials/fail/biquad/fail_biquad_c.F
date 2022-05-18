@@ -32,9 +32,10 @@ Chd|====================================================================
      1           NEL      ,NUVAR    ,
      2           TIME     ,UPARAM   ,NGL      ,IPT      ,NPTOT    ,
      3           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     4           DPLA     ,EPSP     ,UVAR     ,NOFF     ,UEL1     ,
+     4           DPLA     ,EPSP     ,UVAR     ,PTHKF    ,UEL1     ,
      5           OFF      ,OFFL     ,DFMAX    ,TDEL     ,NFUNC    ,
-     6           IFUNC    ,NPF      ,TF       ,ALDT     ,FOFF     ,IGTYP )
+     6           IFUNC    ,NPF      ,TF       ,ALDT     ,FOFF     ,
+     7           IPG      )
 C-----------------------------------------------
 C    Biquadratic failure model
 C-----------------------------------------------
@@ -84,10 +85,10 @@ C IGTYP                       PROPERTY TYPE
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,NUVAR,IPT,NPTOT,NFUNC,IGTYP
-      INTEGER NGL(NEL),NOFF(NEL),IFUNC(NFUNC)
+      INTEGER NEL,NUVAR,IPT,NPTOT,NFUNC,IPG
+      INTEGER NGL(NEL),IFUNC(NFUNC)
       my_real TIME,UPARAM(*),DPLA(NEL),EPSP(NEL),
-     .   UEL1(NEL),ALDT(NEL)
+     .   UEL1(NEL),ALDT(NEL),PTHKF
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -113,12 +114,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        my_real hydros, vmises, triaxs,REF_EL_LEN
-       INTEGER I,J,L,NINDX,FLAG_PERTURB,SEL
+       INTEGER I,J,L,NINDX1,NINDX2,FLAG_PERTURB,SEL
        INTEGER FAIL_COUNT,IT
-       INTEGER, DIMENSION(MVSIZ) :: INDX , CONDITION1, CONDITION2,CONDITION3
+       INTEGER, DIMENSION(MVSIZ) :: INDX1,INDX2
 
        my_real  X_1(3) , X_2(3),c3,DYDX
-       my_real  EPS_FAIL, EPS_FAIL2, DAMAGE, d1, INST
+       my_real  EPS_FAIL, EPS_FAIL2, DAMAGE, INST
        my_real  P1X,P1Y,S1X,S1Y,S2Y, A1, A2, B1, B2, C1, C2,FAC,LAMBDA
 C-----------------------------------------------
 c! UVAR1 = damage due to instability (triax between 1/3 and 2/3)
@@ -132,19 +133,17 @@ C-----------------------------------------------
        X_2(1)       = UPARAM(4)
        X_2(2)       = UPARAM(5)
        X_2(3)       = UPARAM(6)
-       d1           = UPARAM(7)
+       PTHKF        = UPARAM(7)
        FLAG_PERTURB = UPARAM(8)
        c3           = UPARAM(9)
        L            = INT(UPARAM(10)+0.0001)
        SEL          = INT(UPARAM(11)+0.0001)
        INST         = UPARAM(12)
        REF_EL_LEN   = UPARAM(13)
-       NINDX        = 0  
+       NINDX1       = 0  
+       NINDX2       = 0
        EPS_FAIL     = ZERO
        EPS_FAIL2    = ZERO
-       CONDITION1(1:MVSIZ)   = 0
-       CONDITION2(1:MVSIZ)   = 0
-       CONDITION3(1:MVSIZ)   = 0
 C
 C!  Initialization
        IF (TIME == ZERO .AND. NFUNC > 0) THEN
@@ -162,17 +161,6 @@ C!  Initialization
           ENDIF
         ENDDO
        ENDIF
-       
-       DO I=1,NEL
-         IF (DFMAX(I) .GE. UN .AND. d1 .GT. ZERO .AND. OFF(I) == UN) THEN
-           SIGNXX(I) = ZERO
-           SIGNYY(I) = ZERO
-           SIGNXY(I) = ZERO
-           SIGNYZ(I) = ZERO
-           SIGNZX(I) = ZERO           
-         ENDIF
-       ENDDO
-      
 C-----------------------------------------------
        IF(FLAG_PERTURB == 0) THEN
          DO I =1,NEL
@@ -256,42 +244,25 @@ C-----------------------------------------------
              DFMAX(I) = MIN(UN,DFMAX(I))
            
            IF (OFFL(I).EQ.1. .AND. DFMAX(I).GE.1.0) THEN
-             OFFL(I) = ZERO
-             NOFF(I) = NOFF(I) + 1
-             IF (d1 < ZERO ) FOFF(I) = 0
-             IF (IGTYP == 10 .or. IGTYP == 11 .or. IGTYP == 51 .or. IGTYP == 52) FOFF(I) = 0
-             NINDX = NINDX + 1
-             INDX(NINDX) = I  
-             CONDITION1(NINDX) = IPT
-             IF (IGTYP /= 51 .and. IGTYP /= 52) THEN
-               IF (NOFF(I) .GE. (ABS(d1)*REAL(NPTOT)) .AND. d1 .GT. ZERO) THEN
-                 TDEL(I)= TIME
-                 OFF(I) = ZERO
-                 IDEL7NOK = 1
-                 CONDITION2(NINDX) = 1
-               ENDIF
-             ENDIF
+             FOFF(I)       = 0
+             NINDX1        = NINDX1 + 1
+             INDX1(NINDX1) = I  
            ENDIF
            
-           IF (DAMAGE .GT. UN .AND. UVAR(I,2) .EQ. ZERO .AND. OFFL(I) .EQ. UN) THEN
-             UVAR(I,2) = UN   
-             FOFF(I) = 0
-             UEL1(I) = UEL1(I) + UN
+           IF (DAMAGE .GE. UN .AND. UVAR(I,2) .EQ. ZERO .AND. OFFL(I) .EQ. UN) THEN
+             UVAR(I,2) = UN  
+             UEL1(I)   = UEL1(I) + UN
              IF (INT(UEL1(I)) == NPTOT) THEN
-               SIGNXX(I) = ZERO
-        	   SIGNYY(I) = ZERO
-        	   SIGNXY(I) = ZERO
-        	   SIGNYZ(I) = ZERO
-        	   SIGNZX(I) = ZERO
-               NINDX = NINDX + 1
-               INDX(NINDX) = I  
-               TDEL(I)= TIME
-        	      OFF(I) = 0.0
-               IDEL7NOK = 1
-               CONDITION2(NINDX) = 1
-               CONDITION3(NINDX) = 1
+               NINDX2        = NINDX2 + 1
+               INDX2(NINDX2) = I
+               TDEL(I)       = TIME
+               OFF(I)        = ZERO
+               SIGNXX(I)     = ZERO
+               SIGNYY(I)     = ZERO
+               SIGNXY(I)     = ZERO
+               SIGNYZ(I)     = ZERO
+               SIGNZX(I)     = ZERO
              ENDIF
-
            ENDIF
          ENDIF
          ENDDO
@@ -377,43 +348,25 @@ C-----------------------------------------------
              DFMAX(I) = MIN(UN,DFMAX(I))
              
            IF (OFFL(I).EQ.1. .AND. DFMAX(I).GE.1.0) THEN
-             OFFL(I) = ZERO
-             NOFF(I) = NOFF(I) + 1
-             IF (d1 < ZERO ) FOFF(I) = 0
-             IF (IGTYP == 10 .or. IGTYP == 11 .or. IGTYP == 51 .or. IGTYP == 52) FOFF(I) = 0
-             NINDX = NINDX + 1
-             INDX(NINDX) = I  
-             CONDITION1(NINDX) = IPT
-             IF (IGTYP /= 51 .and. IGTYP /= 52) THEN
-               IF (NOFF(I) .GE. (ABS(d1)*REAL(NPTOT)) .AND. d1 .GT. ZERO) THEN
-                 TDEL(I)= TIME
-                 OFF(I) = ZERO
-                 IDEL7NOK = 1
-                 CONDITION2(NINDX) = 1
-               ENDIF
-             ENDIF
+             FOFF(I)       = 0
+             NINDX1        = NINDX1 + 1
+             INDX1(NINDX1) = I  
            ENDIF
            
            IF (DAMAGE .GT. UN .AND. UVAR(I,2) .EQ. ZERO .AND. OFFL(I) .EQ. UN) THEN
              UVAR(I,2) = UN   
-             FOFF(I) = 0
-             UEL1(I) = UEL1(I) + UN
+             UEL1(I)   = UEL1(I) + UN
              IF (INT(UEL1(I)) == NPTOT) THEN
-               SIGNXX(I) = 0.
-        	   SIGNYY(I) = 0.
-        	   SIGNXY(I) = 0.
-        	   SIGNYZ(I) = 0.
-        	   SIGNZX(I) = 0.
-               NINDX = NINDX + 1
-               INDX(NINDX) = I  
-               TDEL(I)= TIME
-        	      OFF(I) = 0.0
-               IDEL7NOK = 1
-               FOFF(I) = 0
-               CONDITION2(NINDX) = 1
-               CONDITION3(NINDX) = 1
+               NINDX2        = NINDX2 + 1
+               INDX2(NINDX2) = I
+               TDEL(I)       = TIME
+               OFF(I)        = ZERO
+               SIGNXX(I)     = ZERO
+               SIGNYY(I)     = ZERO
+               SIGNXY(I)     = ZERO
+               SIGNYZ(I)     = ZERO
+               SIGNZX(I)     = ZERO
              ENDIF
-
            ENDIF
          ENDIF
          ENDDO
@@ -424,30 +377,31 @@ c------------------------
 c------------------------
 c------------------------
 c------------------------
-      IF (NINDX > 0) THEN        
-        DO J=1,NINDX             
-          I = INDX(J)         
+      IF (NINDX1 > 0) THEN        
+        DO J=1,NINDX1             
+          I = INDX1(J)         
 #include "lockon.inc"
-         IF(CONDITION1(J) >= 1)  THEN         
-           WRITE(IOUT, 2000) NGL(I),CONDITION1(J),TIME
-           WRITE(ISTDO,2000) NGL(I),CONDITION1(J),TIME
-         ENDIF
-         IF(CONDITION3(J)==1) THEN
-           WRITE(ISTDO,3000) NGL(I)
-           WRITE(IOUT, 3000) NGL(I)
-         ENDIF          
-         IF(CONDITION2(J)==1) THEN
-           WRITE(ISTDO,2200) NGL(I), TIME
-           WRITE(IOUT, 2200) NGL(I), TIME
-         ENDIF          
+          WRITE(IOUT, 2000) NGL(I),IPG,IPT,TIME
+          WRITE(ISTDO,2000) NGL(I),IPG,IPT,TIME
+#include "lockoff.inc" 
+        ENDDO
+      ENDIF
+      IF (NINDX2 > 0) THEN        
+        DO J=1,NINDX2            
+          I = INDX2(J)         
+#include "lockon.inc"
+          WRITE(IOUT, 3000) NGL(I)
+          WRITE(IOUT, 2200) NGL(I), TIME
+          WRITE(ISTDO,3000) NGL(I)
+          WRITE(ISTDO,2200) NGL(I), TIME                 
 #include "lockoff.inc" 
         END DO                   
       END IF   ! NINDX             
 c------------------------
 C---------Damage for output  0 < DFMAX < 1 --------------------
- 2000 FORMAT(1X,'FOR SHELL ELEMENT (BIQUAD)',I10,1X,'LAYER',I3,':',/,
+ 2000 FORMAT(1X,'FOR SHELL ELEMENT (BIQUAD)',I10,1X,'GAUSS POINT',I3,
+     .       1X,'LAYER',I3,':',/,
      .       1X,'STRESS TENSOR SET TO ZERO',1X,'AT TIME :',1PE12.4)
-
  2200 FORMAT(1X,' *** RUPTURE OF SHELL ELEMENT (BIQUAD)',I10,1X,
      . ' AT TIME :',1PE12.4)
  3000 FORMAT(1X,'FOR SHELL ELEMENT (BIQUAD)',I10,

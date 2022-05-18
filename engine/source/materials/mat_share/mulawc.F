@@ -2017,9 +2017,9 @@ c
      1          JLT      ,NVARF   ,
      2          TT       ,UPARAMF ,NGL      ,IPT      ,MPT      ,
      3          SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     4          DPLA     ,EPSPL   ,UVARF    ,GBUF%NOFF,UELR1    ,
+     4          DPLA     ,EPSPL   ,UVARF    ,PTHKF(ILAYER,IFL)  ,UELR1    ,
      5          OFF      ,OFFL    ,DFMAX    ,TDEL     ,NFUNC1   ,
-     6          IFUNC1   ,NPF     ,TF       ,ALDT     ,FOFF     , IGTYP)
+     6          IFUNC1   ,NPF     ,TF       ,ALDT     ,FOFF     ,IPG      )
 c
               CASE (31)     !    Anisotropic fabric failure model
 c
@@ -2102,10 +2102,9 @@ c
      1            JLT      ,NVARF   ,
      2            TT       ,UPARAMF ,NGL      ,IPT      ,MPT      ,
      3            SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     4            DPLA     ,EPSPL   ,UVARF    ,GBUF%NOFF,UELR1    ,
+     4            DPLA     ,EPSPL   ,UVARF    ,PTHKF(ILAYER,IFL)  ,UELR1  ,
      5            OFF      ,OFFL    ,DFMAX    ,TDEL     ,NFUNC1   ,
-     6            IFUNC1   ,NPF     ,TF       ,ALDT     ,FOFF     , 
-     7            IGTYP    )
+     6            IFUNC1   ,NPF     ,TF       ,ALDT     ,FOFF     ,IPG    )
 c
               CASE (39)     !    GENE1
 c
@@ -2116,7 +2115,7 @@ c
      4            EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX    ,AREA     ,            
      5            SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,THKN     , 
      6            TEMPEL   ,DFMAX    ,TDEL     ,ALDT     ,TABLE    ,IFL      ,
-     7            THK0     ,ELBUF_STR,IPT      ,MPT      ,GBUF%NOFF,FOFF     ,
+     7            THK0     ,ELBUF_STR,IPT      ,MPT      ,PTHKF(ILAYER,IFL),FOFF,
      8            IGTYP    ,THKLYL   ,ILAY     )
 c
               CASE (40)     !    RTCL

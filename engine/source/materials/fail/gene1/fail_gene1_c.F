@@ -40,7 +40,7 @@ Chd|====================================================================
      4     EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX    ,AREA     ,
      5     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,THKN     ,
      6     TEMP     ,DFMAX    ,TDELE    ,ALDT     ,TABLE    ,IRUPT    ,
-     7     THK0     ,ELBUF_TAB,IPT      ,MPT      ,NOFF     ,FOFF     ,
+     7     THK0     ,ELBUF_TAB,IPT      ,MPT      ,PTHKF    ,FOFF     ,
      8     IGTYP    ,THKLYL   ,ILAY1    )
 C-----------------------------------------------
 C   M o d u l e s
@@ -65,7 +65,7 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 C!-----------------------------------------------
       INTEGER NEL, NUPARAM, NUVAR,NGL(NEL),IPG,
-     .        NPG,IRUPT,IPT,MPT,NOFF(NEL),IGTYP,ILAY1
+     .        NPG,IRUPT,IPT,MPT,IGTYP,ILAY1
       my_real TIME,TIMESTEP,UPARAM(*),
      .   EPSXX(NEL),EPSYY(NEL),EPSXY(NEL),
      .   EPSYZ(NEL),EPSZX(NEL),SIGNXX(NEL),
@@ -73,7 +73,7 @@ C!-----------------------------------------------
      .   SIGNZX(NEL),UVAR(NEL,NUVAR),DT(NEL),
      .   EPSP(NEL),OFF(NEL),DFMAX(NEL),TDELE(NEL),
      .   ALDT(NEL),TEMP(NEL),LOFF(NEL),AREA(NEL),
-     .   THKN(NEL),THK0(NEL),THKLYL(NEL)
+     .   THKN(NEL),THK0(NEL),THKLYL(NEL),PTHKF
       TYPE (TTABLE), DIMENSION(NTABLE) :: TABLE
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_TAB
       INTEGER, DIMENSION(NEL), INTENT(INOUT) :: FOFF
@@ -93,19 +93,19 @@ C!        NPF,TF  : FUNCTION PARAMETER
 C!-----------------------------------------------
 C!   L o c a l   V a r i a b l e s
 C!-----------------------------------------------
-      INTEGER I,K,J,INDX(MVSIZ),NINDX,IREG,NSTEP,tab_IDfld,Itab,NCS,
+      INTEGER I,K,J,INDX1(MVSIZ),NINDX1,INDX2(MVSIZ),NINDX2,IREG,NSTEP,
      .        ISM,IPS,IG12,IG13,IE1C,IFLD,fct_IDg12,fct_IDg13,fct_IDe1c,
      .        NCRIT,fct_IDel,IPOS(NEL,2),Ismooth,Istrain,IR,IS,IT,ILAY,
-     .        CONDITION1(NEL),CONDITION2(NEL),CONDITION3(NEL),CONDITION4(NEL)
+     .        tab_IDfld,Itab,NCS
       my_real 
      .        MINPRES,MAXPRES,SIGP1,TMAX,DTMIN,EPSDOT_SM,SIGVM,SIGTH,
      .        KF,EPSDOT_PS,MAXEPS,EFFEPS,VOLEPS,MINEPS,EPSSH,EPSDOT_FLD,
-     .        THIN,VOLFRAC,PTHK,MAXTEMP,Fscale_el,El_ref,LAMBDA,FAC,DF
+     .        THIN,VOLFRAC,MAXTEMP,Fscale_el,El_ref,LAMBDA,FAC,DF
       my_real 
      .        E12,P(NEL),SXX,SYY,SZZ,SVM(NEL),SH12,SH13,E1C,XVEC(NEL,2),
      .        Q,R,R_INTER,E11(NEL),E22(NEL),VOL_STRAIN(NEL),DAV,E1D,
      .        E2D,E3D,E4D,S11(NEL),S22(NEL),EFF_STRAIN(NEL),S1,S2,
-     .        EPSMAX,SIGMAX,FACL(NEL),FACS(NEL),FACV(NEL),
+     .        EPSMAX,SIGMAX,FACL(NEL),FACS(NEL),FACV(NEL),VFAIL(NEL),
      .        E1FLD(NEL),DFLD(NEL),HARDR(NEL),VTOT,VDAM,DENOM
       TYPE(BUF_FAIL_) ,POINTER :: FBUF
 C!--------------------------------------------------------------
@@ -134,7 +134,7 @@ C!--------------------------------------------------------------
       NSTEP      = NINT(UPARAM(19))
       THIN       = UPARAM(20)
       VOLFRAC    = UPARAM(21)
-      PTHK       = UPARAM(22)
+      PTHKF      = UPARAM(22)
       NCS        = NINT(UPARAM(23))
       MAXTEMP    = UPARAM(24)
       Fscale_el  = UPARAM(25)
@@ -415,52 +415,33 @@ c
       ! - LOOKING FOR ELEMENT DELETION
       !====================================================================  
       ! Initialization of variable
-      NINDX = 0
-      INDX(1:NEL) = 0
-      CONDITION1(1:NEL) = 0
-      CONDITION2(1:NEL) = 0 
-      CONDITION3(1:NEL) = 0
-      CONDITION4(1:NEL) = 0
+      NINDX1 = 0
+      NINDX2 = 0
+      INDX1(1:NEL) = 0
+      INDX2(1:NEL) = 0
+      VFAIL(1:NEL) = ZERO
       ! Case of under-integrated shells
       IF ((ELBUF_TAB%NPTR == 1).AND.(ELBUF_TAB%NPTS == 1)) THEN       
         DO I = 1,NEL
           ! Checking element failure using global damage
-          IF ((UVAR(I,5) == ZERO).AND.(OFF(I) /= ZERO)) THEN
-            NOFF(I) = NOFF(I) + 1
-            IF (PTHK < ZERO) FOFF(I) = 0
-            IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 51 .OR. IGTYP == 52) FOFF(I) = 0
-            NINDX = NINDX + 1
-            INDX(NINDX) = I  
-            IF (LOFF(I) == UN) THEN
-              CONDITION1(NINDX) = IPT
-              LOFF(I) = ZERO
-            ENDIF
-            DFMAX(I) = UN
-            IF (IGTYP /= 51 .AND. IGTYP /= 52) THEN
-              IF (NOFF(I) >= (ABS(PTHK)*REAL(MPT)) .AND. PTHK > ZERO) THEN
-                TDELE(I)  = TIME
-                OFF(I)    = ZERO
-                IDEL7NOK  = 1
-                CONDITION2(NINDX) = 1
-              ENDIF
-            ENDIF
+          IF ((UVAR(I,5) == ZERO).AND.(FOFF(I) /= 0)) THEN
+            FOFF(I)       = 0
+            NINDX1        = NINDX1 + 1
+            INDX1(NINDX1) = I  
+            DFMAX(I)      = UN
           ENDIF
         ENDDO
       ELSE
         DO I = 1,NEL
           ! Checking element failure using global damage
-          IF ((UVAR(I,5) == ZERO).AND.(OFF(I) /= ZERO)) THEN
-            NINDX = NINDX + 1
-            INDX(NINDX) = I  
-            IF (LOFF(I) == UN) THEN
-              CONDITION3(NINDX) = IPG
-              CONDITION4(NINDX) = IPT
-              LOFF(I) = ZERO
-            ENDIF
-            DFMAX(I) = UN
+          IF ((UVAR(I,5) == ZERO).AND.(LOFF(I) /= ZERO)) THEN
+            NINDX1        = NINDX1 + 1
+            INDX1(NINDX1) = I  
+            IF (LOFF(I) == UN) LOFF(I) = ZERO
+            DFMAX(I)      = UN
           ENDIF
           IF ((IPG == NPG).AND.(IPT == ELBUF_TAB%NPTT)
-     .         .AND.(OFF(I) /= ZERO).AND.(ILAY1 == ELBUF_TAB%NLAY)) THEN      
+     .         .AND.(OFF(I) /= ZERO).AND.(ILAY1 == ELBUF_TAB%NLAY)) THEN  
             ! Initialization of volumes computation
             VTOT = ZERO
             VDAM = ZERO
@@ -471,19 +452,26 @@ c
                   DO IT = 1, ELBUF_TAB%NPTT
                     FBUF => ELBUF_TAB%BUFLY(ILAY)%FAIL(IR,IS,IT)
                     ! Compute total volume of the element
-                    VTOT = VTOT + FBUF%FLOC(IRUPT)%VAR(3+NEL*(I-1))
+                    VTOT = VTOT + FBUF%FLOC(IRUPT)%VAR(2*NEL+I)
                     ! Compute damaged volume of the element
-                    VDAM = VDAM + FBUF%FLOC(IRUPT)%VAR(4+NEL*(I-1))
+                    VDAM = VDAM + FBUF%FLOC(IRUPT)%VAR(3*NEL+I)
                   ENDDO
                 ENDDO
               ENDDO
             ENDDO
             ! Checking volume fraction criterion
             IF (((VDAM/VTOT) >= VOLFRAC)) THEN
-              TDELE(I) = TIME
-              OFF(I)   = ZERO
-              IDEL7NOK = 1
-              CONDITION2(NINDX) = 1
+              TDELE(I)      = TIME
+              OFF(I)        = ZERO
+              IDEL7NOK      = 1
+              NINDX2        = NINDX2 + 1
+              INDX2(NINDX2) = I 
+              VFAIL(I)      = VDAM/VTOT
+              SIGNXX(I)     = ZERO
+              SIGNYY(I)     = ZERO
+              SIGNXY(I)     = ZERO
+              SIGNYZ(I)     = ZERO
+              SIGNZX(I)     = ZERO
             ENDIF
           ENDIF
         ENDDO
@@ -491,31 +479,28 @@ c
 c
 c------------------------
 c------------------------
-      IF (NINDX > 0) THEN
-        DO J = 1,NINDX
-         I = INDX(J)
+      IF (NINDX1 > 0) THEN
+        DO J = 1,NINDX1
+          I = INDX1(J)
 #include "lockon.inc"
-         IF (CONDITION1(J) >= 1)  THEN         
-           WRITE(IOUT, 2000) NGL(I),CONDITION1(J),TIME
-           WRITE(ISTDO,2000) NGL(I),CONDITION1(J),TIME
-         ENDIF  
-         IF (CONDITION3(J) >= 1) THEN
-           WRITE(ISTDO,2100) NGL(I),CONDITION3(J),CONDITION4(J),TIME
-           WRITE(IOUT, 2100) NGL(I),CONDITION3(J),CONDITION4(J),TIME
-         ENDIF      
-         IF (CONDITION2(J) == 1) THEN
-           WRITE(ISTDO,2200) NGL(I), TIME
-           WRITE(IOUT, 2200) NGL(I), TIME
-         ENDIF
+          WRITE(IOUT, 2100) NGL(I),IPG,IPT,TIME
+          WRITE(ISTDO,2100) NGL(I),IPG,IPT,TIME
+#include "lockoff.inc"
+        END DO
+      END IF          
+      IF (NINDX2 > 0) THEN
+        DO J = 1,NINDX2
+          I = INDX2(J)
+#include "lockon.inc"          
+          WRITE(IOUT, 2200) NGL(I),VFAIL(I),TIME
+          WRITE(ISTDO,2200) NGL(I),VFAIL(I),TIME
 #include "lockoff.inc"
         END DO
       END IF         
 c------------------------
- 2000 FORMAT(1X,'FOR SHELL ELEMENT (GENE1)',I10,1X,'LAYER',I3,':',/,
-     .       1X,'STRESS TENSOR SET TO ZERO',1X,'AT TIME :',1PE12.4)
  2100 FORMAT(1X,'FOR SHELL ELEMENT (GENE1)',I10,1X,'GAUSS POINT',I10,1X,
      .       'LAYER',I3,':',/,
      .       1X,'STRESS TENSOR SET TO ZERO',1X,'AT TIME :',1PE12.4)
- 2200 FORMAT(1X,' *** RUPTURE OF SHELL ELEMENT (GENE1)',I10,1X,
-     . ' AT TIME :',1PE12.4)
+ 2200 FORMAT(1X,' *** RUPTURE OF SHELL ELEMENT (GENE1)',I10,
+     .       ' DAMAGED VOLUME FRACTION :',1PE12.4,' AT TIME :',1PE12.4)
       END

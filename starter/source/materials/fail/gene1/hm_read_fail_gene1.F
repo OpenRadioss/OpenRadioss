@@ -39,7 +39,7 @@ Chd|====================================================================
        SUBROUTINE HM_READ_FAIL_GENE1(
      .            UPARAM  ,MAXUPARAM ,NUPARAM ,NUVAR   ,IFUNC    ,
      .            MAXFUNC ,NFUNC     ,UNITAB  ,FAIL_ID ,MAT_ID   ,
-     .            TABLE   ,TITR    ,LSUBMODEL )
+     .            TABLE   ,TITR      ,LSUBMODEL)
 C-----------------------------------------------
 c    Orthotropic strain  failure model
 C-----------------------------------------------
@@ -256,7 +256,11 @@ C===============================================================================
       IF (THIN    == ZERO) THIN    = -INFINITY
       ! Card 6 
       IF (VOLFRAC == ZERO) VOLFRAC = UNDEMI
+      VOLFRAC = MIN(VOLFRAC,UN)
+      VOLFRAC = MAX(ZERO,VOLFRAC)
       IF (PTHK    == ZERO) PTHK    = UN
+      PTHK = MIN(PTHK,UN)
+      PTHK = MAX(ZERO,PTHK)
       IF (NCS     == 0   ) NCS     = 1
       IF (NCS > NCRIT_MAX) THEN
         CALL ANCMSG(MSGID=2043,MSGTYPE=MSGWARNING,
@@ -330,7 +334,7 @@ C===============================================================================
       UPARAM(19) = NSTEP
       UPARAM(20) = THIN
       UPARAM(21) = VOLFRAC
-      UPARAM(22) = PTHK-EM6
+      UPARAM(22) = PTHK
       UPARAM(23) = NCS
       UPARAM(24) = MAXTEMP
       UPARAM(25) = Fscale_el
