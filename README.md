@@ -1,3 +1,6 @@
+
+[![PR Merge CI MAIN](https://github.com/OpenRadioss/OpenRadioss/actions/workflows/prmerge_ci_main.yml/badge.svg)](https://github.com/OpenRadioss/OpenRadioss/actions/workflows/prmerge_ci_main.yml)
+
 # Welcome to OpenRadioss
 
 [Letter](https://openradioss.atlassian.net/wiki/spaces/OPENRADIOSS/blog/2022/04/08/5570561/An+Open+Letter+to+the+Radioss+Community)  
