@@ -102,6 +102,9 @@ C-----------------------------------------------
       INTEGER SIZE
 C=======================================================================
 !
+!     User libraries use the SET_U_SENS_xxx routines - it uses KSENS_CUR parameter.
+      KSENS_CUR = ISEN
+
       IF(KEY(1:5)     == 'USER1')THEN
         TYP=29
       ELSEIF(KEY(1:5) == 'USER2')THEN
@@ -168,6 +171,7 @@ C           global activation time
             CLOSE(UNIT=30)
           ENDIF ! IF (TYP.GE.29.AND.TYP.LE.31)
 !
+          WRITE (IOUT,'(A,I10)') ' SENSOR ID = ', SENS_ID
           IF(TYP == 29)THEN
             WRITE (IOUT,'(A,/,A,I10)')
      .      ' TYPE 29 SENSOR : USER1'
