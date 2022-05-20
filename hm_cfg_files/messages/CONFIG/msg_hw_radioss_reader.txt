@@ -259,4 +259,8 @@ duplicate %s id %d
 /MESSAGE/200026/DESCRIPTION
 %s (id: %u, name: %s) : ELFORM=%d is not supported
 
+/MESSAGE/200027/TITLE
+** WARNING IN LS-DYNA IMPORT
+/MESSAGE/200027/DESCRIPTION
+%s (id: %u, name: %s) : First LCID function of *DEFINE_TABLE is used
 #------------------------------------------------------------------------------
