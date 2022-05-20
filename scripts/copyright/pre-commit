@@ -2,20 +2,24 @@
 #
 # This file should be added to the .git/hooks repository
 # 
-# To enable this hook, rename this file to "pre-commit".
-
 
 lof=$(git diff --cached --name-only --diff-filter=ACM)  
-echo $lof
+#echo $lof
 for fic in $lof
 do
 if [[ "$fic" == *".F" ]]; then
-        echo $fic
-        cp $fic ${fic}.backup
-        sed -i "/Copyright>/d" ${fic}
-        cat scripts/copyright/f_COPYRIGHT.txt ${fic} > pre_commit.tmp
-        mv pre_commit.tmp ${fic}
-        rm ${fic}.backup
+        if cmp --silent -- <(head -n 22 scripts/copyright/f_COPYRIGHT.txt) <(head -n 22 ${fic}) 
+        then
+                echo $fic "copyright ok"
+        else
+                echo $fic "copyright update "
+                cp $fic ${fic}.backup
+                sed -i "/Copyright>/d" ${fic}
+                cat scripts/copyright/f_COPYRIGHT.txt ${fic} > pre_commit.tmp
+                mv pre_commit.tmp ${fic}
+                git add ${fic}
+                rm ${fic}.backup
+        fi
 fi
 done
 exit 0
