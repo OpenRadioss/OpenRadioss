@@ -148,7 +148,7 @@ C-----------------------------------------------
            NODTAG(IXC(5,N))=1
           
            IF(IGTYP /= 1) THEN
-            BETAC(II) = (180*ACOS(GBUF%BETAORTH(I)))/PI
+            BETAC(II) = (CENT80*ACOS(GBUF%BETAORTH(I)))/PI
            ENDIF
 
 
@@ -219,7 +219,7 @@ C
            NODTAG(IXTG(4,N))=1
 
            IF(IGTYP /= 1) THEN
-            BETATG(II) = (180*ACOS(GBUF%BETAORTH(I)))/PI
+            BETATG(II) = (CENT80*ACOS(GBUF%BETAORTH(I)))/PI
            ENDIF
 
          END DO
@@ -244,7 +244,7 @@ C---------Non Orthotropic elements ------------
         JJ=8*(K-1)
         IOFF=NPC(JJ+7)
         IGTYP = NPC(JJ+8)
-        THKN = QUART*THKC(K)
+        THKN = THKC(K)
         IF(IOFF >= 1) THEN
            IF(IGTYP==1) THEN
               IF(IGTYP/=IGTYP0) THEN  
@@ -275,7 +275,7 @@ C---------Non Orthotropic elements ------------
          JJ=7*(K-1)
          IOFF=NPTG(JJ+6)
          IGTYP = NPTG(JJ+7)
-         THKN = TIERS*THKTG(K)
+         THKN = THKTG(K)
          IF(IOFF >= 1) THEN
            IF(IGTYP==1) THEN
              WRITE(IUDYNAIN,'(5I8)')
@@ -297,7 +297,7 @@ C--------- Orthotropic elements ------------
         JJ=8*(K-1)
         IOFF=NPC(JJ+7)
         IGTYP = NPC(JJ+8)
-        THKN = QUART*THKC(K)
+        THKN = THKC(K)
         BETA = BETAC(K)
         IF(IOFF >= 1) THEN
            IF(IGTYP/=IGTYP0) THEN    
@@ -318,11 +318,11 @@ C--------- Orthotropic elements ------------
       END DO
      
 
-      DO N3SHELL=1,DYNAIN_NUMELTG
+      DO N=N3SHELL,DYNAIN_NUMELTG
          K=DYNAIN_INDXTG(N)
          JJ=7*(K-1)
          IOFF=NPTG(JJ+6)
-         THKN = TIERS*THKTG(K)
+         THKN = THKTG(K)
          BETA = BETATG(K)
          IF(IOFF >= 1) THEN
            WRITE(IUDYNAIN,'(5I8)')
@@ -338,5 +338,6 @@ C    DEAllocation Tabs
 C-----------------------
        DEALLOCATE(NPC,NPTG,CLEF,THKC,THKTG,BETAC,BETATG)
 C-----------------------------------------------
+
       RETURN
       END
