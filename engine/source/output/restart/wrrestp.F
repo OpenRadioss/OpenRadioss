@@ -1,29 +1,29 @@
 Copyright>        OpenRadioss
 Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
-Copyright>    
+Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
 Copyright>        the Free Software Foundation, either version 3 of the License, or
 Copyright>        (at your option) any later version.
-Copyright>    
+Copyright>
 Copyright>        This program is distributed in the hope that it will be useful,
 Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
 Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 Copyright>        GNU Affero General Public License for more details.
-Copyright>    
+Copyright>
 Copyright>        You should have received a copy of the GNU Affero General Public License
 Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-Copyright>    
-Copyright>    
-Copyright>        Commercial Alternative: Altair Radioss Software 
-Copyright>    
-Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
-Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+Copyright>
+Copyright>
+Copyright>        Commercial Alternative: Altair Radioss Software
+Copyright>
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
 Chd|  WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        COMPRESS_I_NNZ                ../common_source/comm/compress_nnz.F
 Chd|        COMPRESS_R_NNZ                ../common_source/comm/compress_nnz.F
@@ -32,14 +32,14 @@ Chd|        ENG_WRT_MDS                   source/output/restart/mds_eng_rest.F
 Chd|        FXBWREST                      source/output/restart/wrrest.F
 Chd|        INTFRIC_WRESTI                share/modules/intbuf_fric_mod.F
 Chd|        INTFRIC_WRESTR                share/modules/intbuf_fric_mod.F
-Chd|        INTSTAMP_WRESTI               share/modules/intstamp_mod.F  
-Chd|        INTSTAMP_WRESTR               share/modules/intstamp_mod.F  
+Chd|        INTSTAMP_WRESTI               share/modules/intstamp_mod.F
+Chd|        INTSTAMP_WRESTR               share/modules/intstamp_mod.F
 Chd|        OPEN_C                        source/output/tools/sortie_c.c
 Chd|        PBLAST_WRITE                  ../common_source/modules/pblast_mod.F
-Chd|        SPMD_GLOB_DMIN9               source/mpi/fluid/spmd_cfd.F   
+Chd|        SPMD_GLOB_DMIN9               source/mpi/fluid/spmd_cfd.F
 Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_SAVEFI                   source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_SAVESPH                  source/mpi/sph/spmd_sptool.F  
+Chd|        SPMD_SAVESPH                  source/mpi/sph/spmd_sptool.F
 Chd|        TABLE_WRESTI                  source/tools/curve/table_tools.F
 Chd|        TABLE_WRESTR                  source/tools/curve/table_tools.F
 Chd|        WRCOMI                        source/output/restart/wrcomm.F
@@ -54,7 +54,7 @@ Chd|        WRITE_JOINT                   source/output/restart/write_joint.F
 Chd|        WRITE_MATPARAM                source/output/restart/write_matparam.F
 Chd|        WRITE_NLOC_STRUCT             source/output/restart/write_nloc_struct.F
 Chd|        WRITE_SENSOR_TAB              source/output/restart/write_sensor_tab.F
-Chd|        WRSAFLIC                      com/licensing/wrsalic.F       
+Chd|        WRSAFLIC                      com/licensing/wrsalic.F
 Chd|        W_BUFBRIC_22                  source/interfaces/int22/w_bufbric_22.F
 Chd|        W_CLUSTER                     source/output/cluster/w_cluster.F
 Chd|        W_ELBUF_STR                   source/elements/elbuf/w_elbuf_str.F
@@ -64,17 +64,17 @@ Chd|        W_LINE_STR                    source/output/restart/w_line_str.F
 Chd|        W_SUBSET_STR                  source/output/restart/w_subset_str.F
 Chd|        W_SURF_STR                    source/output/restart/w_surf_str.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
-Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
+Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F
 Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
-Chd|        ECND_MOD                      share/modules/ecdn_mod.F      
+Chd|        ECND_MOD                      share/modules/ecdn_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        GROUP_MOD                     share/modules/group_mod.F     
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        GROUP_MOD                     share/modules/group_mod.F
+Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        INT8_MOD                      ../common_source/modules/int8_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        INTBUFMOD                     share/modules/restart_mod.F   
+Chd|        INTBUFMOD                     share/modules/restart_mod.F
 Chd|        INTBUF_FRIC_MOD               share/modules/intbuf_fric_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
@@ -82,11 +82,11 @@ Chd|        MONVOL_STRUCT_MOD             share/modules/monvol_struct_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        PBLAST_MOD                    ../common_source/modules/pblast_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|        RESTMOD                       share/modules/restart_mod.F   
+Chd|        RESTMOD                       share/modules/restart_mod.F
 Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        SMS_MOD                       share/modules/sms_mod.F       
-Chd|        SPH_MOD                       share/modules/sph_mod.F       
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
+Chd|        SMS_MOD                       share/modules/sms_mod.F
+Chd|        SPH_MOD                       share/modules/sph_mod.F
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|====================================================================
       SUBROUTINE WRRESTP(AF       ,IAF     ,XDP   ,ICH     ,ADDCNE,
@@ -102,10 +102,10 @@ C-----------------------------------------------
       USE INTSTAMP_GLOB_MOD
       USE SMS_MOD
       USE TABLE_GLOB_MOD
-      USE ELBUFDEF_MOD  
+      USE ELBUFDEF_MOD
       USE SPH_MOD
       USE INTBUFDEF_MOD
-      USE INT8_MOD     
+      USE INT8_MOD
       USE CLUSTER_MOD
       USE ECND_MOD
       USE MULTI_FVM_MOD
@@ -169,14 +169,14 @@ C-----------------------------------------------
 #include      "parit_c.inc"
 #include      "scr03_c.inc"
 #include      "scr05_c.inc"
-#include      "scr07_c.inc"    
+#include      "scr07_c.inc"
 #include      "scr13_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
 #include      "scr18_c.inc"
 #include      "scr19_c.inc"
 #include      "scrcut_c.inc"
-#include      "scrfs_c.inc"  
+#include      "scrfs_c.inc"
 #include      "scrnoi_c.inc"
 #include      "scr_fac_c.inc"
 #include      "sms_c.inc"
@@ -186,8 +186,8 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "remesh_c.inc"
 #include      "sphcom.inc"
-#include      "thermal_c.inc" 
-#include      "ale_param.inc" 
+#include      "thermal_c.inc"
+#include      "ale_param.inc"
 #include      "inter18.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -199,7 +199,7 @@ C-----------------------------------------------
       CHARACTER*1 IJK(26)
       INTEGER LHEADER,LVARINT,LVARREA,LMXVINT,LMXVREA,M
       PARAMETER (LHEADER=15)
-      PARAMETER (LMXVINT=4000)  
+      PARAMETER (LMXVINT=4000)
       PARAMETER (LMXVREA=1000+30*MAXLAW+30)
       INTEGER   TABHEAD(LHEADER),TABVINT(LMXVINT)
       my_real
@@ -218,7 +218,7 @@ C-----------------------------------------------
 C--------------------------------------
 C     PREPARATION DES VARIABLES ENTIERES ET REELLES.
 C--------------------------------------
-      IPARI0 = IPARIT 
+      IPARI0 = IPARIT
       CALL WRCOMI(LMXVINT,LVARINT,TABVINT,1,MULTI_FVM,H3D_DATA)
 C
       ENTMP(1) = TFEXT
@@ -291,7 +291,7 @@ C--------------------------------------
       FILNAMG=FILNAMG(1:LENG)//'.rst'
       LENG = LENG+4
 
-      LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN      
+      LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN
       TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN)
 
       DO I = 1, LEN_TMP_NAME
@@ -352,14 +352,12 @@ C--------------------------------------
 C     ECRITURE DES VARIABLES ENTIERES
 C--------------------------------------
       CALL WRITE_I_C(TABVINT,LVARINT)
-
-
 C--------------------------------------
 C     ECRITURE DES ENTIERS
 C--------------------------------------
       LEN_G = NPROPGI*NUMGEO
-      LEN_M = NPROPMI*NUMMAT      
-      LEN_S = NPART   
+      LEN_M = NPROPMI*NUMMAT
+      LEN_S = NPART
         CALL WRITE_I_C(NODGLOB,SNODGLOB)
 
         CALL WRITE_I_C(MAIN_PROC,SWEIGHT)
@@ -429,7 +427,7 @@ C--------------------------------------
            CALL WRITE_I_C(ITMP, 1)
            CALL WRITE_I_C(ALE_CONNECTIVITY%ee_connect%iface2, ITMP)
         ENDIF
-        
+
         CALL WRITE_I_C(ID_GLOBAL_VOIS,SIELVS)
 
         CALL WRITE_I_C(FACE_VOIS,SIELVS)
@@ -440,13 +438,13 @@ C--------------------------------------
            CALL WRITE_I_C(NE_NESDVOIS, NSPMD + 1)
            CALL WRITE_I_C(NE_LESDVOIS, NE_SLESDVOIS)
         ENDIF
-        IF (IALE > 0 .AND. (NWALE < 2 .OR. NWALE == 5)) THEN 
+        IF (IALE > 0 .AND. (NWALE < 2 .OR. NWALE == 5)) THEN
            CALL WRITE_I_C(ALE_CONNECTIVITY%NN_CONNECT%IAD_CONNECT, NUMNOD + 1)
            CALL WRITE_I_C(ALE_CONNECTIVITY%NN_CONNECT%CONNECTED, ALE_CONNECTIVITY%NN_CONNECT%IAD_CONNECT(NUMNOD + 1))
         ENDIF
         IF (IALE > 0 .AND. NWALE == 6 .OR. INTER18_AUTOPARAM == 1) THEN
            CALL WRITE_I_C(ALE_CONNECTIVITY%NE_CONNECT%IAD_CONNECT, NUMNOD + 1)
-           CALL WRITE_I_C(ALE_CONNECTIVITY%NE_CONNECT%CONNECTED, 
+           CALL WRITE_I_C(ALE_CONNECTIVITY%NE_CONNECT%CONNECTED,
      .          ALE_CONNECTIVITY%NE_CONNECT%IAD_CONNECT(NUMNOD + 1))
         ENDIF
 
@@ -455,14 +453,12 @@ C--------------------------------------
            NS_DIFF = 1
         ENDIF
         CALL WRITE_I_C(NS_DIFF, 1)
-        IF (NS_DIFF == 1) THEN 
-           CALL WRITE_I_C(ALE_CONNECTIVITY%IDGLOB%ID, 
+        IF (NS_DIFF == 1) THEN
+           CALL WRITE_I_C(ALE_CONNECTIVITY%IDGLOB%ID,
      .          NUMELS + NSVOIS + NUMELQ + NQVOIS + NUMELTG + NTGVOIS)
         ENDIF
 
         CALL WRITE_I_C(IFILL,SIFILL)
-
-        CALL PBLAST_WRITE(PBLAST_TAB)
 
         CALL WRITE_I_C(IMS,SIMS)
 
@@ -490,7 +486,7 @@ C--------------------------------------
 
         CALL WRITE_I_C(ISPHIO,SISPHIO)
 
-        CALL WRITE_I_C(LPRTSPH,SLPRTSPH)   
+        CALL WRITE_I_C(LPRTSPH,SLPRTSPH)
 
         CALL WRITE_I_C(LONFSPH,SLONFSPH)
 
@@ -519,7 +515,7 @@ C--------------------------------------
         CALL WRITE_I_C(IECRAN,SIECRAN)
 
         CALL WRITE_I_C(ILAS,SILAS)
-        
+
         CALL WRITE_I_C(EBCS_TAB%nebcs, 1)
         CALL WRITE_I_C(EBCS_TAB%nebcs_fvm, 1)
         CALL WRITE_I_C(EBCS_TAB%nebcs_loc, 1)
@@ -582,11 +578,11 @@ C--------------------------------------
         CALL WRITE_I_C(IPARI,SIPARI)
 
 c        CALL WRITE_I_C(INBUF,SINBUF)
-       
+
         CALL W_BUFBRIC_22() !inter22
-        
+
         !write new structure INTBUF_TAB
-        CALL WRITE_INTBUF(INTBUF_TAB)        
+        CALL WRITE_INTBUF(INTBUF_TAB)
 
         CALL WRITE_I_C(NPRW,SNPRW)
 
@@ -690,7 +686,7 @@ c        CALL WRITE_I_C(INBUF,SINBUF)
         CALL WRITE_I_C(FR_MV,SFR_MV)
 
         CALL WRITE_I_C(IAD_ELEM,SIAD_ELEM)
-        
+
         CALL WRITE_I_C(IAD_RBY,SIAD_RBY)
 
         CALL WRITE_I_C(IAD_RBY2,SIAD_RBY2)
@@ -710,10 +706,10 @@ c        CALL WRITE_I_C(INBUF,SINBUF)
         CALL WRITE_I_C(IAD_SEC,SIAD_SEC)
 
         CALL WRITE_I_C(IAD_CUT,SIAD_CUT)
-C 
+C
         CALL WRITE_I_C(IAD_RBYM,SIAD_RBYM)
-        
-        CALL WRITE_I_C(IAD_RBYM2,SIAD_RBYM2)      
+
+        CALL WRITE_I_C(IAD_RBYM2,SIAD_RBYM2)
 C
         CALL WRITE_I_C(FR_ELEM,SFR_ELEM)
 
@@ -736,9 +732,9 @@ C
         CALL WRITE_I_C(FR_RBE2,SFR_RBE2)
 
         CALL WRITE_I_C(FR_RBE3M,SFR_RBE3M)
- 
+
         CALL WRITE_I_C(FR_RBE3MP,SFR_RBE3M)
- 
+
         CALL WRITE_I_C(FR_SEC,SFR_SEC)
 
         CALL WRITE_I_C(FR_CUT,SFR_CUT)
@@ -750,27 +746,27 @@ C
         CALL WRITE_I_C(FR_I18,SFR_I18)
 
         CALL WRITE_I_C(DD_R2R,SDD_R2R)
-        
-        CALL WRITE_I_C(DD_R2R_ELEM,SDD_R2R_ELEM)         
-        
+
+        CALL WRITE_I_C(DD_R2R_ELEM,SDD_R2R_ELEM)
+
         CALL WRITE_I_C(FR_RBYM,SFR_RBYM)
-         
-        CALL WRITE_I_C(FR_RBYM2,SFR_RBYM2)        
 
-        CALL WRITE_I_C(ADDCSRECT,NUMNOR+1)        
+        CALL WRITE_I_C(FR_RBYM2,SFR_RBYM2)
 
-        CALL WRITE_I_C(FR_NOR,NBDDNORT)        
+        CALL WRITE_I_C(ADDCSRECT,NUMNOR+1)
+
+        CALL WRITE_I_C(FR_NOR,NBDDNORT)
 
         CALL WRITE_I_C(IAD_FRNOR,(NSPMD+1)*NINTER25)
 
         CALL WRITE_I_C(PROCNOR,NBCCNOR)
 
-        CALL WRITE_I_C(FR_EDG,2*NBDDEDGT)        
+        CALL WRITE_I_C(FR_EDG,2*NBDDEDGT)
 
         CALL WRITE_I_C(IAD_FREDG,(NSPMD+1)*NINTER25)
 
         CALL WRITE_I_C(ISKWP,SISKWP)
-        
+
         CALL WRITE_I_C(NSKWP,SNSKWP)
 
         IF(SNSKWP>0) CALL WRITE_I_C(ISKWP_L,NSKWP(ISPMD+1))
@@ -827,7 +823,7 @@ C
           CALL WRITE_I_C(FR_EDGE,SFR_EDGE)
           CALL WRITE_I_C(FR_NBEDGE,SFR_NBEDGE)
         ENDIF
-	
+
 c        IF(NS10E > 0)THEN
           CALL WRITE_I_C(IAD_CNDM,SIAD_CNDM)
           CALL WRITE_I_C(FR_CNDM,SFR_CNDM)
@@ -844,7 +840,7 @@ c        ENDIF
          CALL WRITE_I_C(ADDCNCND,SADDCNCND)
         ENDIF
         CALL WRITE_I_C(PROCNCND,SPROCNCND)
-	
+
         CALL WRITE_I_C(IADS,NISKY0)
         CALL WRITE_I_C(IADWAL,NSKYRW0)
         CALL WRITE_I_C(IADRBK,NSKYRBK0)
@@ -854,20 +850,20 @@ c        ENDIF
         CALL WRITE_I_C(IADMV3,NSKYMVC0)
         CALL WRITE_I_C(IADLL,NSKYLL0)
         CALL WRITE_I_C(IADRBM,NSKYRBM0)
-        CALL WRITE_I_C(IADI18,NSKYI18)        
+        CALL WRITE_I_C(IADI18,NSKYI18)
         CALL WRITE_I_C(IADRBMK,NSKYRBMK0)
 C
-C  ply xfem 
-C          
+C  ply xfem
+C
         IF(IPLYXFEM > 0) THEN
             CALL WRITE_I_C(ADSKY_PXFEM,NPLYXFE+1 )
 C lecture directe de PROCNE
-            CALL WRITE_I_C(PROCNE_PXFEM,LCNEPXFEM) 
-            CALL WRITE_I_C(IADC_PXFEM,4*EPLYXFE)  
+            CALL WRITE_I_C(PROCNE_PXFEM,LCNEPXFEM)
+            CALL WRITE_I_C(IADC_PXFEM,4*EPLYXFE)
         ENDIF
 C
 C  xfem for layered shell (cracks)
-C          
+C
         IF(ICRACK3D > 0) THEN
           CALL WRITE_I_C(ADSKY_CRKXFEM,NCRKXFE+1)
           CALL WRITE_I_C(CNE_CRKXFEM,LCNECRKXFEM)
@@ -930,6 +926,9 @@ C--------------------------------------
         CALL WRITE_I_C(ILOADP,SIZLOADP*NLOADP)
         CALL WRITE_I_C(LLOADP,SLLOADP)
       ENDIF
+      IF (NLOADP_B.GT.0)THEN
+        CALL PBLAST_WRITE_ENGINE(PBLAST_TAB)
+      ENDIF
 C--------------------------------------
       IF(ICRACK3D > 0)THEN
         CALL WRITE_I_C(IBORDNODE,SIBORDNODE)
@@ -959,13 +958,13 @@ C--------------------------------------
 C     ECRITURE DES REELS
 C--------------------------------------
          CALL WRITE_DB(X,SX)
- 
+
          CALL WRITE_DB(D,SD)
- 
+
          CALL WRITE_DB(V,SV)
 
          CALL WRITE_DB(VR,SVR)
- 
+
          CALL WRITE_DB(DR,SDR)
 
          CALL WRITE_DB(THKE,STHKE)
@@ -1021,7 +1020,7 @@ C--------------------------------------
             ELSE
                CALL WRITE_DB(MULTI_FVM%VEL(1, :), NUMELQ + NUMELTG)
                CALL WRITE_DB(MULTI_FVM%VEL(2, :), NUMELQ + NUMELTG)
-               CALL WRITE_DB(MULTI_FVM%VEL(3, :), NUMELQ + NUMELTG)               
+               CALL WRITE_DB(MULTI_FVM%VEL(3, :), NUMELQ + NUMELTG)
             ENDIF
          ENDIF
 
@@ -1060,11 +1059,11 @@ C--------------------------------------
          CALL WRITE_DB(VEL,SVEL)
 
          CALL WRITE_DB(FSAV,SFSAV)
-         
+
          CALL WRITE_DB(FBSAV6,12*6*SFSAV6)
 
          CALL WRITE_I_C(TABSENSOR,STABSEN)
-         
+
          CALL WRITE_I_C(TAB_UMP,7*TAILLE)
 
          CALL WRITE_I_C(POIN_UMP,NUMMAT)
@@ -1113,7 +1112,7 @@ C  if xfem
              CALL W_ELBUF_STR(IPARG,XFEM_TAB(1:NGROUP,IXEL),FLAG_XFEM)
            ENDDO
          ENDIF
-         
+
          CALL W_CLUSTER(CLUSTER)
 
          CALL WRITE_DB(RWBUF,SRWBUF)
@@ -1152,7 +1151,7 @@ C--------------------------------------
 Cow on ramene PARTSAV sur le proc et on met a zero les autres
           IF(NSPMD > 1)
      .      CALL SPMD_GLOB_DSUM9(PARTSAV,NPSAV*NPART)
-          IF (ISPMD.NE.0)THEN 
+          IF (ISPMD.NE.0)THEN
             DO M=1,NPSAV*NPART
                  PARTSAV(M) = ZERO
             ENDDO
@@ -1186,13 +1185,13 @@ C on a besoin car les restart sont les memes des check restart
         CALL WRITE_I_C (MY_RLEN,1)
         CALL WRITE_I_C (ILINK,4*NRLINK)
         CALL WRITE_I_C (FR_RL,NRLINK*(NSPMD+2))
-        CALL WRITE_I_C (LLINK,LLLINK)  
-        CALL WRITE_I_C (IADRL,LLLINK*MIN(1,IPARIT))      
+        CALL WRITE_I_C (LLINK,LLLINK)
+        CALL WRITE_I_C (IADRL,LLLINK*MIN(1,IPARIT))
         !CALL WRITE_I_C (LINALE,LLINAL)
 C       section
 	       CALL WRITE_I_C(NEFLSW,NSFLSW)
 	       CALL WRITE_I_C(NNFLSW,8*NTFLSW)
-	       CALL WRITE_I_C(ICUT,44*NCUTS) 
+	       CALL WRITE_I_C(ICUT,44*NCUTS)
 	       CALL WRITE_DB (CRFLSW,9*NSFLSW)
 	       CALL WRITE_DB (XCUT,7*NCUTS)
 C--------------------------------------
@@ -1239,19 +1238,19 @@ C--------------------------------------
 
         IF(H3D_DATA%N_SCAL_SKID > 0) THEN
          IF(NINTSTAMP/=0) THEN
-           CALL WRITE_DB(PSKIDS, H3D_DATA%N_SCAL_SKID*NUMNODG) 
+           CALL WRITE_DB(PSKIDS, H3D_DATA%N_SCAL_SKID*NUMNODG)
          ELSE
-           CALL WRITE_DB(PSKIDS, H3D_DATA%N_SCAL_SKID*NUMNOD) 
+           CALL WRITE_DB(PSKIDS, H3D_DATA%N_SCAL_SKID*NUMNOD)
          ENDIF
-       ENDIF  
-         
-        IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX >0)THEN   
+       ENDIF
+
+        IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX >0)THEN
           IF(NINTSTAMP/=0.AND.NSPMD > 1 ) THEN
-             IF(ISPMD == 0) CALL WRITE_DB(FCONT_MAX, 3*NUMNODG) 
+             IF(ISPMD == 0) CALL WRITE_DB(FCONT_MAX, 3*NUMNODG)
           ELSE
-             CALL WRITE_DB(FCONT_MAX, 3*NUMNOD) 
-         ENDIF  
-        ENDIF       
+             CALL WRITE_DB(FCONT_MAX, 3*NUMNOD)
+         ENDIF
+        ENDIF
 C--------------------------------------
 C  Interface friction buffer (integer )
 C--------------------------------------
@@ -1300,7 +1299,7 @@ C ALE LINKS
 !      print *,"wrrestp.F: WRITE_I_C, SLINALE=", SLINALE
       IF(SLINALE > 0)THEN
         CALL WRITE_I_C(LINALE,SLINALE)
-      END IF      
+      END IF
 C
 c        CALL WRITE_DB(RTHBUF,SRTHBUF)
 C--------------------------------------
@@ -1395,12 +1394,12 @@ C
 C
       IF (N_ANCHOR_REMOTE > 0) THEN
         CALL WRITE_I_C(ANCHOR_REMOTE%ADD_PROC, NSPMD)
-        CALL WRITE_I_C(ANCHOR_REMOTE%NODE, N_ANCHOR_REMOTE)     
+        CALL WRITE_I_C(ANCHOR_REMOTE%NODE, N_ANCHOR_REMOTE)
       ENDIF
 C
       IF (N_ANCHOR_REMOTE_SEND > 0) THEN
         CALL WRITE_I_C(ANCHOR_REMOTE_SEND%ADD_PROC, NSPMD)
-        CALL WRITE_I_C(ANCHOR_REMOTE_SEND%NODE, N_ANCHOR_REMOTE_SEND)  
+        CALL WRITE_I_C(ANCHOR_REMOTE_SEND%NODE, N_ANCHOR_REMOTE_SEND)
       ENDIF
 C
       IF ((NSLIPRING_G + NRETRACTOR_G >0).AND.(ISPMD == 0)) THEN
@@ -1414,7 +1413,7 @@ C
           ENDDO
         ENDIF
       ENDIF
-C 
+C
 C--------------------------------------
       IF(ISPMD.EQ.0)THEN
         WRITE (IOUT,1000)  FILNAMG(1:LENG)

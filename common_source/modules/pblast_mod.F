@@ -1,28 +1,28 @@
 Copyright>        OpenRadioss
 Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
-Copyright>    
+Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
 Copyright>        the Free Software Foundation, either version 3 of the License, or
 Copyright>        (at your option) any later version.
-Copyright>    
+Copyright>
 Copyright>        This program is distributed in the hope that it will be useful,
 Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
 Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 Copyright>        GNU Affero General Public License for more details.
-Copyright>    
+Copyright>
 Copyright>        You should have received a copy of the GNU Affero General Public License
 Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-Copyright>    
-Copyright>    
-Copyright>        Commercial Alternative: Altair Radioss Software 
-Copyright>    
-Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
-Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+Copyright>
+Copyright>
+Copyright>        Commercial Alternative: Altair Radioss Software
+Copyright>
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 Chd|====================================================================
-Chd|  PBLAST_MOD                    modules/pblast_mod.F          
+Chd|  PBLAST_MOD                    modules/pblast_mod.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
 Chd|        HM_PREREAD_PBLAST             starter/source/loads/pblast/hm_preread_pblast.F
@@ -34,7 +34,7 @@ Chd|        PBLAST_1                      engine/source/loads/pblast/pblast_1.F
 Chd|        PBLAST_2                      engine/source/loads/pblast/pblast_2.F
 Chd|        PBLAST_3                      engine/source/loads/pblast/pblast_3.F
 Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|        RESOL                         engine/source/engine/resol.F  
+Chd|        RESOL                         engine/source/engine/resol.F
 Chd|        RESOL_INIT                    engine/source/engine/resol_init.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
@@ -46,10 +46,10 @@ Chd|====================================================================
       TYPE PBLAST_STRUCT_
         INTEGER SIZ
         my_real, ALLOCATABLE,DIMENSION(:)   :: PRES      ! pressure output(workarray)
-        my_real, ALLOCATABLE,DIMENSION(:)   :: cos_theta ! angle on structural face 
+        my_real, ALLOCATABLE,DIMENSION(:)   :: cos_theta ! angle on structural face
         my_real, ALLOCATABLE,DIMENSION(:)   :: P_inci,P_refl,ta,t0,decay_inci,decay_refl ! Friedlander parameters
       END TYPE PBLAST_STRUCT_
-      
+
       TYPE PBLAST_DATA_
        !-----------------------------------------------------------!
        !            FREE AIR BURST                                 !
@@ -65,40 +65,40 @@ Chd|====================================================================
        my_real Pra(10,256)   !mach front pressure
        my_real SRI(10,256)   !scale of reflected impulse
        my_real SHTP(10,256)  !scaled height of triple point
-       my_real SHTP_abscissa(256)       
+       my_real SHTP_abscissa(256)
        my_real ANGLE_pra(10) !x-bound Pra
        my_real ANGLE_sri(10) !x-bound SRI
-       my_real SHDC(2,10),dSHDC    !X-bounds Scaled Height Distance from Charge 
-       my_real Curve_val_2_9(10), Curve_val_2_13(10) !data from curve legend 
-       my_real delta_angle   !85 deg - 0deg / (256 points - 1)  
+       my_real SHDC(2,10),dSHDC    !X-bounds Scaled Height Distance from Charge
+       my_real Curve_val_2_9(10), Curve_val_2_13(10) !data from curve legend
+       my_real delta_angle   !85 deg - 0deg / (256 points - 1)
        !-----------------------------------------------------------!
        !            SURFACE BURST (hemispherical+ground)           !
        !-----------------------------------------------------------!
        my_real :: RW3_g(256),Ir_g(256),Iso_g(256),Pr_g(256),Pso_g(256),t0_g(256),ta_g(256)
       END TYPE PBLAST_DATA_
-      
+
       TYPE(PBLAST_STRUCT_),ALLOCATABLE,DIMENSION(:) :: PBLAST_TAB
       TYPE(PBLAST_DATA_) :: PBLAST_DATA
 
       INTEGER PBLAST_NDT
       PARAMETER(PBLAST_NDT = 100)
-      
+
       COMMON /PBLAST_I/ IDT_PBLAST
       INTEGER IDT_PBLAST
 
       COMMON /PBLAST_J/ T0INF_PBLAST, TAINF_PBLAST, DT_PBLAST
       my_real T0INF_PBLAST, TAINF_PBLAST, DT_PBLAST
-      
-        
+
+
        CONTAINS
-       
+
 Chd|====================================================================
-Chd|  PBLAST_LOAD                   modules/pblast_mod.F          
+Chd|  PBLAST_LOAD                   modules/pblast_mod.F
 Chd|-- called by -----------
 Chd|        RDRESB                        engine/source/output/restart/rdresb.F
 Chd|-- calls ---------------
-Chd|        ARRET                         starter/source/system/arret.F 
-Chd|        ARRET                         engine/source/system/arret.F  
+Chd|        ARRET                         starter/source/system/arret.F
+Chd|        ARRET                         engine/source/system/arret.F
 Chd|        READ_DB                       starter/source/restart/ddsplit/wrrest.F
 Chd|        READ_DB                       engine/source/output/tools/read_db.F
 Chd|        READ_I_C                      starter/source/output/tools/write_routines.c
@@ -128,6 +128,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: SIZ,IERR1,I
+      my_real,DIMENSION(:),ALLOCATABLE :: RTMP
+      INTEGER IAD,KK
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
@@ -137,34 +139,37 @@ C   S o u r c e   C o d e
 C-----------------------------------------------
       ALLOCATE (   PBLAST_TAB(NLOADP_B),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000
       !--------------------------------------
-      !     LECTURE DES ENTIERS
+      !     READING NUMBER OF LOCAL SEGMENTS
       !--------------------------------------
       DO I=1,NLOADP_B
         CALL READ_I_C(PBLAST_TAB(I)%SIZ,1)
       ENDDO
       !--------------------------------------
-      !     LECTURE DES REELS
+      !     READING REAL BUFFER (local segments only)
       !--------------------------------------
-!        my_real, ALLOCATABLE,DIMENSION(:)   :: PRES      ! pressure output(workarray)
-!        my_real, ALLOCATABLE,DIMENSION(:)   :: cos_theta ! angle on structural face 
-!        my_real, ALLOCATABLE,DIMENSION(:)   :: P_inci,P_refl,ta,t0,decay_inci,decay_refl ! Friedlander parameters
-      
       DO I=1,NLOADP_B
-        CALL READ_I_C(SIZ,1)
+        SIZ = PBLAST_TAB(I)%SIZ
         ALLOCATE (   PBLAST_TAB(I)%cos_theta(SIZ),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000
         ALLOCATE (   PBLAST_TAB(I)%P_inci(SIZ),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000
-        ALLOCATE (   PBLAST_TAB(I)%P_refl(SIZ),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000        
-        ALLOCATE (   PBLAST_TAB(I)%ta(SIZ),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000  
+        ALLOCATE (   PBLAST_TAB(I)%P_refl(SIZ),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000
+        ALLOCATE (   PBLAST_TAB(I)%ta(SIZ),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000
         ALLOCATE (   PBLAST_TAB(I)%t0(SIZ),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000
-        ALLOCATE (   PBLAST_TAB(I)%decay_inci(SIZ),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000 
-        ALLOCATE (   PBLAST_TAB(I)%decay_refl(SIZ),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000                             
-        CALL READ_DB(PBLAST_TAB(I)%cos_theta(1:SIZ),SIZ)
-        CALL READ_DB(PBLAST_TAB(I)%P_inci(1:SIZ),SIZ)
-        CALL READ_DB(PBLAST_TAB(I)%P_refl(1:SIZ),SIZ)
-        CALL READ_DB(PBLAST_TAB(I)%ta(1:SIZ),SIZ)
-        CALL READ_DB(PBLAST_TAB(I)%t0(1:SIZ),SIZ)
-        CALL READ_DB(PBLAST_TAB(I)%decay_inci(1:SIZ),SIZ)
-        CALL READ_DB(PBLAST_TAB(I)%decay_refl(1:SIZ),SIZ)        
+        ALLOCATE (   PBLAST_TAB(I)%decay_inci(SIZ),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000
+        ALLOCATE (   PBLAST_TAB(I)%decay_refl(SIZ),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000
+        ALLOCATE(RTMP(7*SIZ))
+        CALL READ_DB(RTMP,7*SIZ)
+        IAD = 0
+        DO KK=1,SIZ
+          PBLAST_TAB(I)%cos_theta(KK) = RTMP(IAD+1)
+          PBLAST_TAB(I)%P_inci(KK) = RTMP(IAD+2)
+          PBLAST_TAB(I)%P_refl(KK) = RTMP(IAD+3)
+          PBLAST_TAB(I)%ta(KK) = RTMP(IAD+4)
+          PBLAST_TAB(I)%t0(KK) = RTMP(IAD+5)
+          PBLAST_TAB(I)%decay_inci(KK) = RTMP(IAD+6)
+          PBLAST_TAB(I)%decay_refl(KK) = RTMP(IAD+7)
+          IAD = IAD+7
+        ENDDO
+        DEALLOCATE(RTMP)
       ENDDO
 C-----------------------------------------------
  1000 CONTINUE
@@ -178,7 +183,7 @@ C-----------------------------------------------
       END
 
 Chd|====================================================================
-Chd|  PBLAST_WRITE                  modules/pblast_mod.F          
+Chd|  PBLAST_WRITE                  modules/pblast_mod.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
@@ -190,7 +195,7 @@ Chd|        WRITE_I_C                     engine/source/output/tools/sortie_c.c
 Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
 Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE PBLAST_WRITE(PBLAST_TAB)
+      SUBROUTINE PBLAST_WRITE_STARTER(PBLAST_TAB,PROC,CEP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -204,14 +209,20 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "units_c.inc"
+#include      "rnur_c.inc"
+#include      "thermal_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(PBLAST_STRUCT_),INTENT(INOUT), ALLOCATABLE,DIMENSION(:) :: PBLAST_TAB
+      INTEGER,INTENT(IN)::PROC,CEP(SCEP)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: SIZ,IERR1,I
+      INTEGER :: SIZ,IERR1,I,NSEG_LOC,IAD,OFF,JJ
+      INTEGER, DIMENSION(:),ALLOCATABLE :: NSEGL
+      my_real, DIMENSION(:),ALLOCATABLE :: RTMP
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
@@ -219,40 +230,138 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------
+      OFF = NUMELC+NUMELTG+NUMELS+NUMELQ+NUMELT+NUMELP+NUMELR+NUMELUR+NUMELX+NCONLD+NUMCONV+NUMRADIA+NFXFLUX
+      ALLOCATE(NSEGL(NLOADP_B))
+      !--------------------------------------
+      !     WRITING LOCAL SIZE (number of local segments)
+      !--------------------------------------
+      DO I=1,NLOADP_B
+        NSEG_LOC=0
+        DO JJ=1,PBLAST_TAB(I)%SIZ
+          IF(CEP(JJ+OFF).EQ.PROC)THEN  !check if segment is on local domain
+            NSEG_LOC=NSEG_LOC+1
+          ENDIF
+        ENDDO
+        NSEGL(I)=NSEG_LOC
+        CALL WRITE_I_C(NSEG_LOC,1)
+        OFF = OFF + PBLAST_TAB(I)%SIZ
+      ENDDO
 
       !--------------------------------------
-      !     LECTURE DES ENTIERS
+      !     WRITING REAL BUFFER (for local segments only)
+      !--------------------------------------
+      OFF = NUMELC+NUMELTG+NUMELS+NUMELQ+NUMELT+NUMELP+NUMELR+NUMELUR+NUMELX+NCONLD+NUMCONV+NUMRADIA+NFXFLUX
+      DO I=1,NLOADP_B
+        SIZ = NSEGL(I)
+        ALLOCATE(RTMP(7*NSEGL(I)))
+        IAD=0
+        DO JJ=1,PBLAST_TAB(I)%SIZ
+          IF(CEP(JJ+OFF).EQ.PROC)THEN !write buffer if segment is on local domain
+            RTMP(IAD+1) = PBLAST_TAB(I)%cos_theta(JJ)
+            RTMP(IAD+2) = PBLAST_TAB(I)%P_inci(JJ)
+            RTMP(IAD+3) = PBLAST_TAB(I)%P_refl(JJ)
+            RTMP(IAD+4) = PBLAST_TAB(I)%ta(JJ)
+            RTMP(IAD+5) = PBLAST_TAB(I)%t0(JJ)
+            RTMP(IAD+6) = PBLAST_TAB(I)%decay_inci(JJ)
+            RTMP(IAD+7) = PBLAST_TAB(I)%decay_refl(JJ)
+            IAD = IAD + 7
+          ENDIF
+        ENDDO
+        CALL WRITE_DB(RTMP,7*NSEGL(I))
+        DEALLOCATE(RTMP)
+        OFF = OFF + PBLAST_TAB(I)%SIZ
+      ENDDO
+      DEALLOCATE(NSEGL)
+C-----------------------------------------------
+      RETURN
+      END
+
+
+Chd|====================================================================
+Chd|  PBLAST_WRITE                  modules/pblast_mod.F
+Chd|-- called by -----------
+Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
+Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
+Chd|-- calls ---------------
+Chd|        WRITE_DB                      starter/source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DB                      engine/source/output/tools/write_db.F
+Chd|        WRITE_I_C                     starter/source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     engine/source/output/tools/sortie_c.c
+Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
+Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
+Chd|====================================================================
+      SUBROUTINE PBLAST_WRITE_ENGINE(PBLAST_TAB)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MESSAGE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "com04_c.inc"
+#include      "units_c.inc"
+#include      "rnur_c.inc"
+#include      "thermal_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      TYPE(PBLAST_STRUCT_),INTENT(INOUT), ALLOCATABLE,DIMENSION(:) :: PBLAST_TAB
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER :: SIZ,IERR1,I,IAD,JJ
+      INTEGER, DIMENSION(:),ALLOCATABLE :: NSEGL
+      my_real, DIMENSION(:),ALLOCATABLE :: RTMP
+C-----------------------------------------------
+C   P r e - C o n d i t i o n
+C-----------------------------------------------
+      IF(NLOADP_B.LE.0)RETURN
+C-----------------------------------------------
+C   S o u r c e   C o d e
+C-----------------------------------------------
+      !--------------------------------------
+      !     WRITING LOCAL SIZE (number of local segments)
       !--------------------------------------
       DO I=1,NLOADP_B
         CALL WRITE_I_C(PBLAST_TAB(I)%SIZ,1)
       ENDDO
       !--------------------------------------
-      !     LECTURE DES REELS
+      !     WRITING REAL BUFFER (for local segments only)
       !--------------------------------------
       DO I=1,NLOADP_B
         SIZ = PBLAST_TAB(I)%SIZ
-        CALL WRITE_I_C(SIZ,1)
-        CALL WRITE_DB(PBLAST_TAB(I)%cos_theta(1:SIZ),SIZ)
-        CALL WRITE_DB(PBLAST_TAB(I)%P_inci(1:SIZ),SIZ)
-        CALL WRITE_DB(PBLAST_TAB(I)%P_refl(1:SIZ),SIZ)
-        CALL WRITE_DB(PBLAST_TAB(I)%ta(1:SIZ),SIZ)
-        CALL WRITE_DB(PBLAST_TAB(I)%t0(1:SIZ),SIZ)
-        CALL WRITE_DB(PBLAST_TAB(I)%decay_inci(1:SIZ),SIZ)
-        CALL WRITE_DB(PBLAST_TAB(I)%decay_refl(1:SIZ),SIZ)
+        IAD=0
+        ALLOCATE(RTMP(7*SIZ))
+        DO JJ=1,PBLAST_TAB(I)%SIZ
+            RTMP(IAD+1) = PBLAST_TAB(I)%cos_theta(JJ)
+            RTMP(IAD+2) = PBLAST_TAB(I)%P_inci(JJ)
+            RTMP(IAD+3) = PBLAST_TAB(I)%P_refl(JJ)
+            RTMP(IAD+4) = PBLAST_TAB(I)%ta(JJ)
+            RTMP(IAD+5) = PBLAST_TAB(I)%t0(JJ)
+            RTMP(IAD+6) = PBLAST_TAB(I)%decay_inci(JJ)
+            RTMP(IAD+7) = PBLAST_TAB(I)%decay_refl(JJ)
+            IAD = IAD + 7
+        ENDDO
+        CALL WRITE_DB(RTMP,7*SIZ)
+        DEALLOCATE(RTMP)
       ENDDO
 C-----------------------------------------------
       RETURN
       END
 
 Chd|====================================================================
-Chd|  PBLAST_INIT_TABLES            modules/pblast_mod.F          
+Chd|  PBLAST_INIT_TABLES            modules/pblast_mod.F
 Chd|-- called by -----------
 Chd|        HM_READ_PBLAST                starter/source/loads/pblast/hm_read_pblast.F
 Chd|        RDRESB                        engine/source/output/restart/rdresb.F
 Chd|-- calls ---------------
 Chd|====================================================================
-         SUBROUTINE PBLAST_INIT_TABLES(PBLAST_DATA) 
-            TYPE(PBLAST_DATA_),INTENT(INOUT) :: PBLAST_DATA        
+         SUBROUTINE PBLAST_INIT_TABLES(PBLAST_DATA)
+            TYPE(PBLAST_DATA_),INTENT(INOUT) :: PBLAST_DATA
 
 
             !curve limit SHDC
@@ -264,25 +373,25 @@ Chd|====================================================================
             PBLAST_DATA%SHDC(2,:) = PBLAST_DATA%SHDC(2,:) * 3.966977216838d00
             !delta_SDHC
             PBLAST_DATA%dSHDC = (71.5d0 - 7.9d0) / 255.d0
-            
+
             !angle - upper bound (domain of definition)
-            PBLAST_DATA%ANGLE_pra =(/85.00, 85.00, 85.00, 85.00, 85.00, 83.10, 81.90, 80.70, 79.50, 78.30 /)  
-            PBLAST_DATA%ANGLE_sri =(/85.00, 85.00, 85.00, 85.00, 85.00, 85.00, 85.00, 83.95, 82.90, 79.85 /) 
-            
+            PBLAST_DATA%ANGLE_pra =(/85.00, 85.00, 85.00, 85.00, 85.00, 83.10, 81.90, 80.70, 79.50, 78.30 /)
+            PBLAST_DATA%ANGLE_sri =(/85.00, 85.00, 85.00, 85.00, 85.00, 85.00, 85.00, 83.95, 82.90, 79.85 /)
+
             PBLAST_DATA%delta_angle = 85.d00/255.d00
-            
+
             !curve value (legend multiple plot)
             ! 1.00 ft/lb**1/3 =  3,966977216838196139019  cm/g**1/3
             !
-            ! ft/lb**1/3 -> cm/g**1/3 
-            !PBLAST_DATA%Curve_val_2_9  =(/0.3, 0.6, 0.8, 1.9, 3.0, 5.3, 7.2, 8.9, 11.9, 14.3/)  
-            PBLAST_DATA%Curve_val_2_9  =(/0.3, 0.6, 0.8, 1.9, 3.0, 5.3, 7.2, 8.9, 11.9, 14.3/)  
+            ! ft/lb**1/3 -> cm/g**1/3
+            !PBLAST_DATA%Curve_val_2_9  =(/0.3, 0.6, 0.8, 1.9, 3.0, 5.3, 7.2, 8.9, 11.9, 14.3/)
+            PBLAST_DATA%Curve_val_2_9  =(/0.3, 0.6, 0.8, 1.9, 3.0, 5.3, 7.2, 8.9, 11.9, 14.3/)
             !
-            ! ft/lb**1/3 -> cm/g**1/3         
-            !PBLAST_DATA%Curve_val_2_13 =(/1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 5.0, 6.0, 7.0 /)   
-            PBLAST_DATA%Curve_val_2_13 =(/1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 5.0, 6.0, 7.0 /)              
+            ! ft/lb**1/3 -> cm/g**1/3
+            !PBLAST_DATA%Curve_val_2_13 =(/1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 5.0, 6.0, 7.0 /)
+            PBLAST_DATA%Curve_val_2_13 =(/1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 5.0, 6.0, 7.0 /)
 
-C Figure 2_7 Scaled Radius R/W**(1/3): g,cm,mus,Mbar   
+C Figure 2_7 Scaled Radius R/W**(1/3): g,cm,mus,Mbar
             PBLAST_DATA%RW3 = (/
      +      5.0000000000e-01, 5.1328038846e-01, 5.2691351436e-01, 5.4090874667e-01, 5.5527570323e-01,
      +      5.7002425731e-01, 5.8516454445e-01, 6.0070696938e-01, 6.1666221319e-01, 6.3304124067e-01,
@@ -336,8 +445,8 @@ C Figure 2_7 Scaled Radius R/W**(1/3): g,cm,mus,Mbar
      +      3.0776081627e+02, 3.1593518265e+02, 3.2432666656e+02, 3.3294103480e+02, 3.4178420736e+02,
      +      3.5086226145e+02, 3.6018143570e+02, 3.6974813447e+02, 3.7956893219e+02, 3.8965057792e+02,
      +      4.0000000000e+02 /)
-           
-C Figure 2_7 Reflected Wave Impulse+ Iso/W**(1/3): g,cm,mus,Mbar     
+
+C Figure 2_7 Reflected Wave Impulse+ Iso/W**(1/3): g,cm,mus,Mbar
              PBLAST_DATA%Irefl = (/
      +     0.91477183325000E-01,0.86528105463000E-01,0.81747669692000E-01,0.77205331351000E-01,0.72935216422000E-01,
      +     0.68926595545000E-01,0.65155762569000E-01,0.61605258202000E-01,0.58261234933000E-01,0.55116706434000E-01,
@@ -391,7 +500,7 @@ C Figure 2_7 Reflected Wave Impulse+ Iso/W**(1/3): g,cm,mus,Mbar
      +     0.12149198944000E-04,0.11813404195000E-04,0.11486314565000E-04,0.11167834915000E-04,0.10857925150000E-04,
      +     0.10556151611000E-04,0.10262176638000E-04,0.99759564290000E-05,0.96980220473000E-05,0.94237557535000E-05,
      +     0.91680439661000E-05      /)
-     
+
 C Figure 2_7 Incident Wave Impulse+ Iso/W**(1/3): g,cm,mus,Mbar
              PBLAST_DATA%Iso = (/
      +     0.28466039898000E-02,0.27397298250000E-02,0.26338772965000E-02,0.25288980910000E-02,0.24248936980000E-02,
@@ -557,7 +666,7 @@ C Figure 2_7 Incident Pressure Pso/W**(1/3) : g,cm,mus,Mbar
      +     0.20405786438000E-07,0.19700173870000E-07,0.19027321245000E-07,0.18389463417000E-07,0.17772017546000E-07,
      +     0.17222643810000E-07      /)
 
-C Figure 2_7 Characteristic Time T0/W**(1/3) : g,cm,mus,Mbar  
+C Figure 2_7 Characteristic Time T0/W**(1/3) : g,cm,mus,Mbar
              PBLAST_DATA%t0 = (/
      +     0.26915250134000E+02,0.26937738651000E+02,0.26955155348000E+02,0.26967184234000E+02,0.26973501300000E+02,
      +     0.26973775158000E+02,0.26967667809000E+02,0.26954835552000E+02,0.26934930064000E+02,0.26907599651000E+02,
@@ -611,7 +720,7 @@ C Figure 2_7 Characteristic Time T0/W**(1/3) : g,cm,mus,Mbar
      +     0.57670231948000E+03,0.58043297630000E+03,0.58417388026000E+03,0.58793828018000E+03,0.59174009996000E+03,
      +     0.59559288524000E+03,0.59951690526000E+03,0.60354147138000E+03,0.60768403414000E+03,0.61199123165000E+03,
      +     0.61640408737000E+03      /)
-     
+
 C Figure 2_7 Arrival Time TA/W**(1/3) : g,cm,mus,Mbar
              PBLAST_DATA%ta = (/
      +     0.73009651097000E+00,0.74717753694000E+00,0.76511807958000E+00,0.78400414463000E+00,0.80389279569000E+00,
@@ -667,7 +776,7 @@ C Figure 2_7 Arrival Time TA/W**(1/3) : g,cm,mus,Mbar
      +     0.95623075120000E+04,0.98314489319000E+04,0.10105020633000E+05,0.10383194195000E+05,0.10663316073000E+05,
      +     0.10949912549000E+05      /)
 
-C Figure 2_7 Scaled Negative Reflected impulse Ir- : g,cm,mus,Mbar   
+C Figure 2_7 Scaled Negative Reflected impulse Ir- : g,cm,mus,Mbar
             PBLAST_DATA%Irefl_ = (
      +          /4.8971553528e+02, 4.8984536052e+02, 4.8991542491e+02, 4.8989847810e+02, 4.8982527409e+02,
      +           4.8973472552e+02, 4.8967287663e+02, 4.8969376748e+02, 4.8986038778e+02, 4.9015567223e+02,
@@ -722,7 +831,7 @@ C Figure 2_7 Scaled Negative Reflected impulse Ir- : g,cm,mus,Mbar
      +           1.4572867054e+01, 1.4277596203e+01, 1.3991721986e+01, 1.3700471017e+01, 1.3401103936e+01,
      +           1.3099532364e+01/)
 
-C Scaled Negative Incoming impulse Is- : g,cm,mus,Mbar   
+C Scaled Negative Incoming impulse Is- : g,cm,mus,Mbar
             PBLAST_DATA%Iso_ = (
      +          /4.8939313950e+02, 4.8960281742e+02, 4.8977560515e+02, 4.8974334113e+02, 4.8957242831e+02,
      +           4.8938996121e+02, 4.8934593127e+02, 4.8958232707e+02, 4.9006248153e+02, 4.9071841925e+02,
@@ -777,7 +886,7 @@ C Scaled Negative Incoming impulse Is- : g,cm,mus,Mbar
      +           6.7581420768e+00, 6.6022790568e+00, 6.4443994775e+00, 6.3063671904e+00, 6.2137713354e+00,
      +           6.1917416444e+00/)
 
-C Scaled Negative Reflected Pressure Pr- : g,cm,mus,Mbar   
+C Scaled Negative Reflected Pressure Pr- : g,cm,mus,Mbar
             PBLAST_DATA%Pr_  = (
      +          /1.0155727559e+00, 1.0155187210e+00, 1.0158481988e+00, 1.0166345335e+00, 1.0176176085e+00,
      +           1.0187503089e+00, 1.0199882290e+00, 1.0212781998e+00, 1.0225572076e+00, 1.0237512003e+00,
@@ -832,7 +941,7 @@ C Scaled Negative Reflected Pressure Pr- : g,cm,mus,Mbar
      +           2.4656723130e-02, 2.4049408549e-02, 2.3363032972e-02, 2.2681727127e-02, 2.2186712538e-02,
      +           2.2063223338e-02/)
 
-C Scaled Negative Incoming Pressure Ps- : g,cm,mus,Mbar   
+C Scaled Negative Incoming Pressure Ps- : g,cm,mus,Mbar
             PBLAST_DATA%Pso_ = (
      +          /1.0178812760e+00, 1.0181762067e+00, 1.0185082250e+00, 1.0188806968e+00, 1.0192675211e+00,
      +           1.0196721252e+00, 1.0201004632e+00, 1.0205594001e+00, 1.0210965031e+00, 1.0218974869e+00,
@@ -887,7 +996,7 @@ C Scaled Negative Incoming Pressure Ps- : g,cm,mus,Mbar
      +           1.1301859651e-02, 1.0992620045e-02, 1.0720173214e-02, 1.0505351988e-02, 1.0372174408e-02,
      +           1.0342135940e-02/)
 
-C Scaled Negative Impulse duration t0- : g,cm,mus,Mbar   
+C Scaled Negative Impulse duration t0- : g,cm,mus,Mbar
             PBLAST_DATA%t0_  = (
      +          /8.2367135310e+03, 8.2384805202e+03, 8.2403894189e+03, 8.2424287459e+03, 8.2447616018e+03,
      +           8.2474380154e+03, 8.2502280131e+03, 8.2528596276e+03, 8.2550236477e+03, 8.2569036097e+03,
@@ -943,7 +1052,7 @@ C Scaled Negative Impulse duration t0- : g,cm,mus,Mbar
      +           1.1338212354e+04/)
 
 
-C Scaled Radius R/W**(1/3): g,cm,mus,Mbar   
+C Scaled Radius R/W**(1/3): g,cm,mus,Mbar
             PBLAST_DATA%RW3_g = (
      +            /5.0000000000e-001,  5.1000000000e-001,  5.2027900430e-001,  5.3084479723e-001,  5.4170538032e-001,
      +             5.5286897835e-001,  5.6434404556e-001,  5.7613927208e-001,  5.8826359048e-001,  6.0072618258e-001,
@@ -998,7 +1107,7 @@ C Scaled Radius R/W**(1/3): g,cm,mus,Mbar
      +             3.4860003610e+002,  3.5832217666e+002,  3.6831556913e+002,  3.7858778153e+002,  3.8914659308e+002,
      +             4.0000000000e+002  /)
 
-C Reflected Wave Impulse+ Iso/W**(1/3): g,cm,mus,Mbar     
+C Reflected Wave Impulse+ Iso/W**(1/3): g,cm,mus,Mbar
             PBLAST_DATA%Ir_g   = (
      +            /1.4620101974e+005,  1.4262222568e+005,  1.3891242347e+005,  1.3507738625e+005,  1.3112454480e+005,
      +             1.2706320129e+005,  1.2290476571e+005,  1.1866301701e+005,  1.1435439138e+005,  1.0999830029e+005,
@@ -1160,11 +1269,11 @@ C Reflected Pressure Pr/W**(1/3) : g,cm,mus,Mbar
      +             1.0315630756e-001,  9.9518458023e-002,  9.5988846979e-002,  9.2561037064e-002,  8.9231151358e-002,
      +             8.5993485390e-002,  8.2844060031e-002,  7.9780788361e-002,  7.6799853832e-002,  7.3900972302e-002,
      +             7.1083364710e-002,  6.8346365090e-002,  6.5690531865e-002,  6.3117189946e-002,  6.0628320102e-002,
-     +             5.8226935821e-002,  5.5916795424e-002,  5.3702423799e-002,  5.1591501823e-002,  4.9573456540e-002, 
+     +             5.8226935821e-002,  5.5916795424e-002,  5.3702423799e-002,  5.1591501823e-002,  4.9573456540e-002,
      +             4.7709679367e-002  /)
 
 C Incident Pressure Pso/W**(1/3) : g,cm,mus,Mbar
-            PBLAST_DATA%Pso_g = ( 
+            PBLAST_DATA%Pso_g = (
      +            /6.9878876543e+002,  6.8977526460e+002,  6.8056034084e+002,  6.7114991710e+002,  6.6155148431e+002,
      +             6.5177428892e+002,  6.4182953953e+002,  6.3173063409e+002,  6.2149340982e+002,  6.1113641790e+002,
      +             6.0068122516e+002,  5.9015274551e+002,  5.7957960354e+002,  5.6899453361e+002,  5.5843481742e+002,
@@ -1219,7 +1328,7 @@ C Incident Pressure Pso/W**(1/3) : g,cm,mus,Mbar
      +             2.3644133633e-002  /)
 
 C Characteristic Time T0/W**(1/3) : g,cm,mus,Mbar
-            PBLAST_DATA%t0_g = (  
+            PBLAST_DATA%t0_g = (
      +            /3.6769163911e+000,  4.5423810260e+000,  5.4137776947e+000,  6.2904188038e+000,  7.1715645817e+000,
      +             8.0564210703e+000,  8.9441381430e+000,  9.8338075632e+000,  1.0724461101e+001,  1.1615068726e+001,
      +             1.2504536905e+001,  1.3391707016e+001,  1.4275353919e+001,  1.5154184714e+001,  1.6026837708e+001,
@@ -1272,9 +1381,9 @@ C Characteristic Time T0/W**(1/3) : g,cm,mus,Mbar
      +             6.6288174296e+002,  6.6758422933e+002,  6.7235126101e+002,  6.7719512858e+002,  6.8213297832e+002,
      +             6.8717799278e+002,  6.9235172746e+002,  6.9767080305e+002,  7.0315802605e+002,  7.0883957232e+002,
      +             7.1469274852e+002 /)
-     
+
 C Arrival Time TA/W**(1/3) : g,cm,mus,Mbar
-            PBLAST_DATA%ta_g  = ( 
+            PBLAST_DATA%ta_g  = (
      +            /8.4868901430e-001,  8.6004295617e-001,  8.7194564970e-001,  8.8441326595e-001,  8.9746142041e-001,
      +             9.1110500976e-001,  9.2535802777e-001,  9.4023335845e-001,  9.5574254379e-001,  9.7189552373e-001,
      +             9.8870034532e-001,  1.0061628381e+000,  1.0242862521e+000,  1.0430708551e+000,  1.0625134843e+000,
@@ -2467,7 +2576,7 @@ C Figure 2_13 scale height of trople point versus scaled horizontal distance  cm
      +        6.9005882353e+01, 6.9255294118e+01, 6.9504705882e+01, 6.9754117647e+01, 7.0003529412e+01,
      +        7.0252941176e+01, 7.0502352941e+01, 7.0751764706e+01, 7.1001176471e+01, 7.1250588235e+01,
      +        7.1500000000e+01 /)
-     
+
               PBLAST_DATA%SHTP(1,1:256) = (/
      +        1.5436157639e+00, 1.6457950233e+00, 1.7518039443e+00, 1.8616826666e+00, 1.9754696672e+00,
      +        2.0932024046e+00, 2.2149182204e+00, 2.3406528447e+00, 2.4704424897e+00, 2.6043197745e+00,
@@ -3007,7 +3116,7 @@ C Figure 2_13 scale height of trople point versus scaled horizontal distance  cm
      +        2.7451122458e+00, 2.7669105238e+00, 2.7883996265e+00, 2.8095647015e+00, 2.8303924184e+00,
      +        2.8508834734e+00, 2.8710097719e+00, 2.8907682112e+00, 2.9101505815e+00, 2.9291332741e+00,
      +        2.9477030357e+00 /)
-        
+
 
         END SUBROUTINE
       END MODULE PBLAST_MOD
