@@ -272,7 +272,7 @@ C          	pour JHBE=14, valeurs moyennes est dans rep. corota.
            	END IF
            	  CALL SROTA6(X,IXS(1,N),KCVT,EVAR(1,I),GAMA,JHBE,IGTYP)
               ENDDO
-             ENDIF
+             ENDIF !KCVT /= 
             ELSEIF ( ILAY == -1 .AND. IR >= 0 .AND. IR <= NPTR .AND. 
      .                   IS >= 0 .AND.  IS <= NPTS .AND. IT >= 0 .AND. IT <= NPTT) THEN 
 c IR= IS= IT=
@@ -781,6 +781,9 @@ C                   STRESS TENSOR IN GLOBAL SYSTEM
                 ENDIF
               ENDIF
 
+c-----------
+CiLAY = ir= is= 
+c-----------
             ELSEIF ( ILAY >= 0 .AND. ILAY <= NLAY .AND. IR >= 0 .AND. IR <= NPTR .AND. 
      .                   IS >= 0 .AND.  IS <= NPTS) THEN
 c-----------
@@ -4079,35 +4082,360 @@ C---- Corner Data :
      .                         PM        ,KCVT ,NEL ,EVAR_CORNER )
             IF (ISOLNOD <= 10) IS_WRITTEN_TENSOR(1:NEL) = 1
 C--------------------------------------------------
+c           back stress tensor
+C--------------------------------------------------
             ELSEIF (KEYWORD == 'TENS/BSTRESS') THEN  
 C--------------------------------------------------
-c IR == -1 IS == -1 IT == -1 ID = -1
-	      IF ( ID == -1 .AND. ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN 
-                DO I=1,NEL        
-                  EVAR(1,I) = ZERO  
-                  EVAR(2,I) = ZERO                                   
-                  EVAR(3,I) = ZERO
-                  IS_WRITTEN_TENSOR(I) = 1                           
-                ENDDO    
+c ILAYER=NULL IR=NULL IS=NULL IT=NULL
 C--------------------------------------------------
-c IR == -1 IS == -1 IT == -1 ID > 0
-	      ELSE IF( ID > 0 .AND. IR == -1 .AND. IS == -1 .AND. IT == -1) THEN 
-                DO I=1,NEL        
-                  EVAR(1,I) = ID  
-                  EVAR(2,I) = ID                                   
-                  EVAR(3,I) = ID
-                  IS_WRITTEN_TENSOR(I) = 1                           
-                ENDDO    
-c IR ==  IS ==  IT ==  ID 
-	      ELSE IF( ID > 0 .AND. IR >= 0 .AND. IR <= NPTR .AND. 
-     .                 IS >= 0 .AND. IS <= NPTS .AND. IT >= 0 .AND. IT <= NPTT) THEN 
-                DO I=1,NEL        
-                  EVAR(1,I) = ID  
-                  EVAR(2,I) = ID                                   
-                  EVAR(3,I) = ID
-                  IS_WRITTEN_TENSOR(I) = 1                           
-                ENDDO    
-              END IF
+            IF( ILAY == -1 .AND. IR == -1 .AND. IS == -1 .AND. IT == -1 )THEN ! mean values since II not precised
+              ! not for thick shells
+             !--------
+             !  LAW36
+             !--------
+             IF(MLW == 36 .AND. ( ID == -1 .OR. ID == 1)) THEN
+               DO I=1,NEL
+                DO IR=1,NPTR  			    	      
+                  DO IS=1,NPTS        	  
+                    DO IT=1,NPTT	     	  
+                      LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
+           	          EVAR(1,I) = EVAR(1,I) + LBUF%SIGB(JJ(1) + I)/NPTG
+           	          EVAR(2,I) = EVAR(2,I) + LBUF%SIGB(JJ(2) + I)/NPTG
+           	          EVAR(3,I) = EVAR(3,I) + LBUF%SIGB(JJ(3) + I)/NPTG
+           	          EVAR(4,I) = EVAR(4,I) + LBUF%SIGB(JJ(4) + I)/NPTG
+           	          EVAR(5,I) = EVAR(5,I) + LBUF%SIGB(JJ(5) + I)/NPTG
+           	          EVAR(6,I) = EVAR(6,I) + LBUF%SIGB(JJ(6) + I)/NPTG
+                    ENDDO !IT					         	
+                  ENDDO !IS                	
+                ENDDO !IR                  	
+               ENDDO 
+               !!IF (KCVT /= 0 .AND. JHBE .NE. 16) THEN ????
+             !--------                                                                                               
+             !  LAW78                                                                                                
+             !--------                                                                                               
+             ELSEIF (MLW == 78) THEN                                                                                 
+               IF(ID == -1) THEN ! sum of all backstresses                                                         
+                 DO I=1,NEL
+                  DO IR=1,NPTR  			    	     
+                   DO IS=1,NPTS        	  
+                    DO IT=1,NPTT	     	  
+                      LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
+           	          EVAR(1,I) = EVAR(1,I) +( LBUF%SIGA(JJ(1) + I) + LBUF%SIGB(JJ(1) + I) )/NPTG
+           	          EVAR(2,I) = EVAR(2,I) +( LBUF%SIGA(JJ(2) + I) + LBUF%SIGB(JJ(2) + I) )/NPTG
+           	          EVAR(3,I) = EVAR(3,I) +( LBUF%SIGA(JJ(3) + I) + LBUF%SIGB(JJ(3) + I) )/NPTG
+           	          EVAR(4,I) = EVAR(4,I) +( LBUF%SIGA(JJ(4) + I) + LBUF%SIGB(JJ(4) + I) )/NPTG
+           	          EVAR(5,I) = EVAR(5,I) +( LBUF%SIGA(JJ(5) + I) + LBUF%SIGB(JJ(5) + I) )/NPTG
+           	          EVAR(6,I) = EVAR(6,I) +( LBUF%SIGA(JJ(6) + I) + LBUF%SIGB(JJ(6) + I) )/NPTG
+                    ENDDO !IT					         	
+                   ENDDO !IS                	
+                  ENDDO !IR                  	
+                 ENDDO 
+
+               ELSEIF(ID ==1 ) THEN                                                                                  
+                 DO I=1,NEL
+                  DO IR=1,NPTR  			    	     
+                   DO IS=1,NPTS        	  
+                    DO IT=1,NPTT	     	  
+                      LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
+           	          EVAR(1,I) = EVAR(1,I) + LBUF%SIGA(JJ(1) + I) /NPTG
+           	          EVAR(2,I) = EVAR(2,I) + LBUF%SIGA(JJ(2) + I) /NPTG
+           	          EVAR(3,I) = EVAR(3,I) + LBUF%SIGA(JJ(3) + I) /NPTG
+           	          EVAR(4,I) = EVAR(4,I) + LBUF%SIGA(JJ(4) + I) /NPTG
+           	          EVAR(5,I) = EVAR(5,I) + LBUF%SIGA(JJ(5) + I) /NPTG
+           	          EVAR(6,I) = EVAR(6,I) + LBUF%SIGA(JJ(6) + I) /NPTG
+                    ENDDO !IT					         	
+                   ENDDO !IS                	
+                  ENDDO !IR                  	
+                 ENDDO 
+
+               ELSEIF(ID ==2 ) THEN                                                                                  
+                 DO I=1,NEL
+                  DO IR=1,NPTR  			    	     
+                   DO IS=1,NPTS        	  
+                    DO IT=1,NPTT	     	  
+                      LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
+           	          EVAR(1,I) = EVAR(1,I) + LBUF%SIGB(JJ(1) + I) /NPTG
+           	          EVAR(2,I) = EVAR(2,I) + LBUF%SIGB(JJ(2) + I) /NPTG
+           	          EVAR(3,I) = EVAR(3,I) + LBUF%SIGB(JJ(3) + I) /NPTG
+           	          EVAR(4,I) = EVAR(4,I) + LBUF%SIGB(JJ(4) + I) /NPTG
+           	          EVAR(5,I) = EVAR(5,I) + LBUF%SIGB(JJ(5) + I) /NPTG
+           	          EVAR(6,I) = EVAR(6,I) + LBUF%SIGB(JJ(6) + I) /NPTG
+                    ENDDO !IT					         	
+                   ENDDO !IS                	
+                  ENDDO !IR                  	
+                 ENDDO 
+               ELSEIF(ID ==3 ) THEN                                                                                  
+                 DO I=1,NEL
+                  DO IR=1,NPTR  			    	     
+                   DO IS=1,NPTS        	  
+                    DO IT=1,NPTT	     	  
+                      LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
+           	          EVAR(1,I) = EVAR(1,I) + LBUF%SIGC(JJ(1) + I) /NPTG
+           	          EVAR(2,I) = EVAR(2,I) + LBUF%SIGC(JJ(2) + I) /NPTG
+           	          EVAR(3,I) = EVAR(3,I) + LBUF%SIGC(JJ(3) + I) /NPTG
+           	          EVAR(4,I) = EVAR(4,I) + LBUF%SIGC(JJ(4) + I) /NPTG
+           	          EVAR(5,I) = EVAR(5,I) + LBUF%SIGC(JJ(5) + I) /NPTG
+           	          EVAR(6,I) = EVAR(6,I) + LBUF%SIGC(JJ(6) + I) /NPTG
+                    ENDDO !IT					         	
+                   ENDDO !IS                	
+                  ENDDO !IR                  	
+                 ENDDO 
+               ENDIF !ID == -1                                                                                       
+             ENDIF !(MLW ==                                                                                          
+C--------------------------------------------                                                                  
+c IR= IS= IT                                                                                                    =
+C--------------------------------------------------
+            ELSEIF ( ILAY == -1 .AND. IR >  0 .AND.  IR <= NPTR .AND. 
+     .                                IS >  0 .AND.  IS <= NPTS .AND. 
+     .                                IT >  0 .AND.  IT <= NPTT) THEN 
+                    
+              DO I=1,NEL              
+                EVAR(1,I) = ZERO      
+                EVAR(2,I) = ZERO      
+                EVAR(3,I) = ZERO      
+                EVAR(4,I) = ZERO      
+                EVAR(5,I) = ZERO      
+                EVAR(6,I) = ZERO      
+              ENDDO
+              IF(ISOLNOD == 10.OR.(ISOLNOD == 4 .AND. ISROT == 1))THEN
+                  IPT = 0
+                  IF (IR == 1 .AND. IS == 1 .AND. IT == 1) IPT = 1 
+                  IF (IR == 2 .AND. IS == 1 .AND. IT == 1) IPT = 2 
+                  IF (IR == 1 .AND. IS == 2 .AND. IT == 1) IPT = 3 
+                  IF (IR == 1 .AND. IS == 1 .AND. IT == 2) IPT = 4 
+                  IF (IPT > 0)  LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IPT,1,1)	   
+              ELSEIF (ISOLNOD == 8 .AND. (JHBE == 14.OR.JHBE == 17) )THEN !idem stress
+                ICSIG = IPARG(17,NG)
+                NPTG = NPTR * NPTS * NPTT * NLAY
+                IPID = IXS(10,1 + NFT) 
+             	  IF (IOR_TSH >0) THEN
+                    IF (ICSIG == 10) THEN
+             	        IR=IT_INPUT
+             	        IS=IR_INPUT
+             	        IT=IS_INPUT
+                    ELSEIF (ICSIG == 1) THEN
+                      IR=IS_INPUT
+                      IS=IT_INPUT
+                      IT=IR_INPUT
+             	      ELSE
+             	        IR=IR_INPUT
+             	        IS=IS_INPUT
+             	        IT=IT_INPUT
+             	      ENDIF
+             	  ENDIF
+                IPT = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR                                                                                   
+                IF(IR <= NPTR .AND. IS <= NPTS .AND. IT <= NPTT) THEN    
+                  LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
+                ELSE         
+                  LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)                                               
+                ENDIF	                                                                      
+              ELSE                                    
+                  LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)	     
+              ENDIF !ISOLNOD
+              !--------                                                                 
+              !  LAW36                                                                  
+              !--------                                                                 
+              IF(MLW == 36 .AND. ( ID == -1 .OR. ID == 1)) THEN                         
+                DO I=1,NEL                                                              
+           	      EVAR(1,I) = LBUF%SIGB(JJ(1) + I)                                     
+           	      EVAR(2,I) = LBUF%SIGB(JJ(2) + I)                                     
+           	      EVAR(3,I) = LBUF%SIGB(JJ(3) + I)                                     
+           	      EVAR(4,I) = LBUF%SIGB(JJ(4) + I)                                     
+           	      EVAR(5,I) = LBUF%SIGB(JJ(5) + I)                                     
+           	      EVAR(6,I) = LBUF%SIGB(JJ(6) + I)                                     
+                  IS_WRITTEN_TENSOR(I) = 1                                             
+                ENDDO                                                                   
+              !--------                                                                                               
+              !  LAW78                                                                                                
+              !--------                                                                                               
+              ELSEIF (MLW == 78) THEN                                                                                 
+                IF(ID == -1) THEN ! somme of all backstresses                                                         
+                  DO I=1,NEL                                                             
+           	        EVAR(1,I) = ( LBUF%SIGA(JJ(1) + I) + LBUF%SIGB(JJ(1) + I) )          
+           	        EVAR(2,I) = ( LBUF%SIGA(JJ(2) + I) + LBUF%SIGB(JJ(2) + I) )          
+           	        EVAR(3,I) = ( LBUF%SIGA(JJ(3) + I) + LBUF%SIGB(JJ(3) + I) )          
+           	        EVAR(4,I) = ( LBUF%SIGA(JJ(4) + I) + LBUF%SIGB(JJ(4) + I) )          
+           	        EVAR(5,I) = ( LBUF%SIGA(JJ(5) + I) + LBUF%SIGB(JJ(5) + I) )          
+           	        EVAR(6,I) = ( LBUF%SIGA(JJ(6) + I) + LBUF%SIGB(JJ(6) + I) )          
+                    IS_WRITTEN_TENSOR(I) = 1                                             
+                  ENDDO                                                                  
+                ELSEIF(ID ==1 ) THEN                                                                                  
+                  DO I=1,NEL                                                             
+           	        EVAR(1,I) = LBUF%SIGA(JJ(1) + I)                                     
+           	        EVAR(2,I) = LBUF%SIGA(JJ(2) + I)                                     
+           	        EVAR(3,I) = LBUF%SIGA(JJ(3) + I)                                     
+           	        EVAR(4,I) = LBUF%SIGA(JJ(4) + I)                                     
+           	        EVAR(5,I) = LBUF%SIGA(JJ(5) + I)                                     
+           	        EVAR(6,I) = LBUF%SIGA(JJ(6) + I)                                     
+                    IS_WRITTEN_TENSOR(I) = 1                                             
+                  ENDDO                                                                  
+                ELSEIF(ID ==2 ) THEN                                                                                  
+                  DO I=1,NEL                                                             
+           	        EVAR(1,I) =  LBUF%SIGB(JJ(1) + I)                                    
+           	        EVAR(2,I) =  LBUF%SIGB(JJ(2) + I)                                    
+           	        EVAR(3,I) =  LBUF%SIGB(JJ(3) + I)                                    
+           	        EVAR(4,I) =  LBUF%SIGB(JJ(4) + I)                                    
+           	        EVAR(5,I) =  LBUF%SIGB(JJ(5) + I)                                    
+           	        EVAR(6,I) =  LBUF%SIGB(JJ(6) + I)                                    
+                    IS_WRITTEN_TENSOR(I) = 1                                             
+                  ENDDO                                                                  
+                ELSEIF(ID ==3 ) THEN                                                                     
+                  DO I=1,NEL                                                             
+           	        EVAR(1,I) =  LBUF%SIGC(JJ(1) + I)                                    
+           	        EVAR(2,I) =  LBUF%SIGC(JJ(2) + I)                                    
+           	        EVAR(3,I) =  LBUF%SIGC(JJ(3) + I)                                    
+           	        EVAR(4,I) =  LBUF%SIGC(JJ(4) + I)                                    
+           	        EVAR(5,I) =  LBUF%SIGC(JJ(5) + I)                                    
+           	        EVAR(6,I) =  LBUF%SIGC(JJ(6) + I)                                    
+                    IS_WRITTEN_TENSOR(I) = 1                                             
+                  ENDDO                                                                  
+                ENDIF !ID == -1                                                                                       
+              ENDIF !(MLW ==                                                                                          
+C--------------------------------------------------
+CiLAY = ir= is=  
+C--------------------------------------------------
+            ELSEIF ( ILAY >  0 .AND. ILAY <= NLAY  .AND.
+     .                 IR >  0 .AND. IR   <= NPTR  .AND. 
+     .                 IS >  0 .AND. IS   <= NPTS) THEN
+C--------------------------------------------------
+              EVAR(1:6,1:NEL) = ZERO
+              LBUF =>  ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,1) 
+              IF (TSHELL == 1 ) THEN                                                    
+                LBUF =>  ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,1)                        
+                IF (ISOLNOD == 16) LBUF =>  ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,1,IT)     !! 
+              ENDIF
+c-----------
+              !--------                                                                                                
+              !  LAW36                                                                                                 
+              !--------                                                                                                
+              IF(MLW == 36 .AND. ( ID == -1 .OR. ID == 1)) THEN                                                        
+                DO I=1,NEL                                                                                             
+           	      EVAR(1,I) = LBUF%SIGB(JJ(1) + I)                                                                    
+           	      EVAR(2,I) = LBUF%SIGB(JJ(2) + I)                                                                    
+           	      EVAR(3,I) = LBUF%SIGB(JJ(3) + I)                                                                    
+           	      EVAR(4,I) = LBUF%SIGB(JJ(4) + I)                                                                    
+           	      EVAR(5,I) = LBUF%SIGB(JJ(5) + I)                                                                    
+           	      EVAR(6,I) = LBUF%SIGB(JJ(6) + I)                                                                    
+                  IS_WRITTEN_TENSOR(I) = 1                                                                            
+                ENDDO                                                                                                  
+              !--------                                                                                                
+              !  LAW78                                                                                                 
+              !--------                                                                                                
+              ELSEIF (MLW == 78) THEN                                                                                  
+                IF(ID == -1) THEN ! somme of all backstresses                                                          
+                  DO I=1,NEL                                                                                            
+           	        EVAR(1,I) = ( LBUF%SIGA(JJ(1) + I) + LBUF%SIGB(JJ(1) + I) )                                         
+           	        EVAR(2,I) = ( LBUF%SIGA(JJ(2) + I) + LBUF%SIGB(JJ(2) + I) )                                         
+           	        EVAR(3,I) = ( LBUF%SIGA(JJ(3) + I) + LBUF%SIGB(JJ(3) + I) )                                         
+           	        EVAR(4,I) = ( LBUF%SIGA(JJ(4) + I) + LBUF%SIGB(JJ(4) + I) )                                         
+           	        EVAR(5,I) = ( LBUF%SIGA(JJ(5) + I) + LBUF%SIGB(JJ(5) + I) )                                         
+           	        EVAR(6,I) = ( LBUF%SIGA(JJ(6) + I) + LBUF%SIGB(JJ(6) + I) )                                         
+                    IS_WRITTEN_TENSOR(I) = 1                                                                            
+                  ENDDO                                                                                                 
+                ELSEIF(ID ==1 ) THEN                                                                                   
+                  DO I=1,NEL                                                                                            
+           	        EVAR(1,I) = LBUF%SIGA(JJ(1) + I)                                                                    
+           	        EVAR(2,I) = LBUF%SIGA(JJ(2) + I)                                                                    
+           	        EVAR(3,I) = LBUF%SIGA(JJ(3) + I)                                                                    
+           	        EVAR(4,I) = LBUF%SIGA(JJ(4) + I)                                                                    
+           	        EVAR(5,I) = LBUF%SIGA(JJ(5) + I)                                                                    
+           	        EVAR(6,I) = LBUF%SIGA(JJ(6) + I)                                                                    
+                    IS_WRITTEN_TENSOR(I) = 1                                                                            
+                  ENDDO                                                                                                 
+                ELSEIF(ID ==2 ) THEN                                                                                   
+                  DO I=1,NEL                                                                                            
+           	        EVAR(1,I) =  LBUF%SIGB(JJ(1) + I)                                                                   
+           	        EVAR(2,I) =  LBUF%SIGB(JJ(2) + I)                                                                   
+           	        EVAR(3,I) =  LBUF%SIGB(JJ(3) + I)                                                                   
+           	        EVAR(4,I) =  LBUF%SIGB(JJ(4) + I)                                                                   
+           	        EVAR(5,I) =  LBUF%SIGB(JJ(5) + I)                                                                   
+           	        EVAR(6,I) =  LBUF%SIGB(JJ(6) + I)                                                                   
+                    IS_WRITTEN_TENSOR(I) = 1                                                                            
+                  ENDDO                                                                                                 
+                ELSEIF(ID ==3 ) THEN                                                                                   
+                  DO I=1,NEL                                                                                            
+           	        EVAR(1,I) =  LBUF%SIGC(JJ(1) + I)                                                                   
+           	        EVAR(2,I) =  LBUF%SIGC(JJ(2) + I)                                                                   
+           	        EVAR(3,I) =  LBUF%SIGC(JJ(3) + I)                                                                   
+           	        EVAR(4,I) =  LBUF%SIGC(JJ(4) + I)                                                                   
+           	        EVAR(5,I) =  LBUF%SIGC(JJ(5) + I)                                                                   
+           	        EVAR(6,I) =  LBUF%SIGC(JJ(6) + I)                                                                   
+                    IS_WRITTEN_TENSOR(I) = 1                                                                            
+                  ENDDO                                                                                                 
+                ENDIF !ID == -1                                                                                        
+              ENDIF !(MLW ==                                                                                           
+
+c-----------
+c ILAY=  
+c-----------
+            ELSEIF ( ILAY >= 0 .AND. ILAY <= NLAY) THEN 
+c-----------
+              EVAR(1:6,1:NEL) = ZERO
+              IF((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15)THEN
+                IPT = IS                                           
+                IF ( ILAY <= NPT) THEN                             
+                  LBUF =>  ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)   
+                  IF(MLW == 36 .AND. ( ID == -1 .OR. ID == 1)) THEN                         
+                     DO I=1,NEL                                                            
+           	            EVAR(1,I) = LBUF%SIGB(JJ(1) + I)                                   
+           	            EVAR(2,I) = LBUF%SIGB(JJ(2) + I)                                   
+           	            EVAR(3,I) = LBUF%SIGB(JJ(3) + I)                                   
+           	            EVAR(4,I) = LBUF%SIGB(JJ(4) + I)                                   
+           	            EVAR(5,I) = LBUF%SIGB(JJ(5) + I)                                   
+           	            EVAR(6,I) = LBUF%SIGB(JJ(6) + I)                                   
+                        IS_WRITTEN_TENSOR(I) = 1                                           
+                     ENDDO                                                                 
+                  !--------                                                                                            
+                  !  LAW78                                                                                             
+                  !--------                                                                                            
+                  ELSEIF (MLW == 78) THEN                                                                              
+                    IF(ID == -1) THEN ! somme of all backstresses                                                     
+                     DO I=1,NEL                                                             
+           	           EVAR(1,I) = ( LBUF%SIGA(JJ(1) + I) + LBUF%SIGB(JJ(1) + I) )          
+           	           EVAR(2,I) = ( LBUF%SIGA(JJ(2) + I) + LBUF%SIGB(JJ(2) + I) )          
+           	           EVAR(3,I) = ( LBUF%SIGA(JJ(3) + I) + LBUF%SIGB(JJ(3) + I) )          
+           	           EVAR(4,I) = ( LBUF%SIGA(JJ(4) + I) + LBUF%SIGB(JJ(4) + I) )          
+           	           EVAR(5,I) = ( LBUF%SIGA(JJ(5) + I) + LBUF%SIGB(JJ(5) + I) )          
+           	           EVAR(6,I) = ( LBUF%SIGA(JJ(6) + I) + LBUF%SIGB(JJ(6) + I) )          
+                       IS_WRITTEN_TENSOR(I) = 1                                             
+                     ENDDO                                                                  
+                    ELSEIF(ID ==1 ) THEN                                                                              
+                     DO I=1,NEL                                                             
+           	           EVAR(1,I) = LBUF%SIGA(JJ(1) + I)                                     
+           	           EVAR(2,I) = LBUF%SIGA(JJ(2) + I)                                     
+           	           EVAR(3,I) = LBUF%SIGA(JJ(3) + I)                                     
+           	           EVAR(4,I) = LBUF%SIGA(JJ(4) + I)                                     
+           	           EVAR(5,I) = LBUF%SIGA(JJ(5) + I)                                     
+           	           EVAR(6,I) = LBUF%SIGA(JJ(6) + I)                                     
+                       IS_WRITTEN_TENSOR(I) = 1                                             
+                     ENDDO                                                                  
+
+                    ELSEIF(ID ==2 ) THEN                                                                              
+                     DO I=1,NEL                                                             
+           	           EVAR(1,I) =  LBUF%SIGB(JJ(1) + I)                                    
+           	           EVAR(2,I) =  LBUF%SIGB(JJ(2) + I)                                    
+           	           EVAR(3,I) =  LBUF%SIGB(JJ(3) + I)                                    
+           	           EVAR(4,I) =  LBUF%SIGB(JJ(4) + I)                                    
+           	           EVAR(5,I) =  LBUF%SIGB(JJ(5) + I)                                    
+           	           EVAR(6,I) =  LBUF%SIGB(JJ(6) + I)                                    
+                       IS_WRITTEN_TENSOR(I) = 1                                             
+                     ENDDO                                                                  
+                    ELSEIF(ID ==3 ) THEN                                                                 
+                     DO I=1,NEL                                                             
+           	           EVAR(1,I) =  LBUF%SIGC(JJ(1) + I)                                    
+           	           EVAR(2,I) =  LBUF%SIGC(JJ(2) + I)                                    
+           	           EVAR(3,I) =  LBUF%SIGC(JJ(3) + I)                                    
+           	           EVAR(4,I) =  LBUF%SIGC(JJ(4) + I)                                    
+           	           EVAR(5,I) =  LBUF%SIGC(JJ(5) + I)                                    
+           	           EVAR(6,I) =  LBUF%SIGC(JJ(6) + I)                                    
+                       IS_WRITTEN_TENSOR(I) = 1                                             
+                     ENDDO                                                                  
+                    ENDIF !ID == -1                                                                                   
+                  ENDIF !(MLW ==                                                                                          
+            
+                ENDIF !( ILAY <= NPT)                              
+              ENDIF!((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15)  
+            END IF
 c ........
           ELSE
 C-----------------------------------------------
