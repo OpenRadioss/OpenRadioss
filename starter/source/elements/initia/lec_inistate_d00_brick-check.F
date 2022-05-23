@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IPIDD00, JJHBED00, NPTD00, NPTF, NPTR, NPTS, NPTT, ICSTR, IINT, NLY
+      INTEGER IPIDD00, JJHBED00, NPTD00, NPTF, NPTR, NPTS, NPTT, ICSTR, IINT, NLY,NNOD
 C-----------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----A----+----B----+----C----+----D--
 C-----------------------------------------
@@ -96,7 +96,9 @@ C
 C
 C  Number of nodes
 C
-      IF (ISOLNODD00(IE) .NE.ISOLNOD) THEN
+      NNOD = ISOLNOD
+      IF (ISOLNOD==10 .AND. ISROT==1) NNOD=4
+      IF (ISOLNODD00(IE) .NE.NNOD) THEN
           CALL ANCMSG(MSGID=695,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,

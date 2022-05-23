@@ -80,7 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,J,K,II,JJ,LEN,NLAY,NPTR,NPTS,NPTT,
+      INTEGER I,N,J,K,II,JJ,LEN,NLAY,NPTR,NPTS,NPTT,ISOLNOD0,
      .   ISOLNOD,ISTRAIN,NG, NEL, MLW, ID, IPRT0, IPRT,IE, 
      .   NPG,IPG,IPT,IL,IR,IS,IT,IPID,PID,IOFF,KK(8),NC(20),NN1
       INTEGER PTWA(STAT_NUMELS), PTWA_P0(0:MAX(1,STAT_NUMELS_G))
@@ -124,6 +124,8 @@ C----- not output all solid element
      6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
           IF (JHBE==17.AND.IINT==2) JHBE = 18
+          ISOLNOD0 = ISOLNOD
+          IF (ISOLNOD0==4 .AND. ISROT>0) ISOLNOD=10
           GBUF => ELBUF_TAB(NG)%GBUF
           IPRT=IPARTS(LFT+NFT)
           PID = IPART(2,IPRT)
@@ -148,7 +150,7 @@ c------
 	             DO J = 1,ISOLNOD
 	               NC(J) = IXS(J+1,N)
                  ENDDO
-                ELSEIF(ISOLNOD == 4)THEN
+                ELSEIF(ISOLNOD0== 4)THEN
                   NC(1)=IXS(2,N)
                   NC(2)=IXS(4,N)
                   NC(3)=IXS(7,N)
@@ -160,7 +162,7 @@ c------
                   NC(4)=IXS(6,N)
                   NC(5)=IXS(7,N)
                   NC(6)=IXS(8,N)
-                ELSEIF(ISOLNOD == 10)THEN
+                ELSEIF(ISOLNOD0== 10)THEN
                   NC(1)=IXS(2,N)
                   NC(2)=IXS(4,N)
                   NC(3)=IXS(7,N)
