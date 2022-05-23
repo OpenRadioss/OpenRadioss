@@ -1,33 +1,33 @@
 Copyright>        OpenRadioss
 Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
-Copyright>    
+Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
 Copyright>        the Free Software Foundation, either version 3 of the License, or
 Copyright>        (at your option) any later version.
-Copyright>    
+Copyright>
 Copyright>        This program is distributed in the hope that it will be useful,
 Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
 Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 Copyright>        GNU Affero General Public License for more details.
-Copyright>    
+Copyright>
 Copyright>        You should have received a copy of the GNU Affero General Public License
 Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-Copyright>    
-Copyright>    
-Copyright>        Commercial Alternative: Altair Radioss Software 
-Copyright>    
-Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
-Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+Copyright>
+Copyright>
+Copyright>        Commercial Alternative: Altair Radioss Software
+Copyright>
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  LECTUR                        source/starter/lectur.F       
+Chd|  LECTUR                        source/starter/lectur.F
 Chd|-- called by -----------
-Chd|        STARTER0                      source/starter/starter0.F     
+Chd|        STARTER0                      source/starter/starter0.F
 Chd|-- calls ---------------
 Chd|        ADD_MASS_STAT                 source/tools/admas/add_mass_stat.F
-Chd|        ADMBCS                        source/model/remesh/admbcs.F  
-Chd|        ALELEC                        source/ale/alelec.F           
+Chd|        ADMBCS                        source/model/remesh/admbcs.F
+Chd|        ALELEC                        source/ale/alelec.F
 Chd|        ALLOCXFEM                     source/elements/xfem/allocxfem.F
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ANI_FASOLFR1                  source/output/anim/ani_fasolfr.F
@@ -37,8 +37,8 @@ Chd|        ANI_SEGQUADFR2                source/output/anim/ani_segquadfr.F
 Chd|        ANODIN                        source/output/analyse/analyse_node.c
 Chd|        APARTIN                       source/output/analyse/analyse_part.c
 Chd|        APPLYSORT2FLUX                source/restart/ddsplit/w_ithflux.F
-Chd|        APPLYSORT2FVM                 source/airbag/fvmesh0.F       
-Chd|        ARRET                         source/system/arret.F         
+Chd|        APPLYSORT2FVM                 source/airbag/fvmesh0.F
+Chd|        ARRET                         source/system/arret.F
 Chd|        BCSCYCMODIF_ND                source/elements/solid/solide10/dim_s10edg.F
 Chd|        BCSMODIF_ND                   source/elements/solid/solide10/dim_s10edg.F
 Chd|        BUILD_ADDCNEL_SUB             source/model/mesh/build_addcnel_sub.F
@@ -53,26 +53,26 @@ Chd|        CDK6INX                       source/elements/sh3n/coquedk6/cdk6inx.
 Chd|        CGRHEAD                       source/elements/shell/coque/cgrhead.F
 Chd|        CGRTAILS                      source/elements/shell/coque/cgrtails.F
 Chd|        CHECKRBY                      source/constraints/general/rbody/checkrby.F
-Chd|        CHECK_DYNAIN                  source/starter/check_dynain.F 
-Chd|        CHECK_SURF                    source/groups/check_surf.F    
-Chd|        CHKFUNCT                      source/tools/curve/lecfun.F   
+Chd|        CHECK_DYNAIN                  source/starter/check_dynain.F
+Chd|        CHECK_SURF                    source/groups/check_surf.F
+Chd|        CHKFUNCT                      source/tools/curve/lecfun.F
 Chd|        CHKTYP2                       source/interfaces/interf1/chktyp2.F
 Chd|        COMPUTE_CONNECT_PARTELM       source/model/sets/compute_connect_partelm.F
 Chd|        COPY_TO_MONVOL                share/modules1/monvol_struct_mod.F
 Chd|        COPY_TO_VOLMON                share/modules1/monvol_struct_mod.F
 Chd|        CREATE_MAP_TABLES             source/model/sets/map_tables.F
 Chd|        CREATE_SEATBELT               source/tools/seatbelts/create_seatbelt.F
-Chd|        DDPRINT                       source/spmd/domdec2.F         
+Chd|        DDPRINT                       source/spmd/domdec2.F
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|        DEALLOCATE_DETONATORS         share/modules1/detonators_mod.F
 Chd|        DEALLOCATE_ELBUF              source/elements/elbuf_init/deallocate_buffer.F
 Chd|        DEALLOCATE_IGRSURF_SPLIT      source/spmd/deallocate_igrsurf_split.F
 Chd|        DEALLOCATE_JOINT              source/constraints/general/cyl_joint/deallocate_joint.F
 Chd|        DEALLOCATE_SPLIT_CFD_SOLIDE   source/spmd/split_cfd_solide.F
-Chd|        DESOUT                        source/output/outp/desout.F   
+Chd|        DESOUT                        source/output/outp/desout.F
 Chd|        DIM_S10EDG                    source/elements/solid/solide10/dim_s10edg.F
 Chd|        DOMDEC1                       source/spmd/domain_decomposition/domdec1.F
-Chd|        DOMDEC2                       source/spmd/domdec2.F         
+Chd|        DOMDEC2                       source/spmd/domdec2.F
 Chd|        DOMETIS                       source/spmd/domain_decomposition/grid2mat.F
 Chd|        DSDIM0                        source/implicit/dsolve/dsdim.F
 Chd|        DSDIM0RB                      source/implicit/dsolve/dsdim.F
@@ -85,33 +85,33 @@ Chd|        DSGRAPH3                      source/implicit/dsolve/dsgraph.F
 Chd|        DSWRDD                        source/implicit/dsolve/dswrdd.F
 Chd|        ELBUF_INI                     source/elements/elbuf_init/elbuf_ini.F
 Chd|        FAILWAVE_INIT                 source/materials/fail/failwave_init.F
-Chd|        FICTIVMASSIGEO                source/groups/ssurftagigeo.F  
+Chd|        FICTIVMASSIGEO                source/groups/ssurftagigeo.F
 Chd|        FILLCNCND                     source/elements/solid/solide10/dim_s10edg.F
-Chd|        FILLCNE                       source/spmd/domdec2.F         
+Chd|        FILLCNE                       source/spmd/domdec2.F
 Chd|        FILLCNE_PXFEM                 source/properties/composite_options/stack/preplyxfem.F
 Chd|        FILLCNE_XFEM                  source/elements/xfem/fillcne_xfem.F
-Chd|        FILLCNI2                      source/spmd/domdec2.F         
-Chd|        FILL_INTERCEP                 source/spmd/node/ddtools.F    
+Chd|        FILLCNI2                      source/spmd/domdec2.F
+Chd|        FILL_INTERCEP                 source/spmd/node/ddtools.F
 Chd|        FIXMODIF_ND                   source/elements/solid/solide10/dim_s10edg.F
-Chd|        FLOWDEC                       source/fluid/flowdec.F        
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        FSDCOD                        source/system/fsdcod.F        
-Chd|        FVDIM                         source/airbag/fvmesh.F        
-Chd|        FVMESH0                       source/airbag/fvmesh0.F       
+Chd|        FLOWDEC                       source/fluid/flowdec.F
+Chd|        FREERR                        source/starter/freform.F
+Chd|        FSDCOD                        source/system/fsdcod.F
+Chd|        FVDIM                         source/airbag/fvmesh.F
+Chd|        FVMESH0                       source/airbag/fvmesh0.F
 Chd|        FXBELNUM                      source/constraints/fxbody/fxbelnum.F
 Chd|        FXBGRAV                       source/constraints/fxbody/fxbgrav.F
 Chd|        FXBTAGN                       source/constraints/fxbody/fxbtagn.F
-Chd|        GENANI1                       source/output/anim/genani1.F  
-Chd|        GET_SIZE_INTER24              source/spmd/get_size_tag.F    
-Chd|        GET_SIZE_NUMNOD_LOCAL         source/spmd/get_size_tag.F    
-Chd|        GLOBMAT                       source/materials/globmat.F    
-Chd|        GLOBVARS                      source/spmd/globvars.F        
+Chd|        GENANI1                       source/output/anim/genani1.F
+Chd|        GET_SIZE_INTER24              source/spmd/get_size_tag.F
+Chd|        GET_SIZE_NUMNOD_LOCAL         source/spmd/get_size_tag.F
+Chd|        GLOBMAT                       source/materials/globmat.F
+Chd|        GLOBVARS                      source/spmd/globvars.F
 Chd|        GROUP_INI                     source/model/group/group_ini.F
-Chd|        HM_GROGRONOD                  source/groups/hm_grogronod.F  
-Chd|        HM_LECGRN                     source/groups/hm_lecgrn.F     
+Chd|        HM_GROGRONOD                  source/groups/hm_grogronod.F
+Chd|        HM_LECGRN                     source/groups/hm_lecgrn.F
 Chd|        HM_LINES_OF_LINES             source/groups/hm_lines_of_lines.F
 Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
-Chd|        HM_PRELECGRNS                 source/groups/hm_prelecgrns.F 
+Chd|        HM_PRELECGRNS                 source/groups/hm_prelecgrns.F
 Chd|        HM_PRELECJOI                  source/constraints/general/cyl_joint/hm_prelecjoi.F
 Chd|        HM_PREREAD_BCSCYC             source/constraints/general/bcs/lecbcscyc.F
 Chd|        HM_PREREAD_BEM                source/loads/bem/hm_read_bem.F
@@ -180,7 +180,7 @@ Chd|        HM_READ_INIVEL                source/initial_conditions/general/iniv
 Chd|        HM_READ_INIVOL                source/initial_conditions/inivol/hm_read_inivol.F
 Chd|        HM_READ_INTERFACES            source/interfaces/reader/hm_read_interfaces.F
 Chd|        HM_READ_INTSUB                source/output/subinterface/hm_read_intsub.F
-Chd|        HM_READ_LINES                 source/groups/hm_read_lines.F 
+Chd|        HM_READ_LINES                 source/groups/hm_read_lines.F
 Chd|        HM_READ_LINK                  source/constraints/rigidlink/hm_read_rlink.F
 Chd|        HM_READ_LOAD_CENTRI           source/loads/general/load_centri/hm_read_load_centri.F
 Chd|        HM_READ_LOAD_PRESSURE         source/loads/general/load_pressure/hm_read_load_pressure.F
@@ -221,7 +221,7 @@ Chd|        HM_READ_SPHCEL                source/elements/reader/hm_read_sphcel.
 Chd|        HM_READ_SPHIO                 source/loads/sph/hm_read_sphio.F
 Chd|        HM_READ_SPRING                source/elements/reader/hm_read_spring.F
 Chd|        HM_READ_SUBSET                source/model/assembling/hm_read_subset.F
-Chd|        HM_READ_SURF                  source/groups/hm_read_surf.F  
+Chd|        HM_READ_SURF                  source/groups/hm_read_surf.F
 Chd|        HM_READ_SURFSURF              source/groups/hm_read_surfsurf.F
 Chd|        HM_READ_TABLE1                source/tools/curve/hm_read_table.F
 Chd|        HM_READ_TABLE2                source/tools/curve/hm_read_table.F
@@ -232,22 +232,22 @@ Chd|        HM_READ_TRUSS                 source/elements/reader/hm_read_truss.F
 Chd|        HM_READ_WINDOW_USER           source/tools/userwi/hm_read_window_user.F
 Chd|        HM_READ_XELEM                 source/elements/reader/hm_read_xelem.F
 Chd|        HM_READ_XREF                  source/loads/reference_state/xref/hm_read_xref.F
-Chd|        HM_SET                        source/model/sets/hm_set.F    
+Chd|        HM_SET                        source/model/sets/hm_set.F
 Chd|        HM_SETFXRBYON                 source/constraints/fxbody/hm_setfxrbyon.F
 Chd|        HM_YCTRL                      source/elements/initia/hm_yctrl.F
 Chd|        I24SETNODES                   source/interfaces/inter3d1/i24setnodes.F
 Chd|        IEDGE_XFEM                    source/elements/xfem/iedge_xfem.F
-Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
+Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F
 Chd|        IG3DGRHEAD                    source/elements/ige3d/ig3dgrhead.F
 Chd|        IG3DGRTAILS                   source/elements/ige3d/ig3dgrtails.F
-Chd|        IGRSURF_SPLIT                 source/spmd/igrsurf_split.F   
+Chd|        IGRSURF_SPLIT                 source/spmd/igrsurf_split.F
 Chd|        IND_S10EDG                    source/elements/solid/solide10/dim_s10edg.F
 Chd|        INICRKFILL                    source/elements/xfem/inicrkfill.F
 Chd|        INIEBCS                       source/boundary_conditions/ebcs/iniebcs.F
 Chd|        INIEBCSP0                     source/boundary_conditions/ebcs/iniebcsp0.F
-Chd|        INIMU2                        source/ale/bimat/inimu2.F     
-Chd|        INIMU3                        source/ale/bimat/inimu3.F     
-Chd|        INIMUL                        source/ale/bimat/inimul.F     
+Chd|        INIMU2                        source/ale/bimat/inimu2.F
+Chd|        INIMU3                        source/ale/bimat/inimu3.F
+Chd|        INIMUL                        source/ale/bimat/inimul.F
 Chd|        ININTR                        source/interfaces/interf1/inintr.F
 Chd|        ININTR1                       source/interfaces/interf1/inintr1.F
 Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
@@ -256,24 +256,24 @@ Chd|        ININTR_THKVAR                 source/interfaces/interf1/inintr_thkva
 Chd|        ININTSUB                      source/interfaces/interf1/inintsub.F
 Chd|        INIPARSEN                     source/tools/sensor/iniparsen.F
 Chd|        INIRBE3                       source/constraints/general/rbe3/hm_read_rbe3.F
-Chd|        INISEN                        source/tools/sensor/inisen.F  
+Chd|        INISEN                        source/tools/sensor/inisen.F
 Chd|        INISMS                        source/general_controls/computation/hm_read_sms.F
 Chd|        INITIA                        source/elements/initia/initia.F
 Chd|        INIT_JOINT                    source/constraints/general/cyl_joint/init_joint.F
 Chd|        INIT_MAT_WEIGHT               source/user_interface/set_dd_mat_weight.F
 Chd|        INIT_MLAW_TAG                 source/elements/elbuf_init/init_mlaw_tag.F
-Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
-Chd|        INIT_PERMUTATION              source/starter/lectur.F       
+Chd|        INIT_MONVOL                   source/airbag/init_monvol.F
+Chd|        INIT_PERMUTATION              source/starter/lectur.F
 Chd|        INIT_RANDOM                   source/general_controls/computation/init_random.F
 Chd|        INIVCHK                       source/constraints/general/kinchk.F
 Chd|        INIVEL                        source/initial_conditions/general/inivel/inivel.F
 Chd|        INI_BCSCYC                    source/constraints/general/bcs/lecbcscyc.F
-Chd|        INI_IFRONT                    source/spmd/node/ddtools.F    
+Chd|        INI_IFRONT                    source/spmd/node/ddtools.F
 Chd|        INT8_INI                      source/interfaces/intbuf/intbuf_ini_starter.F
 Chd|        INTBUF_FRIC_COPY              source/interfaces/interf1/intbuf_fric_copy.F
 Chd|        INTBUF_FRIC_INI_STARTER       source/interfaces/intbuf/intbufFric_ini_starter.F
 Chd|        INTBUF_INI_STARTER            source/interfaces/intbuf/intbuf_ini_starter.F
-Chd|        INTSTAMP_ZERO                 share/modules1/intstamp_mod.F 
+Chd|        INTSTAMP_ZERO                 share/modules1/intstamp_mod.F
 Chd|        INTXRBE3                      source/constraints/general/rbe3/hm_read_rbe3.F
 Chd|        INVERTED_GROUP_DEALLOC        source/model/sets/inverted_group_dealloc.F
 Chd|        INVERTED_GROUP_INIT           source/model/sets/inverted_group_init.F
@@ -284,20 +284,20 @@ Chd|        KININI                        source/constraints/general/kinini.F
 Chd|        KINREM                        source/constraints/general/kinchk.F
 Chd|        LAGM_INI                      source/tools/lagmul/lagm_ini.F
 Chd|        LAGM_NHF                      source/tools/lagmul/lagm_nhf.F
-Chd|        LASERP1                       source/loads/laser/laserp.F   
-Chd|        LASERP3                       source/loads/laser/laserp.F   
+Chd|        LASERP1                       source/loads/laser/laserp.F
+Chd|        LASERP3                       source/loads/laser/laserp.F
 Chd|        LCE16Q3                       source/elements/solid_2d/quad/lce16q.F
 Chd|        LCE16S3                       source/elements/reader/hm_read_solid.F
 Chd|        LCE16S4                       source/elements/reader/hm_read_solid.F
-Chd|        LECACC                        source/tools/accele/lecacc.F  
+Chd|        LECACC                        source/tools/accele/lecacc.F
 Chd|        LECEXTLNK                     source/coupling/rad2rad/lecextlnk.F
 Chd|        LECFILL                       source/elements/initia/lecfill.F
-Chd|        LECGGROUP                     source/groups/lecggroup.F     
-Chd|        LECGROUP                      source/groups/lecgroup.F      
+Chd|        LECGGROUP                     source/groups/lecggroup.F
+Chd|        LECGROUP                      source/groups/lecgroup.F
 Chd|        LECIG3D                       source/elements/ige3d/lecig3d.F
 Chd|        LECINS                        source/interfaces/interf1/lecins.F
 Chd|        LECINT                        source/interfaces/interf1/lecint.F
-Chd|        LECLAS                        source/loads/laser/leclas.F   
+Chd|        LECLAS                        source/loads/laser/leclas.F
 Chd|        LECREFSTA                     source/loads/reference_state/refsta/lecrefsta.F
 Chd|        LECSEC0                       source/tools/sect/hm_read_sect.F
 Chd|        LECSEC42                      source/tools/sect/hm_read_sect.F
@@ -313,10 +313,10 @@ Chd|        LEC_INISTATE                  source/elements/initia/lec_inistate.F
 Chd|        LGMINI_I7                     source/tools/lagmul/lgmini_i7.F
 Chd|        LGMINI_RWL                    source/tools/lagmul/lgmini_rwl.F
 Chd|        LINE_DECOMP                   source/model/group/line_decomp.F
-Chd|        M20DCOD                       source/system/fsdcod.F        
-Chd|        MADCHK                        com/madymo/madchk.F           
+Chd|        M20DCOD                       source/system/fsdcod.F
+Chd|        MADCHK                        com/madymo/madchk.F
 Chd|        MATPARAM_R2R_VOID             source/elements/elbuf_init/matparam_r2r_void.F
-Chd|        MERGE                         source/model/submodel/merge.F 
+Chd|        MERGE                         source/model/submodel/merge.F
 Chd|        MERGE_NODE                    source/elements/nodes/merge_node.F
 Chd|        MONVOL_ALLOCATE               share/modules1/monvol_struct_mod.F
 Chd|        MONVOL_DEALLOCATE             share/modules1/monvol_struct_mod.F
@@ -325,17 +325,17 @@ Chd|        MULTI_CHECK_EOS               source/multifluid/multi_check_eos.F
 Chd|        MULTI_CHECK_PSH               source/multifluid/multi_check_psh.F
 Chd|        MULTI_CONNECTIVITY            source/multifluid/multi_connectivity.F
 Chd|        MULTI_UNPLUG_NEIGHBORS        source/multifluid/multi_unplug_neighbors.F
-Chd|        NBFUNCT                       source/tools/curve/nbfunc.F   
+Chd|        NBFUNCT                       source/tools/curve/nbfunc.F
 Chd|        NODM11                        source/materials/mat/mat011/nodm11.F
 Chd|        OUTRI                         source/materials/time_step/outri.F
 Chd|        OUTRIN                        source/materials/time_step/outri.F
 Chd|        PAROI                         source/materials/mat/mat006/paroi.F
 Chd|        PGRHEAD                       source/elements/beam/pgrhead.F
 Chd|        PGRTAILS                      source/elements/beam/pgrtails.F
-Chd|        PORNOD                        source/ale/pornod.F           
+Chd|        PORNOD                        source/ale/pornod.F
 Chd|        PRECRKXFEM                    source/elements/xfem/precrkxfem.F
 Chd|        PRELECIG3D                    source/elements/ige3d/prelecig3d.F
-Chd|        PRELECSEC                     source/tools/sect/prelecsec.F 
+Chd|        PRELECSEC                     source/tools/sect/prelecsec.F
 Chd|        PRELECSEC4BOLT                source/tools/sect/prelecsec4bolt.F
 Chd|        PRELEC_DDW                    source/spmd/domain_decomposition/grid2mat.F
 Chd|        PRELEC_DDW_POIN               source/spmd/domain_decomposition/grid2mat.F
@@ -367,7 +367,7 @@ Chd|        READ_DETONATORS               source/initial_conditions/detonation/r
 Chd|        READ_EBCS                     source/boundary_conditions/ebcs/read_ebcs.F
 Chd|        READ_ENGINE_DRIVER            source/general_controls/engine/read_engine_driver.F
 Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
-Chd|        READ_MONVOL                   source/airbag/read_monvol.F   
+Chd|        READ_MONVOL                   source/airbag/read_monvol.F
 Chd|        READ_RWALL                    source/constraints/general/rwall/read_rwall.F
 Chd|        RECONNECT                     source/elements/nodes/reconnect.F
 Chd|        REINI_MATPROP                 source/spmd/domain_decomposition/grid2mat.F
@@ -389,123 +389,123 @@ Chd|        SETRB2ON                      source/constraints/general/rbe2/hm_rea
 Chd|        SETRBYON                      source/constraints/general/rbody/hm_read_rbody.F
 Chd|        SET_ADMESH                    source/model/remesh/set_admesh.F
 Chd|        SET_ELGROUP_PARAM             source/elements/shell/coque/set_elgroup_param.F
-Chd|        SET_FRONT8                    source/spmd/node/ddtools.F    
-Chd|        SET_IBUFSSG_IO                source/starter/lectur.F       
-Chd|        SET_INTERCEP                  source/spmd/node/ddtools.F    
-Chd|        SET_POIN_UMP                  source/system/set_poin_ump.F  
+Chd|        SET_FRONT8                    source/spmd/node/ddtools.F
+Chd|        SET_IBUFSSG_IO                source/starter/lectur.F
+Chd|        SET_INTERCEP                  source/spmd/node/ddtools.F
+Chd|        SET_POIN_UMP                  source/system/set_poin_ump.F
 Chd|        SGRHEAD                       source/elements/solid/solide/sgrhead.F
 Chd|        SGRTAILS                      source/elements/solid/solide/sgrtails.F
 Chd|        SHELLTHK_UPD                  source/properties/composite_options/drape/shellthk_upd.F
 Chd|        SHSUB                         source/elements/shell/subcycling/shsub.F
-Chd|        SMS_INIT                      source/ams/sms_init.F         
-Chd|        SMS_INI_JAD_1                 source/ams/sms_init.F         
-Chd|        SMS_INI_JAD_2                 source/ams/sms_init.F         
-Chd|        SMS_INI_JAD_3                 source/ams/sms_init.F         
-Chd|        SMS_INI_KAD                   source/ams/sms_init.F         
-Chd|        SMS_INI_KDI                   source/ams/sms_init.F         
-Chd|        SORTGROUP                     source/system/nintrr.F        
-Chd|        SORT_SURF                     source/groups/sort_surf.F     
+Chd|        SMS_INIT                      source/ams/sms_init.F
+Chd|        SMS_INI_JAD_1                 source/ams/sms_init.F
+Chd|        SMS_INI_JAD_2                 source/ams/sms_init.F
+Chd|        SMS_INI_JAD_3                 source/ams/sms_init.F
+Chd|        SMS_INI_KAD                   source/ams/sms_init.F
+Chd|        SMS_INI_KDI                   source/ams/sms_init.F
+Chd|        SORTGROUP                     source/system/nintrr.F
+Chd|        SORT_SURF                     source/groups/sort_surf.F
 Chd|        SPDOMETIS                     source/spmd/domain_decomposition/grid2mat.F
 Chd|        SPGRHEAD                      source/elements/sph/spgrhead.F
 Chd|        SPGRTAILS                     source/elements/sph/spgrtails.F
-Chd|        SPHDCOD                       source/elements/sph/sphdcod.F 
-Chd|        SPHONF0                       source/elements/sph/sphonf0.F 
-Chd|        SPINIH                        source/elements/sph/spinih.F  
+Chd|        SPHDCOD                       source/elements/sph/sphdcod.F
+Chd|        SPHONF0                       source/elements/sph/sphonf0.F
+Chd|        SPINIH                        source/elements/sph/spinih.F
 Chd|        SPLIT_CFD_SOLIDE              source/spmd/split_cfd_solide.F
 Chd|        SPMD_ANIM_PLY_INIT            source/spmd/spmd_anim_ply_init.F
-Chd|        SPTRI                         source/elements/sph/sptri.F   
-Chd|        STACKGROUP                    source/stack/stackgroup.F     
-Chd|        STARTIME                      source/system/timer.F         
+Chd|        SPTRI                         source/elements/sph/sptri.F
+Chd|        STACKGROUP                    source/stack/stackgroup.F
+Chd|        STARTIME                      source/system/timer.F
 Chd|        STATE_ADMESH                  source/model/remesh/state_admesh.F
 Chd|        STIFN0_ND                     source/elements/solid/solide10/dim_s10edg.F
 Chd|        STIFN1_ND                     source/elements/solid/solide10/dim_s10edg.F
-Chd|        STOPTIME                      source/system/timer.F         
+Chd|        STOPTIME                      source/system/timer.F
 Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
 Chd|        SUBSET_INI                    source/model/group/subset_ini.F
-Chd|        SURFEXT_TAGN                  source/groups/ssurftag.F      
+Chd|        SURFEXT_TAGN                  source/groups/ssurftag.F
 Chd|        T3GRHEAD                      source/elements/solid_2d/tria/t3grhead.F
 Chd|        T3GRTAILS                     source/elements/solid_2d/tria/t3grtails.F
 Chd|        TABLE_ZERO                    source/tools/curve/table_tools.F
-Chd|        TET4_10                       source/starter/lectur.F       
+Chd|        TET4_10                       source/starter/lectur.F
 Chd|        TGRHEAD                       source/elements/truss/tgrhead.F
 Chd|        TGRTAILS                      source/elements/truss/tgrtails.F
-Chd|        THPINIT                       source/output/th/thpinit.F    
-Chd|        THSKEWC                       source/output/th/thskewc.F    
+Chd|        THPINIT                       source/output/th/thpinit.F
+Chd|        THSKEWC                       source/output/th/thskewc.F
 Chd|        TITRE2                        source/output/outfile/titre2.F
 Chd|        TITRE3                        source/output/outfile/titre3.F
-Chd|        TRACE_IN1                     source/system/trace_back.F    
-Chd|        TRACE_OUT1                    source/system/trace_back.F    
+Chd|        TRACE_IN1                     source/system/trace_back.F
+Chd|        TRACE_OUT1                    source/system/trace_back.F
 Chd|        TRIINTFRIC                    source/interfaces/interf1/trintfric.F
-Chd|        UPDMAT                        source/materials/updmat.F     
+Chd|        UPDMAT                        source/materials/updmat.F
 Chd|        UPGRADE_IXINT                 source/interfaces/interf1/upgrade_ixint.F
 Chd|        XFEM_CRACK_INIT               source/elements/xfem/xfem_crack_init.F
 Chd|        XGRHEAD                       source/elements/xelem/xgrhead.F
 Chd|        XGRTAILS                      source/elements/xelem/xgrtails.F
 Chd|        YCTRL                         source/initial_conditions/inista/yctrl.F
-Chd|        STRR                          source/tools/univ/strr.F      
+Chd|        STRR                          source/tools/univ/strr.F
 Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale_ebcs_mod.F
-Chd|        BPRELOAD_MOD                  share/modules1/bpreload_mod.F 
+Chd|        BPRELOAD_MOD                  share/modules1/bpreload_mod.F
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
-Chd|        CLUSTER_MOD                   share/modules1/cluster_mod.F  
+Chd|        CLUSTER_MOD                   share/modules1/cluster_mod.F
 Chd|        DDWEIGHTS_MOD                 share/modules1/ddweights_mod.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
-Chd|        DSGRAPH_MOD                   share/modules1/dsgraph_mod.F  
+Chd|        DRAPE_MOD                     share/modules1/drape_mod.F
+Chd|        DSGRAPH_MOD                   share/modules1/dsgraph_mod.F
 Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
-Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
+Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F
 Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
-Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        FUNC2D_MOD                    share/modules1/func2d_mod.F   
-Chd|        FVBAG_MOD                     share/modules1/fvbag_mod.F    
+Chd|        FRONT_MOD                     share/modules1/front_mod.F
+Chd|        FUNC2D_MOD                    share/modules1/func2d_mod.F
+Chd|        FVBAG_MOD                     share/modules1/fvbag_mod.F
 Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/fvmbag_meshcontrol_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        GROUP_MOD                     share/modules1/group_mod.F    
+Chd|        GROUP_MOD                     share/modules1/group_mod.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        INIGRAV                       share/modules1/inigrav_mod.F  
-Chd|        INIMAP1D_MOD                  share/modules1/inimap1d_mod.F 
-Chd|        INIMAP2D_MOD                  share/modules1/inimap2d_mod.F 
-Chd|        INIVOL_ARRAY_MOD              share/modules1/inivol_mod.F   
-Chd|        INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
-Chd|        INIVOL_INTERF_MOD             share/modules1/inivol_mod.F   
+Chd|        INIGRAV                       share/modules1/inigrav_mod.F
+Chd|        INIMAP1D_MOD                  share/modules1/inimap1d_mod.F
+Chd|        INIMAP2D_MOD                  share/modules1/inimap2d_mod.F
+Chd|        INIVOL_ARRAY_MOD              share/modules1/inivol_mod.F
+Chd|        INIVOL_DEF_MOD                share/modules1/inivol_mod.F
+Chd|        INIVOL_INTERF_MOD             share/modules1/inivol_mod.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        INT8_MOD                      ../common_source/modules/int8_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        INTBUFMOD                     share/modules1/restart_mod.F  
+Chd|        INTBUFMOD                     share/modules1/restart_mod.F
 Chd|        INTBUFSCRATCH_MOD             source/interfaces/interf1/intbufscratch_mod.F
 Chd|        INTBUF_FRIC_MOD               share/modules1/intbuf_fric_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules1/intstamp_glob_mod.F
 Chd|        INVERTED_GROUP_MOD            share/modules1/inverted_group_mod.F
-Chd|        IXINTMOD                      share/modules1/restart_mod.F  
-Chd|        JOINT_MOD                     share/modules1/joint_mod.F    
+Chd|        IXINTMOD                      share/modules1/restart_mod.F
+Chd|        JOINT_MOD                     share/modules1/joint_mod.F
 Chd|        MAPPING_OPTION_MOD            share/modules1/dichotomy_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MESHSURFIG3D_MOD              source/elements/ige3d/meshsurfig3d_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MID_PID_MOD                   share/modules1/mid_pid_mod.F  
+Chd|        MID_PID_MOD                   share/modules1/mid_pid_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        NOD2EL_MOD                    share/modules1/nod2el_mod.F   
+Chd|        NOD2EL_MOD                    share/modules1/nod2el_mod.F
 Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|        OPTION_MOD                    share/modules1/options_mod.F  
+Chd|        OPTION_MOD                    share/modules1/options_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        RANDOM_MOD                    share/modules1/random_mod.F   
-Chd|        REORDER_MOD                   share/modules1/reorder_mod.F  
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
-Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
+Chd|        R2R_MOD                       share/modules1/r2r_mod.F
+Chd|        RANDOM_MOD                    share/modules1/random_mod.F
+Chd|        REORDER_MOD                   share/modules1/reorder_mod.F
+Chd|        RESTMOD                       share/modules1/restart_mod.F
+Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|        SET_MOD                       share/modules1/set_mod.F      
-Chd|        SKEW_MOD                      share/modules1/skew_mod.F     
-Chd|        SMS_MOD                       share/modules1/sms_mod.F      
-Chd|        SPH_MOD                       share/modules1/sph_mod.F      
+Chd|        SET_MOD                       share/modules1/set_mod.F
+Chd|        SKEW_MOD                      share/modules1/skew_mod.F
+Chd|        SMS_MOD                       share/modules1/sms_mod.F
+Chd|        SPH_MOD                       share/modules1/sph_mod.F
 Chd|        SPLIT_CFD_MOD                 share/modules1/split_cfd_mod.F
-Chd|        STACK_MOD                     share/modules1/stack_mod.F    
+Chd|        STACK_MOD                     share/modules1/stack_mod.F
 Chd|        STACK_VAR_MOD                 share/modules1/stack_var_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
+Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|        TABLE_GLOB_MOD                share/modules1/table_glob_mod.F
 Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.F
 Chd|====================================================================
@@ -524,14 +524,14 @@ C-----------------------------------------------
       USE SMS_MOD
       USE TABLE_GLOB_MOD
       USE R2R_MOD
-      USE ELBUFDEF_MOD            
-      USE ELBUFTAG_MOD            
+      USE ELBUFDEF_MOD
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE FRONT_MOD
       USE SPH_MOD
       USE CLUSTER_MOD
-      USE INTBUFDEF_MOD      
-      USE INTBUFSCRATCH_MOD      
+      USE INTBUFDEF_MOD
+      USE INTBUFSCRATCH_MOD
       USE DDWEIGHTS_MOD
       USE XFEM2DEF_MOD
       USE STACK_MOD
@@ -541,9 +541,9 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE STACK_VAR_MOD
       USE BPRELOAD_MOD
-      USE REORDER_MOD 
+      USE REORDER_MOD
       USE INIGRAV
-      USE INTBUF_FRIC_MOD   
+      USE INTBUF_FRIC_MOD
       USE INIMAP1D_MOD
       USE INIMAP2D_MOD
       USE FUNC2D_MOD
@@ -551,7 +551,7 @@ C-----------------------------------------------
       USE GROUP_MOD
       USE OPTIONDEF_MOD
       USE OPTION_MOD
-      USE OPTIONDEF_MOD      
+      USE OPTIONDEF_MOD
       USE MID_PID_MOD
       USE FAILWAVE_MOD
       USE NLOCAL_REG_MOD
@@ -589,7 +589,7 @@ C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       INTEGER,INTENT(IN)::IS_DYNA
-      TYPE(DETONATOR_STRUCT_),TARGET :: DETONATORS 
+      TYPE(DETONATOR_STRUCT_),TARGET :: DETONATORS
       TYPE(T_EBCS_TAB), INTENT(INOUT) :: EBCS_TAB
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
@@ -667,7 +667,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL     
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -690,7 +690,7 @@ C-----------------------------------------------
      .   IDS,IUN,L_MUL_LAG,NCMAX,NKMAX,
      .   MAXRTMS,MAXNSNE,
      .   MAXRTM,LWAT, L_MUL_LAG1,ISHIF,LIBAGALE,
-     .   LENTHG, LBUFMAT, LBUFGEO, LBUFSF, 
+     .   LENTHG, LBUFMAT, LBUFGEO, LBUFSF,
      .   LNOM_OPT, LENVOLU, ILEN, LCNE, LCNI2G,LENPOR,
      .   PM1SHF, NFX, AIPM, ANOD, AMOD, NBNO, NBMO,
      .   ALM, NELS, NELC, NELTG, NLGRAV, AGRVI, AGRVR,
@@ -724,13 +724,13 @@ C-----------------------------------------------
       INTEGER(KIND=8) NUMELIG3DK8
       INTEGER(KIND=8) NUMSPHK8
       INTEGER(KIND=8) SVEUL8
-      
+
       INTEGER
      .   ISUBMOD(NSUBMOD),
      .   IUPARAM(100),DDSTAT(50,PARASIZ),IGRNRB2(NRBE2),
      .   LCNE_PXFEM
       INTEGER NSNT,NMNT_2
-      
+
       INTEGER, DIMENSION(:), ALLOCATABLE :: POIN_UMP_OLD
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAB_UMP_OLD
       my_real, DIMENSION(:), ALLOCATABLE :: CPUTIME_MP_OLD
@@ -745,14 +745,14 @@ C-----------------------------------------------
      *        IWCONT, IWCIN2      , IKINE1LAG ,DSDOF, TAGXREF,
      *        ADDCNE, ADDCNE_PXFEM, FXBTAG    ,ADDCNE_CRKXFEM,
      *        TAGREFSTA,CSRECT
-     
+
       INTEGER, DIMENSION(:),ALLOCATABLE ::
      *        ISOLNOD,ISOLOFF,ISHEOFF,ITRUOFF,IPOUOFF,
      *        IRESOFF,ITRIOFF,IGRNRBY,IQUAOFF
 C
       INTEGER(KIND=8) :: KVOISPH8,NUMSPH8,SIXSP8,LIMIT8
       INTEGER :: INTEGER_LIMIT32
-      
+
       INTEGER, DIMENSION(:),ALLOCATABLE :: CEP,CEL,CNE,
      .                                     CNI2, CELI2, CEPI2,
      .                                     CEPSP, CELSPH, ITAGSH,
@@ -771,7 +771,7 @@ C
       INTEGER(KIND=8) ,TARGET :: DSMEMORY(7,NSPMD)
       INTEGER, DIMENSION(:,:),   ALLOCATABLE :: FXANI,IWORKSH, FXB_MATRIX_ADD
       INTEGER, DIMENSION(:),     ALLOCATABLE :: FASTAG,SEGTAG
-      INTEGER(KIND=8),TARGET :: MEMFLOW(2,NSPMD)     
+      INTEGER(KIND=8),TARGET :: MEMFLOW(2,NSPMD)
       INTEGER, DIMENSION(:),     ALLOCATABLE :: IFLOW
 C
       INTEGER, DIMENSION(:),     ALLOCATABLE :: KINWORK
@@ -800,7 +800,7 @@ C
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: QP_IPERTURB,RBY_MSN
       my_real
      .       , DIMENSION(:,:), ALLOCATABLE :: QP_RPERTURB,RBY_INIAXIS
-C      
+C
       my_real
      .  EANIT2(10),COST_R2R,TOTMAS
       TARGET :: EANIT2
@@ -829,19 +829,19 @@ C OpenMP specific
 
       my_real, DIMENSION(:,:,:), ALLOCATABLE :: XREFC,XREFTG,XREFS
       my_real, DIMENSION(:), ALLOCATABLE :: XYZREF
-     
+
       my_real, DIMENSION(:), ALLOCATABLE :: DT_R2R
       TYPE(INTERSURFP)   , DIMENSION(:,:), ALLOCATABLE :: INTERCEP
       my_real DTNODA
       my_real, DIMENSION(:), ALLOCATABLE :: SH4ANG,SH3ANG
       my_real, DIMENSION(:), ALLOCATABLE :: MS_B,IN_B,DTELEM
-C     
+C
       TYPE (STACK_PLY)  :: STACK
 C
       INTEGER, DIMENSION(:), ALLOCATABLE :: IDRAPEID,PERTURB
       TYPE (FVM_INIVEL_STRUCT), DIMENSION(:), ALLOCATABLE :: FVM_INIVEL
       TYPE (FAILWAVE_STR_) :: FAILWAVE
-      TYPE (NLOCAL_STR_)   :: NLOC_DMG 
+      TYPE (NLOCAL_STR_)   :: NLOC_DMG
       TYPE (PINCH)         :: PINCH_DATA
       TYPE (DRAPE_) , DIMENSION(:), ALLOCATABLE :: DRAPE
       INTEGER :: EBCS_TAG_CELL_SPMD(NUMELQ+NUMELTG+NUMELS)
@@ -912,7 +912,7 @@ C  Bid13 a  virer !!!!
       TYPE(INTBUF_STRUCT_),DIMENSION(:),ALLOCATABLE :: INTBUF_TAB
       TYPE(SCRATCH_STRUCT_),DIMENSION(:),ALLOCATABLE :: INSCR
 C---  Bolt preloading
-      INTEGER SIPRELOAD, SPRELOAD   !NUMPRELOAD, 
+      INTEGER SIPRELOAD, SPRELOAD   !NUMPRELOAD,
 
 c---  Element Buffer  --------------------------------------------------
       TYPE(ELBUF_STRUCT_),DIMENSION(:)  ,ALLOCATABLE :: ELBUF_TAB
@@ -979,12 +979,12 @@ C======================================================================|
 C---------      Itet=2 of S10
       INTEGER, DIMENSION(:), ALLOCATABLE :: ICNDS10,ITAGND,ADDCNCND,
      .                                      CNCND, CELCND, CEPCND
-      
+
       !Pointer to send a valid explicit address as argument in cas of not allocated
       TYPE(PRGRAPH)     ,POINTER :: pGRAPHE
       INTEGER(KIND=8)   ,POINTER :: pDSMEMORY
-      INTEGER(KIND=8)   ,POINTER :: pMEMFLOW 
-      
+      INTEGER(KIND=8)   ,POINTER :: pMEMFLOW
+
       DATA INTMAX /2147483647/
       my_real,
      .         DIMENSION(:), ALLOCATABLE :: FILLSOL
@@ -1024,16 +1024,16 @@ C--- INterface Friction model
 C FLEXIBLE BODY
       INTEGER  FXB_LAST_ADRESS(10)
       CHARACTER, DIMENSION(:), ALLOCATABLE :: FXBFILE_TAB*2148
-C      
+C
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       INDX_XXX : size = NUMNOD
-!                 index of non-zero TAG_XXX value 
+!                 index of non-zero TAG_XXX value
 !                 used for optimize the initialization
 !                 of TAG_XXX array (XXX = NM or SCRT for SCRATCH)
 !                 allocated array in lectur and threadprivate array
 !       NINDX_XXX : number of non-zero TAG_XXX valuee
 !       TAG_XXX : size = NUMNOD
-!                array used to tag an element for 
+!                array used to tag an element for
 !                a given interface ; allocated in lectur
 !                allocated array in lectur and threadprivate array
 !       FLAG_24_25 : logical, flag for interface 24 or 25
@@ -1044,7 +1044,7 @@ C
 !       TAG_SKN : integer ; dimension=NUMSKW+1
 !                 tag array --> tag the i SKEW if a SPRING uses it
 !                 tag array=0 --> the SKEW is not used by a SPRING
-!                 tag array=1 --> the SKEW is used by one SPRING      
+!                 tag array=1 --> the SKEW is used by one SPRING
 !                 tag array>1 --> the SKEW is used by several SPRING
 !       MULTIPLE_SKEW : SKEW_TYPE ; dimension=NUMSKW+1
 !                       MULTIPLE_SKEW(I)%PLIST(:) is a list of processor
@@ -1060,19 +1060,19 @@ C
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
         INTEGER :: GRNOD_UID
         INTEGER, DIMENSION(NSPMD) :: SIZE_ALE_ELM
-        TYPE(split_cfd_type), DIMENSION(:),ALLOCATABLE :: ALE_ELM 
+        TYPE(split_cfd_type), DIMENSION(:),ALLOCATABLE :: ALE_ELM
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       SIZE_ALE_ELM : integer ; dimension=NSPMD ; size of ALE_ELM%SOL_ID array
-!       ALE_ELM : split_cfd_type ; dimension=NSPMD ; solid element ID used 
+!       ALE_ELM : split_cfd_type ; dimension=NSPMD ; solid element ID used
 !                 during the domain splitting (ALE part)
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
         INTEGER :: LEN_TMP_NAME
-        CHARACTER(len=4096) :: TMP_NAME 
+        CHARACTER(len=4096) :: TMP_NAME
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       LEN_TMP_NAME : integer ; size of TMP_NAME
-!       TMP_NAME : character ; local name of file, when -outfile or 
+!       TMP_NAME : character ; local name of file, when -outfile or
 !                  -infile cdl are used, need to define the folder paths
-!       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-* 
+!       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
         TYPE(MONVOL_STRUCT_), DIMENSION(:), ALLOCATABLE :: T_MONVOL
         TYPE(MONVOL_METADATA_) :: T_MONVOL_METADATA
         TYPE(t_ale_connectivity) :: ALE_CONNECTIVITY
@@ -1084,9 +1084,9 @@ c For /RANDOM --------------------------------------------------
 
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       BOOL_ALE_TG : logical, true only if 2d model + MULTI_FVM used
-!       INDX_xxx : integer ; dimension=NUMELxxx ; index for the surface 
+!       INDX_xxx : integer ; dimension=NUMELxxx ; index for the surface
 !                  of the remote connecte element
-!       FACE_ELM_xxx : integer ; dimension=(6/4/3*NUMELxxx,2) ; surface 
+!       FACE_ELM_xxx : integer ; dimension=(6/4/3*NUMELxxx,2) ; surface
 !                  of the remote connecte element
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
         LOGICAL :: BOOL_ALE_TG
@@ -1103,7 +1103,7 @@ C MERGE NODES
       INTEGER, DIMENSION(:), ALLOCATABLE :: MERGE_NODE_TAB
       my_real,DIMENSION(:),ALLOCATABLE :: MERGE_NODE_TOL
 C
-C======================================================================|         
+C======================================================================|
 c   BEGINNING
 !     domain decomposition statistic
       DDSTAT(1:50,1:PARASIZ)=0
@@ -1156,9 +1156,9 @@ C  added nodal mass
       TOTADDMAS = ZERO
       IPART_STACK = 0
       IPART_PCOMPP = 0
-C      
+C
       SFRONTB_R2R = 1
-C Flag to set for Domain Decomposition and Additional nodes     
+C Flag to set for Domain Decomposition and Additional nodes
       USER_GRP_DOMAIN=0
       NSNT=0
       NMNT_2=0
@@ -1179,7 +1179,7 @@ C Interface give CPU to Main surface - INITIALIZE ARRAY
 C new initiation for XFEM CRACK
 C
       ALLOCATE(INTERCEP(3,NINTER))
-      
+
       DO I=1,NINTER
         NULLIFY(INTERCEP(1,I)%P)
         NULLIFY(INTERCEP(2,I)%P)
@@ -1240,11 +1240,11 @@ C
         ! Table of FXBODY file name for QAPRINT
         ALLOCATE(FXBFILE_TAB(NFXBODY))
       ELSE
-        NBIPM = 1         
+        NBIPM = 1
         ALLOCATE(FXBTAG(1),FXBIPM(1),STAT=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
-     .                         C1='FXBTAG')   
+     .                         C1='FXBTAG')
         ALLOCATE(FXBFILE_TAB(0))
       ENDIF
 C
@@ -1326,36 +1326,36 @@ C     10 frontiere cinematique
 C     100 frontitere interface
 C     combinaisons possibles
 
-    
+
 c SIFRONT minimum size NUMNOD. Value set to 2*NUMNOD
       SIFRONT = 2*NUMNOD
-      
-c Linked-list IFRONT      
+
+c Linked-list IFRONT
 C IFRONT%IENTRY : entry in IFRONT for node N
 C IFRONT%P(1,N) : SPMD domain for node N
 C IFRONT%P(2,N) : next index in IFRONT for node N
       ALLOCATE(IFRONT%P(2,SIFRONT),STAT=stat)
       ALLOCATE(IFRONT%IENTRY(NUMNOD),STAT=stat)
-      
-c IENTRY2 use to save IENTRY   
-      ALLOCATE(IENTRY2(NUMNOD),STAT=stat)              
+
+c IENTRY2 use to save IENTRY
+      ALLOCATE(IENTRY2(NUMNOD),STAT=stat)
       IF(STAT.NE.0) THEN
         CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                         C1='IFRONT')
-      ENDIF  
+      ENDIF
 c FLAGKIN array to identify boundary nodes with kinematic constraints
-c (FLAGKIN(N)=1 <=> old FRONT TAG=10)   
-      ALLOCATE(FLAGKIN(NUMNOD),STAT=stat) 
+c (FLAGKIN(N)=1 <=> old FRONT TAG=10)
+      ALLOCATE(FLAGKIN(NUMNOD),STAT=stat)
       IF(STAT.NE.0) THEN
         CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                         C1='FLAGKIN')
-      ENDIF  
+      ENDIF
 C----------------------------------------------
-      CALL INI_IFRONT()   
-      IENTRY2(1:NUMNOD) = -1 
-      FLAGKIN(1:NUMNOD) = 0     
-    
-c      IF (FLAG_GOTO == 1) GOTO 207 !!go to traitement rad2rad     
+      CALL INI_IFRONT()
+      IENTRY2(1:NUMNOD) = -1
+      FLAGKIN(1:NUMNOD) = 0
+
+c      IF (FLAG_GOTO == 1) GOTO 207 !!go to traitement rad2rad
 C--------------------------------------------
 C     CALCUL ISECUT
 C--------------------------------------------
@@ -1606,7 +1606,7 @@ C---  Allocations
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='LACCELM')
-     
+
       ALLOCATE (NOM_OPT(SNOM_OPT) ,STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
@@ -1889,14 +1889,14 @@ C NTABLE = NFUNCT + ...
      .                               MSGTYPE=MSGERROR,
      .                         C1='TF')
           IF (NPTS > 0) TF = 0
-          CALL HM_READ_FUNCT(NPC    ,TF     ,NFUNCT ,TABLE, NPTS,  
+          CALL HM_READ_FUNCT(NPC    ,TF     ,NFUNCT ,TABLE, NPTS,
      .                NOM_OPT(LNOPT1*INOM_OPT(20)+1) ,FUNCRYPT, UNITAB, LSUBMODEL)
           CALL TRACE_OUT1()
         END IF
 C       TABLES
         ERR_MSG='TABLES 1'
         CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-        CALL HM_READ_TABLE1 (NTABLE, TABLE ,NFUNCT ,NPC ,TF ,  
+        CALL HM_READ_TABLE1 (NTABLE, TABLE ,NFUNCT ,NPC ,TF ,
      .                NOM_OPT(LNOPT1*INOM_OPT(20)+1), UNITAB, LSUBMODEL)
         CALL CHKFUNCT (NFUNCT, NPC,NOM_OPT(LNOPT1*INOM_OPT(20)+1))
         IF (NFUNCT > 0) THEN
@@ -2040,23 +2040,23 @@ C--------------------------------------------
       SIELVS = 6*NUMELS+MAX(IALE,ITHERM,IEULER,IALELAG)* (4 * NUMELQ + 3 * NUMELTG)
       SIFILL = NMULT*NUMNOD
       SIMS   = NMULT*NUMNOD
-C---   
+C---
       ALLOCATE (IFILL(SIFILL),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID   = 268,
      .                           ANMODE  = ANINFO,
      .                           MSGTYPE = MSGERROR,
      .                           C1      = 'IFILL')
-     
+
       ALLOCATE (IMS(SIMS),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID   = 268,
      .                           ANMODE  = ANINFO,
      .                           MSGTYPE = MSGERROR,
      .                           C1      = 'IMS')
-     
+
 
       IF (SIFILL > 0) IFILL = 0
       IF (SIMS   > 0) IMS   = 0
-      
+
       ALLOCATE (DFLOW(3*NUMNOD*IALELAG)      ,STAT=stat)
       ALLOCATE (VFLOW(3*NUMNOD*IALELAG)      ,STAT=stat)
       ALLOCATE (WFLOW(3*NUMNOD*IALELAG)      ,STAT=stat)
@@ -2066,7 +2066,7 @@ C---
        VFLOW = ZERO
        WFLOW = ZERO
       ENDIF
-      
+
       IF(IALEFVM > 0)THEN
         ALLOCATE (FCELL(6,NUMELS)   ,STAT=stat)
         FCELL(:,:) = ZERO
@@ -2085,7 +2085,7 @@ C---
          MULTI_FVM%VEL(: ,:) = ZERO
       ENDIF
 
-C----------------------------------      
+C----------------------------------
 C--------------------------------------------
 C     INITIALISATION DES POINTEURS UTILISATEUR
 C--------------------------------------------
@@ -2206,8 +2206,8 @@ C
      .              DBRWORK  ,SBUFGEO,ISKWN  ,IGEO   ,IPM    ,
      .              NPC    ,TF     ,UNITAB , RTRANS ,LSUBMODEL,
      .              PROP_TAG,IPART ,KNOT,IDRAPEID  ,STACK_INFO,
-     .              NUMGEOSTACK, NPROP_STACK, MULTI_FVM,IADGEO)  
-C        
+     .              NUMGEOSTACK, NPROP_STACK, MULTI_FVM,IADGEO)
+C
         ALLOCATE (BUFGEO(SBUFGEO)    ,STAT=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
@@ -2218,7 +2218,7 @@ C
       ELSE
         ALLOCATE (BUFGEO(SBUFGEO)    ,STAT=stat)
       ENDIF
-C 
+C
       IF(NUMPLY .NE. 0) THEN
         ALLOCATE (PLY_INFO(2,NUMPLY),STAT=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
@@ -2226,11 +2226,11 @@ C
      .                            C1='PLY')
         PLY_INFO = 0
       ELSE
-        ALLOCATE(PLY_INFO(0,0)) 
+        ALLOCATE(PLY_INFO(0,0))
       ENDIF
 c
       IF(NUMSTACK > 0) THEN
-C prelecture 
+C prelecture
          LEN_G = NPROPGI*(NUMSTACK + NUMPLY)
          ALLOCATE (IGEO_STACK(LEN_G),STAT=stat)
          IGEO_STACK = 0
@@ -2240,12 +2240,12 @@ C prelecture
          CALL LECSTACK_PLY(GEO_STACK ,X          ,IXC       ,PM   ,ITABM1  ,
      .                     ISKWN     ,IGEO_STACK ,IPM       ,NPC  ,TF      ,
      .                     UNITAB    , RTRANS    ,LSUBMODEL,IPART ,IDRAPEID,
-     .                     PLY_INFO  ,STACK_INFO,NUMGEOSTACK, NPROP_STACK)      
+     .                     PLY_INFO  ,STACK_INFO,NUMGEOSTACK, NPROP_STACK)
         ELSE
              ALLOCATE (IGEO_STACK(0),STAT=stat)
              ALLOCATE (GEO_STACK(0),STAT=stat)
       ENDIF
-C-----allocate DR if necessary------      
+C-----allocate DR if necessary------
       IF (SDR==0 .AND. IDROT == 1) THEN
        SDR = 3*NUMNOD*MAX(IRODDL,IRODDL0)
        IF(ALLOCATED(DR)) DEALLOCATE(DR)
@@ -2276,11 +2276,11 @@ C      print*, SPINCH
      .                           MSGTYPE=MSGERROR,
      .                         C1='MSPINCH')
 C
-      IF (NPINCH > 0) THEN      
+      IF (NPINCH > 0) THEN
         PINCH_DATA%XPINCH(1:3,1:SPINCH) = ZERO
         PINCH_DATA%DPINCH(1:3,1:SPINCH) = ZERO
-        PINCH_DATA%VPINCH(1:3,1:SPINCH) = ZERO 
-        PINCH_DATA%MSPINCH(1:SPINCH) = ZERO 
+        PINCH_DATA%VPINCH(1:3,1:SPINCH) = ZERO
+        PINCH_DATA%MSPINCH(1:SPINCH) = ZERO
       ENDIF
 C
       CALL TRACE_OUT1()
@@ -2324,7 +2324,7 @@ C--------------------------------------------
         IEXLNK = 0
         WRITE(ISTDO,'(A)')  ' .. EXTERNAL COUPLING'
         CALL LECEXTLNK(IEXLNK,IPART,LSUBMODEL)
-        NL_DDR2R = NR2RLNK                 
+        NL_DDR2R = NR2RLNK
       ENDIF
       IF (NSUBDOM > 0) THEN
         ALLOCATE(TAG_PART(NPART),IPART_R2R(3,NPART))
@@ -2343,7 +2343,7 @@ c       complete mlaw_tag for new void materials
          MATPARAM_TAB(1:NUMMAT) => MPARAM_R2R(1:NUMMAT)
          DEALLOCATE(MTAG_INI)
          DEALLOCATE(MPARAM_INI)
-        ENDIF              
+        ENDIF
       ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------
@@ -2351,7 +2351,7 @@ C     POIN UMP
 C--------------------------------------------
 !     TABMP_L defined in tabsiz_c
       TABMP_L = 10
-C 
+C
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
@@ -2447,14 +2447,14 @@ C--------------------------------------------
            WRITE(ISTDO,'(A)')TITRE(21)
             CALL HM_READ_SH3N(  IXTG ,ITAB   ,ITABM1  ,IPART  ,IPARTG  ,
      .                     THKEC  ,PM      ,GEO    ,EANIT   ,IGEO   ,
-     .                     IPM    ,UNITAB  ,SH3ANG , LSUBMODEL) 
+     .                     IPM    ,UNITAB  ,SH3ANG , LSUBMODEL)
         ELSEIF(NUMELTRIA==NUMELTG)THEN
            WRITE(ISTDO,'(A)')TITRE(23)
             CALL HM_READ_TRIA(IXTG   ,ITAB   ,ITABM1  ,IPART  ,IPARTG  ,
      .                     PM     ,GEO    ,EANIT   ,IGEO   ,IPM     ,
-     .                     UNITAB    , LSUBMODEL)   
+     .                     UNITAB    , LSUBMODEL)
         ELSE
-          !check is IXTG array is used with proper modeling : 2D-TRIA or 3D-SH3N 
+          !check is IXTG array is used with proper modeling : 2D-TRIA or 3D-SH3N
           IF(NUMELTG>0 .AND. N2D.GT.0 .AND. NUMELTRIA==0)THEN
                CALL ANCMSG(MSGID=66,
      .                     MSGTYPE=MSGERROR,
@@ -2469,7 +2469,7 @@ C--------------------------------------------
      .                     C1='TRIA',
      .                     C2='3D-ANALYSIS'
      .                     )
-          ENDIF        
+          ENDIF
           NUMELTG = 0
         ENDIF
       ENDIF
@@ -2515,7 +2515,7 @@ cc Sknotlocpc est un peu surdimmensionne car il prend en compte les points de tr
        ALLOCATE (KNOTLOCPC(SKNOTLOCPC)    ,STAT=stat)
          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                              MSGTYPE=MSGERROR,
-     .                          C1='KNOTLOCPC')     
+     .                          C1='KNOTLOCPC')
        KNOTLOCPC(:)=0
 
        SKNOTLOCEL = 2*3*NUMELIG3D
@@ -2669,7 +2669,7 @@ C--------------------------------------------
 
 C--------------------------------------------
 C     REINITIALISATION MAT/PROP
-C--------------------------------------------  
+C--------------------------------------------
 
       IF(TAILLE2>0) THEN
        ALLOCATE(TAB_UMP_LOC2(7+6,TAILLE2,2),STAT=stat)
@@ -2706,34 +2706,34 @@ C-----
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 C-----
       LEN = XFEMON*NUMNOD
-      ALLOCATE(ADDCNE_CRKXFEM(0:LEN+1),STAT=stat)                       
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,               
-     .                           MSGTYPE=MSGERROR,C1='ADDCNE_CRKXFEM')  
-      ADDCNE_CRKXFEM(0:LEN+1) = 0                                       
+      ALLOCATE(ADDCNE_CRKXFEM(0:LEN+1),STAT=stat)
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                           MSGTYPE=MSGERROR,C1='ADDCNE_CRKXFEM')
+      ADDCNE_CRKXFEM(0:LEN+1) = 0
 c
-      ALLOCATE(ITAGN(LEN),STAT=stat)                                    
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,               
-     .                           MSGTYPE=MSGERROR,C1='ITAGN')           
-      ALLOCATE(INOD_CRKXFEM(LEN),STAT=stat)                             
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,               
-     .                           MSGTYPE=MSGERROR,C1='INOD_CRKXFEM')    
-      ALLOCATE(IBORDNODE(LEN),STAT=stat)                               
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,               
-     .                           MSGTYPE=MSGERROR,C1='IBORDNODE')       
-      LEN = XFEMON*(NUMELC+NUMELTG) 
+      ALLOCATE(ITAGN(LEN),STAT=stat)
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                           MSGTYPE=MSGERROR,C1='ITAGN')
+      ALLOCATE(INOD_CRKXFEM(LEN),STAT=stat)
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                           MSGTYPE=MSGERROR,C1='INOD_CRKXFEM')
+      ALLOCATE(IBORDNODE(LEN),STAT=stat)
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,
+     .                           MSGTYPE=MSGERROR,C1='IBORDNODE')
+      LEN = XFEMON*(NUMELC+NUMELTG)
       SITAGE=LEN
-      ALLOCATE(ITAGE(LEN),STAT=stat)                                    
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,               
-     .                           MSGTYPE=MSGERROR,C1='ITAGE')           
-      ALLOCATE(IEL_CRKXFEM(LEN),STAT=stat)                              
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,               
-     .                           MSGTYPE=MSGERROR,C1='IEL_CRKXFEM')     
+      ALLOCATE(ITAGE(LEN),STAT=stat)
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                           MSGTYPE=MSGERROR,C1='ITAGE')
+      ALLOCATE(IEL_CRKXFEM(LEN),STAT=stat)
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                           MSGTYPE=MSGERROR,C1='IEL_CRKXFEM')
 c
-      ITAGN          = 0                                                
-      ITAGE          = 0                                                
-      INOD_CRKXFEM   = 0                                                
-      IEL_CRKXFEM    = 0                                                 
-      IBORDNODE      = 0                                                     
+      ITAGN          = 0
+      ITAGE          = 0
+      INOD_CRKXFEM   = 0
+      IEL_CRKXFEM    = 0
+      IBORDNODE      = 0
 c
       CALL TRACE_OUT1()
 C--------------------------------------------
@@ -2887,7 +2887,7 @@ C---------------------------------------------
         SSPBUF  = NSPBUF*NUMSPH
         SKXSP   = NISP*NUMSPH
         SIXSP   = KVOISPH*NUMSPH
-c test with INTEGER 64 bits to avoid integer 32 bits overflow with huge cases (10 Millions SPH cells)   
+c test with INTEGER 64 bits to avoid integer 32 bits overflow with huge cases (10 Millions SPH cells)
         KVOISPH8 = KVOISPH
         NUMSPH8 = NUMSPH
 
@@ -2899,7 +2899,7 @@ c limit INTEGER 32 bits ((2^31)-1), we add a security marge of 5%
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANSTOP)
         ENDIF
-                        
+
         SNOD2SP = NUMNOD
         ALLOCATE (KXSP(SKXSP)      ,STAT=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
@@ -2926,7 +2926,7 @@ c limit INTEGER 32 bits ((2^31)-1), we add a security marge of 5%
      .                         C1='RESERVEP')
           RESERVEP(1:NBPARTINLET) = ZERO
         ELSE
-          ALLOCATE(RESERVEP(1)) 
+          ALLOCATE(RESERVEP(1))
           RESERVEP(1)=ZERO
         ENDIF
         KXSP   = 0
@@ -2966,7 +2966,7 @@ c limit INTEGER 32 bits ((2^31)-1), we add a security marge of 5%
 C--------------------------------------------
 C     LECTURE DES SUBSETS
 C--------------------------------------------
-      TAGSURFIGE = 0 
+      TAGSURFIGE = 0
       SIBUFSSG = 0  ! to be removed
 !
       ERR_MSG='SUBSETS'
@@ -3006,7 +3006,7 @@ C--------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 !
       IDXIGECNT= 1
-!   
+!
       WRITE(ISTDO,'(A)')' .. ELEMENT GROUPS'
       ERR_CATEGORY='ELEMENT GROUPS'
       FLAGG = 0
@@ -3334,7 +3334,7 @@ c
         SRIGE = 3*NUMFAKENODIGEO
         SXIGE = 3*NUMFAKENODIGEO
         SVIGE = 3*NUMFAKENODIGEO
-        
+
 c        SNIGE = SNIGE - NDOUBLONIGE
 c        SRIGE = SRIGE - 3*NDOUBLONIGE
 c        SXIGE = SXIGE - 3*NDOUBLONIGE
@@ -3403,7 +3403,7 @@ C-------
 C---      count next level
           CALL HM_READ_SURFSURF(IGRSURF, INSEG, FLAGG, ICOUNT, ITER, NSETS, LSUBMODEL)
 C---
-C------------------------------------------------- 
+C-------------------------------------------------
           FLAGG = 1
 C---      fill next level
           CALL HM_READ_SURFSURF(IGRSURF, INSEG, FLAGG, ICOUNT, ITER, NSETS, LSUBMODEL)
@@ -3523,7 +3523,7 @@ C---
         SILEVSET = 0
         ALLOCATE(INICRACK(SILEVSET))
       ENDIF
-C      
+C
 C--------------------------------------------
 C     LECTURE DES GROUPES DE NOEUDS
 C--------------------------------------------
@@ -3587,13 +3587,13 @@ C--------------------------------------------
       CALL STARTIME(17,1)
 
       IF (NSETS > 0)THEN
-        WRITE(ISTDO,'(A)')' .. SET' 
-        ERR_CATEGORY='SET' 
+        WRITE(ISTDO,'(A)')' .. SET'
+        ERR_CATEGORY='SET'
         MY_ALLOCATE (SET        ,NSETS)
 
 
         CALL HM_SET(SET      ,LSUBMODEL ,INV_GROUP ,MAP_TABLES,IPART     ,
-     *              IGRSURF  ,IGRNOD    ,IGRSLIN   ,IGRPART  ,IGRBRIC   , 
+     *              IGRSURF  ,IGRNOD    ,IGRSLIN   ,IGRPART  ,IGRBRIC   ,
      *              IGRQUAD  ,IGRSH4N   ,IGRSH3N   ,IGRTRUSS ,IGRBEAM   ,
      *              IGRSPRING,IXS       ,IXS10     ,IXC      ,IXTG      ,
      *              KNOD2ELS ,NOD2ELS   ,KNOD2ELC  ,NOD2ELC  ,KNOD2ELTG ,
@@ -3717,7 +3717,7 @@ C--------------------------------------------
 
          WRITE(ISTDO,'(A)')' .. MULTIDOMAINS DATA UPDATE '
          DEALLOCATE(KNOD2ELS,KNOD2ELC,KNOD2ELTG,KNOD2EL1D,KNOD2ELIG3D,KNOD2ELQ)
-         DEALLOCATE(NOD2ELS,NOD2ELC,NOD2ELTG,NOD2EL1D,NOD2ELIG3D,NOD2ELQ)        
+         DEALLOCATE(NOD2ELS,NOD2ELC,NOD2ELTG,NOD2EL1D,NOD2ELIG3D,NOD2ELQ)
          DEALLOCATE(XYZREF)
          ALLOCATE (XYZREF(3*NUMNOD)       ,STAT=stat)
          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
@@ -3727,31 +3727,31 @@ C--------------------------------------------
 
 C-----on realloue le tableau FRONT-------------
 c         GOTO 206 ! plus besoin de reallouer, on flushe simplement sur new numnod
-         CALL INI_IFRONT()   
-         IENTRY2(1:NUMNOD) = -1 
-         FLAGKIN(1:NUMNOD) = 0   
+         CALL INI_IFRONT()
+         IENTRY2(1:NUMNOD) = -1
+         FLAGKIN(1:NUMNOD) = 0
 
 207      CONTINUE !plus utilise
 c         DO I=1,NUMNOD
 c          FRONT(I,1)=FRONT_R2R(I)
 c        ENDDO
 
-cc r2r with new IFRONT   
+cc r2r with new IFRONT
          DO I=1,NUMNOD
            IF(FRONT_R2R(I)==1)THEN
              CALL IFRONTPLUS(I,1)
              !FLAGKIN array to identify boundary nodes with
-             !kinematic constraints (old FRONT TAG=10)               
+             !kinematic constraints (old FRONT TAG=10)
              IF(FLAGKIN_R2R(I)==1)FLAGKIN(I)=1
            ENDIF
-         ENDDO   
- 
+         ENDDO
+
          DEALLOCATE(FRONT_R2R,FLAGKIN_R2R)
          SFRONTB_R2R = NUMNOD
          SNOM_OPT_OLD = SNOM_OPT
          IN10 = INOM_OPT(10)
          IN20 = INOM_OPT(20)
-                           
+
 C-----on met  jour les tailles de tableaux et repointe THKEC--
          GOTO 208
 209      CONTINUE
@@ -3760,7 +3760,7 @@ C-----on met a jour les nom d'options----------
          GOTO 210
 211      CONTINUE
          CALL R2R_NOM_OPT(NOM_OPT,INOM_OPT,IN10,IN20,SNOM_OPT_OLD)
-         
+
 C-----on repointe les tableaux IXS10,20,16--
          GOTO 212
 213      CONTINUE
@@ -3784,7 +3784,7 @@ C-----on recalcule les connectivit   s inverses--------
      7   IXIG3D     ,KXIG3D     ,KNOD2ELIG3D,NOD2ELIG3D,KNOD2ELQ,
      8   NOD2ELQ    )
          IF (ALLOCATED(IWORK)) DEALLOCATE(IWORK)
-         
+
 C-----on reinitialise les pointeurs utilisateurs-------
          CALL SAV_BUF_POINT(PM     ,1)
          CALL SAV_BUF_POINT(BUFMAT ,2)
@@ -3793,7 +3793,7 @@ C-----on reinitialise les pointeurs utilisateurs-------
          CALL SAV_BUF_POINT(SKEW   ,8)
          CALL SAV_BUF_POINT(IPM ,11)
          CALL SAV_BUF_POINT(IGEO,12)
-        
+
 C--------------------------------------------
 
 218   CONTINUE
@@ -3814,7 +3814,7 @@ C---  Allocation de FRONTB_R2R
      .                           MSGTYPE=MSGERROR,
      .                           C1='FRONT_R2R')
       FRONTB_R2R = 0
-      
+
 C ------------------------------------------------
 C Tri des surfaces pour les Airbags et Modif files
 C ------------------------------------------------
@@ -3829,7 +3829,7 @@ C--------------------------------------------
      6                IGRQUAD ,IGRBRIC  ,IGRSH4N  ,IGRSH3N  ,IGRTRUSS,
      7                IGRBEAM ,IGRSPRING,IGRPART  )
       CALL TRACE_OUT1()
-      DEALLOCATE (KXX,IXX,LELX) 
+      DEALLOCATE (KXX,IXX,LELX)
 C--------------------------------------------
 C     TRANSFORMATIONS
 C--------------------------------------------
@@ -3858,7 +3858,7 @@ C
         CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                         C1='IMERGE')
       ENDIF
-      IF (NB_MERGE_NODE > 0) THEN      
+      IF (NB_MERGE_NODE > 0) THEN
         CALL HM_READ_MERGE_NODE(X,LSUBMODEL,UNITAB,IGRNOD,MERGE_NODE_TAB,
      .                          MERGE_NODE_TOL,NMERGE_NODE_CAND,NMERGE_NODE_DEST)
       ENDIF
@@ -3993,7 +3993,7 @@ C READ /BCS & /BCS/LAGMUL
 C READ /ALE/BCS
         CALL HM_READ_ALEBCS(ICODE  ,ISKEW  ,ITAB   ,ITABM1  ,D       ,
      .              IGRNOD   ,IBCSLAG ,LAG_NCF ,LAG_NKF ,LAG_NHF,
-     .              IKINE1LAG,ISKWN,NOM_OPT(LNOPT1*INOM_OPT(16)+1), 
+     .              IKINE1LAG,ISKWN,NOM_OPT(LNOPT1*INOM_OPT(16)+1),
      .              LSUBMODEL)
 C READ /NBCS
         CALL HM_READ_NBCS(ICODE  ,ISKEW  ,ITAB   ,ITABM1  ,D       ,
@@ -4203,17 +4203,17 @@ C--------------------------------------------
       CALL ALE_CONNECTIVITY%ALE_CONNECTIVITY_INIT()
       ERR_MSG='ALE LINKS'
       ERR_CATEGORY='ALE'
-      CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))      
-      IF(NALELK.NE.0) THEN  
+      CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
+      IF(NALELK.NE.0) THEN
         WRITE(ISTDO,'(A)')TITRE(29)
         LLINAL = 7 * NALELK
         SLINALE=LLINAL
         ALLOCATE(LINALE(SLINALE),STAT=stat)
         IF (IERR.NE.0) THEN
           WRITE(IOUT,*) ' ** ERROR IN MEMORY ALLOCATION'
-          WRITE(ISTDO,*)' ** ERROR IN MEMORY ALLOCATION'        
+          WRITE(ISTDO,*)' ** ERROR IN MEMORY ALLOCATION'
         ENDIF
-        CALL HM_READ_ALE_LINK(ICODE, ISKEW, ITAB, ITABM1, D,  
+        CALL HM_READ_ALE_LINK(ICODE, ISKEW, ITAB, ITABM1, D,
      .       IGRNOD, IBCSLAG, LAG_NCF, LAG_NKF, LAG_NHF,
      .       IKINE1LAG, LINALE, LSUBMODEL, UNITAB)
       ENDIF
@@ -4236,7 +4236,7 @@ C--------------------------------------------
 C     MULTIMATERIAUX
 C     INITIALISATION DES POURCENTAGES NODAUX
 C--------------------------------------------
-      CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))      
+      CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
        IF(NMULT.GT.0)THEN
         WRITE(ISTDO,'('' .. MULTIMATERIALS'')')
         IF(NUMELS.GT.0)
@@ -4491,7 +4491,7 @@ C     CENTRIFUGAL LOADS
       SICFIELD     = SIZFIELD*NLOADC
       SLCFIELD     = NUMCFIELD
 C
-C     PFLUID & PBLAST     
+C     PFLUID & PBLAST
       NUMLOADP=0
       NINTLOADP=0
       CALL HM_PREREAD_PFLUID(NUMLOADP,IGRNOD,IGRSURF,LSUBMODEL)
@@ -4512,7 +4512,7 @@ c------------------------------------------------------
 c
       NFVLAG = 0    ! Lagrangian multiplier flag
 C---
-c     Input  : NFXVEL = number of input cards : /IMDISP + /IMPVEL + /IMPACC 
+c     Input  : NFXVEL = number of input cards : /IMDISP + /IMPVEL + /IMPACC
 c     Output : NFXVEL = number of imposed nodes (disp + vel + acc)
 c
 c---  Calculate number of nodes with imposed disp, vel, acc for allocation
@@ -4523,12 +4523,12 @@ c
         CALL HM_PREREAD_IMPDISP(NIMPDISP  ,IGRNOD  ,IPART   ,IPARTR   ,
      .                          UNITAB    ,LSUBMODEL)
 c
-        CALL HM_PREREAD_IMPVEL(NIMPVEL  ,IGRNOD  ,IPART   ,IPARTR   , NFVLAG, 
+        CALL HM_PREREAD_IMPVEL(NIMPVEL  ,IGRNOD  ,IPART   ,IPARTR   , NFVLAG,
      .                         UNITAB   ,LSUBMODEL)
 c
         CALL HM_PREREAD_IMPACC(NIMPACC ,IGRNOD ,LSUBMODEL)
-c        
-        NFXVEL = NIMPDISP + NIMPVEL + NIMPACC 
+c
+        NFXVEL = NIMPDISP + NIMPVEL + NIMPACC
       ELSE
         NFV0 = 0
         NIMPDISP = 0
@@ -4555,7 +4555,7 @@ c
      .       ITAB     ,ITABM1   ,IGRNOD   ,X        ,IXR      ,
      .       IPART    ,IPARTR   ,ISKWN    ,NOM_OPT(LNOPT1*INOM_OPT(15)+1),
      .       NIMPDISP ,NIMPVEL  ,UNITAB   ,LSUBMODEL)
-     
+
       ENDIF
 c------------------------------------------------------
 c     IMPOSED ACCELERATIONS
@@ -4600,16 +4600,16 @@ C
        DO I = 1, NINVEL
           FVM_INIVEL(I)%FLAG = .FALSE.
        ENDDO
-C      
+C
         CALL HM_READ_INIVEL(V       ,W       ,ITAB   ,ITABM1  ,VR      ,
      .              IGRNOD    ,IGRBRIC ,ISKWN    ,SKEW    ,IWORK    ,
      .              X       ,UNITAB  ,LSUBMODEL,RTRANS,XFRAME  ,
-     .              IFRAME    ,VFLOW   ,WFLOW    ,KXSP    ,MULTI_FVM, 
+     .              IFRAME    ,VFLOW   ,WFLOW    ,KXSP    ,MULTI_FVM,
      .              FVM_INIVEL,IGRQUAD ,IGRSH3N  ,RBY_MSN ,RBY_INIAXIS)
         CALL INIVEL(V       ,W       ,ITAB   ,ITABM1  ,VR      ,
      .              IGRNOD    ,IGRBRIC ,ISKWN    ,SKEW    ,IWORK    ,
      .              X       ,UNITAB  ,LSUBMODEL,RTRANS,XFRAME  ,
-     .              IFRAME    ,VFLOW   ,WFLOW    ,KXSP    ,MULTI_FVM, 
+     .              IFRAME    ,VFLOW   ,WFLOW    ,KXSP    ,MULTI_FVM,
      .              FVM_INIVEL,IGRQUAD ,IGRSH3N  )
 C
         IF (ALLOCATED(IWORK)) DEALLOCATE(IWORK)
@@ -4747,7 +4747,7 @@ C-------------------------------------------------
       IF (NEBCS > 0)THEN
         !allocate & count
         ALLOCATE(LSENSOR(0))
-        CALL INIEBCS(ALE_CONNECTIVITY, 0, IGRSURF, IXS, IXQ, IXTG, 
+        CALL INIEBCS(ALE_CONNECTIVITY, 0, IGRSURF, IXS, IXQ, IXTG,
      .        PM, X, LSENSOR, MONVOl, MULTI_FVM%IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
         DEALLOCATE(LSENSOR)
       ENDIF
@@ -4810,13 +4810,13 @@ c
       ! -------------
       ALLOCATE( SENSOR_TAB(NSENSOR) )
       SENSOR_TAB(1:NSENSOR)%TYPE = -1
-c      
+c
       IF (NSENSOR > 0) THEN
         CALL HM_READ_SENSORS(
      .       SENSOR_TAB,LSENSOR  ,SENSOR   ,LACCELM  ,ITABM1    ,
-     .       IPART     ,LGAUGE   ,SUBSETS  ,NSETS    ,IGRSURF   ,   
+     .       IPART     ,LGAUGE   ,SUBSETS  ,NSETS    ,IGRSURF   ,
      .       IGRNOD    ,BUFSF     ,SKEW     ,ISKWN    ,UNITAB   ,
-     .       LSUBMODEL ,HM_NSENSOR) 
+     .       LSUBMODEL ,HM_NSENSOR)
         ! -----------------
         ! check if a user sensor is used with a list of node
         ! convert the list of User node ID into Local node ID
@@ -4826,7 +4826,7 @@ c
                 CALL SENSOR_USER_CONVERT_LOCAL_ID(
      .           ITABM1,SENSOR_USER_STRUCT%POINTER_NODE,SENSOR_USER_STRUCT%NUMBER_NODE,
      .           SENSOR_USER_STRUCT%NODE_LIST,1,IPART)
-            ENDIF 
+            ENDIF
         ENDIF
         ! -----------------
       END IF
@@ -4873,7 +4873,7 @@ c
        IPRELOAD       = 0
        IFLAG_BPRELOAD = 0
        PRELOAD        = ZERO
-       
+
        WRITE(ISTDO,'(A)')TITRE(34)
        CALL HM_READ_PRELOAD(IXS   ,IXS10     ,IPRELOAD ,PRELOAD,IFLAG_BPRELOAD,
      .                      NSTRF ,SENSOR_TAB,LSENSOR  ,UNITAB ,X        ,
@@ -4931,7 +4931,7 @@ C--------------------------------------------
      .  ' DDW OPTION FOR THE DOMAIN DECOMPOSITION'
         WRITE(IOUT,'(A)')
      .  ' --------------------------------------'
-       WRITE(ISTDO,*) 
+       WRITE(ISTDO,*)
      . '.. DDW OPTION FOR THE DOMAIN DECOMPOSITION'
 
        ALLOCATE(TAB_UMP_OLD(7,TAILLE_OLD),STAT=stat)
@@ -4941,7 +4941,7 @@ C--------------------------------------------
 
        CALL LEC_DDW(FILNAM,LEN_FILNAM,TAB_UMP_OLD,CPUTIME_MP_OLD)
 
-       CALL PRELEC_DDW_POIN(FILNAM,LEN_FILNAM) 
+       CALL PRELEC_DDW_POIN(FILNAM,LEN_FILNAM)
        ALLOCATE(POIN_UMP_OLD(NUMMAT_OLD), STAT=stat)
        POIN_UMP_OLD = ZERO
 
@@ -4950,7 +4950,7 @@ C--------------------------------------------
        ALLOCATE(TAB_UMP_OLD(0,0),STAT=stat)
        ALLOCATE(CPUTIME_MP_OLD(0),STAT=stat)
        ALLOCATE(POIN_UMP_OLD(0), STAT=stat)
-      ENDIF          
+      ENDIF
 C--------------------------------------------
 C     USER'S WINDOW
 C--------------------------------------------
@@ -5032,9 +5032,9 @@ C--------------------------------------------
      .       LSUBMODEL)
 C--------------------------------------------
 C     LECTURE DES INITIAL VOLUME FRACTIONS
-C-------------------------------------------- 
+C--------------------------------------------
         CALL HM_READ_INIVOL(USER_INIVOL , KVOL, IGRSURF ,IPART ,MULTI_FVM, BUFMAT, IPM, ITAB, NBSUBMAT, LSUBMODEL, UNITAB)
-        
+
 C--------------------------------------------
 C     Surfaces fictives IGE
 C--------------------------------------------
@@ -5072,13 +5072,13 @@ C----------------------------------
         WRITE(ISTDO,'(A)') ' .. MONITORED VOLUMES '
         ALLOCATE(T_MONVOL(NVOLU + NMONVOL))
         CALL MONVOL_ALLOCATE(NVOLU + NMONVOL, T_MONVOL, T_MONVOL_METADATA)
- 
-        CALL READ_MONVOL(T_MONVOL, T_MONVOL_METADATA, ITAB, ITABM1, IPM, IGEO, 
+
+        CALL READ_MONVOL(T_MONVOL, T_MONVOL_METADATA, ITAB, ITABM1, IPM, IGEO,
      .       X, PM, GEO, IXC, IXTG, LSENSOR, SENSOR,
-     .       UNITAB, NPC1, NPC, TF, IGRSURF, IGRBRIC, NOM_OPT(LNOPT1*INOM_OPT(2)+1),IFRAME, XFRAME, 
-     .       LSUBMODEL) 
- 
-        CALL INIT_MONVOL(T_MONVOL   , T_MONVOL_METADATA, 
+     .       UNITAB, NPC1, NPC, TF, IGRSURF, IGRBRIC, NOM_OPT(LNOPT1*INOM_OPT(2)+1),IFRAME, XFRAME,
+     .       LSUBMODEL)
+
+        CALL INIT_MONVOL(T_MONVOL   , T_MONVOL_METADATA,
      2       GEO     ,PM      ,
      3       IXC     ,IXTG    ,X       ,NPC1    ,
      4       ITABM1  ,ITAB      ,IGRSURF ,
@@ -5086,7 +5086,7 @@ C----------------------------------
      6       NAIRWA  ,IXS     ,V       ,LIBAGALE,
      7       NPC     ,TF      ,LRBAGALE,IPM     ,IGEO    ,
      8       UNITAB  ,SENSOR)
-  
+
         LIBAGJET=0
         LRBAGJET=0
         LIBAGHOL=0
@@ -5147,7 +5147,7 @@ c save IENTRY
 c replace save of old FRONT
 c FRONT(I,NSPMD+1) = FRONT(I,1)
         IENTRY2(I) = IFRONT%IENTRY(I)
-      ENDDO             
+      ENDDO
 C      ELSEIF(NDSOLV.EQ.1) THEN
 C aussi besoin en SMP si AMLS
 C        DO I = 1, NUMNOD
@@ -5206,11 +5206,11 @@ C--------------------------------------------
 C      Prelecture for Max ply by element.
 C--------------------------------------------
 C-----------------
-C  
+C
 C-------------------------
 !!      IF(IPART_STACK > 0 .OR. IPART_PCOMPP > 0) THEN
 !!         CALL PRESTACK(
-!!     .                   IGRSH3N    ,IGRSH4N  ,IXC        ,IXTG      , 
+!!     .                   IGRSH3N    ,IGRSH4N  ,IXC        ,IXTG      ,
 !!     .                   IGEO       ,GEO      ,IWORKSH    ,THKE      ,
 !!     .                   STACK      ,IPM      ,IGEO_STACK ,GEO_STACK ,
 !!     .                   IDRAPE     ,RDRAPE   ,STACK_INFO  ,NUMGEOSTACK,
@@ -5233,7 +5233,7 @@ C--------------------------------------------
           ALLOCATE(DRAPE(I)%RDRAPE(NPT,2),DRAPE(I)%IDRAPE(NPT))
           DRAPE(I)%RDRAPE = 0
           DRAPE(I)%IDRAPE = 0
-        ENDDO  
+        ENDDO
         ! Reading of the Drape
         CALL HM_READ_DRAPE(DRAPE ,STACK   ,IWORKSH   ,IGRSH3N   ,IGRSH4N  ,
      .                     IXC   ,IXTG    ,IGEO      ,IGEO_STACK,LSUBMODEL,
@@ -5241,14 +5241,14 @@ C--------------------------------------------
 C
         IF(ALLOCATED(IDRAPEID)) DEALLOCATE(IDRAPEID)
       ELSE
-        ALLOCATE(DRAPE(0))  
+        ALLOCATE(DRAPE(0))
       ENDIF
       CALL TRACE_OUT1()
 C-----------------
 C  Update stack Due to DRAPE
 C-------------------------
       IF(NDRAPE > 0 .AND. (IPART_STACK > 0 .OR. IPART_PCOMPP > 0)) THEN
-         CALL SHELLTHK_UPD(DRAPE     ,STACK    ,THKE     ,IXC       ,IXTG      , 
+         CALL SHELLTHK_UPD(DRAPE     ,STACK    ,THKE     ,IXC       ,IXTG      ,
      .                     IGEO      ,IWORKSH     )
       ENDIF
 C-----------------------------------------------------
@@ -5268,13 +5268,13 @@ C-----------------------------------------------------
         ALLOCATE(QP_IPERTURB(NPERTURB,6))
         QP_IPERTURB(1:NPERTURB,1:6) = 0
         ALLOCATE(QP_RPERTURB(NPERTURB,4))
-        QP_RPERTURB(1:NPERTURB,1:4) = ZERO       
+        QP_RPERTURB(1:NPERTURB,1:4) = ZERO
         CALL HM_READ_PERTURB(IPART   ,RNOISE   ,IPARTC   ,IPARTG  ,IPARTSP  ,
      .                  IGRPART ,IPM      ,IPARTS   ,PERTURB ,QP_IPERTURB,
      .                  QP_RPERTURB       ,LSUBMODEL,UNITAB  )
       ELSE
         SRNOISE1=1
-        SRNOISE2=1     
+        SRNOISE2=1
         ALLOCATE(RNOISE(1,1))
         RNOISE(1,1) = ZERO
         ALLOCATE(PERTURB(1))
@@ -5287,12 +5287,12 @@ C-----------------------------------------------------
 C-----------------
 C  Global Mat for PID 11 and PID51 (for shell)
 C-------------------------
-!!      IF(IGLOBMAT > 0) THEN ! global flag can be added   
+!!      IF(IGLOBMAT > 0) THEN ! global flag can be added
       CALL GLOBMAT(IGEO  , GEO   ,PM ,STACK%PM, STACK%GEO,STACK%IGEO)
-!!      ENDIF      
+!!      ENDIF
 C-------------------------
 C Fill index to renumber Solid elements after Domain Decomposition
-C Array has 2 parts : 
+C Array has 2 parts :
 C PERMUTATION%SOLID(1:NUMELS) : INDEX(NEW ID)=OLD_ID
 C PERMUTATION%SOLID(NUMELS+1:2*NUMELS) : INDEX(OLD)=NEW_ID
       ALLOCATE(PERMUTATION%SOLID(MAX(2*NUMELS,1)))
@@ -5318,7 +5318,7 @@ C------------------------------------------------------------------------
 C
 c------------------------------------------------------------------------
 c     Update & check parameters of material laws
-c------------------------------------------------------------------------ 
+c------------------------------------------------------------------------
       CALL UPDMAT(BUFMAT   ,PM      ,IPM      ,TABLE    ,NPC1     ,
      .            NPC      ,TF      ,LSENSOR  ,NLOC_DMG ,MLAW_TAG ,
      .            MATPARAM_TAB)
@@ -5364,7 +5364,7 @@ C       For multidomains - Mass and inertia must be nonzero for coupled nodes
 C
       ENDIF
 C
-c----------------------------------------------------------------------- 
+c-----------------------------------------------------------------------
 c     Create seatbelt entites + domdec
 c-----------------------------------------------------------------------
 C
@@ -5377,7 +5377,7 @@ C
         CALL CREATE_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,IPM,
      .                       X,LSENSOR,BUFMAT,PM,GEO,
      .                       IDDLEVEL,KNOD2ELC,NOD2ELC,IXC)
-        CALL TRACE_OUT1() 
+        CALL TRACE_OUT1()
       ENDIF
 C
 c-----------------------------------------------------------------------
@@ -5409,7 +5409,7 @@ C
         ELSE
 C
 C         AMS Prepare DOMETIS
-C          
+C
           ERR_MSG='AMS INITIALIZATION PHASE II'
           CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 C
@@ -5551,7 +5551,7 @@ C
 C         If no element selected AMS is deactivated
           IF ((ISMS_SELEC >= 2).AND.(NNZ_SMS == 0)) ISMS_SELEC = 0
 C
-        END IF       
+        END IF
 C
       END IF
 C-----
@@ -5580,14 +5580,19 @@ c reset with savec IENTRY2
            IF(IENTRY2(I).NE.-1)THEN
              CALL IFRONTPLUS(I,1)
            ENDIF
-         ENDDO                   
+         ENDDO
 C        Remise a jour de FRONT pour les procs differents de 0
 C        IL faut prendre en compte les options ou front(i,p) = 1, p<>1
 C        les sensors de type 2 modifient front sur p<>1
       ELSEIF(IDDLEVEL.EQ.0) THEN
          IF (NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLCFIELD.GT.0) THEN
-           ALLOCATE(CEP(NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLLOADP))
-           ALLOCATE(CEL(NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLLOADP))
+           SCEP = NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLLOADP
+           SCEL = NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLLOADP
+           ALLOCATE(CEP(SCEP))
+           ALLOCATE(CEL(SCEL))
+         ELSE
+           SCEP = 0
+           SCEL = 0
          ENDIF
       ENDIF
       EMAX = MAX(NUMELC,NUMELTG,NUMELS,NUMELR,
@@ -5652,14 +5657,14 @@ C
       DEALLOCATE (IWORK)
 C---------------------------
 C     Domdec SPH
-C--------------------------- 
+C---------------------------
       IF (NUMSPH > 0)THEN
           IF(IDDLEVEL.EQ.0) THEN
             ALLOCATE(CEPSP(NUMSPH),STAT=stat)
             IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                                 MSGTYPE=MSGERROR,
      .                             C1='CEPSP')
-          
+
             ALLOCATE(CELSPH(NUMSPH),STAT=stat)
             IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                                 MSGTYPE=MSGERROR,
@@ -5725,7 +5730,7 @@ C
 C---------------------------------
 C-  PRE TRI + SUPER GROUPES
 C---------------------------------
-      NGR_SOL = 0    
+      NGR_SOL = 0
       IF (NUMELS.NE.0) THEN
         K0 = 1
         K1 = K0 + NUMELS*16
@@ -5735,8 +5740,8 @@ C---------------------------------
         K5 = K4 + NUMELS*7
         K5B= K4 + NUMELS
         K6 = K5 + NUMELS
-        !warning: please also update any index change 
-        !         for MODIF option (MODIF_SPMD.F) 
+        !warning: please also update any index change
+        !         for MODIF option (MODIF_SPMD.F)
         IWORK  = 0
         INUM   => IWORK(1:K1)
         ITRI1  => IWORK(K1+1:K2)
@@ -5809,7 +5814,7 @@ C
           K5 = 18*NUMELQ+1
           K6 = 19*NUMELQ+1
           !warning: please also update any index change
-          !         for MODIF option (MODIF_SPMD.F) 
+          !         for MODIF option (MODIF_SPMD.F)
           IWORK  = 0
           INUM   => IWORK(1:K1)
           ITR1   => IWORK(K1+1:K2)
@@ -5864,7 +5869,7 @@ C---------------------------------
        K6 = 22*NUMELC+1
        K7 = 23*NUMELC+1
        !warning: please also update any index change
-       !         for MODIF option (MODIF_SPMD.F) 
+       !         for MODIF option (MODIF_SPMD.F)
        IWORK  = 0
        INUM   => IWORK(1:K1)
        ITR1   => IWORK(K1+1:K1+NUMELC)
@@ -5884,7 +5889,7 @@ C
      5   IPART   ,SH4TREE ,NOD2ELC ,ISHEOFF ,SH4TRIM ,
      6   TAGPRT_SMS,LGAUGE,IWORKSH ,
      7   STACK   ,DRAPE   ,RNOISE  ,SH4ANG)
-       
+
 C---------------------------------
 C-  GROUPAGE SPMD
 C---------------------------------
@@ -5902,8 +5907,8 @@ C test non depassement de LDD_IAD
            END DO
            DEALLOCATE(DD_TMP2)
          END IF
-            
-C          
+
+C
          CALL CGRTAILS(
      1        IXC      ,PM       ,IPARGTMP ,GEO     ,
      2        EADD     ,ND       ,BID13    ,IPARTC  ,DD_TMP     ,
@@ -5932,7 +5937,7 @@ C------
        K5 = 15*NUMELT+1
        K6 = 16*NUMELT+1
        !warning: please also update any index change
-       !         for MODIF option (MODIF_SPMD.F) 
+       !         for MODIF option (MODIF_SPMD.F)
        IWORK  = 0
        INUM   => IWORK(1:K1)
        ITR1   => IWORK(K1+1:K2)
@@ -5946,7 +5951,7 @@ C
      2      ITR1    ,EADD   ,INDEX1 ,ITRI1  ,
      3      IPARTT  ,ND     ,IGRSURF,IGRTRUSS,
      4      CEP(OFF),XEP    ,ITRUOFF,
-     5      TAGPRT_SMS)  
+     5      TAGPRT_SMS)
 C---------------------------------
 C-  GROUPAGE SPMD
 C---------------------------------
@@ -5982,7 +5987,7 @@ C-----
        K5 = 16*NUMELP+1
        K6 = 17*NUMELP+1
       !warning: please also update any index change
-      !         for MODIF option (MODIF_SPMD.F) 
+      !         for MODIF option (MODIF_SPMD.F)
        IWORK  = 0
        INUM   => IWORK(1:K1)
        ITR1   => IWORK(K1+1:K2)
@@ -6033,7 +6038,7 @@ C
         K5 = 17*NUMELR+1
         K6 = 18*NUMELR+1
         !warning: please also update any index change
-        !         for MODIF option (MODIF_SPMD.F) 
+        !         for MODIF option (MODIF_SPMD.F)
        IWORK  = 0
        INUM   => IWORK(1:K1)
        ITR1   => IWORK(K1+1:K2)
@@ -6047,7 +6052,7 @@ C
      2      ITR1    ,EADD   ,INDEX1 ,ITRI1   ,
      4      IPARTR  ,ND     ,IGRSURF,IGRSPRING,
      5      CEP(OFF),XEP    ,IRESOFF,
-     6      TAGPRT_SMS, CLUSTERS,IPM,R_SKEW) 
+     6      TAGPRT_SMS, CLUSTERS,IPM,R_SKEW)
 C---------------------------------
 C-  GROUPAGE SPMD
 C---------------------------------
@@ -6087,7 +6092,7 @@ C---------------------------------
        K7 = 24*NUMELTG+1
        K8 = 25*NUMELTG+1
        !warning: please also update any index change
-       !         for MODIF option (MODIF_SPMD.F) 
+       !         for MODIF option (MODIF_SPMD.F)
        IWORK  = 0
        INUM   => IWORK(1:K1)
        ITR1   => IWORK(K1+1:K2)
@@ -6174,7 +6179,7 @@ C
       ENDIF
 
       IF (TETRAMESHER_USED) THEN
-         CALL APPLYSORT2FVM(T_MONVOL, IXS_TEMP, IXC, IXTG, 
+         CALL APPLYSORT2FVM(T_MONVOL, IXS_TEMP, IXC, IXTG,
      .        ITAB, NOM_OPT(LNOPT1*INOM_OPT(2)+1), NB_TOTAL_NODE)
       ELSE
          CALL APPLYSORT2FVM(T_MONVOL, IXS, IXC, IXTG,
@@ -6222,7 +6227,7 @@ C---------------------------------
           K5=K4+NUMELX*4
           K6=K5+NUMELX
           !warning: please also update any index change
-          !         for MODIF option (MODIF_SPMD.F) 
+          !         for MODIF option (MODIF_SPMD.F)
           IWORK  = 0
           INUM   => IWORK(1:K1)
           ITR1   => IWORK(K1+1:K2)
@@ -6426,20 +6431,20 @@ C-------------------------------------------------
           MULTI_FVM%IS_ASSOCIATED_TO_A_PART = .TRUE.
           EXIT
         ENDIF
-      ENDDO      
+      ENDDO
 C-------------------------------------------------
       !check if all part are using law 151
       MULTI_FVM%ARE_ALL_PARTS_151 = .TRUE.
       NB_EULER_GROUPS = 0
       DO NG=1,NGROUP
         MLW = IPARGTMP(1,NG)
-        IS_EULER = IPARGTMP(11,NG) 
-        IF(IS_EULER == 1 ) NB_EULER_GROUPS=NB_EULER_GROUPS+1   
+        IS_EULER = IPARGTMP(11,NG)
+        IF(IS_EULER == 1 ) NB_EULER_GROUPS=NB_EULER_GROUPS+1
         IF(MLW /= 151 .AND. IS_EULER == 1)THEN
           MULTI_FVM%ARE_ALL_PARTS_151 = .FALSE.
           EXIT
         ENDIF
-      ENDDO  
+      ENDDO
       IF(NB_EULER_GROUPS == 0)MULTI_FVM%ARE_ALL_PARTS_151 = .FALSE.
 C-------------------------------------------------
       !copy IPARG <- IPARGTMP, and Deallocate IPARGTMP
@@ -6459,25 +6464,25 @@ C provisoire
           IPARG(NPARG*(N-1)+52)=1
         END DO
       END IF
-      NBR_GPMP = NGROUP        
-      
-      
-c-----------------------------------------------------------------------     
+      NBR_GPMP = NGROUP
+
+
+c-----------------------------------------------------------------------
 c     set default material/property parameters by element group
-c-----------------------------------------------------------------------     
+c-----------------------------------------------------------------------
       IF (ALLOCATED(GROUP_PARAM_TAB)) DEALLOCATE(GROUP_PARAM_TAB)
       ALLOCATE (GROUP_PARAM_TAB(NGROUP)   ,STAT=stat)
 c
       CALL SET_ELGROUP_PARAM(GROUP_PARAM_TAB  ,IPARG    ,NGROUP   ,N2D       ,
      .                       IPM     ,IGEO    ,PM       ,GEO      )
 C-------------------------------------------------
-      CALL TRACE_OUT1()  
+      CALL TRACE_OUT1()
 C--------------------------------------------
 C     Itet=2 of S10 : dynamic condensation
 C--------------------------------------------
       IF (NUMELS10>0) THEN
        IF(ALLOCATED(ITAGND)) DEALLOCATE(ITAGND)
-       ALLOCATE (ITAGND(NUMNOD),STAT=stat) 
+       ALLOCATE (ITAGND(NUMNOD),STAT=stat)
        ITAGND(1:NUMNOD)=0
        CALL DIM_S10EDG(NS10E, IXS10 ,IPARG,ITAGND)
        IF (NS10E>0) THEN
@@ -6490,7 +6495,7 @@ C--------------------------------------------
        END IF
       ELSE
        IF(ALLOCATED(ITAGND)) DEALLOCATE(ITAGND)
-       ALLOCATE (ITAGND(0),STAT=stat) 
+       ALLOCATE (ITAGND(0),STAT=stat)
       END IF
 
 C--------------------------------------------
@@ -6518,9 +6523,9 @@ C--------------------------------------------
       ERR_MSG='MULTIDOMAINS'
       ERR_CATEGORY='MULTIDOMAINS'
       IF ((NSUBDOM.GT.0).AND.(IDDOM.EQ.0).AND.(FLG_R2R_ERR.EQ.0)) THEN
-        WRITE(ISTDO,'(A)')' .. MULTIDOMAINS DOMDEC SYNCHRONIZATION '      
+        WRITE(ISTDO,'(A)')' .. MULTIDOMAINS DOMDEC SYNCHRONIZATION '
         CALL R2R_DOMDEC(IEXLNK,IGRNOD,FRONTB_R2R,DT_R2R,0)
-      ENDIF      
+      ENDIF
 C--------------------------------------------
 C     STOCKAGE DYNAMIQUE (RESOLUTION) REEL
 C--------------------------------------------
@@ -6593,9 +6598,9 @@ C----------------------------------
       ERR_MSG = 'INIMAP1D'
       ERR_CATEGORY= 'INITIALIZATION'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      
+
       IF(IDDLEVEL==0 .AND. NINIMAP1D+NINIMAP2D>0)WRITE(ISTDO,'(A)')TITRE(54)
-      
+
       IF(IDDLEVEL.EQ.0)THEN
         IF (NINIMAP1D .GT. 0) THEN
            ALLOCATE(INIMAP1D(NINIMAP1D))
@@ -6893,36 +6898,36 @@ C--------------------------------------------
 C     OPTIMIZATION (Part 3 & 4)
 C--------------------------------------------
        IF(ALLOCATED(TAGPRT_FRIC)) DEALLOCATE(TAGPRT_FRIC)
-       ALLOCATE (TAGPRT_FRIC(NPART),STAT=stat) 
+       ALLOCATE (TAGPRT_FRIC(NPART),STAT=stat)
        TAGPRT_FRIC(1:NPART) = 0
 
 C--------------------------------------------!
-C    FRICTION MODEL :  BUFFER STRUCTURE ALLOCATION, Lectur of option           
+C    FRICTION MODEL :  BUFFER STRUCTURE ALLOCATION, Lectur of option
 C--------------------------------------------!
         IORTHFRICMAX = 0
-        NPFRICORTH = 0  
+        NPFRICORTH = 0
         IF (NINTERFRIC > 0) THEN
 
-           IF (IDDLEVEL == 0) ALLOCATE (INTBUF_FRIC_TAB(NINTERFRIC), STAT=Stat) 
+           IF (IDDLEVEL == 0) ALLOCATE (INTBUF_FRIC_TAB(NINTERFRIC), STAT=Stat)
 
 C  1st step : counting number of set of parts in friction models
             ALLOCATE (TABCOUPLEPARTS_FRIC_TMP(1),STAT=stat)
-            ALLOCATE (TABCOEF_FRIC_TMP(1),STAT=stat) 
-            ALLOCATE (IFRICORTH_TMP(1),STAT=stat) 
-            ALLOCATE (LENGRPF(NPART),STAT=stat) 
+            ALLOCATE (TABCOEF_FRIC_TMP(1),STAT=stat)
+            ALLOCATE (IFRICORTH_TMP(1),STAT=stat)
+            ALLOCATE (LENGRPF(NPART),STAT=stat)
             LENGRPF(1:NPART) = 0
-            
+
             LENG = 0
             DO N=1,NGRPART
                LENG = MAX (LENG,IGRPART(N)%NENTITY)
             ENDDO
 
             FLAGF = 0
-            NSETFRICTOT = 0  
+            NSETFRICTOT = 0
             COEFSLEN = 0
             NGRPF = 0
-            NSETMAX = 0  
-     
+            NSETMAX = 0
+
             CALL HM_READ_FRICTION_MODELS(
      1        NOM_OPT(LNOPT1*INOM_OPT(29)+1),UNITAB,IGRPART    ,IPART  ,TAGPRT_FRIC,
      2        TABCOUPLEPARTS_FRIC_TMP ,TABCOEF_FRIC_TMP ,INTBUF_FRIC_TAB,NSETFRICTOT ,
@@ -6931,22 +6936,22 @@ C  1st step : counting number of set of parts in friction models
 
             DEALLOCATE (TABCOUPLEPARTS_FRIC_TMP)
             DEALLOCATE (TABCOEF_FRIC_TMP)
-            DEALLOCATE (IFRICORTH_TMP) 
+            DEALLOCATE (IFRICORTH_TMP)
 
-C  2nd step : storing parts ids and coefficients in temperarly tabs  : 
+C  2nd step : storing parts ids and coefficients in temperarly tabs  :
             ALLOCATE (TABCOUPLEPARTS_FRIC_TMP(2*NINTERFRIC*NSETMAX),STAT=stat)
-            COEFSLEN = NINTERFRIC*(2*NSETMAX+1) 
+            COEFSLEN = NINTERFRIC*(2*NSETMAX+1)
             ALLOCATE (TABCOEF_FRIC_TMP(8*COEFSLEN),STAT=stat)
             TABCOUPLEPARTS_FRIC_TMP(1:2*NINTERFRIC*NSETMAX) = 0
             TABCOEF_FRIC_TMP(1:8*COEFSLEN) = ZERO
 
-            ALLOCATE (IFRICORTH_TMP(NINTERFRIC*NSETMAX),STAT=stat) 
-            IFRICORTH_TMP(1:NINTERFRIC*NSETMAX) = 0 
+            ALLOCATE (IFRICORTH_TMP(NINTERFRIC*NSETMAX),STAT=stat)
+            IFRICORTH_TMP(1:NINTERFRIC*NSETMAX) = 0
 
             FLAGF = 1
-            NSETFRICTOT = 0  
+            NSETFRICTOT = 0
             COEFSLEN = 0
-            NSETMAX = 0       
+            NSETMAX = 0
 
             CALL HM_READ_FRICTION_MODELS(
      1        NOM_OPT(LNOPT1*INOM_OPT(29)+1),UNITAB,IGRPART    ,IPART  ,TAGPRT_FRIC,
@@ -6956,7 +6961,7 @@ C  2nd step : storing parts ids and coefficients in temperarly tabs  :
 
 C  3rd step : Tri of tabs
 
-            COEFSLEN = NINTERFRIC*(2*NSETMAX+1) 
+            COEFSLEN = NINTERFRIC*(2*NSETMAX+1)
             ALLOCATE (NSETINIT(NINTERFRIC),STAT=stat)
             ALLOCATE (TABPARTS_FRIC_TMP(2*NINTERFRIC*NSETMAX),STAT=stat)
             NSETINIT(1:NINTERFRIC) = 0
@@ -6971,7 +6976,7 @@ C   4th step :  ALLOCATION OF NEW BUFFER FOR INTERFACE FRICTION
 
              IF (IDDLEVEL == 0) CALL INTBUF_FRIC_INI_STARTER(INTBUF_FRIC_TAB )
 
-C    4th step :    Final storing of structures in buffer 
+C    4th step :    Final storing of structures in buffer
              CALL INTBUF_FRIC_COPY(
      .          TABCOUPLEPARTS_FRIC_TMP  ,TABCOEF_FRIC_TMP,TABPARTS_FRIC_TMP   ,
      .           NSETINIT                ,IFRICORTH_TMP   , INTBUF_FRIC_TAB    )
@@ -6988,19 +6993,19 @@ C------/FRICTION/ORIENTATION READING FOR ORTHOTROPIC FRICTION
 
              IF(IORTHFRICMAX > 0) THEN
 
-                FLAGF = 0  
-                NPFRICORTH = 0  
-c               KFRICORIENT = 0    
+                FLAGF = 0
+                NPFRICORTH = 0
+c               KFRICORIENT = 0
                 IF(.NOT.ALLOCATED(PFRICORTH))ALLOCATE (PFRICORTH(NPART),STAT=stat)
                 PFRICORTH(1:NPART) = 0
                 IF(.NOT.ALLOCATED(IREPFORTH))ALLOCATE (IREPFORTH(1),STAT=stat)
                 IF(.NOT.ALLOCATED(VFORTH))ALLOCATE (VFORTH(1),STAT=stat)
                 IF(.NOT.ALLOCATED(PHIFORTH))ALLOCATE (PHIFORTH(1),STAT=stat)
 
-                CALL HM_READ_FRICTION_ORIENTATIONS (INTBUF_FRIC_TAB , 
+                CALL HM_READ_FRICTION_ORIENTATIONS (INTBUF_FRIC_TAB ,
      1                 NPFRICORTH ,IGRPART     ,IPART       ,PFRICORTH  ,
      2                 IREPFORTH  ,ISKWN       ,PHIFORTH    ,VFORTH    ,SKEW    ,
-     3                 FLAGF      ,TAGPRT_FRIC ,RTRANS      ,LSUBMODEL ,UNITAB  )      
+     3                 FLAGF      ,TAGPRT_FRIC ,RTRANS      ,LSUBMODEL ,UNITAB  )
 
                 DEALLOCATE (IREPFORTH,VFORTH,PHIFORTH)
 
@@ -7012,15 +7017,15 @@ c               KFRICORIENT = 0
                 VFORTH(1:3*NPFRICORTH) = ZERO
                 PHIFORTH(1:NPFRICORTH) = ZERO
 
-                FLAGF = 1    
-                CALL HM_READ_FRICTION_ORIENTATIONS (INTBUF_FRIC_TAB , 
+                FLAGF = 1
+                CALL HM_READ_FRICTION_ORIENTATIONS (INTBUF_FRIC_TAB ,
      1                 NPFRICORTH ,IGRPART     ,IPART      ,PFRICORTH  ,
      2                 IREPFORTH  ,ISKWN       ,PHIFORTH   ,VFORTH     ,SKEW    ,
-     3                 FLAGF      ,TAGPRT_FRIC ,RTRANS     ,LSUBMODEL  ,UNITAB  )     
+     3                 FLAGF      ,TAGPRT_FRIC ,RTRANS     ,LSUBMODEL  ,UNITAB  )
               ENDIF
 
          ELSEIF (IDDLEVEL == 0) THEN !NINTERFRIC = 0
-              ALLOCATE (INTBUF_FRIC_TAB(0), STAT=Stat)                           
+              ALLOCATE (INTBUF_FRIC_TAB(0), STAT=Stat)
 
          ENDIF
 
@@ -7029,14 +7034,14 @@ C     ALE CONNECTIVITY
 C--------------------------------------------
       CALL ALE_CONNECTIVITY%ALE_CONNECTIVITY_INIT()
       IF (ALE_CONNECTIVITY%has_ne_connect) THEN
-         CALL ALE_CONNECTIVITY%ALE_COMPUTE_CONNECTIVITY(NUMNOD, NUMELQ, NUMELTG, NUMELS, 
+         CALL ALE_CONNECTIVITY%ALE_COMPUTE_CONNECTIVITY(NUMNOD, NUMELQ, NUMELTG, NUMELS,
      .        NIXQ, NIXTG, NIXS, ITAB,
      .        IXQ, IXTG, IXS)
       ENDIF
       CALL ALE_CONNECTIVITY%ALE_COMPUTE_EE_CONNECTIVITY(PM,
-     .     NPROPM, NUMMAT, NUMNOD, NUMELQ, NUMELTG, NUMELS, N2D, 
-     .     IALE, IEULER, ITHERM, IALELAG, 
-     .     NIXQ, NIXTG, NIXS, ITAB, 
+     .     NPROPM, NUMMAT, NUMNOD, NUMELQ, NUMELTG, NUMELS, N2D,
+     .     IALE, IEULER, ITHERM, IALELAG,
+     .     NIXQ, NIXTG, NIXS, ITAB,
      .     IXQ, IXTG, IXS)
 C
       IF (NSUBDOM > 0) THEN
@@ -7065,26 +7070,26 @@ C PROBINT egalement initialisee dans ENGINE (rdresa)
       ENDIF
 
       IF (NINTER > 0)THEN
-       IF(IDDLEVEL == 0) THEN                                
-         ALLOCATE (XFILTR(NINTER)       ,STAT=stat)          
-         ALLOCATE (STFAC(NINTER)        ,STAT=stat)          
-         ALLOCATE (FRIC_P(10*NINTER)    ,STAT=stat)          
-         ALLOCATE (I2RUPT(6*NINTER)     ,STAT=stat)          
-         ALLOCATE (AREASL(NINTER)       ,STAT=stat)          
-         ALLOCATE (FRIGAP(NPARIR*NINTER),STAT=stat)          
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO, 
-     .                              MSGTYPE=MSGERROR,        
-     .                              C1='XFILTR')             
-       END IF                                                
-       XFILTR = ZERO                                         
-       STFAC  = ZERO                                         
-       FRIC_P = ZERO                                         
-       FRIGAP = ZERO                                         
-       I2RUPT = ZERO                                         
-       AREASL = ZERO                                         
+       IF(IDDLEVEL == 0) THEN
+         ALLOCATE (XFILTR(NINTER)       ,STAT=stat)
+         ALLOCATE (STFAC(NINTER)        ,STAT=stat)
+         ALLOCATE (FRIC_P(10*NINTER)    ,STAT=stat)
+         ALLOCATE (I2RUPT(6*NINTER)     ,STAT=stat)
+         ALLOCATE (AREASL(NINTER)       ,STAT=stat)
+         ALLOCATE (FRIGAP(NPARIR*NINTER),STAT=stat)
+         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                              MSGTYPE=MSGERROR,
+     .                              C1='XFILTR')
+       END IF
+       XFILTR = ZERO
+       STFAC  = ZERO
+       FRIC_P = ZERO
+       FRIGAP = ZERO
+       I2RUPT = ZERO
+       AREASL = ZERO
 C
-       IF(IDDLEVEL == 0) CALL STARTIME(10,1)                 
-       IF(IDDLEVEL == 1) CALL STARTIME(11,1)                 
+       IF(IDDLEVEL == 0) CALL STARTIME(10,1)
+       IF(IDDLEVEL == 1) CALL STARTIME(11,1)
 
        WRITE(ISTDO,'(A)')TITRE(38)
        IF(NINTSUB.NE.0)THEN
@@ -7103,7 +7108,7 @@ C--------------------------------------------------------------
        CALL HM_READ_INTERFACES(
      1           IPARI    ,FRIGAP   ,NINTER   ,ITAB       ,ITABM1                      ,
      2           IGRNOD   ,IGRSURF  ,IGRSLIN  ,IGRBRIC    ,IGRSH3N                     ,
-     3           IGRTRUSS ,NPC      ,ISKWN    ,XFILTR     ,STFAC                       , 
+     3           IGRTRUSS ,NPC      ,ISKWN    ,XFILTR     ,STFAC                       ,
      4           FRIC_P   ,I2RUPT   ,AREASL   ,UNITAB     ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),
      5           DEF_INTER,NPC1     ,LSENSOR  , MULTI_FVM,NOM_OPT(LNOPT1*INOM_OPT(29)+1),
      6           INTBUF_FRIC_TAB    ,IDDLEVEL ,LSUBMODEL  ,TF                          ,
@@ -7131,30 +7136,30 @@ C
 
        IF(IDDLEVEL == 0) THEN
          !--------------------------------------------!
-         !   NEW INTERFACE BUFFER STRUCTURE ALLOCATION            
+         !   NEW INTERFACE BUFFER STRUCTURE ALLOCATION
          !--------------------------------------------!
-         ALLOCATE (INTBUF_TAB(NINTER), STAT=Stat)                           
+         ALLOCATE (INTBUF_TAB(NINTER), STAT=Stat)
          !--------------------------------------------!
 
          !--------------------------------------------!
          !NEW INTERFACE BUFFER STRUCTURE INITIALIZATION
          !--------------------------------------------!
-         CALL INTBUF_INI_STARTER(INTBUF_TAB, IPARI, NUMNOD, 
+         CALL INTBUF_INI_STARTER(INTBUF_TAB, IPARI, NUMNOD,
      .                           I11FLAG, FLAG_ALLOCATE, PROC_BID ,INTBUF_FRIC_TAB)
          !--------------------------------------------!
 
          CALL INT8_INI(INTBUF_TAB,IPARI,NBT8)
-         ALLOCATE(INTERT8(NSPMD,NBT8))    
+         ALLOCATE(INTERT8(NSPMD,NBT8))
          DO P = 1,NSPMD
-           DO I = 1,NBT8 
+           DO I = 1,NBT8
               ALLOCATE(INTERT8(P,I)%BUFFER(NSPMD))
               DO J=1,NSPMD
-              INTERT8(P,I)%BUFFER(J)%NBMAIN = -1 
-              INTERT8(P,I)%BUFFER(J)%NBSECND_TOT = 0 
+              INTERT8(P,I)%BUFFER(J)%NBMAIN = -1
+              INTERT8(P,I)%BUFFER(J)%NBSECND_TOT = 0
               ENDDO
            ENDDO
          ENDDO
-                       
+
        END IF
 C
 C-----Allocation structures INTSTAMP
@@ -7191,7 +7196,7 @@ c      CALL ANCHECK(IDS)
        IF(NINTSUB.NE.0)THEN
          CALL ININTSUB(
      .          ITAB      ,IGRNOD  ,IGRSURF   ,
-     .          IPARI  ,MAXRTM,NOM_OPT(LNOPT1*INOM_OPT(3)+1), 
+     .          IPARI  ,MAXRTM,NOM_OPT(LNOPT1*INOM_OPT(3)+1),
      .          INTBUF_TAB,MAXRTMS ,IGRSLIN   )
        ENDIF
 C----
@@ -7202,12 +7207,12 @@ C----
      .                         C1='INSCR')
 
        ENDIF
-       
+
        CALL PRESCRINT(IPARI,INTBUF_TAB,INSCR)
 
        IF(IDDLEVEL == 0) THEN
 
-         DO I=1,NINTER 
+         DO I=1,NINTER
            ALLOCATE (INSCR(I)%WA(INSCR(I)%SINSCR) ,STAT=stat)
            IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                                MSGTYPE=MSGERROR,
@@ -7215,17 +7220,17 @@ C----
            INSCR(I)%WA = 0
          ENDDO
        ELSE
-         DO I=1,NINTER 
+         DO I=1,NINTER
            INSCR(I)%WA = 0
          ENDDO
-       END IF    
+       END IF
        CALL SCRINT(IPARI   ,INSCR,  INTBUF_TAB)
 
       IF(IDDLEVEL == 0) CALL STOPTIME(10,1)
       IF(IDDLEVEL == 1) CALL STOPTIME(11,1)
 
       WRITE(ISTDO,'(A)')TITRE(68)
-C----- 
+C-----
 c       if (LSCR /= SINSCR) then
 c          print*,'allocation error in inscr: ',SINSCR,'>',SIWORK
 c       endif
@@ -7246,7 +7251,7 @@ C
      .  +2*NUMELT+2*NUMELP+2*NUMELR)
 C-----
        SIWORK = MAX(NS_I7,NS_I11,NUMNOD+2+4*NUMELC+4*NUMELTG+8*NUMELS
-     .        + 2*NUMELT+2*NUMELP+2*NUMELR+16*NUMELS10+ 2*(SIXX-1) 
+     .        + 2*NUMELT+2*NUMELP+2*NUMELR+16*NUMELS10+ 2*(SIXX-1)
      .        + MAXNSNE,NS_I2)
 C
        SRWORK = MAX(6000,NUMNOD)
@@ -7280,11 +7285,11 @@ C read /INIBRI/FILL before interfaces stiffness
       IF(IDDLEVEL == 1) CALL STARTIME(13,1)
 
 
-      
+
 C
-C fill interface structure to be used by sorting     
+C fill interface structure to be used by sorting
 c set INTERCEP for INT7 only to avoid bug with INT20 dur to renumerotation
-c in I20NLG (other inteface types still done in SET_INTERCEP)     
+c in I20NLG (other inteface types still done in SET_INTERCEP)
         CALL FILL_INTERCEP(IPARI,INTBUF_TAB,INTERCEP)
 C
         CALL ININTR(IPARI     ,INSCR    ,X,V     ,IXS      ,IXQ      ,
@@ -7306,7 +7311,7 @@ C
       IF(IDDLEVEL == 0) CALL STOPTIME(12,1)
       IF(IDDLEVEL == 1) CALL STOPTIME(13,1)
 
-        DEALLOCATE (T2_NB_CONNEC)   
+        DEALLOCATE (T2_NB_CONNEC)
         DEALLOCATE (RWORK)
         DEALLOCATE (IWORK)
 
@@ -7336,9 +7341,9 @@ C
         ALLOCATE (INTSTAMP(0))
 
         !--------------------------------------------!
-        !   NEW INTERFACE BUFFER STRUCTURE ALLOCATION            
+        !   NEW INTERFACE BUFFER STRUCTURE ALLOCATION
         !--------------------------------------------!
-        ALLOCATE (INTBUF_TAB(0), STAT=Stat)                           
+        ALLOCATE (INTBUF_TAB(0), STAT=Stat)
         !--------------------------------------------!
 C
       ENDIF
@@ -7525,7 +7530,7 @@ C
           ERR_CATEGORY='INTERFACES'
           CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 c          IF(IDDLEVEL.EQ.0)THEN
-            CALL LECSTAMP(IPARI  ,INTSTAMP ,UNITAB, NPBY, 
+            CALL LECSTAMP(IPARI  ,INTSTAMP ,UNITAB, NPBY,
      .                    ICODE  ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),LSUBMODEL)
 c          ENDIF
           CALL TRACE_OUT1()
@@ -7547,7 +7552,7 @@ C
           LAG_NKL = LAG_NKL0
         ENDIF
       ENDIF
-           
+
 C--------------------------------------------
 C
 C     After IDDLEVEL - we do not enter inintr anymore
@@ -7642,7 +7647,7 @@ C--      lenght must be reset for second pass
            LENGRVR=0
          ENDIF
 C
-         IF (IDDLEVEL.EQ.0) THEN  
+         IF (IDDLEVEL.EQ.0) THEN
            INQUIRE(IOLENGTH=RCLEN) FLREC6
            OPEN(UNIT=IFXM,STATUS='SCRATCH',
      .        ACCESS='DIRECT',RECL=RCLEN)
@@ -7685,7 +7690,7 @@ C
            ALLOCATE(FXBGLM(LENGLM), FXBCPM(LENCP) , FXBRPM(LENRPM),
      .              FXBCPS(LENCP) , FXBLM(LENLM)  , FXBFLS(LENFLS),
      .              FXBDLS(LENDLS), FXBDEP(LENVAR), FXBVIT(LENVAR),
-     .              FXBACC(LENVAR), FXBMOD(LENMOD*6), FXBELM(LENELM),   
+     .              FXBACC(LENVAR), FXBMOD(LENMOD*6), FXBELM(LENELM),
      .              FXBSIG(LENSIG), FXBGRVI(LENGRVI), FXBGRVR(LENGRVR))
          ENDIF
 C
@@ -8003,12 +8008,12 @@ C--------------------------------------------
      &         NUMELTG+NUMELUR+NUMELX+NUMSPH+NUMELIG3D)
 C
 C--------------------------------------------
-C     NEW ELEMENT BUFFER STRUCTURE ALLOCATION            
+C     NEW ELEMENT BUFFER STRUCTURE ALLOCATION
 C--------------------------------------------
 c
       FLAG_XFEM = 0
       ALLOCATE (ELBUF_TAB(NGROUP), STAT=Stat)
-C  
+C
       CALL ELBUF_INI(ELBUF_TAB,MLAW_TAG ,PROP_TAG ,FAIL_TAG ,VISC_TAG  ,
      .               IGEO     ,IPM      ,PM       ,IPARG    ,IPART     ,
      .               IPARTSP  ,IXS      ,IXQ      ,IXC      ,IXTG      ,
@@ -8021,19 +8026,19 @@ c---
       IF (ICRACK3D > 0) THEN
         FLAG_XFEM = 1
 
-        ALLOCATE (XFEM_TAB(NGROUP,NXEL), STAT=Stat)                      
+        ALLOCATE (XFEM_TAB(NGROUP,NXEL), STAT=Stat)
 c
         DO IXEL=1,NXEL
-          CALL ELBUF_INI(                                                
-     .         XFEM_TAB(1:NGROUP,IXEL),MLAW_TAG ,PROP_TAG ,FAIL_TAG ,VISC_TAG,  
-     .         IGEO                   ,IPM      ,PM       ,IPARG    ,IPART     ,  
+          CALL ELBUF_INI(
+     .         XFEM_TAB(1:NGROUP,IXEL),MLAW_TAG ,PROP_TAG ,FAIL_TAG ,VISC_TAG,
+     .         IGEO                   ,IPM      ,PM       ,IPARG    ,IPART     ,
      .         IPARTSP                ,IXS      ,IXQ      ,IXC      ,IXTG      ,
      .         KXSP                   ,FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK,
      .         IXT                    ,IXP      ,IXR      ,KXX      ,GEO       ,
      .         EOS_TAG                ,MAXEOS)
         ENDDO
       ELSE
-        ALLOCATE (XFEM_TAB(0,0), STAT=Stat)  
+        ALLOCATE (XFEM_TAB(0,0), STAT=Stat)
       ENDIF
 C
 C-----------------------------------------------------------
@@ -8064,7 +8069,7 @@ C
         IF(IORTSHEL.NE.0) NSIGSH = NSIGSH + NORTSHEL
         IF(NVSHELL1.NE.0)NSIGSH = NSIGSH + NVSHELL1
         IF(NVSHELL2 /= 0)NSIGSH = NSIGSH + NVSHELL2 + 3
-        NSIGI= NVSOLID1 + NVSOLID2 + NVSOLID3 + NUSOLID + 4 + NVSOLID4 + 
+        NSIGI= NVSOLID1 + NVSOLID2 + NVSOLID3 + NUSOLID + 4 + NVSOLID4 +
      .         NVSOLID5 + NVSOLID6 + 7
 
 
@@ -8226,7 +8231,7 @@ C----
         ALLOCATE (BNS(0))
         ALLOCATE (BNSX(0))
         ALLOCATE (VNIGE(0))
-        ALLOCATE (BNIGE(0))      
+        ALLOCATE (BNIGE(0))
       ENDIF
       IF(I7STIFS.NE.0)THEN
         ALLOCATE (VOLNOD(NUMNOD+NUMFAKENODIGEO)     ,STAT=stat)
@@ -8278,7 +8283,7 @@ C
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 C
 C----------------------------------
-C -- LECTURE OF INITIAL STATE DATA    
+C -- LECTURE OF INITIAL STATE DATA
 C----------------------------------
 C
       ALLOCATE (SIGI(NSIGS,LSIGI)                  ,STAT=stat)
@@ -8324,7 +8329,7 @@ C
       IF(STAT.NE.0) THEN
         CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                         C1='DTELEM')
-      ENDIF  
+      ENDIF
       IF (NUMEL   > 0) DTELEM = ZERO
 C
       CALL STARTIME(14,1)
@@ -8369,7 +8374,7 @@ C
      3            SOL2SPH ,IRST       ,SH3TRIM   ,XFEM_TAB,
      4            KXIG3D  ,IXIG3D     ,MSIG3D    ,KNOT    ,NCTRLMAX,
      5            WIGE    ,STACK      ,
-     7            RNOISE  ,DRAPE    ,SH4ANG  ,SH3ANG  , 
+     7            RNOISE  ,DRAPE    ,SH4ANG  ,SH3ANG  ,
      8            GEO_STACK,IGEO_STACK,STIFINTR  ,STRC ,STRP    ,
      8            STRR    ,STRTG      ,PERTURB   ,ITAGND  ,NATIV_SMS,
      9            ILOADP  ,LOADP      ,PTSPRI    ,NSIGBEAM,
@@ -8380,7 +8385,7 @@ C
      E            FAIL_INI,IUSOLYLD   ,IUSERL    ,IDDLEVEL ,INIMAP1D,
      F            INIMAP2D,FUNC2D     ,FVM_INIVEL,TAGPRT_SMS,IGRBRIC,
      G            IGRQUAD ,IGRSH4N    ,IGRSH3N   ,IGRPART  ,TOTMAS  ,
-     H            KNOTLOCPC,KNOTLOCEL ,VNIGE     ,BNIGE    ,FXBGLM  , 
+     H            KNOTLOCPC,KNOTLOCEL ,VNIGE     ,BNIGE    ,FXBGLM  ,
      I            FXBCPM  ,FXBCPS     ,FXBLM     ,FXBFLS   ,FXBDLS  ,
      J            FXB_MATRIX,FXB_MATRIX_ADD,FXB_LAST_ADRESS,INOM_OPT(11),R_SKEW,
      K            KNOD2EL1D,NOD2EL1D  ,EBCS_TAB  ,RBY_INIAXIS,ALEA  ,
@@ -8395,7 +8400,7 @@ C  CALCUL DES VOLUMES FICTIFS ET DES RAIDEURS FICTIVES LE CONTACT ISOGEOMETRIQUE
           CALL BULKFAKEIGEO3(ELBUF_TAB,IPARG,PM,KXIG3D,IGRSURF,STIFINT)
         ENDIF
 
-      ENDIF  
+      ENDIF
 C
 C----------------------------------
 C
@@ -8478,7 +8483,7 @@ C
       DEALLOCATE (ITRI)
       DEALLOCATE (KSYSUSR)
       DEALLOCATE (IWA)
-     
+
 C
 C XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 C
@@ -8513,7 +8518,7 @@ C XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 C       Additional treatments for big loop - element buffer deallocation
 C XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
           DEALLOCATE(DTELEM)
-          FLAG_XFEM = 0  
+          FLAG_XFEM = 0
           CALL DEALLOCATE_ELBUF(
      .               ELBUF_TAB,MLAW_TAG ,PROP_TAG ,FAIL_TAG ,VISC_TAG  ,
      .               IGEO     ,IPM      ,PM       ,IPARG    ,IPART     ,
@@ -8523,7 +8528,7 @@ C XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
           DEALLOCATE(ELBUF_TAB)
 C       XFEM buffer deallocation
           IF (ICRACK3D > 0) THEN
-            FLAG_XFEM = 1                  
+            FLAG_XFEM = 1
             DO IXEL=1,NXEL
               CALL DEALLOCATE_ELBUF(
      .               XFEM_TAB(1:NGROUP,IXEL),MLAW_TAG ,PROP_TAG ,FAIL_TAG ,VISC_TAG  ,
@@ -8547,7 +8552,7 @@ C------------------------------------------------------------------------
 C
 C  Check tied contacts -> hierarchy + warnings AMS
       ERR_CATEGORY='INTERFACES'
-      CALL CHKTYP2 (IPARI,   ITAB    , 
+      CALL CHKTYP2 (IPARI,   ITAB    ,
      .              NOM_OPT(LNOPT1*INOM_OPT(3)+1),INTBUF_TAB,NATIV_SMS)
 c-----------------------------------------------------------------------------------
 c     Initialization of frontwave structure for failure propagation
@@ -8588,7 +8593,7 @@ C
       DEALLOCATE (SLNRBM,NSLNRBM,RMSTIFN,RMSTIFR )
 C----
       IF(ALLOCATED(MSIG3D)) DEALLOCATE (MSIG3D)
-      IF (ALLOCATED(ITAG)) DEALLOCATE (ITAG) 
+      IF (ALLOCATED(ITAG)) DEALLOCATE (ITAG)
 C
 C xfem for compostie
 C
@@ -8642,7 +8647,7 @@ C
       ENDIF
 C
       DEALLOCATE(MS_PLY0,ZI_PLY0,MSZ20,ITAGSH)
-      DEALLOCATE(ITAGND_SHXFEM)  
+      DEALLOCATE(ITAGND_SHXFEM)
       CALL TRACE_OUT1()
 c-------------------------------------------------------------------
 c-------------------------------------------------------------------
@@ -8653,10 +8658,10 @@ c-------------------------------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 c
 c------------------------------
-      ALLOCATE(CRKLVSET(NLEVMAX)  ,STAT=stat)     
+      ALLOCATE(CRKLVSET(NLEVMAX)  ,STAT=stat)
       ALLOCATE(CRKSHELL(NLEVMAX)  ,STAT=stat)
       ALLOCATE(CRKSKY(NLEVMAX)    ,STAT=stat)
-      ALLOCATE(CRKAVX(NLEVMAX)    ,STAT=stat)       
+      ALLOCATE(CRKAVX(NLEVMAX)    ,STAT=stat)
       ALLOCATE(INDX_CRK(NLEVMAX)  ,STAT=stat)
 c
       INDX_CRK = 0  ! For Anim
@@ -8677,7 +8682,7 @@ c-----
         ENDIF
 c-----
 c       numerotation locale des noeuds et elems fantomes des parts xfem
-c       IEL_CRKXFEM  : local system numerotation of Xfem shells 
+c       IEL_CRKXFEM  : local system numerotation of Xfem shells
 c       INOD_CRKXFEM : local system numerotation of Xfem nodes
 c--------------------------------------------------
 c       build local Xfem node and element tables
@@ -8688,9 +8693,9 @@ c       build xfem sky adress table
      .                  IEL_CRKXFEM ,INOD_CRKXFEM    ,ADDCNE_CRKXFEM)
 c--------------------------------------------------
 c       ADDCNE_CRKXFEM = tableau adresses sky Xfem
-        LCNE_CRKXFEM = ADDCNE_CRKXFEM(NCRKXFE+1) - 1    ! longueur tableau sky CNE_CRKXFEM 
+        LCNE_CRKXFEM = ADDCNE_CRKXFEM(NCRKXFE+1) - 1    ! longueur tableau sky CNE_CRKXFEM
         ALLOCATE (CRKNODIAD(LCNE_CRKXFEM)    ,STAT=stat)
-        ALLOCATE (CNE_CRKXFEM(LCNE_CRKXFEM)  ,STAT=stat) 
+        ALLOCATE (CNE_CRKXFEM(LCNE_CRKXFEM)  ,STAT=stat)
         ALLOCATE (CEL_CRKXFEM(ECRKXFE)       ,STAT=stat)
         ALLOCATE (CEP_CRKXFEM(ECRKXFE)       ,STAT=stat)
         ALLOCATE (NODLEVXF(NCRKXFE)          ,STAT=stat)
@@ -8698,22 +8703,22 @@ c       ADDCNE_CRKXFEM = tableau adresses sky Xfem
         ALLOCATE (XFEM_PHANTOM(NXLAYMAX)     ,STAT=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,MSGTYPE=MSGERROR,C1='NODLEVXF')
         CRKNODIAD   = 0
-        CNE_CRKXFEM = 0   
+        CNE_CRKXFEM = 0
         CEL_CRKXFEM = 0
         CEP_CRKXFEM = 0   ! Proc num of each xfem element
         NUMELCRK    = 0
         NODLEVXF    = 0
 c--------------------------------------------------
         CALL FILLCNE_XFEM(LCNE_CRKXFEM,IPARG,
-     .       IEL_CRKXFEM   ,INOD_CRKXFEM ,IXC        ,IXTG       ,CEP      ,      
-     .       ADDCNE_CRKXFEM,CNE_CRKXFEM  ,CEL_CRKXFEM,CEP_CRKXFEM,CRKNODIAD)      
+     .       IEL_CRKXFEM   ,INOD_CRKXFEM ,IXC        ,IXTG       ,CEP      ,
+     .       ADDCNE_CRKXFEM,CNE_CRKXFEM  ,CEL_CRKXFEM,CEP_CRKXFEM,CRKNODIAD)
 c
-        CALL XFEM_CRACK_INIT(IPARG   ,IXC     ,IXTG    ,INOD_CRKXFEM,NODLEVXF,                   
+        CALL XFEM_CRACK_INIT(IPARG   ,IXC     ,IXTG    ,INOD_CRKXFEM,NODLEVXF,
      .                       INDX_CRK,NCRKPART,CRKSHELL)
 c--------------------------------------------------
         DEALLOCATE(ITAGN,ITAGE)
 C       NODGLOBXFE
-        SNODGLOBXFE = 4*ECRKXFE*NLEVMAX  ! nb max de noeuds phant, tous les plis. faux si mixte 
+        SNODGLOBXFE = 4*ECRKXFE*NLEVMAX  ! nb max de noeuds phant, tous les plis. faux si mixte
 C
         NUMEDGES = 0   ! nb des edges glob (pareil tous les plis)
         SIEDGESH = 4*ECRKXFEC + 3*ECRKXFETG
@@ -8753,7 +8758,7 @@ c--------------------------------------------------
         CALL IEDGE_XFEM(
      .       IBORDNODE ,IXC        ,IXTG       ,IEDGESH4  ,IEDGESH3  ,
      .       IBORDEDGE ,NODEDGE    ,IELCRK4    ,IELCRK3   ,IEDGE     ,
-     .       CEP_CRKXFEM,IEDGE_TMP0)                                                
+     .       CEP_CRKXFEM,IEDGE_TMP0)
 c
         CALL ALLOCXFEM(IXC    ,IXTG  ,IPARG  ,LCNE_CRKXFEM,CRKLVSET,
      .                 CRKSKY ,CRKAVX,CRKEDGE,XFEM_PHANTOM)
@@ -8816,7 +8821,7 @@ C
         ALLOCATE (KXFENOD2ELC(0))
         ALLOCATE (ENRTAG(0))
       ENDIF   !   ICRACK3D > 0  (Xfem)
-C---------------------------------- 
+C----------------------------------
       CALL TRACE_OUT1()
 C----------------------------------
 C     RBE2 Desactivation des elements initialization for ITRUOFF ...
@@ -8873,15 +8878,15 @@ C-----
       CALL TRACE_OUT1()
 C-------------------------------------------------------------
 C     Set INTERCEP only for INTERFACE24 (flag=0)
-C-------------------------------------------------------------      
+C-------------------------------------------------------------
       CALL SET_INTERCEP(IPARI,INTERCEP,0,INTBUF_TAB,ITAB,CEP)      ! this call is maintained here to avoid a bug
 C-------------------------------------------------------------
 C     Interface type 24 - set FRONTPLUS to neighboug surfaces
 C-------------------------------------------------------------
       I24MAXNSNE = 0
-      CALL I24SETNODES(IPARI,INTBUF_TAB,INTERCEP,ITAB,I24MAXNSNE)      
+      CALL I24SETNODES(IPARI,INTBUF_TAB,INTERCEP,ITAB,I24MAXNSNE)
 
-C-------------------------------------------------------------      
+C-------------------------------------------------------------
 C----------------------------------
 C     Interf. type 7 et 21 : affectation des rigidites cote second
 C----------------------------------
@@ -8903,7 +8908,7 @@ C--------FRICTION OROTHTROPIC DIRECTIONS COMPUTATION -----
      B       X       , IXTG     ,IXC          ,IPARTG  , IPARTC  ,
      C       PFRICORTH,IREPFORTH,PHIFORTH     , VFORTH ,KNOD2ELC ,
      D       KNOD2ELTG,NOD2ELTG ,NOD2ELC      ,IWORKSH  ,PM      ,
-     E       STACK%PM ,THKE    ,SKEW          ,ITAB     ,IPART   ) 
+     E       STACK%PM ,THKE    ,SKEW          ,ITAB     ,IPART   )
 
 c        DEALLOCATE (PFRICORTH ,IREPFORTH , VFORTH ,PHIFORTH  )
 
@@ -8940,7 +8945,7 @@ C
      3                     IPART  ,IGEO   ,LSUBMODEL)
       ENDIF
 c      CALL ANCHECK(81)
-      CALL TRACE_OUT1()    
+      CALL TRACE_OUT1()
 C----------------------------------
 C     LECTURE DES SECTIONS
 C----------------------------------
@@ -8986,7 +8991,7 @@ C--------------------------------------------
        ELSE
         SFSAV6=0
         STABSEN=0
-        ALLOCATE(TABSENSOR(STABSEN)   , STAT=stat) 
+        ALLOCATE(TABSENSOR(STABSEN)   , STAT=stat)
         ALLOCATE(FBSAV6(12,6,SFSAV6)  , STAT=stat)
         TABSENSOR=0
         FBSAV6=0
@@ -8994,7 +8999,7 @@ C--------------------------------------------
       ELSE
         SFSAV6=0
         STABSEN=0
-        ALLOCATE(TABSENSOR(STABSEN)   , STAT=stat) 
+        ALLOCATE(TABSENSOR(STABSEN)   , STAT=stat)
         ALLOCATE(FBSAV6(12,6,SFSAV6)  , STAT=stat)
         TABSENSOR=0
         FBSAV6=0
@@ -9075,7 +9080,7 @@ C---
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       CALL FVDIM(T_MONVOL)
       ALLOCATE(FVDATA(NFVBAG))
-     
+
 C
       ERR_MSG='FVMBAG MESHING'
       ERR_CATEGORY='FVMBAG MESHING'
@@ -9090,7 +9095,7 @@ C
      .        NOM_OPT(LNOPT1*INOM_OPT(2)+1), NUMNOD)
       ENDIF
 
-      CALL COPY_TO_VOLMON(T_MONVOL, LRCBAG, T_MONVOL_METADATA%RCBAG, SVOLMON, VOLMON)  
+      CALL COPY_TO_VOLMON(T_MONVOL, LRCBAG, T_MONVOL_METADATA%RCBAG, SVOLMON, VOLMON)
 
       CALL COPY_TO_MONVOL(T_MONVOL, LICBAG, T_MONVOL_METADATA%ICBAG, SMONVOL, MONVOL)
 
@@ -9129,7 +9134,7 @@ c
       IF (NEBCS > 0)THEN
          SEGINDX = 0
          !update due to domain decomposition
-         CALL INIEBCS(ALE_CONNECTIVITY, 1,IGRSURF, IXS, IXQ, IXTG, 
+         CALL INIEBCS(ALE_CONNECTIVITY, 1,IGRSURF, IXS, IXQ, IXTG,
      .        PM, X, LSENSOR, MONVOl, MULTI_FVM%IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
          !initialization
         CALL INIEBCSP0(X, IPARG, ELBUF_TAB, EBCS_TAB, IXS, IXQ, IXTG, IPARTS, IPARTQ, IPARTG, PM, IPM)
@@ -9178,7 +9183,7 @@ C---
       ENDIF
 C---
       IF (NRWLAG.GT.0)
-     .  CALL LGMINI_RWL(NPRW   , LPRW     , MS     , ITAB,       
+     .  CALL LGMINI_RWL(NPRW   , LPRW     , MS     , ITAB,
      .                  NOM_OPT(LNOPT1*INOM_OPT(5)+1))
       IF (NINTER.GT.0)
      .  CALL LGMINI_I7(IPARI   ,INTBUF_TAB   , MS     , ITAB   , IGRNOD,
@@ -9217,7 +9222,7 @@ C----------------------------------
      . SKEW          , FXBIPM(AIPM+29), NFX    , FXBIPM(AIPM+30))
          ENDDO
       ENDIF
-      CALL TRACE_OUT1()    
+      CALL TRACE_OUT1()
 
 C--------------------------------------------
 C     LECTURE DES THPARTS
@@ -9229,14 +9234,14 @@ C--------------------------------------------
         CALL HM_READ_THPART(IPART    ,IGRBRIC ,IGRQUAD  ,IGRSH4N ,IGRSH3N,
      .                      IGRTRUSS ,IGRBEAM ,IGRSPRING, LSUBMODEL)
       ENDIF
-      CALL TRACE_OUT1()   
+      CALL TRACE_OUT1()
 
       CALL CREATE_MAP_TABLES ( MAP_TABLES ,2     ,
      *                         LSUBMODEL ,SUBSETS,
      *                         IPART,
      *                         IXS  ,IXQ  ,IXC   ,IXTG ,
      *                         IXT  ,IXP  ,IXR   ,IXUR,KXSP,LRIVET,
-     *                         IBID ) 
+     *                         IBID )
 C----------------------------------
 C     LECTURE DES GROUPES TH
 C----------------------------------
@@ -9276,7 +9281,7 @@ c
         NBR_TH_MONVOL = MAX(NBR_TH_MONVOL,NBR_TH_MONVOL01(I))
       ENDDO
 c
-      SITHGRP   = (NTHGRP0+NBR_TH_MONVOL)*NITHGR 
+      SITHGRP   = (NTHGRP0+NBR_TH_MONVOL)*NITHGR
       LITHPART  = NTHGRPMX*(NPART+NTHPART)
       LITHSUB   = NTHGRPMX*NSUBS
       LITHBUFMX = 0
@@ -9590,7 +9595,7 @@ C
       ENDIF
 C--------
 C ithgrpg
-C--------  
+C--------
       IF (NTHGRP01(7) > 0) THEN
         SITHGRPG = (NTHGRP01(7)+NBR_TH_MONVOL)*NITHGR
         ALLOCATE(ITHGRPG(SITHGRPG)     ,  STAT=stat)
@@ -9800,14 +9805,14 @@ C
       IF (NTHGRP01(9) > 0)
      .  CALL THPINIT(ITHGRPI,ITHBUFI,IPARG     ,DD_IAD ,LRIVET ,
      .               I      ,NTHGRP1(9)   )
-      CALL TRACE_OUT1()     
+      CALL TRACE_OUT1()
 C--------------------------------------------
 C     Multidomains -> deallocation des tableaux.
 C--------------------------------------------
       IF (NSUBDOM.GT.0) THEN
         DEALLOCATE(TAG_PART,TAGMON,TAGRBY,TAGINT,TAGCYL,TAGLNK)
         DEALLOCATE(TAGRB3,TAGRB2,TAGJOIN,TAGMPC,TAG_MAT)
-      ENDIF     
+      ENDIF
 C--------------------------------------------
 C     STOCKAGE DYNAMIQUE (CONNEXIONS RIGIDES a MADYMO).
 C--------------------------------------------
@@ -9816,7 +9821,7 @@ C--------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       SRCONX = NCONX*NRCNX
       ALLOCATE (RCONX(SRCONX)    ,STAT=stat)
-      RCONX = ZERO 
+      RCONX = ZERO
 C--------------------------------------------
 C     RECALCUL DE NRBODY (NRBYKIN MIS A JOUR EN AMONT)
 C---------------------------------------------------------------------
@@ -9855,7 +9860,7 @@ C     Mass and inertia are not modified - a specific array is used
         ALLOCATE(IN_B(NUMNOD),STAT=stat)
         IN_B(1:NUMNOD)=IN(1:NUMNOD)
       ENDIF
-C  
+C
       IF (NS10E>0.AND.N2D==0) CALL STIFN0_ND(ICNDS10,STIFFN)
       IF (NINTER > 0) THEN
        CALL ININTR2 (IPARI   ,INSCR   ,X       ,
@@ -9863,21 +9868,21 @@ C
      .               INSCR   ,ITAB    ,MS      ,NPBY    ,LPBY    ,
      .               MWA     ,D       ,I2NSNT  ,IN      ,
      .               STIFFN,STIFINT ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),INOD_PXFEM ,MS_PLY,
-     .               INTBUF_TAB,STIFINTR,ITAGND,ICNDS10,MS_B,IN_B,NSTRF,ITAGCYC) 
+     .               INTBUF_TAB,STIFINTR,ITAGND,ICNDS10,MS_B,IN_B,NSTRF,ITAGCYC)
       ENDIF
       CALL TRACE_OUT1()
 C---------------------------------------------
 C     Update of STIFFN for TETRA10 for time step estimation
 C--------------------------------------------
       IF (NS10E>0.AND.N2D==0) CALL STIFN1_ND(ICNDS10,STIFFN)
-C-------------------------------------------- 
+C--------------------------------------------
 C     TRI ET IMPRESSION DES DT ELEM
-C-------------------------------------------- 
+C--------------------------------------------
       CALL OUTRI(DTELEM,IXS,IXQ,IXC,IXT,IXP,IXR,IXUR,IXTG,
      .           KXX,KXSP,KXIG3D,IGEO,NUMEL)
-C-------------------------------------------- 
+C--------------------------------------------
 C     TRI ET IMPRESSION DES DT NODAUX
-C-------------------------------------------- 
+C--------------------------------------------
       CALL OUTRIN(MS_B,IN_B,STIFFN,STIFFN(NUMNOD+1),ITAB,DTNODA)
 C---------------------------------------------
 C     Target time step estimation - (type2 effect on nodal time step is taken into account in ININTR2)
@@ -9894,14 +9899,14 @@ C---------------------------------
      .                   ISHEOFF,ITRUOFF ,IPOUOFF ,IRESOFF ,ITRIOFF,
      .                   IQUAOFF)
       ENDIF
-C--------------------------------------------   
+C--------------------------------------------
       DEALLOCATE (STIFFN)
       DEALLOCATE (STIFINT)
       DEALLOCATE (STIFINTR)
       DEALLOCATE (MS_B)
       IF (IRODDL==1) DEALLOCATE (IN_B)
       DEALLOCATE (DTELEM)
-      CALL TRACE_OUT1()        
+      CALL TRACE_OUT1()
 C--------------------------------------------
 C     INI & CHECK RBE3
 C--------------------------------------------
@@ -9919,7 +9924,7 @@ C--------------------------------------------
       ERR_CATEGORY='KINEMATIC CONDITIONS'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 C--------------------------------------------
-C     traitement for 2nd pass /RBODY/RBE2 /BCS /IMPVEL w/ Itet2 of S10      
+C     traitement for 2nd pass /RBODY/RBE2 /BCS /IMPVEL w/ Itet2 of S10
 C--------------------------------------------
       IF (NS10E>0) THEN
        CALL RIGMODIF1_ND(NPBY,LPBY,ITAGND)
@@ -9948,7 +9953,7 @@ C--------------------------------------------
 #endif
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     Initial mass 
+C     Initial mass
 C--------------------------------------------
       ERR_MSG='MASS ARRAY ALLOCATION'
       ERR_CATEGORY='INIIAL MASS'
@@ -9958,9 +9963,9 @@ C--------------------------------------------
      .                           MSGTYPE=MSGERROR,
      .                         C1='MS0')
       MS0(1:NUMNOD)=MS(1:NUMNOD)
-      CALL TRACE_OUT1()    
+      CALL TRACE_OUT1()
 C--------------------------------------------
-C     Inlet / Outlet 
+C     Inlet / Outlet
 C--------------------------------------------
 c build structure surfaces specific Inlet Outlet
       IF (NSPHIO > 0)THEN
@@ -9974,7 +9979,7 @@ c build structure surfaces specific Inlet Outlet
       ELSE
          ALLOCATE(IBUFSSG_IO(1))
          SIBUFSSG_IO = ZERO
-      ENDIF   
+      ENDIF
 
 !--------------------------------------------
 !     Split the surface & add the MONVOL nodes
@@ -10038,7 +10043,7 @@ C        ALLOCATE(WEIGHT(SWEIGHT))
 C        WEIGHT = 1
 C      ENDIF
 C--------------------------------------------
-C     traitement for DOMDEC, P/ON w/ Itet2 of S10      
+C     traitement for DOMDEC, P/ON w/ Itet2 of S10
 C--------------------------------------------
       IF (NS10E>0) THEN
        IF(IPARI0/=0) THEN
@@ -10062,11 +10067,11 @@ Cvf Preparation traitement SPMD des ecoulements par BEM
       IF (NFLOW.GT.0 .AND. NSPMD > 1) CALL FLOWDEC(IFLOW)
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     FERMETURE DU FICHIER INPUT TMP  
+C     FERMETURE DU FICHIER INPUT TMP
 C--------------------------------------------
       ERR_MSG='CLOSING TMP INPUT FILE'
       ERR_CATEGORY='INTERNAL'
-      CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))   
+      CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       IF (IPID.NE.0) CLOSE (UNIT=IIN)
       CALL TRACE_OUT1()
 C--------------------------------------------
@@ -10165,19 +10170,19 @@ C
 
       ENDIF
 C----------------------------------------------
-C     Driver to reader of so-called "engine cards" 
+C     Driver to reader of so-called "engine cards"
 C----------------------------------------------
 C      NGINE = 0 ! Number of Engine "cards", to be counted in contrl.F
       IF ((IS_DYNA/=0).AND.(NGINE+NANIM_ENG/=0)) CALL READ_ENGINE_DRIVER(IGRPART,IS_DYNA)
 C----------------------------------------------
-C     Driver to QAPRINT 
+C     Driver to QAPRINT
 C----------------------------------------------
       CALL ST_QAPRINT_DRIVER(
      1        IGEO     ,GEO      ,BUFGEO   ,IPM     ,PM       ,
      2        BUFMAT   ,NOM_OPT  ,INOM_OPT(1) ,NUMLOADP ,ILOADP  ,
      3        LLOADP   ,LOADP    ,IBCL     ,FORC     ,IPRES   ,
      4        PRES     ,NPBY     ,LPBY     ,RBY      ,IBCR    ,
-     5        FRADIA   ,IBCV     ,FCONV    ,IBFTEMP  ,FBFTEMP , 
+     5        FRADIA   ,IBCV     ,FCONV    ,IBFTEMP  ,FBFTEMP ,
      6        IGRV     ,LGRAV    ,GRAV     ,IBFFLUX  ,FBFFLUX ,
      7        ITAB     ,V        , VR      ,W        ,ICODE   ,
      8        ISKEW    ,ICFIELD  ,LCFIELD  ,CFIELD   ,DAMPR   ,
@@ -10261,13 +10266,13 @@ C--------FRICTION OROTHTROPIC DIRECTIONS dealloc now after qa print -----
         DEALLOCATE (PFRICORTH ,IREPFORTH , VFORTH ,PHIFORTH  )
 
       ENDIF
-C   
+C
 C----------------------------------------------
       CALL TRACE_OUT1()
       ERR_MSG='RESTART FILE(S) WRITING'
       ERR_CATEGORY='RESTART FILE(S) WRITING'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF(IERR.EQ.0) THEN       
+      IF(IERR.EQ.0) THEN
 C--------------------------------------------
 C     SPMD : SPLIT +  ECRITURE FICHIER RESTART PAR PROC
 C--------------------------------------------
@@ -10311,7 +10316,7 @@ Clongueur BUFMAT et BUFGEO
 
 C----------------------------------------------------------------------
           ! Allocation and filling of specific ADDCNE and CNE for non-local
-          IF (NLOC_DMG%IMOD>0) THEN 
+          IF (NLOC_DMG%IMOD>0) THEN
             ! Allocation of ADDCNE for non-local nodes
             IF (.NOT.ALLOCATED(NLOC_DMG%ADDCNE)) ALLOCATE(NLOC_DMG%ADDCNE(0:NLOC_DMG%NNOD+1))
             NLOC_DMG%ADDCNE(0:NLOC_DMG%NNOD+1) = 0
@@ -10340,10 +10345,10 @@ C--------------------------------------------
           IF ((NSUBDOM.GT.0).AND.(FLG_R2R_ERR.EQ.0)) THEN
             CALL R2R_CLEAN_INTER(IPARI,INTBUF_TAB,IPARTC,IPARTG,IPARTS,ISOLNOD)
             IF (IDDOM.GT.0) THEN
-           WRITE(ISTDO,'(A)')' .. MULTIDOMAINS DOMDEC SYNCHRONIZATION '       
+           WRITE(ISTDO,'(A)')' .. MULTIDOMAINS DOMDEC SYNCHRONIZATION '
               CALL R2R_DOMDEC(IEXLNK,IGRNOD,FRONTB_R2R,DT_R2R,1)
             ELSE
-              CALL R2R_DOMDEC(IEXLNK,IGRNOD,FRONTB_R2R,DT_R2R,2)        
+              CALL R2R_DOMDEC(IEXLNK,IGRNOD,FRONTB_R2R,DT_R2R,2)
             ENDIF
           ENDIF
 
@@ -10362,33 +10367,33 @@ C    needed anmyre before ddsplit.
 C-------------------------------------------------------------
 C INTERFACE ROUTINES CALLED BEFORE DOMAIN DECOMPOSITION
 C-------------------------------------------------------------
-          
+
 C-------------------------------------------------------------
 C         Set INTERCEP (for all INTERFACES except TYPE24) (flag=1)
-C-------------------------------------------------------------      
+C-------------------------------------------------------------
 
-          CALL SET_INTERCEP(IPARI,INTERCEP,1,INTBUF_TAB,ITAB,CEP)   
+          CALL SET_INTERCEP(IPARI,INTERCEP,1,INTBUF_TAB,ITAB,CEP)
 
 C ! this call is maintened here to avoid a bug
-C-------------------------------------------------------------     
+C-------------------------------------------------------------
           IF(NSPMD > 1 .AND. IDDLEVEL > 0) THEN
             CALL SET_FRONT8(IPARI,INTERCEP,INTBUF_TAB,INTERT8,NBT8,ITAB)
           ENDIF
 C--------------------------------------------
 C         /INTER/TYPE25 connectivit sommets => segments
-C------------------------------------------------------------- 
+C-------------------------------------------------------------
 C
 C         Dimensioning (computes NUMNOR == Nb of normals or vertices wrt ALL Interfaces TYPE25)
 C         and Initialization of IRT>LM(3:4,1:NSN)
           CALL PREPARE_INT25(INTBUF_TAB, IPARI, INTERCEP, NRTMT_25)
           CALL PREPARE_SPLIT_I25E2E(NSPMD,INTBUF_TAB,IPARI,INTERCEP)
-        
+
 C
-          ALLOCATE(ADDCSRECT(NUMNOR+1),CSRECT(4*NRTMT_25),STAT=stat) 
+          ALLOCATE(ADDCSRECT(NUMNOR+1),CSRECT(4*NRTMT_25),STAT=stat)
           IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                               MSGTYPE=MSGERROR,
      .                          C1='CSRECT')
-          ADDCSRECT(1:NUMNOR+1)=0  
+          ADDCSRECT(1:NUMNOR+1)=0
 C
           IF(NINTER25 /= 0)
      .      CALL BUILD_CSRECT(INTBUF_TAB,IPARI,CSRECT,ADDCSRECT)
@@ -10398,14 +10403,14 @@ C LINES : SET A CPU for splitting
 !       !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !        /\
 !       /  \
-!      / |  \ 
+!      / |  \
 !     /  |   \
 !    /   o    \
 !   /__________\
 !
 !       /LINE are not used in the engine and the split is wrong in
-!       case of useless line (ie. when a line is defined but not 
-!       used by an interface or other stuffs) --> 
+!       case of useless line (ie. when a line is defined but not
+!       used by an interface or other stuffs) -->
 !       2 nodes (defining a segment) can be on 2 different processors
 !       in this case, the segment is not written in the restart file
 !       one could also define the nodes on the same processor but
@@ -10426,19 +10431,19 @@ C--------------------------------------------
      .                          IPARTC,IPARTQ,IPARTG,IPARTUR  ,STACK )
           ENDIF
 C--------------------------------------------
-          
+
 c         start CPU timer for ddsplit
           CALL STARTIME(3,1)
 !       compute the size of TAG_SCRATCH and check if /INTER/24 or /25 is used
-          CALL GET_SIZE_INTER24(I24MAXNSNE2,NINTER,NPARI,IPARI,FLAG_24_25) 
+          CALL GET_SIZE_INTER24(I24MAXNSNE2,NINTER,NPARI,IPARI,FLAG_24_25)
 !       compute the local number of element
-          CALL GET_SIZE_NUMNOD_LOCAL(NUMNOD,NUMNOD_L)  
+          CALL GET_SIZE_NUMNOD_LOCAL(NUMNOD,NUMNOD_L)
 
           ALLOCATE( ALE_ELM(NSPMD) )
           IF( (NUMELS>0).AND.(IALE+IEULER+ITHERM+IALELAG/=0) ) THEN
                 CALL SPLIT_CFD_SOLIDE(NUMELS,NIXS,ALE_CONNECTIVITY,IXS,ALE_ELM,SIZE_ALE_ELM)
           ELSE
-                SIZE_ALE_ELM(1:NSPMD) = 0  
+                SIZE_ALE_ELM(1:NSPMD) = 0
           ENDIF
           ! -----------------------------------------
           ! reverse connectivity for FVM solver : usefull for ensure the parith/on
@@ -10448,14 +10453,14 @@ c         start CPU timer for ddsplit
                 ALLOCATE( INDX_TG(NUMELTG) )
                 ALLOCATE( FACE_ELM_S(6*NUMELS,2) )
                 ALLOCATE( FACE_ELM_Q(4*NUMELQ,2) )
-                ALLOCATE( FACE_ELM_TG(3*NUMELTG,2) )  
+                ALLOCATE( FACE_ELM_TG(3*NUMELTG,2) )
 
                 INDX_S(1:NUMELS) = 0
                 INDX_Q(1:NUMELQ) = 0
                 INDX_TG(1:NUMELTG) = 0
-                FACE_ELM_S(1:6*NUMELS,1:2) = 0   
-                FACE_ELM_Q(1:4*NUMELQ,1:2) = 0   
-                FACE_ELM_TG(1:3*NUMELTG,1:2) = 0   
+                FACE_ELM_S(1:6*NUMELS,1:2) = 0
+                FACE_ELM_Q(1:4*NUMELQ,1:2) = 0
+                FACE_ELM_TG(1:3*NUMELTG,1:2) = 0
                 BOOL_ALE_TG = (N2D/=0.AND.MULTI_FVM%IS_USED)
                 CALL MULTI_CONNECTIVITY( INDX_S,INDX_Q,INDX_TG,
      1                                   FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,
@@ -10467,15 +10472,15 @@ c         start CPU timer for ddsplit
                 ALLOCATE( INDX_TG(0) )
                 ALLOCATE( FACE_ELM_S(0,0) )
                 ALLOCATE( FACE_ELM_Q(0,0) )
-                ALLOCATE( FACE_ELM_TG(0,0) )  
+                ALLOCATE( FACE_ELM_TG(0,0) )
             ENDIF
           ! -----------------------------------------
 C Parallel
 
 !   -------------------------------------------------------------
-!       RESTART FILE WRITING 
+!       RESTART FILE WRITING
 !       if -norst cdl is used or if /RFILE/OFF is used, then
-!       restart files are not generated  
+!       restart files are not generated
 !   -------------------------------------
           IF(RESTART_FILE==1) THEN
 C            CALL PREPARE_INT25_EDGE(INTBUF_TAB,INTERCEP,NSPMD,IPARI)
@@ -10516,20 +10521,20 @@ C----- create TAG_SKINS6 for /H3D/STRESS/TENS/OUTER
 #endif
 c
           IF (P > NSPMD) GOTO 221
-c          DO P = 1, NSPMD 
+c          DO P = 1, NSPMD
           !Sending clean addresses for unallocated arrays in case P=0
             NULLIFY(pGRAPHE)  ; IF(NSPROC > 0)   pGRAPHE => GRAPHE(P)       !GRAPHE(1:NSPROC)     ; NSPROC=0 => GRAPHE(0) is undefined
             NULLIFY(pDSMEMORY); IF(NSPMD  > 0) pDSMEMORY => DSMEMORY(1,P)   !DSMEMORY(7,1:NSPMD)  ; NSPMD =0 => DSMEMORY(1,0) is undefined
-            NULLIFY(pMEMFLOW) ; IF(NSPMD  > 0)  pMEMFLOW => MEMFLOW(1,P)    !MEMFLOW(2,1:NSPMD)   ; NSPMD =0 => MEMFLOW(1,0) is undefined 
+            NULLIFY(pMEMFLOW) ; IF(NSPMD  > 0)  pMEMFLOW => MEMFLOW(1,P)    !MEMFLOW(2,1:NSPMD)   ; NSPMD =0 => MEMFLOW(1,0) is undefined
           CALL DDSPLIT(
-     1         P            ,CEP         ,CEL            ,IGEO        ,MATPARAM_TAB,              
-     2         IPM          ,ICODE       ,ISKEW          ,ISKWN       ,BID13      ,    
-     3         IBCSLAG      ,IPART       ,IPARTS         ,IPARTQ      ,IPARTC     ,    
-     4         IPARTT       ,IPARTP      ,IPARTR         ,IPARTUR     ,IPARTG     ,    
-     5         IPARTX       ,NPC         ,IXUR           ,IXTG        ,GROUP_PARAM_TAB,                
-     6         IXTG1        ,IXS         ,IXS10          ,IXS20       ,IXS16      ,    
-     7         IXQ          ,IXC         ,IXT            ,IXP         ,IXR        ,    
-     8         ITAB         ,ITABM1      ,GJBUFI         ,ALE_CONNECTIVITY%NALE   ,    
+     1         P            ,CEP         ,CEL            ,IGEO        ,MATPARAM_TAB,
+     2         IPM          ,ICODE       ,ISKEW          ,ISKWN       ,BID13      ,
+     3         IBCSLAG      ,IPART       ,IPARTS         ,IPARTQ      ,IPARTC     ,
+     4         IPARTT       ,IPARTP      ,IPARTR         ,IPARTUR     ,IPARTG     ,
+     5         IPARTX       ,NPC         ,IXUR           ,IXTG        ,GROUP_PARAM_TAB,
+     6         IXTG1        ,IXS         ,IXS10          ,IXS20       ,IXS16      ,
+     7         IXQ          ,IXC         ,IXT            ,IXP         ,IXR        ,
+     8         ITAB         ,ITABM1      ,GJBUFI         ,ALE_CONNECTIVITY%NALE   ,
      9         ALE_CONNECTIVITY,
      A         KXX          ,IXX         ,IBCL           ,IBFV        ,
      B         ILAS         ,LACCELM     ,LSENSOR        ,NNLINK      ,LNLINK     ,    
@@ -10549,7 +10554,7 @@ c          DO P = 1, NSPMD
      P         FR_WAVE      ,FAILWAVE    ,PARTS0         ,USER        ,ELBUF      ,                
      Q         RWBUF        ,RWSAV       ,RBY            ,RIVET       ,    
      R         SECBUF       ,VOLMON      ,RCONX          ,NLOC_DMG    ,                             
-     S         FVMAIN     ,LIBAGALE    ,LENTHG         ,LBUFMAT     ,LBUFGEO    ,    
+     S         FVMAIN     ,LIBAGALE    ,LENTHG         ,LBUFMAT     ,LBUFGEO    ,
      T         LBUFSF       ,SXLAS                       ,LNOM_OPT    ,SILAS      ,    
      U         LENVOLU                   ,NPTS           ,CNE         ,LCNE       ,    
      V         ADDCNE       ,CNI2        ,LCNI2G         ,ADDCNI2     ,CEPI2      ,    
@@ -10616,7 +10621,7 @@ c          DO P = 1, NSPMD
      A         MULTIPLE_SKEW, IGRSURF_PROC,KNOTLOCPC     ,KNOTLOCEL     ,ALE_ELM(P),
      B         SIZE_ALE_ELM(P),PINCH_DATA ,TAG_SKINS6    ,IBCSCYC      ,LBCSCYC   ,T_MONVOL,
      C         INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
-     D         KLOADPINTER  ,LOADPINTER   ) 
+     D         KLOADPINTER  ,LOADPINTER   )
       GOTO 220
  221  CONTINUE
 
@@ -10691,7 +10696,7 @@ C
           END IF
           IF(NSPHIO.GT.0)THEN
             DEALLOCATE(IBUFSSG_IO)
-            DEALLOCATE(RESERVEP)        
+            DEALLOCATE(RESERVEP)
           ENDIF
           DEALLOCATE(CELSPH)
 C
@@ -10706,7 +10711,7 @@ C
           DEALLOCATE(CSRECT)
           DEALLOCATE (IGEO_STACK,GEO_STACK)
           IF(ALLOCATED(PLY_INFO))DEALLOCATE(PLY_INFO)
-          IF (ALLOCATED(FXBFILE_TAB)) DEALLOCATE(FXBFILE_TAB) 
+          IF (ALLOCATED(FXBFILE_TAB)) DEALLOCATE(FXBFILE_TAB)
 
           IF(ALLOCATED(TAB_UMP)) DEALLOCATE(TAB_UMP)
           IF(ALLOCATED(TAB_UMP_OLD)) DEALLOCATE(TAB_UMP_OLD)
@@ -10798,9 +10803,9 @@ c---------------------------
         DEALLOCATE(IEDGE)
         DEALLOCATE(IBORDNODE)
       END IF
-      IF(ALLOCATED(IEDGE_TMP))     DEALLOCATE(IEDGE_TMP) 
-      IF(ALLOCATED(ELCUTC))        DEALLOCATE(ELCUTC)    
-      IF(ALLOCATED(NODENR))        DEALLOCATE(NODENR)    
+      IF(ALLOCATED(IEDGE_TMP))     DEALLOCATE(IEDGE_TMP)
+      IF(ALLOCATED(ELCUTC))        DEALLOCATE(ELCUTC)
+      IF(ALLOCATED(NODENR))        DEALLOCATE(NODENR)
       IF(ALLOCATED(KXFENOD2ELC))   DEALLOCATE(KXFENOD2ELC)
       IF(ALLOCATED(ENRTAG))        DEALLOCATE(ENRTAG)
       IF(ALLOCATED(ADDCNE_CRKXFEM))DEALLOCATE(ADDCNE_CRKXFEM)
@@ -10828,17 +10833,17 @@ C
       DEALLOCATE(DFLOW,VFLOW,WFLOW)
       DEALLOCATE(PERMUTATION%SOLID)
       IF(ALLOCATED(FILLSOL)) DEALLOCATE(FILLSOL)
-      IF(ALLOCATED(SH3ANG))  DEALLOCATE(SH3ANG) 
+      IF(ALLOCATED(SH3ANG))  DEALLOCATE(SH3ANG)
       IF(ALLOCATED(SH4ANG))  DEALLOCATE(SH4ANG)
-      IF(ALLOCATED(NATIV_SMS))  DEALLOCATE(NATIV_SMS)  
+      IF(ALLOCATED(NATIV_SMS))  DEALLOCATE(NATIV_SMS)
       IF (ALLOCATED(MULTI_FVM%VEL)) DEALLOCATE(MULTI_FVM%VEL)
       CALL ALE_CONNECTIVITY%ALE_DEALLOCATE_CONNECTIVITY()
 !!      DEALLOCATE(STACK)
       IF(IPART_STACK > 0 .OR. IPART_PCOMPP > 0)DEALLOCATE (STACK_INFO)
-      IF(ALLOCATED(IPRELOAD)) DEALLOCATE(IPRELOAD) 
-      IF(ALLOCATED(PRELOAD))  DEALLOCATE(PRELOAD) 
+      IF(ALLOCATED(IPRELOAD)) DEALLOCATE(IPRELOAD)
+      IF(ALLOCATED(PRELOAD))  DEALLOCATE(PRELOAD)
       IF(ALLOCATED(IFLAG_BPRELOAD))  DEALLOCATE(IFLAG_BPRELOAD)
-      IF(ALLOCATED(EOS_TAG))DEALLOCATE(EOS_TAG) 
+      IF(ALLOCATED(EOS_TAG))DEALLOCATE(EOS_TAG)
       CALL C_DELETE_HASH(H_NODE)
       CALL DEALLOCATE_DETONATORS(DETONATORS)
       IF (ALLOCATED(XSEED)) DEALLOCATE (XSEED)
@@ -10872,11 +10877,11 @@ C----------------------------------------------
       END
 Cg|-- appelle ---------------
 Chd|====================================================================
-Chd|  SET_IBUFSSG_IO                source/starter/lectur.F       
+Chd|  SET_IBUFSSG_IO                source/starter/lectur.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
+Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
-Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
+Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE SET_IBUFSSG_IO(ISPHIO, IGRSURF, IBUFSSG_IO)
@@ -10934,7 +10939,7 @@ C-----------------------------------------------
               CALL IFRONTPLUS(IN1,PROC)
               CALL IFRONTPLUS(IN2,PROC)
               CALL IFRONTPLUS(IN3,PROC)
-              CALL IFRONTPLUS(IN4,PROC)     
+              CALL IFRONTPLUS(IN4,PROC)
             ENDDO
           ENDDO
           IAD2 = IAD2 + 4*NSEG
@@ -10946,20 +10951,20 @@ C-----------------------------------------------
             CALL IFRONTPLUS(IN1,PROC)
             CALL IFRONTPLUS(IN2,PROC)
             CALL IFRONTPLUS(IN3,PROC)
-          ENDDO          
+          ENDDO
         ENDIF
       ENDDO
 C=======================================================================
       RETURN
       END
 Chd|====================================================================
-Chd|  INIT_PERMUTATION              source/starter/lectur.F       
+Chd|  INIT_PERMUTATION              source/starter/lectur.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
+Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
-Chd|        REORDER_MOD                   share/modules1/reorder_mod.F  
+Chd|        REORDER_MOD                   share/modules1/reorder_mod.F
 Chd|====================================================================
-      SUBROUTINE INIT_PERMUTATION() 
+      SUBROUTINE INIT_PERMUTATION()
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -10991,12 +10996,12 @@ C-----------------------------------------------
       RETURN
       END
 Chd|====================================================================
-Chd|  TET4_10                       source/starter/lectur.F       
+Chd|  TET4_10                       source/starter/lectur.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
+Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE TET4_10(IGEO,ITET4_10) 
+      SUBROUTINE TET4_10(IGEO,ITET4_10)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
