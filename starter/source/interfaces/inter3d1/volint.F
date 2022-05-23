@@ -59,9 +59,7 @@ C-----------------------------------------------
       my_real X17, X28, X35, X46,
      .        Y17, Y28, Y35, Y46,
      .        Z17, Z28, Z35, Z46
-      my_real A17, A28, B17, B28, C17, C28 
-      my_real AJ1, AJ2, AJ3, AJ4, AJ5, AJ6, AJ7, AJ8, AJ9 
-      my_real AJ5968, AJ6749, AJ4857 
+      my_real JAC1, JAC2, JAC3, JAC4, JAC5, JAC6, JAC7, JAC8, JAC9 
 C-------------------------------------------------------
       X17 = XC(7)-XC(1)
       X28 = XC(8)-XC(2)
@@ -78,29 +76,22 @@ C
       Z35 = ZC(5)-ZC(3)
       Z46 = ZC(6)-ZC(4)
 C
-      AJ4 = X17 + X28 - X35 - X46 
-      AJ5 = Y17 + Y28 - Y35 - Y46 
-      AJ6 = Z17 + Z28 - Z35 - Z46 
+      JAC1 = X17 + X28 - X35 - X46 
+      JAC2 = Y17 + Y28 - Y35 - Y46 
+      JAC3 = Z17 + Z28 - Z35 - Z46 
 C
-      A17 = X17 + X46 
-      A28 = X28 + X35 
-      B17 = Y17 + Y46 
-      B28 = Y28 + Y35 
-      C17 = Z17 + Z46 
-      C28 = Z28 + Z35 
+      JAC4 = X17 + X46 + X28 + X35 
+      JAC5 = Y17 + Y46 + Y28 + Y35 
+      JAC6 = Z17 + Z46 + Z28 + Z35 
 C
-      AJ7 = A17 + A28 
-      AJ8 = B17 + B28 
-      AJ9 = C17 + C28 
-      AJ1 = A17 - A28 
-      AJ2 = B17 - B28 
-      AJ3 = C17 - C28 
+      JAC7 = X17 + X46 - X28 - X35 
+      JAC8 = Y17 + Y46 - Y28 - Y35 
+      JAC9 = Z17 + Z46 - Z28 - Z35 
 C
-      AJ5968 = AJ5 * AJ9 - AJ6 * AJ8 
-      AJ6749 = AJ6 * AJ7 - AJ4 * AJ9 
-      AJ4857 = AJ4 * AJ8 - AJ5 * AJ7 
-C
-      VOL = O64TH*(AJ1 * AJ5968 + AJ2 * AJ6749 + AJ3 * AJ4857)
+      VOL = JAC1 * (JAC5 * JAC9 - JAC8 * JAC6) + 
+     .      JAC2 * (JAC6 * JAC7 - JAC4 * JAC9) + 
+     .      JAC3 * (JAC4 * JAC8 - JAC7 * JAC5)
+      VOL = ZEP015625*VOL
 C
       RETURN
       END
