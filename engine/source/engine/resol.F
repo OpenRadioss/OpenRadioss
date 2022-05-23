@@ -962,7 +962,7 @@ C----
      .     LBUFSEGLO
       my_real
      .   DT2T,
-     .   DT2SAVE, INER, MAS, BB, TFEXC,
+     .   DT2SAVE, INER, MAS, BB, TFEXC,TREST,DTREST,
      .   DMAST, DINERT,DTU, RFACTOR, RFMAX,FACTB,DAMPT,
      .   DTFNOD, DTMNOD, XSENS(12,NSENSOR),DAMPA3
       my_real
@@ -5983,7 +5983,15 @@ C     IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
       DINER = DINER + DINERT
       IF(IDT_THERM == 1)THEN    
         IF(DT2TT.LE.DT2T)THEN
-          DT2T = DT2TT 
+C---------Check remaing time for end simulation and correct time step----
+C------------Need to stop computation at Tstop for /DT/THERM----------
+          TREST=MAX(TSTOP-TT,ZERO)  
+          DTREST = TREST*(UN+EM10)
+          IF(DTREST.LT.DT2T) THEN
+             ILASTANIM = 1 
+             ILASTH3D = 1 
+          ENDIF     
+          DT2T = MIN(DT2TT,DTREST) 
           NELTST = NELTSTT
           ITYPTST= ITYPTSTT
         ENDIF
