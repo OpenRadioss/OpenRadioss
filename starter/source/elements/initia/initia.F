@@ -383,7 +383,7 @@ C remove automatic allocation to reduce stack consumption
       my_real, DIMENSION(:,:), ALLOCATABLE :: DIS
       my_real
      .    ADDEDMS(NPART), MST3(MVSIZ),PTTRIA(MVSIZ)
-      INTEGER ID,ISTOT, NF1,ICUMU,I15_,SIPHASE, NUMEL_TOT
+      INTEGER ID,ISTOT, NF1,ICUMU,I15_,SIPHASE, NUMEL_TOT,NNOD
       CHARACTER*nchartitle,
      .   TITR
       LOGICAL :: ERROR_THROWN
@@ -1019,7 +1019,8 @@ C-----Case total strain
      C         STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI,ILOADP ,FACLOAD    ,
      D         PERTURB     ,RNOISE    )
               IF (NSIGI > 0 ) THEN
-                 CALL SGSAVINIEREFQ(ISOLNOD,STRAGLOB(NF1),SIGSP,NSIGI,PTSOL(NF1),
+                 NNOD = 10
+                 CALL SGSAVINIEREFQ(NNOD,STRAGLOB(NF1),SIGSP,NSIGI,PTSOL(NF1),
      .                              GBUF%SMSTR,GBUF%OFF,NEL)
               END IF
          ELSEIF(ITY.EQ.1.AND.ISOLNOD.EQ.20)THEN
