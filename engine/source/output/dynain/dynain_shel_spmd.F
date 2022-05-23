@@ -104,7 +104,7 @@ C-----------------------------------------------
       NPGLOBC(1:8*LENGC) = 0
       NPGLOBTG(1:7*LENGTG) = 0
 C
-C en spmd il faut envoyer l'info meme qd on a 0 elem local
+C SPMD: Need to send infos even if 0 elems 
       JJ = 0
       II = 0
       DO NG=1,NGROUP
@@ -155,7 +155,7 @@ C en spmd il faut envoyer l'info meme qd on a 0 elem local
           NODTAG(IXC(5,N))=1
 
           IF(IGTYP /= 1) THEN
-           BETAC(II) = (180*ACOS(GBUF%BETAORTH(I)))/PI
+           BETAC(II) = (CENT80*ACOS(GBUF%BETAORTH(I)))/PI
           ENDIF
 
          END DO
@@ -176,7 +176,7 @@ C     3-NODE SHELLS
 C-----------------------------------------------
       IADD = 0
 C
-C en spmd il faut envoyer l'info meme qd on a 0 elem local
+C SPMD: Need to send infos even if 0 elems 
       JJ = 0
       II = 0
       DO NG=1,NGROUP
@@ -227,7 +227,7 @@ C
           NODTAG(IXTG(4,N))=1
 
           IF(IGTYP /= 1) THEN
-           BETATG(II) = (180*ACOS(GBUF%BETAORTH(I)))/PI
+           BETATG(II) = (CENT80*ACOS(GBUF%BETAORTH(I)))/PI
           ENDIF
 
          END DO
@@ -272,7 +272,7 @@ C---------Non Orthotropic elements ------------
           JJ=8*(K-1)
           IOFF=NPGLOBC(JJ+7)
           IGTYP = NPGLOBC(JJ+8)
-          THKN = QUART*THKC0(K)
+          THKN = THKC0(K)
           IF(IOFF >= 1) THEN
            IF(IGTYP==1) THEN
               IF(IGTYP/=IGTYP0) THEN 
@@ -303,7 +303,7 @@ C-----
           JJ=7*(K-1)
           IOFF=NPGLOBTG(JJ+6)
           IGTYP = NPGLOBTG(JJ+7)
-          THKN = TIERS*THKTG0(K)
+          THKN = THKTG0(K)
           IF(IOFF >= 1) THEN
            IF(IGTYP==1) THEN
               WRITE(IUDYNAIN,'(5I8)')
@@ -329,7 +329,7 @@ C--------- Orthotropic elements ------------
            JJ=8*(K-1)
            IOFF=NPGLOBC(JJ+7)
            IGTYP = NPGLOBC(JJ+8)
-           THKN = QUART*THKC0(K)
+           THKN = THKC0(K)
            BETA = BETAC0(K)
            IF(IOFF >= 1) THEN
 
@@ -350,11 +350,11 @@ C--------- Orthotropic elements ------------
            ENDIF
         END DO
 
-        DO N3SHELL=1,DYNAIN_NUMELTG
+        DO N=N3SHELL,DYNAIN_NUMELTG
            K=DYNAIN_INDXTG(N)
            JJ=7*(K-1)
            IOFF=NPGLOBTG(JJ+6)
-           THKN = TIERS*THKTG0(K)
+           THKN = THKTG0(K)
            BETA = BETATG0(K)
            IF(IOFF >= 1) THEN
               WRITE(IUDYNAIN,'(5I8)')
@@ -373,5 +373,6 @@ C    DEAllocation Tabs
 C-----------------------
       DEALLOCATE(NPC,NPTG,NPGLOBC,NPGLOBTG,CLEF,THKC,THKTG,THKC0,THKTG0,BETAC,BETATG,BETAC0,BETATG0)
 C-----------------------------------------------
+
       RETURN
       END
