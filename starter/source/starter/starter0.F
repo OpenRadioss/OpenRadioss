@@ -698,10 +698,12 @@ C------------------------------------------------
 C------------------------------------------------
 C WRITE PARAMETERS & LIST OF REPLACED PARAMETERS 
 C------------------------------------------------
-      CLOSE(IOUT)
-      CALL CPP_PRINT_PARAMETERS(FILNAM,ROOTLEN+9+OUTFILE_NAME_LEN)
-      OPEN(UNIT=IOUT,FILE=FILNAM(1:ROOTLEN+9+OUTFILE_NAME_LEN),
-     .    ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN',POSITION="APPEND")  
+      IF(IPID .NE. 0)THEN 
+        CLOSE(IOUT)
+        CALL CPP_PRINT_PARAMETERS(FILNAM,ROOTLEN+9+OUTFILE_NAME_LEN)
+        OPEN(UNIT=IOUT,FILE=FILNAM(1:ROOTLEN+9+OUTFILE_NAME_LEN),
+     .    ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN',POSITION="APPEND") 
+      ENDIF 
 C-------------------------------------------------------------------
 C     KEYWORD MAPPING TO RADIOSS PROCESS
 C-------------------------------------------------------------------
