@@ -127,6 +127,7 @@ c
       CALL HM_GET_FLOATV('MAT_PPRES'    ,RT      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_YPRES'    ,RC      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_BPMOD'    ,HBP     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ETC'      ,ETC     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 c
       CALL HM_GET_FLOATV('MAT_DIL_Y'    ,ALI     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_DIL_F'    ,ALF     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -161,9 +162,28 @@ c
       IF (VKY  ==  ZERO) VKY = UNDEMI
       IF (RC   ==  ZERO) RC  =-THIRD*FC
       IF (HBP  ==  ZERO) THEN
+        IF(ETC /= ZERO )THEN
+          IF(ETC < YMC) THEN
+            HBP = YMC*ETC/(YMC-ETC)
+          ELSE
+            CALL ANCMSG(MSGID=2065,
+     .               MSGTYPE=MSGERROR,
+     .               ANMODE=ANINFO_BLIND_2,
+     .               I1=MAT_ID,
+     .               C1=TITR)
+          ENDIF
+        ELSEIF (ETC == ZERO )THEN
           ETC = (UN-VKY)*YMC*FC/(DEUXEM3*YMC-VKY*FC)
-          ETC = MIN(ETC,0.9999*YMC)
-          HBP = YMC*ETC/(YMC-ETC)
+          IF(ETC < YMC) THEN
+            HBP = YMC*ETC/(YMC-ETC)
+          ELSE
+            CALL ANCMSG(MSGID=2066,
+     .               MSGTYPE=MSGERROR,
+     .               ANMODE=ANINFO_BLIND_2,
+     .               I1=MAT_ID,
+     .               C1=TITR)
+          ENDIF
+        ENDIF
       ENDIF
       BULK = YMC/TROIS/(UN-DEUX*ANUC)
       IF (ROK == ZERO) ROK = RC
@@ -212,7 +232,7 @@ C-----------------------
 C     Failure surface : f = r - rf = 0
 C
 C     Ottosen surface defined with :
-C      -> rf = 1/AA (-BB+SQRT(BB²-AA(SM-CC))
+C      -> rf = 1/AA (-BB+SQRT(BB  / B2 -AA(SM-CC))
 C          where BB = BB(BC,BT) = 1/2[BC(1-CS3T) + BT(1+CS3T)]
 C
 C     AA,BC,BT,CC are deduced from material input :
@@ -309,12 +329,12 @@ c-----------------
         IF (ICAP == 2) THEN
           WRITE(IOUT,1300)
           WRITE(IOUT,1400) YMC,ANUC,FC,FT,FB,F2D,S0,HT,DSUP1,EPSMAX
-          WRITE(IOUT,1500) VKY,RT,RC,ROK,RO0,HBP,HV0,EPS0,HVFAC,
+          WRITE(IOUT,1500) VKY,RT,RC,ROK,RO0,ETC,HBP,HV0,EPS0,HVFAC,
      .                     ALI,ALF,VMAX,YMS,Y0S,ETS,ARM1,ARM2,ARM3
         ELSE
           WRITE(IOUT,1301)
           WRITE(IOUT,1400) YMC,ANUC,FC,FT,FB,F2D,S0,HT,DSUP1,EPSMAX
-          WRITE(IOUT,1600) VKY,RT,RC,ROK,RO0,HBP,HV0,ALI,ALF,VMAX,
+          WRITE(IOUT,1600) VKY,RT,RC,ROK,RO0,ETC,HBP,HV0,ALI,ALF,VMAX,
      .                     YMS,Y0S,ETS,ARM1,ARM2,ARM3
         ENDIF
       ENDIF     
@@ -354,6 +374,7 @@ C-----------------
      & 5X,'RC    PROPORTIONAL YIELD. . . . . . . . . =',E12.4/,
      & 5X,'ROK   BEGINNING OF CAPE . . . . . . . . . =',E12.4/,
      & 5X,'RO0   END OF INITIAL CAPE . . . . . . . . =',E12.4/,
+     & 5X,'ETC   PLASTIC TANGENT MODULUS . . . . . . =',E12.4/,
      & 5X,'HBP   UNIAXIAL PLASTIC MODULUS  . . . . . =',E12.4/,
      & 5X,'HV0   INITIAL TRIAXIAL PLASTIC MODULUS. . =',E12.4/,
      & 5X,'EPS0  EPS0 FOR HPV HARDENING  . . . . . . =',E12.4/,
@@ -374,6 +395,7 @@ C-----------------
      & 5X,'RC    PROPORTIONAL YIELD. . . . . . . . . =',E12.4/,
      & 5X,'ROK   BEGINNING OF CAPE . . . . . . . . . =',E12.4/,
      & 5X,'RO0   END OF INITIAL CAPE . . . . . . . . =',E12.4/,
+     & 5X,'ETC   PLASTIC TANGENT MODULUS . . . . . . =',E12.4/,
      & 5X,'HBP   UNIAXIAL PLASTIC MODULUS  . . . . . =',E12.4/,
      & 5X,'HV0   INITIAL TRIAXIAL PLASTIC MODULUS. . =',E12.4/,
      & 5X,'ALI   DILATANCY FACTOR AT YIELD . . . . . =',E12.4/,
