@@ -74,18 +74,18 @@ C=======================================================================
       
       DO I = 1, NEBCS
          EBCS => EBCS_TAB%tab(i)%poly
-         SELECT TYPE (EBCS)
+         SELECT TYPE (twf => EBCS)
            TYPE IS (t_ebcs_inip)
-             NSEG = EBCS%nb_elem
-             NOD = EBCS%nb_node
-             RHO = EBCS%rho
-             CALL INIEBCSP(NSEG, NOD, EBCS%iseg, EBCS%ielem, EBCS%elem_list, EBCS%node_list,
-     .            EBCS%la, IPARG, ELBUF_STR, EBCS%p0, RHO, X)
+             NSEG = twf%nb_elem
+             NOD = twf%nb_node
+             RHO = twf%rho
+             CALL INIEBCSP(NSEG, NOD, twf%iseg, twf%ielem, twf%elem_list, twf%node_list,
+     .            twf%la, IPARG, ELBUF_STR, twf%p0, RHO, X)
            TYPE IS (t_ebcs_nrf)
              lFOUND_EBCS_NRF = .TRUE.
-             NSEG = EBCS%nb_elem
-             CALL INIEBCS_DP(NSEG, NOD, EBCS%iseg, EBCS%ielem, EBCS%elem_list, EBCS%node_list,
-     .                       IPARG, ELBUF_STR, X, IXS, IXQ, IXTG, EBCS%DP0,
+             NSEG = twf%nb_elem
+             CALL INIEBCS_DP(NSEG, NOD, twf%iseg, twf%ielem, twf%elem_list, twf%node_list,
+     .                       IPARG, ELBUF_STR, X, IXS, IXQ, IXTG, twf%DP0,
      .                       IPARTS, IPARTQ, IPARTTG)    
            CLASS DEFAULT
              !

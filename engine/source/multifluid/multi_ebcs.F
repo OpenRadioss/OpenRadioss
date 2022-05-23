@@ -76,20 +76,20 @@ C-----------------------------------------------
          EBCS => EBCS_TAB%tab(i)%poly
          TYPE = EBCS%type
          NELEM = EBCS%nb_elem
-         SELECT TYPE (EBCS)
-            TYPE IS (t_ebcs_inlet) 
+         SELECT TYPE (twf => EBCS)
+            TYPE IS (t_ebcs_inlet)
 C     Inlet, outlet boundary condition
-              CALL MULTI_INLET_EBCS(ITASK, I, MULTI_FVM, NELEM, 
-     .           EBCS%ielem, EBCS%iface, EBCS%fvm_inlet_data,
+              CALL MULTI_INLET_EBCS(ITASK, I, MULTI_FVM, NELEM,
+     .           twf%ielem, twf%iface, twf%fvm_inlet_data,
      .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE)
             TYPE IS(t_ebcs_fluxout)
-              CALL MULTI_INLET_EBCS(ITASK, I, MULTI_FVM, NELEM, 
-     .           EBCS%ielem, EBCS%iface, EBCS%fvm_inlet_data,
+              CALL MULTI_INLET_EBCS(ITASK, I, MULTI_FVM, NELEM,
+     .           twf%ielem, twf%iface, twf%fvm_inlet_data,
      .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE)
             TYPE IS(t_ebcs_nrf)
-              CALL MULTI_NRF_EBCS(ITASK, I, MULTI_FVM, NELEM, 
-     .           EBCS%ielem, EBCS%iface, EBCS%fvm_inlet_data,
-     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,EBCS)     
+              CALL MULTI_NRF_EBCS(ITASK, I, MULTI_FVM, NELEM,
+     .           twf%ielem, twf%iface, twf%fvm_inlet_data,
+     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,twf)
             CLASS DEFAULT
          END SELECT
       ENDDO

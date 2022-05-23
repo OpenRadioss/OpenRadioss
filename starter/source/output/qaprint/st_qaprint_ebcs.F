@@ -1,25 +1,25 @@
 Copyright>        OpenRadioss
 Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
-Copyright>    
+Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
 Copyright>        the Free Software Foundation, either version 3 of the License, or
 Copyright>        (at your option) any later version.
-Copyright>    
+Copyright>
 Copyright>        This program is distributed in the hope that it will be useful,
 Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
 Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 Copyright>        GNU Affero General Public License for more details.
-Copyright>    
+Copyright>
 Copyright>        You should have received a copy of the GNU Affero General Public License
 Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-Copyright>    
-Copyright>    
-Copyright>        Commercial Alternative: Altair Radioss Software 
-Copyright>    
-Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
-Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+Copyright>
+Copyright>
+Copyright>        Commercial Alternative: Altair Radioss Software
+Copyright>
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
 Chd|  ST_QAPRINT_EBCS               source/output/qaprint/st_qaprint_ebcs.F
 Chd|-- called by -----------
@@ -27,7 +27,7 @@ Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_drive
 Chd|-- calls ---------------
 Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale_ebcs_mod.F
 Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
+Chd|        RESTMOD                       share/modules1/restart_mod.F
 Chd|====================================================================
       SUBROUTINE ST_QAPRINT_EBCS(EBCS_TAB)
 C-----------------------------------------------
@@ -69,9 +69,9 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       IF(NEBCS == 0)RETURN
 
-      OK_QA = MYQAKEY('/EBCS')  
-                                                         
-      IF (OK_QA) THEN   
+      OK_QA = MYQAKEY('/EBCS')
+
+      IF (OK_QA) THEN
          DO II = 1, NEBCS
             EBCS => EBCS_TAB%tab(ii)%poly
             CALL QAPRINT('EBCS ID ',EBCS%ebcs_id,0.0_8)
@@ -79,207 +79,207 @@ C-----------------------------------------------
             CALL QAPRINT('EBCS SURF_ID ',EBCS%surf_id,0.0_8)
             CALL QAPRINT('EBCS NB_NODE ',EBCS%nb_node,0.0_8)
             CALL QAPRINT('EBCS NB_ELEM ',EBCS%nb_elem,0.0_8)
-            SELECT TYPE (EBCS) 
+            SELECT TYPE (twf => EBCS)
             TYPE IS (t_ebcs_pres)
-              CALL QAPRINT('IPRES ',EBCS%ipres,0.0_8)
-              CALL QAPRINT('IRHO ',EBCS%irho,0.0_8)
-              CALL QAPRINT('IENER ',EBCS%iener,0.0_8)
-              CALL QAPRINT('IVX ',EBCS%ivx,0.0_8)
-              CALL QAPRINT('IVY ',EBCS%ivy,0.0_8)
-              CALL QAPRINT('IVZ ',EBCS%ivz,0.0_8)
-              TMPVAL = EBCS%c
+              CALL QAPRINT('IPRES ',twf%ipres,0.0_8)
+              CALL QAPRINT('IRHO ',twf%irho,0.0_8)
+              CALL QAPRINT('IENER ',twf%iener,0.0_8)
+              CALL QAPRINT('IVX ',twf%ivx,0.0_8)
+              CALL QAPRINT('IVY ',twf%ivy,0.0_8)
+              CALL QAPRINT('IVZ ',twf%ivz,0.0_8)
+              TMPVAL = twf%c
               CALL QAPRINT('C ', 0, TMPVAL)
-              TMPVAL = EBCS%pres
+              TMPVAL = twf%pres
               CALL QAPRINT('PRES ', 0, TMPVAL)
-              TMPVAL = EBCS%rho
+              TMPVAL = twf%rho
               CALL QAPRINT('RHO ', 0, TMPVAL)
-              TMPVAL = EBCS%ener
+              TMPVAL = twf%ener
               CALL QAPRINT('ENER ', 0, TMPVAL)
-              TMPVAL = EBCS%vx
+              TMPVAL = twf%vx
               CALL QAPRINT('VX ', 0, TMPVAL)
-              TMPVAL = EBCS%vy
+              TMPVAL = twf%vy
               CALL QAPRINT('VY ', 0, TMPVAL)
-              TMPVAL = EBCS%vz
+              TMPVAL = twf%vz
               CALL QAPRINT('VZ ', 0, TMPVAL)
-              TMPVAL = EBCS%lcar
+              TMPVAL = twf%lcar
               CALL QAPRINT('LCAR ',0, TMPVAL)
-              TMPVAL = EBCS%r1
+              TMPVAL = twf%r1
               CALL QAPRINT('R1 ', 0, TMPVAL)
-              TMPVAL = EBCS%r2
+              TMPVAL = twf%r2
               CALL QAPRINT('R2 ', 0, TMPVAL)
             TYPE IS (t_ebcs_valvin)
-              CALL QAPRINT('IPRES ',EBCS%ipres,0.0_8)
-              CALL QAPRINT('IRHO ',EBCS%irho,0.0_8)
-              CALL QAPRINT('IENER ',EBCS%iener,0.0_8)
-              TMPVAL = EBCS%c
+              CALL QAPRINT('IPRES ',twf%ipres,0.0_8)
+              CALL QAPRINT('IRHO ',twf%irho,0.0_8)
+              CALL QAPRINT('IENER ',twf%iener,0.0_8)
+              TMPVAL = twf%c
               CALL QAPRINT('C ', 0, TMPVAL)
-              TMPVAL = EBCS%pres
+              TMPVAL = twf%pres
               CALL QAPRINT('PRES ', 0, TMPVAL)
-              TMPVAL = EBCS%rho
+              TMPVAL = twf%rho
               CALL QAPRINT('RHO ', 0, TMPVAL)
-              TMPVAL = EBCS%ener
+              TMPVAL = twf%ener
               CALL QAPRINT('ENER ', 0, TMPVAL)
-               TMPVAL = EBCS%lcar
+               TMPVAL = twf%lcar
               CALL QAPRINT('LCAR ', 0, TMPVAL)
-              TMPVAL = EBCS%r1
+              TMPVAL = twf%r1
               CALL QAPRINT('R1 ', 0, TMPVAL)
-              TMPVAL = EBCS%r2
+              TMPVAL = twf%r2
               CALL QAPRINT('R2 ', 0, TMPVAL)
             TYPE IS (t_ebcs_valvout)
-              CALL QAPRINT('IPRES ',EBCS%ipres,0.0_8)
-              CALL QAPRINT('IRHO ',EBCS%irho,0.0_8)
-              CALL QAPRINT('IENER ',EBCS%iener,0.0_8)
-              TMPVAL = EBCS%c
+              CALL QAPRINT('IPRES ',twf%ipres,0.0_8)
+              CALL QAPRINT('IRHO ',twf%irho,0.0_8)
+              CALL QAPRINT('IENER ',twf%iener,0.0_8)
+              TMPVAL = twf%c
               CALL QAPRINT('C ', 0, TMPVAL)
-              TMPVAL = EBCS%pres
+              TMPVAL = twf%pres
               CALL QAPRINT('PRES ', 0, TMPVAL)
-              TMPVAL = EBCS%rho
+              TMPVAL = twf%rho
               CALL QAPRINT('RHO ', 0, TMPVAL)
-              TMPVAL = EBCS%ener
+              TMPVAL = twf%ener
               CALL QAPRINT('ENER ', 0, TMPVAL)
-               TMPVAL = EBCS%lcar
+               TMPVAL = twf%lcar
               CALL QAPRINT('LCAR ', 0, TMPVAL)
-              TMPVAL = EBCS%r1
+              TMPVAL = twf%r1
               CALL QAPRINT('R1 ', 0, TMPVAL)
-              TMPVAL = EBCS%r2
+              TMPVAL = twf%r2
               CALL QAPRINT('R2 ', 0, TMPVAL)
             TYPE IS (t_ebcs_gradp0)
-              CALL QAPRINT('IPRES ',EBCS%ipres,0.0_8)
-              CALL QAPRINT('IRHO ',EBCS%irho,0.0_8)
-              CALL QAPRINT('IENER ',EBCS%iener,0.0_8)
-              TMPVAL = EBCS%c
+              CALL QAPRINT('IPRES ',twf%ipres,0.0_8)
+              CALL QAPRINT('IRHO ',twf%irho,0.0_8)
+              CALL QAPRINT('IENER ',twf%iener,0.0_8)
+              TMPVAL = twf%c
               CALL QAPRINT('C ', 0, TMPVAL)
-              TMPVAL = EBCS%pres
+              TMPVAL = twf%pres
               CALL QAPRINT('PRES ', 0, TMPVAL)
-              TMPVAL = EBCS%rho
+              TMPVAL = twf%rho
               CALL QAPRINT('RHO ', 0, TMPVAL)
-              TMPVAL = EBCS%ener
+              TMPVAL = twf%ener
               CALL QAPRINT('ENER ', 0, TMPVAL)
-              TMPVAL = EBCS%lcar
+              TMPVAL = twf%lcar
               CALL QAPRINT('LCAR ', 0, TMPVAL)
-              TMPVAL = EBCS%r1
+              TMPVAL = twf%r1
               CALL QAPRINT('R1 ', 0, TMPVAL)
-              TMPVAL = EBCS%r2
+              TMPVAL = twf%r2
               CALL QAPRINT('R2 ', 0, TMPVAL)
             TYPE IS (t_ebcs_vel)
-              CALL QAPRINT('IRHO ',EBCS%irho,0.0_8)
-              CALL QAPRINT('IENER ',EBCS%iener,0.0_8)
-              CALL QAPRINT('IVX ',EBCS%ivx,0.0_8)
-              CALL QAPRINT('IVY ',EBCS%ivy,0.0_8)
-              CALL QAPRINT('IVZ ',EBCS%ivz,0.0_8)
-              TMPVAL = EBCS%c
+              CALL QAPRINT('IRHO ',twf%irho,0.0_8)
+              CALL QAPRINT('IENER ',twf%iener,0.0_8)
+              CALL QAPRINT('IVX ',twf%ivx,0.0_8)
+              CALL QAPRINT('IVY ',twf%ivy,0.0_8)
+              CALL QAPRINT('IVZ ',twf%ivz,0.0_8)
+              TMPVAL = twf%c
               CALL QAPRINT('C ', 0, TMPVAL)
-              TMPVAL = EBCS%rho
+              TMPVAL = twf%rho
               CALL QAPRINT('RHO ', 0, TMPVAL)
-              TMPVAL = EBCS%ener
+              TMPVAL = twf%ener
               CALL QAPRINT('ENER ', 0, TMPVAL)
-              TMPVAL = EBCS%vx
+              TMPVAL = twf%vx
               CALL QAPRINT('VX ', 0, TMPVAL)
-              TMPVAL = EBCS%vy
+              TMPVAL = twf%vy
               CALL QAPRINT('VY ', 0, TMPVAL)
-              TMPVAL = EBCS%vz
+              TMPVAL = twf%vz
               CALL QAPRINT('VZ ', 0, TMPVAL)
-              TMPVAL = EBCS%lcar
+              TMPVAL = twf%lcar
               CALL QAPRINT('LCAR ', 0, TMPVAL)
-              TMPVAL = EBCS%r1
+              TMPVAL = twf%r1
               CALL QAPRINT('R1 ', 0, TMPVAL)
-              TMPVAL = EBCS%r2
+              TMPVAL = twf%r2
               CALL QAPRINT('R2 ', 0, TMPVAL)
             TYPE IS (t_ebcs_normv)
-              CALL QAPRINT('IRHO ',EBCS%irho,0.0_8)
-              CALL QAPRINT('IENER ',EBCS%iener,0.0_8)
-              CALL QAPRINT('IVIMP ',EBCS%ivimp,0.0_8)
-              TMPVAL = EBCS%c
+              CALL QAPRINT('IRHO ',twf%irho,0.0_8)
+              CALL QAPRINT('IENER ',twf%iener,0.0_8)
+              CALL QAPRINT('IVIMP ',twf%ivimp,0.0_8)
+              TMPVAL = twf%c
               CALL QAPRINT('C ', 0, TMPVAL)
-              TMPVAL = EBCS%rho
+              TMPVAL = twf%rho
               CALL QAPRINT('RHO ', 0, TMPVAL)
-              TMPVAL = EBCS%ener
+              TMPVAL = twf%ener
               CALL QAPRINT('ENER ', 0, TMPVAL)
-              TMPVAL = EBCS%vimp
+              TMPVAL = twf%vimp
               CALL QAPRINT('VIMP ',0, TMPVAL)
-              TMPVAL = EBCS%lcar
+              TMPVAL = twf%lcar
               CALL QAPRINT('LCAR ', 0, TMPVAL)
-              TMPVAL = EBCS%r1
+              TMPVAL = twf%r1
               CALL QAPRINT('R1 ', 0, TMPVAL)
-              TMPVAL = EBCS%r2
+              TMPVAL = twf%r2
               CALL QAPRINT('R2 ', 0, TMPVAL)
             TYPE IS (t_ebcs_inip)
-              TMPVAL = EBCS%c
+              TMPVAL = twf%c
               CALL QAPRINT('C ', 0, TMPVAL)
-              TMPVAL = EBCS%rho
+              TMPVAL = twf%rho
               CALL QAPRINT('RHO ', 0, TMPVAL)
-              TMPVAL = EBCS%lcar
+              TMPVAL = twf%lcar
               CALL QAPRINT('LCAR ',0, TMPVAL)
             TYPE IS (t_ebcs_iniv)
-              TMPVAL = EBCS%c
+              TMPVAL = twf%c
               CALL QAPRINT('C ', 0, TMPVAL)
-              TMPVAL = EBCS%rho
+              TMPVAL = twf%rho
               CALL QAPRINT('RHO ', 0, TMPVAL)
-              TMPVAL = EBCS%lcar
+              TMPVAL = twf%lcar
               CALL QAPRINT('LCAR ', 0, TMPVAL)
             TYPE IS (t_ebcs_monvol)
-              CALL QAPRINT('MONVOLID ',EBCS%monvol_id,0.0_8)
-              CALL QAPRINT('SENSORID ',EBCS%sensor_id,0.0_8)
+              CALL QAPRINT('MONVOLID ',twf%monvol_id,0.0_8)
+              CALL QAPRINT('SENSORID ',twf%sensor_id,0.0_8)
             TYPE IS (t_ebcs_inlet)
-              CALL QAPRINT('FORMULATION ',EBCS%fvm_inlet_data%formulation,0.0_8)
-              CALL QAPRINT('VECTOR_VELOCITY ',EBCS%fvm_inlet_data%vector_velocity,0.0_8)
+              CALL QAPRINT('FORMULATION ',twf%fvm_inlet_data%formulation,0.0_8)
+              CALL QAPRINT('VECTOR_VELOCITY ',twf%fvm_inlet_data%vector_velocity,0.0_8)
               DO JJ = 1, 3
-                 IF (EBCS%fvm_inlet_data%func_vel(JJ) /= 0) THEN
+                 IF (twf%fvm_inlet_data%func_vel(JJ) /= 0) THEN
                     WRITE(VARNAME,'(A,I0)') 'IVEL', JJ
-                    CALL QAPRINT(TRIM(VARNAME),EBCS%fvm_inlet_data%func_vel(JJ),0.0_8)
+                    CALL QAPRINT(TRIM(VARNAME),twf%fvm_inlet_data%func_vel(JJ),0.0_8)
                  ENDIF
               ENDDO
               DO JJ = 1, 21
-                 IF (EBCS%fvm_inlet_data%func_alpha(JJ) /= 0) THEN
+                 IF (twf%fvm_inlet_data%func_alpha(JJ) /= 0) THEN
                     WRITE(VARNAME,'(A,I0)') 'IALPHA', JJ
-                    CALL QAPRINT(TRIM(VARNAME),EBCS%fvm_inlet_data%func_alpha(JJ),0.0_8)
+                    CALL QAPRINT(TRIM(VARNAME),twf%fvm_inlet_data%func_alpha(JJ),0.0_8)
                  ENDIF
               ENDDO
               DO JJ = 1, 21
-                 IF (EBCS%fvm_inlet_data%func_rho(JJ) /= 0) THEN
+                 IF (twf%fvm_inlet_data%func_rho(JJ) /= 0) THEN
                     WRITE(VARNAME,'(A,I0)') 'IRHO', JJ
-                    CALL QAPRINT(TRIM(VARNAME),EBCS%fvm_inlet_data%func_rho(JJ),0.0_8)
+                    CALL QAPRINT(TRIM(VARNAME),twf%fvm_inlet_data%func_rho(JJ),0.0_8)
                  ENDIF
               ENDDO
               DO JJ = 1, 21
-                 IF (EBCS%fvm_inlet_data%func_pres(JJ) /= 0) THEN
+                 IF (twf%fvm_inlet_data%func_pres(JJ) /= 0) THEN
                     WRITE(VARNAME,'(A,I0)') 'Ipres', JJ
-                    CALL QAPRINT(TRIM(VARNAME),EBCS%fvm_inlet_data%func_pres(JJ),0.0_8)
+                    CALL QAPRINT(TRIM(VARNAME),twf%fvm_inlet_data%func_pres(JJ),0.0_8)
                  ENDIF
               ENDDO
               DO JJ = 1, 3
-                 TMPVAL = EBCS%fvm_inlet_data%val_vel(JJ)
-                 IF (EBCS%fvm_inlet_data%val_vel(JJ) /= ZERO) THEN
+                 TMPVAL = twf%fvm_inlet_data%val_vel(JJ)
+                 IF (twf%fvm_inlet_data%val_vel(JJ) /= ZERO) THEN
                     WRITE(VARNAME,'(A,I0)') 'FVEL', JJ
                     CALL QAPRINT(TRIM(VARNAME),0,TMPVAL)
                  ENDIF
               ENDDO
               DO JJ = 1, 21
-                 TMPVAL = EBCS%fvm_inlet_data%val_alpha(JJ)
-                 IF (EBCS%fvm_inlet_data%val_alpha(JJ) /= ZERO) THEN
+                 TMPVAL = twf%fvm_inlet_data%val_alpha(JJ)
+                 IF (twf%fvm_inlet_data%val_alpha(JJ) /= ZERO) THEN
                     WRITE(VARNAME,'(A,I0)') 'FALPHA', JJ
                     CALL QAPRINT(TRIM(VARNAME),0,TMPVAL)
                  ENDIF
               ENDDO
               DO JJ = 1, 21
-                 TMPVAL = EBCS%fvm_inlet_data%val_rho(JJ)
-                 IF (EBCS%fvm_inlet_data%val_rho(JJ) /= ZERO) THEN
+                 TMPVAL = twf%fvm_inlet_data%val_rho(JJ)
+                 IF (twf%fvm_inlet_data%val_rho(JJ) /= ZERO) THEN
                     WRITE(VARNAME,'(A,I0)') 'FRHO', JJ
                     CALL QAPRINT(TRIM(VARNAME),0,TMPVAL)
                  ENDIF
               ENDDO
               DO JJ = 1, 21
-                 TMPVAL = EBCS%fvm_inlet_data%val_pres(JJ)
-                 IF (EBCS%fvm_inlet_data%val_pres(JJ) /= ZERO) THEN
+                 TMPVAL = twf%fvm_inlet_data%val_pres(JJ)
+                 IF (twf%fvm_inlet_data%val_pres(JJ) /= ZERO) THEN
                     WRITE(VARNAME,'(A,I0)') 'Fpres', JJ
                     CALL QAPRINT(TRIM(VARNAME),0,TMPVAL)
                  ENDIF
               ENDDO
             TYPE IS (t_ebcs_fluxout)
-            
+              !no parameter for this option
             END SELECT
          ENDDO
-      ENDIF                                                                             
+      ENDIF
 C-----------------------------------------------
       RETURN
       END
