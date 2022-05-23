@@ -1,0 +1,309 @@
+ BOXBEAM_0001.out
+************************************************************************
+**                                                                    **
+**                                                                    **
+**                      RADIOSS ENGINE MAINLINE                       **
+**                                                                    **
+**            Non-linear Finite Element Analysis Software             **
+**                   from Altair Engineering, Inc.                    **
+**                                                                    **
+**                                                                    **
+**              Linux 64 bits, Intel compiler, Intel MPI              **
+**                                                                    **
+**                                                                    **
+**                                                                    **
+** Build tag: 0742056_087sesevot__2070_0032401_10                     **
+************************************************************************
+**  COPYRIGHT (C) 1986-2014                 Altair Engineering, Inc.  **
+** All Rights Reserved.  Copyright notice does not imply publication. **
+** Contains trade secrets of Altair Engineering Inc.                  **
+** Decompilation or disassembly of this software strictly prohibited. **
+************************************************************************
+ 
+ NUMBER OF SPMD DOMAINS           4
+ NUMBER OF THREADS PER DOMAIN     1
+ NUMBER OF HMPP PROCESSES         4
+  
+ COMPUTATION HARDWARE DESCRIPTION
+  
+ CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
+   1   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
+   2   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
+   3   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
+   4   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
+  
+************************************************************************
+
+
+ BOXBEAMD01                                                                      
+
+
+ FINAL TIME . . . . . . . . . . . . . . . . . . .   8.010000    
+
+ TIME INTERVAL FOR TIME HISTORY PLOTS . . . . . .  0.1000000E-01
+
+ TIME STEP SCALE FACTOR . . . . . . . . . . . . .  0.9000000    
+
+ MINIMUM TIME STEP  . . . . . . . . . . . . . . .   0.000000    
+
+
+ BRICK TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ BRICK MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE BRICK)     1
+
+ QUAD TIME STEP SCALE FACTOR. . . . . . . . . . .  0.9000000    
+ QUAD MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE QUAD).     1
+
+ SHELL TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ SHELL MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE, 3:SMALL STRAIN)    2
+
+ TRUSS TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ TRUSS MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ BEAM TIME STEP SCALE FACTOR. . . . . . . . . . .  0.9000000    
+ BEAM MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ SPRING TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ SPRING MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ AIRBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ AIRBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP). . . . . . . . . . . . .     0
+
+ INTERFACE TYPE 7 TIME STEP SCALE FACTOR. . . . .  0.9000000    
+ INTERFACE TYPE 7 MINIMUM TIME STEP . . . . . . .   0.000000    
+ MIN. TIME FLAG(1:STOP, 2:REMOVE NODE FROM INTERF)    0
+
+ ADVANCED MASS SCALING IS ON . . . . . . . . . . .
+ AMS TIME STEP SCALE FACTOR. . . . . . . . . . . . 0.6700000    
+ AMS MINIMUM TIME STEP . . . . . . . . . . . . . . 0.1500000E-02
+ AMS TOLERANCE ON CONVERGENCE. . . . . . . . . . . 0.1000000E-02
+ AMS MAXIMUM NUMBER OF ITERATIONS FOR CONVERGENCE.      1000
+ NUMBER OF PRECONDITIONING VECTORS FOR PCG . . . .         0
+ OUTPUT FREQUENCY OF INFORMATION / CONVERGENCE . .         0
+ PART GROUP ID (=0 ALL PARTS) . . . . . . . . . .          0
+
+
+ FVMBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ FVMBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+
+ OPTIMIZED TIME STEP COMPUTATION FOR HEPH.
+ PRINTOUT CYCLE FREQUENCY . . . . . . . . . . . .  -100
+
+ RESTART CYCLE FREQUENCY. . . . . . . . . . . . .     100000
+
+ MAXIMUM RESTART WRITE BEFORE OVERWRITE . . . . .     0
+
+ INVERS: INPUT DECK VERSION . . . . . . . . . . .   100
+ ITTYP : FLAG FOR TYPE OF T-FILE. . . . . . . . .     4
+
+ TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . .   0.000000    
+ TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . .   1.000000    
+ SENSOR FOR ANIMATION-FILE PLOTS. . . . . . . . .          0
+ TIME INTERVAL FOR SENSOR ANIMATION-FILE PLOTS. .   0.000000    
+
+ VARIABLE SAVED ON ANIMATION FILES (1: YES) :
+      PLASTIC STRAIN. . . . . .     1
+      DENSITY     (SOLID ONLY).     0
+      SPECIFIC ENERGY . . . . .     1
+      HOURGLASS ENERGY. . . . .     0
+      TEMPERATURE (SOLID ONLY).     0
+      THICKNESS   (SHELL ONLY).     0
+      PRESSURE    (SOLID ONLY).     0
+      VON MISES . . . . . . . .     1
+      TURBULENT ENERGY (FLUID).     0
+      TURBULENT VISCOSITY(FLUID)    0
+      VORTICITY (FLUID) . . . .     0
+ VECTOR SAVED ON ANIMATION FILES (1: YES) :
+      VELOCITY VECTOR . . . . .     1
+      DISPLACEMENT VECTOR . . .     0
+      ACCELERATION VECTOR . . .     0
+      CONTACT FORCES. . . . . .     1
+      INTERNAL FORCES . . . . .     0
+      EXTERNAL FORCES . . . . .     0
+      SECTION RBY RWALL FORCES.     0
+      ROTATIONAL VELOCITY VECTOR    0
+      CONTACT PRESSURE (VECTORS)    0
+ SHELL TENSOR SAVED ON ANIMATION FILES (1: YES) :
+      MEMBRANE STRESS . . . . .     0
+      BENDING STRESS(MOMENT/T^2)    0
+      UPPER LAYER STRESS. . . .     0
+      LOWER LAYER STRESS. . . .     0
+      MEMBRANE STRAIN . . . . .     0
+      CURVATURE . . . . . . . .     0
+      UPPER LAYER STRAIN. . . .     0
+      LOWER LAYER STRAIN. . . .     0
+ NODAL MASS SAVED ON ANIMATION FILES (1: YES) :    0
+ KEEP DELETED ELEMENT (1: YES) :    0
+
+
+ INITIAL TIME STEP. . . . . . . . . . . . . . . .   0.000000    
+ MAXIMUM TIME STEP. . . . . . . . . . . . . . . .  0.1000000E+31
+
+ PARALLEL ARITHMETIC ON
+
+ ALE GRID FORMULATION                    
+ --------------------                    
+ NUMBER OF INTERFACES TO BE ELIMINATED. . . . . .        0
+
+ NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF QUAD   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SHELL  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF TRUSS  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF BEAM   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SPRING ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SH_3N  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF  SPH PARTICLES BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF RIGID LINKS. . . . . . . . . . . . . .        0
+
+ NUMBER OF ALE LINKS. . . . . . . . . . . . . . .        0
+
+ NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
+
+ 19/11/2014
+ CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK MAS.ERR
+     0   0.000      0.1500E-02 SHELL         97   0.0%   0.000       0.000       0.000       0.000       0.000    
+     ANIMATION FILE: BOXBEAMA001 WRITTEN
+     OUTPUT FILE: BOXBEAM_0001.sty WRITTEN
+   100  0.1500      0.1500E-02 SHELL         97  -7.8%  0.1809E+05   8557.       1.282      0.2890E+05   0.000    
+   200  0.3000      0.1500E-02 SHELL         97  -4.5%  0.3903E+05   8606.       1.524      0.4989E+05   0.000    
+   300  0.4500      0.1500E-02 SHELL         97  -3.1%  0.6100E+05   8640.       79.74      0.7197E+05   0.000    
+   400  0.6000      0.1500E-02 SHELL        515  -2.9%  0.7506E+05   8253.       405.9      0.8620E+05   0.000    
+   500  0.7500      0.1500E-02 SHELL        112  -3.2%  0.8122E+05   7118.       363.1      0.9162E+05   0.000    
+   600  0.9000      0.1500E-02 SHELL        110  -3.4%  0.8605E+05   6896.       448.2      0.9666E+05   0.000    
+     ANIMATION FILE: BOXBEAMA002 WRITTEN
+     OUTPUT FILE: BOXBEAM_0002.sty WRITTEN
+   700   1.050      0.1500E-02 SHELL        128  -3.5%  0.9170E+05   6813.       531.2      0.1026E+06   0.000    
+   800   1.200      0.1500E-02 SHELL        841  -3.8%  0.9882E+05   7373.       523.5      0.1109E+06   0.000    
+   900   1.350      0.1500E-02 SHELL        841  -4.1%  0.1071E+06   7422.       505.5      0.1198E+06   0.000    
+  1000   1.500      0.1500E-02 SHELL        154  -4.2%  0.1159E+06   7685.       513.5      0.1296E+06   0.000    
+  1100   1.650      0.1500E-02 SHELL         26  -4.4%  0.1232E+06   7456.       420.5      0.1371E+06   0.000    
+  1200   1.800      0.1500E-02 SHELL        328  -4.6%  0.1294E+06   7349.       374.9      0.1437E+06   0.000    
+  1300   1.950      0.1500E-02 SHELL        328  -4.8%  0.1348E+06   7231.       322.6      0.1495E+06   0.000    
+     ANIMATION FILE: BOXBEAMA003 WRITTEN
+     OUTPUT FILE: BOXBEAM_0003.sty WRITTEN
+  1400   2.100      0.1500E-02 SHELL        328  -4.9%  0.1398E+06   7119.       312.7      0.1549E+06   0.000    
+  1500   2.250      0.1500E-02 SHELL        336  -4.9%  0.1450E+06   7192.       348.7      0.1604E+06   0.000    
+  1600   2.400      0.1500E-02 SHELL        336  -4.8%  0.1517E+06   7248.       463.8      0.1674E+06   0.000    
+  1700   2.550      0.1500E-02 SHELL        329  -4.8%  0.1589E+06   7394.       560.4      0.1754E+06   0.000    
+  1800   2.700      0.1500E-02 SHELL         30  -5.0%  0.1678E+06   7813.       519.8      0.1854E+06   0.000    
+  1900   2.850      0.1500E-02 SHELL        329  -5.0%  0.1757E+06   7735.       476.7      0.1937E+06   0.000    
+  2000   3.000      0.1500E-02 SHELL        325  -4.9%  0.1831E+06   7872.       461.2      0.2013E+06   0.000    
+     ANIMATION FILE: BOXBEAMA004 WRITTEN
+     OUTPUT FILE: BOXBEAM_0004.sty WRITTEN
+  2100   3.150      0.1500E-02 SHELL        329  -4.8%  0.1901E+06   8305.       408.1      0.2089E+06   0.000    
+  2200   3.300      0.1500E-02 SHELL        330  -4.9%  0.1959E+06   8503.       394.2      0.2154E+06   0.000    
+  2300   3.450      0.1500E-02 SHELL        280  -5.1%  0.2009E+06   8277.       268.5      0.2207E+06   0.000    
+  2400   3.600      0.1500E-02 SHELL        683  -5.2%  0.2055E+06   8115.       231.7      0.2256E+06   0.000    
+  2500   3.750      0.1500E-02 SHELL        586  -5.3%  0.2097E+06   8064.       194.4      0.2303E+06   0.000    
+  2600   3.900      0.1500E-02 SHELL        346  -5.4%  0.2137E+06   8023.       184.0      0.2346E+06   0.000    
+     ANIMATION FILE: BOXBEAMA005 WRITTEN
+     OUTPUT FILE: BOXBEAM_0005.sty WRITTEN
+  2700   4.050      0.1500E-02 SHELL        666  -5.5%  0.2175E+06   8018.       183.8      0.2388E+06   0.000    
+  2800   4.200      0.1500E-02 SHELL        280  -5.6%  0.2210E+06   7978.       186.1      0.2427E+06   0.000    
+  2900   4.350      0.1500E-02 SHELL        579  -5.6%  0.2249E+06   7970.       221.3      0.2470E+06   0.000    
+  3000   4.500      0.1500E-02 SHELL        280  -5.6%  0.2294E+06   7954.       243.4      0.2516E+06   0.000    
+  3100   4.650      0.1500E-02 SHELL        250  -5.6%  0.2340E+06   7876.       264.7      0.2564E+06   0.000    
+  3200   4.800      0.1500E-02 SHELL        250  -5.5%  0.2396E+06   8059.       351.1      0.2625E+06   0.000    
+  3300   4.950      0.1500E-02 SHELL        170  -5.4%  0.2462E+06   8808.       402.2      0.2701E+06   0.000    
+     ANIMATION FILE: BOXBEAMA006 WRITTEN
+     OUTPUT FILE: BOXBEAM_0006.sty WRITTEN
+  3400   5.100      0.1500E-02 SHELL        130  -5.4%  0.2521E+06   9096.       393.3      0.2765E+06   0.000    
+  3500   5.250      0.1500E-02 SHELL        137  -5.5%  0.2576E+06   9168.       373.1      0.2826E+06   0.000    
+  3600   5.400      0.1500E-02 SHELL        138  -5.5%  0.2629E+06   8965.       314.9      0.2880E+06   0.000    
+  3700   5.550      0.1500E-02 SHELL        142  -5.5%  0.2678E+06   9106.       272.1      0.2935E+06   0.000    
+  3800   5.700      0.1500E-02 SHELL        148  -5.6%  0.2723E+06   9131.       263.5      0.2985E+06   0.000    
+  3900   5.850      0.1500E-02 SHELL        666  -5.7%  0.2767E+06   9024.       247.4      0.3033E+06   0.000    
+  4000   6.000      0.1500E-02 SHELL        666  -5.8%  0.2811E+06   9018.       223.0      0.3080E+06   0.000    
+     ANIMATION FILE: BOXBEAMA007 WRITTEN
+     OUTPUT FILE: BOXBEAM_0007.sty WRITTEN
+  4100   6.150      0.1500E-02 SHELL        113  -5.8%  0.2855E+06   9104.       247.4      0.3130E+06   0.000    
+  4200   6.300      0.1500E-02 SHELL        112  -5.7%  0.2912E+06   9459.       306.5      0.3192E+06   0.000    
+  4300   6.450      0.1500E-02 SHELL        683  -5.7%  0.2964E+06   9355.       322.7      0.3247E+06   0.000    
+  4400   6.600      0.1500E-02 SHELL        107  -5.8%  0.3012E+06   9341.       315.3      0.3299E+06   0.000    
+  4500   6.750      0.1500E-02 SHELL        113  -5.8%  0.3056E+06   9420.       282.1      0.3349E+06   0.000    
+  4600   6.900      0.1500E-02 SHELL        113  -5.9%  0.3098E+06   9581.       258.0      0.3397E+06   0.000    
+     ANIMATION FILE: BOXBEAMA008 WRITTEN
+     OUTPUT FILE: BOXBEAM_0008.sty WRITTEN
+  4700   7.050      0.1500E-02 SHELL        107  -6.0%  0.3137E+06   9553.       209.6      0.3440E+06   0.000    
+  4800   7.200      0.1500E-02 SHELL        107  -6.0%  0.3171E+06   9595.       186.9      0.3479E+06   0.000    
+  4900   7.350      0.1500E-02 SHELL        113  -6.1%  0.3203E+06   9509.       165.9      0.3514E+06   0.000    
+  5000   7.500      0.1500E-02 SHELL        114  -6.2%  0.3236E+06   9240.       197.8      0.3550E+06   0.000    
+  5100   7.650      0.1500E-02 SHELL        138  -6.2%  0.3302E+06   9907.       354.9      0.3628E+06   0.000    
+  5200   7.800      0.1500E-02 SHELL        131  -6.1%  0.3387E+06   9506.       377.7      0.3714E+06   0.000    
+  5300   7.950      0.1500E-02 SHELL        621  -6.1%  0.3477E+06  0.1066E+05   447.9      0.3820E+06   0.000    
+     ANIMATION FILE: BOXBEAMA009 WRITTEN
+     OUTPUT FILE: BOXBEAM_0009.sty WRITTEN
+
+     RESTART FILES: BOXBEAM_0001_[0001-0004].rst WRITTEN
+     -------------
+
+  
+                           ** CPU USER TIME **
+  
+ #PROC  CONT.SORT  CONT. F   ELEMENT  KIN.COND.  INTEGR.    I/O     TASK0     ASSEMB.   AMS      RESOL  
+   1   .2960E+00 .1580E+00 .1746E+01 .2099E-01 .3999E-01 .2150E+00 .1948E+01 .6399E-01 .2086E+01 .7321E+01
+   2   .4089E+00 .1092E+01 .6898E-01 .0000E+00 .0000E+00 .2340E+00 .2599E+00 .9999E-03 .3055E+01 .6958E+01
+   3   .4129E+00 .1280E+00 .5999E-01 .9999E-03 .0000E+00 .2400E+00 .2250E+00 .0000E+00 .3125E+01 .7002E+01
+   4   .8588E+00 .9498E-01 .8258E+00 .7999E-02 .2000E-01 .1130E+00 .1770E+00 .1200E-01 .3055E+01 .7427E+01
+  
+                          ** SPMD COMM. TIME **
+  
+ #PROC  FORCES    RBY.FOR.  RBY.VEL.  VELOCITIES   TOTAL   % CPU
+   1   .3939E+00 .0000E+00 .0000E+00 .3699E-01 .4309E+00    5.89
+   2   .1537E+01 .0000E+00 .0000E+00 .1170E+00 .1654E+01   23.77
+   3   .2550E+01 .0000E+00 .0000E+00 .1090E+00 .2659E+01   37.98
+   4   .1948E+01 .0000E+00 .0000E+00 .2200E-01 .1970E+01   26.52
+  
+                   ** CUMULATIVE CPU TIME SUMMARY **
+  
+ CONTACT SORTING.............: .1977E+01     6.89 % 
+ CONTACT FORCES..............: .1473E+01     5.13 % 
+ ELEMENT FORCES..............: .2701E+01     9.41 % 
+ KINEMATIC COND..............: .2999E-01     0.10 % 
+ INTEGRATION.................: .5999E-01     0.21 % 
+ ASSEMBLING..................: .7698E-01     0.27 % 
+ AMS........................: .1132E+02    39.44 % 
+ OTHERS (including I/O)......: .1107E+02    38.56 % 
+ TOTAL.......................: .2871E+02   100.00 % 
+  
+  
+                   ** MEMORY USAGE STATISTICS **
+  
+ TOTAL MEMORY USED .........................:      567 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:      142 MB
+ MINIMUM MEMORY PER PROCESSOR...............:      141 MB
+ AVERAGE MEMORY PER PROCESSOR...............:      141 MB
+  
+                   ** DISK USAGE STATISTICS **
+  
+ TOTAL DISK SPACE USED .....................:     4557 KB
+ ANIMATION/TH/OUTP SIZE ....................:     3122 KB
+ RESTART FILE SIZE .........................:     1435 KB
+  
+ ELAPSED TIME     =          7.89 s
+                          0:00:07
+ ESTIMATED SPEEDUP=          3.64
+  
+
+
+
+     NORMAL TERMINATION      
+
+
+
+     TOTAL NUMBER OF CYCLES  :    5340
+

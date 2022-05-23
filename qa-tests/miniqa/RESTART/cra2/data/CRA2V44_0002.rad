@@ -1,0 +1,22 @@
+#-  1. :
+#---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|
+/ANIM/VECT/VEL
+/ANIM/VECT/CONT
+/ANIM/ELEM/EPSP
+/ANIM/ELEM/ENER
+/ANIM/SHELL/TENS/STRESS/MEMB
+/ANIM/DT
+#   TSTART     TFREQ
+0.000000 2.000000
+/ANIM/MASS
+/MON/ON
+/PARITH/ON
+/PRINT/-100/55
+# Proc  nMIMD   minMIMD
+/PROC/8/0
+/RUN/CRA2V44/2
+                   5
+/TFILE/4
+#            dT_HIS
+0.050000
+/VERS/2019

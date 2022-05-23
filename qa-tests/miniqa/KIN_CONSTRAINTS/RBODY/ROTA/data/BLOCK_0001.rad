@@ -1,0 +1,23 @@
+#-  1. :
+#---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|
+/ANIM/DT
+#   TSTART     TFREQ
+0.000000 1.000000
+/ANIM/GZIP
+/DT
+0.500000 0.000000
+/DTIX
+0 0.001
+/MON/ON
+/PRINT/-1/55
+/RBODY/ON
+0 
+/RUN/BLOCK/1
+                  10
+/TFILE/4
+#            dT_HIS
+0.010000
+/VERS/2019
+/ANIM/VECT/VEL
+/ANIM/VECT/ACC
+/ANIM/VECT/FOPT

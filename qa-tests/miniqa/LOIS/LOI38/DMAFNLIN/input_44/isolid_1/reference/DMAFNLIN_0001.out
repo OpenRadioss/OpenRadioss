@@ -1,0 +1,337 @@
+ DMAFNLIN_0001.out
+************************************************************************
+**                                                                    **
+**                                                                    **
+**                 Altair Radioss(TM) Engine MAINLINE                 **
+**                                                                    **
+**            Non-linear Finite Element Analysis Software             **
+**                   from Altair Engineering, Inc.                    **
+**                                                                    **
+**                                                                    **
+**              Linux 64 bits, Intel compiler, Intel MPI              **
+**                                                                    **
+**                           BETA_VERSION                             **
+**                                                                    **
+** Build tag: 1113238_12638000000_2070_0091553                        **
+************************************************************************
+**  COPYRIGHT (C) 1986-2022                 Altair Engineering, Inc.  **
+** All Rights Reserved.  Copyright notice does not imply publication. **
+** Contains trade secrets of Altair Engineering Inc.                  **
+** Decompilation or disassembly of this software strictly prohibited. **
+************************************************************************
+ 
+ NUMBER OF SPMD DOMAINS           4
+ NUMBER OF THREADS PER DOMAIN     1
+ NUMBER OF HMPP PROCESSES         4
+  
+ COMPUTATION HARDWARE DESCRIPTION
+  
+ CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
+   1   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 2660 MHz,  20012 MB RAM,  48725 MB swap
+   2   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 2660 MHz,  20012 MB RAM,  48725 MB swap
+   3   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 2660 MHz,  20012 MB RAM,  48725 MB swap
+   4   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 2660 MHz,  20012 MB RAM,  48725 MB swap
+  
+************************************************************************
+
+
+ DMAFNLIND01DMAF0010/Foam materials test - 15 volume elements                /gmt
+
+
+ FINAL TIME . . . . . . . . . . . . . . . . . . .  0.2010000E-01
+
+ TIME INTERVAL FOR TIME HISTORY PLOTS . . . . . .  0.5000000E-03
+
+ TIME STEP SCALE FACTOR . . . . . . . . . . . . .  0.5000000    
+
+ MINIMUM TIME STEP  . . . . . . . . . . . . . . .   0.000000    
+
+
+ BRICK TIME STEP SCALE FACTOR . . . . . . . . . .  0.5000000    
+ BRICK MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE BRICK)     1
+
+ QUAD TIME STEP SCALE FACTOR. . . . . . . . . . .  0.5000000    
+ QUAD MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE QUAD).     1
+
+ SHELL TIME STEP SCALE FACTOR . . . . . . . . . .  0.5000000    
+ SHELL MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE, 3:SMALL STRAIN)    2
+
+ TRUSS TIME STEP SCALE FACTOR . . . . . . . . . .  0.5000000    
+ TRUSS MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ BEAM TIME STEP SCALE FACTOR. . . . . . . . . . .  0.5000000    
+ BEAM MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ SPRING TIME STEP SCALE FACTOR. . . . . . . . . .  0.5000000    
+ SPRING MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ AIRBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.5000000    
+ AIRBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP). . . . . . . . . . . . .     0
+
+ CONTACT TIME STEP SCALE FACTOR . . . . . . . . .  0.5000000    
+ CONTACT MINIMUM TIME STEP. . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG(1:STOP, 2:REMOVE NODE FROM INTERF)    0
+
+ FVMBAG TIME STEP SCALE FACTOR. . . . . . . . . .   0.000000    
+ FVMBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ FVMBAG TIME STEP FLAG. . . . . . . . . . . . . .     1
+
+ PRINTOUT CYCLE FREQUENCY . . . . . . . . . . . .  -100
+
+ RESTART CYCLE FREQUENCY. . . . . . . . . . . . .       1000
+
+ MAXIMUM RESTART WRITE BEFORE OVERWRITE . . . . .     0
+
+ INVERS: INPUT DECK VERSION . . . . . . . . . . .  2019
+ ITTYP : FLAG FOR TYPE OF T-FILE. . . . . . . . .     4
+
+
+ TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . .   0.000000    
+ TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . .  0.5000000E-02
+ SENSOR FOR ANIMATION-FILE PLOTS. . . . . . . . .          0
+ TIME INTERVAL FOR SENSOR ANIMATION-FILE PLOTS. .   0.000000    
+
+ VARIABLE SAVED ON ANIMATION FILES (1: YES) :
+      PLASTIC STRAIN. . . . . .     1
+      DENSITY     (SOLID ONLY).     0
+      SPECIFIC ENERGY . . . . .     1
+      HOURGLASS ENERGY. . . . .     0
+      TEMPERATURE (SOLID ONLY).     0
+      THICKNESS   (SHELL ONLY).     0
+      PRESSURE    (SOLID ONLY).     0
+      VON MISES . . . . . . . .     1
+      TURBULENT ENERGY (FLUID).     0
+      TURBULENT VISCOSITY(FLUID)    0
+      VORTICITY (FLUID) . . . .     0
+ NODAL VALUES SAVED ON ANIMATION FILES (1: YES) :
+      PRESSURE. . . . . . . . .     0
+      DENSITY . . . . . . . . .     0
+      TEMPERATURE . . . . . . .     0
+ VECTOR SAVED ON ANIMATION FILES (1: YES) :
+      VELOCITY VECTOR . . . . .     0
+      DISPLACEMENT VECTOR . . .     0
+      ACCELERATION VECTOR . . .     0
+      CONTACT FORCES. . . . . .     0
+      INTERNAL FORCES . . . . .     0
+      EXTERNAL FORCES . . . . .     0
+      SECTION RBY RWALL FORCES.     0
+      ROTATIONAL VELOCITY VECTOR    0
+      CONTACT PRESSURE (VECTORS)    0
+ SHELL TENSOR SAVED ON ANIMATION FILES (1: YES) :
+      MEMBRANE STRESS . . . . .     0
+      BENDING STRESS(MOMENT/T^2)    0
+      UPPER LAYER STRESS. . . .     0
+      LOWER LAYER STRESS. . . .     0
+      MEMBRANE STRAIN . . . . .     0
+      CURVATURE . . . . . . . .     0
+      UPPER LAYER STRAIN. . . .     0
+      LOWER LAYER STRAIN. . . .     0
+ NODAL MASS SAVED ON ANIMATION FILES (1: YES) :    0
+ KEEP DELETED ELEMENT (1: YES) :    0
+
+
+ INITIAL TIME STEP. . . . . . . . . . . . . . . .   0.000000    
+ MAXIMUM TIME STEP. . . . . . . . . . . . . . . .  0.1000000E+31
+
+ PARALLEL ARITHMETIC ON
+ NUMBER OF INTERFACES TO BE ELIMINATED. . . . . .        0
+
+ NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF QUAD   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SHELL  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF TRUSS  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF BEAM   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SPRING ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SH_3N  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF  SPH PARTICLES BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF RIGID LINKS. . . . . . . . . . . . . .        0
+
+ NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
+
+ 11/04/2022
+   CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK     MAS.ERR     TOTAL MASS  MASS ADDED
+       0   0.000      0.4756E-05 SOLID       9001   0.0%   0.000       0.000       0.000       0.000       0.000      0.3000E-05   0.000    
+     ANIMATION FILE: DMAFNLINA001 WRITTEN
+     100  0.4739E-03  0.4739E-05 SOLID       9001   0.0%   4747.      0.8759       0.000       4747.       0.000      0.3000E-05   0.000    
+     200  0.9478E-03  0.4739E-05 SOLID       9001   0.0%  0.1788E+05  0.8777       0.000      0.1788E+05   0.000      0.3000E-05   0.000    
+     300  0.1422E-02  0.4739E-05 SOLID       9001   0.0%  0.3760E+05  0.8796       0.000      0.3760E+05   0.000      0.3000E-05   0.000    
+     400  0.1896E-02  0.4735E-05 SOLID      11001   0.0%  0.6215E+05  0.8813       0.000      0.6215E+05   0.000      0.3000E-05   0.000    
+     500  0.2368E-02  0.4723E-05 SOLID      11001   0.0%  0.9103E+05  0.8827       0.000      0.9103E+05   0.000      0.3000E-05   0.000    
+     600  0.2840E-02  0.4708E-05 SOLID      11001   0.0%  0.1239E+06  0.8838       0.000      0.1239E+06   0.000      0.3000E-05   0.000    
+     700  0.3310E-02  0.4691E-05 SOLID      11001   0.0%  0.1604E+06  0.8846       0.000      0.1604E+06   0.000      0.3000E-05   0.000    
+     800  0.3778E-02  0.4671E-05 SOLID      11001   0.0%  0.2006E+06  0.8853       0.000      0.2006E+06   0.000      0.3000E-05   0.000    
+     900  0.4244E-02  0.4649E-05 SOLID      11001   0.0%  0.2442E+06  0.8858       0.000      0.2442E+06   0.000      0.3000E-05   0.000    
+
+     RESTART FILES: DMAFNLIN_0001_[0001-0004].rst WRITTEN
+     -------------
+
+    1000  0.4708E-02  0.4624E-05 SOLID      11001   0.0%  0.2912E+06  0.8861       0.000      0.2912E+06   0.000      0.3000E-05   0.000    
+     ANIMATION FILE: DMAFNLINA002 WRITTEN
+    1100  0.5169E-02  0.4597E-05 SOLID      11001   0.0%  0.3414E+06  0.8864       0.000      0.3414E+06   0.000      0.3000E-05   0.000    
+    1200  0.5627E-02  0.4567E-05 SOLID      11001   0.0%  0.3948E+06  0.8866       0.000      0.3948E+06   0.000      0.3000E-05   0.000    
+    1300  0.6082E-02  0.4535E-05 SOLID      11001   0.0%  0.4513E+06  0.8867       0.000      0.4513E+06   0.000      0.3000E-05   0.000    
+    1400  0.6534E-02  0.4500E-05 SOLID      11001   0.0%  0.5108E+06  0.8868       0.000      0.5108E+06   0.000      0.3000E-05   0.000    
+    1500  0.6982E-02  0.4463E-05 SOLID      11001   0.0%  0.5731E+06  0.8869       0.000      0.5731E+06   0.000      0.3000E-05   0.000    
+    1600  0.7427E-02  0.4424E-05 SOLID      11001   0.0%  0.6382E+06  0.8870       0.000      0.6382E+06   0.000      0.3000E-05   0.000    
+    1700  0.7867E-02  0.4383E-05 SOLID      11001   0.0%  0.7060E+06  0.8870       0.000      0.7060E+06   0.000      0.3000E-05   0.000    
+    1800  0.8303E-02  0.4349E-05 SOLID      11001   0.0%  0.7611E+06  0.1459       0.000      0.7611E+06   0.000      0.3000E-05   0.000    
+    1900  0.8738E-02  0.4350E-05 SOLID      11001   0.0%  0.7585E+06  0.2041       0.000      0.7585E+06   0.000      0.3000E-05   0.000    
+
+     RESTART FILES: DMAFNLIN_0001_[0001-0004].rst WRITTEN
+     -------------
+
+    2000  0.9175E-02  0.4385E-05 SOLID      11001   0.0%  0.7052E+06  0.8760       0.000      0.7052E+06   0.000      0.3000E-05   0.000    
+    2100  0.9615E-02  0.4426E-05 SOLID      11001   0.0%  0.6483E+06  0.8750       0.000      0.6483E+06   0.000      0.3000E-05   0.000    
+     ANIMATION FILE: DMAFNLINA003 WRITTEN
+    2200  0.1006E-01  0.4465E-05 SOLID      11001   0.0%  0.5971E+06  0.8760       0.000      0.5971E+06   0.000      0.3000E-05   0.000    
+    2300  0.1051E-01  0.4502E-05 SOLID      11001   0.0%  0.5506E+06  0.8777       0.000      0.5506E+06   0.000      0.3000E-05   0.000    
+    2400  0.1096E-01  0.4536E-05 SOLID      11001   0.0%  0.5083E+06  0.8796       0.000      0.5083E+06   0.000      0.3000E-05   0.000    
+    2500  0.1142E-01  0.4568E-05 SOLID      11001   0.0%  0.4700E+06  0.8812       0.000      0.4699E+06   0.000      0.3000E-05   0.000    
+    2600  0.1187E-01  0.4598E-05 SOLID      11001   0.0%  0.4353E+06  0.8826       0.000      0.4352E+06   0.000      0.3000E-05   0.000    
+    2700  0.1233E-01  0.4625E-05 SOLID      11001   0.0%  0.4041E+06  0.8836       0.000      0.4041E+06   0.000      0.3000E-05   0.000    
+    2800  0.1280E-01  0.4650E-05 SOLID      11001   0.0%  0.3766E+06  0.8845       0.000      0.3765E+06   0.000      0.3000E-05   0.000    
+    2900  0.1326E-01  0.4672E-05 SOLID      11001   0.0%  0.3525E+06  0.8852       0.000      0.3525E+06   0.000      0.3000E-05   0.000    
+
+     RESTART FILES: DMAFNLIN_0001_[0001-0004].rst WRITTEN
+     -------------
+
+    3000  0.1373E-01  0.4692E-05 SOLID      11001   0.0%  0.3319E+06  0.8857       0.000      0.3319E+06   0.000      0.3000E-05   0.000    
+    3100  0.1420E-01  0.4709E-05 SOLID      11001   0.0%  0.3149E+06  0.8861       0.000      0.3149E+06   0.000      0.3000E-05   0.000    
+    3200  0.1467E-01  0.4724E-05 SOLID      11001   0.0%  0.3014E+06  0.8864       0.000      0.3013E+06   0.000      0.3000E-05   0.000    
+     ANIMATION FILE: DMAFNLINA004 WRITTEN
+    3300  0.1515E-01  0.4736E-05 SOLID      11001   0.0%  0.2914E+06  0.8865       0.000      0.2914E+06   0.000      0.3000E-05   0.000    
+    3400  0.1562E-01  0.4745E-05 SOLID      11001   0.0%  0.2851E+06  0.8867       0.000      0.2851E+06   0.000      0.3000E-05   0.000    
+    3500  0.1610E-01  0.4752E-05 SOLID      11001   0.0%  0.2825E+06  0.8869       0.000      0.2825E+06   0.000      0.3000E-05   0.000    
+    3600  0.1657E-01  0.4755E-05 SOLID      11001   0.0%  0.2849E+06  0.8869       0.000      0.2848E+06   0.000      0.3000E-05   0.000    
+    3700  0.1705E-01  0.4723E-05 SOLID      12001   0.0%  0.2927E+06  0.8060       0.000      0.2926E+06   0.000      0.3000E-05   0.000    
+    3800  0.1751E-01  0.4478E-05 SOLID      12001   0.0%  0.3011E+06  0.2235       0.000      0.3011E+06   0.000      0.3000E-05   0.000    
+    3900  0.1795E-01  0.4386E-05 SOLID      12001   0.0%  0.3044E+06  0.9104E-02   0.000      0.3044E+06   0.000      0.3000E-05   0.000    
+
+     RESTART FILES: DMAFNLIN_0001_[0001-0004].rst WRITTEN
+     -------------
+
+    4000  0.1839E-01  0.4385E-05 SOLID      12001   0.0%  0.3045E+06  0.3773E-02   0.000      0.3045E+06   0.000      0.3000E-05   0.000    
+    4100  0.1883E-01  0.4385E-05 SOLID      12001   0.0%  0.3045E+06  0.2095E-02   0.000      0.3045E+06   0.000      0.3000E-05   0.000    
+    4200  0.1926E-01  0.4385E-05 SOLID      12001   0.0%  0.3045E+06  0.1163E-02   0.000      0.3045E+06   0.000      0.3000E-05   0.000    
+    4300  0.1970E-01  0.4385E-05 SOLID      12001   0.0%  0.3045E+06  0.6460E-03   0.000      0.3045E+06   0.000      0.3000E-05   0.000    
+     ANIMATION FILE: DMAFNLINA005 WRITTEN
+
+     RESTART FILES: DMAFNLIN_0001_[0001-0004].rst WRITTEN
+     -------------
+
+  
+                           ** CPU USER TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .9871E+00 .6143E-01 .2374E-01 .1343E+00 .1432E+00 .1714E-01 .1481E+01
+   2   .2891E-01 .1817E-01 .1658E-01 .1281E+00 .1142E+01 .1046E-01 .1480E+01
+   3   .2910E-01 .1808E-01 .1674E-01 .1298E+00 .1133E+01 .1034E-01 .1486E+01
+   4   .2891E-01 .1785E-01 .1646E-01 .1297E+00 .1129E+01 .1025E-01 .1468E+01
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .1155E-01 .0000E+00 .0000E+00 .7971E-02 .1953E-01 .1318E+01
+   2   .1043E-01 .0000E+00 .0000E+00 .7709E-02 .1814E-01 .1226E+01
+   3   .1023E-01 .0000E+00 .0000E+00 .7857E-02 .1809E-01 .1217E+01
+   4   .9980E-02 .0000E+00 .0000E+00 .7961E-02 .1794E-01 .1222E+01
+  
+ 
+                   ** CUMULATIVE CPU TIME SUMMARY **
+  
+ CONTACT SORTING.............: .0000E+00     0.00 % 
+ CONTACT FORCES..............: .1221E-01     0.21 % 
+ ELEMENT FORCES..............: .1074E+01    18.16 % 
+ KINEMATIC COND..............: .1155E+00     1.95 % 
+ INTEGRATION.................: .7352E-01     1.24 % 
+ ASSEMBLING..................: .4820E-01     0.81 % 
+ OTHERS (including I/O)......: .4591E+01    77.62 % 
+ TOTAL.......................: .5915E+01   100.00 % 
+  
+  
+                           ** ELAPSED TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .1098E+01 .7281E-01 .2787E-01 .1513E+00 .1683E+00 .1984E-01 .1659E+01
+   2   .3346E-01 .2096E-01 .1897E-01 .1417E+00 .1270E+01 .1221E-01 .1659E+01
+   3   .3479E-01 .2102E-01 .1919E-01 .1414E+00 .1267E+01 .1216E-01 .1659E+01
+   4   .3424E-01 .2056E-01 .1887E-01 .1417E+00 .1269E+01 .1221E-01 .1659E+01
+  
+        ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+ MIN   .3346E-01 .2056E-01 .1887E-01 .1414E+00 .1683E+00 .1216E-01 .1659E+01
+ MAX   .1098E+01 .7281E-01 .2787E-01 .1513E+00 .1270E+01 .1984E-01 .1659E+01
+ AVG   .3000E+00 .3384E-01 .2123E-01 .1440E+00 .9935E+00 .1411E-01 .1659E+01
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .1311E-01 .0000E+00 .0000E+00 .9407E-02 .2252E-01 .1357E+01
+   2   .1219E-01 .0000E+00 .0000E+00 .8955E-02 .2115E-01 .1274E+01
+   3   .1207E-01 .0000E+00 .0000E+00 .8972E-02 .2104E-01 .1268E+01
+   4   .1161E-01 .0000E+00 .0000E+00 .9205E-02 .2081E-01 .1254E+01
+  
+        FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+ MIN   .1161E-01 .0000E+00 .0000E+00 .8955E-02 .2081E-01 .1254E+01
+ MAX   .1311E-01 .0000E+00 .0000E+00 .9407E-02 .2252E-01 .1357E+01
+ AVG   .1225E-01 .0000E+00 .0000E+00 .9135E-02 .2138E-01 .1288E+01
+  
+                   ** MEMORY USAGE STATISTICS **
+  
+ TOTAL MEMORY USED .........................:      245 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:       65 MB
+ MINIMUM MEMORY PER PROCESSOR...............:       60 MB
+ AVERAGE MEMORY PER PROCESSOR...............:       61 MB
+  
+                   ** DISK USAGE STATISTICS **
+  
+ TOTAL DISK SPACE USED .....................:          1 MB
+ ANIMATION/H3D/TH/OUTP SIZE ................:          0 MB
+ RESTART FILE SIZE .........................:          1 MB
+  
+                   ** COMPUTE TIME INFORMATION **
+                        ** CURRENT ENGINE **
+  
+ EXECUTION STARTED .........................:      2022/04/11  09:56:06
+ EXECUTION COMPLETED .......................:      2022/04/11  09:56:07
+  
+ ELAPSED TIME     =          2.29 s
+                          0:00:02
+ ESTIMATED SPEEDUP=          2.58
+
+
+
+     NORMAL TERMINATION      
+
+
+
+     TOTAL NUMBER OF CYCLES  :    4391
+
+  
+                   ** COMPUTE RUNTIME INFORMATION SUMMARY **
+  
+        STARTER RUNTIME =          2.52s (00:00:02)
+ # 001   ENGINE RUNTIME =          2.29s (00:00:02)
+ ------------------------------ 
+ STARTER+ENGINE RUNTIME =          4.82s (00:00:04)
+  

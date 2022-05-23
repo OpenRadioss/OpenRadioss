@@ -1,0 +1,302 @@
+ tstpeel_AUTOPART_0001.out
+************************************************************************
+**                                                                    **
+**                                                                    **
+**                      RADIOSS ENGINE MAINLINE                       **
+**                                                                    **
+**            Non-linear Finite Element Analysis Software             **
+**                   from Altair Engineering, Inc.                    **
+**                                                                    **
+**                                                                    **
+**              Linux 64 bits, Intel compiler, Intel MPI              **
+**                                                                    **
+**                           BETA_VERSION                             **
+**                                                                    **
+** Build tag: 0917839_12638000000_2070_0055168_10                     **
+************************************************************************
+**  COPYRIGHT (C) 1986-2018                 Altair Engineering, Inc.  **
+** All Rights Reserved.  Copyright notice does not imply publication. **
+** Contains trade secrets of Altair Engineering Inc.                  **
+** Decompilation or disassembly of this software strictly prohibited. **
+************************************************************************
+ 
+ NUMBER OF SPMD DOMAINS           4
+ NUMBER OF THREADS PER DOMAIN     1
+ NUMBER OF HMPP PROCESSES         4
+  
+ COMPUTATION HARDWARE DESCRIPTION
+  
+ CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
+   1   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  49057 MB swap
+   2   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  49057 MB swap
+   3   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  49057 MB swap
+   4   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  49057 MB swap
+  
+************************************************************************
+
+
+ tstpeel_AUTOPARTD01                                                             
+
+
+ FINAL TIME . . . . . . . . . . . . . . . . . . .  0.1500000E-01
+
+ TIME INTERVAL FOR TIME HISTORY PLOTS . . . . . .  0.1000000E-03
+
+ TIME STEP SCALE FACTOR . . . . . . . . . . . . .  0.9000000    
+
+ MINIMUM TIME STEP  . . . . . . . . . . . . . . .   0.000000    
+
+
+ NODAL TIME STEP SCALE FACTOR,  . . . . . . . . .  0.7000000    
+ NODAL MINIMUM TIME STEP. . . . . . . . . . . . .  0.3000000E-06
+ MIN. TIME FLAG . . . . . . . . . . . . . . . . .     8
+    1:STOP. . . . . . . . . . . . . . . . . . . . 
+    3:INCREASE MASS, ORIGINAL FORMULATION . . . . 
+    8:INCREASE MASS, IMPROVED FORMULATION . . . . 
+
+
+ BRICK TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ BRICK MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE BRICK)     0
+
+ QUAD TIME STEP SCALE FACTOR. . . . . . . . . . .  0.9000000    
+ QUAD MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE QUAD).     0
+
+ SHELL TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ SHELL MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE, 3:SMALL STRAIN)    0
+
+ TRUSS TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ TRUSS MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ BEAM TIME STEP SCALE FACTOR. . . . . . . . . . .  0.9000000    
+ BEAM MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ SPRING TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ SPRING MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ AIRBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ AIRBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP). . . . . . . . . . . . .     0
+
+ CONTACT TIME STEP SCALE FACTOR . . . . . . . . .  0.9000000    
+ CONTACT MINIMUM TIME STEP. . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG(1:STOP, 2:REMOVE NODE FROM INTERF)    0
+
+ ALE TIME STEP SCALE FACTOR . . . . . . . . . . .  0.5000000    
+ ALE MINIMUM TIME STEP. . . . . . . . . . . . . .   0.000000    
+
+ ADVANCED MASS SCALING IS ON . . . . . . . . . . .
+ AMS NODAL TIME STEP SCALE FACTOR. . . . . . . . . 0.6700000    
+ AMS NODAL MINIMUM TIME STEP . . . . . . . . . . . 0.3000000E-06
+ AMS TOLERANCE ON CONVERGENCE. . . . . . . . . . . 0.1000000E-02
+ AMS MAXIMUM NUMBER OF ITERATIONS FOR CONVERGENCE.      1000
+ OUTPUT FREQUENCY OF INFORMATION / CONVERGENCE . .         0
+ PART GROUP ID (=0 ALL PARTS) . . . . . . . . . .          0
+
+
+ FVMBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ FVMBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ FVMBAG TIME STEP FLAG. . . . . . . . . . . . . .     0
+ PRINTOUT CYCLE FREQUENCY . . . . . . . . . . . . -1000
+
+ RESTART CYCLE FREQUENCY. . . . . . . . . . . . .     100000
+
+ MAXIMUM RESTART WRITE BEFORE OVERWRITE . . . . .     0
+
+ INVERS: INPUT DECK VERSION . . . . . . . . . . .    90
+ ITTYP : FLAG FOR TYPE OF T-FILE. . . . . . . . .     4
+
+
+ TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . .   0.000000    
+ TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . .  0.3000000E-02
+ SENSOR FOR ANIMATION-FILE PLOTS. . . . . . . . .          0
+ TIME INTERVAL FOR SENSOR ANIMATION-FILE PLOTS. .   0.000000    
+
+ VARIABLE SAVED ON ANIMATION FILES (1: YES) :
+      PLASTIC STRAIN. . . . . .     1
+      DENSITY     (SOLID ONLY).     0
+      SPECIFIC ENERGY . . . . .     1
+      HOURGLASS ENERGY. . . . .     1
+      TEMPERATURE (SOLID ONLY).     0
+      THICKNESS   (SHELL ONLY).     0
+      PRESSURE    (SOLID ONLY).     0
+      VON MISES . . . . . . . .     1
+      TURBULENT ENERGY (FLUID).     0
+      TURBULENT VISCOSITY(FLUID)    0
+      VORTICITY (FLUID) . . . .     0
+ NODAL VALUES SAVED ON ANIMATION FILES (1: YES) :
+      PRESSURE. . . . . . . . .     0
+      DENSITY . . . . . . . . .     0
+      TEMPERATURE . . . . . . .     0
+ VECTOR SAVED ON ANIMATION FILES (1: YES) :
+      VELOCITY VECTOR . . . . .     0
+      DISPLACEMENT VECTOR . . .     0
+      ACCELERATION VECTOR . . .     0
+      CONTACT FORCES. . . . . .     0
+      INTERNAL FORCES . . . . .     0
+      EXTERNAL FORCES . . . . .     0
+      SECTION RBY RWALL FORCES.     0
+      ROTATIONAL VELOCITY VECTOR    0
+      CONTACT PRESSURE (VECTORS)    0
+ SHELL TENSOR SAVED ON ANIMATION FILES (1: YES) :
+      MEMBRANE STRESS . . . . .     0
+      BENDING STRESS(MOMENT/T^2)    0
+      UPPER LAYER STRESS. . . .     0
+      LOWER LAYER STRESS. . . .     0
+      MEMBRANE STRAIN . . . . .     0
+      CURVATURE . . . . . . . .     0
+      UPPER LAYER STRAIN. . . .     0
+      LOWER LAYER STRAIN. . . .     0
+ NODAL MASS SAVED ON ANIMATION FILES (1: YES) :    1
+ KEEP DELETED ELEMENT (1: YES) :    0
+
+
+ INITIAL TIME STEP. . . . . . . . . . . . . . . .   0.000000    
+ MAXIMUM TIME STEP. . . . . . . . . . . . . . . .  0.1000000E+31
+
+ PARALLEL ARITHMETIC ON
+ NUMBER OF INTERFACES TO BE ELIMINATED. . . . . .        0
+
+ NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF QUAD   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SHELL  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF TRUSS  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF BEAM   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SPRING ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SH_3N  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF  SPH PARTICLES BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF RIGID LINKS. . . . . . . . . . . . . .        0
+
+ NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
+
+ 18/05/2018
+ CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK MAS.ERR
+     0   0.000      0.3000E-06 NODE         790   0.0%   0.000       0.000       0.000       0.000       0.000    
+     ANIMATION FILE: tstpeel_AUTOPARTA001 WRITTEN
+  1000  0.3000E-03  0.3000E-06 NODE         789  -0.5%   20.86       36.99       1.326       59.50       0.000    
+  2000  0.6000E-03  0.3000E-06 NODE         789  -0.6%   67.76       14.91      0.4780       83.67       0.000    
+  3000  0.9000E-03  0.3000E-06 NODE         789  -0.4%   136.7       34.83      0.7091       173.0       0.000    
+  4000  0.1200E-02  0.3000E-06 NODE         789  -0.3%   214.3       34.63      0.7677       250.5       0.000    
+  5000  0.1500E-02  0.3000E-06 NODE         789  -0.3%   296.1       50.93      0.5875       348.6       0.000    
+  6000  0.1800E-02  0.3000E-06 NODE         790  -0.2%   380.0       62.97      0.6394       444.7       0.000    
+  7000  0.2100E-02  0.3000E-06 NODE         789  -0.2%   463.3       73.49      0.3452       538.3       0.000    
+  8000  0.2400E-02  0.3000E-06 NODE         790  -0.2%   549.8       94.48      0.4521       645.9       0.000    
+  9000  0.2700E-02  0.3000E-06 NODE         789  -0.2%   641.2       104.7      0.3396       747.5       0.000    
+ 10000  0.3000E-02  0.3000E-06 NODE         789  -0.2%   743.5       108.4      0.3809       853.7       0.000    
+     ANIMATION FILE: tstpeel_AUTOPARTA002 WRITTEN
+ 11000  0.3300E-02  0.3000E-06 NODE         789  -0.2%   851.4       101.0      0.4286       954.2       0.000    
+ 12000  0.3600E-02  0.3000E-06 NODE         789  -0.1%   968.6       101.1      0.4300       1072.       0.000    
+ 13000  0.3900E-02  0.3000E-06 NODE         789  -0.1%   1093.       80.37      0.3522       1175.       0.000    
+ 14000  0.4200E-02  0.3000E-06 NODE         789  -0.1%   1223.       66.91      0.2783       1292.       0.000    
+ 15000  0.4500E-02  0.3000E-06 NODE         789  -0.1%   1355.       39.80      0.3296       1397.       0.000    
+ 16000  0.4800E-02  0.3000E-06 NODE         789  -0.1%   1486.       38.58      0.3115       1527.       0.000    
+ 17000  0.5100E-02  0.3000E-06 NODE         789  -0.1%   1620.       21.99      0.2514       1644.       0.000    
+ 18000  0.5400E-02  0.3000E-06 NODE         789  -0.1%   1755.       18.45      0.1750       1775.       0.000    
+ 19000  0.5701E-02  0.3000E-06 NODE         789  -0.1%   1892.       19.44      0.1072       1914.       0.000    
+     ANIMATION FILE: tstpeel_AUTOPARTA003 WRITTEN
+ 20000  0.6001E-02  0.3000E-06 NODE         789  -0.1%   2030.       20.02      0.1366       2052.       0.000    
+ 21000  0.6301E-02  0.3000E-06 NODE         789  -0.1%   2173.       29.13      0.9557E-01   2204.       0.000    
+ 22000  0.6601E-02  0.3000E-06 NODE         789  -0.1%   2318.       24.45      0.1172       2344.       0.000    
+ 23000  0.6901E-02  0.3000E-06 NODE         789  -0.1%   2466.       33.59      0.9872E-01   2502.       0.000    
+ 24000  0.7201E-02  0.3000E-06 NODE         789  -0.1%   2618.       31.21      0.1035       2651.       0.000    
+ 25000  0.7501E-02  0.3000E-06 NODE         789  -0.1%   2773.       32.89      0.9499E-01   2807.       0.000    
+ 26000  0.7801E-02  0.3000E-06 NODE         789  -0.1%   2931.       29.35      0.8638E-01   2962.       0.000    
+ 27000  0.8101E-02  0.3000E-06 NODE         789  -0.1%   3091.       23.70      0.9793E-01   3117.       0.000    
+ 28000  0.8401E-02  0.3000E-06 NODE         789  -0.1%   3254.       24.20      0.8740E-01   3280.       0.000    
+ 29000  0.8701E-02  0.3000E-06 NODE         789  -0.1%   3416.       19.48      0.1020       3438.       0.000    
+     ANIMATION FILE: tstpeel_AUTOPARTA004 WRITTEN
+ 30000  0.9001E-02  0.3000E-06 NODE         789  -0.0%   3580.       18.27      0.1101       3600.       0.000    
+ 31000  0.9301E-02  0.3000E-06 NODE         789  -0.0%   3742.       18.38      0.1127       3762.       0.000    
+ 32000  0.9601E-02  0.3000E-06 NODE         789  -0.0%   3905.       19.80      0.1203       3927.       0.000    
+ 33000  0.9901E-02  0.3000E-06 NODE         789  -0.0%   4067.       25.79      0.1441       4095.       0.000    
+ 34000  0.1020E-01  0.3000E-06 NODE         789  -0.0%   4230.       29.37      0.1458       4262.       0.000    
+ 35000  0.1050E-01  0.3000E-06 NODE         789  -0.0%   4395.       32.15      0.1413       4429.       0.000    
+ 36000  0.1080E-01  0.3000E-06 NODE         789  -0.0%   4562.       35.42      0.1333       4600.       0.000    
+ 37000  0.1110E-01  0.3000E-06 NODE         789  -0.0%   4733.       37.91      0.1371       4773.       0.000    
+ 38000  0.1140E-01  0.3000E-06 NODE         789  -0.0%   4906.       37.63      0.1448       4946.       0.000    
+ 39000  0.1170E-01  0.3000E-06 NODE         789  -0.0%   5083.       34.64      0.1116       5120.       0.000    
+     ANIMATION FILE: tstpeel_AUTOPARTA005 WRITTEN
+ 40000  0.1200E-01  0.3000E-06 NODE         789  -0.0%   5262.       31.23      0.1103       5295.       0.000    
+ 41000  0.1230E-01  0.3000E-06 NODE         789  -0.0%   5443.       26.89      0.1139       5472.       0.000    
+ 42000  0.1260E-01  0.3000E-06 NODE         789  -0.0%   5625.       25.50      0.1048       5652.       0.000    
+ 43000  0.1290E-01  0.3000E-06 NODE         789  -0.0%   5807.       21.67      0.1086       5831.       0.000    
+ 44000  0.1320E-01  0.3000E-06 NODE         789  -0.0%   5990.       19.27      0.1010       6011.       0.000    
+ 45000  0.1350E-01  0.3000E-06 NODE         789  -0.0%   6173.       20.44      0.8134E-01   6195.       0.000    
+ 46000  0.1380E-01  0.3000E-06 NODE         789  -0.0%   6356.       22.33      0.1048       6380.       0.000    
+ 47000  0.1410E-01  0.3000E-06 NODE         789  -0.0%   6540.       24.72      0.9494E-01   6566.       0.000    
+ 48000  0.1440E-01  0.3000E-06 NODE         789  -0.0%   6726.       26.38      0.1262       6754.       0.000    
+ 49000  0.1470E-01  0.3000E-06 NODE         789  -0.0%   6915.       27.51      0.1166       6944.       0.000    
+
+     RESTART FILES: tstpeel_AUTOPART_0001_[0001-0004].rst WRITTEN
+     -------------
+
+     ANIMATION FILE: tstpeel_AUTOPARTA006 WRITTEN
+  
+                           ** CPU USER TIME **
+  
+ #PROC  CONT.SORT  CONT. F   ELEMENT  KIN.COND.  INTEGR.    I/O     TASK0     ASSEMB.   AMS      RESOL  
+   1   .1608E+01 .8206E+00 .4891E+01 .6068E+00 .3599E+00 .2000E+00 .1444E+01 .2439E+00 .3818E+01 .1557E+02
+   2   .1855E+01 .7267E+00 .4807E+01 .3079E+00 .5228E+00 .2929E+00 .1126E+01 .1930E+00 .3595E+01 .1565E+02
+   3   .1546E+01 .6057E+00 .4767E+01 .7017E+00 .3989E+00 .2119E+00 .1059E+01 .2119E+00 .4208E+01 .1569E+02
+   4   .2488E+01 .5238E+00 .5074E+01 .2089E+00 .4258E+00 .2179E+00 .1273E+01 .1859E+00 .3338E+01 .1573E+02
+  
+                          ** SPMD COMM. TIME **
+  
+ #PROC  FORCES    RBY.FOR.  RBY.VEL.  VELOCITIES   TOTAL   % CPU
+   1   .7936E+00 .2299E-01 .0000E+00 .2659E+00 .1083E+01    6.95
+   2   .7486E+00 .1299E-01 .0000E+00 .2339E+00 .9955E+00    6.36
+   3   .8116E+00 .3199E-01 .0000E+00 .2359E+00 .1079E+01    6.88
+   4   .8755E+00 .1799E-01 .0000E+00 .1690E+00 .1062E+01    6.76
+  
+                   ** CUMULATIVE CPU TIME SUMMARY **
+  
+ CONTACT SORTING.............: .7498E+01    11.97 % 
+ CONTACT FORCES..............: .2677E+01     4.27 % 
+ ELEMENT FORCES..............: .1954E+02    31.20 % 
+ KINEMATIC COND..............: .1825E+01     2.91 % 
+ INTEGRATION.................: .1707E+01     2.73 % 
+ ASSEMBLING..................: .8348E+00     1.33 % 
+ AMS........................: .1496E+02    23.88 % 
+ OTHERS (including I/O)......: .1359E+02    21.70 % 
+ TOTAL.......................: .6263E+02   100.00 % 
+  
+  
+                   ** MEMORY USAGE STATISTICS **
+  
+ TOTAL MEMORY USED .........................:     1365 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:      342 MB
+ MINIMUM MEMORY PER PROCESSOR...............:      341 MB
+ AVERAGE MEMORY PER PROCESSOR...............:      341 MB
+  
+                   ** DISK USAGE STATISTICS **
+  
+ TOTAL DISK SPACE USED .....................:          0 MB
+ ANIMATION/H3D/TH/OUTP SIZE ................:          0 MB
+ RESTART FILE SIZE .........................:          0 MB
+  
+ ELAPSED TIME     =         16.63 s
+                          0:00:16
+ ESTIMATED SPEEDUP=          3.77
+  
+
+
+
+     NORMAL TERMINATION      
+
+
+
+     TOTAL NUMBER OF CYCLES  :   49996
+

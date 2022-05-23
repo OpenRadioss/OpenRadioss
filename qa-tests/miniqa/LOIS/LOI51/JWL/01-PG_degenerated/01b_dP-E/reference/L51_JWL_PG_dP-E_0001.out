@@ -1,0 +1,281 @@
+ L51_JWL_PG_dP-E_0001.out
+************************************************************************
+**                                                                    **
+**                                                                    **
+**                      RADIOSS ENGINE MAINLINE                       **
+**                                                                    **
+**            Non-linear Finite Element Analysis Software             **
+**                   from Altair Engineering, Inc.                    **
+**                                                                    **
+**                                                                    **
+**              Linux 64 bits, Intel compiler, Intel MPI              **
+**                                                                    **
+**                           BETA_VERSION                             **
+**                                                                    **
+** Build tag: 0912677_12638000000_2070_0053946_10                     **
+************************************************************************
+**  COPYRIGHT (C) 1986-2018                 Altair Engineering, Inc.  **
+** All Rights Reserved.  Copyright notice does not imply publication. **
+** Contains trade secrets of Altair Engineering Inc.                  **
+** Decompilation or disassembly of this software strictly prohibited. **
+************************************************************************
+ 
+ NUMBER OF SPMD DOMAINS           4
+ NUMBER OF THREADS PER DOMAIN     1
+ NUMBER OF HMPP PROCESSES         4
+  
+ COMPUTATION HARDWARE DESCRIPTION
+  
+ CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
+   1   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 3326 MHz,  19924 MB RAM,  49151 MB swap
+   2   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 3326 MHz,  19924 MB RAM,  49151 MB swap
+   3   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 3326 MHz,  19924 MB RAM,  49151 MB swap
+   4   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 3326 MHz,  19924 MB RAM,  49151 MB swap
+  
+************************************************************************
+
+
+ L51_JWL_PG_dP-ED01JWL DEGENERATED INTO PERFECT GAS COUPLED WITH PURE PERFECT GAS
+
+
+ FINAL TIME . . . . . . . . . . . . . . . . . . .   50.00100    
+
+ TIME INTERVAL FOR TIME HISTORY PLOTS . . . . . .   1.000000    
+
+ TIME STEP SCALE FACTOR . . . . . . . . . . . . .  0.9000000    
+
+ MINIMUM TIME STEP  . . . . . . . . . . . . . . .   0.000000    
+
+
+ BRICK TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ BRICK MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE BRICK)     1
+
+ QUAD TIME STEP SCALE FACTOR. . . . . . . . . . .  0.9000000    
+ QUAD MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE QUAD).     1
+
+ SHELL TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ SHELL MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE, 3:SMALL STRAIN)    2
+
+ TRUSS TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ TRUSS MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ BEAM TIME STEP SCALE FACTOR. . . . . . . . . . .  0.9000000    
+ BEAM MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ SPRING TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ SPRING MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ AIRBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ AIRBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP). . . . . . . . . . . . .     0
+
+ CONTACT TIME STEP SCALE FACTOR . . . . . . . . .  0.9000000    
+ CONTACT MINIMUM TIME STEP. . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG(1:STOP, 2:REMOVE NODE FROM INTERF)    0
+
+ ALE TIME STEP SCALE FACTOR . . . . . . . . . . .  0.5000000    
+ ALE MINIMUM TIME STEP. . . . . . . . . . . . . .   0.000000    
+ FVMBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ FVMBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ FVMBAG TIME STEP FLAG. . . . . . . . . . . . . .     0
+ PRINTOUT CYCLE FREQUENCY . . . . . . . . . . . .  -100
+
+ RESTART CYCLE FREQUENCY. . . . . . . . . . . . .       5000
+
+ MAXIMUM RESTART WRITE BEFORE OVERWRITE . . . . .     0
+
+ INVERS: INPUT DECK VERSION . . . . . . . . . . .   100
+ ITTYP : FLAG FOR TYPE OF T-FILE. . . . . . . . .     4
+
+
+ TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . .  0.1000000E+31
+ TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . .   0.000000    
+ SENSOR FOR ANIMATION-FILE PLOTS. . . . . . . . .          0
+ TIME INTERVAL FOR SENSOR ANIMATION-FILE PLOTS. .   0.000000    
+
+ VARIABLE SAVED ON ANIMATION FILES (1: YES) :
+      PLASTIC STRAIN. . . . . .     0
+      DENSITY     (SOLID ONLY).     0
+      SPECIFIC ENERGY . . . . .     0
+      HOURGLASS ENERGY. . . . .     0
+      TEMPERATURE (SOLID ONLY).     0
+      THICKNESS   (SHELL ONLY).     0
+      PRESSURE    (SOLID ONLY).     0
+      VON MISES . . . . . . . .     0
+      TURBULENT ENERGY (FLUID).     0
+      TURBULENT VISCOSITY(FLUID)    0
+      VORTICITY (FLUID) . . . .     0
+ NODAL VALUES SAVED ON ANIMATION FILES (1: YES) :
+      PRESSURE. . . . . . . . .     0
+      DENSITY . . . . . . . . .     0
+      TEMPERATURE . . . . . . .     0
+ VECTOR SAVED ON ANIMATION FILES (1: YES) :
+      VELOCITY VECTOR . . . . .     0
+      DISPLACEMENT VECTOR . . .     0
+      ACCELERATION VECTOR . . .     0
+      CONTACT FORCES. . . . . .     0
+      INTERNAL FORCES . . . . .     0
+      EXTERNAL FORCES . . . . .     0
+      SECTION RBY RWALL FORCES.     0
+      ROTATIONAL VELOCITY VECTOR    0
+      CONTACT PRESSURE (VECTORS)    0
+ SHELL TENSOR SAVED ON ANIMATION FILES (1: YES) :
+      MEMBRANE STRESS . . . . .     0
+      BENDING STRESS(MOMENT/T^2)    0
+      UPPER LAYER STRESS. . . .     0
+      LOWER LAYER STRESS. . . .     0
+      MEMBRANE STRAIN . . . . .     0
+      CURVATURE . . . . . . . .     0
+      UPPER LAYER STRAIN. . . .     0
+      LOWER LAYER STRAIN. . . .     0
+ NODAL MASS SAVED ON ANIMATION FILES (1: YES) :    0
+ KEEP DELETED ELEMENT (1: YES) :    0
+
+
+ INITIAL TIME STEP. . . . . . . . . . . . . . . .   0.000000    
+ MAXIMUM TIME STEP. . . . . . . . . . . . . . . .  0.1000000E+31
+
+ PARALLEL ARITHMETIC ON
+
+ ALE SOLVER                              
+ ----------                              
+  MASS     : FVM    /    UPWIND           
+  ENERGY   : FVM    /    UPWIND           
+  MOMENTUM : FEM    /    STREAMLINE UPWIND
+
+ ALE UPWIND PARAMETERS                   
+ ---------------------                   
+  UPWIND FOR MOMENTUM TRANSPORT . . . . .=  1.000000000000    
+  UPWIND FOR OTHER TRANSPORT. . . . . . .=  1.000000000000    
+  UPWIND FOR WETTED AREA (law 51) . . . .=  1.000000000000    
+
+ ALE GRID FORMULATION                    
+ --------------------                    
+  DONEA GRID VELOCITY COMPUTATION METHOD           
+  ALPHA   : DONEA COEFFICIENT. . . . . . . . . . .   0.000000    
+  GAMMA   : GRID VELOCITY LIMITATION FACTOR. . . .   0.000000    
+  FscaleX : X-GRID VELOCITY SCALE FACTOR . . . . .   0.000000    
+  FscaleY : Y-GRID VELOCITY SCALE FACTOR . . . . .   0.000000    
+  FscaleZ : Z-GRID VELOCITY SCALE FACTOR . . . . .   0.000000    
+  VOLMIN  : MINIMUM VOLUME FOR ELEMENT DELETION. . -0.1000000E+31
+
+
+ NUMBER OF ALE LINKS. . . . . . . . . . . . . . .        0
+
+ NUMBER OF INTERFACES TO BE ELIMINATED. . . . . .        0
+
+ NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF QUAD   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SHELL  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF TRUSS  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF BEAM   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SPRING ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SH_3N  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF  SPH PARTICLES BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF RIGID LINKS. . . . . . . . . . . . . .        0
+
+ NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
+
+ 06/04/2018
+ ALE TIME STEP SCALE FACTOR . . . . . . . . . . .  0.5000000
+ ALE MINIMUM TIME STEP. . . . . . . . . . . . . .   0.000000
+ ALE TIME STEP SCALE FACTOR . . . . . . . . . . .  0.5000000
+ ALE MINIMUM TIME STEP. . . . . . . . . . . . . .   0.000000
+ ALE TIME STEP SCALE FACTOR . . . . . . . . . . .  0.5000000
+ ALE MINIMUM TIME STEP. . . . . . . . . . . . . .   0.000000
+ CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK MAS.ERR
+     0   0.000      0.1395E-01 SOLID          2   0.0%  0.2500E+09   0.000       0.000       0.000       0.000    
+   100   1.356      0.1385E-01 SOLID          2  -3.3%  0.2421E+09   18.06       0.000      0.4587E+06   0.000    
+   200   2.771      0.1447E-01 SOLID          2  -7.0%  0.2343E+09   18.06       0.000      0.1896E+07  0.7554E-15
+   300   4.250      0.1512E-01 SOLID          2 -10.9%  0.2267E+09   18.06       0.000      0.4415E+07  0.5665E-15
+   400   5.796      0.1581E-01 SOLID          2 -15.1%  0.2192E+09   18.06       0.000      0.8133E+07  0.5665E-15
+   500   7.414      0.1656E-01 SOLID          2 -19.5%  0.2118E+09   18.06       0.000      0.1319E+08  0.5665E-15
+   600   9.108      0.1734E-01 SOLID          2 -24.2%  0.2045E+09   18.06       0.000      0.1972E+08  0.5665E-15
+   700   10.88      0.1818E-01 SOLID          2 -29.0%  0.1974E+09   18.06       0.000      0.2793E+08  0.5665E-15
+   800   12.75      0.1908E-01 SOLID          2 -33.9%  0.1903E+09   18.06       0.000      0.3800E+08  0.5665E-15
+   900   14.70      0.2004E-01 SOLID          2 -38.9%  0.1835E+09   18.06       0.000      0.5018E+08  0.1888E-15
+  1000   16.76      0.2107E-01 SOLID          2 -43.9%  0.1767E+09   18.06       0.000      0.6473E+08  0.1888E-15
+  1100   18.92      0.2217E-01 SOLID          2 -48.8%  0.1701E+09   18.06       0.000      0.8197E+08  0.1888E-15
+  1200   21.19      0.2336E-01 SOLID          2 -53.6%  0.1636E+09   18.06       0.000      0.1023E+09  0.1888E-15
+  1300   23.59      0.2463E-01 SOLID          2 -58.2%  0.1572E+09   18.06       0.000      0.1261E+09  0.1888E-15
+  1400   26.12      0.2600E-01 SOLID          2 -62.6%  0.1509E+09   18.06       0.000      0.1538E+09  0.1888E-15
+  1500   28.79      0.2747E-01 SOLID          2 -66.8%  0.1448E+09   18.06       0.000      0.1862E+09  0.1888E-15
+  1600   31.62      0.2907E-01 SOLID          2 -70.7%  0.1388E+09   18.06       0.000      0.2238E+09  0.1888E-15
+  1700   34.61      0.3079E-01 SOLID          2 -74.3%  0.1329E+09   18.06       0.000      0.2675E+09 -0.1888E-15
+  1800   37.78      0.3266E-01 SOLID          2 -77.6%  0.1272E+09   18.06       0.000      0.3183E+09 -0.1888E-15
+  1900   41.14      0.3469E-01 SOLID          2 -80.6%  0.1216E+09   18.06       0.000      0.3774E+09 -0.1888E-15
+  2000   44.72      0.3689E-01 SOLID          2 -83.3%  0.1161E+09   18.06       0.000      0.4460E+09 -0.1888E-15
+  2100   48.53      0.3929E-01 SOLID          2 -85.7%  0.1107E+09   18.06       0.000      0.5259E+09 -0.1888E-15
+
+     RESTART FILES: L51_JWL_PG_dP-E_0001_[0001-0004].rst WRITTEN
+     -------------
+
+  
+                           ** CPU USER TIME **
+  
+ #PROC  CONT.SORT  CONT. F   ELEMENT  KIN.COND.  INTEGR.    I/O     TASK0     ASSEMB.   RESOL  
+   1   .0000E+00 .0000E+00 .1000E-01 .1900E-01 .5999E-02 .2799E-01 .3700E-01 .3999E-02 .2420E+00
+   2   .0000E+00 .0000E+00 .9000E-02 .4997E-02 .7000E-02 .1500E-01 .1440E+00 .3000E-02 .4849E+00
+   3   .0000E+00 .0000E+00 .8000E-02 .2000E-02 .0000E+00 .1599E-01 .1710E+00 .0000E+00 .4749E+00
+   4   .0000E+00 .0000E+00 .3999E-02 .3000E-02 .8999E-02 .2500E-01 .1460E+00 .3000E-02 .4709E+00
+  
+                          ** SPMD COMM. TIME **
+  
+ #PROC  FORCES    RBY.FOR.  RBY.VEL.  VELOCITIES   TOTAL   % CPU
+   1   .0000E+00 .0000E+00 .0000E+00 .3000E-02 .3000E-02    1.24
+   2   .0000E+00 .0000E+00 .0000E+00 .4000E-02 .4000E-02    0.82
+   3   .2999E-02 .0000E+00 .0000E+00 .0000E+00 .2999E-02    0.63
+   4   .1000E-02 .0000E+00 .0000E+00 .0000E+00 .1000E-02    0.21
+  
+                   ** CUMULATIVE CPU TIME SUMMARY **
+  
+ CONTACT SORTING.............: .0000E+00     0.00 % 
+ CONTACT FORCES..............: .0000E+00     0.00 % 
+ ELEMENT FORCES..............: .3100E-01     1.85 % 
+ KINEMATIC COND..............: .2899E-01     1.73 % 
+ INTEGRATION.................: .2200E-01     1.32 % 
+ ASSEMBLING..................: .9999E-02     0.60 % 
+ OTHERS (including I/O)......: .1581E+01    94.50 % 
+ TOTAL.......................: .1673E+01   100.00 % 
+  
+  
+                   ** MEMORY USAGE STATISTICS **
+  
+ TOTAL MEMORY USED .........................:  1323608 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:   330908 MB
+ MINIMUM MEMORY PER PROCESSOR...............:   330900 MB
+ AVERAGE MEMORY PER PROCESSOR...............:   330902 MB
+  
+                   ** DISK USAGE STATISTICS **
+  
+ TOTAL DISK SPACE USED .....................:        480 KB
+ ANIMATION/H3D/TH/OUTP SIZE ................:         10 KB
+ RESTART FILE SIZE .........................:        470 KB
+  
+ ELAPSED TIME     =          0.55 s
+                          0:00:00
+ ESTIMATED SPEEDUP=          3.06
+  
+
+
+
+     NORMAL TERMINATION      
+
+
+
+     TOTAL NUMBER OF CYCLES  :    2138
+

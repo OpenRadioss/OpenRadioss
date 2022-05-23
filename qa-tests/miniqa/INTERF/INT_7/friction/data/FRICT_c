@@ -1,0 +1,36 @@
+#!/bin/sh
+if test -f FRICTT01
+then
+ /bin/mv FRICTT01 FRICTT01_bak
+fi
+if test -f FRICTL01
+then
+ /bin/mv FRICTL01 FRICTL01_bak
+fi
+/bin/rm -f ./usrdat
+/bin/rm -f ./file_engine
+ln -s /u/env/slg/staff/usrdat_engine ./usrdat
+ln -s /u/env/slg/staff/file_engine ./file_engine
+time /u/env/slg/radioss_exe/e31j_sgi5 < FRICTD01 2> ./tmp_rad_time
+sleep 2
+if test -f ./tmp_rad_time
+then
+  cat ./tmp_rad_time
+  cat ./tmp_rad_time >> FRICTL01
+fi
+#
+if test -f /u/env/slg/staff/.user
+then
+  /u/env/slg/staff/.user
+fi
+if test -w /u/env/slg/staff/.exe_jnl
+then
+  echo ENGINE FRICTD01 date = Wed May 28 08:37:15 GMT 1997 >> /u/env/slg/staff/.exe_jnl
+  echo   >> ./tmp_rad_time 
+  cat ./tmp_rad_time >> /u/env/slg/staff/.exe_jnl
+fi
+#
+/bin/rm -f ./tmp_rad_time 2> /dev/null
+/bin/rm -f ./file_engine 2> /dev/null
+/bin/rm -f ./usrdat 2> /dev/null
+/u/env/slg/rad_proc/rad_proc_exit

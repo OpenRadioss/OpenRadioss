@@ -1,0 +1,39 @@
+#-  1. :
+#---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|
+/ANIM/NODA/DMAS
+/ANIM/NODA/DT
+/ANIM/ELEM/EPSP
+/ANIM/ELEM/HOURG
+/ANIM/ELEM/VONM
+/ANIM/BRICK/HOURG
+/ANIM/SHELL/TENS/STRAIN/UPPER
+/ANIM/SHELL/TENS/STRAIN/LOWER
+/ANIM/SHELL/TENS/STRESS/UPPER
+/ANIM/SHELL/TENS/STRESS/LOWER
+/ANIM/MASS
+/DT/NODA/0
+0.67 1e-06
+/DT/BRICK/CST/0
+0.67 0.0004
+/ANIM/BRICK/TENS/STRESS/000
+/ANIM/DT
+#   TSTART     TFREQ
+0.000000 0.01
+/ANIM/GZIP
+/MON/ON
+/PARITH/ON
+/PRINT/-10/55
+/RBODY/ON
+0 
+/RUN/B_POKE_9/1
+              0.5001
+/TFILE/4
+#            dT_HIS
+0.005000
+/TH/VERS/41
+/TITLE
+Impact WBI, modele avec fluide                                                                      
+/VERS/2018
+/ANIM/VECT/DISP
+/ANIM/VECT/VEL
+/ANIM/VECT/CONT

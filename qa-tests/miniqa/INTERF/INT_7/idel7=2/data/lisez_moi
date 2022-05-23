@@ -1,0 +1,21 @@
+# -----------------------------------------------------
+#	Test 
+# -----------------------------------------------------
+PROVENANCE : PSA
+DERNIERE MODIFICATION : 19/11/03
+DEMANDE : 
+CONFIDENTIEL : NON
+OPTIONS : 
+RESPONSABLE : 
+DESCRIPTION :
+
+Batterie : 
+!!Attention, pour les checkpoint restart, il faut modifier les D0?
+
+Modification du jdd :
+- BB, le 15/09/03 : frequence des anim dans D01
+- BB, le 19/11/03 : option /DELINT/ON retiree du D01 car elle est remplace par le flag idel7=2 dans le D00
+# -----------------------------------------------------
+#lm     05/09/03 
+test compatibilite Idel7=2 et solides en rigid body + /rbody/on
+# -----------------------------------------------------

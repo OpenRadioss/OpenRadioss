@@ -1,0 +1,21 @@
+#-  1. :
+#---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|
+/ANIM/DT
+#   TSTART     TFREQ
+0.000000 0.050000
+/ANIM/GZIP
+/DT
+0.100000 0.000000
+/MON/ON
+/PRINT/-1/55
+/RUN/M50B/1
+                 0.5
+/TFILE/4
+#            dT_HIS
+0.001000
+/VERS/2019
+/ANIM/ELEM/EPSD
+/ANIM/ELEM/USER1
+/ANIM/ELEM/USER2
+/ANIM/ELEM/USER3
+/ANIM/ELEM/USER4
