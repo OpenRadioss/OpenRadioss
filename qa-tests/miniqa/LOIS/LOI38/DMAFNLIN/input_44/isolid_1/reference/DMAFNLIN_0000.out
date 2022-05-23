@@ -1,0 +1,2210 @@
+ DMAFNLIN_0000.out
+************************************************************************
+**                                                                    **
+**                                                                    **
+**                Altair Radioss(TM) Starter MAINLINE                 **
+**                                                                    **
+**            Non-linear Finite Element Analysis Software             **
+**                   from Altair Engineering, Inc.                    **
+**                                                                    **
+**                                                                    **
+**                   Linux 64 bits, Intel compiler                    **
+**                                                                    **
+**                           BETA_VERSION                             **
+**                                                                    **
+** Build tag: 1113238_12638000000_1060_0091553                        **
+************************************************************************
+**  COPYRIGHT (C) 1986-2022                 Altair Engineering, Inc.  **
+** All Rights Reserved.  Copyright notice does not imply publication. **
+** Contains trade secrets of Altair Engineering Inc.                  **
+** Decompilation or disassembly of this software strictly prohibited. **
+************************************************************************
+ 
+  
+ COMPUTATION HARDWARE DESCRIPTION
+  
+ HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
+ fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1729 MHz,  20012 MB RAM,  48725 MB swap
+  
+************************************************************************
+
+
+************************************************************************
+* INPUT READING PROCESS
+************************************************************************
+
+WARNING ID : 100214
+** WARNING IN INPUT OPTIONS
+DESCRIPTION :  
+-- BLOCK: /IOFLAG
+-- LINE: 0                  -1         0         0         0         0
+unsupported field exits
+SOLUTION :     
+    Please check input format and its consistency with Invers value from /BEGIN option.
+
+ -NO SYNTAX ERROR DETECTED DURING INPUT READING PROCESS
+
+
+
+
+************************************************************************
+
+
+
+    UNIT SYSTEMS DEFINITION     
+    -----------------------     
+
+                                                          MASS                LENGTH              TIME
+    WORK UNIT SYSTEM . . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
+    INPUT UNIT SYSTEM  . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
+
+
+   DMAF0009/Foam materials test - 15 volume elements                /gmt/15-11-96
+
+
+    CONTROL  PARAMETERS                                                                  
+    -------------------                                                                  
+
+    IPRI  : PRINTOUT FLAG . . . . . . . . . . . . . . . .         0
+    INVERS: MANUAL VERSION OF THIS INPUT DECK . . . . . .      2019
+    NSUBS:   NUMBER OF SUBSETS. . . . . . . . . . . . . .         1
+    NPART:   NUMBER OF PARTS. . . . . . . . . . . . . . .        15
+    NUMMAT: NUMBER OF MATERIALS . . . . . . . . . . . . .        15
+    NUMGEO: NUMBER OF PROPERTY SETS . . . . . . . . . . .        15
+    NUMNOD: NUMBER OF NODAL POINTS. . . . . . . . . . . .       120
+    NUMSKW: NUMBER OF SKEW REFERENCE FRAMES . . . . . . .         1
+    NUMBCS: NUMBER OF BOUNDARY CONDITIONS . . . . . . . .         3
+    NUMFRAM: NUMBER OF REFERENCE FRAMES . . . . . . . . .         0
+    NUMELQ: NUMBER OF 2D QUAD ELEMENTS. . . . . . . . . .         0
+    NUMELT3 : NUMBER OF 2D TRIA ELEMENTS. . . . . . . . .         0
+    NUMELS: NUMBER OF 3D SOLID ELEMENTS . . . . . . . . .        15
+    NUMELC: NUMBER OF 3D SHELL ELEMENTS (4-NODES) . . . .         0
+    NUMELT: NUMBER OF 3D TRUSS ELEMENTS . . . . . . . . .         0
+    NUMELP: NUMBER OF 3D BEAM  ELEMENTS . . . . . . . . .         0
+    NUMELR: NUMBER OF 3D SPRING ELEMENTS. . . . . . . . .         0
+    NUMELTG: NUMBER OF 3D SHELL ELEMENTS (3-NODES). . . .         0
+    NUMELX: NUMBER OF MULTIPURPOSE ELEMENTS . . . . . . .         0
+    NUMELIG3D: NUMBER OF ISO-GEOMETRIC ELEMENTS . . . . .         0
+    NUMSPH : NUMBER OF SMOOTH PARTICLES (SPH CELLS) . . .         0
+    NSPHBCS: NUMBER OF SPH SYMETRY CONDITIONS . . . . . .         0
+    NSPHIO : NUMBER OF SPH INLET/OUTLET CONDITIONS. . . .         0
+
+    NFUNCT: NUMBER OF USER'S FUNCTIONS . . . . . . . . .          8
+    NGRAV:  NUMBER OF GRAVITY LOADS . . . . . . . . . . .         0
+    NFUNC2D:  NUMBER OF USER 2D FUNCTIONS . . . . . . . .         0
+    NINIGRV:NUMBER OF INITIAL GRAVITY LOADS . . . . . . .         0
+    NCONLD: NUMBER OF CONCENTRATED LOADS. . . . . . . . .         0
+    NINVEL: NUMBER OF INITIAL VELOCITIES. . . . . . . . .         0
+    NPRELD: NUMBER OF PRESSURE LOADS. . . . . . . . . . .         0
+    NINIMAP1D: NUMBER OF INITIAL 1D MAPPING.. . . . . . .         0
+    NINIMAP2D: NUMBER OF INITIAL 2D MAPPING.. . . . . . .         0
+    NUMBER OF ACCELEROMETERS. . . . . . . . . . . . . . .         0
+    NUMBER OF SENSORS . . . . . . . . . . . . . . . . . .         0
+    NUMBER OF GAUGES. . . . . . . . . . . . . . . . . . .         0
+    NINTER: NUMBER OF INTERFACES. . . . . . . . . . . . .         0
+    NRWALL: NUMBER OF RIGID WALLS . . . . . . . . . . . .         0
+    NRBODY: NUMBER OF RIGID BODIES. . . . . . . . . . . .         0
+    NFXBODY: NUMBER OF FLEXIBLE BODIES. . . . . . . . . .         0
+    NCONX : NUMBER OF RIGID LINKS TO MADYMO BODIES. . . .         0
+    NODMAS: NUMBER OF ADDED NODAL MASSES. . . . . . . . .         0
+    NIMPDISP: NUMBER OF IMPOSED DISPLACEMENTS . . . . . .         0
+    NIMPVEL: NUMBER OF IMPOSED VELOCITIES . . . . . . . .         8
+    NIMPACC: NUMBER OF IMPOSED ACCELERATIONS . . . . . .          0
+    NRIVET: NUMBER OF RIVETS OR SPOT WELDS. . . . . . . .         0
+    NSECT : NUMBER OF SECTIONS SAVED (TIME HISTORY PLOTS)         0
+    NJOINT: NUMBER OF JOINTS. . . . . . . . . . . . . . .         0
+    NACTIV: NUMBER OF ELEMENT DEACTIVATION GROUPS . . . .         0
+    NDAMP:  NUMBER OF RAYLEIGH DAMPING GROUPS . . . . . .         0
+    NGJOINT: NUMBER OF GEAR TYPE JOINTS . . . . . . . . .         0
+    NUMMPC: NUMBER OF MULTI-POINT CONSTRAINTS . . . . . .         0
+    NR2RLNK: NUMBER OF EXTERNAL COUPLING LINKS . . . . .          0
+    NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . .          0
+    NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .         0
+    NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .         0
+    NGRAPH: GRAPH DEFINITION FOR MULT-LEVEL CONDENSATION.         0
+    NBEM:   NUMBER OF BEM SOLVED PROBLEMS . . . . . . . .         0
+    NRBE2:  NUMBER OF RBE2 RIGID ELEMENTS . . . . . . . .         0
+    NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .         0
+    INITIAL STRESS FILE =
+                                          FLAG ISIGI. . .         0
+
+
+    N2D3D : ANALYSIS TYPE: 0=3D,1=AXISYM,2=PLANE STRAIN .         0
+
+
+    ANALYSIS OPTIONS
+    ----------------
+
+    INTEG8 : 8 GAUSS POINT CONDENSED INTEGRATION . . . . .         0
+    IPARITH: PARALLEL ARITHMETIC FLAG (2 OFF, 1 0N). . . .         1
+    ISUB   : (OLD) SUBCYCLING (1:YES 0:NO) . . . . . . . .         0
+    MSHSUB : MEMORY ALLOCATION FOR (NEW) SHELLS SUBCYCLING
+                                         (1:YES 0:NO). . .         0
+    IUSERW : GENERAL USER WINDOW FLAG. . . . . . . . . . .         0
+    ISOLID : DEFAULT BRICK FORMULATION FLAG. . . . . . . .         1
+    ITET4  : DEFAULT TETRA4 FORMULATION FLAG . . . . . . .      1000
+    ITET10 : DEFAULT TETRA10 FORMULATION FLAG. . . . . . .      1000
+    ISMSTR : DEFAULT BRICK SMALL STRAIN FLAG . . . . . . .         0
+    ICPRE  : DEFAULT SOLID CONSTANT PRESSURE FLAG. . . . .         0
+    ISHELL : DEFAULT SHELL FORMULATION FLAG. . . . . . . .         1
+    ISST   : DEFAULT SHELL SMALL STRAIN FLAG . . . . . . .         0
+    ITHK   : DEFAULT SHELL THICKNESS VARIATION FLAG. . . .         0
+    IPLA   : DEFAULT PLANE STRESS PLASTICITY FLAG. . . . .         0
+    ISTR   : DEFAULT SHELL STRAIN COMPUTATION FLAG . . . .         1
+    ISHEA  : DEFAULT SHELL SHEAR COMPUTATION FLAG. . . . .         0
+    INSH   : SHELL INERTIA FLAG. . . . . . . . . . . . . .         0
+    ISH3N  : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         1
+    NPTS   : SHELL PROPERTIES DEFAULT NUMBER OF           
+             INTEGRATION POINTS OR LAYERS. . . . . . . . .         0
+    IFRAME : DEFAULT SOLID FRAME FORMULATION FLAG . . . .          1
+    ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         2
+
+
+    LAGRANGE MULTIPLIER OPTIONS
+    ---------------------------
+    LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . . 1.0000000000000E-11
+
+
+    NODAL MASS DISTRIBUTION FLAG . . . . . . . . .         0
+
+
+    SPEED PARAMETERS  
+    ----------------  
+
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
+    SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
+ 
+     INFO : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
+  
+
+
+    LOAD CURVES
+    -----------
+    NUMBER OF LOAD CURVES. . . . . . . . =         8
+
+
+    LOAD CURVE ID . . . . . . . . . . . =         2
+
+    X                     Y               
+     0.000000000000        0.000000000000    
+    4.8000000000000E-02    0.000000000000    
+    0.1000000000000       1.3000000000000E-02
+    0.2000000000000       3.1000000000000E-02
+    0.3000000000000       5.6000000000000E-02
+    0.4000000000000       8.8000000000000E-02
+    0.5000000000000       0.1440000000000    
+    0.5600000000000       0.2060000000000    
+
+    LOAD CURVE ID . . . . . . . . . . . =         3
+
+    X                     Y               
+     0.000000000000        0.000000000000    
+    3.2000000000000E-02   6.9000000000000E-02
+    6.4000000000000E-02   0.1000000000000    
+    0.1000000000000       0.1180000000000    
+    0.2000000000000       0.1530000000000    
+    0.3000000000000       0.1850000000000    
+    0.4000000000000       0.2210000000000    
+    0.5000000000000       0.2710000000000    
+    0.6000000000000       0.3410000000000    
+    0.6300000000000       0.3680000000000    
+    0.9500000000000       0.6680000000000    
+     1.000000000000        1.000000000000    
+
+    LOAD CURVE ID . . . . . . . . . . . =         4
+
+    X                     Y               
+    -1.000000000000       -200.0000000000    
+     0.000000000000        0.000000000000    
+    0.1000000000000        20.00000000000    
+    0.9000000000000        21.60000000000    
+     1.000000000000        200.0000000000    
+
+    LOAD CURVE ID . . . . . . . . . . . =        21
+
+    X                     Y               
+   -0.8999999800000       4.3436611000000E+29
+     0.000000000000       4.3436611000000E+29
+     4.000000000000       4.3436611000000E+29
+     19.00000000000       2.1699886000000E+35
+
+    LOAD CURVE ID . . . . . . . . . . . =        22
+
+    X                     Y               
+   -0.8999999800000       2.1718305000000E+29
+     0.000000000000       2.1718305000000E+29
+     4.000000000000       2.1718305000000E+29
+     19.00000000000       2.1699866000000E+35
+
+    LOAD CURVE ID . . . . . . . . . . . =        31
+
+    X                     Y               
+     0.000000000000       -1000.000000000    
+    8.0000000000000E-03   -1000.000000000    
+    9.0000000000000E-03    1000.000000000    
+    1.7000000000000E-02    1000.000000000    
+    1.8000000000000E-02    0.000000000000    
+    0.1000000000000        0.000000000000    
+
+    LOAD CURVE ID . . . . . . . . . . . =        41
+
+    X                     Y               
+   -0.8999999800000       0.4343661100000    
+     0.000000000000       0.4343661100000    
+    0.8500000200000       0.4343661100000    
+    0.9499999900000        216998.8600000    
+
+    LOAD CURVE ID . . . . . . . . . . . =        42
+
+    X                     Y               
+   -0.8999999800000        4.343661100000    
+     0.000000000000        4.343661100000    
+    0.8500000200000        4.343661100000    
+    0.9499999900000        2169988.600000    
+
+
+    TABLES
+    ------
+    NUMBER OF TABLES . . . . . . . . . . =         0
+
+
+
+    MATERIAL LAWS
+    -------------
+    NUMBER OF MATERIALS. . . . . . . . . =        15
+
+
+
+     NASTRAN MID _       101_LAW 28 PURE COMPRESSION
+     MATERIAL NUMBER . . . . . . . . . . . .=       101
+     MATERIAL LAW. . . . . . . . . . . . . .=        33
+
+       HONEYCOMB LAW                         
+       -------------                         
+
+
+     INITIAL DENSITY . . . . . . . . . . . .= 2.0000000000000E-10
+
+     E11 . . . . . . . . . . . . . . . . . .=  200.0000000000    
+     E22 . . . . . . . . . . . . . . . . . .=  200.0000000000    
+     E33 . . . . . . . . . . . . . . . . . .=  200.0000000000    
+     G12 . . . . . . . . . . . . . . . . . .=  100.0000000000    
+     G23 . . . . . . . . . . . . . . . . . .=  100.0000000000    
+     G31 . . . . . . . . . . . . . . . . . .=  100.0000000000    
+     YIELD STRESS 11 FUNCTION NUMBER . . . .=        21
+     YIELD STRESS 22 FUNCTION NUMBER . . . .=        21
+     YIELD STRESS 33 FUNCTION NUMBER . . . .=        21
+     YIELD STRESS 12 FUNCTION NUMBER . . . .=        22
+     YIELD STRESS 23 FUNCTION NUMBER . . . .=        22
+     YIELD STRESS 31 FUNCTION NUMBER . . . .=        22
+     STRESS 11 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
+     STRESS 22 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
+     STRESS 33 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
+     STRESS 12 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
+     STRESS 23 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
+     STRESS 31 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
+
+
+     NASTRAN MID _       201LAW 28 PURE SHEAR
+     MATERIAL NUMBER . . . . . . . . . . . .=       201
+     MATERIAL LAW. . . . . . . . . . . . . .=        33
+
+       HONEYCOMB LAW                         
+       -------------                         
+
+
+     INITIAL DENSITY . . . . . . . . . . . .= 2.0000000000000E-10
+
+     E11 . . . . . . . . . . . . . . . . . .=  200.0000000000    
+     E22 . . . . . . . . . . . . . . . . . .=  200.0000000000    
+     E33 . . . . . . . . . . . . . . . . . .=  200.0000000000    
+     G12 . . . . . . . . . . . . . . . . . .=  100.0000000000    
+     G23 . . . . . . . . . . . . . . . . . .=  100.0000000000    
+     G31 . . . . . . . . . . . . . . . . . .=  100.0000000000    
+     YIELD STRESS 11 FUNCTION NUMBER . . . .=        21
+     YIELD STRESS 22 FUNCTION NUMBER . . . .=        21
+     YIELD STRESS 33 FUNCTION NUMBER . . . .=        21
+     YIELD STRESS 12 FUNCTION NUMBER . . . .=        22
+     YIELD STRESS 23 FUNCTION NUMBER . . . .=        22
+     YIELD STRESS 31 FUNCTION NUMBER . . . .=        22
+     STRESS 11 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
+     STRESS 22 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
+     STRESS 33 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
+     STRESS 12 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
+     STRESS 23 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
+     STRESS 31 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
+
+
+     NASTRAN MID _       301_LAW 28 HYDROSTATIC
+     MATERIAL NUMBER . . . . . . . . . . . .=       301
+     MATERIAL LAW. . . . . . . . . . . . . .=        33
+
+       HONEYCOMB LAW                         
+       -------------                         
+
+
+     INITIAL DENSITY . . . . . . . . . . . .= 2.0000000000000E-10
+
+     E11 . . . . . . . . . . . . . . . . . .=  200.0000000000    
+     E22 . . . . . . . . . . . . . . . . . .=  200.0000000000    
+     E33 . . . . . . . . . . . . . . . . . .=  200.0000000000    
+     G12 . . . . . . . . . . . . . . . . . .=  100.0000000000    
+     G23 . . . . . . . . . . . . . . . . . .=  100.0000000000    
+     G31 . . . . . . . . . . . . . . . . . .=  100.0000000000    
+     YIELD STRESS 11 FUNCTION NUMBER . . . .=        21
+     YIELD STRESS 22 FUNCTION NUMBER . . . .=        21
+     YIELD STRESS 33 FUNCTION NUMBER . . . .=        21
+     YIELD STRESS 12 FUNCTION NUMBER . . . .=        22
+     YIELD STRESS 23 FUNCTION NUMBER . . . .=        22
+     YIELD STRESS 31 FUNCTION NUMBER . . . .=        22
+     STRESS 11 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
+     STRESS 22 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
+     STRESS 33 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
+     STRESS 12 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
+     STRESS 23 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
+     STRESS 31 FUNCTION SCALE FACTOR . . . .=  1.000000000000    
+
+
+     NASTRAN MID _       401_LAW 33 PURE COMPRESSION
+     MATERIAL NUMBER . . . . . . . . . . . .=       401
+     MATERIAL LAW. . . . . . . . . . . . . .=        33
+
+       LOW DENSITY CLOSED CELL POLYURETHANE FOAM
+       -----------------------------------------
+
+
+     YOUNG'S MODULUS . . . . . . . . . . . .=  200.0000000000    
+     FLAG. . . . . . . . . . . . . . . . . .=         1
+     FUNCTION NUMBER FOR THE YIELD CURVE . .=         0
+
+     YIELD CURVE SCALE FACTOR. . . . . . . .=  1.000000000000    
+     STRAIN RATE EFFECT CURVE. . . . . . .  =         0
+     STRAIN RATE EFFECT SCALE FACTOR . . . .=  0.000000000000    
+     USER CONSTANT FOR YOUNG MODULUS C1. . .=  0.000000000000    
+     USER CONSTANT FOR YOUNG MODULUS C2. . .=  0.000000000000    
+     TANGENT MODULUS . . . . . . . . . . . .=  2.000000000000    
+     VISCOUS COEFFICIENT (PURE COMPRESSION).= 0.2000000000000    
+     VISCOUS COEFFICIENT (PURE SHEAR). . . .= 0.1000000000000    
+
+     USER CONSTANT FOR YIELD STRESS A. . . .= 1.0000000000000E+30
+     USER CONSTANT FOR YIELD STRESS B. . . .=  0.000000000000    
+     USER CONSTANT FOR YIELD STRESS C. . . .=  0.000000000000    
+
+     INITIAL FOAM PRESSURE . . . . . . . . .=  0.000000000000    
+     RATIO OF FOAM TO POLYMER DENSITY. . . .=  0.000000000000    
+     INITIAL VOLUMETRIC STRAIN. . . .. . . .=  0.000000000000    
+
+
+     NASTRAN MID _       501_LAW 28 PURE SHEAR
+     MATERIAL NUMBER . . . . . . . . . . . .=       501
+     MATERIAL LAW. . . . . . . . . . . . . .=        33
+
+       LOW DENSITY CLOSED CELL POLYURETHANE FOAM
+       -----------------------------------------
+
+
+     YOUNG'S MODULUS . . . . . . . . . . . .=  200.0000000000    
+     FLAG. . . . . . . . . . . . . . . . . .=         1
+     FUNCTION NUMBER FOR THE YIELD CURVE . .=         0
+
+     YIELD CURVE SCALE FACTOR. . . . . . . .=  1.000000000000    
+     STRAIN RATE EFFECT CURVE. . . . . . .  =         0
+     STRAIN RATE EFFECT SCALE FACTOR . . . .=  0.000000000000    
+     USER CONSTANT FOR YOUNG MODULUS C1. . .=  0.000000000000    
+     USER CONSTANT FOR YOUNG MODULUS C2. . .=  0.000000000000    
+     TANGENT MODULUS . . . . . . . . . . . .=  2.000000000000    
+     VISCOUS COEFFICIENT (PURE COMPRESSION).= 0.2000000000000    
+     VISCOUS COEFFICIENT (PURE SHEAR). . . .= 0.1000000000000    
+
+     USER CONSTANT FOR YIELD STRESS A. . . .= 1.0000000000000E+30
+     USER CONSTANT FOR YIELD STRESS B. . . .=  0.000000000000    
+     USER CONSTANT FOR YIELD STRESS C. . . .=  0.000000000000    
+
+     INITIAL FOAM PRESSURE . . . . . . . . .=  0.000000000000    
+     RATIO OF FOAM TO POLYMER DENSITY. . . .=  0.000000000000    
+     INITIAL VOLUMETRIC STRAIN. . . .. . . .=  0.000000000000    
+
+
+     NASTRAN MID _       601_LAW 28 HYDROSTATIC
+     MATERIAL NUMBER . . . . . . . . . . . .=       601
+     MATERIAL LAW. . . . . . . . . . . . . .=        33
+
+       LOW DENSITY CLOSED CELL POLYURETHANE FOAM
+       -----------------------------------------
+
+
+     YOUNG'S MODULUS . . . . . . . . . . . .=  200.0000000000    
+     FLAG. . . . . . . . . . . . . . . . . .=         1
+     FUNCTION NUMBER FOR THE YIELD CURVE . .=         0
+
+     YIELD CURVE SCALE FACTOR. . . . . . . .=  1.000000000000    
+     STRAIN RATE EFFECT CURVE. . . . . . .  =         0
+     STRAIN RATE EFFECT SCALE FACTOR . . . .=  0.000000000000    
+     USER CONSTANT FOR YOUNG MODULUS C1. . .=  0.000000000000    
+     USER CONSTANT FOR YOUNG MODULUS C2. . .=  0.000000000000    
+     TANGENT MODULUS . . . . . . . . . . . .=  2.000000000000    
+     VISCOUS COEFFICIENT (PURE COMPRESSION).= 0.2000000000000    
+     VISCOUS COEFFICIENT (PURE SHEAR). . . .= 0.1000000000000    
+
+     USER CONSTANT FOR YIELD STRESS A. . . .= 1.0000000000000E+30
+     USER CONSTANT FOR YIELD STRESS B. . . .=  0.000000000000    
+     USER CONSTANT FOR YIELD STRESS C. . . .=  0.000000000000    
+
+     INITIAL FOAM PRESSURE . . . . . . . . .=  0.000000000000    
+     RATIO OF FOAM TO POLYMER DENSITY. . . .=  0.000000000000    
+     INITIAL VOLUMETRIC STRAIN. . . .. . . .=  0.000000000000    
+
+
+     NASTRAN MID _       701_LAW 34 PURE COMPRESSION
+     MATERIAL NUMBER . . . . . . . . . . . .=       701
+     MATERIAL LAW. . . . . . . . . . . . . .=        34
+
+       VISCOELASTIC
+       ------------
+
+
+     INITIAL DENSITY . . . . . . . . . . . .= 2.0000000000000E-10
+
+     BULK MODULUS. . . . . . . . . . . . . .=  66.66666670000    
+     SHEAR MODULUS (SHORT TIME). . . . . . .=  100.0000000000    
+     SHEAR MODULUS (LONG TIME) . . . . . . .=  1.000000000000    
+     DECAY CONSTANT. . . . . . . . . . . . .=  1000.000000000    
+
+     INITIAL FOAM PRESSURE . . . . . . . . .=  0.000000000000    
+     RATIO OF FOAM TO POLYMER DENSITY. . . .=  0.000000000000    
+     INITIAL VOLUMETRIC STRAIN. . . .. . . .=  0.000000000000    
+
+
+
+     NASTRAN MID _       801_LAW 34 PURE SHEAR
+     MATERIAL NUMBER . . . . . . . . . . . .=       801
+     MATERIAL LAW. . . . . . . . . . . . . .=        34
+
+       VISCOELASTIC
+       ------------
+
+
+     INITIAL DENSITY . . . . . . . . . . . .= 2.0000000000000E-10
+
+     BULK MODULUS. . . . . . . . . . . . . .=  66.66666670000    
+     SHEAR MODULUS (SHORT TIME). . . . . . .=  100.0000000000    
+     SHEAR MODULUS (LONG TIME) . . . . . . .=  1.000000000000    
+     DECAY CONSTANT. . . . . . . . . . . . .=  1000.000000000    
+
+     INITIAL FOAM PRESSURE . . . . . . . . .=  0.000000000000    
+     RATIO OF FOAM TO POLYMER DENSITY. . . .=  0.000000000000    
+     INITIAL VOLUMETRIC STRAIN. . . .. . . .=  0.000000000000    
+
+
+
+     NASTRAN MID _       901_LAW 34 HYDROSTATIC
+     MATERIAL NUMBER . . . . . . . . . . . .=       901
+     MATERIAL LAW. . . . . . . . . . . . . .=        34
+
+       VISCOELASTIC
+       ------------
+
+
+     INITIAL DENSITY . . . . . . . . . . . .= 2.0000000000000E-10
+
+     BULK MODULUS. . . . . . . . . . . . . .=  66.66666670000    
+     SHEAR MODULUS (SHORT TIME). . . . . . .=  100.0000000000    
+     SHEAR MODULUS (LONG TIME) . . . . . . .=  1.000000000000    
+     DECAY CONSTANT. . . . . . . . . . . . .=  1000.000000000    
+
+     INITIAL FOAM PRESSURE . . . . . . . . .=  0.000000000000    
+     RATIO OF FOAM TO POLYMER DENSITY. . . .=  0.000000000000    
+     INITIAL VOLUMETRIC STRAIN. . . .. . . .=  0.000000000000    
+
+
+
+     NASTRAN MID _      1001_LAW 35 PURE COMPRESSION
+     MATERIAL NUMBER . . . . . . . . . . . .=      1001
+     MATERIAL LAW. . . . . . . . . . . . . .=        35
+
+       ELASTIC WITH VISCOSITY
+       ----------------------
+
+
+     INITIAL DENSITY . . . . . . . . . . . .= 2.0000000000000E-10
+
+     INITIAL DENSITY . . . . . . . . . . . .= 2.0000000000000E-10
+
+     YOUNG'S MODULUS. . . . . . . . . . . .=  200.0000000000    
+     POISSON'S RATIO. . . . . . . . . . . .=  0.000000000000    
+     E1. . . . . . . . . . . . . . . . . . .=  0.000000000000    
+     E2. . . . . . . . . . . . . . . . . . .=  0.000000000000    
+     EXPONENT ON RELATIVE VOLUME . . . . . .=  0.000000000000    
+
+     C1. . . . . . . . . . . . . . . . . . .=  1.000000000000    
+     C2. . . . . . . . . . . . . . . . . . .=  1.000000000000    
+     C3. . . . . . . . . . . . . . . . . . .=  1.000000000000    
+
+     FUNCTION NUMBER FOR PRESSURE. . . . . .=         0
+     PRESSURE FUNCTION SCALE FACTOR. . . . .=  1.000000000000    
+
+     FLAG FOR OPEN CELL FOAM FORMULATION . .=         0
+     CUT OFF PRESSURE IN TENSION . . . . . .=-1.0000000000000E+20
+
+     ET. . . . . . . . . . . . . . . . . . .=  2.000000000000    
+     POISSON'S RATIO (TANGENT). . . . . . .=  0.000000000000    
+     VISCOSITY COEFFICIENT (IN PURE SHEAR) .= 0.1000000000000    
+     VISCOSITY COEFFICIENT (VOLUMETRIC). . .=  0.000000000000    
+
+     INITIAL PRESSURE. . . . . . . . . . . .=  0.000000000000    
+     POROSITY. . . . . . . . . . . . . . . .=  0.000000000000    
+     INITIAL VOLUMETRIC STRAIN. . . .. . . .=  0.000000000000    
+
+     STRAIN RATE FILTERING FLAG  . . . . . .=         0
+     STRAIN RATE CUTTING FREQUENCY . . . . .=  0.000000000000    
+
+     NASTRAN MID _      1101_LAW 35 PURE SHEAR
+     MATERIAL NUMBER . . . . . . . . . . . .=      1101
+     MATERIAL LAW. . . . . . . . . . . . . .=        35
+
+       ELASTIC WITH VISCOSITY
+       ----------------------
+
+
+     INITIAL DENSITY . . . . . . . . . . . .= 2.0000000000000E-10
+
+     INITIAL DENSITY . . . . . . . . . . . .= 2.0000000000000E-10
+
+     YOUNG'S MODULUS. . . . . . . . . . . .=  200.0000000000    
+     POISSON'S RATIO. . . . . . . . . . . .=  0.000000000000    
+     E1. . . . . . . . . . . . . . . . . . .=  0.000000000000    
+     E2. . . . . . . . . . . . . . . . . . .=  0.000000000000    
+     EXPONENT ON RELATIVE VOLUME . . . . . .=  0.000000000000    
+
+     C1. . . . . . . . . . . . . . . . . . .=  1.000000000000    
+     C2. . . . . . . . . . . . . . . . . . .=  1.000000000000    
+     C3. . . . . . . . . . . . . . . . . . .=  1.000000000000    
+
+     FUNCTION NUMBER FOR PRESSURE. . . . . .=         0
+     PRESSURE FUNCTION SCALE FACTOR. . . . .=  1.000000000000    
+
+     FLAG FOR OPEN CELL FOAM FORMULATION . .=         0
+     CUT OFF PRESSURE IN TENSION . . . . . .=-1.0000000000000E+20
+
+     ET. . . . . . . . . . . . . . . . . . .=  2.000000000000    
+     POISSON'S RATIO (TANGENT). . . . . . .=  0.000000000000    
+     VISCOSITY COEFFICIENT (IN PURE SHEAR) .= 0.1000000000000    
+     VISCOSITY COEFFICIENT (VOLUMETRIC). . .=  0.000000000000    
+
+     INITIAL PRESSURE. . . . . . . . . . . .=  0.000000000000    
+     POROSITY. . . . . . . . . . . . . . . .=  0.000000000000    
+     INITIAL VOLUMETRIC STRAIN. . . .. . . .=  0.000000000000    
+
+     STRAIN RATE FILTERING FLAG  . . . . . .=         0
+     STRAIN RATE CUTTING FREQUENCY . . . . .=  0.000000000000    
+
+     NASTRAN MID _      1201_LAW 35 HYDROSTATIC
+     MATERIAL NUMBER . . . . . . . . . . . .=      1201
+     MATERIAL LAW. . . . . . . . . . . . . .=        35
+
+       ELASTIC WITH VISCOSITY
+       ----------------------
+
+
+     INITIAL DENSITY . . . . . . . . . . . .= 2.0000000000000E-10
+
+     INITIAL DENSITY . . . . . . . . . . . .= 2.0000000000000E-10
+
+     YOUNG'S MODULUS. . . . . . . . . . . .=  200.0000000000    
+     POISSON'S RATIO. . . . . . . . . . . .=  0.000000000000    
+     E1. . . . . . . . . . . . . . . . . . .=  0.000000000000    
+     E2. . . . . . . . . . . . . . . . . . .=  0.000000000000    
+     EXPONENT ON RELATIVE VOLUME . . . . . .=  0.000000000000    
+
+     C1. . . . . . . . . . . . . . . . . . .=  1.000000000000    
+     C2. . . . . . . . . . . . . . . . . . .=  1.000000000000    
+     C3. . . . . . . . . . . . . . . . . . .=  1.000000000000    
+
+     FUNCTION NUMBER FOR PRESSURE. . . . . .=         0
+     PRESSURE FUNCTION SCALE FACTOR. . . . .=  1.000000000000    
+
+     FLAG FOR OPEN CELL FOAM FORMULATION . .=         0
+     CUT OFF PRESSURE IN TENSION . . . . . .=-1.0000000000000E+20
+
+     ET. . . . . . . . . . . . . . . . . . .=  2.000000000000    
+     POISSON'S RATIO (TANGENT). . . . . . .=  0.000000000000    
+     VISCOSITY COEFFICIENT (IN PURE SHEAR) .= 0.1000000000000    
+     VISCOSITY COEFFICIENT (VOLUMETRIC). . .=  0.000000000000    
+
+     INITIAL PRESSURE. . . . . . . . . . . .=  0.000000000000    
+     POROSITY. . . . . . . . . . . . . . . .=  0.000000000000    
+     INITIAL VOLUMETRIC STRAIN. . . .. . . .=  0.000000000000    
+
+     STRAIN RATE FILTERING FLAG  . . . . . .=         0
+     STRAIN RATE CUTTING FREQUENCY . . . . .=  0.000000000000    
+
+     NASTRAN MID _      1301_LAW 38 PURE COMPRESSION
+     MATERIAL NUMBER. . . . . . . . . . . . =      1301
+     MATERIAL LAW . . . . . . . . . . . . . =        38
+
+       STRAIN RATE DEPENDENT INTERPOLATION FOR FOAM MATERIAL
+       -----------------------------------------------------
+
+
+     INITIAL DENSITY. . . . . . . . . . . . = 2.0000000000000E-10
+
+     INITIAL ELASTIC MODULUS . . . . . . . .=  200.0000000000    
+     POISSON'S RATIO IN TENSION. . . . . . = 1.0000000000000E-20
+     POISSON'S RATIO IN COMPRESSION. . . . =  0.000000000000    
+     EXPONENT FOR POISSON'S RATIO UPDATE. .=  0.000000000000    
+     ANALYSIS FLAG . . . . . . . . . . . . .=         0
+     FORMULATION (2,3=INCREMENTAL;0,1=TOTAL)=         0
+
+
+     BETA. . . . . . . . . . . . . . . . . .= 1.0000000000000E-20
+     HYSTERYSIS COEFFICIENT. . . . . . . . .=  1.000000000000    
+     DAMPING COEFFICIENT ON STRAIN RATE. . .= 0.5000000000000    
+     RECOVERY FLAG ON UNLOADING. . . . . . .=         0
+     HYSTERYSES MODEl. . . . . . . . . . . .=         0
+     THETA (INCREMENTAL INTEGRATION) . . . .= 0.6700000000000    
+
+
+     AIR PRESSURE COMPUTATION FLAG . . . . .=         0
+     AIR PRESSURE FUNCTION NUMBER. . . . . .=         0
+     ATMOSPHERIC PRESSURE. . . . . . . . . .=  0.000000000000    
+     RELAXATION PARAMETER. . . . . . . . . .= 1.0000000000000E-20
+     MAXIMUM PRESSURE. . . . . . . . . . . .= 1.0000000200409E+20
+     POROSITY. . . . . . . . . . . . . . . .=  0.000000000000    
+
+
+     UNLOADING FUNCTION NUMBER . . . . . . .=         0
+     FACTOR FOR UNLOADING FUNCTION . . . . .=  1.000000000000    
+     UNLOADING RATE. . . . . . . . . . . . .=  0.000000000000    
+     EXPONENT FOR STRESS INTERPOLATION A . .=  1.000000000000    
+     EXPONENT FOR STRESS INTERPOLATION B . .=  1.000000000000    
+
+
+     NUMBER OF FUNCTIONS DEFINING RATE DEPENDENCY =         1
+     MATERIAL STABLISATION FLAG . . . . . . . . . =         0
+     TENSION CUT-OFF STRESS. . . . . . . . .= 1.0000000200409E+20
+
+
+     MODULE AT INFINITY. . . . . . . . . . . .=  200.0000000000    
+     EPSFIN. . . . . . . . . . . . . . . . . .=  1.000000000000    
+     LAMDA . . . . . . . . . . . . . . . . . .=  1.000000000000    
+     VISCOSITY_MAX. . . . . . . . . . . .  . .= 1.0000000200409E+20
+     TOLERANCE FOR PRINCIPAL DIRECTION UPDATE =  1.000000000000    
+
+
+     SCALE FACTORS : 
+  1.000000000000    
+     STRAIN RATES : 
+  0.000000000000    
+     LOADING CURVES : 
+         4
+     UNLOADING CURVES : 
+         4
+ 
+
+     NASTRAN MID _      1401_LAW 38 PURE SHEAR
+     MATERIAL NUMBER. . . . . . . . . . . . =      1401
+     MATERIAL LAW . . . . . . . . . . . . . =        38
+
+       STRAIN RATE DEPENDENT INTERPOLATION FOR FOAM MATERIAL
+       -----------------------------------------------------
+
+
+     INITIAL DENSITY. . . . . . . . . . . . = 2.0000000000000E-10
+
+     INITIAL ELASTIC MODULUS . . . . . . . .=  200.0000000000    
+     POISSON'S RATIO IN TENSION. . . . . . = 1.0000000000000E-20
+     POISSON'S RATIO IN COMPRESSION. . . . =  0.000000000000    
+     EXPONENT FOR POISSON'S RATIO UPDATE. .=  0.000000000000    
+     ANALYSIS FLAG . . . . . . . . . . . . .=         0
+     FORMULATION (2,3=INCREMENTAL;0,1=TOTAL)=         0
+
+
+     BETA. . . . . . . . . . . . . . . . . .= 1.0000000000000E-20
+     HYSTERYSIS COEFFICIENT. . . . . . . . .=  1.000000000000    
+     DAMPING COEFFICIENT ON STRAIN RATE. . .= 0.5000000000000    
+     RECOVERY FLAG ON UNLOADING. . . . . . .=         0
+     HYSTERYSES MODEl. . . . . . . . . . . .=         0
+     THETA (INCREMENTAL INTEGRATION) . . . .= 0.6700000000000    
+
+
+     AIR PRESSURE COMPUTATION FLAG . . . . .=         0
+     AIR PRESSURE FUNCTION NUMBER. . . . . .=         0
+     ATMOSPHERIC PRESSURE. . . . . . . . . .=  0.000000000000    
+     RELAXATION PARAMETER. . . . . . . . . .= 1.0000000000000E-20
+     MAXIMUM PRESSURE. . . . . . . . . . . .= 1.0000000200409E+20
+     POROSITY. . . . . . . . . . . . . . . .=  0.000000000000    
+
+
+     UNLOADING FUNCTION NUMBER . . . . . . .=         0
+     FACTOR FOR UNLOADING FUNCTION . . . . .=  1.000000000000    
+     UNLOADING RATE. . . . . . . . . . . . .=  0.000000000000    
+     EXPONENT FOR STRESS INTERPOLATION A . .=  1.000000000000    
+     EXPONENT FOR STRESS INTERPOLATION B . .=  1.000000000000    
+
+
+     NUMBER OF FUNCTIONS DEFINING RATE DEPENDENCY =         1
+     MATERIAL STABLISATION FLAG . . . . . . . . . =         0
+     TENSION CUT-OFF STRESS. . . . . . . . .= 1.0000000200409E+20
+
+
+     MODULE AT INFINITY. . . . . . . . . . . .=  200.0000000000    
+     EPSFIN. . . . . . . . . . . . . . . . . .=  1.000000000000    
+     LAMDA . . . . . . . . . . . . . . . . . .=  1.000000000000    
+     VISCOSITY_MAX. . . . . . . . . . . .  . .= 1.0000000200409E+20
+     TOLERANCE FOR PRINCIPAL DIRECTION UPDATE =  1.000000000000    
+
+
+     SCALE FACTORS : 
+  1.000000000000    
+     STRAIN RATES : 
+  0.000000000000    
+     LOADING CURVES : 
+         4
+     UNLOADING CURVES : 
+         4
+ 
+
+     NASTRAN MID _      1501_LAW 38 HYDROSTATIC
+     MATERIAL NUMBER. . . . . . . . . . . . =      1501
+     MATERIAL LAW . . . . . . . . . . . . . =        38
+
+       STRAIN RATE DEPENDENT INTERPOLATION FOR FOAM MATERIAL
+       -----------------------------------------------------
+
+
+     INITIAL DENSITY. . . . . . . . . . . . = 2.0000000000000E-10
+
+     INITIAL ELASTIC MODULUS . . . . . . . .=  200.0000000000    
+     POISSON'S RATIO IN TENSION. . . . . . = 1.0000000000000E-20
+     POISSON'S RATIO IN COMPRESSION. . . . =  0.000000000000    
+     EXPONENT FOR POISSON'S RATIO UPDATE. .=  0.000000000000    
+     ANALYSIS FLAG . . . . . . . . . . . . .=         0
+     FORMULATION (2,3=INCREMENTAL;0,1=TOTAL)=         0
+
+
+     BETA. . . . . . . . . . . . . . . . . .= 1.0000000000000E-20
+     HYSTERYSIS COEFFICIENT. . . . . . . . .=  1.000000000000    
+     DAMPING COEFFICIENT ON STRAIN RATE. . .= 0.5000000000000    
+     RECOVERY FLAG ON UNLOADING. . . . . . .=         0
+     HYSTERYSES MODEl. . . . . . . . . . . .=         0
+     THETA (INCREMENTAL INTEGRATION) . . . .= 0.6700000000000    
+
+
+     AIR PRESSURE COMPUTATION FLAG . . . . .=         0
+     AIR PRESSURE FUNCTION NUMBER. . . . . .=         0
+     ATMOSPHERIC PRESSURE. . . . . . . . . .=  0.000000000000    
+     RELAXATION PARAMETER. . . . . . . . . .= 1.0000000000000E-20
+     MAXIMUM PRESSURE. . . . . . . . . . . .= 1.0000000200409E+20
+     POROSITY. . . . . . . . . . . . . . . .=  0.000000000000    
+
+
+     UNLOADING FUNCTION NUMBER . . . . . . .=         0
+     FACTOR FOR UNLOADING FUNCTION . . . . .=  1.000000000000    
+     UNLOADING RATE. . . . . . . . . . . . .=  0.000000000000    
+     EXPONENT FOR STRESS INTERPOLATION A . .=  1.000000000000    
+     EXPONENT FOR STRESS INTERPOLATION B . .=  1.000000000000    
+
+
+     NUMBER OF FUNCTIONS DEFINING RATE DEPENDENCY =         1
+     MATERIAL STABLISATION FLAG . . . . . . . . . =         0
+     TENSION CUT-OFF STRESS. . . . . . . . .= 1.0000000200409E+20
+
+
+     MODULE AT INFINITY. . . . . . . . . . . .=  200.0000000000    
+     EPSFIN. . . . . . . . . . . . . . . . . .=  1.000000000000    
+     LAMDA . . . . . . . . . . . . . . . . . .=  1.000000000000    
+     VISCOSITY_MAX. . . . . . . . . . . .  . .= 1.0000000200409E+20
+     TOLERANCE FOR PRINCIPAL DIRECTION UPDATE =  1.000000000000    
+
+
+     SCALE FACTORS : 
+  1.000000000000    
+     STRAIN RATES : 
+  0.000000000000    
+     LOADING CURVES : 
+         4
+     UNLOADING CURVES : 
+         4
+ 
+     SKEW SYSTEM SETS                                                                    
+     -------------------                                                                 
+     NUMBER        N1        N2        N3          VECTORS                                          ORIGIN
+          1         0         0         0        0.0000000       1.0000000       0.0000000       0.0000000       0.0000000       0.0000000
+                                                 0.0000000       0.0000000       1.0000000
+                                                 1.0000000       0.0000000       0.0000000
+
+     SUBMODEL SKEWS(INTERNAL)                                                            
+     --------------------------------------                                              
+     NUMBER          VECTORS                                          ORIGIN
+ 1000000001        1.0000000       0.0000000       0.0000000       0.0000000       0.0000000       0.0000000
+                   0.0000000       1.0000000       0.0000000
+                   0.0000000       0.0000000       1.0000000
+
+
+
+         PROPERTY SETS (HM_READER)
+         -------------
+
+
+LAW 28 PURE COMPRESSION                 
+     ORTHOTROPIC SOLID PROPERTY SET
+     PROPERTY SET NUMBER . . . . . . . . . .=       101
+     SOLID FORMULATION FLAG. . . . . . . . .=         1
+     SMALL STRAIN FLAG . . . . . . . . . . .=         1
+     SOLID STRESS PLASTICITY FLAG. . . . . .=         2
+     NUMBER OF INTEGRATION POINTS. .  . .  .=         1
+     COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
+     TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
+     TETRA10 FORMULATION FLAG . . . .  . . .=      1000
+     CONSTANT PRESSURE FLAG. . . . . . . . .=         0
+     CONSTANT STRESS FLAG. . . . . . . . . .=         0
+     HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
+     QUADRATIC BULK VISCOSITY. . . . . . . .= 1.0000000000000E-20
+     LINEAR BULK VISCOSITY . . . . . . . . .= 5.0000000000000E-02
+     HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
+     BRICK MINIMUM TIME STEP................=  0.000000000000    
+     LOCAL ORTHOTROPY SYSTEM FORMULATION . .=         0
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
+
+     ORTHOTROPIC PLANE NUMBER. . . . . . . .=         1
+          1=(R,S)  2=(S,T)  3=(T,R)            
+     ORTHOTROPIC ANGLE . . . . . . . . . . .=  0.000000000000    
+LAW 28 PURE SHEAR                       
+     ORTHOTROPIC SOLID PROPERTY SET
+     PROPERTY SET NUMBER . . . . . . . . . .=       201
+     SOLID FORMULATION FLAG. . . . . . . . .=         1
+     SMALL STRAIN FLAG . . . . . . . . . . .=         1
+     SOLID STRESS PLASTICITY FLAG. . . . . .=         2
+     NUMBER OF INTEGRATION POINTS. .  . .  .=         1
+     COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
+     TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
+     TETRA10 FORMULATION FLAG . . . .  . . .=      1000
+     CONSTANT PRESSURE FLAG. . . . . . . . .=         0
+     CONSTANT STRESS FLAG. . . . . . . . . .=         0
+     HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
+     QUADRATIC BULK VISCOSITY. . . . . . . .= 1.0000000000000E-20
+     LINEAR BULK VISCOSITY . . . . . . . . .= 5.0000000000000E-02
+     HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
+     BRICK MINIMUM TIME STEP................=  0.000000000000    
+     LOCAL ORTHOTROPY SYSTEM FORMULATION . .=         0
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
+
+     ORTHOTROPIC PLANE NUMBER. . . . . . . .=         1
+          1=(R,S)  2=(S,T)  3=(T,R)            
+     ORTHOTROPIC ANGLE . . . . . . . . . . .=  0.000000000000    
+LAW 28 HYDROSTATIC LOADING              
+     ORTHOTROPIC SOLID PROPERTY SET
+     PROPERTY SET NUMBER . . . . . . . . . .=       301
+     SOLID FORMULATION FLAG. . . . . . . . .=         1
+     SMALL STRAIN FLAG . . . . . . . . . . .=         1
+     SOLID STRESS PLASTICITY FLAG. . . . . .=         2
+     NUMBER OF INTEGRATION POINTS. .  . .  .=         1
+     COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
+     TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
+     TETRA10 FORMULATION FLAG . . . .  . . .=      1000
+     CONSTANT PRESSURE FLAG. . . . . . . . .=         0
+     CONSTANT STRESS FLAG. . . . . . . . . .=         0
+     HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
+     QUADRATIC BULK VISCOSITY. . . . . . . .= 1.0000000000000E-20
+     LINEAR BULK VISCOSITY . . . . . . . . .= 5.0000000000000E-02
+     HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
+     BRICK MINIMUM TIME STEP................=  0.000000000000    
+     LOCAL ORTHOTROPY SYSTEM FORMULATION . .=         0
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
+
+     ORTHOTROPIC PLANE NUMBER. . . . . . . .=         1
+          1=(R,S)  2=(S,T)  3=(T,R)            
+     ORTHOTROPIC ANGLE . . . . . . . . . . .=  0.000000000000    
+LAW 33 PURE COMPRESSION                 
+     ORTHOTROPIC SOLID PROPERTY SET
+     PROPERTY SET NUMBER . . . . . . . . . .=       401
+     SOLID FORMULATION FLAG. . . . . . . . .=         1
+     SMALL STRAIN FLAG . . . . . . . . . . .=         1
+     SOLID STRESS PLASTICITY FLAG. . . . . .=         2
+     NUMBER OF INTEGRATION POINTS. .  . .  .=         1
+     COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
+     TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
+     TETRA10 FORMULATION FLAG . . . .  . . .=      1000
+     CONSTANT PRESSURE FLAG. . . . . . . . .=         0
+     CONSTANT STRESS FLAG. . . . . . . . . .=         0
+     HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
+     DEFAULT VALUE FOR QUADRATIC BULK. . . . 
+          VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
+     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     DEFAULT VALUE FOR LINEAR BULK . . . . . 
+          VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
+     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
+     BRICK MINIMUM TIME STEP................=  0.000000000000    
+     LOCAL ORTHOTROPY SYSTEM FORMULATION . .=         0
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
+
+     ORTHOTROPIC PLANE NUMBER. . . . . . . .=         1
+          1=(R,S)  2=(S,T)  3=(T,R)            
+     ORTHOTROPIC ANGLE . . . . . . . . . . .=  0.000000000000    
+LAW 33 PURE SHEAR                       
+     ORTHOTROPIC SOLID PROPERTY SET
+     PROPERTY SET NUMBER . . . . . . . . . .=       501
+     SOLID FORMULATION FLAG. . . . . . . . .=         1
+     SMALL STRAIN FLAG . . . . . . . . . . .=         1
+     SOLID STRESS PLASTICITY FLAG. . . . . .=         2
+     NUMBER OF INTEGRATION POINTS. .  . .  .=         1
+     COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
+     TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
+     TETRA10 FORMULATION FLAG . . . .  . . .=      1000
+     CONSTANT PRESSURE FLAG. . . . . . . . .=         0
+     CONSTANT STRESS FLAG. . . . . . . . . .=         0
+     HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
+     DEFAULT VALUE FOR QUADRATIC BULK. . . . 
+          VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
+     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     DEFAULT VALUE FOR LINEAR BULK . . . . . 
+          VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
+     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
+     BRICK MINIMUM TIME STEP................=  0.000000000000    
+     LOCAL ORTHOTROPY SYSTEM FORMULATION . .=         0
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
+
+     ORTHOTROPIC PLANE NUMBER. . . . . . . .=         1
+          1=(R,S)  2=(S,T)  3=(T,R)            
+     ORTHOTROPIC ANGLE . . . . . . . . . . .=  0.000000000000    
+LAW 33 HYDROSTATIC LOADING              
+     ORTHOTROPIC SOLID PROPERTY SET
+     PROPERTY SET NUMBER . . . . . . . . . .=       601
+     SOLID FORMULATION FLAG. . . . . . . . .=         1
+     SMALL STRAIN FLAG . . . . . . . . . . .=         1
+     SOLID STRESS PLASTICITY FLAG. . . . . .=         2
+     NUMBER OF INTEGRATION POINTS. .  . .  .=         1
+     COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
+     TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
+     TETRA10 FORMULATION FLAG . . . .  . . .=      1000
+     CONSTANT PRESSURE FLAG. . . . . . . . .=         0
+     CONSTANT STRESS FLAG. . . . . . . . . .=         0
+     HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
+     DEFAULT VALUE FOR QUADRATIC BULK. . . . 
+          VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
+     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     DEFAULT VALUE FOR LINEAR BULK . . . . . 
+          VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
+     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
+     BRICK MINIMUM TIME STEP................=  0.000000000000    
+     LOCAL ORTHOTROPY SYSTEM FORMULATION . .=         0
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
+
+     ORTHOTROPIC PLANE NUMBER. . . . . . . .=         1
+          1=(R,S)  2=(S,T)  3=(T,R)            
+     ORTHOTROPIC ANGLE . . . . . . . . . . .=  0.000000000000    
+LAW 34 PURE COMPRESSION                 
+     ORTHOTROPIC SOLID PROPERTY SET
+     PROPERTY SET NUMBER . . . . . . . . . .=       701
+     SOLID FORMULATION FLAG. . . . . . . . .=         1
+     SMALL STRAIN FLAG . . . . . . . . . . .=         1
+     SOLID STRESS PLASTICITY FLAG. . . . . .=         2
+     NUMBER OF INTEGRATION POINTS. .  . .  .=         1
+     COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
+     TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
+     TETRA10 FORMULATION FLAG . . . .  . . .=      1000
+     CONSTANT PRESSURE FLAG. . . . . . . . .=         0
+     CONSTANT STRESS FLAG. . . . . . . . . .=         0
+     HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
+     DEFAULT VALUE FOR QUADRATIC BULK. . . . 
+          VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
+     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     DEFAULT VALUE FOR LINEAR BULK . . . . . 
+          VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
+     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
+     BRICK MINIMUM TIME STEP................=  0.000000000000    
+     LOCAL ORTHOTROPY SYSTEM FORMULATION . .=         0
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
+
+     ORTHOTROPIC PLANE NUMBER. . . . . . . .=         1
+          1=(R,S)  2=(S,T)  3=(T,R)            
+     ORTHOTROPIC ANGLE . . . . . . . . . . .=  0.000000000000    
+LAW 34 PURE SHEAR                       
+     ORTHOTROPIC SOLID PROPERTY SET
+     PROPERTY SET NUMBER . . . . . . . . . .=       801
+     SOLID FORMULATION FLAG. . . . . . . . .=         1
+     SMALL STRAIN FLAG . . . . . . . . . . .=         1
+     SOLID STRESS PLASTICITY FLAG. . . . . .=         2
+     NUMBER OF INTEGRATION POINTS. .  . .  .=         1
+     COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
+     TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
+     TETRA10 FORMULATION FLAG . . . .  . . .=      1000
+     CONSTANT PRESSURE FLAG. . . . . . . . .=         0
+     CONSTANT STRESS FLAG. . . . . . . . . .=         0
+     HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
+     DEFAULT VALUE FOR QUADRATIC BULK. . . . 
+          VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
+     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     DEFAULT VALUE FOR LINEAR BULK . . . . . 
+          VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
+     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
+     BRICK MINIMUM TIME STEP................=  0.000000000000    
+     LOCAL ORTHOTROPY SYSTEM FORMULATION . .=         0
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
+
+     ORTHOTROPIC PLANE NUMBER. . . . . . . .=         1
+          1=(R,S)  2=(S,T)  3=(T,R)            
+     ORTHOTROPIC ANGLE . . . . . . . . . . .=  0.000000000000    
+LAW 34 HYDROSTATIC LOADING              
+     ORTHOTROPIC SOLID PROPERTY SET
+     PROPERTY SET NUMBER . . . . . . . . . .=       901
+     SOLID FORMULATION FLAG. . . . . . . . .=         1
+     SMALL STRAIN FLAG . . . . . . . . . . .=         1
+     SOLID STRESS PLASTICITY FLAG. . . . . .=         2
+     NUMBER OF INTEGRATION POINTS. .  . .  .=         1
+     COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
+     TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
+     TETRA10 FORMULATION FLAG . . . .  . . .=      1000
+     CONSTANT PRESSURE FLAG. . . . . . . . .=         0
+     CONSTANT STRESS FLAG. . . . . . . . . .=         0
+     HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
+     DEFAULT VALUE FOR QUADRATIC BULK. . . . 
+          VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
+     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     DEFAULT VALUE FOR LINEAR BULK . . . . . 
+          VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
+     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
+     BRICK MINIMUM TIME STEP................=  0.000000000000    
+     LOCAL ORTHOTROPY SYSTEM FORMULATION . .=         0
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
+
+     ORTHOTROPIC PLANE NUMBER. . . . . . . .=         1
+          1=(R,S)  2=(S,T)  3=(T,R)            
+     ORTHOTROPIC ANGLE . . . . . . . . . . .=  0.000000000000    
+LAW 35 PURE COMPRESSION                 
+     ORTHOTROPIC SOLID PROPERTY SET
+     PROPERTY SET NUMBER . . . . . . . . . .=      1001
+     SOLID FORMULATION FLAG. . . . . . . . .=         1
+     SMALL STRAIN FLAG . . . . . . . . . . .=         1
+     SOLID STRESS PLASTICITY FLAG. . . . . .=         2
+     NUMBER OF INTEGRATION POINTS. .  . .  .=         1
+     COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
+     TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
+     TETRA10 FORMULATION FLAG . . . .  . . .=      1000
+     CONSTANT PRESSURE FLAG. . . . . . . . .=         0
+     CONSTANT STRESS FLAG. . . . . . . . . .=         0
+     HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
+     DEFAULT VALUE FOR QUADRATIC BULK. . . . 
+          VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
+     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     DEFAULT VALUE FOR LINEAR BULK . . . . . 
+          VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
+     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
+     BRICK MINIMUM TIME STEP................=  0.000000000000    
+     LOCAL ORTHOTROPY SYSTEM FORMULATION . .=         0
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
+
+     ORTHOTROPIC PLANE NUMBER. . . . . . . .=         1
+          1=(R,S)  2=(S,T)  3=(T,R)            
+     ORTHOTROPIC ANGLE . . . . . . . . . . .=  0.000000000000    
+LAW 35 PURE SHEAR                       
+     ORTHOTROPIC SOLID PROPERTY SET
+     PROPERTY SET NUMBER . . . . . . . . . .=      1101
+     SOLID FORMULATION FLAG. . . . . . . . .=         1
+     SMALL STRAIN FLAG . . . . . . . . . . .=         1
+     SOLID STRESS PLASTICITY FLAG. . . . . .=         2
+     NUMBER OF INTEGRATION POINTS. .  . .  .=         1
+     COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
+     TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
+     TETRA10 FORMULATION FLAG . . . .  . . .=      1000
+     CONSTANT PRESSURE FLAG. . . . . . . . .=         0
+     CONSTANT STRESS FLAG. . . . . . . . . .=         0
+     HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
+     DEFAULT VALUE FOR QUADRATIC BULK. . . . 
+          VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
+     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     DEFAULT VALUE FOR LINEAR BULK . . . . . 
+          VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
+     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
+     BRICK MINIMUM TIME STEP................=  0.000000000000    
+     LOCAL ORTHOTROPY SYSTEM FORMULATION . .=         0
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
+
+     ORTHOTROPIC PLANE NUMBER. . . . . . . .=         1
+          1=(R,S)  2=(S,T)  3=(T,R)            
+     ORTHOTROPIC ANGLE . . . . . . . . . . .=  0.000000000000    
+LAW 35 HYDROSTATIC LOADING              
+     ORTHOTROPIC SOLID PROPERTY SET
+     PROPERTY SET NUMBER . . . . . . . . . .=      1201
+     SOLID FORMULATION FLAG. . . . . . . . .=         1
+     SMALL STRAIN FLAG . . . . . . . . . . .=         1
+     SOLID STRESS PLASTICITY FLAG. . . . . .=         2
+     NUMBER OF INTEGRATION POINTS. .  . .  .=         1
+     COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
+     TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
+     TETRA10 FORMULATION FLAG . . . .  . . .=      1000
+     CONSTANT PRESSURE FLAG. . . . . . . . .=         0
+     CONSTANT STRESS FLAG. . . . . . . . . .=         0
+     HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
+     DEFAULT VALUE FOR QUADRATIC BULK. . . . 
+          VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
+     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     DEFAULT VALUE FOR LINEAR BULK . . . . . 
+          VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
+     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
+     BRICK MINIMUM TIME STEP................=  0.000000000000    
+     LOCAL ORTHOTROPY SYSTEM FORMULATION . .=         0
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
+
+     ORTHOTROPIC PLANE NUMBER. . . . . . . .=         1
+          1=(R,S)  2=(S,T)  3=(T,R)            
+     ORTHOTROPIC ANGLE . . . . . . . . . . .=  0.000000000000    
+LAW 38 PURE COMPRESSION                 
+     ORTHOTROPIC SOLID PROPERTY SET
+     PROPERTY SET NUMBER . . . . . . . . . .=      1301
+     SOLID FORMULATION FLAG. . . . . . . . .=         1
+     SMALL STRAIN FLAG . . . . . . . . . . .=         1
+     SOLID STRESS PLASTICITY FLAG. . . . . .=         2
+     NUMBER OF INTEGRATION POINTS. .  . .  .=         1
+     COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
+     TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
+     TETRA10 FORMULATION FLAG . . . .  . . .=      1000
+     CONSTANT PRESSURE FLAG. . . . . . . . .=         0
+     CONSTANT STRESS FLAG. . . . . . . . . .=         0
+     HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
+     DEFAULT VALUE FOR QUADRATIC BULK. . . . 
+          VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
+     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     DEFAULT VALUE FOR LINEAR BULK . . . . . 
+          VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
+     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
+     BRICK MINIMUM TIME STEP................=  0.000000000000    
+     LOCAL ORTHOTROPY SYSTEM FORMULATION . .=         0
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
+
+     ORTHOTROPIC PLANE NUMBER. . . . . . . .=         1
+          1=(R,S)  2=(S,T)  3=(T,R)            
+     ORTHOTROPIC ANGLE . . . . . . . . . . .=  0.000000000000    
+LAW 38 PURE SHEAR                       
+     ORTHOTROPIC SOLID PROPERTY SET
+     PROPERTY SET NUMBER . . . . . . . . . .=      1401
+     SOLID FORMULATION FLAG. . . . . . . . .=         1
+     SMALL STRAIN FLAG . . . . . . . . . . .=         1
+     SOLID STRESS PLASTICITY FLAG. . . . . .=         2
+     NUMBER OF INTEGRATION POINTS. .  . .  .=         1
+     COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
+     TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
+     TETRA10 FORMULATION FLAG . . . .  . . .=      1000
+     CONSTANT PRESSURE FLAG. . . . . . . . .=         0
+     CONSTANT STRESS FLAG. . . . . . . . . .=         0
+     HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
+     DEFAULT VALUE FOR QUADRATIC BULK. . . . 
+          VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
+     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     DEFAULT VALUE FOR LINEAR BULK . . . . . 
+          VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
+     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
+     BRICK MINIMUM TIME STEP................=  0.000000000000    
+     LOCAL ORTHOTROPY SYSTEM FORMULATION . .=         0
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
+
+     ORTHOTROPIC PLANE NUMBER. . . . . . . .=         1
+          1=(R,S)  2=(S,T)  3=(T,R)            
+     ORTHOTROPIC ANGLE . . . . . . . . . . .=  0.000000000000    
+LAW 38 HYDROSTATIC LOADING              
+     ORTHOTROPIC SOLID PROPERTY SET
+     PROPERTY SET NUMBER . . . . . . . . . .=      1501
+     SOLID FORMULATION FLAG. . . . . . . . .=         1
+     SMALL STRAIN FLAG . . . . . . . . . . .=         1
+     SOLID STRESS PLASTICITY FLAG. . . . . .=         2
+     NUMBER OF INTEGRATION POINTS. .  . .  .=         1
+     COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
+     TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
+     TETRA10 FORMULATION FLAG . . . .  . . .=      1000
+     CONSTANT PRESSURE FLAG. . . . . . . . .=         0
+     CONSTANT STRESS FLAG. . . . . . . . . .=         0
+     HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
+     DEFAULT VALUE FOR QUADRATIC BULK. . . . 
+          VISCOSITY (QA) WILL BE USED. . . .=  1.100000000000    
+     EXCEPT IN CASE LAW 70 WHERE QA = 0.     
+     DEFAULT VALUE FOR LINEAR BULK . . . . . 
+          VISCOSITY (QB) WILL BE USED . . . = 5.0000000000000E-02
+     EXCEPT IN CASE LAW 70 WHERE QB = 0.     
+     HOURGLASS VISCOSITY . . . . . . . . . .= 0.1000000000000    
+     BRICK MINIMUM TIME STEP................=  0.000000000000    
+     LOCAL ORTHOTROPY SYSTEM FORMULATION . .=         0
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
+
+     ORTHOTROPIC PLANE NUMBER. . . . . . . .=         1
+          1=(R,S)  2=(S,T)  3=(T,R)            
+     ORTHOTROPIC ANGLE . . . . . . . . . . .=  0.000000000000    
+
+
+       PARTS
+       -----
+
+
+
+PART:         1,LAW 28 PURE COMPRESSION
+----
+     PROPERTY:       101,LAW 28 PURE COMPRESSION
+     MATERIAL:       101,NASTRAN MID _       101_LAW 28 PURE COMPRESSION
+     SUBSET  :         0
+ VIRT. THICKN:  0.000000000000    
+
+PART:         2,LAW 28 PURE SHEAR
+----
+     PROPERTY:       201,LAW 28 PURE SHEAR
+     MATERIAL:       201,NASTRAN MID _       201LAW 28 PURE SHEAR
+     SUBSET  :         0
+ VIRT. THICKN:  0.000000000000    
+
+PART:         3,LAW 28 HYDROSTATIC LOADING
+----
+     PROPERTY:       301,LAW 28 HYDROSTATIC LOADING
+     MATERIAL:       301,NASTRAN MID _       301_LAW 28 HYDROSTATIC
+     SUBSET  :         0
+ VIRT. THICKN:  0.000000000000    
+
+PART:         4,LAW 33 PURE COMPRESSION
+----
+     PROPERTY:       401,LAW 33 PURE COMPRESSION
+     MATERIAL:       401,NASTRAN MID _       401_LAW 33 PURE COMPRESSION
+     SUBSET  :         0
+ VIRT. THICKN:  0.000000000000    
+
+PART:         5,LAW 33 PURE SHEAR
+----
+     PROPERTY:       501,LAW 33 PURE SHEAR
+     MATERIAL:       501,NASTRAN MID _       501_LAW 28 PURE SHEAR
+     SUBSET  :         0
+ VIRT. THICKN:  0.000000000000    
+
+PART:         6,LAW 33 HYDROSTATIC LOADING
+----
+     PROPERTY:       601,LAW 33 HYDROSTATIC LOADING
+     MATERIAL:       601,NASTRAN MID _       601_LAW 28 HYDROSTATIC
+     SUBSET  :         0
+ VIRT. THICKN:  0.000000000000    
+
+PART:         7,LAW 34 PURE COMPRESSION
+----
+     PROPERTY:       701,LAW 34 PURE COMPRESSION
+     MATERIAL:       701,NASTRAN MID _       701_LAW 34 PURE COMPRESSION
+     SUBSET  :         0
+ VIRT. THICKN:  0.000000000000    
+
+PART:         8,LAW 34 PURE SHEAR
+----
+     PROPERTY:       801,LAW 34 PURE SHEAR
+     MATERIAL:       801,NASTRAN MID _       801_LAW 34 PURE SHEAR
+     SUBSET  :         0
+ VIRT. THICKN:  0.000000000000    
+
+PART:         9,LAW 34 HYDROSTATIC LOADING
+----
+     PROPERTY:       901,LAW 34 HYDROSTATIC LOADING
+     MATERIAL:       901,NASTRAN MID _       901_LAW 34 HYDROSTATIC
+     SUBSET  :         0
+ VIRT. THICKN:  0.000000000000    
+
+PART:        10,LAW 35 PURE COMPRESSION
+----
+     PROPERTY:      1001,LAW 35 PURE COMPRESSION
+     MATERIAL:      1001,NASTRAN MID _      1001_LAW 35 PURE COMPRESSION
+     SUBSET  :         0
+ VIRT. THICKN:  0.000000000000    
+
+PART:        11,LAW 35 PURE SHEAR
+----
+     PROPERTY:      1101,LAW 35 PURE SHEAR
+     MATERIAL:      1101,NASTRAN MID _      1101_LAW 35 PURE SHEAR
+     SUBSET  :         0
+ VIRT. THICKN:  0.000000000000    
+
+PART:        12,LAW 35 HYDROSTATIC LOADING
+----
+     PROPERTY:      1201,LAW 35 HYDROSTATIC LOADING
+     MATERIAL:      1201,NASTRAN MID _      1201_LAW 35 HYDROSTATIC
+     SUBSET  :         0
+ VIRT. THICKN:  0.000000000000    
+
+PART:        13,LAW 38 PURE COMPRESSION
+----
+     PROPERTY:      1301,LAW 38 PURE COMPRESSION
+     MATERIAL:      1301,NASTRAN MID _      1301_LAW 38 PURE COMPRESSION
+     SUBSET  :         0
+ VIRT. THICKN:  0.000000000000    
+
+PART:        14,LAW 38 PURE SHEAR
+----
+     PROPERTY:      1401,LAW 38 PURE SHEAR
+     MATERIAL:      1401,NASTRAN MID _      1401_LAW 38 PURE SHEAR
+     SUBSET  :         0
+ VIRT. THICKN:  0.000000000000    
+
+PART:        15,LAW 38 HYDROSTATIC LOADING
+----
+     PROPERTY:      1501,LAW 38 HYDROSTATIC LOADING
+     MATERIAL:      1501,NASTRAN MID _      1501_LAW 38 HYDROSTATIC
+     SUBSET  :         0
+ VIRT. THICKN:  0.000000000000    
+
+
+       HIERARCHICAL SUBSET ORGANIZATION
+       --------------------------------
+
+
+  
+  
+ SUBSET:         0,GLOBAL MODEL                                                                                                     
+ ~~~~~~
+  |
+  |________Part(s):         1,LAW 28 PURE COMPRESSION                 
+                            2,LAW 28 PURE SHEAR                       
+                            3,LAW 28 HYDROSTATIC LOADING              
+                            4,LAW 33 PURE COMPRESSION                 
+                            5,LAW 33 PURE SHEAR                       
+                            6,LAW 33 HYDROSTATIC LOADING              
+                            7,LAW 34 PURE COMPRESSION                 
+                            8,LAW 34 PURE SHEAR                       
+                            9,LAW 34 HYDROSTATIC LOADING              
+                           10,LAW 35 PURE COMPRESSION                 
+                           11,LAW 35 PURE SHEAR                       
+                           12,LAW 35 HYDROSTATIC LOADING              
+                           13,LAW 38 PURE COMPRESSION                 
+                           14,LAW 38 PURE SHEAR                       
+                           15,LAW 38 HYDROSTATIC LOADING              
+
+     BOUNDARY CONDITIONS                                                                 
+     -------------------                                                                 
+       NODE  TRANS. ROTAT.         SKEW
+
+
+
+     IMPOSED VELOCITIES    
+     -------------------    
+         NODE         SKEW        FRAME  DIRECTION   LOAD_CURVE       SENSOR            FSCALE                ASCALE            START_TIME                 STOP_TIME         COORDINATE SYSTEM
+         1005            0            0          Z           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         1006            0            0          Z           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         1007            0            0          Z           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         1008            0            0          Z           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         4005            0            0          Z           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         4006            0            0          Z           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         4007            0            0          Z           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         4008            0            0          Z           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         7005            0            0          Z           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         7006            0            0          Z           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         7007            0            0          Z           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         7008            0            0          Z           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        10005            0            0          Z           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        10006            0            0          Z           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        10007            0            0          Z           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        10008            0            0          Z           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        13005            0            0          Z           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        13006            0            0          Z           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        13007            0            0          Z           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        13008            0            0          Z           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         2005            0            0          X           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         2006            0            0          X           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         2007            0            0          X           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         2008            0            0          X           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         5005            0            0          X           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         5006            0            0          X           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         5007            0            0          X           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         5008            0            0          X           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         8005            0            0          X           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         8006            0            0          X           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         8007            0            0          X           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         8008            0            0          X           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        11005            0            0          X           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        11006            0            0          X           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        11007            0            0          X           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        11008            0            0          X           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        14005            0            0          X           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        14006            0            0          X           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        14007            0            0          X           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        14008            0            0          X           31            0    1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3001            0            0          Z           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3002            0            0          Z           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3003            0            0          Z           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3004            0            0          Z           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6001            0            0          Z           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6002            0            0          Z           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6003            0            0          Z           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6004            0            0          Z           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9001            0            0          Z           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9002            0            0          Z           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9003            0            0          Z           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9004            0            0          Z           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12001            0            0          Z           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12002            0            0          Z           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12003            0            0          Z           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12004            0            0          Z           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15001            0            0          Z           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15002            0            0          Z           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15003            0            0          Z           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15004            0            0          Z           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3005            0            0          Z           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3006            0            0          Z           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3007            0            0          Z           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3008            0            0          Z           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6005            0            0          Z           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6006            0            0          Z           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6007            0            0          Z           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6008            0            0          Z           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9005            0            0          Z           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9006            0            0          Z           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9007            0            0          Z           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9008            0            0          Z           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12005            0            0          Z           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12006            0            0          Z           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12007            0            0          Z           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12008            0            0          Z           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15005            0            0          Z           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15006            0            0          Z           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15007            0            0          Z           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15008            0            0          Z           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3001            0            0          X           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3004            0            0          X           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3005            0            0          X           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3008            0            0          X           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6001            0            0          X           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6004            0            0          X           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6005            0            0          X           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6008            0            0          X           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9001            0            0          X           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9004            0            0          X           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9005            0            0          X           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9008            0            0          X           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12001            0            0          X           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12004            0            0          X           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12005            0            0          X           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12008            0            0          X           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15001            0            0          X           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15004            0            0          X           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15005            0            0          X           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15008            0            0          X           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3002            0            0          X           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3003            0            0          X           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3006            0            0          X           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3007            0            0          X           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6002            0            0          X           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6003            0            0          X           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6006            0            0          X           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6007            0            0          X           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9002            0            0          X           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9003            0            0          X           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9006            0            0          X           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9007            0            0          X           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12002            0            0          X           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12003            0            0          X           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12006            0            0          X           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12007            0            0          X           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15002            0            0          X           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15003            0            0          X           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15006            0            0          X           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15007            0            0          X           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3001            0            0          Y           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3002            0            0          Y           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3005            0            0          Y           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3006            0            0          Y           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6001            0            0          Y           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6002            0            0          Y           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6005            0            0          Y           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6006            0            0          Y           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9001            0            0          Y           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9002            0            0          Y           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9005            0            0          Y           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9006            0            0          Y           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12001            0            0          Y           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12002            0            0          Y           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12005            0            0          Y           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12006            0            0          Y           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15001            0            0          Y           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15002            0            0          Y           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15005            0            0          Y           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15006            0            0          Y           31            0  -0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3003            0            0          Y           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3004            0            0          Y           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3007            0            0          Y           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         3008            0            0          Y           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6003            0            0          Y           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6004            0            0          Y           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6007            0            0          Y           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         6008            0            0          Y           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9003            0            0          Y           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9004            0            0          Y           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9007            0            0          Y           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+         9008            0            0          Y           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12003            0            0          Y           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12004            0            0          Y           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12007            0            0          Y           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        12008            0            0          Y           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15003            0            0          Y           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15004            0            0          Y           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15007            0            0          Y           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+        15008            0            0          Y           31            0   0.5000000000000        1.000000000000        0.000000000000       1.0000000200409E+20                         0
+  
+ SPMD IS CHECKING FOR ELEMENT DELETION IN : 
+ DMAFNLIN_0001.rad                                                                                            
+ 
+ DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
+ ------------------------------------------
+ DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
+** INFO: SIMPLIFIED DOMAIN DECOMPOSITION
+
+
+       8-NODE ELEMENT GROUPS
+       ---------------------
+
+     GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.     CLOS.      CODV  FAILURE     IEOS
+         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       AUX    MEDIUM      FLAG      FLAG              FLAG      TYPE
+         1        28         1         1         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+         2        28         1         2         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+         3        28         1         3         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+         4        33         1         4         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+         5        33         1         5         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+         6        33         1         6         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+         7        34         1         7         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+         8        34         1         8         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+         9        34         1         9         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+        10        35         1        10         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+        11        35         1        11         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+        12        35         1        12         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+        13        38         1        13         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+        14        38         1        14         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+        15        38         1        15         1         1         0         0         0         0         1         0         0         0         2         0         0         0         0
+
+
+       RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
+       ----------------------------------------------
+
+
+
+
+ BRICK GROUP         1 VECTORIZATION CODE =    0
+ BRICK GROUP         2 VECTORIZATION CODE =    0
+ BRICK GROUP         3 VECTORIZATION CODE =    0
+ BRICK GROUP         4 VECTORIZATION CODE =    0
+ BRICK GROUP         5 VECTORIZATION CODE =    0
+ BRICK GROUP         6 VECTORIZATION CODE =    0
+ BRICK GROUP         7 VECTORIZATION CODE =    0
+ BRICK GROUP         8 VECTORIZATION CODE =    0
+ BRICK GROUP         9 VECTORIZATION CODE =    0
+ BRICK GROUP        10 VECTORIZATION CODE =    0
+ BRICK GROUP        11 VECTORIZATION CODE =    0
+ BRICK GROUP        12 VECTORIZATION CODE =    0
+ BRICK GROUP        13 VECTORIZATION CODE =    0
+ BRICK GROUP        14 VECTORIZATION CODE =    0
+ BRICK GROUP        15 VECTORIZATION CODE =    0
+
+
+PART MASS & INERTIA
+-------------------
+
+
+PART :          1LAW 28 PURE COMPRESSION
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 2.0000000000000E-07 1.0000000000000E-05 1.0000000000000E-05 1.0000000000000E-05 2.5410988417629E-21 2.5410988417629E-21 2.5410988417629E-21
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  5.000000000000      5.000000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :          2LAW 28 PURE SHEAR
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 2.0000000000000E-07 1.0000000000000E-05 1.0000000000000E-05 1.0000000000000E-05 2.5410988417629E-21 2.5410988417629E-21 2.5410988417629E-21
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  5.000000000000      5.000000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :          3LAW 28 HYDROSTATIC LOADING
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 2.0000000000000E-07 1.0000000000000E-05 1.0000000000000E-05 1.0000000000000E-05 2.5410988417629E-21 2.5410988417629E-21 2.5410988417629E-21
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  5.000000000000      5.000000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :          4LAW 33 PURE COMPRESSION
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 2.0000000000000E-07 1.0000000000000E-05 1.0000000000000E-05 1.0000000000000E-05 2.5410988417629E-21 2.5410988417629E-21 2.5410988417629E-21
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  5.000000000000      5.000000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :          5LAW 33 PURE SHEAR
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 2.0000000000000E-07 1.0000000000000E-05 1.0000000000000E-05 1.0000000000000E-05 2.5410988417629E-21 2.5410988417629E-21 2.5410988417629E-21
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  5.000000000000      5.000000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :          6LAW 33 HYDROSTATIC LOADING
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 2.0000000000000E-07 1.0000000000000E-05 1.0000000000000E-05 1.0000000000000E-05 2.5410988417629E-21 2.5410988417629E-21 2.5410988417629E-21
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  5.000000000000      5.000000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :          7LAW 34 PURE COMPRESSION
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 2.0000000000000E-07 1.0000000000000E-05 1.0000000000000E-05 1.0000000000000E-05 2.5410988417629E-21 2.5410988417629E-21 2.5410988417629E-21
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  5.000000000000      5.000000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :          8LAW 34 PURE SHEAR
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 2.0000000000000E-07 1.0000000000000E-05 1.0000000000000E-05 1.0000000000000E-05 2.5410988417629E-21 2.5410988417629E-21 2.5410988417629E-21
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  5.000000000000      5.000000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :          9LAW 34 HYDROSTATIC LOADING
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 2.0000000000000E-07 1.0000000000000E-05 1.0000000000000E-05 1.0000000000000E-05 2.5410988417629E-21 2.5410988417629E-21 2.5410988417629E-21
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  5.000000000000      5.000000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :         10LAW 35 PURE COMPRESSION
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 2.0000000000000E-07 1.0000000000000E-05 1.0000000000000E-05 1.0000000000000E-05 2.5410988417629E-21 2.5410988417629E-21 2.5410988417629E-21
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  5.000000000000      5.000000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :         11LAW 35 PURE SHEAR
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 2.0000000000000E-07 1.0000000000000E-05 1.0000000000000E-05 1.0000000000000E-05 2.5410988417629E-21 2.5410988417629E-21 2.5410988417629E-21
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  5.000000000000      5.000000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :         12LAW 35 HYDROSTATIC LOADING
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 2.0000000000000E-07 1.0000000000000E-05 1.0000000000000E-05 1.0000000000000E-05 2.5410988417629E-21 2.5410988417629E-21 2.5410988417629E-21
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  5.000000000000      5.000000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :         13LAW 38 PURE COMPRESSION
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 2.0000000000000E-07 1.0000000000000E-05 1.0000000000000E-05 1.0000000000000E-05 2.5410988417629E-21 2.5410988417629E-21 2.5410988417629E-21
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  5.000000000000      5.000000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :         14LAW 38 PURE SHEAR
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 2.0000000000000E-07 1.0000000000000E-05 1.0000000000000E-05 1.0000000000000E-05 2.5410988417629E-21 2.5410988417629E-21 2.5410988417629E-21
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  5.000000000000      5.000000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+PART :         15LAW 38 HYDROSTATIC LOADING
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+ 2.0000000000000E-07 1.0000000000000E-05 1.0000000000000E-05 1.0000000000000E-05 2.5410988417629E-21 2.5410988417629E-21 2.5410988417629E-21
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  5.000000000000      5.000000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+
+PART ELEMENT/MATERIAL PARAMETER REVIEW:
+-----------------------
+
+Part id,name:         1 LAW 28 PURE COMPRESS   Mat type:  28 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       1       3       1       0       0       0       0
+--      qa        qb   lamda_v      mu_v         h        dn
+    0.0000    0.0500    0.0000    0.0000    0.1000    0.0000
+
+Part id,name:         2 LAW 28 PURE SHEAR      Mat type:  28 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       1       3       1       0       0       0       0
+--      qa        qb   lamda_v      mu_v         h        dn
+    0.0000    0.0500    0.0000    0.0000    0.1000    0.0000
+
+Part id,name:         3 LAW 28 HYDROSTATIC L   Mat type:  28 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       1       3       1       0       0       0       0
+--      qa        qb   lamda_v      mu_v         h        dn
+    0.0000    0.0500    0.0000    0.0000    0.1000    0.0000
+
+Part id,name:         4 LAW 33 PURE COMPRESS   Mat type:  33 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       1       3       1       0       0       0       1
+--      qa        qb   lamda_v      mu_v         h        dn
+    1.1000    0.0500    0.0000    0.0000    0.1000    0.0000
+
+Part id,name:         5 LAW 33 PURE SHEAR      Mat type:  33 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       1       3       1       0       0       0       1
+--      qa        qb   lamda_v      mu_v         h        dn
+    1.1000    0.0500    0.0000    0.0000    0.1000    0.0000
+
+Part id,name:         6 LAW 33 HYDROSTATIC L   Mat type:  33 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       1       3       1       0       0       0       1
+--      qa        qb   lamda_v      mu_v         h        dn
+    1.1000    0.0500    0.0000    0.0000    0.1000    0.0000
+
+Part id,name:         7 LAW 34 PURE COMPRESS   Mat type:  34 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       1       3       1       0       0       0       1
+--      qa        qb   lamda_v      mu_v         h        dn
+    1.1000    0.0500    0.0000    0.0000    0.1000    0.0000
+
+Part id,name:         8 LAW 34 PURE SHEAR      Mat type:  34 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       1       3       1       0       0       0       1
+--      qa        qb   lamda_v      mu_v         h        dn
+    1.1000    0.0500    0.0000    0.0000    0.1000    0.0000
+
+Part id,name:         9 LAW 34 HYDROSTATIC L   Mat type:  34 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       1       3       1       0       0       0       1
+--      qa        qb   lamda_v      mu_v         h        dn
+    1.1000    0.0500    0.0000    0.0000    0.1000    0.0000
+
+Part id,name:        10 LAW 35 PURE COMPRESS   Mat type:  35 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       1       3       1       0       0       0       1
+--      qa        qb   lamda_v      mu_v         h        dn
+    1.1000    0.0500    0.0000    0.0000    0.1000    0.0000
+
+Part id,name:        11 LAW 35 PURE SHEAR      Mat type:  35 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       1       3       1       0       0       0       1
+--      qa        qb   lamda_v      mu_v         h        dn
+    1.1000    0.0500    0.0000    0.0000    0.1000    0.0000
+
+Part id,name:        12 LAW 35 HYDROSTATIC L   Mat type:  35 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       1       3       1       0       0       0       1
+--      qa        qb   lamda_v      mu_v         h        dn
+    1.1000    0.0500    0.0000    0.0000    0.1000    0.0000
+
+Part id,name:        13 LAW 38 PURE COMPRESS   Mat type:  38 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       1       3       1       0       0       0       1
+--      qa        qb   lamda_v      mu_v         h        dn
+    1.1000    0.0500    0.0000    0.0000    0.1000    0.0000
+
+Part id,name:        14 LAW 38 PURE SHEAR      Mat type:  38 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       1       3       1       0       0       0       1
+--      qa        qb   lamda_v      mu_v         h        dn
+    1.1000    0.0500    0.0000    0.0000    0.1000    0.0000
+
+Part id,name:        15 LAW 38 HYDROSTATIC L   Mat type:  38 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+       1       1       3       1       0       0       0       1
+--      qa        qb   lamda_v      mu_v         h        dn
+    1.1000    0.0500    0.0000    0.0000    0.1000    0.0000
+
+
+
+     TOTAL MASS AND MASS CENTER
+     --------------------------
+                     MASS                    X                    Y                    Z
+
+      3.0000000000000E-06   5.000000000000       5.000000000000       5.000000000000    
+
+
+     TOTAL INERTIA
+     -------------
+                      IXX                  IYY                  IZZ                  IXY                  IYZ                  IZX
+      1.5000000000000E-04  1.5000000000000E-04  1.5000000000000E-04 -3.6591823321386E-19 -3.6591823321386E-19 -3.6591823321386E-19
+
+
+
+      ADDED NODAL NON-STRUCTURAL MASSES 
+     -----------------------------------
+
+
+
+
+  TOTAL ADDED MASS =   0.000000000000    
+
+
+
+
+         SOLID ELEMENTS TIME STEP
+         ------------------------
+
+      TIME STEP       ELEMENT NUMBER
+  7.3683447721758E-06          10001
+  7.3683447721758E-06          11001
+  7.3683447721758E-06          12001
+  9.5124921964577E-06           7001
+  9.5124921964577E-06           8001
+  9.5124921964577E-06           9001
+  9.5124921972504E-06           1001
+  9.5124921972504E-06           2001
+  9.5124921972504E-06           3001
+  9.5124921972504E-06           4001
+  9.5124921972504E-06           5001
+  9.5124921972504E-06           6001
+  9.5124921972504E-06          13001
+  9.5124921972504E-06          14001
+  9.5124921972504E-06          15001
+
+
+         NODAL TIME STEP (estimation)
+         ---------------
+
+      TIME STEP       NODE NUMBER
+  7.3683447721758E-06          11005
+  7.3683447721758E-06          12007
+  7.3683447721758E-06          12006
+  7.3683447721758E-06          12005
+  7.3683447721758E-06          12004
+  7.3683447721758E-06          12003
+  7.3683447721758E-06          12002
+  7.3683447721758E-06          12001
+  7.3683447721758E-06          11008
+  7.3683447721758E-06          11007
+  7.3683447721758E-06          11006
+  7.3683447721758E-06          12008
+  7.3683447721758E-06          11004
+  7.3683447721758E-06          11003
+  7.3683447721758E-06          11002
+  7.3683447721758E-06          11001
+  7.3683447721758E-06          10008
+  7.3683447721758E-06          10007
+  7.3683447721758E-06          10006
+  7.3683447721758E-06          10005
+  7.3683447721758E-06          10004
+  7.3683447721758E-06          10003
+  7.3683447721758E-06          10002
+  7.3683447721758E-06          10001
+  9.5124921964577E-06           8004
+  9.5124921964577E-06           7001
+  9.5124921964577E-06           9008
+  9.5124921964577E-06           7003
+  9.5124921964577E-06           7004
+  9.5124921964577E-06           7005
+  9.5124921964577E-06           7006
+  9.5124921964577E-06           7007
+  9.5124921964577E-06           7008
+  9.5124921964577E-06           8001
+  9.5124921964577E-06           8002
+  9.5124921964577E-06           8003
+  9.5124921964577E-06           7002
+  9.5124921964577E-06           8005
+  9.5124921964577E-06           8006
+  9.5124921964577E-06           8007
+  9.5124921964577E-06           8008
+  9.5124921964577E-06           9001
+  9.5124921964577E-06           9002
+  9.5124921964577E-06           9003
+  9.5124921964577E-06           9004
+  9.5124921964577E-06           9005
+  9.5124921964577E-06           9006
+  9.5124921964577E-06           9007
+  9.5124921972504E-06          15008
+  9.5124921972504E-06          13001
+  9.5124921972504E-06          14004
+  9.5124921972504E-06          13002
+  9.5124921972504E-06          13003
+  9.5124921972504E-06          13004
+  9.5124921972504E-06          13005
+  9.5124921972504E-06          13006
+  9.5124921972504E-06          13007
+  9.5124921972504E-06          13008
+  9.5124921972504E-06          14001
+  9.5124921972504E-06          14002
+  9.5124921972504E-06          14003
+  9.5124921972504E-06          15007
+  9.5124921972504E-06          14005
+  9.5124921972504E-06          14006
+  9.5124921972504E-06          14007
+  9.5124921972504E-06          14008
+  9.5124921972504E-06          15001
+  9.5124921972504E-06          15002
+  9.5124921972504E-06          15003
+  9.5124921972504E-06          15004
+  9.5124921972504E-06          15005
+  9.5124921972504E-06          15006
+  9.5124921972504E-06           1001
+  9.5124921972504E-06           2005
+  9.5124921972504E-06           3007
+  9.5124921972504E-06           3006
+  9.5124921972504E-06           3005
+  9.5124921972504E-06           3004
+  9.5124921972504E-06           3003
+  9.5124921972504E-06           3002
+  9.5124921972504E-06           3001
+  9.5124921972504E-06           2008
+  9.5124921972504E-06           2007
+  9.5124921972504E-06           2006
+  9.5124921972504E-06           3008
+  9.5124921972504E-06           2004
+  9.5124921972504E-06           2003
+  9.5124921972504E-06           2002
+  9.5124921972504E-06           2001
+  9.5124921972504E-06           1008
+  9.5124921972504E-06           1007
+  9.5124921972504E-06           1006
+  9.5124921972504E-06           1005
+  9.5124921972504E-06           1004
+  9.5124921972504E-06           1003
+  9.5124921972504E-06           1002
+  9.5124921972504E-06           6008
+  9.5124921972504E-06           5005
+  9.5124921972504E-06           6007
+  9.5124921972504E-06           6006
+
+
+         NODAL TIME STEP DISTRIBUTION 
+         ----------------------------
+
+
+            % OF NODES
+                   ^
+                   |                                                            
+          80.000 --|                                                        #   
+                   |                                                        #   
+                   |                                                        #   
+                   |                                                        #   
+                   |                                                        #   
+                   |                                                        #   
+                   |                                                        #   
+                   |                                                        #   
+                   |                                                        #   
+                   |                                                        #   
+                   |                                                        #   
+                   |                                                        #   
+                   |                                                        #   
+                   |                                                        #   
+                   |                                                        #   
+                   |                                                        #   
+                   |                                                        #   
+                   |                                                        #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+                   |#                                                       #   
+           0.000 --|#  #   #  #  #   #  #  #  #   #  #  #  #   #  #  #   #  # # 
+                    -------------------------------------------------------------> NODAL TIME STEP
+                    |                                                          |
+                7.368E-06                                                  9.512E-06
+  
+  
+
+
+     INITIAL ADDED MASS ESTIMATION for /DT/NODA/CST
+     ----------------------------------------------
+
+
+            DM/M - at first cycle - scaling factor = 0.9
+                   ^
+                   |                                                            
+           0.100 --|                                                          * 
+                   |                                                            
+                   |                                                       *    
+                   |                                                    *       
+                   |                                                 *          
+                   |                                              *             
+                   |                                                            
+                   |                                           *                
+                   |                                        *                   
+                   |                                     *                      
+                   |                                  *                         
+                   |                               *                            
+                   |                                                            
+                   |                            *                               
+                   |                         *                                  
+                   |                      *                                     
+                   |                  *                                         
+                   |               *                                            
+                   |                                                            
+                   |            *                                               
+                   |         *                                                  
+                   |     *                                                      
+           0.005 --|* *                                                         
+                    -------------------------------------------------------------> TARGET TIME STEP
+                    |                                                          |
+                6.714E-06                                                  8.122E-06
+  
+  
+              DM/M at first cycle          |  Target time step - scaling factor = 0.9  |  Target time step - scaling factor = 0.67
+    -------------------------------------  |  ---------------------------------------  |  ---------------------------------------
+                 1.000E-02                 |                 6.795E-06                 |                 5.059E-06
+                 2.000E-02                 |                 6.955E-06                 |                 5.178E-06
+                 3.000E-02                 |                 7.112E-06                 |                 5.294E-06
+                 4.000E-02                 |                 7.264E-06                 |                 5.408E-06
+                 5.000E-02                 |                 7.414E-06                 |                 5.520E-06
+
+
+    WARNING : Theses added mass estimations are valid at first cycle only.
+    Because of element deformation or contacts the added mass can increase during the run
+
+
+ SUMMARY OF POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS :
+ -----------------------------------------------------
+                                  
+ NO TRUE INCOMPATIBLE KINEMATIC CONDITION
+
+ 
+    STARTER STORAGE 
+    --------------- 
+ 
+    STARTER MEMORY USAGE        125 MB
+
+ 
+ 
+ STATISTICS ON DOMAIN DECOMPOSITION 
+ ---------------------------------- 
+ 
+AVERAGE NB. OF BOUNDARY NODES :     0
+STANDARD DEVIATION            :     0
+ 
+AVERAGE NUMBER OF LOCAL NODES :      30
+STANDARD DEVIATION            :      52
+ 
+ PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
+    1            15                     0                     0
+ PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
+    2             0                     0                     0
+ PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
+    3             0                     0                     0
+ PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
+    4             0                     0                     0
+ 
+ DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
+ ----------------------------------------------------
+ NUMBER OF NODES................. :         120
+ NUMBER OF SOLID ELEMENTS........ :          15
+ TOTAL NUMBER OF NODES FOR COMM.. :           0
+ 
+
+     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
+     --------------------------------------------------------
+        MEMORY USED FOR REALS            5 MB 
+        MEMORY USED FOR INTEGERS         5 MB 
+        TOTAL MEMORY EVALUATION         10 MB 
+                                            
+        RESTART FILE SIZE         0 MB
+ 
+ DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
+ ----------------------------------------------------
+ NUMBER OF NODES................. :           0
+ NUMBER OF SOLID ELEMENTS........ :           0
+ TOTAL NUMBER OF NODES FOR COMM.. :           0
+ 
+
+     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
+     --------------------------------------------------------
+        MEMORY USED FOR REALS            5 MB 
+        MEMORY USED FOR INTEGERS         5 MB 
+        TOTAL MEMORY EVALUATION         10 MB 
+                                            
+        RESTART FILE SIZE         0 MB
+ 
+ DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
+ ----------------------------------------------------
+ NUMBER OF NODES................. :           0
+ NUMBER OF SOLID ELEMENTS........ :           0
+ TOTAL NUMBER OF NODES FOR COMM.. :           0
+ 
+
+     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
+     --------------------------------------------------------
+        MEMORY USED FOR REALS            5 MB 
+        MEMORY USED FOR INTEGERS         5 MB 
+        TOTAL MEMORY EVALUATION         10 MB 
+                                            
+        RESTART FILE SIZE         0 MB
+ 
+ DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
+ ----------------------------------------------------
+ NUMBER OF NODES................. :           0
+ NUMBER OF SOLID ELEMENTS........ :           0
+ TOTAL NUMBER OF NODES FOR COMM.. :           0
+ 
+
+     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
+     --------------------------------------------------------
+        MEMORY USED FOR REALS            5 MB 
+        MEMORY USED FOR INTEGERS         5 MB 
+        TOTAL MEMORY EVALUATION         10 MB 
+                                            
+        RESTART FILE SIZE         0 MB
+ 
+
+     RESTART FILES DMAFNLIN_0000 WRITTEN
+     -------------
+
+  
+------------------------------------------------------------------------
+  
+ CPU USER TIME
+ -------------
+ TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
+.0000E+00   .7158E+00   .1503E+00   .1591E-01   .0000E+00   .0000E+00   .0000E+00   .1401E-04
+  
+  
+ ELAPSED TIME
+ ------------
+ TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
+.0000E+00   .1650E+10   .1935E+00   .1746E-01   .0000E+00   .0000E+00   .0000E+00   .1431E-04
+  
+                   ** COMPUTE TIME INFORMATION **
+  
+ EXECUTION STARTED      :      2022/04/11  09:56:01
+ EXECUTION COMPLETED    :      2022/04/11  09:56:04
+  
+ ELAPSED TIME...........=          2.52 s
+                               00:00:02
+  
+------------------------------------------------------------------------
+
+
+
+     TERMINATION WITH WARNING           
+     ------------------                                                                  
+
+
+------------------------------------------------------------------------------------------------------------------------
+|            ERROR(S) SUMMARY                               |             WARNING(S) SUMMARY                           |
+------------------------------------------------------------------------------------------------------------------------
+|                                                           |                                                          |
+|                                                           |  --- GLOBAL UNITS                           1 WARNING(S) |
+|                                                           |       |                                                  |
+|                                                           |       |                                                  |
+|                                                           |       |---     1 WARNING ID :       100214               |
+|                                                           |       | ** WARNING IN INPUT OPTIONS                      |
+|                                                           |       |                                                  |
+|                                                           |                                                          |
+|                                                           |                                                          |
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+              0 ERROR(S)            
+              1 WARNING(S)          
+
+

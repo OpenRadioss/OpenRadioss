@@ -1,0 +1,601 @@
+ R01CV3_0000.out
+************************************************************************
+**                                                                    **
+**                                                                    **
+**                     RADIOSS STARTER MAINLINE                       **
+**                                                                    **
+**            Non-linear Finite Element Analysis Software             **
+**                   from Altair Engineering, Inc.                    **
+**                                                                    **
+**                                                                    **
+**                   Linux 64 bits, Intel compiler                    **
+**                                                                    **
+**                                                                    **
+**                                                                    **
+** Build tag: 0742056_087sesevot__1060_0032401_10                     **
+************************************************************************
+**  COPYRIGHT (C) 1986-2014                 Altair Engineering, Inc.  **
+** All Rights Reserved.  Copyright notice does not imply publication. **
+** Contains trade secrets of Altair Engineering Inc.                  **
+** Decompilation or disassembly of this software strictly prohibited. **
+************************************************************************
+ 
+  
+ COMPUTATION HARDWARE DESCRIPTION
+  
+ HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
+ fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
+  
+************************************************************************
+ ** WARNING : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
+  
+
++-------------------+
+| BLOCK FREE FORMAT |
++-------------------+
+
+
+ test hardening types                                                            
+
+
+    CONTROL  PARAMETERS                                                                  
+    -------------------                                                                  
+
+    IPRI  : PRINTOUT FLAG . . . . . . . . . . . . . . . .         5
+    INVERS: MANUAL VERSION OF THIS INPUT DECK . . . . . .       120
+    NSUBS:   NUMBER OF SUBSETS. . . . . . . . . . . . . .         1
+    NPART:   NUMBER OF PARTS. . . . . . . . . . . . . . .         1
+    NUMMAT: NUMBER OF MATERIALS . . . . . . . . . . . . .         0
+    NUMGEO: NUMBER OF PROPERTY SETS . . . . . . . . . . .         1
+    NUMNOD: NUMBER OF NODAL POINTS. . . . . . . . . . . .         2
+    NUMSKW: NUMBER OF SKEW REFERENCE FRAMES . . . . . . .         0
+    NUMBCS: NUMBER OF BOUNDARY CONDITIONS . . . . . . . .         1
+    NUMFRAM: NUMBER OF REFERENCE FRAMES . . . . . . . . .         0
+    NUMELQ: NUMBER OF 2D SOLID ELEMENTS . . . . . . . . .         0
+    NUMELS: NUMBER OF 3D SOLID ELEMENTS . . . . . . . . .         0
+    NUMELC: NUMBER OF 3D SHELL ELEMENTS (4-NODES) . . . .         0
+    NUMELT: NUMBER OF 3D TRUSS ELEMENTS . . . . . . . . .         0
+    NUMELP: NUMBER OF 3D BEAM  ELEMENTS . . . . . . . . .         0
+    NUMELR: NUMBER OF 3D SPRING ELEMENTS. . . . . . . . .         1
+    NUMELTG: NUMBER OF 3D SHELL ELEMENTS (3-NODES). . . .         0
+    NUMELX: NUMBER OF MULTIPURPOSE ELEMENTS . . . . . . .         0
+    NUMSPH : NUMBER OF SMOOTH PARTICLES (SPH CELLS) . . .         0
+    NSPHBCS: NUMBER OF SPH SYMETRY CONDITIONS . . . . . .         0
+    NSPHIO : NUMBER OF SPH INLET/OUTLET CONDITIONS. . . .         0
+
+    NFUNCT: NUMBER OF USER'S FUNCTIONS. . . . . . . . . .        10
+    NGRAV:  NUMBER OF GRAVITY LOADS . . . . . . . . . . .         0
+    NCONLD: NUMBER OF CONCENTRATED LOADS. . . . . . . . .         0
+    NINVEL: NUMBER OF INITIAL VELOCITIES. . . . . . . . .         0
+    NPRELD: NUMBER OF PRESSURE LOADS. . . . . . . . . . .         0
+    NUMBER OF ACCELEROMETERS. . . . . . . . . . . . . . .         0
+    NUMBER OF SENSORS . . . . . . . . . . . . . . . . . .         0
+    NUMBER OF GAUGES. . . . . . . . . . . . . . . . . . .         0
+    NINTER: NUMBER OF INTERFACES. . . . . . . . . . . . .         0
+    NRWALL: NUMBER OF RIGID WALLS . . . . . . . . . . . .         0
+    NRBODY: NUMBER OF RIGID BODIES. . . . . . . . . . . .         0
+    NFXBODY: NUMBER OF FLEXIBLE BODIES. . . . . . . . . .         0
+    NCONX : NUMBER OF RIGID LINKS TO MADYMO BODIES. . . .         0
+    NODMAS: NUMBER OF ADDED NODAL MASSES. . . . . . . . .         0
+    NIMPDISP: NUMBER OF IMPOSED DISPLACEMENTS . . . . . .         0
+    NIMPVEL: NUMBER OF IMPOSED VELOCITIES . . . . . . . .         1
+    NIMPACC: NUMBER OF IMPOSED ACCELERATIONS . . . . . .          0
+    NRIVET: NUMBER OF RIVETS OR SPOT WELDS. . . . . . . .         0
+    NSECT : NUMBER OF SECTIONS SAVED (TIME HISTORY PLOTS)         0
+    NJOINT: NUMBER OF JOINTS. . . . . . . . . . . . . . .         0
+    NACTIV: NUMBER OF ELEMENT DESACTIVATION GROUPS. . . .         0
+    NDAMP:  NUMBER OF RAYLEIGH DAMPING GROUPS . . . . . .         0
+    NGJOINT: NUMBER OF GEAR TYPE JOINTS . . . . . . . . .         0
+    NUMMPC: NUMBER OF MULTI-POINT CONSTRAINTS . . . . . .         0
+    NR2RLNK: NUMBER OF EXTERNAL COUPLING LINKS . . . . .          0
+    NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . .          0
+    NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .         0
+    NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .         0
+    NGRAPH: GRAPH DEFINITION FOR MULT-LEVEL CONDENSATION.         0
+    NBEM:   NUMBER OF BEM SOLVED PROBLEMS . . . . . . . .         0
+    NRBE2:  NUMBER OF RBE2 RIGID ELEMENTS . . . . . . . .         0
+    NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .         0
+    INITIAL STRESS FILE =                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                          FLAG ISIGI. . .         0
+
+
+    N2D3D : ANALYSIS TYPE: 0=3D,1=AXISYM,2=PLANE STRAIN .         0
+
+
+    ANALYSIS OPTIONS
+    ----------------
+
+    INTEG8: 8 GAUSS POINT CONDENSED INTEGRATION . . . . .         0
+    IPARITH: PARALLEL ARITHMETIC FLAG (2 OFF, 1 0N) . . .         1
+    ISUB  : (OLD) SUBCYCLING (1:YES 0:NO) . . . . . . . .         0
+    MSHSUB: MEMORY ALLOCATION FOR (NEW) SHELLS SUBCYCLING
+                                        (1:YES 0:NO). . .         0
+    IUSERW: GENERAL USER WINDOW FLAG. . . . . . . . . . .         0
+    ISOLID: DEFAULT BRICK FORMULATION FLAG. . . . . . . .         1
+    ISST_S: DEFAULT BRICK SMALL STRAIN FLAG . . . . . . .         0
+    IPLA_S: DEFAULT SOLID STRESS PLASTICITY FLAG. . . . .         2
+    ISHELL: DEFAULT SHELL FORMULATION FLAG. . . . . . . .         1
+    ISST  : DEFAULT SHELL SMALL STRAIN FLAG . . . . . . .         0
+    ITHK  : DEFAULT SHELL THICKNESS VARIATION FLAG. . . .         0
+    IPLA  : DEFAULT PLANE STRESS PLASTICITY FLAG. . . . .         0
+    ISTR  : DEFAULT SHELL STRAIN COMPUTATION FLAG . . . .         0
+    ISHEA : DEFAULT SHELL SHEAR COMPUTATION FLAG. . . . .         0
+    INSH  : SHELL INERTIA FLAG. . . . . . . . . . . . . .         0
+    ISH3N : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         1
+    NPTS  : SHELL PROPERTIES DEFAULT NUMBER OF           
+            INTEGRATION POINTS OR LAYERS. . . . . . . . .         0
+    ISTRA : DEFAULT SOLID STRAIN COMPUTATION FLAG . . . .         2
+
+    ISHFRAM:LOCAL SHELL FRAME DEFINITION. . . . . . . . .         2
+
+
+    LAGRANGE MULTIPLIER OPTIONS
+    ---------------------------
+    LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . . 1.0000000000000E-11
+
+
+    NODAL MASS DISTRIBUTION FLAG . . . . . . . . .         0
+
+
+    SPEED PARAMETERS  
+    ----------------  
+
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
+    SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
+
+
+    UNIT SYSTEMS DEFINITION     
+    -----------------------     
+
+                                                          MASS                LENGTH              TIME
+    WORK UNIT SYSTEM . . . . . . ( N.A, N.A, N.A ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
+    INPUT UNIT SYSTEM  . . . . . ( N.A, N.A, N.A ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
+
+
+    LOAD CURVES
+    -----------
+    NUMBER OF LOAD CURVES. . . . . . . . =        10
+
+
+    LOAD CURVE ID . . . . . . . . . . . =         1
+
+    X                   Y               
+    -30.00000000000       -500.0000000000    
+    -20.00000000000       -400.0000000000    
+    -10.00000000000       -200.0000000000    
+    -3.000000000000       -100.0000000000    
+     0.000000000000        0.000000000000    
+     3.000000000000        100.0000000000    
+     10.00000000000        200.0000000000    
+     20.00000000000        400.0000000000    
+     30.00000000000        500.0000000000    
+
+    LOAD CURVE ID . . . . . . . . . . . =        10
+
+    X                   Y               
+    -10.00000000000       -700.0000000000    
+    -5.000000000000       -450.0000000000    
+    -1.000000000000       -70.00000000000    
+     0.000000000000        0.000000000000    
+     1.000000000000        70.00000000000    
+     5.000000000000        450.0000000000    
+     10.00000000000        700.0000000000    
+
+    LOAD CURVE ID . . . . . . . . . . . =         5
+
+    X                   Y               
+     0.000000000000        20.00000000000    
+     1.000000000000        20.00000000000    
+     1.001000000000       -20.00000000000    
+     1.500000000000       -20.00000000000    
+     3.000000000000       -20.00000000000    
+     3.001000000000        20.00000000000    
+     5.000000000000        20.00000000000    
+     5.001000000000       -20.00000000000    
+     7.000000000000       -20.00000000000    
+     7.001000000000        20.00000000000    
+     10.00000000000        20.00000000000    
+
+    LOAD CURVE ID . . . . . . . . . . . =         6
+
+    X                   Y               
+    -10.00000000000       -200.0000000000    
+   -0.1000000000000       -100.0000000000    
+     0.000000000000        0.000000000000    
+    0.1000000000000        100.0000000000    
+     10.00000000000        200.0000000000    
+
+    LOAD CURVE ID . . . . . . . . . . . =         7
+
+    X                   Y               
+    -10.00000000000        0.000000000000    
+     0.000000000000        100.0000000000    
+     10.00000000000        200.0000000000    
+
+    LOAD CURVE ID . . . . . . . . . . . =         8
+
+    X                   Y               
+    -10.00000000000       -200.0000000000    
+     0.000000000000       -100.0000000000    
+     10.00000000000        0.000000000000    
+
+    LOAD CURVE ID . . . . . . . . . . . =         9
+
+    X                   Y               
+    -10.00000000000       -5.000000000000    
+     0.000000000000        0.000000000000    
+     10.00000000000        5.000000000000    
+
+    LOAD CURVE ID . . . . . . . . . . . =        17
+
+    X                   Y               
+    -50.00000000000       -391.2023010000    
+    -20.00000000000       -299.5732270000    
+    -10.00000000000       -230.2585090000    
+    -5.000000000000       -160.9437910000    
+     0.000000000000        0.000000000000    
+     5.000000000000        160.9437910000    
+     10.00000000000        230.2585090000    
+     20.00000000000        299.5732270000    
+     50.00000000000        391.2023010000    
+
+    LOAD CURVE ID . . . . . . . . . . . =        27
+
+    X                   Y               
+    -50.00000000000       -270.8050200000    
+    -20.00000000000       -179.1759460000    
+    -10.00000000000       -109.8612280000    
+    -5.000000000000       -40.54651080000    
+     0.000000000000        0.000000000000    
+     5.000000000000        40.54651080000    
+     10.00000000000        109.8612280000    
+     20.00000000000        179.1759460000    
+     50.00000000000        270.8050200000    
+
+    LOAD CURVE ID . . . . . . . . . . . =        28
+
+    X                   Y               
+    -20.00000000000        20.00000000000    
+    -15.00000000000        15.00000000000    
+     0.000000000000        10.00000000000    
+     15.00000000000        15.00000000000    
+     20.00000000000        20.00000000000    
+
+
+    TABLES
+    ------
+    NUMBER OF TABLES . . . . . . . . . . =         0
+
+
+
+    FUNCTION  TRANSFORMATION 
+
+
+
+        NODAL POINT COORDINATES                                                          
+        -----------------------                                                          
+
+        NODE                 X-ORD               Y-ORD               Z-ORD               
+
+              1          0.000000000000      0.000000000000      0.000000000000    
+              2          0.000000000000      1.000000000000      0.000000000000    
+
+
+         PROPERTY SETS
+         -------------
+
+
+ Part number 1                          
+     SPRING PROPERTY SET
+     PROPERTY SET NUMBER . . . . . . . . . .=         2
+     SPRING MASS . . . . . . . . . . . . . .=  5.000000000000    
+     SPRING STIFFNESS. . . . . . . . . . . .=  500.0000000000    
+     SPRING DAMPING. . . . . . . . . . . . .=  0.000000000000    
+     FUNCTION IDENTIFIER FOR LOADING 
+     FORCE-DISPLACEMENT CURVE. . . . . . . .=        17
+     ABSCISSA SCALE FACTOR ON CURVE . . . . =  1.000000000000    
+     FUNCTION IDENTIFIER FOR UNLOADING 
+     FORCE-DISPLACEMENT CURVE (H=4,5,7). . .=        27
+     ABSCISSA SCALE FACTOR ON CURVE . . . . =  1.000000000000    
+     HARDENING FLAG H. . . . . . . . . . . .=         7
+     0:ELASTIC   1:ISOTROPIC 2:UNCOUPLED
+     4:KINEMATIC 5:UNCOUPLED NL (UN/RE)LOADING
+     6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS
+     8:ELASTIC, TOTAL LENGHT FUNCTION
+     DYNAMIC AMPLIFICATION FACTOR A. . . . .=  1.000000000000    
+     DYNAMIC AMPLIFICATION FACTOR B. . . . .=  0.000000000000    
+     DYNAMIC AMPLIFICATION FACTOR D. . . . .=  1.000000000000    
+     DYNAMIC AMPLIFICATION FACTOR E. . . . .=  1.000000000000    
+     FUNCTION IDENTIFIER FOR  
+     FORCE-VELOCITY CURVE. . . . . . . . . .=         0
+     DYNAMIC AMPLIFICATION FACTOR GF3. . . .=  1.000000000000    
+     FUNCTION IDENTIFIER FOR THE ADDITIONAL 
+     FORCE-VELOCITY CURVE. . . . . . . . . .=         0
+     NEGATIVE FAILURE DISPLACEMENT . . . . .=-1.0000000000000E+30
+     POSITIVE FAILURE DISPLACEMENT . . . . .= 1.0000000000000E+30
+     SENSOR NUMBER (0:NOT USED). . . . . . .=         0
+     SENSOR FLAG (0:ACTIV 1:DISACT 2:BOTH) .=         0
+     UNIT LENGTH FLAG. . . . . . . . . . . .=         0
+     IF=1 UNIT LENGTH MASS,STIFFNESS AND INPUT
+          CURVE ARE STRAIN DEPENDING
+
+
+
+       PARTS
+       -----
+
+
+
+PART:         1,Part number 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+----
+     PROPERTY:         2, Part number 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+     SUBSET  :         0
+ VIRT. THICKN:  0.000000000000    
+
+ SPRING ELEMENTS
+ ---------------
+  LOC-EL  GLO-EL    GEOM    NODE1    NODE2   (NODE3)
+         1          1          2          1          2
+
+
+       HIERARCHICAL SUBSET ORGANIZATION
+       --------------------------------
+
+
+  
+  
+ SUBSET:         0,GLOBAL MODEL                            
+ ~~~~~~
+  |
+  |________Part(s):         1,Part number 1                           
+
+
+
+ NODE GROUP:         2,R03AV21D00_bcs1_111_111                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ,         1 NODES: 
+ -------------------
+       1
+
+
+
+ NODE GROUP:         3,node 2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ,         1 NODES: 
+ -------------------
+       2
+
+
+     RANDOM NOISE       
+     ------------       
+
+     BOUNDARY CONDITIONS                                                                 
+     -------------------                                                                 
+       NODE  TRANS. ROTAT.         SKEW
+
+          1  1 1 1  1 1 1            0
+
+
+     IMPOSED VELOCITIES    
+     -------------------    
+         NODE         SKEW        FRAME  DIRECTION   LOAD_CURVE       SENSOR            FSCALE                ASCALE            START_TIME                 STOP_TIME             COORDINATE SYSTEM
+            2            0            0          X            5            0    1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30         0
+ 
+  
+ SPMD IS NOT ABLE TO CHECK FOR ELEMENT DELETION IN RADIOSS ENGINE INPUT FILE
+ 
+ DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
+ ------------------------------------------
+ DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
+  
+  ELEMENT NUMBER =        1
+  EDGES FOUND    =        0
+  
+#PROC    ELEMENT W.    CONT NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
+   1             0.             0.             0.             0.             0.
+   2             0.             0.             0.             0.             0.
+   3             0.             0.             0.             0.             0.
+   4             0.             0.             0.             0.             0.
+  
+           3D - SPRING ELEMENT GROUPS 
+          ---------------------------
+ GROUP   SPRING     ELEMENT   FIRST    BUFFER   ELEMENT  
+         TYPE       NUMBER    ELEMENT  ADDRESS  TYPE     
+
+       1        1        1        1        1        6
+ BUFFER LENGTH :         15
+
+
+
+
+         SPRING ELEMENTS TIME STEP
+         ------------------------
+
+      TIME STEP       ELEMENT NUMBER
+  0.1000000000000                  1
+
+
+         NODAL TIME STEP (estimation)
+         ---------------
+
+      TIME STEP       NODE NUMBER
+  0.1000000000000                  1
+  0.1000000000000                  2
+
+
+     NODAL MASSES
+     ------------
+      NODE MASS                      NODE MASS                      NODE MASS                      NODE MASS                      NODE MASS
+
+         1   2.500000000000             2   2.500000000000    
+
+
+PART MASS & INERTIA
+-------------------
+
+
+PART :          1Part number 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+  5.000000000000      1.250000000000      0.000000000000      1.250000000000      0.000000000000      0.000000000000      0.000000000000    
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  0.000000000000     0.5000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+
+     TOTAL MASS AND MASS CENTER
+     --------------------------
+                     MASS                    X                    Y                    Z
+
+       5.000000000000       0.000000000000      0.5000000000000       0.000000000000    
+
+
+     TOTAL INERTIA
+     -------------
+                      IXX                  IYY                  IZZ                  IXY                  IYZ                  IZX
+       1.250000000000       0.000000000000       1.250000000000       0.000000000000       0.000000000000       0.000000000000    
+
+
+
+      ADDED NODAL NON-STRUCTURAL MASSES 
+     --------------------
+
+
+
+
+  TOTAL ADDED MASS =   0.000000000000    
+
+
+  
+  LIST OF DEACTIVATED ELEMENTS FROM RIGID BODIES
+  ----------------------------------------------
+
+
+
+TH GROUP:         2,Node selection for time history                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ,  6 VAR,    2 NODES     :
+ -------------------
+DX        DY        DZ        VX        VY        VZ        
+    NODE  SKEW(OR FRAME)     NAME 
+         1         0          fixed node                             
+         2         0          moving node                            
+
+
+
+TH GROUP:         3,Spring selection for time history                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   , 14 VAR,    1 SPRING    :
+ -------------------
+OFF       FX        FY        FZ        MX        MY        MZ        LX        LY        LZ        
+RX        RY        RZ        IE        
+SPRING      P_SPMD       NAME 
+         1         0                                         
+
+
+
+ TH GROUP: PART      
+ ---------
+
+
+
+ TH GROUP: SUBSET    
+ ---------
+ SUMMARY OF POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS :
+ -----------------------------------------------------
+                                  
+ NO TRUE INCOMPATIBLE KINEMATIC CONDITION
+
+ 
+    STARTER STORAGE 
+    --------------- 
+ 
+    STARTER MEMORY USAGE         71 MB
+
+ 
+ 
+ STATISTICS ON DOMAIN DECOMPOSITION 
+ ---------------------------------- 
+ 
+AVERAGE NB. OF BOUNDARY NODES :     0
+STANDARD DEVIATION            :     0
+ 
+AVERAGE NUMBER OF LOCAL NODES :       1
+STANDARD DEVIATION            :       1
+ 
+ PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
+    1             1                     0                     0
+ PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
+    2             0                     0                     0
+ PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
+    3             0                     0                     0
+ PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
+    4             0                     0                     0
+ 
+ DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
+ ----------------------------------------------------
+ NUMBER OF NODES................. :           2
+ NUMBER OF SPRING ELEMENTS....... :           1
+ TOTAL NUMBER OF NODES FOR COMM.. :           0
+ 
+
+     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
+     --------------------------------------------------------
+        MEMORY USED FOR REALS            5 MB 
+        MEMORY USED FOR INTEGERS         5 MB 
+        TOTAL MEMORY EVALUATION         10 MB 
+                                            
+        RESTART FILE SIZE       101KB
+ 
+ DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
+ ----------------------------------------------------
+ NUMBER OF NODES................. :           0
+ NUMBER OF SPRING ELEMENTS....... :           0
+ TOTAL NUMBER OF NODES FOR COMM.. :           0
+ 
+
+     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
+     --------------------------------------------------------
+        MEMORY USED FOR REALS            5 MB 
+        MEMORY USED FOR INTEGERS         5 MB 
+        TOTAL MEMORY EVALUATION         10 MB 
+                                            
+        RESTART FILE SIZE        75KB
+ 
+ DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
+ ----------------------------------------------------
+ NUMBER OF NODES................. :           0
+ NUMBER OF SPRING ELEMENTS....... :           0
+ TOTAL NUMBER OF NODES FOR COMM.. :           0
+ 
+
+     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
+     --------------------------------------------------------
+        MEMORY USED FOR REALS            5 MB 
+        MEMORY USED FOR INTEGERS         5 MB 
+        TOTAL MEMORY EVALUATION         10 MB 
+                                            
+        RESTART FILE SIZE        75KB
+ 
+ DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
+ ----------------------------------------------------
+ NUMBER OF NODES................. :           0
+ NUMBER OF SPRING ELEMENTS....... :           0
+ TOTAL NUMBER OF NODES FOR COMM.. :           0
+ 
+
+     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
+     --------------------------------------------------------
+        MEMORY USED FOR REALS            5 MB 
+        MEMORY USED FOR INTEGERS         5 MB 
+        TOTAL MEMORY EVALUATION         10 MB 
+                                            
+        RESTART FILE SIZE        75KB
+ 
+
+     RESTART FILES R01CV3_0000 WRITTEN
+     -------------
+
+
+
+
+     NORMAL TERMINATION                                                                  
+     ------------------                                                                  
+          0 ERROR(S)            
+          0 WARNING(S)          
+
+

@@ -1,0 +1,30 @@
+#-  1. :
+#---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|
+/ANIM/DT
+#   TSTART     TFREQ
+0.000000 0.000500
+/DT/NODA/CST/0
+0.9 1e-07
+/ANIM/BRICK/TENS/STRESS/000
+/ANIM/NODA/DMAS
+/ANIM/ELEM/EPSP
+/ANIM/ELEM/HOURG
+/ANIM/ELEM/VONM
+/ANIM/BRICK/DENS
+/ANIM/BRICK/P
+/ANIM/MASS
+/ANIM/GZIP
+/MON/ON
+/PARITH/ON
+/PRINT/-1/55
+/RUN/TEST_002/1
+           0.0010001
+/TFILE/4
+#            dT_HIS
+0.000100
+/TITLE
+                                                                                                    
+/VERS/2019
+/ANIM/VECT/VEL
+/ANIM/VECT/CONT
+/ANIM/VECT/FOPT

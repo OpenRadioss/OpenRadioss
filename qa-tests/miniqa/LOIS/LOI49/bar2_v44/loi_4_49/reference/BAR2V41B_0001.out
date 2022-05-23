@@ -1,0 +1,349 @@
+ BAR2V41B_0001.out
+************************************************************************
+**                                                                    **
+**                                                                    **
+**                 Altair Radioss(TM) Engine MAINLINE                 **
+**                                                                    **
+**            Non-linear Finite Element Analysis Software             **
+**                   from Altair Engineering, Inc.                    **
+**                                                                    **
+**                                                                    **
+**              Linux 64 bits, Intel compiler, Intel MPI              **
+**                                                                    **
+**                           BETA_VERSION                             **
+**                                                                    **
+** Build tag: 1080456_12638000000_2070_0085392_10                     **
+************************************************************************
+**  COPYRIGHT (C) 1986-2021                 Altair Engineering, Inc.  **
+** All Rights Reserved.  Copyright notice does not imply publication. **
+** Contains trade secrets of Altair Engineering Inc.                  **
+** Decompilation or disassembly of this software strictly prohibited. **
+************************************************************************
+ 
+ NUMBER OF SPMD DOMAINS           4
+ NUMBER OF THREADS PER DOMAIN     1
+ NUMBER OF HMPP PROCESSES         4
+  
+ COMPUTATION HARDWARE DESCRIPTION
+  
+ CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
+   1   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  48969 MB swap
+   2   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  48969 MB swap
+   3   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  48969 MB swap
+   4   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  48969 MB swap
+  
+************************************************************************
+
+
+ BAR2V41BD01                                                                     
+
+
+ FINAL TIME . . . . . . . . . . . . . . . . . . .   71.00000    
+
+ TIME INTERVAL FOR TIME HISTORY PLOTS . . . . . .  0.1000000    
+
+ TIME STEP SCALE FACTOR . . . . . . . . . . . . .  0.6700000    
+
+ MINIMUM TIME STEP  . . . . . . . . . . . . . . .   0.000000    
+
+
+ BRICK TIME STEP SCALE FACTOR . . . . . . . . . .  0.6700000    
+ BRICK MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE BRICK)     1
+
+ QUAD TIME STEP SCALE FACTOR. . . . . . . . . . .  0.6700000    
+ QUAD MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE QUAD).     1
+
+ SHELL TIME STEP SCALE FACTOR . . . . . . . . . .  0.6700000    
+ SHELL MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE, 3:SMALL STRAIN)    2
+
+ TRUSS TIME STEP SCALE FACTOR . . . . . . . . . .  0.6700000    
+ TRUSS MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ BEAM TIME STEP SCALE FACTOR. . . . . . . . . . .  0.6700000    
+ BEAM MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ SPRING TIME STEP SCALE FACTOR. . . . . . . . . .  0.6700000    
+ SPRING MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ AIRBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.6700000    
+ AIRBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP). . . . . . . . . . . . .     0
+
+ CONTACT TIME STEP SCALE FACTOR . . . . . . . . .  0.6700000    
+ CONTACT MINIMUM TIME STEP. . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG(1:STOP, 2:REMOVE NODE FROM INTERF)    0
+
+ FVMBAG TIME STEP SCALE FACTOR. . . . . . . . . .   0.000000    
+ FVMBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ FVMBAG TIME STEP FLAG. . . . . . . . . . . . . .     1
+
+ PRINTOUT CYCLE FREQUENCY . . . . . . . . . . . .  -100
+
+ RESTART CYCLE FREQUENCY. . . . . . . . . . . . .   10000000
+
+ MAXIMUM RESTART WRITE BEFORE OVERWRITE . . . . .     0
+
+ INVERS: INPUT DECK VERSION . . . . . . . . . . .  2019
+ ITTYP : FLAG FOR TYPE OF T-FILE. . . . . . . . .     4
+
+
+ TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . .   0.000000    
+ TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . .   10.00000    
+ SENSOR FOR ANIMATION-FILE PLOTS. . . . . . . . .          0
+ TIME INTERVAL FOR SENSOR ANIMATION-FILE PLOTS. .   0.000000    
+
+ VARIABLE SAVED ON ANIMATION FILES (1: YES) :
+      PLASTIC STRAIN. . . . . .     1
+      DENSITY     (SOLID ONLY).     0
+      SPECIFIC ENERGY . . . . .     1
+      HOURGLASS ENERGY. . . . .     0
+      TEMPERATURE (SOLID ONLY).     1
+      THICKNESS   (SHELL ONLY).     0
+      PRESSURE    (SOLID ONLY).     1
+      VON MISES . . . . . . . .     1
+      TURBULENT ENERGY (FLUID).     0
+      TURBULENT VISCOSITY(FLUID)    0
+      VORTICITY (FLUID) . . . .     0
+ NODAL VALUES SAVED ON ANIMATION FILES (1: YES) :
+      PRESSURE. . . . . . . . .     0
+      DENSITY . . . . . . . . .     0
+      TEMPERATURE . . . . . . .     0
+ VECTOR SAVED ON ANIMATION FILES (1: YES) :
+      VELOCITY VECTOR . . . . .     0
+      DISPLACEMENT VECTOR . . .     0
+      ACCELERATION VECTOR . . .     0
+      CONTACT FORCES. . . . . .     0
+      INTERNAL FORCES . . . . .     0
+      EXTERNAL FORCES . . . . .     0
+      SECTION RBY RWALL FORCES.     0
+      ROTATIONAL VELOCITY VECTOR    0
+      CONTACT PRESSURE (VECTORS)    0
+ SHELL TENSOR SAVED ON ANIMATION FILES (1: YES) :
+      MEMBRANE STRESS . . . . .     0
+      BENDING STRESS(MOMENT/T^2)    0
+      UPPER LAYER STRESS. . . .     0
+      LOWER LAYER STRESS. . . .     0
+      MEMBRANE STRAIN . . . . .     0
+      CURVATURE . . . . . . . .     0
+      UPPER LAYER STRAIN. . . .     0
+      LOWER LAYER STRAIN. . . .     0
+ NODAL MASS SAVED ON ANIMATION FILES (1: YES) :    0
+ KEEP DELETED ELEMENT (1: YES) :    0
+
+
+ INITIAL TIME STEP. . . . . . . . . . . . . . . .   0.000000    
+ MAXIMUM TIME STEP. . . . . . . . . . . . . . . .  0.1000000E+31
+
+ PARALLEL ARITHMETIC ON
+ NUMBER OF INTERFACES TO BE ELIMINATED. . . . . .        0
+
+ NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF QUAD   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SHELL  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF TRUSS  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF BEAM   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SPRING ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SH_3N  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF  SPH PARTICLES BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF RIGID LINKS. . . . . . . . . . . . . .        0
+
+ NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
+
+ NUMBER OF ALE LINKS. . . . . . . . . . . . . . .        0
+
+
+ ALE EULER SOLVERS
+ -----------------
+
+   +--STAGGERRED SCHEME
+   |  +--MOMENTUM          :        SUPG       eta=  1.000000    
+   |  +--MASS              :        UPWIND     eta=  1.000000    
+   |  +--ENERGY            :        UPWIND     eta=  1.000000    
+   |  +--VOLUME FRACTION   :        UPWIND   
+   |
+   +--TIME STEP
+   |  +--COURANT NUMBER    :  0.5000000    
+   |  +--MINIMUM TIME STEP :   0.000000    
+   |
+   +--GRID SMOOTHING
+      +--FORMULATION       :        DONEA    
+      +--PARAMETERS        :
+                             ALPHA   : DONEA COEFFICIENT. . . . . . . . . . .  0.5000000E-01
+                             GAMMA   : GRID VELOCITY LIMITATION FACTOR. . . .   1.000000    
+                             FscaleX : X-GRID VELOCITY SCALE FACTOR . . . . .   1.000000    
+                             FscaleY : Y-GRID VELOCITY SCALE FACTOR . . . . .   1.000000    
+                             FscaleZ : Z-GRID VELOCITY SCALE FACTOR . . . . .   1.000000    
+                             VOLMIN  : MINIMUM VOLUME FOR ELEMENT DELETION. . -0.1000000E+31
+
+
+ REMOVE INTER.7 SEGMENT AFTER SHELL FAILURE(1 YES)   -1
+
+ 23/08/2021
+ CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK     MAS.ERR     TOTAL MASS  MASS ADDED
+     0   0.000      0.4534E-01 QUAD        1000   0.0%   0.000      0.7557E-03   0.000       0.000       0.000       2.963       0.000    
+     ANIMATION FILE: BAR2V41BA001 WRITTEN
+   100   3.916      0.3444E-01 QUAD         985  -0.5%  0.5838E-04  0.6938E-03   0.000       0.000     -0.1499E-15   2.963     -0.4441E-15
+   200   7.075      0.2928E-01 QUAD         979  -0.7%  0.9741E-04  0.6528E-03   0.000       0.000     -0.1499E-15   2.963     -0.4441E-15
+   300   9.844      0.2630E-01 QUAD         979  -1.0%  0.1350E-03  0.6131E-03   0.000       0.000     -0.5996E-15   2.963     -0.1776E-14
+     ANIMATION FILE: BAR2V41BA002 WRITTEN
+   400   12.38      0.2419E-01 QUAD         974  -1.1%  0.1703E-03  0.5770E-03   0.000       0.000     -0.1499E-15   2.963     -0.4441E-15
+   500   14.70      0.2216E-01 QUAD         969  -1.2%  0.2033E-03  0.5433E-03   0.000       0.000     -0.1499E-15   2.963     -0.4441E-15
+   600   16.87      0.2119E-01 QUAD         969  -1.3%  0.2345E-03  0.5114E-03   0.000       0.000       0.000       2.963       0.000    
+   700   18.92      0.1973E-01 QUAD         964  -1.4%  0.2645E-03  0.4809E-03   0.000       0.000     -0.4497E-15   2.963     -0.1332E-14
+     ANIMATION FILE: BAR2V41BA003 WRITTEN
+   800   20.84      0.1902E-01 QUAD         964  -1.4%  0.2926E-03  0.4522E-03   0.000       0.000     -0.2998E-15   2.963     -0.8882E-15
+   900   22.73      0.1847E-01 QUAD         959  -1.5%  0.3201E-03  0.4242E-03   0.000       0.000     -0.1499E-15   2.963     -0.4441E-15
+  1000   24.53      0.1759E-01 QUAD         959  -1.6%  0.3461E-03  0.3977E-03   0.000       0.000     -0.5996E-15   2.963     -0.1776E-14
+  1100   26.28      0.1753E-01 QUAD         959  -1.6%  0.3709E-03  0.3726E-03   0.000       0.000       0.000       2.963       0.000    
+  1200   28.02      0.1719E-01 QUAD         954  -1.6%  0.3953E-03  0.3481E-03   0.000       0.000     -0.1499E-15   2.963     -0.4441E-15
+  1300   29.72      0.1670E-01 QUAD         954  -1.7%  0.4184E-03  0.3247E-03   0.000       0.000       0.000       2.963       0.000    
+     ANIMATION FILE: BAR2V41BA004 WRITTEN
+  1400   31.38      0.1673E-01 QUAD         954  -1.7%  0.4407E-03  0.3021E-03   0.000       0.000     -0.2998E-15   2.963     -0.8882E-15
+  1500   33.06      0.1670E-01 QUAD         954  -1.7%  0.4625E-03  0.2801E-03   0.000       0.000     -0.2998E-15   2.963     -0.8882E-15
+  1600   34.72      0.1647E-01 QUAD         954  -1.8%  0.4834E-03  0.2590E-03   0.000       0.000     -0.2998E-15   2.963     -0.8882E-15
+  1700   36.37      0.1652E-01 QUAD         954  -1.8%  0.5035E-03  0.2387E-03   0.000       0.000     -0.2998E-15   2.963     -0.8882E-15
+  1800   38.03      0.1654E-01 QUAD         954  -1.8%  0.5229E-03  0.2193E-03   0.000       0.000     -0.1499E-15   2.963     -0.4441E-15
+  1900   39.67      0.1641E-01 QUAD         954  -1.8%  0.5414E-03  0.2007E-03   0.000       0.000     -0.1499E-15   2.963     -0.4441E-15
+     ANIMATION FILE: BAR2V41BA005 WRITTEN
+  2000   41.32      0.1645E-01 QUAD         954  -1.8%  0.5590E-03  0.1828E-03   0.000       0.000      0.1499E-15   2.963      0.4441E-15
+  2100   42.97      0.1645E-01 QUAD         954  -1.8%  0.5758E-03  0.1660E-03   0.000       0.000     -0.2998E-15   2.963     -0.8882E-15
+  2200   44.61      0.1639E-01 QUAD         954  -1.9%  0.5916E-03  0.1500E-03   0.000       0.000     -0.2998E-15   2.963     -0.8882E-15
+  2300   46.25      0.1645E-01 QUAD         954  -1.9%  0.6064E-03  0.1350E-03   0.000       0.000       0.000       2.963       0.000    
+  2400   47.89      0.1646E-01 QUAD         954  -1.9%  0.6203E-03  0.1211E-03   0.000       0.000     -0.2998E-15   2.963     -0.8882E-15
+  2500   49.54      0.1647E-01 QUAD         954  -1.9%  0.6333E-03  0.1079E-03   0.000       0.000       0.000       2.963       0.000    
+     ANIMATION FILE: BAR2V41BA006 WRITTEN
+  2600   51.19      0.1648E-01 QUAD         954  -1.9%  0.6454E-03  0.9569E-04   0.000       0.000       0.000       2.963       0.000    
+  2700   52.84      0.1649E-01 QUAD         954  -1.9%  0.6568E-03  0.8424E-04   0.000       0.000       0.000       2.963       0.000    
+  2800   54.49      0.1650E-01 QUAD         954  -2.0%  0.6675E-03  0.7343E-04   0.000       0.000      0.1499E-15   2.963      0.4441E-15
+  2900   56.14      0.1650E-01 QUAD         954  -2.0%  0.6775E-03  0.6329E-04   0.000       0.000      0.2998E-15   2.963      0.8882E-15
+  3000   57.79      0.1650E-01 QUAD         954  -2.0%  0.6868E-03  0.5393E-04   0.000       0.000       0.000       2.963       0.000    
+  3100   59.44      0.1651E-01 QUAD         954  -2.0%  0.6954E-03  0.4527E-04   0.000       0.000      0.1499E-15   2.963      0.4441E-15
+     ANIMATION FILE: BAR2V41BA007 WRITTEN
+  3200   61.09      0.1651E-01 QUAD         954  -2.0%  0.7032E-03  0.3738E-04   0.000       0.000       0.000       2.963       0.000    
+  3300   62.74      0.1651E-01 QUAD         954  -2.0%  0.7103E-03  0.3025E-04   0.000       0.000     -0.1499E-15   2.963     -0.4441E-15
+  3400   64.39      0.1651E-01 QUAD         954  -2.0%  0.7167E-03  0.2386E-04   0.000       0.000      0.1499E-15   2.963      0.4441E-15
+  3500   66.04      0.1652E-01 QUAD         954  -2.0%  0.7222E-03  0.1825E-04   0.000       0.000       0.000       2.963       0.000    
+  3600   67.69      0.1652E-01 QUAD         954  -2.0%  0.7270E-03  0.1342E-04   0.000       0.000     -0.2998E-15   2.963     -0.8882E-15
+  3700   69.35      0.1652E-01 QUAD         954  -2.0%  0.7311E-03  0.9348E-05   0.000       0.000       0.000       2.963       0.000    
+     ANIMATION FILE: BAR2V41BA008 WRITTEN
+  3800   71.00      0.1652E-01 QUAD         954  -2.0%  0.7344E-03  0.6022E-05   0.000       0.000       0.000       2.963       0.000    
+
+     RESTART FILES: BAR2V41B_0001_[0001-0004].rst WRITTEN
+     -------------
+
+  
+                           ** CPU USER TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .2100E-01 .1900E-01 .1330E+00 .5899E-01 .7998E-01 .2900E-01 .8999E+00
+   2   .1700E-01 .1700E-01 .8998E-01 .5199E-01 .1820E+00 .2200E-01 .1176E+01
+   3   .2100E-01 .2400E-01 .1070E+00 .4599E-01 .1540E+00 .2600E-01 .1149E+01
+   4   .1700E-01 .1500E-01 .1060E+00 .3900E-01 .1470E+00 .2500E-01 .1192E+01
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .2999E-01 .0000E+00 .0000E+00 .2000E-02 .3199E-01 .3555E+01
+   2   .4299E-01 .0000E+00 .0000E+00 .1999E-02 .4499E-01 .3826E+01
+   3   .2799E-01 .0000E+00 .0000E+00 .3999E-02 .3199E-01 .2785E+01
+   4   .7699E-01 .0000E+00 .0000E+00 .2000E-02 .7899E-01 .6627E+01
+  
+ 
+                   ** CUMULATIVE CPU TIME SUMMARY **
+  
+ CONTACT SORTING.............: .0000E+00     0.00 % 
+ CONTACT FORCES..............: .4000E-02     0.09 % 
+ ELEMENT FORCES..............: .7599E-01     1.72 % 
+ KINEMATIC COND..............: .7499E-01     1.70 % 
+ INTEGRATION.................: .4359E+00     9.87 % 
+ ASSEMBLING..................: .1020E+00     2.31 % 
+ ALE.........................: .1752E+01    39.66 % 
+ OTHERS (including I/O)......: .1972E+01    44.65 % 
+ TOTAL.......................: .4416E+01   100.00 % 
+  
+  
+                           ** ELAPSED TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .2444E-01 .2074E-01 .1068E+00 .7166E-01 .1052E+00 .2373E-01 .9727E+00
+   2   .2415E-01 .2017E-01 .1202E+00 .5784E-01 .1051E+00 .2355E-01 .1245E+01
+   3   .2497E-01 .1827E-01 .1096E+00 .5592E-01 .1415E+00 .2368E-01 .1245E+01
+   4   .2435E-01 .1838E-01 .1071E+00 .5936E-01 .1392E+00 .2341E-01 .1245E+01
+  
+        ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+ MIN   .2415E-01 .1827E-01 .1068E+00 .5592E-01 .1051E+00 .2341E-01 .9727E+00
+ MAX   .2497E-01 .2074E-01 .1202E+00 .7166E-01 .1415E+00 .2373E-01 .1245E+01
+ AVG   .2448E-01 .1939E-01 .1109E+00 .6119E-01 .1227E+00 .2359E-01 .1177E+01
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .3159E-01 .0000E+00 .0000E+00 .4530E-02 .3612E-01 .3713E+01
+   2   .3751E-01 .0000E+00 .0000E+00 .4760E-02 .4227E-01 .3394E+01
+   3   .3066E-01 .0000E+00 .0000E+00 .4863E-02 .3552E-01 .2853E+01
+   4   .3552E-01 .0000E+00 .0000E+00 .4531E-02 .4006E-01 .3216E+01
+  
+        FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+ MIN   .3066E-01 .0000E+00 .0000E+00 .4530E-02 .3552E-01 .2853E+01
+ MAX   .3751E-01 .0000E+00 .0000E+00 .4863E-02 .4227E-01 .3713E+01
+ AVG   .3382E-01 .0000E+00 .0000E+00 .4671E-02 .3849E-01 .3294E+01
+  
+                   ** MEMORY USAGE STATISTICS **
+  
+ TOTAL MEMORY USED .........................:      202 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:      363 MB
+ MINIMUM MEMORY PER PROCESSOR...............:       49 MB
+ AVERAGE MEMORY PER PROCESSOR...............:       50 MB
+  
+                   ** DISK USAGE STATISTICS **
+  
+ TOTAL DISK SPACE USED .....................:          1 MB
+ ANIMATION/H3D/TH/OUTP SIZE ................:          0 MB
+ RESTART FILE SIZE .........................:          1 MB
+  
+                   ** COMPUTE TIME INFORMATION **
+                        ** CURRENT ENGINE **
+  
+ EXECUTION STARTED .........................:      2021/08/23  17:36:29
+ EXECUTION COMPLETED .......................:      2021/08/23  17:36:30
+  
+ ELAPSED TIME     =          1.73 s
+                          0:00:01
+ ESTIMATED SPEEDUP=          2.56
+
+
+
+     NORMAL TERMINATION      
+
+
+
+     TOTAL NUMBER OF CYCLES  :    3801
+
+  
+                   ** COMPUTE RUNTIME INFORMATION SUMMARY **
+  
+        STARTER RUNTIME =          0.97s (00:00:00)
+ # 001   ENGINE RUNTIME =          1.73s (00:00:01)
+ ------------------------------ 
+ STARTER+ENGINE RUNTIME =          2.70s (00:00:02)
+  

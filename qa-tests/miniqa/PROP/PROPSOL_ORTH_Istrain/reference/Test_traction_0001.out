@@ -1,0 +1,382 @@
+ Test_traction_0001.out
+************************************************************************
+**                                                                    **
+**                                                                    **
+**                      RADIOSS ENGINE MAINLINE                       **
+**                                                                    **
+**            Non-linear Finite Element Analysis Software             **
+**                   from Altair Engineering, Inc.                    **
+**                                                                    **
+**                                                                    **
+**              Linux 64 bits, Intel compiler, Intel MPI              **
+**                                                                    **
+**                                                                    **
+**                                                                    **
+** Build tag: 0742056_087sesevot__2070_0032401_10                     **
+************************************************************************
+**  COPYRIGHT (C) 1986-2014                 Altair Engineering, Inc.  **
+** All Rights Reserved.  Copyright notice does not imply publication. **
+** Contains trade secrets of Altair Engineering Inc.                  **
+** Decompilation or disassembly of this software strictly prohibited. **
+************************************************************************
+ 
+ NUMBER OF SPMD DOMAINS           4
+ NUMBER OF THREADS PER DOMAIN     1
+ NUMBER OF HMPP PROCESSES         4
+  
+ COMPUTATION HARDWARE DESCRIPTION
+  
+ CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
+   1   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
+   2   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
+   3   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
+   4   fradf-mariner1.europe.altair.com   Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz (x86_64), 2400 MHz,  16080 MB RAM,  16383 MB swap
+  
+************************************************************************
+
+
+ Test_tractionD01                                                                
+
+
+ FINAL TIME . . . . . . . . . . . . . . . . . . .   1.000000    
+
+ TIME INTERVAL FOR TIME HISTORY PLOTS . . . . . .  0.1000000E-01
+
+ TIME STEP SCALE FACTOR . . . . . . . . . . . . .  0.9000000    
+
+ MINIMUM TIME STEP  . . . . . . . . . . . . . . .   0.000000    
+
+
+ NODAL TIME STEP SCALE FACTOR . . . . . . . . . .  0.6700000    
+ NODAL MINIMUM TIME STEP. . . . . . . . . . . . .  0.1000000E-05
+ MIN. TIME FLAG (1:STOP 3:INCREASE MASS). . . . .     3
+
+
+ BRICK TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ BRICK MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE BRICK)     0
+
+ QUAD TIME STEP SCALE FACTOR. . . . . . . . . . .  0.9000000    
+ QUAD MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE QUAD).     0
+
+ SHELL TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ SHELL MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE, 3:SMALL STRAIN)    0
+
+ TRUSS TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ TRUSS MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ BEAM TIME STEP SCALE FACTOR. . . . . . . . . . .  0.9000000    
+ BEAM MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ SPRING TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ SPRING MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ AIRBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ AIRBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP). . . . . . . . . . . . .     0
+
+ INTERFACE TYPE 7 TIME STEP SCALE FACTOR. . . . .  0.9000000    
+ INTERFACE TYPE 7 MINIMUM TIME STEP . . . . . . .   0.000000    
+ MIN. TIME FLAG(1:STOP, 2:REMOVE NODE FROM INTERF)    0
+
+ FVMBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ FVMBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+
+ PRINTOUT CYCLE FREQUENCY . . . . . . . . . . . .  -100
+
+ RESTART CYCLE FREQUENCY. . . . . . . . . . . . .       5000
+
+ MAXIMUM RESTART WRITE BEFORE OVERWRITE . . . . .     0
+
+ INVERS: INPUT DECK VERSION . . . . . . . . . . .   100
+ ITTYP : FLAG FOR TYPE OF T-FILE. . . . . . . . .     4
+
+ TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . .   0.000000    
+ TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . .  0.1000000    
+ SENSOR FOR ANIMATION-FILE PLOTS. . . . . . . . .          0
+ TIME INTERVAL FOR SENSOR ANIMATION-FILE PLOTS. .   0.000000    
+
+ VARIABLE SAVED ON ANIMATION FILES (1: YES) :
+      PLASTIC STRAIN. . . . . .     1
+      DENSITY     (SOLID ONLY).     0
+      SPECIFIC ENERGY . . . . .     1
+      HOURGLASS ENERGY. . . . .     0
+      TEMPERATURE (SOLID ONLY).     0
+      THICKNESS   (SHELL ONLY).     0
+      PRESSURE    (SOLID ONLY).     1
+      VON MISES . . . . . . . .     1
+      TURBULENT ENERGY (FLUID).     0
+      TURBULENT VISCOSITY(FLUID)    0
+      VORTICITY (FLUID) . . . .     0
+ VECTOR SAVED ON ANIMATION FILES (1: YES) :
+      VELOCITY VECTOR . . . . .     1
+      DISPLACEMENT VECTOR . . .     1
+      ACCELERATION VECTOR . . .     1
+      CONTACT FORCES. . . . . .     1
+      INTERNAL FORCES . . . . .     0
+      EXTERNAL FORCES . . . . .     0
+      SECTION RBY RWALL FORCES.     0
+      ROTATIONAL VELOCITY VECTOR    0
+      CONTACT PRESSURE (VECTORS)    0
+ SHELL TENSOR SAVED ON ANIMATION FILES (1: YES) :
+      MEMBRANE STRESS . . . . .     0
+      BENDING STRESS(MOMENT/T^2)    0
+      UPPER LAYER STRESS. . . .     0
+      LOWER LAYER STRESS. . . .     0
+      MEMBRANE STRAIN . . . . .     0
+      CURVATURE . . . . . . . .     0
+      UPPER LAYER STRAIN. . . .     0
+      LOWER LAYER STRAIN. . . .     0
+ NODAL MASS SAVED ON ANIMATION FILES (1: YES) :    0
+ KEEP DELETED ELEMENT (1: YES) :    0
+
+
+ INITIAL TIME STEP. . . . . . . . . . . . . . . .   0.000000    
+ MAXIMUM TIME STEP. . . . . . . . . . . . . . . .  0.1000000E+31
+
+ PARALLEL ARITHMETIC ON
+
+ ALE GRID FORMULATION                    
+ --------------------                    
+ NUMBER OF INTERFACES TO BE ELIMINATED. . . . . .        0
+
+ NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF QUAD   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SHELL  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF TRUSS  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF BEAM   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SPRING ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SH_3N  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF  SPH PARTICLES BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF RIGID LINKS. . . . . . . . . . . . . .        0
+
+ NUMBER OF ALE LINKS. . . . . . . . . . . . . . .        0
+
+ NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
+
+ 19/11/2014
+ CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK MAS.ERR
+     0   0.000      0.7648E-04 NODE          14   0.0%   0.000       0.000       0.000       0.000       0.000    
+     ANIMATION FILE: Test_tractionA001 WRITTEN
+   100  0.7648E-02  0.7648E-04 NODE          14   0.0%   2.917      0.3600E-03   0.000       2.917       0.000    
+   200  0.1530E-01  0.7648E-04 NODE          14   0.0%   11.64      0.3600E-03   0.000       11.64       0.000    
+   300  0.2294E-01  0.7648E-04 NODE          14   0.0%   26.12      0.3600E-03   0.000       26.12       0.000    
+   400  0.3059E-01  0.7648E-04 NODE          14   0.0%   46.32      0.3600E-03   0.000       46.32       0.000    
+   500  0.3824E-01  0.7648E-04 NODE          14   0.0%   72.19      0.3600E-03   0.000       72.20       0.000    
+   600  0.4589E-01  0.7648E-04 NODE          14   0.0%   103.7      0.3600E-03   0.000       103.7       0.000    
+   700  0.5354E-01  0.7648E-04 NODE          14   0.0%   140.8      0.3600E-03   0.000       140.8       0.000    
+   800  0.6118E-01  0.7648E-04 NODE          14   0.0%   183.5      0.3600E-03   0.000       183.5       0.000    
+   900  0.6883E-01  0.7648E-04 NODE          14   0.0%   231.6      0.3600E-03   0.000       231.6       0.000    
+  1000  0.7648E-01  0.7648E-04 NODE          14   0.0%   285.2      0.3600E-03   0.000       285.3       0.000    
+  1100  0.8413E-01  0.7648E-04 NODE          14   0.0%   344.3      0.3600E-03   0.000       344.3       0.000    
+  1200  0.9178E-01  0.7648E-04 NODE          14   0.0%   408.8      0.3600E-03   0.000       408.8       0.000    
+  1300  0.9942E-01  0.7648E-04 NODE          14   0.0%   478.6      0.3600E-03   0.000       478.6       0.000    
+     ANIMATION FILE: Test_tractionA002 WRITTEN
+  1400  0.1071      0.7648E-04 NODE          14   0.0%   553.7      0.3600E-03   0.000       553.8       0.000    
+  1500  0.1147      0.7648E-04 NODE          14   0.0%   634.2      0.3600E-03   0.000       634.2       0.000    
+  1600  0.1224      0.7648E-04 NODE          14   0.0%   719.8      0.3600E-03   0.000       719.9       0.000    
+  1700  0.1300      0.7648E-04 NODE          14   0.0%   810.7      0.3600E-03   0.000       810.7       0.000    
+  1800  0.1377      0.7648E-04 NODE          14   0.0%   906.8      0.3600E-03   0.000       906.8       0.000    
+  1900  0.1453      0.7648E-04 NODE          14   0.0%   1008.      0.3600E-03   0.000       1008.       0.000    
+  2000  0.1530      0.7648E-04 NODE          14   0.0%   1114.      0.3600E-03   0.000       1114.       0.000    
+  2100  0.1606      0.7648E-04 NODE          14   0.0%   1226.      0.3600E-03   0.000       1226.       0.000    
+  2200  0.1683      0.7648E-04 NODE          14   0.0%   1342.      0.3600E-03   0.000       1342.       0.000    
+  2300  0.1759      0.7648E-04 NODE          14   0.0%   1463.      0.3600E-03   0.000       1464.       0.000    
+  2400  0.1836      0.7648E-04 NODE          14   0.0%   1590.      0.3600E-03   0.000       1590.       0.000    
+  2500  0.1912      0.7648E-04 NODE          14   0.0%   1721.      0.3600E-03   0.000       1721.       0.000    
+  2600  0.1988      0.7648E-04 NODE          14   0.0%   1857.      0.3600E-03   0.000       1858.       0.000    
+     ANIMATION FILE: Test_tractionA003 WRITTEN
+  2700  0.2065      0.7648E-04 NODE          14   0.0%   1999.      0.3600E-03   0.000       1999.       0.000    
+  2800  0.2141      0.7648E-04 NODE          14   0.0%   2145.      0.3600E-03   0.000       2145.       0.000    
+  2900  0.2218      0.7648E-04 NODE          14   0.0%   2295.      0.3600E-03   0.000       2295.       0.000    
+  3000  0.2294      0.7648E-04 NODE          14   0.0%   2451.      0.3600E-03   0.000       2451.       0.000    
+  3100  0.2371      0.7648E-04 NODE          14   0.0%   2611.      0.3600E-03   0.000       2611.       0.000    
+  3200  0.2447      0.7648E-04 NODE          14   0.0%   2776.      0.3600E-03   0.000       2776.       0.000    
+  3300  0.2524      0.7648E-04 NODE          14   0.0%   2946.      0.3600E-03   0.000       2946.       0.000    
+  3400  0.2600      0.7648E-04 NODE          14   0.0%   3121.      0.3600E-03   0.000       3121.       0.000    
+  3500  0.2677      0.7648E-04 NODE          14   0.0%   3300.      0.3600E-03   0.000       3300.       0.000    
+  3600  0.2753      0.7648E-04 NODE          14   0.0%   3483.      0.3600E-03   0.000       3483.       0.000    
+  3700  0.2830      0.7648E-04 NODE          14   0.0%   3672.      0.3600E-03   0.000       3672.       0.000    
+  3800  0.2906      0.7648E-04 NODE          14   0.0%   3864.      0.3600E-03   0.000       3865.       0.000    
+  3900  0.2983      0.7648E-04 NODE          14   0.0%   4062.      0.3600E-03   0.000       4062.       0.000    
+     ANIMATION FILE: Test_tractionA004 WRITTEN
+  4000  0.3059      0.7648E-04 NODE          14   0.0%   4264.      0.3600E-03   0.000       4264.       0.000    
+  4100  0.3136      0.7648E-04 NODE          14   0.0%   4470.      0.3600E-03   0.000       4470.       0.000    
+  4200  0.3212      0.7648E-04 NODE          14   0.0%   4681.      0.3600E-03   0.000       4681.       0.000    
+  4300  0.3289      0.7648E-04 NODE          14   0.0%   4896.      0.3600E-03   0.000       4896.       0.000    
+  4400  0.3365      0.7648E-04 NODE          14   0.0%   5116.      0.3600E-03   0.000       5116.       0.000    
+  4500  0.3442      0.7648E-04 NODE          14   0.0%   5340.      0.3600E-03   0.000       5340.       0.000    
+  4600  0.3518      0.7648E-04 NODE          14   0.0%   5568.      0.3600E-03   0.000       5568.       0.000    
+  4700  0.3595      0.7648E-04 NODE          14   0.0%   5801.      0.3600E-03   0.000       5801.       0.000    
+  4800  0.3671      0.7648E-04 NODE          14   0.0%   6038.      0.3600E-03   0.000       6038.       0.000    
+  4900  0.3748      0.7648E-04 NODE          14   0.0%   6279.      0.3600E-03   0.000       6279.       0.000    
+
+     RESTART FILES: Test_traction_0001_[0001-0004].rst WRITTEN
+     -------------
+
+  5000  0.3824      0.7648E-04 NODE          14   0.0%   6524.      0.3600E-03   0.000       6525.       0.000    
+  5100  0.3901      0.7648E-04 NODE          14   0.0%   6774.      0.3600E-03   0.000       6774.       0.000    
+  5200  0.3977      0.7648E-04 NODE          14   0.0%   7028.      0.3600E-03   0.000       7028.       0.000    
+     ANIMATION FILE: Test_tractionA005 WRITTEN
+  5300  0.4053      0.7648E-04 NODE          14   0.0%   7286.      0.3600E-03   0.000       7287.       0.000    
+  5400  0.4130      0.7648E-04 NODE          14   0.0%   7549.      0.3600E-03   0.000       7549.       0.000    
+ CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK MAS.ERR
+  5500  0.4206      0.7648E-04 NODE          14   0.0%   7815.      0.3600E-03   0.000       7815.       0.000    
+  5600  0.4283      0.7648E-04 NODE          14   0.0%   8086.      0.3600E-03   0.000       8086.       0.000    
+  5700  0.4359      0.7648E-04 NODE          14   0.0%   8360.      0.3600E-03   0.000       8361.       0.000    
+  5800  0.4436      0.7648E-04 NODE          14   0.0%   8639.      0.3600E-03   0.000       8639.       0.000    
+  5900  0.4512      0.7648E-04 NODE          14   0.0%   8922.      0.3600E-03   0.000       8922.       0.000    
+  6000  0.4589      0.7648E-04 NODE          14   0.0%   9209.      0.3600E-03   0.000       9209.       0.000    
+  6100  0.4665      0.7648E-04 NODE          14   0.0%   9499.      0.3600E-03   0.000       9500.       0.000    
+  6200  0.4742      0.7648E-04 NODE          14   0.0%   9794.      0.3600E-03   0.000       9794.       0.000    
+  6300  0.4818      0.7648E-04 NODE          14   0.0%  0.1009E+05  0.3600E-03   0.000      0.1009E+05   0.000    
+  6400  0.4895      0.7648E-04 NODE          14   0.0%  0.1040E+05  0.3600E-03   0.000      0.1040E+05   0.000    
+  6500  0.4971      0.7648E-04 NODE          14   0.0%  0.1070E+05  0.3600E-03   0.000      0.1070E+05   0.000    
+     ANIMATION FILE: Test_tractionA006 WRITTEN
+  6600  0.5048      0.7648E-04 NODE          14   0.0%  0.1101E+05  0.3600E-03   0.000      0.1101E+05   0.000    
+  6700  0.5124      0.7648E-04 NODE          14   0.0%  0.1133E+05  0.3600E-03   0.000      0.1133E+05   0.000    
+  6800  0.5201      0.7648E-04 NODE          14   0.0%  0.1165E+05  0.3600E-03   0.000      0.1165E+05   0.000    
+  6900  0.5277      0.7648E-04 NODE          14   0.0%  0.1197E+05  0.3600E-03   0.000      0.1197E+05   0.000    
+  7000  0.5354      0.7648E-04 NODE          14   0.0%  0.1229E+05  0.3600E-03   0.000      0.1229E+05   0.000    
+  7100  0.5430      0.7648E-04 NODE          14   0.0%  0.1262E+05  0.3600E-03   0.000      0.1262E+05   0.000    
+  7200  0.5507      0.7648E-04 NODE          14   0.0%  0.1296E+05  0.3600E-03   0.000      0.1296E+05   0.000    
+  7300  0.5583      0.7648E-04 NODE          14   0.0%  0.1329E+05  0.3600E-03   0.000      0.1329E+05   0.000    
+  7400  0.5660      0.7648E-04 NODE          14   0.0%  0.1364E+05  0.3600E-03   0.000      0.1364E+05   0.000    
+  7500  0.5736      0.7648E-04 NODE          14   0.0%  0.1398E+05  0.3600E-03   0.000      0.1398E+05   0.000    
+  7600  0.5813      0.7648E-04 NODE          14   0.0%  0.1433E+05  0.3600E-03   0.000      0.1433E+05   0.000    
+  7700  0.5889      0.7648E-04 NODE          14   0.0%  0.1468E+05  0.3600E-03   0.000      0.1468E+05   0.000    
+  7800  0.5965      0.7648E-04 NODE          14   0.0%  0.1504E+05  0.3600E-03   0.000      0.1504E+05   0.000    
+     ANIMATION FILE: Test_tractionA007 WRITTEN
+  7900  0.6042      0.7648E-04 NODE          14   0.0%  0.1540E+05  0.3600E-03   0.000      0.1540E+05   0.000    
+  8000  0.6118      0.7648E-04 NODE          14   0.0%  0.1576E+05  0.3600E-03   0.000      0.1576E+05   0.000    
+  8100  0.6195      0.7648E-04 NODE          14   0.0%  0.1613E+05  0.3600E-03   0.000      0.1613E+05   0.000    
+  8200  0.6271      0.7648E-04 NODE          14   0.0%  0.1650E+05  0.3600E-03   0.000      0.1650E+05   0.000    
+  8300  0.6348      0.7648E-04 NODE          14   0.0%  0.1687E+05  0.3600E-03   0.000      0.1687E+05   0.000    
+  8400  0.6424      0.7648E-04 NODE          14   0.0%  0.1725E+05  0.3600E-03   0.000      0.1725E+05   0.000    
+  8500  0.6501      0.7648E-04 NODE          14   0.0%  0.1763E+05  0.3600E-03   0.000      0.1763E+05   0.000    
+  8600  0.6577      0.7648E-04 NODE          14   0.0%  0.1802E+05  0.3600E-03   0.000      0.1802E+05   0.000    
+  8700  0.6654      0.7648E-04 NODE          14   0.0%  0.1840E+05  0.3600E-03   0.000      0.1840E+05   0.000    
+  8800  0.6730      0.7648E-04 NODE          14   0.0%  0.1880E+05  0.3600E-03   0.000      0.1880E+05   0.000    
+  8900  0.6807      0.7648E-04 NODE          14   0.0%  0.1919E+05  0.3600E-03   0.000      0.1919E+05   0.000    
+  9000  0.6883      0.7648E-04 NODE          14   0.0%  0.1959E+05  0.3600E-03   0.000      0.1959E+05   0.000    
+  9100  0.6960      0.7648E-04 NODE          14   0.0%  0.1999E+05  0.3600E-03   0.000      0.1999E+05   0.000    
+     ANIMATION FILE: Test_tractionA008 WRITTEN
+  9200  0.7036      0.7648E-04 NODE          14   0.0%  0.2040E+05  0.3600E-03   0.000      0.2040E+05   0.000    
+  9300  0.7113      0.7648E-04 NODE          14   0.0%  0.2081E+05  0.3600E-03   0.000      0.2081E+05   0.000    
+  9400  0.7189      0.7648E-04 NODE          14   0.0%  0.2122E+05  0.3600E-03   0.000      0.2122E+05   0.000    
+  9500  0.7266      0.7648E-04 NODE          14   0.0%  0.2164E+05  0.3600E-03   0.000      0.2164E+05   0.000    
+  9600  0.7342      0.7648E-04 NODE          14   0.0%  0.2205E+05  0.3600E-03   0.000      0.2205E+05   0.000    
+  9700  0.7419      0.7648E-04 NODE          14   0.0%  0.2248E+05  0.3600E-03   0.000      0.2248E+05   0.000    
+  9800  0.7495      0.7648E-04 NODE          14   0.0%  0.2290E+05  0.3600E-03   0.000      0.2290E+05   0.000    
+  9900  0.7572      0.7648E-04 NODE          14   0.0%  0.2333E+05  0.3600E-03   0.000      0.2333E+05   0.000    
+
+     RESTART FILES: Test_traction_0001_[0001-0004].rst WRITTEN
+     -------------
+
+ 10000  0.7648      0.7648E-04 NODE          14   0.0%  0.2377E+05  0.3600E-03   0.000      0.2377E+05   0.000    
+ 10100  0.7725      0.7648E-04 NODE          14   0.0%  0.2420E+05  0.3600E-03   0.000      0.2420E+05   0.000    
+ 10200  0.7801      0.7648E-04 NODE          14   0.0%  0.2464E+05  0.3600E-03   0.000      0.2464E+05   0.000    
+ 10300  0.7877      0.7648E-04 NODE          14   0.0%  0.2508E+05  0.3600E-03   0.000      0.2508E+05   0.000    
+ 10400  0.7954      0.7648E-04 NODE          14   0.0%  0.2553E+05  0.3600E-03   0.000      0.2553E+05   0.000    
+     ANIMATION FILE: Test_tractionA009 WRITTEN
+ 10500  0.8030      0.7648E-04 NODE          14   0.0%  0.2598E+05  0.3600E-03   0.000      0.2598E+05   0.000    
+ 10600  0.8107      0.7648E-04 NODE          14   0.0%  0.2643E+05  0.3600E-03   0.000      0.2643E+05   0.000    
+ 10700  0.8183      0.7648E-04 NODE          14   0.0%  0.2689E+05  0.3600E-03   0.000      0.2689E+05   0.000    
+ 10800  0.8260      0.7648E-04 NODE          14   0.0%  0.2735E+05  0.3600E-03   0.000      0.2735E+05   0.000    
+ 10900  0.8336      0.7648E-04 NODE          14   0.0%  0.2781E+05  0.3600E-03   0.000      0.2781E+05   0.000    
+ CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK MAS.ERR
+ 11000  0.8413      0.7648E-04 NODE          14   0.0%  0.2827E+05  0.3600E-03   0.000      0.2827E+05   0.000    
+ 11100  0.8489      0.7648E-04 NODE          14   0.0%  0.2874E+05  0.3600E-03   0.000      0.2874E+05   0.000    
+ 11200  0.8566      0.7648E-04 NODE          14   0.0%  0.2921E+05  0.3600E-03   0.000      0.2921E+05   0.000    
+ 11300  0.8642      0.7648E-04 NODE          14   0.0%  0.2969E+05  0.3600E-03   0.000      0.2969E+05   0.000    
+ 11400  0.8719      0.7648E-04 NODE          14   0.0%  0.3017E+05  0.3600E-03   0.000      0.3017E+05   0.000    
+ 11500  0.8795      0.7648E-04 NODE          14   0.0%  0.3065E+05  0.3600E-03   0.000      0.3065E+05   0.000    
+ 11600  0.8872      0.7648E-04 NODE          14   0.0%  0.3113E+05  0.3600E-03   0.000      0.3113E+05   0.000    
+ 11700  0.8948      0.7648E-04 NODE          14   0.0%  0.3162E+05  0.3600E-03   0.000      0.3162E+05   0.000    
+     ANIMATION FILE: Test_tractionA010 WRITTEN
+ 11800  0.9025      0.7648E-04 NODE          14   0.0%  0.3211E+05  0.3600E-03   0.000      0.3211E+05   0.000    
+ 11900  0.9101      0.7648E-04 NODE          14   0.0%  0.3260E+05  0.3600E-03   0.000      0.3260E+05   0.000    
+ 12000  0.9178      0.7648E-04 NODE          14   0.0%  0.3310E+05  0.3600E-03   0.000      0.3310E+05   0.000    
+ 12100  0.9254      0.7648E-04 NODE          14   0.0%  0.3360E+05  0.3600E-03   0.000      0.3360E+05   0.000    
+ 12200  0.9331      0.7648E-04 NODE          14   0.0%  0.3410E+05  0.3600E-03   0.000      0.3410E+05   0.000    
+ 12300  0.9407      0.7648E-04 NODE          14   0.0%  0.3461E+05  0.3600E-03   0.000      0.3461E+05   0.000    
+ 12400  0.9484      0.7648E-04 NODE          14   0.0%  0.3511E+05  0.3600E-03   0.000      0.3511E+05   0.000    
+ 12500  0.9560      0.7648E-04 NODE          14   0.0%  0.3563E+05  0.3600E-03   0.000      0.3563E+05   0.000    
+ 12600  0.9637      0.7648E-04 NODE          14   0.0%  0.3614E+05  0.3600E-03   0.000      0.3614E+05   0.000    
+ 12700  0.9713      0.7648E-04 NODE          14   0.0%  0.3666E+05  0.3600E-03   0.000      0.3666E+05   0.000    
+ 12800  0.9789      0.7648E-04 NODE          14   0.0%  0.3718E+05  0.3600E-03   0.000      0.3718E+05   0.000    
+ 12900  0.9866      0.7648E-04 NODE          14   0.0%  0.3770E+05  0.3600E-03   0.000      0.3770E+05   0.000    
+ 13000  0.9942      0.7648E-04 NODE          14   0.0%  0.3823E+05  0.3600E-03   0.000      0.3823E+05   0.000    
+
+     RESTART FILES: Test_traction_0001_[0001-0004].rst WRITTEN
+     -------------
+
+     ANIMATION FILE: Test_tractionA011 WRITTEN
+  
+                           ** CPU USER TIME **
+  
+ #PROC  CONT.SORT  CONT. F   ELEMENT  KIN.COND.  INTEGR.    I/O     TASK0     ASSEMB.   RESOL  
+   1   .0000E+00 .3999E-02 .4719E+00 .8899E-01 .6898E-01 .1090E+00 .2160E+00 .3199E-01 .1291E+01
+   2   .0000E+00 .0000E+00 .7998E-02 .1000E-02 .4000E-02 .2900E-01 .1147E+01 .2999E-02 .1331E+01
+   3   .0000E+00 .1000E-02 .6999E-02 .3000E-02 .3000E-02 .2200E-01 .1155E+01 .1000E-02 .1308E+01
+   4   .0000E+00 .0000E+00 .7000E-02 .1000E-02 .3999E-02 .1700E-01 .1180E+01 .2000E-02 .1329E+01
+  
+                          ** SPMD COMM. TIME **
+  
+ #PROC  FORCES    RBY.FOR.  RBY.VEL.  VELOCITIES   TOTAL   % CPU
+   1   .2100E-01 .0000E+00 .0000E+00 .1800E-01 .3900E-01    3.02
+   2   .4000E-02 .0000E+00 .0000E+00 .3999E-02 .7999E-02    0.60
+   3   .2000E-02 .0000E+00 .0000E+00 .9990E-03 .2999E-02    0.23
+   4   .2000E-02 .0000E+00 .0000E+00 .1000E-02 .3000E-02    0.23
+  
+                   ** CUMULATIVE CPU TIME SUMMARY **
+  
+ CONTACT SORTING.............: .0000E+00     0.00 % 
+ CONTACT FORCES..............: .4999E-02     0.10 % 
+ ELEMENT FORCES..............: .4939E+00     9.39 % 
+ KINEMATIC COND..............: .9399E-01     1.79 % 
+ INTEGRATION.................: .7998E-01     1.52 % 
+ ASSEMBLING..................: .3799E-01     0.72 % 
+ OTHERS (including I/O)......: .4547E+01    86.48 % 
+ TOTAL.......................: .5258E+01   100.00 % 
+  
+  
+                   ** MEMORY USAGE STATISTICS **
+  
+ TOTAL MEMORY USED .........................:      560 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:      140 MB
+ MINIMUM MEMORY PER PROCESSOR...............:      140 MB
+ AVERAGE MEMORY PER PROCESSOR...............:      140 MB
+  
+                   ** DISK USAGE STATISTICS **
+  
+ TOTAL DISK SPACE USED .....................:      295 KB
+ ANIMATION/TH/OUTP SIZE ....................:       29 KB
+ RESTART FILE SIZE .........................:      266 KB
+  
+ ELAPSED TIME     =          1.90 s
+                          0:00:01
+ ESTIMATED SPEEDUP=          2.76
+  
+
+
+
+     NORMAL TERMINATION      
+
+
+
+     TOTAL NUMBER OF CYCLES  :   13077
+

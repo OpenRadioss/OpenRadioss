@@ -1,0 +1,24 @@
+#-  1. :
+#---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|
+/ANIM/DT
+#   TSTART     TFREQ
+0.000000 2.000000
+/ANIM/ELEM/VONM
+/ANIM/GZIP
+/DT
+0.900000 0.000000
+/MON/ON
+/PRINT/-1/55
+/RFILE
+#   NCYCLE
+5000
+/RUN/TEST62/1
+                  40
+/TFILE/4
+#            dT_HIS
+0.100000
+/TITLE
+CISAILLEMENT 62                                                                                     
+/VERS/2019
+/ANIM/VECT/VEL
+/ANIM/VECT/DISP

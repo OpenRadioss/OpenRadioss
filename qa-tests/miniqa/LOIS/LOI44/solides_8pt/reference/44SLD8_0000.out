@@ -1,0 +1,767 @@
+ 44SLD8_0000.out
+************************************************************************
+**                                                                    **
+**                                                                    **
+**                Altair Radioss(TM) Starter MAINLINE                 **
+**                                                                    **
+**            Non-linear Finite Element Analysis Software             **
+**                   from Altair Engineering, Inc.                    **
+**                                                                    **
+**                                                                    **
+**                   Linux 64 bits, Intel compiler                    **
+**                                                                    **
+**                           BETA_VERSION                             **
+**                                                                    **
+** Build tag: 1022344_12638000000_1060_0071695_10                     **
+************************************************************************
+**  COPYRIGHT (C) 1986-2020                 Altair Engineering, Inc.  **
+** All Rights Reserved.  Copyright notice does not imply publication. **
+** Contains trade secrets of Altair Engineering Inc.                  **
+** Decompilation or disassembly of this software strictly prohibited. **
+************************************************************************
+ 
+  
+ COMPUTATION HARDWARE DESCRIPTION
+  
+ HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
+ fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 3326 MHz,  19924 MB RAM,  49019 MB swap
+  
+************************************************************************
+
+
+************************************************************************
+* INPUT READING PROCESS
+************************************************************************
+
+ -NO SYNTAX ERROR DETECTED DURING INPUT READING PROCESS
+
+
+
+
+************************************************************************
+
+
++-------------------+
+| BLOCK FREE FORMAT |
++-------------------+
+
+
+      TEST 1 ELEMENT 3D                                                          
+
+
+    CONTROL  PARAMETERS                                                                  
+    -------------------                                                                  
+
+    IPRI  : PRINTOUT FLAG . . . . . . . . . . . . . . . .         5
+    INVERS: MANUAL VERSION OF THIS INPUT DECK . . . . . .      2017
+    NSUBS:   NUMBER OF SUBSETS. . . . . . . . . . . . . .         1
+    NPART:   NUMBER OF PARTS. . . . . . . . . . . . . . .         1
+    NUMMAT: NUMBER OF MATERIALS . . . . . . . . . . . . .         1
+    NUMGEO: NUMBER OF PROPERTY SETS . . . . . . . . . . .         1
+    NUMNOD: NUMBER OF NODAL POINTS. . . . . . . . . . . .         8
+    NUMSKW: NUMBER OF SKEW REFERENCE FRAMES . . . . . . .         0
+    NUMBCS: NUMBER OF BOUNDARY CONDITIONS . . . . . . . .         1
+    NUMFRAM: NUMBER OF REFERENCE FRAMES . . . . . . . . .         0
+    NUMELQ: NUMBER OF 2D QUAD ELEMENTS. . . . . . . . . .         0
+    NINTERFRIC: NUMBER OF FRICTION INTERFACES . . . . . .         0
+    NUMELS: NUMBER OF 3D SOLID ELEMENTS . . . . . . . . .         1
+    NUMELC: NUMBER OF 3D SHELL ELEMENTS (4-NODES) . . . .         0
+    NUMELT: NUMBER OF 3D TRUSS ELEMENTS . . . . . . . . .         0
+    NUMELP: NUMBER OF 3D BEAM  ELEMENTS . . . . . . . . .         0
+    NUMELR: NUMBER OF 3D SPRING ELEMENTS. . . . . . . . .         0
+    NUMELTG: NUMBER OF 3D SHELL ELEMENTS (3-NODES). . . .         0
+    NUMELX: NUMBER OF MULTIPURPOSE ELEMENTS . . . . . . .         0
+    NUMELIG3D: NUMBER OF ISO-GEOMETRIC ELEMENTS . . . . .         0
+    NUMSPH : NUMBER OF SMOOTH PARTICLES (SPH CELLS) . . .         0
+    NSPHBCS: NUMBER OF SPH SYMETRY CONDITIONS . . . . . .         0
+    NSPHIO : NUMBER OF SPH INLET/OUTLET CONDITIONS. . . .         0
+
+    NFUNCT: NUMBER OF USER'S FUNCTIONS . . . . . . . . .          1
+    NGRAV:  NUMBER OF GRAVITY LOADS . . . . . . . . . . .         0
+    NFUNC2D:  NUMBER OF USER 2D FUNCTIONS . . . . . . . .         0
+    NINIGRV:NUMBER OF INITIAL GRAVITY LOADS . . . . . . .         0
+    NCONLD: NUMBER OF CONCENTRATED LOADS. . . . . . . . .         0
+    NINVEL: NUMBER OF INITIAL VELOCITIES. . . . . . . . .         0
+    NPRELD: NUMBER OF PRESSURE LOADS. . . . . . . . . . .         0
+    NINIMAP1D: NUMBER OF INITIAL 1D MAPPING.. . . . . . .         0
+    NUMBER OF ACCELEROMETERS. . . . . . . . . . . . . . .         0
+    NUMBER OF SENSORS . . . . . . . . . . . . . . . . . .         0
+    NUMBER OF GAUGES. . . . . . . . . . . . . . . . . . .         0
+    NINTER: NUMBER OF INTERFACES. . . . . . . . . . . . .         0
+    NRWALL: NUMBER OF RIGID WALLS . . . . . . . . . . . .         0
+    NRBODY: NUMBER OF RIGID BODIES. . . . . . . . . . . .         0
+    NFXBODY: NUMBER OF FLEXIBLE BODIES. . . . . . . . . .         0
+    NCONX : NUMBER OF RIGID LINKS TO MADYMO BODIES. . . .         0
+    NODMAS: NUMBER OF ADDED NODAL MASSES. . . . . . . . .         0
+    NIMPDISP: NUMBER OF IMPOSED DISPLACEMENTS . . . . . .         0
+    NIMPVEL: NUMBER OF IMPOSED VELOCITIES . . . . . . . .         1
+    NIMPACC: NUMBER OF IMPOSED ACCELERATIONS . . . . . .          0
+    NRIVET: NUMBER OF RIVETS OR SPOT WELDS. . . . . . . .         0
+    NSECT : NUMBER OF SECTIONS SAVED (TIME HISTORY PLOTS)         0
+    NJOINT: NUMBER OF JOINTS. . . . . . . . . . . . . . .         0
+    NACTIV: NUMBER OF ELEMENT DEACTIVATION GROUPS . . . .         0
+    NDAMP:  NUMBER OF RAYLEIGH DAMPING GROUPS . . . . . .         0
+    NGJOINT: NUMBER OF GEAR TYPE JOINTS . . . . . . . . .         0
+    NUMMPC: NUMBER OF MULTI-POINT CONSTRAINTS . . . . . .         0
+    NR2RLNK: NUMBER OF EXTERNAL COUPLING LINKS . . . . .          0
+    NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . .          0
+    NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .         0
+    NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .         0
+    NGRAPH: GRAPH DEFINITION FOR MULT-LEVEL CONDENSATION.         0
+    NBEM:   NUMBER OF BEM SOLVED PROBLEMS . . . . . . . .         0
+    NRBE2:  NUMBER OF RBE2 RIGID ELEMENTS . . . . . . . .         0
+    NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .         0
+    INITIAL STRESS FILE =
+                                          FLAG ISIGI. . .         0
+
+
+    N2D3D : ANALYSIS TYPE: 0=3D,1=AXISYM,2=PLANE STRAIN .         0
+
+
+    ANALYSIS OPTIONS
+    ----------------
+
+    INTEG8 : 8 GAUSS POINT CONDENSED INTEGRATION . . . . .         0
+    IPARITH: PARALLEL ARITHMETIC FLAG (2 OFF, 1 0N). . . .         1
+    ISUB   : (OLD) SUBCYCLING (1:YES 0:NO) . . . . . . . .         0
+    MSHSUB : MEMORY ALLOCATION FOR (NEW) SHELLS SUBCYCLING
+                                         (1:YES 0:NO). . .         0
+    IUSERW : GENERAL USER WINDOW FLAG. . . . . . . . . . .         0
+    ISOLID : DEFAULT BRICK FORMULATION FLAG. . . . . . . .         1
+    ITET4  : DEFAULT TETRA4 FORMULATION FLAG . . . . . . .      1000
+    ITET10 : DEFAULT TETRA10 FORMULATION FLAG. . . . . . .      1000
+    ISST_S : DEFAULT BRICK SMALL STRAIN FLAG . . . . . . .         0
+    IPLA_S : DEFAULT SOLID STRESS PLASTICITY FLAG. . . . .         2
+    ISHELL : DEFAULT SHELL FORMULATION FLAG. . . . . . . .         1
+    ISST   : DEFAULT SHELL SMALL STRAIN FLAG . . . . . . .         0
+    ITHK   : DEFAULT SHELL THICKNESS VARIATION FLAG. . . .         0
+    IPLA   : DEFAULT PLANE STRESS PLASTICITY FLAG. . . . .         0
+    ISTR   : DEFAULT SHELL STRAIN COMPUTATION FLAG . . . .         1
+    ISHEA  : DEFAULT SHELL SHEAR COMPUTATION FLAG. . . . .         0
+    INSH   : SHELL INERTIA FLAG. . . . . . . . . . . . . .         0
+    ISH3N  : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         1
+    NPTS   : SHELL PROPERTIES DEFAULT NUMBER OF           
+             INTEGRATION POINTS OR LAYERS. . . . . . . . .         0
+    ISTRA  : DEFAULT SOLID STRAIN COMPUTATION FLAG . . . .         1
+    ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         2
+
+
+    LAGRANGE MULTIPLIER OPTIONS
+    ---------------------------
+    LAGM_TOL:CONVERGENCE CRITERIUM. . . . . . . . . . . . 1.0000000000000E-11
+
+
+    NODAL MASS DISTRIBUTION FLAG . . . . . . . . .         0
+
+
+    SPEED PARAMETERS  
+    ----------------  
+
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
+    SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
+ 
+     INFO : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
+  
+
+
+    UNIT SYSTEMS DEFINITION     
+    -----------------------     
+
+                                                          MASS                LENGTH              TIME
+    WORK UNIT SYSTEM . . . . . . ( N.A, N.A, N.A ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
+    INPUT UNIT SYSTEM  . . . . . ( N.A, N.A, N.A ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
+
+
+    LOAD CURVES
+    -----------
+    NUMBER OF LOAD CURVES. . . . . . . . =         1
+
+
+    LOAD CURVE ID . . . . . . . . . . . =         1
+
+    X                     Y               
+     0.000000000000        1.000000000000    
+     10000.00000000        1.000000000000    
+
+
+    TABLES
+    ------
+    NUMBER OF TABLES . . . . . . . . . . =         0
+
+
+
+    MATERIAL LAWS
+    -------------
+    NUMBER OF MATERIALS. . . . . . . . . =         1
+
+
+
+WARNING ID :   1220
+** INFO ON MATERIAL LAW DATA
+DESCRIPTION :  
+   -- MATERIAL ID : 2
+   -- MATERIAL TITLE : PROPERTY FOR COWPER-SYMONDS
+   STRAIN RATE  EFFECT HAS BEEN CONSIDERED, BUT THE STRAIN RATE FILTERING IS NOT ACTIVATED.
+    PLEASE USE Fsmooth=1 and DEFINE THE Fcut.
+
+     PROPERTY FOR COWPER-SYMONDS
+     MATERIAL NUMBER. . . . . . . . . . . . =         2
+     MATERIAL LAW . . . . . . . . . . . . . =        44
+
+     MATERIAL MODEL : ELASTIC-PLASTIC (COWPER-SYMONDS)
+     -------------------------------------------------
+
+     INITIAL DENSITY . . . . . . . . . . . .= 7.8000000000000E-03
+
+     YOUNG MODULUS . . . . . . . . . . . . .=  205000.0000000    
+     POISSON RATIO . . . . . . . . . . . . .= 0.3000000000000    
+     YIELD STRESS . . . . . . . . . . . . . =  180.0000000000    
+     HARDENING PARAMETER. . . . . . . . . . =  450.0000000000    
+     HARDENING EXPONENT . . . . . . . . . . = 0.5000000000000    
+     ISO-KINEMATIC HARDENNING FACTOR. . . . =  1.000000000000    
+     MAXIMUM STRESS . . . . . . . . . . . . =  300.0000000000    
+     REFERENCE STRAIN RATE CC . . . . . . . =  400.0000000000    
+     STRAIN RATE EXPONENT (1/P) . . . . . . = 0.2000000000000    
+     FLAG FOR STRAIN RATE ON SIG-MAX. . . . =         1
+     SMOOTH STRAIN RATE OPTION. . . . . . . =         1
+     STRAIN RATE CUTTING FREQUENCY. . . . . =  0.000000000000    
+     STRAIN RATE CHOICE FLAG  . . . . . . . =         2
+          VP=1  EQUIVALENT PLASTIC STRAIN RATE
+          VP=2  TOTAL STRAIN RATE (DEFAULT)
+          VP=3  DEVIATORIC STRAIN RATE
+     FAILURE PLASTIC STRAIN . . . . . . . . = 1.0000000200409E+20
+     TENSION FAILURE STRAIN 1 . . . . . . . = 1.0000000200409E+20
+     TENSION FAILURE STRAIN 2 . . . . . . . = 2.0000000400818E+20
+     YIELD FUNCTION IDENTIFIER  . . . . . . =         0
+     YIELD FUNCTION SCALE FACTOR  . . . . . =  0.000000000000    
+
+
+
+        NODAL POINT COORDINATES                                                          
+        -----------------------                                                          
+
+        NODE                 X-ORD               Y-ORD               Z-ORD               
+
+              1          0.000000000000      0.000000000000      0.000000000000    
+              2          100.0000000000      0.000000000000      0.000000000000    
+              3          100.0000000000      100.0000000000      0.000000000000    
+              4          0.000000000000      100.0000000000      0.000000000000    
+              5          0.000000000000      0.000000000000      100.0000000000    
+              6          100.0000000000      0.000000000000      100.0000000000    
+              7          100.0000000000      100.0000000000      100.0000000000    
+              8          0.000000000000      100.0000000000      100.0000000000    
+
+
+         PROPERTY SETS (HM_READER)
+         -------------
+
+
+ no_named_mat_1                         
+     STANDARD SOLID PROPERTY SET
+     PROPERTY SET NUMBER . . . . . . . . . .=         1
+     SOLID FORMULATION FLAG. . . . . . . . .=        12
+     SMALL STRAIN FLAG . . . . . . . . . . .=         4
+     SOLID STRESS PLASTICITY FLAG. . . . . .=         2
+     COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
+     TETRA4 FORMULATION FLAG. . . . .  . . .=         0
+     TETRA10 FORMULATION FLAG . . . .  . . .=      1000
+     CONSTANT PRESSURE FLAG. . . . . . . . .=         0
+     CONSTANT STRESS FLAG. . . . . . . . . .=         0
+     HOURGLASS NUMERICAL DAMPING . . . . . .=  0.000000000000    
+     QUADRATIC BULK VISCOSITY. . . . . . . .= 1.0000000000000E-20
+     LINEAR BULK VISCOSITY . . . . . . . . .= 1.0000000000000E-21
+     HOURGLASS VISCOSITY . . . . . . . . . .=  0.000000000000    
+     NUMERICAL NAVIER STOKES VISCO. LAMBDA .=  0.000000000000    
+     NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
+     BRICK MINIMUM TIME STEP................=  0.000000000000    
+     POST PROCESSING STRAIN FLAG . . . . . .=         1
+
+     NUMBER OF INTEGRATION POINTS. .  . .  .=         8
+
+
+
+         PROPERTY SETS
+         -------------
+
+
+
+
+       PARTS
+       -----
+
+
+
+PART:         1,Brick P       1 M       2
+----
+     PROPERTY:         1, no_named_mat_1
+     MATERIAL:         2,PROPERTY FOR COWPER-SYMONDS
+     SUBSET  :         0
+ VIRT. THICKN:  0.000000000000    
+
+
+       HIERARCHICAL SUBSET ORGANIZATION
+       --------------------------------
+
+
+  
+  
+ SUBSET:         0,GLOBAL MODEL                                                                                                     
+ ~~~~~~
+  |
+  |________Part(s):         1,Brick P       1 M       2               
+ 
+ 
+ NODE GROUP:         1,Node Group       1,         4 NODES: 
+ -------------------
+         1         2         3         4
+ 
+ 
+ NODE GROUP:         2,Node Group       2,         4 NODES: 
+ -------------------
+         5         6         7         8
+ 
+ 
+ NODE GROUP:         3,Node Group       3,         4 NODES: 
+ -------------------
+         5         6         7         8
+
+
+     RANDOM NOISE       
+     ------------       
+
+     BOUNDARY CONDITIONS                                                                 
+     -------------------                                                                 
+       NODE  TRANS. ROTAT.         SKEW
+
+          1  0 0 1  0 0 0            0
+          2  0 0 1  0 0 0            0
+          3  0 0 1  0 0 0            0
+          4  0 0 1  0 0 0            0
+
+
+  ELEMENTS WITH NEGATIVE MAL. NUMBER ARE WALL NEIGHBOURS ELEMENTS                        
+
+
+
+
+            EIGHT NODE BRICK ELEMENTS                                                    
+            -------------------------                                                    
+
+   ELEMENT   INTERNAL     PART     MATER     PRSET
+     NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8
+
+         1         1         1         2         1
+         1         2         3         4         5         6         7         8
+
+
+            TEN NODE TETRA ELEMENTS
+            -----------------------
+
+   ELEMENT   INTERNAL     PART     MATER     PRSET
+     NODE1     NODE2     NODE3     NODE4     NODE5     NODE6     NODE7     NODE8     NODE9    NODE10
+
+
+
+     IMPOSED VELOCITIES    
+     -------------------    
+         NODE         SKEW        FRAME  DIRECTION   LOAD_CURVE       SENSOR            FSCALE                ASCALE            START_TIME                 STOP_TIME         COORDINATE SYSTEM
+            5            0            0          Z            1            0   -1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30                         0
+            6            0            0          Z            1            0   -1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30                         0
+            7            0            0          Z            1            0   -1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30                         0
+            8            0            0          Z            1            0   -1.000000000000        1.000000000000        0.000000000000       1.0000000000000E+30                         0
+ 
+  
+ SPMD IS CHECKING FOR ELEMENT DELETION IN : 
+ 44SLD8_0001.rad                                                                                              
+ 
+ DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
+ ------------------------------------------
+ DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
+** INFO: SIMPLIFIED DOMAIN DECOMPOSITION
+
+
+       8-NODE ELEMENT GROUPS
+       ---------------------
+
+     GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.     CLOS.      CODV  FAILURE     IEOS
+         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       AUX    MEDIUM      FLAG      FLAG              FLAG      TYPE
+         1        44         1         1         1         8         0         0         0         0        12         0         0         0         2         0         0         0         0
+
+WARNING ID :   1160
+** WARNING : IN SOLID PROPERTY DEFINITION
+DESCRIPTION :  
+   ISOLID=12 FORMULATIONS IS OBSOLETE, IT'S RECOMMENDED TO USE ISOLID=17
+   CONCERNING 1 PROPERTY(S)
+   PROPERTY ID=1         ,  PROPERTY TITLE : no_named_mat_1
+
+
+       RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
+       ----------------------------------------------
+
+
+
+
+ BRICK GROUP         1 VECTORIZATION CODE =    0
+
+
+         SOLID ELEMENTS TIME STEP
+         ------------------------
+
+      TIME STEP       ELEMENT NUMBER
+  1.6812140958953E-02              1
+
+
+         NODAL TIME STEP (estimation)
+         ---------------
+
+      TIME STEP       NODE NUMBER
+  1.6812140958953E-02              1
+  1.6812140958953E-02              2
+  1.6812140958953E-02              3
+  1.6812140958953E-02              4
+  1.6812140958953E-02              5
+  1.6812140958953E-02              6
+  1.6812140958953E-02              7
+  1.6812140958953E-02              8
+
+
+         NODAL TIME STEP DISTRIBUTION 
+         ----------------------------
+
+
+            % OF NODES
+                   ^
+                   |                                                            
+         100.000 --|                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+                   |                            #                               
+           0.000 --|#                           #                             # 
+                    -------------------------------------------------------------> NODAL TIME STEP
+                    |                                                          |
+                1.681E-02                                                  1.681E-02
+  
+  
+
+
+     NODAL MASSES
+     ------------
+      NODE MASS                      NODE MASS                      NODE MASS                      NODE MASS                      NODE MASS
+
+         1   975.0000000000             2   975.0000000000             3   975.0000000000             4   975.0000000000             5   975.0000000000    
+         6   975.0000000000             7   975.0000000000             8   975.0000000000    
+
+
+PART MASS & INERTIA
+-------------------
+
+
+PART :          1Brick P       1 M       2
+----
+ Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
+  7800.000000000      39000000.00000      39000000.00000      39000000.00000      0.000000000000      0.000000000000      0.000000000000    
+ X           Y           Z           Kin. Energy Vx         Vy         Vz
+  50.00000000000      50.00000000000      50.00000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+
+
+PART ELEMENT/MATERIAL PARAMETER REVIEW:
+-----------------------
+
+Part id,name:         1 Brick P       1 M      Mat type:  44 Elm type: SOLID-HEXA             
+----
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
+      12       4       3       1       0       0       0       0
+--      qa        qb   lamda_v      mu_v         h        dn
+    0.0000    0.0000    0.0000    0.0000    0.0000    0.0000
+
+
+
+     TOTAL MASS AND MASS CENTER
+     --------------------------
+                     MASS                    X                    Y                    Z
+
+       7800.000000000       50.00000000000       50.00000000000       50.00000000000    
+
+
+     TOTAL INERTIA
+     -------------
+                      IXX                  IYY                  IZZ                  IXY                  IYZ                  IZX
+       39000000.00000       39000000.00000       39000000.00000       0.000000000000       0.000000000000       0.000000000000    
+
+
+
+      ADDED NODAL NON-STRUCTURAL MASSES 
+     -----------------------------------
+
+
+
+
+  TOTAL ADDED MASS =   0.000000000000    
+
+
+  
+  LIST OF DEACTIVATED ELEMENTS FROM RIGID BODIES
+  ----------------------------------------------
+
+
+
+TH GROUP:         1,,  6 VAR,    8 NODES     :
+ -------------------
+DX        DY        DZ        VX        VY        VZ        
+    NODE  SKEW(OR FRAME)     NAME 
+         1         0          NODE        1                          
+         2         0          NODE        2                          
+         3         0          NODE        3                          
+         4         0          NODE        4                          
+         5         0          NODE        5                          
+         6         0          NODE        6                          
+         7         0          NODE        7                          
+         8         0          NODE        8                          
+
+
+
+TH GROUP:         2,, 11 VAR,    1 BRIC      :
+ -------------------
+OFF       SX        SY        SZ        SXY       SYZ       SXZ       IE        DENS      PLAS      
+TEMP      
+BRIC        P_SPMD       NAME 
+         1         0 TH-BRICK:        1                      
+
+
+
+ TH GROUP: PART      
+ ---------
+
+ TH PART      :         1,Brick P       1 M       2,  8 VAR:
+IE        KE        XMOM      YMOM      ZMOM      MASS      HE        HEAT      
+
+
+
+ TH GROUP: SUBSET    
+ ---------
+
+
+     INITIAL ADDED MASS ESTIMATION for /DT/NODA/CST
+     ----------------------------------------------
+
+
+            DM/M - at first cycle - scaling factor = 0.9
+                   ^
+                   |                                                            
+           0.100 --|                                                          * 
+                   |                                                            
+                   |                                                      *     
+                   |                                                   *        
+                   |                                                *           
+                   |                                             *              
+                   |                                                            
+                   |                                          *                 
+                   |                                       *                    
+                   |                                    *                       
+                   |                                 *                          
+                   |                              *                             
+                   |                                                            
+                   |                           *                                
+                   |                        *                                   
+                   |                     *                                      
+                   |                 *                                          
+                   |              *                                             
+                   |                                                            
+                   |           *                                                
+                   |        *                                                   
+                   |     *                                                      
+           0.005 --|* *                                                         
+                    -------------------------------------------------------------> TARGET TIME STEP
+                    |                                                          |
+                1.517E-02                                                  1.587E-02
+  
+  
+              DM/M at first cycle          |  Target time step - scaling factor = 0.9  |  Target time step - scaling factor = 0.67
+    -------------------------------------  |  ---------------------------------------  |  ---------------------------------------
+                 1.000E-02                 |                 1.521E-02                 |                 1.132E-02
+                 2.000E-02                 |                 1.528E-02                 |                 1.138E-02
+                 3.000E-02                 |                 1.536E-02                 |                 1.143E-02
+                 4.000E-02                 |                 1.543E-02                 |                 1.149E-02
+                 5.000E-02                 |                 1.550E-02                 |                 1.154E-02
+
+
+    WARNING : Theses added mass estimations are valid at first cycle only.
+    Because of element deformation or contacts the added mass can increase during the run
+
+
+ SUMMARY OF POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS :
+ -----------------------------------------------------
+                                  
+ NO TRUE INCOMPATIBLE KINEMATIC CONDITION
+
+ 
+    STARTER STORAGE 
+    --------------- 
+ 
+    STARTER MEMORY USAGE        180 MB
+
+ 
+ 
+ STATISTICS ON DOMAIN DECOMPOSITION 
+ ---------------------------------- 
+ 
+AVERAGE NB. OF BOUNDARY NODES :     0
+STANDARD DEVIATION            :     0
+ 
+AVERAGE NUMBER OF LOCAL NODES :       2
+STANDARD DEVIATION            :       3
+ 
+ PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
+    1             1                     0                     0
+ PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
+    2             0                     0                     0
+ PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
+    3             0                     0                     0
+ PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
+    4             0                     0                     0
+ 
+ DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
+ ----------------------------------------------------
+ NUMBER OF NODES................. :           8
+ NUMBER OF SOLID ELEMENTS........ :           1
+ TOTAL NUMBER OF NODES FOR COMM.. :           0
+ 
+
+     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
+     --------------------------------------------------------
+        MEMORY USED FOR REALS            5 MB 
+        MEMORY USED FOR INTEGERS         5 MB 
+        TOTAL MEMORY EVALUATION         10 MB 
+                                            
+        RESTART FILE SIZE         0 MB
+ 
+ DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
+ ----------------------------------------------------
+ NUMBER OF NODES................. :           0
+ NUMBER OF SOLID ELEMENTS........ :           0
+ TOTAL NUMBER OF NODES FOR COMM.. :           0
+ 
+
+     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
+     --------------------------------------------------------
+        MEMORY USED FOR REALS            5 MB 
+        MEMORY USED FOR INTEGERS         5 MB 
+        TOTAL MEMORY EVALUATION         10 MB 
+                                            
+        RESTART FILE SIZE         0 MB
+ 
+ DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
+ ----------------------------------------------------
+ NUMBER OF NODES................. :           0
+ NUMBER OF SOLID ELEMENTS........ :           0
+ TOTAL NUMBER OF NODES FOR COMM.. :           0
+ 
+
+     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
+     --------------------------------------------------------
+        MEMORY USED FOR REALS            5 MB 
+        MEMORY USED FOR INTEGERS         5 MB 
+        TOTAL MEMORY EVALUATION         10 MB 
+                                            
+        RESTART FILE SIZE         0 MB
+ 
+ DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
+ ----------------------------------------------------
+ NUMBER OF NODES................. :           0
+ NUMBER OF SOLID ELEMENTS........ :           0
+ TOTAL NUMBER OF NODES FOR COMM.. :           0
+ 
+
+     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
+     --------------------------------------------------------
+        MEMORY USED FOR REALS            5 MB 
+        MEMORY USED FOR INTEGERS         5 MB 
+        TOTAL MEMORY EVALUATION         10 MB 
+                                            
+        RESTART FILE SIZE         0 MB
+ 
+
+     RESTART FILES 44SLD8_0000 WRITTEN
+     -------------
+
+  
+------------------------------------------------------------------------
+  
+ CPU USER TIME
+ -------------
+ TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
+.0000E+00   .1710E+00   .8999E-01   .7998E-02   .0000E+00   .0000E+00   .0000E+00   .0000E+00
+  
+  
+ ELAPSED TIME
+ ------------
+ TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
+.5519E-03   .3455E+00   .1003E+00   .1831E-01   .0000E+00   .0000E+00   .0000E+00   .8106E-05
+  
+                   ** COMPUTE TIME INFORMATION **
+  
+ EXECUTION STARTED      :      2020/06/22  11:47:44
+ EXECUTION COMPLETED    :      2020/06/22  11:47:45
+  
+ ELAPSED TIME...........=          0.50 s
+                               00:00:00
+  
+------------------------------------------------------------------------
+
+
+
+     TERMINATION WITH WARNING           
+     ------------------                                                                  
+
+
+------------------------------------------------------------------------------------------------------------------------
+|            ERROR(S) SUMMARY                               |             WARNING(S) SUMMARY                           |
+------------------------------------------------------------------------------------------------------------------------
+|                                                           |                                                          |
+|                                                           |  --- MATERIALS                              1 WARNING(S) |
+|                                                           |       |                                                  |
+|                                                           |       |                                                  |
+|                                                           |       |---     1 WARNING ID :         1220               |
+|                                                           |       | ** INFO ON MATERIAL LAW DATA                     |
+|                                                           |       |                                                  |
+|                                                           |                                                          |
+|                                                           |                                                          |
+|                                                           |  --- ELEM/PROP/MAT COMPATIBILITY            1 WARNING(S) |
+|                                                           |       |                                                  |
+|                                                           |       |                                                  |
+|                                                           |       |---     1 WARNING ID :         1160               |
+|                                                           |       | ** WARNING : IN SOLID PROPERTY DEFINITION        |
+|                                                           |       |                                                  |
+|                                                           |                                                          |
+|                                                           |                                                          |
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+              0 ERROR(S)            
+              2 WARNING(S)          
+
+

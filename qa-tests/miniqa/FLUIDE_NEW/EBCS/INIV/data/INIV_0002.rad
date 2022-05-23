@@ -1,0 +1,22 @@
+#-  1. :
+#---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|
+/INIV/TRA/Z
+       1.1
+         9        10        11        12
+/ANIM/VECT/VEL
+/ANIM/BRICK/P
+/ANIM/BRICK/DENS
+/ANIM/BRICK/ENER
+/ANIM/DT
+#   TSTART     TFREQ
+0.000000 0.001000
+/DT
+0.500000 0.000000
+/MON/ON
+/PRINT/-1/55
+/RUN/INIV/2
+                 0.2
+/TFILE/0
+#            dT_HIS
+1.E-20
+/VERS/2019

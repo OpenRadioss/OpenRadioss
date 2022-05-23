@@ -1,0 +1,39 @@
+#-  1. :
+#---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|
+#  Version
+/ANIM/VERS/41
+/ANIM/DT
+#   TSTART     TFREQ
+0.001000 0.010000
+/ANIM/NODA/DMAS
+/ANIM/ELEM/ENER
+/ANIM/ELEM/VONM
+/ANIM/ELEM/P
+/DT
+0.900000 0.000000
+/DT/BRICK/CST/0
+0.9 1e-06
+/DT/SHELL/CST
+0.9 1e-06
+/DT/SH_3N/CST
+0.9 1e-06
+/DT/INTER/DEL
+0.9 1e-10
+/DT/INTER/CST
+0.9 1e-06
+/ANIM/GZIP
+/MON/ON
+/PARITH/ON
+/PRINT/-50/55
+/RBODY/ON
+450 
+/RFILE
+#   NCYCLE
+10000
+/RUN/IDEL8/1
+                0.05
+/TFILE/4
+#            dT_HIS
+0.000098
+/VERS/2019
+/ANIM/VECT/CONT

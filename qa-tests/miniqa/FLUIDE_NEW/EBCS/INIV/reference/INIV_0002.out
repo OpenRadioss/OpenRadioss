@@ -1,0 +1,449 @@
+ INIV_0002.out
+************************************************************************
+**                                                                    **
+**                                                                    **
+**                 Altair Radioss(TM) Engine MAINLINE                 **
+**                                                                    **
+**            Non-linear Finite Element Analysis Software             **
+**                   from Altair Engineering, Inc.                    **
+**                                                                    **
+**                                                                    **
+**              Linux 64 bits, Intel compiler, Intel MPI              **
+**                                                                    **
+**                           BETA_VERSION                             **
+**                                                                    **
+** Build tag: 1052251_12638000000_2070_0078221_10                     **
+************************************************************************
+**  COPYRIGHT (C) 1986-2021                 Altair Engineering, Inc.  **
+** All Rights Reserved.  Copyright notice does not imply publication. **
+** Contains trade secrets of Altair Engineering Inc.                  **
+** Decompilation or disassembly of this software strictly prohibited. **
+************************************************************************
+ 
+ NUMBER OF SPMD DOMAINS           4
+ NUMBER OF THREADS PER DOMAIN     1
+ NUMBER OF HMPP PROCESSES         4
+  
+ COMPUTATION HARDWARE DESCRIPTION
+  
+ CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
+   1   fradf-hiroshige-0.europe.altair.com   Intel(R) Core(TM) i7-4900MQ CPU @ 2.80GHz (x86_64), 2793 MHz,   7993 MB RAM,      0 MB swap
+   2   fradf-hiroshige-0.europe.altair.com   Intel(R) Core(TM) i7-4900MQ CPU @ 2.80GHz (x86_64), 2793 MHz,   7993 MB RAM,      0 MB swap
+   3   fradf-hiroshige-0.europe.altair.com   Intel(R) Core(TM) i7-4900MQ CPU @ 2.80GHz (x86_64), 2793 MHz,   7993 MB RAM,      0 MB swap
+   4   fradf-hiroshige-0.europe.altair.com   Intel(R) Core(TM) i7-4900MQ CPU @ 2.80GHz (x86_64), 2793 MHz,   7993 MB RAM,      0 MB swap
+  
+************************************************************************
+
+
+ INIVD02                                                                         
+
+
+ FINAL TIME . . . . . . . . . . . . . . . . . . .  0.2000000    
+
+ TIME INTERVAL FOR TIME HISTORY PLOTS . . . . . .  0.1000000E-19
+
+ TIME STEP SCALE FACTOR . . . . . . . . . . . . .  0.5000000    
+
+ MINIMUM TIME STEP  . . . . . . . . . . . . . . .   0.000000    
+
+
+ BRICK TIME STEP SCALE FACTOR . . . . . . . . . .  0.5000000    
+ BRICK MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE BRICK)     1
+
+ QUAD TIME STEP SCALE FACTOR. . . . . . . . . . .  0.5000000    
+ QUAD MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE QUAD).     1
+
+ SHELL TIME STEP SCALE FACTOR . . . . . . . . . .  0.5000000    
+ SHELL MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE, 3:SMALL STRAIN)    2
+
+ TRUSS TIME STEP SCALE FACTOR . . . . . . . . . .  0.5000000    
+ TRUSS MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ BEAM TIME STEP SCALE FACTOR. . . . . . . . . . .  0.5000000    
+ BEAM MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ SPRING TIME STEP SCALE FACTOR. . . . . . . . . .  0.5000000    
+ SPRING MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ AIRBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.5000000    
+ AIRBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP). . . . . . . . . . . . .     0
+
+ CONTACT TIME STEP SCALE FACTOR . . . . . . . . .  0.5000000    
+ CONTACT MINIMUM TIME STEP. . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG(1:STOP, 2:REMOVE NODE FROM INTERF)    0
+
+ FVMBAG TIME STEP SCALE FACTOR. . . . . . . . . .   0.000000    
+ FVMBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ FVMBAG TIME STEP FLAG. . . . . . . . . . . . . .     1
+
+ PRINTOUT CYCLE FREQUENCY . . . . . . . . . . . .    -1
+
+ RESTART CYCLE FREQUENCY. . . . . . . . . . . . .   10000000
+
+ MAXIMUM RESTART WRITE BEFORE OVERWRITE . . . . .     0
+
+ INVERS: INPUT DECK VERSION . . . . . . . . . . .  2019
+ ITTYP : FLAG FOR TYPE OF T-FILE. . . . . . . . .     4
+
+
+ TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . .  0.1000000    
+ TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . .  0.1000000E-02
+ SENSOR FOR ANIMATION-FILE PLOTS. . . . . . . . .          0
+ TIME INTERVAL FOR SENSOR ANIMATION-FILE PLOTS. .   0.000000    
+
+ VARIABLE SAVED ON ANIMATION FILES (1: YES) :
+      PLASTIC STRAIN. . . . . .     0
+      DENSITY     (SOLID ONLY).     0
+      SPECIFIC ENERGY . . . . .     0
+      HOURGLASS ENERGY. . . . .     0
+      TEMPERATURE (SOLID ONLY).     0
+      THICKNESS   (SHELL ONLY).     0
+      PRESSURE    (SOLID ONLY).     0
+      VON MISES . . . . . . . .     0
+      TURBULENT ENERGY (FLUID).     0
+      TURBULENT VISCOSITY(FLUID)    0
+      VORTICITY (FLUID) . . . .     0
+ NODAL VALUES SAVED ON ANIMATION FILES (1: YES) :
+      PRESSURE. . . . . . . . .     0
+      DENSITY . . . . . . . . .     0
+      TEMPERATURE . . . . . . .     0
+ VECTOR SAVED ON ANIMATION FILES (1: YES) :
+      VELOCITY VECTOR . . . . .     1
+      DISPLACEMENT VECTOR . . .     0
+      ACCELERATION VECTOR . . .     0
+      CONTACT FORCES. . . . . .     0
+      INTERNAL FORCES . . . . .     0
+      EXTERNAL FORCES . . . . .     0
+      SECTION RBY RWALL FORCES.     0
+      ROTATIONAL VELOCITY VECTOR    0
+      CONTACT PRESSURE (VECTORS)    0
+ SHELL TENSOR SAVED ON ANIMATION FILES (1: YES) :
+      MEMBRANE STRESS . . . . .     0
+      BENDING STRESS(MOMENT/T^2)    0
+      UPPER LAYER STRESS. . . .     0
+      LOWER LAYER STRESS. . . .     0
+      MEMBRANE STRAIN . . . . .     0
+      CURVATURE . . . . . . . .     0
+      UPPER LAYER STRAIN. . . .     0
+      LOWER LAYER STRAIN. . . .     0
+ NODAL MASS SAVED ON ANIMATION FILES (1: YES) :    0
+ KEEP DELETED ELEMENT (1: YES) :    0
+
+
+ INITIAL TIME STEP. . . . . . . . . . . . . . . .   0.000000    
+ MAXIMUM TIME STEP. . . . . . . . . . . . . . . .  0.1000000E+31
+
+ PARALLEL ARITHMETIC ON
+ NUMBER OF INTERFACES TO BE ELIMINATED. . . . . .        0
+
+ NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF QUAD   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SHELL  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF TRUSS  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF BEAM   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SPRING ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SH_3N  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF  SPH PARTICLES BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF RIGID LINKS. . . . . . . . . . . . . .        0
+
+ NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
+
+ NUMBER OF ALE LINKS. . . . . . . . . . . . . . .        0
+
+
+ ALE EULER SOLVERS
+ -----------------
+
+   +--STAGGERRED SCHEME
+   |  +--MOMENTUM          :        SUPG       eta=  1.000000    
+   |  +--MASS              :        UPWIND     eta=  1.000000    
+   |  +--ENERGY            :        UPWIND     eta=  1.000000    
+   |  +--VOLUME FRACTION   :        UPWIND   
+   |
+   +--TIME STEP
+   |  +--COURANT NUMBER    :  0.5000000    
+   |  +--MINIMUM TIME STEP :   0.000000    
+   |
+   +--GRID SMOOTHING
+      +--FORMULATION       :        DONEA    
+      +--PARAMETERS        :
+                             ALPHA   : DONEA COEFFICIENT. . . . . . . . . . .   0.000000    
+                             GAMMA   : GRID VELOCITY LIMITATION FACTOR. . . .   100.0000    
+                             FscaleX : X-GRID VELOCITY SCALE FACTOR . . . . .   1.000000    
+                             FscaleY : Y-GRID VELOCITY SCALE FACTOR . . . . .   1.000000    
+                             FscaleZ : Z-GRID VELOCITY SCALE FACTOR . . . . .   1.000000    
+                             VOLMIN  : MINIMUM VOLUME FOR ELEMENT DELETION. . -0.1000000E+31
+
+
+
+
+ VELOCITY REINITIALISATION
+
+   FIRST-N    LAST-N   DIRECT.          VELOCITY
+         9         9         3   1.100000000E+00
+        10        10         3   1.100000000E+00
+        11        11         3   1.100000000E+00
+        12        12         3   1.100000000E+00
+ 27/01/2021
+ CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK MAS.ERR
+     0  0.1001      0.1450E-02 SOLID          3   0.0%  0.5066E+06   1.318       0.000       0.000       0.000    
+     ANIMATION FILE: INIVA021 WRITTEN
+     1  0.1015      0.1450E-02 SOLID          3  -0.0%  0.5066E+06   1.275       0.000     -0.3509E-01   0.000    
+     ANIMATION FILE: INIVA022 WRITTEN
+     2  0.1030      0.1450E-02 SOLID          3  -0.0%  0.5066E+06   1.209       0.000     -0.8791E-02   0.000    
+     ANIMATION FILE: INIVA023 WRITTEN
+     3  0.1044      0.1450E-02 SOLID          3  -0.0%  0.5066E+06   1.163       0.000      0.2416E-01   0.000    
+     ANIMATION FILE: INIVA024 WRITTEN
+     4  0.1059      0.1450E-02 SOLID          3  -0.0%  0.5066E+06   1.148       0.000      0.5300E-01   0.000    
+     ANIMATION FILE: INIVA025 WRITTEN
+     5  0.1073      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.160       0.000      0.6507E-01 -0.1850E-15
+     ANIMATION FILE: INIVA026 WRITTEN
+     6  0.1088      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.184       0.000      0.6193E-01   0.000    
+     ANIMATION FILE: INIVA027 WRITTEN
+     7  0.1102      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.204       0.000      0.5058E-01   0.000    
+     ANIMATION FILE: INIVA028 WRITTEN
+     8  0.1117      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.214       0.000      0.3931E-01   0.000    
+     ANIMATION FILE: INIVA029 WRITTEN
+     9  0.1131      0.1450E-02 SOLID          3  -0.0%  0.5066E+06   1.211       0.000      0.3328E-01 -0.1850E-15
+     ANIMATION FILE: INIVA030 WRITTEN
+    10  0.1146      0.1450E-02 SOLID          3  -0.0%  0.5066E+06   1.203       0.000      0.3339E-01   0.000    
+     ANIMATION FILE: INIVA031 WRITTEN
+    11  0.1160      0.1450E-02 SOLID          3  -0.0%  0.5066E+06   1.195       0.000      0.3738E-01 -0.3701E-15
+     ANIMATION FILE: INIVA032 WRITTEN
+    12  0.1175      0.1450E-02 SOLID          3  -0.0%  0.5066E+06   1.190       0.000      0.4205E-01 -0.1850E-15
+     ANIMATION FILE: INIVA033 WRITTEN
+    13  0.1189      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.190       0.000      0.4506E-01 -0.3701E-15
+     ANIMATION FILE: INIVA034 WRITTEN
+    14  0.1204      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.193       0.000      0.4567E-01 -0.5551E-15
+     ANIMATION FILE: INIVA035 WRITTEN
+    15  0.1218      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.196       0.000      0.4449E-01 -0.3701E-15
+     ANIMATION FILE: INIVA036 WRITTEN
+    16  0.1233      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4270E-01 -0.3701E-15
+     ANIMATION FILE: INIVA037 WRITTEN
+    17  0.1247      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4133E-01 -0.7401E-15
+     ANIMATION FILE: INIVA038 WRITTEN
+    18  0.1262      0.1450E-02 SOLID          3  -0.0%  0.5066E+06   1.199       0.000      0.4084E-01 -0.5551E-15
+     ANIMATION FILE: INIVA039 WRITTEN
+    19  0.1276      0.1450E-02 SOLID          3  -0.0%  0.5066E+06   1.197       0.000      0.4112E-01 -0.7401E-15
+     ANIMATION FILE: INIVA040 WRITTEN
+    20  0.1291      0.1450E-02 SOLID          3  -0.0%  0.5066E+06   1.196       0.000      0.4176E-01 -0.3701E-15
+     ANIMATION FILE: INIVA041 WRITTEN
+    21  0.1305      0.1450E-02 SOLID          3  -0.0%  0.5066E+06   1.196       0.000      0.4233E-01 -0.7401E-15
+     ANIMATION FILE: INIVA042 WRITTEN
+    22  0.1320      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.196       0.000      0.4259E-01 -0.5551E-15
+     ANIMATION FILE: INIVA043 WRITTEN
+    23  0.1334      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.197       0.000      0.4253E-01 -0.5551E-15
+     ANIMATION FILE: INIVA044 WRITTEN
+    24  0.1349      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.198       0.000      0.4229E-01 -0.7401E-15
+     ANIMATION FILE: INIVA045 WRITTEN
+    25  0.1363      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.198       0.000      0.4203E-01 -0.5551E-15
+     ANIMATION FILE: INIVA046 WRITTEN
+    26  0.1378      0.1450E-02 SOLID          3  -0.0%  0.5066E+06   1.198       0.000      0.4187E-01 -0.9252E-15
+     ANIMATION FILE: INIVA047 WRITTEN
+    27  0.1392      0.1450E-02 SOLID          3  -0.0%  0.5066E+06   1.198       0.000      0.4184E-01 -0.7401E-15
+     ANIMATION FILE: INIVA048 WRITTEN
+    28  0.1407      0.1450E-02 SOLID          3  -0.0%  0.5066E+06   1.198       0.000      0.4190E-01 -0.9252E-15
+     ANIMATION FILE: INIVA049 WRITTEN
+    29  0.1421      0.1450E-02 SOLID          3  -0.0%  0.5066E+06   1.198       0.000      0.4198E-01 -0.7401E-15
+     ANIMATION FILE: INIVA050 WRITTEN
+    30  0.1436      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.198       0.000      0.4203E-01 -0.9252E-15
+     ANIMATION FILE: INIVA051 WRITTEN
+    31  0.1450      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.198       0.000      0.4203E-01 -0.9252E-15
+     ANIMATION FILE: INIVA052 WRITTEN
+    32  0.1465      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.198       0.000      0.4200E-01 -0.9252E-15
+     ANIMATION FILE: INIVA053 WRITTEN
+    33  0.1479      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.198       0.000      0.4195E-01 -0.9252E-15
+     ANIMATION FILE: INIVA054 WRITTEN
+    34  0.1494      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.198       0.000      0.4191E-01 -0.1110E-14
+     ANIMATION FILE: INIVA055 WRITTEN
+    35  0.1508      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.198       0.000      0.4188E-01 -0.1295E-14
+     ANIMATION FILE: INIVA056 WRITTEN
+    36  0.1523      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.198       0.000      0.4188E-01 -0.1295E-14
+     ANIMATION FILE: INIVA057 WRITTEN
+    37  0.1537      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.198       0.000      0.4188E-01 -0.1295E-14
+     ANIMATION FILE: INIVA058 WRITTEN
+    38  0.1552      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.198       0.000      0.4188E-01 -0.1295E-14
+     ANIMATION FILE: INIVA059 WRITTEN
+    39  0.1566      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.198       0.000      0.4187E-01 -0.1295E-14
+     ANIMATION FILE: INIVA060 WRITTEN
+    40  0.1581      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.198       0.000      0.4186E-01 -0.1295E-14
+     ANIMATION FILE: INIVA061 WRITTEN
+    41  0.1595      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.198       0.000      0.4185E-01 -0.1295E-14
+     ANIMATION FILE: INIVA062 WRITTEN
+    42  0.1610      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4183E-01 -0.1295E-14
+     ANIMATION FILE: INIVA063 WRITTEN
+    43  0.1624      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4182E-01 -0.1295E-14
+     ANIMATION FILE: INIVA064 WRITTEN
+    44  0.1639      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4180E-01 -0.1110E-14
+     ANIMATION FILE: INIVA065 WRITTEN
+    45  0.1653      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4180E-01 -0.1110E-14
+     ANIMATION FILE: INIVA066 WRITTEN
+    46  0.1668      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4179E-01 -0.1110E-14
+     ANIMATION FILE: INIVA067 WRITTEN
+    47  0.1682      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4178E-01 -0.1110E-14
+     ANIMATION FILE: INIVA068 WRITTEN
+    48  0.1697      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4177E-01 -0.1110E-14
+     ANIMATION FILE: INIVA069 WRITTEN
+    49  0.1711      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4176E-01 -0.1110E-14
+     ANIMATION FILE: INIVA070 WRITTEN
+    50  0.1726      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4175E-01 -0.1110E-14
+     ANIMATION FILE: INIVA071 WRITTEN
+    51  0.1740      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4174E-01 -0.9252E-15
+     ANIMATION FILE: INIVA072 WRITTEN
+    52  0.1755      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4173E-01 -0.1110E-14
+     ANIMATION FILE: INIVA073 WRITTEN
+    53  0.1769      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4173E-01 -0.1110E-14
+     ANIMATION FILE: INIVA074 WRITTEN
+    54  0.1784      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4172E-01 -0.1110E-14
+     ANIMATION FILE: INIVA075 WRITTEN
+ CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK MAS.ERR
+    55  0.1798      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4171E-01 -0.1110E-14
+     ANIMATION FILE: INIVA076 WRITTEN
+    56  0.1813      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4170E-01 -0.1110E-14
+     ANIMATION FILE: INIVA077 WRITTEN
+    57  0.1827      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4170E-01 -0.1110E-14
+     ANIMATION FILE: INIVA078 WRITTEN
+    58  0.1842      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4169E-01 -0.9252E-15
+     ANIMATION FILE: INIVA079 WRITTEN
+    59  0.1856      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4168E-01 -0.1110E-14
+     ANIMATION FILE: INIVA080 WRITTEN
+    60  0.1871      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4167E-01 -0.9252E-15
+     ANIMATION FILE: INIVA081 WRITTEN
+    61  0.1885      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4167E-01 -0.9252E-15
+     ANIMATION FILE: INIVA082 WRITTEN
+    62  0.1900      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4166E-01 -0.9252E-15
+     ANIMATION FILE: INIVA083 WRITTEN
+    63  0.1914      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4165E-01 -0.9252E-15
+     ANIMATION FILE: INIVA084 WRITTEN
+    64  0.1929      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4165E-01 -0.7401E-15
+     ANIMATION FILE: INIVA085 WRITTEN
+    65  0.1943      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4164E-01 -0.5551E-15
+     ANIMATION FILE: INIVA086 WRITTEN
+    66  0.1958      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4163E-01 -0.5551E-15
+     ANIMATION FILE: INIVA087 WRITTEN
+    67  0.1972      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4163E-01 -0.5551E-15
+     ANIMATION FILE: INIVA088 WRITTEN
+    68  0.1987      0.1450E-02 SOLID          2  -0.0%  0.5066E+06   1.199       0.000      0.4162E-01 -0.5551E-15
+     ANIMATION FILE: INIVA089 WRITTEN
+
+     RESTART FILES: INIV_0002_[0001-0004].rst WRITTEN
+     -------------
+
+  
+                           ** CPU USER TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .0000E+00 .0000E+00 .0000E+00 .1930E+00 .1999E-02 .0000E+00 .2210E+00
+   2   .0000E+00 .0000E+00 .2100E-01 .1720E+00 .4000E-02 .0000E+00 .4210E+01
+   3   .0000E+00 .0000E+00 .0000E+00 .2000E+00 .4499E-01 .0000E+00 .4251E+01
+   4   .0000E+00 .0000E+00 .8999E-02 .1720E+00 .2000E-02 .0000E+00 .4230E+01
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .1300E-01 .0000E+00 .0000E+00 .0000E+00 .1300E-01 .5881E+01
+   2   .9990E-03 .0000E+00 .0000E+00 .0000E+00 .9990E-03 .2373E-01
+   3   .0000E+00 .0000E+00 .0000E+00 .0000E+00 .0000E+00 .0000E+00
+   4   .9999E-03 .0000E+00 .0000E+00 .0000E+00 .9999E-03 .2364E-01
+  
+ 
+                   ** CUMULATIVE CPU TIME SUMMARY **
+  
+ CONTACT SORTING.............: .0000E+00     0.00 % 
+ CONTACT FORCES..............: .0000E+00     0.00 % 
+ ELEMENT FORCES..............: .0000E+00     0.00 % 
+ KINEMATIC COND..............: .0000E+00     0.00 % 
+ INTEGRATION.................: .3000E-01     0.23 % 
+ ASSEMBLING..................: .0000E+00     0.00 % 
+ ALE.........................: .2600E-01     0.20 % 
+ OTHERS (including I/O)......: .1286E+02    99.57 % 
+ TOTAL.......................: .1291E+02   100.00 % 
+  
+  
+                           ** ELAPSED TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .8314E-03 .4508E-03 .9873E-03 .2446E+00 .2960E-02 .3066E-03 .2767E+00
+   2   .9766E-03 .5405E-03 .1202E-01 .2338E+00 .2738E-02 .3057E-03 .4704E+01
+   3   .9983E-03 .4098E-03 .7339E-03 .2188E+00 .4396E-01 .3009E-03 .4705E+01
+   4   .9549E-03 .5038E-03 .1672E-01 .2290E+00 .2592E-02 .2806E-03 .4705E+01
+  
+        ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+ MIN   .8314E-03 .4098E-03 .7339E-03 .2188E+00 .2592E-02 .2806E-03 .2767E+00
+ MAX   .9983E-03 .5405E-03 .1672E-01 .2446E+00 .4396E-01 .3066E-03 .4705E+01
+ AVG   .9403E-03 .4762E-03 .7617E-02 .2315E+00 .1306E-01 .2984E-03 .3598E+01
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .7299E-02 .0000E+00 .0000E+00 .8297E-03 .8129E-02 .2938E+01
+   2   .8011E-03 .0000E+00 .0000E+00 .1050E-02 .1851E-02 .3935E-01
+   3   .3369E-03 .0000E+00 .0000E+00 .7176E-03 .1055E-02 .2241E-01
+   4   .1041E-02 .0000E+00 .0000E+00 .2996E-02 .4037E-02 .8581E-01
+  
+        FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+ MIN   .3369E-03 .0000E+00 .0000E+00 .7176E-03 .1055E-02 .2241E-01
+ MAX   .7299E-02 .0000E+00 .0000E+00 .2996E-02 .8129E-02 .2938E+01
+ AVG   .2370E-02 .0000E+00 .0000E+00 .1398E-02 .3768E-02 .7714E+00
+  
+                   ** MEMORY USAGE STATISTICS **
+  
+ TOTAL MEMORY USED .........................:     1400 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:      350 MB
+ MINIMUM MEMORY PER PROCESSOR...............:      350 MB
+ AVERAGE MEMORY PER PROCESSOR...............:      350 MB
+  
+                   ** DISK USAGE STATISTICS **
+  
+ TOTAL DISK SPACE USED .....................:          0 MB
+ ANIMATION/H3D/TH/OUTP SIZE ................:          0 MB
+ RESTART FILE SIZE .........................:          0 MB
+  
+                   ** COMPUTE TIME INFORMATION **
+                        ** CURRENT ENGINE **
+  
+ EXECUTION STARTED .........................:      2021/01/27  16:50:47
+ EXECUTION COMPLETED .......................:      2021/01/27  16:50:48
+  
+ ELAPSED TIME     =          4.80 s
+                          0:00:04
+ ESTIMATED SPEEDUP=          2.69
+
+
+
+     NORMAL TERMINATION      
+
+
+
+     TOTAL NUMBER OF CYCLES  :      69
+
+  
+                   ** COMPUTE RUNTIME INFORMATION SUMMARY **
+  
+        STARTER RUNTIME =          2.51s (00:00:02)
+ # 001   ENGINE RUNTIME =          4.80s (00:00:04)
+ # 002   ENGINE RUNTIME =          4.80s (00:00:04)
+ ------------------------------ 
+ STARTER+ENGINE RUNTIME =         12.11s (00:00:12)
+  

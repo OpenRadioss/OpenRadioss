@@ -1,0 +1,25 @@
+#-  1. :
+#---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|
+/ANIM/DT
+#   TSTART     TFREQ
+0.000000 5.000000
+/ANIM/ELEM/PRES
+/ANIM/ELEM/SIGX
+/ANIM/ELEM/SIGY
+/ANIM/ELEM/SIGZ
+/ANIM/MASS
+/ANIM/GZIP
+/DT
+0.100000 0.000000
+/MON/ON
+/PARITH/ON
+/PRINT/-10
+/RUN/LOI12/1
+                   4
+/TFILE/4
+#            dT_HIS
+0.010000
+/VERS/2017
+/ANIM/VECT/FINT
+/ANIM/VECT/ACCEL
+/ANIM/VECT/VEL

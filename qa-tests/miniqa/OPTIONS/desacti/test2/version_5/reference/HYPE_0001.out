@@ -1,0 +1,387 @@
+ HYPE_0001.out
+************************************************************************
+**                                                                    **
+**                                                                    **
+**                 Altair Radioss(TM) Engine MAINLINE                 **
+**                                                                    **
+**            Non-linear Finite Element Analysis Software             **
+**                   from Altair Engineering, Inc.                    **
+**                                                                    **
+**                                                                    **
+**              Linux 64 bits, Intel compiler, Intel MPI              **
+**                                                                    **
+**                           BETA_VERSION                             **
+**                                                                    **
+** Build tag: 1071780_12638000000_2070_0083454_10                     **
+************************************************************************
+**  COPYRIGHT (C) 1986-2021                 Altair Engineering, Inc.  **
+** All Rights Reserved.  Copyright notice does not imply publication. **
+** Contains trade secrets of Altair Engineering Inc.                  **
+** Decompilation or disassembly of this software strictly prohibited. **
+************************************************************************
+ 
+ NUMBER OF SPMD DOMAINS           4
+ NUMBER OF THREADS PER DOMAIN     1
+ NUMBER OF HMPP PROCESSES         4
+  
+ COMPUTATION HARDWARE DESCRIPTION
+  
+ CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
+   1   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  48799 MB swap
+   2   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  48799 MB swap
+   3   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  48799 MB swap
+   4   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  48799 MB swap
+  
+************************************************************************
+
+
+ HYPED01                                                                         
+
+
+ FINAL TIME . . . . . . . . . . . . . . . . . . .   1.017000    
+
+ TIME INTERVAL FOR TIME HISTORY PLOTS . . . . . .  0.2000000    
+
+ TIME STEP SCALE FACTOR . . . . . . . . . . . . .  0.6700000    
+
+ MINIMUM TIME STEP  . . . . . . . . . . . . . . .  0.1000000E-04
+
+
+ BRICK TIME STEP SCALE FACTOR . . . . . . . . . .  0.6700000    
+ BRICK MINIMUM TIME STEP. . . . . . . . . . . . .  0.1000000E-04
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE BRICK)     1
+
+ QUAD TIME STEP SCALE FACTOR. . . . . . . . . . .  0.6700000    
+ QUAD MINIMUM TIME STEP . . . . . . . . . . . . .  0.1000000E-04
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE QUAD).     1
+
+ SHELL TIME STEP SCALE FACTOR . . . . . . . . . .  0.6700000    
+ SHELL MINIMUM TIME STEP. . . . . . . . . . . . .  0.1000000E-04
+ MIN. TIME FLAG (1:STOP, 2:DELETE, 3:SMALL STRAIN)    2
+
+ TRUSS TIME STEP SCALE FACTOR . . . . . . . . . .  0.6700000    
+ TRUSS MINIMUM TIME STEP. . . . . . . . . . . . .  0.1000000E-04
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ BEAM TIME STEP SCALE FACTOR. . . . . . . . . . .  0.6700000    
+ BEAM MINIMUM TIME STEP . . . . . . . . . . . . .  0.1000000E-04
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ SPRING TIME STEP SCALE FACTOR. . . . . . . . . .  0.6700000    
+ SPRING MINIMUM TIME STEP . . . . . . . . . . . .  0.1000000E-04
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ AIRBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.6700000    
+ AIRBAG MINIMUM TIME STEP . . . . . . . . . . . .  0.1000000E-04
+ MIN. TIME FLAG (1:STOP). . . . . . . . . . . . .     0
+
+ CONTACT TIME STEP SCALE FACTOR . . . . . . . . .  0.6700000    
+ CONTACT MINIMUM TIME STEP. . . . . . . . . . . .  0.1000000E-04
+ MIN. TIME FLAG(1:STOP, 2:REMOVE NODE FROM INTERF)    0
+
+ FVMBAG TIME STEP SCALE FACTOR. . . . . . . . . .   0.000000    
+ FVMBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ FVMBAG TIME STEP FLAG. . . . . . . . . . . . . .     1
+
+ PRINTOUT CYCLE FREQUENCY . . . . . . . . . . . .    -1
+
+ RESTART CYCLE FREQUENCY. . . . . . . . . . . . .   10000000
+
+ MAXIMUM RESTART WRITE BEFORE OVERWRITE . . . . .     0
+
+ INVERS: INPUT DECK VERSION . . . . . . . . . . .  2019
+ ITTYP : FLAG FOR TYPE OF T-FILE. . . . . . . . .     4
+
+
+ TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . .   0.000000    
+ TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . .  0.2000000    
+ SENSOR FOR ANIMATION-FILE PLOTS. . . . . . . . .          0
+ TIME INTERVAL FOR SENSOR ANIMATION-FILE PLOTS. .   0.000000    
+
+ VARIABLE SAVED ON ANIMATION FILES (1: YES) :
+      PLASTIC STRAIN. . . . . .     1
+      DENSITY     (SOLID ONLY).     1
+      SPECIFIC ENERGY . . . . .     1
+      HOURGLASS ENERGY. . . . .     0
+      TEMPERATURE (SOLID ONLY).     0
+      THICKNESS   (SHELL ONLY).     0
+      PRESSURE    (SOLID ONLY).     1
+      VON MISES . . . . . . . .     0
+      TURBULENT ENERGY (FLUID).     0
+      TURBULENT VISCOSITY(FLUID)    0
+      VORTICITY (FLUID) . . . .     0
+ NODAL VALUES SAVED ON ANIMATION FILES (1: YES) :
+      PRESSURE. . . . . . . . .     0
+      DENSITY . . . . . . . . .     0
+      TEMPERATURE . . . . . . .     0
+ VECTOR SAVED ON ANIMATION FILES (1: YES) :
+      VELOCITY VECTOR . . . . .     1
+      DISPLACEMENT VECTOR . . .     0
+      ACCELERATION VECTOR . . .     0
+      CONTACT FORCES. . . . . .     0
+      INTERNAL FORCES . . . . .     0
+      EXTERNAL FORCES . . . . .     0
+      SECTION RBY RWALL FORCES.     0
+      ROTATIONAL VELOCITY VECTOR    0
+      CONTACT PRESSURE (VECTORS)    0
+ SHELL TENSOR SAVED ON ANIMATION FILES (1: YES) :
+      MEMBRANE STRESS . . . . .     0
+      BENDING STRESS(MOMENT/T^2)    0
+      UPPER LAYER STRESS. . . .     0
+      LOWER LAYER STRESS. . . .     0
+      MEMBRANE STRAIN . . . . .     0
+      CURVATURE . . . . . . . .     0
+      UPPER LAYER STRAIN. . . .     0
+      LOWER LAYER STRAIN. . . .     0
+ NODAL MASS SAVED ON ANIMATION FILES (1: YES) :    0
+ KEEP DELETED ELEMENT (1: YES) :    0
+
+
+ INITIAL TIME STEP. . . . . . . . . . . . . . . .   0.000000    
+ MAXIMUM TIME STEP. . . . . . . . . . . . . . . .  0.1000000E+31
+
+ PARALLEL ARITHMETIC ON
+ NUMBER OF INTERFACES TO BE ELIMINATED. . . . . .        0
+
+ NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF QUAD   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SHELL  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF TRUSS  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF BEAM   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SPRING ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SH_3N  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF  SPH PARTICLES BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF RIGID LINKS. . . . . . . . . . . . . .        1
+
+ NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
+
+ REMOVE INTER.7 SEGMENT AFTER SHELL FAILURE(1 YES)   -1
+
+
+ RIGID LINK:    1 TRANSLATION X,Y,Z 0 0 1 ROTATION    X,Y,Z 0 0 0 SKEW             0
+ ----------           2 NODES :
+      1014      1019
+ 17/06/2021
+ CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK MAS.ERR
+     0   0.000      0.2939E-01 QUAD         167   0.0%   0.000      0.1003       0.000       0.000       0.000    
+     ANIMATION FILE: HYPEA001 WRITTEN
+     1  0.2939E-01  0.2939E-01 QUAD         167  -0.0%  0.1351E-31  0.1003       0.000       0.000       0.000    
+     2  0.5878E-01  0.2211E-01 QUAD           1  -0.0%  0.2812E-06  0.1003       0.000       0.000       0.000    
+     3  0.8089E-01  0.1781E-01 QUAD           1  -0.0%  0.1603E-05  0.1003       0.000       0.000       0.000    
+     4  0.9869E-01  0.1735E-01 QUAD           1  -0.0%  0.3262E-05  0.1003       0.000       0.000       0.000    
+     5  0.1160      0.1613E-01 QUAD           1  -0.0%  0.6150E-05  0.1003       0.000       0.000       0.000    
+     6  0.1322      0.1563E-01 QUAD           1  -0.1%  0.1003E-04  0.1003       0.000       0.000       0.000    
+     7  0.1478      0.1545E-01 QUAD           1  -0.1%  0.1488E-04  0.1002       0.000       0.000       0.000    
+     8  0.1633      0.1537E-01 QUAD           1  -0.1%  0.2080E-04  0.1002       0.000       0.000       0.000    
+     9  0.1786      0.1533E-01 QUAD           1  -0.1%  0.2782E-04  0.1002       0.000       0.000       0.000    
+    10  0.1940      0.1536E-01 QUAD           1  -0.1%  0.3602E-04  0.1002       0.000       0.000       0.000    
+    11  0.2093      0.1529E-01 QUAD           1  -0.1%  0.4561E-04  0.1002       0.000       0.000       0.000    
+     ANIMATION FILE: HYPEA002 WRITTEN
+    12  0.2246      0.1506E-01 QUAD           1  -0.1%  0.5683E-04  0.1001       0.000       0.000       0.000    
+    13  0.2397      0.1476E-01 QUAD           1  -0.1%  0.6972E-04  0.1001       0.000       0.000       0.000    
+    14  0.2544      0.1456E-01 QUAD           1  -0.1%  0.8397E-04  0.1001       0.000       0.000       0.000    
+    15  0.2690      0.1453E-01 QUAD           1  -0.2%  0.9926E-04  0.1001       0.000       0.000       0.000    
+    16  0.2835      0.1469E-01 QUAD           1  -0.2%  0.1154E-03  0.1000       0.000       0.000       0.000    
+    17  0.2982      0.1490E-01 QUAD           1  -0.2%  0.1323E-03  0.1000       0.000       0.000       0.000    
+    18  0.3131      0.1477E-01 QUAD           2  -0.2%  0.1500E-03  0.1000       0.000       0.000       0.000    
+    19  0.3279      0.1451E-01 QUAD           7  -0.2%  0.1683E-03  0.1000       0.000       0.000       0.000    
+    20  0.3424      0.1428E-01 QUAD           7  -0.2%  0.1867E-03  0.9993E-01   0.000       0.000       0.000    
+    21  0.3567      0.1398E-01 QUAD          13  -0.2%  0.2052E-03  0.9990E-01   0.000       0.000       0.000    
+    22  0.3706      0.1369E-01 QUAD          13  -0.2%  0.2236E-03  0.9987E-01   0.000       0.000       0.000    
+    23  0.3843      0.1340E-01 QUAD          13  -0.2%  0.2420E-03  0.9984E-01   0.000       0.000       0.000    
+    24  0.3977      0.1312E-01 QUAD          13  -0.2%  0.2604E-03  0.9982E-01   0.000       0.000       0.000    
+    25  0.4109      0.1288E-01 QUAD          13  -0.3%  0.2788E-03  0.9980E-01   0.000       0.000       0.000    
+     ANIMATION FILE: HYPEA003 WRITTEN
+    26  0.4237      0.1271E-01 QUAD          13  -0.3%  0.2970E-03  0.9977E-01   0.000       0.000       0.000    
+    27  0.4365      0.1260E-01 QUAD          13  -0.3%  0.3151E-03  0.9974E-01   0.000       0.000       0.000    
+    28  0.4491      0.1233E-01 QUAD          19  -0.3%  0.3324E-03  0.9972E-01   0.000       0.000       0.000    
+    29  0.4614      0.1199E-01 QUAD          19  -0.3%  0.3482E-03  0.9969E-01   0.000       0.000       0.000    
+    30  0.4734      0.1172E-01 QUAD          19  -0.3%  0.3620E-03  0.9967E-01   0.000       0.000       0.000    
+    31  0.4851      0.1151E-01 QUAD          19  -0.3%  0.3744E-03  0.9965E-01   0.000       0.000       0.000    
+    32  0.4966      0.1133E-01 QUAD          19  -0.3%  0.3865E-03  0.9963E-01   0.000       0.000       0.000    
+ SENSOR NUMBER          2 ACTIVATED AT TIME  5.07932E-01
+ SENSOR NUMBER          5 ACTIVATED AT TIME  5.07932E-01
+ SENSOR NUMBER          3 ACTIVATED AT TIME  5.07932E-01
+    33  0.5079      0.1119E-01 QUAD          19  -0.3%  0.3993E-03  0.9962E-01   0.000       0.000       0.000    
+ QUAD DEACTIVATION:       904 AT TIME:  0.51912
+ QUAD DEACTIVATION:       909 AT TIME:  0.51912
+ QUAD DEACTIVATION:       914 AT TIME:  0.51912
+    34  0.5191      0.1112E-01 QUAD          19  -0.4%  0.3852E-03  0.9959E-01   0.000       0.000       0.000    
+    35  0.5302      0.1110E-01 QUAD          19  -0.4%  0.3974E-03  0.9955E-01   0.000       0.000       0.000    
+    36  0.5413      0.1110E-01 QUAD          19  -0.4%  0.4092E-03  0.9951E-01   0.000       0.000       0.000    
+    37  0.5524      0.1109E-01 QUAD          19  -0.4%  0.4194E-03  0.9948E-01   0.000       0.000       0.000    
+    38  0.5635      0.1103E-01 QUAD          19  -0.4%  0.4265E-03  0.9945E-01   0.000       0.000       0.000    
+    39  0.5746      0.1091E-01 QUAD          19  -0.5%  0.4296E-03  0.9943E-01   0.000       0.000       0.000    
+    40  0.5855      0.1071E-01 QUAD          19  -0.5%  0.4283E-03  0.9941E-01   0.000       0.000       0.000    
+    41  0.5962      0.1045E-01 QUAD          19  -0.5%  0.4232E-03  0.9939E-01   0.000       0.000       0.000    
+    42  0.6066      0.1023E-01 QUAD          19  -0.5%  0.4157E-03  0.9938E-01   0.000       0.000       0.000    
+     ANIMATION FILE: HYPEA004 WRITTEN
+    43  0.6169      0.1006E-01 QUAD          19  -0.6%  0.4080E-03  0.9936E-01   0.000       0.000       0.000    
+    44  0.6269      0.9942E-02 QUAD          19  -0.6%  0.4021E-03  0.9935E-01   0.000       0.000       0.000    
+    45  0.6369      0.9839E-02 QUAD          19  -0.6%  0.3994E-03  0.9934E-01   0.000       0.000       0.000    
+    46  0.6467      0.9779E-02 QUAD          19  -0.6%  0.4001E-03  0.9933E-01   0.000       0.000       0.000    
+    47  0.6565      0.9753E-02 QUAD          19  -0.6%  0.4034E-03  0.9933E-01   0.000       0.000       0.000    
+    48  0.6662      0.9748E-02 QUAD          19  -0.6%  0.4081E-03  0.9933E-01   0.000       0.000       0.000    
+    49  0.6760      0.9759E-02 QUAD          19  -0.6%  0.4127E-03  0.9933E-01   0.000       0.000       0.000    
+    50  0.6857      0.9760E-02 QUAD          19  -0.6%  0.4164E-03  0.9933E-01   0.000       0.000       0.000    
+    51  0.6955      0.9756E-02 QUAD          19  -0.6%  0.4188E-03  0.9933E-01   0.000       0.000       0.000    
+    52  0.7052      0.9754E-02 QUAD          19  -0.6%  0.4190E-03  0.9933E-01   0.000       0.000       0.000    
+    53  0.7150      0.9761E-02 QUAD          19  -0.6%  0.4162E-03  0.9934E-01   0.000       0.000       0.000    
+    54  0.7248      0.9778E-02 QUAD          19  -0.6%  0.4105E-03  0.9935E-01   0.000       0.000       0.000    
+ CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK MAS.ERR
+    55  0.7345      0.9769E-02 QUAD          31  -0.6%  0.4031E-03  0.9936E-01   0.000       0.000       0.000    
+    56  0.7443      0.9544E-02 QUAD          31  -0.6%  0.3952E-03  0.9936E-01   0.000       0.000       0.000    
+    57  0.7539      0.9402E-02 QUAD          31  -0.6%  0.3884E-03  0.9937E-01   0.000       0.000       0.000    
+    58  0.7633      0.9294E-02 QUAD          31  -0.6%  0.3839E-03  0.9937E-01   0.000       0.000       0.000    
+    59  0.7725      0.9229E-02 QUAD          31  -0.6%  0.3816E-03  0.9937E-01   0.000       0.000       0.000    
+    60  0.7818      0.9211E-02 QUAD          31  -0.6%  0.3808E-03  0.9937E-01   0.000       0.000       0.000    
+    61  0.7910      0.9213E-02 QUAD          31  -0.6%  0.3806E-03  0.9937E-01   0.000       0.000       0.000    
+    62  0.8002      0.9206E-02 QUAD          31  -0.6%  0.3801E-03  0.9937E-01   0.000       0.000       0.000    
+     ANIMATION FILE: HYPEA005 WRITTEN
+    63  0.8094      0.9157E-02 QUAD          31  -0.6%  0.3792E-03  0.9937E-01   0.000       0.000       0.000    
+    64  0.8186      0.9044E-02 QUAD          31  -0.6%  0.3781E-03  0.9937E-01   0.000       0.000       0.000    
+    65  0.8276      0.8847E-02 QUAD          31  -0.6%  0.3776E-03  0.9937E-01   0.000       0.000       0.000    
+    66  0.8365      0.8549E-02 QUAD          31  -0.6%  0.3777E-03  0.9936E-01   0.000       0.000       0.000    
+    67  0.8450      0.8273E-02 QUAD          31  -0.6%  0.3776E-03  0.9936E-01   0.000       0.000       0.000    
+    68  0.8533      0.8060E-02 QUAD          31  -0.6%  0.3767E-03  0.9936E-01   0.000       0.000       0.000    
+    69  0.8613      0.7916E-02 QUAD          31  -0.6%  0.3749E-03  0.9936E-01   0.000       0.000       0.000    
+    70  0.8693      0.7827E-02 QUAD          31  -0.6%  0.3722E-03  0.9936E-01   0.000       0.000       0.000    
+    71  0.8771      0.7753E-02 QUAD          31  -0.6%  0.3686E-03  0.9936E-01   0.000       0.000       0.000    
+    72  0.8848      0.7724E-02 QUAD          31  -0.6%  0.3646E-03  0.9936E-01   0.000       0.000       0.000    
+    73  0.8926      0.7726E-02 QUAD          31  -0.6%  0.3609E-03  0.9936E-01   0.000       0.000       0.000    
+    74  0.9003      0.7738E-02 QUAD          31  -0.6%  0.3580E-03  0.9936E-01   0.000       0.000       0.000    
+    75  0.9080      0.7738E-02 QUAD          31  -0.6%  0.3562E-03  0.9936E-01   0.000       0.000       0.000    
+    76  0.9158      0.7704E-02 QUAD          31  -0.6%  0.3554E-03  0.9936E-01   0.000       0.000       0.000    
+    77  0.9235      0.7624E-02 QUAD          31  -0.6%  0.3553E-03  0.9935E-01   0.000       0.000       0.000    
+    78  0.9311      0.7487E-02 QUAD          31  -0.6%  0.3555E-03  0.9935E-01   0.000       0.000       0.000    
+    79  0.9386      0.7294E-02 QUAD          31  -0.6%  0.3559E-03  0.9935E-01   0.000       0.000       0.000    
+    80  0.9459      0.7115E-02 QUAD          31  -0.6%  0.3564E-03  0.9935E-01   0.000       0.000       0.000    
+    81  0.9530      0.6929E-02 QUAD          37  -0.6%  0.3573E-03  0.9935E-01   0.000       0.000       0.000    
+    82  0.9599      0.6709E-02 QUAD          37  -0.6%  0.3586E-03  0.9934E-01   0.000       0.000       0.000    
+    83  0.9666      0.6512E-02 QUAD          37  -0.6%  0.3600E-03  0.9934E-01   0.000       0.000       0.000    
+    84  0.9731      0.6354E-02 QUAD          37  -0.6%  0.3612E-03  0.9934E-01   0.000       0.000       0.000    
+    85  0.9795      0.6237E-02 QUAD          37  -0.6%  0.3621E-03  0.9934E-01   0.000       0.000       0.000    
+    86  0.9857      0.6154E-02 QUAD          37  -0.6%  0.3628E-03  0.9934E-01   0.000       0.000       0.000    
+    87  0.9919      0.6086E-02 QUAD          37  -0.6%  0.3633E-03  0.9934E-01   0.000       0.000       0.000    
+    88  0.9980      0.6031E-02 QUAD          37  -0.6%  0.3636E-03  0.9934E-01   0.000       0.000       0.000    
+    89   1.004      0.5993E-02 QUAD          37  -0.6%  0.3639E-03  0.9934E-01   0.000       0.000       0.000    
+     ANIMATION FILE: HYPEA006 WRITTEN
+ SENSOR NUMBER          3 DEACTIVATED AT TIME  1.00999E+00
+    90   1.010      0.5961E-02 QUAD          37  -0.6%  0.3641E-03  0.9933E-01   0.000       0.000       0.000    
+ QUAD ACTIVATION:       904 AT TIME:   1.0160
+ QUAD ACTIVATION:       909 AT TIME:   1.0160
+ QUAD ACTIVATION:       914 AT TIME:   1.0160
+    91   1.016      0.3851E-02 QUAD         909  99.9%   4.758      0.9923E-01   0.000       0.000       0.000    
+
+     RESTART FILES: HYPE_0001_[0001-0004].rst WRITTEN
+     -------------
+
+  
+                           ** CPU USER TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  CONTSORT  CONTFOR   ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .5000E-02 .0000E+00 .9999E-02 .0000E+00 .9990E-03 .1100E-01 .1000E-02 .2999E-02 .3599E-01
+   2   .1000E-02 .0000E+00 .7999E-02 .1000E-02 .1000E-02 .2700E-01 .3999E-02 .0000E+00 .2630E+00
+   3   .3000E-02 .1000E-02 .1100E-01 .9990E-03 .0000E+00 .3100E-01 .4000E-02 .0000E+00 .2580E+00
+   4   .1000E-02 .0000E+00 .1200E-01 .0000E+00 .1000E-02 .2800E-01 .2000E-02 .1000E-02 .2570E+00
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .2000E-02 .0000E+00 .0000E+00 .0000E+00 .2000E-02 .5556E+01
+   2   .8999E-02 .0000E+00 .0000E+00 .0000E+00 .8999E-02 .3422E+01
+   3   .1000E-02 .0000E+00 .0000E+00 .0000E+00 .1000E-02 .3877E+00
+   4   .6998E-02 .0000E+00 .0000E+00 .0000E+00 .6998E-02 .2723E+01
+  
+ 
+                   ** CUMULATIVE CPU TIME SUMMARY **
+  
+ CONTACT SORTING.............: .1000E-01     1.23 % 
+ CONTACT FORCES..............: .1000E-02     0.12 % 
+ ELEMENT FORCES..............: .4099E-01     5.04 % 
+ KINEMATIC COND..............: .1999E-02     0.25 % 
+ INTEGRATION.................: .2999E-02     0.37 % 
+ ASSEMBLING..................: .3999E-02     0.49 % 
+ OTHERS (including I/O)......: .7529E+00    92.51 % 
+ TOTAL.......................: .8139E+00   100.00 % 
+  
+  
+                           ** ELAPSED TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  CONTSORT  CONTFOR   ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .3130E-02 .2398E-03 .1056E-01 .9778E-03 .1211E-02 .3038E-01 .1544E-02 .1855E-02 .5924E-01
+   2   .6876E-03 .2737E-03 .9524E-02 .5934E-03 .6857E-03 .2910E-01 .4058E-02 .9165E-03 .2715E+00
+   3   .6936E-03 .2306E-03 .1229E-01 .1182E-02 .6940E-03 .2853E-01 .2982E-02 .1196E-02 .2714E+00
+   4   .6809E-03 .2367E-03 .1178E-01 .5929E-03 .7191E-03 .2915E-01 .2464E-02 .1146E-02 .2714E+00
+  
+        CONTSORT  CONTFOR   ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+ MIN   .6809E-03 .2306E-03 .9524E-02 .5929E-03 .6857E-03 .2853E-01 .1544E-02 .9165E-03 .5924E-01
+ MAX   .3130E-02 .2737E-03 .1229E-01 .1182E-02 .1211E-02 .3038E-01 .4058E-02 .1855E-02 .2715E+00
+ AVG   .1298E-02 .2452E-03 .1104E-01 .8365E-03 .8275E-03 .2929E-01 .2762E-02 .1278E-02 .2184E+00
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .2846E-02 .0000E+00 .0000E+00 .1290E-03 .2975E-02 .5023E+01
+   2   .7127E-02 .0000E+00 .0000E+00 .1225E-03 .7250E-02 .2670E+01
+   3   .5164E-02 .0000E+00 .0000E+00 .1290E-03 .5293E-02 .1950E+01
+   4   .6268E-02 .0000E+00 .0000E+00 .1197E-03 .6387E-02 .2354E+01
+  
+        FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+ MIN   .2846E-02 .0000E+00 .0000E+00 .1197E-03 .2975E-02 .1950E+01
+ MAX   .7127E-02 .0000E+00 .0000E+00 .1290E-03 .7250E-02 .5023E+01
+ AVG   .5351E-02 .0000E+00 .0000E+00 .1251E-03 .5476E-02 .2999E+01
+  
+                   ** MEMORY USAGE STATISTICS **
+  
+ TOTAL MEMORY USED .........................:      247 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:       66 MB
+ MINIMUM MEMORY PER PROCESSOR...............:       60 MB
+ AVERAGE MEMORY PER PROCESSOR...............:       61 MB
+  
+                   ** DISK USAGE STATISTICS **
+  
+ TOTAL DISK SPACE USED .....................:          1 MB
+ ANIMATION/H3D/TH/OUTP SIZE ................:          0 MB
+ RESTART FILE SIZE .........................:          1 MB
+  
+                   ** COMPUTE TIME INFORMATION **
+                        ** CURRENT ENGINE **
+  
+ EXECUTION STARTED .........................:      2021/06/17  09:47:26
+ EXECUTION COMPLETED .......................:      2021/06/17  09:47:26
+  
+ ELAPSED TIME     =          0.31 s
+                          0:00:00
+ ESTIMATED SPEEDUP=          2.65
+
+
+
+     NORMAL TERMINATION      
+
+
+
+     TOTAL NUMBER OF CYCLES  :      92
+
+  
+                   ** COMPUTE RUNTIME INFORMATION SUMMARY **
+  
+        STARTER RUNTIME =          0.79s (00:00:00)
+ # 001   ENGINE RUNTIME =          0.31s (00:00:00)
+ ------------------------------ 
+ STARTER+ENGINE RUNTIME =          1.10s (00:00:01)
+  

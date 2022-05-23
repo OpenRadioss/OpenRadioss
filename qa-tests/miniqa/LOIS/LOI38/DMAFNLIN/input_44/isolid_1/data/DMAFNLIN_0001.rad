@@ -1,0 +1,24 @@
+#-  1. :
+#---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|
+/ANIM/DT
+#   TSTART     TFREQ
+0.000000 0.005000
+/ANIM/GZIP
+/DT
+0.500000 0.000000
+/MON/ON
+/PRINT/-100/55
+/RFILE
+#   NCYCLE
+1000
+/RUN/DMAFNLIN/1
+              0.0201
+/TFILE/4
+#            dT_HIS
+0.000500
+/TITLE
+Sample model
+/VERS/2019
+/ANIM/ELEM/ENER
+/ANIM/ELEM/VONM
+/ANIM/ELEM/EPSP

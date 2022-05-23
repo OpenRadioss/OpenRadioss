@@ -1,0 +1,321 @@
+ BOULE1V5_0001.out
+************************************************************************
+**                                                                    **
+**                                                                    **
+**                 Altair Radioss(TM) Engine MAINLINE                 **
+**                                                                    **
+**            Non-linear Finite Element Analysis Software             **
+**                   from Altair Engineering, Inc.                    **
+**                                                                    **
+**                                                                    **
+**              Linux 64 bits, Intel compiler, Intel MPI              **
+**                                                                    **
+**                           BETA_VERSION                             **
+**                                                                    **
+** Build tag: 1118139_12638000000_2070_0092551                        **
+************************************************************************
+**  COPYRIGHT (C) 1986-2022                 Altair Engineering, Inc.  **
+** All Rights Reserved.  Copyright notice does not imply publication. **
+** Contains trade secrets of Altair Engineering Inc.                  **
+** Decompilation or disassembly of this software strictly prohibited. **
+************************************************************************
+ 
+ NUMBER OF SPMD DOMAINS           4
+ NUMBER OF THREADS PER DOMAIN     1
+ NUMBER OF HMPP PROCESSES         4
+  
+ COMPUTATION HARDWARE DESCRIPTION
+  
+ CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
+   1   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  48601 MB swap
+   2   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  48601 MB swap
+   3   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  48601 MB swap
+   4   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  48601 MB swap
+  
+************************************************************************
+
+
+ BOULE1V5D01                                                                     
+
+
+ FINAL TIME . . . . . . . . . . . . . . . . . . .  0.2500000E-02
+
+ TIME INTERVAL FOR TIME HISTORY PLOTS . . . . . .  0.1000000E-02
+
+ TIME STEP SCALE FACTOR . . . . . . . . . . . . .  0.9000000    
+
+ MINIMUM TIME STEP  . . . . . . . . . . . . . . .   0.000000    
+
+
+ BRICK TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ BRICK MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE BRICK)     1
+
+ QUAD TIME STEP SCALE FACTOR. . . . . . . . . . .  0.9000000    
+ QUAD MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE QUAD).     1
+
+ SHELL TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ SHELL MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE, 3:SMALL STRAIN)    2
+
+ TRUSS TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ TRUSS MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ BEAM TIME STEP SCALE FACTOR. . . . . . . . . . .  0.9000000    
+ BEAM MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ SPRING TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ SPRING MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ AIRBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ AIRBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP). . . . . . . . . . . . .     0
+
+ CONTACT TIME STEP SCALE FACTOR . . . . . . . . .  0.6700000    
+ CONTACT MINIMUM TIME STEP. . . . . . . . . . . .  0.6000000E-04
+ MIN. TIME FLAG(1:STOP, 2:REMOVE NODE FROM INTERF)    2
+
+ FVMBAG TIME STEP SCALE FACTOR. . . . . . . . . .   0.000000    
+ FVMBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ FVMBAG TIME STEP FLAG. . . . . . . . . . . . . .     1
+
+ PRINTOUT CYCLE FREQUENCY . . . . . . . . . . . .    -1
+
+ RESTART CYCLE FREQUENCY. . . . . . . . . . . . .   10000000
+
+ MAXIMUM RESTART WRITE BEFORE OVERWRITE . . . . .     0
+
+ INVERS: INPUT DECK VERSION . . . . . . . . . . .    51
+ ITTYP : FLAG FOR TYPE OF T-FILE. . . . . . . . .     4
+
+
+ TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . .   0.000000    
+ TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . .  0.5000000E-01
+ SENSOR FOR ANIMATION-FILE PLOTS. . . . . . . . .          0
+ TIME INTERVAL FOR SENSOR ANIMATION-FILE PLOTS. .   0.000000    
+
+ VARIABLE SAVED ON ANIMATION FILES (1: YES) :
+      PLASTIC STRAIN. . . . . .     0
+      DENSITY     (SOLID ONLY).     0
+      SPECIFIC ENERGY . . . . .     0
+      HOURGLASS ENERGY. . . . .     0
+      TEMPERATURE (SOLID ONLY).     0
+      THICKNESS   (SHELL ONLY).     0
+      PRESSURE    (SOLID ONLY).     0
+      VON MISES . . . . . . . .     0
+      TURBULENT ENERGY (FLUID).     0
+      TURBULENT VISCOSITY(FLUID)    0
+      VORTICITY (FLUID) . . . .     0
+ NODAL VALUES SAVED ON ANIMATION FILES (1: YES) :
+      PRESSURE. . . . . . . . .     0
+      DENSITY . . . . . . . . .     0
+      TEMPERATURE . . . . . . .     0
+ VECTOR SAVED ON ANIMATION FILES (1: YES) :
+      VELOCITY VECTOR . . . . .     0
+      DISPLACEMENT VECTOR . . .     0
+      ACCELERATION VECTOR . . .     0
+      CONTACT FORCES. . . . . .     0
+      INTERNAL FORCES . . . . .     0
+      EXTERNAL FORCES . . . . .     0
+      SECTION RBY RWALL FORCES.     0
+      ROTATIONAL VELOCITY VECTOR    0
+      CONTACT PRESSURE (VECTORS)    0
+ SHELL TENSOR SAVED ON ANIMATION FILES (1: YES) :
+      MEMBRANE STRESS . . . . .     0
+      BENDING STRESS(MOMENT/T^2)    0
+      UPPER LAYER STRESS. . . .     0
+      LOWER LAYER STRESS. . . .     0
+      MEMBRANE STRAIN . . . . .     0
+      CURVATURE . . . . . . . .     0
+      UPPER LAYER STRAIN. . . .     0
+      LOWER LAYER STRAIN. . . .     0
+ NODAL MASS SAVED ON ANIMATION FILES (1: YES) :    0
+ KEEP DELETED ELEMENT (1: YES) :    0
+
+
+ INITIAL TIME STEP. . . . . . . . . . . . . . . .   0.000000    
+ MAXIMUM TIME STEP. . . . . . . . . . . . . . . .  0.1000000E+31
+
+ PARALLEL ARITHMETIC ON
+ NUMBER OF INTERFACES TO BE ELIMINATED. . . . . .        0
+
+ NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF QUAD   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SHELL  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF TRUSS  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF BEAM   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SPRING ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SH_3N  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF  SPH PARTICLES BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF RIGID LINKS. . . . . . . . . . . . . .        0
+
+ NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
+
+ 20/05/2022
+   CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK     MAS.ERR     TOTAL MASS  MASS ADDED
+       0   0.000      0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+     ANIMATION FILE: BOULE1V5A001 WRITTEN
+       1  0.6330E-04  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+       2  0.1266E-03  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+       3  0.1899E-03  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+       4  0.2532E-03  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+       5  0.3165E-03  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+       6  0.3798E-03  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+       7  0.4431E-03  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+       8  0.5064E-03  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+       9  0.5697E-03  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      10  0.6330E-03  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      11  0.6963E-03  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      12  0.7596E-03  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      13  0.8229E-03  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      14  0.8862E-03  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      15  0.9495E-03  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      16  0.1013E-02  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      17  0.1076E-02  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      18  0.1139E-02  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      19  0.1203E-02  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      20  0.1266E-02  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      21  0.1329E-02  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      22  0.1393E-02  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      23  0.1456E-02  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      24  0.1519E-02  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      25  0.1583E-02  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      26  0.1646E-02  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      27  0.1709E-02  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      28  0.1772E-02  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      29  0.1836E-02  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      30  0.1899E-02  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      31  0.1962E-02  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      32  0.2026E-02  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      33  0.2089E-02  0.6330E-04 SHELL      10002   0.0%   0.000      0.4131E+05   0.000       0.000       0.000      0.4885       0.000    
+      34  0.2152E-02  0.6330E-04 SHELL      10002  -0.2%   0.000      0.4123E+05   0.000       0.000       0.000      0.4885       0.000    
+      35  0.2216E-02  0.6330E-04 SHELL      10002  -0.8%   3.052      0.4098E+05  0.3861E-01   0.000       0.000      0.4885       0.000    
+ **WARNING MINIMUM TIME STEP   0.3750E-04 IN INTERFACE          1(DTMIN=  0.6000E-04)
+   REMOVE SECONDARY NODE       1017 FROM INTERFACE          1
+      36  0.2279E-02  0.6000E-04 INTER          1  -1.5%   32.81      0.4067E+05   1.060       0.000       0.000      0.4885       0.000    
+      37  0.2339E-02  0.6330E-04 SHELL      10002  -1.7%   122.6      0.4049E+05   7.975       0.000       0.000      0.4885       0.000    
+ **WARNING MINIMUM TIME STEP   0.4834E-04 IN INTERFACE          1(DTMIN=  0.6000E-04)
+   REMOVE SECONDARY NODE       1016 FROM INTERFACE          1
+      38  0.2402E-02  0.6000E-04 INTER          1  -1.5%   230.0      0.4042E+05   33.34       0.000       0.000      0.4885       0.000    
+ **WARNING MINIMUM TIME STEP   0.3751E-04 IN INTERFACE          1(DTMIN=  0.6000E-04)
+   REMOVE SECONDARY NODE       1009 FROM INTERFACE          1
+ **WARNING MINIMUM TIME STEP   0.3751E-04 IN INTERFACE          1(DTMIN=  0.6000E-04)
+   REMOVE SECONDARY NODE       1025 FROM INTERFACE          1
+      39  0.2462E-02  0.6000E-04 INTER          1  -1.7%   289.2      0.4023E+05   82.81       0.000       0.000      0.4885       0.000    
+
+     RESTART FILES: BOULE1V5_0001_[0001-0004].rst WRITTEN
+     -------------
+
+  
+                           ** CPU USER TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  CONTSORT  CONTFOR   ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .2780E-02 .4350E-03 .2158E-02 .4830E-03 .2310E-03 .3295E-02 .1351E-02 .1760E-03 .2340E-01
+   2   .4637E-02 .2821E-03 .2213E-02 .6630E-03 .2446E-03 .3132E-02 .1500E-02 .1969E-03 .2424E-01
+   3   .4772E-02 .7572E-03 .2533E-02 .1125E-02 .2288E-03 .2567E-02 .2340E-02 .2040E-03 .2341E-01
+   4   .5248E-02 .3140E-03 .2474E-02 .1328E-02 .2307E-03 .2546E-02 .2067E-02 .1969E-03 .3017E-01
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .1218E-02 .0000E+00 .0000E+00 .2560E-03 .1474E-02 .6299E+01
+   2   .1427E-02 .0000E+00 .0000E+00 .1709E-03 .1598E-02 .6591E+01
+   3   .2371E-02 .0000E+00 .0000E+00 .5084E-03 .2880E-02 .1230E+02
+   4   .3154E-02 .0000E+00 .0000E+00 .9879E-03 .4142E-02 .1373E+02
+  
+ 
+                   ** CUMULATIVE CPU TIME SUMMARY **
+  
+ CONTACT SORTING.............: .1744E-01    17.23 % 
+ CONTACT FORCES..............: .1788E-02     1.77 % 
+ ELEMENT FORCES..............: .9378E-02     9.27 % 
+ KINEMATIC COND..............: .3599E-02     3.56 % 
+ INTEGRATION.................: .9351E-03     0.92 % 
+ ASSEMBLING..................: .7738E-03     0.76 % 
+ OTHERS (including I/O)......: .6731E-01    66.50 % 
+ TOTAL.......................: .1012E+00   100.00 % 
+  
+  
+                           ** ELAPSED TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  CONTSORT  CONTFOR   ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .1648E-01 .5984E-03 .3638E-02 .8178E-03 .3686E-03 .5118E-02 .2021E-02 .2947E-03 .4502E-01
+   2   .1792E-01 .4115E-03 .3577E-02 .1021E-02 .3693E-03 .3758E-02 .2156E-02 .2961E-03 .4502E-01
+   3   .1763E-01 .9229E-03 .2733E-02 .1256E-02 .2406E-03 .3719E-02 .2460E-02 .2165E-03 .4501E-01
+   4   .1715E-01 .3386E-03 .2662E-02 .1396E-02 .2558E-03 .3679E-02 .2277E-02 .2124E-03 .4500E-01
+  
+        CONTSORT  CONTFOR   ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+ MIN   .1648E-01 .3386E-03 .2662E-02 .8178E-03 .2406E-03 .3679E-02 .2021E-02 .2124E-03 .4500E-01
+ MAX   .1792E-01 .9229E-03 .3638E-02 .1396E-02 .3693E-03 .5118E-02 .2460E-02 .2961E-03 .4502E-01
+ AVG   .1730E-01 .5679E-03 .3152E-02 .1123E-02 .3086E-03 .4069E-02 .2229E-02 .2549E-03 .4501E-01
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .1718E-02 .0000E+00 .0000E+00 .3748E-03 .2092E-02 .4648E+01
+   2   .1860E-02 .0000E+00 .0000E+00 .2275E-03 .2087E-02 .4636E+01
+   3   .2523E-02 .0000E+00 .0000E+00 .6351E-03 .3158E-02 .7017E+01
+   4   .3337E-02 .0000E+00 .0000E+00 .1085E-02 .4423E-02 .9827E+01
+  
+        FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+ MIN   .1718E-02 .0000E+00 .0000E+00 .2275E-03 .2087E-02 .4636E+01
+ MAX   .3337E-02 .0000E+00 .0000E+00 .1085E-02 .4423E-02 .9827E+01
+ AVG   .2359E-02 .0000E+00 .0000E+00 .5807E-03 .2940E-02 .6532E+01
+  
+                   ** MEMORY USAGE STATISTICS **
+  
+ TOTAL MEMORY USED .........................:      266 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:       68 MB
+ MINIMUM MEMORY PER PROCESSOR...............:       66 MB
+ AVERAGE MEMORY PER PROCESSOR...............:       66 MB
+  
+                   ** DISK USAGE STATISTICS **
+  
+ TOTAL DISK SPACE USED .....................:          1 MB
+ ANIMATION/H3D/TH/OUTP SIZE ................:          0 MB
+ RESTART FILE SIZE .........................:          1 MB
+  
+                   ** COMPUTE TIME INFORMATION **
+                        ** CURRENT ENGINE **
+  
+ EXECUTION STARTED .........................:      2022/05/20  10:51:07
+ EXECUTION COMPLETED .......................:      2022/05/20  10:51:07
+  
+ ELAPSED TIME     =          0.93 s
+                          0:00:00
+ ESTIMATED SPEEDUP=          0.11
+
+
+
+     NORMAL TERMINATION      
+
+
+
+     TOTAL NUMBER OF CYCLES  :      40
+
+  
+                   ** COMPUTE RUNTIME INFORMATION SUMMARY **
+  
+        STARTER RUNTIME =          4.71s (00:00:04)
+ # 001   ENGINE RUNTIME =          0.93s (00:00:00)
+ ------------------------------ 
+ STARTER+ENGINE RUNTIME =          5.64s (00:00:05)
+  

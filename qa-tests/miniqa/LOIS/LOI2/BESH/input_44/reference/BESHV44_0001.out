@@ -1,0 +1,288 @@
+ BESHV44_0001.out
+************************************************************************
+**                                                                    **
+**                                                                    **
+**                 Altair Radioss(TM) Engine MAINLINE                 **
+**                                                                    **
+**            Non-linear Finite Element Analysis Software             **
+**                   from Altair Engineering, Inc.                    **
+**                                                                    **
+**                                                                    **
+**              Linux 64 bits, Intel compiler, Intel MPI              **
+**                                                                    **
+**                           BETA_VERSION                             **
+**                                                                    **
+** Build tag: 1072339_12638000000_2070_0083627_10                     **
+************************************************************************
+**  COPYRIGHT (C) 1986-2021                 Altair Engineering, Inc.  **
+** All Rights Reserved.  Copyright notice does not imply publication. **
+** Contains trade secrets of Altair Engineering Inc.                  **
+** Decompilation or disassembly of this software strictly prohibited. **
+************************************************************************
+ 
+ NUMBER OF SPMD DOMAINS           4
+ NUMBER OF THREADS PER DOMAIN     1
+ NUMBER OF HMPP PROCESSES         4
+  
+ COMPUTATION HARDWARE DESCRIPTION
+  
+ CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
+   1   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  48969 MB swap
+   2   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  48969 MB swap
+   3   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  48969 MB swap
+   4   fradf-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  19924 MB RAM,  48969 MB swap
+  
+************************************************************************
+
+
+ BESHV44D01TEST FOR BEAM                                                         
+
+
+ FINAL TIME . . . . . . . . . . . . . . . . . . .  0.1100000E-02
+
+ TIME INTERVAL FOR TIME HISTORY PLOTS . . . . . .  0.2000000E-04
+
+ TIME STEP SCALE FACTOR . . . . . . . . . . . . .  0.9000000    
+
+ MINIMUM TIME STEP  . . . . . . . . . . . . . . .   0.000000    
+
+
+ BRICK TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ BRICK MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE BRICK)     1
+
+ QUAD TIME STEP SCALE FACTOR. . . . . . . . . . .  0.9000000    
+ QUAD MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE QUAD).     1
+
+ SHELL TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ SHELL MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE, 3:SMALL STRAIN)    2
+
+ TRUSS TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ TRUSS MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ BEAM TIME STEP SCALE FACTOR. . . . . . . . . . .  0.9000000    
+ BEAM MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ SPRING TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ SPRING MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ AIRBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ AIRBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP). . . . . . . . . . . . .     0
+
+ CONTACT TIME STEP SCALE FACTOR . . . . . . . . .  0.9000000    
+ CONTACT MINIMUM TIME STEP. . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG(1:STOP, 2:REMOVE NODE FROM INTERF)    0
+
+ FVMBAG TIME STEP SCALE FACTOR. . . . . . . . . .   0.000000    
+ FVMBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ FVMBAG TIME STEP FLAG. . . . . . . . . . . . . .     1
+
+ PRINTOUT CYCLE FREQUENCY . . . . . . . . . . . .  -100
+
+ RESTART CYCLE FREQUENCY. . . . . . . . . . . . .   10000000
+
+ MAXIMUM RESTART WRITE BEFORE OVERWRITE . . . . .     0
+
+ INVERS: INPUT DECK VERSION . . . . . . . . . . .  2019
+ ITTYP : FLAG FOR TYPE OF T-FILE. . . . . . . . .     4
+
+
+ TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . .   0.000000    
+ TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . .  0.2000000E-03
+ SENSOR FOR ANIMATION-FILE PLOTS. . . . . . . . .          0
+ TIME INTERVAL FOR SENSOR ANIMATION-FILE PLOTS. .   0.000000    
+
+ VARIABLE SAVED ON ANIMATION FILES (1: YES) :
+      PLASTIC STRAIN. . . . . .     1
+      DENSITY     (SOLID ONLY).     0
+      SPECIFIC ENERGY . . . . .     0
+      HOURGLASS ENERGY. . . . .     0
+      TEMPERATURE (SOLID ONLY).     0
+      THICKNESS   (SHELL ONLY).     0
+      PRESSURE    (SOLID ONLY).     0
+      VON MISES . . . . . . . .     1
+      TURBULENT ENERGY (FLUID).     0
+      TURBULENT VISCOSITY(FLUID)    0
+      VORTICITY (FLUID) . . . .     0
+ NODAL VALUES SAVED ON ANIMATION FILES (1: YES) :
+      PRESSURE. . . . . . . . .     0
+      DENSITY . . . . . . . . .     0
+      TEMPERATURE . . . . . . .     0
+ VECTOR SAVED ON ANIMATION FILES (1: YES) :
+      VELOCITY VECTOR . . . . .     0
+      DISPLACEMENT VECTOR . . .     1
+      ACCELERATION VECTOR . . .     0
+      CONTACT FORCES. . . . . .     0
+      INTERNAL FORCES . . . . .     0
+      EXTERNAL FORCES . . . . .     0
+      SECTION RBY RWALL FORCES.     0
+      ROTATIONAL VELOCITY VECTOR    0
+      CONTACT PRESSURE (VECTORS)    0
+ SHELL TENSOR SAVED ON ANIMATION FILES (1: YES) :
+      MEMBRANE STRESS . . . . .     0
+      BENDING STRESS(MOMENT/T^2)    0
+      UPPER LAYER STRESS. . . .     0
+      LOWER LAYER STRESS. . . .     0
+      MEMBRANE STRAIN . . . . .     0
+      CURVATURE . . . . . . . .     0
+      UPPER LAYER STRAIN. . . .     0
+      LOWER LAYER STRAIN. . . .     0
+ NODAL MASS SAVED ON ANIMATION FILES (1: YES) :    0
+ KEEP DELETED ELEMENT (1: YES) :    0
+
+
+ INITIAL TIME STEP. . . . . . . . . . . . . . . .   0.000000    
+ MAXIMUM TIME STEP. . . . . . . . . . . . . . . .  0.1000000E+31
+
+ PARALLEL ARITHMETIC ON
+ NUMBER OF INTERFACES TO BE ELIMINATED. . . . . .        0
+
+ NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF QUAD   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SHELL  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF TRUSS  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF BEAM   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SPRING ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SH_3N  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF  SPH PARTICLES BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF RIGID LINKS. . . . . . . . . . . . . .        0
+
+ NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
+
+ 22/06/2021
+ CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK MAS.ERR
+     0   0.000      0.1111E-05 SHELL          1   0.0%   0.000       0.000       0.000       0.000       0.000    
+     ANIMATION FILE: BESHV44A001 WRITTEN
+   100  0.1111E-03  0.1111E-05 SHELL          1  -0.0%   1254.       59.26       0.000       1313.       0.000    
+     ANIMATION FILE: BESHV44A002 WRITTEN
+   200  0.2222E-03  0.1111E-05 SHELL          1  -0.0%   5728.       237.1       0.000       5965.       0.000    
+   300  0.3333E-03  0.1111E-05 SHELL          1  -0.0%  0.1328E+05   533.4       0.000      0.1381E+05   0.000    
+     ANIMATION FILE: BESHV44A003 WRITTEN
+   400  0.4444E-03  0.1111E-05 SHELL          1  -0.0%  0.2414E+05   948.3       0.000      0.2509E+05   0.000    
+   500  0.5555E-03  0.1111E-05 SHELL          1  -0.0%  0.3947E+05   1482.       0.000      0.4095E+05   0.000    
+     ANIMATION FILE: BESHV44A004 WRITTEN
+   600  0.6666E-03  0.1111E-05 SHELL          1  -0.0%  0.6092E+05   2134.       0.000      0.6305E+05   0.000    
+   700  0.7777E-03  0.1111E-05 SHELL          1  -0.0%  0.8966E+05   2904.       0.000      0.9257E+05   0.000    
+     ANIMATION FILE: BESHV44A005 WRITTEN
+   800  0.8888E-03  0.1111E-05 SHELL          1  -0.0%  0.1268E+06   3793.       0.000      0.1306E+06   0.000    
+   900  0.9999E-03  0.1111E-05 SHELL          1  -0.0%  0.1738E+06   4801.       0.000      0.1786E+06   0.000    
+     ANIMATION FILE: BESHV44A006 WRITTEN
+
+     RESTART FILES: BESHV44_0001_[0001-0004].rst WRITTEN
+     -------------
+
+  
+                           ** CPU USER TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .3699E-01 .2000E-02 .0000E+00 .1600E-01 .6999E-02 .2999E-02 .8799E-01
+   2   .4998E-02 .1000E-02 .5999E-02 .1300E-01 .4899E-01 .0000E+00 .3979E+00
+   3   .8000E-02 .1999E-02 .0000E+00 .7998E-02 .5799E-01 .9990E-03 .2720E+00
+   4   .2999E-02 .4000E-02 .6000E-02 .1200E-01 .4799E-01 .9990E-03 .2740E+00
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .3000E-02 .0000E+00 .0000E+00 .1000E-02 .4000E-02 .4546E+01
+   2   .1000E-02 .0000E+00 .0000E+00 .2000E-02 .3000E-02 .7539E+00
+   3   .0000E+00 .0000E+00 .0000E+00 .0000E+00 .0000E+00 .0000E+00
+   4   .0000E+00 .0000E+00 .0000E+00 .0000E+00 .0000E+00 .0000E+00
+  
+ 
+                   ** CUMULATIVE CPU TIME SUMMARY **
+  
+ CONTACT SORTING.............: .0000E+00     0.00 % 
+ CONTACT FORCES..............: .0000E+00     0.00 % 
+ ELEMENT FORCES..............: .5299E-01     5.14 % 
+ KINEMATIC COND..............: .8999E-02     0.87 % 
+ INTEGRATION.................: .1200E-01     1.16 % 
+ ASSEMBLING..................: .4997E-02     0.48 % 
+ OTHERS (including I/O)......: .9529E+00    92.35 % 
+ TOTAL.......................: .1032E+01   100.00 % 
+  
+  
+                           ** ELAPSED TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .3883E-01 .4957E-02 .2953E-02 .1772E-01 .1341E-01 .2457E-02 .1012E+00
+   2   .5617E-02 .2623E-02 .2557E-02 .1442E-01 .5429E-01 .1902E-02 .4384E+00
+   3   .5737E-02 .2604E-02 .2557E-02 .1434E-01 .5403E-01 .2014E-02 .2981E+00
+   4   .5691E-02 .2585E-02 .2615E-02 .1455E-01 .5407E-01 .1891E-02 .2981E+00
+  
+        ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+ MIN   .5617E-02 .2585E-02 .2557E-02 .1434E-01 .1341E-01 .1891E-02 .1012E+00
+ MAX   .3883E-01 .4957E-02 .2953E-02 .1772E-01 .5429E-01 .2457E-02 .4384E+00
+ AVG   .1397E-01 .3192E-02 .2670E-02 .1526E-01 .4395E-01 .2066E-02 .2839E+00
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .2406E-02 .0000E+00 .0000E+00 .1096E-02 .3502E-02 .3459E+01
+   2   .2030E-02 .0000E+00 .0000E+00 .9940E-03 .3024E-02 .6897E+00
+   3   .2055E-02 .0000E+00 .0000E+00 .9615E-03 .3017E-02 .1012E+01
+   4   .2032E-02 .0000E+00 .0000E+00 .9799E-03 .3012E-02 .1011E+01
+  
+        FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+ MIN   .2030E-02 .0000E+00 .0000E+00 .9615E-03 .3012E-02 .6897E+00
+ MAX   .2406E-02 .0000E+00 .0000E+00 .1096E-02 .3502E-02 .3459E+01
+ AVG   .2131E-02 .0000E+00 .0000E+00 .1008E-02 .3139E-02 .1543E+01
+  
+                   ** MEMORY USAGE STATISTICS **
+  
+ TOTAL MEMORY USED .........................:      231 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:       62 MB
+ MINIMUM MEMORY PER PROCESSOR...............:       56 MB
+ AVERAGE MEMORY PER PROCESSOR...............:       57 MB
+  
+                   ** DISK USAGE STATISTICS **
+  
+ TOTAL DISK SPACE USED .....................:          1 MB
+ ANIMATION/H3D/TH/OUTP SIZE ................:          0 MB
+ RESTART FILE SIZE .........................:          1 MB
+  
+                   ** COMPUTE TIME INFORMATION **
+                        ** CURRENT ENGINE **
+  
+ EXECUTION STARTED .........................:      2021/06/22  12:35:52
+ EXECUTION COMPLETED .......................:      2021/06/22  12:35:52
+  
+ ELAPSED TIME     =          0.68 s
+                          0:00:00
+ ESTIMATED SPEEDUP=          1.51
+
+
+
+     NORMAL TERMINATION      
+
+
+
+     TOTAL NUMBER OF CYCLES  :     991
+
+  
+                   ** COMPUTE RUNTIME INFORMATION SUMMARY **
+  
+        STARTER RUNTIME =          0.83s (00:00:00)
+ # 001   ENGINE RUNTIME =          0.68s (00:00:00)
+ ------------------------------ 
+ STARTER+ENGINE RUNTIME =          1.51s (00:00:01)
+  
