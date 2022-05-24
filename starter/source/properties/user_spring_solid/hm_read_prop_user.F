@@ -36,7 +36,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_PROP_USER(IOUT ,NUVAR ,PARGEO   ,UNITAB,IGTYP,
      .                             IG   ,TITLE ,LSUBMODEL,IUNIT ,ISKN ,
-     .                             KEY  )
+     .                             KEY  ,PROP_TAG)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -58,6 +58,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
+      USE ELBUFTAG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,6 +71,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "userlib.inc"
 #include      "submod_c.inc"
+#include      "tablen_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -83,6 +85,7 @@ C-----------------------------------------------
      .        PARGEO(100)
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
+      TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -159,6 +162,17 @@ c--------------------------------------------------
 !   error TBD
 !      ENDIF ! IF(NLINES > 0)THEN
 !---------
+        PROP_TAG(IGTYP)%G_EINT = 1
+        PROP_TAG(IGTYP)%G_FOR  = 3
+        PROP_TAG(IGTYP)%G_MOM = 5
+        PROP_TAG(IGTYP)%G_SKEW = 6
+        PROP_TAG(IGTYP)%G_MASS = 1
+        PROP_TAG(IGTYP)%G_V_REPCVT  = 3 ! -- VITESSES REPERE CONVECTEE (V_REPCVT)
+        PROP_TAG(IGTYP)%G_VR_REPCVT = 3  ! -- VITESSES REPERE CONVECTEE (VR_REPCVT)
+ !
+        PROP_TAG(IGTYP)%G_NUVAR = MAX(PROP_TAG(IGTYP)%G_NUVAR,NUVAR(1))
+ !
+        !---------
       RETURN
 !---
  1000 FORMAT(
