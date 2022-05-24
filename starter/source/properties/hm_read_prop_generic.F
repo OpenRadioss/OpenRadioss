@@ -226,7 +226,7 @@ C--------------------------------------------------
           CALL HM_READ_PROP_USER(
      .                 IOUT    ,NUVAR ,PARGEO   ,UNITAB,IGTYP,
      .                 IG      ,TITR  ,LSUBMODEL,IUNIT ,ISKN ,
-     .                 KEYTYPE )
+     .                 KEYTYPE ,PROP_TAG)
 !
         CASE DEFAULT
           CALL ANCMSG(MSGID=1647,ANMODE=ANINFO,MSGTYPE=MSGERROR,
