@@ -220,7 +220,7 @@ C
       NULLIFY(PTR_CUR)
 C
       ILVOUT=IVOLU(44)
-      IF (ILVOUT >=1.AND.NBA.EQ.0) WRITE(ISTDO,'(A19,I10)') 
+      IF (ILVOUT >=1.AND.NBA == 0) WRITE(ISTDO,'(A19,I10)') 
      .   '    --> FVMBAG ID: ',IVOLU(1)
 C
       NLAYER=IVOLU(40)
@@ -255,11 +255,11 @@ C
          N1=ELEMA(1,IEL)
          N2=ELEMA(2,IEL)
          N3=ELEMA(3,IEL)
-         IF (TAGELA(IEL).GT.0) THEN
+         IF (TAGELA(IEL) > 0) THEN
             NN1=IBUF(N1)
             NN2=IBUF(N2)
             NN3=IBUF(N3)
-         ELSEIF (TAGELA(IEL).LT.0) THEN
+         ELSEIF (TAGELA(IEL) < 0) THEN
             NN1=IBUFA(N1)
             NN2=IBUFA(N2)
             NN3=IBUFA(N3)
@@ -277,7 +277,7 @@ C---------------------------------------------------
       NNS=0
       NPOLY2=0
       NNS2=0
-      IF (NELA.EQ.0) THEN
+      IF (NELA == 0) THEN
          NPOLY=0
          NPOLH=0
          GOTO 370
@@ -292,7 +292,7 @@ C nullify sinon test sur associated vrai second appel fvmesh1
       IF (ILVOUT >=1) WRITE(ISTDO,'(8X,A)') 'BUILDING POLYGONS'
 C
       DO I=1,NBRIC
-        IF (ILVOUT >=1) CALL PROGALE_C(I, NBRIC, 1)
+        !IF (ILVOUT >=1) CALL PROGALE_C(I, NBRIC, 1)    !dynamic screen output
 C         
          PTR_OLD => PTR_CUR
          NPOLY_OLD=NPOLY
@@ -356,11 +356,11 @@ C
             N1=ELEMA(1,IEL)
             N2=ELEMA(2,IEL)
             N3=ELEMA(3,IEL)
-            IF (TAGELA(IEL).GT.0) THEN
+            IF (TAGELA(IEL) > 0) THEN
                NN1=IBUF(N1)
                NN2=IBUF(N2)
                NN3=IBUF(N3)
-            ELSEIF (TAGELA(IEL).LT.0) THEN
+            ELSEIF (TAGELA(IEL) < 0) THEN
                NN1=IBUFA(N1)
                NN2=IBUFA(N2)
                NN3=IBUFA(N3)
@@ -380,8 +380,8 @@ C
             XTMIN=MIN(X1,X2,X3)
             YTMIN=MIN(Y1,Y2,Y3)
             ZTMIN=MIN(Z1,Z2,Z3)
-            IF (XBMAX.LT.XTMIN.OR.YBMAX.LT.YTMIN.OR.ZBMAX.LT.ZTMIN.OR.
-     .          XBMIN.GT.XTMAX.OR.YBMIN.GT.YTMAX.OR.ZBMIN.GT.ZTMAX) 
+            IF (XBMAX < XTMIN.OR.YBMAX < YTMIN.OR.ZBMAX < ZTMIN.OR.
+     .          XBMIN > XTMAX.OR.YBMIN > YTMAX.OR.ZBMIN > ZTMAX) 
      .         CYCLE
 C
             TVERTS(1)=PP(1,1)*(X1-XC)+PP(2,1)*(Y1-YC)+PP(3,1)*(Z1-ZC)
@@ -396,7 +396,7 @@ C
 C
             CALL TRIBOX3(ICUT, BCENTER, BHALFSIZE, TVERTS)
 C Liste elargie pour faces laterales
-            IF (ICUT.EQ.0) THEN
+            IF (ICUT == 0) THEN
                TOLE=EM5
 *               TOLE=ZERO
                XG=TIERS*(X1+X2+X3)
@@ -423,11 +423,11 @@ C
                TVERTS(9)=PP(1,3)*(X3-XC)+PP(2,3)*(Y3-YC)+PP(3,3)*(Z3-ZC)
 C
                CALL TRIBOX3(ICUT, BCENTER, BHALFSIZE, TVERTS)
-               IF (ICUT.EQ.1) ICUT=2
+               IF (ICUT == 1) ICUT=2
             ENDIF
 C               
-            IF (ICUT.GE.1) THEN
-               IF (ICUT.EQ.1) THEN
+            IF (ICUT >= 1) THEN
+               IF (ICUT == 1) THEN
                   TBRIC(7,I)=2
                   TMPTRI(1,1)=X1
                   TMPTRI(2,1)=Y1
@@ -450,7 +450,7 @@ C
                   ENDDO
                   CALL ITRIBOX(TMPTRI, TMPBOX, TMPNORM, NVERTS, POLY,
      .                         NVMAX )
-                  IF (NVERTS.GT.2) THEN
+                  IF (NVERTS > 2) THEN
                      NPOLY=NPOLY+1
                      IF (.NOT.ASSOCIATED(FIRST)) THEN
                         ALLOCATE(FIRST)
@@ -524,12 +524,12 @@ C
                   FU2(3)=XB(3,NF3)
 C
                   CALL TRITRI3(ICUT, FV0, FV1, FV2, FU0, FU1, FU2)
-                  IF (ICUT.EQ.1) THEN
+                  IF (ICUT == 1) THEN
                      TBRIC(7+J,I)=2
                      NS=FACET(J,1)
                      NS=NS+1
                      FACET(J,1)=NS
-                     IF (NS.GT.NFACMAX) THEN
+                     IF (NS > NFACMAX) THEN
                         INFO=1
                      ELSE
                         FACET(J,1+NS)=IEL
@@ -545,12 +545,12 @@ C
                   FU2(3)=XB(3,NF4)
 C
                   CALL TRITRI3(ICUT, FV0, FV1, FV2, FU0, FU1, FU2)
-                  IF (ICUT.EQ.1) THEN
+                  IF (ICUT == 1) THEN
                      TBRIC(7+J,I)=2
                      NS=FACET(J,1)
                      NS=NS+1
                      FACET(J,1)=NS
-                     IF (NS.GT.NFACMAX) THEN
+                     IF (NS > NFACMAX) THEN
                         INFO=1
                      ELSE
                         FACET(J,1+NS)=IEL
@@ -560,7 +560,7 @@ C
             ENDIF
          ENDDO
 C
-         IF (INFO.EQ.1) THEN
+         IF (INFO == 1) THEN
             NSMAX=0
             DO J=1,6
                NSMAX=MAX(NSMAX,FACET(J,1))
@@ -570,7 +570,7 @@ C
      .                      ' MONITORED VOLUME ID: ',IVOLU(1),
      .                      ' NFACMAX IS RESET TO ',NSMAX
 C Destruction des polygones crees pour rien
-            IF (NPOLY_OLD.GT.0) THEN
+            IF (NPOLY_OLD > 0) THEN
                PTR_CUR => PTR_OLD%PTR
             ELSE
                PTR_CUR => FIRST
@@ -582,7 +582,7 @@ C Destruction des polygones crees pour rien
                DEALLOCATE(PTR_CUR)
                PTR_CUR => PTR_TMP
             ENDDO
-            IF (NPOLY_OLD.GT.0) THEN
+            IF (NPOLY_OLD > 0) THEN
                PTR_PREC => PTR_OLD
             ELSE
                NULLIFY(FIRST)
@@ -595,16 +595,16 @@ C
             GOTO 100
          ENDIF
 C 2. Faces laterales
-         IF (TBRIC(7,I).LE.1) THEN
+         IF (TBRIC(7,I) <= 1) THEN
            DEALLOCATE(FACET, TRI, NORMT, POLY)
            CYCLE
          END IF
 C Debut boucle sur les 6 faces de la brique i
          DO J=1,6
             NV=TBRIC(J,I)
-            IF (NV.EQ.0) CYCLE
-            IF (ITAGB(NV).EQ.1) CYCLE
-            IF (TBRIC(7+J,I).EQ.2) THEN
+            IF (NV == 0) CYCLE
+            IF (ITAGB(NV) == 1) CYCLE
+            IF (TBRIC(7+J,I) == 2) THEN
                DO K=1,4
                   KK=FAC(K,J)
                   QUAD(1,K)=XB(1,BRIC(KK,I))
@@ -614,7 +614,7 @@ C Debut boucle sur les 6 faces de la brique i
                NS=FACET(J,1)
                DO K=1,NS
                   IEL=FACET(J,1+K) !  1<IEL< NELA
-                  IF (TAGELA(IEL).GT.0) THEN
+                  IF (TAGELA(IEL) > 0) THEN
                      DO L=1,3
                         LL=IBUF(ELEMA(L,IEL))
                         TRI(K,L)=LL
@@ -626,7 +626,7 @@ C Triangle sur airbag
 C Triangle sur structure interne
                        TRI(K,5)=3
                      ENDIF
-                  ELSEIF (TAGELA(IEL).LT.0) THEN
+                  ELSEIF (TAGELA(IEL) < 0) THEN
 C Triangle sur brique additionelle
                      DO L=1,3
                         LL=IBUFA(ELEMA(L,IEL))
@@ -662,13 +662,13 @@ C
      .                       NRPMAX, I,     NV,     DXM,     NPOLMAX,
      .                       NPPMAX, INFO,  IELNOD, X,       J,
      .                       ILVOUT, IVOLU(1) )
-               IF (INFO.EQ.1) THEN
+               IF (INFO == 1) THEN
                   DEALLOCATE(IPOLY, RPOLY, IELNOD)
                   GOTO 200
                ENDIF
 C
                DO N=1,NNP
-                  IF (IPOLY(1,N).EQ.-1) CYCLE
+                  IF (IPOLY(1,N) == -1) CYCLE
                   NPOLY2=NPOLY2+1
                   IF (.NOT.ASSOCIATED(FIRST2)) THEN
                      ALLOCATE(FIRST2)
@@ -768,7 +768,7 @@ C---------------------------------------------------
 C Decoupage des polygones selon la verticale locale
 C---------------------------------------------------
       NBZ=IVOLU(65)
-      IF (NBZ.GT.1) THEN
+      IF (NBZ > 1) THEN
          PTR_CUR => FIRST
          DO I=1,NPOLY
             PTR_CUR%NNSP=0
@@ -850,7 +850,7 @@ C Clipping des polygones
          NPOLY_NEW=NPOLY
          IIZ=0
          DO I=1,NBZ+1
-            IF (ZLC.LT.ZBMIN.OR.ZLC.GT.ZBMAX) THEN
+            IF (ZLC < ZBMIN.OR.ZLC > ZBMAX) THEN
                X0=X0+DZ*VX3
                Y0=Y0+DZ*VY3
                Z0=Z0+DZ*VZ3
@@ -871,11 +871,11 @@ C Clipping des polygones
                   ZLMAX=MAX(ZLMAX,ZL)
                ENDDO
 C
-               IF (ZLMIN*ZLMAX.LT.ZERO) THEN
+               IF (ZLMIN*ZLMAX < ZERO) THEN
                   ITY=PTR_CUR%IPOLY(1)
                   NN=PTR_CUR%IPOLY(2)
                   NHOL=0
-                  IF (ITY.EQ.2) NHOL=PTR_CUR%IPOLY(6+NN+1)
+                  IF (ITY == 2) NHOL=PTR_CUR%IPOLY(6+NN+1)
                   ALLOCATE(IPOLY(6+2*NN+1+NHOL,NN),
      .                     RPOLY(4+3*2*NN+3*NHOL,NN),
      .                     IELNOD(2*NN,NN),
@@ -893,7 +893,7 @@ C
                   NPOLY_NEW=NPOLY_NEW-1
                   DO N=1,NNP
                      NPOLY_NEW=NPOLY_NEW+1
-                     IF (N.EQ.1) THEN
+                     IF (N == 1) THEN
                         DEALLOCATE(PTR_CUR%IPOLY, PTR_CUR%RPOLY,
      .                             PTR_CUR%IELNOD)
                      ELSE
@@ -933,7 +933,7 @@ C
                      ENDDO
                      PTR_CUR%IZ(1)=1
                      PTR_CUR%IZ(2)=IZ(2,N)
-                     IF (N.EQ.NNP) THEN
+                     IF (N == NNP) THEN
                         PTR_CUR%NNSP=NNSP
                         ALLOCATE(PTR_CUR%NREF(3,NNSP),
      .                           PTR_CUR%AREF(4,NNSP))
@@ -949,14 +949,14 @@ C
                         ENDDO
                      ENDIF
                      PTR_PREC => PTR_CUR
-                     IF (N.EQ.NNP) PTR_CUR%PTR => PTR_TMP
+                     IF (N == NNP) PTR_CUR%PTR => PTR_TMP
                   ENDDO
                   ENDIF
 C
                   DEALLOCATE(IPOLY, RPOLY, IELNOD, NREF, AREF, IZ)
                ELSE
 C
-                  IF (ZLMIN.EQ.ZERO.AND.ZLMAX.GT.ZERO) THEN
+                  IF (ZLMIN == ZERO.AND.ZLMAX > ZERO) THEN
                      NN=PTR_CUR%IPOLY(2)
                      ALLOCATE(NREF(2,2*NN), AREF(4,2*NN))
                      CALL HORIEDGE(
@@ -965,7 +965,7 @@ C
      .                 Z0,            IIZ          , NNS3,   NREF, AREF,
      .                 NNSP         )
 C
-                     IF (NNSP.GT.0) THEN
+                     IF (NNSP > 0) THEN
                         ALLOCATE(PTR_CUR%NREF(3,NNSP), 
      .                           PTR_CUR%AREF(4,NNSP))
                         PTR_CUR%NNSP=NNSP
@@ -983,10 +983,10 @@ C
                      DEALLOCATE(NREF, AREF)   
                   ENDIF
 C
-                  IF (ZLMIN.GE.ZERO) THEN 
+                  IF (ZLMIN >= ZERO) THEN 
                      PTR_CUR%IZ(1)=1
                      PTR_CUR%IZ(2)=IIZ+1
-                  ELSEIF (IIZ.EQ.1.AND.ZLMAX.LE.ZERO) THEN
+                  ELSEIF (IIZ == 1.AND.ZLMAX <= ZERO) THEN
                      PTR_CUR%IZ(1)=1
                      PTR_CUR%IZ(2)=1
                   ENDIF
@@ -1008,7 +1008,7 @@ C
             NN=PTR_CUR%IPOLY(2)
             DO J=1,NN
                JJ=PTR_CUR%IPOLY(6+J)
-               IF (JJ.GT.0) THEN
+               IF (JJ > 0) THEN
                   NNS=NNS+1
                   REDIR(JJ)=NNS
                ENDIF
@@ -1019,12 +1019,12 @@ C
          PTR_CUR => FIRST
          DO I=1,NPOLY
             NNSP=PTR_CUR%NNSP
-            IF (NNSP.GT.0) THEN
+            IF (NNSP > 0) THEN
                DO J=1,NNSP
                   N1=PTR_CUR%NREF(2,J)
                   N2=PTR_CUR%NREF(3,J)
-                  IF (N1.GT.0) PTR_CUR%NREF(2,J)=REDIR(N1)
-                  IF (N2.GT.0) PTR_CUR%NREF(3,J)=REDIR(N2)
+                  IF (N1 > 0) PTR_CUR%NREF(2,J)=REDIR(N1)
+                  IF (N2 > 0) PTR_CUR%NREF(3,J)=REDIR(N2)
                ENDDO
             ENDIF
             PTR_CUR => PTR_CUR%PTR
@@ -1042,14 +1042,14 @@ C
             DO J=1,NBRIC
                NEDGE=0
                DO K=1,NBNEDGE
-                  IF (INEDGE(6,K).NE.I) CYCLE
-                  IF (INEDGE(1,K).EQ.1.AND.INEDGE(5,K).NE.J) CYCLE
-                  IF (INEDGE(1,K).EQ.2.AND.INEDGE(4,K).NE.J.AND.
-     .                                     INEDGE(5,K).NE.J) CYCLE 
+                  IF (INEDGE(6,K) /= I) CYCLE
+                  IF (INEDGE(1,K) == 1.AND.INEDGE(5,K) /= J) CYCLE
+                  IF (INEDGE(1,K) == 2.AND.INEDGE(4,K) /= J.AND.
+     .                                     INEDGE(5,K) /= J) CYCLE 
                   NEDGE=NEDGE+1
                   LEDGE(NEDGE)=K
                ENDDO
-               IF (NEDGE.EQ.0) CYCLE
+               IF (NEDGE == 0) CYCLE
                ALLOCATE(IPOLY(6+2*NEDGE+1+NEDGE,NEDGE), 
      .                  RPOLY(4+6*NEDGE+3*NEDGE,NEDGE),
      .                  IZ(3,NEDGE), IELNOD(NEDGE,NEDGE))
@@ -1060,7 +1060,7 @@ C
      .                       TAGELA )
 C
                DO N=1,NNP
-                  IF (IPOLY(1,N).EQ.-1) CYCLE
+                  IF (IPOLY(1,N) == -1) CYCLE
                   NPOLY=NPOLY+1
                   ALLOCATE(PTR_CUR)
                   PTR_PREC%PTR => PTR_CUR
@@ -1122,24 +1122,24 @@ C---------------------------------------------------
 C     
       IF (ILVOUT >=1) WRITE(ISTDO,'(8X,A)') 'BUILDING FINITE VOLUMES'
       DO I=1,NBRIC
-         IF (ILVOUT >=1) CALL PROGALE_C(I, NBRIC, 2)
+         !IF (ILVOUT >=1) CALL PROGALE_C(I, NBRIC, 2)    !dynamic screen output
 C
-         IF (TBRIC(7,I).NE.2) CYCLE
+         IF (TBRIC(7,I) /= 2) CYCLE
 C Polygones de la brique
          NPOLB=0
          NPPMAX=0
          PTR_CUR => FIRST
          DO J=1,NPOLY
             ITY=PTR_CUR%IPOLY(1)
-            IF ((ITY.EQ.1.AND.PTR_CUR%IPOLY(4).EQ.I).OR.
-     .          (ITY.EQ.2.AND.
-     .          (PTR_CUR%IPOLY(3).EQ.I.OR.PTR_CUR%IPOLY(4).EQ.I))) THEN
+            IF ((ITY == 1.AND.PTR_CUR%IPOLY(4) == I).OR.
+     .          (ITY == 2.AND.
+     .          (PTR_CUR%IPOLY(3) == I.OR.PTR_CUR%IPOLY(4) == I))) THEN
                NPOLB=NPOLB+1
                NPPMAX=MAX(NPPMAX,PTR_CUR%IPOLY(2))
             ENDIF
             PTR_CUR => PTR_CUR%PTR
          ENDDO
-         IF (NPOLB.EQ.0) CYCLE
+         IF (NPOLB == 0) CYCLE
 C
          NRPMAX=4+3*NPPMAX
          ALLOCATE(POLB(NPOLB), IPOLY(6+NPPMAX,NPOLB),
@@ -1151,13 +1151,13 @@ C
             DO J=1,NPOLY
                ITY=PTR_CUR%IPOLY(1)
                ITYZ=PTR_CUR%IZ(1)
-               IF (((ITY.EQ.1.AND.PTR_CUR%IPOLY(4).EQ.I).OR.
-     .              (ITY.EQ.2.AND.(PTR_CUR%IPOLY(3).EQ.I.OR.
-     .                             PTR_CUR%IPOLY(4).EQ.I)))
+               IF (((ITY == 1.AND.PTR_CUR%IPOLY(4) == I).OR.
+     .              (ITY == 2.AND.(PTR_CUR%IPOLY(3) == I.OR.
+     .                             PTR_CUR%IPOLY(4) == I)))
      .              .AND.
-     .             ((ITYZ.EQ.1.AND.PTR_CUR%IZ(2).EQ.INZ).OR.
-     .              (ITYZ.EQ.2.AND.(PTR_CUR%IZ(2).EQ.INZ.OR.
-     .                              PTR_CUR%IZ(3).EQ.INZ)))) THEN
+     .             ((ITYZ == 1.AND.PTR_CUR%IZ(2) == INZ).OR.
+     .              (ITYZ == 2.AND.(PTR_CUR%IZ(2) == INZ.OR.
+     .                              PTR_CUR%IZ(3) == INZ)))) THEN
                   NPOLB=NPOLB+1
                   REDIR(NPOLB)=J
                   NN=PTR_CUR%IPOLY(2)
@@ -1175,7 +1175,7 @@ C
                ENDIF
                PTR_CUR => PTR_CUR%PTR
             ENDDO
-            IF (NPOLB.EQ.0) CYCLE
+            IF (NPOLB == 0) CYCLE
 C
             NPHMAX=NPOLB
             NPOLHMAX=NLAYER
@@ -1194,28 +1194,28 @@ C
      .                       INFO , NPOLHMAX, NPPMAX, NEL ,      INZ ,
      .                       TAGELA )
             ENDIF
-            IF (INFO.EQ.1) GOTO 300
+            IF (INFO == 1) GOTO 300
 C Modifications des polygones
             PTR_CUR => FIRST
             NPL=1
             POLC=REDIR(POLB(NPL))
             DO J=1,NPOLY
-               IF (J.EQ.POLC) THEN
+               IF (J == POLC) THEN
                   ITY=PTR_CUR%IPOLY(1)
-                  IF (ITY.EQ.1) THEN
+                  IF (ITY == 1) THEN
                      PTR_CUR%IPOLY(5)=NPOLH+IPOLY(5,NPL)
                      IEL=PTR_CUR%IPOLY(3)
                      IF(TAGELA(IEL) > NEL) THEN
                         PTR_CUR%IPOLY(6)=NPOLH+IPOLY(6,NPL)
                      ENDIF
-                  ELSEIF (ITY.EQ.2) THEN
-                     IF (PTR_CUR%IPOLY(5).EQ.0) THEN
+                  ELSEIF (ITY == 2) THEN
+                     IF (PTR_CUR%IPOLY(5) == 0) THEN
                         PTR_CUR%IPOLY(5)=NPOLH+IPOLY(5,NPL)
                      ELSE
                         PTR_CUR%IPOLY(6)=NPOLH+IPOLY(6,NPL)
                      ENDIF
                   ENDIF
-                  IF (NPL.EQ.NPOLB) GOTO 350
+                  IF (NPL == NPOLB) GOTO 350
                   NPL=NPL+1
                   POLC=REDIR(POLB(NPL))
                ENDIF
@@ -1261,10 +1261,10 @@ C
          NN=PTR_CUR%IPOLY(2)
          NNS=NNS+NN
          NNS2=NNS2+PTR_CUR%NNSP
-         IF (PTR_CUR%IPOLY(1).EQ.1) THEN
+         IF (PTR_CUR%IPOLY(1) == 1) THEN
             LENIMAX=MAX(LENIMAX,6+NN+1)
             LENRMAX=MAX(LENRMAX,4+3*NN)
-         ELSEIF (PTR_CUR%IPOLY(1).EQ.2) THEN
+         ELSEIF (PTR_CUR%IPOLY(1) == 2) THEN
             NHOL=PTR_CUR%IPOLY(6+NN+1)
             LENIMAX=MAX(LENIMAX,6+NN+1+NHOL)
             LENRMAX=MAX(LENRMAX,4+3*NN+3*NHOL)
@@ -1285,7 +1285,7 @@ C
 C--------------------------------------------
 C Briques additionelles
 C--------------------------------------------
-      IF (NBA.GT.0) THEN
+      IF (NBA > 0) THEN
          NPOLH=NPOLH+NBA
          DO I=1,NBA
             ITAGBA(I)=0
@@ -1312,10 +1312,10 @@ C
             NNP=0
             DO J=1,NFAC
                ITY=TFACA(2*(J-1)+1,I)
-               IF (ITY.EQ.1 .OR. ITY == -2) THEN
+               IF (ITY == 1 .OR. ITY == -2) THEN
 C Face interne brique/brique
                   NV=TFACA(2*(J-1)+2,I)
-                  IF (ITAGBA(NV).EQ.0) THEN
+                  IF (ITAGBA(NV) == 0) THEN
                      IF (ITY == 1) COUNT_TRIA_INTERNE_OLD = COUNT_TRIA_INTERNE_OLD + 1
                      IF (ITY == -2) COUNT_ELEM_INT_OLD = COUNT_ELEM_INT_OLD + 1
                      LENIMAX=MAX(LENIMAX,6+3+1)
@@ -1324,7 +1324,7 @@ C Face interne brique/brique
                         NPOLY=NPOLY+1
                         NNS=NNS+3
                      ELSEIF (NTYPE==3) THEN
-                        IF(J.LE.2) THEN
+                        IF(J <= 2) THEN
                           NPOLY=NPOLY+1
                           NNS=NNS+3
                         ELSE
@@ -1332,7 +1332,7 @@ C Face interne brique/brique
                           NNS=NNS+6
                         ENDIF
                      ELSEIF (NTYPE==4) THEN
-                        IF(J.LE.4) THEN
+                        IF(J <= 4) THEN
                           NPOLY=NPOLY+1
                           NNS=NNS+3
                         ELSE
@@ -1348,13 +1348,13 @@ C
                   IF (NTYPE==2) THEN
                      NNP=NNP+1
                   ELSEIF (NTYPE==3) THEN
-                      IF(J.LE.2) THEN
+                      IF(J <= 2) THEN
                         NNP=NNP+1
                       ELSE
                         NNP=NNP+2
                       ENDIF
                   ELSEIF (NTYPE==4) THEN
-                      IF(J.LE.4) THEN
+                      IF(J <= 4) THEN
                         NNP=NNP+1
                       ELSE
                         NNP=NNP+2
@@ -1363,7 +1363,7 @@ C
                      NNP=NNP+2
                   ENDIF
 C
-               ELSEIF (ITY.EQ.2) THEN
+               ELSEIF (ITY == 2) THEN
 C Face brique appuyee sur surface externe (ity == 2)
                   COUNT_ELEM_EXT_OLD = COUNT_ELEM_EXT_OLD + 1
                   IF (NTYPE==2) THEN
@@ -1371,7 +1371,7 @@ C Face brique appuyee sur surface externe (ity == 2)
                      NNS=NNS+3
                      NNP=NNP+1
                      ELSEIF (NTYPE==3) THEN
-                        IF(J.LE.2) THEN
+                        IF(J <= 2) THEN
                           NPOLY=NPOLY+1
                           NNS=NNS+3
                           NNP=NNP+1
@@ -1381,7 +1381,7 @@ C Face brique appuyee sur surface externe (ity == 2)
                           NNP=NNP+2
                         ENDIF
                      ELSEIF (NTYPE==4) THEN
-                        IF(J.LE.4) THEN
+                        IF(J <= 4) THEN
                           NPOLY=NPOLY+1
                           NNS=NNS+3
                           NNP=NNP+1
@@ -1396,13 +1396,13 @@ C Face brique appuyee sur surface externe (ity == 2)
                      NNP=NNP+2
                   ENDIF
 C
-               ELSEIF (ITY.EQ.3) THEN
+               ELSEIF (ITY == 3) THEN
 C Face interne brique/polyedres
                   PTR_CUR => FIRST
                   DO K=1,NPOLY_OLD
-                     IF (PTR_CUR%IPOLY(1).EQ.1) THEN
+                     IF (PTR_CUR%IPOLY(1) == 1) THEN
                         IEL=PTR_CUR%IPOLY(3)
-                        IF (-TAGELA(IEL).EQ.I) NNP=NNP+1
+                        IF (-TAGELA(IEL) == I) NNP=NNP+1
                      ENDIF
                      PTR_CUR => PTR_CUR%PTR
                   ENDDO
@@ -1458,7 +1458,7 @@ C
          NN=PTR_CUR%IPOLY(2)
          DO J=1,NN
             JJ=PTR_CUR%IPOLY(6+J)
-            IF (JJ.GT.0) THEN
+            IF (JJ > 0) THEN
                NNS=NNS+1
                XNS(1,NNS)=PTR_CUR%RPOLY(4+3*(J-1)+1)
                XNS(2,NNS)=PTR_CUR%RPOLY(4+3*(J-1)+2)
@@ -1480,7 +1480,7 @@ C
          ENDDO
          DO J=1,NN
             JJ=PTR_CUR%IPOLY(6+J)
-            IF (JJ.GT.0) THEN
+            IF (JJ > 0) THEN
                NNS=NNS+1
                IPOLY_F(6+J,I)=NNS
                IFVNOD(NNS)=PTR_CUR%IELNOD(J)
@@ -1488,7 +1488,7 @@ C
                IPOLY_F(6+J,I)=JJ
             ENDIF
          ENDDO
-         IF (PTR_CUR%IPOLY(1).EQ.1) THEN
+         IF (PTR_CUR%IPOLY(1) == 1) THEN
             IEL=IPOLY_F(3,I)
             IF(TAGELA(IEL) < 0 ) THEN
               IPOLY_F(4,I)=IPOLY_F(5,I)
@@ -1499,7 +1499,7 @@ C
                 IPOLY_F(5,I)=0
               ENDIF
             ENDIF
-         ELSEIF (PTR_CUR%IPOLY(1).EQ.2) THEN
+         ELSEIF (PTR_CUR%IPOLY(1) == 2) THEN
             NHOL=PTR_CUR%IPOLY(6+NN+1)
             IPOLY_F(6+NN+1,I)=NHOL
             DO J=1,NHOL
@@ -1513,7 +1513,7 @@ C
             ENDDO
          ENDIF
          NNSP=PTR_CUR%NNSP
-         IF (NNSP.GT.0) THEN
+         IF (NNSP > 0) THEN
             DO J=1,NNSP
                JJ=PTR_CUR%NREF(1,J)
                IFVNOD2(1,JJ)=PTR_CUR%NREF(2,J)
@@ -1526,7 +1526,7 @@ C
          ENDIF
          PTR_TMP => PTR_CUR%PTR
          DEALLOCATE(PTR_CUR%IPOLY, PTR_CUR%RPOLY, PTR_CUR%IELNOD)
-         IF (NNSP.GT.0) DEALLOCATE(PTR_CUR%NREF, PTR_CUR%AREF)
+         IF (NNSP > 0) DEALLOCATE(PTR_CUR%NREF, PTR_CUR%AREF)
          DEALLOCATE(PTR_CUR)
          PTR_CUR => PTR_TMP
       ENDDO
@@ -1535,18 +1535,18 @@ C
          N1=IFVNOD2(1,I)
          N2=IFVNOD2(2,I)
          IDEP=0
-         IF (N1.LT.0) THEN
+         IF (N1 < 0) THEN
             II=-N1
-            IF (IFVNOD2(1,II).NE.N2.AND.IFVNOD2(2,II).NE.N2) THEN
+            IF (IFVNOD2(1,II) /= N2.AND.IFVNOD2(2,II) /= N2) THEN
                WRITE(ISTDO,*) 'PROBLEM DEPENDANT NODE ',I
                CALL MY_EXIT(2)
             ENDIF
             N1=IFVNOD2(1,II)
             N2=IFVNOD2(2,II)
             IDEP=1
-         ELSEIF (N2.LT.0) THEN
+         ELSEIF (N2 < 0) THEN
             II=-N2
-            IF (IFVNOD2(1,II).NE.N1.AND.IFVNOD2(2,II).NE.N1) THEN
+            IF (IFVNOD2(1,II) /= N1.AND.IFVNOD2(2,II) /= N1) THEN
                WRITE(ISTDO,*) 'PROBLEM DEPENDANT NODE ',I
                CALL MY_EXIT(2)
             ENDIF
@@ -1556,12 +1556,12 @@ C
          ENDIF
          IFVNOD2(1,I)=N1
          IFVNOD2(2,I)=N2
-         IF (IDEP.EQ.1) THEN
+         IF (IDEP == 1) THEN
 C Recalcul des coordonnees barycentriques du point dependant
             II=1
             VAL=ABS(XNS(1,N1)-XNS(1,N2))
             DO J=2,3
-               IF (ABS(XNS(J,N1)-XNS(J,N2)).GT.VAL) THEN
+               IF (ABS(XNS(J,N1)-XNS(J,N2)) > VAL) THEN
                   II=J
                   VAL=ABS(XNS(J,N1)-XNS(J,N2))
                ENDIF
@@ -1586,7 +1586,7 @@ C
       ALLOCATE(IFLAG(NB_NODE))
       IFLAG(1:NB_NODE) = 0
 
-      IF (NBA.GT.0) THEN
+      IF (NBA > 0) THEN
          DO I=1,NBA
             ITAGBA(I)=0
          ENDDO
@@ -1602,10 +1602,10 @@ C
             NNP=0
             DO J=1,NFAC
                ITY=TFACA(2*(J-1)+1,I)
-               IF (ITY.EQ.1) THEN
+               IF (ITY == 1) THEN
 C Face interne brique/brique
                   NV=TFACA(2*(J-1)+2,I)
-                  IF (ITAGBA(NV).EQ.0) THEN
+                  IF (ITAGBA(NV) == 0) THEN
                      COUNT_TRIA_INTERNE = COUNT_TRIA_INTERNE + 1
                      IF (NTYPE==2) THEN
                         IQUAD=0
@@ -1613,7 +1613,7 @@ C Face interne brique/brique
                         N2=FAC4(2,J)
                         N3=FAC4(3,J)
                      ELSEIF (NTYPE==3) THEN
-                        IF(J.LE.2) THEN
+                        IF(J <= 2) THEN
                           IQUAD=0
                           N1=FAC6(1,J)
                           N2=FAC6(2,J)
@@ -1626,7 +1626,7 @@ C Face interne brique/brique
                           N4=FAC6(4,J)
 						ENDIF
                      ELSEIF (NTYPE==4) THEN
-                        IF(J.LE.4) THEN
+                        IF(J <= 4) THEN
                           IQUAD=0
                           N1=FAC5(1,J)
                           N2=FAC5(2,J)
@@ -1781,17 +1781,17 @@ C
                   ELSE
                      DO K=1,POLH_F(1,NPOLH+NV)
                         KK=POLH_F(2+K,NPOLH+NV)
-                        IF (IPOLY_F(1,KK).EQ.2.AND.
-     .                      IPOLY_F(6,KK).EQ.NPOLH+I) THEN
+                        IF (IPOLY_F(1,KK) == 2.AND.
+     .                      IPOLY_F(6,KK) == NPOLH+I) THEN
                            NNP=NNP+1
                            POLH_F(2+NNP,NPOLH+I)=KK
                         ENDIF
                      ENDDO
                   ENDIF
-               ELSEIF (ITY.EQ.2) THEN        
+               ELSEIF (ITY == 2) THEN        
 C Face brique appuyee sur surface externe (traitee plus loin)
                   COUNT_ELEM_EXT = COUNT_ELEM_EXT + 1
-               ELSEIF (ITY.EQ.-2) THEN
+               ELSEIF (ITY == -2) THEN
 C     Brick face lying on an internal surface element. 
 C     Need to compute the normal in order to ensure proper orientation
                   COUNT_ELEM_INT = COUNT_ELEM_INT + 1
@@ -1801,7 +1801,7 @@ C     Need to compute the normal in order to ensure proper orientation
                      N2=FAC4(2,J)
                      N3=FAC4(3,J)
                   ELSEIF (NTYPE==3) THEN
-                     IF(J.LE.2) THEN
+                     IF(J <= 2) THEN
                         IQUAD=0
                         N1=FAC6(1,J)
                         N2=FAC6(2,J)
@@ -1814,7 +1814,7 @@ C     Need to compute the normal in order to ensure proper orientation
                         N4=FAC6(4,J)
                      ENDIF
                   ELSEIF (NTYPE==4) THEN
-                     IF(J.LE.4) THEN
+                     IF(J <= 4) THEN
                         IQUAD=0
                         N1=FAC5(1,J)
                         N2=FAC5(2,J)
@@ -1883,12 +1883,12 @@ C     Need to compute the normal in order to ensure proper orientation
                      IFLAG(NN3) = 0
                      IFLAG(NN4) = 0
                   ENDIF
-               ELSEIF (ITY.EQ.3) THEN
+               ELSEIF (ITY == 3) THEN
 C Face interne brique/polyedres
                   DO K=1,NPOLY_OLD
-                     IF (IPOLY_F(1,K).EQ.1) THEN
+                     IF (IPOLY_F(1,K) == 1) THEN
                         IEL=IPOLY_F(3,K)
-                        IF (-TAGELA(IEL).EQ.I) THEN
+                        IF (-TAGELA(IEL) == I) THEN
                            NNP=NNP+1
                            POLH_F(2+NNP,NPOLH+I)=K
                            IPOLY_F(1,K)=2
@@ -1912,14 +1912,14 @@ C
          NPOLH=NPOLH+NBA
 C
          DO I=1,NPOLY_OLD
-            IF (IPOLY_F(1,I).EQ.1) THEN
+            IF (IPOLY_F(1,I) == 1) THEN
                IEL=IPOLY_F(3,I)
-               IF (TAGELA(IEL).GT.0) IPOLY_F(3,I)=TAGELA(IEL)
+               IF (TAGELA(IEL) > 0) IPOLY_F(3,I)=TAGELA(IEL)
             ENDIF
          ENDDO
 C     External airbag surface
          DO IEL=1,NEL
-            IF (TAGELS(IEL).GT.0) THEN
+            IF (TAGELS(IEL) > 0) THEN
                NPOLY=NPOLY+1
                IPOLY_F(1,NPOLY)=1
                IPOLY_F(2,NPOLY)=3
@@ -1971,7 +1971,7 @@ C
          ENDDO
 C     Internal airbag surface
          DO IEL=NEL + 1,NEL + NELI
-            IF (TAGELS(2*IEL-NEL-1).GT.0) THEN
+            IF (TAGELS(2*IEL-NEL-1) > 0) THEN
                NPOLY=NPOLY+1
                IPOLY_F(1,NPOLY)=3
                IPOLY_F(2,NPOLY)=3
@@ -2033,12 +2033,12 @@ C---------------------------------------------------
          ITY=IPOLY_F(1,I)
          NN=IPOLY_F(2,I)
          NHOL=0
-         IF (ITY.EQ.2) NHOL=IPOLY_F(6+NN+1,I)
+         IF (ITY == 2) NHOL=IPOLY_F(6+NN+1,I)
          AREA=ZERO
          NX=RPOLY_F(2,I)
          NY=RPOLY_F(3,I)
          NZ=RPOLY_F(4,I)
-         IF (NHOL.EQ.0) THEN
+         IF (NHOL == 0) THEN
             X1=RPOLY_F(5,I)
             Y1=RPOLY_F(6,I)
             Z1=RPOLY_F(7,I)
@@ -2133,7 +2133,7 @@ C---------------------------------------------------
             JJ=POLH_F(2+J,I)
             AREA=RPOLY_F(1,JJ)
             ITY=IPOLY_F(1,JJ)
-            IF (ITY.EQ.1) THEN
+            IF (ITY == 1) THEN
                IEL=IPOLY_F(3,JJ)
                IF(TAGELS(IEL) > 0) THEN
                  NX=RPOLY_F(2,JJ)
@@ -2145,23 +2145,23 @@ C---------------------------------------------------
                    NY=RPOLY_F(3,JJ)
                    NZ=RPOLY_F(4,JJ)
                  ELSEIF(IEL > NEL) THEN
-                   IF (IPOLY_F(5,JJ).EQ.I) THEN
+                   IF (IPOLY_F(5,JJ) == I) THEN
                       NX=RPOLY_F(2,JJ)
                       NY=RPOLY_F(3,JJ)
                       NZ=RPOLY_F(4,JJ)
-                   ELSEIF (IPOLY_F(6,JJ).EQ.I) THEN
+                   ELSEIF (IPOLY_F(6,JJ) == I) THEN
                       NX=-RPOLY_F(2,JJ)
                       NY=-RPOLY_F(3,JJ)
                       NZ=-RPOLY_F(4,JJ)
                    ENDIF
                  ENDIF
                ENDIF
-            ELSEIF (ITY.EQ.2.OR.ITY.EQ.3) THEN
-               IF (IPOLY_F(5,JJ).EQ.I) THEN
+            ELSEIF (ITY == 2.OR.ITY == 3) THEN
+               IF (IPOLY_F(5,JJ) == I) THEN
                   NX=RPOLY_F(2,JJ)
                   NY=RPOLY_F(3,JJ)
                   NZ=RPOLY_F(4,JJ)
-               ELSEIF (IPOLY_F(6,JJ).EQ.I) THEN
+               ELSEIF (IPOLY_F(6,JJ) == I) THEN
                   NX=-RPOLY_F(2,JJ)
                   NY=-RPOLY_F(3,JJ)
                   NZ=-RPOLY_F(4,JJ)
@@ -2176,9 +2176,9 @@ C---------------------------------------------------
 C---------------------------------------------------
 C     Check negative volumes
 C---------------------------------------------------
-      IF (ITYP .EQ. 8) THEN
+      IF (ITYP  ==  8) THEN
          DO I = 1, NPOLH
-            IF (VOLU(I) .LE. ZERO) THEN
+            IF (VOLU(I)  <=  ZERO) THEN
                CALL ANCMSG(MSGID = 1627, MSGTYPE = MSGERROR,
      .              ANMODE = ANINFO,
      .              I1 = ID,
@@ -2224,7 +2224,7 @@ C
          TOLE2=TOLE**2*LMAX2
 C
          NHOL=0
-         IF (IPOLY_F(1,I).EQ.2) NHOL=IPOLY_F(6+NNP_OLD+1,I)
+         IF (IPOLY_F(1,I) == 2) NHOL=IPOLY_F(6+NNP_OLD+1,I)
          ALLOCATE(IPOLY_OLD(NNP_OLD), RPOLY_OLD(3*NNP_OLD),
      .            ADR_OLD(NHOL+2), ADR(NHOL+2))
          DO J=1,NNP_OLD
@@ -2234,13 +2234,13 @@ C
             RPOLY_OLD(J)=RPOLY_F(4+J,I)
          ENDDO
          NNP=0
-         IF (NHOL.EQ.0) THEN
+         IF (NHOL == 0) THEN
             X0=RPOLY_F(5,I)
             Y0=RPOLY_F(6,I)
             Z0=RPOLY_F(7,I)
-            IF (IPOLY_OLD(1).GT.0) THEN
+            IF (IPOLY_OLD(1) > 0) THEN
                NNS_OLD=NNS_OLD+1
-               IF (NNS_OLD.GT.NNS_OLD_SAVE) THEN
+               IF (NNS_OLD > NNS_OLD_SAVE) THEN
                  CALL ANCMSG(MSGID=744,
      .                       MSGTYPE=MSGERROR,
      .                       ANMODE=ANINFO,
@@ -2258,9 +2258,9 @@ C
             J0=1
             NNS1=NNS
             DO J=2,NNP_OLD
-               IF (IPOLY_OLD(J).GT.0) THEN
+               IF (IPOLY_OLD(J) > 0) THEN
                  NNS_OLD=NNS_OLD+1
-                 IF (NNS_OLD.GT.NNS_OLD_SAVE) THEN
+                 IF (NNS_OLD > NNS_OLD_SAVE) THEN
                    CALL ANCMSG(MSGID=744,
      .                         MSGTYPE=MSGERROR,
      .                         ANMODE=ANINFO,
@@ -2272,9 +2272,9 @@ C
                Y1=RPOLY_OLD(3*(J-1)+2)
                Z1=RPOLY_OLD(3*(J-1)+3)
                DD=(X1-X0)**2+(Y1-Y0)**2+(Z1-Z0)**2
-               IF (DD.GT.TOLE2) THEN
+               IF (DD > TOLE2) THEN
                   NNP=NNP+1
-                  IF (IPOLY_OLD(J).GT.0) THEN
+                  IF (IPOLY_OLD(J) > 0) THEN
                      NNS=NNS+1
                      IFVNOD(NNS)=IFVNOD_OLD(NNS_OLD)
                      RPOLY_F(4+3*(NNP-1)+1,I)=X1
@@ -2290,8 +2290,8 @@ C
                   X0=X1
                   Y0=Y1
                   Z0=Z1
-               ELSEIF (IPOLY_OLD(J).GT.0.AND.
-     .                 IPOLY_OLD(J0).LT.0) THEN
+               ELSEIF (IPOLY_OLD(J) > 0.AND.
+     .                 IPOLY_OLD(J0) < 0) THEN
                   NNS=NNS+1
                   IFVNOD(NNS)=IFVNOD_OLD(NNS_OLD)
                   RPOLY_F(4+3*(NNP-1)+1,I)=X1
@@ -2299,18 +2299,18 @@ C
                   RPOLY_F(4+3*(NNP-1)+3,I)=Z1
                   IPOLY_F(6+NNP,I)=NNS
                ENDIF
-               IF (IPOLY_OLD(J).GT.0) REDIR(NNS_OLD)=NNS
+               IF (IPOLY_OLD(J) > 0) REDIR(NNS_OLD)=NNS
                J0=J
             ENDDO
             X1=RPOLY_F(5,I)
             Y1=RPOLY_F(6,I)
             Z1=RPOLY_F(7,I)
             DD=(X1-X0)**2+(Y1-Y0)**2+(Z1-Z0)**2
-            IF (DD.LE.TOLE2.AND.IPOLY_OLD(1).GT.0) THEN
+            IF (DD <= TOLE2.AND.IPOLY_OLD(1) > 0) THEN
                REDIR(NNS_OLD)=NNS1
                NNS=NNS-1
                NNP=NNP-1
-            ELSEIF (DD.LE.TOLE2.AND.IPOLY_OLD(1).LT.0) THEN
+            ELSEIF (DD <= TOLE2.AND.IPOLY_OLD(1) < 0) THEN
                NNP=NNP-1
                RPOLY_F(5,I)=X0
                RPOLY_F(6,I)=Y0
@@ -2329,9 +2329,9 @@ C
                X0=RPOLY_F(4+3*ADR(J)+1,I)
                Y0=RPOLY_F(4+3*ADR(J)+2,I)
                Z0=RPOLY_F(4+3*ADR(J)+3,I)
-               IF (IPOLY_OLD(ADR_OLD(J)+1).GT.0) THEN
+               IF (IPOLY_OLD(ADR_OLD(J)+1) > 0) THEN
                   NNS_OLD=NNS_OLD+1
-                  IF (NNS_OLD.GT.NNS_OLD_SAVE) THEN
+                  IF (NNS_OLD > NNS_OLD_SAVE) THEN
                     CALL ANCMSG(MSGID=744,
      .                          MSGTYPE=MSGERROR,
      .                          ANMODE=ANINFO,
@@ -2350,7 +2350,7 @@ C
                NNS1=NNS
                DO K=ADR_OLD(J)+2,ADR_OLD(J+1)
                   NNS_OLD=NNS_OLD+1
-                  IF (NNS_OLD.GT.NNS_OLD_SAVE) THEN
+                  IF (NNS_OLD > NNS_OLD_SAVE) THEN
                     CALL ANCMSG(MSGID=744,
      .                          MSGTYPE=MSGERROR,
      .                          ANMODE=ANINFO,
@@ -2361,9 +2361,9 @@ C
                   Y1=RPOLY_OLD(3*(K-1)+2)
                   Z1=RPOLY_OLD(3*(K-1)+3)
                   DD=(X1-X0)**2+(Y1-Y0)**2+(Z1-Z0)**2
-                  IF (DD.GT.TOLE2) THEN
+                  IF (DD > TOLE2) THEN
                      NNP=NNP+1                       
-                     IF (IPOLY_OLD(K).GT.0) THEN           
+                     IF (IPOLY_OLD(K) > 0) THEN           
                         NNS=NNS+1                       
                         IFVNOD(NNS)=IFVNOD_OLD(NNS_OLD) 
                         RPOLY_F(4+3*(NNP-1)+1,I)=X1     
@@ -2379,8 +2379,8 @@ C
                      X0=X1                           
                      Y0=Y1                           
                      Z0=Z1                           
-                  ELSEIF (IPOLY_OLD(K).GT.0.AND.
-     .                    IPOLY_OLD(K0).LT.0) THEN
+                  ELSEIF (IPOLY_OLD(K) > 0.AND.
+     .                    IPOLY_OLD(K0) < 0) THEN
                      NNS=NNS+1
                      IFVNOD(NNS)=IFVNOD_OLD(NNS_OLD)
                      RPOLY_F(4+3*(NNP-1)+1,I)=X1
@@ -2388,19 +2388,19 @@ C
                      RPOLY_F(4+3*(NNP-1)+3,I)=Z1
                      IPOLY_F(6+NNP,I)=NNS
                   ENDIF
-                  IF (IPOLY_OLD(K).GT.0) REDIR(NNS_OLD)=NNS
+                  IF (IPOLY_OLD(K) > 0) REDIR(NNS_OLD)=NNS
                   K0=K
                ENDDO
                X1=RPOLY_F(4+3*(ADR(J)-1)+1,I)
                Y1=RPOLY_F(4+3*(ADR(J)-1)+2,I)
                Z1=RPOLY_F(4+3*(ADR(J)-1)+3,I)
                DD=(X1-X0)**2+(Y1-Y0)**2+(Z1-Z0)**2
-               IF (DD.LE.TOLE2.AND.IPOLY_OLD(ADR_OLD(J)+1).GT.0) THEN
+               IF (DD <= TOLE2.AND.IPOLY_OLD(ADR_OLD(J)+1) > 0) THEN
                   REDIR(NNS_OLD)=NNS1
                   NNS=NNS-1
                   NNP=NNP-1
-               ELSEIF (DD.LE.TOLE2.AND.
-     .                 IPOLY_OLD(ADR_OLD(J)+1).LT.0) THEN
+               ELSEIF (DD <= TOLE2.AND.
+     .                 IPOLY_OLD(ADR_OLD(J)+1) < 0) THEN
                   NNP=NNP-1
                   RPOLY_F(4+3*(ADR(J)-1)+1,I)=X0
                   RPOLY_F(4+3*(ADR(J)-1)+2,I)=Y0
@@ -2422,13 +2422,13 @@ C
          ENDIF      
          IPOLY_F(2,I)=NNP
 C
-         IF (NNP.LT.NNP_OLD) THEN
+         IF (NNP < NNP_OLD) THEN
 C Nouvelle aire du polygone
             AREA=ZERO
             NX=RPOLY_F(2,I)
             NY=RPOLY_F(3,I)
             NZ=RPOLY_F(4,I)
-            IF (NHOL.EQ.0) THEN
+            IF (NHOL == 0) THEN
                X1=RPOLY_F(5,I)
                Y1=RPOLY_F(6,I)
                Z1=RPOLY_F(7,I)
@@ -2540,7 +2540,7 @@ C---------------------------------------------------
       IF (ALLOCATED(IMERGED)) DEALLOCATE(IMERGED)
       ALLOCATE(POLH_NEW(2+NPHMAX,NPOLH), IMERGED(NPOLH))
 C
-      IF (INFO.EQ.1) THEN
+      IF (INFO == 1) THEN
          DO I=1,NPOLH
             VOLU(I)=VOLU_OLD(I)
          ENDDO
@@ -2562,9 +2562,9 @@ C
       ENDDO
 C
       DO I=1,NPOLH
-         IF (POLH_F(2,I).LT.0) CYCLE   ! tetraedre, ... solide additionel
-C         IF (VOLU(I).LT.ZERO) THEN
-         IF (VOLU(I).LT.-EM10) THEN
+         IF (POLH_F(2,I) < 0) CYCLE   ! tetraedre, ... solide additionel
+C         IF (VOLU(I) < ZERO) THEN
+         IF (VOLU(I) < -EM10) THEN
             DO J=1,POLH_F(1,I)
                JJ=POLH_F(2+J,I)
                RPOLY_F(1,JJ)=-UN
@@ -2577,7 +2577,7 @@ C Volume moyen
       VM=ZERO
       NPA=0
       DO I=1,NPOLH
-         IF (VOLU(I).GT.ZERO) THEN
+         IF (VOLU(I) > ZERO) THEN
             VM = MIN(VM ,VOLU(I))
             NPA=NPA+1
          ENDIF
@@ -2591,21 +2591,21 @@ C     therefore may create holes through internal surfaces ...
       VOLUMIN = EM30 * VM
       INFO=0
       DO I=1,NPOLH
-         IF (VOLU(I).LE.VOLUMIN) THEN
+         IF (VOLU(I) <= VOLUMIN) THEN
             AREAMAX=ZERO
             JMAX=0
             IMAX=0
             DO J=1,POLH_NEW(1,I)
                JJ=POLH_NEW(2+J,I)
                ITY=IPOLY_F(1,JJ)
-               IF (ITY.EQ.1) CYCLE
+               IF (ITY == 1) CYCLE
                AREA=RPOLY_F(1,JJ)
-               IF (AREA.GT.AREAMAX) THEN
-                  IF (IPOLY_F(5,JJ).EQ.I) THEN
+               IF (AREA > AREAMAX) THEN
+                  IF (IPOLY_F(5,JJ) == I) THEN
                      II=IPOLY_F(6,JJ)
                      JMAX=J
                      IMAX=II
-                  ELSEIF (IPOLY_F(6,JJ).EQ.I) THEN
+                  ELSEIF (IPOLY_F(6,JJ) == I) THEN
                      II=IPOLY_F(5,JJ)
                      JMAX=J
                      IMAX=II
@@ -2614,19 +2614,19 @@ C     therefore may create holes through internal surfaces ...
                ENDIF
             ENDDO
 C
-            IF (JMAX.NE.0) THEN
+            IF (JMAX /= 0) THEN
                JJMAX=POLH_NEW(2+JMAX,I)
                RPOLY_F(1,JJMAX)=-UN
             ELSE
                JMAX=1
                JJMAX=POLH_NEW(2+JMAX,I)
                ITY=IPOLY_F(1,JJMAX)
-               IF (ITY.EQ.2) RPOLY_F(1,JJMAX)=-UN
+               IF (ITY == 2) RPOLY_F(1,JJMAX)=-UN
 C On merge certain polyedres de volume < volumin avec le polyedre 1
 C on ne devrait plus passer la
                IMAX=1
             ENDIF
-            IF (IMERGED(IMAX).EQ.1) IMAX=POLH_NEW(2,IMAX)
+            IF (IMERGED(IMAX) == 1) IMAX=POLH_NEW(2,IMAX)
             NP=POLH_NEW(1,IMAX)
 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--            
@@ -2640,19 +2640,19 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
             VOLU(I)=-UN
             IMERGED(I)=1
             DO J=1,POLH_NEW(1,I)
-               IF (J.NE.JMAX) THEN
+               IF (J /= JMAX) THEN
                   NP=NP+1
-                  IF (NP.GT.NPHMAX) INFO=1
-                  IF (INFO.EQ.0) THEN
+                  IF (NP > NPHMAX) INFO=1
+                  IF (INFO == 0) THEN
                      JJ=POLH_NEW(2+J,I)
                      POLH_NEW(2+NP,IMAX)=JJ
                      ITY=IPOLY_F(1,JJ)
                      IEL=IPOLY_F(3,JJ)  ! 1<IEL<NEL
                      IF(ITY == 1 .AND.IEL > NEL)ITY=3
                      IF (ITY >= 2) THEN
-                        IF (IPOLY_F(5,JJ).EQ.I) THEN
+                        IF (IPOLY_F(5,JJ) == I) THEN
                            IPOLY_F(5,JJ)=IMAX
-                        ELSEIF (IPOLY_F(6,JJ).EQ.I) THEN
+                        ELSEIF (IPOLY_F(6,JJ) == I) THEN
                            IPOLY_F(6,JJ)=IMAX
                         ENDIF
                      ENDIF
@@ -2662,22 +2662,22 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
                ENDIF
             ENDDO
             POLH_NEW(2,I)=IMAX
-            IF (INFO.EQ.0) POLH_NEW(1,IMAX)=NP   
+            IF (INFO == 0) POLH_NEW(1,IMAX)=NP   
          ENDIF
       ENDDO  !I=1,NPOLH
-      IF (INFO.EQ.1) GOTO 400
+      IF (INFO == 1) GOTO 400
 C
       VMIN=EP30
       DO I=1,NPOLH
-         IF (VOLU(I).LE.ZERO) CYCLE
-         IF (VOLU(I).LT.VMIN) THEN
+         IF (VOLU(I) <= ZERO) CYCLE
+         IF (VOLU(I) < VMIN) THEN
             VMIN=VOLU(I)
             IMIN=I
          ENDIF
          DO J=1,POLH_NEW(1,I)
             JJ=POLH_NEW(2+J,I)
-            IF (IPOLY_F(1,JJ).EQ.1.OR.RPOLY_F(1,JJ).LT.ZERO) CYCLE
-            IF (IPOLY_F(5,JJ).EQ.IPOLY_F(6,JJ)) RPOLY_F(1,JJ)=-UN
+            IF (IPOLY_F(1,JJ) == 1.OR.RPOLY_F(1,JJ) < ZERO) CYCLE
+            IF (IPOLY_F(5,JJ) == IPOLY_F(6,JJ)) RPOLY_F(1,JJ)=-UN
          ENDDO
       ENDDO
       DEALLOCATE(VOLU_OLD, RPOLY_F_OLD, IPOLY_F_OLD, IMERGED)
@@ -2689,7 +2689,7 @@ C---------------------------------------------------
       AREAEL=ZERO
       NPOLHF=0
       DO I=1,NPOLH
-         IF (VOLU(I).GT.ZERO) THEN
+         IF (VOLU(I) > ZERO) THEN
             NPOLHF=NPOLHF+1
             VOLPH=VOLPH+VOLU(I)
          ENDIF
@@ -2698,10 +2698,10 @@ C---------------------------------------------------
       NCPOLY=0
       DO I=1,NPOLY
          ITY=IPOLY_F(1,I)
-         IF (ITY.EQ.1.AND.RPOLY_F(1,I).GT.ZERO) THEN
+         IF (ITY == 1.AND.RPOLY_F(1,I) > ZERO) THEN
             NSPOLY=NSPOLY+1
             AREAP=AREAP+RPOLY_F(1,I)
-         ELSEIF ((ITY.EQ.2 .OR. ITY.EQ.3) .AND.RPOLY_F(1,I).GT.ZERO) THEN
+         ELSEIF ((ITY == 2 .OR. ITY == 3) .AND.RPOLY_F(1,I) > ZERO) THEN
             NCPOLY=NCPOLY+1
          ENDIF
       ENDDO
@@ -2727,9 +2727,9 @@ C
       DO I=1,NPOLY
          NNP=IPOLY_F(2,I)
          DO J=1,NNP
-            IF (IPOLY_F(6+J,I).GT.0) THEN
+            IF (IPOLY_F(6+J,I) > 0) THEN
                NNS=NNS+1
-               IF (NNS.GT.NNS_OLD) THEN
+               IF (NNS > NNS_OLD) THEN
                  CALL ANCMSG(MSGID=744,
      .                       MSGTYPE=MSGERROR,
      .                       ANMODE=ANSTOP,
@@ -2737,7 +2737,7 @@ C
      .                       C1=TITR)
                END IF
 
-               IF (IFVNOD(NNS).LT.0) THEN
+               IF (IFVNOD(NNS) < 0) THEN
 C point de solide additionnel
                   FVDATA(IFV)%IFVNOD(1,NNS)=2
                   FVDATA(IFV)%IFVNOD(2,NNS)=-IFVNOD(NNS)
@@ -2754,11 +2754,11 @@ C
                N1=ELEMA(1,IEL)
                N2=ELEMA(2,IEL)
                N3=ELEMA(3,IEL)
-               IF (TAGELA(IEL).GT.0) THEN
+               IF (TAGELA(IEL) > 0) THEN
                   NN1=IBUF(N1)
                   NN2=IBUF(N2)
                   NN3=IBUF(N3)
-               ELSEIF (TAGELA(IEL).LT.0) THEN
+               ELSEIF (TAGELA(IEL) < 0) THEN
                   NN1=IBUFA(N1)
                   NN2=IBUFA(N2)
                   NN3=IBUFA(N3)
@@ -2800,7 +2800,7 @@ C point interne
       ENDDO
 C
       DO I=1,NNS2
-         IF (FVDATA(IFV)%IFVNOD(1,NNS+I).EQ.0) THEN
+         IF (FVDATA(IFV)%IFVNOD(1,NNS+I) == 0) THEN
             FVDATA(IFV)%IFVNOD(1,NNS+I)=3
             FVDATA(IFV)%IFVNOD(2,NNS+I)=1
             FVDATA(IFV)%IFVNOD(3,NNS+I)=2
@@ -2808,7 +2808,7 @@ C
          ENDIF
       ENDDO
 C
-      IF (NNS.GT.NNS_OLD) THEN
+      IF (NNS > NNS_OLD) THEN
          CALL ANCMSG(MSGID=744,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -2838,9 +2838,9 @@ C
 C
       NNS=0
       DO I=1,NPOLY_OLD
-         IF (RPOLY_F(1,I).LE.ZERO) THEN
+         IF (RPOLY_F(1,I) <= ZERO) THEN
             DO J=1,IPOLY_F(2,I)
-               IF (IPOLY_F(6+J,I).GT.0) NNS=NNS+1
+               IF (IPOLY_F(6+J,I) > 0) NNS=NNS+1
             ENDDO
             CYCLE
          ENDIF
@@ -2848,12 +2848,12 @@ C
          REDIR_POLY(I)=NPOLY
          NNP=IPOLY_F(2,I)
          NHOL=0
-         IF (IPOLY_F(1,I).EQ.2) NHOL=IPOLY_F(6+NNP+1,I)
+         IF (IPOLY_F(1,I) == 2) NHOL=IPOLY_F(6+NNP+1,I)
          ALLOCATE(PNODES(2,NNP), PSEG(2,NNP), PHOLES(2,NHOL),
      .            PTRI(3,NNP), REDIR(NNP))   
 C
          DO J=1,NNP
-            IF (IPOLY_F(6+J,I).GT.0) THEN
+            IF (IPOLY_F(6+J,I) > 0) THEN
                NNS=NNS+1
                REDIR(J)=NNS
             ELSE
@@ -2861,7 +2861,7 @@ C
                REDIR(J)=NNS_OLD+JJ
             ENDIF
          ENDDO
-         IF (IPOLY_F(1,I).EQ.1) THEN
+         IF (IPOLY_F(1,I) == 1) THEN
             IPSURF=IPOLY_F(3,I)
             IF( IPSURF > NEL) THEN
               IPSURF=-IPSURF
@@ -2871,7 +2871,7 @@ C
               IC1=0
               IC2=0
             ENDIF
-         ELSEIF (IPOLY_F(1,I).EQ.2 .OR. IPOLY_F(1,I).EQ.3) THEN
+         ELSEIF (IPOLY_F(1,I) == 2 .OR. IPOLY_F(1,I) == 3) THEN
             IPSURF=0
             IC1=IPOLY_F(5,I)
             IC2=IPOLY_F(6,I)
@@ -2898,7 +2898,7 @@ C
 C
          PNODES(1,1)=ZERO
          PNODES(2,1)=ZERO
-         IF (NHOL.EQ.0) THEN
+         IF (NHOL == 0) THEN
             DO J=2,NNP
                XX=RPOLY_F(4+3*(J-1)+1,I)
                YY=RPOLY_F(4+3*(J-1)+2,I)
@@ -3007,7 +3007,7 @@ C Verification de la normale
             NRZ=X12*Y13-Y12*X13
             SS=NRX*NX+NRY*NY+NRZ*NZ
 C
-            IF (SS.GT.ZERO) THEN
+            IF (SS > ZERO) THEN
                FVDATA(IFV)%IFVTRI(1,NNTR)=REDIR(N1)
                FVDATA(IFV)%IFVTRI(2,NNTR)=REDIR(N2)
                FVDATA(IFV)%IFVTRI(3,NNTR)=REDIR(N3)
@@ -3041,13 +3041,13 @@ C---------------------------------------------------
       ENDDO
 C
       DO I=1,NPOLH_OLD
-         IF (VOLU(I).LE.ZERO) CYCLE
+         IF (VOLU(I) <= ZERO) CYCLE
          NPOLH=NPOLH+1
          REDIR_POLH(I)=NPOLH
          FVDATA(IFV)%IFVPADR(NPOLH)=NNP+1
          DO J=1,POLH_NEW(1,I)
             JJ=REDIR_POLY(POLH_NEW(2+J,I))
-            IF (JJ.EQ.0) CYCLE
+            IF (JJ == 0) CYCLE
             NNP=NNP+1
             FVDATA(IFV)%IFVPOLH(NNP)=REDIR_POLY(POLH_NEW(2+J,I))
          ENDDO
@@ -3055,9 +3055,9 @@ C
          FVDATA(IFV)%IDPOLH(NPOLH)=NPOLH
 C
          II=POLH_NEW(2,I)
-         IF (II.GE.0) II=0
-         IF (II.LT.0)THEN
-          IF(IBSA(-II).EQ.1) II=-II
+         IF (II >= 0) II=0
+         IF (II < 0)THEN
+          IF(IBSA(-II) == 1) II=-II
          ENDIF
          FVDATA(IFV)%IBPOLH(NPOLH)=II
       ENDDO
@@ -3110,7 +3110,7 @@ C---------------------------------------------------
       RHOI=PINI/(TI*RMWI)
 C
       CPI=CPAI+UNDEMI*CPBI*TI+THIRD*CPCI*TI2
-      IF(IVOLU(2).EQ.8) THEN
+      IF(IVOLU(2) == 8) THEN
         CPI=CPI+QUART*CPDI*TI2*TI-CPEI/TI2+UNCINQ*CPFI*TI2*TI2
       ENDIF      
       CVI=CPI-RMWI
@@ -3118,7 +3118,7 @@ C
       TMASS=0
       DO I=1,NPOLH_OLD
          II=REDIR_POLH(I)
-         IF (II.EQ.0) CYCLE
+         IF (II == 0) CYCLE
          FVDATA(IFV)%MPOLH(II)=RHOI*VOLU(I)
          FVDATA(IFV)%QPOLH(1,II)=ZERO
          FVDATA(IFV)%QPOLH(2,II)=ZERO
@@ -3149,7 +3149,7 @@ C---------------------------------------------------
       NSTR=0
       NCTR=0
       DO I=1,NNTR
-         IF (FVDATA(IFV)%IFVTRI(4,I).GT.0) THEN
+         IF (FVDATA(IFV)%IFVTRI(4,I) > 0) THEN
             NSTR=NSTR+1
          ELSE
             NCTR=NCTR+1
@@ -3201,18 +3201,18 @@ C-----------------------------------------
       NNS_ANIM=0
       ALLOCATE(PNODES(3,NNS+NNS2))
       DO I=1,NNS
-         IF (FVDATA(IFV)%IFVNOD(1,I).EQ.1) THEN
+         IF (FVDATA(IFV)%IFVNOD(1,I) == 1) THEN
             IEL=FVDATA(IFV)%IFVNOD(2,I)
             KSI=FVDATA(IFV)%RFVNOD(1,I)
             ETA=FVDATA(IFV)%RFVNOD(2,I)
             N1=ELEMA(1,IEL)
             N2=ELEMA(2,IEL)
             N3=ELEMA(3,IEL)
-            IF (TAGELA(IEL).GT.0) THEN
+            IF (TAGELA(IEL) > 0) THEN
                N1=IBUF(N1)
                N2=IBUF(N2)
                N3=IBUF(N3)
-            ELSEIF (TAGELA(IEL).LT.0) THEN
+            ELSEIF (TAGELA(IEL) < 0) THEN
                N1=IBUFA(N1)
                N2=IBUFA(N2)
                N3=IBUFA(N3)
@@ -3229,7 +3229,7 @@ C-----------------------------------------
             PNODES(1,I)=(UN-KSI-ETA)*X1+KSI*X2+ETA*X3
             PNODES(2,I)=(UN-KSI-ETA)*Y1+KSI*Y2+ETA*Y3
             PNODES(3,I)=(UN-KSI-ETA)*Z1+KSI*Z2+ETA*Z3
-         ELSEIF (FVDATA(IFV)%IFVNOD(1,I).EQ.2) THEN
+         ELSEIF (FVDATA(IFV)%IFVNOD(1,I) == 2) THEN
             II=FVDATA(IFV)%IFVNOD(2,I)
             PNODES(1,I)=X(1,II)
             PNODES(2,I)=X(2,II)
@@ -3276,7 +3276,7 @@ C
          N1= FVDATA(IFV)%IDPOLH(I)
          N2= FVDATA(IFV)%IBPOLH(I)
          N3= 0
-         IF(N2.NE.0) THEN
+         IF(N2 /= 0) THEN
          N3= TBA(1,IABS(N2))
          ENDIF
          VOLPH=FVDATA(IFV)%VPOLH_INI(I)
@@ -3293,7 +3293,7 @@ C
              IEL=FVDATA(IFV)%IFVTRI(4,KK)
              IC1=FVDATA(IFV)%IFVTRI(5,KK)
              IC2=FVDATA(IFV)%IFVTRI(6,KK)
-             IF(KKK.EQ.1) THEN
+             IF(KKK == 1) THEN
                WRITE(IOUT,'(3I10,2X,F10.2,4X,I5,5X,I10,5X,G14.6,3I10)')
      .                      N1,N2,N3,VOLPH,JJJ,KK,AREA,IEL,IC1,IC2
              ELSE
@@ -3322,8 +3322,8 @@ C-------------------------------------------
       
       CALL QUICKSORT(RADIUS, IDX, 1, NNS + NNS2)
       I = 1
-      DO WHILE(I .LT. NNS+ NNS2)
-         IF (ILVOUT >=1) CALL PROGALE_C(I, NNS+NNS2, 3)
+      DO WHILE(I  <  NNS+ NNS2)
+         !IF (ILVOUT >=1) CALL PROGALE_C(I, NNS+NNS2, 3)    !dynamic screen output
          IAD1 = IDX(I)
          XX = PNODES(1,IAD1)
          YY = PNODES(2,IAD1)
@@ -3336,8 +3336,8 @@ C-------------------------------------------
          FVDATA(IFV)%NOD_ANIM(2,NNS_ANIM)=YY         
          FVDATA(IFV)%NOD_ANIM(3,NNS_ANIM)=ZZ
          J = I
-         DO WHILE(J .LE. NNS + NNS2)
-            IF (ABS(R1 - RADIUS(J)) .LE. TOLE2) THEN
+         DO WHILE(J  <=  NNS + NNS2)
+            IF (ABS(R1 - RADIUS(J))  <=  TOLE2) THEN
                J = J + 1
             ELSE
                EXIT
@@ -3346,13 +3346,13 @@ C-------------------------------------------
          J = J - 1
          
          IAD = I + 1
-         DO WHILE (IAD .LE. J) 
+         DO WHILE (IAD  <=  J) 
             IAD2 = IDX(IAD)
             XN(1) = PNODES(1,IAD2)
             XN(2) = PNODES(2,IAD2)
             XN(3) = PNODES(3,IAD2)
             DD2=(XX-XN(1))**2+(YY-XN(2))**2+(ZZ-XN(3))**2
-            IF (DD2.LE.TOLE2) THEN
+            IF (DD2 <= TOLE2) THEN
 C     NODE IAD2 is dupplicated with node IAD1
                REDIR(IAD2) = REDIR(IAD1)
                IAD = IAD + 1
@@ -3603,7 +3603,7 @@ C
          DEALLOCATE(FVDATA)
       ENDIF
 C
-      IF (IMACH.EQ.3) THEN
+      IF (IMACH == 3) THEN
          IF (ALLOCATED(FVSPMD)) THEN
             DO I=1,NFVBAG
                IF (ASSOCIATED(FVSPMD(I)%IBUF_L)) 

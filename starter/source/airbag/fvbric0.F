@@ -155,31 +155,31 @@ C     PYRAMIDE indirection
            NG = IBUF(I)
          ENDIF
          TFAC(1:12, I) = 0
-         IF (IXS(9,NG).EQ.IXS(6,NG).AND.IXS(8,NG).EQ.IXS(7,NG).AND.
-     .        IXS(5,NG).EQ.IXS(4,NG).AND.IXS(3,NG).EQ.IXS(2,NG)) THEN
+         IF (IXS(9,NG) == IXS(6,NG).AND.IXS(8,NG) == IXS(7,NG).AND.
+     .        IXS(5,NG) == IXS(4,NG).AND.IXS(3,NG) == IXS(2,NG)) THEN
             NNO=4               !TETRAEDRE
             NTYPE=2
             REDIR => REDIRT(1:4)
-         ELSEIF (IXS(9,NG).EQ.IXS(6,NG).AND.IXS(5,NG).EQ.IXS(2,NG)) THEN
+         ELSEIF (IXS(9,NG) == IXS(6,NG).AND.IXS(5,NG) == IXS(2,NG)) THEN
             NNO=6               !PENTAEDRE 6 NOEUDS
             NTYPE=3
             REDIR => REDIRP(1:6)
-         ELSEIF ( IXS(6,NG).EQ.IXS(9,NG).AND.IXS(7,NG).EQ.IXS(9,NG).AND.
-     .           IXS(8,NG).EQ.IXS(9,NG)) THEN
+         ELSEIF ( IXS(6,NG) == IXS(9,NG).AND.IXS(7,NG) == IXS(9,NG).AND.
+     .           IXS(8,NG) == IXS(9,NG)) THEN
             NNO=5               !PYRAMIDE
             NTYPE=4
             REDIR => REDIRPY(1:5)
-         ELSEIF( (IXS(2,NG).EQ.IXS(6,NG).AND.IXS(5,NG).EQ.IXS(9,NG))
-     .           .OR.(IXS(2,NG).EQ.IXS(3,NG).AND.IXS(6,NG).EQ.IXS(7,NG))
-     .           .OR.(IXS(2,NG).EQ.IXS(6,NG).AND.IXS(3,NG).EQ.IXS(7,NG))
-     .           .OR.(IXS(3,NG).EQ.IXS(7,NG).AND.IXS(4,NG).EQ.IXS(8,NG))
-     .           .OR.(IXS(3,NG).EQ.IXS(4,NG).AND.IXS(7,NG).EQ.IXS(8,NG))
-     .           .OR.(IXS(4,NG).EQ.IXS(5,NG).AND.IXS(8,NG).EQ.IXS(9,NG))
-     .           .OR.(IXS(4,NG).EQ.IXS(8,NG).AND.IXS(5,NG).EQ.IXS(9,NG))
-     .           .OR.(IXS(6,NG).EQ.IXS(7,NG).AND.IXS(8,NG).EQ.IXS(9,NG))
-     .           .OR.(IXS(7,NG).EQ.IXS(8,NG).AND.IXS(6,NG).EQ.IXS(9,NG))
-     .           .OR.(IXS(2,NG).EQ.IXS(3,NG).AND.IXS(4,NG).EQ.IXS(5,NG))
-     .           .OR.(IXS(2,NG).EQ.IXS(5,NG).AND.IXS(3,NG).EQ.IXS(4,NG)))THEN
+         ELSEIF( (IXS(2,NG) == IXS(6,NG).AND.IXS(5,NG) == IXS(9,NG))
+     .           .OR.(IXS(2,NG) == IXS(3,NG).AND.IXS(6,NG) == IXS(7,NG))
+     .           .OR.(IXS(2,NG) == IXS(6,NG).AND.IXS(3,NG) == IXS(7,NG))
+     .           .OR.(IXS(3,NG) == IXS(7,NG).AND.IXS(4,NG) == IXS(8,NG))
+     .           .OR.(IXS(3,NG) == IXS(4,NG).AND.IXS(7,NG) == IXS(8,NG))
+     .           .OR.(IXS(4,NG) == IXS(5,NG).AND.IXS(8,NG) == IXS(9,NG))
+     .           .OR.(IXS(4,NG) == IXS(8,NG).AND.IXS(5,NG) == IXS(9,NG))
+     .           .OR.(IXS(6,NG) == IXS(7,NG).AND.IXS(8,NG) == IXS(9,NG))
+     .           .OR.(IXS(7,NG) == IXS(8,NG).AND.IXS(6,NG) == IXS(9,NG))
+     .           .OR.(IXS(2,NG) == IXS(3,NG).AND.IXS(4,NG) == IXS(5,NG))
+     .           .OR.(IXS(2,NG) == IXS(5,NG).AND.IXS(3,NG) == IXS(4,NG)))THEN
             CALL ANCMSG(MSGID=633,
      .           MSGTYPE=MSGERROR,
      .           ANMODE=ANINFO,
@@ -255,7 +255,7 @@ C     =========================
 C     Finding adjacent elements
 C     =========================
       DO I = 1, NBRIC
-         IF (ILVOUT >=1 ) CALL PROGALE_C(I, NBRIC, 4)
+         !IF (ILVOUT >=1 ) CALL PROGALE_C(I, NBRIC, 4)    !dynamic screen output
          NG = TBRIC(1, I)
          NTYPE = TBRIC(2, I)
          NNO = NNODE(NTYPE)
@@ -293,7 +293,7 @@ C     Loop over the nodes
 C     Loop over the adjacent elements
             DO IAD = IAD1, IAD2
                J = CNE(IAD)
-               IF (J .NE. I) THEN
+               IF (J  /=  I) THEN
                   NG2 = TBRIC(1, J)
                   NTYPE2 = TBRIC(2, J)
                   NNO2 = NNODE(NTYPE2)
@@ -328,14 +328,14 @@ C     ERROR
                   NB_COMMON_NODE = 0
                   DO KK = 1, NNO
                      DO K2 = 1, NNO2
-                        IF (N1(KK) .EQ. N2(K2)) THEN
+                        IF (N1(KK)  ==  N2(K2)) THEN
                            NB_COMMON_NODE = NB_COMMON_NODE + 1
                            IP1(REDIR(KK)) = 1
                            IP2(REDIR2(K2)) = 1
                         ENDIF
                      ENDDO
                   ENDDO
-                  IF (NB_COMMON_NODE .GE. 3) THEN
+                  IF (NB_COMMON_NODE  >=  3) THEN
 C     A common neighbor has been found, now find the face number for I and J
                      DO KFACE = 1, NNF
                         FACE_OK = .FALSE.
@@ -343,7 +343,7 @@ C     A common neighbor has been found, now find the face number for I and J
                         DO KK = 1, NOD(KFACE)
                            IS = IS + IP1(FAC(KK, KFACE))
                         ENDDO
-                        IF (IS .EQ. NOD(KFACE)) THEN
+                        IF (IS  ==  NOD(KFACE)) THEN
                            FACE_OK = .TRUE.
                            EXIT
                         ENDIF
@@ -354,14 +354,14 @@ C     A common neighbor has been found, now find the face number for I and J
                         DO KK = 1, NOD2(KFACE2)
                            IS = IS + IP2(FAC2(KK, KFACE2))
                         ENDDO
-                        IF (IS .EQ. NOD2(KFACE2)) THEN
+                        IF (IS  ==  NOD2(KFACE2)) THEN
                            FACE2_OK = .TRUE.
                            EXIT
                         ENDIF
                      ENDDO
                      ERROR_RAISED = (NOD(KFACE) == NOD2(KFACE2)) .AND. (NB_COMMON_NODE == NOD(KFACE))
                      ERROR_RAISED = .NOT. ERROR_RAISED
-                     IF (FVTYPE .NE. 8) THEN 
+                     IF (FVTYPE  /=  8) THEN 
                         ERROR_RAISED = .FALSE.
                      ENDIF
                      IF (FACE_OK .AND. FACE2_OK .AND. .NOT. ERROR_RAISED) THEN
