@@ -94,15 +94,16 @@ C-----------------------------------------------
      .   BATOZMULT,TMAT,TRUP,TMATADD,WD_LOCAL
       INTEGER :: FLAG_NICE_NEWTON,FLAG_GURSON,FLAG_NON_LOCAL
       INTEGER :: SPECIAL_OPTION,SPE_I_1,SPE_I_2,SPE_I_3
-      my_real
-     .        INVTREF,MULT_SPE
+      my_real :: INVTREF,MULT_SPE
       INTEGER :: INDI4,POIN_PID,POIN_MID,POIN_PART,COST_CHECK,POIN_ELM_TYP
+      my_real :: INVTELT_PRO      
+      my_real :: CC,A,B,A1,A2
+      ! thick shell element cost : 
+      INTEGER :: OVERCOST_ELM ,ICPR,NUMBER_LAYER
+      INTEGER :: NLAY,COMPOSITE_MID,COMPOSITE_MLN
+      LOGICAL :: COMPOSITE_OPTION
 
-      my_real INVTELT_PRO
-      
-      my_real
-     .        CC,A,B,A1,A2
-       DATA WTYPE /1.6 ,1. ,1. ,.9 ,1.1 ,1.4 ,0.65 ,.9 ,2.0/     
+      DATA WTYPE /1.6 ,1. ,1. ,.9 ,1.1 ,1.4 ,0.65 ,.9 ,2.0/     
 C-----------------------------------------------
        CALL BIDON()
 !     DD_OPTIMIZATION = 0 --> default case, DD optimized for Broadwell processor
@@ -190,6 +191,13 @@ C -------------------------------
         SPECIAL_OPTION = 0
         SPE_I_1 = 1
         SPE_I_2 = 1
+        !   -------------
+        !   check if composite material is used
+        COMPOSITE_OPTION = .FALSE.
+        IF(IGEO(30,PID)>0) THEN
+            COMPOSITE_OPTION = .TRUE.
+        ENDIF
+        !   -------------
         IF((MLN<28).OR.(MLN==49).OR.(MLN==59)) THEN
          IRUP2 = 1
         ELSE
@@ -446,7 +454,7 @@ C -------------------------------
         ! the (mid,pid) cost must be initialized from .inc file
            IF(COST_CHECK==0) THEN
             IF (JHBE.EQ.1) THEN
-C ow        Solides ISOLD1
+!           Solides ISOLD1
               IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
                TMAT = DDWEIGHTS(1,1,IABS(MID)) * TPSREF
               ELSE
@@ -465,7 +473,7 @@ C ow        Solides ISOLD1
 !             -------------- 
               TELT = TMAT + SOLTELT(1)  + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
             ELSEIF (JHBE.EQ.2) THEN
-C ow        Solides ISOLD2
+!           Solides ISOLD2
               IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
                 TMAT = DDWEIGHTS(1,1,IABS(MID)) * TPSREF
               ELSE
@@ -483,9 +491,8 @@ C ow        Solides ISOLD2
               ENDIF
 !             -------------- 
               TELT = TMAT + SOLTELT(2) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
-C
             ELSEIF (JHBE.EQ.24.OR.JHBE.EQ.104) THEN
-C ow        Solides ISOLD24  - HEPH
+!           Solides ISOLD24  - HEPH
               IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
                 TMAT = DDWEIGHTS(1,1,IABS(MID)) * TPSREF
               ELSE
@@ -505,7 +512,7 @@ C ow        Solides ISOLD24  - HEPH
               TELT = TMAT + SOLTELT(3) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
 C
             ELSEIF (JHBE.EQ.12) THEN
-C ow        Solides ISOLD12 - std 8 node integ point
+!           Solides ISOLD12 - std 8 node integ point
               IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
                 TMAT = DDWEIGHTS(1,1,IABS(MID)) * TPSREF
               ELSE
@@ -523,13 +530,12 @@ C ow        Solides ISOLD12 - std 8 node integ point
               ENDIF
 !             -------------- 
               TELT = TMAT + SOLTELT(4) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
-C
-            ELSEIF (JHBE.EQ.14.OR.(JHBE.GE.222.AND.JHBE.LE.999)) THEN
-C ow        Solides HA8
+            ELSEIF ( (JHBE.EQ.14.OR.(JHBE.GE.222.AND.JHBE.LE.999)).AND.(IGT/=20.AND.IGT/=21.AND.IGT/=22)) THEN
+!           Solides HA8
                MPT = ABS (NPN)
-               NPTS = MPT/100
-               NPTT = MOD(MPT/10,10)
-               NPTR = MOD(MPT,10)
+               NPTR = MAX(MPT/100,1)
+               NPTS = MAX(MOD(MPT/10,10),1)
+               NPTT = MAX(MOD(MPT,10),1)
                NPTOT = NPTS*NPTT*NPTR
 
                IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
@@ -550,11 +556,82 @@ C ow        Solides HA8
 !              --------------
                ! 8 NPT = 222 = reference weight 
                ! if NPT > 8, element weight = reference weight + (NPT-8) * overweight 
-               TELT = NPTOT*(TMAT+TRUP)+SOLTELT(5) +(NPTOT-8)*SOLTELT(6) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
-     
+               OVERCOST_ELM = 0
+               IF(NPTOT>8) OVERCOST_ELM = NPTOT-8
+               TELT = NPTOT*(TMAT+TRUP)+SOLTELT(5) +OVERCOST_ELM *SOLTELT(6) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+            ELSEIF(JHBE.EQ.14.AND.(IGT==20.OR.IGT==21.OR.IGT==22)) THEN
+!           Solides Thick shell
+               MPT = ABS (NPN)
+               NPTR = MAX(MPT/100,1)
+               NPTS = MAX(MOD(MPT/10,10),1)
+               NPTT = MAX(MOD(MPT,10),1)
+               NPTOT = NPTS*NPTT*NPTR
+
+               IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
+                TMAT = DDWEIGHTS(1,1,IABS(MID)) * TPSREF
+               ELSE
+                IF(MULT/=0) TMATADD = MULT * (SOL1TNL(MLN,INDI)-SOL1TNL(MLN,INDI2))
+                IF(ADD_OPTION/=0) TMATADD = OPT_1 * SOL1TNL(MLN,INDI_OPT_1) + OPT_2 * SOL1TNL(MLN,INDI_OPT_2)
+                IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2) 
+
+                NUMBER_LAYER = 0
+                !   ---------------------
+                !   check the number of layer
+                IF(IGEO(30,PID)>9) THEN ! number of layer > 9 --> 1 int. point in the "layer direction" + number of layer = NLAY
+                    NUMBER_LAYER = IGEO(30,PID)
+                    ICPR = IGEO(14,PID)
+                    !   ICPR = ijk = rst ( i=r / j=s / k=t)
+                    IF(ICPR==100) THEN  !   r direction
+                        OVERCOST_ELM = NPTS*NPTT
+                    ELSEIF(ICPR==10) THEN  !   s direction
+                        OVERCOST_ELM = NPTT*NPTR
+                    ELSE                !   t direction
+                        OVERCOST_ELM = NPTS*NPTR
+                    ENDIF
+                ELSE
+                    ! number of layer <= 9 --> number of layer = ICPR direction
+                    ICPR = IGEO(14,PID)
+                    NUMBER_LAYER = IGEO(30,PID)
+                    !   ICPR = ijk = rst ( i=r / j=s / k=t)
+                    IF(ICPR==100) THEN  !   r direction
+                        NUMBER_LAYER = NPTR
+                        OVERCOST_ELM = NPTS*NPTT
+                    ELSEIF(ICPR==10) THEN  !   s direction
+                        NUMBER_LAYER = NPTS
+                        OVERCOST_ELM = NPTT*NPTR
+                    ELSE                !   t direction
+                        NUMBER_LAYER = NPTT
+                        OVERCOST_ELM = NPTS*NPTR
+                    ENDIF          
+                ENDIF
+                !   ---------------------
+                !   check if composite material is used
+                !   --> if yes, add & sum the different material costs
+                IF(COMPOSITE_OPTION) THEN
+                    DO NLAY=1,NUMBER_LAYER
+                        COMPOSITE_MID = IGEO(100+NLAY,PID)
+                        COMPOSITE_MLN = NINT(PM(19,ABS(COMPOSITE_MID)))
+                        TMATADD = TMATADD + SOL1TNL(COMPOSITE_MLN,INDI)
+                    ENDDO
+                    TMATADD = TMATADD - SOL1TNL(MLN,INDI)
+                ENDIF
+                TMAT = SOL1TNL(MLN,INDI) + TMATADD
+               ENDIF
+!              --------------
+!              Failure
+               IF(IRUP/=0) THEN
+                DO J=1,IRUP
+                 TRUP = TRUP + RUPTURE_SOL(IRUP_TAB(J),IRUP2)
+                ENDDO
+               ENDIF
+!              --------------
+               ! 4 NPT = 202 = 4 * reference weight 
+               ! if NPT > 4, element weight = reference weight + overcost
+               TELT = OVERCOST_ELM*TMAT+NPTOT*TRUP + 
+     .                OVERCOST_ELM*NUMBER_LAYER*SOLTELT(10) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)     
             ELSEIF (JHBE.EQ.17) THEN   
-c am        ISOLIDE=17 H8C Standard 8-nodes compatible 
-c           solid full integration formulation 2*2*2 integration points, no hourglass
+!           ISOLIDE=17 H8C Standard 8-nodes compatible 
+!           solid full integration formulation 2*2*2 integration points, no hourglass
                IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
                 TMAT = DDWEIGHTS(1,1,IABS(MID)) * TPSREF
                ELSE
@@ -573,7 +650,7 @@ c           solid full integration formulation 2*2*2 integration points, no hour
 !              -------------- 
                TELT =  (TMAT+TRUP)*8 + SOLTELT(7) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
             ELSEIF (JHBE.EQ.18) THEN   
-c am        ISOLIDE=18
+!           ISOLIDE=18
                IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
                 TMAT = DDWEIGHTS(1,1,IABS(MID)) * TPSREF
                ELSE
@@ -591,8 +668,6 @@ c am        ISOLIDE=18
                ENDIF
 !              -------------- 
                TELT =  (TMAT+TRUP)*8 + SOLTELT(9) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
-C              
-C           Solides pas encore pris en compte : PA6, HSEPH (deja repertories)
             ELSE
 !             --------------
 !             Failure
@@ -608,7 +683,6 @@ C           Solides pas encore pris en compte : PA6, HSEPH (deja repertories)
         ENDIF      
 C
           POIDS = TELT * INVTREF
-C el       test elem delete
           ! --------------------
           IF(RECHERCHE==0) THEN
            IF (WD_LOCAL.EQ.0..AND.MLN.NE.0)THEN
