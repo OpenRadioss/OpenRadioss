@@ -45,12 +45,14 @@ Chd|====================================================================
      6      IGAP   ,GAP_M  ,GAP_M_L ,DRAD     ,MARGE    ,
      7      ITASK   ,ITAB   ,LL_STOK ,MULNSNS  ,
      8      MBINFLG ,EBINFLG,ILEV    ,CAND_A   ,CAND_P   ,
-     9      FLAGREMNODE,KREMNODE,REMNODE  ,
+     9      FLAGREMNODE,KREMNODE_EDG,REMNODE_EDG,KREMNODE_E2S,
+     .                                            REMNODE_E2S,
      A      IEDGE  ,NEDGE  ,LEDGE   ,MSEGTYP   ,IGAP0    ,
      B      ADMSR,EDG_BISECTOR,VTX_BISECTOR,
      C      CANDM_E2S,CANDS_E2S,CAND_B,CAND_PS,GAPE ,
      D      GAP_E_L,NEDGE_LOCAL,IFQ,CANDE2E_FX ,CANDE2E_FY,
-     E   CANDE2E_FZ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,IFPEN_E,IFPEN_E2S   )
+     E   CANDE2E_FZ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,IFPEN_E,IFPEN_E2S,
+     F   KREMNODE_EDG_SIZ,REMNODE_EDG_SIZ,KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ) 
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -102,9 +104,11 @@ C-----------------------------------------------
      .        CANDS_E2E(*),CANDM_E2E(*),
      .        IRECT(4,*), VOXEL(NBX+2,NBY+2,NBZ+2),II_STOK,LL_STOK,ITAB(*),
      .        MBINFLG(*),EBINFLG(*),ILEV,CAND_A(*),LEDGE(NLEDGE,*),ADMSR(4,*),MSEGTYP(*),
-     .        CANDM_E2S(*),CANDS_E2S(*),CAND_B(*),IFPEN_E(*),IFPEN_E2S(*),
+     .        CANDM_E2S(*),CANDS_E2S(*),CAND_B(*),IFPEN_E(*),IFPEN_E2S(*)
 C     INTEGER :: NEDGE_REMOTE_OLD, RENUM(*)
-     .        FLAGREMNODE,KREMNODE(*),REMNODE(*)
+      INTEGER , INTENT(IN) :: KREMNODE_EDG_SIZ,REMNODe_EDG_SIZ,KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ,
+     .        FLAGREMNODE, KREMNODE_EDG(KREMNODE_EDG_SIZ), REMNODE_EDG(REMNODE_EDG_SIZ),
+     .        KREMNODE_E2S(KREMNODE_E2S_SIZ), REMNODE_E2S(REMNODE_E2S_SIZ)
 C     REAL ou REAL*8
       my_real
      .   X(3,*),V(3,*),XYZM(6),STF(*), STFE(NEDGE), GAP_M(*), GAP_M_L(*), GAPE(*), GAP_E_L(*),
@@ -127,7 +131,7 @@ C     REAL ou REAL*8
      .   XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4,
      .   D1X,D1Y,D1Z,D2X,D2Y,D2Z,DD1,DD2,D2,A2,GS
 c provisoire
-      INTEGER  IX,IY,IZ,IEDG,
+      INTEGER  IX,IY,IZ,IEDG,IE,
      .         M1, M2, M3, M4, MM1,MM2,MM3,MM4,SS1,SS2,
      .         IMS1,IMS2,ISS1,ISS2,
      .         AM1,AM2,AS1,AS2,
@@ -491,10 +495,10 @@ C================================================================
 
 C--- IREMGAP - tag of deactivated lines
         IF(FLAGREMNODE==2)THEN
-          K = KREMNODE(2*(IEDG-1)+1)
-          L = KREMNODE(2*(IEDG-1)+2)-1
+          K = KREMNODE_EDG(2*(IEDG-1)+1)
+          L = KREMNODE_EDG(2*(IEDG-1)+2)-1
           DO M=K,L
-            TAGREMLINE(REMNODE(M)) = 1
+            TAGREMLINE(REMNODE_EDG(M)) = 1
           ENDDO
         ENDIF
 
@@ -576,12 +580,12 @@ C-                Local Taged lines are removed
                   ENDIF
 
                   IF(TAGREMLINE(JJ)==0) THEN
-C-                Even if it is not Remote lines have to be looked in remote list
-                     K = KREMNODE(2*(IEDG-1)+2)
-                     L = KREMNODE(2*(IEDG-1)+3)-1
+C-                Even if it is not Remote lines have to be looked in remote list: Edge oin 2 procs
+                     K = KREMNODE_EDG(2*(IEDG-1)+2)
+                     L = KREMNODE_EDG(2*(IEDG-1)+3)-1
                      REMOVE_REMOTE = 0
                      DO M=K,L,2
-                        IF ((SS1==REMNODE(M)).AND.(SS2==REMNODE(M+1))) REMOVE_REMOTE = 1
+                        IF ((SS1==REMNODE_EDG(M)).AND.(SS2==REMNODE_EDG(M+1))) REMOVE_REMOTE = 1
                      ENDDO
                      IF (REMOVE_REMOTE==1) THEN
                         CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
@@ -590,11 +594,11 @@ C-                Even if it is not Remote lines have to be looked in remote lis
                   ENDIF
                 ELSE
 C-                Remote lines are identified by nodes
-                  K = KREMNODE(2*(IEDG-1)+2)
-                  L = KREMNODE(2*(IEDG-1)+3)-1
+                  K = KREMNODE_EDG(2*(IEDG-1)+2)
+                  L = KREMNODE_EDG(2*(IEDG-1)+3)-1
                   REMOVE_REMOTE = 0
                   DO M=K,L,2
-                    IF ((SS1==REMNODE(M)).AND.(SS2==REMNODE(M+1))) REMOVE_REMOTE = 1
+                    IF ((SS1==REMNODE_EDG(M)).AND.(SS2==REMNODE_EDG(M+1))) REMOVE_REMOTE = 1
                   ENDDO
                   IF (REMOVE_REMOTE==1) THEN
                     CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
@@ -656,10 +660,10 @@ C       Reset TAGEDG
 
 C--- IREMGAP - clean of tagremline
         IF(FLAGREMNODE==2)THEN
-          K = KREMNODE(2*(IEDG-1)+1)
-          L = KREMNODE(2*(IEDG-1)+2)-1
+          K = KREMNODE_EDG(2*(IEDG-1)+1)
+          L = KREMNODE_EDG(2*(IEDG-1)+2)-1
           DO M=K,L
-            TAGREMLINE(REMNODE(M)) = 0
+            TAGREMLINE(REMNODE_EDG(M)) = 0
           ENDDO
         ENDIF
 
@@ -777,6 +781,15 @@ C debug only
         DEBUG_E2E(INT_CHECKSUM(IDS,4,1)==D_EM,ZMAX_EDGM)
 #endif
 
+C--- IREMGAP - tag of deactivated lines
+        IF(FLAGREMNODE==2)THEN
+          K = KREMNODE_E2S(2*(NE-1)+1)
+          L = KREMNODE_E2S(2*(NE-1)+2)-1
+          DO M=K,L
+            TAGREMLINE(REMNODE_E2S(M)) = 1
+          ENDDO
+        ENDIF
+
         DO IZ = IZ1,IZ2
          DO IY = IY1,IY2
           DO IX = IX1,IX2        
@@ -828,7 +841,28 @@ C debug only
                 ENDIF
               ENDIF
 
-
+C             IREMPGAP
+              IF (FLAGREMNODE == 2) THEN
+                 IF (JJ.LE.NEDGE)THEN
+C-                Local Taged lines are removed
+                    IF(TAGREMLINE(JJ)==1) THEN
+                       CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
+                       CYCLE
+                    ENDIF
+                 ELSE
+C-                  Remote lines are identified by nodes
+                    K = KREMNODE_E2S(2*(NE-1)+2)
+                    L = KREMNODE_E2S(2*(NE-1)+3)-1
+                    REMOVE_REMOTE = 0
+                    DO M=K,L,2
+                       IF ((SS1==REMNODE_E2S(M)).AND.(SS2==REMNODE_E2S(M+1))) REMOVE_REMOTE = 1
+                    ENDDO
+                    IF (REMOVE_REMOTE==1) THEN
+                       CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
+                       CYCLE
+                     ENDIF
+                 ENDIF
+              ENDIF
 
 CCC ================== DEBUG PRINT =====================
 C               IF(JJ > NEDGE) THEN
@@ -900,6 +934,15 @@ C       Reset TAGEDG
           ENDDO   !NEXT IZ
          ENDDO    !NEXT IY
         ENDDO     !NEXT IZ 
+
+C--- IREMGAP - clean of tagremline
+        IF(FLAGREMNODE==2)THEN
+          K = KREMNODE_E2S(2*(NE-1)+1)
+          L = KREMNODE_E2S(2*(NE-1)+2)-1
+          DO M=K,L
+            TAGREMLINE(REMNODE_E2S(M)) = 0
+          ENDDO
+        ENDIF
 
       ENDDO       !NEXT IEDG
 C-------------------------------------------------------------------------
@@ -974,4 +1017,3 @@ C================================================================
 
       RETURN
       END
-

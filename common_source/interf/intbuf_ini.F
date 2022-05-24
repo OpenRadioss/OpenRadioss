@@ -318,6 +318,10 @@ C---------will be cleaned after
         INTBUF_TAB(NI)%S_KREMNODE_EDG = INTBUF_SIZE(N)
         N = N+1
         INTBUF_TAB(NI)%S_REMNODE_EDG  = INTBUF_SIZE(N)
+        N = N+1
+        INTBUF_TAB(NI)%S_KREMNODE_E2S = INTBUF_SIZE(N)
+        N = N+1
+        INTBUF_TAB(NI)%S_REMNODE_E2S  = INTBUF_SIZE(N)
 
 C=================================================
 c READ REAL SIZES
@@ -831,6 +835,18 @@ C=================================================
         ALLOCATE(INTBUF_TAB(NI)%REMNODE_EDG(SIZ))
         IF(SIZ.GT.0)THEN
           CALL READ_I_C(INTBUF_TAB(NI)%REMNODE_EDG,SIZ)
+        ENDIF
+
+        SIZ = INTBUF_TAB(NI)%S_KREMNODE_E2S
+        ALLOCATE(INTBUF_TAB(NI)%KREMNODE_E2S(SIZ))
+        IF(SIZ.GT.0)THEN
+          CALL READ_I_C(INTBUF_TAB(NI)%KREMNODE_E2S,SIZ)
+        ENDIF
+
+        SIZ = INTBUF_TAB(NI)%S_REMNODE_E2S
+        ALLOCATE(INTBUF_TAB(NI)%REMNODE_E2S(SIZ))
+        IF(SIZ.GT.0)THEN
+          CALL READ_I_C(INTBUF_TAB(NI)%REMNODE_E2S,SIZ)
         ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_ADCCM

@@ -38,13 +38,15 @@ Chd|====================================================================
      6   STFE     ,NCONT   ,GAP_M   ,ITASK    ,BGAPEMX  ,
      7   I_MEM    ,ITAB    ,MBINFLG  ,EBINFLG ,LL_STOK  ,
      8   MULNSNS  ,ILEV    ,CAND_A   ,CAND_P  ,IGAP0    ,
-     9   FLAGREMNODE,KREMNOD,REMNOD   ,
+     9   FLAGREMNODE,KREMNODE_EDG,REMNODE_EDG,KREMNODE_E2S ,
+     .                                        REMNODE_E2S,
      A   IGAP    ,GAP_M_L   ,IEDGE    ,NEDGE    ,MSEGTYP,
      B   LEDGE   ,ADMSR,EDG_BISECTOR,VTX_BISECTOR,
      C   CANDM_E2S,CANDS_E2S  ,CAND_B ,CAND_PS ,GAPE ,
      D   GAP_E_L, NEDGE_LOCAL ,IFQ   ,CANDE2E_FX ,CANDE2E_FY,
      E   CANDE2E_FZ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,
-     F   IFPEN_E  ,IFPEN_E2S ) 
+     F   IFPEN_E  ,IFPEN_E2S ,KREMNODE_EDG_SIZ,REMNODE_EDG_SIZ,
+     G   KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ) 
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,8 +80,10 @@ C-----------------------------------------------
      .        II_STOK, LL_STOK, ITAB(*),MBINFLG(*), LEDGE(NLEDGE,*), ADMSR(*), MSEGTYP(*)
       INTEGER EBINFLG(*)
       INTEGER :: NEDGE_LOCAL
-      INTEGER 
-     .        FLAGREMNODE, KREMNOD(*), REMNOD(*)
+      INTEGER , INTENT(IN) :: KREMNODE_EDG_SIZ,REMNODE_EDG_SIZ,KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ 
+      INTEGER , INTENT(IN) :: 
+     .        FLAGREMNODE, KREMNODE_EDG(KREMNODE_EDG_SIZ), REMNODE_EDG(REMNODE_EDG_SIZ),
+     .        KREMNODE_E2S(KREMNODE_E2S_SIZ), REMNODE_E2S(REMNODE_E2S_SIZ)
 C     REAL ou REAL*8
       my_real
      .   GAP,PMAX_GAP,VMAXDT,DRAD,
@@ -223,12 +227,14 @@ C
      6   IGAP    ,GAP_M    ,GAP_M_L ,DRAD     ,MARGE    ,
      7   ITASK    ,ITAB    ,LL_STOK ,MULNSNS  ,
      8   MBINFLG , EBINFLG ,ILEV     ,CAND_A  ,CAND_P   ,
-     9      FLAGREMNODE,KREMNOD,REMNOD  ,
+     9   FLAGREMNODE,KREMNODE_EDG,REMNODE_EDG,KREMNODE_E2S ,
+     .                                     REMNODE_E2S   ,
      A   IEDGE   ,NEDGE    ,LEDGE    ,MSEGTYP ,IGAP0    ,
      B   ADMSR,EDG_BISECTOR,VTX_BISECTOR,
      C   CANDM_E2S,CANDS_E2S,CAND_B,CAND_PS,GAPE ,
      D   GAP_E_L,NEDGE_LOCAL,IFQ,CANDE2E_FX ,CANDE2E_FY,
-     E   CANDE2E_FZ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,IFPEN_E,IFPEN_E2S  )
+     E   CANDE2E_FZ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,IFPEN_E,IFPEN_E2S,
+     F   KREMNODE_EDG_SIZ,REMNODE_EDG_SIZ,KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ) 
 C
 C     I_MEM /= 0 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
 C

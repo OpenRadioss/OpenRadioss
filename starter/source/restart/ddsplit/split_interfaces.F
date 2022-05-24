@@ -212,6 +212,7 @@ c     .        RCONT
        INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_EDGE,TAG_EDGE2
        INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_II_E2E
        INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_II_E2S
+       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_JJ_E2E,TAG_JJ_E2S 
 
 C ----------------------------------------
 !      NODLOCAL24 is used for interface /TYPE24 or /TYPE25
@@ -2496,10 +2497,14 @@ c=====================================================================
           IF(IEDGE/=0)THEN
             ALLOCATE(TAG_II_E2E(II_STOK_E))
             ALLOCATE(TAG_II_E2S(II_STOK_S))
+            ALLOCATE(TAG_JJ_E2E(II_STOK_E))
+            ALLOCATE(TAG_JJ_E2S(II_STOK_S))
             CALL PREPARE_SPLIT_CAND_I25_EDGE(INTBUF_TAB(NI),TAG_SEGM2,
      .                               TAG_EDGE,  NEDGE_L,  TAG_EDGE2, NEDGE,
      .                               II_STOK_E, II_STOK_E_L, TAG_II_E2E,
-     .                               II_STOK_S, II_STOK_S_L, TAG_II_E2S,PROC)
+     .                               II_STOK_S, II_STOK_S_L, TAG_II_E2S,
+     .                               PROC     , IPARI(63,NI),IPARI(83,NI),
+     .                               NRTM     , TAG_JJ_E2E  ,TAG_JJ_E2S )
           END IF
 
 c split and write on disk integers arrays
@@ -2583,9 +2588,14 @@ C
      .                            TAG_SEGM2,NREMNODE_L      , NODLOCAL ,NREMNOR, 
      .                            NSN      , NSN_L , TAG_NODE_2RY2,ITAB,
      .                            NUMNOD_L )
-           IF(IEDGE.GT.0) CALL SPLIT_REMNODE_I25_EDGE(PROC     , INTBUF_TAB, NEDGE    , NEDGE_L,
+            IF(IEDGE.GT.0) THEN
+               CALL SPLIT_REMNODE_I25_EDGE(PROC     , INTBUF_TAB(NI), NEDGE    , NEDGE_L,
      .                            TAG_EDGE   ,TAG_EDGE2        , TAG_SEGM2 , ITAB     ,NUMNOD_L  ,  
      .                            IPARI_L(94,NI))
+               CALL SPLIT_REMNODE_I25_E2S(PROC     , INTBUF_TAB(NI), NRTM    , NRTM_L,
+     .                            TAG_EDGE   ,TAG_EDGE2        , TAG_SEGM2 , ITAB     ,NUMNOD_L  ,  
+     .                            IPARI_L(96,NI))
+            ENDIF
           ENDIF
 
 C-------ILEV=2 for remove S1/S1 S2/S2 in case of S1/S2 input
@@ -2679,7 +2689,8 @@ C
             CALL SPLIT_CAND_I25_EDGE(INTBUF_TAB(NI),TAG_SEGM2, PROC,NI,
      .                             TAG_EDGE,  NEDGE_L,  TAG_EDGE2, NEDGE,
      .                             II_STOK_E, II_STOK_E_L, TAG_II_E2E,
-     .                             II_STOK_S, II_STOK_S_L, TAG_II_E2S)
+     .                             II_STOK_S, II_STOK_S_L, TAG_II_E2S,
+     .                             TAG_JJ_E2E,TAG_JJ_E2S )
 
 
           END IF
@@ -2818,8 +2829,8 @@ C          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%VTX_BISECTOR,NADMSR_L,6,TAG_SM)
      .              KNOR2MSR,NOR2MSR,TAG_NODE_2RY2)
           DEALLOCATE(TAG_EDGE)
           DEALLOCATE(TAG_EDGE2)
-          IF(IEDGE /=0)  DEALLOCATE(TAG_II_E2S)
-          IF(IEDGE /=0)  DEALLOCATE(TAG_II_E2E)
+          IF(IEDGE /=0)  DEALLOCATE(TAG_II_E2S,TAG_JJ_E2S)
+          IF(IEDGE /=0)  DEALLOCATE(TAG_II_E2E,TAG_JJ_E2E)
         ENDIF !ENDIF (ALL ITYP) 
 
 !       ----------------------------------

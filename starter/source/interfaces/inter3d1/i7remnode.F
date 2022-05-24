@@ -1468,7 +1468,7 @@ C-----------------------------------------------
       INTEGER ILEV,II,J,NMN,NSN,NRTS,NRTM,LREMNORMAX,K,
      .        NLINS,NLINM,IWOUT,INCOM,NM,N2,IFLAG,NRE,ip,IACT,
      .        IF7,IF24,IF25,NN2,NNOD,M1,M2,M3,M4,NNREM,IBIT,NEW,
-     .        KI,KL,JJ
+     .        KI,KL,JJ,IEDGE,NEDGE
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGD
       INTEGER ID
       CHARACTER*nchartitle,
@@ -1481,7 +1481,7 @@ C-----------------------------------------------
 
         
         INTEGER :: III,JJJ,NNOD_2
-        INTEGER :: FIRST,LAST,NNREM_SAVE
+        INTEGER :: FIRST,LAST,NNREM_SAVE,FLAGREMNODE_SAV
         INTEGER :: OFFSET, NBR_INTRA,NBR_EXTRA,TOTAL_INSERTED
         INTEGER :: SIZE_INSERTED_NODE,OLDSIZE,MAX_INSERTED_NODE
         INTEGER, DIMENSION(:), ALLOCATABLE :: NBR_INSERT_II,ADRESS_II
@@ -1644,6 +1644,7 @@ C---------
                     IF7   =IPARI(54,N)
                     IF24  =IPARI(63,N)
                     IF25  =IPARI(83,N)
+                    IEDGE = IPARI(58,N)
 
                     ALLOCATE( NBR_INSERT_II(NRTM) )
                     ALLOCATE( ADRESS_II(NRTM) )
@@ -1659,6 +1660,7 @@ C----- --
                             TAGD(1:NUMNOD)=2
                             JJJ = 0
                             FLAGREMNODE=IPARI(63,N)
+                            FLAGREMNODE_SAV=IPARI(63,N)
 C--------dim first  
                             NNREM = 0      
                             DO JJ=1,NSN
@@ -1952,7 +1954,15 @@ C-------  Reset IRTLM & PENE_OLD (cf INACTI)
 
                     DEALLOCATE( NBR_INSERT_II )
                     DEALLOCATE( ADRESS_II )
-                    DEALLOCATE( KREMNODE_SAVE )     
+                    DEALLOCATE( KREMNODE_SAVE ) 
+C-------------------------------------------------
+C       IremI2 for edge to edge contact type 25
+C-----------------------------------------------
+
+                    IF(NTY==25.AND.IF25>0.AND.IEDGE>0)THEN
+                      CALL REMN_I2OP_EDG25(N          ,FLAGREMNODE_SAV ,IPARI   ,INTBUF_TAB   ,I2NODE,
+     .                                     POINTS_I2N ,I2NODE_SIZE     ,NOM_OPT  ,ITAB        )
+                    ENDIF      
         END DO 
 
         DEALLOCATE(TAGD,I2NODE,POINTS_I2N)
@@ -2705,4 +2715,3 @@ C ----- message out
 C      
       RETURN
       END
-

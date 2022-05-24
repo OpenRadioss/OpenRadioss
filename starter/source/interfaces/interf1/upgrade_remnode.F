@@ -280,3 +280,152 @@ C
 C
 
       END
+
+
+Chd|====================================================================
+Chd|  UPGRADE_REMNODE_EDG2           source/interfaces/interf1/upgrade_remnode.F
+Chd|-- called by -----------
+Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
+Chd|        ININTR                        source/interfaces/interf1/inintr.F
+Chd|-- calls ---------------
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        INTBUFMOD                     share/modules1/restart_mod.F  
+Chd|====================================================================
+      SUBROUTINE UPGRADE_REMNODE_EDG2(IPARI,NREMNODE,INTBUF_TAB)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE INTBUFMOD
+      USE INTBUFDEF_MOD
+C-------------------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "tabsiz_c.inc"
+#include      "param_c.inc"
+#include      "com04_c.inc"
+#include      "scr03_c.inc"
+#include      "scr05_c.inc"
+#include      "intread_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER , INTENT(IN) :: NREMNODE
+      INTEGER , INTENT(INOUT) :: IPARI(NPARI)
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I,OLD_SIZE ,NEDGE
+
+      TYPE(INTBUF_STRUCT_) INTBUF_TAB
+      INTEGER, DIMENSION (:), ALLOCATABLE :: OLD_TAB
+C======================================================================|
+C Set Global parameters
+C Set the new NREMNODE parameter for the given Interface
+      IPARI(94) = NREMNODE
+      NEDGE = IPARI(68) 
+
+      DEALLOCATE(INTBUF_TAB%KREMNODE_EDG)
+
+      !reallocate with new size and copy saved values for KREMNODE array
+      INTBUF_TAB%S_KREMNODE_EDG = 2*(NEDGE + 1)
+      ALLOCATE(INTBUF_TAB%KREMNODE_EDG(INTBUF_TAB%S_KREMNODE_EDG))
+      INTBUF_TAB%KREMNODE_EDG(1:INTBUF_TAB%S_KREMNODE_EDG)=0
+
+      OLD_SIZE = INTBUF_TAB%S_REMNODE_EDG
+      ALLOCATE (OLD_TAB(OLD_SIZE))
+      !save values
+      DO I=1,OLD_SIZE
+        OLD_TAB(I)=INTBUF_TAB%REMNODE_EDG(I)
+      ENDDO      
+      DEALLOCATE(INTBUF_TAB%REMNODE_EDG)
+
+      !reallocate with new size and copy saved values
+      INTBUF_TAB%S_REMNODE_EDG = NREMNODE
+      ALLOCATE(INTBUF_TAB%REMNODE_EDG(INTBUF_TAB%S_REMNODE_EDG))
+      INTBUF_TAB%REMNODE_EDG(1:INTBUF_TAB%S_REMNODE_EDG)=0
+      DO I=1,OLD_SIZE
+        INTBUF_TAB%REMNODE_EDG(I) = OLD_TAB(I)
+      ENDDO   
+C
+      DEALLOCATE(OLD_TAB)
+C
+
+      END
+
+Chd|====================================================================
+Chd|  UPGRADE_REMNODE_E2S           source/interfaces/interf1/upgrade_remnode.F
+Chd|-- called by -----------
+Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
+Chd|        ININTR                        source/interfaces/interf1/inintr.F
+Chd|-- calls ---------------
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        INTBUFMOD                     share/modules1/restart_mod.F  
+Chd|====================================================================
+      SUBROUTINE UPGRADE_REMNODE_E2S(IPARI,NREMNODE,INTBUF_TAB)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE INTBUFMOD
+      USE INTBUFDEF_MOD
+C-------------------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "tabsiz_c.inc"
+#include      "param_c.inc"
+#include      "com04_c.inc"
+#include      "scr03_c.inc"
+#include      "scr05_c.inc"
+#include      "intread_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER , INTENT(IN) :: NREMNODE
+      INTEGER , INTENT(INOUT) :: IPARI(NPARI)
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I,OLD_SIZE ,NRTM
+
+      TYPE(INTBUF_STRUCT_) INTBUF_TAB
+      INTEGER, DIMENSION (:), ALLOCATABLE :: OLD_TAB
+C======================================================================|
+C Set Global parameters
+C Set the new NREMNODE parameter for the given Interface
+      IPARI(96) = NREMNODE
+      NRTM = IPARI(4) 
+
+      DEALLOCATE(INTBUF_TAB%KREMNODE_E2S)
+
+      !reallocate with new size and copy saved values for KREMNODE array
+      INTBUF_TAB%S_KREMNODE_E2S = 2*(NRTM + 1)
+      ALLOCATE(INTBUF_TAB%KREMNODE_E2S(INTBUF_TAB%S_KREMNODE_E2S))
+      INTBUF_TAB%KREMNODE_E2S(1:INTBUF_TAB%S_KREMNODE_E2S)=0
+
+      OLD_SIZE = INTBUF_TAB%S_REMNODE_E2S
+      ALLOCATE (OLD_TAB(OLD_SIZE))
+      !save values
+      DO I=1,OLD_SIZE
+        OLD_TAB(I)=INTBUF_TAB%REMNODE_E2S(I)
+      ENDDO      
+      DEALLOCATE(INTBUF_TAB%REMNODE_E2S)
+
+      !reallocate with new size and copy saved values
+      INTBUF_TAB%S_REMNODE_E2S = NREMNODE
+      ALLOCATE(INTBUF_TAB%REMNODE_E2S(INTBUF_TAB%S_REMNODE_E2S))
+      INTBUF_TAB%REMNODE_E2S(1:INTBUF_TAB%S_REMNODE_E2S)=0
+      DO I=1,OLD_SIZE
+        INTBUF_TAB%REMNODE_E2S(I) = OLD_TAB(I)
+      ENDDO   
+C
+      DEALLOCATE(OLD_TAB)
+C
+
+      END
