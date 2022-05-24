@@ -467,6 +467,7 @@ C----------------if we copy int7--
 
 C-------tempo: Isurf <- ILEV=IPARI(20) -----
         IPARI(20)=ILEV
+        IF (INACTI==-1.AND.(IGSTI==0.OR.IGSTI==1000)) IGSTI = 4
         IPARI(34)=IGSTI
 
 C
