@@ -464,6 +464,7 @@ C M = 2
 !        7 --> ISOLID = 17 H8C
 !        8 --> IGTYP  = 43
 !        9 --> ISOLID = 18 H8C
+!        10--> IGTYP  = Thickshell 20 or 21 or 22
 !        NLOCAL_OPTION
 !        1 --> sol
 !        2 --> shell
@@ -483,6 +484,7 @@ C M = 2
          SOLTELT(7)  =.0000026600 
          SOLTELT(8)  =.0000012750 
          SOLTELT(9)  =.0000030520
+         SOLTELT(10) =.0000005769
          TET4TELT(1) =.0000004744 
          TET4TELT(2) =.0000016460 
          TET10TELT(1)=.0000018340 
@@ -497,6 +499,7 @@ C M = 2
          SOLTELT(7)  =.0000022490 
          SOLTELT(8)  =.0000009907 
          SOLTELT(9)  =.0000023800
+         SOLTELT(10) =.0000004480
          TET4TELT(1) =.0000002688 
          TET4TELT(2) =.0000014960 
          TET10TELT(1)=.0000016200 
