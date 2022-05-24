@@ -315,3 +315,545 @@ C
 C
       RETURN
       END
+
+
+Chd|====================================================================
+Chd|  REMN_I2OP_EDG25                  source/interfaces/int25/i25remlin.F
+Chd|-- called by -----------
+Chd|        REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
+Chd|-- calls ---------------
+Chd|        ANCMSG                        source/output/message/message.F
+Chd|        FRETITL2                      source/starter/freform.F      
+Chd|        UPGRADE_REMNODE_EDG2          source/interfaces/interf1/upgrade_remnode.F
+Chd|        UPGRADE_REMNODE_E2S          source/interfaces/interf1/upgrade_remnode.F
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|====================================================================
+      SUBROUTINE REMN_I2OP_EDG25(N         ,FLAGREMNODE, IPARI   ,INTBUF_TAB   ,I2NODE  ,
+     .                          POINTS_I2N ,I2NODE_SIZE, NOM_OPT ,ITAB     )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MESSAGE_MOD
+      USE INTBUFDEF_MOD 
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   A n a l y s e   M o d u l e
+C-----------------------------------------------
+#include      "param_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER , INTENT(IN) :: N , FLAGREMNODE, I2NODE_SIZE
+      INTEGER , INTENT(INOUT) :: IPARI(NPARI,NINTER)
+      INTEGER , INTENT(IN) :: I2NODE(I2NODE_SIZE,3),POINTS_I2N(NUMNOD,2)
+      INTEGER , INTENT(IN) :: NOM_OPT(LNOPT1,NINTER),ITAB(NUMNOD)
+
+      TYPE(INTBUF_STRUCT_) , INTENT(INOUT) :: INTBUF_TAB(NINTER)
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "com01_c.inc"
+#include      "com04_c.inc"
+#include      "scr15_c.inc"
+#include      "scr17_c.inc"
+#include      "units_c.inc"
+#include      "my_allocate.inc"
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER II,J,K,IE,NN, NM,N2,ND,NES,NM2,M,
+     .       NN2,NNOD,NNREM_EDG,KI,KL,JJ,IEDG,IEDGS,ES,
+     .       COMPTEUR,I,L,L1,IS,IIS,NS,IADA,III,JJJ,NNOD_2,
+     .       FIRST,LAST,NNREM_EDG_SAVE,
+     .        OFFSET, NBR_INTRA,NBR_EXTRA,TOTAL_INSERTED,
+     .        SIZE_INSERTED_EDG,OLDSIZE,MAX_INSERTED_EDG,
+     .        NREMOV_EDG,NEDGE,MAX_INSERTED_I2,ND_TAG,
+     .        SOL_EDGE,SH_EDGE,IEDGE,NRTM
+      INTEGER, DIMENSION(:),ALLOCATABLE :: TAGD_EDG
+      INTEGER ID
+      CHARACTER*nchartitle,
+     .   TITR
+        INTEGER, DIMENSION(:), ALLOCATABLE :: NBR_INSERT_II,ADRESS_II
+        INTEGER, DIMENSION(:), ALLOCATABLE :: KREMNODE_EDG_SAVE,INSERTED_EDG,REMNODE_EDG,TMP_EDG
+        INTEGER, DIMENSION(:),ALLOCATABLE :: INOD2LIN,NOD2LIN,KNOD2LIN
+        INTEGER, DIMENSION(:),ALLOCATABLE :: TAG_ND,IDX_ND,TAG_NDE
+!       -------------------------------
+!       FIRST : integer , first block of inserted edges
+!       LAST : integer , last block of inserted edges
+!       NNREM_edg_SAVE : integer , internal counter
+!       OFFSET : integer , internal offset for the REMNODE_EDG array
+!       NBR_INTRA : integer , number of old EDGES between 2 blocks
+!       NBR_EXTRA : integer , number of old remaining edges
+!       TOTAL_INSERTED : integer , total number of inserted edgees
+!       NBR_INSERT_II : integer, dimension = NEDGE , number of inserted edges for each II edge
+!       ADRESS_II : integer, dimension = NEDGE , adress of the first inserted edges for each II segment
+!       KREMNODE_EDG_SAVE : integer, dimension = NEDGE+1 , list of old edges
+!       SIZE_INSERTED_EDG : integer, size of the INSERTED_EDG array ; SIZE_INSERTED_EDG is an upper bound, 
+!                            can be optimized!
+!       INSERTED_EDG : integer, dimension = SIZE_INSERTED_EDG, list inserted edges
+!       REMNODE_EDG : integer, dimension = NEDGE + TOTAL_INSERTED, new array with old and inserted edges
+!       -------------------------------
+C-----------------------------------------------
+
+        ID=NOM_OPT(1,N)
+        CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,N),LTITR)
+
+        NEDGE =IPARI(68,N)
+        IEDGE = IPARI(58,N)
+        NRTM = IPARI(4,N)
+C
+        ALLOCATE(INOD2LIN(NUMNOD+1),NOD2LIN(2*NEDGE))
+        ALLOCATE(KNOD2LIN(NUMNOD+1))
+C
+        NOD2LIN(1:2*NEDGE)    = 0
+        KNOD2LIN(1:NUMNOD+1) = 0
+        INOD2LIN(1:NUMNOD+1) = 0
+C-----------------------------------------------
+C  Definition of node to line connections
+C-----------------------------------------------
+C
+        DO I=1,NEDGE
+           NN = INTBUF_TAB(N)%LEDGE(5+(I-1)*NLEDGE)
+           KNOD2LIN(NN) = KNOD2LIN(NN) + 1
+           NN = INTBUF_TAB(N)%LEDGE(6+(I-1)*NLEDGE)
+           KNOD2LIN(NN) = KNOD2LIN(NN) + 1
+        END DO
+C
+        INOD2LIN(1) = 1
+        DO I=1,NUMNOD
+           INOD2LIN(I+1) = INOD2LIN(I) + KNOD2LIN(I)
+         END DO
+         KNOD2LIN(1:NUMNOD+1) = INOD2LIN(1:NUMNOD+1)
+C
+        DO I=1,NEDGE
+           NN = INTBUF_TAB(N)%LEDGE(5+(I-1)*NLEDGE)
+           NOD2LIN(KNOD2LIN(NN)) = I
+           KNOD2LIN(NN) = KNOD2LIN(NN) + 1
+           NN = INTBUF_TAB(N)%LEDGE(6+(I-1)*NLEDGE)
+           NOD2LIN(KNOD2LIN(NN)) = I
+           KNOD2LIN(NN) = KNOD2LIN(NN) + 1
+        END DO
+
+        ALLOCATE(TAGD_EDG(NEDGE))
+
+        SOL_EDGE =IEDGE/10 ! solids
+        SH_EDGE  =IEDGE-10*SOL_EDGE ! shells
+
+C---------------------------------------------------------------------
+C  Main solids : buid tables for deleted edges for each NRTM
+C     Use tabs of N2S : edge is deactivated if 1 node is desactivated
+C--------------------------------------------------------------------
+
+        IF(SOL_EDGE > 0 ) THEN
+
+           MAX_INSERTED_EDG = 0
+           DO I=1,NUMNOD
+                MAX_INSERTED_EDG = MAX( MAX_INSERTED_EDG,(INOD2LIN(I+1)-INOD2LIN(I)) ) 
+           ENDDO
+
+           ALLOCATE( NBR_INSERT_II(NRTM) )
+           ALLOCATE( KREMNODE_EDG_SAVE(NRTM+1) )
+           SIZE_INSERTED_EDG = MAX_INSERTED_EDG*IPARI(62,N)
+           MY_ALLOCATE(INSERTED_EDG,SIZE_INSERTED_EDG) 
+           TAGD_EDG(1:NEDGE)=0
+           KREMNODE_EDG_SAVE(1:NRTM+1) = 0
+           NBR_INSERT_II(1:NRTM) = 0
+           JJJ = 0
+           NNREM_EDG = 0
+           DO II=1,NRTM
+              K = INTBUF_TAB(N)%KREMNODE(II)+1
+              L = INTBUF_TAB(N)%KREMNODE(II+1)               
+              DO M=K,L
+                 NN = INTBUF_TAB(N)%REMNODE(M)
+                 IF ((INOD2LIN(NN+1)-INOD2LIN(NN))/=0) THEN
+                   DO IE=INOD2LIN(NN),INOD2LIN(NN+1)-1 
+                    IEDGS = NOD2LIN(IE)
+                    IF (TAGD_EDG(IEDGS)==0) THEN
+                       NNREM_EDG = NNREM_EDG + 1  
+                       TAGD_EDG(IEDGS)=1  
+                       JJJ = JJJ + 1
+                       INSERTED_EDG(JJJ) = IEDGS  
+                       NBR_INSERT_II(II) = NBR_INSERT_II(II) +1
+                    ENDIF
+                   ENDDO 
+                 ENDIF
+              ENDDO
+              KREMNODE_EDG_SAVE(II+1) = KREMNODE_EDG_SAVE(II)+NBR_INSERT_II(II)
+              DO M=K,L
+                 NN = INTBUF_TAB(N)%REMNODE(M)
+                 IF ((INOD2LIN(NN+1)-INOD2LIN(NN))/=0) THEN
+                   DO IE=INOD2LIN(NN),INOD2LIN(NN+1)-1 
+                    IEDGS = NOD2LIN(IE)
+                    IF (TAGD_EDG(IEDGS)==1) TAGD_EDG(IEDGS)=0 
+                   ENDDO 
+                 ENDIF
+              ENDDO
+           ENDDO
+
+           CALL UPGRADE_REMNODE_E2S(IPARI(1,N),NNREM_EDG,INTBUF_TAB(N))
+
+           INTBUF_TAB(N)%REMNODE_E2S(1:NNREM_EDG) = INSERTED_EDG(1:NNREM_EDG)
+           INTBUF_TAB(N)%KREMNODE_E2S(1:NRTM+1) = KREMNODE_EDG_SAVE(1:NRTM+1) 
+           INTBUF_TAB(N)%KREMNODE_E2S(1)=0
+           DO II=1,NRTM+1
+              INTBUF_TAB(N)%KREMNODE_E2S(II) =INTBUF_TAB(N)%KREMNODE_E2S(II)+1
+           ENDDO
+
+           DEALLOCATE(NBR_INSERT_II,KREMNODE_EDG_SAVE,INSERTED_EDG)
+
+
+C------------Output message 
+           CALL ANCMSG(MSGID=2067,
+     .                 MSGTYPE=MSGWARNING,
+     .                 ANMODE=ANINFO_BLIND_1,
+     .                 I1=ID,
+     .                 C1=TITR,
+     .                 I2=NNREM_EDG)
+
+        ENDIF
+
+C---------------------------------------------------------------------
+C  Main shells : same algorithm  like N2S
+C--------------------------------------------------------------------
+
+        IF(SH_EDGE > 0) THEN
+
+
+          ALLOCATE(TAG_ND(NUMNOD))
+          ALLOCATE(IDX_ND(NUMNOD))
+          ALLOCATE(TAG_NDE(NUMNOD))
+
+          ALLOCATE( NBR_INSERT_II(NEDGE) )
+          ALLOCATE( ADRESS_II(NEDGE) )
+          ALLOCATE( KREMNODE_EDG_SAVE(NEDGE+1) )
+          NBR_INSERT_II(1:NEDGE) = 0
+          ADRESS_II(1:NEDGE) = 0
+          KREMNODE_EDG_SAVE(1:NEDGE+1) = 0
+
+C---------
+          JJJ = 0
+          NNREM_EDG = 0   
+   
+          TAGD_EDG(1:NEDGE)=0
+          TAG_ND(1:NUMNOD) = 0
+          IDX_ND(1:NUMNOD) = 0 
+          TAG_NDE(1:NUMNOD) = 0
+          NREMOV_EDG = IPARI(94,N)
+          IADA= 1
+          IF(NREMOV_EDG>0) KREMNODE_EDG_SAVE(1:NEDGE+1) = INTBUF_TAB(N)%KREMNODE_EDG(1:NEDGE+1)
+
+          SIZE_INSERTED_EDG = 1
+          MAX_INSERTED_EDG = 1
+          MAX_INSERTED_I2 = 1
+          DO II=1,NEDGE           
+            DO J=5,6
+              NM = INTBUF_TAB(N)%LEDGE(J+(II-1)*NLEDGE)
+              IF (POINTS_I2N(NM,1)/=0) THEN
+                MAX_INSERTED_I2 = MAX( MAX_INSERTED_I2,POINTS_I2N(NM,2)-POINTS_I2N(NM,1) )
+                DO I=POINTS_I2N(NM,1),POINTS_I2N(NM,2)
+                   MAX_INSERTED_EDG = MAX( MAX_INSERTED_EDG,(INOD2LIN(NM+1)-INOD2LIN(NM)) ) 
+                ENDDO 
+              ENDIF                                  
+            ENDDO
+          ENDDO
+
+          SIZE_INSERTED_EDG =  8 * NEDGE *MAX_INSERTED_EDG *MAX_INSERTED_I2 ! to check
+
+C
+
+          MY_ALLOCATE(INSERTED_EDG,SIZE_INSERTED_EDG) 
+
+          DO II=1,NEDGE
+            NNREM_EDG_SAVE = NNREM_EDG
+C 
+C          Do not add nodes already stored w/IREM_GAP
+            IF(FLAGREMNODE==2)THEN
+              KI = INTBUF_TAB(N)%KREMNODE_EDG(II)
+              KL = INTBUF_TAB(N)%KREMNODE_EDG(II+1) -1
+              DO J=KI,KL
+                 ES = INTBUF_TAB(N)%REMNODE_EDG(J)
+                 TAGD_EDG(ES)=1
+              END DO
+            ENDIF
+C  
+                               
+            IF(JJJ + MAX_INSERTED_EDG > SIZE_INSERTED_EDG) THEN
+C extend INSERTED_EDG if needed
+               OLDSIZE = SIZE_INSERTED_EDG
+               SIZE_INSERTED_EDG = SIZE_INSERTED_EDG  + MAX(NEDGE,MAX_INSERTED_EDG)
+               MY_ALLOCATE(TMP_EDG,SIZE_INSERTED_EDG)
+               TMP_EDG(1:OLDSIZE) = INSERTED_EDG(1:OLDSIZE)
+!              move_alloc deallocates TMP
+               CALL MOVE_ALLOC(TMP_EDG,INSERTED_EDG)
+            ENDIF
+
+            ND_TAG = 0
+            DO J=5,6
+               NM = INTBUF_TAB(N)%LEDGE(J+(II-1)*NLEDGE)
+               IF (POINTS_I2N(NM,1)/=0) THEN
+                DO I=POINTS_I2N(NM,1),POINTS_I2N(NM,2)
+                  N2 = I2NODE(I,2)
+                  IS = I2NODE(I,3)
+                  IF (IS >0) THEN
+                     NS = INTBUF_TAB(N2)%NSV(IS)
+                     IF (((INOD2LIN(NS+1)-INOD2LIN(NS))/=0).AND.(TAG_NDE(NS)==0)) THEN
+                       TAG_NDE(NS)=1
+                       DO IE=INOD2LIN(NS),INOD2LIN(NS+1)-1  
+                         IEDGS = NOD2LIN(IE)
+                         IF (TAGD_EDG(IEDGS)==0) THEN
+                             NNREM_EDG = NNREM_EDG + 1  
+                             TAGD_EDG(IEDGS)=1  
+                             JJJ = JJJ + 1
+                             INSERTED_EDG(JJJ) = IEDGS      
+                             NES = INTBUF_TAB(N)%LEDGE(5+(IEDGS-1)*NLEDGE)
+                             TAG_ND(NES) = TAG_ND(NES) +1
+                             ND_TAG = ND_TAG + 1
+                             IDX_ND( ND_TAG)=NES
+                             NES = INTBUF_TAB(N)%LEDGE(6+(IEDGS-1)*NLEDGE)
+                             TAG_ND(NES) = TAG_ND(NES) +1
+                             ND_TAG = ND_TAG +1
+                             IDX_ND( ND_TAG)=NES
+                         END IF
+                       ENDDO
+                     ENDIF
+                  ELSEIF (IS <0) THEN
+                      IIS = -IS
+                      L = INTBUF_TAB(N2)%IRTLM(IIS)
+                      NNOD_2 = 4
+                      IF( INTBUF_TAB(N2)%IRECTM(4*(L-1)+4)==INTBUF_TAB(N2)%IRECTM(4*(L-1)+3) ) NNOD_2 = 3
+                      DO III = 1,NNOD_2
+                         NM2 = INTBUF_TAB(N2)%IRECTM(4*(L-1)+III)
+                         IF (((INOD2LIN(NM2+1)-INOD2LIN(NM2))/=0).AND.(TAG_NDE(NM2)==0)) THEN
+                           TAG_NDE(NM2)=1
+                           DO IE=INOD2LIN(NM2),INOD2LIN(NM2+1)-1  
+                            IEDGS = NOD2LIN(IE)                                                                                             
+                            IF (TAGD_EDG(IEDGS)==0) THEN
+                                NNREM_EDG = NNREM_EDG + 1  
+                                TAGD_EDG(IEDGS)=1  
+                                JJJ = JJJ + 1
+                                INSERTED_EDG(JJJ) = IEDGS     
+                                NES = INTBUF_TAB(N)%LEDGE(5+(IEDGS-1)*NLEDGE)
+                                TAG_ND(NES) = TAG_ND(NES) +1
+                                ND_TAG = ND_TAG +1
+                                IDX_ND( ND_TAG)=NES
+                                NES = INTBUF_TAB(N)%LEDGE(6+(IEDGS-1)*NLEDGE)
+                                TAG_ND(NES) = TAG_ND(NES) +1  
+                                ND_TAG = ND_TAG +1
+                                IDX_ND( ND_TAG)=NES 
+                             END IF
+                           ENDDO 
+                         ENDIF
+                      ENDDO
+                  END IF
+                ENDDO
+               ENDIF
+            END DO
+            
+           !   -------------------
+           !   Adding edges where 2 nodes already tagged 
+          
+            DO ND = 1,ND_TAG
+              NES = IDX_ND( ND)
+              IF(TAG_ND(NES) ==1)THEN
+                 IF ((INOD2LIN(NES+1)-INOD2LIN(NES))/=0) THEN
+                  DO IE=INOD2LIN(NES),INOD2LIN(NES+1)-1  
+                     IEDGS = NOD2LIN(IE) 
+                     DO J=5,6
+                        NM =INTBUF_TAB(N)%LEDGE(J+(IEDGS-1)*NLEDGE)
+                        IF(TAG_ND(NM)==1.AND.TAGD_EDG(IEDGS) ==0) THEN
+                           NNREM_EDG = NNREM_EDG + 1  
+                           TAGD_EDG(IEDGS)=1  
+                           JJJ = JJJ + 1
+                           INSERTED_EDG(JJJ) = IEDGS  
+                        ENDIF
+                     ENDDO
+                  ENDDO
+                 ENDIF
+              ENDIF
+            ENDDO
+            
+           !   -------------------
+           !   number of inserted edges
+            NBR_INSERT_II(II) = NNREM_EDG - NNREM_EDG_SAVE
+            KREMNODE_EDG_SAVE(II) = KREMNODE_EDG_SAVE(II+1) - KREMNODE_EDG_SAVE(II)
+            IADA = IADA + KREMNODE_EDG_SAVE(II)
+           !   adress of the first inserted node
+            ADRESS_II(II) = IADA
+            KREMNODE_EDG_SAVE(II) = IADA + NBR_INSERT_II(II) - 1
+            IADA = IADA + NBR_INSERT_II(II)
+                                !   -------------------
+                                
+C-----reset    TAGD_EDG=0     
+
+            DO ND = 1,ND_TAG
+              NES = IDX_ND( ND)
+              IF(TAG_ND(NES) ==1)THEN
+                 IF ((INOD2LIN(NES+1)-INOD2LIN(NES))/=0) THEN
+                  DO IE=INOD2LIN(NES),INOD2LIN(NES+1)-1  
+                     IEDGS = NOD2LIN(IE) 
+                      DO J=5,6
+                         NM =INTBUF_TAB(N)%LEDGE(J+(IEDGS-1)*NLEDGE)
+                         IF(TAGD_EDG(IEDGS) ==1) TAGD_EDG(IEDGS)=0
+                       ENDDO
+                   ENDDO
+                  ENDIF
+              ENDIF
+            ENDDO  
+            DO J=5,6
+              NM = INTBUF_TAB(N)%LEDGE(J+(II-1)*NLEDGE)
+              IF (POINTS_I2N(NM,1)/=0) THEN
+               DO I=POINTS_I2N(NM,1),POINTS_I2N(NM,2)
+                 N2 = I2NODE(I,2)
+                 IS = I2NODE(I,3)
+                 IF (IS >0) THEN
+                     NS = INTBUF_TAB(N2)%NSV(IS)
+                     IF (((INOD2LIN(NS+1)-INOD2LIN(NS))/=0).AND.(TAG_NDE(NS)==1)) THEN
+                       TAG_NDE(NS)=0
+                       DO IE=INOD2LIN(NS),INOD2LIN(NS+1)-1  
+                        IEDGS = NOD2LIN(IE)    
+                        IF (TAGD_EDG(IEDGS)==1) THEN
+                            TAGD_EDG(IEDGS)=0
+                            NES = INTBUF_TAB(N)%LEDGE(5+(IEDGS-1)*NLEDGE)
+                            TAG_ND(NES) = 0
+                            NES = INTBUF_TAB(N)%LEDGE(6+(IEDGS-1)*NLEDGE)
+                            TAG_ND(NES) = 0
+                        ENDIF
+                       ENDDO
+                     ENDIF
+                 ELSEIF (IS <0) THEN
+                     IIS = -IS
+                     L = INTBUF_TAB(N2)%IRTLM(IIS)
+                     NNOD_2 = 4
+                     IF( INTBUF_TAB(N2)%IRECTM(4*(L-1)+4)==INTBUF_TAB(N2)%IRECTM(4*(L-1)+3) ) NNOD_2 = 3
+                     DO III = 1,NNOD_2
+                        NM2 = INTBUF_TAB(N2)%IRECTM(4*(L-1)+III)
+                        IF ((INOD2LIN(NM2+1)-INOD2LIN(NM2))/=0.AND.(TAG_NDE(NM2)==1)) THEN
+                          TAG_NDE(NM2)=0
+                          DO IE=INOD2LIN(NM2),INOD2LIN(NM2+1)-1  
+                           IEDGS = NOD2LIN(IE)                                     
+                           IF (TAGD_EDG(IEDGS)==1) THEN
+                               TAGD_EDG(IEDGS)=0
+                               NES = INTBUF_TAB(N)%LEDGE(5+(IEDGS-1)*NLEDGE)
+                               TAG_ND(NES) = 0
+                               NES = INTBUF_TAB(N)%LEDGE(6+(IEDGS-1)*NLEDGE)
+                               TAG_ND(NES) = 0
+                           ENDIF
+                          ENDDO 
+                        ENDIF
+                     ENDDO
+                 END IF
+               END DO
+              ENDIF
+            ENDDO
+
+            IF(FLAGREMNODE==2)THEN
+              DO IE=KI,KL
+                 IEDGS = INTBUF_TAB(N)%REMNODE_EDG(IE)
+                 TAGD_EDG(IEDGS)=0
+              END DO
+            END IF
+C
+          END DO !II=1,NEDGE
+
+          IF(NNREM_EDG>0) THEN
+                              
+           ! get the first and the last inserted node
+            FIRST = 0
+            LAST = 0
+            DO II = 1,NEDGE
+               IF(FIRST==0) THEN
+                 IF( NBR_INSERT_II(II)/=0 ) FIRST = II
+               ENDIF
+               IF(LAST==0) THEN
+                 IF( NBR_INSERT_II(NEDGE+1-II)/=0 ) LAST = NEDGE+1-II
+               ENDIF
+            ENDDO
+           !       count the total number of inserted edges
+            TOTAL_INSERTED = 0
+            DO II=1,NEDGE
+               TOTAL_INSERTED = TOTAL_INSERTED + NBR_INSERT_II(II)
+            ENDDO
+          !       allocate the buffer array
+            ALLOCATE( REMNODE_EDG(NREMOV_EDG+TOTAL_INSERTED) )
+       
+            J = 0
+            I = 0
+            OFFSET = 0
+            IF( FIRST>0 ) THEN
+             !   insertion of the first chunk of edge : if ADRESS_II(FIRST) > 1
+             !   --> need to copy the old edges 
+              IF( ADRESS_II(FIRST)>1 ) THEN
+                REMNODE_EDG(1:ADRESS_II(FIRST)-1) = INTBUF_TAB(N)%REMNODE_EDG(1:ADRESS_II(FIRST)-1)
+                OFFSET = OFFSET + ADRESS_II(FIRST)-1
+                I = I + ADRESS_II(FIRST)-1
+              ENDIF
+        
+              DO II=FIRST,LAST
+               !       insertion of the edges
+                IF( NBR_INSERT_II(II)>0 ) THEN
+                   DO JJ = 1,NBR_INSERT_II(II)
+                      J = J + 1
+                      REMNODE_EDG(OFFSET+NBR_INSERT_II(II)+1-JJ) = INSERTED_EDG(J)
+                   ENDDO
+                   OFFSET = OFFSET + NBR_INSERT_II(II)
+                ENDIF
+                IF(II<LAST.AND.NREMOV_EDG>0) THEN
+                 ! copy of the old edges
+                   NBR_INTRA = ADRESS_II(II+1) - ADRESS_II(II)-NBR_INSERT_II(II)
+                   IF( NBR_INTRA>0 )THEN
+                      DO JJ = 1,NBR_INTRA
+                         I = I + 1
+                         REMNODE_EDG(JJ+OFFSET) = INTBUF_TAB(N)%REMNODE_EDG(I)
+                      ENDDO
+                      OFFSET = OFFSET + NBR_INTRA
+                   ENDIF
+                ENDIF
+              ENDDO
+            ENDIF
+         !       copy of the old edges for the LAST chunk
+
+            IF( I<NREMOV_EDG ) THEN
+               NBR_EXTRA = NREMOV_EDG - I
+               REMNODE_EDG(OFFSET+1:OFFSET+NBR_EXTRA) = INTBUF_TAB(N)%REMNODE_EDG(I+1:NREMOV_EDG)
+            ENDIF
+          !       update of NNREM_edg and deallocation / allocation of the new array
+            NNREM_EDG = NNREM_EDG + NREMOV_EDG
+            CALL UPGRADE_REMNODE_EDG2(IPARI(1,N),NNREM_EDG,INTBUF_TAB(N))
+            INTBUF_TAB(N)%REMNODE_EDG(1:NNREM_EDG) = REMNODE_EDG(1:NNREM_EDG)
+            INTBUF_TAB(N)%KREMNODE_EDG(2:NEDGE+1) = KREMNODE_EDG_SAVE(1:NEDGE) 
+            INTBUF_TAB(N)%KREMNODE_EDG(1)=0
+            DO II=1,NEDGE+1
+              INTBUF_TAB(N)%KREMNODE_EDG(II) =INTBUF_TAB(N)%KREMNODE_EDG(II)+1
+            ENDDO
+
+C------------Output message 
+            CALL ANCMSG(MSGID=2067,
+     .                 MSGTYPE=MSGWARNING,
+     .                 ANMODE=ANINFO_BLIND_1,
+     .                 I1=ID,
+     .                 C1=TITR,
+     .                 I2=NNREM_EDG)
+C----------used for Iedge=1     
+            NREMOV_EDG = NNREM_EDG
+          END IF !IF (NNREM_EDG>0) THEN
+          IF(ALLOCATED(REMNODE_EDG)) DEALLOCATE( REMNODE_EDG )  
+          IF(ALLOCATED(INSERTED_EDG)) DEALLOCATE( INSERTED_EDG )  
+ 
+        !   ------------------------------------------------
+
+          DEALLOCATE( NBR_INSERT_II )
+          DEALLOCATE( ADRESS_II )
+          DEALLOCATE( KREMNODE_EDG_SAVE )     
+
+          DEALLOCATE(TAGD_EDG,TAG_ND,IDX_ND,TAG_NDE)
+
+        ENDIF ! SHELL_EDG
+
+        DEALLOCATE(INOD2LIN,NOD2LIN)
+C----
+        RETURN
+        END

@@ -303,7 +303,11 @@ C------- to be cleaned later
         N = N+1
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_KREMNODE_EDG  
         N = N+1
-        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_REMNODE_EDG  
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_REMNODE_EDG 
+        N = N+1
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_KREMNODE_E2S  
+        N = N+1
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_REMNODE_E2S   
 
 c====================================
 C real arrays sizes
@@ -722,6 +726,12 @@ C        ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_REMNODE_EDG
         CALL WRITE_I_C(INTBUF_TAB(NI)%REMNODE_EDG,SIZ)
+
+        SIZ = INTBUF_TAB(NI)%S_KREMNODE_E2S
+        CALL WRITE_I_C(INTBUF_TAB(NI)%KREMNODE_E2S,SIZ)
+
+        SIZ = INTBUF_TAB(NI)%S_REMNODE_E2S
+        CALL WRITE_I_C(INTBUF_TAB(NI)%REMNODE_E2S,SIZ)
 
         SIZ = INTBUF_TAB(NI)%S_ADCCM
         CALL WRITE_I_C(INTBUF_TAB(NI)%ADCCM,SIZ)

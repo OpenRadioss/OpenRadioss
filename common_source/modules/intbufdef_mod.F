@@ -628,7 +628,9 @@ C---- Irem Gap option for inter type25
         integer ::   S_KREMNOR!  NSN+1    :KREMNOR : skyline tab for main segment adress in REMNOR tab
         integer ::   S_REMNOR!   REMNODE  :REMNOR  : tab for main segment forbidden for each secnd node
         integer ::   S_KREMNODE_EDG   !  NEDGE+1    :KREMNODE_EDG:ADRESS LINES REMOVED FROM CONTACT IN REMNODE ARRAY :      25
-        integer ::   S_REMNODE_EDG    !  NREMNODE   :REMNODE_EDG: LINES REMOVED FROM CONTACT     :      25
+        integer ::   S_REMNODE_EDG    !  NREMNODE_EDG   :REMNODE_EDG: LINES REMOVED FROM CONTACT     :      25
+        integer ::   S_KREMNODE_E2S   !  NRTM+1    :KREMNODE_EDG:ADRESS LINES REMOVED FROM CONTACT IN REMNODE ARRAY :      25
+        integer ::   S_REMNODE_E2S    !  NREMNODE_E2S   :REMNODE_EDG: LINES REMOVED FROM CONTACT     :      25
 C----Nitsche Method
         integer ::   S_IELNRTS!  NRTS      :IELNRTS : number of secnd element 
         integer ::   S_ADRECTS!  4*NRTS    :ADRECTS : Adress of each secnd node of the segment in IXS/IXS10/IXS20/IXS16 
@@ -915,6 +917,8 @@ C---- Irem Gap option for interface type 25
         integer, DIMENSION(:) , POINTER ::  REMNOR 
         integer, DIMENSION(:) , POINTER ::  KREMNODE_EDG  
         integer, DIMENSION(:) , POINTER ::  REMNODE _EDG 
+        integer, DIMENSION(:) , POINTER ::  KREMNODE_E2S  
+        integer, DIMENSION(:) , POINTER ::  REMNODE _E2S 
 C----Nitsche Method
         integer, DIMENSION(:) , POINTER ::  IELNRTS
         integer, DIMENSION(:) , POINTER ::  ADRECTS 
@@ -1091,7 +1095,7 @@ C=================================================
 
 c INTBUF_SIZE array maximum length defined as parameter
 c (maximum number of different arrays composing INTBUF_TAB structure)
-        INTEGER, PARAMETER :: L_INTBUF_SIZE_MAX = 512
+        INTEGER, PARAMETER :: L_INTBUF_SIZE_MAX = 514
 
 c
 c---------------

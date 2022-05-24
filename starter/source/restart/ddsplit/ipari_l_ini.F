@@ -104,7 +104,7 @@ C-----------------------------------------------
      .        NRTSE,NRTSE_L,NSN0,NADMSR,NADMSR_L,SE1,NN,
      .        NRTM_FE,NRTS_FE, NSN_FE ,NMN_FE ,NREMNOR_L,
      .        NEDGE, NEDGE_L, II_STOK_E, II_STOK_EL, K1, K2,
-     .        INTNITSCHE, MY_NODE,
+     .        INTNITSCHE, MY_NODE,NREMNODE_E2S_L,
      .        NSN_IGE,SIZ,NREMNODE_EDG_L,EM1,EM2,ES1,ES2,IK,KM1,KM2,KS1,KS2
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGE, TAGE2
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGI2,TAGG
@@ -309,6 +309,7 @@ C
           NRTS_L     = 0
           NCONTE     = 0
           NREMNODE_EDG_L = 0
+          NREMNODE_E2S_L = 0
 
 C
           IF(ITY.NE.7) THEN
@@ -741,8 +742,10 @@ C
               END IF
 
 
-C-- Iremp - computation of NREMNODE_EDG_L -
+C-- Iremgap/IremI2 - computation of NREMNODE_EDG_L /NREMNODE_E2S_L-
+
              IF (FLAGREMNODE == 2) THEN
+              ! NREMNODE_EDG_L
                 DO K=1,NEDGE
                    EM1 = INTBUF_TAB(NI)%LEDGE(NLEDGE*(K-1)+1)
                    KM1 = 0
@@ -771,6 +774,24 @@ C--                 Remote segment - line is stored as ITAB1 / ITAB2 (2 values)
                       END DO
                    ENDIF
                  ENDDO
+              ! NREMNODE_E2S_L
+                 DO K=1,NRTM
+                   IF(TAGE(K) > 0) THEN
+                      SIZ = INTBUF_TAB(NI)%KREMNODE_E2S(K+1)-INTBUF_TAB(NI)%KREMNODE_E2S(K)
+                      IK = INTBUF_TAB(NI)%KREMNODE_E2S(K)
+                      DO M=1,SIZ
+                         N = INTBUF_TAB(NI)%REMNODE_E2S(IK+M-1)
+                         E = INTBUF_TAB(NI)%LEDGE(NLEDGE*(N-1)+1)  
+                         IF (TAGE(E).NE.0) THEN ! Candidate on the proc where 1st segment sharing the master edge, belongs
+C--                 Local segment - local id is stored
+                            NREMNODE_E2S_L = NREMNODE_E2S_L + 1
+                         ELSE
+C--                 Remote segment - line is stored as ITAB1 / ITAB2 (2 values)
+                            NREMNODE_E2S_L = NREMNODE_E2S_L + 2
+                         ENDIF
+                      ENDDO
+                   ENDIF
+                 ENDDO
                ENDIF
 C
 
@@ -780,6 +801,8 @@ C
             IPARI_L(89,NI)= MULTIMPS
             IPARI_L(90,NI)= NISUBE_L
             IPARI_L(94,NI)= NREMNODE_EDG_L
+            IPARI_L(96,NI)= NREMNODE_E2S_L
+
 
           END IF ! ELSEIF(ITY.EQ.25)THEN
 C

@@ -305,6 +305,10 @@ c====================================
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_KREMNODE_EDG
       N = N+1
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_REMNODE_EDG
+      N = N+1
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_KREMNODE_E2S
+      N = N+1
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_REMNODE_E2S
 
 c====================================
 C real arrays sizes
@@ -2178,7 +2182,9 @@ Chd|====================================================================
             SUBROUTINE PREPARE_SPLIT_CAND_I25_EDGE(INTBUF_TAB,SEGLOC,
      .                             TAG_EDGE, NEDGE_L, TAG_EDGE2, NEDGE,
      .                             II_STOK_E, II_STOK_E_L, TAG_II_E2E,
-     .                             II_STOK_S, II_STOK_S_L, TAG_II_E2S, PROC)
+     .                             II_STOK_S, II_STOK_S_L, TAG_II_E2S, 
+     .                             PROC     , FLAGREMNODE, IREMI2    ,
+     .                             NRTM     , TAG_JJ_E2E , TAG_JJ_E2S)
 
 C-----------------------------------------------
 C   M o d u l e s
@@ -2209,23 +2215,29 @@ C-----------------------------------------------
       INTEGER :: TAG_II_E2S(*) !local id of global E2S cand (OUT)
       INTEGER :: II_STOK_E, II_STOK_E_L 
       INTEGER :: II_STOK_S, II_STOK_S_L
-      INTEGER :: PROC
+      INTEGER :: PROC, IREMI2, FLAGREMNODE, NRTM
+      INTEGER :: TAG_JJ_E2E(*) !Gobal id of global E2E cand (OUT)
+      INTEGER :: TAG_JJ_E2S(*) !Globa id of global E2S cand (OUT)
 
       TYPE(INTBUF_STRUCT_) :: INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,K 
+      INTEGER :: I,J,K,L,M,N1,N2,JJ
       INTEGER :: ID,E1,E2,K1,K2
       INTEGER :: NB_FREE_EDGES            ! number of free edges
       INTEGER :: NB_INTERNAL_EDGES        ! number of edges internal to the domain
       INTEGER :: NB_BOUNDARY_EDGES_LOCAL  ! boundary edges treated by current domain 
       INTEGER :: NB_BOUNDARY_EDGES_REMOTE ! boundary edges treated by the other domain 
+      INTEGER, DIMENSION(:),ALLOCATABLE :: KCANDMS,ICANDMS,CANDMS
+      INTEGER, DIMENSION(:),ALLOCATABLE :: TAGREMCAND_E2E, TAGREMCAND_E2S ! tabs to tag edges to be desactivated 
 C ----------------------------------------
 
 ! prepare split candidates
       TAG_II_E2S(1:II_STOK_S) = 0
       TAG_II_E2E(1:II_STOK_E) = 0
+      TAG_JJ_E2S(1:II_STOK_S) = 0
+      TAG_JJ_E2E(1:II_STOK_E) = 0
 
       ID = 1
       NB_FREE_EDGES = 0
@@ -2318,33 +2330,136 @@ C INTERNAL EDGES
 C       TAG_EDGE2(global id ) = local id 
       ENDDO
 
+C------IREMI2 OPTION : deleting couples already defined in tied contact-------
+      
+      ALLOCATE(TAGREMCAND_E2E(II_STOK_E))
+
+      TAGREMCAND_E2E(1:II_STOK_E) = 0
+      IF(IREMI2==1.AND.FLAGREMNODE==2) THEN
+         !  connectivity edge > contact pairs  
+
+         ALLOCATE(KCANDMS(NEDGE+1))
+         ALLOCATE(ICANDMS(NEDGE+1))
+         ALLOCATE(CANDMS(II_STOK_E))
+         KCANDMS(1:NEDGE+1) = 0
+         ICANDMS(1:NEDGE+1) = 0
+         CANDMS(1:II_STOK_E) = 0
+
+         DO I = 1, II_STOK_E
+            E1 = INTBUF_TAB%CANDM_E2E(I)
+            KCANDMS(E1) =KCANDMS(E1)+1               
+         ENDDO
+         ICANDMS(1) = 1
+         DO I=1,NEDGE
+            ICANDMS(I+1) =  ICANDMS(I) +KCANDMS(I)
+         ENDDO
+         KCANDMS(1:NEDGE+1) = ICANDMS(1:NEDGE+1)
+ 
+         DO I=1,II_STOK_E
+            E1 = INTBUF_TAB%CANDM_E2E(I)
+            CANDMS(KCANDMS(E1)) = I
+            KCANDMS(E1) = KCANDMS(E1) + 1
+         END DO
+
+         DO I=1,NEDGE
+            K = INTBUF_TAB%KREMNODE_EDG(I)
+            L = INTBUF_TAB%KREMNODE_EDG(I+1)-1
+            DO J=ICANDMS(I),ICANDMS(I+1)-1                     
+               DO M=K,L
+                  IF(INTBUF_TAB%CANDS_E2E(CANDMS(J))== INTBUF_TAB%REMNODE_EDG(M)) 
+     .                TAGREMCAND_E2E(CANDMS(J)) = 1 
+               ENDDO
+            ENDDO
+         ENDDO
+         DEALLOCATE(KCANDMS,ICANDMS,CANDMS)
+      ENDIF
+     
       II_STOK_E_L = 0
+      JJ= 0
 C local numbering of E2E candidates
       DO I = 1, II_STOK_E
-        IF(TAG_EDGE2( INTBUF_TAB%CANDM_E2E(I)) > 0) THEN 
-         ! main edge is on this processor
-         ID = INTBUF_TAB%CANDM_E2E(I)
-         IF( INTBUF_TAB%LEDGE(9+(ID-1)*NLEDGE) == PROC ) THEN
-C        main edge is owned by this processor
-C         main edge is local
-C         Secnd is local
-          II_STOK_E_L = II_STOK_E_L + 1
-          TAG_II_E2E(II_STOK_E_L) = I 
-        ENDIF
+         E1 =INTBUF_TAB%CANDM_E2E(I)
+         E2 =INTBUF_TAB%CANDS_E2E(I)
+        IF(TAG_EDGE2( INTBUF_TAB%CANDM_E2E(I)) > 0) THEN                 
+         ! master edge is on this processor
+          ID = INTBUF_TAB%CANDM_E2E(I)
+          IF( INTBUF_TAB%LEDGE(9+(ID-1)*NLEDGE) == PROC ) THEN
+             JJ= JJ + 1
+             TAG_JJ_E2E(I) = JJ 
+             IF(TAGREMCAND_E2E(I)==0) THEN  ! cand deleted IremI2
+C        master edge is owned by this processor
+C         master edge is local
+C         Slave is local
+                II_STOK_E_L = II_STOK_E_L + 1
+                TAG_II_E2E(II_STOK_E_L) = I 
+             ENDIF
+          ENDIF
         ENDIF
       ENDDO
 
+
+C------IREMI2 OPTION : deleting couples already defined in tied contact-------
+     
+      ALLOCATE(TAGREMCAND_E2S(II_STOK_S))
+
+      TAGREMCAND_E2S(1:II_STOK_S) = 0
+      IF(IREMI2==1.AND.FLAGREMNODE==2.AND.II_STOK_S > 0) THEN
+
+         !  connectivity NRTM > contact pairs  
+
+         ALLOCATE(KCANDMS(NRTM+1))
+         ALLOCATE(ICANDMS(NRTM+1))
+         ALLOCATE(CANDMS(II_STOK_S))
+         KCANDMS(1:NRTM+1) = 0
+         ICANDMS(1:NRTM+1) = 0
+         CANDMS(1:II_STOK_S) = 0
+
+         DO I = 1, II_STOK_S
+            E1 = INTBUF_TAB%CANDM_E2S(I)
+            KCANDMS(E1) =KCANDMS(E1)+1               
+         ENDDO
+         ICANDMS(1) = 1
+         DO I=1,NRTM
+            ICANDMS(I+1) =  ICANDMS(I) +KCANDMS(I)
+        ENDDO
+        KCANDMS(1:NRTM+1) = ICANDMS(1:NRTM+1)
+ 
+        DO I=1,II_STOK_S
+           E1 = INTBUF_TAB%CANDM_E2S(I)
+           CANDMS(KCANDMS(E1)) = I
+           KCANDMS(E1) = KCANDMS(E1) + 1
+        END DO
+
+        DO I=1,NRTM
+            K = INTBUF_TAB%KREMNODE_E2S(I)
+            L = INTBUF_TAB%KREMNODE_E2S(I+1)-1
+            DO J=ICANDMS(I),ICANDMS(I+1)-1                     
+               DO M=K,L
+                  IF(INTBUF_TAB%CANDS_E2S(CANDMS(J))== INTBUF_TAB%REMNODE_E2S(M)) 
+     .                TAGREMCAND_E2S(CANDMS(J)) = 1 
+               ENDDO
+            ENDDO
+         ENDDO
+
+         DEALLOCATE(KCANDMS,ICANDMS,CANDMS)
+
+      ENDIF
 
       II_STOK_S_L = 0
+      JJ= 0
       DO I = 1, II_STOK_S
         IF(SEGLOC( INTBUF_TAB%CANDM_E2S(I)) > 0) THEN
-C         main sgmt is local
-          II_STOK_S_L = II_STOK_S_L + 1
-          TAG_II_E2S(II_STOK_S_L) = I 
+          JJ= JJ + 1
+          TAG_JJ_E2S(I) = JJ      
+          IF(TAGREMCAND_E2S(I)==0) THEN ! cand deleted IremI2
+C            master sgmt is local
+             II_STOK_S_L = II_STOK_S_L + 1
+             TAG_II_E2S(II_STOK_S_L) = I 
+          ENDIF
         ENDIF
       ENDDO
 
-
+      DEALLOCATE(TAGREMCAND_E2E,TAGREMCAND_E2S)
       RETURN
       END
 Chd|====================================================================
@@ -2359,7 +2474,8 @@ Chd|====================================================================
             SUBROUTINE SPLIT_CAND_I25_EDGE(INTBUF_TAB,SEGLOC,PROC,NIN,
      .                             TAG_EDGE, NEDGE_L, TAG_EDGE2, NEDGE,
      .                             II_STOK_E, II_STOK_E_L, TAG_II_E2E,
-     .                             II_STOK_S, II_STOK_S_L, TAG_II_E2S)
+     .                             II_STOK_S, II_STOK_S_L, TAG_II_E2S,
+     .                             TAG_JJ_E2E,TAG_JJ_E2S )
 
 C-----------------------------------------------
 C   M o d u l e s
@@ -2391,13 +2507,15 @@ C-----------------------------------------------
       INTEGER :: TAG_II_E2S(*) !local id of global E2S cand (OUT)
       INTEGER :: II_STOK_E, II_STOK_E_L 
       INTEGER :: II_STOK_S, II_STOK_S_L
+      INTEGER :: TAG_JJ_E2E(II_STOK_E) !Gobal id of global E2E cand (OUT)
+      INTEGER :: TAG_JJ_E2S(II_STOK_S) !Globa id of global E2S cand (OUT)
 
 
       TYPE(INTBUF_STRUCT_) :: INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,K 
+      INTEGER :: I,J,K,JJ 
       INTEGER :: ID,E1,E2,K1,K2
       INTEGER, DIMENSION(:), ALLOCATABLE :: CANDM_E2E,CANDS_E2E
       INTEGER, DIMENSION(:), ALLOCATABLE :: CANDM_E2S,CANDS_E2S
@@ -2414,6 +2532,7 @@ C local numbering of E2E candidates
       ID = 0
       DO J = 1, II_STOK_E_L
         I = TAG_II_E2E(J)
+        JJ = TAG_JJ_E2E(I)
         ASSERT(I > 0) 
 C       main edge is local
         ID = ID + 1 
@@ -2425,7 +2544,7 @@ C       Secnd is also local
 C       Remote secnd
 C         ASSERT(.FALSE.)
 C         CANDS_E2E(ID) = -INTBUF_TAB%CANDS_E2E(I)
-          CANDS_E2E(ID) = ABS(I25_SPLIT_CAND(NIN,PROC+1)%CANDS_E2E(J)) + NEDGE_L
+          CANDS_E2E(ID) = ABS(I25_SPLIT_CAND(NIN,PROC+1)%CANDS_E2E(JJ)) + NEDGE_L
 
         ENDIF
       ENDDO
@@ -2439,6 +2558,7 @@ C     WRITE(6,*) PROC,"NBCAND=",II_STOK_S_L,I25_SPLIT_CAND(NIN,PROC+1)%NB_CAND_E
 
       DO J = 1, II_STOK_S_L
         I = TAG_II_E2S(J)
+        JJ = TAG_JJ_E2S(I)
 C       main edge is local
         ASSERT(I > 0) 
         ID = ID + 1 
@@ -2447,11 +2567,11 @@ C       IF(TAG_EDGE2(INTBUF_TAB%CANDS_E2S(I)) > 0) THEN
         IF(INTBUF_TAB%LEDGE(9+(INTBUF_TAB%CANDS_E2S(I)-1)*NLEDGE) == PROC ) THEN
 C       Secnd is also local
           CANDS_E2S(ID) = TAG_EDGE2(INTBUF_TAB%CANDS_E2S(I))
-          ASSERT(CANDS_E2S(ID) == I25_SPLIT_CAND(NIN,PROC+1)%CANDS_E2S(J))
+          ASSERT(CANDS_E2S(ID) == I25_SPLIT_CAND(NIN,PROC+1)%CANDS_E2S(JJ))
         ELSE
 C       Remote secnd
 C         ASSERT(.FALSE.)
-          CANDS_E2S(ID) = ABS(I25_SPLIT_CAND(NIN,PROC+1)%CANDS_E2S(J)) + NEDGE_L
+          CANDS_E2S(ID) = ABS(I25_SPLIT_CAND(NIN,PROC+1)%CANDS_E2S(JJ)) + NEDGE_L
 C         CANDS_E2S(ID) = - INTBUF_TAB%CANDS_E2S(I)
         ENDIF
       ENDDO
@@ -7544,6 +7664,135 @@ C
 C
       CALL WRITE_I_C(IBUF1,2*(NEDGE_L + 1))
       CALL WRITE_I_C(IBUF2,NREMNODE_EDG_L)
+C
+      DEALLOCATE(IBUF1, IBUF2)
+C
+      RETURN
+      END
+
+Chd|====================================================================
+Chd|  SPLIT_REMNODE_I25_EDGE        source/restart/ddsplit/inter_tools.F
+Chd|-- called by -----------
+Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
+Chd|-- calls ---------------
+Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|====================================================================
+      SUBROUTINE SPLIT_REMNODE_I25_E2S(PROC     , INTBUF_TAB, NRTM    , NRTM_L,
+     .                                 TAG_EDGE  , TAG_EDGE2 , SEGLOC   ,ITAB    ,
+     .                                 NUMNOD_L  ,  NREMNODE_E2S_L)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MESSAGE_MOD
+      USE INTBUFDEF_MOD 
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   A n a l y s e   M o d u l e
+C-----------------------------------------------
+#include      "analyse_name.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "com01_c.inc"
+#include      "com04_c.inc"
+#include      "param_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER PROC,NRTM,NRTM_L,
+     .        TAG_EDGE2(*),TAG_EDGE(*),SEGLOC(*),
+     .        ITAB(*)
+      INTEGER, INTENT(IN) :: NUMNOD_L,NREMNODE_E2S_L
+
+      TYPE(INTBUF_STRUCT_) :: INTBUF_TAB
+C-----------------------------------------------
+C   F u n c t i o n
+C-----------------------------------------------
+!      INTEGER  NLOCAL
+!      EXTERNAL NLOCAL      
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I,J,K,SIZ,
+     .        L,SIZ1,SIZ2,M,N,CPT_L,INDEX1,IK,
+     .        KM1,EM1,KM2,EM2,KS1,ES1,KS2,ES2
+
+      INTEGER, DIMENSION(:),ALLOCATABLE :: 
+     .        IBUF1,IBUF2
+C ----------------------------------------
+C
+C
+      ALLOCATE(IBUF1(2*(NRTM_L + 1)), IBUF2(NREMNODE_E2S_L))
+      IBUF1(1:2*(NRTM_L+1)) = 0
+      IBUF2(1:NREMNODE_E2S_L) = 0
+C
+C---  Split of KERMNODE -> IBUF1
+ 
+      INDEX1 = 1
+      CPT_L = 0
+      DO K=1,NRTM
+        IF(SEGLOC(K) >  0) THEN  
+          SIZ = INTBUF_TAB%KREMNODE_E2S(K+1)-INTBUF_TAB%KREMNODE_E2S(K)
+          L=INTBUF_TAB%KREMNODE_E2S(K)
+          SIZ1 = 0
+          SIZ2 = 0
+          DO M=1,SIZ
+            N = INTBUF_TAB%REMNODE_E2S(L+M-1)
+            ES1=INTBUF_TAB%LEDGE(1+(N-1)*NLEDGE)
+            IF(SEGLOC(ES1) >  0) THEN  
+C--           Local segment - local id is stored
+              SIZ1 = SIZ1 + 1
+            ELSE
+C--           Remote segment - line is stored as ITAB1 / ITAB2 (2 values)
+              SIZ2 = SIZ2 + 2
+            ENDIF
+          END DO
+          CPT_L = CPT_L + 1
+          IBUF1(2*(CPT_L-1)+1) = INDEX1
+          IBUF1(2*(CPT_L-1)+2) = INDEX1 + SIZ1
+          INDEX1 = INDEX1 + SIZ1 + SIZ2
+        ENDIF
+      END DO
+      IBUF1(2*NRTM_L+1) = INDEX1
+      IBUF1(2*NRTM_L+2) = INDEX1
+
+C
+C---  Split of REMNODE -> IBUF2
+      CPT_L = 0
+      DO K=1,NRTM
+        IF(SEGLOC(K) >  0) THEN  
+C
+          CPT_L = CPT_L + 1
+          L=INTBUF_TAB%KREMNODE_E2S(K)
+          SIZ = INTBUF_TAB%KREMNODE_E2S(K+1)-INTBUF_TAB%KREMNODE_E2S(K)
+          SIZ1 = IBUF1(2*(CPT_L-1)+1)
+          SIZ2 = IBUF1(2*(CPT_L-1)+2)
+C
+          DO M=1,SIZ
+            N = INTBUF_TAB%REMNODE_E2S(L+M-1)
+            ES1=INTBUF_TAB%LEDGE(1+(N-1)*NLEDGE)
+            IF(SEGLOC(ES1) >  0) THEN  
+C-- Local segment - local id is stored
+              IBUF2(SIZ1) = TAG_EDGE2(N)
+              SIZ1 = SIZ1+1
+            ELSE
+C-- Remote segment - line is stored as ITAB1 / ITAB2 (2 values)
+              IBUF2(SIZ2) = ITAB(INTBUF_TAB%LEDGE(5+(N-1)*NLEDGE))
+              IBUF2(SIZ2+1) = ITAB(INTBUF_TAB%LEDGE(6+(N-1)*NLEDGE))
+              SIZ2 = SIZ2+2
+            ENDIF
+          ENDDO
+C
+        ENDIF
+      ENDDO
+C
+      CALL WRITE_I_C(IBUF1,2*(NRTM_L + 1))
+      CALL WRITE_I_C(IBUF2,NREMNODE_E2S_L)
 C
       DEALLOCATE(IBUF1, IBUF2)
 C
