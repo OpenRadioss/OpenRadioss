@@ -454,6 +454,7 @@ C-------tempo: Isurf <- ILEV=IPARI(20) -----
 C------ consisting w/ manuel         
         IF (IREM24I2==0) IREM24I2 = 3
 
+        IF (INACTI==-1.AND.(IGSTI==0.OR.IGSTI==1000)) IGSTI = 4
         IPARI(20)=ILEV
         IPARI(34)=IGSTI
         IPARI(47) = INTTH
