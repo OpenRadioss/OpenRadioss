@@ -117,12 +117,12 @@ C
         IAD_SEND(I+1) = L
       ENDDO
 C
-C   echange messages
+C   sending messages
 C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
-C envoi a N+I mod P 
-Cel test si msg necessaire a envoyer a completer par test interface
+C Send to N+I mod P 
+C-------------------------------------------------------------------
        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
           MSGTYP = MSGOFF 
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
@@ -134,12 +134,12 @@ Cel test si msg necessaire a envoyer a completer par test interface
 C--------------------------------------------------------------------
       ENDDO
 C
-C decompactage
+C Counting
 C
 
 C
       DO I = 1, NSPMD
-Cel test si msg necessaire a envoyer a completer par test interface
+C
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
         IF(NB_NOD.GT.0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)

@@ -1855,7 +1855,7 @@ C------------------------------------------------------------------------------
            IF (STARTT.LE.TT.AND.TT.LE.STOPT) INTERACT = 1
          ENDIF          
 C
-         IFLAGLOADP = IPARI(95,NIN)
+         IFLAGLOADP = 0 !IPARI(95,NIN)
          INTTH = IPARI(47,NIN)
 
          IF (RETRI(NIN)== 1.AND.INTERACT.NE.0.AND.(INTTH==2.OR.IFLAGLOADP > 0))THEN  
