@@ -119,7 +119,6 @@ C-----------------------------------------------
       CC      = ZERO
       EPS0    = ZERO
       ICC     = 0
-      ISRATE  = 0
       FCUT    = ZERO
       FISOKIN = ZERO
       C3      = ZERO
@@ -356,7 +355,6 @@ C-----
      .                 I1=ID, 
      .                 C1=TITR)
       ENDIF
-      ISRATE = 1
       !FCUT = FCUT / FAC_T
       IF (FCUT == ZERO) FCUT=EP20
       IF(RHOR.EQ.ZERO) RHOR=RHO0
@@ -367,7 +365,12 @@ C
 C
       IF(EPSM == ZERO) EPSM  = EP20
       IF(SIGM == ZERO) SIGM  = EP20
-      IF(CC == ZERO)   EPS0  = UN
+      IF (CC == ZERO)   THEN
+        EPS0   = UN
+        ISRATE = 0
+      ELSE
+        ISRATE = 1
+      END IF
       IF(ANU.LE.-UN)  THEN       
         CALL ANCMSG(MSGID=300,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=2,I2=ID,C1=TITR)
       ENDIF
