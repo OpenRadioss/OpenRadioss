@@ -201,23 +201,23 @@ c     --  storing elastic predictors for stiffness computation
 C-------------
 C     STRAIN RATE (JOHNSON-COOK, ZERILLI-ARMSTRONG)
 C-------------
-      IF(EPIF.NE.0.0)THEN
-
+      IF (ISRATE > 0) THEN
         DO I=LFT,LLT
-          IF(ISRATE.GE.1)THEN
-
-            EPD(I) = UNDEMI*((D1(I)+DAV(I))**2+(D2(I)+DAV(I))**2
-     .                                    +(D3(I)+DAV(I))**2) 
-     .             + QUART*(D4(I)**2+D5(I)**2+D6(I)**2)
-            EPD(I) = SQRT(TROIS*EPD(I))/TDEMI
-            EPSD(I) = ASRATE*EPD(I) + (UN -ASRATE)*EPSD(I)
-          ELSE
-            EPSD(I)=OFF(I)* MAX( ABS(D1(I)), ABS(D2(I)), ABS(D3(I)),
-     .   UNDEMI*ABS(D4(I)),UNDEMI*ABS(D5(I)),UNDEMI*ABS(D6(I)))
-          ENDIF !..israte
-C
-          EPSP(I) =EPSD(I)                   
+          EPD(I) = UNDEMI*((D1(I)+DAV(I))**2+(D2(I)+DAV(I))**2
+     .                                  +(D3(I)+DAV(I))**2) 
+     .           + QUART*(D4(I)**2+D5(I)**2+D6(I)**2)
+          EPD(I) = SQRT(TROIS*EPD(I))/TDEMI
+          EPSD(I) = ASRATE*EPD(I) + (UN -ASRATE)*EPSD(I)
         ENDDO
+      ELSE
+        DO I=LFT,LLT
+          EPSD(I)=OFF(I)* MAX( ABS(D1(I)), ABS(D2(I)), ABS(D3(I)),
+     .      UNDEMI*ABS(D4(I)),UNDEMI*ABS(D5(I)),UNDEMI*ABS(D6(I)))
+        ENDDO
+      ENDIF   ! israte
+      EPSP(1:NEL) = EPSD(1:NEL)                   
+c
+      IF (EPIF.NE.0.0)THEN
         DO I=LFT,LLT
            EPD(I)= MAX(EPSD(I),EM15)
            EPD(I)= LOG(EPD(I)/EPDR)
@@ -229,7 +229,7 @@ C
             T(I) = T(I) +CP*EINT(I)/MAX(EM15,VOL(I))
             TSTAR(I)=MIN(UN,MAX(ZERO,(T(I)-T_1)/(TM-T_1))) 
           ENDDO
-        ENDIF
+        ENDIF  
   
         IF(NPIF.EQ.ZERO)THEN
           DO I=LFT,LLT
