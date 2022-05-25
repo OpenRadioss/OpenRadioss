@@ -408,7 +408,7 @@ C--------------------------------------------------
       NM = NMERGED_OLD
 !
       DO I= 1,NUMCNOD 
-        IF (IMERGETMP(I) > 0) THEN
+        IF (IMERGETMP(I) > 0 .AND. IMERGE0(I) == 0) THEN
           NM = NM+1                     
           IMERGE(NMERGE_TOT+NM) = USRTOSC(IMERGETMP(I),ITABM1)
           IMERGE(NM)         = USRTOSC(ITABC(I) ,ITABM1)
