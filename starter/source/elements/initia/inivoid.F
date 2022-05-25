@@ -1,25 +1,25 @@
 Copyright>        OpenRadioss
 Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
-Copyright>    
+Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
 Copyright>        the Free Software Foundation, either version 3 of the License, or
 Copyright>        (at your option) any later version.
-Copyright>    
+Copyright>
 Copyright>        This program is distributed in the hope that it will be useful,
 Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
 Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 Copyright>        GNU Affero General Public License for more details.
-Copyright>    
+Copyright>
 Copyright>        You should have received a copy of the GNU Affero General Public License
 Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-Copyright>    
-Copyright>    
-Copyright>        Commercial Alternative: Altair Radioss Software 
-Copyright>    
-Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
-Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+Copyright>
+Copyright>
+Copyright>        Commercial Alternative: Altair Radioss Software
+Copyright>
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
 Chd|  INIVOID                       source/elements/initia/inivoid.F
 Chd|-- called by -----------
@@ -34,9 +34,9 @@ Chd|        CCOORI                        source/elements/shell/coque/ccoori.F
 Chd|        CEVECI                        source/elements/shell/coque/ceveci.F
 Chd|        CINMAS                        source/elements/shell/coque/cinmas.F
 Chd|        CVEOK3                        source/elements/shell/coque/cveok3.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        PCOORI                        source/elements/beam/pcoori.F 
-Chd|        PMASS                         source/elements/beam/pmass.F  
+Chd|        FRETITL2                      source/starter/freform.F
+Chd|        PCOORI                        source/elements/beam/pcoori.F
+Chd|        PMASS                         source/elements/beam/pmass.F
 Chd|        R23MASS                       source/elements/spring/rmass.F
 Chd|        S4COOR3                       source/elements/solid/solide4/s4coor3.F
 Chd|        S4DERI3                       source/elements/solid/solide4/s4deri3.F
@@ -47,15 +47,15 @@ Chd|        SDERI3                        source/elements/solid/solide/sderi3.F
 Chd|        SDLEN3                        source/elements/solid/solide/sdlen3.F
 Chd|        SMASS3                        source/elements/solid/solide/smass3.F
 Chd|        TCOORI                        source/elements/truss/tcoori.F
-Chd|        TMASS                         source/elements/truss/tmass.F 
+Chd|        TMASS                         source/elements/truss/tmass.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        STACK_MOD                     share/modules1/stack_mod.F    
+Chd|        STACK_MOD                     share/modules1/stack_mod.F
 Chd|====================================================================
       SUBROUTINE INIVOID(ELBUF_STR   ,
      +                   IXC    ,IXS    ,IXTG   ,X      ,V      ,
      1                   PM     ,GEO    ,MS     ,IN     ,PTG    ,
-     2                   MSC    ,MSS    ,MSTG   ,INC    ,INTG   ,   
+     2                   MSC    ,MSS    ,MSTG   ,INC    ,INTG   ,
      3                   THKC   ,THKT   ,PARTSAV,IPARTS ,
      4                   IPARTC ,IPARTT ,VEUL   ,DTELEM ,IHBE   ,
      5                   ISOLNOD,NVC    ,I8MI   ,MSNF    ,MSSF  ,
@@ -106,12 +106,12 @@ C-----------------------------------------------
      .        PERTURB(NPERTURB),IXT(NIXT,*),IPARTTR(*),IXP(NIXP,*),IPARTP(*),
      .        ITAB(*),IXR(NIXR,*),IMERGE2(NUMNOD+1),NEL,IPARTR(*),
      .        IADMERGE2(NUMNOD+1)
-     
-      INTEGER *8 I8MI(6,*)
-C     REAL ou REAL*8
-      my_real 
-     .   PM(NPROPM,*), GEO(NPROPG,*),MS(*),MSC(*),MSS(8,*), 
-     .   MSTG(*),INTG(*),PTG(3,*),IN(*),INC(*),THKC(*),THKT(*), 
+
+      INTEGER*8 I8MI(6,*)
+
+      my_real
+     .   PM(NPROPM,*), GEO(NPROPG,*),MS(*),MSC(*),MSS(8,*),
+     .   MSTG(*),INTG(*),PTG(3,*),IN(*),INC(*),THKC(*),THKT(*),
      .   X(3,*),V(3,*),VEUL(LVEUL,*),DTELEM(*),PARTSAV(20,*),
      .   MSNF(*), MSSF(8,*), WMA(*), ETNOD(*), STC(*), STTG(*),
      .   MCP(*),MCPC(*),TEMP(*),MCPS(8,*),
@@ -126,20 +126,20 @@ C-----------------------------------------------
       INTEGER I, IGTYP,IMAT,IPROP, NDEPAR, NREFSTA, NCC, NF1
       INTEGER MXT(MVSIZ), PID(MVSIZ), NGL(MVSIZ),
      .   IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),
-     .   IX5(MVSIZ),IX6(MVSIZ),IX7(MVSIZ),IX8(MVSIZ),IBID,IP,II(6),
+     .   IX5(MVSIZ),IX6(MVSIZ),IX7(MVSIZ),IX8(MVSIZ),IBID(MVSIZ),IP,II(6),
      .   ID, IPID, J, I0,I1,I2,I3,ITMP, KK, K,ILENG,IMASS,KK1
       my_real
      .   AREA(MVSIZ), VOID(MVSIZ),RHO(MVSIZ),VOL(MVSIZ),
      .   X1(MVSIZ),X2(MVSIZ),X3(MVSIZ),X4(MVSIZ),X5(MVSIZ),X6(MVSIZ),
      .   X7(MVSIZ),X8(MVSIZ),Y1(MVSIZ),Y2(MVSIZ),Y3(MVSIZ),Y4(MVSIZ),
-     .   Y5(MVSIZ),Y6(MVSIZ),Y7(MVSIZ),Y8(MVSIZ),Z1(MVSIZ),Z2(MVSIZ), 
+     .   Y5(MVSIZ),Y6(MVSIZ),Y7(MVSIZ),Y8(MVSIZ),Z1(MVSIZ),Z2(MVSIZ),
      .   Z3(MVSIZ),Z4(MVSIZ),Z5(MVSIZ),Z6(MVSIZ),Z7(MVSIZ),Z8(MVSIZ),
      .   RX(MVSIZ) ,RY(MVSIZ) ,RZ(MVSIZ) ,SX(MVSIZ) ,
      .   SY(MVSIZ) ,SZ(MVSIZ) ,TX(MVSIZ) ,TY(MVSIZ) ,TZ(MVSIZ) ,
      .   E1X(MVSIZ),E1Y(MVSIZ),E1Z(MVSIZ),E2X(MVSIZ),
      .   E2Y(MVSIZ),E2Z(MVSIZ),E3X(MVSIZ),E3Y(MVSIZ),E3Z(MVSIZ),
      .   F1X(MVSIZ) ,F1Y(MVSIZ) ,F1Z(MVSIZ) ,
-     .   F2X(MVSIZ) ,F2Y(MVSIZ) ,F2Z(MVSIZ),BID,RHOCP(MVSIZ),
+     .   F2X(MVSIZ) ,F2Y(MVSIZ) ,F2Z(MVSIZ),BID(MVSIZ),RHOCP(MVSIZ),
      .   TEMP0(MVSIZ) ,FILL(MVSIZ),BIDG(MVSIZ),
      .   PX1(MVSIZ),PX2(MVSIZ),PX3(MVSIZ),PX4(MVSIZ),
      .   PY1(MVSIZ),PY2(MVSIZ),PY3(MVSIZ),PY4(MVSIZ),
@@ -148,15 +148,15 @@ C-----------------------------------------------
      .   X31(MVSIZ),Y31(MVSIZ),Z31(MVSIZ), DELTAX(MVSIZ),STIFNTMP(NUMNOD),
      .   BIDON, NOISE, XL(MVSIZ),LENGTH,UINER(MVSIZ),MASSR(MVSIZ),
      .   XM, XINE,RATIO,STI,KX,EMS(MVSIZ),RHOR
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
      .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
-     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),VOLDP(MVSIZ) 
+     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),VOLDP(MVSIZ)
        CHARACTER*nchartitle,
-     .   TITR    
+     .   TITR
 C
       TYPE(ELBUF_STRUCT_) ,POINTER :: BIDBUF
       TYPE (STACK_PLY) :: STACK
@@ -166,14 +166,14 @@ C-----------------------------------------------
 
       BIDBUF => NULL()
 C
-      IBID = 0
-      BID = ZERO
+      IBID(1:MVSIZ) = 0
+      BID(1:MVSIZ) = ZERO
       NREFSTA = NXREF
       NXREF = 0
       NF1=NFT+1
       IF (ITY == 1.AND. ISMSTR == 10) ISMSTR = 4
 c--------------------------------------
-      IF(ITY.EQ.1.AND.ISOLNOD.EQ.4)THEN
+      IF(ITY == 1.AND.ISOLNOD == 4)THEN
 C       SOLID TETRA 4 nodes
 c--------------------------------------
         CALL S4COOR3(X    ,XREFS(1,1,NFT+1),IXS(1,NFT+1),NGL  ,
@@ -188,16 +188,16 @@ c--------------------------------------
           TEMP0(I) =  PM(79,MXT(I))
         ENDDO
         CALL S4DERI3(VOL,VEUL(1,NFT+1) ,GEO ,IGEO   ,RX  ,
-     .       RY    ,RZ    ,SX    ,SY    ,                 
-     .       SZ    ,TX    ,TY    ,TZ    ,                                       
-     .       X1    ,X2    ,X3    ,X4    ,Y1    ,Y2    ,    
-     .       Y3    ,Y4    ,Z1    ,Z2    ,Z3    ,Z4    ,    
-     .       PX1   ,PX2   ,PX3   ,PX4   ,                    
-     .       PY1   ,PY2   ,PY3   ,PY4   ,                    
-     .       PZ1   ,PZ2   ,PZ3   ,PZ4   ,BIDG, 
+     .       RY    ,RZ    ,SX    ,SY    ,
+     .       SZ    ,TX    ,TY    ,TZ    ,
+     .       X1    ,X2    ,X3    ,X4    ,Y1    ,Y2    ,
+     .       Y3    ,Y4    ,Z1    ,Z2    ,Z3    ,Z4    ,
+     .       PX1   ,PX2   ,PX3   ,PX4   ,
+     .       PY1   ,PY2   ,PY3   ,PY4   ,
+     .       PZ1   ,PZ2   ,PZ3   ,PZ4   ,BIDG,
      .       DELTAX,VOLU  ,NGL   ,PID   ,MXT ,
-     .       PM    ,VOLDP )                    
-        IF(JLAG+JALE+JEUL.NE.0) THEN
+     .       PM    ,VOLDP )
+        IF(JLAG+JALE+JEUL /= 0) THEN
           CALL S4MASS3(
      1      RHO          ,MS          ,PARTSAV,X            ,V   ,
      2      IPARTS(NFT+1),MSS(1,NFT+1),MSNF   ,MSSF(1,NFT+1),WMA ,
@@ -205,38 +205,38 @@ c--------------------------------------
      4      TEMP         ,MSSA        ,IX1     ,IX2    ,IX3    ,IX4 ,
      5      FILL, VOLU)
         ENDIF
-        IF(I7STIFS.NE.0)THEN
+        IF(I7STIFS /= 0)THEN
           NCC=4
           CALL SBULK3(VOLU  ,IX1    ,NCC,MXT,PM ,
      2                VOLNOD,BVOLNOD,VNS(1,NF1),BNS(1,NF1),BID,
      3                BID   ,FILL   )
         ENDIF
 C------------------------------------------
-      ELSEIF(ITY.EQ.1.AND.ISOLNOD.EQ.10)THEN
+      ELSEIF(ITY == 1.AND.ISOLNOD == 10)THEN
 C       SOLID TETRA 10 nodes  - not supported
-      ELSEIF(ITY.EQ.1.AND.ISOLNOD.EQ.16)THEN
+      ELSEIF(ITY == 1.AND.ISOLNOD == 16)THEN
 C       SOLID BRICK 16 nodes  - not supported
-      ELSEIF(ITY.EQ.1.AND.ISOLNOD.EQ.20)THEN
+      ELSEIF(ITY == 1.AND.ISOLNOD == 20)THEN
 C       SOLID BRICK 20 nodes  - not supported
-      ELSEIF(ITY.EQ.1)THEN
+      ELSEIF(ITY == 1)THEN
 c--------------------------------------
 C       SOLID BRICK 8 nodes
-        DO I=LFT,LLT      
-          RHOCP(I) = ZERO  
-          TEMP0(I) = ZERO  
-        ENDDO             
-        CALL SCOOR3(X,XREFS(1,1,NFT+1),IXS(1,NFT+1),GEO  ,MXT  ,PID  ,NGL  ,  
+        DO I=LFT,LLT
+          RHOCP(I) = ZERO
+          TEMP0(I) = ZERO
+        ENDDO
+        CALL SCOOR3(X,XREFS(1,1,NFT+1),IXS(1,NFT+1),GEO  ,MXT  ,PID  ,NGL  ,
      .           IX1  ,IX2  ,IX3  ,IX4  ,IX5  ,IX6  ,IX7  ,IX8  ,
      .           X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .           Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
      .           Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
      .           RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .           E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
-     .           F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,TEMP0, TEMP,                   
+     .           F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,TEMP0, TEMP,
      .           XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
      .           YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
      .           ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   )
-        IF((JEUL.EQ.0.OR.INTEG8.EQ.0).AND. NPT.NE.8) THEN
+        IF((JEUL == 0.OR.INTEG8 == 0).AND. NPT /= 8) THEN
           DO I=LFT,LLT
             RHO(I) = PM(89,MXT(I))
             DTELEM(NFT+I) = EP30
@@ -248,32 +248,32 @@ C       SOLID BRICK 8 nodes
      .            ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8  ,
      .            RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,NGL  ,PID  ,
      .            PX1  ,PX2  ,PX3  ,PX4  ,PY1  ,PY2  ,PY3  ,PY4  ,
-     .            PZ1  ,PZ2  ,PZ3  ,PZ4, VOLU  ,VOLDP) 
+     .            PZ1  ,PZ2  ,PZ3  ,PZ4, VOLU  ,VOLDP)
           CALL SDLEN3(
-     .            X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   , 
-     .            Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   , 
-     .            Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8, 
+     .            X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
+     .            Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
+     .            Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8,
      .            DELTAX, VOLU)
           CALL SMASS3(
      1         RHO          , MS           , PARTSAV, X    , V ,
      2         IPARTS(NFT+1), MSS(1,NFT+1) , VOLU   ,
      3         MSNF         , MSSF(1,NFT+1), BID    ,
-     4         BID          , BID          , WMA    , RHOCP, MCP, 
+     4         BID          , BID          , WMA    , RHOCP, MCP,
      5         MCPS(1,NFT+1), MSSA          ,BID    , BID ,FILL ,
      6         IX1, IX2, IX3, IX4, IX5, IX6, IX7, IX8)
         ENDIF
-        IF(I7STIFS.NE.0)THEN
+        IF(I7STIFS /= 0)THEN
           NCC=8
           CALL SBULK3(VOLU  ,IX1    ,NCC,MXT,PM ,
      2                VOLNOD,BVOLNOD,VNS(1,NF1),BNS(1,NF1),BID,
      3                BID   ,FILL   )
         ENDIF
 c--------------------------------------
-      ELSEIF (ITY.EQ.3) THEN
+      ELSEIF (ITY == 3) THEN
 C       SHELL
 c--------------------------------------
-        IMAT  = IXC(1,1+NFT)         ! mat N   
-        IPROP = IXC(NIXC-1,1+NFT)    ! property N   
+        IMAT  = IXC(1,1+NFT)         ! mat N
+        IPROP = IXC(NIXC-1,1+NFT)    ! property N
 c
         CALL CCOORI(X,XREFC(1,1,NFT+1),IXC(1,NFT+1),
      .              X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
@@ -299,7 +299,7 @@ C           PART_AREA(IP) = PART_AREA(IP) + AREA(I)
 C
         CALL CINMAS(X,XREFC(1,1,NFT+1),IXC,GEO,PM,MS,IN,
      .              THKC,IHBE,PARTSAV,V,IPARTC(NFT+1),
-     .              MSC(NFT+1),INC(NFT+1),AREA,    
+     .              MSC(NFT+1),INC(NFT+1),AREA,
      .              I8MI ,IGEO  ,ETNOD ,IMAT     ,IPROP    ,
      .              NSHNOD ,STC(NFT+1),SH4TREE ,MCP   ,MCPC(NFT+1) ,
      .              TEMP    ,BID , BID,BID,BID,
@@ -312,11 +312,11 @@ C
           DTELEM(NDEPAR+I) = EP30
         ENDDO
 c--------------------------------------
-      ELSEIF(ITY.EQ.7)THEN
+      ELSEIF(ITY == 7)THEN
 C       SHELL 3N
 c--------------------------------------
-        IMAT  = IXTG(1,1+NFT)          ! mat N   
-        IPROP = IXTG(NIXTG-1,1+NFT)    ! property N   
+        IMAT  = IXTG(1,1+NFT)          ! mat N
+        IPROP = IXTG(NIXTG-1,1+NFT)    ! property N
 c
         CALL C3COORI(X,XREFTG(1,1,NFT+1),IXTG(1,NFT+1),NGL,
      .               X1  ,X2  ,X3  ,Y1  ,Y2  ,Y3  ,
@@ -351,13 +351,13 @@ C
         DO I=LFT,LLT
           DTELEM(NDEPAR+I) = EP30
         ENDDO
-      ELSEIF(ITY.EQ.4)THEN
+      ELSEIF(ITY == 4)THEN
 C       TRUSS
         STIFNTMP(1:NUMNOD)=ZERO
-        CALL TCOORI(X,IXT(1,NFT+1),MXT, PID, IX1, IX2, 
+        CALL TCOORI(X,IXT(1,NFT+1),MXT, PID, IX1, IX2,
      .             X1, X2, Y1, Y2, Z1, Z2)
-C----- avoid fail of output (Anim division of AREA)--- 
-        GBUF%AREA(LFT:LLT)= GEO(1,PID(LFT:LLT))       
+C----- avoid fail of output (Anim division of AREA)---
+        GBUF%AREA(LFT:LLT)= GEO(1,PID(LFT:LLT))
         CALL TMASS(X         ,IXT      ,GEO      ,PM          ,MS      ,
      .             STIFNTMP   ,PARTSAV ,V        ,IPARTTR(NFT+1),MST(NFT+1),
      .             STIFINT,STT(NFT+1) ,GBUF%AREA  , MXT, IX1, IX2,
@@ -366,14 +366,14 @@ C----- avoid fail of output (Anim division of AREA)---
            DO I=LFT,LLT
              DTELEM(NDEPAR + I) = EP30
            ENDDO
-      ELSEIF(ITY.EQ.5)THEN
+      ELSEIF(ITY == 5)THEN
 C       BEAM
 C
         STIFNTMP(1:NUMNOD)=ZERO
-        CALL PCOORI(X,IXP(1,NFT+1), 
+        CALL PCOORI(X,IXP(1,NFT+1),
      .                    MXT,PID ,IX1,IX2,IX3,DELTAX,
      .                    X1,X2,X3, Y1,Y2,Y3, Z1,Z2,Z3)
-c 
+c
 c        CALL PEVECI(GBUF%SKEW, X1,X3, Y1,Y3, Z1,Z3)
         CALL PMASS(GEO,PM,MS,IN,
      .             STIFNTMP,STIFNTMP,PARTSAV,V,IPARTP(NFT+1),
@@ -384,7 +384,7 @@ c        CALL PEVECI(GBUF%SKEW, X1,X3, Y1,Y3, Z1,Z3)
           DO I=LFT,LLT
             DTELEM(NDEPAR+I)=EP30
           ENDDO
-      ELSEIF (ITY == 6) THEN   
+      ELSEIF (ITY == 6) THEN
           I0=IXR(1,1+NFT)
           IGTYP =  IGEO(11,I0)
 !
@@ -400,7 +400,7 @@ C
              IGTYP=IGEO(11,I)
              ID=IGEO(1,I)
              CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,I),LTITR)
-             IF(IGTYP == 23) GEO(4,I) = EP30 ! 
+             IF(IGTYP == 23) GEO(4,I) = EP30 !
            ENDDO ! DO I=1,NUMGEO
 C-----------------
             IPID=IXR(1,NFT+1)
@@ -452,7 +452,7 @@ C-----      ------------
      .                 I1=ID,
      .                 C1=TITR)
               ENDIF
-C            
+C
             ENDDO
 C-----
 C
@@ -470,7 +470,7 @@ c            CALL ANCNTS(IDS, CNT2)
 !!                 IMASS =  IGEO(4,I0)
 !!                 MTN = 0
 !!              ENDIF
-! checking L=0, add message if it's needed. 
+! checking L=0, add message if it's needed.
 !!             XL(I) =  SQRT(
 !!     .             (X(1,I1)-X(1,I2))*(X(1,I1)-X(1,I2))
 !!     +          +  (X(2,I1)-X(2,I2))*(X(2,I1)-X(2,I2))
@@ -507,7 +507,7 @@ C
 !!                 MTN   = IPM(2,IMAT)
                  MTN = 0
                  UINER(I) = ZERO
-C---- 
+C----
                  IF(IMASS == 1) THEN
                   MASSR(I) = GEO(1,I0)*LENGTH*RHOR
                   IF (LENGTH == ZERO .AND. RHOR /= ZERO) THEN
@@ -525,14 +525,14 @@ C----
                  ENDIF
 C
                 XM  = MASSR(I)
-                XINE= GEO(2,I0)            
+                XINE= GEO(2,I0)
 C
                RATIO = XM * LENGTH * LENGTH
              ENDIF
            ENDDO ! DO I=LFT,LLT
 C------------------------------------------
 C     INITIALISATION DES RIGIDITES NODALES POUR INTERFACES
-C------------------------------------------      
+C------------------------------------------
            IF (I7STIFS /= 0) THEN
 !!            IF (IGTYP == 23 ) THEN
                DO I=LFT,LLT
@@ -567,15 +567,15 @@ C
              I0=IXR(1,J)
              IGTYP=IGEO(11,I0)
              IPID=IXR(1,I+NFT)
-             IF (IGTYP == 23) THEN ! to be checked carrefuly 
+             IF (IGTYP == 23) THEN ! to be checked carrefuly
                IMAT   = IXR(5,I+NFT)
                MTN = 0
                DTELEM(NDEPAR+I) = EP20
-               GEO(4,I0)= MIN(GEO(4,I0),DTELEM(NDEPAR+I))  ! 
-             ENDIF  
+               GEO(4,I0)= MIN(GEO(4,I0),DTELEM(NDEPAR+I))  !
+             ENDIF
            ENDDO
          ENDIF  ! IGTYP = 23
-!                     
+!
       ENDIF ! Ity
 C
       NXREF = NREFSTA
