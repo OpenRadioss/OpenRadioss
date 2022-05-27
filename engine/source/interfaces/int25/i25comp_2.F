@@ -124,7 +124,7 @@ C     REAL
      .   LBH(MVSIZ,4), LCH(MVSIZ,4), GAP_NM(4,MVSIZ),
      .   DIST(MVSIZ), GAPMXL(MVSIZ)
       my_real
-     .     RCURVI(MVSIZ), ANGLMI(MVSIZ), ANGLT, PADM,PENMIN,MARGE,DRAD
+     .     RCURVI(MVSIZ), ANGLMI(MVSIZ), ANGLT, PADM,PENMIN,MARGE,DRAD,DGAPLOAD
       INTEGER NRTMFT, NRTMLT, NMNFT, NMNLT, NRADM
       INTEGER ICURV,ILEV
 C-----------------------------------------------
@@ -178,6 +178,7 @@ C
       EPS     = INTBUF_TAB%VARIABLES(39)
       DRAD = ZERO
       IF(INTTH > 0) DRAD    = INTBUF_TAB%VARIABLES(32)
+      DGAPLOAD    = INTBUF_TAB%VARIABLES(46)
 
       ILEV  = IPARI(20,NIN)
       ALLOCATE(INDEX2(LINDMAX))
@@ -256,8 +257,8 @@ C
      6 GAP_NM      ,ITAB        ,NNX         ,NNY         ,NNZ        ,
      7 FAR         ,PENT        ,DIST        ,LB          ,LC         ,
      8 LBH         ,LCH         ,KSLIDE      ,MVOISN      ,GAPMXL     ,
-     9 IBOUND       ,INTBUF_TAB%VTX_BISECTOR,ETYP ,ICODT  ,ISKEW      ,
-     A DRAD         )
+     9 IBOUND      ,INTBUF_TAB%VTX_BISECTOR,ETYP ,ICODT  ,ISKEW      ,
+     A DRAD        ,DGAPLOAD  )
 C
           CALL I25GLOB(
      1 JLT    ,CAND_N_N ,CAND_E_N ,
@@ -345,7 +346,7 @@ C
      J FAR     ,PENT  ,
      L SUBTRIA ,LB    ,LC      ,LBH   ,LCH    ,
      P MVOISA  ,MVOISB,GAPMXL  ,IBOUNDA,IBOUNDB,
-     Q INTBUF_TAB%VTX_BISECTOR ,DRAD)
+     Q INTBUF_TAB%VTX_BISECTOR ,DRAD   ,DGAPLOAD)
 C
           CALL I25GLOB_22(
      1 JLT    ,CAND_N_N ,CAND_E_N ,INTBUF_TAB%CAND_OPT_E,

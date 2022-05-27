@@ -45,7 +45,8 @@ Chd|====================================================================
      C                  H1     ,H2     ,H3     ,H4    ,NISKYFI ,
      D                  MSRL   ,ITAB   ,H3D_DATA,NINSKID    ,
      E                  PRATIO ,NINTERSKID,PSKIDS,IFLAGLOADP,
-     F                  TAGNCONT,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
+     F                  TAGNCONT,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
+     G                  DGAPLOADINT,DIST,GAPV,S_LOADPINTER   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -85,8 +86,11 @@ C-----------------------------------------------
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), ITRIA(MVSIZ), CAND_N(*), WEIGHT(*),
      .        MSR(*), INTTH, NODGLOB(*),INDEXCONT(*),TAGCONT(*),MSRL(*),ITAB(*),
-     .        TAGNCONT(NLOADP_HYD_INTER,NUMNOD),KLOADPINTER(NINTER+1),
-     .        LOADPINTER((NINTER+1)*NLOADP_HYD),LOADP_HYD_INTER(NLOADP_HYD)
+     .        TAGNCONT(NLOADP_HYD_INTER,NUMNOD)
+      INTEGER  , INTENT(IN) :: S_LOADPINTER
+      INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
+     .         LOADP_HYD_INTER(NLOADP_HYD)
+      my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER),DIST(MVSIZ),GAPV(MVSIZ)
       my_real
      .   A(3,*), FCONT(3,*),FNCONT(3,*), FTCONT(3,*), STIFN(*),
      .   FSKYI(LSKYI,NFSKYI), SECFCUM(7,NUMNOD,NSECT),
@@ -111,7 +115,8 @@ C-----------------------------------------------
      .   FX1(MVSIZ), FX2(MVSIZ), FX3(MVSIZ), FX4(MVSIZ),
      .   FY1(MVSIZ), FY2(MVSIZ), FY3(MVSIZ), FY4(MVSIZ),
      .   FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
-     .   H1(MVSIZ) , H2(MVSIZ) , H3(MVSIZ) , H4(MVSIZ), H0 
+     .   H1(MVSIZ) , H2(MVSIZ) , H3(MVSIZ) , H4(MVSIZ)
+      my_real GAPP, H0 ,DGAPLOAD
       DOUBLE PRECISION
      .   FX6(6,MVSIZ), FY6(6,MVSIZ), FZ6(6,MVSIZ), ST6(6,MVSIZ),
      .   FX, FY, FZ, STF, 
@@ -131,53 +136,21 @@ C---------------------------------
       ENDDO
 C------------For /LOAD/PRESSURE tag nodes in contact-------------
       IF(IFLAGLOADP > 0) THEN
-         DO I=1,JLT
-            JG = NSVG(I)
-            IF(WEIGHT(JG)/=1)CYCLE
-            DO K = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1) 
-               PP = LOADPINTER(K)
-               PPL = LOADP_HYD_INTER(PP)
-
-               TAGNCONT(PPL,JG) = 1
- 
-               I1 =  IX1(I)
-               ND = MSRL(I1)
-               IF(ND.GT.0) THEN             
-                  TAGNCONT(PPL,ND)=1
-               ELSE
-                 ND = -ND
-                 TAGNCONTFI(NIN)%P(ND)= 1
-               ENDIF
-
-               I1 =  IX2(I)
-               ND = MSRL(I1)
-               IF(ND.GT.0) THEN             
-                  TAGNCONT(PPL,ND)=1
-               ELSE
-                 ND = -ND
-                 TAGNCONTFI(NIN)%P(ND)= 1
-               ENDIF
-
-               I1 =  IX3(I)
-               ND = MSRL(I1)
-               IF(ND.GT.0) THEN             
-                  TAGNCONT(PPL,ND)=1
-               ELSE
-                 ND = -ND
-                 TAGNCONTFI(NIN)%P(ND)= 1
-               ENDIF
-
-               I1 =  IX4(I)
-               ND = MSRL(I1)
-               IF(ND.GT.0) THEN             
-                  TAGNCONT(PPL,ND)=1
-               ELSE
-                 ND = -ND
-                 TAGNCONTFI(NIN)%P(ND)= 1
+         DO K = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1) 
+            PP = LOADPINTER(K)
+            PPL = LOADP_HYD_INTER(PP)
+            DGAPLOAD = DGAPLOADINT(K)
+            DO I=1,JLT
+               JG = NSVG(I)
+               IF(WEIGHT(JG)/=1)CYCLE
+               GAPP= GAPV(I) + DGAPLOAD
+               IF(DIST(I) <= GAPP) THEN
+                  TAGNCONT(PPL,JG) = 1
                ENDIF
             ENDDO
          ENDDO
       ENDIF
+
 
 C---------------------------------
       IF(IPARIT.EQ.0)THEN

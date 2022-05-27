@@ -41,7 +41,7 @@ Chd|====================================================================
      6   IAUTO  , I_MEM  ,ID,TITR,IDDLEVEL,BUMULT ,
      7   DRAD,INTERCEP   ,IGAP   ,GAP_S   , GAP_M ,
      8   GAP_S_L,GAP_M_L ,GAPMIN ,FLAGREMNODE,KREMNODE,
-     9   REMNODE)
+     9   REMNODE,DGAPLOAD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,6 +78,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   BUMULT,MAXGAP,GAPMIN,TZINF,MAXBOX,MINBOX,DRAD
+      my_real , INTENT(IN) :: DGAPLOAD
       my_real
      .   X(3,*), 
      .   GAP_S(*), GAP_M(*), GAP_S_L(*), GAP_M_L(*)
@@ -204,14 +205,14 @@ C     DD = MAX(DD/(NRTS+NRTM),1.251*MAXGAP)
       DD = DD/(NRTS+NRTM)
 C      TZINF = BUMULT*DD
       MARGE = BUMULT*DD
-      TZINF = MARGE + MAX(MAXGAP,DRAD)
+      TZINF = MARGE + MAX(MAXGAP+DGAPLOAD,DRAD)
 C MARGE_ST : marge independante du BUMULT en input pour trouver les memes pene initiales
       MARGE_ST = BMUL0*DD
 C 1er passage avec marge x2 pour trouver plus de candidats (revient a prendre bmul0=0.4 au lieu de 0.2)
 C      IF(IDDLEVEL.EQ.0) MARGE_ST = 2*MARGE_ST
 c     WRITE(6,*) __FILE__,__LINE__,MARGE
       IF(IDDLEVEL.EQ.0) MARGE_ST = MARGE
-      TZINF_ST = MARGE_ST + MAX(MAXGAP,DRAD)
+      TZINF_ST = MARGE_ST + MAX(MAXGAP+DGAPLOAD,DRAD)
 
       XMIN=EP30
       XMAX=-EP30
@@ -333,7 +334,7 @@ c     MARGE = TZINF - MAX(MAXGAP,DRAD)
      5   IAUTO   ,VOXEL1  ,NBX     ,NBY     ,NBZ     ,
      7   GAPMIN  ,DRAD    ,MARGE_ST,GAP_S   ,GAP_M   ,
      8   GAP_S_L ,GAP_M_L ,IGAP    ,FLAGREMNODE,KREMNODE,
-     3   REMNODE)
+     3   REMNODE ,DGAPLOAD)
 
 
 C

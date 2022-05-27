@@ -97,7 +97,7 @@ C-----------------------------------------------
      .        IRLEN20, ISLEN20, IRLEN20T, ISLEN20T, IRLEN20E, ISLEN20E,
      .        IPARI(NPARI,*), INTLIST(*), IXS(*), IXS16(*),
      .        ICODT(*), ICONTACT(*), NSTRF(*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
-     .        KLOADPINTER(NINTER+1),LOADPINTER((NINTER+1)*NLOADP_HYD),
+     .        KLOADPINTER(NINTER+1),LOADPINTER(NINTER*NLOADP_HYD),
      .        LOADP_HYD_INTER(NLOADP_HYD)
       my_real
      .        A(*), STIFN(*), VISCN(*),

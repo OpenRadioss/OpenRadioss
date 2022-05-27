@@ -490,7 +490,7 @@ C
      5  IX3    ,IX4    ,NSVG,X1      ,X2    ,
      6  X3     ,X4     ,Y1  ,Y2      ,Y3    ,
      7  Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8  XI     ,YI     ,ZI  ,STIF)
+     8  XI     ,YI     ,ZI  ,STIF    ,INTBUF_TAB%VARIABLES(46))
 
        CALL I20DST3(IGAP,INTBUF_TAB%GAP_SH,INTBUF_TAB%CAND_E(1+NFT),INTBUF_TAB%CAND_N(1+NFT),GAPV ,
      2     INTBUF_TAB%VARIABLES(2),INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,INTBUF_TAB%VARIABLES(16),

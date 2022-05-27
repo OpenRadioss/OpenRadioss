@@ -51,8 +51,9 @@ Chd|====================================================================
      B      ADMSR,EDG_BISECTOR,VTX_BISECTOR,
      C      CANDM_E2S,CANDS_E2S,CAND_B,CAND_PS,GAPE ,
      D      GAP_E_L,NEDGE_LOCAL,IFQ,CANDE2E_FX ,CANDE2E_FY,
-     E   CANDE2E_FZ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,IFPEN_E,IFPEN_E2S,
-     F   KREMNODE_EDG_SIZ,REMNODE_EDG_SIZ,KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ) 
+     E      CANDE2E_FZ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,IFPEN_E,IFPEN_E2S,
+     F      KREMNODE_EDG_SIZ,REMNODE_EDG_SIZ,KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ, 
+     G      DGAPLOAD   )
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -106,13 +107,14 @@ C-----------------------------------------------
      .        MBINFLG(*),EBINFLG(*),ILEV,CAND_A(*),LEDGE(NLEDGE,*),ADMSR(4,*),MSEGTYP(*),
      .        CANDM_E2S(*),CANDS_E2S(*),CAND_B(*),IFPEN_E(*),IFPEN_E2S(*)
 C     INTEGER :: NEDGE_REMOTE_OLD, RENUM(*)
-      INTEGER , INTENT(IN) :: KREMNODE_EDG_SIZ,REMNODe_EDG_SIZ,KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ,
+      INTEGER , INTENT(IN) :: KREMNODE_EDG_SIZ,REMNODE_EDG_SIZ,KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ,
      .        FLAGREMNODE, KREMNODE_EDG(KREMNODE_EDG_SIZ), REMNODE_EDG(REMNODE_EDG_SIZ),
      .        KREMNODE_E2S(KREMNODE_E2S_SIZ), REMNODE_E2S(REMNODE_E2S_SIZ)
 C     REAL
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
      .   X(3,*),V(3,*),XYZM(6),STF(*), STFE(NEDGE), GAP_M(*), GAP_M_L(*), GAPE(*), GAP_E_L(*),
-     .   CAND_P(*),CAND_PS(*),MARGE,BGAPEMX,VMAXDT,DRAD,
+     .   CAND_P(*),CAND_PS(*),MARGE,BGAPEMX,VMAXDT,
      .   CANDE2E_FX(*) ,CANDE2E_FY(*),CANDE2E_FZ(*),
      .   CANDE2S_FX(4,*) ,CANDE2S_FY(4,*),CANDE2S_FZ(4,*)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
@@ -129,7 +131,7 @@ C     REAL
      .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,
      .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, GAPL,
      .   XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4,
-     .   D1X,D1Y,D1Z,D2X,D2Y,D2Z,DD1,DD2,D2,A2,GS
+     .   D1X,D1Y,D1Z,D2X,D2Y,D2Z,DD1,DD2,D2,A2,GS,DRAD2
 c provisoire
       INTEGER  IX,IY,IZ,IEDG,IE,
      .         M1, M2, M3, M4, MM1,MM2,MM3,MM4,SS1,SS2,
@@ -160,6 +162,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE ::  TAGREMLINE    
 C-----------------------------------------------
 C
+      DRAD2 =ZERO
+    
       IF(FLAGREMNODE==2) THEN
         ALLOCATE(TAGREMLINE(NEDGE))
         TAGREMLINE(1:NEDGE) = 0
@@ -445,7 +449,7 @@ C=======================================================================
         !    (N1,N2) is the current main edge     !
         !-------------------------------------------!
 
-        AAA = MARGE+BGAPEMX+GAPE(IEDG)
+        AAA = MARGE+BGAPEMX+GAPE(IEDG)+DGAPLOAD
 
         N1 = LEDGE(5,IEDG)
         N2 = LEDGE(6,IEDG)
@@ -624,9 +628,10 @@ C-----------------------------------------------------
      1               NVSIZ ,IRECT  ,X      ,II_STOK,INACTI,
      2               CANDS_E2E,CANDM_E2E ,MULNSNE,NOINT  ,MARGE ,
      3               I_MEM(1) ,PROV_S ,PROV_M ,IGAP0,CAND_A,
-     4               NEDGE ,LEDGE  ,ITAB   ,DRAD   ,IGAP  ,
+     4               NEDGE ,LEDGE  ,ITAB   ,DRAD2  ,IGAP  ,
      5               GAPE  ,GAP_E_L,ADMSR  ,EDG_BISECTOR,VTX_BISECTOR ,
-     6               CAND_P,IFQ,CANDE2E_FX ,CANDE2E_FY,CANDE2E_FZ,IFPEN_E)
+     6               CAND_P,IFQ,CANDE2E_FX ,CANDE2E_FY,CANDE2E_FZ,IFPEN_E,
+     7               DGAPLOAD)
                 IF(I_MEM(1)/=0) GOTO 300
                 J_STOK = 0
               ENDIF                 
@@ -677,9 +682,10 @@ C-------------------------------------------------------------------------
      1                 J_STOK ,IRECT  ,X     ,II_STOK,INACTI,
      2                 CANDS_E2E,CANDM_E2E ,MULNSNE,NOINT  ,MARGE ,
      3                 I_MEM(1) ,PROV_S ,PROV_M ,IGAP0,CAND_A,
-     4                 NEDGE ,LEDGE  ,ITAB   ,DRAD   ,IGAP  ,
+     4                 NEDGE ,LEDGE  ,ITAB   ,DRAD2  ,IGAP  ,
      5                 GAPE  ,GAP_E_L,ADMSR  ,EDG_BISECTOR,VTX_BISECTOR ,
-     6                 CAND_P,IFQ,CANDE2E_FX ,CANDE2E_FY,CANDE2E_FZ,IFPEN_E)
+     6                 CAND_P,IFQ,CANDE2E_FX ,CANDE2E_FY,CANDE2E_FZ,IFPEN_E,
+     7                 DGAPLOAD)
  
  300  CONTINUE
 C=======================================================================
@@ -742,7 +748,7 @@ C=======================================================================
         ZMAX_EDGM=ZMAX_EDGM+DZ
         ZMIN_EDGM=ZMIN_EDGM-DZ
 
-        AAA = MARGE+BGAPEMX ! filtrer vs GAPE(JJ) dans i25pen3_edg ! 
+        AAA = MARGE+BGAPEMX+DGAPLOAD ! filtrer vs GAPE(JJ) dans i25pen3_edg ! 
 
         !-------------------------------------------!
         !  VOXEL OCCUPIED BY THE BRICK              !
@@ -898,10 +904,11 @@ C-----------------------------------------------------
      1               NVSIZ ,IRECT  ,X         ,LL_STOK,INACTI,
      2               CANDS_E2S,CANDM_E2S,MULNSNS,NOINT  ,MARGE ,
      3               I_MEM(2) ,PROV_S ,PROV_M   ,IGAP0  ,CAND_B,
-     4               NEDGE ,LEDGE  ,ITAB   ,DRAD   ,IGAP  ,
+     4               NEDGE ,LEDGE  ,ITAB   ,DRAD2  ,IGAP  ,
      5               GAP_M ,GAP_M_L,GAPE  ,GAP_E_L,ADMSR  ,
      6               EDG_BISECTOR,VTX_BISECTOR ,CAND_PS,PROV_IDS,
-     7               IFQ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,IFPEN_E2S)
+     7               IFQ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,IFPEN_E2S,
+     8               DGAPLOAD)
                  
                 IF(I_MEM(2)/=0) GOTO 400
                 J_STOK = 0
@@ -952,10 +959,11 @@ C-------------------------------------------------------------------------
      1                 J_STOK ,IRECT  ,X        ,LL_STOK,INACTI,
      2                 CANDS_E2S,CANDM_E2S,MULNSNS,NOINT  ,MARGE ,
      3                 I_MEM(2) ,PROV_S ,PROV_M   ,IGAP0  ,CAND_B,
-     4                 NEDGE ,LEDGE  ,ITAB   ,DRAD   ,IGAP  ,
+     4                 NEDGE ,LEDGE  ,ITAB   ,DRAD2  ,IGAP  ,
      5                 GAP_M ,GAP_M_L,GAPE  ,GAP_E_L,ADMSR  ,
      6                 EDG_BISECTOR,VTX_BISECTOR ,CAND_PS,PROV_IDS,
-     7                 IFQ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,IFPEN_E2S)
+     7                 IFQ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,IFPEN_E2S,
+     8                 DGAPLOAD)
  
 C=======================================================================
 C 4   remise a zero des noeuds dans les boites

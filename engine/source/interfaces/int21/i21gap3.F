@@ -31,7 +31,7 @@ Chd|====================================================================
      2 GAP   ,IGAP  ,GAP_S ,GAPMIN,CRITER,
      3 GAPMAX,TZINF ,DIST  ,THKNOD,GAPSCALE,
      4 DEPTH ,MARGE ,DRAD  ,IDEL  ,THKNOD0,
-     5 GAP_S0)
+     5 GAP_S0,DGAPLOAD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,8 +49,8 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   GAP, GAPMIN, CRITER, GAPMAX, TZINF, DIST, GAPSCALE,
-     .   DEPTH, MARGE, DRAD
-C     REAL
+     .   DEPTH, MARGE
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
      .   GAP_S(*), THKNOD(*), GAP_S0(*), THKNOD0(*)
 C-----------------------------------------------
@@ -77,8 +77,8 @@ C
 C Calcul du gap reel a utiliser lors du critere de retri
 C
       IF (IGAP.EQ.0) THEN
-        CRITER =MAX(GAP,EM01*MAX(DEPTH,DRAD))
-        DIST   =TZINF-MAX(GAP,DEPTH,DRAD)
+        CRITER =MAX(GAP+DGAPLOAD,EM01*MAX(DEPTH,DRAD))
+        DIST   =TZINF-MAX(GAP+DGAPLOAD,DEPTH,DRAD)
       ELSE
         CRITERL=EP30
         GAPSUPL=ZERO
@@ -89,11 +89,11 @@ C gap_s/=0 <=> node is still connected through non deleted shells
             GAPSUPL = MAX(GAPSUPL,GAP_S(I))
           END IF
         ENDDO
-        CRITERL=MAX(GAPMIN,CRITERL,EM01*MAX(DEPTH,DRAD))
+        CRITERL=MAX(MAX(GAPMIN,CRITERL)+DGAPLOAD,EM01*MAX(DEPTH,DRAD))
         GAPSUPL=MIN(GAPMAX,GAPSUPL)
 #include "lockon.inc"
         CRITER=MIN(CRITER,CRITERL)
-        DIST  =MIN(DIST,TZINF-MAX(GAPSUPL,DEPTH,DRAD))
+        DIST  =MIN(DIST,TZINF-MAX(GAPSUPL+DGAPLOAD,DEPTH,DRAD))
         IF( TZINF-GAPSUPL <= ZERO)THEN
 C assure le retri et remet la marge initiale (on a forcement depth  <= gapsupl)
           TZINF= GAPSUPL+MARGE

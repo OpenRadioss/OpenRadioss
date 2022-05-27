@@ -33,7 +33,7 @@ Chd|====================================================================
      3                    GAP_M ,IGAP  ,STFS,ITASK ,NRTS    ,
      4                    STFM  ,GAP_S_L,GAP_M_L,COUNT_REMSLV,
      5                    IFPEN ,CAND_FX,CAND_FY,CAND_FZ,IFORM,
-     6                    DRAD  )
+     6                    DRAD  ,DGAPLOAD)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,8 +55,8 @@ C-----------------------------------------------
      .        IFPEN(*),IFORM
       my_real
      .        X(3,*),GAP,GAP_S(*),GAP_M(*),V(3,*),STFS(*), STFM(*),
-     .        GAP_S_L(*),GAP_M_L(*),CAND_FX(*),CAND_FY(*),CAND_FZ(*),
-     .        DRAD
+     .        GAP_S_L(*),GAP_M_L(*),CAND_FX(*),CAND_FY(*),CAND_FZ(*)
+      my_real , INTENT(IN) :: DGAPLOAD,DRAD
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -168,7 +168,7 @@ C
             Z3=X(3,M1(IS))
             M2(IS)=IRECTM(2,L)
             Z4=X(3,M2(IS))
-            GAPVD = MAX(GAPV(IS),DRAD)
+            GAPVD = MAX(GAPV(IS)+DGAPLOAD,DRAD)
             ZMINS = MIN(Z1,Z2)-GAPVD
             ZMAXS = MAX(Z1,Z2)+GAPVD
             ZMINM = MIN(Z3,Z4)-GAPVD
@@ -197,7 +197,7 @@ C
           Y3=X(2,M1(IS))
           M2(IS)=IRECTM(2,L)
           Y4=X(2,M2(IS))
-          GAPVD = MAX(GAPV(IS),DRAD)
+          GAPVD = MAX(GAPV(IS)+DGAPLOAD,DRAD)
           YMINS = MIN(Y1,Y2)-GAPVD
           YMAXS = MAX(Y1,Y2)+GAPVD
           YMINM = MIN(Y3,Y4)-GAPVD
@@ -222,7 +222,7 @@ C
           X3=X(1,M1(IS))
           M2(IS)=IRECTM(2,L)
           X4=X(1,M2(IS))
-          GAPVD = MAX(GAPV(IS),DRAD)
+          GAPVD = MAX(GAPV(IS)+DGAPLOAD,DRAD)
           XMINS = MIN(X1,X2)-GAPVD
           XMAXS = MAX(X1,X2)+GAPVD
           XMINM = MIN(X3,X4)-GAPVD
@@ -272,7 +272,7 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
             Z3=X(3,M1(IS))
             M2(IS)=IRECTM(2,L)
             Z4=X(3,M2(IS))
-            GAPVD = MAX(GAPV(IS),DRAD)
+            GAPVD = MAX(GAPV(IS)+DGAPLOAD,DRAD)
             ZMINS = MIN(Z1,Z2)-GAPVD
             ZMAXS = MAX(Z1,Z2)+GAPVD
             ZMINM = MIN(Z3,Z4)-GAPVD
@@ -302,7 +302,7 @@ C
           Y3=X(2,M1(IS))
           M2(IS)=IRECTM(2,L)
           Y4=X(2,M2(IS))
-          GAPVD = MAX(GAPV(IS),DRAD)
+          GAPVD = MAX(GAPV(IS)+DGAPLOAD,DRAD)
           YMINS = MIN(Y1,Y2)-GAPVD
           YMAXS = MAX(Y1,Y2)+GAPVD
           YMINM = MIN(Y3,Y4)-GAPVD
@@ -327,7 +327,7 @@ C
           X3=X(1,M1(IS))
           M2(IS)=IRECTM(2,L)
           X4=X(1,M2(IS))
-          GAPVD = MAX(GAPV(IS),DRAD)
+          GAPVD = MAX(GAPV(IS)+DGAPLOAD,DRAD)
           XMINS = MIN(X1,X2)-GAPVD
           XMAXS = MAX(X1,X2)+GAPVD
           XMINM = MIN(X3,X4)-GAPVD

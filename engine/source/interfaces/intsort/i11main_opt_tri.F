@@ -72,7 +72,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   STARTT, GAP, STOPT, DRAD
+     .   STARTT, GAP, STOPT, DRAD, DGAPLOADP
 C-----------------------------------------------
 #include "sync_dir.inc"
 C-----------------------------------------------
@@ -91,6 +91,7 @@ C
 C
       GAP  = INTBUF_TAB%VARIABLES(2)
       DRAD = INTBUF_TAB%VARIABLES(24)
+      DGAPLOADP = INTBUF_TAB%VARIABLES(46)
       NRTS   =IPARI(3,NIN)
 C-----------------------------------------------------------
 C     Filtrage des candidats a l'impact
@@ -102,7 +103,7 @@ C-----------------------------------------------------------
      3  INTBUF_TAB%GAP_M , IPARI(21,NIN)    , INTBUF_TAB%STFS  , ITASK,NRTS,
      4  INTBUF_TAB%STFM  , INTBUF_TAB%GAP_SL, INTBUF_TAB%GAP_ML, COUNT_REMSLV,  
      5  INTBUF_TAB%IFPEN , INTBUF_TAB%FTSAVX, INTBUF_TAB%FTSAVY, INTBUF_TAB%FTSAVZ,
-     6  IPARI(30,NIN)    , DRAD             )
+     6  IPARI(30,NIN)    , DRAD             , DGAPLOADP)
 C-----------------------------------------------------------
 ccc      ENDIF
 C

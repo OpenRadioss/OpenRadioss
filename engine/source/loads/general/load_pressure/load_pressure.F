@@ -73,7 +73,7 @@ C-----------------------------------------------
       INTEGER NPC(*),LLOADP(SLLOADP)
       INTEGER ILOADP(SIZLOADP,*),LSENSOR(NSENSI,*),
      .        TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
-     .        KLOADPINTER(NINTER+1),LOADPINTER((NINTER+1)*NLOADP_HYD),
+     .        KLOADPINTER(NINTER+1),LOADPINTER(NINTER*NLOADP_HYD),
      .        LOADP_HYD_INTER(NLOADP_HYD)
       INTEGER  IADC(*) 
       my_real
@@ -85,7 +85,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NL, N1, ISK, N2, N3, N4, N5, NG1, NG2, NG3, NG4, ISENS,K,LL,IERR,
-     .        IAD ,NP ,IFUNC ,NPRES ,NINTERP ,IDIR ,INORM ,NPL ,IANIM,
+     .        IAD ,NP ,IFUNC ,NPRES ,NINTERP ,IDIR ,INORM ,NPL ,IANIM,IFLOAD,
      .        SEGCONT ,N ,IADN , IJK ,UP_BOUND,TAGN1,TAGN2,TAGN3,TAGN4
       my_real
      .   NX, NY, NZ, AXI, AA, A0, VV, FX, FY, FZ, AX, DYDX, TS,
@@ -110,6 +110,7 @@ C code SPMD Parith/OFF or SMP
            ISENS =  ILOADP(7,NP) 
            ISK = ILOADP(8,NP)    
            INORM = ILOADP(9,NP)
+           IFLOAD = ILOADP(10,NP)
            FCY = LOADP(1,NP)
            FCX = LOADP(2,NP)
 C
@@ -139,28 +140,29 @@ C----------------
              TAGN1 = 0
              TAGN2 = 0
              TAGN3 = 0
-             TAGN4 = 0
+             TAGN4 = 0       
 
              IF(NINTERP > 0 ) THEN           
                 NPL = LOADP_HYD_INTER(NP)
                 IF(N4/=0) THEN
-                   IF(TAGNCONT(NPL,N1)==1.AND.TAGNCONT(NPL,N2)==1.AND.
-     .                TAGNCONT(NPL,N3)==1.AND.TAGNCONT(NPL,N4)==1) THEN
+                   SEGCONT = TAGNCONT(NPL,N1) + TAGNCONT(NPL,N2) +
+     .                     TAGNCONT(NPL,N3)+TAGNCONT(NPL,N4)
+                   IF(SEGCONT >= 2 .AND.IFLOAD==1) THEN
+                      SEGCONT = 1
+                   ELSEIF(SEGCONT <= 1.AND.IFLOAD==2) THEN
                       SEGCONT = 1
                    ELSE
-                      TAGN1 = TAGNCONT(NPL,N1)
-                      TAGN2 = TAGNCONT(NPL,N2)
-                      TAGN3 = TAGNCONT(NPL,N3)
-                      TAGN4 = TAGNCONT(NPL,N4)
+                      SEGCONT = 0   
                    ENDIF
                 ELSE
-                   IF(TAGNCONT(NPL,N1)==1.AND.TAGNCONT(NPL,N2)==1.AND.
-     .                TAGNCONT(NPL,N3)==1) THEN
+                   SEGCONT = TAGNCONT(NPL,N1) + TAGNCONT(NPL,N2) +
+     .                     TAGNCONT(NPL,N3)
+                   IF(SEGCONT >= 2 .AND.IFLOAD==1) THEN
+                      SEGCONT = 1
+                   ELSEIF(SEGCONT <= 1.AND.IFLOAD==2) THEN
                       SEGCONT = 1
                    ELSE
-                      TAGN1 = TAGNCONT(NPL,N1)
-                      TAGN2 = TAGNCONT(NPL,N2)
-                      TAGN3 = TAGNCONT(NPL,N3)
+                      SEGCONT = 0
                    ENDIF
                 ENDIF    
              ENDIF
@@ -425,6 +427,7 @@ C-------------------------
            ISENS =  ILOADP(7,NP) 
            ISK = ILOADP(8,NP)    
            INORM = ILOADP(9,NP)
+           IFLOAD = ILOADP(10,NP)
            FCY = LOADP(1,NP)
            FCX = LOADP(2,NP)
 C
@@ -474,33 +477,34 @@ C----------------
              TAGN1 = 0
              TAGN2 = 0
              TAGN3 = 0
-             TAGN4 = 0
+             TAGN4 = 0 
 
              IF(NINTERP > 0 ) THEN           
                 NPL = LOADP_HYD_INTER(NP)
                 IF(N4/=0) THEN
-                   IF(TAGNCONT(NPL,N1)==1.AND.TAGNCONT(NPL,N2)==1.AND.
-     .                TAGNCONT(NPL,N3)==1.AND.TAGNCONT(NPL,N4)==1) THEN
+                   SEGCONT = TAGNCONT(NPL,N1) + TAGNCONT(NPL,N2) +
+     .                     TAGNCONT(NPL,N3)+TAGNCONT(NPL,N4)
+                   IF(SEGCONT >= 2 .AND.IFLOAD==1) THEN
+                      SEGCONT = 1
+                   ELSEIF(SEGCONT <= 1.AND.IFLOAD==2) THEN
                       SEGCONT = 1
                    ELSE
-                      TAGN1 = TAGNCONT(NPL,N1)
-                      TAGN2 = TAGNCONT(NPL,N2)
-                      TAGN3 = TAGNCONT(NPL,N3)
-                      TAGN4 = TAGNCONT(NPL,N4)
+                      SEGCONT = 0
                    ENDIF
                 ELSE
-                   IF(TAGNCONT(NPL,N1)==1.AND.TAGNCONT(NPL,N2)==1.AND.
-     .                TAGNCONT(NPL,N3)==1) THEN
+                   SEGCONT = TAGNCONT(NPL,N1) + TAGNCONT(NPL,N2) +
+     .                     TAGNCONT(NPL,N3)
+                   IF(SEGCONT >= 2 .AND.IFLOAD==1) THEN
+                      SEGCONT = 1
+                   ELSEIF(SEGCONT <= 1.AND.IFLOAD==2) THEN
                       SEGCONT = 1
                    ELSE
-                      TAGN1 = TAGNCONT(NPL,N1)
-                      TAGN2 = TAGNCONT(NPL,N2)
-                      TAGN3 = TAGNCONT(NPL,N3)
+                      SEGCONT = 0
                    ENDIF
                 ENDIF    
              ENDIF
             
-             IF(SEGCONT == 0) THEN
+             IF(SEGCONT == 0) THEN       
 
                IF(N4.NE.0)THEN
 

@@ -35,7 +35,8 @@ Chd|====================================================================
      3      I_MEM ,PROV_S ,PROV_M,IGAP0  ,CAND_A,
      4      NEDGE ,LEDGE  ,ITAB  ,DRAD   ,IGAP ,
      5      GAPE  ,GAP_E_L,ADMSR,EDG_BISECTOR,VTX_BISECTOR,
-     6      CAND_P,IFQ    ,CAND_FX ,CAND_FY,CAND_FZ,IFPEN)
+     6      CAND_P,IFQ    ,CAND_FX ,CAND_FY,CAND_FZ,IFPEN ,
+     7      DGAPLOAD)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -70,9 +71,9 @@ C-----------------------------------------------
       INTEGER IRECT(4,*),LEDGE(NLEDGE,NEDGE),ADMSR(4,*),CAND_S(*),CAND_M(*),II_STOK,CAND_A(*)
       INTEGER PROV_S(MVSIZ),PROV_M(MVSIZ),IFPEN(*)
 C     INTEGER NEDGEROLD,RENUM(*)
-C     REAL
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
-     .   X(3,NUMNOD), DRAD, MARGE, GAPE(*), GAP_E_L(*), CAND_P(*),
+     .   X(3,NUMNOD), MARGE, GAPE(*), GAP_E_L(*), CAND_P(*),
      .   CAND_FX(*), CAND_FY(*), CAND_FZ(*)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
 C-----------------------------------------------
@@ -90,7 +91,7 @@ C-----------------------------------------------
      .                  NEDGE ,LEDGE  ,MARGE  ,GAPE    ,GAP_E_L ,
      .                  IGAP   ,X     ,IRECT  ,PENE    ,ADMSR   ,
      .                  EDG_BISECTOR,VTX_BISECTOR,ITAB,
-     .                  XREM_EDGE,E_RBUF_SIZE,NEDGE_REMOTE)
+     .                  XREM_EDGE,E_RBUF_SIZE,NEDGE_REMOTE,DGAPLOAD)
 
 C-----------------------------------------------
 C SUPPRESSION DES ANCIENS CANDIDATS DEJA STOCKES (PENE INITIALE)

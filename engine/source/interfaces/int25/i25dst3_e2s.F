@@ -364,7 +364,7 @@ C Exclusions :
             PENE2(EJ,I)=ZERO 
            ENDIF
 
-           IF(ABS(P1) <= 0.2*NNNN .OR. ABS(P2) <= 0.2*NNNN) THEN ! Tolerance :+-80deg
+           IF(ABS(P1) <= ONE_FIFTH*NNNN .OR. ABS(P2) <= ONE_FIFTH*NNNN) THEN ! Tolerance :+-80deg
              PENE2(EJ,I)=ZERO 
              CYCLE  ! no contact
            ENDIF

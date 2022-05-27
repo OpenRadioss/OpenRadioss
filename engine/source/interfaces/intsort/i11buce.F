@@ -43,7 +43,7 @@ Chd|====================================================================
      8   STIFM  ,IAUTO  , I_MEM  ,ITASK   ,IFORM   ,
      9   IFPEN  ,DRAD   , GAP_M  , GAP_S_L, 
      1   GAP_M_L ,GAPMIN, BGAPSMX, GAP,
-     2   FLAGREMNODE,KREMNODE,REMNODE)
+     2   FLAGREMNODE,KREMNODE,REMNODE,DGAPLOAD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,9 +78,10 @@ C-----------------------------------------------
      .        IFORM,II_STOK
 C     REAL
       my_real
-     .   TZINF,MAXBOX,MINBOX,BMINMA(6),DRAD,BGAPSMX
+     .   TZINF,MAXBOX,MINBOX,BMINMA(6),BGAPSMX
       my_real
      . MAXGAP,GAPMIN,GAP
+      my_real , INTENT(IN) :: DGAPLOAD,DRAD
       my_real
      .   X(3,*),STIFS(*),PENIS(2,*),STIFM(*),
      .   GAP_S(*),GAP_M(*),GAP_S_L(*),GAP_M_L(*)
@@ -157,7 +158,7 @@ C
 C
 C-----DEBUT DE LA PHASE DE TRI 
    
-      MARGE = TZINF - MAX(MAXGAP,DRAD)
+      MARGE = TZINF - MAX(MAXGAP+DGAPLOAD,DRAD)
 
       IF( NMN .NE.  0 ) THEN
         AAA = SQRT(NMN /
@@ -222,7 +223,7 @@ C Reduction of the number of voxels
      6   ITASK   ,IFPEN   ,IFORM   ,GAPMIN  ,DRAD    , 
      7   MARGE   ,GAP_S   ,GAP_M   ,GAP_S_L, GAP_M_L,
      8   BGAPSMX, IGAP    ,GAP     ,FLAGREMNODE,KREMNODE,
-     9   REMNODE)    
+     9   REMNODE,DGAPLOAD )    
 
         CALL MY_BARRIER
 
@@ -276,7 +277,7 @@ c     ENDIF
 C ne pas dimunuer la taille des boite
 C        MINBOX= THREE_OVER_4*MINBOX
 C        MAXBOX= THREE_OVER_4*MAXBOX
-        IF( TZINF.LE.MAX(MAXGAP,DRAD) ) THEN
+        IF( TZINF.LE.MAX(MAXGAP+DGAPLOAD,DRAD) ) THEN
           CALL ANCMSG(MSGID=98,ANMODE=ANINFO,
      .            I1=NOINT,C1='(I11BUCE)')
           CALL ARRET(2)

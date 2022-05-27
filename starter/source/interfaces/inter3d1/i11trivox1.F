@@ -39,7 +39,7 @@ Chd|====================================================================
      6      IAUTO , VOXEL  , NBX   , NBY      ,NBZ    ,
      7      GAPMIN, DRAD   , MARGE , GAP_S    , GAP_M ,
      8      GAP_S_L,GAP_M_L,IGAP   ,FLAGREMNODE,KREMNODE,
-     3      REMNODE)
+     3      REMNODE,DGAPLOAD)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -124,7 +124,7 @@ C-----------------------------------------------
       my_real
      .       ,INTENT(IN) ::
      .         X(3,*),XYZM(6,*),
-     .         GAPMIN, DRAD, MARGE, TZINF, 
+     .         GAPMIN, DRAD, MARGE, TZINF, DGAPLOAD,
      .         GAP_S(*), GAP_M(*), GAP_S_L(*), GAP_M_L(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -452,7 +452,7 @@ C-----------------------------------------------------
      2              CAND_S,CAND_M,NSN   ,NOINT ,MARGE  ,
      3              I_MEM ,PROV_S,PROV_M,MULTIMP,ADDCM ,
      4              CHAINE,IADFIN,GAPMIN,DRAD   ,IGAP  ,
-     5              GAP_S ,GAP_M ,GAP_S_L,GAP_M_L)
+     5              GAP_S ,GAP_M ,GAP_S_L,GAP_M_L,DGAPLOAD)
 
                 IF(I_MEM.EQ.2) THEN
                       II_STOK=ZERO                                            
@@ -492,7 +492,7 @@ C-------------------------------------------------------------------------
      2              CAND_S,CAND_M,NSN   ,NOINT ,MARGE  ,
      3              I_MEM ,PROV_S,PROV_M,MULTIMP,ADDCM ,
      4              CHAINE,IADFIN,GAPMIN,DRAD   ,IGAP  ,
-     5              GAP_S ,GAP_M ,GAP_S_L,GAP_M_L)
+     5              GAP_S ,GAP_M ,GAP_S_L,GAP_M_L,DGAPLOAD)
 
     
 c      WRITE(6,*) __FILE__,__LINE__,I_STOK,II_STOK

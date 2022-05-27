@@ -32,7 +32,7 @@ Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
        SUBROUTINE UPDATE_STRUCT_INT21(
      1                          CAND_E, II_STOK, IFORM , NIN   , NMN,
-     2                          INTTH, MNDD   , MSR_L , IRECTT ,IFLAGLOADP)
+     2                          INTTH, MNDD   , MSR_L , IRECTT )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -83,6 +83,8 @@ C-----------------------------------------------
 C
 C UPDATE STRUCTURE NMNSI and NMNFI FOR SPMD COMMUNICATION
 C
+       IFLAGLOADP = 0
+
         IF(NSPMD > 1.AND.(INTTH == 2.OR.IFLAGLOADP > 0)) THEN
             CALL MY_BARRIER
 !$OMP MASTER

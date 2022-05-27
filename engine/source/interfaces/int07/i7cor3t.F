@@ -36,7 +36,7 @@ Chd|====================================================================
      5                   IX2     ,IX3   ,IX4   ,NSN   ,GAP_S  ,
      6                   GAP_M   ,GAPV  ,GAPMAX,GAPMIN,CURV_MAX,
      7                   ITYP    ,NIN   ,GAP_S_L,GAP_M_L,INTTH,
-     8                   DRAD    )
+     8                   DRAD    ,DGAPLOAD)
 C============================================================================
 C  cette routine est appelee par : I10STO(/int10/i10sto.F)
 C                                  I7STO(/int7/i7sto.F)
@@ -72,8 +72,8 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(3,*), GAPV(*), GAP_S(*), GAP_M(*),CURV_MAX(*),
-     .   GAP, GAPMAX, GAPMIN,DRAD
-C     REAL
+     .   GAP, GAPMAX, GAPMIN
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
@@ -92,21 +92,21 @@ C
        ENDIF
        IF(IGAP.EQ.0)THEN
          DO I=1,JLT
-           GAPV(I)=MAX(GAP,DRAD)
+           GAPV(I)=MAX(GAP+DGAPLOAD,DRAD)
          END DO
        ELSEIF(IGAP == 3)THEN
          DO I=1,JLT
            GAPV(I)=MIN(GAP_S_L(CAND_N(I))+GAP_M_L(CAND_E(I)),GAPV(I))
            GAPV(I)=MIN(GAPV(I),GAPMAX)
            GAPV(I)=MAX(GAPMIN,GAPV(I))
-           GAPV(I)=MAX(DRAD,GAPV(I))
+           GAPV(I)=MAX(DRAD,GAPV(I)+DGAPLOAD)
          END DO
        ELSE
          DO I=1,JLT
            GAPV(I)=GAP_S(CAND_N(I))+GAP_M(CAND_E(I))
            GAPV(I)=MIN(GAPV(I),GAPMAX)
            GAPV(I)=MAX(GAPMIN,GAPV(I))
-           GAPV(I)=MAX(DRAD,GAPV(I))
+           GAPV(I)=MAX(DRAD,GAPV(I)+DGAPLOAD)
          END DO
        END IF
        DO 100 I=1,JLT
@@ -140,7 +140,7 @@ C
       ELSE
        IF(IGAP.EQ.0)THEN
          DO I=1,JLT
-           GAPV(I)=MAX(GAP,DRAD)
+           GAPV(I)=MAX(GAP+DGAPLOAD,DRAD)
          END DO
        ELSEIF(IGAP == 3)THEN 
          IADD = 9 
@@ -156,7 +156,7 @@ C
            END IF
            GAPV(I)=MIN(GAPV(I),GAPMAX)
            GAPV(I)=MAX(GAPMIN,GAPV(I))
-           GAPV(I)=MAX(DRAD,GAPV(I))
+           GAPV(I)=MAX(DRAD,GAPV(I)+DGAPLOAD)
          END DO
        ELSE
          DO I=1,JLT
@@ -169,7 +169,7 @@ C
            END IF
            GAPV(I)=MIN(GAPV(I),GAPMAX)
            GAPV(I)=MAX(GAPMIN,GAPV(I))
-           GAPV(I)=MAX(DRAD,GAPV(I))
+           GAPV(I)=MAX(DRAD,GAPV(I)+DGAPLOAD)
          END DO
        END IF
        DO I=1,JLT

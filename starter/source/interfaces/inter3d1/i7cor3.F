@@ -41,7 +41,7 @@ Chd|====================================================================
      5                  IX3    ,IX4    ,NSVG,X1      ,X2    ,
      6                  X3     ,X4     ,Y1  ,Y2      ,Y3    ,
      7                  Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8                  XI     ,YI     ,ZI  ,STIF)
+     8                  XI     ,YI     ,ZI  ,STIF    ,DGAPLOAD)
 C============================================================================
 C  cette routine est appelee par : I7BUC1(/inter3d1/i7buc1.F)
 C                                  I7TRI(/inter3d1/i7tri.F)
@@ -65,7 +65,9 @@ C-----------------------------------------------
       INTEGER IGAP, IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),ISTF
 C     REAL
       my_real
-     .        GAP, GAPMIN, GAPMAX,DRAD,
+     .        GAP, GAPMIN, GAPMAX,DRAD
+      my_real , INTENT(IN) :: DGAPLOAD
+      my_real
      .        X(3,*), STF(*), STFN(*), GAPV(*), GAP_S(*), GAP_M(*),
      .        GAP_S_L(*), GAP_M_L(*)
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IX1,IX2,IX3,IX4,NSVG
@@ -105,7 +107,7 @@ C
 C
       IF(IGAP.EQ.0)THEN
         DO I=LFT,LLT
-         GAPV(I) = MAX(GAP,DRAD)         
+         GAPV(I) = MAX(GAP+DGAPLOAD,DRAD)         
         ENDDO
       ELSE
         DO I=LFT,LLT
@@ -115,7 +117,7 @@ C
          GAPV(I) = MIN(GAPMAX,GAPV(I))
          GAPV(I) = MAX(GAPMIN,GAPV(I))
 C
-         GAPV(I) = MAX(DRAD,GAPV(I))
+         GAPV(I) = MAX(DRAD,GAPV(I)+DGAPLOAD)
         ENDDO
       ENDIF
 C

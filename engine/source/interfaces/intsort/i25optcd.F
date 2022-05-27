@@ -36,8 +36,9 @@ Chd|====================================================================
      4       IRTLM  ,TIME_S ,MSEGLO  ,COUNT_REMSLV,ITAB   ,
      5       SECND_FR,NSNR   ,PENE_OLD,STIF_OLD  ,MSEGTYP  ,
      6       NRTM   ,PMAX_GAP,I_OPT_STOK,CAND_OPT_E,CAND_OPT_N ,
-     7       SIZOPT ,IGAP   ,GAP_S_L,GAP_M_L ,DRAD)
-C=======================================================================
+     7       SIZOPT ,IGAP   ,GAP_S_L ,GAP_M_L    ,DRAD    ,
+     8       DGAPLOAD)
+C===============================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
@@ -68,8 +69,9 @@ C-----------------------------------------------
      .        IGAP, IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),
      .        IRTLM(4,NSN),MSEGLO(*),COUNT_REMSLV(*), ITAB(*),
      .        MSEGTYP(*), CAND_OPT_E(*), CAND_OPT_N(*), SIZOPT
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
-     .        GAP,PMAX_GAP,DRAD,
+     .        GAP,PMAX_GAP,
      .        X(3,*),GAP_S(*),GAP_M(*),STFN(*),STF(*),
      .        V(3,*),SECND_FR(6,*),TIME_S(*),
      .        PENE_OLD(5,NSN),STIF_OLD(2,NSN),
@@ -176,7 +178,7 @@ c else, keep only candidates wrt non impacted nodes
             VZ4=V(3,IX4(IS))
             VZ=MAX(MAX(VZ1,VZ2,VZ3,VZ4)-VZI,VZI-MIN(VZ1,VZ2,VZ3,VZ4))
 C
-            TZINF = MAX(MAX(GAPV(IS),DRAD),ONEP01*VZ*DT1)
+            TZINF = MAX(MAX(GAPV(IS)+DGAPLOAD,DRAD),ONEP01*VZ*DT1)
             TZINF = MAX(PREC,TZINF)
             ZMIN = MIN(Z1,Z2,Z3,Z4)-TZINF
             ZMAX = MAX(Z1,Z2,Z3,Z4)+TZINF
@@ -205,7 +207,7 @@ C
           VY4=V(2,IX4(IS))
           VY=MAX(MAX(VY1,VY2,VY3,VY4)-VYI,VYI-MIN(VY1,VY2,VY3,VY4))
 C
-          TZINF = MAX(MAX(GAPV(IS),DRAD),ONEP01*VY*DT1)
+          TZINF = MAX(MAX(GAPV(IS)+DGAPLOAD,DRAD),ONEP01*VY*DT1)
           TZINF = MAX(PREC,TZINF)
           YMIN = MIN(Y1,Y2,Y3,Y4)-TZINF
           YMAX = MAX(Y1,Y2,Y3,Y4)+TZINF
@@ -231,7 +233,7 @@ C
           VX4=V(1,IX4(IS))
           VX=MAX(MAX(VX1,VX2,VX3,VX4)-VXI,VXI-MIN(VX1,VX2,VX3,VX4))
 C
-          TZINF = MAX(MAX(GAPV(IS),DRAD),ONEP01*VX*DT1)
+          TZINF = MAX(MAX(GAPV(IS)+DGAPLOAD,DRAD),ONEP01*VX*DT1)
           TZINF = MAX(PREC,TZINF)
           XMIN = MIN(X1,X2,X3,X4)-TZINF
           XMAX = MAX(X1,X2,X3,X4)+TZINF
@@ -279,7 +281,7 @@ C---------
               VZ4=V(3,IX4(IS))                                          
               VZ=MAX(MAX(VZ1,VZ2,VZ3,VZ4)-VZI,VZI-MIN(VZ1,VZ2,VZ3,VZ4)) 
 C
-              TZINF = MAX(MAX(GAPV(IS),DRAD),ONEP01*VZ*DT1)
+              TZINF = MAX(MAX(GAPV(IS)+DGAPLOAD,DRAD),ONEP01*VZ*DT1)
               TZINF = MAX(PREC,TZINF)
               ZMIN = MIN(Z1,Z2,Z3,Z4)-TZINF                             
               ZMAX = MAX(Z1,Z2,Z3,Z4)+TZINF                             
@@ -310,7 +312,7 @@ C
             VY4=V(2,IX4(IS))
             VY=MAX(MAX(VY1,VY2,VY3,VY4)-VYI,VYI-MIN(VY1,VY2,VY3,VY4))
 C
-            TZINF = MAX(MAX(GAPV(IS),DRAD),ONEP01*VY*DT1)
+            TZINF = MAX(MAX(GAPV(IS)+DGAPLOAD,DRAD),ONEP01*VY*DT1)
             TZINF = MAX(PREC,TZINF)
             YMIN = MIN(Y1,Y2,Y3,Y4)-TZINF
             YMAX = MAX(Y1,Y2,Y3,Y4)+TZINF
@@ -337,7 +339,7 @@ C
             VX4=V(1,IX4(IS))
             VX=MAX(MAX(VX1,VX2,VX3,VX4)-VXI,VXI-MIN(VX1,VX2,VX3,VX4))
 C
-            TZINF = MAX(MAX(GAPV(IS),DRAD),ONEP01*VX*DT1)
+            TZINF = MAX(MAX(GAPV(IS)+DGAPLOAD,DRAD),ONEP01*VX*DT1)
             TZINF = MAX(PREC,TZINF)
             XMIN = MIN(X1,X2,X3,X4)-TZINF
             XMAX = MAX(X1,X2,X3,X4)+TZINF

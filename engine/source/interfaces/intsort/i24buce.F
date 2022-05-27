@@ -40,7 +40,7 @@ Chd|====================================================================
      8   ILEV     ,MSEGTYP ,EDGE_L2 ,IEDGE    ,ISEADD   ,
      9   ISEDGE   ,CAND_T ,FLAGREMNODE,KREMNOD,REMNOD   ,
      A   CAND_A   ,RENUM  ,NSNROLD  ,IRTSE    ,IS2SE    ,
-     B   NSNE     ) 
+     B   NSNE     ,DGAPLOAD) 
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -77,6 +77,7 @@ C     REAL
       my_real
      .   GAP,PMAX_GAP,VMAXDT,
      .   BMINMA(6),CURV_MAX(NRTM),BGAPSMX, MARGE
+      my_real , INTENT(IN) :: DGAPLOAD
       my_real
      .   X(3,*), V(3,*), STFN(*),PENE_OLD(5,NSN),
      .   STF(*), GAP_S(*), GAP_M(*),EDGE_L2(*)
@@ -198,7 +199,7 @@ c      write(iout,*)'i24buce 2'
      8   MBINFLG ,ILEV     ,MSEGTYP  ,EDGE_L2 ,IEDGE    ,
      9   ISEADD  ,ISEDGE   ,CAND_T  ,FLAGREMNODE,KREMNOD,
      A   REMNOD  ,CAND_A   ,RENUM   ,NSNROLD  ,IRTSE    ,
-     B   IS2SE   ,NSNE     )
+     B   IS2SE   ,NSNE     ,DGAPLOAD)
  234  continue
 c      write(iout,*)'i24buce 3'
 

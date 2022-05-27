@@ -34,7 +34,7 @@ Chd|====================================================================
      3      I_MEM ,PROV_S ,PROV_M,IGAP0  ,CAND_A,
      4      NEDGE ,LEDGE  ,ITAB  ,DRAD   ,IGAP ,
      5      GAP_M ,GAP_M_L,GAPE  ,GAP_E_L,ADMSR,
-     6      EDG_BISECTOR,VTX_BISECTOR,CAND_P)
+     6      EDG_BISECTOR,VTX_BISECTOR,CAND_P,DGAPLOAD)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -69,6 +69,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(3,*), DRAD, MARGE, GAP_M(*), GAP_M_L(*), GAPE(*), GAP_E_L(*), CAND_P(4,*)
+      my_real , INTENT(IN) :: DGAPLOAD
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -82,7 +83,8 @@ C-----------------------------------------------
       CALL I25PEN3_E2S( J_STOK,PROV_S ,PROV_M ,DRAD    ,IGAP0   ,
      .                  NEDGE ,LEDGE  ,MARGE  ,GAP_M   ,GAP_M_L ,
      .                  GAPE  ,GAP_E_L,IGAP   ,X      ,IRECT    ,
-     .                  PENE    ,ADMSR  ,EDG_BISECTOR,VTX_BISECTOR ,ITAB)
+     .                  PENE    ,ADMSR  ,EDG_BISECTOR,VTX_BISECTOR ,ITAB,
+     .                  DGAPLOAD)
 C-----------------------------------------------
 C SUPPRESSION DES ANCIENS CANDIDATS DEJA STOCKES (PENE INITIALE)
 C-----------------------------------------------

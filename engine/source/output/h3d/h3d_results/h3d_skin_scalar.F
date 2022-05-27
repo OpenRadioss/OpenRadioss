@@ -414,7 +414,7 @@ C-----------------------------------------------
      .        FUN_CX,FUN_VEL,DIR_VEL,IFRA2, IANIM,IJK,UP_BOUND,
      .        IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1,
      .        Phi_I, ID, USER_ID, ITA_SHIFT,NDT,NDT0,
-     .        NITER,ITER,IMODEL,IL,IS,SEGCONT,FUN_HSP,IFRA1
+     .        NITER,ITER,IMODEL,IL,IS,SEGCONT,FUN_HSP,IFRA1,IFLOAD
       my_real
      .   NX, NY, NZ, AXI, AA, A0, VV, FX, FY, FZ, AX, DYDX, TS,
      .   SIXTH,TFEXTT,X_OLD, F1, F2,XSENS,FCX,FCY,FCYPINCH,FP,
@@ -488,13 +488,14 @@ C--------default zero
          AA = FCY*F1*XSENS
 		 SKIN_SCALAR(NSKIN)=AA
        END DO 
-C----------load_pressure	   
+C----------load_pressure	
        DO NP=1,NLOADP_HYD
          ISIZ_SEG = ILOADP(1,NP)/4 
          IFUNC = ILOADP(3,NP)
          IAD = ILOADP(4,NP)
          NINTERP = ILOADP(5,NP)
          ISENS =  ILOADP(7,NP) 
+         IFLOAD =  ILOADP(10,NP) 
          FCY = FAC(1,NP)
          FCX = FAC(2,NP)
 C--------default zero        
@@ -503,19 +504,19 @@ C--------default zero
            N2 = LLOADP(IAD+4*(N-1)+1)
            N3 = LLOADP(IAD+4*(N-1)+2)
            N4 = LLOADP(IAD+4*(N-1)+3)
-		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
-		   SKIN_SCALAR(NSKIN+N)=ZERO
+           IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
+           SKIN_SCALAR(NSKIN+N)=ZERO
            IF (NODAL_IPART(N1)>0) THEN
-		     IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN+N)=1
+              IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN+N)=1
            END IF
          ENDDO
 C
-           IF(ISENS.EQ.0)THEN
-              TS=TT
-           ELSE
-              TS = TT-SENSOR(2,ISENS)
-              IF(TS.LT.ZERO) CYCLE
-           ENDIF    
+         IF(ISENS.EQ.0)THEN
+            TS=TT
+         ELSE
+            TS = TT-SENSOR(2,ISENS)
+            IF(TS.LT.ZERO) CYCLE
+         ENDIF    
          DO N=1, ISIZ_SEG
            N1 = LLOADP(IAD+4*(N-1))
            N2 = LLOADP(IAD+4*(N-1)+1)
@@ -538,32 +539,31 @@ C----------------
              IF(NINTERP > 0 ) THEN           
                 NPL = LOADP_HYD_INTER(NP)
                 IF(N4/=0) THEN
-                   IF(TAGNCONT(NPL,N1)==1.AND.TAGNCONT(NPL,N2)==1.AND.
-     .                TAGNCONT(NPL,N3)==1.AND.TAGNCONT(NPL,N4)==1) THEN
+                   SEGCONT = TAGNCONT(NPL,N1) + TAGNCONT(NPL,N2) +
+     .                     TAGNCONT(NPL,N3)+TAGNCONT(NPL,N4)
+                   IF(SEGCONT >= 2 .AND.IFLOAD==1) THEN
+                      SEGCONT = 1
+                   ELSEIF(SEGCONT <= 1.AND.IFLOAD==2) THEN
                       SEGCONT = 1
                    ELSE
-                      TAGN1 = TAGNCONT(NPL,N1)
-                      TAGN2 = TAGNCONT(NPL,N2)
-                      TAGN3 = TAGNCONT(NPL,N3)
-                      TAGN4 = TAGNCONT(NPL,N4)
-					  FP = (TAGN1+TAGN2+TAGN3+TAGN4)/4
+                      SEGCONT = 0
                    ENDIF
                 ELSE
-                   IF(TAGNCONT(NPL,N1)==1.AND.TAGNCONT(NPL,N2)==1.AND.
-     .                TAGNCONT(NPL,N3)==1) THEN
+                   SEGCONT = TAGNCONT(NPL,N1) + TAGNCONT(NPL,N2) +
+     .                     TAGNCONT(NPL,N3)
+                   IF(SEGCONT >= 2 .AND.IFLOAD==1) THEN
+                      SEGCONT = 1
+                   ELSEIF(SEGCONT <= 1.AND.IFLOAD==2) THEN
                       SEGCONT = 1
                    ELSE
-                      TAGN1 = TAGNCONT(NPL,N1)
-                      TAGN2 = TAGNCONT(NPL,N2)
-                      TAGN3 = TAGNCONT(NPL,N3)
-					  FP = (TAGN1+TAGN2+TAGN3)/3
+                      SEGCONT = 0
                    ENDIF
                 ENDIF    
-                IF (FP==ZERO) FP = ONE
+c                IF (FP==ZERO) FP = ONE
              ENDIF
-			 IF (SEGCONT==1) AA = ZERO
-			NSKIN = NSKIN +1
-		    SKIN_SCALAR(NSKIN)=AA*FP
+             IF (SEGCONT==1) AA = ZERO
+             NSKIN = NSKIN +1
+             SKIN_SCALAR(NSKIN)=AA*FP
          END DO !N=1, NPRES/4
        END DO !NP=1,NLOADP_HYD
 C---------pfluid	   

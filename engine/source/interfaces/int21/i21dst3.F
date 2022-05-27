@@ -34,7 +34,8 @@ Chd|====================================================================
      5                 NNZ2    ,NNX3   ,NNY3  ,NNZ3    ,NNX4   ,
      6                 NNY4    ,NNZ4   ,X1    ,Y1      ,Z1     ,
      7                 X2      ,Y2     ,Z2    ,X3      ,Y3     ,
-     8                 Z3      ,X4     ,Y4    ,Z4      ,DRAD2  )
+     8                 Z3      ,X4     ,Y4    ,Z4      ,DRAD2  ,
+     9                 DGAPLOAD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,6 +54,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT,  LIST(*), CAND_N(*), CAND_E(*),IRTLM(2,*),
      .        IX1(*), IX2(*), IX3(*),IX4(*)
+      my_real  , INTENT(IN) :: DGAPLOAD
       my_real
      .     GAPV(*), CSTS(2,*), DEPTH2, DRAD2, 
      .     XI(*)  , YI(*), ZI(*),
@@ -110,7 +112,7 @@ C-----------------------------------------------
      .     HX01, HY01, HZ01, HX02, HY02, HZ02,
      .     HXN1, HYN1, HZN1, HSX1, HSY1, HSZ1, HSX2, HSY2, HSZ2,
      .     SIDE, CRIT, CRITO, LBO, LCO, LB, LC, LA, SL,
-     .     LAMBDA, XP, YP, ZP
+     .     LAMBDA, XP, YP, ZP,GAPP2(MVSIZ)
       my_real
      .     CMAJ(MVSIZ), CSTS_L(2,MVSIZ)
 C--------------------------------------------------------
@@ -175,6 +177,7 @@ c       CMAJ(I) = ZERO
 C       GAP2=(GAPV(I)+CMAJ(I))*(GAPV(I)+CMAJ(I))
         IS=LIST(I)
         GAP2(I)=GAPV(IS)*GAPV(IS)
+        GAPP2(I)= (GAPV(IS)+DGAPLOAD)*(GAPV(IS)+DGAPLOAD)
 C
         X01(I) = X1(I) - X0(I)
         Y01(I) = Y1(I) - Y0(I)
@@ -451,7 +454,7 @@ C        SIDE=NX1(I)*NX(I)+NY1(I)*NY(I)+NZ1(I)*NZ(I)
                CSTS_L(1,I)  = LB1(I)
                CSTS_L(2,I)  = LC1(I)
              END IF
-         ELSEIF(SIDE >= ZERO .AND. P1(I) < DRAD2)THEN
+         ELSEIF(SIDE >= ZERO .AND. P1(I) < MAX(DRAD2,GAPP2(I)))THEN
              CRIT  =  ABS(THIRD-LB1(I))
      .              + ABS(THIRD-LC1(I))
      .              + ABS(TWO_THIRD-LB1(I)-LC1(I))
@@ -701,7 +704,7 @@ C        SIDE=NX2(I)*NX(I)+NY2(I)*NY(I)+NZ2(I)*NZ(I)
                CSTS_L(1,I)  = LB2(I)
                CSTS_L(2,I)  = LC2(I)
              END IF
-         ELSEIF(SIDE >= ZERO .AND. P2(I) < DRAD2)THEN
+         ELSEIF(SIDE >= ZERO .AND. P2(I) < MAX(DRAD2,GAPP2(I)))THEN
              CRIT  =  ABS(THIRD-LB2(I))
      .              + ABS(THIRD-LC2(I))
      .              + ABS(TWO_THIRD-LB2(I)-LC2(I))
@@ -942,7 +945,7 @@ C        SIDE=NX3(I)*NX(I)+NY3(I)*NY(I)+NZ3(I)*NZ(I)
                CSTS_L(1,I)  = LB3(I)
                CSTS_L(2,I)  = LC3(I)
              END IF
-         ELSEIF(SIDE >= ZERO .AND. P3(I) < DRAD2)THEN
+         ELSEIF(SIDE >= ZERO .AND. P3(I) < MAX(DRAD2,GAPP2(I)))THEN
              CRIT  =  ABS(THIRD-LB3(I))
      .              + ABS(THIRD-LC3(I))
      .              + ABS(TWO_THIRD-LB3(I)-LC3(I))
@@ -1184,7 +1187,7 @@ C        SIDE=NX4(I)*NX(I)+NY4(I)*NY(I)+NZ4(I)*NZ(I)
                CSTS_L(1,I)  = LB4(I)
                CSTS_L(2,I)  = LC4(I)
              END IF
-         ELSEIF(SIDE >= ZERO .AND. P4(I) < DRAD2)THEN
+         ELSEIF(SIDE >= ZERO .AND. P4(I) < MAX(DRAD2,GAPP2(I)))THEN
              CRIT  =  ABS(THIRD-LB4(I))
      .              + ABS(THIRD-LC4(I))
      .              + ABS(TWO_THIRD-LB4(I)-LC4(I))
@@ -1228,15 +1231,11 @@ C---------------------
                CSTS(1,CAND_N(IS))  = LB
                CSTS(2,CAND_N(IS))  = LC
              END IF
-c         IF (NCYCLE.EQ.202) THEN 
-c             if (CAND_N(IS)==6858) THEN
-c            write(*,*) 'IS-L',CAND_N(IS),IRTLM_L(1,I)
            
 #include "lockoff.inc"
          END IF
 C
        ENDDO
-c           IF (NCYCLE.EQ.172)  PAUSE    
 C---------------------
       RETURN
       END

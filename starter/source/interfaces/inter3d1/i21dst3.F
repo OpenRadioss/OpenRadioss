@@ -30,7 +30,8 @@ Chd|====================================================================
      1                  JLT    ,CAND_N ,CAND_E ,IRECT  ,NSV    ,
      2                  GAP_S  ,X      ,IRTLM  ,CSTS   ,DEPTH  ,
      3                  NOD_NORMAL,XM0 ,PENE   ,PENI   ,IFPEN  ,
-     4                  IGAP   ,GAP    ,GAPMAX ,GAPMIN ,DRAD   ) 
+     4                  IGAP   ,GAP    ,GAPMAX ,GAPMIN ,DRAD   ,
+     5                  DGAPLOAD) 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,7 +52,8 @@ C-----------------------------------------------
       my_real
      .     X(3,*), CSTS(2,*), DEPTH, NOD_NORMAL(3,*), 
      .     XM0(3,*), PENE(*), PENI(*), GAP_S(*), GAP, GAPMIN, GAPMAX,
-     .     DRAD
+     .     DRAD 
+      my_real , INTENT(IN) :: DGAPLOAD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -107,7 +109,7 @@ C-----------------------------------------------
      .     HX01, HY01, HZ01, HX02, HY02, HZ02,
      .     HXN1, HYN1, HZN1, HSX1, HSY1, HSZ1, HSX2, HSY2, HSZ2,
      .     SIDE, CRIT, CRITO, LBO, LCO, LB, LC, LA, SL,
-     .     LAMBDA, XP, YP, ZP, DIST, DEPTH2, DRAD2
+     .     LAMBDA, XP, YP, ZP, DIST, DEPTH2, DRAD2,GAPP
       my_real
      .     CMAJ(MVSIZ), CSTS_L(2,MVSIZ)
 C--------------------------------------------------------
@@ -228,7 +230,8 @@ c---------------------------------------------------------
        DO I=1,JLT
 c       CMAJ(I) = ZERO
 C       GAP2=(GAPV(I)+CMAJ(I))*(GAPV(I)+CMAJ(I))
-        GAP2(I)=GAPV(I)*GAPV(I)
+        GAPP = GAPV(I)+DGAPLOAD
+        GAP2(I)=GAPP*GAPP
 C
         X01(I) = X1(I) - X0(I)
         Y01(I) = Y1(I) - Y0(I)

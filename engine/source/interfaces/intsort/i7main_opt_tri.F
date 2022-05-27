@@ -95,7 +95,7 @@ C-----------------------------------------------
      3        INTBUF_TAB%STFNS        ,ITASK            ,INTBUF_TAB%STFM,IFQ     ,INTBUF_TAB%IFPEN,
      4        INTBUF_TAB%FTSAVX       ,INTBUF_TAB%FTSAVY,INTBUF_TAB%FTSAVZ,NIN   ,IPARI(5,NIN) ,
      5        INTBUF_TAB%VARIABLES(16),IPARI(39,NIN)    ,INTBUF_TAB%GAP_SL       ,INTBUF_TAB%GAP_ML,
-     6        COUNT_REMSLV            ,GAPMIN           ,INTBUF_TAB%VARIABLES(32))
+     6        COUNT_REMSLV            ,GAPMIN           ,INTBUF_TAB%VARIABLES(32),INTBUF_TAB%VARIABLES(46))
 C
       RETURN
       END

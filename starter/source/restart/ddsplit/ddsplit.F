@@ -350,7 +350,7 @@ Chd|====================================================================
      A   MULTIPLE_SKEW, IGRSURF_PROC,KNOTLOCPC      ,KNOTLOCEL    ,ALE_ELM,
      B   SIZE_ALE_ELM ,PINCH_DATA  ,TAG_SKINS6      ,IBCSCYC      ,LBCSCYC  ,T_MONVOL,
      C INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
-     D   KLOADPINTER  , LOADPINTER)
+     D   KLOADPINTER  , LOADPINTER ,DGAPLOADINT     ,S_LOADPINTER)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -500,8 +500,10 @@ C-----------------------------------------------
      .        POIN_UMP(NUMMAT),SOL2SPH_TYP(*), ADDCSRECT(*), CSRECT(*),
      .        ITAGND(*),ICNDS10(*),
      .        ADDCNCND(0:*), CEPCND(*), CELCND(*),CNCND(*),NATIV_SMS(*),
-     .        I24MAXNSNE,SEGQUADFR(2,*),TAG_SKINS6(*),IBCSCYC(*),LBCSCYC(*),
-     .        KLOADPINTER(NINTER+1)  ,LOADPINTER((NINTER+1)*NLOADP_HYD)
+     .        I24MAXNSNE,SEGQUADFR(2,*),TAG_SKINS6(*),IBCSCYC(*),LBCSCYC(*)
+      INTEGER, INTENT(IN) :: S_LOADPINTER
+      INTEGER, INTENT(IN) ::  KLOADPINTER(NINTER+1)  ,LOADPINTER(S_LOADPINTER)
+      my_real , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER ) 
       INTEGER NOM_OPT(LNOPT1,*)
       INTEGER(KIND=8) :: DSMEMORY(*), MEMFLOW(*)
       INTEGER, DIMENSION(2,NPART), INTENT(IN) :: POIN_PART_SHELL,POIN_PART_TRI
@@ -2107,8 +2109,9 @@ C--------------------------------------------
       IF (NINTLOADP.GT.0) THEN
          CALL WRITE_I_C(KLOADPINTER, NINTER+1)
          LEN_IA = LEN_IA + NINTER + 1
-         CALL WRITE_I_C(LOADPINTER,(NINTER+1)*NLOADP_HYD)
-         LEN_IA = LEN_IA + (NINTER+1)*NLOADP_HYD
+         CALL WRITE_I_C(LOADPINTER,S_LOADPINTER )
+         LEN_IA = LEN_IA + S_LOADPINTER 
+         write(*,*) 'Sizes', NINTER+1,S_LOADPINTER
       ENDIF
 C------------
 C--------------------------------------
@@ -3417,6 +3420,13 @@ C--------------------------------------------
       IF(NLOADP.GT.0)
      .  CALL WRITE_DB(LOADP,LFACLOAD*NLOADP)
       LEN_AM = LEN_AM + LFACLOAD*NLOADP
+C--------------------------------------------
+C LOAD/PRESSURE interfaces : Gaps
+C--------------------------------------------
+      IF (NINTLOADP.GT.0) THEN
+         CALL WRITE_DB(DGAPLOADINT, S_LOADPINTER )
+         LEN_AM = LEN_AM + S_LOADPINTER
+      ENDIF
 C--------------------------------------------
 C  crack xfem
 C--------------------------------------------

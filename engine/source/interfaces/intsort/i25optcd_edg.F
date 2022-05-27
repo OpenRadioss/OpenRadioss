@@ -34,7 +34,8 @@ Chd|====================================================================
      3                        STF   ,GAP_E_L,COUNT_REMSLVE,DRAD  ,
      4                        IEDGE ,NEDGE  ,LEDGE  ,MVOISIN,NSV,
      5                        IGAP0 ,STFE,   
-     6                        S_STFM, S_STFE,IFQ,IFPEN,CAND_FX,CAND_FY,CAND_FZ)
+     6                        S_STFM, S_STFE,IFQ    ,IFPEN  ,
+     7                        CAND_FX,CAND_FY,CAND_FZ,DGAPLOAD)
 
 C============================================================================
 C   M o d u l e s
@@ -58,8 +59,9 @@ C-----------------------------------------------
      .        I_STOK, NIN,IGAP ,ITASK, COUNT_REMSLVE(*), 
      .        IEDGE, NEDGE, IGAP0, LEDGE(NLEDGE,*), MVOISIN(4,*), NSV(*),
      .        IFPEN(*)
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
-     .        X(3,*),GAPE(*),V(3,*),STF(S_STFM),GAP_E_L(*),DRAD, STFE(S_STFE),
+     .        X(3,*),GAPE(*),V(3,*),STF(S_STFM),GAP_E_L(*), STFE(S_STFE),
      .        CAND_FX(*),CAND_FY(*),CAND_FZ(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -293,7 +295,7 @@ C
           X3=X(1,M1)
           M2= LEDGE(6,CAND_M(I))
           X4=X(1,M2)
-          GAPVD = MAX(GAPV(IS),DRAD)
+          GAPVD = MAX(GAPV(IS)+DGAPLOAD,DRAD)
           XMINS = MIN(X1,X2)-GAPVD
           XMAXS = MAX(X1,X2)+GAPVD
           XMINM = MIN(X3,X4)-GAPVD
@@ -352,7 +354,7 @@ C         IF (STIFIE(NIN)%P(II).NE.ZERO) THEN
             Z3=X(3,M1)
             M2= LEDGE(6,CAND_M(I))
             Z4=X(3,M2)
-            GAPVD = MAX(GAPV(IS),DRAD)
+            GAPVD = MAX(GAPV(IS)+DGAPLOAD,DRAD)
             ZMINS = MIN(Z1,Z2)-GAPVD
             ZMAXS = MAX(Z1,Z2)+GAPVD
             ZMINM = MIN(Z3,Z4)-GAPVD
@@ -381,7 +383,7 @@ C
           Y3=X(2,M1)
           M2= LEDGE(6,CAND_M(I))
           Y4=X(2,M2)
-          GAPVD = MAX(GAPV(IS),DRAD)
+          GAPVD = MAX(GAPV(IS)+DGAPLOAD,DRAD)
           YMINS = MIN(Y1,Y2)-GAPVD
           YMAXS = MAX(Y1,Y2)+GAPVD
           YMINM = MIN(Y3,Y4)-GAPVD
@@ -405,7 +407,7 @@ C
           X3=X(1,M1)
           M2= LEDGE(6,CAND_M(I))
           X4=X(1,M2)
-          GAPVD = MAX(GAPV(IS),DRAD)
+          GAPVD = MAX(GAPV(IS)+DGAPLOAD,DRAD)
           XMINS = MIN(X1,X2)-GAPVD
           XMAXS = MAX(X1,X2)+GAPVD
           XMINM = MIN(X3,X4)-GAPVD

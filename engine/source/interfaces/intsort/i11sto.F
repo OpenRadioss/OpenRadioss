@@ -34,7 +34,7 @@ Chd|====================================================================
      3      I_MEM ,PROV_S,PROV_M,ESHIFT,ADDCM  ,
      4      CHAINE,NRTS, ITAB   ,IFPEN ,IFORM  ,
      5      GAPMIN,DRAD ,IGAP   ,GAP_S ,GAP_M  ,
-     7      GAP_S_L, GAP_M_L )
+     7      GAP_S_L, GAP_M_L ,DGAPLOAD)
 
 C============================================================================
 C-----------------------------------------------
@@ -69,9 +69,9 @@ C-----------------------------------------------
       INTEGER PROV_S(MVSIZ),PROV_M(MVSIZ),ESHIFT
 C     REAL
       my_real
-     .   X(3,*), GAPMIN, DRAD, MARGE, 
+     .   X(3,*), GAPMIN, MARGE, 
      .   GAP_S(*), GAP_M(*), GAP_S_L(*), GAP_M_L(*)
-
+      my_real , INTENT(IN) :: DGAPLOAD,DRAD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -88,7 +88,8 @@ c       CALL I11PEN3(J_STOK ,PROV_S,PROV_M,TZINF ,X     ,
 c    .               IRECTS ,IRECTM,PENE  ,NRTS    )
         CALL I11PEN3_VOX(J_STOK ,PROV_S ,PROV_M ,GAPMIN ,DRAD    , 
      .                    MARGE  ,GAP_S ,GAP_M   ,GAP_S_L,GAP_M_L ,
-     .                    IGAP   ,X     ,IRECTS ,IRECTM  ,PENE   ,NRTS )
+     .                    IGAP   ,X     ,IRECTS ,IRECTM  ,PENE   ,
+     .                    NRTS   ,DGAPLOAD)
 
 C-----------------------------------------------
 C il faut un lock sur toute la boucle (modification de chaine)

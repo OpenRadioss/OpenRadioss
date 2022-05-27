@@ -71,7 +71,7 @@ Chd|====================================================================
      7                  FRIC_COEFS2,FRICC2    ,VISCFFRIC2,NFORTH    ,NFISOT   ,
      8                  INDEXORTH  ,INDEXISOT ,DIR1      ,DIR2      ,TAGNCONT ,
      9                  KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,TYPSUB,INFLG_SUBS,
-     A                  INFLG_SUBM)
+     A                  INFLG_SUBM,NINLOADP   ,DGAPLOADINT,S_LOADPINTER,DGAPLOADP )
                           
 C-----------------------------------------------
 C   M o d u l e s
@@ -119,14 +119,16 @@ C-----------------------------------------------
      .        MFROT, IFQ, NOINT,NEWFRONT,ISECIN, NSTRF(*),
      .        IRECT(4,*),IFPEN(*) ,ICONTACT(*), CAND_N(*),
      .        KINI(*),NPC(*),JTASK,TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
-     .        KLOADPINTER(NINTER+1),LOADPINTER((NINTER+1)*NLOADP_HYD),
-     .        LOADP_HYD_INTER(NLOADP_HYD),TYPSUB(*),
+     .        TYPSUB(*),
      .        ISET, IADM,INTTH,NFT
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        CN_LOC(MVSIZ),CE_LOC(MVSIZ),INDEX(MVSIZ),NSVG(MVSIZ),
      .        NISUB, LISUB(*), ADDSUBS(*), ADDSUBM(*), LISUBS(*),
      .        LISUBM(*),ILAGM,ICURV(3), ISENSINT(*),SYM_FLAG_TYPE19,
      .        INDEXORTH(MVSIZ)  ,INDEXISOT(MVSIZ),INFLG_SUBS(*), INFLG_SUBM(*)
+      INTEGER  , INTENT(IN) :: NINLOADP,S_LOADPINTER
+      INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
+     .        LOADP_HYD_INTER(NLOADP_HYD)
       my_real
      .   STIGLO,CAND_P(*), X(3,*),
      .   A(3,*), MS(*), V(3,*), FSAV(*),FCONT(3,*),
@@ -151,7 +153,7 @@ C-----------------------------------------------
      .     X3(MVSIZ),Y3(MVSIZ),Z3(MVSIZ),
      .     X4(MVSIZ),Y4(MVSIZ),Z4(MVSIZ),
      .     XI(MVSIZ),YI(MVSIZ),ZI(MVSIZ),
-     .    TEMP(*), TEMPI(MVSIZ),
+     .     TEMP(*), TEMPI(MVSIZ),
      .     FNI(MVSIZ), FNS(MVSIZ)
       my_real
      .     NOD_NORMAL(3,*), RCURVI(*), RCONTACT(*), ACONTACT(*),
@@ -168,11 +170,13 @@ C-----------------------------------------------
      .   FY1(MVSIZ), FY2(MVSIZ), FY3(MVSIZ), FY4(MVSIZ),
      .   FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ)
       TYPE(H3D_DATABASE) :: H3D_DATA
+      my_real  , INTENT(IN) :: DGAPLOADP, DGAPLOADINT(S_LOADPINTER)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J1, IG, J, JG , K0,NBINTER,K1S,K,IL,IE, NN, NI, II, 
      .        NA1,NA2,IPROJ,IDTM,PP,PPL,ITYPSUB,ISS1,ISS2,IMS1,IMS2
+      INTEGER JSUB,KSUB,JJ,KK,IN,NSUB
       my_real
      .   FXR(MVSIZ), FYR(MVSIZ), FZR(MVSIZ)
       my_real
@@ -211,11 +215,11 @@ C-----------------------------------------------
      .   T2X(MVSIZ),T2Y(MVSIZ),T2Z(MVSIZ), DT05, NORMINV,
      .   XH, YH, ZH, SIDE(MVSIZ),XMU2(MVSIZ),CSA ,SNA ,ALPHAF ,FTT1 ,FTT2,
      .   AN(NFORTH) ,BN(NFORTH) ,NEP1 ,NEP2 ,NEP ,C11 ,C22 ,ANS , EP ,SIGNC
-      INTEGER JSUB,KSUB,JJ,KK,IN,NSUB
       my_real
-     .   FSAVSUB1(24,NISUB),IMPX,IMPY,IMPZ,BB,GAPR
+     .   FSAVSUB1(24,NISUB),IMPX,IMPY,IMPZ,BB,GAPR,DGAP,GAPP
       my_real
      .   TOTAL 
+      my_real  DISTP(MVSIZ)
       INTEGER BITGET
       EXTERNAL BITGET
 C
@@ -253,7 +257,7 @@ C
 C--------------------------------------------------------
 C  CAS DES PAQUETS MIXTES
 C--------------------------------------------------------
-      IF(INTTH == 0.OR.DRAD == ZERO) THEN ! NO HEAT EXCHANGE
+      IF((INTTH == 0.OR.DRAD == ZERO).AND.DGAPLOADP==ZERO) THEN ! NO HEAT EXCHANGE/No load pressure
        IF(ICURV(1) == 3) THEN
          DO I=1,JLT-JLT_TIED
           BB = GAPV(I)+CMAJ(I)
@@ -335,10 +339,10 @@ C
          H4(I) = ZERO
         ENDIF
        ENDDO
-      ELSE  ! HEAT EXCHANGE
+      ELSE  ! HEAT EXCHANGE OR LOADP PRESSURE
        IF(ICURV(1) == 3) THEN
          DO I=1,JLT-JLT_TIED
-          BB = GAPV(I)+CMAJ(I)
+          BB = GAPV(I)+CMAJ(I)+DGAPLOADP
           GAPR = MAX(BB,DRAD)
 C
           D1 = SQRT(P1(I))
@@ -353,6 +357,7 @@ C
           D4 = SQRT(P4(I))
           P4(I) = MAX(ZERO, GAPR - D4)
 C          
+          DISTP(I) = MAX(D1,D2,D3,D4)
           A1 = P1(I)/MAX(EM20,D1)
           A2 = P2(I)/MAX(EM20,D2)
           A3 = P3(I)/MAX(EM20,D3)
@@ -363,7 +368,7 @@ C
          ENDDO
        ELSE
         DO I=1,JLT-JLT_TIED
-         GAPR = MAX(GAPV(I),DRAD)
+         GAPR = MAX(GAPV(I)+DGAPLOADP,DRAD)
 C
          D1 = SQRT(P1(I))
          P1(I) = MAX(ZERO, GAPR - D1)
@@ -376,6 +381,8 @@ C
 C
          D4 = SQRT(P4(I))
          P4(I) = MAX(ZERO, GAPR - D4)
+C
+         DISTP(I) = MAX(D1,D2,D3,D4)
 C
          A1 = P1(I)/MAX(EM20,D1)
          A2 = P2(I)/MAX(EM20,D2)
@@ -390,7 +397,7 @@ C
        DO I=1,JLT-JLT_TIED
         IF(IX3(I).NE.IX4(I))THEN
          PENE(I) = MAX(P1(I),P2(I),P3(I),P4(I))
-         PENE(I) = MAX(ZERO,PENE(I)+GAPV(I)-MAX(GAPV(I),DRAD))
+         PENE(I) = MAX(ZERO,PENE(I)+GAPV(I)-MAX(GAPV(I)+DGAPLOADP,DRAD))
 C
          LA1 = ONE - LB1(I) - LC1(I)
          LA2 = ONE - LB2(I) - LC2(I)
@@ -413,7 +420,7 @@ C
 C
         ELSE
          PENE(I) = P1(I)
-         PENE(I) = MAX(ZERO,PENE(I)+GAPV(I)-MAX(GAPV(I),DRAD))
+         PENE(I) = MAX(ZERO,PENE(I)+GAPV(I)-MAX(GAPV(I)+DGAPLOADP,DRAD))
          N1(I) = NX1(I)
          N2(I) = NY1(I)
          N3(I) = NZ1(I)
@@ -1831,22 +1838,27 @@ C
       END IF
 
 C------------For /LOAD/PRESSURE tag nodes in contact-------------
-      IF(NINTLOADP > 0) THEN
+      IF(NINLOADP > 0) THEN
          DO K = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1) 
             PP = LOADPINTER(K)
             PPL = LOADP_HYD_INTER(PP)
+            DGAP  = DGAPLOADINT(K)
             DO I=1,JLT
-               TAGNCONT(PPL,IX1(I)) = 1
-               TAGNCONT(PPL,IX2(I)) = 1
-               TAGNCONT(PPL,IX3(I)) = 1
-               TAGNCONT(PPL,IX4(I)) = 1
-               JG = NSVG(I)
-               IF(JG.GT.0) THEN
+               GAPP= GAPV(I) + DGAP
+               IF(PENE(I) > ZERO .OR.(DISTP(I) <= GAPP)) THEN
+                  TAGNCONT(PPL,IX1(I)) = 1
+                  TAGNCONT(PPL,IX2(I)) = 1
+                  TAGNCONT(PPL,IX3(I)) = 1
+                  TAGNCONT(PPL,IX4(I)) = 1
+                  JG = NSVG(I)
+                  IF(JG.GT.0) THEN
 C  SPMD : do same after reception of forces for remote nodes 
-                  TAGNCONT(PPL,JG) = 1
+                    TAGNCONT(PPL,JG) = 1
+                 ENDIF
                ENDIF
 
             ENDDO
+c            PAUSE
          ENDDO
       ENDIF
 C++++++++++++++++++++++++++++++++++++++++

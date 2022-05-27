@@ -46,7 +46,7 @@ Chd|====================================================================
      A      IEDGE  ,NEDGE  ,LEDGE   ,MSEGTYP   ,IGAP0   ,
      B      ADMSR,EDG_BISECTOR,VTX_BISECTOR,
      C      CANDM_E2S,CANDS_E2S,CAND_B,CAND_PS,GAPE ,
-     D      GAP_E_L  )
+     D      GAP_E_L  ,DGAPLOAD)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -96,6 +96,7 @@ C     REAL
       my_real
      .   X(3,*),XYZM(6),STF(*),GAP_M(*),GAP_M_L(*),GAPE(*),GAP_E_L(*),CAND_P(*), CAND_PS(*),
      .   MARGE,BGAPEMX,VMAXDT,DRAD
+      my_real , INTENT(IN) :: DGAPLOAD
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -119,7 +120,7 @@ c provisoire
      .         IX1,IY1,IZ1,IX2,IY2,IZ2
       INTEGER, DIMENSION(3) :: TMIN,TMAX
       my_real
-     .   XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB,AAA,
+     .   XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB,AAA,DRAD2,
      .   XMAX_EDGS, XMIN_EDGS,   !cotes min/max des aretes seconds et mains
      .   YMAX_EDGS, YMIN_EDGS,
      .   ZMAX_EDGS, ZMIN_EDGS,
@@ -137,6 +138,7 @@ C
       INTEGER, DIMENSION(:), ALLOCATABLE ::  TAGREMLINE    
 C-----------------------------------------------
 C
+      DRAD2 = ZERO
 C--- IREMGAP - array for tag of deactivated lines
       IF(FLAGREMNODE==2)THEN
         ALLOCATE(TAGREMLINE(NEDGE))
@@ -439,7 +441,7 @@ C=======================================================================
         !    (N1,N2) is the current main edge     !
         !-------------------------------------------!
 
-        AAA = MARGE+BGAPEMX+GAPE(IEDG)
+        AAA = MARGE+BGAPEMX+GAPE(IEDG)+DGAPLOAD
 
         N1 = LEDGE(5,IEDG)
         N2 = LEDGE(6,IEDG)
@@ -574,9 +576,9 @@ C-----------------------------------------------------
      1  	     NVSIZ ,IRECT  ,X	   ,II_STOK,INACTI,
      2  	     CANDS_E2E,CANDM_E2E ,MULNSNE,NOINT  ,MARGE ,
      3  	     I_MEM(1) ,PROV_S ,PROV_M ,IGAP0,CAND_A,
-     4  	     NEDGE ,LEDGE  ,ITAB   ,DRAD   ,IGAP  ,
+     4  	     NEDGE ,LEDGE  ,ITAB   ,DRAD2  ,IGAP  ,
      5  	     GAPE  ,GAP_E_L,ADMSR  ,EDG_BISECTOR,VTX_BISECTOR ,
-     6               CAND_P)
+     6               CAND_P,DGAPLOAD)
                 IF(I_MEM(1)/=0) GOTO 300
                 J_STOK = 0
               ENDIF                 
@@ -627,9 +629,9 @@ C-------------------------------------------------------------------------
      1  	       J_STOK ,IRECT  ,X     ,II_STOK,INACTI,
      2  	       CANDS_E2E,CANDM_E2E ,MULNSNE,NOINT  ,MARGE ,
      3  	       I_MEM(1) ,PROV_S ,PROV_M ,IGAP0,CAND_A,
-     4  	       NEDGE ,LEDGE  ,ITAB   ,DRAD   ,IGAP  ,
+     4  	       NEDGE ,LEDGE  ,ITAB   ,DRAD2  ,IGAP  ,
      5  	       GAPE  ,GAP_E_L,ADMSR  ,EDG_BISECTOR,VTX_BISECTOR ,
-     6                 CAND_P)
+     6                 CAND_P,DGAPLOAD)
  
  300  CONTINUE
 C=======================================================================
@@ -691,7 +693,7 @@ C=======================================================================
         ZMAX_EDGM=ZMAX_EDGM+DZ
         ZMIN_EDGM=ZMIN_EDGM-DZ
 
-        AAA = MARGE+BGAPEMX ! filtrer vs GAPE(JJ) dans i25pen3_edg ! 
+        AAA = MARGE+BGAPEMX +DGAPLOAD ! filtrer vs GAPE(JJ) dans i25pen3_edg ! 
 
         !-------------------------------------------!
         !  VOXEL OCCUPIED BY THE BRICK              !
@@ -772,9 +774,9 @@ C-----------------------------------------------------
      1               NVSIZ ,IRECT  ,X	      ,LL_STOK,INACTI,
      2               CANDS_E2S,CANDM_E2S,MULNSNS,NOINT  ,MARGE ,
      3               I_MEM(2) ,PROV_S ,PROV_M ,IGAP0,CAND_B,
-     4               NEDGE ,LEDGE  ,ITAB   ,DRAD   ,IGAP  ,
+     4               NEDGE ,LEDGE  ,ITAB   ,DRAD2  ,IGAP  ,
      5               GAP_M ,GAP_M_L,GAPE  ,GAP_E_L,ADMSR  ,
-     6               EDG_BISECTOR,VTX_BISECTOR ,CAND_PS)
+     6               EDG_BISECTOR,VTX_BISECTOR ,CAND_PS,DGAPLOAD)
                 IF(I_MEM(2)/=0) GOTO 400
                 J_STOK = 0
               ENDIF		    
@@ -815,9 +817,9 @@ C-------------------------------------------------------------------------
      1                 J_STOK ,IRECT  ,X        ,LL_STOK,INACTI,
      2                 CANDS_E2S,CANDM_E2S,MULNSNS,NOINT  ,MARGE ,
      3                 I_MEM(2) ,PROV_S ,PROV_M ,IGAP0,CAND_B,
-     4                 NEDGE ,LEDGE  ,ITAB   ,DRAD   ,IGAP  ,
+     4                 NEDGE ,LEDGE  ,ITAB   ,DRAD2  ,IGAP  ,
      5                 GAP_M ,GAP_M_L,GAPE  ,GAP_E_L,ADMSR  ,
-     6                 EDG_BISECTOR,VTX_BISECTOR ,CAND_PS)
+     6                 EDG_BISECTOR,VTX_BISECTOR ,CAND_PS,DGAPLOAD)
  
 C=======================================================================
 C 4   remise a zero des noeuds dans les boites

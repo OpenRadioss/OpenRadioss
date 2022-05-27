@@ -30,7 +30,8 @@ Chd|====================================================================
       SUBROUTINE I25PEN3_E2S(JLT ,CAND_S ,CAND_M  ,DRAD  ,IGAP0   ,
      .                    NEDGE  ,LEDGE  ,MARGE   ,GAP_M ,GAP_M_L ,
      .                    GAPE   ,GAP_E_L,IGAP    ,X     ,IRECT   ,
-     .                    PENE  ,ADMSR   ,EDG_BISECTOR,VTX_BISECTOR,ITAB )
+     .                    PENE  ,ADMSR   ,EDG_BISECTOR,VTX_BISECTOR,ITAB,
+     .                    DGAPLOAD )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,7 +56,9 @@ C-----------------------------------------------
       INTEGER JLT, IGAP0, NEDGE, IGAP
       INTEGER IRECT(4,*), CAND_S(*), CAND_M(*), LEDGE(NLEDGE,*), ADMSR(4,*), ITAB(*)
       my_real
-     .     DRAD, MARGE,
+     .     DRAD, MARGE 
+      my_real , INTENT(IN) :: DGAPLOAD
+      my_real
      .     X(3,*), GAP_M(*), GAP_M_L(*), GAPE(*), GAP_E_L(*), PENE(MVSIZ)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
 C-----------------------------------------------
@@ -90,7 +93,7 @@ C
           IF(IGAP == 3)
      .       GAPV(I)=MIN(GAP_M_L(IE)+GAP_E_L(JE),GAPV(I)) ! under-estimated ...
         ENDIF
-        GAPV(I)=MAX(DRAD,GAPV(I))+MARGE
+        GAPV(I)= MAX(DRAD,GAPV(I)+DGAPLOAD )+MARGE
       ENDDO
 
       DO I=1,JLT

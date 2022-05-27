@@ -31,7 +31,7 @@ Chd|====================================================================
      .                    NEDGE  ,LEDGE  ,MARGE   ,GAPE  ,GAP_E_L ,
      .                    IGAP   ,X      ,IRECT   ,PENE  ,ADMSR   ,
      .                    EDG_BISECTOR,VTX_BISECTOR,ITAB,
-     .                    XREM_EDGE,S1_XREM,S2_XREM)
+     .                    XREM_EDGE,S1_XREM,S2_XREM,DGAPLOAD)
 
 C-----------------------------------------------
 C   M o d u l e s
@@ -62,8 +62,9 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: XREM_EDGE(S1_XREM,S2_XREM)
       INTEGER JLT, IGAP0, NEDGE, IGAP
       INTEGER IRECT(4,*), CAND_S(*), CAND_M(*), LEDGE(NLEDGE,NEDGE), ADMSR(4,*), ITAB(NUMNOD)
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
-     .     DRAD, MARGE,
+     .     MARGE, 
      .     X(3,NUMNOD), GAPE(*), GAP_E_L(*), PENE(MVSIZ)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
 C-----------------------------------------------
@@ -98,7 +99,7 @@ CDIR$ NOFUSION
           END IF
           IF(IGAP == 3)
      .       GAPV(I)=MIN(GAP_E_L(IE)+GAP_E_L(JE),GAPV(I)) ! under-estimated ...
-          GAPV(I)=MAX(DRAD,GAPV(I))+MARGE
+          GAPV(I)=MAX(DRAD,GAPV(I)+DGAPLOAD)+MARGE
         ELSE
           IF(IGAP0 == 0) THEN
             GAPV(I)=TWO*GAPE(IE)+XREM_EDGE(E_GAP,CAND_S(I)-NEDGE )
@@ -107,7 +108,7 @@ CDIR$ NOFUSION
           END IF
           IF(IGAP == 3) 
      .      GAPV(I)=MIN(GAP_E_L(IE)+XREM_EDGE(E_GAPL,CAND_S(I)-NEDGE),GAPV(I))
-          GAPV(I)=MAX(DRAD,GAPV(I))+MARGE
+          GAPV(I)=MAX(DRAD,GAPV(I)+DGAPLOAD)+MARGE
         ENDIF
       ENDDO
 

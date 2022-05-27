@@ -40,7 +40,7 @@ Chd|====================================================================
      7      NRTM  ,NSNROLD,IGAP,GAP      ,GAP_S    ,
      8      GAP_M ,GAPMIN ,GAPMAX ,MARGE    ,CURV_MAX ,
      9      NIN   ,GAP_S_L,GAP_M_L,INTTH   ,DRAD  ,ITIED    ,
-     A      CAND_F ,KREMNOD  ,REMNOD  ,FLAGREMNODE)
+     A      CAND_F ,KREMNOD  ,REMNOD  ,FLAGREMNODE,DGAPLOAD)
 C=======================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -136,7 +136,8 @@ C     REAL
       my_real
      .   X(3,*),XYZM(6,*),CAND_P(*),STF(*),STFN(*),GAP_S(*),GAP_M(*),
      .   TZINF,MAXBOX,MINBOX,MARGE,GAP,GAPMIN,GAPMAX,
-     .   CURV_MAX(*),GAP_S_L(*),GAP_M_L(*),CAND_F(*),DRAD
+     .   CURV_MAX(*),GAP_S_L(*),GAP_M_L(*),CAND_F(*)
+      my_real , INTENT(IN) :: DRAD,DGAPLOAD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -329,10 +330,10 @@ C
          IF(IGAP == 0) THEN
            AAA = TZINF+CURV_MAX(NE)
          ELSEIF(IGAP == 3) THEN
-           AAA =  MAX(DRAD,MIN(MAX(BGAPSMX+MAX(GAP_M(NE),GAP_M_L(NE)),GAPMIN),GAPMAX))
+           AAA =  MAX(DRAD,DGAPLOAD+MIN(MAX(BGAPSMX+MAX(GAP_M(NE),GAP_M_L(NE)),GAPMIN),GAPMAX))
      +       +MARGE+CURV_MAX(NE)
          ELSE
-           AAA = MAX(DRAD,MIN(MAX(BGAPSMX+GAP_M(NE),GAPMIN),GAPMAX))
+           AAA = MAX(DRAD,DGAPLOAD+MIN(MAX(BGAPSMX+GAP_M(NE),GAPMIN),GAPMAX))
      +       +MARGE+CURV_MAX(NE)
          ENDIF
          XMAX = MAX(XX1,XX2,XX3,XX4) + AAA
@@ -353,10 +354,10 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
          IF( IGAP == 0 ) THEN
           AAA = -TZINF-CURV_MAX(NE)
          ELSEIF(IGAP == 3) THEN
-          AAA = -MAX(DRAD,MIN(MAX(GAPSMX+MAX(GAP_M(NE),GAP_M_L(NE)),GAPMIN),GAPMAX))
+          AAA = -MAX(DRAD,DGAPLOAD+MIN(MAX(GAPSMX+MAX(GAP_M(NE),GAP_M_L(NE)),GAPMIN),GAPMAX))
      +          -MARGE-CURV_MAX(NE)
          ELSE
-          AAA = -MAX(DRAD,MIN(MAX(GAPSMX+GAP_M(NE),GAPMIN),GAPMAX))
+          AAA = -MAX(DRAD,DGAPLOAD+MIN(MAX(GAPSMX+GAP_M(NE),GAPMIN),GAPMAX))
      -           -MARGE-CURV_MAX(NE)
          ENDIF
          XMIN = MIN(XX1,XX2,XX3,XX4) + AAA
@@ -378,10 +379,10 @@ C         ON STOCKE DANS LE BAS DE LA PILE BP
          IF( IGAP == 0 ) THEN
            AAA=-TZINF-CURV_MAX(NE)
          ELSEIF(IGAP == 3) THEN
-           AAA=  - MAX(DRAD,MIN(MAX(GAPSMX+MAX(GAP_M(NE),GAP_M_L(NE)),GAPMIN),GAPMAX))
+           AAA=  - MAX(DRAD,DGAPLOAD+MIN(MAX(GAPSMX+MAX(GAP_M(NE),GAP_M_L(NE)),GAPMIN),GAPMAX))
      +       -MARGE-CURV_MAX(NE)
          ELSE
-           AAA=  -MAX(DRAD,MIN(MAX(GAPSMX+GAP_M(NE),GAPMIN),GAPMAX))
+           AAA=  -MAX(DRAD,DGAPLOAD+MIN(MAX(GAPSMX+GAP_M(NE),GAPMIN),GAPMAX))
      -       -MARGE-CURV_MAX(NE)
          ENDIF
          XMIN =  MIN(XX1,XX2,XX3,XX4) + AAA 
@@ -402,10 +403,10 @@ C
          IF( IGAP == 0) THEN
             AAA =TZINF+CURV_MAX(NE)
          ELSEIF( IGAP==3 ) THEN
-            AAA=  MAX(DRAD,MIN(MAX(BGAPSMX+MAX(GAP_M(NE),GAP_M_L(NE)),GAPMIN),GAPMAX))
+            AAA=  MAX(DRAD,DGAPLOAD+MIN(MAX(BGAPSMX+MAX(GAP_M(NE),GAP_M_L(NE)),GAPMIN),GAPMAX))
      +       +MARGE+CURV_MAX(NE)
          ELSE
-          AAA = MAX(DRAD,MIN(MAX(BGAPSMX+GAP_M(NE),GAPMIN),GAPMAX))
+          AAA = MAX(DRAD,DGAPLOAD+MIN(MAX(BGAPSMX+GAP_M(NE),GAPMIN),GAPMAX))
      +       +MARGE+CURV_MAX(NE)
          ENDIF
          XMAX = MAX(XX1,XX2,XX3,XX4) + AAA
@@ -518,7 +519,7 @@ C
                IF( IGAP == 0 ) THEN
                  TZ = TZINF+CURV_MAX(NE)
                ELSEIF( IGAP == 3 ) THEN
-                 TZ = MAX(DRAD,MAX(MIN(GAP_S_L(JJ)+GAP_M_L(NE),GAPMAX),GAPMIN)
+                 TZ = MAX(DRAD,DGAPLOAD+MAX(MIN(GAP_S_L(JJ)+GAP_M_L(NE),GAPMAX),GAPMIN)
      .           +MARGE+CURV_MAX(NE))
                ELSE
                  TZ=MAX(DRAD,MAX(MIN(GAP_S(JJ)+GAP_M(NE),GAPMAX),GAPMIN)
@@ -529,10 +530,10 @@ C
                IF( IGAP == 0 ) THEN
                  TZ = TZINF+CURV_MAX(NE)
                ELSEIF( IGAP == 3 ) THEN
-                 TZ = MAX(DRAD,MAX(MIN(XREM(IADD,II)+GAP_M_L(NE)
+                 TZ = MAX(DRAD,DGAPLOAD+MAX(MIN(XREM(IADD,II)+GAP_M_L(NE)
      .           ,GAPMAX),GAPMIN))+MARGE+CURV_MAX(NE)
                ELSE
-                 TZ = MAX(DRAD,MAX(MIN(XREM(9,II)+GAP_M(NE),GAPMAX),GAPMIN))
+                 TZ = MAX(DRAD,DGAPLOAD+MAX(MIN(XREM(9,II)+GAP_M(NE),GAPMAX),GAPMIN))
      +           +MARGE+CURV_MAX(NE)
                ENDIF
              ENDIF
@@ -601,7 +602,7 @@ C
      5             OLDNUM,NSNROLD,IGAP  ,GAP   ,GAP_S  ,
      6             GAP_M ,GAPMIN ,GAPMAX,CURV_MAX,NIN  ,
      7             GAP_S_L,GAP_M_L,INTTH,DRAD,ITIED    ,
-     8             CAND_F)
+     8             CAND_F,DGAPLOAD)
                IF(I_MEM.EQ.2) THEN
                  RETURN
                ENDIF
@@ -647,7 +648,7 @@ C-------------------------------------------------------------------------
      5              OLDNUM,NSNROLD,IGAP  ,GAP   ,GAP_S  ,
      6              GAP_M ,GAPMIN ,GAPMAX,CURV_MAX,NIN  ,
      7              GAP_S_L,GAP_M_L,INTTH,DRAD,ITIED    ,
-     8              CAND_F )
+     8              CAND_F ,DGAPLOAD)
 C-------------------------------------------------------------------------
       IF(FLAGREMNODE==2) THEN
         DEALLOCATE(TAGREMNODE)

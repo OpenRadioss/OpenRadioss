@@ -48,7 +48,7 @@ Chd|====================================================================
      H                  ANGLMI ,INTTH  ,TEMPI  ,PHI    ,AREASI ,
      I                  IELECI ,NSMS   ,CMAJ   ,DRAD2  , INTFRIC,IPARTFRICSI,
      K                  IPARTFRICMI,ITIED  ,JLT_TIED,CAND_F,IORTHFRIC,
-     L                  IREP_FRICMI,DIR_FRICMI )
+     L                  IREP_FRICMI,DIR_FRICMI,DGAPLOAD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,7 +93,8 @@ C-----------------------------------------------
      .    NNZ1(MVSIZ), NNZ2(MVSIZ), NNZ3(MVSIZ), NNZ4(MVSIZ),
      .    NOD_NORMAL(3,*), CAND_F(8,*)
       my_real
-     .    RCURVI(MVSIZ), ANGLMI(MVSIZ),CMAJ(*),DRAD2
+     .    RCURVI(MVSIZ), ANGLMI(MVSIZ),CMAJ(*)
+      my_real , INTENT(IN) :: DRAD2, DGAPLOAD
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -389,7 +390,7 @@ c---------------------------------------------------------
 c
 #include   "nofusion.inc"
        DO I=1,JLT
-        GAP2=(GAPV(I)+CMAJ(I))*(GAPV(I)+CMAJ(I))
+        GAP2=(GAPV(I)+CMAJ(I)+DGAPLOAD)*(GAPV(I)+CMAJ(I)+DGAPLOAD)
         GAP2 =MAX(GAP2,DRAD2)
 C
         NX1(I) = XI(I)-(X0(I) + LB1(I)*X01(I) + LC1(I)*X02(I))
@@ -415,6 +416,11 @@ C
         NZ4(I) = ZI(I)-(Z0(I) + LB4(I)*Z04(I) + LC4(I)*Z01(I))
         P4(I) = NX4(I)*NX4(I) + NY4(I)*NY4(I) +NZ4(I)*NZ4(I)
         D4 = MAX(ZERO, GAP2 - P4(I))
+c      IF(ITAB(NSVG(I))==40142.AND.ITAB(IX1(I))==40016.AND.ITAB(IX2(I))==40017.AND.ITAB(IX3(I))==40080
+c     .   .AND.ITAB(IX4(I))==40079) THEN
+c      write(*,*) ' P1(I)  P2(I)  P3(I)  P4(I)   ',P1(I) , P2(I) , P3(I) , P4(I)
+c      PAUSE
+c      ENDIF
 C !!!!!!!!!!!!!!!!!!!!!!!
 C  PENE2 = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
 C!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1848,7 +1854,7 @@ C---------------------------------------------
                Y4(J+1)    =RPERM
                RPERM	  =Z4(J)
                Z4(J)	  =Z4(J+1)
-               Z4(J+1)    =RPERM
+               Z4(J+1)    =RPERM 
 C
 C
                IF(ICURV/=0.OR.IADM/=0)THEN

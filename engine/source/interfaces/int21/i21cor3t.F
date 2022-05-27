@@ -33,7 +33,7 @@ Chd|====================================================================
      4                   XI      ,YI    ,ZI    ,IX1   ,IX2    , 
      5                   IX3     ,IX4   ,NSN   ,GAP_S ,GAPV   ,
      6                   GAPMAX  ,GAPMIN,CURV_MAX,DEPTH ,XM0  ,
-     7                   DRAD    )
+     7                   DRAD    ,DGAPLOAD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -61,8 +61,9 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   XLOC(3,*), GAPV(*), GAP_S(*),CURV_MAX(*),
-     .   GAP, GAPMAX, GAPMIN, DEPTH, XM0(3,*), DRAD
-C     REAL
+     .   GAP, GAPMAX, GAPMIN, DEPTH, XM0(3,*)
+      my_real , INTENT(IN) :: DGAPLOAD,DRAD
+C     REAL ou REAL*8
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
@@ -76,7 +77,7 @@ C-----------------------------------------------
       IF(IGAP.EQ.0)THEN
         DO I=1,JLT
 C Depth >= gap
-          GAPV(I)=MAX(DEPTH,DRAD)
+          GAPV(I)=MAX(DEPTH+DGAPLOAD,DRAD)
         END DO
       ELSE
         DO I=1,JLT
@@ -84,7 +85,7 @@ C Depth >= gap
           GAPV(I)=MIN(GAPV(I),GAPMAX)
           GAPV(I)=MAX(GAPMIN,GAPV(I))
 C
-          GAPV(I)=MAX(DEPTH,DRAD,GAPV(I))
+          GAPV(I)=MAX(DEPTH,DRAD,GAPV(I)+DGAPLOAD)
         END DO
       END IF
 C

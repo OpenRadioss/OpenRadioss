@@ -53,7 +53,7 @@ Chd|====================================================================
      8      NZ4 ,P1     ,P2     ,P3     ,P4     ,
      9      LB1 ,LB2    ,LB3    ,LB4    ,LC1    ,
      1      LC2 ,LC3    ,LC4    ,PENE   ,PROV_N ,
-     2      PROV_E,N11  ,N21    ,N31    )
+     2      PROV_E,N11  ,N21    ,N31    ,DGAPLOAD)
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -104,6 +104,7 @@ C     REAL
      .   MAXBOX,MINBOX, XMAX, YMAX, ZMAX,
      .   GAP, GAP_S(*),
      .   GAPMIN, GAPMAX, MARGE, GAPSMX, BGAPSMX, DEPTH, XM0(3,*), DRAD
+      my_real , INTENT(IN) :: DGAPLOAD
       INTEGER ID
       CHARACTER*nchartitle,
      .   TITR
@@ -253,7 +254,7 @@ C       VIRER LES INUTILES
      4                        IX2   ,IX3   ,IX4   ,NSVG    ,X1     ,
      5                        X2    ,X3    ,X4    ,Y1      ,Y2     ,
      6                        Y3    ,Y4    ,Z1    ,Z2      ,Z3     ,
-     7                        Z4    ,XI    ,YI    ,ZI)
+     7                        Z4    ,XI    ,YI    ,ZI      ,DGAPLOAD)
                   CALL I7DST3(IX3,IX4,X1 ,X2 ,X3 ,
      1                  X4 ,Y1 ,Y2 ,Y3 ,Y4 ,
      2                  Z1 ,Z2 ,Z3 ,Z4 ,XI ,
@@ -418,7 +419,7 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
        DO I=1,NB_EC
         XMN = MIN(XM0(DIR,IRECT(1,BPE(I))),XM0(DIR,IRECT(2,BPE(I))),
      .            XM0(DIR,IRECT(3,BPE(I))),XM0(DIR,IRECT(4,BPE(I))))
-     -       -MAX(MIN(MAX(GAPSMX,GAPMIN),GAPMAX),DEPTH,DRAD)
+     -       -MAX(MIN(MAX(GAPSMX,GAPMIN),GAPMAX)+DGAPLOAD,DEPTH,DRAD)
      -       -MARGE
         IF(XMN.LT.SEUIL.AND.INF.EQ.1) THEN
 C         ON STOCKE DANS LE BAS DE LA PILE BP
@@ -427,7 +428,7 @@ C         ON STOCKE DANS LE BAS DE LA PILE BP
         ENDIF
         XMX = MAX(XM0(DIR,IRECT(1,BPE(I))),XM0(DIR,IRECT(2,BPE(I))),
      .            XM0(DIR,IRECT(3,BPE(I))),XM0(DIR,IRECT(4,BPE(I))))
-     +       +MAX(MIN(MAX(BGAPSMX,GAPMIN),GAPMAX),DEPTH,DRAD)
+     +       +MAX(MIN(MAX(BGAPSMX,GAPMIN),GAPMAX)+DGAPLOAD,DEPTH,DRAD)
      +       +MARGE
         IF(XMX.GE.SEUIL.AND.SUP.EQ.1) THEN
 C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE

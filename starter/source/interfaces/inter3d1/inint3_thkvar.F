@@ -192,7 +192,8 @@ C
      .                             INTBUF_TAB%XM0,INTBUF_TAB%VARIABLES(27),
      A INTBUF_TAB%VARIABLES(28),INTBUF_TAB%VARIABLES(29),INTTH  ,INTBUF_TAB%VARIABLES(32),
      .                                           IPARTS          , 
-     B IPARTC, IPARTG, THK_PART,INTBUF_TAB%THKNOD0      ,ID,TITR)
+     B IPARTC, IPARTG, THK_PART,INTBUF_TAB%THKNOD0      ,ID,TITR ,
+     C INTBUF_TAB%VARIABLES(46))
 C
 C      INITIALISATIONS (PRE-CALCUL DES NORMALES, etc)
 C
@@ -231,7 +232,7 @@ C
      7   NZ4 ,P1     ,P2     ,P3     ,P4     ,
      8   LB1 ,LB2    ,LB3    ,LB4    ,LC1    ,
      9   LC2 ,LC3    ,LC4    ,PENE1   ,PROV_N ,
-     1   PROV_E,N11  ,N21    ,N31    )
+     1   PROV_E,N11  ,N21    ,N31    ,INTBUF_TAB%VARIABLES(46))
 
          IF (I_MEM == 2 ) RETURN
        INTBUF_TAB%VARIABLES(9)  = MAXBOX
@@ -253,7 +254,8 @@ C
      .                                                INTBUF_TAB%VARIABLES(23),
      3    INTBUF_TAB%NOD_NORMAL,INTBUF_TAB%XM0,PENE,INTBUF_TAB%PENIS,INTBUF_TAB%IFPEN,
      4    IGAP ,INTBUF_TAB%VARIABLES(2), INTBUF_TAB%VARIABLES(16), INTBUF_TAB%VARIABLES(13) ,
-     .                                             INTBUF_TAB%VARIABLES(32) )
+     .                                             INTBUF_TAB%VARIABLES(32),
+     5    INTBUF_TAB%VARIABLES(46))
  700   CONTINUE
 C
         CALL I21PWR3(

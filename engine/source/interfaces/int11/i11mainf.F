@@ -52,7 +52,8 @@ Chd|====================================================================
      8      INTBUF_TAB,PM       ,TEMP    , FTHE    ,FTHESKYI ,
      9      NPC     ,TF        ,CONDN    ,CONDNSKYI,FBSAV6,
      A      ISENSINT,DIMFB     ,FSAVSUB  ,H3D_DATA ,INTBUF_FRIC_TAB,
-     B      ITASK   ,TAGNCONT  ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
+     B      ITASK   ,TAGNCONT  ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
+     C      DGAPLOADINT,S_LOADPINTER)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -90,15 +91,17 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,NSTRF(*)
       INTEGER IPARI(*), ICODT(*),
-     .        ITAB(*), ISKY(*),ICONTACT(*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
-     .        KLOADPINTER(NINTER+1),LOADPINTER((NINTER+1)*NLOADP_HYD),
-     .        LOADP_HYD_INTER(NLOADP_HYD)
+     .        ITAB(*), ISKY(*),ICONTACT(*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD)
+      INTEGER  , INTENT(IN) :: S_LOADPINTER
+      INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
+     .         LOADP_HYD_INTER(NLOADP_HYD)
 C statistique interface
       INTEGER NB_JLT,NB_JLT_NEW,NB_STOK_N,JTASK,
      .        NISKYFI, LINDMAX,ITASK
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*), 
      .        ISKYI_SMS(*), NODNX_SMS(*),NPC(*), ISENSINT(*),DIMFB
 C     REAL
+      my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
       my_real DT2T,
      .   X(*), A(3,*), FSAV(*), V(3,*),
      .   MS(*), STIFN(*), FSKYI(LSKYI,NFSKYI), FCONT(3,*),
@@ -119,7 +122,7 @@ C-----------------------------------------------
      .        JLT , NFT, JLT_NEW, IGAP, IVIS2,
      .        NB_LOC, I_STOK_LOC,DEBUT,I3N, IGSTI,IFORM,INTTH,IKTHE,
      .        IFORMTH,SFSAVPARIT,NISUB,INTFRIC,NSETPRTS,NPARTFRIC,MFROT,IFQ,
-     .        IERROR,IORTHFRIC,IFRIC,JJ
+     .        IERROR,IORTHFRIC,IFRIC,JJ,NINLOADP
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ),
      .        NSVG(MVSIZ), CS_LOC(MVSIZ), CM_LOC(MVSIZ),
      .        NSMS(MVSIZ)
@@ -130,7 +133,7 @@ C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,
      .   VISC,VISCF,STIGLO, GAPMIN, KMIN, KMAX,DTMINI,
-     .   TINT,XTHE,KTHE,FRAD,DRAD
+     .   TINT,XTHE,KTHE,FRAD,DRAD,DGAPLOAD
 C-----------------------------------------------
 C     REAL
       my_real
@@ -199,6 +202,7 @@ C
       KMIN  =INTBUF_TAB%VARIABLES(17)
       KMAX  =INTBUF_TAB%VARIABLES(18)
       DTMINI=INTBUF_TAB%VARIABLES(41)
+      DGAPLOAD=INTBUF_TAB%VARIABLES(46)
       NUM_IMP = 0
       IF (IMPL_S.EQ.1) THEN
           VISC  =ZERO
@@ -236,7 +240,8 @@ c         IFORM    =   INTBUF_FRIC_TAB(INTFRIC)%FRICFORM ! This Flags are alread
          TABCOEF_FRIC  => TABCOEF_FRIC_BID 
          ADPARTS_FRIC   => ADPARTS_FRIC_BID
       ENDIF
-
+C
+      NINLOADP = IPARI(95) ! load pressure related to inter
 C
       I_STOK = INTBUF_TAB%I_STOK(1)
 C  cette partie est effectuee en // apres le calcul des forces des elem.
@@ -328,7 +333,7 @@ C preparation candidats retenus
      8        VXM2     ,VYM1      ,VYM2           ,VZM1          ,VZM2   ,
      9        MS1      ,MS2       ,MM1            ,MM2           ,GAPV   ,
      A        NSMS     ,INDEX2(NFT+1),DRAD        , INTFRIC    ,IPARTFRICSI,
-     B        IPARTFRICMI)
+     B        IPARTFRICMI,DGAPLOAD)
 
           JLT = JLT_NEW
           IF(JLT_NEW.NE.0) THEN
@@ -373,7 +378,9 @@ C-------------------------------------------------------------------------------
      J  NISUB        ,NFT     ,INTBUF_TAB%ADDSUBS    ,INTBUF_TAB%ADDSUBM,
      K  INTBUF_TAB%LISUBS,INTBUF_TAB%LISUBM,INTBUF_TAB%LISUB,FSAVSUB,FRICC  ,
      L  VISCFFRIC    ,TAGNCONT ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER  ,
-     M  INTBUF_TAB%TYPSUB,INTBUF_TAB%INFLG_SUBS,INTBUF_TAB%INFLG_SUBM)
+     M  INTBUF_TAB%TYPSUB,INTBUF_TAB%INFLG_SUBS,INTBUF_TAB%INFLG_SUBM   ,
+     .                                           NINLOADP   ,DGAPLOADINT,
+     N  S_LOADPINTER )
 
 C
         IF( INTTH > 0 ) THEN 

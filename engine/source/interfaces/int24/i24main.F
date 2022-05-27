@@ -67,8 +67,9 @@ Chd|====================================================================
      G                   FBSAV6   ,ISENSINT,
      H                   DIMFB    ,H3D_DATA ,INTBUF_FRIC_TAB, T2MAIN_SMS,
      I                   FORNEQS  ,T2FAC_SMS,NPC    ,TF       ,TAGNCONT,
-     J                   KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
-C=======================================================================
+     J                   KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,DGAPLOADINT,
+     .                                                         S_LOADPINTER)
+C========================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -114,15 +115,17 @@ C-----------------------------------------------
      .        NRTMDIM, IAD17, IPARSENS
       INTEGER IPARI(NPARI,NINTER), ICODT(*),ICONTACT(*),
      .        ITAB(*), ISKY(*), KINET(*), 
-     .        IPARG(NPARG,*),INOD_PXFEM(*),NPC(*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
-     .        KLOADPINTER(NINTER+1),LOADPINTER((NINTER+1)*NLOADP_HYD),
-     .        LOADP_HYD_INTER(NLOADP_HYD)
+     .        IPARG(NPARG,*),INOD_PXFEM(*),NPC(*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD)
+      INTEGER  , INTENT(IN) :: S_LOADPINTER
+      INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
+     .         LOADP_HYD_INTER(NLOADP_HYD)
       INTEGER NB_JLT,NB_JLT_NEW,NB_STOK_N,JTASK,
      .        NISKYFI, LINDMAX
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*)
       INTEGER IXS(*)  ,IXS16(*) ,IXS20(*)
       INTEGER IAD_ELEM(2,*),FR_ELEM(*), 
      .        ISKYI_SMS(*), NODNX_SMS(*), ISENSINT(*),DIMFB,T2MAIN_SMS(6,*)
+      my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
       my_real 
      .        EMINX(*)
 C     REAL
@@ -186,9 +189,9 @@ C     REAL
      .   GAPV(MVSIZ),MSI(MVSIZ),
      .   NM1(MVSIZ), NM2(MVSIZ), NM3(MVSIZ), 
      .   TEMPI(MVSIZ),PHI(MVSIZ),AREASI(MVSIZ),
-     .     XX0(MVSIZ,17),YY0(MVSIZ,17),ZZ0(MVSIZ,17),
-     .     VX(MVSIZ,17),VY(MVSIZ,17),VZ(MVSIZ,17),
-     .     GAPS(MVSIZ),FORNEQSI(MVSIZ,3)
+     .   XX0(MVSIZ,17),YY0(MVSIZ,17),ZZ0(MVSIZ,17),
+     .   VX(MVSIZ,17),VY(MVSIZ,17),VZ(MVSIZ,17),
+     .   GAPS(MVSIZ),FORNEQSI(MVSIZ,3),DIST(MVSIZ)
       my_real
      .     , DIMENSION(:,:),ALLOCATABLE :: SURF
       my_real
@@ -201,7 +204,7 @@ C     REAL
       INTEGER NRTMFT, NRTMLT, NMNFT, NMNLT, NRADM,NCY_PFIT
       my_real
      .     T_PFIT,FA,FB,F_PFIT,TNCY,FINC
-      INTEGER ICURV,ILEV,NREBOU,NPT ,NRTSE,IEDG4,SFSAVPARIT
+      INTEGER ICURV,ILEV,NREBOU,NPT ,NRTSE,IEDG4,SFSAVPARIT,NINLOADP
       my_real
      .    XFILTR_FRIC,FRIC_COEFS(MVSIZ,10),VISCFFRIC(MVSIZ),FRICC(MVSIZ),
      .    FRIC_COEFS2(MVSIZ,10),VISCFFRIC2(MVSIZ),FRICC2(MVSIZ),
@@ -310,6 +313,8 @@ c         IFQ      =   INTBUF_FRIC_TAB(INTFRIC)%IFFILTER
       ENDIF
 C--- NITSCHE METHOD 
       INTNITSCHE=IPARI(86,NIN)
+C
+      NINLOADP = IPARI(95,NIN) ! load pressure related to inter
 C
 C-----T_FIT .OR. NCY_PFIT 
        F_PFIT = ZERO
@@ -445,7 +450,8 @@ C-------ISPT2 change    dimension NSN, initialis   au Starter
      H  IORTHFRIC,INTBUF_TAB%IREP_FRICM,INTBUF_TAB%DIR_FRICM,IREP_FRICMI,DIR_FRICMI,
      I  IXX3     ,IXX4        , XX1       ,XX2         ,XX3          ,
      3  XX4      ,YY1         ,YY2        ,YY3         ,YY4          ,
-     4  ZZ1      ,ZZ2         ,ZZ3        ,ZZ4         ) 
+     4  ZZ1      ,ZZ2         ,ZZ3        ,ZZ4         ,NINLOADP     ,
+     5  DIST     ) 
           CALL I_CORPFIT3(
      1               JLT      ,INTBUF_TAB%STFM  ,INTBUF_TAB%STFNS,STIF      ,NSN    ,
      2               CAND_E_N ,CAND_N_N,NIN     ,IGSTI   ,KMIN     ,
@@ -503,7 +509,7 @@ C
             ENDDO
           ENDIF 
 C
-          IF(JLT_NEW == 0)CYCLE
+          IF(NINLOADP==0.AND.JLT_NEW == 0)CYCLE
           IPARI(29,NIN) = 1
 C
 C   auxiliaire compute for int + plxfem
@@ -549,7 +555,6 @@ C-------------------------------------------------------------------------------
         ENDIF 
         IF(JTASK==1) CALL STOPTIME(MACRO_TIMER_FRIC,1)      
 
-
           CALL I24FOR3(
      1  JLT          ,A         ,V            ,IBC         ,ICODT    ,
      2  FSAV         ,GAP       ,FRIC         ,MS          ,VISC     ,
@@ -585,7 +590,9 @@ C-------------------------------------------------------------------------------
      W  FRIC_COEFS2 ,FRICC2      ,VISCFFRIC2  ,NFORTH     ,NFISOT    ,
      X  INDEXORTH   ,INDEXISOT   ,DIR1        ,DIR2       ,T2FAC_SMS ,F_PFIT,
      Y  TAGNCONT    ,KLOADPINTER ,LOADPINTER  ,LOADP_HYD_INTER,
-     Z  INTBUF_TAB%TYPSUB,INTBUF_TAB%INFLG_SUBS,INTBUF_TAB%INFLG_SUBM ) 
+     Z  INTBUF_TAB%TYPSUB,INTBUF_TAB%INFLG_SUBS,INTBUF_TAB%INFLG_SUBM,
+     .                                      NINLOADP,DGAPLOADINT,
+     1  S_LOADPINTER, DIST       ,IXX         ) 
 C
           IF(IMPL_S > 0 ) 
      +     CALL IMPL_SAV1(

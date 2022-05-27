@@ -44,7 +44,7 @@ Chd|====================================================================
      9   DEPTH    ,MARGEREF,LXM      ,LYM     ,LZM      ,
      A   NRTM_L   ,XLOC    ,I_MEM    ,DRAD    ,NMN      ,
      B   INTTH    ,MNDD    ,MSR_L    ,ITASK   ,IRECTT   ,
-     C   IFORM    )
+     C   IFORM    ,DGAPLOAD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -82,7 +82,9 @@ C     REAL
       my_real
      .   GAP,TZINF,MAXBOX,MINBOX,
      .   XMAX, YMAX, ZMAX, XMIN, YMIN, ZMIN, GAPMIN, GAPMAX, DEPTH,
-     .   MARGEREF, LXM, LYM, LZM, DRAD
+     .   MARGEREF, LXM, LYM, LZM
+C     REAL
+      my_real , INTENT(IN) :: DGAPLOAD , DRAD
       my_real
      .   X(3,*), STFN(*), STF(*), GAP_S(*), 
      .   XM0(3,*), NOD_NORMAL(3,*), XLOC(3,*)
@@ -265,7 +267,7 @@ C
 C       SEPARER B ET N EN TWO
 C
 C     MARGE plus importante que dans le critere de tri.
-      MARGE = TZINF - MAX(DEPTH,DRAD)
+      MARGE = TZINF - MAX(DEPTH + DGAPLOAD,DRAD)
       CALL I21TRI(
      1   ADD      ,NSN      ,IRECT   ,XLOC      ,STF_L    ,
      2   STFN     ,XYZM     ,I_ADD   ,MAXSIZ    ,II_STOK  ,
@@ -273,7 +275,7 @@ C     MARGE plus importante que dans le critere de tri.
      4   MAXBOX   ,MINBOX  ,I_MEM     ,NB_N_B   ,I_ADD_MAX,
      5   ESHIFT   ,INACTI  ,NRTM      ,IGAP     ,GAP      ,
      6   GAP_S    ,GAPMIN  ,GAPMAX    ,MARGE    ,CURV_MAX ,
-     7   XM0      ,NOD_NORMAL,DEPTH   ,DRAD     )
+     7   XM0      ,NOD_NORMAL,DEPTH   ,DRAD    ,DGAPLOAD )
 
       IF (I_MEM == 2) RETURN
 C
@@ -307,7 +309,7 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
         TZINF = THREE_OVER_4*TZINF
         MINBOX= THREE_OVER_4*MINBOX
         MAXBOX= THREE_OVER_4*MAXBOX
-        IF( TZINF.LE.MAX(DEPTH,DRAD) ) THEN
+        IF( TZINF.LE.MAX(DEPTH+ DGAPLOAD,DRAD) ) THEN
           IF (ISTAMPING == 1)THEN
             CALL ANCMSG(MSGID=101,ANMODE=ANINFO,
      .                  I1=NOINT,I2=NOINT)

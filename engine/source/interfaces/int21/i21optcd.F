@@ -33,7 +33,7 @@ Chd|====================================================================
      3                   ITASK  ,STF    ,INACTI  ,IFPEN  ,FTXSAV ,
      4                   FTYSAV ,FTZSAV ,PENI    ,NIN    ,GAPMAX ,
      5                   ICURV  ,IRTLM   ,CSTS ,DEPTH ,NOD_NORMAL,
-     6                   XM0    ,DRAD    ,NB_STOK_N,NB_JLT)
+     6                   XM0    ,DRAD    ,NB_STOK_N,NB_JLT,DGAPLOAD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -66,7 +66,8 @@ C-----------------------------------------------
      .        XLOC(3,*),GAP,GAP_S(*),STFN(*),STF(*),
      .        FTXSAV(*), FTYSAV(*), FTZSAV(*), PENI(*),
      .        GAPMAX, CSTS(2,*), DEPTH, NOD_NORMAL(3,*),
-     .        XM0(3,*), DRAD
+     .        XM0(3,*)
+      my_real , INTENT(IN) :: DGAPLOAD,DRAD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -191,7 +192,7 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
           L  = CAND_E(I)
           IF(STF(L).NE.ZERO.AND.STFN(CAND_N(I)).NE.ZERO) THEN ! Contact sorting optimization
            IG(IS) = CAND_N(I)
-           GAPF = MAX(GAPV(IS),DRAD)
+           GAPF = MAX(GAPV(IS)+DGAPLOAD,DRAD)
 C          
            XI = XLOC(1,IG(IS)) ! Secnd node
            YI = XLOC(2,IG(IS))
@@ -336,7 +337,8 @@ C
      .       NNZ2    ,NNX3    ,NNY3         ,NNZ3         ,NNX4   ,
      .       NNY4    ,NNZ4    ,X1_L         ,Y1_L         ,Z1_L   ,
      .       X2_L    ,Y2_L    ,Z2_L         ,X3_L         ,Y3_L   ,
-     .       Z3_L    ,X4_L    ,Y4_L         ,Z4_L         ,DRAD2  )
+     .       Z3_L    ,X4_L    ,Y4_L         ,Z4_L         ,DRAD2  ,
+     .       DGAPLOAD)
        ENDIF
        JS = JS + NSEG
       ENDDO

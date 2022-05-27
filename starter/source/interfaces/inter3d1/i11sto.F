@@ -32,7 +32,7 @@ Chd|====================================================================
      4      CAND_N,CAND_E,NSN   ,NOINT ,MARGE  ,
      5      I_MEM ,PROV_N,PROV_E,MULTIMP,ADDCM ,
      4      CHAINE,IADFIN,GAPMIN,DRAD   ,IGAP  ,
-     5      GAP_S ,GAP_M ,GAP_S_L,GAP_M_L)
+     5      GAP_S ,GAP_M ,GAP_S_L,GAP_M_L,DGAPLOAD)
 C============================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -60,7 +60,9 @@ C-----------------------------------------------
      .        CHAINE(2,*)
 C     REAL
       my_real
-     .   X(3,*), GAPMIN, DRAD, MARGE, 
+     .   X(3,*), GAPMIN, DRAD, MARGE
+      my_real , INTENT(IN) :: DGAPLOAD
+      my_real
      .   GAP_S(*), GAP_M(*), GAP_S_L(*), GAP_M_L(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -72,7 +74,8 @@ C     REAL
 C-----------------------------------------------
         CALL I11PEN3_VOX1(J_STOK ,PROV_N ,PROV_E ,GAPMIN ,DRAD    , 
      .                    MARGE  ,GAP_S ,GAP_M   ,GAP_S_L,GAP_M_L ,
-     .                    IGAP   ,X     ,IRECTS ,IRECTM  ,PENE )
+     .                    IGAP   ,X     ,IRECTS ,IRECTM  ,PENE    ,
+     .                    DGAPLOAD)
 C-----------------------------------------------
         K_STOK = 0
         I_STOK = II_STOK

@@ -49,7 +49,8 @@ Chd|====================================================================
      J                NISUB    ,NFT     ,ADDSUBS   ,ADDSUBM ,LISUBS   ,
      K                LISUBM   ,LISUB   ,FSAVSUB   ,FRICC   ,VISCFFRIC,
      L                TAGNCONT ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
-     M                TYPSUB   ,INFLG_SUBS  ,INFLG_SUBM)
+     M                TYPSUB   ,INFLG_SUBS  ,INFLG_SUBM,NINLOADP     ,
+     N                DGAPLOADINT,S_LOADPINTER )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -88,7 +89,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NELTST,ITYPTST,JLT,IBC,IVIS2,INACTI,NRTS,NIN,INTTH
+      INTEGER NELTST,ITYPTST,JLT,IBC,IVIS2,INACTI,NRTS,NIN,INTTH  
       INTEGER ITAB(*), 
      .        NOINT,NEWFRONT,NISUB,NFT
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ),
@@ -96,8 +97,10 @@ C-----------------------------------------------
      .        NSMS(MVSIZ),IFORM,INDEX(*),IFPEN(*), ISENSINT(*),
      .        ADDSUBS(*),ADDSUBM(*),LISUBS(*),LISUBM(*),LISUB(*),
      .        TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
-     .        KLOADPINTER(NINTER+1),LOADPINTER((NINTER+1)*NLOADP_HYD),
-     .        LOADP_HYD_INTER(NLOADP_HYD),TYPSUB(*),INFLG_SUBS(*), INFLG_SUBM(*)
+     .        TYPSUB(*),INFLG_SUBS(*), INFLG_SUBM(*)
+      INTEGER  , INTENT(IN) :: NINLOADP,S_LOADPINTER 
+      INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
+     .        LOADP_HYD_INTER(NLOADP_HYD)
       my_real 
      .    MS(*), FSAV(*),
      .   STFS(*),GAPV(*),
@@ -118,6 +121,7 @@ C-----------------------------------------------
      .   C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),C4(MVSIZ),PENRAD(MVSIZ),
      .   FSAVPARIT(NISUB+1,11,*),FSAVSUB(NTHVKI,*),FRICC(MVSIZ),
      .   VISCFFRIC(MVSIZ)
+      my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
       INTEGER BITGET
       EXTERNAL BITGET
 C-----------------------------------------------
@@ -139,7 +143,7 @@ C-----------------------------------------------
      .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6,
      .   FSAV8, FSAV9, FSAV10, FSAV11, FSAV12,
      .   FSAV13, FSAV14, FSAV15, DTI2, PPLUS,DTMI0
-      my_real PREC,BETA
+      my_real PREC,BETA,DGAPLOAD,GAPP
       my_real
      .   ST1(MVSIZ),ST2(MVSIZ),ST3(MVSIZ),ST4(MVSIZ),
      .   KT(MVSIZ),C(MVSIZ),CF(MVSIZ),
@@ -161,7 +165,7 @@ C-----------------------------------------------
       ECONVT = ZERO     
       ECONTDT = ZERO     
 C
-      IF(INTTH/=0)THEN
+      IF(INTTH/=0.OR.NINLOADP/=0 )THEN
         DO I=1,JLT
 C        RADIATION DISTANCE
          DIST = SQRT(NX(I)**2 + NY(I)**2 + NZ(I)**2)
@@ -877,17 +881,22 @@ C
       ENDIF
 
 C------------For /LOAD/PRESSURE tag nodes in contact-------------
-      IF(NINTLOADP > 0) THEN
+      IF(NINLOADP > 0) THEN
          DO K = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1) 
             PP = LOADPINTER(K)
             PPL = LOADP_HYD_INTER(PP)
+            DGAPLOAD = DGAPLOADINT(K)
             DO I=1,JLT
-               TAGNCONT(PPL,M1(I)) = 1
-               TAGNCONT(PPL,M2(I)) = 1
-               IF(CS_LOC(I).LE.NRTS) THEN
+               DIST = PENRAD(I) + GAPV(I)
+               GAPP= GAPV(I) + DGAPLOAD
+               IF(PENE(I) > ZERO .OR.DIST <= GAPP) THEN
+                 TAGNCONT(PPL,M1(I)) = 1
+                 TAGNCONT(PPL,M2(I)) = 1
+                 IF(CS_LOC(I).LE.NRTS) THEN
 C  SPMD : do same after reception of forces for remote nodes 
-                  TAGNCONT(PPL,N1(I)) = 1
-                  TAGNCONT(PPL,N2(I)) = 1
+                   TAGNCONT(PPL,N1(I)) = 1
+                   TAGNCONT(PPL,N2(I)) = 1
+                 ENDIF
                ENDIF
             ENDDO
          ENDDO
