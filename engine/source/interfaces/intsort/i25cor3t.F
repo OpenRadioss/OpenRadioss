@@ -35,7 +35,8 @@ Chd|====================================================================
      5                   IX2     ,IX3   ,IX4     ,NSN   ,GAP_S  ,
      6                   GAP_M   ,GAPV  ,CURV_MAX,ITYP  ,NIN    ,
      7                   V       ,IGAP  ,GAP_S_L ,GAP_M_L,MSEGTYP,
-     8                   ETYP    ,ICODT ,ISKEW   ,IBC    ,DRAD  )        
+     8                   ETYP    ,ICODT ,ISKEW   ,IBC    ,DRAD  ,
+     9                   DGAPLOAD)        
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -66,8 +67,8 @@ C-----------------------------------------------
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        ETYP(MVSIZ), IBC(MVSIZ)
 C     REAL
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
-     .   DRAD , 
      .   X(3,*), V(3,*), GAPV(*), GAP_S(*), GAP_M(*),CURV_MAX(*),
      .   GAP_S_L(*), GAP_M_L(*)
 C     REAL
@@ -98,7 +99,7 @@ C
             IG = J-NSN
             GAPV(I)=XREM(9,IG) + GAP_M(CAND_E(I))
           END IF
-          GAPV(I)=MAX(DRAD,GAPV(I))
+          GAPV(I)=MAX(DRAD,GAPV(I)+DGAPLOAD)
         END DO
       ELSE
         DO I=1,JLT
@@ -111,7 +112,7 @@ C
             GAPV(I)=XREM(9,IG) + GAP_M(CAND_E(I))
             GAPV(I)=MIN(XREM(10,IG)+GAP_M_L(CAND_E(I)),GAPV(I))
           END IF
-          GAPV(I)=MAX(DRAD,GAPV(I))
+          GAPV(I)=MAX(DRAD,GAPV(I)+DGAPLOAD)
         END DO
       END IF
       DO I=1,JLT

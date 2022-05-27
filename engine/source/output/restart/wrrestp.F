@@ -507,7 +507,7 @@ C--------------------------------------
 
         IF (NINTLOADP.GT.0) THEN
             CALL WRITE_I_C(KLOADPINTER, NINTER+1)
-            CALL WRITE_I_C(LOADPINTER,(NINTER+1)*NLOADP_HYD)
+            CALL WRITE_I_C(LOADPINTER,NINTER*NLOADP_HYD)
         ENDIF
 
         CALL WRITE_I_C(IBFV,SIBFV)

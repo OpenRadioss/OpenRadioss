@@ -31,7 +31,7 @@ Chd|====================================================================
      .                    NEDGE  ,LEDGE  ,MARGE   ,GAP_M ,GAP_M_L ,
      .                    GAPE  ,GAP_E_L ,IGAP    ,X     ,IRECT   ,
      .                    PENE  ,ADMSR   ,EDG_BISECTOR,VTX_BISECTOR,ITAB ,
-     .                    XREM_EDGE,S1_XREM,S2_XREM)  
+     .                    XREM_EDGE,S1_XREM,S2_XREM,DGAPLOAD)  
 
 C-----------------------------------------------
 C   M o d u l e s
@@ -60,8 +60,9 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: XREM_EDGE(S1_XREM,S2_XREM)
       INTEGER JLT, IGAP0, NEDGE, IGAP
       INTEGER IRECT(4,*), CAND_S(*), CAND_M(*), LEDGE(NLEDGE,*), ADMSR(4,*), ITAB(*)
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
-     .     DRAD, MARGE,
+     .     MARGE,
      .     X(3,*), GAP_M(*), GAP_M_L(*), GAPE(*), GAP_E_L(*), PENE(MVSIZ)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
 C-----------------------------------------------
@@ -103,7 +104,7 @@ C
      .      GAPV(I)=MIN(GAP_M_L(IE)+XREM_EDGE(E_GAPL,CAND_S(I)-NEDGE),GAPV(I))
 C verifier si E_GAPL  est bien ce qu'on veut ici 
         ENDIF
-        GAPV(I)=MAX(DRAD,GAPV(I))+MARGE
+        GAPV(I)=MAX(DRAD,GAPV(I)+DGAPLOAD)+MARGE
       ENDDO
 
 CDIR$ NOFUSION

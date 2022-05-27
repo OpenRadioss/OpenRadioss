@@ -1333,6 +1333,12 @@ C   thermal bc
       ENDIF
       IF(NLOADC   > 0) CALL CFIELDREST(CFIELD)
       IF(NLOADP   > 0) CALL LOADPREST(LOADP)
+C--------------------------------------------
+C LOAD/PRESSURE interfaces : Gaps
+C--------------------------------------------
+      IF (NINTLOADP.GT.0) THEN
+         CALL READ_DB(DGAPLOADINT, NINTER*NLOADP_HYD )
+      ENDIF
       IF(ICRACK3D > 0) CALL CRKXFEM_RREST(INOD_CRKXFEM,IEL_CRKXFEM,NODLEVXF)
       IF(ICRACK3D > 0) CALL CRKXFEM_RRESTANIM()
       IF(IALEFVM  > 0) CALL READ_DB(FCELL ,6*NUMELS)

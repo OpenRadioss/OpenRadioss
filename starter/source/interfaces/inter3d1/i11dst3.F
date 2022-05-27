@@ -30,7 +30,7 @@ Chd|====================================================================
      .                  IRECTM ,NX,NY,NZ,
      .                  N1,N2,M1,M2,JLT_NEW,
      .                  X ,IGAP,GAP_S,GAP_M, GAPV2,
-     .                  GAP_S_L,GAP_M_L,DRAD)
+     .                  GAP_S_L,GAP_M_L,DRAD,DGAPLOAD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,6 +45,7 @@ C-----------------------------------------------
       INTEGER JLT,JLT_NEW,IGAP
       INTEGER IRECTS(2,*), IRECTM(2,*),CAND_S(*),CAND_M(*),
      . N1(*),N2(*),M1(*),M2(*)
+      my_real , INTENT(IN) :: DGAPLOAD
       my_real
      .     GAP,DRAD,
      . NX(*),NY(*),NZ(*),X(3,*),GAP_S(*),GAP_M(*), GAPV2(*),
@@ -63,7 +64,7 @@ C-----------------------------------------------
      .     GAP2,DRAD2,
      .     PENE2(MVSIZ)
 C-----------------------------------------------
-       GAP2=GAP*GAP
+       GAP2=(GAP+DGAPLOAD)*(GAP+DGAPLOAD)
        DRAD2=DRAD*DRAD
 C
       IF(IGAP.EQ.0)THEN
@@ -74,7 +75,7 @@ C
         DO I=1,JLT
           GAPV2(I)=GAP_S(CAND_S(I))+GAP_M(CAND_M(I))
          IF(IGAP == 3)  
-     .     GAPV2(I)=MIN(GAP_S_L(CAND_S(I))+GAP_M_L(CAND_M(I)),GAPV2(I))
+     .     GAPV2(I)=MIN(GAP_S_L(CAND_S(I))+GAP_M_L(CAND_M(I)),GAPV2(I))+DGAPLOAD
           GAPV2(I)=MAX(GAPV2(I)*GAPV2(I),GAP2)
         ENDDO
       ENDIF

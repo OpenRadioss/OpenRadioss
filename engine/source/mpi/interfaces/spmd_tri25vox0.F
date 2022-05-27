@@ -33,7 +33,7 @@ Chd|====================================================================
      2   CURV_MAX,GAP_M  ,IRECT  ,GAP  ,BGAPSMX,
      3   PMAX_GAP,VMAXDT,BGAPEMX, IEDGE,
      4   LEDGE, NEDGE, NLEDGE,
-     5   GAPE ,DRAD )
+     5   GAPE , DRAD ,DGAPLOAD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,7 +67,8 @@ C-----------------------------------------------
      .        STF(*), GAP_M(*), BGAPSMX,PMAX_GAP,VMAXDT,
      .        MARGE,GAP,CURV_MAX(NRTM),
      .        BGAPEMX,DRAD
-      my_real GAPE(*)
+      my_real GAPE(*) 
+      my_real , INTENT(IN) :: DGAPLOAD
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -114,11 +115,11 @@ C=======================================================================
 C on ne retient pas les facettes detruites
         IF(STF(NE) == ZERO)CYCLE
          AAA = MARGE+CURV_MAX(NE)+VMAXDT
-     +       + MAX(MAX(PMAX_GAP,BGAPSMX+GAP_M(NE)),DRAD)
+     +       + MAX(MAX(PMAX_GAP,BGAPSMX+GAP_M(NE))+DGAPLOAD,DRAD)
 
 
 C verifier avec 
-         IF(SOL_EDGE > 0) AAA = MAX(AAA,MARGE+BGAPEMX)
+         IF(SOL_EDGE > 0) AAA = MAX(AAA,MARGE+BGAPEMX+DGAPLOAD)
 
 c     il est possible d'ameliorer l'algo en decoupant la facette
 c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
@@ -207,7 +208,7 @@ Chd|====================================================================
      2   CURV_MAX,GAP_M  ,IRECT  ,GAP  ,BGAPSMX,
      3   PMAX_GAP,VMAXDT,BGAPEMX, IEDGE,IGAP0  ,
      4   LEDGE, NEDGE, NLEDGE,
-     5   GAPE)
+     5   GAPE ,DGAPLOAD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -241,6 +242,7 @@ C-----------------------------------------------
      .        MARGE,GAP,CURV_MAX(NRTM),
      .        BGAPEMX
       my_real GAPE(*)
+      my_real , INTENT(IN) :: DGAPLOAD
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -294,7 +296,7 @@ c         IF(STF(M1) == ZERO) CYCLE
 c       ENDIF
 
 Clm     BGAPEMX already counted in BMINMAL
-        AAA=ZERO
+        AAA=ZERO + DGAPLOAD
 C       IF(IGAP0==0)THEN
 C         AAA = MARGE+BGAPEMX+GAPE(IE)
 C       ELSE

@@ -38,7 +38,7 @@ Chd|====================================================================
      9                  ICONT_I,NNX     ,NNY   ,NNZ     ,
      A                  FAR     ,PENT  ,DIST    ,LB    ,LC    ,
      B                  LBP     ,LCP   ,SUBTRIA ,MVOISN,IBOUND,
-     C                  VTX_BISECTOR   ,DRAD)
+     C                  VTX_BISECTOR   ,DRAD    ,DGAPLOAD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -69,8 +69,8 @@ C-----------------------------------------------
      .        MVOISN(MVSIZ,4), IBOUND(4,*)
       my_real
      .     TIME_S(2,NSN), GAPS(*), GAPM(*), GAPMXL(MVSIZ)
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
-     .     DRAD,
      .     XX(MVSIZ,5),YY(MVSIZ,5),ZZ(MVSIZ,5), 
      .     XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .     NNX(MVSIZ,5), NNY(MVSIZ,5), NNZ(MVSIZ,5),
@@ -337,7 +337,8 @@ C
 C
         LAP  = ONE-LBP(I,IT)-LCP(I,IT)
 C
-        GAP  = MIN(MAX(DRAD,GAPS(I)+LAP*GAP_MM(I)+LBP(I,IT)*GAP_NM(I1,I)+LCP(I,IT)*GAP_NM(I2,I)),MAX(DRAD,GAPMXL(I)))
+        GAP  = MIN(MAX(DRAD,GAPS(I)+LAP*GAP_MM(I)+LBP(I,IT)*GAP_NM(I1,I)+LCP(I,IT)*GAP_NM(I2,I)+DGAPLOAD),
+     .                 MAX(DRAD,GAPMXL(I)+DGAPLOAD))
         GAP2 = GAP**2
 C
         BB(I,IT) =((XX(I,5)-XI(I))*XN(I,IT)+(YY(I,5)-YI(I))*YN(I,IT)+(ZZ(I,5)-ZI(I))*ZN(I,IT))
@@ -637,7 +638,8 @@ C--------------------------------------------------------
 C
          LAP  = ONE-LBP(I,IT)-LCP(I,IT)
 C
-         GAP  = MIN(MAX(GAPS(I)+LAP*GAP_MM(I)+LBP(I,IT)*GAP_NM(I1,I)+LCP(I,IT)*GAP_NM(I2,I),DRAD),MAX(DRAD,GAPMXL(I)))
+         GAP  = MIN(MAX(GAPS(I)+LAP*GAP_MM(I)+LBP(I,IT)*GAP_NM(I1,I)+LCP(I,IT)*GAP_NM(I2,I)+DGAPLOAD,DRAD),
+     .                   MAX(DRAD,GAPMXL(I)+DGAPLOAD))
          GAP2 = GAP**2
 C
          BB(I,IT) =((XX(I,5)-XI(I))*XN(I,IT)+(YY(I,5)-YI(I))*YN(I,IT)+(ZZ(I,5)-ZI(I))*ZN(I,IT))

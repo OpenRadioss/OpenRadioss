@@ -245,7 +245,7 @@ C       VIRER LES INUTILES
      5                        IX3    ,IX4    ,NSVG,X1      ,X2    ,
      6                        X3     ,X4     ,Y1  ,Y2      ,Y3    ,
      7                        Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8                        XI     ,YI     ,ZI  ,STIF)
+     8                        XI     ,YI     ,ZI  ,STIF    ,ZERO  )
                   CALL I7DST3(IX3,IX4,X1 ,X2 ,X3 ,
      1                        X4 ,Y1 ,Y2 ,Y3 ,Y4 ,
      2                        Z1 ,Z2 ,Z3 ,Z4 ,XI ,

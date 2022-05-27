@@ -38,7 +38,7 @@ Chd|====================================================================
      4                        IEDGE ,NEDGE  ,LEDGE  ,MVOISIN,NSV,
      5                        NRTM  ,GAPE   ,GAP_E_L,IGAP0, 
      6                        STFE, S_STFE  ,IFQ    ,IFPEN,
-     7                        CAND_FX,CAND_FY,CAND_FZ)
+     7                        CAND_FX,CAND_FY,CAND_FZ,DGAPLOAD)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -65,8 +65,9 @@ C-----------------------------------------------
       INTEGER IRECT(4,*),CAND_M(*), CAND_S(*), IFPEN(*),
      .        I_STOK, NIN,IGAP ,ITASK, COUNT_REMSLVE(*), 
      .        IEDGE, NEDGE, LEDGE(NLEDGE,*), MVOISIN(4,*), NSV(*), NRTM, IGAP0,IFQ
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
-     .        X(3,*),GAP_M(*),V(3,*),STF(*),GAP_M_L(*),DRAD, GAPE(*), GAP_E_L(*),
+     .        X(3,*),GAP_M(*),V(3,*),STF(*),GAP_M_L(*), GAPE(*), GAP_E_L(*),
      .        STFE(S_STFE), CAND_FX(4,*),CAND_FY(4,*),CAND_FZ(4,*) 
      
 C-----------------------------------------------
@@ -299,7 +300,7 @@ C========== LOCAL
          IF(SH_EDGE /= 0 .AND. IGAP0 /= 0) GAPV(IS)=TWO*GAPV(IS)
          IF(IGAP==3)
      .     GAPV(IS)=MIN(GAPV(IS),GAP_M_L(IE)+GAP_E_L(JE))
-         GAPV(IS)=MAX(GAPV(IS),DRAD)
+         GAPV(IS)=MAX(GAPV(IS)+DGAPLOAD,DRAD)
        ENDDO
 
 C
@@ -448,6 +449,7 @@ C =========  REMOTE
 
            IF(IGAP==3)
      .       GAPV(IS)=MIN(GAPV(IS),GAPE_L_FIE(NIN)%P(CAND_S(I)-NEDGE)+GAP_M_L(IE))
+           GAPV(IS)=MAX(GAPV(IS)+DGAPLOAD,DRAD)
          ENDDO
 C
          NLS=0

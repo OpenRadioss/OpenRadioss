@@ -215,6 +215,7 @@ C=======================================================================
       CALL  RADIOSS_TITLE(ISTDO,CPUNAM,ARCHTITLE,
      *                      FILNAM,ROOTLEN,CHRUN,IRESP,1)
 C=======================================================================
+
 C-------------------------------------------------------------------
 C     NUMERO DE VERSION
 C      A MODIFIER CHAQUE FOIS QUE LA STRUCTURE DU FICHIER DE REPRISE
@@ -499,7 +500,7 @@ C new composite shell pid max nbs 200
       NPROPM =250
       NPARG  = 90
       NPARI  = 100
-      NPARIR=45
+      NPARIR=46
       LFXVELR = 9
       NIBCLD = 8 
       LFACCLD = 2

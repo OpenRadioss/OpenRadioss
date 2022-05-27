@@ -54,7 +54,7 @@ Chd|====================================================================
       SUBROUTINE SPMD_TRI7VOX0(
      1   X      ,BMINMAL ,IGAP   ,NRTM  ,STF   ,
      2   TZINF  ,CURV_MAX,GAPMIN ,GAPMAX,GAP_M ,
-     3   IRECT  ,GAP     ,BGAPSMX,DRAD  )
+     3   IRECT  ,GAP     ,BGAPSMX,DRAD  ,DGAPLOAD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,8 +78,9 @@ C-----------------------------------------------
       INTEGER IGAP, NRTM, IRECT(4,*)
       my_real
      .        X(3,*), BMINMAL(*),
-     .        STF(*), GAP_M(*), BGAPSMX,DRAD,
+     .        STF(*), GAP_M(*), BGAPSMX,
      .        TZINF,GAPMIN,GAPMAX,GAP,CURV_MAX(NRTM)
+      my_real , INTENT(IN) :: DRAD,DGAPLOAD
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -106,7 +107,7 @@ C     et creation des candidats
 C=======================================================================
 
       LOC_PROC = ISPMD + 1
-      MARGE = TZINF-MAX(GAP,DRAD)
+      MARGE = TZINF-MAX(GAP+DGAPLOAD,DRAD)
 
       NBX = LRVOXEL
       NBY = LRVOXEL
@@ -127,7 +128,7 @@ C on ne retient pas les facettes detruites
            AAA = TZINF+CURV_MAX(NE)
          ELSE
            AAA = MARGE+CURV_MAX(NE)+
-     .           MAX(MIN(GAPMAX,MAX(GAPMIN,BGAPSMX+GAP_M(NE))),DRAD)
+     .           MAX(MIN(GAPMAX,MAX(GAPMIN,BGAPSMX+GAP_M(NE)))+DGAPLOAD,DRAD)
          ENDIF
 
 c     il est possible d'ameliorer l'algo en decoupant la facette
@@ -4982,7 +4983,7 @@ Chd|====================================================================
       SUBROUTINE SPMD_TRI11VOX0(
      1   X      ,BMINMAL ,IGAP   ,NRTM  ,STF   ,
      2   TZINF  ,IRECTM  ,GAP, GAP_M,
-     3   GAPMIN,BGAPSMX,DRAD ) 
+     3   GAPMIN,BGAPSMX,DRAD ,DGAPLOAD) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -5006,8 +5007,9 @@ C-----------------------------------------------
       INTEGER IGAP, NRTM, IRECTM(2,NRTM)
       my_real
      .        X(3,*), BMINMAL(6),GAP_M(*),GAPMIN,BGAPSMX,
-     .        STF(NRTM), DRAD,
+     .        STF(NRTM),
      .        TZINF,GAP
+      my_real , INTENT(IN) :: DRAD,DGAPLOAD
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -5031,7 +5033,7 @@ C=======================================================================
 
       LOC_PROC = ISPMD + 1
       !MARGE = TZINF-GAP
-      MARGE =  TZINF-MAX(GAP,DRAD)
+      MARGE =  TZINF-MAX(GAP+DGAPLOAD,DRAD)
       
 
       NBX = LRVOXEL
@@ -5057,7 +5059,7 @@ c            AAA = ZERO
              AAA = TZINF          
            ELSE
              AAA = MARGE+
-     .           MAX(GAPMIN,BGAPSMX+GAP_M(NEDG),DRAD)
+     .           MAX(MAX(GAPMIN,BGAPSMX+GAP_M(NEDG))+DGAPLOAD,DRAD)
            ENDIF
 
 
@@ -6303,7 +6305,7 @@ Chd|====================================================================
       SUBROUTINE SPMD_TRI24VOX0(
      1   X      ,BMINMAL ,NRTM  ,STF   ,MARGE  ,
      2   CURV_MAX,GAP_M  ,IRECT  ,GAP  ,BGAPSMX,
-     3   PMAX_GAP,VMAXDT )
+     3   PMAX_GAP,VMAXDT ,DGAPLOAD )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -6329,6 +6331,7 @@ C-----------------------------------------------
      .        X(3,*), BMINMAL(*),
      .        STF(*), GAP_M(*), BGAPSMX,PMAX_GAP,VMAXDT,
      .        MARGE,GAP,CURV_MAX(NRTM)
+      my_real , INTENT(IN) :: DGAPLOAD
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -6370,7 +6373,7 @@ C=======================================================================
 C on ne retient pas les facettes detruites
         IF(STF(NE) == ZERO)CYCLE
          AAA = MARGE+CURV_MAX(NE)+VMAXDT
-     +       + MAX(PMAX_GAP,BGAPSMX+GAP_M(NE))
+     +       + MAX(PMAX_GAP,BGAPSMX+GAP_M(NE))+DGAPLOAD
 
 c     il est possible d'ameliorer l'algo en decoupant la facette
 c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee

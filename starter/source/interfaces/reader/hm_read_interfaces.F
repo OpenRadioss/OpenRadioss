@@ -51,7 +51,7 @@ Chd|====================================================================
      4           FRIC_P   ,I2RUPT   ,AREASL   ,UNITAB     ,NOM_OPT    ,
      5           DEF_INTER,NPC1     ,LSENSOR  ,MULTI_FVM  ,NOM_OPTFRIC,
      6           INTBUF_FRIC_TAB    ,IDDLEVEL ,LSUBMODEL  ,TF         ,
-     7           KLOADPINTER        )
+     7           KLOADPINTER        ,DGAPINT  )
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -101,6 +101,7 @@ C-----------------------------------------------
       my_real
      .   XFILTR(*),STFAC(*),FRIC_P(10,*),I2RUPT(6,*),
      .   FRIGAP(NPARIR,*),AREASL(*),TF(*)
+      my_real , INTENT(IN) :: DGAPINT(NINTER)
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       TYPE (SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
@@ -286,6 +287,7 @@ C-------
          ENDIF
 
         IF(NINTLOADP > 0)IPARI(95,NI) = KLOADPINTER(NI+1)  - KLOADPINTER(NI)
+        IF(NINTLOADP > 0)FRIGAP(46,NI) = DGAPINT(NI) 
 
 C--------
       ENDDO ! NI

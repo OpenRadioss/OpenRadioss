@@ -42,7 +42,7 @@ Chd|====================================================================
      8      MBINFLG,ILEV    ,MSEGTYP ,EDGE_L2 ,IEDGE    ,
      9      ISEADD ,ISEDGE  ,CAND_T  ,FLAGREMNODE,KREMNOD,
      A      REMNOD ,CAND_A  ,RENUM   ,NSNROLD ,IRTSE    ,
-     B      IS2SE  ,NSNE   )
+     B      IS2SE  ,NSNE    ,DGAPLOAD)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -118,7 +118,8 @@ C     REAL
       my_real
      .   X(3,*),V(3,*),XYZM(6),STF(*),STFN(*),GAP_S(*),
      .   GAP_M(*),CURV_MAX(*),PENE_OLD(5,NSN),EDGE_L2(*),
-     .   MARGE,BGAPSMX,PMAX_GAP,VMAXDT 
+     .   MARGE,BGAPSMX,PMAX_GAP,VMAXDT
+      my_real , INTENT(IN) :: DGAPLOAD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -289,7 +290,7 @@ C on ne retient pas les facettes detruites
         IF(STF(NE) == ZERO)CYCLE
 
          AAA = MARGE+CURV_MAX(NE)+BGAPSMX+PMAX_GAP+VMAXDT
-     +       + GAP_M(NE)
+     +       + GAP_M(NE)+DGAPLOAD
 
 
 c     il est possible d'ameliorer l'algo en decoupant la facette 
@@ -400,11 +401,11 @@ c NO need to communicate in SPMD
 
                 IF (IEDGE > 0) THEN 
                  AAA = MARGE + CURV_MAX(NE) 
-     +               + MAX(GAP_S(JJ)+GAP_M(NE)+EDGE_L2(JJ)
+     +               + MAX(GAP_S(JJ)+GAP_M(NE)+EDGE_L2(JJ)+DGAPLOAD
      +                    ,PENE_OLD(3,JJ))+VMAXDT 
                 ELSE
                  AAA = MARGE + CURV_MAX(NE) 
-     +               + MAX(GAP_S(JJ)+GAP_M(NE)
+     +               + MAX(GAP_S(JJ)+GAP_M(NE)+DGAPLOAD
      +                    ,PENE_OLD(3,JJ))+VMAXDT 
                 END IF 
                ELSE
@@ -446,7 +447,7 @@ C and Fictive node is remote
 c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 c                                      +EDGE_L2(JJ) remote
 c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     +        + MAX(XREM(IGAPXREMP,J)+GAP_M(NE),XREM(I24XREMP+6,J))
+     +        + MAX(XREM(IGAPXREMP,J)+GAP_M(NE)+DGAPLOAD,XREM(I24XREMP+6,J))
      +        + VMAXDT 
                ENDIF
 
@@ -489,7 +490,7 @@ cc             nnrpelem = nnrpelem + 1
      4                NSN   ,GAP_S  ,GAP_M ,CURV_MAX,NIN  ,
      5                PENE_OLD,NBINFLG  ,MBINFLG,ILEV,MSEGTYP,
      6                EDGE_L2,IEDGE,ISEADD ,ISEDGE ,CAND_T,ITAB,
-     7                CAND_A,OLDNUM,NSNROLD)
+     7                CAND_A,OLDNUM,NSNROLD,DGAPLOAD)
                    IF(I_MEM.EQ.2)GOTO 100
                    J_STOK = 0
                  ENDIF
@@ -526,7 +527,7 @@ C-------------------------------------------------------------------------
      4              NSN   ,GAP_S  ,GAP_M ,CURV_MAX,NIN  ,
      5              PENE_OLD,NBINFLG,MBINFLG,ILEV ,MSEGTYP,
      6              EDGE_L2,IEDGE,ISEADD ,ISEDGE ,CAND_T,ITAB,
-     7              CAND_A,OLDNUM,NSNROLD)
+     7              CAND_A,OLDNUM,NSNROLD,DGAPLOAD)
 
 C=======================================================================
 C 4   remise a zero des noeuds dans les boites

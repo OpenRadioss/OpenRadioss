@@ -38,9 +38,9 @@ Chd|====================================================================
      6   NSNR     ,NCONT   ,GAP_M   ,ITASK    ,BGAPSMX  ,
      7   I_MEM    ,PENE_OLD,ITAB    ,NBINFLG  ,MBINFLG  ,
      8   ILEV     ,MSEGTYP ,
-     9   FLAGREMNODE,KREMNOD,REMNOD   ,
-     A   IGAP    ,GAP_S_L,GAP_M_L     ,ICODT  ,ISKEW    ,
-     B   DRAD    ) 
+     9   FLAGREMNODE,KREMNOD,REMNOD ,
+     A   IGAP     ,GAP_S_L ,GAP_M_L ,ICODT    ,ISKEW    ,
+     B   DRAD     ,DGAPLOAD) 
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,8 +73,9 @@ C-----------------------------------------------
      .        II_STOK,ITAB(*),NBINFLG(*),MBINFLG(*),
      .        FLAGREMNODE,KREMNOD(*),REMNOD(*),ICODT(*),ISKEW(*)
 C     REAL
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
-     .   GAP,PMAX_GAP,VMAXDT,DRAD,
+     .   GAP,PMAX_GAP,VMAXDT,
      .   BMINMA(6),CURV_MAX(NRTM),BGAPSMX, MARGE
       my_real
      .   X(3,*), V(3,*), STFN(*),PENE_OLD(5,NSN),
@@ -188,7 +189,7 @@ C (en // SMP il y a possibilite de redondance de traitement mais no pb)
      8   MBINFLG ,ILEV     ,MSEGTYP  ,
      9   FLAGREMNODE,KREMNOD,REMNOD  ,
      A   IGAP    ,GAP_S_L  ,GAP_M_L  ,ICODT   ,ISKEW    ,
-     B   DRAD    )
+     B   DRAD    ,DGAPLOAD )
 C
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
 C

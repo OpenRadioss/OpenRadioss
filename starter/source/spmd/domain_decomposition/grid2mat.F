@@ -2671,7 +2671,7 @@ Chd|====================================================================
       SUBROUTINE I7NINTDD(NELEMINT,IXINT ,IRECT ,NSV  ,CAND_E ,
      2                    CAND_N  ,I_STOK,IFIEND,X    ,GAP    ,
      3                    DRAD    ,IGAP  ,GAP_S ,GAP_M,GAP_S_L,
-     4                    GAP_M_L ,GAPMIN,GAPMAX)
+     4                    GAP_M_L ,GAPMIN,GAPMAX,DGAPLOAD)
 C-----------------------------------------------
 C            A r g u m e n t s
 C-----------------------------------------------
@@ -2689,9 +2689,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NELEMINT, IXINT(6,*), IRECT(4,*),NSV(*),
      .   CAND_E(*),CAND_N(*),I_STOK ,IFIEND, IGAP
-
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
-     .   GAP, X(3,*),DRAD, GAPMAX, GAPMIN,
+     .   GAP, X(3,*), GAPMAX, GAPMIN,
      .   GAP_M(*), GAP_S(*), GAP_S_L(*), GAP_M_L(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -2705,7 +2705,7 @@ C-----------------------------------------------
       IFIEND = IFIEND + I_STOK*6
       CALL ZEROIN (1,I_STOK*6,IXINT)
 C calcul du facteur de poids relatif
-      SEUIL = MAX(GAP,DRAD)
+      SEUIL = MAX(GAP+DGAPLOAD,DRAD)
       DO I = 1, I_STOK
           IG = NSV(CAND_N(I))
           L  = CAND_E(I)
@@ -2734,7 +2734,7 @@ C calcul du facteur de poids relatif
             SEUIL=MIN(SEUIL,GAPMAX)
             SEUIL=MAX(SEUIL,GAPMIN)
           ENDIF
-          SEUIL = MAX(SEUIL,DRAD)
+          SEUIL = MAX(SEUIL+DGAPLOAD,DRAD)
  
           ZMIN = MIN(Z1,Z2,Z3,Z4)-SEUIL
           ZMAX = MAX(Z1,Z2,Z3,Z4)+SEUIL
@@ -2774,7 +2774,7 @@ Chd|        ZEROIN                        source/system/zeroin.F
 Chd|====================================================================
       SUBROUTINE I11NINTDD(NELEMINT,IXINT ,IRECTS ,IRECTM,CAND_S,
      .                     CAND_M   ,I_STOK,IFIEND,X     ,GAP   ,
-     .                     DRAD    )
+     .                     DRAD     ,DGAPLOAD)
 C-----------------------------------------------
 C            A r g u m e n t s
 C-----------------------------------------------
@@ -2794,7 +2794,8 @@ C-----------------------------------------------
      .   CAND_S(*), CAND_M(*),I_STOK ,IFIEND
 
       my_real
-     .   GAP, X(3,*),DRAD
+     .   GAP, X(3,*)
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2807,7 +2808,7 @@ C-----------------------------------------------
       IFIEND = IFIEND + I_STOK*6
       CALL ZEROIN (1,I_STOK*6,IXINT)
 C calcul du facteur de poids relatif
-      SEUIL = MAX(GAP,DRAD)
+      SEUIL = MAX(GAP+DGAPLOAD,DRAD)
       DO I = 1, I_STOK
         IXINT(1,I)=IRECTS(1,CAND_S(I))
         IXINT(2,I)=IRECTS(2,CAND_S(I))
@@ -2831,7 +2832,7 @@ Chd|        ZEROIN                        source/system/zeroin.F
 Chd|====================================================================
       SUBROUTINE I24NINTDD(NELEMINT,IXINT ,IRECT ,NSV,CAND_E,
      .                     CAND_N  ,I_STOK,IFIEND,X  ,GAP   ,
-     .                     DRAD    ,GAP_S ,GAP_M )
+     .                     DRAD    ,GAP_S ,GAP_M ,DGAPLOAD)
 C-----------------------------------------------
 C            A r g u m e n t s
 C-----------------------------------------------
@@ -2851,7 +2852,8 @@ C-----------------------------------------------
      .   CAND_E(*),CAND_N(*),I_STOK ,IFIEND
 
       my_real
-     .   GAP, X(3,*), GAP_M(*), GAP_S(*), DRAD
+     .   GAP, X(3,*), GAP_M(*), GAP_S(*)
+      my_real , INTENT(IN) :: DGAPLOAD , DRAD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2863,7 +2865,7 @@ C-----------------------------------------------
 C      IFIEND = IFIEND + I_STOK*6
       CALL ZEROIN (1,I_STOK*6,IXINT)
 C calcul du facteur de poids relatif
-C      SEUIL = MAX(GAP,DRAD)
+c      SEUIL = MAX(GAP +DGAPLOAD,DRAD)
       II = 0
       DO I = 1, I_STOK
           IG = NSV(CAND_N(I))
@@ -2885,7 +2887,7 @@ C      SEUIL = MAX(GAP,DRAD)
           Z2=X(3,IX2)
           Z3=X(3,IX3)
           Z4=X(3,IX4)
-          SEUIL=GAP_S(CAND_N(I))+GAP_M(CAND_E(I))
+          SEUIL=GAP_S(CAND_N(I))+GAP_M(CAND_E(I))+DGAPLOAD
           ZMIN = MIN(Z1,Z2,Z3,Z4)-SEUIL
           ZMAX = MAX(Z1,Z2,Z3,Z4)+SEUIL
           IF (ZMIN.LE.ZI.AND.ZMAX.GE.ZI) THEN
@@ -2927,7 +2929,7 @@ Chd|        ZEROIN                        source/system/zeroin.F
 Chd|====================================================================
       SUBROUTINE I25NINTDD(NELEMINT,IXINT ,IRECT ,NSV,CAND_E,
      .                     CAND_N  ,I_STOK,IFIEND,X  ,GAP   ,
-     .                     DRAD    ,GAP_S ,GAP_M )
+     .                     DRAD    ,GAP_S ,GAP_M ,DGAPLOAD)
 C-----------------------------------------------
 C            A r g u m e n t s
 C-----------------------------------------------
@@ -2947,7 +2949,8 @@ C-----------------------------------------------
      .   CAND_E(*),CAND_N(*),I_STOK ,IFIEND
 
       my_real
-     .   GAP, X(3,*),DRAD, GAP_M(*), GAP_S(*) 
+     .   GAP, X(3,*), GAP_M(*), GAP_S(*) 
+      my_real , INTENT(IN) :: DGAPLOAD , DRAD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2959,7 +2962,7 @@ C-----------------------------------------------
 C      IFIEND = IFIEND + I_STOK*6
       CALL ZEROIN (1,I_STOK*6,IXINT)
 C calcul du facteur de poids relatif
-C      SEUIL = MAX(GAP,DRAD)
+C      SEUIL = MAX(GAP+DGAPLOAD,DRAD)
       II = 0
       DO I = 1, I_STOK
           IG = NSV(CAND_N(I))
@@ -2981,7 +2984,7 @@ C      SEUIL = MAX(GAP,DRAD)
           Z2=X(3,IX2)
           Z3=X(3,IX3)
           Z4=X(3,IX4)
-          SEUIL=GAP_S(CAND_N(I))+GAP_M(CAND_E(I))
+          SEUIL=GAP_S(CAND_N(I))+GAP_M(CAND_E(I))+DGAPLOAD
           ZMIN = MIN(Z1,Z2,Z3,Z4)-SEUIL
           ZMAX = MAX(Z1,Z2,Z3,Z4)+SEUIL
           IF (ZMIN.LE.ZI.AND.ZMAX.GE.ZI) THEN

@@ -41,7 +41,7 @@ Chd|====================================================================
      3         GAP_S_L ,GAP_M_L ,IGAP     ,GAP        ,DRAD    ,
      4         NREMNODE,NTY     ,IPARI   ,I_MEM_REM   ,GAPM_MX ,
      5         GAPS_MX ,GAPM_L_MX,GAPS_L_MX ,ILEV     ,NBINFLG ,
-     6         MBINFLG )  
+     6         MBINFLG ,DGAPLOAD)  
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -71,6 +71,7 @@ C-----------------------------------------------
       INTEGER IRECT(4,NRTM),ITAB(*),NSV(NSN),IPARI(*),NBINFLG(*),MBINFLG(*)
       my_real
      .        GAPMIN, GAPMAX, GAP, DRAD, GAPM_MX, GAPS_MX, GAPM_L_MX, GAPS_L_MX
+      my_real , INTENT(IN) :: DGAPLOAD
       my_real
      .        X(3,*),GAP_S(*),GAP_M(*),GAP_S_L(*),GAP_M_L(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -131,7 +132,7 @@ C-----------------------------------------------
      5         I_MEM_REM,GAPM_MX ,GAPS_MX ,
      6         GAPM_L_MX ,GAPS_L_MX ,KNOD2SEG,NOD2SEG,TAGSECND,
      7         GAPSECND ,NODDEL  ,TAGNOD   ,ID_NOD   ,DIST1  ,
-     8         GAPV    ,GAP_S_L_TMP,ITAGSEG ,MINSEG)   
+     8         GAPV    ,GAP_S_L_TMP,ITAGSEG ,MINSEG  ,DGAPLOAD)   
 C
         IF (I_MEM_REM == 1) THEN
           NREMNODE = NREMNODE + 5*NRTM
@@ -376,7 +377,7 @@ Chd|====================================================================
      5         I_MEM_REM,GAPM_MX ,GAPS_MX ,
      6         GAPM_L_MX ,GAPS_L_MX ,KNOD2SEG,NOD2SEG,TAGSECND,
      7         GAPSECND ,NODDEL  ,TAGNOD   ,ID_NOD    ,DIST1  ,
-     8         GAPV    ,GAP_S_L_TMP,ITAGSEG,MINSEG  )  
+     8         GAPV    ,GAP_S_L_TMP,ITAGSEG,MINSEG    ,DGAPLOAD)  
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -401,6 +402,7 @@ C-----------------------------------------------
      .        TAGSECND(*),ITAGSEG(NRTM)
        my_real
      .        GAPMIN, GAPMAX, GAP, DRAD, GAPM_MX, GAPS_MX, GAPM_L_MX, GAPS_L_MX, MINSEG
+      my_real , INTENT(IN) :: DGAPLOAD
       my_real
      .        X(3,*),GAP_S(*),GAP_M(*),GAP_S_L(*),GAP_M_L(*)
       my_real 
@@ -424,11 +426,11 @@ C
       DO I=IFIRST,ILAST
 
         IF(IGAP==0)THEN
-          DMAX  = SQRT(TWO) * MAX(GAP,DRAD)
+          DMAX  = SQRT(TWO) * MAX(GAP+DGAPLOAD,DRAD)
         ELSEIF(IGAP==1 .OR. IGAP==2) THEN
-          DMAX  = SQRT(TWO) * MAX(GAP_M(I)+GAPS_MX,DRAD)
+          DMAX  = SQRT(TWO) * MAX(GAP_M(I)+GAPS_MX+DGAPLOAD,DRAD)
         ELSEIF(IGAP==3) THEN
-          DMAX  = SQRT(TWO) * MAX(MIN(GAP_M(I)+GAPS_MX,GAP_M_L(I)+GAPS_L_MX),DRAD)
+          DMAX  = SQRT(TWO) * MAX(MIN(GAP_M(I)+GAPS_MX,GAP_M_L(I)+GAPS_L_MX)+DGAPLOAD,DRAD)
         END IF
 
         CPTOPER = 0
@@ -499,14 +501,14 @@ c
                       GAPV(IRECT(L,SEG1))=GAPSECND(IRECT(L,SEG1))+GAP_M(I)
                       GAPV(IRECT(L,SEG1))=MIN(GAPMAX,GAPV(IRECT(L,SEG1)))
                       GAPV(IRECT(L,SEG1))=MAX(GAPMIN,GAPV(IRECT(L,SEG1)))
-                      GAPV(IRECT(L,SEG1))=MAX(DRAD,GAPV(IRECT(L,SEG1)))
+                      GAPV(IRECT(L,SEG1))=MAX(DRAD,GAPV(IRECT(L,SEG1))+DGAPLOAD)
                     ELSEIF(IGAP==3)THEN
                       GAPV(IRECT(L,SEG1))=GAPSECND(IRECT(L,SEG1))+GAP_M(I)
                       GAPV(IRECT(L,SEG1))=
      .                   MIN(GAP_S_L_TMP(IRECT(L,SEG1))+GAP_M_L(I),GAPV(I))
                       GAPV(IRECT(L,SEG1))=MIN(GAPMAX,GAPV(IRECT(L,SEG1)))
                       GAPV(IRECT(L,SEG1))=MAX(GAPMIN,GAPV(IRECT(L,SEG1)))
-                      GAPV(IRECT(L,SEG1))=MAX(DRAD,GAPV(IRECT(L,SEG1)))
+                      GAPV(IRECT(L,SEG1))=MAX(DRAD,GAPV(IRECT(L,SEG1))+DGAPLOAD)
                     END IF
 
                   ENDDO

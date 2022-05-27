@@ -707,7 +707,7 @@ C-----------------------------------------------
      .   IADTABIGE,NDOUBLONIGE,DECALIGEO,HM_NSENSOR,
      .   IPARSENS,NBT8,
      .   TAB_SOL(6),
-     .   LCNCND,I24MAXNSNE,NSIGBEAM,NSIGTRUSS,
+     .   LCNCND,I24MAXNSNE,NSIGBEAM,NSIGTRUSS,S_LOADPINTER,
      .   FLAGF,ITHFLAG,MAXRTM_T2,NS_I2,SITAGE,NCTRLMAX,INLIN
       INTEGER (KIND=8) EMAX
       INTEGER (KIND=8) K0,K1,K2,K3,K4,K5,K6,K7,K8
@@ -1102,6 +1102,7 @@ C MERGE NODES
       INTEGER NMERGE_NODE_CAND,NMERGE_NODE_DEST,NMERGE_TOT,ALE_EULER
       INTEGER, DIMENSION(:), ALLOCATABLE :: MERGE_NODE_TAB
       my_real,DIMENSION(:),ALLOCATABLE :: MERGE_NODE_TOL
+      my_real,DIMENSION(:),ALLOCATABLE :: DGAPINT, INTGAPLOADP ,DGAPLOADINT
 C
 C======================================================================|
 c   BEGINNING
@@ -6648,23 +6649,37 @@ C        PFLUID & PBLAST & LOAD PRESSURE
          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='LOADP')
          ALLOCATE(INTERLOADP(NINTLOADP)    ,STAT=stat)
          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='INTERLOADP')
+         ALLOCATE(INTGAPLOADP(NINTLOADP)    ,STAT=stat)
+         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='INTGAPLOADP')
+
+         S_LOADPINTER = 0
          IF(NINTLOADP > 0) THEN
+            S_LOADPINTER = NINTER*NLOADP_HYD            
             ALLOCATE(KLOADPINTER(NINTER + 1)    ,STAT=stat)
             IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='KLOADPINTER')
-            ALLOCATE(LOADPINTER((NINTER+1)*NLOADP_HYD)    ,STAT=stat)
+            ALLOCATE(LOADPINTER(S_LOADPINTER)    ,STAT=stat)
             IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='LOADPINTER')
+            ALLOCATE(DGAPINT(NINTER)    ,STAT=stat)
+            IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='DGAPINT')
+            ALLOCATE(DGAPLOADINT(S_LOADPINTER)    ,STAT=stat)
+            IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='DGAPLOADINT')
          ELSE
             ALLOCATE(KLOADPINTER(0))
             ALLOCATE(LOADPINTER(0))
+            ALLOCATE(DGAPINT(0))
+            ALLOCATE(DGAPLOADINT(0))
          ENDIF
 
 !INITIALIZATIONS
          IF(ALLOCATED(ILOADP )) ILOADP(:)  = 0
          IF(ALLOCATED(LLOADP )) LLOADP(:)  = 0
          IF(ALLOCATED(LOADP  )) LOADP(:)   = ZERO
-         IF(ALLOCATED(INTERLOADP )) INTERLOADP(:)  = 0
-         IF(ALLOCATED(KLOADPINTER )) KLOADPINTER(:)  = 0
-         IF(ALLOCATED(LOADPINTER ))  LOADPINTER(:)  = 0
+         IF(ALLOCATED(INTERLOADP )) INTERLOADP(1:NINTLOADP)  = 0
+         IF(ALLOCATED(KLOADPINTER )) KLOADPINTER(1:NINTER+1)  = 0
+         IF(ALLOCATED(LOADPINTER ))  LOADPINTER(1:S_LOADPINTER)  = 0
+         IF(ALLOCATED( INTGAPLOADP ))  INTGAPLOADP(1:NINTLOADP)=ZERO
+         IF(ALLOCATED( DGAPINT ))  DGAPINT(1:NINTER)=ZERO
+         IF(ALLOCATED( DGAPLOADINT )) DGAPLOADINT(1:S_LOADPINTER)=ZERO
 !READING CARDS & STORING DATA
          NUMLOADP=0
          NINTLOADP = 0
@@ -6677,14 +6692,16 @@ C        PFLUID & PBLAST & LOAD PRESSURE
            CALL HM_READ_PBLAST(ITAB    ,ITABM1  ,UNITAB  ,IGRSURF,  NUMLOADP,
      .                        ILOADP   ,LLOADP  ,LOADP   ,X      , BUFSF    ,
      .                        LSUBMODEL,RTRANS)
-        ENDIF
+         ENDIF
          IF(NLOADP_HYD/=0)THEN
            CALL HM_READ_LOAD_PRESSURE(
-     .                       NUMLOADP   ,ILOADP     ,LLOADP       ,INTERLOADP ,LOADP     ,
-     .                       KLOADPINTER,LOADPINTER ,NPC          ,LSENSOR    ,IGRSURF   ,
-     .                       UNITAB     ,ISKWN      ,LSUBMODEL )
+     .                       NUMLOADP   ,ILOADP     ,LLOADP       ,INTERLOADP ,LOADP      ,
+     .                       KLOADPINTER,LOADPINTER ,NPC          ,LSENSOR    ,IGRSURF    ,
+     .                       UNITAB     ,ISKWN      ,LSUBMODEL    ,DGAPINT    ,INTGAPLOADP,
+     .                       DGAPLOADINT,S_LOADPINTER)
 
          END IF
+         DEALLOCATE( INTERLOADP,INTGAPLOADP )
       ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------
@@ -7082,6 +7099,7 @@ C
 C------------------------------------------------------------
 C     INTERFACE READING
 C--------------------------------------------------------------
+        write(*,*) ' av interf',DGAPINT(1:NINTER)
        CALL HM_READ_INTERFACES(
      1           IPARI    ,FRIGAP   ,NINTER   ,ITAB       ,ITABM1                      ,
      2           IGRNOD   ,IGRSURF  ,IGRSLIN  ,IGRBRIC    ,IGRSH3N                     ,
@@ -7089,7 +7107,7 @@ C--------------------------------------------------------------
      4           FRIC_P   ,I2RUPT   ,AREASL   ,UNITAB     ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),
      5           DEF_INTER,NPC1     ,LSENSOR  , MULTI_FVM,NOM_OPT(LNOPT1*INOM_OPT(29)+1),
      6           INTBUF_FRIC_TAB    ,IDDLEVEL ,LSUBMODEL  ,TF                          ,
-     7           KLOADPINTER )
+     7           KLOADPINTER        ,DGAPINT  )
 C
        CALL LECINT (IPARI    ,NINTER   ,IPM      ,BUFMAT   ,
      .              NMNT     ,ITAB     ,ITABM1   ,GEO      ,
@@ -7324,6 +7342,7 @@ C
         !--------------------------------------------!
 C
       ENDIF
+
 
 C--------------------------------------------
 C     LECTURE DES MURS RIGIDES
@@ -8372,7 +8391,7 @@ C
      I            FXBCPM  ,FXBCPS     ,FXBLM     ,FXBFLS   ,FXBDLS  ,
      J            FXB_MATRIX,FXB_MATRIX_ADD,FXB_LAST_ADRESS,INOM_OPT(11),R_SKEW,
      K            KNOD2EL1D,NOD2EL1D  ,EBCS_TAB  ,RBY_INIAXIS,ALEA  ,
-     L            KNOD2ELC,NOD2ELC)
+     L            KNOD2ELC,NOD2ELC    ,DGAPLOADINT)
 C  CALCUL DES MASSES FICTIVES POUR LE CONTACT ISOGEOMETRIQUE
 
       IF (NINTER.GT.0.AND.NUMELIG3D.GT.0) THEN
@@ -10604,7 +10623,7 @@ c          DO P = 1, NSPMD
      A         MULTIPLE_SKEW, IGRSURF_PROC,KNOTLOCPC     ,KNOTLOCEL     ,ALE_ELM(P),
      B         SIZE_ALE_ELM(P),PINCH_DATA ,TAG_SKINS6    ,IBCSCYC      ,LBCSCYC   ,T_MONVOL,
      C         INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
-     D         KLOADPINTER  ,LOADPINTER   )
+     D         KLOADPINTER  ,LOADPINTER   ,DGAPLOADINT   ,S_LOADPINTER)
       GOTO 220
  221  CONTINUE
 
@@ -10629,7 +10648,6 @@ C
       DEALLOCATE( FACE_ELM_S )
       DEALLOCATE( FACE_ELM_Q )
       DEALLOCATE( FACE_ELM_TG )
-      DEALLOCATE( INTERLOADP )
 
 c     stop CPU timer for ddsplit
       CALL STOPTIME(3,1)
@@ -10855,6 +10873,8 @@ C
          CLOSE(IFXM)
          CLOSE(IFXS) 
       ENDIF
+
+      IF(ALLOCATED( DGAPINT ))  DEALLOCATE(DGAPINT)
 
 C----------------------------------------------
 

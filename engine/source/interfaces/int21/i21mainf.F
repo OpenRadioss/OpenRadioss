@@ -55,7 +55,8 @@ Chd|====================================================================
      A                   QFRICINT,NCONT   ,INDEXCONT ,TAGCONT,CONDN    ,
      B                   CONDNSKYI,DT2T   ,NELTST   ,ITYPTST ,KINET    ,
      C                   FBSAV6  ,ISENSINT,DIMFB    ,NISKYFI ,H3D_DATA ,
-     D                   PSKIDS  ,TAGNCONT,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER )
+     D                   PSKIDS  ,TAGNCONT,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
+     E                   DGAPLOADINT,S_LOADPINTER)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -98,13 +99,16 @@ C-----------------------------------------------
      .        ITAB(*), ISKY(*), ISKYI_SMS(*), NODNX_SMS(*),
      .        TAGMSR_I21_SMS, NODGLOB(*), NPC(*),INDEXCONT(*),
      .        TAGCONT(*),KINET(*),
-     .        TAGNCONT(NLOADP_HYD_INTER,NUMNOD),KLOADPINTER(NINTER+1),
-     .        LOADPINTER((NINTER+1)*NLOADP_HYD),LOADP_HYD_INTER(NLOADP_HYD)
+     .        TAGNCONT(NLOADP_HYD_INTER,NUMNOD)
       INTEGER NB_JLT,NB_JLT_NEW,NB_STOK_N,JTASK,
      .        LINDMAX, NCONT,NISKYFI
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*), WEIGHT(*), 
      .        ISENSINT(*),DIMFB
+      INTEGER  , INTENT(IN) :: S_LOADPINTER
+      INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
+     .         LOADP_HYD_INTER(NLOADP_HYD)
 C     REAL
+      my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
       my_real 
      .   X(*), A(3,*), FSAV(*), V(3,*),
      .   MS(*),STIFN(*),FSKYI(LSKYI,4), FCONT(3,*),
@@ -422,7 +426,8 @@ C
      C                  H1       ,H2       ,H3   ,H4    ,NISKYFI  ,
      D                  INTBUF_TAB%MSR_L   ,ITAB ,H3D_DATA,NINSKID,
      E                  PRATIO,H3D_DATA%N_SCAL_SKID,PSKIDS,IPARI(95,NIN),
-     F                  TAGNCONT,KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER)  
+     F                  TAGNCONT,KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER,
+     G                  DGAPLOADINT,DIST,GAPV,S_LOADPINTER   )  
 C
           IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
 C

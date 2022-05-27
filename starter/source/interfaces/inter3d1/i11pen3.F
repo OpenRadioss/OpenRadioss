@@ -28,7 +28,8 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE I11PEN3_VOX1(JLT   ,CAND_S ,CAND_M ,GAPMIN ,DRAD   ,
      .                        MARGE ,GAP_S  ,GAP_M  ,GAP_S_L,GAP_M_L,
-     .                        IGAP  ,X      ,IRECTS ,IRECTM ,PENE  )
+     .                        IGAP  ,X      ,IRECTS ,IRECTM ,PENE   ,
+     .                        DGAPLOAD  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,6 +45,7 @@ C-----------------------------------------------
       INTEGER IRECTS(2,*), IRECTM(2,*),CAND_S(*),CAND_M(*)
       my_real
      .     GAPMIN, DRAD, MARGE
+      my_real , INTENT(IN) :: DGAPLOAD
       my_real
      .     X(3,*), PENE(MVSIZ), 
      .     GAP_S(*), GAP_M(*), GAP_S_L(*), GAP_M_L(*)
@@ -63,14 +65,14 @@ C-----------------------------------------------
 C
       IF(IGAP.EQ.0)THEN
         DO I=1,JLT
-          GAPV(I)=MAX(DRAD,GAPMIN)+MARGE
+          GAPV(I)=MAX(DRAD,GAPMIN+DGAPLOAD)+MARGE
         ENDDO
       ELSE
         DO I=1,JLT
           GAPV(I)=GAP_S(CAND_S(I))+GAP_M(CAND_M(I))
           IF(IGAP == 3)  
      .      GAPV(I)=MIN(GAP_S_L(CAND_S(I))+GAP_M_L(CAND_M(I)),GAPV(I))
-          GAPV(I)=MAX(DRAD,GAPMIN,GAPV(I))+MARGE
+          GAPV(I)=MAX(DRAD,MAX(GAPMIN,GAPV(I))+DGAPLOAD)+MARGE
         ENDDO
       ENDIF
 C--------------------------------------------------------

@@ -38,7 +38,7 @@ Chd|====================================================================
      7 INACTI      ,KINI        ,ITAB        ,LB          ,LC          ,
      8 PENMIN      ,EPS         ,PENE        ,PENE_OLD    ,SUBTRIA     , 
      9 GAPV        ,IVIS2       ,IF_ADH      ,IFADHI      ,BASE_ADH    ,
-     A MVOISN      ,IBOUND      ,VTX_BISECTOR)
+     A MVOISN      ,IBOUND      ,VTX_BISECTOR,DIST       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,6 +78,7 @@ C-----------------------------------------------
      .     LB(MVSIZ), LC(MVSIZ), GAP_NM(4,MVSIZ), GAPS(MVSIZ), 
      .     PENE(MVSIZ), GAPMXL(MVSIZ), GAPV(MVSIZ), BASE_ADH(MVSIZ)
       REAL*4 VTX_BISECTOR(3,2,*)
+      my_real  , INTENT(INOUT) :: DIST(MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -190,7 +191,7 @@ C
               N3(I) = NZ(I)
             END IF
             PENE(I)=MAX(ZERO,GAPV(I)-DD)
-
+            DIST(I)=DD
           ELSE
 
             IF(BB(I) > ZERO .AND. LA(I) < EPSEG .AND. MVOISN(I,IT)/=0)THEN
@@ -240,6 +241,7 @@ C
 C             PENE(I)=MAX(ZERO,GAPV(I)+(XP(I)-XI(I))*N1(I)+(YP(I)-YI(I))*N2(I)+(ZP(I)-ZI(I))*N3(I))
               PENE(I)=MAX(ZERO,GAPV(I)+BB(I)) ! The distance against the normal estimates the penetration
 C
+              DIST(I)=BB(I)
             ELSE
 C
 C             All other cases : normal == normal to the segment
@@ -247,6 +249,7 @@ C             All other cases : normal == normal to the segment
               N2(I) = NY(I)
               N3(I) = NZ(I)
               PENE(I)=MAX(ZERO,GAPV(I)+BB(I))
+              DIST(I)=BB(I)
             END IF
 
           END IF 
@@ -273,6 +276,7 @@ C             All other cases : normal == normal to the segment
               N3(I) = NZ(I)
             END IF
             PENE(I)=MAX(ZERO,GAPV(I)-DD)
+            DIST(I)=DD
 
           ELSEIF(BB(I) > ZERO .AND. ((LA(I) < EPSEG .AND. MVOISN(I,1)/=0).OR.
      .                               (LB(I) < EPSEG .AND. MVOISN(I,2)/=0).OR. 
@@ -337,6 +341,7 @@ C
 C
 C           PENE(I)=MAX(ZERO,GAPV(I)+(XP(I)-XI(I))*N1(I)+(YP(I)-YI(I))*N2(I)+(ZP(I)-ZI(I))*N3(I))
             PENE(I)=MAX(ZERO,GAPV(I)+BB(I)) ! The distance against the normal estimates the penetration
+            DIST(I)=BB(I)
 C
           ELSE
 C
@@ -345,6 +350,7 @@ C           All other cases : normal == normal to the segment
             N2(I) = NY(I)
             N3(I) = NZ(I)
             PENE(I)=MAX(ZERO,GAPV(I)+BB(I))
+            DIST(I)=BB(I)
 C
           END IF
 

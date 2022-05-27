@@ -227,7 +227,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IPARI(NPARI,NINTER),TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
-     .        KLOADPINTER(NINTER+1),LOADPINTER((NINTER+1)*NLOADP_HYD),
+     .        KLOADPINTER(NINTER+1),LOADPINTER(NINTER*NLOADP_HYD),
      .        LOADP_HYD_INTER(NLOADP_HYD)
 C     REAL
       my_real

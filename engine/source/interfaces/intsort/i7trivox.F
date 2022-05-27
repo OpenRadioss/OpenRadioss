@@ -43,7 +43,8 @@ Chd|====================================================================
      7      NRTM   ,NSNROLD     ,IGAP    ,GAP      ,GAP_S    ,
      8      GAP_M  ,GAPMIN      ,GAPMAX  ,MARGE    ,CURV_MAX ,
      9      NIN    ,ITASK       ,BGAPSMX ,KREMNOD  ,REMNOD   ,
-     A      ITAB   ,FLAGREMNODE ,DRAD    ,ITIED    ,CAND_F   )
+     A      ITAB   ,FLAGREMNODE ,DRAD    ,ITIED    ,CAND_F   ,
+     B      DGAPLOAD)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -118,8 +119,9 @@ C-----------------------------------------------
      .        KREMNOD(*),REMNOD(*),ITAB(*),FLAGREMNODE,ITIED
       my_real
      .   X(3,*),XYZM(12),CAND_P(*),STF(*),STFN(*),GAP_S(*),GAP_M(*),
-     .   TZINF,MARGE,GAP,GAPMIN,GAPMAX,BGAPSMX,DRAD,
+     .   TZINF,MARGE,GAP,GAPMIN,GAPMAX,BGAPSMX,
      .   CURV_MAX(*),GAP_S_L(*),GAP_M_L(*),CAND_F(*)
+      my_real , INTENT(IN) :: DRAD,DGAPLOAD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -333,7 +335,7 @@ C=======================================================================
          IF(IGAP == 0)THEN
            AAA = TZINF+CURV_MAX(NE)
          ELSE
-           AAA = MARGE+CURV_MAX(NE)+MAX(MIN(GAPMAX,MAX(GAPMIN,BGAPSMX+GAP_M(NE))),DRAD)
+           AAA = MARGE+CURV_MAX(NE)+MAX(MIN(GAPMAX,MAX(GAPMIN,BGAPSMX+GAP_M(NE)))+DGAPLOAD,DRAD)
          ENDIF
          !il est possible d'ameliorer l'algo en decoupant la facette 
          !en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee 
@@ -433,7 +435,7 @@ C=======================================================================
                  YS = X(2,NN)
                  ZS = X(3,NN)
                  IF(IGAP /= 0)THEN
-                   AAA = MARGE+CURV_MAX(NE)+MAX(MIN(GAPMAX,MAX(GAPMIN,GAP_S(JJ)+GAP_M(NE))),DRAD)
+                   AAA = MARGE+CURV_MAX(NE)+MAX(MIN(GAPMAX,MAX(GAPMIN,GAP_S(JJ)+GAP_M(NE)))+DGAPLOAD,DRAD)
                  ENDIF
                ELSE
                  J=JJ-NSN
@@ -454,7 +456,7 @@ C=======================================================================
                  YS = XREM(2,J)
                  ZS = XREM(3,J)
                  IF(IGAP /= 0)THEN
-                   AAA = MARGE+CURV_MAX(NE)+MAX(MIN(GAPMAX,MAX(GAPMIN,XREM(9,J)+GAP_M(NE))),DRAD)
+                   AAA = MARGE+CURV_MAX(NE)+MAX(MIN(GAPMAX,MAX(GAPMIN,XREM(9,J)+GAP_M(NE)))+DGAPLOAD,DRAD)
                  ENDIF
                ENDIF
 
@@ -496,7 +498,7 @@ C=======================================================================
      5              OLDNUM,NSNROLD,IGAP  ,GAP   ,GAP_S  ,
      6              GAP_M ,GAPMIN ,GAPMAX,CURV_MAX,NIN  ,
      7              GAP_S_L,GAP_M_L,INTTH,DRAD,ITIED    ,
-     8              CAND_F)
+     8              CAND_F ,DGAPLOAD)
                  IF(I_MEM.EQ.2)GOTO 100
                  J_STOK = 0
                ENDIF
@@ -525,7 +527,7 @@ C=======================================================================
      5              OLDNUM,NSNROLD,IGAP  ,GAP   ,GAP_S  ,
      6              GAP_M ,GAPMIN ,GAPMAX,CURV_MAX,NIN  ,
      7              GAP_S_L,GAP_M_L,INTTH,DRAD  ,ITIED    ,
-     8              CAND_F)
+     8              CAND_F ,DGAPLOAD)
 
 C=======================================================================
 C 5   VOXEL CLUSTERING  RESET 

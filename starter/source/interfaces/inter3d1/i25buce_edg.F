@@ -42,7 +42,7 @@ Chd|====================================================================
      A   IGAP    ,GAP_M_L   ,IEDGE    ,NEDGE    ,MSEGTYP, 
      B   LEDGE   ,ADMSR,EDG_BISECTOR,VTX_BISECTOR,
      C   CANDM_E2S ,CANDS_E2S,CAND_B ,CAND_PS  ,GAPE    ,
-     D   GAP_E_L  )
+     D   GAP_E_L  ,DGAPLOAD)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,6 +79,7 @@ C     REAL
       my_real
      .   GAP,VMAXDT,DRAD,
      .   BMINMA(6),BGAPEMX, MARGE
+      my_real , INTENT(IN) :: DGAPLOAD
       my_real
      .   X(3,*), STFM(*), GAP_M(*), GAP_M_L(*), GAPE(*), GAP_E_L(*), CAND_P(*), CAND_PS(*), STFN(*)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
@@ -137,7 +138,7 @@ C
         END IF
       END DO
 
-      TZINF = MARGE+TWO*BGAPEMX+VMAXDT
+      TZINF = MARGE+TWO*BGAPEMX+VMAXDT+DGAPLOAD
 
       XMIN=XMIN-TZINF
       YMIN=YMIN-TZINF
@@ -231,7 +232,7 @@ C
      A   IEDGE   ,NEDGE    ,LEDGE    ,MSEGTYP ,IGAP0    ,
      B   ADMSR,EDG_BISECTOR,VTX_BISECTOR,
      C   CANDM_E2S,CANDS_E2S,CAND_B,CAND_PS   ,GAPE     ,
-     D   GAP_E_L  )
+     D   GAP_E_L  ,DGAPLOAD)
 C
 C     I_MEM /= 0 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
 C

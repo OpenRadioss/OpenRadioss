@@ -40,7 +40,7 @@ Chd|====================================================================
      7      ITASK , IFPEN  , IFORM  , GAPMIN    ,DRAD  ,
      8      MARGE  ,GAP_S  , GAP_M  , GAP_S_L   ,GAP_M_L,
      9      BGAPSMX, IGAP  ,GAP     ,FLAGREMNODE,KREMNODE,
-     1      REMNODE)    
+     1      REMNODE,DGAPLOAD)    
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -132,8 +132,9 @@ C-----------------------------------------------
      .       ,INTENT(IN) ::
      .         X(3,*),XYZM(6,*),
      .        STFS(NRTS),STFM(NRTM), TZINF, GAP
+      my_real , INTENT(IN) :: DGAPLOAD,DRAD
       my_real
-     .        GAPMIN,DRAD,MARGE,BGAPSMX,
+     .        GAPMIN,MARGE,BGAPSMX,
      .        GAP_S(*),GAP_M(*), GAP_S_L(*), GAP_M_L(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -476,7 +477,7 @@ C     Si la penetration est positive.
 C=======================================================================
       NEDG   = 0 
       I_STOK = 0
-      MARGE = TZINF - MAX(GAP,DRAD)
+      MARGE = TZINF - MAX(GAP+DGAPLOAD,DRAD)
 
       DO IEDG=1,NRTM
 
@@ -488,7 +489,7 @@ c       AAA = ZERO !MARGE
           AAA = TZINF          
         ELSE
           AAA = MARGE+
-     .        MAX(GAPMIN,BGAPSMX+GAP_M(IEDG),DRAD)
+     .        MAX(MAX(GAPMIN,BGAPSMX+GAP_M(IEDG))+DGAPLOAD,DRAD)
         ENDIF
 
         
@@ -618,7 +619,7 @@ C-----------------------------------------------------
      3               I_MEM ,PROV_S,PROV_M,ESHIFT,ADDCM ,
      4               CHAINE,NRTS  ,ITAB  ,IFPEN ,IFORM,
      5               GAPMIN,DRAD  ,IGAP, GAP_S, GAP_M,
-     7               GAP_S_L, GAP_M_L )
+     7               GAP_S_L, GAP_M_L ,DGAPLOAD)
 
                 IF(I_MEM.EQ.2) THEN
                   !print *, "too much candidates"
@@ -660,7 +661,7 @@ C-------------------------------------------------------------------------
      3              I_MEM ,PROV_S,PROV_M,ESHIFT,ADDCM  ,
      4              CHAINE,NRTS  ,ITAB  ,IFPEN ,IFORM  ,
      5              GAPMIN,DRAD  ,IGAP, GAP_S  ,GAP_M  ,
-     7              GAP_S_L, GAP_M_L )
+     7              GAP_S_L, GAP_M_L ,DGAPLOAD)
 
     
 C=======================================================================

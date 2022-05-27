@@ -44,7 +44,7 @@ Chd|====================================================================
      A   IPARTS,KNOD2ELS,NOD2ELS,
      B   IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,
      C   IXS, IXS10, IXS16, IXS20,ICODE,ISKEW ,
-     D   DRAD ,PEN_OLD)
+     D   DRAD ,PEN_OLD,DGAPLOAD)
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   M o d u l e s
@@ -89,7 +89,10 @@ C     REAL
       my_real
      .   STF(*),STFN(*),X(3,*),GAP_S(*),GAP_M(*),PEN_OLD(5,NSN),
      .   DIST,BUMULT,GAP,TZINF,MAXBOX,MINBOX,GAPMIN,GAPMAX,
-     .   GAP_S_L(*),GAP_M_L(*),MARGE,GAP_N(4,*),BGAPSMX,DRAD
+     .   GAP_S_L(*),GAP_M_L(*),MARGE,GAP_N(4,*)
+      my_real
+     .   BGAPSMX
+      my_real , INTENT(IN) :: DRAD, DGAPLOAD
       INTEGER ID
       CHARACTER*nchartitle,
      .   TITR
@@ -178,7 +181,7 @@ C     TAILLE BUCKET MIN = TZINF  * BUMULT
 C     TZINF = BUMULT*DD
       MARGE = BUMULT*DD
 C calcul de TZINF en fct de la marge et non le contraire
-      TZINF = MARGE + MAX(GAP,DRAD)
+      TZINF = MARGE + MAX(GAP+DGAPLOAD,DRAD)
 C MARGE_ST : marge independante du BUMULT en input pour trouver les memes pene initiales (cas delete ou chgt coord.)
       MARGE_ST = BMUL0*DD
 C--------suppose PEN_ini< DD_ST/2 (half thickness of solids )   
@@ -205,7 +208,7 @@ C      PENMAX = MAX(PENSOL,GAP)
 C     END IF
 C Si IDDLEVEL = 0, alors 1er passage ici, avec la MARGE de l'ENGINE pour trouver les memes candidats
       IF(IDDLEVEL.EQ.0) MARGE_ST = MARGE
-      TZINF_ST = MARGE_ST + MAX(GAP,DRAD)
+      TZINF_ST = MARGE_ST + MAX(GAP+DGAPLOAD,DRAD)
       BID = FOUR_OVER_5*DD
       IF (INACTI.NE.7.AND.TZINF.GT.BID) THEN
         IBID = NINT(TZINF/DD0)
@@ -495,7 +498,7 @@ C
      8   IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,INACTI,
      9   IPARTS  ,NPARTNS ,LPARTNS ,IELEM   ,ICODE   ,
      A   ISKEW   ,DRAD, IS_LARGE_NODE, LARGE_NODE, NB_LARGE_NODES,
-     B   PEN_OLD )
+     B   PEN_OLD ,DGAPLOAD)
 C
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
 C

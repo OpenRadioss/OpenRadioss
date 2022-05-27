@@ -95,7 +95,7 @@ C     REAL
      .   GAPS(MVSIZ), GAPM(MVSIZ),
      .   PENT(MVSIZ,4), DIST(MVSIZ), LB(MVSIZ,4), LC(MVSIZ,4), 
      .   LBH(MVSIZ,4), LCH(MVSIZ,4), GAP_NM(4,MVSIZ), GAPMXL(MVSIZ),
-     .   TS, STARTT, STOPT, DRAD
+     .   TS, STARTT, STOPT, DRAD, DGAPLOAD
 C-----------------------------------------------
         NSN   =IPARI(5,NIN)
         IVIS2 =IPARI(14,NIN)
@@ -105,6 +105,7 @@ C-----------------------------------------------
         IGAP  =IPARI(21,NIN)
         DRAD = ZERO
         IF(IPARI(47,NIN) > 0) DRAD    = INTBUF_TAB%VARIABLES(32)
+        DGAPLOAD    = INTBUF_TAB%VARIABLES(46)
 C
         STARTT=INTBUF_TAB%VARIABLES(3)
         STOPT =INTBUF_TAB%VARIABLES(11)
@@ -159,7 +160,7 @@ C
      9      INTBUF_TAB%ICONT_I,NNX   ,NNY         ,NNZ         ,
      A      FAR               ,PENT  ,DIST        ,LB          ,LC          ,
      B      LBH               ,LCH   ,SUBTRIA     ,MVOISN      ,IBOUND      ,
-     C      INTBUF_TAB%VTX_BISECTOR  ,DRAD        )
+     C      INTBUF_TAB%VTX_BISECTOR  ,DRAD        ,DGAPLOAD    )
 C
           CALL I25GLOB_1(
      1      JLT    ,INTBUF_TAB%CAND_OPT_N(DEBUT+1),INTBUF_TAB%CAND_OPT_E(DEBUT+1),

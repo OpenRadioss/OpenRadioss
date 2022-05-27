@@ -56,7 +56,7 @@ Chd|====================================================================
      9   LB2   ,LB3     ,LB4   ,LC1   ,LC2   ,
      1   LC3   ,LC4     ,N11   ,N21   ,N31   ,
      2   STIF  ,PENE    ,IREMNODE,FLAGREMNODE,
-     3   KREMNODE,REMNODE)
+     3   KREMNODE,REMNODE,DGAPLOAD)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -99,6 +99,7 @@ C-----------------------------------------------
      .   STF(*),STFN(*),X(3,*),XYZM(6,2),GAP_S(*),GAP_M(*),
      .   DIST,BUMULT,GAP,TZINF,GAPMIN,GAPMAX,
      .   GAP_S_L(*),GAP_M_L(*),BGAPSMX, DRAD
+      my_real , INTENT(IN) :: DGAPLOAD
       INTEGER ID
       CHARACTER*nchartitle,
      .   TITR
@@ -221,13 +222,13 @@ C in case this factor is needed, then needs to compute mean gap instead
 C 
 C MARGE : marge engine dependante du BUMULT en input (ajustable pour performance)
       MARGE = BUMULT*DD
-      TZINF = MARGE + MAX(GAP,DRAD)
+      TZINF = MARGE + MAX(GAP+DGAPLOAD,DRAD)
 C MARGE_ST : marge independante du BUMULT en input necessaire pour trouver les pene initiales de maniere parith/on
       MARGE_ST = BMUL0*DD
 C 1er passage avec marge x2 pour trouver plus de candidats (revient a prendre bmul0=0.4 au lieu de 0.2)
 C      IF(IDDLEVEL.EQ.0) MARGE_ST = 2*MARGE_ST
       IF(IDDLEVEL.EQ.0) MARGE_ST = MARGE
-      TZINF_ST = MARGE_ST + MAX(GAP,DRAD)
+      TZINF_ST = MARGE_ST + MAX(GAP+DGAPLOAD,DRAD)
 C     MIS A ZERO POUR FAIRE SEARCH COMPLET CYCLE 0 ENGINE
       DIST = ZERO     
 C     TEST TO BY-PASS SECOND SEARCH
@@ -540,7 +541,7 @@ C call with NRTM_L
      9   LB2   ,LB3     ,LB4   ,LC1   ,LC2   ,
      1   LC3   ,LC4     ,N11   ,N21   ,N31   ,
      2   STIF  ,PENE,IREMNODE,FLAGREMNODE,
-     N   KREMNODE,REMNODE)
+     N   KREMNODE,REMNODE,DGAPLOAD)
 C------------------
 
         IF (I_MEM == 2)THEN
@@ -575,7 +576,7 @@ C---------------------------------
      5               IX13   ,IX14   ,NSVG,X1      ,X2    ,
      6               X3     ,X4     ,Y1  ,Y2      ,Y3    ,
      7               Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8               XI     ,YI     ,ZI  ,STIF)
+     8               XI     ,YI     ,ZI  ,STIF    ,DGAPLOAD)
          CALL I7DST3( IX13,IX14,X1 ,X2 ,X3 ,
      1                  X4 ,Y1 ,Y2 ,Y3 ,Y4 ,
      2                  Z1 ,Z2 ,Z3 ,Z4 ,XI ,
@@ -606,7 +607,7 @@ C---------------------------------
             J_STOK = 0
             RETURN
             MARGE_ST = THREE_OVER_4*MARGE_ST
-            TZINF_ST = MARGE_ST + MAX(GAP,DRAD)
+            TZINF_ST = MARGE_ST + MAX(GAP+DGAPLOAD,DRAD)
             I_MEM = 0
 C ne pas dimunuer la taille des boite
             IF(MARGE_ST.LT.EM03) THEN

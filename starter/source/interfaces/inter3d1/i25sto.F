@@ -36,7 +36,8 @@ Chd|====================================================================
      3      I_MEM ,PROV_N ,PROV_E,ESHIFT,NSN    ,
      4      NRTM  ,GAP_S  ,GAP_M ,NBINFLG,MBINFLG,
      5      ILEV ,MSEGTYP,ITAB ,IGAP,GAP_S_L,
-     6      GAP_M_L,EDGE_L2,ICODE,ISKEW,DRAD)
+     6      GAP_M_L,EDGE_L2,ICODE,ISKEW,DRAD,
+     7      DGAPLOAD)
 C============================================================================
       USE TRI7BOX
 C-----------------------------------------------
@@ -68,8 +69,9 @@ C-----------------------------------------------
 C     REAL
       my_real
      .        X(3,*), GAP_S(*), GAP_M(*),
-     .        MARGE, DRAD,
+     .        MARGE, 
      .        GAP_S_L(*), GAP_M_L(*), EDGE_L2(*)
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -93,7 +95,8 @@ C-----------------------------------------------
      5               IX2     ,IX3  ,IX4     ,NSN   ,NRTM    ,
      6               MARGE   ,GAP_S,GAP_M   ,GAPV  ,ITYPE   ,
      7               IGAP ,GAP_S_L ,GAP_M_L ,EDGE_L2,MSEGTYP,
-     8               ETYP ,ICODE   ,ISKEW    ,IBC   ,DRAD  )
+     8               ETYP ,ICODE   ,ISKEW    ,IBC   ,DRAD   ,
+     9               DGAPLOAD )
 C-----------------------------------------------
       CALL I25PEN3A( J_STOK ,X1    ,X2     ,X3   ,X4    ,
      .                Y1    ,Y2    ,Y3     ,Y4   ,

@@ -46,7 +46,8 @@ Chd|====================================================================
      H               IORTHFRIC,IREP_FRICM,DIR_FRICM,IREP_FRICMI,DIR_FRICMI,
      I               IXX3     ,IXX4      , XX1     ,XX2   ,XX3       ,
      3               XX4      ,YY1       ,YY2      ,YY3   ,YY4       ,
-     4               ZZ1      ,ZZ2       ,ZZ3      ,ZZ4   ) 
+     4               ZZ1      ,ZZ2       ,ZZ3      ,ZZ4   ,NINLOADP  ,
+     5               DIST    ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,12 +79,13 @@ C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),KINET(*),KINI(*),
      .        JLT,IDT, NOINT ,NDDIM, NSN, ITY, NIN, IGSTI,NRTSE,
      .        NVOISIN(8,*), NODNX_SMS(*), CAND_T(*),IRTLM(2,*),NPT,
-     .        IEDG4,INTFRIC,INTNITSCHE ,IORTHFRIC
+     .        IEDG4,INTFRIC,INTNITSCHE ,IORTHFRIC 
       INTEGER IXX(MVSIZ,13), NSVG(MVSIZ), NSMS(MVSIZ),ITRIV(4,MVSIZ),
      .        IRTSE(5,*),IS2SE(2,*),IS2PT(*),ISEGPT(*),NSNE,ISPT2(NSN),
      *        ISPT2_LOC(MVSIZ),IPARTFRICS(*),IPARTFRICSI(MVSIZ),IPARTFRICM(*),
      .        IPARTFRICMI(MVSIZ),IREP_FRICM(*),IREP_FRICMI(MVSIZ),
      .        IXX3(MVSIZ),IXX4(MVSIZ)
+           INTEGER  , INTENT(IN) :: NINLOADP
 C     REAL
       my_real
      .   X(3,*), STF(*), STFN(*),
@@ -99,11 +101,14 @@ C     REAL
      .   XX1(MVSIZ), XX2(MVSIZ), XX3(MVSIZ), XX4(MVSIZ),
      .   YY1(MVSIZ), YY2(MVSIZ), YY3(MVSIZ), YY4(MVSIZ),
      .   ZZ1(MVSIZ), ZZ2(MVSIZ), ZZ3(MVSIZ), ZZ4(MVSIZ)
+      my_real  , INTENT(INOUT) :: DIST(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,J  ,IL, L, NN, IG,JFT, IX,  NI,IGF,IPT,IE,NS1,NS2,
      .        ICONT1,ICONT2,NSI,IPT2,NS
+      my_real
+     .        SX1, SY1, SZ1, SX2, SY2, SZ2, NORM
 C-----------------------------------------------
 C initiailisation
       DO I=1,JLT
@@ -642,6 +647,34 @@ C----Friction model : secnd part IDs---------
          ENDDO
        ENDIF
 C
+      IF(NINLOADP > 0) THEN
+C-----------------------------------------------
+C         Distance between secnd node 
+C              and main segment 
+C-----------------------------------------------
+        DO I=1,JLT 
+C
+           SX1=(YY0(I,1)-YY0(I,3))*(ZZ0(I,2)-ZZ0(I,4)) - (ZZ0(I,1)-ZZ0(I,3))*(YY0(I,2)-YY0(I,4))
+           SY1=(ZZ0(I,1)-ZZ0(I,3))*(XX0(I,2)-XX0(I,4)) - (XX0(I,1)-XX0(I,3))*(ZZ0(I,2)-ZZ0(I,4))
+           SZ1=(XX0(I,1)-XX0(I,3))*(YY0(I,2)-YY0(I,4)) - (YY0(I,1)-YY0(I,3))*(XX0(I,2)-XX0(I,4))
+C         
+           NORM = SQRT(SX1**2 + SY1**2 + SZ1**2)  
+C
+           IF(IXX(I,4)/=IXX(I,3))THEN
+             SX2 = FOURTH*(XX0(I,1) + XX0(I,2) + XX0(I,3) + XX0(I,4)) - XI(I)    
+             SY2 = FOURTH*(YY0(I,1) + YY0(I,2) + YY0(I,3) + YY0(I,4)) - YI(I)    
+             SZ2 = FOURTH*(ZZ0(I,1) + ZZ0(I,2) + ZZ0(I,3) + ZZ0(I,4)) - ZI(I)  
+           ELSE
+             SX2 = THIRD*(XX0(I,1) + XX0(I,2) + XX0(I,3)) - XI(I)    
+             SY2 = THIRD*(YY0(I,1) + YY0(I,2) + YY0(I,3)) - YI(I)    
+             SZ2 = THIRD*(ZZ0(I,1) + ZZ0(I,2) + ZZ0(I,3)) - ZI(I)  
+           END IF  
+           DIST(I) = (SX2*SX1+SY2*SY1+SZ2*SZ1) / MAX(EM15,NORM)
+           DIST(I) = ABS(DIST(I))
+
+         ENDDO
+C
+       ENDIF
       RETURN
       END
 Chd|====================================================================

@@ -692,7 +692,7 @@ C
      3 INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML,IGAP,INTBUF_TAB%VARIABLES(2),DRAD  ,
      4 IPARI(62) ,NTY       ,IPARI     ,I_MEM_REM ,GAPM_MX            ,
      5 GAPS_MX   ,GAPM_L_MX ,GAPS_L_MX ,ILEV      ,INTBUF_TAB%NBINFLG ,
-     6 INTBUF_TAB%MBINFLG)  
+     6 INTBUF_TAB%MBINFLG,INTBUF_TAB%VARIABLES(46))  
 C
        END IF
 C----------------
@@ -720,7 +720,7 @@ C     I_STOK=INTBUF_TAB%I_STOK(1)
      9 LB2   ,LB3     ,LB4   ,LC1   ,LC2   ,
      1 LC3   ,LC4     ,N11   ,N21   ,N31   ,
      2 STIF  ,PENE    ,IREMNODE  ,IPARI(63),
-     3 INTBUF_TAB%KREMNODE,INTBUF_TAB%REMNODE)
+     3 INTBUF_TAB%KREMNODE,INTBUF_TAB%REMNODE,INTBUF_TAB%VARIABLES(46))
 C I_STOK sauvegarde a sa place pour optimisation tri
          I_STOK=INTBUF_TAB%I_STOK(1)
          
@@ -741,7 +741,8 @@ C
      1   NELEMINT         ,pIXINT                 ,INTBUF_TAB%IRECTM ,
      2   INTBUF_TAB%NSV   ,INTBUF_TAB%CAND_E      ,INTBUF_TAB%CAND_N ,I_STOK ,IFIEND,
      3   PTR_X             ,INTBUF_TAB%VARIABLES(2),DRAD, IGAP,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,
-     4   INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML      ,INTBUF_TAB%VARIABLES(13),INTBUF_TAB%VARIABLES(16))
+     4   INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML      ,INTBUF_TAB%VARIABLES(13),INTBUF_TAB%VARIABLES(16),
+     .                                                                      INTBUF_TAB%VARIABLES(46))
       ENDIF
 
       IF((IDDLEVEL.EQ.0.OR.NDSOLV.EQ.1).AND.(DECTYP.GE.3.AND.DECTYP.LE.6))THEN
@@ -771,7 +772,7 @@ C
      5  IX3    ,IX4    ,NSVG,X1      ,X2    ,
      6  X3     ,X4     ,Y1  ,Y2      ,Y3    ,
      7  Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8  XI     ,YI     ,ZI  ,STIF)
+     8  XI     ,YI     ,ZI  ,STIF    ,ZERO  )
          CALL I7DST3(IX3,IX4,X1 ,X2 ,X3 ,
      1               X4 ,Y1 ,Y2 ,Y3 ,Y4 ,
      2               Z1 ,Z2 ,Z3 ,Z4 ,XI ,
@@ -973,7 +974,7 @@ C
      5  IX3    ,IX4    ,NSVG,X1      ,X2    ,
      6  X3     ,X4     ,Y1  ,Y2      ,Y3    ,
      7  Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8  XI     ,YI     ,ZI  ,STIF)
+     8  XI     ,YI     ,ZI  ,STIF    ,INTBUF_TAB%VARIABLES(46))
         CALL I7DST3(IX3,IX4,X1 ,X2 ,X3 ,
      1               X4 ,Y1 ,Y2 ,Y3 ,Y4 ,
      2               Z1 ,Z2 ,Z3 ,Z4 ,XI ,
@@ -1086,7 +1087,7 @@ C
      1      X,NRTM,INTBUF_TAB%IRECTM,NRTS,INTBUF_TAB%IRECTS,
      2      NUMNOD,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,INTBUF_TAB%VARIABLES(13),IGAP,
      3      INTBUF_TAB%KREMNODE,INTBUF_TAB%REMNODE, INTBUF_TAB%VARIABLES(2), DRAD,IPARI(62),
-     4      I_START,I_MEM_REM,INOD2LIN,TAGSECND,NOD2LIN)
+     4      I_START,I_MEM_REM,INOD2LIN,TAGSECND,NOD2LIN,INTBUF_TAB%VARIABLES(46))
 C
 C           Reallocation of REMNODE arrays if necessary
 C
@@ -1120,7 +1121,7 @@ c    6   I_MEM     ,ID,TITR     ,IDDLEVEL  ,DRAD, IT19)
      6   0, I_MEM     ,ID,TITR     ,IDDLEVEL,INTBUF_TAB%VARIABLES(4),
      7   DRAD, INTERCEP,IGAP,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M, 
      8   INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML ,INTBUF_TAB%VARIABLES(13),IPARI(63),INTBUF_TAB%KREMNODE,
-     3   INTBUF_TAB%REMNODE)
+     3   INTBUF_TAB%REMNODE,INTBUF_TAB%VARIABLES(46))
 C
        INTBUF_TAB%VARIABLES(5) = 0
 C
@@ -1140,7 +1141,7 @@ C
          CALL I11NINTDD(
      .     NELEMINT          ,pIXINT                  ,INTBUF_TAB%IRECTS ,
      .     INTBUF_TAB%IRECTM ,INTBUF_TAB%CAND_N       ,INTBUF_TAB%CAND_E , I_STOK ,IFIEND,
-     .     X                 ,INTBUF_TAB%VARIABLES(1) ,DRAD)
+     .     X                 ,INTBUF_TAB%VARIABLES(1) ,DRAD              ,INTBUF_TAB%VARIABLES(46))
        ENDIF
 
        IF((IDDLEVEL.EQ.0.OR.NDSOLV.EQ.1).AND.
@@ -1168,7 +1169,7 @@ C
      2   INTBUF_TAB%IRECTM,NX          ,NY         ,NZ        ,
      4   N1        ,N2          ,M1         ,M2        ,JLT_NEW   ,
      5   X         ,IGAP        ,INTBUF_TAB%GAP_S ,INTBUF_TAB%GAP_M,GAPV,
-     6   INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML,DRAD)
+     6   INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML,DRAD ,INTBUF_TAB%VARIABLES(46))
         LLT = JLT_NEW
 C
         CALL I11PWR3(ITAB   ,INACTI,INTBUF_TAB%CAND_E(1+NFT),INTBUF_TAB%CAND_N(1+NFT),
@@ -1425,7 +1426,8 @@ C
        CALL I7NINTDD(NELEMINT ,pIXINT               ,INTBUF_TAB%IRECTM  ,
      2     INTBUF_TAB%NSV   ,INTBUF_TAB%CAND_E      ,INTBUF_TAB%CAND_N  ,I_STOK  ,IFIEND,
      3     X                ,INTBUF_TAB%VARIABLES(2),DRAD, IGAP,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,
-     4     INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML      ,INTBUF_TAB%VARIABLES(13),INTBUF_TAB%VARIABLES(16))
+     4     INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML      ,INTBUF_TAB%VARIABLES(13),INTBUF_TAB%VARIABLES(16),
+     .                                                                        INTBUF_TAB%VARIABLES(46))
        ENDIF
 
        IF((IDDLEVEL.EQ.0.OR.NDSOLV.EQ.1).AND.
@@ -1648,7 +1650,7 @@ C      CLOSE(67)
      8   ZN4    ,P1     ,P2     ,P3     ,P4     ,
      9   LB1    ,LB2    ,LB3    ,LB4    ,LC1    ,
      1   LC2    ,LC3    ,LC4    ,N11    ,N21    ,
-     2   N31    )
+     2   N31    ,INTBUF_TAB%VARIABLES(46))
          IF (I_MEM == 2) RETURN
        INTBUF_TAB%VARIABLES(9)  = MAXBOX
        INTBUF_TAB%VARIABLES(12) = MINBOX
@@ -1664,7 +1666,8 @@ C      CLOSE(67)
          CALL I24NINTDD(
      .         NELEMINT       ,pIXINT                  ,INTBUF_TAB%IRECTM,
      .         INTBUF_TAB%NSV ,INTBUF_TAB%CAND_E       ,INTBUF_TAB%CAND_N ,I_STOK ,IFIEND,
-     .         X              ,INTBUF_TAB%VARIABLES(2) ,DRAD,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M)
+     .         X              ,INTBUF_TAB%VARIABLES(2) ,DRAD,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,
+     .         INTBUF_TAB%VARIABLES(46))
        ENDIF
        IF((IDDLEVEL.EQ.0.OR.NDSOLV.EQ.1).AND.
      .  (DECTYP.GE.3.AND.DECTYP.LE.6))THEN
@@ -1954,7 +1957,7 @@ C
      3 INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML,IGAP,INTBUF_TAB%VARIABLES(2),DRAD  ,
      4 IPARI(62) ,NTY       ,IPARI     ,I_MEM_REM ,GAPM_MX            ,
      5 GAPS_MX   ,GAPM_L_MX ,GAPS_L_MX ,ILEV      ,INTBUF_TAB%NBINFLG ,
-     6 INTBUF_TAB%MBINFLG)  
+     6 INTBUF_TAB%MBINFLG,INTBUF_TAB%VARIABLES(46))  
 C
        END IF
 C-----------------------------------------------------------
@@ -1979,7 +1982,7 @@ C
      A IPARTS  ,KNOD2ELS ,NOD2ELS ,
      B IREMNODE,IPARI(63),INTBUF_TAB%KREMNODE,INTBUF_TAB%REMNODE,
      C IXS, IXS10, IXS16, IXS20,ICODE,ISKEW, 
-     D DRAD,INTBUF_TAB%PENE_OLD)
+     D DRAD,INTBUF_TAB%PENE_OLD,INTBUF_TAB%VARIABLES(46))
 
        IF (I_MEM == 2) RETURN
 C
@@ -2009,7 +2012,7 @@ C
      1      X      ,NEDGE  ,INTBUF_TAB%LEDGE,NUMNOD         ,INTBUF_TAB%GAPE     ,INTBUF_TAB%GAP_E_L    ,
      2      IGAP0  ,IGAP   ,DRAD            ,INTBUF_TAB%VARIABLES(40),BGAPEMX_L  ,INTBUF_TAB%KREMNODE_EDG,      
      3      INTBUF_TAB%REMNODE_EDG,IPARI(94),I_START        ,I_MEM_REM            ,INOD2LIN              ,
-     4      TAGSECND ,NOD2LIN         )
+     4      TAGSECND ,NOD2LIN     ,INTBUF_TAB%VARIABLES(46) )
 C
 C           Reallocation of REMNODE arrays if necessary
 C
@@ -2057,7 +2060,7 @@ C
      A     IGAP   ,INTBUF_TAB%GAP_ML,IEDGE ,NEDGE ,INTBUF_TAB%MSEGTYP24,
      B     INTBUF_TAB%LEDGE,INTBUF_TAB%ADMSR,INTBUF_TAB%EDGE_BISECTOR,INTBUF_TAB%VTX_BISECTOR,
      C     INTBUF_TAB%CANDM_E2S ,INTBUF_TAB%CANDS_E2S,IBIDON,INTBUF_TAB%CAND_PS,INTBUF_TAB%GAPE,
-     D     INTBUF_TAB%GAP_E_L)
+     D     INTBUF_TAB%GAP_E_L,INTBUF_TAB%VARIABLES(46))
 
          IF(I_MEME(1) /=0 .OR. I_MEME(2)/=0)THEN
            NCONTE   = IPARI(88)
@@ -2093,7 +2096,8 @@ C
          CALL I25NINTDD(
      .         NELEMINT       ,pIXINT                  ,INTBUF_TAB%IRECTM,
      .         INTBUF_TAB%NSV ,INTBUF_TAB%CAND_E       ,INTBUF_TAB%CAND_N ,I_STOK ,IFIEND,
-     .         X              ,INTBUF_TAB%VARIABLES(2) ,DRAD,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M)
+     .         X              ,INTBUF_TAB%VARIABLES(2) ,DRAD,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,
+     .         INTBUF_TAB%VARIABLES(46))
        ENDIF
        IF((IDDLEVEL.EQ.0.OR.NDSOLV.EQ.1).AND.
      .  (DECTYP.GE.3.AND.DECTYP.LE.6))THEN

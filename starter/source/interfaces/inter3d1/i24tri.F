@@ -58,7 +58,7 @@ Chd|====================================================================
      K      NZ4,P1,P2,P3,P4,
      L      LB1,LB2,LB3,LB4,LC1,
      M      LC2,LC3,LC4,PENE,PROV_N,
-     N      PROV_E,N11,N21,N31)
+     N      PROV_E,N11,N21,N31,DGAPLOAD)
 #ifndef HYPERMESH_LIB
       USE MESSAGE_MOD
 #endif
@@ -98,6 +98,7 @@ C     REAL
      .   GAP, GAP_S(*), GAP_M(*),
      .   GAPMIN, GAPMAX, MARGE, GAPSMX, BGAPSMX,
      .   GAP_S_L(*),GAP_M_L(*),MARGE_SH
+      my_real , INTENT(IN) :: DGAPLOAD
       INTEGER ID,MSEGTYP(*)
       CHARACTER*nchartitle,
      .   TITR
@@ -280,7 +281,7 @@ C Fictive Nodes to filter
      5                        IX3    ,IX4    ,NSVG,X1      ,X2    ,
      6                        X3     ,X4     ,Y1  ,Y2      ,Y3    ,
      7                        Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8                        XI     ,YI     ,ZI  ,STIF)
+     8                        XI     ,YI     ,ZI  ,STIF    ,DGAPLOAD)
                    CALL I7DST3(IX3,IX4,X1 ,X2 ,X3 ,
      1                  X4 ,Y1 ,Y2 ,Y3 ,Y4 ,
      2                  Z1 ,Z2 ,Z3 ,Z4 ,XI ,
@@ -458,7 +459,7 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
           END IF 
         XMN = MIN(X(DIR,IRECT(1,NE)),X(DIR,IRECT(2,NE)),
      .            X(DIR,IRECT(3,NE)),X(DIR,IRECT(4,NE)))
-     .      - MAX(MIN(GAPSMX+GAP_M(NE),GAPMAX),GAPMIN)-MARGE_E
+     .      - MAX(MIN(GAPSMX+GAP_M(NE),GAPMAX),GAPMIN)+DGAPLOAD-MARGE_E
         IF(XMN.LT.SEUIL.AND.INF.EQ.1) THEN
 C         ON STOCKE DANS LE BAS DE LA PILE BP
           ADDNE = ADDNE + 1
@@ -466,7 +467,7 @@ C         ON STOCKE DANS LE BAS DE LA PILE BP
         ENDIF
         XMX = MAX(X(DIR,IRECT(1,NE)),X(DIR,IRECT(2,NE)),
      .            X(DIR,IRECT(3,NE)),X(DIR,IRECT(4,NE)))
-     .      + MAX(MIN(BGAPSMX+GAP_M(NE),GAPMAX),GAPMIN)+MARGE_E
+     .      + MAX(MIN(BGAPSMX+GAP_M(NE),GAPMAX),GAPMIN)+DGAPLOAD+MARGE_E
         IF(XMX.GE.SEUIL.AND.SUP.EQ.1) THEN
 C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
           NB_ECN = NB_ECN + 1

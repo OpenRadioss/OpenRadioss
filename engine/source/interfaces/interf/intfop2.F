@@ -72,7 +72,7 @@ Chd|====================================================================
      N       KNOT      ,IGEO       ,MULTI_FVM  ,H3D_DATA ,INTBUF_FRIC_TAB,
      P       PSKIDS    ,T2MAIN_SMS,FORNEQS   ,KNOTLOCPC,KNOTLOCEL,
      Q       APINCH    ,STIFPINCH   ,T2FAC_SMS ,TAGNCONT ,
-     R       KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER)
+     R       KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -119,8 +119,8 @@ C-----------------------------------------------
      .        IRLEN20E, ISLEN20E,INT18ADD(*),NCONT,NV46,DIMFB, STABSEN,IGROUPS(NUMELS)
       INTEGER IPARI(NPARI,*), ICODT(*),ITAB(*),
      .        ISKY(*), JTASK, NISKYFI(*),ICONTACT(*),
-     .        IPARG(NPARG,*),INOD_PXFEM(*),TAGNCONT(NLOADP_HYD_INTER,*),
-     .        KLOADPINTER(*),LOADPINTER(*),LOADP_HYD_INTER(*)
+     .        IPARG(NPARG,*),INOD_PXFEM(*),TAGNCONT(NLOADP_HYD_INTER,*)
+
       INTEGER, TARGET  :: FR_I18(NSPMD+2,*)
       INTEGER, POINTER :: ptr_FR_I18
       INTEGER, TARGET :: KINET(*)
@@ -133,6 +133,10 @@ C-----------------------------------------------
      .        NB25_CANDT(PARASIZ),NB25_IMPCT(PARASIZ),
      .        NB25_DST1(PARASIZ) ,NB25_DST2(PARASIZ)
       INTEGER KXIG3D(NIXIG3D,*),IXIG3D(*),IGEO(NPROPGI,*),T2MAIN_SMS(6,*)
+      INTEGER  , INTENT(IN) :: S_LOADPINTER
+      INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
+     .         LOADP_HYD_INTER(NLOADP_HYD)
+      my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
       my_real 
      .        EMINX(*)
       my_real DT2T,
@@ -295,7 +299,7 @@ C
      H  FBSAV6        ,ISENSINT(1,N)    ,DIMFB           ,IXIG3D      ,
      I  KXIG3D     ,WIGE          ,KNOT             ,IGEO            ,MULTI_FVM   , H3D_DATA,
      J  INTBUF_FRIC_TAB           ,KNOTLOCPC        ,KNOTLOCEL       ,JTASK       ,
-     K  TAGNCONT   ,KLOADPINTER   ,LOADPINTER       ,LOADP_HYD_INTER)
+     K  TAGNCONT   ,KLOADPINTER   ,LOADPINTER       ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER)
           ELSE
            NULLIFY(ptr_FR_I18)
            IF(NI18>0) ptr_FR_I18 => FR_I18(1,NI18)           
@@ -318,7 +322,7 @@ C
      H  FBSAV6        ,ISENSINT(1,N)    ,DIMFB           ,IXIG3D      ,              
      I  KXIG3D     ,WIGE          ,KNOT             ,IGEO            ,MULTI_FVM,    H3D_DATA,    
      J  INTBUF_FRIC_TAB           ,KNOTLOCPC        ,KNOTLOCEL       ,JTASK       ,
-     K  TAGNCONT    ,KLOADPINTER  ,LOADPINTER       ,LOADP_HYD_INTER)
+     K  TAGNCONT    ,KLOADPINTER  ,LOADPINTER       ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER)
            IAD=IAD+NUM_IMP(N)
           END IF
           IF(NTY == 17 .AND. IPARI(33,N) == 0)THEN            ! ILAGM == 0
@@ -384,7 +388,8 @@ C
      8  INTBUF_TAB(N),PM         ,TEMP         , FTHE        ,FTHESKYI,
      9  NPC        , TF          ,CONDN        ,CONDNSKYI ,FBSAV6     ,
      A  ISENSINT(1,N),DIMFB      ,FSAV(1,NN1)  ,H3D_DATA  ,INTBUF_FRIC_TAB,
-     B  JTASK      ,TAGNCONT      ,KLOADPINTER ,LOADPINTER,LOADP_HYD_INTER)
+     B  JTASK      ,TAGNCONT      ,KLOADPINTER ,LOADPINTER,LOADP_HYD_INTER,
+     C  DGAPLOADINT,S_LOADPINTER)
           ELSE
            CALL I11MAINF(
      1  IPARI(1,N) ,X            ,A          ,
@@ -397,7 +402,8 @@ C
      8  INTBUF_TAB(N),PM         ,TEMP         , FTHE    ,FTHESKYI    , 
      9  NPC        , TF          ,CONDN        ,CONDNSKYI ,FBSAV6     ,
      A  ISENSINT(1,N),DIMFB      ,FSAV(1,NN1)  ,H3D_DATA  ,INTBUF_FRIC_TAB,
-     B  JTASK      ,TAGNCONT      ,KLOADPINTER ,LOADPINTER,LOADP_HYD_INTER)
+     B  JTASK      ,TAGNCONT      ,KLOADPINTER ,LOADPINTER,LOADP_HYD_INTER,
+     C  DGAPLOADINT,S_LOADPINTER)
           ENDIF
 C-----------------------------------------------------------------------
         ELSEIF(NTY == 20) THEN
@@ -462,7 +468,8 @@ C
      A  QFRICINT  ,NCONT        ,INDEXCONT  ,TAGCONT      ,CONDN       ,
      B  CONDNSKYI ,DT2T         ,NELTST     ,ITYPTST      ,KINET       ,
      C  FBSAV6    ,ISENSINT(1,N),DIMFB      ,NISKYFI(N)   ,H3D_DATA    ,
-     D  PSKIDS    ,TAGNCONT     ,KLOADPINTER,LOADPINTER   ,LOADP_HYD_INTER)
+     D  PSKIDS    ,TAGNCONT     ,KLOADPINTER,LOADPINTER   ,LOADP_HYD_INTER,
+     E  DGAPLOADINT,S_LOADPINTER)
 C-----------------------------------------------------------------------
 C
 C-----------------------------------------------------------------------
@@ -546,7 +553,7 @@ C
      G  FBSAV6      ,ISENSINT(1,N),
      H  DIMFB      ,H3D_DATA    ,INTBUF_FRIC_TAB  ,T2MAIN_SMS,FORNEQS ,
      I  T2FAC_SMS  ,NPC         ,TF          ,TAGNCONT    ,KLOADPINTER ,
-     J  LOADPINTER ,LOADP_HYD_INTER)
+     J  LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER)
 
           ELSE
            CALL I24MAINF(
@@ -567,7 +574,7 @@ C
      G  FBSAV6     ,ISENSINT(1,N),
      H  DIMFB     ,H3D_DATA     ,INTBUF_FRIC_TAB  ,T2MAIN_SMS,FORNEQS ,
      I  T2FAC_SMS ,NPC         ,TF           ,TAGNCONT    ,KLOADPINTER ,
-     J  LOADPINTER ,LOADP_HYD_INTER)
+     J  LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER)
            IAD=IAD+NUM_IMP(N)
           END IF
 C-----------------------------------------------------------------------
@@ -605,7 +612,7 @@ C
      H  DIMFB      ,H3D_DATA    ,INTBUF_FRIC_TAB,NISKYFIE(N),
      I  APINCH     ,STIFPINCH   ,NPC         ,TF         , CONDN      ,
      J  CONDNSKYI  ,QFRICINT    ,TAGNCONT    ,KLOADPINTER,LOADPINTER   ,
-     K  LOADP_HYD_INTER)
+     K  LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER)
 
           IAD=IAD+NUM_IMP(N)
 C-----------------------------------------------------------------------

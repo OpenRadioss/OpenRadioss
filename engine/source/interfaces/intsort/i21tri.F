@@ -35,7 +35,7 @@ Chd|====================================================================
      4      MAXBOX  ,MINBOX ,I_MEM    ,NB_N_B  ,I_ADD_MAX,
      5      ESHIFT  ,INACTI ,NRTM     ,IGAP    ,GAP      ,
      7      GAP_S   ,GAPMIN ,GAPMAX   ,MARGE   ,CURV_MAX ,
-     8      XM0     ,NOD_NORMAL,DEPTH ,DRAD    )
+     8      XM0     ,NOD_NORMAL,DEPTH ,DRAD    ,DGAPLOAD )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -121,7 +121,8 @@ C     REAL
      .   XLOC(3,*),XYZM(6,*),STF(*),STFN(*),GAP_S(*), 
      .   XM0(3,*), NOD_NORMAL(3,*),
      .   TZINF,MAXBOX,MINBOX,MARGE,GAP,GAPMIN,GAPMAX, 
-     .   DEPTH, DRAD
+     .   DEPTH
+      my_real , INTENT(IN) :: DGAPLOAD,DRAD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -327,7 +328,7 @@ C Optimisation gap variable
          XX3=XM0(DIR, IRECT(3,NE))
          XX4=XM0(DIR, IRECT(4,NE))
          XMAX=MAX(XX1,XX2,XX3,XX4)
-     +       +MAX(MIN(MAX(BGAPSMX,GAPMIN),GAPMAX),DEPTH,DRAD)
+     +       +MAX(MIN(MAX(BGAPSMX,GAPMIN),GAPMAX)+DGAPLOAD,DEPTH,DRAD)
      +       +MARGE
          IF(XMAX.GE.SEUIL) THEN
 C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
@@ -344,7 +345,7 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
          XX3=XM0(DIR, IRECT(3,NE))
          XX4=XM0(DIR, IRECT(4,NE))
          XMIN=MIN(XX1,XX2,XX3,XX4)
-     -       -MAX(MIN(MAX(GAPSMX,GAPMIN),GAPMAX),DEPTH,DRAD)
+     -       -MAX(MIN(MAX(GAPSMX,GAPMIN),GAPMAX)+DGAPLOAD,DEPTH,DRAD)
      -       -MARGE
          IF(XMIN.LT.SEUIL) THEN
 C         ON STOCKE DANS LE BAS DE LA PILE BP
@@ -361,7 +362,7 @@ C         ON STOCKE DANS LE BAS DE LA PILE BP
          XX3=XM0(DIR, IRECT(3,NE))
          XX4=XM0(DIR, IRECT(4,NE))
          XMIN=MIN(XX1,XX2,XX3,XX4)
-     -       -MAX(MIN(MAX(GAPSMX,GAPMIN),GAPMAX),DEPTH,DRAD)
+     -       -MAX(MIN(MAX(GAPSMX,GAPMIN),GAPMAX)+DGAPLOAD,DEPTH,DRAD)
      -       -MARGE
          IF(XMIN.LT.SEUIL) THEN
 C         ON STOCKE DANS LE BAS DE LA PILE BP
@@ -378,7 +379,7 @@ C
          XX3=XM0(DIR, IRECT(3,NE))
          XX4=XM0(DIR, IRECT(4,NE))
          XMAX=MAX(XX1,XX2,XX3,XX4)
-     +       +MAX(MIN(MAX(BGAPSMX,GAPMIN),GAPMAX),DEPTH,DRAD)
+     +       +MAX(MIN(MAX(BGAPSMX,GAPMIN),GAPMAX)+DGAPLOAD,DEPTH,DRAD)
      +       +MARGE
          IF(XMAX.GE.SEUIL) THEN
 C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
@@ -513,7 +514,8 @@ Cel necessaire qd NB_NC.LE.NB_N_B ou DSUP.LT.MINBOX et NB_EC+NB_NC.GT.128
      2              CAND_E ,MULNSN,NOINT ,MARGE  ,I_MEM ,
      3              PROV_N ,PROV_E,ESHIFT,INACTI ,NSN   ,
      4              IGAP   ,GAP   ,GAP_S ,GAPMIN ,GAPMAX,
-     5              CURV_MAX ,XM0 ,NOD_NORMAL,DEPTH ,DRAD)
+     5              CURV_MAX ,XM0 ,NOD_NORMAL,DEPTH ,DRAD,
+     6              DGAPLOAD)
               IF(I_MEM.EQ.2)RETURN
               J_STOK = J_STOK-NVSIZ
 #include "vectorize.inc"
@@ -560,7 +562,7 @@ Cel necessaire qd NB_NC.LE.NB_N_B ou DSUP.LT.MINBOX et NB_EC+NB_NC.GT.128
                I = 1+(L-1)/NB_NC
                J = L-(I-1)*NB_NC
                NN=BPN(J)
-               GAPL=MAX(MIN(GAP_S(BPN(J)),GAPMAX),GAPMIN,DEPTH,DRAD)
+               GAPL=MAX(MAX(MIN(GAP_S(BPN(J)),GAPMAX),GAPMIN)+DGAPLOAD,DEPTH,DRAD)
                IF(XLOC(1,NN).GT.TXMIN(I)-GAPL.AND.
      &            XLOC(1,NN).LT.TXMAX(I)+GAPL.AND.
      &            XLOC(2,NN).GT.TYMIN(I)-GAPL.AND.
@@ -578,7 +580,8 @@ Cel necessaire qd NB_NC.LE.NB_N_B ou DSUP.LT.MINBOX et NB_EC+NB_NC.GT.128
      2              CAND_E ,MULNSN,NOINT ,MARGE  ,I_MEM ,
      3              PROV_N ,PROV_E,ESHIFT,INACTI ,NSN   ,
      4              IGAP   ,GAP   ,GAP_S ,GAPMIN ,GAPMAX,
-     5              CURV_MAX ,XM0 ,NOD_NORMAL,DEPTH,DRAD)
+     5              CURV_MAX ,XM0 ,NOD_NORMAL,DEPTH,DRAD,
+     6              DGAPLOAD)
               IF(I_MEM.EQ.2)RETURN
               J_STOK = J_STOK-NVSIZ
 #include "vectorize.inc"
@@ -641,7 +644,7 @@ Cel necessaire qd NB_NC.LE.NB_N_B ou DSUP.LT.MINBOX et NB_EC+NB_NC.GT.128
                XX2=XM0(1, N2)
                XX3=XM0(1, N3)
                XX4=XM0(1, N4)
-               TZ=MAX(MIN(GAP_S(BPN(J)),GAPMAX),GAPMIN,DEPTH,DRAD)
+               TZ=MAX(MAX(MIN(GAP_S(BPN(J)),GAPMAX),GAPMIN)+DGAPLOAD,DEPTH,DRAD)
      +           +MARGE
                XMAX=MAX(XX1,XX2,XX3,XX4)+TZ
                XMIN=MIN(XX1,XX2,XX3,XX4)-TZ
@@ -674,7 +677,8 @@ Cel necessaire qd NB_NC.LE.NB_N_B ou DSUP.LT.MINBOX et NB_EC+NB_NC.GT.128
      2               CAND_E ,MULNSN,NOINT ,MARGE  ,I_MEM ,
      3               PROV_N ,PROV_E,ESHIFT,INACTI ,NSN    ,
      4               IGAP  ,GAP   ,GAP_S  ,GAPMIN ,GAPMAX ,
-     5               CURV_MAX ,XM0 ,NOD_NORMAL,DEPTH,DRAD)
+     5               CURV_MAX ,XM0 ,NOD_NORMAL,DEPTH,DRAD ,
+     6               DGAPLOAD)
                IF(I_MEM.EQ.2)RETURN
                  J_STOK = J_STOK-NVSIZ
 #include "vectorize.inc"
@@ -715,7 +719,8 @@ C-------------------------------------------------------------------------
      2              CAND_E ,MULNSN,NOINT ,MARGE  ,I_MEM ,
      3              PROV_N ,PROV_E,ESHIFT,INACTI ,NSN   ,
      4              IGAP  ,GAP   ,GAP_S  ,GAPMIN ,GAPMAX,
-     5              CURV_MAX ,XM0,NOD_NORMAL,DEPTH,DRAD )
+     5              CURV_MAX ,XM0,NOD_NORMAL,DEPTH,DRAD ,
+     6              DGAPLOAD)
 C-------------------------------------------------------------------------
       RETURN
       END

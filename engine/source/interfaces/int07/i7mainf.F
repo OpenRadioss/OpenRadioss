@@ -98,8 +98,8 @@ Chd|====================================================================
      H                   FBSAV6    ,ISENSINT   ,DIMFB     ,IXIG3D   ,KXIG3D ,
      I                   WIGE           ,KNOT      ,IGEO       ,MULTI_FVM ,H3D_DATA ,
      J                   INTBUF_FRIC_TAB,KNOTLOCPC ,KNOTLOCEL ,ITASK      ,TAGNCONT ,
-     K                   KLOADPINTER    ,LOADPINTER,LOADP_HYD_INTER)
-C=======================================================================
+     K                   KLOADPINTER    ,LOADPINTER,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER)
+C======================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -148,9 +148,7 @@ C-----------------------------------------------
      .        NRTMDIM, IAD17, ISENSINT(*),DIMFB,IGROUPS(NUMELS)
       INTEGER IPARI(NPARI,NINTER), ICODT(*),ICONTACT(*),
      .        ITAB(*), ISKY(*), KINET(*), FR_I18(*),
-     .        IPARG(NPARG,*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
-     .        KLOADPINTER(NINTER+1),LOADPINTER((NINTER+1)*NLOADP_HYD),
-     .        LOADP_HYD_INTER(NLOADP_HYD)
+     .        IPARG(NPARG,*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD)
       INTEGER NB_JLT,NB_JLT_NEW,NB_STOK_N,JTASK,
      .        NISKYFI, LINDMAX,ITASK
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*)
@@ -158,6 +156,10 @@ C-----------------------------------------------
       INTEGER IAD_ELEM(2,*),FR_ELEM(*), 
      .        ISKYI_SMS(*), NODNX_SMS(*),NPC(*),
      .        KXIG3D(NIXIG3D,*),IXIG3D(*),IGEO(NPROPGI,*)
+      INTEGER  , INTENT(IN) :: S_LOADPINTER
+      INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
+     .         LOADP_HYD_INTER(NLOADP_HYD)
+      my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
       my_real 
      .        EMINX(*)
       my_real DT2T,
@@ -232,9 +234,9 @@ C-----------------------------------------------
      .    NNY1(MVSIZ), NNY2(MVSIZ), NNY3(MVSIZ), NNY4(MVSIZ),
      .    NNZ1(MVSIZ), NNZ2(MVSIZ), NNZ3(MVSIZ), NNZ4(MVSIZ),
      .    CMAJ(MVSIZ)
-      INTEGER ICURV,SFSAVPARIT
+      INTEGER ICURV,SFSAVPARIT,NINLOADP
       my_real
-     .     DRAD, DRAD2, FRAD,XTHE,XFRIC
+     .     DRAD, DRAD2, FRAD,XTHE,XFRIC,DGAPLOADP
       my_real, DIMENSION(:,:,:), ALLOCATABLE :: FSAVPARIT
       my_real
      .   KS(MVSIZ),K1(MVSIZ),K2(MVSIZ),K3(MVSIZ),K4(MVSIZ),
@@ -346,6 +348,10 @@ C--- Corresponding Friction model
          IFRICORTH   => IFRICORTH_BID
          IF (IFQ.NE.0) XFILTR_FRIC = INTBUF_TAB%XFILTR(1)
       ENDIF
+C
+      NINLOADP = IPARI(95,NIN) ! load pressure related to inter
+      DGAPLOADP = INTBUF_TAB%VARIABLES(46)
+C
 
       !IF(NTY.EQ.3)THEN
       !ELSEIF(NTY.EQ.4)THEN
@@ -619,9 +625,9 @@ C         print *, "---a-b-c-----------------",NFT
      C  KMAX      ,GAPMAX     ,GAPMIN    ,IADM         ,RCURV        ,
      D  RCURVI    ,ANGLM      ,ANGLMI    ,INTTH        ,TEMP         ,
      E  TEMPI     ,PHI        ,INTBUF_TAB%AREAS,INTBUF_TAB%IELEC,AREASI ,
-     F      IELECI    ,NODNX_SMS  ,NSMS      ,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML,
-     G      INTFRIC  ,INTBUF_TAB%IPARTFRICS,IPARTFRICSI,INTBUF_TAB%IPARTFRICM,IPARTFRICMI,
-     H      IORTHFRIC,INTBUF_TAB%IREP_FRICM,INTBUF_TAB%DIR_FRICM,IREP_FRICMI,DIR_FRICMI)
+     F  IELECI    ,NODNX_SMS  ,NSMS      ,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML,
+     G  INTFRIC  ,INTBUF_TAB%IPARTFRICS,IPARTFRICSI,INTBUF_TAB%IPARTFRICM,IPARTFRICMI,
+     H  IORTHFRIC,INTBUF_TAB%IREP_FRICM,INTBUF_TAB%DIR_FRICM,IREP_FRICMI,DIR_FRICMI  )
           ! -- PIT
 
   
@@ -703,7 +709,7 @@ C
      I        IELECI       ,NSMS    ,CMAJ    ,DRAD2   ,
      J        INTFRIC ,IPARTFRICSI,
      K        IPARTFRICMI  ,ITIED   ,JLT_TIED,INTBUF_TAB%CAND_F,IORTHFRIC,
-     L        IREP_FRICMI  ,DIR_FRICMI)
+     L        IREP_FRICMI  ,DIR_FRICMI,DGAPLOADP)
 
             JLT = JLT_NEW
             IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
@@ -785,7 +791,8 @@ C
      7  FRIC_COEFS2  ,FRICC2     ,VISCFFRIC2  ,NFORTH      ,NFISOT     ,
      8  INDEXORTH    ,INDEXISOT  ,DIR1        ,DIR2        ,TAGNCONT   ,
      9  KLOADPINTER  ,LOADPINTER ,LOADP_HYD_INTER,INTBUF_TAB%TYPSUB    ,  
-     A  INTBUF_TAB%INFLG_SUBS,INTBUF_TAB%INFLG_SUBM)
+     .                                            INTBUF_TAB%INFLG_SUBS,
+     A  INTBUF_TAB%INFLG_SUBM,NINLOADP,DGAPLOADINT,S_LOADPINTER,DGAPLOADP)
 
 
               IF( INTTH > 0 ) THEN 
@@ -795,10 +802,10 @@ C
      3                        X4    ,Y4    ,Z4  ,IX1  ,IX2   ,IX3     ,
      4                        IX4 ,RSTIF  ,TEMPI, INTBUF_TAB%IELEC    ,
      5                        PHI   ,TINT , AREASI,IELECI  ,FRAD,DRAD ,
-     6                  GAPV  ,FNI  ,IRSTH,XTHE  ,NPC    ,TF    ,
-     6                 CONDINT,PHI1,PHI2  ,PHI3   ,PHI4  ,FHEATS,
-     7                 FHEATM,EFRICT,TEMP ,H1     ,H2     ,H3   ,
-     8                 H4)      
+     6                        GAPV  ,FNI  ,IRSTH,XTHE  ,NPC    ,TF    ,
+     6                        CONDINT,PHI1,PHI2  ,PHI3   ,PHI4  ,FHEATS,
+     7                        FHEATM,EFRICT,TEMP ,H1     ,H2     ,H3   ,
+     8                        H4    )      
               ENDIF
 
 C

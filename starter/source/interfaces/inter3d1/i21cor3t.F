@@ -33,7 +33,7 @@ Chd|====================================================================
      4                   IX2   ,IX3   ,IX4   ,NSVG    ,X1     ,
      5                   X2    ,X3    ,X4    ,Y1      ,Y2     ,
      6                   Y3    ,Y4    ,Z1    ,Z2      ,Z3     ,
-     7                   Z4    ,XI    ,YI    ,ZI)
+     7                   Z4    ,XI    ,YI    ,ZI      ,DGAPLOAD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,6 +50,7 @@ C     REAL
       my_real
      .        GAP, GAPMIN, GAPMAX, DEPTH, DRAD,
      .        X(3,*), GAPV(*), GAP_S(*), XM0(3,*)
+      my_real , INTENT(IN) :: DGAPLOAD
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IX1,IX2,IX3,IX4,NSVG
       my_real, DIMENSION(MVSIZ), INTENT(OUT) :: X1,X2,X3,X4
       my_real, DIMENSION(MVSIZ), INTENT(OUT) :: Y1,Y2,Y3,Y4
@@ -77,7 +78,7 @@ C-----------------------------------------------
       IF(IGAP.EQ.0)THEN
         DO I=LFT,LLT
 C Depth >= gap
-          GAPV(I)=MAX(DEPTH,DRAD)
+          GAPV(I)=MAX(DEPTH+DGAPLOAD,DRAD)
         END DO
       ELSE
 C ... on pourrait utiliser le fait Depth >= max(gapv) dans le starter ...
@@ -86,7 +87,7 @@ C ... on pourrait utiliser le fait Depth >= max(gapv) dans le starter ...
           GAPV(I)=MIN(GAPV(I),GAPMAX)
           GAPV(I)=MAX(GAPMIN,GAPV(I))
 C
-          GAPV(I)=MAX(DEPTH,DRAD,GAPV(I))
+          GAPV(I)=MAX(DEPTH,DRAD,GAPV(I)+DGAPLOAD)
         END DO
       END IF
 C

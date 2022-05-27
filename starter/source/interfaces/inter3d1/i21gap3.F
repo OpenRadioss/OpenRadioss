@@ -40,7 +40,8 @@ Chd|====================================================================
      8 IKINE    ,ITAB        ,INACTI   ,GAPSCALE,STFN   ,
      9 DEPTH    ,GAP_S0      ,AREA_S0  ,XM0     ,LXM    ,
      A LYM      ,LZM         ,INTTH    ,DRAD    ,IPARTS ,
-     B IPARTC   ,IPARTG      ,THK_PART ,THKNOD0 ,ID,TITR)
+     B IPARTC   ,IPARTG      ,THK_PART ,THKNOD0 ,ID     ,
+     C TITR     ,DGAPLOAD    )
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -75,9 +76,9 @@ C-----------------------------------------------
      .   NOD2ELTG(*),IELES(*), 
      .   MSR(*), ITAB(*), IKINE(*), IPARTS(*), IPARTC(*), IPARTG(*)
 C     REAL
+      my_real  , INTENT(IN) :: DGAPLOAD
       my_real
-     .   GAP,GAPMIN,CRITER, GAPMAX, GAPSCALE, DEPTH, LXM, LYM, LZM, DRAD
-C     REAL
+     .   GAP,GAPMIN,CRITER, GAPMAX, GAPSCALE, DEPTH, DRAD, LXM, LYM, LZM
       my_real
      .   X(3,*), PM(NPROPM,*), GEO(NPROPG,*),
      .   GAP_S(*), THKNOD(*), STF(*), STFN(*), 
@@ -213,11 +214,11 @@ C
 C Calcul du gap reel a utiliser lors du critere de retri
 C
       IF (IGAP.EQ.0) THEN
-        CRITER=GAP
+        CRITER=GAP + DGAPLOAD
       ELSE
         CRITER=EP30
         DO I = 1, NSN
-          CRITER = MIN(CRITER,GAP_S(I))
+          CRITER = MIN(CRITER,GAP_S(I) + DGAPLOAD)
         ENDDO
         CRITER=MAX(CRITER,GAPMIN)
       ENDIF

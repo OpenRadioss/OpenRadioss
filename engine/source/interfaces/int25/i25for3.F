@@ -65,7 +65,8 @@ Chd|====================================================================
      E    FY4         ,FZ4      ,FXI       ,FYI        ,FZI       ,
      C    INTTH       ,DRAD     ,FHEATS    ,FHEATM     ,QFRIC     ,
      D    EFRICT      ,TAGNCONT ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
-     E    TYPSUB      ,NCFIT    )
+     E    TYPSUB      ,NCFIT    ,NINLOADP  ,DGAPLOADINT,S_LOADPINTER,
+     F    DIST       )
 
 C-----------------------------------------------
 C   M o d u l e s
@@ -117,9 +118,7 @@ C-----------------------------------------------
      .        IRECT(4,*),ICONTACT(*),
      .        KINI(*),MBINFLG(*),ILEV,JTASK,
      .        ISET, IADM,INTTH,IFORM,NRTM,
-     .        CAND_N_N(*),INTPLY,MSEGTYP(*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
-     .        KLOADPINTER(NINTER+1),LOADPINTER((NINTER+1)*NLOADP_HYD),
-     .        LOADP_HYD_INTER(NLOADP_HYD)
+     .        CAND_N_N(*),INTPLY,MSEGTYP(*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        CN_LOC(MVSIZ),CE_LOC(MVSIZ),INDEX(MVSIZ),NSVG(MVSIZ),
      .        NISUB, LISUB(*), ADDSUBS(*), ADDSUBM(*), LISUBS(*), LISUBM(*),
@@ -127,6 +126,9 @@ C-----------------------------------------------
      .        ISKYI_SMS(*), NSMS(*),IGSTI,
      .        ISENSINT(*), IF_ADH(MVSIZ),
      .        INDEXORTH(MVSIZ)  ,INDEXISOT(MVSIZ),TYPSUB(*),NCFIT
+      INTEGER  , INTENT(IN) :: NINLOADP,S_LOADPINTER 
+      INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
+     .        LOADP_HYD_INTER(NLOADP_HYD)
       my_real
      .   STIGLO, X(3,*),
      .   A(3,*), MS(*), V(3,*), FSAV(*),FCONT(3,*),
@@ -140,7 +142,7 @@ C-----------------------------------------------
      .     FX1(MVSIZ), FX2(MVSIZ), FX3(MVSIZ), FX4(MVSIZ),
      .     FY1(MVSIZ), FY2(MVSIZ), FY3(MVSIZ), FY4(MVSIZ),
      .     FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
-     .     LA(MVSIZ), LB(MVSIZ), LC(MVSIZ),STIF(MVSIZ),
+     .     LA(MVSIZ), LB(MVSIZ)  , LC(MVSIZ) ,STIF(MVSIZ),
      .     PENE(MVSIZ),
      .     SECFCUM(7,NUMNOD,NSECT),
      .     TMP(MVSIZ), 
@@ -160,13 +162,16 @@ C-----------------------------------------------
      .     RCURVI(*), RCONTACT(*), ACONTACT(*),
      .     PCONTACT(*),PADM, ANGLMI(*),RSTIF,
      .     PENE_OLD(5,NSN),STIF_OLD(2,NSN)
+      my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
+      my_real  , INTENT(INOUT) :: DIST(MVSIZ)
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J1, IG, J, JG , K0,NBINTER,K1S,K,IL,IE, NN, NI,
      .        NA1,NA2,N,ITAG,NN1,NN2,NN3,NN4,
-     .        IGRN,ISS1,ISS2,IMS1,IMS2,PP,PPL,ITYPSUB
+     .        IGRN,ISS1,ISS2,IMS1,IMS2,PP,PPL,ITYPSUB,
+     .        TAGIP(MVSIZ)
       my_real
      .   FXR(MVSIZ), FYR(MVSIZ), FZR(MVSIZ)
       my_real
@@ -174,7 +179,7 @@ C-----------------------------------------------
      .   VIS2(MVSIZ), DTMI(MVSIZ), XMU(MVSIZ),STIF0(MVSIZ), FF(MVSIZ),
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
      .   XP(MVSIZ), YP(MVSIZ), ZP(MVSIZ),
-     .   VNX, VNY, VNZ, AA, CRIT,S2,DIST,RDIST,
+     .   VNX, VNY, VNZ, AA, CRIT,S2,
      .   V2, FM2, DT1INV, VISCA, FAC,ALPHI,ALPHA,BETA,
      .   FX, FY, FZ, F2, MAS2, M2SK, DTMI0,DTI,FT,FN,FMAX,FTN,
      .   FACM1, ECONTT, ECONVT, H0, ECONTDT,
@@ -207,7 +212,7 @@ C-----------------------------------------------
      .   FSAVSUB1(24,NISUB),IMPX,IMPY,IMPZ,VNM(MVSIZ),SFAC,STMIN,
      .   FXS(4),FYS(4),FZS(4)
       my_real
-     .    STIFADH, FACTOR  
+     .    STIFADH, FACTOR , GAPP, DGAPLOAD
 C
       INTEGER BITGET
       EXTERNAL BITGET
@@ -1188,20 +1193,25 @@ C
       END IF
 
 C------------For /LOAD/PRESSURE tag nodes in contact-------------
-      IF(NINTLOADP > 0) THEN
+      TAGIP(1:JLT) = 0
+      IF(NINLOADP > 0) THEN
          DO K = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1) 
             PP = LOADPINTER(K)
             PPL = LOADP_HYD_INTER(PP)
+            DGAPLOAD = DGAPLOADINT(K)
             DO I=1,JLT
-               IF(PENE(I) == ZERO)CYCLE
-               TAGNCONT(PPL,IX1(I)) = 1
-               TAGNCONT(PPL,IX2(I)) = 1
-               TAGNCONT(PPL,IX3(I)) = 1
-               TAGNCONT(PPL,IX4(I)) = 1
-               JG = NSVG(I)
-               IF(JG.GT.0) THEN
+               GAPP= GAPV(I) + DGAPLOAD
+               IF(PENE(I) > ZERO .OR.(DIST(I) <= GAPP)) THEN
+                  TAGIP(I) = 1
+                  TAGNCONT(PPL,IX1(I)) = 1
+                  TAGNCONT(PPL,IX2(I)) = 1
+                  TAGNCONT(PPL,IX3(I)) = 1
+                  TAGNCONT(PPL,IX4(I)) = 1
+                  JG = NSVG(I)
+                  IF(JG.GT.0) THEN
 C  SPMD : do same after reception of forces for remote nodes 
-                  TAGNCONT(PPL,JG) = 1
+                    TAGNCONT(PPL,JG) = 1
+                  ENDIF
                ENDIF
             ENDDO
          ENDDO
@@ -3071,7 +3081,7 @@ ctmp+1 mic only
 #include "mic_lockon.inc"
         DO I = 1,JLT
           NN = NSVG(I)
-          IF(NN.LT.0 .AND. H1(I)+H2(I)+H3(I)+H4(I).NE.0)THEN
+          IF(NN.LT.0 .AND. (H1(I)+H2(I)+H3(I)+H4(I).NE.0.OR.TAGIP(I)==0))THEN
 C tag temporaire de NSVFI a -
             NSVFI(NIN)%P(-NN) = -ABS(NSVFI(NIN)%P(-NN))
           ENDIF

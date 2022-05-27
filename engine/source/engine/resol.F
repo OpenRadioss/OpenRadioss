@@ -566,7 +566,7 @@ Chd|====================================================================
      K  NLOC_DMG ,ISKWP_L,KNOTLOCPC,KNOTLOCEL,PINCH_DATA,TAG_SKINS6, ALE_CONNECTIVITY,
      L  XCELL, XFACE, NE_NERCVOIS, NE_NESDVOIS, NE_LERCVOIS, NE_LESDVOIS,IBCSCYC  ,LBCSCYC,
      M  T_MONVOL,ID_GLOBAL_VOIS,FACE_VOIS,TAGSLV_RBY,IPART_DYNAIN,FCONT_MAX,EBCS_TAB,DIFFUSION,
-     N  KLOADPINTER,LOADPINTER,IN0 )
+     N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -784,7 +784,7 @@ C-----------------------------------------------
      .   NODGLOBXFE(*),ELCUTC(2,*),NODENR(*),KXFENOD2ELC(*),
      .   ENRTAG(NUMNOD,*),KXIG3D(*),IXIG3D(*),TABSENSOR(STABSEN),
      .   NATIV0_SMS(*), SEGQUADFR(*), TAGSLV_RBY(*),IPART_DYNAIN(*),
-     .   KLOADPINTER(NINTER+1)  ,LOADPINTER((NINTER+1)*NLOADP_HYD)
+     .   KLOADPINTER(NINTER+1)  ,LOADPINTER(NINTER*NLOADP_HYD) 
       INTEGER IDATA(*), IBFTEMP(*), IBCV(*), IBFFLUX(*), WEIGHT_RM(*),
      .        ICODT_PLY(*), ISKEW_PLY(*),INOD_PXFEM(*),IEL_PXFEM(*),
      .        IADC_PXFEM(*),ADSKY_PXFEM(*),ICODE_PLY(*),MADCLNOD(*),
@@ -833,6 +833,7 @@ c     .   X(3,*)    ,D(3,*)      ,V(3,*)   ,VR(3,*),DAMP(*),
      .   FRADIA(*), RES_SMS(*), PHIE(*),MSF(*),
      .   CFIELD(*),MSZ2(*), DIAG_SMS(*),LOADP(*), DMINT2(*),POR(*),
      .   GAUGE(LLGAUGE,*),WAGAP(2,*),RTHBUF(*),FORNEQS(3,*),IN0(*)
+      my_real , INTENT(IN) :: DGAPLOADINT(NINTER*NLOADP_HYD)
       my_real, DIMENSION(2) :: XX
       my_real yy
       TYPE (CLUSTER_) ,DIMENSION(*) :: CLUSTER
@@ -1146,7 +1147,7 @@ C---Nitsche Method----
       REAL(kind=8) :: SECS
       REAL(kind=8) :: TT_DOUBLE
       my_real
-     .         DTNOD_NLOCAL
+     .         DTNOD_NLOCAL, S_LOADPINTER
       INTEGER, DIMENSION(:),ALLOCATABLE ::IBUFPDEL, NINDEXPDEL
 C----------------------------------------------------------------------------------
 C IMPVEL/FGEO
@@ -1343,6 +1344,9 @@ C
         ELSE
              ALLOCATE(TAGNCONT(0,0))
         ENDIF
+
+        S_LOADPINTER = NINTER*NLOADP_HYD
+
           IF((IDEL7NG.GT.0).OR.(IRAD2R.NE.0).OR.(IALEMUSCL.GT.0).OR.(PDEL.GT.0))THEN
 C Allocation of inverse connectivity array
             IERROR = 0
@@ -3868,8 +3872,8 @@ C Init var parallel SMP
      M     NB25_DST1         ,NB25_DST2      ,IXIG3D         ,KXIG3D          ,WIGE           ,
      N     KNOT              ,IGEO           ,MULTI_FVM      ,H3D_DATA        ,INTBUF_FRIC_TAB,
      P     PSKIDS            ,T2MAIN_SMS   ,FORNEQS        ,KNOTLOCPC       ,KNOTLOCEL      ,
-     Q     PINCH_DATA%APINCH(1,IDX_PINCH)    ,PINCH_DATA%STIFPINCH(IDX_PINCH) ,T2FAC_SMS      ,
-     R     TAGNCONT          ,KLOADPINTER    ,LOADPINTER     ,LOADP_HYD_INTER)
+     Q     PINCH_DATA%APINCH(1,IDX_PINCH),PINCH_DATA%STIFPINCH(IDX_PINCH),T2FAC_SMS,TAGNCONT  ,
+     R     KLOADPINTER       ,LOADPINTER     ,LOADP_HYD_INTER ,DGAPLOADINT    ,S_LOADPINTER   )
 
          IF(NINTSTAMP/=0.AND.(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0.OR.
      .          ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0))THEN
@@ -8978,6 +8982,8 @@ C thermal boundary
             ENDIF
             IF (NLOADC > 0) CALL WRITE_DB(CFIELD,LFACLOAD*NLOADC)
             IF (NLOADP > 0) CALL WRITE_DB(LOADP,LFACLOAD*NLOADP)
+            IF (NINTLOADP > 0) CALL WRITE_DB(DGAPLOADINT,NINTER*NLOADP_HYD)
+
 c-------------------------------
 C xfem for layerd shell (cracks)
             IF (ICRACK3D > 0) THEN

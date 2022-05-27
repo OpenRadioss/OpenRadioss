@@ -108,7 +108,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   STARTT, GAP, MAXBOX, MINBOX, STOPT,DIST,TZINF,
-     .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, INACTI,DRAD
+     .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, INACTI,DRAD,DGAPLOAD
 C-----------------------------------------------
 #include "sync_dir.inc"
 C-----------------------------------------------
@@ -141,6 +141,7 @@ C
       GAP  = INTBUF_TAB%VARIABLES(2)
       DRAD =INTBUF_TAB%VARIABLES(24)
       DIST = INTBUF_TAB%VARIABLES(5)
+      DGAPLOAD =INTBUF_TAB%VARIABLES(46)
       IF (DIST.GT.ZERO) RETURN
       RETRI=1
 C -------------------------------------------------------------
@@ -251,7 +252,7 @@ C
         CALL SPMD_TRI11VOX0(
      1      X        ,BMINMA  ,IPARI(21,NIN),NRTM_T  , INTBUF_TAB%STFM(1+ESHIFT),
      2      TZINF    ,INTBUF_TAB%IRECTM(1+2*ESHIFT),GAP,INTBUF_TAB%GAP_M(1+ESHIFT),
-     3      INTBUF_TAB%VARIABLES(13) ,INTBUF_TAB%VARIABLES(7),DRAD)
+     3      INTBUF_TAB%VARIABLES(13) ,INTBUF_TAB%VARIABLES(7),DRAD,DGAPLOAD)
  
         CALL MY_BARRIER
         IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(26,1)
@@ -331,7 +332,7 @@ c    9   INTBUF_TAB%IFPEN         ,DRAD)
      8   INTBUF_TAB%STFM(1+ESHIFT),IPARI(42,NIN),I_MEM  , ITASK       ,IFORM       ,
      9   INTBUF_TAB%IFPEN         ,DRAD, INTBUF_TAB%GAP_M(1+ESHIFT), INTBUF_TAB%GAP_SL,
      1   INTBUF_TAB%GAP_ML(1+ESHIFT),INTBUF_TAB%VARIABLES(13),INTBUF_TAB%VARIABLES(7), GAP,
-     2   IPARI(63,NIN),INTBUF_TAB%KREMNODE(1+2*ESHIFT),INTBUF_TAB%REMNODE)
+     2   IPARI(63,NIN),INTBUF_TAB%KREMNODE(1+2*ESHIFT),INTBUF_TAB%REMNODE,DGAPLOAD)
 
 C Upgrade MultiMP
       IF (I_MEM == 2)THEN

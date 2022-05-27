@@ -29,7 +29,8 @@ Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I11PEN3_VOX(JLT   ,CAND_S,CAND_M,GAPMIN,DRAD,
      .                    MARGE  ,GAP_S ,GAP_M   ,GAP_S_L,GAP_M_L ,
-     .                    IGAP   ,X     ,IRECTS ,IRECTM  ,PENE   ,NRTS )
+     .                    IGAP   ,X     ,IRECTS ,IRECTM  ,PENE   ,
+     .                    NRTS   ,DGAPLOAD)
 
 C-----------------------------------------------
 C   M o d u l e s
@@ -54,10 +55,11 @@ C-----------------------------------------------
       INTEGER JLT, NRTS,IGAP
       INTEGER IRECTS(2,*), IRECTM(2,*),CAND_S(*),CAND_M(*)
       my_real
-     .     GAPMIN,DRAD,MARGE
+     .     GAPMIN,MARGE
       my_real
      .     X(3,*), PENE(MVSIZ), 
      .     GAP_S(*), GAP_M(*), GAP_S_L(*), GAP_M_L(*)
+      my_real , INTENT(IN) :: DGAPLOAD,DRAD
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -76,7 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF(IGAP.EQ.0)THEN
         DO I=1,JLT
-          GAPV(I)=MAX(DRAD,GAPMIN)+MARGE
+          GAPV(I)=MAX(DRAD,GAPMIN+DGAPLOAD)+MARGE
         ENDDO
       ELSE
         DO I=1,JLT
@@ -85,12 +87,12 @@ C-----------------------------------------------
            GAPV(I)=GAP_S(L)+GAP_M(CAND_M(I))
            IF(IGAP == 3)
      .        GAPV(I)=MIN(GAP_S_L(L)+GAP_M_L(CAND_M(I)),GAPV(I))
-            GAPV(I)=MAX(DRAD,GAPMIN,GAPV(I))+MARGE
+            GAPV(I)=MAX(DRAD,MAX(GAPMIN,GAPV(I))+DGAPLOAD)+MARGE
           ELSE
             GAPV(I)=XREM(16,L-NRTS )+GAP_M(CAND_M(I))
             IF(IGAP == 3) 
      .        GAPV(I)=MIN(XREM(17,L-NRTS)+GAP_M_L(CAND_M(I)),GAPV(I))
-            GAPV(I)=MAX(DRAD,GAPMIN,GAPV(I))+MARGE
+            GAPV(I)=MAX(DRAD,MAX(GAPMIN,GAPV(I))+DGAPLOAD)+MARGE
           ENDIF ! L <= NRTS
         ENDDO ! JLT
       ENDIF ! IGAP ==0

@@ -52,7 +52,7 @@ Chd|====================================================================
      7   NZ4 ,P1     ,P2     ,P3     ,P4     ,
      8   LB1 ,LB2    ,LB3    ,LB4    ,LC1    ,
      9   LC2 ,LC3    ,LC4    ,PENE   ,PROV_N ,
-     1   PROV_E,N11  ,N21    ,N31    )
+     1   PROV_E,N11  ,N21    ,N31    ,DGAPLOAD)
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -89,7 +89,8 @@ C     REAL
       my_real
      .   STF(*),X(3,*),XYZM(6,*),GAP_S(*), XM0(3,*),
      .   DIST,BUMULT,GAP,TZINF,MAXBOX,MINBOX,GAPMIN,GAPMAX, DEPTH, 
-     .   MARGEREF, DRAD
+     .   MARGEREF
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       INTEGER ID
       CHARACTER*nchartitle,
      .   TITR
@@ -120,7 +121,7 @@ C     REAL
      .   DX3,DY3,DZ3,
      .   DX4,DY4,DZ4,
      .   DX6,DY6,DZ6,
-     .   DD1,DD2,DD3,DD4,DD,DD0,XMIN,YMIN,ZMIN,
+     .   DD1,DD2,DD3,DD4,DD,DD0,XMIN,YMIN,ZMIN,DEPTH2,
      .   XMAX,YMAX,ZMAX,TZINF0,MINBOX_ST,MAXBOX_ST,GAPSMAX,
      .   BID,TZINF_ST,MARGE_ST,GAPV(MVSIZ)
 C
@@ -162,17 +163,18 @@ C     TAILLE ZINF = .1*TAILLE MOYENNE ELEMENT DE CHAQUE COTE
 C     TAILLE BUCKET MIN = TZINF  * BUMULT
       DD0= DD/NRTS/FOUR
 C     DD = MAX(DD0,ONEP251*GAP)
-      DD = MAX(DD0,ONEP251*DEPTH)
+      DEPTH2=DEPTH+DGAPLOAD
+      DD = MAX(DD0,ONEP251*DEPTH2)
       DD = MAX(DD ,ONEP251*DRAD)
 C     TZINF = BUMULT*DD
       MARGEREF = BUMULT*DD
 C calcul de TZINF en fct de la marge et non le contraire
 C   peut etre ameliore pour engine (debut de run) : TZINF = MARGEREF + Sup(gap) !!!
-      TZINF = MARGEREF + MAX(DEPTH,DRAD)
+      TZINF = MARGEREF + MAX(DEPTH2,DRAD)
 C     Depth >= max(Gapv) dans le starter
 C MARGE_ST : marge independante du BUMULT en input pour trouver les memes pene initiales (cas delete ou chgt coord.)
       MARGE_ST = BMUL0*DD
-      TZINF_ST = MARGE_ST + MAX(DEPTH,DRAD)
+      TZINF_ST = MARGE_ST + MAX(DEPTH2,DRAD)
 C     MAXBOX= ZEP9*(DD - TZINF)
 C DD + 2*TZINF : taille element augmentee de zone influence
       MAXBOX= HALF*(DD + 2*TZINF)
@@ -303,7 +305,7 @@ C       SEPARER B ET N EN TWO
      5   CAND_N  ,CAND_E  ,NSN      ,NOINT    ,TZINF_ST,
      6   MAXBOX_ST,MINBOX_ST,J_STOK   ,MSR      ,XM0    ,
      7   MULTIMP ,ITAB    ,GAP      ,GAP_S    ,IGAP   ,
-     8   GAPMIN   ,GAPMAX   ,MARGE_ST,DEPTH    ,DRAD   ,
+     8   GAPMIN   ,GAPMAX   ,MARGE_ST,DEPTH   ,DRAD   ,
      9   ID      ,TITR,
      1   IX1 ,IX2    ,IX3    ,IX4    ,NSVG   ,
      2   X1  ,X2     ,X3     ,X4     ,Y1     ,
@@ -315,7 +317,7 @@ C       SEPARER B ET N EN TWO
      8   NZ4 ,P1     ,P2     ,P3     ,P4     ,
      9   LB1 ,LB2    ,LB3    ,LB4    ,LC1    ,
      1   LC2 ,LC3    ,LC4    ,PENE   ,PROV_N ,
-     2   PROV_E,N11  ,N21    ,N31    )
+     2   PROV_E,N11  ,N21    ,N31    ,DGAPLOAD)
 C------------------
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
@@ -329,7 +331,7 @@ C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
         GO TO 100
       ELSE IF(I_MEM.EQ.2) THEN
         MARGE_ST = THREE_OVER_4*MARGE_ST
-        TZINF_ST = MARGE_ST + MAX(DEPTH,DRAD)
+        TZINF_ST = MARGE_ST + MAX(DEPTH2,DRAD)
         MAXBOX_ST= HALF*(DD + 2*TZINF_ST)
         MINBOX_ST= HALF*MAXBOX_ST
         I_MEM = 0
@@ -365,7 +367,7 @@ C---------------------------------
      4                   IX2   ,IX3   ,IX4   ,NSVG    ,X1     ,
      5                   X2    ,X3    ,X4    ,Y1      ,Y2     ,
      6                   Y3    ,Y4    ,Z1    ,Z2      ,Z3     ,
-     7                   Z4    ,XI    ,YI    ,ZI)
+     7                   Z4    ,XI    ,YI    ,ZI      ,DGAPLOAD)
          CALL I7DST3(IX3,IX4,X1 ,X2 ,X3 ,
      1                  X4 ,Y1 ,Y2 ,Y3 ,Y4 ,
      2                  Z1 ,Z2 ,Z3 ,Z4 ,XI ,
@@ -392,7 +394,7 @@ C---------------------------------
      1                  PROV_N,PROV_E)
           ELSE
             MARGE_ST = THREE_OVER_4*MARGE_ST
-            TZINF_ST = MARGE_ST + MAX(DEPTH,DRAD)
+            TZINF_ST = MARGE_ST + MAX(DEPTH2,DRAD)
             MAXBOX_ST= HALF*(DD + 2*TZINF_ST)
             MINBOX_ST= HALF*MAXBOX_ST
 	    I_MEM = 0

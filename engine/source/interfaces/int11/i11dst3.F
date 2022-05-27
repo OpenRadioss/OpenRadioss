@@ -37,7 +37,7 @@ Chd|====================================================================
      8   VXM2   ,VYM1  ,VYM2  ,VZM1  ,VZM2  ,
      9   MS1    ,MS2   ,MM1   ,MM2   ,GAPV  ,
      A   NSMS   ,INDEX ,DRAD  , INTFRIC ,
-     B   IPARTFRICSI,IPARTFRICMI  )
+     B   IPARTFRICSI,IPARTFRICMI,DGAPLOAD  )
 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -55,8 +55,8 @@ C-----------------------------------------------
       INTEGER CAND_S(*),CAND_M(*),
      .        N1(*),N2(*),M1(*),M2(*), NSMS(*),INDEX(*),
      .        IPARTFRICSI(MVSIZ),IPARTFRICMI(MVSIZ)
+      my_real , INTENT(IN) :: DRAD, DGAPLOAD
       my_real
-     .     DRAD,
      .     H1S(*),H2S(*),H1M(*),H2M(*),NX(*),NY(*),NZ(*),STIF(*),
      .     XXS1(*) ,XXS2(*) ,XYS1(*) ,XYS2(*) ,
      .     XZS1(*) ,XZS2(*) ,XXM1(*) ,XXM2(*) ,XYM1(*),
@@ -169,7 +169,7 @@ C!!!!!!!!!!!!!!!!!!!!!!!!
      .       - H1M(I)*XYM1(I) - H2M(I)*XYM2(I)
        NZ(I) = H1S(I)*XZS1(I) + H2S(I)*XZS2(I)
      .       - H1M(I)*XZM1(I) - H2M(I)*XZM2(I)
-       GAP2 = GAPV(I)*GAPV(I)
+       GAP2 = (GAPV(I)+DGAPLOAD)*(GAPV(I)+DGAPLOAD)
        PENE2(I) = MAX(GAP2,DRAD2) - NX(I)*NX(I) - NY(I)*NY(I) - NZ(I)*NZ(I)
        PENE2(I) = MAX(ZERO,PENE2(I)) 
 

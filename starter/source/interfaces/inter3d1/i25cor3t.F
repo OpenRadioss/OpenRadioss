@@ -35,7 +35,8 @@ Chd|====================================================================
      5                   IX2     ,IX3   ,IX4     ,NSN   ,NRTM   ,
      6                   MARGE   ,GAP_S ,GAP_M   ,GAPV  ,ITYP   ,
      7                   IGAP  ,GAP_S_L ,GAP_M_L ,EDGE_L2,MSEGTYP,
-     8                   ETYP    ,ICODE ,ISKEW   ,IBC    ,DRAD  )
+     8                   ETYP    ,ICODE ,ISKEW   ,IBC    ,DRAD  ,
+     9                   DGAPLOAD)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -67,9 +68,12 @@ C-----------------------------------------------
      .        ETYP(MVSIZ), IBC(MVSIZ)
 C     REAL
       my_real
-     .   X(3,*), GAPV(*), GAP_S(*), GAP_M(*), MARGE,DRAD,
+     .   X(3,*), GAPV(*), GAP_S(*), GAP_M(*), 
      .   GAP_S_L(*), GAP_M_L(*), EDGE_L2(*)
-C     REAL
+      my_real
+     .   MARGE
+      my_real , INTENT(IN) :: DRAD, DGAPLOAD
+C     REAL ou REAL*8
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
@@ -86,24 +90,26 @@ C
         DO I=1,JLT
           J = CAND_N(I)
           L = CAND_E(I)
-          GAPV(I)=MAX(GAP_S(J) + GAP_M(L),DRAD)
+          GAPV(I)=GAP_S(J) + GAP_M(L)
           IF(MSEGTYP(L)==0.OR.MSEGTYP(L)>NRTM)THEN
             GAPV(I)=MAX(GAPV(I)+MARGE,GAPV(I)+EDGE_L2(J))
           ELSE
             GAPV(I)=GAPV(I)+MARGE
           END IF
+          GAPV(I)=MAX(GAPV(I)+DGAPLOAD,DRAD)
         END DO
       ELSE
         DO I=1,JLT
           J = CAND_N(I)
           L = CAND_E(I)
-          GAPV(I)=MAX(GAP_S(J) + GAP_M(L),DRAD)
+          GAPV(I)=GAP_S(J) + GAP_M(L)
           GAPV(I)=MIN(GAP_S_L(J)+GAP_M_L(L),GAPV(I))
           IF(MSEGTYP(L)==0.OR.MSEGTYP(L)>NRTM)THEN
             GAPV(I)=MAX(GAPV(I)+MARGE,GAPV(I)+EDGE_L2(J))
           ELSE
             GAPV(I)=GAPV(I)+MARGE
           END IF
+          GAPV(I)=MAX(GAPV(I)+DGAPLOAD,DRAD)
         END DO
       END IF
       DO I=1,JLT

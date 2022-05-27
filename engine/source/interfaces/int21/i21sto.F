@@ -33,7 +33,8 @@ Chd|====================================================================
      2      CAND_E ,MULNSN ,NOINT      ,MARGE  ,I_MEM  ,
      3      PROV_N ,PROV_E ,ESHIFT     ,INACTI ,NSN    ,
      4      IGAP     ,GAP  ,GAP_S      ,GAPMIN ,GAPMAX ,
-     5      CURV_MAX ,XM0  ,NOD_NORMAL ,DEPTH  ,DRAD   )
+     5      CURV_MAX ,XM0  ,NOD_NORMAL ,DEPTH  ,DRAD   ,
+     6      DGAPLOAD )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,7 +61,8 @@ C     REAL
       my_real
      .        XLOC(3,*), GAP_S(*), 
      .        MARGE, GAP, GAPMIN, GAPMAX, CURV_MAX(*),
-     .        DEPTH, XM0(3,*), NOD_NORMAL(3,*), DRAD
+     .        DEPTH, XM0(3,*), NOD_NORMAL(3,*)
+      my_real , INTENT(IN) :: DGAPLOAD,DRAD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -86,7 +88,7 @@ C-----------------------------------------------
      4               XI      ,YI   ,ZI    ,IX1   ,IX2    ,  
      5               IX3     ,IX4  ,NSN   ,GAP_S ,GAPV   ,
      6               GAPMAX  ,GAPMIN,CURV_MAX,DEPTH ,XM0 ,
-     7               DRAD    )
+     7               DRAD    ,DGAPLOAD)
 C-----------------------------------------------
         CALL I7PEN3(J_STOK ,MARGE  ,X1    ,X2     ,X3   ,
      .               X4    ,Y1     ,Y2    ,Y3     ,Y4   ,

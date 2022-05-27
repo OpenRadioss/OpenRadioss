@@ -40,7 +40,7 @@ Chd|====================================================================
      8      MBINFLG,ILEV    ,MSEGTYP ,
      9      FLAGREMNODE,KREMNOD,REMNOD  ,
      A      IGAP   ,GAP_S_L,GAP_M_L  ,ICODT    ,ISKEW    ,
-     B      DRAD   )
+     B      DRAD   ,DGAPLOAD )
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -115,7 +115,8 @@ C     REAL
       my_real
      .   X(3,*),V(3,*),XYZM(6),STF(*),STFN(*),GAP_S(*),GAP_M(*),
      .   CURV_MAX(*),PENE_OLD(5,NSN),GAP_S_L(*),GAP_M_L(*),
-     .   MARGE,BGAPSMX,PMAX_GAP,VMAXDT ,DRAD
+     .   MARGE,BGAPSMX,PMAX_GAP,VMAXDT 
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -270,7 +271,7 @@ C on ne retient pas les facettes detruites
            TAG(REMNOD(I)) = 1
          ENDDO
 c
-         AAA = MARGE+CURV_MAX(NE)+MAX(MAX(BGAPSMX+GAP_M(NE),PMAX_GAP),DRAD)+VMAXDT
+         AAA = MARGE+CURV_MAX(NE)+MAX(MAX(BGAPSMX+GAP_M(NE),PMAX_GAP)+DGAPLOAD,DRAD)+VMAXDT
      +       
 
 
@@ -362,7 +363,7 @@ c VMAXDT is a local overestimate of relative incremental displacement
 c NO need to communicate in SPMD
 
                  AAA = MARGE + CURV_MAX(NE) 
-     +               + MAX(GAP_S(JJ)+GAP_M(NE),DRAD)
+     +               + MAX(GAP_S(JJ)+GAP_M(NE)+DGAPLOAD,DRAD)
      +                    +VMAXDT 
                ELSE
                  J=JJ-NSN
@@ -386,7 +387,7 @@ c NO need to communicate in SPMD
 c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 c                                      +EDGE_L2(JJ) remote
 c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     +        + MAX(XREM(IGAPXREMP,J)+GAP_M(NE),DRAD)
+     +        + MAX(XREM(IGAPXREMP,J)+GAP_M(NE)+DGAPLOAD,DRAD)
      +        + VMAXDT 
                ENDIF
 
@@ -429,7 +430,7 @@ cc             nnrpelem = nnrpelem + 1
      4                NSN   ,NRTM   ,GAP_S  ,GAP_M ,CURV_MAX,NIN  ,
      5                PENE_OLD,NBINFLG  ,MBINFLG,ILEV,MSEGTYP,
      6                ITAB  ,IGAP ,GAP_S_L,GAP_M_L,ICODT,ISKEW,
-     7                DRAD  )
+     7                DRAD  ,DGAPLOAD)
                    IF(I_MEM.EQ.2)GOTO 100
                    J_STOK = 0
                  ENDIF
@@ -458,7 +459,7 @@ cc             nnr0pelg = nnr0pelg + nnr0pelem
       ELSE !FLAGREMNODE
        DO NE=1,NRTM
 c
-         AAA = MARGE+CURV_MAX(NE)+MAX(MAX(BGAPSMX+GAP_M(NE),PMAX_GAP),DRAD)+VMAXDT
+         AAA = MARGE+CURV_MAX(NE)+MAX(MAX(BGAPSMX+GAP_M(NE),PMAX_GAP)+DGAPLOAD,DRAD)+VMAXDT
      +       
 
 
@@ -549,7 +550,7 @@ c VMAXDT is a local overestimate of relative incremental displacement
 c NO need to communicate in SPMD
 
                  AAA = MARGE + CURV_MAX(NE) 
-     +               + MAX(GAP_S(JJ)+GAP_M(NE),DRAD)
+     +               + MAX(GAP_S(JJ)+GAP_M(NE)+DGAPLOAD,DRAD)
      +                    +VMAXDT 
                ELSE
                  J=JJ-NSN
@@ -561,7 +562,7 @@ c NO need to communicate in SPMD
 c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 c                                      +EDGE_L2(JJ) remote
 c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     +        + MAX(XREM(IGAPXREMP,J)+GAP_M(NE),DRAD)
+     +        + MAX(XREM(IGAPXREMP,J)+GAP_M(NE)+DGAPLOAD,DRAD)
      +        + VMAXDT 
                ENDIF
 
@@ -604,7 +605,7 @@ cc             nnrpelem = nnrpelem + 1
      4                NSN   ,NRTM   ,GAP_S  ,GAP_M ,CURV_MAX,NIN  ,
      5                PENE_OLD,NBINFLG  ,MBINFLG,ILEV,MSEGTYP,
      6                ITAB  ,IGAP ,GAP_S_L,GAP_M_L,ICODT,ISKEW,
-     7                DRAD  )
+     7                DRAD  ,DGAPLOAD)
                    IF(I_MEM.EQ.2)GOTO 100
                    J_STOK = 0
                  ENDIF
@@ -635,7 +636,7 @@ C-------------------------------------------------------------------------
      4              NSN   ,NRTM   ,GAP_S  ,GAP_M ,CURV_MAX,NIN  ,
      5              PENE_OLD,NBINFLG,MBINFLG,ILEV ,MSEGTYP,
      6              ITAB  ,IGAP ,GAP_S_L,GAP_M_L,ICODT,ISKEW,
-     7              DRAD  )
+     7              DRAD  ,DGAPLOAD)
 
 C=======================================================================
 C 4   remise a zero des noeuds dans les boites

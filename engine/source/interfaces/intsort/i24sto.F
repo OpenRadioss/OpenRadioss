@@ -38,7 +38,7 @@ Chd|====================================================================
      4      NSN   ,GAP_S  ,GAP_M ,CURV_MAX,NIN  ,
      5      PENE_OLD,NBINFLG,MBINFLG,ILEV ,MSEGTYP,
      6      EDGE_L2,IEDGE,ISEADD ,ISEDGE ,CAND_T,itab,
-     7      CAND_A,OLDNUM,NSNROLD)
+     7      CAND_A,OLDNUM,NSNROLD,DGAPLOAD)
 C============================================================================
       USE TRI7BOX
 C-----------------------------------------------
@@ -69,6 +69,7 @@ C-----------------------------------------------
       INTEGER PROV_N(MVSIZ),PROV_E(MVSIZ),II_STOK,MSEGTYP(*),ISEADD(*),
      .        ISEDGE(*) ,itab(*), CAND_A(*),OLDNUM(*)
 C     REAL
+      my_real , INTENT(IN) :: DGAPLOAD
       my_real
      .        X(3,*), V(3,*), GAP_S(*), GAP_M(*),
      .        MARGE, CURV_MAX(*),PENE_OLD(5,NSN),EDGE_L2(*)
@@ -95,7 +96,8 @@ C-----------------------------------------------
      4               XI      ,YI   ,ZI      ,STIF  ,IX1     ,
      5               IX2     ,IX3  ,IX4     ,NSN   ,GAP_S   ,
      6               GAP_M   ,GAPV ,CURV_MAX,ITYPE ,NIN     ,
-     7               V       ,PENE_OLD,GAPVE ,EDGE_L2,IEDGE)
+     7               V       ,PENE_OLD,GAPVE ,EDGE_L2,IEDGE ,
+     8               DGAPLOAD)
 C-----------------------------------------------
       CALL I24PEN3( J_STOK ,MARGE ,X1    ,X2     ,X3   ,
      .               X4    ,Y1    ,Y2    ,Y3     ,Y4   ,

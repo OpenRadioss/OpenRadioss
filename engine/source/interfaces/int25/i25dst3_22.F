@@ -47,7 +47,7 @@ Chd|====================================================================
      J                  FAR     ,PENT  ,
      L                  SUBTRIA ,LBS   ,LCS     ,LBP    ,LCP   ,
      P                  MVOISA  ,MVOISB,GAPMXL  ,IBOUNDA,IBOUNDB,
-     Q                  VTX_BISECTOR,DRAD)
+     Q                  VTX_BISECTOR,DRAD,DGAPLOAD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -75,8 +75,8 @@ C-----------------------------------------------
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        INTTH,MSEGLO(*),IRTLM(4,NSN), SUBTRIA(MVSIZ),
      .        MVOISA(MVSIZ,4), MVOISB(MVSIZ,4),IBOUNDA(4,MVSIZ),IBOUNDB(4,MVSIZ)
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
-     .     DRAD,
      .     TIME_S(2,NSN), GAPS(*), GAPM(*), 
      .     PENE_OLD(5,*),STIF_OLD(2,NSN), PENMIN, EPS0, MARGE
       my_real
@@ -636,19 +636,23 @@ C
           DD(I,4) =DX*DX+DY*DY+DZ*DZ
 
 C
-          GAP  = MIN(MAX(DRAD,GAPS(I)+LAP1*GAP_MM(I)+LBP(I,1)*GAP_NM(1,I)+LCP(I,1)*GAP_NM(2,I)),MAX(DRAD,GAPMXL(I)))
+          GAP  = MIN(MAX(DRAD,GAPS(I)+LAP1*GAP_MM(I)+LBP(I,1)*GAP_NM(1,I)+LCP(I,1)*GAP_NM(2,I)+DGAPLOAD),
+     .                   MAX(DRAD,GAPMXL(I)+DGAPLOAD))
           GAP21 = GAP**2
           BB(I,1) =((XX(I,5)-XI(I))*XN(I,1)+(YY(I,5)-YI(I))*YN(I,1)+(ZZ(I,5)-ZI(I))*ZN(I,1))
 C         
-          GAP  = MIN(MAX(DRAD,GAPS(I)+LAP2*GAP_MM(I)+LBP(I,2)*GAP_NM(2,I)+LCP(I,2)*GAP_NM(3,I)),MAX(DRAD,GAPMXL(I)))
+          GAP  = MIN(MAX(DRAD,GAPS(I)+LAP2*GAP_MM(I)+LBP(I,2)*GAP_NM(2,I)+LCP(I,2)*GAP_NM(3,I)+DGAPLOAD),
+     .                   MAX(DRAD,GAPMXL(I)+DGAPLOAD))
           GAP22 =GAP**2
           BB(I,2) =((XX(I,5)-XI(I))*XN(I,2)+(YY(I,5)-YI(I))*YN(I,2)+(ZZ(I,5)-ZI(I))*ZN(I,2))
 C
-          GAP  = MIN(MAX(DRAD,GAPS(I)+LAP3*GAP_MM(I)+LBP(I,3)*GAP_NM(3,I)+LCP(I,3)*GAP_NM(4,I)),MAX(DRAD,GAPMXL(I)))
+          GAP  = MIN(MAX(DRAD,GAPS(I)+LAP3*GAP_MM(I)+LBP(I,3)*GAP_NM(3,I)+LCP(I,3)*GAP_NM(4,I)+DGAPLOAD),
+     .                   MAX(DRAD,GAPMXL(I)+DGAPLOAD))
           GAP23 =GAP**2
           BB(I,3) =((XX(I,5)-XI(I))*XN(I,3)+(YY(I,5)-YI(I))*YN(I,3)+(ZZ(I,5)-ZI(I))*ZN(I,3))
 C
-          GAP  = MIN(MAX(DRAD,GAPS(I)+LAP4*GAP_MM(I)+LBP(I,4)*GAP_NM(4,I)+LCP(I,4)*GAP_NM(1,I)),MAX(DRAD,GAPMXL(I)))
+          GAP  = MIN(MAX(DRAD,GAPS(I)+LAP4*GAP_MM(I)+LBP(I,4)*GAP_NM(4,I)+LCP(I,4)*GAP_NM(1,I)+DGAPLOAD),
+     .                   MAX(DRAD,GAPMXL(I)+DGAPLOAD))
           GAP24 =GAP**2
           BB(I,4) =((XX(I,5)-XI(I))*XN(I,4)+(YY(I,5)-YI(I))*YN(I,4)+(ZZ(I,5)-ZI(I))*ZN(I,4))
 C
@@ -759,7 +763,8 @@ C
        I2=ITRIA(2,IT)
 C
        LAP = ONE-LBP(I,IT)-LCP(I,IT)
-       GAP  = MIN(MAX(DRAD,GAPS(I)+LAP*GAP_MM(I)+LBP(I,IT)*GAP_NM(I1,I)+LCP(I,IT)*GAP_NM(I2,I)),MAX(DRAD,GAPMXL(I)))
+       GAP  = MIN(MAX(DRAD,GAPS(I)+LAP*GAP_MM(I)+LBP(I,IT)*GAP_NM(I1,I)+LCP(I,IT)*GAP_NM(I2,I))+DGAPLOAD,
+     .                   MAX(DRAD,GAPMXL(I)+DGAPLOAD))
 C
        IF(BB(I,IT) > ZERO)THEN
 C
@@ -1009,7 +1014,8 @@ C
        I2=ITRIA(2,IT)
 C
        LAP = ONE-LBP(I,IT)-LCP(I,IT)
-       GAP  = MIN(MAX(DRAD,GAPS(I)+LAP*GAP_MM(I)+LBP(I,IT)*GAP_NM(I1,I)+LCP(I,IT)*GAP_NM(I2,I)),MAX(DRAD,GAPMXL(I)))
+       GAP  = MIN(MAX(DRAD,GAPS(I)+LAP*GAP_MM(I)+LBP(I,IT)*GAP_NM(I1,I)+LCP(I,IT)*GAP_NM(I2,I)+DGAPLOAD),
+     .                   MAX(DRAD,GAPMXL(I)+DGAPLOAD))
 C
        IF(BB(I,IT) < ZERO)THEN
 C

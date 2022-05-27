@@ -73,7 +73,7 @@ Chd|====================================================================
      H                   DIMFB     ,H3D_DATA,INTBUF_FRIC_TAB  ,NISKYFIE,
      I                   APINCH    ,STIFPINCH,NPC   ,TF       ,CONDN   ,
      J                   CONDNSKYI ,QFRICINT,TAGNCONT,KLOADPINTER,LOADPINTER,
-     K                   LOADP_HYD_INTER)
+     K                   LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER)
 C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -121,15 +121,17 @@ C-----------------------------------------------
      .        NRTMDIM, IAD17, IPARSENS
       INTEGER IPARI(NPARI,NINTER), ICODT(*),ICONTACT(*),
      .        ITAB(*), ISKY(*), KINET(*), 
-     .        IPARG(NPARG,*),INOD_PXFEM(*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
-     .        KLOADPINTER(NINTER+1),LOADPINTER((NINTER+1)*NLOADP_HYD),
-     .        LOADP_HYD_INTER(NLOADP_HYD)
+     .        IPARG(NPARG,*),INOD_PXFEM(*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD)
       INTEGER NB_IMPCT,JTASK,
      .        NISKYFI, LINDMAX, NISKYFIE
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*)
       INTEGER IXS(*)  ,IXS16(*) ,IXS20(*)
       INTEGER IAD_ELEM(2,*),FR_ELEM(*), NPC(*),
      .        ISKYI_SMS(*), NODNX_SMS(*), ISENSINT(*),DIMFB
+      INTEGER  , INTENT(IN) :: S_LOADPINTER
+      INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
+     .         LOADP_HYD_INTER(NLOADP_HYD)
+      my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
       my_real 
      .        EMINX(*)
 C     REAL
@@ -228,14 +230,15 @@ C     REAL
      .   VZS1(4*MVSIZ), VZS2(4*MVSIZ), VXM1(4*MVSIZ), VXM2(4*MVSIZ),
      .   VYM1(4*MVSIZ), VYM2(4*MVSIZ), VZM1(4*MVSIZ), VZM2(4*MVSIZ),
      .   MS1(4*MVSIZ),  MS2(4*MVSIZ),  MM1(4*MVSIZ),  MM2(4*MVSIZ),
-     .   EX(4*MVSIZ), EY(4*MVSIZ), EZ(4*MVSIZ), FX(MVSIZ), FY(MVSIZ), FZ(MVSIZ)
+     .   EX(4*MVSIZ),  EY(4*MVSIZ), EZ(4*MVSIZ), FX(MVSIZ), FY(MVSIZ), 
+     .   FZ(MVSIZ)  , DIST(MVSIZ)
 
       my_real
      .     , DIMENSION(:,:,:), ALLOCATABLE :: FSAVPARIT
       my_real
      .     RCURVI(MVSIZ), ANGLMI(MVSIZ), ANGLT, PADM,PENMIN,MARGE
       INTEGER NRTMFT, NRTMLT, NMNFT, NMNLT, NRADM, IS, IM
-      INTEGER ICURV,ILEV,NREBOU,NPT ,NRTSE,IEDG4,SFSAVPARIT,NCY_PFIT
+      INTEGER ICURV,ILEV,NREBOU,NPT ,NRTSE,IEDG4,SFSAVPARIT,NCY_PFIT,NINLOADP
       my_real
      .    XFILTR_FRIC,FRIC_COEFS(MVSIZ,10),VISCFFRIC(MVSIZ),FRICC(MVSIZ),
      .    FRIC_COEFS2(MVSIZ,10),VISCFFRIC2(MVSIZ),FRICC2(MVSIZ),
@@ -359,6 +362,8 @@ c         IFQ      =   INTBUF_FRIC_TAB(INTFRIC)%IFFILTER
          IF (IFQ.NE.0) XFILTR_FRIC = INTBUF_TAB%XFILTR(1)
       ENDIF
       EFRICT = ZERO
+C
+      NINLOADP = IPARI(95,NIN) ! load pressure related to inter
 C
 c----------------------------------------------------
 c   Rayon de courbure : calcul des normales nodales (normees)
@@ -591,7 +596,7 @@ C         Extraction of global data to local arrays
      J  Z1         ,X2       ,Y2          ,Z2          ,X3                   ,
      K  Y3         ,Z3       ,X4          ,Y4          ,Z4      ,
      L  INTTH      ,TEMP     ,TEMPI       ,INTBUF_TAB%IELES     ,IELESI      ,
-     M  INTBUF_TAB%IELEM,IELEMI   )
+     M  INTBUF_TAB%IELEM,IELEMI )
           CALL I_CORPFIT3(
      1               JLT      ,INTBUF_TAB%STFM  ,INTBUF_TAB%STFNS,STIF      ,NSN    ,
      2               CAND_E_N ,CAND_N_N,NIN     ,IGSTI   ,KMIN     ,
@@ -610,7 +615,7 @@ C
      7 INACTI      ,KINI        ,ITAB        ,LB          ,LC          ,
      8 PENMIN      ,EPS         ,PENE        ,INTBUF_TAB%PENE_OLD,SUBTRIA,
      9 GAPV        ,IVIS2       ,INTBUF_TAB%IF_ADH,IFADHI ,BASE_ADH      ,
-     A MVOISN      ,IBOUND      ,INTBUF_TAB%VTX_BISECTOR  )
+     A MVOISN      ,IBOUND      ,INTBUF_TAB%VTX_BISECTOR  ,DIST)
 C
           DO I = 1 ,JLT
 C
@@ -630,7 +635,7 @@ C          IF(PENE(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
            END IF
           ENDDO
 C
-          IF(INTTH==0.AND.JLT_NEW == 0)CYCLE
+          IF(INTTH==0.AND.JLT_NEW == 0.AND.NINLOADP == 0)CYCLE
           IPARI(29,NIN) = 1
 C
           IF (DEBUG(3).GE.1) NB_IMPCT = NB_IMPCT + JLT_NEW
@@ -700,7 +705,8 @@ C-------------------------------------------------------------------------------
      E  FY4         ,FZ4        ,FXI          ,FYI        ,FZI       ,
      C  INTTH       ,DRAD       ,FHEATS       ,FHEATM     ,QFRICINT(NIN),
      D  EFRICT      ,TAGNCONT   ,KLOADPINTER  ,LOADPINTER ,LOADP_HYD_INTER,
-     E  INTBUF_TAB%TYPSUB,IPARI(40,NIN))
+     E  INTBUF_TAB%TYPSUB,IPARI(40,NIN),NINLOADP,DGAPLOADINT,S_LOADPINTER,
+     F  DIST       )
 C
           IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
 
@@ -717,7 +723,7 @@ C
      8     Z2     ,X3     ,Y3     ,Z3     ,X4     ,
      9     Y4     ,Z4     ,IX1    ,IX2    ,IX3    ,
      A     IX4    ,PHI    ,PHI1   ,PHI2   ,PHI3   ,
-     B     PHI4   ,PM    ,NSVG,ITAB)
+     B     PHI4   ,PM     ,NSVG   ,ITAB   )
          
          ENDIF
 
@@ -735,7 +741,7 @@ C
      9    FX1         ,FY1      ,FZ1        ,FX2       ,FY2       ,
      A    FZ2         ,FX3      ,FY3        ,FZ3       ,FX4       ,
      B    FY4         ,FZ4      ,FXI        ,FYI       ,FZI       ,
-     F    IFORM    ,CONDINT    ,CONDN     ,CONDNSKYI )
+     F    IFORM       ,CONDINT  ,CONDN      ,CONDNSKYI )
 
       ENDDO
 C-----------------------------------------------------------------------
@@ -925,7 +931,7 @@ C-------------------------------------------------------------------------------
      I INTBUF_TAB%FTSAVX_E,INTBUF_TAB%FTSAVY_E, INTBUF_TAB%FTSAVZ_E   ,
      .                                          INTBUF_TAB%IFPEN_E    ,
      J TAGNCONT   ,KLOADPINTER  ,LOADPINTER ,LOADP_HYD_INTER, INTBUF_TAB%TYPSUB,
-     K STARTT    )
+     K STARTT     ,NINLOADP,DGAPLOADINT,S_LOADPINTER)
 
             IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
 
@@ -1102,7 +1108,7 @@ C-------------------------------------------------------------------------------
      J IFQ          ,INTBUF_TAB%FTSAVX_E2S,INTBUF_TAB%FTSAVY_E2S, INTBUF_TAB%FTSAVZ_E2S ,
      .                                            INTBUF_TAB%IFPEN_E2S    ,
      K TAGNCONT   ,KLOADPINTER  ,LOADPINTER ,LOADP_HYD_INTER,INTBUF_TAB%TYPSUB,
-     O STARTT)
+     O STARTT     ,NINLOADP,DGAPLOADINT,S_LOADPINTER)
 
             IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
           ENDIF

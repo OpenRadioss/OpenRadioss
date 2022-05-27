@@ -39,7 +39,7 @@ Chd|====================================================================
      8      IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,INACTI,
      9      IPARTS  ,NPARTNS ,LPARTNS ,IELEM ,ICODE   ,
      A      ISKEW   ,DRAD, IS_LARGE_NODE, LARGE_NODE  , 
-     B      NB_LARGE_NODES,PEN_OLD)
+     B      NB_LARGE_NODES,PEN_OLD      , DGAPLOAD)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -111,8 +111,10 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(3,*),XYZM(6),STF(*),STFN(*),GAP_S(*),GAP_M(*),
-     .   GAP_S_L(*),GAP_M_L(*), EDGE_L2(*),LEDGMAX,
-     .   MARGE,BGAPSMX, DRAD,PEN_OLD(5,NSN)
+     .   GAP_S_L(*),GAP_M_L(*), EDGE_L2(*),PEN_OLD(5,NSN) 
+      my_real
+     .   LEDGMAX, MARGE, BGAPSMX
+      my_real , INTENT(IN) :: DRAD, DGAPLOAD
       INTEGER :: LARGE_NODE(NSN) ! list of nodes that have large research distance wrt solids
       INTEGER :: IS_LARGE_NODE(NSN) ! tag nodes that have large research distance wrt solids
       INTEGER :: NB_LARGE_NODES
@@ -241,9 +243,9 @@ c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
 
          IF (MSEGTYP(NE)==0 .OR. MSEGTYP(NE)>NRTM)THEN
           ! LEDGMAX /=0 <=> INACTI=5 or -1 and IDDLEVEL=1 !
-          AAA = MAX(MARGE+MAX(BGAPSMX+GAP_M(NE),DRAD),LEDGMAX+BGAPSMX+GAP_M(NE))
+          AAA = MAX(MARGE+MAX(BGAPSMX+GAP_M(NE)+DGAPLOAD,DRAD),LEDGMAX+BGAPSMX+GAP_M(NE)+DGAPLOAD)
          ELSE
-          AAA = MARGE+MAX(BGAPSMX+GAP_M(NE),DRAD)
+          AAA = MARGE+MAX(BGAPSMX+GAP_M(NE)+DGAPLOAD,DRAD)
          END IF 
 
 
@@ -314,7 +316,7 @@ c NEED to communicate in SPMD
 c VMAXDT is a local overestimate of relative incremental displacement
 c NO need to communicate in SPMD
 
-               AAA = MAX(MARGE+MAX(GAP_S(JJ)+GAP_M(NE),DRAD),EDGE_L2(JJ)+GAP_S(JJ)+GAP_M(NE))
+               AAA = MAX(MARGE+MAX(GAP_S(JJ)+GAP_M(NE)+DGAPLOAD,DRAD)+DGAPLOAD,EDGE_L2(JJ)+GAP_S(JJ)+GAP_M(NE)+DGAPLOAD)
                IF(XS<=XMINE-AAA)GOTO 400
                IF(XS>=XMAXE+AAA)GOTO 400
                IF(YS<=YMINE-AAA)GOTO 400
@@ -358,7 +360,8 @@ c               END IF
      3              I_MEM ,PROV_N ,PROV_E,ESHIFT,NSN   ,
      4              NRTM  ,GAP_S  ,GAP_M ,NBINFLG  ,MBINFLG,
      5              ILEV,MSEGTYP,ITAB  ,IGAP ,GAP_S_L,
-     6              GAP_M_L,EDGE_L2,ICODE,ISKEW,DRAD)
+     6              GAP_M_L,EDGE_L2,ICODE,ISKEW,DRAD ,
+     7              DGAPLOAD)
                  IF(I_MEM.EQ.2)GOTO 100
                  J_STOK = 0
                ENDIF
@@ -396,9 +399,9 @@ c NO need to communicate in SPMD
                IF (MSEGTYP(NE)==0 .OR. MSEGTYP(NE)>NRTM)THEN
                 IF(IS_LARGE_NODE(JJ)==1) GOTO 300 ! node already checked before
                ! LEDGMAX /=0 <=> INACTI=5 or -1 and IDDLEVEL=1 !
-                AAA = MAX(MARGE+MAX(GAP_S(JJ)+GAP_M(NE),DRAD),EDGE_L2(JJ)+GAP_S(JJ)+GAP_M(NE))
+                AAA = MAX(MARGE+MAX(GAP_S(JJ)+GAP_M(NE)+DGAPLOAD,DRAD),EDGE_L2(JJ)+GAP_S(JJ)+GAP_M(NE)+DGAPLOAD)
                ELSE
-                AAA = MARGE+MAX(GAP_S(JJ)+GAP_M(NE),DRAD)
+                AAA = MARGE+MAX(GAP_S(JJ)+GAP_M(NE)+DGAPLOAD,DRAD)
                END IF 
 
                IF(XS<=XMINE-AAA)GOTO 300
@@ -458,7 +461,8 @@ cc             nnr0pelem = nnr0pelem + 1
      3              I_MEM ,PROV_N ,PROV_E,ESHIFT,NSN   ,
      4              NRTM  ,GAP_S  ,GAP_M ,NBINFLG  ,MBINFLG,
      5              ILEV,MSEGTYP,ITAB  ,IGAP ,GAP_S_L,
-     6              GAP_M_L,EDGE_L2,ICODE,ISKEW,DRAD)
+     6              GAP_M_L,EDGE_L2,ICODE,ISKEW,DRAD ,
+     7              DGAPLOAD)
                  IF(I_MEM.EQ.2)GOTO 100
                  J_STOK = 0
                ENDIF
@@ -491,8 +495,8 @@ C-------------------------------------------------------------------------
      3                I_MEM ,PROV_N ,PROV_E,ESHIFT,NSN   ,
      4                NRTM  ,GAP_S  ,GAP_M ,NBINFLG  ,MBINFLG,
      5                ILEV,MSEGTYP,ITAB  ,IGAP ,GAP_S_L,
-     6                GAP_M_L,EDGE_L2,ICODE,ISKEW,DRAD)
-C=======================================================================
+     6                GAP_M_L,EDGE_L2,ICODE,ISKEW,DRAD ,
+     7                DGAPLOAD)
 C 4   remise a zero des noeuds dans les boites
 C=======================================================================
  100  CONTINUE

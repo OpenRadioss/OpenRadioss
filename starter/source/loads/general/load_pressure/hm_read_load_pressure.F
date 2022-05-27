@@ -42,7 +42,8 @@ Chd|====================================================================
       SUBROUTINE HM_READ_LOAD_PRESSURE(
      .           NUMLOADP   ,ILOADP     ,LLOADP    ,INTERLOADP ,FACLOADP   ,
      .           KLOADPINTER,LOADPINTER ,NPC       ,LSENSOR    ,IGRSURF    ,
-     .           UNITAB     ,ISKN      ,LSUBMODEL )
+     .           UNITAB     ,ISKN      ,LSUBMODEL  ,DGAPINT    ,INTGAPLOADP,
+     .           DGAPLOADINT,S_LOADPINTER )
 C
 C-----------------------------------------------
 C   M o d u l e s
@@ -78,9 +79,13 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER NUMLOADP
       INTEGER NPC(*), LSENSOR(NSENSI,*), ISKN(LISKN,*),
-     .        ILOADP(SIZLOADP,*), LLOADP(*) ,INTERLOADP(*),
-     .        KLOADPINTER(*)  ,LOADPINTER(*)
+     .        ILOADP(SIZLOADP,*), LLOADP(*) 
+      INTEGER, INTENT(IN) :: S_LOADPINTER
+      INTEGER, INTENT(INOUT) ::  KLOADPINTER(NINTER+1)  ,LOADPINTER(S_LOADPINTER),
+     .         INTERLOADP(NINTLOADP)
       my_real FACLOADP(LFACLOAD,*)
+      my_real , INTENT(INOUT) :: DGAPINT(NINTER),
+     .        INTGAPLOADP(NINTLOADP),DGAPLOADINT(S_LOADPINTER ) 
 C-----------------------------------------------
       TYPE (SURF_)   ,TARGET, DIMENSION(NSURF)   :: IGRSURF
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
@@ -92,10 +97,10 @@ C-----------------------------------------------
      .        SUB_INDEX, SUB_ID, UID, ID, IFLAGUNIT,NIP,
      .        NN,IAD,TSENS,ISENS,IS,ISU,NOSKEW,IDIR,IFUNC,NINTERP,INORM,
      .        H, CAPT,TINTER,IDINT,NIK,NBINTER,NB,NOINT,NL,STAT,IFUNCL,
-     .        IDSENS,IDSKEW
+     .        IDSENS,IDSKEW,ILOAD
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID_INTER,INTER_TYP
       my_real
-     .        FCX,FCY,FAC_FCX,FAC_FCY
+     .        FCX,FCY,FAC_FCX,FAC_FCY,GAP_I
       CHARACTER MESS*40, DIR*ncharfield,
      .          char_X*1, char_Y*1, char_Z*1
       CHARACTER TITR*nchartitle,KEY*ncharline
@@ -124,6 +129,7 @@ C     ILOADP(6,K) :   Direction                                       IDIR
 C     ILOADP(7,K) :   Sensor Number                                   ISENS
 C     ILOADP(8,K) :   Skew Number                                     NOSKEW
 C     ILOADP(9,K) :   Inorm flag                                      INORM
+C     ILOADP(10,K):   Iload flag                                      ILOAD
        
 C----------------------------------------------------------------------------------        
 C     LLOADP(1,K) :   NODE1                                           NODE1            
@@ -226,7 +232,9 @@ C--------------------------------------------------
         CALL HM_GET_INTV('fct_ID',IFUNC,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('Inorm',INORM,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('sens_ID',IDSENS,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('Iload',ILOAD,IS_AVAILABLE,LSUBMODEL)
         IF(INORM == 0) INORM = 1 ! default value
+        IF(ILOAD == 0) ILOAD = 1 ! default value
 
         IF (INORM > 1) THEN
             CALL HM_GET_INTV('skew_ID',IDSKEW,IS_AVAILABLE,LSUBMODEL)
@@ -236,16 +244,16 @@ C--------------------------------------------------
             IF(DIR(1:1).EQ.'X') IDIR=1
             IF(DIR(1:1).EQ.'Y') IDIR=2
             IF(DIR(1:1).EQ.'Z') IDIR=3
-         ENDIF
+        ENDIF
 
          !-----------
-         IS=0                                                     
-         DO J=1,NSURF
-            IF (ISU.EQ.IGRSURF(J)%ID) IS=J
-         ENDDO                                                     
-         IF(IS.NE.0)THEN                                          
-            NN=IGRSURF(IS)%NSEG
-            DO J=1,NN                                               
+        IS=0                                                     
+        DO J=1,NSURF
+           IF (ISU.EQ.IGRSURF(J)%ID) IS=J
+        ENDDO                                                     
+        IF(IS.NE.0)THEN                                          
+           NN=IGRSURF(IS)%NSEG
+           DO J=1,NN                                               
               LLOADP(IAD+4*(J-1))  =IGRSURF(IS)%NODES(J,1)
               LLOADP(IAD+4*(J-1)+1)=IGRSURF(IS)%NODES(J,2)
               LLOADP(IAD+4*(J-1)+2)=IGRSURF(IS)%NODES(J,3)
@@ -254,9 +262,9 @@ C--------------------------------------------------
               ELSE                                                 
                LLOADP(IAD+4*(J-1)+3)=IGRSURF(IS)%NODES(J,4)
               ENDIF  
-            ENDDO
-         ENDIF   
-	     ILOADP(1,K)=4*NN   
+           ENDDO
+        ENDIF   
+	ILOADP(1,K)=4*NN   
 
 C-----------        
         IFUNCL=0
@@ -275,69 +283,72 @@ C-----------
         ISENS = 0
         IF(IDSENS > 0) THEN
            DO J=1,NSENSOR
-	         IF(IDSENS.NE.0) THEN
-	           IF(IDSENS.EQ.LSENSOR(1,J)) THEN
-                 ISENS=J
-                 EXIT
-               ENDIF
-	         ENDIF
-	       ENDDO
-	       IF(ISENS.EQ.0)THEN
-             CALL ANCMSG(MSGID=930,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO_BLIND_1,
-     .                 I1=ID,
-     .                 C1=TITR,
-     .                 I2=IDSENS)
+	      IF(IDSENS.NE.0) THEN
+	        IF(IDSENS.EQ.LSENSOR(1,J)) THEN
+                  ISENS=J
+                  EXIT
+                ENDIF
+	      ENDIF
+	   ENDDO
+	   IF(ISENS.EQ.0)THEN
+              CALL ANCMSG(MSGID=930,
+     .             MSGTYPE=MSGERROR,
+     .             ANMODE=ANINFO_BLIND_1,
+     .             I1=ID,
+     .             C1=TITR,
+     .             I2=IDSENS)
            ENDIF
-	    ENDIF     
+	ENDIF     
 
          !-----------
 
-         NOSKEW = 0
-         IF(IDSKEW == 0 .AND. SUB_INDEX .NE. 0 ) IDSKEW = LSUBMODEL(SUB_INDEX)%SKEW
+        NOSKEW = 0
+        IF(IDSKEW == 0 .AND. SUB_INDEX .NE. 0 ) IDSKEW = LSUBMODEL(SUB_INDEX)%SKEW
 
-         IF(IDSKEW > 0) THEN
+        IF(IDSKEW > 0) THEN
            DO J=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
              IF(IDSKEW == ISKN(4,J+1)) THEN
                NOSKEW=J+1
              ENDIF
            ENDDO
-	       IF(NOSKEW.EQ.0)THEN
+	   IF(NOSKEW.EQ.0)THEN
              CALL ANCMSG(MSGID=137,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                C1='LOAD PRESSURE',
      .                C2='LOAD PRESSURE',
      .                I2=IDSKEW,I1=ID,C3=TITR)
            ENDIF
-         ENDIF
+        ENDIF
 
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
-         CALL HM_GET_FLOATV('xscale_p',FCX,IS_AVAILABLE,LSUBMODEL,UNITAB)
-         CALL HM_GET_FLOATV_DIM('xscale_p',FAC_FCX,IS_AVAILABLE,LSUBMODEL,UNITAB)
-         CALL HM_GET_FLOATV('yscale_p',FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)
-         CALL HM_GET_FLOATV_DIM('yscale_p',FAC_FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV('xscale_p',FCX,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV_DIM('xscale_p',FAC_FCX,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV('yscale_p',FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV_DIM('yscale_p',FAC_FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)
 
-         IF (FCX == ZERO) FCX = FAC_FCX
-         IF (FCY == ZERO) FCY = FAC_FCY
-
+        IF (FCX == ZERO) FCX = FAC_FCX
+        IF (FCY == ZERO) FCY = FAC_FCY
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES) : Interfaces reading
 C--------------------------------------------------
-         CALL HM_GET_INTV('N_inter_P',NINTERP,IS_AVAILABLE,LSUBMODEL)
-
+        CALL HM_GET_INTV('N_inter_P',NINTERP,IS_AVAILABLE,LSUBMODEL)
+         
+        IF(NINTERP > 0) THEN
          DO NIP=1,NINTERP
 
 C EXTRACT DATAS (INTEGER VALUES) 
 
-            CALL HM_GET_INT_ARRAY_INDEX('Inter_IDs',IDINT,NIP,IS_AVAILABLE,LSUBMODEL)
-            TINTER = 0
-            DO NI=1,NBINTER
+           CALL HM_GET_INT_ARRAY_INDEX('Inter_IDs',IDINT,NIP,IS_AVAILABLE,LSUBMODEL)
+           CALL HM_GET_FLOAT_ARRAY_INDEX('Gap_shift_i',GAP_I,NIP,IS_AVAILABLE,LSUBMODEL,UNITAB)
+           TINTER = 0
+           DO NI=1,NBINTER
                IF(ID_INTER(NI) == IDINT)THEN
 	          INTERLOADP(NINTLOADP+NIP)= NI  
                   IF(INTER_TYP(NI) == 21) NINTLOADP21 = NINTLOADP21 + 1
                   TINTER = 1
+                  DGAPINT(NI)=MAX(DGAPINT(NI),GAP_I)
+	          INTGAPLOADP(NINTLOADP+NIP)= GAP_I  
                END IF
             END DO
 	    IF((TINTER.EQ.0).AND.(IDINT.NE.0))THEN
@@ -347,8 +358,9 @@ C EXTRACT DATAS (INTEGER VALUES)
      .                      I1=ID,
      .                      C1=TITR,
      .                      I2=IDINT)
-             ENDIF    
-         ENDDO
+            ENDIF    
+           ENDDO
+         ENDIF
 C--------------
 C Storage 
 C--------------
@@ -356,10 +368,11 @@ C--------------
            ILOADP  ( 3,K) = IFUNCL        
            ILOADP  ( 4,K) = IAD
            ILOADP  ( 5,K) = NINTERP 
-	       ILOADP  ( 6,K) = IDIR   
+	   ILOADP  ( 6,K) = IDIR   
            ILOADP  ( 7,K) = ISENS  
            ILOADP  ( 8,K) = NOSKEW    
            ILOADP  ( 9,K) = INORM
+           ILOADP  (10,K) = ILOAD
                                                                                                   
            FACLOADP( 1,K) = FCY                                          
            FACLOADP( 2,K) = ONE/FCX   
@@ -370,16 +383,18 @@ C--------------
          WRITE (IOUT,2002)
          WRITE (IOUT,'(I10,2X,I10,2X,I10,2X,I10,9X,A1,2X,I10,2X,
      .                1PG20.13,2X,1PG20.13)')ISU,IFUNC,IDSENS,INORM,DIR(1:1),IDSKEW,FCX,FCY
+         IF(NINTERP > 0) THEN
          WRITE (IOUT,2003)
          J = 0
          DO I=1,(NINTERP/10)
             WRITE (IOUT,'(10I10)')ID_INTER(INTERLOADP(NINTLOADP+1:NINTLOADP+10)) 
+            WRITE (IOUT,'(10I10)')INTERLOADP(NINTLOADP+1:NINTLOADP+10) 
             J = J +10
          ENDDO
          IF(MODULO(NINTERP,10) > 0) THEN
             WRITE (IOUT,'(10I10)')ID_INTER(INTERLOADP(NINTLOADP+J+1:NINTLOADP+NINTERP)) 
          ENDIF
-
+         ENDIF
          NUMLOADP = NUMLOADP + 4*NN
          NINTLOADP = NINTLOADP + NINTERP
 
@@ -413,6 +428,8 @@ C--------------
                NI = INTERLOADP(NIK + N) 
                KLOADPINTER(NI) = KLOADPINTER(NI)+1
                LOADPINTER(KLOADPINTER(NI)) = K
+	       DGAPLOADINT(KLOADPINTER(NI)) = INTGAPLOADP(NIK + N)
+
             ENDDO
             NIK = NIK + NINTERP
          ENDDO
@@ -437,7 +454,7 @@ C-------------------------------------------------------------------------------
      .'             SCALE_X              SCALE_Y')
 
  2003 FORMAT(//
-     .'   INTERFACES ')
+     .'   INTERFACES AND GAP SHIFTS')
 
 C-----------------------------------------------
       END SUBROUTINE HM_READ_LOAD_PRESSURE

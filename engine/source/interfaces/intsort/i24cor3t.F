@@ -34,7 +34,8 @@ Chd|====================================================================
      4                   XI      ,YI    ,ZI      ,STIF  ,IX1    ,
      5                   IX2     ,IX3   ,IX4     ,NSN   ,GAP_S  ,
      6                   GAP_M   ,GAPV  ,CURV_MAX,ITYP  ,NIN    ,
-     7                   V       ,PENE_OLD,GAPVE ,EDGE_L2,IEDGE )
+     7                   V       ,PENE_OLD,GAPVE ,EDGE_L2,IEDGE ,
+     8                   DGAPLOAD)
 C============================================================================
 C  cette routine est appelee par : I10STO(/int10/i10sto.F)
 C                                  I7STO(/int7/i7sto.F)
@@ -69,6 +70,7 @@ C-----------------------------------------------
      .    JLT,IDT, NOINT, NSN ,ITYP, NIN,IEDGE
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
 C     REAL
+      my_real , INTENT(IN) :: DGAPLOAD
       my_real
      .   X(3,*), V(3,*), GAPV(*), GAP_S(*), GAP_M(*),CURV_MAX(*),
      .   PENE_OLD(5,NSN), GAPVE(*),EDGE_L2(*)
@@ -95,6 +97,7 @@ C
       IF(IMACH.NE.3) THEN
        DO I=1,JLT
          GAPV(I)=GAP_S(CAND_N(I)) + GAP_M(CAND_E(I))
+         GAPV(I) =GAPV(I) + DGAPLOAD
        END DO
        DO I=1,JLT
          IG = NSV(CAND_N(I))
@@ -152,6 +155,7 @@ C
              IG = J-NSN
              GAPV(I)=XREM(9,IG) + GAP_M(CAND_E(I))
            END IF
+           GAPV(I) =GAPV(I) + DGAPLOAD
        END DO
        DO I=1,JLT
          J = CAND_N(I)

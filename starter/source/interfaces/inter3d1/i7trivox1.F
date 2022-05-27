@@ -51,7 +51,7 @@ Chd|====================================================================
      9      LB2   ,LB3     ,LB4   ,LC1   ,LC2   ,
      1      LC3   ,LC4     ,N11   ,N21   ,N31   ,
      2      STIF  ,PENE    ,IREMNODE,FLAGREMNODE,
-     3      KREMNODE,REMNODE)
+     3      KREMNODE,REMNODE,DGAPLOAD)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -170,6 +170,7 @@ c     .  nbbox1,nbin1,nbin2,nbin3
       my_real
      .   XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB,
      .   XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,AAA,TSTART,TSTOP
+      my_real , INTENT(IN) :: DGAPLOAD
 c      my_ream
 c     .   maxaaa
       INTEGER FIRST,NEW,LAST,M
@@ -306,7 +307,7 @@ C on ne retient pas les facettes detruites
            AAA = TZINF+CURV_MAX(NE)
          ELSE
            AAA = MARGE+CURV_MAX(NE)+
-     .       MAX(MIN(GAPMAX,MAX(GAPMIN,BGAPSMX+GAP_M(NE))),DRAD)
+     .       MAX(MIN(GAPMAX,MAX(GAPMIN,BGAPSMX+GAP_M(NE)))+DGAPLOAD,DRAD)
          ENDIF
 c        maxaaa=max(maxaaa,aaa)
 c     il est possible d'ameliorer l'algo en decoupant la facette 
@@ -419,7 +420,7 @@ c
                ZS = X(3,NN)
                IF(IGAP /= 0)THEN
                  AAA = MARGE+CURV_MAX(NE)+MAX(MIN(GAPMAX,MAX(GAPMIN,
-     .             GAP_S(JJ)+GAP_M(NE))),DRAD)
+     .             GAP_S(JJ)+GAP_M(NE)))+DGAPLOAD,DRAD)
                ENDIF
                IF(XS<=XMINE-AAA)GOTO 300
                IF(XS>=XMAXE+AAA)GOTO 300
@@ -454,11 +455,11 @@ c    sousestimation de la distance**2 pour elimination de candidats
                    CALL I7COR3(X    ,IRECT,NSV  ,PROV_E ,PROV_N,
      .                         STF  ,STFN ,GAPV ,IGAP   ,GAP   ,
      .                         GAP_S,GAP_M,ISTF ,GAPMIN ,GAPMAX,
-     .                         GAP_S_L,GAP_M_L  ,DRAD   ,IX11    ,IX12   ,
-     5                         IX13    ,IX14    ,NSVG,X1      ,X2    ,
-     6                         X3     ,X4     ,Y1  ,Y2      ,Y3    ,
-     7                         Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8                         XI     ,YI     ,ZI  ,STIF)
+     .                         GAP_S_L,GAP_M_L  ,DRAD   ,IX11,IX12,
+     5                         IX13    ,IX14    ,NSVG,X1     ,X2     ,
+     6                         X3     ,X4     ,Y1  ,Y2      ,Y3      ,
+     7                         Y4     ,Z1     ,Z2  ,Z3      ,Z4      ,
+     8                         XI     ,YI     ,ZI  ,STIF    ,DGAPLOAD)
                    CALL I7DST3(IX13,IX14,X1 ,X2 ,X3 ,
      1                  X4 ,Y1 ,Y2 ,Y3 ,Y4 ,
      2                  Z1 ,Z2 ,Z3 ,Z4 ,XI ,

@@ -71,7 +71,7 @@ C-----------------------------------------------
       INTEGER NB, LEN, IBC  ,ISECIN  ,IBAG , NOINT, INACTI,
      .        NSV(*), ISKY(*), ICODT(*), NSTRF(*),ICONTACT(*),
      .        TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
-     .        KLOADPINTER(NINTER+1),LOADPINTER((NINTER+1)*NLOADP_HYD),
+     .        KLOADPINTER(NINTER+1),LOADPINTER(NINTER*NLOADP_HYD),
      .        LOADP_HYD_INTER(NLOADP_HYD),
      .        IADM,INTTH,NIN
       INTEGER :: SEDGE,NEDGE

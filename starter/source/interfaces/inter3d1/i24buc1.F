@@ -59,7 +59,7 @@ Chd|====================================================================
      8   NZ4,P1 ,P2 ,P3 ,P4 ,
      9   LB1,LB2,LB3,LB4,LC1,
      1   LC2,LC3,LC4,N11,N21,
-     2   N31)
+     2   N31,DGAPLOAD)
 #ifndef HYPERMESH_LIB
       USE MESSAGE_MOD
 #endif
@@ -96,6 +96,7 @@ C-----------------------------------------------
       INTEGER ITAB(*),NBINFLG(*),MBINFLG(*),ILEV,MSEGTYP(*)
       INTEGER IXS(*), IXS10(6,*), IXS16(8,*), IXS20(12,*)
 C     REAL
+      my_real , INTENT(IN) :: DGAPLOAD
       my_real
      .   STF(*),STFN(*),X(3,*),XYZM(6,*),GAP_S(*),GAP_M(*),
      .   DIST,BUMULT,GAP,TZINF,MAXBOX,MINBOX,GAPMIN,GAPMAX,
@@ -224,7 +225,7 @@ C      DD = MAX(DD0,ONEP251*GAP)
 C     TZINF = BUMULT*DD
       MARGE = BUMULT*DD
 C calcul de TZINF en fct de la marge et non le contraire
-      TZINF = MARGE + GAP
+      TZINF = MARGE + GAP + DGAPLOAD
 C MARGE_ST : marge independante du BUMULT en input pour trouver les memes pene initiales (cas delete ou chgt coord.)
       MARGE_ST = BMUL0*DD
 C--------suppose PEN_ini< DD_ST/2 (half thickness of solids )   
@@ -256,7 +257,7 @@ C-----il faut pas eliminer tiny penetration----
 C 1er passage avec marge x2 pour trouver plus de candidats
 C      IF(IMACH.EQ.3.AND.IDDLEVEL.EQ.0) MARGE_ST = 2*MARGE_ST
       IF(IMACH.EQ.3.AND.IDDLEVEL.EQ.0) MARGE_ST = MARGE
-      TZINF_ST = MARGE_ST + GAP
+      TZINF_ST = MARGE_ST + GAP + DGAPLOAD
       BID = FOUR_OVER_5*DD
       IF (INACTI.NE.7.AND.TZINF.GT.BID) THEN
         IBID = NINT(TZINF/DD0)
@@ -445,7 +446,7 @@ C       SEPARER B ET N EN TWO
      K   NZ4    ,P1     ,P2     ,P3     ,P4     ,
      L   LB1    ,LB2    ,LB3    ,LB4    ,LC1    ,
      M   LC2    ,LC3    ,LC4    ,PENE   ,PROV_N ,
-     N   PROV_E ,N11    ,N21    ,N31)
+     N   PROV_E ,N11    ,N21    ,N31    ,DGAPLOAD)
 
        ELSE
         CALL I24TRI(
@@ -471,7 +472,7 @@ C       SEPARER B ET N EN TWO
      K   NZ4    ,P1     ,P2     ,P3     ,P4     ,
      L   LB1    ,LB2    ,LB3    ,LB4    ,LC1    ,
      M   LC2    ,LC3    ,LC4    ,PENE   ,PROV_N ,
-     N   PROV_E ,N11    ,N21    ,N31)
+     N   PROV_E ,N11    ,N21    ,N31    ,DGAPLOAD)
        END IF !(NSNE >0) THEN
 C------------------
       IF (I_MEM == 2)THEN
@@ -499,7 +500,7 @@ C---------------------------------
      5               IX3    ,IX4    ,NSVG,X1      ,X2    ,
      6               X3     ,X4     ,Y1  ,Y2      ,Y3    ,
      7               Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8               XI     ,YI     ,ZI  ,STIF)
+     8               XI     ,YI     ,ZI  ,STIF    ,DGAPLOAD)
         ELSE
          CALL I7COR3(X    ,IRECT,NSV  ,PROV_E ,PROV_N,
      .               STF  ,STFN ,GAPV ,IGAP   ,GAP   ,
@@ -508,7 +509,7 @@ C---------------------------------
      5               IX3    ,IX4    ,NSVG,X1      ,X2    ,
      6               X3     ,X4     ,Y1  ,Y2      ,Y3    ,
      7               Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8               XI     ,YI     ,ZI  ,STIF)
+     8               XI     ,YI     ,ZI  ,STIF    ,DGAPLOAD)
         END IF !(NSNE >0) THEN
          CALL I7DST3(IX3,IX4,X1 ,X2 ,X3 ,
      1                  X4 ,Y1 ,Y2 ,Y3 ,Y4 ,

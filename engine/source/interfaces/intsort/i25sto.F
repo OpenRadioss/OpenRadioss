@@ -37,7 +37,7 @@ Chd|====================================================================
      4      NSN   ,NRTM   ,GAP_S  ,GAP_M ,CURV_MAX,NIN  ,
      5      PENE_OLD,NBINFLG,MBINFLG,ILEV ,MSEGTYP,
      6      ITAB ,IGAP,GAP_S_L,GAP_M_L,ICODT,ISKEW,
-     7      DRAD )
+     7      DRAD ,DGAPLOAD)
 C============================================================================
       USE TRI7BOX
 C-----------------------------------------------
@@ -68,8 +68,8 @@ C-----------------------------------------------
       INTEGER PROV_N(MVSIZ),PROV_E(MVSIZ),II_STOK,MSEGTYP(*),
      .        ITAB(*),ICODT(*),ISKEW(*)
 C     REAL
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
-     .        DRAD,
      .        X(3,*), V(3,*), GAP_S(*), GAP_M(*),
      .        MARGE, CURV_MAX(*),PENE_OLD(5,NSN),
      .        GAP_S_L(*), GAP_M_L(*)
@@ -98,7 +98,8 @@ C-----------------------------------------------
      5               IX2     ,IX3  ,IX4     ,NSN   ,GAP_S   ,
      6               GAP_M   ,GAPV ,CURV_MAX,ITYPE ,NIN     ,
      7               V       ,IGAP ,GAP_S_L ,GAP_M_L,MSEGTYP,
-     8               ETYP    ,ICODT   ,ISKEW,IBC    ,DRAD   )
+     8               ETYP    ,ICODT   ,ISKEW,IBC    ,DRAD   ,
+     9               DGAPLOAD)
 C-----------------------------------------------
       CALL I25PEN3( J_STOK ,MARGE ,X1    ,X2     ,X3   ,
      .               X4    ,Y1    ,Y2    ,Y3     ,Y4   ,

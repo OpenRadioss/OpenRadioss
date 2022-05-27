@@ -69,7 +69,8 @@ Chd|====================================================================
      W    FRIC_COEFS2 ,FRICC2    ,VISCFFRIC2,NFORTH    ,NFISOT    ,
      X    INDEXORTH   , INDEXISOT,DIR1      ,DIR2      ,T2FAC_SMS ,
      Y    F_PFIT      ,TAGNCONT  ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
-     Z    TYPSUB      ,INFLG_SUBS  ,INFLG_SUBM)  
+     Z    TYPSUB      ,INFLG_SUBS,INFLG_SUBM ,NINLOADP  ,DGAPLOADINT,
+     1    S_LOADPINTER,DIST      ,IXX)  
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -120,8 +121,7 @@ C-----------------------------------------------
      .        KINI(*),SUBTRIA(MVSIZ),MBINFLG(*),ILEV,
      .        ISET, NISKYFI,IADM,INTTH,IFORM,CAND_N_N(*),INTPLY,
      .        MSEGTYP(*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
-     .        KLOADPINTER(NINTER+1),LOADPINTER((NINTER+1)*NLOADP_HYD),
-     .        LOADP_HYD_INTER(NLOADP_HYD),TYPSUB(*),JTASK
+     .        TYPSUB(*),JTASK
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        CN_LOC(MVSIZ),CE_LOC(MVSIZ),INDEX(MVSIZ),NSVG(MVSIZ),
      .        NISUB, LISUB(*), ADDSUBS(*), ADDSUBM(*), LISUBS(*),
@@ -129,6 +129,10 @@ C-----------------------------------------------
      .        ISKYI_SMS(*), NSMS(*),IGSTI,IPLY(4,*),INOD_PXFEM(*),
      .        IRTSE(5,*),NSNE ,IS2SE(2,*),IS2PT(*), ISENSINT(*),NFT,T2MAIN_SMS(6,*),
      .        INDEXORTH(MVSIZ)  ,INDEXISOT(MVSIZ),INFLG_SUBS(*), INFLG_SUBM(*)
+      INTEGER  , INTENT(IN) :: NINLOADP,S_LOADPINTER 
+      INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
+     .        LOADP_HYD_INTER(NLOADP_HYD)
+      INTEGER  , INTENT(IN) :: IXX(MVSIZ,13)
       my_real
      .   STIGLO,FROT_P(*), X(3,*),
      .   A(3,*), MS(*), V(3,*), FSAV(*),FCONT(3,*),
@@ -162,6 +166,8 @@ C-----------------------------------------------
      .     RCURVI(*), RCONTACT(*), ACONTACT(*),
      .     PCONTACT(*),PADM, ANGLMI(*),RSTIF,
      .     PENE_OLD(5,NSN),STIF_OLD(2,NSN),F_PFIT
+      my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
+      my_real  , INTENT(INOUT) :: DIST(MVSIZ)
 
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
@@ -169,7 +175,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J1, IG, J, JG , K0,NBINTER,K1S,K,IL,IE, NN, NI,
      .        NA1,NA2,N,IMS2,ITAG,NN1,NN2,NN3,
-     .        NN4,ii,IFIT,PP,PPL,ITYPSUB,ISS1,ISS2,IMS1
+     .        NN4,ii,IFIT,PP,PPL,ITYPSUB,ISS1,ISS2,IMS1,IX
       my_real
      .   FXR(MVSIZ), FYR(MVSIZ), FZR(MVSIZ)
       my_real
@@ -181,7 +187,7 @@ C-----------------------------------------------
      .   VIS2(MVSIZ), DTMI(MVSIZ), XMU(MVSIZ),STIF0(MVSIZ),
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
      .   XP(MVSIZ), YP(MVSIZ), ZP(MVSIZ),
-     .   VNX, VNY, VNZ, AA, CRIT,S2,DIST,RDIST,
+     .   VNX, VNY, VNZ, AA, CRIT,S2,
      .   V2, FM2, DT1INV, VISCA, FAC,FF,ALPHI,ALPHA,BETA,
      .   FX, FY, FZ, F2, MAS2, M2SK, DTMI0,DTI,FT,FN,FMAX,FTN,
      .   FACM1, ECONTT, ECONVT, H0, ECONTDT,
@@ -199,7 +205,7 @@ C-----------------------------------------------
      .   VN1(3),VN2(3),VN3(3),VN4(4),
      .   CSA ,SNA ,ALPHAF ,FTT1 ,FTT2 ,
      .   AN(NFORTH) ,BN(NFORTH) ,NEP1 ,NEP2 ,NEP ,C11 ,C22 ,ANS ,EP ,
-     .   SIGNC
+     .   SIGNC,DGAPLOAD,GAPP
       my_real
      .   PREC,FACV
       my_real
@@ -219,6 +225,7 @@ C-----------------------------------------------
      .   FXS(4),FYS(4),FZS(4),HH,FINC,FA,FB,DDP,PREC1
 
       DOUBLE PRECISION RP1,RP2,STIF_N
+      INTEGER TAGIP(MVSIZ)
 C
       INTEGER BITGET
       EXTERNAL BITGET
@@ -1331,20 +1338,39 @@ C
       END IF
 
 C------------For /LOAD/PRESSURE tag nodes in contact-------------
-      IF(NINTLOADP > 0) THEN
+      TAGIP(1:JLT) = 0
+      IF(NINLOADP > 0) THEN
          DO K = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1) 
             PP = LOADPINTER(K)
             PPL = LOADP_HYD_INTER(PP)
+            DGAPLOAD = DGAPLOADINT(K)
             DO I=1,JLT
-               IF(PENE(I) == ZERO)CYCLE
-               TAGNCONT(PPL,IX1(I)) = 1
-               TAGNCONT(PPL,IX2(I)) = 1
-               TAGNCONT(PPL,IX3(I)) = 1
-               TAGNCONT(PPL,IX4(I)) = 1
-               JG = NSVG(I)
-               IF(JG.GT.0) THEN
-C  SPMD : do same after reception of forces for remote nodes 
-                  TAGNCONT(PPL,JG) = 1
+               GAPP= GAPV(I) + DGAPLOAD
+               IF(DIST(I) <= GAPP.AND.DIST(I) >= ZERO) THEN
+                  TAGIP(I) = 1
+                  TAGNCONT(PPL,IXX(I,1)) = 1
+                  TAGNCONT(PPL,IXX(I,2)) = 1
+                  TAGNCONT(PPL,IXX(I,3)) = 1
+                  TAGNCONT(PPL,IXX(I,4)) = 1
+                  JG = NSVG(I)
+                  IF(JG.GT.0) THEN
+C  SPMD : do same after reception of forces for remote nodes
+                    IF (JG <= NUMNOD) THEN 
+                      TAGNCONT(PPL,JG) = 1
+                    ELSE
+                      IG = JG - NUMNOD
+                      IF (IG > 0) THEN
+                         IF (IS2SE(1,IG) > 0) THEN
+                            IE = IS2SE(1,IG)
+                         ELSEIF(IS2SE(2,IG) > 0) THEN
+                            IE = IS2SE(2,IG)
+                         END IF
+                         DO J =1,4
+                            TAGNCONT(PPL,IRTSE(J,IE)) = 1
+                         END DO
+                      ENDIF
+                    ENDIF
+                  ENDIF
                ENDIF
             ENDDO
          ENDDO
@@ -1364,11 +1390,19 @@ C++ Isotropic Friction
          IF (MFROT.EQ.0) THEN
 C---      Coulomb friction
             DO I=1,JLT
+               IF(PENE(I) == 0) THEN
+                  XMU(I) = ZERO
+                  CYCLE 
+               ENDIF
                XMU(I) = FRICC(I)
             ENDDO
           ELSEIF (MFROT.EQ.1) THEN
 C---      Viscous friction
             DO I=1,JLT
+              IF(PENE(I) == 0) THEN
+                XMU(I) = ZERO
+                CYCLE 
+              ENDIF
               IE=CE_LOC(I)
               AA = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
               V2 = (VX(I) - N1(I)*AA)**2 
@@ -1393,6 +1427,10 @@ C---      Viscous friction
           ELSEIF(MFROT.EQ.2)THEN
 C---        Loi Darmstad
             DO I=1,JLT
+              IF(PENE(I) == 0) THEN
+                XMU(I) = ZERO
+                CYCLE 
+              ENDIF
               IE=CE_LOC(I)
               AA = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
               V2 = (VX(I) - N1(I)*AA)**2 
@@ -1419,6 +1457,10 @@ C---        Loi Darmstad
           ELSEIF (MFROT.EQ.3) THEN
 C---        Loi Renard
             DO I=1,JLT
+              IF(PENE(I) == 0) THEN
+                XMU(I) = ZERO
+                CYCLE 
+              ENDIF
               AA = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
               V2 = (VX(I) - N1(I)*AA)**2 
      .           + (VY(I) - N2(I)*AA)**2 
@@ -3154,7 +3196,7 @@ ctmp+1 mic only
           IF(NN.LT.0)THEN
 C tag temporaire de NSVFI a -
             HH = H1(I)+H2(I)+H3(I)+H4(I)
-            IF(HH /= ZERO)THEN
+            IF(HH /= ZERO.OR.TAGIP(I)==1)THEN
               IF(ISEDGE_FI(NIN)%P(-NN)==0)THEN
                 NSVFI(NIN)%P(-NN) = -ABS(NSVFI(NIN)%P(-NN))
               ELSE

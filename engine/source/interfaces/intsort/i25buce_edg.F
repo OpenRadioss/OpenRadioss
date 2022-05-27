@@ -46,7 +46,7 @@ Chd|====================================================================
      D   GAP_E_L, NEDGE_LOCAL ,IFQ   ,CANDE2E_FX ,CANDE2E_FY,
      E   CANDE2E_FZ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,
      F   IFPEN_E  ,IFPEN_E2S ,KREMNODE_EDG_SIZ,REMNODE_EDG_SIZ,
-     G   KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ) 
+     G   KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ,DGAPLOAD) 
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -86,8 +86,9 @@ C-----------------------------------------------
      .        KREMNODE_E2S(KREMNODE_E2S_SIZ), REMNODE_E2S(REMNODE_E2S_SIZ)
 C     REAL
       my_real
-     .   GAP,PMAX_GAP,VMAXDT,DRAD,
+     .   GAP,PMAX_GAP,VMAXDT,
      .   BMINMA(6),BGAPEMX, MARGE
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
      .   X(3,*), V(3,*), STF(*), STFE(*), GAP_M(*), GAP_M_L(*), GAPE(*), GAP_E_L(*), 
      .   CAND_P(*), CAND_PS(*), CANDE2E_FX(*), CANDE2E_FY(*), CANDE2E_FZ(*),
@@ -104,13 +105,14 @@ C-----------------------------------------------
      .        LOC_PROC, N, IEDG, I1, I2
 C     REAL
       my_real
-     .        XYZM(6), AAA, LX, LY, LZ, MY_LX, MY_LY, MY_LZ
+     .        XYZM(6), AAA, LX, LY, LZ, MY_LX, MY_LY, MY_LZ,DRAD2
       INTEGER NBX,NBY,NBZ
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8   
       SAVE LX, LY, LZ
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
+      DRAD2 = ZERO
 C-----------------------------------------------
 C
 C----- TRI DES ELEMENTS ET DES NOEUDS
@@ -224,7 +226,7 @@ C
      3   II_STOK ,CANDS_E2E   ,ESHIFT  ,NEDGE_T ,CANDM_E2E   ,
      4   MULNSNE ,NOINT    ,BGAPEMX ,SSHIFT  ,NRTM_T   ,
      5   VOXEL1  ,NBX      ,NBY     ,NBZ      ,
-     6   IGAP    ,GAP_M    ,GAP_M_L ,DRAD     ,MARGE    ,
+     6   IGAP    ,GAP_M    ,GAP_M_L ,DRAD2    ,MARGE    ,
      7   ITASK    ,ITAB    ,LL_STOK ,MULNSNS  ,
      8   MBINFLG , EBINFLG ,ILEV     ,CAND_A  ,CAND_P   ,
      9   FLAGREMNODE,KREMNODE_EDG,REMNODE_EDG,KREMNODE_E2S ,
@@ -234,7 +236,8 @@ C
      C   CANDM_E2S,CANDS_E2S,CAND_B,CAND_PS,GAPE ,
      D   GAP_E_L,NEDGE_LOCAL,IFQ,CANDE2E_FX ,CANDE2E_FY,
      E   CANDE2E_FZ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,IFPEN_E,IFPEN_E2S,
-     F   KREMNODE_EDG_SIZ,REMNODE_EDG_SIZ,KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ) 
+     F   KREMNODE_EDG_SIZ,REMNODE_EDG_SIZ,KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ, 
+     G   DGAPLOAD )
 C
 C     I_MEM /= 0 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
 C

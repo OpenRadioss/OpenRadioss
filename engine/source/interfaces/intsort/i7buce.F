@@ -40,7 +40,7 @@ Chd|====================================================================
      B   GAPMIN   ,GAPMAX  ,CURV_MAX_MAX ,NUM_IMP     ,GAP_S_L ,
      C   GAP_M_L  ,INTTH   ,ITASK        ,BGAPSMX     ,I_MEM   ,  
      D   KREMNOD  ,REMNOD  ,ITAB         ,FLAGREMNODE , DRAD ,
-     E   ITIED    ,CAND_F  )
+     E   ITIED    ,CAND_F  ,DGAPLOAD     )
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -74,7 +74,8 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   GAP,TZINF,MAXBOX,MINBOX,CURV_MAX_MAX,
-     .   GAPMIN, GAPMAX, BMINMA(12),CURV_MAX(NRTM),BGAPSMX,DRAD
+     .   GAPMIN, GAPMAX, BMINMA(12),CURV_MAX(NRTM),BGAPSMX
+      my_real , INTENT(IN) :: DRAD,DGAPLOAD
       my_real
      .   X(3,*), CAND_P(*), STFN(*),
      .   STF(*), GAP_S(*), GAP_M(*), 
@@ -155,7 +156,7 @@ C
         ISZNSNR = 0
       END IF
 
-      MARGE = TZINF - GAP
+      MARGE = TZINF - (GAP+DGAPLOAD)
       CALL I7TRI(
      1      ADD   ,NSN    ,RENUM  ,NSNR     ,ISZNSNR  ,
      2      IRECT ,X      ,STF    ,STFN     ,XYZM     ,
@@ -166,7 +167,7 @@ C
      7      NRTM  ,NSNROLD,IGAP   ,GAP      ,GAP_S    ,
      8      GAP_M ,GAPMIN ,GAPMAX ,MARGE    ,CURV_MAX ,
      9      NIN    ,GAP_S_L,GAP_M_L,INTTH, DRAD  ,ITIED    ,
-     A      CAND_F ,KREMNOD  ,REMNOD  ,FLAGREMNODE)
+     A      CAND_F ,KREMNOD  ,REMNOD  ,FLAGREMNODE,DGAPLOAD)
 
  234  CONTINUE
 c     WRITE(6,*) "IMEM=",I_MEM 
@@ -202,7 +203,7 @@ Chd|====================================================================
      B   GAPMIN   ,GAPMAX  ,CURV_MAX_MAX,NUM_IMP,GAP_S_L ,
      C   GAP_M_L  ,INTTH   ,ITASK   ,BGAPSMX  ,I_MEM   ,  
      D   KREMNOD  ,REMNOD  ,ITAB    ,FLAGREMNODE, DRAD ,
-     E   ITIED    ,CAND_F  )
+     E   ITIED    ,CAND_F  ,DGAPLOAD)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -236,7 +237,8 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   GAP,TZINF,MAXBOX,MINBOX,CURV_MAX_MAX,
-     .   GAPMIN, GAPMAX, BMINMA(12),CURV_MAX(NRTM),BGAPSMX,DRAD
+     .   GAPMIN, GAPMAX, BMINMA(12),CURV_MAX(NRTM),BGAPSMX
+      my_real , INTENT(IN) :: DRAD,DGAPLOAD
       my_real
      .   X(3,*), CAND_P(*), STFN(*),
      .   STF(*), GAP_S(*), GAP_M(*), 
@@ -310,7 +312,7 @@ C
 C
 C-----DEBUT DE LA PHASE DE TRI 
 C
-      MARGE = TZINF-MAX(GAP,DRAD)  ! il s agit bien de la marge
+      MARGE = TZINF-MAX(GAP+DGAPLOAD,DRAD)  ! il s agit bien de la marge
 
 c      AAA = SQRT(NMN /
 c     .           ((BMINMA(1)-BMINMA(4))*(BMINMA(2)-BMINMA(5))
@@ -389,7 +391,8 @@ C (en // SMP il y a possibilite de redondance de traitement mais no pb)
      7   NRTM    ,NSNROLD  ,IGAP     ,GAP      ,GAP_S   ,
      8   GAP_M   ,GAPMIN   ,GAPMAX   ,MARGE    ,CURV_MAX,
      9   NIN     ,ITASK    ,BGAPSMX  ,KREMNOD  ,REMNOD  ,
-     A   ITAB    ,FLAGREMNODE,DRAD   ,ITIED    ,CAND_F  )
+     A   ITAB    ,FLAGREMNODE,DRAD   ,ITIED    ,CAND_F  ,
+     B   DGAPLOAD)
  
  234  CONTINUE
 

@@ -83,7 +83,7 @@ C-----------------------------------------------
       INTEGER N, NSNF, NSNL, NSNRF, NSNRL ,IFQ
 C     REAL
       my_real
-     .   STARTT, STOPT, DRAD
+     .   STARTT, STOPT, DRAD, DGAPLOAD
 C-----------------------------------------------------------
 C     Prepare IRTLM 
 C         - IRTLM/=0 <=> at the beginning of CAND_OPT
@@ -104,6 +104,7 @@ C-----------------------------------------------------------
       IFQ   = IPARI(31,NIN)
       DRAD = ZERO
       IF(IPARI(47,NIN) > 0) DRAD =INTBUF_TAB%VARIABLES(32)
+      DGAPLOAD  =INTBUF_TAB%VARIABLES(46)
 C-----------------------------------------------------------
 C     Filtrage des candidats a l'impact
 C     (si candidat retenu, cand_n(i) = - cand_n(i))
@@ -125,7 +126,8 @@ C      I_OPT_STOK modifie ds i25optcd, apres barriere !
      .                                                   INTBUF_TAB%MSEGTYP24,
      6 NRTM ,INTBUF_TAB%VARIABLES(23),I_OPT_STOK,INTBUF_TAB%CAND_OPT_E,
      .                                               INTBUF_TAB%CAND_OPT_N,
-     7 SIZOPT,IGAP   ,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML,DRAD)
+     7 SIZOPT,IGAP   ,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML,DRAD,
+     8 DGAPLOAD)
 C
 C      I_OPT_STOK modifie ds i25optcd, avant barriere
        IF(I_OPT_STOK > SIZOPT)THEN
@@ -148,7 +150,8 @@ C        I_OPT_STOK modifie ds i25optcd, apres barriere !
      .                                                       INTBUF_TAB%MSEGTYP24,
      6     NRTM ,INTBUF_TAB%VARIABLES(23),I_OPT_STOK,INTBUF_TAB%CAND_OPT_E,
      .                                                   INTBUF_TAB%CAND_OPT_N,
-     7     SIZOPT,IGAP   ,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML ,DRAD       )
+     7     SIZOPT,IGAP   ,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML ,DRAD       ,
+     8     DGAPLOAD)
        END IF
 C
 C      I_OPT_STOK modifie ds i25optcd, avant barriere
@@ -172,6 +175,7 @@ C
       IGAP0 = IPARI(53,NIN)
       IF(IEDGE/=0)THEN
         NEDGE  = IPARI(68,NIN)
+        DRAD = ZERO
         CALL I25OPTCD_EDG(INTBUF_TAB%CANDM_E2E,INTBUF_TAB%CANDS_E2E,
      .                       X      ,INTBUF_TAB%I_STOK_E(1),INTBUF_TAB%IRECTM  ,
      2                    NIN   ,V     ,INTBUF_TAB%GAPE ,IGAP  ,ITASK ,
@@ -180,7 +184,7 @@ C
      .                                                           INTBUF_TAB%NSV ,
      5                    IGAP0 ,INTBUF_TAB%STFE,
      6                    INTBUF_TAB%S_STFM, INTBUF_TAB%S_STFE,IFQ,INTBUF_TAB%IFPEN_E,
-     7     INTBUF_TAB%FTSAVX_E,INTBUF_TAB%FTSAVY_E, INTBUF_TAB%FTSAVZ_E )
+     7     INTBUF_TAB%FTSAVX_E,INTBUF_TAB%FTSAVY_E, INTBUF_TAB%FTSAVZ_E,DGAPLOAD )
 
 
 
@@ -192,7 +196,7 @@ C
      .                                                          INTBUF_TAB%NSV ,
      5                    NRTM,INTBUF_TAB%GAPE ,INTBUF_TAB%GAP_E_L ,IGAP0,
      6                    INTBUF_TAB%STFE,INTBUF_TAB%S_STFE,IFQ,INTBUF_TAB%IFPEN_E2S,
-     7    INTBUF_TAB%FTSAVX_E2S,INTBUF_TAB%FTSAVY_E2S, INTBUF_TAB%FTSAVZ_E2S)
+     7    INTBUF_TAB%FTSAVX_E2S,INTBUF_TAB%FTSAVY_E2S, INTBUF_TAB%FTSAVZ_E2S,DGAPLOAD)
       END IF
 
 C     call my_barrier ! pour timer only

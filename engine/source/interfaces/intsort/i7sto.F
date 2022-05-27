@@ -37,7 +37,7 @@ Chd|====================================================================
      5      OLDNUM,NSNROLD,IGAP  ,GAP   ,GAP_S  ,
      6      GAP_M ,GAPMIN ,GAPMAX,CURV_MAX,NIN  ,
      7      GAP_S_L,GAP_M_L,INTTH,DRAD,ITIED    ,
-     8      CAND_F)
+     8      CAND_F ,DGAPLOAD)
 C============================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -64,11 +64,11 @@ C-----------------------------------------------
       INTEGER IRECT(4,*),NSV(*),CAND_N(*),CAND_E(*),CAND_A(*)
       INTEGER PROV_N(MVSIZ),PROV_E(MVSIZ),IFPEN(*), OLDNUM(*),
      *        II_STOK
-C     REAL
+      my_real , INTENT(IN) :: DRAD,DGAPLOAD
       my_real
      .        X(3,*), CAND_P(*), GAP_S(*), GAP_M(*),
      .        MARGE, GAP, GAPMIN, GAPMAX,CURV_MAX(*),
-     .        GAP_S_L(*),GAP_M_L(*),DRAD, CAND_F(8,*)
+     .        GAP_S_L(*),GAP_M_L(*), CAND_F(8,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -93,7 +93,7 @@ C-----------------------------------------------
      5               IX2     ,IX3  ,IX4   ,NSN   ,GAP_S   ,
      6               GAP_M   ,GAPV ,GAPMAX,GAPMIN,CURV_MAX,
      7               ITYPE   ,NIN  ,GAP_S_L,GAP_M_L,INTTH ,
-     8               DRAD    )
+     8               DRAD    ,DGAPLOAD)
 C-----------------------------------------------
         CALL I7PEN3(J_STOK ,MARGE ,X1    ,X2     ,X3   ,
      .               X4    ,Y1    ,Y2    ,Y3     ,Y4   ,

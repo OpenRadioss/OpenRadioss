@@ -188,7 +188,7 @@ C
      A   NRTM_L       ,INTBUF_TAB%XSAV(ADXLOC),I_MEM,INTBUF_TAB%VARIABLES(32) ,
      .                                               NMN             ,
      B  INTTH         ,INTBUF_TAB%MNDD ,INTBUF_TAB%MSR_L ,ITASK,INTBUF_TAB%IRECTM,
-     C  IPARI(48,NIN) )
+     C  IPARI(48,NIN) ,INTBUF_TAB%VARIABLES(46))
 
         ENDIF
 

@@ -32,7 +32,7 @@ Chd|====================================================================
      1         X    ,NEDGE ,LEDGE ,NUMNOD ,GAP_E    ,GAP_E_L,
      2         IGAP0,IGAP  ,DRAD  ,BGAPEMX,BGAPEMX_L,KREMNODE, 
      3         REMNODE,NREMNODE,I_START,I_MEM_REM,INOD2LIN,
-     4         TAGSECND,NOD2LIN)
+     4         TAGSECND,NOD2LIN,DGAPLOAD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,6 +57,7 @@ C-----------------------------------------------
       INTEGER INOD2LIN(NUMNOD+1),TAGSECND(NUMNOD),NOD2LIN(2*NEDGE)
       my_real
      .        X(3,*),GAP_E(*),GAP_E_L(*),DRAD,BGAPEMX,BGAPEMX_L
+      my_real , INTENT(IN) :: DGAPLOAD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -67,13 +68,14 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE ::
      .        KNOD2LIN,TAGNOD,ORIGIN
       my_real
-     .        DMAX,NEW_DIST,PENE,I11PENE_LIN,XL,GAPV,GAP
+     .        DMAX,NEW_DIST,PENE,I11PENE_LIN,XL,GAPV,GAP,DRAD2
       my_real, DIMENSION(:),ALLOCATABLE ::
      .        DIST1
 C-----------------------------------------------
 c Build inverse connectivity for segments - only at first pass (I_START=1)
 C-----------------------------------------------
 C
+       DRAD2 = ZERO !no thermal exchange for E2E 
       IF (I_START ==1) THEN
 C
         ALLOCATE(KNOD2LIN(NUMNOD+1))
@@ -161,7 +163,7 @@ C
           ENDIF
           IF(IGAP==3) GAP = MIN(GAP,GAP_E_L(I)+BGAPEMX_L)
  
-          DMAX = SQRT(TWO) * MAX(GAP,DRAD)
+          DMAX = SQRT(TWO) * MAX(GAP+DGAPLOAD,DRAD2)
 C
           TAGNOD(LEDGE(5,LIN)) = 1
           DIST1(LEDGE(5,LIN)) = ZERO
@@ -181,7 +183,7 @@ C
 C
               PENE = ZERO
               IF ((DIST1(LEDGE(5,LIN)) > DMAX).AND.(DIST1(LEDGE(6,LIN)) > DMAX).AND.(LEVEL>2)) THEN
-                PENE = I11PENE_LIN(X,LEDGE(5,LIN),LEDGE(5,LIN),LEDGE(5,I),LEDGE(6,I),DMAX,DRAD)
+                PENE = I11PENE_LIN(X,LEDGE(5,LIN),LEDGE(5,LIN),LEDGE(5,I),LEDGE(6,I),DMAX)
               ENDIF
 C
               IF ((LEVEL <= 2).OR.(DIST1(LEDGE(5,LIN)) <= DMAX).OR.(DIST1(LEDGE(6,LIN)) <= DMAX).OR.(PENE > ZERO)) THEN
@@ -264,12 +266,13 @@ C--- lines with common nodes with main lines are aready removed - no need to sto
                 ENDIF
                 IF(IGAP==3) GAPV = MIN(GAPV,GAP_E_L(LIN)+GAP_E_L(I))
 
-                GAPV = SQRT(TWO)*MAX(DRAD,GAPV)
+                GAPV = SQRT(TWO)*MAX(DRAD2,GAPV+DGAPLOAD)
+		
                 IF ((DIST1(LEDGE(5,LIN)) <= GAPV).OR.(DIST1(LEDGE(6,LIN)) <= GAPV)) THEN
                   REMNODE(KREMNODE(I)+CPT1) = LIN
                   CPT1 = CPT1 + 1
                 ELSE
-                  PENE = I11PENE_LIN(X,LEDGE(5,LIN),LEDGE(6,LIN),LEDGE(5,I),LEDGE(6,I),GAPV,DRAD)
+                  PENE = I11PENE_LIN(X,LEDGE(5,LIN),LEDGE(6,LIN),LEDGE(5,I),LEDGE(6,I),GAPV)
                   IF (PENE > 0) THEN
                     REMNODE(KREMNODE(I)+CPT1) = LIN
                     CPT1 = CPT1 + 1

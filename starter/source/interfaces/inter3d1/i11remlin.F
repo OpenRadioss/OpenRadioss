@@ -32,7 +32,8 @@ Chd|====================================================================
      1         X,NRTM,IRECTM,NRTS,IRECTS,
      2         NUMNOD,GAP_S ,GAP_M, GAPMIN,IGAP,
      3         KREMNODE,REMNODE,GAP,DRAD,NREMNODE,
-     4         I_START,I_MEM_REM,INOD2LIN,TAGSECND,NOD2LIN)
+     4         I_START,I_MEM_REM,INOD2LIN,TAGSECND,NOD2LIN,
+     5         DGAPLOAD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,6 +57,7 @@ C-----------------------------------------------
       INTEGER INOD2LIN(NUMNOD+1),TAGSECND(NUMNOD),NOD2LIN(2*NRTM)
       my_real
      .        X(3,*),GAP_S(*),GAP_M(*),GAP,DRAD,GAPMIN
+      my_real , INTENT(IN) :: DGAPLOAD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -161,7 +163,7 @@ C
         LISTLINTOTAL(1:NRTM) = 0
         CPT_TOTAL = 0
 C
-        DMAX = SQRT(TWO) * MAX(GAP,DRAD)
+        DMAX = SQRT(TWO) * MAX(GAP+DGAPLOAD,DRAD)
 C
         DO I=I_START,NRTM
 
@@ -196,7 +198,7 @@ C              DIST_AXIS = DIST1(IRECTM(1,LIN))*SQRT(ONE-ESTA*ESTA)
 C
               PENE = ZERO
               IF ((DIST1(IRECTM(1,LIN)) > DMAX).AND.(DIST1(IRECTM(2,LIN)) > DMAX).AND.(LEVEL>2)) THEN
-                PENE = I11PENE_LIN(X,IRECTM(1,LIN),IRECTM(2,LIN),IRECTM(1,I),IRECTM(2,I),DMAX,DRAD)
+                PENE = I11PENE_LIN(X,IRECTM(1,LIN),IRECTM(2,LIN),IRECTM(1,I),IRECTM(2,I),DMAX)
               ENDIF
 C
               IF ((LEVEL <= 2).OR.(DIST1(IRECTM(1,LIN)) <= DMAX).OR.(DIST1(IRECTM(2,LIN)) <= DMAX).OR.(PENE > ZERO)) THEN
@@ -276,7 +278,7 @@ C--- lines with common nodes with main lines are aready removed - no need to sto
                   REMNODE(KREMNODE(I)+CPT1) = LIN
                   CPT1 = CPT1 + 1
                 ELSE
-                  PENE = I11PENE_LIN(X,IRECTM(1,LIN),IRECTM(2,LIN),IRECTM(1,I),IRECTM(2,I),SQRT(TWO)*GAP,DRAD)
+                  PENE = I11PENE_LIN(X,IRECTM(1,LIN),IRECTM(2,LIN),IRECTM(1,I),IRECTM(2,I),SQRT(TWO)*MAX(GAP+DGAPLOAD,DRAD))
                   IF (PENE > 0) THEN
                     REMNODE(KREMNODE(I)+CPT1) = LIN
                     CPT1 = CPT1 + 1
@@ -292,12 +294,12 @@ C--- lines with common nodes with main lines are aready removed - no need to sto
      .           .AND.(IM2 /= IRECTM(1,LIN)).AND.(IM2 /= IRECTM(2,LIN))) THEN
 C--- lines with common nodes with main lines are aready removed - no need to store them in remnode
                 GAPV = GAP_S(LIN)+GAP_M(I)
-                GAPV = SQRT(TWO)*MAX(DRAD,GAPMIN,GAPV)
+                GAPV = SQRT(TWO)*MAX(DRAD,GAPMIN,GAPV+DGAPLOAD)
                 IF ((DIST1(IRECTM(1,LIN)) <= GAPV).OR.(DIST1(IRECTM(2,LIN)) <= GAPV)) THEN
                   REMNODE(KREMNODE(I)+CPT1) = LIN
                   CPT1 = CPT1 + 1
                 ELSE
-                  PENE = I11PENE_LIN(X,IRECTM(1,LIN),IRECTM(2,LIN),IRECTM(1,I),IRECTM(2,I),GAPV,DRAD)
+                  PENE = I11PENE_LIN(X,IRECTM(1,LIN),IRECTM(2,LIN),IRECTM(1,I),IRECTM(2,I),GAPV)
                   IF (PENE > 0) THEN
                     REMNODE(KREMNODE(I)+CPT1) = LIN
                     CPT1 = CPT1 + 1
@@ -352,7 +354,7 @@ Chd|        I11REMLINE                    source/interfaces/inter3d1/i11remlin.F
 Chd|        I25REMLINE                    source/interfaces/int25/i25remlin.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      my_real FUNCTION I11PENE_LIN(X,N1,N2,M1,M2,GAP,DRAD)
+      my_real FUNCTION I11PENE_LIN(X,N1,N2,M1,M2,GAP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -366,20 +368,19 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N1,N2,M1,M2
       my_real
-     .     X(3,*),GAP,DRAD
+     .     X(3,*),GAP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .     XS12,YS12,ZS12,XM12,YM12,ZM12,XA,XB,
      .     XS2,XM2,XSM,XS2M2,YS2,YM2,YSM,YS2M2,ZS2,ZM2,ZSM,ZS2M2,
-     .     XX,YY,ZZ,ALS,ALM,DET,H1S,H2S,H1M,H2M,NX,NY,NZ,GAP2,DRAD2
+     .     XX,YY,ZZ,ALS,ALM,DET,H1S,H2S,H1M,H2M,NX,NY,NZ,GAP2
 C-----------------------------------------------
 C
 C      COMPTUTATION OF PENE*PENE FOR PENETRATION CHECK
 C
-       GAP2 = GAP*GAP
-       DRAD2 = DRAD*DRAD
+       GAP2 = GAP**2
 C
        XS12 = X(1,N2)-X(1,N1)
        YS12 = X(2,N2)-X(2,N1)
@@ -419,7 +420,7 @@ C!!!!!!!!!!!!!!!!!!!!!!!!
      .      - H1M*X(2,M1) - H2M*X(2,M2)
        NZ =  H1S*X(3,N1) + H2S*X(3,N2)
      .      - H1M*X(3,M1) - H2M*X(3,M2)
-       I11PENE_LIN = MAX(GAP2,DRAD2) - NX*NX - NY*NY - NZ*NZ
+       I11PENE_LIN = GAP2 - NX*NX - NY*NY - NZ*NZ
        I11PENE_LIN = MAX(ZERO,I11PENE_LIN)
 C
        RETURN

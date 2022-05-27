@@ -33,8 +33,8 @@ Chd|====================================================================
      3                   STFN           ,ITASK     ,STF        ,IFQ        ,IFPEN  ,
      4                   CAND_FX        ,CAND_FY   ,CAND_FZ    ,NIN        ,NSN    ,
      5                   GAPMAX         ,ICURV     ,GAP_S_L    ,GAP_M_L    ,
-     6                   COUNT_REMSLV   ,GAPMIN    ,DRAD)
-C=======================================================================
+     6                   COUNT_REMSLV   ,GAPMIN    ,DRAD       ,DGAPLOAD   )
+C===============================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
@@ -64,7 +64,8 @@ C-----------------------------------------------
       my_real
      .        X(3,*),GAP,GAP_S(*),GAP_M(*),STFN(*),STF(*),
      .        CAND_FX(*),CAND_FY(*),CAND_FZ(*),
-     .        GAPMAX,GAP_S_L(*),GAP_M_L(*),GAPMIN,DRAD
+     .        GAPMAX,GAP_S_L(*),GAP_M_L(*),GAPMIN
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -155,7 +156,7 @@ C
           L  = CAND_E(I)
           IF(STF(L).NE.ZERO.AND.STFN(CAND_N(I)).NE.ZERO) THEN 
            IG(IS) = NSV(CAND_N(I))
-           GAPF = MAX(GAPV(IS),DRAD)
+           GAPF = MAX(GAPV(IS)+DGAPLOAD,DRAD)
            XI = X(1,IG(IS))
            YI = X(2,IG(IS))
            ZI = X(3,IG(IS))
@@ -205,7 +206,7 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
           L  = CAND_E(I)
           IF(STF(L).NE.ZERO.AND.STFN(CAND_N(I)).NE.ZERO) THEN 
            IG(IS) = NSV(CAND_N(I))
-           GAPF = MAX(GAPV(IS),DRAD) 
+           GAPF = MAX(GAPV(IS)+DGAPLOAD,DRAD) 
            ZI = X(3,IG(IS))
            IX1(IS)=IRECT(1,L)
            Z1=X(3,IX1(IS))
@@ -286,7 +287,7 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
             II = CAND_N(I)-NSN
             L  = CAND_E(I)
             IF(STF(L).NE.ZERO.AND.STIFI(NIN)%P(II).NE.ZERO) THEN 
-             GAPF = MAX(GAPV(IS),DRAD)
+             GAPF = MAX(GAPV(IS)+DGAPLOAD,DRAD)
              XI = XFI(NIN)%P(1,II)
              YI = XFI(NIN)%P(2,II)
              ZI = XFI(NIN)%P(3,II)
@@ -337,7 +338,7 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
             II = CAND_N(I)-NSN
             L  = CAND_E(I)
             IF(STF(L).NE.ZERO.AND.STIFI(NIN)%P(II).NE.ZERO) THEN 
-              GAPF = MAX(GAPV(IS),DRAD)
+              GAPF = MAX(GAPV(IS)+DGAPLOAD,DRAD)
               ZI = XFI(NIN)%P(3,II)
               IX1(IS)=IRECT(1,L)
               Z1=X(3,IX1(IS))
@@ -362,7 +363,7 @@ C
 #include      "vectorize.inc"
            DO LS=NLF,NLT
             IS=LIST(LS)
-            GAPF = MAX(GAPV(IS),DRAD)
+            GAPF = MAX(GAPV(IS)+DGAPLOAD,DRAD)
             I=JS+IS
             II=CAND_N(I)-NSN
             YI=XFI(NIN)%P(2,II)
@@ -381,7 +382,7 @@ C
 #include      "vectorize.inc"
            DO LS=NLF,NLS
             IS=LIST(LS)
-            GAPF = MAX(GAPV(IS),DRAD)
+            GAPF = MAX(GAPV(IS)+DGAPLOAD,DRAD)
             I=JS+IS
             II = CAND_N(I)-NSN
             XI = XFI(NIN)%P(1,II)
