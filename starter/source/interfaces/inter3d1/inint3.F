@@ -2231,8 +2231,9 @@ C
      7         FX         ,FY           ,FZ           ,
      8         N1           ,N2           ,M1           ,M2           ,NEDGE   ,
      9         INTBUF_TAB%GAPE,GAPVE,
-     A         IEDGE        ,INTBUF_TAB%ADMSR,INTBUF_TAB%LBOUND,INTBUF_TAB%EDGE_BISECTOR,
-     B         INTBUF_TAB%VTX_BISECTOR,ITAB   ,IGAP0 )
+     A         IEDGE       ,INTBUF_TAB%ADMSR,INTBUF_TAB%LBOUND,INTBUF_TAB%EDGE_BISECTOR,
+     B         INTBUF_TAB%VTX_BISECTOR       ,ITAB        ,IGAP0    ,IGAP        ,
+     C         INTBUF_TAB%GAP_E_L)
 
               CALL I25PEN3E(
      1         LLT    ,IEDGE ,INTBUF_TAB%CANDS_E2E(1+NFT) ,INTBUF_TAB%CANDM_E2E(1+NFT) ,
