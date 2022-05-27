@@ -34,10 +34,11 @@ Chd|====================================================================
      5      XZS2   ,XXM1   ,XXM2   ,XYM1   ,XYM2   ,
      6      XZM1   ,XZM2   ,EX     ,EY     ,EZ     ,
      7      FX     ,FY     ,FZ     ,
-     8      N1     ,N2     ,M1     ,M2     ,NRTS   ,
+     8      N1     ,N2     ,M1     ,M2     ,NEDGE  ,
      9      GAPE   ,GAPVE  ,
      A      IEDGE  ,ADMSR  ,LBOUND ,EDG_BISECTOR   ,
-     B      VTX_BISECTOR,ITAB   ,IGAP0)
+     B      VTX_BISECTOR   ,ITAB   ,IGAP0  ,IGAP   ,
+     C      GAP_E_L )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -63,7 +64,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LEDGE(NLEDGE,*), IRECT(4,*), CAND_M(*), CAND_S(*), ADMSR(4,*),
-     .        LBOUND(*), JLT, NRTS, IEDGE, ITAB(*), IGAP0,
+     .        LBOUND(*), JLT, NEDGE, IEDGE, ITAB(*), IGAP0, IGAP, 
      .        N1(MVSIZ), N2(MVSIZ), 
      .        M1(MVSIZ), M2(MVSIZ)
 C     REAL ou REAL*8
@@ -72,7 +73,7 @@ C     REAL ou REAL*8
      .        XXS1(MVSIZ), XXS2(MVSIZ), XYS1(MVSIZ), XYS2(MVSIZ),
      .        XZS1(MVSIZ), XZS2(MVSIZ), XXM1(MVSIZ), XXM2(MVSIZ),
      .        XYM1(MVSIZ), XYM2(MVSIZ), XZM1(MVSIZ), XZM2(MVSIZ),
-     .        GAPE(*),GAPVE(MVSIZ),
+     .        GAPE(*),GAPVE(MVSIZ),GAP_E_L(NEDGE),
      .        EX(MVSIZ), EY(MVSIZ), EZ(MVSIZ), FX(MVSIZ), FY(MVSIZ), FZ(MVSIZ)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
 C-----------------------------------------------
@@ -84,7 +85,7 @@ C-----------------------------------------------
      .   AAA, DX, DY, DZ, DD, NNI, NI2, INVCOS, GAPE_M(MVSIZ), GAPE_S(MVSIZ)
 C-----------------------------------------------
       DO I=1,JLT
-        IF(CAND_S(I).LE.NRTS) THEN
+        IF(CAND_S(I).LE.NEDGE) THEN
 
           I1=LEDGE(1,CAND_S(I))
           J1=LEDGE(2,CAND_S(I))
@@ -131,12 +132,19 @@ C-----------------------------------------------
 
       DO I=1,JLT
         GAPE_M(I)=GAPE(CAND_M(I))
-	IF(CAND_S(I).LE.NRTS) THEN
+	IF(CAND_S(I).LE.NEDGE) THEN
           GAPE_S(I)=GAPE(CAND_S(I))
         ELSE ! TBD
 	END IF
         GAPVE(I)=GAPE_M(I)+GAPE_S(I)
       END DO
+      IF(IGAP==3) THEN
+        DO I=1,JLT
+	   IF(CAND_S(I).LE.NEDGE) THEN
+              GAPVE(I)=MIN(GAP_E_L(CAND_M(I))+GAP_E_L(CAND_S(I)),GAPVE(I))
+           ENDIF
+        ENDDO
+      ENDIF
 C
       SOL_EDGE=IEDGE/10 ! solids
       SH_EDGE =IEDGE-10*SOL_EDGE ! shells

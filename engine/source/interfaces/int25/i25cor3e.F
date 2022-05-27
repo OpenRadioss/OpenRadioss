@@ -44,7 +44,8 @@ Chd|====================================================================
      E      VTX_BISECTOR,IGAP0,
      F      IAM    ,JAM    ,IBM    ,JBM    ,IAS    ,
      G      JAS    ,IBS    ,JBS    ,ITAB   , EDGE_ID,
-     H      INTFRIC,IPARTFRIC_E,IPARTFRICSI,IPARTFRICMI)
+     H      INTFRIC,IPARTFRIC_E,IPARTFRICSI,IPARTFRICMI,
+     I      IGAP   ,GAP_E_L)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,7 +74,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LEDGE(NLEDGE,*), IRECT(4,*), CAND_M(*), CAND_S(*), ADMSR(4,*),
-     .        LBOUND(*), JLT, NRTS, NIN, IEDGE, IGAP0,INTFRIC,
+     .        LBOUND(*), JLT, NRTS, NIN, IEDGE, IGAP0,INTFRIC,IGAP,
      .        N1(MVSIZ), N2(MVSIZ), 
      .        M1(MVSIZ), M2(MVSIZ), 
      .        NODNX_SMS(*), NSMS(MVSIZ), 
@@ -94,7 +95,8 @@ C     REAL ou REAL*8
      .        VYM1(*), VYM2(*), VZM1(*), VZM2(*),
      .        MS1(*),  MS2(*),  MM1(*),  MM2(*),
      .        STIF(*), STFAC, STS, STM, GAPVE(*),
-     .        EX(*), EY(*), EZ(*), FX(*), FY(*), FZ(*)
+     .        EX(*), EY(*), EZ(*), FX(*), FY(*), FZ(*),
+     .        GAP_E_L(NEDGE)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -308,6 +310,15 @@ C
         DEBUG_E2E(EDGE_ID(1,I) ==  D_EM .AND. EDGE_ID(2,I) == D_ES,GAPE_S(I))
         GAPVE(I)=GAPE_M(I)+GAPE_S(I)
       END DO
+      IF(IGAP == 3) THEN
+        DO I=1,JLT
+          IF(CAND_S(I).LE.NEDGE) THEN
+             GAPVE(I)=MIN(GAP_E_L(CAND_M(I))+GAP_E_L(CAND_S(I)),GAPVE(I)) 
+          ELSE
+             GAPVE(I)=MIN(GAP_E_L(CAND_M(I))+GAPE_L_FIE(NIN)%P(CAND_S(I) - NEDGE),GAPVE(I)) 
+          ENDIF
+        ENDDO
+      ENDIF
 C
 C     Always shift MAIN edge toward inner side
       DO I=1,JLT

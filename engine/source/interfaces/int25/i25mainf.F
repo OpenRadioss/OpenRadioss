@@ -850,7 +850,8 @@ C         preparation candidats retenus
      E INTBUF_TAB%VTX_BISECTOR ,IGAP0,
      F IAM          ,JAM          ,IBM          ,JBM          ,IAS     ,
      G JAS          ,IBS          ,JBS          ,ITAB         ,EDGE_ID ,
-     H INTFRIC      ,INTBUF_TAB%IPARTFRIC_E     ,IPARTFRICSI  ,IPARTFRICMI)
+     H INTFRIC      ,INTBUF_TAB%IPARTFRIC_E     ,IPARTFRICSI  ,IPARTFRICMI,
+     I IGAP         ,INTBUF_TAB%GAP_E_L)
           CALL I_COR_EPFIT3(
      1               JLT      ,INTBUF_TAB%STFE,STIF    ,CS_LOC ,CM_LOC ,
      2               NEDGE    ,NIN     ,INACTI  ,IPARI(40,NIN),TNCY) 
