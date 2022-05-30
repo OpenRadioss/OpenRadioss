@@ -277,7 +277,7 @@ C          	pour JHBE=14, valeurs moyennes est dans rep. corota.
      .                   IS >= 0 .AND.  IS <= NPTS .AND. IT >= 0 .AND. IT <= NPTT) THEN 
 c IR= IS= IT=
 c-----------
-              IF (ISOLNOD == 8 .AND. IGTYP == 43) THEN
+              IF (ISOLNOD ==  8 .AND. IGTYP == 43) THEN
 c-----------
                 DO I=1,NEL					      
                   EVAR(1,I) = ZERO
