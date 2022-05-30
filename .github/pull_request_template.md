@@ -2,7 +2,7 @@
 <!--- Check [x] all boxes -->
 - [ ] Only one commit (please squash your commits) 
 - [ ] No merge commits (use git pull --rebase) 
-- [ ] The changes satisfy the DOS and DONTS of the README.md file
+- [ ] The changes satisfy the DOS and DONTS of the CONTRIBUTING.md file
 
 <!------ Provide a general summary of your changes in the Title above -->
 #### Description of the feature or the bug
