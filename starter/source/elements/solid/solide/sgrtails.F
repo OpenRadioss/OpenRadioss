@@ -693,7 +693,7 @@ c
             IF(NPT ==  0) NPT = 3
             IF(MLN == 1 .AND. NPT /= 1) NPT = 2
           ENDIF
-          IF(JHBE==14 .AND. MLN==1) NPT = 222
+          IF(JHBE==14 .AND. MLN==1.AND.IGT /= 22) NPT = 222
 C
           JALE=NINT(PM(72,MID))
           JLAG=0
