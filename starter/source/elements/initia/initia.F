@@ -3555,6 +3555,8 @@ C-------this is done in ENGINE, should be done in Starter
            ENDIF  
 c-----          
            IF (IGTYP==22.AND.IHBE==14 ) THEN
+C------  IPARG(6,NG)= NPG after elbuf_ini          
+             NPT =MAX(NPT,IGEO(4,IPID))
              ICSTR = IPARG(17,NG)
              SELECT CASE (ICSTR)
               CASE(100)                                             
