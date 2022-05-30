@@ -872,9 +872,9 @@ C
 
             IR_MAX = 0
             IF (IS_IR_ALL == 1) THEN
-	      DO K=1,NUMGEO
-           	IF(IGEO(11,K) == 6 .OR. IGEO(11,K) == 14 .OR. IGEO(11,K) == 20 .OR. 
-     .     	   IGEO(11,K) == 21 .OR. IGEO(11,K) == 22) THEN
+              DO K=1,NUMGEO
+                IF(IGEO(11,K) == 6 .OR. IGEO(11,K) == 14 .OR. IGEO(11,K) == 20 .OR. 
+     .            IGEO(11,K) == 21 .OR. IGEO(11,K) == 22) THEN
                   IF(IGEO(4,K) == 1 .OR. IGEO(10,K)==15) THEN
                     IR_MAX = 1
                   ELSEIF(IGEO(4,K) == 8) THEN
@@ -882,7 +882,7 @@ C
                   ELSE
                     NPTR=MAX(2,IGEO(4,K)/100)
                     IR_MAX = MAX(IR_MAX,NPTR)
-           	  ENDIF
+                  ENDIF
                   IF(N2D.NE.0) THEN
                     IF(IGEO(4,K) == 4) THEN
                       IR_MAX = 2
@@ -890,16 +890,16 @@ C
                       IR_MAX = 1
                     ENDIF
                   ENDIF
-           	ENDIF
-	      ENDDO
+                ENDIF
+              ENDDO
             ENDIF
 
             IS_MAX = 0
             IF (IS_IS_ALL == 1) THEN
-	      DO K=1,NUMGEO
-           	IF(IGEO(11,K) == 6 .OR. IGEO(11,K) == 14 .OR. IGEO(11,K) == 20 .OR. 
-     .     	   IGEO(11,K) == 21 .OR. IGEO(11,K) == 22) THEN
-C------------- thick-shell Isolid=15     
+              DO K=1,NUMGEO
+               IF(IGEO(11,K) == 6 .OR. IGEO(11,K) == 14 .OR. IGEO(11,K) == 20 .OR. 
+     .            IGEO(11,K) == 21 .OR. IGEO(11,K) == 22) THEN
+C-------------    thick-shell Isolid=15     
                   IF(IGEO(10,K)==15) THEN
                     IS_MAX = MAX(IS_MAX,IGEO(4,K))
                   ELSEIF(IGEO(4,K) == 1) THEN
@@ -909,7 +909,7 @@ C------------- thick-shell Isolid=15
                   ELSE
                     NPTS=MAX(2,MOD(IGEO(4,K)/10,10))
                     IS_MAX = MAX(IS_MAX,NPTS)
-           	  ENDIF
+                  ENDIF
                   IF(N2D.NE.0) THEN
                     IF(IGEO(4,K) == 4) THEN
                       IS_MAX = 2
@@ -917,15 +917,15 @@ C------------- thick-shell Isolid=15
                       IS_MAX = 1
                     ENDIF
                   ENDIF
-           	ENDIF
-	      ENDDO
+                ENDIF
+              ENDDO
             ENDIF
 
             IT_MAX = 0
             IF (IS_IT_ALL == 1) THEN
-	      DO K=1,NUMGEO
-           	IF(IGEO(11,K) == 6 .OR. IGEO(11,K) == 14 .OR. IGEO(11,K) == 20 .OR. 
-     .     	   IGEO(11,K) == 21 .OR. IGEO(11,K) == 22) THEN
+              DO K=1,NUMGEO
+               IF(IGEO(11,K) == 6 .OR. IGEO(11,K) == 14 .OR. IGEO(11,K) == 20 .OR. 
+     .           IGEO(11,K) == 21 .OR. IGEO(11,K) == 22) THEN
                   IF(IGEO(4,K) == 1 .OR. IGEO(10,K)==15) THEN
                     IT_MAX = 1
                   ELSEIF(IGEO(4,K) == 8) THEN
@@ -934,30 +934,30 @@ C------------- thick-shell Isolid=15
                     NPTT=MAX(2,MOD(IGEO(4,K),10))
                     IT_MAX = MAX(IT_MAX,NPTT)
                   ENDIF
-           	ENDIF
+                ENDIF
                 IF(N2D.NE.0) THEN
                   IT_MAX = 1
-                ENDIF
-	      ENDDO
+               ENDIF
+              ENDDO
             ENDIF
 C----special case for thick-shell Isolid=14  :          
         IF ((IS_IR_ALL + IS_IS_ALL+IS_IT_ALL)>0) THEN          
           DO K=1,NUMGEO                                        
             IF(IGEO(10,K)==14.AND. (IGEO(11,K) == 20 .OR.      
-     .     IGEO(11,K) == 21 .OR. IGEO(11,K) == 22)) THEN      	
+     .         IGEO(11,K) == 21 .OR. IGEO(11,K) == 22)) THEN      	
               ICSTR= IGEO(14,K)                                
               NPT = IGEO(4,K)                                  
               NPTR=NPT/100                                     
               NPTS=MOD(NPT/10,10)                              
               NPTT=MOD(NPT,10)                                 
-                SELECT CASE (ICSTR)                            
+              SELECT CASE (ICSTR)                            
                   CASE(100)                                    
                     IF (NPTT==0) NPTT= IGEO(15,K)              
                   CASE(10)                                     
                     IF (NPTS==0) NPTS= IGEO(15,K)              
                   CASE(1)                                      
                     IF (NPTR==0) NPTR= IGEO(15,K)              
-                END SELECT                                     
+              END SELECT                                     
               IF (IS_IR_ALL == 1) IR_MAX = MAX(IR_MAX,NPTR)    
               IF (IS_IS_ALL == 1) IS_MAX = MAX(IS_MAX,NPTS)    
               IF (IS_IT_ALL == 1) IT_MAX = MAX(IT_MAX,NPTT)    
