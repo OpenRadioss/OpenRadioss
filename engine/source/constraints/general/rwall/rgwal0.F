@@ -23,9 +23,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  RGWAL0                        source/constraints/general/rwall/rgwal0.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F       
+Chd|        MY_BARRIER                    source/system/machine.F
 Chd|        RGWALC                        source/constraints/general/rwall/rgwalc.F
 Chd|        RGWALL                        source/constraints/general/rwall/rgwall.F
 Chd|        RGWALP                        source/constraints/general/rwall/rgwalp.F
@@ -33,7 +33,7 @@ Chd|        RGWALS                        source/constraints/general/rwall/rgwal
 Chd|        RGWALT                        source/constraints/general/rwall/rgwal0.F
 Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
 Chd|====================================================================
-      SUBROUTINE RGWAL0(X      ,A      ,V      ,RWBUF   ,LPRW  ,   
+      SUBROUTINE RGWAL0(X      ,A      ,V      ,RWBUF   ,LPRW  ,
      2                  NPRW   ,MS     ,FSAV   ,FR_WALL ,FOPT  ,
      3                  RWSAV  ,WEIGHT ,FRWL6 ,NODNX_SMS,WEIGHT_MD,
      4                  DIMFB  , FBSAV6,STABSEN,TABSENSOR )
@@ -59,13 +59,10 @@ C-----------------------------------------------
       INTEGER LPRW(*), NPRW(*), FR_WALL(NSPMD+2,*), WEIGHT(*),
      .        IBID, NODNX_SMS(*),WEIGHT_MD(*),
      .        DIMFB,STABSEN,TABSENSOR(*)
-      my_real
-     .   X(3,*), A(3,*), V(3,*),RWBUF(NRWLP,*),RWSAV(*),MS(*),
-     .   FSAV(NTHVKI,*), FOPT(6,*)
-      DOUBLE PRECISION
-     .        FRWL6(7,6,NRWALL)
-      DOUBLE PRECISION
-     .        FBSAV6(12,6,DIMFB),RBID(12,6)
+      my_real X(3,NUMNOD), A(3,NUMNOD), V(3,NUMNOD),RWBUF(NRWLP,*),RWSAV(*),MS(*),
+     .        FSAV(NTHVKI,*), FOPT(6,*)
+      DOUBLE PRECISION FRWL6(7,6,NRWALL)
+      DOUBLE PRECISION FBSAV6(12,6,DIMFB),RBID(12,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -76,7 +73,7 @@ C-----------------------------------------------
 C Init global result to 0
 
 !$OMP DO
-          DO N = 1, NRWALL          
+          DO N = 1, NRWALL
             DO K = 1, 6
               FRWL6(1,K,N) = ZERO
               FRWL6(2,K,N) = ZERO
@@ -102,27 +99,27 @@ C Init global result to 0
 C
             ITYP= NPRW(N4)
             ILAGM= 0
-            IF (NPRW(N6).EQ.1) ILAGM=1
-            IF(ITYP.EQ.1.AND.ILAGM.EQ.0)THEN
+            IF (NPRW(N6) == 1) ILAGM=1
+            IF(ITYP == 1.AND.ILAGM == 0)THEN
               CALL RGWALL(
-     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N5),RWSAV(ISL),FRWL6(1,1,N),IMP       ,IBID   ,
      +          IBID    ,IBID      ,IBID        ,NODNX_SMS ,WEIGHT_MD)
-            ELSEIF(ITYP.EQ.2)THEN
+            ELSEIF(ITYP == 2)THEN
               CALL RGWALC(
      +          X       ,A           ,V       ,RWBUF(1,N) ,LPRW(K),
      +          NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS         ,WEIGHT ,
      +          NPRW(N5),FRWL6(1,1,N),IMP     ,IBID       ,IBID   ,
      +          IBID    ,IBID        ,NODNX_SMS , WEIGHT_MD)
 C
-            ELSEIF(ITYP.EQ.3)THEN
+            ELSEIF(ITYP == 3)THEN
               CALL RGWALS(
      +          X       ,A           ,V       ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS        ,WEIGHT ,
      +          NPRW(N5),FRWL6(1,1,N),IMP     ,IBID      ,IBID   ,
      +          IBID    ,IBID        ,NODNX_SMS ,WEIGHT_MD)
-            ELSEIF(ITYP.EQ.4)THEN
+            ELSEIF(ITYP == 4)THEN
               CALL RGWALP(
      +          X       ,A           ,V       ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS        ,WEIGHT ,
@@ -131,14 +128,18 @@ C
             ENDIF
             K=K+NPRW(N)
             IFQ = NINT(RWBUF(15,N))
-            IF (SMINVER.LT.9.OR.IFQ.GT.0) ISL=ISL+NPRW(N)*3
-            IF(NPRW(N4).EQ.-1)K=K+NINT(RWBUF(8,N))
+            IF (SMINVER < 9.OR.IFQ > 0) THEN
+              ISL=ISL+NPRW(N)*3
+            ENDIF
+            IF(NPRW(N4) == -1)THEN
+              K=K+NINT(RWBUF(8,N))
+            ENDIF
           END DO
 
 C Explicit barrier required before communication
- 
+
           CALL MY_BARRIER
-          
+
 !$OMP SINGLE
 
 C
@@ -155,7 +156,7 @@ C
               IF(NPRW(N3) /= 0) THEN
                 IF(NSPMD > 1) THEN
 Cel si proc concerne par le rgwall
-                  IF(FR_WALL(ISPMD+1,N).NE.0) THEN
+                  IF(FR_WALL(ISPMD+1,N) /= 0) THEN
                     CALL SPMD_EXCH_FR6(FR_WALL(1,N),FRWL6(1,1,N),7*6)
                   ENDIF
                   PMAIN = FR_WALL(NSPMD+2,N)
@@ -168,8 +169,9 @@ Cel si proc concerne par le rgwall
 C
               IPARSENS=0
               ISECT=0
-              IF(STABSEN/=0) ISECT=TABSENSOR(N+NSECT+NINTSUB+NINTER+1)-
-     .                             TABSENSOR(N+NSECT+NINTSUB+NINTER)
+              IF(STABSEN/=0) THEN
+                ISECT=TABSENSOR(N+NSECT+NINTSUB+NINTER+1)-TABSENSOR(N+NSECT+NINTSUB+NINTER)
+              ENDIF
               IF(ISECT/=0) THEN
                 IPARSENS=1
                 CALL RGWALT(
@@ -190,21 +192,21 @@ C
 Chd|====================================================================
 Chd|  RGWAL0_IMP                    source/constraints/general/rwall/rgwal0.F
 Chd|-- called by -----------
-Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_BUCK                      source/implicit/imp_buck.F
+Chd|        IMP_CHKM                      source/implicit/imp_solv.F
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|        FV_RWL                        source/constraints/general/rwall/srw_imp.F
-Chd|        GETDYNA_A                     source/implicit/imp_dyna.F    
+Chd|        GETDYNA_A                     source/implicit/imp_dyna.F
 Chd|        RGWALC                        source/constraints/general/rwall/rgwalc.F
 Chd|        RGWALL                        source/constraints/general/rwall/rgwall.F
 Chd|        RGWALP                        source/constraints/general/rwall/rgwalp.F
 Chd|        RGWALS                        source/constraints/general/rwall/rgwals.F
 Chd|        RGWALT                        source/constraints/general/rwall/rgwal0.F
 Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
-Chd|        ZEROR                         source/system/zero.F          
+Chd|        ZEROR                         source/system/zero.F
 Chd|====================================================================
-      SUBROUTINE RGWAL0_IMP(X      ,D      ,V      ,RWBUF   ,LPRW   ,   
+      SUBROUTINE RGWAL0_IMP(X      ,D      ,V      ,RWBUF   ,LPRW   ,
      1                  NPRW   ,MS     ,FSAV   ,FR_WALL ,FOPT   ,
      2                  RWSAV  ,WEIGHT ,FSAVD   ,NT_RW  ,
      3                  IDDL   ,IKC    ,ICOMV  ,NDOF  ,FRWL6 ,WEIGHT_MD,
@@ -232,9 +234,8 @@ C-----------------------------------------------
       INTEGER LPRW(*), NPRW(*), FR_WALL(NSPMD+2,*), WEIGHT(*),
      .        NT_RW,IDDL(*),IKC(*),NDOF(*),ICOMV,WEIGHT_MD(*),
      .        DIMFB,STABSEN,TABSENSOR(*)
-      my_real
-     .   X(3,*), D(3,*), V(3,*),RWBUF(NRWLP,*),RWSAV(*),MS(*),
-     .   FSAV(NTHVKI,*), FOPT(6,*),FSAVD(NTHVKI,*)
+      my_real X(3,NUMNOD), D(3,NUMNOD), V(3,NUMNOD),RWBUF(NRWLP,*),RWSAV(*),MS(*),
+     .        FSAV(NTHVKI,*), FOPT(6,*),FSAVD(NTHVKI,*)
       DOUBLE PRECISION
      .        FRWL6(7,6,NRWALL)
       DOUBLE PRECISION
@@ -244,15 +245,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K, N, N2, N3, N4, N5, N6, ITYP, ISL, IFQ, ILAGM,
      .        NDS,IMP, PMAIN, IBID,IPARSENS,ISECT
-      my_real
-     .        A(3,NUMNOD),BID,DTI
+      my_real A(3,NUMNOD),BID,DTI
 C-----------------------------------------------
           RBID = ZERO
 C Init global result to 0
 
 C for the moment RGWAL0 is called in monoprocessor, so no need of // do loop
 c!$OMP DO
-          DO N = 1, NRWALL          
+          DO N = 1, NRWALL
             DO K = 1, 6
               FRWL6(1,K,N) = ZERO
               FRWL6(2,K,N) = ZERO
@@ -267,19 +267,19 @@ c!$OMP END DO
 
           NDS=0
           IMP=1
-	      IF (IDYNA.GT.0) THEN
+	      IF (IDYNA > 0) THEN
 	        CALL GETDYNA_A(1  ,NUMNOD   ,A )
 	      ELSE
             CALL ZEROR(A,NUMNOD)
 	      END IF
-          IF (ICOMV.EQ.1) THEN
+          IF (ICOMV == 1) THEN
            DTI = UN/DT2
            DO N=1,NUMNOD
             V(1,N)=D(1,N)*DTI
             V(2,N)=D(2,N)*DTI
             V(3,N)=D(3,N)*DTI
            ENDDO
-          ENDIF 
+          ENDIF
           ISL = 1
           K=1
           DO N=1,NRWALL
@@ -291,39 +291,39 @@ c!$OMP END DO
 
             ITYP= NPRW(N4)
             ILAGM= 0
-            IF (CODVERS.GE.44) THEN
-              IF (NPRW(N6).EQ.1) ILAGM=1
+            IF (CODVERS >= 44) THEN
+              IF (NPRW(N6) == 1) ILAGM=1
             ENDIF
-            IF(ITYP.EQ.1.AND.ILAGM.EQ.0)THEN
+            IF(ITYP == 1.AND.ILAGM == 0)THEN
               CALL RGWALL(
-     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N5),RWSAV(ISL),FRWL6(1,1,N),IMP       ,NT_RW  ,
      +          IDDL    ,IKC       ,NDOF        ,IBID      ,WEIGHT_MD)
-            ELSEIF(ITYP.EQ.2)THEN
+            ELSEIF(ITYP == 2)THEN
               CALL RGWALC(
      +          X       ,A           ,V       ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS        ,WEIGHT ,
      +          NPRW(N5),FRWL6(1,1,N),IMP     ,NT_RW     ,IDDL   ,
      +          IKC     ,NDOF        ,IBID    ,WEIGHT_MD)
-            ELSEIF(ITYP.EQ.3)THEN
+            ELSEIF(ITYP == 3)THEN
               CALL RGWALS(
      +          X       ,A           ,V       ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS        ,WEIGHT ,
      +          NPRW(N5),FRWL6(1,1,N),IMP     ,NT_RW     ,IDDL   ,
      +          IKC     ,NDOF        ,IBID    ,WEIGHT_MD)
-            ELSEIF(ITYP.EQ.4)THEN
+            ELSEIF(ITYP == 4)THEN
               CALL RGWALP(
      +          X       ,A           ,V       ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS        ,WEIGHT ,
      +          NPRW(N5),FRWL6(1,1,N),IMP     ,NT_RW     ,IDDL   ,
      +          IKC     ,NDOF        ,IBID    ,WEIGHT_MD)
             ENDIF
-            
+
             K=K+NPRW(N)
             IFQ = NINT(RWBUF(15,N))
-            IF (SMINVER.LT.9.OR.IFQ.GT.0) ISL=ISL+NPRW(N)*3
-            IF(NPRW(N4).EQ.-1)K=K+NINT(RWBUF(8,N))
+            IF (SMINVER < 9.OR.IFQ > 0) ISL=ISL+NPRW(N)*3
+            IF(NPRW(N4) == -1)K=K+NINT(RWBUF(8,N))
           END DO
 
 C
@@ -340,7 +340,7 @@ C
               IF(NPRW(N3) /= 0) THEN
                 IF(NSPMD > 1) THEN
 Cel si proc concerne par le rgwall
-                  IF(FR_WALL(ISPMD+1,N).NE.0) THEN
+                  IF(FR_WALL(ISPMD+1,N) /= 0) THEN
                     CALL SPMD_EXCH_FR6(FR_WALL(1,N),FRWL6(1,1,N),7*6)
                   ENDIF
                   PMAIN = FR_WALL(NSPMD+2,N)
@@ -368,8 +368,8 @@ C
             END DO
           END IF
 
-          IF (NT_RW.GT.0) THEN
-           CALL FV_RWL(IDDL   ,IKC   ,NDOF  ,D    ,V    ,A     )         
+          IF (NT_RW > 0) THEN
+           CALL FV_RWL(IDDL   ,IKC   ,NDOF  ,D    ,V    ,A     )
           ENDIF
 
       RETURN
@@ -378,7 +378,7 @@ C
 Chd|====================================================================
 Chd|  RGWALF                        source/constraints/general/rwall/rgwal0.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE RGWALF(A      ,RWBUF   ,NPRW   ,MS    )
@@ -401,14 +401,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPRW(*)
-      my_real
-     .        A(3,*),RWBUF(NRWLP,*),MS(*)
+      my_real A(3,NUMNOD),RWBUF(NRWLP,*),MS(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,N2,N3,N4,N5,N6, MSR, ITYP, ILAGM
-      my_real
-     .        DM
+      my_real DM
 C-----------------------------------------------
 C
 C RWL(17) = Fx
@@ -424,10 +422,10 @@ C
         N6=N5+NRWALL
         ITYP= NPRW(N4)
         ILAGM= 0
-        IF (NPRW(N6).EQ.1) ILAGM=1
-        IF(ITYP.GE.1.AND.ITYP.LE.4.AND.ILAGM.EQ.0)THEN
+        IF (NPRW(N6) == 1) ILAGM=1
+        IF(ITYP >= 1.AND.ITYP <= 4.AND.ILAGM == 0)THEN
           MSR = NPRW(N3)
-          IF(MSR.NE.0)THEN
+          IF(MSR /= 0)THEN
             DM = MS(MSR)+ RWBUF(20,N)
             IF(DM /= ZERO) THEN
               DM = MS(MSR) / DM
@@ -470,19 +468,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MSR, PMAIN, IPARSENS, I
-C     REAL ou REAL*8
-      my_real
-     .   RWL(*), FSAV(*),FOPT(6)
-      DOUBLE PRECISION
-     .   FRWL6(7,6)
-      DOUBLE PRECISION 
-     .   FBSAV6(12,6)
+      my_real RWL(*), FSAV(*),FOPT(6),DIVDT12
+      DOUBLE PRECISION FRWL6(7,6)
+      DOUBLE PRECISION FBSAV6(12,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
-      my_real
-     .   FXN, FYN, FZN, FXT, FYT, FZT, XMT
+      my_real FXN, FYN, FZN, FXT, FYT, FZT, XMT
 C-----------------------------------------------
       FXN = FRWL6(1,1)+FRWL6(1,2)+FRWL6(1,3)+
      .      FRWL6(1,4)+FRWL6(1,5)+FRWL6(1,6)
@@ -499,22 +491,28 @@ C-----------------------------------------------
       FZT = FRWL6(7,1)+FRWL6(7,2)+FRWL6(7,3)+
      .      FRWL6(7,4)+FRWL6(7,5)+FRWL6(7,6)
 C
-      IF (IPARSENS .NE. 0)THEN
+      IF(DT12 /= ZERO)THEN
+        DIVDT12 = UN / DT12
+      ELSE
+        DIVDT12 = ZERO
+      ENDIF
+
+      IF (IPARSENS  /= 0)THEN
         DO I=1,6
-          FBSAV6(1,I) = FRWL6(1,I)/DT12
-          FBSAV6(2,I) = FRWL6(2,I)/DT12
-          FBSAV6(3,I) = FRWL6(3,I)/DT12
-          FBSAV6(4,I) = FRWL6(5,I)/DT12
-          FBSAV6(5,I) = FRWL6(6,I)/DT12
-          FBSAV6(6,I) = FRWL6(7,I)/DT12
+          FBSAV6(1,I) = FRWL6(1,I)*DIVDT12
+          FBSAV6(2,I) = FRWL6(2,I)*DIVDT12
+          FBSAV6(3,I) = FRWL6(3,I)*DIVDT12
+          FBSAV6(4,I) = FRWL6(5,I)*DIVDT12
+          FBSAV6(5,I) = FRWL6(6,I)*DIVDT12
+          FBSAV6(6,I) = FRWL6(7,I)*DIVDT12
         ENDDO
       ENDIF
 C
-      IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN 
+      IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
 Cel changement formulation F et XMT stockoques dans RWL et appliques debut cycle suivant
-         RWL(17)=(FXN+FXT)/DT12
-         RWL(18)=(FYN+FYT)/DT12
-         RWL(19)=(FZN+FZT)/DT12
+         RWL(17)=(FXN+FXT)*DIVDT12
+         RWL(18)=(FYN+FYT)*DIVDT12
+         RWL(19)=(FZN+FZT)*DIVDT12
          RWL(20)=XMT
 C test  pour ne cummuler qu'une fois en multiprocessors dans le cas moving
         IF(ISPMD+1 == PMAIN.OR. MSR == 0) THEN
@@ -529,9 +527,9 @@ C test  pour ne cummuler qu'une fois en multiprocessors dans le cas moving
           FOPT(3)=FOPT(3)+RWL(19)
         END IF
       ELSE
-        RWL(17)=RWL(17)+(FXN+FXT)/DT12
-        RWL(18)=RWL(18)+(FYN+FYT)/DT12
-        RWL(19)=RWL(19)+(FZN+FZT)/DT12
+        RWL(17)=RWL(17)+(FXN+FXT)*DIVDT12
+        RWL(18)=RWL(18)+(FYN+FYT)*DIVDT12
+        RWL(19)=RWL(19)+(FZN+FZT)*DIVDT12
         RWL(20)=RWL(20)+XMT
 C test pour ne cummuler qu'une fois en multiprocessors dans le cas moving
         IF(ISPMD+1 == PMAIN.OR. MSR == 0) THEN
@@ -541,9 +539,9 @@ C test pour ne cummuler qu'une fois en multiprocessors dans le cas moving
          FSAV(4)=FSAV(4)+FXT
          FSAV(5)=FSAV(5)+FYT
          FSAV(6)=FSAV(6)+FZT
-         FOPT(1)=FOPT(1)+(FXN+FXT)/DT12
-         FOPT(2)=FOPT(2)+(FYN+FYT)/DT12
-         FOPT(3)=FOPT(3)+(FZN+FZT)/DT12
+         FOPT(1)=FOPT(1)+(FXN+FXT)*DIVDT12
+         FOPT(2)=FOPT(2)+(FYN+FYT)*DIVDT12
+         FOPT(3)=FOPT(3)+(FZN+FZT)*DIVDT12
         END IF
       END IF
 C

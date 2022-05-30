@@ -55,27 +55,20 @@ C-----------------------------------------------
       INTEGER NSN, ITIED, MSR,ICONT,IMP_S,NT_RW
       INTEGER NSW(*), WEIGHT(*),IDDL(*),IKC(*),NDOF(*), NODNX_SMS(*)
       INTEGER WEIGHT_MD(*)
-C     REAL ou REAL*8
-      my_real
-     .   X(*), A(*), V(*), RWL(*), MS(*), RWSAV(*)
-      DOUBLE PRECISION 
-     .   FRWL6(7,6)
+      my_real X(*), A(*), V(*), RWL(*), MS(*), RWSAV(*)
+      DOUBLE PRECISION FRWL6(7,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER M3, M2, M1, I, N, N3, N2, N1,NINDEX, IFQ, J, K, JJ,
      .        INDEX(NSN)
-
-C     REAL ou REAL*8
-      my_real
-     .   XWL, YWL, ZWL, VXW, VYW, VZW, TFXTN, FACT,
+      my_real XWL, YWL, ZWL, VXW, VYW, VZW, TFXTN, FACT,
      .   TFXT, VX, VY, VZ, UX, UY, UZ, XC, YC, ZC, DP, DV, DA, DVT,
      .   FNXN, FNYN, FNZN, FNXT, FNYT, FNZT, FNDFN, FTDFT, FRIC, FRIC2,
      .   FCOE,MSW,FAC,ALPHA,ALPHI,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN), F5(NSN), F6(NSN), F7(NSN),
      .   TFXT2, TFXTN2, WEWE2
-      DOUBLE PRECISION 
-     .   FRWL6_L(7,6)
+      DOUBLE PRECISION FRWL6_L(7,6)
 C-----------------------------------------------
       IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
 C-------------
@@ -90,7 +83,7 @@ C------------
 !       ICONT to 0
 !       ICONT is a shared variable 
 C
-        IF(MSR.EQ.0)THEN
+        IF(MSR == 0)THEN
          XWL=RWL(4)
          YWL=RWL(5)
          ZWL=RWL(6)
@@ -141,9 +134,10 @@ C
               CYCLE              
             END IF
             ICONT=1
-C---        test pour noeuds penetres
-            IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3) > ZERO)
-     .        CYCLE
+C---        test for penetrated nodes
+            IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3) > ZERO)THEN
+              CYCLE
+            ENDIF
             NINDEX = NINDEX+1
             INDEX(NINDEX) = I
           END DO
@@ -168,8 +162,9 @@ C---        test pour noeuds penetres
             IF(DP > ZERO) CYCLE
             ICONT=1
 C---        test pour noeuds penetres
-            IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3) > ZERO)
-     .        CYCLE
+            IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3) > ZERO)THEN
+              CYCLE
+            ENDIF
             NINDEX = NINDEX+1
             INDEX(NINDEX) = I
           END DO
@@ -187,7 +182,7 @@ C-----------------
 !       ICONT to 0
 !       ICONT is a shared variable 
 C
-        IF(MSR.EQ.0)THEN
+        IF(MSR == 0)THEN
          XWL=RWL(4)
          YWL=RWL(5)
          ZWL=RWL(6)
@@ -241,8 +236,9 @@ C
             ENDIF
             ICONT=1
 C---        test pour noeuds penetres
-            IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3) > ZERO)
-     .        CYCLE
+            IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3) > ZERO)THEN
+              CYCLE
+            ENDIF
             NINDEX = NINDEX+1
             INDEX(NINDEX) = I
           END DO
@@ -266,22 +262,28 @@ C
             YC=UY-YWL
             ZC=UZ-ZWL
             DP=XC*RWL(1)+YC*RWL(2)+ZC*RWL(3)
-            IF(DP.GT.ZERO) CYCLE
+            IF(DP > ZERO) CYCLE
             ICONT=1
 C---        test pour noeuds penetres
-            IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3) > ZERO)
-     .        CYCLE
+            IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3) > ZERO)THEN
+              CYCLE
+            ENDIF
             NINDEX = NINDEX+1
             INDEX(NINDEX) = I
           END DO
 !$OMP END DO
         ENDIF
       ENDIF
-C-----------------     
-      FACT=UN/DT12
-      IF(ITIED.EQ.0)THEN
+C-----------------
+      IF(DT12 /= ZERO)THEN
+        FACT=UN/DT12
+      ELSE
+        FACT = ZERO
+      ENDIF
+      
+      IF(ITIED == 0)THEN
 C
-       DO 40 J = 1,NINDEX
+       DO J = 1,NINDEX
         I = INDEX(J)
         N=NSW(I)
         N3=3*N
@@ -296,11 +298,9 @@ C
         FNXN=DVT*RWL(1)
         FNYN=DVT*RWL(2)
         FNZN=DVT*RWL(3)
-        TFXTN = TFXTN - WEIGHT_MD(N)*FACT*
-     .  ((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)
+        TFXTN = TFXTN - WEIGHT_MD(N)*FACT*((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)
         WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)     
-        TFXTN2 = TFXTN2 - WEWE2*FACT*
-     .  ((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)        
+        TFXTN2 = TFXTN2 - WEWE2*FACT*((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)        
         F1(J) = FNXN*WEIGHT_MD(N)
         F2(J) = FNYN*WEIGHT_MD(N)
         F3(J) = FNZN*WEIGHT_MD(N)
@@ -314,12 +314,12 @@ C
         V(N1)=V(N1)-DV*RWL(1)
         V(N2)=V(N2)-DV*RWL(2)
         V(N3)=V(N3)-DV*RWL(3)
-        IF(IMP_S.EQ.1) V(N1) = -DV
- 40    CONTINUE
+        IF(IMP_S == 1) V(N1) = -DV
+       ENDDO
 C
-      ELSEIF(ITIED.EQ.1)THEN
+      ELSEIF(ITIED == 1)THEN
 C
-       DO 60 J = 1,NINDEX
+       DO J = 1,NINDEX
         I = INDEX(J)
         N=NSW(I)
         N3=3*N
@@ -334,11 +334,9 @@ C
         FNXN=DVT*RWL(1)
         FNYN=DVT*RWL(2)
         FNZN=DVT*RWL(3)
-        TFXTN = TFXTN - WEIGHT_MD(N)*FACT*
-     .  ((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)
+        TFXTN = TFXTN - WEIGHT_MD(N)*FACT*((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)
         WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
-        TFXTN2 = TFXTN2 - WEWE2*FACT*
-     .  ((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)        
+        TFXTN2 = TFXTN2 - WEWE2*FACT*((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)        
            F1(J) = FNXN*WEIGHT_MD(N)
            F2(J) = FNYN*WEIGHT_MD(N)
            F3(J) = FNZN*WEIGHT_MD(N)
@@ -356,15 +354,15 @@ C
         F5(J) = FNXT*WEIGHT_MD(N)
         F6(J) = FNYT*WEIGHT_MD(N)
         F7(J) = FNZT*WEIGHT_MD(N)
- 60    CONTINUE
+       ENDDO
 C
       ELSE
 C
-       IF (IFQ.GT.0.) THEN
+       IF (IFQ > 0.) THEN
 C---     friction filtering
          FRIC = RWL(13)
          ALPHA= RWL(14)
-         IF (IFQ.EQ.3) ALPHA = ALPHA * DT12
+         IF (IFQ == 3) ALPHA = ALPHA * DT12
          ALPHI = UN - ALPHA
          FRIC2 = FRIC**2
          DO J = 1,NINDEX
@@ -380,11 +378,9 @@ C---     friction filtering
            FNXN=DVT*RWL(1)
            FNYN=DVT*RWL(2)
            FNZN=DVT*RWL(3)
-           TFXTN = TFXTN - WEIGHT_MD(N)*FACT*
-     .     ((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)
+           TFXTN = TFXTN - WEIGHT_MD(N)*FACT*((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)
            WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
-           TFXTN2 = TFXTN2 - WEWE2*FACT*
-     .     ((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)           
+           TFXTN2 = TFXTN2 - WEWE2*FACT*((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)           
            F1(J) = FNXN*WEIGHT_MD(N)
            F2(J) = FNYN*WEIGHT_MD(N)
            F3(J) = FNZN*WEIGHT_MD(N)
@@ -400,7 +396,7 @@ C---       filter
 C---
            FNDFN=FNXN**2+FNYN**2+FNZN**2
            FTDFT=FNXT**2+FNYT**2+FNZT**2
-           IF (FNDFN.EQ.0) THEN
+           IF (FNDFN == 0) THEN
              RWSAV(K)   = ZERO
              RWSAV(K+1) = ZERO
              RWSAV(K+2) = ZERO
@@ -413,22 +409,23 @@ C---
            FNXT=FCOE*FNXT
            FNYT=FCOE*FNYT
            FNZT=FCOE*FNZT
-           FAC=1./(DT12*MS(N))
+           FAC = DT12*MS(N)
+           IF(FAC /= ZERO)THEN
+             FAC=UN/FAC
+           ENDIF
            A(N1)=A(N1)-(DA*RWL(1)+FNXT*FAC)
            A(N2)=A(N2)-(DA*RWL(2)+FNYT*FAC)
            A(N3)=A(N3)-(DA*RWL(3)+FNZT*FAC)
            V(N1)=V(N1)-DV*RWL(1)
            V(N2)=V(N2)-DV*RWL(2)
            V(N3)=V(N3)-DV*RWL(3)
-           TFXT = TFXT - WEIGHT_MD(N)*
-     .     ((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)
+           TFXT = TFXT - WEIGHT_MD(N)*((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)
            WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
-           TFXT2 = TFXT2 - WEWE2*
-     .     ((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)           
+           TFXT2 = TFXT2 - WEWE2*((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)           
            F5(J) = FNXT*WEIGHT_MD(N)
            F6(J) = FNYT*WEIGHT_MD(N)
            F7(J) = FNZT*WEIGHT_MD(N)
-           IF(IMP_S.EQ.1) V(N1) = -DV
+           IF(IMP_S == 1) V(N1) = -DV
          ENDDO
        ELSE
 C---     no friction filtering
@@ -447,14 +444,12 @@ C---     no friction filtering
            FNXN=DVT*RWL(1)
            FNYN=DVT*RWL(2)
            FNZN=DVT*RWL(3)
-           TFXTN = TFXTN - WEIGHT_MD(N)*FACT*
-     .     ((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)
+           TFXTN = TFXTN - WEIGHT_MD(N)*FACT*((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)
            WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N) 
            FNXT=((V(N1)-VXW)+A(N1)*DT12)*MS(N)-FNXN
            FNYT=((V(N2)-VYW)+A(N2)*DT12)*MS(N)-FNYN
            FNZT=((V(N3)-VZW)+A(N3)*DT12)*MS(N)-FNZN  
-           TFXTN2 = TFXTN2 - WEWE2*
-     .     ((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)
+           TFXTN2 = TFXTN2 - WEWE2*((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)
            F1(J) = FNXN*WEIGHT_MD(N)
            F2(J) = FNYN*WEIGHT_MD(N)
            F3(J) = FNZN*WEIGHT_MD(N)
@@ -462,7 +457,7 @@ C---     no friction filtering
            FNDFN=FNXN**2+FNYN**2+FNZN**2
            FTDFT=FNXT**2+FNYT**2+FNZT**2
 C
-           IF(FTDFT.LE.FRIC2*FNDFN) THEN
+           IF(FTDFT <= FRIC2*FNDFN) THEN
 C---         tied secnd point
              A(N1)=ZERO
              A(N2)=ZERO
@@ -470,12 +465,12 @@ C---         tied secnd point
              V(N1)=VXW
              V(N2)=VYW
              V(N3)=VZW
-            IF (IMP_S.EQ.1) THEN
-               IF (NDOF(N).GT.0) THEN
+            IF (IMP_S == 1) THEN
+               IF (NDOF(N) > 0) THEN
                  JJ=IDDL(N)+1
-                 IF (IKC(JJ).EQ.0)IKC(JJ)=3
-                 IF (IKC(JJ+1).EQ.0)IKC(JJ+1)=3
-                 IF (IKC(JJ+2).EQ.0)IKC(JJ+2)=3
+                 IF (IKC(JJ) == 0)IKC(JJ)=3
+                 IF (IKC(JJ+1) == 0)IKC(JJ+1)=3
+                 IF (IKC(JJ+2) == 0)IKC(JJ+2)=3
                ENDIF
             ENDIF 
            ELSE
@@ -485,27 +480,26 @@ C---         sliding secnd point
              FNYT=FCOE*FNYT
              FNZT=FCOE*FNZT
              FAC=UN/(DT12*MS(N))
+             
              A(N1)=A(N1)-(DA*RWL(1)+FNXT*FAC)
              A(N2)=A(N2)-(DA*RWL(2)+FNYT*FAC)
              A(N3)=A(N3)-(DA*RWL(3)+FNZT*FAC)
              V(N1)=V(N1)-DV*RWL(1)
              V(N2)=V(N2)-DV*RWL(2)
              V(N3)=V(N3)-DV*RWL(3)
-             IF (IMP_S.EQ.1) THEN
-              IF (NDOF(N).GT.0) THEN
+             IF (IMP_S == 1) THEN
+              IF (NDOF(N) > 0) THEN
                 V(N1)=-DV
                 A(N1)=RWL(1)
                 A(N2)=RWL(2)
                 A(N3)=RWL(3)    
                 JJ=IDDL(N)+1
-                IF (IKC(JJ).EQ.0)IKC(JJ)=10
+                IF (IKC(JJ) == 0)IKC(JJ)=10
               ENDIF
              ENDIF 
-             TFXT = TFXT - WEIGHT_MD(N)*
-     .        ((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)
+             TFXT = TFXT - WEIGHT_MD(N)*((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)
              WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
-             TFXT2 = TFXT2 - WEWE2*
-     .        ((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)
+             TFXT2 = TFXT2 - WEWE2*((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)
            ENDIF
            F5(J) = FNXT*WEIGHT_MD(N)
            F6(J) = FNYT*WEIGHT_MD(N)
@@ -514,7 +508,7 @@ C---         sliding secnd point
        ENDIF
       ENDIF
 C
-      IF(IMCONV.EQ.1)THEN
+      IF(IMCONV == 1)THEN
           TFXT=TFXT+UNDEMI*DT1*TFXTN
           TFXT2=TFXT2+UNDEMI*DT1*TFXTN2
 #include "atomic.inc"
@@ -551,23 +545,23 @@ C
 #include "lockoff.inc"
       ENDIF
 C  
-      IF (IMP_S.EQ.1) THEN
-        IF(ITIED.EQ.1)THEN
+      IF (IMP_S == 1) THEN
+        IF(ITIED == 1)THEN
           DO J=1,NINDEX
            I = INDEX(J)
            N=NSW(I)
-           IF (NDOF(N).GT.0) THEN
+           IF (NDOF(N) > 0) THEN
            JJ=IDDL(N)+1
-           IF (IKC(JJ).EQ.0)IKC(JJ)=3
-           IF (IKC(JJ+1).EQ.0)IKC(JJ+1)=3
-           IF (IKC(JJ+2).EQ.0)IKC(JJ+2)=3
+           IF (IKC(JJ) == 0)IKC(JJ)=3
+           IF (IKC(JJ+1) == 0)IKC(JJ+1)=3
+           IF (IKC(JJ+2) == 0)IKC(JJ+2)=3
            ENDIF 
           ENDDO
-        ELSEIF(ITIED.EQ.0.OR.IFQ.GT.0)THEN
+        ELSEIF(ITIED == 0.OR.IFQ > 0)THEN
           DO J=1,NINDEX
            I = INDEX(J)
            N=NSW(I)
-           IF (NDOF(N).GT.0) THEN
+           IF (NDOF(N) > 0) THEN
            N3=3*N
            N2=N3-1
            N1=N2-1
@@ -575,7 +569,7 @@ C
            A(N2)=RWL(2)
            A(N3)=RWL(3)    
            JJ=IDDL(N)+1
-           IF (IKC(JJ).EQ.0)IKC(JJ)=10
+           IF (IKC(JJ) == 0)IKC(JJ)=10
            ENDIF 
           ENDDO
         ELSE
@@ -584,7 +578,7 @@ C--------c'est fait avant-------
           DO J=1,NINDEX
            I = INDEX(J)
            N=NSW(I)
-           IF (NDOF(N).GT.0) THEN
+           IF (NDOF(N) > 0) THEN
 C to be uncommented the day it is parallel in implicit
 #include "atomic.inc"
              NT_RW = NT_RW + 1
