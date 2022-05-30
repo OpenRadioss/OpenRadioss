@@ -121,6 +121,9 @@ C-----------------------------------------------
      .   T11,T21,T31,T12,T22,T32,T13,T23,T33,
      .   PHI,THETA,PSI,DAMMAX,EVAR_TMP,VEL(0:3),VFRAC(MVSIZ,1:21),TMP(3,8),
      .   CUMUL(3),VX,VY,VZ,NX,NY,NZ,SURF,TMP_2(MVSIZ,3)
+      my_real
+     .   G1(MVSIZ,3),G2(MVSIZ,3),G3(MVSIZ,3),VOLN(MVSIZ),AREAM(MVSIZ),
+     .   RHO0,DET(MVSIZ),EZZ(MVSIZ)
       INTEGER I,I1,II,J,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
      .        IR,IS,IT,IL,MLW, NUVAR,IUS,LENF,PTF,PTM,PTS,NFAIL,
      .        N,NN,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
@@ -128,7 +131,7 @@ C-----------------------------------------------
      .        OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
      .        IIGEO,IADI,ISUBSTACK,ITHK,SWA_L,NERCVOIS(*),NESDVOIS(*),
      .        LERCVOIS(*),LESDVOIS(*),NB_PLYOFF,IUVAR,IDX,IPOS,ITRIMAT,
-     .        IALEFVM_FLG, IMAT,IADBUF,NUPARAM,ICSIG
+     .        IALEFVM_FLG, IMAT,IADBUF,NUPARAM,ICSIG,NC(8)
       INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
      .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),LENCOM,IOFF,NPT_ALL,IPLY,
      .        ID_ELEM_TMP(MVSIZ),NIX,ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,
@@ -2022,6 +2025,138 @@ C--------------------------------------------------
                   IS_WRITTEN_VALUE(I) = 1  
                 ENDDO                                
 C-------------------------------------------------- 
+              ELSEIF(KEYWORD == 'THICK' .AND.TSHELL == 1)THEN
+C--------vol=mass/rho=vol0*rho0/rho  make sure GBUF%RHO is well computed in elem
+C--------thick = vol/A_m : new routine to compute A_m
+                MT = IXS(1,NFT+1)
+                RHO0 = PM(1,MT)
+                IF (ISOLNOD == 6 )THEN
+C-- 2g1=2-1+5-4; 2g2 = 3-1+6-4                
+                  DO I=1,NEL
+                    N = I + NFT
+                    NC(1:3) = IXS(2:4,N)
+                    NC(4:6) = IXS(6:8,N)
+                    G1(I,1:3) = X(1:3,NC(2))-X(1:3,NC(1))+X(1:3,NC(5))-X(1:3,NC(4))               
+                    G2(I,1:3) = X(1:3,NC(3))-X(1:3,NC(1))+X(1:3,NC(6))-X(1:3,NC(4))               
+                  ENDDO
+                  CALL THS_MAREA(G1(1,1),G1(1,2),G1(1,3),G2(1,1),G2(1,2),G2(1,3),DET,NEL)                 
+                  DO I=1,NEL
+                    VOLN(I)=GBUF%VOL(I)*RHO0/GBUF%RHO(I)
+                    AREAM(I) =UNHUIT*DET(I) 
+                    VALUE(I) = VOLN(I)/AREAM(I)
+                    IS_WRITTEN_VALUE(I) = 1                       
+                  ENDDO    
+                ELSEIF (ISOLNOD == 8 )THEN
+C-- 4g1=2+3+6+7-1-4-5-8; 4g2 = 3+4+7+8-1-2-5-6; 4g3 = 5+6+7+8-1-2-3-4;               
+                  IF (JHBE==15 ) THEN
+                    DO I=1,NEL
+                      N = I + NFT
+                      NC(1:8) = IXS(2:9,N)
+                      G1(I,1:3) = X(1:3,NC(2))+X(1:3,NC(3))+X(1:3,NC(6))+X(1:3,NC(7))               
+     .                           -X(1:3,NC(1))-X(1:3,NC(4))-X(1:3,NC(5))-X(1:3,NC(8))
+                      G2(I,1:3) = X(1:3,NC(3))+X(1:3,NC(4))+X(1:3,NC(7))+X(1:3,NC(8))               
+     .                           -X(1:3,NC(1))-X(1:3,NC(2))-X(1:3,NC(5))-X(1:3,NC(6))               
+                    ENDDO
+                    CALL THS_MAREA(G1(1,1),G1(1,2),G1(1,3),G2(1,1),G2(1,2),G2(1,3),DET,NEL)                 
+                    DO I=1,NEL
+                      VOLN(I)=GBUF%VOL(I)*RHO0/GBUF%RHO(I) 
+                      AREAM(I) =UNSEIZE*DET(I) 
+                      VALUE(I) = VOLN(I)/AREAM(I)
+                      IS_WRITTEN_VALUE(I) = 1                       
+                    ENDDO    
+                  ELSEIF (JHBE==14 ) THEN
+                    DO I=1,NEL
+                      N = I + NFT
+                      NC(1:8) = IXS(2:9,N)
+                      G1(I,1:3) = X(1:3,NC(2))+X(1:3,NC(3))+X(1:3,NC(6))+X(1:3,NC(7))               
+     .                           -X(1:3,NC(1))-X(1:3,NC(4))-X(1:3,NC(5))-X(1:3,NC(8))
+                      G2(I,1:3) = X(1:3,NC(3))+X(1:3,NC(4))+X(1:3,NC(7))+X(1:3,NC(8))               
+     .                           -X(1:3,NC(1))-X(1:3,NC(2))-X(1:3,NC(5))-X(1:3,NC(6))               
+                      G3(I,1:3) = X(1:3,NC(5))+X(1:3,NC(6))+X(1:3,NC(7))+X(1:3,NC(8))               
+     .                           -X(1:3,NC(1))-X(1:3,NC(2))-X(1:3,NC(3))-X(1:3,NC(4))               
+                    ENDDO
+C------RHO0 isn't right w/ composite                    
+                    IF (IGTYP==22) THEN
+                      CALL THS_VOL(G1(1,1),G1(1,2),G1(1,3),G2(1,1),G2(1,2),G2(1,3),
+     .                             G3(1,1),G3(1,2),G3(1,3),DET,NEL)               
+                      VOLN(1:NEL)=ZEP015625*DET(1:NEL)
+                    ELSE
+                      VOLN(1:NEL)=GBUF%VOL(1:NEL)*RHO0/GBUF%RHO(1:NEL)
+                    END IF
+                    ICSIG = IPARG(17,NG)
+            	    SELECT CASE (ICSIG)  					   
+            	     CASE (1)	! g2,g3						   
+                       CALL THS_MAREA(G2(1,1),G2(1,2),G2(1,3),G3(1,1),G3(1,2),G3(1,3),DET,NEL)                 
+            	     CASE (10)  ! g1,g2
+                       CALL THS_MAREA(G1(1,1),G1(1,2),G1(1,3),G2(1,1),G2(1,2),G2(1,3),DET,NEL)                 
+            	     CASE (100)	! g3,g1						   
+                       CALL THS_MAREA(G3(1,1),G3(1,2),G3(1,3),G1(1,1),G1(1,2),G1(1,3),DET,NEL)                 
+            	    END SELECT
+                    DO I=1,NEL
+                      AREAM(I) =UNSEIZE*DET(I) 
+                      VALUE(I) = VOLN(I)/AREAM(I)
+                      IS_WRITTEN_VALUE(I) = 1                       
+                    ENDDO
+                  END IF !(JHBE==15 ) THEN
+                ELSEIF (ISOLNOD == 16) THEN
+C---- approximated by S8                
+                    DO I=1,NEL
+                      N = I + NFT
+                      NC(1:8) = IXS(2:9,N)
+                      G1(I,1:3) = X(1:3,NC(2))+X(1:3,NC(3))+X(1:3,NC(6))+X(1:3,NC(7))               
+     .                           -X(1:3,NC(1))-X(1:3,NC(4))-X(1:3,NC(5))-X(1:3,NC(8))
+                      G2(I,1:3) = X(1:3,NC(3))+X(1:3,NC(4))+X(1:3,NC(7))+X(1:3,NC(8))               
+     .                           -X(1:3,NC(1))-X(1:3,NC(2))-X(1:3,NC(5))-X(1:3,NC(6))               
+                    ENDDO
+                    CALL THS_MAREA(G1(1,1),G1(1,2),G1(1,3),G2(1,1),G2(1,2),G2(1,3),DET,NEL)                 
+                    DO I=1,NEL
+                      VOLN(I)=GBUF%VOL(I)*RHO0/GBUF%RHO(I) 
+                      AREAM(I) =UNSEIZE*DET(I) 
+                      VALUE(I) = VOLN(I)/AREAM(I)
+                      IS_WRITTEN_VALUE(I) = 1                       
+                    ENDDO    
+                END IF 
+              ELSEIF(KEYWORD == 'THIN'.AND.TSHELL == 1)THEN
+                  FAC = UN/NLAY
+                  EZZ(1:NEL) = ZERO
+                  IF (JHBE==15 ) THEN
+                    DO ILAY=1,NLAY
+                      LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
+                      DO I=1,NEL
+                        EZZ(I) = EZZ(I)+FAC*LBUF%STRA(JJ(3)+I)  
+                      ENDDO 
+                    END DO    
+                    VALUE(1:NEL) = CENT*EZZ(1:NEL)
+                    IS_WRITTEN_VALUE(1:NEL) = 1                       
+                  ELSEIF (JHBE==14 ) THEN
+                    DO IR=1,NPTR
+                     DO IS=1,NPTS
+                      DO ILAY=1,NLAY
+                        LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,1)
+                        DO I=1,NEL
+                          EZZ(I) = EZZ(I)+FAC*LBUF%STRA(JJ(3)+I)  
+                        ENDDO 
+                      ENDDO  ! IL=1,NLAY
+                     ENDDO   ! IS=1,NPTS
+                    ENDDO    ! IR=1,NPTR
+                    VALUE(1:NEL) = CENT*EZZ(1:NEL)
+                    IS_WRITTEN_VALUE(1:NEL) = 1                       
+                  ELSEIF (JHBE==16 ) THEN
+                    DO IT=1,NPTT
+                      DO IR=1,NPTR
+                        DO ILAY=1,NLAY
+                          LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,1,IT)
+C-------strain is calculated in basic system of S16 will be done later                          
+                          DO I=1,NEL
+c                            EZZ(I) = EZZ(I)+FAC*LBUF%STRA(JJ(2)+I)  
+                          ENDDO 
+                        ENDDO!IL=1,NLAY
+                     ENDDO!IR=1,NPTR
+                    ENDDO!IT=1,NPTT
+c                    VALUE(1:NEL) = CENT*EZZ(1:NEL)
+c                    IS_WRITTEN_VALUE(1:NEL) = 1                       
+                  END IF 
+C--------------------------------------------------  
               ELSEIF(KEYWORD == 'COLOR') THEN  
 C--------------------------------------------------                 
               GBUF => ELBUF_TAB(NG)%GBUF 
@@ -2089,5 +2224,98 @@ c
        ENDIF
 
 C-----------------------------------------------
+      RETURN
+      END
+Chd|====================================================================
+Chd|  THS_MAREA                        
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
+      SUBROUTINE THS_MAREA(RX, RY, RZ, SX, SY, SZ, DET,NEL)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   G l o b a l   P a r a m e t e r s
+C-----------------------------------------------
+#include      "mvsiz_p.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER NEL
+C     REAL ou REAL*8
+      my_real, DIMENSION(MVSIZ), INTENT(IN) :: RX,RY,RZ
+      my_real, DIMENSION(MVSIZ), INTENT(IN) :: SX,SY,SZ
+      my_real, DIMENSION(MVSIZ), INTENT(OUT) :: DET
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I
+C     REAL ou REAL*8
+      my_real
+     .   E3X(NEL), E3Y(NEL), E3Z(NEL) 
+C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      DO I=1,NEL
+C---------E3------------
+       E3X(I) = RY(I) * SZ(I) - RZ(I) * SY(I) 
+       E3Y(I) = RZ(I) * SX(I) - RX(I) * SZ(I) 
+       E3Z(I) = RX(I) * SY(I) - RY(I) * SX(I) 
+       DET(I) = SQRT(E3X(I)*E3X(I) + E3Y(I)*E3Y(I) + E3Z(I)*E3Z(I))
+      ENDDO 
+c-----------
+      RETURN
+      END
+Chd|====================================================================
+Chd|  THS_VOL                        
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
+      SUBROUTINE THS_VOL(RX, RY, RZ, SX, SY, SZ, TX, TY, TZ,DET,NEL)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   G l o b a l   P a r a m e t e r s
+C-----------------------------------------------
+#include      "mvsiz_p.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER NEL
+C     REAL ou REAL*8
+      my_real, DIMENSION(MVSIZ), INTENT(IN) :: RX,RY,RZ
+      my_real, DIMENSION(MVSIZ), INTENT(IN) :: SX,SY,SZ
+      my_real, DIMENSION(MVSIZ), INTENT(IN) :: TX,TY,TZ
+      my_real, DIMENSION(MVSIZ), INTENT(OUT) :: DET
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I
+C     REAL ou REAL*8
+      my_real JAC1, JAC2, JAC3, JAC4, JAC5, JAC6, JAC7, JAC8, JAC9 
+C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      DO I=1,NEL
+       JAC1 = RX(I) 
+       JAC2 = RY(I) 
+       JAC3 = RZ(I) 
+       JAC4 = SX(I) 
+       JAC5 = SY(I) 
+       JAC6 = SZ(I) 
+       JAC7 = TX(I) 
+       JAC8 = TY(I) 
+       JAC9 = TZ(I) 
+       DET(I) = JAC1 * (JAC5 * JAC9 - JAC8 * JAC6) + 
+     .          JAC2 * (JAC6 * JAC7 - JAC4 * JAC9) + 
+     .          JAC3 * (JAC4 * JAC8 - JAC7 * JAC5)
+      ENDDO 
+c-----------
       RETURN
       END

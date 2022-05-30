@@ -547,6 +547,14 @@ c-----------------------------------------------
       H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'LOCAL.ID'
       H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'debug - Local identifier'
 c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'THICK'
+      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Thickness-TSH'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'THIN'
+      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Thinning(percentage) -TSH'
+c-----------------------------------------------
 
 
 c-----------------------------------------------

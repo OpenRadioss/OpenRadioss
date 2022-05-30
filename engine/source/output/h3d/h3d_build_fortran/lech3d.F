@@ -459,7 +459,7 @@ c
          IS_MDSVAR_ALL = 0
          IS_MDSVAR_DEF  = 0
          IF ( KEY3=='PEXT'.OR.KEY4=='PEXT') IPEXT=1
-         IF ( KEY4=='OUTER'.OR.KEY4=='OUTER') IOUTER=1
+         IF ( KEY4=='OUTER'.OR.KEY5=='OUTER') IOUTER=1
 C-------------------------------------------------- 
 C SEARCH '=' character
 C-------------------------------------------------- 
