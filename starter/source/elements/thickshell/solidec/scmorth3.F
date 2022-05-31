@@ -121,7 +121,7 @@ C
           IGTYP = IGEO(11,IG)
           IPNUM = IGEO(2,IG)
           ISKV = IGEO(7,IG)
-           PHI = ANGLE(I) * PI/CENT80
+           PHI = ANGLE(I) * PI/HUNDRED80
            CP  = COS(PHI)
            SP  = SIN(PHI)
 C------------------Vx,Vy,VZ defined by skew-----
@@ -150,7 +150,7 @@ C------------------Vx,Vy,VZ defined by skew-----
      .                 I2=NGL(I))
           ENDIF
 C
-          V=UN/MAX(V,EM20)
+          V=ONE/MAX(V,EM20)
           VX=VX*V
           VY=VY*V
           VZ=VZ*V
@@ -174,7 +174,7 @@ C
      .                 I2=NGL(I))
           ENDIF
 C
-          V=UN/MAX(V,EM20)
+          V=ONE/MAX(V,EM20)
           VX=VX*V
           VY=VY*V
           VZ=VZ*V
@@ -198,7 +198,7 @@ C
      .                 I2=NGL(I))
           ENDIF
 C
-          V=UN/MAX(V,EM20)
+          V=ONE/MAX(V,EM20)
           VX=VX*V
           VY=VY*V
           VZ=VZ*V

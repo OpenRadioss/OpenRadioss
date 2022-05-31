@@ -183,20 +183,20 @@ C
         YL2(I)=R12(I)*RX(I)+R22(I)*RY(I)+R32(I)*RZ(I)
         XL3(I)=R11(I)*SX(I)+R21(I)*SY(I)+R31(I)*SZ(I)
         YL3(I)=R12(I)*SX(I)+R22(I)*SY(I)+R32(I)*SZ(I)
-        AREA(I)=UNDEMI*AREA2(I)
+        AREA(I)=HALF*AREA2(I)
       ENDDO
 C----------------------------
 C     SMALL STRAIN
 C----------------------------
       IF (ISMSTR == 1 .OR. ISMSTR == 2) THEN
         DO I=JFT,JLT
-          IF(ABS(OFFG(I)) == DEUX)THEN
+          IF(ABS(OFFG(I)) == TWO)THEN
             XL2(I)=SMSTR(II(1)+I)
             YL2(I)=SMSTR(II(2)+I)
             XL3(I)=SMSTR(II(3)+I)
             YL3(I)=SMSTR(II(4)+I)
             AREA2(I)=XL2(I)*YL3(I)-XL3(I)*YL2(I)
-            AREA(I)=UNDEMI*AREA2(I)
+            AREA(I)=HALF*AREA2(I)
           ELSE
             SMSTR(II(1)+I)=XL2(I)
             SMSTR(II(2)+I)=YL2(I)
@@ -207,7 +207,7 @@ C----------------------------
       ENDIF
       IF (ISMSTR == 1) THEN
         DO I=JFT,JLT
-          IF (OFFG(I) == UN) OFFG(I)=DEUX
+          IF (OFFG(I) == ONE) OFFG(I)=TWO
         ENDDO
       ENDIF
 C----------Elements cotes----------
@@ -303,7 +303,7 @@ C     SMALL STRAIN
 C----------------------------
       IF (ISMSTR == 1 .OR. ISMSTR == 2) THEN
          DO I=JFT,JLT
-          IF (ABS(OFFG(I)) == DEUX) THEN
+          IF (ABS(OFFG(I)) == TWO) THEN
             XL4(I)=SMSTR(II(5)+I)
             YL4(I)=SMSTR(II(6)+I)
             ZL4(I)=SMSTR(II(7)+I)
@@ -373,7 +373,7 @@ C---------node 4---
         A =-YL2(I)*ZL4(I)
         B = XL2(I)*ZL4(I)
         C = XL4(I)*YL2(I)-XL2(I)*YL4(I)
-        AREA4(I)=UN/SQRT(A*A+B*B+C*C)
+        AREA4(I)=ONE/SQRT(A*A+B*B+C*C)
         N4X(I)=A*AREA4(I)
         N4Y(I)=B*AREA4(I)
         N4Z(I)=C*AREA4(I)
@@ -381,7 +381,7 @@ C---------node 5---
         A =-(YL3(I)-YL2(I))*ZL5(I)
         B = (XL3(I)-XL2(I))*ZL5(I)
         C = XL5(I)*(YL3(I)-YL2(I))-(XL3(I)-XL2(I))*YL5(I)
-        AREA5(I)=UN/SQRT(A*A+B*B+C*C)
+        AREA5(I)=ONE/SQRT(A*A+B*B+C*C)
         N5X(I)=A*AREA5(I)
         N5Y(I)=B*AREA5(I)
         N5Z(I)=C*AREA5(I)
@@ -389,16 +389,16 @@ C---------node 6---
         A = YL3(I)*ZL6(I)
         B = -XL3(I)*ZL6(I)
         C = -XL6(I)*YL3(I)+XL3(I)*YL6(I)
-        AREA6(I)=UN/SQRT(A*A+B*B+C*C)
+        AREA6(I)=ONE/SQRT(A*A+B*B+C*C)
         N6X(I)=A*AREA6(I)
         N6Y(I)=B*AREA6(I)
         N6Z(I)=C*AREA6(I)
       ENDDO
       DO EP=NVS+1,JLT
        I =IVS(EP)
-       IF (NC4(I) <= 0) N4Z(I)=UN
-       IF (NC5(I) <= 0) N5Z(I)=UN
-       IF (NC6(I) <= 0) N6Z(I)=UN
+       IF (NC4(I) <= 0) N4Z(I)=ONE
+       IF (NC5(I) <= 0) N5Z(I)=ONE
+       IF (NC6(I) <= 0) N6Z(I)=ONE
       ENDDO
       DO I=JFT,JLT
         VLZ(I,4)=N4X(I)*VX4(I)+N4Y(I)*VY4(I)+N4Z(I)*VZ4(I)
@@ -437,7 +437,7 @@ C--------------------------
 C-------Correction 2nd order rigid rotation due a V(t+dt/2),X(t+dt)----
 C--------------------------
        IF (ISHV51 > 51) THEN
-         DT05 = UNDEMI*DT1
+         DT05 = HALF*DT1
          DO I=JFT,JLT
            VZ21=VZ2(I)-VZ1(I)
            VZ31=VZ3(I)-VZ1(I)
@@ -458,7 +458,7 @@ C--------------------------
 C----------------------------
       OFF_L = ZERO
       DO I=JFT,JLT
-        OFF(I) = MIN(UN,ABS(OFFG(I)))
+        OFF(I) = MIN(ONE,ABS(OFFG(I)))
         OFF_L  = MIN(OFF_L,OFFG(I))
       ENDDO
       IF(OFF_L < ZERO)THEN

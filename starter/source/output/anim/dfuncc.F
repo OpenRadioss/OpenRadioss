@@ -123,8 +123,8 @@ C-----
                   S1 = GBUF%SIG(II(1) + I) + P
                   S2 = GBUF%SIG(II(2) + I) + P
                   S3 = GBUF%SIG(II(3) + I) + P
-                  VONM2 = TROIS*(GBUF%SIG(II(4) + I)**2
-     .                  + UNDEMI*(S1**2+S2**2+S3**2))
+                  VONM2 = THREE*(GBUF%SIG(II(4) + I)**2
+     .                  + HALF*(S1**2+S2**2+S3**2))
                   VALUE = SQRT(VONM2)
                ENDIF                                                    
                FUNC(EL2FA(NN3+N)) = VALUE                               
@@ -181,7 +181,7 @@ c-----
               S1 = GBUF%FOR(II(1)+I)  
               S2 = GBUF%FOR(II(2)+I)  
               S12= GBUF%FOR(II(3)+I)  
-              VONM2= S1*S1 + S2*S2 - S1*S2 + TROIS*S12*S12  
+              VONM2= S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12  
               EVAR(I) = SQRT(VONM2)                         
             ENDDO                                                       
 c-----

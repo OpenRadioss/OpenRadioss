@@ -65,66 +65,66 @@ C
          XI  =X(1,INOD)                                                 
          YI  =X(2,INOD)                                                 
          ZI  =X(3,INOD)                                                 
-         NX= UN                                                         
-         NY=-UN                                                         
-         NZ=-UN                                                         
+         NX= ONE                                                         
+         NY=-ONE                                                         
+         NZ=-ONE                                                         
          NORMN=SQRT(NX**2+NY**2+NZ**2)                                  
          IF (NORMN.EQ.ZERO) THEN                                        
-          NX=TROIS1000                                                  
-          NY=TROIS1000                                                  
-          NZ=TROIS1000                                                  
+          NX=THREE1000                                                  
+          NY=THREE1000                                                  
+          NZ=THREE1000                                                  
          ELSE                                                           
-          NX=TROIS1000*NX/NORMN                                         
-          NY=TROIS1000*NY/NORMN                                         
-          NZ=TROIS1000*NZ/NORMN                                         
+          NX=THREE1000*NX/NORMN                                         
+          NY=THREE1000*NY/NORMN                                         
+          NZ=THREE1000*NZ/NORMN                                         
          ENDIF                                                          
          CALL WRITE_S_C(NINT(NX),1)                                     
          CALL WRITE_S_C(NINT(NY),1)                                     
          CALL WRITE_S_C(NINT(NZ),1)                                     
-         NX=-UN                                                         
-         NY= UN                                                         
-         NZ=-UN                                                         
+         NX=-ONE                                                         
+         NY= ONE                                                         
+         NZ=-ONE                                                         
          NORMN=SQRT(NX**2+NY**2+NZ**2)                                  
         IF (NORMN.EQ.ZERO) THEN                                         
-          NX=TROIS1000                                                  
-          NY=TROIS1000                                                  
-          NZ=TROIS1000                                                  
+          NX=THREE1000                                                  
+          NY=THREE1000                                                  
+          NZ=THREE1000                                                  
          ELSE                                                           
-          NX=TROIS1000*NX/NORMN                                         
-          NY=TROIS1000*NY/NORMN                                         
-          NZ=TROIS1000*NZ/NORMN                                         
+          NX=THREE1000*NX/NORMN                                         
+          NY=THREE1000*NY/NORMN                                         
+          NZ=THREE1000*NZ/NORMN                                         
          ENDIF                                                          
          CALL WRITE_S_C(NINT(NX),1)                                     
          CALL WRITE_S_C(NINT(NY),1)                                     
          CALL WRITE_S_C(NINT(NZ),1)                                     
-         NX=-UN                                                         
-         NY=-UN                                                         
-         NZ= UN                                                         
+         NX=-ONE                                                         
+         NY=-ONE                                                         
+         NZ= ONE                                                         
          NORMN=SQRT(NX**2+NY**2+NZ**2)                                  
          IF (NORMN.EQ.ZERO) THEN                                        
-          NX=TROIS1000                                                  
-          NY=TROIS1000                                                  
-          NZ=TROIS1000                                                  
+          NX=THREE1000                                                  
+          NY=THREE1000                                                  
+          NZ=THREE1000                                                  
          ELSE                                                           
-          NX=TROIS1000*NX/NORMN                                         
-          NY=TROIS1000*NY/NORMN                                         
-          NZ=TROIS1000*NZ/NORMN                                         
+          NX=THREE1000*NX/NORMN                                         
+          NY=THREE1000*NY/NORMN                                         
+          NZ=THREE1000*NZ/NORMN                                         
          ENDIF                                                          
          CALL WRITE_S_C(NINT(NX),1)                                     
          CALL WRITE_S_C(NINT(NY),1)                                     
          CALL WRITE_S_C(NINT(NZ),1)                                     
-         NX= UN                                                         
-         NY= UN                                                         
-         NZ= UN                                                         
+         NX= ONE                                                         
+         NY= ONE                                                         
+         NZ= ONE                                                         
          NORMN=SQRT(NX**2+NY**2+NZ**2)                                  
         IF (NORMN.EQ.ZERO) THEN                                         
-          NX=TROIS1000                                                  
-          NY=TROIS1000                                                  
-          NZ=TROIS1000                                                  
+          NX=THREE1000                                                  
+          NY=THREE1000                                                  
+          NZ=THREE1000                                                  
          ELSE                                                           
-          NX=TROIS1000*NX/NORMN                                         
-          NY=TROIS1000*NY/NORMN                                         
-          NZ=TROIS1000*NZ/NORMN                                         
+          NX=THREE1000*NX/NORMN                                         
+          NY=THREE1000*NY/NORMN                                         
+          NZ=THREE1000*NZ/NORMN                                         
          ENDIF                                                          
          CALL WRITE_S_C(NINT(NX),1)                                     
          CALL WRITE_S_C(NINT(NY),1)                                     

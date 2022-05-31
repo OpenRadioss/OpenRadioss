@@ -73,7 +73,7 @@ C-----------------------------------------------
 
       !SAUVEGARDE VORTICITE SI ANIM
       IF((ANIM_E(10).EQ.1 .OR. ANIM_SE(10).EQ.1).AND. DT1.NE.ZERO)THEN
-         FAC=QUATRE/DT1
+         FAC=FOUR/DT1
         IF(N2D.EQ.0)THEN
           DO 5 I=LFT,LLT
  5        VORTI(I)=FAC*SQRT(WXX(I)**2+WYY(I)**2+WZZ(I)**2)
@@ -129,7 +129,7 @@ C-----------------------------------------------
 
       !OUTPUT
       DO I=LFT,LLT
-       VIS2 = DEUX*VIS(I)
+       VIS2 = TWO*VIS(I)
        DAV  = -(D1(I)+D2(I)+D3(I))*THIRD
        !------------------------------!
        !   VISCOUS STRESS TENSOR      !
@@ -142,10 +142,10 @@ C-----------------------------------------------
        SIG(I,6)=VIS(I) *D6(I)
 
 Cfa       DF(I)  =RHO0(I)/RHO(I)
-Cfa       AMU(I) =UN/DF(I)-UN
+Cfa       AMU(I) =ONE/DF(I)-ONE
        AMU2(I)= MAX(ZERO,AMU(I))**2
        ESPE(I)=DF(I)*EINT(I) / MAX(EM15,VNEW(I))
-       RK2T = DEUX*RK(I) / MAX(EM15,TROIS*VNEW(I))
+       RK2T = TWO*RK(I) / MAX(EM15,THREE*VNEW(I))
        
        !------------------------------!
        !         SOUND SPEED          !

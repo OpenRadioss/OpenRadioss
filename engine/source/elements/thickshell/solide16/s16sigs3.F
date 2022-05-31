@@ -67,12 +67,12 @@ C-----------------------------------------------
       E  = PM(20,MX)
       NU = PM(21,MX)
       DO I=LFT,LLT
-        SHF = CSIX
-        AA  = EM01 * SIGS(I)* ((UN +NU) * (UN -NU-NU)) / (E * (UN -NU))
+        SHF = FIVE_OVER_6
+        AA  = EM01 * SIGS(I)* ((ONE +NU) * (ONE -NU-NU)) / (E * (ONE -NU))
 
-        DXY = UNDEMI * D4(I)
-        DYZ = UNDEMI * D5(I)
-        DZX = UNDEMI * D6(I)
+        DXY = HALF * D4(I)
+        DYZ = HALF * D5(I)
+        DZX = HALF * D6(I)
 
         A11 = DXX(I)*RX(I)+DXY*RY(I)+DZX*RZ(I)
         A12 = DXX(I)*SX(I)+DXY*SY(I)+DZX*SZ(I)
@@ -91,8 +91,8 @@ C-----------------------------------------------
         DRS = RX(I)*A12+RY(I)*A22+RZ(I)*A32
         DST = SX(I)*A13+SY(I)*A23+SZ(I)*A33
 
-        VOL0(I) = VOL0(I) * (UN + AA)
-        VOL0DP(I) = VOL0DP(I) * (UN + AA)
+        VOL0(I) = VOL0(I) * (ONE + AA)
+        VOL0DP(I) = VOL0DP(I) * (ONE + AA)
         EINT(I) = EINT(I) / (1. + AA)
         DSS     = DSS - AA/DT1
 
@@ -116,9 +116,9 @@ C-----------------------------------------------
         DXY   = RX(I)*A12+SX(I)*A22+TX(I)*A32
         DYZ   = RY(I)*A13+SY(I)*A23+TY(I)*A33
 
-        D4(I) = DEUX * DXY 
-        D5(I) = DEUX * DYZ 
-        D6(I) = DEUX * DZX
+        D4(I) = TWO * DXY 
+        D5(I) = TWO * DYZ 
+        D6(I) = TWO * DZX
       ENDDO
 C-----------
       RETURN

@@ -144,8 +144,8 @@ C        Double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
          GEO(12) = IGTYP+PUN
 
 	 IF(ICAA==0 .AND. IGFLU==0)THEN
-	   IF(GEO(14)==ZERO) GEO(14)=UNP1
-	   IF(GEO(15)==ZERO) GEO(15)=CINQEM2
+	   IF(GEO(14)==ZERO) GEO(14)=ONEP1
+	   IF(GEO(15)==ZERO) GEO(15)=FIVEEM2
 	 ENDIF
 	 IF(GEO(13)==ZERO)GEO(13)=EM01
 	 IF(IHBE==0)THEN
@@ -207,7 +207,7 @@ c
          IGEO(4)  = NPTS
          IGEO(10) = IHBE
 C----------------------
-         IF(GEO(21)==0.) GEO(21)=UN
+         IF(GEO(21)==0.) GEO(21)=ONE
          ITU=MIN(ITU,1)
          IF(ITU==1)THEN
            IF(GEO(22)==ZERO)GEO(22)=EM01
@@ -240,7 +240,7 @@ C
           GEO(29)=0
          ENDIF
          GEO(30)=IHON+EM01
-         IF(GEO(24)+GEO(25)+GEO(26)==ZERO)GEO(20)=UNP1
+         IF(GEO(24)+GEO(25)+GEO(26)==ZERO)GEO(20)=ONEP1
          WRITE(IOUT,1800)IG,NINT(GEO(1)),IHBE,GEO(14),GEO(15),
      .         GEO(13),GEO(21),(GEO(J),J=24,26),ISKN(4,ISK),
      .         IHON,IRB

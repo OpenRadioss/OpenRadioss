@@ -167,12 +167,12 @@ C
         N2=IPERM2(N)
         DO I=LFT,LLT
           IF(NC(I,N).EQ.0)THEN
-            XX(I,N) = UNDEMI*(XX(I,N1)+XX(I,N2))
-            YY(I,N) = UNDEMI*(YY(I,N1)+YY(I,N2))
-            ZZ(I,N) = UNDEMI*(ZZ(I,N1)+ZZ(I,N2))
-            VX(I,N) = UNDEMI*(VX(I,N1)+VX(I,N2))
-            VY(I,N) = UNDEMI*(VY(I,N1)+VY(I,N2))
-            VZ(I,N) = UNDEMI*(VZ(I,N1)+VZ(I,N2))	    
+            XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
+            YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
+            ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
+            VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
+            VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
+            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))	    
           ENDIF
         ENDDO
       ENDDO
@@ -356,12 +356,12 @@ C
         N2=IPERM2(N)
         DO I=LFT,LLT
           IF(NC(I,N).EQ.0)THEN
-            XX(I,N) = UNDEMI*(XX(I,N1)+XX(I,N2))
-            YY(I,N) = UNDEMI*(YY(I,N1)+YY(I,N2))
-            ZZ(I,N) = UNDEMI*(ZZ(I,N1)+ZZ(I,N2))
-            VX(I,N) = UNDEMI*(VX(I,N1)+VX(I,N2))
-            VY(I,N) = UNDEMI*(VY(I,N1)+VY(I,N2))
-            VZ(I,N) = UNDEMI*(VZ(I,N1)+VZ(I,N2))	    
+            XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
+            YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
+            ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
+            VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
+            VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
+            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))	    
           ENDIF
         ENDDO
       ENDDO

@@ -80,7 +80,7 @@ C=======================================================================
         VX  = GEO(7,IG)
         VY  = GEO(8,IG)
         VZ  = GEO(9,IG)
-        PHI = GEO(1,IG) * PI/CENT80
+        PHI = GEO(1,IG) * PI/HUNDRED80
         CP  = COS(PHI)
         SP  = SIN(PHI)
 c
@@ -91,7 +91,7 @@ c a la premiere direction du repere isoparametrique
 c ------------------------------
           IF(IPNUM.EQ.11) THEN
             SUM=SQRT(RY(I)**2+RZ(I)**2)
-            SUM=UN/MAX(SUM,EM20)
+            SUM=ONE/MAX(SUM,EM20)
             HX=ZERO
             HY=RY(I)*SUM
             HZ=RZ(I)*SUM
@@ -99,7 +99,7 @@ c ------------------------------
             LY=-HX*SZ(I)
             LZ=ZERO
             SUM = SQRT(LX**2+LY**2+LZ**2)
-            SUM=UN/MAX(SUM,EM20)
+            SUM=ONE/MAX(SUM,EM20)
             LX=LX*SUM
             LY=LY*SUM
             LZ=LZ*SUM
@@ -107,7 +107,7 @@ c ------------------------------
             KY=LZ*HX-LX*HZ
             KZ=LX*HY-LY*HX
             SUM = SQRT(KX**2+KY**2+KZ**2)
-            IF (SUM > ZERO) SUM=UN/SUM
+            IF (SUM > ZERO) SUM=ONE/SUM
             KX=KX*SUM
             KY=KY*SUM
             KZ=KZ*SUM
@@ -126,7 +126,7 @@ c ------------------------------
               SK(2) = HY
               SK(3) = HZ
             ELSE
-              SUM = UN / SUM
+              SUM = ONE / SUM
               SK(1) = VX * SUM
               SK(2) = VY * SUM
               SK(3) = VZ * SUM
@@ -151,7 +151,7 @@ c ------------------------------
         ELSEIF (JCVT > 0) THEN
           IF(IPNUM.EQ.11) THEN       
             SUM=SQRT(E1Y(I)**2+E1Z(I)**2)
-            IF (SUM > ZERO) SUM=UN/SUM
+            IF (SUM > ZERO) SUM=ONE/SUM
             HX=ZERO
             HY=E1Y(I)*SUM
             HZ=E1Z(I)*SUM
@@ -159,7 +159,7 @@ c ------------------------------
             LY=-HX*E2Z(I)
             LZ=ZERO
             SUM = SQRT(LX**2+LY**2+LZ**2)
-            IF (SUM > ZERO) SUM=UN/SUM
+            IF (SUM > ZERO) SUM=ONE/SUM
             LX=LX*SUM
             LY=LY*SUM
             LZ=LZ*SUM
@@ -167,7 +167,7 @@ c ------------------------------
             KY=LZ*HX-LX*HZ
             KZ=LX*HY-LY*HX
             SUM = SQRT(KX**2+KY**2+KZ**2)
-            IF (SUM > ZERO) SUM=UN/SUM
+            IF (SUM > ZERO) SUM=ONE/SUM
             KX=KX*SUM
             KY=KY*SUM
             KZ=KZ*SUM
@@ -186,7 +186,7 @@ c ------------------------------
               SK(2) = HY
               SK(3) = HZ
             ELSE
-              SUM = UN / SUM
+              SUM = ONE / SUM
               SK(1) = VX * SUM
               SK(2) = VY * SUM
               SK(3) = VZ * SUM
@@ -204,7 +204,7 @@ c (pour plus de simplicite cote utilisateur)
 c (anciennement donne directement par rapport au repere corot)
 c ------------------------------          
             SUM=SQRT(RY(I)**2+RZ(I)**2)
-            SUM=UN/MAX(SUM,EM20)
+            SUM=ONE/MAX(SUM,EM20)
             HX=ZERO
             HY=RY(I)*SUM
             HZ=RZ(I)*SUM
@@ -212,7 +212,7 @@ c ------------------------------
             LY=-HX*SZ(I)
             LZ=ZERO
             SUM = SQRT(LX**2+LY**2+LZ**2)
-            SUM=UN/MAX(SUM,EM20)
+            SUM=ONE/MAX(SUM,EM20)
             LX=LX*SUM
             LY=LY*SUM
             LZ=LZ*SUM
@@ -220,7 +220,7 @@ c ------------------------------
             KY=LZ*HX-LX*HZ
             KZ=LX*HY-LY*HX
             SUM = SQRT(KX**2+KY**2+KZ**2)
-            IF (SUM > ZERO) SUM=UN/SUM
+            IF (SUM > ZERO) SUM=ONE/SUM
             KX=KX*SUM
             KY=KY*SUM
             KZ=KZ*SUM  

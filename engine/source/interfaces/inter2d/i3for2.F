@@ -101,7 +101,7 @@ C
       IF(N2D.EQ.1)THEN
        AX=YS
       ELSE
-       AX=UN
+       AX=ONE
       ENDIF
       T2=YM2-YM1
       T3=ZM2-ZM1
@@ -120,12 +120,12 @@ C
       IF(ANS.GT.ZERO)GOTO 120
       H(2)=T2*(YS-YM1)+T3*(ZS-ZM1)
       H(2)=H(2)/XL
-      H(1)=UN-H(2)
+      H(1)=ONE-H(2)
       SS=H(2)-H(1)
-      IF(SS.GT. UNP05)GO TO 120
-      IF(SS.LT.-UNP05)GO TO 120
-      SS= MAX(-UN,SS)
-      SS= MIN( UN,SS)
+      IF(SS.GT. ONEP05)GO TO 120
+      IF(SS.LT.-ONEP05)GO TO 120
+      SS= MAX(-ONE,SS)
+      SS= MIN( ONE,SS)
 C
       IF(NTY.EQ.5)THEN
 C rajout test sur stifness cote secnd
@@ -251,7 +251,7 @@ C
       SS0=CST(1,II)
       FTI=FRIC0(1,II)
       DS=SS-SS0
-      ANST=UNDEMI*DS*XL
+      ANST=HALF*DS*XL
       FMAX=-MIN(FRIC*FNI,ZERO)
       STFRI=EM01*STIF
       FTI=FTI + ANST*STFRI
@@ -269,7 +269,7 @@ C
       ENDIF
 C
 c-------limit tangential force is ON : FT<= YIELD/(S*sqrt(3))
-      FS   = PTMAX*AREAS(II)/SQRT(TROIS)
+      FS   = PTMAX*AREAS(II)/SQRT(THREE)
       FT =FTI
       IF(FS.GT.ZERO) THEN
          IF(FTI.GT.FS)THEN

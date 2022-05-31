@@ -105,7 +105,7 @@ C-----------------------------------------------
 C machine  precision minimum -simple
       IF(ITASK==0)THEN
        CALL FLOATMIN(CS1(1),CS1(2),FLMIN)
-       P_MACH_SMS = DEUX*SQRT(FLMIN)
+       P_MACH_SMS = TWO*SQRT(FLMIN)
        IF (NSPMD > 1)CALL SPMD_MAX_S(P_MACH_SMS)
       END IF
 C-----------------------------------------------
@@ -408,7 +408,7 @@ C
         DO J=1,NC-1
          MJ(J)=ZERO
         ENDDO
-        MJ(NC)=UN
+        MJ(NC)=ONE
 C
         IF (NC.GT.10000) THEN
           CALL SMS_PCG1(NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,   
@@ -546,7 +546,7 @@ C-------------IT=0--------
 C------X(I)=ZERO--------
       DO I=1,NDDL
        X(I) = ZERO
-       DIAG_M(I)=UN/MAX(EM20,DIAG_K(I))
+       DIAG_M(I)=ONE/MAX(EM20,DIAG_K(I))
       ENDDO 
       CALL MAV_LT(
      1  	 NDDL  ,IBID  ,IADK  ,JDIK  ,DIAG_K,   

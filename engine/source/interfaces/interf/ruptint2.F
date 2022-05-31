@@ -94,9 +94,9 @@ C-----------------------------------------------
       DIS_NA = ABS(DIS_N)
       SIGNA  = ABS(SIGN)
 C-----------------------------------------------
-      SSR  = UN
-      FACN = UN    
-      FACT = UN    
+      SSR  = ONE
+      FACN = ONE    
+      FACT = ONE    
 C-----
       SCAL_F  = PROP(1)        
       SCAL_D  = PROP(2)   
@@ -115,8 +115,8 @@ c
       SIGN1  = UVAR(1)                           
       SIGT1  = UVAR(2)                           
       IF (IFILTR == 1) THEN
-        SIGN = ALPHA*SIGN + (UN-ALPHA)*SIGN1
-        SIGT = ALPHA*SIGT + (UN-ALPHA)*SIGT1
+        SIGN = ALPHA*SIGN + (ONE-ALPHA)*SIGN1
+        SIGT = ALPHA*SIGT + (ONE-ALPHA)*SIGT1
       ENDIF
 C        
       DFSIGN = (SIGN - SIGN1) / DTIM                           
@@ -129,10 +129,10 @@ c
       SIGNMAX = SSR*SCAL_F * FINTER(IFUNN,DIS_NA/SCAL_D,NPF,TF,DERI) 
       SIGTMAX = SSR*SCAL_F * FINTER(IFUNT,DIS_T /SCAL_D,NPF,TF,DERI)
 C       
-      IF (SIGT > ZERO) FACT = MIN(UN, ABS(SIGTMAX / SIGT))
+      IF (SIGT > ZERO) FACT = MIN(ONE, ABS(SIGTMAX / SIGT))
 C
       IF (ISYM == 0 .OR. IRUPT /= 0) THEN
-        IF (ABS(SIGN) > ZERO) FACN = MIN(UN, ABS(SIGNMAX / SIGN))
+        IF (ABS(SIGN) > ZERO) FACN = MIN(ONE, ABS(SIGNMAX / SIGN))
         IF (IMOD == 2) THEN
           IF (DIS_NA > DNMAX .OR. DIS_T > DTMAX) THEN
             IRUPT = 1
@@ -140,25 +140,25 @@ C
             FACT = ZERO
           ENDIF
           IF (ANIM_N(15)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1) 
-     .            PDAMA2(1,ISECND)=MIN(CENT*DIS_NA/DNMAX,CENT)
+     .            PDAMA2(1,ISECND)=MIN(HUNDRED*DIS_NA/DNMAX,HUNDRED)
           IF (ANIM_N(16)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1) 
-     .            PDAMA2(2,ISECND)=MIN(CENT*DIS_T/DTMAX,CENT)
+     .            PDAMA2(2,ISECND)=MIN(HUNDRED*DIS_T/DTMAX,HUNDRED)
         ELSEIF (IMOD == 1) THEN
           DIS_NA = DIS_NA / DNMAX
           DIS_T  = DIS_T  / DTMAX
-          IF (SQRT(DIS_N*DIS_N + DIS_T*DIS_T) > UN) THEN
+          IF (SQRT(DIS_N*DIS_N + DIS_T*DIS_T) > ONE) THEN
             IRUPT = 1
             FACN = ZERO
             FACT = ZERO
           ENDIF
           IF (ANIM_N(15)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1) 
-     .            PDAMA2(1,ISECND)=MIN(CENT*DIS_NA,CENT)
+     .            PDAMA2(1,ISECND)=MIN(HUNDRED*DIS_NA,HUNDRED)
           IF (ANIM_N(16)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1) 
-     .            PDAMA2(2,ISECND)=MIN(CENT*DIS_T,CENT)
+     .            PDAMA2(2,ISECND)=MIN(HUNDRED*DIS_T,HUNDRED)
         ENDIF
 C
       ELSE    ! ISYM == 1 .AND. IRUPT == 0)
-        IF (SIGN > ZERO) FACN = MIN(UN, ABS(SIGNMAX / SIGN))
+        IF (SIGN > ZERO) FACN = MIN(ONE, ABS(SIGNMAX / SIGN))
         IF (IMOD == 2) THEN
           IF (DIS_N > ZERO .AND. DIS_NA > DNMAX .OR. DIS_T > DTMAX) THEN
             IRUPT = 1
@@ -166,16 +166,16 @@ C
             FACT = ZERO
           ENDIF
           IF (ANIM_N(15)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1) 
-     .            PDAMA2(1,ISECND)=MIN(CENT*DIS_NA/DNMAX,CENT)
+     .            PDAMA2(1,ISECND)=MIN(HUNDRED*DIS_NA/DNMAX,HUNDRED)
           IF (ANIM_N(16)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1) 
-     .            PDAMA2(2,ISECND)=MIN(CENT*DIS_T/DTMAX,CENT)
+     .            PDAMA2(2,ISECND)=MIN(HUNDRED*DIS_T/DTMAX,HUNDRED)
         ENDIF
       ENDIF  ! ISYM
 C-----
       IF (IRUPT == 1) THEN
         FACN = ZERO
         FACT = ZERO
-      ELSEIF (FACN < UN .OR. FACT < UN) THEN
+      ELSEIF (FACN < ONE .OR. FACT < ONE) THEN
         IRUPT = -1
       ENDIF
 C-----
@@ -219,37 +219,3 @@ C-----------
 C-------------------------------
       RETURN
       END SUBROUTINE RUPTINT2
-        
-Chd|====================================================================
-Chd|  BUTT                          source/interfaces/interf/ruptint2.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE BUTT(DT,ALPHA,SIG2,SIG1,SIG,FSIG2,FSIG1,FSIG)
-C-----------------------------------------------------------------------
-      IMPLICIT NONE
-      DOUBLE PRECISION SIG2,SIG1,SIG,FSIG2,FSIG1,FSIG,ALPHA
-      DOUBLE PRECISION DT,PI,SQ2,WD,WA,WA2,A0,A1,A2,B1,B2,C1
-C-----------------------------------------------------------------------
-      DOUBLE PRECISION ZERO,UN,DEUX
-      INTEGER I
-C-----------------------------------------------------------------------
-      ZERO = 0.0
-      UN   = 1.0
-      DEUX = 2.0
-      DT   = DT / DEUX                           
-      PI   = ATAN2(ZERO,-UN)
-      SQ2  = SQRT(DEUX)
-      WD = SQ2*PI*ALPHA*5.0/3.0  
-      WA = SIN(WD*DT) / COS(WD*DT)                     
-      WA2 = WA*WA                                      
-      C1 = UN + SQ2*WA + WA2                           
-      A0 = WA2 / C1                                    
-      A1 = DEUX * A0                                   
-      A2 = A0                                          
-      B1 = -DEUX*(WA2 - UN) / C1                       
-      B2 = (-UN + SQ2*WA - WA2) / C1                   
-      FSIG = A0*SIG + A1*SIG1 + A2*SIG2 + B1*FSIG1 + B2*FSIG2
-C---
-      RETURN
-      END SUBROUTINE BUTT

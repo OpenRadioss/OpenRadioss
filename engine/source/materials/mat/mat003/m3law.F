@@ -85,7 +85,7 @@ C
       SIGMX11=PM(42,MX)
       
       GDT=DT1*G11
-      GGDT=DEUX*GDT
+      GGDT=TWO*GDT
        
       ! [D] = [EPS_DOT]
       !   D1 = EPS_DOT(x,x)
@@ -125,18 +125,18 @@ C---------------------
 C-----------------------
 C     MODULE ECROUISSAGE
 C-----------------------
-      IF(CN11.EQ.UN)THEN
+      IF(CN11.EQ.ONE)THEN
         DO I=LFT,LLT
           QH(I)= CB11
         ENDDO   
-      ELSEIF(CN11.GT.UN)THEN
+      ELSEIF(CN11.GT.ONE)THEN
         DO I=LFT,LLT
-          QH(I)= CB11*CN11*MAX(ZERO,EPSEQ(I))**(CN11- UN)
+          QH(I)= CB11*CN11*MAX(ZERO,EPSEQ(I))**(CN11- ONE)
         ENDDO    
       ELSE
         DO I=LFT,LLT
           IF(EPSEQ(I).NE.ZERO)THEN
-           QH(I)= CB11*CN11/MAX(ZERO,EPSEQ(I))**(UN-CN11)
+           QH(I)= CB11*CN11/MAX(ZERO,EPSEQ(I))**(ONE-CN11)
           ELSE
            QH(I)=ZERO
           ENDIF              
@@ -147,12 +147,12 @@ C---------------------------------
 C     SOUND SPEED
 C---------------------------------
       DO I=LFT,LLT
-       DPDM(I)=DPDM(I)+UNP333*G11
+       DPDM(I)=DPDM(I)+ONEP333*G11
        SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       ENDDO
       DO I=LFT,LLT
-       AJ2(I)=UNDEMI*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)+SIG(I,4)**2+SIG(I,5)**2+SIG(I,6)**2
-       SJ2(I)=SQRT(TROIS*AJ2(I))
+       AJ2(I)=HALF*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)+SIG(I,4)**2+SIG(I,5)**2+SIG(I,6)**2
+       SJ2(I)=SQRT(THREE*AJ2(I))
       ENDDO
       K=0
       ! sublist to avoir CYCLE on YLD(I)==ZERO
@@ -165,38 +165,38 @@ C---------------------------------
       IF(IPLA.EQ.0)THEN
        DO II=1,K
         I=LIST(II)
-        SCALE= MIN(UN,YLD(I)/ MAX(SJ2(I),EM15))
+        SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
         SIG(I,1)=SCALE*SIG(I,1)
         SIG(I,2)=SCALE*SIG(I,2)
         SIG(I,3)=SCALE*SIG(I,3)
         SIG(I,4)=SCALE*SIG(I,4)
         SIG(I,5)=SCALE*SIG(I,5)
         SIG(I,6)=SCALE*SIG(I,6)
-        DPLA1(I) = (UN -SCALE)*SJ2(I)/MAX(TROIS*G11+QH(I),EM15)    
+        DPLA1(I) = (ONE -SCALE)*SJ2(I)/MAX(THREE*G11+QH(I),EM15)    
         EPSEQ(I)=EPSEQ(I)+ DPLA1(I)
        ENDDO
       ELSEIF(IPLA.EQ.2)THEN
       DO II=1,K
         I=LIST(II)
-        SCALE= MIN(UN,YLD(I)/ MAX(SJ2(I),EM15))
+        SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
         SIG(I,1)=SCALE*SIG(I,1)
         SIG(I,2)=SCALE*SIG(I,2)
         SIG(I,3)=SCALE*SIG(I,3)
         SIG(I,4)=SCALE*SIG(I,4)
         SIG(I,5)=SCALE*SIG(I,5)
         SIG(I,6)=SCALE*SIG(I,6)
-        DPLA1(I) = (UN -SCALE)*SJ2(I)/MAX(TROIS*G11,EM15)     
+        DPLA1(I) = (ONE -SCALE)*SJ2(I)/MAX(THREE*G11,EM15)     
         EPSEQ(I)=EPSEQ(I)+DPLA1(I)
        ENDDO
       ELSEIF(IPLA.EQ.1)THEN
       DO II=1,K
         I=LIST(II)
-        SCALE= MIN(UN,YLD(I)/ MAX(SJ2(I),EM15))
+        SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
         !--plastic strain increment.
-        DPLA=(UN -SCALE)*SJ2(I)/MAX(TROIS*G11+QH(I),EM15) 
+        DPLA=(ONE -SCALE)*SJ2(I)/MAX(THREE*G11+QH(I),EM15) 
         !--actual yeld stress.
         YLD(I)=YLD(I)+DPLA*QH(I)
-        SCALE= MIN(UN,YLD(I)/ MAX(SJ2(I),EM15))
+        SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
         SIG(I,1)=SCALE*SIG(I,1)
         SIG(I,2)=SCALE*SIG(I,2)
         SIG(I,3)=SCALE*SIG(I,3)
@@ -212,11 +212,11 @@ C     TEST DE RUPTURE DUCTILE
 C---------------------------
       DO I=LFT,LLT
        IF(OFF(I).LT.EM01) OFF(I)=ZERO
-       IF(OFF(I).LT.UN) OFF(I)=OFF(I)*QCINQ
+       IF(OFF(I).LT.ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
       DO I=LFT,LLT
-       IF(EPMX11.EQ.ZERO .OR. OFF(I).LT.UN .OR. EPSEQ(I).LT.EPMX11) CYCLE
-       OFF(I)=OFF(I)*QCINQ
+       IF(EPMX11.EQ.ZERO .OR. OFF(I).LT.ONE .OR. EPSEQ(I).LT.EPMX11) CYCLE
+       OFF(I)=OFF(I)*FOUR_OVER_5
        II=I+NFT
 #include "lockon.inc"
        WRITE(IOUT,1000) NGL(I)

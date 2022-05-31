@@ -205,7 +205,7 @@ C-----------------------------------------------
         ! ALPHA = 0.0 : uniform
         ! ALPHA = 0.5 : centripetal
         ! ALPHA = 1.0 : chordal
-        ALPHA = UNDEMI
+        ALPHA = HALF
 
         IF(VDET2.EQ.ZERO)VDET2=VDET
 

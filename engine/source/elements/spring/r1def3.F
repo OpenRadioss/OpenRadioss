@@ -191,7 +191,7 @@ C
         IF (ILENG /= 0) THEN
           XL0(I)=AL0DP(I)
         ELSE
-          XL0(I)=UN
+          XL0(I)=ONE
         ENDIF
       ENDDO
 C
@@ -205,7 +205,7 @@ C
      .            UVAR(1,1),NOT_USED,NOT_USED,NOT_USED)
       NINDX = 0
       DO I=LFT,LLT
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (DL(I) > DMX(I) .OR. DL(I) < DMN(I)) THEN
             OFF(I)=ZERO
             NINDX = NINDX + 1

@@ -91,10 +91,10 @@ C-----------------------------------------------
      .            1, 4, 2, 3, 8, 9, 5, 7,10, 6,
      .            1, 2, 3, 4, 5, 6, 7, 8, 9,10/
 C-----------------------------------------------
-      A4 = QUATRE * ALPH(1)
-      B4 = QUATRE * BETA(1)
-      A4M1  = A4 - UN
-      B4M1  = B4 - UN      
+      A4 = FOUR * ALPH(1)
+      B4 = FOUR * BETA(1)
+      A4M1  = A4 - ONE
+      B4M1  = B4 - ONE      
 C
       DO I=LFT,LLT
         RX(I) = XX(I,1) - XX(I,4)
@@ -196,7 +196,7 @@ C
       NNEGA = 0
       IF(JLAG/=0.AND.(ISMSTR==10.OR.(ISMSTR==12.AND.IDTMIN(1)/=3))) THEN
          DO I=LFT,LLT
-          IF(OFFG(I) > UN)THEN
+          IF(OFFG(I) > ONE)THEN
            NNEGA=NNEGA+1
            INDEX(NNEGA)=I
           END IF
@@ -206,8 +206,8 @@ C
       DO IP=1,NPT
         DO I=LFT,LLT
           IF(OFF(I).EQ.0.)THEN
-              VOL(I,IP)=UN
-          ELSEIF(OFF(I)> UN)THEN
+              VOL(I,IP)=ONE
+          ELSEIF(OFF(I)> ONE)THEN
           ELSEIF(VOL(I,IP).LE.ZERO)THEN
               ICOR=1
           ENDIF
@@ -218,7 +218,7 @@ C-------------attention, /STOP /DEL are not implemented
        IF(ICOR.NE.0.AND.INCONV.EQ.1)THEN
        DO IP=1,NPT
         DO I=LFT,LLT
-          IF(OFF(I) == ZERO.OR.OFFG(I) > UN)THEN
+          IF(OFF(I) == ZERO.OR.OFFG(I) > ONE)THEN
           ELSEIF(VOL(I,IP)<=ZERO)THEN
             NNEGA=NNEGA+1
 	    INDEX(NNEGA)=I
@@ -231,7 +231,7 @@ C-------------attention, /STOP /DEL are not implemented
      .                    I1=NGL(I))
 	   END IF
 #include "lockoff.inc"
-            OFFG(I) = DEUX
+            OFFG(I) = TWO
           ENDIF
         ENDDO
        ENDDO
@@ -444,10 +444,10 @@ C-----------------------------------------------
      .            1, 4, 2, 3, 8, 9, 5, 7,10, 6,
      .            1, 2, 3, 4, 5, 6, 7, 8, 9,10/
 C-----------------------------------------------
-      A4 = QUATRE * ALPH(1)
-      B4 = QUATRE * BETA(1)
-      A4M1  = A4 - UN
-      B4M1  = B4 - UN      
+      A4 = FOUR * ALPH(1)
+      B4 = FOUR * BETA(1)
+      A4M1  = A4 - ONE
+      B4M1  = B4 - ONE      
 C
       DO I=LFT,LLT
         RX(I) = XX(I,1) - XX(I,4)
@@ -627,10 +627,10 @@ C-----------------------------------------------
      .            1, 4, 2, 3, 8, 9, 5, 7,10, 6,
      .            1, 2, 3, 4, 5, 6, 7, 8, 9,10/
 C-----------------------------------------------
-      A4 = QUATRE * ALPH(1)
-      B4 = QUATRE * BETA(1)
-      A4M1  = A4 - UN
-      B4M1  = B4 - UN      
+      A4 = FOUR * ALPH(1)
+      B4 = FOUR * BETA(1)
+      A4M1  = A4 - ONE
+      B4M1  = B4 - ONE      
 C
       DO I=LFT,LLT
         RX(I) = XX(I,1) - XX(I,4)

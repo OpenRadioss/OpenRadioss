@@ -403,7 +403,7 @@ C---      Test stability condition for mass
               ENDDO 
             ELSEIF (IINT == 2) THEN  !  Gauss distribution
               DO IT=1,NPTT
-                THK_IT(IT) = UNDEMI*THKLY*W_GAUSS(IT,NPTT)
+                THK_IT(IT) = HALF*THKLY*W_GAUSS(IT,NPTT)
               ENDDO
             ENDIF
 C           
@@ -453,12 +453,12 @@ C----------------------------------------------
             POSLY = GEO(I3,IPROP)*THICKT
             MATLY = IGEO(I2,IPROP)
             MSL   = PM(89,MATLY)*THKLY*AREA(I)
-            XIL = MSL*(AREA(I)/NEUFDEMI+THKLY*THKLY*UNDOUZE+POSLY*POSLY)
+            XIL = MSL*(AREA(I)/NINE_OVER_2+THKLY*THKLY*ONE_OVER_12+POSLY*POSLY)
             XI(I) = XI(I) + XIL
           ENDDO
 C---      Test stability condition for inertia
           IF(IGMAT <= 0) THEN ! 
-            INS = EM(I)*(AREA(I)/NEUFDEMI+THK(I)*THK(I)*UNDOUZE)
+            INS = EM(I)*(AREA(I)/NINE_OVER_2+THK(I)*THK(I)*ONE_OVER_12)
             DMS = ABS(XI(I)-INS)/INS
             IF(DMS .GT. EM02) THEN
 	             IDPROP = NINT(GEO(40,IPROP))       
@@ -492,10 +492,10 @@ C---      Test stability condition for inertia
                 MATLY = STACK%IGEO(I2,ISUBSTACK)
                 RATIO_THKLY(N,I) = THKLY/THK(I)
                 IF (N == 1) THEN
-                  LAYPOS(N,I) = -UNDEMI + UNDEMI*RATIO_THKLY(N,I)
+                  LAYPOS(N,I) = -HALF + HALF*RATIO_THKLY(N,I)
                 ELSE
                   LAYPOS(N,I) = LAYPOS(N-1,I)            
-     .              + UNDEMI*(RATIO_THKLY(N,I)+RATIO_THKLY(N-1,I))
+     .              + HALF*(RATIO_THKLY(N,I)+RATIO_THKLY(N-1,I))
                 ENDIF ! IF (N == 1)
                 POSLY = LAYPOS(N,I)*THK(I)
               ELSEIF (DRAPE(I+NFT)%IDRAPE(N) > 0) THEN
@@ -505,20 +505,20 @@ C---      Test stability condition for inertia
                 MATLY = STACK%IGEO(I2,ISUBSTACK)
                 RATIO_THKLY(N,I) = THKLY/THK(I)
                 IF (N == 1) THEN
-                  LAYPOS(N,I) = -UNDEMI + UNDEMI*RATIO_THKLY(N,I)
+                  LAYPOS(N,I) = -HALF + HALF*RATIO_THKLY(N,I)
                 ELSE
                   LAYPOS(N,I) = LAYPOS(N-1,I)            
-     .              + UNDEMI*(RATIO_THKLY(N,I)+RATIO_THKLY(N-1,I))
+     .              + HALF*(RATIO_THKLY(N,I)+RATIO_THKLY(N-1,I))
                 ENDIF ! IF (N == 1)
                 POSLY = LAYPOS(N,I)*THK(I)
               ENDIF ! IF (IDRAPE(N,I+NFT) == 0)
             ENDIF ! IF (NDRAPE == 0) THEN
             MSL   = PM(89,MATLY)*THKLY*AREA(I)
-            XIL = MSL*(AREA(I)/NEUFDEMI+THKLY*THKLY*UNDOUZE+POSLY*POSLY)
+            XIL = MSL*(AREA(I)/NINE_OVER_2+THKLY*THKLY*ONE_OVER_12+POSLY*POSLY)
             XI(I) = XI(I) + XIL
           ENDDO
 C---      Test stability condition for inertia
-          INS = EM(I)*(AREA(I)/NEUFDEMI+THK(I)*THK(I)*UNDOUZE)
+          INS = EM(I)*(AREA(I)/NINE_OVER_2+THK(I)*THK(I)*ONE_OVER_12)
           DMS = ABS(XI(I)-INS)/INS
           
           IF(IGMAT <= 0) THEN ! 
@@ -561,10 +561,10 @@ C---      Test stability condition for inertia
                 THKLY   = STACK%GEO(I3,ISUBSTACK)*THICKT
                 RATIO_THKLY(ILAY,I) = THKLY/THK(I)
                 IF (ILAY == 1) THEN
-                  LAYPOS(ILAY,I) = -UNDEMI + UNDEMI*RATIO_THKLY(ILAY,I)
+                  LAYPOS(ILAY,I) = -HALF + HALF*RATIO_THKLY(ILAY,I)
                 ELSE
                   LAYPOS(ILAY,I) = LAYPOS(ILAY-1,I)            
-     .              + UNDEMI*(RATIO_THKLY(ILAY,I)+RATIO_THKLY(ILAY-1,I))
+     .              + HALF*(RATIO_THKLY(ILAY,I)+RATIO_THKLY(ILAY-1,I))
                 ENDIF ! IF (N == 1)
                 POSLY = LAYPOS(ILAY,I)*THK(I)
               ELSEIF (DRAPE(I+NFT)%IDRAPE(ILAY) > 0) THEN
@@ -574,10 +574,10 @@ C---      Test stability condition for inertia
                 THKLY   = THKLY*THINNING ! reset layer thk by /DRAPE
                 RATIO_THKLY(ILAY,I) = THKLY/THK(I)
                 IF (ILAY == 1) THEN
-                  LAYPOS(ILAY,I) = -UNDEMI + UNDEMI*RATIO_THKLY(ILAY,I)
+                  LAYPOS(ILAY,I) = -HALF + HALF*RATIO_THKLY(ILAY,I)
                 ELSE
                   LAYPOS(ILAY,I) = LAYPOS(ILAY-1,I)            
-     .              + UNDEMI*(RATIO_THKLY(ILAY,I)+RATIO_THKLY(ILAY-1,I))
+     .              + HALF*(RATIO_THKLY(ILAY,I)+RATIO_THKLY(ILAY-1,I))
                 ENDIF ! IF (N == 1)
                 POSLY = LAYPOS(ILAY,I)*THK(I)
               ENDIF ! IF (IDRAPE(N,I+NFT) == 0)
@@ -590,29 +590,29 @@ C----
               DO IT=1,NPTT
                 THK_IT(IT) = THKLY/NPTT  ! equally distribution of NPTT through layer
               ENDDO 
-              POS_0 = POSLY - UNDEMI*THKLY
-              IF (NLAY == 1) POS_0 = - UNDEMI*THKLY !! special case
-              POS_IT(1) = POS_0 + UNDEMI*THK_IT(1)
+              POS_0 = POSLY - HALF*THKLY
+              IF (NLAY == 1) POS_0 = - HALF*THKLY !! special case
+              POS_IT(1) = POS_0 + HALF*THK_IT(1)
               DO IT=2,NPTT
-                POS_IT(IT) = POS_IT(IT-1) + UNDEMI*(THK_IT(IT) + THK_IT(IT-1))
+                POS_IT(IT) = POS_IT(IT-1) + HALF*(THK_IT(IT) + THK_IT(IT-1))
               ENDDO
             ELSEIF (IINT == 2) THEN !  Gauss distribution
               DO IT=1,NPTT
-                THK_IT(IT) = UNDEMI*THKLY*W_GAUSS(IT,NPTT)
-                POS_IT(IT) = POSLY + UNDEMI*THKLY*A_GAUSS(IT,NPTT)
+                THK_IT(IT) = HALF*THKLY*W_GAUSS(IT,NPTT)
+                POS_IT(IT) = POSLY + HALF*THKLY*A_GAUSS(IT,NPTT)
               ENDDO
             ENDIF
 C
             DO IT=1,NPTT
               MS_NPTT = PM(89,MATLY)*THK_IT(IT)*AREA(I)
-              XIL = MS_NPTT*(AREA(I)/NEUFDEMI+THK_IT(IT)*THK_IT(IT)*UNDOUZE+
+              XIL = MS_NPTT*(AREA(I)/NINE_OVER_2+THK_IT(IT)*THK_IT(IT)*ONE_OVER_12+
      .                       POS_IT(IT)*POS_IT(IT))
               XI(I) = XI(I) + XIL
             ENDDO
 C----
          ENDDO
 C---      Test stability condition for inertia
-          INS = EM(I)*(AREA(I)/NEUFDEMI+THK(I)*THK(I)*UNDOUZE)
+          INS = EM(I)*(AREA(I)/NINE_OVER_2+THK(I)*THK(I)*ONE_OVER_12)
           DMS = ABS(XI(I)-INS)/INS
           IF(IGTYP == 51 .AND. IGMAT < 0) THEN
            IF (DMS > EM02) THEN
@@ -631,7 +631,7 @@ C---      Test stability condition for inertia
         DO I=LFT,LLT
 C---        Exact:  XIN = EMS*(AREA(I)/(6.*SQRT(3.))+THK(I)*THK(I)/12.)
 C---        Compatibilite avec coques 4 noeuds:
-          XI(I)=EM(I)*(AREA(I)/NEUFDEMI+THK(I)*THK(I)*UNDOUZE)
+          XI(I)=EM(I)*(AREA(I)/NINE_OVER_2+THK(I)*THK(I)*ONE_OVER_12)
         ENDDO        
       ENDIF
 C---------------------------------------------------
@@ -658,29 +658,29 @@ C
         BB = SQRT(B2)
         C2 = X3(I)**2 + Y3(I)**2
         CC = SQRT(C2)
-        P1 = ACOS((A2 + C2 - B2)/(DEUX * AA * CC)) / PI
-        P2 = ACOS((A2 + B2 - C2)/(DEUX * AA * BB)) / PI
-        P3 = ACOS((B2 + C2 - A2)/(DEUX * BB * CC)) / PI
+        P1 = ACOS((A2 + C2 - B2)/(TWO * AA * CC)) / PI
+        P2 = ACOS((A2 + B2 - C2)/(TWO * AA * BB)) / PI
+        P3 = ACOS((B2 + C2 - A2)/(TWO * BB * CC)) / PI
         PTG(1,I)=P1
         PTG(2,I)=P2
         PTG(3,I)=P3
-        IF ( ( ((A2 + C2 - B2)/(DEUX * AA * CC) <= -UN) .OR.
-     .       ( (A2 + C2 - B2)/(DEUX * AA * CC) >= UN) .OR.
-     .       ( (A2 + B2 - C2)/(DEUX * AA * BB) <= -UN) .OR.
-     .       ( (A2 + B2 - C2)/(DEUX * AA * BB) >= UN) .OR.
-     .       ( (B2 + C2 - A2)/(DEUX * BB * CC) <= -UN) .OR.
-     .       ( (B2 + C2 - A2)/(DEUX * BB * CC) >= UN)) .AND.
+        IF ( ( ((A2 + C2 - B2)/(TWO * AA * CC) <= -ONE) .OR.
+     .       ( (A2 + C2 - B2)/(TWO * AA * CC) >= ONE) .OR.
+     .       ( (A2 + B2 - C2)/(TWO * AA * BB) <= -ONE) .OR.
+     .       ( (A2 + B2 - C2)/(TWO * AA * BB) >= ONE) .OR.
+     .       ( (B2 + C2 - A2)/(TWO * BB * CC) <= -ONE) .OR.
+     .       ( (B2 + C2 - A2)/(TWO * BB * CC) >= ONE)) .AND.
      .              LSH3TRIM .NE. 0    ) THEN      
          IF (SH3TRIM(NFT+I) .NE. -1) CALL ANCMSG(MSGID=750,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
      .                I1=IXTG(6,NFT+I))
-        ELSEIF ( ( ((A2 + C2 - B2)/(DEUX * AA * CC) <= -UN) .OR.
-     .       ( (A2 + C2 - B2)/(DEUX * AA * CC) >= UN) .OR.
-     .       ( (A2 + B2 - C2)/(DEUX * AA * BB) <= -UN) .OR.
-     .       ( (A2 + B2 - C2)/(DEUX * AA * BB) >= UN) .OR.
-     .       ( (B2 + C2 - A2)/(DEUX * BB * CC) <= -UN) .OR.
-     .       ( (B2 + C2 - A2)/(DEUX * BB * CC) >= UN)) .AND.
+        ELSEIF ( ( ((A2 + C2 - B2)/(TWO * AA * CC) <= -ONE) .OR.
+     .       ( (A2 + C2 - B2)/(TWO * AA * CC) >= ONE) .OR.
+     .       ( (A2 + B2 - C2)/(TWO * AA * BB) <= -ONE) .OR.
+     .       ( (A2 + B2 - C2)/(TWO * AA * BB) >= ONE) .OR.
+     .       ( (B2 + C2 - A2)/(TWO * BB * CC) <= -ONE) .OR.
+     .       ( (B2 + C2 - A2)/(TWO * BB * CC) >= ONE)) .AND.
      .              LSH3TRIM == 0      ) THEN      
           CALL ANCMSG(MSGID=750,
      .                MSGTYPE=MSGERROR,
@@ -736,7 +736,7 @@ C
      .         (V(2,I1)*P1+V(2,I2)*P2+V(2,I3)*P3)
           PARTSAV(13,IP)=PARTSAV(13,IP) + EMS*
      .         (V(3,I1)*P1+V(3,I2)*P2+V(3,I3)*P3)
-          PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * EMS *
+          PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS *
      .       ((V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1))*P1
      .       +(V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2))*P2
      .       +(V(1,I3)*V(1,I3)+V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3))*P3)
@@ -793,7 +793,7 @@ C
      .          (V(2,I1)*P1+V(2,I2)*P2+V(2,I3)*P3)
            PARTSAV(13,IP)=PARTSAV(13,IP) + EMS*
      .          (V(3,I1)*P1+V(3,I2)*P2+V(3,I3)*P3)
-           PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * EMS *
+           PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS *
      .        ((V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1))*P1
      .        +(V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2))*P2
      .        +(V(1,I3)*V(1,I3)+V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3))*P3)
@@ -848,7 +848,7 @@ C
      .          (V(2,I1)*P1+V(2,I2)*P2+V(2,I3)*P3)
            PARTSAV(13,IP)=PARTSAV(13,IP) + EMS*
      .          (V(3,I1)*P1+V(3,I2)*P2+V(3,I3)*P3)
-           PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * EMS *
+           PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS *
      .        ((V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1))*P1
      .        +(V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2))*P2
      .        +(V(1,I3)*V(1,I3)+V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3))*P3)
@@ -908,7 +908,7 @@ C
      .          (V(2,I1)*P1+V(2,I2)*P2+V(2,I3)*P3)
            PARTSAV(13,IP)=PARTSAV(13,IP) + EMS*
      .          (V(3,I1)*P1+V(3,I2)*P2+V(3,I3)*P3)
-           PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * EMS *
+           PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS *
      .        ((V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1))*P1
      .        +(V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2))*P2
      .        +(V(1,I3)*V(1,I3)+V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3))*P3)
@@ -964,7 +964,7 @@ C
      .          (V(2,I1)*P1+V(2,I2)*P2+V(2,I3)*P3)
            PARTSAV(13,IP)=PARTSAV(13,IP) + EMS*
      .          (V(3,I1)*P1+V(3,I2)*P2+V(3,I3)*P3)
-           PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * EMS *
+           PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS *
      .        ((V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1))*P1
      .        +(V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2))*P2
      .        +(V(1,I3)*V(1,I3)+V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3))*P3)
@@ -1024,7 +1024,7 @@ C
      .          (V(2,I1)*P1+V(2,I2)*P2+V(2,I3)*P3)
            PARTSAV(13,IP)=PARTSAV(13,IP) + EMS*
      .          (V(3,I1)*P1+V(3,I2)*P2+V(3,I3)*P3)
-           PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * EMS *
+           PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS *
      .        ((V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1))*P1
      .        +(V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2))*P2
      .        +(V(1,I3)*V(1,I3)+V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3))*P3)

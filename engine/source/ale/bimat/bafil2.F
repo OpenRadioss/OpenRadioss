@@ -72,8 +72,8 @@ C-----------------------------------------------
 !      EQUIVALENCE (GAMMA,BV(1,61)),(XMS,BV(1,62))
 C-------------------------------
 !      DO I=LFT,LLT
-!        XMS(I)  =UNDEMI/(PY1(I)*PZ2(I)-PY2(I)*PZ1(I))
-!        GAMMA(I)= UN
+!        XMS(I)  =HALF/(PY1(I)*PZ2(I)-PY2(I)*PZ1(I))
+!        GAMMA(I)= ONE
 !      ENDDO
 C-------------------------------
       DO I=LFT,LLT
@@ -82,10 +82,10 @@ C-------------------------------
         FI3(I)=FILL(NC3(I),1)
         FI4(I)=FILL(NC4(I),1)
         ABF=ABS(FI1(I))+ABS(FI2(I))+ABS(FI3(I))+ABS(FI4(I))
-        N1=SIGN(UN,FI1(I))
-        N2=SIGN(UN,FI2(I))
-        N3=SIGN(UN,FI3(I))
-        N4=SIGN(UN,FI4(I))
+        N1=SIGN(ONE,FI1(I))
+        N2=SIGN(ONE,FI2(I))
+        N3=SIGN(ONE,FI3(I))
+        N4=SIGN(ONE,FI4(I))
         NP=MAX(0,N1)+MAX(0,N2)+MAX(0,N3)+MAX(0,N4)
         DN=DT1*NP
         IF(DN.NE.ZERO)THEN
@@ -114,10 +114,10 @@ C-----------------------------------------------
 C     CALCUL DE (V MATIERE - V MAILLAGE) MOYEN
 C-----------------------------------------------
       DO I=LFT,LLT
-        P1=FI1(I) + UN
-        P2=FI2(I) + UN
-        P3=FI3(I) + UN
-        P4=FI4(I) + UN      
+        P1=FI1(I) + ONE
+        P2=FI2(I) + ONE
+        P3=FI3(I) + ONE
+        P4=FI4(I) + ONE      
         PT=(P1+P2+P3+P4)
         PT=MAX(EM15,PT)
         VDY(I)=(VDY1(I)*P1+VDY2(I)*P2+VDY3(I)*P3+VDY4(I)*P4)/PT
@@ -133,60 +133,60 @@ C-----------------------------------------------
         PT=SQRT(PTY**2+PTZ**2)
         PST=PSY*PTZ-PSZ*PTY
         PTS=-PST
-        DS0=-QUATRE*(PTY*VDZ(I)-PTZ*VDY(I))/PTS
-        DT0=-QUATRE*(PSY*VDZ(I)-PSZ*VDY(I))/PST      
+        DS0=-FOUR*(PTY*VDZ(I)-PTZ*VDY(I))/PTS
+        DT0=-FOUR*(PSY*VDZ(I)-PSZ*VDY(I))/PST      
         IF(FI1(I).GE.ZERO)THEN
-         DS=-QUATRE*(PTY*VDZ1(I)-PTZ*VDY1(I))/PTS
-         DT=-QUATRE*(PSY*VDZ1(I)-PSZ*VDY1(I))/PST
+         DS=-FOUR*(PTY*VDZ1(I)-PTZ*VDY1(I))/PTS
+         DT=-FOUR*(PSY*VDZ1(I)-PSZ*VDY1(I))/PST
         ELSE
          DS=DS0
          DT=DT0
         ENDIF
-        DS=MAX(ZERO,DEUX*DS)
-        DT=MAX(ZERO,DEUX*DT)      
-        DF1(I)=QUART*((-DEUX*DS-DEUX*DT+DS*DT*DT1)*FI1(I)
-     .              + (         DEUX*DS-DS*DT*DT1)*FI2(I)
+        DS=MAX(ZERO,TWO*DS)
+        DT=MAX(ZERO,TWO*DT)      
+        DF1(I)=FOURTH*((-TWO*DS-TWO*DT+DS*DT*DT1)*FI1(I)
+     .              + (         TWO*DS-DS*DT*DT1)*FI2(I)
      .              + (                 DS*DT*DT1)*FI3(I)
-     .              + (         DEUX*DT-DS*DT*DT1)*FI4(I) )
+     .              + (         TWO*DT-DS*DT*DT1)*FI4(I) )
         IF(FI2(I).GE.ZERO)THEN
-         DS=-QUATRE*(PTY*VDZ2(I)-PTZ*VDY2(I))/PTS
-         DT=-QUATRE*(PSY*VDZ2(I)-PSZ*VDY2(I))/PST       
+         DS=-FOUR*(PTY*VDZ2(I)-PTZ*VDY2(I))/PTS
+         DT=-FOUR*(PSY*VDZ2(I)-PSZ*VDY2(I))/PST       
         ELSE
          DS=DS0
          DT=DT0
         ENDIF
-        DS=MIN(ZERO,DEUX*DS)
-        DT=MAX(ZERO,DEUX*DT)
-           DF2(I)=QUART*((        -DEUX*DS+DS*DT*DT1)*FI1(I)
-     .                 + ( DEUX*DS-DEUX*DT-DS*DT*DT1)*FI2(I)
-     .                 + (        +DEUX*DT+DS*DT*DT1)*FI3(I)     
+        DS=MIN(ZERO,TWO*DS)
+        DT=MAX(ZERO,TWO*DT)
+           DF2(I)=FOURTH*((        -TWO*DS+DS*DT*DT1)*FI1(I)
+     .                 + ( TWO*DS-TWO*DT-DS*DT*DT1)*FI2(I)
+     .                 + (        +TWO*DT+DS*DT*DT1)*FI3(I)     
      .                 + (                -DS*DT*DT1)*FI4(I) )
         IF(FI3(I).GE.ZERO)THEN
-         DS=-QUATRE*(PTY*VDZ3(I)-PTZ*VDY3(I))/PTS
-         DT=-QUATRE*(PSY*VDZ3(I)-PSZ*VDY3(I))/PST       
+         DS=-FOUR*(PTY*VDZ3(I)-PTZ*VDY3(I))/PTS
+         DT=-FOUR*(PSY*VDZ3(I)-PSZ*VDY3(I))/PST       
         ELSE
          DS=DS0
          DT=DT0
         ENDIF
-        DS=MIN(ZERO,DEUX*DS)
-        DT=MIN(ZERO,DEUX*DT)
-        DF3(I)=QUART*((                +DS*DT*DT1)*FI1(I)
-     .              + (        -DEUX*DT-DS*DT*DT1)*FI2(I)
-     .              + (+DEUX*DS+DEUX*DT+DS*DT*DT1)*FI3(I)
-     .              + (-DEUX*DS        -DS*DT*DT1)*FI4(I) )
+        DS=MIN(ZERO,TWO*DS)
+        DT=MIN(ZERO,TWO*DT)
+        DF3(I)=FOURTH*((                +DS*DT*DT1)*FI1(I)
+     .              + (        -TWO*DT-DS*DT*DT1)*FI2(I)
+     .              + (+TWO*DS+TWO*DT+DS*DT*DT1)*FI3(I)
+     .              + (-TWO*DS        -DS*DT*DT1)*FI4(I) )
         IF(FI4(I).GE.ZERO)THEN
-         DS=-QUATRE*(PTY*VDZ4(I)-PTZ*VDY4(I))/PTS
-         DT=-QUATRE*(PSY*VDZ4(I)-PSZ*VDY4(I))/PST
+         DS=-FOUR*(PTY*VDZ4(I)-PTZ*VDY4(I))/PTS
+         DT=-FOUR*(PSY*VDZ4(I)-PSZ*VDY4(I))/PST
         ELSE
          DS=DS0
          DT=DT0
         ENDIF
-        DS=MAX(ZERO,DEUX*DS)
-        DT=MIN(ZERO,DEUX*DT)
-        DF4(I)=QUART*((        -DEUX*DT+DS*DT*DT1)*FI1(I)
+        DS=MAX(ZERO,TWO*DS)
+        DT=MIN(ZERO,TWO*DT)
+        DF4(I)=FOURTH*((        -TWO*DT+DS*DT*DT1)*FI1(I)
      .              + (                -DS*DT*DT1)*FI2(I)
-     .              + (+DEUX*DS        +DS*DT*DT1)*FI3(I)
-     .              + (-DEUX*DS+DEUX*DT-DS*DT*DT1)*FI4(I) )
+     .              + (+TWO*DS        +DS*DT*DT1)*FI3(I)
+     .              + (-TWO*DS+TWO*DT-DS*DT*DT1)*FI4(I) )
       ENDDO !next I
 
       CALL IDP_LOCK(2)
@@ -212,10 +212,10 @@ C-------------------------------
         FI3(I)=FILL(NC3(I),2)
         FI4(I)=FILL(NC4(I),2)
         ABF=ABS(FI1(I))+ABS(FI2(I))+ABS(FI3(I))+ABS(FI4(I))
-        N1=SIGN(UN,FI1(I))
-        N2=SIGN(UN,FI2(I))
-        N3=SIGN(UN,FI3(I))
-        N4=SIGN(UN,FI4(I))
+        N1=SIGN(ONE,FI1(I))
+        N2=SIGN(ONE,FI2(I))
+        N3=SIGN(ONE,FI3(I))
+        N4=SIGN(ONE,FI4(I))
         NP=MAX(0,N1)+MAX(0,N2)+MAX(0,N3)+MAX(0,N4)
         DN=DT1*NP
         IF(DN.NE.ZERO)THEN
@@ -228,10 +228,10 @@ C-----------------------------------------------
 C     CALCUL DE (V MATIERE - V MAILLAGE) MOYEN
 C-----------------------------------------------
       DO I=LFT,LLT
-        P1=FI1(I) + UN
-        P2=FI2(I) + UN
-        P3=FI3(I) + UN
-        P4=FI4(I) + UN     
+        P1=FI1(I) + ONE
+        P2=FI2(I) + ONE
+        P3=FI3(I) + ONE
+        P4=FI4(I) + ONE     
         PT=(P1+P2+P3+P4)
         PT=MAX(EM15,PT)
         VDY(I)=(VDY1(I)*P1+VDY2(I)*P2+VDY3(I)*P3+VDY4(I)*P4)/PT
@@ -247,60 +247,60 @@ C-----------------------------------------------
         PT=SQRT(PTY**2+PTZ**2)
         PST=PSY*PTZ-PSZ*PTY
         PTS=-PST
-        DS0=-QUATRE*(PTY*VDZ(I)-PTZ*VDY(I))/PTS
-        DT0=-QUATRE*(PSY*VDZ(I)-PSZ*VDY(I))/PST
+        DS0=-FOUR*(PTY*VDZ(I)-PTZ*VDY(I))/PTS
+        DT0=-FOUR*(PSY*VDZ(I)-PSZ*VDY(I))/PST
         IF(FI1(I).GE.ZERO)THEN
-         DS=-QUATRE*(PTY*VDZ1(I)-PTZ*VDY1(I))/PTS
-         DT=-QUATRE*(PSY*VDZ1(I)-PSZ*VDY1(I))/PST       
+         DS=-FOUR*(PTY*VDZ1(I)-PTZ*VDY1(I))/PTS
+         DT=-FOUR*(PSY*VDZ1(I)-PSZ*VDY1(I))/PST       
         ELSE
          DS=DS0
          DT=DT0
         ENDIF
-        DS=MAX(ZERO,DEUX*DS)
-        DT=MAX(ZERO,DEUX*DT)     
-        DF1(I)=QUART*((-DEUX*DS-DEUX*DT+DS*DT*DT1)*FI1(I)
-     .              +( DEUX*DS         -DS*DT*DT1)*FI2(I)
+        DS=MAX(ZERO,TWO*DS)
+        DT=MAX(ZERO,TWO*DT)     
+        DF1(I)=FOURTH*((-TWO*DS-TWO*DT+DS*DT*DT1)*FI1(I)
+     .              +( TWO*DS         -DS*DT*DT1)*FI2(I)
      .              +(                  DS*DT*DT1)*FI3(I)
-     .              +(          DEUX*DT-DS*DT*DT1)*FI4(I) )
+     .              +(          TWO*DT-DS*DT*DT1)*FI4(I) )
         IF(FI2(I).GE.ZERO)THEN
-         DS=-QUATRE*(PTY*VDZ2(I)-PTZ*VDY2(I))/PTS
-         DT=-QUATRE*(PSY*VDZ2(I)-PSZ*VDY2(I))/PST
+         DS=-FOUR*(PTY*VDZ2(I)-PTZ*VDY2(I))/PTS
+         DT=-FOUR*(PSY*VDZ2(I)-PSZ*VDY2(I))/PST
         ELSE
          DS=DS0
          DT=DT0
         ENDIF
-        DS=MIN(ZERO,DEUX*DS)
-        DT=MAX(ZERO,DEUX*DT)      
-        DF2(I)=QUART*((-DEUX*DS       +DS*DT*DT1)*FI1(I)
-     .              +( DEUX*DS-DEUX*DT-DS*DT*DT1)*FI2(I)
-     .              +(        +DEUX*DT+DS*DT*DT1)*FI3(I)
+        DS=MIN(ZERO,TWO*DS)
+        DT=MAX(ZERO,TWO*DT)      
+        DF2(I)=FOURTH*((-TWO*DS       +DS*DT*DT1)*FI1(I)
+     .              +( TWO*DS-TWO*DT-DS*DT*DT1)*FI2(I)
+     .              +(        +TWO*DT+DS*DT*DT1)*FI3(I)
      .              +(                -DS*DT*DT1)*FI4(I) )
         IF(FI3(I).GE.ZERO)THEN
-         DS=-QUATRE*(PTY*VDZ3(I)-PTZ*VDY3(I))/PTS
-         DT=-QUATRE*(PSY*VDZ3(I)-PSZ*VDY3(I))/PST
+         DS=-FOUR*(PTY*VDZ3(I)-PTZ*VDY3(I))/PTS
+         DT=-FOUR*(PSY*VDZ3(I)-PSZ*VDY3(I))/PST
         ELSE
          DS=DS0
          DT=DT0
         ENDIF
-        DS=MIN(ZERO,DEUX*DS)
-        DT=MIN(ZERO,DEUX*DT)
-        DF3(I)=QUART*((               +DS*DT*DT1)*FI1(I)
-     .              +(        -DEUX*DT-DS*DT*DT1)*FI2(I)
-     .              +(+DEUX*DS+DEUX*DT+DS*DT*DT1)*FI3(I)
-     .              +(-DEUX*DS        -DS*DT*DT1)*FI4(I) )
+        DS=MIN(ZERO,TWO*DS)
+        DT=MIN(ZERO,TWO*DT)
+        DF3(I)=FOURTH*((               +DS*DT*DT1)*FI1(I)
+     .              +(        -TWO*DT-DS*DT*DT1)*FI2(I)
+     .              +(+TWO*DS+TWO*DT+DS*DT*DT1)*FI3(I)
+     .              +(-TWO*DS        -DS*DT*DT1)*FI4(I) )
         IF(FI4(I).GE.ZERO)THEN
-         DS=-QUATRE*(PTY*VDZ4(I)-PTZ*VDY4(I))/PTS
-         DT=-QUATRE*(PSY*VDZ4(I)-PSZ*VDY4(I))/PST
+         DS=-FOUR*(PTY*VDZ4(I)-PTZ*VDY4(I))/PTS
+         DT=-FOUR*(PSY*VDZ4(I)-PSZ*VDY4(I))/PST
         ELSE
          DS=DS0
          DT=DT0
         ENDIF
-        DS=MAX(ZERO,DEUX*DS)
-        DT=MIN(ZERO,DEUX*DT)
-           DF4(I)=QUART*((       -DEUX*DT+DS*DT*DT1)*FI1(I)
+        DS=MAX(ZERO,TWO*DS)
+        DT=MIN(ZERO,TWO*DT)
+           DF4(I)=FOURTH*((       -TWO*DT+DS*DT*DT1)*FI1(I)
      .                 +(                -DS*DT*DT1)*FI2(I)
-     .                 +(+DEUX*DS        +DS*DT*DT1)*FI3(I)
-     .                 +(-DEUX*DS+DEUX*DT-DS*DT*DT1)*FI4(I) )     
+     .                 +(+TWO*DS        +DS*DT*DT1)*FI3(I)
+     .                 +(-TWO*DS+TWO*DT-DS*DT*DT1)*FI4(I) )     
       ENDDO !next I
 
       CALL IDP_LOCK(2)

@@ -101,7 +101,7 @@ C-----------------------------------------------
 
       IG = IGEO(1)
       IF (IGEO(4) <= 0) IGEO(4) = 1
-      IF (GEO(212) == ZERO) GEO(212) = QUATREVINGTDIX
+      IF (GEO(212) == ZERO) GEO(212) = NINTY
       IF (IS_ENCRYPTED) THEN
          WRITE(IOUT,1000)IG
  1000    FORMAT(
@@ -113,8 +113,8 @@ C-----------------------------------------------
           WRITE(IOUT,2000)IG,IMID,GEO(1),GEO(2),IGEO(40),IGEO(41),IGEO(4),
      .   GEO(212),DRAPE_ID,IGEO(49)
       ENDIF     
-      GEO(2)=GEO(2)*PI/CENT80
-      GEO(212)=GEO(212)*PI/CENT80
+      GEO(2)=GEO(2)*PI/HUNDRED80
+      GEO(212)=GEO(212)*PI/HUNDRED80
       IGEO(48) = 0  !  keeped for DRAPE IDENTIFICATION NUMBER
 C ------------------------------------
 C

@@ -214,7 +214,7 @@ c-----------------------------
 c
       NINDEX_PLA = 0 
       VISCMAX(1:NEL) = ZERO
-      ETSE(1:NEL) = UN
+      ETSE(1:NEL) = ONE
       E(1:NEL)  = E1   
       A1(1:NEL) = A11                                                      
       A2(1:NEL) = A21                                                      
@@ -243,23 +243,23 @@ c-----------------------
         DO II=1,NINDEX_PLA 
           I = INDEX_PLA(II)            
           E(I) =  ESCALE(II)* E1                                         
-          A1(I) = E(I)/(UN - NUX*NUX)                                      
+          A1(I) = E(I)/(ONE - NUX*NUX)                                      
           A2(I) = NUX*A1(I)                                                
-          G(I) =  UNDEMI*E(I)/(UN+NUX)                                     
-          G3(I) = TROIS*G(I) 
+          G(I) =  HALF*E(I)/(ONE+NUX)                                     
+          G3(I) = THREE*G(I) 
           GS(I) = G(I) * SHF(I)                                                
-          SOUNDSP(I) = SQRT(E(I)/(UN - NUX*NUX)/RHO0(I))
+          SOUNDSP(I) = SQRT(E(I)/(ONE - NUX*NUX)/RHO0(I))
         ENDDO                                                                          
       ELSEIF (CE /= ZERO) THEN       ! Variable Young modulus defined analytically                                                 
         DO I=1,NEL                                                                       
           IF (PLA(I) > ZERO) THEN                                                       
-            E(I) = E1-(E1-EINF)*(UN-EXP(-CE*PLA(I)))                     
-            A1(I) = E(I)/(UN - NUX*NUX)                                     
+            E(I) = E1-(E1-EINF)*(ONE-EXP(-CE*PLA(I)))                     
+            A1(I) = E(I)/(ONE - NUX*NUX)                                     
             A2(I) = NUX*A1(I)                                               
-            G(I) =  UNDEMI*E(I)/(UN+NUX)                                    
-            G3(I) = TROIS*G(I)       
+            G(I) =  HALF*E(I)/(ONE+NUX)                                    
+            G3(I) = THREE*G(I)       
             GS(I) = G(I) * SHF(I)                                         
-            SOUNDSP(I) = SQRT(E(I)/(UN - NUX*NUX)/RHO0(I))                  
+            SOUNDSP(I) = SQRT(E(I)/(ONE - NUX*NUX)/RHO0(I))                  
           ENDIF                                                                       
         ENDDO
       ENDIF  ! OPTE                                                                
@@ -267,12 +267,12 @@ c-------------------
 c     damage factor based on equivalent strain 
 c-------------------
       IF (IFAIL == 2) THEN
-        EPST(1:NEL) = UNDEMI*( EPSXX(1:NEL)+EPSYY(1:NEL)
+        EPST(1:NEL) = HALF*( EPSXX(1:NEL)+EPSYY(1:NEL)
      .   + SQRT( (EPSXX(1:NEL)-EPSYY(1:NEL))*(EPSXX(1:NEL)-EPSYY(1:NEL))
      .   + EPSXY(1:NEL)*EPSXY(1:NEL) ) )
-        FAIL(1:NEL) = MAX(EM20,MIN(UN,(EPSR2-EPST(1:NEL))/(EPSR2-EPSR1)))
+        FAIL(1:NEL) = MAX(EM20,MIN(ONE,(EPSR2-EPST(1:NEL))/(EPSR2-EPSR1)))
       ELSE
-        FAIL(1:NEL) = UN
+        FAIL(1:NEL) = ONE
       ENDIF
 c================================================================
 c     Split code in 2 independent part :
@@ -299,7 +299,7 @@ C       STRAIN RATE
 C-------------------
         IF (ISRATE == 0) THEN
           DO I=1,NEL
-            EPSP(I) = UNDEMI*( ABS(EPSPXX(I)+EPSPYY(I))
+            EPSP(I) = HALF*( ABS(EPSPXX(I)+EPSPYY(I))
      .              + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .              + EPSPXY(I)*EPSPXY(I) ) )
           ENDDO
@@ -318,7 +318,7 @@ c-----------------------------------------------
           PFAC(1:NEL) = MAX(ZERO, PFAC(1:NEL))
           VARTMP(1:NEL,2) = IPOSP(1:NEL)
         ELSE
-          PFAC(1:NEL) = UN                                
+          PFAC(1:NEL) = ONE                                
         ENDIF
 C-------------------
 C       CRITERE
@@ -337,12 +337,12 @@ c
 c
           IF (FISOKIN == ZERO) THEN
             YLD(1:NEL) = Y1(1:NEL) * FACT(1:NEL)
-          ELSE IF (FISOKIN == UN) THEN
+          ELSE IF (FISOKIN == ONE) THEN
             YLD0 = TF(NPF(IFUNC(1))+1)
             YLD(1:NEL) =  YLD0 * FACT(1:NEL)  
           ELSE IF (FISOKIN > ZERO) THEN
             YLD0 = TF(NPF(IFUNC(1))+1)
-            YLD(1:NEL) = ((UN-FISOKIN)*Y1(1:NEL) + FISOKIN *YLD0)*FACT(1:NEL)
+            YLD(1:NEL) = ((ONE-FISOKIN)*Y1(1:NEL) + FISOKIN *YLD0)*FACT(1:NEL)
           END IF
 c
         ELSE  ! strain rate interpolation
@@ -399,7 +399,7 @@ c
              VARTMP(I,2+J1) = IPOS1(I)
              VARTMP(I,2+J2) = IPOS2(I)
             ENDDO
-          ELSEIF (FISOKIN == UN) THEN
+          ELSEIF (FISOKIN == ONE) THEN
 #include   "vectorize.inc"
             DO I=1,NEL
              J1 = JJ(I)
@@ -444,7 +444,7 @@ C           ECROUISSAGE CINEMATIQUE
               Y2(I)=TF(NPF(FUN2)+1)
               Y1(I)=Y1(I)*YFAC(I,1)
               Y2(I)=Y2(I)*YFAC(I,2)
-              YLD(I) = (UN - FISOKIN) * YLD(I) + 
+              YLD(I) = (ONE - FISOKIN) * YLD(I) + 
      .             FISOKIN * (FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I))))
               YLD(I) = YLD(I)*MAX(ZERO,PFAC(I))
               H(I)   = H(I)*MAX(ZERO,PFAC(I))      
@@ -468,22 +468,22 @@ C       PROJECTION
 C-------------------
         IF (IPLAS(1) == 0) THEN
 c         projection radiale 
-          NU3 = UN-NU_MNU
+          NU3 = ONE-NU_MNU
           DO I=1,NEL
             SVM2(I)= SIGNXX(I)*SIGNXX(I)
      .             + SIGNYY(I)*SIGNYY(I)
      .             - SIGNXX(I)*SIGNYY(I)
-     .             + TROIS*SIGNXY(I)*SIGNXY(I)
+     .             + THREE*SIGNXY(I)*SIGNXY(I)
             IF (SVM2(I)>YLD(I)*YLD(I)) THEN
               SVM =SQRT(SVM2(I))  
               R  = YLD(I)/SVM
               SIGNXX(I)=SIGNXX(I)*R 
               SIGNYY(I)=SIGNYY(I)*R 
               SIGNXY(I)=SIGNXY(I)*R
-              DPLA_I(I) = OFF(I)*SVM*(UN-R)/(G3(I)+H(I))
+              DPLA_I(I) = OFF(I)*SVM*(ONE-R)/(G3(I)+H(I))
               PLA(I) = PLA(I) + DPLA_I(I)
               IF (INLOC == 0) THEN 
-                DEZZ = DPLA_I(I) * UNDEMI*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
+                DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
                 DEZZ=-(DEPSXX(I)+DEPSYY(I))*NU_MNU-NU3*DEZZ
                 THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
               ENDIF
@@ -500,8 +500,8 @@ C-------------------------
             S1=SIGNXX(I)+SIGNYY(I)
             S2=SIGNXX(I)-SIGNYY(I)
             S3=SIGNXY(I)
-            AA(I)= QUART*S1*S1
-            BB(I)= TQUART*S2*S2 + TROIS*S3*S3
+            AA(I)= FOURTH*S1*S1
+            BB(I)= THREE_OVER_4*S2*S2 + THREE*S3*S3
             SVM2(I)= AA(I)+BB(I)
             IF (INLOC == 0) THEN   
               DEZZ = -(DEPSXX(I)+DEPSYY(I))*NU_MNU
@@ -513,7 +513,7 @@ C         GATHER PLASTIC FLOW
 C-------------------------
           NINDX=0
           DO I=1,NEL
-            IF (SVM2(I) > YLD(I)*YLD(I) .AND. OFF(I) == UN) THEN
+            IF (SVM2(I) > YLD(I)*YLD(I) .AND. OFF(I) == ONE) THEN
               NINDX=NINDX+1
               INDEX(NINDX)=I
             ENDIF
@@ -529,29 +529,29 @@ C---------------------------
              SVM=SQRT(SVM2(I))  
              DPLA_J(I)=(SVM-YLD(I))/(G3(I)+H(I))
              ETSE(I)= H(I)/(H(I)+E(I))  
-             HI(I) = H(I)*(UN-FISOKIN)
-             HK(I) = DTIERS*H(I)*FISOKIN
+             HI(I) = H(I)*(ONE-FISOKIN)
+             HK(I) = TWO_THIRD*H(I)*FISOKIN
             ENDDO
 C
-            NU3 = UN-NU_MNU
+            NU3 = ONE-NU_MNU
             DO N=1,NITER
 #include "vectorize.inc"
               DO J=1,NINDX
                 I=INDEX(J)
                 DPLA_I(I)=DPLA_J(I)
                 YLD_I = YLD(I) + HI(I)*DPLA_I(I)
-                DR(I) = UNDEMI*E(I)*DPLA_I(I)/YLD_I
-                AAA   = TROIS*HK(I)/E(I) 
+                DR(I) = HALF*E(I)*DPLA_I(I)/YLD_I
+                AAA   = THREE*HK(I)/E(I) 
                 NU11  = U_MNU+AAA
                 NU21  = T_PNU+AAA
-                PP(I) = UN/(UN+DR(I)*NU11)
-                QQ(I) = UN/(UN+DR(I)*NU21)     
+                PP(I) = ONE/(ONE+DR(I)*NU11)
+                QQ(I) = ONE/(ONE+DR(I)*NU21)     
                 P2    = PP(I)*PP(I)
                 Q2    = QQ(I)*QQ(I)
                 F     = AA(I)*P2+BB(I)*Q2-YLD_I*YLD_I
                 DF    =-(AA(I)*NU11*P2*PP(I)+BB(I)*NU21*Q2*QQ(I))
-     .            *(E(I)-DEUX*DR(I)*HI(I))/YLD_I  
-     .            -DEUX*HI(I)*YLD_I
+     .            *(E(I)-TWO*DR(I)*HI(I))/YLD_I  
+     .            -TWO*HI(I)*YLD_I
                 DF = SIGN(MAX(ABS(DF),EM20),DF)
                 IF(DPLA_I(I) > ZERO) THEN
                   DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F/DF)
@@ -569,8 +569,8 @@ C------------------------------------------
              PLA(I) = PLA(I) + DPLA_I(I)
              S1=(SIGNXX(I)+SIGNYY(I))*PP(I)
              S2=(SIGNXX(I)-SIGNYY(I))*QQ(I)
-             SIGNXX(I)=UNDEMI*(S1+S2)
-             SIGNYY(I)=UNDEMI*(S1-S2) 
+             SIGNXX(I)=HALF*(S1+S2)
+             SIGNYY(I)=HALF*(S1-S2) 
              SIGNXY(I)=SIGNXY(I)*QQ(I)
              IF (INLOC == 0) THEN 
                DEZZ = - NU3*DR(I)*S1/E(I) 
@@ -588,7 +588,7 @@ C-------------------------
           DO I=1,NEL
             H(I) = MAX(ZERO,H(I))
             SVM2(I) = SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)
-     .              - SIGNXX(I)*SIGNYY(I) + TROIS*SIGNXY(I)*SIGNXY(I)
+     .              - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I)
             IF (INLOC == 0) THEN 
               DEZZ = -(DEPSXX(I)+DEPSYY(I))*NU_MNU
               THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
@@ -600,7 +600,7 @@ C-------------------------
           NINDX=0
           DO I=1,NEL
             YLD2(I)=YLD(I)*YLD(I)
-            IF (SVM2(I) > YLD2(I) .AND. OFF(I) == UN) THEN
+            IF (SVM2(I) > YLD2(I) .AND. OFF(I) == ONE) THEN
               NINDX=NINDX+1
               INDEX(NINDX)=I
             ENDIF
@@ -610,22 +610,22 @@ C
 C-------------
 C           PROJ NORMALE AU CRITERE AVEC CALCUL APPROCHE DE LA NORMALE + RETOUR RADIAL
 C-------------
-            NU3 = UN-NU_MNU
+            NU3 = ONE-NU_MNU
 #include "vectorize.inc"
             DO J=1,NINDX
               I=INDEX(J)
               A = (SVM2(I)-YLD2(I))
-     .          / (CINQ*SVM2(I)+TROIS*(-SIGNXX(I)*SIGNYY(I)+SIGNXY(I)*SIGNXY(I)))
-              S1= (UN-DEUX*A)*SIGNXX(I)+ A*SIGNYY(I)
-              S2= A*SIGNXX(I)+(UN-DEUX*A)*SIGNYY(I)
-              S3=(UN-TROIS*A)*SIGNXY(I)
+     .          / (FIVE*SVM2(I)+THREE*(-SIGNXX(I)*SIGNYY(I)+SIGNXY(I)*SIGNXY(I)))
+              S1= (ONE-TWO*A)*SIGNXX(I)+ A*SIGNYY(I)
+              S2= A*SIGNXX(I)+(ONE-TWO*A)*SIGNYY(I)
+              S3=(ONE-THREE*A)*SIGNXY(I)
               SIGNXX(I)=S1
               SIGNYY(I)=S2
               SIGNXY(I)=S3
               SVM=SQRT(SVM2(I))  
               DPLA_I(I) = OFF(I)*(SVM-YLD(I))/(G3(I)+H(I))
 C
-              HK(I) = H(I)*(UN-FISOKIN)
+              HK(I) = H(I)*(ONE-FISOKIN)
               YLD(I) =YLD(I)+HK(I)*DPLA_I(I)
             END DO
 C
@@ -634,14 +634,14 @@ C
               SVM = SQRT( SIGNXX(I)*SIGNXX(I)
      .                    +SIGNYY(I)*SIGNYY(I)
      .                    -SIGNXX(I)*SIGNYY(I)
-     .                    +TROIS*SIGNXY(I)*SIGNXY(I))  
-              R  = MIN(UN,YLD(I)/MAX(EM20,SVM))
+     .                    +THREE*SIGNXY(I)*SIGNXY(I))  
+              R  = MIN(ONE,YLD(I)/MAX(EM20,SVM))
               SIGNXX(I)=SIGNXX(I)*R
               SIGNYY(I)=SIGNYY(I)*R
               SIGNXY(I)=SIGNXY(I)*R
               PLA(I) = PLA(I) + DPLA_I(I)
               IF (INLOC == 0) THEN
-                DEZZ = DPLA_I(I) * UNDEMI*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
+                DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
                 DEZZ = -NU3*DEZZ
                 THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
               ENDIF
@@ -681,7 +681,7 @@ c-----------------------------------------------
           PFAC(1:NEL) = MAX(ZERO, PFAC(1:NEL))
           VARTMP(1:NEL,2) = IPOSP(1:NEL)
         ELSE
-          PFAC(1:NEL) = UN                                
+          PFAC(1:NEL) = ONE                                
         ENDIF
 C-------------------
 C       PLASTIC STRAIN RATE
@@ -745,7 +745,7 @@ c-------------------------------
            VARTMP(I,2+J2) = IPOS2(I)
           ENDDO
 c-------------------------------
-        ELSEIF (FISOKIN == UN) THEN  ! ecrouissage cinematique
+        ELSEIF (FISOKIN == ONE) THEN  ! ecrouissage cinematique
 c-------------------------------
 #include "vectorize.inc"
           DO I=1,NEL
@@ -792,7 +792,7 @@ c-------------------------------
             Y2(I)=TF(NPF(FUN2)+1)
             Y1(I)=Y1(I)*YFAC(I,1)
             Y2(I)=Y2(I)*YFAC(I,2)
-            YLD(I) = (UN - FISOKIN) * YLD(I) + 
+            YLD(I) = (ONE - FISOKIN) * YLD(I) + 
      .           FISOKIN * (FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I))))
             YLD(I) = YLD(I)*MAX(ZERO,PFAC(I))
             H(I)   = H(I)*MAX(ZERO,PFAC(I))      
@@ -814,8 +814,8 @@ C-------------------------
           S1=SIGNXX(I)+SIGNYY(I)
           S2=SIGNXX(I)-SIGNYY(I)
           S3=SIGNXY(I)
-          AA(I)=QUART*S1*S1
-          BB(I)=TQUART*S2*S2+3.*S3*S3
+          AA(I)=FOURTH*S1*S1
+          BB(I)=THREE_OVER_4*S2*S2+3.*S3*S3
           SVM2(I)= AA(I)+BB(I)  
           IF (INLOC == 0) THEN 
             DEZZ = -(DEPSXX(I)+DEPSYY(I))*NU_MNU
@@ -827,7 +827,7 @@ C       GATHER PLASTIC FLOW
 C-------------------------
         NINDX=0
         DO I=1,NEL
-          IF(SVM2(I) > YLD(I)*YLD(I) .AND. OFF(I) == UN) THEN
+          IF(SVM2(I) > YLD(I)*YLD(I) .AND. OFF(I) == ONE) THEN
             NINDX=NINDX+1
             INDEX(NINDX)=I
           ENDIF
@@ -843,29 +843,29 @@ C
            SVM = SQRT(SVM2(I))  
            DPLA_J(I)=(SVM-YLD(I))/(G3(I)+H(I))
            ETSE(I)= H(I)/(H(I)+E(I))  
-           HI(I) = H(I)*(UN-FISOKIN)
-           HK(I) = DTIERS*H(I)*FISOKIN
+           HI(I) = H(I)*(ONE-FISOKIN)
+           HK(I) = TWO_THIRD*H(I)*FISOKIN
           ENDDO
 C
-          NU3 = UN-NU_MNU
+          NU3 = ONE-NU_MNU
           DO N=1,NITER
 #include "vectorize.inc"
             DO J=1,NINDX
               I=INDEX(J)
               DPLA_I(I)=DPLA_J(I)
               YLD_I =YLD(I)+HI(I)*DPLA_I(I)
-              DR(I) =UNDEMI*E(I)*DPLA_I(I)/YLD_I
-              AAA = TROIS*HK(I)/E(I) 
+              DR(I) =HALF*E(I)*DPLA_I(I)/YLD_I
+              AAA = THREE*HK(I)/E(I) 
               NU11  = U_MNU+AAA
               NU21  = T_PNU+AAA
-              PP(I) = UN/(UN+DR(I)*NU11)
-              QQ(I) = UN/(UN+DR(I)*NU21)     
+              PP(I) = ONE/(ONE+DR(I)*NU11)
+              QQ(I) = ONE/(ONE+DR(I)*NU21)     
               P2    = PP(I)*PP(I)
               Q2    = QQ(I)*QQ(I)
               F     = AA(I)*P2+BB(I)*Q2-YLD_I*YLD_I
               DF    =-(AA(I)*NU11*P2*PP(I)+BB(I)*NU21*Q2*QQ(I))
-     .          *(E(I)-DEUX*DR(I)*HI(I))/YLD_I  
-     .          -DEUX*HI(I)*YLD_I
+     .          *(E(I)-TWO*DR(I)*HI(I))/YLD_I  
+     .          -TWO*HI(I)*YLD_I
               DF = SIGN(MAX(ABS(DF),EM20),DF)
               IF(DPLA_I(I) > ZERO) THEN
                 DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F/DF)
@@ -883,8 +883,8 @@ C------------------------------------------
              PLA(I) = PLA(I) + DPLA_I(I)
              S1=(SIGNXX(I)+SIGNYY(I))*PP(I)
              S2=(SIGNXX(I)-SIGNYY(I))*QQ(I)
-             SIGNXX(I)=UNDEMI*(S1+S2)
-             SIGNYY(I)=UNDEMI*(S1-S2) 
+             SIGNXX(I)=HALF*(S1+S2)
+             SIGNYY(I)=HALF*(S1-S2) 
              SIGNXY(I)=SIGNXY(I)*QQ(I)
              IF (INLOC == 0) THEN 
                DEZZ = - NU3*DR(I)*S1/E(I) 
@@ -902,11 +902,11 @@ c     Element failure
 c----------------------------------------------------------------------
       IF (IFAIL == 1) THEN
         DO I=1,NEL
-          IF (OFF(I) == UN .and. PLA(I) > EPSMAX) OFF(I) = QCINQ
+          IF (OFF(I) == ONE .and. PLA(I) > EPSMAX) OFF(I) = FOUR_OVER_5
         ENDDO
       ELSEIF (IFAIL == 2) THEN
         DO I=1,NEL
-          IF (OFF(I) == UN .and. (PLA(I) > EPSMAX .or. EPST(I) > EPSF)) OFF(I) = QCINQ
+          IF (OFF(I) == ONE .and. (PLA(I) > EPSMAX .or. EPST(I) > EPSF)) OFF(I) = FOUR_OVER_5
         ENDDO
       ENDIF     
 c----------------------------------------------------------------------
@@ -915,14 +915,14 @@ c----------------------------------------------------------------------
        DO I = 1,NEL
         IF (DPLA_I(I) > ZERO) THEN
 c ...... Parameter d(gama)
-         GAMA_IMP(I)= TDEMI*DPLA_I(I)/YLD(I)
+         GAMA_IMP(I)= THREE_HALF*DPLA_I(I)/YLD(I)
 c ...... HK,HH---
          SIGNOR(I,4)=FISOKIN*H(I)
-         SIGNOR(I,5)=(UN-FISOKIN)*H(I)
+         SIGNOR(I,5)=(ONE-FISOKIN)*H(I)
 c ...... Deviatoric stresses shifted by midified back stress ->ksi
-         SIGNOR(I,1)=TIERS*(DEUX*SIGNXX(I)-SIGNYY(I))
-         SIGNOR(I,2)=TIERS*(DEUX*SIGNYY(I)-SIGNXX(I))
-         SIGNOR(I,3)=DEUX*SIGNXY(I)
+         SIGNOR(I,1)=THIRD*(TWO*SIGNXX(I)-SIGNYY(I))
+         SIGNOR(I,2)=THIRD*(TWO*SIGNYY(I)-SIGNXX(I))
+         SIGNOR(I,3)=TWO*SIGNXY(I)
         ELSE
          GAMA_IMP(I) = ZERO
         END IF
@@ -933,9 +933,9 @@ C------------------------------------------
 C     PLASTIC STRAIN FILTERING
 C------------------------------------------
       IF (VP == 1) THEN
-         DTINV = UN/MAX(TIMESTEP,EM20) 
+         DTINV = ONE/MAX(TIMESTEP,EM20) 
          DO I=1,NEL    
-            PLAP(I)   = ASRATE*DPLA_I(I)*DTINV + (UN - ASRATE)*UVAR(I,2)
+            PLAP(I)   = ASRATE*DPLA_I(I)*DTINV + (ONE - ASRATE)*UVAR(I,2)
             UVAR(I,2) = PLAP(I)
           ENDDO
       ENDIF
@@ -973,8 +973,8 @@ C--------------------------------
           SVM    = SQRT(SIGNXX(I)*SIGNXX(I)
      .           + SIGNYY(I)*SIGNYY(I)
      .           - SIGNXX(I)*SIGNYY(I)
-     .           + TROIS*SIGNXY(I)*SIGNXY(I))
-          DEZZ   = MAX(DPLANL(I),ZERO)*UNDEMI*(SIGNXX(I)+SIGNYY(I))/MAX(SVM,EM20)
+     .           + THREE*SIGNXY(I)*SIGNXY(I))
+          DEZZ   = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(SVM,EM20)
           DEZZ   = -NUX*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E(I)) - DEZZ
           THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)     
         ENDDO  

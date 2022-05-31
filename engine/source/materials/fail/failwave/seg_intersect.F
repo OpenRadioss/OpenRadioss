@@ -61,8 +61,8 @@ c
          ALPHA = (BX * CY - BY * CX) / DM
          BETA  = (AX * CY - AY * CX) / DM
 c
-         IF (ALPHA >= ZERO .and. ALPHA <= UN .and.
-     .       BETA  >= ZERO .and. BETA  <= UN) THEN
+         IF (ALPHA >= ZERO .and. ALPHA <= ONE .and.
+     .       BETA  >= ZERO .and. BETA  <= ONE) THEN
            OK = 1
            XINT = X1 + ALPHA * AX
            YINT = Y1 + ALPHA * AY

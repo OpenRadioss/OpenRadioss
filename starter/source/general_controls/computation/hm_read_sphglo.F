@@ -76,7 +76,7 @@ C============================================================================
       IS_AVAILABLE = .FALSE.
 C----------------------------------------------
 C     global parameters for SPH.
-      SPASORT=QUART 
+      SPASORT=FOURTH 
 C
       IF (INVERS < 130) THEN
         IF(LVOISPH==0) LVOISPH=120
@@ -97,8 +97,8 @@ C
           CALL HM_GET_INTV('ALE_KVOISPH',LVOISPH,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('ALE_Form',KVOISPH,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('SPHGLO_Isol2sph',ITSOL2SPH,IS_AVAILABLE,LSUBMODEL)
-C         SPASORT=MIN(UNDEMI,SPASORT)
-          IF(SPASORT.EQ.ZERO) SPASORT=QUART
+C         SPASORT=MIN(HALF,SPASORT)
+          IF(SPASORT.EQ.ZERO) SPASORT=FOURTH
           IF(KVOISPH.LT.120)KVOISPH=120
           IF(LVOISPH.EQ.0)LVOISPH=KVOISPH
           IF(ITSOL2SPH.EQ.0) ITSOL2SPH=1

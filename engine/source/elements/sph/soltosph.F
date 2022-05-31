@@ -267,7 +267,7 @@ C
                 N7=IXS(8,N)
                 N8=IXS(9,N)
 C
-                NSPHDIR=NINT((SOL2SPH(2,N)-SOL2SPH(1,N))**TIERS)
+                NSPHDIR=NINT((SOL2SPH(2,N)-SOL2SPH(1,N))**THIRD)
 C
 C-----------------------------------------------
 C               SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
@@ -280,14 +280,14 @@ C               SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
                   ETA  = A_GAUSS(IS,NSPHDIR)
                   ZETA = A_GAUSS(IT,NSPHDIR)
 C
-                  PHI1=UNHUIT*(UN-KSI)*(UN-ETA)*(UN-ZETA)
-                  PHI2=UNHUIT*(UN-KSI)*(UN-ETA)*(UN+ZETA)
-                  PHI3=UNHUIT*(UN+KSI)*(UN-ETA)*(UN+ZETA)
-                  PHI4=UNHUIT*(UN+KSI)*(UN-ETA)*(UN-ZETA)
-                  PHI5=UNHUIT*(UN-KSI)*(UN+ETA)*(UN-ZETA)
-                  PHI6=UNHUIT*(UN-KSI)*(UN+ETA)*(UN+ZETA)
-                  PHI7=UNHUIT*(UN+KSI)*(UN+ETA)*(UN+ZETA)
-                  PHI8=UNHUIT*(UN+KSI)*(UN+ETA)*(UN-ZETA)
+                  PHI1=ONE_OVER_8*(ONE-KSI)*(ONE-ETA)*(ONE-ZETA)
+                  PHI2=ONE_OVER_8*(ONE-KSI)*(ONE-ETA)*(ONE+ZETA)
+                  PHI3=ONE_OVER_8*(ONE+KSI)*(ONE-ETA)*(ONE+ZETA)
+                  PHI4=ONE_OVER_8*(ONE+KSI)*(ONE-ETA)*(ONE-ZETA)
+                  PHI5=ONE_OVER_8*(ONE-KSI)*(ONE+ETA)*(ONE-ZETA)
+                  PHI6=ONE_OVER_8*(ONE-KSI)*(ONE+ETA)*(ONE+ZETA)
+                  PHI7=ONE_OVER_8*(ONE+KSI)*(ONE+ETA)*(ONE+ZETA)
+                  PHI8=ONE_OVER_8*(ONE+KSI)*(ONE+ETA)*(ONE-ZETA)
 C
                   INOD=KXSP(3,NP)
                   AWORK(1,MY_IAW+N1)=AWORK(1,MY_IAW+N1)+PHI1*A(1,INOD)
@@ -436,7 +436,7 @@ C---------------
               N7=IXS(8,N)
               N8=IXS(9,N)
 C
-              NSPHDIR=NINT((SOL2SPH(2,N)-SOL2SPH(1,N))**TIERS)
+              NSPHDIR=NINT((SOL2SPH(2,N)-SOL2SPH(1,N))**THIRD)
 C
 C-----------------------------------------------
               IR=IRST(1,NP-FIRST_SPHSOL+1)
@@ -446,14 +446,14 @@ C-----------------------------------------------
               ETA  = A_GAUSS(IS,NSPHDIR)
               ZETA = A_GAUSS(IT,NSPHDIR)
 C
-              PHI1=UNHUIT*(UN-KSI)*(UN-ETA)*(UN-ZETA)
-              PHI2=UNHUIT*(UN-KSI)*(UN-ETA)*(UN+ZETA)
-              PHI3=UNHUIT*(UN+KSI)*(UN-ETA)*(UN+ZETA)
-              PHI4=UNHUIT*(UN+KSI)*(UN-ETA)*(UN-ZETA)
-              PHI5=UNHUIT*(UN-KSI)*(UN+ETA)*(UN-ZETA)
-              PHI6=UNHUIT*(UN-KSI)*(UN+ETA)*(UN+ZETA)
-              PHI7=UNHUIT*(UN+KSI)*(UN+ETA)*(UN+ZETA)
-              PHI8=UNHUIT*(UN+KSI)*(UN+ETA)*(UN-ZETA)
+              PHI1=ONE_OVER_8*(ONE-KSI)*(ONE-ETA)*(ONE-ZETA)
+              PHI2=ONE_OVER_8*(ONE-KSI)*(ONE-ETA)*(ONE+ZETA)
+              PHI3=ONE_OVER_8*(ONE+KSI)*(ONE-ETA)*(ONE+ZETA)
+              PHI4=ONE_OVER_8*(ONE+KSI)*(ONE-ETA)*(ONE-ZETA)
+              PHI5=ONE_OVER_8*(ONE-KSI)*(ONE+ETA)*(ONE-ZETA)
+              PHI6=ONE_OVER_8*(ONE-KSI)*(ONE+ETA)*(ONE+ZETA)
+              PHI7=ONE_OVER_8*(ONE+KSI)*(ONE+ETA)*(ONE+ZETA)
+              PHI8=ONE_OVER_8*(ONE+KSI)*(ONE+ETA)*(ONE-ZETA)
 C
               NISKYL=NISKYL+1
               ISKY(NISKYL)=N1
@@ -874,9 +874,9 @@ C strain in corotational system
               L11    =LBUF%STRA(II(1)+I)
               L22    =LBUF%STRA(II(2)+I)
               L33    =LBUF%STRA(II(3)+I)
-              L12    =UNDEMI*LBUF%STRA(II(4)+I)
-              L23    =UNDEMI*LBUF%STRA(II(5)+I)
-              L13    =UNDEMI*LBUF%STRA(II(6)+I)
+              L12    =HALF*LBUF%STRA(II(4)+I)
+              L23    =HALF*LBUF%STRA(II(5)+I)
+              L13    =HALF*LBUF%STRA(II(6)+I)
               S11    =L11*R11(I)+L12*R12(I)+L13*R13(I) 
               S12    =L11*R21(I)+L12*R22(I)+L13*R23(I) 
               S13    =L11*R31(I)+L12*R32(I)+L13*R33(I)
@@ -889,9 +889,9 @@ C strain in corotational system
               STRAGLO(I,1)=R11(I)*S11+R12(I)*S21+R13(I)*S31
               STRAGLO(I,2)=R21(I)*S12+R22(I)*S22+R23(I)*S32
               STRAGLO(I,3)=R31(I)*S13+R32(I)*S23+R33(I)*S33
-              STRAGLO(I,4)=DEUX*(R11(I)*S12+R12(I)*S22+R13(I)*S32)
-              STRAGLO(I,5)=DEUX*(R21(I)*S13+R22(I)*S23+R23(I)*S33)
-              STRAGLO(I,6)=DEUX*(R11(I)*S13+R12(I)*S23+R13(I)*S33)
+              STRAGLO(I,4)=TWO*(R11(I)*S12+R12(I)*S22+R13(I)*S32)
+              STRAGLO(I,5)=TWO*(R21(I)*S13+R22(I)*S23+R23(I)*S33)
+              STRAGLO(I,6)=TWO*(R11(I)*S13+R12(I)*S23+R13(I)*S33)
              END DO
             ELSE
              DO I=LFT,LLT
@@ -900,9 +900,9 @@ C strain in orthotropic system
               L11    =LBUF%STRA(II(1)+I)
               L22    =LBUF%STRA(II(2)+I)
               L33    =LBUF%STRA(II(3)+I)
-              L12    =UNDEMI*LBUF%STRA(II(4)+I)
-              L23    =UNDEMI*LBUF%STRA(II(5)+I)
-              L13    =UNDEMI*LBUF%STRA(II(6)+I)
+              L12    =HALF*LBUF%STRA(II(4)+I)
+              L23    =HALF*LBUF%STRA(II(5)+I)
+              L13    =HALF*LBUF%STRA(II(6)+I)
               S11    =L11*T11(I)+L12*T12(I)+L13*T13(I) 
               S12    =L11*T21(I)+L12*T22(I)+L13*T23(I) 
               S13    =L11*T31(I)+L12*T32(I)+L13*T33(I)
@@ -915,9 +915,9 @@ C strain in orthotropic system
               STRAGLO(I,1)=T11(I)*S11+T12(I)*S21+T13(I)*S31
               STRAGLO(I,2)=T21(I)*S12+T22(I)*S22+T23(I)*S32
               STRAGLO(I,3)=T31(I)*S13+T32(I)*S23+T33(I)*S33
-              STRAGLO(I,4)=DEUX*(T11(I)*S12+T12(I)*S22+T13(I)*S32)
-              STRAGLO(I,5)=DEUX*(T21(I)*S13+T22(I)*S23+T23(I)*S33)
-              STRAGLO(I,6)=DEUX*(T11(I)*S13+T12(I)*S23+T13(I)*S33)
+              STRAGLO(I,4)=TWO*(T11(I)*S12+T12(I)*S22+T13(I)*S32)
+              STRAGLO(I,5)=TWO*(T21(I)*S13+T22(I)*S23+T23(I)*S33)
+              STRAGLO(I,6)=TWO*(T11(I)*S13+T12(I)*S23+T13(I)*S33)
              END DO
             END IF
           END IF
@@ -1069,7 +1069,7 @@ C-----------
             N=NFT+I
 C
 C           SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
-            NSPHDIR=NINT((SOL2SPH(2,N)-SOL2SPH(1,N))**TIERS)
+            NSPHDIR=NINT((SOL2SPH(2,N)-SOL2SPH(1,N))**THIRD)
             DO KP=1,SOL2SPH(2,N)-SOL2SPH(1,N)
 C
               NP=SOL2SPH(1,N)+KP

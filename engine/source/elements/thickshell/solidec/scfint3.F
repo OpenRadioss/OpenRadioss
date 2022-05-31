@@ -150,7 +150,7 @@ Cqz +++ non constante part------------
         RX1(I)= ZI*RX0(I)
         SY1(I)= ZI*SY0(I)
         SX1(I)= ZI*SX0(I)
-        NU1(I) = NU(I)/(UN -NU(I))
+        NU1(I) = NU(I)/(ONE -NU(I))
       ENDDO
 C---- asymetric part of gama------------
       DO I=LFT,LLT
@@ -223,10 +223,10 @@ C---- symetric part of gama------------
 C 1 1 -1 -1 -1 -1 1 1
 C 1 -1 -1 1 -1 1 1 -1
       DO I=LFT,LLT
-        XH1I =-UNHUIT*RY1(I)
-        XH2I = UNHUIT*SY1(I)
-        YH1I = UNHUIT*RX1(I)
-        YH2I =-UNHUIT*SX1(I)	
+        XH1I =-ONE_OVER_8*RY1(I)
+        XH2I = ONE_OVER_8*SY1(I)
+        YH1I = ONE_OVER_8*RX1(I)
+        YH2I =-ONE_OVER_8*SX1(I)	
 Cqz ---- ---------------
         FINT1=(S1(I)-NU(I)*S2(I)-NU(I)*S3(I))*XH1I+S4(I)*YH1I
         FINT2=(S1(I)-NU1(I)*S3(I))*XH2I+S4(I)*YH2I
@@ -271,7 +271,7 @@ Cqz - for hourglass yield critiron-----
         SS1 =SIG(I,1)-SIG(I,2)
         SS2 =SIG(I,2)-SIG(I,3)
         SS3 =SIG(I,1)-SIG(I,3)
-       SVM0 =(SS1*SS1+SS2*SS2+SS3*SS3)*UNDEMI + TROIS*(SIG(I,4)*SIG(I,4)
+       SVM0 =(SS1*SS1+SS2*SS2+SS3*SS3)*HALF + THREE*(SIG(I,4)*SIG(I,4)
      .      + SIG(I,5)*SIG(I,5)+SIG(I,6)*SIG(I,6))
         MM(I,1) = MAX(SVM0,MM(I,1))
         MM(I,2) = MIN(SVM0,MM(I,2))

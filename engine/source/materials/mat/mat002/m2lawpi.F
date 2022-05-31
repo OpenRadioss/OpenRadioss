@@ -95,7 +95,7 @@ C=======================================================================
       IPA  = 400        
       EPIF = ZERO
       NPIF = 0
-      SHFACT = CSIX
+      SHFACT = FIVE_OVER_6
 !
       DO I=1,3
         II(I) = NEL*(I-1)
@@ -175,10 +175,10 @@ C
           SIGNXX(I) = SIGNXX(I) + E(I)*DEPSXX(I)
           SIGNXY(I) = SIGNXY(I) + GS*DEPSXY(I)
           SIGNXZ(I) = SIGNXZ(I) + GS*DEPSXZ(I)
-          ETSE(I)   = UN                        
+          ETSE(I)   = ONE                        
         ENDDO                                    
         DO I=JFT,JLT
-          ETSE(I) = UN
+          ETSE(I) = ONE
           CA(I)   = PM(38,MAT(I))                  
           CB(I)   = PM(39,MAT(I))                  
           YMAX(I) = PM(42,MAT(I))                  
@@ -189,12 +189,12 @@ C--     Yield
             DO I=JFT,JLT
               MT      = MAX(EM20,Z3(I))
               TM      = Z4(I)
-              TSTAR   = MAX(ZERO,(T(I)-DEUXCENT98)/(TM-DEUXCENT98))
+              TSTAR   = MAX(ZERO,(T(I)-TWOHUNDRED98)/(TM-TWOHUNDRED98))
               IF (TSTAR == ZERO) THEN
-                Q(I) = (UN + CC(I) * LOG(EPSP(I)/EPDR(I)))
+                Q(I) = (ONE + CC(I) * LOG(EPSP(I)/EPDR(I)))
               ELSE
-                Q(I) = (UN + CC(I) * LOG(EPSP(I)/EPDR(I)))*
-     .                               (UN-EXP(MT*LOG(TSTAR)))
+                Q(I) = (ONE + CC(I) * LOG(EPSP(I)/EPDR(I)))*
+     .                               (ONE-EXP(MT*LOG(TSTAR)))
               ENDIF
               Q(I)  = MAX(Q(I),EM20)
               CA(I) = CA(I) * Q(I)
@@ -214,12 +214,12 @@ C--     Yield
 C               Johnson-Cook
                 MT   = MAX(EM20,Z3(I))
                 TM   = Z4(I)
-                TSTAR= MAX(ZERO,(T(I)-DEUXCENT98)/(TM-DEUXCENT98))
+                TSTAR= MAX(ZERO,(T(I)-TWOHUNDRED98)/(TM-TWOHUNDRED98))
                 IF (TSTAR.EQ.ZERO) THEN
-                   Q(I) = (UN + CC(I) * LOG(EPSP(I)/EPDR(I)))
+                   Q(I) = (ONE + CC(I) * LOG(EPSP(I)/EPDR(I)))
                 ELSE
-                   Q(I) = (UN + CC(I) * LOG(EPSP(I)/EPDR(I)))
-     .                                *(UN-EXP(MT*LOG(TSTAR)))
+                   Q(I) = (ONE + CC(I) * LOG(EPSP(I)/EPDR(I)))
+     .                                *(ONE-EXP(MT*LOG(TSTAR)))
                 ENDIF
                 Q(I)  = MAX(Q(I),EM20)
                 CA(I) = CA(I) * Q(I)
@@ -248,16 +248,16 @@ C-------------------
 C       PROJECTION   -   radial return
 C-------------------
         DO I=JFT,JLT
-          SVM1 = SIGNXX(I)**2 + TROIS*(SIGNXY(I)**2 + SIGNXZ(I)**2)
+          SVM1 = SIGNXX(I)**2 + THREE*(SIGNXY(I)**2 + SIGNXZ(I)**2)
           IF (SVM1 > YLD(I)**2) THEN
             SVM1 = SQRT(SVM1)                                        
-            R    = MIN( UN, YLD(I)/MAX(EM20,SVM1) )                  
+            R    = MIN( ONE, YLD(I)/MAX(EM20,SVM1) )                  
             SIGNXX(I) = SIGNXX(I)*R                                  
             SIGNXY(I) = SIGNXY(I)*R                                  
             SIGNXZ(I) = SIGNXZ(I)*R                                  
-            UMR = UN - R                                             
-            LBUF%PLA(I) = LBUF%PLA(I) + OFF(I)*SVM1*UMR/(TROIS*G(I))
-c            IF (R < UN) ETSE(I)= H(I)/(H(I)+E(I)) 
+            UMR = ONE - R                                             
+            LBUF%PLA(I) = LBUF%PLA(I) + OFF(I)*SVM1*UMR/(THREE*G(I))
+c            IF (R < ONE) ETSE(I)= H(I)/(H(I)+E(I)) 
           ENDIF                                   
         ENDDO     
         
@@ -267,8 +267,8 @@ C     TEST DE RUPTURE DUCTILE
 C--------------------------------
 C      
         DO  I=JFT,JLT
-          IF (LBUF%PLA(I) >= EPMX(I) .AND. OFF(I) == UN) THEN
-            OFF(I)=QCINQ
+          IF (LBUF%PLA(I) >= EPMX(I) .AND. OFF(I) == ONE) THEN
+            OFF(I)=FOUR_OVER_5
             IDEL7NOK = 1
           ENDIF
         ENDDO                                          

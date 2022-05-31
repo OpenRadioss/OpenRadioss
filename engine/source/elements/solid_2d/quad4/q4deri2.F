@@ -93,12 +93,12 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C     4.*(dNi/dK, dNi/dE)
-      DNDK1 = ETA - UN
-      DNDK3 = ETA + UN
+      DNDK1 = ETA - ONE
+      DNDK3 = ETA + ONE
       DNDK2 = - DNDK1
       DNDK4 = - DNDK3
-      DNDE1 = KSI - UN
-      DNDE3 = KSI + UN
+      DNDE1 = KSI - ONE
+      DNDE3 = KSI + ONE
       DNDE2 = - DNDE3
       DNDE4 = - DNDE1
 C
@@ -113,11 +113,11 @@ C       8.*|J|
      .           (Y23(I)*Z14(I)-Y14(I)*Z23(I))*ETA +
      .           Y13(I)*Z24(I)-Y24(I)*Z13(I)
 C       W*|J|
-        VOLN(I) = UNHUIT*DET(I)*WI
+        VOLN(I) = ONE_OVER_8*DET(I)*WI
         AIRN(I) = VOLN(I)
 C       dNi/dY, dNi/dZ
 C------add something later for DET=~ zero-----
-        DETI=UNDEMI/DET(I)
+        DETI=HALF/DET(I)
         PY1(I) = DETI*(DZDE(I)*DNDK1-DZDK(I)*DNDE1)
         PY2(I) = DETI*(DZDE(I)*DNDK2-DZDK(I)*DNDE2)
         PY3(I) = DETI*(DZDE(I)*DNDK3-DZDK(I)*DNDE3)
@@ -131,7 +131,7 @@ C
       IF(N2D.EQ.1) THEN
         IF(JHBE==17) THEN
          DO I=LFT,LLT
-            VOLN(I) = QUART*YAVG(I)*VOLN(I)
+            VOLN(I) = FOURTH*YAVG(I)*VOLN(I)
          ENDDO
         ENDIF
       ENDIF
@@ -155,7 +155,7 @@ C----Assumed strain
         BZY4(I) = -NU(I)*(PY4(I) + PYC2(I))
       ENDDO
       DO I=LFT,LLT
-        NU1 = UN-NU(I)
+        NU1 = ONE-NU(I)
         PY1(I) = PYC1(I) + NU1*(PY1(I) - PYC1(I))
         PY2(I) = PYC2(I) + NU1*(PY2(I) - PYC2(I))
         PY3(I) =-PYC1(I) + NU1*(PY3(I) + PYC1(I))

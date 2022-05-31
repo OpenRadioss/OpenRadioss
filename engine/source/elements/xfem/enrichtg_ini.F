@@ -127,14 +127,14 @@ C--------------------------
         YL2(I)=R12(I)*RX(I)+R22(I)*RY(I)+R32(I)*RZ(I)
         XL3(I)=R11(I)*SX(I)+R21(I)*SY(I)+R31(I)*SZ(I)
         YL3(I)=R12(I)*SX(I)+R22(I)*SY(I)+R32(I)*SZ(I)
-        AREA(I)=UNDEMI*AREA(I)
+        AREA(I)=HALF*AREA(I)
       ENDDO
 C
 C     LOCAL TO CENTER OF ELEM (possible warped element)
 C
       DO I=JFT,JLT
-        LXYZ0(1)=TIERS*(XL1(I)+XL2(I)+XL3(I))
-        LXYZ0(2)=TIERS*(YL1(I)+YL2(I)+YL3(I))
+        LXYZ0(1)=THIRD*(XL1(I)+XL2(I)+XL3(I))
+        LXYZ0(2)=THIRD*(YL1(I)+YL2(I)+YL3(I))
 C
         XL1(I)=XL1(I)-LXYZ0(1)
         YL1(I)=YL1(I)-LXYZ0(2)
@@ -192,8 +192,8 @@ C
                 ENDIF
                 XIN(IED,I) = XN(P1) + BETA*(XN(P2) - XN(P1))
                 YIN(IED,I) = YN(P1) + BETA*(YN(P2) - YN(P1)) 
-                XM(IED)    = UNDEMI*(XN(p1)+XN(p2))
-                YM(IED)    = UNDEMI*(YN(p1)+YN(p2))
+                XM(IED)    = HALF*(XN(p1)+XN(p2))
+                YM(IED)    = HALF*(YN(p1)+YN(p2))
               ENDIF
             ENDDO
 C
@@ -284,9 +284,9 @@ C
               ENDIF
             ENDDO
 C
-            ISIGN1 = INT(SIGN(UN,FIT(1,I)))
-            ISIGN2 = INT(SIGN(UN,FIT(2,I)))
-            ISIGN3 = INT(SIGN(UN,FIT(3,I)))
+            ISIGN1 = INT(SIGN(ONE,FIT(1,I)))
+            ISIGN2 = INT(SIGN(ONE,FIT(2,I)))
+            ISIGN3 = INT(SIGN(ONE,FIT(3,I)))
 C
             IF (FIT(1,I) == ZERO) ISIGN1 = 0
             IF (FIT(2,I) == ZERO) ISIGN2 = 0
@@ -389,14 +389,14 @@ c--           AREA factors
               IED = CRKEDGE(ILAY)%IEDGETG(NX3,ELCRKTG)         
               X3  = XIN(IED,I)                            
               Y3  = YIN(IED,I)                            
-              AREA1 = UNDEMI*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
+              AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
               AREA1 = AREA1 / AREA(I)
               X1  = XXL(NX2,I)    
               Y1  = YYL(NX2,I)                   
               X2  = XXL(NX3,I)    
               Y2  = YYL(NX3,I)                   
-              AREA2 = UNDEMI*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
-              AREA3 = UN - AREA1 - AREA2
+              AREA2 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
+              AREA3 = ONE - AREA1 - AREA2
 c
             ELSEIF (ITRI > 0) THEN      ! sign ILEV3 = ILEV1 > 0
 c
@@ -432,14 +432,14 @@ c--           AREA factors for each phantom
               IED = CRKEDGE(ILAY)%IEDGETG(NX1,ELCRKTG)               
               X3  = XIN(IED,I)                                       
               Y3  = YIN(IED,I)                                       
-              AREA1 = UNDEMI*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
+              AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
               AREA1 = AREA1 / AREA(I)                                
               X1  = XXL(NX2,I)                                       
               Y1  = YYL(NX2,I)                                       
               X3  = XXL(NX3,I)                                       
               Y3  = YYL(NX3,I)                                       
-              AREA2 = UNDEMI*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
-              AREA3 = UN - AREA1 - AREA2                             
+              AREA2 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
+              AREA3 = ONE - AREA1 - AREA2                             
 c
             ENDIF  ! ITRI
 c

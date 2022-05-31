@@ -104,13 +104,12 @@ C     REAL ou REAL*8
      .   T21(MVSIZ),T22(MVSIZ),T23(MVSIZ),
      .   T31(MVSIZ),T32(MVSIZ),T33(MVSIZ)
       my_real
-     .   XL,YL,ZL,O6TH
+     .   XL,YL,ZL
       my_real
      .   XX,YY,ZZ,XY,XZ,YZ,RTR(6),ABC,XXYZ2,ZZXY2,YYXZ2,DETA   
       my_real
      .   OFF_L
 C-----------------------------------------------
-        O6TH=UNSIX
       OFF_L  = ZERO
 C
       DO I=LFT,LLT
@@ -148,7 +147,7 @@ C----------------------------
         X6(I)=X(1,NC6(I))
         Y6(I)=X(2,NC6(I))
         Z6(I)=X(3,NC6(I))
-        OFF(I) = MIN(UN,ABS(OFFG(I)))
+        OFF(I) = MIN(ONE,ABS(OFFG(I)))
         OFF_L  = MIN(OFF_L,OFFG(I))
       ENDDO
 C-----------
@@ -233,9 +232,9 @@ C-----------
       ENDIF
 Cqz-----------
       DO I=LFT,LLT
-        XL=O6TH*(X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I))
-        YL=O6TH*(Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I))
-        ZL=O6TH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)+Z5(I)+Z6(I))
+        XL=ONE_OVER_6*(X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I))
+        YL=ONE_OVER_6*(Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I))
+        ZL=ONE_OVER_6*(Z1(I)+Z2(I)+Z3(I)+Z4(I)+Z5(I)+Z6(I))
         X1(I)=X1(I)-XL
         Y1(I)=Y1(I)-YL
         Z1(I)=Z1(I)-ZL
@@ -277,7 +276,7 @@ C-----------
 C   X=RX' <=> X'=t(R)X chgt de base.
       IF(ISMSTR<=4.AND.JLAG>0) THEN
        DO I=LFT,LLT
-       IF(OFFG(I)>UN)THEN
+       IF(OFFG(I)>ONE)THEN
         X1(I)=SAV(I,1)
         Y1(I)=SAV(I,2)
         Z1(I)=SAV(I,3)
@@ -296,10 +295,10 @@ C   X=RX' <=> X'=t(R)X chgt de base.
         X6(I)=ZERO
         Y6(I)=ZERO
         Z6(I)=ZERO
-        OFF(I) = OFFG(I) -UN
-        XL=O6TH*(X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I))
-        YL=O6TH*(Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I))
-        ZL=O6TH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)+Z5(I)+Z6(I))
+        OFF(I) = OFFG(I) -ONE
+        XL=ONE_OVER_6*(X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I))
+        YL=ONE_OVER_6*(Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I))
+        ZL=ONE_OVER_6*(Z1(I)+Z2(I)+Z3(I)+Z4(I)+Z5(I)+Z6(I))
         X1(I)=X1(I)-XL
         Y1(I)=Y1(I)-YL
         Z1(I)=Z1(I)-ZL
@@ -404,7 +403,7 @@ Cqz        ZL=R13(I)*X6(I)+R23(I)*Y6(I)+R33(I)*Z6(I)
         X6(I)=XL
         Y6(I)=YL
         Z6(I)=-Z3(I)
-        OFF(I) = MIN(UN,OFFG(I))
+        OFF(I) = MIN(ONE,OFFG(I))
        ENDDO
 C
        ENDIF
@@ -458,11 +457,11 @@ C
         XXYZ2 = RTR(1)*RTR(6)*RTR(6)
         YYXZ2 = RTR(2)*RTR(5)*RTR(5)
         ZZXY2 = RTR(3)*RTR(4)*RTR(4)
-        DETA = ABC + DEUX*RTR(4)*RTR(5)*RTR(6)-XXYZ2-YYXZ2-ZZXY2
+        DETA = ABC + TWO*RTR(4)*RTR(5)*RTR(6)-XXYZ2-YYXZ2-ZZXY2
         IF (DETA.LT.EM20) THEN
-          DETA=UN
+          DETA=ONE
         ELSE
-         DETA=UN/DETA
+         DETA=ONE/DETA
         ENDIF
         DI(I,1) = (ABC-XXYZ2)*DETA/RTR(1)
         DI(I,2) = (ABC-YYXZ2)*DETA/RTR(2)
@@ -612,7 +611,7 @@ C-----------------------------------------------
       INTEGER I      
 C=======================================================================
         DO I=LFT,LLT
-          IF(ABS(OFFG(I)) <= UN )THEN
+          IF(ABS(OFFG(I)) <= ONE )THEN
            SAV(I,1)=XD1(I)-XD6(I)
            SAV(I,2)=YD1(I)-YD6(I)
            SAV(I,3)=ZD1(I)-ZD6(I)

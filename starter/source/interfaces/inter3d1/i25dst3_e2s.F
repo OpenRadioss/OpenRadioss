@@ -172,26 +172,26 @@ C
           DET = MAX(EM20,DET)
 C
           H1M(EJ,I) = (XAA*XSM-XBB*XS2(EJ,I)) / DET
-          IF(H1M(EJ,I) < -EM03 .OR. H1M(EJ,I) > UNP03) THEN
+          IF(H1M(EJ,I) < -EM03 .OR. H1M(EJ,I) > ONEP03) THEN
             PENE(EJ,I)=ZERO
             CYCLE  ! no contact
           END IF
 C
           XS2(EJ,I) = MAX(XS2(EJ,I),EM20)
           XM2(EJ,I) = MAX(XM2(EJ,I),EM20)
-          H1M(EJ,I)=MIN(UN,MAX(ZERO,H1M(EJ,I)))
+          H1M(EJ,I)=MIN(ONE,MAX(ZERO,H1M(EJ,I)))
           H1S(EJ,I) = -(XAA + H1M(EJ,I)*XSM) / XS2(EJ,I)
-          IF(H1S(EJ,I) < -EM03 .OR. H1S(EJ,I) > UNP03) THEN
+          IF(H1S(EJ,I) < -EM03 .OR. H1S(EJ,I) > ONEP03) THEN
             PENE(EJ,I)=ZERO
             CYCLE  ! no contact
           END IF
 
-          H1S(EJ,I)=MIN(UN,MAX(ZERO,H1S(EJ,I)))
+          H1S(EJ,I)=MIN(ONE,MAX(ZERO,H1S(EJ,I)))
           H1M(EJ,I) = -(XBB + H1S(EJ,I)*XSM) / XM2(EJ,I)
-          H1M(EJ,I)=MIN(UN,MAX(ZERO,H1M(EJ,I)))
+          H1M(EJ,I)=MIN(ONE,MAX(ZERO,H1M(EJ,I)))
 
-          H2S(EJ,I) = UN -H1S(EJ,I)
-          H2M(EJ,I) = UN -H1M(EJ,I)
+          H2S(EJ,I) = ONE -H1S(EJ,I)
+          H2M(EJ,I) = ONE -H1M(EJ,I)
 C !!!!!!!!!!!!!!!!!!!!!!!!!!
 C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
 C!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -311,7 +311,7 @@ C Exclusions :
               PENE(EJ,I)=ZERO 
             ENDIF
 
-            IF(ABS(P1) <= UNCINQ*NNNN .OR. ABS(P2) <= UNCINQ*NNNN) THEN ! Tolerance 80deg
+            IF(ABS(P1) <= ONE_FIFTH*NNNN .OR. ABS(P2) <= ONE_FIFTH*NNNN) THEN ! Tolerance 80deg
               PENE(EJ,I)=ZERO 
               CYCLE  ! no contact
             ENDIF
@@ -367,9 +367,9 @@ C
           ZA4(I)=X(3,IX4(I))
 C
           IF(IX3(I).NE.IX4(I))THEN
-           XA0(I) = QUART*(XA1(I)+XA2(I)+XA3(I)+XA4(I))
-           YA0(I) = QUART*(YA1(I)+YA2(I)+YA3(I)+YA4(I))
-           ZA0(I) = QUART*(ZA1(I)+ZA2(I)+ZA3(I)+ZA4(I)) 
+           XA0(I) = FOURTH*(XA1(I)+XA2(I)+XA3(I)+XA4(I))
+           YA0(I) = FOURTH*(YA1(I)+YA2(I)+YA3(I)+YA4(I))
+           ZA0(I) = FOURTH*(ZA1(I)+ZA2(I)+ZA3(I)+ZA4(I)) 
           ELSE
            XA0(I) = XA3(I)
            YA0(I) = YA3(I)
@@ -402,9 +402,9 @@ C
 C
 C         Normal to neighboring segment (cf F == Bisector)
           PS=XNA(I,1)*FX(I)+YNA(I,1)*FY(I)+ZNA(I,1)*FZ(I)
-          XNB(I,1) = -XNA(I,1)+DEUX*PS*FX(I)
-          YNB(I,1) = -YNA(I,1)+DEUX*PS*FY(I)
-          ZNB(I,1) = -ZNA(I,1)+DEUX*PS*FZ(I)
+          XNB(I,1) = -XNA(I,1)+TWO*PS*FX(I)
+          YNB(I,1) = -YNA(I,1)+TWO*PS*FY(I)
+          ZNB(I,1) = -ZNA(I,1)+TWO*PS*FZ(I)
 C
         ENDDO
 
@@ -443,7 +443,7 @@ C---------------------------------------
 C
         ENDDO
 C---------------------------------------
-        LBA(1:JLT,1:4) = -UN ! cf test LBA, LCA
+        LBA(1:JLT,1:4) = -ONE ! cf test LBA, LCA
         LCA(1:JLT,1:4) = ZERO
 C---------------------------------------
 C       Extraction des coordonnees et pre-filtrage des candidats vs diedre main
@@ -477,9 +477,9 @@ C
           ZA(4,I)=X(3,IX4(I))
 
           IF(IX3(I).NE.IX4(I))THEN
-            XA(5,I) = QUART*(XA(1,I)+XA(2,I)+XA(3,I)+XA(4,I))
-            YA(5,I) = QUART*(YA(1,I)+YA(2,I)+YA(3,I)+YA(4,I))
-            ZA(5,I) = QUART*(ZA(1,I)+ZA(2,I)+ZA(3,I)+ZA(4,I)) 
+            XA(5,I) = FOURTH*(XA(1,I)+XA(2,I)+XA(3,I)+XA(4,I))
+            YA(5,I) = FOURTH*(YA(1,I)+YA(2,I)+YA(3,I)+YA(4,I))
+            ZA(5,I) = FOURTH*(ZA(1,I)+ZA(2,I)+ZA(3,I)+ZA(4,I)) 
           ELSE
             XA(5,I) = XA(3,I)
             YA(5,I) = YA(3,I)
@@ -574,9 +574,9 @@ C
 C
 C           Normal to neighboring segment (cf E == Bisector)
             PS=XNA(I,EJ)*EX(EJ,I)+YNA(I,EJ)*EY(EJ,I)+ZNA(I,EJ)*EZ(EJ,I)
-            XNB(I,EJ) = -XNA(I,EJ)+DEUX*PS*EX(EJ,I)
-            YNB(I,EJ) = -YNA(I,EJ)+DEUX*PS*EY(EJ,I)
-            ZNB(I,EJ) = -ZNA(I,EJ)+DEUX*PS*EZ(EJ,I)
+            XNB(I,EJ) = -XNA(I,EJ)+TWO*PS*EX(EJ,I)
+            YNB(I,EJ) = -YNA(I,EJ)+TWO*PS*EY(EJ,I)
+            ZNB(I,EJ) = -ZNA(I,EJ)+TWO*PS*EZ(EJ,I)
 C
             XS = H1S(EJ,I)*XXS1(I)    + H2S(EJ,I)*XXS2(I)
             YS = H1S(EJ,I)*XYS1(I)    + H2S(EJ,I)*XYS2(I)
@@ -665,9 +665,9 @@ C         On traite y-compris le cas ou S1 ou S2 sont exactement sur la surface
 C         (en dehors du 3eme point du triangle, que l'on peut rater)
           IF(DA1*DA2 <= ZERO)THEN
             ALP=-DA2/SIGN(MAX(EM20,ABS(DA1-DA2)),DA1-DA2)
-            XXS=ALP*XXS1(I)+(UN-ALP)*XXS2(I)
-            XYS=ALP*XYS1(I)+(UN-ALP)*XYS2(I)
-            XZS=ALP*XZS1(I)+(UN-ALP)*XZS2(I)
+            XXS=ALP*XXS1(I)+(ONE-ALP)*XXS2(I)
+            XYS=ALP*XYS1(I)+(ONE-ALP)*XYS2(I)
+            XZS=ALP*XZS1(I)+(ONE-ALP)*XZS2(I)
 
             XI0 = XA(5,I) - XXS
             YI0 = YA(5,I) - XYS
@@ -689,12 +689,12 @@ C
             SY2 = ZI0*XI2 - XI0*ZI2
             SZ2 = XI0*YI2 - YI0*XI2
 C
-            AAA=UN/MAX(EM30,XNA(I,1)*XNA(I,1)+YNA(I,1)*YNA(I,1)+ZNA(I,1)*ZNA(I,1))
+            AAA=ONE/MAX(EM30,XNA(I,1)*XNA(I,1)+YNA(I,1)*YNA(I,1)+ZNA(I,1)*ZNA(I,1))
             LBA(I,1) = -(-(XNA(I,1)*SX2 + YNA(I,1)*SY2 + ZNA(I,1)*SZ2))*AAA
             LCA(I,1) = -( (XNA(I,1)*SX1 + YNA(I,1)*SY1 + ZNA(I,1)*SZ1))*AAA
 C
 C         ELSE
-C           LBA(I,1) = -UN
+C           LBA(I,1) = -ONE
 C           LCA(I,1) = ZERO
           END IF
 C
@@ -711,9 +711,9 @@ C         On traite y-compris le cas ou S1 ou S2 sont exactement sur la surface
 C         (en dehors du 3eme point du triangle, que l'on peut rater)
           IF(DA1*DA2 <= ZERO)THEN
             ALP=-DA2/SIGN(MAX(EM20,ABS(DA1-DA2)),DA1-DA2)
-            XXS=ALP*XXS1(I)+(UN-ALP)*XXS2(I)
-            XYS=ALP*XYS1(I)+(UN-ALP)*XYS2(I)
-            XZS=ALP*XZS1(I)+(UN-ALP)*XZS2(I)
+            XXS=ALP*XXS1(I)+(ONE-ALP)*XXS2(I)
+            XYS=ALP*XYS1(I)+(ONE-ALP)*XYS2(I)
+            XZS=ALP*XZS1(I)+(ONE-ALP)*XZS2(I)
 
             XI0 = XA(5,I) - XXS
             YI0 = YA(5,I) - XYS
@@ -735,12 +735,12 @@ C
             SY2 = ZI0*XI2 - XI0*ZI2
             SZ2 = XI0*YI2 - YI0*XI2
 C
-            AAA=UN/MAX(EM30,XNA(I,2)*XNA(I,2)+YNA(I,2)*YNA(I,2)+ZNA(I,2)*ZNA(I,2))
+            AAA=ONE/MAX(EM30,XNA(I,2)*XNA(I,2)+YNA(I,2)*YNA(I,2)+ZNA(I,2)*ZNA(I,2))
             LBA(I,2) = -(-(XNA(I,2)*SX2 + YNA(I,2)*SY2 + ZNA(I,2)*SZ2))*AAA
             LCA(I,2) = -( (XNA(I,2)*SX1 + YNA(I,2)*SY1 + ZNA(I,2)*SZ1))*AAA
 C
 C	  ELSE
-C	    LBA(I,2) = -UN
+C	    LBA(I,2) = -ONE
 C	    LCA(I,2) = ZERO
           END IF
 C
@@ -757,9 +757,9 @@ C         On traite y-compris le cas ou S1 ou S2 sont exactement sur la surface
 C         (en dehors du 3eme point du triangle, que l'on peut rater)
           IF(DA1*DA2 <= ZERO)THEN
             ALP=-DA2/SIGN(MAX(EM20,ABS(DA1-DA2)),DA1-DA2)
-            XXS=ALP*XXS1(I)+(UN-ALP)*XXS2(I)
-            XYS=ALP*XYS1(I)+(UN-ALP)*XYS2(I)
-            XZS=ALP*XZS1(I)+(UN-ALP)*XZS2(I)
+            XXS=ALP*XXS1(I)+(ONE-ALP)*XXS2(I)
+            XYS=ALP*XYS1(I)+(ONE-ALP)*XYS2(I)
+            XZS=ALP*XZS1(I)+(ONE-ALP)*XZS2(I)
 
             XI0 = XA(5,I) - XXS
             YI0 = YA(5,I) - XYS
@@ -781,12 +781,12 @@ C
             SY2 = ZI0*XI2 - XI0*ZI2
             SZ2 = XI0*YI2 - YI0*XI2
 C
-            AAA=UN/MAX(EM30,XNA(I,3)*XNA(I,3)+YNA(I,3)*YNA(I,3)+ZNA(I,3)*ZNA(I,3))
+            AAA=ONE/MAX(EM30,XNA(I,3)*XNA(I,3)+YNA(I,3)*YNA(I,3)+ZNA(I,3)*ZNA(I,3))
             LBA(I,3) = -(-(XNA(I,3)*SX2 + YNA(I,3)*SY2 + ZNA(I,3)*SZ2))*AAA
             LCA(I,3) = -( (XNA(I,3)*SX1 + YNA(I,3)*SY1 + ZNA(I,3)*SZ1))*AAA
 C
 C	  ELSE
-C	    LBA(I,3) = -UN
+C	    LBA(I,3) = -ONE
 C	    LCA(I,3) = ZERO
           END IF
 C
@@ -803,9 +803,9 @@ C         On traite y-compris le cas ou S1 ou S2 sont exactement sur la surface
 C         (en dehors du 3eme point du triangle, que l'on peut rater)
           IF(DA1*DA2 <= ZERO)THEN
             ALP=-DA2/SIGN(MAX(EM20,ABS(DA1-DA2)),DA1-DA2)
-            XXS=ALP*XXS1(I)+(UN-ALP)*XXS2(I)
-            XYS=ALP*XYS1(I)+(UN-ALP)*XYS2(I)
-            XZS=ALP*XZS1(I)+(UN-ALP)*XZS2(I)
+            XXS=ALP*XXS1(I)+(ONE-ALP)*XXS2(I)
+            XYS=ALP*XYS1(I)+(ONE-ALP)*XYS2(I)
+            XZS=ALP*XZS1(I)+(ONE-ALP)*XZS2(I)
 
             XI0 = XA(5,I) - XXS
             YI0 = YA(5,I) - XYS
@@ -827,12 +827,12 @@ C
             SY2 = ZI0*XI2 - XI0*ZI2
             SZ2 = XI0*YI2 - YI0*XI2
 C
-            AAA=UN/MAX(EM30,XNA(I,4)*XNA(I,4)+YNA(I,4)*YNA(I,4)+ZNA(I,4)*ZNA(I,4))
+            AAA=ONE/MAX(EM30,XNA(I,4)*XNA(I,4)+YNA(I,4)*YNA(I,4)+ZNA(I,4)*ZNA(I,4))
             LBA(I,4) = -(-(XNA(I,4)*SX2 + YNA(I,4)*SY2 + ZNA(I,4)*SZ2))*AAA
             LCA(I,4) = -( (XNA(I,4)*SX1 + YNA(I,4)*SY1 + ZNA(I,4)*SZ1))*AAA
 C
 C	  ELSE
-C	    LBA(I,4) = -UN
+C	    LBA(I,4) = -ONE
 C	    LCA(I,4) = ZERO
           END IF
 C
@@ -847,13 +847,13 @@ C
 C---------------------------------------
 C         Solid on main side !
 C---------------------------------------
-          IF(LBA(I,1) < -EM02 .OR. LCA(I,1) < -EM02 .OR. LBA(I,1)+LCA(I,1) > UNP02)
+          IF(LBA(I,1) < -EM02 .OR. LCA(I,1) < -EM02 .OR. LBA(I,1)+LCA(I,1) > ONEP02)
      .      PENE(1,I)=ZERO
-          IF(LBA(I,2) < -EM02 .OR. LCA(I,2) < -EM02 .OR. LBA(I,2)+LCA(I,2) > UNP02)
+          IF(LBA(I,2) < -EM02 .OR. LCA(I,2) < -EM02 .OR. LBA(I,2)+LCA(I,2) > ONEP02)
      .      PENE(2,I)=ZERO
-          IF(LBA(I,3) < -EM02 .OR. LCA(I,3) < -EM02 .OR. LBA(I,3)+LCA(I,3) > UNP02)
+          IF(LBA(I,3) < -EM02 .OR. LCA(I,3) < -EM02 .OR. LBA(I,3)+LCA(I,3) > ONEP02)
      .      PENE(3,I)=ZERO
-          IF(LBA(I,4) < -EM02 .OR. LCA(I,4) < -EM02 .OR. LBA(I,4)+LCA(I,4) > UNP02)
+          IF(LBA(I,4) < -EM02 .OR. LCA(I,4) < -EM02 .OR. LBA(I,4)+LCA(I,4) > ONEP02)
      .      PENE(4,I)=ZERO
         ENDDO
 

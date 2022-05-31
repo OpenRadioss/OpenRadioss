@@ -107,19 +107,19 @@ c       Damage evolution depending on EPS_F_i/EPS_i
 c
         HH1  = MAX(CRAK(I,1),EM20)
         IF (EPS_F(I,1).GT.ZERO) THEN
-          DE1(I) = QQ * (UN- EPS_F(I,1)/HH1 )
+          DE1(I) = QQ * (ONE- EPS_F(I,1)/HH1 )
         ELSE
           DE1(I) = ZERO
         ENDIF
         HH2  = MAX(CRAK(I,2),EM20)
         IF (EPS_F(I,2).GT.ZERO) THEN
-          DE2(I) = QQ * (UN- EPS_F(I,2)/HH2 )
+          DE2(I) = QQ * (ONE- EPS_F(I,2)/HH2 )
         ELSE
           DE2(I) = ZERO
         ENDIF
         HH3  = MAX(CRAK(I,3),EM20)
         IF (EPS_F(I,3).GT.ZERO) THEN
-          DE3(I) = QQ * (UN - EPS_F(I,3)/HH3 )
+          DE3(I) = QQ * (ONE - EPS_F(I,3)/HH3 )
         ELSE
           DE3(I) = ZERO
         ENDIF
@@ -133,27 +133,27 @@ c
         DAM(I,2) = MAX(DE2(I),DAM(I,2))
         DAM(I,3) = MAX(DE3(I),DAM(I,3))
 c
-        DE1(I)  = UN - MAX( ZERO , SIGN(DAM(I,1),CRAK(I,1)) )
-        DE2(I)  = UN - MAX( ZERO , SIGN(DAM(I,2),CRAK(I,2)) )
-        DE3(I)  = UN - MAX( ZERO , SIGN(DAM(I,3),CRAK(I,3)) )
-        SCAL1(I)= UNDEMI + SIGN(UNDEMI,DE1(I)-UN)
-        SCAL2(I)= UNDEMI + SIGN(UNDEMI,DE2(I)-UN)
-        SCAL3(I)= UNDEMI + SIGN(UNDEMI,DE3(I)-UN)    
+        DE1(I)  = ONE - MAX( ZERO , SIGN(DAM(I,1),CRAK(I,1)) )
+        DE2(I)  = ONE - MAX( ZERO , SIGN(DAM(I,2),CRAK(I,2)) )
+        DE3(I)  = ONE - MAX( ZERO , SIGN(DAM(I,3),CRAK(I,3)) )
+        SCAL1(I)= HALF + SIGN(HALF,DE1(I)-ONE)
+        SCAL2(I)= HALF + SIGN(HALF,DE2(I)-ONE)
+        SCAL3(I)= HALF + SIGN(HALF,DE3(I)-ONE)    
         DE4(I)  = SCAL1(I)*SCAL2(I)
         DE5(I)  = SCAL2(I)*SCAL3(I)
         DE6(I)  = SCAL3(I)*SCAL1(I)
 c
 c       NOUVELLE MATRICE ELASTIQUE DE HOOKE ENDOMMAGEE
 c
-        DEN = UN - NU**2 *(DE4(I) + DE5(I) + DE6(I)
-     .      + DEUX*NU*SCAL1(I)*SCAL2(I)*SCAL3(I))
+        DEN = ONE - NU**2 *(DE4(I) + DE5(I) + DE6(I)
+     .      + TWO*NU*SCAL1(I)*SCAL2(I)*SCAL3(I))
 C
-        CDAM(I,1,1) = YOUNG*DE1(I)*(UN - NU**2*DE5(I))/DEN
-        CDAM(I,2,2) = YOUNG*DE2(I)*(UN - NU**2*DE6(I))/DEN
-        CDAM(I,3,3) = YOUNG*DE3(I)*(UN - NU**2*DE4(I))/DEN
-        CDAM(I,1,2) = NU*YOUNG*DE4(I) *(UN + NU*SCAL3(I))/DEN
-        CDAM(I,1,3) = NU*YOUNG*DE6(I) *(UN + NU*SCAL2(I))/DEN
-        CDAM(I,2,3) = NU*YOUNG*DE5(I) *(UN + NU*SCAL1(I))/DEN
+        CDAM(I,1,1) = YOUNG*DE1(I)*(ONE - NU**2*DE5(I))/DEN
+        CDAM(I,2,2) = YOUNG*DE2(I)*(ONE - NU**2*DE6(I))/DEN
+        CDAM(I,3,3) = YOUNG*DE3(I)*(ONE - NU**2*DE4(I))/DEN
+        CDAM(I,1,2) = NU*YOUNG*DE4(I) *(ONE + NU*SCAL3(I))/DEN
+        CDAM(I,1,3) = NU*YOUNG*DE6(I) *(ONE + NU*SCAL2(I))/DEN
+        CDAM(I,2,3) = NU*YOUNG*DE5(I) *(ONE + NU*SCAL1(I))/DEN
         CDAM(I,2,1) = CDAM(I,1,2)
         CDAM(I,3,1) = CDAM(I,1,3)
         CDAM(I,3,2) = CDAM(I,2,3)
@@ -208,15 +208,15 @@ c--------------------
         CRAK(I,1) = CRAK(I,1)/YOUNG
         CRAK(I,2) = CRAK(I,2)/YOUNG
         CRAK(I,3) = CRAK(I,3)/YOUNG
-        SCAL1(I)  = UN
-        SCAL2(I)  = UN
-        SCAL3(I)  = UN
-        DE4(I) = UN   
-        DE5(I) = UN   
-        DE6(I) = UN   
-        DE1(I) = UN   
-        DE2(I) = UN   
-        DE3(I) = UN   
+        SCAL1(I)  = ONE
+        SCAL2(I)  = ONE
+        SCAL3(I)  = ONE
+        DE4(I) = ONE   
+        DE5(I) = ONE   
+        DE6(I) = ONE   
+        DE1(I) = ONE   
+        DE2(I) = ONE   
+        DE3(I) = ONE   
       ENDDO
 c-----------
       RETURN

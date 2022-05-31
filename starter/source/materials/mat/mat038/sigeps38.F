@@ -143,7 +143,7 @@ C     REAL ou REAL*8
      .   V12(MVSIZ),V23(MVSIZ),V31(MVSIZ),
      .   D11(MVSIZ),D12(MVSIZ),D44(MVSIZ),
      .   EMAX(MVSIZ),EYN(MVSIZ,3),
-     .   ONE,TWO,HUGE,SMALL,TINY,SHIFT,PSCALE   
+     .   HUGE,SMALL,TINY,SHIFT,PSCALE   
 c     .  ESECANT(MVSIZ,3),ETANGENT(MVSIZ,3),EELASTIC(MVSIZ,3),
       my_real 
      .   AR1(6),DAR1(6),AR2(6),DAR2(6),DAR3(3),EARJD(3),
@@ -151,8 +151,6 @@ c     .  ESECANT(MVSIZ,3),ETANGENT(MVSIZ,3),EELASTIC(MVSIZ,3),
      .   AA(MVSIZ),SIGMAX(MVSIZ),ESECANT(MVSIZ,3),
      .   TMP0P,TMP1P,TMP2P,TMP3P,TMP4P,TMP5P,TMP6P, DTI
 C=======================================================================
-      ONE = UN
-      TWO = DEUX
       HUGE = EP30
       SMALL= EM3
       TINY = EM30   
@@ -296,16 +294,16 @@ C PRINCIPAL STRAINS FORMULATION
             AV(1,I)=EPSXX(I)
             AV(2,I)=EPSYY(I)
             AV(3,I)=EPSZZ(I)
-            AV(4,I)=EPSXY(I)*UNDEMI
-            AV(5,I)=EPSYZ(I)*UNDEMI
-            AV(6,I)=EPSZX(I)*UNDEMI    
+            AV(4,I)=EPSXY(I)*HALF
+            AV(5,I)=EPSYZ(I)*HALF
+            AV(6,I)=EPSZX(I)*HALF    
           ELSE
             AV(1,I)=DEPSXX(I)
             AV(2,I)=DEPSYY(I)
             AV(3,I)=DEPSZZ(I)
-            AV(4,I)=DEPSXY(I)*UNDEMI
-            AV(5,I)=DEPSYZ(I)*UNDEMI
-            AV(6,I)=DEPSZX(I)*UNDEMI        
+            AV(4,I)=DEPSXY(I)*HALF
+            AV(5,I)=DEPSYZ(I)*HALF
+            AV(6,I)=DEPSZX(I)*HALF        
           ENDIF
         ENDDO
         IF(JACOBI) THEN
@@ -976,9 +974,9 @@ Cqz option cachee +++
       ENDIF 
 Cqz option cachee ---
       DO I=1,NEL
-        KKK=EMAX(I)/(TROIS*(UN-DEUX*MAX(VC,VT)))
-        GGG=EMAX(I)/(DEUX*(UN+MAX(VC,VT)))
-        SOUNDSP(I)=SQRT((KKK+QTIERS*GGG)/RHO0(I))
+        KKK=EMAX(I)/(THREE*(ONE-TWO*MAX(VC,VT)))
+        GGG=EMAX(I)/(TWO*(ONE+MAX(VC,VT)))
+        SOUNDSP(I)=SQRT((KKK+FOUR_OVER_3*GGG)/RHO0(I))
         VISCMAX(I)=MAX(VISC(I,1),VISC(I,2),VISC(I,3))
       ENDDO
 
@@ -996,14 +994,11 @@ Chd|====================================================================
 C----------------------------------------------------------------
       IMPLICIT NONE
 #include      "constant.inc"   
-      my_real ONE
-
       my_real
      . TRAN1(3,3),TRAN2(3,3),ANG(3),AMAX,TOL,AMIN
       INTEGER I,J,K
       LOGICAL UNCHANGED
 C----------------------------------------------------------------
-      ONE = UN
       AMAX=ZERO
       UNCHANGED=.FALSE.
       DO J=1,3

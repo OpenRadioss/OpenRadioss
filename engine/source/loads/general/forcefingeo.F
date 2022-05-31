@@ -132,7 +132,7 @@ C
         AA = FACY*F2
 C
         IF(N2D.NE.1)THEN
-         AXI=UN
+         AXI=ONE
         ELSE
          AXI=X(2,N2)
         ENDIF
@@ -160,7 +160,7 @@ C
           FEXT(2,N2) = FEXT(2,N2)+SKEW2*AA
           FEXT(3,N2) = FEXT(3,N2)+SKEW3*AA
         ENDIF
-        TFEXTT = TFEXTT + DT1*UNDEMI*(A0+AA)*VV*AXI
+        TFEXTT = TFEXTT + DT1*HALF*(A0+AA)*VV*AXI
       ENDDO
 C
 #include "atomic.inc"

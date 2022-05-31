@@ -184,7 +184,7 @@ C---
         IF(KEY(1:4).EQ.'GEAR') THEN
           JTYP = 1
           N3 = 0
-          R3(1) = UN
+          R3(1) = ONE
           R3(2) = ZERO
           R3(3) = ZERO
         ELSEIF(KEY(1:4).EQ.'DIFF') THEN
@@ -197,7 +197,7 @@ C---
         ELSEIF(KEY(1:4).EQ.'RACK') THEN
           JTYP = 3
           N3 = 0
-          R3(1) = UN
+          R3(1) = ONE
           R3(2) = ZERO
           R3(3) = ZERO
 
@@ -205,9 +205,9 @@ C---
 c         unknown type
         ENDIF  
 C------         
-        L1 = UN/SQRT(R1(1)*R1(1)+R1(2)*R1(2)+R1(3)*R1(3))
-        L2 = UN/SQRT(R2(1)*R2(1)+R2(2)*R2(2)+R2(3)*R2(3))
-        L3 = UN/SQRT(R3(1)*R3(1)+R3(2)*R3(2)+R3(3)*R3(3))
+        L1 = ONE/SQRT(R1(1)*R1(1)+R1(2)*R1(2)+R1(3)*R1(3))
+        L2 = ONE/SQRT(R2(1)*R2(1)+R2(2)*R2(2)+R2(3)*R2(3))
+        L3 = ONE/SQRT(R3(1)*R3(1)+R3(2)*R3(2)+R3(3)*R3(3))
 
         DO J = 1,3
           R1(J) = R1(J)*L1
@@ -221,16 +221,16 @@ C------
         GJBUFI(5,I) = N2
         GJBUFI(6,I) = N3
 C
-        GJBUFR( 1,I) = UN/ALPHA 
-        GJBUFR( 2,I) = UN
+        GJBUFR( 1,I) = ONE/ALPHA 
+        GJBUFR( 2,I) = ONE
         GJBUFR( 3,I) = ZERO
         GJBUFR( 4,I) = ZERO
         GJBUFR( 5,I) = ZERO
-        GJBUFR( 6,I) = UN
+        GJBUFR( 6,I) = ONE
         GJBUFR( 7,I) = ZERO
         GJBUFR( 8,I) = ZERO
         GJBUFR( 9,I) = ZERO
-        GJBUFR(10,I) = UN
+        GJBUFR(10,I) = ONE
         GJBUFR(11,I) = R1(1)
         GJBUFR(12,I) = R1(2)
         GJBUFR(13,I) = R1(3)

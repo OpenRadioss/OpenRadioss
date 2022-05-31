@@ -184,11 +184,11 @@ c              N3=NB12+I-1
               WWA(10)= GBUF%QVIS(I)
               WWA(11)= GBUF%VOL(I)
               IF (ISORTH == 0) THEN
-                GAMA(1)=UN
+                GAMA(1)=ONE
                 GAMA(2)=ZERO
                 GAMA(3)=ZERO
                 GAMA(4)=ZERO
-                GAMA(5)=UN
+                GAMA(5)=ONE
                 GAMA(6)=ZERO
               ELSE
                 GAMA(1)=GBUF%GAMA(KK(1) + I)
@@ -401,7 +401,7 @@ c EPS
                  LBUF1 =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)        
                  EVAR(1) = EVAR(1) + LBUF1%STRA(KK(1) + I)/NPT
                  EVAR(2) = EVAR(2) + LBUF1%STRA(KK(2) + I)/NPT
-                 EVAR(4) = EVAR(4) + LBUF1%STRA(KK(4) + I)*UNDEMI/NPT
+                 EVAR(4) = EVAR(4) + LBUF1%STRA(KK(4) + I)*HALF/NPT
                 ENDDO
               ENDDO
 
@@ -483,18 +483,18 @@ c                  !ale
                      TMP(1,1:4)=V(1,IXQ(2:5,N))-W(1,IXQ(2:5,N))
                      TMP(2,1:4)=V(2,IXQ(2:5,N))-W(2,IXQ(2:5,N))
                      TMP(3,1:4)=V(3,IXQ(2:5,N))-W(3,IXQ(2:5,N))                                    
-                     VEL(1) = SUM(TMP(1,1:4))*QUART
-                     VEL(2) = SUM(TMP(2,1:4))*QUART
-                     VEL(3) = SUM(TMP(3,1:4))*QUART
+                     VEL(1) = SUM(TMP(1,1:4))*FOURTH
+                     VEL(2) = SUM(TMP(2,1:4))*FOURTH
+                     VEL(3) = SUM(TMP(3,1:4))*FOURTH
                      WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I) 
                     ELSE
                     !euler and lagrange                                                                           
                      TMP(1,1:4)=V(1,IXQ(2:5,N))                                                    
                      TMP(2,1:4)=V(2,IXQ(2:5,N))                                                    
                      TMP(3,1:4)=V(3,IXQ(2:5,N))                                                    
-                     VEL(1) = SUM(TMP(1,1:4))*QUART                                                       
-                     VEL(2) = SUM(TMP(2,1:4))*QUART                                                       
-                     VEL(3) = SUM(TMP(3,1:4))*QUART                                          
+                     VEL(1) = SUM(TMP(1,1:4))*FOURTH                                                       
+                     VEL(2) = SUM(TMP(2,1:4))*FOURTH                                                       
+                     VEL(3) = SUM(TMP(3,1:4))*FOURTH                                          
                      WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I) 
                   ENDIF
                 ENDIF
@@ -507,18 +507,18 @@ C SSP
                      TMP(1,1:3)=V(1,IXTG(2:4,N))-W(1,IXTG(2:4,N))
                      TMP(2,1:3)=V(2,IXTG(2:4,N))-W(2,IXTG(2:4,N))
                      TMP(3,1:3)=V(3,IXTG(2:4,N))-W(3,IXTG(2:4,N))                                    
-                     VEL(1) = SUM(TMP(1,1:3))*TIERS
-                     VEL(2) = SUM(TMP(2,1:3))*TIERS
-                     VEL(3) = SUM(TMP(3,1:3))*TIERS
+                     VEL(1) = SUM(TMP(1,1:3))*THIRD
+                     VEL(2) = SUM(TMP(2,1:3))*THIRD
+                     VEL(3) = SUM(TMP(3,1:3))*THIRD
                      WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I) 
                     ELSE
                     !euler and lagrange                                                                           
                      TMP(1,1:3)=V(1,IXTG(2:4,N))
                      TMP(2,1:3)=V(2,IXTG(2:4,N))
                      TMP(3,1:3)=V(3,IXTG(2:4,N))
-                     VEL(1) = SUM(TMP(1,1:3))*TIERS
-                     VEL(2) = SUM(TMP(2,1:3))*TIERS
-                     VEL(3) = SUM(TMP(3,1:3))*TIERS
+                     VEL(1) = SUM(TMP(1,1:3))*THIRD
+                     VEL(2) = SUM(TMP(2,1:3))*THIRD
+                     VEL(3) = SUM(TMP(3,1:3))*THIRD
                      WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I) 
                   ENDIF
                 ENDIF

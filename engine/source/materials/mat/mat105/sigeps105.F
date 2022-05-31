@@ -229,14 +229,14 @@ C-----------------------------------------------
         ! IGNITION FRACTION              !
         !--------------------------------!
           !--> valid for const flamme velocity
-        IF(BFRAC(I) < UN) THEN
+        IF(BFRAC(I) < ONE) THEN
          TB = - TBURN(I)
          BFRAC(I) = ZERO
-         IF(TIME > TB) BFRAC(I) = C1*(TIME-TB)*DTIERS/XL 
+         IF(TIME > TB) BFRAC(I) = C1*(TIME-TB)*TWO_THIRD/XL 
          IF(BFRAC(I) < EM04) THEN
            BFRAC(I) = ZERO
-         ELSEIF(BFRAC(I) > UN) THEN
-           BFRAC(I) = UN
+         ELSEIF(BFRAC(I) > ONE) THEN
+           BFRAC(I) = ONE
          ENDIF
         ENDIF
 
@@ -250,13 +250,13 @@ C-----------------------------------------------
         IF(BFRAC(I).LE.ZERO)THEN
           TOTAL_BFRAC = ZERO
           UVAR(I,6) = ZERO
-        ELSEIF(UVAR(I,6).NE.UN)THEN  ! F<1
+        ELSEIF(UVAR(I,6).NE.ONE)THEN  ! F<1
             PG_=PG 
-            !PG_=PG*(UN-MASS_S/VOLN(I)/RHO_S)  !effective gaz pressure Pg*(1-RHO_S_/rhop)
+            !PG_=PG*(ONE-MASS_S/VOLN(I)/RHO_S)  !effective gaz pressure Pg*(1-RHO_S_/rhop)
             BRATE       = FSCALE_B*FINTER(funcb,(PG_)/FSCALE_P,NPF,TF,DIFF)
-            DELTA_BF    = Gr*EXP(C*LOG((UN-ALPHA*UVAR(I,6))))*BRATE*TIMESTEP  !F_dot * DT           
+            DELTA_BF    = Gr*EXP(C*LOG((ONE-ALPHA*UVAR(I,6))))*BRATE*TIMESTEP  !F_dot * DT           
             UVAR(I,6)   = UVAR(I,6) + DELTA_BF  !F
-            UVAR(I,6)   = MAX(MIN(UN,UVAR(I,6)),ZERO)
+            UVAR(I,6)   = MAX(MIN(ONE,UVAR(I,6)),ZERO)
             TOTAL_BFRAC = BFRAC(I)*UVAR(I,6)
         ELSE
             ! avoid LOG(0)
@@ -267,14 +267,14 @@ C-----------------------------------------------
         !--------------------------------!
         ! EOS SOLVING                    !
         !--------------------------------!
-        MASS_S=(UN-UVAR(I,6))*UVAR(I,7)    !(1-F)*M0
+        MASS_S=(ONE-UVAR(I,6))*UVAR(I,7)    !(1-F)*M0
         MASS_G=UVAR(I,7)-MASS_S            !Mass_Gas=F(t)*Mass
         
-        RHO_S=(UN-UVAR(I,6))*RHO(I)   !MASS_S/VOLN(I)
+        RHO_S=(ONE-UVAR(I,6))*RHO(I)   !MASS_S/VOLN(I)
         RHO_G=ZERO
         
         !in case of compressible solid (linear EOS)
-        RHO_Si=RHO0(I)/compac*((UVAR(I,2)-P0)/BULK+UN)
+        RHO_Si=RHO0(I)/compac*((UVAR(I,2)-P0)/BULK+ONE)
         
         !in case of constant solid density
         !rho_si=rho0(I)/compac
@@ -290,7 +290,7 @@ C-----------------------------------------------
         
         IF(RHO_G.GT.ZERO)THEN
           SSP_G = RHO0(I)/D*Pg + EXP(RHO_G/D)* Pg / (RHO_G/RHO0(I))**2
-          SSP_G = SQRT(UN/RHO_G * SSP_G)
+          SSP_G = SQRT(ONE/RHO_G * SSP_G)
         ELSE
           SSP_G = ZERO
         ENDIF
@@ -299,8 +299,8 @@ C-----------------------------------------------
         !--------------------------------!
         ! Global Pressure & SoundSpeed   !
         !--------------------------------! 
-        SSP   = TOTAL_BFRAC*SSP_G + (UN-TOTAL_BFRAC)*SSP_S        
-        PNEW  = TOTAL_BFRAC*PG    + (UN-TOTAL_BFRAC)*PS
+        SSP   = TOTAL_BFRAC*SSP_G + (ONE-TOTAL_BFRAC)*SSP_S        
+        PNEW  = TOTAL_BFRAC*PG    + (ONE-TOTAL_BFRAC)*PS
         PNEW  = (PNEW-PSH)*OFF(I)
         !--------------------------------!
         ! Returning values               !

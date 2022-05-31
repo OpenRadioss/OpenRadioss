@@ -84,7 +84,7 @@ c
       IF (UNIT_ID > 0) THEN
         FAC_T = UNITAB%FAC_T(UNIT_ID)
       ELSE
-        FAC_T = UN
+        FAC_T = ONE
       ENDIF     
 C--------------------------------------------------
 C     check crypting
@@ -105,9 +105,9 @@ c--------------------------------------------------
 c     Default values
 c--------------------------------------------------
       IF (EPSF1 <= ZERO) EPSF1 = EP20
-      IF (EPSR1 <= ZERO) EPSR1 = EP20*DEUX
+      IF (EPSR1 <= ZERO) EPSR1 = EP20*TWO
       IF (EPSF2 <= ZERO) EPSF2 = EP20
-      IF (EPSR2 <= ZERO) EPSR2 = EP20*DEUX
+      IF (EPSR2 <= ZERO) EPSR2 = EP20*TWO
 c          
       IF (EPSF1 > EPSR1 .or. EPSF2 > EPSR2) THEN
         CALL ANCMSG(MSGID=617,

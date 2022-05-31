@@ -86,9 +86,9 @@ C-----------------------------------------------
           GAPV(I)=GAPE(IE)+GAPE(JE)
 C
           IF(IGAP0 == 0) THEN
-            GAPV(I)=DEUX*GAPE(IE)+GAPE(JE)
+            GAPV(I)=TWO*GAPE(IE)+GAPE(JE)
           ELSE
-            GAPV(I)=DEUX*(GAPE(IE)+GAPE(JE))
+            GAPV(I)=TWO*(GAPE(IE)+GAPE(JE))
           END IF
 C
           IF(IGAP == 3)
@@ -204,20 +204,20 @@ C
           ALM = (XA*XSM-XB*XS2) / DET
           XS2 = MAX(XS2,EM20)
           XM2 = MAX(XM2,EM20)
-          ALM=MIN(UN,MAX(ZERO,ALM))
+          ALM=MIN(ONE,MAX(ZERO,ALM))
           ALS = -(XA + ALM*XSM) / XS2
-          ALS=MIN(UN,MAX(ZERO,ALS))
+          ALS=MIN(ONE,MAX(ZERO,ALS))
           ALM = -(XB + ALS*XSM) / XM2
-          ALM=MIN(UN,MAX(ZERO,ALM))
+          ALM=MIN(ONE,MAX(ZERO,ALM))
 
 C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
 
-          XX =  ALS*XXS1(I) + (UN-ALS)*XXS2(I)
-     .        - ALM*XXM1(I) - (UN-ALM)*XXM2(I)
-          YY =  ALS*XYS1(I) + (UN-ALS)*XYS2(I)
-     .        - ALM*XYM1(I) - (UN-ALM)*XYM2(I)
-          ZZ =  ALS*XZS1(I) + (UN-ALS)*XZS2(I)
-     .        - ALM*XZM1(I) - (UN-ALM)*XZM2(I)
+          XX =  ALS*XXS1(I) + (ONE-ALS)*XXS2(I)
+     .        - ALM*XXM1(I) - (ONE-ALM)*XXM2(I)
+          YY =  ALS*XYS1(I) + (ONE-ALS)*XYS2(I)
+     .        - ALM*XYM1(I) - (ONE-ALM)*XYM2(I)
+          ZZ =  ALS*XZS1(I) + (ONE-ALS)*XZS2(I)
+     .        - ALM*XZM1(I) - (ONE-ALM)*XZM2(I)
 
           GAP2=GAPV(I)*GAPV(I)
           PENE(I) = MAX(ZERO,GAP2- XX*XX - YY*YY - ZZ*ZZ)

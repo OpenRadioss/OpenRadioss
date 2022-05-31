@@ -143,11 +143,11 @@ c-------------------------------------------------------------------------------
 c     DEFAULT VALUES
 c--------------------------------------------------
 c     GEORED should be initialized in fail_windshield_init depending of element type
-      GEORED = UN / SQRT(PI)  ! here adjusted for underintegrated 4N shells only
+      GEORED = ONE / SQRT(PI)  ! here adjusted for underintegrated 4N shells only
 c
       IF (RLEN == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Rlen' ,FAC_L  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        RLEN = UN*FAC_L
+        RLEN = ONE*FAC_L
       ENDIF
 c
       IF (IMOD >= 10) THEN
@@ -181,7 +181,7 @@ c
       ELSE
         PERIOD = NEMA
       ENDIF
-      ALPHA = DEUX / (NEMA + 1)
+      ALPHA = TWO / (NEMA + 1)
 c
       NFUNC   = 0    
       NUPARAM = 35

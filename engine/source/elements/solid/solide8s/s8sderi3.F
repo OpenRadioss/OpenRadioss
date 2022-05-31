@@ -91,9 +91,9 @@ C-----------------------------------------------
       
 !sb  ksi->t   eta->r   zeta->s
       DO I=1,8
-        DN_R(I) = RI(I)*(UN+KSI*TI(I))*(UN+ZETA*SI(I))/HUIT
-        DN_S(I) = SI(I)*(UN+KSI*TI(I))*(UN+ETA*RI(I))/HUIT
-        DN_T(I) = TI(I)*(UN+ETA*RI(I))*(UN+ZETA*SI(I))/HUIT
+        DN_R(I) = RI(I)*(ONE+KSI*TI(I))*(ONE+ZETA*SI(I))/EIGHT
+        DN_S(I) = SI(I)*(ONE+KSI*TI(I))*(ONE+ETA*RI(I))/EIGHT
+        DN_T(I) = TI(I)*(ONE+ETA*RI(I))*(ONE+ZETA*SI(I))/EIGHT
       ENDDO
 !     Jacobien
       DO I=LFT,LLT
@@ -125,7 +125,7 @@ C-----------------------------------------------
         VOLDP(I) = WI*DETDP
         
         IF (DETJ(I) > ZERO)THEN
-          DETM1 = UN/DETJ(I)
+          DETM1 = ONE/DETJ(I)
 
           INVJ(1,I) = (DY_S*DZ_T-DZ_S*DY_T)*DETM1
           INVJ(2,I) = (DZ_R*DY_T-DY_R*DZ_T)*DETM1
@@ -163,8 +163,8 @@ C-----------------------------------------------
       DO I=LFT,LLT
         OFF(I)=OFFG(I)
         IF(OFF(I).EQ.ZERO)THEN
-         DETJ(I)=UN
-         IF (VOLDP(I).LE.ZERO) VOLDP(I)=UN
+         DETJ(I)=ONE
+         IF (VOLDP(I).LE.ZERO) VOLDP(I)=ONE
         ELSEIF (VOLDP(I).LE.ZERO ) THEN
          VOLDP(I)= EM20
          OFF(I) =ZERO

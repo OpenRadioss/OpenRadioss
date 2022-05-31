@@ -72,7 +72,7 @@ C-----------------------------------------------
 C
       DO 20 I=LFT,LLT
        AL(I)=ZERO
-       IF(OFF(I).LT.UN) GO TO 20
+       IF(OFF(I).LT.ONE) GO TO 20
        IF(N2D>0) THEN
         AL(I)=SQRT(AIRE(I))
        ELSE
@@ -105,7 +105,7 @@ C
         DO I=LFT,LLT
           CNS1=GEO(16,PID(LFT))*AL(I)*NRHO(I)*SSP(I)*OFF(I)
           CNS2=GEO(17,PID(LFT))*AL(I)*NRHO(I)*SSP(I)*OFF(I)
-          CNS3=UNDEMI*CNS2
+          CNS3=HALF*CNS2
           DAV=DD(I) * THIRD
           PVIS=-CNS1*DD(I)
           SVIS(I,1)=CNS2 *(D1(I)+DAV) + PVIS
@@ -120,7 +120,7 @@ C          IF(GEO(16,PID(I)) /= ZERO .OR. GEO(17,PID(I))/=ZERO) ISVIS = 1
         DO I=LFT,LLT
           CNS1=ABS(GEO(16,PID(LFT)))*NRHO(I)*SSP(I)**2*OFF(I)
           CNS2=ABS(GEO(17,PID(LFT)))*NRHO(I)*SSP(I)**2*OFF(I)
-          CNS3=UNDEMI*CNS2
+          CNS3=HALF*CNS2
           DAV=DD(I) * THIRD
           PVIS=-CNS1*DD(I)
           SVIS(I,1)=CNS2 *(D1(I)+DAV) + PVIS
@@ -186,12 +186,12 @@ C
       IF(N2D > 0) THEN
         DO I=1,NEL
           AL(I)=ZERO
-          IF(OFF(I) >= UN)AL(I)=SQRT(AIRE(I))
+          IF(OFF(I) >= ONE)AL(I)=SQRT(AIRE(I))
         ENDDO
       ELSE 
         DO  I=1,NEL
          AL(I)=ZERO
-         IF(OFF(I) >= UN) AL(I)=EXP(THIRD*LOG(VOL(I)))
+         IF(OFF(I) >= ONE) AL(I)=EXP(THIRD*LOG(VOL(I)))
         ENDDO
       ENDIF
 C-----------------------------------------------
@@ -218,7 +218,7 @@ C
         DO I=1,NEL
           CNS1=GEO(16,PID(1))*AL(I)*NRHO(I)*SSP(I)*OFF(I)
           CNS2=GEO(17,PID(1))*AL(I)*NRHO(I)*SSP(I)*OFF(I)
-          CNS3=UNDEMI*CNS2
+          CNS3=HALF*CNS2
           DAV=DD(I) * THIRD
           PVIS=-CNS1*DD(I)
           SV1(I)= SV1(I) + CNS2 *(D1(I)+DAV)+PVIS
@@ -233,7 +233,7 @@ C          IF(GEO(16,PID(I)) /= ZERO .OR. GEO(17,PID(I))/=ZERO) ISVIS = 1
         DO I=1,NEL
           CNS1=GEO(16,PID(1))*NRHO(I)*SSP(I)**2*OFF(I)
           CNS2=GEO(17,PID(1))*NRHO(I)*SSP(I)**2*OFF(I)
-          CNS3=UNDEMI*CNS2
+          CNS3=HALF*CNS2
           DAV=DD(I) * THIRD
           PVIS=-CNS1*DD(I)
           SV1(I)= SV1(I) + CNS2 *(D1(I)+DAV)+PVIS

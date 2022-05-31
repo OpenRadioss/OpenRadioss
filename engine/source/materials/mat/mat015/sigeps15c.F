@@ -97,13 +97,13 @@ C-----------------------
       DMG_FLAG = 2
 !
       DO I=JFT,JLT
-        IF (DAMT(I,1) < UN) THEN
+        IF (DAMT(I,1) < ONE) THEN
           SIGDMG(I,1)=SIGR(I,1)*DAMT(I,1)
           SIGDMG(I,2)=SIGR(I,2)*DAMT(I,1)
           SIGDMG(I,3)=SIGR(I,3)*DAMT(I,1)
           SIGDMG(I,4)=SIGR(I,4)*DAMT(I,1)
           SIGDMG(I,5)=SIGR(I,5)*DAMT(I,1)
-        ELSEIF (DAMT(I,2) < UN) THEN
+        ELSEIF (DAMT(I,2) < ONE) THEN
           SIGDMG(I,1)=SIGE(I,1)
           SIGDMG(I,2)=SIGE(I,2)
           SIGDMG(I,3)=SIGE(I,3)

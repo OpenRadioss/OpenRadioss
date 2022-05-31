@@ -104,7 +104,7 @@ C---------------------------------------------
             SZ(I)= ZERO
             TX(I)= ZERO
             TY(I)= ZERO
-            TZ(I)= UN    
+            TZ(I)= ONE    
             ENDDO
           ENDIF
 C
@@ -137,17 +137,17 @@ c-------------------------------------------------------
         ELSE
 c         CO-ROTATIONAL FORMULATION IN ORTHOTROPIC CO-ROTATIONAL SYSTEM.
           DO I = 1,NEL
-           R11(I) = UN
+           R11(I) = ONE
            R21(I) = ZERO
            R31(I) = ZERO
 C
            R12(I) = ZERO
-           R22(I) = UN
+           R22(I) = ONE
            R32(I) = ZERO
 C
            R13(I) = ZERO
            R23(I) = ZERO
-           R33(I) = UN
+           R33(I) = ONE
           ENDDO
         ENDIF
 C-------------------------------------------------------

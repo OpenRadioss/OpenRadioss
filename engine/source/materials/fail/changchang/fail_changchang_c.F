@@ -114,13 +114,13 @@ c-----------------
         PTHKF = EM06
       ELSEIF (IFAIL_SH == 2) THEN    ! matrix or fiber failure
         IDEL_FM = 1          
-        PTHKF = UN
+        PTHKF = ONE
       ELSEIF (IFAIL_SH == 3) THEN    ! fiber only failure
         IDEL_F = 1            
         PTHKF = EM06
       ELSEIF (IFAIL_SH == 4) THEN    ! fiber only failure
         IDEL_F = 1           
-        PTHKF = UN
+        PTHKF = ONE
       END IF                  
 c-----------------
       NINDX  = 0
@@ -130,7 +130,7 @@ c-----------------------------------------------------------------
       IF (IDEL_FM == 1) THEN
 C
         DO I=1,NEL
-          IF (OFF(I) == UN .and. FOFF(I) == 1) THEN
+          IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
 c            
             IF (UVAR(I,1) == ZERO) THEN 
 c             check fiber damage
@@ -148,14 +148,14 @@ c             check matrix damage
      .                + (SIGNXY(I)/SIGT12)**2                    
                 DAMMC = ZERO        
               ELSE                                                        
-                DAMMC = (SIGNYY(I)/(DEUX*SIGT12))**2                     
+                DAMMC = (SIGNYY(I)/(TWO*SIGT12))**2                     
      .                + (SIGNXY(I)/SIGT12)**2                             
-     .                + SIGNYY(I)*((SIGC2/(DEUX*SIGT12))**2 - UN)/SIGC2 
+     .                + SIGNYY(I)*((SIGC2/(TWO*SIGT12))**2 - ONE)/SIGC2 
                 DAMMT = ZERO
               ENDIF 
               DAMMX = MAX(DAMFT,DAMFC,DAMMC,DAMMT)
-              DFMAX(I) = MIN(UN,DAMMX)
-              IF (DAMMX >= UN) THEN
+              DFMAX(I) = MIN(ONE,DAMMX)
+              IF (DAMMX >= ONE) THEN
                 UVAR(I,1) = TIME
                 NINDX = NINDX+1
                 INDX(NINDX) = I
@@ -163,7 +163,7 @@ c             check matrix damage
             ENDIF             
 c
             IF (UVAR(I,1) > ZERO) THEN 
-              DFMAX(I) = UN
+              DFMAX(I) = ONE
               DMG_SCALE(I) = EXP(-(TIME + TIMESTEP(I) - UVAR(I,1))/TMAX)
 c
               IF (DMG_SCALE(I) < EM02) THEN
@@ -184,7 +184,7 @@ c-----------------------------------------------------------------
       IF (IDEL_F == 1) THEN
 C
         DO I=1,NEL
-          IF (OFF(I) == UN .and. FOFF(I) == 1) THEN
+          IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
 c            
             IF (UVAR(I,1) == ZERO) THEN 
 c             check fiber damage only
@@ -197,12 +197,12 @@ c             check fiber damage only
                 DAMFT = ZERO
               ENDIF 
               DAMMX    = MAX(DAMFT,DAMFC)
-              DFMAX(I) = MIN(UN,DAMMX)
-              IF (DAMMX >= UN) UVAR(I,1) = TIME
+              DFMAX(I) = MIN(ONE,DAMMX)
+              IF (DAMMX >= ONE) UVAR(I,1) = TIME
             ENDIF 
 c
             IF (UVAR(I,1) > ZERO) THEN 
-              DFMAX(I) = UN
+              DFMAX(I) = ONE
               DMG_SCALE(I) = EXP(-(TIME + TIMESTEP(I) - UVAR(I,1))/TMAX)   
 c
               IF (DMG_SCALE(I) < EM02) THEN

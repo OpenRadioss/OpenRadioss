@@ -98,7 +98,7 @@ C
       ENDIF
 c     filtrage des vitesses
       DO I=LFT,LLT
-        DV(I)  = (UN-ALPHA(I))*DV0(I) + ALPHA(I)*DV(I)
+        DV(I)  = (ONE-ALPHA(I))*DV0(I) + ALPHA(I)*DV(I)
         DV0(I) =  DV(I)
       ENDDO
 C
@@ -108,7 +108,7 @@ C
           DAMP=DX(I)/MAX(DMX(I),EM15)
           DAMM=DX(I)/MIN(DMN(I),-EM15)
           ANIM(J)=MAX(ANIM(J),DAMP,DAMM)
-          ANIM(J)=MIN(ANIM(J),UN)
+          ANIM(J)=MIN(ANIM(J),ONE)
         ENDDO
       ENDIF
 C-------------------------------------
@@ -188,7 +188,7 @@ C--------------
 C--------------
       DO I=LFT,LLT
         IF (ABS(DDX(I)) > ZERO)  XK(I) = ABS(FX(I)-FOLD(I))/ABS(DDX(I))
-        E(I) = E(I) + (DX(I)-DXOLD(I)) * (FX(I)+FOLD(I)) * UNDEMI
+        E(I) = E(I) + (DX(I)-DXOLD(I)) * (FX(I)+FOLD(I)) * HALF
         E(I) = E(I)*XL0(I)
         DX(I)= DX(I)*XL0(I)
         DXOLD( I)=DXOLD(I)*XL0(I)

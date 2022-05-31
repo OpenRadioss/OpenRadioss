@@ -103,12 +103,12 @@ C-----------------------------------------------
       FLAG = 0
       IF (IGRE /= 0) THEN
           DO I=LFT,LLT
-            OFF_SAV(I) = UN
+            OFF_SAV(I) = ONE
             EI_SAV(I)  = EINT(I)*VOL(I)
-            EK_SAV(I)  = XMAS(I)*VA2(I)*UNHUIT
+            EK_SAV(I)  = XMAS(I)*VA2(I)*ONE_OVER_8
             XM_SAV(I)  = ZERO
-            YM_SAV(I)  = XMAS(I)*VYA(I)*QUART
-            ZM_SAV(I)  = XMAS(I)*VZA(I)*QUART
+            YM_SAV(I)  = XMAS(I)*VYA(I)*FOURTH
+            ZM_SAV(I)  = XMAS(I)*VZA(I)*FOURTH
           ENDDO
           CALL GRELEM_SAV(LFT   ,LLT   ,GRESAV,IGRTH ,GRTH  ,
      2                    OFF_SAV,EI_SAV,EK_SAV,XM_SAV,YM_SAV,
@@ -121,10 +121,10 @@ C-----------------------------------------------
       DO I=LFT,LLT
         M=IPARTQ(I)
         PARTSAV(1,M)=PARTSAV(1,M) + EINT(I)*VOL(I)*OFF(I)
-        PARTSAV(2,M)=PARTSAV(2,M) + XMAS(I)*VA2(I)*UNHUIT
+        PARTSAV(2,M)=PARTSAV(2,M) + XMAS(I)*VA2(I)*ONE_OVER_8
         PARTSAV(3,M)=ZERO
-        PARTSAV(4,M)=PARTSAV(4,M) + XMAS(I)*VYA(I)*QUART
-        PARTSAV(5,M)=PARTSAV(5,M) + XMAS(I)*VZA(I)*QUART
+        PARTSAV(4,M)=PARTSAV(4,M) + XMAS(I)*VYA(I)*FOURTH
+        PARTSAV(5,M)=PARTSAV(5,M) + XMAS(I)*VZA(I)*FOURTH
         PARTSAV(6,M)=PARTSAV(6,M) + XMAS(I)
       ENDDO
 
@@ -145,7 +145,7 @@ C-----------------------------------------------
       DO I=LFT,LLT
         M=IPARTQ(I)
         EI(I) = EINT(I)*VOL(I)*OFF(I)
-        EK(I) = XMAS(I)*VA2(I)*UNHUIT
+        EK(I) = XMAS(I)*VA2(I)*ONE_OVER_8
       ENDDO
       CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF,IPARTQ,ITASK)  
 

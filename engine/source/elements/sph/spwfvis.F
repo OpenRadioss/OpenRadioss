@@ -69,7 +69,7 @@ C-----------------------------------------------
      .        VOLO,DT05
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C=======================================================================
-      DT05=UNDEMI*DT2
+      DT05=HALF*DT2
       DO NS=1,NSPHACT
         N=WASPACT(NS)
         IF (KXSP(2,N).GT.0)THEN

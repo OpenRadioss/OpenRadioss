@@ -137,8 +137,8 @@ C
         CPT = CPT + 1
 
         ELSEIF ((ILEV == 25 .OR. ((ILEV == 27).AND.(IRECT(3,L)/=IRECT(4,L))) .OR. ILEV == 26 .OR. ILEV == 28) .and. 
-     .         (ST(1,II) > UNP5 .OR. ST(2,II) > UNP5 .OR.
-     .          ST(1,II) <-UNP5 .OR. ST(2,II) <-UNP5)) THEN
+     .         (ST(1,II) > ONEP5 .OR. ST(2,II) > ONEP5 .OR.
+     .          ST(1,II) <-ONEP5 .OR. ST(2,II) <-ONEP5)) THEN
             IRTL(II)=0 
             CALL ANCMSG(MSGID=1158,
      .                  MSGTYPE=MSGWARNING,
@@ -154,8 +154,8 @@ C
      .                  R3=DMIN(II)  ,
      .                  PRMOD=MSG_CUMU)
         ELSEIF ((ILEV == 27).AND.(IRECT(3,L)==IRECT(4,L)) 
-     .         .and.(ST(1,II) < -QUART .OR. ST(2,II) < -QUART .OR.
-     .               ST(1,II)+ ST(2,II) > UNP25)) THEN
+     .         .and.(ST(1,II) < -FOURTH .OR. ST(2,II) < -FOURTH .OR.
+     .               ST(1,II)+ ST(2,II) > ONEP25)) THEN
 C--         shape funnction in space of triangle - node removed
             IRTL(II)=0 
             CALL ANCMSG(MSGID=1872,
@@ -172,7 +172,7 @@ C--         shape funnction in space of triangle - node removed
      .                  PRMOD=MSG_CUMU)
         ELSEIF ((ILEV == 27).AND.(IRECT(3,L)==IRECT(4,L)) 
      .         .and.(ST(1,II) < -ZEP01 .OR. ST(2,II) < -ZEP01 .OR.
-     .               ST(1,II) + ST(2,II) > UNP01)) THEN
+     .               ST(1,II) + ST(2,II) > ONEP01)) THEN
 C--         shape funnction in space of triangle - warning node outside
             CALL ANCMSG(MSGID=1873,
      .                  MSGTYPE=MSGWARNING,
@@ -186,8 +186,8 @@ C--         shape funnction in space of triangle - warning node outside
      .                  R2= ST(2,II) ,
      .                  R3=DMIN(II)  ,
      .                  PRMOD=MSG_CUMU)
-        ELSEIF (ST(1,II) > UNP02 .OR. ST(2,II) > UNP02 .OR.
-     .          ST(1,II) <-UNP02 .OR. ST(2,II) <-UNP02) THEN
+        ELSEIF (ST(1,II) > ONEP02 .OR. ST(2,II) > ONEP02 .OR.
+     .          ST(1,II) <-ONEP02 .OR. ST(2,II) <-ONEP02) THEN
             CALL ANCMSG(MSGID=1079,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1,
@@ -425,8 +425,8 @@ C---    Projection on edges is used only for the distribution of masses and iner
            J = IRTL(II)
            IF (IRECT(3,J).NE.IRECT(4,J)) THEN
 C--        square
-             STB(1,II)= MIN(UN,MAX(-1*UN,ST(1,II)))
-             STB(2,II)= MIN(UN,MAX(-1*UN,ST(2,II)))
+             STB(1,II)= MIN(ONE,MAX(-1*ONE,ST(1,II)))
+             STB(2,II)= MIN(ONE,MAX(-1*ONE,ST(2,II)))
            ELSE
 C--        triangle
              STB(1,II)= ST(1,II)
@@ -437,23 +437,23 @@ C--            hape functions in space of the triangle
                LC1=ST(2,II)
              ELSE
 C--            shape functions in space of quadrangle
-               LB1=QUART*(UN - ST(2,II))*(UN - ST(1,II))
-               LC1=QUART*(UN - ST(2,II))*(UN + ST(1,II))
+               LB1=FOURTH*(ONE - ST(2,II))*(ONE - ST(1,II))
+               LC1=FOURTH*(ONE - ST(2,II))*(ONE + ST(1,II))
              ENDIF
-             LA1= UN - LB1 - LC1
+             LA1= ONE - LB1 - LC1
              IF(LA1 < ZERO .or. LB1 < ZERO .or. LC1 < ZERO)THEN
                IF(LA1<ZERO.and.LB1<ZERO)THEN
                  LA1 = ZERO
                  LB1 = ZERO
-                 LC1 = UN
+                 LC1 = ONE
                ELSEIF(LB1<ZERO.and.LC1<ZERO)THEN
                  LB1 = ZERO
                  LC1 = ZERO
-                 LA1 = UN
+                 LA1 = ONE
                ELSEIF(LC1<ZERO.and.LA1<ZERO)THEN
                  LC1 = ZERO
                  LA1 = ZERO
-                 LB1 = UN
+                 LB1 = ONE
                ELSEIF(LA1<ZERO)THEN
                  LA1 = ZERO
                  AAA = LB1 + LC1
@@ -477,13 +477,13 @@ C--            shape functions in space of the triangle
                  STB(2,II) = LC1
                ELSE
 C--            shape functions in space of the quadrangle
-                 STB(2,II) = UN - DEUX*LB1 - DEUX*LC1
-                 IF (STB(2,II) < UN-EM10) THEN
+                 STB(2,II) = ONE - TWO*LB1 - TWO*LC1
+                 IF (STB(2,II) < ONE-EM10) THEN
                    STB(1,II)= (LC1-LB1)/(LC1+LB1)            
                  ELSEIF (LB1 < -EM10) THEN
-                   STB(1,II)= DEUX
+                   STB(1,II)= TWO
                  ELSEIF (LC1 < -EM10) THEN
-                   STB(1,II)= -DEUX
+                   STB(1,II)= -TWO
                  ELSE
                    STB(1,II)= ZERO
                  ENDIF
@@ -500,8 +500,8 @@ C---    Projection on edges - used only for retrocompatibility with old iproj=1 
            J = IRTL(II)
            IF (IRECT(3,J).NE.IRECT(4,J)) THEN
 C--        square
-             ST(1,II)= MIN(UN,MAX(-1*UN,ST(1,II)))
-             ST(2,II)= MIN(UN,MAX(-1*UN,ST(2,II)))
+             ST(1,II)= MIN(ONE,MAX(-1*ONE,ST(1,II)))
+             ST(2,II)= MIN(ONE,MAX(-1*ONE,ST(2,II)))
            ELSE
 C--        triangle
              IF (ILEV == 27) THEN
@@ -510,23 +510,23 @@ C--            shape functions in space of the triangle
                LC1=ST(2,II)
              ELSE
 C--            shape functions in space of quadrangle
-               LB1=QUART*(UN - ST(2,II))*(UN - ST(1,II))
-               LC1=QUART*(UN - ST(2,II))*(UN + ST(1,II))
+               LB1=FOURTH*(ONE - ST(2,II))*(ONE - ST(1,II))
+               LC1=FOURTH*(ONE - ST(2,II))*(ONE + ST(1,II))
              ENDIF
-             LA1= UN - LB1 - LC1
+             LA1= ONE - LB1 - LC1
              IF(LA1 < ZERO .or. LB1 < ZERO .or. LC1 < ZERO)THEN
                IF(LA1<ZERO.and.LB1<ZERO)THEN
                  LA1 = ZERO
                  LB1 = ZERO
-                 LC1 = UN
+                 LC1 = ONE
                ELSEIF(LB1<ZERO.and.LC1<ZERO)THEN
                  LB1 = ZERO
                  LC1 = ZERO
-                 LA1 = UN
+                 LA1 = ONE
                ELSEIF(LC1<ZERO.and.LA1<ZERO)THEN
                  LC1 = ZERO
                  LA1 = ZERO
-                 LB1 = UN
+                 LB1 = ONE
                ELSEIF(LA1<ZERO)THEN
                  LA1 = ZERO
                  AAA = LB1 + LC1
@@ -550,13 +550,13 @@ C--            shape functions in space of the triangle
                  ST(2,II) = LC1
                ELSE
 C--            shape functions in space of the quadrangle
-                 ST(2,II) = UN - DEUX*LB1 - DEUX*LC1
-                 IF (ST(2,II) < UN-EM10) THEN
+                 ST(2,II) = ONE - TWO*LB1 - TWO*LC1
+                 IF (ST(2,II) < ONE-EM10) THEN
                    ST(1,II)= (LC1-LB1)/(LC1+LB1)            
                  ELSEIF (LB1 < -EM10) THEN
-                   ST(1,II)= DEUX
+                   ST(1,II)= TWO
                  ELSEIF (LC1 < -EM10) THEN
-                   ST(1,II)= -DEUX
+                   ST(1,II)= -TWO
                  ELSE
                    ST(1,II)= ZERO
                  ENDIF

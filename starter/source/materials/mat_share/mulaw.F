@@ -114,7 +114,7 @@ C-----------------------------------------------
      . RBID, E1, E2, E3, E4, E5, E6, P2, TIME, TIMESTEP
 C=======================================================================
       TIME    =ZERO
-      TIMESTEP=UN/FLOAT(NITRS)
+      TIMESTEP=ONE/FLOAT(NITRS)
 C---------------------------
       NPAR   = IPM(9,MAT(1))
       IADBUF = IPM(7,MAT(1))
@@ -185,17 +185,17 @@ C     unify w/ Engine-----
        IF (ISMSTR == 10.OR.ISMSTR == 12) THEN
           DO I=LFT,LLT
 C Is like 42 ...etc we compute [B]=[F][F]^t - I strain----- e.g. 62,92,88  
-            ES1(I)=MFXX(I)*(DEUX+MFXX(I))+
+            ES1(I)=MFXX(I)*(TWO+MFXX(I))+
      .          MFXY(I)*MFXY(I)+MFXZ(I)*MFXZ(I) 
-            ES2(I)=MFYY(I)*(DEUX+MFYY(I))+
+            ES2(I)=MFYY(I)*(TWO+MFYY(I))+
      .          MFYX(I)*MFYX(I)+MFYZ(I)*MFYZ(I)
-            ES3(I)=MFZZ(I)*(DEUX+MFZZ(I))+
+            ES3(I)=MFZZ(I)*(TWO+MFZZ(I))+
      .          MFZX(I)*MFZX(I)+MFZY(I)*MFZY(I)
-            ES4(I)=DEUX*(MFXY(I)+MFYX(I)+MFXX(I)*MFYX(I)+
+            ES4(I)=TWO*(MFXY(I)+MFYX(I)+MFXX(I)*MFYX(I)+
      .               MFXY(I)*MFYY(I)+MFXZ(I)*MFYZ(I))
-            ES6(I)=DEUX*(MFXZ(I)+MFZX(I)+MFXX(I)*MFZX(I)+
+            ES6(I)=TWO*(MFXZ(I)+MFZX(I)+MFXX(I)*MFZX(I)+
      .               MFXY(I)*MFZY(I)+MFXZ(I)*MFZZ(I))
-            ES5(I)=DEUX*(MFZY(I)+MFYZ(I)+MFZX(I)*MFYX(I)+
+            ES5(I)=TWO*(MFZY(I)+MFYZ(I)+MFZX(I)*MFYX(I)+
      .               MFZY(I)*MFYY(I)+MFZZ(I)*MFYZ(I))  
           ENDDO
        ELSEIF(ISMSTR == 11)THEN
@@ -309,7 +309,7 @@ C--- Engine doesn't have this because generaly dvol<<vol
        END DO
       ELSE
        DO I=LFT,LLT
-        VOL_AVG(I) = VOLN(I)- UNDEMI*DVOL(I)
+        VOL_AVG(I) = VOLN(I)- HALF*DVOL(I)
        END DO
       END IF
       DO I=LFT,LLT
@@ -322,8 +322,8 @@ C--- Engine doesn't have this because generaly dvol<<vol
        E5=D5(I)*(SOLD5(I)+SIG(I,5))
        E6=D6(I)*(SOLD6(I)+SIG(I,6))
        EINT(I)=EINT(I)
-     .  -P2*DVOL(I)*UNDEMI
-     .  +(E1+E2+E3+E4+E5+E6+E7(I))*VOL_AVG(I)*UNDEMI
+     .  -P2*DVOL(I)*HALF
+     .  +(E1+E2+E3+E4+E5+E6+E7(I))*VOL_AVG(I)*HALF
        EINT(I)=EINT(I)/MAX(VOL(I),EM20)
       END DO
 C---

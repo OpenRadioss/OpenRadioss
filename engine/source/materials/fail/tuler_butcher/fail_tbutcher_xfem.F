@@ -150,10 +150,10 @@ c---------------
         CASE (1)    ! multilayer XFEM                                    
 c---------------
           DO I=1,NEL                                                                         
-            IF (OFF(I) == UN) THEN                                                             
+            IF (OFF(I) == ONE) THEN                                                             
               IF (UVAR(I,1) < TBK) THEN                                                      
-                S1 = UNDEMI*(SIGNXX(I) + SIGNYY(I))                                          
-                S2 = UNDEMI*(SIGNXX(I) - SIGNYY(I))                                          
+                S1 = HALF*(SIGNXX(I) + SIGNYY(I))                                          
+                S2 = HALF*(SIGNXX(I) - SIGNYY(I))                                          
                 SIG1 = S1  + SQRT(S2**2 + SIGNXY(I)**2)                                      
                 SIG2 = S1  - SQRT(S2**2 + SIGNXY(I)**2)                                      
                 SIGMAX = MAX(SIG1,SIG2)                                                      
@@ -170,7 +170,7 @@ c                  endif
                       INDXP(NINDXP) = I
                       OFFL(I)   = ZERO                                            
                       NOFF(I)   = NOFF(I)  + 1                                        
-                      NPTTF(I)  = NPTTF(I) + UN       
+                      NPTTF(I)  = NPTTF(I) + ONE       
                       RFLAGP(I) = 1                   
                       IF (INT(NPTTF(I)) == NPTT) THEN
                         NINDX = NINDX + 1
@@ -179,7 +179,7 @@ c                  endif
                         RFLAG(I) = 1                                             
                       ENDIF
                       IF (NOFF(I) == NPTOT) THEN   
-                        OFF(I) = QCINQ                                           
+                        OFF(I) = FOUR_OVER_5                                           
                         TDEL(I)= TIME                                            
                       ENDIF                                                      
                     ENDIF                                                      
@@ -192,7 +192,7 @@ c                    print*,'SIGMAX,uvar=',SIGMAX,UVAR(I,1)
                       INDXP(NINDXP) = I
                       OFFL(I)   = ZERO                                            
                       NOFF(I)   = NOFF(I) + 1                                        
-                      NPTTF(I)  = NPTTF(I)+ UN
+                      NPTTF(I)  = NPTTF(I)+ ONE
                       RFLAGP(I) = 1
                       IF (INT(NPTTF(I)) == NPTT) THEN
                         NINDX = NINDX+1
@@ -201,7 +201,7 @@ c                    print*,'SIGMAX,uvar=',SIGMAX,UVAR(I,1)
                         RFLAG(I) = -1
                       ENDIF
                       IF (NOFF(I) == NPTOT) THEN
-                        OFF(I) = QCINQ                                           
+                        OFF(I) = FOUR_OVER_5                                           
                         TDEL(I)= TIME
                       ENDIF
                     ENDIF                                                         
@@ -212,12 +212,12 @@ c                    print*,'SIGMAX,uvar=',SIGMAX,UVAR(I,1)
                     NINDXP    = NINDXP + 1
                     INDXP(NINDXP) = I
                     OFFL(I)   = ZERO                                         
-                    NPTTF(I)  = NPTTF(I) + UN
+                    NPTTF(I)  = NPTTF(I) + ONE
                     RFLAGP(I) = 1
                     IF (INT(NPTTF(I)) == NPTT) THEN
                       NINDX = NINDX+1
                       INDX(NINDX) = I
-                      OFF(I) = QCINQ                                           
+                      OFF(I) = FOUR_OVER_5                                           
                       TDEL(I)  = TIME
                       RFLAG(I) = 3
                     ENDIF
@@ -230,7 +230,7 @@ c                    print*,'SIGMAX,uvar=',SIGMAX,UVAR(I,1)
                 SIGNYZ(I) = ZERO                                                           
                 SIGNZX(I) = ZERO                                                           
               ENDIF  !                                         
-            ENDIF    !  OFF(I) == UN                                          
+            ENDIF    !  OFF(I) == ONE                                          
           ENDDO                                                                              
 c-----------------------------------------------------------------------
           IF (NINDXP > 0) THEN                                                    
@@ -271,9 +271,9 @@ c---------------
           IF (ISHELL == 1) THEN
 c---
             DO I=1,NEL                                                          
-              IF (OFF(I) == UN) THEN                                              
-                S1 = UNDEMI*(SIGNXX(I) + SIGNYY(I))                             
-                S2 = UNDEMI*(SIGNXX(I) - SIGNYY(I))                             
+              IF (OFF(I) == ONE) THEN                                              
+                S1 = HALF*(SIGNXX(I) + SIGNYY(I))                             
+                S2 = HALF*(SIGNXX(I) - SIGNYY(I))                             
                 SIG1 = S1 + SQRT(S2**2 + SIGNXY(I)**2)                          
                 SIG2 = S1 - SQRT(S2**2 + SIGNXY(I)**2)                          
                 SIGMAX = MAX(SIG1,SIG2)                                         
@@ -291,7 +291,7 @@ C
                         RFLAGP(I) = 1
                         RFLAG(I) = 1                                            
                         TDEL(I)= TIME                                           
-                        OFF(I) = QCINQ                                           
+                        OFF(I) = FOUR_OVER_5                                           
                       ENDIF                                         
                     ELSEIF (ELCRKINI(ILAY,I) == 2 .and. SIGMAX > SIGR_ADV) THEN                         
                       UVAR(I,1) = UVAR(I,1) + TIMESTEP(I)*(SIGMAX - SIGR_ADV)**TBA                
@@ -304,13 +304,13 @@ C
                         RFLAGP(I) = 1
                         RFLAG(I) = -1                                         
                         TDEL(I)= TIME                                         
-                        OFF(I) = QCINQ                                           
+                        OFF(I) = FOUR_OVER_5                                           
                       ENDIF                                                       
                     ENDIF                                                       
                   ELSEIF (SIGMAX > SIGR_INI) THEN  ! IXEL > 0  
                     UVAR(I,1) = UVAR(I,1) + TIMESTEP(I)*(SIGMAX - SIGR_INI)**TBA                
                     IF (UVAR(I,1) >= TBK) THEN                  
-                      OFF(I) = QCINQ                                           
+                      OFF(I) = FOUR_OVER_5                                           
                       NINDXP = NINDXP + 1           
                       INDXP(NINDXP) = I             
                       NINDX = NINDX + 1                                             
@@ -321,15 +321,15 @@ C
                   ENDIF  ! IXEL                                                 
 c
                 ELSEIF (IBRIT == 2) THEN  ! brittle rupture                       
-                  KK = UN/MAX(EM10,TBK)                                           
+                  KK = ONE/MAX(EM10,TBK)                                           
                   IF (SIGMAX > UVAR(I,1)) THEN                                    
                     DAMD(I) = KK*(SIGMAX-UVAR(I,1))**BRIT_B                       
                   ENDIF                                                         
                   NOFF(I) = NOFF(I) + DAMD(I)*TIMESTEP(I)                           
-                  IF (NOFF(I)<UN) UVAR(I,1) = SIGR_INI*(UN-NOFF(I))**BRIT_C        
+                  IF (NOFF(I)<ONE) UVAR(I,1) = SIGR_INI*(ONE-NOFF(I))**BRIT_C        
                   IF (IXEL == 0) THEN                                           
                     IF (ELCRKINI(ILAY,I) == 0) THEN ! ready for initiation      
-                      IF (NOFF(I) >= UN) THEN                                   
+                      IF (NOFF(I) >= ONE) THEN                                   
                         ELCRKINI(ILAY,I) = -1                                   
                         NINDXP = NINDXP + 1             
                         INDXP(NINDXP) = I               
@@ -338,10 +338,10 @@ c
                         RFLAGP(I) = 1
                         RFLAG(I) = 1                                            
                         TDEL(I)= TIME                                           
-                        OFF(I) = QCINQ                                           
+                        OFF(I) = FOUR_OVER_5                                           
                       END IF                                                    
                     ELSEIF (ELCRKINI(ILAY,I) == 2) THEN  ! ready for advancing  
-                      IF (NOFF(I) >= UN) THEN                                   
+                      IF (NOFF(I) >= ONE) THEN                                   
                         ELCRKINI(ILAY,I) = 1                                    
                         NINDXP = NINDXP + 1             
                         INDXP(NINDXP) = I               
@@ -350,17 +350,17 @@ c
                         RFLAGP(I) = 1
                         RFLAG(I) = -1                                           
                         TDEL(I)= TIME                                           
-                        OFF(I) = QCINQ                                           
+                        OFF(I) = FOUR_OVER_5                                           
                       ENDIF                                                     
                     ENDIF                                                       
-                  ELSEIF (NOFF(I) >= UN) THEN  ! IXEL > 0                       
+                  ELSEIF (NOFF(I) >= ONE) THEN  ! IXEL > 0                       
                     NINDXP = NINDXP + 1             
                     INDXP(NINDXP) = I               
                     NINDX=NINDX+1                                               
                     INDX(NINDX)=I                                               
                     RFLAGP(I) = 1
                     RFLAG(I)  = 3                                                
-                    OFF(I) = QCINQ                                           
+                    OFF(I) = FOUR_OVER_5                                           
                   END IF  ! IXEL                                                
 c
                 ENDIF  !  IF(IBRIT==1                                           
@@ -370,10 +370,10 @@ c
           ELSEIF (ISHELL == 2)THEN
 c
             DO I=1,NEL
-              IF (OFF(I) == UN) THEN
+              IF (OFF(I) == ONE) THEN
                 IF (UVAR(I,1) < TBK) THEN
-                  S1 = UNDEMI*(SIGNXX(I) + SIGNYY(I))
-                  S2 = UNDEMI*(SIGNXX(I) - SIGNYY(I))
+                  S1 = HALF*(SIGNXX(I) + SIGNYY(I))
+                  S2 = HALF*(SIGNXX(I) - SIGNYY(I))
                   SIG1 = S1  + SQRT(S2**2 + SIGNXY(I)**2)
                   SIG2 = S1  - SQRT(S2**2 + SIGNXY(I)**2)
                   SIGMAX = MAX(SIG1,SIG2)
@@ -392,7 +392,7 @@ c
                           ELCRKINI(ILAY,I) = -1 ! one layer failed (by initiation)                
                           RFLAG(I) = 1
                           TDEL(I)= TIME
-                          OFF(I) = QCINQ                                           
+                          OFF(I) = FOUR_OVER_5                                           
                         ENDIF                                     
                       ENDIF                                     
                     ELSEIF (ELCRKINI(ILAY,I) == 2 .and. SIGMAX > SIGR_ADV) THEN
@@ -408,7 +408,7 @@ c
                            ELCRKINI(ILAY,I) = 1 !  one layer failed (by advancing) 
                            RFLAG(I) = -1
                            TDEL(I)= TIME
-                           OFF(I) = QCINQ                                           
+                           OFF(I) = FOUR_OVER_5                                           
                          ENDIF                    
                       ENDIF
                     ENDIF
@@ -421,7 +421,7 @@ c
                       INDX(NINDX) = I
                       NOFF(I) = NOFF(I) + 1                                                        
                       IF (NOFF(I) == NPTOT) THEN
-                        OFF(I) = QCINQ                                           
+                        OFF(I) = FOUR_OVER_5                                           
                         RFLAG(I) = 3
                       ENDIF
                     ENDIF
@@ -433,7 +433,7 @@ c
                   SIGNYZ(I) = ZERO
                   SIGNZX(I) = ZERO
                 ENDIF  !  IF(UVAR(I,1) < TBK)
-              ENDIF  ! IF(ISHELL==2.AND.OFF(I)==UN)
+              ENDIF  ! IF(ISHELL==2.AND.OFF(I)==ONE)
             ENDDO
 c----
             IF (NINDXP > 0) THEN    
@@ -476,7 +476,7 @@ c-----------------
 c
 c---  Maximum Damage storing for output : 0 < DFMAX < 1
       DO I=1,NEL
-        DFMAX(I) = MIN(UN, MAX(DFMAX(I),UVAR(I,1)/TBK))
+        DFMAX(I) = MIN(ONE, MAX(DFMAX(I),UVAR(I,1)/TBK))
       ENDDO
 C-----------------------------------------------
  2000 FORMAT(1X,'FOR SHELL ELEMENT',I10,1X,'LAYER',I3,':',/

@@ -167,7 +167,7 @@ C------TAG_SKIN_ND only the big seg(mid-node of S10 not include)
 C------------change shear to eij         
          DO J=4,6
            DO N=1,NUMNOD
-             IF (ITAGPS(N).GT.0) VALUE(J,N)=UNDEMI*AFLU(J-3,N)/ITAGPS(N)
+             IF (ITAGPS(N).GT.0) VALUE(J,N)=HALF*AFLU(J-3,N)/ITAGPS(N)
            ENDDO
          ENDDO
        END IF 

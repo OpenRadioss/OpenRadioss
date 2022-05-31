@@ -110,12 +110,12 @@ c
       ENDDO
 c
       DO I=LFT,LLT
-        EPS(I)= EPS(I) + UNDEMI*DT1*( EPS(I)*EPS(I) - RATIO(I) )
+        EPS(I)= EPS(I) + HALF*DT1*( EPS(I)*EPS(I) - RATIO(I) )
       ENDDO
 c
       OFF_L = ZERO
       DO I=LFT,LLT
-        OFF(I) = MIN(UN,ABS(OFFG(I)))
+        OFF(I) = MIN(ONE,ABS(OFFG(I)))
         OFF(I) = MAX(ZERO,OFF(I))
         OFF_L  = MIN(OFF_L,OFFG(I))
       ENDDO

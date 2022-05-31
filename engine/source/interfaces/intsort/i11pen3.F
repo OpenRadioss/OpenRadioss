@@ -198,20 +198,20 @@ C
           ALM = (XA*XSM-XB*XS2) / DET
           XS2 = MAX(XS2,EM20)
           XM2 = MAX(XM2,EM20)
-          ALM=MIN(UN,MAX(ZERO,ALM))
+          ALM=MIN(ONE,MAX(ZERO,ALM))
           ALS = -(XA + ALM*XSM) / XS2
-          ALS=MIN(UN,MAX(ZERO,ALS))
+          ALS=MIN(ONE,MAX(ZERO,ALS))
           ALM = -(XB + ALS*XSM) / XM2
-          ALM=MIN(UN,MAX(ZERO,ALM))
+          ALM=MIN(ONE,MAX(ZERO,ALM))
 
 C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
 
-          XX =  ALS*X11 + (UN-ALS)*X21
-     .        - ALM*X(1,M1) - (UN-ALM)*X(1,M2)
-          YY =  ALS*X12 + (UN-ALS)*X22
-     .        - ALM*X(2,M1) - (UN-ALM)*X(2,M2)
-          ZZ =  ALS*X13 + (UN-ALS)*X23
-     .        - ALM*X(3,M1) - (UN-ALM)*X(3,M2)
+          XX =  ALS*X11 + (ONE-ALS)*X21
+     .        - ALM*X(1,M1) - (ONE-ALM)*X(1,M2)
+          YY =  ALS*X12 + (ONE-ALS)*X22
+     .        - ALM*X(2,M1) - (ONE-ALM)*X(2,M2)
+          ZZ =  ALS*X13 + (ONE-ALS)*X23
+     .        - ALM*X(3,M1) - (ONE-ALM)*X(3,M2)
           GAP2=GAPV(I)*GAPV(I)
           PENE(I) = GAP2- XX*XX - YY*YY - ZZ*ZZ
 C
@@ -370,20 +370,20 @@ C
           ALM = (XA*XSM-XB*XS2) / DET
           XS2 = MAX(XS2,EM20)
           XM2 = MAX(XM2,EM20)
-          ALM=MIN(UN,MAX(ZERO,ALM))
+          ALM=MIN(ONE,MAX(ZERO,ALM))
           ALS = -(XA + ALM*XSM) / XS2
-          ALS=MIN(UN,MAX(ZERO,ALS))
+          ALS=MIN(ONE,MAX(ZERO,ALS))
           ALM = -(XB + ALS*XSM) / XM2
-          ALM=MIN(UN,MAX(ZERO,ALM))
+          ALM=MIN(ONE,MAX(ZERO,ALM))
 
 C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
 
-          XX =  ALS*X11 + (UN-ALS)*X21
-     .        - ALM*X(1,M1) - (UN-ALM)*X(1,M2)
-          YY =  ALS*X12 + (UN-ALS)*X22
-     .        - ALM*X(2,M1) - (UN-ALM)*X(2,M2)
-          ZZ =  ALS*X13 + (UN-ALS)*X23
-     .        - ALM*X(3,M1) - (UN-ALM)*X(3,M2)
+          XX =  ALS*X11 + (ONE-ALS)*X21
+     .        - ALM*X(1,M1) - (ONE-ALM)*X(1,M2)
+          YY =  ALS*X12 + (ONE-ALS)*X22
+     .        - ALM*X(2,M1) - (ONE-ALM)*X(2,M2)
+          ZZ =  ALS*X13 + (ONE-ALS)*X23
+     .        - ALM*X(3,M1) - (ONE-ALM)*X(3,M2)
           PENE(I) = GAP2- XX*XX - YY*YY - ZZ*ZZ
 C
         END DO

@@ -59,7 +59,7 @@ C=======================================================================
         E0=PM(23,MA)
         P=-(SIG(I,1)+SIG(I,2)+SIG(I,3))*THIRD
         AMU=(P-C0-C4*E0)/(C1+C5*E0)
-        RHO(I)=RHO(I)*(UN + AMU)
+        RHO(I)=RHO(I)*(ONE + AMU)
       ENDDO
 C-----------
       RETURN

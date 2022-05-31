@@ -56,8 +56,8 @@ C     REAL ou REAL*8
      .   DTX, DTY, GAMA, P, V, S, ROT, AL
 C-----------------------------------------------
 C
-      DTX=UN
-      DTY=UN
+      DTX=ONE
+      DTY=ONE
       K1 = 1
       KK1 = 0
       DO I=1,NVOLU
@@ -76,11 +76,11 @@ C       END IF
         V=VOLMON(KK1+16)-VOLMON(KK1+5)
         S=VOLMON(KK1+18)
         ROT=VOLMON(KK1+21)
-        DTY=MIN(SQRT(UN+AL)-AL,DTY)
+        DTY=MIN(SQRT(ONE+AL)-AL,DTY)
         IF(ROT.EQ.ZERO) THEN
           DTX=DTY
         ELSE
-          DTX=MAX(SQRT(UN+DT2**2*GAMA*P*S/V/ROT),DTX)
+          DTX=MAX(SQRT(ONE+DT2**2*GAMA*P*S/V/ROT),DTX)
         ENDIF
        ENDIF
  100   CONTINUE

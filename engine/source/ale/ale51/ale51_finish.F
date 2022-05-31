@@ -111,7 +111,7 @@ C     ALE ON / OFF
         LFT=1
         DO I=LFT,LLT 
           II = I+NFT      
-          ALPHA(II) = UN  
+          ALPHA(II) = ONE  
         ENDDO                      
         DO K=1,NV46
           DO II=NFT+LFT,NFT+LLT

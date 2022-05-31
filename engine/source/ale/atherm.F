@@ -141,7 +141,7 @@ c
            RPR=PM(95,MAT(I))
            YPLUS =CMU*RK**2/MAX(AX*RE*XMU,EM15)
            IF(YPLUS.LT.YP0)GO TO 35
-            P = NEUFP24*(RPR-UN)/(RPR**QUART)
+            P = NINEP24*(RPR-ONE)/(RPR**FOURTH)
             VAL2(J)=VAL2(J) * RPR*AX*YPLUS / (A*LOG(E*YPLUS) + AX*P)
    35     CONTINUE
         ELSEIF (MTN == 18)THEN
@@ -167,7 +167,7 @@ c
             XMT= PM(81,MAT(I))*RK*RK / MAX(EM15,RE)
             XMU= R*PM(24,MAT(I))
             RPR= PM(95,MAT(I))
-            VAL2(J)=VAL2(J)*(UN+RPR*XMT/XMU)
+            VAL2(J)=VAL2(J)*(ONE+RPR*XMT/XMU)
           ENDDO
         ENDIF
   100 CONTINUE

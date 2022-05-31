@@ -100,7 +100,7 @@ C-----------------------------------------------
       EXTERNAL FINTER,FINTER_SMOOTH
 
 C=======================================================================
-      SIXTH  = UNSIX
+      SIXTH  = ONE_OVER_6
       TFEXC  = ZERO
       TFEXTT = ZERO
       N_OLD  = 0
@@ -119,7 +119,7 @@ C
        FCYPINCH= FAC(1,NL)
 C
        ISENS   = 0
-       XSENS   = UN
+       XSENS   = ONE
        DO K=1,NSENSOR
          IF(IB(6,NL).EQ.LSENSOR(1,K))ISENS=K
        ENDDO
@@ -155,9 +155,9 @@ C
           NY = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
           NZ = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
 C
-          FXPINCH = AAPINCH*NX*UNHUIT
-          FYPINCH = AAPINCH*NY*UNHUIT
-          FZPINCH = AAPINCH*NZ*UNHUIT
+          FXPINCH = AAPINCH*NX*ONE_OVER_8
+          FYPINCH = AAPINCH*NY*ONE_OVER_8
+          FZPINCH = AAPINCH*NZ*ONE_OVER_8
 C
           APINCH(1,N1) = APINCH(1,N1) + FXPINCH
           APINCH(2,N1) = APINCH(2,N1) + FYPINCH

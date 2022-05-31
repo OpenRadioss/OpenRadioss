@@ -76,20 +76,20 @@ C
             IF (ISPMD.EQ.PMAIN-1) THEN
                DO J=1,FVDATA(I)%NPOLH
                   GAMA=FVDATA(I)%GPOLH(J)
-                  SSP=SQRT((GAMA-UN)*GAMA*FVDATA(I)%EPOLH(J)/
+                  SSP=SQRT((GAMA-ONE)*GAMA*FVDATA(I)%EPOLH(J)/
      .                                    FVDATA(I)%MPOLH(J))
                   DO K=FVDATA(I)%IFVPADR(J),FVDATA(I)%IFVPADR(J+1)-1
                      KK=FVDATA(I)%IFVPOLH(K)
                      DO N=FVDATA(I)%IFVTADR(KK),
      .                         FVDATA(I)%IFVTADR(KK+1)-1
                         NN=FVDATA(I)%IFVPOLY(N)
-                        FAC=UN
+                        FAC=ONE
                         IF (FVDATA(I)%IFVTRI(4,NN).NE.0) THEN
                            IDP=FVDATA(I)%IDPOLH(J)
                            FVVISU(FVEL2FA(ELOFF+NN))=IDP-(IDP/8)*8+1
                         ELSE
                            FVVISU(FVEL2FA(ELOFF+NN))=-1
-                           FAC=UNDEMI
+                           FAC=HALF
                         ENDIF
                         NN=FVEL2FA(ELOFF+NN)
                         FVMASS(NN)=FVMASS(NN)+FAC*FVDATA(I)%MPOLH(J)
@@ -152,20 +152,20 @@ C
                ENDDO
                DO J=1,FVDATA(I)%NPOLH
                   GAMA=FVDATA(I)%GPOLH(J)
-                  SSP=SQRT((GAMA-UN)*GAMA*FVDATA(I)%EPOLH(J)/
+                  SSP=SQRT((GAMA-ONE)*GAMA*FVDATA(I)%EPOLH(J)/
      .                                    FVDATA(I)%MPOLH(J))
                   DO K=FVDATA(I)%IFVPADR(J),FVDATA(I)%IFVPADR(J+1)-1
                      KK=FVDATA(I)%IFVPOLH(K)
                      DO N=FVDATA(I)%IFVTADR(KK),
      .                         FVDATA(I)%IFVTADR(KK+1)-1
                         NN=FVDATA(I)%IFVPOLY(N)
-                        FAC=UN
+                        FAC=ONE
                         IF (FVDATA(I)%IFVTRI(4,NN).NE.0) THEN
                            IDP=FVDATA(I)%IDPOLH(J)
                            RBUF(9*NNTR+NN)=IDP-(IDP/8)*8+1
                         ELSE
                            RBUF(9*NNTR+NN)=-1
-                           FAC=UNDEMI
+                           FAC=HALF
                         ENDIF
                         RBUF(NN)=RBUF(NN)+FAC*FVDATA(I)%MPOLH(J)
                         RBUF(NNTR+NN)=RBUF(NNTR+NN)

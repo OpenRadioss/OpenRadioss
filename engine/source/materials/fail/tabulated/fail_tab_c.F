@@ -169,7 +169,7 @@ C=======================================================================
       INST_FLAG = INT(UPARAM(20))
       SHRF      = UPARAM(21)
       BIAXF     = UPARAM(22)
-      IF (SHRF == -UN .and. BIAXF == UN) THEN
+      IF (SHRF == -ONE .and. BIAXF == ONE) THEN
         SIZE_FLAG = 0
       ELSE
         SIZE_FLAG = 1
@@ -189,14 +189,14 @@ c---------------------------
       ELSEIF (IFAIL_SH == 1) THEN
         PTHKF = EM06
       ELSEIF (IFAIL_SH == 2) THEN
-        PTHKF = UN - EM06
+        PTHKF = ONE - EM06
       ENDIF
 C---------
       NINDXF  = 0  
       NINDX   = 0  
       NINSTAB = 0
       DO I=1,NEL
-        IF (OFF(I) == UN .and. FOFF(I) == 1) THEN
+        IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
           NINDX = NINDX+1                                                 
           INDX(NINDX) = I
         ENDIF
@@ -211,7 +211,7 @@ c---  failure strain interpolation
         I = INDX(J)  
         P    = THIRD*(SIGNXX(I) + SIGNYY(I))     
         SVM  = SQRT(SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)          
-     .       - SIGNXX(I)*SIGNYY(I) + TROIS*SIGNXY(I)*SIGNXY(I))        
+     .       - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))        
         SIGM(I) = P / MAX(EM20,SVM)
       ENDDO
 C----
@@ -404,9 +404,9 @@ c-----------------------------------------------------------------------------
               DP = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
             ELSE
               IF (UVAR(I,1) == ZERO) THEN 
-                DP = UN
+                DP = ONE
               ELSE
-                DP = DN*UVAR(I,1)**(UN-UN/DN)
+                DP = DN*UVAR(I,1)**(ONE-ONE/DN)
               ENDIF
             ENDIF
             IF (EPSF(I) > ZERO) UVAR(I,1) = UVAR(I,1)+DP*DPLA(I)/EPSF(I)
@@ -423,11 +423,11 @@ c           Damage accumulation
                 UVAR(I,3) = UVAR(I,3) + DP*DPLA(I)/EPSF_N(I)
               ENDIF                
 c
-              IF (UVAR(I,3) >= UN) THEN                ! softening starts
+              IF (UVAR(I,3) >= ONE) THEN                ! softening starts
                 IF (FADE_EXPO /= ZERO) THEN 
                   UVAR(I,4) = UVAR(I,4) + DP*DPLA(I)/(EPSF(I)-EPSF_N(I))
                   IF (UVAR(I,4) > DD) THEN 
-                    DMG_SCALE(I) = UN - ((UVAR(I,4)-DD)/(UN-DD))**FADE_EXPO
+                    DMG_SCALE(I) = ONE - ((UVAR(I,4)-DD)/(ONE-DD))**FADE_EXPO
                     DMG_SCALE(I) = MAX(DMG_SCALE(I),ZERO)
                   ENDIF
                 ENDIF
@@ -454,7 +454,7 @@ c     Maximum Damage storing for output : 0 < DFMAX < 1
 c
       DO J=1,NINDX                           
         I = INDX(J)  
-        DFMAX(I)= MIN(UN,MAX(DFMAX(I),UVAR(I,1)/DCRIT))
+        DFMAX(I)= MIN(ONE,MAX(DFMAX(I),UVAR(I,1)/DCRIT))
       ENDDO
 c--------------------------------------------      
 c     print

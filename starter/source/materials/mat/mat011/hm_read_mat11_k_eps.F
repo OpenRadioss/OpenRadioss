@@ -100,8 +100,8 @@ C-----------------------------------------------
       
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
-      FAC_LENGTH_ = UN
-      FAC_TIME_   = UN
+      FAC_LENGTH_ = ONE
+      FAC_TIME_   = ONE
 
 C     Check input encryption
       CALL HM_OPTION_IS_CRYPTED(IS_ENCRYPTED)
@@ -216,38 +216,38 @@ C----------------------
 C     DEFAULT VALUES
 C----------------------
       IF(CARL.EQ.ZERO)CARL = EM01 * FAC_LENGTH_
-      IF(T0.EQ.ZERO)  T0   = TROIS100
-      IF(TSCAL == ZERO) TSCAL = UN * FAC_TIME_
+      IF(T0.EQ.ZERO)  T0   = THREE100
+      IF(TSCAL == ZERO) TSCAL = ONE * FAC_TIME_
       SELECT CASE(ITYP)
       CASE (0)
-         GAM1 = UN/(GAM - UN)
-         GAM2 = UNDEMI/GAM
-         GAMRP= GAM2*(GAM-UN)
+         GAM1 = ONE/(GAM - ONE)
+         GAM2 = HALF/GAM
+         GAMRP= GAM2*(GAM-ONE)
          E0   = GAM1*(P0+PSH)
          EF   = GAM1*(PSH)
          SSP2 = GAM*P0/RHO0
-         VCRT2= DEUX*GAM*(P0+PSH)/RHO0/(GAM + UN)
+         VCRT2= TWO*GAM*(P0+PSH)/RHO0/(GAM + ONE)
          VCRT = SQRT(VCRT2)
-         RCRT = (UN-GAMRP*RHO0*VCRT2/(P0+PSH))**GAM1
+         RCRT = (ONE-GAMRP*RHO0*VCRT2/(P0+PSH))**GAM1
          PCRT = (P0+PSH)*RCRT**GAM
          RCRT = RHO0*RCRT
       CASE (1)
          SSP2 = C1/RHO0
-         GAM1 = UN
+         GAM1 = ONE
       CASE (2)
-         GAM1 = UN
+         GAM1 = ONE
          SSP2 = SSP**2
       CASE (3)
-         IF(CARL.GT.ZERO)ALP0=UNDEMI*SSP/CARL
+         IF(CARL.GT.ZERO)ALP0=HALF*SSP/CARL
          RHOC=RHO0*SSP
       CASE DEFAULT
 C     Already exited at input reading
       END SELECT
       IF(JTUR /= 0)THEN                                
-        IF(CTM.EQ.ZERO)CTM=NEUFEM2                     
-        IF(SK.EQ.ZERO)SK=UN                            
-        IF(SE.EQ.ZERO)SE=UNP3                          
-        IF(RPR.EQ.ZERO)RPR=SENEUF                                                          
+        IF(CTM.EQ.ZERO)CTM=NINEEM2                     
+        IF(SK.EQ.ZERO)SK=ONE                            
+        IF(SE.EQ.ZERO)SE=ONEP3                          
+        IF(RPR.EQ.ZERO)RPR=SEVEN_OVER_9                                                          
       ENDIF  
 C----------------------
 C     PRINTOUT
@@ -302,9 +302,9 @@ C----------------------
       PM(31)  = P0
       PM(32)  = C1
       PM(33)  = RE0/RHO0
-      PM(34)  = -UNDEMI*SSP2/CARL**2
+      PM(34)  = -HALF*SSP2/CARL**2
       PM(37)  = EF
-      PM(40)  = UN/TSCAL
+      PM(40)  = ONE/TSCAL
       PM(50)  = ITYP
       PM(51)  = INOD ! USR2SYS APRES FSDCOD, IF(IFORM8.EQ.2) INOD=USR2SYS(INOD,ITABM1,MESS)
       PM(79)  = T0
@@ -317,7 +317,7 @@ C----------------------
       PM(95) = RPR 
       PM(97)  = RHOC
       PM(98)  = ALP0
-      PM(99)  = DC+UN
+      PM(99)  = DC+ONE
 
 C----------------------
 C     MATERIAL BUFFER

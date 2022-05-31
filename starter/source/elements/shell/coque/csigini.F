@@ -159,7 +159,7 @@ c
           ENDIF
         ENDIF
         IF (ISTRAIN /= 0.AND.ITHKSHEL==2) THEN
-          IF(SIGSH(17,II) == UN)THEN
+          IF(SIGSH(17,II) == ONE)THEN
 C--- in global sys
             PT = INISHVAR1          
             IF (NPTI==1) THEN
@@ -174,7 +174,7 @@ C--- in global sys
               Z1 = SIGSH(PT+6,II)
               E2(1:6) = SIGSH(PT+7:PT+12,II)
               Z2 = SIGSH(PT+13,II)
-              AA = UNDEMI*THKE(I)
+              AA = HALF*THKE(I)
               CALL CG2LEPS(
      7           E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
      8           E1Z(I) ,E2Z(I),E3Z(I),E1   )
@@ -200,7 +200,7 @@ c             error out
                Z0 = AA*(Z2-Z1)
                GSTR(I,6:8)=(E2(1:3)-E1(1:3))/Z0
                GSTR(I,1:3)=E1(1:3)-AA*Z1*GSTR(I,6:8)
-               GSTR(I,4:5)= UNDEMI*(E2(4:5) + E1(4:5))
+               GSTR(I,4:5)= HALF*(E2(4:5) + E1(4:5))
              END IF
             END IF
           ELSE
@@ -216,7 +216,7 @@ c             error out
         ENDIF
         IF (ISIGSH==0) CYCLE
         IF (NPT == 0) THEN
-           IF(SIGSH(17,II) == UN)THEN
+           IF(SIGSH(17,II) == ONE)THEN
              TXX = SIGSH(22,II)
              TYY = SIGSH(23,II)
              TZZ = SIGSH(18,II)
@@ -273,7 +273,7 @@ C
           MOM(I,2)=SIGSH(29,II)
           MOM(I,3)=SIGSH(30,II)
         ELSEIF(NPTI == 0)THEN
-          IF(SIGSH(17,II) == UN)THEN
+          IF(SIGSH(17,II) == ONE)THEN
               TXX = SIGSH(22,II)
               TYY = SIGSH(23,II)
               TZZ = SIGSH(18,II)
@@ -315,7 +315,7 @@ C
             IF (L_PLA > 0) LBUF%PLA(I) = SIGSH(27,II)
           ENDDO
         ELSEIF(NPT /= 0)THEN
-          IF(SIGSH(17,II) == UN)THEN
+          IF(SIGSH(17,II) == ONE)THEN
              PT = 22 
              IPT_ALL = 0 
              DO ILAY=1,NLAY

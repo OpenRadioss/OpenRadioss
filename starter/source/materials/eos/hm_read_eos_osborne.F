@@ -127,8 +127,8 @@ C-----------------------------------------------
       ENDIF
 
       !solve P(0,E0)=P0  :  2 roots
-      !E0 =-UNDEMI*(B0-P0+SQRT(QUATRE*C0*D0*P0+B0**DEUX-DEUX*B0*P0+P0**DEUX))/C0  !root-1
-      E0 =-UNDEMI*(B0-P0-SQRT(QUATRE*C0*D0*P0+B0**DEUX-DEUX*B0*P0+P0**DEUX))/C0   !root-2
+      !E0 =-HALF*(B0-P0+SQRT(FOUR*C0*D0*P0+B0**TWO-TWO*B0*P0+P0**TWO))/C0  !root-1
+      E0 =-HALF*(B0-P0-SQRT(FOUR*C0*D0*P0+B0**TWO-TWO*B0*P0+P0**TWO))/C0   !root-2
       
       
       PM(23) = E0
@@ -143,10 +143,10 @@ C-----------------------------------------------
       PM(163) = P0
       !PM(88) = PSH
       PM(31)  = P0
-      IF(PM(79)==ZERO)PM(79)=TROIS100     
+      IF(PM(79)==ZERO)PM(79)=THREE100     
       
       !P0
-      MU0 = RHOI/RHOR-UN
+      MU0 = RHOI/RHOR-ONE
       DF = RHOR/RHOI     
       !SSP0
       SSP0 = ZERO 
@@ -156,12 +156,12 @@ C-----------------------------------------------
       A2_=A2                                                                              
       IF(MU0 < ZERO)A2_=-A2                                                               
       DENOM   = (E0+D0)                                                                   
-      dPdmu_partial   = (A1+2*A2_*MU0+(DEUX*B2*MU0+B1)*E0+C1*E0*E0)/DENOM                 
-      dPdE = (((B2*MU0+B1)*MU0+B0)+(DEUX*(C1*MU0+C0))*E0 - P0/DENOM)/DENOM                                         
+      dPdmu_partial   = (A1+2*A2_*MU0+(TWO*B2*MU0+B1)*E0+C1*E0*E0)/DENOM                 
+      dPdE = (((B2*MU0+B1)*MU0+B0)+(TWO*(C1*MU0+C0))*E0 - P0/DENOM)/DENOM                                         
       DPDMU = dPdmu_partial + dPdE*DF*DF*(P0)   !total derivative                         
       
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + DTIERS*G0)/RHOR) 
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0            
 
       WRITE(IOUT,1000)

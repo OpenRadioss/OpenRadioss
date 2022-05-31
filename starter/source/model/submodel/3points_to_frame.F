@@ -87,7 +87,7 @@ C     .             I3=N2)
 C     CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
       PNOR2=SQRT(V(1)*V(1)+V(2)*V(2)+V(3)*V(3))
       IF (PNOR2 > EM20) THEN
-        PNORM1=UN/(PNOR1*PNOR2)
+        PNORM1=ONE/(PNOR1*PNOR2)
         DET1=ABS((U(2)*V(3)-U(3)*V(2))*PNORM1)
         DET2=ABS((U(3)*V(1)-U(1)*V(3))*PNORM1)
         DET3=ABS((U(1)*V(2)-U(2)*V(1))*PNORM1)
@@ -102,9 +102,9 @@ C    .              MSGTYPE=MSGWARNING,
 C    .              ANMODE=ANINFO_BLIND_1,
 C    .              I1=ID,C1=TITR)
         IF(ABS(U(2)) > EM5) THEN
-          V(1)=ABS(U(1))+DIX
+          V(1)=ABS(U(1))+TEN
         ELSE
-          V(2)=DIX
+          V(2)=TEN
         ENDIF
       ENDIF
 C------------
@@ -112,15 +112,15 @@ C------------
       W(2) = U(3)*V(1)-U(1)*V(3)
       W(3) = U(1)*V(2)-U(2)*V(1)
 C------------
-      NN = UN/MAX(EM20,SQRT(U(1)*U(1)+U(2)*U(2)+U(3)*U(3)))
+      NN = ONE/MAX(EM20,SQRT(U(1)*U(1)+U(2)*U(2)+U(3)*U(3)))
       U(1) = U(1)*NN
       U(2) = U(2)*NN
       U(3) = U(3)*NN
-      NN = UN/MAX(EM20,SQRT(V(1)*V(1)+V(2)*V(2)+V(3)*V(3)))
+      NN = ONE/MAX(EM20,SQRT(V(1)*V(1)+V(2)*V(2)+V(3)*V(3)))
       V(1) = V(1)*NN
       V(2) = V(2)*NN
       V(3) = V(3)*NN
-      NN = UN/MAX(EM20,SQRT(W(1)*W(1)+W(2)*W(2)+W(3)*W(3)))
+      NN = ONE/MAX(EM20,SQRT(W(1)*W(1)+W(2)*W(2)+W(3)*W(3)))
       W(1) = W(1)*NN
       W(2) = W(2)*NN
       W(3) = W(3)*NN

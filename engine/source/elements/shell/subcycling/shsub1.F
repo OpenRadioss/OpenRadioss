@@ -75,7 +75,7 @@ C-----------------------------------------------
      . FAC, VMX, VMY, VMZ
 C-----------------------------------------------
         FAC=ZERO
-        IF(DT1.GT.ZERO)FAC=UN/DT1
+        IF(DT1.GT.ZERO)FAC=ONE/DT1
 C       stockage temporaire, JUSQU'A L'ASSEMBLAGE DES FORCES SHELLS
         DO N=NODFT,NODLT
            ASAVE(1,N) =A(1,N)

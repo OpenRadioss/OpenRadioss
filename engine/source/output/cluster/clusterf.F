@@ -157,7 +157,7 @@ c
             END DO
           END IF ! cluster type
 c
-          NORM = UN / SQRT(VN(1,I)**2 + VN(2,I)**2 + VN(3,I)**2)        
+          NORM = ONE / SQRT(VN(1,I)**2 + VN(2,I)**2 + VN(3,I)**2)        
           VN(1,I) = VN(1,I)*NORM                                               
           VN(2,I) = VN(2,I)*NORM                                               
           VN(3,I) = VN(3,I)*NORM                                               
@@ -172,14 +172,14 @@ c
           VY(1,I) = VN(2,I)*VX(3,I) - VN(3,I)*VX(2,I)                                  
           VY(2,I) = VN(3,I)*VX(1,I) - VN(1,I)*VX(3,I)                                  
           VY(3,I) = VN(1,I)*VX(2,I) - VN(2,I)*VX(1,I)                                  
-          NORM = UN / SQRT(VY(1,I)**2 + VY(2,I)**2 + VY(3,I)**2)        
+          NORM = ONE / SQRT(VY(1,I)**2 + VY(2,I)**2 + VY(3,I)**2)        
           VY(1,I) = VY(1,I)*NORM                                               
           VY(2,I) = VY(2,I)*NORM                                               
           VY(3,I) = VY(3,I)*NORM                                               
           VX(1,I) = VY(2,I)*VN(3,I) - VY(3,I)*VN(2,I)                                
           VX(2,I) = VY(3,I)*VN(1,I) - VY(1,I)*VN(3,I)                                
           VX(3,I) = VY(1,I)*VN(2,I) - VY(2,I)*VN(1,I)                                
-          NORM = UN / SQRT(VX(1,I)**2 + VX(2,I)**2 + VX(3,I)**2)        
+          NORM = ONE / SQRT(VX(1,I)**2 + VX(2,I)**2 + VX(3,I)**2)        
           VX(1,I) = VX(1,I)*NORM                                               
           VX(2,I) = VX(2,I)*NORM                                               
           VX(3,I) = VX(3,I)*NORM
@@ -246,12 +246,12 @@ c
         END IF                                    
 c------
         IF (CLUSTER(I)%TYPE == 1) THEN    ! Brick cluster                 
-          FX   = (FTOP(1) - FBOT(1))*UNDEMI          
-          FY   = (FTOP(2) - FBOT(2))*UNDEMI          
-          FZ   = (FTOP(3) - FBOT(3))*UNDEMI          
-          MOMX = (MTOP(1) - MBOT(1))*UNDEMI                           
-          MOMY = (MTOP(2) - MBOT(2))*UNDEMI                            
-          MOMZ = (MTOP(3) - MBOT(3))*UNDEMI                            
+          FX   = (FTOP(1) - FBOT(1))*HALF          
+          FY   = (FTOP(2) - FBOT(2))*HALF          
+          FZ   = (FTOP(3) - FBOT(3))*HALF          
+          MOMX = (MTOP(1) - MBOT(1))*HALF                           
+          MOMY = (MTOP(2) - MBOT(2))*HALF                            
+          MOMZ = (MTOP(3) - MBOT(3))*HALF                            
         ELSE    ! Spring cluster                 
           FX   = FTOP(1)        
           FY   = FTOP(2)        
@@ -376,10 +376,10 @@ c         Monodirectional + one direction
 
         ELSEIF (IFAIL == 2) THEN
 c         Monodirectional + all directions
-          DMG   = QUART*(MIN(UN+EM10, FN/CLUSTER(I)%FMAX(1)) + 
-     .                   MIN(UN+EM10, FT/CLUSTER(I)%FMAX(2)) +
-     .                   MIN(UN+EM10, MR/CLUSTER(I)%MMAX(1)) + 
-     .                   MIN(UN+EM10, MB/CLUSTER(I)%MMAX(2)))
+          DMG   = FOURTH*(MIN(ONE+EM10, FN/CLUSTER(I)%FMAX(1)) + 
+     .                   MIN(ONE+EM10, FT/CLUSTER(I)%FMAX(2)) +
+     .                   MIN(ONE+EM10, MR/CLUSTER(I)%MMAX(1)) + 
+     .                   MIN(ONE+EM10, MB/CLUSTER(I)%MMAX(2)))
 
         ELSEIF (IFAIL == 3) THEN
 c         Multidirectional failure
@@ -393,7 +393,7 @@ c         Multidirectional failure
         ENDIF
         CLUSTER(I)%FAIL = DMG
 c---------------------------
-        IF (DMG > UN) THEN
+        IF (DMG > ONE) THEN
 
           NINDX = NINDX+1  
           INDX(NINDX) = I                          

@@ -125,7 +125,7 @@ C
           MSGTYP = MSGOFF2 
           CALL MPI_WAIT(REQ_R1(I),STATUS,IERROR)
           LEN = LEN+IRECV(I)
-          NBEL = IRECV(I)/QUATRE
+          NBEL = IRECV(I)/FOUR
           IRECV(I)=0
 
           DO NN = 1, NBEL

@@ -141,20 +141,20 @@ C-----------------------------------------------
         XN  = -Y13*Z24+Z13*Y24
         YN  = -Z13*X24+X13*Z24
         ZN  = -X13*Y24+Y13*X24
-        FAC = UN/SQRT(XN**2+YN**2+ZN**2)
+        FAC = ONE/SQRT(XN**2+YN**2+ZN**2)
         XN  = XN*FAC
         YN  = YN*FAC
         ZN  = ZN*FAC
          !
          ! VITESSES MOYENNES A LA FRONTIERE (SUPG)
          !
-         VDX(I)=QUART*(V(1,IX1)+V(1,IX2)+V(1,IX3)+V(1,IX4))
-         VDY(I)=QUART*(V(2,IX1)+V(2,IX2)+V(2,IX3)+V(2,IX4))
-         VDZ(I)=QUART*(V(3,IX1)+V(3,IX2)+V(3,IX3)+V(3,IX4))        
+         VDX(I)=FOURTH*(V(1,IX1)+V(1,IX2)+V(1,IX3)+V(1,IX4))
+         VDY(I)=FOURTH*(V(2,IX1)+V(2,IX2)+V(2,IX3)+V(2,IX4))
+         VDZ(I)=FOURTH*(V(3,IX1)+V(3,IX2)+V(3,IX3)+V(3,IX4))        
          IF(JALE>0)THEN
-          VDX(I)=VDX(I)-QUART*(W(1,IX1)+W(1,IX2)+W(1,IX3)+W(1,IX4))
-          VDY(I)=VDY(I)-QUART*(W(2,IX1)+W(2,IX2)+W(2,IX3)+W(2,IX4))
-          VDZ(I)=VDZ(I)-QUART*(W(3,IX1)+W(3,IX2)+W(3,IX3)+W(3,IX4))         
+          VDX(I)=VDX(I)-FOURTH*(W(1,IX1)+W(1,IX2)+W(1,IX3)+W(1,IX4))
+          VDY(I)=VDY(I)-FOURTH*(W(2,IX1)+W(2,IX2)+W(2,IX3)+W(2,IX4))
+          VDZ(I)=VDZ(I)-FOURTH*(W(3,IX1)+W(3,IX2)+W(3,IX3)+W(3,IX4))         
          ENDIF
          VD2(I)=VDX(I)**2+VDY(I)**2+VDZ(I)**2
          IF(VDX(I)*XN+VDY(I)*YN+VDZ(I)*ZN .LE.ZERO)THEN
@@ -170,7 +170,7 @@ C-----------------------------------------------
          VN3=V(1,IX3)*XN+V(2,IX3)*YN+V(3,IX3)*ZN
          VN4=V(1,IX4)*XN+V(2,IX4)*YN+V(3,IX4)*ZN
          VEL(I)=(MIN(VN1,VN2,VN3,VN4))**2
-         VN(I)=QUART*(VN1+VN2+VN3+VN4)
+         VN(I)=FOURTH*(VN1+VN2+VN3+VN4)
          IF(VN(I).GE.ZERO)VEL(I)=ZERO
 
         IF(IVOI.LE.NUMELS)THEN
@@ -195,10 +195,10 @@ C-----------------------------------------------
           ENDDO
 !
           !Global Material data
-          PV(0,I)   = -TIERS*(GBUF%SIG(IJ(1)+IS)
+          PV(0,I)   = -THIRD*(GBUF%SIG(IJ(1)+IS)
      .                      + GBUF%SIG(IJ(2)+IS)
      .                      + GBUF%SIG(IJ(3)+IS))
-          AVV(0,I)   = UN
+          AVV(0,I)   = ONE
           EIV(0,I)   = GBUF%EINT(IS)
           RHOV(0,I)  = GBUF%RHO(IS)         
           TV(0,I)    = GBUF%TEMP(IS)    !IF (JTHE>0)

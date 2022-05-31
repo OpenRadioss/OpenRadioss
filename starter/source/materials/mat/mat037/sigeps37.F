@@ -106,14 +106,14 @@ C----------------------------------------------------------------
         RHO20        =  UPARAM(12)
         A1           =  UPARAM(10)         
         P            = -P0  
-        RHO(I)       =  RHO10 * A1 + (UN-A1)*RHO20     
+        RHO(I)       =  RHO10 * A1 + (ONE-A1)*RHO20     
         IF(GAM*C1.GE.EM30)THEN !if Liquid and gas correctly defined
-          MU1P1      = UN  !(P/C1+UN)
-          MU2P1      = UN  !( UN+P/P0)**(UN/GAM)
+          MU1P1      = ONE  !(P/C1+ONE)
+          MU2P1      = ONE  !( ONE+P/P0)**(ONE/GAM)
           RHO1       = RHO10*MU1P1
           RHO2       = RHO20*MU2P1
           A          = (RHO(I)-RHO2)/(RHO1-RHO2)
-          SOUNDSP(I) = A*SQRT(C1/RHO1) + (UN-A) * SQRT(GAM*P0/RHO2) 
+          SOUNDSP(I) = A*SQRT(C1/RHO1) + (ONE-A) * SQRT(GAM*P0/RHO2) 
         ENDIF 
          
       ENDDO

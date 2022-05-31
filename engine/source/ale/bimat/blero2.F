@@ -74,7 +74,7 @@ C-----------------------------------------------
         VOLN(I)=VOLN(I)*ALPH(I)
         AIRE(I)=AIRE(I)*ALPH(I)
         RHON(I) = RHON(I) / MAX(EM30,VOLN(I))
-        DVOL(I) = VOLN(I)-VOLO(I)+DT1*UNDEMI*(FLU1(I)
+        DVOL(I) = VOLN(I)-VOLO(I)+DT1*HALF*(FLU1(I)
      .          +FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
         VOLO(I)=VOLN(I)
       ENDDO
@@ -91,15 +91,15 @@ C-----------------------------------------------
       DO I=LFT,LLT
         VY=VY1(I)+VY2(I)+VY3(I)+VY4(I)
         VZ=VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I)
-        VD2(I)=(VY**2+VZ**2)/SEIZE
+        VD2(I)=(VY**2+VZ**2)/SIXTEEN
       ENDDO
 
       DO I=LFT,LLT
         IF((MTN.EQ.11).OR.(RHON(I).GT.ZERO))THEN
-          IF(ALPH(I).LT.UN)THEN
+          IF(ALPH(I).LT.ONE)THEN
             SCAL=ABS(DVOL(I))/
      .           MAX(EM15,VOLN(I)*DT1*ABS(D1(I)+D2(I)+D3(I)))
-            SCAL= MIN(UN,SCAL)
+            SCAL= MIN(ONE,SCAL)
             D1(I)=D1(I)*SCAL
             D2(I)=D2(I)*SCAL
             D3(I)=D3(I)*SCAL

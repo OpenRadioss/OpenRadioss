@@ -157,7 +157,7 @@ C-----------------------------------------------
         S4(I)=(SIG(I,4)+SVIS(I,4))*VOL(I)
         S5(I)=(SIG(I,5)+SVIS(I,5))*VOL(I)
         S6(I)=(SIG(I,6)+SVIS(I,6))*VOL(I)
-c        P(I) =TIERS*(SIG(I,1)+SIG(I,2)+SIG(I,3)
+c        P(I) =THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3)
 c     .            +SVIS(I,1)+SVIS(I,2)+SVIS(I,3))
        ENDDO
        IF (ISEL_V>0) THEN

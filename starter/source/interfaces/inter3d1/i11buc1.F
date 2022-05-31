@@ -506,7 +506,7 @@ c     WRITE(6,*) __FILE__,__LINE__,DRAD,GAP,BMUL0
       TZINF_ST = MARGE_ST + MAX(GAP,DRAD)
 C
       MINBOX= DD + TZINF
-      MAXBOX= DEUX*MINBOX
+      MAXBOX= TWO*MINBOX
       TZINF0 = TZINF
       MINBOX0 = MINBOX
       MAXBOX0 = MAXBOX
@@ -625,7 +625,7 @@ C------------------
   200 CONTINUE
 c       WRITE(6,*) __FILE__,__LINE__
 C------------------
-C       SEPARER B ET N EN DEUX
+C       SEPARER B ET N EN TWO
         CALL I11TRI(
      1   MWA(IP1),MWA(IP2),MWA(IP21),MWA(IP22),ADD,
      2   IRECTS  ,X       ,NB_NC    ,NB_EC    ,XYZM,

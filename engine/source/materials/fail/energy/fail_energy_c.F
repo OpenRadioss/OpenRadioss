@@ -117,12 +117,12 @@ c=======================================================================
       NINDX    = 0  
 C-----------------------------------------------
       DO I = 1,NEL
-        IF (OFF(I) == UN .and. FOFF(I) == 1) THEN
+        IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
           IF (IFUNC(1) /= 0) THEN
             RFAC = FINTER(IFUNC(1),EPSP(I)*XFAC,NPF,TF,DYDX)
             RFAC = MAX(RFAC,EM20)
           ELSE
-            RFAC = UN
+            RFAC = ONE
           ENDIF  
           R1 = RIEF1*RFAC
           R2 = RIEF2*RFAC
@@ -131,7 +131,7 @@ C-----------------------------------------------
 
           IF (IE_SP > R1) THEN
             DAMAGE(I) = (IE_SP-R1)/(R2-R1)
-            DAMAGE(I) = MIN(UN,DAMAGE(I))
+            DAMAGE(I) = MIN(ONE,DAMAGE(I))
             DFMAX(I)  = MAX(DFMAX(I) ,DAMAGE(I))
           ENDIF
           IF (IE_SP > R2) THEN
@@ -145,7 +145,7 @@ C-----------------------------------------------
 c
       IF (DMG_FLAG == 1) THEN
         DO I = 1,NEL
-          DMG_SCALE(I) = UN - DFMAX(I)
+          DMG_SCALE(I) = ONE - DFMAX(I)
         ENDDO          
       ENDIF
 c------------------------

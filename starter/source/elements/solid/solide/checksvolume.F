@@ -58,7 +58,7 @@ C-----------------------------------------------
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
      .   X17, X28, X35, X46,Y17, Y28, Y35, Y46, Z17, Z28, Z35, Z46,
      .   AJ1,AJ2,AJ3,AJ4,AJ5,AJ6,AJ7,AJ8,AJ9,A17,A28,B17,B28,C17,C28, 
-     .   AJ5968, AJ6749, AJ4857
+     .   JAC_59_68, JAC_67_49, JAC_48_57
 C=======================================================================
       CHECKVOLUME_8N = ZERO
 C
@@ -115,10 +115,10 @@ C
       AJ7=A17-A28
       AJ8=B17-B28
       AJ9=C17-C28
-      AJ5968=AJ5*AJ9-AJ6*AJ8
-      AJ6749=AJ6*AJ7-AJ4*AJ9
-      AJ4857=AJ4*AJ8-AJ5*AJ7
-      CHECKVOLUME_8N=O64TH*(AJ1*AJ5968+AJ2*AJ6749+AJ3*AJ4857)
+      JAC_59_68=AJ5*AJ9-AJ6*AJ8
+      JAC_67_49=AJ6*AJ7-AJ4*AJ9
+      JAC_48_57=AJ4*AJ8-AJ5*AJ7
+      CHECKVOLUME_8N=ONE_OVER_64*(AJ1*JAC_59_68+AJ2*JAC_67_49+AJ3*JAC_48_57)
 C-----------
       RETURN
       END
@@ -153,7 +153,7 @@ C-----------------------------------------------
       my_real
      .   X1,X2,X3,X4,X5,X6,Y1,Y2,Y3,Y4,Y5,Y6,Z1,Z2,Z3,Z4,Z5,Z6,
      .   X21,X31,X41,X54,X64,Y21,Y31,Y41,Y54,Y64,Z21,Z31,Z41,Z54,Z64,
-     .   AJ1,AJ2,AJ3,AJ4,AJ5,AJ6,AJ7,AJ8,AJ9, AJ5968,AJ6749,AJ4857
+     .   AJ1,AJ2,AJ3,AJ4,AJ5,AJ6,AJ7,AJ8,AJ9, JAC_59_68,JAC_67_49,JAC_48_57
 C=======================================================================
       CHECKVOLUME_6N = ZERO
 C
@@ -202,11 +202,11 @@ C
       AJ8=THIRD*(Y41+Y5-Y2+Y6-Y3)
       AJ9=THIRD*(Z41+Z5-Z2+Z6-Z3)
 C
-      AJ5968=AJ5*AJ9-AJ6*AJ8
-      AJ6749=AJ6*AJ7-AJ4*AJ9
-      AJ4857=AJ4*AJ8-AJ5*AJ7
+      JAC_59_68=AJ5*AJ9-AJ6*AJ8
+      JAC_67_49=AJ6*AJ7-AJ4*AJ9
+      JAC_48_57=AJ4*AJ8-AJ5*AJ7
 C
-      CHECKVOLUME_6N=UNHUIT*(AJ1*AJ5968+AJ2*AJ6749+AJ3*AJ4857)
+      CHECKVOLUME_6N=ONE_OVER_8*(AJ1*JAC_59_68+AJ2*JAC_67_49+AJ3*JAC_48_57)
 C-----------
       RETURN
       END
@@ -286,7 +286,7 @@ C
       D3 = X42*Y41 - X41*Y42        
       D4 = -(D1 + D2 + D3) 
 C
-      CHECKVOLUME_4N = (X41*B1 + Y41*C1 + Z41*D1)*UNSIX
+      CHECKVOLUME_4N = (X41*B1 + Y41*C1 + Z41*D1)*ONE_OVER_6
 C-----------
       RETURN
       END

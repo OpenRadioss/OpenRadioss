@@ -131,7 +131,7 @@ C     REAL ou REAL*8
      .   DVP,DV,DV1
 C                                                                     12
 C-----------------------------------------------
-       TOL = UN-EM20
+       TOL = ONE-EM20
        DXX(LFT:LLT) =PX1(LFT:LLT)*VX1(LFT:LLT)+PX2(LFT:LLT)*VX2(LFT:LLT)+PX3(LFT:LLT)*VX3(LFT:LLT)+PX4(LFT:LLT)*VX4(LFT:LLT)
      .        +PX5(LFT:LLT)*VX5(LFT:LLT)+PX6(LFT:LLT)*VX6(LFT:LLT)+PX7(LFT:LLT)*VX7(LFT:LLT)+PX8(LFT:LLT)*VX8(LFT:LLT)
        DYY(LFT:LLT) =PY1(LFT:LLT)*VY1(LFT:LLT)+PY2(LFT:LLT)*VY2(LFT:LLT)+PY3(LFT:LLT)*VY3(LFT:LLT)+PY4(LFT:LLT)*VY4(LFT:LLT)
@@ -204,21 +204,21 @@ C-------------R--direction------
       IF (ICR.EQ.1) THEN
        DO I=LFT,LLT
         DXX(I)= DXX(I)-DSR(I)*DTI
-        IF(ISMDISP.EQ.0.AND.OFFS(I).NE.DEUX)DVCA(I)= DVCA(I)-DSR(I)
+        IF(ISMDISP.EQ.0.AND.OFFS(I).NE.TWO)DVCA(I)= DVCA(I)-DSR(I)
        ENDDO
       ENDIF 
 C--------------S--direction--
       IF (ICS.EQ.1) THEN
        DO I=LFT,LLT
         DYY(I)= DYY(I)-DSS(I)*DTI
-        IF(ISMDISP.EQ.0.AND.OFFS(I).NE.DEUX)DVCA(I)= DVCA(I)-DSS(I)
+        IF(ISMDISP.EQ.0.AND.OFFS(I).NE.TWO)DVCA(I)= DVCA(I)-DSS(I)
        ENDDO
       ENDIF 
 C--------------T--direction
       IF (ICT.EQ.1) THEN
        DO I=LFT,LLT
         DZZ(I)= DZZ(I)-DST(I)*DTI
-        IF(ISMDISP.EQ.0.AND.OFFS(I).NE.DEUX)DVCA(I)= DVCA(I)-DST(I)
+        IF(ISMDISP.EQ.0.AND.OFFS(I).NE.TWO)DVCA(I)= DVCA(I)-DST(I)
        ENDDO
       ENDIF 
 C-------------Volume traitement------
@@ -238,11 +238,11 @@ C-------------Volume traitement------
        ENDDO
       ELSEIF (ISMSTR==12.AND.ICP==1) THEN
        DO I=LFT,LLT
-        IF(OFFS(I)<=UN) DSV(I) = ZERO
+        IF(OFFS(I)<=ONE) DSV(I) = ZERO
        ENDDO
       ELSEIF ((ICR+ICS+ICT).GT.0 ) THEN
        DO I=LFT,LLT
-        IF(OFFS(I).EQ.DEUX.OR.ISMSTR==11) THEN
+        IF(OFFS(I).EQ.TWO.OR.ISMSTR==11) THEN
          IF (ICP.EQ.1) THEN
           DSV(I) =DVCA(I)-(DXX(I)+DYY(I)+DZZ(I))*DT1
          ELSE
@@ -252,7 +252,7 @@ C-------------Volume traitement------
        ENDDO
       END IF 
       DO I=LFT,LLT
-        IF(OFFS(I)==DEUX.OR.ISMSTR==11) CYCLE
+        IF(OFFS(I)==TWO.OR.ISMSTR==11) CYCLE
         DV=DSV(I)
         IF (ABS(DV).GT.TOL.AND.OFF(I).NE.ZERO) THEN
           DV =ZERO
@@ -269,16 +269,16 @@ C         ENDIF
           DV =ZERO
         ENDIF
         IF(ISMDISP.EQ.0) THEN
-         DV1 = UN-DV
+         DV1 = ONE-DV
          VOLO(I) = VOLO(I)*DV1
          IF (IRESP==1) VOL0DP(I) = VOL0DP(I)*DV1
          EINT(I) = EINT(I)/DV1
         ENDIF
       ENDDO
 C
-      DT1D2=UNDEMI*DT1
+      DT1D2=HALF*DT1
       IF (ISCAU.GT.0 )DT1D2=DT1
-      DT1D=DEUX*DT1D2
+      DT1D=TWO*DT1D2
       IF (JCVT.NE.0) THEN
        IF (ISMDISP.GT.0.AND.ISCAU.EQ.0) THEN
          D4(LFT:LLT)   = DXY(LFT:LLT)+DYX(LFT:LLT)
@@ -444,16 +444,16 @@ Cqz
      .                DXX, DXY, DXZ,
      .                DYX, DYY, DYZ,
      .                DZX, DZY, DZZ)
-C-----F'=FAC*F=MF'+[1]-->MF'=FAC*MF+(FAC-UN)*[1]
+C-----F'=FAC*F=MF'+[1]-->MF'=FAC*MF+(FAC-ONE)*[1]
         DO I=LFT,LLT
-         FAC=DTIERS*NU(I)
+         FAC=TWO_THIRD*NU(I)
          BASE = DET0(I)/MAX(EM20,DET(I))
          JFAC(I)=EXP(FAC*LOG(MAX(EM20,BASE)))
-         IF (IDEG(I)>10) JFAC(I) =UN 
+         IF (IDEG(I)>10) JFAC(I) =ONE 
         ENDDO
-        DXX(LFT:LLT) = JFAC(LFT:LLT)*DXX(LFT:LLT)+JFAC(LFT:LLT)-UN
-        DYY(LFT:LLT) = JFAC(LFT:LLT)*DYY(LFT:LLT)+JFAC(LFT:LLT)-UN
-        DZZ(LFT:LLT) = JFAC(LFT:LLT)*DZZ(LFT:LLT)+JFAC(LFT:LLT)-UN
+        DXX(LFT:LLT) = JFAC(LFT:LLT)*DXX(LFT:LLT)+JFAC(LFT:LLT)-ONE
+        DYY(LFT:LLT) = JFAC(LFT:LLT)*DYY(LFT:LLT)+JFAC(LFT:LLT)-ONE
+        DZZ(LFT:LLT) = JFAC(LFT:LLT)*DZZ(LFT:LLT)+JFAC(LFT:LLT)-ONE
         DXY(LFT:LLT) = JFAC(LFT:LLT)*DXY(LFT:LLT)
         DYX(LFT:LLT) = JFAC(LFT:LLT)*DYX(LFT:LLT)
         DZX(LFT:LLT) = JFAC(LFT:LLT)*DZX(LFT:LLT)

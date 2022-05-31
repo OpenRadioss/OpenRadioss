@@ -156,7 +156,7 @@ C-----------------------------------------------
           NPTS = ELBUF_TAB(NG)%NPTS                 
           NPTT = ELBUF_TAB(NG)%NPTT
             IF (IGTYP == 22 .AND. NLAY>9) THEN
-             F_EXP = UN
+             F_EXP = ONE
             ELSE
              F_EXP = F_GAUSS(NLAY)
             END IF
@@ -307,12 +307,12 @@ C-------- grp skin_inf first
                IF (MLWI == 12 .OR. MLWI == 14) THEN
                  DO I=1,NEL						   
                   EVAR(1:2,I) = LBUF%EPE(JJ(1:2) + I)       
-                  EVAR(3,I)   = UNDEMI*LBUF%EPE(JJ(4) + I)
+                  EVAR(3,I)   = HALF*LBUF%EPE(JJ(4) + I)
                  ENDDO						       
                ELSEIF (MLWI /= 49 ) THEN                 
                  DO I=1,NEL						   
                   EVAR(1:2,I) = LBUF%STRA(JJ(1:2) + I)       
-                  EVAR(3,I)   = UNDEMI*LBUF%STRA(JJ(4) + I)
+                  EVAR(3,I)   = HALF*LBUF%STRA(JJ(4) + I)
                  ENDDO						       
                ELSE
                 IS_WRITTEN_TENSOR(1:NEL) = 0
@@ -325,12 +325,12 @@ C------to see if need rotate EVARL
                   IF (MLWI == 12 .OR. MLWI == 14) THEN
                     DO I=1,NEL						   
                      EVAR(1:2,I) = EVAR(1:2,I)+LBUF%EPE(JJ(1:2) + I)       
-                     EVAR(3,I)   = EVAR(3,I)+UNDEMI*LBUF%EPE(JJ(4) + I)
+                     EVAR(3,I)   = EVAR(3,I)+HALF*LBUF%EPE(JJ(4) + I)
                     ENDDO						       
                   ELSEIF (MLWI /= 49 ) THEN                 
                     DO I=1,NEL						   
                      EVAR(1:2,I) = EVAR(1:2,I)+LBUF%STRA(JJ(1:2) + I)       
-                     EVAR(3,I)   = EVAR(3,I)+ UNDEMI*LBUF%STRA(JJ(4) + I)
+                     EVAR(3,I)   = EVAR(3,I)+ HALF*LBUF%STRA(JJ(4) + I)
                     ENDDO						       
                   ELSE
                    IS_WRITTEN_TENSOR(1:NEL) = 0
@@ -381,12 +381,12 @@ C-------- grp skin_sup
                IF (MLWI == 12 .OR. MLWI == 14) THEN
                  DO I=1,NEL						   
                   EVAR(1:2,I) = LBUF%EPE(JJ(1:2) + I)       
-                  EVAR(3,I)   = UNDEMI*LBUF%EPE(JJ(4) + I)
+                  EVAR(3,I)   = HALF*LBUF%EPE(JJ(4) + I)
                  ENDDO						       
                ELSEIF (MLWI /= 49 ) THEN                 
                  DO I=1,NEL						   
                   EVAR(1:2,I) = LBUF%STRA(JJ(1:2) + I)       
-                  EVAR(3,I)   = UNDEMI*LBUF%STRA(JJ(4) + I)
+                  EVAR(3,I)   = HALF*LBUF%STRA(JJ(4) + I)
                  ENDDO						       
                ELSE
                 IS_WRITTEN_TENSOR(1:NEL) = 0
@@ -399,12 +399,12 @@ C------to see if need rotate EVARL
                   IF (MLWI == 12 .OR. MLWI == 14) THEN
                     DO I=1,NEL						   
                      EVAR(1:2,I) = EVAR(1:2,I)+LBUF%EPE(JJ(1:2) + I)       
-                     EVAR(3,I)   = EVAR(3,I)+UNDEMI*LBUF%EPE(JJ(4) + I)
+                     EVAR(3,I)   = EVAR(3,I)+HALF*LBUF%EPE(JJ(4) + I)
                     ENDDO						       
                   ELSEIF (MLWI /= 49 ) THEN                 
                     DO I=1,NEL						   
                      EVAR(1:2,I) = EVAR(1:2,I)+LBUF%STRA(JJ(1:2) + I)       
-                     EVAR(3,I)   = EVAR(3,I)+ UNDEMI*LBUF%STRA(JJ(4) + I)
+                     EVAR(3,I)   = EVAR(3,I)+ HALF*LBUF%STRA(JJ(4) + I)
                     ENDDO						       
                   ELSE
                    IS_WRITTEN_TENSOR(1:NEL) = 0
@@ -561,7 +561,7 @@ C-----------------------------------------------
           VR=V1*E1X(I)+V2*E1Y(I)+V3*E1Z(I)  
           VS=V1*E2X(I)+V2*E2Y(I)+V3*E2Z(I)  
           SUMA=SQRT(VR*VR + VS*VS)          
-          SUMA=UN/MAX(EM20,SUMA)            
+          SUMA=ONE/MAX(EM20,SUMA)            
           DIRB(I,1) = VR*SUMA               
           DIRB(I,2) = VS*SUMA               
         ENDDO                               
@@ -577,7 +577,7 @@ C-----------------------------------------------
             VR=V1*E2X(I)+V2*E2Y(I)+V3*E2Z(I)
             VS=V1*E3X(I)+V2*E3Y(I)+V3*E3Z(I)
             SUMA=SQRT(VR*VR + VS*VS)
-            SUMA=UN/MAX(EM20,SUMA)
+            SUMA=ONE/MAX(EM20,SUMA)
             DIRB(I,1) = VR*SUMA               
             DIRB(I,2) = VS*SUMA               
           ENDDO
@@ -591,7 +591,7 @@ C-----------------------------------------------
             VR=V1*E3X(I)+V2*E3Y(I)+V3*E3Z(I)
             VS=V1*E1X(I)+V2*E1Y(I)+V3*E1Z(I)
             SUMA=SQRT(VR*VR + VS*VS)
-            SUMA=UN/MAX(EM20,SUMA)
+            SUMA=ONE/MAX(EM20,SUMA)
             DIRB(I,1) = VR*SUMA               
             DIRB(I,2) = VS*SUMA               
           ENDDO
@@ -605,7 +605,7 @@ C-----------------------------------------------
             VR=V1*E1X(I)+V2*E1Y(I)+V3*E1Z(I)
             VS=V1*E2X(I)+V2*E2Y(I)+V3*E2Z(I)
             SUMA=SQRT(VR*VR + VS*VS)
-            SUMA=UN/MAX(EM20,SUMA)
+            SUMA=ONE/MAX(EM20,SUMA)
             DIRB(I,1) = VR*SUMA               
             DIRB(I,2) = VS*SUMA               
           ENDDO
@@ -652,7 +652,7 @@ C-----------------------------------------------
          X2=DIR(I,1)*DIR(I,1)
          Y2=DIR(I,2)*DIR(I,2)
          XY=DIR(I,1)*DIR(I,2)
-         XYS2=DEUX*XY*SIG(3,I)
+         XYS2=TWO*XY*SIG(3,I)
          SIGN(1) = X2*SIG(1,I)+Y2*SIG(2,I)-XYS2
          SIGN(2) = Y2*SIG(1,I)+X2*SIG(2,I)+XYS2
          SIGN(3) =(SIG(1,I)-SIG(2,I))*XY+(X2-Y2)*SIG(3,I)
@@ -707,7 +707,7 @@ C     REAL ou REAL*8
      .   E1X(MVSIZ),E2X(MVSIZ),E3X(MVSIZ),
      .   E1Y(MVSIZ),E2Y(MVSIZ),E3Y(MVSIZ),
      .   E1Z(MVSIZ),E2Z(MVSIZ),E3Z(MVSIZ),
-     .   DETA1(MVSIZ),OFFG(MVSIZ),TEN(6,MVSIZ)  
+     .   DETA1(MVSIZ),OFFG(MVSIZ),TENS(6,MVSIZ)  
 C-----------------------------------------------
         DO I=1,NEL
           IX1(I)=IXC(2,I)
@@ -736,7 +736,7 @@ C-----------------------------------------------
           SZ(I)=Z3(I)+Z4(I)-Z1(I)-Z2(I)
         ENDDO
        K = 0
-       OFFG(1:NEL) = UN
+       OFFG(1:NEL) = ONE
        CALL CLSKEW3(1,NEL,K,
      .   RX, RY, RZ, 
      .   SX, SY, SZ, 
@@ -744,13 +744,13 @@ C-----------------------------------------------
      .   DETA1,OFFG )
         DO I=1,NEL
           IF (IX3(I)==IX4(I)) THEN
-           TEN(1:6,I) = THIRD*(TEN3(1:6,IX1(I))+TEN3(1:6,IX2(I))+TEN3(1:6,IX3(I)))
+           TENS(1:6,I) = THIRD*(TEN3(1:6,IX1(I))+TEN3(1:6,IX2(I))+TEN3(1:6,IX3(I)))
           ELSE
-           TEN(1:6,I) = QUART*(TEN3(1:6,IX1(I))+TEN3(1:6,IX2(I))
+           TENS(1:6,I) = FOURTH*(TEN3(1:6,IX1(I))+TEN3(1:6,IX2(I))
      .                         +TEN3(1:6,IX3(I))+TEN3(1:6,IX4(I)))
           END IF
         ENDDO
-        CALL ROT3DTO2D(NEL,TEN,TEN2,E1X, E1Y, E1Z, E2X, E2Y, E2Z, E3X, E3Y, E3Z)
+        CALL ROT3DTO2D(NEL,TENS,TEN2,E1X, E1Y, E1Z, E2X, E2Y, E2Z, E3X, E3Y, E3Z)
 C-----------
       RETURN
       END SUBROUTINE TENS3DTO2D

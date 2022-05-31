@@ -142,12 +142,12 @@ C
         CALL HM_GET_FLOATV ('XGscale',XGscale,IS_AVAILABLE,LSUBMODEL,UNITAB)
         IF (XGscale == ZERO) THEN 
           CALL HM_GET_FLOATV_DIM('XGscale',XGscale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XGscale = UN * XGscale_UNIT      
+          XGscale = ONE * XGscale_UNIT      
         ENDIF
         CALL HM_GET_FLOATV ('YGscale',YGscale ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         IF (YGscale == ZERO) THEN 
           CALL HM_GET_FLOATV_DIM('YGscale' ,YGscale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YGscale = UN * YGscale_UNIT      
+          YGscale = ONE * YGscale_UNIT      
         ENDIF
         !----------------------------------------------------------------------------------
         ! -> Bulk modulus VS time
@@ -156,12 +156,12 @@ C
         CALL HM_GET_FLOATV ('XKscale',XKscale,IS_AVAILABLE,LSUBMODEL,UNITAB)
         IF (XKscale == ZERO) THEN 
           CALL HM_GET_FLOATV_DIM('XKscale',XKscale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XKscale = UN * XKscale_UNIT      
+          XKscale = ONE * XKscale_UNIT      
         ENDIF
         CALL HM_GET_FLOATV ('YKscale',YKscale ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         IF (YKscale == ZERO) THEN 
           CALL HM_GET_FLOATV_DIM('YKscale' ,YKscale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YKscale = UN * YKscale_UNIT      
+          YKscale = ONE * YKscale_UNIT      
         ENDIF
         !----------------------------------------------------------------------------------------
         ! Fit Prony series parameters to approximate tabulated functions by Least Squares method
@@ -183,12 +183,12 @@ C
         CALL HM_GET_FLOATV ('XGs_scale' ,XGs_scale ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         IF (XGs_scale == ZERO) THEN 
           CALL HM_GET_FLOATV_DIM('XGs_scale',XGs_scale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XGs_scale = UN * XGs_scale_UNIT      
+          XGs_scale = ONE * XGs_scale_UNIT      
         ENDIF
         CALL HM_GET_FLOATV ('YGs_scale' ,YGs_scale ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         IF (YGs_scale == ZERO) THEN 
           CALL HM_GET_FLOATV_DIM('YGs_scale',YGs_scale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YGs_scale = UN * YGs_scale_UNIT      
+          YGs_scale = ONE * YGs_scale_UNIT      
         ENDIF        
         !----------------------------------------------------------------------------------
         ! -> Shear loss modulus VS frequency
@@ -197,12 +197,12 @@ C
         CALL HM_GET_FLOATV ('XGl_scale' ,XGl_scale ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         IF (XGl_scale == ZERO) THEN 
           CALL HM_GET_FLOATV_DIM('XGl_scale',XGl_scale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XGl_scale = UN * XGl_scale_UNIT      
+          XGl_scale = ONE * XGl_scale_UNIT      
         ENDIF
         CALL HM_GET_FLOATV ('YGl_scale' ,YGl_scale ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         IF (YGl_scale == ZERO) THEN 
           CALL HM_GET_FLOATV_DIM('YGl_scale',YGl_scale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YGl_scale = UN * YGl_scale_UNIT      
+          YGl_scale = ONE * YGl_scale_UNIT      
         ENDIF 
         !----------------------------------------------------------------------------------
         ! -> Bulk storage modulus VS frequency
@@ -211,12 +211,12 @@ C
         CALL HM_GET_FLOATV ('XKs_scale' ,XKs_scale ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         IF (XKs_scale == ZERO) THEN 
           CALL HM_GET_FLOATV_DIM('XKs_scale',XKs_scale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XKs_scale = UN * XKs_scale_UNIT      
+          XKs_scale = ONE * XKs_scale_UNIT      
         ENDIF
         CALL HM_GET_FLOATV ('YKs_scale' ,YKs_scale ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         IF (YKs_scale == ZERO) THEN 
           CALL HM_GET_FLOATV_DIM('YKs_scale',YKs_scale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YKs_scale = UN * YKs_scale_UNIT      
+          YKs_scale = ONE * YKs_scale_UNIT      
         ENDIF    
         !----------------------------------------------------------------------------------
         ! -> Bulk loss modulus VS frequency
@@ -225,12 +225,12 @@ C
         CALL HM_GET_FLOATV ('XKl_scale' ,XKl_scale ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         IF (XKl_scale == ZERO) THEN 
           CALL HM_GET_FLOATV_DIM('XKl_scale',XKl_scale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XKl_scale = UN * XKl_scale_UNIT      
+          XKl_scale = ONE * XKl_scale_UNIT      
         ENDIF
         CALL HM_GET_FLOATV ('YKl_scale' ,YKl_scale ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         IF (YKl_scale == ZERO) THEN 
           CALL HM_GET_FLOATV_DIM('YKl_scale',YKl_scale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YKl_scale = UN * YKl_scale_UNIT      
+          YKl_scale = ONE * YKl_scale_UNIT      
         ENDIF  
         !----------------------------------------------------------------------------------------
         ! Fit Prony series parameters to approximate tabulated functions by Least Squares method
@@ -494,7 +494,7 @@ C
       IF (2*NPRONY >= SIZE_TIME) THEN
         CALL ANCMSG(MSGID=1921,MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_1,I1=MAT_ID,I2=NPRONY,
-     .              I3=SIZE_TIME,I4=FLOOR(SIZE_TIME/DEUX))
+     .              I3=SIZE_TIME,I4=FLOOR(SIZE_TIME/TWO))
       ENDIF
 C      
       ! Allocation and initialization of the vectors
@@ -505,14 +505,14 @@ C
 C
       ! Initialization of parameters value
       DO I = 1,NPRONY
-        XI(2*I-1) = UN/(I+ISHAPE)
+        XI(2*I-1) = ONE/(I+ISHAPE)
         XI(2*I)   = I-1+ISHAPE
       ENDDO
 C
       ! Identity matrix
       ID = ZERO
       DO I = 1,2*NPRONY
-        ID(I,I) = UN
+        ID(I,I) = ONE
       ENDDO
 C        
       ! Initialization of the residues
@@ -531,7 +531,7 @@ C
 C
       ! Initialization of the damping parameter and the convergence criterion
       LAMBDA = MAXVAL(JAC)
-      NU     = DEUX
+      NU     = TWO
       CONV   = .FALSE.
       NITER  = 0
 C
@@ -580,15 +580,15 @@ C
           !  -> Step accepted
           IF ((RHO > ZERO).AND.(INFO == 0)) THEN
             ! Update damping parameter
-            LAMBDA = LAMBDA*MAX(TIERS,UN-(DEUX*RHO-UN)**3)
-            NU     = DEUX
+            LAMBDA = LAMBDA*MAX(THIRD,ONE-(TWO*RHO-ONE)**3)
+            NU     = TWO
             ! Update XI vector with line search to be sure that XI >= ZERO
             !  -> Compute the MU vector
             DO I = 1,2*NPRONY
               IF (JACTDY(I)>=ZERO) THEN
-                MU(I) = UN
+                MU(I) = ONE
               ELSE
-                MU(I) = MIN(UN,((UN-ALPHA)/(-JACTDY(I)))*XI(I))
+                MU(I) = MIN(ONE,((ONE-ALPHA)/(-JACTDY(I)))*XI(I))
               ENDIF
               XI(I) = XI(I) + MU(I)*JACTDY(I)
             ENDDO  
@@ -615,11 +615,11 @@ C
           ELSE
             ! Update damping parameter            
             LAMBDA = LAMBDA*NU 
-            NU     = NU*DEUX
+            NU     = NU*TWO
           ENDIF          
 C          
           ! f) Computing the convergence criterion
-          JACTDY    = DEUX*MATMUL(JACT,DELTAY)
+          JACTDY    = TWO*MATMUL(JACT,DELTAY)
           JACTDY_N2 = SQRT(DOT_PRODUCT(JACTDY,JACTDY))
           IF (JACTDY_N2 < EPS1) CONV = .TRUE.
 c
@@ -767,7 +767,7 @@ C
           ALLOCATE(FREQ(SIZE_FREQ),YIS(SIZE_FREQ),YIL(SIZE_FREQ))
           MXFREQ = MAXVAL(FREQS)
           DO II = 1, SIZE_FREQ
-            FREQ(II) = FREQS(II)*(CENT/MXFREQ)
+            FREQ(II) = FREQS(II)*(HUNDRED/MXFREQ)
             YIS(II)  = YIS_TEMP(II)
             YIL(II)  = YIL_TEMP(II)
           ENDDO
@@ -813,9 +813,9 @@ C
         ENDDO
         CALL QSORT(FREQ,IDX,1,SIZE_FREQ)
         MXFREQ = MAXVAL(FREQ)
-        FREQ   = FREQ*(CENT/MXFREQ)
-        FREQS  = FREQS*(CENT/MXFREQ)
-        FREQL  = FREQL*(CENT/MXFREQ)
+        FREQ   = FREQ*(HUNDRED/MXFREQ)
+        FREQS  = FREQS*(HUNDRED/MXFREQ)
+        FREQL  = FREQL*(HUNDRED/MXFREQ)
         ! -> Data interpolation with new abscissa
         !----------------------------------------------------------------------------         
         II = 1
@@ -854,7 +854,7 @@ C
       IF (2*NPRONY >= SIZE_FREQ) THEN
         CALL ANCMSG(MSGID=1921,MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_1,I1=MAT_ID,I2=NPRONY,
-     .              I3=SIZE_FREQ,I4=INT(SIZE_FREQ/DEUX))
+     .              I3=SIZE_FREQ,I4=INT(SIZE_FREQ/TWO))
       ENDIF
 C      
       ! Allocation and initialization of the vectors
@@ -873,7 +873,7 @@ C
       ! Identity matrix
       ID = ZERO
       DO I = 1,2*NPRONY
-        ID(I,I) = UN
+        ID(I,I) = ONE
       ENDDO
 C
       ! Considering infinite value shape
@@ -887,7 +887,7 @@ C
       WEIGHT = ZERO
       MXNORM = MAX(MAXVAL(YIS),MAXVAL(YIL))
       DO I = 1,SIZE_FREQ
-        WEIGHT(I,I) = UN/(MXNORM**2)
+        WEIGHT(I,I) = ONE/(MXNORM**2)
       ENDDO      
 C        
       ! Initialization of the Prony series and the residues
@@ -898,7 +898,7 @@ C
           ! Storage modulus series
           FXIS(I)        = FXIS(I) + ((XI(2*II-1)*(FREQ(I)**2))/(XI(2*II)**2 + FREQ(I)**2)) 
           JACS(I,2*II-1) = -(FREQ(I)**2)/(XI(2*II)**2 + FREQ(I)**2)
-          JACS(I,2*II)   = DEUX*XI(2*II-1)*XI(2*II)*(FREQ(I)**2)/((XI(2*II)**2 + FREQ(I)**2)**2)
+          JACS(I,2*II)   = TWO*XI(2*II-1)*XI(2*II)*(FREQ(I)**2)/((XI(2*II)**2 + FREQ(I)**2)**2)
           ! Loss modulus series
           FXIL(I)        = FXIL(I) + ((XI(2*II-1)*XI(2*II)*FREQ(I))/(XI(2*II)**2 + FREQ(I)**2)) 
           JACL(I,2*II-1) = -(FREQ(I)*XI(2*II))/(XI(2*II)**2 + FREQ(I)**2)
@@ -909,11 +909,11 @@ C
       DELTAYL = YIL - FXIL
 C
       ! Computation of the squared sum of residues
-      RI2 = ((UN/MXNORM)**2)*(DOT_PRODUCT(DELTAYS,DELTAYS) + DOT_PRODUCT(DELTAYL,DELTAYL))
+      RI2 = ((ONE/MXNORM)**2)*(DOT_PRODUCT(DELTAYS,DELTAYS) + DOT_PRODUCT(DELTAYL,DELTAYL))
 C
       ! Initialization of the damping parameter and the convergence criterion
       LAMBDA = MAXVAL(JACS) + MAXVAL(JACL)
-      NU     = DEUX
+      NU     = TWO
       CONV   = .FALSE.
       NITER  = 0
 C
@@ -955,7 +955,7 @@ C
           ENDDO    
           ! d) Computation of the squared sum of residues
           RI2_OLD = RI2
-          RI2     = ((UN/MXNORM)**2)*(DOT_PRODUCT((YIS-FXIS_TR),(YIS-FXIS_TR)) + 
+          RI2     = ((ONE/MXNORM)**2)*(DOT_PRODUCT((YIS-FXIS_TR),(YIS-FXIS_TR)) + 
      .                                DOT_PRODUCT((YIL-FXIL_TR),(YIL-FXIL_TR)))
 C
           ! Compute gain ratio
@@ -968,15 +968,15 @@ C
           !  -> Step accepted
           IF ((RHO > ZERO).AND.(INFO == 0)) THEN
             ! Update damping parameter
-            LAMBDA = LAMBDA*MAX(TIERS,UN-(DEUX*RHO-UN)**3)
-            NU  = DEUX
+            LAMBDA = LAMBDA*MAX(THIRD,ONE-(TWO*RHO-ONE)**3)
+            NU  = TWO
             ! Update XI vector
             !  -> Compute the MU vector for line search
             DO I = 1,2*NPRONY
               IF (JACTDY(I)>=ZERO) THEN
-                MU(I) = UN
+                MU(I) = ONE
               ELSE
-                MU(I) = MIN(UN,((UN-ALPHA)/(-JACTDY(I)))*XI(I))
+                MU(I) = MIN(ONE,((ONE-ALPHA)/(-JACTDY(I)))*XI(I))
               ENDIF
               XI(I) = XI(I) + MU(I)*JACTDY(I)
             ENDDO  
@@ -992,13 +992,13 @@ C
             ! Update residue vector
             DELTAYS = YIS - FXIS
             DELTAYL = YIL - FXIL
-            RI2     = ((UN/MXNORM)**2)*(DOT_PRODUCT(DELTAYS,DELTAYS) + DOT_PRODUCT(DELTAYL,DELTAYL))
+            RI2     = ((ONE/MXNORM)**2)*(DOT_PRODUCT(DELTAYS,DELTAYS) + DOT_PRODUCT(DELTAYL,DELTAYL))
             ! Update the Jacobian matrix
             JACS = ZERO
             DO I = 1,SIZE_FREQ
               DO II = 1,NPRONY
                 JACS(I,2*II-1) = -(FREQ(I)**2)/(XI(2*II)**2 + FREQ(I)**2)
-                JACS(I,2*II)   = DEUX*XI(2*II-1)*XI(2*II)*(FREQ(I)**2)/((XI(2*II)**2 + FREQ(I)**2)**2)
+                JACS(I,2*II)   = TWO*XI(2*II-1)*XI(2*II)*(FREQ(I)**2)/((XI(2*II)**2 + FREQ(I)**2)**2)
                 JACL(I,2*II-1) = -(FREQ(I)*XI(2*II))/(XI(2*II)**2 + FREQ(I)**2)
                 JACL(I,2*II)   = XI(2*II-1)*FREQ(I)*((XI(2*II)**2 - FREQ(I)**2)/(XI(2*II)**2 + FREQ(I)**2)**2)
               ENDDO
@@ -1009,11 +1009,11 @@ C
           ELSE
             ! Update damping parameter            
             LAMBDA = LAMBDA*NU 
-            NU     = NU*DEUX
+            NU     = NU*TWO
           ENDIF          
 C          
           ! f) Computing the convergence criterion
-          JACTDY    = DEUX*MATMUL(JACST,MATMUL(WEIGHT,DELTAYS)) + DEUX*MATMUL(JACLT,MATMUL(WEIGHT,DELTAYL))
+          JACTDY    = TWO*MATMUL(JACST,MATMUL(WEIGHT,DELTAYS)) + TWO*MATMUL(JACLT,MATMUL(WEIGHT,DELTAYL))
           JACTDY_N2 = SQRT(DOT_PRODUCT(JACTDY,JACTDY))
           IF (JACTDY_N2 < EPS1) CONV = .TRUE.
 c
@@ -1048,7 +1048,7 @@ C
       ENDIF
       DO I = 1,NPRONY
         G(I+ISHAPE)    = XI(2*I-1)
-        BETA(I+ISHAPE) = XI(2*I)*(MXFREQ/CENT)
+        BETA(I+ISHAPE) = XI(2*I)*(MXFREQ/HUNDRED)
       ENDDO
       COST  = RI2
       DERIV = JACTDY_N2

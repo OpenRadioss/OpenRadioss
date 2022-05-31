@@ -96,7 +96,7 @@ C                                                                     12
        ENDDO
       ENDDO
 C
-      DT1D2=UNDEMI*DT1
+      DT1D2=HALF*DT1
 C
       DO I=LFT,LLT
        D4(I)   =DXY(I)+DYX(I)

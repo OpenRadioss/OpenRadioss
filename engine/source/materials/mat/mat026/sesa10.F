@@ -60,7 +60,7 @@ C-----------------------------------------------
      .   E1(MVSIZ), E2(MVSIZ), E3(MVSIZ), E4(MVSIZ),
      .   E5(MVSIZ), E6(MVSIZ), DTA,VOLN(MVSIZ)
 C-----------------------------------------------
-      DTA =QUART*DT1
+      DTA =FOURTH*DT1
 C
       DO I=LFT,LLT
         E1(I)=D1(I)*(SOLD1(I)+SNEW(I,1)+POLD(I))
@@ -72,8 +72,8 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-        VAVG(I)=(DEUX*VOLN(I)-DVOL(I))*OFF(I)
-        DVOL(I)=UNDEMI*DVOL(I)*OFF(I)
+        VAVG(I)=(TWO*VOLN(I)-DVOL(I))*OFF(I)
+        DVOL(I)=HALF*DVOL(I)*OFF(I)
         EINC(I)=VAVG(I)*(E1(I)+E2(I)+E3(I)+E4(I)+E5(I)+E6(I))*DTA
       ENDDO
 C

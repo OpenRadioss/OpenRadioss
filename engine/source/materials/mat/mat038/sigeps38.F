@@ -148,7 +148,7 @@ c     .  ESECANT(MVSIZ,3),ETANGENT(MVSIZ,3),EELASTIC(MVSIZ,3),
      .   V12(MVSIZ),V23(MVSIZ),V31(MVSIZ),
      .   D11(MVSIZ),D12(MVSIZ),D44(MVSIZ),
      .   EMAX(MVSIZ),EYN(MVSIZ,3),
-     .   ONE,TWO,HUGE,SMALL,TINY,SHIFT,PSCALE   
+     .   HUGE,SMALL,TINY,SHIFT,PSCALE   
       my_real 
      .   AR1(6),DAR1(6),AR2(6),DAR2(6),DAR3(3),EARJD(3),
      .   TMP0,TMP1,TMP2,TMP3,TMP4,TMP5,TMP6,AD(3,3),
@@ -156,8 +156,6 @@ c     .  ESECANT(MVSIZ,3),ETANGENT(MVSIZ,3),EELASTIC(MVSIZ,3),
      .   TMP0P,TMP1P,TMP2P,TMP3P,TMP4P,TMP5P,TMP6P, DTI,IEMAX,EFAC(MVSIZ),
      .   RATIO, PUI,PUI_1,PUI_2,EYMIN,EYMAX,EYAV
 C=======================================================================
-      ONE = UN
-      TWO = DEUX
       HUGE = EP30
       SMALL= EM3
       TINY = EM30   
@@ -248,7 +246,7 @@ C     .               MFZY(I)*MFYY(I)+MFZZ(I)*MFYZ(I))
 C      ENDDO
 C        IF(IDTMIN(1)==3)THEN
 C         DO I=1,NEL
-C	  IF (OFFG(I) <=UN) CYCLE
+C	  IF (OFFG(I) <=ONE) CYCLE
 C           EPSXX(I)=MFXX(I)
 C           EPSYY(I)=MFYY(I)
 C           EPSZZ(I)=MFZZ(I)
@@ -312,8 +310,8 @@ C        ENDIF
        ELSE
         DO I=1,NEL
          UVAR(I,32)=MAX(UVAR(I,32),EINT(I))
-         ! EFAC(I) =(UN-HYSTER)*(UN-(EINT(I)/UVAR(I,32))**BETA)
-         ! EFAC(I) =(UN-HYSTER)*(UN-PUI)
+         ! EFAC(I) =(ONE-HYSTER)*(ONE-(EINT(I)/UVAR(I,32))**BETA)
+         ! EFAC(I) =(ONE-HYSTER)*(ONE-PUI)
          ! if eint = uvar --> Pui = 1 and efac = 0
          ! if eint /= 0   --> Pui = exp(beta * ln(eint/uvar) )
          ! if eint = 0    --> Pui = 0 
@@ -324,9 +322,9 @@ C        ENDIF
            PUI = ZERO
           ENDIF
          ELSE
-          PUI = UN
+          PUI = ONE
          ENDIF
-         EFAC(I) =(UN-HYSTER)*( UN- PUI )
+         EFAC(I) =(ONE-HYSTER)*( ONE- PUI )
         END DO
        END IF
       END IF
@@ -343,16 +341,16 @@ C PRINCIPAL STRAINS FORMULATION
             AV(I,1)=EPSXX(I)
             AV(I,2)=EPSYY(I)
             AV(I,3)=EPSZZ(I)
-            AV(I,4)=EPSXY(I)*UNDEMI
-            AV(I,5)=EPSYZ(I)*UNDEMI
-            AV(I,6)=EPSZX(I)*UNDEMI    
+            AV(I,4)=EPSXY(I)*HALF
+            AV(I,5)=EPSYZ(I)*HALF
+            AV(I,6)=EPSZX(I)*HALF    
           ELSE
             AV(I,1)=DEPSXX(I)
             AV(I,2)=DEPSYY(I)
             AV(I,3)=DEPSZZ(I)
-            AV(I,4)=DEPSXY(I)*UNDEMI
-            AV(I,5)=DEPSYZ(I)*UNDEMI
-            AV(I,6)=DEPSZX(I)*UNDEMI	    
+            AV(I,4)=DEPSXY(I)*HALF
+            AV(I,5)=DEPSYZ(I)*HALF
+            AV(I,6)=DEPSZX(I)*HALF	    
           ENDIF
         ENDDO
         IF(JACOBI) THEN
@@ -515,7 +513,7 @@ C......................................................................
       DO J=1,MDIR
         DO I=1,NEL
           IF(     TOTAL) THEN
-           IF ((ISMSTR==10.OR.ISMSTR==12).AND.IDEAC==0.AND.OFFG(I) <=UN) THEN
+           IF ((ISMSTR==10.OR.ISMSTR==12).AND.IDEAC==0.AND.OFFG(I) <=ONE) THEN
             ECR(I,J)=SQRT(EAR(I,J)+ONE)-UVAR(I,J)
            ELSE
             ECR(I,J)=EAR(I,J)-UVAR(I,J)
@@ -536,7 +534,7 @@ C E_DOT_NOMINAL=EDOT_RADIOSS*EXP(E_RADIOSS)=EDOT_RADIOSS*LAMDA
           EBN(I,J)=EBR(I,J)*EL(I,J)
           ECN(I,J)=EL(I,J)*(ONE-EXP(-ECR(I,J)))
         ELSEIF(ISMSTR==10.OR.ISMSTR==12) THEN
-         IF (OFFG(I) <=UN) THEN
+         IF (OFFG(I) <=ONE) THEN
           EL(I,J)=SQRT(EAR(I,J)+ONE)
 	 ELSE
           EL(I,J)=EAR(I,J)+ONE
@@ -642,7 +640,7 @@ C AND THE FIRST CURVE (LOWER LIMIT)- STATIC- )
              ELSE
               PUI_1 = ZERO
              ENDIF
-             IF(PUI_1 < UN) THEN
+             IF(PUI_1 < ONE) THEN
               PSN(I,J)=PSN2(I,J)+(PSN1(I,J)-PSN2(I,J))*
      &             EXP( EXPONBS*LOG( ONE - PUI_1 ) )
              ELSE
@@ -716,7 +714,7 @@ C FIRST LOADING (STATIC) CURVE
               ELSE
                PUI_1 = ZERO
               ENDIF
-              IF(PUI_1 < UN) THEN
+              IF(PUI_1 < ONE) THEN
                PSN(I,J)=PSN2(I,J)+(PSN1(I,J)-PSN2(I,J))*
      &           EXP(EXPONBS*LOG(ONE - PUI_1 ) )
               ELSE
@@ -882,7 +880,7 @@ C
        DO J=1,MDIR
         DO I=1,NEL
           TMP0=MAX(EYN(I,J),UVAR(I,J+9))
-          IF (OFFG(I) <=UN) THEN
+          IF (OFFG(I) <=ONE) THEN
            UVAR(I,J  )=SQRT(EAR(I,J)+ONE)
 	  ELSE
            UVAR(I,J  )=EAR(I,J)
@@ -1029,7 +1027,7 @@ C CAUCHY MODULE FOR TIME STEP
           EYN(I,1)=EYN(I,1)/DEN1
           EYN(I,2)=EYN(I,2)/DEN2
           EYN(I,3)=EYN(I,3)/DEN3
-        ELSEIF(ISMSTR.EQ.10.OR.(ISMSTR==12.AND.OFFG(I)<=UN)) THEN
+        ELSEIF(ISMSTR.EQ.10.OR.(ISMSTR==12.AND.OFFG(I)<=ONE)) THEN
 C------------directly to Chauchy-------
           DEN1=EL(I,1)/VOLUMER(I)
           DEN2=EL(I,2)/VOLUMER(I)
@@ -1145,9 +1143,9 @@ Cqz option cachee +++
       ENDIF 
 Cqz option cachee ---
       DO I=1,NEL
-        KKK=EMAX(I)/(TROIS*(UN-DEUX*MAX(VC,VT)))
-        GGG=EMAX(I)/(DEUX*(UN+MAX(VC,VT)))
-        SOUNDSP(I)=SQRT((KKK+QTIERS*GGG)/RHO0(I))
+        KKK=EMAX(I)/(THREE*(ONE-TWO*MAX(VC,VT)))
+        GGG=EMAX(I)/(TWO*(ONE+MAX(VC,VT)))
+        SOUNDSP(I)=SQRT((KKK+FOUR_OVER_3*GGG)/RHO0(I))
         VISCMAX(I)=MAX(VISC(I,1),VISC(I,2),VISC(I,3))
       ENDDO
 C      
@@ -1168,15 +1166,15 @@ C---overestimated ET but stable for not very high E0
         TMP1=-ALPHA(1)*FINTER(IFUNC(1),EM20,NPF,TF,DF)
         TMP2 = ALPHA(1)*DF/E0
         IF (TMP2>0.05) THEN
-         UVAR(1:NEL,33) = -UN
+         UVAR(1:NEL,33) = -ONE
         ELSE
          UVAR(1:NEL,33) =ET(1:NEL) 
         END IF
        ELSEIF (NEL>0.AND.UVAR(1,33)<ZERO) THEN
-        ET(1:NEL) = UN
+        ET(1:NEL) = ONE
        ELSE
          TMP1 = 0.75
-         ET(1:NEL)=TMP1*ET(1:NEL)+(UN-TMP1)*UVAR(1:NEL,33)
+         ET(1:NEL)=TMP1*ET(1:NEL)+(ONE-TMP1)*UVAR(1:NEL,33)
          UVAR(1:NEL,33) =ET(1:NEL) 
        END IF !(TIME==ZERO) THEN
       END IF !(IMPL_S > 0 .OR. IHET > 1) THEN
@@ -1195,14 +1193,12 @@ Chd|====================================================================
 C----------------------------------------------------------------
       IMPLICIT NONE
 #include      "constant.inc"   
-      my_real ONE
 
       my_real
      . TRAN1(3,3),TRAN2(3,3),ANG(3),AMAX,TOL,AMIN
       INTEGER I,J,K
       LOGICAL UNCHANGED
 C----------------------------------------------------------------
-      ONE = UN
       AMAX=ZERO
       UNCHANGED=.FALSE.
       DO J=1,3

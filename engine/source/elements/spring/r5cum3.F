@@ -105,16 +105,16 @@ C-------------------------
 C     MOMENTS
 C-------------------------
       DO I=LFT,LLT
-        YMOM1 = YMOM(I) - UNDEMI*AL(I)*FORZ(I)
-        ZMOM1 = ZMOM(I) + UNDEMI*AL(I)*FORY(I)
+        YMOM1 = YMOM(I) - HALF*AL(I)*FORZ(I)
+        ZMOM1 = ZMOM(I) + HALF*AL(I)*FORY(I)
         MOM1Y(I) =-YMOM1
         MOM1Z(I) =-ZMOM1
         M11(I)=EXX(I)*XMOM(I)+EXY(I)*YMOM1+EXZ(I)*ZMOM1
         M21(I)=EYX(I)*XMOM(I)+EYY(I)*YMOM1+EYZ(I)*ZMOM1
         M31(I)=EZX(I)*XMOM(I)+EZY(I)*YMOM1+EZZ(I)*ZMOM1
 C
-        YMOM2 = YMOM(I) + UNDEMI*AL(I)*FORZ(I)
-        ZMOM2 = ZMOM(I) - UNDEMI*AL(I)*FORY(I)
+        YMOM2 = YMOM(I) + HALF*AL(I)*FORZ(I)
+        ZMOM2 = ZMOM(I) - HALF*AL(I)*FORY(I)
         M12(I)=EXX(I)*XMOM(I)+EXY(I)*YMOM2+EXZ(I)*ZMOM2
         M22(I)=EYX(I)*XMOM(I)+EYY(I)*YMOM2+EYZ(I)*ZMOM2
         M32(I)=EZX(I)*XMOM(I)+EZY(I)*YMOM2+EZZ(I)*ZMOM2
@@ -253,16 +253,16 @@ C-------------------------
 C     MOMENTS
 C-------------------------
       DO I=LFT,LLT
-        YMOM1 = YMOM(I) - UNDEMI*AL(I)*FORZ(I)
-        ZMOM1 = ZMOM(I) + UNDEMI*AL(I)*FORY(I)
+        YMOM1 = YMOM(I) - HALF*AL(I)*FORZ(I)
+        ZMOM1 = ZMOM(I) + HALF*AL(I)*FORY(I)
         MOM1Y(I) =-YMOM1
         MOM1Z(I) =-ZMOM1
         M11(I)=EXX(I)*XMOM(I)+EXY(I)*YMOM1+EXZ(I)*ZMOM1
         M21(I)=EYX(I)*XMOM(I)+EYY(I)*YMOM1+EYZ(I)*ZMOM1
         M31(I)=EZX(I)*XMOM(I)+EZY(I)*YMOM1+EZZ(I)*ZMOM1
 C
-        YMOM2 = YMOM(I) + UNDEMI*AL(I)*FORZ(I)
-        ZMOM2 = ZMOM(I) - UNDEMI*AL(I)*FORY(I)
+        YMOM2 = YMOM(I) + HALF*AL(I)*FORZ(I)
+        ZMOM2 = ZMOM(I) - HALF*AL(I)*FORY(I)
         M12(I)=EXX(I)*XMOM(I)+EXY(I)*YMOM2+EXZ(I)*ZMOM2
         M22(I)=EYX(I)*XMOM(I)+EYY(I)*YMOM2+EYZ(I)*ZMOM2
         M32(I)=EZX(I)*XMOM(I)+EZY(I)*YMOM2+EZZ(I)*ZMOM2

@@ -204,19 +204,19 @@ C------------------------
             IF (ITENS == 1) THEN
               NS1 = 5
               NS2 = 3
-              A1  = UN
+              A1  = ONE
               A2  = ZERO
             ELSEIF (ITENS == 2) THEN
               NS1 = 5
               NS2 = 3
               A1  = ZERO
-              A2  = UN
+              A2  = ONE
             ELSEIF (ITENS == 3) THEN
               NS1 = 5
               NS2 = 3
               IPT = MPT
               IF (MLW == 1) THEN
-                A1 = UN
+                A1 = ONE
 c                A2 = 0
                 A2 = SIX
               ELSEIF (MLW == 2  .OR. MLW == 19 .OR.
@@ -224,10 +224,10 @@ c                A2 = 0
      .                MLW == 22 .OR. MLW == 25 .OR.
      .                MLW == 27 .OR. MLW == 32 .OR.
      .                MLW >= 28) THEN 
-                A1  = UN
+                A1  = ONE
                 A2  = ZERO
               ELSEIF (MLW == 3 .OR. MLW == 23) THEN
-                A1 = UN
+                A1 = ONE
                 A2 = ZERO
               ENDIF
             ELSEIF (ITENS == 4) THEN
@@ -235,17 +235,17 @@ c                A2 = 0
               NS2 = 3
               IPT = 1
               IF (MLW == 1) THEN
-                A1 = UN
+                A1 = ONE
                 A2 = -SIX
               ELSEIF (MLW == 2  .OR. MLW == 19 .OR.
      .                MLW == 15 .OR.
      .                MLW == 22 .OR. MLW == 25.OR.
      .                MLW == 27 .OR. MLW == 32.OR.
      .                MLW >= 28) THEN 
-                A1  = UN
+                A1  = ONE
                 A2  = ZERO
               ELSEIF (MLW == 3 .OR. MLW == 23) THEN
-                A1 = UN
+                A1 = ONE
                 A2 = ZERO
               ENDIF
             ELSEIF (ITENS > 100 .AND. ITENS <  201) THEN
@@ -256,14 +256,14 @@ c                A2 = 0
                 A1 = ZERO
                 A2 = ZERO
               ELSEIF (MLW == 1 .OR. MLW == 3 .OR. MLW == 23) THEN
-                A1 = UN
+                A1 = ONE
                 A2 = ZERO
               ELSEIF (MLW == 2  .OR. MLW == 19 .OR.
      .                MLW == 15 .OR.
      .                MLW == 22 .OR. MLW == 25 .OR.
      .                MLW == 27 .OR. MLW == 32 .OR.
      .                MLW >= 28) THEN 
-                A1  = UN
+                A1  = ONE
                 A2  = ZERO
               ENDIF
             ELSEIF (ITENS > 400 .AND. ITENS <  501) THEN
@@ -279,14 +279,14 @@ C-----
                 A1 = ZERO
                 A2 = ZERO
               ELSEIF (MLW == 1 .OR. MLW == 3 .OR. MLW == 23) THEN
-                A1 = UN
+                A1 = ONE
                 A2 = ZERO
               ELSEIF (MLW == 2  .OR. MLW == 19 .OR.
      .                MLW == 15 .OR.
      .                MLW == 22 .OR. MLW == 25 .OR.
      .                MLW == 27 .OR. MLW == 32 .OR.
      .                MLW >= 28) THEN 
-                A1  = UN
+                A1  = ONE
                 A2  = ZERO
               ENDIF
             ELSEIF (ITENS > 500 .AND. ITENS <  601) THEN
@@ -302,14 +302,14 @@ C-----
                 A1 = ZERO
                 A2 = ZERO
               ELSEIF (MLW == 1 .OR. MLW == 3 .OR. MLW == 23) THEN
-                A1 = UN
+                A1 = ONE
                 A2 = ZERO
               ELSEIF (MLW == 2  .OR. MLW == 19 .OR.
      .                MLW == 15 .OR.
      .                MLW == 22 .OR. MLW == 25 .OR.
      .                MLW == 27 .OR. MLW == 32 .OR.
      .                MLW >= 28) THEN 
-                A1  = UN
+                A1  = ONE
                 A2  = ZERO
               ENDIF
             ELSEIF (ITENS > 600 .AND. ITENS <  1611) THEN
@@ -326,14 +326,14 @@ C-----
                 A1 = ZERO
                 A2 = ZERO
               ELSEIF (MLW == 1 .OR. MLW == 3 .OR. MLW == 23) THEN
-                A1 = UN
+                A1 = ONE
                 A2 = ZERO
               ELSEIF (MLW == 2  .OR. MLW == 19 .OR.
      .                MLW == 15 .OR.
      .                MLW == 22 .OR. MLW == 25 .OR.
      .                MLW == 27 .OR. MLW == 32 .OR.
      .                MLW >= 28) THEN 
-                A1  = UN
+                A1  = ONE
                 A2  = ZERO
               ENDIF
 C------------------------
@@ -344,7 +344,7 @@ C------------------------
               NS1 = 8
               NS2 = 8
               IF (ISTRAIN == 1) THEN
-                A1 = UN
+                A1 = ONE
                 A2 = ZERO
               ELSE
                 A1 = ZERO
@@ -355,21 +355,21 @@ C------------------------
               NS1 = 8
               NS2 = 8
               A1 = ZERO
-              A2 = UN
+              A2 = ONE
             ELSEIF (ITENS == 7) THEN   ! upper
               ISTRE = 0
               NS1 = 8
               NS2 = 8
               IPT = MPT   
-              A1 = UN
-              A2 = UNDEMI
+              A1 = ONE
+              A2 = HALF
             ELSEIF (ITENS == 8) THEN   ! lower
               ISTRE = 0
               NS1 = 8
               NS2 = 8
               IPT = 1  
-              A1 = UN
-              A2  = -UNDEMI
+              A1 = ONE
+              A2  = -HALF
             ELSEIF (ITENS >  200 .AND. ITENS < 301) THEN   ! layer
               ISTRE = 0
               NS1 = 8
@@ -379,8 +379,8 @@ C------------------------
                 A1 = ZERO
                 A2 = ZERO
               ELSE
-                A1 = UN
-                A2 = UNDEMI*(((2*IPT-UN)/MPT)-UN)
+                A1 = ONE
+                A2 = HALF*(((2*IPT-ONE)/MPT)-ONE)
               ENDIF
             ELSEIF (ITENS > 1610+ MX_PLY_ANIM  .AND. ITENS <  1611 + 2*MX_PLY_ANIM ) THEN
               IL = ITENS - (1610+ MX_PLY_ANIM)   
@@ -405,10 +405,10 @@ C------------------------
                     ENDIF
                     IF (ID_PLY  == PLY_ANIM_STRAIN( 3 * (IL - 1) + 1) .AND.
      .                  IPT <= NPTT ) THEN
-                      A1 = UN
+                      A1 = ONE
 c                      A2 = STACK%GEO(IPPOS+J,ISUBSTACK)
                       A2 = STACK%GEO(IPPOS+J,ISUBSTACK)+ 
-     .                           UNDEMI*(((2*IPT-UN)/NPTT)-UN) *
+     .                           HALF*(((2*IPT-ONE)/NPTT)-ONE) *
      .                              STACK%GEO(IPTHK+J,ISUBSTACK)
                     ENDIF
                   ENDDO
@@ -449,9 +449,9 @@ c                      A2 = STACK%GEO(IPPOS+J,ISUBSTACK)
                 IPPOS  = IPTHK + NLAY
 !
                 IF (IL <= NLAY) THEN
-                  A1 = UN
+                  A1 = ONE
                   A2 = STACK%GEO(IPPOS+IL,ISUBSTACK)+ 
-     .                       UNDEMI*(((2*IT-UN)/NPTT)-UN) *
+     .                       HALF*(((2*IT-ONE)/NPTT)-ONE) *
      .                       STACK%GEO(IPTHK+IL,ISUBSTACK)
                 ENDIF
               ENDIF ! IF (IGTYP == 51 .OR. IGTYP == 52)
@@ -486,9 +486,9 @@ c                      A2 = STACK%GEO(IPPOS+J,ISUBSTACK)
                 IPPOS  = IPTHK + NLAY
 !
                 IF (IL <= NLAY) THEN
-                  A1 = UN
+                  A1 = ONE
                   A2 = STACK%GEO(IPPOS+IL,ISUBSTACK)+ 
-     .                       UNDEMI*(((2*IT-UN)/NPTT)-UN) *
+     .                       HALF*(((2*IT-ONE)/NPTT)-ONE) *
      .                       STACK%GEO(IPTHK+IL,ISUBSTACK)
                 ENDIF
               ENDIF ! IF (IGTYP == 51 .OR. IGTYP == 52)
@@ -521,9 +521,9 @@ c                      A2 = STACK%GEO(IPPOS+J,ISUBSTACK)
                   BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
                   NPTT = BUFLY%NPTT
                   IF (IT <= NPTT) THEN
-                    A1 = UN
+                    A1 = ONE
                     A2 = STACK%GEO(IPPOS+IL,ISUBSTACK)+ 
-     .                         UNDEMI*(((2*IT-UN)/NPTT)-UN) *
+     .                         HALF*(((2*IT-ONE)/NPTT)-ONE) *
      .                         STACK%GEO(IPTHK+IL,ISUBSTACK)
                   ENDIF
                 ENDIF ! IF (IL <= NLAY)
@@ -533,20 +533,20 @@ C        STRAIN RATE
 C------------------------
             ELSEIF (ITENS == 91) THEN
               ISTRE = 2
-              A1 = UN
+              A1 = ONE
               A2 = ZERO
             ELSEIF (ITENS == 92) THEN
               ISTRE = 2
               A1 = ZERO
-              A2 = UN
+              A2 = ONE
             ELSEIF (ITENS == 93) THEN
               ISTRE = 2
-              A1 = UN
-              A2 = UNDEMI
+              A1 = ONE
+              A2 = HALF
             ELSEIF (ITENS == 94) THEN
               ISTRE = 2
-              A1 = UN
-              A2 = -UNDEMI
+              A1 = ONE
+              A2 = -HALF
             ELSEIF (ITENS > 300 .AND. ITENS < 401) THEN
               ISTRE = 2
               IPT = MIN(MPT,ITENS - 300)
@@ -554,10 +554,10 @@ C------------------------
                 A1 = ZERO
                 A2 = ZERO            
               ELSEIF (NPT /= 0) THEN	
-                A1 = UN
-                A2 = UNDEMI*(((2*IPT-UN)/MPT)-UN)
+                A1 = ONE
+                A2 = HALF*(((2*IPT-ONE)/MPT)-ONE)
               ELSE
-                A1 = UN
+                A1 = ONE
                 A2 = ZERO
               ENDIF
             ELSEIF (ITENS > 1610+ 2*MX_PLY_ANIM  .AND. ITENS <  1611 + 3*MX_PLY_ANIM ) THEN
@@ -580,10 +580,10 @@ C------------------------
                       ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
                     ENDIF
                     IF (ID_PLY  == PLY_ANIM_EPSDOT( 3 * (IL - 1) + 1) ) THEN
-                      A1 = UN
+                      A1 = ONE
 c                      A2 = STACK%GEO(IPPOS+J,ISUBSTACK)
                       A2 = STACK%GEO(IPPOS+J,ISUBSTACK)+ 
-     .                           UNDEMI*(((2*IPT-UN)/NPTT)-UN) *
+     .                           HALF*(((2*IPT-ONE)/NPTT)-ONE) *
      .                              STACK%GEO(IPTHK+J,ISUBSTACK)
                     ENDIF
                   ENDDO
@@ -622,9 +622,9 @@ c                      A2 = STACK%GEO(IPPOS+J,ISUBSTACK)
                 IPPOS  = IPTHK + NLAY
 !
                 IF (IL <= NLAY) THEN
-                  A1 = UN
+                  A1 = ONE
                   A2 = STACK%GEO(IPPOS+IL,ISUBSTACK)+ 
-     .                       UNDEMI*(((2*IT-UN)/NPTT)-UN) *
+     .                       HALF*(((2*IT-ONE)/NPTT)-ONE) *
      .                       STACK%GEO(IPTHK+IL,ISUBSTACK)
                 ENDIF
               ENDIF ! IF (IGTYP == 51 .OR. IGTYP == 52)
@@ -657,9 +657,9 @@ c                      A2 = STACK%GEO(IPPOS+J,ISUBSTACK)
                 IPPOS  = IPTHK + NLAY
 !
                 IF (IL <= NLAY) THEN
-                  A1 = UN
+                  A1 = ONE
                   A2 = STACK%GEO(IPPOS+IL,ISUBSTACK)+ 
-     .                       UNDEMI*(((2*IT-UN)/NPTT)-UN) *
+     .                       HALF*(((2*IT-ONE)/NPTT)-ONE) *
      .                       STACK%GEO(IPTHK+IL,ISUBSTACK)
                 ENDIF
               ENDIF ! IF (IGTYP == 51 .OR. IGTYP == 52)
@@ -690,9 +690,9 @@ c                      A2 = STACK%GEO(IPPOS+J,ISUBSTACK)
                   BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
                   NPTT = BUFLY%NPTT
                   IF (IT <= NPTT) THEN
-                    A1 = UN
+                    A1 = ONE
                     A2 = STACK%GEO(IPPOS+IL,ISUBSTACK)+ 
-     .                         UNDEMI*(((2*IT-UN)/NPTT)-UN) *
+     .                         HALF*(((2*IT-ONE)/NPTT)-ONE) *
      .                         STACK%GEO(IPTHK+IL,ISUBSTACK)
                   ENDIF
                 ENDIF ! IF (IL <= NLAY)
@@ -1284,7 +1284,7 @@ C--------
                   J  = EL2FA(NNI+N)
                   R4(1) = GBUF%STRA(JJ(1)+I)    
                   R4(2) = GBUF%STRA(JJ(2)+I)    
-                  R4(3) = GBUF%STRA(JJ(3)+I) * INVERT(J)*UNDEMI    
+                  R4(3) = GBUF%STRA(JJ(3)+I) * INVERT(J)*HALF    
                   TENS(1,J) = R4(1) 
                   TENS(2,J) = R4(2) 
                   TENS(3,J) = R4(3) 
@@ -1297,7 +1297,7 @@ C--------
                   R4(1) = A1*GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I) * THK
                   R4(2) = A1*GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I) * THK
                   R4(3) = A1*GBUF%STRA(JJ(3)+I) + A2*GBUF%STRA(JJ(8)+I) * THK
-                  R4(3) = R4(3) * INVERT(J) * UNDEMI 
+                  R4(3) = R4(3) * INVERT(J) * HALF 
                   TENS(1,J) = R4(1)                  
                   TENS(2,J) = R4(2)                  
                   TENS(3,J) = R4(3)                  
@@ -1321,7 +1321,7 @@ c------------------------------------
                     R4(J) = EPSDOT(J+3,N+N0)
                   ENDDO
                 ENDIF
-                R4(3) = R4(3) * INVERT(EL2FA(NNI+N)) * UNDEMI
+                R4(3) = R4(3) * INVERT(EL2FA(NNI+N)) * HALF
                 TENS(1,EL2FA(NNI+N)) = R4(1)
                 TENS(2,EL2FA(NNI+N)) = R4(2)
                 TENS(3,EL2FA(NNI+N)) = R4(3)
@@ -1449,17 +1449,17 @@ C-----upper----
            NS1 = 5
            NS2 = 3
            IF(MLW == 1)THEN
-             A1   = UN
+             A1   = ONE
              A2   = SIX
            ELSEIF(MLW == 2.OR.MLW == 19.OR.
      .            MLW == 15.OR.
      .            MLW == 22.OR.MLW == 25.OR.
      .            MLW == 27.OR.MLW == 32.OR.
      .            MLW.GE.28)THEN 
-             A1   = UN
+             A1   = ONE
              A2   = ZERO
            ELSEIF(MLW == 3.OR.MLW == 23)THEN
-             A1   = UN
+             A1   = ONE
              A2   = ZERO
            ENDIF
 C-----lower----
@@ -1467,17 +1467,17 @@ C-----lower----
            NS1 = 5
            NS2 = 3
            IF(MLW == 1)THEN
-             A1   = UN
+             A1   = ONE
              A2   = -SIX
            ELSEIF(MLW == 2.OR.MLW == 19.OR.
      .            MLW == 15.OR.
      .            MLW == 22.OR.MLW == 25.OR.
      .            MLW == 27.OR.MLW == 32.OR.
      .            MLW.GE.28)THEN 
-             A1   = UN
+             A1   = ONE
              A2   = ZERO
            ELSEIF(MLW == 3.OR.MLW == 23)THEN
-             A1   = UN
+             A1   = ONE
              A2   = ZERO
            ENDIF
          ENDIF
@@ -1612,17 +1612,17 @@ C-----upper----
            NS1 = 5
            NS2 = 3
            IF(MLW == 1)THEN
-             A1   = UN
+             A1   = ONE
              A2   = SIX
            ELSEIF(MLW == 2.OR.MLW == 19.OR.
      .            MLW == 15.OR.
      .            MLW == 22.OR.MLW == 25.OR.
      .            MLW == 27.OR.MLW == 32.OR.
      .            MLW.GE.28)THEN 
-             A1   = UN
+             A1   = ONE
              A2   = ZERO
            ELSEIF(MLW == 3.OR.MLW == 23)THEN
-             A1   = UN
+             A1   = ONE
              A2   = ZERO
            ENDIF
 C-----lower----
@@ -1630,17 +1630,17 @@ C-----lower----
            NS1 = 5
            NS2 = 3
            IF(MLW == 1)THEN
-             A1   = UN
+             A1   = ONE
              A2   = -SIX
            ELSEIF(MLW == 2.OR.MLW == 19.OR.
      .            MLW == 15.OR.
      .            MLW == 22.OR.MLW == 25.OR.
      .            MLW == 27.OR.MLW == 32.OR.
      .            MLW.GE.28)THEN 
-             A1   = UN
+             A1   = ONE
              A2   = ZERO
            ELSEIF(MLW == 3.OR.MLW == 23)THEN
-             A1   = UN
+             A1   = ONE
              A2   = ZERO
            ENDIF
          ENDIF
@@ -1664,7 +1664,7 @@ C------------------------
 	                 NC(J,I) = IXTG(J+1,N)
                 ENDDO
                 THK0 = GEO(1,IXTG(5,N))
-                OFF = MIN(GBUF%OFF(I),UN)
+                OFF = MIN(GBUF%OFF(I),ONE)
                 VOL(I) = THK0*AREA(I)*OFF
             ENDDO 
            ELSEIF(ITY == 3)THEN
@@ -1675,7 +1675,7 @@ C------------------------
 	                 NC(J,I) = IXC(J+1,N)
                 ENDDO
                 THK0 = GEO(1,IXC(6,N))
-                OFF = MIN(GBUF%OFF(I),UN)
+                OFF = MIN(GBUF%OFF(I),ONE)
                 VOL(I) = THK0*AREA(I)*OFF
             ENDDO 
            ENDIF

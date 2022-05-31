@@ -106,7 +106,7 @@ C--------------------------------------------------
       IF (UNIT_ID > 0) THEN
         UNIT_T = UNITAB%FAC_T(UNIT_ID) ! USED FOR ABSCISSA OF IRFUN
       ELSE
-        UNIT_T = UN
+        UNIT_T = ONE
       ENDIF
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
@@ -129,10 +129,10 @@ c
 c
         !units 
         CALL HM_GET_FLOATV_DIM('Fscale_el',FSCAL_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        IF (SCALE_EL == ZERO) SCALE_EL = UN*FSCAL_UNIT
+        IF (SCALE_EL == ZERO) SCALE_EL = ONE*FSCAL_UNIT
 c
         CALL HM_GET_FLOATV_DIM('EI_ref',FSCAL_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        IF (EL_REF == ZERO) EL_REF = UN *FSCAL_UNIT           
+        IF (EL_REF == ZERO) EL_REF = ONE *FSCAL_UNIT           
       ENDIF
 c--------------------------------------------------
       IF (S_FLAG == 0) S_FLAG = 1
@@ -146,11 +146,11 @@ c--------------------------------------------------
         STRDEF = 1  ! input = strain defined by Ismstr flag in the property
       END IF
 c        
-      IF (SCALE_TEMP == ZERO) SCALE_TEMP = UN
-      IF (SCALE_EL   == ZERO) SCALE_EL = UN
-      IF (EL_REF     == ZERO) EL_REF = UN
+      IF (SCALE_TEMP == ZERO) SCALE_TEMP = ONE
+      IF (SCALE_EL   == ZERO) SCALE_EL = ONE
+      IF (EL_REF     == ZERO) EL_REF = ONE
       IF (RF1 <= ZERO) RF1 = EP20
-      IF (RF2 <= ZERO) RF2 = DEUX*EP20
+      IF (RF2 <= ZERO) RF2 = TWO*EP20
 C
       IF (RF1 > RF2) THEN
         CALL ANCMSG(MSGID=617, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,

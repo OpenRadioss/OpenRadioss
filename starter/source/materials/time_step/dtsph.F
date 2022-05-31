@@ -87,7 +87,7 @@ C=======================================================================
         QB  =GEO(15,PID(I))
         CNS1=GEO(16,PID(I))
         CNS2=GEO(17,PID(I))*SSP(I)*AL(I)*RHO0(I)
-        QX(I)=(QB+CNS1)*SSP(I)+(DEUX*VIS(I)+CNS2)/(RHO0(I)*DELTAX(I))
+        QX(I)=(QB+CNS1)*SSP(I)+(TWO*VIS(I)+CNS2)/(RHO0(I)*DELTAX(I))
       ENDDO
 
       DO I=LFT,LLT

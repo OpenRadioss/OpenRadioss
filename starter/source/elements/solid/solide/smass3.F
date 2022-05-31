@@ -76,8 +76,8 @@ C-----------------------------------------------
 C-------------------------------
 C=======================================================================
        DO I=LFT,LLT
-        MASS(I)  =FILL(I)*RHO(I)*VOLU(I)*UNHUIT
-        MASSF(I) =FILL(I)*FRAC(I)*RHOF(I)*VOLU(I)*UNHUIT
+        MASS(I)  =FILL(I)*RHO(I)*VOLU(I)*ONE_OVER_8
+        MASSF(I) =FILL(I)*FRAC(I)*RHOF(I)*VOLU(I)*ONE_OVER_8
         I1 = NC1(I)
         I2 = NC2(I)
         I3 = NC3(I)
@@ -96,7 +96,7 @@ C=======================================================================
         MSS(8,I)=MASS(I)
 C
         IP=IPART(I)
-        PARTSAV(1,IP)=PARTSAV(1,IP) + HUIT*MASS(I)
+        PARTSAV(1,IP)=PARTSAV(1,IP) + EIGHT*MASS(I)
         PARTSAV(2,IP)=PARTSAV(2,IP) + MASS(I)*
      .       (X(1,I1)+X(1,I2)+X(1,I3)+X(1,I4)
      .       +X(1,I5)+X(1,I6)+X(1,I7)+X(1,I8))
@@ -146,7 +146,7 @@ C
         PARTSAV(13,IP)=PARTSAV(13,IP) + MASS(I)*
      .       (V(3,I1)+V(3,I2)+V(3,I3)+V(3,I4)
      .       +V(3,I5)+V(3,I6)+V(3,I7)+V(3,I8))
-        PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * MASS(I) *
+        PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * MASS(I) *
      .     (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
      .     +V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2)
      .     +V(1,I3)*V(1,I3)+V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3)
@@ -205,7 +205,7 @@ C
 C
        IF(JTHE < 0 ) THEN      
          DO I=LFT,LLT
-           RCP=FILL(I)*RHOCP(I)*VOLU(I)*UNHUIT
+           RCP=FILL(I)*RHOCP(I)*VOLU(I)*ONE_OVER_8
            MCPS(1,I) =RCP
            MCPS(2,I)= RCP
            MCPS(3,I)= RCP
@@ -225,7 +225,7 @@ C prov gw
 C           STOP 1119
         ENDIF
         DO I=LFT,LLT
-         INER=(MASS(I)*VOLU(I)**DTIERS)/SIX
+         INER=(MASS(I)*VOLU(I)**TWO_THIRD)/SIX
          INS(1,I)=INER
          INS(2,I)=INER
          INS(3,I)=INER
@@ -248,14 +248,14 @@ C
           I6 = NC6(I)
           I7 = NC7(I)
           I8 = NC8(I)
-          WMA(I1)=WMA(I1)+TDEMI
-          WMA(I2)=WMA(I2)+TDEMI
-          WMA(I3)=WMA(I3)+TDEMI
-          WMA(I4)=WMA(I4)+TDEMI
-          WMA(I5)=WMA(I5)+TDEMI
-          WMA(I6)=WMA(I6)+TDEMI
-          WMA(I7)=WMA(I7)+TDEMI
-          WMA(I8)=WMA(I8)+TDEMI
+          WMA(I1)=WMA(I1)+THREE_HALF
+          WMA(I2)=WMA(I2)+THREE_HALF
+          WMA(I3)=WMA(I3)+THREE_HALF
+          WMA(I4)=WMA(I4)+THREE_HALF
+          WMA(I5)=WMA(I5)+THREE_HALF
+          WMA(I6)=WMA(I6)+THREE_HALF
+          WMA(I7)=WMA(I7)+THREE_HALF
+          WMA(I8)=WMA(I8)+THREE_HALF
         ENDDO
       ENDIF
 C-----------

@@ -111,18 +111,18 @@ C----------------------------
         XX(I,N)=X(1,NN)
         YY(I,N)=X(2,NN)
         ZZ(I,N)=X(3,NN)
-        OFF(I) = MIN(UN,ABS(OFFG(I)))
+        OFF(I) = MIN(ONE,ABS(OFFG(I)))
        ENDDO
       ENDDO
 C-----------
       IF(ISMSTR.EQ.1.OR.(ISMSTR.EQ.2.AND.IDTMIN(1).EQ.3))THEN
       DO N=1,10
        DO I=LFT,LLT
-       IF(ABS(OFFG(I)).GT.UN)THEN
+       IF(ABS(OFFG(I)).GT.ONE)THEN
         XX(I,N)=SAV(I,N)
         YY(I,N)=SAV(I,N+10)
         ZZ(I,N)=SAV(I,N+20)
-        OFF(I) = ABS(OFFG(I))-UN
+        OFF(I) = ABS(OFFG(I))-ONE
        ELSE
         OFF(I) = OFFG(I)
        ENDIF
@@ -136,9 +136,9 @@ C
         N2=IPERM2(N)
         DO I=LFT,LLT
           IF(NC(I,N).EQ.0)THEN
-            XX(I,N) = UNDEMI*(XX(I,N1)+XX(I,N2))
-            YY(I,N) = UNDEMI*(YY(I,N1)+YY(I,N2))
-            ZZ(I,N) = UNDEMI*(ZZ(I,N1)+ZZ(I,N2))
+            XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
+            YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
+            ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
           ENDIF
         ENDDO
       ENDDO

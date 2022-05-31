@@ -207,7 +207,7 @@ C VISC is a non documennted parameter
 
        FRIGAP(14)=VISC
 
-       IF (STFAC == ZERO ) STFAC = UNCINQ
+       IF (STFAC == ZERO ) STFAC = ONE_FIFTH
 C
 C------------------------------------------------------------
 C     PRINTOUT

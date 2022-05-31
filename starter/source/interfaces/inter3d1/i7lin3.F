@@ -53,7 +53,7 @@ C
       NORM = MAX(EM20, XAB**2 + YAB**2 + ZAB**2)
       ALP = ALP / NORM
       ALP = MAX(ZERO,ALP)
-      ALP = MIN(UN,ALP)
+      ALP = MIN(ONE,ALP)
 C
       XP = XA + ALP*XAB 
       YP = YA + ALP*YAB 

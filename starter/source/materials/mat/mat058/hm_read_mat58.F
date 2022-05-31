@@ -203,7 +203,7 @@ c-----------------------------------------------------------------------
       CALL HM_GET_FLOATV_DIM('MAT_E1',STRESS_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 c
       DO I=1,6       
-        IF (YFAC(I) == ZERO) YFAC(I) = UN * STRESS_UNIT
+        IF (YFAC(I) == ZERO) YFAC(I) = ONE * STRESS_UNIT
       ENDDO
 c
       IF (NC == 0) NC = 1
@@ -225,12 +225,12 @@ c
       ELSE
         ULOAD = 0
       ENDIF
-      IF (GT == ZERO) GT = QUART*(EC + ET)
+      IF (GT == ZERO) GT = FOURTH*(EC + ET)
 c-----------------------------------------------------------------------
-      LC0 = UN / NT
-      LT0 = UN / NC
-      DC0 = LC0*(UN+EMBC) 
-      DT0 = LT0*(UN+EMBT) 
+      LC0 = ONE / NT
+      LT0 = ONE / NC
+      DC0 = LC0*(ONE+EMBC) 
+      DT0 = LT0*(ONE+EMBT) 
       HC0 = SQRT(DC0*DC0 - LC0*LC0)
       HT0 = SQRT(DT0*DT0 - LT0*LT0)
 c---  rigidite fil
@@ -244,15 +244,15 @@ c---  rigidite flexion
 c
 c---  angle blocage cisaillement
       IF (PHI_LOCK == ZERO) THEN
-        COSIN = UNDEMI*(HC0/LC0 + HT0/LT0)
-        TAN_LOCK = SQRT(UN - COSIN*COSIN) / COSIN
+        COSIN = HALF*(HC0/LC0 + HT0/LT0)
+        TAN_LOCK = SQRT(ONE - COSIN*COSIN) / COSIN
         PHI_LOCK = ATAN(TAN_LOCK)
       ELSE
-        PHI_LOCK = PHI_LOCK*PI/CENT80
+        PHI_LOCK = PHI_LOCK*PI/HUNDRED80
         TAN_LOCK = TAN(PHI_LOCK)
       ENDIF
 c
-      G = GT / (UN + TAN_LOCK*TAN_LOCK)
+      G = GT / (ONE + TAN_LOCK*TAN_LOCK)
       IF (G0 == ZERO) G0 = G 
       GB = TAN_LOCK*(G0 - G)
 c
@@ -286,9 +286,9 @@ c
       UPARAM(20) = KKT
       UPARAM(21) = GFROT
       UPARAM(22) = AREAMIN1
-      AREAMIN2 = UN + UNDEMI*(AREAMIN1-UN)
+      AREAMIN2 = ONE + HALF*(AREAMIN1-ONE)
       IF (AREAMIN2 > AREAMIN1) THEN
-        UPARAM(23)= UN / (AREAMIN2-AREAMIN1)
+        UPARAM(23)= ONE / (AREAMIN2-AREAMIN1)
       ELSE
         UPARAM(23)= ZERO
       ENDIF
@@ -308,7 +308,7 @@ c
 C
       YOUNG = MAX(KC,KT)
 c--------------------------
-      PARMAT(1) = YOUNG/TROIS
+      PARMAT(1) = YOUNG/THREE
       PARMAT(2) = YOUNG
       PARMAT(3) = ZERO
       PARMAT(4) = ZERO
@@ -329,7 +329,7 @@ c--------------------------------------------------
         WRITE(IOUT,1200) RHO0
         WRITE(IOUT,1250) EC,ET
         IF (ILOAD == 0) THEN
-          WRITE(IOUT,1300) BC,BT,G0,GT,PHI_LOCK*CENT80/PI
+          WRITE(IOUT,1300) BC,BT,G0,GT,PHI_LOCK*HUNDRED80/PI
         ELSE
           WRITE(IOUT,1400) IFUNC(1),IFUNC(2),IFUNC(3),YFAC(1),YFAC(2),YFAC(3)
           IF (ILOAD == 2)

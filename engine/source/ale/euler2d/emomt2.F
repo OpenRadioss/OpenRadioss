@@ -109,11 +109,11 @@ C
 C
         DO I=LFT,LLT
           AAA = QMV(1,I)+QMV(2,I)+QMV(3,I)+QMV(4,I)
-          AAA = QUART * AAA
-          QMV(1,I) = QUART * (QMV(1,I) - AAA)   
-          QMV(2,I) = QUART * (QMV(2,I) - AAA)   
-          QMV(3,I) = QUART * (QMV(3,I) - AAA)   
-          QMV(4,I) = QUART * (QMV(4,I) - AAA)   
+          AAA = FOURTH * AAA
+          QMV(1,I) = FOURTH * (QMV(1,I) - AAA)   
+          QMV(2,I) = FOURTH * (QMV(2,I) - AAA)   
+          QMV(3,I) = FOURTH * (QMV(3,I) - AAA)   
+          QMV(4,I) = FOURTH * (QMV(4,I) - AAA)   
           DMY = ZERO
           DMZ = ZERO
           DM = QMV(4,I)+QMV(1,I)
@@ -129,33 +129,33 @@ C
           DMY = DMY + VY4(I)*DM
           DMZ = DMZ + VZ4(I)*DM
 C
-          DMY = -QUART * DMY
-          DMZ = -QUART * DMZ
+          DMY = -FOURTH * DMY
+          DMZ = -FOURTH * DMZ
 C
           A1(I) = PY1(I)*VDY(I)+PZ1(I)*VDZ(I)
           A2(I) = PY2(I)*VDY(I)+PZ2(I)*VDZ(I)
           A1(I) = SIGN(GAM(I),A1(I))
           A2(I) = SIGN(GAM(I),A2(I))
 C
-          T11(I) =  T11(I)+(UN+A1(I))*DMY
-          T12(I) =  T12(I)+(UN+A2(I))*DMY
-          T13(I) =  T13(I)+(UN-A1(I))*DMY
-          T14(I) =  T14(I)+(UN-A2(I))*DMY
+          T11(I) =  T11(I)+(ONE+A1(I))*DMY
+          T12(I) =  T12(I)+(ONE+A2(I))*DMY
+          T13(I) =  T13(I)+(ONE-A1(I))*DMY
+          T14(I) =  T14(I)+(ONE-A2(I))*DMY
 C
-          T21(I) =  T21(I)+(UN+A1(I))*DMZ
-          T22(I) =  T22(I)+(UN+A2(I))*DMZ
-          T23(I) =  T23(I)+(UN-A1(I))*DMZ
-          T24(I) =  T24(I)+(UN-A2(I))*DMZ
+          T21(I) =  T21(I)+(ONE+A1(I))*DMZ
+          T22(I) =  T22(I)+(ONE+A2(I))*DMZ
+          T23(I) =  T23(I)+(ONE-A1(I))*DMZ
+          T24(I) =  T24(I)+(ONE-A2(I))*DMZ
         ENDDO
         RETURN
       ENDIF
       IF(UPWM.EQ.0.AND.MTN.EQ.11)RETURN
       IF(UPWM.GT.1)THEN
-       PC=QUART
-       PD=UNSEIZE
-       PS=UNSEIZE
-       PP=UNSEIZE
-       DT1H=UNDEMI*DT1*CUPWM
+       PC=FOURTH
+       PD=ONE_OVER_16
+       PS=ONE_OVER_16
+       PP=ONE_OVER_16
+       DT1H=HALF*DT1*CUPWM
        DO I=LFT,LLT
         Y13(I)=Y3(I)-Y1(I)
         Z13(I)=Z3(I)-Z1(I)
@@ -171,10 +171,10 @@ C
         Z41(I)=Z1(I)-Z4(I)
        ENDDO
         DO I=LFT,LLT
-         S(2,I)=UNDEMI*(Y12(I)-Y34(I))
-         S(3,I)=UNDEMI*(Z12(I)-Z34(I))
-         T(2,I)=UNDEMI*(-Y41(I)+Y23(I))
-         T(3,I)=UNDEMI*(-Z41(I)+Z23(I))	 
+         S(2,I)=HALF*(Y12(I)-Y34(I))
+         S(3,I)=HALF*(Z12(I)-Z34(I))
+         T(2,I)=HALF*(-Y41(I)+Y23(I))
+         T(3,I)=HALF*(-Z41(I)+Z23(I))	 
        ENDDO
       ENDIF
 C
@@ -201,19 +201,19 @@ C
         ENDDO
        ENDIF
        DO I=LFT,LLT
-        FAC = QUART*RHO(I)*AIRE(I)
+        FAC = FOURTH*RHO(I)*AIRE(I)
         F1(I) = (VDY(I)*DYY(I)+VDZ(I)*DYZ(I))*FAC
         F2(I) = (VDY(I)*DZY(I)+VDZ(I)*DZZ(I))*FAC
        ENDDO
        DO I=LFT,LLT
-        T11(I) =  T11(I)+(UN+A1(I))*F1(I)
-        T12(I) =  T12(I)+(UN+A2(I))*F1(I)
-        T13(I) =  T13(I)+(UN-A1(I))*F1(I)
-        T14(I) =  T14(I)+(UN-A2(I))*F1(I)
-        T21(I) =  T21(I)+(UN+A1(I))*F2(I)
-        T22(I) =  T22(I)+(UN+A2(I))*F2(I)
-        T23(I) =  T23(I)+(UN-A1(I))*F2(I)
-        T24(I) =  T24(I)+(UN-A2(I))*F2(I)
+        T11(I) =  T11(I)+(ONE+A1(I))*F1(I)
+        T12(I) =  T12(I)+(ONE+A2(I))*F1(I)
+        T13(I) =  T13(I)+(ONE-A1(I))*F1(I)
+        T14(I) =  T14(I)+(ONE-A2(I))*F1(I)
+        T21(I) =  T21(I)+(ONE+A1(I))*F2(I)
+        T22(I) =  T22(I)+(ONE+A2(I))*F2(I)
+        T23(I) =  T23(I)+(ONE-A1(I))*F2(I)
+        T24(I) =  T24(I)+(ONE-A2(I))*F2(I)
        ENDDO
 C
       ELSE

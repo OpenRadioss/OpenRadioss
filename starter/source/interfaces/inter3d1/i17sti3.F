@@ -65,7 +65,7 @@ C-----------------------------------------------
         C1    = PM(32,MAT)
         IF(YOUNG == ZERO) YOUNG = C1
         NU    = PM(21,MAT)
-        KM(1,I) = (UN-NU*NU) / YOUNG
+        KM(1,I) = (ONE-NU*NU) / YOUNG
         KM(2,I) = RHO
       ENDDO
 
@@ -77,7 +77,7 @@ C-----------------------------------------------
         C1    = PM(32,MAT)
         IF(YOUNG == ZERO) YOUNG = C1
         NU    = PM(21,MAT)
-        KS(1,I) = (UN-NU*NU) / YOUNG
+        KS(1,I) = (ONE-NU*NU) / YOUNG
         KS(2,I) = RHO
       ENDDO
 

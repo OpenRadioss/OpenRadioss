@@ -138,10 +138,10 @@ c
               XX3(JJ) = X(3,NN)
             ENDDO
 c
-            SP = UN + SS0
-            SM = UN - SS0
-            TP = QUART*(UN + TT0)
-            TM = QUART*(UN - TT0)
+            SP = ONE + SS0
+            SM = ONE - SS0
+            TP = FOURTH*(ONE + TT0)
+            TM = FOURTH*(ONE - TT0)
             H(1)=TM*SM
             H(2)=TM*SP
             H(3)=TP*SP
@@ -183,7 +183,7 @@ C
                 TN1 = N2(I)/TN
               ELSE
                 TN2 = ZERO
-                TN1 = UN
+                TN1 = ONE
               ENDIF
             ENDIF
 c

@@ -170,12 +170,12 @@ C-----------------------------------------------
             DO I=LFT,LLT
               N = I + NFT
               IF (GBUF%G_OFF > 0) THEN
-                IF(GBUF%OFF(I) > UN) THEN
-                  FUNC(EL2FA(NN6+N)) = GBUF%OFF(I) - UN
-                ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= UN)) THEN
+                IF(GBUF%OFF(I) > ONE) THEN
+                  FUNC(EL2FA(NN6+N)) = GBUF%OFF(I) - ONE
+                ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= ONE)) THEN
                   FUNC(EL2FA(NN6+N)) = GBUF%OFF(I)
                 ELSE
-                  FUNC(EL2FA(NN6+N)) = -UN
+                  FUNC(EL2FA(NN6+N)) = -ONE
                 ENDIF
               ENDIF
             ENDDO   
@@ -239,7 +239,7 @@ C-----------------------------------------------
              M1 = GBUF%MOM(JJ(1) + I)
              M2 = GBUF%MOM(JJ(2) + I)
              M3 = GBUF%MOM(JJ(3) + I)
-             YEQ= F1*F1 + TROIS* A1 *
+             YEQ= F1*F1 + THREE* A1 *
      +                  ( M1*M1 / MAX(B3,EM30)
      +                  + M2*M2 / MAX(B1,EM30)
      +                  + M3*M3 / MAX(B2,EM30) )
@@ -274,12 +274,12 @@ C-----------------------------------------------
             DO I=LFT,LLT
               N = I + NFT
               IF (GBUF%G_OFF > 0) THEN
-                IF(GBUF%OFF(I) > UN) THEN
-                  FUNC(EL2FA(NN7+N)) = GBUF%OFF(I) - UN
-                ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= UN)) THEN
+                IF(GBUF%OFF(I) > ONE) THEN
+                  FUNC(EL2FA(NN7+N)) = GBUF%OFF(I) - ONE
+                ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= ONE)) THEN
                   FUNC(EL2FA(NN7+N)) = GBUF%OFF(I)
                 ELSE
-                  FUNC(EL2FA(NN7+N)) = -UN
+                  FUNC(EL2FA(NN7+N)) = -ONE
                 ENDIF
               ENDIF
             ENDDO              
@@ -318,28 +318,28 @@ C-----------------------------------------------
         ELSEIF(ITY.EQ.6)THEN
           IF(IFUNC.EQ.3)THEN
            IF (MLW.EQ.1) THEN
-            XM = UN/GEO(1,IXR(1,1+NFT))
+            XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=LFT,LLT
               N = I + NFT
 Clm           XM cannot be zero (was checked in starter).
               FUNC(EL2FA(NN8+N)) = GBUF%EINT(I)*XM
             ENDDO
            ELSEIF (MLW.EQ.2) THEN
-            XM = UN/GEO(1,IXR(1,1+NFT))
+            XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=LFT,LLT
               N = I + NFT
 Clm           XM cannot be zero (was checked in starter).
               FUNC(EL2FA(NN8+N)) = GBUF%EINT(I)*XM
             ENDDO
            ELSEIF (MLW.EQ.3) THEN
-            XM = UN/GEO(1,IXR(1,1+NFT))
+            XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=LFT,LLT
               N = I + NFT
 Clm           XM cannot be zero (was checked in starter).
               FUNC(EL2FA(NN8+N)) = GBUF%EINT(I)*XM
             ENDDO
            ELSEIF (MLW.EQ.4) THEN
-            XM = UN/GEO(1,IXR(1,1+NFT))
+            XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=LFT,LLT
               N = I + NFT
 Clm           XM cannot be zero (was checked in starter).
@@ -352,14 +352,14 @@ Clm         user springs.
               FUNC(EL2FA(NN8+N)) = GBUF%EINT(I)/MAX(EM30,GBUF%MASS(I))
             ENDDO
            ELSEIF (MLW.EQ.6) THEN
-            XM = UN/GEO(1,IXR(1,1+NFT))
+            XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=LFT,LLT
               N = I + NFT
 Clm           XM cannot be zero (was checked in starter).
               FUNC(EL2FA(NN8+N)) = GBUF%EINT(I)*XM
             ENDDO
            ELSEIF (MLW.EQ.7) THEN
-            XM = UN/GEO(1,IXR(1,1+NFT))
+            XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=LFT,LLT
               N = I + NFT
               FUNC(EL2FA(NN8+N)) = GBUF%EINT(I)*XM
@@ -396,12 +396,12 @@ Clm           XM cannot be zero (was checked in starter).
             DO I=LFT,LLT
               N = I + NFT
               IF (GBUF%G_OFF > 0) THEN
-                IF(GBUF%OFF(I) > UN) THEN
-                  FUNC(EL2FA(NN8+N)) = GBUF%OFF(I) - UN
-                ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= UN)) THEN
+                IF(GBUF%OFF(I) > ONE) THEN
+                  FUNC(EL2FA(NN8+N)) = GBUF%OFF(I) - ONE
+                ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= ONE)) THEN
                   FUNC(EL2FA(NN8+N)) = GBUF%OFF(I)
                 ELSE
-                  FUNC(EL2FA(NN8+N)) = -UN
+                  FUNC(EL2FA(NN8+N)) = -ONE
                 ENDIF
               ENDIF
             ENDDO                       
@@ -559,10 +559,10 @@ C-----------------------------------------------
                   S1 = GBUF%SIG(JJ(1) + I)+P
                   S2 = GBUF%SIG(JJ(2) + I)+P
                   S3 = GBUF%SIG(JJ(3) + I)+P
-                  VONM2= TROIS*(GBUF%SIG(JJ(4) + I)**2 +
+                  VONM2= THREE*(GBUF%SIG(JJ(4) + I)**2 +
      .                          GBUF%SIG(JJ(5) + I)**2 +
      .                          GBUF%SIG(JJ(6) + I)**2 +
-     .                   UNDEMI*(S1*S1+S2*S2+S3*S3))
+     .                   HALF*(S1*S1+S2*S2+S3*S3))
                   VONM= SQRT(VONM2)
                   VALUE = VONM
                 ENDIF
@@ -629,10 +629,10 @@ C-----------------------------------------------
                 S1 = GBUF%SIG(JJ(1) + I) + P
                 S2 = GBUF%SIG(JJ(2) + I) + P
                 S3 = GBUF%SIG(JJ(3) + I) + P
-                VONM2= TROIS*(GBUF%SIG(JJ(4) + I)**2 +
+                VONM2= THREE*(GBUF%SIG(JJ(4) + I)**2 +
      .                        GBUF%SIG(JJ(5) + I)**2 +
      .                        GBUF%SIG(JJ(6) + I)**2 +
-     .                 UNDEMI*(S1*S1+S2*S2+S3*S3))
+     .                 HALF*(S1*S1+S2*S2+S3*S3))
                 VONM= SQRT(VONM2)
                 VALUE = VONM
               ENDIF
@@ -654,7 +654,7 @@ c
                 S1 = GBUF%FOR(JJ(1)+I)                             
                 S2 = GBUF%FOR(JJ(2)+I)                             
                 S12= GBUF%FOR(JJ(3)+I)                             
-                VONM2= S1*S1 + S2*S2 - S1*S2 + TROIS*S12*S12
+                VONM2= S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12
                 VALUE = SQRT(VONM2)
               ENDIF
               EVAR(I) = VALUE
@@ -715,7 +715,7 @@ C-----------------------
               M1 = GBUF%MOM(JJ(1) + I)
               M2 = GBUF%MOM(JJ(2) + I)
               M3 = GBUF%MOM(JJ(3) + I)
-              YEQ= F1*F1 + TROIS* A1 *
+              YEQ= F1*F1 + THREE* A1 *
      +                   ( M1*M1 / MAX(B3,EM30)
      +                   + M2*M2 / MAX(B1,EM30)
      +                   + M3*M3 / MAX(B2,EM30) )
@@ -839,15 +839,15 @@ C-----------------------------------------------
                   S1 = GBUF%SIG(JJ(1) + I)+P
                   S2 = GBUF%SIG(JJ(2) + I)+P
                   S3 = GBUF%SIG(JJ(3) + I)+P
-                  VONM2= TROIS*(GBUF%SIG(JJ(4) + I)**2 +
+                  VONM2= THREE*(GBUF%SIG(JJ(4) + I)**2 +
      .                          GBUF%SIG(JJ(5) + I)**2 +
      .                          GBUF%SIG(JJ(6) + I)**2 +
-     .                   UNDEMI*(S1*S1+S2*S2+S3*S3))
+     .                   HALF*(S1*S1+S2*S2+S3*S3))
                   VONM= SQRT(VONM2)
                   VALUE = VONM
                 ENDIF
                 EVAR(I) = VALUE
-                OFF    = MIN(GBUF%OFF(I),UN)
+                OFF    = MIN(GBUF%OFF(I),ONE)
                 VOL(I) = GBUF%VOL(I)*OFF
                 IF(ISOLNOD.EQ.8)THEN
 	                DO J = 1,ISOLNOD
@@ -911,15 +911,15 @@ C-----------------------------------------------
                   S1 = GBUF%SIG(JJ(1) + I) + P
                   S2 = GBUF%SIG(JJ(2) + I) + P
                   S3 = GBUF%SIG(JJ(3) + I) + P
-                  VONM2= TROIS*(GBUF%SIG(JJ(4) + I)**2 +
+                  VONM2= THREE*(GBUF%SIG(JJ(4) + I)**2 +
      .                          GBUF%SIG(JJ(5) + I)**2 +
      .                          GBUF%SIG(JJ(6) + I)**2 +
-     .                       UNDEMI*(S1*S1+S2*S2+S3*S3))
+     .                       HALF*(S1*S1+S2*S2+S3*S3))
                   VONM= SQRT(VONM2)
                   VALUE = VONM
                 ENDIF
                 EVAR(I) = VALUE
-                OFF = MIN(GBUF%OFF(I),UN)
+                OFF = MIN(GBUF%OFF(I),ONE)
                 VOL(I) = GBUF%VOL(I)*OFF
 	               DO J = 1,NNOD
 	                 NC(J,I) = IXQ(J+1,N)
@@ -937,7 +937,7 @@ C-----------------------------------------------
                  S1 = GBUF%FOR(JJ(1)+I)               
                  S2 = GBUF%FOR(JJ(2)+I)               
                  S12= GBUF%FOR(JJ(3)+I)               
-                  VONM2= S1*S1 + S2*S2 - S1*S2 + TROIS*S12*S12
+                  VONM2= S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12
                   VALUE = SQRT(VONM2)
                 ENDIF
                 EVAR(I) = VALUE
@@ -963,8 +963,8 @@ c
                 XX3 = YY1*ZZ2 - ZZ1*YY2
                 YY3 = ZZ1*XX2 - XX1*ZZ2
                 ZZ3 = XX1*YY2 - YY1*XX2
-                AREA = UNDEMI*SQRT(XX3*XX3 + YY3*YY3 + ZZ3*ZZ3)
-                OFF = MIN(GBUF%OFF(I),UN)
+                AREA = HALF*SQRT(XX3*XX3 + YY3*YY3 + ZZ3*ZZ3)
+                OFF = MIN(GBUF%OFF(I),ONE)
                 VOL(I) = THK0*AREA*OFF
             ENDDO 
            ELSEIF(ITY.EQ.3)THEN
@@ -988,8 +988,8 @@ c
                 XX3 = YY1*ZZ2 - ZZ1*YY2
                 YY3 = ZZ1*XX2 - XX1*ZZ2
                 ZZ3 = XX1*YY2 - YY1*XX2
-                AREA = UNDEMI*SQRT(XX3*XX3 + YY3*YY3 + ZZ3*ZZ3)
-                OFF = MIN(GBUF%OFF(I),UN)
+                AREA = HALF*SQRT(XX3*XX3 + YY3*YY3 + ZZ3*ZZ3)
+                OFF = MIN(GBUF%OFF(I),ONE)
                 VOL(I) = THK0*AREA*OFF
             ENDDO 
            ENDIF
@@ -1015,8 +1015,8 @@ C-----------------------------------------------
               XX1 = X(1,N2)-X(1,N1)
               YY1 = X(2,N2)-X(2,N1)
               ZZ1 = X(3,N2)-X(3,N1)
-              AL0  = UNDEMI*SQRT(XX1*XX1 + YY1*YY1 + ZZ1*ZZ1)
-              OFF = MIN(GBUF%OFF(I),UN)
+              AL0  = HALF*SQRT(XX1*XX1 + YY1*YY1 + ZZ1*ZZ1)
+              OFF = MIN(GBUF%OFF(I),ONE)
               VOL(I) = AL0*AREA*OFF
             ENDIF
             EVAR(I) = VALUE
@@ -1040,7 +1040,7 @@ C-----------------------
               M1 = GBUF%MOM(JJ(1) + I)
               M2 = GBUF%MOM(JJ(2) + I)
               M3 = GBUF%MOM(JJ(3) + I)
-              YEQ= F1*F1 + TROIS* A1 *
+              YEQ= F1*F1 + THREE* A1 *
      +                   ( M1*M1 / MAX(B3,EM30)
      +                   + M2*M2 / MAX(B1,EM30)
      +                   + M3*M3 / MAX(B2,EM30) )
@@ -1052,8 +1052,8 @@ C-----------------------
               XX1 = X(1,N2)-X(1,N1)
               YY1 = X(2,N2)-X(2,N1)
               ZZ1 = X(3,N2)-X(3,N1)
-              AL0  = UNDEMI*SQRT(XX1*XX1 + YY1*YY1 + ZZ1*ZZ1)
-              OFF = MIN(GBUF%OFF(I),UN)
+              AL0  = HALF*SQRT(XX1*XX1 + YY1*YY1 + ZZ1*ZZ1)
+              OFF = MIN(GBUF%OFF(I),ONE)
               VOL(I) = AL0*A1*OFF
             ENDIF
             EVAR(I) = VALUE

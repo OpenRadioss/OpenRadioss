@@ -683,12 +683,12 @@ C
             IF (GAPINF.EQ.ZERO) GAPINF = INTBUF_TAB(I)%VARIABLES(2)
 C-------supposee s est encore loin de M ------
 	    GAPINF =GAPINF+MAX(ZERO,DIST0)
-            DTI = UNP8*GAPINF/VV
+            DTI = ONEP8*GAPINF/VV
 Ctmp            DTI = ZEP9*GAPINF/VV
             IF(DTI.LT.DT2T) DT2T    = DTI            
           ENDIF
           IF(DIST0.LE.ZERO) THEN
-            INTBUF_TAB(I)%VARIABLES(5) = -UN
+            INTBUF_TAB(I)%VARIABLES(5) = -ONE
           ENDIF
         ENDIF
 C
@@ -796,7 +796,7 @@ C----deactive cette fonction.
        IF (ITTOFF.GT.0) RETURN
        NTHR_CP = NTHREAD
        IF (NTHREAD.GT.1) NTHREAD = 1
-       DTI = UN/DT2
+       DTI = ONE/DT2
         DO I=1,NUMNOD
           V(1,I)=D_IMP(1,I)*DTI
           V(2,I)=D_IMP(2,I)*DTI
@@ -1636,11 +1636,11 @@ C     REAL ou REAL*8
       my_real
      .        DTK(NINTER),DTI,DT_MIN
 C-------------before inttri------
-       SCAL = UN
+       SCAL = ONE
        IF (ITTOFF.GT.0.OR.IMCONV.EQ.1.OR.IMCONV.LE.-2) RETURN
         NTHR_CP = NTHREAD
         IF (NTHREAD.GT.1) NTHREAD = 1
-        DTI = UN/DT2
+        DTI = ONE/DT2
         DO I=1,NUMNOD
           V(1,I)=D_IMP(1,I)*DTI
           V(2,I)=D_IMP(2,I)*DTI
@@ -1661,7 +1661,7 @@ C-------------before inttri------
      6       SENSOR   ,MAXDGAP)
 C  
        SCAL = DT_MIN*DTI
-       IF (SCAL.LT.UN) THEN
+       IF (SCAL.LT.ONE) THEN
         DO I=1,NUMNOD
           D_IMP(1,I)=D_IMP(1,I)*SCAL
           D_IMP(2,I)=D_IMP(2,I)*SCAL

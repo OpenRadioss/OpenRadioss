@@ -87,9 +87,9 @@ C-----------------------------------------------
       IF(IFLAG.NE.1)THEN
         IF(INT22==0)THEN  
         !DEFAULT FORMULATION    
-         TNOD(LFT:LLT,1:8) = UN
+         TNOD(LFT:LLT,1:8) = ONE
          DO  I=LFT,LLT
-          DMASS(I)=UNHUIT*RHO(I)*VOLU(I)*OFF(I)
+          DMASS(I)=ONE_OVER_8*RHO(I)*VOLU(I)*OFF(I)
          ENDDO
          !INTERFACE 22 : CUT CELLS
         ELSE
@@ -98,8 +98,8 @@ C-----------------------------------------------
           IF(IB.GT.0)THEN
             NCELL = BRICK_LIST(NIN,IB)%NBCUT
             IF(NCELL==0)THEN
-              TNOD(I,1:8) = UN
-              DMASS(I)=UNHUIT*RHO(I)*VOLU(I)*OFF(I)
+              TNOD(I,1:8) = ONE
+              DMASS(I)=ONE_OVER_8*RHO(I)*VOLU(I)*OFF(I)
               CYCLE
             ENDIF
             TNOD(I,1:8) = ZERO
@@ -107,18 +107,18 @@ C-----------------------------------------------
             IF(MCELL==0)CYCLE ! next Main Cell            
             FAC = BRICK_LIST(NIN,IB)%POLY(MCELL)%NumNOD
             IF(FAC.GT.0)THEN
-              FAC=UN/FAC
+              FAC=ONE/FAC
               DO J=1,8                                                                                        
                 ICELL=BRICK_LIST(NIN,IB)%NODE(J)%WhichCell                                                    
                 IF(ICELL/=MCELL)CYCLE                                                                         
-                TNOD(I,J) = UN                                              !this node is used by polyhedron  
+                TNOD(I,J) = ONE                                              !this node is used by polyhedron  
               ENDDO               
             ELSE
               FAC = ZERO
             ENDIF                                                                                          
           ELSE
-            FAC = UNHUIT 
-            TNOD(I,1:8) = UN                                                !uncut cell distributes centroid mass to all 8 nodes
+            FAC = ONE_OVER_8 
+            TNOD(I,1:8) = ONE                                                !uncut cell distributes centroid mass to all 8 nodes
           ENDIF
           DMASS(I)=FAC*RHO(I)*VOLU(I)*OFF(I)
          ENDDO
@@ -331,9 +331,9 @@ C-----------------------------------------------
       IF(IFLAG.NE.1)THEN
         IF(INT22==0)THEN  
         !DEFAULT FORMULATION    
-         TNOD(LFT:LLT,1:8) = UN
+         TNOD(LFT:LLT,1:8) = ONE
          DO  I=LFT,LLT
-          DMASS(I)=UNHUIT*RHO(I)*VOLU(I)*OFF(I)
+          DMASS(I)=ONE_OVER_8*RHO(I)*VOLU(I)*OFF(I)
          ENDDO
          !INTERFACE 22 : CUT CELLS
         ELSE
@@ -342,8 +342,8 @@ C-----------------------------------------------
           IF(IB.GT.0)THEN
             NCELL = BRICK_LIST(NIN,IB)%NBCUT
             IF(NCELL==0)THEN
-              TNOD(I,1:8) = UN
-              DMASS(I)=UNHUIT*RHO(I)*VOLU(I)*OFF(I)
+              TNOD(I,1:8) = ONE
+              DMASS(I)=ONE_OVER_8*RHO(I)*VOLU(I)*OFF(I)
               CYCLE
             ENDIF
             TNOD(I,1:8) = ZERO
@@ -351,18 +351,18 @@ C-----------------------------------------------
             IF(MCELL==0)CYCLE ! next Main Cell            
             FAC = BRICK_LIST(NIN,IB)%POLY(MCELL)%NumNOD
             IF(FAC.GT.0)THEN
-              FAC=UN/FAC
+              FAC=ONE/FAC
               DO J=1,8                                                                                        
                 ICELL=BRICK_LIST(NIN,IB)%NODE(J)%WhichCell                                                    
                 IF(ICELL/=MCELL)CYCLE                                                                         
-                TNOD(I,J) = UN                                              !this node is used by polyhedron  
+                TNOD(I,J) = ONE                                              !this node is used by polyhedron  
               ENDDO               
             ELSE
               FAC = ZERO
             ENDIF                                                                                          
           ELSE
-            FAC = UNHUIT 
-            TNOD(I,1:8) = UN                                                !uncut cell distributes centroid mass to all 8 nodes
+            FAC = ONE_OVER_8 
+            TNOD(I,1:8) = ONE                                                !uncut cell distributes centroid mass to all 8 nodes
           ENDIF
           DMASS(I)=FAC*RHO(I)*VOLU(I)*OFF(I)
          ENDDO
@@ -375,7 +375,7 @@ C-----------------------------------------------
       ! NODAL MASS : ELEMENTARY MASS IS DISTRIBUTED !
       !---------------------------------------------!      
       IF(IFLAG.EQ.1)THEN
-       TNOD(LFT:LLT,1:8) = UN       
+       TNOD(LFT:LLT,1:8) = ONE       
        DO  I=LFT,LLT
         DMASS(I)=RHO(I)*VOLGP(1,I)*OFF(I)
        ENDDO

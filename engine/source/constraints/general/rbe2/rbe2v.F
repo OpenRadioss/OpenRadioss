@@ -669,7 +669,7 @@ C-------------------011---------------------
 	  IF (ABS(VQ(1,K)).LT.EM20) THEN
 	   S= ZERO
 	  ELSE
-	   S= UN/VQ(1,K)
+	   S= ONE/VQ(1,K)
 	  ENDIF
 C-------------------101---------------------
        ELSEIF (ICT .EQ. 5) THEN
@@ -691,7 +691,7 @@ C-------------------101---------------------
 	  IF (ABS(VQ(2,K)).LT.EM20) THEN
 	   S= ZERO
 	  ELSE
-	   S= UN/VQ(2,K)
+	   S= ONE/VQ(2,K)
 	  ENDIF
 C-------------------110---------------------
        ELSEIF (ICT .EQ. 6) THEN
@@ -713,7 +713,7 @@ C-------------------110---------------------
 	  IF (ABS(VQ(3,K)).LT.EM20) THEN
 	   S= ZERO
 	  ELSE
-	   S= UN/VQ(3,K)
+	   S= ONE/VQ(3,K)
 	  ENDIF
        ENDIF
        DO I=1,NSN
@@ -841,7 +841,7 @@ C     REAL ou REAL*8
      .   VX1, VX2, VX3,VG(3)
 C======================================================================|
 C-------change As=Am to Vs=Vm------
-        USDT = UN/DT12
+        USDT = ONE/DT12
         DO J = 1,3
 	 IF (JT(J).NE.0) THEN
           DO I=1,NSL
@@ -864,7 +864,7 @@ C
        END IF
 C
        IF (IRAD.EQ.0) THEN
-        DT05 = UNDEMI*DT2
+        DT05 = HALF*DT2
         DO I=1,NSL
          NS = ISL(I)
          V1X2=VG(1)*(X(2,NS)-X(2,M))
@@ -885,7 +885,7 @@ C
      .   A(3,NS)= A(3,NS)+(VX3+DT05*(VG(1)*VX2-VG(2)*VX1))*USDT
         ENDDO
        ELSEIF ((JR(1)+JR(2)+JR(3)).GT.0) THEN
-        DT05 = UNDEMI*DT2
+        DT05 = HALF*DT2
         DO J = 1,3
          VG(J)=JR(J)*VG(J)
         ENDDO
@@ -956,7 +956,7 @@ C     REAL ou REAL*8
      .   VX1, VX2, VX3,VRG(3),VRL(3),USDT1(3),KTR(3,3)
 C----we modify A,AR(*,NS) so that V,VR(*,NS) follow the constraint equations     
 C======================================================================|
-        USDT = UN/DT12
+        USDT = ONE/DT12
       IF ((JT(1)+JT(2)+JT(3))==3) THEN
        DO J = 1,3
        DO I=1,NSL
@@ -1021,7 +1021,7 @@ C
        DO J = 1,3
          VRG(J)=VR(J,M)+AR(J,M)*DT12
        ENDDO
-       DT05 = UNDEMI*DT2
+       DT05 = HALF*DT2
        IF (IRAD.EQ.0) THEN
         DO J = 1,3
          USDT1(J)=USDT*JT(J)
@@ -1104,9 +1104,9 @@ C======================================================================|
 	 DO K=1,LSKEW
 	  SKEW(K)=ZERO
 	 ENDDO
-	  SKEW(1)=UN
-	  SKEW(5)=UN
-	  SKEW(9)=UN
+	  SKEW(1)=ONE
+	  SKEW(5)=ONE
+	  SKEW(9)=ONE
         ENDIF
       IF (NT.GT.0.AND.NT.LT.3) THEN
        NSN=1
@@ -1268,7 +1268,7 @@ C SO NO VELOCITY WILL BE CAUSED BY THIS ROTATION
       RZ(1,2) = SIN(ANGELV)
       RZ(2,1) = -SIN(ANGELV)
       RZ(2,2) = COS(ANGELV)
-      RZ(3,3) = UN
+      RZ(3,3) = ONE
 
       DO I = 1,3
         LSMLTR(I) = ZERO
@@ -1570,15 +1570,15 @@ C  WORK VARIABLE
 
 C-------------------100---------------------
       IF (ICT .EQ. 4 ) THEN
-        V(J,NS) = UN/SKEW1(1,J)*(VLS(1)-SKEW1(1,J1)*V(J1,NS)
+        V(J,NS) = ONE/SKEW1(1,J)*(VLS(1)-SKEW1(1,J1)*V(J1,NS)
      .            -SKEW1(1,K)*V(K,NS ))
 C-------------------010---------------------
       ELSEIF (ICT .EQ. 2) THEN
-        V(J,NS) = UN/SKEW1(2,J)*(VLS(2)-SKEW1(2,J1)*V(J1,NS)
+        V(J,NS) = ONE/SKEW1(2,J)*(VLS(2)-SKEW1(2,J1)*V(J1,NS)
      .            -SKEW1(2,K)*V(K,NS ))
 C-------------------001---------------------
       ELSEIF (ICT .EQ. 1) THEN
-        V(J,NS) = UN/SKEW1(3,J)*(VLS(3)-SKEW1(3,J1)*V(J1,NS)
+        V(J,NS) = ONE/SKEW1(3,J)*(VLS(3)-SKEW1(3,J1)*V(J1,NS)
      .            -SKEW1(3,K)*V(K,NS ))
 C-------------------011---------------------
       ELSEIF (ICT .EQ. 3) THEN

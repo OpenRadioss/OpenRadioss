@@ -116,8 +116,8 @@ C     Getting rid of equivalences
           TB(I)=EP37
           JJ(I)=NDET2D ! will be removed -1 for each detonator associated to this elem  
           XC(I)=ZERO
-          YC(I)=TIERS*(Y1(I)+Y2(I)+Y3(I))
-          ZC(I)=TIERS*(Z1(I)+Z2(I)+Z3(I))
+          YC(I)=THIRD*(Y1(I)+Y2(I)+Y3(I))
+          ZC(I)=THIRD*(Z1(I)+Z2(I)+Z3(I))
          END DO
        
         !---------------------------------!

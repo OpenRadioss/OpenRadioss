@@ -75,7 +75,7 @@ C======================================================================|
       DO N=1,NFXVEL
         IF (IBFV(8,N).NE.0) THEN
           FACX   = VEL(5,N)
-          TS = (TT + UNDEMI*DT2)*FACX
+          TS = (TT + HALF*DT2)*FACX
           NNO = IABS(IBFV(1,N))
           ISK = IBFV(2,N)/10
           IFUN= IBFV(3,N)
@@ -97,7 +97,7 @@ C======================================================================|
             LLL(IK) = NNO
             JLL(IK) = J
             SLL(IK) = 0
-            XLL(IK) = UN
+            XLL(IK) = ONE
           ELSE
             IF(J.LE.3)THEN
               K1=3*J-2
@@ -207,7 +207,7 @@ C======================================================================|
          IF(WEIGHT(NNO).EQ.1) THEN  ! une seule fois en SPMD
 Cel numerotation globale
           FACX   = VEL(5,N)
-          TS = (TT + UNDEMI*DT2)*FACX
+          TS = (TT + HALF*DT2)*FACX
           NNO = NODGLOB(NNO)
           ISK = IBFV(2,N)/10
           IFUN= IBFV(3,N)
@@ -229,7 +229,7 @@ Cel numerotation globale
             LAGCOMK(1,IK) = NNO
             LAGCOMK(2,IK) = J
             LAGCOMK(3,IK) = 0
-            LAGCOMK(4,IK) = UN
+            LAGCOMK(4,IK) = ONE
           ELSE
             IF(J.LE.3)THEN
               K1=3*J-2

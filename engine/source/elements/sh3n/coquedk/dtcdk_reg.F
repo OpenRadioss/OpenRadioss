@@ -78,16 +78,16 @@ c
           ! If the element is not broken, normal computation
           IF (OFF(I)/=ZERO) THEN
             ! Non-local critical time-step in the plane
-            DTNL = (DEUX*(MIN(LE(I),LE_MAX))*SQRT(TROIS*ZETA))/
-     .                  SQRT(DOUZE*L2 + (MIN(LE(I),LE_MAX))**2)
+            DTNL = (TWO*(MIN(LE(I),LE_MAX))*SQRT(THREE*ZETA))/
+     .                  SQRT(TWELVE*L2 + (MIN(LE(I),LE_MAX))**2)
             ! Non-local critical time-step in the thickness
             IF (NDDL>1) THEN
               IF (NDDL > 2) THEN
-                DTNL_TH = (DEUX*(MIN(THK(I)/NDDL,LE_MAX))*SQRT(TROIS*ZETA))/
-     .                       SQRT(DOUZE*L2 + (MIN(THK(I)/NDDL,LE_MAX))**2)
+                DTNL_TH = (TWO*(MIN(THK(I)/NDDL,LE_MAX))*SQRT(THREE*ZETA))/
+     .                       SQRT(TWELVE*L2 + (MIN(THK(I)/NDDL,LE_MAX))**2)
               ELSE
-                DTNL_TH = (DEUX*(MIN(THK(I),LE_MAX))*SQRT(TROIS*ZETA))/
-     .                       SQRT(DOUZE*L2 + (MIN(THK(I),LE_MAX))**2)
+                DTNL_TH = (TWO*(MIN(THK(I),LE_MAX))*SQRT(THREE*ZETA))/
+     .                       SQRT(TWELVE*L2 + (MIN(THK(I),LE_MAX))**2)
               ENDIF
             ELSE
               DTNL_TH = EP20

@@ -75,7 +75,7 @@ C----------------------------
       IF (ISMSTR==1.OR.ISMSTR==11) RETURN
       IF((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1).EQ.3)THEN
        DO I=LFT,LLT
-       IF(ABS(OFFG(I)).GT.UN)THEN
+       IF(ABS(OFFG(I)).GT.ONE)THEN
        ELSE
         X1(I)=X(1,NC1(I))
         Y1(I)=X(2,NC1(I))
@@ -111,7 +111,7 @@ C----------------------------
 C     TETRAHEDRON VOLUME
 C----------------------------
       DO I=LFT,LLT
-       IF(OFFG(I) /= UN) THEN
+       IF(OFFG(I) /= ONE) THEN
          DET(I)= ZERO
        ELSE
          X43 = X4(I) - X3(I)
@@ -128,7 +128,7 @@ C
          C1(I) =  Z43*X42 - Z42*X43
          D1(I) =  X43*Y42 - X42*Y43
 C
-         DET(I)= (X41*B1(I) + Y41*C1(I) + Z41*D1(I))*UNSIX
+         DET(I)= (X41*B1(I) + Y41*C1(I) + Z41*D1(I))*ONE_OVER_6
        ENDIF
       ENDDO
 
@@ -265,7 +265,7 @@ C-----case ISMSTR=1,11,2,12
        END IF
       ELSEIF((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1).EQ.3) THEN
        DO I=LFT,LLT
-         IF(ABS(OFFG(I)).GT.UN)THEN
+         IF(ABS(OFFG(I)).GT.ONE)THEN
           NE_SM = NE_SM+1
           INDEX(NE_SM)=I
           X1(NE_SM)=SAV(I,1)
@@ -331,10 +331,10 @@ C
          D3(I) =  X42*Y41 - X41*Y42
          D4(I) =  -(D1(I) + D2(I) + D3(I))
 C
-         DET(I)= (X41*B1(I) + Y41*C1(I) + Z41*D1(I))*UNSIX
+         DET(I)= (X41*B1(I) + Y41*C1(I) + Z41*D1(I))*ONE_OVER_6
        ENDDO
        DO I=1,NE_SM
-        D = UN/DET(I)/SIX
+        D = ONE/DET(I)/SIX
         PX1(I)=-B1(I)*D
         PY1(I)=-C1(I)*D
         PZ1(I)=-D1(I)*D
@@ -358,7 +358,7 @@ C-----rho/rho0=1+AMU(t)-dvol
         DZZ=PZ1(I)*VZ1(I)+PZ2(I)*VZ2(I)+
      .         PZ3(I)*VZ3(I)+PZ4(I)*VZ4(I)
         DVOL = (DXX+DYY+DZZ)*DT1
-        VOL(I) = VOLREF(I)/MAX(EM20,(UN+AMU(I)-DVOL))
+        VOL(I) = VOLREF(I)/MAX(EM20,(ONE+AMU(I)-DVOL))
        ENDDO
       END IF ! (TT==ZERO) THEN
 

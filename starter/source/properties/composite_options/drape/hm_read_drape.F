@@ -262,9 +262,9 @@ C
      .          WRITE(IOUT,'(10X,I10,14X,A6,7X,I10,2(15X,1PG20.13))')
      .          ID,DRAPE_ENTITY(1:5),SHELL_ID,THINNING,THETA_DRAPE
             ! Converting angle from deg to rad
-            THETA_DRAPE=THETA_DRAPE*PI/CENT80
+            THETA_DRAPE=THETA_DRAPE*PI/HUNDRED80
             ! Default thinning value
-            IF (THINNING == ZERO) THINNING = UN
+            IF (THINNING == ZERO) THINNING = ONE
             ! Tag shell element
             IT1 = IT1 + 1
             ISHEL(1,IT1) = SHELL_ID
@@ -295,9 +295,9 @@ C
      .          WRITE(IOUT,'(10X,I10,14X,A6,7X,I10,2(15X,1PG20.13))')
      .          ID,DRAPE_ENTITY(1:4),SH3N_ID,THINNING,THETA_DRAPE
             ! Converting angle from deg to rad
-            THETA_DRAPE=THETA_DRAPE*PI/CENT80
+            THETA_DRAPE=THETA_DRAPE*PI/HUNDRED80
             ! Default thinning value
-            IF (THINNING == ZERO) THINNING = UN
+            IF (THINNING == ZERO) THINNING = ONE
             ! Tag sh3n element
             IT2 = IT2 + 1
             ISH3N(1,IT2) = SH3N_ID
@@ -328,9 +328,9 @@ C
      .          WRITE(IOUT,'(10X,I10,14X,A6,7X,I10,2(15X,1PG20.13))')
      .          ID,DRAPE_ENTITY(1:6),GRSHEL_ID,THINNING,THETA_DRAPE
             ! Converting angle from deg to rad
-            THETA_DRAPE=THETA_DRAPE*PI/CENT80
+            THETA_DRAPE=THETA_DRAPE*PI/HUNDRED80
             ! Default thinning value
-            IF (THINNING == ZERO) THINNING = UN
+            IF (THINNING == ZERO) THINNING = ONE
             ! Tag grshell
             IT3 = IT3 + 1
             IGR_SH4N(1,IT3) = GRSHEL_ID
@@ -361,9 +361,9 @@ C
      .          WRITE(IOUT,'(10X,I10,14X,A6,7X,I10,2(15X,1PG20.13))')
      .          ID,DRAPE_ENTITY(1:6),GRSH3N_ID,THINNING,THETA_DRAPE
             ! Converting angle from deg to rad
-            THETA_DRAPE = THETA_DRAPE*PI/CENT80
+            THETA_DRAPE = THETA_DRAPE*PI/HUNDRED80
             ! Default thinning value
-            IF (THINNING == ZERO) THINNING = UN
+            IF (THINNING == ZERO) THINNING = ONE
             ! Tag grsh3n
             IT4 = IT4 + 1
             IGR_SH3N(1,IT4) = GRSH3N_ID

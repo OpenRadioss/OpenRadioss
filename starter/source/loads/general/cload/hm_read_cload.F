@@ -263,7 +263,7 @@ C          IBCL(1,I+J)=NWORK(J+6*NUM0)
           IBCL(7,I)      = 0
           IBCL(8,I)      = 0
           FORC(1,I) = FCY
-          FORC(2,I) = UN/FCX
+          FORC(2,I) = ONE/FCX
           IF (IDIR <= 3) THEN
              WRITE (IOUT,'(I10,2X,I10,5X,A,2X,I10,2X,I10,2X,
      .                  1PG20.13,2X,1PG20.13)')

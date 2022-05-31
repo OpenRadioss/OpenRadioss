@@ -116,33 +116,33 @@ C-----------------------------------------------
 !     Default values
       IF (SFAC == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('MAT_Sfac_Yield', FAC_UNIT, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SFAC = UN * FAC_UNIT
+         SFAC = ONE * FAC_UNIT
       ENDIF
       IF (AY == ZERO) THEN 
          CALL HM_GET_FLOATV_DIM('MAT_Ay', FAC_UNIT, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         AY = UN * FAC_UNIT
+         AY = ONE * FAC_UNIT
       ENDIF
       IF (AZ == ZERO) THEN 
          CALL HM_GET_FLOATV_DIM('MAT_Az', FAC_UNIT, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         AZ = UN * FAC_UNIT
+         AZ = ONE * FAC_UNIT
       ENDIF
       IF (BY == ZERO) THEN 
          CALL HM_GET_FLOATV_DIM('MAT_By', FAC_UNIT, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         BY = UN * FAC_UNIT
+         BY = ONE * FAC_UNIT
       ENDIF
       IF (BZ == ZERO) THEN 
          CALL HM_GET_FLOATV_DIM('MAT_Bz', FAC_UNIT, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         BZ = UN * FAC_UNIT
+         BZ = ONE * FAC_UNIT
       ENDIF
       IF (CX == ZERO) THEN 
          CALL HM_GET_FLOATV_DIM('MAT_Cx', FAC_UNIT, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         CX = UN * FAC_UNIT
+         CX = ONE * FAC_UNIT
       ENDIF
-      IF (DC == ZERO .OR. DC >= UN) THEN 
+      IF (DC == ZERO .OR. DC >= ONE) THEN 
          DC = ZEP99999
       ENDIF
       IF (PR == ZERO) THEN 
-         PR = DEUX * INFINITY
+         PR = TWO * INFINITY
       ENDIF
       IF (PS == ZERO) THEN 
          PS = INFINITY
@@ -168,7 +168,7 @@ C-----------------------------------------------
 !     Storage
       IFUNC(1) = NF
 
-      UPARAM(6) = UNDEMI * E / (UN + NU)
+      UPARAM(6) = HALF * E / (ONE + NU)
       UPARAM(7) = E
       UPARAM(8) = AY
       UPARAM(9) = AZ

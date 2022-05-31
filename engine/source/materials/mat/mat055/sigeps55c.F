@@ -212,7 +212,7 @@ C
        A1(I)  = UPARAM(IADBUF+3)
        A2(I)  = UPARAM(IADBUF+4)
        G(I)   = UPARAM(IADBUF+5)
-       G3(I)  = TROIS*G(I)
+       G3(I)  = THREE*G(I)
        NU(I)  = UPARAM(IADBUF+6)
        VISC(I)   = UPARAM(IADBUF+7)
        VISCV(I) = UPARAM(IADBUF+8)
@@ -222,7 +222,7 @@ C
        NRATE(I)  =NRATEN(I) + NRATEP(I) +1 
        
 C
-        NNU(I) = NU(I) / (UN - NU(I))       
+        NNU(I) = NU(I) / (ONE - NU(I))       
        ENDDO
        IF (ISIGI.EQ.0) THEN
        IF(TIME.EQ.ZERO)THEN
@@ -246,18 +246,18 @@ C
          VISC(I)  = VISC(I)*RHO0(I)
          VISCV(I) = VISCV(I)*RHO0(I)
        
-         C11 = UN/MAX(EM20,TROIS*VISC(I) + QUATRE*VISCV(I))
-         C1(I) = QUATRE* VISC(I)*(TROIS*VISCV(I) 
+         C11 = ONE/MAX(EM20,THREE*VISC(I) + FOUR*VISCV(I))
+         C1(I) = FOUR* VISC(I)*(THREE*VISCV(I) 
      .                         + VISC(I))*C11
-         C2(I) = DEUX*VISCV(I)*(TROIS*VISC(I) 
-     .                      - DEUX*VISCV(I))*C11
+         C2(I) = TWO*VISCV(I)*(THREE*VISC(I) 
+     .                      - TWO*VISCV(I))*C11
 C la partie visqueuse 
          DTINV = TIMESTEP(I)**2/MAX(EM20, TIMESTEP(I))
            
          SIGVXX(I)= C2(I)*(EPSPXX(I)+EPSPYY(I))
-     .                       + DEUX*VISCV(I)*EPSPXX(I) 
+     .                       + TWO*VISCV(I)*EPSPXX(I) 
          SIGVYY(I)= C2(I)*(EPSPXX(I)+EPSPYY(I))
-     .                       + DEUX*VISCV(I)*EPSPYY(I)
+     .                       + TWO*VISCV(I)*EPSPYY(I)
          SIGVXY(I)= VISCV(I)*EPSPXY(I)
          SIGVYZ(I)= VISCV(I)*EPSPYZ(I)
          SIGVZX(I)= VISCV(I)*EPSPZX(I)
@@ -267,23 +267,23 @@ C
 C a verefier cette formule	  
           VISCMAX(I) = MAX(C2(I), C11)
 	  VISCMAX(I) = VISCMAX(I)/
-     .          (UNP414*RHO0(I)*SOUNDSP(I)*SQRT(AREA(I)))                   
-         ETSE(I) = UN
+     .          (ONEP414*RHO0(I)*SOUNDSP(I)*SQRT(AREA(I)))                   
+         ETSE(I) = ONE
 C-------------------
 C     STRAIN RATE
 C-------------------
          IF (ISRATE .EQ. 0) EPSP(I) = 
-     .     UNDEMI*(EPSPXX(I)+EPSPYY(I)
+     .     HALF*(EPSPXX(I)+EPSPYY(I)
      .   + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .                 + EPSPXY(I)*EPSPXY(I) ) )
 C-------------------
 C     STRAIN 
 C-------------------
 C
-         EPST(I) = UNDEMI*(EPSXX(I)+EPSYY(I)
+         EPST(I) = HALF*(EPSXX(I)+EPSYY(I)
      .   + SQRT( (EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
      .                 + EPSXY(I)*EPSXY(I) ) )         
-         IF(OFF(I).EQ.UN.AND.EPST(I).GT.EPSMAX(I))OFF(I) =QCINQ
+         IF(OFF(I).EQ.ONE.AND.EPST(I).GT.EPSMAX(I))OFF(I) =FOUR_OVER_5
        ENDDO
 C-------------------
 C     CRITERE
@@ -383,12 +383,12 @@ C projection radiale
            SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
      .             +SIGNYY(I)*SIGNYY(I)
      .             -SIGNXX(I)*SIGNYY(I)
-     .          +TROIS*SIGNXY(I)*SIGNXY(I))       
+     .          +THREE*SIGNXY(I)*SIGNXY(I))       
 C contrainte elastique ..       
            IF(SVM(I).NE.ZERO) THEN     
             IF(SVM(I).GE.YLDELAS(I))THEN 
               DO ITER = 1, 10              
-               R  = MIN(UN,YLDELAS(I)/MAX(EM20,SVM(I)))
+               R  = MIN(ONE,YLDELAS(I)/MAX(EM20,SVM(I)))
                DEV = (SIGNXX(I) + SIGNYY(I))*THIRD          
                SIGNXX(I)=(SIGNXX(I)-DEV)*R
                SIGNYY(I)=(SIGNYY(I)-DEV)*R
@@ -401,9 +401,9 @@ CCCACTUALISATION
                SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
      .                +SIGNYY(I)*SIGNYY(I)
      .                -SIGNXX(I)*SIGNYY(I)
-     .             + TROIS*SIGNXY(I)*SIGNXY(I))
+     .             + THREE*SIGNXY(I)*SIGNXY(I))
               ENDDO 
-              R = UN
+              R = ONE
           DO ITER = 1,10 
            SIGEXX(I)=SIGNXX(I) + SIGVXX(I)
            SIGEYY(I)=SIGNYY(I) + SIGVYY(I)
@@ -413,11 +413,11 @@ CCCACTUALISATION
              SVM(I)=SQRT(SIGEXX(I)*SIGEXX(I)
      .             +SIGEYY(I)*SIGEYY(I)
      .             -SIGEXX(I)*SIGEYY(I)
-     .          + TROIS*SIGEXY(I)*SIGEXY(I))           
+     .          + THREE*SIGEXY(I)*SIGEXY(I))           
            IF(SVM(I).GE.YLDMAX(I)) THEN                
-            R  = MIN(UN,YLDMAX(I)/MAX(EM20,SVM(I)))                        
+            R  = MIN(ONE,YLDMAX(I)/MAX(EM20,SVM(I)))                        
             ELSEIF(SVM(I).LE.YLDMIN(I))THEN                            
-            R = MAX(UN,YLDMIN(I)/MAX(EM20,SVM(I)))            
+            R = MAX(ONE,YLDMIN(I)/MAX(EM20,SVM(I)))            
            ENDIF   
             DEV = (SIGEXX(I) + SIGEYY(I))*THIRD
            SIGEXX(I)=(SIGEXX(I)-DEV)*R
@@ -430,7 +430,7 @@ CCCACTUALISATION
            SVM(I)=SQRT(SIGEXX(I)*SIGEXX(I)
      .             +SIGEYY(I)*SIGEYY(I)
      .             -SIGEXX(I)*SIGEYY(I)
-     .          + TROIS*SIGEXY(I)*SIGEXY(I))
+     .          + THREE*SIGEXY(I)*SIGEXY(I))
 C calcul des contraintes visquenses                
             IF(R.NE.1.) THEN              
              SIGVXX(I)=SIGEXX(I) - SIGNXX(I)
@@ -451,9 +451,9 @@ C calcul des contraintes visquenses
             
 C contrainte elastique ..    
             DO I=1,NEL0
-            LAMDA = NU(I) * E(I) /((UN + NU(I))*(UN - DEUX* NU(I)))
-            LAMDA = LAMDA + DTINV*THIRD*(TROIS*VISC(I) - DEUX*VISCV(I))
-           C11= LAMDA + DEUX*G(I) + DEUX*DTINV*VISCV(I)               
+            LAMDA = NU(I) * E(I) /((ONE + NU(I))*(ONE - TWO* NU(I)))
+            LAMDA = LAMDA + DTINV*THIRD*(THREE*VISC(I) - TWO*VISCV(I))
+           C11= LAMDA + TWO*G(I) + TWO*DTINV*VISCV(I)               
            DEZZ = -( LAMDA/MAX(EM20,C11))*(DEPSXX(I) + DEPSYY(I))         
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
          ENDDO

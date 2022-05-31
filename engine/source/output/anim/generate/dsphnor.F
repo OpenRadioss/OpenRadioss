@@ -68,21 +68,21 @@ C
          XI  =X(1,INOD)
          YI  =X(2,INOD)
          ZI  =X(3,INOD)
-         NX= UN
-         NY=-UN
-         NZ=-UN         
+         NX= ONE
+         NY=-ONE
+         NZ=-ONE         
 C         NX= SQRT(2.)
 C         NY= SQRT(2.)/SQRT(3.)
 C         NZ=-1./SQRT(3.)
          NORMN=SQRT(NX**2+NY**2+NZ**2)
          IF (NORMN.EQ.ZERO) THEN
-          NX=TROIS1000
-          NY=TROIS1000
-          NZ=TROIS1000          
+          NX=THREE1000
+          NY=THREE1000
+          NZ=THREE1000          
          ELSE
-          NX=TROIS1000*NX/NORMN
-          NY=TROIS1000*NY/NORMN
-          NZ=TROIS1000*NZ/NORMN          
+          NX=THREE1000*NX/NORMN
+          NY=THREE1000*NY/NORMN
+          NZ=THREE1000*NZ/NORMN          
          ENDIF
 c         IF (IMACH.NE.3) THEN
 c           CALL WRITE_S_C(NINT(NX),1)
@@ -96,21 +96,21 @@ c         ELSE
              CNT = CNT + 1
              INP(CNT) = NINT(NZ)
 c         ENDIF
-         NX=-UN
-         NY= UN
-         NZ=-UN         
+         NX=-ONE
+         NY= ONE
+         NZ=-ONE         
 C         NX=-SQRT(2.)
 C         NY= SQRT(2.)/sqrt(3.)
 C         NZ=-1./SQRT(3.)
          NORMN=SQRT(NX**2+NY**2+NZ**2)
         IF (NORMN.EQ.ZERO) THEN
-          NX=TROIS1000
-          NY=TROIS1000
-          NZ=TROIS1000          
+          NX=THREE1000
+          NY=THREE1000
+          NZ=THREE1000          
          ELSE
-          NX=TROIS1000*NX/NORMN
-          NY=TROIS1000*NY/NORMN
-          NZ=TROIS1000*NZ/NORMN          
+          NX=THREE1000*NX/NORMN
+          NY=THREE1000*NY/NORMN
+          NZ=THREE1000*NZ/NORMN          
          ENDIF
 c         IF (IMACH.NE.3) THEN
 c           CALL WRITE_S_C(NINT(NX),1)
@@ -124,21 +124,21 @@ c         ELSE
              CNT = CNT + 1
              INP(CNT) = NINT(NZ)
 c         ENDIF
-         NX=-UN
-         NY=-UN
-         NZ= UN         
+         NX=-ONE
+         NY=-ONE
+         NZ= ONE         
 C         NX= 0.
 C         NY=-2.*SQRT(2.)/SQRT(3.)
 C         NZ=-1./SQRT(3.)
          NORMN=SQRT(NX**2+NY**2+NZ**2)
          IF (NORMN.EQ.ZERO) THEN
-          NX=TROIS1000
-          NY=TROIS1000
-          NZ=TROIS1000          
+          NX=THREE1000
+          NY=THREE1000
+          NZ=THREE1000          
          ELSE
-          NX=TROIS1000*NX/NORMN
-          NY=TROIS1000*NY/NORMN
-          NZ=TROIS1000*NZ/NORMN          
+          NX=THREE1000*NX/NORMN
+          NY=THREE1000*NY/NORMN
+          NZ=THREE1000*NZ/NORMN          
          ENDIF
 c         IF (IMACH.NE.3) THEN
 c           CALL WRITE_S_C(NINT(NX),1)
@@ -152,21 +152,21 @@ c         ELSE
              CNT = CNT + 1
              INP(CNT) = NINT(NZ)
 c         ENDIF
-         NX= UN
-         NY= UN
-         NZ= UN         
+         NX= ONE
+         NY= ONE
+         NZ= ONE         
 C         NX= 0.
 C         NY= 0.
 C         NZ= SQRT(3.)
          NORMN=SQRT(NX**2+NY**2+NZ**2)
         IF (NORMN.EQ.ZERO) THEN
-          NX=TROIS1000
-          NY=TROIS1000
-          NZ=TROIS1000          
+          NX=THREE1000
+          NY=THREE1000
+          NZ=THREE1000          
          ELSE
-          NX=TROIS1000*NX/NORMN
-          NY=TROIS1000*NY/NORMN
-          NZ=TROIS1000*NZ/NORMN          
+          NX=THREE1000*NX/NORMN
+          NY=THREE1000*NY/NORMN
+          NZ=THREE1000*NZ/NORMN          
          ENDIF
 c         IF (IMACH.NE.3) THEN
 c           CALL WRITE_S_C(NINT(NX),1)

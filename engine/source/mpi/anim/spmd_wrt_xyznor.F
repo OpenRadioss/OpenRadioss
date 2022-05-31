@@ -69,7 +69,7 @@ C-----------------------------------------------
        ALLOCATE(IBUF(4,NUMNODM))
        ALLOCATE(RNGLOB(3,NUM))
 
-       S3000 = TROIS1000         
+       S3000 = THREE1000         
 
 
        IXNN = S3000

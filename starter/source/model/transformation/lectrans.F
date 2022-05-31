@@ -110,7 +110,7 @@ C--------------------------------------------------
 C      COUNT NUMBER TRANSFORM OPTIONS
 C-------------------------------------------------- 
       CALL HM_OPTION_COUNT('TRANSFORM',NTRANS)
-      FAC_L = UN
+      FAC_L = ONE
       IS_AVAILABLE = .FALSE.
       IF (NTRANS > 0) WRITE (IOUT,100)   
 C--------------------------------------------------
@@ -281,7 +281,7 @@ c---------------------
           TY = X1(2) - X0(2)
           TZ = X1(3) - X0(3)
           S  = SQRT(TX*TX + TY*TY + TZ*TZ)
-          AT = ANGLE * PI/CENT80 /MAX(EM20,S)
+          AT = ANGLE * PI/HUNDRED80 /MAX(EM20,S)
           TX = TX * AT
           TY = TY * AT
           TZ = TZ * AT
@@ -385,7 +385,7 @@ C--------------------------------------------------
           TX = X1(1) - X0(1)
           TY = X1(2) - X0(2)
           TZ = X1(3) - X0(3)
-          S = UN/MAX(SQRT(TX*TX + TY*TY + TZ*TZ),EM20)
+          S = ONE/MAX(SQRT(TX*TX + TY*TY + TZ*TZ),EM20)
           TX = TX*S
           TY = TY*S
           TZ = TZ*S
@@ -395,9 +395,9 @@ C--------------------------------------------------
             SY = X(2,IS) - X0(2)
             SZ = X(3,IS) - X0(3)
             S = SX*TX + SY*TY + SZ*TZ
-            X(1,IS) = X(1,IS) - DEUX*TX*S
-            X(2,IS) = X(2,IS) - DEUX*TY*S
-            X(3,IS) = X(3,IS) - DEUX*TZ*S
+            X(1,IS) = X(1,IS) - TWO*TX*S
+            X(2,IS) = X(2,IS) - TWO*TY*S
+            X(3,IS) = X(3,IS) - TWO*TZ*S
           ENDDO
 C
           WRITE(IOUT,700) ID,IGU
@@ -425,9 +425,9 @@ C--------------------------------------------------
           CALL HM_GET_FLOATV('scalefactor_y',TY,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('scalefactor_z',TZ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C--------------------------------------------------
-          IF (TX == ZERO) TX = UN
-          IF (TY == ZERO) TY = UN
-          IF (TZ == ZERO) TZ = UN
+          IF (TX == ZERO) TX = ONE
+          IF (TY == ZERO) TY = ONE
+          IF (TZ == ZERO) TZ = ONE
           IF(SUB_ID .NE. 0)
      .      CALL SUBROTVECT(TX,TY,TZ,RTRANS,SUB_ID,LSUBMODEL)
 C--------------------------------------------------
@@ -522,8 +522,8 @@ c
           SCAL1 = ROT(1)*ROT(2)+ROT(4)*ROT(5)+ROT(7)*ROT(8)
           SCAL2 = ROT(1)*ROT(3)+ROT(4)*ROT(6)+ROT(7)*ROT(9)
           SCAL3 = ROT(2)*ROT(3)+ROT(5)*ROT(6)+ROT(8)*ROT(9)
-          IF(ABS(UN-NORM1) > EPS .OR. ABS(UN-NORM2) > EPS .OR.
-     .       ABS(UN-NORM3) > EPS .OR. 
+          IF(ABS(ONE-NORM1) > EPS .OR. ABS(ONE-NORM2) > EPS .OR.
+     .       ABS(ONE-NORM3) > EPS .OR. 
      .      SCAL1 > (EPS * NORM1*NORM2) .OR. SCAL2 > (EPS * NORM1*NORM3)
      .      .OR. SCAL3 > (EPS * NORM2*NORM3))THEN
             CALL ANCMSG(MSGID=986,
@@ -727,9 +727,9 @@ C--------------------------------------------------
      .                  I1=ID,C1=TITR)
 C
             ROT(1:9)=ZERO
-            ROT(1) = UN
-            ROT(5) = UN
-            ROT(9) = UN
+            ROT(1) = ONE
+            ROT(5) = ONE
+            ROT(9) = ONE
             DO J=1,9
               RTRANS(I,J+2)  = ROT(J)
             ENDDO

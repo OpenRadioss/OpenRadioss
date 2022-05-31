@@ -541,7 +541,7 @@ C-----------------------------------------------
 C     frottement (ancienne contrainte de frottement)
 C-----------------------------------------------
       DO I=NMEF,NMEL
-        AA = UN/MAX(EM20,FROTM(4,I))
+        AA = ONE/MAX(EM20,FROTM(4,I))
         FROTM(5,I)=AA*FROTM(1,I)
         FROTM(6,I)=AA*FROTM(2,I)
         FROTM(7,I)=AA*FROTM(3,I)
@@ -553,7 +553,7 @@ C
       ENDDO
 C
       DO I=NSEF,NSEL
-        AA = UN/MAX(EM20,FROTS(4,I))
+        AA = ONE/MAX(EM20,FROTS(4,I))
         FROTS(5,I)=AA*FROTS(1,I)
         FROTS(6,I)=AA*FROTS(2,I)
         FROTS(7,I)=AA*FROTS(3,I)

@@ -179,11 +179,11 @@ C
          EPDR(I) = EPDR_1
          ICC(I)  = ICC_1
          EPSP = MAX(ABS(E1(I)),ABS(E2(I)),ABS(E3(I)),
-     .              UNDEMI*ABS(E4(I)),UNDEMI*ABS(E5(I)),UNDEMI*ABS(E6(I)))
+     .              HALF*ABS(E4(I)),HALF*ABS(E5(I)),HALF*ABS(E6(I)))
          IF(EPSP.GT.EPDR(I).AND.CC(I).NE.ZERO) THEN
-           EPSP = UN + CC(I) * LOG(EPSP/EPDR(I))
+           EPSP = ONE + CC(I) * LOG(EPSP/EPDR(I))
          ELSE
-           EPSP = UN
+           EPSP = ONE
          ENDIF
          IF(ICC(I).EQ.1)THEN
            SIGMX   =PM(28,MX)*EPSP
@@ -197,7 +197,7 @@ C
          CB(I)   =CB(I)*EPSP
          CA      =CA*EPSP
          SIGMY(I)= MIN(SIGMX,CA+CB(I)*PLA(I)**CN(I))
-         IF(SIGMY(I).EQ.SIGMX .AND. OFF(I).EQ.UN) THEN
+         IF(SIGMY(I).EQ.SIGMX .AND. OFF(I).EQ.ONE) THEN
            OFF(I)=ZEP99
            KD4(I)=2
            IDEL7NOK = 1
@@ -344,7 +344,7 @@ C
         ENDDO
 C     
         PNEW(:)        = ZERO
-        MUOLD(1:NEL)   =( RHO(1:NEL)/RHO0)-UN
+        MUOLD(1:NEL)   =( RHO(1:NEL)/RHO0)-ONE
         SIG(1:NEL,1:6) = ZERO
         CALL EOSMAIN(0       ,NEL     ,EOSTYP ,PM    ,OFF  , ENER ,
      2               RHO     ,RHO0    ,AMU    ,AMU2  ,ESPE ,
@@ -387,7 +387,7 @@ C     GENERAL FAILURE TEST
 C-------------------------
       DO  I=LFT,LLT
         IF(OFF(I) < EM01) OFF(I)=ZERO
-        IF(OFF(I) < UN) OFF(I)=OFF(I)*QCINQ
+        IF(OFF(I) < ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 C-------------------
 C     TENSION DAMAGE
@@ -396,7 +396,7 @@ C-------------------
 C------------------------
 C     DIRECTION 1 (FIBER)
 C------------------------
-        WVEC(I)=(UN-DAM(I,1))*SIGT1(I)
+        WVEC(I)=(ONE-DAM(I,1))*SIGT1(I)
         IF(T1(I) > WVEC(I)) THEN
 C
           IF(EPC(I,1) == ZERO) THEN
@@ -411,8 +411,8 @@ C
           IF(KD1(I).EQ.0) THEN
              KD1(I)=1
           ENDIF
-          DAM(I,1)= MIN((DAM(I,1)+DELTA(I)),UN)
-          IF(DAM(I,1).GE.UN .AND. KD1(I).NE.2) THEN
+          DAM(I,1)= MIN((DAM(I,1)+DELTA(I)),ONE)
+          IF(DAM(I,1).GE.ONE .AND. KD1(I).NE.2) THEN
             KD1(I)=2
           ENDIF
          ENDIF
@@ -422,7 +422,7 @@ C
 C----------------
 C     DIRECTION 2
 C----------------
-         WVEC(I)=(UN-DAM(I,2))*SIGT2(I)
+         WVEC(I)=(ONE-DAM(I,2))*SIGT2(I)
          IF(T2(I) > WVEC(I)) THEN
 C
            IF(EPC(I,2).EQ.ZERO) THEN
@@ -437,8 +437,8 @@ C
            IF(KD2(I) == 0) THEN
                KD2(I)=1
            ENDIF
-           DAM(I,2)= MIN((DAM(I,2)+DELTA(I)),UN)
-           IF(DAM(I,2) >= UN .AND. KD2(I) /= 2) THEN
+           DAM(I,2)= MIN((DAM(I,2)+DELTA(I)),ONE)
+           IF(DAM(I,2) >= ONE .AND. KD2(I) /= 2) THEN
              KD2(I)=2
             ENDIF
          ENDIF
@@ -448,7 +448,7 @@ C
 C----------------
 C     DIRECTION 3
 C----------------
-         WVEC(I)=(UN-DAM(I,3))*SIGT3(I)
+         WVEC(I)=(ONE-DAM(I,3))*SIGT3(I)
          IF(T3(I) > WVEC(I)) THEN
 C
            IF(EPC(I,3).EQ.ZERO) THEN
@@ -463,8 +463,8 @@ C
            IF(KD3(I).EQ.0) THEN
               KD3(I)=1
            ENDIF
-           DAM(I,3)= MIN((DAM(I,3)+DELTA(I)),UN)
-           IF(DAM(I,3) >= UN .AND. KD3(I) /= 2) THEN
+           DAM(I,3)= MIN((DAM(I,3)+DELTA(I)),ONE)
+           IF(DAM(I,3) >= ONE .AND. KD3(I) /= 2) THEN
               KD3(I)=2
            ENDIF
          ENDIF
@@ -500,8 +500,8 @@ C---------------------
         WVEC(I)= F1(I)*T1(I) + F2(I)*T2(I) + F3(I)*T3(I)
      .    + F11(I)*T1(I)*T1(I) + F22(I)*T2(I)*T2(I) + F33(I)*T3(I)*T3(I)
      .    + F55(I)*T5(I)*T5(I) + F44(I)*T4(I)*T4(I) + F66(I)*T6(I)*T6(I)
-     .    + DEUX*F12(I)*T1(I)*T2(I) + DEUX*F13(I)*T1(I)*T3(I)
-     .    + DEUX*F23(I)*T2(I)*T3(I)
+     .    + TWO*F12(I)*T1(I)*T2(I) + TWO*F13(I)*T1(I)*T3(I)
+     .    + TWO*F23(I)*T2(I)*T3(I)
          DAM(I,4)=WVEC(I)
 !!        CRITERION / (EQUIVALENT STRESS) FOR OUTPUT - TSAI-WU -
 !!         SEQ_OUTPUT(I) = WVEC(I)
@@ -509,8 +509,8 @@ C---------------------
 C
       DO  I=LFT,LLT
        COEF(I)= ZERO
-        IF (WVEC(I) > SIGMY(I) .AND .OFF(I) == UN) THEN
-          COEF(I)=UN
+        IF (WVEC(I) > SIGMY(I) .AND .OFF(I) == ONE) THEN
+          COEF(I)=ONE
           IF(KD4(I).EQ.0) THEN
             KD4(I)=1
           ENDIF
@@ -518,15 +518,15 @@ C
       ENDDO
 C
       DO  I=LFT,LLT
-        DP1(I)=F1(I)  + DEUX*F11(I)*SO1(I) + DEUX*F12(I)*SO2(I)
-     .                                     + DEUX*F13(I)*SO3(I)
-        DP2(I)=F2(I)  + DEUX*F22(I)*SO2(I) + DEUX*F12(I)*SO1(I)
-     .                                     + DEUX*F23(I)*SO3(I)
-        DP3(I)=F3(I)  + DEUX*F33(I)*SO3(I) + DEUX*F13(I)*SO1(I)
-     .                                     + DEUX*F23(I)*SO2(I)
-        DP4(I)=DEUX*F44(I)*SO4(I)
-        DP5(I)=DEUX*F55(I)*SO5(I)
-        DP6(I)=DEUX*F66(I)*SO6(I)
+        DP1(I)=F1(I)  + TWO*F11(I)*SO1(I) + TWO*F12(I)*SO2(I)
+     .                                     + TWO*F13(I)*SO3(I)
+        DP2(I)=F2(I)  + TWO*F22(I)*SO2(I) + TWO*F12(I)*SO1(I)
+     .                                     + TWO*F23(I)*SO3(I)
+        DP3(I)=F3(I)  + TWO*F33(I)*SO3(I) + TWO*F13(I)*SO1(I)
+     .                                     + TWO*F23(I)*SO2(I)
+        DP4(I)=TWO*F44(I)*SO4(I)
+        DP5(I)=TWO*F55(I)*SO5(I)
+        DP6(I)=TWO*F66(I)*SO6(I)
       ENDDO
 
  3101 FORMAT(/' 205 WVEC SIGMY T1-T6 ',2E11.4/6E11.4)
@@ -549,8 +549,8 @@ C ***********
  3103 FORMAT(' 207 LAMDA DS1-DS6 ',E11.4/6E11.4)
 C
       DO  I=LFT,LLT
-        CNN(I)=CN(I)-UN
-        PLAS(I)= UN
+        CNN(I)=CN(I)-ONE
+        PLAS(I)= ONE
         IF(PLA(I) > ZERO) PLAS(I)=PLA(I)**CNN(I)
       ENDDO
 C
@@ -560,11 +560,11 @@ C
      .        (DP1(I)*(D11(I)*DP1(I)+D12(I)*DP2(I)+D13(I)*DP3(I))+
      .         DP2(I)*(D12(I)*DP1(I)+D22(I)*DP2(I)+D23(I)*DP3(I))+
      .         DP3(I)*(D13(I)*DP1(I)+D23(I)*DP2(I)+D33(I)*DP3(I))+
-     .      DEUX*DP4(I)*G12(I)*DP4(I)+
-     .      DEUX*DP5(I)*G23(I)*DP5(I)+
-     .      DEUX*DP6(I)*G31(I)*DP6(I)+
+     .      TWO*DP4(I)*G12(I)*DP4(I)+
+     .      TWO*DP5(I)*G23(I)*DP5(I)+
+     .      TWO*DP6(I)*G31(I)*DP6(I)+
      .                (SO1(I)*DP1(I)+SO2(I)*DP2(I)+SO3(I)*DP3(I)+
-     .         DEUX*SO4(I)*DP4(I)+DEUX*SO5(I)*DP5(I)+DEUX*SO6(I)*DP6(I))
+     .         TWO*SO4(I)*DP4(I)+TWO*SO5(I)*DP5(I)+TWO*SO6(I)*DP6(I))
      .         *CN(I)*CB(I)*PLAS(I) )
 C           
          ENDIF
@@ -592,21 +592,21 @@ C
           T1(I)=T1(I)-D11(I)*DP1(I)-D12(I)*DP2(I)-D13(I)*DP3(I)
           T2(I)=T2(I)-D12(I)*DP1(I)-D22(I)*DP2(I)-D23(I)*DP3(I)
           T3(I)=T3(I)-D13(I)*DP1(I)-D23(I)*DP2(I)-D33(I)*DP3(I)
-          T4(I)=T4(I)-G12(I)*DP4(I)*DEUX
-          T5(I)=T5(I)-G23(I)*DP5(I)*DEUX
-          T6(I)=T6(I)-G31(I)*DP6(I)*DEUX
+          T4(I)=T4(I)-G12(I)*DP4(I)*TWO
+          T5(I)=T5(I)-G23(I)*DP5(I)*TWO
+          T6(I)=T6(I)-G31(I)*DP6(I)*TWO
       ENDDO
 C
       MX  = MAT(LFT)
       WPLAREF  = PM(68 ,MX)
       DO  I=LFT,LLT
-       DWPLA = UNDEMI*
+       DWPLA = HALF*
      .        (DP1(I)*(T1(I)+SO1(I))+
      .         DP2(I)*(T2(I)+SO2(I))+
      .         DP3(I)*(T3(I)+SO3(I))+
-     .      DEUX*DP4(I)*(T4(I)+SO4(I))+
-     .      DEUX*DP5(I)*(T5(I)+SO5(I))+
-     .      DEUX*DP6(I)*(T6(I)+SO6(I)))
+     .      TWO*DP4(I)*(T4(I)+SO4(I))+
+     .      TWO*DP5(I)*(T5(I)+SO5(I))+
+     .      TWO*DP6(I)*(T6(I)+SO6(I)))
         DWPLA = MAX(DWPLA ,ZERO) / WPLAREF
         PLA(I) = PLA(I) + DWPLA  
         PLA(I)= MAX(PLA(I),ZERO)
@@ -632,7 +632,7 @@ C
 C--------------------
 C     INTERNAL ENERGY
 C--------------------
-      DT5=UNDEMI*DT1
+      DT5=HALF*DT1
       DO I=LFT,LLT
         EINT(I)=EINT(I)+DT5*VNEW(I)*
      .           ( D1(I)*(SOLD1(I)+SIG(I,1))
@@ -646,7 +646,7 @@ C--------------------
       ENDDO
 C
       DO I=LFT,LLT
-       SIGYM = MAX(EM20,UNDEMI*(UN/F11(I)+UN/F22(I)))
+       SIGYM = MAX(EM20,HALF*(ONE/F11(I)+ONE/F22(I)))
        SIGY(I)=SIGMY(I)*SQRT(SIGYM)
        DEFP(I)=PLA(I)
       ENDDO 

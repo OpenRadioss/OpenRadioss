@@ -207,7 +207,7 @@ C-------
         UVAR(NB1) =LPREV
         UVARN(MB3)=LPREV
 C
-        MASS(1)  =UNDEMI*RHO*LPREV
+        MASS(1)  =HALF*RHO*LPREV
         IF (LPREV.LE.EM15) THEN
 C         WRITE(IOUT,*)
 C     .' ** ERROR NSTRAND : NULL STRAND LENGH, ELEMENT=',
@@ -246,7 +246,7 @@ C           GOTO 999
      .                  ANMODE=ANINFO,
      .                  I1=IDS)
           ENDIF
-          MASS(K)       = UNDEMI*RHO*(LPREV+LNEXT)
+          MASS(K)       = HALF*RHO*(LPREV+LNEXT)
           UVARN(MB3+K-1)=LNEXT
           UVAR(NB1)     =UVAR(NB1)+LNEXT
           IF(MASS(K).LE.EM15)THEN
@@ -262,7 +262,7 @@ C           GOTO 999
           ENDIF
           LPREV=LNEXT
         ENDDO
-        MASS(NX)  = UNDEMI*RHO*LPREV
+        MASS(NX)  = HALF*RHO*LPREV
         IF(MASS(NX).LE.EM15)THEN
 C         WRITE(IOUT,*)
 C     .' ** ERROR NSTRAND : NULL NODAL MASS, ELEMENT=',
@@ -294,7 +294,7 @@ C------------------------------------------
 C        G(Deps) only.
          L0  =UVAR(NB1)
          STIF=ZERO
-         F   =UN
+         F   =ONE
         ELSE
 C------------------------------------------
 C        NON LINEAR ELASTIC
@@ -306,7 +306,7 @@ C        NON LINEAR ELASTIC
 C------------------------------------------
         DEPS=ZERO
         DGDX=ZERO
-        G   =UN
+        G   =ONE
         IF (IFV.NE.0) THEN
          G=GET_U_FUNC(IFV,DEPS,DGDX)
          STIF=STIF*G
@@ -338,7 +338,7 @@ C         XKM  = STIF*(XN-1.)/L0
 C tous les brins ont la meme longueur correspond a :
 C         XCM  = (F*DGDX+XC)*(XN-1.)/L0
           XCM  = (F*DGDX+XC)/UVARN(MB3+K-1)
-          IF(XCM+XKM.LT.EM15)XM  =UN
+          IF(XCM+XKM.LT.EM15)XM  =ONE
           XKM= MAX(EM15,XKM)
 C           DTK=(SQRT(0.25*XCM*XCM+XM*XKM)-0.5*XCM)/MAX(EM15,XKM)
 C           DTC=0.5 * 2.*XM/MAX(EM15,XCM)
@@ -357,7 +357,7 @@ C        FOR NODAL TIME STEP COMPUTATION.
          VISCM(1) =(F*DGDX+XC)/UVARN(MB3)
          STIFM(1) =STIF/UVARN(MB3)
          DO K=2,NX-1
-          FACT     =UN/UVARN(MB3+K-2) + UN/UVARN(MB3+K-1)
+          FACT     =ONE/UVARN(MB3+K-2) + ONE/UVARN(MB3+K-1)
           STIFM(K) =STIF*FACT
           VISCM(K) =(F*DGDX+XC)*FACT
          ENDDO

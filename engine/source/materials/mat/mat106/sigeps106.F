@@ -156,7 +156,7 @@ C         Temperature dependent material properties
             ENDDO
          ENDIF
 
-         INTERVAL=UN
+         INTERVAL=ONE
          DO I=1,NEL
 C         Temperature dependent material properties
             IF (IFUNC(1) .GT. 0) THEN
@@ -188,15 +188,15 @@ C     E and NU at previous time
             NU0 = UVAR(I, 11)
             E0 = UVAR(I, 10)
 
-            MU = UNDEMI * E / (UN + NU)
-            MU0 = UNDEMI * E0 / (UN + NU0)
+            MU = HALF * E / (ONE + NU)
+            MU0 = HALF * E0 / (ONE + NU0)
             MU_RATIO = MU / MU0
-            LAMBDA = E * NU / (UN + NU) / (UN - DEUX * NU)
-            LAMBDA0 = E0 * NU0 / (UN + NU0) / (UN - DEUX * NU0)
-            BULK = TIERS * E / (UN - DEUX * NU)
+            LAMBDA = E * NU / (ONE + NU) / (ONE - TWO * NU)
+            LAMBDA0 = E0 * NU0 / (ONE + NU0) / (ONE - TWO * NU0)
+            BULK = THIRD * E / (ONE - TWO * NU)
 
 C       Sound speed = sqrt((lambda+2*mu)/density)
-            SOUNDSP(I) = SQRT((DEUX*MU+LAMBDA)/RHO(I))
+            SOUNDSP(I) = SQRT((TWO*MU+LAMBDA)/RHO(I))
             VISCMAX(I) = ZERO
 
 C       Deviatoric stress at previous time step
@@ -219,9 +219,9 @@ C       Deviatoric strain increment
             EZX = DEPSZX(I)
 
 C       Deviatoric elastic prediction at current time step
-            SXX = (SXX * MU_RATIO + DEUX * MU * EXX)
-            SYY = (SYY * MU_RATIO + DEUX * MU * EYY)
-            SZZ = (SZZ * MU_RATIO + DEUX * MU * EZZ)
+            SXX = (SXX * MU_RATIO + TWO * MU * EXX)
+            SYY = (SYY * MU_RATIO + TWO * MU * EYY)
+            SZZ = (SZZ * MU_RATIO + TWO * MU * EZZ)
             SXY = (SXY * MU_RATIO + MU * EXY)
             SYZ = (SYZ * MU_RATIO + MU * EYZ)
             SZX = (SZX * MU_RATIO + MU * EZX)
@@ -234,7 +234,7 @@ C========================================================
 C     II - JC yield stress
 C===============================================
             CALL JC(UVAR(I,1),TEMP(I),A,B,CM,CN,TREF,TM,EPSM,SIGMAM,UVAR(I,2),UVAR(I,3))
-            EQVM = SQRT(TDEMI*(SXX**2+SYY**2+SZZ**2+DEUX*(SXY**2+SYZ**2+SZX**2)))
+            EQVM = SQRT(THREE_HALF*(SXX**2+SYY**2+SZZ**2+TWO*(SXY**2+SYZ**2+SZX**2)))
             F = EQVM - UVAR(I,2)
 
             UVAR(I, 13) = ZERO
@@ -245,7 +245,7 @@ C========================================================
 C     Case 1: pure elastic
 C===============================================
               DPLA(I) = ZERO
-              RATIO = UN
+              RATIO = ONE
             ELSEIF(TEMP(I) >= TM) THEN
 C========================================================
 C     Case 2: pure hydrodynamic
@@ -260,9 +260,9 @@ C       eqVM - 3*mu*dp - R(p0+dp)=0
 C       to get dp
 C===============================================
 C     Initial condition for Newton method
-               V0 = EQVM / (TROIS * MU)
+               V0 = EQVM / (THREE * MU)
                CALL JC(UVAR(I,1)+V0,TEMP(I),A,B,CM,CN,TREF,TM,EPSM,SIGMAM,JC_VAL,DJC_VAL)
-               FUN = EQVM - TROIS * MU * V0 - JC_VAL
+               FUN = EQVM - THREE * MU * V0 - JC_VAL
                NORM_FUN0 = ABS(FUN)
                NORM_V0 = ABS(V0) 
                CONVERGED = .FALSE.
@@ -270,15 +270,15 @@ C     Initial condition for Newton method
                ITER_MAX = NMAX
                DO WHILE (.NOT. CONVERGED .AND. ITER .LE. ITER_MAX)
                   CALL JC(UVAR(I,1)+V0,TEMP(I),A,B,CM,CN,TREF,TM,EPSM,SIGMAM,JC_VAL,DJC_VAL)
-                  FUN = EQVM - TROIS * MU * V0 - JC_VAL
+                  FUN = EQVM - THREE * MU * V0 - JC_VAL
                   ERROR1 = ABS(FUN)
                   CONVERGED = ERROR1 .LT. TOL * NORM_FUN0
                   IF (.NOT. CONVERGED) THEN
-                     DFUN = -TROIS * MU - DJC_VAL
+                     DFUN = -THREE * MU - DJC_VAL
                      INCR = - FUN / DFUN 
-                     ALPHA = UN
+                     ALPHA = ONE
                      IF (INCR .LT. ZERO) THEN
-                        ALPHA =MIN (UN , - NEUF / DIX * V0 / INCR)
+                        ALPHA =MIN (ONE , - NINE / TEN * V0 / INCR)
                      ENDIF
                      V0 = V0 + ALPHA * INCR
                      ERROR2 = ABS(ALPHA * INCR)
@@ -293,7 +293,7 @@ C     Initial condition for Newton method
               DPLA(I) = V0
               UVAR(I,1) = UVAR(I,1) + V0
               CALL JC(UVAR(I,1),TEMP(I),A,B,CM,CN,TREF,TM,EPSM,SIGMAM,UVAR(I,2),UVAR(I,3))
-              SCALE=TDEMI*V0/EQVM
+              SCALE=THREE_HALF*V0/EQVM
               UVAR(I,4) = UVAR(I,4) + SCALE * SXX
               UVAR(I,5) = UVAR(I,5) + SCALE * SYY
               UVAR(I,6) = UVAR(I,6) + SCALE * SZZ
@@ -303,7 +303,7 @@ C     Initial condition for Newton method
 
               UVAR(I,2)=UVAR(I,2)
               UVAR(I,3)=UVAR(I,3)
-              RATIO = (UN - TROIS * MU * V0 / EQVM)
+              RATIO = (ONE - THREE * MU * V0 / EQVM)
 
               IF(JTHE >=0 ) TEMP(I)=UVAR(I,12)+UVAR(I,2)*DPLA(I)/CS			  
             ENDIF
@@ -364,14 +364,14 @@ C---------------------------------------------------
               TR = ZERO
           ENDIF
           IF(P.LE.ZERO) THEN
-              JC_YIELD=A*(UN-TR**CM)
+              JC_YIELD=A*(ONE-TR**CM)
               TAN_JC=ZERO
           ELSEIF(P.GT.EPSM) THEN
-              JC_YIELD=(A+B*EPSM**CN)*(UN-TR**CM)
+              JC_YIELD=(A+B*EPSM**CN)*(ONE-TR**CM)
               TAN_JC=ZERO
           ELSE
-              JC_YIELD=(A+B*P**CN)*(UN-TR**CM)
-              TAN_JC=B*CN*P**(CN-UN)*(UN-TR**CM)
+              JC_YIELD=(A+B*P**CN)*(ONE-TR**CM)
+              TAN_JC=B*CN*P**(CN-ONE)*(ONE-TR**CM)
           ENDIF
           JC_YIELD=MIN(SIGMAM,JC_YIELD)
           RETURN

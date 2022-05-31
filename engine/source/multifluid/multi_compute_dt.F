@@ -131,14 +131,14 @@ C     Time step
      .                 SURF / GBUF%VOL(II) * (MULTI_FVM%SOUND_SPEED(I) + ABS(NORMAL_VEL2)) / DTFAC1(102))
                   GBUF%DELTAX(II) = MAX(GBUF%DELTAX(II), SURF / GBUF%VOL(II))
                ENDDO            !KFACE
-               GBUF%DELTAX(II) = UN / GBUF%DELTAX(II)
+               GBUF%DELTAX(II) = ONE / GBUF%DELTAX(II)
             ENDDO ! II = 1, NEL
 C----------------------
 C     Globalize time step for this group
 C----------------------
             l_FOUND_LOWER=.FALSE.
             DO II = 1, NEL
-               IF(DTEL(II).GT.ZERO)GBUF%DT(II) = UN/DTEL(II)
+               IF(DTEL(II).GT.ZERO)GBUF%DT(II) = ONE/DTEL(II)
                IF (DTEL(II) .GT. DT2T) THEN
                   l_FOUND_LOWER=.TRUE.
                   DT2T = DTEL(II)
@@ -159,7 +159,7 @@ C     TRIANGLES
             
             !CHECK IF LOWER THAN DTMIN
             IF(l_FOUND_LOWER .AND. DT2T.NE.ZERO)THEN
-              IF(UN/DT2T.LT.DTMIN1(102))THEN
+              IF(ONE/DT2T.LT.DTMIN1(102))THEN
                 TSTOP = TT
 #include "lockon.inc"
                 WRITE(IOUT,*) ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR ALE/EULER CELL',NELTST
@@ -174,7 +174,7 @@ C----------------------
 C     Global time step
 C----------------------
       IF (DT2T .GT. ZERO) THEN
-         DT2T = UN / DT2T
+         DT2T = ONE / DT2T
       ELSE
          DT2T = EP30
       ENDIF

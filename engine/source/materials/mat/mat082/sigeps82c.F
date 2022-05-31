@@ -100,42 +100,42 @@ C SET INITIAL MATERIAL CONSTANTS
         D(I)  = UPARAM(1 + 2*NORDRE + I)
         GMAX  = GMAX  + MU(I)
       ENDDO
-      RBULK   = DEUX/D(1)
-      NU = (TROIS*RBULK-DEUX*GMAX)/(DEUX*GMAX+SIX*RBULK)
-      IF (NU == UNDEMI) NU = 0.495
-      IF (TIME == ZERO) UVAR(1:NEL,1)=UN
+      RBULK   = TWO/D(1)
+      NU = (THREE*RBULK-TWO*GMAX)/(TWO*GMAX+SIX*RBULK)
+      IF (NU == HALF) NU = 0.495
+      IF (TIME == ZERO) UVAR(1:NEL,1)=ONE
 C     principal stretch (def gradient eigenvalues)
       DO I=1,NEL
         TRAV(I)  = EPSXX(I)+EPSYY(I)                           
         ROOTV(I) = SQRT((EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
      .           + EPSXY(I)*EPSXY(I))
-	       EVV(I,1) = UNDEMI*(TRAV(I)+ROOTV(I))                  
-        EVV(I,2) = UNDEMI*(TRAV(I)-ROOTV(I))                  
+	       EVV(I,1) = HALF*(TRAV(I)+ROOTV(I))                  
+        EVV(I,2) = HALF*(TRAV(I)-ROOTV(I))                  
         EVV(I,3) = ZERO                                       
       ENDDO
 C     rot matrix (eigenvectors)
       DO I=1,NEL
         IF (ABS(EVV(I,2)-EVV(I,1)) < EM10) THEN
-          EIGV(I,1,1) = UN
-          EIGV(I,2,1) = UN
+          EIGV(I,1,1) = ONE
+          EIGV(I,2,1) = ONE
           EIGV(I,3,1) = ZERO
           EIGV(I,1,2) = ZERO
           EIGV(I,2,2) = ZERO
           EIGV(I,3,2) = ZERO
         ELSE
-          EIGV(I,1,1) = UN/ROOTV(I)*(EPSXX(I)-EVV(I,2))
-          EIGV(I,2,1) = UN/ROOTV(I)*(EPSYY(I)-EVV(I,2))
-          EIGV(I,1,2) = UN/ROOTV(I)*(EVV(I,1)-EPSXX(I))
-          EIGV(I,2,2) = UN/ROOTV(I)*(EVV(I,1)-EPSYY(I))
-          EIGV(I,3,1) = UN/ROOTV(I)*(UNDEMI*EPSXY(I))
-          EIGV(I,3,2) =-UN/ROOTV(I)*(UNDEMI*EPSXY(I))
+          EIGV(I,1,1) = ONE/ROOTV(I)*(EPSXX(I)-EVV(I,2))
+          EIGV(I,2,1) = ONE/ROOTV(I)*(EPSYY(I)-EVV(I,2))
+          EIGV(I,1,2) = ONE/ROOTV(I)*(EVV(I,1)-EPSXX(I))
+          EIGV(I,2,2) = ONE/ROOTV(I)*(EVV(I,1)-EPSYY(I))
+          EIGV(I,3,1) = ONE/ROOTV(I)*(HALF*EPSXY(I))
+          EIGV(I,3,2) =-ONE/ROOTV(I)*(HALF*EPSXY(I))
         ENDIF
       ENDDO
 C---  Strain definition
       IF (ISMSTR == 1 .OR. ISMSTR == 3) THEN  ! engineering strain
         DO I=1,NEL
-          EV(I,1) = EVV(I,1) + UN
-          EV(I,2) = EVV(I,2) + UN
+          EV(I,1) = EVV(I,1) + ONE
+          EV(I,2) = EVV(I,2) + ONE
           EV(I,3) = UVAR(I,1)
         ENDDO
       ELSE  ! true strain
@@ -185,7 +185,7 @@ c----     normalized stretch => unified compressible/uncompressible formulation
 C----     partial derivatives of strain energy                                             
           PARTT(1:NEL) =ZERO
           DO K = 1,NORDRE  
-            DD  = DEUX*MU(K)/AL(K)
+            DD  = TWO*MU(K)/AL(K)
             DO I=1,NEL 
               SUM = THIRD*(EVMA1(I,K) + EVMA2(I,K) + EVMA3(I,K))                                      
               PARTT(I) = PARTT(I) + DD*(EVMA3(I,K) - SUM)
@@ -194,11 +194,11 @@ C----     partial derivatives of strain energy
           PARTP(1:NEL) =ZERO
           DO K = 1,NORDRE
             IF (D(K) /= ZERO) THEN
-              K2 = DEUX*K
+              K2 = TWO*K
               I_K2 = 2*K
               DD = K2/D(K)
               DO I=1,NEL
-                PARTP(I) = PARTP(I) + DD*(RV(I)-UN)**(I_K2-1)
+                PARTP(I) = PARTP(I) + DD*(RV(I)-ONE)**(I_K2-1)
               ENDDO
             ENDIF
           ENDDO
@@ -209,20 +209,20 @@ c         second derivative (d_sigma/d_lambda3)
           PARTT(1:NEL) =ZERO
           DO K = 1,NORDRE
             PARTT(1:NEL) = PARTT(1:NEL) 
-     .            + DEUX*MU(K)*(EVMA1(1:NEL,K)+EVMA2(1:NEL,K)+QUATRE*EVMA3(1:NEL,K))/NEUF
+     .            + TWO*MU(K)*(EVMA1(1:NEL,K)+EVMA2(1:NEL,K)+FOUR*EVMA3(1:NEL,K))/NINE
           ENDDO
           PARTP(1:NEL) = ZERO
           DO K = 1,NORDRE
             IF (D(K) /= ZERO) THEN
-              K2 = DEUX*K
+              K2 = TWO*K
               I_K2 = 2*K
-              DD = K2*(K2-UN)/D(K)
-!              PARTP = PARTP + DD*(RV(I)-UN)**(K2-DEUX)
-              PARTP(1:NEL) = PARTP(1:NEL) + DD*(RV(1:NEL)-UN)**(I_K2-2)
+              DD = K2*(K2-ONE)/D(K)
+!              PARTP = PARTP + DD*(RV(I)-ONE)**(K2-TWO)
+              PARTP(1:NEL) = PARTP(1:NEL) + DD*(RV(1:NEL)-ONE)**(I_K2-2)
             ENDIF
           ENDDO
           PARTT(1:NEL)   = PARTT(1:NEL) / RV(1:NEL)+ PARTP(1:NEL) - T(1:NEL,3)
-          EV(1:NEL,3) = EV(1:NEL,3)*(UN - T(1:NEL,3)/PARTT(1:NEL)) 
+          EV(1:NEL,3) = EV(1:NEL,3)*(ONE - T(1:NEL,3)/PARTT(1:NEL)) 
       ENDDO   ! ITER
 C----------------
 c     Recalculate the principal stress
@@ -272,16 +272,16 @@ c     Recalculate the principal stress
       PARTP(1:NEL) = ZERO                                          
       DO K = 1,NORDRE                                     
           IF (D(K) /= ZERO) THEN                            
-            K2 = DEUX*K
+            K2 = TWO*K
             I_K2 = 2*K
             DD = K2/D(K)   
-            PARTP(1:NEL) = PARTP(1:NEL) + DD*(RV(1:NEL)-UN)**(I_K2-1)
+            PARTP(1:NEL) = PARTP(1:NEL) + DD*(RV(1:NEL)-ONE)**(I_K2-1)
           ENDIF                                             
       ENDDO                                               
 C
-      T(1:NEL,1) = DEUX*DWDL(1:NEL,1)/RV(1:NEL) + PARTP(1:NEL)
-      T(1:NEL,2) = DEUX*DWDL(1:NEL,2)/RV(1:NEL) + PARTP(1:NEL)
-      T(1:NEL,3) = DEUX*DWDL(1:NEL,3)/RV(1:NEL) + PARTP(1:NEL)
+      T(1:NEL,1) = TWO*DWDL(1:NEL,1)/RV(1:NEL) + PARTP(1:NEL)
+      T(1:NEL,2) = TWO*DWDL(1:NEL,2)/RV(1:NEL) + PARTP(1:NEL)
+      T(1:NEL,3) = TWO*DWDL(1:NEL,3)/RV(1:NEL) + PARTP(1:NEL)
 C-------------------------------------------------------------
       DO I=1,NEL
         UVAR(I,1) = EV(I,3)
@@ -298,10 +298,10 @@ C     transform principal Cauchy stress to global directions
 C-------------------------------------------------------------
 C     set thickness, sound speed & viscosity
       DO I=1,NEL
-        DEZZ(I)    =-NU/(UN-NU)*(DEPSXX(I)+DEPSYY(I))
+        DEZZ(I)    =-NU/(ONE-NU)*(DEPSXX(I)+DEPSYY(I))
         THKN(I)    = THKN(I) + DEZZ(I)*THKLYL(I)
         RHO(I)     = RHO0(I)/RV(I)
-        SOUNDSP(I) = SQRT((DTHIRD*GMAX+RBULK)/RHO(I))
+        SOUNDSP(I) = SQRT((TWO_THIRD*GMAX+RBULK)/RHO(I))
         VISCMAX(I) = ZERO
       ENDDO
 C-----------

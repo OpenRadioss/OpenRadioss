@@ -97,13 +97,13 @@ C
 C      
         DO J= 1,3
          DO I=JFT,JLT
-           CC(I,J,J)=CC(I,J,J)+QUATRE*B(I,J,J)
+           CC(I,J,J)=CC(I,J,J)+FOUR*B(I,J,J)
          ENDDO
         ENDDO
 C 
         DO J= 1,3
         DO I=JFT,JLT
-          DAM = UN-CC(I,J,J)/C3(I,J)
+          DAM = ONE-CC(I,J,J)/C3(I,J)
           DAMA_G(I,J)=MAX(ZERO,DAM)
         ENDDO
         ENDDO

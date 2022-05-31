@@ -169,7 +169,7 @@ C
 C----------------------
 C fixing flag and removed from input
         ISTRAIN=1
-          PTHK = MIN(PTHK, UN-EM06)
+          PTHK = MIN(PTHK, ONE-EM06)
           GEO(42) = PTHK
 
           IF(IHBE==0)IHBE=IHBE_D
@@ -194,7 +194,7 @@ C fixing flag and removed from input
           IF (GEO(16) == ZERO) IGEO(31) = 1
           
           IF (IHBE==24) THEN
-            IF (CVIS==ZERO) CVIS=UN
+            IF (CVIS==ZERO) CVIS=ONE
             IF (GEO(17)==ZERO) GEO(17)=ZEP015
             IF (GEO(16)==ZERO) THEN
 C--------------remove in cgrtails            
@@ -266,13 +266,13 @@ C READ LINE 3
 C----------------------
       ISH3N = IGEO(18)
 
-      IF (GEO(38) == ZERO)GEO(38)=CSIX
+      IF (GEO(38) == ZERO)GEO(38)=FIVE_OVER_6
       IF (NIP == -1)NIP=NPTS_D
       IF (NIP == 0) NIP = 1
       IF (NIP == 1) GEO(38)= ZERO 
       AN=SQRT(VX*VX+VY*VY+VZ*VZ)
       IF(AN .LT. EM10)THEN
-        VX=UN
+        VX=ONE
         VY=ZERO
         VZ=ZERO
         IF (IRP==23) THEN
@@ -290,7 +290,7 @@ C----------------------
         VY=VY/AN
         VZ=VZ/AN
       ENDIF
-      PHI=PHI/CENT80*PI
+      PHI=PHI/HUNDRED80*PI
       GEO(6)=NIP  ! to be cleaned
       IGEO(4) = NIP
 

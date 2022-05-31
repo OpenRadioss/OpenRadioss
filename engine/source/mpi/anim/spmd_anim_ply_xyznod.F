@@ -94,7 +94,7 @@ C Les plynods du proc 0
              I = PLYNOD(IPLY)%NODES(ND)
              N = NOD_PXFEM(I)
              NORM = SQRT(VN_NOD(1,N)**2+VN_NOD(2,N)**2+VN_NOD(3,N)**2)
-             NORM = UN/MAX(EM20,NORM)
+             NORM = ONE/MAX(EM20,NORM)
              EMPL = PLYNOD(IPLY)%PLYNODID(ND)-EMPSIZPL
              
              VN = VN_NOD(1,N)*NORM
@@ -142,7 +142,7 @@ C Les plynods des autres procs
            I = PLYNOD(IPLY)%NODES(ND)
            N = NOD_PXFEM(I)
            NORM = SQRT(VN_NOD(1,N)**2+VN_NOD(2,N)**2+VN_NOD(3,N)**2)
-           NORM = UN/MAX(EM20,NORM)
+           NORM = ONE/MAX(EM20,NORM)
            VN = VN_NOD(1,N)*NORM
            FSENDBUF(1,ND) = X(1,I)+ZI_PLY(N,IPLY)*VN + PLY(IPLY)%U(1,N)
            VN = VN_NOD(2,N)*NORM

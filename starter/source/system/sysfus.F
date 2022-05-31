@@ -828,7 +828,7 @@ C
          ID=INDEX(INDEX(I,1),3)
          IF(ID.EQ.IDM)THEN
             IF (STATUS .LT. 0) THEN
-C     CAS D UN WARNING STATUS Negatif
+C     CAS D ONE WARNING STATUS Negatif
                STATUS = -1*STATUS
                CALL ANCMSG(MSGID=ERRID,
      .                     MSGTYPE=MSGWARNING,

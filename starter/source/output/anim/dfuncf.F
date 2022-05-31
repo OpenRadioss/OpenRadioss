@@ -158,7 +158,7 @@ C-----------------------------------------------
               M1 = GBUF%MOM(JJ(1)+I)
               M2 = GBUF%MOM(JJ(2)+I)
               M3 = GBUF%MOM(JJ(3)+I)
-              YEQ= F1*F1 + TROIS* A1 *                                      
+              YEQ= F1*F1 + THREE* A1 *                                      
      +                   ( M1*M1 / MAX(B3,EM30)                          
      +                   + M2*M2 / MAX(B1,EM30)                          
      +                   + M3*M3 / MAX(B2,EM30) )                        
@@ -194,25 +194,25 @@ C-----------------------------------------------
         ELSEIF (ITY == 6) THEN                                            
           IF (IFUNC == 3) THEN                                            
             IF (MLW == 1) THEN                                           
-              XM = UN/GEO(1,IXR(1,1+NFT))                                 
+              XM = ONE/GEO(1,IXR(1,1+NFT))                                 
               DO  I=LFT,LLT                                               
                 N = I + NFT                                               
                 FUNC(EL2FA(NN8+N)) = GBUF%EINT(I)*XM                      
               ENDDO                                                       
             ELSEIF (MLW == 2) THEN                                       
-              XM = UN/GEO(1,IXR(1,1+NFT))                                 
+              XM = ONE/GEO(1,IXR(1,1+NFT))                                 
               DO  I=LFT,LLT                                               
                 N = I + NFT                                               
                 FUNC(EL2FA(NN8+N)) = GBUF%EINT(I)*XM                      
               ENDDO                                                       
             ELSEIF (MLW == 3) THEN                                       
-              XM = UN/GEO(1,IXR(1,1+NFT))                                 
+              XM = ONE/GEO(1,IXR(1,1+NFT))                                 
               DO  I=LFT,LLT                                               
                 N = I + NFT                                               
                 FUNC(EL2FA(NN8+N)) = GBUF%EINT(I)*XM                      
               ENDDO                                                       
             ELSEIF (MLW == 4) THEN                                       
-              XM = UN/GEO(1,IXR(1,1+NFT))                                 
+              XM = ONE/GEO(1,IXR(1,1+NFT))                                 
               DO  I=LFT,LLT                                               
                 N = I + NFT                                               
                 FUNC(EL2FA(NN8+N)) = GBUF%EINT(I)*XM                      

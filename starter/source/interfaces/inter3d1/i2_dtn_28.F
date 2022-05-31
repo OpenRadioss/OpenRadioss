@@ -160,9 +160,9 @@ C
         X4=X(1,J4)
         Y4=X(2,J4)
         Z4=X(3,J4)
-        X0=QUART*(X1+X2+X3+X4)
-        Y0=QUART*(Y1+Y2+Y3+Y4)
-        Z0=QUART*(Z1+Z2+Z3+Z4)
+        X0=FOURTH*(X1+X2+X3+X4)
+        Y0=FOURTH*(Y1+Y2+Y3+Y4)
+        Z0=FOURTH*(Z1+Z2+Z3+Z4)
         X1=X1-X0
         Y1=Y1-Y0
         Z1=Z1-Z0
@@ -203,8 +203,8 @@ C
         XY2=XY*XY
         YZ2=YZ*YZ
         ZX2=ZX*ZX
-        DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 - DEUX*XY*YZ*ZX
-        DET=UN/MAX(DET,EM20)
+        DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 - TWO*XY*YZ*ZX
+        DET=ONE/MAX(DET,EM20)
         B1=ZZZ*YYY-YZ2
         B2=XXX*ZZZ-ZX2
         B3=YYY*XXX-XY2
@@ -223,7 +223,7 @@ C
         MRZ = (B3+C2+C1)
         MR=DET*INX*MAX(MRX,MRY,MRZ)
 C
-        FACT = UN
+        FACT = ONE
         IF (IRODDL.EQ.1) THEN
         IF (IN(J1).GT.ZERO.AND.IN(J2).GT.ZERO.AND.IN(J3).GT.ZERO.AND.IN(J4).GT.ZERO) THEN
 C--       Inertie transmise sous forme d'inertie
@@ -231,7 +231,7 @@ C--       Inertie transmise sous forme d'inertie
         ENDIF
         ENDIF
 C
-        XMSI=QUART*MS(I)+MR*FACT
+        XMSI=FOURTH*MS(I)+MR*FACT
 C
         MS(J1)=MS(J1)+XMSI
         MS(J2)=MS(J2)+XMSI
@@ -239,10 +239,10 @@ C
         MS(J4)=MS(J4)+XMSI
 C
         IF (IRODDL == 1) THEN
-          STF = QUART*STIFN(I)
+          STF = FOURTH*STIFN(I)
      .         + DET*MAX(MRX,MRY,MRZ)*(STIFR(I)+STIFN(I)*(XS*XS+YS*YS+ZS*ZS))
         ELSE
-          STF = QUART*STIFN(I)
+          STF = FOURTH*STIFN(I)
      .         + DET*MAX(MRX,MRY,MRZ)*(STIFN(I)*(XS*XS+YS*YS+ZS*ZS))
         ENDIF
 C
@@ -252,10 +252,10 @@ C
         STIFN(J4)=STIFN(J4) + STF
 C
         IF (IRODDL.EQ.1) THEN
-          IN(J1)=IN(J1)+INX*QUART*(UN-FACT)
-          IN(J2)=IN(J2)+INX*QUART*(UN-FACT)
-          IN(J3)=IN(J3)+INX*QUART*(UN-FACT)
-          IN(J4)=IN(J4)+INX*QUART*(UN-FACT)
+          IN(J1)=IN(J1)+INX*FOURTH*(ONE-FACT)
+          IN(J2)=IN(J2)+INX*FOURTH*(ONE-FACT)
+          IN(J3)=IN(J3)+INX*FOURTH*(ONE-FACT)
+          IN(J4)=IN(J4)+INX*FOURTH*(ONE-FACT)
         ENDIF
 C
         MS(I)=ZERO
@@ -346,15 +346,15 @@ C
           IX4 = IRECT(4,L)
 C
           NIR= 4                
-          SP = UN + S           
-          SM = UN - S           
-          TP = QUART*(UN + T)    
-          TM = QUART*(UN - T)      
+          SP = ONE + S           
+          SM = ONE - S           
+          TP = FOURTH*(ONE + T)    
+          TM = FOURTH*(ONE - T)      
 C    
-          H(1)=QUART          
-          H(2)=QUART           
-          H(3)=QUART           
-          H(4)=QUART
+          H(1)=FOURTH          
+          H(2)=FOURTH           
+          H(3)=FOURTH           
+          H(4)=FOURTH
 C    
           H2(1)=TM*SM           
           H2(2)=TM*SP           
@@ -396,7 +396,7 @@ C---------------------
      .               E3X    ,E3Y    ,E3Z    ,NIR    )
 C------------------------------------------------                  
         IF (NIR == 4) THEN
-          FAC_TRIANG = UN
+          FAC_TRIANG = ONE
 C
           XM = X1*H2(1) + X2*H2(2) + X3*H2(3) + X4*H2(4)
           YM = Y1*H2(1) + Y2*H2(2) + Y3*H2(3) + Y4*H2(4)
@@ -487,10 +487,10 @@ C---------
 C
 C------------------------------------------------
 C
-          STF     = STFN(II)*(VISC + SQRT(VISC**2 + (UN+STBRK)))**2
+          STF     = STFN(II)*(VISC + SQRT(VISC**2 + (ONE+STBRK)))**2
 C
           LEN2 = XSM**2+YSM**2+ZSM**2  
-          STR     = (STFR(II)+STFN(II)*LEN2)*(VISC + SQRT(VISC**2 + UN))**2
+          STR     = (STFR(II)+STFN(II)*LEN2)*(VISC + SQRT(VISC**2 + ONE))**2
 C
           DERX = (B1+C3+C2)
           DERY = (B2+C1+C3)

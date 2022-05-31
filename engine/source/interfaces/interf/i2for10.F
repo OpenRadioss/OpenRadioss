@@ -70,10 +70,10 @@ C
 C
           S = CRST(1,II)
           T = CRST(2,II)
-          SP=UN + S
-          SM=UN - S
-          TP=QUART*(UN + T)
-          TM=QUART*(UN - T)
+          SP=ONE + S
+          SM=ONE - S
+          TP=FOURTH*(ONE + T)
+          TM=FOURTH*(ONE - T)
           H(1)=TM*SM
           H(2)=TM*SP
           H(3)=TP*SP
@@ -82,10 +82,10 @@ C
 C        Additional shape functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
           S = CSTS_BIS(1,II)
           T = CSTS_BIS(2,II)
-          SP=UN + S
-          SM=UN - S
-          TP=QUART*(UN + T)
-          TM=QUART*(UN - T)
+          SP=ONE + S
+          SM=ONE - S
+          TP=FOURTH*(ONE + T)
+          TM=FOURTH*(ONE - T)
           H2(1)=TM*SM
           H2(2)=TM*SP
           H2(3)=TP*SP
@@ -197,10 +197,10 @@ C
 C
             S = CRST(1,II)
             T = CRST(2,II)
-            SP= UN + S
-            SM= UN - S
-            TP= QUART*(UN + T)
-            TM= QUART*(UN - T)
+            SP= ONE + S
+            SM= ONE - S
+            TP= FOURTH*(ONE + T)
+            TM= FOURTH*(ONE - T)
             H(1)=TM*SM
             H(2)=TM*SP
             H(3)=TP*SP
@@ -209,10 +209,10 @@ C
 C        Additional shape functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
             S = CSTS_BIS(1,II)
             T = CSTS_BIS(2,II)
-            SP= UN + S
-            SM= UN - S
-            TP= QUART*(UN + T)
-            TM= QUART*(UN - T)
+            SP= ONE + S
+            SM= ONE - S
+            TP= FOURTH*(ONE + T)
+            TM= FOURTH*(ONE - T)
             H2(1)=TM*SM
             H2(2)=TM*SP
             H2(3)=TP*SP

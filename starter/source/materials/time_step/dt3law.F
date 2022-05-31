@@ -79,7 +79,7 @@ C-----------------------
 C     CALCUL DE DP/DRHO
 C-----------------------
       DO I=LFT,LLT
-         DPDM(I)=UNP333*G(I)+C2(I)+C6(I)*ESPE(I)
+         DPDM(I)=ONEP333*G(I)+C2(I)+C6(I)*ESPE(I)
      .        +(C5(I))*(C1(I)+(C5(I))*ESPE(I))
          SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       END DO

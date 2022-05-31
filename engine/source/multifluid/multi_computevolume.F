@@ -198,7 +198,7 @@ C
                   D3 =  X42*Y41 - X41*Y42
                   D4 =  -(D1 + D2 + D3)
 C     
-                  VOLNEW(II) = (X41*B1 + Y41*C1 + Z41*D1)*UNSIX
+                  VOLNEW(II) = (X41*B1 + Y41*C1 + Z41*D1)*ONE_OVER_6
       ENDDO
             ENDIF
          ELSE
@@ -237,7 +237,7 @@ C     TRIANGLES
                      Z2(II) = XGRID(3, IX(1 + 2, II))
                      Y3(II) = XGRID(2, IX(1 + 3, II))
                      Z3(II) = XGRID(3, IX(1 + 3, II))
-                     GBUF%AREA(II) = ABS(UNDEMI * ((Y2(II) - Y1(II)) * (Z3(II) - Z1(II)) - 
+                     GBUF%AREA(II) = ABS(HALF * ((Y2(II) - Y1(II)) * (Z3(II) - Z1(II)) - 
      .                    (Z2(II) - Z1(II)) * (Y3(II) - Y1(II))))
                      VOLNEW(II) = GBUF%AREA(II)
                   ENDDO            
@@ -250,12 +250,12 @@ C     Axisymmetric case
                      Z2(II) = XGRID(3, IX(1 + 2, II))
                      Y3(II) = XGRID(2, IX(1 + 3, II))
                      Z3(II) = XGRID(3, IX(1 + 3, II))
-                     GBUF%AREA(II) = ABS(UNDEMI * ((Y2(II) - Y1(II)) * (Z3(II) - Z1(II)) - 
+                     GBUF%AREA(II) = ABS(HALF * ((Y2(II) - Y1(II)) * (Z3(II) - Z1(II)) - 
      .                    (Z2(II) - Z1(II)) * (Y3(II) - Y1(II))))
                      VOLNEW(II) = (Y1(II) + Y2(II) + Y3(II)) * (
      .                    Y1(II) * (Z2(II) - Z3(II)) + 
      .                    Y2(II) * (Z3(II) - Z1(II)) + 
-     .                    Y3(II) * (Z1(II) - Z2(II))) * UNSIX
+     .                    Y3(II) * (Z1(II) - Z2(II))) * ONE_OVER_6
                   ENDDO            
                ENDIF
             ENDIF

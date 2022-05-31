@@ -143,7 +143,7 @@ c=======================================================================
       C1_KH = UPARAM(22)            ! Upper case for controlling work hardening stagnation
 c      
       IF (IPLAS == 1) THEN 
-        NORM_SP = UN
+        NORM_SP = ONE
       ELSEIF(IPLAS == 2) THEN
         NORM_SP = EP03 / EINI
       ENDIF
@@ -173,7 +173,7 @@ C
       ELSE 
         DO I=1,NEL
           IF (PLA(I) > ZERO)THEN
-            YOUNG(I) = EINI-(EINI-EINF)*(UN-EXP(-COE*PLA(I))) 
+            YOUNG(I) = EINI-(EINI-EINF)*(ONE-EXP(-COE*PLA(I))) 
           ELSE          
             YOUNG(I) = EINI
           ENDIF
@@ -182,9 +182,9 @@ C
 C
       ! Recovering elastic parameters and hardening variables
       DO I=1,NEL 
-        A1(I)       = YOUNG(I)/(UN-NU*NU)     ! Plane stress elastic matrix diagonal component
-        A2(I)       = NU*YOUNG(I)/(UN-NU*NU)  ! Plane stress elastic matrix non-diagonal component
-        SHEAR(I)    = YOUNG(I)*UNDEMI/(UN+NU) ! Shear modulus
+        A1(I)       = YOUNG(I)/(ONE-NU*NU)     ! Plane stress elastic matrix diagonal component
+        A2(I)       = NU*YOUNG(I)/(ONE-NU*NU)  ! Plane stress elastic matrix non-diagonal component
+        SHEAR(I)    = YOUNG(I)*HALF/(ONE+NU) ! Shear modulus
         R(I)        = UVAR(I,1)               ! Isotropic hardening
         RNIH(I)     = UVAR(I,2)               ! Non-IH hardening
         AYU(I)      = UVAR(I,3)               ! AYU variable
@@ -213,19 +213,19 @@ c
         ! Choice of yield criterion
         !   -> Hill 1948
         IF (IPLAS == 1) THEN 
-          SEFF(I) = SQRT(AXX(I)**2 - DEUX*P2*AXX(I)*AYY(I) + P1*AYY(I)**2 + P3*AXY(I)**2)
+          SEFF(I) = SQRT(AXX(I)**2 - TWO*P2*AXX(I)*AYY(I) + P1*AYY(I)**2 + P3*AXY(I)**2)
         !   -> Barlat 1989
         ELSEIF (IPLAS == 2) THEN
-          K1(I)   = (AXX(I) + P3*AYY(I))*NORM_SP/DEUX
-          K2(I)   = (SQRT(((AXX(I) - P3*AYY(I))/DEUX)**DEUX + (P4*AXY(I))**DEUX))*NORM_SP
-          SEFF(I) = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(DEUX*K2(I))**N3
-          SEFF(I) = (UNDEMI*MAX(SEFF(I),EM20))**(UN/N3)
+          K1(I)   = (AXX(I) + P3*AYY(I))*NORM_SP/TWO
+          K2(I)   = (SQRT(((AXX(I) - P3*AYY(I))/TWO)**TWO + (P4*AXY(I))**TWO))*NORM_SP
+          SEFF(I) = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(TWO*K2(I))**N3
+          SEFF(I) = (HALF*MAX(SEFF(I),EM20))**(ONE/N3)
         ENDIF
         ! Yield function value
         PHI(I)    = SEFF(I) - YIELD*NORM_SP
         ! Initialization of variable
         DEP_DP(I) = ZERO      ! Plastic strain increment
-        ETSE(I)   = UN        ! For hourglassing
+        ETSE(I)   = ONE        ! For hourglassing
         DEPLZZ(I) = ZERO      ! Plastic strain increment for thickness variation
       ENDDO
 c
@@ -234,7 +234,7 @@ c
       !========================================================================
       NINDX = 0
       DO I=1,NEL
-        IF (PHI(I) >= ZERO .and. OFF(I) == UN) THEN
+        IF (PHI(I) >= ZERO .and. OFF(I) == ONE) THEN
           NINDX = NINDX+1
           INDEX(NINDX) = I
         ENDIF
@@ -274,18 +274,18 @@ C
           !   -> Barlat 1989
           ELSEIF (IPLAS == 2) THEN
             !  Computation of the derivatives
-            DF_DK1 = (SEFF(I)**(1-N3))*(P1/DEUX)*(
-     .                        +  SIGN(UN,K1(I)+K2(I))*(ABS(K1(I)+K2(I))**(N3-1)) 
-     .                        +  SIGN(UN,K1(I)-K2(I))*(ABS(K1(I)-K2(I))**(N3-1)))
-            DF_DK2 = (SEFF(I)**(1-N3))*((P1/DEUX)*(
-     .                        +  SIGN(UN,K1(I)+K2(I))*(ABS(K1(I)+K2(I))**(N3-1)) 
-     .                        -  SIGN(UN,K1(I)-K2(I))*(ABS(K1(I)-K2(I))**(N3-1))) 
-     .                        +  P2*(ABS(DEUX*K2(I))**(N3-1)))
-            DK1_DSIGXX = UNDEMI
-            DK1_DSIGYY = P3/DEUX
-            DK2_DSIGXX = (AXX(I)-P3*AYY(I))*NORM_SP/(MAX(QUATRE*K2(I),EM20))
-            DK2_DSIGYY = -P3*(AXX(I)-P3*AYY(I))*NORM_SP/(MAX(QUATRE*K2(I),EM20))
-            DK2_DSIGXY = (P4**DEUX)*AXY(I)*NORM_SP/MAX(K2(I),EM20)
+            DF_DK1 = (SEFF(I)**(1-N3))*(P1/TWO)*(
+     .                        +  SIGN(ONE,K1(I)+K2(I))*(ABS(K1(I)+K2(I))**(N3-1)) 
+     .                        +  SIGN(ONE,K1(I)-K2(I))*(ABS(K1(I)-K2(I))**(N3-1)))
+            DF_DK2 = (SEFF(I)**(1-N3))*((P1/TWO)*(
+     .                        +  SIGN(ONE,K1(I)+K2(I))*(ABS(K1(I)+K2(I))**(N3-1)) 
+     .                        -  SIGN(ONE,K1(I)-K2(I))*(ABS(K1(I)-K2(I))**(N3-1))) 
+     .                        +  P2*(ABS(TWO*K2(I))**(N3-1)))
+            DK1_DSIGXX = HALF
+            DK1_DSIGYY = P3/TWO
+            DK2_DSIGXX = (AXX(I)-P3*AYY(I))*NORM_SP/(MAX(FOUR*K2(I),EM20))
+            DK2_DSIGYY = -P3*(AXX(I)-P3*AYY(I))*NORM_SP/(MAX(FOUR*K2(I),EM20))
+            DK2_DSIGXY = (P4**TWO)*AXY(I)*NORM_SP/MAX(K2(I),EM20)
             !  Assembling the normal
             NORMXX     = DF_DK1*DK1_DSIGXX + DF_DK2*DK2_DSIGXX
             NORMYY     = DF_DK1*DK1_DSIGYY + DF_DK2*DK2_DSIGYY
@@ -318,13 +318,13 @@ C
           ! Computation of the norm of Alpha* backstress
           !   -> Hill 1948
           IF (IPLAS == 1) THEN 
-            ASTA = SQRT(SIGA(I,1)**2 - DEUX*P2*SIGA(I,1)*SIGA(I,2) + P1*SIGA(I,2)**2 + P3*SIGA(I,3)**2)
+            ASTA = SQRT(SIGA(I,1)**2 - TWO*P2*SIGA(I,1)*SIGA(I,2) + P1*SIGA(I,2)**2 + P3*SIGA(I,3)**2)
           !   -> Barlat 1989
           ELSEIF (IPLAS == 2) THEN            
-            K1(I)= (SIGA(I,1) + P3*SIGA(I,2))/DEUX
-            K2(I)= SQRT(((SIGA(I,1) - P3*SIGA(I,2))/DEUX)**DEUX + (P4*SIGA(I,3))**DEUX)
-            ASTA = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(DEUX*K2(I))**N3
-            ASTA = (UNDEMI*MAX(EM20,ASTA))**(UN/N3)
+            K1(I)= (SIGA(I,1) + P3*SIGA(I,2))/TWO
+            K2(I)= SQRT(((SIGA(I,1) - P3*SIGA(I,2))/TWO)**TWO + (P4*SIGA(I,3))**TWO)
+            ASTA = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(TWO*K2(I))**N3
+            ASTA = (HALF*MAX(EM20,ASTA))**(ONE/N3)
           ENDIF
           ASTA = MAX(ASTA,EM20)
           MAX_ASTA(I) = MAX(MAX_ASTA(I),ASTA)
@@ -371,9 +371,9 @@ c
           SIGA(I,3) = SIGA(I,3) + ((CYU*AYU(I)/YIELD)*AXY(I) - CYU*SQRT(AYU(I)/ASTA)*SIGA(I,3))*DLAM*DPLA_DLAM 
 c
           ! Old beta deviator
-          DEVBOXX(I) = DTIERS*SIGB(I,1) - TIERS*SIGB(I,2)
-          DEVBOYY(I) = DTIERS*SIGB(I,2) - TIERS*SIGB(I,1)
-          DEVBOZZ(I) = -TIERS*SIGB(I,1) - TIERS*SIGB(I,2)
+          DEVBOXX(I) = TWO_THIRD*SIGB(I,1) - THIRD*SIGB(I,2)
+          DEVBOYY(I) = TWO_THIRD*SIGB(I,2) - THIRD*SIGB(I,1)
+          DEVBOZZ(I) = -THIRD*SIGB(I,1) - THIRD*SIGB(I,2)
           DEVBOXY(I) = SIGB(I,3)
 c
           ! Beta back stress tensor update
@@ -382,9 +382,9 @@ c
           SIGB(I,3) = SIGB(I,3) + ((MYU*BYU/YIELD)*AXY(I) - MYU*SIGB(I,3))*DLAM*DPLA_DLAM 
 c
           ! New beta deviator
-          DEVBXX(I) = DTIERS*SIGB(I,1) - TIERS*SIGB(I,2)
-          DEVBYY(I) = DTIERS*SIGB(I,2) - TIERS*SIGB(I,1)
-          DEVBZZ(I) = -TIERS*SIGB(I,1) - TIERS*SIGB(I,2)
+          DEVBXX(I) = TWO_THIRD*SIGB(I,1) - THIRD*SIGB(I,2)
+          DEVBYY(I) = TWO_THIRD*SIGB(I,2) - THIRD*SIGB(I,1)
+          DEVBZZ(I) = -THIRD*SIGB(I,1) - THIRD*SIGB(I,2)
           DEVBXY(I) = SIGB(I,3)   
 c          
           !-------------------------------------------------------------------------------------
@@ -401,14 +401,14 @@ c
           DBZZ(I) = DEVBZZ(I) - DEVBOZZ(I)
           DBXY(I) = DEVBXY(I) - DEVBOXY(I)  
           ! Computation of GSIGMA J2-type yield function
-          GSIGMA  = TDEMI*(BQXX(I)*BQXX(I) + BQYY(I)*BQYY(I) + BQZZ(I)*BQZZ(I) + DEUX*BQXY(I)*BQXY(I)) 
+          GSIGMA  = THREE_HALF*(BQXX(I)*BQXX(I) + BQYY(I)*BQYY(I) + BQZZ(I)*BQZZ(I) + TWO*BQXY(I)*BQXY(I)) 
      .                                     - RNIH(I)*RNIH(I)  
           ! Computation of (Beta - q)*DBeta 
-          DGSIGMA = BQXX(I)*DBXX(I) + BQYY(I)*DBYY(I) + BQZZ(I)*DBZZ(I) + DEUX*BQXY(I)*DBXY(I)
+          DGSIGMA = BQXX(I)*DBXX(I) + BQYY(I)*DBYY(I) + BQZZ(I)*DBZZ(I) + TWO*BQXY(I)*DBXY(I)
           ! If the GSIGMA yield function is greater that 0 -> SIGC must be updated
           IF ((GSIGMA >= ZERO).AND.(DGSIGMA > ZERO)) THEN          
             ! Isotropic hardening
-            IF (OPTR == UN) THEN
+            IF (OPTR == ONE) THEN
               RDOT = RSAT*((PLA(I)+CST)**CSTT-CST**CSTT) - R(I)
               R(I) = RSAT*((PLA(I)+CST)**CSTT-CST**CSTT)
             ELSE 
@@ -420,30 +420,30 @@ c
             IF (HYU > ZERO) THEN
               ! Computation of DMU 
               IF (RNIH(I) == ZERO) THEN
-                DMU = (GSIGMA/(TROIS*HYU*DGSIGMA)) - UN
+                DMU = (GSIGMA/(THREE*HYU*DGSIGMA)) - ONE
               ELSE
-                DMU = (UN-HYU)*TDEMI*DGSIGMA/(RNIH(I)**2)
+                DMU = (ONE-HYU)*THREE_HALF*DGSIGMA/(RNIH(I)**2)
               ENDIF
               ! q back stress update
-              SIGC(I,1) = DEVBXX(I) - BQXX(I)/(UN+DMU)
-              SIGC(I,2) = DEVBYY(I) - BQYY(I)/(UN+DMU)
-              SIGC(I,3) = DEVBZZ(I) - BQZZ(I)/(UN+DMU)
-              SIGC(I,4) = DEVBXY(I) - BQXY(I)/(UN+DMU)
+              SIGC(I,1) = DEVBXX(I) - BQXX(I)/(ONE+DMU)
+              SIGC(I,2) = DEVBYY(I) - BQYY(I)/(ONE+DMU)
+              SIGC(I,3) = DEVBZZ(I) - BQZZ(I)/(ONE+DMU)
+              SIGC(I,4) = DEVBXY(I) - BQXY(I)/(ONE+DMU)
               ! -> Update of the equivalent stress for the bounding surface Gsigma(DevBeta - q_n)
               BQXX(I) = DEVBXX(I) - SIGC(I,1)
               BQYY(I) = DEVBYY(I) - SIGC(I,2)
               BQZZ(I) = DEVBZZ(I) - SIGC(I,3)
               BQXY(I) = DEVBXY(I) - SIGC(I,4)
               ! Update of (Beta - q)*DBeta 
-              DGSIGMA = BQXX(I)*DBXX(I) + BQYY(I)*DBYY(I) + BQZZ(I)*DBZZ(I) + DEUX*BQXY(I)*DBXY(I)
+              DGSIGMA = BQXX(I)*DBXX(I) + BQYY(I)*DBYY(I) + BQZZ(I)*DBZZ(I) + TWO*BQXY(I)*DBXY(I)
               ! Computation of RNIH evolution 
               IF (RDOT > ZERO) THEN
                 IF (RNIH(I) == ZERO) THEN
                   ! Radius initial value
-                  RNIH(I) = TROIS*HYU*DGSIGMA
+                  RNIH(I) = THREE*HYU*DGSIGMA
                 ELSE
                   ! Radius increment
-                  DRNIH = HYU*TDEMI*DGSIGMA/RNIH(I)
+                  DRNIH = HYU*THREE_HALF*DGSIGMA/RNIH(I)
                   ! Radius update
                   RNIH(I) = RNIH(I) + DRNIH
                 ENDIF
@@ -458,13 +458,13 @@ c
           AXY(I) = SIGNXY(I) - SIGA(I,3) - SIGB(I,3)
           !   -> Hill 1948
           IF (IPLAS == 1) THEN 
-            SEFF(I) = SQRT(AXX(I)**2 - DEUX*P2*AXX(I)*AYY(I) + P1*AYY(I)**2 + P3*AXY(I)**2)
+            SEFF(I) = SQRT(AXX(I)**2 - TWO*P2*AXX(I)*AYY(I) + P1*AYY(I)**2 + P3*AXY(I)**2)
           !   -> Barlat 1989
           ELSEIF (IPLAS == 2) THEN
-            K1(I)   = (AXX(I) + P3*AYY(I))*NORM_SP/DEUX
-            K2(I)   = SQRT(((AXX(I) - P3*AYY(I))/DEUX)**DEUX + (P4*AXY(I))**DEUX)*NORM_SP
-            SEFF(I) = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(DEUX*K2(I))**N3
-            SEFF(I) = (UNDEMI*SEFF(I))**(UN/N3)
+            K1(I)   = (AXX(I) + P3*AYY(I))*NORM_SP/TWO
+            K2(I)   = SQRT(((AXX(I) - P3*AYY(I))/TWO)**TWO + (P4*AXY(I))**TWO)*NORM_SP
+            SEFF(I) = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(TWO*K2(I))**N3
+            SEFF(I) = (HALF*SEFF(I))**(ONE/N3)
           ENDIF            
 c
           ! New yield function value
@@ -488,13 +488,13 @@ C
         ! Equivalent stress
         !   -> Hill 1948
         IF (IPLAS == 1) THEN   
-          YLD(I) = SQRT(SIGNXX(I)**2 - DEUX*P2*SIGNXX(I)*SIGNYY(I) + P1*SIGNYY(I)**2 + P3*SIGNXY(I)**2)
+          YLD(I) = SQRT(SIGNXX(I)**2 - TWO*P2*SIGNXX(I)*SIGNYY(I) + P1*SIGNYY(I)**2 + P3*SIGNXY(I)**2)
         !   -> Barlat 1989
         ELSEIF (IPLAS == 2) THEN
-          K1(I)  = (SIGNXX(I) + P3*SIGNYY(I))/DEUX
-          K2(I)  = SQRT(((SIGNXX(I) - P3*SIGNYY(I))/DEUX)**DEUX + (P4*SIGNXY(I))**DEUX)            
-          YLD(I) = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(DEUX*K2(I))**N3    
-          YLD(I) = (UNDEMI*MAX(YLD(I),EM20))**(UN/N3) 
+          K1(I)  = (SIGNXX(I) + P3*SIGNYY(I))/TWO
+          K2(I)  = SQRT(((SIGNXX(I) - P3*SIGNYY(I))/TWO)**TWO + (P4*SIGNXY(I))**TWO)            
+          YLD(I) = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(TWO*K2(I))**N3    
+          YLD(I) = (HALF*MAX(YLD(I),EM20))**(ONE/N3) 
         ENDIF
         ! Hardening rate
         IF (DEP_DP(I) > ZERO) THEN
@@ -518,28 +518,28 @@ C
           AXY(I) = SIGNXY(I) - SIGA(I,3) - SIGB(I,3)
           !   -> Hill 1948
           IF (IPLAS == 1) THEN 
-            SEFF(I) = SQRT(AXX(I)**2 - DEUX*P2*AXX(I)*AYY(I) + P1*AYY(I)**2 + P3*AXY(I)**2)
+            SEFF(I) = SQRT(AXX(I)**2 - TWO*P2*AXX(I)*AYY(I) + P1*AYY(I)**2 + P3*AXY(I)**2)
             NORMXX  = (AXX(I)-P2*AYY(I))/(MAX(SEFF(I),EM20))
             NORMYY  = (P1*AYY(I)-P2*AXX(I))/(MAX(SEFF(I),EM20))
             NORMXY  = (P3*AXY(I))/(MAX(SEFF(I),EM20))
           !   -> Barlat 1989
           ELSEIF (IPLAS == 2) THEN
-            K1(I)   = (AXX(I) + P3*AYY(I))*NORM_SP/DEUX
-            K2(I)   = (SQRT(((AXX(I) - P3*AYY(I))/DEUX)**DEUX + (P4*AXY(I))**DEUX))*NORM_SP
-            SEFF(I) = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(DEUX*K2(I))**N3
-            SEFF(I) = (UNDEMI*MAX(SEFF(I),EM20))**(UN/N3)
-            DF_DK1 = (SEFF(I)**(1-N3))*(P1/DEUX)*(
-     .                        +  SIGN(UN,K1(I)+K2(I))*(ABS(K1(I)+K2(I))**(N3-1)) 
-     .                        +  SIGN(UN,K1(I)-K2(I))*(ABS(K1(I)-K2(I))**(N3-1)))
-            DF_DK2 = (SEFF(I)**(1-N3))*((P1/DEUX)*(
-     .                        +  SIGN(UN,K1(I)+K2(I))*(ABS(K1(I)+K2(I))**(N3-1)) 
-     .                        -  SIGN(UN,K1(I)-K2(I))*(ABS(K1(I)-K2(I))**(N3-1))) 
-     .                        +  P2*(ABS(DEUX*K2(I))**(N3-1)))
-            DK1_DSIGXX = UNDEMI
-            DK1_DSIGYY = P3/DEUX
-            DK2_DSIGXX = (AXX(I)-P3*AYY(I))*NORM_SP/(MAX(QUATRE*K2(I),EM20))
-            DK2_DSIGYY = -P3*(AXX(I)-P3*AYY(I))*NORM_SP/(MAX(QUATRE*K2(I),EM20))
-            DK2_DSIGXY = (P4**DEUX)*AXY(I)*NORM_SP/MAX(K2(I),EM20)
+            K1(I)   = (AXX(I) + P3*AYY(I))*NORM_SP/TWO
+            K2(I)   = (SQRT(((AXX(I) - P3*AYY(I))/TWO)**TWO + (P4*AXY(I))**TWO))*NORM_SP
+            SEFF(I) = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(TWO*K2(I))**N3
+            SEFF(I) = (HALF*MAX(SEFF(I),EM20))**(ONE/N3)
+            DF_DK1 = (SEFF(I)**(1-N3))*(P1/TWO)*(
+     .                        +  SIGN(ONE,K1(I)+K2(I))*(ABS(K1(I)+K2(I))**(N3-1)) 
+     .                        +  SIGN(ONE,K1(I)-K2(I))*(ABS(K1(I)-K2(I))**(N3-1)))
+            DF_DK2 = (SEFF(I)**(1-N3))*((P1/TWO)*(
+     .                        +  SIGN(ONE,K1(I)+K2(I))*(ABS(K1(I)+K2(I))**(N3-1)) 
+     .                        -  SIGN(ONE,K1(I)-K2(I))*(ABS(K1(I)-K2(I))**(N3-1))) 
+     .                        +  P2*(ABS(TWO*K2(I))**(N3-1)))
+            DK1_DSIGXX = HALF
+            DK1_DSIGYY = P3/TWO
+            DK2_DSIGXX = (AXX(I)-P3*AYY(I))*NORM_SP/(MAX(FOUR*K2(I),EM20))
+            DK2_DSIGYY = -P3*(AXX(I)-P3*AYY(I))*NORM_SP/(MAX(FOUR*K2(I),EM20))
+            DK2_DSIGXY = (P4**TWO)*AXY(I)*NORM_SP/MAX(K2(I),EM20)
             NORMXX     = DF_DK1*DK1_DSIGXX + DF_DK2*DK2_DSIGXX
             NORMYY     = DF_DK1*DK1_DSIGYY + DF_DK2*DK2_DSIGYY
             NORMXY     = DF_DK2*DK2_DSIGXY

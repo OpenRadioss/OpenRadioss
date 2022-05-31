@@ -67,7 +67,7 @@ C-----------------------------------------------
      .         FPLY, MPLY,DF1,DF2,DF3,KZI,MASS_NODE,BETA
 C----------------------------------------------------     
 C 
-       ALPHA = UN 
+       ALPHA = ONE 
        IF(IPLYXFEM == 2 ) THEN 
 #include "vectorize.inc" 
           DO NN=NODFT,NODLT
@@ -101,7 +101,7 @@ C
              DO J=1,NPLYMAX
                 IF(MS_LAYER(N,J) > ZERO) THEN 
                    BETA = MS(NN)/MASS_NODE
-                   FAC = UN/(DTFACX*DTFACX)
+                   FAC = ONE/(DTFACX*DTFACX)
                    MASS =FAC*DT2*DT2*PLY(J)%A(4,N)
 clm        .                             +KZI*MS_LAYER(N,J)*ABS(ZI_LAYER(N,J)))
                    ALPHA(NN) = MAX(ALPHA(NN), MASS/MS_LAYER(N,J)/BETA) 
@@ -161,7 +161,7 @@ C
 C
              DO J=1,NPLYMAX
                 IF(MS_LAYER(N,J) > ZERO) THEN 
-                   FAC = UN/(DTFACX*DTFACX)
+                   FAC = ONE/(DTFACX*DTFACX)
                    MASS =FAC*DT2*DT2*PLY(J)%A(4,N)
 clm        .                             +KZI*MS_LAYER(N,J)*ABS(ZI_LAYER(N,J)))
                    ALPHA(NN) = MAX(ALPHA(NN), MASS/MS_LAYER(N,J) ) 
@@ -245,7 +245,7 @@ C
          IF(N > 0) THEN   
             IF(MS(N,J) > ZERO) THEN                         
                   MASS = ALPHA(NN)*MS(N,J)
-                  RTMP = UN / MASS 
+                  RTMP = ONE / MASS 
                   A(1,N) = A(1,N)  * RTMP 
                   A(2,N) = A(2,N)  * RTMP  
                   A(3,N) = A(3,N)  * RTMP

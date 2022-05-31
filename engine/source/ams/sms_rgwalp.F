@@ -128,7 +128,7 @@ C
         IF(N2D.EQ.1)THEN
          AX=X(N2)
         ELSE
-         AX=UN
+         AX=ONE
         ENDIF   
         XC=UX-XWL
         YC=UY-YWL
@@ -138,7 +138,7 @@ C
         YC0=X(N2)-YWL0
         ZC0=X(N3)-ZWL0
         DP0=XC0*RWL(1)+YC0*RWL(2)+ZC0*RWL(3)
-        TOL=DEUX*DT1*MAX(
+        TOL=TWO*DT1*MAX(
      .  ABS( (VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3) ),
      .  ABS(VN-VNOLD) )
         IF(IRESP.EQ.1)THEN
@@ -264,7 +264,7 @@ C
 C---     no friction filtering
          FRIC=RWL(13)
          FRIC2=FRIC**2
-         FAC=UN/DT12
+         FAC=ONE/DT12
          DO J = 1,NIMPACT
            I = IMPACT(J)
            N=NSW(I)
@@ -626,9 +626,9 @@ C
        M2=M3-1
        M1=M2-1
 C TFEXT only <=> dt12/2.
-       VXW=V(M1)+UNDEMI*A(M1)*DT12
-       VYW=V(M2)+UNDEMI*A(M2)*DT12
-       VZW=V(M3)+UNDEMI*A(M3)*DT12
+       VXW=V(M1)+HALF*A(M1)*DT12
+       VYW=V(M2)+HALF*A(M2)*DT12
+       VZW=V(M3)+HALF*A(M3)*DT12
       ENDIF
 C
       TFXT=ZERO
@@ -657,9 +657,9 @@ C 1er impact (Tfext avec decalage 1/2 cycle)
 c        N3=3*N
 c        N2=N3-1
 c        N1=N2-1
-c        VX=V(N1)+UNDEMI*A(N1)*DT12
-c        VY=V(N2)+UNDEMI*A(N2)*DT12
-c        VZ=V(N3)+UNDEMI*A(N3)*DT12
+c        VX=V(N1)+HALF*A(N1)*DT12
+c        VY=V(N2)+HALF*A(N2)*DT12
+c        VZ=V(N3)+HALF*A(N3)*DT12
 c        TFXT = TFXT -DT12*((VX-VXW)*FXN+(VY-VYW)*FYN+(VZ-VZW)*FZN)
  40    CONTINUE
 C
@@ -683,9 +683,9 @@ C
         N3=3*N
         N2=N3-1
         N1=N2-1
-        VX=V(N1)+UNDEMI*A(N1)*DT12
-        VY=V(N2)+UNDEMI*A(N2)*DT12
-        VZ=V(N3)+UNDEMI*A(N3)*DT12
+        VX=V(N1)+HALF*A(N1)*DT12
+        VY=V(N2)+HALF*A(N2)*DT12
+        VZ=V(N3)+HALF*A(N3)*DT12
 C 1er impact (Tfext avec decalage 1/2 cycle)
 c       TFXT = TFXT -DT12*((VX-VXW)*FXN+(VY-VYW)*FYN+(VZ-VZW)*FZN)
 C

@@ -205,7 +205,7 @@ C
             IF(IFILL < 0 .OR. IFILL > 1)THEN
               CALL ANCMSG(MSGID=888,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
             ENDIF
-            IF(FILL_RATIO < ZERO .or. FILL_RATIO > UN)THEN
+            IF(FILL_RATIO < ZERO .or. FILL_RATIO > ONE)THEN
               CALL ANCMSG(MSGID=1596,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
             ENDIF
           !ENDIF
@@ -225,7 +225,7 @@ C
             IPHASE=UPARAM(276+IPHASE)
           ENDIF
           
-          IF(FILL_RATIO==ZERO)FILL_RATIO = UN
+          IF(FILL_RATIO==ZERO)FILL_RATIO = ONE
           IF(ICUMU.NE.0 .AND. ICUMU.NE.1)THEN
             ICUMU = 0
           ENDIF

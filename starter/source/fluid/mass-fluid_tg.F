@@ -100,9 +100,9 @@ C           IF (ILVOUT.GE.2) CALL PROGBAR_C(IEL,NEL)
            Z2=X(3,NN2)
            Z3=X(3,NN3)
 C Control point P
-           XP=TIERS*(X1+X2+X3)
-           YP=TIERS*(Y1+Y2+Y3)    
-           ZP=TIERS*(Z1+Z2+Z3)
+           XP=THIRD*(X1+X2+X3)
+           YP=THIRD*(Y1+Y2+Y3)    
+           ZP=THIRD*(Z1+Z2+Z3)
            D2=MIN((XP-X1)**2+(YP-Y1)**2+(ZP-Z1)**2,
      .            (XP-X2)**2+(YP-Y2)**2+(ZP-Z2)**2,
      .            (XP-X3)**2+(YP-Y3)**2+(ZP-Z3)**2)
@@ -112,8 +112,8 @@ C Control point P
            NRZ=NORMAL(3,IEL)
            DO JEL=1,NEL
               IF(IEL == JEL) THEN
-                BBEM(IEL,JEL)=DEUX*SQRT(PI*AF(JEL))
-                CBEM(IEL,JEL)=DEUX*PI
+                BBEM(IEL,JEL)=TWO*SQRT(PI*AF(JEL))
+                CBEM(IEL,JEL)=TWO*PI
               ELSE
                 N1=ELEM(1,JEL)
                 N2=ELEM(2,JEL)
@@ -132,9 +132,9 @@ C Control point P
                 Z3=X(3,NN3)
                 AREA=AF(JEL)
 C Point source Q
-                XQ=TIERS*(X1+X2+X3)
-                YQ=TIERS*(Y1+Y2+Y3)    
-                ZQ=TIERS*(Z1+Z2+Z3)
+                XQ=THIRD*(X1+X2+X3)
+                YQ=THIRD*(Y1+Y2+Y3)    
+                ZQ=THIRD*(Z1+Z2+Z3)
                 CALL INTHTG(X1 , Y1,  Z1,  X2,  Y2,  Z2,  
      .                      X3,  Y3,  Z3,  XP,  YP,  ZP,                    
      .                      NRX,NRY, NRZ,  D2,  AREA,
@@ -168,9 +168,9 @@ C           IF (ILVOUT.GE.2) CALL PROGBAR_C(IEL,NEL)
            Z1=X(3,NN1)
            Z2=X(3,NN2)
            Z3=X(3,NN3)
-           XP=TIERS*(X1+X2+X3)
-           YP=TIERS*(Y1+Y2+Y3)    
-           ZP=TIERS*(Z1+Z2+Z3)
+           XP=THIRD*(X1+X2+X3)
+           YP=THIRD*(Y1+Y2+Y3)    
+           ZP=THIRD*(Z1+Z2+Z3)
            DO JEL=1,NEL
               N1=ELEM(1,JEL)
               N2=ELEM(2,JEL)
@@ -197,7 +197,7 @@ C Matrice C=H
      .                       NRX,  NRY,  NRZ,
      .                       AREA, RVLH, RVLG, IEL, JEL )
               IF(IEL == JEL) THEN
-                 CBEM(IEL,JEL)=DEUX*PI
+                 CBEM(IEL,JEL)=TWO*PI
               ELSE
                  CBEM(IEL,JEL)=RVLH
               ENDIF
@@ -277,7 +277,7 @@ C-----------------------------------------
 
       DO IN=1,NEL
          DO JN=1,NEL
-            MFLE(IN,JN)=UNDEMI*RHO*AF(IN)*(CBEM(IN,JN)+CBEM(JN,IN))
+            MFLE(IN,JN)=HALF*RHO*AF(IN)*(CBEM(IN,JN)+CBEM(JN,IN))
             BBEM(IN,JN)=MFLE(IN,JN)
          ENDDO
       ENDDO	

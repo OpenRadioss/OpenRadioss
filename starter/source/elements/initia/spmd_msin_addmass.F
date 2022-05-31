@@ -259,7 +259,7 @@ C
                 IF(FLAG == 0)THEN
                   KMASS = MSC(I) / MAX(EM20,PARTSAV1_PON(IP))
                 ELSE IF(FLAG == 1)THEN
-                  AREA_EL = ELE_AREA(I)*QUART
+                  AREA_EL = ELE_AREA(I)*FOURTH
                   KMASS = AREA_EL / MAX(EM20,PART_AREA(IP))
                 END IF
                 MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
@@ -281,7 +281,7 @@ C
                     IF(FLAG == 0)THEN
                       KMASS = MSC(I) / MAX(EM20,PARTSAV1_PON(IP))
                     ELSE IF(FLAG == 1)THEN
-                      AREA_EL = ELE_AREA(I)*QUART
+                      AREA_EL = ELE_AREA(I)*FOURTH
                       KMASS = AREA_EL / MAX(EM20,PART_AREA(IP))
                     END IF
                     MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
@@ -302,7 +302,7 @@ C
                     IF(FLAG == 0)THEN
                       KMASS = MSC(I) / MAX(EM20,PARTSAV1_PON(IP))
                     ELSE IF(FLAG == 1)THEN
-                      AREA_EL = ELE_AREA(I)*QUART
+                      AREA_EL = ELE_AREA(I)*FOURTH
                       KMASS = AREA_EL / MAX(EM20,PART_AREA(IP))
                     END IF
                     MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
@@ -626,7 +626,7 @@ C
       DO J=1,NUMELQ
        I = INDEX(J)
        IP = IPARTQ(I)
-       PARTSAV1_PON(IP)=PARTSAV1_PON(IP)+ QUATRE * MSQ(I)
+       PARTSAV1_PON(IP)=PARTSAV1_PON(IP)+ FOUR * MSQ(I)
       ENDDO
       
 C NUMELC
@@ -638,7 +638,7 @@ C
       DO J=1,NUMELC 
        I=INDEX(J)
        IP=IPARTC(I)
-       PARTSAV1_PON(IP)=PARTSAV1_PON(IP)+ QUATRE * MSC(I)
+       PARTSAV1_PON(IP)=PARTSAV1_PON(IP)+ FOUR * MSC(I)
       ENDDO
 
 C NUMELT
@@ -650,7 +650,7 @@ C
       DO J=1,NUMELT
        I=INDEX(J)
        IP=IPARTT(I)
-       PARTSAV1_PON(IP)=PARTSAV1_PON(IP)+ DEUX * MST(I)
+       PARTSAV1_PON(IP)=PARTSAV1_PON(IP)+ TWO * MST(I)
       ENDDO
       
 C NUMELP
@@ -662,7 +662,7 @@ C
       DO J=1,NUMELP
        I=INDEX(J)
        IP=IPARTP(I)
-       PARTSAV1_PON(IP)=PARTSAV1_PON(IP)+ DEUX * MSP(I)
+       PARTSAV1_PON(IP)=PARTSAV1_PON(IP)+ TWO * MSP(I)
       ENDDO
       
 C NUMELR

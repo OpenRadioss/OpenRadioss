@@ -54,8 +54,8 @@ C     REAL ou REAL*8
      .   DTX, DTY, GAMA, P, V, S, ROT, VMIN, AL      
 C-----------------------------------------------
          VMIN = EM8
-      DTX=UN
-      DTY=UN
+      DTX=ONE
+      DTY=ONE
       DO100 IG=1,NUMGEO
       ITYP=IGEO(11,IG)
       IF(ITYP.NE.7) GOTO100
@@ -65,9 +65,9 @@ C-----------------------------------------------
       S=GEO(35,IG)
       ROT=GEO(36,IG)
       IF(V.GT.VMIN)
-     *   DTX=MAX(SQRT(UN+DT2**2*GAMA*P*S/V/ROT),DTX)
+     *   DTX=MAX(SQRT(ONE+DT2**2*GAMA*P*S/V/ROT),DTX)
       AL=GEO(14,IG)
-      DTY=MIN(SQRT(UN+AL)-AL,DTY)
+      DTY=MIN(SQRT(ONE+AL)-AL,DTY)
  100  CONTINUE
 C
       DT2=DT2*DTY/DTX

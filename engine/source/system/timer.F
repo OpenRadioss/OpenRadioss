@@ -2107,7 +2107,7 @@ Cow
 Cow preparation de la ponderation
 Cow
       IF (TPSENG.EQ.ZERO) THEN
-         TPPOND = UN
+         TPPOND = ONE
       ELSE
          TPPOND = TPSENG/TPSREF
       ENDIF

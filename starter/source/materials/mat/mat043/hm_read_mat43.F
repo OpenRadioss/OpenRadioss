@@ -166,13 +166,13 @@ C-----------------------------------------------
      .               C1=TITR)
       ENDIF
 C
-      IF(R0 .EQ.ZERO) R0    = UN
-      IF(R45.EQ.ZERO) R45   = UN
-      IF(R90.EQ.ZERO) R90   = UN
+      IF(R0 .EQ.ZERO) R0    = ONE
+      IF(R45.EQ.ZERO) R45   = ONE
+      IF(R90.EQ.ZERO) R90   = ONE
       IF(EPSR1.EQ.ZERO)EPSR1=INFINITY
-      IF(EPSR2.EQ.ZERO)EPSR2=DEUX*INFINITY
+      IF(EPSR2.EQ.ZERO)EPSR2=TWO*INFINITY
       DO I=1,NRATE
-       IF(YFAC(I).EQ.ZERO) YFAC(I)=UN * FAC_PRES
+       IF(YFAC(I).EQ.ZERO) YFAC(I)=ONE * FAC_PRES
       ENDDO
 C
       !----------------------------------------------------------
@@ -195,7 +195,7 @@ C
        NUM_FUNC=2
        IFUNC(2)=IFUNC(1)
        RATE(1)=ZERO
-       RATE(2)=UN
+       RATE(2)=ONE
        YFAC(2)=YFAC(1)
       ELSEIF (RATE(1) .EQ. 0) THEN
        NUM_FUNC=NRATE
@@ -211,23 +211,23 @@ C
 C
       UPARAM(1)=NUM_FUNC
       UPARAM(2)=E
-      UPARAM(3)=E/(UN-NU*NU)
+      UPARAM(3)=E/(ONE-NU*NU)
       UPARAM(4)=NU*UPARAM(3)
-      G=UNDEMI*E/(UN+NU)
+      G=HALF*E/(ONE+NU)
       UPARAM(5)=G
       UPARAM(6)=NU
-      R=(R0+R45+R45+R90)*QUART
-      H=R/(UN+R)
+      R=(R0+R45+R45+R90)*FOURTH
+      H=R/(ONE+R)
 C-----------A1,A2,A3,A12--------
-      UPARAM(7)=H*(UN+UN/R0)
-      UPARAM(8)=H*(UN+UN/R90)
-      UPARAM(9)=H*DEUX
-      UPARAM(10)=(R45*DEUX + UN)*(UPARAM(7)+UPARAM(8)-UPARAM(9))
+      UPARAM(7)=H*(ONE+ONE/R0)
+      UPARAM(8)=H*(ONE+ONE/R90)
+      UPARAM(9)=H*TWO
+      UPARAM(10)=(R45*TWO + ONE)*(UPARAM(7)+UPARAM(8)-UPARAM(9))
       IF (IR0 > 0) THEN
        UPARAM(8)=UPARAM(8)/UPARAM(7)
        UPARAM(9)=UPARAM(9)/UPARAM(7)
        UPARAM(10)=UPARAM(10)/UPARAM(7)
-       UPARAM(7)=UN
+       UPARAM(7)=ONE
       END IF
       NPS=10
       DO J=1,NUM_FUNC
@@ -239,12 +239,12 @@ C-----------A1,A2,A3,A12--------
       UPARAM(NPS+2*NUM_FUNC+1)=EPSMAX
       UPARAM(NPS+2*NUM_FUNC+2)=EPSR1
       UPARAM(NPS+2*NUM_FUNC+3)=EPSR2
-      UPARAM(NPS+2*NUM_FUNC+4)=DEUX*G
-      UPARAM(NPS+2*NUM_FUNC+5)=TROIS*G
-      C1=E/TROIS/(UN - DEUX*NU)
+      UPARAM(NPS+2*NUM_FUNC+4)=TWO*G
+      UPARAM(NPS+2*NUM_FUNC+5)=THREE*G
+      C1=E/THREE/(ONE - TWO*NU)
       UPARAM(NPS+2*NUM_FUNC+6)=C1
-      UPARAM(NPS+2*NUM_FUNC+7)=C1+ QTHIRD*G
-      IF (FISOKIN>UN.OR.FISOKIN<ZERO) THEN
+      UPARAM(NPS+2*NUM_FUNC+7)=C1+ FOUR_OVER_3*G
+      IF (FISOKIN>ONE.OR.FISOKIN<ZERO) THEN
         CALL ANCMSG(MSGID=913,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,

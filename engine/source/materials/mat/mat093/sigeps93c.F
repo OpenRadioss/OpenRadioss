@@ -152,10 +152,10 @@ C
       ! Recovering internal variables
       DO I=1,NEL
         ! Checking deletion flag value
-        IF (OFF(I) < UN)   OFF(I) = QCINQ*OFF(I)
+        IF (OFF(I) < ONE)   OFF(I) = FOUR_OVER_5*OFF(I)
         IF (OFF(I) < EM01) OFF(I) = ZERO
         ! Hourglass coefficient
-        ETSE(I) = UN
+        ETSE(I) = ONE
         H(I)    = ZERO
         ! Plastic strain increment
         DPLA(I) = ZERO
@@ -174,10 +174,10 @@ C
             DEVE1     = EPSPXX(I) - DAV
             DEVE2     = EPSPYY(I) - DAV
             DEVE3     = - DAV
-            DEVE4     = UNDEMI*EPSPXY(I)
-            EPSP(I)   = UNDEMI*(DEVE1**2 + DEVE2**2 + DEVE3**2) + DEVE4**2
-            EPSP(I)   = SQRT(TROIS*EPSP(I))/TDEMI             
-            EPSP(I)   = ASRATE*EPSP(I) + (UN - ASRATE)*UVAR(I,1)
+            DEVE4     = HALF*EPSPXY(I)
+            EPSP(I)   = HALF*(DEVE1**2 + DEVE2**2 + DEVE3**2) + DEVE4**2
+            EPSP(I)   = SQRT(THREE*EPSP(I))/THREE_HALF             
+            EPSP(I)   = ASRATE*EPSP(I) + (ONE - ASRATE)*UVAR(I,1)
             UVAR(I,1) = EPSP(I)  
           ENDIF
           ! Looking for corresponding rate in the tables
@@ -193,8 +193,8 @@ C
       IF (ITAB == 0) THEN
         DO I = 1,NEL
           YLD(I) = SIGY 
-     .           + QR1*(UN - EXP(-CR1*PLA(I)))
-     .           + QR2*(UN - EXP(-CR2*PLA(I))) 
+     .           + QR1*(ONE - EXP(-CR1*PLA(I)))
+     .           + QR2*(ONE - EXP(-CR2*PLA(I))) 
           H(I) = QR1*CR1*EXP(-CR1*PLA(I)) + QR2*CR2*EXP(-CR2*PLA(I))
         ENDDO 
       ELSE
@@ -264,7 +264,7 @@ c
 C
         ! Hill equivalent stress
         SIGHL(I)  = (FF + HH)*SIGNYY(I)**2 + (GG + HH)*SIGNXX(I)**2
-     .         - DEUX*HH*SIGNXX(I)*SIGNYY(I) + DEUX*NN*SIGNXY(I)**2        
+     .         - TWO*HH*SIGNXX(I)*SIGNYY(I) + TWO*NN*SIGNXY(I)**2        
         SIGHL(I)  = SQRT(MAX(ZERO,SIGHL(I)))
 C
       ENDDO
@@ -277,7 +277,7 @@ c
       NINDX = 0
       INDEX = 0
       DO I=1,NEL         
-        IF ((PHI(I)>ZERO).AND.(OFF(I) == UN)) THEN
+        IF ((PHI(I)>ZERO).AND.(OFF(I) == ONE)) THEN
           NINDX = NINDX+1
           INDEX(NINDX) = I
         ENDIF
@@ -311,7 +311,7 @@ c
           !------------------------------------------------------------- 
           NORMXX = (GG*SIGNXX(I) + HH*(SIGNXX(I)-SIGNYY(I)))/(MAX(SIGHL(I),EM20))
           NORMYY = (FF*SIGNYY(I) + HH*(SIGNYY(I)-SIGNXX(I)))/(MAX(SIGHL(I),EM20))
-          NORMXY = DEUX*NN*SIGNXY(I)/(MAX(SIGHL(I),EM20))
+          NORMXY = TWO*NN*SIGNXY(I)/(MAX(SIGHL(I),EM20))
 c          
           ! 2 - Computation of DPHI_DLAMBDA
           !---------------------------------------------------------
@@ -363,7 +363,7 @@ c
 c
           ! Update Hill equivalent stress          
           SIGHL(I) = (FF+HH)*SIGNYY(I)**2 + (GG+HH)*SIGNXX(I)**2
-     .             - DEUX*HH*SIGNXX(I)*SIGNYY(I) + DEUX*NN*SIGNXY(I)**2    
+     .             - TWO*HH*SIGNXX(I)*SIGNYY(I) + TWO*NN*SIGNXY(I)**2    
           SIGHL(I) = SQRT(MAX(ZERO,SIGHL(I)))   
 c      
           ! Transverse strain update
@@ -373,8 +373,8 @@ c
           IF (ITAB == 0) THEN
             ! Update the hardening yield stress
             YLD(I) = SIGY 
-     .             + QR1*(UN - EXP(-CR1*PLA(I)))
-     .             + QR2*(UN - EXP(-CR2*PLA(I))) 
+     .             + QR1*(ONE - EXP(-CR1*PLA(I)))
+     .             + QR2*(ONE - EXP(-CR2*PLA(I))) 
             H(I)   = QR1*CR1*EXP(-CR1*PLA(I)) + QR2*CR2*EXP(-CR2*PLA(I))     
 c
             ! Update yield function value
@@ -458,16 +458,16 @@ C
           HARDM(I) = H(I)
           ETSE(I)  = H(I) / (H(I) + MAX(E11,E22))
         ELSE
-          ETSE(I)  = UN
+          ETSE(I)  = ONE
           HARDM(I) = ZERO
         ENDIF
         ! Computation of the thickness variation 
-        INVD33     = UN/MAX(EM20,D33)
+        INVD33     = ONE/MAX(EM20,D33)
         DEELZZ(I)  = -(NU13/E11)*(SIGNXX(I)-SIGOXX(I)) -(NU23/E22)*(SIGNYY(I)-SIGOYY(I)) 
         IF (INLOC > 0) THEN 
           NORMXX = (GG*SIGNXX(I) + HH*(SIGNXX(I)-SIGNYY(I)))/(MAX(SIGHL(I),EM20))
           NORMYY = (FF*SIGNYY(I) + HH*(SIGNYY(I)-SIGNXX(I)))/(MAX(SIGHL(I),EM20))
-          NORMXY = DEUX*NN*SIGNXY(I)/(MAX(SIGHL(I),EM20))
+          NORMXY = TWO*NN*SIGNXY(I)/(MAX(SIGHL(I),EM20))
           DPZZ(I) = -MAX(DPLANL(I),ZERO)*(NORMXX + NORMYY)
         ENDIF
         DEZZ(I)    = DEELZZ(I) + DPZZ(I)
@@ -475,7 +475,7 @@ C
         ! Plastic strain-rate filtering (if needed)
         IF ((ITAB == 1).AND.(MFUNC > 1).AND.(VP == 1)) THEN 
           DPDT      = DPLA(I)/MAX(EM20,TIMESTEP(I))
-          UVAR(I,1) = ASRATE * DPDT + (UN - ASRATE) * UVAR(I,1)
+          UVAR(I,1) = ASRATE * DPDT + (ONE - ASRATE) * UVAR(I,1)
           EPSP(I)   = UVAR(I,1)
         ENDIF
       ENDDO 

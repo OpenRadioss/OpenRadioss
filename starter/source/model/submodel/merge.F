@@ -97,7 +97,7 @@ C
         DBUC = MAX(DBUC,CMERGE(N))  
       ENDDO    
 C 
-      DBUC = DEUX*DBUC
+      DBUC = TWO*DBUC
       EPS=EM3*DBUC 
       XMIN=EP30
       XMAX=-EP30

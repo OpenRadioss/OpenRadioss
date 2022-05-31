@@ -100,7 +100,7 @@ Cf small3b        IF(OFF(I).LT.1.)OFFG(I) = OFF(I)
 C
 C     because 2*Mnodal = 2*Melement/8
       DO I=LFT,LLT
-        STI(I)=QUART*STI(I)
+        STI(I)=FOURTH*STI(I)
       END DO
 C
       DO 100 I=LFT,LLT

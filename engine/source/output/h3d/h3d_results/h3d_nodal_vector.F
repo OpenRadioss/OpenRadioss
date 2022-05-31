@@ -307,7 +307,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 c      IF (KEYWORD == 'FRES') THEN
 c       IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
-c         FAC=UN
+c         FAC=ONE
 c         IF (IMPL_S.GT.0.AND.IDYNA.EQ.0)FAC=ZERO 
 c          DO J=1,3
 c          DO N=1,NUMNOD

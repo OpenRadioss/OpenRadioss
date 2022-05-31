@@ -95,7 +95,7 @@ C
         C1(I) =  Z43*X42 - Z42*X43
         D1(I) =  X43*Y42 - X42*Y43
 C
-        VOL(I)= (X41*B1(I) + Y41*C1(I) + Z41*D1(I))*UNSIX
+        VOL(I)= (X41*B1(I) + Y41*C1(I) + Z41*D1(I))*ONE_OVER_6
       ENDDO
 C
       RETURN

@@ -281,9 +281,9 @@ C
 C      IGTYP=NINT(GEO(12,PID))
 C      CALL GET_GAMA(MTN,NEL,NBGAMA,JCVT,PM,IXS(1,NF1),IGTYP)
       DO I=LFT,LLT
-        NU(I)=MIN(UNDEMI,PM(21,MXT(I)))
+        NU(I)=MIN(HALF,PM(21,MXT(I)))
         C1 =PM(32,MXT(I))
-        E0(I) =TROIS*(UN-DEUX*NU(I))*C1
+        E0(I) =THREE*(ONE-TWO*NU(I))*C1
 C        USB(I)=EM01/C1
         DELTAX(I)=EP30
 	      	IDEG(I)=0
@@ -318,11 +318,11 @@ c
        CALL S8ZSIGP3(LFT  ,LLT       ,GBUF%SIG,E0  ,GBUF%PLA,
      2               FAC  ,GBUF%G_PLA,NEL     )
        DO I=LFT,LLT
-        NU1(I)=NU(I)+(UNDEMI-NU(I))*FAC(I)
+        NU1(I)=NU(I)+(HALF-NU(I))*FAC(I)
        ENDDO
       ELSEIF (JHBE==17.AND.ICPG==1.AND.ISMSTR==10) THEN
        DO I=LFT,LLT
-        FAC(I)=DEUX*NU(I)
+        FAC(I)=TWO*NU(I)
         NU1(I)=NU(I)
        ENDDO
       ELSE
@@ -1011,13 +1011,13 @@ C
         ELSEIF (ICP.EQ.2.AND.JHBE.EQ.17.OR.IFP==1) THEN
 C-----------constant pressure-----  
          DO I=LFT,LLT
-          HH1(1,I)=HH(2,I)*(UN-FAC(I))-DTIERS*HH(2,I)*FAC(I)
+          HH1(1,I)=HH(2,I)*(ONE-FAC(I))-TWO_THIRD*HH(2,I)*FAC(I)
           HH1(2,I) = HH(2,I)
          ENDDO
         ELSEIF (ICP == 1) THEN
 C-----------constant pressure-----  
          DO I=LFT,LLT
-          HH1(1,I)=-DTIERS*HH(2,I)
+          HH1(1,I)=-TWO_THIRD*HH(2,I)
           HH1(2,I) = HH(2,I)
          ENDDO
         END IF !(IPREDU == 0) THEN
@@ -1086,7 +1086,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
        IF (ICP.EQ.1) THEN
         DO I=LFT,LLT
-         TV=(HH(1,I)+DTIERS*HH(2,I))*VOL(I)
+         TV=(HH(1,I)+TWO_THIRD*HH(2,I))*VOL(I)
          TT=TV
          DD(1,1,I)=TT
          DD(2,2,I)=TT
@@ -1100,7 +1100,7 @@ C-----------------------------------------------
         ENDDO
        ELSE
         DO I=LFT,LLT
-         TV=(HH(1,I)*FAC(I)+DTIERS*HH(2,I)*(UN-FAC(I)))*VOL(I)
+         TV=(HH(1,I)*FAC(I)+TWO_THIRD*HH(2,I)*(ONE-FAC(I)))*VOL(I)
          TT=TV
          DD(1,1,I)=TT
          DD(2,2,I)=TT

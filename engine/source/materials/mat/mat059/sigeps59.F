@@ -119,7 +119,7 @@ C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
       E     = UPARAM(1) 
       G     = UPARAM(2)
-      G3    = G*TROIS
+      G3    = G*THREE
       NRATE = NINT(UPARAM(3))
       IFILTR= NINT(UPARAM(4))
       FCUT  = UPARAM(5)
@@ -166,7 +166,7 @@ c
         DTB = (DTMINS/DTFACS)**2
         DO IEL=1,NEL                                                 
 c         omega = sqrt(2k/2*dmels), dt=2/omega, 2*dmels=dt**2 * 2k / 4
-          DMELS(IEL) = MAX(DMELS(IEL),UNDEMI*DTB*STF(IEL)*OFF(IEL))
+          DMELS(IEL) = MAX(DMELS(IEL),HALF*DTB*STF(IEL)*OFF(IEL))
         ENDDO                                                        
       END IF
 c---    
@@ -244,7 +244,7 @@ c-------
           DSIG = SVM - YLD(1,IEL)
           IF (DSIG > ZERO) THEN
             DEPLA = DSIG / MAX((E + HC(1,IEL)),EM20)
-            R  = MIN(UN, ((YLD(1,IEL)+DEPLA*HC(1,IEL))/MAX(EM20,SVM)))                                   
+            R  = MIN(ONE, ((YLD(1,IEL)+DEPLA*HC(1,IEL))/MAX(EM20,SVM)))                                   
             EPLASN(IEL) = EPLASN(IEL) + DEPLA*OFF(IEL)
             SIGNZZ(IEL) = SIGNZZ(IEL)*R                   
           ENDIF
@@ -257,7 +257,7 @@ c-------
           DSIG = SVM - YLD(2,IEL)
           IF (DSIG > ZERO) THEN
             DEPLA = DSIG / MAX((G + HC(2,IEL)),EM20)
-            R  = MIN(UN, ((YLD(2,IEL)+DEPLA*HC(2,IEL))/MAX(EM20,SVM)))
+            R  = MIN(ONE, ((YLD(2,IEL)+DEPLA*HC(2,IEL))/MAX(EM20,SVM)))
             EPLAST(IEL) = EPLAST(IEL) + DEPLA*OFF(IEL)
             SIGNYZ(IEL) = SIGNYZ(IEL)*R               
             SIGNZX(IEL) = SIGNZX(IEL)*R                   

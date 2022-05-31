@@ -106,9 +106,9 @@ C     SHEAR MODULUS & YIELD
 C----------------------------
       DO I=LFT,LLT
         QA = P(I)*DF(I)**THIRD
-        QB = UN - CH*(THETA(I)-T0)
+        QB = ONE - CH*(THETA(I)-T0)
         IF(EMELT(I).LE.ZERO .OR. CF.LE.ZERO) THEN
-           QC = UN
+           QC = ONE
         ELSEIF(ESPE(I).GE.EMELT(I)) THEN
            QC = ZERO
         ELSE
@@ -119,9 +119,9 @@ C----------------------------
         IF(EPXE(I).LE.ZERO) THEN
           QE = SIG0
         ELSEIF(EPXE(I).GT.EPMX) THEN
-          QE = SIG0 * ((UN + CB*EPMX)**CN)
+          QE = SIG0 * ((ONE + CB*EPMX)**CN)
         ELSE
-          QE = SIG0 * ((UN + CB*EPXE(I))**CN)
+          QE = SIG0 * ((ONE + CB*EPXE(I))**CN)
         ENDIF       
         YLD(I) = MIN(SIGMX, QE) * QD(I)       
       ENDDO
@@ -130,7 +130,7 @@ C     DEVIATORIC STRESS ESTIMATE
 C--------------------------------
       DO I=LFT,LLT
         G1(I) = DT1*G(I)*OFF(I)
-        G2(I) = DEUX*G1(I)*OFF(I)
+        G2(I) = TWO*G1(I)*OFF(I)
         SIG(I,1)=SIG(I,1)+P(I)+G2(I)*(D1(I)+DAV(I))
         SIG(I,2)=SIG(I,2)+P(I)+G2(I)*(D2(I)+DAV(I))
         SIG(I,3)=SIG(I,3)+P(I)+G2(I)*(D3(I)+DAV(I))
@@ -140,16 +140,16 @@ C--------------------------------
       ENDDO
 C---     dP/dRHO
       DO I=LFT,LLT
-        DPDM(I) = DPDM(I) + QTHIRD*G(I)
+        DPDM(I) = DPDM(I) + FOUR_OVER_3*G(I)
         CXX(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       ENDDO
 C
       DO I=LFT,LLT
         EPD(I)=OFF(I)*MAX(ABS(D1(I)),   ABS(D2(I)),   ABS(D3(I)),
-     .      UNDEMI*ABS(D4(I)),UNDEMI*ABS(D5(I)),UNDEMI*ABS(D6(I)))
-        AJ2(I)=UNDEMI*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)
+     .      HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))
+        AJ2(I)=HALF*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)
      .                +SIG(I,4)**2+SIG(I,5)**2+SIG(I,6)**2
-        AJ2(I)=SQRT(TROIS*AJ2(I))
+        AJ2(I)=SQRT(THREE*AJ2(I))
       ENDDO
 C---
       DO I=LFT,LLT
@@ -164,16 +164,16 @@ C---      Melting
 C---      Hardening rule
           IF(CN.GE.1) THEN
             QH(I)= QD(I)*SIG0*CB*CN
-     .           * ((UN + CB*EPXE(I))**(CN-UN))
+     .           * ((ONE + CB*EPXE(I))**(CN-ONE))
           ELSEIF(EPXE(I).GT.ZERO)THEN
             QH(I)= QD(I)*SIG0*CB*CN
-     .           / ((UN + CB*EPXE(I))**(UN-CN))
+     .           / ((ONE + CB*EPXE(I))**(ONE-CN))
           ELSE
             QH(I)=ZERO
           ENDIF
 C---      Radial return
           IF(AJ2(I).LE.YLD(I)) THEN
-            SCALE(I)=UN
+            SCALE(I)=ONE
           ELSEIF(AJ2(I).NE.ZERO) THEN
             SCALE(I)=YLD(I)/AJ2(I)
           ELSE
@@ -184,7 +184,7 @@ C---      Radial return
 C---    Radial return
       DO I=LFT,LLT
 C---    plastic strain increment.
-        DPLA(I)=(UN -SCALE(I))*AJ2(I)/MAX((TROIS*G(I)+QH(I)),EM15)
+        DPLA(I)=(ONE -SCALE(I))*AJ2(I)/MAX((THREE*G(I)+QH(I)),EM15)
 C---    actual yeld stress.
         YLD(I)  =YLD(I)+DPLA(I)*QH(I)
         SIG(I,1)=SCALE(I)*SIG(I,1)

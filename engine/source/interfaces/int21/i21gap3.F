@@ -68,7 +68,7 @@ C------------------------------------
       
       IF(IGAP.GE.2)THEN
        DO I=NSNF,NSNL
-        GAP_S(I) = MAX(UNDEMI*GAPSCALE*(THKNOD(NSV(I))-THKNOD0(I))
+        GAP_S(I) = MAX(HALF*GAPSCALE*(THKNOD(NSV(I))-THKNOD0(I))
      .                                            +GAP_S0(I),ZERO)
        ENDDO
       ENDIF
@@ -97,7 +97,7 @@ C gap_s/=0 <=> node is still connected through non deleted shells
         IF( TZINF-GAPSUPL <= ZERO)THEN
 C assure le retri et remet la marge initiale (on a forcement depth  <= gapsupl)
           TZINF= GAPSUPL+MARGE
-          DIST =-UN
+          DIST =-ONE
         END IF
 #include "lockoff.inc"
       ENDIF      

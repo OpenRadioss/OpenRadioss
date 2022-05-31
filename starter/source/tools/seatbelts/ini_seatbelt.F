@@ -267,7 +267,7 @@ C--           compatibility with random noise
                 DO J=1,NRAND
                   ALEA_MAX = MAX(ALEA_MAX,ALEA(J))
                 ENDDO 
-                TOLE_2 = MAX(TOLE_2,DIX*ALEA_MAX*ALEA_MAX)
+                TOLE_2 = MAX(TOLE_2,TEN*ALEA_MAX*ALEA_MAX)
               ENDIF
 
 C--           tolerance if nodes are very close to anchorage node
@@ -370,13 +370,13 @@ C
             NFRAM = SEATBELT_TAB(TAG_RES(J))%NFRAM
             IF ((NFRAM > 1).AND.(NB_SHELL==4)) THEN
 C--           spring is on the edge of the 2D belt
-              GBUF%FRAM_FACTOR(I) = UN/(NFRAM-1)
+              GBUF%FRAM_FACTOR(I) = ONE/(NFRAM-1)
             ELSEIF ((NFRAM > 1).AND.(NB_SHELL==2)) THEN
 C--           spring is inside the 2D belt
-              GBUF%FRAM_FACTOR(I) = UNDEMI/(NFRAM-1)
+              GBUF%FRAM_FACTOR(I) = HALF/(NFRAM-1)
             ELSE
 C--           1D seatbelt
-              GBUF%FRAM_FACTOR(I) = UN
+              GBUF%FRAM_FACTOR(I) = ONE
             ENDIF
 C
           ENDDO  

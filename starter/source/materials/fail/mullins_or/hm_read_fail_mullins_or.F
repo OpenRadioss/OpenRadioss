@@ -104,7 +104,7 @@ Card1--------------------------------------------------
       CALL HM_GET_FLOATV    ('BETA'       ,BETA      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV    ('COEFM'      ,COEFM     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C--------------------------------------------------
-      IF (COEFR ==  ZERO) COEFR = UN
+      IF (COEFR ==  ZERO) COEFR = ONE
 C--------------------------------------------------
        UPARAM(1)  = COEFR
        UPARAM(2)  = BETA

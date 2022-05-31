@@ -198,12 +198,12 @@ C----this will do only for QEPH and change also in CNCOEF!!!look at starter firs
         CALL GEPM_LC(JFT,JLT,MAT,PM,SHF,HM,HC)
         CALL CCTOGLOB(JFT,JLT,HM,HC,HMOR,DIR,NEL)
         DO I=JFT,JLT
-         HF(I,1)=UNDOUZE*HM(I,1)
-         HF(I,2)=UNDOUZE*HM(I,2)
-         HF(I,3)=UNDOUZE*HM(I,3)
-         HF(I,4)=UNDOUZE*HM(I,4)
-         HFOR(I,1)=UNDOUZE*HMOR(I,1)
-         HFOR(I,2)=UNDOUZE*HMOR(I,2)
+         HF(I,1)=ONE_OVER_12*HM(I,1)
+         HF(I,2)=ONE_OVER_12*HM(I,2)
+         HF(I,3)=ONE_OVER_12*HM(I,3)
+         HF(I,4)=ONE_OVER_12*HM(I,4)
+         HFOR(I,1)=ONE_OVER_12*HMOR(I,1)
+         HFOR(I,2)=ONE_OVER_12*HMOR(I,2)
          HZ(I)= MAX(HF(I,1),HF(I,2),HF(I,4))*KZ_TOL
         ENDDO
        ELSEIF (MTN.EQ.15.OR.MTN.EQ.25) THEN
@@ -211,12 +211,12 @@ C----this will do only for QEPH and change also in CNCOEF!!!look at starter firs
          CALL GEPM_LC(JFT,JLT,MAT,PM,SHF,HM,HC)
          CALL CCTOGLOB(JFT,JLT,HM,HC,HMOR,DIR,NEL)
          DO I=JFT,JLT
-          HF(I,1)=UNDOUZE*HM(I,1)
-          HF(I,2)=UNDOUZE*HM(I,2)
-          HF(I,3)=UNDOUZE*HM(I,3)
-          HF(I,4)=UNDOUZE*HM(I,4)
-          HFOR(I,1)=UNDOUZE*HMOR(I,1)
-          HFOR(I,2)=UNDOUZE*HMOR(I,2)
+          HF(I,1)=ONE_OVER_12*HM(I,1)
+          HF(I,2)=ONE_OVER_12*HM(I,2)
+          HF(I,3)=ONE_OVER_12*HM(I,3)
+          HF(I,4)=ONE_OVER_12*HM(I,4)
+          HFOR(I,1)=ONE_OVER_12*HMOR(I,1)
+          HFOR(I,2)=ONE_OVER_12*HMOR(I,2)
           HZ(I)= MAX(HF(I,1),HF(I,2),HF(I,4))*KZ_TOL
          ENDDO
         ELSEIF(IGTYP == 10.OR.IGTYP == 11.OR.IGTYP == 17.OR.
@@ -348,10 +348,10 @@ C
          HM(I,2)=A11(I)
          HM(I,3)=A12(I)
          HM(I,4)=G(I)
-         HF(I,1)=UNDOUZE*HM(I,1)
-         HF(I,2)=UNDOUZE*HM(I,2)
-         HF(I,3)=UNDOUZE*HM(I,3)
-         HF(I,4)=UNDOUZE*HM(I,4)
+         HF(I,1)=ONE_OVER_12*HM(I,1)
+         HF(I,2)=ONE_OVER_12*HM(I,2)
+         HF(I,3)=ONE_OVER_12*HM(I,3)
+         HF(I,4)=ONE_OVER_12*HM(I,4)
          HC(I,1)=GS(I)
          HC(I,2)=GS(I)
          HZ(I)= HF(I,1)*KZ_TOL
@@ -359,7 +359,7 @@ C
        END IF !(MTN == 27) THEN
       ENDIF
        IF (IDRIL.GT.0) THEN
-          FACG = COEF*MIN(UN,KZ_TOL*2000)
+          FACG = COEF*MIN(ONE,KZ_TOL*2000)
          DO I=JFT,JLT
 C-------allows changing module by KZ_TOL----
           HZ(I)= G(I)*FACG
@@ -413,14 +413,14 @@ C-----------------------------------------------
        MN2(I)= MN(I)*MN(I)
       ENDDO
       DO I=JFT,JLT
-       T1 = DEUX*MN2(I)*HM(I,3)+QUATRE*MN2(I)*HM(I,4)
+       T1 = TWO*MN2(I)*HM(I,3)+FOUR*MN2(I)*HM(I,4)
        CM(1)=M4(I)*HM(I,1)+N4(I)*HM(I,2)+T1
        CM(2)=N4(I)*HM(I,1)+M4(I)*HM(I,2)+T1
        T2 = MN2(I)*(HM(I,1)+HM(I,2))
-       CM(3)=T2+(M4(I)+N4(I))*HM(I,3)-QUATRE*MN2(I)*HM(I,4)
-       CM(4)=T2-DEUX*MN2(I)*(HM(I,3)+HM(I,4))+
+       CM(3)=T2+(M4(I)+N4(I))*HM(I,3)-FOUR*MN2(I)*HM(I,4)
+       CM(4)=T2-TWO*MN2(I)*(HM(I,3)+HM(I,4))+
      .        (M4(I)+N4(I))*HM(I,4)
-       T3 = MN(I)*(HM(I,3)+DEUX*HM(I,4))
+       T3 = MN(I)*(HM(I,3)+TWO*HM(I,4))
        HMOR(I,1)=MN(I)*(M2(I)*HM(I,1)-N2(I)*HM(I,2))+
      .        T3*(N2(I)-M2(I))
        HMOR(I,2)=MN(I)*(N2(I)*HM(I,1)-M2(I)*HM(I,2))+
@@ -476,7 +476,7 @@ C     REAL ou REAL*8
      .   G,A11,A12,E11,E22,NU12,G31,G23,A22
 C-----------------------------------------------
          MX  =MAT(JFT)
-         NU12=(UN-PM(35,MX)*PM(36,MX))
+         NU12=(ONE-PM(35,MX)*PM(36,MX))
          E11  =PM(33,MX)
          E22  =PM(34,MX)
          A11  =E11/NU12
@@ -645,7 +645,7 @@ C
       CALL GET_ETFAC_S(NEL,FAC,MTN)
         IPLAS =0
         DO I=JFT,JLT
-         IF(FAC(I) < UN ) IPLAS =1
+         IF(FAC(I) < ONE ) IPLAS =1
         ENDDO
 c ---  make the 0-th iteration always elastic
        IF(IPLAS==0 .OR. ITER_NL==0 ) RETURN
@@ -689,16 +689,16 @@ c        IS = IS4(IPG)
 C-------------tag plastified elements->using fac(I)----
 C------------still elastic-----
        DO I=JFT,JLT
-        IF (FAC(I)==UN ) THEN
+        IF (FAC(I)==ONE ) THEN
          HM(I,1)=A11
          HM(I,2)=A11
          HM(I,3)=A12
          HM(I,4)=G
-         HF(I,1)=UNDOUZE*HM(I,1)
-         HF(I,2)=UNDOUZE*HM(I,2)
-         HF(I,3)=UNDOUZE*HM(I,3)
-         HF(I,4)=UNDOUZE*HM(I,4)
-        END IF !(FAC(I)==UN ) THEN
+         HF(I,1)=ONE_OVER_12*HM(I,1)
+         HF(I,2)=ONE_OVER_12*HM(I,2)
+         HF(I,3)=ONE_OVER_12*HM(I,3)
+         HF(I,4)=ONE_OVER_12*HM(I,4)
+        END IF !(FAC(I)==ONE ) THEN
        ENDDO
 C-------------through thickness-----
        DO IT = 1 ,NPT
@@ -714,8 +714,8 @@ c ...... SIG contains normalized deviatoric stresses ...
            SIG(I,3)= LBUF%SIGE(J+3)
            HK(I)= LBUF%SIGE(J+4)
            HH(I)= LBUF%SIGE(J+5)
-           DHK(I)= DTIERS*HK(I)
-           DHH(I)= DTIERS*HH(I)
+           DHK(I)= TWO_THIRD*HK(I)
+           DHH(I)= TWO_THIRD*HH(I)
           END IF
          ENDDO
         ELSE
@@ -726,33 +726,33 @@ c ...... SIG contains normalized deviatoric stresses ...
 C----calcul [C]^-1(<-B),[C]eff------------------
         DO I=JFT,JLT
          IF (GAMA(I) >ZERO) THEN
-          B11=UN/YM
+          B11=ONE/YM
           B12=-NU/YM
-          AA = GAMA(I)/(UN+GAMA(I)*DHK(I))
-          D11= B11+DTIERS*AA
-          D12= B12-TIERS*AA
-          DET=UN/(D11*D11-D12*D12)
+          AA = GAMA(I)/(ONE+GAMA(I)*DHK(I))
+          D11= B11+TWO_THIRD*AA
+          D12= B12-THIRD*AA
+          DET=ONE/(D11*D11-D12*D12)
           C11(I)=DET*D11
           C12(I)=-DET*D12
-          C33(I)=G/(UN+G*AA*DEUX)
+          C33(I)=G/(ONE+G*AA*TWO)
 C    calcul beta, {n}
-          F_Y2= SIG(I,1)*(DEUX*SIG(I,1)+SIG(I,2))+
-     .          SIG(I,2)*(SIG(I,1)+DEUX*SIG(I,2))+
-     .          UNDEMI*SIG(I,3)*SIG(I,3)
+          F_Y2= SIG(I,1)*(TWO*SIG(I,1)+SIG(I,2))+
+     .          SIG(I,2)*(SIG(I,1)+TWO*SIG(I,2))+
+     .          HALF*SIG(I,3)*SIG(I,3)
           SIGM(I,1)= C11(I)*SIG(I,1)+C12(I)*SIG(I,2)
           SIGM(I,2)= C12(I)*SIG(I,1)+C11(I)*SIG(I,2)
           SIGM(I,3)= C33(I)*SIG(I,3)
           SPS =SIG(I,1)*SIGM(I,1)+SIG(I,2)*SIGM(I,2)+SIG(I,3)*SIGM(I,3)
 C----------------BETA
-          THETA1=UN+DHK(I)*GAMA(I)
-          THETA2=UN-DHH(I)*GAMA(I)
+          THETA1=ONE+DHK(I)*GAMA(I)
+          THETA2=ONE-DHH(I)*GAMA(I)
           COEF=F_Y2*THETA1/THETA2
           BETA=COEF*(DHH(I)*THETA1+DHK(I)*THETA2)+SPS
 C----------factor norm----
           IF (ABS(BETA)<=EM20) THEN
            NORM_1(I)=ZERO
           ELSE
-           NORM_1(I)= UN/BETA
+           NORM_1(I)= ONE/BETA
           END IF
          END IF
         ENDDO
@@ -781,7 +781,7 @@ c    update HM,HMOR,HF,HFOR
           HFOR(I,1)=HFOR(I,1)+WM0*CEP13
           HFOR(I,2)=HFOR(I,2)+WM0*CEP23
           IF (IORTH == 0) IORTH = 1
-         ELSEIF (FAC(I)/= UN) THEN
+         ELSEIF (FAC(I)/= ONE) THEN
           HM(I,1)=HM(I,1)+WF0*A11
           HM(I,2)=HM(I,2)+WF0*A11
           HM(I,3)=HM(I,3)+WF0*A12
@@ -870,7 +870,7 @@ C       NEL = JLT-JFT+1
 C      CALL GET_ETFAC_S(NEL,FAC,MTN)
 C------elastic for the moment
        DO I=JFT,JLT
-         FAC(I)  = UN
+         FAC(I)  = ONE
        ENDDO
        IGTYP = IGEO(11,PID(1))
        IGMAT = IGEO(98,PID(1))
@@ -907,17 +907,17 @@ C ---isotrope--only--
          HM(I,2)=HM(I,1)
          HM(I,3)=A12(I)*FAC(I)
          HM(I,4)=G(I)*FAC(I)
-         HF(I,1)=UNDOUZE*HM(I,1)
-         HF(I,2)=UNDOUZE*HM(I,2)
-         HF(I,3)=UNDOUZE*HM(I,3)
-         HF(I,4)=UNDOUZE*HM(I,4)
+         HF(I,1)=ONE_OVER_12*HM(I,1)
+         HF(I,2)=ONE_OVER_12*HM(I,2)
+         HF(I,3)=ONE_OVER_12*HM(I,3)
+         HF(I,4)=ONE_OVER_12*HM(I,4)
 C-----------elastic only------------
-         HZ(I)= UNDOUZE*A11(I)*KZ_TOL
+         HZ(I)= ONE_OVER_12*A11(I)*KZ_TOL
        ENDDO
 C
        IF (IDRIL.GT.0) THEN
           COEF=EM01
-          FACG = COEF*MIN(UN,KZ_TOL*2000)
+          FACG = COEF*MIN(ONE,KZ_TOL*2000)
          DO I=JFT,JLT
 C-------elastic only; allows changing module by KZ_TOL----
           HZ(I)= G(I)*FACG
@@ -994,7 +994,7 @@ C
         DO M=JFT,JLT 
          EP=IPLAT(M)
          C2=VOL(EP)
-         DHZ(M)=HZ(EP)*QUART*C2
+         DHZ(M)=HZ(EP)*FOURTH*C2
         ENDDO
        END IF
 C       

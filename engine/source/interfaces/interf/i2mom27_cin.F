@@ -99,21 +99,21 @@ C--      Shape functions of triangles
           NIR = 3
           H(1) = CRST(1,II)
           H(2) = CRST(2,II)
-          H(3) = UN-CRST(1,II)-CRST(2,II)
+          H(3) = ONE-CRST(1,II)-CRST(2,II)
           H(4) = ZERO
           H2(1) = CSTS_BIS(1,II)
           H2(2) = CSTS_BIS(2,II)
-          H2(3) = UN-CSTS_BIS(1,II)-CSTS_BIS(2,II)
+          H2(3) = ONE-CSTS_BIS(1,II)-CSTS_BIS(2,II)
           H2(4) = ZERO
         ELSE
 C--       Shape functions of quadrangles
           NIR = 4
           SS=CRST(1,II)                                    
           ST=CRST(2,II)
-          SP=UN + SS                                       
-          SM=UN - SS                                       
-          TP=QUART*(UN + ST)                               
-          TM=QUART*(UN - ST)                               
+          SP=ONE + SS                                       
+          SM=ONE - SS                                       
+          TP=FOURTH*(ONE + ST)                               
+          TM=FOURTH*(ONE - ST)                               
           H(1)=TM*SM                                       
           H(2)=TM*SP                                       
           H(3)=TP*SP                                       
@@ -122,10 +122,10 @@ C--       Shape functions of quadrangles
 C         Additional form functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
           SS=CSTS_BIS(1,II)                                    
           ST=CSTS_BIS(2,II)
-          SP=UN + SS                                       
-          SM=UN - SS                                       
-          TP=QUART*(UN + ST)                               
-          TM=QUART*(UN - ST)                               
+          SP=ONE + SS                                       
+          SM=ONE - SS                                       
+          TP=FOURTH*(ONE + ST)                               
+          TM=FOURTH*(ONE - ST)                               
           H2(1)=TM*SM                                       
           H2(2)=TM*SP                                       
           H2(3)=TP*SP                                       
@@ -204,31 +204,31 @@ c
 C
         SS=CRST(1,II)                                    
         ST=CRST(2,II)
-        SP=UN + SS                                       
-        SM=UN - SS                                       
-        TP=QUART*(UN + ST)                               
-        TM=QUART*(UN - ST)
+        SP=ONE + SS                                       
+        SM=ONE - SS                                       
+        TP=FOURTH*(ONE + ST)                               
+        TM=FOURTH*(ONE - ST)
 C                               
         IF (IRECT(3,L) == IRECT(4,L)) THEN
 C--      Shape functions of triangles
           NIR = 3
           H(1) = CRST(1,II)
           H(2) = CRST(2,II)
-          H(3) = UN-CRST(1,II)-CRST(2,II)
+          H(3) = ONE-CRST(1,II)-CRST(2,II)
           H(4) = ZERO
           H2(1) = CSTS_BIS(1,II)
           H2(2) = CSTS_BIS(2,II)
-          H2(3) = UN-CSTS_BIS(1,II)-CSTS_BIS(2,II)
+          H2(3) = ONE-CSTS_BIS(1,II)-CSTS_BIS(2,II)
           H2(4) = ZERO
         ELSE
 C--       Shape functions of quadrangles
           NIR = 4
           SS=CRST(1,II)                                    
           ST=CRST(2,II)
-          SP=UN + SS                                       
-          SM=UN - SS                                       
-          TP=QUART*(UN + ST)                               
-          TM=QUART*(UN - ST)                               
+          SP=ONE + SS                                       
+          SM=ONE - SS                                       
+          TP=FOURTH*(ONE + ST)                               
+          TM=FOURTH*(ONE - ST)                               
           H(1)=TM*SM                                       
           H(2)=TM*SP                                       
           H(3)=TP*SP                                       
@@ -237,10 +237,10 @@ C--       Shape functions of quadrangles
 C         Additional form functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
           SS=CSTS_BIS(1,II)                                    
           ST=CSTS_BIS(2,II)
-          SP=UN + SS                                       
-          SM=UN - SS                                       
-          TP=QUART*(UN + ST)                               
-          TM=QUART*(UN - ST)                               
+          SP=ONE + SS                                       
+          SM=ONE - SS                                       
+          TP=FOURTH*(ONE + ST)                               
+          TM=FOURTH*(ONE - ST)                               
           H2(1)=TM*SM                                       
           H2(2)=TM*SP                                       
           H2(3)=TP*SP                                       

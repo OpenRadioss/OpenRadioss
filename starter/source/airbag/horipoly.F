@@ -72,7 +72,7 @@ C
             NNSP=NNSP+1
             NREF(1,NNSP)=IPOLY(6+I)
             NREF(2,NNSP)=IPOLY(6+II)
-            AREF(1,NNSP)=UN
+            AREF(1,NNSP)=ONE
             AREF(2,NNSP)=X1
             AREF(3,NNSP)=Y1
             AREF(4,NNSP)=Z1
@@ -408,8 +408,8 @@ C
                VVY=VZ1*VX2-VX1*VZ2
                VVZ=VX1*VY2-VY1*VX2
                SS1=NX*VVX+NY*VVY+NZ*VVZ
-               IF(SS < -UN) SS=-UN
-               IF(SS >  UN) SS= UN
+               IF(SS < -ONE) SS=-ONE
+               IF(SS >  ONE) SS= ONE
                IF (SS1.GE.ZERO) THEN
                   ALPHA=ALPHA+ACOS(SS)
                ELSE
@@ -417,7 +417,7 @@ C
                ENDIF
             ENDDO
 C
-            IF (ABS(ALPHA).GE.DEUX*PI) THEN
+            IF (ABS(ALPHA).GE.TWO*PI) THEN
 C---------------------------------------------------------------
 C Le premier point du polygone j est a l'interieur du polygone i
 C On teste tous les autres
@@ -464,15 +464,15 @@ C---------------------------------------------------------------
                      VVY=VZ1*VX2-VX1*VZ2
                      VVZ=VX1*VY2-VY1*VX2
                      SS1=NX*VVX+NY*VVY+NZ*VVZ
-                     IF(SS < -UN) SS=-UN
-                     IF(SS >  UN) SS= UN
+                     IF(SS < -ONE) SS=-ONE
+                     IF(SS >  ONE) SS= ONE
                      IF (SS1.GE.ZERO) THEN
                         ALPHA=ALPHA+ACOS(SS)
                      ELSE
                         ALPHA=ALPHA-ACOS(SS)
                      ENDIF
                   ENDDO
-                  IF (ABS(ALPHA).LT.DEUX*PI) IPOUT=1
+                  IF (ABS(ALPHA).LT.TWO*PI) IPOUT=1
                ENDDO
 C
                IF (IPOUT.EQ.1) CYCLE
@@ -523,7 +523,7 @@ C Point interieur polygone j
                   IF (XLOC(2,K).LT.YLMIN) YLMIN=XLOC(2,K)
                   IF (XLOC(2,K).GT.YLMAX) YLMAX=XLOC(2,K)
                ENDDO
-               YLSEC=UNDEMI*(YLMIN+YLMAX)
+               YLSEC=HALF*(YLMIN+YLMAX)
 C
                NSEC=0
                DO K=1,LENPOLY(J)
@@ -535,9 +535,9 @@ C
                   Y2=XLOC(2,KK)
                   IF (Y1-Y2.NE.ZERO) THEN
                      ALPHA=(YLSEC-Y2)/(Y1-Y2)
-                     IF (ALPHA.GE.ZERO.AND.ALPHA.LE.UN) THEN
+                     IF (ALPHA.GE.ZERO.AND.ALPHA.LE.ONE) THEN
                         NSEC=NSEC+1
-                        XSEC(NSEC)=ALPHA*X1+(UN-ALPHA)*X2
+                        XSEC(NSEC)=ALPHA*X1+(ONE-ALPHA)*X2
                      ENDIF
                   ELSE
                      IF (Y1.EQ.YLSEC) THEN
@@ -562,7 +562,7 @@ C
                   IF (XSEC(K).LT.XSMIN2) XSMIN2=XSEC(K)
                ENDDO
 C
-               XS=UNDEMI*(XSMIN1+XSMIN2)
+               XS=HALF*(XSMIN1+XSMIN2)
                YS=YLSEC
                PHOL(1,NHOL)=RPOLY(5,J)+XS*VX1+YS*VX2
                PHOL(2,NHOL)=RPOLY(6,J)+XS*VY1+YS*VY2

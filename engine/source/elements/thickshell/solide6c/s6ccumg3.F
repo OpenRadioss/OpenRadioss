@@ -105,11 +105,11 @@ C
         XXYZ2 = RTR(1)*RTR(6)*RTR(6)
         YYXZ2 = RTR(2)*RTR(5)*RTR(5)
         ZZXY2 = RTR(3)*RTR(4)*RTR(4)
-        DETA = ABC + DEUX*RTR(4)*RTR(5)*RTR(6)-XXYZ2-YYXZ2-ZZXY2
+        DETA = ABC + TWO*RTR(4)*RTR(5)*RTR(6)-XXYZ2-YYXZ2-ZZXY2
         IF (DETA.LT.EM20) THEN
-         DETA=UN
+         DETA=ONE
         ELSE
-         DETA=UN/DETA
+         DETA=ONE/DETA
         ENDIF
         DI(1) = (ABC-XXYZ2)*DETA/RTR(1)
         DI(2) = (ABC-YYXZ2)*DETA/RTR(2)

@@ -158,8 +158,8 @@ C-----------------------------
         JXY2 = JXY*JXY
         JYZ2 = JYZ*JYZ
         JXZ2 = JXZ*JXZ
-        DET  = JXX*JYY*JZZ-JXX*JYZ2-JYY*JXZ2-JZZ*JXY2-DEUX*JXY*JYZ*JXZ
-        DET  = UN / DET
+        DET  = JXX*JYY*JZZ-JXX*JYZ2-JYY*JXZ2-JZZ*JXY2-TWO*JXY*JYZ*JXZ
+        DET  = ONE / DET
         B1   = DET*(JZZ*JYY-JYZ2)
         B2   = DET*(JXX*JZZ-JXZ2)
         B3   = DET*(JYY*JXX-JXY2)
@@ -190,8 +190,8 @@ C
 C-----------------------------        
         IF (NFRE.EQ.0) THEN
 C---      Total condensation => direct solution + decondensation
-          USDT = UN / DT12
-          DDT  = UNDEMI * DT12
+          USDT = ONE / DT12
+          DDT  = HALF * DT12
           DO J=1,3
             VRM(J) = VRM(J) + ARM(J)*DT12
           ENDDO
@@ -319,8 +319,8 @@ C-----------------------------------------------
       my_real 
      .  XX,YY,ZZ,VX1,VX2,VX3,USDT,DDT,XM(3),VTM(3),VRM(3),ATM(3),ARM(3)
 C======================================================================|
-      USDT = UN / DT12
-      DDT  = UNDEMI *DT12 
+      USDT = ONE / DT12
+      DDT  = HALF *DT12 
       TNSL = 0
       IC = NCR
       DO IR = 1,NRBYLAG

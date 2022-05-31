@@ -83,7 +83,7 @@ C-----------------------------------------------
           MASS =INTSTAMP(NN)%MASS
           ALPHA=INTSTAMP(NN)%DAMP
           STF  =INTSTAMP(NN)%STF
-          C    =ALPHA*SQRT(QUATRE*MASS*STF)
+          C    =ALPHA*SQRT(FOUR*MASS*STF)
           CVIS(NN)=CVIS(NN)+C
           IF(INTDAMP/=0)THEN
             CVIS(INTDAMP)=CVIS(INTDAMP)+C
@@ -95,7 +95,7 @@ C-----------------------------------------------
      .              INTSTAMP(NN)%IN(3))
             STR  =INTSTAMP(NN)%STR
             ALPHA=INTSTAMP(NN)%DAMPR
-            C    =ALPHA*SQRT(QUATRE*INM*STR)
+            C    =ALPHA*SQRT(FOUR*INM*STR)
             CVISR(NN)=CVISR(NN)+C
             IF(INTDAMP/=0)THEN
               CVISR(INTDAMP)=CVISR(INTDAMP)+C
@@ -108,8 +108,8 @@ C-----------------------------------------------
           STF  =INTSTAMP(NN)%STF
           main =INTSTAMP(NN)%MSR
           IF(STF/=ZERO)THEN
-            ALPHA=CVIS(NN)/SQRT(QUATRE*MASS*STF)
-            STF  =STF*(SQRT(UN+ALPHA*ALPHA)+ALPHA)**2
+            ALPHA=CVIS(NN)/SQRT(FOUR*MASS*STF)
+            STF  =STF*(SQRT(ONE+ALPHA*ALPHA)+ALPHA)**2
             STIFN(MAIN)=STIFN(MAIN)+STF
           END IF
           IROT=INTSTAMP(NN)%IROT
@@ -119,8 +119,8 @@ C-----------------------------------------------
      .              INTSTAMP(NN)%IN(3))
             STR =INTSTAMP(NN)%STR
             IF(STR/=ZERO)THEN
-              ALPHA=CVISR(NN)/SQRT(QUATRE*INM*STR)
-              STR  =STR*(SQRT(UN+ALPHA*ALPHA)+ALPHA)**2
+              ALPHA=CVISR(NN)/SQRT(FOUR*INM*STR)
+              STR  =STR*(SQRT(ONE+ALPHA*ALPHA)+ALPHA)**2
               STIFR(MAIN)=STIFR(MAIN)+STR
             END IF
           END IF
@@ -135,7 +135,7 @@ C-----------------------------------------------
           MASS =INTSTAMP(NN)%MASS
           ALPHA=INTSTAMP(NN)%DAMP
           STF  =INTSTAMP(NN)%STF
-          C    =ALPHA*SQRT(QUATRE*MASS*STF)
+          C    =ALPHA*SQRT(FOUR*MASS*STF)
           CVIS(NN)=CVIS(NN)+C
           IF(INTDAMP/=0)THEN
             CVIS(INTDAMP)=CVIS(INTDAMP)+C
@@ -147,7 +147,7 @@ C-----------------------------------------------
      .              INTSTAMP(NN)%IN(3))
             STR  =INTSTAMP(NN)%STR
             ALPHA=INTSTAMP(NN)%DAMPR
-            C    =ALPHA*SQRT(QUATRE*INM*STR)
+            C    =ALPHA*SQRT(FOUR*INM*STR)
             CVISR(NN)=CVISR(NN)+C
             IF(INTDAMP/=0)THEN
               CVISR(INTDAMP)=CVISR(INTDAMP)+C
@@ -160,8 +160,8 @@ C-----------------------------------------------
             MASS=INTSTAMP(NN)%MASS
             STF =INTSTAMP(NN)%STF
             IF(STF/=ZERO)THEN
-              ALPHA=CVIS(NN)/SQRT(QUATRE*MASS*STF)
-              STF  =STF*(SQRT(UN+ALPHA*ALPHA)+ALPHA)**2
+              ALPHA=CVIS(NN)/SQRT(FOUR*MASS*STF)
+              STF  =STF*(SQRT(ONE+ALPHA*ALPHA)+ALPHA)**2
               STIFN(MAIN)=STIFN(MAIN)+STF
             END IF
             IROT=INTSTAMP(NN)%IROT
@@ -171,8 +171,8 @@ C-----------------------------------------------
      .                INTSTAMP(NN)%IN(3))
               STR =INTSTAMP(NN)%STR
               IF(STR/=ZERO)THEN
-             	ALPHA=CVISR(NN)/SQRT(QUATRE*INM*STR)
-             	STR  =STR*(SQRT(UN+ALPHA*ALPHA)+ALPHA)**2
+             	ALPHA=CVISR(NN)/SQRT(FOUR*INM*STR)
+             	STR  =STR*(SQRT(ONE+ALPHA*ALPHA)+ALPHA)**2
                 STIFR(MAIN)=STIFR(MAIN)+STR
               END IF
             END IF
@@ -183,8 +183,8 @@ C
             VIS  =CVIS(NN)
 C
 C stabilite des amortisseurs (masse augment e)::
-C DM=UNDEMI*C*DTMINS/DTFACS <=> 2*DM/C=DTMINS/DTFACS 
-            DIAG_SMS(MAIN)=DIAG_SMS(MAIN)+UNDEMI*VIS*DTMINS/DTFACS
+C DM=HALF*C*DTMINS/DTFACS <=> 2*DM/C=DTMINS/DTFACS 
+            DIAG_SMS(MAIN)=DIAG_SMS(MAIN)+HALF*VIS*DTMINS/DTFACS
 C
             IROT=INTSTAMP(NN)%IROT
             IF(IROT/=0)THEN
@@ -193,8 +193,8 @@ C
      .                INTSTAMP(NN)%IN(3))
               STR =INTSTAMP(NN)%STR
               IF(STR/=ZERO)THEN
-             	ALPHA=CVISR(NN)/SQRT(QUATRE*INM*STR)
-             	STR  =STR*(SQRT(UN+ALPHA*ALPHA)+ALPHA)**2
+             	ALPHA=CVISR(NN)/SQRT(FOUR*INM*STR)
+             	STR  =STR*(SQRT(ONE+ALPHA*ALPHA)+ALPHA)**2
                 STIFR(MAIN)=STIFR(MAIN)+STR
               END IF
             END IF

@@ -130,7 +130,7 @@ C
           DAMP=DX(I)/MAX(DMX(I),EM15)
           DAMM=DX(I)/MIN(DMN(I),-EM15)
           ANIM(II)=MAX(ANIM(II),DAMP,DAMM)
-          ANIM(II)=MIN(ANIM(II),UN)
+          ANIM(II)=MIN(ANIM(II),ONE)
         ENDDO
       ENDIF
 C-------------------------------------
@@ -332,7 +332,7 @@ C-------------------------------------
       IF(JECROU(6)==LLT)THEN
         DO I=LFT,LLT                                          
           FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
-          NP2  = (NPF(FUND+1)-NPF(FUND))*UNDEMI                       
+          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
           AN3Y0(I)= ZERO 
           DO  K=2,NP2                                                       
              K1=2*(K-2)                                                
@@ -368,7 +368,7 @@ C
         DO I=LFT,LLT
          IF(IFUNC(I).NE.0.AND.IECROU(I)== 6)THEN
           FUND = IFUNC2(I)                                                                  
-          NP2  = (NPF(FUND+1)-NPF(FUND))*UNDEMI                       
+          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
           AN3Y0(I)= ZERO 
           DO  K=2,NP2                                                       
              K1=2*(K-2)                                                
@@ -457,7 +457,7 @@ C-------------------------------------
       IF(JECROU(10)==LLT)THEN
         DO I=LFT,LLT                                          
           FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
-          NP2  = (NPF(FUND+1)-NPF(FUND))*UNDEMI                       
+          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
           AN3Y0(I)= ZERO
           DXELA(I)=DX(I)-DPX(I)
           IF (((DXELA(I) >= ZERO).OR.(FXEP(I) >= ZERO)).AND.(FUND > 0)) THEN
@@ -507,7 +507,7 @@ C--- Compression - perfectly plastic behavior
         DO I=LFT,LLT
          IF(IFUNC(I).NE.0.AND.IECROU(I)== 10)THEN
           FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
-          NP2  = (NPF(FUND+1)-NPF(FUND))*UNDEMI                       
+          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
           AN3Y0(I)= ZERO
           DXELA(I)=DX(I)-DPX(I)
           IF (((DXELA(I) >= ZERO).OR.(FXEP(I) >= ZERO)).AND.(FUND > 0)) THEN
@@ -1177,15 +1177,15 @@ c-------------------------
         ENDIF
 
         DO I=LFT,LLT
-          DVV  = MAX(UN,ABS(DVX(I)/D(I)))
+          DVV  = MAX(ONE,ABS(DVX(I)/D(I)))
           DFAC = AK(I) + B(I) * LOG(DVV) + EE(I)*GX(I)
           FX(I)= ( DFAC*FX(I) + XC(I)*DVX(I) + GF3(I)*GX2(I) ) *OFF(I)
-          E(I) = E(I) + (DX(I)-DXOLD(I)) * (FX(I)+FOLD(I)) * UNDEMI
+          E(I) = E(I) + (DX(I)-DXOLD(I)) * (FX(I)+FOLD(I)) * HALF
         ENDDO
       ELSE
         DO I=LFT,LLT
          FX(I)= FX(I)  *AK(I)* OFF(I)
-         E(I) = E(I) + (DX(I)-DXOLD(I)) * (FX(I)+FOLD(I)) * UNDEMI
+         E(I) = E(I) + (DX(I)-DXOLD(I)) * (FX(I)+FOLD(I)) * HALF
         ENDDO
       ENDIF
       DO I=LFT,LLT

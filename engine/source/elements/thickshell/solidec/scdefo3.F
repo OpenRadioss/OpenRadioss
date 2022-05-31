@@ -141,13 +141,13 @@ C 1 1 -1 -1 -1 -1 1 1
      .         -VY5(I)-VY6(I)+VY7(I)+VY8(I)
         H1VZ=VZ1(I)+VZ2(I)-VZ3(I)-VZ4(I)
      .         -VZ5(I)-VZ6(I)+VZ7(I)+VZ8(I)
-        HGX1(I)=UNHUIT*H1VX-
+        HGX1(I)=ONE_OVER_8*H1VX-
      .         (PX1H1(I)*VX17(I)+PX2H1(I)*VX28(I)+
      .          PX3H1(I)*VX35(I)+PX4H1(I)*VX46(I))
-        HGY1(I)=UNHUIT*H1VY-	
+        HGY1(I)=ONE_OVER_8*H1VY-	
      .         (PX1H1(I)*VY17(I)+PX2H1(I)*VY28(I)+
      .          PX3H1(I)*VY35(I)+PX4H1(I)*VY46(I))
-        HGZ1(I)=UNHUIT*H1VZ-
+        HGZ1(I)=ONE_OVER_8*H1VZ-
      .         (PX1H1(I)*VZ17(I)+PX2H1(I)*VZ28(I)+
      .          PX3H1(I)*VZ35(I)+PX4H1(I)*VZ46(I))
       ENDDO
@@ -159,18 +159,18 @@ C 1 -1 -1 1 -1 1 1 -1
      .         -VY5(I)+VY6(I)+VY7(I)-VY8(I)
         H2VZ=VZ1(I)-VZ2(I)-VZ3(I)+VZ4(I)
      .         -VZ5(I)+VZ6(I)+VZ7(I)-VZ8(I)
-        HGX2(I)=UNHUIT*H2VX-
+        HGX2(I)=ONE_OVER_8*H2VX-
      .         (PX1H2(I)*VX17(I)+PX2H2(I)*VX28(I)+
      .          PX3H2(I)*VX35(I)+PX4H2(I)*VX46(I))
-        HGY2(I)=UNHUIT*H2VY-
+        HGY2(I)=ONE_OVER_8*H2VY-
      .         (PX1H2(I)*VY17(I)+PX2H2(I)*VY28(I)+
      .          PX3H2(I)*VY35(I)+PX4H2(I)*VY46(I))
-        HGZ2(I)=UNHUIT*H2VZ-
+        HGZ2(I)=ONE_OVER_8*H2VZ-
      .         (PX1H2(I)*VZ17(I)+PX2H2(I)*VZ28(I)+
      .          PX3H2(I)*VZ35(I)+PX4H2(I)*VZ46(I))
       ENDDO
       DO I=LFT,LLT
-       NU1 = NU(I)/(UN - NU(I))
+       NU1 = NU(I)/(ONE - NU(I))
        X1VX =-RY0(I)*HGX1(I)
        X2VX =SY0(I)*HGX2(I)
        Y1VY =RX0(I)*HGY1(I)
@@ -244,9 +244,9 @@ C-----------------------------------------------
       my_real
      .  DV,DVZ,DDV,TOL,DT1D2,DT1D1
 c=======================================================================
-      TOL=UN-EM20
+      TOL=ONE-EM20
       DO I=LFT,LLT
-        VOLDP(I)=UNDEMI*WI*(VOLG(I)+VZL(I)*ZI)
+        VOLDP(I)=HALF*WI*(VOLG(I)+VZL(I)*ZI)
         VOL(I)=VOLDP(I)
 Cqz------due to the assumed strain terms----
         DV = DDHV(I)*DT1*ZI
@@ -259,17 +259,17 @@ Cqz------due to the sigzz traitement----
          VOL(I)= EM20
          OFF(I)= ZERO
          DDV   = ZERO
-        ELSEIF(OFF(I).EQ.ZERO.OR.OFFS(I).EQ.DEUX.OR.ISMDISP.GT.0)THEN
+        ELSEIF(OFF(I).EQ.ZERO.OR.OFFS(I).EQ.TWO.OR.ISMDISP.GT.0)THEN
          VOLDP(I)=MAX(EM20,VOLDP(I))
          VOL(I)=MAX(EM20,VOL(I))
          DDV   =ZERO
         ENDIF
 C
-        IF (IRESP==1) VOL0DP(I) = VOL0DP(I)*(UN- DDV)
-        VOLO(I) = VOLO(I)*(UN- DDV)
-        EINT(I) = EINT(I)/(UN- DDV)
+        IF (IRESP==1) VOL0DP(I) = VOL0DP(I)*(ONE- DDV)
+        VOLO(I) = VOLO(I)*(ONE- DDV)
+        EINT(I) = EINT(I)/(ONE- DDV)
 C	
-        IF(ISMDISP.GT.0.OR.OFFS(I).EQ.DEUX) DVC(I) = DVZ
+        IF(ISMDISP.GT.0.OR.OFFS(I).EQ.TWO) DVC(I) = DVZ
       ENDDO
 Cqz +++ -----partie non constante------
       DO I=LFT,LLT
@@ -289,7 +289,7 @@ c        D6(I)=DC6(I)+ZI*DH6(I)
 C-----------
       DT1D1=DT1
       IF (ISMDISP.GT.0.AND.ISCAU.EQ.0) DT1D1=ZERO
-      DT1D2=UNDEMI*DT1D1
+      DT1D2=HALF*DT1D1
        DO I=LFT,LLT
         D4(I)   = DXY(I)+DYX(I)
      .           -DT1D1*(DXX(I)*DXY(I)+DYX(I)*DYY(I)+DZX(I)*DZY(I))

@@ -1287,7 +1287,7 @@ C
       ENDIF
       IF (IERR .NE. 0) GOTO 999
          AVEREF = AVEREF/NG
-         IF (AVEREF .EQ. ZERO) AVEREF = UN
+         IF (AVEREF .EQ. ZERO) AVEREF = ONE
 C
 C     CALCULATE 3 CENTERS OF GRAVITY (CGMX, CGMY AND CGMZ) AND
 C     DENOMINATORS FOR DISTRIBUTING MOMENTS (DENMX, DENMY AND DENMZ)
@@ -1844,7 +1844,7 @@ c	!AUGMENT INPUT MATRIX WITH AN IDENTITY MATRIX
 			IF (J <= N ) THEN
 				AUGMATRIX(I,J) = MATRIX(I,J)
 			ELSE IF ((I+N) == J) THEN
-				AUGMATRIX(I,J) = UN
+				AUGMATRIX(I,J) = ONE
 			ELSE
 				AUGMATRIX(I,J) = ZERO
 			ENDIF
@@ -2144,8 +2144,8 @@ C-----------------------------------------------
      .   FSUM,MSUM,SUM
 C======================================================================|
 	IFD=0
-	SF=UN
-	SM=UN
+	SF=ONE
+	SM=ONE
         DO I=1,NML
          DO J = 1,3
           IF (IFD==0) THEN
@@ -2163,7 +2163,7 @@ C--renormalizing to avoid mass adding
            SUM = SUM +ABS(FSUM)
           ENDDO
          ENDDO
-         SF = TROIS/SUM
+         SF = THREE/SUM
         END IF
 C 
        IF (IROT==0) RETURN
@@ -2185,7 +2185,7 @@ C
            SUM = SUM +ABS(MSUM)
           ENDDO
          ENDDO
-         SM = TROIS/SUM
+         SM = THREE/SUM
         END IF
 C---
       RETURN

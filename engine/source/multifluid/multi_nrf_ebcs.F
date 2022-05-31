@@ -99,8 +99,8 @@ C-----------------------------------------------
       BETA = DT1/MAX(DT1,TCAR_VF)
       IF(TCAR_VF>=EP20)BETA=ZERO
       IF(DT1 == ZERO)THEN
-        ALPHA = UN !zero
-        BETA = UN
+        ALPHA = ONE !zero
+        BETA = ONE
       ENDIF
       
       
@@ -154,7 +154,7 @@ C     Current element
                PHASE_PRESII(IMAT) = MULTI_FVM%PHASE_PRES(IMAT, ELEMID)
             ENDDO
          ELSE
-            PHASE_ALPHAII(1) = UN
+            PHASE_ALPHAII(1) = ONE
             PHASE_EINTII(1) = EINTII
             PHASE_RHOII(1) = RHOII
             PHASE_PRESII(1) = PII
@@ -181,8 +181,8 @@ C     VE formulation
                   PHASE_EINTJJ(IMAT) = PHASE_EINTII(IMAT)
                IF (PHASE_ALPHAJJ(IMAT) .GT. ZERO) THEN
                   CALL MULTI_SUBMATLAW(0, MATLAW(IMAT), LOCAL_MATID(IMAT), 1, PHASE_EINTJJ(IMAT), 
-     .                 PHASE_PRESJJ(IMAT), PHASE_RHOJJ(IMAT), PHASE_SSPJJ(IMAT), UN, DUMMY, 
-     .                 PM, IPM, NPROPM, NPROPMI, DUMMY, UN, DUMMY, 
+     .                 PHASE_PRESJJ(IMAT), PHASE_RHOJJ(IMAT), PHASE_SSPJJ(IMAT), ONE, DUMMY, 
+     .                 PM, IPM, NPROPM, NPROPMI, DUMMY, ONE, DUMMY, 
      .                 MULTI_FVM%BFRAC(IMAT, ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY, DUMMY, DUMMY)
                   SSPJJ = SSPJJ + PHASE_ALPHAJJ(IMAT) * PHASE_RHOJJ(IMAT) * 
      .                 MAX(EM20, PHASE_SSPJJ(IMAT)) 
@@ -201,13 +201,13 @@ C     VE formulation
             IF(NCYCLE == 1) Vold=NORMAL_VELII
             EBCS%vold(IELEM) = Vnew
             
-            IF(MACH >= UN .AND. Vnew > ZERO)THEN
+            IF(MACH >= ONE .AND. Vnew > ZERO)THEN
               !vitesse sortante supersonique : etat = etat voisin
               PP          = Pvois
             ELSE
               RHOC2 = RHOJJ*SSPII*SSPII 
               ROC   =SQRT(RHOJJ*RHOC2)
-              P_JJ  = UN/(UN+ALPHA)*(Pold+ROC*(Vnew-Vold))+ALPHA*(Pvois+DP0)/(ALPHA + UN)
+              P_JJ  = ONE/(ONE+ALPHA)*(Pold+ROC*(Vnew-Vold))+ALPHA*(Pvois+DP0)/(ALPHA + ONE)
             ENDIF 
             
             EBCS%pold(IELEM) = P_JJ
@@ -250,7 +250,7 @@ C     Intermediate wave speed
             VII(2) = RHOII * VXII
             VII(3) = RHOII * VYII
             VII(4) = RHOII * VZII
-            VII(5) = EINTII + UNDEMI * RHOII * VELII2
+            VII(5) = EINTII + HALF * RHOII * VELII2
 !     Normal physical flux curent element
             FII(1) = VII(1) * NORMAL_VELII
             FII(2) = VII(2) * NORMAL_VELII + PII * NX
@@ -284,7 +284,7 @@ C
             VII(2) = RHOII * VXII
             VII(3) = RHOII * VYII
             VII(4) = RHOII * VZII
-            VII(5) = EINTII + UNDEMI * RHOII * VELII2
+            VII(5) = EINTII + HALF * RHOII * VELII2
 !     Normal physical flux curent element
             FII(1) = VII(1) * NORMAL_VELII
             FII(2) = VII(2) * NORMAL_VELII + PII * NX
@@ -312,7 +312,7 @@ C     Submaterial fluxes
                      SUB_RHOEINTII = PHASE_EINTII(IMAT)
                      SUB_PII = PHASE_PRESII(IMAT)
                      SUB_ESTAR = PHASE_EINTII(IMAT) / PHASE_RHOII(IMAT) - 
-     .                    PHASE_PRESII(IMAT) * (UN / SUB_RHOSTAR - UN / PHASE_RHOII(IMAT)) 
+     .                    PHASE_PRESII(IMAT) * (ONE / SUB_RHOSTAR - ONE / PHASE_RHOII(IMAT)) 
 
                      IF (SUB_ESTAR .LT. ZERO) THEN
                         SUB_ESTAR = ZERO
@@ -339,7 +339,7 @@ C     Submaterial fluxes
             VII(2) = RHOJJ * VXJJ
             VII(3) = RHOJJ * VYJJ
             VII(4) = RHOJJ * VZJJ
-            VII(5) = EINTJJ + UNDEMI * RHOJJ * VELJJ2
+            VII(5) = EINTJJ + HALF * RHOJJ * VELJJ2
 !     Normal physical flux curent element
             FII(1) = VII(1) * NORMAL_VELJJ
             FII(2) = VII(2) * NORMAL_VELJJ + P_JJ * NX
@@ -367,7 +367,7 @@ C     Submaterial fluxes
                      SUB_RHOEINTII = PHASE_EINTJJ(IMAT)
                      SUB_PII = PHASE_PRESJJ(IMAT)
                      SUB_ESTAR = PHASE_EINTJJ(IMAT) / PHASE_RHOJJ(IMAT) - 
-     .                    PHASE_PRESJJ(IMAT) * (UN / SUB_RHOSTAR - UN / PHASE_RHOJJ(IMAT)) 
+     .                    PHASE_PRESJJ(IMAT) * (ONE / SUB_RHOSTAR - ONE / PHASE_RHOJJ(IMAT)) 
                      IF (SUB_ESTAR .LT. ZERO) THEN
                         SUB_ESTAR = ZERO
                      ENDIF
@@ -392,7 +392,7 @@ C     Submaterial fluxes
             VII(2) = RHOJJ * VXJJ
             VII(3) = RHOJJ * VYJJ
             VII(4) = RHOJJ * VZJJ
-            VII(5) = EINTJJ + UNDEMI * RHOJJ * VELJJ2
+            VII(5) = EINTJJ + HALF * RHOJJ * VELJJ2
 !     Normal physical flux curent element
             FII(1) = VII(1) * NORMAL_VELJJ
             FII(2) = VII(2) * NORMAL_VELJJ + P_JJ * NX

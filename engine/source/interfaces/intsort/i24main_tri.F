@@ -406,7 +406,7 @@ C mise a - de dist temporairement pour reperage dans partie frontiere
 C mono tache
 !$OMP SINGLE
         IF (IMONM > 0) CALL STARTIME(26,1)
-        INTBUF_TAB%VARIABLES(5) = - UN
+        INTBUF_TAB%VARIABLES(5) = - ONE
 C
         CALL SPMD_TRI24GAT(
      1      RESULT       ,NSN ,INTBUF_TAB%CAND_N,INTBUF_TAB%I_STOK(1),NIN,

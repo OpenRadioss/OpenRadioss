@@ -28,9 +28,6 @@ Chd|        INEPRI                        source/constraints/general/rbody/inepr
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE VALPR (A,R,N,MV)
-C-----------------------------------
-C     IBM FORTRAM LIBRARY EIGENVALUE
-C-----------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,7 +57,7 @@ C     REAL ou REAL*8
       IJ = IQ+I
       R(IJ) = ZERO
       IF (I-J.NE.0)GOTO 40
-   30 R(IJ) = UN
+   30 R(IJ) = ONE
    40 CONTINUE
    50 ANORM = ZERO
       DO 70 I = 1,N
@@ -84,16 +81,16 @@ C     REAL ou REAL*8
   130 IND = 1
       LL = L+LQ
       MM = M+MQ
-      X = UNDEMI*(A(LL)-A(MM))
+      X = HALF*(A(LL)-A(MM))
       Y = -A(LM)/SQRT(A(LM)*A(LM)+X*X)
       IF (X.LT.ZERO) THEN
        Y = -Y
       ELSEIF(X.EQ.ZERO)THEN
-       Y = -UN
+       Y = -ONE
       ENDIF
-      SINX = Y/SQRT(DEUX*(UN+(SQRT(UN-Y*Y))))
+      SINX = Y/SQRT(TWO*(ONE+(SQRT(ONE-Y*Y))))
       SINX2 = SINX*SINX
-      COSX = SQRT(UN - SINX2)
+      COSX = SQRT(ONE - SINX2)
       COSX2 = COSX*COSX
       SINCS = SINX*COSX
       ILQ = N*(L-1)
@@ -119,7 +116,7 @@ C     REAL ou REAL*8
       R(IMR) = R(ILR)*SINX+R(IMR)*COSX
       R(ILR) = X
   250 CONTINUE
-      X = DEUX*A(LM)*SINCS
+      X = TWO*A(LM)*SINCS
       Y = A(LL)*COSX2+A(MM)*SINX2-X
       X = A(LL)*SINX2+A(MM)*COSX2+X
       A(LM) = (A(LL)-A(MM))*SINCS+A(LM)*(COSX2-SINX2)

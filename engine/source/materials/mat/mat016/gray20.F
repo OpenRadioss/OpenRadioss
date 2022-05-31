@@ -74,11 +74,11 @@ C-----------------------------------------------
       !-----------------------------
 
       UNPM2       = O88P9844
-      XM          = NEUFP38
+      XM          = NINEP38
 
       MX          = MAT(LFT)
       DO I=LFT,LLT
-        DPDM(I)   = UNP333*PM(22,MX)
+        DPDM(I)   = ONEP333*PM(22,MX)
         TM0(I)    = PM(29,MX)
         E00(I)    = PM(30,MX)
         C(I)      = PM(33,MX)
@@ -99,27 +99,27 @@ C-----------------------------------------------
 
       DO I=LFT,LLT
         DMU(I)    = -DVOL(I)/(VOLN(I)-DVOL(I))/DF(I)
-        X(I)      = UN-DF(I)
+        X(I)      = ONE-DF(I)
       ENDDO
 
       DO I=LFT,LLT
-        E0(I)     = C(I)**2*X(I)**2*UNDEMI/(UN-S(I)*X(I))*(UN+S(I)*X(I)/TROIS+(S(I)-GAM0(I))*S(I)*X(I)**2*UNSIX) 
-     .            + E00(I)*(UN+GAM0(I)*X(I)) + E0H(I)
+        E0(I)     = C(I)**2*X(I)**2*HALF/(ONE-S(I)*X(I))*(ONE+S(I)*X(I)/THREE+(S(I)-GAM0(I))*S(I)*X(I)**2*ONE_OVER_6) 
+     .            + E00(I)*(ONE+GAM0(I)*X(I)) + E0H(I)
       ENDDO
 
       DO I=LFT,LLT
         XP(I)     = ZERO
-        IF(X(I).GE.ZERO) XP(I)=UN
+        IF(X(I).GE.ZERO) XP(I)=ONE
       ENDDO
 
       DO I=LFT,LLT
-        TM(I)     = TM0(I)*((UN-XP(I))*(UN+DEUX*(GAM0M(I)-QTHIRD)*X(I)+((DEUX*GAM0M(I)-CTHIRD)*(GAM0M(I)-QTHIRD)-AM(I))*X(I)**2)
-     .              / (UN-X(I))**2 + XP(I)*( UN+(DEUX*GAM0M(I)-DTHIRD)*X(I)+((GAM0M(I)-THIRD)*(DEUX*GAM0M(I)+THIRD)-AM(I))*X(I)**2))
+        TM(I)     = TM0(I)*((ONE-XP(I))*(ONE+TWO*(GAM0M(I)-FOUR_OVER_3)*X(I)+((TWO*GAM0M(I)-FIVE_OVER_3)*(GAM0M(I)-FOUR_OVER_3)-AM(I))*X(I)**2)
+     .              / (ONE-X(I))**2 + XP(I)*( ONE+(TWO*GAM0M(I)-TWO_THIRD)*X(I)+((GAM0M(I)-THIRD)*(TWO*GAM0M(I)+THIRD)-AM(I))*X(I)**2))
         TG(I)     = TM(I)*XM
       ENDDO
 
       DO I=LFT,LLT
-        XLAM(I)   = DTHIRD - DEUX*GAM0M(I)+DEUX*AM(I)*X(I)
+        XLAM(I)   = TWO_THIRD - TWO*GAM0M(I)+TWO*AM(I)*X(I)
       ENDDO
 
       DO I=LFT,LLT
@@ -127,23 +127,23 @@ C-----------------------------------------------
       ENDDO
 
       DO I=LFT,LLT
-        EM1(I)    = E0(I)+RP3(I)*(TM(I)+DELT(I))+UNDEMI*GP(I)*(TM(I)+DELT(I))**2
-        EM2(I)    = EM1(I)+TM(I)*(DSP(I)-UNDEMI*ALP(I)*(1.+(TM(I)+DELT(I))**2/TM(I)**2))
-        EGG(I)    = E0(I)+RP3(I)*TG(I)+UNDEMI*GP(I)*TG(I)**2+TM(I)*(DSP(I)-UNDEMI*ALP(I)*UNPM2)
+        EM1(I)    = E0(I)+RP3(I)*(TM(I)+DELT(I))+HALF*GP(I)*(TM(I)+DELT(I))**2
+        EM2(I)    = EM1(I)+TM(I)*(DSP(I)-HALF*ALP(I)*(1.+(TM(I)+DELT(I))**2/TM(I)**2))
+        EGG(I)    = E0(I)+RP3(I)*TG(I)+HALF*GP(I)*TG(I)**2+TM(I)*(DSP(I)-HALF*ALP(I)*UNPM2)
         G0AX(I)   = GAM0(I)-A(I)*X(I)
         GEAX(I)   =(GAME(I)-G0AX(I))*GP(I)
       ENDDO
 
       DO I=LFT,LLT
         XIST0(I)  = XIST(I)
-        E01(I)    = EINT(I)-(POLD(I)+QOLD(I))*DVOL(I)*UNDEMI
+        E01(I)    = EINT(I)-(POLD(I)+QOLD(I))*DVOL(I)*HALF
         E01(I)    = MAX(ZERO,E01(I))
         ESPE(I)   = E01(I)/(VOLN(I)*RHO(I))
         EM0(I)    = ESPE(I)-E0(I)
         P1A(I)    = C(I)**2*X(I)
-     .            *(UN-(UN+UNDEMI*GAM0(I))*X(I)+UNDEMI*A(I)*X(I)**2)*RHO0(I)
-     .            /((UN-X(I))*(UN-S(I)*X(I))**2)
-        P1(I)     = PCC(I)+P1A(I)+G0AX(I)*(ESPE(I)-E0H(I))*RHO0(I)/(UN-X(I))
+     .            *(ONE-(ONE+HALF*GAM0(I))*X(I)+HALF*A(I)*X(I)**2)*RHO0(I)
+     .            /((ONE-X(I))*(ONE-S(I)*X(I))**2)
+        P1(I)     = PCC(I)+P1A(I)+G0AX(I)*(ESPE(I)-E0H(I))*RHO0(I)/(ONE-X(I))
       ENDDO
 C-----------------------------
 C     BRANCHEMENTS
@@ -156,22 +156,22 @@ C------------------------------------
 C     PRESSION 1ERE ESTIMATION
 C------------------------------------
       DO I=LFT,LLT
-        P01(I)    = P1(I)+UNDEMI*PCR(I)*RHO(I)
+        P01(I)    = P1(I)+HALF*PCR(I)*RHO(I)
       ENDDO
 
       DO I=LFT,LLT
         IF(P01(I).LE.PMIN(I))THEN
           P01(I)  = ZERO
-          XIST(I) = CINQ
+          XIST(I) = FIVE
         ENDIF
       ENDDO
 
       DO I=LFT,LLT
-        E02(I)    = EINT(I)-(P01(I)+QOLD(I))*DVOL(I)*UNDEMI
+        E02(I)    = EINT(I)-(P01(I)+QOLD(I))*DVOL(I)*HALF
         E02(I)    = MAX(ZERO,E02(I))
         ESPE(I)   = E02(I)/(VOLN(I)*RHO(I))
         EM0(I)    = ESPE(I)-E0(I)
-        P1(I)     = PCC(I)+P1A(I)+G0AX(I)*(ESPE(I)-E0H(I))*RHO0(I)/(UN-X(I))
+        P1(I)     = PCC(I)+P1A(I)+G0AX(I)*(ESPE(I)-E0H(I))*RHO0(I)/(ONE-X(I))
       ENDDO
 C-----------------------------
 C     BRANCHEMENTS
@@ -184,13 +184,13 @@ C------------------------------------
 C     PRESSION 2EME ESTIMATION
 C------------------------------------
       DO I=LFT,LLT
-        P02(I)    = P1(I)+UNDEMI*PCR(I)*RHO(I)
+        P02(I)    = P1(I)+HALF*PCR(I)*RHO(I)
       ENDDO
 
       DO I=LFT,LLT
         IF(P02(I).LE.PMIN(I))THEN
           P02(I)  = ZERO
-          XIST(I) = CINQ
+          XIST(I) = FIVE
         ENDIF
       ENDDO
 C------------------------------------

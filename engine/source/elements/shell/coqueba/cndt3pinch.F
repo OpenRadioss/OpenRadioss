@@ -73,11 +73,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER INDXOF(MVSIZ),
      .        I, J, II, NINDX,IDT,ITYEL
-      my_real DT(MVSIZ),O12TH,FAC,MAS,DIVM,MMIN  ,IZ   
+      my_real DT(MVSIZ),FAC,MAS,DIVM,MMIN  ,IZ   
 c=======================================================================
       DO I=JFT,JLT
         VISCMX(I) = MAX(VISCMX(I), AMU(I))
-        VISCMX(I) = SQRT(UN + VISCMX(I)*VISCMX(I)) - VISCMX(I)
+        VISCMX(I) = SQRT(ONE + VISCMX(I)*VISCMX(I)) - VISCMX(I)
         ALDT(I)   = ALDT(I) * VISCMX(I) / SQRT(ALPE(I))
       ENDDO
 c---------------------------------------------------
@@ -90,16 +90,16 @@ C----- isub will add here-----
           STI(I) = ZERO
           STIR(I) = ZERO          
          ELSE
-          STI(I) = UNDEMI*VOL0(I) * A11PINCH / ALDT(I)**2
+          STI(I) = HALF*VOL0(I) * A11PINCH / ALDT(I)**2
 
        IF(IGTYP == 52 .OR. 
      .   ((IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51)
      .                                   .AND. IGMAT > 0 )) THEN
-            FAC = UNDEMI*VOL0(I)/ ALDT(I)**2
+            FAC = HALF*VOL0(I)/ ALDT(I)**2
             STIR(I) =(FAC * A11R(I)*THK02(I) + 
-     .                 FAC * A1(I) *AREA(I)) *UNDOUZE
+     .                 FAC * A1(I) *AREA(I)) *ONE_OVER_12
           ELSE
-            STIR(I) = STI(I) * (THK02(I)+AREA(I)) *UNDOUZE
+            STIR(I) = STI(I) * (THK02(I)+AREA(I)) *ONE_OVER_12
           ENDIF
          ENDIF 
         ENDDO
@@ -113,9 +113,9 @@ c dmelc = 2*dmelc !!
 c w^2 < 2k / (m+dmelc+dmelc/3) < 2k / (m+dmelc)
 c dt = 2/w = sqrt( 2*(m+dmelc)/k)
             DMELC(I)=MAX(DMELC(I),
-     .  		(DTMINS/DTFACS)**2 * STI(I) - DEUX*MSC(I))
+     .  		(DTMINS/DTFACS)**2 * STI(I) - TWO*MSC(I))
             DT(I)  = DTFACS*
-     .  	     SQRT((DEUX*MSC(I)+DMELC(I))/MAX(EM20,STI(I)))
+     .  	     SQRT((TWO*MSC(I)+DMELC(I))/MAX(EM20,STI(I)))
             IF(DT(I).LT.DT2T)THEN
               DT2T    = DT(I)
               NELTST  = NGL(I)
@@ -132,9 +132,9 @@ c dmelc = 2*dmelc !!
 c w^2 < 2k / (m+dmelc+dmelc/2) < 2k / (m+dmelc)
 c dt = 2/w = sqrt( 2*(m+dmelc)/k)
             DMELC(I)=MAX(DMELC(I),
-     .  		(DTMINS/DTFACS)**2 * STI(I) - DEUX*MMIN)
+     .  		(DTMINS/DTFACS)**2 * STI(I) - TWO*MMIN)
             DT(I)  = DTFACS*
-     .  	     SQRT((DEUX*MMIN+DMELC(I))/MAX(EM20,STI(I)))
+     .  	     SQRT((TWO*MMIN+DMELC(I))/MAX(EM20,STI(I)))
             IF(DT(I).LT.DT2T)THEN
               DT2T    = DT(I)
               NELTST  = NGL(I)
@@ -152,10 +152,10 @@ C                IF (OFF(I).EQ.ZERO) THEN
 C                   STI(I) = ZERO
 C                   STIR(I) = ZERO          
 C                ELSE
-C                   STI(I) = UNDEMI*VOL0(I) * A11PINCH / ALDT(I)**2
-C                   FAC =  UNDEMI*VOL0(I)/ ALDT(I)**2
-C                   STIR(I) = FAC*A11R(I)*THK02(I)*UNDOUZE +
-C     .                       FAC *A11PINCH*AREA(I)*UNDOUZE
+C                   STI(I) = HALF*VOL0(I) * A11PINCH / ALDT(I)**2
+C                   FAC =  HALF*VOL0(I)/ ALDT(I)**2
+C                   STIR(I) = FAC*A11R(I)*THK02(I)*ONE_OVER_12 +
+C     .                       FAC *A11PINCH*AREA(I)*ONE_OVER_12
 C                  ENDIF
 C             ENDDO
 C          ELSE
@@ -164,8 +164,8 @@ C          ELSE
                    STI(I) = ZERO
                    STIR(I) = ZERO          
                 ELSE
-                   STI(I) = UNDEMI*VOL0(I) * A11PINCH / ALDT(I)**2
-                   STIR(I) = STI(I) * (THK02(I)+AREA(I)) *UNDOUZE
+                   STI(I) = HALF*VOL0(I) * A11PINCH / ALDT(I)**2
+                   STIR(I) = STI(I) * (THK02(I)+AREA(I)) *ONE_OVER_12
                 ENDIF
              ENDDO
 C          ENDIF 
@@ -185,7 +185,7 @@ C
         NINDX=IOFC
         DO I=JFT,JLT
          IF(DT(I).LE.DTMIN1(ITYEL).AND.
-     .     OFF(I).GE.UN.AND.OFFG(I).NE.DEUX.AND.OFFG(I).GE.ZERO) THEN
+     .     OFF(I).GE.ONE.AND.OFFG(I).NE.TWO.AND.OFFG(I).GE.ZERO) THEN
           NINDX=NINDX+1
           INDXOF(NINDX)=I
          ENDIF
@@ -264,7 +264,7 @@ C
 C
       DO I=JFT,JLT
         DIVM=MAX(ALDT(I)*ALDT(I),EM20)
-        STI(I) = UNDEMI*VOL0(I) * A11PINCH* OFF(I) / DIVM
+        STI(I) = HALF*VOL0(I) * A11PINCH* OFF(I) / DIVM
         STIR(I)= ZERO
       ENDDO
 C

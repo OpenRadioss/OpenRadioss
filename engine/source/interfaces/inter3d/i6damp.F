@@ -102,7 +102,7 @@ c
         ENDDO 
         CALL NINTERP(NDAMP2,NPC,TF,LLT,XX,FACT)
       ELSE
-        FACT(1:LLT) = UN
+        FACT(1:LLT) = ONE
       ENDIF 
 C--------------------------------
       DO  I=LFT,LLT

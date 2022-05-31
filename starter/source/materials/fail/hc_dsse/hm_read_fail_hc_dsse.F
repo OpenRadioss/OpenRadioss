@@ -2529,7 +2529,7 @@ CARD2
       CALL HM_GET_FLOATV         ('d_HC_DSSE'  ,INST   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV         ('n_f'        ,NFRAC  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C=======================================================================
-      IF (NFRAC  == ZERO) NFRAC  = UN
+      IF (NFRAC  == ZERO) NFRAC  = ONE
       IF (ISHELL == 0)    ISHELL = 1
 
       NUPARAM = 7
@@ -2557,21 +2557,21 @@ C=============================================
         BFRAC2 = BFRAC
         B16    = (AFRAC / BFRAC)**0.1
         B17    = (CFRAC / BFRAC)**0.1          
-        B18    = UN/B16+DEUX/sqrt(TROIS)-UN/B17
-        B19    = -UN/B16 + UN/B17
+        B18    = ONE/B16+TWO/sqrt(THREE)-ONE/B17
+        B19    = -ONE/B16 + ONE/B17
         CFRAC2 = B19/B18
-        B21    = (UN+CFRAC2)/B16
+        B21    = (ONE+CFRAC2)/B16
 
         CALL LINEAR_INTERP(LX,TAB,1201,B21,Y)
 
         AFRAC2 = Y
         SMALL  = 0.00001
-        INST2  = UN
-        F05    = SQRT(TROIS)*(INST/BFRAC)**(-0.01)
+        INST2  = ONE
+        F05    = SQRT(THREE)*(INST/BFRAC)**(-0.01)
         DO I =1,20
-          G12    = ((UN+DEUX**(INST2-UN))**(UN/INST2) - F05)**2
-          I12    = (((UN+DEUX**(INST2+SMALL-UN))**(UN/(INST2+SMALL)) - F05)**2-
-     .             ((1.0+2.0**(INST2-SMALL-1.0))**(1.0/(INST2-SMALL)) - F05)**2)/(DEUX*SMALL)
+          G12    = ((ONE+TWO**(INST2-ONE))**(ONE/INST2) - F05)**2
+          I12    = (((ONE+TWO**(INST2+SMALL-ONE))**(ONE/(INST2+SMALL)) - F05)**2-
+     .             ((1.0+2.0**(INST2-SMALL-1.0))**(1.0/(INST2-SMALL)) - F05)**2)/(TWO*SMALL)
           INST2  = INST2 - G12/I12
         ENDDO
         UPARAM(1) = AFRAC2

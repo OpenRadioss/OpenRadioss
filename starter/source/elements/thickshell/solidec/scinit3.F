@@ -315,7 +315,7 @@ c
           WI = W_GAUSS(IS,NLAY)
        ENDIF
         DO I=LFT,LLT
-          LBUF%VOL0DP(I) = UNDEMI*WI*(GBUF%VOL(I)+VZL(I)*ZI)
+          LBUF%VOL0DP(I) = HALF*WI*(GBUF%VOL(I)+VZL(I)*ZI)
           LBUF%VOL(I) = LBUF%VOL0DP(I)
         ENDDO
         IF (IGTYP == 22)
@@ -440,7 +440,7 @@ c
         ENDIF
         DTELEM(NFT+I)=DTX(I)
 C       STI = 0.25 * RHO * VOL / (DT*DT)
-        STI = QUART * GBUF%FILL(I) * GBUF%RHO(I) * VOLU(I) /
+        STI = FOURTH * GBUF%FILL(I) * GBUF%RHO(I) * VOLU(I) /
      .        MAX(EM20,DTX(I)*DTX(I))
         STIFN(IXS(2,I+NFT))=STIFN(IXS(2,I+NFT))+STI
         STIFN(IXS(3,I+NFT))=STIFN(IXS(3,I+NFT))+STI
@@ -603,18 +603,18 @@ C-----------------------------------------------
      .   FAC,VISCE,RX1,RY1,SX1,SY1,S1,FAC1,FAC2,FACI,FAC11,FACDT
 C=======================================================================
         DO I=LFT,LLT
-          XN(I,1) = UNDEMI*(X1(I)+X5(I))
-          YN(I,1) = UNDEMI*(Y1(I)+Y5(I))
-          ZN(I,1) = UNDEMI*(Z1(I)+Z5(I))
-          XN(I,2) = UNDEMI*(X2(I)+X6(I))
-          YN(I,2) = UNDEMI*(Y2(I)+Y6(I))
-          ZN(I,2) = UNDEMI*(Z2(I)+Z6(I))
-          XN(I,3) = UNDEMI*(X3(I)+X7(I))
-          YN(I,3) = UNDEMI*(Y3(I)+Y7(I))
-          ZN(I,3) = UNDEMI*(Z3(I)+Z7(I))
-          XN(I,4) = UNDEMI*(X4(I)+X8(I))
-          YN(I,4) = UNDEMI*(Y4(I)+Y8(I))
-          ZN(I,4) = UNDEMI*(Z4(I)+Z8(I))
+          XN(I,1) = HALF*(X1(I)+X5(I))
+          YN(I,1) = HALF*(Y1(I)+Y5(I))
+          ZN(I,1) = HALF*(Z1(I)+Z5(I))
+          XN(I,2) = HALF*(X2(I)+X6(I))
+          YN(I,2) = HALF*(Y2(I)+Y6(I))
+          ZN(I,2) = HALF*(Z2(I)+Z6(I))
+          XN(I,3) = HALF*(X3(I)+X7(I))
+          YN(I,3) = HALF*(Y3(I)+Y7(I))
+          ZN(I,3) = HALF*(Z3(I)+Z7(I))
+          XN(I,4) = HALF*(X4(I)+X8(I))
+          YN(I,4) = HALF*(Y4(I)+Y8(I))
+          ZN(I,4) = HALF*(Z4(I)+Z8(I))
         ENDDO 
 C------g1,g2 :
         DO I=LFT,LLT
@@ -628,11 +628,11 @@ C------g1,g2 :
 C------Local elem. base:
         CALL CLSYS3(RX, RY, RZ, SX, SY, SZ, 
      .              VQ, DETA1,LLT)
-C------ Global -> Local Coordinate  QUART=0.25 ;
+C------ Global -> Local Coordinate  FOURTH=0.25 ;
         DO I=LFT,LLT
-          LXYZ0(1)=QUART*(XN(I,1)+XN(I,2)+XN(I,3)+XN(I,4))
-          LXYZ0(2)=QUART*(YN(I,1)+YN(I,2)+YN(I,3)+YN(I,4))
-          LXYZ0(3)=QUART*(ZN(I,1)+ZN(I,2)+ZN(I,3)+ZN(I,4))
+          LXYZ0(1)=FOURTH*(XN(I,1)+XN(I,2)+XN(I,3)+XN(I,4))
+          LXYZ0(2)=FOURTH*(YN(I,1)+YN(I,2)+YN(I,3)+YN(I,4))
+          LXYZ0(3)=FOURTH*(ZN(I,1)+ZN(I,2)+ZN(I,3)+ZN(I,4))
           XX=XN(I,2)-XN(I,1)
           YY=YN(I,2)-YN(I,1)
           ZZ=ZN(I,2)-ZN(I,1)
@@ -654,16 +654,16 @@ C
           ZZ=ZN(I,4)-ZN(I,1)
           XL4(I)=VQ(I,1,1)*XX+VQ(I,2,1)*YY+VQ(I,3,1)*ZZ
           YL4(I)=VQ(I,1,2)*XX+VQ(I,2,2)*YY+VQ(I,3,2)*ZZ
-          AREA(I)=QUART*DETA1(I)
+          AREA(I)=FOURTH*DETA1(I)
         ENDDO 
-      FAC = DEUX
-      FACDT = CQUATRE
+      FAC = TWO
+      FACDT = FIVE_OVER_4
 C-------same than QBAT       
-      IF (IDT1SOL.GT.0) FACDT =QTIERS
+      IF (IDT1SOL.GT.0) FACDT =FOUR_OVER_3
 C---- compute COREL(2,4) mean surface and area     
       DO I=LFT,LLT
-        LXYZ0(1)=QUART*(XL2(I)+XL3(I)+XL4(I))
-        LXYZ0(2)=QUART*(YL2(I)+YL3(I)+YL4(I))
+        LXYZ0(1)=FOURTH*(XL2(I)+XL3(I)+XL4(I))
+        LXYZ0(2)=FOURTH*(YL2(I)+YL3(I)+YL4(I))
         COREL(1,1)=-LXYZ0(1)
         COREL(1,2)=XL2(I)-LXYZ0(1)
         COREL(1,3)=XL3(I)-LXYZ0(1)
@@ -672,10 +672,10 @@ C---- compute COREL(2,4) mean surface and area
         COREL(2,2)=YL2(I)-LXYZ0(2)
         COREL(2,3)=YL3(I)-LXYZ0(2)
         COREL(2,4)=YL4(I)-LXYZ0(2)
-        X13=(COREL(1,1)-COREL(1,3))*UNDEMI
-        X24=(COREL(1,2)-COREL(1,4))*UNDEMI
-        Y13=(COREL(2,1)-COREL(2,3))*UNDEMI
-        Y24=(COREL(2,2)-COREL(2,4))*UNDEMI
+        X13=(COREL(1,1)-COREL(1,3))*HALF
+        X24=(COREL(1,2)-COREL(1,4))*HALF
+        Y13=(COREL(2,1)-COREL(2,3))*HALF
+        Y24=(COREL(2,2)-COREL(2,4))*HALF
 C
         L13=X13*X13+Y13*Y13
         L24=X24*X24+Y24*Y24
@@ -689,12 +689,12 @@ C
         SY1=-Y24-Y13
         C1=SQRT(RX1*RX1+RY1*RY1)
         C2=SQRT(SX1*SX1+SY1*SY1)
-        S1=QUART*(MAX(C1,C2)/MIN(C1,C2)-UN)
-        FAC1=MIN(UNDEMI,S1)+UN
+        S1=FOURTH*(MAX(C1,C2)/MIN(C1,C2)-ONE)
+        FAC1=MIN(HALF,S1)+ONE
         FAC2=AREA(I)/(C1*C2)
         FAC2=3.413*MAX(ZERO,FAC2-0.7071)
         FAC2=0.78+0.22*FAC2*FAC2*FAC2
-        FACI=DEUX*FAC1*FAC2
+        FACI=TWO*FAC1*FAC2
         S1 = SQRT(FACI*(FACDT+AL2)*AL1)
         S1 = MAX(S1,EM20)
         LLSH(I) = AREA(I)/S1
@@ -768,12 +768,12 @@ C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
        DO I=1,NEL
         C1C1 = RX(I)*RX(I) + RY(I)*RY(I) + RZ(I)*RZ(I)
         C2C2 = SX(I)*SX(I) + SY(I)*SY(I) + SZ(I)*SZ(I)
-C ----- ZERO=0., UN=1.0    
+C ----- ZERO=0., ONE=1.0    
         IF(C1C1 /= ZERO) THEN
           C2_1 = SQRT(C2C2/MAX(EM20,C1C1))
-          C1_1 = UN
+          C1_1 = ONE
         ELSEIF(C2C2 /= ZERO)THEN
-          C2_1 = UN
+          C2_1 = ONE
           C1_1 = SQRT(C1C1/MAX(EM20,C2C2))
         END IF 
         E1X(I) = RX(I)*C2_1+(SY(I)*E3Z(I)-SZ(I)*E3Y(I))*C1_1
@@ -783,7 +783,7 @@ C ----- ZERO=0., UN=1.0
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
        DO I=1,NEL
         C1 = SQRT(E1X(I)*E1X(I) + E1Y(I)*E1Y(I) + E1Z(I)*E1Z(I))
-        IF ( C1 /= ZERO) C1 = UN / MAX(EM20,C1)
+        IF ( C1 /= ZERO) C1 = ONE / MAX(EM20,C1)
         E1X(I) = E1X(I)*C1
         E1Y(I) = E1Y(I)*C1
         E1Z(I) = E1Z(I)*C1

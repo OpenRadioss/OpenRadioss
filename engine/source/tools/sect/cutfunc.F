@@ -49,7 +49,7 @@ C     REAL ou REAL*8
       REAL R4
 C-----------------------------------------------
       DO I=1,NODCUT
-         R4 =AL(I)*FUNC(IVOIS(2,I))+(UN-AL(I))*FUNC(IVOIS(1,I)) 
+         R4 =AL(I)*FUNC(IVOIS(2,I))+(ONE-AL(I))*FUNC(IVOIS(1,I)) 
          CALL WRITE_R_C(R4,1)
       ENDDO
 C-----------------------------------------------
@@ -152,16 +152,16 @@ c-----------
            ELSEIF(IFUNC.EQ.6.OR.IFUNC.EQ.7)THEN
              P = - (GBUF%SIG(II(1)+I)
      .            + GBUF%SIG(II(2)+I)
-     .            + GBUF%SIG(II(3)+I)) / TROIS
+     .            + GBUF%SIG(II(3)+I)) / THREE
              VALUE = P    
              IF (IFUNC.EQ.7) THEN
                S1 = GBUF%SIG(II(1)+I) + P
                S2 = GBUF%SIG(II(2)+I) + P
                S3 = GBUF%SIG(II(3)+I) + P
-               VONM2 = TROIS*(GBUF%SIG(II(4)+I)**2 +      
+               VONM2 = THREE*(GBUF%SIG(II(4)+I)**2 +      
      .                        GBUF%SIG(II(5)+I)**2 +      
      .                        GBUF%SIG(II(6)+I)**2 +      
-     .                   UNDEMI*(S1*S1+S2*S2+S3*S3))              
+     .                   HALF*(S1*S1+S2*S2+S3*S3))              
               VONM= SQRT(VONM2)
               VALUE = VONM
             ENDIF

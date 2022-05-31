@@ -268,13 +268,13 @@ C
             CALL HM_GET_FLOATV('R0k0'  ,RHOIN  ,IS_AVAILABLE,LSUBMODEL,UNITAB) 
             IF ((RHOIN == ZERO).AND.(IFDENS>0)) THEN
               CALL HM_GET_FLOATV_DIM('R0k0' ,RHOIN_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-              RHOIN = UN * RHOIN_UNIT
+              RHOIN = ONE * RHOIN_UNIT
             ENDIF
             CALL HM_GET_INTV('FUN_A6'  ,IFENER ,IS_AVAILABLE,LSUBMODEL)         
             CALL HM_GET_FLOATV('MAT_E0',EIN    ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
             IF ((EIN == ZERO).AND.(IFENER>0)) THEN
               CALL HM_GET_FLOATV_DIM('MAT_E0'  ,EIN_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-              EIN = UN * EIN_UNIT
+              EIN = ONE * EIN_UNIT
             ENDIF
             CALL HM_GET_INTV('FUN_A3'  ,IFVITS ,IS_AVAILABLE,LSUBMODEL)    
           ELSEIF (ITYPE == 2) THEN
@@ -282,14 +282,14 @@ C
             CALL HM_GET_FLOATV('MAT_P0' ,PIN    ,IS_AVAILABLE,LSUBMODEL,UNITAB) 
             IF ((PIN == ZERO).AND.(IFPRES>0)) THEN
               CALL HM_GET_FLOATV_DIM('MAT_P0'  ,PIN_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-              PIN = UN * PIN_UNIT
+              PIN = ONE * PIN_UNIT
             ENDIF
           ELSEIF (ITYPE == 3) THEN
             CALL HM_GET_INTV('FUN_A4'   ,IFPRES ,IS_AVAILABLE,LSUBMODEL)         
             CALL HM_GET_FLOATV('MAT_PScale',PIN ,IS_AVAILABLE,LSUBMODEL, UNITAB) 
             IF ((PIN == ZERO).AND.(IFPRES>0)) THEN
               CALL HM_GET_FLOATV_DIM('MAT_PScale' ,PIN_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-              PIN = UN * PIN_UNIT
+              PIN = ONE * PIN_UNIT
             ENDIF
             CALL HM_GET_FLOATV('Lc'     ,CARL   ,IS_AVAILABLE,LSUBMODEL, UNITAB)     
           ENDIF
@@ -305,8 +305,8 @@ C
           ENDIF
 !
           IF (ITYPE == 1) THEN
-            IF ((IFDENS /= 0).AND.(RHOIN == ZERO)) RHOIN = UN
-            IF ((IFENER /= 0).AND.(EIN == ZERO))   EIN   = UN
+            IF ((IFDENS /= 0).AND.(RHOIN == ZERO)) RHOIN = ONE
+            IF ((IFENER /= 0).AND.(EIN == ZERO))   EIN   = ONE
             VSPHIO(IVAD  )  = RHOIN
             VSPHIO(IVAD+2)  = EIN
             VSPHIO(IVAD+3)  = DIST
@@ -379,7 +379,7 @@ C-------------------------------------
            NZ=X12*Y13-Y12*X13
            NN =NN+SQRT(NX*NX+NY*NY+NZ*NZ)
           ENDIF
-          VSPHIO(IVAD)=UNDEMI*NN
+          VSPHIO(IVAD)=HALF*NN
           IVAD=IVAD+2
         ENDDO
        ENDIF

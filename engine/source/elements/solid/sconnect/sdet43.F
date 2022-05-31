@@ -69,18 +69,18 @@ C=======================================================================
       NINDX = 0  
 C     Calcule AREA / P Gauss
       DO I=1,NEL 
-        P1X(I)=(X(I,1)+X(I,5))*UNDEMI
-        P1Y(I)=(Y(I,1)+Y(I,5))*UNDEMI
-        P1Z(I)=(Z(I,1)+Z(I,5))*UNDEMI
-        P2X(I)=(X(I,2)+X(I,6))*UNDEMI
-        P2Y(I)=(Y(I,2)+Y(I,6))*UNDEMI
-        P2Z(I)=(Z(I,2)+Z(I,6))*UNDEMI
-        P3X(I)=(X(I,3)+X(I,7))*UNDEMI
-        P3Y(I)=(Y(I,3)+Y(I,7))*UNDEMI
-        P3Z(I)=(Z(I,3)+Z(I,7))*UNDEMI
-        P4X(I)=(X(I,4)+X(I,8))*UNDEMI
-        P4Y(I)=(Y(I,4)+Y(I,8))*UNDEMI
-        P4Z(I)=(Z(I,4)+Z(I,8))*UNDEMI
+        P1X(I)=(X(I,1)+X(I,5))*HALF
+        P1Y(I)=(Y(I,1)+Y(I,5))*HALF
+        P1Z(I)=(Z(I,1)+Z(I,5))*HALF
+        P2X(I)=(X(I,2)+X(I,6))*HALF
+        P2Y(I)=(Y(I,2)+Y(I,6))*HALF
+        P2Z(I)=(Z(I,2)+Z(I,6))*HALF
+        P3X(I)=(X(I,3)+X(I,7))*HALF
+        P3Y(I)=(Y(I,3)+Y(I,7))*HALF
+        P3Z(I)=(Z(I,3)+Z(I,7))*HALF
+        P4X(I)=(X(I,4)+X(I,8))*HALF
+        P4Y(I)=(Y(I,4)+Y(I,8))*HALF
+        P4Z(I)=(Z(I,4)+Z(I,8))*HALF
       ENDDO
 C
       DO I=1,NEL 
@@ -102,8 +102,8 @@ c
         XL4 = E1X(I)*XX4 + E1Y(I)*YY4 + E1Z(I)*ZZ4
         YL4 = E2X(I)*XX4 + E2Y(I)*YY4 + E2Z(I)*ZZ4
 c
-        L1=QUART*(XL2+XL3+XL4)
-        L2=QUART*(YL2+YL3+YL4)
+        L1=FOURTH*(XL2+XL3+XL4)
+        L2=FOURTH*(YL2+YL3+YL4)
 c
         VCX(1)=-L1
         VCX(2)= XL2-L1
@@ -114,22 +114,22 @@ c
         VCY(3)=YL3-L2
         VCY(4)=YL4-L2
 c
-        MX13=(VCX(1)+VCX(3))*UNDEMI
-        MY13=(VCY(1)+VCY(3))*UNDEMI
-        MX23=(VCX(2)+VCX(3))*UNDEMI
-        MX34=(VCX(3)+VCX(4))*UNDEMI
-        MY23=(VCY(2)+VCY(3))*UNDEMI
-        MY34=(VCY(3)+VCY(4))*UNDEMI   
+        MX13=(VCX(1)+VCX(3))*HALF
+        MY13=(VCY(1)+VCY(3))*HALF
+        MX23=(VCX(2)+VCX(3))*HALF
+        MX34=(VCX(3)+VCX(4))*HALF
+        MY23=(VCY(2)+VCY(3))*HALF
+        MY34=(VCY(3)+VCY(4))*HALF   
 c
         J1 = (MX23*MY13-MX13*MY23)*PG
         J2 =-(MX13*MY34-MX34*MY13)*PG
-        J0 = AREA(I)*QUART
+        J0 = AREA(I)*FOURTH
 C-----------
         AREAP(I,1) = J0+J2-J1
         AREAP(I,2) = J0+J2+J1
         AREAP(I,3) = J0-J2+J1
         AREAP(I,4) = J0-J2-J1
-        IF (OFF(I) == UN .and. ( AREA(I) < ZERO .or.
+        IF (OFF(I) == ONE .and. ( AREA(I) < ZERO .or.
      .      AREAP(I,1) < ZERO .or. AREAP(I,2) < ZERO .or.
      .      AREAP(I,3) < ZERO .or. AREAP(I,4) < ZERO)) THEN
           NINDX = NINDX+1

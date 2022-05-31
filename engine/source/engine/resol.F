@@ -1685,7 +1685,7 @@ C for chkpt :: ISMSCH=1
             FR_RMS(1:NSPMD+1)=0
             FR_SMS(1:NSPMD+1)=0
             T2MAIN_SMS = 0
-            T2FAC_SMS = UN
+            T2FAC_SMS = ONE
           ELSEIF(IDTMINS_INT/=0)THEN
             ALLOCATE(TAGNOD_SMS(NUMNOD),NATIV_SMS(0),
      .               TAGPRT_SMS(0),TAGREL_SMS(0),
@@ -1714,7 +1714,7 @@ C for chkpt :: ISMSCH=1
             FR_RMS(1:NSPMD+1)=0
             FR_SMS(1:NSPMD+1)=0
             T2MAIN_SMS = 0
-            T2FAC_SMS = UN
+            T2FAC_SMS = ONE
           ELSE
             ALLOCATE(TAGNOD_SMS(0),NATIV_SMS(0),
      .               TAGPRT_SMS(0),TAGREL_SMS(0),
@@ -5986,7 +5986,7 @@ C     IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
 C---------Check remaing time for end simulation and correct time step----
 C------------Need to stop computation at Tstop for /DT/THERM----------
           TREST=MAX(TSTOP-TT,ZERO)  
-          DTREST = TREST*(UN+EM10)
+          DTREST = TREST*(ONE+EM10)
           IF(DTREST.LT.DT2T) THEN
              ILASTANIM = 1 
              ILASTH3D = 1 
@@ -6236,7 +6236,7 @@ C===============================================================================
 C----------------------------------
       IF (IMONM > 0) CALL STARTIME(52,1)
         IF (ISTAT==3) THEN
-         DAMPA3 = DEUX*BETATE/(UN + BETATE * DT12)
+         DAMPA3 = TWO*BETATE/(ONE + BETATE * DT12)
          IF (DT2>=EP06) DAMPA3=ZERO
         ELSE
          DAMPA3 = ZERO
@@ -6244,12 +6244,12 @@ C----------------------------------
        
         IF(IDAMP.GT.0)THEN
          IF(DAMPB.GE.ZERO)THEN
-          BB  = (MIN(DAMPB,DT1,DT2) + UNDEMI*(DAMPA+DAMPA3)*DT2*DT2)
+          BB  = (MIN(DAMPB,DT1,DT2) + HALF*(DAMPA+DAMPA3)*DT2*DT2)
 C--       IF no node/elemt on proc - dt2=10E6 -> dt2 can be equal to zero
           IF (DT2>=EP06) BB = ZERO
           DT2 = SQRT(BB*BB + DT2*DT2) - BB
          ELSE
-          BB  = UN - DAMPB - DAMPB
+          BB  = ONE - DAMPB - DAMPB
           DT2 = DT2/SQRT(BB)
          ENDIF
         ELSEIF(NDAMP.GT.0) THEN
@@ -6262,7 +6262,7 @@ C--       IF no node/elemt on proc - dt2=10E6 -> dt2 can be equal to zero
               D_TSTOP  = DAMPR(18,I)
 C--           IF no node/elemt on proc - dt2=10E6 -> dt2 can be equal to zero
               IF ((TT.GE.D_TSTART).AND.(TT.LE.D_TSTOP).AND.(DT2 < EP06))
-     .          BB=MAX(BB,(MIN(DAMPB,DT1,DT2)+UNDEMI*(DAMPA+DAMPA3)*DT2*DT2))
+     .          BB=MAX(BB,(MIN(DAMPB,DT1,DT2)+HALF*(DAMPA+DAMPA3)*DT2*DT2))
             ENDDO
           ELSE
             BB = ZERO
@@ -6278,14 +6278,14 @@ C--           IF no node/elemt on proc - dt2=10E6 -> dt2 can be equal to zero
 C--           IF no node/elemt on proc - dt2=10E6 -> dt2 can be equal to zero
               IF ((TT.GE.D_TSTART).AND.(TT.LE.D_TSTOP).AND.(DT2 < EP06)) THEN
                 DAMPT = MIN(DT1,DT2)*FACTB
-                BB=MAX(BB,(MIN(DAMPB,DAMPT)+UNDEMI*(DAMPA+DAMPA3)*DT2*DT2))
+                BB=MAX(BB,(MIN(DAMPB,DAMPT)+HALF*(DAMPA+DAMPA3)*DT2*DT2))
               ENDIF
             ENDDO
 600         CONTINUE
            END IF
            DT2 = SQRT(BB*BB + DT2*DT2) - BB
         ELSEIF(ISTAT==3) THEN
-          BB  = UNDEMI*DAMPA3*DT2*DT2
+          BB  = HALF*DAMPA3*DT2*DT2
           DT2 = SQRT(BB*BB + DT2*DT2) - BB
         ENDIF
 
@@ -6475,10 +6475,10 @@ C-----------------------------
       IF (IMONM > 0) CALL STARTIME(53,1)
         DT2OLD=DT2
         IF (INCONV==1) THEN
-          DT12=UNDEMI*(DT1+DT2)
+          DT12=HALF*(DT1+DT2)
           DT3=DT1
         ENDIF
-c        IF (IMPL_S.GT.0)  DT12=UNDEMI*(DT1_IMP+DT2)
+c        IF (IMPL_S.GT.0)  DT12=HALF*(DT1_IMP+DT2)
         IF(IALESUB.EQ.0.AND.ISHSUB.EQ.0)DT2S=DT2
 C-----------------------------
 C       MAJ SPMD ecriture L01

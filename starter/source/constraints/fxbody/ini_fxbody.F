@@ -163,9 +163,9 @@ C
           FXBIPM(14,NFX) = ADRRPM                  
 C 
           SKEW(1:9) = ZERO
-          SKEW(1) = UN
-          SKEW(5) = UN
-          SKEW(9) = UN
+          SKEW(1) = ONE
+          SKEW(5) = ONE
+          SKEW(9) = ONE
           DO I=1,9
             FXBRPM(ADRRPM+I) = SKEW(I)
           ENDDO
@@ -285,7 +285,7 @@ C---------- Modes rotation
             IF (NME > 12) THEN
               DO I=1,3
                 DO K=1,NBNOD
-                  MODES_RB(6*(K-1)+3+I,12+I) = UN       
+                  MODES_RB(6*(K-1)+3+I,12+I) = ONE       
                 ENDDO
               ENDDO
             ENDIF
@@ -312,7 +312,7 @@ C---------- SCALE FACTOR ON LOCAL MODES FOR MASS CONDITIONING
 C
           ELSE
 C        
-            FAC2 = UN
+            FAC2 = ONE
             FAC=SQRT(FAC2)
 C
           ENDIF
@@ -333,23 +333,23 @@ C
                 ENDDO
                 SELECT CASE (J)
                 CASE (1)
-                  VECTR(CPT+J,1)=UN
+                  VECTR(CPT+J,1)=ONE
                   VECTR(CPT+J,5)=X(3,IDN)-XM(3)
                   VECTR(CPT+J,6)=-(X(2,IDN)-XM(2))
                 CASE (2)
-                  VECTR(CPT+J,2)=UN
+                  VECTR(CPT+J,2)=ONE
                   VECTR(CPT+J,4)=-(X(3,IDN)-XM(3))
                   VECTR(CPT+J,6)=X(1,IDN)-XM(1)
                 CASE (3)
-                  VECTR(CPT+J,3)=UN
+                  VECTR(CPT+J,3)=ONE
                   VECTR(CPT+J,4)=X(2,IDN)-XM(2)
                   VECTR(CPT+J,5)=-(X(1,IDN)-XM(1))
                 CASE (4)
-                  VECTR(CPT+J,4)=UN
+                  VECTR(CPT+J,4)=ONE
                 CASE (5)
-                  VECTR(CPT+J,5)=UN
+                  VECTR(CPT+J,5)=ONE
                 CASE (6)
-                  VECTR(CPT+J,6)=UN
+                  VECTR(CPT+J,6)=ONE
                 END SELECT
               ENDDO
               CPT=CPT+6
@@ -399,7 +399,7 @@ C---        On static mode generated per connected DOF  ---
             DO K=1,6
               IF ((BCS(K)==0).AND.(ITAG_DOF(K,I)>0)) THEN
                 NMST = NMST + 1
-                MODES(6*(I-1)+K,NMST) = UN
+                MODES(6*(I-1)+K,NMST) = ONE
               ENDIF
             ENDDO      
           ENDDO
@@ -497,7 +497,7 @@ C
        DO I=1,NMST
          DO J=1,NMST
            IF (I==J) THEN
-             MTEMP2(I,J) = UN/MAX(EM20,MTEMP2(I,J))
+             MTEMP2(I,J) = ONE/MAX(EM20,MTEMP2(I,J))
            ELSE
              MTEMP2(I,J) = ZERO
            ENDIF
@@ -529,7 +529,7 @@ C
 C
        DEALLOCATE(WI,WR,EIG_R,EIG_L,WORK,INVMK)
 C
-       FXBRPM(FXBIPM(14,NFX))=ZEP9*DEUX/SQRT(RHO_INVMK)      
+       FXBRPM(FXBIPM(14,NFX))=ZEP9*TWO/SQRT(RHO_INVMK)      
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                   MASS MATRIX PROJ ON RB MODES                    CCCCC

@@ -98,8 +98,8 @@ c     hard coded values for calculation of statistical distribution parameters
       YI1       = 0.663
       YI2       = 1.1
       YTOL      = 0.0001
-      DELTA_Y   = YTOL*DEUX
-      FAC_PI2   = UNDEMI
+      DELTA_Y   = YTOL*TWO
+      FAC_PI2   = HALF
 c
       SIG1 = SIG0 + SSHIFT  ! 125 MPa
       SIG2 = SIG1 + SSHIFT  ! 175 MPa
@@ -112,9 +112,9 @@ c------------------
       NS2  = EXP_N * NS1
       NS3  = EXP_N * NS2
       NS4  = EXP_N * NS3
-      FACN = (EXP_N - DEUX) / (DEUX*(EXP_N+UN))
-      M1   = EXP_N / (EXP_N - DEUX)
-      M2   = DEUX  / (EXP_N - DEUX)
+      FACN = (EXP_N - TWO) / (TWO*(EXP_N+ONE))
+      M1   = EXP_N / (EXP_N - TWO)
+      M2   = TWO  / (EXP_N - TWO)
 c--------------------------------------------------------------------
 c     Weibull distribution parameters on top and bottom surfaces
 c--------------------------------------------------------------------
@@ -127,14 +127,14 @@ c--------------------------------------------------------------------
         BETA_DRB = BETA2
         TAU_DRB  = TAU2
       END IF
-      BETAI = UN / BETA_DRB
+      BETAI = ONE / BETA_DRB
 c
       IF (P_SWITCH == 1) THEN
         P0 = ZERO
-        PF = UN - P_SCALE
+        PF = ONE - P_SCALE
       ELSE IF (P_SWITCH == 0) THEN
         P0 = P_SCALE
-        PF = UN
+        PF = ONE
       END IF
 c--------------------------------------------
 c       Calculation of P variable - Weibull distribution
@@ -151,7 +151,7 @@ c
 
 c       Calculate fracture stress value
         ETA_DRB = ETA * FSIZE**(-BETAI)
-        FF      = LOG(UN - PW) - (TAU_DRB / ETA_DRB)**BETA_DRB
+        FF      = LOG(ONE - PW) - (TAU_DRB / ETA_DRB)**BETA_DRB
         SIG_DRB(I) = -ETA_DRB*SIGN(ABS(FF)**BETAI,FF)   ! Fracture stress     
       END DO
 c------------------------------------------
@@ -290,12 +290,12 @@ c
             ITER = ITER + 1
             CALL NEWMAN_RAJU(CR_DEPTH(I),CRLEN,THKM,ALDTM,FAC_PI2,YITER)
 
-            DELTA_Y = ABS(UN-YITER/Y0(I))
+            DELTA_Y = ABS(ONE-YITER/Y0(I))
 
             IF (YITER < Y0(I)) THEN
-              CR_DEPTH(I) = CR_DEPTH(I)*(UN+DELTA_Y)
+              CR_DEPTH(I) = CR_DEPTH(I)*(ONE+DELTA_Y)
             ELSEIF (YITER > Y0(I)) THEN
-              CR_DEPTH(I) = CR_DEPTH(I)*(UN-DELTA_Y)
+              CR_DEPTH(I) = CR_DEPTH(I)*(ONE-DELTA_Y)
             END IF
 
             IF (CR_DEPTH(I) < CRLEN) THEN

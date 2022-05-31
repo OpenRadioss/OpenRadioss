@@ -213,12 +213,12 @@ C
         SZX(I) = SZX(I) + G31 * DZX(I)
         SXZ(I) = SXZ(I) + G31 * DXZ(I)
 C
-        SIGNXY(I,1) = UNDEMI*(SXY(I) + SYX(I))
-        SIGNYZ(I,1) = UNDEMI*(SYZ(I) + SZY(I))
-        SIGNZX(I,1) = UNDEMI*(SZX(I) + SXZ(I))
-        SIGNXY(I,2) = UNDEMI*(SXY(I) - SYX(I))
-        SIGNYZ(I,2) = UNDEMI*(SYZ(I) - SZY(I))
-        SIGNZX(I,2) = UNDEMI*(SZX(I) - SXZ(I))
+        SIGNXY(I,1) = HALF*(SXY(I) + SYX(I))
+        SIGNYZ(I,1) = HALF*(SYZ(I) + SZY(I))
+        SIGNZX(I,1) = HALF*(SZX(I) + SXZ(I))
+        SIGNXY(I,2) = HALF*(SXY(I) - SYX(I))
+        SIGNYZ(I,2) = HALF*(SYZ(I) - SZY(I))
+        SIGNZX(I,2) = HALF*(SZX(I) - SXZ(I))
 
         SOUNDSP(I) = SQRT(MAX(E11,E22,E33,G12,G23,G31)/RHO0(I))
         VISCMAX(I) = 0.
@@ -255,9 +255,9 @@ C
           IF((EPSXX(I).GT.EMX11.OR.
      .        EPSYY(I).GT.EMX22.OR.
      .        EPSZZ(I).GT.EMX33.OR.
-     .        ABS(EPSXY(I)/DEUX).GT.EMX12.OR.
-     .        ABS(EPSYZ(I)/DEUX).GT.EMX23.OR.
-     .        ABS(EPSZX(I)/DEUX).GT.EMX31).AND.OFF(I).NE.ZERO) THEN
+     .        ABS(EPSXY(I)/TWO).GT.EMX12.OR.
+     .        ABS(EPSYZ(I)/TWO).GT.EMX23.OR.
+     .        ABS(EPSZX(I)/TWO).GT.EMX31).AND.OFF(I).NE.ZERO) THEN
             OFF(I) = ZERO
             NINDX=NINDX+1  
             INDEX(NINDX)=I  
@@ -435,12 +435,12 @@ C
       ENDDO
 C
       DO I=1,NEL
-        SIGNXY(I,1) = UNDEMI*(SXY(I) + SYX(I))
-        SIGNYZ(I,1) = UNDEMI*(SYZ(I) + SZY(I))
-        SIGNZX(I,1) = UNDEMI*(SZX(I) + SXZ(I))
-        SIGNXY(I,2) = UNDEMI*(SXY(I) - SYX(I))
-        SIGNYZ(I,2) = UNDEMI*(SYZ(I) - SZY(I))
-        SIGNZX(I,2) = UNDEMI*(SZX(I) - SXZ(I))
+        SIGNXY(I,1) = HALF*(SXY(I) + SYX(I))
+        SIGNYZ(I,1) = HALF*(SYZ(I) + SZY(I))
+        SIGNZX(I,1) = HALF*(SZX(I) + SXZ(I))
+        SIGNXY(I,2) = HALF*(SXY(I) - SYX(I))
+        SIGNYZ(I,2) = HALF*(SYZ(I) - SZY(I))
+        SIGNZX(I,2) = HALF*(SZX(I) - SXZ(I))
       ENDDO
 
 #include "vectorize.inc"
@@ -455,10 +455,10 @@ C
           IF(-EPSXX(I).GT.EMX11.OR.
      .       -EPSYY(I).GT.EMX22.OR.
      .       -EPSZZ(I).GT.EMX33.OR.
-     .        ABS(EPSXY(I)/DEUX).GT.EMX12.OR.
-     .        ABS(EPSYZ(I)/DEUX).GT.EMX23.OR.
-     .        ABS(EPSZX(I)/DEUX).GT.EMX31) THEN
-            FR_WAV(I) = UN
+     .        ABS(EPSXY(I)/TWO).GT.EMX12.OR.
+     .        ABS(EPSYZ(I)/TWO).GT.EMX23.OR.
+     .        ABS(EPSZX(I)/TWO).GT.EMX31) THEN
+            FR_WAV(I) = ONE
           ELSE
             FR_WAV(I) = ZERO
           ENDIF

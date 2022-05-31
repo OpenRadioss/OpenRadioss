@@ -270,7 +270,7 @@ C-----------------------------------------------
       INTEGER I, K, I1, IADNOD
 C     REAL ou REAL*8
 C-----------------------------------------------
-      OFF=UN
+      OFF=ONE
 C
 C     NX    =KXX(3)
       IADNOD=KXX(4)
@@ -355,14 +355,14 @@ C
         PARTSAV(5,IP) =PARTSAV(5,IP) + XI + EMS * (YY+ZZ)
         PARTSAV(6,IP) =PARTSAV(6,IP) + XI + EMS * (ZZ+XX)
         PARTSAV(7,IP) =PARTSAV(7,IP) + XI + EMS * (XX+YY)
-        PARTSAV(8,IP) =PARTSAV(8,IP)  - EMS * XY * UNDEMI
-        PARTSAV(9,IP) =PARTSAV(9,IP)  - EMS * YZ * UNDEMI
-        PARTSAV(10,IP)=PARTSAV(10,IP) - EMS * ZX * UNDEMI
+        PARTSAV(8,IP) =PARTSAV(8,IP)  - EMS * XY * HALF
+        PARTSAV(9,IP) =PARTSAV(9,IP)  - EMS * YZ * HALF
+        PARTSAV(10,IP)=PARTSAV(10,IP) - EMS * ZX * HALF
 C
         PARTSAV(11,IP)=PARTSAV(11,IP) + EMS*V(1,I1)
         PARTSAV(12,IP)=PARTSAV(12,IP) + EMS*V(2,I1)
         PARTSAV(13,IP)=PARTSAV(13,IP) + EMS*V(3,I1)
-        PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * EMS *
+        PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS *
      .     (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1))
       ENDDO
 C----------------------------------------------

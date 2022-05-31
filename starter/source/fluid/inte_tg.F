@@ -97,13 +97,13 @@ C
 C DISTANCE A LA SOURCE
       R2=(XP-XS)**2+(YP-YS)**2+(ZP-ZS)**2
 C NOMBRE DE POINTS DE GAUSS
-      IF (R2.GT.CENT*D2) THEN
+      IF (R2.GT.HUNDRED*D2) THEN
          NPG=1
          IAD=1
-      ELSEIF (R2.GT.VINGT5*D2) THEN
+      ELSEIF (R2.GT.TWENTY5*D2) THEN
          NPG=4
          IAD=2
-      ELSEIF (R2.GT.QUATRE*D2) THEN
+      ELSEIF (R2.GT.FOUR*D2) THEN
          NPG=7
          IAD=6
       ELSE
@@ -119,7 +119,7 @@ C INTEGRATION
          ETA2=PG(IAD2+1)
          IAD=IAD+1
          IAD2=IAD2+2
-         VAL1=UN-ETA1-ETA2
+         VAL1=ONE-ETA1-ETA2
          VAL2=ETA1         
          VAL3=ETA2          
          XG=VAL1*X1+VAL2*X2+VAL3*X3
@@ -127,7 +127,7 @@ C INTEGRATION
          ZG=VAL1*Z1+VAL2*Z2+VAL3*Z3
          R2=(XG-XP)**2+(YG-YP)**2+(ZG-ZP)**2
          IF(R2.GT.EM20)THEN
-           VALPHI=-(NRX*(XG-XP)+NRY*(YG-YP)+NRZ*(ZG-ZP))/(R2**TDEMI)
+           VALPHI=-(NRX*(XG-XP)+NRY*(YG-YP)+NRZ*(ZG-ZP))/(R2**THREE_HALF)
            RVAL  = RVAL + W*VALPHI*JAC
          ENDIF
       ENDDO
@@ -213,13 +213,13 @@ C
 C DISTANCE A LA SOURCE
       R2=(XP-XS)**2+(YP-YS)**2+(ZP-ZS)**2
 C NOMBRE DE POINTS DE GAUSS
-      IF (R2.GT.CENT*D2) THEN
+      IF (R2.GT.HUNDRED*D2) THEN
          NPG=1
          IAD=1
-      ELSEIF (R2.GT.VINGT5*D2) THEN
+      ELSEIF (R2.GT.TWENTY5*D2) THEN
          NPG=4
          IAD=2
-      ELSEIF (R2.GT.QUATRE*D2) THEN
+      ELSEIF (R2.GT.FOUR*D2) THEN
          NPG=7
          IAD=6
       ELSE
@@ -235,7 +235,7 @@ C INTEGRATION
          ETA2=PG(IAD2+1)
          IAD=IAD+1
          IAD2=IAD2+2
-         VAL1=UN-ETA1-ETA2
+         VAL1=ONE-ETA1-ETA2
          VAL2=ETA1         
          VAL3=ETA2          
          XG=VAL1*X1+VAL2*X2+VAL3*X3
@@ -243,7 +243,7 @@ C INTEGRATION
          ZG=VAL1*Z1+VAL2*Z2+VAL3*Z3
          R2=(XG-XP)**2+(YG-YP)**2+(ZG-ZP)**2
          IF(R2.GT.EM20)THEN
-           VALPHI= UN/SQRT(R2)
+           VALPHI= ONE/SQRT(R2)
            RVAL  = RVAL + W*VALPHI*JAC
          ENDIF
       ENDDO

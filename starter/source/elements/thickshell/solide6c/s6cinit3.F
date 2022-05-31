@@ -308,7 +308,7 @@ c
        ENDIF
 c
         DO I=LFT,LLT
-          LBUF%VOL0DP(I)= UNDEMI*WI*(GBUF%VOL(I)+VZL(I)*ZI)
+          LBUF%VOL0DP(I)= HALF*WI*(GBUF%VOL(I)+VZL(I)*ZI)
           LBUF%VOL(I)= LBUF%VOL0DP(I)
         ENDDO
         IF (IGTYP == 22)
@@ -428,7 +428,7 @@ c
           ENDIF
         ENDIF
         DTELEM(NFT+I)=DTX(I)
-        STI = QUART * GBUF%FILL(I) * GBUF%RHO(I) * VOLU(I) /
+        STI = FOURTH * GBUF%FILL(I) * GBUF%RHO(I) * VOLU(I) /
      .        MAX(EM20,DTX(I)*DTX(I))
         STIFN(IXS(2,I+NFT))=STIFN(IXS(2,I+NFT))+STI
         STIFN(IXS(3,I+NFT))=STIFN(IXS(3,I+NFT))+STI
@@ -495,15 +495,15 @@ C-----------------------------------------------
      .   AL1,AL2,AL3,ALMAX,SUM
 C=======================================================================
        DO I=LFT,LLT
-          XN(I,1) = UNDEMI*(X1(I)+X4(I))
-          YN(I,1) = UNDEMI*(Y1(I)+Y4(I))
-          ZN(I,1) = UNDEMI*(Z1(I)+Z4(I))
-          XN(I,2) = UNDEMI*(X2(I)+X5(I))
-          YN(I,2) = UNDEMI*(Y2(I)+Y5(I))
-          ZN(I,2) = UNDEMI*(Z2(I)+Z5(I))
-          XN(I,3) = UNDEMI*(X3(I)+X6(I))
-          YN(I,3) = UNDEMI*(Y3(I)+Y6(I))
-          ZN(I,3) = UNDEMI*(Z3(I)+Z6(I))
+          XN(I,1) = HALF*(X1(I)+X4(I))
+          YN(I,1) = HALF*(Y1(I)+Y4(I))
+          ZN(I,1) = HALF*(Z1(I)+Z4(I))
+          XN(I,2) = HALF*(X2(I)+X5(I))
+          YN(I,2) = HALF*(Y2(I)+Y5(I))
+          ZN(I,2) = HALF*(Z2(I)+Z5(I))
+          XN(I,3) = HALF*(X3(I)+X6(I))
+          YN(I,3) = HALF*(Y3(I)+Y6(I))
+          ZN(I,3) = HALF*(Z3(I)+Z6(I))
        ENDDO 
       DO I=LFT,LLT
         X21(I)=XN(I,2)-XN(I,1)
@@ -535,7 +535,7 @@ C
         E3X(I)=E3X(I)/SUM
         E3Y(I)=E3Y(I)/SUM
         E3Z(I)=E3Z(I)/SUM
-        AREA(I) = UNDEMI * SUM
+        AREA(I) = HALF * SUM
       ENDDO
 C
       DO I=LFT,LLT
@@ -554,7 +554,7 @@ C
         AL2 = (X3L(I)-X2L(I)) * (X3L(I)-X2L(I)) + Y3L(I) * Y3L(I)
         AL3 = X3L(I) * X3L(I) + Y3L(I) * Y3L(I)
         ALMAX = MAX(AL1,AL2,AL3)
-        LLSH3N(I)= DEUX*AREA(I) / SQRT(ALMAX)
+        LLSH3N(I)= TWO*AREA(I) / SQRT(ALMAX)
       ENDDO
 C
       RETURN

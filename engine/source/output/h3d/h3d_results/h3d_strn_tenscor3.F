@@ -202,11 +202,11 @@ c T_SHELL ( JHBE = 15/16 )
                IF(KCVT==2)THEN
                  GAMA(1:6) = GBUF%GAMA(JJ(1:6) + I)
                ELSE
-                 GAMA(1)=UN
+                 GAMA(1)=ONE
                  GAMA(2)=ZERO
                  GAMA(3)=ZERO
                  GAMA(4)=ZERO
-                 GAMA(5)=UN
+                 GAMA(5)=ONE
                  GAMA(6)=ZERO
                END IF
              END IF
@@ -251,14 +251,14 @@ c
                    A_GAUSS_R = A_GAUSS(1,NPTR)
                    A_GAUSS_R1 = A_GAUSS(2,NPTR)
                    A_GAUSS_P_R =
-     .             (-UN-UNDEMI*(A_GAUSS_R1+A_GAUSS_R))/ 
-     .             (UNDEMI*(A_GAUSS_R1-A_GAUSS_R))
+     .             (-ONE-HALF*(A_GAUSS_R1+A_GAUSS_R))/ 
+     .             (HALF*(A_GAUSS_R1-A_GAUSS_R))
                  ELSEIF(SOL_NODE(1,J) == 1 )THEN
                    A_GAUSS_R = A_GAUSS(NPTR-1,NPTR)
                    A_GAUSS_R1 = A_GAUSS(NPTR,NPTR)
                    A_GAUSS_P_R =
-     .             (UN+UNDEMI*(A_GAUSS_R1+A_GAUSS_R))/ 
-     .             (UNDEMI*(A_GAUSS_R1-A_GAUSS_R))
+     .             (ONE+HALF*(A_GAUSS_R1+A_GAUSS_R))/ 
+     .             (HALF*(A_GAUSS_R1-A_GAUSS_R))
                  ENDIF
 c
                  IF (NPTS == 1)THEN
@@ -267,14 +267,14 @@ c
                    A_GAUSS_S = A_GAUSS(1,NPTS)
                    A_GAUSS_S1 = A_GAUSS(2,NPTS)
                    A_GAUSS_P_S =
-     .             (-UN-UNDEMI*(A_GAUSS_S1+A_GAUSS_S))/ 
-     .             (UNDEMI*(A_GAUSS_S1-A_GAUSS_S))
+     .             (-ONE-HALF*(A_GAUSS_S1+A_GAUSS_S))/ 
+     .             (HALF*(A_GAUSS_S1-A_GAUSS_S))
                  ELSEIF(SOL_NODE(2,J) == 1 )THEN
                    A_GAUSS_S = A_GAUSS(NPTS-1,NPTS)
                    A_GAUSS_S1 = A_GAUSS(NPTS,NPTS)
                    A_GAUSS_P_S =
-     .             (UN+UNDEMI*(A_GAUSS_S1+A_GAUSS_S))/ 
-     .             (UNDEMI*(A_GAUSS_S1-A_GAUSS_S))
+     .             (ONE+HALF*(A_GAUSS_S1+A_GAUSS_S))/ 
+     .             (HALF*(A_GAUSS_S1-A_GAUSS_S))
                  ENDIF
 c
                  IF (NPTT == 1)THEN
@@ -283,22 +283,22 @@ c
                    A_GAUSS_T = A_GAUSS(1,NPTT)
                    A_GAUSS_T1 = A_GAUSS(2,NPTT)
                    A_GAUSS_P_T =
-     .             (-UN-UNDEMI*(A_GAUSS_T1+A_GAUSS_T))/ 
-     .             (UNDEMI*(A_GAUSS_T1-A_GAUSS_T))
+     .             (-ONE-HALF*(A_GAUSS_T1+A_GAUSS_T))/ 
+     .             (HALF*(A_GAUSS_T1-A_GAUSS_T))
                  ELSEIF(SOL_NODE(3,J) == 1 )THEN
                    A_GAUSS_T = A_GAUSS(NPTT-1,NPTT)
                    A_GAUSS_T1 = A_GAUSS(NPTT,NPTT)
                    A_GAUSS_P_T =
-     .             (UN+UNDEMI*(A_GAUSS_T1+A_GAUSS_T))/ 
-     .             (UNDEMI*(A_GAUSS_T1-A_GAUSS_T))
+     .             (ONE+HALF*(A_GAUSS_T1+A_GAUSS_T))/ 
+     .             (HALF*(A_GAUSS_T1-A_GAUSS_T))
                  ENDIF
 c
                  IF (JHBE == 15 .OR. JHBE == 16) THEN
                   ILAY = IS
                   IS = 1 
-                  N1 = QUART*(
-     .               (UN+SOL_NODE(1,K) * A_GAUSS_P_R)  *
-     .               (UN+SOL_NODE(3,K) * A_GAUSS_P_T)  )
+                  N1 = FOURTH*(
+     .               (ONE+SOL_NODE(1,K) * A_GAUSS_P_R)  *
+     .               (ONE+SOL_NODE(3,K) * A_GAUSS_P_T)  )
                  ENDIF
 c       STRHG(NEL,6,8)
                    LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)
@@ -306,9 +306,9 @@ c       STRHG(NEL,6,8)
                    EVAR_TMP(1) = LBUF%STRA(JJ(1) + I)
                    EVAR_TMP(2) = LBUF%STRA(JJ(2) + I)
                    EVAR_TMP(3) = LBUF%STRA(JJ(3) + I)
-                   EVAR_TMP(4) = LBUF%STRA(JJ(4) + I)*UNDEMI
-                   EVAR_TMP(5) = LBUF%STRA(JJ(5) + I)*UNDEMI
-                   EVAR_TMP(6) = LBUF%STRA(JJ(6) + I)*UNDEMI
+                   EVAR_TMP(4) = LBUF%STRA(JJ(4) + I)*HALF
+                   EVAR_TMP(5) = LBUF%STRA(JJ(5) + I)*HALF
+                   EVAR_TMP(6) = LBUF%STRA(JJ(6) + I)*HALF
                    IF (KCVT /= 0)
      .             CALL SROTA6(X,IXS(1,N),KCVT,EVAR_TMP,GAMA,JHBE,IGTYP)
                    EVAR(1:6,J,I) = EVAR(1:6,J,I) + N1 * EVAR_TMP(1:6)
@@ -324,11 +324,11 @@ c       STRHG(NEL,6,8)
                IF(KCVT==2)THEN
                  GAMA(1:6) = GBUF%GAMA(JJ(1:6) + I)
                ELSE
-                 GAMA(1)=UN
+                 GAMA(1)=ONE
                  GAMA(2)=ZERO
                  GAMA(3)=ZERO
                  GAMA(4)=ZERO
-                 GAMA(5)=UN
+                 GAMA(5)=ONE
                  GAMA(6)=ZERO
                END IF
              END IF
@@ -372,14 +372,14 @@ c
                    A_GAUSS_R = A_GAUSS(1,NPTR)
                    A_GAUSS_R1 = A_GAUSS(2,NPTR)
                    A_GAUSS_P_R =
-     .             (-UN-UNDEMI*(A_GAUSS_R1+A_GAUSS_R))/ 
-     .             (UNDEMI*(A_GAUSS_R1-A_GAUSS_R))
+     .             (-ONE-HALF*(A_GAUSS_R1+A_GAUSS_R))/ 
+     .             (HALF*(A_GAUSS_R1-A_GAUSS_R))
                  ELSEIF(SOL_NODE(1,J) == 1 )THEN
                    A_GAUSS_R = A_GAUSS(NPTR-1,NPTR)
                    A_GAUSS_R1 = A_GAUSS(NPTR,NPTR)
                    A_GAUSS_P_R =
-     .             (UN+UNDEMI*(A_GAUSS_R1+A_GAUSS_R))/ 
-     .             (UNDEMI*(A_GAUSS_R1-A_GAUSS_R))
+     .             (ONE+HALF*(A_GAUSS_R1+A_GAUSS_R))/ 
+     .             (HALF*(A_GAUSS_R1-A_GAUSS_R))
                  ENDIF
 c
                  IF (NPTS == 1)THEN
@@ -388,14 +388,14 @@ c
                    A_GAUSS_S = A_GAUSS(1,NPTS)
                    A_GAUSS_S1 = A_GAUSS(2,NPTS)
                    A_GAUSS_P_S =
-     .             (-UN-UNDEMI*(A_GAUSS_S1+A_GAUSS_S))/ 
-     .             (UNDEMI*(A_GAUSS_S1-A_GAUSS_S))
+     .             (-ONE-HALF*(A_GAUSS_S1+A_GAUSS_S))/ 
+     .             (HALF*(A_GAUSS_S1-A_GAUSS_S))
                  ELSEIF(SOL_NODE(2,J) == 1 )THEN
                    A_GAUSS_S = A_GAUSS(NPTS-1,NPTS)
                    A_GAUSS_S1 = A_GAUSS(NPTS,NPTS)
                    A_GAUSS_P_S =
-     .             (UN+UNDEMI*(A_GAUSS_S1+A_GAUSS_S))/ 
-     .             (UNDEMI*(A_GAUSS_S1-A_GAUSS_S))
+     .             (ONE+HALF*(A_GAUSS_S1+A_GAUSS_S))/ 
+     .             (HALF*(A_GAUSS_S1-A_GAUSS_S))
                  ENDIF
 c
                  IF (NPTT == 1)THEN
@@ -404,20 +404,20 @@ c
                    A_GAUSS_T = A_GAUSS(1,NPTT)
                    A_GAUSS_T1 = A_GAUSS(2,NPTT)
                    A_GAUSS_P_T =
-     .             (-UN-UNDEMI*(A_GAUSS_T1+A_GAUSS_T))/ 
-     .             (UNDEMI*(A_GAUSS_T1-A_GAUSS_T))
+     .             (-ONE-HALF*(A_GAUSS_T1+A_GAUSS_T))/ 
+     .             (HALF*(A_GAUSS_T1-A_GAUSS_T))
                  ELSEIF(SOL_NODE(3,J) == 1 )THEN
                    A_GAUSS_T = A_GAUSS(NPTT-1,NPTT)
                    A_GAUSS_T1 = A_GAUSS(NPTT,NPTT)
                    A_GAUSS_P_T =
-     .             (UN+UNDEMI*(A_GAUSS_T1+A_GAUSS_T))/ 
-     .             (UNDEMI*(A_GAUSS_T1-A_GAUSS_T))
+     .             (ONE+HALF*(A_GAUSS_T1+A_GAUSS_T))/ 
+     .             (HALF*(A_GAUSS_T1-A_GAUSS_T))
                  ENDIF
 c
-                 N1 = UNHUIT*(
-     .               (UN+SOL_NODE(1,K) * A_GAUSS_P_R)  *
-     .               (UN+SOL_NODE(2,K) * A_GAUSS_P_S)  *
-     .               (UN+SOL_NODE(3,K) * A_GAUSS_P_T)  )
+                 N1 = ONE_OVER_8*(
+     .               (ONE+SOL_NODE(1,K) * A_GAUSS_P_R)  *
+     .               (ONE+SOL_NODE(2,K) * A_GAUSS_P_S)  *
+     .               (ONE+SOL_NODE(3,K) * A_GAUSS_P_T)  )
 c
                  IF (IGTYP == 20 .OR. IGTYP ==21 .OR. IGTYP == 22) THEN
                    ILAY = IT
@@ -431,17 +431,17 @@ c
                    EVAR_TMP(1) = STR_IS24(I,1,IP)
                    EVAR_TMP(2) = STR_IS24(I,2,IP)
                    EVAR_TMP(3) = STR_IS24(I,3,IP)
-                   EVAR_TMP(4) = STR_IS24(I,4,IP)*UNDEMI
-                   EVAR_TMP(5) = STR_IS24(I,5,IP)*UNDEMI
-                   EVAR_TMP(6) = STR_IS24(I,6,IP)*UNDEMI
+                   EVAR_TMP(4) = STR_IS24(I,4,IP)*HALF
+                   EVAR_TMP(5) = STR_IS24(I,5,IP)*HALF
+                   EVAR_TMP(6) = STR_IS24(I,6,IP)*HALF
                  ELSE
                    LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)
                    EVAR_TMP(1) =  LBUF%STRA(JJ(1) + I)
                    EVAR_TMP(2) =  LBUF%STRA(JJ(2) + I)
                    EVAR_TMP(3) =  LBUF%STRA(JJ(3) + I)
-                   EVAR_TMP(4) =  LBUF%STRA(JJ(4) + I)*UNDEMI
-                   EVAR_TMP(5) =  LBUF%STRA(JJ(5) + I)*UNDEMI
-                   EVAR_TMP(6) =  LBUF%STRA(JJ(6) + I)*UNDEMI
+                   EVAR_TMP(4) =  LBUF%STRA(JJ(4) + I)*HALF
+                   EVAR_TMP(5) =  LBUF%STRA(JJ(5) + I)*HALF
+                   EVAR_TMP(6) =  LBUF%STRA(JJ(6) + I)*HALF
                  ENDIF
                  IF (KCVT /= 0)
      .           CALL SROTA6(X,IXS(1,N),KCVT,EVAR_TMP,GAMA, JHBE,IGTYP)
@@ -464,23 +464,23 @@ c
                  GAMA(5) = GBUF%GAMA(JJ(5) + I)
                  GAMA(6) = GBUF%GAMA(JJ(6) + I)
                ELSE
-                 GAMA(1)=UN
+                 GAMA(1)=ONE
                  GAMA(2)=ZERO
                  GAMA(3)=ZERO
                  GAMA(4)=ZERO
-                 GAMA(5)=UN
+                 GAMA(5)=ONE
                  GAMA(6)=ZERO
                END IF
              END IF
-                   N1 = QUART
+                   N1 = FOURTH
                    ILAY = 1
                    LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(1,1,1)
                  EVAR_TMP(1) = LBUF%STRA(JJ(1) + I)
                  EVAR_TMP(2) = LBUF%STRA(JJ(2) + I)
                  EVAR_TMP(3) = LBUF%STRA(JJ(3) + I)
-                 EVAR_TMP(4) = LBUF%STRA(JJ(4) + I)*UNDEMI
-                 EVAR_TMP(5) = LBUF%STRA(JJ(5) + I)*UNDEMI
-                 EVAR_TMP(6) = LBUF%STRA(JJ(6) + I)*UNDEMI
+                 EVAR_TMP(4) = LBUF%STRA(JJ(4) + I)*HALF
+                 EVAR_TMP(5) = LBUF%STRA(JJ(5) + I)*HALF
+                 EVAR_TMP(6) = LBUF%STRA(JJ(6) + I)*HALF
                  IF (KCVT /= 0)
      .           CALL SROTA6(X,IXS(1,N),KCVT,EVAR_TMP,GAMA, JHBE,IGTYP)
              DO J=1,4
@@ -490,7 +490,7 @@ c
          ELSEIF(ISOLNOD == 10)THEN
 c    
            ALPHA_1 = -ALPHA/(BETA-ALPHA)
-           BETA_1  = (UN-ALPHA)/(BETA-ALPHA)
+           BETA_1  = (ONE-ALPHA)/(BETA-ALPHA)
            DO I=LFT,LLT
              N = I + NFT
              IF (KCVT /= 0) THEN
@@ -502,11 +502,11 @@ c
                  GAMA(5) = GBUF%GAMA(JJ(5) + I)
                  GAMA(6) = GBUF%GAMA(JJ(6) + I)
                ELSE
-                 GAMA(1)=UN
+                 GAMA(1)=ONE
                  GAMA(2)=ZERO
                  GAMA(3)=ZERO
                  GAMA(4)=ZERO
-                 GAMA(5)=UN
+                 GAMA(5)=ONE
                  GAMA(6)=ZERO
                END IF
              END IF
@@ -527,9 +527,9 @@ C
                  EVAR_T10(1,J) = EVAR_T10(1,J)+ N1 *LBUF%STRA(JJ(1) + I)
                  EVAR_T10(2,J) = EVAR_T10(2,J)+ N1 *LBUF%STRA(JJ(2) + I)
                  EVAR_T10(3,J) = EVAR_T10(3,J)+ N1 *LBUF%STRA(JJ(3) + I)
-                 EVAR_T10(4,J) = EVAR_T10(4,J)+ N1 *LBUF%STRA(JJ(4) + I)*UNDEMI
-                 EVAR_T10(5,J) = EVAR_T10(5,J)+ N1 *LBUF%STRA(JJ(5) + I)*UNDEMI
-                 EVAR_T10(6,J) = EVAR_T10(6,J)+ N1 *LBUF%STRA(JJ(6) + I)*UNDEMI
+                 EVAR_T10(4,J) = EVAR_T10(4,J)+ N1 *LBUF%STRA(JJ(4) + I)*HALF
+                 EVAR_T10(5,J) = EVAR_T10(5,J)+ N1 *LBUF%STRA(JJ(5) + I)*HALF
+                 EVAR_T10(6,J) = EVAR_T10(6,J)+ N1 *LBUF%STRA(JJ(6) + I)*HALF
                ENDDO
                  IF (KCVT /= 0)
      .           CALL SROTA6(X,IXS(1,N),KCVT,EVAR_T10(1,J),GAMA, JHBE,IGTYP)
@@ -537,7 +537,7 @@ C
              DO J=5,10
                 NN1=IPERM1(J)
                 NN2=IPERM2(J)
-                EVAR_T10(1:6,J) = UNDEMI*(EVAR_T10(1:6,NN1)+EVAR_T10(1:6,NN2))
+                EVAR_T10(1:6,J) = HALF*(EVAR_T10(1:6,NN1)+EVAR_T10(1:6,NN2))
              END DO
              DO J=1,10
                EVAR(1:6,J,I) = EVAR_T10(1:6,J)

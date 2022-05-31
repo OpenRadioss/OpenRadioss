@@ -70,7 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
         FAC=ZERO
-        IF(DT1.GT.ZERO)FAC=UN/DT1
+        IF(DT1.GT.ZERO)FAC=ONE/DT1
         IF(IFSUB.EQ.0)THEN
            DO N=NODFT,NODLT
               W(1,N)=FAC*(D(1,N)-DSAVE(1,N))

@@ -59,7 +59,7 @@ C-----------------------------------------------
      .    DEGMB(MVSIZ), DEGFX(MVSIZ), B1(MVSIZ), B2(MVSIZ), B3(MVSIZ)
 c=======================================================================
       DO I=JFT,JLT
-        THK08  =THK(I)*UNDOUZE
+        THK08  =THK(I)*ONE_OVER_12
         B1(I)  =A1(I)*THK08
         B2(I)  =A2(I)*THK08
         B3(I)  =G(I) *THK08
@@ -81,13 +81,13 @@ C
         DEGMB(I) = FOR(1,I)*EXX(I)+FOR(2,I)*EYY(I)+FOR(3,I)*EXY(I)
         DEGFX(I) = MOM(1,I)*KXX(I)+MOM(2,I)*KYY(I)
      +                   +MOM(3,I)*KXY(I)
-        EINT(1,I) = DEGMB(I)*UNDEMI*THK(I)*AREA(I)
-        EINT(2,I) = DEGFX(I)*UNDEMI*THK(I)*THK(I)*AREA(I)
+        EINT(1,I) = DEGMB(I)*HALF*THK(I)*AREA(I)
+        EINT(2,I) = DEGFX(I)*HALF*THK(I)*THK(I)*AREA(I)
       ENDDO
       IF(ITHK.EQ.1) THEN
         DO I=JFT,JLT
-          EZZ = -NU(I) * (EXX(I) + EYY(I)) / (UN-NU(I))
-          THK(I) = THK(I) * (UN + EZZ)
+          EZZ = -NU(I) * (EXX(I) + EYY(I)) / (ONE-NU(I))
+          THK(I) = THK(I) * (ONE + EZZ)
         ENDDO
       ENDIF
 C-----------

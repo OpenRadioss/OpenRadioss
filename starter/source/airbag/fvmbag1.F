@@ -542,7 +542,7 @@ C
 C
       IF (LXMAX.GT.LX) THEN
          LX_OLD=LX
-         LX=LXMAX*UNP01
+         LX=LXMAX*ONEP01
          CALL ANCMSG(MSGID=631,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_1,
@@ -555,7 +555,7 @@ C
       ENDIF
       IF (LYMAX.GT.LY) THEN
          LY_OLD=LY
-         LY=LYMAX*UNP01
+         LY=LYMAX*ONEP01
          CALL ANCMSG(MSGID=631,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_1,
@@ -574,13 +574,13 @@ C         CALL ANSTCKI(ID)
 C         CALL ANSTCKI(3)
 C         CALL ANSTCKR(LZ)
 C         CALL ANSTCKR(LZMAX)
-C         LZ=LZMAX*UNP01
+C         LZ=LZMAX*ONEP01
 C         CALL ANSTCKR(LZ)
 C         CALL ANCWARN(631,ANINFO_BLIND_1)
 C      ENDIF
       IF (LZMAX.GT.LZ) THEN
          LZ_OLD=LZ
-         LZ=LZMAX*UNP01
+         LZ=LZMAX*ONEP01
          CALL ANCMSG(MSGID=631,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_1,

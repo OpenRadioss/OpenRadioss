@@ -427,8 +427,8 @@ C---            moment local
                                         WWA(36)= V2                            
                                         WWA(37)= V3                            
                                         WWA(38)=-V1                            
-                                        WWA(39)= V2 + DEUX*GBUF%MOM(JJ(2)+I-1)
-                                        WWA(40)= V3 + DEUX*GBUF%MOM(JJ(3)+I-1)
+                                        WWA(39)= V2 + TWO*GBUF%MOM(JJ(2)+I-1)
+                                        WWA(40)= V3 + TWO*GBUF%MOM(JJ(3)+I-1)
 C---            moment global                          
                                         WWA(29)= V1*E1X+V2*E1Y+V3*E1Z              
                                         WWA(30)= V1*E2X+V2*E2Y+V3*E2Z              

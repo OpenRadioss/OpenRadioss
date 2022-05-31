@@ -222,7 +222,7 @@ C   Vect orhotrope
 
           AN=SQRT(VX*VX+VY*VY+VZ*VZ)
           IF(AN .LT. EM10)THEN
-             VX=UN
+             VX=ONE
              VY=ZERO
              VZ=ZERO
           ELSE

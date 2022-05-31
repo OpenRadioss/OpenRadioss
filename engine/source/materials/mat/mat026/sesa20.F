@@ -66,7 +66,7 @@ C-----------------------------------------------
 C---------------------------------
       DO I=LFT,LLT
         MX      = MAT(I)
-        DPDM(I) = QTHIRD * PM(22,MX)
+        DPDM(I) = FOUR_OVER_3 * PM(22,MX)
         E01(I) =EINT(I)-(POLD(I)+QOLD(I))*DV2(I)
         E01(I) = MAX(ZERO,E01(I))
         ESPE(I)=E01(I)/MAX(EM30,VOLN(I)*RHO(I))
@@ -97,23 +97,23 @@ C
         TL = LOG10(TEMP(I))
         CALL MINTP_RT(SESAME(IDR),NR,
      +     SESAME(IDT),NT,SESAME(IDQ),RL,TL,ZL,DXDR)
-        Z(I) = DIX**ZL
+        Z(I) = TEN**ZL
 c
         !(CONDUNCTIVITE MAX POUR CALCUL DE DT)
         ZZ = MAX(EM10,Z(I))
-        DELTAT= TROISP44 * ZEP26 * LOG(ZZ) / ZZ
+        DELTAT= THREEP44 * ZEP26 * LOG(ZZ) / ZZ
         IF(DELTAT.GT.ZERO)THEN
-          DELTAT= UN / ( UN +  DELTAT)
+          DELTAT= ONE / ( ONE +  DELTAT)
         ELSE
           DELTAT= ZERO
         ENDIF
         ATOM  = PM(37,MX)
         NE    = RHO(I)*NA*ZZ/ATOM
-        XLAMB = PM(36,MX)*TEMP(I)**TDEMI/SQRT(NE)
-        XLAMB = MAX(UN,XLAMB)
+        XLAMB = PM(36,MX)*TEMP(I)**THREE_HALF/SQRT(NE)
+        XLAMB = MAX(ONE,XLAMB)
         XLAMB = MAX(EM10, LOG(XLAMB))
-        XK(I) = ZEP4*DELTAT*PM(35,MX) * TEMP(I)**DEUXP5 / (ZZ*XLAMB)
-c        XK = MAX(XK,UN)
+        XK(I) = ZEP4*DELTAT*PM(35,MX) * TEMP(I)**TWOP5 / (ZZ*XLAMB)
+c        XK = MAX(XK,ONE)
         STEFAN = PM(51,MX)
         IF(STEFAN.GT.ZERO.AND.TEMP(I).GE.EP04)THEN
           NR     = NINT(PM(48,MX))
@@ -125,9 +125,9 @@ c        XK = MAX(XK,UN)
           TL = LOG10(TEMP(I))
           CALL MINTP_RT(SESAME(IDR),NR,
      +       SESAME(IDT),NT,SESAME(IDQ),RL,TL,OPAC,DXDR)
-          OPAC = DIX**OPAC
-          ROSSEL = UN / ( RHO(I) * OPAC)
-          XKR = SEIZE * STEFAN * TEMP(I)**3 * ROSSEL * THIRD
+          OPAC = TEN**OPAC
+          ROSSEL = ONE / ( RHO(I) * OPAC)
+          XKR = SIXTEEN * STEFAN * TEMP(I)**3 * ROSSEL * THIRD
           XK(I) = XK(I) + XKR
         ENDIF
         XK(I) = MIN(XK(I),PM(51,MX))

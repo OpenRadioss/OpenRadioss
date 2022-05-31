@@ -62,7 +62,7 @@ C-----------------------------------------------
         ENDDO
         IF (USENS > 0) THEN
           OFF(I) = ZERO
-          IF (TT > SENSOR(2,ISENS)) OFF(I) = UN
+          IF (TT > SENSOR(2,ISENS)) OFF(I) = ONE
         ELSEIF (USENS < 0 )THEN
           IF (TT > SENSOR(2,ISENS)) OFF(I) = ZERO
         ENDIF
@@ -121,12 +121,12 @@ C  OFF    -10.        1.       -10.        1.
 C                        \_  rupture eventuelle du ressort => 0. 
 C                            (pas de reactivation possible)
 C
-          IF (TT > SENSOR(2,ISENS) .AND. OFF(I) == -DIX) THEN
-            OFF(I) = UN
+          IF (TT > SENSOR(2,ISENS) .AND. OFF(I) == -TEN) THEN
+            OFF(I) = ONE
             X0(I) = X0(I) + DX(I)
             DX(I) = ZERO 
-          ELSEIF (TT < SENSOR(2,ISENS) .AND. OFF(I) == UN) THEN
-            OFF(I) = -DIX
+          ELSEIF (TT < SENSOR(2,ISENS) .AND. OFF(I) == ONE) THEN
+            OFF(I) = -TEN
           ENDIF
         ELSEIF (USENS > 0) THEN
 C
@@ -137,8 +137,8 @@ C  OFF    -10.       1.
 C                        \_  rupture eventuelle du ressort => 0. 
 C                            (pas de reactivation possible)
 C
-            IF (TT > SENSOR(2,ISENS) .AND. OFF(I) == -DIX)
-     .          OFF(I) = UN
+            IF (TT > SENSOR(2,ISENS) .AND. OFF(I) == -TEN)
+     .          OFF(I) = ONE
         ELSEIF (USENS < 0) THEN
 C
 C        _________           
@@ -207,8 +207,8 @@ C  OFF    -10.         1.       -10.       1.
 C                        \_  rupture eventuelle du ressort => 0. 
 C                            (pas de reactivation possible)
 C
-          IF (TT > SENSOR(2,ISENS) .AND. OFF(I) == -DIX) THEN
-            OFF(I) = UN
+          IF (TT > SENSOR(2,ISENS) .AND. OFF(I) == -TEN) THEN
+            OFF(I) = ONE
             X0(I) = X0(I) + DX(I)
             Y0(I) = Y0(I) + DY(I)
             Z0(I) = Z0(I) + DZ(I)
@@ -218,7 +218,7 @@ C
             RX(I) = ZERO
             RY(I) = ZERO
             RZ(I) = ZERO    
-          ELSEIF (TT < SENSOR(2,ISENS) .AND. OFF(I) == UN) THEN
+          ELSEIF (TT < SENSOR(2,ISENS) .AND. OFF(I) == ONE) THEN
             OFF(I) = ZERO    
           ENDIF
         ELSEIF (USENS > 0) THEN
@@ -230,8 +230,8 @@ C  OFF    -10.         1.
 C                        \_  rupture eventuelle du ressort => 0. 
 C                            (pas de reactivation possible)
 C
-            IF (TT > SENSOR(2,ISENS) .AND. OFF(I) == -DIX)
-     .          OFF(I) = UN
+            IF (TT > SENSOR(2,ISENS) .AND. OFF(I) == -TEN)
+     .          OFF(I) = ONE
         ELSEIF (USENS < 0) THEN
 C
 C        _________           
@@ -302,8 +302,8 @@ C  OFF    -10.         1.       -10.       1.
 C                        \_  rupture eventuelle du ressort => 0. 
 C                            (pas de reactivation possible)
 C
-          IF (TT > SENSOR(2,ISENS) .AND. OFF(I) == -DIX) THEN
-            OFF(I) = UN
+          IF (TT > SENSOR(2,ISENS) .AND. OFF(I) == -TEN) THEN
+            OFF(I) = ONE
             X0(I) = X0(I) + DX(I)
             Y0(I) = Y0(I) + DY(I)
             Z0(I) = Z0(I) + DZ(I)
@@ -313,7 +313,7 @@ C
             RX(I) = ZERO
             RY(I) = ZERO
             RZ(I) = ZERO    
-          ELSEIF (TT < SENSOR(2,ISENS) .AND. OFF(I) == UN) THEN
+          ELSEIF (TT < SENSOR(2,ISENS) .AND. OFF(I) == ONE) THEN
             OFF(I) = ZERO    
           ENDIF
         ELSEIF (USENS > 0) THEN
@@ -325,8 +325,8 @@ C  OFF    -10.         1.
 C                        \_  rupture eventuelle du ressort => 0. 
 C                            (pas de reactivation possible)
 C
-            IF (TT > SENSOR(2,ISENS) .AND. OFF(I) == -DIX)
-     .          OFF(I) = UN
+            IF (TT > SENSOR(2,ISENS) .AND. OFF(I) == -TEN)
+     .          OFF(I) = ONE
         ELSEIF (USENS < 0) THEN
 C
 C        _________           

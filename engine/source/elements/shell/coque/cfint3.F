@@ -224,8 +224,8 @@ C
         M1A= MOM(I,1)*THK02(I)
         M2A= MOM(I,2)*THK02(I)
         M3A= MOM(I,3)*THK02(I)
-        M4(I)= M4(I)*QUART
-        M5(I)= M5(I)*QUART
+        M4(I)= M4(I)*FOURTH
+        M5(I)= M5(I)*FOURTH
 C
         M11(I)=-M2A*PY1(I)-M3A*PX1(I)
         M21(I)= M1A*PX1(I)+M3A*PY1(I)

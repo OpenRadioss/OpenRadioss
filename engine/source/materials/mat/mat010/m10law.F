@@ -104,7 +104,7 @@ C-----------------------------------------------
       !  PARAMETER INITIALIZATION                                      !
       !----------------------------------------------------------------!
       MX=MAT(LFT)
-      G43_1    = UNP333*PM(22,MX)   
+      G43_1    = ONEP333*PM(22,MX)   
       PSTAR_1  = PM(44,MX)          
       A0_1     = PM(38,MX)          
       A1_1     = PM(39,MX)          
@@ -116,7 +116,7 @@ C-----------------------------------------------
       DO I=LFT,LLT
         G(I)     = DT1*PM(22,MX)
         G43(I)   = G43_1
-        GG(I)    = DEUX*G(I)
+        GG(I)    = TWO*G(I)
         PSH(I)   = PSH_1
         PSTAR(I) = PSTAR_1    
         A0(I)    = A0_1
@@ -171,7 +171,7 @@ C-----------------------------------------------
       !  YIELD SURFACE                                                 !
       !----------------------------------------------------------------!      
       DO I=LFT,LLT
-        AJ2(I)= UNDEMI*(T1(I)**2+T2(I)**2+T3(I)**2)+T4(I)**2+T5(I)**2+T6(I)**2
+        AJ2(I)= HALF*(T1(I)**2+T2(I)**2+T3(I)**2)+T4(I)**2+T5(I)**2+T6(I)**2
         PTOT  = PNEW(I)+PSH(I)
         G0(I) = A0(I)+A1(I)*PTOT+A2(I)*PTOT*PTOT
         G0(I) = MIN(AMX(I),G0(I))
@@ -187,7 +187,7 @@ C-----------------------------------------------
       DO  I=LFT,LLT
         RATIO(I)=ZERO
         IF(YIELD2(I).LE.ZERO .AND. G0(I).GT.ZERO)THEN
-          RATIO(I)=UN
+          RATIO(I)=ONE
         ELSE
           RATIO(I)=SQRT(G0(I)/(AJ2(I)+ EM14))
         ENDIF
@@ -203,7 +203,7 @@ C-----------------------------------------------
         SIG(I,4)=RATIO(I)*T4(I)*OFF(I)
         SIG(I,5)=RATIO(I)*T5(I)*OFF(I)
         SIG(I,6)=RATIO(I)*T6(I)*OFF(I)
-        EPSEQ(I)=EPSEQ(I)+(UN -RATIO(I))*SQRT(ABS(AJ2(I)))*DT1 / MAX(EM20,TROIS*G(I))
+        EPSEQ(I)=EPSEQ(I)+(ONE -RATIO(I))*SQRT(ABS(AJ2(I)))*DT1 / MAX(EM20,THREE*G(I))
       ENDDO !next I     
 
       !----------------------------------------------------------------!

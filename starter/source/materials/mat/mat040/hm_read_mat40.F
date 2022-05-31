@@ -128,10 +128,10 @@ C-----------------------------------------------
       IF (ASTAS <= EM20) ASTAS = INFINITY
       IF (BSTAS <= EM20) BSTAS = INFINITY
       IF (VMISK <= EM20) VMISK = INFINITY
-      NU1 = (TROIS * AK - DEUX * G0) / (DEUX * G0 + SIX * AK) 
+      NU1 = (THREE * AK - TWO * G0) / (TWO * G0 + SIX * AK) 
       GT = G0 + G1 + G2 + G3 + G4 + G5 
-      NU2 = (TROIS * AK - DEUX * GT) / (DEUX * GT + SIX * AK) 
-      IF (NU1 < ZERO .OR. NU1 >= UNDEMI) THEN
+      NU2 = (THREE * AK - TWO * GT) / (TWO * GT + SIX * AK) 
+      IF (NU1 < ZERO .OR. NU1 >= HALF) THEN
       CALL ANCMSG(MSGID = 49,
      .     MSGTYPE = MSGERROR,
      .     ANMODE = ANINFO,
@@ -139,7 +139,7 @@ C-----------------------------------------------
      .     I1 = MAT_ID,
      .     C1 = TITR)
       ENDIF
-      IF (NU2 < ZERO .OR. NU2 >= UNDEMI) THEN
+      IF (NU2 < ZERO .OR. NU2 >= HALF) THEN
          CALL ANCMSG(MSGID = 49,
      .        MSGTYPE = MSGERROR,
      .        ANMODE = ANINFO,
@@ -178,7 +178,7 @@ C-----------------------------------------------
 
 !     Formulation for solid elements time step computation.
       STIFINT(16) = 2
-      STIFINT(17) = DEUX * G0 / (AK + QTHIRD * G0)
+      STIFINT(17) = TWO * G0 / (AK + FOUR_OVER_3 * G0)
 c-----------------
       IF (NU1 >= 0.49 .or. NU2 >= 0.49) THEN
         CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")

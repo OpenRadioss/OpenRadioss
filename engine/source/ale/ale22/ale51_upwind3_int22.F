@@ -171,7 +171,7 @@ C-----------------------------------------------
                NG      = BRICK_LIST(NIN,IB)%NG
                ISILENT = IPARG(64,NG)
                IF(ISILENT==1)THEN
-                 UPWL(J)=UN
+                 UPWL(J)=ONE
                  cellFLUX(J,ICELL,IB)=cellFLUX(J,ICELL,IB)*PM(92,IXS(1,IDV))
                ENDIF
               ENDIF 
@@ -187,7 +187,7 @@ C                DDVOL = DDVOL + cellFLUX(J,ICELL,IB)-UPWL(J)*ABS(cellFLUX(J,ICE
             ENDDO!next IADJ
           ENDDO!next J
          
-          BRICK_LIST(NIN,IB)%POLY(ICELL)%DDVOL_upw = DDVOL  !UNDEMI*DDVOL
+          BRICK_LIST(NIN,IB)%POLY(ICELL)%DDVOL_upw = DDVOL  !HALF*DDVOL
 
            !INTERFACE 22 ONLY - OUTPUT---------------!
 !#!include "lockon.inc"      
@@ -244,7 +244,7 @@ C                DDVOL = DDVOL + cellFLUX(J,ICELL,IB)-UPWL(J)*ABS(cellFLUX(J,ICE
      	  UVAR   => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR							       
      	  ADD	 = (N0PHAS + (ITRIMAT-1)*NVPHAS+12)*LLT 							       
      	  pDDVOL => UVAR(ADD+1:ADD+LLT) 									       
-     	  pDDVOL(IDLOC) =  DDVOL   !*UNDEMI  : deja applique facteur 1/2					       
+     	  pDDVOL(IDLOC) =  DDVOL   !*HALF  : deja applique facteur 1/2					       
      	  if(ixs(11,IE)==26354)then										       
      	    print *, "itrimat, ddvoli", itrimat, DDVOL  							       
      	  endif 												       

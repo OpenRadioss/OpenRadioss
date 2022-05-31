@@ -275,7 +275,7 @@ C-----------------------------
           IG = NINT(PHI(II))
           IF (IG <= 0) CYCLE
 c         
-          P = (GBUF%SIG(JJ(1)+I) + GBUF%SIG(JJ(2)+I) + GBUF%SIG(JJ(3)+I))/TROIS
+          P = (GBUF%SIG(JJ(1)+I) + GBUF%SIG(JJ(2)+I) + GBUF%SIG(JJ(3)+I))/THREE
           RHO = GBUF%RHO(I) /GBUF%VOL(I)
           E   = GBUF%EINT(I)/GBUF%VOL(I)
           U2 = ZERO
@@ -285,7 +285,7 @@ c
             U2 = U2+ V(2,N)*V(2,N)
             U2 = U2+ V(3,N)*V(3,N)
           ENDDO
-          PA = P - RHO*U2/SEIZE
+          PA = P - RHO*U2/SIXTEEN
 #include "lockon.inc"
           GAUGE(30,IG)= -P
           GAUGE(31,IG)= -PA
@@ -483,9 +483,9 @@ C
             N3 = IXS(IFACE(3,J)+1,II)
             N4 = IXS(IFACE(4,J)+1,II)
 C            
-            XX0 = (X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))*QUART
-            YY0 = (X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))*QUART
-            ZZ0 = (X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))*QUART
+            XX0 = (X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))*FOURTH
+            YY0 = (X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))*FOURTH
+            ZZ0 = (X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))*FOURTH
             XX1 = X(1,N3)-X(1,N1)
             YY1 = X(2,N3)-X(2,N1)
             ZZ1 = X(3,N3)-X(3,N1)
@@ -500,7 +500,7 @@ cc            A3 = XX1*XX2 - YY1*YY2
             A2  = XX2*ZZ1 - XX1*ZZ2
             A3  = XX1*YY2 - XX2*YY1
             VOL = A1*(XG-XX0) + A2*(YG-YY0) + A3*(ZG-ZZ0) 
-            AREAP32 = (A1*A1+A2*A2+A3*A3)**TQUART 
+            AREAP32 = (A1*A1+A2*A2+A3*A3)**THREE_OVER_4 
             ALPHA = VOL/MAX(AREAP32,EM20)
 #include "lockon.inc"            
             IF(ALPHA >= ZERO .AND. ALPHA >= GAUGE(5,IG))THEN
@@ -624,9 +624,9 @@ C all gauges (ale, sph, ..)
             N2 = IXC(3,N)
             N3 = IXC(4,N)
             N4 = IXC(5,N)
-            XX0 = (X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))*QUART
-            YY0 = (X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))*QUART
-            ZZ0 = (X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))*QUART
+            XX0 = (X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))*FOURTH
+            YY0 = (X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))*FOURTH
+            ZZ0 = (X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))*FOURTH
             XX1 = X(1,N3)-X(1,N1)
             YY1 = X(2,N3)-X(2,N1)
             ZZ1 = X(3,N3)-X(3,N1)

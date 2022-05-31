@@ -107,11 +107,11 @@ C
                   DO J=1,NPT
                     I3 = IPTHK + J
                     I4 = IPPOS + J
-                    THINNING = UN
+                    THINNING = ONE
                     IF (DRAPE(II)%IDRAPE(J) > 0) THINNING = DRAPE(II)%RDRAPE(J,1)
                     THKLY  = STACK%GEO(I3 ,ISUBS)*THICKT
                     POS    = STACK%GEO(I4 ,ISUBS)*THICKT
-                    DT   = UNDEMI*THKLY*THINNING
+                    DT   = HALF*THKLY*THINNING
                     TMIN = MIN(TMIN,POS - DT)		  
                     TMAX = MAX(TMAX,POS + DT)		  
                   ENDDO                                                             
@@ -119,7 +119,7 @@ C
                   IF (THK(II) == ZERO) THK(II) = THICKT ! 
               ELSE 
                   DO J=1,NPT
-                    THINNING = UN 
+                    THINNING = ONE 
                     I3 = IPTHK + J
                     I4 = IPPOS + J
                     IF (DRAPE(II)%IDRAPE(J) > 0) THINNING = DRAPE(II)%RDRAPE(J,1)
@@ -157,11 +157,11 @@ C
                   DO J=1,NPT
                     I3 = IPTHK + J
                     I4 = IPPOS + J
-                    THINNING = UN
+                    THINNING = ONE
                     IF (DRAPE(ISH3N)%IDRAPE(J) > 0) THINNING = DRAPE(ISH3N)%RDRAPE(J,1)
                     THKLY  = STACK%GEO(I3 ,ISUBS)*THICKT
                     POS    = STACK%GEO(I4 ,ISUBS)*THICKT
-                    DT   = UNDEMI*THKLY*THINNING
+                    DT   = HALF*THKLY*THINNING
                     TMIN = MIN(TMIN,POS - DT)		  
                     TMAX = MAX(TMAX,POS + DT)		  
                   ENDDO                                                             
@@ -169,7 +169,7 @@ C
                   IF (THK(ISH3N) == ZERO) THK(ISH3N) = THICKT ! 
               ELSE                              
                   DO J=1,NPT
-                    THINNING = UN
+                    THINNING = ONE
                     IF (DRAPE(ISH3N)%IDRAPE(J) > 0) THINNING = DRAPE(ISH3N)%RDRAPE(J,1)
                     THKLY  = STACK%GEO(I3 ,ISUBS)*THICKT
                     THICKT = THICKT + THKLY*THINNING

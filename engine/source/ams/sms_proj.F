@@ -158,12 +158,12 @@ C----------------------
 C        [LAMDA]^-1<- 1.0/lamda(i)
 C---------------------
         DO I=1,M_VS1
-         PROJ_LA_1(I)= UN/SIGN(MAX(EM20,ABS(W(I))),W(I))
+         PROJ_LA_1(I)= ONE/SIGN(MAX(EM20,ABS(W(I))),W(I))
         ENDDO
 
         if (ncprisms/=0) then
          write(iout,*)' ** INFO ** EIGENVALUES =',
-     .       (UN/PROJ_LA_1(I),I=1,M_VS_SMS)
+     .       (ONE/PROJ_LA_1(I),I=1,M_VS_SMS)
         endif
 C
       END IF !(ITASK==0) THEN
@@ -235,7 +235,7 @@ C----------------------
         RSAV(2,I)=R(2,I)
         RSAV(3,I)=R(3,I)
         IF(DIAG_SMS(I)/=ZERO)THEN
-          UNS=UN/SQRT(DIAG_SMS(I))
+          UNS=ONE/SQRT(DIAG_SMS(I))
           R(1,I)=R(1,I)*UNS
           R(2,I)=R(2,I)*UNS
           R(3,I)=R(3,I)*UNS
@@ -279,7 +279,7 @@ C----------------------
         R(2,I)=RSAV(2,I)
         R(3,I)=RSAV(3,I)
         IF(DIAG_SMS(I)/=ZERO)THEN
-          UNS=UN/SQRT(DIAG_SMS(I))
+          UNS=ONE/SQRT(DIAG_SMS(I))
           X(1,I)=X(1,I)*UNS
           X(2,I)=X(2,I)*UNS
           X(3,I)=X(3,I)*UNS
@@ -393,7 +393,7 @@ C----------------------
         P(2,I)=P(2,I)-PJ(2,I)
         P(3,I)=P(3,I)-PJ(3,I)
         IF(DIAG_SMS(I)/=ZERO)THEN
-          UNS=UN/SQRT(DIAG_SMS(I))
+          UNS=ONE/SQRT(DIAG_SMS(I))
           P(1,I)=P(1,I)*UNS
           P(2,I)=P(2,I)*UNS
           P(3,I)=P(3,I)*UNS
@@ -1134,7 +1134,7 @@ C---------------------
         END DO
         CALL SMS_PRODUT_H(NODFT ,NODLT ,A(1,J) ,A(1,J) ,WEIGHT, 
      .                    SJJ ,ITASK)
-        S= UN/MAX(EM20,SQRT(SJJ))
+        S= ONE/MAX(EM20,SQRT(SJJ))
         CALL VSCAL_H(NODFT ,NODLT ,A(1,J) ,S  ,ITASK )
 C----------------------
       CALL MY_BARRIER

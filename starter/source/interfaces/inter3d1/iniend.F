@@ -249,13 +249,13 @@ C
             N3 = INTBUF_TAB%IRECTM((L-1)*4+3)
             N4 = INTBUF_TAB%IRECTM((L-1)*4+4)
             IF (N3 == N4) THEN
-              STFN=TIERS*(STIFINT(N1)+STIFINT(N2)+STIFINT(N3))
+              STFN=THIRD*(STIFINT(N1)+STIFINT(N2)+STIFINT(N3))
             ELSE
-              STFN=QUART*(STIFINT(N1)+STIFINT(N2)+STIFINT(N3)+STIFINT(N4))
+              STFN=FOURTH*(STIFINT(N1)+STIFINT(N2)+STIFINT(N3)+STIFINT(N4))
             ENDIF
             SELECT CASE (IGSTI)
             CASE (2)  ! mean stiffness (default)
-              STFN = UNDEMI*(STFN+STIFINT(I))
+              STFN = HALF*(STFN+STIFINT(I))
             CASE (3)  ! max stiffness (default)
               STFN = MAX(STFN,STIFINT(I))
             CASE (4)  ! min stiffness (default)
@@ -280,13 +280,13 @@ C
             N3 = INTBUF_TAB%IRECTM((L-1)*4+3)
             N4 = INTBUF_TAB%IRECTM((L-1)*4+4)
             IF (N3 == N4) THEN
-              STFN=TIERS*(STIFINT(N1)+STIFINT(N2)+STIFINT(N3))
+              STFN=THIRD*(STIFINT(N1)+STIFINT(N2)+STIFINT(N3))
             ELSE
-              STFN=QUART*(STIFINT(N1)+STIFINT(N2)+STIFINT(N3)+STIFINT(N4))
+              STFN=FOURTH*(STIFINT(N1)+STIFINT(N2)+STIFINT(N3)+STIFINT(N4))
             ENDIF
             SELECT CASE (IGSTI)
             CASE (2)  ! mean stiffness (default)
-              STFN = UNDEMI*(STFN+STIFINT(I))
+              STFN = HALF*(STFN+STIFINT(I))
             CASE (3)  ! max stiffness (default)
               STFN = MAX(STFN,STIFINT(I))
             CASE (4)  ! min stiffness (default)
@@ -311,16 +311,16 @@ C
             N3 = INTBUF_TAB%IRECTM((L-1)*4+3)
             N4 = INTBUF_TAB%IRECTM((L-1)*4+4)
             IF (N3 == N4) THEN
-              STFN=TIERS*(STIFINT(N1)+STIFINT(N2)+STIFINT(N3))
-              STFR=TIERS*(STIFINTR(N1)+STIFINTR(N2)+STIFINTR(N3))             
+              STFN=THIRD*(STIFINT(N1)+STIFINT(N2)+STIFINT(N3))
+              STFR=THIRD*(STIFINTR(N1)+STIFINTR(N2)+STIFINTR(N3))             
             ELSE
-              STFN=QUART*(STIFINT(N1)+STIFINT(N2)+STIFINT(N3)+STIFINT(N4))
-              STFR=QUART*(STIFINTR(N1)+STIFINTR(N2)+STIFINTR(N3)+STIFINTR(N4))
+              STFN=FOURTH*(STIFINT(N1)+STIFINT(N2)+STIFINT(N3)+STIFINT(N4))
+              STFR=FOURTH*(STIFINTR(N1)+STIFINTR(N2)+STIFINTR(N3)+STIFINTR(N4))
             ENDIF
             SELECT CASE (IGSTI)
             CASE (2)  ! mean stiffness (default)
-              STFN = UNDEMI*(STFN+STIFINT(I))
-              STFR = UNDEMI*(STFR+STIFINTR(I))
+              STFN = HALF*(STFN+STIFINT(I))
+              STFR = HALF*(STFR+STIFINTR(I))
             CASE (3)  ! max stiffness (default)
               STFN = MAX(STFN,STIFINT(I))
               STFR = MAX(STFR,STIFINTR(I))

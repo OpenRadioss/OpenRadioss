@@ -78,8 +78,8 @@ C-----------------------------------------------
       ENDDO
 C
       DO I=JFT,JLT
-        CC = (STRN1(I)+STRN2(I))*UNDEMI
-        BB = (STRN1(I)-STRN2(I))*UNDEMI
+        CC = (STRN1(I)+STRN2(I))*HALF
+        BB = (STRN1(I)-STRN2(I))*HALF
         CR = SQRT(BB**2+STRN3(I)**2)
         STRP1(I) = CC + CR
         STRP2(I) = CC - CR
@@ -97,7 +97,7 @@ C
 C
       DO I=JFT,JLT
         IF (EPSF1(I) > ZERO .AND. STRP1(I) > EPSF1(I)
-     .                      .AND. OFF(I) == UN) THEN
+     .                      .AND. OFF(I) == ONE) THEN
           OFF(I) = ZERO
 #include "lockon.inc"
           WRITE(IOUT, *)
@@ -117,7 +117,7 @@ C
           DIR(I,2) = STRP1(I) - STRN1(I)
           NORM = SQRT(DIR(I,1)*DIR(I,1)+DIR(I,2)*DIR(I,2))
           IF (NORM < EM8) THEN
-            DIR(I,1) = UN
+            DIR(I,1) = ONE
             DIR(I,2) = ZERO
           ELSE
             DIR(I,1) = DIR(I,1)/NORM

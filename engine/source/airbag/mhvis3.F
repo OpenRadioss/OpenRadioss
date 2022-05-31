@@ -111,10 +111,10 @@ C-----------------------------------------------
          PX2V    = PX2(I)*VHX(I)
          PY1V    = PY1(I)*VHY(I)
          PY2V    = PY2(I)*VHY(I)
-         GAMA1(I)= OFF(I)*( UN- PX1V-PY1V)
-         GAMA3(I)= OFF(I)*( UN+ PX1V+PY1V)
-         GAMA2(I)= OFF(I)*(-UN- PX2V-PY2V)
-         GAMA4(I)= OFF(I)*(-UN+ PX2V+PY2V)	 
+         GAMA1(I)= OFF(I)*( ONE- PX1V-PY1V)
+         GAMA3(I)= OFF(I)*( ONE+ PX1V+PY1V)
+         GAMA2(I)= OFF(I)*(-ONE- PX2V-PY2V)
+         GAMA4(I)= OFF(I)*(-ONE+ PX2V+PY2V)	 
        ENDDO
       ELSE
        DO I=JFT,JLT
@@ -141,13 +141,13 @@ C
       ENDIF
 C
       DO 300 I=JFT,JLT
-      FAC(I)=QUART*RHO(I)*THK0(I)
+      FAC(I)=FOURTH*RHO(I)*THK0(I)
       H1L(I)= ZERO
       H1Q(I)= ZERO
       H2L(I)= ZERO
       H2Q(I)= ZERO
       H4L(I)=FAC(I)*SQRT(HVISC*H4(I)*AREA(I))
-      H4Q(I)=SQRT(HVISC*H4(I))*H4L(I)*CENT
+      H4Q(I)=SQRT(HVISC*H4(I))*H4L(I)*HUNDRED
       H4L(I)=H4L(I)*SSP(I)
 C
  300  CONTINUE
@@ -156,7 +156,7 @@ C
        THK02(I)= THK0(I)*THK0(I)
        B1(I) = PX1(I)*PX1(I)+PY1(I)*PY1(I)
        B2(I) = PX2(I)*PX2(I)+PY2(I)*PY2(I)
-      FAC(I)=QUART*YM(I)*THK0(I)*DT1C(I)*HELAS
+      FAC(I)=FOURTH*YM(I)*THK0(I)*DT1C(I)*HELAS
       H1(I)=H1(I)*FAC(I)
       H2(I)=H2(I)*FAC(I)
  350  CONTINUE
@@ -206,9 +206,9 @@ C
                 VV = VISCMX(I) * VISCMX(I)  * ALPE(I)
                 FAC1 = MAX(B1(I),B2(I)) / (AREA(I) * VV)
                 STI(I) =  STI(I) + FAC1* THK0(I) * A11(I) 
-                STIR(I) = FAC1 *  A11R(I)*UNDOUZE*THK0(I)**3 + 
-     .                    FAC1 *  A11(I)*THK0(I)*AREA(I)*UNNEUF +
-     .             FAC1*SCALE(I)*(UNDOUZE*THK0(I)**2 +  AREA(I)*UNNEUF)
+                STIR(I) = FAC1 *  A11R(I)*ONE_OVER_12*THK0(I)**3 + 
+     .                    FAC1 *  A11(I)*THK0(I)*AREA(I)*ONE_OVER_9 +
+     .             FAC1*SCALE(I)*(ONE_OVER_12*THK0(I)**2 +  AREA(I)*ONE_OVER_9)
            ENDIF 
          ENDDO        
 !!        
@@ -227,7 +227,7 @@ C
                 VV = VISCMX(I) * VISCMX(I)  * ALPE(I)
                 STI(I) =  STI(I) + MAX(B1(I),B2(I)) 
      .                          * THK0(I) * A11(I) / (AREA(I) * VV)
-              STIR(I) = STI(I)*(THK02(I) * UNDOUZE + AREA(I) * UNNEUF)
+              STIR(I) = STI(I)*(THK02(I) * ONE_OVER_12 + AREA(I) * ONE_OVER_9)
            ENDIF 
          ENDDO
        ENDIF

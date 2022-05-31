@@ -154,36 +154,36 @@ C
       M2     = GET_U_MAT(18,IMAT2)
       R_Y2   = GET_U_GEO(6,IPROP2)
       R_Z2   = GET_U_GEO(7,IPROP2)
-      RHO    = UNDEMI*(RHO1+RHO2)
-      AREA   = UNDEMI*(AREA1+AREA2)
+      RHO    = HALF*(RHO1+RHO2)
+      AREA   = HALF*(AREA1+AREA2)
       FAC    = RHO*AREA
-      IXX    = UNDEMI*(IXX1+IXX2)
-      IYY    = UNDEMI*(IYY1+IYY2)
-      IZZ    = UNDEMI*(IZZ1+IZZ2)
-      R_Y = UNDEMI*(R_Y1+R_Y2)
-      R_Z = UNDEMI*(R_Z1+R_Z2)
-      R_X = UNDEMI*(R_Y+R_Z)
-      CX  = UNDEMI*(CX1+CX2)
-      AY  = UNDEMI*(AY1+AY2)
-      AZ  = UNDEMI*(AZ1+AZ2)
-      BY  = UNDEMI*(BY1+BY2)
-      BZ  = UNDEMI*(BZ1+BZ2)     
+      IXX    = HALF*(IXX1+IXX2)
+      IYY    = HALF*(IYY1+IYY2)
+      IZZ    = HALF*(IZZ1+IZZ2)
+      R_Y = HALF*(R_Y1+R_Y2)
+      R_Z = HALF*(R_Z1+R_Z2)
+      R_X = HALF*(R_Y+R_Z)
+      CX  = HALF*(CX1+CX2)
+      AY  = HALF*(AY1+AY2)
+      AZ  = HALF*(AZ1+AZ2)
+      BY  = HALF*(BY1+BY2)
+      BZ  = HALF*(BZ1+BZ2)     
       IMYZ   = MAX(IYY,IZZ)
-      YOUNG  = UNDEMI*(YOUNG1+YOUNG2)
-      G      = UNDEMI*(G1+G2)      
+      YOUNG  = HALF*(YOUNG1+YOUNG2)
+      G      = HALF*(G1+G2)      
       FACX   = R_X/MAX(IXX,EM20)
       FACY   = R_Y/MAX(IYY,EM20)
       FACZ   = R_Z/MAX(IZZ,EM20)
-      TEMPY  = G*AREA/MAX(DOUZE*YOUNG*IYY,EM20)
-      TEMPZ  = G*AREA/MAX(DOUZE*YOUNG*IZZ,EM20)
-      G3     = TROIS*G
+      TEMPY  = G*AREA/MAX(TWELVE*YOUNG*IYY,EM20)
+      TEMPZ  = G*AREA/MAX(TWELVE*YOUNG*IZZ,EM20)
+      G3     = THREE*G
       N0     = 11
-      DC     = UNDEMI*(DC1+DC2)
-      PR     = UNDEMI*(PR1+PR2)
-      PS     = UNDEMI*(PS1+PS2)
-      SIG0   = UNDEMI*(SIG01+SIG02)
-      HPLA   = UNDEMI*(H1+H2)
-      M     = UNDEMI*(M1+M2)     
+      DC     = HALF*(DC1+DC2)
+      PR     = HALF*(PR1+PR2)
+      PS     = HALF*(PS1+PS2)
+      SIG0   = HALF*(SIG01+SIG02)
+      HPLA   = HALF*(H1+H2)
+      M     = HALF*(M1+M2)     
 C
 C----  UVAR(N0,I) -> PLA , N0+1 -> SY0 , N0+2 -> EXX_P , N0+3 -> EYY_P
 C----  UVAR(N0+4,I) -> ENDOMMAGEMENT
@@ -192,17 +192,17 @@ C
         YOUNGM(I)  = YOUNG*(1-UVAR(N0+4,I))
         GM(I)      = G*(1-UVAR(N0+4,I))
 C== ON CALCULE D'ABORD LES VITESSES DES DEFORMATIONS GENERALISEES ====
-        DTEMP = UN/MAX(XL(I),EM20)
+        DTEMP = ONE/MAX(XL(I),EM20)
         EPSVXX(I) = VX(I)*DTEMP
-        EPSVXY(I) = -UNDEMI*(RZ1(I) + RZ2(I))
-        EPSVXZ(I) = UNDEMI*(RY1(I) + RY2(I))	
+        EPSVXY(I) = -HALF*(RZ1(I) + RZ2(I))
+        EPSVXZ(I) = HALF*(RY1(I) + RY2(I))	
         EPSCBX(I) = R_X*RX(I)*DTEMP
         EPSCBY(I) = R_Y*(RY2(I) - RY1(I))*DTEMP
         EPSCBZ(I) = R_Z*(RZ2(I) - RZ1(I))*DTEMP
 C== ON CALCULE CONTRAINTES GENERALISEES ====
         XL2(I)    =  XL(I)*XL(I)
-        AREA_Y(I) = AREA/(UN +TEMPY*XL2(I))    
-        AREA_Z(I) = AREA/(UN +TEMPZ*XL2(I))
+        AREA_Y(I) = AREA/(ONE +TEMPY*XL2(I))    
+        AREA_Z(I) = AREA/(ONE +TEMPZ*XL2(I))
         SIGNXX(I) = FX(I)/MAX(AREA,EM20)+YOUNGM(I)*EPSVXX(I)*DT
         SIGNXY(I) = FY(I)/MAX(AREA_Y(I),EM20)+GM(I)*EPSVXY(I)*DT
         SIGNXZ(I) = FZ(I)/MAX(AREA_Z(I),EM20)+GM(I)*EPSVXZ(I)*DT
@@ -230,12 +230,12 @@ C
         UVAR(N0+1,I)=MIN(YLD(I),UVAR(N0+1,I))
 C
         PC1 = ABS(SIX*YOUNGM(I)*(UVAR(N0+2,I)/UVAR(N0+1,I)))
-        C1=UN-QUART*EXP(-PC1)
-        GAMAC(I)=CX*TQUART/MAX(C1,EM20)
+        C1=ONE-FOURTH*EXP(-PC1)
+        GAMAC(I)=CX*THREE_OVER_4/MAX(C1,EM20)
 C
         PC1 = SIX*YOUNGM(I)*(UVAR(N0+3,I)/UVAR(N0+1,I))
-        CC1 =  (TROIS*PI/SEIZE)**2
-        C1=UN - (UN - CC1)*EXP(-PC1)
+        CC1 =  (THREE*PI/SIXTEEN)**2
+        C1=ONE - (ONE - CC1)*EXP(-PC1)
         GAMA(I)=CC1/MAX(C1,EM20)	
 C
         NX(I)=SIGNXX(I)
@@ -244,7 +244,7 @@ C
         MX(I)=GAMAC(I)*MOMNXX(I)
         MY(I)=BY*GAMA(I)*MOMNYY(I)
         MZ(I)=BZ*GAMA(I)*MOMNZZ(I)
-        SVM(I)=NX(I)*NX(I)+TROIS*(NY(I)*NY(I)+NZ(I)*NZ(I)+MX(I)*MX(I))+
+        SVM(I)=NX(I)*NX(I)+THREE*(NY(I)*NY(I)+NZ(I)*NZ(I)+MX(I)*MX(I))+
      1         MY(I)*MY(I)+MZ(I)*MZ(I)
         SVM(I)=SQRT(SVM(I)) 
       ENDDO
@@ -253,20 +253,20 @@ C
 C
 C       TIME STEP
 C
-        DTEMP    = UN/MAX(XL(I),EM20)
+        DTEMP    = ONE/MAX(XL(I),EM20)
         KTRAN    = MAX(AREA,FAC2*AREA_Y(I),FAC2*AREA_Z(I))*DTEMP
-        KROT     = QUATRE *MAX(IYY*DTEMP,IZZ*DTEMP)
+        KROT     = FOUR *MAX(IYY*DTEMP,IZZ*DTEMP)
         STIFM(I) = YOUNGM(I)*KTRAN
         STIFR(I) = MAX( GM(I)*IXX*DTEMP,YOUNGM(I)*KROT)
         VISCM(I) = ZERO
         VISCR(I) = ZERO
         MASS(I)   = XL(I)*FAC
-        XINER(I)  = XL(I)*RHO*MAX(IXX,IMYZ+AREA*XL2(I)/DOUZE)
+        XINER(I)  = XL(I)*RHO*MAX(IXX,IMYZ+AREA*XL2(I)/TWELVE)
       ENDDO
 C
       NINDX=0
       DO I=1,NEL
-        IF (SVM(I) > YLD(I) .AND. OFF(I) == UN) THEN
+        IF (SVM(I) > YLD(I) .AND. OFF(I) == ONE) THEN
           NINDX=NINDX+1
           INDEX(NINDX)=I
         ENDIF
@@ -300,12 +300,12 @@ C
 	    ENDIF
             DRE =YOUNGM(I)*DPLA_I/YLD_I
             DRG =G*DPLA_I/YLD_I
-            PNX  =UN/(UN+DRE)
-            PNY  =UN/(UN+TROIS*DRG*AY**2)
-            PNZ  =UN/(UN+TROIS*DRG*AZ**2)
-            PMX  =UN/(UN+TROIS*DRG*GAMAC(I)**2)
-            PMY  =UN/(UN+DRE*(BY*GAMA(I))**2)
-            PMZ  =UN/(UN+DRE*(BZ*GAMA(I))**2)	  
+            PNX  =ONE/(ONE+DRE)
+            PNY  =ONE/(ONE+THREE*DRG*AY**2)
+            PNZ  =ONE/(ONE+THREE*DRG*AZ**2)
+            PMX  =ONE/(ONE+THREE*DRG*GAMAC(I)**2)
+            PMY  =ONE/(ONE+DRE*(BY*GAMA(I))**2)
+            PMZ  =ONE/(ONE+DRE*(BZ*GAMA(I))**2)	  
             PNX2=PNX*PNX
             PNY2=PNY*PNY
             PNZ2=PNZ*PNZ
@@ -326,14 +326,14 @@ C
             DFG = NY2*PNY2*PNY*AY**2+NZ2*PNZ2*PNZ*AZ**2
      .                    +MX2*PMX2*PMX*GAMAC(I)**2
             IF (IFUNC /= 0) THEN
-              DSIGY = -H(I)*YLD_I*DEUX
+              DSIGY = -H(I)*YLD_I*TWO
 	    ELSEIF (UVAR(N0,I).GT.EM20) THEN 
-              DSIGY = -(H(I)*YLD_I*M*(DPLA_I+UVAR(N0,I))**(M-1))*DEUX
+              DSIGY = -(H(I)*YLD_I*M*(DPLA_I+UVAR(N0,I))**(M-1))*TWO
             ELSE
               DSIGY = ZERO
 	    ENDIF
             DF =(-DFE*(YOUNGM(I)-DRE*H(I))/YLD_I
-     .           -NEUF*DFG*(G-DRG*H(I))/YLD_I)*DEUX
+     .           -NINE*DFG*(G-DRG*H(I))/YLD_I)*TWO
             DF=DF+DSIGY
             ERR=ABS(F/DF)
             DPLA_J(I)=MAX(ZERO,DPLA_I-F/DF)
@@ -358,12 +358,12 @@ C INCREMENT N+1
           C1    = DPLA_I/YLD_I
           DRE =YOUNGM(I)*C1
           DRG =G*C1
-          PNX  =UN/(UN+DRE)
-          PNY  =UN/(UN+TROIS*DRG*AY**2)
-          PNZ  =UN/(UN+TROIS*DRG*AZ**2)
-          PMX  =UN/(UN+TROIS*DRG*GAMAC(I)**2)
-          PMY  =UN/(UN+DRE*(BY*GAMA(I))**2)
-          PMZ  =UN/(UN+DRE*(BZ*GAMA(I))**2)	
+          PNX  =ONE/(ONE+DRE)
+          PNY  =ONE/(ONE+THREE*DRG*AY**2)
+          PNZ  =ONE/(ONE+THREE*DRG*AZ**2)
+          PMX  =ONE/(ONE+THREE*DRG*GAMAC(I)**2)
+          PMY  =ONE/(ONE+DRE*(BY*GAMA(I))**2)
+          PMZ  =ONE/(ONE+DRE*(BZ*GAMA(I))**2)	
 C
           SIGNXX(I) = SIGNXX(I)*PNX
           SIGNXY(I) = SIGNXY(I)*PNY
@@ -372,7 +372,7 @@ C
           MOMNYY(I) = MOMNYY(I)*PMY
           MOMNZZ(I) = MOMNZZ(I)*PMZ
 C
-          UVAR(N0+2,I) = UVAR(N0+2,I)+TROIS*C1*GAMAC(I)**2*ABS(MOMNXX(I))    
+          UVAR(N0+2,I) = UVAR(N0+2,I)+THREE*C1*GAMAC(I)**2*ABS(MOMNXX(I))    
           UEQ =  C1*SQRT( SIGNXX(I)**2 
      1                 +  GAMA(I)**4
      1                 *(BY**4*MOMNYY(I)**2 + BZ**4*MOMNZZ(I)**2) )

@@ -90,7 +90,7 @@ C-----------------------------------------------
       VISB2    = UPARAM(15)
     
        DO I=LFT,LLT
-        RHO0(I)= RHO10 * A1 + (UN-A1)*RHO20
+        RHO0(I)= RHO10 * A1 + (ONE-A1)*RHO20
         MAS(I)= RHO0(I)*VOL(I)
       ENDDO
 
@@ -107,18 +107,18 @@ C-----------------------------------------------
           IF (A1 .LT. EM10)THEN
             MAS1=ZERO
             VFRAC1=ZERO
-            VFRAC2=UN
+            VFRAC2=ONE
           ENDIF
-          IF (UN-A1 .LT. EM10)THEN
+          IF (ONE-A1 .LT. EM10)THEN
             MAS2=ZERO
             RHO1=MAS(I)/VOL(I)
-            VFRAC1=UN
+            VFRAC1=ONE
             VFRAC2=ZERO
           ENDIF
           A = (RHO0(I)-RHO2(I))/(RHO1(I)-RHO2(I))
           VFRAC1=A
           IF(VFRAC1.LT.EM20)VFRAC1=ZERO
-          VFRAC2 = UN-VFRAC1
+          VFRAC2 = ONE-VFRAC1
           SSP1=C1
           SSP2=GAM*P0*(RHO2(I)/RHO20)**GAM
           UVAR1=A*RHO1(I)
@@ -133,7 +133,7 @@ C-----------------------------------------------
             SSP2=ZERO
           ENDIF
           SSP(I) = SSP1 + SSP2
-          SSP(I) = SQRT(UN / SSP(I) / RHO0(I))
+          SSP(I) = SQRT(ONE / SSP(I) / RHO0(I))
           B1=UVAR1
           B2=RHO0(I)-B1
           VIS(I)=(B1*RHO1(I)*VISA1 + B2*RHO2(I)*VISA2)/RHO0(I)

@@ -77,7 +77,7 @@ C      INCOMP = 1 not tested
          DO I=LFT,LLT
           DVV=DT1*(DXX(I)+DYY(I)+DZZ(I))
           RHON(I)=RHON(I)-DVV*RHO0(I)
-          VAVG=UNDEMI*(VOLN(I)+VOLO(I))
+          VAVG=HALF*(VOLN(I)+VOLO(I))
           DVOL(I)=VAVG*DVV
           EINT(I)=EINT(I)*VOLO(I)-E0(I)*DVV*VAVG
          ENDDO

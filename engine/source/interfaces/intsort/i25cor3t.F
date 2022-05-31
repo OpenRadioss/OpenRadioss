@@ -177,7 +177,7 @@ C
 
       DO I=1,JLT
         GAPV(I) = GAPV(I) + CURV_MAX(CAND_E(I)) + VDT(I)
-        GAPV(I) = UNP01*GAPV(I)
+        GAPV(I) = ONEP01*GAPV(I)
       END DO
 C
       IBC(1:JLT)=0

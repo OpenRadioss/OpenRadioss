@@ -136,8 +136,8 @@ c
               CALL HM_GET_FLOATV('scale1'   ,ASCALET   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
               CALL HM_GET_FLOATV('scale2'   ,ASCALEP   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
               ! Checking, writing and saving the values
-              IF(ASCALET == ZERO) ASCALET=UN
-              IF(ASCALEP == ZERO) ASCALEP=UN
+              IF(ASCALET == ZERO) ASCALET=ONE
+              IF(ASCALEP == ZERO) ASCALEP=ONE
               WRITE(IOUT,1010)ILEAKAGE, ASCALET, ASCALEP
               IPM(4,I)=ILEAKAGE
               PM(160,I)= ASCALET
@@ -150,9 +150,9 @@ c
               CALL HM_GET_INTV  ('MAT_fct_IDE' ,IFTACP   ,IS_AVAILABLE, LSUBMODEL)
               CALL HM_GET_FLOATV('FScale11'    ,SCALEACP ,IS_AVAILABLE, LSUBMODEL, UNITAB)       
               ! Checking, writing and saving the values
-              IF(SCALEACP == ZERO) SCALEACP=UN
+              IF(SCALEACP == ZERO) SCALEACP=ONE
               IF(FACP > 0)  IFTACP=0
-              IF(FACP > UN) FACP=UN
+              IF(FACP > ONE) FACP=ONE
               IF(FACP < ZERO) FACP=ZERO
               PM(162,I)= FACP
               PM(163,I)= SCALEACP
@@ -176,8 +176,8 @@ C
                 CALL HM_GET_FLOATV('FScale22'      ,SCALELC ,IS_AVAILABLE, LSUBMODEL, UNITAB)
                 CALL HM_GET_FLOATV('FScale33'      ,SCALEAC ,IS_AVAILABLE, LSUBMODEL, UNITAB)             
                 ! Checking, writing and saving the values
-                IF(SCALELC == ZERO) SCALELC=UN
-                IF(SCALEAC == ZERO) SCALEAC=UN
+                IF(SCALELC == ZERO) SCALELC=ONE
+                IF(SCALEAC == ZERO) SCALEAC=ONE
                 PM(164,I)= SCALELC
                 PM(165,I)= SCALEAC
                 IPM(10+NFUNC-1,I)=IFTLC             
@@ -201,9 +201,9 @@ C
      .                        I1=IMAT,
      .                        C1=TITR)
                 END IF
-                IF (LR1  == ZERO) LR1  = UN
+                IF (LR1  == ZERO) LR1  = ONE
                 IF (FTHK == ZERO) FTHK = LR1
-                IF (C2 == ZERO)   C2   = UN
+                IF (C2 == ZERO)   C2   = ONE
                 PM(164,I)= LR1
                 PM(166,I)= FTHK
                 PM(167,I)= C1

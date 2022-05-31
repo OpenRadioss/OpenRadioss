@@ -195,20 +195,20 @@ C....* CHECKS *.............
       IF (HFLAG > 0  .AND. IFUN2 == 0)    HFLAG = 2
       IF (HFLAG > 0  .AND. STIFF == ZERO) HFLAG = 0
       IF (HFLAG == 0 .AND. ICOR == 1)  ICOR = 0
-      IF (FACX == ZERO)  FACX = UN
-      IF (FAC1 == ZERO)  FAC1 = UN
-      IF (FAC2 == ZERO)  FAC2 = UN
-      IF (FAC3 == ZERO)  FAC3 = UN
-      IF (FACF == ZERO)  FACF = UN
-      IF (FACV == ZERO)  FACV = UN
+      IF (FACX == ZERO)  FACX = ONE
+      IF (FAC1 == ZERO)  FAC1 = ONE
+      IF (FAC2 == ZERO)  FAC2 = ONE
+      IF (FAC3 == ZERO)  FAC3 = ONE
+      IF (FACF == ZERO)  FACF = ONE
+      IF (FACV == ZERO)  FACV = ONE
       IF (STIFF == ZERO) STIFF = EP30
-      FACX = UN / FACX
-      FACF = UN / FACF
-      FACV = UN / FACV
+      FACX = ONE / FACX
+      FACF = ONE / FACF
+      FACV = ONE / FACV
 C
 C.....* Storage IPARI FRIGAP *.......
       STFAC      = FAC1
-      IF (STFAC == ZERO) STFAC = UNCINQ
+      IF (STFAC == ZERO) STFAC = ONE_FIFTH
       IPARI(11)  = IFUN1
       IPARI(22)  = INACTI
       IPARI(24)  = IRM

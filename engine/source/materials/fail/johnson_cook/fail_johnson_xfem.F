@@ -152,26 +152,26 @@ c---------------
         CASE (1)    ! multilayer Xfem     (with Ishell = 2)                               
 C---------------
           DO I=1,NEL                                                            
-            IF (OFF(I) == UN) THEN                                              
-              IF (DFMAX(I) < UN) THEN                                           
+            IF (OFF(I) == ONE) THEN                                              
+              IF (DFMAX(I) < ONE) THEN                                           
                 P   = THIRD*(SIGNXX(I) + SIGNYY(I))                               
                 SVM = SQRT(SIGNXX(I)*SIGNXX(I)                                  
      .                   + SIGNYY(I)*SIGNYY(I)                                  
      .                   - SIGNXX(I)*SIGNYY(I)                                  
-     .                   + TROIS*SIGNXY(I)*SIGNXY(I))                           
+     .                   + THREE*SIGNXY(I)*SIGNXY(I))                           
                 EPSF = D3*P/MAX(EM20,SVM)                                       
-                EPSF = (D1 + D2*EXP(EPSF))*(UN                                       
-     .                     + D4*LOG(MAX(UN,EPSP(I)/EPSP0)))                   
-     .                     * (UN + D5*TSTAR(I))                                
+                EPSF = (D1 + D2*EXP(EPSF))*(ONE                                       
+     .                     + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))                   
+     .                     * (ONE + D5*TSTAR(I))                                
                 IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF              
 c                                                                               
                 IF (IXEL == 0) THEN                                             
-                  IF (ELCRKINI(ILAY,I)==0 .AND. DFMAX(I) >= UN) THEN
+                  IF (ELCRKINI(ILAY,I)==0 .AND. DFMAX(I) >= ONE) THEN
                     NINDXP = NINDXP+1
                     INDXP(NINDXP) = I
                     OFFL(I)   = ZERO                                            
                     NOFF(I)   = NOFF(I) + 1                                        
-                    NPTTF(I)  = NPTTF(I) + UN
+                    NPTTF(I)  = NPTTF(I) + ONE
                     RFLAGP(I) = 1
                     IF (INT(NPTTF(I)) == NPTT) THEN
                       NINDX = NINDX+1
@@ -180,7 +180,7 @@ c
                       RFLAG(I) = 1                                               
                     ENDIF
                     IF (NOFF(I) == NPTOT) THEN  ! total element rupture 
-                      OFF(I) = QCINQ                                           
+                      OFF(I) = FOUR_OVER_5                                           
                       TDEL(I)= TIME                                             
                     ENDIF                                                       
                   ELSEIF (ELCRKINI(ILAY,I) == 2 .AND. DFMAX(I) >= DADV) THEN
@@ -188,7 +188,7 @@ c
                     INDXP(NINDXP) = I
                     OFFL(I)  = ZERO                                            
                     NOFF(I)  = NOFF(I) + 1                                        
-                    NPTTF(I) = NPTTF(I)+ UN
+                    NPTTF(I) = NPTTF(I)+ ONE
                     RFLAGP(I) = 1
                     IF (INT(NPTTF(I)) == NPTT) THEN
                       NINDX = NINDX+1
@@ -197,32 +197,32 @@ c
                       RFLAG(I) = -1
                     ENDIF
                     IF (NOFF(I) == NPTOT) THEN
-                      OFF(I) = QCINQ                                           
+                      OFF(I) = FOUR_OVER_5                                           
                       TDEL(I)= TIME
                     ENDIF
                   ENDIF                                                       
-                ELSEIF (DFMAX(I) >= UN) THEN  ! phantom element failure (IXEL > 0)                        
+                ELSEIF (DFMAX(I) >= ONE) THEN  ! phantom element failure (IXEL > 0)                        
                   NINDXP = NINDXP + 1
                   INDXP(NINDXP) = I
                   OFFL(I)  = ZERO                                            
-                  NPTTF(I) = NPTTF(I) + UN
+                  NPTTF(I) = NPTTF(I) + ONE
                   RFLAGP(I) = 1
                   IF (INT(NPTTF(I)) == NPTT) THEN
                     NINDX = NINDX+1
                     INDX(NINDX) = I
-                    OFF(I) = QCINQ                                           
+                    OFF(I) = FOUR_OVER_5                                           
                     TDEL(I)  = TIME
                     RFLAG(I) = 3
                   ENDIF
                 ENDIF  ! IXEL                                                   
-              ELSE     ! DFMAX(I) >= UN                                              
+              ELSE     ! DFMAX(I) >= ONE                                              
                 SIGNXX(I) = ZERO                                                
                 SIGNYY(I) = ZERO                                                
                 SIGNXY(I) = ZERO                                                
                 SIGNYZ(I) = ZERO                                                
                 SIGNZX(I) = ZERO                                                
               ENDIF                                                             
-            ENDIF  ! IF (OFF(I) == UN)                                          
+            ENDIF  ! IF (OFF(I) == ONE)                                          
           ENDDO    ! DO I=1,NEL                                                 
 c
           IF (NINDXP > 0) THEN                                             
@@ -262,26 +262,26 @@ C---------------
           IF (ISHELL == 1) THEN
 c
             DO I=1,NEL                                               
-              IF (OFF(I) == UN) THEN                                 
+              IF (OFF(I) == ONE) THEN                                 
                 P   = THIRD*(SIGNXX(I) + SIGNYY(I))                    
                 SVM = SQRT(SIGNXX(I)*SIGNXX(I)                       
      .                   + SIGNYY(I)*SIGNYY(I)                       
      .                   - SIGNXX(I)*SIGNYY(I)                       
-     .                   + TROIS*SIGNXY(I)*SIGNXY(I))                
+     .                   + THREE*SIGNXY(I)*SIGNXY(I))                
                 EPSF = D3*P/MAX(EM20,SVM)                            
-                EPSF = (D1 + D2*EXP(EPSF))*(UN                       
-     .                     + D4*LOG(MAX(UN,EPSP(I)/EPSP0)))       
-     .                     * (UN + D5*TSTAR(I))                    
+                EPSF = (D1 + D2*EXP(EPSF))*(ONE                       
+     .                     + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))       
+     .                     * (ONE + D5*TSTAR(I))                    
                 IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF  
 c
                 IF (IXEL == 0) THEN                                  
-                  IF (ELCRKINI(ILAY,I)==0 .AND. DFMAX(I)>=UN) THEN   
+                  IF (ELCRKINI(ILAY,I)==0 .AND. DFMAX(I)>=ONE) THEN   
                     ELCRKINI(ILAY,I) = -1   ! Initialisation         
                     NINDX = NINDX + 1                                    
                     INDX(NINDX) = I                                    
                     RFLAG(I)  = 1                                     
                     TDEL(I)= TIME                                    
-                    OFF(I) = QCINQ                                           
+                    OFF(I) = FOUR_OVER_5                                           
                   ELSEIF (ELCRKINI(ILAY,I) == 2 .AND.                
      .                    DFMAX(I) >= DADV) THEN                     
                     ELCRKINI(ILAY,I) = 1    ! Advancement            
@@ -289,13 +289,13 @@ c
                     INDX(NINDX) = I                                    
                     RFLAG(I)  =-1                                    
                     TDEL(I)= TIME                                    
-                    OFF(I) = QCINQ                                           
+                    OFF(I) = FOUR_OVER_5                                           
                   ENDIF                                              
-                ELSEIF (DFMAX(I) >= UN) THEN  ! IXEL > 0             
+                ELSEIF (DFMAX(I) >= ONE) THEN  ! IXEL > 0             
                   NINDX = NINDX+1                                      
                   INDX(NINDX) = I                                      
                   RFLAG(I) = 3                                       
-                  OFF(I) = QCINQ                                           
+                  OFF(I) = FOUR_OVER_5                                           
                 ENDIF ! IXEL                                         
               ENDIF                                                  
             ENDDO     ! I=1,NEL                                      
@@ -322,21 +322,21 @@ c
           ELSEIF (ISHELL == 2) THEN  ! monolayer Xfem
 c
             DO I=1,NEL                                                            
-              IF (OFF(I) == UN) THEN                            
-                IF (DFMAX(I) < UN) THEN                                           
+              IF (OFF(I) == ONE) THEN                            
+                IF (DFMAX(I) < ONE) THEN                                           
                   P = THIRD*(SIGNXX(I) + SIGNYY(I))                               
                   SVM = SQRT(SIGNXX(I)*SIGNXX(I)                                  
      .                     + SIGNYY(I)*SIGNYY(I)                                  
      .                     - SIGNXX(I)*SIGNYY(I)                                  
-     .                     + TROIS*SIGNXY(I)*SIGNXY(I))                           
+     .                     + THREE*SIGNXY(I)*SIGNXY(I))                           
                   EPSF = D3*P/MAX(EM20,SVM)                                       
-                  EPSF = (D1 + D2*EXP(EPSF))*(UN                                       
-     .                       + D4*LOG(MAX(UN,EPSP(I)/EPSP0)))                   
-     .                       * (UN + D5*TSTAR(I))                                
+                  EPSF = (D1 + D2*EXP(EPSF))*(ONE                                       
+     .                       + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))                   
+     .                       * (ONE + D5*TSTAR(I))                                
                   IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
 c                                                                                 
                   IF (IXEL == 0) THEN                                             
-                    IF (ELCRKINI(ILAY,I)==0 .and. DFMAX(I) >= UN) THEN              
+                    IF (ELCRKINI(ILAY,I)==0 .and. DFMAX(I) >= ONE) THEN              
                       NINDXP = NINDXP + 1                                                 
                       INDXP(NINDXP) = I                                                 
                       NOFF(I) = NOFF(I) + 1                                       
@@ -348,14 +348,14 @@ c
                         ELCRKINI(ILAY,I) = -1     ! initialize crack  
                         RFLAG(I) = 1                                              
                         TDEL(I)= TIME                                             
-                        OFF(I) = QCINQ                                           
+                        OFF(I) = FOUR_OVER_5                                           
                       ENDIF                                                       
                     ELSEIF (ELCRKINI(ILAY,I) == 2 .AND. DFMAX(I) >= DADV) THEN                                
                       NINDXP = NINDXP + 1                                                 
                       INDXP(NINDXP) = I                                                 
                       NOFF(I) = NOFF(I) + 1                                       
                       OFFL(I) = ZERO
-                      DFMAX(I) = UN                               
+                      DFMAX(I) = ONE                               
                       RFLAGP(I) = 1
                       IF (NOFF(I) == NPTOT) THEN  ! all integration points failed                                  
                         NINDX = NINDX + 1                                               
@@ -363,10 +363,10 @@ c
                         ELCRKINI(ILAY,I) = 1      ! advance crack  
                         RFLAG(I) = -1                                             
                         TDEL(I)= TIME                                             
-                        OFF(I) = QCINQ                                           
+                        OFF(I) = FOUR_OVER_5                                           
                       ENDIF                                                       
                     ENDIF                                                         
-                  ELSEIF (DFMAX(I) >= UN) THEN  ! phantom element failure (IXEL > 0)                   
+                  ELSEIF (DFMAX(I) >= ONE) THEN  ! phantom element failure (IXEL > 0)                   
                     NINDXP = NINDXP + 1                                                 
                     INDXP(NINDXP) = I                                                 
                     NOFF(I) = NOFF(I) + 1                                         
@@ -374,7 +374,7 @@ c
                     IF (NOFF(I) == NPTOT) THEN                                    
                       NINDX  = NINDX + 1                                                 
                       INDX(NINDX)   = I                                                 
-                      OFF(I) = QCINQ                                           
+                      OFF(I) = FOUR_OVER_5                                           
                       RFLAG(I) = 3                                                
                     ENDIF                                                         
                   ENDIF  ! IXEL                                                   
@@ -385,7 +385,7 @@ c
                   SIGNYZ(I) = ZERO                                                
                   SIGNZX(I) = ZERO                                                
                 ENDIF                                                             
-              ENDIF  ! IF (OFF(I) == UN)                           
+              ENDIF  ! IF (OFF(I) == ONE)                           
             ENDDO    ! DO I=1,NEL                                                 
 C
             IF (NINDXP > 0) THEN                                             
@@ -425,7 +425,7 @@ c-----------------
 c
 C---------Damage for output  0 < DFMAX < 1 --------------------
       DO I=1,NEL
-        DFMAX(I) = MIN(UN,DFMAX(I))
+        DFMAX(I) = MIN(ONE,DFMAX(I))
       ENDDO
 C------------------
  2000 FORMAT(1X,'FOR SHELL ELEMENT (JOHNS)',I10,1X,'LAYER',I3,':',/

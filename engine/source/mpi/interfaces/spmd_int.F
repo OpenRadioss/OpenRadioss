@@ -1941,7 +1941,7 @@ C -- IDTMINS==2
                  ELSE
 C E2E nodes (> NUMNOD) should not be need
 C IRTSE Nodes are used.
-                   RBUF(P)%p(L+RSHIFT)   = UN
+                   RBUF(P)%p(L+RSHIFT)   = ONE
                    IBUF(P)%p(L2+ISHIFT)  = 0
                    IBUF(P)%p(L2+ISHIFT+1)= 0
                    IBUF(P)%p(L2+ISHIFT+2)= 0
@@ -6223,9 +6223,9 @@ C on ne retient pas les facettes detruites
         IF(STF(NE) == ZERO)CYCLE
 
          IF(IGAP == 0)THEN
-           AAA = TZINF+SQRT(TROIS)*CURV_MAX(NE)
+           AAA = TZINF+SQRT(THREE)*CURV_MAX(NE)
          ELSE
-           AAA = MARGE+SQRT(TROIS)*(CURV_MAX(NE)+
+           AAA = MARGE+SQRT(THREE)*(CURV_MAX(NE)+
      .           MIN(GAPMAX,MAX(GAPMIN,BGAPSMX+GAP_M(NE))))
          ENDIF
 

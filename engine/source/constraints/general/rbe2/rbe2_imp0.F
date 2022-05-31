@@ -960,7 +960,7 @@ C----------------011-------------------------
            EJ1(3)=SKEW(6)/SKEW(3+J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-              S=UN/(UN-EJ(J1)*EJ1(J))
+              S=ONE/(ONE-EJ(J1)*EJ1(J))
               EA=-S*(EJ(J1)*EJ1(K)-EJ(K))
               EB=-S*(EJ1(J)*EJ(K)-EJ1(K))
           CALL BC_UPDK2(I     ,IADN  ,J    ,J1    ,K     ,
@@ -986,7 +986,7 @@ C----------------101-------------------------
            EJ1(3)=SKEW(3)/SKEW(J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-              S=UN/(UN-EJ(J1)*EJ1(J))
+              S=ONE/(ONE-EJ(J1)*EJ1(J))
               EA=-S*(EJ(J1)*EJ1(K)-EJ(K))
               EB=-S*(EJ1(J)*EJ(K)-EJ1(K))
           CALL BC_UPDK2(I     ,IADN  ,J    ,J1    ,K     ,
@@ -1012,7 +1012,7 @@ C----------------110-------------------------
            EJ1(3)=SKEW(3)/SKEW(J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-              S=UN/(UN-EJ(J1)*EJ1(J))
+              S=ONE/(ONE-EJ(J1)*EJ1(J))
               EA=-S*(EJ(J1)*EJ1(K)-EJ(K))
               EB=-S*(EJ1(J)*EJ(K)-EJ1(K))
           CALL BC_UPDK2(I     ,IADN  ,J    ,J1    ,K     ,
@@ -1111,7 +1111,7 @@ C----------------011-------------------------
            EJ1(3)=SKEW(6)/SKEW(3+J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-          S=UN/(UN-EJ(J1)*EJ1(J))
+          S=ONE/(ONE-EJ(J1)*EJ1(J))
           EA=S*(EJ(J1)*EJ1(K)-EJ(K))
           EB=S*(EJ1(J)*EJ(K)-EJ1(K))
           KT(J,J)=EJ(J)
@@ -1138,7 +1138,7 @@ C----------------101-------------------------
            EJ1(3)=SKEW(3)/SKEW(J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-          S=UN/(UN-EJ(J1)*EJ1(J))
+          S=ONE/(ONE-EJ(J1)*EJ1(J))
           EA=S*(EJ(J1)*EJ1(K)-EJ(K))
           EB=S*(EJ1(J)*EJ(K)-EJ1(K))
           KT(J,J)=EJ(J)
@@ -1165,7 +1165,7 @@ C----------------110-------------------------
            EJ1(3)=SKEW(3)/SKEW(J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-          S=UN/(UN-EJ(J1)*EJ1(J))
+          S=ONE/(ONE-EJ(J1)*EJ1(J))
           EA=S*(EJ(J1)*EJ1(K)-EJ(K))
           EB=S*(EJ1(J)*EJ(K)-EJ1(K))
           KT(J,J)=EJ(J)
@@ -1177,7 +1177,7 @@ C----------------110-------------------------
 C----------------111-------------------------
          CASE(111)
           DO I=1,3
-           KT(I,I)=UN
+           KT(I,I)=ONE
            JT1(I) = 1
           ENDDO
        END SELECT
@@ -1261,7 +1261,7 @@ C----------------011-------------------------
            EJ1(3)=SKEW(6)/SKEW(3+J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-          S=UN/(UN-EJ(J1)*EJ1(J))
+          S=ONE/(ONE-EJ(J1)*EJ1(J))
           EA=S*(EJ(J1)*EJ1(K)-EJ(K))
           EB=S*(EJ1(J)*EJ(K)-EJ1(K))
 C----------------101-------------------------
@@ -1282,7 +1282,7 @@ C----------------101-------------------------
            EJ1(3)=SKEW(3)/SKEW(J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-          S=UN/(UN-EJ(J1)*EJ1(J))
+          S=ONE/(ONE-EJ(J1)*EJ1(J))
           EA=S*(EJ(J1)*EJ1(K)-EJ(K))
           EB=S*(EJ1(J)*EJ(K)-EJ1(K))
 C----------------110-------------------------
@@ -1303,7 +1303,7 @@ C----------------110-------------------------
            EJ1(3)=SKEW(3)/SKEW(J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-          S=UN/(UN-EJ(J1)*EJ1(J))
+          S=ONE/(ONE-EJ(J1)*EJ1(J))
           EA=S*(EJ(J1)*EJ1(K)-EJ(K))
           EB=S*(EJ1(J)*EJ(K)-EJ1(K))
        END SELECT
@@ -1399,8 +1399,8 @@ C-------------first KNN------------
        KDD(JJ,I)=KDD(I,JJ)
       ENDDO
       ENDDO
-      KII(K1,K1)=EJ*(KDD(J1,J1)*EJ+DEUX*EL*KDD(J1,L1)-DEUX*KDD(J1,K1))
-     .           +EL*(KDD(L1,L1)*EL-DEUX*KDD(L1,K1))
+      KII(K1,K1)=EJ*(KDD(J1,J1)*EJ+TWO*EL*KDD(J1,L1)-TWO*KDD(J1,K1))
+     .           +EL*(KDD(L1,L1)*EL-TWO*KDD(L1,K1))
 C +++ couplage t,r-----
       IF (IR.NE.0) THEN
        KII(K,K1)=-KDD(K,J1)*EJ-KDD(K,L1)*EL
@@ -1585,7 +1585,7 @@ C----------------011-------------------------
            EJ1(3)=SKEW(6)/SKEW(3+J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-          S=UN/(UN-EJ(J1)*EJ1(J))
+          S=ONE/(ONE-EJ(J1)*EJ1(J))
           SA = S/SKEW(6+J)
           SB = S/SKEW(3+J1)
           DO I=1,3
@@ -1610,7 +1610,7 @@ C----------------101-------------------------
            EJ1(3)=SKEW(3)/SKEW(J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-          S=UN/(UN-EJ(J1)*EJ1(J))
+          S=ONE/(ONE-EJ(J1)*EJ1(J))
           SA = S/SKEW(6+J)
           SB = S/SKEW(J1)
           DO I=1,3
@@ -1635,7 +1635,7 @@ C----------------110-------------------------
            EJ1(3)=SKEW(3)/SKEW(J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-          S=UN/(UN-EJ(J1)*EJ1(J))
+          S=ONE/(ONE-EJ(J1)*EJ1(J))
           SA = S/SKEW(3+J)
           SB = S/SKEW(J1)
           DO I=1,3
@@ -1706,9 +1706,9 @@ C------------------------------------
          DO K=1,LSKEW
           SKEW(K)=ZERO
          ENDDO
-          SKEW(1)=UN
-          SKEW(5)=UN
-          SKEW(9)=UN
+          SKEW(1)=ONE
+          SKEW(5)=ONE
+          SKEW(9)=ONE
         ENDIF
 C
         DO K=1,6
@@ -1800,9 +1800,9 @@ C-------------------B is not modified-----------------
          DO K=1,LSKEW
           SKEW(K)=ZERO
          ENDDO
-          SKEW(1)=UN
-          SKEW(5)=UN
-          SKEW(9)=UN
+          SKEW(1)=ONE
+          SKEW(5)=ONE
+          SKEW(9)=ONE
         ENDIF
         N = NS
 C

@@ -120,7 +120,7 @@ C-----------------------------------------------
       EXTERNAL GET_U_GEO
 C--------------------------------------------------------------
 C     CALCUL DES RIGIDITES DES SEGMENTS 
-C     V16 : DANS LE CAS OU UN SEGMENT APPARTIENT A LA FOIS
+C     V16 : DANS LE CAS OU ONE SEGMENT APPARTIENT A LA FOIS
 C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
 C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
 C---------------------------------------------------------------
@@ -224,7 +224,7 @@ C
         ELSE
           DX=GEO(1,MG)
         ENDIF
-        GAP_SM(I)=UNDEMI*DX
+        GAP_SM(I)=HALF*DX
         GAPS1=MAX(GAPS1,GAP_SM(I))
         GAPMN = MIN(GAPMN,DX)
         DXM=DXM+DX
@@ -295,7 +295,7 @@ C
         ELSE
           DX=GEO(1,MG)
         ENDIF
-        GAP_SM(I)=UNDEMI*DX
+        GAP_SM(I)=HALF*DX
         GAPS1=MAX(GAPS1,GAP_SM(I))
         GAPMN = MIN(GAPMN,DX)
         DXM=DXM+DX
@@ -361,7 +361,7 @@ C
         MT=IXT(1,NELT)
         MG=IXT(4,NELT)
         DX=SQRT(GEO(1,MG))
-        GAP_SM(I)=MAX(GAP_SM(I),UNDEMI*DX)
+        GAP_SM(I)=MAX(GAP_SM(I),HALF*DX)
         GAPS1=MAX(GAPS1,GAP_SM(I))
         GAPMN = MIN(GAPMN,DX)
         DXM=DXM+DX
@@ -411,7 +411,7 @@ C
         MT=IXP(1,NELP)
         MG=IXP(5,NELP)
         DX=SQRT(GEO(1,MG))
-        GAP_SM(I)=MAX(GAP_SM(I),UNDEMI*DX)
+        GAP_SM(I)=MAX(GAP_SM(I),HALF*DX)
         GAPS1=MAX(GAPS1,GAP_SM(I))
         GAPMN = MIN(GAPMN,DX)
         DXM=DXM+DX
@@ -649,21 +649,21 @@ C---------------------------
           GAP1 = GAP0
         ELSE
           IF(NDX.NE.0)THEN
-           GAP1 = MIN(UNDEMI*GAPMX,DXM/NDX)
+           GAP1 = MIN(HALF*GAPMX,DXM/NDX)
           ELSE
            GAP1 = EM01* GAPMX
           ENDIF
-          IF ((NINTR.LT.0).AND.(IT19.EQ.0)) WRITE(IOUT,1300)UNDEMI*(GAPMIN+GAP1)
+          IF ((NINTR.LT.0).AND.(IT19.EQ.0)) WRITE(IOUT,1300)HALF*(GAPMIN+GAP1)
         ENDIF
 C
-        IF(NINTR.LT.0) GAP1 = UNDEMI*(GAPMIN+GAP1)
+        IF(NINTR.LT.0) GAP1 = HALF*(GAPMIN+GAP1)
         GAPMIN = GAP1
         GAPMAX = GAP1
 C
-        IF ((GAP1.GT.UNDEMI*GAPMX).AND.(IREM_GAP/=2)) THEN
+        IF ((GAP1.GT.HALF*GAPMX).AND.(IREM_GAP/=2)) THEN
 C          WRITE(IOUT,1400)GAP1,0.5*GAPMX
 C          IWARN=IWARN+1
-           GAPTMP = UNDEMI*GAPMX
+           GAPTMP = HALF*GAPMX
           CALL ANCMSG(MSGID=94,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_2,
@@ -681,26 +681,26 @@ C---------------------------
           GAP1 = GAP0
         ELSE
           IF(NDX.NE.0)THEN
-           GAP1 = MIN(UNDEMI*GAPMX,GAPMN)
+           GAP1 = MIN(HALF*GAPMX,GAPMN)
           ELSE
            GAP1 = EM01 * GAPMX
           ENDIF
-          IF ((NINTR.LT.0).AND.(IT19.EQ.0)) WRITE(IOUT,1300)UNDEMI*(GAPMIN+GAP1)
+          IF ((NINTR.LT.0).AND.(IT19.EQ.0)) WRITE(IOUT,1300)HALF*(GAPMIN+GAP1)
         ENDIF
 C GAP MINI ET SUP DES GAPS VARIABLES
         IF(NINTR.GT.0)THEN
           GAPMIN = GAP1
           GAPMAX = GAPS1
         ELSE
-          GAPMIN = UNDEMI*(GAPMIN+GAP1)
+          GAPMIN = HALF*(GAPMIN+GAP1)
           GAPMAX = MAX(GAPMAX+GAPS1,GAPMIN)
           BGAPSMX = MAX(BGAPSMX,GAPS1)
         ENDIF
 C
-        IF ((GAPMAX.GT.UNDEMI*GAPMX) .AND. (IGAP.NE.3).AND.(IREM_GAP/=2))THEN
+        IF ((GAPMAX.GT.HALF*GAPMX) .AND. (IGAP.NE.3).AND.(IREM_GAP/=2))THEN
 C          WRITE(IOUT,1400)GAPMAX,0.5*GAPMX
 C          IWARN=IWARN+1
-           GAPTMP = UNDEMI*GAPMX
+           GAPTMP = HALF*GAPMX
            CALL ANCMSG(MSGID=94,
      .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_2,
@@ -802,7 +802,7 @@ C calcul de la surface second. ---
                      SY3  = SZ1*SX2 - SX1*SZ2
                      SZ3  = SX1*SY2 - SY1*SX2
                      AREA(I) = AREA(I) 
-     .                    + UNHUIT*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+     .                    + ONE_OVER_8*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
                     IELEC(I) = IXC(1,IE)
                     MG = IXC(6,IE)
                    ENDIF
@@ -817,17 +817,17 @@ C calcul de la surface second. ---
                      SY3  = SZ1*SX2 - SX1*SZ2
                      SZ3  = SX1*SY2 - SY1*SX2
                      AREA(I) = AREA(I) 
-     .                    + UNSIX*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+     .                    + ONE_OVER_6*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
                      IELEC(I) = IXTG(1,IE)
                      MG = IXTG(5,IE)
                    ENDIF
                  ENDIF
               ENDDO
            ENDDO
-           AREA(I) = UNDEMI*SQRT(AREA(I))
+           AREA(I) = HALF*SQRT(AREA(I))
            IF(IEC == 1) THEN
              DX=GEO(1,MG)
-             AREA(I) = AREA(I)+UNDEMI*DX
+             AREA(I) = AREA(I)+HALF*DX
            ENDIF
          ENDDO
 
@@ -904,9 +904,9 @@ c           face 1234
      .                .AND.N3.NE.N2
      .                .AND.N2.NE.N1
      .                .AND.N1.NE.N4)THEN 
-                      FACE(1) =QUART*FACE(1)
+                      FACE(1) =FOURTH*FACE(1)
                    ELSE
-                      FACE(1) =TIERS*FACE(1)
+                      FACE(1) =THIRD*FACE(1)
                    ENDIF
 c           face 5678
                    XX1(1)=X5
@@ -926,9 +926,9 @@ c           face 5678
      .                .AND.N7.NE.N6
      .                .AND.N6.NE.N5
      .                .AND.N5.NE.N8)THEN 
-                      FACE(2) =QUART*FACE(2)
+                      FACE(2) =FOURTH*FACE(2)
                    ELSE
-                      FACE(2) =TIERS*FACE(2)
+                      FACE(2) =THIRD*FACE(2)
                    ENDIF
 c           face 2376
                    XX1(1)=X2
@@ -948,9 +948,9 @@ c           face 2376
      .                .AND.N7.NE.N3
      .                .AND.N3.NE.N2
      .                .AND.N2.NE.N6)THEN 
-                      FACE(3) =QUART*FACE(3)
+                      FACE(3) =FOURTH*FACE(3)
                    ELSE
-                      FACE(3) =TIERS*FACE(3)
+                      FACE(3) =THIRD*FACE(3)
                    ENDIF
 c           face 1485
                    XX1(1)=X1
@@ -970,9 +970,9 @@ c           face 1485
      .                .AND.N8.NE.N4
      .                .AND.N4.NE.N1
      .                .AND.N1.NE.N5)THEN 
-                      FACE(4) =QUART*FACE(4)
+                      FACE(4) =FOURTH*FACE(4)
                    ELSE
-                      FACE(4) =TIERS*FACE(4)
+                      FACE(4) =THIRD*FACE(4)
                    ENDIF
 c           face 1265
                    XX1(1)=X1
@@ -992,9 +992,9 @@ c           face 1265
      .                .AND.N6.NE.N2
      .                .AND.N2.NE.N1
      .                .AND.N1.NE.N5)THEN 
-                      FACE(5) =QUART*FACE(5)
+                      FACE(5) =FOURTH*FACE(5)
                    ELSE
-                      FACE(5) =TIERS*FACE(5)
+                      FACE(5) =THIRD*FACE(5)
                    ENDIF
 c           face 4378
                    XX1(1)=X4
@@ -1014,9 +1014,9 @@ c           face 4378
      .                .AND.N7.NE.N3
      .                .AND.N3.NE.N4
      .                .AND.N4.NE.N8)THEN 
-                      FACE(6) =QUART*FACE(6)
+                      FACE(6) =FOURTH*FACE(6)
                    ELSE
-                      FACE(6) =TIERS*FACE(6)
+                      FACE(6) =THIRD*FACE(6)
                    ENDIF
 C----
                    DO K1=1,8

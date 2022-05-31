@@ -147,7 +147,7 @@ C-----------------------------------------------
 C=======================================================================
       IPRI=1
       IFLAG =0
-      IF(TT0==-UN)TT0=TT
+      IF(TT0==-ONE)TT0=TT
       IF(T1S.EQ.TT)IPRI=MOD(NCYCLE,IABS(NCPRI))
       INFO=MDESS-MANIM
       ITHIS=0
@@ -184,25 +184,25 @@ C GLOBAL VAR INITIALISES DANS RESOL ET MODIFIE DANS RGBCOR + passage en DOUBLE p
       TFEXTH  = ZERO
       EAMSD   = ZERO
 C
-      DT05=UNDEMI*DT1
+      DT05=HALF*DT1
 C
       IFLAG =1
       IF(N2D == 0 .AND. .NOT. MULTI_FVM%IS_USED) THEN
        IF (IMPL_S.EQ.1) THEN
         IF (IDYNA.GT.0) THEN
-         DT05=(UN-DY_G)*DT1
+         DT05=(ONE-DY_G)*DT1
          DO I = 1, NUMNOD
           MAS=MS(I)*WEIGHT_MD(I)
           VX = DY_V(1,I) - DT05*DY_A(1,I)
           VY = DY_V(2,I) - DT05*DY_A(2,I)
           VZ = DY_V(3,I) - DT05*DY_A(3,I)
-          ENCIND=ENCIND + ( VX*VX + VY*VY + VZ*VZ)*UNDEMI*MAS
+          ENCIND=ENCIND + ( VX*VX + VY*VY + VZ*VZ)*HALF*MAS
           XMOMTD=XMOMTD+VX*MAS
           YMOMTD=YMOMTD+VY*MAS
           ZMOMTD=ZMOMTD+VZ*MAS
           XMASSD=XMASSD+MAS
           MAS2=MS(I)*(1-WEIGHT_MD(I))*WEIGHT(I)
-          ENCIND2=ENCIND2 + ( VX*VX + VY*VY + VZ*VZ)*UNDEMI*MAS2         
+          ENCIND2=ENCIND2 + ( VX*VX + VY*VY + VZ*VZ)*HALF*MAS2         
          ENDDO
         ELSE
          DO I = 1, NUMNOD
@@ -216,13 +216,13 @@ C
            VX = V(1,I) + DT05*A(1,I)
            VY = V(2,I) + DT05*A(2,I)
            VZ = V(3,I) + DT05*A(3,I)
-           ENCIND=ENCIND + ( VX*VX + VY*VY + VZ*VZ)*UNDEMI*MAS
+           ENCIND=ENCIND + ( VX*VX + VY*VY + VZ*VZ)*HALF*MAS
            XMOMTD=XMOMTD+VX*MAS
            YMOMTD=YMOMTD+VY*MAS
            ZMOMTD=ZMOMTD+VZ*MAS
            XMASSD=XMASSD+MAS
            MAS2=MS(I)*(1-WEIGHT_MD(I))*WEIGHT(I)
-           ENCIND2=ENCIND2 + ( VX*VX + VY*VY + VZ*VZ)*UNDEMI*MAS2            
+           ENCIND2=ENCIND2 + ( VX*VX + VY*VY + VZ*VZ)*HALF*MAS2            
          ENDDO
 C
        ELSE
@@ -235,14 +235,14 @@ C------  sms
            MVX=XMOM_SMS(1,I)*WEIGHT_MD(I)
            MVY=XMOM_SMS(2,I)*WEIGHT_MD(I)
            MVZ=XMOM_SMS(3,I)*WEIGHT_MD(I)
-           ENCIND=ENCIND + ( VX*MVX + VY*MVY + VZ*MVZ)*UNDEMI
-           EAMSD=EAMSD + ( VX*VX + VY*VY + VZ*VZ)*UNDEMI*MAS
+           ENCIND=ENCIND + ( VX*MVX + VY*MVY + VZ*MVZ)*HALF
+           EAMSD=EAMSD + ( VX*VX + VY*VY + VZ*VZ)*HALF*MAS
            XMOMTD=XMOMTD+MVX
            YMOMTD=YMOMTD+MVY
            ZMOMTD=ZMOMTD+MVZ
            XMASSD=XMASSD+MAS
            MAS2=MS(I)*(1-WEIGHT_MD(I))*WEIGHT(I)
-           ENCIND2=ENCIND2 + ( VX*VX + VY*VY + VZ*VZ)*UNDEMI*MAS2            
+           ENCIND2=ENCIND2 + ( VX*VX + VY*VY + VZ*VZ)*HALF*MAS2            
          ENDDO
        ENDIF 
 C
@@ -263,13 +263,13 @@ C       ENCIND=0.5*ENCIND
            VX = V(1,I) + DT05*A(1,I)
            VY = V(2,I) + DT05*A(2,I)
            VZ = V(3,I) + DT05*A(3,I)
-           ENCIND=ENCIND + ( VX*VX + VY*VY + VZ*VZ)*UNDEMI*MAS
+           ENCIND=ENCIND + ( VX*VX + VY*VY + VZ*VZ)*HALF*MAS
            XMOMTD=XMOMTD+VX*MAS
            YMOMTD=YMOMTD+VY*MAS
            ZMOMTD=ZMOMTD+VZ*MAS
            XMASSD=XMASSD+MAS
            MAS2=MS_2D(I)*(1-WEIGHT_MD(I))*WEIGHT(I)
-           ENCIND2=ENCIND2 + ( VX*VX + VY*VY + VZ*VZ)*UNDEMI*MAS2     
+           ENCIND2=ENCIND2 + ( VX*VX + VY*VY + VZ*VZ)*HALF*MAS2     
          ENDDO
       ENDIF 
 
@@ -281,7 +281,7 @@ C       ENCIND=0.5*ENCIND
         XMOMTD  = XMOMTD + PARTSAV(3,M)
         YMOMTD  = YMOMTD + PARTSAV(4,M)
         ZMOMTD  = ZMOMTD + PARTSAV(5,M)
-        IF(PARTSAV(6,M)>ZERO)   ENCIND2 = ENCIND2 + UNDEMI/PARTSAV(6,M)*(PARTSAV(3,M)**2+PARTSAV(4,M)**2+PARTSAV(5,M)**2)
+        IF(PARTSAV(6,M)>ZERO)   ENCIND2 = ENCIND2 + HALF/PARTSAV(6,M)*(PARTSAV(3,M)**2+PARTSAV(4,M)**2+PARTSAV(5,M)**2)
        ENDDO
       ENDIF
        
@@ -303,10 +303,10 @@ C
           VY = DY_VR(2,I) - DT05*DY_AR(2,I)
           VZ = DY_VR(3,I) - DT05*DY_AR(3,I)
           ENROTD=ENROTD 
-     .        + (VX*VX + VY*VY + VZ*VZ)*UNDEMI*IN(I)*WEIGHT_MD(I)
+     .        + (VX*VX + VY*VY + VZ*VZ)*HALF*IN(I)*WEIGHT_MD(I)
           WEWE2 = (1-WEIGHT_MD(I))*WEIGHT(I)
           ENROTD2=ENROTD2 
-     .        + (VX*VX + VY*VY + VZ*VZ)*UNDEMI*IN(I)*WEWE2    
+     .        + (VX*VX + VY*VY + VZ*VZ)*HALF*IN(I)*WEWE2    
          ENDDO
         ENDIF 
        ELSE
@@ -315,10 +315,10 @@ C
           VY = R(2,I) + DT05*AR(2,I)
           VZ = R(3,I) + DT05*AR(3,I)
           ENROTD=ENROTD 
-     .         + (VX*VX + VY*VY + VZ*VZ)*UNDEMI*IN(I)*WEIGHT_MD(I)
+     .         + (VX*VX + VY*VY + VZ*VZ)*HALF*IN(I)*WEIGHT_MD(I)
           WEWE2 = (1-WEIGHT_MD(I))*WEIGHT(I)     
           ENROTD2=ENROTD2 
-     .        + (VX*VX + VY*VY + VZ*VZ)*UNDEMI*IN(I)*WEWE2      
+     .        + (VX*VX + VY*VY + VZ*VZ)*HALF*IN(I)*WEWE2      
          ENDDO
        ENDIF 
 C       ENROTD=0.5*ENROTD
@@ -489,8 +489,8 @@ C     + DEF + TFEXT + DELTAE + TFEXT_MD
        ENTOT1=ENTOT0 + TFEXT
        ENTOT1B=ENTOT0 + TFEXT + DELTAE + TFEXT_MD       
        IF(ABS(ENTOT1B).GT.EM20)THEN
-         ERR = ENTOTB/ENTOT1B - UN
-         ERR1 = MAX(-X99, MIN(X99,ERR*CENT))     
+         ERR = ENTOTB/ENTOT1B - ONE
+         ERR1 = MAX(-X99, MIN(X99,ERR*HUNDRED))     
        ELSE
         ERR = ZERO
         ERR1 =ZERO

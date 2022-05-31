@@ -291,7 +291,7 @@ c-----------
                           DO IT=1,NPTT                                                       
                             DO IR=1,NPTR            
                               LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)                                                                    
-                              EVAR(I) = EVAR(I) + (UN/NPTG)*(LBUF%TEMP(I))               
+                              EVAR(I) = EVAR(I) + (ONE/NPTG)*(LBUF%TEMP(I))               
                             ENDDO                                                          
                           ENDDO                                                            
                         ENDDO                                                              
@@ -325,8 +325,8 @@ c-----------
                         S1= S11 + P
                         S2= S22 + P
                         S3= S33 + P
-                        VONM2 = TROIS*(S4*S4 + S5*S5 + S6*S6 +
-     .                         UNDEMI*(S1*S1 + S2*S2 + S3*S3))
+                        VONM2 = THREE*(S4*S4 + S5*S5 + S6*S6 +
+     .                         HALF*(S1*S1 + S2*S2 + S3*S3))
                         VONM = SQRT(VONM2)
                         VALUE = VONM
                         IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) 
@@ -615,8 +615,8 @@ c
                         DO K=1,NPTS
                           DO L=1,NPTT
                             LBUF=>ELBUF_TAB(NG)%BUFLY(IL)%LBUF(J,K,L)
-                            IF (LBUF%OFF(I) == 0) VALUE = VALUE + UN
-                            IF(INT(VALUE)>=NPG_PLANE) EVAR(I)=EVAR(I)+UN
+                            IF (LBUF%OFF(I) == 0) VALUE = VALUE + ONE
+                            IF(INT(VALUE)>=NPG_PLANE) EVAR(I)=EVAR(I)+ONE
                           ENDDO
                         ENDDO
                       ENDDO
@@ -667,10 +667,10 @@ C--------
                       T13=T21*T32-T31*T22
                       T23=T31*T12-T11*T32
                       T33=T11*T22-T21*T12
-                      IF (ABS(T31) - UN  .LT. EM20)THEN
+                      IF (ABS(T31) - ONE  .LT. EM20)THEN
 c                      IF( ABS(COS(-ASIN(T31))) .GT. EM20)THEN
                         TETA = -ASIN(T31)
-                        MY_ONE = UN
+                        MY_ONE = ONE
                         MY_VALUE = MAX(abs(COS(TETA)),EM20) * SIGN(MY_ONE,COS(TETA))
                         IF(T32==ZERO.AND.T33==ZERO) THEN
                             PSI  = 0
@@ -684,20 +684,20 @@ c                      IF( ABS(COS(-ASIN(T31))) .GT. EM20)THEN
                         ENDIF
                       ELSE
                         PHI = ZERO
-                        IF(T31 == -UN)THEN
-                          TETA = PI / DEUX
+                        IF(T31 == -ONE)THEN
+                          TETA = PI / TWO
                           PSI = ATAN2(T12,T13)
                         ELSE
-                          TETA = - PI / DEUX
+                          TETA = - PI / TWO
                           PSI = ATAN2(-T12,-T13)
                         ENDIF
                       ENDIF
                       IF (MOD(IFUNC - 287,3) == 0) 
-     .                  EVAR(I) = PSI*CENT80/PI
+     .                  EVAR(I) = PSI*HUNDRED80/PI
                       IF (MOD(IFUNC - 287,3) == 1) 
-     .                  EVAR(I) = TETA*CENT80/PI
+     .                  EVAR(I) = TETA*HUNDRED80/PI
                       IF (MOD(IFUNC - 287,3) == 2) 
-     .                  EVAR(I) = PHI*CENT80/PI
+     .                  EVAR(I) = PHI*HUNDRED80/PI
                     ELSE
                       EVAR(I) = ZERO 
                     ENDIF
@@ -961,8 +961,8 @@ c-----------
 !                              S1 = S11 + P
 !                              S2 = S22 + P
 !                              S3 = S33 + P
-!                              VONM2 =  TROIS*(S4*S4 + S5*S5 + S6*S6 +
-!     .                                UNDEMI*(S1*S1 + S2*S2 + S3*S3))
+!                              VONM2 =  THREE*(S4*S4 + S5*S5 + S6*S6 +
+!     .                                HALF*(S1*S1 + S2*S2 + S3*S3))
 !                              VONM = SQRT(VONM2)
 !                              EVAR_TMP = EVAR_TMP + VONM/NPTG
 !                            ENDIF ! IF (ELBUF_TAB(NG)%BUFLY(IL)%L_SEQ > 0)
@@ -1016,9 +1016,9 @@ c-----------
                       CRIT = FF0*(S2 - S3)**2
      .                     + GG0*(S3 - S1)**2
      .                     + HH0*(S1 - S2)**2
-     .                     + DEUX*LL0*S5**2
-     .                     + DEUX*MM0*S6**2
-     .                     + DEUX*NN0*S4**2
+     .                     + TWO*LL0*S5**2
+     .                     + TWO*MM0*S6**2
+     .                     + TWO*NN0*S4**2
 !
                       EVAR(I) = SQRT(CRIT)
                     ENDDO ! DO I=LFT,LLT
@@ -1071,8 +1071,8 @@ c-----------
                     S1 = S11 + P
                     S2 = S22 + P
                     S3 = S33 + P
-                    VONM2 = TROIS*(S4*S4 + S5*S5 + S6*S6 +
-     .                     UNDEMI*(S1*S1 + S2*S2 + S3*S3))
+                    VONM2 = THREE*(S4*S4 + S5*S5 + S6*S6 +
+     .                     HALF*(S1*S1 + S2*S2 + S3*S3))
                     VONM = SQRT(VONM2)
                     EVAR(I) = VONM
                   ENDDO ! DO I=LFT,LLT
@@ -1444,12 +1444,12 @@ c-----------OFF
               ELSEIF(IFUNC == 4965)THEN
                 DO I=LFT,LLT
                   IF (GBUF%G_OFF > 0) THEN
-                    IF(GBUF%OFF(I) > UN) THEN
-                      EVAR(I) = GBUF%OFF(I) - UN
-                    ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= UN)) THEN
+                    IF(GBUF%OFF(I) > ONE) THEN
+                      EVAR(I) = GBUF%OFF(I) - ONE
+                    ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= ONE)) THEN
                       EVAR(I) = GBUF%OFF(I)
                     ELSE
-                      EVAR(I) = -UN
+                      EVAR(I) = -ONE
                     ENDIF
                   ENDIF
                 ENDDO  
@@ -1485,9 +1485,9 @@ c-----------Mach Number
                         TMP(1,1:8)=V(1,IXS(2:9,I+NFT))-W(1,IXS(2:9,I+NFT))
                         TMP(2,1:8)=V(2,IXS(2:9,I+NFT))-W(2,IXS(2:9,I+NFT))
                         TMP(3,1:8)=V(3,IXS(2:9,I+NFT))-W(3,IXS(2:9,I+NFT))                                    
-                        VEL(1) = SUM(TMP(1,1:8))*UNHUIT
-                        VEL(2) = SUM(TMP(2,1:8))*UNHUIT
-                        VEL(3) = SUM(TMP(3,1:8))*UNHUIT 
+                        VEL(1) = SUM(TMP(1,1:8))*ONE_OVER_8
+                        VEL(2) = SUM(TMP(2,1:8))*ONE_OVER_8
+                        VEL(3) = SUM(TMP(3,1:8))*ONE_OVER_8 
                         EVAR(I) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)                                   
                       ENDDO
                     ELSE
@@ -1496,9 +1496,9 @@ c-----------Mach Number
                         TMP(1,1:8)=V(1,IXS(2:9,I+NFT))
                         TMP(2,1:8)=V(2,IXS(2:9,I+NFT))
                         TMP(3,1:8)=V(3,IXS(2:9,I+NFT))                                    
-                        VEL(1) = SUM(TMP(1,1:8))*UNHUIT
-                        VEL(2) = SUM(TMP(2,1:8))*UNHUIT
-                        VEL(3) = SUM(TMP(3,1:8))*UNHUIT 
+                        VEL(1) = SUM(TMP(1,1:8))*ONE_OVER_8
+                        VEL(2) = SUM(TMP(2,1:8))*ONE_OVER_8
+                        VEL(3) = SUM(TMP(3,1:8))*ONE_OVER_8 
                         EVAR(I) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)                                   
                       ENDDO
                     ENDIF
@@ -1697,8 +1697,8 @@ C-----------
                    S1=S11 + P
                    S2=S22 + P
                    S3=S33 + P
-                   VONM2= TROIS*(S4*S4 + S5*S5 + S6*S6 +
-     .                    UNDEMI*(S1*S1+S2*S2+S3*S3) )
+                   VONM2= THREE*(S4*S4 + S5*S5 + S6*S6 +
+     .                    HALF*(S1*S1+S2*S2+S3*S3) )
                    VONM= SQRT(VONM2)
                    VALUE = VONM
                  ENDIF
@@ -1876,8 +1876,8 @@ C-----------
 !                              S1 = S11 + P
 !                              S2 = S22 + P
 !                              S3 = S33 + P
-!                              VONM2 =  TROIS*(S4*S4 + S5*S5 + S6*S6 +
-!     .                                UNDEMI*(S1*S1 + S2*S2 + S3*S3))
+!                              VONM2 =  THREE*(S4*S4 + S5*S5 + S6*S6 +
+!     .                                HALF*(S1*S1 + S2*S2 + S3*S3))
 !                              VONM = SQRT(VONM2)
 !                              EVAR_TMP = EVAR_TMP + VONM/NPTG
 !                            ENDIF ! IF (ELBUF_TAB(NG)%BUFLY(IL)%L_SEQ > 0)
@@ -1937,9 +1937,9 @@ C-----------
                       CRIT = FF0*(S2 - S3)**2
      .                     + GG0*(S3 - S1)**2
      .                     + HH0*(S1 - S2)**2
-     .                     + DEUX*LL0*S5**2
-     .                     + DEUX*MM0*S6**2
-     .                     + DEUX*NN0*S4**2
+     .                     + TWO*LL0*S5**2
+     .                     + TWO*MM0*S6**2
+     .                     + TWO*NN0*S4**2
 !
                       FUNC(EL2FA(NN3+N)) = SQRT(CRIT)
                     ENDIF ! IF (EL2FA(NN3+N) /= 0)
@@ -1989,10 +1989,10 @@ C-----------
                       S1 = GBUF%SIG(JJ(1) + I)+P
                       S2 = GBUF%SIG(JJ(2) + I)+P
                       S3 = GBUF%SIG(JJ(3) + I)+P
-                      VONM2 = TROIS*(GBUF%SIG(JJ(4) + I)**2 +
+                      VONM2 = THREE*(GBUF%SIG(JJ(4) + I)**2 +
      .                               GBUF%SIG(JJ(5) + I)**2 +
      .                               GBUF%SIG(JJ(6) + I)**2 +
-     .                         UNDEMI*(S1*S1+S2*S2+S3*S3))
+     .                         HALF*(S1*S1+S2*S2+S3*S3))
                       VONM = SQRT(VONM2)
                       FUNC(EL2FA(NN3+N)) = VONM
                     ENDIF ! IF (EL2FA(NN3+N) /= 0)
@@ -2011,8 +2011,8 @@ C-----------
                       S1 = S11 + P
                       S2 = S22 + P
                       S3 = S33 + P
-                      VONM2 =  TROIS*(S4*S4 + S5*S5 + S6*S6 +
-     .                        UNDEMI*(S1*S1 + S2*S2 + S3*S3))
+                      VONM2 =  THREE*(S4*S4 + S5*S5 + S6*S6 +
+     .                        HALF*(S1*S1 + S2*S2 + S3*S3))
                       VONM = SQRT(VONM2)
                       FUNC(EL2FA(NN3+N)) = VONM
                     ENDIF ! IF (EL2FA(NN3+N) /= 0)
@@ -2024,12 +2024,12 @@ c-----------OFF
                 IF (GBUF%G_OFF > 0) THEN
                   DO I=LFT,LLT
                   N = I + NFT
-                    IF(GBUF%OFF(I) > UN) THEN
-                      FUNC(EL2FA(NN3+N)) = GBUF%OFF(I) - UN
-                    ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= UN)) THEN
+                    IF(GBUF%OFF(I) > ONE) THEN
+                      FUNC(EL2FA(NN3+N)) = GBUF%OFF(I) - ONE
+                    ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= ONE)) THEN
                       FUNC(EL2FA(NN3+N)) = GBUF%OFF(I)
                     ELSE
-                      FUNC(EL2FA(NN3+N)) = -UN
+                      FUNC(EL2FA(NN3+N)) = -ONE
                     ENDIF
                   ENDDO  
                 ENDIF
@@ -2080,8 +2080,8 @@ c
                         S1= S11 + P
                         S2= S22 + P
                         S3= S33 + P
-                        VONM2= TROIS*(S4*S4 + S5*S5 + S6*S6+
-     .                         UNDEMI*(S1*S1+S2*S2+S3*S3) )
+                        VONM2= THREE*(S4*S4 + S5*S5 + S6*S6+
+     .                         HALF*(S1*S1+S2*S2+S3*S3) )
                         VONM= SQRT(VONM2)
                         VALUE = VONM
                       ENDIF

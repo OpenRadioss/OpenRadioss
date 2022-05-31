@@ -120,7 +120,7 @@ C
         endif
        ENDDO
        DO I=LFT,LLT
-         S2 = UN/MAX(EM30,SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2))
+         S2 = ONE/MAX(EM30,SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2))
          N1(I) = N1(I)*S2
          N2(I) = N2(I)*S2
          N3(I) = N3(I)*S2

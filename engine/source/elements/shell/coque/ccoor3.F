@@ -121,7 +121,7 @@ C
 #include      "simd.inc"
       DO I=JFT,JLT
         DT1C(I) = DT1
-        OFF(I) = MIN(UN,ABS(OFFG(I)))
+        OFF(I) = MIN(ONE,ABS(OFFG(I)))
         OFF_L  = MIN(OFF_L,OFFG(I))
         SIGY(I) = EP30
       ENDDO
@@ -212,7 +212,7 @@ c=======================================================================
       ENDDO
 C
        DO I=JFT,JLT
-          IF(ABS(OFFG(I))==UN)OFFG(I)=SIGN(DEUX,OFFG(I))
+          IF(ABS(OFFG(I))==ONE)OFFG(I)=SIGN(TWO,OFFG(I))
           UXYZ(I,1:3,1:4)= ZERO
             NN(1)=IXC(2,I)
             NN(2)=IXC(3,I)
@@ -227,7 +227,7 @@ C
             X0G4(I) = X(1,NN(4))-X(1,NN(1))
             Y0G4(I) = X(2,NN(4))-X(2,NN(1))
             Z0G4(I) = X(3,NN(4))-X(3,NN(1))
-          IF(ABS(OFFG(I))==DEUX)THEN
+          IF(ABS(OFFG(I))==TWO)THEN
             UXYZ(I,1,2) = X0G2(I)-SMSTR(II(1)+I)
             UXYZ(I,2,2) = Y0G2(I)-SMSTR(II(2)+I)
             UXYZ(I,3,2) = Z0G2(I)-SMSTR(II(3)+I)
@@ -270,12 +270,12 @@ C
         YL4(I)=E2X(I)*X0G4(I)+E2Y(I)*Y0G4(I)+E2Z(I)*Z0G4(I)
       ENDDO
       DO I=JFT,JLT
-       PX1(I)= UNDEMI*(YL2(I)-YL4(I))
-       PY1(I)= UNDEMI*(XL4(I)-XL2(I))
-       PX2(I)= UNDEMI* YL3(I)
-       PY2(I)=-UNDEMI* XL3(I)     
-       AREA(I)= MAX(DEUX*(PY2(I)*PX1(I)-PY1(I)*PX2(I)),EM20)
-       A_I(I) = UN / AREA(I)
+       PX1(I)= HALF*(YL2(I)-YL4(I))
+       PY1(I)= HALF*(XL4(I)-XL2(I))
+       PX2(I)= HALF* YL3(I)
+       PY2(I)=-HALF* XL3(I)     
+       AREA(I)= MAX(TWO*(PY2(I)*PX1(I)-PY1(I)*PX2(I)),EM20)
+       A_I(I) = ONE / AREA(I)
       ENDDO
 C------  
       DO I=JFT,JLT

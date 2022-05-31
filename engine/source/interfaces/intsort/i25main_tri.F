@@ -324,7 +324,7 @@ C
 
         IF(IEDGE > 0)THEN
           BGAPEMX=INTBUF_TAB%VARIABLES(40)
-          TZINF = MAX(TZINF,MARGE+DEUX*BGAPEMX+VMAXDT)
+          TZINF = MAX(TZINF,MARGE+TWO*BGAPEMX+VMAXDT)
         ENDIF
 
         BMINMA(1)=BMINMA(1)+TZINF
@@ -498,7 +498,7 @@ C
         BMINMA(5)=BSAV(5)
         BMINMA(6)=BSAV(6)
 
-        TZINF = MARGE+DEUX*BGAPEMX+VMAXDT
+        TZINF = MARGE+TWO*BGAPEMX+VMAXDT
 
         BMINMA(1)=BMINMA(1)+TZINF
         BMINMA(2)=BMINMA(2)+TZINF
@@ -588,7 +588,7 @@ C mise a - de dist temporairement pour reperage dans partie frontiere
       IF(NSPMD.GT.1)THEN
 !$OMP SINGLE
         IF (IMONM > 0) CALL STARTIME(26,1)
-        INTBUF_TAB%VARIABLES(5) = - UN
+        INTBUF_TAB%VARIABLES(5) = - ONE
 C
         CALL SPMD_TRI25GAT(
      1      RESULT       ,NSN ,INTBUF_TAB%CAND_N,INTBUF_TAB%I_STOK(1),NIN,

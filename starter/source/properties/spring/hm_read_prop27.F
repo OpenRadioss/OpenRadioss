@@ -119,22 +119,22 @@ C     4th card
       CALL HM_GET_FLOATV('ASCALE1' ,ASCALE1  ,IS_AVAILABLE,LSUBMODEL,UNITAB)   
       IF (ASCALE1 == ZERO) THEN 
         CALL HM_GET_FLOATV_DIM('ASCALE1' ,ASCALE1_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        ASCALE1 = UN * ASCALE1_UNIT
+        ASCALE1 = ONE * ASCALE1_UNIT
       ENDIF
       CALL HM_GET_FLOATV('FSCALE1' ,FSCALE1  ,IS_AVAILABLE,LSUBMODEL,UNITAB)    
       IF (FSCALE1 == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('FSCALE1' ,FSCALE1_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        FSCALE1 = UN * FSCALE1_UNIT
+        FSCALE1 = ONE * FSCALE1_UNIT
       ENDIF
       CALL HM_GET_FLOATV('ASCALE2' ,ASCALE2  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF (ASCALE2 == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('ASCALE2' ,ASCALE2_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        ASCALE2 = UN * ASCALE2_UNIT
+        ASCALE2 = ONE * ASCALE2_UNIT
       ENDIF
       CALL HM_GET_FLOATV('FSCALE2' ,FSCALE2  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF (FSCALE2 == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('FSCALE2' ,FSCALE2_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        FSCALE2 = UN * FSCALE2_UNIT
+        FSCALE2 = ONE * FSCALE2_UNIT
       ENDIF
 C
 C-----------------------------
@@ -146,7 +146,7 @@ C
       GAP     = -ABS(GAP)
       IF (GAP < ZERO)      ITENS   = 0
       ! Non-linear stiffness exponent
-      IF (NEXP <= ZERO)    NEXP    = UN
+      IF (NEXP <= ZERO)    NEXP    = ONE
       ! Spring force filtering flag
       IF (Fsmooth /= 0)    Fsmooth = 1
       ! If functions are activated
@@ -187,7 +187,7 @@ C
       GEO(3)   = DAMP
       GEO(5)   = EP06
       GEO(7)   = ZERO
-      GEO(8)   = UNP1 
+      GEO(8)   = ONEP1 
       GEO(10)  = FSCALE1
       GEO(12)  = IGTYP+EM01
       GEO(15)  = MIN_RUP                          

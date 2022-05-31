@@ -120,20 +120,20 @@ C-----------------------------------------------
      .        R,UMR,FAC,GS,SVM1,SHFACT
 C=======================================================================
       IPLAS  = 1                        
-      SHFACT = CSIX
+      SHFACT = FIVE_OVER_6
       DO I=1,NEL                            
         NFUNC  = IPM(10,MAT(I))   
         DO J=1,NFUNC                         
           IFUNC(I,J)=IPM(10+J,MAT(I))   
         ENDDO                                
-        FAIL(I) = UN                            
+        FAIL(I) = ONE                            
       ENDDO                                  
 C
       DO I=1,NEL                                
         IADBUF = IPM(7,MAT(I))-1                
         E(I)   = UPARAM(IADBUF+2)                
         G(I)   = UPARAM(IADBUF+5)                
-        G3(I)  = TROIS*G(I)                      
+        G3(I)  = THREE*G(I)                      
         NU(I)  = UPARAM(IADBUF+6)
         NRATE(I) = NINT(UPARAM(IADBUF+1))        
         EPSMAX(I)= UPARAM(IADBUF+6+2*NRATE(I)+1) 
@@ -148,14 +148,14 @@ c--------------------
               MFUNCE= UPARAM(IADBUF+2*NRATE(I)+ 22)                                          
               ESCALE(I) = FINTER(IFUNC(I,MFUNCE),PLA(I),NPF,TF,DYDXE(I)) 
               E(I) =  ESCALE(I)* E(I)                                 
-              G(I) =  UNDEMI*E(I)/(UN+NU(I)) 
-              G3(I) = TROIS*G(I) 
+              G(I) =  HALF*E(I)/(ONE+NU(I)) 
+              G3(I) = THREE*G(I) 
            ENDIF                                                             
          ELSEIF (CE(I) /= ZERO) THEN                                          
            IF(PLA(I) > ZERO)THEN                                                       
-              E(I) = E(I)-(E(I)-EINF(I))*(UN-EXP(-CE(I)*PLA(I)))                     
-              G(I) =  UNDEMI*E(I)/(UN+NU(I))  
-              G3(I) = TROIS*G(I)                                              
+              E(I) = E(I)-(E(I)-EINF(I))*(ONE-EXP(-CE(I)*PLA(I)))                     
+              G(I) =  HALF*E(I)/(ONE+NU(I))  
+              G3(I) = THREE*G(I)                                              
            ENDIF                                                                   
          ENDIF                   
       ENDDO                                      
@@ -163,12 +163,12 @@ C
 C-------------------
 c       DO I=1,NEL
 C---     Module Cisaillement Transverse
-c         SH  = CSIX*G(I)                        
-c         YMA = DOUZE*E(I)/AL(I)**2              
+c         SH  = FIVE_OVER_6*G(I)                        
+c         YMA = TWELVE*E(I)/AL(I)**2              
 c         SH1 = YMA*IYY(I)                       
 c         SH2 = YMA*IZZ(I)                       
 C        shf = ishear   ( no shear = 1, shear = 0 = default)
-c         SH0 = (UN - SHF(I))*SH              
+c         SH0 = (ONE - SHF(I))*SH              
 c         GS1 = SH0*SH1/(SH+SH1) + SHF(I)*SH1 
 c         GS2 = SH0*SH2/(SH+SH2) + SHF(I)*SH2 
 C---     Contraintes Elastiques
@@ -178,7 +178,7 @@ C---      CONTRAINTES PLASTIQUEMENT ADMISSIBLES
         SIGNXX(I) = SIGOXX(I) + E(I)*DEPSXX(I) 
         SIGNXY(I) = SIGOXY(I) + GS*DEPSXY(I)   
         SIGNXZ(I) = SIGOXZ(I) + GS*DEPSXZ(I)   
-        ETSE(I)   = UN                         
+        ETSE(I)   = ONE                         
       ENDDO                                    
 C-------------------
 C     Yield Stress
@@ -247,22 +247,22 @@ C-------------------
 c      IF (IPLAS == 1) THEN                                              
 C---    radial return                                                   
         DO I=1,NEL                                                     
-          SVM1 = SIGNXX(I)**2 + TROIS*(SIGNXY(I)**2 + SIGNXZ(I)**2)     
+          SVM1 = SIGNXX(I)**2 + THREE*(SIGNXY(I)**2 + SIGNXZ(I)**2)     
           SVM1 = SQRT(SVM1)                                             
-          R  = MIN( UN, YLD(I)/MAX(EM20,SVM1) )                         
+          R  = MIN( ONE, YLD(I)/MAX(EM20,SVM1) )                         
           SIGNXX(I)=SIGNXX(I)*R                                         
           SIGNXY(I)=SIGNXY(I)*R                                         
           SIGNXZ(I)=SIGNXZ(I)*R                                         
-          UMR = UN - R                                                  
+          UMR = ONE - R                                                  
           PLA(I) = PLA(I) + OFF(I)*SVM1*UMR/(G3(I)+H(I))
-          IF (R < UN) ETSE(I)= H(I)/(H(I)+E(I))                         
+          IF (R < ONE) ETSE(I)= H(I)/(H(I)+E(I))                         
         ENDDO                                                           
 c      ELSE                                                              
 C---    plasticite uniaxiale : 3 iterations Newton                      
 ctmp        DO J=1,NEL                                                     
 ctmp          AA(I) = SIGNXX(I)*SIGNXX(I)                               
-ctmp          BB(I) = TROIS*SIGNXY(I)*SIGNXY(I)                         
-ctmp          CC(I) = TROIS*SIGNXZ(I)*SIGNXZ(I)                         
+ctmp          BB(I) = THREE*SIGNXY(I)*SIGNXY(I)                         
+ctmp          CC(I) = THREE*SIGNXZ(I)*SIGNXZ(I)                         
 ctmp          SVM(I)= AA(I) + BB(I) + CC(I)                             
 ctmp        ENDDO                                                           
 ctmpC       plastic flow                                                
@@ -286,14 +286,14 @@ ctmp            I = INDEX(J)
 ctmp            DPLA_I(I) = DPLA_J(I)                                   
 ctmp            YLD_I = YLD(I) + H(I)*DPLA_I(I)                         
 ctmp            DR(I) = E(I)*DPLA_I(I)/YLD_I                            
-ctmp            PP(I) = UN/(UN+DR(I))                                   
-ctmp            QQ(I) = UN/(UN+NU1(I)*DR(I))                            
+ctmp            PP(I) = ONE/(ONE+DR(I))                                   
+ctmp            QQ(I) = ONE/(ONE+NU1(I)*DR(I))                            
 ctmp            P2    = PP(I)*PP(I)                                     
 ctmp            Q2    = QQ(I)*QQ(I)                                     
 ctmp            F     = AA(I)*P2 + (BB(I)+CC(I))*Q2 - YLD_I*YLD_I       
 ctmp            DF    = AA(I)*P2*PP(I) + NU*(BB(I)+CC(I))*Q2*QQ(I)      
 ctmp            DF    = DF *(H(I)*DR(I) - E(I)) / YLD_I - H(I)*YLD_I    
-ctmp            DF    = DF * DEUX                                       
+ctmp            DF    = DF * TWO                                       
 ctmp            DF    = SIGN(MAX(ABS(DF),EM20),DF)                      
 ctmp            IF(DPLA_I(I) > ZERO) THEN                               
 ctmp              DPLA_J(I) = MAX(ZERO,DPLA_I(I)-F/DF)                  
@@ -315,8 +315,8 @@ c      ENDIF
 C---
       IF (IFAIL > 0) THEN
         DO I=1,NEL                                   
-          IF (PLA(I) > EPSMAX(I) .AND. OFF(I)==UN) THEN
-            OFF(I) = QCINQ
+          IF (PLA(I) > EPSMAX(I) .AND. OFF(I)==ONE) THEN
+            OFF(I) = FOUR_OVER_5
 #include "lockon.inc"
             WRITE(IOUT, 1000) NGL(I),PLA(I),EPSP(I)
 #include "lockoff.inc"

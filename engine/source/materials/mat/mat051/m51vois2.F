@@ -133,18 +133,18 @@ C-----------------------------------------------
          XN   = ZERO
          YN   = (-X(3,IX2)+X(3,IX1))
          ZN   = (-X(2,IX1)+X(2,IX2))
-         FAC  = UN/SQRT(YN**2+ZN**2)
+         FAC  = ONE/SQRT(YN**2+ZN**2)
          YN  = YN*FAC
          ZN  = ZN*FAC
          !
          ! VITESSES MOYENNES A LA FRONTIERE (SUPG)
          ! 
          VDX(I)=ZERO
-         VDY(I)=UNDEMI*(V(2,IX1)+V(2,IX2))
-         VDZ(I)=UNDEMI*(V(3,IX1)+V(3,IX2))         
+         VDY(I)=HALF*(V(2,IX1)+V(2,IX2))
+         VDZ(I)=HALF*(V(3,IX1)+V(3,IX2))         
          IF(JALE>0)THEN
-             VDY(I)=VDY(I)-UNDEMI*(W(2,IX1)+W(2,IX2))
-             VDZ(I)=VDZ(I)-UNDEMI*(W(3,IX1)+W(3,IX2))        
+             VDY(I)=VDY(I)-HALF*(W(2,IX1)+W(2,IX2))
+             VDZ(I)=VDZ(I)-HALF*(W(3,IX1)+W(3,IX2))        
          ENDIF
          VD2(I)=VDY(I)**2+VDZ(I)**2
          IF(VDY(I)*ZN+VDZ(I)*YN.LE.ZERO)THEN
@@ -157,7 +157,7 @@ C-----------------------------------------------
          VN1=V(2,IX1)*YN+V(3,IX1)*ZN                                    
          VN2=V(2,IX2)*YN+V(3,IX2)*ZN
          VEL(I)=(MIN(VN1,VN2))**2                                        
-         VN(I)=UNDEMI*(VN1+VN2)                                      
+         VN(I)=HALF*(VN1+VN2)                                      
          IF(VN(I).GE.ZERO)VEL(I)=ZERO                                                                             
 
         IF(IVOI.LE.NUMELQ)THEN
@@ -182,10 +182,10 @@ C-----------------------------------------------
           ENDDO
           
           !Global Material data
-          PV(0,I)   = -TIERS*(GBUF%SIG(IJ(1)+IS)
+          PV(0,I)   = -THIRD*(GBUF%SIG(IJ(1)+IS)
      .                      + GBUF%SIG(IJ(2)+IS)
      .                      + GBUF%SIG(IJ(3)+IS))
-          AVV(0,I)     = UN
+          AVV(0,I)     = ONE
           EIV(0,I)     = GBUF%EINT(IS)
           RHOV(0,I)    = GBUF%RHO(IS)         
           TV(0,I)      = GBUF%TEMP(IS)    !IF (JTHE>0)

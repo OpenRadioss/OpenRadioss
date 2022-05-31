@@ -277,8 +277,8 @@ C
                  STACK_INFO(NUMS)%THK(1:NN)= ZERO
                  STACK_INFO(NUMS)%ANG(1:NN)= ZERO
                  STACK_INFO(NUMS)%POS(1:NN)= ZERO
-                 STACK_INFO(NUMS)%THKLY(1:NN)= UN   
-                 STACK_INFO(NUMS)%WEIGHT(1:NN)= UN 
+                 STACK_INFO(NUMS)%THKLY(1:NN)= ONE   
+                 STACK_INFO(NUMS)%WEIGHT(1:NN)= ONE 
              ENDIF
              IF(NS  > 0)THEN
                ALLOCATE(STACK_INFO(NUMS)%SUB(2*NS))

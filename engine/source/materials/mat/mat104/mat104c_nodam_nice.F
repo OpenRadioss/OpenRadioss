@@ -140,17 +140,17 @@ c
       DPAD    = UPARAM(27) ! Adiabatic plastic strain rate
       ! Plastic strain-rate filtering parameters
       ASRATE  = UPARAM(28) ! Plastic strain rate filtering frequency
-      AFILTR  = ASRATE*TIMESTEP/(ASRATE*TIMESTEP + UN)
+      AFILTR  = ASRATE*TIMESTEP/(ASRATE*TIMESTEP + ONE)
 c      
       ! Recovering internal variables
       DO I=1,NEL
         IF (OFF(I) < EM01) OFF(I) = ZERO
-        IF (OFF(I) < UN)   OFF(I) = OFF(I)*QCINQ
+        IF (OFF(I) < ONE)   OFF(I) = OFF(I)*FOUR_OVER_5
         ! User inputs
         PHI0(I)  = UVAR(I,1) ! Previous yield function value
         ! Standard inputs
         DPLA(I)  = ZERO      ! Initialization of the plastic strain increment
-        ET(I)    = UN        ! Initialization of hourglass coefficient
+        ET(I)    = ONE        ! Initialization of hourglass coefficient
         HARDP(I) = ZERO      ! Initialization of hourglass coefficient
       ENDDO
 c      
@@ -166,10 +166,10 @@ c
               IF (EPSD(I) < DPIS) THEN
                 WEITEMP(I) = ZERO
               ELSEIF (EPSD(I) > DPAD) THEN
-                WEITEMP(I) = UN
+                WEITEMP(I) = ONE
               ELSE
                 WEITEMP(I) = ((EPSD(I)-DPIS)**2 )
-     .                  * (TROIS*DPAD - DEUX*EPSD(I) - DPIS)
+     .                  * (THREE*DPAD - TWO*EPSD(I) - DPIS)
      .                  / ((DPAD-DPIS)**3)
               ENDIF
             ENDDO
@@ -182,13 +182,13 @@ c
       ! Computation of the initial yield stress
       DO I = 1,NEL
         ! a) - Hardening law
-        FHARD(I) = YLD0 + HARD*PLA(I) + QVOCE*(UN-EXP(-BVOCE*PLA(I)))
+        FHARD(I) = YLD0 + HARD*PLA(I) + QVOCE*(ONE-EXP(-BVOCE*PLA(I)))
         ! b) - Correction factor for strain-rate dependence (Johnson-Cook)
-        FRATE(I)  = UN
+        FRATE(I)  = ONE
         IF (EPSD(I) > EPSP0) FRATE(I) = FRATE(I) + JCC*LOG(EPSD(I)/EPSP0)   
         ! c) - Correction factor for thermal softening      
-        FTHERM(I) = UN
-        IF (CP > ZERO) FTHERM(I) = UN - MTEMP * (TEMP(I) - TREF)
+        FTHERM(I) = ONE
+        IF (CP > ZERO) FTHERM(I) = ONE - MTEMP * (TEMP(I) - TREF)
         ! d) - Computation of the yield function and value check
         YLD(I) = FHARD(I)*FRATE(I)*FTHERM(I)
         ! e) - Checking values
@@ -218,16 +218,16 @@ c
         SZX(I)    = SIGNZX(I)
         DEZZ(I)   = -NNU*DEPSXX(I) - NNU*DEPSYY(I)
         ! Second deviatoric invariant
-        J2(I) = UNDEMI*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 )
+        J2(I) = HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 )
      .          +       SXY(I)**2 + SYZ(I)**2 + SZX(I)**2
         ! Third deviatoric invariant
-        J3(I)  = SXX(I)*SYY(I)*SZZ(I) + SXY(I)*SYZ(I)*SZX(I) * DEUX
+        J3(I)  = SXX(I)*SYY(I)*SZZ(I) + SXY(I)*SYZ(I)*SZX(I) * TWO
      .         - SXX(I)*SYZ(I)**2 - SYY(I)*SZX(I)**2 - SZZ(I)*SXY(I)**2 
         ! Drucker equivalent stress
         FDR(I) = J2(I)**3 - CDR*(J3(I)**2)
         ! Checking equivalent stress values
         IF (FDR(I) > ZERO) THEN
-          SIGDR(I) = KDR * EXP((UN/SIX)*LOG(FDR(I)))  ! FDR(I)**(1/6)
+          SIGDR(I) = KDR * EXP((ONE/SIX)*LOG(FDR(I)))  ! FDR(I)**(1/6)
         ELSE
           SIGDR(I) = ZERO
         ENDIF
@@ -236,12 +236,12 @@ c
       !========================================================================
       ! - COMPUTATION OF YIELD FONCTION
       !========================================================================
-      PHI(1:NEL) = (SIGDR(1:NEL) / YLD(1:NEL))**2 - UN
+      PHI(1:NEL) = (SIGDR(1:NEL) / YLD(1:NEL))**2 - ONE
 c
       ! Checking plastic behavior for all elements
       NINDX = 0
       DO I=1,NEL         
-        IF (PHI(I) > ZERO .AND. OFF(I) == UN) THEN
+        IF (PHI(I) > ZERO .AND. OFF(I) == ONE) THEN
           NINDX=NINDX+1
           INDEX(NINDX)=I
         ENDIF
@@ -273,12 +273,12 @@ c
         SXY(I)    = SIGOXY(I)
         SYZ(I)    = SIGOYZ(I)
         SZX(I)    = SIGOZX(I)
-        J2(I)     = UNDEMI*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2)
+        J2(I)     = HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2)
      .          +           SXY(I)**2 + SYZ(I)**2 + SZX(I)**2
-        J3(I)     = SXX(I)*SYY(I)*SZZ(I) + SXY(I)*SYZ(I)*SZX(I) * DEUX
+        J3(I)     = SXX(I)*SYY(I)*SZZ(I) + SXY(I)*SYZ(I)*SZX(I) * TWO
      .            - SXX(I)*SYZ(I)**2 - SYY(I)*SZX(I)**2 - SZZ(I)*SXY(I)**2          
         FDR(I)    = J2(I)**3 - CDR*(J3(I)**2)
-        SIGDR(I)  = KDR * EXP((UN/SIX)*LOG(FDR(I))) 
+        SIGDR(I)  = KDR * EXP((ONE/SIX)*LOG(FDR(I))) 
 c        
         ! Note     : in this part, the purpose is to compute for each iteration
         ! a plastic multiplier allowing to update internal variables to satisfy
@@ -302,41 +302,41 @@ c
         ! dJ2/dSig = S    
 c        
         ! Derivative with respect to the equivalent stress and trace
-        YLD2I       = UN/(YLD(I)**2)
-        DPHI_DSIG   = DEUX*SIGDR(I)*YLD2I
+        YLD2I       = ONE/(YLD(I)**2)
+        DPHI_DSIG   = TWO*SIGDR(I)*YLD2I
 c        
         ! Computation of the Eulerian norm of the stress tensor
         NORMSIG = SQRT(SIGOXX(I)*SIGOXX(I)
      .               + SIGOYY(I)*SIGOYY(I)
-     .          + DEUX*SIGOXY(I)*SIGOXY(I)
-     .          + DEUX*SIGOYZ(I)*SIGOYZ(I)
-     .          + DEUX*SIGOZX(I)*SIGOZX(I))
+     .          + TWO*SIGOXY(I)*SIGOXY(I)
+     .          + TWO*SIGOYZ(I)*SIGOYZ(I)
+     .          + TWO*SIGOZX(I)*SIGOZX(I))
 c     
         ! Derivative with respect to Fdr 
         FDR(I)     =  (J2(I)/(NORMSIG**2))**3 - CDR*((J3(I)/(NORMSIG**3))**2)       
-        DPHI_DFDR  =  DPHI_DSIG*KDR*(UN/SIX)*EXP(-(CINQ/SIX)*LOG(FDR(I)))             
-        DSDRDJ2    =  DPHI_DFDR*TROIS*(J2(I)/(NORMSIG**2))**2                             
-        DSDRDJ3    = -DPHI_DFDR*DEUX*CDR*(J3(I)/(NORMSIG**3))                   
+        DPHI_DFDR  =  DPHI_DSIG*KDR*(ONE/SIX)*EXP(-(FIVE/SIX)*LOG(FDR(I)))             
+        DSDRDJ2    =  DPHI_DFDR*THREE*(J2(I)/(NORMSIG**2))**2                             
+        DSDRDJ3    = -DPHI_DFDR*TWO*CDR*(J3(I)/(NORMSIG**3))                   
         ! dJ3/dSig                                                        
-        DJ3DSXX =  DTIERS*(SYY(I)*SZZ(I)-SYZ(I)**2)/(NORMSIG**2)
-     .           -  TIERS*(SXX(I)*SZZ(I)-SZX(I)**2)/(NORMSIG**2)
-     .           -  TIERS*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)                 
-        DJ3DSYY = - TIERS*(SYY(I)*SZZ(I)-SYZ(I)**2)/(NORMSIG**2)
-     .           + DTIERS*(SXX(I)*SZZ(I)-SZX(I)**2)/(NORMSIG**2)
-     .           -  TIERS*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)             
-        DJ3DSZZ = - TIERS*(SYY(I)*SZZ(I)-SYZ(I)**2)/(NORMSIG**2)
-     .            - TIERS*(SXX(I)*SZZ(I)-SZX(I)**2)/(NORMSIG**2)
-     .           + DTIERS*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2) 
-        DJ3DSXY = DEUX*(SXX(I)*SXY(I) + SXY(I)*SYY(I) + SZX(I)*SYZ(I))/(NORMSIG**2)                   
-        DJ3DSYZ = DEUX*(SXY(I)*SZX(I) + SYY(I)*SYZ(I) + SYZ(I)*SZZ(I))/(NORMSIG**2)                     
-        DJ3DSZX = DEUX*(SXX(I)*SZX(I) + SXY(I)*SYZ(I) + SZX(I)*SZZ(I))/(NORMSIG**2)                      
+        DJ3DSXX =  TWO_THIRD*(SYY(I)*SZZ(I)-SYZ(I)**2)/(NORMSIG**2)
+     .           -  THIRD*(SXX(I)*SZZ(I)-SZX(I)**2)/(NORMSIG**2)
+     .           -  THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)                 
+        DJ3DSYY = - THIRD*(SYY(I)*SZZ(I)-SYZ(I)**2)/(NORMSIG**2)
+     .           + TWO_THIRD*(SXX(I)*SZZ(I)-SZX(I)**2)/(NORMSIG**2)
+     .           -  THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)             
+        DJ3DSZZ = - THIRD*(SYY(I)*SZZ(I)-SYZ(I)**2)/(NORMSIG**2)
+     .            - THIRD*(SXX(I)*SZZ(I)-SZX(I)**2)/(NORMSIG**2)
+     .           + TWO_THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2) 
+        DJ3DSXY = TWO*(SXX(I)*SXY(I) + SXY(I)*SYY(I) + SZX(I)*SYZ(I))/(NORMSIG**2)                   
+        DJ3DSYZ = TWO*(SXY(I)*SZX(I) + SYY(I)*SYZ(I) + SYZ(I)*SZZ(I))/(NORMSIG**2)                     
+        DJ3DSZX = TWO*(SXX(I)*SZX(I) + SXY(I)*SYZ(I) + SZX(I)*SZZ(I))/(NORMSIG**2)                      
         ! dPhi/dSig
         NORMXX  = DSDRDJ2*SXX(I)/NORMSIG + DSDRDJ3*DJ3DSXX
         NORMYY  = DSDRDJ2*SYY(I)/NORMSIG + DSDRDJ3*DJ3DSYY
         NORMZZ  = DSDRDJ2*SZZ(I)/NORMSIG + DSDRDJ3*DJ3DSZZ
-        NORMXY  = DEUX*DSDRDJ2*SXY(I)/NORMSIG + DSDRDJ3*DJ3DSXY
-        NORMYZ  = DEUX*DSDRDJ2*SYZ(I)/NORMSIG + DSDRDJ3*DJ3DSYZ
-        NORMZX  = DEUX*DSDRDJ2*SZX(I)/NORMSIG + DSDRDJ3*DJ3DSZX
+        NORMXY  = TWO*DSDRDJ2*SXY(I)/NORMSIG + DSDRDJ3*DJ3DSXY
+        NORMYZ  = TWO*DSDRDJ2*SYZ(I)/NORMSIG + DSDRDJ3*DJ3DSYZ
+        NORMZX  = TWO*DSDRDJ2*SZX(I)/NORMSIG + DSDRDJ3*DJ3DSZX
 c        
         ! Restoring previous value of the yield function
         PHI(I) = PHI0(I)
@@ -393,7 +393,7 @@ c
         !  d) Derivative with respect to the yield stress
         !  ----------------------------------------------
         SIGDR2    =  SIGDR(I)**2                        
-        DPHI_DYLD = -DEUX*SIGDR2/(YLD(I)**3)   
+        DPHI_DYLD = -TWO*SIGDR2/(YLD(I)**3)   
 c        
         !  e) Derivative of PHI with respect to DLAM ( = -DENOM)
         DENOM = DFDSIG2 - (DPHI_DYLD * DYLD_DPLA * DPLA_DLAM(I))
@@ -438,22 +438,22 @@ c
         PLA(I)  = PLA(I)  + DDEP  
 c        
         ! Drucker equivalent stress update
-        J2(I)    = UNDEMI*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 )
+        J2(I)    = HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 )
      .             +         SXY(I)**2 + SYZ(I)**2 + SZX(I)**2
-        J3(I)    = SXX(I) * SYY(I) * SZZ(I) + DEUX   * SXY(I) * SYZ(I) * SZX(I)
+        J3(I)    = SXX(I) * SYY(I) * SZZ(I) + TWO   * SXY(I) * SYZ(I) * SZX(I)
      .             - SXX(I) * SYZ(I)**2 - SYY(I) * SZX(I)**2 - SZZ(I) * SXY(I)**2 
         FDR(I)   = J2(I)**3 - CDR*(J3(I)**2)
-        SIGDR(I) = KDR * EXP((UN/SIX)*LOG(FDR(I)))
+        SIGDR(I) = KDR * EXP((ONE/SIX)*LOG(FDR(I)))
 c        
         ! Temperature update
         IF (JTHE == 0 .AND. CP > ZERO .AND. INLOC == 0) THEN 
           DTEMP     = WEITEMP(I)*YLD(I)*DDEP*ETA/(RHO(I)*CP)
           TEMP(I)   = TEMP(I) + DTEMP
-          FTHERM(I) = UN - MTEMP* (TEMP(I) - TREF)
+          FTHERM(I) = ONE - MTEMP* (TEMP(I) - TREF)
         ENDIF
 c        
         ! Hardening law update
-        FHARD(I) = YLD0 + HARD * PLA(I) + QVOCE*(UN-EXP(-BVOCE*PLA(I)))
+        FHARD(I) = YLD0 + HARD * PLA(I) + QVOCE*(ONE-EXP(-BVOCE*PLA(I)))
 c        
         ! Yield stress update
         YLD(I) = FHARD(I) * FRATE(I) * FTHERM(I)
@@ -461,8 +461,8 @@ c
 c        
         ! Yield function value update
         SIGDR2 = SIGDR(I)**2
-        YLD2I  = UN / YLD(I)**2
-        PHI(I) = SIGDR2 * YLD2I - UN  
+        YLD2I  = ONE / YLD(I)**2
+        PHI(I) = SIGDR2 * YLD2I - ONE  
 c        
         ! Transverse strain update
         IF (INLOC == 0) THEN
@@ -480,7 +480,7 @@ c
         SEQ(I)     = SIGDR(I) ! SIGEQ
         DPDT       = DPLA(I) / MAX(EM20,TIMESTEP)
         ! Plastic strain-rate (filtered)
-        EPSD(I)    = AFILTR * DPDT + (UN - AFILTR) * EPSD(I)
+        EPSD(I)    = AFILTR * DPDT + (ONE - AFILTR) * EPSD(I)
         ! Coefficient for hourglass
         ET(I)      = HARDP(I)*FRATE(I) / (HARDP(I)*FRATE(I) + YOUNG)  
         ! Computation of the sound speed   
@@ -489,36 +489,36 @@ c
         SIGY(I)    = YLD(I)  
         ! Non-local thickness variation + temperature
         IF (INLOC > 0) THEN 
-          YLD2I  = UN/(YLD(I)**2) 
-          DPHI_DSIG = DEUX*SIGDR(I)*YLD2I   
+          YLD2I  = ONE/(YLD(I)**2) 
+          DPHI_DSIG = TWO*SIGDR(I)*YLD2I   
           NORMSIG = SQRT(SIGNXX(I)*SIGNXX(I)
      .                 + SIGNYY(I)*SIGNYY(I)
-     .            + DEUX*SIGNXY(I)*SIGNXY(I)
-     .            + DEUX*SIGNYZ(I)*SIGNYZ(I)
-     .            + DEUX*SIGNZX(I)*SIGNZX(I))
+     .            + TWO*SIGNXY(I)*SIGNXY(I)
+     .            + TWO*SIGNYZ(I)*SIGNYZ(I)
+     .            + TWO*SIGNZX(I)*SIGNZX(I))
           IF (NORMSIG>ZERO) THEN  
             FDR(I)     =  (J2(I)/(NORMSIG**2))**3 - CDR*((J3(I)/(NORMSIG**3))**2)       
-            DPHI_DFDR  =  DPHI_DSIG*KDR*(UN/SIX)*EXP(-(CINQ/SIX)*LOG(FDR(I)))             
-            DSDRDJ2    =  DPHI_DFDR*TROIS*(J2(I)/(NORMSIG**2))**2                             
-            DSDRDJ3    = -DPHI_DFDR*DEUX*CDR*(J3(I)/(NORMSIG**3))                                                   
-            DJ3DSXX =  DTIERS*(SYY(I)*SZZ(I)-SYZ(I)**2)/(NORMSIG**2)
-     .               -  TIERS*(SXX(I)*SZZ(I)-SZX(I)**2)/(NORMSIG**2)
-     .               -  TIERS*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)                 
-            DJ3DSYY = - TIERS*(SYY(I)*SZZ(I)-SYZ(I)**2)/(NORMSIG**2)
-     .               + DTIERS*(SXX(I)*SZZ(I)-SZX(I)**2)/(NORMSIG**2)
-     .               -  TIERS*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)             
-            DJ3DSZZ = - TIERS*(SYY(I)*SZZ(I)-SYZ(I)**2)/(NORMSIG**2)
-     .                - TIERS*(SXX(I)*SZZ(I)-SZX(I)**2)/(NORMSIG**2)
-     .               + DTIERS*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2) 
-            DJ3DSXY = DEUX*(SXX(I)*SXY(I) + SXY(I)*SYY(I) + SZX(I)*SYZ(I))/(NORMSIG**2)                   
-            DJ3DSYZ = DEUX*(SXY(I)*SZX(I) + SYY(I)*SYZ(I) + SYZ(I)*SZZ(I))/(NORMSIG**2)                     
-            DJ3DSZX = DEUX*(SXX(I)*SZX(I) + SXY(I)*SYZ(I) + SZX(I)*SZZ(I))/(NORMSIG**2)                      
+            DPHI_DFDR  =  DPHI_DSIG*KDR*(ONE/SIX)*EXP(-(FIVE/SIX)*LOG(FDR(I)))             
+            DSDRDJ2    =  DPHI_DFDR*THREE*(J2(I)/(NORMSIG**2))**2                             
+            DSDRDJ3    = -DPHI_DFDR*TWO*CDR*(J3(I)/(NORMSIG**3))                                                   
+            DJ3DSXX =  TWO_THIRD*(SYY(I)*SZZ(I)-SYZ(I)**2)/(NORMSIG**2)
+     .               -  THIRD*(SXX(I)*SZZ(I)-SZX(I)**2)/(NORMSIG**2)
+     .               -  THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)                 
+            DJ3DSYY = - THIRD*(SYY(I)*SZZ(I)-SYZ(I)**2)/(NORMSIG**2)
+     .               + TWO_THIRD*(SXX(I)*SZZ(I)-SZX(I)**2)/(NORMSIG**2)
+     .               -  THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)             
+            DJ3DSZZ = - THIRD*(SYY(I)*SZZ(I)-SYZ(I)**2)/(NORMSIG**2)
+     .                - THIRD*(SXX(I)*SZZ(I)-SZX(I)**2)/(NORMSIG**2)
+     .               + TWO_THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2) 
+            DJ3DSXY = TWO*(SXX(I)*SXY(I) + SXY(I)*SYY(I) + SZX(I)*SYZ(I))/(NORMSIG**2)                   
+            DJ3DSYZ = TWO*(SXY(I)*SZX(I) + SYY(I)*SYZ(I) + SYZ(I)*SZZ(I))/(NORMSIG**2)                     
+            DJ3DSZX = TWO*(SXX(I)*SZX(I) + SXY(I)*SYZ(I) + SZX(I)*SZZ(I))/(NORMSIG**2)                      
             NORMXX  = DSDRDJ2*SXX(I)/NORMSIG + DSDRDJ3*DJ3DSXX
             NORMYY  = DSDRDJ2*SYY(I)/NORMSIG + DSDRDJ3*DJ3DSYY
             NORMZZ  = DSDRDJ2*SZZ(I)/NORMSIG + DSDRDJ3*DJ3DSZZ
-            NORMXY  = DEUX*DSDRDJ2*SXY(I)/NORMSIG + DSDRDJ3*DJ3DSXY
-            NORMYZ  = DEUX*DSDRDJ2*SYZ(I)/NORMSIG + DSDRDJ3*DJ3DSYZ
-            NORMZX  = DEUX*DSDRDJ2*SZX(I)/NORMSIG + DSDRDJ3*DJ3DSZX 
+            NORMXY  = TWO*DSDRDJ2*SXY(I)/NORMSIG + DSDRDJ3*DJ3DSXY
+            NORMYZ  = TWO*DSDRDJ2*SYZ(I)/NORMSIG + DSDRDJ3*DJ3DSYZ
+            NORMZX  = TWO*DSDRDJ2*SZX(I)/NORMSIG + DSDRDJ3*DJ3DSZX 
             SIG_DFDSIG = SIGNXX(I) * NORMXX
      .                 + SIGNYY(I) * NORMYY
      .                 + SIGNXY(I) * NORMXY
@@ -541,10 +541,10 @@ c
               IF (DPDT_NL < DPIS) THEN
                 WEITEMP(I) = ZERO
               ELSEIF (DPDT_NL > DPAD) THEN
-                WEITEMP(I) = UN
+                WEITEMP(I) = ONE
               ELSE
                 WEITEMP(I) = ((DPDT_NL-DPIS)**2 )
-     .                  * (TROIS*DPAD - DEUX*DPDT_NL - DPIS)
+     .                  * (THREE*DPAD - TWO*DPDT_NL - DPIS)
      .                  / ((DPAD-DPIS)**3)
               ENDIF
               DTEMP   = WEITEMP(I)*DLAM_NL*SIG_DFDSIG*ETA/(RHO(I)*CP)

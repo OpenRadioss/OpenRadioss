@@ -155,13 +155,13 @@ C
 C
 
           IF(IGAP0 == 0) THEN
-            GAP = BGAPEMX+DEUX*GAP_E(I)
+            GAP = BGAPEMX+TWO*GAP_E(I)
           ELSE
-             GAP = DEUX*(BGAPEMX+GAP_E(I))
+             GAP = TWO*(BGAPEMX+GAP_E(I))
           ENDIF
           IF(IGAP==3) GAP = MIN(GAP,GAP_E_L(I)+BGAPEMX_L)
  
-          DMAX = SQRT(DEUX) * MAX(GAP,DRAD)
+          DMAX = SQRT(TWO) * MAX(GAP,DRAD)
 C
           TAGNOD(LEDGE(5,LIN)) = 1
           DIST1(LEDGE(5,LIN)) = ZERO
@@ -258,13 +258,13 @@ C
      .           .AND.(IM2 /= LEDGE(5,LIN)).AND.(IM2 /= LEDGE(6,LIN))) THEN
 C--- lines with common nodes with main lines are aready removed - no need to store them in remnode
                 IF(IGAP0 == 0) THEN
-                   GAPV = GAP_E(LIN)+DEUX*GAP_E(I)
+                   GAPV = GAP_E(LIN)+TWO*GAP_E(I)
                 ELSE
-                   GAPV = DEUX*(GAP_E(LIN)+GAP_E(I))
+                   GAPV = TWO*(GAP_E(LIN)+GAP_E(I))
                 ENDIF
                 IF(IGAP==3) GAPV = MIN(GAPV,GAP_E_L(LIN)+GAP_E_L(I))
 
-                GAPV = SQRT(DEUX)*MAX(DRAD,GAPV)
+                GAPV = SQRT(TWO)*MAX(DRAD,GAPV)
                 IF ((DIST1(LEDGE(5,LIN)) <= GAPV).OR.(DIST1(LEDGE(6,LIN)) <= GAPV)) THEN
                   REMNODE(KREMNODE(I)+CPT1) = LIN
                   CPT1 = CPT1 + 1

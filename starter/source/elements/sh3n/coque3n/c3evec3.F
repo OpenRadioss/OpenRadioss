@@ -99,7 +99,7 @@ C
         E3X(I)=E3X(I)/SUM
         E3Y(I)=E3Y(I)/SUM
         E3Z(I)=E3Z(I)/SUM
-        AREA(I) = UNDEMI * SUM
+        AREA(I) = HALF * SUM
       ENDDO
 C
       DO I=JFT,JLT

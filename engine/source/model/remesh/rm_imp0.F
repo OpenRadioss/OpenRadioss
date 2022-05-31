@@ -476,7 +476,7 @@ C --------------------------------------------------
          NDM = MAX(NDM,NDOF(NJ))
         ENDDO
         IF (NDM.EQ.0) RETURN
-      FACM = UN / NIR
+      FACM = ONE / NIR
       FACM2 = FACM*FACM
         DO K=1,NDOF(I)
          ID = IDDL(I)+K
@@ -588,10 +588,10 @@ C
           IF(TAGNOD(MC).EQ.0)THEN
             TAGNOD(MC)=1
             DO J=1,3
-              V(J,MC)= QUART*(V(J,N1)+V(J,N2)+V(J,N3)+V(J,N4))
+              V(J,MC)= FOURTH*(V(J,N1)+V(J,N2)+V(J,N3)+V(J,N4))
             END DO
             DO J=1,3
-              VR(J,MC)= QUART*(VR(J,N1)+VR(J,N2)+VR(J,N3)+VR(J,N4))
+              VR(J,MC)= FOURTH*(VR(J,N1)+VR(J,N2)+VR(J,N3)+VR(J,N4))
             END DO
           ELSE
           END IF
@@ -604,10 +604,10 @@ C
           IF(TAGNOD(M(1)).EQ.0)THEN
             TAGNOD(M(1))=1
             DO J=1,3
-              V(J,M(1))= UNDEMI*(V(J,N1)+V(J,N2))
+              V(J,M(1))= HALF*(V(J,N1)+V(J,N2))
             END DO
             DO J=1,3
-              VR(J,M(1))= UNDEMI*(VR(J,N1)+VR(J,N2))
+              VR(J,M(1))= HALF*(VR(J,N1)+VR(J,N2))
             END DO
           ELSE
           END IF
@@ -615,10 +615,10 @@ C
           IF(TAGNOD(M(2)).EQ.0)THEN
             TAGNOD(M(2))=1
             DO J=1,3
-              V(J,M(2))= UNDEMI*(V(J,N2)+V(J,N3))
+              V(J,M(2))= HALF*(V(J,N2)+V(J,N3))
             END DO
             DO J=1,3
-              VR(J,M(2))= UNDEMI*(VR(J,N2)+VR(J,N3))
+              VR(J,M(2))= HALF*(VR(J,N2)+VR(J,N3))
             END DO
           ELSE
           END IF
@@ -626,10 +626,10 @@ C
           IF(TAGNOD(M(3)).EQ.0)THEN
             TAGNOD(M(3))=1
             DO J=1,3
-              V(J,M(3))= UNDEMI*(V(J,N3)+V(J,N4))
+              V(J,M(3))= HALF*(V(J,N3)+V(J,N4))
             END DO
             DO J=1,3
-              VR(J,M(3))= UNDEMI*(VR(J,N3)+VR(J,N4))
+              VR(J,M(3))= HALF*(VR(J,N3)+VR(J,N4))
             END DO
           ELSE
           END IF
@@ -637,10 +637,10 @@ C
           IF(TAGNOD(M(4)).EQ.0)THEN
             TAGNOD(M(4))=1
             DO J=1,3
-              V(J,M(4))= UNDEMI*(V(J,N4)+V(J,N1))
+              V(J,M(4))= HALF*(V(J,N4)+V(J,N1))
             END DO
             DO J=1,3
-              VR(J,M(4))= UNDEMI*(VR(J,N4)+VR(J,N1))
+              VR(J,M(4))= HALF*(VR(J,N4)+VR(J,N1))
             END DO
           ELSE
           END IF
@@ -662,10 +662,10 @@ C
           IF(TAGNOD(M(1)).EQ.0)THEN
             TAGNOD(M(1))=1
             DO J=1,3
-              V(J,M(1))= UNDEMI*(V(J,N1)+V(J,N2))
+              V(J,M(1))= HALF*(V(J,N1)+V(J,N2))
             END DO
             DO J=1,3
-              VR(J,M(1))= UNDEMI*(VR(J,N1)+VR(J,N2))
+              VR(J,M(1))= HALF*(VR(J,N1)+VR(J,N2))
             END DO
           ELSE
           END IF
@@ -673,10 +673,10 @@ C
           IF(TAGNOD(M(2)).EQ.0)THEN
             TAGNOD(M(2))=1
             DO J=1,3
-              V(J,M(2))= UNDEMI*(V(J,N2)+V(J,N3))
+              V(J,M(2))= HALF*(V(J,N2)+V(J,N3))
             END DO
             DO J=1,3
-              VR(J,M(2))= UNDEMI*(VR(J,N2)+VR(J,N3))
+              VR(J,M(2))= HALF*(VR(J,N2)+VR(J,N3))
             END DO
           ELSE
           END IF
@@ -684,10 +684,10 @@ C
           IF(TAGNOD(M(3)).EQ.0)THEN
             TAGNOD(M(3))=1
             DO J=1,3
-              V(J,M(3))= UNDEMI*(V(J,N3)+V(J,N1))
+              V(J,M(3))= HALF*(V(J,N3)+V(J,N1))
             END DO
             DO J=1,3
-              VR(J,M(3))= UNDEMI*(VR(J,N3)+VR(J,N1))
+              VR(J,M(3))= HALF*(VR(J,N3)+VR(J,N1))
             END DO
           ELSE
           END IF

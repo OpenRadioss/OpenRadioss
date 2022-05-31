@@ -402,7 +402,7 @@ C     INITIALISATION DES MASSES
 C----------------------------------------
          CALL S20MSI(LBUF%RHO ,MASS     ,LBUF%VOL  ,DTELEM(NFT+1),STI    ,
      .               LBUF%OFF ,LBUF%SIG ,LBUF%EINT ,DTX          ,NEL    ,
-     .               GBUF%OFF ,GBUF%SIG ,GBUF%EINT ,GBUF%RHO     ,WI/HUIT)
+     .               GBUF%OFF ,GBUF%SIG ,GBUF%EINT ,GBUF%RHO     ,WI/EIGHT)
 C
 C-------------------------------------------
 C    INITIALISATION DES CONTRAINTES + ENERGIE+ DENSITE + PLA
@@ -447,9 +447,9 @@ C----------
         BB = MAX(UL(I,9) ,UL(I,10),UL(I,11),UL(I,12),UL(I,13),UL(I,14),
      .           UL(I,15),UL(I,16))
         DELTAX2(I) = AA/MAX(AA,BB)
-        AA = AA*TRENTE2
-        BB = BB*TRENTE2*THIRD
-        DELTAX(I) = SQRT(DEUX*VOLG(I)/MAX(AA,BB))
+        AA = AA*THIRTY2
+        BB = BB*THIRTY2*THIRD
+        DELTAX(I) = SQRT(TWO*VOLG(I)/MAX(AA,BB))
         GBUF%VOL(I) = VOLG(I)
       ENDDO
 C

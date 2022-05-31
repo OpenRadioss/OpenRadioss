@@ -97,9 +97,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C=======================================================================
       DO I=LFT,LLT
-       X0(I) = QUART*(X1(I)+X2(I)+X3(I)+X4(I))
-       Y0(I) = QUART*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-       Z0(I) = QUART*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
+       X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
+       Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
+       Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
       ENDDO
 C
       DO I=LFT,LLT
@@ -157,13 +157,13 @@ C
       DO I=LFT,LLT
        IF (TFLAG(I) ==  1) THEN
           PENE(I) = P1(I)
-          T(I)= UN - DEUX*LB1(I) - DEUX*LC1(I)
-          IF (T(I) < UN-EM10) THEN
+          T(I)= ONE - TWO*LB1(I) - TWO*LC1(I)
+          IF (T(I) < ONE-EM10) THEN
               S(I)= (LC1(I)-LB1(I))/(LC1(I)+LB1(I))            
           ELSEIF (LB1(I) < -EM10) THEN
-            S(I)= DEUX
+            S(I)= TWO
           ELSEIF (LC1(I) < -EM10) THEN
-            S(I)= -DEUX
+            S(I)= -TWO
           ELSE
             S(I)= ZERO
           ENDIF
@@ -173,10 +173,10 @@ C
       IF(IGNORE==2 .OR. IGNORE == 3)THEN
         DO I=LFT,LLT
           IF(PENE(I).GT.ZERO  .AND.
-     .          (S(I) < UNP5 .AND. 
-     .           T(I) < UNP5 .AND.
-     .           S(I) >-UNP5 .AND.
-     .           T(I) >-UNP5))THEN
+     .          (S(I) < ONEP5 .AND. 
+     .           T(I) < ONEP5 .AND.
+     .           S(I) >-ONEP5 .AND.
+     .           T(I) >-ONEP5))THEN
             II=CAND_N(I)
             IF(GAPV(I) - PENE(I).LT.DMIN(II))THEN
               DMIN(II)=GAPV(I)-PENE(I)
@@ -197,10 +197,10 @@ C
         DO I=LFT,LLT
 C
         IF(PENE(I).GT.ZERO  .AND.
-     .          (S(I) < UNP5 .AND. 
-     .           T(I) < UNP5 .AND.
-     .           S(I) >-UNP5 .AND.
-     .           T(I) >-UNP5))  THEN
+     .          (S(I) < ONEP5 .AND. 
+     .           T(I) < ONEP5 .AND.
+     .           S(I) >-ONEP5 .AND.
+     .           T(I) >-ONEP5))  THEN
           II=CAND_N(I)
           
           IF(TZINF - PENE(I).LT.DMIN(II))THEN
@@ -335,7 +335,7 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-       IF(UN-LB(I)-LC(I).LT.ZERO)THEN
+       IF(ONE-LB(I)-LC(I).LT.ZERO)THEN
          CALL I7LIN3(XI(I),YI(I),ZI(I),XB(I),YB(I),
      .               ZB(I),XC(I),YC(I),ZC(I),NX(I),
      .               NY(I),NZ(I),P(I),ALP)
@@ -344,7 +344,7 @@ C
      .               ZC(I),XA(I),YA(I),ZA(I),NX(I),
      .               NY(I),NZ(I),P(I),ALP)
           IF (TFLAG(I) == 0) THEN   ! only necessary for warped 4 node segments
-            LC(I) = UN - ALP
+            LC(I) = ONE - ALP
             LB(I) = ZERO
           ENDIF
         ELSEIF(LC(I).LT.ZERO)THEN

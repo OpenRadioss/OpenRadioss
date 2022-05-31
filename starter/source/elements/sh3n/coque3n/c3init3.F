@@ -281,7 +281,7 @@ C
         DO IXEL=1,NXEL
           DO I=LFT,LLT
             XFEM_STR(NG,IXEL)%GBUF%THK(I) = THK(I)
-            XFEM_STR(NG,IXEL)%GBUF%OFF(I) = -UN
+            XFEM_STR(NG,IXEL)%GBUF%OFF(I) = -ONE
           END DO
         ENDDO
       ENDIF
@@ -557,11 +557,11 @@ C------------------------------------------------------
      .   DELT(MVSIZ),X1(MVSIZ),X2(MVSIZ)
 C-------------------------------------------------------------
       DO I=JFT,JLT
-        DELT(I)=((GSTR(I,1)+GSTR(I,2))*(GSTR(I,1)+GSTR(I,2)))-QUATRE*
-     .   (GSTR(I,1)*GSTR(I,2)-QUART*GSTR(I,3)*GSTR(I,3))
+        DELT(I)=((GSTR(I,1)+GSTR(I,2))*(GSTR(I,1)+GSTR(I,2)))-FOUR*
+     .   (GSTR(I,1)*GSTR(I,2)-FOURTH*GSTR(I,3)*GSTR(I,3))
        IF(DELT(I).GE.ZERO)THEN
-         X1(I) = (GSTR(I,1)+GSTR(I,2)-SQRT(DELT(I)))/DEUX
-         X2(I) = (GSTR(I,1)+GSTR(I,2)+SQRT(DELT(I)))/DEUX
+         X1(I) = (GSTR(I,1)+GSTR(I,2)-SQRT(DELT(I)))/TWO
+         X2(I) = (GSTR(I,1)+GSTR(I,2)+SQRT(DELT(I)))/TWO
          IF((X1(I).GT.ZERO.AND.(X1(I).GT.EM10)).OR.(X2(I).GT.ZERO
      .    .AND.(X2(I).GT.EM10)))THEN
            IF(IPRI == 5) THEN
@@ -651,7 +651,7 @@ C
         E1X(I)= X21(I)
         E1Y(I)= Y21(I)
         E1Z(I)= Z21(I)
-        SUM = UN/SQRT(E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I))
+        SUM = ONE/SQRT(E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I))
         E1X(I)=E1X(I)* SUM
         E1Y(I)=E1Y(I)* SUM
         E1Z(I)=E1Z(I)* SUM
@@ -661,7 +661,7 @@ C
         E3X(I)=Y31(I)*Z32(I)-Z31(I)*Y32(I)
         E3Y(I)=Z31(I)*X32(I)-X31(I)*Z32(I)
         E3Z(I)=X31(I)*Y32(I)-Y31(I)*X32(I)
-        SUM = UN/SQRT(E3X(I)*E3X(I)+E3Y(I)*E3Y(I)+E3Z(I)*E3Z(I))
+        SUM = ONE/SQRT(E3X(I)*E3X(I)+E3Y(I)*E3Y(I)+E3Z(I)*E3Z(I))
         E3X(I)=E3X(I)* SUM
         E3Y(I)=E3Y(I)* SUM
         E3Z(I)=E3Z(I)* SUM
@@ -671,7 +671,7 @@ C
          E2X(I) = E3Y(I) * E1Z(I) - E3Z(I) * E1Y(I)
          E2Y(I) = E3Z(I) * E1X(I) - E3X(I) * E1Z(I)
          E2Z(I) = E3X(I) * E1Y(I) - E3Y(I) * E1X(I)
-         SUM = UN/SQRT(E2X(I)*E2X(I)+E2Y(I)*E2Y(I)+E2Z(I)*E2Z(I))
+         SUM = ONE/SQRT(E2X(I)*E2X(I)+E2Y(I)*E2Y(I)+E2Z(I)*E2Z(I))
          E2X(I)=E2X(I)*SUM
          E2Y(I)=E2Y(I)*SUM
          E2Z(I)=E2Z(I)*SUM

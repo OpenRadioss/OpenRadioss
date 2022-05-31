@@ -233,11 +233,11 @@ c T_SHELL ( JHBE = 15/16 )
                  GAMA(5) = GBUF%GAMA(JJ(5) + I)
                  GAMA(6) = GBUF%GAMA(JJ(6) + I)
                ELSE
-                 GAMA(1)=UN
+                 GAMA(1)=ONE
                  GAMA(2)=ZERO
                  GAMA(3)=ZERO
                  GAMA(4)=ZERO
-                 GAMA(5)=UN
+                 GAMA(5)=ONE
                  GAMA(6)=ZERO
                END IF
              END IF
@@ -282,14 +282,14 @@ c
                    A_GAUSS_R = A_GAUSS(1,NPTR)
                    A_GAUSS_R1 = A_GAUSS(2,NPTR)
                    A_GAUSS_P_R =
-     .             (-UN-UNDEMI*(A_GAUSS_R1+A_GAUSS_R))/ 
-     .             (UNDEMI*(A_GAUSS_R1-A_GAUSS_R))
+     .             (-ONE-HALF*(A_GAUSS_R1+A_GAUSS_R))/ 
+     .             (HALF*(A_GAUSS_R1-A_GAUSS_R))
                  ELSEIF(SOL_NODE(1,J) == 1 )THEN
                    A_GAUSS_R = A_GAUSS(NPTR-1,NPTR)
                    A_GAUSS_R1 = A_GAUSS(NPTR,NPTR)
                    A_GAUSS_P_R =
-     .             (UN+UNDEMI*(A_GAUSS_R1+A_GAUSS_R))/ 
-     .             (UNDEMI*(A_GAUSS_R1-A_GAUSS_R))
+     .             (ONE+HALF*(A_GAUSS_R1+A_GAUSS_R))/ 
+     .             (HALF*(A_GAUSS_R1-A_GAUSS_R))
                  ENDIF
 c
                  IF (NPTS == 1)THEN
@@ -298,14 +298,14 @@ c
                    A_GAUSS_S = A_GAUSS(1,NPTS)
                    A_GAUSS_S1 = A_GAUSS(2,NPTS)
                    A_GAUSS_P_S =
-     .             (-UN-UNDEMI*(A_GAUSS_S1+A_GAUSS_S))/ 
-     .             (UNDEMI*(A_GAUSS_S1-A_GAUSS_S))
+     .             (-ONE-HALF*(A_GAUSS_S1+A_GAUSS_S))/ 
+     .             (HALF*(A_GAUSS_S1-A_GAUSS_S))
                  ELSEIF(SOL_NODE(2,J) == 1 )THEN
                    A_GAUSS_S = A_GAUSS(NPTS-1,NPTS)
                    A_GAUSS_S1 = A_GAUSS(NPTS,NPTS)
                    A_GAUSS_P_S =
-     .             (UN+UNDEMI*(A_GAUSS_S1+A_GAUSS_S))/ 
-     .             (UNDEMI*(A_GAUSS_S1-A_GAUSS_S))
+     .             (ONE+HALF*(A_GAUSS_S1+A_GAUSS_S))/ 
+     .             (HALF*(A_GAUSS_S1-A_GAUSS_S))
                  ENDIF
 c
                  IF (NPTT == 1)THEN
@@ -314,22 +314,22 @@ c
                    A_GAUSS_T = A_GAUSS(1,NPTT)
                    A_GAUSS_T1 = A_GAUSS(2,NPTT)
                    A_GAUSS_P_T =
-     .             (-UN-UNDEMI*(A_GAUSS_T1+A_GAUSS_T))/ 
-     .             (UNDEMI*(A_GAUSS_T1-A_GAUSS_T))
+     .             (-ONE-HALF*(A_GAUSS_T1+A_GAUSS_T))/ 
+     .             (HALF*(A_GAUSS_T1-A_GAUSS_T))
                  ELSEIF(SOL_NODE(3,J) == 1 )THEN
                    A_GAUSS_T = A_GAUSS(NPTT-1,NPTT)
                    A_GAUSS_T1 = A_GAUSS(NPTT,NPTT)
                    A_GAUSS_P_T =
-     .             (UN+UNDEMI*(A_GAUSS_T1+A_GAUSS_T))/ 
-     .             (UNDEMI*(A_GAUSS_T1-A_GAUSS_T))
+     .             (ONE+HALF*(A_GAUSS_T1+A_GAUSS_T))/ 
+     .             (HALF*(A_GAUSS_T1-A_GAUSS_T))
                  ENDIF
 c
                  IF (JHBE == 15 .OR. JHBE == 16) THEN
                   ILAY = IS
                   IS = 1 
-                  N1 = QUART*(
-     .               (UN+SOL_NODE(1,K) * A_GAUSS_P_R)  *
-     .               (UN+SOL_NODE(3,K) * A_GAUSS_P_T)  )
+                  N1 = FOURTH*(
+     .               (ONE+SOL_NODE(1,K) * A_GAUSS_P_R)  *
+     .               (ONE+SOL_NODE(3,K) * A_GAUSS_P_T)  )
                  ENDIF
 c
                    LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)
@@ -351,11 +351,11 @@ c
                IF(KCVT==2)THEN
                  GAMA(1:6) = GBUF%GAMA(JJ(1:6) + I)
                ELSE
-                 GAMA(1)=UN
+                 GAMA(1)=ONE
                  GAMA(2)=ZERO
                  GAMA(3)=ZERO
                  GAMA(4)=ZERO
-                 GAMA(5)=UN
+                 GAMA(5)=ONE
                  GAMA(6)=ZERO
                END IF
              END IF
@@ -387,11 +387,11 @@ C---------- JHBE /= 24
                IF(KCVT==2)THEN
                  GAMA(1:6) = GBUF%GAMA(JJ(1:6) + I)
                ELSE
-                 GAMA(1)=UN
+                 GAMA(1)=ONE
                  GAMA(2)=ZERO
                  GAMA(3)=ZERO
                  GAMA(4)=ZERO
-                 GAMA(5)=UN
+                 GAMA(5)=ONE
                  GAMA(6)=ZERO
                END IF
              END IF
@@ -435,14 +435,14 @@ c
                    A_GAUSS_R = A_GAUSS(1,NPTR)
                    A_GAUSS_R1 = A_GAUSS(2,NPTR)
                    A_GAUSS_P_R =
-     .             (-UN-UNDEMI*(A_GAUSS_R1+A_GAUSS_R))/ 
-     .             (UNDEMI*(A_GAUSS_R1-A_GAUSS_R))
+     .             (-ONE-HALF*(A_GAUSS_R1+A_GAUSS_R))/ 
+     .             (HALF*(A_GAUSS_R1-A_GAUSS_R))
                  ELSEIF(SOL_NODE(1,J) == 1 )THEN
                    A_GAUSS_R = A_GAUSS(NPTR-1,NPTR)
                    A_GAUSS_R1 = A_GAUSS(NPTR,NPTR)
                    A_GAUSS_P_R =
-     .             (UN+UNDEMI*(A_GAUSS_R1+A_GAUSS_R))/ 
-     .             (UNDEMI*(A_GAUSS_R1-A_GAUSS_R))
+     .             (ONE+HALF*(A_GAUSS_R1+A_GAUSS_R))/ 
+     .             (HALF*(A_GAUSS_R1-A_GAUSS_R))
                  ENDIF
 c
                  IF (NPTS == 1)THEN
@@ -451,14 +451,14 @@ c
                    A_GAUSS_S = A_GAUSS(1,NPTS)
                    A_GAUSS_S1 = A_GAUSS(2,NPTS)
                    A_GAUSS_P_S =
-     .             (-UN-UNDEMI*(A_GAUSS_S1+A_GAUSS_S))/ 
-     .             (UNDEMI*(A_GAUSS_S1-A_GAUSS_S))
+     .             (-ONE-HALF*(A_GAUSS_S1+A_GAUSS_S))/ 
+     .             (HALF*(A_GAUSS_S1-A_GAUSS_S))
                  ELSEIF(SOL_NODE(2,J) == 1 )THEN
                    A_GAUSS_S = A_GAUSS(NPTS-1,NPTS)
                    A_GAUSS_S1 = A_GAUSS(NPTS,NPTS)
                    A_GAUSS_P_S =
-     .             (UN+UNDEMI*(A_GAUSS_S1+A_GAUSS_S))/ 
-     .             (UNDEMI*(A_GAUSS_S1-A_GAUSS_S))
+     .             (ONE+HALF*(A_GAUSS_S1+A_GAUSS_S))/ 
+     .             (HALF*(A_GAUSS_S1-A_GAUSS_S))
                  ENDIF
 c
                  IF (NPTT == 1)THEN
@@ -467,20 +467,20 @@ c
                    A_GAUSS_T = A_GAUSS(1,NPTT)
                    A_GAUSS_T1 = A_GAUSS(2,NPTT)
                    A_GAUSS_P_T =
-     .             (-UN-UNDEMI*(A_GAUSS_T1+A_GAUSS_T))/ 
-     .             (UNDEMI*(A_GAUSS_T1-A_GAUSS_T))
+     .             (-ONE-HALF*(A_GAUSS_T1+A_GAUSS_T))/ 
+     .             (HALF*(A_GAUSS_T1-A_GAUSS_T))
                  ELSEIF(SOL_NODE(3,J) == 1 )THEN
                    A_GAUSS_T = A_GAUSS(NPTT-1,NPTT)
                    A_GAUSS_T1 = A_GAUSS(NPTT,NPTT)
                    A_GAUSS_P_T =
-     .             (UN+UNDEMI*(A_GAUSS_T1+A_GAUSS_T))/ 
-     .             (UNDEMI*(A_GAUSS_T1-A_GAUSS_T))
+     .             (ONE+HALF*(A_GAUSS_T1+A_GAUSS_T))/ 
+     .             (HALF*(A_GAUSS_T1-A_GAUSS_T))
                  ENDIF
 c
-                 N1 = UNHUIT*(
-     .               (UN+SOL_NODE(1,K) * A_GAUSS_P_R)  *
-     .               (UN+SOL_NODE(2,K) * A_GAUSS_P_S)  *
-     .               (UN+SOL_NODE(3,K) * A_GAUSS_P_T)  )
+                 N1 = ONE_OVER_8*(
+     .               (ONE+SOL_NODE(1,K) * A_GAUSS_P_R)  *
+     .               (ONE+SOL_NODE(2,K) * A_GAUSS_P_S)  *
+     .               (ONE+SOL_NODE(3,K) * A_GAUSS_P_T)  )
 c
                  IF (IGTYP == 20 .OR. IGTYP ==21 .OR. IGTYP == 22) THEN
                    ILAY = IT
@@ -530,15 +530,15 @@ c
                  GAMA(5) = GBUF%GAMA(JJ(5) + I)
                  GAMA(6) = GBUF%GAMA(JJ(6) + I)
                ELSE
-                 GAMA(1)=UN
+                 GAMA(1)=ONE
                  GAMA(2)=ZERO
                  GAMA(3)=ZERO
                  GAMA(4)=ZERO
-                 GAMA(5)=UN
+                 GAMA(5)=ONE
                  GAMA(6)=ZERO
                END IF
              END IF
-                 N1 = QUART
+                 N1 = FOURTH
                  ILAY = 1
                  LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(1,1,1)
                  EVAR_TMP(1) = LBUF%SIG(JJ(1) + I)
@@ -564,7 +564,7 @@ c
          ELSEIF(ISOLNOD == 10)THEN
 c    
            ALPHA_1 = -ALPHA/(BETA-ALPHA)
-           BETA_1  = (UN-ALPHA)/(BETA-ALPHA)
+           BETA_1  = (ONE-ALPHA)/(BETA-ALPHA)
            DO I=LFT,LLT
              N = I + NFT
              IF (KCVT /= 0) THEN
@@ -576,11 +576,11 @@ c
                  GAMA(5) = GBUF%GAMA(JJ(5) + I)
                  GAMA(6) = GBUF%GAMA(JJ(6) + I)
                ELSE
-                 GAMA(1)=UN
+                 GAMA(1)=ONE
                  GAMA(2)=ZERO
                  GAMA(3)=ZERO
                  GAMA(4)=ZERO
-                 GAMA(5)=UN
+                 GAMA(5)=ONE
                  GAMA(6)=ZERO
                END IF
              END IF
@@ -619,7 +619,7 @@ C
              DO J=5,10
                 NN1=IPERM1(J)
                 NN2=IPERM2(J)
-                EVAR_T10(1:6,J) = UNDEMI*(EVAR_T10(1:6,NN1)+EVAR_T10(1:6,NN2))
+                EVAR_T10(1:6,J) = HALF*(EVAR_T10(1:6,NN1)+EVAR_T10(1:6,NN2))
              END DO
              DO J=1,10
                EVAR(1:6,J,I) =  EVAR_T10(1:6,J)

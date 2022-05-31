@@ -79,13 +79,13 @@ C-----------------------------------------------
          T0           = PM(35,MX)
          SPH          = PM(69,MX)
          DO I=LFT,LLT
-           PP      = (GAMMA-UN)*(UN+MU(I))*ESPE(I)
-           DPDM(I) = (GAMMA-UN)*(ESPE(I)+PP*DF(I))     !total derivative
-           DPDE(I) = (GAMMA-UN)*(UN+MU(I))             !partial derivative
+           PP      = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I)
+           DPDM(I) = (GAMMA-ONE)*(ESPE(I)+PP*DF(I))     !total derivative
+           DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))             !partial derivative
          ENDDO
          DO I=LFT,LLT
-           ECOLD(I)=-TROIS100*SPH
-           IF(MU(I).GT.ZERO) ECOLD(I)=ECOLD(I)*(UN+(GAMMA-UN)*MU(I)*(UN-MU(I)))
+           ECOLD(I)=-THREE100*SPH
+           IF(MU(I).GT.ZERO) ECOLD(I)=ECOLD(I)*(ONE+(GAMMA-ONE)*MU(I)*(ONE-MU(I)))
          ENDDO
 C-----------------------------------------------
       ELSEIF(IFLAG == 1) THEN
@@ -99,11 +99,11 @@ C-----------------------------------------------
          SPH          = PM(69,MX)
          ! p1 = p(mu,E+dE) = (g-1)*(1+mu)*(E-dvv*(p0+p1))    where p1,p0 are total pressure (no pshift), dvv = DVOL/2/V0                                               
          DO I=LFT,LLT
-           BB          = (GAMMA-UN)*(UN+MU(I))
-           DVV         = UNDEMI*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-           PNEW(I)     = BB*ESPE(I) / (UN+BB*DVV)         
+           BB          = (GAMMA-ONE)*(ONE+MU(I))
+           DVV         = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
+           PNEW(I)     = BB*ESPE(I) / (ONE+BB*DVV)         
            PNEW(I)     = MAX(PNEW(I),ZERO)*OFF(I)
-           EINT(I)     = EINT(I) - UNDEMI*DVOL(I)*PNEW(I)
+           EINT(I)     = EINT(I) - HALF*DVOL(I)*PNEW(I)
            TFEXTT      = TFEXTT-DVOL(I)*PSH(I)
            PNEW(I)     = PNEW(I)-PSH(I)
          ENDDO       
@@ -115,7 +115,7 @@ C-----------------------------------------------
          SPH    = PM(69,MX)
          Cv     = PM(36,MX)
          DO I=LFT,LLT
-           RHO      = RHO0*(UN+MU(I))
+           RHO      = RHO0*(ONE+MU(I))
            IF(OFF(I).LT.1.) CYCLE
            THETA(I) = EINT(I)/Cv/RHO/VNEW(I)
            THETA(I) = MAX(ZERO,THETA(I))
@@ -131,9 +131,9 @@ C-----------------------------------------------
           SPH          = PM(69,MX)
           DO I=1, NEL
              IF (VNEW(I) .GT. ZERO) THEN
-                PP      = (GAMMA-UN)*(UN+MU(I))*ESPE(I) - PSH(I)
-                DPDM(I) = (GAMMA-UN)*(ESPE(I)+(PP+PSH(I))*DF(I)) !total derivative
-                DPDE(I) = (GAMMA-UN)*(UN+MU(I)) !partial derivative
+                PP      = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) - PSH(I)
+                DPDM(I) = (GAMMA-ONE)*(ESPE(I)+(PP+PSH(I))*DF(I)) !total derivative
+                DPDE(I) = (GAMMA-ONE)*(ONE+MU(I)) !partial derivative
                 PNEW(I) = PP
              ENDIF
           ENDDO

@@ -76,14 +76,14 @@ C
         PX2(I) = SMSTR(II(2)+I)
         PY1(I) = SMSTR(II(3)+I)
         PY2(I) = SMSTR(II(4)+I)
-        X2(I)  =-DEUX*PY1(I)
+        X2(I)  =-TWO*PY1(I)
         Y2(I)  = ZERO
-        X3(I)  =-DEUX*PY2(I)
-        Y3(I)  = DEUX*PX2(I)
+        X3(I)  =-TWO*PY2(I)
+        Y3(I)  = TWO*PX2(I)
         X4(I)  = ZERO
-        Y4(I)  =-DEUX*PX1(I)
+        Y4(I)  =-TWO*PX1(I)
         Z2(I)  = ZERO
-        AREA(I)= DEUX*(PY2(I)*PX1(I)-PY1(I)*PX2(I))
+        AREA(I)= TWO*(PY2(I)*PX1(I)-PY1(I)*PX2(I))
       ENDDO
 C
       DO I=JFT,JLT
@@ -96,8 +96,8 @@ C
         IF (IXC(4,I) == IXC(5,I)) THEN
           AL2= (PY1(I)+PY2(I))**2
           AL2= MIN(AL2, PX1(I)**2+PY1(I)**2 )
-          AL2= QUATRE * MIN(AL2, PX2(I)**2+PY2(I)**2 )
-          STI(I) = UNDEMI * AREA(I) * THK0(I) * YOUNG / AL2
+          AL2= FOUR * MIN(AL2, PX2(I)**2+PY2(I)**2 )
+          STI(I) = HALF * AREA(I) * THK0(I) * YOUNG / AL2
         ENDIF
       ENDDO
 C-----------

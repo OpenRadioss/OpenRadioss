@@ -263,21 +263,21 @@ c
       ALPH(3,4)=ZEP5854102
       ALPH(4,4)=ZEP5854102
       ALPH(5,4)=ZERO
-      ALPH(1,5)=UNDEMI
-      ALPH(2,5)=UNDEMI
-      ALPH(3,5)=UNDEMI
-      ALPH(4,5)=UNDEMI
-      ALPH(5,5)=QUART
+      ALPH(1,5)=HALF
+      ALPH(2,5)=HALF
+      ALPH(3,5)=HALF
+      ALPH(4,5)=HALF
+      ALPH(5,5)=FOURTH
       BETA(1,4)=ZEP1381966
       BETA(2,4)=ZEP1381966
       BETA(3,4)=ZEP1381966
       BETA(4,4)=ZEP1381966
       BETA(5,4)=ZERO
-      BETA(1,5)=UNSIX
-      BETA(2,5)=UNSIX
-      BETA(3,5)=UNSIX
-      BETA(4,5)=UNSIX
-      BETA(5,5)=QUART
+      BETA(1,5)=ONE_OVER_6
+      BETA(2,5)=ONE_OVER_6
+      BETA(3,5)=ONE_OVER_6
+      BETA(4,5)=ONE_OVER_6
+      BETA(5,5)=FOURTH
 C   
       DO I=LFT,LLT
         TEMPEL(I) = ZERO
@@ -370,7 +370,7 @@ C--- for /CST avoid multi-printout----
          ILAY = 1
          LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IPTR,IPTS,IPTT)
          DO I=LFT,LLT
-          IF (GBUF%OFF(I)==DEUX) LBUF%OFF(I)=GBUF%OFF(I)
+          IF (GBUF%OFF(I)==TWO) LBUF%OFF(I)=GBUF%OFF(I)
          ENDDO
         ENDDO
        END IF 
@@ -385,11 +385,11 @@ C --------------------------
 C-----------------------------
       IF (ISORTH == 0) THEN            
         DO I=LFT,LLT                                            
-          GAMA(I,1) = UN                               
+          GAMA(I,1) = ONE                               
           GAMA(I,2) = ZERO                                
           GAMA(I,3) = ZERO             
           GAMA(I,4) = ZERO                                
-          GAMA(I,5) = UN                                
+          GAMA(I,5) = ONE                                
           GAMA(I,6) = ZERO             
         ENDDO                          
       ELSE                             
@@ -412,7 +412,7 @@ C-----------------------------
         LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IPTR,IPTS,IPTT)
        IF (IOFFS == 1)THEN
         DO I=LFT,LLT
-         IF (OFFS(I).LE.DEUX) LBUF%OFF(I)=OFFS(I)
+         IF (OFFS(I).LE.TWO) LBUF%OFF(I)=OFFS(I)
         ENDDO
        END IF
 C
@@ -534,7 +534,7 @@ C----------------------------
      .   WIP(IP,NPT),GBUF%G_PLA,NEL,CONDE,CONDEG)
 C
         DO I=LFT,LLT
-         IF (LBUF%OFF(I) > UN .AND. GBUF%OFF(I) == UN) THEN
+         IF (LBUF%OFF(I) > ONE .AND. GBUF%OFF(I) == ONE) THEN
 C          switched to small strain
            OFFS(I)=MIN(LBUF%OFF(I),OFFS(I))
            IOFFS  =1
@@ -563,7 +563,7 @@ C------ correction of GBUF%SMSTR will be done only from next cycle
         IF (IOFFS == 1)THEN
           DO I=LFT,LLT
 C           switch to small strain
-            IF (OFFS(I).LE.DEUX) GBUF%OFF(I) = OFFS(I)
+            IF (OFFS(I).LE.TWO) GBUF%OFF(I) = OFFS(I)
           END DO
 C
         IPTS = 1
@@ -573,7 +573,7 @@ C
            IPTR = IP
            LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IPTR,IPTS,IPTT)
             DO I=LFT,LLT
-              IF (GBUF%OFF(I) > UN) LBUF%OFF(I)=GBUF%OFF(I)
+              IF (GBUF%OFF(I) > ONE) LBUF%OFF(I)=GBUF%OFF(I)
             END DO
           END DO
         END IF
@@ -587,7 +587,7 @@ C-----------!!!-seperate LBUF%SIGL=LBUF%SIG,w/ npt>0 ISM12_11
        IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
         IOFFS =0
          DO I=LFT,LLT
-          IF(GBUF%OFF(I)/=OFFG0(I).AND.ABS(GBUF%OFF(I)) > UN ) IOFFS=1
+          IF(GBUF%OFF(I)/=OFFG0(I).AND.ABS(GBUF%OFF(I)) > ONE ) IOFFS=1
          ENDDO
          IF (IOFFS == 1) THEN
            CALL S10SAV12(GBUF%OFF,OFFG0,GBUF%SMSTR,NC   ,
@@ -603,7 +603,7 @@ C-----------!!!-seperate LBUF%SIGL=LBUF%SIG,w/ npt>0 ISM12_11
            IPTR = IP
            LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IPTR,IPTS,IPTT)
             DO I=LFT,LLT
-              IF (ABS(GBUF%OFF(I)) > UN) LBUF%OFF(I)=GBUF%OFF(I)
+              IF (ABS(GBUF%OFF(I)) > ONE) LBUF%OFF(I)=GBUF%OFF(I)
             END DO
           END DO
          END IF !(IOFFS == 1) THEN
@@ -680,16 +680,16 @@ C-----------------------------------------------
       IF(NPT.EQ.4)THEN
         ALPH = ZEP5854102
         BETA  = ZEP1381966
-        W = QUART
+        W = FOURTH
       ELSEIF(NPT.EQ.5)THEN
-        ALPH = UNDEMI
-        BETA  = UNSIX
-        W = NVINGT
+        ALPH = HALF
+        BETA  = ONE_OVER_6
+        W = NINE_OVER_20
       ENDIF
-      A4 = QUATRE * ALPH
-      B4 = QUATRE * BETA
-      A4M1  = A4- UN
-      B4M1  = B4- UN
+      A4 = FOUR * ALPH
+      B4 = FOUR * BETA
+      A4M1  = A4- ONE
+      B4M1  = B4- ONE
 C
       DO N=1,4
         DO I=1,NEL
@@ -748,13 +748,13 @@ c
 C
 C
       IF(NPT.EQ.5)THEN
-        ALPH = QUART
-        BETA  = QUART
-        A4 = UN
-        B4 = UN
+        ALPH = FOURTH
+        BETA  = FOURTH
+        A4 = ONE
+        B4 = ONE
         A4M1  = ZERO
         B4M1  = ZERO
-        W = - QCINQ
+        W = - FOUR_OVER_5
         IP = 5
 C
         DO N=1,4

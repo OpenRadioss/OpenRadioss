@@ -139,7 +139,7 @@ C
 Cqz    --------const sig_rz added here---------
        DO I=JFT,JLT
         ERZ= VRLZ(I)*DT1C
-        OFF05=UNDEMI*OFF(I)*VOL(I)
+        OFF05=HALF*OFF(I)*VOL(I)
         EINT(I,1) = EINT(I,1)+ VSRZ(I,19)*ERZ*OFF05
         VSRZ(I,19)= VSRZ(I,19)+KRZ(I)*ERZ*OFF(I)
         EINT(I,1) = EINT(I,1)+ VSRZ(I,19)*ERZ*OFF05
@@ -152,7 +152,7 @@ Cqz    --------const sig_rz added here---------
        ENDDO
 C        
         DO I=JFT,JLT
-         C2=THK(I)*VSRZ(I,19)*UNDEMI
+         C2=THK(I)*VSRZ(I,19)*HALF
          DO J=1,4
          VMZ(I,J)= VMZ(I,J)+BM0RZ(I,4,J)*C2
          ENDDO
@@ -162,7 +162,7 @@ C        PARTIE ANTISYM STOCKEE DANS NOEUDS 1,2
 C        PARTIE SYM NOEUDS STOCKEE DANS NOEUDS 3,4
 C-------------------------------------------------
         DO I=JFT,JLT
-          C2=THK(I)*VSRZ(I,19)*UNDEMI
+          C2=THK(I)*VSRZ(I,19)*HALF
 C
           VF(I,1,1)=VF(I,1,1)+C2*X24(I)
           VF(I,2,1)=VF(I,2,1)+C2*Y24(I)

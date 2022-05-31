@@ -121,11 +121,11 @@ C-----------------------------------------------
           P(I) = C0+C1*MU(I)+(C2+C3*MU(I))*MU2(I)
           P_   = C0+C1*MU_OLD(I)+(C2+C3*MU_OLD(I))*MU_OLD(I)*MU_OLD(I)
           !linear unload modulus
-          ALPHA = UN
+          ALPHA = ONE
           IF(MU_MAX.GT.ZERO)THEN
             ALPHA=MU_OLD(I)/MU_MAX
           ENDIF
-          B(I) = ALPHA*BUNL+(UN-ALPHA)*C1
+          B(I) = ALPHA*BUNL+(ONE-ALPHA)*C1
           PNE1 = P_-(MU_OLD(I)-MU(I))*B(I)
           IF(MU_OLD(I).GT.MUMIN) P(I) = MIN(PNE1, P(I))
           P(I) = MAX(P(I),PFRAC)  *OFF(I)
@@ -135,7 +135,7 @@ C-----------------------------------------------
       !  SOUND SPEED                                                   !
       !----------------------------------------------------------------!      
       DO I=LFT,LLT
-        DPDM(I) = C1 + DEUX*C2*MU(I)+TROIS*C3*MU2(I)   !can be discussed in expansion...
+        DPDM(I) = C1 + TWO*C2*MU(I)+THREE*C3*MU2(I)   !can be discussed in expansion...
         DPDM(I) = MAX(B(I),DPDM(I))
         DPDE(I) = ZERO
       ENDDO !next I   
@@ -147,7 +147,7 @@ C-----------------------------------------------
         PNEW(I) = P(I)-PSH(I)
       ENDDO !next I     
       DO I=LFT,LLT
-        ECOLD(I)=-TROIS100*SPH
+        ECOLD(I)=-THREE100*SPH
         !IF(MU(I).GT.ZERO) ECOLD(I)=
       ENDDO
 
@@ -158,7 +158,7 @@ C-----------------------------------------------
         !  FRACTURE  - MU_OLD                                            !
         !----------------------------------------------------------------!      
         DO I=LFT,LLT
-          EINT(I) = EINT(I) - UNDEMI*DVOL(I)*(PNEW(I)+PSH(I) )
+          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I) )
         ENDDO !next I 
         !----------------------------------------------------------------!
         !  FRACTURE  - MU_OLD                                            !
@@ -184,7 +184,7 @@ C-----------------------------------------------
           PNEW(I) = P(I)-PSH(I)
         ENDDO !next I     
          DO I=LFT,LLT
-           ECOLD(I)=-TROIS100*SPH
+           ECOLD(I)=-THREE100*SPH
            !IF(MU(I).GT.ZERO) ECOLD(I)=
          ENDDO
         !----------------------------------------------------------------!

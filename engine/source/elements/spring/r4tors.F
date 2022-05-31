@@ -67,11 +67,11 @@ C-----------------------------------------------
           TANI(2,I)= FORY(I)
           TANI(3,I)= FORZ(I)
           TANI(4,I)= XMOM(I)
-          TANI(5,I)= YMOM(I) - UNDEMI*AL(I)*FORZ(I)
-          TANI(6,I)= ZMOM(I) + UNDEMI*AL(I)*FORY(I)
+          TANI(5,I)= YMOM(I) - HALF*AL(I)*FORZ(I)
+          TANI(6,I)= ZMOM(I) + HALF*AL(I)*FORY(I)
           TANI(7,I)= -XMOM(I)
-          TANI(8,I)= -YMOM(I) - UNDEMI*AL(I)*FORZ(I)
-          TANI(9,I)= -ZMOM(I) + UNDEMI*AL(I)*FORY(I)
+          TANI(8,I)= -YMOM(I) - HALF*AL(I)*FORZ(I)
+          TANI(9,I)= -ZMOM(I) + HALF*AL(I)*FORY(I)
         ENDDO
       ENDIF
 C---

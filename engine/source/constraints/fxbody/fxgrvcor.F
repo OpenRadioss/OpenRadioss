@@ -96,7 +96,7 @@ C
                DO I=1,NNO
                   N1=FXBGRVI(AGRVI+IADG+I+1)
                   A(N2,N1)=A(N2,N1)-FI
-                  TFEXTT=TFEXTT+UNDEMI*(FI0+FI)*MS(N1)*V(N2,N1)*DT1
+                  TFEXTT=TFEXTT+HALF*(FI0+FI)*MS(N1)*V(N2,N1)*DT1
      .                                /IAGRV(N1)
                ENDDO
             ELSE
@@ -110,7 +110,7 @@ C
                   A(1,N1)=A(1,N1)-SKEW(K1,ISK)*FI
                   A(2,N1)=A(2,N1)-SKEW(K2,ISK)*FI
                   A(3,N1)=A(3,N1)-SKEW(K3,ISK)*FI
-                  TFEXTT=TFEXTT+UNDEMI*(FI0+FI)*MS(N1)*VV*DT1/IAGRV(N1)
+                  TFEXTT=TFEXTT+HALF*(FI0+FI)*MS(N1)*VV*DT1/IAGRV(N1)
                ENDDO
             ENDIF
             IADG=IADG+2+NNO

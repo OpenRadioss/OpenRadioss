@@ -59,14 +59,14 @@ C
 C-------------------------------------------------------------------
 C Compute Area, Normal and Arrival Time
 C-------------------------------------------------------------------
-      WI(1,1)=QUART
-      WI(2,1)=QUART
-      WI(3,1)=QUART
-      WI(4,1)=QUART
-      WI(1,2)=TIERS
-      WI(2,2)=TIERS
-      WI(3,2)=UNSIX
-      WI(4,2)=UNSIX
+      WI(1,1)=FOURTH
+      WI(2,1)=FOURTH
+      WI(3,1)=FOURTH
+      WI(4,1)=FOURTH
+      WI(1,2)=THIRD
+      WI(2,2)=THIRD
+      WI(3,2)=ONE_OVER_6
+      WI(4,2)=ONE_OVER_6
       SSP=RFLOW(2)	  
       IF(IWAVE==1) THEN
         XC =RFLOW(9)	  
@@ -115,7 +115,7 @@ C  Normale
          NORMAL(1,IEL)=NRX/AREA2
          NORMAL(2,IEL)=NRY/AREA2
          NORMAL(3,IEL)=NRZ/AREA2
-         AF(IEL)=UNDEMI*AREA2
+         AF(IEL)=HALF*AREA2
 C  Centroid
          XP=WI(1,N5)*X1+WI(2,N5)*X2+WI(3,N5)*X3+WI(4,N5)*X4
          YP=WI(1,N5)*Y1+WI(2,N5)*Y2+WI(3,N5)*Y3+WI(4,N5)*Y4

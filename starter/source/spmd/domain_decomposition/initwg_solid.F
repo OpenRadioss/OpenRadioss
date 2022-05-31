@@ -129,7 +129,7 @@ C-----------------------------------------------
 #include "weights_p4linux964_spmd.inc"
 #endif
       ENDIF
-       INVTREF = UN/TPSREF
+       INVTREF = ONE/TPSREF
        DO I = 1, NUMELS
 C -------------------------------
 C Element Property initialization
@@ -280,7 +280,7 @@ C -------------------------------
 
         !  viscosity flag
            IF(NINT(BUFMAT(IAD+5))>0) THEN
-                OPT_1 = UN
+                OPT_1 = ONE
                 INDI_OPT_1 = 2
                 ADD_OPTION = 1
            ENDIF
@@ -290,7 +290,7 @@ C -------------------------------
                 INDI_OPT_2 = 3
                 ADD_OPTION = 1
                 !   if network is used, then, viscosity is also used
-                OPT_1 = UN
+                OPT_1 = ONE
                 INDI_OPT_1 = 2
                 ADD_OPTION = 1
            ENDIF

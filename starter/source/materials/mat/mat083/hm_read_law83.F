@@ -135,10 +135,10 @@ C---
       PM(89)= RHO0
 !
       IF (ASRATE  == ZERO) ASRATE = INFINITY
-      IF (XFAC == ZERO) XFAC = UN*XFAC_UNIT
-      IF (BETA  == ZERO) BETA = DEUX
-      IF (RN  == ZERO) RN = UN*RN_UNIT
-      IF (RS  == ZERO) RS = UN*RS_UNIT
+      IF (XFAC == ZERO) XFAC = ONE*XFAC_UNIT
+      IF (BETA  == ZERO) BETA = TWO
+      IF (RN  == ZERO) RN = ONE*RN_UNIT
+      IF (RS  == ZERO) RS = ONE*RS_UNIT
       IPLAS = 0 ! hidden
       IF (IPLAS == 0)  IPLAS = 2
 C---
@@ -154,8 +154,8 @@ C---
      .               I2=IFUNC(3))
       ENDIF
    
-      IF (YFAC == ZERO)   YFAC   = UN*YFAC_UNIT
-      IF (XSCALE == ZERO) XSCALE = UN*XSCALE_UNIT
+      IF (YFAC == ZERO)   YFAC   = ONE*YFAC_UNIT
+      IF (XSCALE == ZERO) XSCALE = ONE*XSCALE_UNIT
       IF( G == ZERO)  G = YOUNGT
       IF (YOUNGC == ZERO) YOUNGC = YOUNGT
       IF (ICOMP /= 1) ICOMP = 0
@@ -178,12 +178,12 @@ C----------------
       NUPARAM = 13
       NUVAR   = 3
 C----------------
-      PARMAT(1) = YOUNG/TROIS
+      PARMAT(1) = YOUNG/THREE
       PARMAT(2) = YOUNG
       PARMAT(5) = ASRATE
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) =  UN ! (UN - DEUX*NU)/(UN - NU), NU=0      
+      PARMAT(17) =  ONE ! (ONE - TWO*NU)/(ONE - NU), NU=0      
 !
       MTAG%G_GAMA = 9
       MTAG%G_EPSD = 1  

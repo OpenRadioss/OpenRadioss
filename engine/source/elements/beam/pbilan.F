@@ -109,13 +109,13 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-        XX(I)=XX(I)*UNDEMI
-        YY(I)=YY(I)*UNDEMI
-        ZZ(I)=ZZ(I)*UNDEMI
-        VXA(I)=VXA(I)*UNDEMI
-        VYA(I)=VYA(I)*UNDEMI
-        VZA(I)=VZA(I)*UNDEMI
-        VA2(I)=VA2(I)*UNDEMI
+        XX(I)=XX(I)*HALF
+        YY(I)=YY(I)*HALF
+        ZZ(I)=ZZ(I)*HALF
+        VXA(I)=VXA(I)*HALF
+        VYA(I)=VYA(I)*HALF
+        VZA(I)=VZA(I)*HALF
+        VA2(I)=VA2(I)*HALF
       ENDDO
 C
       DO I=LFT,LLT
@@ -124,7 +124,7 @@ C
 C
       DO I=LFT,LLT
         EI(I)= EINT(I,1) + EINT(I,2)
-        EK(I)= XMAS(I)*VA2(I)*UNDEMI
+        EK(I)= XMAS(I)*VA2(I)*HALF
         XM(I)= XMAS(I)*VXA(I)
         YM(I)= XMAS(I)*VYA(I)
         ZM(I)= XMAS(I)*VZA(I) 
@@ -134,7 +134,7 @@ C
         XCG(I)= XMAS(I)*XX(I)
         YCG(I)= XMAS(I)*YY(I)
         ZCG(I)= XMAS(I)*ZZ(I)
-        INEL = XMAS(I)*AL(I)*AL(I)*UNDOUZE
+        INEL = XMAS(I)*AL(I)*AL(I)*ONE_OVER_12
         IXY(I) = -XCG(I)*YY(I)
         IYZ(I) = -YCG(I)*ZZ(I)
         IZX(I) = -ZCG(I)*XX(I)
@@ -148,12 +148,12 @@ C
         YYM(I)= VXA(I)*ZCG(I)-VZA(I)*XCG(I)
         ZZM(I)= VYA(I)*XCG(I)-VXA(I)*YCG(I)
         REI(I)= EI(I)
-        REK(I)= INEL*VA2(I)*UNDEMI
+        REK(I)= INEL*VA2(I)*HALF
       ENDDO
 C
       IF (IGRE /= 0) THEN
         DO I=LFT,LLT
-          OFF(I) = UN
+          OFF(I) = ONE
         ENDDO
         CALL GRELEM_SAV(LFT   ,LLT   ,GRESAV,IGRTH ,GRTH  ,
      2                  OFF   ,EI    ,EK    ,XM    ,YM    ,
@@ -193,11 +193,11 @@ C
           TANI(2,I)= FOR(I,2)
           TANI(3,I)= FOR(I,3)
           TANI(4,I)= MOM(I,1)
-          TANI(5,I)= MOM(I,2) + UNDEMI*AL(I)*FOR(I,3)
-          TANI(6,I)= MOM(I,3) - UNDEMI*AL(I)*FOR(I,2)
+          TANI(5,I)= MOM(I,2) + HALF*AL(I)*FOR(I,3)
+          TANI(6,I)= MOM(I,3) - HALF*AL(I)*FOR(I,2)
           TANI(7,I)= -MOM(I,1)
-          TANI(8,I)= -MOM(I,2) + UNDEMI*AL(I)*FOR(I,3)
-          TANI(9,I)= -MOM(I,3) - UNDEMI*AL(I)*FOR(I,2)
+          TANI(8,I)= -MOM(I,2) + HALF*AL(I)*FOR(I,3)
+          TANI(9,I)= -MOM(I,3) - HALF*AL(I)*FOR(I,2)
 C          TANI(10,I)= E1X(I)
 C          TANI(11,I)= E1Y(I)
 C          TANI(12,I)= E1Z(I)
@@ -206,7 +206,7 @@ C          TANI(14,I)= E2Y(I)
 C          TANI(15,I)= E2Z(I)
         ENDDO
       ENDIF
-      OFF(1:MVSIZ) = UN
+      OFF(1:MVSIZ) = ONE
       CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF,IPARTP,ITASK) 
 C-----------------------------------------------
       RETURN

@@ -87,16 +87,16 @@ c
         IF(ITY == 3 )THEN
           IF(MLW == 0 .OR. MLW == 13)THEN
             DO I=1,NEL
-              SHELL_SCALAR(OFFSET+NFT+I) = UN
+              SHELL_SCALAR(OFFSET+NFT+I) = ONE
             ENDDO
           ELSE
             GBUF => ELBUF_TAB(NG)%GBUF
             DO I=1,NEL
 
-              IF(IPART(10,IPARTC(NFT+I)) .NE.0 .AND. NINT(MIN(GBUF%OFF(I),UN)) .NE. UN) THEN
+              IF(IPART(10,IPARTC(NFT+I)) .NE.0 .AND. NINT(MIN(GBUF%OFF(I),ONE)) .NE. ONE) THEN
                 SHELL_SCALAR(OFFSET+NFT+I) = ZERO
               ELSE
-                SHELL_SCALAR(OFFSET+NFT+I) = NINT(MIN(GBUF%OFF(I),UN))
+                SHELL_SCALAR(OFFSET+NFT+I) = NINT(MIN(GBUF%OFF(I),ONE))
               ENDIF
 
             ENDDO
@@ -104,16 +104,16 @@ c
         ELSEIF(ITY == 7 )THEN
           IF(MLW == 0 .OR. MLW == 13)THEN
             DO I=1,NEL
-              SHELL_SCALAR(OFFSET+NFT+I) = UN
+              SHELL_SCALAR(OFFSET+NFT+I) = ONE
             ENDDO
           ELSE
             GBUF => ELBUF_TAB(NG)%GBUF
             DO I=1,NEL
 
-              IF(IPART(10,IPARTTG(NFT+I)) .NE.0 .AND. NINT(MIN(GBUF%OFF(I),UN)) .NE. UN) THEN
+              IF(IPART(10,IPARTTG(NFT+I)) .NE.0 .AND. NINT(MIN(GBUF%OFF(I),ONE)) .NE. ONE) THEN
                 SHELL_SCALAR(OFFSET+NFT+I) = ZERO
               ELSE
-                SHELL_SCALAR(OFFSET+NFT+I) = NINT(MIN(GBUF%OFF(I),UN))
+                SHELL_SCALAR(OFFSET+NFT+I) = NINT(MIN(GBUF%OFF(I),ONE))
               ENDIF
 
             ENDDO

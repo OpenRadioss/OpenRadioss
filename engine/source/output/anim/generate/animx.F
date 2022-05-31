@@ -213,15 +213,15 @@ C--------
             NFACPTX(3,IPRT)=NFACPTX(3,IPRT)+NSOLID
 C--------
             DO L=1,NEDGE
-              IOFFX1(NAX1D+L)=NINT(MIN(GBUF%OFF(I),UN))
-cc              IOFFX1(NAX1D+L)=NINT(MIN(ELBUF(NB1),UN))
+              IOFFX1(NAX1D+L)=NINT(MIN(GBUF%OFF(I),ONE))
+cc              IOFFX1(NAX1D+L)=NINT(MIN(ELBUF(NB1),ONE))
               INUMX1(NAX1D+L)=KXX(NIXX,J)
               IXEDGE(1,NAX1D+L)=IXX(IADNOD+IXEDGE(1,NAX1D+L)-1)
               IXEDGE(2,NAX1D+L)=IXX(IADNOD+IXEDGE(2,NAX1D+L)-1)
             ENDDO
             DO L=1,NFACET
-              IOFFX2(NAX2D+L)=NINT(MIN(GBUF%OFF(I),UN))
-cc              IOFFX2(NAX2D+L)=NINT(MIN(ELBUF(NB1),UN))
+              IOFFX2(NAX2D+L)=NINT(MIN(GBUF%OFF(I),ONE))
+cc              IOFFX2(NAX2D+L)=NINT(MIN(ELBUF(NB1),ONE))
               INUMX2(NAX2D+L)=KXX(NIXX,J)
               IXFACET(1,NAX2D+L)=IXX(IADNOD+IXFACET(1,NAX2D+L)-1)
               IXFACET(2,NAX2D+L)=IXX(IADNOD+IXFACET(2,NAX2D+L)-1)
@@ -230,8 +230,8 @@ C             if 3 nodes facet : node 4 should be equal to node 3.
               IXFACET(4,NAX2D+L)=IXX(IADNOD+IXFACET(4,NAX2D+L)-1)
             ENDDO
             DO L=1,NSOLID
-              IOFFX3(NAX3D+L)=NINT(MIN(GBUF%OFF(I),UN))
-cc              IOFFX3(NAX3D+L)=NINT(MIN(ELBUF(NB1),UN))
+              IOFFX3(NAX3D+L)=NINT(MIN(GBUF%OFF(I),ONE))
+cc              IOFFX3(NAX3D+L)=NINT(MIN(ELBUF(NB1),ONE))
               INUMX3(NAX3D+L)=KXX(NIXX,J)
               IXSOLID(1,NAX3D+L)=IXX(IADNOD+IXSOLID(1,NAX3D+L)-1)
               IXSOLID(2,NAX3D+L)=IXX(IADNOD+IXSOLID(2,NAX3D+L)-1)

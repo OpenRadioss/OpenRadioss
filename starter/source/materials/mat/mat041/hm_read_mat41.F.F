@@ -182,8 +182,8 @@ C-----------------------------------------------
       IF (EPSILON.EQ.ZERO) EPSILON = EM3                                     
       IF (ITER.EQ.0) ITER = 80                                               
       IF (FC.EQ.ZERO) FC = EM5                                               
-      IF (CAPPA.EQ.ZERO) CAPPA = QUATREVINGT19                               
-      IF (CHI.EQ.ZERO) CHI = QUATREVINGT19                                   
+      IF (CAPPA.EQ.ZERO) CAPPA = EIGHTY19                               
+      IF (CHI.EQ.ZERO) CHI = EIGHTY19                                   
       NFUNC = 0                                                              
       NUVAR = 8                                                              
       STIFINT = SHR          

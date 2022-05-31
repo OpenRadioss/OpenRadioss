@@ -81,7 +81,7 @@ C
       END IF 
       IF (ISPMD.EQ.0) THEN
 C
-      R = UNDEMI*RWL(7)
+      R = HALF*RWL(7)
 C
       DO I = 1,6
         XX0 = X0(I)

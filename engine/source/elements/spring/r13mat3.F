@@ -97,7 +97,7 @@ C       MZ(I)=GEO(61,MGN(I))*MZ(I)
        DO I=JFT,JLT
         ILENG=NINT(GEO(93,MGN(I)))
         IF(ILENG.NE.0)THEN
-         ALI = UN/AL0(I)
+         ALI = ONE/AL0(I)
          KX(I)=KX(I)*ALI
          KY(I)=KY(I)*ALI
          KZ(I)=KZ(I)*ALI

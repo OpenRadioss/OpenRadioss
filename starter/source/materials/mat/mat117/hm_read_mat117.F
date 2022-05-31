@@ -137,14 +137,14 @@ c-------------------
       IF (IDEL  == 0)   IDEL    = 1
       IF (IMASS == 0)   IMASS   = 1
       IF (IRUPT == 0)   IRUPT   = 1
-      IF (GAMA  == ZERO)   GAMA   = UN
-      IF (EXP_G  == ZERO) EXP_G   = DEUX
+      IF (GAMA  == ZERO)   GAMA   = ONE
+      IF (EXP_G  == ZERO) EXP_G   = TWO
       IF (E_ELAS_S == ZERO) E_ELAS_S = E_ELAS_N
       DELTA0N  = TMAX_N/E_ELAS_N !single mode damage initiation normal
       DELTA0S  = TMAX_S/E_ELAS_S !single mode damage initiation tangential
 
-      UND  = DEUX*GIC /(DELTA0N *E_ELAS_N)! ultimate displacement in normal direction (UND)
-      UTD  = DEUX*GIIC/(DELTA0S *E_ELAS_S)! ultimate displacement in tangential direction (UTD)
+      UND  = TWO*GIC /(DELTA0N *E_ELAS_N)! ultimate displacement in normal direction (UND)
+      UTD  = TWO*GIIC/(DELTA0S *E_ELAS_S)! ultimate displacement in tangential direction (UTD)
 C-------------------------------------------
 C User Material Parameters Definition
 C-------------------------------------------
@@ -173,9 +173,9 @@ C-------------------------------------------
 C Interface Contact
 C-------------------------------------------
 C----------------
-      PARMAT(1)  = MAX(E_ELAS_N,E_ELAS_S) / TROIS
+      PARMAT(1)  = MAX(E_ELAS_N,E_ELAS_S) / THREE
       PARMAT(2)  = MAX(E_ELAS_N,E_ELAS_S)
-      PARMAT(17) = UN ! (UN - DEUX*NU)/(UN - NU), NU=0      
+      PARMAT(17) = ONE ! (ONE - TWO*NU)/(ONE - NU), NU=0      
 c
       MTAG%L_EPE  = 3
       MTAG%L_DMG  = 1

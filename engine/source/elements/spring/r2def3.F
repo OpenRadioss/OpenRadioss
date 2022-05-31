@@ -153,7 +153,7 @@ C
         EXZ(I)=SKEW(7,ISK)
         EYZ(I)=SKEW(8,ISK)
         EZZ(I)=SKEW(9,ISK)
-        XL0(I)=UN
+        XL0(I)=ONE
         IEQUIL(I) = NINT(GEO(94,MGN(I)))
       ENDDO
 C---------------------
@@ -247,9 +247,9 @@ C
       IF (ISMDISP > 0) THEN
         DO I=LFT,LLT
           IF (IEQUIL(I) == 1) THEN
-            SX= UNDEMI*(RX2(I)+RX1(I))
-            SY= UNDEMI*(RY2(I)+RY1(I))
-            SZ= UNDEMI*(RZ2(I)+RZ1(I))
+            SX= HALF*(RX2(I)+RX1(I))
+            SY= HALF*(RY2(I)+RY1(I))
+            SZ= HALF*(RZ2(I)+RZ1(I))
             XX = Y21(I)*SZ - Z21(I)*SY
             YY = Z21(I)*SX - X21(I)*SZ
             ZZ = X21(I)*SY - Y21(I)*SX
@@ -270,9 +270,9 @@ C
       ELSE
         DO I=LFT,LLT
           IF (IEQUIL(I) == 1) THEN
-            SX= UNDEMI*(RX2(I)+RX1(I))
-            SY= UNDEMI*(RY2(I)+RY1(I))
-            SZ= UNDEMI*(RZ2(I)+RZ1(I))
+            SX= HALF*(RX2(I)+RX1(I))
+            SY= HALF*(RY2(I)+RY1(I))
+            SZ= HALF*(RZ2(I)+RZ1(I))
             XX = Y21(I)*SZ - Z21(I)*SY
             YY = Z21(I)*SX - X21(I)*SZ
             ZZ = X21(I)*SY - Y21(I)*SX
@@ -333,9 +333,9 @@ C-------------------------------
         ELSEIF (IFAIL2(I) == 2) THEN
           DLIM = MAX(ZERO, E6(I,1)) / DMX(I)
         ENDIF
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF( IFAIL(I) == 0 ) THEN
-           IF(DLIM > UN) THEN
+           IF(DLIM > ONE) THEN
 !        Rupture uniaxiale
             OFF(I)=ZERO
             NINDX = NINDX + 1
@@ -390,9 +390,9 @@ C-------------------------------
         ELSEIF (IFAIL2(I) == 2) THEN
           DLIM = MAX(ZERO, E6(I,2)) / DMX(I)
         ENDIF
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL(I) == 0) THEN
-           IF (DLIM > UN) THEN
+           IF (DLIM > ONE) THEN
 !         Rupture uniaxiale
             OFF(I)=ZERO
             NINDX = NINDX + 1
@@ -447,9 +447,9 @@ C-------------------------------
         ELSEIF (IFAIL2(I) == 2) THEN
           DLIM = MAX(ZERO, E6(I,3)) / DMX(I)
         ENDIF
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL(I) == 0) THEN
-           IF (DLIM > UN) THEN
+           IF (DLIM > ONE) THEN
 !         Rupture uniaxiale
             OFF(I)=ZERO
             NINDX = NINDX + 1
@@ -548,9 +548,9 @@ C-------------------------------
         ELSEIF (IFAIL2(I) == 2) THEN
           DLIM = MAX(ZERO, E6(I,4)) / DMX(I)
         ENDIF
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL(I) == 0) THEN
-           IF (DLIM > UN) THEN
+           IF (DLIM > ONE) THEN
 !         Rupture uniaxiale
             OFF(I)=ZERO
             NINDX = NINDX + 1
@@ -605,9 +605,9 @@ C-------------------------------------
         ELSEIF (IFAIL2(I) == 2) THEN
           DLIM = MAX(ZERO,E6(I,5)) / DMX(I)
         ENDIF
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL(I) == 0) THEN
-           IF (DLIM > UN) THEN
+           IF (DLIM > ONE) THEN
 !         Rupture uniaxiale
             OFF(I)=ZERO
             NINDX = NINDX + 1
@@ -662,9 +662,9 @@ C-----------------------------------
         ELSEIF (IFAIL2(I) == 2) THEN
           DLIM = MAX(ZERO,E6(I,6)) / DMX(I)
         ENDIF
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL(I) == 0) THEN
-           IF (DLIM > UN) THEN
+           IF (DLIM > ONE) THEN
 !         Rupture uniaxiale
             OFF(I)=ZERO
             NINDX = NINDX + 1
@@ -684,12 +684,12 @@ C-------------------------------
       DO I=LFT,LLT
         ISRATE = NINT(GEO(96, MGN(I)))
 C---- smoothing factor alpha = 2PI*fc*dt/(2PI*fc*dt+1) ---
-        ASRATE = (2*PI*GEO(97,MGN(I))*DT1)/(UN+2*PI*GEO(97,MGN(I))*DT1)
+        ASRATE = (2*PI*GEO(97,MGN(I))*DT1)/(ONE+2*PI*GEO(97,MGN(I))*DT1)
         IF (ISRATE /= 0) THEN
-         CRIT(I) = ASRATE*CRIT(I) + (UN - ASRATE)*CRITNEW(I)
+         CRIT(I) = ASRATE*CRIT(I) + (ONE - ASRATE)*CRITNEW(I)
          CRITNEW(I) = CRIT(I)
         ENDIF
-        IF (OFF(I) == UN .AND. IFAIL(I) == 1 .AND. CRIT(I) > UN) THEN
+        IF (OFF(I) == ONE .AND. IFAIL(I) == 1 .AND. CRIT(I) > ONE) THEN
           OFF(I)=ZERO
           NINDX = NINDX + 1
           INDX(NINDX) = I

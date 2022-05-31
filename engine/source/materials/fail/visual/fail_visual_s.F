@@ -130,7 +130,7 @@ c!  ***********************
 c!  *** NEW ... 26.06.2019  
 c!  ***********************      
       DO I=1,NEL
-        IF (UVAR(I,1) < UN) THEN
+        IF (UVAR(I,1) < ONE) THEN
            
           IF (TYPE_MAX == 1) THEN   ! stress based
 c
@@ -139,15 +139,15 @@ c
      .            SIGNXY(I)*SIGNXY(I)-SIGNZX(I)*SIGNZX(I)-SIGNYZ(I)*SIGNYZ(I)
              I3 = SIGNXX(I)*SIGNYY(I)*SIGNZZ(I)-SIGNXX(I)*SIGNYZ(I)*SIGNYZ(I)-
      .            SIGNYY(I)*SIGNZX(I)*SIGNZX(I)-SIGNZZ(I)*SIGNXY(I)*SIGNXY(I)+
-     .            DEUX*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
-             Q  = (TROIS*I2 - I1*I1)/9.0
+     .            TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
+             Q  = (THREE*I2 - I1*I1)/9.0
              Q = MIN(Q, ZERO)
-             R  = (DEUX*I1*I1*I1-9.0*I1*I2+27.0*I3)/54.0     ! (2*I3^3-9*I1*I2+27*I3)/54
-             R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),UN)
-             PHI = ACOS(MAX(R_INTER,-UN))
-             E11 = DEUX*SQRT(-Q)*COS(PHI/TROIS)+TIERS*I1
-             E22 = DEUX*SQRT(-Q)*COS((PHI+DEUX*PI)/TROIS)+TIERS*I1
-             E33 = DEUX*SQRT(-Q)*COS((PHI+4.0*PI)/TROIS)+TIERS*I1
+             R  = (TWO*I1*I1*I1-9.0*I1*I2+27.0*I3)/54.0     ! (2*I3^3-9*I1*I2+27*I3)/54
+             R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
+             PHI = ACOS(MAX(R_INTER,-ONE))
+             E11 = TWO*SQRT(-Q)*COS(PHI/THREE)+THIRD*I1
+             E22 = TWO*SQRT(-Q)*COS((PHI+TWO*PI)/THREE)+THIRD*I1
+             E33 = TWO*SQRT(-Q)*COS((PHI+4.0*PI)/THREE)+THIRD*I1
              
              IF (E11 < E22) THEN 
                 R_INTER = E11
@@ -171,37 +171,37 @@ c! strains (deviatoric strain are in vector notation ==> gamma...==> division by
            
              I1 = EPSXX(I)+EPSYY(I)+EPSZZ(I)
              I2 = EPSXX(I)*EPSYY(I)+EPSYY(I)*EPSZZ(I)+EPSZZ(I)*EPSXX(I)-
-     .            UNDEMI*EPSXY(I)*UNDEMI*EPSXY(I)-UNDEMI*EPSZX(I)*UNDEMI*EPSZX(I)-
-     .            UNDEMI*EPSYZ(I)*UNDEMI*EPSYZ(I)
-             I3 = EPSXX(I)*EPSYY(I)*EPSZZ(I)-EPSXX(I)*UNDEMI*EPSYZ(I)*UNDEMI*EPSYZ(I)-
-     .            EPSYY(I)*UNDEMI*EPSZX(I)*UNDEMI*EPSZX(I)-EPSZZ(I)*UNDEMI*EPSXY(I)*UNDEMI*EPSXY(I)+
-     .            DEUX*UNDEMI*EPSXY(I)*UNDEMI*EPSZX(I)*UNDEMI*EPSYZ(I)
-             Q  = (TROIS*I2 - I1*I1)/9.0
-             R  = (DEUX*I1*I1*I1-9.0*I1*I2+27.0*I3)/54.0     ! (2*I3^3-9*I1*I2+27*I3)/54
+     .            HALF*EPSXY(I)*HALF*EPSXY(I)-HALF*EPSZX(I)*HALF*EPSZX(I)-
+     .            HALF*EPSYZ(I)*HALF*EPSYZ(I)
+             I3 = EPSXX(I)*EPSYY(I)*EPSZZ(I)-EPSXX(I)*HALF*EPSYZ(I)*HALF*EPSYZ(I)-
+     .            EPSYY(I)*HALF*EPSZX(I)*HALF*EPSZX(I)-EPSZZ(I)*HALF*EPSXY(I)*HALF*EPSXY(I)+
+     .            TWO*HALF*EPSXY(I)*HALF*EPSZX(I)*HALF*EPSYZ(I)
+             Q  = (THREE*I2 - I1*I1)/9.0
+             R  = (TWO*I1*I1*I1-9.0*I1*I2+27.0*I3)/54.0     ! (2*I3^3-9*I1*I2+27*I3)/54
              
-             R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),UN)
-             PHI = ACOS(MAX(R_INTER,-UN))
+             R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
+             PHI = ACOS(MAX(R_INTER,-ONE))
              
-             E11 = DEUX*SQRT(-Q)*COS(PHI/TROIS)+TIERS*I1
-             E22 = DEUX*SQRT(-Q)*COS((PHI+DEUX*PI)/TROIS)+TIERS*I1
-             E33 = DEUX*SQRT(-Q)*COS((PHI+4.0*PI)/TROIS) +TIERS*I1
+             E11 = TWO*SQRT(-Q)*COS(PHI/THREE)+THIRD*I1
+             E22 = TWO*SQRT(-Q)*COS((PHI+TWO*PI)/THREE)+THIRD*I1
+             E33 = TWO*SQRT(-Q)*COS((PHI+4.0*PI)/THREE) +THIRD*I1
 c
              IF (STRFLAG == 1) THEN
-               E11 = SQRT(E11 + UN) - UN
-               E22 = SQRT(E22 + UN) - UN
-               E33 = SQRT(E33 + UN) - UN
+               E11 = SQRT(E11 + ONE) - ONE
+               E22 = SQRT(E22 + ONE) - ONE
+               E33 = SQRT(E33 + ONE) - ONE
              ELSE IF (STRFLAG == 2) THEN
-               E11 = EXP(E11) - UN
-               E22 = EXP(E22) - UN
-               E33 = EXP(E33) - UN
+               E11 = EXP(E11) - ONE
+               E22 = EXP(E22) - ONE
+               E33 = EXP(E33) - ONE
              ELSE IF (STRFLAG == 3) THEN
-               E11 = LOG(E11 + UN)
-               E22 = LOG(E22 + UN)
-               E33 = LOG(E33 + UN)
+               E11 = LOG(E11 + ONE)
+               E22 = LOG(E22 + ONE)
+               E33 = LOG(E33 + ONE)
              ELSE IF (STRFLAG == 4) THEN
-               E11 = LOG(SQRT(E11 + UN))
-               E22 = LOG(SQRT(E22 + UN))
-               E33 = LOG(SQRT(E33 + UN))
+               E11 = LOG(SQRT(E11 + ONE))
+               E22 = LOG(SQRT(E22 + ONE))
+               E33 = LOG(SQRT(E33 + ONE))
              END IF
 c             
              IF (E11 < E22) THEN 
@@ -223,40 +223,40 @@ c
           ENDIF ! TYPE_MAX
 c
 c! ---    EMA or Butterworth filtering
-          IF (EMA == UN .and. FF /= ZERO .and. F_FLAG > 1) THEN
+          IF (EMA == ONE .and. FF /= ZERO .and. F_FLAG > 1) THEN
 C-----------------------------------------------
 C           INITIALIALISATION OF THE FILTER-COEFFICIENTS 
 C-----------------------------------------------
 
-            PI1     = DEUX*ATAN2(UN,ZERO)
-            PI8     = PI1*UNHUIT
-            PI38    = TROIS*PI8
+            PI1     = TWO*ATAN2(ONE,ZERO)
+            PI8     = PI1*ONE_OVER_8
+            PI38    = THREE*PI8
             SPI8    = SIN(PI8)
             SPI38   = SIN(PI38)
 C         
             D  = TAN(PI1*F*TIMESTEP)
           
             DD = D*D
-            D2 = DEUX*D
-            DP = UN + DD
+            D2 = TWO*D
+            DP = ONE + DD
             E  = D2*SPI8
             G  = E + DP
-            G  = UN/G
+            G  = ONE/G
 C         
             C0 = DD * G
-            C1 = DEUX* C0
+            C1 = TWO* C0
             C2 = C0
-            C3 = DEUX * G - C1
+            C3 = TWO * G - C1
             C4 = (E - DP) * G
 C         
             E  = D2*SPI38
             G  = E + DP
-            G  = UN/G
+            G  = ONE/G
 C         
             C5 = DD * G
-            C6 = DEUX * C5
+            C6 = TWO * C5
             C7 = C5
-            C8 = DEUX * G - C6
+            C8 = TWO * G - C6
             C9 = (E - DP) * G
           
 C-----------------------------------------------
@@ -308,26 +308,26 @@ c! Value = USER_INPUT * 2 * Pi * DT1
 c! Alpha = Value / (Value + 1)
 c! Actual_filtered_stress = Alpha * actual_Stress + (1-Alpha) * previous_filtered_stress
 c!
-c!           ALPHA      = EMA / ( EMA + UN)
-c!           E11        = ALPHA * E11 + ( UN - ALPHA ) * UVAR(I,2)
+c!           ALPHA      = EMA / ( EMA + ONE)
+c!           E11        = ALPHA * E11 + ( ONE - ALPHA ) * UVAR(I,2)
 c!           UVAR(I,2)  = E11
 
 c! EMA = 0 ==> 1 ==> no filtering  ;  EMA = 1e+20 extreme filtering
-c!           E11        = E11*(DEUX/(UN+EMA)) + UVAR(I,2) * (UN-(DEUX/(UN+EMA))) 
-           E11        = EMA * E11 + ( UN - EMA ) * UVAR(I,2)
+c!           E11        = E11*(TWO/(ONE+EMA)) + UVAR(I,2) * (ONE-(TWO/(ONE+EMA))) 
+           E11        = EMA * E11 + ( ONE - EMA ) * UVAR(I,2)
            UVAR(I,2)  = E11
           ENDIF
 c!      
-          DAMAGE       =  MAX(ZERO , MIN(UN ,(E11-C_MIN)/MAX(EM6,(C_MAX-C_MIN)) ))
+          DAMAGE       =  MAX(ZERO , MIN(ONE ,(E11-C_MIN)/MAX(EM6,(C_MAX-C_MIN)) ))
           UVAR(I,1)    =  MAX(UVAR(I,1),DAMAGE)
           DFMAX(I)     =  UVAR(I,1)
 
-          IF (UVAR(I,1) >= UN) THEN
+          IF (UVAR(I,1) >= ONE) THEN
              NINDX       = NINDX+1
              INDX(NINDX) = I              
           ENDIF
 
-        ENDIF ! UVAR(I,1) < UN
+        ENDIF ! UVAR(I,1) < ONE
         
       ENDDO   ! NEL
 c---------------------------------------------       

@@ -72,10 +72,10 @@ C-----------------------------------------------------------------------
 C
         MASS(I)=FILL(I)*RHO(I)*VOLG(I)
         DTELEM(I)=MIN(DTELEM(I),DTX(I))
-        STI(I) = FILL(I) * RHO(I) * VOLG(I) * DEUX / SOIXANTE4 /
+        STI(I) = FILL(I) * RHO(I) * VOLG(I) * TWO / SIXTY4 /
      .        MAX(EM20,DTX(I)*DTX(I))
-        AM = MASS(I)/TRENTE2
-        BM = MASS(I)*TROIS/TRENTE2
+        AM = MASS(I)/THIRTY2
+        BM = MASS(I)*THREE/THIRTY2
         MSS(1,I)=AM
         MSS(2,I)=AM
         MSS(3,I)=AM
@@ -99,10 +99,10 @@ C
             MSSX(N-8,I)=BM
             STIFN(NC(I,N))=STIFN(NC(I,N))+STI(I)
           ELSE
-            MSS(N1,I)=MSS(N1,I)+ UNDEMI*BM
-            MSS(N2,I)=MSS(N2,I)+ UNDEMI*BM
-            STIFN(NC(I,N1))=STIFN(NC(I,N1))+ UNDEMI*STI(I)
-            STIFN(NC(I,N2))=STIFN(NC(I,N2))+ UNDEMI*STI(I)
+            MSS(N1,I)=MSS(N1,I)+ HALF*BM
+            MSS(N2,I)=MSS(N2,I)+ HALF*BM
+            STIFN(NC(I,N1))=STIFN(NC(I,N1))+ HALF*STI(I)
+            STIFN(NC(I,N2))=STIFN(NC(I,N2))+ HALF*STI(I)
           ENDIF
         ENDDO
 C
@@ -193,7 +193,7 @@ C
      .         +VZ(I,5)+VZ(I,6)+VZ(I,7)+VZ(I,8))
      .    + BM*(VZ(I,9) +VZ(I,10)+VZ(I,11)+VZ(I,12)+VZ(I,13)+VZ(I,14)
      .         +VZ(I,15)+VZ(I,16))
-        PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * 
+        PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * 
      .       (AM*(VX(I,1)*VX(I,1)+VX(I,2)*VX(I,2)
      .           +VX(I,3)*VX(I,3)+VX(I,4)*VX(I,4)
      .           +VX(I,5)*VX(I,5)+VX(I,6)*VX(I,6)
@@ -225,8 +225,8 @@ C
        IF(JTHE < 0 ) THEN
         DO I=LFT,LLT
             MASSCP=FILL(I)*RHOCP(I)*VOLG(I)
-            AM = MASSCP/TRENTE2
-            BM = MASSCP*TROIS/TRENTE2
+            AM = MASSCP/THIRTY2
+            BM = MASSCP*THREE/THIRTY2
             MSS(1,I)=AM
             MSS(2,I)=AM
             MSS(3,I)=AM
@@ -241,8 +241,8 @@ C
                 IF(NC(I,N) /= 0)THEN
                   MCPSX(N-8,I)=BM
                 ELSE
-                  MCPS(N1,I)=MCPS(N1,I)+ UNDEMI*BM
-                  MCPS(N2,I)=MCPS(N2,I)+ UNDEMI*BM
+                  MCPS(N1,I)=MCPS(N1,I)+ HALF*BM
+                  MCPS(N2,I)=MCPS(N2,I)+ HALF*BM
                 ENDIF
             ENDDO
         ENDDO

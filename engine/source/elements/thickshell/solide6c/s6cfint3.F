@@ -92,9 +92,8 @@ C     REAL ou REAL*8
      .   RX1(MVSIZ), RY1(MVSIZ), SX1(MVSIZ), SY1(MVSIZ),
      .   FINT,FINTX,FINTY,FINTZ,FAC(MVSIZ),FXC,FYC,FINSX,FINSY
       my_real 
-     .  O5TH ,NU1,FINSZ
+     .  NU1,FINSZ
 C=======================================================================
-      O5TH = UNDEMI
       DO I=LFT,LLT
        S1(I)=(SIG(I,1)+SVIS(I,1)-QVIS(I))*VOL(I)
        S2(I)=(SIG(I,2)+SVIS(I,2)-QVIS(I))*VOL(I)
@@ -109,16 +108,16 @@ Cqz-------constant part---------
         FINT=S1(I)*PX1(I)+S4(I)*PY1(I)
         FXC = JI33(I)*S6(I)
         FYC = JI33(I)*S5(I)
-        FINTX=S1(I)*PX4(I)+S4(I)*PY4(I) + TROIS*FXC
+        FINTX=S1(I)*PX4(I)+S4(I)*PY4(I) + THREE*FXC
         FINSX=S6(I)*(B1X(I,1)-B1X(I,2))-S5(I)*(B2X(I,1)-B2X(I,2))-FXC
         F11(I)=F11(I)-FINT+FINTX+FINSX
         F14(I)=F14(I)-FINT-FINTX-FINSX
         FINT=S2(I)*PY1(I)+S4(I)*PX1(I)
-        FINTY=S2(I)*PY4(I)+S4(I)*PX4(I) + TROIS*FYC
+        FINTY=S2(I)*PY4(I)+S4(I)*PX4(I) + THREE*FYC
         FINSY=S6(I)*(B1Y(I,1)-B1Y(I,2))-S5(I)*(B2Y(I,1)-B2Y(I,2))-FYC
         F21(I)=F21(I)-FINT+FINTY+FINSY
         F24(I)=F24(I)-FINT-FINTY-FINSY
-        FINT=S3(I)*PZ1(I)+O5TH*(S6(I)*PX1(I)+S5(I)*PY1(I))
+        FINT=S3(I)*PZ1(I)+HALF*(S6(I)*PX1(I)+S5(I)*PY1(I))
         FINTZ=S3(I)*PZ4(I)
         F31(I)=F31(I)-FINT+FINTZ
         F34(I)=F34(I)-FINT-FINTZ
@@ -131,7 +130,7 @@ C
         FINSY=S6(I)*(B2212(I)+B1Y(I,2))-S5(I)*(B1122(I)+B2Y(I,2))
         F22(I)=F22(I)-FINT+FINTY+FINSY
         F25(I)=F25(I)-FINT-FINTY-FINSY
-        FINT=S3(I)*PZ2(I)+(S6(I)*PX2(I)+S5(I)*PY2(I))*O5TH
+        FINT=S3(I)*PZ2(I)+(S6(I)*PX2(I)+S5(I)*PY2(I))*HALF
         F32(I)=F32(I)-FINT+FINTZ
         F35(I)=F35(I)-FINT-FINTZ
 C
@@ -143,7 +142,7 @@ C
         FINSY=-S6(I)*(B2212(I)+B1Y(I,1))+S5(I)*(B1221(I)+B2Y(I,1))
         F23(I)=F23(I)-FINT+FINTY+FINSY
         F26(I)=F26(I)-FINT-FINTY-FINSY
-        FINT=S3(I)*PZ3(I)+(S6(I)*PX3(I)+S5(I)*PY3(I))*O5TH
+        FINT=S3(I)*PZ3(I)+(S6(I)*PX3(I)+S5(I)*PY3(I))*HALF
         F33(I)=F33(I)-FINT+FINTZ
         F36(I)=F36(I)-FINT-FINTZ
        ENDDO
@@ -158,7 +157,7 @@ C                                                                     12
        S6(I) = ZI*S6(I)
       ENDDO
        DO I=LFT,LLT
-        NU1 = NU(I)/(UN - NU(I))
+        NU1 = NU(I)/(ONE - NU(I))
         FXC =S1(I)-(S2(I)+S3(I))*NU(I)
         FYC =S2(I)-(S1(I)+S3(I))*NU(I)
         FINSX = S1(I)*NU1
@@ -177,7 +176,7 @@ C                                                                     12
         F21(I)=F21(I)-FINT+FINTY
         F24(I)=F24(I)-FINT-FINTY
         FINT=(S3(I)-FINSY)*PZ1H(I)+
-     .       (S6(I)*PX1H(I)+S5(I)*PY1H(I))*O5TH
+     .       (S6(I)*PX1H(I)+S5(I)*PY1H(I))*HALF
         FINTZ=(S3(I)-FINSX)*PZ1(I)
         F31(I)=F31(I)-FINT+FINTZ
         F34(I)=F34(I)-FINT-FINTZ
@@ -195,7 +194,7 @@ C
         F22(I)=F22(I)-FINT+FINTY
         F25(I)=F25(I)-FINT-FINTY
         FINT=(S3(I)-FINSY)*PZ2H(I)+
-     .       (S6(I)*PX2H(I)+S5(I)*PY2H(I))*O5TH
+     .       (S6(I)*PX2H(I)+S5(I)*PY2H(I))*HALF
         FINTZ=(S3(I)-FINSX)*PZ2(I)
         F32(I)=F32(I)-FINT+FINTZ
         F35(I)=F35(I)-FINT-FINTZ
@@ -213,7 +212,7 @@ C
         F23(I)=F23(I)-FINT+FINTY
         F26(I)=F26(I)-FINT-FINTY
         FINT=(S3(I)-FINSY)*PZ3H(I)+
-     .       (S6(I)*PX3H(I)+S5(I)*PY3H(I))*O5TH
+     .       (S6(I)*PX3H(I)+S5(I)*PY3H(I))*HALF
         FINTZ=(S3(I)-FINSX)*PZ3(I)
         F33(I)=F33(I)-FINT+FINTZ
         F36(I)=F36(I)-FINT-FINTZ

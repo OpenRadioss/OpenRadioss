@@ -86,16 +86,16 @@ C-----------------------------------------------
 C     CALCUL BILAN SORTIES DEF 
 C-----------------------------------------------
       DO I=LFT,LLT
-        VXA(I) = VXA(I)*UNHUIT
-        VYA(I) = VYA(I)*UNHUIT
-        VZA(I) = VZA(I)*UNHUIT
-        VA2(I) = VA2(I)*UNHUIT
+        VXA(I) = VXA(I)*ONE_OVER_8
+        VYA(I) = VYA(I)*ONE_OVER_8
+        VZA(I) = VZA(I)*ONE_OVER_8
+        VA2(I) = VA2(I)*ONE_OVER_8
       ENDDO
 C
       DO I=LFT,LLT
         XMAS(I)=FILL(I)*RHO(I)*VNEW(I)
         EI(I)  = FILL(I)*EINT(I)*VOL(I)
-        EK(I)  = XMAS(I)*VA2(I)*UNDEMI
+        EK(I)  = XMAS(I)*VA2(I)*HALF
         XM(I)  = XMAS(I)*VXA(I)
         YM(I)  = XMAS(I)*VYA(I)
         ZM(I)  = XMAS(I)*VZA(I)
@@ -113,7 +113,7 @@ C
         END DO
       ELSE
         DO I=LFT,LLT
-          IF(OFF(I) < UN) CYCLE
+          IF(OFF(I) < ONE) CYCLE
           M=IPARTS(I)
           PARTSAV(1,M)=PARTSAV(1,M) + EI(I)
           PARTSAV(2,M)=PARTSAV(2,M) + EK(I)
@@ -129,15 +129,15 @@ C     CALCUL BILAN SORTIES ADDITIONNELLES
 C-----------------------------------------------
       IF(FLAG.EQ.1) THEN
         DO I=LFT,LLT
-          XX(I) = XX(I)*UNHUIT
-          YY(I) = YY(I)*UNHUIT
-          ZZ(I) = ZZ(I)*UNHUIT
-          XY(I) = XY(I)*UNHUIT
-          YZ(I) = YZ(I)*UNHUIT
-          ZX(I) = ZX(I)*UNHUIT
-          XX2(I)= XX2(I)*UNHUIT
-          YY2(I)= YY2(I)*UNHUIT
-          ZZ2(I)= ZZ2(I)*UNHUIT
+          XX(I) = XX(I)*ONE_OVER_8
+          YY(I) = YY(I)*ONE_OVER_8
+          ZZ(I) = ZZ(I)*ONE_OVER_8
+          XY(I) = XY(I)*ONE_OVER_8
+          YZ(I) = YZ(I)*ONE_OVER_8
+          ZX(I) = ZX(I)*ONE_OVER_8
+          XX2(I)= XX2(I)*ONE_OVER_8
+          YY2(I)= YY2(I)*ONE_OVER_8
+          ZZ2(I)= ZZ2(I)*ONE_OVER_8
         ENDDO
 C
         DO I=LFT,LLT
@@ -178,7 +178,7 @@ C           PARTSAV(8,M)=PARTSAV(8,M) + EHOU(I)
           END DO
         ELSE
           DO I=LFT,LLT
-            IF(OFF(I) < UN) CYCLE
+            IF(OFF(I) < ONE) CYCLE
             M=IPARTS(I)
             PARTSAV(9,M) =PARTSAV(9,M)  + XCG(I)
             PARTSAV(10,M)=PARTSAV(10,M) + YCG(I)
@@ -223,10 +223,10 @@ C
         ENDDO
       ENDIF
       DO I=LFT,LLT
-          IF(OFF(I) < UN) THEN
+          IF(OFF(I) < ONE) THEN
             OFF_L(I) = ZERO
           ELSE
-            OFF_L(I) = UN
+            OFF_L(I) = ONE
           ENDIF
       ENDDO
 

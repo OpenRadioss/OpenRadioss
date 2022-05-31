@@ -64,7 +64,7 @@ C-----------------------------------------------
      
 
       DO I=LFT,LLT
-        MASS(I)=PM(89,MAT(I))*VOL(I)*QUART
+        MASS(I)=PM(89,MAT(I))*VOL(I)*FOURTH
       ENDDO
 
 C calcul mass initiale en arithmetique // pour le spmd
@@ -74,16 +74,16 @@ C calcul mass initiale en arithmetique // pour le spmd
 
       IF(JALE.GT.0 .AND. NWALE.EQ.4)THEN
         DO I=LFT,LLT
-          WMA(IX1(I))=WMA(IX1(I))+UN
-          WMA(IX2(I))=WMA(IX2(I))+UN
-          WMA(IX3(I))=WMA(IX3(I))+UN
-          WMA(IX4(I))=WMA(IX4(I))+UN
+          WMA(IX1(I))=WMA(IX1(I))+ONE
+          WMA(IX2(I))=WMA(IX2(I))+ONE
+          WMA(IX3(I))=WMA(IX3(I))+ONE
+          WMA(IX4(I))=WMA(IX4(I))+ONE
         ENDDO
       ENDIF
 
       DO I=LFT,LLT
           IP = IPART(I)
-          PARTSAV(1,IP)=PARTSAV(1,IP) + QUATRE*MASS(I)
+          PARTSAV(1,IP)=PARTSAV(1,IP) + FOUR*MASS(I)
 C
           I1 = IX1(I)
           I2 = IX2(I)
@@ -105,7 +105,7 @@ C
      .       (V(2,I1)+V(2,I2)+V(2,I3)+V(2,I4))
           PARTSAV(13,IP)=PARTSAV(13,IP) + MASS(I)*
      .       (V(3,I1)+V(3,I2)+V(3,I3)+V(3,I4))
-          PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * MASS(I) *
+          PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * MASS(I) *
      .     (V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
      .     +V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2)
      .     +V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3)

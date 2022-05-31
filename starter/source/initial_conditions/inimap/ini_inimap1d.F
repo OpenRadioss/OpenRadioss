@@ -286,11 +286,11 @@ C     HEXA
                   NODE6 = IXS(7, ELEMID)
                   NODE7 = IXS(8, ELEMID)
                   NODE8 = IXS(9, ELEMID)
-                  XC = UNHUIT * (XGRID(1, NODE1) + XGRID(1, NODE2) + XGRID(1, NODE3) + XGRID(1, NODE4)
+                  XC = ONE_OVER_8 * (XGRID(1, NODE1) + XGRID(1, NODE2) + XGRID(1, NODE3) + XGRID(1, NODE4)
      .                 + XGRID(1, NODE5) + XGRID(1, NODE6) + XGRID(1, NODE7) + XGRID(1, NODE8))
-                  YC = UNHUIT * (XGRID(2, NODE1) + XGRID(2, NODE2) + XGRID(2, NODE3) + XGRID(2, NODE4)
+                  YC = ONE_OVER_8 * (XGRID(2, NODE1) + XGRID(2, NODE2) + XGRID(2, NODE3) + XGRID(2, NODE4)
      .                 + XGRID(2, NODE5) + XGRID(2, NODE6) + XGRID(2, NODE7) + XGRID(2, NODE8))
-                  ZC = UNHUIT * (XGRID(3, NODE1) + XGRID(3, NODE2) + XGRID(3, NODE3) + XGRID(3, NODE4)
+                  ZC = ONE_OVER_8 * (XGRID(3, NODE1) + XGRID(3, NODE2) + XGRID(3, NODE3) + XGRID(3, NODE4)
      .                 + XGRID(3, NODE5) + XGRID(3, NODE6) + XGRID(3, NODE7) + XGRID(3, NODE8))
                   NBNODE = 8
                   NODELIST(1) = 2
@@ -307,9 +307,9 @@ C     TETRA
                   NODE2 = IXS(4, ELEMID)
                   NODE3 = IXS(7, ELEMID)
                   NODE4 = IXS(6, ELEMID)
-                  XC = QUART * (XGRID(1, NODE1) + XGRID(1, NODE2) + XGRID(1, NODE3) + XGRID(1, NODE4))
-                  YC = QUART * (XGRID(2, NODE1) + XGRID(2, NODE2) + XGRID(2, NODE3) + XGRID(2, NODE4))
-                  ZC = QUART * (XGRID(3, NODE1) + XGRID(3, NODE2) + XGRID(3, NODE3) + XGRID(3, NODE4))
+                  XC = FOURTH * (XGRID(1, NODE1) + XGRID(1, NODE2) + XGRID(1, NODE3) + XGRID(1, NODE4))
+                  YC = FOURTH * (XGRID(2, NODE1) + XGRID(2, NODE2) + XGRID(2, NODE3) + XGRID(2, NODE4))
+                  ZC = FOURTH * (XGRID(3, NODE1) + XGRID(3, NODE2) + XGRID(3, NODE3) + XGRID(3, NODE4))
                   NBNODE = 4
                   NODELIST(1) = 2
                   NODELIST(2) = 4
@@ -321,9 +321,9 @@ C     QUAD
                   NODE2 = IXQ(3, ELEMID)
                   NODE3 = IXQ(4, ELEMID)
                   NODE4 = IXQ(5, ELEMID)
-                  XC = QUART * (XGRID(1, NODE1) + XGRID(1, NODE2) + XGRID(1, NODE3) + XGRID(1, NODE4))
-                  YC = QUART * (XGRID(2, NODE1) + XGRID(2, NODE2) + XGRID(2, NODE3) + XGRID(2, NODE4))
-                  ZC = QUART * (XGRID(3, NODE1) + XGRID(3, NODE2) + XGRID(3, NODE3) + XGRID(3, NODE4))
+                  XC = FOURTH * (XGRID(1, NODE1) + XGRID(1, NODE2) + XGRID(1, NODE3) + XGRID(1, NODE4))
+                  YC = FOURTH * (XGRID(2, NODE1) + XGRID(2, NODE2) + XGRID(2, NODE3) + XGRID(2, NODE4))
+                  ZC = FOURTH * (XGRID(3, NODE1) + XGRID(3, NODE2) + XGRID(3, NODE3) + XGRID(3, NODE4))
                   NBNODE = 4
                   NODELIST(1) = 2
                   NODELIST(2) = 3
@@ -334,9 +334,9 @@ C     TRIANGLES
                   NODE1 = IXTG(2, ELEMID)
                   NODE2 = IXTG(3, ELEMID)
                   NODE3 = IXTG(4, ELEMID)
-                  XC = TIERS * (XGRID(1, NODE1) + XGRID(1, NODE2) + XGRID(1, NODE3))
-                  YC = TIERS * (XGRID(2, NODE1) + XGRID(2, NODE2) + XGRID(2, NODE3))
-                  ZC = TIERS * (XGRID(3, NODE1) + XGRID(3, NODE2) + XGRID(3, NODE3))
+                  XC = THIRD * (XGRID(1, NODE1) + XGRID(1, NODE2) + XGRID(1, NODE3))
+                  YC = THIRD * (XGRID(2, NODE1) + XGRID(2, NODE2) + XGRID(2, NODE3))
+                  ZC = THIRD * (XGRID(3, NODE1) + XGRID(3, NODE2) + XGRID(3, NODE3))
                   NBNODE = 3
                   NODELIST(1) = 2
                   NODELIST(2) = 3
@@ -418,7 +418,7 @@ C     Alpha
                        ENDIF                                                                                            
                     ENDIF                                                                                               
                   ELSE
-                    RES = UN                                                                                  
+                    RES = ONE                                                                                  
                     IF (MLW == 51) THEN                                                                       
                        KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS                                   
                        ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (1 + KPHASE - 1)) = RES     
@@ -622,15 +622,15 @@ C     Burn Fraction / Detonation Times
                IF(ELBUF_TAB(NG)%GBUF%G_TB > 0)ELBUF_TAB(NG)%GBUF%TB(ELEMID - NFT) = 1E20
                IF (MLW == 51) THEN                                                                                                        
                   KPHASE = N0PHAS - 1
-                  ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (KPHASE - 1)) = UN                                           
-                  IF(ELBUF_TAB(NG)%GBUF%G_BFRAC > 0)ELBUF_TAB(NG)%GBUF%BFRAC(ELEMID - NFT) = UN    
+                  ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (KPHASE - 1)) = ONE                                           
+                  IF(ELBUF_TAB(NG)%GBUF%G_BFRAC > 0)ELBUF_TAB(NG)%GBUF%BFRAC(ELEMID - NFT) = ONE    
                   KPHASE = N0PHAS + (4 - 1) * NVPHAS ! JWL is submat 4
                   ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1 + NEL * (15 + KPHASE - 1)) = 1E20                                                 
                ELSE                                                                                                                       
                   DO IMAT=1,NBMAT                                                                                                         
-                   IF(ELBUF_TAB(NG)%BUFLY(IMAT)%L_BFRAC > 0)ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%BFRAC(ELEMID - NFT)=UN   
+                   IF(ELBUF_TAB(NG)%BUFLY(IMAT)%L_BFRAC > 0)ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%BFRAC(ELEMID - NFT)=ONE   
                   ENDDO                                                                                                                   
-                  IF(ELBUF_TAB(NG)%GBUF%G_BFRAC > 0)ELBUF_TAB(NG)%GBUF%BFRAC(ELEMID - NFT) = UN                                           
+                  IF(ELBUF_TAB(NG)%GBUF%G_BFRAC > 0)ELBUF_TAB(NG)%GBUF%BFRAC(ELEMID - NFT) = ONE                                           
                ENDIF  
                                                                                                                                    
 
@@ -969,7 +969,7 @@ C-----------------------------------------------
       RHO0 = PM(1, MATID)
 
       VOL(1:NEL) = ZERO
-      OFF(1:NEL) = UN
+      OFF(1:NEL) = ONE
       ERROR(1:NEL) = ZERO
       CONVERGED(1:NEL) = .TRUE.
       REMAINING_ELTS = 0
@@ -988,7 +988,7 @@ C-----------------------------------------------
       DO II = IFIRST, ILAST
          ELEMID = ELEM_LIST(II)
          LOCALID = ELEMID - NFT
-         VOL(LOCALID) = UN
+         VOL(LOCALID) = ONE
          ERROR(LOCALID) = EP30
          CONVERGED(LOCALID) = .FALSE.
          REMAINING_ELTS = REMAINING_ELTS + 1
@@ -1006,7 +1006,7 @@ C-----------------------------------------------
          DO II = IFIRST, ILAST
             ELEMID = ELEM_LIST(II)
             LOCALID = ELEMID - NFT
-            MU(LOCALID) = RHO(LOCALID) / RHOZERO(LOCALID) - UN
+            MU(LOCALID) = RHO(LOCALID) / RHOZERO(LOCALID) - ONE
             DF(LOCALID) = RHOZERO(LOCALID) / RHO(LOCALID)
          ENDDO
          
@@ -1020,7 +1020,7 @@ C-----------------------------------------------
             LOCALID = ELEMID - NFT
             IF (.NOT. CONVERGED(LOCALID)) THEN
                FUNC  = PRES(LOCALID) - PRESIN(LOCALID)
-               DFUNC = DPDE(LOCALID) / (UN + MU(LOCALID))      !variable is EINT=rho.e, but EoS solves P(mu,E:=rho0.e) and returns dPdE.  variable change : d(rho.e)=(1+mu)d(rho0.e)=(1+mu)dE  => dP/d(rho.e) = dPdE/(1+mu)
+               DFUNC = DPDE(LOCALID) / (ONE + MU(LOCALID))      !variable is EINT=rho.e, but EoS solves P(mu,E:=rho0.e) and returns dPdE.  variable change : d(rho.e)=(1+mu)d(rho0.e)=(1+mu)dE  => dP/d(rho.e) = dPdE/(1+mu)
                IF (DFUNC .EQ. ZERO) THEN
                   REMAINING_ELTS = REMAINING_ELTS - 1
                   CONVERGED(LOCALID) = .TRUE.

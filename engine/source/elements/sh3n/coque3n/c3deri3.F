@@ -77,7 +77,7 @@ C
 C
       IF (ISMSTR == 11) THEN
         DO I=JFT,JLT
-          IF (ABS(OFFG(I)) == UN) OFFG(I)=SIGN(DEUX,OFFG(I))
+          IF (ABS(OFFG(I)) == ONE) OFFG(I)=SIGN(TWO,OFFG(I))
         ENDDO
         DO I=JFT,JLT
           UX1(I) = ZERO
@@ -86,14 +86,14 @@ C
           UY2(I) = ZERO
           UX3(I) = ZERO
           UY3(I) = ZERO
-          IF(ABS(OFFG(I)) == DEUX)THEN
+          IF(ABS(OFFG(I)) == TWO)THEN
             UX2(I) = X2(I)-SMSTR(II(1)+I)
             UX3(I) = X3(I)-SMSTR(II(2)+I)
             UY3(I) = Y3(I)-SMSTR(II(3)+I)
             X2(I)  = SMSTR(II(1)+I)
             X3(I)  = SMSTR(II(2)+I)
             Y3(I)  = SMSTR(II(3)+I)
-            AREA(I) = UNDEMI*X2(I)*Y3(I)
+            AREA(I) = HALF*X2(I)*Y3(I)
           ELSE
             SMSTR(II(1)+I)=X2(I)
             SMSTR(II(2)+I)=X3(I)
@@ -102,11 +102,11 @@ C
         ENDDO
       ELSEIF (ISMSTR == 1.OR.ISMSTR == 2) THEN
         DO I=JFT,JLT
-          IF(OFFG(I) == DEUX)THEN
+          IF(OFFG(I) == TWO)THEN
             X2(I)=SMSTR(II(1)+I)
             X3(I)=SMSTR(II(2)+I)
             Y3(I)=SMSTR(II(3)+I)
-            AREA(I) = UNDEMI*X2(I)*Y3(I)
+            AREA(I) = HALF*X2(I)*Y3(I)
           ELSE
             SMSTR(II(1)+I)=X2(I)
             SMSTR(II(2)+I)=X3(I)
@@ -116,15 +116,15 @@ C
       ENDIF
       IF (ISMSTR == 1) THEN
         DO I=JFT,JLT
-          IF (OFFG(I) == UN) OFFG(I)=DEUX
+          IF (OFFG(I) == ONE) OFFG(I)=TWO
         ENDDO
       ENDIF
 C
       DO I=JFT,JLT
         Y3(I) = SIGN(MAX(EM15,ABS(Y3(I))),Y3(I))
-        PX1(I)=-UNDEMI*Y3(I)
-        PY1(I)= UNDEMI*(X3(I)-X2(I))
-        PY2(I)=-UNDEMI*X3(I)      
+        PX1(I)=-HALF*Y3(I)
+        PY1(I)= HALF*(X3(I)-X2(I))
+        PY2(I)=-HALF*X3(I)      
       ENDDO
 C
       DO I=JFT,JLT
@@ -132,8 +132,8 @@ C
         AL2 = (X3(I)-X2(I)) * (X3(I)-X2(I)) + Y3(I) * Y3(I)
         AL3 = X3(I) * X3(I) + Y3(I) * Y3(I)
         ALMAX = MAX(AL1,AL2,AL3)
-        ALDT(I)= DEUX*AREA(I) / SQRT(ALMAX)
-        ALPE(I)=UN
+        ALDT(I)= TWO*AREA(I) / SQRT(ALMAX)
+        ALPE(I)=ONE
       ENDDO
 C---------------------------------------------------------
       RETURN

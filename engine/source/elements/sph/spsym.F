@@ -95,7 +95,7 @@ C-----------------------------------------------
      .       SPALINR, DVOIS(NSPHSYM+KVOISPH+1)
 C-----------------------------------------------
 C     new construction of ghost particles is necessary.
-      SPALINR=SQRT(UN + MYSPATRUE)
+      SPALINR=SQRT(ONE + MYSPATRUE)
 
 c     save MYSPATRUE value
       MYSPATRUE2 = MYSPATRUE
@@ -123,18 +123,18 @@ C      NSPHSYM=0 initialise dans sphprep
          DD=(XI-OX)*NX+(YI-OY)*NY+(ZI-OZ)*NZ
          IF (ISPSYM(NC,N).NE.-1) THEN
            NSPHSYM_L = ISPSYM(NC,N)
-           XS=XI - DEUX*DD*NX
-           YS=YI - DEUX*DD*NY
-           ZS=ZI - DEUX*DD*NZ	   
+           XS=XI - TWO*DD*NX
+           YS=YI - TWO*DD*NY
+           ZS=ZI - TWO*DD*NZ	   
            IF(ISLIDE.EQ.0)THEN
             VXS=-VXI
             VYS=-VYI
             VZS=-VZI
            ELSE
             VN=VXI*NX+VYI*NY+VZI*NZ
-            VXS=VXI  - DEUX*VN*NX
-            VYS=VYI - DEUX*VN*NY
-            VZS=VZI - DEUX*VN*NZ	    
+            VXS=VXI  - TWO*VN*NX
+            VYS=VYI - TWO*VN*NY
+            VZS=VZI - TWO*VN*NZ	    
            ENDIF
            XSPSYM(1,NSPHSYM_L)= XS
            XSPSYM(2,NSPHSYM_L)= YS
@@ -157,18 +157,18 @@ C
          DD=(XI-OX)*NX+(YI-OY)*NY+(ZI-OZ)*NZ
          IF (ISPSYMR(NC,NS).NE.-1) THEN
            NSPHSYM_L = ISPSYMR(NC,NS)
-           XS=XI - DEUX*DD*NX
-           YS=YI - DEUX*DD*NY
-           ZS=ZI - DEUX*DD*NZ	   
+           XS=XI - TWO*DD*NX
+           YS=YI - TWO*DD*NY
+           ZS=ZI - TWO*DD*NZ	   
            IF(ISLIDE.EQ.0)THEN
             VXS=-VXI
             VYS=-VYI
             VZS=-VZI
            ELSE
             VN=VXI*NX+VYI*NY+VZI*NZ
-            VXS=VXI  - DEUX*VN*NX
-            VYS=VYI - DEUX*VN*NY
-            VZS=VZI - DEUX*VN*NZ	    
+            VXS=VXI  - TWO*VN*NX
+            VYS=VYI - TWO*VN*NY
+            VZS=VZI - TWO*VN*NZ	    
            ENDIF
            XSPSYM(1,NSPHSYM_L)= XS
            XSPSYM(2,NSPHSYM_L)= YS
@@ -210,7 +210,7 @@ C------
           DIJ=DI+DI
           DIJ=DIJ*DIJ
           DD=(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-          IF(DD.LE.(UN+MYSPATRUE2)*DIJ) THEN
+          IF(DD.LE.(ONE+MYSPATRUE2)*DIJ) THEN
            NVOISS=KXSP(7,N)
            NVOISS=NVOISS+1
            JVOIS(NVOIS2+NVOISS)=NC+N*(NSPCOND+1)
@@ -234,7 +234,7 @@ C------
             YJ =XSPSYM(2,JS)
             ZJ =XSPSYM(3,JS)
             DD=(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-            IF(DD.LE.(UN+MYSPATRUE2)*DIJ) THEN
+            IF(DD.LE.(ONE+MYSPATRUE2)*DIJ) THEN
              NVOISS=KXSP(7,N)
              NVOISS=NVOISS+1
              JVOIS(NVOIS2+NVOISS)=NC+M*(NSPCOND+1)
@@ -255,7 +255,7 @@ C------
             YJ =XSPSYM(2,JS)
             ZJ =XSPSYM(3,JS)
             DD=(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-            IF(DD.LE.(UN+MYSPATRUE2)*DIJ) THEN
+            IF(DD.LE.(ONE+MYSPATRUE2)*DIJ) THEN
              NVOISS=KXSP(7,N)
              NVOISS=NVOISS+1
              JVOIS(NVOIS2+NVOISS)=-NC-NN*(NSPCOND+1)           ! reperage particule sym remote
@@ -279,7 +279,7 @@ C        (ordonne les particules fantomes).
          DO K=NVOIS2+1,NVOIS2+NVOISS
           DK=DVOIS(K)
           JK=JVOIS(K)
-          IF(DK.LT.UN)THEN
+          IF(DK.LT.ONE)THEN
            NVOISS1=NVOISS1+1
            IXSP(NVOIS2+NVOISS1,N)=JK
           ELSE
@@ -349,14 +349,14 @@ c         DO K=1,KVOISPH
           DK=DVOIS(K)
           IF(JK.GT.0)THEN            ! particule interne
             NC=MOD(JK,NSPCOND+1)
-            IF(NC.EQ.0.AND.DK.LT.UN)THEN
+            IF(NC.EQ.0.AND.DK.LT.ONE)THEN
               NVOIS1=NVOIS1+1
               IXSP(NVOIS1,N)=KXSP(3,JK/(NSPCOND+1))
             ENDIF
           ELSE                      ! particule remote
             JK = -JK
             NC=MOD(JK,NSPCOND+1)
-            IF(NC.EQ.0.AND.DK.LT.UN)THEN
+            IF(NC.EQ.0.AND.DK.LT.ONE)THEN
               NVOIS1=NVOIS1+1
               IXSP(NVOIS1,N)=-JK/(NSPCOND+1)
             END IF
@@ -370,14 +370,14 @@ C
           DK=DVOIS(K)
           IF(JK.GT.0)THEN            ! particule interne
             NC=MOD(JK,NSPCOND+1)
-            IF(NC.EQ.0.AND.DK.GE.UN)THEN
+            IF(NC.EQ.0.AND.DK.GE.ONE)THEN
               NVOIS2=NVOIS2+1
               IXSP(NVOIS2,N)=KXSP(3,JK/(NSPCOND+1))
             END IF
           ELSE                      ! particule remote
             JK = -JK
             NC=MOD(JK,NSPCOND+1)
-            IF(NC.EQ.0.AND.DK.GE.UN)THEN
+            IF(NC.EQ.0.AND.DK.GE.ONE)THEN
               NVOIS2=NVOIS2+1
               IXSP(NVOIS2,N)=-JK/(NSPCOND+1)
             END IF
@@ -393,14 +393,14 @@ c         DO K=1,KVOISPH
           DK=DVOIS(K)
           IF(JK.GT.0)THEN            ! particule interne
             NC=MOD(JK,NSPCOND+1)
-            IF(NC.NE.0.AND.DK.LT.UN)THEN
+            IF(NC.NE.0.AND.DK.LT.ONE)THEN
               NVOISS1=NVOISS1+1
               IXSP(NVOIS2+NVOISS1,N)=JK
             END IF
           ELSE                      ! particule remote
             JK = -JK
             NC=MOD(JK,NSPCOND+1)
-            IF(NC.NE.0.AND.DK.LT.UN)THEN
+            IF(NC.NE.0.AND.DK.LT.ONE)THEN
               NVOISS1=NVOISS1+1
               IXSP(NVOIS2+NVOISS1,N)=-JK
             END IF
@@ -414,14 +414,14 @@ C
           DK=DVOIS(K)
           IF(JK.GT.0)THEN            ! particule interne
             NC=MOD(JK,NSPCOND+1)
-            IF(NC.NE.0.AND.DK.GE.UN)THEN
+            IF(NC.NE.0.AND.DK.GE.ONE)THEN
               NVOISS2=NVOISS2+1
               IXSP(NVOIS2+NVOISS2,N)=JK
             END IF
           ELSE                      ! particule remote
             JK = -JK
             NC=MOD(JK,NSPCOND+1)
-            IF(NC.NE.0.AND.DK.GE.UN)THEN
+            IF(NC.NE.0.AND.DK.GE.ONE)THEN
               NVOISS2=NVOISS2+1
               IXSP(NVOIS2+NVOISS2,N)=-JK
             END IF
@@ -456,7 +456,7 @@ C------
           IF(JNOD.GT.0)THEN          ! particule interne       
            M=NOD2SP(JNOD)
            DJ =SPBUF(1,M)
-           DIJ=DEUX*DJ
+           DIJ=TWO*DJ
            DIJ=DIJ*DIJ
            DO NC=1,NSPCOND
             JS=ISPSYM(NC,M)
@@ -465,7 +465,7 @@ C------
              YJ =XSPSYM(2,JS)
              ZJ =XSPSYM(3,JS)
              DD=(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-             IF(DD.LE.(UN+MYSPATRUE2)*DIJ) THEN
+             IF(DD.LE.(ONE+MYSPATRUE2)*DIJ) THEN
               NVOISS=KXSP(7,N)
               NVOISS=NVOISS+1
               JVOIS(NVOIS2+NVOISS)=NC+M*(NSPCOND+1)
@@ -477,7 +477,7 @@ C------
           ELSE                    ! particule remote
            NN = -JNOD
            DJ =XSPHR(2,NN)
-           DIJ=DEUX*DJ
+           DIJ=TWO*DJ
            DIJ=DIJ*DIJ
            DO NC=1,NSPCOND
             JS=ISPSYMR(NC,NN)
@@ -486,7 +486,7 @@ C------
              YJ =XSPSYM(2,JS)
              ZJ =XSPSYM(3,JS)
              DD=(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-             IF(DD.LE.(UN+MYSPATRUE2)*DIJ) THEN
+             IF(DD.LE.(ONE+MYSPATRUE2)*DIJ) THEN
               NVOISS=KXSP(7,N)
               NVOISS=NVOISS+1
               JVOIS(NVOIS2+NVOISS)=-NC-NN*(NSPCOND+1)           ! reperage particule sym remote
@@ -510,7 +510,7 @@ C         (ordonne les particules fantomes).
           DO K=NVOIS2+1,NVOIS2+NVOISS
            DK=DVOIS(K)
            JK=JVOIS(K)
-           IF(DK.LT.UN)THEN
+           IF(DK.LT.ONE)THEN
             NVOISS1=NVOISS1+1
             IXSP(NVOIS2+NVOISS1,N)=JK
            ELSE
@@ -530,7 +530,7 @@ C         preparing all real neighbours for sort.
             ZJ =X(3,JNOD)
             M =NOD2SP(JNOD)
             DJ=SPBUF(1,M)
-            DIJ=DEUX*DJ
+            DIJ=TWO*DJ
             DIJ=DIJ*DIJ
             DD=(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
             DVOIS(J)=DD/DIJ
@@ -541,7 +541,7 @@ C         preparing all real neighbours for sort.
             YJ = XSPHR(4,NN)
             ZJ = XSPHR(5,NN)
             DJ = XSPHR(2,NN)
-            DIJ=DEUX*DJ
+            DIJ=TWO*DJ
             DIJ=DIJ*DIJ
             DD=(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
             DVOIS(J)=DD/DIJ
@@ -575,14 +575,14 @@ C         Re-ordonne les voisins (particules reelles puis particules fantomes).
            DK=DVOIS(K)
            IF(JK.GT.0)THEN            ! particule interne
             NC=MOD(JK,NSPCOND+1)
-            IF(NC.EQ.0.AND.DK.LT.UN)THEN
+            IF(NC.EQ.0.AND.DK.LT.ONE)THEN
               NVOIS1=NVOIS1+1
               IXSP(NVOIS1,N)=KXSP(3,JK/(NSPCOND+1))
             ENDIF
            ELSE                      ! particule remote
             JK = -JK
             NC=MOD(JK,NSPCOND+1)
-            IF(NC.EQ.0.AND.DK.LT.UN)THEN
+            IF(NC.EQ.0.AND.DK.LT.ONE)THEN
               NVOIS1=NVOIS1+1
               IXSP(NVOIS1,N)=-JK/(NSPCOND+1)
             END IF
@@ -596,14 +596,14 @@ C
            DK=DVOIS(K)
            IF(JK.GT.0)THEN            ! particule interne
             NC=MOD(JK,NSPCOND+1)
-            IF(NC.EQ.0.AND.DK.GE.UN)THEN
+            IF(NC.EQ.0.AND.DK.GE.ONE)THEN
               NVOIS2=NVOIS2+1
               IXSP(NVOIS2,N)=KXSP(3,JK/(NSPCOND+1))
             END IF
            ELSE                      ! particule remote
             JK = -JK
             NC=MOD(JK,NSPCOND+1)
-            IF(NC.EQ.0.AND.DK.GE.UN)THEN
+            IF(NC.EQ.0.AND.DK.GE.ONE)THEN
               NVOIS2=NVOIS2+1
               IXSP(NVOIS2,N)=-JK/(NSPCOND+1)
             END IF
@@ -618,14 +618,14 @@ C         ordonne les particules fantomes.
            DK=DVOIS(K)
            IF(JK.GT.0)THEN            ! particule interne
             NC=MOD(JK,NSPCOND+1)
-            IF(NC.NE.0.AND.DK.LT.UN)THEN
+            IF(NC.NE.0.AND.DK.LT.ONE)THEN
               NVOISS1=NVOISS1+1
               IXSP(NVOIS2+NVOISS1,N)=JK
             END IF
            ELSE                      ! particule remote
             JK = -JK
             NC=MOD(JK,NSPCOND+1)
-            IF(NC.NE.0.AND.DK.LT.UN)THEN
+            IF(NC.NE.0.AND.DK.LT.ONE)THEN
               NVOISS1=NVOISS1+1
               IXSP(NVOIS2+NVOISS1,N)=-JK
             END IF
@@ -639,14 +639,14 @@ C
            DK=DVOIS(K)
            IF(JK.GT.0)THEN            ! particule interne
              NC=MOD(JK,NSPCOND+1)
-             IF(NC.NE.0.AND.DK.GE.UN)THEN
+             IF(NC.NE.0.AND.DK.GE.ONE)THEN
                NVOISS2=NVOISS2+1
                IXSP(NVOIS2+NVOISS2,N)=JK
              END IF
            ELSE                      ! particule remote
              JK = -JK
              NC=MOD(JK,NSPCOND+1)
-             IF(NC.NE.0.AND.DK.GE.UN)THEN
+             IF(NC.NE.0.AND.DK.GE.ONE)THEN
                NVOISS2=NVOISS2+1
                IXSP(NVOIS2+NVOISS2,N)=-JK
              END IF

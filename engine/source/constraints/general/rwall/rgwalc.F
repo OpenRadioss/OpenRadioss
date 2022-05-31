@@ -83,7 +83,7 @@ C-----------------------------------------------
 !       thread in the !$OMP DO loop whereas another (late) thread initializes 
 !       ICONT to 0
 !       ICONT is a shared variable 
-      RA2=(UNDEMI*RWL(7))**2
+      RA2=(HALF*RWL(7))**2
       IF(MSR.EQ.0)THEN
        XWLO=RWL(4)
        YWLO=RWL(5)
@@ -170,7 +170,7 @@ C----
 !$OMP END DO
       END IF
 C
-      FACT=UN/DT12
+      FACT=ONE/DT12
       DO J = 1,NINDEX
        I = INDEX(J)
        N=NSW(I)
@@ -287,8 +287,8 @@ C         POINT SECND SLIDING
       ENDDO 
 C
       IF(IMCONV.EQ.1)THEN
-        TFXT=TFXT+UNDEMI*DT1*TFXTN
-        TFXT2=TFXT2+UNDEMI*DT1*TFXTN2
+        TFXT=TFXT+HALF*DT1*TFXTN
+        TFXT2=TFXT2+HALF*DT1*TFXTN2
 #include "atomic.inc"
         TFEXT=TFEXT+TFXT
         TFEXT_MD=TFEXT_MD+TFXT2

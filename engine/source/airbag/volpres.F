@@ -78,7 +78,7 @@ C     REAL ou REAL*8
       my_real 
      .   FINTER
 C=======================================================================
-      API=CENT80/PI
+      API=HUNDRED80/PI
 C-----------------------------------------------
       PRES   =RVOLU(12)
       Q      =RVOLU(23)
@@ -90,7 +90,7 @@ C-----------------------------------------------
       DO I=1,NN
 C
         IF(SURF_ELTYP(I).EQ.3)THEN
-          P=DP*QUART
+          P=DP*FOURTH
           II=SURF_ELEM(I)
 C
           FX=P*N(1,II)
@@ -168,7 +168,7 @@ C
             FEXT(3,N3) = FEXT(3,N3)+FZ
           ENDIF
         ELSE
-          P=DP*QUART
+          P=DP*FOURTH
           II=I+NUMELC+NUMELTG
 C
           FX=P*N(1,II)
@@ -241,7 +241,7 @@ C
         PJ0=FPT*FINTER(IPT,TS*SCALT,NPC,TF,DYDX)
         DO I=1,NN
         IF(SURF_ELTYP(I).EQ.3)THEN
-          PJ=QUART*PJ0
+          PJ=FOURTH*PJ0
 C
           N1 = SURF_NODES(I,1)
           N2 = SURF_NODES(I,2)
@@ -250,13 +250,13 @@ C
 C
           II=SURF_ELEM(I)
 C
-          XX = QUART*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
-          YY = QUART*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))
-          ZZ = QUART*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))	  
+          XX = FOURTH*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
+          YY = FOURTH*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))
+          ZZ = FOURTH*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))	  
 C
-          XM=UNDEMI*(X(1,NJ1)+X(1,NJ3))
-          YM=UNDEMI*(X(2,NJ1)+X(2,NJ3))
-          ZM=UNDEMI*(X(3,NJ1)+X(3,NJ3))
+          XM=HALF*(X(1,NJ1)+X(1,NJ3))
+          YM=HALF*(X(2,NJ1)+X(2,NJ3))
+          ZM=HALF*(X(3,NJ1)+X(3,NJ3))
 
 C
           NX1 = XX-XM
@@ -281,7 +281,7 @@ C
 C         LAMBDA = (PS3*PS2-PS1*AN3)/SIGN(MAX(EM30,ABS(DET)),DET)
           MU     = (PS2*PS1-PS3*AN2)/SIGN(MAX(EM30,ABS(DET)),DET)
 C
-          FACR =MIN(UN,MAX(-UN,MU))
+          FACR =MIN(ONE,MAX(-ONE,MU))
           NX1=NX1-FACR*NX3
           NY1=NY1-FACR*NY3
           NZ1=NZ1-FACR*NZ3
@@ -291,7 +291,7 @@ C
           PJ=PJ*MAX(ZERO,(NX1*N(1,II)+NY1*N(2,II)+NZ1*N(3,II))/AN)
           AN = MAX(EM30,SQRT((NX2**2+NY2**2+NZ2**2)*AN1))
           TMPO = (NX1*NX2+NY1*NY2+NZ1*NZ2)/AN
-          TMPO = SIGN(MIN(UN,ABS(TMPO)),TMPO)
+          TMPO = SIGN(MIN(ONE,ABS(TMPO)),TMPO)
           THETA=API*ACOS(TMPO)
           PJ=PJ*FPA*FINTER(IPA,THETA*SCALA,NPC,TF,DYDX)
           DIST = SQRT(AN1)
@@ -375,7 +375,7 @@ C
 C         LAMBDA = (PS3*PS2-PS1*AN3)/SIGN(MAX(EM30,ABS(DET)),DET)
           MU     = (PS2*PS1-PS3*AN2)/SIGN(MAX(EM30,ABS(DET)),DET)
 C
-          FACR =MIN(UN,MAX(-UN,MU))
+          FACR =MIN(ONE,MAX(-ONE,MU))
           NX1=NX1-FACR*NX3
           NY1=NY1-FACR*NY3
           NZ1=NZ1-FACR*NZ3
@@ -385,7 +385,7 @@ C
           PJ=PJ*MAX(ZERO,(NX1*N(1,II)+NY1*N(2,II)+NZ1*N(3,II))/AN)
           AN = MAX(EM30,SQRT((NX2**2+NY2**2+NZ2**2)*AN1))
           TMPO = (NX1*NX2+NY1*NY2+NZ1*NZ2)/AN
-          TMPO = SIGN(MIN(UN,ABS(TMPO)),TMPO)
+          TMPO = SIGN(MIN(ONE,ABS(TMPO)),TMPO)
           THETA=API*ACOS(TMPO)
           PJ=PJ*FPA*FINTER(IPA,THETA*SCALA,NPC,TF,DYDX)
           DIST = SQRT(AN1)
@@ -424,7 +424,7 @@ C
      +                    +FY*(V(2,N1)+V(2,N2)+V(2,N3))
      +                    +FZ*(V(3,N1)+V(3,N2)+V(3,N3)))
         ELSE
-          PJ=QUART*PJ0
+          PJ=FOURTH*PJ0
 C
 !          N1 = ISX(1,I)
 !          N2 = ISX(2,I)
@@ -437,13 +437,13 @@ C
 C
           II=I+NUMELC+NUMELTG
 C
-          XX = QUART*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
-          YY = QUART*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))
-          ZZ = QUART*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))	  
+          XX = FOURTH*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
+          YY = FOURTH*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))
+          ZZ = FOURTH*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))	  
 C
-          XM=UNDEMI*(X(1,NJ1)+X(1,NJ3))
-          YM=UNDEMI*(X(2,NJ1)+X(2,NJ3))
-          ZM=UNDEMI*(X(3,NJ1)+X(3,NJ3))	  
+          XM=HALF*(X(1,NJ1)+X(1,NJ3))
+          YM=HALF*(X(2,NJ1)+X(2,NJ3))
+          ZM=HALF*(X(3,NJ1)+X(3,NJ3))	  
 C
           NX1 = XX-XM
           NY1 = YY-YM
@@ -467,7 +467,7 @@ C
 C         LAMBDA = (PS3*PS2-PS1*AN3)/SIGN(MAX(EM30,ABS(DET)),DET)
           MU     = (PS2*PS1-PS3*AN2)/SIGN(MAX(EM30,ABS(DET)),DET)
 C
-          FACR =MIN(UN,MAX(-UN,MU))
+          FACR =MIN(ONE,MAX(-ONE,MU))
           NX1=NX1-FACR*NX3
           NY1=NY1-FACR*NY3
           NZ1=NZ1-FACR*NZ3
@@ -477,7 +477,7 @@ C
           PJ=PJ*MAX(ZERO,(NX1*N(1,II)+NY1*N(2,II)+NZ1*N(3,II))/AN)
           AN = MAX(EM30,SQRT((NX2**2+NY2**2+NZ2**2)*AN1))
           TMPO = (NX1*NX2+NY1*NY2+NZ1*NZ2)/AN
-          TMPO = SIGN(MIN(UN,ABS(TMPO)),TMPO)
+          TMPO = SIGN(MIN(ONE,ABS(TMPO)),TMPO)
           THETA=API*ACOS(TMPO)
           PJ=PJ*FPA*FINTER(IPA,THETA*SCALA,NPC,TF,DYDX)
           DIST = SQRT(AN1)

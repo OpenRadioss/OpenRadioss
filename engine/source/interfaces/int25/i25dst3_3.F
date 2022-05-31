@@ -108,7 +108,7 @@ C-----------------------------------------------
       DATA ITRIA/1,2,2,3,3,4,4,1/
 C--------------------------------------------------------
 C     zone limite interpolation des normales
-      EPSEG = (DEUX+UNDEMI)/CENT
+      EPSEG = (TWO+HALF)/HUNDRED
 C--------------------------------------------------------
       DO I=1,JLT
 C    
@@ -129,7 +129,7 @@ C
         Z0N(I,4) = ZZ(I,4) - ZZ(I,5)
 C
         IF(IX3(I)/=IX4(I))THEN
-          GAP_MM(I)=QUART*(GAP_NM(1,I)+GAP_NM(2,I)+GAP_NM(3,I)+GAP_NM(4,I))
+          GAP_MM(I)=FOURTH*(GAP_NM(1,I)+GAP_NM(2,I)+GAP_NM(3,I)+GAP_NM(4,I))
         ELSE
           GAP_MM(I)=GAP_NM(3,I)
         END IF
@@ -148,7 +148,7 @@ C
         NY(I) = Z0N(I,I1)*X0N(I,I2) - X0N(I,I1)*Z0N(I,I2)
         NZ(I) = X0N(I,I1)*Y0N(I,I2) - Y0N(I,I1)*X0N(I,I2)
 C
-        NN=UN/MAX(EM30,SQRT(NX(I)*NX(I)+ NY(I)*NY(I)+ NZ(I)*NZ(I)))
+        NN=ONE/MAX(EM30,SQRT(NX(I)*NX(I)+ NY(I)*NY(I)+ NZ(I)*NZ(I)))
         NX(I)=NX(I)*NN
         NY(I)=NY(I)*NN
         NZ(I)=NZ(I)*NN
@@ -163,7 +163,7 @@ C
         I1=ITRIA(1,IT)
         I2=ITRIA(2,IT)
 C
-        LA(I)=UN-LB(I)-LC(I)
+        LA(I)=ONE-LB(I)-LC(I)
 C
         GAPV(I)= MIN(GAPS(I)+LA(I)*GAP_MM(I)+LB(I)*GAP_NM(I1,I)+LC(I)*GAP_NM(I2,I),GAPMXL(I))
         BB(I)  = (XX(I,5)-XI(I))*NX(I)+(YY(I,5)-YI(I))*NY(I)+(ZZ(I,5)-ZI(I))*NZ(I)
@@ -180,7 +180,7 @@ C
             NN3(I) =ZI(I)-ZP(I)
             DD = SQRT(NN1(I)*NN1(I)+ NN2(I)*NN2(I)+ NN3(I)*NN3(I))
             IF(DD > EM03) THEN
-              NN = UN/DD
+              NN = ONE/DD
               N1(I) = NN1(I)*NN
               N2(I) = NN2(I)*NN
               N3(I) = NN3(I)*NN
@@ -204,14 +204,14 @@ C             rota solides works well ::
 C
               NNI = NX(I)*NN1(I)  + NY(I)*NN2(I)  + NZ(I)*NN3(I)
               NI2 = NN1(I)*NN1(I) + NN2(I)*NN2(I) + NN3(I)*NN3(I)
-              IF(NNI < ZERO .OR. DEUX*NNI*NNI < NI2)THEN
+              IF(NNI < ZERO .OR. TWO*NNI*NNI < NI2)THEN
 c               scharp angle bound nodal normal to 45 from segment normal
                 AAA = SQRT(MAX(ZERO,NI2-NNI*NNI)) - NNI
                 NN1(I) = NN1(I) + AAA*NX(I)
                 NN2(I) = NN2(I) + AAA*NY(I)
                 NN3(I) = NN3(I) + AAA*NZ(I)
               ENDIF
-              NN = UN/
+              NN = ONE/
      .             MAX(EM30,SQRT(NN1(I)*NN1(I)+ NN2(I)*NN2(I)+ NN3(I)*NN3(I)))
               NN1(I)=NN1(I)*NN
               NN2(I)=NN2(I)*NN
@@ -220,10 +220,10 @@ C
               S   = LA(I)/EPSEG
 C
 C continuite de la normale a la frontiere de la zone limite d'interpolation
-              NN1(I)=(UN-S)*NN1(I)+S*NX(I)
-              NN2(I)=(UN-S)*NN2(I)+S*NY(I)
-              NN3(I)=(UN-S)*NN3(I)+S*NZ(I)
-              NN = UN/
+              NN1(I)=(ONE-S)*NN1(I)+S*NX(I)
+              NN2(I)=(ONE-S)*NN2(I)+S*NY(I)
+              NN3(I)=(ONE-S)*NN3(I)+S*NZ(I)
+              NN = ONE/
      .             MAX(EM30,SQRT(NN1(I)*NN1(I)+ NN2(I)*NN2(I)+ NN3(I)*NN3(I)))
               NN1(I)=NN1(I)*NN
               NN2(I)=NN2(I)*NN
@@ -263,7 +263,7 @@ C             All other cases : normal == normal to the segment
             NN3(I) =ZI(I)-ZP(I)
             DD = SQRT(NN1(I)*NN1(I)+ NN2(I)*NN2(I)+ NN3(I)*NN3(I))
             IF(DD > EM03) THEN
-              NN = UN/DD
+              NN = ONE/DD
               N1(I) = NN1(I)*NN
               N2(I) = NN2(I)*NN
               N3(I) = NN3(I)*NN
@@ -304,24 +304,24 @@ C           zone limite interpolation des normales
 C
             NNI = NX(I)*NN1(I)  + NY(I)*NN2(I)  + NZ(I)*NN3(I)
             NI2 = NN1(I)*NN1(I) + NN2(I)*NN2(I) + NN3(I)*NN3(I)
-            IF(NNI < ZERO .OR. DEUX*NNI*NNI < NI2)THEN
+            IF(NNI < ZERO .OR. TWO*NNI*NNI < NI2)THEN
 c             scharp angle bound nodal normal to 45 from segment normal
               AAA = SQRT(MAX(ZERO,NI2-NNI*NNI)) - NNI
               NN1(I) = NN1(I) + AAA*NX(I)
               NN2(I) = NN2(I) + AAA*NY(I)
               NN3(I) = NN3(I) + AAA*NZ(I)
             ENDIF
-            NN = UN/
+            NN = ONE/
      .           MAX(EM30,SQRT(NN1(I)*NN1(I)+ NN2(I)*NN2(I)+ NN3(I)*NN3(I)))
             NN1(I)=NN1(I)*NN
             NN2(I)=NN2(I)*NN
             NN3(I)=NN3(I)*NN
 C
 C continuite de la normale a la frontiere de la zone limite d'interpolation
-            NN1(I)=(UN-S)*NN1(I)+S*NX(I)
-            NN2(I)=(UN-S)*NN2(I)+S*NY(I)
-            NN3(I)=(UN-S)*NN3(I)+S*NZ(I)
-            NN = UN/
+            NN1(I)=(ONE-S)*NN1(I)+S*NX(I)
+            NN2(I)=(ONE-S)*NN2(I)+S*NY(I)
+            NN3(I)=(ONE-S)*NN3(I)+S*NZ(I)
+            NN = ONE/
      .           MAX(EM30,SQRT(NN1(I)*NN1(I)+ NN2(I)*NN2(I)+ NN3(I)*NN3(I)))
             NN1(I)=NN1(I)*NN
             NN2(I)=NN2(I)*NN
@@ -435,7 +435,7 @@ C
                 NN3(I)=VTX_BISECTOR(3,1,IBX)+VTX_BISECTOR(3,2,IBX)
 C
                 NN=SQRT(NN1(I)*NN1(I)+NN2(I)*NN2(I)+NN3(I)*NN3(I))
-                NN = UN/MAX(EM30,NN)
+                NN = ONE/MAX(EM30,NN)
                 NN1(I)=NN1(I)*NN
                 NN2(I)=NN2(I)*NN
                 NN3(I)=NN3(I)*NN
@@ -482,7 +482,7 @@ C
               VX = X0N(I,IX) ! fake bisector of angle at vertex IX
               VY = Y0N(I,IX)
               VZ = Z0N(I,IX)
-              NN = UN/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
+              NN = ONE/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
               PN = ((XH(I)-XX(I,IX))*VX+(YH(I)-YY(I,IX))*VY+(ZH(I)-ZZ(I,IX))*VZ)*NN
               IF(PN < GAPS(I))THEN
                 
@@ -598,7 +598,7 @@ C
                 NN3(I)=VTX_BISECTOR(3,1,IBX)+VTX_BISECTOR(3,2,IBX)
 C
                 NN=SQRT(NN1(I)*NN1(I)+NN2(I)*NN2(I)+NN3(I)*NN3(I))
-                NN = UN/MAX(EM30,NN)
+                NN = ONE/MAX(EM30,NN)
                 NN1(I)=NN1(I)*NN
                 NN2(I)=NN2(I)*NN
                 NN3(I)=NN3(I)*NN
@@ -642,10 +642,10 @@ c                END IF
 
             ELSE ! IF(VTX_BISECTOR(1,1,IBX)/=ZERO.OR.
 
-              VX = DEUX*XX(I,IX)-(XX(I,IY)+XX(I,IZ)) ! fake bisector of angle 2,1,3
-              VY = DEUX*YY(I,IX)-(YY(I,IY)+YY(I,IZ))
-              VZ = DEUX*ZZ(I,IX)-(ZZ(I,IY)+ZZ(I,IZ))
-              NN = UN/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
+              VX = TWO*XX(I,IX)-(XX(I,IY)+XX(I,IZ)) ! fake bisector of angle 2,1,3
+              VY = TWO*YY(I,IX)-(YY(I,IY)+YY(I,IZ))
+              VZ = TWO*ZZ(I,IX)-(ZZ(I,IY)+ZZ(I,IZ))
+              NN = ONE/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
               PN = ((XH(I)-XX(I,IX))*VX+(YH(I)-YY(I,IX))*VY+(ZH(I)-ZZ(I,IX))*VZ)*NN
 
               IF(PN < GAPS(I))THEN
@@ -716,7 +716,7 @@ C
             DC = SQRT(N1(I)*N1(I)+ N2(I)*N2(I)+ N3(I)*N3(I))
 
             IF(DC > EM04) THEN
-              NN = UN/DC
+              NN = ONE/DC
               N1(I) = N1(I)*NN
               N2(I) = N2(I)*NN
               N3(I) = N3(I)*NN
@@ -847,7 +847,7 @@ C           Normale radiale shiftee
             NN3(I) =ZI(I)-ZC
             DC = SQRT(NN1(I)*NN1(I)+ NN2(I)*NN2(I)+ NN3(I)*NN3(I))
             IF(DC > EM04) THEN
-              NN = UN/DC
+              NN = ONE/DC
               N1(I) = NN1(I)*NN
               N2(I) = NN2(I)*NN
               N3(I) = NN3(I)*NN
@@ -877,7 +877,7 @@ C
 C
         IF(IX3(I).NE.IX4(I))THEN
 C
-          H0 = QUART * LA(I)
+          H0 = FOURTH * LA(I)
           IF(IT==1)THEN
             H1(I) = H0 + LB(I) 
             H2(I) = H0 + LC(I)
@@ -957,18 +957,18 @@ C pene_old(5,N) is defined from the real_gap, gap = 2*real_gap, pene is measured
           N  = CAND_N(I)
           IF(JG > 0)THEN
             IF(IRTLM(1,N) < 0)THEN ! new impact
-               PENE_OLD(5,N)= MAX(ZERO,PENE(I)-UNDEMI*GAPV(I))              
+               PENE_OLD(5,N)= MAX(ZERO,PENE(I)-HALF*GAPV(I))              
             ENDIF
-            IF(PENE(I).GE.UNDEMI*GAPV(I)) IF_ADH(N) = 1
-            BASE_ADH(I) = PENE_OLD(5,N) + UNDEMI*GAPV(I) 
+            IF(PENE(I).GE.HALF*GAPV(I)) IF_ADH(N) = 1
+            BASE_ADH(I) = PENE_OLD(5,N) + HALF*GAPV(I) 
             IFADHI(I) = IF_ADH(N)        
           ELSE
             JG = -JG
             IF(IRTLM_FI(NIN)%P(1,JG) < 0)THEN 
-              PENE_OLDFI(NIN)%P(5,JG)= MAX(ZERO,PENE(I)-UNDEMI*GAPV(I))
+              PENE_OLDFI(NIN)%P(5,JG)= MAX(ZERO,PENE(I)-HALF*GAPV(I))
             ENDIF
-            IF(PENE(I).GE.UNDEMI*GAPV(I)) IF_ADHFI(NIN)%P(JG) = 1 
-            BASE_ADH(I) = PENE_OLDFI(NIN)%P(5,JG) + UNDEMI*GAPV(I)
+            IF(PENE(I).GE.HALF*GAPV(I)) IF_ADHFI(NIN)%P(JG) = 1 
+            BASE_ADH(I) = PENE_OLDFI(NIN)%P(5,JG) + HALF*GAPV(I)
             IFADHI(I) = IF_ADHFI(NIN)%P(JG)  
           ENDIF
         ENDDO

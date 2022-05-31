@@ -776,7 +776,7 @@ C---------------------
 C------ R2<TOL*TOL*ANORM2*XNORM2------
         R02=ABS(G0)
         R2 =R02
-        L_A=UN/ALPHA
+        L_A=ONE/ALPHA
 C        L_B2=R02
         TNORM2=L_A*L_A
         ANORM2=ZERO
@@ -911,7 +911,7 @@ C---------------------
          CALL PRODUT_H( F_DDL  ,L_DDL ,R   ,R  ,W_DDL , R2 ,ITASK )
         ELSEIF (ITOL.EQ.3) THEN
          R2 =ABS(G1)
-         S=UN/ALPHA
+         S=ONE/ALPHA
          L_A=S+B_OLD*A_OLD
 C----------L_B2 : beta(j-1)^2-A_OLD :1/alpha(j-1)-------
          L_B2=ABS(BETA)*S*S
@@ -1093,7 +1093,7 @@ cc        call omp_set_num_threads_target (TARGET_MIC, MICID,116)
         print *,'Number of threads (host):',i
 cc        call kmp_set_blocktime_target (TARGET_MIC, MICID,INFINITE)
         i= kmp_get_blocktime_target (TARGET_MIC, MICID)
-!dec$ attributes offload: mic :: UN,ZERO
+!dec$ attributes offload: mic :: ONE,ZERO
 !dec$ attributes offload: mic :: MIC_DSCAL,MIC_GATHER,MIC_SCATTER
 !dec$ attributes offload: mic :: MIC_DDOT,MIC_MV,MIC_SPMV,MIC_DAXPY
 !dec$ attributes offload: mic :: MIC_DCOPY
@@ -1243,7 +1243,7 @@ C D_Z = D_Z + LT_I0 * D_X
 ctempo      CALL MIC_SPMV(NDDL ,Z ,X ,LT_I0,IADI0,JDII0) 
          END IF
 C D_R = D_R - D_Z
-      CALL MIC_DAXPY(NDDL, -UN, Z, R)    
+      CALL MIC_DAXPY(NDDL, -ONE, Z, R)    
 
 C---------------------
 C----------{Z}=[M]{R}-([M]=[Lm][Dm][Lm]^t)-------
@@ -1428,7 +1428,7 @@ C---------------------
 C------ R2<TOL*TOL*ANORM2*XNORM2------
            R02=ABS(G0)
            R2 =R02
-           L_A=UN/ALPHA
+           L_A=ONE/ALPHA
 C          L_B2=R02
            TNORM2=L_A*L_A
            ANORM2=ZERO
@@ -1598,7 +1598,7 @@ C---------------------
 
 C D_P = D_Z + BETA*D_P in 2 step : D_P = BETA*D_P ; D_P = D_P + D_Z
       CALL MIC_DSCAL(NDDL, BETA, P)
-      CALL MIC_DAXPY(NDDL, UN, Z, P)
+      CALL MIC_DAXPY(NDDL, ONE, Z, P)
 C----------------------
 c        CALL MY_BARRIER
 C---------------------
@@ -1760,7 +1760,7 @@ C si spmd penser a faire avant D_Y = D_R*W pour les poids
             END IF
           ELSEIF (ITOL.EQ.3) THEN
            R2 =ABS(G1)
-           S=UN/ALPHA
+           S=ONE/ALPHA
            L_A=S+B_OLD*A_OLD
 C----------L_B2 : beta(j-1)^2-A_OLD :1/alpha(j-1)-------
            L_B2=ABS(BETA)*S*S
@@ -1842,7 +1842,7 @@ C!dec$ omp offload target(mic:MICID) out(X,R:alloc_if(.false.))
 c+1 tempo
       ELSE  ! CODE NSPMD = 1
 C debut code provisoire
-!dec$ attributes offload: mic :: UN,ZERO,ISTDO,IOUT
+!dec$ attributes offload: mic :: ONE,ZERO,ISTDO,IOUT
 
 !dir$ omp offload target(mic:MICID)
      & nocopy(IADK,IADK0,IADM,IADM0,LT_K,LT_K0,
@@ -1874,7 +1874,7 @@ C D_Z = D_Z + LT_I0 * D_X
 ctempo      CALL MIC_SPMV(NDDL ,Z ,X ,LT_I0,IADI0,JDII0) 
          END IF
 C D_R = D_R - D_Z
-      CALL MIC_DAXPY(NDDL, -UN, Z, R)    
+      CALL MIC_DAXPY(NDDL, -ONE, Z, R)    
 C---------------------
 C----------{Z}=[M]{R}-([M]=[Lm][Dm][Lm]^t)-------
 C----------->{V}={R}+[Lm]^t{R}-(the first term presents the [I]{R} with is not included in Lm)-------
@@ -2060,7 +2060,7 @@ c+1
 !$OMP SINGLE
            R02=ABS(G0)
            R2 =R02
-           L_A=UN/ALPHA
+           L_A=ONE/ALPHA
 C          L_B2=R02
            TNORM2=L_A*L_A
            ANORM2=ZERO
@@ -2254,7 +2254,7 @@ c!$OMP PARALLEL default(shared)
 
 C D_P = D_Z + BETA*D_P in 2 step : D_P = BETA*D_P ; D_P = D_P + D_Z
           CALL MIC_DSCAL(NDDL, BETA, P)
-          CALL MIC_DAXPY(NDDL, UN, Z, P)
+          CALL MIC_DAXPY(NDDL, ONE, Z, P)
 C----------------------
 c        CALL MY_BARRIER
 C---------------------
@@ -2420,7 +2420,7 @@ c            END IF
 c+1
 !$OMP single 
            R2 =ABS(G1)
-           S=UN/ALPHA
+           S=ONE/ALPHA
            L_A=S+B_OLD*A_OLD
 C----------L_B2 : beta(j-1)^2-A_OLD :1/alpha(j-1)-------
            L_B2=ABS(BETA)*S*S
@@ -2577,7 +2577,7 @@ C
      .     EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
         ENDIF
 C----add condition to remove wrong message with mix solver        
-        IF (R2.GT.CENT*TOLN) THEN
+        IF (R2.GT.HUNDRED*TOLN) THEN
          ISTOP_H = 2
          RR = SQRT(R2/R02)
          WRITE(IOUT,*)
@@ -3057,8 +3057,8 @@ C
         CALL PRODUT_H( F_DDL  ,L_DDL ,P   ,P  ,W_DDL , P2 ,ITASK )
         CALL PRODUT_H( F_DDL  ,L_DDL ,P   ,Y  ,W_DDL , PY ,ITASK )
        IF (IT==0 ) THEN
-        M_TMP(1,1)=UN
-	S = UN/SQRT(P2)
+        M_TMP(1,1)=ONE
+	S = ONE/SQRT(P2)
         K_TMP(1,1)=PY/P2
         DO I=F_DDL,L_DDL
          U_TMP(I)=S*P(I)
@@ -3079,7 +3079,7 @@ C
         DO I=F_DDL,L_DDL
          U_TMP(I)=K_TMP(1,1)*U_TMP(I)+K_TMP(2,1)*P(I)
         ENDDO
-        M_TMP(1,1)=UN
+        M_TMP(1,1)=ONE
         K_TMP(1,1)=W(1)
        ENDIF
 C-------checking V(U_TMP)      
@@ -3466,7 +3466,7 @@ C---------------------
 C------ R2<TOL*TOL*ANORM2*XNORM2------
         R02=ABS(G0)
         R2 =R02
-        L_A=UN/ALPHA
+        L_A=ONE/ALPHA
 C        L_B2=R02
         TNORM2=L_A*L_A
         ANORM2=ZERO
@@ -3641,7 +3641,7 @@ C---------------------
          R2 = G1
         ELSEIF (ITOL.EQ.3) THEN
          R2 =ABS(G1)
-         S=UN/ALPHA
+         S=ONE/ALPHA
          L_A=S+B_OLD*A_OLD
 C----------L_B2 : beta(j-1)^2-A_OLD :1/alpha(j-1)-------
          L_B2=ABS(BETA)*S*S
@@ -3837,7 +3837,7 @@ C
      .     EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
         ENDIF
         ISTOP_H = 1
-        IF (R2.GT.CENT*TOLN) THEN
+        IF (R2.GT.HUNDRED*TOLN) THEN
          ISTOP_H = 2
          RR = SQRT(R2/R02)
          WRITE(IOUT,*)
@@ -4046,15 +4046,15 @@ C----------------------
 C        [LAMDA]^-1<- 1.0/lamda(i)
 C---------------------
         DO I=1,M_VS1
-         PROJ_LA_1(I)= UN/SIGN(MAX(EM20,ABS(W(I))),W(I))
+         PROJ_LA_1(I)= ONE/SIGN(MAX(EM20,ABS(W(I))),W(I))
         ENDDO
       if (iline==1.AND.IMPDEB>0) then
        IF (NCG_RUN==0) THEN 
        write(iout,*)'info,ini EIGENVALUE=',info,
-     .       (UN/PROJ_LA_1(I),I=1,M_VS1)
+     .       (ONE/PROJ_LA_1(I),I=1,M_VS1)
        ELSEIF (iline==1) THEN
        write(iout,*)'info,Upd EIGENVALUE=',info,
-     .       (UN/PROJ_LA_1(I),I=1,M_VS1)
+     .       (ONE/PROJ_LA_1(I),I=1,M_VS1)
        END IF
       endif
        END IF !(ITASK==0) THEN

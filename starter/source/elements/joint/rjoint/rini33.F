@@ -231,7 +231,7 @@ C--------------------------------------
           UVAR(29,I)= EX(8)
           UVAR(30,I)= EX(9)	  
 C
-          KR = KNN*MAX(UN,LEN2)
+          KR = KNN*MAX(ONE,LEN2)
           UVAR(19,I)= KXX
           UVAR(20,I)= KYY
           UVAR(21,I)= KZZ
@@ -374,20 +374,20 @@ C
           CALL PROD_ATB(V,U,Q)
           CALL ROT12(Q, T, CO, SI)
           CALL QROT33(Q2, T, CO, SI)
-          A(1) = UNDEMI * (Q1(1) + Q2(1))
-          A(2) = UNDEMI * (Q1(2) + Q2(4))
-          A(3) = UNDEMI * (Q1(3) + Q2(7))
-          A(4) = UNDEMI * (Q1(4) + Q2(2))
-          A(5) = UNDEMI * (Q1(5) + Q2(5))
-          A(6) = UNDEMI * (Q1(6) + Q2(8))
-          A(7) = UNDEMI * (Q1(7) + Q2(3))
-          A(8) = UNDEMI * (Q1(8) + Q2(6))
-          A(9) = UNDEMI * (Q1(9) + Q2(9))	  
+          A(1) = HALF * (Q1(1) + Q2(1))
+          A(2) = HALF * (Q1(2) + Q2(4))
+          A(3) = HALF * (Q1(3) + Q2(7))
+          A(4) = HALF * (Q1(4) + Q2(2))
+          A(5) = HALF * (Q1(5) + Q2(5))
+          A(6) = HALF * (Q1(6) + Q2(8))
+          A(7) = HALF * (Q1(7) + Q2(3))
+          A(8) = HALF * (Q1(8) + Q2(6))
+          A(9) = HALF * (Q1(9) + Q2(9))	  
 C
           CALL PROD_AB(U,A,X1)
           CALL PROD_ABT(V,A,X2)
           DO I=1,9
-            X(I) = UNDEMI * (X1(I) + X2(I))
+            X(I) = HALF * (X1(I) + X2(I))
           END DO
 C-------------------------------------
         ENDIF
@@ -423,7 +423,7 @@ C-----------------------------------------------
       my_real E11,E22,E33,E12,E21,E13,E31,E23,E32,
      .        U1,U2,U3, S,C,CI,SI2
 C=================================================================
-      CI = UN - C
+      CI = ONE - C
       U1 = T(1)
       U2 = T(2)
       U3 = T(3)
@@ -483,7 +483,7 @@ C-----------------------------------------------
       DATA  UMI/-1.0/
 C=================================================================
 C
-       PI = 2.*ATAN2(UN,ZERO)
+       PI = 2.*ATAN2(ONE,ZERO)
 C---   first skew rotation
        E11 = SKEW(1)   
        E12 = SKEW(4)   
@@ -495,27 +495,27 @@ C---   first skew rotation
        E32 = SKEW(6)   
        E33 = SKEW(9)  
        E = E11+E22+E33
-       C = UNDEMI * (E - 1.)
-       C = MIN(C,UN)
+       C = HALF * (E - 1.)
+       C = MIN(C,ONE)
        C = MAX(C,UMI)
        KSI = ACOS(C)
        S   = SIN(KSI)
        IF(S.EQ.ZERO) THEN
          SI2 = ZERO
        ELSE
-         SI2  = UNDEMI / S
+         SI2  = HALF / S
        ENDIF
        T(1) = (E32 - E23) * SI2
        T(2) = (E13 - E31) * SI2
        T(3) = (E21 - E12) * SI2
        NR = SQRT(T(1)*T(1)+T(2)*T(2)+T(3)*T(3))
-       IF (NR.NE.ZERO) NR = UN/NR
+       IF (NR.NE.ZERO) NR = ONE/NR
        T(1) = T(1)*NR
        T(2) = T(2)*NR 
        T(3) = T(3)*NR 
 C
-       C = UNDEMI*(C+ UN)
-       S = SQRT(UN-C)
+       C = HALF*(C+ ONE)
+       S = SQRT(ONE-C)
        C = SQRT(C)
 C
       RETURN

@@ -133,7 +133,7 @@ C
 C
          LB(I)=CSTS(1,J)
          LC(I)=CSTS(2,J)
-         LA(I) = UN-LB(I)-LC(I)
+         LA(I) = ONE-LB(I)-LC(I)
 
          IX1(I) = IRECT(1,L)
          IX2(I) = IRECT(2,L)
@@ -213,7 +213,7 @@ C     MAIN TEMPERATURE
                ENDIF
 C
                IF(IX3(I).NE.IX4(I))THEN
-                 TEMP0 = QUART*(TEMP1+TEMP2+TEMP3+TEMP4) 
+                 TEMP0 = FOURTH*(TEMP1+TEMP2+TEMP3+TEMP4) 
                ELSE
                  TEMP0 = TEMP3 
                ENDIF
@@ -431,12 +431,12 @@ C
 C
        DO I=1,JLT
         IF(IX3(I).NE.IX4(I))THEN
-         X0(I) = QUART*(X1(I)+X2(I)+X3(I)+X4(I))
-         Y0(I) = QUART*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-         Z0(I) = QUART*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
-         NX0(I)= QUART*(NX1(I)+NX2(I)+NX3(I)+NX4(I))
-         NY0(I)= QUART*(NY1(I)+NY2(I)+NY3(I)+NY4(I))
-         NZ0(I)= QUART*(NZ1(I)+NZ2(I)+NZ3(I)+NZ4(I))
+         X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
+         Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
+         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
+         NX0(I)= FOURTH*(NX1(I)+NX2(I)+NX3(I)+NX4(I))
+         NY0(I)= FOURTH*(NY1(I)+NY2(I)+NY3(I)+NY4(I))
+         NZ0(I)= FOURTH*(NZ1(I)+NZ2(I)+NZ3(I)+NZ4(I))
         ELSE
          X0(I) = X3(I)
          Y0(I) = Y3(I)
@@ -508,10 +508,10 @@ C
       DO I=1,JLT
 
 C3 pas la meme distance que dans i21dst3 : DIST <= Pi(I)
-c       LB(I) = MIN(UN,MAX(LB(I),ZERO))
-c       LC(I) = MIN(UN,MAX(LC(I),ZERO))
-c       LA(I) = MIN(UN,MAX(LA(I),ZERO))
-c       LS=UN/MAX(EM20,LA(I)+LB(I)+LC(I))
+c       LB(I) = MIN(ONE,MAX(LB(I),ZERO))
+c       LC(I) = MIN(ONE,MAX(LC(I),ZERO))
+c       LA(I) = MIN(ONE,MAX(LA(I),ZERO))
+c       LS=ONE/MAX(EM20,LA(I)+LB(I)+LC(I))
 c       LB(I) = LB(I)*LS
 c       LC(I) = LC(I)*LS
 c       LA(I) = LA(I)*LS
@@ -525,17 +525,17 @@ c       LA(I) = LA(I)*LS
         HZ(I)=ZI(I)-ZP(I)
 
         HN   =HX(I)*NX(I)+HY(I)*NY(I)+HZ(I)*NZ(I)
-        NX(I)=HX(I)*SIGN(UN,HN)
-        NY(I)=HY(I)*SIGN(UN,HN)
-        NZ(I)=HZ(I)*SIGN(UN,HN)
+        NX(I)=HX(I)*SIGN(ONE,HN)
+        NY(I)=HY(I)*SIGN(ONE,HN)
+        NZ(I)=HZ(I)*SIGN(ONE,HN)
 
         DIST(I)=SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
-        NN=UN/MAX(EM20,DIST(I))
+        NN=ONE/MAX(EM20,DIST(I))
         NX(I)=NX(I)*NN
         NY(I)=NY(I)*NN
         NZ(I)=NZ(I)*NN
         
-        DIST(I)=DIST(I)*SIGN(UN,HN)
+        DIST(I)=DIST(I)*SIGN(ONE,HN)
 C3 DIST <= GAPV(I) a la precision machine pres.
         PENE(I)=MAX(ZERO,GAPV(I)-DIST(I))
       ENDDO
@@ -591,7 +591,7 @@ C (due to possible impact from the rear)
       END IF        
 C
       IF(INVN > 0) THEN
-        TOLFIX = (UN-EM02)*DEPTH
+        TOLFIX = (ONE-EM02)*DEPTH
         DO I=1,JLT
           TOL =  GAPV(I) + TOLFIX
           IF(IFPEN(CAND_N(I))==1)THEN

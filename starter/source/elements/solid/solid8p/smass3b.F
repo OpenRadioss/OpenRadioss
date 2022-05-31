@@ -66,7 +66,7 @@ C-----------------------------------------------
      .   XX,XY,YY,YZ,ZZ,ZX,DMCPGP(8,MVSIZ)
 C=======================================================================
       DO I=LFT,LLT
-        MASS(I)=RHO(I)*VOLU(I)*UNHUIT
+        MASS(I)=RHO(I)*VOLU(I)*ONE_OVER_8
       ENDDO
 C
       IF(IREST_MSELT /= 0)THEN
@@ -118,7 +118,7 @@ C     mass init en parith/on si spmd
         MS(I7)=MS(I7)+DMASGP(7,I)
         MS(I8)=MS(I8)+DMASGP(8,I)
         IP=IPART(I)
-        PARTSAV(1,IP)=PARTSAV(1,IP) + HUIT*MASS(I)
+        PARTSAV(1,IP)=PARTSAV(1,IP) + EIGHT*MASS(I)
         PARTSAV(2,IP)=PARTSAV(2,IP)
      .     +DMASGP(1,I)*X(1,I1)+DMASGP(2,I)*X(1,I2)+DMASGP(3,I)*X(1,I3)
      .     +DMASGP(4,I)*X(1,I4)+DMASGP(5,I)*X(1,I5)+DMASGP(6,I)*X(1,I6)
@@ -238,7 +238,7 @@ C   de M_element/8. et non pas des masses associees aux noeuds.
         PARTSAV(13,IP)=PARTSAV(13,IP) + MASS(I)*
      .       (V(3,I1)+V(3,I2)+V(3,I3)+V(3,I4)
      .       +V(3,I5)+V(3,I6)+V(3,I7)+V(3,I8))
-        PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * MASS(I) *
+        PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * MASS(I) *
      .     (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
      .     +V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2)
      .     +V(1,I3)*V(1,I3)+V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3)
@@ -314,7 +314,7 @@ C
         I7 = NC7(I)
         I8 = NC8(I)
         IP=IPART(I)
-        PARTSAV(1,IP)=PARTSAV(1,IP) + HUIT*MASS(I)
+        PARTSAV(1,IP)=PARTSAV(1,IP) + EIGHT*MASS(I)
         PARTSAV(2,IP)=PARTSAV(2,IP)
      .     +DMASGP(1,I)*X(1,I1)+DMASGP(2,I)*X(1,I2)+DMASGP(3,I)*X(1,I3)
      .     +DMASGP(4,I)*X(1,I4)+DMASGP(5,I)*X(1,I5)+DMASGP(6,I)*X(1,I6)
@@ -434,7 +434,7 @@ C   de M_element/8. et non pas des masses associees aux noeuds.
         PARTSAV(13,IP)=PARTSAV(13,IP) + MASS(I)*
      .       (V(3,I1)+V(3,I2)+V(3,I3)+V(3,I4)
      .       +V(3,I5)+V(3,I6)+V(3,I7)+V(3,I8))
-        PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * MASS(I) *
+        PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * MASS(I) *
      .     (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
      .     +V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2)
      .     +V(1,I3)*V(1,I3)+V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3)
@@ -492,14 +492,14 @@ C
           I6 = NC6(I)
           I7 = NC7(I)
           I8 = NC8(I)
-          WMA(I1)=WMA(I1)+TDEMI
-          WMA(I2)=WMA(I2)+TDEMI
-          WMA(I3)=WMA(I3)+TDEMI
-          WMA(I4)=WMA(I4)+TDEMI
-          WMA(I5)=WMA(I5)+TDEMI
-          WMA(I6)=WMA(I6)+TDEMI
-          WMA(I7)=WMA(I7)+TDEMI
-          WMA(I8)=WMA(I8)+TDEMI
+          WMA(I1)=WMA(I1)+THREE_HALF
+          WMA(I2)=WMA(I2)+THREE_HALF
+          WMA(I3)=WMA(I3)+THREE_HALF
+          WMA(I4)=WMA(I4)+THREE_HALF
+          WMA(I5)=WMA(I5)+THREE_HALF
+          WMA(I6)=WMA(I6)+THREE_HALF
+          WMA(I7)=WMA(I7)+THREE_HALF
+          WMA(I8)=WMA(I8)+THREE_HALF
         ENDDO
       ENDIF
 C-----------     

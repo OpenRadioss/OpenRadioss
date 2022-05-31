@@ -65,9 +65,9 @@ C
         TANI(1,I)= FORX(I)
         TANI(2,I)= FORY(I)
         TANI(3,I)= FORZ(I)
-        M1 = UNDEMI*(XL(I,2)*FORZ(I)-XL(I,3)*FORY(I))
-        M2 = UNDEMI*(XL(I,3)*FORX(I)-XL(I,1)*FORZ(I))
-        M3 = UNDEMI*(XL(I,1)*FORY(I)-XL(I,2)*FORX(I))
+        M1 = HALF*(XL(I,2)*FORZ(I)-XL(I,3)*FORY(I))
+        M2 = HALF*(XL(I,3)*FORX(I)-XL(I,1)*FORZ(I))
+        M3 = HALF*(XL(I,1)*FORY(I)-XL(I,2)*FORX(I))
         TANI(4,I)= XMOM(I)  + M1
         TANI(5,I)= YMOM(I)  + M2
         TANI(6,I)= ZMOM(I)  + M3

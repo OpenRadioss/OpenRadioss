@@ -950,20 +950,20 @@ C
               IR=IRST(1,N-FIRST_SPHSOL+1)
               IS=IRST(2,N-FIRST_SPHSOL+1)
               IT=IRST(3,N-FIRST_SPHSOL+1)
-              NSPHDIR=NINT((SOL2SPH(2,NSOL)-SOL2SPH(1,NSOL))**TIERS)
+              NSPHDIR=NINT((SOL2SPH(2,NSOL)-SOL2SPH(1,NSOL))**THIRD)
 C
               KSI  = A_GAUSS(IR,NSPHDIR)
               ETA  = A_GAUSS(IS,NSPHDIR)
               ZETA = A_GAUSS(IT,NSPHDIR)
 C
-              PHI1=UNHUIT*(UN-KSI)*(UN-ETA)*(UN-ZETA)
-              PHI2=UNHUIT*(UN-KSI)*(UN-ETA)*(UN+ZETA)
-              PHI3=UNHUIT*(UN+KSI)*(UN-ETA)*(UN+ZETA)
-              PHI4=UNHUIT*(UN+KSI)*(UN-ETA)*(UN-ZETA)
-              PHI5=UNHUIT*(UN-KSI)*(UN+ETA)*(UN-ZETA)
-              PHI6=UNHUIT*(UN-KSI)*(UN+ETA)*(UN+ZETA)
-              PHI7=UNHUIT*(UN+KSI)*(UN+ETA)*(UN+ZETA)
-              PHI8=UNHUIT*(UN+KSI)*(UN+ETA)*(UN-ZETA)
+              PHI1=ONE_OVER_8*(ONE-KSI)*(ONE-ETA)*(ONE-ZETA)
+              PHI2=ONE_OVER_8*(ONE-KSI)*(ONE-ETA)*(ONE+ZETA)
+              PHI3=ONE_OVER_8*(ONE+KSI)*(ONE-ETA)*(ONE+ZETA)
+              PHI4=ONE_OVER_8*(ONE+KSI)*(ONE-ETA)*(ONE-ZETA)
+              PHI5=ONE_OVER_8*(ONE-KSI)*(ONE+ETA)*(ONE-ZETA)
+              PHI6=ONE_OVER_8*(ONE-KSI)*(ONE+ETA)*(ONE+ZETA)
+              PHI7=ONE_OVER_8*(ONE+KSI)*(ONE+ETA)*(ONE+ZETA)
+              PHI8=ONE_OVER_8*(ONE+KSI)*(ONE+ETA)*(ONE-ZETA)
 C
               A(1,N1)=A(1,N1)+PHI1*WA(MYADRN+10)
               A(2,N1)=A(2,N1)+PHI1*WA(MYADRN+11)
@@ -1085,19 +1085,19 @@ C
               IS=IRST(2,N-FIRST_SPHSOL+1)
               IT=IRST(3,N-FIRST_SPHSOL+1)
 C
-              NSPHDIR=NINT((SOL2SPH(2,NSOL)-SOL2SPH(1,NSOL))**TIERS)
+              NSPHDIR=NINT((SOL2SPH(2,NSOL)-SOL2SPH(1,NSOL))**THIRD)
               KSI  = A_GAUSS(IR,NSPHDIR)
               ETA  = A_GAUSS(IS,NSPHDIR)
               ZETA = A_GAUSS(IT,NSPHDIR)
 C
-              PHI1=UNHUIT*(UN-KSI)*(UN-ETA)*(UN-ZETA)
-              PHI2=UNHUIT*(UN-KSI)*(UN-ETA)*(UN+ZETA)
-              PHI3=UNHUIT*(UN+KSI)*(UN-ETA)*(UN+ZETA)
-              PHI4=UNHUIT*(UN+KSI)*(UN-ETA)*(UN-ZETA)
-              PHI5=UNHUIT*(UN-KSI)*(UN+ETA)*(UN-ZETA)
-              PHI6=UNHUIT*(UN-KSI)*(UN+ETA)*(UN+ZETA)
-              PHI7=UNHUIT*(UN+KSI)*(UN+ETA)*(UN+ZETA)
-              PHI8=UNHUIT*(UN+KSI)*(UN+ETA)*(UN-ZETA)
+              PHI1=ONE_OVER_8*(ONE-KSI)*(ONE-ETA)*(ONE-ZETA)
+              PHI2=ONE_OVER_8*(ONE-KSI)*(ONE-ETA)*(ONE+ZETA)
+              PHI3=ONE_OVER_8*(ONE+KSI)*(ONE-ETA)*(ONE+ZETA)
+              PHI4=ONE_OVER_8*(ONE+KSI)*(ONE-ETA)*(ONE-ZETA)
+              PHI5=ONE_OVER_8*(ONE-KSI)*(ONE+ETA)*(ONE-ZETA)
+              PHI6=ONE_OVER_8*(ONE-KSI)*(ONE+ETA)*(ONE+ZETA)
+              PHI7=ONE_OVER_8*(ONE+KSI)*(ONE+ETA)*(ONE+ZETA)
+              PHI8=ONE_OVER_8*(ONE+KSI)*(ONE+ETA)*(ONE-ZETA)
 C
               FSKY(1,K1)=FSKY(1,K1)+PHI1*WA(MYADRN+10)
               FSKY(2,K1)=FSKY(2,K1)+PHI1*WA(MYADRN+11)
@@ -1149,7 +1149,7 @@ C
         END IF
 C--------
 C       pour travail des forces de visc. artificielle (par cellule).
-        DT05=UNDEMI*DT1
+        DT05=HALF*DT1
         DO NS=ITASK+1,NSPHACT,NTHREAD
           N=WASPACT(NS)
           SPBUF(10,N)=SPBUF(10,N)+DT05*SPBUF(11,N)
@@ -1211,7 +1211,7 @@ C--------
                 IF(KXSP(2,N).LE.0)GOTO 500
                 INOD=KXSP(3,N)
                 ADRN=KWASPH*(N-1)+7
-                DTX =DTFAC1(51)*SQRT(DEUX*MS(INOD)/MAX(EM20,WA(ADRN)))
+                DTX =DTFAC1(51)*SQRT(TWO*MS(INOD)/MAX(EM20,WA(ADRN)))
                 IF(DTX.GT.DTMIN1(51)) GO TO 500
                 IF(IDTMIN(51).EQ.1)THEN
                   TSTOP = TT

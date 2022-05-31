@@ -102,10 +102,10 @@ C-----------------------------------------------
             GBUF => ELBUF_TAB(NG)%GBUF
             DO I=LFT,LLT
               N = NFT + I
-              IOFF(EL2FA(NN2+N))   = NINT(MIN(GBUF%OFF(I),UN))
-              IOFF(EL2FA(NN2+N)+1) = NINT(MIN(GBUF%OFF(I),UN))
-              IOFF(EL2FA(NN2+N)+2) = NINT(MIN(GBUF%OFF(I),UN))
-              IOFF(EL2FA(NN2+N)+3) = NINT(MIN(GBUF%OFF(I),UN))
+              IOFF(EL2FA(NN2+N))   = NINT(MIN(GBUF%OFF(I),ONE))
+              IOFF(EL2FA(NN2+N)+1) = NINT(MIN(GBUF%OFF(I),ONE))
+              IOFF(EL2FA(NN2+N)+2) = NINT(MIN(GBUF%OFF(I),ONE))
+              IOFF(EL2FA(NN2+N)+3) = NINT(MIN(GBUF%OFF(I),ONE))
             ENDDO
           ENDIF
 C-----------------------------------------------
@@ -121,7 +121,7 @@ C-----------------------------------------------
             GBUF => ELBUF_TAB(NG)%GBUF
             DO I=LFT,LLT
               N = NFT + I
-              IOFF(EL2FA(NN2+N)) = NINT(MIN(GBUF%OFF(I),UN))
+              IOFF(EL2FA(NN2+N)) = NINT(MIN(GBUF%OFF(I),ONE))
             ENDDO
           ENDIF
         ELSEIF(ISPH3D.EQ.1.AND.ITY.EQ.51)THEN
@@ -137,7 +137,7 @@ C-----------------------------------------------
             GBUF => ELBUF_TAB(NG)%GBUF
             DO I=LFT,LLT
               N = NFT + I
-              IOFF(EL2FA(NN3+N)) = NINT(MIN(GBUF%OFF(I),UN))
+              IOFF(EL2FA(NN3+N)) = NINT(MIN(GBUF%OFF(I),ONE))
             ENDDO
           ENDIF
         ELSEIF(ITY.EQ.101)THEN
@@ -154,7 +154,7 @@ C-----------------------------------------------
             DO I=LFT,LLT
              N = NFT + I
              DO J=1,27
-              IOFF(EL2FA(NN4+N)+J-1) = NINT(MIN(GBUF%OFF(I),UN))
+              IOFF(EL2FA(NN4+N)+J-1) = NINT(MIN(GBUF%OFF(I),ONE))
              ENDDO
             ENDDO
           ENDIF

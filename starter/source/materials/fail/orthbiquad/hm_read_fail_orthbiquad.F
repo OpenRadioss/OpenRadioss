@@ -158,14 +158,14 @@ C===============================================================================
       CALL HM_GET_INTV   ('fct_IDel' ,REG_FUNC    ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('EI_ref'   ,REF_SIZ     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 ! Default values      
-      IF (PTHK  == ZERO) PTHK  = UN
-      PTHK = MIN(PTHK,UN)
+      IF (PTHK  == ZERO) PTHK  = ONE
+      PTHK = MIN(PTHK,ONE)
       PTHK = MAX(ZERO,PTHK)
       IF (SFLAG == 0)    SFLAG = 2
 ! Units
       IF ((REF_SIZ == ZERO).AND.(REG_FUNC > 0)) THEN
         CALL HM_GET_FLOATV_DIM('EI_ref' ,REF_SIZ_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        REF_SIZ = UN*REF_SIZ_UNIT
+        REF_SIZ = ONE*REF_SIZ_UNIT
       ENDIF
 !---------------
 ! -> Card2
@@ -179,7 +179,7 @@ C===============================================================================
 ! Units and default values
       IF ((RATE_SCALE == ZERO).AND.(RATE_FUNC > 0)) THEN 
         CALL HM_GET_FLOATV_DIM('RATE_scale' ,REF_RATE_UNIT  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        RATE_SCALE = REF_RATE_UNIT*UN
+        RATE_SCALE = REF_RATE_UNIT*ONE
       ENDIF
       IF (RATE_FUNC > 0) THEN 
         CJC   = ZERO
@@ -355,13 +355,13 @@ C
 C      
         ! Coefficient for the second parable
         !----------------------------------------
-        A_2(1,1) = UN
+        A_2(1,1) = ONE
         A_2(1,2) = TRIAX_3_LIN
         A_2(1,3) = TRIAX_3_QUAD
-        A_2(2,1) = UN
+        A_2(2,1) = ONE
         A_2(2,2) = TRIAX_4_LIN
         A_2(2,3) = TRIAX_4_QUAD
-        A_2(3,1) = UN
+        A_2(3,1) = ONE
         A_2(3,2) = TRIAX_5_LIN
         A_2(3,3) = TRIAX_5_QUAD
         B_2(1)   = C3(J)
@@ -402,7 +402,7 @@ c
         DO I = 1,NANGLE
           AMAT(J,I) = ZERO
           DO K = 1,I
-            AMAT(J,I) = AMAT(J,I) + COS2(K,I)*(COS(DEUX*THETA_RAD(J)))**(K-1)
+            AMAT(J,I) = AMAT(J,I) + COS2(K,I)*(COS(TWO*THETA_RAD(J)))**(K-1)
           ENDDO
         ENDDO
       ENDDO

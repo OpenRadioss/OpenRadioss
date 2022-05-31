@@ -274,9 +274,9 @@ C
 C
         DO I=JFT,JLT
           SIGY(I)    = EP30
-          ZCFAC(I,1) = UN
-          ZCFAC(I,2) = UN
-          ALPE(I)    = UN
+          ZCFAC(I,1) = ONE
+          ZCFAC(I,2) = ONE
+          ALPE(I)    = ONE
           TEMPEL(I) = ZERO
         ENDDO
 C---

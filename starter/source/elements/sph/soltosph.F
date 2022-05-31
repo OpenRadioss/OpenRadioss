@@ -141,19 +141,19 @@ C-----------------------------------------------
        ETA  = A_GAUSS(IS,NSPHDIR)
        ZETA = A_GAUSS(IT,NSPHDIR)
 C
-       PHI1=(UN-KSI)*(UN-ETA)*(UN-ZETA)
-       PHI2=(UN-KSI)*(UN-ETA)*(UN+ZETA)
-       PHI3=(UN+KSI)*(UN-ETA)*(UN+ZETA)
-       PHI4=(UN+KSI)*(UN-ETA)*(UN-ZETA)
-       PHI5=(UN-KSI)*(UN+ETA)*(UN-ZETA)
-       PHI6=(UN-KSI)*(UN+ETA)*(UN+ZETA)
-       PHI7=(UN+KSI)*(UN+ETA)*(UN+ZETA)
-       PHI8=(UN+KSI)*(UN+ETA)*(UN-ZETA)
-       XI=UNHUIT*(PHI1*X1+PHI2*X2+PHI3*X3+PHI4*X4+
+       PHI1=(ONE-KSI)*(ONE-ETA)*(ONE-ZETA)
+       PHI2=(ONE-KSI)*(ONE-ETA)*(ONE+ZETA)
+       PHI3=(ONE+KSI)*(ONE-ETA)*(ONE+ZETA)
+       PHI4=(ONE+KSI)*(ONE-ETA)*(ONE-ZETA)
+       PHI5=(ONE-KSI)*(ONE+ETA)*(ONE-ZETA)
+       PHI6=(ONE-KSI)*(ONE+ETA)*(ONE+ZETA)
+       PHI7=(ONE+KSI)*(ONE+ETA)*(ONE+ZETA)
+       PHI8=(ONE+KSI)*(ONE+ETA)*(ONE-ZETA)
+       XI=ONE_OVER_8*(PHI1*X1+PHI2*X2+PHI3*X3+PHI4*X4+
      .            PHI5*X5+PHI6*X6+PHI7*X7+PHI8*X8)
-       YI=UNHUIT*(PHI1*Y1+PHI2*Y2+PHI3*Y3+PHI4*Y4+
+       YI=ONE_OVER_8*(PHI1*Y1+PHI2*Y2+PHI3*Y3+PHI4*Y4+
      .            PHI5*Y5+PHI6*Y6+PHI7*Y7+PHI8*Y8)
-       ZI=UNHUIT*(PHI1*Z1+PHI2*Z2+PHI3*Z3+PHI4*Z4+
+       ZI=ONE_OVER_8*(PHI1*Z1+PHI2*Z2+PHI3*Z3+PHI4*Z4+
      .            PHI5*Z5+PHI6*Z6+PHI7*Z7+PHI8*Z8)
 C
        NCELL=NCELL+1
@@ -299,7 +299,7 @@ C
        PHI1=KSI
        PHI2=ETA
        PHI3=ZETA
-       PHI4=UN-KSI-ETA-ZETA
+       PHI4=ONE-KSI-ETA-ZETA
 C
        XI=PHI1*X1+PHI2*X2+PHI3*X3+PHI4*X4
        YI=PHI1*Y1+PHI2*Y2+PHI3*Y3+PHI4*Y4
@@ -384,9 +384,9 @@ C
      .   CJ1 ,CJ2 ,CJ3 ,
      .   CJ4 ,CJ5 ,CJ6 ,
      .   CJ7 ,CJ8 ,CJ9 ,
-     .   AJ5968, AJ6749, AJ4857,
-     .   AJ3829, AJ1937, AJ2718,
-     .   AJ2635, AJ3416, AJ1524,
+     .   JAC_59_68, JAC_67_49, JAC_48_57,
+     .   JAC_38_29, JAC_19_37, JAC_27_18,
+     .   JAC_26_35, JAC_34_16, JAC_15_24,
      .   A17 , A28 ,
      .   B17 , B28 ,
      .   C17 , C28 ,
@@ -548,7 +548,7 @@ C
        ZETA = A_GAUSS(IS,NSPHDIR)
 C       WI = W_GAUSS(IR,NSPHDIR)*W_GAUSS(IS,NSPHDIR)*W_GAUSS(IT,NSPHDIR)
 C
-       WI = HUIT/NP 
+       WI = EIGHT/NP 
 C
        AJ1=CJ1+HX(3)*ETA+(HX(2)+HX(4)*ETA)*ZETA
        AJ2=CJ2+HY(3)*ETA+(HY(2)+HY(4)*ETA)*ZETA
@@ -564,11 +564,11 @@ C
 C
 C      JACOBIAN
 C
-       AJ5968=AJ5*AJ9-AJ6*AJ8
-       AJ6749=AJ6*AJ7-AJ4*AJ9
-       AJ4857=AJ4*AJ8-AJ5*AJ7
+       JAC_59_68=AJ5*AJ9-AJ6*AJ8
+       JAC_67_49=AJ6*AJ7-AJ4*AJ9
+       JAC_48_57=AJ4*AJ8-AJ5*AJ7
 C
-       DET=O512TH*(AJ1*AJ5968+AJ2*AJ6749+AJ3*AJ4857)
+       DET=ONE_OVER_512*(AJ1*JAC_59_68+AJ2*JAC_67_49+AJ3*JAC_48_57)
        VOL= WI*DET
        IF(DET.LT.ZERO)
      . CALL ANCMSG(MSGID=1038,
@@ -632,7 +632,7 @@ C
      .   AJ1 ,AJ2 ,AJ3 ,
      .   AJ4 ,AJ5 ,AJ6 ,
      .   AJ7 ,AJ8 ,AJ9 ,
-     .   AJ5968, AJ6749, AJ4857
+     .   JAC_59_68, JAC_67_49, JAC_48_57
 C-----------------------------------------------
       NP = 0
       NT = 0
@@ -670,15 +670,15 @@ C
 C
 C     JACOBIAN
 C
-      AJ5968=AJ5*AJ9-AJ6*AJ8
-      AJ6749=AJ6*AJ7-AJ4*AJ9
-      AJ4857=AJ4*AJ8-AJ5*AJ7
+      JAC_59_68=AJ5*AJ9-AJ6*AJ8
+      JAC_67_49=AJ6*AJ7-AJ4*AJ9
+      JAC_48_57=AJ4*AJ8-AJ5*AJ7
 C
-      DET=AJ1*AJ5968+AJ2*AJ6749+AJ3*AJ4857
+      DET=AJ1*JAC_59_68+AJ2*JAC_67_49+AJ3*JAC_48_57
 C-----------------------------------------------
       DO IP=1,NCELL
 C
-       WI = UN/(SIX*NP)
+       WI = ONE/(SIX*NP)
 C
        VOL= WI*DET
        IF(DET.LT.ZERO)

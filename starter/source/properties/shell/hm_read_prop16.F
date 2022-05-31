@@ -180,7 +180,7 @@ c
         CALL HM_GET_FLOAT_ARRAY_INDEX('Alpha_arr',GEO(IPPHI+K),K,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_Thick',GEO(IPTHK+K),K,IS_AVAILABLE,LSUBMODEL,UNITAB) 
         CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_Zi',GEO(IPPOS+K),K,IS_AVAILABLE,LSUBMODEL,UNITAB) 
-        IF (GEO(IPPHI+K) == ZERO) GEO(IPPHI+K) = QUATREVINGTDIX         
+        IF (GEO(IPPHI+K) == ZERO) GEO(IPPHI+K) = NINTY         
       ENDDO  
 C--------------------------------------------------
 C SUBMODEL TRANSFORMATION
@@ -188,7 +188,7 @@ C--------------------------------------------------
       IF (SUB_ID .NE. 0)
      .       CALL SUBROTVECT(VX,VY,VZ,RTRANS,SUB_ID,LSUBMODEL)   
 C----------------------
-      PTHK = MIN(PTHK, UN-EM06)
+      PTHK = MIN(PTHK, ONE-EM06)
       GEO(42) = PTHK
 
 C fixing flag and removed from input
@@ -233,7 +233,7 @@ C---
 
       IF (IHBE==24) THEN
         GEO(13)=GEO(17)
-        GEO(17)=UN
+        GEO(17)=ONE
       ENDIF
 C     Double stockage (to be cleaned one day ...)
 c
@@ -256,13 +256,13 @@ c      IF(ISROT==2) ISROT = 0
       IGEO(5)= ISMSTR
       GEO(3) = ISMSTR
 C-----
-      IF (ASHEAR == ZERO) ASHEAR=CSIX
+      IF (ASHEAR == ZERO) ASHEAR=FIVE_OVER_6
       IF (NLY == -1) NLY = NPTS_D
       IF (NLY == 0)  NLY = 1
       IF (NLY == 1)  ASHEAR = ZERO
       AN = SQRT(VX*VX+VY*VY+VZ*VZ)
       IF(AN < EM10)THEN
-        VX=UN
+        VX=ONE
         VY=ZERO
         VZ=ZERO
         IF (IRP==23) THEN
@@ -376,7 +376,7 @@ C---  calcul epaIGEO(5)eur & position des couches
         TMAX =-EP20
 
         DO N=1,NLY
-          DT = UNDEMI*GEO(IPTHK+N)
+          DT = HALF*GEO(IPTHK+N)
           TMIN = MIN(TMIN,GEO(IPPOS+N)-DT)
           TMAX = MAX(TMAX,GEO(IPPOS+N)+DT)
         ENDDO
@@ -395,16 +395,16 @@ C---  calcul epaIGEO(5)eur & position des couches
           GEO(IPTHK+N)=GEO(IPTHK+N) / MAX(THICKT,EM20)
         ENDDO
 C---      calcul automatique de position des couches
-        GEO(IPPOS+1) = -UNDEMI + UNDEMI*GEO(IPTHK+1)
+        GEO(IPPOS+1) = -HALF + HALF*GEO(IPTHK+1)
         DO N=2,NLY
           GEO(IPPOS+N) = GEO(IPPOS+N-1)
-     .                 + UNDEMI*(GEO(IPTHK+N)+GEO(IPTHK+N-1))
+     .                 + HALF*(GEO(IPTHK+N)+GEO(IPTHK+N-1))
         ENDDO
         GEO(200)=THICKT
       ENDIF
 C---  Test validite epaIGEO(5)eur
       IERREL=NINT(ABS((THICKT-GEO(1))/GEO(1))*EP02)
-      IF(IERREL > DIX) THEN
+      IF(IERREL > TEN) THEN
         PID1=IGEO(1)
         CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)
         CALL ANCMSG(MSGID=29,
@@ -484,8 +484,8 @@ C
         M4=IPPHI+N
         IF(.NOT. IS_CRYPTED)WRITE(IOUT,3000) N,GEO(M1),GEO(M4),
      .                   GEO(M2)*GEO(1),GEO(M3)*GEO(1),NUML(N)
-        GEO(M1)=GEO(M1)*PI/CENT80
-        GEO(M4)=GEO(M4)*PI/CENT80
+        GEO(M1)=GEO(M1)*PI/HUNDRED80
+        GEO(M4)=GEO(M4)*PI/HUNDRED80
       ENDDO
 C-------------------------------
 C FROM LECGEO

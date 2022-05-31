@@ -100,16 +100,16 @@ C
        END IF
 C
        IF(IX4(I)/=IX3(I)) THEN
-         MAS = UNDEMI * DTS * ( DTS * STIF(I) + VIS(I) )
-         MASM= UNDEMI * DTS * DTS *STF_MOM(I)
-         MAS = QUART*MAS+MASM
+         MAS = HALF * DTS * ( DTS * STIF(I) + VIS(I) )
+         MASM= HALF * DTS * DTS *STF_MOM(I)
+         MAS = FOURTH*MAS+MASM
          DMINT2(1,I)=MAS
          DMINT2(2,I)=MAS
          DMINT2(3,I)=MAS
          DMINT2(4,I)=MAS
        ELSE
-         MAS = UNDEMI * DTS * ( DTS * STIF(I) + VIS(I) )
-         MASM= UNDEMI * DTS * DTS *STF_MOM(I)
+         MAS = HALF * DTS * ( DTS * STIF(I) + VIS(I) )
+         MASM= HALF * DTS * DTS *STF_MOM(I)
          MAS = THIRD*MAS+MASM
          DMINT2(1,I)=MAS
          DMINT2(2,I)=MAS

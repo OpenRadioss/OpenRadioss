@@ -55,9 +55,9 @@ C----------------------------------------------------------
      .   SX,SY,SZ,D,D1,D2,D3,D4,NORM1,A1,A2,NORM2,NORM3,NORM4
 c=======================================================================
 c     segment barycenter
-      MX = QUART*(AX + BX + CX + DX)
-      MY = QUART*(AY + BY + CY + DY)
-      MZ = QUART*(AZ + BZ + CZ + DZ)
+      MX = FOURTH*(AX + BX + CX + DX)
+      MY = FOURTH*(AY + BY + CY + DY)
+      MZ = FOURTH*(AZ + BZ + CZ + DZ)
       MPX = NOD_X - MX
       MPY = NOD_Y - MY
       MPZ = NOD_Z - MZ
@@ -128,13 +128,13 @@ c
       SX = (QY - MY) * (AZ - MZ) - (QZ - MZ) * (AY - MY)
       SY = (QZ - MZ) * (AX - MX) - (QX - MX) * (AZ - MZ)
       SZ = (QX - MX) * (AY - MY) - (QY - MY) * (AX - MX)
-      A1 = SQRT(SX*SX + SY*SY + SZ*SZ) * UNDEMI
+      A1 = SQRT(SX*SX + SY*SY + SZ*SZ) * HALF
       SX = (BY - MY) * (QZ - MZ) - (BZ - MZ) * (QY - MY)
       SY = (BZ - MZ) * (QX - MX) - (BX - MX) * (QZ - MZ)
       SZ = (BX - MX) * (QY - MY) - (BY - MY) * (QX - MX)
-      A2 = SQRT(SX*SX + SY*SY + SZ*SZ) * UNDEMI
+      A2 = SQRT(SX*SX + SY*SY + SZ*SZ) * HALF
       OK = 0
-      IF (A1 + A2 < UNDEMI * NORM1) THEN
+      IF (A1 + A2 < HALF * NORM1) THEN
         DIST = D1
         OK   = 1
       END IF
@@ -148,12 +148,12 @@ c
         SX = (QY - MY) * (BZ - MZ) - (QZ - MZ) * (BY - MY)
         SY = (QZ - MZ) * (BX - MX) - (QX - MX) * (BZ - MZ)
         SZ = (QX - MX) * (BY - MY) - (QY - MY) * (BX - MX)
-        A1 = SQRT(SX*SX + SY*SY + SZ*SZ) * UNDEMI
+        A1 = SQRT(SX*SX + SY*SY + SZ*SZ) * HALF
         SX = (CY - MY) * (QZ - MZ) - (CZ - MZ) * (QY - MY)
         SY = (CZ - MZ) * (QX - MX) - (CX - MX) * (QZ - MZ)
         SZ = (CX - MX) * (QY - MY) - (CY - MY) * (QX - MX)
-        A2 = SQRT(SX*SX + SY*SY + SZ*SZ) * UNDEMI
-        IF (A1 + A2 < UNDEMI * NORM2) THEN
+        A2 = SQRT(SX*SX + SY*SY + SZ*SZ) * HALF
+        IF (A1 + A2 < HALF * NORM2) THEN
           DIST = D2
           OK   = 1
         END IF
@@ -167,12 +167,12 @@ c
         SX = (QY - MY) * (CZ - MZ) - (QZ - MZ) * (CY - MY)
         SY = (QZ - MZ) * (CX - MX) - (QX - MX) * (CZ - MZ)
         SZ = (QX - MX) * (CY - MY) - (QY - MY) * (CX - MX)
-        A1 = SQRT(SX*SX + SY*SY + SZ*SZ) * UNDEMI
+        A1 = SQRT(SX*SX + SY*SY + SZ*SZ) * HALF
         SX = (DY - MY) * (QZ - MZ) - (DZ - MZ) * (QY - MY)
         SY = (DZ - MZ) * (QX - MX) - (DX - MX) * (QZ - MZ)
         SZ = (DX - MX) * (QY - MY) - (DY - MY) * (QX - MX)
-        A2 = SQRT(SX*SX + SY*SY + SZ*SZ) * UNDEMI
-        IF (A1 + A2 < UNDEMI * NORM3) THEN
+        A2 = SQRT(SX*SX + SY*SY + SZ*SZ) * HALF
+        IF (A1 + A2 < HALF * NORM3) THEN
           DIST = D3
           OK   = 1
         END IF
@@ -186,12 +186,12 @@ c
         SX = (QY - MY) * (DZ - MZ) - (QZ - MZ) * (DY - MY)
         SY = (QZ - MZ) * (DX - MX) - (QX - MX) * (DZ - MZ)
         SZ = (QX - MX) * (DY - MY) - (QY - MY) * (DX - MX)
-        A1 = SQRT(SX*SX + SY*SY + SZ*SZ) * UNDEMI
+        A1 = SQRT(SX*SX + SY*SY + SZ*SZ) * HALF
         SX = (AY - MY) * (QZ - MZ) - (AZ - MZ) * (QY - MY)
         SY = (AZ - MZ) * (QX - MX) - (AX - MX) * (QZ - MZ)
         SZ = (AX - MX) * (QY - MY) - (AY - MY) * (QX - MX)
-        A2 = SQRT(SX*SX + SY*SY + SZ*SZ) * UNDEMI
-        IF (A1 + A2 < UNDEMI * NORM4) THEN
+        A2 = SQRT(SX*SX + SY*SY + SZ*SZ) * HALF
+        IF (A1 + A2 < HALF * NORM4) THEN
           DIST = D3
           OK   = 1
         END IF

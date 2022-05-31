@@ -708,7 +708,7 @@ C    COMPUTE TEMPERATURE IN ELEMENT
 C-------------------------------------------
       IF(JTHE < 0) THEN 
          DO I=LFT,LLT
-           TEMPEL(I) = UNHUIT *(  TEMP(NC1(I)) + TEMP(NC2(I))  
+           TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
      .                          + TEMP(NC3(I)) + TEMP(NC4(I)) 
      .                          + TEMP(NC5(I)) + TEMP(NC6(I)) 
      .                          + TEMP(NC7(I)) + TEMP(NC8(I)))       
@@ -734,7 +734,7 @@ c-------------------------------------------
           ENDDO
           VAR_REG(I) = DNL(IPOS(1)) + DNL(IPOS(2)) + DNL(IPOS(3)) + DNL(IPOS(4)) 
      .               + DNL(IPOS(5)) + DNL(IPOS(6)) + DNL(IPOS(7)) + DNL(IPOS(8))
-          VAR_REG(I) = VAR_REG(I)*UNHUIT
+          VAR_REG(I) = VAR_REG(I)*ONE_OVER_8
         ENDDO
       ENDIF
 c-------------------------------------------
@@ -1379,7 +1379,7 @@ C=======================================================================
 C-----Always in global system and fixed then (not like Ismstr=11
         NCH=0
         DO I=LFT,LLT
-         IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > UN ) THEN
+         IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > ONE ) THEN
            NCH = NCH +1
            INDEX(NCH) = I
          END IF
@@ -1522,7 +1522,7 @@ C     REAL ou REAL*8
      .   X17(MVSIZ), X28(MVSIZ), X35(MVSIZ), X46(MVSIZ),
      .   Y17(MVSIZ), Y28(MVSIZ), Y35(MVSIZ), Y46(MVSIZ),
      .   Z17(MVSIZ), Z28(MVSIZ), Z35(MVSIZ), Z46(MVSIZ),
-     .   AJ5968(MVSIZ), AJ6749(MVSIZ), AJ4857(MVSIZ),
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
      .   AJ12(MVSIZ),   AJ45(MVSIZ),   AJ78(MVSIZ)
 C=======================================================================
       DO I=1,NEL
@@ -1564,22 +1564,22 @@ C
 C     JACOBIAN
 C
       DO I=1,NEL
-        AJ5968(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-        AJ6749(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-        AJ4857(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+        JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+        JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+        JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
       ENDDO
 C
       DO I=1,NEL
-       DET(I) =O64TH*(AJ1(I)*AJ5968(I)+AJ2(I)*AJ6749(I)+AJ3(I)*AJ4857(I))
-       DETT(I)=O64TH/MAX(DET(I),EM20)
+       DET(I) =ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
+       DETT(I)=ONE_OVER_64/MAX(DET(I),EM20)
       ENDDO     
 C
 C     INVERSE DE LA MATRICE JACOBIENNE
 C
       DO I=1,NEL
-        AJI1(I)=DETT(I)*AJ5968(I)
-        AJI4(I)=DETT(I)*AJ6749(I)
-        AJI7(I)=DETT(I)*AJ4857(I)
+        AJI1(I)=DETT(I)*JAC_59_68(I)
+        AJI4(I)=DETT(I)*JAC_67_49(I)
+        AJI7(I)=DETT(I)*JAC_48_57(I)
         AJI2(I)=DETT(I)*(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
         AJI5(I)=DETT(I)*( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
         AJI8(I)=DETT(I)*(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))

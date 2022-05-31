@@ -67,7 +67,7 @@ C
       ENDDO
 C
       DO 100 I=1,NRIVET
-       RIVET(1,I) = UN
+       RIVET(1,I) = ONE
       IG=IXRI(1,I)
 C
       IROT=GEO(4,IG)

@@ -123,7 +123,7 @@ C-----------------------------------------------
       IUNLOAD=0
       NFUNC=2
       NUVAR=31+1+1
-      GAMMA = SCINQ
+      GAMMA = SEVEN_OVER_5
       NUPARAM=33
       UPARAM(1)=NUPARAM
       IMATVIS=1
@@ -227,15 +227,15 @@ C----------------
       PM(89)= RHO0    
 C----------------
 
-      IF (PSCALE == ZERO) PSCALE = UN
+      IF (PSCALE == ZERO) PSCALE = ONE
 
       IF( VT       .LE. ZERO) VT =EM20
-      IF( VT       .GE.UNDEMI ) VT =ZEP499
-      IF( VC       .GE.UNDEMI ) VC =ZEP499
+      IF( VT       .GE.HALF ) VT =ZEP499
+      IF( VC       .GE.HALF ) VC =ZEP499
       IF( ITOTAL   .GT. 3 ) ITOTAL = 0      
       IF( BETA     .LE. ZERO) BETA =EM20         
-      IF( HYSTER   .LE. ZERO) HYSTER =UN         
-      IF( RATEDAMP .LE. ZERO) RATEDAMP = UNDEMI  
+      IF( HYSTER   .LE. ZERO) HYSTER =ONE         
+      IF( RATEDAMP .LE. ZERO) RATEDAMP = HALF  
       IF( KRECOVER .LE. 0 ) KRECOVER =0          
       IF( KRECOVER .GT. 2 ) KRECOVER =0          
       IF( KDECAY   .LE. 0 ) KDECAY =0            
@@ -247,16 +247,16 @@ C----------------
       IF( MAXPRES  .LE. ZERO) THEN      
          MAXPRES= INFINITY                    
       ENDIF                             
-      IF( FUNLOAD.LE.ZERO) FUNLOAD = UN 
-      IF( EXPONAS.EQ.ZERO) EXPONAS = UN 
-      IF( EXPONBS.EQ.ZERO) EXPONBS = UN 
+      IF( FUNLOAD.LE.ZERO) FUNLOAD = ONE 
+      IF( EXPONAS.EQ.ZERO) EXPONAS = ONE 
+      IF( EXPONBS.EQ.ZERO) EXPONBS = ONE 
       IF( MFUNC.GT.5  ) MFUNC=5
       IF( TENSIONCUT.LE.ZERO) THEN
          TENSIONCUT =INFINITY
       ENDIF   
-      IF(EPSFIN.LE.ZERO.OR.EPSFIN.GT.ZERO) EPSFIN=UN
-      IF( LAMDA.LE.ZERO) LAMDA =UN
-      IF( TOLERANCE .LE.ZERO) TOLERANCE = UN
+      IF(EPSFIN.LE.ZERO.OR.EPSFIN.GT.ZERO) EPSFIN=ONE
+      IF( LAMDA.LE.ZERO) LAMDA =ONE
+      IF( TOLERANCE .LE.ZERO) TOLERANCE = ONE
       IF( VISCOSITY.LE.ZERO) THEN
          VISCOSITY =INFINITY
       ENDIF
@@ -324,7 +324,7 @@ C----------------
         UPARAM(NUPARAM+MFUNC+I) = EPS_TAB(I)
       ENDDO
       DO I=1,MFUNC
-         IF(UPARAM(NUPARAM+I).LE.0.) UPARAM(NUPARAM+I)=UN
+         IF(UPARAM(NUPARAM+I).LE.0.) UPARAM(NUPARAM+I)=ONE
          UPARAM(NUPARAM+I) = UPARAM(NUPARAM+I) !* FAC_C
          UPARAM(NUPARAM+MFUNC+I) = UPARAM(NUPARAM+MFUNC+I) !/ FAC_T
       ENDDO
@@ -356,7 +356,7 @@ C     Formulation for solid elements time step computation.
       IF(NPCURVE==0)THEN
         NU=MAX(VC,VT)
         PARMAT(16) = 2
-        PARMAT(17) = (UN-DEUX*NU)/(UN-NU)
+        PARMAT(17) = (ONE-TWO*NU)/(ONE-NU)
       ELSE
         PARMAT(16) = 0
         PARMAT(17) = ZERO

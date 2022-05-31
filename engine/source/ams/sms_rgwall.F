@@ -221,9 +221,9 @@ C---     friction filtering
          FRIC = RWL(13)
          ALPHA= RWL(14)
          IF (IFQ.EQ.3) ALPHA = ALPHA * DT12
-         ALPHI = UN - ALPHA
+         ALPHI = ONE - ALPHA
          FRIC2 = FRIC**2
-         FAC=UN/DT12
+         FAC=ONE/DT12
          DO J = 1,NIMPACT
            I = ABS(IMPACT(J))
            N=NSW(I)
@@ -284,7 +284,7 @@ C
 C---     no friction filtering
          FRIC=RWL(13)
          FRIC2=FRIC**2
-         FAC=UN/DT12
+         FAC=ONE/DT12
          DO J = 1,NIMPACT
            I = IMPACT(J)
            N=NSW(I)
@@ -609,9 +609,9 @@ C     fixed wall only.
        M2=M3-1
        M1=M2-1
 C TFEXT only <=> dt12/2.
-       VXW=V(M1)+UNDEMI*A(M1)*DT12
-       VYW=V(M2)+UNDEMI*A(M2)*DT12
-       VZW=V(M3)+UNDEMI*A(M3)*DT12
+       VXW=V(M1)+HALF*A(M1)*DT12
+       VYW=V(M2)+HALF*A(M2)*DT12
+       VZW=V(M3)+HALF*A(M3)*DT12
       ENDIF
 C
       TFXT= ZERO
@@ -642,9 +642,9 @@ C 1er impact (Tfext avec decalage 1/2 cycle)
 c        N3=3*N
 c        N2=N3-1
 c        N1=N2-1
-c        VX=V(N1)+UNDEMI*A(N1)*DT12
-c        VY=V(N2)+UNDEMI*A(N2)*DT12
-c        VZ=V(N3)+UNDEMI*A(N3)*DT12
+c        VX=V(N1)+HALF*A(N1)*DT12
+c        VY=V(N2)+HALF*A(N2)*DT12
+c        VZ=V(N3)+HALF*A(N3)*DT12
 c        TFXT = TFXT -DT12*((VX-VXW)*FXN+(VY-VYW)*FYN+(VZ-VZW)*FZN)
  40    CONTINUE
 C
@@ -668,9 +668,9 @@ C
         N3=3*N
         N2=N3-1
         N1=N2-1
-        VX=V(N1)+UNDEMI*A(N1)*DT12
-        VY=V(N2)+UNDEMI*A(N2)*DT12
-        VZ=V(N3)+UNDEMI*A(N3)*DT12
+        VX=V(N1)+HALF*A(N1)*DT12
+        VY=V(N2)+HALF*A(N2)*DT12
+        VZ=V(N3)+HALF*A(N3)*DT12
 C 1er impact (Tfext avec decalage 1/2 cycle)
 c       TFXT = TFXT -DT12*((VX-VXW)*FXN+(VY-VYW)*FYN+(VZ-VZW)*FZN)
 C

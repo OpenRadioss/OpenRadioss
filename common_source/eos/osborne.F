@@ -98,14 +98,14 @@ C-----------------------------------------
          DENOM   = (ESPE(I)+D0)
          PP      = (A1*MU(I)+A2_*MU(I)*MU(I)+(B0+B1*MU(I)+B2*MU(I)*MU(I))*ESPE(I)+(C1*MU(I)+C0)*ESPE(I)*ESPE(I))
      .             /DENOM
-         dPdMU   = (A1+2*A2_*MU(I)+(DEUX*B2*MU(I)+B1)*ESPE(I)+C1*ESPE(I)*ESPE(I))/DENOM
-         dPdE(I) = (((B2*MU(I)+B1)*MU(I)+B0)+(DEUX*(C1*MU(I)+C0))*ESPE(I) - PP/DENOM)/DENOM                                      
+         dPdMU   = (A1+2*A2_*MU(I)+(TWO*B2*MU(I)+B1)*ESPE(I)+C1*ESPE(I)*ESPE(I))/DENOM
+         dPdE(I) = (((B2*MU(I)+B1)*MU(I)+B0)+(TWO*(C1*MU(I)+C0))*ESPE(I) - PP/DENOM)/DENOM                                      
          DPDM(I) = dPdmu + dPdE(I)*DF(I)*DF(I)*(PP)   !total derivative
        ENDDO
 
        DO I=LFT,LLT
-         ECOLD(I)=-TROIS100*SPH 
-         !IF(MU(I).GT.ZERO) ECOLD(I)=ECOLD(I)*(UN+C4 *MU(I)*(UN-MU(I)))+UNDEMI*C1 *MU2(I)
+         ECOLD(I)=-THREE100*SPH 
+         !IF(MU(I).GT.ZERO) ECOLD(I)=ECOLD(I)*(ONE+C4 *MU(I)*(ONE-MU(I)))+HALF*C1 *MU2(I)
        ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -130,7 +130,7 @@ C----------------------------------------
        SPH          = PM(69,MX) 
 
        ! MEINT
-       !  EINT(I)=EINT(I)+ UNDEMI*DVOL(I)*(POLD(I)-PSH(I)-QOLD(I)-QNEW(I))
+       !  EINT(I)=EINT(I)+ HALF*DVOL(I)*(POLD(I)-PSH(I)-QOLD(I)-QNEW(I))
        !  ESPE(I) = EINT / V0
        
        DO I=LFT,LLT
@@ -138,7 +138,7 @@ C----------------------------------------
          IF(MU(I).LT.ZERO)A2_=-A2
          
          DVV      = DVOL(I)*DF(I) / MAX(EM15,VNEW(I))   ! DVOL/V0  car  ESPE =EINT/V0
-         DVV      = UNDEMI*DVV ! car 2 iterations
+         DVV      = HALF*DVV ! car 2 iterations
 
          DENOM   = (ESPE(I)+D0)
          PP      = (A1*MU(I)+A2_*MU(I)*MU(I)+(B0+B1*MU(I)+B2*MU(I)*MU(I))*ESPE(I)+(C1*MU(I)+C0)*ESPE(I)*ESPE(I))
@@ -152,7 +152,7 @@ C----------------------------------------
 
          PNEW(I) = PP
               
-         EINT(I) = EINT(I) - UNDEMI*DVOL(I)*(PNEW(I))
+         EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I))
          PNEW(I) = PNEW(I) + PSH(I)
          TFEXTT  = TFEXTT-DVOL(I)*PSH(I)
        ENDDO
@@ -196,8 +196,8 @@ C------------------------
                DENOM   = (ESPE(I)+D0)
                PP      = (A1*MU(I)+A2_*MU(I)*MU(I)+(B0+B1*MU(I)+B2*MU(I)*MU(I))*ESPE(I)+(C1*MU(I)+C0)*ESPE(I)*ESPE(I))
      .              /DENOM
-               dPdMU   = (A1+2*A2_*MU(I)+(DEUX*B2*MU(I)+B1)*ESPE(I)+C1*ESPE(I)*ESPE(I))/DENOM
-               dPdE(I) = (((B2*MU(I)+B1)*MU(I)+B0)+(DEUX*(C1*MU(I)+C0))*ESPE(I) - PP/DENOM)/DENOM                                      
+               dPdMU   = (A1+2*A2_*MU(I)+(TWO*B2*MU(I)+B1)*ESPE(I)+C1*ESPE(I)*ESPE(I))/DENOM
+               dPdE(I) = (((B2*MU(I)+B1)*MU(I)+B0)+(TWO*(C1*MU(I)+C0))*ESPE(I) - PP/DENOM)/DENOM                                      
                DPDM(I) = dPdmu + dPdE(I)*DF(I)*DF(I)*(PP) !total derivative
                PNEW(I) = PP
             ENDIF

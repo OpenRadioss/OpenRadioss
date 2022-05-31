@@ -98,30 +98,30 @@ C-------------------------------------------------
          SIGO(I,1) = SIG(I,1)
          SIGO(I,2) = SIG(I,2)
          SIGO(I,3) = SIG(I,3)
-         A12=(UN-AN12(I)*AN21(I))
+         A12=(ONE-AN12(I)*AN21(I))
          A11=E11(I)/A12
          A22=E22(I)/A12
          A12=AN21(I)*A11
 C
          SIG(I,1)=A11*EPST(I,1)+A12*EPST(I,2)
          SIG(I,2)=A12*EPST(I,1)+A22*EPST(I,2)
-         SIG(I,3)=G12(I)*EPST(I,3)*DEUX
-         SIG(I,4)=G23(I)*SHF(I)*EPST(I,4)*DEUX
-         SIG(I,5)=G31(I)*SHF(I)*EPST(I,5)*DEUX
+         SIG(I,3)=G12(I)*EPST(I,3)*TWO
+         SIG(I,4)=G23(I)*SHF(I)*EPST(I,4)*TWO
+         SIG(I,5)=G31(I)*SHF(I)*EPST(I,5)*TWO
       ENDDO
 C-----------------------------
 C     CONTRAINTES reduites en compression
 C-----------------------------
       DO  I=JFT,JLT
-       S  = UNDEMI*(SIG(I,1)+SIG(I,2))
-       D  = UNDEMI*(SIG(I,1)-SIG(I,2))
+       S  = HALF*(SIG(I,1)+SIG(I,2))
+       D  = HALF*(SIG(I,1)-SIG(I,2))
        R = SQRT(SIG(I,3)*SIG(I,3) + D*D)
        P1 = S - R 
-       ET(I) = UN       
+       ET(I) = ONE       
        IF(P1.LT.ZERO)THEN
          P2 = S + R 
          IF(P2.GT.ZERO)THEN
-           BETA = UNDEMI*((UN-DE(I))*S/R + UN+DE(I)) 
+           BETA = HALF*((ONE-DE(I))*S/R + ONE+DE(I)) 
            SIG(I,1)=BETA*(SIG(I,1)-P2) + P2 
            SIG(I,2)=BETA*(SIG(I,2)-P2) + P2 
            SIG(I,3)=BETA*SIG(I,3)

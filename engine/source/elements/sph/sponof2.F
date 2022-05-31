@@ -129,7 +129,6 @@ C-----------------------------------------------
       OFF_SPH(1:NUMSPH) = ZERO
       TAG_SPH(1:NSPHR) = ZERO
 
-      TIERS =THIRD
       TFEXTT=ZERO
 C-----------------------------------------------
       DO I=1,NSPHIO
@@ -176,7 +175,7 @@ C       non interaction outside DI:
            INOD=KXSP(3,N)
            DI=MAX(DI,SPBUF(1,N))
         ENDDO
-        DI=DEUX*DI
+        DI=TWO*DI
 C-------
         XBMIN =EP20
         YBMIN =EP20
@@ -503,7 +502,7 @@ C           conditions multiples => la derniere condition rencontree impose ..
             GBUF => ELBUF_TAB(NG)%GBUF
             K=N-NFT
 !
-            SPHVELN(2,N)=-TIERS*
+            SPHVELN(2,N)=-THIRD*
      .                   (GBUF%SIG(JJ(1)+K)+GBUF%SIG(JJ(2)+K)+GBUF%SIG(JJ(3)+K))
           ENDIF
           KK=KVNORM+3*(N-1)
@@ -533,7 +532,7 @@ C           conditions multiples => la derniere condition rencontree impose ..
             GBUF => ELBUF_TAB(NG)%GBUF
             K=N-NFT
 !
-            SPHVELN(2,N)=-TIERS*
+            SPHVELN(2,N)=-THIRD*
      .                  (GBUF%SIG(JJ(1)+K)+GBUF%SIG(JJ(2)+K)+GBUF%SIG(JJ(3)+K))
          ENDIF
         ENDDO
@@ -638,7 +637,7 @@ C      general outlets & silent boundary.
           N   =LONFSPH(IACTIVE)
           IF(KXSP(2,N).LT.0)THEN
             INOD=KXSP(3,N)
-            IF(TT.NE.ZERO)TFEXTT=TFEXTT-UNDEMI*MS(INOD)
+            IF(TT.NE.ZERO)TFEXTT=TFEXTT-HALF*MS(INOD)
      .    *(V(1,INOD)*V(1,INOD)+V(2,INOD)*V(2,INOD)+V(3,INOD)*V(3,INOD))
             V(1,INOD)=ZERO
             V(2,INOD)=ZERO
@@ -673,9 +672,9 @@ c            IN2B=IBUFSSG(IAD+1)
               Y2 =X(2,ISPHIO(17,I))
               Z2 =X(3,ISPHIO(18,I))
             ENDIF
-            XG =UNDEMI*(X1+X2)
-            YG =UNDEMI*(Y1+Y2)
-            ZG =UNDEMI*(Z1+Z2)
+            XG =HALF*(X1+X2)
+            YG =HALF*(Y1+Y2)
+            ZG =HALF*(Z1+Z2)
             X(1,INOD)=XG
             X(2,INOD)=YG
             X(3,INOD)=ZG

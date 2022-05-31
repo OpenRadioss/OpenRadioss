@@ -58,10 +58,10 @@ c=======================================================================
             E1 = EP1(I)
             E2 = EP2(I)
             E3 = EP3(I)
-            E4 = UNDEMI*EP4(I)
-            E5 = UNDEMI*EP5(I)
-            E6 = UNDEMI*EP6(I)
-            EPSP = E1**2 + E2**2 + E3**2 + DEUX*(E4**2 + E5**2 + E6**2)
+            E4 = HALF*EP4(I)
+            E5 = HALF*EP5(I)
+            E6 = HALF*EP6(I)
+            EPSP = E1**2 + E2**2 + E3**2 + TWO*(E4**2 + E5**2 + E6**2)
             EPSDOT(I) = SQRT(EPSP)
           ENDDO
         ELSE                  ! deviatoric strain rate
@@ -70,11 +70,11 @@ c=======================================================================
             E1  = EP1(I) - DAV
             E2  = EP2(I) - DAV
             E3  = EP3(I) - DAV
-            E4  = UNDEMI*EP4(I)
-            E5  = UNDEMI*EP5(I)
-            E6  = UNDEMI*EP6(I)
-            EPSP = UNDEMI*(E1**2 + E2**2 + E3**2) + E4**2 + E5**2 + E6**2
-            EPSDOT(I) = SQRT(TROIS*EPSP)/TDEMI
+            E4  = HALF*EP4(I)
+            E5  = HALF*EP5(I)
+            E6  = HALF*EP6(I)
+            EPSP = HALF*(E1**2 + E2**2 + E3**2) + E4**2 + E5**2 + E6**2
+            EPSDOT(I) = SQRT(THREE*EPSP)/THREE_HALF
           ENDDO
         ENDIF
       ENDIF
@@ -82,7 +82,7 @@ c
       IF (ISRATE == 0) THEN
         EPSD(:) = EPSDOT(:)
       ELSEIF (ISRATE > 0) THEN
-        EPSD(:) = ASRATE*EPSDOT(:) + (UN - ASRATE)*EPSD(:)
+        EPSD(:) = ASRATE*EPSDOT(:) + (ONE - ASRATE)*EPSD(:)
       ENDIF
 c-----------
       RETURN

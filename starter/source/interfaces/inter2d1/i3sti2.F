@@ -135,7 +135,7 @@ C---------------------------------------------
         NPT=NSEG(J)-1
         DO JJ=1,NUM
           LL=LNSV(NPT+JJ)
-          STFN(J)=STFN(J) + UNDEMI*STF(LL)
+          STFN(J)=STFN(J) + HALF*STF(LL)
         ENDDO
       ENDDO	  
 
@@ -158,7 +158,7 @@ C
                Z2=X(3,N2)
 c
                AREA = SQRT((Y2-Y1)*(Y2-Y1)+(Z2-Z1)*(Z2-Z1))
-               AREA = AREA*UNDEMI
+               AREA = AREA*HALF
 c
               AREAS(I) = AREAS(I) + AREA
            ENDIF
@@ -191,7 +191,7 @@ c
                Z2=X(3,N2)
 
               AREA = SQRT((Y2-Y1)*(Y2-Y1)+(Z2-Z1)*(Z2-Z1))
-              AREA = AREA*UNDEMI
+              AREA = AREA*HALF
 
               AREAS(I) = AREAS(I) + AREA
              ENDIF

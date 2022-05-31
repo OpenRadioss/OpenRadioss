@@ -139,7 +139,7 @@ C-----------------------------------------------
 C     SURFACE MOUILLEE PAR LA PHASE DU TRIMATERIAUX
 C-----------------------------------------------
       IF(DT1.GT.ZERO)THEN
-        UDT = UN/DT1
+        UDT = ONE/DT1
       ELSE
         UDT = ZERO
       ENDIF

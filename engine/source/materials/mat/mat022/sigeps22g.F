@@ -158,14 +158,14 @@ Chd|====================================================================
         DEPSL  = MAX(ZERO,GBUF%PLA(I)-EPSL(I))
         YLD(I) = MIN(YLD(I),YLDL(I)+HL(I)*DEPSL)
         YLD(I) = MAX(YLD(I),ZERO)
-        ALPE(I)= MIN(UN,YLD(I)/(YLD(I)+YM(I)*DEPSL))
+        ALPE(I)= MIN(ONE,YLD(I)/(YLD(I)+YM(I)*DEPSL))
         YMI    = ALPE(I)*YM(I)
-        G(I)   = UNDEMI*YMI/(UN+NU(I))
-        A1I    = YMI/(UN-NU(I)**2)
+        G(I)   = HALF*YMI/(ONE+NU(I))
+        A1I    = YMI/(ONE-NU(I)**2)
         ALPE(I)= MAX(EM30,A1I/A1(I))
         A1(I)  = A1I
         A2(I)  = NU(I)*A1(I)
-        THK12  = THK0(I)/DOUZE
+        THK12  = THK0(I)/TWELVE
         B1(I)  = A1(I)*THK12
         B2(I)  = A2(I)*THK12
         B3(I)  = G(I) *THK12
@@ -198,9 +198,9 @@ Chd|====================================================================
         M2(I) = MOMOYY(I) + B1(I)*DEPBYY(I)+B2(I)*DEPBXX(I)
         M3(I) = MOMOXY(I) + B3(I)*DEPBXY(I)
 !
-        MP1(I) = (P1*M1(I) + P2*M2(I))*QUATRE
-        MP2(I) = (P2*M1(I) + P1*M2(I))*QUATRE
-        MP3(I) =  P3*M3(I) * QUATRE
+        MP1(I) = (P1*M1(I) + P2*M2(I))*FOUR
+        MP2(I) = (P2*M1(I) + P1*M2(I))*FOUR
+        MP3(I) =  P3*M3(I) * FOUR
         YEQ(I) = YEQ(I) + MP1(I)**2+MP2(I)**2
         YEQ(I) = SQRT(YEQ(I) + MP3(I)**2)
       ENDDO
@@ -210,9 +210,9 @@ Chd|====================================================================
       DO I=JFT,JLT
         EPSP(I) = ABS(DEGMB_LOC(I)+DEGFX_LOC(I)*THK0(I))/(YEQ(I)+EM20)
         EPSP(I) = MAX(EPSP(I),EPDR(I))
-        YLD(I) = YLD(I)*(UN+CC(I)*LOG(EPSP(I)/EPDR(I)))
+        YLD(I) = YLD(I)*(ONE+CC(I)*LOG(EPSP(I)/EPDR(I)))
         IF (ICC(I) == 2) YLD(I)= MIN(YLD(I),YMAX(I))
-        RR(I) = MIN(UN,YLD(I)/(YEQ(I)+EM20))
+        RR(I) = MIN(ONE,YLD(I)/(YEQ(I)+EM20))
       ENDDO
 !--------------
 !     ENERGIES
@@ -232,15 +232,15 @@ Chd|====================================================================
       ENDDO
 !
       DO I=JFT,JLT
-        M1(I) =(Q1*MP1(I) + Q2*MP2(I))*RR(I)*QUART
-        M2(I) =(Q2*MP1(I) + Q1*MP2(I))*RR(I)*QUART     
-        M3(I) = Q3*MP3(I)*RR(I)*QUART
+        M1(I) =(Q1*MP1(I) + Q2*MP2(I))*RR(I)*FOURTH
+        M2(I) =(Q2*MP1(I) + Q1*MP2(I))*RR(I)*FOURTH     
+        M3(I) = Q3*MP3(I)*RR(I)*FOURTH
 !
-        DWELF(I) =(M1(I)+MOMOXX(I))*DOUZE*(C1(I)*(M1(I)-MOMOXX(I))+
+        DWELF(I) =(M1(I)+MOMOXX(I))*TWELVE*(C1(I)*(M1(I)-MOMOXX(I))+
      .                                     C2(I)*(M2(I)-MOMOYY(I)))+
-     .            (M2(I)+MOMOYY(I))*DOUZE*(C2(I)*(M1(I)-MOMOXX(I))+
+     .            (M2(I)+MOMOYY(I))*TWELVE*(C2(I)*(M1(I)-MOMOXX(I))+
      .                                     C1(I)*(M2(I)-MOMOYY(I)))+
-     .            (M3(I)+MOMOXY(I))*DOUZE*(C3(I)*(M3(I)-MOMOXY(I)))
+     .            (M3(I)+MOMOXY(I))*TWELVE*(C3(I)*(M3(I)-MOMOXY(I)))
         DEGFX_LOC(I) = DEGFX_LOC(I) + M1(I)*DEPBXX(I)+M2(I)*DEPBYY(I)+M3(I)*DEPBXY(I)
       ENDDO
 !
@@ -252,28 +252,28 @@ Chd|====================================================================
 !     EPS PLASTIQUE
 !-----------------------
       DO I=JFT,JLT
-        DPLA = OFF(I) * MAX(ZERO,UNDEMI*DWPLA(I)/MAX(EM20,YLD(I)))
+        DPLA = OFF(I) * MAX(ZERO,HALF*DWPLA(I)/MAX(EM20,YLD(I)))
         GBUF%PLA(I) = GBUF%PLA(I) + DPLA
         AAA  = ABS(DWELM(I)+DWELF(I))
         BBB  = ABS(DWPLA(I))
         CCC  = MAX(EM20,AAA+BBB)
-        EZZ = - (DEPSXX(I) + DEPSYY(I)) * (NU(I)*AAA/(UN-NU(I)) + BBB) / CCC
-        THK(I) = THK(I) * (UN + EZZ*OFF(I))
+        EZZ = - (DEPSXX(I) + DEPSYY(I)) * (NU(I)*AAA/(ONE-NU(I)) + BBB) / CCC
+        THK(I) = THK(I) * (ONE + EZZ*OFF(I))
       ENDDO
 !--------------------------------
 !     TEST DE RUPTURE DUCTILE
 !--------------------------------
       DO I=JFT,JLT
         IF (OFF(I) < EM01) OFF(I) = ZERO
-        IF (OFF(I) < UN)   OFF(I) = OFF(I)*QCINQ
+        IF (OFF(I) < ONE)   OFF(I) = OFF(I)*FOUR_OVER_5
       ENDDO
 !
       NINDX=0
 !
       DO I=JFT,JLT
-        IF (OFF(I) < UN)           CYCLE
+        IF (OFF(I) < ONE)           CYCLE
         IF (GBUF%PLA(I) < EPMX(I)) CYCLE
-        OFF(I) = QCINQ
+        OFF(I) = FOUR_OVER_5
         NINDX = NINDX + 1
         INDX(NINDX) = I
         IOFF_DUCT(I) = 1

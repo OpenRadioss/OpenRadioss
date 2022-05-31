@@ -120,7 +120,7 @@ C-------NSN defined in scr04_c.inc--
       NTY   = IPARI(7)
       MFROT = IPARI(30)
       IFQ   = IPARI(31)
-      FREQ  = UN
+      FREQ  = ONE
 C
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)

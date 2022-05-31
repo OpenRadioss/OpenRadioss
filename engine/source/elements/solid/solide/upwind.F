@@ -63,7 +63,7 @@ C-----------------------------------------------
       !   Taylor Galerkine                         !
       !--------------------------------------------!
       IF(UPWM.EQ.2)THEN
-        FAC=CUPWM*UNDEMI*DT1
+        FAC=CUPWM*HALF*DT1
         DO I=LFT,LLT
          GAM(I)=FAC
         END DO
@@ -89,14 +89,14 @@ C-----------------------------------------------
             V(I)=VDY(I)**2+VDZ(I)**2
           ENDDO 
         ENDIF               
-        CH2=CUPWM*UNDEMI
+        CH2=CUPWM*HALF
         CH1=CH2*THIRD
         DO  I=LFT,LLT
-          FAC=UNDEMI*RHO(I)/MAX(EM20,VIS(I))
+          FAC=HALF*RHO(I)/MAX(EM20,VIS(I))
           PE=FAC*GAM(I)
           IF(PE.LE.EM3)THEN
             GAM(I)=CH1*FAC*DELTAX(I)**2
-          ELSEIF(PE.LT.TROIS)THEN
+          ELSEIF(PE.LT.THREE)THEN
             GAM(I)=CH1*FAC*GAM(I)**2/V(I)
           ELSE
             GAM(I)=CH2*GAM(I)/V(I)
@@ -149,7 +149,7 @@ C-----------------------------------------------
       !   Taylor Galerkine                         !
       !--------------------------------------------!
       IF(UPWM.EQ.2)THEN
-        FAC=CUPWM*UNDEMI*DT1
+        FAC=CUPWM*HALF*DT1
         DO I=LFT,LLT
          GAM(I)=FAC
         END DO
@@ -175,14 +175,14 @@ C-----------------------------------------------
             V(I)=VDY(I)**2+VDZ(I)**2
           ENDDO 
         ENDIF               
-        CH2=CUPWM*UNDEMI
+        CH2=CUPWM*HALF
         CH1=CH2*THIRD
         DO  I=LFT,LLT
-          FAC=UNDEMI*RHO(I)/MAX(EM20,VIS(I))
+          FAC=HALF*RHO(I)/MAX(EM20,VIS(I))
           PE=FAC*GAM(I)
           IF(PE.LE.EM3)THEN
             GAM(I)=CH1*FAC*DELTAX(I)**2
-          ELSEIF(PE.LT.TROIS)THEN
+          ELSEIF(PE.LT.THREE)THEN
             GAM(I)=CH1*FAC*GAM(I)**2/V(I)
           ELSE
             GAM(I)=CH2*GAM(I)/V(I)

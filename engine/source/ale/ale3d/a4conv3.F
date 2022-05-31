@@ -108,7 +108,7 @@ C-----------------------------------------------
       ENDDO
 C
       DO I=LFT,LLT
-        VTOT(I) = VTOT(I) + UNDEMI * DT1 *(
+        VTOT(I) = VTOT(I) + HALF * DT1 *(
      1  -VALEL(I)*FLU1(I)
      3  -VALVOIS(2,I)*FLUX(2,I)
      5  -VALVOIS(4,I)*FLUX(4,I)

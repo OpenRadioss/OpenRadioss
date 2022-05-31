@@ -187,11 +187,11 @@ C=======================================================================
      .       E1X, E2X, E3X, E1Y, E2Y, E3Y, E1Z, E2Z, E3Z )
       IF (ISORTH == 0) THEN            
         DO I=LFT,LLT                                            
-          GAMA(I,1) = UN                               
+          GAMA(I,1) = ONE                               
           GAMA(I,2) = ZERO                                
           GAMA(I,3) = ZERO             
           GAMA(I,4) = ZERO                                
-          GAMA(I,5) = UN                                
+          GAMA(I,5) = ONE                                
           GAMA(I,6) = ZERO             
         ENDDO                          
       ELSE                             
@@ -203,7 +203,7 @@ C=======================================================================
       IF(ISMSTR<=4.AND.JLAG>0.OR.(ISMSTR==12.AND.IDTMIN(1)==3)) THEN
 C
        DO I=LFT,LLT
-         IF(ABS(OFFG(I)).GT.UN)THEN
+         IF(ABS(OFFG(I)).GT.ONE)THEN
           XD1(I)=SAV(I,1)
           YD1(I)=SAV(I,2)
           ZD1(I)=SAV(I,3)
@@ -228,7 +228,7 @@ C
           XD8(I)=ZERO
           YD8(I)=ZERO
           ZD8(I)=ZERO
-          OFF(I) = ABS(OFFG(I))-UN
+          OFF(I) = ABS(OFFG(I))-ONE
           OFF_L  = MIN(OFF_L,OFFG(I))
          ELSE
           OFF(I) = ABS(OFFG(I))
@@ -300,9 +300,9 @@ C
       
       IF(ISROT.NE.0)THEN
        DO I=LFT,LLT
-        VXR(I)=(VR(1,NC1(I))+VR(1,NC2(I))+VR(1,NC3(I))+VR(1,NC4(I)) + VR(1,NC5(I))+VR(1,NC6(I))+VR(1,NC7(I))+VR(1,NC8(I)))/HUIT
-        VYR(I)=(VR(2,NC1(I))+VR(2,NC2(I))+VR(2,NC3(I))+VR(2,NC4(I)) + VR(2,NC5(I))+VR(2,NC6(I))+VR(2,NC7(I))+VR(2,NC8(I)))/HUIT
-        VZR(I)=(VR(3,NC1(I))+VR(3,NC2(I))+VR(3,NC3(I))+VR(3,NC4(I)) + VR(3,NC5(I))+VR(3,NC6(I))+VR(3,NC7(I))+VR(3,NC8(I)))/HUIT
+        VXR(I)=(VR(1,NC1(I))+VR(1,NC2(I))+VR(1,NC3(I))+VR(1,NC4(I)) + VR(1,NC5(I))+VR(1,NC6(I))+VR(1,NC7(I))+VR(1,NC8(I)))/EIGHT
+        VYR(I)=(VR(2,NC1(I))+VR(2,NC2(I))+VR(2,NC3(I))+VR(2,NC4(I)) + VR(2,NC5(I))+VR(2,NC6(I))+VR(2,NC7(I))+VR(2,NC8(I)))/EIGHT
+        VZR(I)=(VR(3,NC1(I))+VR(3,NC2(I))+VR(3,NC3(I))+VR(3,NC4(I)) + VR(3,NC5(I))+VR(3,NC6(I))+VR(3,NC7(I))+VR(3,NC8(I)))/EIGHT
         FR_WAV(I)=MAX(
      +  FR_WAVE(NC1(I)),FR_WAVE(NC2(I)),FR_WAVE(NC3(I)),FR_WAVE(NC4(I)),
      +  FR_WAVE(NC5(I)),FR_WAVE(NC6(I)),FR_WAVE(NC7(I)),FR_WAVE(NC8(I)))
@@ -486,9 +486,9 @@ C
       ENDIF
 
       DO I=LFT,LLT
-       VDX(I)=UNHUIT*(VDX1(I)+VDX2(I)+VDX3(I)+VDX4(I)+VDX5(I)+VDX6(I)+VDX7(I)+VDX8(I))
-       VDY(I)=UNHUIT*(VDY1(I)+VDY2(I)+VDY3(I)+VDY4(I)+VDY5(I)+VDY6(I)+VDY7(I)+VDY8(I))
-       VDZ(I)=UNHUIT*(VDZ1(I)+VDZ2(I)+VDZ3(I)+VDZ4(I)+VDZ5(I)+VDZ6(I)+VDZ7(I)+VDZ8(I))
+       VDX(I)=ONE_OVER_8*(VDX1(I)+VDX2(I)+VDX3(I)+VDX4(I)+VDX5(I)+VDX6(I)+VDX7(I)+VDX8(I))
+       VDY(I)=ONE_OVER_8*(VDY1(I)+VDY2(I)+VDY3(I)+VDY4(I)+VDY5(I)+VDY6(I)+VDY7(I)+VDY8(I))
+       VDZ(I)=ONE_OVER_8*(VDZ1(I)+VDZ2(I)+VDZ3(I)+VDZ4(I)+VDZ5(I)+VDZ6(I)+VDZ7(I)+VDZ8(I))
        VD2(I)=(VDX(I)**2+VDY(I)**2+VDZ(I)**2)  
       ENDDO
 C-----------     

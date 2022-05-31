@@ -135,7 +135,7 @@ C------------------------------
            INDEX2(NELA+1,NG) = I
            WRITE(IOUT,'(A,I10,A,G13.5)')' BRICK ACTIVATION:',IXS(11,II),' AT TIME:',TIME
            OFFG => ELBUF_TAB(NG)%GBUF%OFF
-           OFFG(I) = UN
+           OFFG(I) = ONE
           ENDDO
        ENDIF
 
@@ -162,8 +162,8 @@ C
              NPTR   = ELBUF_TAB(NG)%NPTR
              NPTS   = ELBUF_TAB(NG)%NPTS
              NPTT   = ELBUF_TAB(NG)%NPTT
-             FACVOL=UN
-             IF(ISOLNOD == 4 .AND. ITETRA4 == 1) FACVOL=QUATRE			   
+             FACVOL=ONE
+             IF(ISOLNOD == 4 .AND. ITETRA4 == 1) FACVOL=FOUR			   
 
              DO I=1,NELA
                 J=INDEX(I)+NFT
@@ -176,21 +176,21 @@ C
                 NC7(I)=IXS(8,J)
                 NC8(I)=IXS(9,J)
 
-                MCP_OFF(NC1(I)) = UN
-                MCP_OFF(NC2(I)) = UN
-                MCP_OFF(NC3(I)) = UN
-                MCP_OFF(NC4(I)) = UN
-                MCP_OFF(NC5(I)) = UN
-                MCP_OFF(NC6(I)) = UN
-                MCP_OFF(NC7(I)) = UN
-                MCP_OFF(NC8(I)) = UN
+                MCP_OFF(NC1(I)) = ONE
+                MCP_OFF(NC2(I)) = ONE
+                MCP_OFF(NC3(I)) = ONE
+                MCP_OFF(NC4(I)) = ONE
+                MCP_OFF(NC5(I)) = ONE
+                MCP_OFF(NC6(I)) = ONE
+                MCP_OFF(NC7(I)) = ONE
+                MCP_OFF(NC8(I)) = ONE
              ENDDO
 			 
              IF(IFORM == 2) THEN
                RHOCP=PM(69,IXS(1,1+NFT))
                DO I=1,NELA
                   J=INDEX(I)
-                  MCPS=UNHUIT*RHOCP*VOLG(J)*FACVOL
+                  MCPS=ONE_OVER_8*RHOCP*VOLG(J)*FACVOL
                   MCP(NC1(I)) = MCP(NC1(I)) + MCPS
                   MCP(NC2(I)) = MCP(NC2(I)) + MCPS
                   MCP(NC3(I)) = MCP(NC3(I)) + MCPS
@@ -218,7 +218,7 @@ C---      TEMPERATURE AT ACTIVATION TIME
                  IF(JTHE < 0) CALL S10NXT4(NXT4,NELA)
                  DO IP=1,NPTR
                    DO I=1,NELA
-                    VOLPN(I,IP) = QUART*VOLGN(I)
+                    VOLPN(I,IP) = FOURTH*VOLGN(I)
 				    IF(JTHE >= 0 ) CYCLE
                     TEMPN(I,IP) = NXT4(I,1,IP)*TEMP(NC1(I))+NXT4(I,2,IP)*TEMP(NC2(I))+
      .                            NXT4(I,3,IP)*TEMP(NC3(I))+NXT4(I,4,IP)*TEMP(NC4(I))
@@ -228,7 +228,7 @@ C---      TEMPERATURE AT ACTIVATION TIME
                  DO I=1,NELA
                   VOLPN(I,1) = VOLGN(I)
 				  IF(JTHE >= 0 ) CYCLE
-                  TEMPN(I,1) = QUART*(TEMP(NC1(I))+TEMP(NC2(I))+TEMP(NC3(I))+TEMP(NC4(I)))
+                  TEMPN(I,1) = FOURTH*(TEMP(NC1(I))+TEMP(NC2(I))+TEMP(NC3(I))+TEMP(NC4(I)))
                  ENDDO
                ENDIF
              ELSE
@@ -261,7 +261,7 @@ C
              ENDDO
            ENDIF
 
-C---       TEST POUR L'ACTIVATION D'UN GROUPE
+C---       TEST POUR L'ACTIVATION D'ONE GROUPE
            IGOF = 1
            DO I = 1,NEL
              IF (OFFG(I) /= ZERO) IGOF=0
@@ -277,13 +277,13 @@ C---       ELEMENTS QUADS
              IF (IGQU /= 0) THEN
              DO J=1,IGRQUAD(IGQU)%NENTITY
                IF (II == IGRQUAD(IGQU)%ENTITY(J)) THEN
-                 OFFG(I) = UN
+                 OFFG(I) = ONE
                  WRITE(IOUT,'(A,I10,A,G13.5)')' QUAD ACTIVATION:',IXQ(7,II),' AT TIME:',TIME
                ENDIF
              ENDDO
              ENDIF
            ENDDO
-C---       TEST POUR L'ACTIVATION D'UN GROUPE
+C---       TEST POUR L'ACTIVATION D'ONE GROUPE
            IGOF = 1
            DO I = 1,NEL
              IF (OFFG(I) /= ZERO) IGOF=0
@@ -304,7 +304,7 @@ C---     ELEMENTS COQUES
              ENDDO
              ENDIF
            ENDDO
-C---       TEST POUR L'ACTIVATION D'UN GROUPE
+C---       TEST POUR L'ACTIVATION D'ONE GROUPE
            IGOF = 1
            DO I = 1,NEL
              IF (OFFG(I) > ZERO) IGOF=0
@@ -319,13 +319,13 @@ C---     ELEMENTS TRUSS
              IF (IGTR /= 0) THEN
              DO J=1,IGRTRUSS(IGTR)%NENTITY
                IF (II == IGRTRUSS(IGTR)%ENTITY(J)) THEN
-                 OFFG(I)= UN
+                 OFFG(I)= ONE
                  WRITE(IOUT,'(A,I10,A,G13.5)')' TRUSS ACTIVATION:',IXT(5,II),' AT TIME:',TIME
                ENDIF
              ENDDO
              ENDIF
            ENDDO
-C---       TEST POUR L'ACTIVATION D'UN GROUPE
+C---       TEST POUR L'ACTIVATION D'ONE GROUPE
            IGOF = 1
            DO I = 1,NEL
              IF (OFFG(I) /= ZERO) IGOF=0
@@ -340,13 +340,13 @@ C---     ELEMENTS POUTRES
              IF (IGBM /= 0) THEN
              DO J=1,IGRBEAM(IGBM)%NENTITY
                IF (II == IGRBEAM(IGBM)%ENTITY(J)) THEN
-                 OFFG(I)= UN
+                 OFFG(I)= ONE
                  WRITE(IOUT,'(A,I10,A,G13.5)')' BEAM ACTIVATION:',IXP(6,II),' AT TIME:',TIME
                ENDIF
              ENDDO
              ENDIF
            ENDDO
-C---       TEST POUR L'ACTIVATION D'UN GROUPE
+C---       TEST POUR L'ACTIVATION D'ONE GROUPE
            IGOF = 1
            DO I = 1,NEL
              IF(OFFG(I) > ZERO) IGOF=0
@@ -365,7 +365,7 @@ C---     ELEMENTS RESSORTS
              IF (IGSP /= 0) THEN
              DO J=1,IGRSPRING(IGSP)%NENTITY
                IF (II == IGRSPRING(IGSP)%ENTITY(J)) THEN
-                 OFFG(I)= UN
+                 OFFG(I)= ONE
                  WRITE(IOUT,'(A,I10,A,G13.5)')' SPRING ACTIVATION:',IXR(NIXR,II),' AT TIME:',TIME
                ENDIF
              ENDDO
@@ -382,13 +382,13 @@ C---     ELEMENTS COQUES 3N
              IF (IGSH3 /= 0) THEN
              DO J=1,IGRSH3N(IGSH3)%NENTITY
                IF (II == IGRSH3N(IGSH3)%ENTITY(J)) THEN
-                   OFFG(I) = UN
+                   OFFG(I) = ONE
                  WRITE(IOUT,'(A,I10,A,G13.5)')' SH_3N ACTIVATION:',IXTG(6,II),' AT TIME:',TIME
                ENDIF
              ENDDO
              ENDIF
            ENDDO
-C---       TEST POUR L'ACTIVATION D'UN GROUPE
+C---       TEST POUR L'ACTIVATION D'ONE GROUPE
            IGOF = 1
            DO I = 1,NEL
              IF (OFFG(I) /= ZERO) IGOF=0
@@ -419,10 +419,10 @@ C-----------------------
           OFFG(I) = ZERO
           WRITE(IOUT,'(A,I10,A,G13.5)')' BRICK DEACTIVATION:',IXS(11,II),' AT TIME:',TIME
           IF(ITHERM_FE > 0 .AND. IFORM == 2) THEN
-            FACVOL=UN
-            IF(ISOLNOD == 4 .AND. ITETRA4 == 1) FACVOL=QUATRE			   
+            FACVOL=ONE
+            IF(ISOLNOD == 4 .AND. ITETRA4 == 1) FACVOL=FOUR			   
             RHOCP=PM(69,IXS(1,II))
-            MCPS=UNHUIT*RHOCP*VOLG(I)*FACVOL
+            MCPS=ONE_OVER_8*RHOCP*VOLG(I)*FACVOL
             DO K=2,9
               KK = IXS(K,II)
               MCP(KK) = MCP(KK) - MCPS
@@ -441,7 +441,7 @@ C-----------------------
 C---     ELEMENTS SOLIDES
            OFFG => ELBUF_TAB(NG)%GBUF%OFF
            VOLG => ELBUF_TAB(NG)%GBUF%VOL
-C---       TEST POUR L'ELIMINATION D'UN GROUPE
+C---       TEST POUR L'ELIMINATION D'ONE GROUPE
            IGOF = 1
            DO I = 1,NEL
              IF (OFFG(I) > ZERO) IGOF=0
@@ -462,7 +462,7 @@ C---     ELEMENTS QUADS
              ENDDO
              ENDIF
            ENDDO
-C---       TEST POUR L'ELIMINATION D'UN GROUPE
+C---       TEST POUR L'ELIMINATION D'ONE GROUPE
            IGOF = 1
            DO I = 1,NEL
              IF (OFFG(I)  /= ZERO) IGOF=0
@@ -484,7 +484,7 @@ C
              ENDDO
              ENDIF
            ENDDO
-C---       TEST POUR L'ELIMINATION D'UN GROUPE
+C---       TEST POUR L'ELIMINATION D'ONE GROUPE
            IGOF = 1
            DO I = 1,NEL
              IF (OFFG(I) > ZERO) IGOF=0
@@ -505,7 +505,7 @@ C---     ELEMENTS TRUSS
              ENDDO
              ENDIF
            ENDDO
-C---       TEST POUR L'ELIMINATION D'UN GROUPE
+C---       TEST POUR L'ELIMINATION D'ONE GROUPE
            IGOF = 1
            DO I = 1,NEL
              IF(OFFG(I) /= ZERO) IGOF=0
@@ -526,7 +526,7 @@ C---     ELEMENTS POUTRES
              ENDDO
              ENDIF
            ENDDO
-C---       TEST POUR L'ELIMINATION D'UN GROUPE
+C---       TEST POUR L'ELIMINATION D'ONE GROUPE
            IGOF = 1
            DO I = 1,NEL
              IF(OFFG(I) > ZERO) IGOF=0
@@ -569,7 +569,7 @@ C---     ELEMENTS COQUES 3N
              ENDDO
              ENDIF
            ENDDO
-C---       TEST POUR L'ELIMINATION D'UN GROUPE
+C---       TEST POUR L'ELIMINATION D'ONE GROUPE
            IGOF = 1
            DO I = 1,NEL
              IF (OFFG(I) /= ZERO) IGOF=0
@@ -581,7 +581,7 @@ C----------------------------------------
       ELSE  ! IFLAG == -1 
       IF(ITHERM_FE > 0 ) THEN
 C Set MCP_OFF(i) == 0 if all solids connected to i are deactivated
-          MCP_OFF(1:NUMNOD) = UN
+          MCP_OFF(1:NUMNOD) = ONE
           DO II = 1,NUMELS
             NG  = IGROUPS(II)
             OFFG => ELBUF_TAB(NG)%GBUF%OFF
@@ -612,7 +612,7 @@ C Set MCP_OFF(i) == 0 if all solids connected to i are deactivated
              ! activated element
              DO K=2,9
                KK = IXS(K,II)
-               MCP_OFF(KK) = UN
+               MCP_OFF(KK) = ONE
              ENDDO
             ENDIF
           ENDDO

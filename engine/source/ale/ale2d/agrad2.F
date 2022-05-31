@@ -95,14 +95,14 @@ C------------------------------------------
 
       IF(N2D.EQ.1)THEN
        DO I=LFT,LLT
-         N1Y(I) = N1Y(I)*(Y1(I)+Y2(I))*UNDEMI
-         N1Z(I) = N1Z(I)*(Y1(I)+Y2(I))*UNDEMI
-         N2Y(I) = N2Y(I)*(Y2(I)+Y3(I))*UNDEMI
-         N2Z(I) = N2Z(I)*(Y2(I)+Y3(I))*UNDEMI
-         N3Y(I) = N3Y(I)*(Y3(I)+Y4(I))*UNDEMI
-         N3Z(I) = N3Z(I)*(Y3(I)+Y4(I))*UNDEMI
-         N4Y(I) = N4Y(I)*(Y1(I)+Y4(I))*UNDEMI
-         N4Z(I) = N4Z(I)*(Y1(I)+Y4(I))*UNDEMI  
+         N1Y(I) = N1Y(I)*(Y1(I)+Y2(I))*HALF
+         N1Z(I) = N1Z(I)*(Y1(I)+Y2(I))*HALF
+         N2Y(I) = N2Y(I)*(Y2(I)+Y3(I))*HALF
+         N2Z(I) = N2Z(I)*(Y2(I)+Y3(I))*HALF
+         N3Y(I) = N3Y(I)*(Y3(I)+Y4(I))*HALF
+         N3Z(I) = N3Z(I)*(Y3(I)+Y4(I))*HALF
+         N4Y(I) = N4Y(I)*(Y1(I)+Y4(I))*HALF
+         N4Z(I) = N4Z(I)*(Y1(I)+Y4(I))*HALF  
        ENDDO
       ENDIF
 C--------+---------+---------+---------+---------+---------+---------+--
@@ -139,10 +139,10 @@ C---------------------------------
 C     CALCUL DES GRADIENTS * SURFACES
 C---------------------------------
       DO I=LFT,LLT
-        GRAD(1,I) = QUATRE * (D1Y(I)*N1Y(I)+D1Z(I)*N1Z(I)) / MAX(EM15,DD1(I))
-        GRAD(2,I) = QUATRE * (D2Y(I)*N2Y(I)+D2Z(I)*N2Z(I)) / MAX(EM15,DD2(I))
-        GRAD(3,I) = QUATRE * (D3Y(I)*N3Y(I)+D3Z(I)*N3Z(I)) / MAX(EM15,DD3(I))
-        GRAD(4,I) = QUATRE * (D4Y(I)*N4Y(I)+D4Z(I)*N4Z(I)) / MAX(EM15,DD4(I))
+        GRAD(1,I) = FOUR * (D1Y(I)*N1Y(I)+D1Z(I)*N1Z(I)) / MAX(EM15,DD1(I))
+        GRAD(2,I) = FOUR * (D2Y(I)*N2Y(I)+D2Z(I)*N2Z(I)) / MAX(EM15,DD2(I))
+        GRAD(3,I) = FOUR * (D3Y(I)*N3Y(I)+D3Z(I)*N3Z(I)) / MAX(EM15,DD3(I))
+        GRAD(4,I) = FOUR * (D4Y(I)*N4Y(I)+D4Z(I)*N4Z(I)) / MAX(EM15,DD4(I))
       ENDDO
 
       RETURN

@@ -71,20 +71,20 @@ C-----------------------------------------------
       !     BRANCHEMENTS
       !
       !-----------------------------
-      UNMM2 = -O88P9844 + DEUX
-      XM    = NEUFP38
+      UNMM2 = -O88P9844 + TWO
+      XM    = NINEP38
          
       DO I=LFT,LLT
         MX           = MAT(I)
         VJ           = PM(56,MX)
-        XJ           = UN-RHO0(I)*VJ
+        XJ           = ONE-RHO0(I)*VJ
         
         !--------------------------------------
-        IF(X(I).LT.XJ.AND.XIST0(I).NE.CINQ)THEN
+        IF(X(I).LT.XJ.AND.XIST0(I).NE.FIVE)THEN
         !--------------------
         !      LIQUIDE-VAPEUR
         !--------------------
-          XIST(I)    = QUATRE
+          XIST(I)    = FOUR
           C1         = PM(57,MX)
           C2         = PM(58,MX)
           C3         = PM(59,MX)
@@ -98,23 +98,23 @@ C-----------------------------------------------
           ZJ         = VB/VJ
           TZ         = THET-Z
           TZJ        = THET-ZJ
-          FE         = (TZJ**3*(DEUX*Z-DEUX+THET)/TZ**2-TZ*(DEUX*ZJ-DEUX+THET))*UNDEMI*VB/ZJ**3
-          A2         = QUATRE*(D3-C3*FE)
-          BB         = RP3(I)+DEUX*D2
-          CC         = DEUX*(D1+C1*FE-ESPE(I)-APY*Z/VB)
+          FE         = (TZJ**3*(TWO*Z-TWO+THET)/TZ**2-TZ*(TWO*ZJ-TWO+THET))*HALF*VB/ZJ**3
+          A2         = FOUR*(D3-C3*FE)
+          BB         = RP3(I)+TWO*D2
+          CC         = TWO*(D1+C1*FE-ESPE(I)-APY*Z/VB)
           IF(A2.EQ.ZERO)THEN
             TEMP(I)  = -CC/BB
           ELSE
-           TEMP(I)   =(-BB+SQRT(BB**2- DEUX*A2*CC))/A2
+           TEMP(I)   =(-BB+SQRT(BB**2- TWO*A2*CC))/A2
           ENDIF
           FP         = (Z*TZJ/(ZJ*TZ))**3
-          P(I)       = RP3(I)*TEMP(I)*Z*(UN+Z+Z**2-Z**3)/(TROIS*VB*(UN-Z)**3)
+          P(I)       = RP3(I)*TEMP(I)*Z*(ONE+Z+Z**2-Z**3)/(THREE*VB*(ONE-Z)**3)
      .                 -APY*Z**2/VB**2
      .                 +FP*(C1+C2*TEMP(I)+C3*TEMP(I)**2)
           P1(I)      = ZERO
-          PCR(I)     = P(I)*DEUX/RHO(I)
+          PCR(I)     = P(I)*TWO/RHO(I)
 
-         ELSEIF(ESPE(I).LE.EM1(I).OR.XIST0(I).EQ.CINQ) THEN
+         ELSEIF(ESPE(I).LE.EM1(I).OR.XIST0(I).EQ.FIVE) THEN
          !--------------------
          !      SOLIDE
          !--------------------
@@ -126,7 +126,7 @@ C-----------------------------------------------
              TEMP(I) = -CC/BB
              PCR(I)  = ZERO
            ELSE
-             TEMP(I) = (-BB+SQRT(BB**2-DEUX*A2*CC))/A2
+             TEMP(I) = (-BB+SQRT(BB**2-TWO*A2*CC))/A2
              PCR(I)  = GEAX(I)*TEMP(I)**2
            ENDIF
 
@@ -134,7 +134,7 @@ C-----------------------------------------------
          !--------------------
          !      FUSION 2 PHASES
          !--------------------
-           XIST(I)   = UN
+           XIST(I)   = ONE
            XNU(I)    = (ESPE(I)-EM1(I))/(EM2(I)-EM1(I))
            V1        = DSP(I)-ALP(I)
            A2        = GP(I)
@@ -142,42 +142,42 @@ C-----------------------------------------------
            CC        = -(EM0(I)+XNU(I)**2*DELT(I)*V1)
            IF(A2.EQ.ZERO)THEN
              TEMP(I) = -CC/BB
-             PCR(I)  = -DEUX*XNU(I)*V1*(XLAM(I)*TM(I)+(TEMP(I)-XNU(I)*DELT(I))*G0AX(I))
+             PCR(I)  = -TWO*XNU(I)*V1*(XLAM(I)*TM(I)+(TEMP(I)-XNU(I)*DELT(I))*G0AX(I))
            ELSE
-             TEMP(I) = (-BB+SQRT(BB**2-DEUX*A2*CC))/A2
-             PCR(I)  = GEAX(I)*TEMP(I)**2-DEUX*XNU(I)*V1*(XLAM(I)*TM(I)+(TEMP(I)-XNU(I)*DELT(I))*G0AX(I))
+             TEMP(I) = (-BB+SQRT(BB**2-TWO*A2*CC))/A2
+             PCR(I)  = GEAX(I)*TEMP(I)**2-TWO*XNU(I)*V1*(XLAM(I)*TM(I)+(TEMP(I)-XNU(I)*DELT(I))*G0AX(I))
            ENDIF
 
          ELSEIF(ESPE(I).LE.EGG(I)) THEN
          !--------------------
          !      LIQUIDE
          !--------------------
-           XIST(I)   = DEUX
+           XIST(I)   = TWO
            A2        = GP(I)-ALP(I)/TM(I)
            BB        = RP3(I)
-           CC        = -(EM0(I)-TM(I)*(DSP(I)-UNDEMI*ALP(I)))
+           CC        = -(EM0(I)-TM(I)*(DSP(I)-HALF*ALP(I)))
            IF(A2.EQ.ZERO)THEN
              TEMP(I) = -CC/BB
-             PCR(I)  = -TM(I)*(XLAM(I)+G0AX(I))*(DEUX*DSP(I)-ALP(I)*(UN+TEMP(I)**2/TM(I)**2))
+             PCR(I)  = -TM(I)*(XLAM(I)+G0AX(I))*(TWO*DSP(I)-ALP(I)*(ONE+TEMP(I)**2/TM(I)**2))
            ELSE
              TEMP(I) = (-BB+SQRT(BB**2-2.*A2*CC))/A2
-             PCR(I)  = GEAX(I)*TEMP(I)**2-TM(I)*(XLAM(I)+G0AX(I))*(DEUX*DSP(I)-ALP(I)*(UN+TEMP(I)**2/TM(I)**2))
+             PCR(I)  = GEAX(I)*TEMP(I)**2-TM(I)*(XLAM(I)+G0AX(I))*(TWO*DSP(I)-ALP(I)*(ONE+TEMP(I)**2/TM(I)**2))
            ENDIF
 
          ELSE
          !--------------------
          !      LIQUIDE-CHAUD
          !--------------------
-           XIST(I)   = TROIS
+           XIST(I)   = THREE
            A2        = GP(I)
            BB        = RP3(I)-XM*ALP(I)
-           CC        = -(EM0(I)-TM(I)*(DSP(I)-UNDEMI*ALP(I)*UNMM2))
+           CC        = -(EM0(I)-TM(I)*(DSP(I)-HALF*ALP(I)*UNMM2))
            IF(A2.EQ.ZERO)THEN
              TEMP(I) = -CC/BB
-             PCR(I)  = -TM(I)*( DEUX*DSP(I)-ALP(I)*(UNMM2+DEUX*XM*TEMP(I)/TM(I)) )*(XLAM(I)+G0AX(I))
+             PCR(I)  = -TM(I)*( TWO*DSP(I)-ALP(I)*(UNMM2+TWO*XM*TEMP(I)/TM(I)) )*(XLAM(I)+G0AX(I))
            ELSE
-             TEMP(I) = (-BB+SQRT(BB**2-DEUX*A2*CC))/A2
-             PCR(I)  = GEAX(I)*TEMP(I)**2-TM(I)*(DEUX*DSP(I)-ALP(I)*(UNMM2+2.*XM*TEMP(I)/TM(I)))*(XLAM(I)+G0AX(I))
+             TEMP(I) = (-BB+SQRT(BB**2-TWO*A2*CC))/A2
+             PCR(I)  = GEAX(I)*TEMP(I)**2-TM(I)*(TWO*DSP(I)-ALP(I)*(UNMM2+2.*XM*TEMP(I)/TM(I)))*(XLAM(I)+G0AX(I))
            ENDIF
            
            !--------------------

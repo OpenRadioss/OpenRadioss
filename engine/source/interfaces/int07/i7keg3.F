@@ -109,7 +109,7 @@ C-----------------------------------------------
 Celdev021
 #include "sync_dir.inc"
       IF (IRESP.EQ.1) THEN
-           PREC = CINQEM4
+           PREC = FIVEEM4
       ELSE
            PREC = EM10
       ENDIF
@@ -119,13 +119,13 @@ C--------------------------------------------------------
       IF (IMP_INT7.EQ.3) THEN
        DO I=1,JLT
         D1 = SQRT(P1(I))
-        P1(I) = QUART*GAPV(I) 
+        P1(I) = FOURTH*GAPV(I) 
         D2 = SQRT(P2(I))
-        P2(I) = QUART*GAPV(I)
+        P2(I) = FOURTH*GAPV(I)
         D3 = SQRT(P3(I))
-        P3(I) = QUART*GAPV(I)
+        P3(I) = FOURTH*GAPV(I)
         D4 = SQRT(P4(I))
-        P4(I) = QUART*GAPV(I)
+        P4(I) = FOURTH*GAPV(I)
         A1 = P1(I)/MAX(EM20,D1)
         A2 = P2(I)/MAX(EM20,D2)
         A3 = P3(I)/MAX(EM20,D3)
@@ -163,18 +163,18 @@ C
         IF(IX3(I).NE.IX4(I))THEN
          PENE(I) = MAX(P1(I),P2(I),P3(I),P4(I))
 C
-         LA1 = UN - LB1(I) - LC1(I)
-         LA2 = UN - LB2(I) - LC2(I)
-         LA3 = UN - LB3(I) - LC3(I)
-         LA4 = UN - LB4(I) - LC4(I) 
+         LA1 = ONE - LB1(I) - LC1(I)
+         LA2 = ONE - LB2(I) - LC2(I)
+         LA3 = ONE - LB3(I) - LC3(I)
+         LA4 = ONE - LB4(I) - LC4(I) 
 C
-         H0    = QUART * 
+         H0    = FOURTH * 
      .         (P1(I)*LA1 + P2(I)*LA2 + P3(I)*LA3 + P4(I)*LA4)
          H1(I) = H0 + P1(I) * LB1(I) + P4(I) * LC4(I)
          H2(I) = H0 + P2(I) * LB2(I) + P1(I) * LC1(I)
          H3(I) = H0 + P3(I) * LB3(I) + P2(I) * LC2(I)
          H4(I) = H0 + P4(I) * LB4(I) + P3(I) * LC3(I)
-         H00    = UN/MAX(EM20,H1(I) + H2(I) + H3(I) + H4(I))
+         H00    = ONE/MAX(EM20,H1(I) + H2(I) + H3(I) + H4(I))
          H1(I) = H1(I) * H00
          H2(I) = H2(I) * H00
          H3(I) = H3(I) * H00
@@ -187,7 +187,7 @@ C
          N3(I) = NZ1(I)
          H1(I) = LB1(I)
          H2(I) = LC1(I)
-         H3(I) = UN - LB1(I) - LC1(I)
+         H3(I) = ONE - LB1(I) - LC1(I)
          H4(I) = ZERO
         ENDIF
        ENDDO
@@ -308,7 +308,7 @@ c        print *,'ICURV=3 NOT AVAILABLE WITH IMPLICIT OPTION'
       ENDIF
 C
       DO I=1,JLT
-         S2 = UN/MAX(EM30,SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2))
+         S2 = ONE/MAX(EM30,SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2))
          N1(I) = N1(I)*S2
          N2(I) = N2(I)*S2
          N3(I) = N3(I)*S2
@@ -344,8 +344,8 @@ C---------------------
       ELSE IF(INACTI.EQ.6)THEN
          DO I=1,JLT
            CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
-     .        ( (UN-CINQEM2)*CAND_P(INDEX(I))
-     .          +CINQEM2*(PENE(I)+CINQEM2*(GAPV(I)-PENE(I))))  )
+     .        ( (ONE-FIVEEM2)*CAND_P(INDEX(I))
+     .          +FIVEEM2*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I))))  )
            PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
            IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-CAND_P(INDEX(I))
@@ -356,7 +356,7 @@ c      print *,'IMP_INT7=',IMP_INT7,jlt
       IF(IMP_INT7.GE.2)THEN
       DO I=1,JLT
        IF(STIGLO.LE.ZERO)THEN
-        STIF(I) = UNDEMI*STIF(I) 
+        STIF(I) = HALF*STIF(I) 
        ELSEIF(STIF(I).NE.ZERO)THEN
         STIF(I) = STIGLO 
        ENDIF
@@ -367,7 +367,7 @@ c      print *,'IMP_INT7=',IMP_INT7,jlt
        IF( (GAPV(I)-PENE(I))/GAPV(I) .LT.PREC .AND. 
      .     STIF(I).GT.0. ) STIF(I) = 0.
        IF(STIGLO.LE.ZERO)THEN
-        STIF(I) = UNDEMI*STIF(I) * FAC
+        STIF(I) = HALF*STIF(I) * FAC
        ELSEIF(STIF(I).NE.ZERO)THEN
         STIF(I) = STIGLO * FAC
        ENDIF
@@ -379,7 +379,7 @@ C
        IF( (GAPV(I)-PENE(I))/GAPV(I) .LT.PREC .AND. 
      .     STIF(I).GT.0. ) STIF(I) = 0.
        IF(STIGLO.LE.ZERO)THEN
-        STIF(I) = UNDEMI*STIF(I) * FAC
+        STIF(I) = HALF*STIF(I) * FAC
        ELSEIF(STIF(I).NE.ZERO)THEN
         STIF(I) = STIGLO * FAC
        ENDIF
@@ -397,7 +397,7 @@ C    ----sans frottement d'abord---
         VTZ = VZ(I) -VN(I)*N3(I)
         VT  = VTX*VTX+VTY*VTY+VTZ*VTZ
         IF (VT.GT.EM20) THEN
-         S2=UN/SQRT(VT)
+         S2=ONE/SQRT(VT)
          Q(1,1,I)=VTX*S2
          Q(1,2,I)=VTY*S2
          Q(1,3,I)=VTZ*S2
@@ -518,7 +518,7 @@ C
        ENDDO
 C
        DO I=1,JLT
-        OFF(I)=UN
+        OFF(I)=ONE
        ENDDO
 C
        IF (INTP_D <= 0 .AND. NSPMD > 1) THEN
@@ -624,14 +624,14 @@ C-------------------------------------------
         VTZ = VZ(I) -VN(I)*N3(I)
         VT  = VTX*VTX+VTY*VTY+VTZ*VTZ
         IF (VT.GT.EM20) THEN
-         S2=UN/SQRT(VT)
+         S2=ONE/SQRT(VT)
          T1(I)=VTX*S2
          T2(I)=VTY*S2
          T3(I)=VTZ*S2
          FACT(I)=FRIC
         ELSE
          FACT(I)=ZERO
-         T1(I)=UN
+         T1(I)=ONE
          T2(I)=ZERO
          T3(I)=ZERO
         ENDIF
@@ -798,7 +798,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 #include "sync_dir.inc"
       IF (IRESP.EQ.1) THEN
-           PREC = CINQEM4
+           PREC = FIVEEM4
       ELSE
            PREC = EM10
       ENDIF
@@ -854,18 +854,18 @@ C
         IF(IX3(I).NE.IX4(I))THEN
          PENE(I) = MAX(P1(I),P2(I),P3(I),P4(I))
 C
-         LA1 = UN - LB1(I) - LC1(I)
-         LA2 = UN - LB2(I) - LC2(I)
-         LA3 = UN - LB3(I) - LC3(I)
-         LA4 = UN - LB4(I) - LC4(I) 
+         LA1 = ONE - LB1(I) - LC1(I)
+         LA2 = ONE - LB2(I) - LC2(I)
+         LA3 = ONE - LB3(I) - LC3(I)
+         LA4 = ONE - LB4(I) - LC4(I) 
 C
-         H0    = QUART * 
+         H0    = FOURTH * 
      .         (P1(I)*LA1 + P2(I)*LA2 + P3(I)*LA3 + P4(I)*LA4)
          H1(I) = H0 + P1(I) * LB1(I) + P4(I) * LC4(I)
          H2(I) = H0 + P2(I) * LB2(I) + P1(I) * LC1(I)
          H3(I) = H0 + P3(I) * LB3(I) + P2(I) * LC2(I)
          H4(I) = H0 + P4(I) * LB4(I) + P3(I) * LC3(I)
-         H00    = UN/MAX(EM20,H1(I) + H2(I) + H3(I) + H4(I))
+         H00    = ONE/MAX(EM20,H1(I) + H2(I) + H3(I) + H4(I))
          H1(I) = H1(I) * H00
          H2(I) = H2(I) * H00
          H3(I) = H3(I) * H00
@@ -878,7 +878,7 @@ C
          N3(I) = NZ1(I)
          H1(I) = LB1(I)
          H2(I) = LC1(I)
-         H3(I) = UN - LB1(I) - LC1(I)
+         H3(I) = ONE - LB1(I) - LC1(I)
          H4(I) = ZERO
         ENDIF
        ENDDO
@@ -999,7 +999,7 @@ c        print *,'ICURV=3 NOT AVAILABLE WITH IMPLICIT OPTION'
       ENDIF
 C
        DO I=1,JLT
-         S2 = UN/MAX(EM30,SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2))
+         S2 = ONE/MAX(EM30,SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2))
          N1(I) = N1(I)*S2
          N2(I) = N2(I)*S2
          N3(I) = N3(I)*S2
@@ -1040,7 +1040,7 @@ C---------------------
          DO I=1,JLT
 C REDUCTION DE LA PENE INITIALE
            CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
-     .            ((UN-CINQEM2)*CAND_P(INDEX(I))+CINQEM2*PENE(I))  )
+     .            ((ONE-FIVEEM2)*CAND_P(INDEX(I))+FIVEEM2*PENE(I))  )
 C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
            PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
            IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
@@ -1051,8 +1051,8 @@ C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
 C REDUCTION DE LA PENE INITIALE
 C           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),PENE(I))
            CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
-     .        ( (UN-CINQEM2)*CAND_P(INDEX(I))
-     .          +CINQEM2*(PENE(I)+CINQEM2*(GAPV(I)-PENE(I))))  )
+     .        ( (ONE-FIVEEM2)*CAND_P(INDEX(I))
+     .          +FIVEEM2*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I))))  )
 C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
            PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
            IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
@@ -1067,7 +1067,7 @@ C-------------------------------------------
       IF(IMP_INT7.GE.2)THEN
        DO I=1,JLT
         IF(STIGLO.LE.ZERO)THEN
-         STIF(I) = UNDEMI*STIF(I) 
+         STIF(I) = HALF*STIF(I) 
         ELSEIF(STIF(I).NE.ZERO)THEN
          STIF(I) = STIGLO 
         ENDIF
@@ -1078,7 +1078,7 @@ C-------------------------------------------
         IF( (GAPV(I)-PENE(I))/GAPV(I) .LT.PREC .AND. 
      .     STIF(I).GT.0. ) STIF(I) = 0.
         IF(STIGLO.LE.ZERO)THEN
-         STIF(I) = UNDEMI*STIF(I) * FAC
+         STIF(I) = HALF*STIF(I) * FAC
         ELSEIF(STIF(I).NE.ZERO)THEN
          STIF(I) = STIGLO * FAC
         ENDIF
@@ -1089,7 +1089,7 @@ C-------------------------------------------
         IF( (GAPV(I)-PENE(I))/GAPV(I) .LT.PREC .AND. 
      .     STIF(I).GT.0. ) STIF(I) = 0.
         IF(STIGLO.LE.ZERO)THEN
-         STIF(I) = UNDEMI*STIF(I) * FAC
+         STIF(I) = HALF*STIF(I) * FAC
         ELSEIF(STIF(I).NE.ZERO)THEN
          STIF(I) = STIGLO * FAC
         ENDIF
@@ -1137,7 +1137,7 @@ C---      Viscous friction
             AX  = AY1*AZ2 - AZ1*AY2
             AY  = AZ1*AX2 - AX1*AZ2
             AZ  = AX1*AY2 - AY1*AX2
-            AREA = UNDEMI*SQRT(AX*AX+AY*AY+AZ*AZ)
+            AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ)
             P = -FNI(I)/AREA
             XMU(I) = FRIC + (FROT_P(1) + FROT_P(4)*P ) * P 
      .             +(FROT_P(2) + FROT_P(3)*P) * VV + FROT_P(5)*V2
@@ -1160,7 +1160,7 @@ C---        Loi Darmstad
             AX  = AY1*AZ2 - AZ1*AY2
             AY  = AZ1*AX2 - AX1*AZ2
             AZ  = AX1*AY2 - AY1*AX2
-                AREA = UNDEMI*SQRT(AX*AX+AY*AY+AZ*AZ)
+                AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ)
             P = -FNI(I)/AREA
             XMU(I) = FROT_P(1)*EXP(FROT_P(2)*VV)*P*P
      .             + FROT_P(3)*EXP(FROT_P(4)*VV)*P
@@ -1177,15 +1177,15 @@ C---        Loi Renard
             IF(VV.GE.0.AND.VV.LE.FROT_P(5)) THEN
               DMU = FROT_P(3)-FROT_P(1)
               VV1 = VV / FROT_P(5)
-              XMU(I) = FROT_P(1)+ DMU*VV1*(DEUX-VV1)
+              XMU(I) = FROT_P(1)+ DMU*VV1*(TWO-VV1)
             ELSEIF(VV.GT.FROT_P(5).AND.VV.LT.FROT_P(6)) THEN
               DMU = FROT_P(4)-FROT_P(3) 
               VV1 = (VV - FROT_P(5))/(FROT_P(6)-FROT_P(5))
-              XMU(I) = FROT_P(3)+ DMU * (TROIS-DEUX*VV1)*VV1**2
+              XMU(I) = FROT_P(3)+ DMU * (THREE-TWO*VV1)*VV1**2
             ELSE
               DMU = FROT_P(2)-FROT_P(4)
               VV2 = (VV - FROT_P(6))**2
-              XMU(I) = FROT_P(2) - DMU / (UN + DMU*VV2)
+              XMU(I) = FROT_P(2) - DMU / (ONE + DMU*VV2)
             ENDIF
           ENDDO
         ENDIF
@@ -1195,7 +1195,7 @@ C       INCREMENTAL (STIFFNESS) FORMULATION
 C---------------------------------
         IF (IFQ.GE.10.AND.SCALK.LT.ZERO) THEN
          IF (IFQ.EQ.13) THEN
-            ALPHA = MAX(UN,ALPHA0*DT12)
+            ALPHA = MAX(ONE,ALPHA0*DT12)
          ELSE
             ALPHA = ALPHA0
          ENDIF
@@ -1213,7 +1213,7 @@ C---------------------------------
             FT = FX*FX + FY*FY + FZ*FZ
             FT = MAX(FT,EM30)
             FN = FXI(I)**2+FYI(I)**2+FZI(I)**2
-            BETA = MIN(UN,XMU(I)*SQRT(FN/FT))
+            BETA = MIN(ONE,XMU(I)*SQRT(FN/FT))
             FXT(I) = FX * BETA
             FYT(I) = FY * BETA
             FZT(I) = FZ * BETA

@@ -126,34 +126,34 @@ C--------------------------------
           D11    = DIR(I,1)*DIR(I,1)
           D22    = DIR(I,2)*DIR(I,2)
           D12    = DIR(I,1)*DIR(I,2)
-          SXX    = D11*SIGNXX(I) + D22*SIGNYY(I) + DEUX*D12*SIGNXY(I)
-          SYY    = D22*SIGNXX(I) + D11*SIGNYY(I) - DEUX*D12*SIGNXY(I)
+          SXX    = D11*SIGNXX(I) + D22*SIGNYY(I) + TWO*D12*SIGNXY(I)
+          SYY    = D22*SIGNXX(I) + D11*SIGNYY(I) - TWO*D12*SIGNXY(I)
           SXY    = D12*(SIGNYY(I) - SIGNXX(I)) + ( D11 - D22 )*SIGNXY(I)
           P      = -(SXX+SYY) * THIRD
-          Q      = (UN - (NU/(UN - NU)))*P
+          Q      = (ONE - (NU/(ONE - NU)))*P
           S11    = SXX+Q
           S22    = SYY+Q
           S12    = SXY
           A      = A01*S11*S11 + A02*S22*S22 - A03*S11*S22 + A12*S12*S12
-          B      = -Q*(A01*S11 + A02*S22 - UNDEMI*A03*(S11+S22))
+          B      = -Q*(A01*S11 + A02*S22 - HALF*A03*(S11+S22))
           C      = (A01+A02-A03)*Q*Q
           SEQ    = MAX(SQRT(A+B+B+C),EM20)
-          DSEQ_DA = UN/(DEUX*SEQ)
-          DSEQ_DB = UN/(SEQ)
-          DSEQ_DC = UN/(DEUX*SEQ)
-          DA_DS11 = DEUX*A01*S11 - A03*S22
-          DA_DS22 = DEUX*A02*S22 - A03*S11
-          DA_DS12 = DEUX*A12*S12
-          DB_DS11 = (UNDEMI*A03-A01)*Q
-          DB_DS22 = (UNDEMI*A03-A02)*Q
-          DB_DQ   = -(A01*S11 + A02*S22 - UNDEMI*A03*(S11+S22))
-          DC_DQ   = DEUX*(A01+A02-A03)*Q
-          DQ_DSXX = -THIRD*(UN - (NU/(UN - NU)))
-          DQ_DSYY = -THIRD*(UN - (NU/(UN - NU)))
-          DS11_DSXX = UN + DQ_DSXX
+          DSEQ_DA = ONE/(TWO*SEQ)
+          DSEQ_DB = ONE/(SEQ)
+          DSEQ_DC = ONE/(TWO*SEQ)
+          DA_DS11 = TWO*A01*S11 - A03*S22
+          DA_DS22 = TWO*A02*S22 - A03*S11
+          DA_DS12 = TWO*A12*S12
+          DB_DS11 = (HALF*A03-A01)*Q
+          DB_DS22 = (HALF*A03-A02)*Q
+          DB_DQ   = -(A01*S11 + A02*S22 - HALF*A03*(S11+S22))
+          DC_DQ   = TWO*(A01+A02-A03)*Q
+          DQ_DSXX = -THIRD*(ONE - (NU/(ONE - NU)))
+          DQ_DSYY = -THIRD*(ONE - (NU/(ONE - NU)))
+          DS11_DSXX = ONE + DQ_DSXX
           DS11_DSYY = DQ_DSYY
           DS22_DSXX = DQ_DSXX
-          DS22_DSYY = UN + DQ_DSYY
+          DS22_DSYY = ONE + DQ_DSYY
           DSXX_DSIGX  = D11
           DSXX_DSIGY  = D22
           DSYY_DSIGX  = D22
@@ -187,7 +187,7 @@ C--------------------------------
       ! Local
       ELSE
         DO I=JFT,JLT
-          EZZ(I) = -(DEPSXX(I)+DEPSYY(I))*(NU/(UN-NU)) + EZZ(I)
+          EZZ(I) = -(DEPSXX(I)+DEPSYY(I))*(NU/(ONE-NU)) + EZZ(I)
           THK(I) = THK(I) + EZZ(I)*THKLYL(I)*OFF(I)
         ENDDO
       ENDIF

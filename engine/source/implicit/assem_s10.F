@@ -481,7 +481,7 @@ C-----------------------------------------------
 C------------------------------
          DO I =1,ND
          DO J =I,ND
-          KII(I,J) = QUART*KJJ(I,J)
+          KII(I,J) = FOURTH*KJJ(I,J)
          ENDDO 
          ENDDO 
          DO I =1,ND
@@ -536,7 +536,7 @@ C-----------------------------------------------
 C------------------------------
         DO I =1,ND
         DO J =1,ND
-         KIJ(I,J) = UNDEMI*KIJ0(I,J)
+         KIJ(I,J) = HALF*KIJ0(I,J)
         ENDDO 
         ENDDO
 C 
@@ -612,7 +612,7 @@ C-----------------------------------------------
 C------------------------------
         DO I =1,ND
         DO J =1,ND
-         KIJ(I,J) = QUART*KIJ0(I,J)
+         KIJ(I,J) = FOURTH*KIJ0(I,J)
         ENDDO 
         ENDDO
 C 
@@ -920,7 +920,7 @@ C-----------------------------------------------
 C------------------------------
         DO I =1,ND
         DO J =1,ND
-         KIJ(I,J) = UNDEMI*KIJ0(I,J)
+         KIJ(I,J) = HALF*KIJ0(I,J)
         ENDDO 
         ENDDO
 C 
@@ -970,7 +970,7 @@ C-----------------------------------------------
 C------------------------------
          DO I =1,ND
          DO J =I,ND
-          KII(I,J) = QUART*KJJ(I,J)
+          KII(I,J) = FOURTH*KJJ(I,J)
          ENDDO 
          ENDDO 
          DO I =1,ND
@@ -1029,7 +1029,7 @@ C-----------------------------------------------
 C------------------------------
         DO I =1,ND
         DO J =1,ND
-         KIJ(I,J) = UNDEMI*KIJ0(I,J)
+         KIJ(I,J) = HALF*KIJ0(I,J)
         ENDDO 
         ENDDO
 C 
@@ -1111,7 +1111,7 @@ C-----------------------------------------------
 C------------------------------
         DO I =1,ND
         DO J =1,ND
-         KIJ(I,J) = UNDEMI*KIJ0(J,I)
+         KIJ(I,J) = HALF*KIJ0(J,I)
         ENDDO 
         ENDDO
 C 

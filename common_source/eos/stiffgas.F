@@ -85,14 +85,14 @@ C-----------------------------------------
          SPH          = PM(69,MX)
          
        DO I=LFT,LLT
-         PP      = -GAMMA*PSTAR-PSH(I) + (GAMMA-UN)*(UN+MU(I))*ESPE(I)
-         DPDM(I) =  (GAMMA-UN) *ESPE(I)+(GAMMA-UN)*(UN+MU(I))*DF(I)*DF(I)*(PP+PSH(I) )
-         DPDE(I) = (GAMMA-UN)*(UN+MU(I))
+         PP      = -GAMMA*PSTAR-PSH(I) + (GAMMA-ONE)*(ONE+MU(I))*ESPE(I)
+         DPDM(I) =  (GAMMA-ONE) *ESPE(I)+(GAMMA-ONE)*(ONE+MU(I))*DF(I)*DF(I)*(PP+PSH(I) )
+         DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))
        ENDDO
 
        DO I=LFT,LLT
-         ECOLD(I)=-TROIS100*SPH
-         IF(MU(I).GT.ZERO) ECOLD(I)=ECOLD(I)*(UN+(GAMMA-UN)*MU(I)*(UN-MU(I)))
+         ECOLD(I)=-THREE100*SPH
+         IF(MU(I).GT.ZERO) ECOLD(I)=ECOLD(I)*(ONE+(GAMMA-ONE)*MU(I)*(ONE-MU(I)))
        ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -110,11 +110,11 @@ C----------------------------------------
        PC           = PM(37, MX)
        DO I=LFT,LLT
          AA      = -GAMMA*PSTAR-PSH(I)
-         BB      = (GAMMA-UN)*(UN+MU(I))
-         DVV     = UNDEMI*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-         PNEW(I) = PNEW(I) + (AA+BB*(ESPE(I)-PSH(I) *DVV))/(UN+BB*DVV)
+         BB      = (GAMMA-ONE)*(ONE+MU(I))
+         DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
+         PNEW(I) = PNEW(I) + (AA+BB*(ESPE(I)-PSH(I) *DVV))/(ONE+BB*DVV)
          PNEW(I) = MAX(PNEW(I),PC-PSH(I) )*OFF(I)
-         EINT(I) = EINT(I) - UNDEMI*DVOL(I)*(PNEW(I)+PSH(I) )
+         EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I) )
          TFEXTT  = TFEXTT-DVOL(I)*PSH(I) 
        ENDDO
        
@@ -145,11 +145,11 @@ C------------------------
           PC = PM(37, MX)
           DO I=1, NEL
              IF (VNEW(I) .GT. ZERO) THEN
-                PNEW(I) = (GAMMA-UN)*(UN+MU(I))*ESPE(I) - GAMMA*PSTAR
+                PNEW(I) = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) - GAMMA*PSTAR
                 PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
-                !EINT(I) = (PNEW(I) + PSH(I) + GAMMA * PSTAR) / (GAMMA - UN)
-                DPDM(I) = (GAMMA-UN)*(ESPE(I)+PNEW(I)*DF(I)) !total derivative
-                DPDE(I) = (GAMMA-UN)*(UN+MU(I)) !partial derivative
+                !EINT(I) = (PNEW(I) + PSH(I) + GAMMA * PSTAR) / (GAMMA - ONE)
+                DPDM(I) = (GAMMA-ONE)*(ESPE(I)+PNEW(I)*DF(I)) !total derivative
+                DPDE(I) = (GAMMA-ONE)*(ONE+MU(I)) !partial derivative
                 PNEW(I) = PNEW(I)-PSH(I)
              ENDIF
           ENDDO

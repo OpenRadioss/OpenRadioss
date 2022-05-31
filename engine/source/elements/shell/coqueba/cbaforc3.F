@@ -370,7 +370,7 @@ c-------------------------------------
           VFPINCHDAMPX(I,J) = ZERO
           VFPINCHDAMPY(I,J) = ZERO
         ENDDO
-       ALPE(I) = UN
+       ALPE(I) = ONE
        A11R(I) = ZERO
       ENDDO
 C      
@@ -440,7 +440,7 @@ C
      5                     VPINCHT1,VPINCHT2)  
 
          DO I=JFT,JLT
-           EZZAVG(I) = QUART*(VPINCHXYZ(I,1)+VPINCHXYZ(I,2)+VPINCHXYZ(I,3)+VPINCHXYZ(I,4))*DT1C(I)
+           EZZAVG(I) = FOURTH*(VPINCHXYZ(I,1)+VPINCHXYZ(I,2)+VPINCHXYZ(I,3)+VPINCHXYZ(I,4))*DT1C(I)
            AREAPINCH(I) = AREA(I)
          ENDDO     
        ENDIF 
@@ -450,7 +450,7 @@ C
              DO I=JFT,JLT
                PLY_FN(I,1:12,J) = ZERO 
                VFI(I,1:12,J) = ZERO
-               OFFI(I,J) = UN
+               OFFI(I,J) = ONE
              ENDDO
            ENDDO 
            IPPID   = 2                      
@@ -471,7 +471,7 @@ C
            ENDDO  
            DO J=1,NPT -1  
                DO I=JFT,JLT  
-                 TH_IPLY(I,J) = UNDEMI*(THKLY(I,J) + THKLY(I,J +1 ))
+                 TH_IPLY(I,J) = HALF*(THKLY(I,J) + THKLY(I,J +1 ))
                  MAT_IPLY(I,J) = STACK%IGEO(IPMAT_IPLY + J ,ISUBSTACK)
                ENDDO                                 
            ENDDO 
@@ -587,7 +587,7 @@ c-------- can extent the off later
          IF(ISHPLYXFEM > 0)  THEN        
            DO J=1,NPT
              DO I=JFT,JLT
-               OFFI(I,J) = UN
+               OFFI(I,J) = ONE
              ENDDO
            ENDDO 
          ENDIF
@@ -762,7 +762,7 @@ C----------------------------
         IF(NPINCH == 0) THEN
           IF (ITHK > 0) THEN
             DO I=JFT,JLT
-              GBUF%THK(I) = GBUF%THK(I) - TQUART*(GBUF%THK(I)-THK0(I))
+              GBUF%THK(I) = GBUF%THK(I) - THREE_OVER_4*(GBUF%THK(I)-THK0(I))
               THK0(I) = GBUF%THK(I)
             ENDDO
           ENDIF
@@ -888,7 +888,7 @@ C---
       PT4 = PT3 + LENF
       DO I=JFT,JLT
         DO J=1,5
-          GBUF%FOR(KK(J)+I) = QUART*(GBUF%FORPG(PT1+KK(J)+I)
+          GBUF%FOR(KK(J)+I) = FOURTH*(GBUF%FORPG(PT1+KK(J)+I)
      .                             + GBUF%FORPG(PT2+KK(J)+I)
      .                             + GBUF%FORPG(PT3+KK(J)+I)
      .                             + GBUF%FORPG(PT4+KK(J)+I))
@@ -900,7 +900,7 @@ C---
       PT4 = PT3 + LENM
       DO I=JFT,JLT
         DO J=1,3
-          GBUF%MOM(KK(J)+I) = QUART*(GBUF%MOMPG(PT1+KK(J)+I)
+          GBUF%MOM(KK(J)+I) = FOURTH*(GBUF%MOMPG(PT1+KK(J)+I)
      .                             + GBUF%MOMPG(PT2+KK(J)+I)
      .                             + GBUF%MOMPG(PT3+KK(J)+I)
      .                             + GBUF%MOMPG(PT4+KK(J)+I))
@@ -915,7 +915,7 @@ C---
             BUFLY => ELBUF_STR%BUFLY(IPT)
             IF (BUFLY%L_PLA > 0) THEN
               DO I=JFT,JLT  
-                BUFLY%PLAPT(I) = QUART*(PLAPT_LAY(I,IPT,1) + PLAPT_LAY(I,IPT,2) +
+                BUFLY%PLAPT(I) = FOURTH*(PLAPT_LAY(I,IPT,1) + PLAPT_LAY(I,IPT,2) +
      .                                  PLAPT_LAY(I,IPT,3) + PLAPT_LAY(I,IPT,4))
               ENDDO
             ENDIF
@@ -929,7 +929,7 @@ C---
               LBUF3 => ELBUF_STR%BUFLY(IPT)%LBUF(1,2,1)
               LBUF4 => ELBUF_STR%BUFLY(IPT)%LBUF(2,2,1)
               DO I=JFT,JLT  
-                BUFLY%PLAPT(I) = QUART*(LBUF1%PLA(I) + LBUF2%PLA(I) +
+                BUFLY%PLAPT(I) = FOURTH*(LBUF1%PLA(I) + LBUF2%PLA(I) +
      .                                  LBUF3%PLA(I) + LBUF4%PLA(I))
               ENDDO
             ENDIF
@@ -945,7 +945,7 @@ C---
             LBUF4 => ELBUF_STR%BUFLY(1)%LBUF(2,2,IPT)
             II = (IPT-1)*NEL
             DO I=JFT,JLT                                                 
-              BUFLY%PLAPT(II+I) = QUART*(LBUF1%PLA(I) + LBUF2%PLA(I) +
+              BUFLY%PLAPT(II+I) = FOURTH*(LBUF1%PLA(I) + LBUF2%PLA(I) +
      .                                   LBUF3%PLA(I) + LBUF4%PLA(I))
             ENDDO
           ENDIF
@@ -959,7 +959,7 @@ C---
           DO IPT = 1,NLAY
             BUFLY => ELBUF_STR%BUFLY(IPT)
             DO I=JFT,JLT*5
-              BUFLY%SIGPT(I) = QUART*(SIGPT_LAY(I,IPT,1) + SIGPT_LAY(I,IPT,2) +
+              BUFLY%SIGPT(I) = FOURTH*(SIGPT_LAY(I,IPT,1) + SIGPT_LAY(I,IPT,2) +
      .                                SIGPT_LAY(I,IPT,3) + SIGPT_LAY(I,IPT,4))
             ENDDO
           ENDDO
@@ -974,7 +974,7 @@ C---
               II = (I-1)*5
               DO J=1,5
                JJ = II+J
-               BUFLY%SIGPT(JJ) = QUART*(LBUF1%SIG(KK(J)+I) + LBUF2%SIG(KK(J)+I) +
+               BUFLY%SIGPT(JJ) = FOURTH*(LBUF1%SIG(KK(J)+I) + LBUF2%SIG(KK(J)+I) +
      .                                  LBUF3%SIG(KK(J)+I) + LBUF4%SIG(KK(J)+I))
               ENDDO
             ENDDO
@@ -992,7 +992,7 @@ C---
             II = (I-1)*5
             DO J=1,5
               JJ = K+II+J
-              BUFLY%SIGPT(JJ) =QUART*(LBUF1%SIG(KK(J)+I) + LBUF2%SIG(KK(J)+I)
+              BUFLY%SIGPT(JJ) =FOURTH*(LBUF1%SIG(KK(J)+I) + LBUF2%SIG(KK(J)+I)
      .                              + LBUF3%SIG(KK(J)+I) + LBUF4%SIG(KK(J)+I))
             ENDDO
           ENDDO
@@ -1063,12 +1063,12 @@ C
           MX = MAT(JFT)
           E = PM(20,MX)
           ANU = PM(21,MX)
-          A11PINCH = E / (UN-DEUX*ANU)
+          A11PINCH = E / (ONE-TWO*ANU)
         ELSEIF(MTN == 91) THEN
           MX = MAT(JFT)
           E = PM(20,MX)
           ANU = PM(21,MX)
-          A11PINCH = E / (UN-DEUX*ANU)
+          A11PINCH = E / (ONE-TWO*ANU)
         ENDIF                
 C          
         CALL CNDT3PINCH(

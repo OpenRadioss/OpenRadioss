@@ -304,7 +304,7 @@ C------------------------------------------------------------
 
 C-------*CHECKS*-------------------
        IF(IGAP.GE.2)THEN
-         IF(GAPSCALE.EQ.ZERO)GAPSCALE=UN
+         IF(GAPSCALE.EQ.ZERO)GAPSCALE=ONE
          FRIGAP(13) = GAPSCALE
          FRIGAP(16) = GAPMAX
        END IF
@@ -336,15 +336,15 @@ C------------------------------------------------------------
 C  Card5
 C------------------------------------------------------------
 
-        IF (STFAC == ZERO ) STFAC = UN
+        IF (STFAC == ZERO ) STFAC = ONE
         IF(IGSTI.EQ.1)STFAC=-STFAC
  
-        IF(FRIC.NE.ZERO.AND.VISCF.EQ.ZERO)VISCF=UN
+        IF(FRIC.NE.ZERO.AND.VISCF.EQ.ZERO)VISCF=ONE
         IF(VISC.EQ.ZERO)THEN
           IF(IVIS2.EQ.5)THEN
-            VISC=UN
+            VISC=ONE
           ELSE
-            VISC=CINQEM2
+            VISC=FIVEEM2
           ENDIF
         ENDIF
         IF (IDEL7N < 0) THEN
@@ -358,9 +358,9 @@ C
           BUMULT = BMUL0
 C BMULT have to be increased for case of big models
           IF(NUMNOD > 2500000) THEN
-             BUMULT = BMUL0*DEUX
+             BUMULT = BMUL0*TWO
           ELSEIF(NUMNOD > 1500000) THEN
-             BUMULT = BMUL0*TROIS/DEUX
+             BUMULT = BMUL0*THREE/TWO
           END IF
         END IF
 C
@@ -375,7 +375,7 @@ C------------------------------------------------------------
 C  Card6
 C------------------------------------------------------------
 C
-       IF (MFROT.NE.0.AND.VISCF.EQ.0.0) VISCF=UN
+       IF (MFROT.NE.0.AND.VISCF.EQ.0.0) VISCF=ONE
            IF (ALPHA.EQ.0.) IFQ = 0
 C
            IF (MODFR.EQ.0) MODFR = 1
@@ -383,10 +383,10 @@ C
            IF (MODFR.EQ.2)VISCF=ZERO
 C
            IF (IFQ.GT.0) THEN
-             IF (IFQ.EQ.10) XFILTR = UN
+             IF (IFQ.EQ.10) XFILTR = ONE
              IF (MOD(IFQ,10).EQ.1) XFILTR = ALPHA
-             IF (MOD(IFQ,10).EQ.2) XFILTR=QUATRE*ATAN2(UN,ZERO) / ALPHA
-             IF (MOD(IFQ,10).EQ.3) XFILTR=QUATRE*ATAN2(UN,ZERO) * ALPHA
+             IF (MOD(IFQ,10).EQ.2) XFILTR=FOUR*ATAN2(ONE,ZERO) / ALPHA
+             IF (MOD(IFQ,10).EQ.3) XFILTR=FOUR*ATAN2(ONE,ZERO) * ALPHA
              IF (XFILTR.LT.ZERO) THEN
                CALL ANCMSG(MSGID=554,
      .                     MSGTYPE=MSGERROR,

@@ -77,11 +77,11 @@ C-----------------------------------------------
             GAMA(5)=BUFGAMA(I + 4*NEL)  				 
             GAMA(6)=BUFGAMA(I + 5*NEL)  				 
           ELSE                                                           
-            GAMA(1)=UN                                                   
+            GAMA(1)=ONE                                                   
             GAMA(2)=ZERO                                                 
             GAMA(3)=ZERO                                                 
             GAMA(4)=ZERO                                                 
-            GAMA(5)=UN                                                   
+            GAMA(5)=ONE                                                   
             GAMA(6)=ZERO                                                 
           END IF                                                         
         ENDIF                                                            
@@ -201,11 +201,11 @@ C-----------------------------------------------
             GAMA(5)=BUFGAMA(I + 4*NEL)  				 
             GAMA(6)=BUFGAMA(I + 5*NEL)  				 
           ELSE                                                           
-            GAMA(1)=UN                                                   
+            GAMA(1)=ONE                                                   
             GAMA(2)=ZERO                                                 
             GAMA(3)=ZERO                                                 
             GAMA(4)=ZERO                                                 
-            GAMA(5)=UN                                                   
+            GAMA(5)=ONE                                                   
             GAMA(6)=ZERO                                                 
           END IF                                                         
 C 

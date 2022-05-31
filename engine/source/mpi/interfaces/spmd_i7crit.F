@@ -1628,7 +1628,7 @@ C
               DAANC6FI(NIN)%P(I,J,K) = ZERO
             END DO
           END DO
-          ALPHAKFI(NIN)%P(K) = UN
+          ALPHAKFI(NIN)%P(K) = ONE
         END DO
       ENDIF
 C
@@ -2664,7 +2664,7 @@ C
             DAANC6FIE(NIN)%P(I,J,K) = ZERO
           END DO
         END DO
-        ALPHAKFIE(NIN)%P(K) = UN
+        ALPHAKFIE(NIN)%P(K) = ONE
       END DO
 
       DAANCFIE(NIN)%P(1:3,1:NODFI) = ZERO

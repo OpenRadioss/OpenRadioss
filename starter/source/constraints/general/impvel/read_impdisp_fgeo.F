@@ -159,7 +159,7 @@ c       Default scale factors
 c--------------------------------------------------
         IF (XSCALE == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('xscale'    ,FSCAL_T ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          XSCALE = UN * FSCAL_T
+          XSCALE = ONE * FSCAL_T
         ENDIF
         IF (TSTOP == ZERO) TSTOP = INFINITY
 c
@@ -210,7 +210,7 @@ c
             END IF
 c
             WRITE (IOUT,2000) ITAB(N1),FUN_ID,SENS_ID,
-     .                        DIST,UN/XSCALE,TSTART,TSTOP,XF(I),YF(I),ZF(I)
+     .                        DIST,ONE/XSCALE,TSTART,TSTOP,XF(I),YF(I),ZF(I)
           END IF
         END DO
 c--------------------------------------------------
@@ -269,12 +269,12 @@ c
               END IF
 c
               WRITE (IOUT,2000) ITAB(N1),FUN_ID,SENS_ID,
-     .                          DIST,UN/XSCALE,TSTART,TSTOP,XRF,YRF,ZRF
+     .                          DIST,ONE/XSCALE,TSTART,TSTOP,XRF,YRF,ZRF
             END IF
           END DO
         END IF  ! PART_ID > 0
 c----------------------------------------------------------------------	  
-c       /IMPDISP/FGEO CALCULE LE NOMBRE D'OCCURENCES D'UN NOEUD DE DESTINATION
+c       /IMPDISP/FGEO CALCULE LE NOMBRE D'OCCURENCES D'ONE NOEUD DE DESTINATION
 c--------------------------------------------------
         DO N = 1,INUM
           IF (IBFVEL(13,N) /= 2) CYCLE

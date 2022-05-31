@@ -73,12 +73,12 @@ c
           ENDDO
           IF(MLW == 0 .OR. MLW == 13)THEN
             DO I=1,NEL
-              SOLID_SCALAR(OFFSET+NFT+I) = UN
+              SOLID_SCALAR(OFFSET+NFT+I) = ONE
             ENDDO
           ELSE
             GBUF => ELBUF_TAB(NG)%GBUF
             DO I=1,NEL
-              SOLID_SCALAR(OFFSET+NFT+I) = NINT(MIN(GBUF%OFF(I),UN))
+              SOLID_SCALAR(OFFSET+NFT+I) = NINT(MIN(GBUF%OFF(I),ONE))
             ENDDO
           ENDIF
         ENDIF

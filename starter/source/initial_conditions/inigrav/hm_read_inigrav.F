@@ -194,13 +194,13 @@ C
             SELECT CASE (IDIR)
               CASE(1)
                 CDIR(1:2) =' X'
-                NGX       = UN
+                NGX       = ONE
               CASE(2)
                 CDIR(1:2) =' Y'
-                NGY       = UN
+                NGY       = ONE
               CASE(3)
                 CDIR(1:2) =' Z'
-                NGZ       = UN 
+                NGZ       = ONE 
             END SELECT
             CDIR(1:1)="+"
             IF (GRAV0 < ZERO) THEN

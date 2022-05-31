@@ -185,11 +185,11 @@ C          true triangles (not segments built from 3 nodes).
             IB(10,K) = 0
 C                                                  
             FAC(1,K) = FCY                                          
-            FAC(2,K) = UN/FCX 
+            FAC(2,K) = ONE/FCX 
             FAC(3,K) = ZERO
             FAC(4,K) = TSTART
             FAC(5,K) = TSTOP                                       
-            FAC(6,K) = UN                                      
+            FAC(6,K) = ONE                                      
           ENDDO 
          ELSE
           CALL ANCMSG(MSGID=1230,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1=TITR,I1=ISU)                              
@@ -217,11 +217,11 @@ C
               IB(10,K) = 1
 C
               FAC(1,K) = FCY                                          
-              FAC(2,K) = UN/FCX 
+              FAC(2,K) = ONE/FCX 
               FAC(3,K) = ZERO
               FAC(4,K) = TSTART
               FAC(5,K) = TSTOP                                       
-              FAC(6,K) = UN                                      
+              FAC(6,K) = ONE                                      
             ENDDO
          ELSE
           CALL ANCMSG(MSGID=1231,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1=TITR,I1=IGBR)                              
@@ -241,7 +241,7 @@ C
          I2=I2+1
          WRITE (IOUT,'(5(1X,I10),2(1X,I10),1X,4G20.13)') I,
      .         ITAB(IB(1,I)),ITAB(IB(2,I)),ITAB(IB(3,I)),ITAB(IB(4,I)),
-     .         IB(5,I),IB(6,I),FAC(4,I),FAC(5,I),UN/FAC(2,I),
+     .         IB(5,I),IB(6,I),FAC(4,I),FAC(5,I),ONE/FAC(2,I),
      .         FAC(1,I)
        ENDIF
        IF(I2 == K1)GO TO 200
@@ -261,7 +261,7 @@ C
          I1=I1+1
          I2=I2+1
          WRITE (IOUT,'(2X,I10,2(2X,I10),1X,4G20.13)') IB(9,I),
-     .         IB(5,I),IB(6,I),FAC(4,I),FAC(5,I),UN/FAC(2,I),
+     .         IB(5,I),IB(6,I),FAC(4,I),FAC(5,I),ONE/FAC(2,I),
      .         FAC(1,I)
        ENDIF
        IF(I2 == K2)GO TO 400

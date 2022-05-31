@@ -118,7 +118,7 @@ C=======================================================================
           A(I) = KSCAL * A(I)
           B(I) = ZERO
         ENDIF
-        DTX(I)=UNDEMI*DELTAX(I)**2*SPH(I)/(A(I)+B(I)*THETA(I))        
+        DTX(I)=HALF*DELTAX(I)**2*SPH(I)/(A(I)+B(I)*THETA(I))        
       ENDDO
 
 C--------------------------
@@ -127,7 +127,7 @@ C--------------------------
         IF(IDT_THERM == 1)THEN
           DO I=LFT,LLT
              IF(DTX(I).LT.DT_THERM)  DT_THERM = DTX(I)
-             CONDE(I) = QUATRE*VOLU(I)*(A(I)+B(I)*THETA(I))/DELTAX(I)*DELTAX(I)
+             CONDE(I) = FOUR*VOLU(I)*(A(I)+B(I)*THETA(I))/DELTAX(I)*DELTAX(I)
 c             CONDE(I) = CONDE(I)*OFF(I)  
           ENDDO     
         ENDIF  

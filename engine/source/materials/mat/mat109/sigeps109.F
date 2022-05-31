@@ -136,11 +136,11 @@ c
 c     Initializations
 c
       DPLA(1:NEL)  = ZERO          ! Initialization of the plastic strain increment
-      ET(1:NEL)    = UN            ! Initialization of tangent stiffness factor
-      DTINV  = UN / MAX(EM20, TIMESTEP)
+      ET(1:NEL)    = ONE            ! Initialization of tangent stiffness factor
+      DTINV  = ONE / MAX(EM20, TIMESTEP)
       DLAMIN = EM15
       ALPHA  = 0.025
-      ALPHI  = UN-ALPHA
+      ALPHI  = ONE-ALPHA
       IF (INLOC > 0) THEN 
         DO I = 1,NEL
           UVAR(I,1)  = UVAR(I,1) + MAX(DPLANL(I),ZERO)
@@ -178,10 +178,10 @@ c---  self heating factor and temperatiure initialization
             IF (NDIM_ETA > 1) VARTMP(1:NEL,4) = IPOS_ETA(1:NEL,2)
             IF (NDIM_ETA > 2) VARTMP(1:NEL,5) = IPOS_ETA(1:NEL,3)
             DO I=1,NEL
-              FTHERM(I) = MIN(BETA*FACT_ETA(I), UN)
+              FTHERM(I) = MIN(BETA*FACT_ETA(I), ONE)
             END DO
           ELSE
-            FTHERM(1:NEL) = MIN(BETA, UN)
+            FTHERM(1:NEL) = MIN(BETA, ONE)
           END IF 
         END IF
       END IF 
@@ -237,7 +237,7 @@ c
         YLD(1:NEL)   = YLD(1:NEL)   * TFAC(1:NEL)      
         HARDP(1:NEL) = HARDP(1:NEL) * TFAC(1:NEL) 
       ELSE
-        TFAC(1:NEL) = UN
+        TFAC(1:NEL) = ONE
       END IF
 c-----------------------------------------------
 c     Check plasticity 
@@ -246,9 +246,9 @@ c-----------------------------------------------
       DO I=1,NEL
         J2 = STXY(I)*STXY(I) + STYZ(I)*STYZ(I) + STZX(I)*STZX(I) 
      .     - STXX(I)*STYY(I) - STYY(I)*STZZ(I) - STZZ(I)*STXX(I)
-        Q2 = TROIS*J2
+        Q2 = THREE*J2
 c
-        IF (Q2 > YLD(I)**2  .and. OFF(I) == UN) THEN
+        IF (Q2 > YLD(I)**2  .and. OFF(I) == ONE) THEN
           NINDX = NINDX + 1   ! Number of the elements with plastic behaviour
           INDEX(NINDX)  = I
           SVMT(I) = SQRT(Q2)
@@ -318,7 +318,7 @@ c
 
             J2 = SXY(I)*SXY(I) + SYZ(I)*SYZ(I) + SZX(I)*SZX(I) 
      .         - SXX(I)*SYY(I) - SYY(I)*SZZ(I) - SZZ(I)*SXX(I)
-            SVM(I) = SQRT(TROIS*J2)
+            SVM(I) = SQRT(THREE*J2)
             PHI(I) = SVM(I) - YLD(I)
          ENDDO              
 c            
@@ -348,7 +348,7 @@ c
 c            
       END IF     !  NINDX > 0
 c
-      SOUNDSP(1:NEL)= SQRT((BULK + QTIERS*G) / RHO(1:NEL))
+      SOUNDSP(1:NEL)= SQRT((BULK + FOUR_OVER_3*G) / RHO(1:NEL))
       SIGY(1:NEL)   = YLD(1:NEL)
       EPSP(1:NEL)   = ALPHA*DPLA(1:NEL)*DTINV + ALPHI*EPSP(1:NEL)
       IF (INLOC > 0) THEN 

@@ -156,7 +156,7 @@ C
      .                   I1=ID,
      .                   C1=TITR)
       ENDIF
-      IF (CR.EQ.ZERO) CR = CINQEM2
+      IF (CR.EQ.ZERO) CR = FIVEEM2
       IF (SCF.LT.ZERO) THEN
          CALL ANCMSG(MSGID=939,
      .               MSGTYPE=MSGERROR,
@@ -166,7 +166,7 @@ C
       ENDIF
       IF (SCF.EQ.ZERO) THEN      
         IF (KNN.EQ.0) THEN
-	  SCF = UN
+	  SCF = ONE
         ELSE
 	  SCF = 10
         ENDIF      
@@ -1027,13 +1027,13 @@ C
 C
 C--- Check for combined displacements - values must be the same for combined dof
 C
-        IF (SUMT == UN) THEN
+        IF (SUMT == ONE) THEN
           CALL ANCMSG(MSGID=1599,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
      .               I1=ID,
      .               C1=TITR)
-        ELSEIF (SUMT > UN) THEN
+        ELSEIF (SUMT > ONE) THEN
           ALPHA_PLUS = (FCOMBX*SDXMA+FCOMBY*SDYMA+FCOMBZ*SDZMA)/SUMT
           ALPHA_MOIN = (FCOMBX*SDXMI+FCOMBY*SDYMI+FCOMBZ*SDZMI)/SUMT
           IF ((FCOMBX.GT.EM20).AND.(ABS(ALPHA_PLUS - SDXMA)/MAX(EM20,ABS(ALPHA_PLUS)).GT.EM10)) COMB_ERROR = 1
@@ -1046,13 +1046,13 @@ C
 C
 C--- Check for combined angles - values must be the same for combined dof
 C
-        IF (SUMR == UN) THEN
+        IF (SUMR == ONE) THEN
               CALL ANCMSG(MSGID=1600,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
      .               I1=ID,
      .               C1=TITR)
-        ELSEIF (SUMR > UN) THEN
+        ELSEIF (SUMR > ONE) THEN
           ALPHA_PLUS = (FCOMBRX*SAXMA+FCOMBRY*SAYMA+FCOMBRZ*SAZMA)/SUMR
           ALPHA_MOIN = (FCOMBRX*SAXMI+FCOMBRY*SAYMI+FCOMBRZ*SAZMI)/SUMR
           IF ((FCOMBRX.GT.EM20).AND.(ABS(ALPHA_PLUS - SAXMA)/MAX(EM20,ABS(ALPHA_PLUS)).GT.EM10)) COMB_ERROR = 1
@@ -1423,9 +1423,9 @@ C
 	GOTO 350		
       ENDIF          	              
 C
-      IF(CRX.EQ.ZERO.AND.IFUN_CRX.NE.0) CRX = UN * FAC3
-      IF(KRX.EQ.ZERO.AND.IFUN_RX.NE.0) KRX = UN * FAC3
-      IF(FM.EQ.ZERO.AND.IFUN_FM.NE.0) FM = UN * FAC3
+      IF(CRX.EQ.ZERO.AND.IFUN_CRX.NE.0) CRX = ONE * FAC3
+      IF(KRX.EQ.ZERO.AND.IFUN_RX.NE.0) KRX = ONE * FAC3
+      IF(FM.EQ.ZERO.AND.IFUN_FM.NE.0) FM = ONE * FAC3
 C
 C-----------------------
       IF(.NOT. IS_CRYPTED)THEN

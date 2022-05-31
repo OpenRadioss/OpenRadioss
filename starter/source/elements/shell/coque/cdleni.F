@@ -110,7 +110,7 @@ c
      .             + UPARAM(IADB+4)*UPARAM(IADB+9)
      .             + UPARAM(IADB+5)*UPARAM(IADB+10)
               RHO  = PM(1,IMT)
-              A11 = GMAX*(UN + NU)/(UN - NU**2)
+              A11 = GMAX*(ONE + NU)/(ONE - NU**2)
               SSP(I)=MAX(SSP(I), SQRT(A11/RHO)) 
             ENDDO
           ENDDO
@@ -132,7 +132,7 @@ c
               RHO  =PM(1,IMT)
               YOUNG=PM(20,IMT)
               NU   =PM(21,IMT)
-              SSP(I)=MAX(SSP(I), SQRT(YOUNG/(UN-NU*NU)/RHO)) 
+              SSP(I)=MAX(SSP(I), SQRT(YOUNG/(ONE-NU*NU)/RHO)) 
             ENDDO
           ENDDO
         ENDIF
@@ -171,7 +171,7 @@ c
      .             + UPARAM(IADB+4)*UPARAM(IADB+9)             
      .             + UPARAM(IADB+5)*UPARAM(IADB+10) 
               RHO  = PM(1,IMT) 
-              A11 = GMAX*(UN + NU)/(UN - NU**2)
+              A11 = GMAX*(ONE + NU)/(ONE - NU**2)
               SSP(I)=MAX(SSP(I), SQRT(A11/RHO)) 
             ENDDO
           ENDDO
@@ -193,7 +193,7 @@ c
               RHO  =PM(1,IMT)
               YOUNG=PM(20,IMT)
               NU   =PM(21,IMT)
-              SSP(I)=MAX(SSP(I), SQRT(YOUNG/(UN-NU*NU)/RHO)) 
+              SSP(I)=MAX(SSP(I), SQRT(YOUNG/(ONE-NU*NU)/RHO)) 
             ENDDO
           ENDDO
         ENDIF
@@ -216,7 +216,7 @@ c
      .             + UPARAM(IADB+4)*UPARAM(IADB+9) 
      .             + UPARAM(IADB+5)*UPARAM(IADB+10) 
               RHO  = PM(1,IMT)
-              A11  = GMAX*(UN + NU)/(UN - NU**2)
+              A11  = GMAX*(ONE + NU)/(ONE - NU**2)
               SSP(I)=MAX(SSP(I), SQRT(A11/RHO))
             ELSEIF (MLAWLY == 65) THEN
               RHO  =PM(1,IMT)
@@ -226,7 +226,7 @@ c
               RHO  =PM(1,IMT)
               YOUNG=PM(20,IMT)
               NU   =PM(21,IMT)
-              SSP(I)=MAX(SSP(I), SQRT(YOUNG/(UN-NU*NU)/RHO))
+              SSP(I)=MAX(SSP(I), SQRT(YOUNG/(ONE-NU*NU)/RHO))
             ENDIF
             ENDDO
           ENDDO
@@ -246,7 +246,7 @@ c
      .         + UPARAM(IADB+4)*UPARAM(IADB+9)
      .         + UPARAM(IADB+5)*UPARAM(IADB+10) 
            RHO  = PM(1,IMAT)  
-           A11 = GMAX*(UN + NU)/(UN - NU**2)                                  
+           A11 = GMAX*(ONE + NU)/(ONE - NU**2)                                  
            SSP(I)=MAX(SSP(I), SQRT(A11/RHO))     
         ENDDO
       ELSEIF (MTN == 65) THEN
@@ -260,7 +260,7 @@ c
           RHO  =PM(1,IMAT)
           YOUNG=PM(20,IMAT)
           NU   =PM(21,IMAT)
-          SSP(I)=SQRT(YOUNG/(UN-NU*NU)/RHO)
+          SSP(I)=SQRT(YOUNG/(ONE-NU*NU)/RHO)
         ENDDO
       ENDIF
 C
@@ -280,9 +280,9 @@ C
    30 CONTINUE
 C
       IF(MTN == 19)THEN
-          VISCDEF=QUART
+          VISCDEF=FOURTH
       ELSEIF(MTN == 25.OR.MTN == 27)THEN
-          VISCDEF=CINQEM2
+          VISCDEF=FIVEEM2
       ELSE
           VISCDEF=ZERO
       ENDIF
@@ -291,7 +291,7 @@ C
        IF (VISCMX == ZERO) VISCMX = VISCDEF
        IF (MTN == 1 .OR.MTN == 2.OR.MTN == 3.OR.
      .     MTN == 22.OR.MTN == 23) VISCMX=ZERO
-       VISCMX  = SQRT(UN + VISCMX*VISCMX) - VISCMX
+       VISCMX  = SQRT(ONE + VISCMX*VISCMX) - VISCMX
        DO I=LFT,LLT
             DTDYN   = AREA(I)/SQRT(MAX(AL5(I),AL6(I)))
             ALDT(I) = MAX(DTDYN,ALMIN(I))
@@ -311,7 +311,7 @@ C----------------------------------------------------------
                VV = VISCMX * VISCMX
                FAC = MAX(B1,B2) / (AREA(I) * VV)
                STI =  FAC * THK(I) * A11
-               STIR = FAC*A11R * THK(I)*(THK(I)**2 +  AREA(I))*UNDOUZE
+               STIR = FAC*A11R * THK(I)*(THK(I)**2 +  AREA(I))*ONE_OVER_12
                STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI
                STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI
                STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI
@@ -332,7 +332,7 @@ C----------------------------------------------------------
                VV = VISCMX * VISCMX
                FAC = MAX(B1,B2) / (AREA(I) * VV)
                STI =  FAC * THK(I) * A11
-               STIR = FAC*A11R * THK(I)*(THK(I)**2 +  AREA(I))*UNDOUZE
+               STIR = FAC*A11R * THK(I)*(THK(I)**2 +  AREA(I))*ONE_OVER_12
                STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI
                STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI
                STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI
@@ -375,7 +375,7 @@ C----------------------------------------------------------
                VV = VISCMX * VISCMX
                FAC = MAX(B1,B2) / (AREA(I) * VV)
                STI =  FAC * THK(I) * A11
-               STIR = FAC * A11R * THK(I)*(THK(I)**2 +  AREA(I))*UNDOUZE
+               STIR = FAC * A11R * THK(I)*(THK(I)**2 +  AREA(I))*ONE_OVER_12
                STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI
                STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI
                STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI
@@ -399,7 +399,7 @@ C----------------------------------------------------------
                VV = VISCMX * VISCMX
                FAC = MAX(B1,B2) / (AREA(I) * VV)
                STI =  FAC * THK(I) * A11
-               STIR = FAC * A11R * THK(I)*(THK(I)**2 +  AREA(I))*UNDOUZE
+               STIR = FAC * A11R * THK(I)*(THK(I)**2 +  AREA(I))*ONE_OVER_12
                STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI
                STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI
                STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI

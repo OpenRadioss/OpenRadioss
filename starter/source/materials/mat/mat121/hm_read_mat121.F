@@ -111,36 +111,36 @@ card3 - Function for Initial yield stress versus strain-rate
       CALL HM_GET_FLOATV('Xscale_SIG0',Xscale_SIG0,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF ((Fct_SIG0 /= 0).AND.(Xscale_SIG0 == ZERO)) THEN
         CALL HM_GET_FLOATV_DIM('Xscale_SIG0',XSCALE_UNIT,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        Xscale_SIG0 = UN * XSCALE_UNIT
+        Xscale_SIG0 = ONE * XSCALE_UNIT
       ENDIF
       CALL HM_GET_FLOATV('Yscale_SIG0',Yscale_SIG0,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF ((Fct_SIG0 /= 0).AND.(Yscale_SIG0 == ZERO)) THEN
         CALL HM_GET_FLOATV_DIM('Yscale_SIG0',YSCALE_UNIT,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        Yscale_SIG0 = UN * YSCALE_UNIT
+        Yscale_SIG0 = ONE * YSCALE_UNIT
       ENDIF
 card4 - Function for Young modulus versus strain-rate
       CALL HM_GET_INTV  ('Fct_YOUN'   ,Fct_YOUN   ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV('Xscale_YOUN',Xscale_YOUN,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF ((Fct_YOUN /= 0).AND.(Xscale_YOUN == ZERO)) THEN
         CALL HM_GET_FLOATV_DIM('Xscale_YOUN',XSCALE_UNIT,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        Xscale_YOUN = UN * XSCALE_UNIT
+        Xscale_YOUN = ONE * XSCALE_UNIT
       ENDIF
       CALL HM_GET_FLOATV('Yscale_YOUN',Yscale_YOUN,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF ((Fct_YOUN /= 0).AND.(Yscale_YOUN == ZERO)) THEN
         CALL HM_GET_FLOATV_DIM('Yscale_YOUN',YSCALE_UNIT,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        Yscale_YOUN = UN * YSCALE_UNIT
+        Yscale_YOUN = ONE * YSCALE_UNIT
       ENDIF
 card5 - Function for Initial yield stress versus strain-rate
       CALL HM_GET_INTV  ('Fct_TANG'   ,Fct_TANG   ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV('Xscale_TANG',Xscale_TANG,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF ((Fct_TANG /= 0).AND.(Xscale_TANG == ZERO)) THEN
         CALL HM_GET_FLOATV_DIM('Xscale_TANG',XSCALE_UNIT,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        Xscale_TANG = UN * XSCALE_UNIT
+        Xscale_TANG = ONE * XSCALE_UNIT
       ENDIF
       CALL HM_GET_FLOATV('MAT_TANG'   ,TANG       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF ((Fct_TANG /= 0).AND.(TANG == ZERO)) THEN
         CALL HM_GET_FLOATV_DIM('MAT_TANG',YSCALE_UNIT,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        TANG = UN * YSCALE_UNIT
+        TANG = ONE * YSCALE_UNIT
       ENDIF
 card6 - Function for Initial yield stress versus strain-rate
       CALL HM_GET_INTV  ('Fct_FAIL'   ,Fct_FAIL   ,IS_AVAILABLE,LSUBMODEL)
@@ -148,25 +148,25 @@ card6 - Function for Initial yield stress versus strain-rate
       CALL HM_GET_FLOATV('Xscale_FAIL',Xscale_FAIL,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF ((Fct_FAIL /= 0).AND.(Xscale_FAIL == ZERO)) THEN
         CALL HM_GET_FLOATV_DIM('Xscale_FAIL',XSCALE_UNIT,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        Xscale_FAIL = UN * XSCALE_UNIT
+        Xscale_FAIL = ONE * XSCALE_UNIT
       ENDIF
       CALL HM_GET_FLOATV('Yscale_FAIL',Yscale_FAIL,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF ((Fct_FAIL /= 0).AND.(Yscale_FAIL == ZERO)) THEN
         CALL HM_GET_FLOATV_DIM('Yscale_FAIL',YSCALE_UNIT,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        Yscale_FAIL = UN * YSCALE_UNIT
+        Yscale_FAIL = ONE * YSCALE_UNIT
       ENDIF
 c
 c-----------------------------
 c     Default values and check
 c-----------------------------
       ! Elasticity parameter
-      G2   = YOUNG / (UN + NU)
-      G    = UNDEMI * G2
-      LAM  = G2 * NU /(UN - DEUX*NU)  
-      BULK = TIERS * YOUNG / (UN - NU*DEUX)
-      NNU  = NU  / (UN - NU)
-      NNU1 = UN - NNU
-      A11  = YOUNG / (UN - NU*NU)
+      G2   = YOUNG / (ONE + NU)
+      G    = HALF * G2
+      LAM  = G2 * NU /(ONE - TWO*NU)  
+      BULK = THIRD * YOUNG / (ONE - NU*TWO)
+      NNU  = NU  / (ONE - NU)
+      NNU1 = ONE - NNU
+      A11  = YOUNG / (ONE - NU*NU)
       A12  = A11 * NU
       ! Return mapping algorithm
       IF ((Ires == 0).OR.(Ires > 2)) Ires = 2
@@ -193,7 +193,7 @@ c-----------------------------
         Ivisc = 0
       ENDIF
       ! Poisson's ratio
-      IF (NU < ZERO .OR. NU >= UNDEMI) THEN
+      IF (NU < ZERO .OR. NU >= HALF) THEN
         CALL ANCMSG(MSGID=49,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_2,
@@ -268,7 +268,7 @@ c
       ! PM table
       PM(1)  = RHO0
       PM(89) = RHO0
-      PM(27) = SQRT((BULK + QTIERS*G)/RHO0)  ! sound speed estimation
+      PM(27) = SQRT((BULK + FOUR_OVER_3*G)/RHO0)  ! sound speed estimation
       PM(100)= BULK   
 c      
       ! MTAG variable activation

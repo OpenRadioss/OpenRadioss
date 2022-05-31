@@ -159,7 +159,7 @@ C
 
       PTMAX=EP30
 
-      PADM =UN
+      PADM =ONE
       ANGLADM=ZERO
 C
 
@@ -269,7 +269,7 @@ C         Iadm has not been implemented for TYPE5 yet.
 C
 C....* Card2   *.............
 C
-        IF (STFAC == ZERO) STFAC = UNCINQ
+        IF (STFAC == ZERO) STFAC = ONE_FIFTH
 
         IF (STOPT == ZERO) STOPT = EP30
 
@@ -294,8 +294,8 @@ C
        IF (ALPHA.EQ.0) IFQ = 0
        IF (IFQ.GT.0) THEN
           IF (IFQ.EQ.1) XFILTR = ALPHA
-          IF (IFQ.EQ.2) XFILTR = QUATRE*ATAN2(UN,ZERO) / ALPHA
-          IF (IFQ.EQ.3) XFILTR = QUATRE*ATAN2(UN,ZERO) * ALPHA
+          IF (IFQ.EQ.2) XFILTR = FOUR*ATAN2(ONE,ZERO) / ALPHA
+          IF (IFQ.EQ.3) XFILTR = FOUR*ATAN2(ONE,ZERO) * ALPHA
           IF (XFILTR.LT.0.OR.(IFQ.LE.2.AND.XFILTR.GT.1.)) THEN
                CALL ANCMSG(MSGID=554,
      .                     MSGTYPE=MSGERROR,

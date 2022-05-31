@@ -95,42 +95,42 @@ C-----------------------------------------
        ENDDO
 C
        DO I=LFT,LLT
-        XX =MU(I)/(UN+MU(I))
+        XX =MU(I)/(ONE+MU(I))
         IF(MU(I)>=ZERO) THEN
           AA=(C1(I)+C3(I)*MU2(I))*MU(I)+C2(I)*MU2(I)
-          GX=UN-G0(I)*UNDEMI*XX
+          GX=ONE-G0(I)*HALF*XX
           BB=G0(I)
           PRES=MAX(AA*GX+BB*ESPE(I),PC(I))*OFF(I)
-          DPDM(I)=(C1(I)+DEUX*C2(I)*MU(I)+TROIS*C3(I)*MU2(I))*GX
-     .            +G0(I)*DF(I)*DF(I)*(PRES-UNDEMI*AA)
+          DPDM(I)=(C1(I)+TWO*C2(I)*MU(I)+THREE*C3(I)*MU2(I))*GX
+     .            +G0(I)*DF(I)*DF(I)*(PRES-HALF*AA)
           DPDE(I)=BB
         ELSEIF(ESPE(I)<ESUBL(I))THEN
           AA=(T1(I)+T2(I)*MU(I))*MU(I)
-          GX=UN-G0(I)*UNDEMI*XX
+          GX=ONE-G0(I)*HALF*XX
           BB=G0(I)
           PRES=MAX(AA*GX+BB*ESPE(I),PC(I))*OFF(I)
-          DPDM(I)=(T1(I)+DEUX*T2(I)*MU(I))*GX +
-     .            G0(I)*DF(I)*DF(I)*(PRES-UNDEMI*AA)
+          DPDM(I)=(T1(I)+TWO*T2(I)*MU(I))*GX +
+     .            G0(I)*DF(I)*DF(I)*(PRES-HALF*AA)
           DPDE(I)=BB
         ELSE
-          ETA=UN+MU(I)        
+          ETA=ONE+MU(I)        
           EE=SQRT(ETA)
           BB=(HH(I)+(G0(I)-HH(I))*EE)*ETA
           CC= C1(I)/(G0(I)*ESUBL(I))
           EXPA=EXP(CC*XX)
-          AA= BB*ESUBL(I)*(EXPA-UN)
+          AA= BB*ESUBL(I)*(EXPA-ONE)
           PRES=MAX(AA+BB*ESPE(I),PC(I))*OFF(I)
           DPDM(I)=BB*DF(I)*DF(I)*(PRES+ESUBL(I)*EXPA*CC) +
-     .       (ESPE(I)+ESUBL(I)*(EXPA-UN))*(HH(I)+TDEMI*EE*(G0(I)-HH(I)))
+     .       (ESPE(I)+ESUBL(I)*(EXPA-ONE))*(HH(I)+THREE_HALF*EE*(G0(I)-HH(I)))
           DPDE(I)=BB
         ENDIF
        ENDDO
 C
        DO I=LFT,LLT
-        ECOLD(I)=-TROIS100*SPH(I)
+        ECOLD(I)=-THREE100*SPH(I)
         IF(MU(I).GT.ZERO) THEN
-           XX  = MU(I)/(UN+MU(I))
-           ECOLD(I)=ECOLD(I)*EXP(G0(I)*XX)+UNDEMI*C1(I)*MU2(I) 
+           XX  = MU(I)/(ONE+MU(I))
+           ECOLD(I)=ECOLD(I)*EXP(G0(I)*XX)+HALF*C1(I)*MU2(I) 
         ENDIF
        ENDDO
 C
@@ -152,28 +152,28 @@ C----------------------------------------
        ENDDO
 C
        DO I=LFT,LLT
-        DVV=UNDEMI*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-        XX =MU(I)/(UN+MU(I))
+        DVV=HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
+        XX =MU(I)/(ONE+MU(I))
 C
         IF(MU(I)>=ZERO) THEN
           AA=(C1(I)+C3(I)*MU2(I))*MU(I)+C2(I)*MU2(I)
-          AA=AA*(UN-G0(I)*UNDEMI*XX)
+          AA=AA*(ONE-G0(I)*HALF*XX)
           BB=G0(I)
         ELSEIF(ESPE(I)<ESUBL(I))THEN
           AA=(T1(I)+T2(I)*MU(I))*MU(I)
-          AA=AA*(UN-G0(I)*UNDEMI*XX)
+          AA=AA*(ONE-G0(I)*HALF*XX)
           BB=G0(I)
         ELSE
-          ETA=UN+MU(I)        
+          ETA=ONE+MU(I)        
           BB=(HH(I)+(G0(I)-HH(I))*SQRT(ETA))*ETA
           CC= C1(I)/(G0(I)*ESUBL(I))
           EXPA=EXP(CC*XX)
-          AA= BB*ESUBL(I)*(EXPA-UN)
+          AA= BB*ESUBL(I)*(EXPA-ONE)
         ENDIF
 C
-        PNEW(I)= (AA +BB*ESPE(I))/(UN+ BB*DVV)
+        PNEW(I)= (AA +BB*ESPE(I))/(ONE+ BB*DVV)
         PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)
-        EINT(I)= EINT(I) - UNDEMI*DVOL(I)*PNEW(I)
+        EINT(I)= EINT(I) - HALF*DVOL(I)*PNEW(I)
        ENDDO
 C------------------------
 C     COMPUTE TEMPERATURE
@@ -205,33 +205,33 @@ C
 C     
          DO I=1, NEL
             IF (VNEW(I) .GT. ZERO) THEN
-               XX =MU(I)/(UN+MU(I))
+               XX =MU(I)/(ONE+MU(I))
                IF(MU(I)>=ZERO) THEN
                   AA=(C1(I)+C3(I)*MU2(I))*MU(I)+C2(I)*MU2(I)
-                  GX=UN-G0(I)*UNDEMI*XX
+                  GX=ONE-G0(I)*HALF*XX
                   BB=G0(I)
                   PRES=MAX(AA*GX+BB*ESPE(I),PC(I))*OFF(I)
-                  DPDM(I)=(C1(I)+DEUX*C2(I)*MU(I)+TROIS*C3(I)*MU2(I))*GX
-     .                 +G0(I)*DF(I)*DF(I)*(PRES-UNDEMI*AA)
+                  DPDM(I)=(C1(I)+TWO*C2(I)*MU(I)+THREE*C3(I)*MU2(I))*GX
+     .                 +G0(I)*DF(I)*DF(I)*(PRES-HALF*AA)
                   DPDE(I)=BB
                ELSEIF(ESPE(I)<ESUBL(I))THEN
                   AA=(T1(I)+T2(I)*MU(I))*MU(I)
-                  GX=UN-G0(I)*UNDEMI*XX
+                  GX=ONE-G0(I)*HALF*XX
                   BB=G0(I)
                   PRES=MAX(AA*GX+BB*ESPE(I),PC(I))*OFF(I)
-                  DPDM(I)=(T1(I)+DEUX*T2(I)*MU(I))*GX +
-     .                 G0(I)*DF(I)*DF(I)*(PRES-UNDEMI*AA)
+                  DPDM(I)=(T1(I)+TWO*T2(I)*MU(I))*GX +
+     .                 G0(I)*DF(I)*DF(I)*(PRES-HALF*AA)
                   DPDE(I)=BB
                ELSE
-                  ETA=UN+MU(I)        
+                  ETA=ONE+MU(I)        
                   EE=SQRT(ETA)
                   BB=(HH(I)+(G0(I)-HH(I))*EE)*ETA
                   CC= C1(I)/(G0(I)*ESUBL(I))
                   EXPA=EXP(CC*XX)
-                  AA= BB*ESUBL(I)*(EXPA-UN)
+                  AA= BB*ESUBL(I)*(EXPA-ONE)
                   PRES=MAX(AA+BB*ESPE(I),PC(I))*OFF(I)
                   DPDM(I)=BB*DF(I)*DF(I)*(PRES+ESUBL(I)*EXPA*CC) +
-     .                 (ESPE(I)+ESUBL(I)*(EXPA-UN))*(HH(I)+TDEMI*EE*(G0(I)-HH(I)))
+     .                 (ESPE(I)+ESUBL(I)*(EXPA-ONE))*(HH(I)+THREE_HALF*EE*(G0(I)-HH(I)))
                   DPDE(I)=BB
                ENDIF
                PNEW(I) = PRES

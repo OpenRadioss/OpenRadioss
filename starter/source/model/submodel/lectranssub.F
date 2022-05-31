@@ -135,7 +135,7 @@ C=======================================================================
         ENDDO 
       ENDIF
 
-      FAC_L = UN
+      FAC_L = ONE
       IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
 C      TAG SUBMODEL NODES DYNA
@@ -267,9 +267,9 @@ C TRANSFORMATION OF COORDS OF NODES N0 & N1
           S = SQRT(TX*TX + TY*TY + TZ*TZ)
 C
           ROT(1:9)=ZERO
-          ROT(1) = UN
-          ROT(5) = UN
-          ROT(9) = UN
+          ROT(1) = ONE
+          ROT(5) = ONE
+          ROT(9) = ONE
 C
           WRITE(IOUT,500) ID,ID_TRANSSUB   
           IF (N0 > 0 .AND. N1 > 0) WRITE(IOUT,200) N0,N1
@@ -340,7 +340,7 @@ c
           TY = X1(2) - X0(2)
           TZ = X1(3) - X0(3)
           S  = SQRT(TX*TX + TY*TY + TZ*TZ)
-          AT = ANGLE * PI/CENT80 /MAX(EM20,S)
+          AT = ANGLE * PI/HUNDRED80 /MAX(EM20,S)
           TX = TX * AT
           TY = TY * AT
           TZ = TZ * AT
@@ -390,8 +390,8 @@ C
      .            RTRANS(I,9)*RTRANS(I,11)
           SCAL3 = RTRANS(I,4)*RTRANS(I,5)+RTRANS(I,7)*RTRANS(I,8)+
      .            RTRANS(I,10)*RTRANS(I,11)
-          IF(ABS(UN-NORM1) > EPS .OR. ABS(UN-NORM2) > EPS .OR.
-     .       ABS(UN-NORM3) > EPS .OR. 
+          IF(ABS(ONE-NORM1) > EPS .OR. ABS(ONE-NORM2) > EPS .OR.
+     .       ABS(ONE-NORM3) > EPS .OR. 
      .      SCAL1 > (EPS * NORM1*NORM2) .OR. SCAL2 > (EPS * NORM1*NORM3)
      .      .OR. SCAL3 > (EPS * NORM2*NORM3))THEN
             CALL ANCMSG(MSGID=986,
@@ -584,9 +584,9 @@ C
      .                  I1=ID,C1=TITR)
 C
             ROT(1:9)=ZERO
-            ROT(1) = UN
-            ROT(5) = UN
-            ROT(9) = UN
+            ROT(1) = ONE
+            ROT(5) = ONE
+            ROT(9) = ONE
             DO J=1,9
               RTRANS(I,J+2)  = ROT(J)
             ENDDO

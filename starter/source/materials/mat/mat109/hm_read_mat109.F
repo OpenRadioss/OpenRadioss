@@ -115,10 +115,10 @@ Card6
 c------------------------
 c     Elastic parameters
 c------------------------
-      G    = UNDEMI *YOUNG / (UN + NU) 
-      LAME = DEUX * G * NU /(UN - DEUX*NU)  
-      BULK = TIERS * YOUNG / (UN - NU*DEUX)
-c      SOUNDSP = SQRT((BULK + QTHIRD*G)/RHO)
+      G    = HALF *YOUNG / (ONE + NU) 
+      LAME = TWO * G * NU /(ONE - TWO*NU)  
+      BULK = THIRD * YOUNG / (ONE - NU*TWO)
+c      SOUNDSP = SQRT((BULK + FOUR_OVER_3*G)/RHO)
 c------------------------
 c     Default input values
 c------------------------
@@ -132,18 +132,18 @@ c------------------------
       END IF
       IF (YSCALE == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('MAT_Yscale' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        YSCALE = UN * YSCALE_UNIT
+        YSCALE = ONE * YSCALE_UNIT
       ENDIF
       IF (XSCALE == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('MAT_Xscale' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        XSCALE = UN * XSCALE_UNIT
+        XSCALE = ONE * XSCALE_UNIT
       ENDIF
       IF (XRATE == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('MAT_XRATE' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        XRATE = UN * XSCALE_UNIT
+        XRATE = ONE * XSCALE_UNIT
       ENDIF
 c-----------------------------------------------
-      A1   = YOUNG / (UN - NU*NU)
+      A1   = YOUNG / (ONE - NU*NU)
       A2   = A1 * NU
 c-----------------------------------------------
       UPARAM(1)  = YOUNG     ! Young modulus
@@ -155,26 +155,26 @@ c-----------------------------------------------
                              ! ISMOOTH = 1 => linear interpolation
                              ! ISMOOTH = 2 => logarythmic interpolation base 10
                              ! ISMOOTH = 3 => logarythmic interpolation base n
-      UPARAM(7)  = UN/XRATE  ! strain rate abscissa factor for eta function
-      UPARAM(8)  = UN/XSCALE ! strain rate abscissa factor for yld function
+      UPARAM(7)  = ONE/XRATE  ! strain rate abscissa factor for eta function
+      UPARAM(8)  = ONE/XSCALE ! strain rate abscissa factor for yld function
       UPARAM(9)  = YSCALE    ! Yld function scale factor
       UPARAM(10) = 0
       UPARAM(11) = G         ! Shear modulus
-      UPARAM(12) = G * DEUX 
-      UPARAM(13) = G * TROIS
+      UPARAM(12) = G * TWO 
+      UPARAM(13) = G * THREE
       UPARAM(14) = BULK      ! Bulk modulus
       UPARAM(15) = LAME      ! Lame parameter
       UPARAM(16) = A1
       UPARAM(17) = A2
-      UPARAM(18) = NU / (UN - NU)              ! NNU
-      UPARAM(19) = (UN - DEUX*NU) / (UN - NU)  ! NNU1
+      UPARAM(18) = NU / (ONE - NU)              ! NNU
+      UPARAM(19) = (ONE - TWO*NU) / (ONE - NU)  ! NNU1
 c----------------
       PARMAT(1) = BULK
       PARMAT(2) = YOUNG
       PARMAT(3) = NU
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) = DEUX*G / (BULK + QTHIRD*G)
+      PARMAT(17) = TWO*G / (BULK + FOUR_OVER_3*G)
 c----------------
       MTAG%G_EPSD = 1
       MTAG%L_EPSD = 1

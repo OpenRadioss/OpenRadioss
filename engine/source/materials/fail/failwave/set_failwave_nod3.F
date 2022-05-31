@@ -122,8 +122,8 @@ c---------------
 c
           IF (NEWCRK1 + NEWCRK2 > 0) THEN
 c
-            RAT1 = UNDEMI * TAN(PI/SIX)
-            RAT2 = UN - RAT1
+            RAT1 = HALF * TAN(PI/SIX)
+            RAT2 = ONE - RAT1
 c------------------------------------------------
 c             Propagation in first direction    
 c------------------------------------------------
@@ -159,7 +159,7 @@ c
               XM = (XL2(I) + XL3(I)) * THIRD
               YM = (YL2(I) + YL3(I)) * THIRD
               LMAX = MAX(XL2(I)*2 + YL2(I)**2, XL3(I)**2 + YL3(I))
-              LMAX = SQRT(LMAX) * DEUX
+              LMAX = SQRT(LMAX) * TWO
 c
               DX1 = XM - DIR11 * LMAX
               DY1 = YM - DIR22 * LMAX
@@ -290,7 +290,7 @@ c
               XM = (XL2(I) + XL3(I)) * THIRD
               YM = (YL2(I) + YL3(I)) * THIRD
               LMAX = MAX(XL2(I)*2 + YL2(I)**2, XL3(I)**2 + YL3(I))
-              LMAX = SQRT(LMAX) * DEUX
+              LMAX = SQRT(LMAX) * TWO
 c
               DX1 = XM - DIR11 * LMAX
               DY1 = YM - DIR22 * LMAX

@@ -239,7 +239,7 @@ C
          MELE4=ZERO
          IF(MLW/=0)THEN
           IF (OFFG(J) > ZERO) THEN
-            MELE4=UNDEMI*DMELS(IE)
+            MELE4=HALF*DMELS(IE)
           END IF
          END IF
 C
@@ -249,7 +249,7 @@ C     [...]
 C  w^2 < 2k / (m+4*dmels)
 C  but dt = 2/w =sqrt( 2*(m+dmels) /k) => 4*dmels=dmels(mqviscb)/2
 C                                     <=> mele12=dmels(mqviscb)/2/4
-         MELE12=QUART*MELE4
+         MELE12=FOURTH*MELE4
          DO K=1,4
            I=IXS(1+ILOC4(K),IE)
 
@@ -271,7 +271,7 @@ C                                     <=> mele12=dmels(mqviscb)/2/4
          MELE4=ZERO
          IF(MLW/=0)THEN
           IF (OFFG(J) > ZERO) THEN
-            MELE4=UNDEMI*DMELS(IE)
+            MELE4=HALF*DMELS(IE)
           END IF
          END IF
 C
@@ -281,7 +281,7 @@ C     [...]
 C  w^2 < 2k / (m+4*dmels)
 C  but dt = 2/w =sqrt( 2*(m+dmels) /k) => 4*dmels=dmels(mqviscb)/2
 C                                     <=> mele12=dmels(mqviscb)/2/4
-         MELE12=UNSIX*MELE4
+         MELE12=ONE_OVER_6*MELE4
          DO K=1,6
            I=IXS(1+IPENTA6(K),IE)
 
@@ -313,13 +313,13 @@ C                                     <=> mele12=dmels(mqviscb)/2/4
             END DO
             DO K=1,8
               I=IXS(1+K,IE)
-              IF(TAGA(I)==0)XNOD=XNOD+UN
+              IF(TAGA(I)==0)XNOD=XNOD+ONE
               TAGA(I)=TAGA(I)+1
               KMULT=MAX(KMULT,TAGA(I))
             END DO
 C peut etre instable pour les prismes
-C           MELE4 =UNDEMI*DMELS(IE)
-            MELE4 =KMULT*UNDEMI*DMELS(IE)
+C           MELE4 =HALF*DMELS(IE)
+            MELE4 =KMULT*HALF*DMELS(IE)
 C
 C  Me=[ 7*dmels    -dmels ...        -dmels ]
 C     [  -dmels   7*dmels ...        -dmels ]
@@ -337,7 +337,7 @@ C  nds doubles w^2 < 4k / (2*m+6*dmels) , nds simples w^2 < 2k / (m+6*dmels)
 C  but dt = 2/w =sqrt( 2*(m+dmels) /k) => 3*dmels=dmels(mqviscb)/2
 C                                     <=> mele12=dmels=dmels(mqviscb)/2/3
 C                                                     =kmult*dmels(mqviscb)/2/6
-            MELE12=(UN/XNOD)*MELE4
+            MELE12=(ONE/XNOD)*MELE4
           ELSE
             MELE12=ZERO
           END IF
@@ -387,7 +387,7 @@ C void elements may be into contact
            MELE4=ZERO
            IF(MLW/=0)THEN
             IF (OFFG(J) > ZERO) THEN
-             MELE4 = UNDEMI*DMELS(IE)
+             MELE4 = HALF*DMELS(IE)
 C
 C             Q : Quelles VP pour M-1K ?  M=[ Mvettex+9dm, -dm      ,.....	  ]
 C         				    [	-dm	 , Medge+9dm, -dm, ....]
@@ -396,11 +396,11 @@ C             Mvertex = Mass/32, Medge=7*Mass/48
 C
 C             A: Supposed lambda(M) > Mvertex+10dm
 C
-             MELE4 = MELE4/TRENTE2
+             MELE4 = MELE4/THIRTY2
             END IF
            END IF
 
-           MELE12=MELE4/DIX
+           MELE12=MELE4/TEN
 
            DO K=1,4
              I=IXS(1+ILOC4(K),IE)
@@ -464,7 +464,7 @@ C          nd milieu inexistant, transfert aux sommets (symetrie dans JSM_SMS...
              DO KK=1,4
                JJ = IXS(1+ILOC4(KK),IE)
                IF(JJ/=I.AND..NOT.(NATIV_SMS(I)==0.AND.NATIV_SMS(JJ)==0))THEN
-          	  LTK_SMS (IJ)=LTK_SMS (IJ)-UNDEMI*MELE12
+          	  LTK_SMS (IJ)=LTK_SMS (IJ)-HALF*MELE12
           	  IJ=IJ+1
                END IF
              END DO
@@ -474,7 +474,7 @@ C          nd milieu inexistant, transfert aux sommets (symetrie dans JSM_SMS...
                IF(JJ==0) CYCLE
 
                IF(JJ/=I.AND..NOT.(NATIV_SMS(I)==0.AND.NATIV_SMS(JJ)==0))THEN
-          	  LTK_SMS (IJ)=LTK_SMS (IJ)-UNDEMI*MELE12
+          	  LTK_SMS (IJ)=LTK_SMS (IJ)-HALF*MELE12
           	  IJ=IJ+1
                END IF
              END DO
@@ -485,7 +485,7 @@ C          nd milieu inexistant, transfert aux sommets (symetrie dans JSM_SMS...
              DO KK=1,4
                JJ = IXS(1+ILOC4(KK),IE)
                IF(JJ/=I.AND..NOT.(NATIV_SMS(I)==0.AND.NATIV_SMS(JJ)==0))THEN
-          	  LTK_SMS (IJ)=LTK_SMS (IJ)-UNDEMI*MELE12
+          	  LTK_SMS (IJ)=LTK_SMS (IJ)-HALF*MELE12
           	  IJ=IJ+1
                END IF
              END DO
@@ -495,7 +495,7 @@ C          nd milieu inexistant, transfert aux sommets (symetrie dans JSM_SMS...
                IF(JJ==0) CYCLE
 
                IF(JJ/=I.AND..NOT.(NATIV_SMS(I)==0.AND.NATIV_SMS(JJ)==0))THEN
-          	  LTK_SMS (IJ)=LTK_SMS (IJ)-UNDEMI*MELE12
+          	  LTK_SMS (IJ)=LTK_SMS (IJ)-HALF*MELE12
           	  IJ=IJ+1
                END IF
              END DO
@@ -510,7 +510,7 @@ C          nd milieu inexistant, transfert aux sommets (symetrie dans JSM_SMS...
            MELE4=ZERO
            IF(MLW/=0)THEN
             IF (OFFG(J) > ZERO) THEN
-             MELE4 = UNDEMI*DMELS(IE)
+             MELE4 = HALF*DMELS(IE)
 C
 C             Q : Quelles VP pour M-1K ?  M=[ Mvettex+9dm, -dm      ,.....	  ]
 C         				    [	-dm	 , Medge+9dm, -dm, ....]
@@ -519,11 +519,11 @@ C             Mvertex = Mass/32, Medge=7*Mass/48
 C
 C             A: Supposed lambda(M) > Mvertex+10dm
 C
-             MELE4 = MELE4*SEPT/QUARANTE8
+             MELE4 = MELE4*SEVEN/FOURTY8
             END IF
            END IF
 
-           MELE12=MELE4/NEUF
+           MELE12=MELE4/NINE
 
            DO K=1,4
              I=IXS(1+ILOC4(K),IE)
@@ -587,7 +587,7 @@ C          nd milieu inexistant, transfert aux sommets (symetrie dans JSM_SMS...
              DO KK=1,4
                JJ = IXS(1+ILOC4(KK),IE)
                IF(JJ/=I.AND..NOT.(NATIV_SMS(I)==0.AND.NATIV_SMS(JJ)==0))THEN
-          	  LTK_SMS (IJ)=LTK_SMS (IJ)-UNDEMI*MELE12
+          	  LTK_SMS (IJ)=LTK_SMS (IJ)-HALF*MELE12
           	  IJ=IJ+1
                END IF
              END DO
@@ -597,7 +597,7 @@ C          nd milieu inexistant, transfert aux sommets (symetrie dans JSM_SMS...
                IF(JJ==0) CYCLE
 
                IF(JJ/=I.AND..NOT.(NATIV_SMS(I)==0.AND.NATIV_SMS(JJ)==0))THEN
-          	  LTK_SMS (IJ)=LTK_SMS (IJ)-UNDEMI*MELE12
+          	  LTK_SMS (IJ)=LTK_SMS (IJ)-HALF*MELE12
           	  IJ=IJ+1
                END IF
              END DO
@@ -608,7 +608,7 @@ C          nd milieu inexistant, transfert aux sommets (symetrie dans JSM_SMS...
              DO KK=1,4
                JJ = IXS(1+ILOC4(KK),IE)
                IF(JJ/=I.AND..NOT.(NATIV_SMS(I)==0.AND.NATIV_SMS(JJ)==0))THEN
-          	  LTK_SMS (IJ)=LTK_SMS (IJ)-UNDEMI*MELE12
+          	  LTK_SMS (IJ)=LTK_SMS (IJ)-HALF*MELE12
           	  IJ=IJ+1
                END IF
              END DO
@@ -618,7 +618,7 @@ C          nd milieu inexistant, transfert aux sommets (symetrie dans JSM_SMS...
                IF(JJ==0) CYCLE
 
                IF(JJ/=I.AND..NOT.(NATIV_SMS(I)==0.AND.NATIV_SMS(JJ)==0))THEN
-          	  LTK_SMS (IJ)=LTK_SMS (IJ)-UNDEMI*MELE12
+          	  LTK_SMS (IJ)=LTK_SMS (IJ)-HALF*MELE12
           	  IJ=IJ+1
                END IF
              END DO
@@ -633,10 +633,10 @@ C          nd milieu inexistant, transfert aux sommets (symetrie dans JSM_SMS...
          MELE4=ZERO
          IF(MLW/=0)THEN
           IF (OFFG(J) > ZERO) THEN
-            MELE4 =UNDEMI*DMELC(IE)
+            MELE4 =HALF*DMELC(IE)
           END IF
          END IF
-         MELE12=TIERS*MELE4
+         MELE12=THIRD*MELE4
          DO K=1,4
            I=IXC(1+K,IE)
 
@@ -658,7 +658,7 @@ C          nd milieu inexistant, transfert aux sommets (symetrie dans JSM_SMS...
          MELE4=ZERO
          IF(MLW/=0)THEN
           IF (OFFG(J) > ZERO) THEN
-            MELE4 =UNDEMI*DMELTR(IE)
+            MELE4 =HALF*DMELTR(IE)
           END IF
          END IF
          MELE12=MELE4
@@ -682,7 +682,7 @@ C          nd milieu inexistant, transfert aux sommets (symetrie dans JSM_SMS...
          MELE4=ZERO
          IF(MLW/=0)THEN
           IF (OFFG(J) > ZERO) THEN
-            MELE4 =UNDEMI*DMELP(IE)
+            MELE4 =HALF*DMELP(IE)
           END IF
          END IF
          MELE12=MELE4
@@ -710,7 +710,7 @@ C          nd milieu inexistant, transfert aux sommets (symetrie dans JSM_SMS...
           MELE4=ZERO
           IF(MLW/=0)THEN
            IF (OFFG(J) > ZERO) THEN
-             MELE4=UNDEMI*DMELRT(IE)
+             MELE4=HALF*DMELRT(IE)
            END IF
           END IF
           MELE12=MELE4
@@ -734,7 +734,7 @@ C          nd milieu inexistant, transfert aux sommets (symetrie dans JSM_SMS...
             MELE12=ZERO
             IF(MLW/=0)THEN
              IF (OFFG(J) > ZERO) THEN
-               MELE12=UNDEMI*DMELRT(IE)
+               MELE12=HALF*DMELRT(IE)
              END IF
             END IF
 
@@ -787,7 +787,7 @@ C          nd milieu inexistant, transfert aux sommets (symetrie dans JSM_SMS...
          MELE4=ZERO
          IF(MLW/=0)THEN
           IF (OFFG(J) > ZERO) THEN
-            MELE4=UNDEMI*DMELTG(IE)
+            MELE4=HALF*DMELTG(IE)
           END IF
          END IF
 C
@@ -797,7 +797,7 @@ C     [  -dmeltg    -dmeltg  2*dmeltg
 C  w^2 < 2k / (m+3*dmeltg)
 C  but dt = 2/w =sqrt( 2*(m+dmelc) /k) => 3*dmeltg=dmeltg calculated/2
 C                                     <=> mele12=dmeltg/3=dmeltg calculated/2/3
-         MELE12=TIERS*MELE4
+         MELE12=THIRD*MELE4
          DO K=1,3
            I=IXTG(1+K,IE)
 
@@ -937,8 +937,8 @@ C
                       DO K =2,5
                         DO KK =2,5
                           IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
-                            LT_SMS(NAD_SMS(T2MAIN_SMS(K,I))) = UNDEMI*LTIJ
-                            LT_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))= UNDEMI*LTIJ
+                            LT_SMS(NAD_SMS(T2MAIN_SMS(K,I))) = HALF*LTIJ
+                            LT_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))= HALF*LTIJ
                             NAD_SMS(T2MAIN_SMS(K,I)) =NAD_SMS(T2MAIN_SMS(K,I))+1
                             NAD_SMS(T2MAIN_SMS(KK,J))=NAD_SMS(T2MAIN_SMS(KK,J))+1
                           ENDIF
@@ -1040,8 +1040,8 @@ C
                     DO K =2,5
                       DO KK =2,5
                         IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
-                          LT_SMS(NAD_SMS(T2MAIN_SMS(K,I))) = UNDEMI*LTIJ
-                          LT_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))= UNDEMI*LTIJ
+                          LT_SMS(NAD_SMS(T2MAIN_SMS(K,I))) = HALF*LTIJ
+                          LT_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))= HALF*LTIJ
                           NAD_SMS(T2MAIN_SMS(K,I)) =NAD_SMS(T2MAIN_SMS(K,I))+1
                           NAD_SMS(T2MAIN_SMS(KK,J))=NAD_SMS(T2MAIN_SMS(KK,J))+1
                         ENDIF
@@ -1209,8 +1209,8 @@ C
                     DO K =2,5
                       DO KK =2,5
                         IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
-                          LT_SMS(NAD_SMS(T2MAIN_SMS(K,I))) = UNDEMI*LTIJ
-                          LT_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))= UNDEMI*LTIJ
+                          LT_SMS(NAD_SMS(T2MAIN_SMS(K,I))) = HALF*LTIJ
+                          LT_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))= HALF*LTIJ
                           NAD_SMS(T2MAIN_SMS(K,I)) =NAD_SMS(T2MAIN_SMS(K,I))+1
                           NAD_SMS(T2MAIN_SMS(KK,J))=NAD_SMS(T2MAIN_SMS(KK,J))+1
                         ENDIF
@@ -1312,8 +1312,8 @@ C
                     DO K =2,5
                       DO KK =2,5
                         IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
-                          LT_SMS(NAD_SMS(T2MAIN_SMS(K,I))) = UNDEMI*LTIJ
-                          LT_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))= UNDEMI*LTIJ
+                          LT_SMS(NAD_SMS(T2MAIN_SMS(K,I))) = HALF*LTIJ
+                          LT_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))= HALF*LTIJ
                           NAD_SMS(T2MAIN_SMS(K,I)) =NAD_SMS(T2MAIN_SMS(K,I))+1
                           NAD_SMS(T2MAIN_SMS(KK,J))=NAD_SMS(T2MAIN_SMS(KK,J))+1
                         ENDIF

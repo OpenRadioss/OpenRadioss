@@ -144,7 +144,7 @@ C-----------------------------------------------
 
       E0 = ZERO
 
-      IF(C1.EQ.ZERO)C1=TIERS*YOUNG/(UN-DEUX*ANU)   !bulk modulus
+      IF(C1.EQ.ZERO)C1=THIRD*YOUNG/(ONE-TWO*ANU)   !bulk modulus
 
       IF(YOUNG.LE.ZERO)THEN
         chain='YOUNG MODULUS MUST BE DEFINED                           '
@@ -208,14 +208,14 @@ C-----------------------------------------------
       IF(A2==ZERO.AND.A1/=ZERO)THEN   !(A2=A1=ZERO => error message)
         PSTAR=-A0/A1 
       ELSEIF(A2.NE.ZERO)THEN
-        DELTA = A1*A1-QUATRE*A0*A2
+        DELTA = A1*A1-FOUR*A0*A2
         !Si intersection avec l'axe
         IF(DELTA .GE. ZERO)THEN
           DELTA=SQRT(DELTA) 
-          PSTAR = (-A1+DELTA)/DEUX/A2
+          PSTAR = (-A1+DELTA)/TWO/A2
         
         ELSE
-          PSTAR = -A1/DEUX/A2 !extremum
+          PSTAR = -A1/TWO/A2 !extremum
           chain='YIELD FUNCTION HAS NO ROOT.                                       '      
           CALL ANCMSG(  MSGID=829,
      .                  MSGTYPE=MSGWARNING,
@@ -251,11 +251,11 @@ C
           IF(C2.EQ.ZERO)THEN
            XMUMX=EP20 
           ELSE
-           XMUMX=(BUNL-C1)/(DEUX*C2)
+           XMUMX=(BUNL-C1)/(TWO*C2)
           ENDIF
          ELSE
-          DET=SQRT(C2**2 + TROIS*C3*(BUNL-C1))
-           XMUMX=(DET-C2)/(TROIS*C3)
+          DET=SQRT(C2**2 + THREE*C3*(BUNL-C1))
+           XMUMX=(DET-C2)/(THREE*C3)
          ENDIF
         ENDIF
 
@@ -273,16 +273,16 @@ C
           IF(C2.EQ.ZERO)THEN
            BUNL = C1 
           ELSE
-           BUNL = C1 + DEUX*C2*XMUMX
+           BUNL = C1 + TWO*C2*XMUMX
           ENDIF
          ELSE
-           BUNL = C1 + DEUX*C2*XMUMX + TROIS*C3*C3*XMUMX**DEUX
+           BUNL = C1 + TWO*C2*XMUMX + THREE*C3*C3*XMUMX**TWO
          ENDIF
         ENDIF  
         IF(BUNL.EQ.ZERO) BUNL  = C1           
       ENDIF !IFORM.EQ.1
 
-      G=YOUNG/(DEUX*(UN + ANU))
+      G=YOUNG/(TWO*(ONE + ANU))
 
       PM(20)=YOUNG
       PM(21)=ANU
@@ -306,14 +306,14 @@ C
       PM(46)=XMUMX
       PM(47)=ZERO ! MUMIN
       PM(48)=IFORM
-      PM(79)=TROIS100
+      PM(79)=THREE100
       PM(88)=PSH 
       PM(104)=C0     
 
       !Formulation for solid elements time step computation.
       IPM(252)= 2
       
-      PM(105) = DEUX*G/(C1+QTHIRD*G) ! =(1-2*Nu)/(1-Nu)
+      PM(105) = TWO*G/(C1+FOUR_OVER_3*G) ! =(1-2*Nu)/(1-Nu)
 
 C---- Definition des variables internes (stockage elementaire)
 

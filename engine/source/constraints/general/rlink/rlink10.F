@@ -324,7 +324,7 @@ C Init Parith/ON
        SX = XFRAME(1)
        SY = XFRAME(2)
        SZ = XFRAME(3)
-       AA = UN / SQRT(SX*SX + SY*SY + SZ*SZ)
+       AA = ONE / SQRT(SX*SX + SY*SY + SZ*SZ)
        SX = SX * AA
        SY = SY * AA
        SZ = SZ * AA
@@ -339,13 +339,13 @@ C     repere polaire axe S = X(frame) , rayon R , angle T
 C-----------------------------------------------------------------------
        DO I=1,NSN
         N = NOD(I)
-        RX0 = X(1,N) + UNDEMI * DT2 * V(1,N) - OX
-        RY0 = X(2,N) + UNDEMI * DT2 * V(2,N) - OY
-        RZ0 = X(3,N) + UNDEMI * DT2 * V(3,N) - OZ
+        RX0 = X(1,N) + HALF * DT2 * V(1,N) - OX
+        RY0 = X(2,N) + HALF * DT2 * V(2,N) - OY
+        RZ0 = X(3,N) + HALF * DT2 * V(3,N) - OZ
         TX = RY0 * SZ - RZ0 * SY
         TY = RZ0 * SX - RX0 * SZ
         TZ = RX0 * SY - RY0 * SX
-        AA = UN / SQRT(TX*TX + TY*TY + TZ*TZ)
+        AA = ONE / SQRT(TX*TX + TY*TY + TZ*TZ)
         TX = TX * AA
         TY = TY * AA
         TZ = TZ * AA
@@ -482,7 +482,7 @@ C
        SX = XFRAME(1)
        SY = XFRAME(2)
        SZ = XFRAME(3)
-       AA = UN / SQRT(SX*SX + SY*SY + SZ*SZ)
+       AA = ONE / SQRT(SX*SX + SY*SY + SZ*SZ)
        SX = SX * AA
        SY = SY * AA
        SZ = SZ * AA
@@ -585,13 +585,13 @@ C     repere polaire axe S , rayon R , angle T
 C-----------------------------------------------------------------------
        DO I=1,NSN
         N = NOD(I)
-        RX0 = X(1,N) + UNDEMI * DT2 * V(1,N) - OX
-        RY0 = X(2,N) + UNDEMI * DT2 * V(2,N) - OY
-        RZ0 = X(3,N) + UNDEMI * DT2 * V(3,N) - OZ
+        RX0 = X(1,N) + HALF * DT2 * V(1,N) - OX
+        RY0 = X(2,N) + HALF * DT2 * V(2,N) - OY
+        RZ0 = X(3,N) + HALF * DT2 * V(3,N) - OZ
         TX = RY0 * SZ - RZ0 * SY
         TY = RZ0 * SX - RX0 * SZ
         TZ = RX0 * SY - RY0 * SX
-        AA = UN / SQRT(TX*TX + TY*TY + TZ*TZ)
+        AA = ONE / SQRT(TX*TX + TY*TY + TZ*TZ)
         TX = TX * AA
         TY = TY * AA
         TZ = TZ * AA

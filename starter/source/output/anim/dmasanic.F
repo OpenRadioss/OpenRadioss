@@ -98,7 +98,7 @@ C
                  MT=IXQ(1,N)                                            
                  VALUE = PM(89,MT)* GBUF%VOL(I)                     
                ELSE                                                     
-                 OFF = MIN(GBUF%OFF(I),UN)                             
+                 OFF = MIN(GBUF%OFF(I),ONE)                             
                  VALUE=  GBUF%RHO(I)*GBUF%VOL(I)*OFF                    
                ENDIF                                                    
                MAS(EL2FA(NN3+N_FA)) = VALUE                             
@@ -126,7 +126,7 @@ C
             XX3 = YY1*ZZ2 - ZZ1*YY2                                     
             YY3 = ZZ1*XX2 - XX1*ZZ2                                     
             ZZ3 = XX1*YY2 - YY1*XX2                                     
-            A0  = UNDEMI*SQRT(XX3*XX3 + YY3*YY3 + ZZ3*ZZ3)              
+            A0  = HALF*SQRT(XX3*XX3 + YY3*YY3 + ZZ3*ZZ3)              
             MAS(EL2FA(NN4+N_FA)) = RHO0*THK0*A0                         
           ENDDO                                                         
 C-----------------------------------------------                        
@@ -151,7 +151,7 @@ C
             XX3 = YY1*ZZ2 - ZZ1*YY2                                     
             YY3 = ZZ1*XX2 - XX1*ZZ2                                     
             ZZ3 = XX1*YY2 - YY1*XX2                                     
-            A0  = UNDEMI*SQRT(XX3*XX3 + YY3*YY3 + ZZ3*ZZ3)              
+            A0  = HALF*SQRT(XX3*XX3 + YY3*YY3 + ZZ3*ZZ3)              
             MAS(EL2FA(NN5+N_FA)) = RHO0*THK0*A0                         
           ENDDO                                                         
 C                                                                       

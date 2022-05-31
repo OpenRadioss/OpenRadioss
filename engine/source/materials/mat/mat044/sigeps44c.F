@@ -192,14 +192,14 @@ C-----------------------------------------------
        VFLAG    = NINT(UPARAM(23))
        YSCALE   = UPARAM(24)
 C       
-       NNU11 = NUX / (UN - NUX)
+       NNU11 = NUX / (ONE - NUX)
        NNU2  = NNU11*NNU11
-       NU11  = UN/(UN-NUX)
-       NU21  = UN/(UN+NUX)
-       NU31  = UN - NNU11
-       NU41  = UN + NNU2 + NNU11
-       NU51  = UN + NNU2 - DEUX*NNU11
-       NU61  = UNDEMI- NNU2 + UNDEMI*NNU11
+       NU11  = ONE/(ONE-NUX)
+       NU21  = ONE/(ONE+NUX)
+       NU31  = ONE - NNU11
+       NU41  = ONE + NNU2 + NNU11
+       NU51  = ONE + NNU2 - TWO*NNU11
+       NU61  = HALF- NNU2 + HALF*NNU11
 C       
        DO I=1,NEL0
          EPSGM(I) = UPARAM(22)
@@ -236,7 +236,7 @@ C
 C
          SOUNDSP(I) = SQRT(A11/RHO0(I))
          VISCMAX(I) = ZERO
-         ETSE(I) = UN
+         ETSE(I) = ONE
 C-----------------------------------------------
 C     TOTAL OR DEVIATORIC STRAIN-RATE COMPUTATION
 C-----------------------------------------------
@@ -249,10 +249,10 @@ C-----------------------------------------------
              DEVE1  = EPSPXX(I) - DAV
              DEVE2  = EPSPYY(I) - DAV
              DEVE3  = - DAV
-             DEVE4  = UNDEMI*EPSPXY(I)
-             EPSP(I)   = UNDEMI*(DEVE1**2 + DEVE2**2 + DEVE3**2) + DEVE4**2
-             EPSP(I)   = SQRT(TROIS*EPSP(I))/TDEMI             
-             EPSP(I)   = ASRATE*EPSP(I) + (UN - ASRATE)*UVAR(I,1)
+             DEVE4  = HALF*EPSPXY(I)
+             EPSP(I)   = HALF*(DEVE1**2 + DEVE2**2 + DEVE3**2) + DEVE4**2
+             EPSP(I)   = SQRT(THREE*EPSP(I))/THREE_HALF             
+             EPSP(I)   = ASRATE*EPSP(I) + (ONE - ASRATE)*UVAR(I,1)
              UVAR(I,1) = EPSP(I)
            ENDIF
          ELSEIF (ISRATE == 0) THEN
@@ -261,13 +261,13 @@ C-----------------------------------------------
              DEVE1  = EPSPXX(I) - DAV
              DEVE2  = EPSPYY(I) - DAV
              DEVE3  = - DAV
-             DEVE4  = UNDEMI*EPSPXY(I)
-             EPSP(I)   = UNDEMI*(DEVE1**2 + DEVE2**2 + DEVE3**2) + DEVE4**2
-             EPSP(I)   = SQRT(TROIS*EPSP(I))/TDEMI             
+             DEVE4  = HALF*EPSPXY(I)
+             EPSP(I)   = HALF*(DEVE1**2 + DEVE2**2 + DEVE3**2) + DEVE4**2
+             EPSP(I)   = SQRT(THREE*EPSP(I))/THREE_HALF             
              UVAR(I,1) = EPSP(I)
            ELSEIF (VFLAG == 2) THEN
              EPSP(I) = 
-     .       UNDEMI*( ABS(EPSPXX(I)+EPSPYY(I))
+     .       HALF*( ABS(EPSPXX(I)+EPSPYY(I))
      .     + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .                   + EPSPXY(I)*EPSPXY(I) ) )
            ENDIF
@@ -276,10 +276,10 @@ C-------------------
 C     STRAIN & TENSION FAILURE
 C-------------------
 C
-         EPST = UNDEMI*( EPSXX(I)+EPSYY(I)
+         EPST = HALF*( EPSXX(I)+EPSYY(I)
      .   + SQRT( (EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
      .                 + EPSXY(I)*EPSXY(I) ) )
-         FAIL(I) = MAX(ZERO,MIN(UN,(EPSR21-EPST)/(EPSR21-EPSR11)))
+         FAIL(I) = MAX(ZERO,MIN(ONE,(EPSR21-EPST)/(EPSR21-EPSR11)))
          DPLA_I(I) = ZERO
 C
        ENDDO
@@ -295,11 +295,11 @@ C
          VARTMP(1:NEL0,1) = IPOS(1:NEL0)
        ENDIF
 C
-       RQ = UN
+       RQ = ONE
 C--------------------
        IF((MFUNC > 0) .AND. (CA1 == ZERO)) THEN
          DO I=1,NEL0
-             IF(CC1 /= ZERO) RQ = UN + (CC1*EPSP(I))**CP1
+             IF(CC1 /= ZERO) RQ = ONE + (CC1*EPSP(I))**CP1
              YLO(I) = YLO(I) * RQ
            IF (PLA(I).GT.ZERO) THEN
              YLD(I) = YSCALE * YLD(I) * RQ
@@ -313,40 +313,40 @@ C---------------------------
        ELSEIF ((MFUNC > 0) .AND. (CA1 /= ZERO)) THEN 
 C--------------------
          DO I=1,NEL0
-           IF(CC1 /= ZERO) RQ = UN + (CC1*EPSP(I))**CP1
-           YLO(I) = YLO(I) + CA1 * (RQ-UN)
+           IF(CC1 /= ZERO) RQ = ONE + (CC1*EPSP(I))**CP1
+           YLO(I) = YLO(I) + CA1 * (RQ-ONE)
            IF (PLA(I).GT.ZERO) THEN
-             IF (CN1 == UN) THEN
-               YLD(I) = YSCALE * YLD(I) + (CA1 + CB1*PLA(I)) * (RQ-UN)
-               HS(I)  = YSCALE * DFDPLA(I) + CB1 * (RQ-UN)
+             IF (CN1 == ONE) THEN
+               YLD(I) = YSCALE * YLD(I) + (CA1 + CB1*PLA(I)) * (RQ-ONE)
+               HS(I)  = YSCALE * DFDPLA(I) + CB1 * (RQ-ONE)
              ELSE
-               YLD(I) = YSCALE * YLD(I) + (CA1 + CB1*PLA(I)**CN1) * (RQ-UN)
-               IF (CN1.GT.UN) THEN
-                 HS(I) = YSCALE * DFDPLA(I) + CN1*CB1*(RQ-UN) * (PLA(I)**(CN1-UN))
+               YLD(I) = YSCALE * YLD(I) + (CA1 + CB1*PLA(I)**CN1) * (RQ-ONE)
+               IF (CN1.GT.ONE) THEN
+                 HS(I) = YSCALE * DFDPLA(I) + CN1*CB1*(RQ-ONE) * (PLA(I)**(CN1-ONE))
                ELSE 
-                 HS(I) = YSCALE * DFDPLA(I) + CN1*CB1*(RQ-UN) / ((PLA(I)**(UN-CN1)))
+                 HS(I) = YSCALE * DFDPLA(I) + CN1*CB1*(RQ-ONE) / ((PLA(I)**(ONE-CN1)))
                ENDIF
              ENDIF
            ELSE ! PLA <= 0
-             YLD(I) = YSCALE * YLD(I) + CA1 * (RQ-UN)
+             YLD(I) = YSCALE * YLD(I) + CA1 * (RQ-ONE)
              HS(I)  = E1
            ENDIF
          ENDDO
        ELSE
 C--------------------
          DO I=1,NEL0
-           IF(CC1 /= ZERO) RQ = UN + (CC1*EPSP(I))**CP1
+           IF(CC1 /= ZERO) RQ = ONE + (CC1*EPSP(I))**CP1
            YLO(I) = CA1 * RQ
            IF (PLA(I).GT.ZERO) THEN
-             IF (CN1 == UN) THEN
+             IF (CN1 == ONE) THEN
                YLD(I) = (CA1 + CB1*PLA(I)) * RQ
                HS(I)  = CB1 * RQ
              ELSE
                YLD(I) = (CA1 + CB1*PLA(I)**CN1) * RQ
-               IF (CN1.GT.UN) THEN
-                 HS(I) = CN1*CB1*RQ * (PLA(I)**(CN1-UN))
+               IF (CN1.GT.ONE) THEN
+                 HS(I) = CN1*CB1*RQ * (PLA(I)**(CN1-ONE))
                ELSE
-                 HS(I) = CN1*CB1*RQ / ((PLA(I)**(UN-CN1)))
+                 HS(I) = CN1*CB1*RQ / ((PLA(I)**(ONE-CN1)))
                ENDIF
              ENDIF
            ELSE
@@ -357,17 +357,17 @@ C--------------------
        ENDIF
 
        DO I=1,NEL0
-           IF(CC1 /= ZERO) RQ = UN + (CC1*EPSP(I))**CP1
+           IF(CC1 /= ZERO) RQ = ONE + (CC1*EPSP(I))**CP1
            IF(ICC1 == 1) SIGM(I) = SIGM(I) * RQ
            IF (ICC1 /= 1 .and. CN1 /= ZERO .and. CB1 /= ZERO)
-     &        EPSGM(I)=((SIGM(I)/RQ-CA1)/CB1)**(UN/CN1)
+     &        EPSGM(I)=((SIGM(I)/RQ-CA1)/CB1)**(ONE/CN1)
            IF (PLA(I).GE.EPSGM(I)) THEN
               YLD(I) = SIGM(I)
               HS(I)  = ZERO
            ENDIF
            HS(I) = FAIL(I)*HS(I)
 C------           kinematic hardening
-           YLD(I)= FAIL(I)*((UN-FISOKIN1)*YLD(I)+FISOKIN1*YLO(I))
+           YLD(I)= FAIL(I)*((ONE-FISOKIN1)*YLD(I)+FISOKIN1*YLO(I))
            YLD(I) = MAX(YLD(I),EM20)
        ENDDO
 
@@ -385,21 +385,21 @@ C
            SVM(I)= SQRT(SIGNXX(I)*SIGNXX(I)
      .           + SIGNYY(I)*SIGNYY(I)
      .           - SIGNXX(I)*SIGNYY(I)
-     .           + TROIS*SIGNXY(I)*SIGNXY(I))
-           R  = MIN(UN,YLD(I)/MAX(EM20,SVM(I)))
+     .           + THREE*SIGNXY(I)*SIGNXY(I))
+           R  = MIN(ONE,YLD(I)/MAX(EM20,SVM(I)))
            SIGNXX(I)=SIGNXX(I)*R
            SIGNYY(I)=SIGNYY(I)*R
            SIGNXY(I)=SIGNXY(I)*R
-           UMR = UN-R
+           UMR = ONE-R
            DPLA_I(I) = OFF(I)*SVM(I)*UMR/(G31+HS(I))
            PLA(I) = PLA(I) + DPLA_I(I)
-           S1=UNDEMI*(SIGNXX(I)+SIGNYY(I))
+           S1=HALF*(SIGNXX(I)+SIGNYY(I))
            IF (INLOC == 0) THEN 
              DEZZ = DPLA_I(I) * S1 / YLD(I)
              DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU11-NU31*DEZZ
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
            ENDIF
-           IF(R < UN) ETSE(I)= HS(I)/(HS(I)+E1)
+           IF(R < ONE) ETSE(I)= HS(I)/(HS(I)+E1)
          ENDDO
 C
 C-------------------------
@@ -413,8 +413,8 @@ C
            S1=SIGNXX(I)+SIGNYY(I)
            S2=SIGNXX(I)-SIGNYY(I)
            S3=SIGNXY(I)
-           AA(I)=QUART*S1*S1
-           BB(I)=TQUART*S2*S2+3.*S3*S3
+           AA(I)=FOURTH*S1*S1
+           BB(I)=THREE_OVER_4*S2*S2+3.*S3*S3
            SVM(I)=SQRT(AA(I)+BB(I))  
            IF (INLOC == 0) THEN 
              DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU11
@@ -426,7 +426,7 @@ C---     GATHER PLASTIC FLOW
 C
          NINDX = 0
          DO I = 1,NEL0
-           IF ((SVM(I) > YLD(I)).AND.(OFF(I) == UN)) THEN
+           IF ((SVM(I) > YLD(I)).AND.(OFF(I) == ONE)) THEN
              NINDX=NINDX+1
              INDEX(NINDX)=I
            ENDIF
@@ -441,7 +441,7 @@ C
            HS(I) = MAX(ZERO,HS(I))
            DPLA_J(I)=(SVM(I)-YLD(I))/(G31+HS(I))
            ETSE(I)= HS(I)/(HS(I)+E1)
-           H(I) = HS(I)*(UN-FISOKIN1)
+           H(I) = HS(I)*(ONE-FISOKIN1)
           ENDDO
 C
           DO N=1,NMAX
@@ -450,15 +450,15 @@ C
              I=INDEX(J)
              DPLA_I(I)=DPLA_J(I)
              YLD_I =YLD(I)+H(I)*DPLA_I(I)
-             DR(I) =UNDEMI*E1*DPLA_I(I)/YLD_I
-             PP(I) =UN/(UN + DR(I)*NU11)
-             QQ(I) =UN/(UN + TROIS*DR(I)*NU21)
+             DR(I) =HALF*E1*DPLA_I(I)/YLD_I
+             PP(I) =ONE/(ONE + DR(I)*NU11)
+             QQ(I) =ONE/(ONE + THREE*DR(I)*NU21)
              P2    =PP(I)*PP(I)
              Q2    =QQ(I)*QQ(I)
              F     =AA(I)*P2+BB(I)*Q2-YLD_I*YLD_I
-             DF=-(AA(I)*NU11*P2*PP(I)+ TROIS*BB(I)*NU21*Q2*QQ(I))
-     .         *(E1-DEUX*DR(I)*H(I))/YLD_I
-     .         -DEUX*H(I)*YLD_I
+             DF=-(AA(I)*NU11*P2*PP(I)+ THREE*BB(I)*NU21*Q2*QQ(I))
+     .         *(E1-TWO*DR(I)*H(I))/YLD_I
+     .         -TWO*H(I)*YLD_I
              DF = SIGN(MAX(ABS(DF),EM20),DF)
              IF(DPLA_I(I).GT.ZERO) THEN
                DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F/DF)
@@ -476,8 +476,8 @@ C
            PLA(I) = PLA(I) + DPLA_I(I)
            S1=(SIGNXX(I)+SIGNYY(I))*PP(I)
            S2=(SIGNXX(I)-SIGNYY(I))*QQ(I)
-           SIGNXX(I)=UNDEMI*(S1+S2)
-           SIGNYY(I)=UNDEMI*(S1-S2)
+           SIGNXX(I)=HALF*(S1+S2)
+           SIGNYY(I)=HALF*(S1-S2)
            SIGNXY(I)=SIGNXY(I)*QQ(I)
            IF (INLOC == 0) THEN 
              DEZZ = - NU31*DR(I)*S1/E1
@@ -503,16 +503,16 @@ C
            S12 = SIGNXY(I)
 C
            P2 = P*P
-           VM2= TROIS*(S12*S12 - S11*S22)
+           VM2= THREE*(S12*S12 - S11*S22)
            A  = P2*NU41 + VM2
-           VM2= TROIS*P2  + VM2
+           VM2= THREE*P2  + VM2
            B  = P2*NU61
            C  = P2*NU51 - YLD(I)*YLD(I)
-           R  = MIN(UN,(-B + SQRT(MAX(ZERO,B*B-A*C)))/MAX(A ,EM20))
+           R  = MIN(ONE,(-B + SQRT(MAX(ZERO,B*B-A*C)))/MAX(A ,EM20))
            SIGNXX(I) = S11*R - P
            SIGNYY(I) = S22*R - P
            SIGNXY(I) = S12*R
-           UMR = UN - R
+           UMR = ONE - R
            SIGZ      = NNU11*P*UMR
            SIGNXX(I) = SIGNXX(I) + SIGZ
            SIGNYY(I) = SIGNYY(I) + SIGZ
@@ -520,19 +520,19 @@ C
            DPLA_I(I) = OFF(I)*SVM(I)*UMR/(G31+HS(I))
            PLA(I) = PLA(I) + DPLA_I(I)
            IF (INLOC == 0) THEN 
-             DEZZ = DPLA_I(I) * UNDEMI*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
+             DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
              DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU11-NU31*DEZZ
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
            ENDIF
-           IF(R < UN) ETSE(I)= HS(I)/(HS(I)+E1)
+           IF(R < ONE) ETSE(I)= HS(I)/(HS(I)+E1)
          ENDDO
        ENDIF
 C
        DO I=1,NEL0
-         IF ((PLA(I) > EPSM1).AND.(OFF(I) == UN)) OFF(I) = QCINQ
+         IF ((PLA(I) > EPSM1).AND.(OFF(I) == ONE)) OFF(I) = FOUR_OVER_5
          IF (VFLAG == 1) THEN 
            DPDT      = DPLA_I(I)/MAX(EM20,TIMESTEP)
-           UVAR(I,1) = ASRATE * DPDT + (UN - ASRATE) * UVAR(I,1)
+           UVAR(I,1) = ASRATE * DPDT + (ONE - ASRATE) * UVAR(I,1)
            EPSP(I)   = UVAR(I,1)
          ENDIF
        ENDDO
@@ -546,13 +546,13 @@ C
            DSXY  = SIGEXY(I) - SIGNXY(I)
            DEXX  = (DSXX - NUX*DSYY) 
            DEYY  = (DSYY - NUX*DSXX)
-           DEXY  = DEUX*(UN+NUX)*DSXY
+           DEXY  = TWO*(ONE+NUX)*DSXY
            ALPHA = FISOKIN1*HS(I)/(E1+HS(I)) * THIRD
            SIGNXX(I) = SIGNXX(I) + SIGP(I,1)
            SIGNYY(I) = SIGNYY(I) + SIGP(I,2)
            SIGNXY(I) = SIGNXY(I) + SIGP(I,3)
-           SIGP(I,1) = SIGP(I,1) + ALPHA*(QUATRE*DEXX+DEUX*DEYY)
-           SIGP(I,2) = SIGP(I,2) + ALPHA*(QUATRE*DEYY+DEUX*DEXX)
+           SIGP(I,1) = SIGP(I,1) + ALPHA*(FOUR*DEXX+TWO*DEYY)
+           SIGP(I,2) = SIGP(I,2) + ALPHA*(FOUR*DEYY+TWO*DEXX)
            SIGP(I,3) = SIGP(I,3) + ALPHA*DEXY
          ENDDO
        ENDIF
@@ -564,8 +564,8 @@ C
            SVM(I) = SQRT(SIGNXX(I)*SIGNXX(I)
      .           + SIGNYY(I)*SIGNYY(I)
      .           - SIGNXX(I)*SIGNYY(I)
-     .           + TROIS*SIGNXY(I)*SIGNXY(I))
-           DEZZ   = MAX(DPLANL(I),ZERO)*UNDEMI*(SIGNXX(I)+SIGNYY(I))/MAX(SVM(I),EM20)
+     .           + THREE*SIGNXY(I)*SIGNXY(I))
+           DEZZ   = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(SVM(I),EM20)
            DEZZ   = -NUX*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E1) - DEZZ
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)     
          ENDDO  

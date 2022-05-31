@@ -103,7 +103,7 @@ C=======================================================================
         LBUF  => ELBUF_STR%BUFLY(1)%LBUF(1,1,1)
         MBUF  => ELBUF_STR%BUFLY(1)%MAT(1,1,1)
         NUVAR =  ELBUF_STR%BUFLY(1)%NVAR_MAT
-        OFF   =  UN
+        OFF   =  ONE
         EPSD  =  ZERO
 C
         CALL MULAW(LFT      ,LLT      ,NFT      ,MTN      ,JCVT    ,

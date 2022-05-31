@@ -121,16 +121,16 @@ C License Flag
 !     DEFAULT UNITS
       CALL HM_GET_FLOATV_DIM('MAT_SRP'  ,EPS0_UNIT  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 !
-      IF (CN == ZERO .OR. CN == UN) CN = UNP0001
+      IF (CN == ZERO .OR. CN == ONE) CN = ONEP0001
       IF (EPSM == ZERO) EPSM = INFINITY
       IF (SIGM == ZERO) SIGM = INFINITY
-      IF (CC == ZERO)   EPS0 = UN*EPS0_UNIT
-      IF (CM == ZERO)   CM   = UN  ! dimensionless
+      IF (CC == ZERO)   EPS0 = ONE*EPS0_UNIT
+      IF (CM == ZERO)   CM   = ONE  ! dimensionless
       IF (TMELT == ZERO)TMELT = INFINITY
       IF (TMAX == ZERO) TMAX  = INFINITY
 !
-      G=YOUNG/(DEUX*(UN+ANU))
-      C1=YOUNG/(TROIS*(UN-DEUX*ANU))
+      G=YOUNG/(TWO*(ONE+ANU))
+      C1=YOUNG/(THREE*(ONE-TWO*ANU))
       IF (RHOR == ZERO) RHOR=RHO0
       PM(1) = RHOR
       PM(89)= RHO0

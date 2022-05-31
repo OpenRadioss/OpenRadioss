@@ -97,20 +97,20 @@ C
       DO I=JFT,JLT
 C         [PM] reverse engineer E and ANU from A11 and A12
 C         [PM] cant use A11/A12 since they correspond to shell (plane stress)
-          E(I)   = A1(I)*(UN-NU(I)**2)
+          E(I)   = A1(I)*(ONE-NU(I)**2)
 C
 C         PA1 = C1111, C2222, C3333
 C         PA2 = C1122, C1133, C2233
 C         PA3 = C1212, C1313, C2323
 C         PA4 = C1111*, C2222* 
 C         PA5 = C1122*
-          PA1(I) = E(I)*(UN-NU(I))/(UN+NU(I))/(UN-DEUX*NU(I))          
-          PA2(I) = E(I)*NU(I)/(UN+NU(I))/(UN-DEUX*NU(I))         
-          PA3(I) = E(I)/DEUX/(UN+NU(I))         
-          PA4(I) = (UN+NU(I))*(UN-DEUX*NU(I))/(UN-NU(I)**2)/(UN-NU(I))*PA1(I)         
-          PA5(I) = (UN+NU(I))*(UN-DEUX*NU(I))/(UN-NU(I)**2)*PA2(I)
+          PA1(I) = E(I)*(ONE-NU(I))/(ONE+NU(I))/(ONE-TWO*NU(I))          
+          PA2(I) = E(I)*NU(I)/(ONE+NU(I))/(ONE-TWO*NU(I))         
+          PA3(I) = E(I)/TWO/(ONE+NU(I))         
+          PA4(I) = (ONE+NU(I))*(ONE-TWO*NU(I))/(ONE-NU(I)**2)/(ONE-NU(I))*PA1(I)         
+          PA5(I) = (ONE+NU(I))*(ONE-TWO*NU(I))/(ONE-NU(I)**2)*PA2(I)
 C
-          THK08(I) = THK0(I)*UNDOUZE
+          THK08(I) = THK0(I)*ONE_OVER_12
           B1(I) = PA1(I)*THK08(I)
           B2(I) = PA2(I)*THK08(I)
           B3(I) = PA3(I)*THK08(I)
@@ -137,7 +137,7 @@ C
 C
 C       Sound speed
 C       SSP(I) = SQRT(E(I)/RHO(I))                      ! historic
-C       SSP(I) = SQRT(E(I)/RHO(I)/(UN-ANU(I)*ANU(I)))   ! for true shells
+C       SSP(I) = SQRT(E(I)/RHO(I)/(ONE-ANU(I)*ANU(I)))   ! for true shells
         SSP(I) = SQRT(PA1(I)/RHO(I))                    ! like solids
 C
       ENDDO

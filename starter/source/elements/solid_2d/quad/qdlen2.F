@@ -71,7 +71,7 @@ C-----------------------------------------------
 C--------------------------------------------------------------------
 C
       DO I=LFT,LLT
-        XOFF(I)=UN
+        XOFF(I)=ONE
       END DO
 
       ISFLUID = 0
@@ -81,7 +81,7 @@ C
         DO I=LFT,LLT
           AL1(I)=(Z3(I)-Z1(I))*(Z3(I)-Z1(I))+(Y3(I)-Y1(I))*(Y3(I)-Y1(I))
           AL2(I)=(Z4(I)-Z2(I))*(Z4(I)-Z2(I))+(Y4(I)-Y2(I))*(Y4(I)-Y2(I))
-          ALMX(I)=QUART*(AL1(I)+AL2(I))
+          ALMX(I)=FOURTH*(AL1(I)+AL2(I))
         ENDDO
       ELSE
         DO I=LFT,LLT

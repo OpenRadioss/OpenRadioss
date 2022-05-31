@@ -108,7 +108,7 @@ C SET INITIAL MATERIAL CONSTANTS
       GAMAINF = UPARAM(4)
       RBULK   = UPARAM(5)
       DVISC   = UPARAM(6)
-      BETA    = NU/(UN - DEUX*NU)
+      BETA    = NU/(ONE - TWO*NU)
       GMAX    = ZERO
       DO I= 1,NORDRE
         MU(I) = UPARAM(6 + I)
@@ -123,14 +123,14 @@ C SET INITIAL MATERIAL CONSTANTS
         ENDDO
         IVISC = 1
       ENDIF
-      GMAX = DEUX*GMAX
+      GMAX = TWO*GMAX
 C     User variables initialisation
       IF (TIME == ZERO) THEN
         DO I = 1, NEL
           DO J = 1,NUVAR
             UVAR(I,J) = ZERO
           ENDDO
-          UVAR(I,4) = UN     
+          UVAR(I,4) = ONE     
         ENDDO
       ENDIF
 C     principal stretch (def gradient eigenvalues)
@@ -138,15 +138,15 @@ C     principal stretch (def gradient eigenvalues)
         TRAV(I)  = EPSXX(I)+EPSYY(I)
         ROOTV(I) = SQRT((EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
      .           + EPSXY(I)*EPSXY(I))
-	       EVV(I,1) = UNDEMI*(TRAV(I)+ROOTV(I))
-        EVV(I,2) = UNDEMI*(TRAV(I)-ROOTV(I))
+	       EVV(I,1) = HALF*(TRAV(I)+ROOTV(I))
+        EVV(I,2) = HALF*(TRAV(I)-ROOTV(I))
         EVV(I,3) = ZERO
       ENDDO
 C     rot matrix (eigenvectors)
       DO I=1,NEL
         IF (ABS(EVV(I,2)-EVV(I,1)) < EM10) THEN
-          EIGV(I,1,1)=UN
-          EIGV(I,2,1)=UN
+          EIGV(I,1,1)=ONE
+          EIGV(I,2,1)=ONE
           EIGV(I,3,1)=ZERO
           EIGV(I,1,2)=ZERO
           EIGV(I,2,2)=ZERO
@@ -154,17 +154,17 @@ C     rot matrix (eigenvectors)
         ELSE                                             
           EIGV(I,1,1) = (EPSXX(I)-EVV(I,2))/ROOTV(I) 
           EIGV(I,2,1) = (EPSYY(I)-EVV(I,2))/ROOTV(I) 
-          EIGV(I,3,1) = (UNDEMI*EPSXY(I))  /ROOTV(I) 
+          EIGV(I,3,1) = (HALF*EPSXY(I))  /ROOTV(I) 
           EIGV(I,1,2) = (EVV(I,1)-EPSXX(I))/ROOTV(I) 
           EIGV(I,2,2) = (EVV(I,1)-EPSYY(I))/ROOTV(I) 
-          EIGV(I,3,2) =-(UNDEMI*EPSXY(I))  /ROOTV(I)  
+          EIGV(I,3,2) =-(HALF*EPSXY(I))  /ROOTV(I)  
         ENDIF                                            
       ENDDO
 C     Strain definition
       IF (ISMSTR == 1 .OR. ISMSTR == 3) THEN  ! engineering strain
         DO I=1,NEL
-          EV(I,1)=EVV(I,1)+ UN
-          EV(I,2)=EVV(I,2)+ UN
+          EV(I,1)=EVV(I,1)+ ONE
+          EV(I,2)=EVV(I,2)+ ONE
           EV(I,3)=UVAR(I,4)
         ENDDO
       ELSE  ! true strain
@@ -182,12 +182,12 @@ C--------------------------------------
            DO I=1,NEL             
                EV1  = ZERO 
                IF(EV(I,1) > ZERO) THEN 
-                   EV1 = UN 
+                   EV1 = ONE 
                    IF(AL(K) /= ZERO)EV1 = EXP(AL(K)*LOG(EV(I,1)))
                ENDIF
                EV2  = ZERO 
                IF(EV(I,2)> ZERO) THEN
-                   EV2 = UN
+                   EV2 = ONE
                    IF(AL(K) /= ZERO)  EV2 = EXP(AL(K)*LOG(EV(I,2)))
                ENDIF
                EV1_SAV(I,K) = EV1
@@ -210,22 +210,22 @@ C
                  EV2  = EV2_SAV(I,K)
                  EV3  = ZERO
                  IF(EV(I,3)> ZERO) THEN
-                   EV3 = UN 
+                   EV3 = ONE 
                    IF(AL(K) /= ZERO) EV3 = EXP(AL(K)*LOG(EV(I,3)))
                  ENDIF 
                  RVT = ZERO
                  IF(RV(I) > ZERO) THEN
-                   RVT = UN
+                   RVT = ONE
                    IF(AL(K)/= ZERO) RVT = EXP((-BETA*AL(K))*LOG(RV(I)))
                  ENDIF
 C             
-                 FAC = DEUX*MU(K)/AL(K) 
+                 FAC = TWO*MU(K)/AL(K) 
 C----       cauchy stress 
                  T(I,3) = T(I,3) + FAC*(EV3 -  RVT)/RV(I)
                
                  KT3(I) = KT3(I) + 
      .                  (-FAC       *(EV3 - RVT) + 
-     .                    DEUX*MU(K)*(EV3 + BETA*RVT))/EV(I,3)/RV(I)
+     .                    TWO*MU(K)*(EV3 + BETA*RVT))/EV(I,3)/RV(I)
                 ENDDO
             ENDDO   ! Ordre
 !          -----------------------      
@@ -249,16 +249,16 @@ C
              EV2  = EV2_SAV(I,K)         
              EV3  = ZERO 
              IF(EV(I,3)> ZERO) THEN
-               EV3 = UN 
+               EV3 = ONE 
                IF(AL(K) /= ZERO)  EV3 = EXP(AL(K)*LOG(EV(I,3)))
              ENDIF 
               RVT = ZERO
               IF(RV(I) > ZERO) THEN
-              RVT = UN
+              RVT = ONE
                 IF(AL(K)/= ZERO) RVT = EXP((-BETA*AL(K))*LOG(RV(I)))
               ENDIF
             
-              FAC = DEUX*MU(K)/AL(K)
+              FAC = TWO*MU(K)/AL(K)
               T(I,1) = T(I,1) + FAC*(EV1 -  RVT)/RV(I)
               T(I,2) = T(I,2) + FAC*(EV2 -  RVT)/RV(I) 
               T(I,3) = T(I,3) + FAC*(EV3 -  RVT)/RV(I) 
@@ -273,12 +273,12 @@ C-----------------------------------------------------------
            DO I=1,NEL             
                EV1  = ZERO 
                IF(EV(I,1) > ZERO) THEN 
-                   EV1 = UN 
+                   EV1 = ONE 
                    IF(AL(K) /= ZERO)EV1 = EXP(AL(K)*LOG(EV(I,1)))
                ENDIF
                EV2  = ZERO 
                IF(EV(I,2)> ZERO) THEN
-                   EV2 = UN
+                   EV2 = ONE
                    IF(AL(K) /= ZERO)  EV2 = EXP(AL(K)*LOG(EV(I,2)))
                ENDIF
                EV1_SAV(I,K) = EV1
@@ -288,7 +288,7 @@ C-----------------------------------------------------------
 !       -----------------------                            
         DO ITER = 1,5             
           RV(1:NEL) = EV(1:NEL,1)*EV(1:NEL,2)*EV(1:NEL,3)                        
-          INVR(1:NEL) = UN/MAX(EM20,RV(1:NEL)) 
+          INVR(1:NEL) = ONE/MAX(EM20,RV(1:NEL)) 
           DSDEV(1:NEL) = ZERO
           DSVOL(1:NEL)  = ZERO
           KT3(1:NEL)  = ZERO
@@ -304,41 +304,41 @@ C-----------------------------------------------------------
               EV2  = EV2_SAV(I,K)
               EV3  = ZERO
               IF(EV(I,3)> ZERO) THEN
-                 EV3 = UN 
+                 EV3 = ONE 
                  IF(AL(K) /= ZERO) EV3 = EXP(AL(K)*LOG(EV(I,3)))
               ENDIF 
 C             
               RVT = ZERO          
               IF(RV(I) > ZERO) THEN
-                RVT = UN
+                RVT = ONE
                 IF(AL(K)/= ZERO) RVT = EXP((-BETA*AL(K))*LOG(RV(I)))
               ENDIF
 C             
-              FAC = DEUX*MU(K)/AL(K) 
+              FAC = TWO*MU(K)/AL(K) 
 C----       cauchy stress 
               T(I,1) = T(I,1) + FAC*(EV1 -  RVT)*INVR(I)
               T(I,2) = T(I,2) + FAC*(EV2 -  RVT)*INVR(I) 
               T(I,3) = T(I,3) + FAC*(EV3 -  RVT)*INVR(I) 
 C              
-              DSVOL(I) = DSVOL(I) - DTHIRD*FAC*(EV1 + EV2 + EV3) + 
-     .                      + DEUX*FAC*RVT + DTHIRD*MU(K)*EV3 
-     .                      + DEUX*BETA*MU(K)*RVT
+              DSVOL(I) = DSVOL(I) - TWO_THIRD*FAC*(EV1 + EV2 + EV3) + 
+     .                      + TWO*FAC*RVT + TWO_THIRD*MU(K)*EV3 
+     .                      + TWO*BETA*MU(K)*RVT
 C     
-              DSDEV(I) = DSDEV(I) - DEUX*FAC*(DTHIRD*EV3 - THIRD*(EV1 + EV2))
-     .                      + QTHIRD*MU(K)*EV3
-              DQ1(I) = DQ1(I) - DTHIRD*MU(K)*EV1
-              DQ2(I) = DQ2(I) - DTHIRD*MU(K)*EV2
-              DQ3(I) = DQ3(I) + QTHIRD*MU(K)*EV3
+              DSDEV(I) = DSDEV(I) - TWO*FAC*(TWO_THIRD*EV3 - THIRD*(EV1 + EV2))
+     .                      + FOUR_OVER_3*MU(K)*EV3
+              DQ1(I) = DQ1(I) - TWO_THIRD*MU(K)*EV1
+              DQ2(I) = DQ2(I) - TWO_THIRD*MU(K)*EV2
+              DQ3(I) = DQ3(I) + FOUR_OVER_3*MU(K)*EV3
             ENDDO
           ENDDO   !   Nordre
 
 
           DO I=1,NEL
-            INV31 = UN/EV(I,3)
+            INV31 = ONE/EV(I,3)
             INV32(I) = INV31*INV31
             INV33(I) = INV32(I)*INV31  
-            INV11 = UN/MAX(EM20,EV(I,1))   
-            INV21 = UN/MAX(EM20,EV(I,2)) 
+            INV11 = ONE/MAX(EM20,EV(I,1))   
+            INV21 = ONE/MAX(EM20,EV(I,2)) 
 C              
             DSVOL(I) = DSVOL(I)*INV33(I)
             DSDEV(I) = DSDEV(I)*INV33(I)
@@ -363,15 +363,15 @@ C Deviatoric PK2 stress
             SD(I,2)= RV(I)*(T(I,2) - P)/MAX(EM20,EC(I,2))
             SD(I,3)= RV(I)*(T(I,3) - P)/MAX(EM20,EC(I,3))   
             RVD(I) = ZERO           
-            IF(RV(I)>ZERO) RVD(I) =  EXP( DTIERS*LOG(RV(I)))
+            IF(RV(I)>ZERO) RVD(I) =  EXP( TWO_THIRD*LOG(RV(I)))
 C             
             SDHP1 = RVD(I)*SD(I,1)
             SDHP2 = RVD(I)*SD(I,2)
             SDH3(I) = RVD(I)*SD(I,3)
              
-            DQ1(I) = DQ1(I)*RVD(I) + DTHIRD*SDHP1*INV31
-            DQ2(I) = DQ2(I)*RVD(I) + DTHIRD*SDHP2*INV31
-            DQ2(I) = DQ2(I)*RVD(I) + DTHIRD*SDH3(I)*EV(I,3)
+            DQ1(I) = DQ1(I)*RVD(I) + TWO_THIRD*SDHP1*INV31
+            DQ2(I) = DQ2(I)*RVD(I) + TWO_THIRD*SDHP2*INV31
+            DQ2(I) = DQ2(I)*RVD(I) + TWO_THIRD*SDH3(I)*EV(I,3)
       
 C      old Deviatoric PK2 stress in the global frame      
             SDH01(I)  = UVAR(I,1)
@@ -384,7 +384,7 @@ C
           
             DQDEV(I) = ZERO
             RVD(I) = ZERO
-            IF(RV(I) > ZERO)RVD(I) = EXP( (-DTIERS)*LOG(RV(I)) )
+            IF(RV(I) > ZERO)RVD(I) = EXP( (-TWO_THIRD)*LOG(RV(I)) )
             S(I,3) = SP(I,3) + GAMAINF*SD(I,3)
           ENDDO
           JNV = 4
@@ -397,9 +397,9 @@ C  viscosity
                H20     =  UVAR(I,JNV + NPRONY + K )                    
                H30     =  UVAR(I,JNV + 2*NPRONY + K )  
 C                             
-               H1  = EXP(FAC)*H10+ EXP(UNDEMI*FAC)*(SDH1(I) - SDH01(I))                
-               H2  = EXP(FAC)*H20+ EXP(UNDEMI*FAC)*(SDH2(I) - SDH02(I))                  
-               H3  = EXP(FAC)*H30+ EXP(UNDEMI*FAC)*(SDH3(I) - SDH03(I)) 
+               H1  = EXP(FAC)*H10+ EXP(HALF*FAC)*(SDH1(I) - SDH01(I))                
+               H2  = EXP(FAC)*H20+ EXP(HALF*FAC)*(SDH2(I) - SDH02(I))                  
+               H3  = EXP(FAC)*H30+ EXP(HALF*FAC)*(SDH3(I) - SDH03(I)) 
              
 C H in the principal frame 
                HP1  = EIGV(I,1,1)*H1 + EIGV(I,2,1)*H2
@@ -412,10 +412,10 @@ C         H  Deviatoric part
                HD3 = H3 - FAC/MAX(EM20,EC(I,3))
 C compute stress
                S(I,3) = S(I,3) + GAMA(K)*RVD(I)*HD3
-               DQIDEV = EXP(UNDEMI*FAC)*(DSDEV(I) 
+               DQIDEV = EXP(HALF*FAC)*(DSDEV(I) 
      .                     -THIRD*(EC(I,1)*DQ1(I)+EC(I,2)*DQ2(I)+EC(I,3)*DQ3(I))*INV32(I))
-     .                     +DTHIRD*(EC(I,1)*HP1+ EC(I,2)*HP2 + H3*EC(I,3))*INV33(I)
-               DQDEV(I)=DQDEV(I) + RVD(I)*(-GAMA(K)*DQIDEV + DTHIRD*GAMA(K)*HD3 )
+     .                     +TWO_THIRD*(EC(I,1)*HP1+ EC(I,2)*HP2 + H3*EC(I,3))*INV33(I)
+               DQDEV(I)=DQDEV(I) + RVD(I)*(-GAMA(K)*DQIDEV + TWO_THIRD*GAMA(K)*HD3 )
              ENDDO      ! 1,NEL
           ENDDO ! NPRONY
           KT3(1:NEL) = DSVOL(1:NEL) + GAMAINF*DSDEV(1:NEL)   + DQDEV(1:NEL)
@@ -447,17 +447,17 @@ C
 C             
               RVT = ZERO          
               IF(RV(I) > ZERO) THEN
-                RVT = UN
+                RVT = ONE
                 IF(AL(K)/= ZERO) RVT = EXP((-BETA*AL(K))*LOG(RV(I)))
               ENDIF
 C             
               EV3  = ZERO
               IF(EV(I,3)> ZERO) THEN
-                 EV3 = UN 
+                 EV3 = ONE 
                  IF(AL(K) /= ZERO) EV3 = EXP(AL(K)*LOG(EV(I,3)))
               ENDIF             
             
-              FAC = DEUX*MU(K)/AL(K) 
+              FAC = TWO*MU(K)/AL(K) 
 C----       cauchy stress 
               T(I,1) = T(I,1) + FAC*(EV1 -  RVT)/RV(I)
               T(I,2) = T(I,2) + FAC*(EV2 -  RVT)/RV(I) 
@@ -483,7 +483,7 @@ C Deviatoric PK2 stress
             SD(I,2)= RV(I)*(T(I,2) - P)/MAX(EM20,EC(I,2))
             SD(I,3)= RV(I)*(T(I,3) - P)/MAX(EM20,EC(I,3))            
             RVD(I) = ZERO           
-            IF(RV(I)>ZERO) RVD(I) =  EXP( DTIERS*LOG(RV(I)))
+            IF(RV(I)>ZERO) RVD(I) =  EXP( TWO_THIRD*LOG(RV(I)))
 C             
             SDHP1 = RVD(I)*SD(I,1)
             SDHP2 = RVD(I)*SD(I,2)
@@ -506,7 +506,7 @@ C
             UVAR(I,3) = SDH3(I)
 
             RVD(I) = ZERO
-            IF(RV(I) > ZERO)RVD(I) = EXP( (-DTIERS)*LOG(RV(I)) )
+            IF(RV(I) > ZERO)RVD(I) = EXP( (-TWO_THIRD)*LOG(RV(I)) )
              S(I,1) = SP(I,1) + GAMAINF*SD(I,1)
              S(I,2) = SP(I,2) + GAMAINF*SD(I,2)
              S(I,3) = SP(I,3) + GAMAINF*SD(I,3)
@@ -519,9 +519,9 @@ C
                H10     =  UVAR(I,JNV + K )                        
                H20     =  UVAR(I,JNV + NPRONY + K )                    
                H30     =  UVAR(I,JNV + 2*NPRONY + K )             
-               H1  = EXP(FAC)*H10+ EXP(UNDEMI*FAC)*(SDH1(I) - SDH01(I))                
-               H2  = EXP(FAC)*H20+ EXP(UNDEMI*FAC)*(SDH2(I) - SDH02(I))                  
-               H3  = EXP(FAC)*H30+ EXP(UNDEMI*FAC)*(SDH3(I) - SDH03(I))
+               H1  = EXP(FAC)*H10+ EXP(HALF*FAC)*(SDH1(I) - SDH01(I))                
+               H2  = EXP(FAC)*H20+ EXP(HALF*FAC)*(SDH2(I) - SDH02(I))                  
+               H3  = EXP(FAC)*H30+ EXP(HALF*FAC)*(SDH3(I) - SDH03(I))
 C             
                UVAR(I,JNV +            K )= H1              
                UVAR(I,JNV + NPRONY   + K )= H2   
@@ -544,7 +544,7 @@ C add the viscoous stress
              
 C transformation PK2 to cauchy stress
         DO I=1,NEL 
-            INVR(I)= UN/MAX(EM20,RV(I))
+            INVR(I)= ONE/MAX(EM20,RV(I))
             T(I,1) = INVR(I)*S(I,1)*EV(I,1)**2 
             T(I,2) = INVR(I)*S(I,2)*EV(I,2)**2 
             T(I,3) = INVR(I)*S(I,3)*EV(I,3)**2                 
@@ -563,14 +563,14 @@ C     Principal Cauchy viscous stress -> global directions
 C-----------------------------------------------------------
 C     set sound speed & viscosity
       DO I=1,NEL
-        DEZZ(I)    =-NU/(UN-NU)*(DEPSXX(I)+DEPSYY(I))
+        DEZZ(I)    =-NU/(ONE-NU)*(DEPSXX(I)+DEPSYY(I))
         THKN(I)    = THKN(I) + DEZZ(I)*THKLYL(I)
         RHO(I)     = RHO0(I)/RV(I)
 C        
-        EMAX = GMAX*(UN + NU)
-        A11  = EMAX/(UN - NU**2)
+        EMAX = GMAX*(ONE + NU)
+        A11  = EMAX/(ONE - NU**2)
         SOUNDSP(I)= SQRT(A11/RHO0(I))
-!!        SOUNDSP(I) = SQRT((DTHIRD*GMAX+RBULK)/RHO(I))
+!!        SOUNDSP(I) = SQRT((TWO_THIRD*GMAX+RBULK)/RHO(I))
         VISCMAX(I) = ZERO
       ENDDO
       

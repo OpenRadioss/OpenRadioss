@@ -49,7 +49,6 @@ C     REAL ou REAL*8
       my_real
      .   RANGE, ANORM, ANRMX, THR, X, Y, SINX, SINX2, COSX, COSX2,
      .   SINCS   
-      UN = 1.
       RANGE = 1.0E-7
       IF (MV.NE.1)THEN
         IQ = -N
@@ -58,7 +57,7 @@ C     REAL ou REAL*8
           DO I = 1,N
             IJ = IQ+I
             R(IJ) = ZERO
-            IF (I.EQ.J)R(IJ) = UN
+            IF (I.EQ.J)R(IJ) = ONE
 
           ENDDO
         ENDDO
@@ -73,7 +72,7 @@ C     REAL ou REAL*8
         ENDDO
       ENDDO
       IF (ANORM.LE.ZERO) GOTO 300
-      ANORM = UNP414*SQRT(ANORM)
+      ANORM = ONEP414*SQRT(ANORM)
       ANRMX = ANORM*RANGE/FLOAT(N)
       IND = 0
       THR = ANORM
@@ -90,7 +89,7 @@ C
       IND = 1
       LL = L+LQ
       MM = M+MQ
-      X = UNDEMI*(A(LL)-A(MM))
+      X = HALF*(A(LL)-A(MM))
       Y = -A(LM)/SQRT(A(LM)*A(LM)+X*X)
       IF (X.LT.ZERO) THEN
        Y = -Y
@@ -99,9 +98,9 @@ C
       ELSEIF((X.EQ.ZERO).AND.(A(LM).GT.0)) THEN
        Y = -1
       ENDIF
-      SINX = Y/SQRT(DEUX*(UN+(SQRT(ABS(UN-Y*Y)))))
+      SINX = Y/SQRT(TWO*(ONE+(SQRT(ABS(ONE-Y*Y)))))
       SINX2 = SINX*SINX
-      COSX = SQRT(ABS(UN-SINX2))
+      COSX = SQRT(ABS(ONE-SINX2))
       COSX2 = COSX*COSX
       SINCS = SINX*COSX
       ILQ = N*(L-1)
@@ -131,7 +130,7 @@ C
         R(ILR) = X
        ENDIF
       ENDDO
-      X = DEUX*A(LM)*SINCS
+      X = TWO*A(LM)*SINCS
       Y = A(LL)*COSX2+A(MM)*SINX2-X
       X = A(LL)*SINX2+A(MM)*COSX2+X
       A(LM) = (A(LL)-A(MM))*SINCS+A(LM)*(COSX2-SINX2)

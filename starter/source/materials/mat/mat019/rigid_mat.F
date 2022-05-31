@@ -84,7 +84,7 @@ C     REAL ou REAL*8
       CHARACTER*nchartitle,
      .   TITR
 C
-      TOL=UN+EM04
+      TOL=ONE+EM04
       KK = 0
       DO NR = 1, NRB 
         NSL  = NSLNRM(NR)

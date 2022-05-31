@@ -89,12 +89,12 @@ C=======================================================================
 C       STRAIN RATE
 C-------------------
       DO I=JFT,JLT                                              
-        EPSPI  = UNDEMI*(EXX(I)**2) + (UNDEMI*EXY(I))**2 + (UNDEMI*EXZ(I))**2
-        EPSPI  = AL(I)*SQRT(TROIS*EPSPI)/TDEMI                         
+        EPSPI  = HALF*(EXX(I)**2) + (HALF*EXY(I))**2 + (HALF*EXZ(I))**2
+        EPSPI  = AL(I)*SQRT(THREE*EPSPI)/THREE_HALF                         
         ISRATE = IPM(3,MAT(I))                             
         IF (ISRATE > 0) THEN                                    
-          ASRATE = MIN(UN, PM(9,MAT(I))*DT1)
-          EPSP(I)= ASRATE*EPSPI + (UN - ASRATE)*EPSP(I)
+          ASRATE = MIN(ONE, PM(9,MAT(I))*DT1)
+          EPSP(I)= ASRATE*EPSPI + (ONE - ASRATE)*EPSP(I)
         ELSE       
           EPSP(I)= EPSPI
         ENDIF                                                   
@@ -169,11 +169,11 @@ C
         DMPM  = GEO(16,PID(I)) * AL(I)                                   
         DMPF  = GEO(17,PID(I)) * AL(I)
 C
-        SPE   = DTINV * DMPM * SQRT(DEUX*RHO*E(I))             
-        SPG   = DTINV * DMPF * SQRT(DEUX*RHO*G(I))                            
+        SPE   = DTINV * DMPM * SQRT(TWO*RHO*E(I))             
+        SPG   = DTINV * DMPF * SQRT(TWO*RHO*G(I))                            
         F1(I) = FOR(I,1) + EXX(I)*SPE*AREA   
-        F2(I) = FOR(I,2) + EXY(I)*SPG*IZZ(I)*DOUZE/AL(I)**2    
-        F3(I) = FOR(I,3) + EXZ(I)*SPG*IYY(I)*DOUZE/AL(I)**2   
+        F2(I) = FOR(I,2) + EXY(I)*SPG*IZZ(I)*TWELVE/AL(I)**2    
+        F3(I) = FOR(I,3) + EXZ(I)*SPG*IYY(I)*TWELVE/AL(I)**2   
         M1(I) = MOM(I,1) + KXX(I)*SPG*IXX(I)
         M2(I) = MOM(I,2) + KYY(I)*SPG*IYY(I)
         M3(I) = MOM(I,3) + KZZ(I)*SPG*IZZ(I)
@@ -184,7 +184,7 @@ C-------------------------------------
         DEGSH(I) = DEGSH(I) + FOR(I,2)*EXY(I) + FOR(I,3)*EXZ(I)
         DEGFX(I) = DEGFX(I) 
      .           + MOM(I,1)*KXX(I) + MOM(I,2)*KYY(I) + MOM(I,3)*KZZ(I)
-        FACT = UNDEMI*OFF(I)*AL(I)
+        FACT = HALF*OFF(I)*AL(I)
         EINT(I,1)  = EINT(I,1) + FACT*(DEGMB(I)+DEGSH(I))
         EINT(I,2)  = EINT(I,2) + FACT* DEGFX(I)
       ENDDO
@@ -192,7 +192,7 @@ C----------------------------
 C     TEST DE RUPTURE
 C---------converged implicit-------------------
       DO I=JFT,JLT
-        IF (OFF(I) == QCINQ .AND. IMCONV == 1) THEN 
+        IF (OFF(I) == FOUR_OVER_5 .AND. IMCONV == 1) THEN 
           IDEL7NOK = 1            
 #include "lockon.inc"
           WRITE(IOUT, 1000) NGL(I)
@@ -203,7 +203,7 @@ C---------converged implicit-------------------
 C      
       DO I=JFT,JLT
         IF (OFF(I) < EM01)  OFF(I) = ZERO
-        IF (OFF(I) < UN  )  OFF(I) = OFF(I)*QCINQ
+        IF (OFF(I) < ONE  )  OFF(I) = OFF(I)*FOUR_OVER_5
       ENDDO      
 C------------------------------------------
  1000 FORMAT(1X,'-- RUPTURE OF BEAM ELEMENT NUMBER ',I10)

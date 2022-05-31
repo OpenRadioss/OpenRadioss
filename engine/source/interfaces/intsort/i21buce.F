@@ -126,7 +126,7 @@ C a revoir :
      .              XM0(3,IRECT(3,I)),XM0(3,IRECT(4,I)))
      .         -MIN(XM0(3,IRECT(1,I)),XM0(3,IRECT(2,I)),
      .              XM0(3,IRECT(3,I)),XM0(3,IRECT(4,I)))
-            CURV_MAX(I) = UNDEMI * MAX(XXX,YYY,ZZZ)
+            CURV_MAX(I) = HALF * MAX(XXX,YYY,ZZZ)
             CURV_MAX_MAX = MAX(CURV_MAX_MAX,CURV_MAX(I))
           ENDDO
       ELSE
@@ -211,7 +211,7 @@ C-----------------------------------------------
      .           ZMIN <= ZZZ .AND. ZZZ <= ZMAX)THEN
 
                  NRTM_L=NRTM_L+1
-                 STF_L(I)=UN
+                 STF_L(I)=ONE
                  EXIT
 
               END IF
@@ -262,7 +262,7 @@ C
 C
 C-----DEBUT DE LA PHASE DE TRI 
 C
-C       SEPARER B ET N EN DEUX
+C       SEPARER B ET N EN TWO
 C
 C     MARGE plus importante que dans le critere de tri.
       MARGE = TZINF - MAX(DEPTH,DRAD)
@@ -304,9 +304,9 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
           WRITE(IOUT,*)'       MULTIPLIED BY 0.75'
 #include "lockoff.inc"
         ENDIF
-        TZINF = TQUART*TZINF
-        MINBOX= TQUART*MINBOX
-        MAXBOX= TQUART*MAXBOX
+        TZINF = THREE_OVER_4*TZINF
+        MINBOX= THREE_OVER_4*MINBOX
+        MAXBOX= THREE_OVER_4*MAXBOX
         IF( TZINF.LE.MAX(DEPTH,DRAD) ) THEN
           IF (ISTAMPING == 1)THEN
             CALL ANCMSG(MSGID=101,ANMODE=ANINFO,

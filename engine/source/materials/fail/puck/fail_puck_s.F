@@ -129,7 +129,7 @@ C-----------------------------------------------
       IF(ISIGI == 0)THEN
         IF(TIME == ZERO)THEN
          DO I=1,NEL
-          UVAR(I,8)  = UN
+          UVAR(I,8)  = ONE
          ENDDO   
         ENDIF    
       ENDIF 
@@ -138,7 +138,7 @@ C-----------------------------------------------
       IFABRIC = 0
       DO I=1,NEL
         IF(OFF(I).LT.EM01) OFF(I)=ZERO
-        IF(OFF(I).LT.UN) OFF(I)=OFF(I)*QCINQ
+        IF(OFF(I).LT.ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       END DO
 C-------------------------------
 C      
@@ -157,13 +157,13 @@ C-------------------------------
          FB_2 = ZERO
          FC_2 = ZERO
 C
-         IF (OFF(I) == UN )THEN
+         IF (OFF(I) == ONE )THEN
 C         
            IF (IFLAG == 1) THEN
 C-------------------------------     
 C           OFF = 0 when one layer fiber or matrix criteria is reached
 C-------------------------------                  
-            IF (UVAR(I,8) < UN) THEN 
+            IF (UVAR(I,8) < ONE) THEN 
               UVAR(I,8) = EXP(-(TIME - UVAR(I,7))/TMAX)
               IF (UVAR(I,8) < EM02) UVAR(I,8) = ZERO
               SIGNXX(I) = UVAR(I,1)*UVAR(I,8)
@@ -173,7 +173,7 @@ C-------------------------------
               SIGNYZ(I) = UVAR(I,5)*UVAR(I,8)
               SIGNZX(I) = UVAR(I,6)*UVAR(I,8) 
               IF (UVAR(I,8) == ZERO )THEN
-                OFF(I)=QCINQ
+                OFF(I)=FOUR_OVER_5
                 NINDX=NINDX+1
                 INDX(NINDX)=I 
                 TDELE(I) = TIME   
@@ -191,20 +191,20 @@ C
 C             matrice criteria direction 2
 C              
               IF (SIGNYY(I) >= ZERO) THEN
-                FAC = UN - PP12*SIGT2/FSIG12
+                FAC = ONE - PP12*SIGT2/FSIG12
                 FAC = FAC*SIGNYY(I)/SIGT2
                 FA = SQRT((SIGNXY(I)/FSIG12)**2 + FAC*FAC) 
      .                   + PP12*SIGNYY(I)/FSIG12
                ELSE
-                FAC = UNDEMI/(UN + PN22)/FSIG12
+                FAC = HALF/(ONE + PN22)/FSIG12
                 FC = (SIGNXY(I)*FAC)**2 + (SIGNYY(I)/SIGC2)**2
                 FC =-FC*SIGC2/SIGNYY(I)
 C plane angle
-c                FAC = SQRT(UN + DEUX*PN12(I)*SIGC2(I)/FSIG12(I)) - UN
-c                FAC = UNDEMI*FAC*FSIG12(I)/PN12(I)
+c                FAC = SQRT(ONE + TWO*PN12(I)*SIGC2(I)/FSIG12(I)) - ONE
+c                FAC = HALF*FAC*FSIG12(I)/PN12(I)
 c                CC =  (FAC/FSIG12(I))**2
-c                CC = CC*(SIGNXY(I)/SIGNYY(I))**2 + UN
-c                FAC = UNDEMI/UN + PN22(I))
+c                CC = CC*(SIGNXY(I)/SIGNYY(I))**2 + ONE
+c                FAC = HALF/ONE + PN22(I))
 c                CC = SQRT(FAC*CC)
 c                ANGLE(I) = ACOS(CC)                               
               ENDIF
@@ -216,20 +216,20 @@ C
 C             matrice criteria direction 3
 C              
               IF (SIGNZZ(I) >= ZERO) THEN
-                FAC = UN - PP12*SIGT2/FSIG12
+                FAC = ONE - PP12*SIGT2/FSIG12
                 FAC = FAC*SIGNZZ(I)/SIGT2
                 FA_2 = SQRT((SIGNZX(I)/FSIG12)**2 + FAC*FAC) 
      .                   + PP12*SIGNZZ(I)/FSIG12
               ELSE
-                FAC = UNDEMI/(UN + PN22)/FSIG12
+                FAC = HALF/(ONE + PN22)/FSIG12
                 FC_2 = (SIGNZX(I)*FAC)**2 + (SIGNZZ(I)/SIGC2)**2
                 FC_2 =-FC_2*SIGC2/SIGNZZ(I)
 C plane angle
-c                FAC = SQRT(UN + DEUX*PN12(I)*SIGC2(I)/FSIG12(I)) - UN
-c                FAC = UNDEMI*FAC*FSIG12(I)/PN12(I)
+c                FAC = SQRT(ONE + TWO*PN12(I)*SIGC2(I)/FSIG12(I)) - ONE
+c                FAC = HALF*FAC*FSIG12(I)/PN12(I)
 c                CC =  (FAC/FSIG12(I))**2
-c                CC = CC*(SIGNZX(I)/SIGNZZ(I))**2 + UN
-c                FAC = UNDEMI/UN + PN22(I))
+c                CC = CC*(SIGNZX(I)/SIGNZZ(I))**2 + ONE
+c                FAC = HALF/ONE + PN22(I))
 c                CC = SQRT(FAC*CC)
 c                ANGLE(I) = ACOS(CC)                               
               ENDIF
@@ -238,11 +238,11 @@ c                ANGLE(I) = ACOS(CC)
      .                               + PN12*SIGNZZ(I)
               FB_2 = FB_2/FSIG12   
 C
-               DFMAX(I)  = MIN(UN,MAX(DFMAX(I),F1,FA,FB,FC,FA_2,FB_2,FC_2))
+               DFMAX(I)  = MIN(ONE,MAX(DFMAX(I),F1,FA,FB,FC,FA_2,FB_2,FC_2))
 C         
-              IF (F1 >= UN .OR. FA   >= UN .OR. FB   >= UN .OR.
-     .            FC >= UN .OR. FA_2 >= UN .OR. FB_2 >= UN .OR.
-     .            FC_2 >= UN   ) THEN
+              IF (F1 >= ONE .OR. FA   >= ONE .OR. FB   >= ONE .OR.
+     .            FC >= ONE .OR. FA_2 >= ONE .OR. FB_2 >= ONE .OR.
+     .            FC_2 >= ONE   ) THEN
                UVAR(I,1) = SIGNXX(I)
                UVAR(I,2) = SIGNYY(I)
                UVAR(I,3) = SIGNZZ(I)
@@ -250,7 +250,7 @@ C
                UVAR(I,5) = SIGNYZ(I)
                UVAR(I,6) = SIGNZX(I)
                UVAR(I,7) = TIME
-               UVAR(I,8) = QCINQ            
+               UVAR(I,8) = FOUR_OVER_5            
               ENDIF
              ENDIF
 C             
@@ -265,7 +265,7 @@ C-------------------------------
                 SIGNXY(I) = ZERO
                 SIGNZX(I) = ZERO
                 SIGNYZ(I) = ZERO
-              ELSE IF(UVAR(I,8) < UN) THEN
+              ELSE IF(UVAR(I,8) < ONE) THEN
                 UVAR(I,8)= EXP(-(TIME - UVAR(I,7))/TMAX) 
                 IF(UVAR(I,8) < EM02)UVAR(I,8) = ZERO
                 SIGNXX(I) = UVAR(I,1)*UVAR(I,8)
@@ -277,7 +277,7 @@ C-------------------------------
                 IF(UVAR(I,8) == ZERO )THEN
                    NOFF(I) = NOFF(I) + 1
                     IF(NPT0 == 1 .OR. NOFF(I) == NPT0 ) THEN
-                       OFF(I) = QCINQ
+                       OFF(I) = FOUR_OVER_5
                        NINDX=NINDX+1
                        INDX(NINDX)=I
                        TDELE(I) = TIME  
@@ -296,20 +296,20 @@ C
 C  matrice criteria --direction 2
 C              
               IF(SIGNYY(I) >= ZERO) THEN
-                FAC = UN - PP12*SIGT2/FSIG12
+                FAC = ONE - PP12*SIGT2/FSIG12
                 FAC = FAC*SIGNYY(I)/SIGT2
                 FA = SQRT((SIGNXY(I)/FSIG12)**2 + FAC*FAC) 
      .                   + PP12*SIGNYY(I)/FSIG12
                ELSE
-                FAC = UNDEMI/(UN + PN22)/FSIG12
+                FAC = HALF/(ONE + PN22)/FSIG12
                 FC = (SIGNXY(I)*FAC)**2 + (SIGNYY(I)/SIGC2)**2
                 FC =-FC*SIGC2/SIGNYY(I)
 C plane angle
-c                FAC = SQRT(UN + DEUX*PN12(I)*SIGC2(I)/FSIG12(I)) - UN
-c                FAC = UNDEMI*FAC*FSIG12(I)/PN12(I)
+c                FAC = SQRT(ONE + TWO*PN12(I)*SIGC2(I)/FSIG12(I)) - ONE
+c                FAC = HALF*FAC*FSIG12(I)/PN12(I)
 c                CC =  (FAC/FSIG12(I))**2
-c                CC = CC*(SIGNXY(I)/SIGNYY(I))**2 + UN
-c                FAC = UNDEMI/UN + PN22(I))
+c                CC = CC*(SIGNXY(I)/SIGNYY(I))**2 + ONE
+c                FAC = HALF/ONE + PN22(I))
 c                CC = SQRT(FAC*CC)
 c                ANGLE(I) = ACOS(CC)                               
               ENDIF
@@ -321,20 +321,20 @@ C
 C  matrice criteria direction 3
 C              
               IF(SIGNZZ(I) >= ZERO) THEN
-                FAC = UN - PP12*SIGT2/FSIG12
+                FAC = ONE - PP12*SIGT2/FSIG12
                 FAC = FAC*SIGNZZ(I)/SIGT2
                 FA_2 = SQRT((SIGNZX(I)/FSIG12)**2 + FAC*FAC) 
      .                   + PP12*SIGNZZ(I)/FSIG12
                ELSE
-                FAC = UNDEMI/(UN + PN22)/FSIG12
+                FAC = HALF/(ONE + PN22)/FSIG12
                 FC_2 = (SIGNZX(I)*FAC)**2 + (SIGNZZ(I)/SIGC2)**2
                 FC_2 =-FC_2*SIGC2/SIGNZZ(I)
 C plane angle
-c                FAC = SQRT(UN + DEUX*PN12(I)*SIGC2(I)/FSIG12(I)) - UN
-c                FAC = UNDEMI*FAC*FSIG12(I)/PN12(I)
+c                FAC = SQRT(ONE + TWO*PN12(I)*SIGC2(I)/FSIG12(I)) - ONE
+c                FAC = HALF*FAC*FSIG12(I)/PN12(I)
 c                CC =  (FAC/FSIG12(I))**2
-c                CC = CC*(SIGNZX(I)/SIGNZZ(I))**2 + UN
-c                FAC = UNDEMI/UN + PN22(I))
+c                CC = CC*(SIGNZX(I)/SIGNZZ(I))**2 + ONE
+c                FAC = HALF/ONE + PN22(I))
 c                CC = SQRT(FAC*CC)
 c                ANGLE(I) = ACOS(CC)                               
               ENDIF
@@ -343,11 +343,11 @@ c                ANGLE(I) = ACOS(CC)
      .                               + PN12*SIGNZZ(I)
               FB_2 = FB_2/FSIG12    
 C
-               DFMAX(I)  = MIN(UN,MAX(DFMAX(I),F1,FA,FB,FC,FA_2,FB_2,FC_2))
+               DFMAX(I)  = MIN(ONE,MAX(DFMAX(I),F1,FA,FB,FC,FA_2,FB_2,FC_2))
 C           
-              IF(F1 >= UN .OR. FA >= UN .OR. FB >= UN .OR.
-     .          FC >= UN .OR. FA_2 >= UN .OR. FB_2 >= UN .OR.
-     .          FC_2 >= UN )THEN            
+              IF(F1 >= ONE .OR. FA >= ONE .OR. FB >= ONE .OR.
+     .          FC >= ONE .OR. FA_2 >= ONE .OR. FB_2 >= ONE .OR.
+     .          FC_2 >= ONE )THEN            
                    UVAR(I,1) = SIGNXX(I)                                  
                    UVAR(I,2) = SIGNYY(I)                                   
                    UVAR(I,3) = SIGNZZ(I)                                  
@@ -355,7 +355,7 @@ C
                    UVAR(I,5) = SIGNYZ(I)                                  
                    UVAR(I,6) = SIGNZX(I)                                  
                    UVAR(I,7) = TIME                                       
-                   UVAR(I,8) = QCINQ
+                   UVAR(I,8) = FOUR_OVER_5
                    NINDX0= NINDX0+1
                    INDX0(NINDX0)=I                    
                  ENDIF

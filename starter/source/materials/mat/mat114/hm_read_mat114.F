@@ -176,7 +176,7 @@ C
       UPARAM(121) = M_MAX
 C
 C --- Computation of inertia / length only if E > 0
-      IF ((RFAC == ZERO).AND.(YOUNG > ZERO)) RFAC = UN
+      IF ((RFAC == ZERO).AND.(YOUNG > ZERO)) RFAC = ONE
       UPARAM(122) = IBEND 
       UPARAM(123) = ITORS
       UPARAM(124) = RFAC           
@@ -192,7 +192,7 @@ C
         IECROU = 11
       ENDIF
 C
-      IF (IFUNC1 == 0 .AND. A /= ZERO .AND. A /= UN) THEN
+      IF (IFUNC1 == 0 .AND. A /= ZERO .AND. A /= ONE) THEN
         CALL ANCMSG(MSGID=663,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
@@ -203,14 +203,14 @@ C
 C--------
       DN =-INFINITY
       DX = INFINITY
-      IF (LSCALE == ZERO) LSCALE = UN
+      IF (LSCALE == ZERO) LSCALE = ONE
       IF (A == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Fcoeft1' ,A_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-        A  = UN * A_UNIT
+        A  = ONE * A_UNIT
       ENDIF
 C
       IF (IFUNC1 == 0) THEN
-        A = UN
+        A = ONE
         B = ZERO
         E = ZERO
       ENDIF
@@ -230,11 +230,11 @@ C----
       I13 = I12 + 6
 C       
       UPARAM(I1 + 1)   = A
-      UPARAM(I3 + 1)   = UN
-      UPARAM(I4 + 1)   = UN
-      UPARAM(I5 + 1)   = UN                       
-      UPARAM(I6 + 1)   = UN
-      UPARAM(I7 + 1)   = UN / LSCALE
+      UPARAM(I3 + 1)   = ONE
+      UPARAM(I4 + 1)   = ONE
+      UPARAM(I5 + 1)   = ONE                       
+      UPARAM(I6 + 1)   = ONE
+      UPARAM(I7 + 1)   = ONE / LSCALE
       UPARAM(I8 + 1)   = DN
       UPARAM(I9 + 1)   = DX
       UPARAM(I11 + 1)  = XK
@@ -280,15 +280,15 @@ C
 C
       IF (YOUNG > ZERO) THEN
         IECROU = 9
-        XK = UNDEMI*CSIX*YOUNG*SAREA
+        XK = HALF*FIVE_OVER_6*YOUNG*SAREA
       ENDIF
 C----
-      UPARAM(I1 + 2)   = UN
-      UPARAM(I3 + 2)   = UN
-      UPARAM(I4 + 2)   = UN           
-      UPARAM(I5 + 2)   = UN
-      UPARAM(I6 + 2)   = UN
-      UPARAM(I7 + 2)   = UN
+      UPARAM(I1 + 2)   = ONE
+      UPARAM(I3 + 2)   = ONE
+      UPARAM(I4 + 2)   = ONE           
+      UPARAM(I5 + 2)   = ONE
+      UPARAM(I6 + 2)   = ONE
+      UPARAM(I7 + 2)   = ONE
       UPARAM(I8 + 2)   = DN
       UPARAM(I9 + 2)   = DX
       UPARAM(I11 + 2)  = XK
@@ -320,15 +320,15 @@ C
 C
       IF (YOUNG > ZERO) THEN
         IECROU = 9
-        XK = UNDEMI*CSIX*YOUNG*SAREA
+        XK = HALF*FIVE_OVER_6*YOUNG*SAREA
       ENDIF
 C----
-      UPARAM(I1 + 3)   = UN
-      UPARAM(I3 + 3)   = UN
-      UPARAM(I4 + 3)   = UN           
-      UPARAM(I5 + 3)   = UN
-      UPARAM(I6 + 3)   = UN
-      UPARAM(I7 + 3)   = UN
+      UPARAM(I1 + 3)   = ONE
+      UPARAM(I3 + 3)   = ONE
+      UPARAM(I4 + 3)   = ONE           
+      UPARAM(I5 + 3)   = ONE
+      UPARAM(I6 + 3)   = ONE
+      UPARAM(I7 + 3)   = ONE
       UPARAM(I8 + 3)   = DN
       UPARAM(I9 + 3)   = DX
       UPARAM(I11 + 3)  = XK
@@ -362,15 +362,15 @@ C
 C
       IF (YOUNG > ZERO) THEN
         IECROU = 9
-        XK = UNDEMI*YOUNG*ITORS
+        XK = HALF*YOUNG*ITORS
       ENDIF
 C----
-      UPARAM(I1 + 4)   = UN
-      UPARAM(I3 + 4)   = UN
-      UPARAM(I4 + 4)   = UN           
-      UPARAM(I5 + 4)   = UN
-      UPARAM(I6 + 4)   = UN
-      UPARAM(I7 + 4)   = UN
+      UPARAM(I1 + 4)   = ONE
+      UPARAM(I3 + 4)   = ONE
+      UPARAM(I4 + 4)   = ONE           
+      UPARAM(I5 + 4)   = ONE
+      UPARAM(I6 + 4)   = ONE
+      UPARAM(I7 + 4)   = ONE
       UPARAM(I8 + 4)   = DN
       UPARAM(I9 + 4)   = DX
       UPARAM(I11 + 4)  = XK
@@ -401,12 +401,12 @@ C
         XK = YOUNG*IBEND
       ENDIF
 C----
-      UPARAM(I1 + 5)   = UN
-      UPARAM(I3 + 5)   = UN
-      UPARAM(I4 + 5)   = UN           
-      UPARAM(I5 + 5)   = UN
-      UPARAM(I6 + 5)   = UN
-      UPARAM(I7 + 5)   = UN
+      UPARAM(I1 + 5)   = ONE
+      UPARAM(I3 + 5)   = ONE
+      UPARAM(I4 + 5)   = ONE           
+      UPARAM(I5 + 5)   = ONE
+      UPARAM(I6 + 5)   = ONE
+      UPARAM(I7 + 5)   = ONE
       UPARAM(I8 + 5)   = DN
       UPARAM(I9 + 5)   = DX
       UPARAM(I11 + 5)  = XK
@@ -437,12 +437,12 @@ C
         XK = YOUNG*IBEND
       ENDIF
 C----
-      UPARAM(I1 + 6)   = UN
-      UPARAM(I3 + 6)   = UN
-      UPARAM(I4 + 6)   = UN           
-      UPARAM(I5 + 6)   = UN
-      UPARAM(I6 + 6)   = UN
-      UPARAM(I7 + 6)   = UN
+      UPARAM(I1 + 6)   = ONE
+      UPARAM(I3 + 6)   = ONE
+      UPARAM(I4 + 6)   = ONE           
+      UPARAM(I5 + 6)   = ONE
+      UPARAM(I6 + 6)   = ONE
+      UPARAM(I7 + 6)   = ONE
       UPARAM(I8 + 6)   = DN
       UPARAM(I9 + 6)   = DX
       UPARAM(I11 + 6)  = XK

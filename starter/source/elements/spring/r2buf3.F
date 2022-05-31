@@ -66,9 +66,9 @@ C-----------------------------------------------
         USENS=IGEO(3,IX(1,J))
         IF(USENS.LE.0)THEN
 C         no sensor or Isflag=1
-          OFF(I)=UN
+          OFF(I)=ONE
         ELSE
-          OFF(I)=-DIX
+          OFF(I)=-TEN
         END IF
       ENDDO
 C

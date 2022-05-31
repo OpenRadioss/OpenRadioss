@@ -92,11 +92,11 @@ C--------Constante parts---------------
         FXX(M)=FOR(EP,1)*C2
         FYY(M)=FOR(EP,2)*C2
         FXY(M)=FOR(EP,3)*C2
-        FXY2(M)=DEUX*FXY(M)
+        FXY2(M)=TWO*FXY(M)
         MXX(M)=MOM(EP,1)*C1
         MYY(M)=MOM(EP,2)*C1
         MXY(M)=MOM(EP,3)*C1
-        MXY2(M)=DEUX*MXY(M)
+        MXY2(M)=TWO*MXY(M)
         SCX(M)=FOR(EP,5)*C2
         SCY(M)=FOR(EP,4)*C2
        ENDDO
@@ -145,7 +145,7 @@ C------ renforce positive  ----------
           C1 = MIN(H11(EP),H22(EP),-H11(EP),-H22(EP))
           IF (C1 < ZERO) THEN
            C2 =MIN(M11(3,3,EP),M22(3,3,EP),M33(3,3,EP),M44(3,3,EP))
-           C1 = MIN(-C1,DIX*C2)
+           C1 = MIN(-C1,TEN*C2)
            M11(3,3,EP)=M11(3,3,EP) + C1
            M22(3,3,EP)=M22(3,3,EP) + C1
            M33(3,3,EP)=M33(3,3,EP) + C1

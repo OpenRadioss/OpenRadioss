@@ -276,7 +276,7 @@ C CALCUL DU CG
 C CALCUL DES QUANTITES DE MOUVEMENT / CG
 C CALCUL DES INERTIES / CG
 C---------------------------------------
-               AA  = UN/MAX(EM20,PARTSAV(6,I))
+               AA  = ONE/MAX(EM20,PARTSAV(6,I))
                XCG = PARTSAV(9,I)*AA
                YCG = PARTSAV(10,I)*AA
                ZCG = PARTSAV(11,I)*AA
@@ -331,7 +331,7 @@ C---------------------------------------
                ELSEIF(K==21)THEN
                  WA(II)=PARTSAV(21,I)+PARTSAV(23,I)
                ELSEIF(K==22)THEN
-                 WA(II)= UNDEMI
+                 WA(II)= HALF
      .                 *( PARTSAV(3,I)*PARTSAV(3,I)
      .                  + PARTSAV(4,I)*PARTSAV(4,I)
      .                  + PARTSAV(5,I)*PARTSAV(5,I) )
@@ -347,10 +347,10 @@ C                                    [Izx Iyz Izz]   {ZZMOM}
                  JXY=IYZ*IZX-IXY*IZZ
                  JYZ=IZX*IXY-IYZ*IXX
                  JZX=IXY*IYZ-IZX*IYY
-                 DET =  UN/ MAX(EM20,
+                 DET =  ONE/ MAX(EM20,
      .                       IXX * JXX + IXY * JXY + IZX * JZX)
                  WA(II)=DET *
-     .        (UNDEMI*(JXX*XXMOM*XXMOM+JYY*YYMOM*YYMOM+JZZ*ZZMOM*ZZMOM)
+     .        (HALF*(JXX*XXMOM*XXMOM+JYY*YYMOM*YYMOM+JZZ*ZZMOM*ZZMOM)
      .            + JXY*XXMOM*YYMOM+JYZ*YYMOM*ZZMOM+JZX*XXMOM*ZZMOM )
                ELSEIF(K==24)THEN
                  WA(II)=PARTSAV(22,I)
@@ -389,7 +389,7 @@ C-----------------------------
                ENDDO
              ENDDO
              IF(NPSAV.GE.22)THEN
-               AA  = UN/MAX(EM20,SUBSAV(6))
+               AA  = ONE/MAX(EM20,SUBSAV(6))
                XCG = SUBSAV( 9)*AA
                YCG = SUBSAV(10)*AA
                ZCG = SUBSAV(11)*AA
@@ -447,7 +447,7 @@ C-----------------------------
                ELSEIF(K==21)THEN
                  WA(II)=SUBSAV(21)+SUBSAV(23)
                ELSEIF(K==22)THEN
-                  WA(II)= UNDEMI
+                  WA(II)= HALF
      .                 *( SUBSAV(3)*SUBSAV(3)
      .                  + SUBSAV(4)*SUBSAV(4)
      .                  + SUBSAV(5)*SUBSAV(5) )
@@ -463,10 +463,10 @@ C                                    [Izx Iyz Izz]   {ZZMOM}
                  JXY=IYZ*IZX-IXY*IZZ
                  JYZ=IZX*IXY-IYZ*IXX
                  JZX=IXY*IYZ-IZX*IYY
-                 DET =  UN/ MAX(EM20,
+                 DET =  ONE/ MAX(EM20,
      .                       IXX * JXX + IXY * JXY + IZX * JZX)
                  WA(II)=DET *
-     .        (UNDEMI*(IXX*XXMOM*XXMOM+IYY*YYMOM*YYMOM+IZZ*ZZMOM*ZZMOM)
+     .        (HALF*(IXX*XXMOM*XXMOM+IYY*YYMOM*YYMOM+IZZ*ZZMOM*ZZMOM)
      .            + IXY*XXMOM*YYMOM+IYZ*YYMOM*ZZMOM+IZX*XXMOM*ZZMOM )
               ELSEIF(K==24)THEN
                  WA(II)=SUBSAV(22)

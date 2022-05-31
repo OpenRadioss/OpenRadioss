@@ -100,7 +100,7 @@ C     SHEAR STRAIN RATE AND INTRINSIC ROTATION
       ENDDO
       IF(JCVT.EQ.0) THEN
         DO I=LFT,LLT
-c          WXX(I) = UNDEMI*DT1*(DZY(I)-DYZ(I))
+c          WXX(I) = HALF*DT1*(DZY(I)-DYZ(I))
           EYZ(I) = DZY(I)+DYZ(I)
         ENDDO
       ELSE

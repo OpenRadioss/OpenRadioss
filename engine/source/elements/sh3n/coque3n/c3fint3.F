@@ -101,19 +101,19 @@ C
       M5 = F5 * THIRD
       M5 = M5 * PX1(I)
 C
-      MY1(I) = MY1(I) + M5 * (DEUX*PY1(I)+TROIS*PY2(I))
-     .                + M4 * PY1(I) * (PY1(I)+DEUX*PY2(I))
-      MY2(I) = MY2(I) + M5 * (TROIS*PY1(I)+DEUX*PY2(I))
-     .                - M4 * PY2(I) * (DEUX*PY1(I)+PY2(I))
+      MY1(I) = MY1(I) + M5 * (TWO*PY1(I)+THREE*PY2(I))
+     .                + M4 * PY1(I) * (PY1(I)+TWO*PY2(I))
+      MY2(I) = MY2(I) + M5 * (THREE*PY1(I)+TWO*PY2(I))
+     .                - M4 * PY2(I) * (TWO*PY1(I)+PY2(I))
       MY3(I) = MY3(I) + M5 * (PY1(I)+PY2(I))
      .                + M4 * (PY2(I)**2 - PY1(I)**2)
 C
       M5 = M5 * PX1(I)
       M4 = M4 * PX1(I)
 C
-      MX1(I) = MX1(I) - M5 - M4 * (DEUX*PY1(I)+PY2(I)) 
-      MX2(I) = MX2(I) + M5 - M4 * (PY1(I)+DEUX*PY2(I)) 
-      MX3(I) = MX3(I)      - M4 * TROIS*(PY1(I)+PY2(I))       
+      MX1(I) = MX1(I) - M5 - M4 * (TWO*PY1(I)+PY2(I)) 
+      MX2(I) = MX2(I) + M5 - M4 * (PY1(I)+TWO*PY2(I)) 
+      MX3(I) = MX3(I)      - M4 * THREE*(PY1(I)+PY2(I))       
       ENDDO
 C
       RETURN
@@ -195,9 +195,9 @@ C--------------------------------c
 c
        DO I=JFT,JLT
         SRZM(I)=ZERO
-        OFF05(I)=UNSIX*OFF(I)*VOL(I)
-        A05(I)=UNDEMI/AREA(I)
-        THK_6(I)=UNSIX*THK(I)
+        OFF05(I)=ONE_OVER_6*OFF(I)*VOL(I)
+        A05(I)=HALF/AREA(I)
+        THK_6(I)=ONE_OVER_6*THK(I)
        ENDDO
 C--------NxI,x *A------pay attention Bi*A--- RLZ: VRZ--
       DO NG =1,NPG
@@ -230,7 +230,7 @@ C-------------------------------------------------
 C        constant part PX2=-PX1
 C-------------------------------------------------
         DO I=JFT,JLT
-          C2=THK(I)*SRZM(I)*UNSIX
+          C2=THK(I)*SRZM(I)*ONE_OVER_6
           FX1=-C2*PY1(I)
           FX2=-C2*PY2(I)
 C

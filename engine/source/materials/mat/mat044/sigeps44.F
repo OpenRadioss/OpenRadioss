@@ -189,7 +189,7 @@ C-----------------------------------------------
         SIGNYZ(I)  = SIGOYZ(I)+G *DEPSYZ(I)
         SIGNZX(I)  = SIGOZX(I)+G *DEPSZX(I)
 C
-        SOUNDSP(I) = SQRT((C1+ QUATRE*G/TROIS)/RHO0(I))
+        SOUNDSP(I) = SQRT((C1+ FOUR*G/THREE)/RHO0(I))
         VISCMAX(I) = ZERO
         DPLA1(I)   = ZERO        
       ENDDO
@@ -203,9 +203,9 @@ C
         E1 = EPSXX(I) - DAV
         E2 = EPSYY(I) - DAV
         E3 = EPSZZ(I) - DAV
-        E4 = UNDEMI*EPSXY(I)
-        E5 = UNDEMI*EPSYZ(I)
-        E6 = UNDEMI*EPSZX(I)
+        E4 = HALF*EPSXY(I)
+        E5 = HALF*EPSYZ(I)
+        E6 = HALF*EPSZX(I)
 C        -y = (e1-x)(e2-x)(e3-x)
 C           - e5^2(e1-x) - e6^2(e2-x) - e4^2(e3-x)
 C           + 2e4 e5 e6
@@ -217,35 +217,35 @@ c         yp= 3 x^2 + c
         E62 = E6*E6
         C = - E1*E1 - E2*E2 - E3*E3 - E42 - E52 - E62
         D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
-     &      - DEUX*E4*E5*E6 
+     &      - TWO*E4*E5*E6 
         CD = C*THIRD
         EPST  = SQRT(-CD)
         EPST2 = EPST * EPST
         Y = (EPST2 + C)* EPST + D
         IF(ABS(Y).GT.EM8)THEN
-          EPST = UNP75 * EPST
+          EPST = ONEP75 * EPST
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-           YP = TROIS*EPST2 + C
+           YP = THREE*EPST2 + C
          IF(YP.NE.ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
           EPST = EPST + DAV
         ENDIF
 C
 C---    tension failure 
 C
-        FAIL(I) = MAX(ZERO,MIN(UN,
+        FAIL(I) = MAX(ZERO,MIN(ONE,
      .            (EPSR2-EPST)/(EPSR2-EPSR1) ))
 C
       ENDDO
@@ -262,8 +262,8 @@ C-----------------------------------------------
 
       IF (IPLA /= 2) THEN
        DO I=1,NEL
-        RQ = UN
-        IF (CC /= ZERO) RQ = UN + (CC*EPSP(I))**CP
+        RQ = ONE
+        IF (CC /= ZERO) RQ = ONE + (CC*EPSP(I))**CP
         IF (ICC == 1)   SMAX(I) = SMAX(I)*RQ
         IF (PLA(I) > ZERO) THEN
           IF ((MFUNC > 0) .AND. (CA == ZERO)) THEN
@@ -271,18 +271,18 @@ C-----------------------------------------------
             H(I)   = FAIL(I) * (YSCALE*DFDPLA(I)*RQ)
           ELSEIF ((MFUNC > 0) .AND. (CA > ZERO)) THEN
             YLD(I) = YSCALE  * YLD(I)
-     .                        + (CA + CB*PLA(I)**CN) * (RQ-UN)     
-            H(I)   = FAIL(I) * (YSCALE*DFDPLA(I) + CN*CB*(RQ-UN)/(PLA(I)**(UN-CN)))
+     .                        + (CA + CB*PLA(I)**CN) * (RQ-ONE)     
+            H(I)   = FAIL(I) * (YSCALE*DFDPLA(I) + CN*CB*(RQ-ONE)/(PLA(I)**(ONE-CN)))
           ELSE 
             YLD(I) = (CA + CB*PLA(I)**CN) * RQ
-            H(I)   = FAIL(I)*CN*CB*RQ/(PLA(I)**(UN-CN))
+            H(I)   = FAIL(I)*CN*CB*RQ/(PLA(I)**(ONE-CN))
           ENDIF
           YLD(I) = FAIL(I) * MIN(SMAX(I),YLD(I))
         ELSE
           IF ((MFUNC > 0) .AND. (CA == ZERO)) THEN
             YLD(I) = FAIL(I) * YSCALE * YLD(I) * RQ
           ELSEIF ((MFUNC > 0) .AND. (CA > ZERO)) THEN
-            YLD(I) = FAIL(I) * (YSCALE * YLD(I) + CA * (RQ-UN))
+            YLD(I) = FAIL(I) * (YSCALE * YLD(I) + CA * (RQ-ONE))
           ELSE
             YLD(I) = FAIL(I) * CA * RQ
           ENDIF
@@ -297,8 +297,8 @@ C-----------------------------------------------
        ENDDO
       ELSE 
        DO I=1,NEL
-        RQ = UN
-        IF (CC /= ZERO) RQ = UN + (CC*EPSP(I))**CP
+        RQ = ONE
+        IF (CC /= ZERO) RQ = ONE + (CC*EPSP(I))**CP
         IF (ICC == 1)   SMAX(I) = SMAX(I)*RQ
         IF (PLA(I) > ZERO) THEN
           IF ((MFUNC > 0) .AND. (CA == ZERO)) THEN
@@ -306,18 +306,18 @@ C-----------------------------------------------
             H(I)   = FAIL(I)*(YSCALE*DFDPLA(I)*RQ)
           ELSEIF ((MFUNC > 0) .AND. (CA > ZERO)) THEN
             YLD(I) = YSCALE * YLD(I)
-     .                        + (CA + CB*PLA(I)**CN) * (RQ-UN)
-            H(I)   = FAIL(I)* (YSCALE*DFDPLA(I) + CN*CB*(RQ-UN)/(PLA(I)**(UN-CN)))
+     .                        + (CA + CB*PLA(I)**CN) * (RQ-ONE)
+            H(I)   = FAIL(I)* (YSCALE*DFDPLA(I) + CN*CB*(RQ-ONE)/(PLA(I)**(ONE-CN)))
           ELSE 
             YLD(I) = (CA + CB*PLA(I)**CN) * RQ
-            H(I)   = FAIL(I)*CN*CB*RQ/(PLA(I)**(UN-CN))
+            H(I)   = FAIL(I)*CN*CB*RQ/(PLA(I)**(ONE-CN))
           ENDIF
           YLD(I) = FAIL(I) * MIN(SMAX(I),YLD(I))
         ELSE
           IF ((MFUNC > 0) .AND. (CA == ZERO)) THEN
             YLD(I) = FAIL(I) * YSCALE * YLD(I) * RQ
           ELSEIF ((MFUNC > 0) .AND. (CA > ZERO)) THEN
-            YLD(I) = FAIL(I) * (YSCALE * YLD(I) + CA * (RQ-UN))
+            YLD(I) = FAIL(I) * (YSCALE * YLD(I) + CA * (RQ-ONE))
           ELSE
             YLD(I) = FAIL(I) * CA * RQ
           ENDIF
@@ -337,10 +337,10 @@ C     VON MISES & RADIAL RETURN
 C-----------------------------------------------
       IF (IPLA == 0) THEN
        DO I = 1,NEL
-        VM = UNDEMI*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
+        VM = HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      1          +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2     
-        VM = SQRT(TROIS*VM)
-        R  = MIN(UN,YLD(I)/ MAX(VM,EM20))
+        VM = SQRT(THREE*VM)
+        R  = MIN(ONE,YLD(I)/ MAX(VM,EM20))
 c        P = C1(I) * (RHO(I)/RHO0(I)-1.)
         P  = C1 * AMU(I) ! AMU is computed by taking into account thermal strain
         SIGNXX(I) = SIGNXX(I)*R-P
@@ -349,16 +349,16 @@ c        P = C1(I) * (RHO(I)/RHO0(I)-1.)
         SIGNXY(I) = SIGNXY(I)*R
         SIGNYZ(I) = SIGNYZ(I)*R
         SIGNZX(I) = SIGNZX(I)*R
-        PLA(I)    = PLA(I) + (UN -R)*VM/MAX(G3+H(I),EM20)
-        DPLA1(I)  = (UN -R)*VM/MAX(G3+H(I),EM20)       
+        PLA(I)    = PLA(I) + (ONE -R)*VM/MAX(G3+H(I),EM20)
+        DPLA1(I)  = (ONE -R)*VM/MAX(G3+H(I),EM20)       
        ENDDO
       ELSEIF (IPLA == 2) THEN
        DO I = 1,NEL
-        VM = UNDEMI*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
+        VM = HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      1              +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
-        VM = SQRT(TROIS*VM)
-        R  = MIN(UN,YLD(I)/ MAX(VM,EM20))
-c        P = C1(I) * (RHO(I)/RHO0(I)-UN)
+        VM = SQRT(THREE*VM)
+        R  = MIN(ONE,YLD(I)/ MAX(VM,EM20))
+c        P = C1(I) * (RHO(I)/RHO0(I)-ONE)
         P  = C1 * AMU(I) ! AMU is computed by taking into account thermal strain
         SIGNXX(I) = SIGNXX(I)*R-P
         SIGNYY(I) = SIGNYY(I)*R-P
@@ -366,22 +366,22 @@ c        P = C1(I) * (RHO(I)/RHO0(I)-UN)
         SIGNXY(I) = SIGNXY(I)*R
         SIGNYZ(I) = SIGNYZ(I)*R
         SIGNZX(I) = SIGNZX(I)*R
-        PLA(I)    = PLA(I) + (UN -R)*VM/MAX(G3,EM20)
-        DPLA1(I)  = (UN -R)*VM/MAX(G3,EM20)        
+        PLA(I)    = PLA(I) + (ONE -R)*VM/MAX(G3,EM20)
+        DPLA1(I)  = (ONE -R)*VM/MAX(G3,EM20)        
        ENDDO
       ELSEIF (IPLA == 1) THEN
        DO I = 1,NEL
-        VM = UNDEMI*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
+        VM = HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      1              +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
-        VM = SQRT(TROIS*VM)
-        R  = MIN(UN,YLD(I)/ MAX(VM,EM20))
+        VM = SQRT(THREE*VM)
+        R  = MIN(ONE,YLD(I)/ MAX(VM,EM20))
 Clm     plastic strain increment.
-        DPLA = (UN - R)*VM/MAX(G3+H(I),EM20)
+        DPLA = (ONE - R)*VM/MAX(G3+H(I),EM20)
 Clm     actual yeld stress.
         YLD(I) = YLD(I) + DPLA*H(I)
         IF (PLA(I) >= EPMAX) YLD(I)=ZERO
-        R = MIN(UN,YLD(I)/ MAX(VM,EM20))
-c        P = C1(I) * (RHO(I)/RHO0(I) - UN)
+        R = MIN(ONE,YLD(I)/ MAX(VM,EM20))
+c        P = C1(I) * (RHO(I)/RHO0(I) - ONE)
         P = C1 * AMU(I) ! AMU is computed by taking into account thermal strain
         SIGNXX(I) = SIGNXX(I)*R-P
         SIGNYY(I) = SIGNYY(I)*R-P
@@ -399,13 +399,13 @@ C
 C      PLASTIC STRAIN RATE
        IF (VFLAG == 1) THEN 
          DPDT    = DPLA1(I) / MAX(EM20,TIMESTEP)
-         EPSP(I) = ASRATE * DPDT + (UN - ASRATE) * EPSP(I)
+         EPSP(I) = ASRATE * DPDT + (ONE - ASRATE) * EPSP(I)
        ENDIF
 C
        SIGY(I) = MAX(SIGY(I),YLD(I))
       ENDDO
       DO I=1,NEL
-        IF(OFF(I).LT.UN) IDEL7NOK = 1
+        IF(OFF(I).LT.ONE) IDEL7NOK = 1
       ENDDO
 C-----------
       RETURN

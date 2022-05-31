@@ -75,7 +75,7 @@ C-----------------------------------------------------------------------
       IF(ISMS==0)
      .  CALL S4FRACA(X,IX1 ,IX2,IX3 ,IX4 ,PTG   )
       DO I=LFT,LLT
-       MASS(I)=FILL(I)*RHO(I)*VOLU(I)*QUART
+       MASS(I)=FILL(I)*RHO(I)*VOLU(I)*FOURTH
 C
        I1 = IX1(I)
        I2 = IX2(I)
@@ -100,7 +100,7 @@ C
        MSS(8,I)=ZERO
 C
        IP=IPART(I)
-       PARTSAV(1,IP)=PARTSAV(1,IP) + QUATRE*MASS(I)
+       PARTSAV(1,IP)=PARTSAV(1,IP) + FOUR*MASS(I)
        PARTSAV(2,IP)=PARTSAV(2,IP)
      .              + MASS(I)*(X(1,I1)+X(1,I2)+X(1,I3)+X(1,I4))
        PARTSAV(3,IP)=PARTSAV(3,IP)
@@ -132,7 +132,7 @@ C
      .              + MASS(I)*(V(2,I1)+V(2,I2)+V(2,I3)+V(2,I4))
        PARTSAV(13,IP)=PARTSAV(13,IP)
      .              + MASS(I)*(V(3,I1)+V(3,I2)+V(3,I3)+V(3,I4))
-       PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * MASS(I) *
+       PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * MASS(I) *
      .    (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
      .    +V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2)
      .    +V(1,I3)*V(1,I3)+V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3)
@@ -164,7 +164,7 @@ C
 C
       IF(JTHE < 0 ) THEN      
        DO I=LFT,LLT
-        RCP=FILL(I)*RHOCP(I)*VOLU(I)*QUART
+        RCP=FILL(I)*RHOCP(I)*VOLU(I)*FOURTH
         MCPS(1,I) = RCP
         MCPS(3,I) = RCP
         MCPS(5,I) = RCP
@@ -182,10 +182,10 @@ C
           I2 = IX2(I)
           I3 = IX3(I)
           I4 = IX4(I)
-          WMA(I1)=WMA(I1)+TDEMI
-          WMA(I2)=WMA(I2)+TDEMI
-          WMA(I3)=WMA(I3)+TDEMI
-          WMA(I4)=WMA(I4)+TDEMI
+          WMA(I1)=WMA(I1)+THREE_HALF
+          WMA(I2)=WMA(I2)+THREE_HALF
+          WMA(I3)=WMA(I3)+THREE_HALF
+          WMA(I4)=WMA(I4)+THREE_HALF
         ENDDO
       ENDIF      
 C
@@ -268,33 +268,33 @@ C
        CALL DIS_N1N2(X,IX3,IX4,EE,E2 )
        CALL DIS_N1N2(X,IX1,IX4,FF,F2 )
       DO I=LFT,LLT
-        P1 = ACOS((A2(I) + C2(I) - B2(I))/(DEUX * AA(I) * CC(I)))
-        P2 = ACOS((A2(I) + F2(I) - D2(I))/(DEUX * AA(I) * FF(I)))
-        P3 = ACOS((C2(I) + F2(I) - E2(I))/(DEUX * CC(I) * FF(I)))
-        P1 = ACOS((A2(I) + C2(I) - B2(I))/(DEUX * AA(I) * CC(I)))+
-     +       ACOS((A2(I) + F2(I) - D2(I))/(DEUX * AA(I) * FF(I)))+
-     +       ACOS((C2(I) + F2(I) - E2(I))/(DEUX * CC(I) * FF(I)))
+        P1 = ACOS((A2(I) + C2(I) - B2(I))/(TWO * AA(I) * CC(I)))
+        P2 = ACOS((A2(I) + F2(I) - D2(I))/(TWO * AA(I) * FF(I)))
+        P3 = ACOS((C2(I) + F2(I) - E2(I))/(TWO * CC(I) * FF(I)))
+        P1 = ACOS((A2(I) + C2(I) - B2(I))/(TWO * AA(I) * CC(I)))+
+     +       ACOS((A2(I) + F2(I) - D2(I))/(TWO * AA(I) * FF(I)))+
+     +       ACOS((C2(I) + F2(I) - E2(I))/(TWO * CC(I) * FF(I)))
 C    
-        P2 = ACOS((A2(I) + B2(I) - C2(I))/(DEUX * AA(I) * BB(I)))+
-     +       ACOS((A2(I) + D2(I) - F2(I))/(DEUX * AA(I) * DD(I)))+
-     +       ACOS((D2(I) + B2(I) - E2(I))/(DEUX * DD(I) * BB(I)))
+        P2 = ACOS((A2(I) + B2(I) - C2(I))/(TWO * AA(I) * BB(I)))+
+     +       ACOS((A2(I) + D2(I) - F2(I))/(TWO * AA(I) * DD(I)))+
+     +       ACOS((D2(I) + B2(I) - E2(I))/(TWO * DD(I) * BB(I)))
 C    
-        P3 = ACOS((B2(I) + C2(I) - A2(I))/(DEUX * BB(I) * CC(I)))+ 
-     +       ACOS((B2(I) + E2(I) - D2(I))/(DEUX * BB(I) * EE(I)))+
-     +       ACOS((E2(I) + C2(I) - F2(I))/(DEUX * EE(I) * CC(I)))
+        P3 = ACOS((B2(I) + C2(I) - A2(I))/(TWO * BB(I) * CC(I)))+ 
+     +       ACOS((B2(I) + E2(I) - D2(I))/(TWO * BB(I) * EE(I)))+
+     +       ACOS((E2(I) + C2(I) - F2(I))/(TWO * EE(I) * CC(I)))
 C    
-        P4 = ACOS((F2(I) + D2(I) - A2(I))/(DEUX * FF(I) * DD(I)))+
-     +       ACOS((D2(I) + E2(I) - B2(I))/(DEUX * DD(I) * EE(I)))+
-     +       ACOS((E2(I) + F2(I) - C2(I))/(DEUX * EE(I) * FF(I)))
+        P4 = ACOS((F2(I) + D2(I) - A2(I))/(TWO * FF(I) * DD(I)))+
+     +       ACOS((D2(I) + E2(I) - B2(I))/(TWO * DD(I) * EE(I)))+
+     +       ACOS((E2(I) + F2(I) - C2(I))/(TWO * EE(I) * FF(I)))
         PTG(1,I)=P1/PI
         PTG(2,I)=P2/PI
         PTG(3,I)=P3/PI
         PTG(4,I)=P4/PI
         S=PTG(1,I)+PTG(2,I)+PTG(3,I)+PTG(4,I)
-c        PTG(1,I)=UN
-c        PTG(2,I)=UN
-c        PTG(3,I)=UN
-c        PTG(4,I)=UN
+c        PTG(1,I)=ONE
+c        PTG(2,I)=ONE
+c        PTG(3,I)=ONE
+c        PTG(4,I)=ONE
       END DO
 C
 C-----------
@@ -390,7 +390,7 @@ C=======================================================================
       IF (IMAS_DS==0) THEN
        DO I=LFT,LLT
        DO J=1,4
-        PTG(J,I)=UN
+        PTG(J,I)=ONE
        END DO
        END DO
        RETURN
@@ -401,7 +401,7 @@ C ------------Ai -> A   (i)-----------
        CALL AREA_TRIA(X,IX1,IX2,IX4, A3  )
        CALL AREA_TRIA(X,IX1,IX2,IX3, A4  )
       DO I=LFT,LLT
-        S = QUATRE/(A1(I) +A2(I) +A3(I) +A4(I)) 
+        S = FOUR/(A1(I) +A2(I) +A3(I) +A4(I)) 
         PTG(1,I)=A1(I)*S
         PTG(2,I)=A2(I)*S
         PTG(3,I)=A3(I)*S
@@ -473,7 +473,7 @@ C=======================================================================
          E3X=Y12*Z13-Z12*Y13
          E3Y=Z12*X13-X12*Z13
          E3Z=X12*Y13-Y12*X13
-         A2(I)=SQRT(QUART*(E3X*E3X+E3Y*E3Y+E3Z*E3Z))
+         A2(I)=SQRT(FOURTH*(E3X*E3X+E3Y*E3Y+E3Z*E3Z))
         ENDDO
 C-----------
       RETURN

@@ -160,9 +160,9 @@ C            IF(SH_EDGE==1.AND.LEDGE(3,CAND_M(I))/=0) CYCLE ! Shell edge is not 
            JE=CAND_S(I)
 
            IF(IGAP0 == 0) THEN
-             GAPV(IS)=DEUX*GAPE(IE)+GAPE(JE)
+             GAPV(IS)=TWO*GAPE(IE)+GAPE(JE)
            ELSE
-             GAPV(IS)=DEUX*(GAPE(IE)+GAPE(JE))
+             GAPV(IS)=TWO*(GAPE(IE)+GAPE(JE))
            END IF
 
            IF(IGAP==3)
@@ -201,9 +201,9 @@ C            IF(SH_EDGE==1.AND.LEDGE(3,CAND_M(I))/=0) CYCLE ! Shell edge is not 
            JE=CAND_S(I)
 
            IF(IGAP0 == 0) THEN
-             GAPV(IS)=DEUX*GAPE(IE)+GAPE(JE)
+             GAPV(IS)=TWO*GAPE(IE)+GAPE(JE)
            ELSE
-             GAPV(IS)=DEUX*(GAPE(IE)+GAPE(JE))
+             GAPV(IS)=TWO*(GAPE(IE)+GAPE(JE))
            END IF
 
            IF(IGAP==3)
@@ -224,7 +224,7 @@ C Loop over local candidates
          IF( L > 0 ) THEN
            S = STFE(CAND_S(I))
          ELSE IF(L < 0) THEN
-           S = UN 
+           S = ONE 
          ENDIF
          IF (S.NE.ZERO) THEN
            N1= LEDGE(5,CAND_S(I))
@@ -313,9 +313,9 @@ C loop over remote candidates
            I=JS+IS
            IE=CAND_M(I)
            IF(IGAP0 == 0) THEN
-             GAPV(IS)=DEUX*GAPE(IE)+GAPFIE(NIN)%P(CAND_S(I)-NEDGE)
+             GAPV(IS)=TWO*GAPE(IE)+GAPFIE(NIN)%P(CAND_S(I)-NEDGE)
            ELSE
-             GAPV(IS)=DEUX*(GAPE(IE)+GAPFIE(NIN)%P(CAND_S(I)-NEDGE))
+             GAPV(IS)=TWO*(GAPE(IE)+GAPFIE(NIN)%P(CAND_S(I)-NEDGE))
            END IF
 
            IF(IGAP==3)

@@ -64,10 +64,10 @@ C
         IF(I > 0 .AND. IRUPT(II) == 0) THEN
            SS=CRST(1,II)
            TT=CRST(2,II)
-           SP=UN + SS
-           SM=UN - SS
-           TP=QUART*(UN + TT)
-           TM=QUART*(UN - TT)
+           SP=ONE + SS
+           SM=ONE - SS
+           TP=FOURTH*(ONE + TT)
+           TM=FOURTH*(ONE - TT)
            H(1)=TM*SM
            H(2)=TM*SP
            H(3)=TP*SP
@@ -144,10 +144,10 @@ C
         IF(I > 0 .AND. IRUPT(II) == 0) THEN
           SS=CRST(1,II)                             
           TT=CRST(2,II)                             
-          SP=UN + SS                               
-          SM=UN - SS                               
-          TP=QUART*(UN + TT)                        
-          TM=QUART*(UN - TT)                        
+          SP=ONE + SS                               
+          SM=ONE - SS                               
+          TP=FOURTH*(ONE + TT)                        
+          TM=FOURTH*(ONE - TT)                        
           H(1)=TM*SM                                
           H(2)=TM*SP                                
           H(3)=TP*SP                                
@@ -189,11 +189,11 @@ C
           V1X3=VMX * ZC0                            
 
           A(1,I)= A(1,I) + AMY * ZC0 - AMZ * YC0    
-     .          - UNDEMI*(VMY*V2X1+VMZ*V3X1)           
+     .          - HALF*(VMY*V2X1+VMZ*V3X1)           
           A(2,I)= A(2,I) + AMZ * XC0 - AMX * ZC0    
-     .          - UNDEMI*(VMZ*V3X2+VMX*V1X2)           
+     .          - HALF*(VMZ*V3X2+VMX*V1X2)           
           A(3,I)= A(3,I) + AMX * YC0 - AMY * XC0    
-     .          - UNDEMI*(VMX*V1X3+VMY*V2X3)           
+     .          - HALF*(VMX*V1X3+VMY*V2X3)           
           V(1,I)= V(1,I) + V2X3 - V3X2              
           V(2,I)= V(2,I) + V3X1 - V1X3              
           V(3,I)= V(3,I) + V1X2 - V2X1              

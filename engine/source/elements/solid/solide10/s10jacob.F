@@ -93,10 +93,10 @@ c      my_real
      .   DRDZ, DSDZ, DTDZ,
      .   DET,WUNSIX
 C-----------------------------------------------
-c      AA = (DEUX*ALPH - UN)*ALPH
-c      BB = (DEUX*BETA - UN)*BETA
-c      B2 = QUATRE*BETA*BETA
-c      AB = QUATRE*ALPH*BETA      
+c      AA = (TWO*ALPH - ONE)*ALPH
+c      BB = (TWO*BETA - ONE)*BETA
+c      B2 = FOUR*BETA*BETA
+c      AB = FOUR*ALPH*BETA      
 cC-----------------------------------------------
 c      DO I=LFT,LLT
 c        NX1(I) = BB
@@ -111,9 +111,9 @@ c        NX9(I) = AB
 c        NX10(I)= AB
 c      ENDDO
 C
-       A4_0 = QUATRE * ALPH
-       B4_0 = QUATRE * BETA
-       WUNSIX = W*UNSIX
+       A4_0 = FOUR * ALPH
+       B4_0 = FOUR * BETA
+       WUNSIX = W*ONE_OVER_6
 #include   "nofusion.inc"
       DO I=LFT,LLT
        AA = X5B(I) + X6B(I) + X7B(I)
@@ -148,12 +148,12 @@ C
 C
        DET = DXDR * DRDX + DYDR * DRDY + DZDR * DRDZ
 
-       D = UN/MAX(EM30,DET)
+       D = ONE/MAX(EM30,DET)
 C
-c       A4 = QUATRE * ALPH
-c       B4 = QUATRE * BETA
-       A4M1  = D *(A4_0 - UN)
-       B4M1  =  D *(B4_0 - UN)
+c       A4 = FOUR * ALPH
+c       B4 = FOUR * BETA
+       A4M1  = D *(A4_0 - ONE)
+       B4M1  =  D *(B4_0 - ONE)
 !
        B4 = D * B4_0
        A4 = D * A4_0
@@ -278,10 +278,10 @@ c      my_real
      .   DRDZ(MVSIZ), DSDZ(MVSIZ), DTDZ(MVSIZ),
      .   DET(MVSIZ)
 C-----------------------------------------------
-c      AA = (DEUX*ALPH - UN)*ALPH
-c      BB = (DEUX*BETA - UN)*BETA
-c      B2 = QUATRE*BETA*BETA
-c      AB = QUATRE*ALPH*BETA      
+c      AA = (TWO*ALPH - ONE)*ALPH
+c      BB = (TWO*BETA - ONE)*BETA
+c      B2 = FOUR*BETA*BETA
+c      AB = FOUR*ALPH*BETA      
 cC-----------------------------------------------
 c#include "vectorize.inc"
 c      DO J=1,NNEGA
@@ -334,7 +334,7 @@ C
        DET(I) = DXDR * DRDX(I)
      .        + DYDR * DRDY(I)
      .        + DZDR * DRDZ(I)
-       VOLDP(I) = W * DET(I) * UNSIX
+       VOLDP(I) = W * DET(I) * ONE_OVER_6
        VOL(I) = VOLDP(I)
 C
       ENDDO
@@ -342,12 +342,12 @@ C
 #include "vectorize.inc"
       DO J=1,NNEGA
        I = INDEX(J)
-        D = UN/MAX(EM30,DET(I))
+        D = ONE/MAX(EM30,DET(I))
 C
-        A4 = QUATRE * ALPH
-        B4 = QUATRE * BETA
-        A4M1(I)  = A4 - UN
-        B4M1(I)  = B4 - UN
+        A4 = FOUR * ALPH
+        B4 = FOUR * BETA
+        A4M1(I)  = A4 - ONE
+        B4M1(I)  = B4 - ONE
         B4M1(I) = D * B4M1(I)
         A4M1(I) = D * A4M1(I)
         B4 = D * B4
@@ -453,10 +453,10 @@ C     REAL ou REAL*8
      .   DRDY, DSDY, DTDY,
      .   DRDZ, DSDZ, DTDZ
 C-----------------------------------------------
-c      AA = (DEUX*ALPH - UN)*ALPH
-c      BB = (DEUX*BETA - UN)*BETA
-c      B2 = QUATRE*BETA*BETA
-c      AB = QUATRE*ALPH*BETA      
+c      AA = (TWO*ALPH - ONE)*ALPH
+c      BB = (TWO*BETA - ONE)*BETA
+c      B2 = FOUR*BETA*BETA
+c      AB = FOUR*ALPH*BETA      
 cC-----------------------------------------------
 c      DO I=LFT,LLT
 c        NX1(I) = BB
@@ -471,10 +471,10 @@ c        NX9(I) = AB
 c        NX10(I)= AB
 c      ENDDO
 C
-      A4 = QUATRE * ALPH
-      B4 = QUATRE * BETA
-      A4M1  = A4 - UN
-      B4M1  = B4 - UN
+      A4 = FOUR * ALPH
+      B4 = FOUR * BETA
+      A4M1  = A4 - ONE
+      B4M1  = B4 - ONE
       A4MB4  = A4 - B4
       DO I=LFT,LLT
        DRDX=JAC_I(1,I)
@@ -604,15 +604,15 @@ c      my_real
      .   DRDZ, DSDZ, DTDZ,
      .   DET,WUNSIX
 C-----------------------------------------------
-c      AA = (DEUX*ALPH - UN)*ALPH
-c      BB = (DEUX*BETA - UN)*BETA
-c      B2 = QUATRE*BETA*BETA
-c      AB = QUATRE*ALPH*BETA      
+c      AA = (TWO*ALPH - ONE)*ALPH
+c      BB = (TWO*BETA - ONE)*BETA
+c      B2 = FOUR*BETA*BETA
+c      AB = FOUR*ALPH*BETA      
 cC-----------------------------------------------
 C
-       A4_0 = QUATRE * ALPH
-       B4_0 = QUATRE * BETA
-       WUNSIX = W*UNSIX
+       A4_0 = FOUR * ALPH
+       B4_0 = FOUR * BETA
+       WUNSIX = W*ONE_OVER_6
 #include   "nofusion.inc"
       DO I=1,NEL
        AA = X5B(I) + X6B(I) + X7B(I)
@@ -647,12 +647,12 @@ C
 C
        DET = DXDR * DRDX + DYDR * DRDY + DZDR * DRDZ
 
-       D = UN/MAX(EM30,DET)
+       D = ONE/MAX(EM30,DET)
 C
-c       A4 = QUATRE * ALPH
-c       B4 = QUATRE * BETA
-       A4M1  = D *(A4_0 - UN)
-       B4M1  =  D *(B4_0 - UN)
+c       A4 = FOUR * ALPH
+c       B4 = FOUR * BETA
+       A4M1  = D *(A4_0 - ONE)
+       B4M1  =  D *(B4_0 - ONE)
 !
        B4 = D * B4_0
        A4 = D * A4_0

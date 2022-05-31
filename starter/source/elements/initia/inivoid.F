@@ -183,7 +183,7 @@ c--------------------------------------
         DO I=LFT,LLT
           RHO(I) = PM(89,MXT(I))
           DTELEM(NFT+I) = EP30
-          FILL(I) = UN
+          FILL(I) = ONE
           RHOCP(I) =  PM(69,MXT(I))
           TEMP0(I) =  PM(79,MXT(I))
         ENDDO
@@ -240,7 +240,7 @@ C       SOLID BRICK 8 nodes
           DO I=LFT,LLT
             RHO(I) = PM(89,MXT(I))
             DTELEM(NFT+I) = EP30
-            FILL(I) = UN
+            FILL(I) = ONE
           ENDDO
           CALL SDERI3(VOL ,VEUL(1,NFT+1) ,GEO  ,IGEO ,
      .            XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8  ,
@@ -394,7 +394,7 @@ c        CALL PEVECI(GBUF%SKEW, X1,X3, Y1,Y3, Z1,Z3)
              II(I) = (I-1)*NEL + 1
            ENDDO
 C
-           NOISE = DEUX*SQRT(TROIS)*XALEA
+           NOISE = TWO*SQRT(THREE)*XALEA
 C
            DO I=1,NUMGEO
              IGTYP=IGEO(11,I)

@@ -75,7 +75,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      ALP = DEUXEM2
+      ALP = TWOEM2
       DO 500 II=1,NSN
       I=NSV(II)
       J=ILOC(II)

@@ -36,7 +36,7 @@ C----------------------------------------------------------
 C     ROUTINE QUI VA TESTER ET COMPTER LES MESHSURFS QUI 
 C     INTERSECTENT AVEC LA MESHSURFSURF QU'ON TRAITE
 C     NB : MESHSURF = SURFACE DE COUPE D'ELEMENTS DEFINISSANT
-C          UN RAFFINEMENT DANS UNE DIRECTION
+C          ONE RAFFINEMENT DANS UNE DIRECTION
 C----------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -108,7 +108,7 @@ c
 C----------------------------------------------------------------------
 C   CONSTRUCTION DE BOITES ENGLOBANTE POUR LES MESHSURFS
 C   PERMET DE SAVOIR SI IL Y A POTENTIELLEMENT INTERSECTION
-C   (IL Y A UN TEST SUR LES FONCTIONS EN AVAL, 
+C   (IL Y A ONE TEST SUR LES FONCTIONS EN AVAL, 
 C   LA CERTITUDE D'INTERSECTION N'EST PAS NECESSAIRE)
 C----------------------------------------------------------------------
 c
@@ -135,7 +135,7 @@ c
 c
 C----------------------------------------------------------------------
 C   COMPARAISON DES INTERVALES DES BOITES ENGLOBANTES ET DES KNOT_INSERES,
-C   PUIS VERIFICATION SUR LA TROISIEME DIRECTION COMPLEMENTAIRE AUX DEUX DIRECTIONS
+C   PUIS VERIFICATION SUR LA TROISIEME DIRECTION COMPLEMENTAIRE AUX TWO DIRECTIONS
 C   DES KNOT_INSERE DE LA SUPERPOSITION DES MESHSURFS
 C   TEST QUI EXCLUE : PLUS SIMPLE
 C----------------------------------------------------------------------
@@ -153,7 +153,7 @@ c
       ENDIF
 c
 C----------------------------------------------------------------------
-C   SI ON ARRIVE LA, IL Y A UN CROISEMENT PROBABLE
+C   SI ON ARRIVE LA, IL Y A ONE CROISEMENT PROBABLE
 C----------------------------------------------------------------------
 c
       L_TAB_MESHSURFCUT = L_TAB_MESHSURFCUT + 1

@@ -161,13 +161,13 @@ C
       GAMA=ZERO
 
 C       
-      IF(P12 == ZERO )P12 = -UNDEMI
+      IF(P12 == ZERO )P12 = -HALF
       IF(G12 == ZERO )G12 = P12
 C
-      IF(P22 == ZERO )P22 = UN
+      IF(P22 == ZERO )P22 = ONE
       IF(G22 == ZERO )G22 = P22
 C
-      IF(P33 == ZERO )P33 = TROIS
+      IF(P33 == ZERO )P33 = THREE
       IF(G33 == ZERO )G33 = P33
 C           
       IF (DEPS0 == ZERO) DEPS0 = INFINITY ! no strain rate effect
@@ -210,12 +210,12 @@ c
 C
        NUVAR   = 9
        NUPARAM = 29 
-       PARMAT(1) = YOUNG/TROIS/(UN - DEUX*NU)
+       PARMAT(1) = YOUNG/THREE/(ONE - TWO*NU)
        PARMAT(2) = YOUNG
        PARMAT(3) = NU
 C      Formulation for solid elements time step computation.
        PARMAT(16) = 2
-       PARMAT(17) =  (UN - DEUX*NU)/(UN - NU) ! == DEUX*G/(C1+QTHIRD*G)
+       PARMAT(17) =  (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G)
 C------------------------------
        WRITE(IOUT,1001) TRIM(TITR),MAT_ID,ILAW
        WRITE(IOUT,1000)           

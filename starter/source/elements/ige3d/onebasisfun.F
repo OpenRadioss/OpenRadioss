@@ -66,11 +66,11 @@ C-------------------------------------------------------------------------------
      .  DIMENSION(PXI+1,PXI+1) :: ANDU
 
       ANDU(:,:)=ZERO
-      ANDU(IDXII,1)=UN
+      ANDU(IDXII,1)=ONE
 
 c      DO J=0,PXI
 c        IF ((XI.GE.KXI(IDXI+J)).AND.(XI.LT.KXI(IDXI+J+1))) THEN
-c          ANDU(J+1,1) = UN
+c          ANDU(J+1,1) = ONE
 c        ELSE
 c          ANDU(J+1,1) = ZERO
 c        ENDIF

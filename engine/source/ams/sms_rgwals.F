@@ -62,7 +62,7 @@ C     REAL ou REAL*8
      .   XX, XN, YN, ZN, DV, DA, DVT, 
      .   XWL0, YWL0, ZWL0
 C-----------------------------------------------
-      RA2=(UNDEMI*RWL(7))**2
+      RA2=(HALF*RWL(7))**2
 C
       IF(MSR.EQ.0)THEN
        XWL0=RWL(4)
@@ -197,7 +197,7 @@ C
 C---     no friction filtering
          FRIC=RWL(13)
          FRIC2=FRIC**2
-         FAC=UN/DT12
+         FAC=ONE/DT12
          DO J = 1,NIMPACT
            I = IMPACT(J)
            N=NSW(I)
@@ -602,9 +602,9 @@ C
        M2=M3-1
        M1=M2-1
 C TFEXT only <=> dt12/2.
-       VXW=V(M1)+UNDEMI*A(M1)*DT12
-       VYW=V(M2)+UNDEMI*A(M2)*DT12
-       VZW=V(M3)+UNDEMI*A(M3)*DT12
+       VXW=V(M1)+HALF*A(M1)*DT12
+       VYW=V(M2)+HALF*A(M2)*DT12
+       VZW=V(M3)+HALF*A(M3)*DT12
        XWL0=X(M1)
        YWL0=X(M2)
        ZWL0=X(M3)
@@ -644,9 +644,9 @@ C
         F7(J) = ZERO
 C
 C 1er impact (Tfext avec decalage 1/2 cycle)
-c        VX=V(N1)+UNDEMI*A(N1)*DT12
-c        VY=V(N2)+UNDEMI*A(N2)*DT12
-c        VZ=V(N3)+UNDEMI*A(N3)*DT12
+c        VX=V(N1)+HALF*A(N1)*DT12
+c        VY=V(N2)+HALF*A(N2)*DT12
+c        VZ=V(N3)+HALF*A(N3)*DT12
 c        TFXT = TFXT -DT12*((VX-VXW)*FXN+(VY-VYW)*FYN+(VZ-VZW)*FZN)
  40    CONTINUE
 C
@@ -678,9 +678,9 @@ C
         F3(J) = FZN
         F4(J) = MS(N)
 C
-        VX=V(N1)+UNDEMI*A(N1)*DT12
-        VY=V(N2)+UNDEMI*A(N2)*DT12
-        VZ=V(N3)+UNDEMI*A(N3)*DT12
+        VX=V(N1)+HALF*A(N1)*DT12
+        VY=V(N2)+HALF*A(N2)*DT12
+        VZ=V(N3)+HALF*A(N3)*DT12
 C 1er impact (Tfext avec decalage 1/2 cycle)
 c       TFXT = TFXT -DT12*((VX-VXW)*FXN+(VY-VYW)*FYN+(VZ-VZW)*FZN)
 C

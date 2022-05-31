@@ -128,18 +128,18 @@ C
             ELSE
               N1=NC(I,IPERM1(N))
               N2=NC(I,IPERM2(N))
-              A(1,N1)=A(1,N1)+UNDEMI*FX(I,N)
-              A(2,N1)=A(2,N1)+UNDEMI*FY(I,N)
-              A(3,N1)=A(3,N1)+UNDEMI*FZ(I,N)
-              STIFN(N1)=STIFN(N1)+UNDEMI*STIG(I,N)
-              FTHE(N1) = FTHE(N1)+ UNDEMI*THEM(I,N)
-              CONDN(N1)= CONDN(N1)+UNDEMI*CONDEG(I,N)
-              A(1,N2)=A(1,N2)+UNDEMI*FX(I,N)
-              A(2,N2)=A(2,N2)+UNDEMI*FY(I,N)
-              A(3,N2)=A(3,N2)+UNDEMI*FZ(I,N)
-              STIFN(N2)=STIFN(N2)+UNDEMI*STIG(I,N)
-              FTHE(N2) = FTHE(N2)+ UNDEMI*THEM(I,N)
-              CONDN(N2)= CONDN(N2)+UNDEMI*CONDEG(I,N)
+              A(1,N1)=A(1,N1)+HALF*FX(I,N)
+              A(2,N1)=A(2,N1)+HALF*FY(I,N)
+              A(3,N1)=A(3,N1)+HALF*FZ(I,N)
+              STIFN(N1)=STIFN(N1)+HALF*STIG(I,N)
+              FTHE(N1) = FTHE(N1)+ HALF*THEM(I,N)
+              CONDN(N1)= CONDN(N1)+HALF*CONDEG(I,N)
+              A(1,N2)=A(1,N2)+HALF*FX(I,N)
+              A(2,N2)=A(2,N2)+HALF*FY(I,N)
+              A(3,N2)=A(3,N2)+HALF*FZ(I,N)
+              STIFN(N2)=STIFN(N2)+HALF*STIG(I,N)
+              FTHE(N2) = FTHE(N2)+ HALF*THEM(I,N)
+              CONDN(N2)= CONDN(N2)+HALF*CONDEG(I,N)
             ENDIF
           ENDDO
          ENDDO
@@ -167,16 +167,16 @@ C
             ELSE
               N1=NC(I,IPERM1(N))
               N2=NC(I,IPERM2(N))
-              A(1,N1)=A(1,N1)+UNDEMI*FX(I,N)
-              A(2,N1)=A(2,N1)+UNDEMI*FY(I,N)
-              A(3,N1)=A(3,N1)+UNDEMI*FZ(I,N)
-              STIFN(N1)=STIFN(N1)+UNDEMI*STIG(I,N)
-              FTHE(N1) = FTHE(N1)+ UNDEMI*THEM(I,N)
-              A(1,N2)=A(1,N2)+UNDEMI*FX(I,N)
-              A(2,N2)=A(2,N2)+UNDEMI*FY(I,N)
-              A(3,N2)=A(3,N2)+UNDEMI*FZ(I,N)
-              STIFN(N2)=STIFN(N2)+UNDEMI*STIG(I,N)
-              FTHE(N2) = FTHE(N2)+ UNDEMI*THEM(I,N)
+              A(1,N1)=A(1,N1)+HALF*FX(I,N)
+              A(2,N1)=A(2,N1)+HALF*FY(I,N)
+              A(3,N1)=A(3,N1)+HALF*FZ(I,N)
+              STIFN(N1)=STIFN(N1)+HALF*STIG(I,N)
+              FTHE(N1) = FTHE(N1)+ HALF*THEM(I,N)
+              A(1,N2)=A(1,N2)+HALF*FX(I,N)
+              A(2,N2)=A(2,N2)+HALF*FY(I,N)
+              A(3,N2)=A(3,N2)+HALF*FZ(I,N)
+              STIFN(N2)=STIFN(N2)+HALF*STIG(I,N)
+              FTHE(N2) = FTHE(N2)+ HALF*THEM(I,N)
             ENDIF
           ENDDO
          ENDDO
@@ -203,14 +203,14 @@ C
              ELSE
                N1=NC(I,IPERM1(N))
                N2=NC(I,IPERM2(N))
-               A(1,N1)=A(1,N1)+UNDEMI*FX(I,N)
-               A(2,N1)=A(2,N1)+UNDEMI*FY(I,N)
-               A(3,N1)=A(3,N1)+UNDEMI*FZ(I,N)
-               STIFN(N1)=STIFN(N1)+UNDEMI*STIG(I,N)
-               A(1,N2)=A(1,N2)+UNDEMI*FX(I,N)
-               A(2,N2)=A(2,N2)+UNDEMI*FY(I,N)
-               A(3,N2)=A(3,N2)+UNDEMI*FZ(I,N)
-               STIFN(N2)=STIFN(N2)+UNDEMI*STIG(I,N)   
+               A(1,N1)=A(1,N1)+HALF*FX(I,N)
+               A(2,N1)=A(2,N1)+HALF*FY(I,N)
+               A(3,N1)=A(3,N1)+HALF*FZ(I,N)
+               STIFN(N1)=STIFN(N1)+HALF*STIG(I,N)
+               A(1,N2)=A(1,N2)+HALF*FX(I,N)
+               A(2,N2)=A(2,N2)+HALF*FY(I,N)
+               A(3,N2)=A(3,N2)+HALF*FZ(I,N)
+               STIFN(N2)=STIFN(N2)+HALF*STIG(I,N)   
              ENDIF
            ENDDO
           ENDDO 
@@ -222,12 +222,12 @@ C
           IF(NN.EQ.0)THEN
             N1=IPERM1(N)
             N2=IPERM2(N)
-            FX(I,N1)=FX(I,N1)+UNDEMI*FX(I,N)
-            FY(I,N1)=FY(I,N1)+UNDEMI*FY(I,N)
-            FZ(I,N1)=FZ(I,N1)+UNDEMI*FZ(I,N)
-            FX(I,N2)=FX(I,N2)+UNDEMI*FX(I,N)
-            FY(I,N2)=FY(I,N2)+UNDEMI*FY(I,N)
-            FZ(I,N2)=FZ(I,N2)+UNDEMI*FZ(I,N)
+            FX(I,N1)=FX(I,N1)+HALF*FX(I,N)
+            FY(I,N1)=FY(I,N1)+HALF*FY(I,N)
+            FZ(I,N1)=FZ(I,N1)+HALF*FZ(I,N)
+            FX(I,N2)=FX(I,N2)+HALF*FX(I,N)
+            FY(I,N2)=FY(I,N2)+HALF*FY(I,N)
+            FZ(I,N2)=FZ(I,N2)+HALF*FZ(I,N)
 C           FX(I,N)=0.
 C           FY(I,N)=0.
 C           FZ(I,N)=0.
@@ -349,15 +349,15 @@ C         II=I+NFT-NUMELS+NUMELS20
             FSKYV(K,7)=STIG(I,N+8)
           ELSE
             K = IADS(N1,I)
-            FSKYV(K,1)=FSKYV(K,1)+UNDEMI*FX(I,N+8)
-            FSKYV(K,2)=FSKYV(K,2)+UNDEMI*FY(I,N+8)
-            FSKYV(K,3)=FSKYV(K,3)+UNDEMI*FZ(I,N+8)
-            FSKYV(K,7)=FSKYV(K,7)+UNDEMI*STIG(I,N+8)    
+            FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+8)
+            FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+8)
+            FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+8)
+            FSKYV(K,7)=FSKYV(K,7)+HALF*STIG(I,N+8)    
             K = IADS(N2,I)
-            FSKYV(K,1)=FSKYV(K,1)+UNDEMI*FX(I,N+8)
-            FSKYV(K,2)=FSKYV(K,2)+UNDEMI*FY(I,N+8)
-            FSKYV(K,3)=FSKYV(K,3)+UNDEMI*FZ(I,N+8)
-            FSKYV(K,7)=FSKYV(K,7)+UNDEMI*STIG(I,N+8)    
+            FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+8)
+            FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+8)
+            FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+8)
+            FSKYV(K,7)=FSKYV(K,7)+HALF*STIG(I,N+8)    
           ENDIF
          ENDDO
         ENDDO
@@ -385,15 +385,15 @@ C         II=I+NFT-NUMELS+NUMELS20
             FSKY(7,K)=STIG(I,N+8)
           ELSE
             K = IADS(N1,I)
-            FSKY(1,K)=FSKY(1,K)+UNDEMI*FX(I,N+8)
-            FSKY(2,K)=FSKY(2,K)+UNDEMI*FY(I,N+8)
-            FSKY(3,K)=FSKY(3,K)+UNDEMI*FZ(I,N+8)
-            FSKY(7,K)=FSKY(7,K)+UNDEMI*STIG(I,N+8)    
+            FSKY(1,K)=FSKY(1,K)+HALF*FX(I,N+8)
+            FSKY(2,K)=FSKY(2,K)+HALF*FY(I,N+8)
+            FSKY(3,K)=FSKY(3,K)+HALF*FZ(I,N+8)
+            FSKY(7,K)=FSKY(7,K)+HALF*STIG(I,N+8)    
             K = IADS(N2,I)
-            FSKY(1,K)=FSKY(1,K)+UNDEMI*FX(I,N+8)
-            FSKY(2,K)=FSKY(2,K)+UNDEMI*FY(I,N+8)
-            FSKY(3,K)=FSKY(3,K)+UNDEMI*FZ(I,N+8)
-            FSKY(7,K)=FSKY(7,K)+UNDEMI*STIG(I,N+8)    
+            FSKY(1,K)=FSKY(1,K)+HALF*FX(I,N+8)
+            FSKY(2,K)=FSKY(2,K)+HALF*FY(I,N+8)
+            FSKY(3,K)=FSKY(3,K)+HALF*FZ(I,N+8)
+            FSKY(7,K)=FSKY(7,K)+HALF*STIG(I,N+8)    
           ENDIF
          ENDDO
         ENDDO
@@ -417,9 +417,9 @@ C         II=I+NFT-NUMELS+NUMELS20
             FTHESKY(K)=THEM(I,N+8)
           ELSE
             K = IADS(N1,I)
-            FTHESKY(K)=FTHESKY(K) + UNDEMI*THEM(I,N+8)   
+            FTHESKY(K)=FTHESKY(K) + HALF*THEM(I,N+8)   
             K = IADS(N2,I)
-            FTHESKY(K)=FTHESKY(K) + UNDEMI*THEM(I,N+8)    
+            FTHESKY(K)=FTHESKY(K) + HALF*THEM(I,N+8)    
           ENDIF
          ENDDO
         ENDDO
@@ -442,9 +442,9 @@ C         II=I+NFT-NUMELS+NUMELS20
             CONDNSKY(K)=CONDEG(I,N+8)
           ELSE
             K = IADS(N1,I)
-            CONDNSKY(K)=CONDNSKY(K) + UNDEMI*CONDEG(I,N+8)   
+            CONDNSKY(K)=CONDNSKY(K) + HALF*CONDEG(I,N+8)   
             K = IADS(N2,I)
-            CONDNSKY(K)=CONDNSKY(K) + UNDEMI*CONDEG(I,N+8)    
+            CONDNSKY(K)=CONDNSKY(K) + HALF*CONDEG(I,N+8)    
           ENDIF
          ENDDO
         ENDDO
@@ -458,12 +458,12 @@ C         II=I+NFT-NUMELS+NUMELS20
           DO I=LFT,LLT
            NN = NC(I,N+8)
            IF(NN.EQ.0)THEN
-             FX(I,N1)=FX(I,N1)+UNDEMI*FX(I,N+8)
-             FY(I,N1)=FY(I,N1)+UNDEMI*FY(I,N+8)
-             FZ(I,N1)=FZ(I,N1)+UNDEMI*FZ(I,N+8)
-             FX(I,N2)=FX(I,N2)+UNDEMI*FX(I,N+8)
-             FY(I,N2)=FY(I,N2)+UNDEMI*FY(I,N+8)
-             FZ(I,N2)=FZ(I,N2)+UNDEMI*FZ(I,N+8)
+             FX(I,N1)=FX(I,N1)+HALF*FX(I,N+8)
+             FY(I,N1)=FY(I,N1)+HALF*FY(I,N+8)
+             FZ(I,N1)=FZ(I,N1)+HALF*FZ(I,N+8)
+             FX(I,N2)=FX(I,N2)+HALF*FX(I,N+8)
+             FY(I,N2)=FY(I,N2)+HALF*FY(I,N+8)
+             FZ(I,N2)=FZ(I,N2)+HALF*FZ(I,N+8)
            END IF
           END DO
         END DO

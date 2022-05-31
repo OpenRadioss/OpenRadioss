@@ -209,7 +209,7 @@ C        PREC_SMS(I)=ZERO
          R(2,I)=ZERO
          R(3,I)=ZERO
        ELSE
-         PREC_SMS(I)=UN/PREC_SMS(I)
+         PREC_SMS(I)=ONE/PREC_SMS(I)
        END IF
       ENDDO
 C-----------------------------------
@@ -248,17 +248,17 @@ C
          IF(DIAG_SMS3(1,I)==ZERO)THEN
            PREC_SMS3(1,I)=ZERO
          ELSE
-           PREC_SMS3(1,I)=UN/DIAG_SMS3(1,I)
+           PREC_SMS3(1,I)=ONE/DIAG_SMS3(1,I)
          END IF
          IF(DIAG_SMS3(2,I)==ZERO)THEN
            PREC_SMS3(2,I)=ZERO
          ELSE
-           PREC_SMS3(2,I)=UN/DIAG_SMS3(2,I)
+           PREC_SMS3(2,I)=ONE/DIAG_SMS3(2,I)
          END IF
          IF(DIAG_SMS3(3,I)==ZERO)THEN
            PREC_SMS3(3,I)=ZERO
          ELSE
-           PREC_SMS3(3,I)=UN/DIAG_SMS3(3,I)
+           PREC_SMS3(3,I)=ONE/DIAG_SMS3(3,I)
          END IF
         END DO        
 C

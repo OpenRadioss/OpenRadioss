@@ -211,7 +211,7 @@ C               true triangles (not segments built from 3 nodes).
               IPRES(7,K) = IDEL          
               IPRES(8,K) = 0                                       
               PRES(1,K) = FCY                                          
-              PRES(2,K) = UN/FCX
+              PRES(2,K) = ONE/FCX
             ELSE
               NPLOADPINCH = NPLOADPINCH + 1
               KPINCH=KPINCH-1
@@ -229,7 +229,7 @@ C               true triangles (not segments built from 3 nodes).
               IPRES(7,KPINCH) = IDEL  
               IPRES(8,KPINCH) = 0                                      
               PRES(1,KPINCH) = FCY                                          
-              PRES(2,KPINCH) = UN/FCX              
+              PRES(2,KPINCH) = ONE/FCX              
             ENDIF  
 C                                  
   150        CONTINUE
@@ -253,18 +253,18 @@ C
             ! 2D / Surface made of lines
             WRITE (IOUT,'(3(1X,I10),A,1X,I10,1X,I10,2G20.13)') I,
      .        ITAB(IPRES(1,I)),ITAB(IPRES(2,I)),'                    ',
-     .        IPRES(5,I),IPRES(6,I),UN/PRES(2,I),PRES(1,I)
+     .        IPRES(5,I),IPRES(6,I),ONE/PRES(2,I),PRES(1,I)
 
          ELSEIF(IPRES(4,I) == 0 .AND. IPRES(3,I) /= 0)THEN
             ! Surface made of 3 nodes
             WRITE (IOUT,'(4(1X,I10),A,1X,I10,1X,I10,2G20.13)') I,
      .        ITAB(IPRES(1,I)),ITAB(IPRES(2,I)),ITAB(IPRES(3,I)),'          ',
-     .        IPRES(5,I),IPRES(6,I),UN/PRES(2,I),PRES(1,I)
+     .        IPRES(5,I),IPRES(6,I),ONE/PRES(2,I),PRES(1,I)
          ELSE
             ! Surface made of 4 nodes
             WRITE (IOUT,'(6(1X,I10),1X,I10,2G20.13)') I,
      .        ITAB(IPRES(1,I)),ITAB(IPRES(2,I)),ITAB(IPRES(3,I)),ITAB(IPRES(4,I)),
-     .        IPRES(5,I),IPRES(6,I),UN/PRES(2,I),PRES(1,I)
+     .        IPRES(5,I),IPRES(6,I),ONE/PRES(2,I),PRES(1,I)
          ENDIF
 
        ENDDO 

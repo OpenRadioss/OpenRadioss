@@ -201,7 +201,7 @@ c
 c
       ! A exponent parameter
       EXPA  =  NINT(UPARAM(15) )
-      UNSA  =  UN/EXPA
+      UNSA  =  ONE/EXPA
       EXPAM2=  EXPA - 2 
 c
 c
@@ -248,10 +248,10 @@ c
       ! IFLAG=1 => Swift-Voce Yld, IFLAG=0 => Tabulated Yld
 c
       ! Barlat criterion parameter
-      LPP11=(-DEUX* AL3+  DEUX*AL4 +  HUIT*AL5 -   DEUX*AL6)/NEUF
-      LPP12=(       AL3-QUATRE*AL4- QUATRE*AL5 + QUATRE*AL6)/NEUF
-      LPP21=(QUATRE*AL3-QUATRE*AL4- QUATRE*AL5 +        AL6)/NEUF
-      LPP22=(-DEUX* AL3+  HUIT*AL4+   DEUX*AL5 -   DEUX*AL6)/NEUF
+      LPP11=(-TWO* AL3+  TWO*AL4 +  EIGHT*AL5 -   TWO*AL6)/NINE
+      LPP12=(       AL3-FOUR*AL4- FOUR*AL5 + FOUR*AL6)/NINE
+      LPP21=(FOUR*AL3-FOUR*AL4- FOUR*AL5 +        AL6)/NINE
+      LPP22=(-TWO* AL3+  EIGHT*AL4+   TWO*AL5 -   TWO*AL6)/NINE
       LPP66= AL8
 c
         ! Initial value
@@ -309,7 +309,7 @@ c-----------------------------------------------
         SIGNZX(I)  = SIGOZX(I) + GS(I)*DEPSZX(I)
         ! Sound speed and tangent modulus
         SOUNDSP(I) = SQRT(A1/RHO0(I))
-        ETSE(I)    = UN
+        ETSE(I)    = ONE
         DPLA(I)    = ZERO
         DEPSZZ(I)  = ZERO
         DEPLZZ(I)  = ZERO
@@ -335,7 +335,7 @@ C-------------------------------------------------------------------------
              AEXP(I)  = (BHS - AHS)* EXP(-MHS*PUI_1)                                  
              YLD(I)   = (BHS - AEXP(I)) * ATEMP(I)+ HMART*VM(I)
            ENDDO    
-        ELSEIF (FISOKIN == UN) THEN     
+        ELSEIF (FISOKIN == ONE) THEN     
            !PURE KINEMATIC HARDENING                                 
            DO I=1,NEL
              VM(I)      = UVAR(I,9)
@@ -356,7 +356,7 @@ C-------------------------------------------------------------------------
              ENDIF                                                                              
              AEXP(I)  = (BHS-AHS)* EXP(-MHS*PUI_1)                                    
              YLD(I)   = (BHS - AEXP(I)) * ATEMP(I)+ HMART*VM(I)
-             YLD(I)   = (UN - FISOKIN) * YLD(I) + FISOKIN * YLD0(I)             
+             YLD(I)   = (ONE - FISOKIN) * YLD(I) + FISOKIN * YLD0(I)             
            ENDDO                                
         ENDIF                            
 C
@@ -365,8 +365,8 @@ C
 c
           YLD_NORM(I) = YLD(I)*NORM_SP      
           !BARLAT EFFECTIVE STRESS IS COMPUTED WITH (SIGMA - ALPHA) IF ALPHA NOT ZERO (KINEMATIC HARDENING)
-          XPXX(I) = (DEUX*AL1*SIGNXX(I)-AL1*SIGNYY(I))*NORM_SP/TROIS
-          XPYY(I) =(-AL2*SIGNXX(I)+DEUX*AL2*SIGNYY(I))*NORM_SP/TROIS
+          XPXX(I) = (TWO*AL1*SIGNXX(I)-AL1*SIGNYY(I))*NORM_SP/THREE
+          XPYY(I) =(-AL2*SIGNXX(I)+TWO*AL2*SIGNYY(I))*NORM_SP/THREE
           XPXY(I) = AL7*SIGNXY(I)*NORM_SP
 c       
           XPPXX(I) = (LPP11*SIGNXX(I) + LPP12*SIGNYY(I))*NORM_SP
@@ -375,24 +375,24 @@ c
 c       
           XP1(I) = (XPXX(I)+XPYY(I)+SQRT(MAX(ZERO,
      .             (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))
-     .            + QUATRE*XPXY(I)*XPXY(I))))*UNDEMI
+     .            + FOUR*XPXY(I)*XPXY(I))))*HALF
           XP2(I) = (XPXX(I)+XPYY(I)-SQRT(MAX(ZERO,
      .             (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))
-     .            + QUATRE*XPXY(I)*XPXY(I))))*UNDEMI
+     .            + FOUR*XPXY(I)*XPXY(I))))*HALF
 c       
           XPP1(I) = (XPPXX(I)+XPPYY(I)+SQRT(MAX(ZERO,
      .              (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))
-     .             + QUATRE*XPPXY(I)*XPPXY(I) ) ))*UNDEMI
+     .             + FOUR*XPPXY(I)*XPPXY(I) ) ))*HALF
           XPP2(I) = (XPPXX(I)+XPPYY(I)-SQRT(MAX(ZERO,
      .              (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))
-     .             + QUATRE*XPPXY(I)*XPPXY(I))))*UNDEMI
+     .             + FOUR*XPPXY(I)*XPPXY(I))))*HALF
 c
           PHIP(I) = ABS(XP1(I)-XP2(I))**EXPA
-          PHIPP(I)= ABS(DEUX*XPP2(I)+XPP1(I))**EXPA
-     .           +ABS(DEUX*XPP1(I)+XPP2(I))**EXPA
+          PHIPP(I)= ABS(TWO*XPP2(I)+XPP1(I))**EXPA
+     .           +ABS(TWO*XPP1(I)+XPP2(I))**EXPA
 c       
-          IF ((UNDEMI*(PHIP(I)+PHIPP(I)))>ZERO) THEN
-            SIG(I) = EXP(UNSA*LOG(UNDEMI*(PHIP(I)+PHIPP(I))))
+          IF ((HALF*(PHIP(I)+PHIPP(I)))>ZERO) THEN
+            SIG(I) = EXP(UNSA*LOG(HALF*(PHIP(I)+PHIPP(I))))
           ELSE
             SIG(I) = ZERO
           ENDIF
@@ -402,7 +402,7 @@ c       CHECKING THE YIELD CONDITION
 c-----------------------------------------------
         NINDX  = 0
         DO I=1,NEL
-          IF (SIG(I) > YLD_NORM(I) .AND. OFF(I) == UN) THEN ! Plastic Loading
+          IF (SIG(I) > YLD_NORM(I) .AND. OFF(I) == ONE) THEN ! Plastic Loading
             NINDX = NINDX + 1
             INDX(NINDX)  = I 
           ENDIF
@@ -411,7 +411,7 @@ c-----------------------------------------------
 c       COMPUTING THE RETURN MAPPING
 c-----------------------------------------------
         IF ( FISOKIN > ZERO .AND. NINDX > 0) THEN
-          DAEXP0 = -NHS * MHS * EXP((NHS-UN)*LOG(EPS0HS))
+          DAEXP0 = -NHS * MHS * EXP((NHS-ONE)*LOG(EPS0HS))
           DO II=1,NINDX                                              
             I = INDX(II)                                      
             YLDP0(I)   = - ATEMP(I)* AEXP0 *  DAEXP0       
@@ -451,19 +451,19 @@ C
             AEXP(I)  = (BHS-AHS)* EXP(-MHS*PUI_1)                                         
             DAEXP(I) = -NHS * PUI_1 * MHS /(PLA(I)+EPS0HS)
             YLDP     = - ATEMP(I)* AEXP(I) *  DAEXP(I)        
-            YLDP     = (UN-FISOKIN)*YLDP*NORM_SP 
+            YLDP     = (ONE-FISOKIN)*YLDP*NORM_SP 
 c
             ! Computation of the normal to the yield surface
             NORMSIG = SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I) 
-     .              + DEUX*SIGNXY(I)*SIGNXY(I)
+     .              + TWO*SIGNXY(I)*SIGNXY(I)
             IF (NORMSIG > ZERO) THEN
               NORMSIG = SQRT(NORMSIG*NORM_SP)
             ELSE
-              NORMSIG = UN
+              NORMSIG = ONE
             ENDIF
 c         
-            XPXX(I) = (DEUX*AL1*SIGNXX(I)-AL1*SIGNYY(I)) *NORM_SP/NORMSIG/TROIS
-            XPYY(I) =(-AL2*SIGNXX(I)+DEUX*AL2*SIGNYY(I)) *NORM_SP/NORMSIG/TROIS
+            XPXX(I) = (TWO*AL1*SIGNXX(I)-AL1*SIGNYY(I)) *NORM_SP/NORMSIG/THREE
+            XPYY(I) =(-AL2*SIGNXX(I)+TWO*AL2*SIGNYY(I)) *NORM_SP/NORMSIG/THREE
             XPXY(I) = AL7*(SIGNXY(I)*NORM_SP/NORMSIG)
 c       
             XPPXX(I) = (LPP11*SIGNXX(I) + LPP12*SIGNYY(I))*NORM_SP/NORMSIG
@@ -472,48 +472,48 @@ c
 c       
             XP1(I) =(XPXX(I)+XPYY(I)+SQRT(MAX(ZERO,
      .            (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))
-     .            +QUATRE*XPXY(I)*XPXY(I))))*UNDEMI
+     .            +FOUR*XPXY(I)*XPXY(I))))*HALF
             XP2(I) =(XPXX(I)+XPYY(I)-SQRT(MAX(ZERO,
      .            (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))
-     .            +QUATRE*XPXY(I)*XPXY(I))))*UNDEMI
+     .            +FOUR*XPXY(I)*XPXY(I))))*HALF
 c       
             XPP1(I)=(XPPXX(I)+XPPYY(I)+SQRT(MAX(ZERO,
      .            (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))
-     .            +QUATRE*XPPXY(I)*XPPXY(I) ) ))*UNDEMI
+     .            +FOUR*XPPXY(I)*XPPXY(I) ) ))*HALF
             XPP2(I)=(XPPXX(I)+XPPYY(I)-SQRT(MAX(ZERO,
      .            (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))
-     .            +QUATRE*XPPXY(I)*XPPXY(I))))*UNDEMI
+     .            +FOUR*XPPXY(I)*XPPXY(I))))*HALF
 c     
             PHIP(I) = ABS(XP1(I)-XP2(I))**EXPA
-            PHIPP(I)= ABS(DEUX*XPP2(I)+XPP1(I))**EXPA
-     .              + ABS(DEUX*XPP1(I)+XPP2(I))**EXPA
+            PHIPP(I)= ABS(TWO*XPP2(I)+XPP1(I))**EXPA
+     .              + ABS(TWO*XPP1(I)+XPP2(I))**EXPA
 c       
-            IF ((UNDEMI*(PHIP(I)+PHIPP(I))) > ZERO) THEN
-              SIG(I) = EXP(UNSA*LOG(UNDEMI*(PHIP(I)+PHIPP(I))))
+            IF ((HALF*(PHIP(I)+PHIPP(I))) > ZERO) THEN
+              SIG(I) = EXP(UNSA*LOG(HALF*(PHIP(I)+PHIPP(I))))
             ELSE
               SIG(I) = ZERO
             ENDIF            
 c            
             AP = EXPA*(XP1(I)-XP2(I))*ABS(XP1(I)-XP2(I))**EXPAM2
-            DP = (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))+QUATRE*XPXY(I)*XPXY(I)
+            DP = (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))+FOUR*XPXY(I)*XPXY(I)
 c         
-            BPP = EXPA*(DEUX*XPP2(I)+XPP1(I))*ABS(DEUX*XPP2(I)+XPP1(I))**EXPAM2
-            CPP = EXPA*(DEUX*XPP1(I)+XPP2(I))*ABS(DEUX*XPP1(I)+XPP2(I))**EXPAM2
-            DPP = (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))+QUATRE*XPPXY(I)*XPPXY(I)
+            BPP = EXPA*(TWO*XPP2(I)+XPP1(I))*ABS(TWO*XPP2(I)+XPP1(I))**EXPAM2
+            CPP = EXPA*(TWO*XPP1(I)+XPP2(I))*ABS(TWO*XPP1(I)+XPP2(I))**EXPAM2
+            DPP = (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))+FOUR*XPPXY(I)*XPPXY(I)
             !phip
             FP1 = AP*(XPXX(I)-XPYY(I))/SQRT(MAX(EM20,DP))
             FP2 = -FP1
-            FP3 = AP*QUATRE*XPXY(I)/SQRT(MAX(EM20,DP))
+            FP3 = AP*FOUR*XPXY(I)/SQRT(MAX(EM20,DP))
 c        
-            KINT = UNDEMI*(XPPXX(I)-XPPYY(I))/SQRT(MAX(EM20,DPP))
+            KINT = HALF*(XPPXX(I)-XPPYY(I))/SQRT(MAX(EM20,DPP))
 c        
-            FPP1 = BPP*(TDEMI-KINT)+CPP*(TDEMI+KINT) 
-            FPP2 = BPP*(TDEMI+KINT)+CPP*(TDEMI-KINT)
-            FPP3 = DEUX*(CPP-BPP)*XPPXY(I)/SQRT(MAX(EM20,DPP))
+            FPP1 = BPP*(THREE_HALF-KINT)+CPP*(THREE_HALF+KINT) 
+            FPP2 = BPP*(THREE_HALF+KINT)+CPP*(THREE_HALF-KINT)
+            FPP3 = TWO*(CPP-BPP)*XPPXY(I)/SQRT(MAX(EM20,DPP))
 c        
             !dphip/dsigma = dphip/dxp*dxp/dsigma  where  dxp/dsigma = Lp
-            DFP1 = THIRD*(DEUX*AL1*FP1-AL2*FP2)
-            DFP2 = THIRD*(DEUX*AL2*FP2-AL1*FP1)
+            DFP1 = THIRD*(TWO*AL1*FP1-AL2*FP2)
+            DFP2 = THIRD*(TWO*AL2*FP2-AL1*FP1)
             DFP3 = AL7*FP3
 c        
             !dphipP/dsigma = dphipP/dxpP*dxpP/dsigma  where  dxpP/dsigma = LpP
@@ -522,7 +522,7 @@ c
             DFPP3 = FPP3*LPP66
 c
             PUI_1 = SIG(I)**(EXPA-1)
-            DU    = UN/(DEUX*EXPA*PUI_1)
+            DU    = ONE/(TWO*EXPA*PUI_1)
             ! df/dsigma = dphip/dsigma+dphipP/dsigma
             DF1   = DFP1+DFPP1
             DF2   = DFP2+DFPP2
@@ -596,8 +596,8 @@ C
            ENDIF
 c
             ! Updating the Barlat equivalent stress
-            XPXX(I) = (DEUX*AL1*SIGNXX(I)- AL1*SIGNYY(I))*NORM_SP/TROIS
-            XPYY(I) = (-AL2*SIGNXX(I)+DEUX*AL2*SIGNYY(I))*NORM_SP/TROIS
+            XPXX(I) = (TWO*AL1*SIGNXX(I)- AL1*SIGNYY(I))*NORM_SP/THREE
+            XPYY(I) = (-AL2*SIGNXX(I)+TWO*AL2*SIGNYY(I))*NORM_SP/THREE
             XPXY(I) = AL7*SIGNXY(I)*NORM_SP
 c       
             XPPXX(I) = (LPP11*SIGNXX(I) + LPP12*SIGNYY(I))*NORM_SP
@@ -606,22 +606,22 @@ c
 c       
             XP1(I) = (XPXX(I)+XPYY(I)+SQRT(MAX(ZERO,
      .             (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))
-     .             + QUATRE*XPXY(I)*XPXY(I))))*UNDEMI
+     .             + FOUR*XPXY(I)*XPXY(I))))*HALF
             XP2(I) = (XPXX(I)+XPYY(I)-SQRT(MAX(ZERO,
      .             (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))
-     .             + QUATRE*XPXY(I)*XPXY(I))))*UNDEMI
+     .             + FOUR*XPXY(I)*XPXY(I))))*HALF
 c       
             XPP1(I) = (XPPXX(I)+XPPYY(I)+SQRT(MAX(ZERO,
      .             (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))
-     .             + QUATRE*XPPXY(I)*XPPXY(I))))*UNDEMI
+     .             + FOUR*XPPXY(I)*XPPXY(I))))*HALF
             XPP2(I) = (XPPXX(I)+XPPYY(I)-SQRT(MAX(ZERO,
      .             (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))
-     .             + QUATRE*XPPXY(I)*XPPXY(I))))*UNDEMI
+     .             + FOUR*XPPXY(I)*XPPXY(I))))*HALF
             PHIP(I) = ABS(XP1(I)-XP2(I))**EXPA
-            PHIPP(I) = ABS(DEUX*XPP2(I)+XPP1(I))**EXPA
-     .               + ABS(DEUX*XPP1(I)+XPP2(I))**EXPA
+            PHIPP(I) = ABS(TWO*XPP2(I)+XPP1(I))**EXPA
+     .               + ABS(TWO*XPP1(I)+XPP2(I))**EXPA
             IF ((PHIP(I)+PHIPP(I)) > ZERO) THEN
-              SIG(I) = EXP(UNSA*LOG(UNDEMI*(PHIP(I)+PHIPP(I))))
+              SIG(I) = EXP(UNSA*LOG(HALF*(PHIP(I)+PHIPP(I))))
             ELSE
               SIG(I) = ZERO
             ENDIF 
@@ -634,7 +634,7 @@ c
             ENDIF                                                                               
             AEXP(I)  = (BHS-AHS)* EXP(-MHS*PUI_1)                                     
             YLD(I)   = (BHS - AEXP(I)) * ATEMP(I)+ HMART*VM(I)
-            IF (FISOKIN > ZERO)YLD(I)   = (UN - FISOKIN) * YLD(I) + FISOKIN * YLD0(I) 
+            IF (FISOKIN > ZERO)YLD(I)   = (ONE - FISOKIN) * YLD(I) + FISOKIN * YLD0(I) 
   
 c
             ! Updating the yield function value
@@ -666,10 +666,10 @@ C============================================================
 c          IF (PLAP(I) <= DEPS0)THEN
 c            OMEGA = ZERO
 c          ELSEIF (PLAP(I) > DEPSAD) THEN
-c            OMEGA = UN
+c            OMEGA = ONE
 c          ELSE
 c            OMEGA = ((PLAP(I)-DEPS0)**2 )*
-c     .              (TROIS*DEPSAD - DEUX*PLAP(I) - DEPS0)
+c     .              (THREE*DEPSAD - TWO*PLAP(I) - DEPS0)
 c     .             /((DEPSAD-DEPS0)**3)
 c          ENDIF
           WP(I)   = YLD(I)*DPLA(I)
@@ -685,17 +685,17 @@ C     COMPUTE MARTENSITE FRACTION WHEN HANSEL HARDENING IS USED
          VM(I)= UVAR(I,9) 
          DVM  = ZERO
          IF (DPLA(I) /= ZERO .AND. PLA(I) >= E0MART. AND . TEMP(I) >ZERO) THEN
-           TERM1    = (BM * UNDEMI*(UN - TANH(CM + DM*TEMP(I)) )* EXP(QM/TEMP(I)))/AM
-           IF(VM(I)>ZERO.AND.VM(I) < UN) THEN
+           TERM1    = (BM * HALF*(ONE - TANH(CM + DM*TEMP(I)) )* EXP(QM/TEMP(I)))/AM
+           IF(VM(I)>ZERO.AND.VM(I) < ONE) THEN
               PUI_1 = EXP(PPM*LOG(VM(I)))
-              PUI_2 = EXP( ((BM+UN)/BM)* LOG( (UN-VM(I))/VM(I) )   )
+              PUI_2 = EXP( ((BM+ONE)/BM)* LOG( (ONE-VM(I))/VM(I) )   )
            ELSE
               PUI_1 = ZERO
               PUI_2 = ZERO
            ENDIF                                                                               
            DVM   = TERM1 * PUI_1 * PUI_2
            VM(I) = VM(I) + MAX(DVM*DPLA(I),ZERO)
-           VM(I) = MAX(MIN(VM(I), UN),ZERO)
+           VM(I) = MAX(MIN(VM(I), ONE),ZERO)
            UVAR(I,9) = VM(I)
         ENDIF
       ENDDO ! I=1,NEL 
@@ -706,53 +706,53 @@ c
         DEELZZ(I ) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E
         IF (INLOC > 0) THEN
           NORMSIG = SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I) 
-     .            + DEUX*SIGNXY(I)*SIGNXY(I)
+     .            + TWO*SIGNXY(I)*SIGNXY(I)
           IF (NORMSIG > ZERO) THEN
             NORMSIG = MAX(SQRT(NORMSIG*NORM_SP),EM20)
           ELSE
-            NORMSIG = UN
+            NORMSIG = ONE
           ENDIF
-          XPXX(I)  = (DEUX*AL1*SIGNXX(I)-AL1*SIGNYY(I)) *NORM_SP/NORMSIG/TROIS
-          XPYY(I)  = (-AL2*SIGNXX(I)+DEUX*AL2*SIGNYY(I)) *NORM_SP/NORMSIG/TROIS
+          XPXX(I)  = (TWO*AL1*SIGNXX(I)-AL1*SIGNYY(I)) *NORM_SP/NORMSIG/THREE
+          XPYY(I)  = (-AL2*SIGNXX(I)+TWO*AL2*SIGNYY(I)) *NORM_SP/NORMSIG/THREE
           XPXY(I)  = AL7*(SIGNXY(I)*NORM_SP/NORMSIG)
           XPPXX(I) = (LPP11*SIGNXX(I) + LPP12*SIGNYY(I))*NORM_SP/NORMSIG
           XPPYY(I) = (LPP21*SIGNXX(I) + LPP22*SIGNYY(I))*NORM_SP/NORMSIG
           XPPXY(I) = LPP66*SIGNXY(I)*NORM_SP/NORMSIG
           XP1(I)   = (XPXX(I)+XPYY(I)+SQRT(MAX(ZERO,
      .               (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))
-     .               + QUATRE*XPXY(I)*XPXY(I))))*UNDEMI
+     .               + FOUR*XPXY(I)*XPXY(I))))*HALF
           XP2(I)   = (XPXX(I)+XPYY(I)-SQRT(MAX(ZERO,
      .               (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))
-     .               + QUATRE*XPXY(I)*XPXY(I))))*UNDEMI
+     .               + FOUR*XPXY(I)*XPXY(I))))*HALF
           XPP1(I)  = (XPPXX(I)+XPPYY(I)+SQRT(MAX(ZERO,
      .               (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))
-     .               + QUATRE*XPPXY(I)*XPPXY(I) ) ))*UNDEMI
+     .               + FOUR*XPPXY(I)*XPPXY(I) ) ))*HALF
           XPP2(I)  = (XPPXX(I)+XPPYY(I)-SQRT(MAX(ZERO,
      .               (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))
-     .               + QUATRE*XPPXY(I)*XPPXY(I))))*UNDEMI
+     .               + FOUR*XPPXY(I)*XPPXY(I))))*HALF
           PHIP(I)  = ABS(XP1(I)-XP2(I))**EXPA
-          PHIPP(I) = ABS(DEUX*XPP2(I)+XPP1(I))**EXPA
-     .             + ABS(DEUX*XPP1(I)+XPP2(I))**EXPA
-          IF ((UNDEMI*(PHIP(I)+PHIPP(I))) > ZERO) THEN
-            SIG(I) = EXP(UNSA*LOG(UNDEMI*(PHIP(I)+PHIPP(I))))
+          PHIPP(I) = ABS(TWO*XPP2(I)+XPP1(I))**EXPA
+     .             + ABS(TWO*XPP1(I)+XPP2(I))**EXPA
+          IF ((HALF*(PHIP(I)+PHIPP(I))) > ZERO) THEN
+            SIG(I) = EXP(UNSA*LOG(HALF*(PHIP(I)+PHIPP(I))))
           ELSE
             SIG(I) = ZERO
           ENDIF               
           AP    = EXPA*(XP1(I)-XP2(I))*ABS(XP1(I)-XP2(I))**EXPAM2
-          DP    = (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))+QUATRE*XPXY(I)*XPXY(I)
-          BPP   = EXPA*(DEUX*XPP2(I)+XPP1(I))*ABS(DEUX*XPP2(I)+XPP1(I))**EXPAM2
-          CPP   = EXPA*(DEUX*XPP1(I)+XPP2(I))*ABS(DEUX*XPP1(I)+XPP2(I))**EXPAM2
-          DPP   = (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))+QUATRE*XPPXY(I)*XPPXY(I)
+          DP    = (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))+FOUR*XPXY(I)*XPXY(I)
+          BPP   = EXPA*(TWO*XPP2(I)+XPP1(I))*ABS(TWO*XPP2(I)+XPP1(I))**EXPAM2
+          CPP   = EXPA*(TWO*XPP1(I)+XPP2(I))*ABS(TWO*XPP1(I)+XPP2(I))**EXPAM2
+          DPP   = (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))+FOUR*XPPXY(I)*XPPXY(I)
           !phip
           FP1   = AP*(XPXX(I)-XPYY(I))/SQRT(MAX(EM20,DP))
           FP2   = -FP1
-          FP3   = AP*QUATRE*XPXY(I)/SQRT(MAX(EM20,DP))
-          KINT  = UNDEMI*(XPPXX(I)-XPPYY(I))/SQRT(MAX(EM20,DPP))
-          FPP1  = BPP*(TDEMI-KINT)+CPP*(TDEMI+KINT) 
-          FPP2  = BPP*(TDEMI+KINT)+CPP*(TDEMI-KINT)
-          FPP3  = DEUX*(CPP-BPP)*XPPXY(I)/SQRT(MAX(EM20,DPP))  
-          DFP1  = THIRD*(DEUX*AL1*FP1-AL2*FP2)
-          DFP2  = THIRD*(DEUX*AL2*FP2-AL1*FP1)
+          FP3   = AP*FOUR*XPXY(I)/SQRT(MAX(EM20,DP))
+          KINT  = HALF*(XPPXX(I)-XPPYY(I))/SQRT(MAX(EM20,DPP))
+          FPP1  = BPP*(THREE_HALF-KINT)+CPP*(THREE_HALF+KINT) 
+          FPP2  = BPP*(THREE_HALF+KINT)+CPP*(THREE_HALF-KINT)
+          FPP3  = TWO*(CPP-BPP)*XPPXY(I)/SQRT(MAX(EM20,DPP))  
+          DFP1  = THIRD*(TWO*AL1*FP1-AL2*FP2)
+          DFP2  = THIRD*(TWO*AL2*FP2-AL1*FP1)
           DFP3  = AL7*FP3
           DFPP1 = FPP1*LPP11+FPP2*LPP21
           DFPP2 = FPP1*LPP12+FPP2*LPP22

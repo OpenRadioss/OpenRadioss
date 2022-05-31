@@ -70,7 +70,7 @@ C-----------------------------------------------
       NVC8 =  NVC-NVC1*128-NVC2*64-NVC3*32-NVC4*16-NVC5*8-NVC6*4-NVC7*2
 C-
        DO  I=LFT,LLT
-          DMASS(I)=UNHUIT*RHO(I)*VOLU(I)*OFF(I)
+          DMASS(I)=ONE_OVER_8*RHO(I)*VOLU(I)*OFF(I)
        ENDDO
 C
 #include "lockon.inc"
@@ -217,7 +217,7 @@ C     REAL ou REAL*8
       my_real DMASS(MVSIZ)
 C-----------------------------------------------
        DO  I=LFT,LLT
-        DMASS(I)=UNHUIT*RHO(I)*VOLU(I)*OFF(I)
+        DMASS(I)=ONE_OVER_8*RHO(I)*VOLU(I)*OFF(I)
        ENDDO
 C
       DO I=LFT,LLT

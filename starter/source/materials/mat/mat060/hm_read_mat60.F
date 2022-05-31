@@ -201,9 +201,9 @@ C====================================================================
       IF (IPFUN == 0) THEN
         PSCALE = ZERO
       ELSEIF (PSCALE == ZERO) THEN
-        PSCALE = UN*PSCALE_UNIT
+        PSCALE = ONE*PSCALE_UNIT
       ELSE
-        PSCALE = UN/PSCALE
+        PSCALE = ONE/PSCALE
       ENDIF
       
       IF(NRATE == 5)THEN  !CFG file is forcing NRATE=5 whenever there is less than 5 functions
@@ -228,7 +228,7 @@ C====================================================================
       ENDDO
  
       DO I=1,NRATE
-        IF(YFAC(I) == ZERO) YFAC(I)=UN*PSCALE_UNIT
+        IF(YFAC(I) == ZERO) YFAC(I)=ONE*PSCALE_UNIT
       ENDDO
       
       DO I=1,NRATE
@@ -254,7 +254,7 @@ C====================================================================
         MFUNC=2
         IFUNC(2)=IFUNC(1)
         RATE(1) =ZERO
-        RATE(2) =UN
+        RATE(2) =ONE
         YFAC(2) =YFAC(1)
       ELSEIF(RATE(1) == ZERO)THEN
         MFUNC=NRATE
@@ -276,9 +276,9 @@ C
       !---STORAGE
       UPARAM(1)=MFUNC
       UPARAM(2)=E
-      UPARAM(3)=E/(UN-NU*NU)
+      UPARAM(3)=E/(ONE-NU*NU)
       UPARAM(4)=NU*UPARAM(3)
-      G = UNDEMI*E/(1.+NU)
+      G = HALF*E/(1.+NU)
       UPARAM(5)=G
       UPARAM(6)=NU
       
@@ -291,15 +291,15 @@ C
       ENDDO
       
       IF(EPSR1 == ZERO)EPSR1=INFINITY
-      IF(EPSR2 == ZERO)EPSR2=DEUX*INFINITY
+      IF(EPSR2 == ZERO)EPSR2=TWO*INFINITY
       UPARAM(6+2*MFUNC+1)=EPSMAX
       UPARAM(6+2*MFUNC+2)=EPSR1
       UPARAM(6+2*MFUNC+3)=EPSR2
-      UPARAM(6+2*MFUNC+4)=DEUX*G
-      UPARAM(6+2*MFUNC+5)=TROIS*G
-      C1=E/TROIS/(UN-DEUX*NU)
+      UPARAM(6+2*MFUNC+4)=TWO*G
+      UPARAM(6+2*MFUNC+5)=THREE*G
+      C1=E/THREE/(ONE-TWO*NU)
       UPARAM(6+2*MFUNC+6)=C1
-      UPARAM(6+2*MFUNC+7)=C1 + QUATRE*G/TROIS ! ssp
+      UPARAM(6+2*MFUNC+7)=C1 + FOUR*G/THREE ! ssp
       UPARAM(6+2*MFUNC+8)=FISOKIN
       NFUNC = MFUNC + 1
       IFUNC(NFUNC) = IPFUN
@@ -335,7 +335,7 @@ c------------------
 c------------------------------------
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) = DEUX*G/(C1+QTHIRD*G) ! == (1-2*nu)/(1-nu)
+      PARMAT(17) = TWO*G/(C1+FOUR_OVER_3*G) ! == (1-2*nu)/(1-nu)
 C
       NUVAR = 5 + MFUNC 
 C

@@ -136,7 +136,7 @@ c---------------------------
        ELSEIF (IFAIL_SH == 1) THEN
          PTHKF = EM06
        ELSEIF (IFAIL_SH == 2) THEN
-         PTHKF = UN - EM06
+         PTHKF = ONE - EM06
        ENDIF
 c-----------------------------
 C USER VARIABLES INITIALIZATION
@@ -146,67 +146,67 @@ C-----------------------------------------------
          DAM1 = DFMAX(I)
          DAM2 = UVAR(I,2)
          
-         IF (DPLA(I) > ZERO .and. OFF(I) == UN .and. DAM1 < UN) THEN
+         IF (DPLA(I) > ZERO .and. OFF(I) == ONE .and. DAM1 < ONE) THEN
            SIGM   = (SIGNXX(I)+ SIGNYY(I))*THIRD
            SIGVM  = sqrt((SIGNXX(I)**2)+(SIGNYY(I)**2)-(SIGNXX(I)*SIGNYY(I))+(3*SIGNXY(I)**2))
            ETA    = SIGM / MAX(EM10,SIGVM)
            
            XI = -27.0*0.5*ETA*(ETA**2 - THIRD)
-           IF (XI < -UN) XI =-UN
-           IF (XI >  UN) XI = UN
+           IF (XI < -ONE) XI =-ONE
+           IF (XI >  ONE) XI = ONE
            
-           LODE = UN - DEUX*ACOS(XI)/PI
+           LODE = ONE - TWO*ACOS(XI)/PI
            
-           F1 = DEUX/TROIS*COS((UN   -LODE)*PI/SIX)
-           F2 = DEUX/TROIS*COS((TROIS+LODE)*PI/SIX)
-           F3 =-DEUX/TROIS*COS((UN   +LODE)*PI/SIX)
+           F1 = TWO/THREE*COS((ONE   -LODE)*PI/SIX)
+           F2 = TWO/THREE*COS((THREE+LODE)*PI/SIX)
+           F3 =-TWO/THREE*COS((ONE   +LODE)*PI/SIX)
            
-           GHC= (UNDEMI*((F1-F2)**AFRAC
+           GHC= (HALF*((F1-F2)**AFRAC
      .                  +(F2-F3)**AFRAC
-     .                  +(F1-F3)**AFRAC))**(UN/AFRAC)
-     .                  +CFRAC*(DEUX*ETA+F1+F3)
+     .                  +(F1-F3)**AFRAC))**(ONE/AFRAC)
+     .                  +CFRAC*(TWO*ETA+F1+F3)
      
            IF (ETA < -THIRD) THEN
              EPSF = 100.00
-             GHC  = -UN
-           ELSEIF(ETA < DTHIRD)THEN
-             GHC= (UNDEMI*(MAX(F1-F2,ZERO)**AFRAC
+             GHC  = -ONE
+           ELSEIF(ETA < TWO_THIRD)THEN
+             GHC= (HALF*(MAX(F1-F2,ZERO)**AFRAC
      .                  +MAX(F2-F3,ZERO)**AFRAC
-     .                  +MAX(F1-F3,ZERO)**AFRAC))**(UN/AFRAC)
-     .                  +CFRAC*(DEUX*ETA+F1+F3)
-             EPSF = BFRAC*((UN+CFRAC)/GHC)**(1.0/NFRAC)             
-             IF (ETA > THIRD .and. DAM2 < UN) THEN
-               G1   = TROIS/DEUX*ETA+SQRT(THIRD+EM20-0.75*(ETA**2)) 
-               G2   = TROIS/DEUX*ETA-SQRT(THIRD+EM20-0.75*(ETA**2))
-               G3   = (UNDEMI*((MAX(ZERO,(G1-G2)))**INST+G1**INST+
-     .                (MAX(ZERO,G2))**INST))**(UN/INST)
+     .                  +MAX(F1-F3,ZERO)**AFRAC))**(ONE/AFRAC)
+     .                  +CFRAC*(TWO*ETA+F1+F3)
+             EPSF = BFRAC*((ONE+CFRAC)/GHC)**(1.0/NFRAC)             
+             IF (ETA > THIRD .and. DAM2 < ONE) THEN
+               G1   = THREE/TWO*ETA+SQRT(THIRD+EM20-0.75*(ETA**2)) 
+               G2   = THREE/TWO*ETA-SQRT(THIRD+EM20-0.75*(ETA**2))
+               G3   = (HALF*((MAX(ZERO,(G1-G2)))**INST+G1**INST+
+     .                (MAX(ZERO,G2))**INST))**(ONE/INST)
                DSSE = BFRAC * G3**(-100)
                DAM2 = DAM2 + DPLA(I)/MAX(EM6,DSSE)
                UVAR(I,2) = DAM2
              ENDIF
            ELSE
-             ETA  = DTHIRD
-             F1   = UN/TROIS
-             F2   = UN/TROIS
-             F3   = -DEUX/TROIS
+             ETA  = TWO_THIRD
+             F1   = ONE/THREE
+             F2   = ONE/THREE
+             F3   = -TWO/THREE
              
-             GHC= (UNDEMI*(MAX(F1-F2,ZERO)**AFRAC
+             GHC= (HALF*(MAX(F1-F2,ZERO)**AFRAC
      .                  +MAX(F2-F3,ZERO)**AFRAC
-     .                  +MAX(F1-F3,ZERO)**AFRAC))**(UN/AFRAC)
-     .                  +CFRAC*(DEUX*ETA+F1+F3)
+     .                  +MAX(F1-F3,ZERO)**AFRAC))**(ONE/AFRAC)
+     .                  +CFRAC*(TWO*ETA+F1+F3)
              
-             EPSF = BFRAC*(UN+CFRAC)**(UN/NFRAC)
-     .            * ((UNDEMI*(MAX(F1-F2,ZERO)**AFRAC  
+             EPSF = BFRAC*(ONE+CFRAC)**(ONE/NFRAC)
+     .            * ((HALF*(MAX(F1-F2,ZERO)**AFRAC  
      .                       +MAX(F2-F3,ZERO)**AFRAC
-     .                       +MAX(F1-F3,ZERO)**AFRAC))**(UN/AFRAC)
-     .            +   CFRAC*(DEUX*ETA+F1+F3))**(-UN/NFRAC)
+     .                       +MAX(F1-F3,ZERO)**AFRAC))**(ONE/AFRAC)
+     .            +   CFRAC*(TWO*ETA+F1+F3))**(-ONE/NFRAC)
              
                
              ENDIF
              
            DAM1     = DAM1 + DPLA(I)/MAX(EM6,EPSF)
-           DFMAX(I) = MIN(UN,DAM1)
-           IF (DAM1 >= UN) THEN                    ! failure of integrateion points
+           DFMAX(I) = MIN(ONE,DAM1)
+           IF (DAM1 >= ONE) THEN                    ! failure of integrateion points
              NINDX = NINDX + 1
              INDX(NINDX) = I  
              FOFF(I) = 0
@@ -215,9 +215,9 @@ C-----------------------------------------------
              CONDITION1(NINDX) = IPT
            ENDIF
            
-           IF (DAM2 >= UN .AND. UVAR(I,1) .EQ. ZERO .AND. FOFF(I) == 1)THEN  
-             UVAR(I,1) = UN           
-             UEL(I) = UEL(I) + UN
+           IF (DAM2 >= ONE .AND. UVAR(I,1) .EQ. ZERO .AND. FOFF(I) == 1)THEN  
+             UVAR(I,1) = ONE           
+             UEL(I) = UEL(I) + ONE
              IF (INT(UEL(I)+1e-6) == NPTOT) THEN   ! rupture due localized necking !!!
                NINDX = NINDX + 1
                INDX(NINDX) = I  

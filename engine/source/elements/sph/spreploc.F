@@ -58,20 +58,20 @@ C     REAL ou REAL*8
 C-----------------------------------------------
       IF (ISORTH == 0) THEN
         DO I=LFT,LLT
-          GAMA(I,1)=UN
+          GAMA(I,1)=ONE
           GAMA(I,2)=ZERO 
           GAMA(I,3)=ZERO 
           GAMA(I,4)=ZERO
-          GAMA(I,5)=UN 
+          GAMA(I,5)=ONE 
           GAMA(I,6)=ZERO 
         ENDDO
       ELSE
 C
         DO I=LFT,LLT
           NR=SQRT(WXX(I)*WXX(I)+WYY(I)*WYY(I)+WZZ(I)*WZZ(I))
-          CR(I)=UN-UNDEMI*NR*NR
+          CR(I)=ONE-HALF*NR*NR
           SR(I)=NR
-          NR=UN/MAX(EM20,NR)
+          NR=ONE/MAX(EM20,NR)
           RX(I)=WXX(I)*NR
           RY(I)=WYY(I)*NR
           RZ(I)=WZZ(I)*NR
@@ -94,7 +94,7 @@ C
           UX=VX+CR(I)*WX+SR(I)*TX
           UY=VY+CR(I)*WY+SR(I)*TY
           UZ=VZ+CR(I)*WZ+SR(I)*TZ
-          NR=UN/MAX(EM20,SQRT(UX*UX+UY*UY+UZ*UZ))
+          NR=ONE/MAX(EM20,SQRT(UX*UX+UY*UY+UZ*UZ))
           REPLOC(I,1)=UX*NR
           REPLOC(I,2)=UY*NR
           REPLOC(I,3)=UZ*NR
@@ -117,7 +117,7 @@ C
           UX=VX+CR(I)*WX+SR(I)*TX
           UY=VY+CR(I)*WY+SR(I)*TY
           UZ=VZ+CR(I)*WZ+SR(I)*TZ
-          NR=UN/MAX(EM20,SQRT(UX*UX+UY*UY+UZ*UZ))
+          NR=ONE/MAX(EM20,SQRT(UX*UX+UY*UY+UZ*UZ))
           REPLOC(I,4)=UX*NR
           REPLOC(I,5)=UY*NR
           REPLOC(I,6)=UZ*NR

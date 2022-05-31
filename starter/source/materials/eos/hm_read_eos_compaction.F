@@ -135,7 +135,7 @@ C-----------------------------------------------
         IOUTP=0
       ENDIF
 
-      MU = RHO0/RHOR-UN
+      MU = RHO0/RHOR-ONE
       P0 = C0+MIN(C1*MU,C1*MU+C2*MU*MU+C3*MU*MU*MU)
       E0 = ZERO
 
@@ -148,14 +148,14 @@ C-----------------------------------------------
       PM(46) = MUMAX
       PM(47) = MUMIN
       PM(48) = IFORM
-      IF(PM(79)==ZERO)PM(79)=TROIS100     
+      IF(PM(79)==ZERO)PM(79)=THREE100     
             
       PM(23) = E0
       PM(31) = P0-PSH
       PM(104)= P0-PSH
       
       !SSP0
-      MU0 = RHOI/RHOR-UN
+      MU0 = RHOI/RHOR-ONE
       MU2=MU0*MU0
       MUOLD=MU0
       POLD=P0
@@ -170,17 +170,17 @@ C-----------------------------------------------
         ELSEIF(IFORM.EQ.2)THEN
             BB=BUNL 
         ELSEIF(IFORM.EQ.3)THEN
-          ALPHA = UN
+          ALPHA = ONE
           IF(MUMAX.GT.ZERO)THEN
             ALPHA=MUOLD/MUMAX
           ENDIF        
-          BB = ALPHA*BUNL+(UN-ALPHA)*C1
+          BB = ALPHA*BUNL+(ONE-ALPHA)*C1
         ENDIF           
-        DPDMU = C1 + DEUX*C2*MU0+TROIS*C3*MU2   !can be discussed in expansion...
+        DPDMU = C1 + TWO*C2*MU0+THREE*C3*MU2   !can be discussed in expansion...
         DPDMU = MAX(BB,DPDMU)
 
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + DTIERS*G0)/RHOR) 
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0      
 
       WRITE(IOUT,1000)

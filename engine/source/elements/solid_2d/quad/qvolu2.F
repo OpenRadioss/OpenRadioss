@@ -76,17 +76,17 @@ C-----------------------------------------------
       DO 10 I=LFT,LLT
       A1(I) =Y2(I)*(Z3(I)-Z4(I))+Y3(I)*(Z4(I)-Z2(I))+Y4(I)*(Z2(I)-Z3(I))
       A2(I) =Y2(I)*(Z4(I)-Z1(I))+Y4(I)*(Z1(I)-Z2(I))+Y1(I)*(Z2(I)-Z4(I))
-      AIRE(I)=(A1(I)+A2(I))*UNDEMI
+      AIRE(I)=(A1(I)+A2(I))*HALF
    10 CONTINUE
 C
       IF(N2D.EQ.1) THEN
        IF(JCVT.EQ.0)THEN
         DO 20 I=LFT,LLT
   20     VOLU(I)=((Y2(I)+Y3(I)+Y4(I))*A1(I)
-     .                 +(Y1(I)+Y2(I)+Y4(I))*A2(I))*UNSIX
+     .                 +(Y1(I)+Y2(I)+Y4(I))*A2(I))*ONE_OVER_6
        ELSE
         DO I=LFT,LLT
-         VOLU(I)=(Y234(I)*A1(I)+Y124(I)*A2(I))*UNSIX
+         VOLU(I)=(Y234(I)*A1(I)+Y124(I)*A2(I))*ONE_OVER_6
         END DO
        END IF
       ELSE
@@ -97,11 +97,11 @@ C
       IF(JMULT.EQ.0)THEN
        DO 40 I=LFT,LLT
        IF(OFF(I) .EQ.ZERO)THEN
-        VOLU(I)=UN
-        AIRE(I)=UN
+        VOLU(I)=ONE
+        AIRE(I)=ONE
        ELSE
         IF(VOLU(I).LE.VOLMIN)THEN
-         VOLU(I)=UN
+         VOLU(I)=ONE
          OFF(I)=ZERO
          CALL ANCMSG(MSGID=142,ANMODE=ANINFO,
      .            I1=NGL(I))
@@ -112,7 +112,7 @@ C
       ENDIF
 C
       DO 90 I=LFT,LLT
-      IF(OFF(I) .LT.UN) GO TO 90
+      IF(OFF(I) .LT.ONE) GO TO 90
       IF(VOLU(I).GT.ZERO) GO TO 90
       CALL ANCMSG(MSGID=142,ANMODE=ANINFO,
      .            I1=NGL(I))

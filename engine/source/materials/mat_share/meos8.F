@@ -113,7 +113,7 @@ C
 C
       DO I=LFT,LLT
         DF(I)  =RHO0(I)/RHO(I)
-        AMU(I) =UN/DF(I)-UN
+        AMU(I) =ONE/DF(I)-ONE
         AMU2(I)= MAX(ZERO,AMU(I))**2
         ESPE(I)=DF(I)*EINT(I)/ MAX(EM15,VNEW(I))
       ENDDO
@@ -121,8 +121,8 @@ C--------------------------------------------------
 C     VITESSE DU SON APPROCHEE COURANTE
 C--------------------------------------------------
       DO I=LFT,LLT
-        DPDM(I)=UNP333*G(I)
-     .    +C2(I)+DEUX*C3(I)*MAX(ZERO,AMU(I))+TROIS*C4(I)*AMU(I)*AMU(I)
+        DPDM(I)=ONEP333*G(I)
+     .    +C2(I)+TWO*C3(I)*MAX(ZERO,AMU(I))+THREE*C4(I)*AMU(I)*AMU(I)
      .         +C6(I)*ESPE(I)
      .         +(C5(I)+C6(I)*AMU(I))*DF(I)*DF(I)*
      .  (PSH(I)+C1(I)+(C2(I)+C4(I)*AMU(I)*AMU(I))*AMU(I)+C3(I)*AMU2(I)+
@@ -145,7 +145,7 @@ C--------------------------------------------------
 C     PRESSION
 C--------------------------------------------------
       DO I=LFT,LLT
-        EINT(I)=EINT(I)+UNDEMI*DVOL(I)*(POLD(I)-PSH(I))*OFF(I)
+        EINT(I)=EINT(I)+HALF*DVOL(I)*(POLD(I)-PSH(I))*OFF(I)
         ESPE(I)=DF(I)*EINT(I)/ MAX(EM15,VNEW(I))
       ENDDO
 C
@@ -155,13 +155,13 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-        DVV=UNDEMI*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-        PNEW(I)=(A(I)+(ESPE(I)-PSH(I)*DVV)*B(I))/(UN + B(I)*DVV)
+        DVV=HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
+        PNEW(I)=(A(I)+(ESPE(I)-PSH(I)*DVV)*B(I))/(ONE + B(I)*DVV)
         PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)
       ENDDO
 C
       DO I=LFT,LLT
-        EINT(I)=EINT(I) - UNDEMI*DVOL(I)*(PNEW(I)+PSH(I))
+        EINT(I)=EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
       ENDDO
 C--------------------------------------------------
 C     CONTRIBUTION VOLUMIQUE AUX POINTS DE GAUSS
@@ -182,12 +182,12 @@ C--------------------------------------------------
 C     CONTRAINTE MOYENNE (OUTPUT)
 C--------------------------------------------------
         DO I=LFT,LLT
-          SIG(I,1)=SIG(I,1)+UNHUIT*SIGP(JJ(1)+I)
-          SIG(I,2)=SIG(I,2)+UNHUIT*SIGP(JJ(2)+I)
-          SIG(I,3)=SIG(I,3)+UNHUIT*SIGP(JJ(3)+I)
-          SIG(I,4)=SIG(I,4)+UNHUIT*SIGP(JJ(4)+I)
-          SIG(I,5)=SIG(I,5)+UNHUIT*SIGP(JJ(5)+I)
-          SIG(I,6)=SIG(I,6)+UNHUIT*SIGP(JJ(6)+I)   
+          SIG(I,1)=SIG(I,1)+ONE_OVER_8*SIGP(JJ(1)+I)
+          SIG(I,2)=SIG(I,2)+ONE_OVER_8*SIGP(JJ(2)+I)
+          SIG(I,3)=SIG(I,3)+ONE_OVER_8*SIGP(JJ(3)+I)
+          SIG(I,4)=SIG(I,4)+ONE_OVER_8*SIGP(JJ(4)+I)
+          SIG(I,5)=SIG(I,5)+ONE_OVER_8*SIGP(JJ(5)+I)
+          SIG(I,6)=SIG(I,6)+ONE_OVER_8*SIGP(JJ(6)+I)   
         ENDDO
       ENDDO ! DO IPT=1,NPT
 C---------------------------------------------

@@ -175,7 +175,7 @@ C
        WRITE(IOUT,1001)
        DO I=1,PARAM
          IF(MAXVEL(I) .NE. ZERO)THEN
-           ENCIN = UNDEMI * MS(IDNOD(I))*MAXVEL(I)**2
+           ENCIN = HALF * MS(IDNOD(I))*MAXVEL(I)**2
            WRITE(IOUT,1100) ITAB(IDNOD(I)),MAXVEL(I),ENCIN,
      .                    MS(IDNOD(I)),MS0(IDNOD(I)),
      .             (MS(IDNOD(I))-MS0(IDNOD(I)))/MAX(EM20,MS0(IDNOD(I)))
@@ -199,7 +199,7 @@ c      MAXENCIN = ZERO
 c      IF (NSPMD == 1) THEN
 c       DO I=1,NUMNOD
 c         FLAG = 0
-c         ENCIN=UNDEMI*MS(I)*(V(1,I)**2+V(2,I)**2+V(3,I)**2)
+c         ENCIN=HALF*MS(I)*(V(1,I)**2+V(2,I)**2+V(3,I)**2)
 c         DO J=1,PARAM
 c           IF(ENCIN .GT. MAXENCIN(J) .AND. FLAG == 0) THEN
 c             DO K=1,PARAM-J

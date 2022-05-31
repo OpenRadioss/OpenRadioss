@@ -110,7 +110,7 @@ C----------displacement
            T1 = X(1,IX3(JLT_NEW)) - X(1,IX1(JLT_NEW))
            T2 = X(2,IX3(JLT_NEW)) - X(2,IX1(JLT_NEW))
            T3 = X(3,IX3(JLT_NEW)) - X(3,IX1(JLT_NEW))
-           NORM = UN/SQRT(T1*T1+T2*T2+T3*T3)
+           NORM = ONE/SQRT(T1*T1+T2*T2+T3*T3)
            NT1(JLT_NEW) = T1*NORM
            NT2(JLT_NEW) = T2*NORM
            NT3(JLT_NEW) = T3*NORM

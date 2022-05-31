@@ -110,7 +110,7 @@ C
      +       +PY7(I,IPT)*VZ(I,7)+PY8(I,IPT)*VZ(I,8)
    30 CONTINUE
 C
-      DT1D2=UNDEMI*DT1
+      DT1D2=HALF*DT1
 C
       IF (JCVT.NE.0) THEN
        DO I=LFT,LLT

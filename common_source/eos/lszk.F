@@ -85,13 +85,13 @@ C-----------------------------------------
        SPH          = PM(69,MX)
 
        DO I=LFT,LLT
-         PP      = (GAMMA-UN)*(UN+MU(I))*ESPE(I) + AR0B*EXP(B*LOG(UN+MU(I)))
-         DPDM(I) = (GAMMA-UN)*ESPE(I)+AR0B*B/(UN+MU(I))*EXP((B-UN)*LOG(UN+MU(I)))+(GAMMA-UN)*DF(I)*PP   !total derivative
-         DPDE(I) = (GAMMA-UN)*(UN+MU(I))                                                                  !partial derivative
+         PP      = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) + AR0B*EXP(B*LOG(ONE+MU(I)))
+         DPDM(I) = (GAMMA-ONE)*ESPE(I)+AR0B*B/(ONE+MU(I))*EXP((B-ONE)*LOG(ONE+MU(I)))+(GAMMA-ONE)*DF(I)*PP   !total derivative
+         DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))                                                                  !partial derivative
        ENDDO
 
        DO I=LFT,LLT
-         ECOLD(I)=-TROIS100*SPH
+         ECOLD(I)=-THREE100*SPH
          !IF(MU(I).GT.ZERO) ECOLD(I)=
        ENDDO
 
@@ -111,12 +111,12 @@ C----------------------------------------
        PC           = PM(37,MX)
 
        DO I=LFT,LLT
-         BB         = (GAMMA-UN)*(UN+MU(I))
-         AA         = AR0B*EXP(B*LOG(UN+MU(I)))
-         DVV        = UNDEMI*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-         PNEW(I)    = (AA + BB*ESPE(I) ) / (UN+BB*DVV)         
+         BB         = (GAMMA-ONE)*(ONE+MU(I))
+         AA         = AR0B*EXP(B*LOG(ONE+MU(I)))
+         DVV        = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
+         PNEW(I)    = (AA + BB*ESPE(I) ) / (ONE+BB*DVV)         
          PNEW(I)    = MAX(PNEW(I),PC)*OFF(I)
-         EINT(I)    = EINT(I) - UNDEMI*DVOL(I)*(PNEW(I))
+         EINT(I)    = EINT(I) - HALF*DVOL(I)*(PNEW(I))
          PNEW(I)    = PNEW(I) - PSH(I)
          TFEXTT     = TFEXTT-DVOL(I)*PSH(I)
        ENDDO
@@ -149,9 +149,9 @@ C------------------------
          
          DO I=1, NEL
             IF (VNEW(I) .GT. ZERO) THEN
-               PNEW(I) = (GAMMA-UN)*(UN+MU(I))*ESPE(I) + AR0B*EXP(B*LOG(UN+MU(I)))
-               DPDM(I) = (GAMMA-UN)*ESPE(I)+AR0B*B/(UN+MU(I))*EXP((B-UN)*LOG(UN+MU(I)))+(GAMMA-UN)*DF(I)*PNEW(I)   !total derivative
-               DPDE(I) = (GAMMA-UN)*(UN+MU(I))                                                               !partial derivative
+               PNEW(I) = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) + AR0B*EXP(B*LOG(ONE+MU(I)))
+               DPDM(I) = (GAMMA-ONE)*ESPE(I)+AR0B*B/(ONE+MU(I))*EXP((B-ONE)*LOG(ONE+MU(I)))+(GAMMA-ONE)*DF(I)*PNEW(I)   !total derivative
+               DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))                                                               !partial derivative
                PNEW(I) = PNEW(I)-PSH(I)
             ENDIF
          ENDDO

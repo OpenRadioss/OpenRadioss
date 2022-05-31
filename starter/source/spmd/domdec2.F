@@ -2923,7 +2923,7 @@ C
            WRITE(IOUT,'(A,I8)')
      .  'STANDARD DEVIATION            :',NINT(DEVIATION(1))
        WRITE(IOUT,*)
-       IF(AVERAGE(20)+AVERAGE(21) >= UN)THEN
+       IF(AVERAGE(20)+AVERAGE(21) >= ONE)THEN
          WRITE(IOUT,'(A,I8,A3,I8)')
      .     'AVERAGE NB. OF CONTACT NODES(SECONDARY/MAIN) :',
      .     NINT(AVERAGE(20)),' / ',NINT(AVERAGE(21))
@@ -2933,7 +2933,7 @@ C
          WRITE(IOUT,*)
        END IF
        
-       IF(AVERAGE(22)+AVERAGE(23) >= UN)THEN
+       IF(AVERAGE(22)+AVERAGE(23) >= ONE)THEN
          WRITE(IOUT,'(A,I8,A3,I8)')
      .     'AVERAGE NB. OF INT2 NODES(SECONDARY/MAIN):',
      .     NINT(AVERAGE(22)),' / ',NINT(AVERAGE(23))
@@ -2942,7 +2942,7 @@ C
      .     NINT(DEVIATION(22)),' / ',NINT(DEVIATION(23))
          WRITE(IOUT,*)
        END IF
-       IF(NUMSPH.GT.0.AND.AVERAGE(17) >= UN) THEN
+       IF(NUMSPH.GT.0.AND.AVERAGE(17) >= ONE) THEN
          WRITE(IOUT,'(A,I8,A3,I8)')
      .     'AVERAGE NB. OF SPH PARTICLES  :',
      .     NINT(AVERAGE(17))

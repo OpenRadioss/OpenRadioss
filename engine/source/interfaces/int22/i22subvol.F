@@ -273,7 +273,7 @@ CC              print *,"---1", IAD(K),ICUT(1,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL
             a3 => EDGE_LIST(NIN,IAD(3))%CUTPOINT(1:3,ICUT(1,3))
             a4 => EDGE_LIST(NIN,IAD(4))%CUTPOINT(1:3,ICUT(1,4))
             vF(:,0) = I22AERA(4,(/a1,a2,a3,a4/),C(1:3,   0 )) !Cut surface normal vector (not unitary : 2S factor) 
-            ! NE peut pas valoir zero si on borne les intersections a CUTCOOR = EM06 et UN-EM06 dans i22intersect.F  (0 et 1.00    tant impossible => pas de PENTA degenere avec Scut=0.000, et pas de division par 0)
+            ! NE peut pas valoir zero si on borne les intersections a CUTCOOR = EM06 et ONE-EM06 dans i22intersect.F  (0 et 1.00    tant impossible => pas de PENTA degenere avec Scut=0.000, et pas de division par 0)
             PCut_vect(1:3,1) = vF(:,0) / SQRT(SUM(vF(:,0)*vF(:,0)))             
             !----------------------------------------------------------------
             SECID            = Cod2
@@ -292,7 +292,7 @@ CC              print *,"---2", IAD(K),ICUT(2,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL
             a3 => EDGE_LIST(NIN,IAD(3))%CUTPOINT(1:3,ICUT(2,3))
             a4 => EDGE_LIST(NIN,IAD(4))%CUTPOINT(1:3,ICUT(2,4))
             vF(:,0) = I22AERA(4,(/a1,a2,a3,a4/),C(1:3,   0 )) !Cut surface normal vector (not unitary : 2S factor) 
-            ! NE peut pas valoir zero si on borne les intersections a CUTCOOR = EM06 et UN-EM06 dans i22intersect.F  (0 et 1.00    tant impossible => pas de PENTA degenere avec Scut=0.000, et pas de division par 0)
+            ! NE peut pas valoir zero si on borne les intersections a CUTCOOR = EM06 et ONE-EM06 dans i22intersect.F  (0 et 1.00    tant impossible => pas de PENTA degenere avec Scut=0.000, et pas de division par 0)
             PCut_vect(1:3,2) = vF(:,0) / SQRT(SUM(vF(:,0)*vF(:,0))) 
             !----------------------------------------------------------------            
             SECID            = Cod1_bis
@@ -311,7 +311,7 @@ CC              print *,"---2", IAD(K),ICUT(2,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL
             a3 => EDGE_LIST(NIN,IAD(3))%CUTPOINT(1:3,ICUT(1,3))
             a4 => EDGE_LIST(NIN,IAD(4))%CUTPOINT(1:3,ICUT(1,4))
             vF(:,0) = I22AERA(4,(/a1,a2,a3,a4/),C(1:3,   0 )) !Cut surface normal vector (not unitary : 2S factor) 
-            ! NE peut pas valoir zero si on borne les intersections a CUTCOOR = EM06 et UN-EM06 dans i22intersect.F  (0 et 1.00    tant impossible => pas de PENTA degenere avec Scut=0.000, et pas de division par 0)
+            ! NE peut pas valoir zero si on borne les intersections a CUTCOOR = EM06 et ONE-EM06 dans i22intersect.F  (0 et 1.00    tant impossible => pas de PENTA degenere avec Scut=0.000, et pas de division par 0)
             PCut_vect(1:3,3) = vF(:,0) / SQRT(SUM(vF(:,0)*vF(:,0)))  
             !----------------------------------------------------------------            
             SECID            = Cod2_bis
@@ -330,7 +330,7 @@ CC              print *,"---2", IAD(K),ICUT(2,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL
             a3 => EDGE_LIST(NIN,IAD(3))%CUTPOINT(1:3,ICUT(2,3))
             a4 => EDGE_LIST(NIN,IAD(4))%CUTPOINT(1:3,ICUT(2,4))
             vF(:,0) = I22AERA(4,(/a1,a2,a3,a4/),C(1:3,   0 )) !Cut surface normal vector (not unitary : 2S factor)
-            ! NE peut pas valoir zero si on borne les intersections a CUTCOOR = EM06 et UN-EM06 dans i22intersect.F  (0 et 1.00    tant impossible => pas de PENTA degenere avec Scut=0.000, et pas de division par 0) 
+            ! NE peut pas valoir zero si on borne les intersections a CUTCOOR = EM06 et ONE-EM06 dans i22intersect.F  (0 et 1.00    tant impossible => pas de PENTA degenere avec Scut=0.000, et pas de division par 0) 
             PCut_vect(1:3,4) = vF(:,0) / SQRT(SUM(vF(:,0)*vF(:,0)))                                        
             !----------------------------------------------------------------
             !COMPUTING NORMALS AT LAGRANGIAN FACES
@@ -345,7 +345,7 @@ CC              print *,"---2", IAD(K),ICUT(2,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL
                 IEvect(1,I)   = + Diag1(2)*Diag2(3) - diag1(3)*Diag2(2)
                 IEvect(2,I)   = + Diag1(3)*Diag2(1) - diag1(1)*Diag2(3)
                 IEvect(3,I)   = + Diag1(1)*Diag2(2) - diag1(2)*Diag2(1)
-                IEvect(1:3,I) = UNDEMI * IEvect(1:3,I) / SQRT(SUM( IEvect(1:3,I) * IEvect(1:3,I) ))
+                IEvect(1:3,I) = HALF * IEvect(1:3,I) / SQRT(SUM( IEvect(1:3,I) * IEvect(1:3,I) ))
               ELSE
                 IsSH3N=.false.
                 Diag1(1:3)    = IRECT_L((/5, 9,13/),IE) - IRECT_L((/7,11,15/),IE)
@@ -353,7 +353,7 @@ CC              print *,"---2", IAD(K),ICUT(2,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL
                 IEvect(1,I)   =  + Diag1(2)*Diag2(3) - diag1(3)*Diag2(2)
                 IEvect(2,I)   =  + Diag1(3)*Diag2(1) - diag1(1)*Diag2(3)
                 IEvect(3,I)   =  + Diag1(1)*Diag2(2) - diag1(2)*Diag2(1)
-                IEvect(1:3,I) = UNDEMI * IEvect(1:3,I) / SQRT(SUM( IEvect(1:3,I) * IEvect(1:3,I) ))                 
+                IEvect(1:3,I) = HALF * IEvect(1:3,I) / SQRT(SUM( IEvect(1:3,I) * IEvect(1:3,I) ))                 
               ENDIF              
             ENDDO
             !----------------------------------------------------------------            
@@ -393,7 +393,7 @@ CC              print *, "inter22 : ambigus intersection not solved" ;
         ICUTe(1:2,1:12)  = 0
         
         !normilized volume 
-        UNCUTVOL = UN
+        UNCUTVOL = ONE
         DO NG=1,NGROUP
           NEL_B=IPARG(2,NG)
           NFL  =IPARG(3,NG)
@@ -569,7 +569,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             vF(:,3) = I22AERA(3,(/n1,a1,a3/), C(1:3,Fa(3)))
             vF(:,0) = I22AERA(3,(/a1,a2,a3/), C(1:3,   0 ))
             VOL = SUM((/(vF(:,I)*C(:,Fa(I)),I=0,3)/))
-            VOL = TIERS * ABS(VOL)
+            VOL = THIRD * ABS(VOL)
             VOLratio = VOL/uncutVOL
             IF(VOLratio .LE. VolRatioMin) THEN
               ITAG(ICELL)=1 
@@ -601,9 +601,9 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             pSUBVOL(ICELL)%Vnew =  VOL
             pNNodCell(ICELL)%NumNOD = MNOD !main(brick nodes)
             pNPointCell(ICELL)%NumPOINT= NNOD !main + intersection
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)= SUM( (/a1(1),a2(1),a3(1),n1(1)/) ) / QUATRE
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)= SUM( (/a1(2),a2(2),a3(2),n1(2)/) ) / QUATRE
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(3)= SUM( (/a1(3),a2(3),a3(3),n1(3)/) ) / QUATRE
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)= SUM( (/a1(1),a2(1),a3(1),n1(1)/) ) / FOUR
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)= SUM( (/a1(2),a2(2),a3(2),n1(2)/) ) / FOUR
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(3)= SUM( (/a1(3),a2(3),a3(3),n1(3)/) ) / FOUR
             BRICK_LIST(NIN,IB)%POLY(ICELL)%ListNodID(1:MNOD) = Gnode(1:MNOD,SECID) !IXS(Gnode(1,SECID)+1,ID)
             INodTAG(Gnode(1:MNOD,SECID)) = 1 !tag local brick nodes [1 to 8] if used by polyhedron
             pWhichCellNod(Gnode(1:MNOD,SECID))%WhichCell = ICELL
@@ -612,11 +612,11 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             a2 => EDGE_LIST(NIN,IAD(2))%CUTVEL(1:3,iPOSe(2))
             a3 => EDGE_LIST(NIN,IAD(3))%CUTVEL(1:3,iPOSe(3)) 
             n1 => V(1:3,IXS(Gnode(1,SECID)+1,ID))  
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(1),ICELL) = TIERS* (n1(1:3) + a2(1:3) + a1(1:3))
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(2),ICELL) = TIERS* (n1(1:3) + a3(1:3) + a2(1:3))
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(3),ICELL) = TIERS* (n1(1:3) + a1(1:3) + a3(1:3))                        
-            !BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE0%Vel(1:3) = TIERS* (a1(1:3) + a2(1:3) + a3(1:3))
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%Vel(1:3) = TIERS* (a1(1:3) + a2(1:3) + a3(1:3)) 
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(1),ICELL) = THIRD* (n1(1:3) + a2(1:3) + a1(1:3))
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(2),ICELL) = THIRD* (n1(1:3) + a3(1:3) + a2(1:3))
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(3),ICELL) = THIRD* (n1(1:3) + a1(1:3) + a3(1:3))                        
+            !BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE0%Vel(1:3) = THIRD* (a1(1:3) + a2(1:3) + a3(1:3))
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%Vel(1:3) = THIRD* (a1(1:3) + a2(1:3) + a3(1:3)) 
 
           ELSEIF(SECTYPE(1:5)=='PENTA')THEN
             nFACE = F_PENTA     
@@ -633,7 +633,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             vF(:,4) = I22AERA(4,(/n2,n1,a1,a4/),C(1:3,Fa(4)))
             vF(:,0) = I22AERA(4,(/a1,a2,a3,a4/),C(1:3,   0 ))
             VOL = SUM((/(vF(:,I)*C(1:3,Fa(I)),I=0,4)/))
-            VOL = TIERS * ABS(VOL)
+            VOL = THIRD * ABS(VOL)
             VOLratio = VOL/uncutVOL
             BRICK_LIST(NIN,IB)%POLY(9)%FACE(Fa(1))%Center(1:3) = BRICK_LIST(NIN,IB)%POLY(9)%FACE(Fa(1))%Center(1:3)+ a2 + a1 !put sum intersection point in icell 9 (will be used in sinit22_fvm.F to compute faceCenter for poly9
             BRICK_LIST(NIN,IB)%POLY(9)%FACE(Fa(2))%Center(1:3) = BRICK_LIST(NIN,IB)%POLY(9)%FACE(Fa(2))%Center(1:3)+ a4 + a3
@@ -684,12 +684,12 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             a4 => EDGE_LIST(NIN,IAD(4))%CUTVEL(1:3,iPOSe(4))             
             n1 => V(1:3,IXS(Gnode(1,SECID)+1,ID))  
             n2 => V(1:3,IXS(Gnode(2,SECID)+1,ID))  
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(1),ICELL) = TIERS* (n1(1:3) + a2(1:3) + a1(1:3))
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(2),ICELL) = TIERS* (n2(1:3) + a4(1:3) + a3(1:3))
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(3),ICELL) = QUART* (n1(1:3) + n2(1:3) + a3(1:3) + a2(1:3))
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(4),ICELL) = QUART* (n2(1:3) + n1(1:3) + a3(1:3) + a2(1:3)) 
-            !BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE0%Vel(1:3) = QUART* (a1(1:3) + a2(1:3) + a3(1:3) + a4(1:3)) 
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%Vel(1:3) = QUART* (a1(1:3) + a2(1:3) + a3(1:3) + a4(1:3))                                              
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(1),ICELL) = THIRD* (n1(1:3) + a2(1:3) + a1(1:3))
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(2),ICELL) = THIRD* (n2(1:3) + a4(1:3) + a3(1:3))
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(3),ICELL) = FOURTH* (n1(1:3) + n2(1:3) + a3(1:3) + a2(1:3))
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(4),ICELL) = FOURTH* (n2(1:3) + n1(1:3) + a3(1:3) + a2(1:3)) 
+            !BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE0%Vel(1:3) = FOURTH* (a1(1:3) + a2(1:3) + a3(1:3) + a4(1:3)) 
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%Vel(1:3) = FOURTH* (a1(1:3) + a2(1:3) + a3(1:3) + a4(1:3))                                              
 
           ELSEIF(SECTYPE(1:5)=='POLY3')THEN
             nFACE = F_POLY3  
@@ -738,13 +738,13 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,4)= a4                          !polygon points (coordinates)          
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,5)= a5                          !polygon points (coordinates)          
             VOL = SUM((/(vF(:,I)*C(1:3,Fa(I)),I=0,5)/))
-            VOL = TIERS * ABS(VOL)
+            VOL = THIRD * ABS(VOL)
             pSUBVOL(ICELL)%Vnew =  VOL
             pNNodCell(ICELL)%NumNOD = MNOD !main(brick nodes) 
             pNPointCell(ICELL)%NumPOINT= NNOD                 
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)= SUM( (/a1(1),a2(1),a3(1),a4(1),a5(1),n1(1),n2(1),n3(1)/) ) / HUIT
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)= SUM( (/a1(2),a2(2),a3(2),a4(2),a5(2),n1(2),n2(2),n3(2)/) ) / HUIT
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(3)= SUM( (/a1(3),a2(3),a3(3),a4(3),a5(3),n1(3),n2(3),n3(3)/) ) / HUIT    
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)= SUM( (/a1(1),a2(1),a3(1),a4(1),a5(1),n1(1),n2(1),n3(1)/) ) / EIGHT
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)= SUM( (/a1(2),a2(2),a3(2),a4(2),a5(2),n1(2),n2(2),n3(2)/) ) / EIGHT
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(3)= SUM( (/a1(3),a2(3),a3(3),a4(3),a5(3),n1(3),n2(3),n3(3)/) ) / EIGHT    
             BRICK_LIST(NIN,IB)%POLY(ICELL)%ListNodID(1:MNOD) = Gnode(1:MNOD,SECID) !IXS(Gnode(1,SECID)+1,ID)
             INodTAG(Gnode(1:MNOD,SECID)) = 1 !tag local brick nodes [1 to 8] if used by polyhedron    
             pWhichCellNod(Gnode(1:MNOD,SECID))%WhichCell = ICELL  
@@ -757,13 +757,13 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             n1 => V(1:3,IXS(Gnode(1,SECID)+1,ID))  
             n2 => V(1:3,IXS(Gnode(2,SECID)+1,ID))  
             n3 => V(1:3,IXS(Gnode(3,SECID)+1,ID))             
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(1),ICELL) = UNCINQ * (n1+n2+n3+a3+a2)
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(2),ICELL) = TIERS  * (n3+a4+a3)
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(3),ICELL) = QUART  * (n3+n2+a5+a4)
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(4),ICELL) = QUART  * (n2+n1+a1+a5) 
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(5),ICELL) = TIERS  * (n1+a2+a1)             
-            !BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE0%Vel(1:3) = UNCINQ * (a1+a2+a3+a4+a5) 
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%Vel(1:3) = UNCINQ * (a1+a2+a3+a4+a5)                                                                                
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(1),ICELL) = ONE_FIFTH * (n1+n2+n3+a3+a2)
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(2),ICELL) = THIRD  * (n3+a4+a3)
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(3),ICELL) = FOURTH  * (n3+n2+a5+a4)
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(4),ICELL) = FOURTH  * (n2+n1+a1+a5) 
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(5),ICELL) = THIRD  * (n1+a2+a1)             
+            !BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE0%Vel(1:3) = ONE_FIFTH * (a1+a2+a3+a4+a5) 
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%Vel(1:3) = ONE_FIFTH * (a1+a2+a3+a4+a5)                                                                                
 
           ELSEIF(SECTYPE(1:5)=='HEXAE')THEN
             nFACE = F_HEXAE    
@@ -811,13 +811,13 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,3)= a3                          !polygon points (coordinates)           
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,4)= a4                          !polygon points (coordinates)          
             VOL = SUM((/(vF(:,I)*C(1:3,Fa(I)),I=0,5)/))
-            VOL = TIERS * ABS(VOL)
+            VOL = THIRD * ABS(VOL)
             pSUBVOL(ICELL)%Vnew =  VOL
             pNNodCell(ICELL)%NumNOD = MNOD !main(brick nodes)  
             pNPointCell(ICELL)%NumPOINT= NNOD                 
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)= SUM( (/a1(1),a2(1),a3(1),a4(1),n1(1),n2(1),n3(1),n4(1)/) ) / HUIT
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)= SUM( (/a1(2),a2(2),a3(2),a4(2),n1(2),n2(2),n3(2),n4(2)/) ) / HUIT
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(3)= SUM( (/a1(3),a2(3),a3(3),a4(3),n1(3),n2(3),n3(3),n4(3)/) ) / HUIT  
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)= SUM( (/a1(1),a2(1),a3(1),a4(1),n1(1),n2(1),n3(1),n4(1)/) ) / EIGHT
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)= SUM( (/a1(2),a2(2),a3(2),a4(2),n1(2),n2(2),n3(2),n4(2)/) ) / EIGHT
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(3)= SUM( (/a1(3),a2(3),a3(3),a4(3),n1(3),n2(3),n3(3),n4(3)/) ) / EIGHT  
             BRICK_LIST(NIN,IB)%POLY(ICELL)%ListNodID(1:MNOD) = Gnode(1:MNOD,SECID) !IXS(Gnode(1,SECID)+1,ID)
             INodTAG(Gnode(1:MNOD,SECID)) = 1 !tag local brick nodes [1 to 8] if used by polyhedron    
             pWhichCellNod(Gnode(1:MNOD,SECID))%WhichCell = ICELL  
@@ -830,13 +830,13 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             n2 => V(1:3,IXS(Gnode(2,SECID)+1,ID))  
             n3 => V(1:3,IXS(Gnode(3,SECID)+1,ID))             
             n4 => V(1:3,IXS(Gnode(4,SECID)+1,ID))             
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(1),ICELL) = QUART * (n4+n3+n2+n1)
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(2),ICELL) = QUART * (n1+n2+a2+a1)
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(3),ICELL) = QUART * (n2+n3+a3+a2)
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(4),ICELL) = QUART * (n3+n4+a4+a3)
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(5),ICELL) = QUART * (n4+n1+a1+a4)       
-            !BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE0%Vel(1:3) = QUART * (a1+a2+a3+a4)
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%Vel(1:3) = QUART * (a1+a2+a3+a4)    
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(1),ICELL) = FOURTH * (n4+n3+n2+n1)
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(2),ICELL) = FOURTH * (n1+n2+a2+a1)
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(3),ICELL) = FOURTH * (n2+n3+a3+a2)
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(4),ICELL) = FOURTH * (n3+n4+a4+a3)
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(5),ICELL) = FOURTH * (n4+n1+a1+a4)       
+            !BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE0%Vel(1:3) = FOURTH * (a1+a2+a3+a4)
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%Vel(1:3) = FOURTH * (a1+a2+a3+a4)    
             
           ELSEIF(SECTYPE(1:6)=='POLY4 ')THEN
             nFACE = F_POLY4          
@@ -859,11 +859,11 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             vF(:,6) =I22AERA(3,(/n3,a4,a3/),         C(1:3,Fa(6)))
             vF(:,0) =I22AERA(6,(/a1,a2,a3,a4,a5,a6/),C(1:3,   0 ))
             VOL = SUM((/(vF(:,I)*C(1:3,Fa(I)),I=0,6)/))
-            VOL = TIERS * ABS(VOL)
+            VOL = THIRD * ABS(VOL)
             if(icell.eq.2)then
               vol1 = brick_list(nin,ib)%poly(1)%vnew
               vol2 = vol
-              if((vol1+vol2)/uncutvol.GE.UN-EM04)then
+              if((vol1+vol2)/uncutvol.GE.ONE-EM04)then
                 ITAG(ICELL)=1 
                 NINTPOINT = NINTPOINT - NTRUS
                 !print *,"cleaning 3"
@@ -920,9 +920,9 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             pSUBVOL(ICELL)%Vnew = VOL
             pNNodCell(ICELL)%NumNOD = MNOD !main(brick nodes)  
             pNPointCell(ICELL)%NumPOINT= NNOD                
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)=SUM((/a1(1),a2(1),a3(1),a4(1),a5(1),a6(1),n1(1),n2(1),n3(1),n4(1)/))/DIX
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)=SUM((/a1(2),a2(2),a3(2),a4(2),a5(2),a6(2),n1(2),n2(2),n3(2),n4(2)/))/DIX
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(3)=SUM((/a1(3),a2(3),a3(3),a4(3),a5(3),a6(3),n1(3),n2(3),n3(3),n4(3)/))/DIX 
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)=SUM((/a1(1),a2(1),a3(1),a4(1),a5(1),a6(1),n1(1),n2(1),n3(1),n4(1)/))/TEN
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)=SUM((/a1(2),a2(2),a3(2),a4(2),a5(2),a6(2),n1(2),n2(2),n3(2),n4(2)/))/TEN
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(3)=SUM((/a1(3),a2(3),a3(3),a4(3),a5(3),a6(3),n1(3),n2(3),n3(3),n4(3)/))/TEN 
             BRICK_LIST(NIN,IB)%POLY(ICELL)%ListNodID(1:MNOD) = Gnode(1:MNOD,SECID) !IXS(Gnode(1,SECID)+1,ID)
             INodTAG(Gnode(1:MNOD,SECID)) = 1 !tag local brick nodes [1 to 8] if used by polyhedron   
             pWhichCellNod(Gnode(1:MNOD,SECID))%WhichCell = ICELL 
@@ -937,14 +937,14 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             n2 => V(1:3,IXS(Gnode(2,SECID)+1,ID))  
             n3 => V(1:3,IXS(Gnode(3,SECID)+1,ID))             
             n4 => V(1:3,IXS(Gnode(4,SECID)+1,ID))             
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(1),ICELL) = TIERS  * (n1+a2+a1)      
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(2),ICELL) = UNCINQ * (n2+n4+a5+a4+n3)
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(3),ICELL) = UNCINQ * (a1+a6+n4+n2+n1)
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(4),ICELL) = UNCINQ * (n1+n2+n3+a3+a2)
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(5),ICELL) = TIERS  * (n4+a6+a5)            
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(6),ICELL) = TIERS  * (n3+a4+a3)                        
-            !BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE0%Vel(1:3) = UNSIX  * (a1+a2+a3+a4+a5+a6 )
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%Vel(1:3) = UNSIX  * (a1+a2+a3+a4+a5+a6 )          
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(1),ICELL) = THIRD  * (n1+a2+a1)      
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(2),ICELL) = ONE_FIFTH * (n2+n4+a5+a4+n3)
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(3),ICELL) = ONE_FIFTH * (a1+a6+n4+n2+n1)
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(4),ICELL) = ONE_FIFTH * (n1+n2+n3+a3+a2)
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(5),ICELL) = THIRD  * (n4+a6+a5)            
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(6),ICELL) = THIRD  * (n3+a4+a3)                        
+            !BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE0%Vel(1:3) = ONE_OVER_6  * (a1+a2+a3+a4+a5+a6 )
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%Vel(1:3) = ONE_OVER_6  * (a1+a2+a3+a4+a5+a6 )          
 
           ELSEIF(SECTYPE(1:6)=='POLY4A')THEN
             nFACE = F_POLY4A       
@@ -1000,13 +1000,13 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,5)= a5                          !polygon points (coordinates)           
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,6)= a6                          !polygon points (coordinates)           
             VOL = SUM((/(vF(:,I)*C(1:3,Fa(I)),I=0,6)/))
-            VOL = TIERS * ABS(VOL)
+            VOL = THIRD * ABS(VOL)
             pSUBVOL(ICELL)%Vnew = VOL
             pNNodCell(ICELL)%NumNOD = MNOD !main(brick nodes)  
             pNPointCell(ICELL)%NumPOINT= NNOD                
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)= SUM((/a1(1),a2(1),a3(1),a4(1),a5(1),a6(1),n1(1),n2(1),n3(1),n4(1)/))/DIX
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)= SUM((/a1(2),a2(2),a3(2),a4(2),a5(2),a6(2),n1(2),n2(2),n3(2),n4(2)/))/DIX
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(3)= SUM((/a1(3),a2(3),a3(3),a4(3),a5(3),a6(3),n1(3),n2(3),n3(3),n4(3)/))/DIX 
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)= SUM((/a1(1),a2(1),a3(1),a4(1),a5(1),a6(1),n1(1),n2(1),n3(1),n4(1)/))/TEN
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)= SUM((/a1(2),a2(2),a3(2),a4(2),a5(2),a6(2),n1(2),n2(2),n3(2),n4(2)/))/TEN
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(3)= SUM((/a1(3),a2(3),a3(3),a4(3),a5(3),a6(3),n1(3),n2(3),n3(3),n4(3)/))/TEN 
             BRICK_LIST(NIN,IB)%POLY(ICELL)%ListNodID(1:MNOD) = Gnode(1:MNOD,SECID) !IXS(Gnode(1,SECID)+1,ID)
             INodTAG(Gnode(1:MNOD,SECID)) = 1 !tag local brick nodes [1 to 8] if used by polyhedron   
             pWhichCellNod(Gnode(1:MNOD,SECID))%WhichCell = ICELL   
@@ -1021,14 +1021,14 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             n2 => V(1:3,IXS(Gnode(2,SECID)+1,ID))  
             n3 => V(1:3,IXS(Gnode(3,SECID)+1,ID))             
             n4 => V(1:3,IXS(Gnode(4,SECID)+1,ID))             
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(1),ICELL) = TIERS  * (n1+a1+a6)       
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(2),ICELL) = QUART  * (n1+n2+a2+a1)    
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(3),ICELL) = UNCINQ * (n2+n3+n4+a3+a2) 
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(4),ICELL) = TIERS  * (n4+a4+a3)       
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(5),ICELL) = QUART  * (n4+n3+a5+a4)        
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(6),ICELL) = UNCINQ * (n3+n2+n1+a6+a5)                 
-            !BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE0%Vel(1:3) = UNSIX  * (a1+a2+a3+a4+a5+a6 )  
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%Vel(1:3) = UNSIX  * (a1+a2+a3+a4+a5+a6 )          
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(1),ICELL) = THIRD  * (n1+a1+a6)       
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(2),ICELL) = FOURTH  * (n1+n2+a2+a1)    
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(3),ICELL) = ONE_FIFTH * (n2+n3+n4+a3+a2) 
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(4),ICELL) = THIRD  * (n4+a4+a3)       
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(5),ICELL) = FOURTH  * (n4+n3+a5+a4)        
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(6),ICELL) = ONE_FIFTH * (n3+n2+n1+a6+a5)                 
+            !BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE0%Vel(1:3) = ONE_OVER_6  * (a1+a2+a3+a4+a5+a6 )  
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%Vel(1:3) = ONE_OVER_6  * (a1+a2+a3+a4+a5+a6 )          
 
           ELSEIF(SECTYPE(1:6)=='POLY4B')THEN
             nFACE = F_POLY4B
@@ -1084,13 +1084,13 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,5)= a5                          !polygon points (coordinates)           
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,6)= a6                          !polygon points (coordinates)           
             VOL = SUM((/(vF(:,I)*C(1:3,Fa(I)),I=0,6)/))
-            VOL = TIERS * ABS(VOL)
+            VOL = THIRD * ABS(VOL)
             pSUBVOL(ICELL)%Vnew = VOL
             pNNodCell(ICELL)%NumNOD = MNOD !main(brick nodes)  
             pNPointCell(ICELL)%NumPOINT= NNOD                
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)=SUM((/a1(1),a2(1),a3(1),a4(1),a5(1),a6(1),n1(1),n2(1),n3(1),n4(1)/))/DIX
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)=SUM((/a1(2),a2(2),a3(2),a4(2),a5(2),a6(2),n1(2),n2(2),n3(2),n4(2)/))/DIX
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(3)=SUM((/a1(3),a2(3),a3(3),a4(3),a5(3),a6(3),n1(3),n2(3),n3(3),n4(3)/))/DIX 
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)=SUM((/a1(1),a2(1),a3(1),a4(1),a5(1),a6(1),n1(1),n2(1),n3(1),n4(1)/))/TEN
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)=SUM((/a1(2),a2(2),a3(2),a4(2),a5(2),a6(2),n1(2),n2(2),n3(2),n4(2)/))/TEN
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(3)=SUM((/a1(3),a2(3),a3(3),a4(3),a5(3),a6(3),n1(3),n2(3),n3(3),n4(3)/))/TEN 
             BRICK_LIST(NIN,IB)%POLY(ICELL)%ListNodID(1:MNOD) = Gnode(1:MNOD,SECID) !IXS(Gnode(1,SECID)+1,ID)
             INodTAG(Gnode(1:MNOD,SECID)) = 1 !tag local brick nodes [1 to 8] if used by polyhedron   
             pWhichCellNod(Gnode(1:MNOD,SECID))%WhichCell = ICELL 
@@ -1105,14 +1105,14 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             n2 => V(1:3,IXS(Gnode(2,SECID)+1,ID))  
             n3 => V(1:3,IXS(Gnode(3,SECID)+1,ID))             
             n4 => V(1:3,IXS(Gnode(4,SECID)+1,ID))             
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(1),ICELL) = TIERS  * (n1+a1+a6)      
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(2),ICELL) = QUART  * (n1+n2+a2+a1)   
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(3),ICELL) = UNCINQ * (n2+n3+n4+a3+a2)
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(4),ICELL) = TIERS  * (n4+a4+a3)      
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(5),ICELL) = QUART  * (n4+n3+a5+a4)      
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(6),ICELL) = UNCINQ * (n3+n2+n1+a6+a5)               
-            !BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE0%Vel(1:3) = UNSIX  * (a1+a2+a3+a4+a5+a6 ) 
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%Vel(1:3) = UNSIX  * (a1+a2+a3+a4+a5+a6 )             
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(1),ICELL) = THIRD  * (n1+a1+a6)      
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(2),ICELL) = FOURTH  * (n1+n2+a2+a1)   
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(3),ICELL) = ONE_FIFTH * (n2+n3+n4+a3+a2)
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(4),ICELL) = THIRD  * (n4+a4+a3)      
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(5),ICELL) = FOURTH  * (n4+n3+a5+a4)      
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(6),ICELL) = ONE_FIFTH * (n3+n2+n1+a6+a5)               
+            !BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE0%Vel(1:3) = ONE_OVER_6  * (a1+a2+a3+a4+a5+a6 ) 
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%Vel(1:3) = ONE_OVER_6  * (a1+a2+a3+a4+a5+a6 )             
                         
           ELSEIF(SECTYPE(1:5)=='POLYC')THEN
             nFACE = F_POLYC     
@@ -1164,13 +1164,13 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,5)= a5                          !polygon points (coordinates)           
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,6)= a6                          !polygon points (coordinates)           
             VOL = SUM((/(vF(:,I)*C(1:3,Fa(I)),I=0,5)/))
-            VOL = TIERS * ABS(VOL)
+            VOL = THIRD * ABS(VOL)
             pSUBVOL(ICELL)%Vnew =  VOL
             pNNodCell(ICELL)%NumNOD = MNOD !main(brick nodes)  
             pNPointCell(ICELL)%NumPOINT= NNOD                
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)=SUM((/a1(1),a2(1),a3(1),a4(1),a5(1),a6(1),n1(1),n2(1),n3(1),n4(1)/))/DIX
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)=SUM((/a1(2),a2(2),a3(2),a4(2),a5(2),a6(2),n1(2),n2(2),n3(2),n4(2)/))/DIX
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(3)=SUM((/a1(3),a2(3),a3(3),a4(3),a5(3),a6(3),n1(3),n2(3),n3(3),n4(3)/))/DIX   
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)=SUM((/a1(1),a2(1),a3(1),a4(1),a5(1),a6(1),n1(1),n2(1),n3(1),n4(1)/))/TEN
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)=SUM((/a1(2),a2(2),a3(2),a4(2),a5(2),a6(2),n1(2),n2(2),n3(2),n4(2)/))/TEN
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(3)=SUM((/a1(3),a2(3),a3(3),a4(3),a5(3),a6(3),n1(3),n2(3),n3(3),n4(3)/))/TEN   
             BRICK_LIST(NIN,IB)%POLY(ICELL)%ListNodID(1:MNOD) = Gnode(1:MNOD,SECID) !IXS(Gnode(1,SECID)+1,ID)
             INodTAG(Gnode(1:MNOD,SECID)) = 1 !tag local brick nodes [1 to 8] if used by polyhedron   
             pWhichCellNod(Gnode(1:MNOD,SECID))%WhichCell = ICELL  
@@ -1185,13 +1185,13 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             n2 => V(1:3,IXS(Gnode(2,SECID)+1,ID))  
             n3 => V(1:3,IXS(Gnode(3,SECID)+1,ID))             
             n4 => V(1:3,IXS(Gnode(4,SECID)+1,ID))             
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(1),ICELL) = QUART * (n1+n2+n3+n4)       
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(2),ICELL) = QUART * (n1+a1+a2+n2)       
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(3),ICELL) = QUART * (n2+a2+a3+n3)       
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(4),ICELL) = QUART * (n1+n4+a4+a1)       
-            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(5),ICELL) =         (n4+n3+a3+a6+a5+a4+n4) / SEPT          
-            !BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE0%Vel(1:3) = UNSIX * (a1+a4+a5+a6+a3+a2)   
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%Vel(1:3) = UNSIX * (a1+a4+a5+a6+a3+a2)                                                                       
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(1),ICELL) = FOURTH * (n1+n2+n3+n4)       
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(2),ICELL) = FOURTH * (n1+a1+a2+n2)       
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(3),ICELL) = FOURTH * (n2+a2+a3+n3)       
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(4),ICELL) = FOURTH * (n1+n4+a4+a1)       
+            !!BRICK_LIST(NIN,IB)%Vel_Face(1:3,Fa(5),ICELL) =         (n4+n3+a3+a6+a5+a4+n4) / SEVEN          
+            !BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE0%Vel(1:3) = ONE_OVER_6 * (a1+a4+a5+a6+a3+a2)   
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%Vel(1:3) = ONE_OVER_6 * (a1+a4+a5+a6+a3+a2)                                                                       
           END IF
           
           !Treating complementary polyhedron (exemple : icode=2842;idble=2312)
@@ -1223,46 +1223,46 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             J       = IAD(1)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa1(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa1(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa1(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa1(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa1(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa1(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a2
             beta    = EDGE_LIST(NIN,IAD(2))%CUTCOOR(iPOSe(2));
             J       = IAD(2)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa2(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa2(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa2(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa2(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa2(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa2(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a3
             beta    = EDGE_LIST(NIN,IAD(3))%CUTCOOR(iPOSe(3));
             J       = IAD(3)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa3(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa3(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa3(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa3(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa3(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa3(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !brick nodes                       
             n1    => X(1:3,IXS(Gnode(1,SECID)+1,ID))
             wn1(1)= W(1,IXS(Gnode(1,SECID)+1,ID))
             wn1(2)= W(2,IXS(Gnode(1,SECID)+1,ID))
             wn1(3)= W(3,IXS(Gnode(1,SECID)+1,ID))
             !Grid velocity on face1 :
-            wf1(1) = TIERS*(wn1(1)+wa2(1)+wa1(1))
-            wf1(2) = TIERS*(wn1(2)+wa2(2)+wa1(2))
-            wf1(3) = TIERS*(wn1(3)+wa2(3)+wa1(3))
+            wf1(1) = THIRD*(wn1(1)+wa2(1)+wa1(1))
+            wf1(2) = THIRD*(wn1(2)+wa2(2)+wa1(2))
+            wf1(3) = THIRD*(wn1(3)+wa2(3)+wa1(3))
             !Grid velocity on face2 :
-            wf2(1) = TIERS*(wn1(1)+wa3(1)+wa2(1))
-            wf2(2) = TIERS*(wn1(2)+wa3(2)+wa2(2))
-            wf2(3) = TIERS*(wn1(3)+wa3(3)+wa2(3))            
+            wf2(1) = THIRD*(wn1(1)+wa3(1)+wa2(1))
+            wf2(2) = THIRD*(wn1(2)+wa3(2)+wa2(2))
+            wf2(3) = THIRD*(wn1(3)+wa3(3)+wa2(3))            
             !Grid velocity on face3 :
-            wf3(1) = TIERS*(wn1(1)+wa1(1)+wa3(1))
-            wf3(2) = TIERS*(wn1(2)+wa1(2)+wa3(2))
-            wf3(3) = TIERS*(wn1(3)+wa1(3)+wa3(3)) 
+            wf3(1) = THIRD*(wn1(1)+wa1(1)+wa3(1))
+            wf3(2) = THIRD*(wn1(2)+wa1(2)+wa3(2))
+            wf3(3) = THIRD*(wn1(3)+wa1(3)+wa3(3)) 
             !Grid velocity on face0 :
-            wf0(1) = TIERS*(wa1(1)+wa2(1)+wa3(1))
-            wf0(2) = TIERS*(wa1(2)+wa2(2)+wa3(2))
-            wf0(3) = TIERS*(wa1(3)+wa2(3)+wa3(3)) 
+            wf0(1) = THIRD*(wa1(1)+wa2(1)+wa3(1))
+            wf0(2) = THIRD*(wa1(2)+wa2(2)+wa3(2))
+            wf0(3) = THIRD*(wa1(3)+wa2(3)+wa3(3)) 
             !storage
             BRICK_LIST(NIN,IB)%POLY(icell)%FACE0%W(1:3)       = wf0(1:3)  
             BRICK_LIST(NIN,IB)%POLY(icell)%FACE(Fa(1))%W(1:3) = wf1(1:3)
@@ -1284,33 +1284,33 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             J       = IAD(1)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa1(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa1(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa1(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa1(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa1(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa1(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a2
             beta    = EDGE_LIST(NIN,IAD(2))%CUTCOOR(iPOSe(2));
             J       = IAD(2)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa2(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa2(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa2(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa2(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa2(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa2(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a3
             beta    = EDGE_LIST(NIN,IAD(3))%CUTCOOR(iPOSe(3));
             J       = IAD(3)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa3(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa3(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa3(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa3(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa3(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa3(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a4
             beta    = EDGE_LIST(NIN,IAD(4))%CUTCOOR(iPOSe(4));
             J       = IAD(4)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa4(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa4(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa4(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa4(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa4(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa4(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !brick nodes                       
             wn1(1)= W(1,IXS(Gnode(1,SECID)+1,ID))
             wn1(2)= W(2,IXS(Gnode(1,SECID)+1,ID))
@@ -1320,25 +1320,25 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             wn2(2)= W(2,IXS(Gnode(2,SECID)+1,ID))
             wn2(3)= W(3,IXS(Gnode(2,SECID)+1,ID))            
             !Grid velocity on face1 :
-            wf1(1) = TIERS*(wn1(1)+wa2(1)+wa1(1))
-            wf1(2) = TIERS*(wn1(2)+wa2(2)+wa1(2))
-            wf1(3) = TIERS*(wn1(3)+wa2(3)+wa1(3))            
+            wf1(1) = THIRD*(wn1(1)+wa2(1)+wa1(1))
+            wf1(2) = THIRD*(wn1(2)+wa2(2)+wa1(2))
+            wf1(3) = THIRD*(wn1(3)+wa2(3)+wa1(3))            
             !Grid velocity on face2 :
-            wf2(1) = TIERS*(wn2(1)+wa4(1)+wa3(1))
-            wf2(2) = TIERS*(wn2(2)+wa4(2)+wa3(2))
-            wf2(3) = TIERS*(wn2(3)+wa4(3)+wa3(3))                     
+            wf2(1) = THIRD*(wn2(1)+wa4(1)+wa3(1))
+            wf2(2) = THIRD*(wn2(2)+wa4(2)+wa3(2))
+            wf2(3) = THIRD*(wn2(3)+wa4(3)+wa3(3))                     
             !Grid velocity on face3 :
-            wf3(1) = QUART*(wn1(1)+wn2(1)+wa3(1)+wa2(1))
-            wf3(2) = QUART*(wn1(2)+wn2(2)+wa3(2)+wa2(2))
-            wf3(3) = QUART*(wn1(3)+wn2(3)+wa3(3)+wa2(3)) 
+            wf3(1) = FOURTH*(wn1(1)+wn2(1)+wa3(1)+wa2(1))
+            wf3(2) = FOURTH*(wn1(2)+wn2(2)+wa3(2)+wa2(2))
+            wf3(3) = FOURTH*(wn1(3)+wn2(3)+wa3(3)+wa2(3)) 
             !Grid velocity on face4 :
-            wf4(1) = QUART*(wn2(1)+wn1(1)+wa1(1)+wa4(1))
-            wf4(2) = QUART*(wn2(2)+wn1(2)+wa1(2)+wa4(2))
-            wf4(3) = QUART*(wn2(3)+wn1(3)+wa1(3)+wa4(3))             
+            wf4(1) = FOURTH*(wn2(1)+wn1(1)+wa1(1)+wa4(1))
+            wf4(2) = FOURTH*(wn2(2)+wn1(2)+wa1(2)+wa4(2))
+            wf4(3) = FOURTH*(wn2(3)+wn1(3)+wa1(3)+wa4(3))             
             !Grid velocity on face0 :
-            wf0(1) = QUART*(wa1(1)+wa2(1)+wa3(1)+wa4(1))
-            wf0(2) = QUART*(wa1(2)+wa2(2)+wa3(2)+wa4(2))
-            wf0(3) = QUART*(wa1(3)+wa2(3)+wa3(3)+wa4(3)) 
+            wf0(1) = FOURTH*(wa1(1)+wa2(1)+wa3(1)+wa4(1))
+            wf0(2) = FOURTH*(wa1(2)+wa2(2)+wa3(2)+wa4(2))
+            wf0(3) = FOURTH*(wa1(3)+wa2(3)+wa3(3)+wa4(3)) 
             !storage
             BRICK_LIST(NIN,IB)%POLY(icell)%FACE0%W(1:3)       = wf0(1:3)  
             BRICK_LIST(NIN,IB)%POLY(icell)%FACE(Fa(1))%W(1:3) = wf1(1:3)
@@ -1362,41 +1362,41 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             J       = IAD(1)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa1(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa1(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa1(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa1(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa1(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa1(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a2
             beta    = EDGE_LIST(NIN,IAD(2))%CUTCOOR(iPOSe(2));
             J       = IAD(2)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa2(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa2(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa2(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa2(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa2(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa2(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a3
             beta    = EDGE_LIST(NIN,IAD(3))%CUTCOOR(iPOSe(3));
             J       = IAD(3)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa3(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa3(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa3(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa3(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa3(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa3(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a4
             beta    = EDGE_LIST(NIN,IAD(4))%CUTCOOR(iPOSe(4));
             J       = IAD(4)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa4(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa4(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa4(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa4(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa4(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa4(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a5
             beta    = EDGE_LIST(NIN,IAD(4))%CUTCOOR(iPOSe(5));
             J       = IAD(5)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa5(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa5(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa5(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa5(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa5(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa5(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !brick nodes                       
             wn1(1)= W(1,IXS(Gnode(1,SECID)+1,ID))
             wn1(2)= W(2,IXS(Gnode(1,SECID)+1,ID))
@@ -1410,29 +1410,29 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             wn3(2)= W(2,IXS(Gnode(3,SECID)+1,ID))
             wn3(3)= W(3,IXS(Gnode(3,SECID)+1,ID))                      
             !Grid velocity on face1 :
-            wf1(1) = UNCINQ*(wn1(1)+wn2(1)+wn3(1)+wa3(1)+wa2(1))
-            wf1(2) = UNCINQ*(wn1(2)+wn2(2)+wn3(2)+wa3(2)+wa2(2))
-            wf1(3) = UNCINQ*(wn1(3)+wn2(3)+wn3(3)+wa3(3)+wa2(3))                       
+            wf1(1) = ONE_FIFTH*(wn1(1)+wn2(1)+wn3(1)+wa3(1)+wa2(1))
+            wf1(2) = ONE_FIFTH*(wn1(2)+wn2(2)+wn3(2)+wa3(2)+wa2(2))
+            wf1(3) = ONE_FIFTH*(wn1(3)+wn2(3)+wn3(3)+wa3(3)+wa2(3))                       
             !Grid velocity on face2 :
-            wf2(1) = TIERS*(wn3(1)+wa4(1)+wa3(1))
-            wf2(2) = TIERS*(wn3(2)+wa4(2)+wa3(2))
-            wf2(3) = TIERS*(wn3(3)+wa4(3)+wa3(3))                                 
+            wf2(1) = THIRD*(wn3(1)+wa4(1)+wa3(1))
+            wf2(2) = THIRD*(wn3(2)+wa4(2)+wa3(2))
+            wf2(3) = THIRD*(wn3(3)+wa4(3)+wa3(3))                                 
             !Grid velocity on face3 :
-            wf3(1) = QUART*(wn3(1)+wn2(1)+wa5(1)+wa4(1))
-            wf3(2) = QUART*(wn3(2)+wn2(2)+wa5(2)+wa4(2))
-            wf3(3) = QUART*(wn3(3)+wn2(3)+wa5(3)+wa4(3))             
+            wf3(1) = FOURTH*(wn3(1)+wn2(1)+wa5(1)+wa4(1))
+            wf3(2) = FOURTH*(wn3(2)+wn2(2)+wa5(2)+wa4(2))
+            wf3(3) = FOURTH*(wn3(3)+wn2(3)+wa5(3)+wa4(3))             
             !Grid velocity on face4 :
-            wf4(1) = QUART*(wn2(1)+wn1(1)+wa1(1)+wa5(1))
-            wf4(2) = QUART*(wn2(2)+wn1(2)+wa1(2)+wa5(2))
-            wf4(3) = QUART*(wn2(3)+wn1(3)+wa1(3)+wa5(3)) 
+            wf4(1) = FOURTH*(wn2(1)+wn1(1)+wa1(1)+wa5(1))
+            wf4(2) = FOURTH*(wn2(2)+wn1(2)+wa1(2)+wa5(2))
+            wf4(3) = FOURTH*(wn2(3)+wn1(3)+wa1(3)+wa5(3)) 
             !Grid velocity on face5 :
-            wf5(1) = TIERS*(wn1(1)+wa2(1)+wa1(1))
-            wf5(2) = TIERS*(wn1(2)+wa2(2)+wa1(2))
-            wf5(3) = TIERS*(wn1(3)+wa2(3)+wa1(3))                                      
+            wf5(1) = THIRD*(wn1(1)+wa2(1)+wa1(1))
+            wf5(2) = THIRD*(wn1(2)+wa2(2)+wa1(2))
+            wf5(3) = THIRD*(wn1(3)+wa2(3)+wa1(3))                                      
             !Grid velocity on face0 :
-            wf0(1) = UNCINQ*(wa1(1)+wa2(1)+wa3(1)+wa4(1)+wa5(1))
-            wf0(2) = UNCINQ*(wa1(2)+wa2(2)+wa3(2)+wa4(2)+wa5(2))
-            wf0(3) = UNCINQ*(wa1(3)+wa2(3)+wa3(3)+wa4(3)+wa5(3)) 
+            wf0(1) = ONE_FIFTH*(wa1(1)+wa2(1)+wa3(1)+wa4(1)+wa5(1))
+            wf0(2) = ONE_FIFTH*(wa1(2)+wa2(2)+wa3(2)+wa4(2)+wa5(2))
+            wf0(3) = ONE_FIFTH*(wa1(3)+wa2(3)+wa3(3)+wa4(3)+wa5(3)) 
             !storage
             BRICK_LIST(NIN,IB)%POLY(icell)%FACE0%W(1:3)       = wf0(1:3)  
             BRICK_LIST(NIN,IB)%POLY(icell)%FACE(Fa(1))%W(1:3) = wf1(1:3)
@@ -1457,33 +1457,33 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             J       = IAD(1)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa1(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa1(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa1(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa1(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa1(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa1(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a2
             beta    = EDGE_LIST(NIN,IAD(2))%CUTCOOR(iPOSe(2));
             J       = IAD(2)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa2(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa2(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa2(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa2(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa2(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa2(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a3
             beta    = EDGE_LIST(NIN,IAD(3))%CUTCOOR(iPOSe(3));
             J       = IAD(3)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa3(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa3(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa3(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa3(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa3(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa3(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a4
             beta    = EDGE_LIST(NIN,IAD(4))%CUTCOOR(iPOSe(4));
             J       = IAD(4)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa4(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa4(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa4(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa4(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa4(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa4(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !brick nodes                       
             wn1(1)= W(1,IXS(Gnode(1,SECID)+1,ID))
             wn1(2)= W(2,IXS(Gnode(1,SECID)+1,ID))
@@ -1501,29 +1501,29 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             wn4(2)= W(2,IXS(Gnode(4,SECID)+1,ID))
             wn4(3)= W(3,IXS(Gnode(4,SECID)+1,ID))                                    
             !Grid velocity on face1 :
-            wf1(1) = QUART*(wn4(1)+wn3(1)+wn2(1)+wn1(1))
-            wf1(2) = QUART*(wn4(2)+wn3(2)+wn2(2)+wn1(2))
-            wf1(3) = QUART*(wn4(3)+wn3(3)+wn2(3)+wn1(3))                       
+            wf1(1) = FOURTH*(wn4(1)+wn3(1)+wn2(1)+wn1(1))
+            wf1(2) = FOURTH*(wn4(2)+wn3(2)+wn2(2)+wn1(2))
+            wf1(3) = FOURTH*(wn4(3)+wn3(3)+wn2(3)+wn1(3))                       
             !Grid velocity on face2 :
-            wf2(1) = QUART*(wn1(1)+wn2(1)+wa2(1)+wa1(1))
-            wf2(2) = QUART*(wn1(2)+wn2(2)+wa2(2)+wa1(2))
-            wf2(3) = QUART*(wn1(3)+wn2(3)+wa2(3)+wa1(3))                                             
+            wf2(1) = FOURTH*(wn1(1)+wn2(1)+wa2(1)+wa1(1))
+            wf2(2) = FOURTH*(wn1(2)+wn2(2)+wa2(2)+wa1(2))
+            wf2(3) = FOURTH*(wn1(3)+wn2(3)+wa2(3)+wa1(3))                                             
             !Grid velocity on face3 :
-            wf3(1) = QUART*(wn2(1)+wn3(1)+wa3(1)+wa2(1))
-            wf3(2) = QUART*(wn2(2)+wn3(2)+wa3(2)+wa2(2))
-            wf3(3) = QUART*(wn2(3)+wn3(3)+wa3(3)+wa2(3))                         
+            wf3(1) = FOURTH*(wn2(1)+wn3(1)+wa3(1)+wa2(1))
+            wf3(2) = FOURTH*(wn2(2)+wn3(2)+wa3(2)+wa2(2))
+            wf3(3) = FOURTH*(wn2(3)+wn3(3)+wa3(3)+wa2(3))                         
             !Grid velocity on face4 :
-            wf4(1) = QUART*(wn3(1)+wn4(1)+wa4(1)+wa3(1))
-            wf4(2) = QUART*(wn3(2)+wn4(2)+wa4(2)+wa3(2))
-            wf4(3) = QUART*(wn3(3)+wn4(3)+wa4(3)+wa3(3))             
+            wf4(1) = FOURTH*(wn3(1)+wn4(1)+wa4(1)+wa3(1))
+            wf4(2) = FOURTH*(wn3(2)+wn4(2)+wa4(2)+wa3(2))
+            wf4(3) = FOURTH*(wn3(3)+wn4(3)+wa4(3)+wa3(3))             
             !Grid velocity on face5 :
-            wf5(1) = QUART*(wn4(1)+wn1(1)+wa1(1)+wa4(1))
-            wf5(2) = QUART*(wn4(2)+wn1(2)+wa1(2)+wa4(2))
-            wf5(3) = QUART*(wn4(3)+wn1(3)+wa1(3)+wa4(3))                                               
+            wf5(1) = FOURTH*(wn4(1)+wn1(1)+wa1(1)+wa4(1))
+            wf5(2) = FOURTH*(wn4(2)+wn1(2)+wa1(2)+wa4(2))
+            wf5(3) = FOURTH*(wn4(3)+wn1(3)+wa1(3)+wa4(3))                                               
             !Grid velocity on face0 :
-            wf0(1) = UNCINQ*(wa1(1)+wa2(1)+wa3(1)+wa4(1))
-            wf0(2) = UNCINQ*(wa1(2)+wa2(2)+wa3(2)+wa4(2))
-            wf0(3) = UNCINQ*(wa1(3)+wa2(3)+wa3(3)+wa4(3)) 
+            wf0(1) = ONE_FIFTH*(wa1(1)+wa2(1)+wa3(1)+wa4(1))
+            wf0(2) = ONE_FIFTH*(wa1(2)+wa2(2)+wa3(2)+wa4(2))
+            wf0(3) = ONE_FIFTH*(wa1(3)+wa2(3)+wa3(3)+wa4(3)) 
             !storage
             BRICK_LIST(NIN,IB)%POLY(icell)%FACE0%W(1:3)       = wf0(1:3)  
             BRICK_LIST(NIN,IB)%POLY(icell)%FACE(Fa(1))%W(1:3) = wf1(1:3)
@@ -1551,49 +1551,49 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             J       = IAD(1)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa1(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa1(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa1(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa1(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa1(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa1(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a2
             beta    = EDGE_LIST(NIN,IAD(2))%CUTCOOR(iPOSe(2));
             J       = IAD(2)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa2(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa2(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa2(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa2(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa2(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa2(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a3
             beta    = EDGE_LIST(NIN,IAD(3))%CUTCOOR(iPOSe(3));
             J       = IAD(3)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa3(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa3(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa3(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa3(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa3(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa3(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a4
             beta    = EDGE_LIST(NIN,IAD(4))%CUTCOOR(iPOSe(4));
             J       = IAD(4)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa4(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa4(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa4(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa4(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa4(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa4(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a5
             beta    = EDGE_LIST(NIN,IAD(5))%CUTCOOR(iPOSe(5));
             J       = IAD(5)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa5(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa5(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa5(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa5(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa5(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa5(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a6
             beta    = EDGE_LIST(NIN,IAD(6))%CUTCOOR(iPOSe(6));
             J       = IAD(6)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa6(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa6(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa6(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa6(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa6(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa6(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !brick nodes                       
             wn1(1)= W(1,IXS(Gnode(1,SECID)+1,ID))
             wn1(2)= W(2,IXS(Gnode(1,SECID)+1,ID))
@@ -1611,33 +1611,33 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             wn4(2)= W(2,IXS(Gnode(4,SECID)+1,ID))
             wn4(3)= W(3,IXS(Gnode(4,SECID)+1,ID))                                                
             !Grid velocity on face1 :
-            wf1(1) = TIERS*(wn1(1)+wa1(1)+wa6(1))
-            wf1(2) = TIERS*(wn1(2)+wa1(2)+wa6(2))
-            wf1(3) = TIERS*(wn1(3)+wa1(3)+wa6(3))                                  
+            wf1(1) = THIRD*(wn1(1)+wa1(1)+wa6(1))
+            wf1(2) = THIRD*(wn1(2)+wa1(2)+wa6(2))
+            wf1(3) = THIRD*(wn1(3)+wa1(3)+wa6(3))                                  
             !Grid velocity on face2 :
-            wf2(1) = QUART*(wn1(1)+wn2(1)+wa2(1)+wa1(1))
-            wf2(2) = QUART*(wn1(2)+wn2(2)+wa2(2)+wa1(2))
-            wf2(3) = QUART*(wn1(3)+wn2(3)+wa2(3)+wa1(3))                                                        
+            wf2(1) = FOURTH*(wn1(1)+wn2(1)+wa2(1)+wa1(1))
+            wf2(2) = FOURTH*(wn1(2)+wn2(2)+wa2(2)+wa1(2))
+            wf2(3) = FOURTH*(wn1(3)+wn2(3)+wa2(3)+wa1(3))                                                        
             !Grid velocity on face3 :
-            wf3(1) = UNCINQ*(wn2(1)+wn3(1)+wn4(1)+wa3(1)+wa2(1))
-            wf3(2) = UNCINQ*(wn2(2)+wn3(2)+wn4(2)+wa3(2)+wa2(2))
-            wf3(3) = UNCINQ*(wn2(3)+wn3(3)+wn4(3)+wa3(3)+wa2(3))                                   
+            wf3(1) = ONE_FIFTH*(wn2(1)+wn3(1)+wn4(1)+wa3(1)+wa2(1))
+            wf3(2) = ONE_FIFTH*(wn2(2)+wn3(2)+wn4(2)+wa3(2)+wa2(2))
+            wf3(3) = ONE_FIFTH*(wn2(3)+wn3(3)+wn4(3)+wa3(3)+wa2(3))                                   
             !Grid velocity on face4 :
-            wf4(1) = TIERS*(wn4(1)+wa4(1)+wa3(1))
-            wf4(2) = TIERS*(wn4(2)+wa4(2)+wa3(2))
-            wf4(3) = TIERS*(wn4(3)+wa4(3)+wa3(3))                        
+            wf4(1) = THIRD*(wn4(1)+wa4(1)+wa3(1))
+            wf4(2) = THIRD*(wn4(2)+wa4(2)+wa3(2))
+            wf4(3) = THIRD*(wn4(3)+wa4(3)+wa3(3))                        
             !Grid velocity on face5 :
-            wf5(1) = QUART*(wn4(1)+wn3(1)+wa5(1)+wa4(1))
-            wf5(2) = QUART*(wn4(2)+wn3(2)+wa5(2)+wa4(2))
-            wf5(3) = QUART*(wn4(3)+wn3(3)+wa5(3)+wa4(3)) 
+            wf5(1) = FOURTH*(wn4(1)+wn3(1)+wa5(1)+wa4(1))
+            wf5(2) = FOURTH*(wn4(2)+wn3(2)+wa5(2)+wa4(2))
+            wf5(3) = FOURTH*(wn4(3)+wn3(3)+wa5(3)+wa4(3)) 
             !Grid velocity on face6 :
-            wf6(1) = QUART*(wn3(1)+wn2(1)+wn1(1)+wa6(1)+wa5(1))
-            wf6(2) = QUART*(wn3(2)+wn2(2)+wn1(2)+wa6(2)+wa5(2))
-            wf6(3) = QUART*(wn3(3)+wn2(3)+wn1(3)+wa6(3)+wa5(3))                                                           
+            wf6(1) = FOURTH*(wn3(1)+wn2(1)+wn1(1)+wa6(1)+wa5(1))
+            wf6(2) = FOURTH*(wn3(2)+wn2(2)+wn1(2)+wa6(2)+wa5(2))
+            wf6(3) = FOURTH*(wn3(3)+wn2(3)+wn1(3)+wa6(3)+wa5(3))                                                           
             !Grid velocity on face0 :
-            wf0(1) = UNSIX*(wa1(1)+wa2(1)+wa3(1)+wa4(1)+wa5(1)+wa6(1))
-            wf0(2) = UNSIX*(wa1(2)+wa2(2)+wa3(2)+wa4(2)+wa5(2)+wa6(2))
-            wf0(3) = UNSIX*(wa1(3)+wa2(3)+wa3(3)+wa4(3)+wa5(3)+wa6(3)) 
+            wf0(1) = ONE_OVER_6*(wa1(1)+wa2(1)+wa3(1)+wa4(1)+wa5(1)+wa6(1))
+            wf0(2) = ONE_OVER_6*(wa1(2)+wa2(2)+wa3(2)+wa4(2)+wa5(2)+wa6(2))
+            wf0(3) = ONE_OVER_6*(wa1(3)+wa2(3)+wa3(3)+wa4(3)+wa5(3)+wa6(3)) 
             !storage
             BRICK_LIST(NIN,IB)%POLY(icell)%FACE0%W(1:3)       = wf0(1:3)  
             BRICK_LIST(NIN,IB)%POLY(icell)%FACE(Fa(1))%W(1:3) = wf1(1:3)
@@ -1666,49 +1666,49 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             J       = IAD(1)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa1(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa1(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa1(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa1(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa1(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa1(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a2
             beta    = EDGE_LIST(NIN,IAD(2))%CUTCOOR(iPOSe(2));
             J       = IAD(2)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa2(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa2(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa2(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa2(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa2(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa2(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a3
             beta    = EDGE_LIST(NIN,IAD(3))%CUTCOOR(iPOSe(3));
             J       = IAD(3)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa3(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa3(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa3(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa3(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa3(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa3(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a4
             beta    = EDGE_LIST(NIN,IAD(4))%CUTCOOR(iPOSe(4));
             J       = IAD(4)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa4(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa4(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa4(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa4(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa4(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa4(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a5
             beta    = EDGE_LIST(NIN,IAD(5))%CUTCOOR(iPOSe(5));
             J       = IAD(5)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa5(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa5(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa5(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa5(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa5(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa5(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a6
             beta    = EDGE_LIST(NIN,IAD(6))%CUTCOOR(iPOSe(6));
             J       = IAD(6)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa6(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa6(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa6(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa6(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa6(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa6(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !brick nodes                       
             wn1(1)= W(1,IXS(Gnode(1,SECID)+1,ID))
             wn1(2)= W(2,IXS(Gnode(1,SECID)+1,ID))
@@ -1726,33 +1726,33 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             wn4(2)= W(2,IXS(Gnode(4,SECID)+1,ID))
             wn4(3)= W(3,IXS(Gnode(4,SECID)+1,ID))                                                            
             !Grid velocity on face1 :
-            wf1(1) = TIERS*(wn1(1)+wa1(1)+wa6(1))
-            wf1(2) = TIERS*(wn1(2)+wa1(2)+wa6(2))
-            wf1(3) = TIERS*(wn1(3)+wa1(3)+wa6(3))                                              
+            wf1(1) = THIRD*(wn1(1)+wa1(1)+wa6(1))
+            wf1(2) = THIRD*(wn1(2)+wa1(2)+wa6(2))
+            wf1(3) = THIRD*(wn1(3)+wa1(3)+wa6(3))                                              
             !Grid velocity on face2 :
-            wf2(1) = QUART*(wn1(1)+wn2(1)+wa2(1)+wa1(1))
-            wf2(2) = QUART*(wn1(2)+wn2(2)+wa2(2)+wa1(2))
-            wf2(3) = QUART*(wn1(3)+wn2(3)+wa2(3)+wa1(3))                                                                    
+            wf2(1) = FOURTH*(wn1(1)+wn2(1)+wa2(1)+wa1(1))
+            wf2(2) = FOURTH*(wn1(2)+wn2(2)+wa2(2)+wa1(2))
+            wf2(3) = FOURTH*(wn1(3)+wn2(3)+wa2(3)+wa1(3))                                                                    
             !Grid velocity on face3 :
-            wf3(1) = UNCINQ*(wn2(1)+wn3(1)+wn4(1)+wa3(1)+wa2(1))
-            wf3(2) = UNCINQ*(wn2(2)+wn3(2)+wn4(2)+wa3(2)+wa2(2))
-            wf3(3) = UNCINQ*(wn2(3)+wn3(3)+wn4(3)+wa3(3)+wa2(3))                                             
+            wf3(1) = ONE_FIFTH*(wn2(1)+wn3(1)+wn4(1)+wa3(1)+wa2(1))
+            wf3(2) = ONE_FIFTH*(wn2(2)+wn3(2)+wn4(2)+wa3(2)+wa2(2))
+            wf3(3) = ONE_FIFTH*(wn2(3)+wn3(3)+wn4(3)+wa3(3)+wa2(3))                                             
             !Grid velocity on face4 :
-            wf4(1) = TIERS*(wn4(1)+wa4(1)+wa3(1))
-            wf4(2) = TIERS*(wn4(2)+wa4(2)+wa3(2))
-            wf4(3) = TIERS*(wn4(3)+wa4(3)+wa3(3))                                    
+            wf4(1) = THIRD*(wn4(1)+wa4(1)+wa3(1))
+            wf4(2) = THIRD*(wn4(2)+wa4(2)+wa3(2))
+            wf4(3) = THIRD*(wn4(3)+wa4(3)+wa3(3))                                    
             !Grid velocity on face5 :
-            wf5(1) = QUART*(wn4(1)+wn3(1)+wa5(1)+wa4(1))
-            wf5(2) = QUART*(wn4(2)+wn3(2)+wa5(2)+wa4(2))
-            wf5(3) = QUART*(wn4(3)+wn3(3)+wa5(3)+wa4(3))             
+            wf5(1) = FOURTH*(wn4(1)+wn3(1)+wa5(1)+wa4(1))
+            wf5(2) = FOURTH*(wn4(2)+wn3(2)+wa5(2)+wa4(2))
+            wf5(3) = FOURTH*(wn4(3)+wn3(3)+wa5(3)+wa4(3))             
             !Grid velocity on face6 :
-            wf6(1) = QUART*(wn3(1)+wn2(1)+wn1(1)+wa6(1)+wa5(1))
-            wf6(2) = QUART*(wn3(2)+wn2(2)+wn1(2)+wa6(2)+wa5(2))
-            wf6(3) = QUART*(wn3(3)+wn2(3)+wn1(3)+wa6(3)+wa5(3))                                                                      
+            wf6(1) = FOURTH*(wn3(1)+wn2(1)+wn1(1)+wa6(1)+wa5(1))
+            wf6(2) = FOURTH*(wn3(2)+wn2(2)+wn1(2)+wa6(2)+wa5(2))
+            wf6(3) = FOURTH*(wn3(3)+wn2(3)+wn1(3)+wa6(3)+wa5(3))                                                                      
             !Grid velocity on face0 :
-            wf0(1) = UNSIX*(wa1(1)+wa2(1)+wa3(1)+wa4(1)+wa5(1)+wa6(1))
-            wf0(2) = UNSIX*(wa1(2)+wa2(2)+wa3(2)+wa4(2)+wa5(2)+wa6(2))
-            wf0(3) = UNSIX*(wa1(3)+wa2(3)+wa3(3)+wa4(3)+wa5(3)+wa6(3))             
+            wf0(1) = ONE_OVER_6*(wa1(1)+wa2(1)+wa3(1)+wa4(1)+wa5(1)+wa6(1))
+            wf0(2) = ONE_OVER_6*(wa1(2)+wa2(2)+wa3(2)+wa4(2)+wa5(2)+wa6(2))
+            wf0(3) = ONE_OVER_6*(wa1(3)+wa2(3)+wa3(3)+wa4(3)+wa5(3)+wa6(3))             
             !storage
             BRICK_LIST(NIN,IB)%POLY(icell)%FACE0%W(1:3)       = wf0(1:3)  
             BRICK_LIST(NIN,IB)%POLY(icell)%FACE(Fa(1))%W(1:3) = wf1(1:3)
@@ -1780,49 +1780,49 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             J       = IAD(1)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa1(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa1(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa1(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa1(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa1(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa1(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a2
             beta    = EDGE_LIST(NIN,IAD(2))%CUTCOOR(iPOSe(2));
             J       = IAD(2)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa2(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa2(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa2(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa2(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa2(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa2(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a3
             beta    = EDGE_LIST(NIN,IAD(3))%CUTCOOR(iPOSe(3));
             J       = IAD(3)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa3(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa3(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa3(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa3(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa3(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa3(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a4
             beta    = EDGE_LIST(NIN,IAD(4))%CUTCOOR(iPOSe(4));
             J       = IAD(4)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa4(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa4(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa4(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa4(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa4(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa4(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a5
             beta    = EDGE_LIST(NIN,IAD(5))%CUTCOOR(iPOSe(5));
             J       = IAD(5)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa5(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa5(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa5(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa5(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa5(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa5(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a6
             beta    = EDGE_LIST(NIN,IAD(6))%CUTCOOR(iPOSe(6));
             J       = IAD(6)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa6(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa6(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa6(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa6(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa6(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa6(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !brick nodes                       
             wn1(1)= W(1,IXS(Gnode(1,SECID)+1,ID))
             wn1(2)= W(2,IXS(Gnode(1,SECID)+1,ID))
@@ -1840,33 +1840,33 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             wn4(2)= W(2,IXS(Gnode(4,SECID)+1,ID))
             wn4(3)= W(3,IXS(Gnode(4,SECID)+1,ID))                                                                       
             !Grid velocity on face1 :
-            wf1(1) = TIERS*(wn1(1)+wa1(1)+wa6(1))
-            wf1(2) = TIERS*(wn1(2)+wa1(2)+wa6(2))
-            wf1(3) = TIERS*(wn1(3)+wa1(3)+wa6(3))                                                          
+            wf1(1) = THIRD*(wn1(1)+wa1(1)+wa6(1))
+            wf1(2) = THIRD*(wn1(2)+wa1(2)+wa6(2))
+            wf1(3) = THIRD*(wn1(3)+wa1(3)+wa6(3))                                                          
             !Grid velocity on face2 :
-            wf2(1) = QUART*(wn1(1)+wn2(1)+wa2(1)+wa1(1))
-            wf2(2) = QUART*(wn1(2)+wn2(2)+wa2(2)+wa1(2))
-            wf2(3) = QUART*(wn1(3)+wn2(3)+wa2(3)+wa1(3))                                                                                
+            wf2(1) = FOURTH*(wn1(1)+wn2(1)+wa2(1)+wa1(1))
+            wf2(2) = FOURTH*(wn1(2)+wn2(2)+wa2(2)+wa1(2))
+            wf2(3) = FOURTH*(wn1(3)+wn2(3)+wa2(3)+wa1(3))                                                                                
             !Grid velocity on face3 :
-            wf3(1) = UNCINQ*(wn2(1)+wn3(1)+wn4(1)+wa3(1)+wa2(1))
-            wf3(2) = UNCINQ*(wn2(2)+wn3(2)+wn4(2)+wa3(2)+wa2(2))
-            wf3(3) = UNCINQ*(wn2(3)+wn3(3)+wn4(3)+wa3(3)+wa2(3))                                                         
+            wf3(1) = ONE_FIFTH*(wn2(1)+wn3(1)+wn4(1)+wa3(1)+wa2(1))
+            wf3(2) = ONE_FIFTH*(wn2(2)+wn3(2)+wn4(2)+wa3(2)+wa2(2))
+            wf3(3) = ONE_FIFTH*(wn2(3)+wn3(3)+wn4(3)+wa3(3)+wa2(3))                                                         
             !Grid velocity on face4 :
-            wf4(1) = TIERS*(wn4(1)+wa4(1)+wa3(1))
-            wf4(2) = TIERS*(wn4(2)+wa4(2)+wa3(2))
-            wf4(3) = TIERS*(wn4(3)+wa4(3)+wa3(3))                                                
+            wf4(1) = THIRD*(wn4(1)+wa4(1)+wa3(1))
+            wf4(2) = THIRD*(wn4(2)+wa4(2)+wa3(2))
+            wf4(3) = THIRD*(wn4(3)+wa4(3)+wa3(3))                                                
             !Grid velocity on face5 :
-            wf5(1) = QUART*(wn4(1)+wn3(1)+wa5(1)+wa4(1))
-            wf5(2) = QUART*(wn4(2)+wn3(2)+wa5(2)+wa4(2))
-            wf5(3) = QUART*(wn4(3)+wn3(3)+wa5(3)+wa4(3))                         
+            wf5(1) = FOURTH*(wn4(1)+wn3(1)+wa5(1)+wa4(1))
+            wf5(2) = FOURTH*(wn4(2)+wn3(2)+wa5(2)+wa4(2))
+            wf5(3) = FOURTH*(wn4(3)+wn3(3)+wa5(3)+wa4(3))                         
             !Grid velocity on face6 :
-            wf6(1) = QUART*(wn3(1)+wn2(1)+wn1(1)+wa6(1)+wa5(1))
-            wf6(2) = QUART*(wn3(2)+wn2(2)+wn1(2)+wa6(2)+wa5(2))
-            wf6(3) = QUART*(wn3(3)+wn2(3)+wn1(3)+wa6(3)+wa5(3))                                                                      
+            wf6(1) = FOURTH*(wn3(1)+wn2(1)+wn1(1)+wa6(1)+wa5(1))
+            wf6(2) = FOURTH*(wn3(2)+wn2(2)+wn1(2)+wa6(2)+wa5(2))
+            wf6(3) = FOURTH*(wn3(3)+wn2(3)+wn1(3)+wa6(3)+wa5(3))                                                                      
             !Grid velocity on face0 :
-            wf0(1) = UNSIX*(wa1(1)+wa2(1)+wa3(1)+wa4(1)+wa5(1)+wa6(1))
-            wf0(2) = UNSIX*(wa1(2)+wa2(2)+wa3(2)+wa4(2)+wa5(2)+wa6(2))
-            wf0(3) = UNSIX*(wa1(3)+wa2(3)+wa3(3)+wa4(3)+wa5(3)+wa6(3))             
+            wf0(1) = ONE_OVER_6*(wa1(1)+wa2(1)+wa3(1)+wa4(1)+wa5(1)+wa6(1))
+            wf0(2) = ONE_OVER_6*(wa1(2)+wa2(2)+wa3(2)+wa4(2)+wa5(2)+wa6(2))
+            wf0(3) = ONE_OVER_6*(wa1(3)+wa2(3)+wa3(3)+wa4(3)+wa5(3)+wa6(3))             
             !storage
             BRICK_LIST(NIN,IB)%POLY(icell)%FACE0%W(1:3)       = wf0(1:3)  
             BRICK_LIST(NIN,IB)%POLY(icell)%FACE(Fa(1))%W(1:3) = wf1(1:3)
@@ -1894,49 +1894,49 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             J       = IAD(1)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa1(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa1(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa1(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa1(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa1(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa1(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a2
             beta    = EDGE_LIST(NIN,IAD(2))%CUTCOOR(iPOSe(2));
             J       = IAD(2)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa2(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa2(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa2(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa2(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa2(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa2(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a3
             beta    = EDGE_LIST(NIN,IAD(3))%CUTCOOR(iPOSe(3));
             J       = IAD(3)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa3(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa3(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa3(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa3(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa3(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa3(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a4
             beta    = EDGE_LIST(NIN,IAD(4))%CUTCOOR(iPOSe(4));
             J       = IAD(4)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa4(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa4(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa4(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa4(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa4(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa4(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a5
             beta    = EDGE_LIST(NIN,IAD(5))%CUTCOOR(iPOSe(5));
             J       = IAD(5)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa5(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa5(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa5(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa5(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa5(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa5(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !interpolate w_a6
             beta    = EDGE_LIST(NIN,IAD(6))%CUTCOOR(iPOSe(6));
             J       = IAD(6)-(IB-1)*12;
             EdgNod1 = IXS(1+iEDGE(1,J),ID);
             EdgNod2 = IXS(1+iEDGE(2,J),ID)
-            wa6(1)  = beta * W(1,EdgNod1) + (UN-beta)*W(1,EdgNod2)
-            wa6(2)  = beta * W(2,EdgNod1) + (UN-beta)*W(2,EdgNod2)
-            wa6(3)  = beta * W(3,EdgNod1) + (UN-beta)*W(3,EdgNod2)
+            wa6(1)  = beta * W(1,EdgNod1) + (ONE-beta)*W(1,EdgNod2)
+            wa6(2)  = beta * W(2,EdgNod1) + (ONE-beta)*W(2,EdgNod2)
+            wa6(3)  = beta * W(3,EdgNod1) + (ONE-beta)*W(3,EdgNod2)
             !brick nodes                       
             wn1(1)= W(1,IXS(Gnode(1,SECID)+1,ID))
             wn1(2)= W(2,IXS(Gnode(1,SECID)+1,ID))
@@ -1954,29 +1954,29 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             wn4(2)= W(2,IXS(Gnode(4,SECID)+1,ID))
             wn4(3)= W(3,IXS(Gnode(4,SECID)+1,ID))                                                                                  
             !Grid velocity on face1 :
-            wf1(1) = QUART*(wn1(1)+wn2(1)+wn3(1)+wn4(1))
-            wf1(2) = QUART*(wn1(2)+wn2(2)+wn3(2)+wn4(2))
-            wf1(3) = QUART*(wn1(3)+wn2(3)+wn3(3)+wn4(3))                                                                     
+            wf1(1) = FOURTH*(wn1(1)+wn2(1)+wn3(1)+wn4(1))
+            wf1(2) = FOURTH*(wn1(2)+wn2(2)+wn3(2)+wn4(2))
+            wf1(3) = FOURTH*(wn1(3)+wn2(3)+wn3(3)+wn4(3))                                                                     
             !Grid velocity on face2 :
-            wf2(1) = QUART*(wn1(1)+wa1(1)+wa2(1)+wn2(1))
-            wf2(2) = QUART*(wn1(2)+wa1(2)+wa2(2)+wn2(2))
-            wf2(3) = QUART*(wn1(3)+wa1(3)+wa2(3)+wn2(3))                                                                                           
+            wf2(1) = FOURTH*(wn1(1)+wa1(1)+wa2(1)+wn2(1))
+            wf2(2) = FOURTH*(wn1(2)+wa1(2)+wa2(2)+wn2(2))
+            wf2(3) = FOURTH*(wn1(3)+wa1(3)+wa2(3)+wn2(3))                                                                                           
             !Grid velocity on face3 :
-            wf3(1) = QUART*(wn2(1)+wa2(1)+wa3(1)+wn3(1))
-            wf3(2) = QUART*(wn2(2)+wa2(2)+wa3(2)+wn3(2))
-            wf3(3) = QUART*(wn2(3)+wa2(3)+wa3(3)+wn3(3))                                                                   
+            wf3(1) = FOURTH*(wn2(1)+wa2(1)+wa3(1)+wn3(1))
+            wf3(2) = FOURTH*(wn2(2)+wa2(2)+wa3(2)+wn3(2))
+            wf3(3) = FOURTH*(wn2(3)+wa2(3)+wa3(3)+wn3(3))                                                                   
             !Grid velocity on face4 :
-            wf4(1) = QUART*(wn1(1)+wn4(1)+wa4(1)+wa1(1))
-            wf4(2) = QUART*(wn1(2)+wn4(2)+wa4(2)+wa1(2))
-            wf4(3) = QUART*(wn1(3)+wn4(3)+wa4(3)+wa1(3))                                                       
+            wf4(1) = FOURTH*(wn1(1)+wn4(1)+wa4(1)+wa1(1))
+            wf4(2) = FOURTH*(wn1(2)+wn4(2)+wa4(2)+wa1(2))
+            wf4(3) = FOURTH*(wn1(3)+wn4(3)+wa4(3)+wa1(3))                                                       
             !Grid velocity on face5 :
-            wf5(1) = (wn4(1)+wn3(1)+wa3(1)+wa6(1)+wa5(1)+wa4(1)+wn4(1))/SEPT
-            wf5(2) = (wn4(2)+wn3(2)+wa3(2)+wa6(2)+wa5(2)+wa4(2)+wn4(2))/SEPT
-            wf5(3) = (wn4(3)+wn3(3)+wa3(3)+wa6(3)+wa5(3)+wa4(3)+wn4(3))/SEPT                                                                        
+            wf5(1) = (wn4(1)+wn3(1)+wa3(1)+wa6(1)+wa5(1)+wa4(1)+wn4(1))/SEVEN
+            wf5(2) = (wn4(2)+wn3(2)+wa3(2)+wa6(2)+wa5(2)+wa4(2)+wn4(2))/SEVEN
+            wf5(3) = (wn4(3)+wn3(3)+wa3(3)+wa6(3)+wa5(3)+wa4(3)+wn4(3))/SEVEN                                                                        
             !Grid velocity on face0 :
-            wf0(1) = UNSIX*(wa1(1)+wa2(1)+wa3(1)+wa4(1)+wa5(1)+wa6(1))
-            wf0(2) = UNSIX*(wa1(2)+wa2(2)+wa3(2)+wa4(2)+wa5(2)+wa6(2))
-            wf0(3) = UNSIX*(wa1(3)+wa2(3)+wa3(3)+wa4(3)+wa5(3)+wa6(3))             
+            wf0(1) = ONE_OVER_6*(wa1(1)+wa2(1)+wa3(1)+wa4(1)+wa5(1)+wa6(1))
+            wf0(2) = ONE_OVER_6*(wa1(2)+wa2(2)+wa3(2)+wa4(2)+wa5(2)+wa6(2))
+            wf0(3) = ONE_OVER_6*(wa1(3)+wa2(3)+wa3(3)+wa4(3)+wa5(3)+wa6(3))             
             !storage
             BRICK_LIST(NIN,IB)%POLY(icell)%FACE0%W(1:3)       = wf0(1:3)  
             BRICK_LIST(NIN,IB)%POLY(icell)%FACE(Fa(1))%W(1:3) = wf1(1:3)
@@ -2085,9 +2085,9 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
         n6 => X(1:3, IXS(1+6,BRICK_LIST(NIN,IB)%ID ))
         n7 => X(1:3, IXS(1+7,BRICK_LIST(NIN,IB)%ID ))
         n8 => X(1:3, IXS(1+8,BRICK_LIST(NIN,IB)%ID ))                                                        
-        BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)= SUM( (/n1(1),n2(1),n3(1),n4(1),n5(1),n6(1),n7(1),n8(1)/) ) / HUIT
-        BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)= SUM( (/n1(2),n2(2),n3(2),n4(2),n5(2),n6(2),n7(2),n8(2)/) ) / HUIT
-        BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(3)= SUM( (/n1(3),n2(3),n3(3),n4(3),n5(3),n6(3),n7(3),n8(3)/) ) / HUIT
+        BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1)= SUM( (/n1(1),n2(1),n3(1),n4(1),n5(1),n6(1),n7(1),n8(1)/) ) / EIGHT
+        BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(2)= SUM( (/n1(2),n2(2),n3(2),n4(2),n5(2),n6(2),n7(2),n8(2)/) ) / EIGHT
+        BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(3)= SUM( (/n1(3),n2(3),n3(3),n4(3),n5(3),n6(3),n7(3),n8(3)/) ) / EIGHT
         BRICK_LIST(NIN,IB)%POLY(ICELL)%ListNodID(1:8) = (/ 1,2,3,4,5,6,7,8/)
         BRICK_LIST(NIN,IB)%NODE(1:8)%WhichCell = ICELL
       ENDIF
@@ -2415,12 +2415,12 @@ C-----------------------------------------------
         S2n(1)       = DIAG13(2)*DIAG24(3) - DIAG13(3)*DIAG24(2)
         S2n(2)       = DIAG13(3)*DIAG24(1) - DIAG13(1)*DIAG24(3)
         S2n(3)       = DIAG13(1)*DIAG24(2) - DIAG13(2)*DIAG24(1)
-        S2n(1:3)     = UNDEMI * S2n(1:3)
+        S2n(1:3)     = HALF * S2n(1:3)
         I22AERA(1:3) = S2n(1:3)
         !I22AERA =  SQRT(SUM(S2n(1:3)*S2n(1:3)))
       ELSEIF (NPTS.GE.5) THEN
          K=NPTS
-         Hh=UNDEMI*(K-1)
+         Hh=HALF*(K-1)
          H=INT(Hh)
          IF( MOD(K,2) == 1 )THEN
            L=0
@@ -2438,7 +2438,7 @@ C-----------------------------------------------
            S2n(1)   = V3(2)*V4(3) - V3(3)*V4(2) + S2n(1)
            S2n(2)   = V3(3)*V4(1) - V3(1)*V4(3) + S2n(2)
            S2n(3)   = V3(1)*V4(2) - V3(2)*V4(1) + S2n(3)                   
-           S2n(1:3) = UNDEMI*S2n(1:3)
+           S2n(1:3) = HALF*S2n(1:3)
            I22AERA  = S2n(1:3)
            !I22AERA = SQRT(SUM(S2n(1:3)*S2n(1:3)))
          END DO

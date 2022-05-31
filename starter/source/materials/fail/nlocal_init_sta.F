@@ -99,7 +99,7 @@ C-----------------------------------------------
         UNL => NLOC_DMG%UNL(1:L_NLOC)
         MNL => NLOC_DMG%MASS(1:L_NLOC)
         ! Initialization of the non-local time step
-        DT_NL = CENT
+        DT_NL = HUNDRED
         FNL   = ZERO
         VNL   = ZERO
         DNL   = ZERO

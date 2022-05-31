@@ -122,13 +122,13 @@ C----
       IRTYP = 7                                                       
       CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)
 c
-      IF (ALPHA == ZERO)  ALPHA = UN                                   
-      IF (XFAC == ZERO) XFAC = UN * XFAC_DIM
+      IF (ALPHA == ZERO)  ALPHA = ONE                                   
+      IF (XFAC == ZERO) XFAC = ONE * XFAC_DIM
       IF (ILENG == 0) THEN
         DMAX = DMAX * XFAC / DMAX_DIM  
       ELSE
         DMAX = DMAX * XFAC 
-        XFAC = UN              
+        XFAC = ONE              
       ENDIF                     
       IF (DMAX == ZERO) DMAX = EP20 * DMAX_DIM
 c
@@ -157,7 +157,7 @@ C
      .                C1=TITR)
           EXIT
         ENDIF
-        IF (YFAC == ZERO) YFAC = UN * YFAC_DIM
+        IF (YFAC == ZERO) YFAC = ONE * YFAC_DIM
 C
         IGEO(IAD+I)     = IFUN
         GEO (IAD+100+I) = RATE                                         
@@ -188,7 +188,7 @@ C
      .                C1=TITR)
           EXIT
         ENDIF
-        IF (YFAC == ZERO) YFAC = UN * YFAC_DIM
+        IF (YFAC == ZERO) YFAC = ONE * YFAC_DIM
 C
         IGEO(IAD+I)     = IFUN                                        
         GEO (IAD+100+I) = RATE                                         

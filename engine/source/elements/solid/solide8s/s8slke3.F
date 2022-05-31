@@ -103,15 +103,15 @@ C-----------------------------------------------
      .    A31(I),A32(I),A33(I),
      .    DN_R, DN_S, DN_T,B)
        
-       HV(1,1) = (HH(1,I)+DEUX*HH(2,I))*VOL(I)
+       HV(1,1) = (HH(1,I)+TWO*HH(2,I))*VOL(I)
        HV(2,1) = HH(1,I)*VOL(I)
        HV(3,1) = HH(1,I)*VOL(I)
        HV(1,2) = HH(1,I)*VOL(I)
-       HV(2,2) = (HH(1,I)+DEUX*HH(2,I))*VOL(I)
+       HV(2,2) = (HH(1,I)+TWO*HH(2,I))*VOL(I)
        HV(3,2) = HH(1,I)*VOL(I)
        HV(1,3) = HH(1,I)*VOL(I)
        HV(2,3) = HH(1,I)*VOL(I)
-       HV(3,3) = (HH(1,I)+DEUX*HH(2,I))*VOL(I)
+       HV(3,3) = (HH(1,I)+TWO*HH(2,I))*VOL(I)
        HV(4,4) = HH(2,I)*VOL(I)
        HV(5,5) = HH(2,I)*VOL(I)
        HV(6,6) = HH(2,I)*VOL(I)
@@ -125,8 +125,8 @@ C-----------------------------------------------
        ! ENDDO
        !ENDDO
 
-       ! CALL DGEMM('N','N',6,24,6,UN,HV,6,B,6,ZERO,KTEMP,6)
-        CALL DSYMM('L','U',6,24,UN,HV,6,B,6,ZERO,KTEMP,6)
+       ! CALL DGEMM('N','N',6,24,6,ONE,HV,6,B,6,ZERO,KTEMP,6)
+        CALL DSYMM('L','U',6,24,ONE,HV,6,B,6,ZERO,KTEMP,6)
        !DO J=1,24
        ! DO K=1,24
        !  DO JK=1,6
@@ -134,7 +134,7 @@ C-----------------------------------------------
        !  ENDDO
        ! ENDDO
        !ENDDO
-       CALL DGEMM('T','N',24,24,6,UN,B,6,KTEMP,6,UN,KL(1,1,I),24)
+       CALL DGEMM('T','N',24,24,6,ONE,B,6,KTEMP,6,ONE,KL(1,1,I),24)
       ENDDO
 #else
       CALL ARRET(5)
@@ -211,21 +211,21 @@ C-----------------------------------------------
          B(3,JJ+3) =  A33 *DN_S(J)
         ENDDO
 ! sortir cette partie car independante du PG
-        A1A1 = (X2 +X3 -X1 -X4 )*QUART
-        A1A2 = (Y2 +Y3 -Y1 -Y4 )*QUART
-        A1A3 = (Z2 +Z3 -Z1 -Z4 )*QUART
-        A2A1 = (X4 +X3 -X1 -X2 )*QUART
-        A2A2 = (Y4 +Y3 -Y1 -Y2 )*QUART
-        A2A3 = (Z4 +Z3 -Z1 -Z2 )*QUART
-        A1B1 = (X6 +X7 -X5 -X8 )*QUART
-        A1B2 = (Y6 +Y7 -Y5 -Y8 )*QUART
-        A1B3 = (Z6 +Z7 -Z5 -Z8 )*QUART
-        A2B1 = (X8 +X7 -X5 -X6 )*QUART
-        A2B2 = (Y8 +Y7 -Y5 -Y6 )*QUART
-        A2B3 = (Z8 +Z7 -Z5 -Z6 )*QUART
+        A1A1 = (X2 +X3 -X1 -X4 )*FOURTH
+        A1A2 = (Y2 +Y3 -Y1 -Y4 )*FOURTH
+        A1A3 = (Z2 +Z3 -Z1 -Z4 )*FOURTH
+        A2A1 = (X4 +X3 -X1 -X2 )*FOURTH
+        A2A2 = (Y4 +Y3 -Y1 -Y2 )*FOURTH
+        A2A3 = (Z4 +Z3 -Z1 -Z2 )*FOURTH
+        A1B1 = (X6 +X7 -X5 -X8 )*FOURTH
+        A1B2 = (Y6 +Y7 -Y5 -Y8 )*FOURTH
+        A1B3 = (Z6 +Z7 -Z5 -Z8 )*FOURTH
+        A2B1 = (X8 +X7 -X5 -X6 )*FOURTH
+        A2B2 = (Y8 +Y7 -Y5 -Y6 )*FOURTH
+        A2B3 = (Z8 +Z7 -Z5 -Z6 )*FOURTH
 !
-        UM = (UN-ZETA)/HUIT
-        UP = (UN+ZETA)/HUIT
+        UM = (ONE-ZETA)/EIGHT
+        UP = (ONE+ZETA)/EIGHT
         B(4,1) = -UM*(A1A1+A2A1)
         B(4,2) = -UM*(A1A2+A2A2)
         B(4,3) = -UM*(A1A3+A2A3)
@@ -252,21 +252,21 @@ C-----------------------------------------------
         B(4,24) = UP*(A1B3-A2B3)
       
 ! sortir cette partie car independante du PG
-        B1A1 = (X2 +X6 -X1 -X5 )*QUART
-        B1A2 = (Y2 +Y6 -Y1 -Y5 )*QUART
-        B1A3 = (Z2 +Z6 -Z1 -Z5 )*QUART
-        B2A1 = (X5 +X6 -X1 -X2 )*QUART
-        B2A2 = (Y5 +Y6 -Y1 -Y2 )*QUART
-        B2A3 = (Z5 +Z6 -Z1 -Z2 )*QUART
-        B1B1 = (X3 +X7 -X4 -X8 )*QUART
-        B1B2 = (Y3 +Y7 -Y4 -Y8 )*QUART
-        B1B3 = (Z3 +Z7 -Z4 -Z8 )*QUART
-        B2B1 = (X7 +X8 -X3 -X4 )*QUART
-        B2B2 = (Y7 +Y8 -Y3 -Y4 )*QUART
-        B2B3 = (Z7 +Z8 -Z3 -Z4 )*QUART
+        B1A1 = (X2 +X6 -X1 -X5 )*FOURTH
+        B1A2 = (Y2 +Y6 -Y1 -Y5 )*FOURTH
+        B1A3 = (Z2 +Z6 -Z1 -Z5 )*FOURTH
+        B2A1 = (X5 +X6 -X1 -X2 )*FOURTH
+        B2A2 = (Y5 +Y6 -Y1 -Y2 )*FOURTH
+        B2A3 = (Z5 +Z6 -Z1 -Z2 )*FOURTH
+        B1B1 = (X3 +X7 -X4 -X8 )*FOURTH
+        B1B2 = (Y3 +Y7 -Y4 -Y8 )*FOURTH
+        B1B3 = (Z3 +Z7 -Z4 -Z8 )*FOURTH
+        B2B1 = (X7 +X8 -X3 -X4 )*FOURTH
+        B2B2 = (Y7 +Y8 -Y3 -Y4 )*FOURTH
+        B2B3 = (Z7 +Z8 -Z3 -Z4 )*FOURTH
 !
-        UM = (UN-ETA)/HUIT
-        UP = (UN+ETA)/HUIT
+        UM = (ONE-ETA)/EIGHT
+        UP = (ONE+ETA)/EIGHT
         B(5,1) = -UM*(B1A1+B2A1)
         B(5,2) = -UM*(B1A2+B2A2)
         B(5,3) = -UM*(B1A3+B2A3)
@@ -293,21 +293,21 @@ C-----------------------------------------------
         B(5,24)=  UP*(B1B3-B2B3)
       
 ! sortir cette partie car independante du PG
-        C1A1 = (X4 +X8 -X1 -X5 )*QUART
-        C1A2 = (Y4 +Y8 -Y1 -Y5 )*QUART
-        C1A3 = (Z4 +Z8 -Z1 -Z5 )*QUART
-        C2A1 = (X5 +X8 -X1 -X4 )*QUART
-        C2A2 = (Y5 +Y8 -Y1 -Y4 )*QUART
-        C2A3 = (Z5 +Z8 -Z1 -Z4 )*QUART
-        C1B1 = (X3 +X7 -X2 -X6 )*QUART
-        C1B2 = (Y3 +Y7 -Y2 -Y6 )*QUART
-        C1B3 = (Z3 +Z7 -Z2 -Z6 )*QUART
-        C2B1 = (X6 +X7 -X2 -X3 )*QUART
-        C2B2 = (Y6 +Y7 -Y2 -Y3 )*QUART
-        C2B3 = (Z6 +Z7 -Z2 -Z3 )*QUART
+        C1A1 = (X4 +X8 -X1 -X5 )*FOURTH
+        C1A2 = (Y4 +Y8 -Y1 -Y5 )*FOURTH
+        C1A3 = (Z4 +Z8 -Z1 -Z5 )*FOURTH
+        C2A1 = (X5 +X8 -X1 -X4 )*FOURTH
+        C2A2 = (Y5 +Y8 -Y1 -Y4 )*FOURTH
+        C2A3 = (Z5 +Z8 -Z1 -Z4 )*FOURTH
+        C1B1 = (X3 +X7 -X2 -X6 )*FOURTH
+        C1B2 = (Y3 +Y7 -Y2 -Y6 )*FOURTH
+        C1B3 = (Z3 +Z7 -Z2 -Z6 )*FOURTH
+        C2B1 = (X6 +X7 -X2 -X3 )*FOURTH
+        C2B2 = (Y6 +Y7 -Y2 -Y3 )*FOURTH
+        C2B3 = (Z6 +Z7 -Z2 -Z3 )*FOURTH
 !
-        UM = (UN-KSI)/HUIT
-        UP = (UN+KSI)/HUIT
+        UM = (ONE-KSI)/EIGHT
+        UP = (ONE+KSI)/EIGHT
         B(6,1) = -UM*(C1A1+C2A1)
         B(6,2) = -UM*(C1A2+C2A2)
         B(6,3) = -UM*(C1A3+C2A3)
@@ -346,21 +346,21 @@ C-----------------------------------------------
         C(1,1) = CA11*CA11
         C(2,1) = CA12*CA12
         C(3,1) = CA13*CA13
-        C(4,1) = DEUX*CA11*CA12
-        C(5,1) = DEUX*CA11*CA13
-        C(6,1) = DEUX*CA12*CA13
+        C(4,1) = TWO*CA11*CA12
+        C(5,1) = TWO*CA11*CA13
+        C(6,1) = TWO*CA12*CA13
         C(1,2) = CA21*CA21
         C(2,2) = CA22*CA22
         C(3,2) = CA23*CA23
-        C(4,2) = DEUX*CA21*CA22
-        C(5,2) = DEUX*CA21*CA23
-        C(6,2) = DEUX*CA22*CA23
+        C(4,2) = TWO*CA21*CA22
+        C(5,2) = TWO*CA21*CA23
+        C(6,2) = TWO*CA22*CA23
         C(1,3) = CA31*CA31
         C(2,3) = CA32*CA32
         C(3,3) = CA33*CA33
-        C(4,3) = DEUX*CA31*CA32
-        C(5,3) = DEUX*CA31*CA33
-        C(6,3) = DEUX*CA32*CA33
+        C(4,3) = TWO*CA31*CA32
+        C(5,3) = TWO*CA31*CA33
+        C(6,3) = TWO*CA32*CA33
         C(1,4) = CA11*CA21
         C(2,4) = CA12*CA22
         C(3,4) = CA13*CA23

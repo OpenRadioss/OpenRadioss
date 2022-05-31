@@ -142,7 +142,7 @@ C
        ELSEIF(IGSTI.EQ.2)THEN
         DO I=1,JLT
          L  = CAND_E(I)
-         STIF(I)=UNDEMI*(STF(L)+ABS(STFN(CAND_N(I))))
+         STIF(I)=HALF*(STF(L)+ABS(STFN(CAND_N(I))))
          STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
         ENDDO
        ELSEIF(IGSTI.EQ.3)THEN
@@ -258,7 +258,7 @@ C
             NN = NI - NSN
             STIF(I)=ABS(STIFI(NIN)%P(NN))
           END IF
-          STIF(I)=UNDEMI*(STF(L)+STIF(I))
+          STIF(I)=HALF*(STF(L)+STIF(I))
           STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
          ENDDO
         ELSEIF(IGSTI.EQ.3)THEN

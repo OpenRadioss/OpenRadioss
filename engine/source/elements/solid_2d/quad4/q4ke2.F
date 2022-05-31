@@ -248,11 +248,11 @@ C-----------------------------------------------
       GBUF => ELBUF_STR%GBUF
       IF (ISORTH == 0) THEN
         DO I=LFT,LLT
-          GAMA(I,1) = UN
+          GAMA(I,1) = ONE
           GAMA(I,2) = ZERO
           GAMA(I,3) = ZERO
           GAMA(I,4) = ZERO
-          GAMA(I,5) = UN
+          GAMA(I,5) = ONE
           GAMA(I,6) = ZERO
         ENDDO
       ELSE
@@ -298,19 +298,19 @@ C
 C     COMPUTE FAC(*) FOR PRESSURE ACCORDING TO PLASTICITY STATE
 C---- now assumed strain is used, no effect for Isolid17
         DO I=LFT,LLT
-          NU(I)=MIN(UNDEMI,PM(21,MXT(I)))
+          NU(I)=MIN(HALF,PM(21,MXT(I)))
           C1 =PM(32,MXT(I))
-          E0(I) =TROIS*(UN-DEUX*NU(I))*C1
+          E0(I) =THREE*(ONE-TWO*NU(I))*C1
         ENDDO
       IF(ICP==2) THEN
         CALL S8ZSIGP3(LFT  ,LLT       ,GBUF%SIG,E0  ,GBUF%PLA,
      2                FAC  ,GBUF%G_PLA,NEL     )
         DO I=LFT,LLT
-          NUU(I)=NU(I)+(UNDEMI-NU(I))*FAC(I)
+          NUU(I)=NU(I)+(HALF-NU(I))*FAC(I)
         ENDDO
       ELSEIF(ICP==1) THEN
         DO I=LFT,LLT
-          NUU(I)=UNDEMI
+          NUU(I)=HALF
         ENDDO
       ELSE
         DO I=LFT,LLT

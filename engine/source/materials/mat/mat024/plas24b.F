@@ -101,7 +101,7 @@ c=======================================================================
       EXPO  = PM(49)
       HVFAC = PM(58)
 c
-      TOL =( RT-RC)/VINGT
+      TOL =( RT-RC)/TWENTY
 c------------------------------------------------
 C  RETOUR SUR LE CRITERE ,SIG ,CDAM,CRAK,...
 c------------------------------------------------
@@ -110,25 +110,25 @@ c------------------------------------------------
         CRAK(I,1)=CRAK(I,1)-SCLE2(I)*DEPS1(I)
         CRAK(I,2)=CRAK(I,2)-SCLE2(I)*DEPS2(I)
         CRAK(I,3)=CRAK(I,3)-SCLE2(I)*DEPS3(I)
-        DE1(I)=UN - MAX( ZERO , SIGN(DAM(I,1),CRAK(I,1)) )
-        DE2(I)=UN - MAX( ZERO , SIGN(DAM(I,2),CRAK(I,2)) )
-        DE3(I)=UN - MAX( ZERO , SIGN(DAM(I,3),CRAK(I,3)) )
-        SCAL1(I)=UNDEMI+SIGN(UNDEMI,DE1(I)-UN)
-        SCAL2(I)=UNDEMI+SIGN(UNDEMI,DE2(I)-UN)
-        SCAL3(I)=UNDEMI+SIGN(UNDEMI,DE3(I)-UN)      
+        DE1(I)=ONE - MAX( ZERO , SIGN(DAM(I,1),CRAK(I,1)) )
+        DE2(I)=ONE - MAX( ZERO , SIGN(DAM(I,2),CRAK(I,2)) )
+        DE3(I)=ONE - MAX( ZERO , SIGN(DAM(I,3),CRAK(I,3)) )
+        SCAL1(I)=HALF+SIGN(HALF,DE1(I)-ONE)
+        SCAL2(I)=HALF+SIGN(HALF,DE2(I)-ONE)
+        SCAL3(I)=HALF+SIGN(HALF,DE3(I)-ONE)      
         DE4(I)=SCAL1(I)*SCAL2(I)
         DE5(I)=SCAL2(I)*SCAL3(I)
         DE6(I)=SCAL3(I)*SCAL1(I)
 c-------
-        DEN = UN - NU**2 *(DE4(I) + DE5(I) + DE6(I)
-     .      + DEUX*NU*SCAL1(I)*SCAL2(I)*SCAL3(I))
-        DEN = UN / DEN
-        CDAM(I,1,1) = YOUNG*DE1(I)*(UN -NU**2*SCAL2(I)*SCAL3(I))*DEN
-        CDAM(I,2,2) = YOUNG*DE2(I)*(UN -NU**2*SCAL1(I)*SCAL3(I))*DEN
-        CDAM(I,3,3) = YOUNG*DE3(I)*(UN -NU**2*SCAL2(I)*SCAL1(I))*DEN
-        CDAM(I,1,2) = NU*YOUNG*SCAL1(I)*SCAL2(I) *(UN+NU*SCAL3(I))*DEN
-        CDAM(I,2,3) = NU*YOUNG*SCAL2(I)*SCAL3(I) *(UN+NU*SCAL1(I))*DEN
-        CDAM(I,1,3) = NU*YOUNG*SCAL1(I)*SCAL3(I) *(UN+NU*SCAL2(I))*DEN
+        DEN = ONE - NU**2 *(DE4(I) + DE5(I) + DE6(I)
+     .      + TWO*NU*SCAL1(I)*SCAL2(I)*SCAL3(I))
+        DEN = ONE / DEN
+        CDAM(I,1,1) = YOUNG*DE1(I)*(ONE -NU**2*SCAL2(I)*SCAL3(I))*DEN
+        CDAM(I,2,2) = YOUNG*DE2(I)*(ONE -NU**2*SCAL1(I)*SCAL3(I))*DEN
+        CDAM(I,3,3) = YOUNG*DE3(I)*(ONE -NU**2*SCAL2(I)*SCAL1(I))*DEN
+        CDAM(I,1,2) = NU*YOUNG*SCAL1(I)*SCAL2(I) *(ONE+NU*SCAL3(I))*DEN
+        CDAM(I,2,3) = NU*YOUNG*SCAL2(I)*SCAL3(I) *(ONE+NU*SCAL1(I))*DEN
+        CDAM(I,1,3) = NU*YOUNG*SCAL1(I)*SCAL3(I) *(ONE+NU*SCAL2(I))*DEN
         CDAM(I,2,1) = CDAM(I,1,2)
         CDAM(I,3,1) = CDAM(I,1,3)
         CDAM(I,3,2) = CDAM(I,2,3)
@@ -139,9 +139,9 @@ c-----
         SIG(I,1)=CDAM(I,1,1)*CRAK(I,1)+CDAM(I,1,2)*CRAK(I,2)+CDAM(I,1,3)*CRAK(I,3)
         SIG(I,2)=CDAM(I,2,1)*CRAK(I,1)+CDAM(I,2,2)*CRAK(I,2)+CDAM(I,2,3)*CRAK(I,3)
         SIG(I,3)=CDAM(I,3,1)*CRAK(I,1)+CDAM(I,3,2)*CRAK(I,2)+CDAM(I,3,3)*CRAK(I,3)
-        SIG(I,4)=DE4(I)*SIG(I,4)-C44(I)*DEPS4(I)*(UN-SCLE2(I))
-        SIG(I,5)=DE5(I)*SIG(I,5)-C55(I)*DEPS5(I)*(UN-SCLE2(I))
-        SIG(I,6)=DE6(I)*SIG(I,6)-C66(I)*DEPS6(I)*(UN-SCLE2(I))
+        SIG(I,4)=DE4(I)*SIG(I,4)-C44(I)*DEPS4(I)*(ONE-SCLE2(I))
+        SIG(I,5)=DE5(I)*SIG(I,5)-C55(I)*DEPS5(I)*(ONE-SCLE2(I))
+        SIG(I,6)=DE6(I)*SIG(I,6)-C66(I)*DEPS6(I)*(ONE-SCLE2(I))
         S1(I) = SCAL1(I)*SIG(I,1)
         S2(I) = SCAL2(I)*SIG(I,2)
         S3(I) = SCAL3(I)*SIG(I,3)
@@ -162,7 +162,7 @@ c----------------------------
      .        + ABS(DEPS4(I))+ABS(DEPS5(I))+ABS(DEPS6(I))
 c
         RATE  = NUMER / DENOM
-        NITER = NINT(TROIS*RATE) + 1
+        NITER = NINT(THREE*RATE) + 1
         NITER = MIN0(NITER,10)    
 c--------------------------------
         FAC = SCLE2(I)/NITER      
@@ -179,16 +179,16 @@ c---------------------------------------------------------
 c--------------------
           ROK = ROK0+ROB(I)-RO0
           R2  = S1(I)**2 + S2(I)**2 + S3(I)**2
-     .        +(S4(I)**2 + S5(I)**2 + S6(I)**2)*DEUX
+     .        +(S4(I)**2 + S5(I)**2 + S6(I)**2)*TWO
           IF (SM(I) >= RT-TOL) THEN
-            VK(I) = UN
+            VK(I) = ONE
           ELSEIF (SM(I) > RC) THEN
-            VK(I) = UN +(UN-VK0(I))*(RCT1-DEUX*RC*SM(I)+SM(I)**2)/RCT2
+            VK(I) = ONE +(ONE-VK0(I))*(RCT1-TWO*RC*SM(I)+SM(I)**2)/RCT2
           ELSEIF (SM(I) > ROK)THEN
             VK(I) = VK0(I)
 C CAPE
           ELSEIF (SM(I) > ROB(I)) THEN
-            VK(I) = VK0(I)*(UN - ((SM(I)-ROK)/(ROB(I)-ROK))**2)
+            VK(I) = VK0(I)*(ONE - ((SM(I)-ROK)/(ROB(I)-ROK))**2)
           ELSE
             VK(I) = ZERO
           ENDIF
@@ -196,15 +196,15 @@ C ON TRONQUE PRES DE l'AXE des pressions
 C CRITERE
           AJ3 = S1(I)*S2(I)*S3(I)
      .        - S1(I)*S5(I)*S5(I)-S2(I)*S6(I)*S6(I)-S3(I)*S4(I)*S4(I)
-     .        + DEUX*S4(I)*S5(I)*S6(I)
-          CS3T= UNDEMI * AJ3*(TROIS/UNDEMI*MAX(R2,EM20))**TDEMI
-          CS3T= MIN(UN,CS3T)
-          CS3T= MAX(-UN,CS3T)
-          BB  = UNDEMI*((UN - CS3T)*BC+(UN +CS3T)*BT)
+     .        + TWO*S4(I)*S5(I)*S6(I)
+          CS3T= HALF * AJ3*(THREE/HALF*MAX(R2,EM20))**THREE_HALF
+          CS3T= MIN(ONE,CS3T)
+          CS3T= MAX(-ONE,CS3T)
+          BB  = HALF*((ONE - CS3T)*BC+(ONE +CS3T)*BT)
           DF  = SQRT(BB*BB + MAX(-AA*SM(I) + AC,EM9))
           RF  = (-BB+DF)/AA
           RF2 = RF**2
-          AJ2 = UNDEMI*R2
+          AJ2 = HALF*R2
           AJJ = SQRT(AJ2)
           RR  = SQR2*AJJ
 c
@@ -220,38 +220,38 @@ C PRINCIPALES DERIVEES
             IF (SM(I) >= RT-TOL) THEN
               DKDSM =ZERO
             ELSEIF(SM(I)>RC)THEN
-              DKDSM = DEUX*(UN -VK0(I))*(SM(I)-RC)/RCT2
+              DKDSM = TWO*(ONE -VK0(I))*(SM(I)-RC)/RCT2
             ELSEIF(SM(I)>ROK)THEN
               DKDSM = ZERO
             ELSE
-              DKDSM = -DEUX*VK0(I)*(SM(I)-ROK)/(ROB(I)-ROK)**2
+              DKDSM = -TWO*VK0(I)*(SM(I)-ROK)/(ROB(I)-ROK)**2
             ENDIF
-            DRFDSM= -UNDEMI / DF
+            DRFDSM= -HALF / DF
             B0    = -THIRD * VK(I) *DRFDSM - THIRD * RF * DKDSM
-            DRF3  =  UNDEMI* (-UN + BB/DF) * (BT-BC)/AA
-            B1    =  UNDEMI*SQR2/AJJ
-     .            +  VK(I)*DRF3*QUART*AJ3*(TROIS/AJ2)**DEUXP5
-            B2    = -VK(I)*DRF3*UNDEMI*(TROIS/AJ2)**TDEMI
+            DRF3  =  HALF* (-ONE + BB/DF) * (BT-BC)/AA
+            B1    =  HALF*SQR2/AJJ
+     .            +  VK(I)*DRF3*FOURTH*AJ3*(THREE/AJ2)**TWOP5
+            B2    = -VK(I)*DRF3*HALF*(THREE/AJ2)**THREE_HALF
 C           DF/DSIG
-            TS1 = S1(I)**2 + S4(I)**2 + S6(I)**2 - DEUX*THIRD*AJ2
-            TS2 = S2(I)**2 + S4(I)**2 + S5(I)**2 - DEUX*THIRD*AJ2
-            TS3 = S3(I)**2 + S5(I)**2 + S6(I)**2 - DEUX*THIRD*AJ2
-            TS4 = DEUX* (S5(I)*S6(I)-S4(I)*S3(I))
-            TS5 = DEUX* (S6(I)*S4(I)-S5(I)*S1(I))
-            TS6 = DEUX* (S4(I)*S5(I)-S6(I)*S2(I))     
+            TS1 = S1(I)**2 + S4(I)**2 + S6(I)**2 - TWO*THIRD*AJ2
+            TS2 = S2(I)**2 + S4(I)**2 + S5(I)**2 - TWO*THIRD*AJ2
+            TS3 = S3(I)**2 + S5(I)**2 + S6(I)**2 - TWO*THIRD*AJ2
+            TS4 = TWO* (S5(I)*S6(I)-S4(I)*S3(I))
+            TS5 = TWO* (S6(I)*S4(I)-S5(I)*S1(I))
+            TS6 = TWO* (S4(I)*S5(I)-S6(I)*S2(I))     
             DFS1= B0 + B1*S1(I) + B2*TS1
             DFS2= B0 + B1*S2(I) + B2*TS2
             DFS3= B0 + B1*S3(I) + B2*TS3
-            DFS4= DEUX*B1*S4(I) + B2*TS4 
-            DFS5= DEUX*B1*S5(I) + B2*TS5 
-            DFS6= DEUX*B1*S6(I) + B2*TS6 
+            DFS4= TWO*B1*S4(I) + B2*TS4 
+            DFS5= TWO*B1*S5(I) + B2*TS5 
+            DFS6= TWO*B1*S6(I) + B2*TS6 
 C
             IF (SM(I) > ROK .and. VK(I) > VKY) THEN
-              ALPHA = (UN-VK(I))*ALI0  + (VK(I)-VKY)*ALF0
-              ALPHA = ALPHA / (UN-VKY)
+              ALPHA = (ONE-VK(I))*ALI0  + (VK(I)-VKY)*ALF0
+              ALPHA = ALPHA / (ONE-VKY)
             ELSEIF (VK0(I) > VKY) THEN
-              ALPHA = (UN-VK0(I))*ALI0 + (VK0(I)-VKY)*ALF0
-              ALPHA = ALPHA / (UN-VKY)
+              ALPHA = (ONE-VK0(I))*ALI0 + (VK0(I)-VKY)*ALF0
+              ALPHA = ALPHA / (ONE-VKY)
             ELSE
               ALPHA = ALI0
             ENDIF
@@ -265,10 +265,10 @@ c              FAC=(SEUIL-B0)/(SEUIL+THIRD * VK0(I) *DRFDSM)
             IF (SM(I) < ROK .AND. B0 < ZERO) THEN
               FAC = (SEUIL-B0) / SEUIL
               FAC = MAX(ZERO,FAC)
-              FAC = MIN(UN,FAC)
-              FAC1= UN-FAC
+              FAC = MIN(ONE,FAC)
+              FAC1= ONE-FAC
             ELSE
-              FAC = UN
+              FAC = ONE
               FAC1= ZERO
             ENDIF
 c           Securite on ne veut pas que la normale a la loi d'ecoulement soit rentrante
@@ -276,8 +276,8 @@ c + on liminte le cos de l'angle max entre citere etloi d'ecoulement a 0.5
 c dans le repere I1 J=sqrt(J2) ng=normale a  G (alpha,1)
 c normal a f nf=(B0,DFDJ)
 c cos= ng.nf/||nf||||ng||
-            DFDJ = DEUX*B1*AJJ
-cc            NORMS=SQRT((ALPHA**2+UN)*(B0**2+DFDJ**2))
+            DFDJ = TWO*B1*AJJ
+cc            NORMS=SQRT((ALPHA**2+ONE)*(B0**2+DFDJ**2))
             NORMS=SQRT((B0**2+DFDJ**2))
             IF (B0 >=ZERO) THEN
               ALPHA = MAX(ALPHA,  (EM01*NORMS - DFDJ)/MAX(EM20,B0))
@@ -287,9 +287,9 @@ cc            NORMS=SQRT((ALPHA**2+UN)*(B0**2+DFDJ**2))
 c           Dilatation max atteinte
             IF (RHO(I) < RHO0  .OR. EINT(I)<0) ALPHA=ZERO
 c           Ecoulement non associe
-            DGS1=FAC*ALPHA+S1(I)/(DEUX*AJJ)
-            DGS2=FAC*ALPHA+S2(I)/(DEUX*AJJ)
-            DGS3=FAC*ALPHA+S3(I)/(DEUX*AJJ)       
+            DGS1=FAC*ALPHA+S1(I)/(TWO*AJJ)
+            DGS2=FAC*ALPHA+S2(I)/(TWO*AJJ)
+            DGS3=FAC*ALPHA+S3(I)/(TWO*AJJ)       
             DGS4=S4(I)/AJJ
             DGS5=S5(I)/AJJ
             DGS6=S6(I)/AJJ
@@ -302,7 +302,7 @@ c           Transition et associe
             DGS6=FAC*DGS6+FAC1*DFS6
 c compactance dilatance effective (!= alpha sur la cape)
 c correction erreur           ALPHA = DGS1+DGS2+DGS3
-            ALPHA = TIERS*(DGS1+DGS2+DGS3)
+            ALPHA = THIRD*(DGS1+DGS2+DGS3)
 C ECROUISSAGE
 c contribution deviatorique
             IF (SM(I) < ROK) THEN
@@ -310,13 +310,13 @@ c contribution deviatorique
             ELSE
               TO = SQR3_2*VK(I)*RF
             ENDIF
-            PHI  = MAX(ZERO,ALPHA*TROIS*SM(I)+AJJ)/TO
-            DFDTO=-SQRT(DTHIRD)+B0
+            PHI  = MAX(ZERO,ALPHA*THREE*SM(I)+AJJ)/TO
+            DFDTO=-SQRT(TWO_THIRD)+B0
             ECR  = PHI*DFDTO*HBP*FAC
-c           ECR=  DIX*PHI*DFDTO*HBP*FAC*(UN-VK0(I))/(UN-VKY) ! ecrousissage progressif
-c            IF (VK0(I)==UN ) ECR=ZERO
+c           ECR=  TEN*PHI*DFDTO*HBP*FAC*(ONE-VK0(I))/(ONE-VKY) ! ecrousissage progressif
+c            IF (VK0(I)==ONE ) ECR=ZERO
 c Contribution volumetrique 
-            HPV =HV0*(UN-HVFAC*VK(I))*MAX(UN,EXP(EXPO*EPSVP(I)))
+            HPV =HV0*(ONE-HVFAC*VK(I))*MAX(ONE,EXP(EXPO*EPSVP(I)))
             IF (SM(I) >= ROK) THEN
               IF(ALPHA>=ZERO) HPV=ZERO
             ELSE
@@ -327,10 +327,10 @@ c Contribution volumetrique
               ENDIF
             ENDIF
 c plasticite parfaite sur le critere de rupture
-c            ECR=ECR*(UNDEMI-SIGN(UNDEMI,VK(I)-UN)) 
+c            ECR=ECR*(HALF-SIGN(HALF,VK(I)-ONE)) 
 c            write(993,"(A,3E12.3)")'vkvk0  ',VK(I),VK0(I),SQRT(R2/RF2)
 c            write(993,"(A,3E12.3)")'SMrobrk',sm(I),ROB(I),ROK
-            IF(R2>=RF2 .OR.VK(I)>=UN )THEN
+            IF(R2>=RF2 .OR.VK(I)>=ONE )THEN
               HPV=ZERO
               ECR=ZERO
             ENDIF
@@ -405,39 +405,39 @@ C
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 C RECALCUL DES DEFORMATION ELASTIQUES POUR REOUVERTURE DES FISSURES
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-c           C11 = UN/DE1(I)/YOUNG
+c           C11 = ONE/DE1(I)/YOUNG
 c           C12 = -NU*SCAL1(I)*SCAL2(I)/YOUNG
 c           C13 = -NU*SCAL1(I)*SCAL3(I)/YOUNG
 c           CRAK(I,1) = C11*SIG(I,1)+C12*SIG(I,2)+C13*SIG(I,3)
-c           C22 = UN/DE2(I)/YOUNG
+c           C22 = ONE/DE2(I)/YOUNG
 c           C23 = -NU*SCAL2(I)*SCAL3(I)/YOUNG
 c           CRAK(I,2) = C12*SIG(I,1)+C22*SIG(I,2)+C23*SIG(I,3)
-c           C33 = UN/DE3(I)/YOUNG
+c           C33 = ONE/DE3(I)/YOUNG
 c           CRAK(I,3) = C13*SIG(I,1)+C23*SIG(I,2)+C33*SIG(I,3)
 C
             CRAK(I,1) =CRAK(I,1)+DEPSEL1
             CRAK(I,2) =CRAK(I,2)+DEPSEL2
             CRAK(I,3) =CRAK(I,3)+DEPSEL3
 c
-            DE1(I)=UN - MAX( ZERO , SIGN(DAM(I,1),CRAK(I,1)) )
-            DE2(I)=UN - MAX( ZERO , SIGN(DAM(I,2),CRAK(I,2)) )
-            DE3(I)=UN - MAX( ZERO , SIGN(DAM(I,3),CRAK(I,3)) )
-            SCAL1(I)=UNDEMI+SIGN(UNDEMI,DE1(I)-UN)
-            SCAL2(I)=UNDEMI+SIGN(UNDEMI,DE2(I)-UN)
-            SCAL3(I)=UNDEMI+SIGN(UNDEMI,DE3(I)-UN)      
+            DE1(I)=ONE - MAX( ZERO , SIGN(DAM(I,1),CRAK(I,1)) )
+            DE2(I)=ONE - MAX( ZERO , SIGN(DAM(I,2),CRAK(I,2)) )
+            DE3(I)=ONE - MAX( ZERO , SIGN(DAM(I,3),CRAK(I,3)) )
+            SCAL1(I)=HALF+SIGN(HALF,DE1(I)-ONE)
+            SCAL2(I)=HALF+SIGN(HALF,DE2(I)-ONE)
+            SCAL3(I)=HALF+SIGN(HALF,DE3(I)-ONE)      
             DE4(I)=SCAL1(I)*SCAL2(I)
             DE5(I)=SCAL2(I)*SCAL3(I)
             DE6(I)=SCAL3(I)*SCAL1(I)
 c--------------------------
-            DEN = UN - NU**2 *(DE4(I) + DE5(I) + DE6(I)
-     .           + DEUX*NU*SCAL1(I)*SCAL2(I)*SCAL3(I))
+            DEN = ONE - NU**2 *(DE4(I) + DE5(I) + DE6(I)
+     .           + TWO*NU*SCAL1(I)*SCAL2(I)*SCAL3(I))
 C
-            CDAM(I,1,1) = YOUNG*DE1(I)*(UN-NU**2*SCAL2(I)*SCAL3(I))/DEN
-            CDAM(I,2,2) = YOUNG*DE2(I)*(UN -NU**2*SCAL1(I)*SCAL3(I))/DEN
-            CDAM(I,3,3) = YOUNG*DE3(I)*(UN -NU**2*SCAL2(I)*SCAL1(I))/DEN
-            CDAM(I,1,2) = NU*YOUNG*SCAL1(I)*SCAL2(I) *(UN+NU*SCAL3(I))/DEN
-            CDAM(I,2,3) = NU*YOUNG*SCAL2(I)*SCAL3(I) *(UN+NU*SCAL1(I))/DEN
-            CDAM(I,1,3) = NU*YOUNG*SCAL1(I)*SCAL3(I) *(UN+NU*SCAL2(I))/DEN
+            CDAM(I,1,1) = YOUNG*DE1(I)*(ONE-NU**2*SCAL2(I)*SCAL3(I))/DEN
+            CDAM(I,2,2) = YOUNG*DE2(I)*(ONE -NU**2*SCAL1(I)*SCAL3(I))/DEN
+            CDAM(I,3,3) = YOUNG*DE3(I)*(ONE -NU**2*SCAL2(I)*SCAL1(I))/DEN
+            CDAM(I,1,2) = NU*YOUNG*SCAL1(I)*SCAL2(I) *(ONE+NU*SCAL3(I))/DEN
+            CDAM(I,2,3) = NU*YOUNG*SCAL2(I)*SCAL3(I) *(ONE+NU*SCAL1(I))/DEN
+            CDAM(I,1,3) = NU*YOUNG*SCAL1(I)*SCAL3(I) *(ONE+NU*SCAL2(I))/DEN
             CDAM(I,2,1) = CDAM(I,1,2)
             CDAM(I,3,1) = CDAM(I,1,3)
             CDAM(I,3,2) = CDAM(I,2,3)
@@ -467,18 +467,18 @@ C CALCUL DES PARAMETRES D' ECROUISSAGE COURANTS VK0,ROB
 C CORRECTIONS EVENTUELLES
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . .
             IF (SM(I) > AC/AA)
-     .        SM(I)=SM(I)-TROIS*(SM(I)-AC/AA)/(SCAL1(I)+SCAL2(I)+SCAL3(I))
+     .        SM(I)=SM(I)-THREE*(SM(I)-AC/AA)/(SCAL1(I)+SCAL2(I)+SCAL3(I))
 C
             R2  = S1(I)**2 + S2(I)**2 + S3(I)**2
-     .          +(S4(I)**2 + S5(I)**2 + S6(I)**2)*DEUX
+     .          +(S4(I)**2 + S5(I)**2 + S6(I)**2)*TWO
             RR  = SQRT(R2)
             AJ3 = S1(I)*S2(I)*S3(I)
      .          - S1(I)*S5(I)*S5(I) - S2(I)*S6(I)*S6(I) - S3(I)*S4(I)*S4(I)
-     .          + DEUX*S4(I)*S5(I)*S6(I)
-            CS3T= UNDEMI * AJ3*(TROIS/UNDEMI*MAX(R2,EM20))**TDEMI
-            CS3T= MIN(UN,CS3T)
-            CS3T= MAX(-UN,CS3T)
-            BB  = UNDEMI*((UN-CS3T)*BC + (UN+CS3T)*BT)
+     .          + TWO*S4(I)*S5(I)*S6(I)
+            CS3T= HALF * AJ3*(THREE/HALF*MAX(R2,EM20))**THREE_HALF
+            CS3T= MIN(ONE,CS3T)
+            CS3T= MAX(-ONE,CS3T)
+            BB  = HALF*((ONE-CS3T)*BC + (ONE+CS3T)*BT)
             DF  = SQRT(BB*BB + MAX(-AA*SM(I)+AC, ZERO))
             RF  = (-BB + DF) / AA
 c
@@ -489,44 +489,44 @@ c
             ENDIF
 C
 c           on reprojette si en dehors du critere
-            IF (VK(I) > UN) THEN
-              FAC = UN/VK(I)
+            IF (VK(I) > ONE) THEN
+              FAC = ONE/VK(I)
               IF (SCAL1(I) > ZEP9) SIG(I,1) =  S1(I)*FAC+SM(I)
               IF (SCAL2(I) > ZEP9) SIG(I,2) =  S2(I)*FAC+SM(I)
               IF (SCAL3(I) > ZEP9) SIG(I,3) =  S3(I)*FAC+SM(I)
               IF (SCAL1(I)*SCAL2(I) > ZEP9) SIG(I,4) =  S4(I)*FAC
               IF (SCAL2(I)*SCAL3(I) > ZEP9) SIG(I,5) =  S5(I)*FAC
               IF (SCAL3(I)*SCAL1(I) > ZEP9) SIG(I,6) =  S6(I)*FAC      
-              VK(I) = UN
-              C11 = UN/DE1(I)/YOUNG
+              VK(I) = ONE
+              C11 = ONE/DE1(I)/YOUNG
               C12 = -NU*SCAL1(I)*SCAL2(I)/YOUNG
               C13 = -NU*SCAL1(I)*SCAL3(I)/YOUNG
               CRAK(I,1) = C11*SIG(I,1)+C12*SIG(I,2)+C13*SIG(I,3)
-              C22 = UN/DE2(I)/YOUNG
+              C22 = ONE/DE2(I)/YOUNG
               C23 = -NU*SCAL2(I)*SCAL3(I)/YOUNG
               CRAK(I,2) = C12*SIG(I,1)+C22*SIG(I,2)+C23*SIG(I,3)
-              C33 = UN/DE3(I)/YOUNG
+              C33 = ONE/DE3(I)/YOUNG
               CRAK(I,3) = C13*SIG(I,1)+C23*SIG(I,2)+C33*SIG(I,3)
 C
-              DE1(I)=UN - MAX( ZERO , SIGN(DAM(I,1),CRAK(I,1)) )
-              DE2(I)=UN - MAX( ZERO , SIGN(DAM(I,2),CRAK(I,2)) )
-              DE3(I)=UN - MAX( ZERO , SIGN(DAM(I,3),CRAK(I,3)) )
-              SCAL1(I)=UNDEMI + SIGN(UNDEMI,DE1(I)-UN)
-              SCAL2(I)=UNDEMI + SIGN(UNDEMI,DE2(I)-UN)
-              SCAL3(I)=UNDEMI + SIGN(UNDEMI,DE3(I)-UN)        
+              DE1(I)=ONE - MAX( ZERO , SIGN(DAM(I,1),CRAK(I,1)) )
+              DE2(I)=ONE - MAX( ZERO , SIGN(DAM(I,2),CRAK(I,2)) )
+              DE3(I)=ONE - MAX( ZERO , SIGN(DAM(I,3),CRAK(I,3)) )
+              SCAL1(I)=HALF + SIGN(HALF,DE1(I)-ONE)
+              SCAL2(I)=HALF + SIGN(HALF,DE2(I)-ONE)
+              SCAL3(I)=HALF + SIGN(HALF,DE3(I)-ONE)        
               DE4(I)=SCAL1(I)*SCAL2(I)
               DE5(I)=SCAL2(I)*SCAL3(I)
               DE6(I)=SCAL3(I)*SCAL1(I)
 c---------------------------------
-              DEN = UN - NU**2 *(DE4(I) + DE5(I) + DE6(I)
-     .            + DEUX*NU*SCAL1(I)*SCAL2(I)*SCAL3(I))
+              DEN = ONE - NU**2 *(DE4(I) + DE5(I) + DE6(I)
+     .            + TWO*NU*SCAL1(I)*SCAL2(I)*SCAL3(I))
 C
-              CDAM(I,1,1) = YOUNG*DE1(I)*(UN -NU**2*SCAL2(I)*SCAL3(I))/DEN
-              CDAM(I,2,2) = YOUNG*DE2(I)*(UN -NU**2*SCAL1(I)*SCAL3(I))/DEN
-              CDAM(I,3,3) = YOUNG*DE3(I)*(UN -NU**2*SCAL2(I)*SCAL1(I))/DEN
-              CDAM(I,1,2) = NU*YOUNG*SCAL1(I)*SCAL2(I) *(UN +NU*SCAL3(I))/DEN
-              CDAM(I,2,3) = NU*YOUNG*SCAL2(I)*SCAL3(I) *(UN +NU*SCAL1(I))/DEN
-              CDAM(I,1,3) = NU*YOUNG*SCAL1(I)*SCAL3(I) *(UN +NU*SCAL2(I))/DEN
+              CDAM(I,1,1) = YOUNG*DE1(I)*(ONE -NU**2*SCAL2(I)*SCAL3(I))/DEN
+              CDAM(I,2,2) = YOUNG*DE2(I)*(ONE -NU**2*SCAL1(I)*SCAL3(I))/DEN
+              CDAM(I,3,3) = YOUNG*DE3(I)*(ONE -NU**2*SCAL2(I)*SCAL1(I))/DEN
+              CDAM(I,1,2) = NU*YOUNG*SCAL1(I)*SCAL2(I) *(ONE +NU*SCAL3(I))/DEN
+              CDAM(I,2,3) = NU*YOUNG*SCAL2(I)*SCAL3(I) *(ONE +NU*SCAL1(I))/DEN
+              CDAM(I,1,3) = NU*YOUNG*SCAL1(I)*SCAL3(I) *(ONE +NU*SCAL2(I))/DEN
               CDAM(I,2,1) = CDAM(I,1,2)
               CDAM(I,3,1) = CDAM(I,1,3)
               CDAM(I,3,2) = CDAM(I,2,3)
@@ -542,25 +542,25 @@ C
             ROK = ROB(I) - RO0 + ROK0
  
             IF (SM(I) >= RT-TOL)THEN
-              VKK=UN
+              VKK=ONE
             ELSEIF(SM(I) > RC) THEN
-              DIV= MIN(-EM10,RCT1- DEUX*RC*SM(I)+SM(I)*SM(I) )
-              VKK=UN +(UN - VK(I))*RCT2/DIV
+              DIV= MIN(-EM10,RCT1- TWO*RC*SM(I)+SM(I)*SM(I) )
+              VKK=ONE +(ONE - VK(I))*RCT2/DIV
             ELSEIF(SM(I)>=ROK) THEN
               VKK=VK(I)
             ELSE
 c             si au dela de la cape, on change rob
-              VKMAX=UN- ((SM(I)-ROK)/(ROB(I)-ROK))**2
+              VKMAX=ONE- ((SM(I)-ROK)/(ROB(I)-ROK))**2
               IF (VK(I)>VKMAX) THEN
-                ROK = SM(I) - SQRT(UN-VK(I))*(RO0-ROK0)
+                ROK = SM(I) - SQRT(ONE-VK(I))*(RO0-ROK0)
                 ROB(I) = ROK+RO0-ROK0
-                VKK = UN
+                VKK = ONE
               ELSE
 c               sinon on calcule k0          
                 VKK = VK(I)/MAX(VKMAX,EM03)
               ENDIF
             ENDIF
-            VKK   = MIN(VKK,UN)
+            VKK   = MIN(VKK,ONE)
             VK0(I)= MAX(VKK,VK0(I))
 c            write(7,*)'normal'         
 c
@@ -570,26 +570,26 @@ c           PURE TRIAXIAL TO SOLVE UNDETERMINATION
             D1 = DEPS1(I) - DEPSV*THIRD
             D2 = DEPS2(I) - DEPSV*THIRD
             D3 = DEPS3(I) - DEPSV*THIRD
-            HPV = HV0*MAX(UN, EXP(EXPO*EPSVP(I)))
+            HPV = HV0*MAX(ONE, EXP(EXPO*EPSVP(I)))
             DEPSVP  = BULK/(BULK+HPV)*DEPSV
             EPSVP(I)= EPSVP(I) + DEPSVP
             RO = MIN( ROB(I),ROB(I) + HPV*DEPSVP )
             DP = RO - ROB(I)
-            SIG(I,1) = SIG(I,1) + DP + DEUX*G*D1
-	           SIG(I,2) = SIG(I,2) + DP + DEUX*G*D2
-            SIG(I,3) = SIG(I,3) + DP + DEUX*G*D3
+            SIG(I,1) = SIG(I,1) + DP + TWO*G*D1
+	           SIG(I,2) = SIG(I,2) + DP + TWO*G*D2
+            SIG(I,3) = SIG(I,3) + DP + TWO*G*D3
  	          SIG(I,4) = SIG(I,4) + G*DEPS4(I)
 	           SIG(I,5) = SIG(I,5) + G*DEPS5(I)
             SIG(I,6) = SIG(I,6) + G*DEPS6(I)
             ROB(I) = RO
-            VK0(I) = UN  
+            VK0(I) = ONE  
 c            write(7,*)'pure triaxial'         
           ENDIF
 c         equivalent plastic strain for output     
           R2  = (S1(I)**2 + S2(I)**2 + S3(I)**2
-     .        + (S4(I)**2 + S5(I)**2 + S6(I)**2)*DEUX)*TDEMI
+     .        + (S4(I)**2 + S5(I)**2 + S6(I)**2)*TWO)*THREE_HALF
           SIGM = SIG(I,1) + SIG(I,2) + SIG(I,2)
-          RR = UN/SQR3
+          RR = ONE/SQR3
           IF (R2 > ZERO) RR = RR + ALPHA*SIGM/SQRT(R2)
 !!          PLA(I) = PLA(I) + LAMBDA * RR
           PLA(I,1) = PLA(I,1) + LAMBDA * RR ! --- plastic strain --- scalar

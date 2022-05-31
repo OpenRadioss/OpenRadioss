@@ -263,11 +263,11 @@ C          	pour JHBE=14, valeurs moyennes est dans rep. corota.
            	  GAMA(5)=GBUF%GAMA(JJ(5) + I)
            	  GAMA(6)=GBUF%GAMA(JJ(6) + I)
            	ELSE
-           	  GAMA(1)=UN
+           	  GAMA(1)=ONE
            	  GAMA(2)=ZERO
            	  GAMA(3)=ZERO
            	  GAMA(4)=ZERO
-           	  GAMA(5)=UN
+           	  GAMA(5)=ONE
            	  GAMA(6)=ZERO
            	END IF
            	  CALL SROTA6(X,IXS(1,N),KCVT,EVAR(1,I),GAMA,JHBE,IGTYP)
@@ -372,11 +372,11 @@ C                   STRESS TENSOR IN GLOBAL SYSTEM
                 	  GAMA(5)= GBUF%GAMA(JJ(5) + I)
                 	  GAMA(6)= GBUF%GAMA(JJ(6) + I)
                 	ELSE
-                	  GAMA(1)=UN
+                	  GAMA(1)=ONE
                 	  GAMA(2)=ZERO
                 	  GAMA(3)=ZERO
                 	  GAMA(4)=ZERO
-                	  GAMA(5)=UN
+                	  GAMA(5)=ONE
                 	  GAMA(6)=ZERO
                 	END IF
                 	CALL SROTA6(X,IXS(1,N),KCVT,
@@ -388,9 +388,9 @@ c-----------
               ELSEIF((ISOLNOD == 8.OR.NPT == 1) .AND.
      .              JHBE /= 14.AND.JHBE /= 15.AND.JHBE /= 17)THEN
 c-----------
-                NPTR= UN
-                NPTS= UN
-                NPTT= UN
+                NPTR= ONE
+                NPTS= ONE
+                NPTT= ONE
                 IF (IR == 0 .AND. IT == 0)THEN
                   DO I=1,NEL
                     EVAR(1,I) = ZERO
@@ -448,11 +448,11 @@ C                   STRESS TENSOR IN GLOBAL SYSTEM
                 	  GAMA(5)=GBUF%GAMA(JJ(5) + I)
                 	  GAMA(6)=GBUF%GAMA(JJ(6) + I)
                 	ELSE
-                	  GAMA(1)=UN
+                	  GAMA(1)=ONE
                 	  GAMA(2)=ZERO
                 	  GAMA(3)=ZERO
                 	  GAMA(4)=ZERO
-                	  GAMA(5)=UN
+                	  GAMA(5)=ONE
                 	  GAMA(6)=ZERO
                 	END IF
                 	CALL SROTA6(X,IXS(1,N),KCVT,
@@ -525,11 +525,11 @@ C                   STRESS TENSOR IN GLOBAL SYSTEM
                 	  GAMA(5)=GBUF%GAMA(JJ(5) + I)
                 	  GAMA(6)=GBUF%GAMA(JJ(6) + I)
                 	ELSE
-                	  GAMA(1)=UN
+                	  GAMA(1)=ONE
                 	  GAMA(2)=ZERO
                 	  GAMA(3)=ZERO
                 	  GAMA(4)=ZERO
-                	  GAMA(5)=UN
+                	  GAMA(5)=ONE
                 	  GAMA(6)=ZERO
                 	END IF
                 	CALL SROTA6(X,IXS(1,N),KCVT,
@@ -623,11 +623,11 @@ C--------------thick shells----only pid21,irep=0--works--------
                 	  GAMA(5)=-GAMA(2)
                 	  GAMA(6)=GAMA(1)
                 	ELSE
-                	  GAMA(1)=UN
+                	  GAMA(1)=ONE
                 	  GAMA(2)=ZERO
                 	  GAMA(3)=ZERO
                 	  GAMA(4)=ZERO
-                	  GAMA(5)=UN
+                	  GAMA(5)=ONE
                 	  GAMA(6)=ZERO
                 	END IF
                 	CALL SROTA6(X,IXS(1,N),KCVT,
@@ -645,11 +645,11 @@ C--------------thick shells----only pid21,irep=0--works--------
                 	  GAMA(5)=GAMA(1)
                 	  GAMA(6)=ZERO
                 	ELSE
-                	  GAMA(1)=UN
+                	  GAMA(1)=ONE
                 	  GAMA(2)=ZERO
                 	  GAMA(3)=ZERO
                 	  GAMA(4)=ZERO
-                	  GAMA(5)=UN
+                	  GAMA(5)=ONE
                 	  GAMA(6)=ZERO
                 	END IF
                 	CALL SROTA6(X,IXS(1,N),KCVT,
@@ -667,11 +667,11 @@ C--------------thick shells----only pid21,irep=0--works--------
                 	  GAMA(5)=ZERO
                 	  GAMA(6)=-GAMA(1)
                 	ELSE
-                	  GAMA(1)=UN
+                	  GAMA(1)=ONE
                 	  GAMA(2)=ZERO
                 	  GAMA(3)=ZERO
                 	  GAMA(4)=ZERO
-                	  GAMA(5)=UN
+                	  GAMA(5)=ONE
                 	  GAMA(6)=ZERO
                 	END IF
                 	CALL SROTA6(X,IXS(1,N),KCVT,
@@ -690,11 +690,11 @@ C--------------thick shells----only pid21,irep=0--works--------
                 	  GAMA(5)=GBUF%GAMA(JJ(5) + I)
                 	  GAMA(6)=GBUF%GAMA(JJ(6) + I)
                 	ELSE
-                	  GAMA(1)=UN
+                	  GAMA(1)=ONE
                 	  GAMA(2)=ZERO
                 	  GAMA(3)=ZERO
                 	  GAMA(4)=ZERO
-                	  GAMA(5)=UN
+                	  GAMA(5)=ONE
                 	  GAMA(6)=ZERO
                 	END IF
                 	CALL SROTA6(X,IXS(1,N),KCVT,
@@ -767,11 +767,11 @@ C                   STRESS TENSOR IN GLOBAL SYSTEM
                 	  GAMA(5)=GBUF%GAMA(JJ(5) + I)
                 	  GAMA(6)=GBUF%GAMA(JJ(6) + I)
                 	ELSE
-                	  GAMA(1)=UN
+                	  GAMA(1)=ONE
                 	  GAMA(2)=ZERO
                 	  GAMA(3)=ZERO
                 	  GAMA(4)=ZERO
-                	  GAMA(5)=UN
+                	  GAMA(5)=ONE
                 	  GAMA(6)=ZERO
                 	END IF
                 	CALL SROTA6(X,IXS(1,N),KCVT,
@@ -835,11 +835,11 @@ C                 STRESS TENSOR IN GLOBAL SYSTEM
                       GAMA(5)= GAMA(1)
                       GAMA(6)= ZERO
                     ELSE
-                      GAMA(1)=UN
+                      GAMA(1)=ONE
                       GAMA(2)=ZERO
                       GAMA(3)=ZERO
                       GAMA(4)=ZERO
-                      GAMA(5)=UN
+                      GAMA(5)=ONE
                       GAMA(6)=ZERO
                     END IF
                     CALL SROTA6(X,IXS(1,N),KCVT,
@@ -906,11 +906,11 @@ C--------------thick shells----only pid21,irep=0--works--------
                               GAMA(5)=-GAMA(2)
                               GAMA(6)=GAMA(1)
                             ELSE
-                              GAMA(1)=UN
+                              GAMA(1)=ONE
                               GAMA(2)=ZERO
                               GAMA(3)=ZERO
                               GAMA(4)=ZERO
-                              GAMA(5)=UN
+                              GAMA(5)=ONE
                               GAMA(6)=ZERO
                             END IF
                             CALL SROTA6(X,IXS(1,N),KCVT,
@@ -934,11 +934,11 @@ C--------------thick shells----only pid21,irep=0--works--------
                      	      GAMA(5)=GAMA(1)
                      	      GAMA(6)=ZERO
                      	    ELSE
-                     	      GAMA(1)=UN
+                     	      GAMA(1)=ONE
                      	      GAMA(2)=ZERO
                      	      GAMA(3)=ZERO
                      	      GAMA(4)=ZERO
-                     	      GAMA(5)=UN
+                     	      GAMA(5)=ONE
                      	      GAMA(6)=ZERO
                      	    END IF
                      	    CALL SROTA6(X,IXS(1,N),KCVT,
@@ -962,11 +962,11 @@ C--------------thick shells----only pid21,irep=0--works--------
                               GAMA(5)=ZERO
                               GAMA(6)=-GAMA(1)
                             ELSE
-                              GAMA(1)=UN
+                              GAMA(1)=ONE
                               GAMA(2)=ZERO
                               GAMA(3)=ZERO
                               GAMA(4)=ZERO
-                              GAMA(5)=UN
+                              GAMA(5)=ONE
                               GAMA(6)=ZERO
                             END IF
                             CALL SROTA6(X,IXS(1,N),KCVT,
@@ -984,11 +984,11 @@ C--------------thick shells----only pid21,irep=0--works--------
                      	    GAMA(5)=GBUF%GAMA(JJ(5) + I)
                      	    GAMA(6)=GBUF%GAMA(JJ(6) + I)
                      	  ELSE
-                     	    GAMA(1)=UN
+                     	    GAMA(1)=ONE
                      	    GAMA(2)=ZERO
                      	    GAMA(3)=ZERO
                      	    GAMA(4)=ZERO
-                     	    GAMA(5)=UN
+                     	    GAMA(5)=ONE
                      	    GAMA(6)=ZERO
                      	  END IF
                      	  CALL SROTA6(X,IXS(1,N),KCVT,
@@ -1055,11 +1055,11 @@ C                 STRESS TENSOR IN GLOBAL SYSTEM
                       GAMA(5)= GAMA(1)
                       GAMA(6)= ZERO
                     ELSE
-                      GAMA(1)=UN
+                      GAMA(1)=ONE
                       GAMA(2)=ZERO
                       GAMA(3)=ZERO
                       GAMA(4)=ZERO
-                      GAMA(5)=UN
+                      GAMA(5)=ONE
                       GAMA(6)=ZERO
                     END IF
                     CALL SROTA6(X,IXS(1,N),KCVT,
@@ -1121,12 +1121,12 @@ c-----------
                     N = I + NFT
                     DO J=1,8
                       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,J)					
-                      EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)*UNHUIT
-                      EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)*UNHUIT
-                      EVAR(3,I) = EVAR(3,I) + LBUF%STRA(JJ(3) + I)*UNHUIT
-                      EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*UNHUIT
-                      EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*UNHUIT
-                      EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*UNHUIT
+                      EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)*ONE_OVER_8
+                      EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)*ONE_OVER_8
+                      EVAR(3,I) = EVAR(3,I) + LBUF%STRA(JJ(3) + I)*ONE_OVER_8
+                      EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*ONE_OVER_8
+                      EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*ONE_OVER_8
+                      EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*ONE_OVER_8
                       IS_WRITTEN_TENSOR(I) = 1
                     ENDDO
                   ENDDO
@@ -1145,9 +1145,9 @@ c
                     EVAR(1,I) =  LBUF%STRA(JJ(1) + I)
                     EVAR(2,I) =  LBUF%STRA(JJ(2) + I)
                     EVAR(3,I) =  LBUF%STRA(JJ(3) + I)
-                    EVAR(4,I) =  LBUF%STRA(JJ(4) + I)*UNDEMI
-                    EVAR(5,I) =  LBUF%STRA(JJ(5) + I)*UNDEMI
-                    EVAR(6,I) =  LBUF%STRA(JJ(6) + I)*UNDEMI
+                    EVAR(4,I) =  LBUF%STRA(JJ(4) + I)*HALF
+                    EVAR(5,I) =  LBUF%STRA(JJ(5) + I)*HALF
+                    EVAR(6,I) =  LBUF%STRA(JJ(6) + I)*HALF
                     IS_WRITTEN_TENSOR(I) = 1
                   ENDDO
                   IF (ISORTH > 0) KCVT = 2
@@ -1168,9 +1168,9 @@ c
                     EVAR(1,I) = LBUF%STRA(JJ(1) + I)
                     EVAR(2,I) = LBUF%STRA(JJ(2) + I)
                     EVAR(3,I) = LBUF%STRA(JJ(3) + I)
-                    EVAR(4,I) = LBUF%STRA(JJ(4) + I)*UNDEMI
-                    EVAR(5,I) = LBUF%STRA(JJ(5) + I)*UNDEMI
-                    EVAR(6,I) = LBUF%STRA(JJ(6) + I)*UNDEMI
+                    EVAR(4,I) = LBUF%STRA(JJ(4) + I)*HALF
+                    EVAR(5,I) = LBUF%STRA(JJ(5) + I)*HALF
+                    EVAR(6,I) = LBUF%STRA(JJ(6) + I)*HALF
                     IS_WRITTEN_TENSOR(I) = 1
                   ENDDO
                   IF (ISORTH > 0) KCVT = 2
@@ -1183,9 +1183,9 @@ c
                       EVAR(1,I) = LBUF%STRA(JJ(1) + I)
                       EVAR(2,I) = LBUF%STRA(JJ(2) + I)
                       EVAR(3,I) = LBUF%STRA(JJ(3) + I)
-                      EVAR(4,I) = LBUF%STRA(JJ(4) + I)*UNDEMI
-                      EVAR(5,I) = LBUF%STRA(JJ(5) + I)*UNDEMI
-                      EVAR(6,I) = LBUF%STRA(JJ(6) + I)*UNDEMI
+                      EVAR(4,I) = LBUF%STRA(JJ(4) + I)*HALF
+                      EVAR(5,I) = LBUF%STRA(JJ(5) + I)*HALF
+                      EVAR(6,I) = LBUF%STRA(JJ(6) + I)*HALF
                       IS_WRITTEN_TENSOR(I) = 1
                     ENDDO
                   ENDIF
@@ -1203,11 +1203,11 @@ C                 STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5)=GBUF%GAMA(JJ(5) + I)
                       GAMA(6)=GBUF%GAMA(JJ(6) + I)
                     ELSE
-                      GAMA(1)=UN
+                      GAMA(1)=ONE
                       GAMA(2)=ZERO
                       GAMA(3)=ZERO
                       GAMA(4)=ZERO
-                      GAMA(5)=UN
+                      GAMA(5)=ONE
                       GAMA(6)=ZERO
                     END IF
                     CALL SROTA6(X,IXS(1,N),KCVT,
@@ -1230,9 +1230,9 @@ c-----------
                        EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)/NPT
                        EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)/NPT
                        EVAR(3,I) = EVAR(3,I) + LBUF%STRA(JJ(3) + I)/NPT
-                       EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*UNDEMI/NPT
-                       EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*UNDEMI/NPT
-                       EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*UNDEMI/NPT
+                       EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*HALF/NPT
+                       EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*HALF/NPT
+                       EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*HALF/NPT
                        IS_WRITTEN_TENSOR(I) = 1
                       ENDDO 
                      ENDDO
@@ -1270,9 +1270,9 @@ c-----------
                 	EVAR_TMP(1) =  LBUF%STRA(JJ(1) + I)/NPT
                 	EVAR_TMP(2) =  LBUF%STRA(JJ(2) + I)/NPT
                 	EVAR_TMP(3) =  LBUF%STRA(JJ(3) + I)/NPT
-                	EVAR_TMP(4) =  LBUF%STRA(JJ(4) + I)*UNDEMI/NPT
-                	EVAR_TMP(5) =  LBUF%STRA(JJ(5) + I)*UNDEMI/NPT
-                	EVAR_TMP(6) =  LBUF%STRA(JJ(6) + I)*UNDEMI/NPT
+                	EVAR_TMP(4) =  LBUF%STRA(JJ(4) + I)*HALF/NPT
+                	EVAR_TMP(5) =  LBUF%STRA(JJ(5) + I)*HALF/NPT
+                	EVAR_TMP(6) =  LBUF%STRA(JJ(6) + I)*HALF/NPT
              	  	ICSIG=IPARG(17,NG)  
              	  	IF (KCVT /= 0 .AND.ICSIG > 0) THEN
 C            	  	  STRAIN TENSOR IN GLOBAL SYSTEM
@@ -1294,11 +1294,11 @@ C            	  	  STRAIN TENSOR IN GLOBAL SYSTEM
              	  	        GAMA(5)=-GAMA(2)
              	  	        GAMA(6)= GAMA(1)
              	  	      ELSE
-             	  	        GAMA(1)=UN
+             	  	        GAMA(1)=ONE
              	  	        GAMA(2)=ZERO
              	  	        GAMA(3)=ZERO
              	  	        GAMA(4)=ZERO
-             	  	        GAMA(5)=UN
+             	  	        GAMA(5)=ONE
              	  	        GAMA(6)=ZERO
              	  	      END IF
              	  	      CALL SROTA6(X,IXS(1,N),KCVT,
@@ -1319,11 +1319,11 @@ C            	  	  STRAIN TENSOR IN GLOBAL SYSTEM
              	  	        GAMA(5)= GAMA(1)
              	  	        GAMA(6)= ZERO
              	  	      ELSE
-             	  	        GAMA(1)=UN
+             	  	        GAMA(1)=ONE
              	  	        GAMA(2)=ZERO
              	  	        GAMA(3)=ZERO
              	  	        GAMA(4)=ZERO
-             	  	        GAMA(5)=UN
+             	  	        GAMA(5)=ONE
              	  	        GAMA(6)=ZERO
              	  	      END IF
              	  	      CALL SROTA6(X,IXS(1,N),KCVT,
@@ -1344,11 +1344,11 @@ C            	  	  STRAIN TENSOR IN GLOBAL SYSTEM
              	  	        GAMA(5)= ZERO
              	  	        GAMA(6)=-GAMA(1)
              	  	      ELSE
-             	  	        GAMA(1)=UN
+             	  	        GAMA(1)=ONE
              	  	        GAMA(2)=ZERO
              	  	        GAMA(3)=ZERO
              	  	        GAMA(4)=ZERO
-             	  	        GAMA(5)=UN
+             	  	        GAMA(5)=ONE
              	  	        GAMA(6)=ZERO
              	  	      END IF
              	  	      CALL SROTA6(X,IXS(1,N),KCVT,
@@ -1382,9 +1382,9 @@ C            	  	  STRAIN TENSOR IN GLOBAL SYSTEM
                 	 EVAR_TMP(1) = LBUF%STRA(JJ(1) + I)/NPT
                 	 EVAR_TMP(2) = LBUF%STRA(JJ(2) + I)/NPT
                 	 EVAR_TMP(3) = LBUF%STRA(JJ(3) + I)/NPT
-                	 EVAR_TMP(4) = LBUF%STRA(JJ(4) + I)*UNDEMI/NPT
-                	 EVAR_TMP(5) = LBUF%STRA(JJ(5) + I)*UNDEMI/NPT
-                	 EVAR_TMP(6) = LBUF%STRA(JJ(6) + I)*UNDEMI/NPT
+                	 EVAR_TMP(4) = LBUF%STRA(JJ(4) + I)*HALF/NPT
+                	 EVAR_TMP(5) = LBUF%STRA(JJ(5) + I)*HALF/NPT
+                	 EVAR_TMP(6) = LBUF%STRA(JJ(6) + I)*HALF/NPT
 c
              	  	 ICSIG=IPARG(17,NG)  
              	  	 IF (KCVT /= 0 .AND.ICSIG > 0) THEN
@@ -1407,11 +1407,11 @@ C            	  	   STRAIN TENSOR IN GLOBAL SYSTEM
              	  	         GAMA(5)=-GAMA(2)
              	  	         GAMA(6)= GAMA(1)
              	  	       ELSE
-             	  	         GAMA(1)=UN
+             	  	         GAMA(1)=ONE
              	  	         GAMA(2)=ZERO
              	  	         GAMA(3)=ZERO
              	  	         GAMA(4)=ZERO
-             	  	         GAMA(5)=UN
+             	  	         GAMA(5)=ONE
              	  	         GAMA(6)=ZERO
              	  	       END IF
              	  	       CALL SROTA6(X,IXS(1,N),KCVT,
@@ -1432,11 +1432,11 @@ C            	  	   STRAIN TENSOR IN GLOBAL SYSTEM
              	  	         GAMA(5)= GAMA(1)
              	  	         GAMA(6)= ZERO
              	  	       ELSE
-             	  	         GAMA(1)=UN
+             	  	         GAMA(1)=ONE
              	  	         GAMA(2)=ZERO
              	  	         GAMA(3)=ZERO
              	  	         GAMA(4)=ZERO
-             	  	         GAMA(5)=UN
+             	  	         GAMA(5)=ONE
              	  	         GAMA(6)=ZERO
              	  	       END IF
              	  	       CALL SROTA6(X,IXS(1,N),KCVT,
@@ -1457,11 +1457,11 @@ C            	  	   STRAIN TENSOR IN GLOBAL SYSTEM
              	  		  GAMA(5)= ZERO
              	  		  GAMA(6)=-GAMA(1)
              	  		ELSE
-             	  		  GAMA(1)=UN
+             	  		  GAMA(1)=ONE
              	  		  GAMA(2)=ZERO
              	  		  GAMA(3)=ZERO
              	  		  GAMA(4)=ZERO
-             	  		  GAMA(5)=UN
+             	  		  GAMA(5)=ONE
              	  		  GAMA(6)=ZERO
              	  		END IF
              	  		CALL SROTA6(X,IXS(1,N),KCVT,
@@ -1504,11 +1504,11 @@ C                 STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5)=GBUF%GAMA(JJ(5) + I)
                       GAMA(6)=GBUF%GAMA(JJ(6) + I)
                     ELSE					   
-                      GAMA(1)=UN				   
+                      GAMA(1)=ONE				   
                       GAMA(2)=ZERO				   
                       GAMA(3)=ZERO				   
                       GAMA(4)=ZERO				   
-                      GAMA(5)=UN				   
+                      GAMA(5)=ONE				   
                       GAMA(6)=ZERO				   
                     END IF					   
                     CALL SROTA6(X,IXS(1,N),KCVT,		   
@@ -1527,9 +1527,9 @@ c-----------
                       EVAR(1,I) = EVAR(1,I)+LBUF%STRA(JJ(1) + I)/NPT
                       EVAR(2,I) = EVAR(2,I)+LBUF%STRA(JJ(2) + I)/NPT
                       EVAR(3,I) = EVAR(3,I)+LBUF%STRA(JJ(3) + I)/NPT
-                      EVAR(4,I) = EVAR(4,I)+LBUF%STRA(JJ(4) + I)*UNDEMI/NPT
-                      EVAR(5,I) = EVAR(5,I)+LBUF%STRA(JJ(5) + I)*UNDEMI/NPT
-                      EVAR(6,I) = EVAR(6,I)+LBUF%STRA(JJ(6) + I)*UNDEMI/NPT
+                      EVAR(4,I) = EVAR(4,I)+LBUF%STRA(JJ(4) + I)*HALF/NPT
+                      EVAR(5,I) = EVAR(5,I)+LBUF%STRA(JJ(5) + I)*HALF/NPT
+                      EVAR(6,I) = EVAR(6,I)+LBUF%STRA(JJ(6) + I)*HALF/NPT
                       IS_WRITTEN_TENSOR(I) = 1
                     ENDDO
                   ENDDO
@@ -1554,9 +1554,9 @@ c-----------
                       EVAR(1,I) = EVAR(1,I)+LBUF%STRA(JJ(1) + I)/NPT
                       EVAR(2,I) = EVAR(2,I)+LBUF%STRA(JJ(2) + I)/NPT
                       EVAR(3,I) = EVAR(3,I)+LBUF%STRA(JJ(3) + I)/NPT
-                      EVAR(4,I) = EVAR(4,I)+LBUF%STRA(JJ(4) + I)*UNDEMI/NPT
-                      EVAR(5,I) = EVAR(5,I)+LBUF%STRA(JJ(5) + I)*UNDEMI/NPT
-                      EVAR(6,I) = EVAR(6,I)+LBUF%STRA(JJ(6) + I)*UNDEMI/NPT
+                      EVAR(4,I) = EVAR(4,I)+LBUF%STRA(JJ(4) + I)*HALF/NPT
+                      EVAR(5,I) = EVAR(5,I)+LBUF%STRA(JJ(5) + I)*HALF/NPT
+                      EVAR(6,I) = EVAR(6,I)+LBUF%STRA(JJ(6) + I)*HALF/NPT
                       IS_WRITTEN_TENSOR(I) = 1
                     ENDDO
                   ENDDO
@@ -1570,9 +1570,9 @@ c-----------
                 	EVAR(1,I) = EVAR(1,I)+LBUF%STRA(JJ(1) + I)/NPT
                 	EVAR(2,I) = EVAR(2,I)+LBUF%STRA(JJ(2) + I)/NPT
                 	EVAR(3,I) = EVAR(3,I)+LBUF%STRA(JJ(3) + I)/NPT
-                	EVAR(4,I) = EVAR(4,I)+LBUF%STRA(JJ(4) + I)*UNDEMI/NPT
-                	EVAR(5,I) = EVAR(5,I)+LBUF%STRA(JJ(5) + I)*UNDEMI/NPT
-                	EVAR(6,I) = EVAR(6,I)+LBUF%STRA(JJ(6) + I)*UNDEMI/NPT
+                	EVAR(4,I) = EVAR(4,I)+LBUF%STRA(JJ(4) + I)*HALF/NPT
+                	EVAR(5,I) = EVAR(5,I)+LBUF%STRA(JJ(5) + I)*HALF/NPT
+                	EVAR(6,I) = EVAR(6,I)+LBUF%STRA(JJ(6) + I)*HALF/NPT
                 	IS_WRITTEN_TENSOR(I) = 1
                       ENDDO
                     ENDDO		    
@@ -1591,11 +1591,11 @@ C                 STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5)=GBUF%GAMA(JJ(5) + I)
                       GAMA(6)=GBUF%GAMA(JJ(6) + I)
                     ELSE				  
-                      GAMA(1)=UN			  
+                      GAMA(1)=ONE			  
                       GAMA(2)=ZERO			  
                       GAMA(3)=ZERO			  
                       GAMA(4)=ZERO			  
-                      GAMA(5)=UN			  
+                      GAMA(5)=ONE			  
                       GAMA(6)=ZERO			  
                     ENDIF				 
                     CALL SROTA6(X,IXS(1,N),KCVT,	    
@@ -1616,11 +1616,11 @@ c-----------
                 	EVAR(2,I) = EVAR(2,I)+LBUF%STRA(JJ(2) + I)/(NPTG*NLAY)       
                 	EVAR(3,I) = EVAR(3,I)+LBUF%STRA(JJ(3) + I)/(NPTG*NLAY)       
                 	EVAR(4,I) = EVAR(4,I)+LBUF%STRA(JJ(4) + I)*
-     .          			      UNDEMI/(NPTG*NLAY)       
+     .          			      HALF/(NPTG*NLAY)       
                 	EVAR(5,I) = EVAR(5,I)+LBUF%STRA(JJ(5) + I)*
-     .          			      UNDEMI/(NPTG*NLAY)       
+     .          			      HALF/(NPTG*NLAY)       
                 	EVAR(6,I) = EVAR(6,I)+LBUF%STRA(JJ(6) + I)*
-     .          			      UNDEMI/(NPTG*NLAY) 
+     .          			      HALF/(NPTG*NLAY) 
                 	IS_WRITTEN_TENSOR(I) = 1  
                       ENDDO						       
                     ENDDO						     
@@ -1649,11 +1649,11 @@ c-----------
                 	EVAR(2,I) = EVAR(2,I)+LBUF%STRA(JJ(2) + I)/(NPTG*NLAY)
                 	EVAR(3,I) = EVAR(3,I)+LBUF%STRA(JJ(3) + I)/(NPTG*NLAY)
                 	EVAR(4,I) = EVAR(4,I)+LBUF%STRA(JJ(4) + I)*
-     .          		    UNDEMI/(NPTG*NLAY)      
+     .          		    HALF/(NPTG*NLAY)      
                 	EVAR(5,I) = EVAR(5,I)+LBUF%STRA(JJ(5) + I)*
-     .          		    UNDEMI/(NPTG*NLAY) 
+     .          		    HALF/(NPTG*NLAY) 
                 	EVAR(6,I) = EVAR(6,I)+LBUF%STRA(JJ(6) + I)*
-     .          		    UNDEMI/(NPTG*NLAY)   
+     .          		    HALF/(NPTG*NLAY)   
                 	IS_WRITTEN_TENSOR(I) = 1
                       ENDDO						       
                     ENDDO						     
@@ -1670,11 +1670,11 @@ c-----------
                 	  EVAR(2,I) = EVAR(2,I)+LBUF%STRA(JJ(2) + I)/(NPTG*NLAY)	    
                 	  EVAR(3,I) = EVAR(3,I)+LBUF%STRA(JJ(3) + I)/(NPTG*NLAY)	  
                 	  EVAR(4,I) = EVAR(4,I)+LBUF%STRA(JJ(4) + I)*
-     .          		    UNDEMI/(NPTG*NLAY)
+     .          		    HALF/(NPTG*NLAY)
                 	  EVAR(5,I) = EVAR(5,I)+LBUF%STRA(JJ(5) + I)*
-     .          		    UNDEMI/(NPTG*NLAY)
+     .          		    HALF/(NPTG*NLAY)
                 	  EVAR(6,I) = EVAR(6,I)+LBUF%STRA(JJ(6) + I)*
-     .          		    UNDEMI/(NPTG*NLAY)
+     .          		    HALF/(NPTG*NLAY)
                 	  IS_WRITTEN_TENSOR(I) = 1
                 	ENDDO							 
                       ENDDO						       
@@ -1694,11 +1694,11 @@ C                 STRAIN TENSOR IN GLOBAL SYSTE
                       GAMA(5)= GAMA(1)  	       
                       GAMA(6)= ZERO		       
                     ELSE			       
-                      GAMA(1)=UN		       
+                      GAMA(1)=ONE		       
                       GAMA(2)=ZERO		       
                       GAMA(3)=ZERO		       
                       GAMA(4)=ZERO		       
-                      GAMA(5)=UN		       
+                      GAMA(5)=ONE		       
                       GAMA(6)=ZERO		       
                     END IF			       
                     CALL SROTA6(X,IXS(1,N),KCVT,       
@@ -1752,11 +1752,11 @@ C               STRAIN TENSOR IN GLOBAL SYSTEM
                     GAMA(5)=GBUF%GAMA(JJ(5) + I)
                     GAMA(6)=GBUF%GAMA(JJ(6) + I)
                   ELSE
-                    GAMA(1)=UN
+                    GAMA(1)=ONE
                     GAMA(2)=ZERO
                     GAMA(3)=ZERO
                     GAMA(4)=ZERO
-                    GAMA(5)=UN
+                    GAMA(5)=ONE
                     GAMA(6)=ZERO
                   END IF
                   CALL SROTA6(X,IXS(1,N),KCVT,
@@ -1776,9 +1776,9 @@ c-----------
                     EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)
                     EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)
                     EVAR(3,I) = EVAR(3,I) + LBUF%STRA(JJ(3) + I)
-                    EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*UNDEMI
-                    EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*UNDEMI
-                    EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*UNDEMI
+                    EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*HALF
+                    EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*HALF
+                    EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*HALF
                     IS_WRITTEN_TENSOR(I) = 1
                   END DO
                 ELSEIF(MLW == 12 .OR. MLW == 14) THEN 
@@ -1795,9 +1795,9 @@ c-----------
                       EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)
                       EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)
                       EVAR(3,I) = EVAR(3,I) + LBUF%STRA(JJ(3) + I)
-                      EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*UNDEMI
-                      EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*UNDEMI
-                      EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*UNDEMI
+                      EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*HALF
+                      EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*HALF
+                      EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*HALF
                       IS_WRITTEN_TENSOR(I) = 1
                     ENDDO
                   ENDIF
@@ -1816,11 +1816,11 @@ C               STRAIN TENSOR IN GLOBAL SYSTEM
                     GAMA(5)=GBUF%GAMA(JJ(5) + I)
                     GAMA(6)=GBUF%GAMA(JJ(6) + I)
                   ELSE
-                    GAMA(1)=UN
+                    GAMA(1)=ONE
                     GAMA(2)=ZERO
                     GAMA(3)=ZERO
                     GAMA(4)=ZERO
-                    GAMA(5)=UN
+                    GAMA(5)=ONE
                     GAMA(6)=ZERO
                   END IF
                   CALL SROTA6(X,IXS(1,N),KCVT,
@@ -1865,9 +1865,9 @@ C                3*9*3 points d'integration (r*s*t)
                   EVAR(1,I) = LBUF%STRA(JJ(1) + I)
                   EVAR(2,I) = LBUF%STRA(JJ(2) + I)
                   EVAR(3,I) = LBUF%STRA(JJ(3) + I)
-                  EVAR(4,I) = LBUF%STRA(JJ(4) + I)*UNDEMI
-                  EVAR(5,I) = LBUF%STRA(JJ(5) + I)*UNDEMI
-                  EVAR(6,I) = LBUF%STRA(JJ(6) + I)*UNDEMI
+                  EVAR(4,I) = LBUF%STRA(JJ(4) + I)*HALF
+                  EVAR(5,I) = LBUF%STRA(JJ(5) + I)*HALF
+                  EVAR(6,I) = LBUF%STRA(JJ(6) + I)*HALF
                   IS_WRITTEN_TENSOR(I) = 1
                ENDDO
              ELSEIF(MLW == 12 .OR. MLW == 14)THEN
@@ -1884,9 +1884,9 @@ C                   3*9*3 points d'integration (r*s*t)
                  EVAR(1,I) = LBUF%STRA(JJ(1) + I)
                  EVAR(2,I) = LBUF%STRA(JJ(2) + I)
                  EVAR(3,I) = LBUF%STRA(JJ(3) + I)		    
-                 EVAR(4,I) = LBUF%STRA(JJ(4) + I) * UNDEMI
-                 EVAR(5,I) = LBUF%STRA(JJ(5) + I) * UNDEMI
-                 EVAR(6,I) = LBUF%STRA(JJ(6) + I) * UNDEMI
+                 EVAR(4,I) = LBUF%STRA(JJ(4) + I) * HALF
+                 EVAR(5,I) = LBUF%STRA(JJ(5) + I) * HALF
+                 EVAR(6,I) = LBUF%STRA(JJ(6) + I) * HALF
                  IS_WRITTEN_TENSOR(I) = 1 
                ENDDO   
              ELSEIF (MLW == 25) THEN
@@ -1894,9 +1894,9 @@ C                   3*9*3 points d'integration (r*s*t)
                  EVAR(1,I) =  LBUF%STRA(JJ(1) + I)		  
                  EVAR(2,I) =  LBUF%STRA(JJ(2) + I)		  
                  EVAR(3,I) =  LBUF%STRA(JJ(3) + I)		  
-                 EVAR(4,I) =  LBUF%STRA(JJ(4) + I) * UNDEMI	  
-                 EVAR(5,I) =  LBUF%STRA(JJ(5) + I) * UNDEMI		   
-                 EVAR(6,I) =  LBUF%STRA(JJ(6) + I) * UNDEMI
+                 EVAR(4,I) =  LBUF%STRA(JJ(4) + I) * HALF	  
+                 EVAR(5,I) =  LBUF%STRA(JJ(5) + I) * HALF		   
+                 EVAR(6,I) =  LBUF%STRA(JJ(6) + I) * HALF
                  IS_WRITTEN_TENSOR(I) = 1	  
 		               ENDDO  
                ELSEIF(ISTRAIN > 0)THEN
@@ -1906,9 +1906,9 @@ C  3*9*3 points d'integration (r*s*t)
                     EVAR(1,I) =  LBUF%STRA(JJ(1) + I)			    
                     EVAR(2,I) =  LBUF%STRA(JJ(2) + I)			    
                     EVAR(3,I) =  LBUF%STRA(JJ(3) + I)			    
-                    EVAR(4,I) =  LBUF%STRA(JJ(4) + I) * UNDEMI  	    
-                    EVAR(5,I) =  LBUF%STRA(JJ(5) + I) * UNDEMI  	      
-                    EVAR(6,I) =  LBUF%STRA(JJ(6) + I) * UNDEMI 
+                    EVAR(4,I) =  LBUF%STRA(JJ(4) + I) * HALF  	    
+                    EVAR(5,I) =  LBUF%STRA(JJ(5) + I) * HALF  	      
+                    EVAR(6,I) =  LBUF%STRA(JJ(6) + I) * HALF 
                     IS_WRITTEN_TENSOR(I) = 1 	    
                    ENDDO 
                  ENDIF
@@ -1937,11 +1937,11 @@ C              STRAIN TENSOR IN GLOBAL SYSTEM
             	       GAMA(5)=-GAMA(2)
             	       GAMA(6)=GAMA(1)
             	     ELSE
-            	       GAMA(1)=UN
+            	       GAMA(1)=ONE
             	       GAMA(2)=ZERO
             	       GAMA(3)=ZERO
             	       GAMA(4)=ZERO
-            	       GAMA(5)=UN
+            	       GAMA(5)=ONE
             	       GAMA(6)=ZERO
             	     END IF
             	     CALL SROTA6(X,IXS(1,N),KCVT,
@@ -1965,11 +1965,11 @@ C              STRAIN TENSOR IN GLOBAL SYSTEM
             	       GAMA(5)=GAMA(1)
             	       GAMA(6)=ZERO
             	     ELSE
-            	       GAMA(1)=UN
+            	       GAMA(1)=ONE
             	       GAMA(2)=ZERO
             	       GAMA(3)=ZERO
             	       GAMA(4)=ZERO
-            	       GAMA(5)=UN
+            	       GAMA(5)=ONE
             	       GAMA(6)=ZERO
             	     END IF
             	     CALL SROTA6(X,IXS(1,N),KCVT,
@@ -1993,11 +1993,11 @@ C              STRAIN TENSOR IN GLOBAL SYSTEM
             	       GAMA(5)=ZERO
             	       GAMA(6)=-GAMA(1)
             	     ELSE
-            	       GAMA(1)=UN
+            	       GAMA(1)=ONE
             	       GAMA(2)=ZERO
             	       GAMA(3)=ZERO
             	       GAMA(4)=ZERO
-            	       GAMA(5)=UN
+            	       GAMA(5)=ONE
             	       GAMA(6)=ZERO
             	     END IF
             	     CALL SROTA6(X,IXS(1,N),KCVT,
@@ -2015,11 +2015,11 @@ C              STRAIN TENSOR IN GLOBAL SYSTEM
             	        GAMA(5)=GBUF%GAMA(JJ(5) + I)
             	        GAMA(6)=GBUF%GAMA(JJ(6) + I)
             	      ELSE
-            	        GAMA(1)=UN
+            	        GAMA(1)=ONE
             	        GAMA(2)=ZERO
             	        GAMA(3)=ZERO
             	        GAMA(4)=ZERO
-            	        GAMA(5)=UN
+            	        GAMA(5)=ONE
             	        GAMA(6)=ZERO
             	      END IF
             	      CALL SROTA6(X,IXS(1,N),KCVT,
@@ -2044,9 +2044,9 @@ c              IF (IR == 1 .AND. IS == 1 .AND. IT == 2) IPT = 4
                     EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)
                     EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)
                     EVAR(3,I) = EVAR(3,I) + LBUF%STRA(JJ(3) + I)
-                    EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*UNDEMI
-                    EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*UNDEMI
-                    EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*UNDEMI
+                    EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*HALF
+                    EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*HALF
+                    EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*HALF
                     IS_WRITTEN_TENSOR(I) = 1
                   ENDDO
                 ELSEIF (MLW == 12 .OR. MLW == 14) THEN
@@ -2062,9 +2062,9 @@ c              IF (IR == 1 .AND. IS == 1 .AND. IT == 2) IPT = 4
                       EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)
                       EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)
                       EVAR(3,I) = EVAR(3,I) + LBUF%STRA(JJ(3) + I)
-                      EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*UNDEMI
-                      EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*UNDEMI
-                      EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*UNDEMI
+                      EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*HALF
+                      EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*HALF
+                      EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*HALF
                       IS_WRITTEN_TENSOR(I) = 1
                     ENDDO
                   ENDIF
@@ -2082,11 +2082,11 @@ c
                     GAMA(5)=GBUF%GAMA(JJ(5) + I)
                     GAMA(6)=GBUF%GAMA(JJ(6) + I)
                   ELSE
-                    GAMA(1)=UN
+                    GAMA(1)=ONE
                     GAMA(2)=ZERO
                     GAMA(3)=ZERO
                     GAMA(4)=ZERO
-                    GAMA(5)=UN
+                    GAMA(5)=ONE
                     GAMA(6)=ZERO
                   END IF
                   CALL SROTA6(X,IXS(1,N),KCVT,
@@ -2109,9 +2109,9 @@ c-----------
                       EVAR(1,I) =  LBUF%STRA(JJ(1) + I)
                       EVAR(2,I) =  LBUF%STRA(JJ(2) + I)
                       EVAR(3,I) =  LBUF%STRA(JJ(3) + I)
-                      EVAR(4,I) =  LBUF%STRA(JJ(4) + I)*UNDEMI
-                      EVAR(5,I) =  LBUF%STRA(JJ(5) + I)*UNDEMI
-                      EVAR(6,I) =  LBUF%STRA(JJ(6) + I)*UNDEMI
+                      EVAR(4,I) =  LBUF%STRA(JJ(4) + I)*HALF
+                      EVAR(5,I) =  LBUF%STRA(JJ(5) + I)*HALF
+                      EVAR(6,I) =  LBUF%STRA(JJ(6) + I)*HALF
                       IS_WRITTEN_TENSOR(I) = 1
                     ENDDO
                   ELSEIF(MLW == 12 .OR. MLW == 14)THEN
@@ -2128,9 +2128,9 @@ c-----------
                 	EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)
                 	EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)
                 	EVAR(3,I) = EVAR(3,I) + LBUF%STRA(JJ(3) + I)
-                	EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*UNDEMI
-                	EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*UNDEMI
-                	EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*UNDEMI
+                	EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*HALF
+                	EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*HALF
+                	EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*HALF
                 	IS_WRITTEN_TENSOR(I) = 1
                       ENDDO							
                     ENDIF							
@@ -2149,11 +2149,11 @@ c                  LBUF =>  ELBUF_TAB(NG)%BUFLY(IS)%LBUF(1,1,1)
                       GAMA(5)= GAMA(1)
                       GAMA(6)= ZERO
                     ELSE
-                      GAMA(1)=UN
+                      GAMA(1)=ONE
                       GAMA(2)=ZERO
                       GAMA(3)=ZERO
                       GAMA(4)=ZERO
-                      GAMA(5)=UN
+                      GAMA(5)=ONE
                       GAMA(6)=ZERO
                     END IF
                     CALL SROTA6(X,IXS(1,N),KCVT,
@@ -2172,9 +2172,9 @@ C                   3*9*3 points d'integration (r*s*t)
                      EVAR(1,I) = LBUF%STRA(JJ(1) + I)
                      EVAR(2,I) = LBUF%STRA(JJ(2) + I)
                      EVAR(3,I) = LBUF%STRA(JJ(3) + I)
-                     EVAR(4,I) = LBUF%STRA(JJ(4) + I)*UNDEMI
-                     EVAR(5,I) = LBUF%STRA(JJ(5) + I)*UNDEMI
-                     EVAR(6,I) = LBUF%STRA(JJ(6) + I)*UNDEMI
+                     EVAR(4,I) = LBUF%STRA(JJ(4) + I)*HALF
+                     EVAR(5,I) = LBUF%STRA(JJ(5) + I)*HALF
+                     EVAR(6,I) = LBUF%STRA(JJ(6) + I)*HALF
                      IS_WRITTEN_TENSOR(I) = 1
                   ENDDO
                 ELSEIF(MLW == 12 .OR. MLW == 14)THEN
@@ -2191,9 +2191,9 @@ C                      3*9*3 points d'integration (r*s*t)
                     EVAR(1,I) = LBUF%STRA(JJ(1) + I)
                     EVAR(2,I) = LBUF%STRA(JJ(2) + I)
                     EVAR(3,I) = LBUF%STRA(JJ(3) + I)		       
-                    EVAR(4,I) = LBUF%STRA(JJ(4) + I) * UNDEMI
-                    EVAR(5,I) = LBUF%STRA(JJ(5) + I) * UNDEMI
-                    EVAR(6,I) = LBUF%STRA(JJ(6) + I) * UNDEMI
+                    EVAR(4,I) = LBUF%STRA(JJ(4) + I) * HALF
+                    EVAR(5,I) = LBUF%STRA(JJ(5) + I) * HALF
+                    EVAR(6,I) = LBUF%STRA(JJ(6) + I) * HALF
                     IS_WRITTEN_TENSOR(I) = 1 
                   ENDDO   
                 ELSEIF (MLW == 25) THEN
@@ -2201,9 +2201,9 @@ C                      3*9*3 points d'integration (r*s*t)
                     EVAR(1,I) =  LBUF%STRA(JJ(1) + I)		     
                     EVAR(2,I) =  LBUF%STRA(JJ(2) + I)		     
                     EVAR(3,I) =  LBUF%STRA(JJ(3) + I)		     
-                    EVAR(4,I) =  LBUF%STRA(JJ(4) + I) * UNDEMI       
-                    EVAR(5,I) =  LBUF%STRA(JJ(5) + I) * UNDEMI  	      
-                    EVAR(6,I) =  LBUF%STRA(JJ(6) + I) * UNDEMI
+                    EVAR(4,I) =  LBUF%STRA(JJ(4) + I) * HALF       
+                    EVAR(5,I) =  LBUF%STRA(JJ(5) + I) * HALF  	      
+                    EVAR(6,I) =  LBUF%STRA(JJ(6) + I) * HALF
                     IS_WRITTEN_TENSOR(I) = 1	     
 	          ENDDO  
                 ELSEIF(ISTRAIN > 0)THEN
@@ -2213,9 +2213,9 @@ C  3*9*3 points d'integration (r*s*t)
                     EVAR(1,I) =  LBUF%STRA(JJ(1) + I)			    
                     EVAR(2,I) =  LBUF%STRA(JJ(2) + I)			    
                     EVAR(3,I) =  LBUF%STRA(JJ(3) + I)			    
-                    EVAR(4,I) =  LBUF%STRA(JJ(4) + I) * UNDEMI  	    
-                    EVAR(5,I) =  LBUF%STRA(JJ(5) + I) * UNDEMI  	      
-                    EVAR(6,I) =  LBUF%STRA(JJ(6) + I) * UNDEMI 
+                    EVAR(4,I) =  LBUF%STRA(JJ(4) + I) * HALF  	    
+                    EVAR(5,I) =  LBUF%STRA(JJ(5) + I) * HALF  	      
+                    EVAR(6,I) =  LBUF%STRA(JJ(6) + I) * HALF 
                     IS_WRITTEN_TENSOR(I) = 1	    
                     ENDDO 
                   ENDIF
@@ -2244,11 +2244,11 @@ C                STRAIN TENSOR IN GLOBAL SYSTEM
              	     	  GAMA(5)=-GAMA(2)
              	     	  GAMA(6)=GAMA(1)
              	     	ELSE
-             	     	  GAMA(1)=UN
+             	     	  GAMA(1)=ONE
              	     	  GAMA(2)=ZERO
              	     	  GAMA(3)=ZERO
              	     	  GAMA(4)=ZERO
-             	     	  GAMA(5)=UN
+             	     	  GAMA(5)=ONE
              	     	  GAMA(6)=ZERO
              	     	END IF
              	     	CALL SROTA6(X,IXS(1,N),KCVT,
@@ -2272,11 +2272,11 @@ C                STRAIN TENSOR IN GLOBAL SYSTEM
              	          GAMA(5)=GAMA(1)
              	          GAMA(6)=ZERO
              	        ELSE
-             	          GAMA(1)=UN
+             	          GAMA(1)=ONE
              	          GAMA(2)=ZERO
              	          GAMA(3)=ZERO
              	          GAMA(4)=ZERO
-             	          GAMA(5)=UN
+             	          GAMA(5)=ONE
              	          GAMA(6)=ZERO
              	        END IF
              	        CALL SROTA6(X,IXS(1,N),KCVT,
@@ -2300,11 +2300,11 @@ C                STRAIN TENSOR IN GLOBAL SYSTEM
              	          GAMA(5)=ZERO
              	          GAMA(6)=-GAMA(1)
              	        ELSE
-             	          GAMA(1)=UN
+             	          GAMA(1)=ONE
              	          GAMA(2)=ZERO
              	          GAMA(3)=ZERO
              	          GAMA(4)=ZERO
-             	          GAMA(5)=UN
+             	          GAMA(5)=ONE
              	          GAMA(6)=ZERO
              	        END IF
              	        CALL SROTA6(X,IXS(1,N),KCVT,
@@ -2322,11 +2322,11 @@ C                STRAIN TENSOR IN GLOBAL SYSTEM
              	        GAMA(5)=GBUF%GAMA(JJ(5) + I)
              	        GAMA(6)=GBUF%GAMA(JJ(6) + I)
              	      ELSE
-             	        GAMA(1)=UN
+             	        GAMA(1)=ONE
              	        GAMA(2)=ZERO
              	        GAMA(3)=ZERO
              	        GAMA(4)=ZERO
-             	        GAMA(5)=UN
+             	        GAMA(5)=ONE
              	        GAMA(6)=ZERO
              	      END IF
              	      CALL SROTA6(X,IXS(1,N),KCVT,
@@ -2349,9 +2349,9 @@ c-----------
                       EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)
                       EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)
                       EVAR(3,I) = EVAR(3,I) + LBUF%STRA(JJ(3) + I)
-                      EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*UNDEMI
-                      EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*UNDEMI
-                      EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*UNDEMI
+                      EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*HALF
+                      EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*HALF
+                      EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*HALF
                       IS_WRITTEN_TENSOR(I) = 1
                     ENDDO
                   ELSEIF(MLW == 12 .OR. MLW == 14)THEN
@@ -2368,9 +2368,9 @@ c-----------
                 	EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)
                 	EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)
                 	EVAR(3,I) = EVAR(3,I) + LBUF%STRA(JJ(3) + I)
-                	EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*UNDEMI
-                	EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*UNDEMI
-                	EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*UNDEMI
+                	EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*HALF
+                	EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*HALF
+                	EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*HALF
                 	IS_WRITTEN_TENSOR(I) = 1
                       ENDDO							
                     ENDIF							
@@ -2389,11 +2389,11 @@ C                 STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5)= GAMA(1)
                       GAMA(6)= ZERO
                     ELSE
-                      GAMA(1)=UN
+                      GAMA(1)=ONE
                       GAMA(2)=ZERO
                       GAMA(3)=ZERO
                       GAMA(4)=ZERO
-                      GAMA(5)=UN
+                      GAMA(5)=ONE
                       GAMA(6)=ZERO
                     END IF
                     CALL SROTA6(X,IXS(1,N),KCVT,
@@ -2575,11 +2575,11 @@ C               DAMAGE IN GLOBAL SYSTEM
               	      GAMA(5)= GAMA(1)
               	      GAMA(6)= ZERO
                     ELSE
-              	      GAMA(1)=UN
+              	      GAMA(1)=ONE
               	      GAMA(2)=ZERO
               	      GAMA(3)=ZERO
               	      GAMA(4)=ZERO
-              	      GAMA(5)=UN
+              	      GAMA(5)=ONE
               	      GAMA(6)=ZERO
                     END IF
                     CALL SROTA6(X,IXS(1,N),KCVT,
@@ -2632,9 +2632,9 @@ c-----------
                     EVAR(1,I) = LBUF%PLA(JJ(1) + I + NEL)
                     EVAR(2,I) = LBUF%PLA(JJ(2) + I + NEL)
                     EVAR(3,I) = LBUF%PLA(JJ(3) + I + NEL)
-                    EVAR(4,I) = LBUF%PLA(JJ(4) + I + NEL)*UNDEMI
-                    EVAR(5,I) = LBUF%PLA(JJ(5) + I + NEL)*UNDEMI
-                    EVAR(6,I) = LBUF%PLA(JJ(6) + I + NEL)*UNDEMI
+                    EVAR(4,I) = LBUF%PLA(JJ(4) + I + NEL)*HALF
+                    EVAR(5,I) = LBUF%PLA(JJ(5) + I + NEL)*HALF
+                    EVAR(6,I) = LBUF%PLA(JJ(6) + I + NEL)*HALF
                     IS_WRITTEN_TENSOR(I) = 1
                   ENDDO
                 ENDIF ! IF (MLW == 24)
@@ -2651,11 +2651,11 @@ C               PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5)=GBUF%GAMA(JJ(5) + I)
                       GAMA(6)=GBUF%GAMA(JJ(6) + I)
                     ELSE
-                      GAMA(1)=UN
+                      GAMA(1)=ONE
                       GAMA(2)=ZERO
                       GAMA(3)=ZERO
                       GAMA(4)=ZERO
-                      GAMA(5)=UN
+                      GAMA(5)=ONE
                       GAMA(6)=ZERO
                     END IF
                     CALL SROTA6(X,IXS(1,N),KCVT,
@@ -2678,9 +2678,9 @@ c-----------
                 	EVAR_TMP(1) =  LBUF%PLA(JJ(1) + I + NEL)/NPT
                 	EVAR_TMP(2) =  LBUF%PLA(JJ(2) + I + NEL)/NPT
                 	EVAR_TMP(3) =  LBUF%PLA(JJ(3) + I + NEL)/NPT
-                	EVAR_TMP(4) =  LBUF%PLA(JJ(4) + I + NEL)*UNDEMI/NPT
-                	EVAR_TMP(5) =  LBUF%PLA(JJ(5) + I + NEL)*UNDEMI/NPT
-                	EVAR_TMP(6) =  LBUF%PLA(JJ(6) + I + NEL)*UNDEMI/NPT
+                	EVAR_TMP(4) =  LBUF%PLA(JJ(4) + I + NEL)*HALF/NPT
+                	EVAR_TMP(5) =  LBUF%PLA(JJ(5) + I + NEL)*HALF/NPT
+                	EVAR_TMP(6) =  LBUF%PLA(JJ(6) + I + NEL)*HALF/NPT
              	  	ICSIG=IPARG(17,NG)  
              	  	IF (KCVT /= 0 .AND.ICSIG > 0) THEN
 C            	  	PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
@@ -2702,11 +2702,11 @@ C            	  	PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
              	  	        GAMA(5)=-GAMA(2)
              	  	        GAMA(6)= GAMA(1)
              	  	      ELSE
-             	  	        GAMA(1)=UN
+             	  	        GAMA(1)=ONE
              	  	        GAMA(2)=ZERO
              	  	        GAMA(3)=ZERO
              	  	        GAMA(4)=ZERO
-             	  	        GAMA(5)=UN
+             	  	        GAMA(5)=ONE
              	  	        GAMA(6)=ZERO
              	  	      END IF
              	  	      CALL SROTA6(X,IXS(1,N),KCVT,
@@ -2727,11 +2727,11 @@ C            	  	PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
              	  	        GAMA(5)= GAMA(1)
              	  	        GAMA(6)= ZERO
              	  	      ELSE
-             	  	        GAMA(1)=UN
+             	  	        GAMA(1)=ONE
              	  	        GAMA(2)=ZERO
              	  	        GAMA(3)=ZERO
              	  	        GAMA(4)=ZERO
-             	  	        GAMA(5)=UN
+             	  	        GAMA(5)=ONE
              	  	        GAMA(6)=ZERO
              	  	      END IF
              	  	      CALL SROTA6(X,IXS(1,N),KCVT,
@@ -2752,11 +2752,11 @@ C            	  	PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
              	  	        GAMA(5)= ZERO
              	  	        GAMA(6)=-GAMA(1)
              	  	      ELSE
-             	  	        GAMA(1)=UN
+             	  	        GAMA(1)=ONE
              	  	        GAMA(2)=ZERO
              	  	        GAMA(3)=ZERO
              	  	        GAMA(4)=ZERO
-             	  	        GAMA(5)=UN
+             	  	        GAMA(5)=ONE
              	  	        GAMA(6)=ZERO
              	  	      END IF
              	  	      CALL SROTA6(X,IXS(1,N),KCVT,
@@ -2792,11 +2792,11 @@ C               PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5)=GBUF%GAMA(JJ(5) + I)
                       GAMA(6)=GBUF%GAMA(JJ(6) + I)
                     ELSE					   
-                      GAMA(1)=UN				   
+                      GAMA(1)=ONE				   
                       GAMA(2)=ZERO				   
                       GAMA(3)=ZERO				   
                       GAMA(4)=ZERO				   
-                      GAMA(5)=UN				   
+                      GAMA(5)=ONE				   
                       GAMA(6)=ZERO				   
                     END IF					   
                     CALL SROTA6(X,IXS(1,N),KCVT,		   
@@ -2813,9 +2813,9 @@ c-----------
                       EVAR(1,I) = EVAR(1,I)+LBUF%PLA(JJ(1) + I + NEL)/NPT
                       EVAR(2,I) = EVAR(2,I)+LBUF%PLA(JJ(2) + I + NEL)/NPT
                       EVAR(3,I) = EVAR(3,I)+LBUF%PLA(JJ(3) + I + NEL)/NPT
-                      EVAR(4,I) = EVAR(4,I)+LBUF%PLA(JJ(4) + I + NEL)*UNDEMI/NPT
-                      EVAR(5,I) = EVAR(5,I)+LBUF%PLA(JJ(5) + I + NEL)*UNDEMI/NPT
-                      EVAR(6,I) = EVAR(6,I)+LBUF%PLA(JJ(6) + I + NEL)*UNDEMI/NPT
+                      EVAR(4,I) = EVAR(4,I)+LBUF%PLA(JJ(4) + I + NEL)*HALF/NPT
+                      EVAR(5,I) = EVAR(5,I)+LBUF%PLA(JJ(5) + I + NEL)*HALF/NPT
+                      EVAR(6,I) = EVAR(6,I)+LBUF%PLA(JJ(6) + I + NEL)*HALF/NPT
                       IS_WRITTEN_TENSOR(I) = 1
                     ENDDO
                   ENDDO
@@ -2832,11 +2832,11 @@ C               PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5)=GBUF%GAMA(JJ(5) + I)
                       GAMA(6)=GBUF%GAMA(JJ(6) + I)
                     ELSE				  
-                      GAMA(1)=UN			  
+                      GAMA(1)=ONE			  
                       GAMA(2)=ZERO			  
                       GAMA(3)=ZERO			  
                       GAMA(4)=ZERO			  
-                      GAMA(5)=UN			  
+                      GAMA(5)=ONE			  
                       GAMA(6)=ZERO			  
                     ENDIF				 
                     CALL SROTA6(X,IXS(1,N),KCVT,	    
@@ -2853,9 +2853,9 @@ c-----------
                 	EVAR(1,I) = EVAR(1,I)+LBUF%PLA(JJ(1) + I + NEL)/NLAY
                 	EVAR(2,I) = EVAR(2,I)+LBUF%PLA(JJ(2) + I + NEL)/NLAY
                 	EVAR(3,I) = EVAR(3,I)+LBUF%PLA(JJ(3) + I + NEL)/NLAY
-                	EVAR(4,I) = EVAR(4,I)+LBUF%PLA(JJ(4) + I + NEL)*UNDEMI/NLAY      
-                	EVAR(5,I) = EVAR(5,I)+LBUF%PLA(JJ(5) + I + NEL)*UNDEMI/NLAY 
-                	EVAR(6,I) = EVAR(6,I)+LBUF%PLA(JJ(6) + I + NEL)*UNDEMI/NLAY   
+                	EVAR(4,I) = EVAR(4,I)+LBUF%PLA(JJ(4) + I + NEL)*HALF/NLAY      
+                	EVAR(5,I) = EVAR(5,I)+LBUF%PLA(JJ(5) + I + NEL)*HALF/NLAY 
+                	EVAR(6,I) = EVAR(6,I)+LBUF%PLA(JJ(6) + I + NEL)*HALF/NLAY   
                 	IS_WRITTEN_TENSOR(I) = 1
                       ENDDO						       
                   ENDDO 						     
@@ -2872,11 +2872,11 @@ C               PLASTIC STRAIN TENSOR IN GLOBAL SYSTE
                       GAMA(5)= GAMA(1)  	       
                       GAMA(6)= ZERO		       
                     ELSE			       
-                      GAMA(1)=UN		       
+                      GAMA(1)=ONE		       
                       GAMA(2)=ZERO		       
                       GAMA(3)=ZERO		       
                       GAMA(4)=ZERO		       
-                      GAMA(5)=UN		       
+                      GAMA(5)=ONE		       
                       GAMA(6)=ZERO		       
                     END IF			       
                     CALL SROTA6(X,IXS(1,N),KCVT,       
@@ -2912,9 +2912,9 @@ c-----------
                     EVAR(1,I) = EVAR(1,I) + LBUF%PLA(JJ(1) + I + NEL)
                     EVAR(2,I) = EVAR(2,I) + LBUF%PLA(JJ(2) + I + NEL)
                     EVAR(3,I) = EVAR(3,I) + LBUF%PLA(JJ(3) + I + NEL)
-                    EVAR(4,I) = EVAR(4,I) + LBUF%PLA(JJ(4) + I + NEL)*UNDEMI
-                    EVAR(5,I) = EVAR(5,I) + LBUF%PLA(JJ(5) + I + NEL)*UNDEMI
-                    EVAR(6,I) = EVAR(6,I) + LBUF%PLA(JJ(6) + I + NEL)*UNDEMI
+                    EVAR(4,I) = EVAR(4,I) + LBUF%PLA(JJ(4) + I + NEL)*HALF
+                    EVAR(5,I) = EVAR(5,I) + LBUF%PLA(JJ(5) + I + NEL)*HALF
+                    EVAR(6,I) = EVAR(6,I) + LBUF%PLA(JJ(6) + I + NEL)*HALF
                     IS_WRITTEN_TENSOR(I) = 1
                   END DO
                 ENDIF ! IF (MLW == 24)
@@ -2932,11 +2932,11 @@ C             PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
                     GAMA(5)=GBUF%GAMA(JJ(5) + I)
                     GAMA(6)=GBUF%GAMA(JJ(6) + I)
                   ELSE
-                    GAMA(1)=UN
+                    GAMA(1)=ONE
                     GAMA(2)=ZERO
                     GAMA(3)=ZERO
                     GAMA(4)=ZERO
-                    GAMA(5)=UN
+                    GAMA(5)=ONE
                     GAMA(6)=ZERO
                   END IF
                   CALL SROTA6(X,IXS(1,N),KCVT,
@@ -2977,9 +2977,9 @@ C                   3*9*3 points d'integration (r*s*t)
                  EVAR(1,I) = LBUF%PLA(JJ(1) + I + NEL)
                  EVAR(2,I) = LBUF%PLA(JJ(2) + I + NEL)
                  EVAR(3,I) = LBUF%PLA(JJ(3) + I + NEL)		    
-                 EVAR(4,I) = LBUF%PLA(JJ(4) + I + NEL) * UNDEMI
-                 EVAR(5,I) = LBUF%PLA(JJ(5) + I + NEL) * UNDEMI
-                 EVAR(6,I) = LBUF%PLA(JJ(6) + I + NEL) * UNDEMI
+                 EVAR(4,I) = LBUF%PLA(JJ(4) + I + NEL) * HALF
+                 EVAR(5,I) = LBUF%PLA(JJ(5) + I + NEL) * HALF
+                 EVAR(6,I) = LBUF%PLA(JJ(6) + I + NEL) * HALF
                  IS_WRITTEN_TENSOR(I) = 1 
                ENDDO   
              ENDIF ! IF (MLW == 24)
@@ -3007,11 +3007,11 @@ C              PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
             	       GAMA(5)=-GAMA(2)
             	       GAMA(6)=GAMA(1)
             	     ELSE
-            	       GAMA(1)=UN
+            	       GAMA(1)=ONE
             	       GAMA(2)=ZERO
             	       GAMA(3)=ZERO
             	       GAMA(4)=ZERO
-            	       GAMA(5)=UN
+            	       GAMA(5)=ONE
             	       GAMA(6)=ZERO
             	     END IF
             	     CALL SROTA6(X,IXS(1,N),KCVT,
@@ -3035,11 +3035,11 @@ C              PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
             	       GAMA(5)=GAMA(1)
             	       GAMA(6)=ZERO
             	     ELSE
-            	       GAMA(1)=UN
+            	       GAMA(1)=ONE
             	       GAMA(2)=ZERO
             	       GAMA(3)=ZERO
             	       GAMA(4)=ZERO
-            	       GAMA(5)=UN
+            	       GAMA(5)=ONE
             	       GAMA(6)=ZERO
             	     END IF
             	     CALL SROTA6(X,IXS(1,N),KCVT,
@@ -3063,11 +3063,11 @@ C              PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
             	       GAMA(5)=ZERO
             	       GAMA(6)=-GAMA(1)
             	     ELSE
-            	       GAMA(1)=UN
+            	       GAMA(1)=ONE
             	       GAMA(2)=ZERO
             	       GAMA(3)=ZERO
             	       GAMA(4)=ZERO
-            	       GAMA(5)=UN
+            	       GAMA(5)=ONE
             	       GAMA(6)=ZERO
             	     END IF
             	     CALL SROTA6(X,IXS(1,N),KCVT,
@@ -3085,11 +3085,11 @@ C              PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
             	        GAMA(5)=GBUF%GAMA(JJ(5) + I)
             	        GAMA(6)=GBUF%GAMA(JJ(6) + I)
             	      ELSE
-            	        GAMA(1)=UN
+            	        GAMA(1)=ONE
             	        GAMA(2)=ZERO
             	        GAMA(3)=ZERO
             	        GAMA(4)=ZERO
-            	        GAMA(5)=UN
+            	        GAMA(5)=ONE
             	        GAMA(6)=ZERO
             	      END IF
             	      CALL SROTA6(X,IXS(1,N),KCVT,
@@ -3114,9 +3114,9 @@ c-----------
                     EVAR(1,I) = EVAR(1,I) + LBUF%PLA(JJ(1) + I + NEL)
                     EVAR(2,I) = EVAR(2,I) + LBUF%PLA(JJ(2) + I + NEL)
                     EVAR(3,I) = EVAR(3,I) + LBUF%PLA(JJ(3) + I + NEL)
-                    EVAR(4,I) = EVAR(4,I) + LBUF%PLA(JJ(4) + I + NEL)*UNDEMI
-                    EVAR(5,I) = EVAR(5,I) + LBUF%PLA(JJ(5) + I + NEL)*UNDEMI
-                    EVAR(6,I) = EVAR(6,I) + LBUF%PLA(JJ(6) + I + NEL)*UNDEMI
+                    EVAR(4,I) = EVAR(4,I) + LBUF%PLA(JJ(4) + I + NEL)*HALF
+                    EVAR(5,I) = EVAR(5,I) + LBUF%PLA(JJ(5) + I + NEL)*HALF
+                    EVAR(6,I) = EVAR(6,I) + LBUF%PLA(JJ(6) + I + NEL)*HALF
                     IS_WRITTEN_TENSOR(I) = 1
                   ENDDO
                 ENDIF ! IF (MLW == 24)
@@ -3133,11 +3133,11 @@ c
                     GAMA(5)=GBUF%GAMA(JJ(5) + I)
                     GAMA(6)=GBUF%GAMA(JJ(6) + I)
                   ELSE
-                    GAMA(1)=UN
+                    GAMA(1)=ONE
                     GAMA(2)=ZERO
                     GAMA(3)=ZERO
                     GAMA(4)=ZERO
-                    GAMA(5)=UN
+                    GAMA(5)=ONE
                     GAMA(6)=ZERO
                   END IF
                   CALL SROTA6(X,IXS(1,N),KCVT,
@@ -3159,9 +3159,9 @@ c-----------
                       EVAR(1,I) = EVAR(1,I) + LBUF%PLA(JJ(1) + I + NEL)
                       EVAR(2,I) = EVAR(2,I) + LBUF%PLA(JJ(2) + I + NEL)
                       EVAR(3,I) = EVAR(3,I) + LBUF%PLA(JJ(3) + I + NEL)
-                      EVAR(4,I) = EVAR(4,I) + LBUF%PLA(JJ(4) + I + NEL)*UNDEMI
-                      EVAR(5,I) = EVAR(5,I) + LBUF%PLA(JJ(5) + I + NEL)*UNDEMI
-                      EVAR(6,I) = EVAR(6,I) + LBUF%PLA(JJ(6) + I + NEL)*UNDEMI
+                      EVAR(4,I) = EVAR(4,I) + LBUF%PLA(JJ(4) + I + NEL)*HALF
+                      EVAR(5,I) = EVAR(5,I) + LBUF%PLA(JJ(5) + I + NEL)*HALF
+                      EVAR(6,I) = EVAR(6,I) + LBUF%PLA(JJ(6) + I + NEL)*HALF
                       IS_WRITTEN_TENSOR(I) = 1
                     ENDDO
                   ENDIF ! IF (MLW == 24)							
@@ -3179,11 +3179,11 @@ C               PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5)= GAMA(1)
                       GAMA(6)= ZERO
                     ELSE
-                      GAMA(1)=UN
+                      GAMA(1)=ONE
                       GAMA(2)=ZERO
                       GAMA(3)=ZERO
                       GAMA(4)=ZERO
-                      GAMA(5)=UN
+                      GAMA(5)=ONE
                       GAMA(6)=ZERO
                     END IF
                     CALL SROTA6(X,IXS(1,N),KCVT,
@@ -3218,9 +3218,9 @@ C                      3*9*3 points d'integration (r*s*t)
                     EVAR(1,I) = LBUF%PLA(JJ(1) + I + NEL)
                     EVAR(2,I) = LBUF%PLA(JJ(2) + I + NEL)
                     EVAR(3,I) = LBUF%PLA(JJ(3) + I + NEL)		       
-                    EVAR(4,I) = LBUF%PLA(JJ(4) + I + NEL) * UNDEMI
-                    EVAR(5,I) = LBUF%PLA(JJ(5) + I + NEL) * UNDEMI
-                    EVAR(6,I) = LBUF%PLA(JJ(6) + I + NEL) * UNDEMI
+                    EVAR(4,I) = LBUF%PLA(JJ(4) + I + NEL) * HALF
+                    EVAR(5,I) = LBUF%PLA(JJ(5) + I + NEL) * HALF
+                    EVAR(6,I) = LBUF%PLA(JJ(6) + I + NEL) * HALF
                     IS_WRITTEN_TENSOR(I) = 1 
                   ENDDO   
                 ENDIF ! IF (MLW == 24)
@@ -3248,11 +3248,11 @@ C               PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
              	     	  GAMA(5)=-GAMA(2)
              	     	  GAMA(6)=GAMA(1)
              	     	ELSE
-             	     	  GAMA(1)=UN
+             	     	  GAMA(1)=ONE
              	     	  GAMA(2)=ZERO
              	     	  GAMA(3)=ZERO
              	     	  GAMA(4)=ZERO
-             	     	  GAMA(5)=UN
+             	     	  GAMA(5)=ONE
              	     	  GAMA(6)=ZERO
              	     	END IF
              	     	CALL SROTA6(X,IXS(1,N),KCVT,
@@ -3276,11 +3276,11 @@ C               PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
              	          GAMA(5)=GAMA(1)
              	          GAMA(6)=ZERO
              	        ELSE
-             	          GAMA(1)=UN
+             	          GAMA(1)=ONE
              	          GAMA(2)=ZERO
              	          GAMA(3)=ZERO
              	          GAMA(4)=ZERO
-             	          GAMA(5)=UN
+             	          GAMA(5)=ONE
              	          GAMA(6)=ZERO
              	        END IF
              	        CALL SROTA6(X,IXS(1,N),KCVT,
@@ -3304,11 +3304,11 @@ C               PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
              	          GAMA(5)=ZERO
              	          GAMA(6)=-GAMA(1)
              	        ELSE
-             	          GAMA(1)=UN
+             	          GAMA(1)=ONE
              	          GAMA(2)=ZERO
              	          GAMA(3)=ZERO
              	          GAMA(4)=ZERO
-             	          GAMA(5)=UN
+             	          GAMA(5)=ONE
              	          GAMA(6)=ZERO
              	        END IF
              	        CALL SROTA6(X,IXS(1,N),KCVT,
@@ -3326,11 +3326,11 @@ C               PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
              	        GAMA(5)=GBUF%GAMA(JJ(5) + I)
              	        GAMA(6)=GBUF%GAMA(JJ(6) + I)
              	      ELSE
-             	        GAMA(1)=UN
+             	        GAMA(1)=ONE
              	        GAMA(2)=ZERO
              	        GAMA(3)=ZERO
              	        GAMA(4)=ZERO
-             	        GAMA(5)=UN
+             	        GAMA(5)=ONE
              	        GAMA(6)=ZERO
              	      END IF
              	      CALL SROTA6(X,IXS(1,N),KCVT,
@@ -3352,9 +3352,9 @@ c-----------
                       EVAR(1,I) = EVAR(1,I) + LBUF%PLA(JJ(1) + I + NEL)
                       EVAR(2,I) = EVAR(2,I) + LBUF%PLA(JJ(2) + I + NEL)
                       EVAR(3,I) = EVAR(3,I) + LBUF%PLA(JJ(3) + I + NEL)
-                      EVAR(4,I) = EVAR(4,I) + LBUF%PLA(JJ(4) + I + NEL)*UNDEMI
-                      EVAR(5,I) = EVAR(5,I) + LBUF%PLA(JJ(5) + I + NEL)*UNDEMI
-                      EVAR(6,I) = EVAR(6,I) + LBUF%PLA(JJ(6) + I + NEL)*UNDEMI
+                      EVAR(4,I) = EVAR(4,I) + LBUF%PLA(JJ(4) + I + NEL)*HALF
+                      EVAR(5,I) = EVAR(5,I) + LBUF%PLA(JJ(5) + I + NEL)*HALF
+                      EVAR(6,I) = EVAR(6,I) + LBUF%PLA(JJ(6) + I + NEL)*HALF
                       IS_WRITTEN_TENSOR(I) = 1
                     ENDDO
                   ENDIF ! IF (MLW == 24)							
@@ -3372,11 +3372,11 @@ C               PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5)= GAMA(1)
                       GAMA(6)= ZERO
                     ELSE
-                      GAMA(1)=UN
+                      GAMA(1)=ONE
                       GAMA(2)=ZERO
                       GAMA(3)=ZERO
                       GAMA(4)=ZERO
-                      GAMA(5)=UN
+                      GAMA(5)=ONE
                       GAMA(6)=ZERO
                     END IF
                     CALL SROTA6(X,IXS(1,N),KCVT,
@@ -3426,11 +3426,11 @@ C              pour JHBE=14, valeurs moyennes est dans rep. corota.
                  GAMA(5)=GBUF%GAMA(JJ(5) + I)
                  GAMA(6)=GBUF%GAMA(JJ(6) + I)
                ELSE
-                 GAMA(1)=UN
+                 GAMA(1)=ONE
                  GAMA(2)=ZERO
                  GAMA(3)=ZERO
                  GAMA(4)=ZERO
-                 GAMA(5)=UN
+                 GAMA(5)=ONE
                  GAMA(6)=ZERO
                END IF
                  CALL SROTA6(X,IXS(1,N),KCVT,EVAR(1,I),GAMA,JHBE,IGTYP)
@@ -3484,12 +3484,12 @@ c-----------
                     N = I + NFT
                     DO J=1,8
                       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,J)					
-                      EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)*UNHUIT
-                      EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)*UNHUIT
-                      EVAR(3,I) = EVAR(3,I) + LBUF%STRA(JJ(3) + I)*UNHUIT
-                      EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*UNHUIT
-                      EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*UNHUIT
-                      EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*UNHUIT
+                      EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)*ONE_OVER_8
+                      EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)*ONE_OVER_8
+                      EVAR(3,I) = EVAR(3,I) + LBUF%STRA(JJ(3) + I)*ONE_OVER_8
+                      EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*ONE_OVER_8
+                      EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*ONE_OVER_8
+                      EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*ONE_OVER_8
                       IS_WRITTEN_TENSOR(I) = 1
                     ENDDO
                   ENDDO
@@ -3508,9 +3508,9 @@ c
                     EVAR(1,I) =  LBUF%STRA(JJ(1) + I)
                     EVAR(2,I) =  LBUF%STRA(JJ(2) + I)
                     EVAR(3,I) =  LBUF%STRA(JJ(3) + I)
-                    EVAR(4,I) =  LBUF%STRA(JJ(4) + I)*UNDEMI
-                    EVAR(5,I) =  LBUF%STRA(JJ(5) + I)*UNDEMI
-                    EVAR(6,I) =  LBUF%STRA(JJ(6) + I)*UNDEMI
+                    EVAR(4,I) =  LBUF%STRA(JJ(4) + I)*HALF
+                    EVAR(5,I) =  LBUF%STRA(JJ(5) + I)*HALF
+                    EVAR(6,I) =  LBUF%STRA(JJ(6) + I)*HALF
                     IS_WRITTEN_TENSOR(I) = 1
                   ENDDO   
                   IF (ISORTH > 0) THEN
@@ -3545,9 +3545,9 @@ C                   STRAIN TENSOR IN GLOBAL SYSTEM
                     EVAR(1,I) = LBUF%STRA(JJ(1) + I)
                     EVAR(2,I) = LBUF%STRA(JJ(2) + I)
                     EVAR(3,I) = LBUF%STRA(JJ(3) + I)
-                    EVAR(4,I) = LBUF%STRA(JJ(4) + I)*UNDEMI
-                    EVAR(5,I) = LBUF%STRA(JJ(5) + I)*UNDEMI
-                    EVAR(6,I) = LBUF%STRA(JJ(6) + I)*UNDEMI
+                    EVAR(4,I) = LBUF%STRA(JJ(4) + I)*HALF
+                    EVAR(5,I) = LBUF%STRA(JJ(5) + I)*HALF
+                    EVAR(6,I) = LBUF%STRA(JJ(6) + I)*HALF
                     IS_WRITTEN_TENSOR(I) = 1
                   ENDDO
                 ELSEIF (ISTRAIN > 0) THEN
@@ -3559,9 +3559,9 @@ C                   STRAIN TENSOR IN GLOBAL SYSTEM
                       EVAR(1,I) = LBUF%STRA(JJ(1) + I)
                       EVAR(2,I) = LBUF%STRA(JJ(2) + I)
                       EVAR(3,I) = LBUF%STRA(JJ(3) + I)
-                      EVAR(4,I) = LBUF%STRA(JJ(4) + I)*UNDEMI
-                      EVAR(5,I) = LBUF%STRA(JJ(5) + I)*UNDEMI
-                      EVAR(6,I) = LBUF%STRA(JJ(6) + I)*UNDEMI
+                      EVAR(4,I) = LBUF%STRA(JJ(4) + I)*HALF
+                      EVAR(5,I) = LBUF%STRA(JJ(5) + I)*HALF
+                      EVAR(6,I) = LBUF%STRA(JJ(6) + I)*HALF
                       IS_WRITTEN_TENSOR(I) = 1
                     ENDDO
                   ENDIF
@@ -3579,11 +3579,11 @@ C                 STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5)=GBUF%GAMA(JJ(5) + I)
                       GAMA(6)=GBUF%GAMA(JJ(6) + I)
                     ELSE
-                      GAMA(1)=UN
+                      GAMA(1)=ONE
                       GAMA(2)=ZERO
                       GAMA(3)=ZERO
                       GAMA(4)=ZERO
-                      GAMA(5)=UN
+                      GAMA(5)=ONE
                       GAMA(6)=ZERO
                     END IF
                     CALL SROTA6(X,IXS(1,N),KCVT,
@@ -3606,9 +3606,9 @@ c-----------
                        EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)/NPT
                        EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)/NPT
                        EVAR(3,I) = EVAR(3,I) + LBUF%STRA(JJ(3) + I)/NPT
-                       EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*UNDEMI/NPT
-                       EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*UNDEMI/NPT
-                       EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*UNDEMI/NPT
+                       EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*HALF/NPT
+                       EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5) + I)*HALF/NPT
+                       EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6) + I)*HALF/NPT
                        IS_WRITTEN_TENSOR(I) = 1
                       ENDDO 
                      ENDDO
@@ -3646,9 +3646,9 @@ c-----------
                 	EVAR_TMP(1) =  LBUF%STRA(JJ(1) + I)/NPT
                 	EVAR_TMP(2) =  LBUF%STRA(JJ(2) + I)/NPT
                 	EVAR_TMP(3) =  LBUF%STRA(JJ(3) + I)/NPT
-                	EVAR_TMP(4) =  LBUF%STRA(JJ(4) + I)*UNDEMI/NPT
-                	EVAR_TMP(5) =  LBUF%STRA(JJ(5) + I)*UNDEMI/NPT
-                	EVAR_TMP(6) =  LBUF%STRA(JJ(6) + I)*UNDEMI/NPT
+                	EVAR_TMP(4) =  LBUF%STRA(JJ(4) + I)*HALF/NPT
+                	EVAR_TMP(5) =  LBUF%STRA(JJ(5) + I)*HALF/NPT
+                	EVAR_TMP(6) =  LBUF%STRA(JJ(6) + I)*HALF/NPT
              	  	ICSIG=IPARG(17,NG)  
              	  	IF (KCVT /= 0 .AND.ICSIG > 0) THEN
 C            	  	  STRAIN TENSOR IN GLOBAL SYSTEM
@@ -3670,11 +3670,11 @@ C            	  	  STRAIN TENSOR IN GLOBAL SYSTEM
              	  	        GAMA(5)=-GAMA(2)
              	  	        GAMA(6)= GAMA(1)
              	  	      ELSE
-             	  	        GAMA(1)=UN
+             	  	        GAMA(1)=ONE
              	  	        GAMA(2)=ZERO
              	  	        GAMA(3)=ZERO
              	  	        GAMA(4)=ZERO
-             	  	        GAMA(5)=UN
+             	  	        GAMA(5)=ONE
              	  	        GAMA(6)=ZERO
              	  	      END IF
              	  	      CALL SROTA6(X,IXS(1,N),KCVT,
@@ -3695,11 +3695,11 @@ C            	  	  STRAIN TENSOR IN GLOBAL SYSTEM
              	  	        GAMA(5)= GAMA(1)
              	  	        GAMA(6)= ZERO
              	  	      ELSE
-             	  	        GAMA(1)=UN
+             	  	        GAMA(1)=ONE
              	  	        GAMA(2)=ZERO
              	  	        GAMA(3)=ZERO
              	  	        GAMA(4)=ZERO
-             	  	        GAMA(5)=UN
+             	  	        GAMA(5)=ONE
              	  	        GAMA(6)=ZERO
              	  	      END IF
              	  	      CALL SROTA6(X,IXS(1,N),KCVT,
@@ -3720,11 +3720,11 @@ C            	  	  STRAIN TENSOR IN GLOBAL SYSTEM
              	  	        GAMA(5)= ZERO
              	  	        GAMA(6)=-GAMA(1)
              	  	      ELSE
-             	  	        GAMA(1)=UN
+             	  	        GAMA(1)=ONE
              	  	        GAMA(2)=ZERO
              	  	        GAMA(3)=ZERO
              	  	        GAMA(4)=ZERO
-             	  	        GAMA(5)=UN
+             	  	        GAMA(5)=ONE
              	  	        GAMA(6)=ZERO
              	  	      END IF
              	  	      CALL SROTA6(X,IXS(1,N),KCVT,
@@ -3758,9 +3758,9 @@ C            	  	  STRAIN TENSOR IN GLOBAL SYSTEM
                 	 EVAR_TMP(1) = LBUF%STRA(JJ(1) + I)/NPT
                 	 EVAR_TMP(2) = LBUF%STRA(JJ(2) + I)/NPT
                 	 EVAR_TMP(3) = LBUF%STRA(JJ(3) + I)/NPT
-                	 EVAR_TMP(4) = LBUF%STRA(JJ(4) + I)*UNDEMI/NPT
-                	 EVAR_TMP(5) = LBUF%STRA(JJ(5) + I)*UNDEMI/NPT
-                	 EVAR_TMP(6) = LBUF%STRA(JJ(6) + I)*UNDEMI/NPT
+                	 EVAR_TMP(4) = LBUF%STRA(JJ(4) + I)*HALF/NPT
+                	 EVAR_TMP(5) = LBUF%STRA(JJ(5) + I)*HALF/NPT
+                	 EVAR_TMP(6) = LBUF%STRA(JJ(6) + I)*HALF/NPT
 c
              	  	 ICSIG=IPARG(17,NG)  
              	  	 IF (KCVT /= 0 .AND.ICSIG > 0) THEN
@@ -3783,11 +3783,11 @@ C            	  	   STRAIN TENSOR IN GLOBAL SYSTEM
              	  	         GAMA(5)=-GAMA(2)
              	  	         GAMA(6)= GAMA(1)
              	  	       ELSE
-             	  	         GAMA(1)=UN
+             	  	         GAMA(1)=ONE
              	  	         GAMA(2)=ZERO
              	  	         GAMA(3)=ZERO
              	  	         GAMA(4)=ZERO
-             	  	         GAMA(5)=UN
+             	  	         GAMA(5)=ONE
              	  	         GAMA(6)=ZERO
              	  	       END IF
              	  	       CALL SROTA6(X,IXS(1,N),KCVT,
@@ -3808,11 +3808,11 @@ C            	  	   STRAIN TENSOR IN GLOBAL SYSTEM
              	  	         GAMA(5)= GAMA(1)
              	  	         GAMA(6)= ZERO
              	  	       ELSE
-             	  	         GAMA(1)=UN
+             	  	         GAMA(1)=ONE
              	  	         GAMA(2)=ZERO
              	  	         GAMA(3)=ZERO
              	  	         GAMA(4)=ZERO
-             	  	         GAMA(5)=UN
+             	  	         GAMA(5)=ONE
              	  	         GAMA(6)=ZERO
              	  	       END IF
              	  	       CALL SROTA6(X,IXS(1,N),KCVT,
@@ -3833,11 +3833,11 @@ C            	  	   STRAIN TENSOR IN GLOBAL SYSTEM
              	  		  GAMA(5)= ZERO
              	  		  GAMA(6)=-GAMA(1)
              	  		ELSE
-             	  		  GAMA(1)=UN
+             	  		  GAMA(1)=ONE
              	  		  GAMA(2)=ZERO
              	  		  GAMA(3)=ZERO
              	  		  GAMA(4)=ZERO
-             	  		  GAMA(5)=UN
+             	  		  GAMA(5)=ONE
              	  		  GAMA(6)=ZERO
              	  		END IF
              	  		CALL SROTA6(X,IXS(1,N),KCVT,
@@ -3874,11 +3874,11 @@ C                 STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5)=GBUF%GAMA(JJ(5) + I)
                       GAMA(6)=GBUF%GAMA(JJ(6) + I)
                     ELSE					   
-                      GAMA(1)=UN				   
+                      GAMA(1)=ONE				   
                       GAMA(2)=ZERO				   
                       GAMA(3)=ZERO				   
                       GAMA(4)=ZERO				   
-                      GAMA(5)=UN				   
+                      GAMA(5)=ONE				   
                       GAMA(6)=ZERO				   
                     END IF					   
                     CALL SROTA6(X,IXS(1,N),KCVT,		   
@@ -3897,9 +3897,9 @@ c-----------
                       EVAR(1,I) = EVAR(1,I)+LBUF%STRA(JJ(1) + I)/NPT
                       EVAR(2,I) = EVAR(2,I)+LBUF%STRA(JJ(2) + I)/NPT
                       EVAR(3,I) = EVAR(3,I)+LBUF%STRA(JJ(3) + I)/NPT
-                      EVAR(4,I) = EVAR(4,I)+LBUF%STRA(JJ(4) + I)*UNDEMI/NPT
-                      EVAR(5,I) = EVAR(5,I)+LBUF%STRA(JJ(5) + I)*UNDEMI/NPT
-                      EVAR(6,I) = EVAR(6,I)+LBUF%STRA(JJ(6) + I)*UNDEMI/NPT
+                      EVAR(4,I) = EVAR(4,I)+LBUF%STRA(JJ(4) + I)*HALF/NPT
+                      EVAR(5,I) = EVAR(5,I)+LBUF%STRA(JJ(5) + I)*HALF/NPT
+                      EVAR(6,I) = EVAR(6,I)+LBUF%STRA(JJ(6) + I)*HALF/NPT
                       IS_WRITTEN_TENSOR(I) = 1
                     ENDDO
                   ENDDO
@@ -3924,9 +3924,9 @@ c-----------
                       EVAR(1,I) = EVAR(1,I)+LBUF%STRA(JJ(1) + I)/NPT
                       EVAR(2,I) = EVAR(2,I)+LBUF%STRA(JJ(2) + I)/NPT
                       EVAR(3,I) = EVAR(3,I)+LBUF%STRA(JJ(3) + I)/NPT
-                      EVAR(4,I) = EVAR(4,I)+LBUF%STRA(JJ(4) + I)*UNDEMI/NPT
-                      EVAR(5,I) = EVAR(5,I)+LBUF%STRA(JJ(5) + I)*UNDEMI/NPT
-                      EVAR(6,I) = EVAR(6,I)+LBUF%STRA(JJ(6) + I)*UNDEMI/NPT
+                      EVAR(4,I) = EVAR(4,I)+LBUF%STRA(JJ(4) + I)*HALF/NPT
+                      EVAR(5,I) = EVAR(5,I)+LBUF%STRA(JJ(5) + I)*HALF/NPT
+                      EVAR(6,I) = EVAR(6,I)+LBUF%STRA(JJ(6) + I)*HALF/NPT
                       IS_WRITTEN_TENSOR(I) = 1
                     ENDDO
                   ENDDO
@@ -3940,9 +3940,9 @@ c-----------
                 	EVAR(1,I) = EVAR(1,I)+LBUF%STRA(JJ(1) + I)/NPT
                 	EVAR(2,I) = EVAR(2,I)+LBUF%STRA(JJ(2) + I)/NPT
                 	EVAR(3,I) = EVAR(3,I)+LBUF%STRA(JJ(3) + I)/NPT
-                	EVAR(4,I) = EVAR(4,I)+LBUF%STRA(JJ(4) + I)*UNDEMI/NPT
-                	EVAR(5,I) = EVAR(5,I)+LBUF%STRA(JJ(5) + I)*UNDEMI/NPT
-                	EVAR(6,I) = EVAR(6,I)+LBUF%STRA(JJ(6) + I)*UNDEMI/NPT
+                	EVAR(4,I) = EVAR(4,I)+LBUF%STRA(JJ(4) + I)*HALF/NPT
+                	EVAR(5,I) = EVAR(5,I)+LBUF%STRA(JJ(5) + I)*HALF/NPT
+                	EVAR(6,I) = EVAR(6,I)+LBUF%STRA(JJ(6) + I)*HALF/NPT
                 	IS_WRITTEN_TENSOR(I) = 1
                       ENDDO
                     ENDDO		    
@@ -3961,11 +3961,11 @@ C                 STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5)=GBUF%GAMA(JJ(5) + I)
                       GAMA(6)=GBUF%GAMA(JJ(6) + I)
                     ELSE				  
-                      GAMA(1)=UN			  
+                      GAMA(1)=ONE			  
                       GAMA(2)=ZERO			  
                       GAMA(3)=ZERO			  
                       GAMA(4)=ZERO			  
-                      GAMA(5)=UN			  
+                      GAMA(5)=ONE			  
                       GAMA(6)=ZERO			  
                     ENDIF				 
                     CALL SROTA6(X,IXS(1,N),KCVT,	    
@@ -3986,11 +3986,11 @@ c-----------
                 	EVAR(2,I) = EVAR(2,I)+LBUF%STRA(JJ(2) + I)/(NPTG*NLAY)       
                 	EVAR(3,I) = EVAR(3,I)+LBUF%STRA(JJ(3) + I)/(NPTG*NLAY)       
                 	EVAR(4,I) = EVAR(4,I)+LBUF%STRA(JJ(4) + I)*
-     .          			      UNDEMI/(NPTG*NLAY)       
+     .          			      HALF/(NPTG*NLAY)       
                 	EVAR(5,I) = EVAR(5,I)+LBUF%STRA(JJ(5) + I)*
-     .          			      UNDEMI/(NPTG*NLAY)       
+     .          			      HALF/(NPTG*NLAY)       
                 	EVAR(6,I) = EVAR(6,I)+LBUF%STRA(JJ(6) + I)*
-     .          			      UNDEMI/(NPTG*NLAY) 
+     .          			      HALF/(NPTG*NLAY) 
                 	IS_WRITTEN_TENSOR(I) = 1  
                       ENDDO						       
                     ENDDO						     
@@ -4019,11 +4019,11 @@ c-----------
                 	EVAR(2,I) = EVAR(2,I)+LBUF%STRA(JJ(2) + I)/(NPTG*NLAY)
                 	EVAR(3,I) = EVAR(3,I)+LBUF%STRA(JJ(3) + I)/(NPTG*NLAY)
                 	EVAR(4,I) = EVAR(4,I)+LBUF%STRA(JJ(4) + I)*
-     .          		    UNDEMI/(NPTG*NLAY)      
+     .          		    HALF/(NPTG*NLAY)      
                 	EVAR(5,I) = EVAR(5,I)+LBUF%STRA(JJ(5) + I)*
-     .          		    UNDEMI/(NPTG*NLAY) 
+     .          		    HALF/(NPTG*NLAY) 
                 	EVAR(6,I) = EVAR(6,I)+LBUF%STRA(JJ(6) + I)*
-     .          		    UNDEMI/(NPTG*NLAY)   
+     .          		    HALF/(NPTG*NLAY)   
                 	IS_WRITTEN_TENSOR(I) = 1
                       ENDDO						       
                     ENDDO						     
@@ -4040,11 +4040,11 @@ c-----------
                 	  EVAR(2,I) = EVAR(2,I)+LBUF%STRA(JJ(2) + I)/(NPTG*NLAY)	    
                 	  EVAR(3,I) = EVAR(3,I)+LBUF%STRA(JJ(3) + I)/(NPTG*NLAY)	  
                 	  EVAR(4,I) = EVAR(4,I)+LBUF%STRA(JJ(4) + I)*
-     .          		    UNDEMI/(NPTG*NLAY)
+     .          		    HALF/(NPTG*NLAY)
                 	  EVAR(5,I) = EVAR(5,I)+LBUF%STRA(JJ(5) + I)*
-     .          		    UNDEMI/(NPTG*NLAY)
+     .          		    HALF/(NPTG*NLAY)
                 	  EVAR(6,I) = EVAR(6,I)+LBUF%STRA(JJ(6) + I)*
-     .          		    UNDEMI/(NPTG*NLAY)
+     .          		    HALF/(NPTG*NLAY)
                 	  IS_WRITTEN_TENSOR(I) = 1
                 	ENDDO							 
                       ENDDO						       
@@ -4064,11 +4064,11 @@ C                 STRAIN TENSOR IN GLOBAL SYSTE
                       GAMA(5)= GAMA(1)  	       
                       GAMA(6)= ZERO		       
                     ELSE			       
-                      GAMA(1)=UN		       
+                      GAMA(1)=ONE		       
                       GAMA(2)=ZERO		       
                       GAMA(3)=ZERO		       
                       GAMA(4)=ZERO		       
-                      GAMA(5)=UN		       
+                      GAMA(5)=ONE		       
                       GAMA(6)=ZERO		       
                     END IF			       
                     CALL SROTA6(X,IXS(1,N),KCVT,       
@@ -4827,7 +4827,7 @@ C
       ENDDO
 C
       DO I=1,NEL
-        D = UN/DET(I)/SIX
+        D = ONE/DET(I)/SIX
         PX1(I)=-B1(I)*D
         PY1(I)=-C1(I)*D
         PZ1(I)=-D1(I)*D
@@ -4894,7 +4894,7 @@ C     REAL ou REAL*8
      .   AJI1, AJI2, AJI3,
      .   AJI4, AJI5, AJI6,
      .   AJI7, AJI8, AJI9,
-     .   AJ5968, AJ6749, AJ4857,
+     .   JAC_59_68, JAC_67_49, JAC_48_57,
      .   AJ12, AJ45, AJ78,
      .   A17 , A28 ,
      .   B17 , B28 ,
@@ -4939,16 +4939,16 @@ C
 C     JACOBIAN
 C
       DO I=1,NEL      
-        AJ5968=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-        AJ6749=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-        AJ4857=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
-        DET(I)=AJ1(I)*AJ5968+AJ2(I)*AJ6749+AJ3(I)*AJ4857
-C        DET(I)=O64TH*(AJ1(I)*AJ5968+AJ2(I)*AJ6749+AJ3(I)*AJ4857)
+        JAC_59_68=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+        JAC_67_49=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+        JAC_48_57=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+        DET(I)=AJ1(I)*JAC_59_68+AJ2(I)*JAC_67_49+AJ3(I)*JAC_48_57
+C        DET(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68+AJ2(I)*JAC_67_49+AJ3(I)*JAC_48_57)
         DETT=1.0/DET(I)
 C       INVERSE DE LA MATRICE JACOBIENNE
-        AJI1=DETT*AJ5968
-        AJI4=DETT*AJ6749
-        AJI7=DETT*AJ4857
+        AJI1=DETT*JAC_59_68
+        AJI4=DETT*JAC_67_49
+        AJI7=DETT*JAC_48_57
         AJI2=DETT*(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
         AJI5=DETT*( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
         AJI8=DETT*(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
@@ -5030,11 +5030,10 @@ C     REAL ou REAL*8
      .   AJI1, AJI2, AJI3,
      .   AJI4, AJI5, AJI6,
      .   AJI7, AJI8, AJI9,
-     .   AJ5968, AJ6749, AJ4857,
+     .   JAC_59_68, JAC_67_49, JAC_48_57,
      .   AJ12, AJ45, AJ78,
-     .   O3TH,O12TH,O8TH,FAC
+     .   FAC
 C-----------------------------------------------
-	  O3TH  = 1./3
 C
       DO I=1,NEL
         AJ1(I)=X2(I)-X1(I)+X5(I)-X4(I)
@@ -5043,16 +5042,16 @@ C
         AJ4(I)=X3(I)-X1(I)+X6(I)-X4(I)
         AJ5(I)=Y3(I)-Y1(I)+Y6(I)-Y4(I)
         AJ6(I)=Z3(I)-Z1(I)+Z6(I)-Z4(I)
-        AJ7(I)=O3TH*(X4(I)-X1(I)+X5(I)-X2(I)+X6(I)-X3(I))
-        AJ8(I)=O3TH*(Y4(I)-Y1(I)+Y5(I)-Y2(I)+Y6(I)-Y3(I))
-        AJ9(I)=O3TH*(Z4(I)-Z1(I)+Z5(I)-Z2(I)+Z6(I)-Z3(I))
+        AJ7(I)=THIRD*(X4(I)-X1(I)+X5(I)-X2(I)+X6(I)-X3(I))
+        AJ8(I)=THIRD*(Y4(I)-Y1(I)+Y5(I)-Y2(I)+Y6(I)-Y3(I))
+        AJ9(I)=THIRD*(Z4(I)-Z1(I)+Z5(I)-Z2(I)+Z6(I)-Z3(I))
       END DO 
 C
       DO I=1,NEL
-        AJ5968=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-        AJ6749=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-        AJ4857=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
-        DET(I)=AJ1(I)*AJ5968+AJ2(I)*AJ6749+AJ3(I)*AJ4857
+        JAC_59_68=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+        JAC_67_49=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+        JAC_48_57=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+        DET(I)=AJ1(I)*JAC_59_68+AJ2(I)*JAC_67_49+AJ3(I)*JAC_48_57
       END DO 
 C      
       DO I=1,NEL
@@ -5060,9 +5059,9 @@ C
 C
 C     INVERSE DE LA MATRICE JACOBIENNE
 C
-        AJI1=DETT*AJ5968
-        AJI4=DETT*AJ6749
-        AJI7=DETT*AJ4857
+        AJI1=DETT*JAC_59_68
+        AJI4=DETT*JAC_67_49
+        AJI7=DETT*JAC_48_57
         AJI2=DETT*(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
         AJI5=DETT*(AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
         AJI8=DETT*(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
@@ -5084,9 +5083,9 @@ C ----------symtrie(a b c a b c)->P1-P3,anti-symtrie(-1 -1 -1 1 1 1)->P4
         PX3(I)=AJI2
         PY3(I)=AJI5
         PZ3(I)=AJI8
-        PX4(I)=O3TH*AJI3
-        PY4(I)=O3TH*AJI6
-        PZ4(I)=O3TH*AJI9
+        PX4(I)=THIRD*AJI3
+        PY4(I)=THIRD*AJI6
+        PZ4(I)=THIRD*AJI9
       END DO
 C
       RETURN
@@ -5182,7 +5181,7 @@ C-----------------------------------------------
         A1 = IU*A
         A2 = A*B
         A3 = I2U*I3U*B+IU*IU*(I2U*I2C+I3C)
-        A4 = UN/(I3U*I3U*B+IU*IU*(IU*I3C+I3U*I2C))
+        A4 = ONE/(I3U*I3U*B+IU*IU*(IU*I3C+I3U*I2C))
         UM(1,1) = A4*(A1*CC11-A2*C11+A3)
         UM(2,1) = A4*(A1*CC21-A2*C21)
         UM(3,1) = A4*(A1*CC31-A2*C31)

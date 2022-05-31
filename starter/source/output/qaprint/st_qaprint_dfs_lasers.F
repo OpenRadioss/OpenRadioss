@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER K,J,DET_IID,I1,I2,I3,I4,I5,I6
       DOUBLE PRECISION TEMP_DOUBLE      
       INTEGER :: NL,K1,K2,IFUNC,ITYP, IFK, MFK, IAFUNC, NCELL
-      DOUBLE PRECISION :: CHALEUR, FSI, XK0, HNUK, DAR_HNUK_2,UN_TIMESCAL, FI, ALPHA
+      DOUBLE PRECISION :: CHALEUR, FSI, XK0, HNUK, DAR_HNUK_2,ONE_TIMESCAL, FI, ALPHA
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -85,7 +85,7 @@ C-----------------------------------------------
           XK0           = XLAS(K2+3) 
           HNUK          = XLAS(K2+4) 
           DAR_HNUK_2    = XLAS(K2+5) 
-          UN_TIMESCAL   = XLAS(K2+6) 
+          ONE_TIMESCAL   = XLAS(K2+6) 
 
                            
           WRITE(VARNAME,'(A,I0,A,I0,A)') 'LASER(',K ,')%ILAS(',K1,')=NL :'                  
@@ -120,7 +120,7 @@ C-----------------------------------------------
           WRITE(VARNAME,'(A,I0,A,I0,A,I0,A)') 'LASER(',K ,')%XLAS(',K2+5,')=DAR_HNUK_2 :'    
           CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,DAR_HNUK_2)                          
           WRITE(VARNAME,'(A,I0,A,I0,A,I0,A)') 'LASER(',K ,')%XLAS(',K2+6,')=UN_TIMESCAL :'   
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,UN_TIMESCAL)                         
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,ONE_TIMESCAL)                         
 
           IFK = 6 + 2*(NL+1)  
           MFK = 7             

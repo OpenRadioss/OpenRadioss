@@ -516,10 +516,10 @@ C-----------Pij is in global system w/ Ismstr10 and local system w/ 11
 c
       MX = MXT(LFT)
       DO I=LFT,LLT
-        NU(I)=MIN(UNDEMI,PM(21,MX))
+        NU(I)=MIN(HALF,PM(21,MX))
         DELTAX(I)=EP30
         C1 =PM(32,MX)
-        E0(I) =TROIS*(UN-DEUX*NU(I))*C1
+        E0(I) =THREE*(ONE-TWO*NU(I))*C1
         USB(I)=EM01/C1
         IDEG(I)=0
       ENDDO
@@ -800,7 +800,7 @@ C
         CALL S8ZSIGP3(LFT  ,LLT       ,GBUF%SIG,E0  ,GBUF%PLA,
      2                FAC  ,GBUF%G_PLA,NEL     )
         DO I=LFT,LLT
-          NU1(I)=NU(I)+(UNDEMI-NU(I))*FAC(I)
+          NU1(I)=NU(I)+(HALF-NU(I))*FAC(I)
         ENDDO
       ELSE
         DO I=LFT,LLT
@@ -830,7 +830,7 @@ C-------------------------------------------
       IF(JTHE < 0) THEN 
          DO I=LFT,LLT
            IF(GBUF%OFF(I) == ZERO) CYCLE
-           TEMPEL(I) = UNHUIT *(  TEMP(NC1(I)) + TEMP(NC2(I))  
+           TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
      .                          + TEMP(NC3(I)) + TEMP(NC4(I)) 
      .                          + TEMP(NC5(I)) + TEMP(NC6(I)) 
      .                          + TEMP(NC7(I)) + TEMP(NC8(I)))
@@ -888,7 +888,7 @@ c
 C-----avoid multi-print	  
           IF (IOFFS == 1)THEN
            DO I=LFT,LLT
-            IF (OFFS(I).LE.DEUX) LBUF%OFF(I)=OFFS(I)
+            IF (OFFS(I).LE.TWO) LBUF%OFF(I)=OFFS(I)
            ENDDO
           END IF
 C-----------
@@ -1118,7 +1118,7 @@ c--------------------------
 c
        DO I=LFT,LLT
         OFFL(I)=MIN(OFFL(I),OFF(I))
-          IF (LBUF%OFF(I) > UN .AND. GBUF%OFF(I) == UN) THEN  
+          IF (LBUF%OFF(I) > ONE .AND. GBUF%OFF(I) == ONE) THEN  
             OFFS(I)=MIN(LBUF%OFF(I),OFFS(I))                 
           IOFFS  =1
         END IF
@@ -1147,7 +1147,7 @@ C-----------End integrating points-----
 c
       IF (IOFFS == 1) THEN
        DO I=LFT,LLT
-          IF (OFFS(I) <= DEUX) GBUF%OFF(I)=OFFS(I)          
+          IF (OFFS(I) <= TWO) GBUF%OFF(I)=OFFS(I)          
        END DO
 c
        DO IR=1,NPTR
@@ -1155,7 +1155,7 @@ c
          DO IT=1,NPTT
             LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)     
           DO I=LFT,LLT
-              IF (GBUF%OFF(I) > UN) LBUF%OFF(I)=GBUF%OFF(I)
+              IF (GBUF%OFF(I) > ONE) LBUF%OFF(I)=GBUF%OFF(I)
           END DO
          END DO 
         END DO 
@@ -1192,7 +1192,7 @@ C-----------------------------
       IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
        IOFFS =0
        DO I=LFT,LLT
-        IF(GBUF%OFF(I)/=OFFG0(I).AND.ABS(GBUF%OFF(I)) > UN ) IOFFS=1
+        IF(GBUF%OFF(I)/=OFFG0(I).AND.ABS(GBUF%OFF(I)) > ONE ) IOFFS=1
        ENDDO
        IF (IOFFS == 1) THEN
         CALL S8SAV12(GBUF%OFF,OFFG0,GBUF%SMSTR,X  ,XDP   ,
@@ -1206,7 +1206,7 @@ C-----------------------------
            DO IT=1,NPTT
             LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
             DO I=LFT,LLT
-               IF (ABS(GBUF%OFF(I)) > UN) LBUF%OFF(I)=GBUF%OFF(I)
+               IF (ABS(GBUF%OFF(I)) > ONE) LBUF%OFF(I)=GBUF%OFF(I)
             END DO
            END DO 
           END DO 
@@ -1329,7 +1329,7 @@ C-----------------------------------------------
            S1 =SIG(I,1)-SIG(I,2)
            S2 =SIG(I,2)-SIG(I,3)
            S3 =SIG(I,1)-SIG(I,3)
-           SIGY = (S1*S1+S2*S2+S3*S3)*UNDEMI +TROIS*(SIG(I,4)*SIG(I,4)
+           SIGY = (S1*S1+S2*S2+S3*S3)*HALF +THREE*(SIG(I,4)*SIG(I,4)
      .                   +SIG(I,5)*SIG(I,5)+SIG(I,6)*SIG(I,6))
            DEFT = SQRT(SIGY)/E0(I)+DEFP(I)
            FAC(I)=DEFP(I)/DEFT
@@ -1381,20 +1381,20 @@ C-----------------------------------------------
 C
 C isoparametric shape function
 C
-      RP = UN + KSI            
-      SP = UN + ETA            
-      TP = UN + ZETA           
-      RM = UN - KSI            
-      SM = UN - ETA            
-      TM = UN - ZETA
-      NI(1) = UNHUIT*RM*SM*TM
-      NI(2) = UNHUIT*RP*SM*TM
-      NI(3) = UNHUIT*RP*SP*TM
-      NI(4) = UNHUIT*RM*SP*TM
-      NI(5) = UNHUIT*RM*SM*TP
-      NI(6) = UNHUIT*RP*SM*TP
-      NI(7) = UNHUIT*RP*SP*TP
-      NI(8) = UNHUIT*RM*SP*TP
+      RP = ONE + KSI            
+      SP = ONE + ETA            
+      TP = ONE + ZETA           
+      RM = ONE - KSI            
+      SM = ONE - ETA            
+      TM = ONE - ZETA
+      NI(1) = ONE_OVER_8*RM*SM*TM
+      NI(2) = ONE_OVER_8*RP*SM*TM
+      NI(3) = ONE_OVER_8*RP*SP*TM
+      NI(4) = ONE_OVER_8*RM*SP*TM
+      NI(5) = ONE_OVER_8*RM*SM*TP
+      NI(6) = ONE_OVER_8*RP*SM*TP
+      NI(7) = ONE_OVER_8*RP*SP*TP
+      NI(8) = ONE_OVER_8*RM*SP*TP
       DO I=LFT,LLT
          TEMPEL(I)=   NI(1)*TEMP(NC1(I)) +  NI(2)*TEMP(NC2(I)) +
      .                NI(3)*TEMP(NC3(I)) +  NI(4)*TEMP(NC4(I)) +

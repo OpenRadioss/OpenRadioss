@@ -192,10 +192,10 @@ C-----------------------------------------------
       !    FLUX_face = 1/6 * ([3*V_face] . [2S*n])           !       
       !======================================================!
       DO I=LFT,LLT
-        FLUX5(I)=(VX1(I)*N1X(I)+VY1(I)*N1Y(I)+VZ1(I)*N1Z(I))*UNSIX
-        FLUX6(I)=(VX2(I)*N2X(I)+VY2(I)*N2Y(I)+VZ2(I)*N2Z(I))*UNSIX
-        FLUX2(I)=(VX3(I)*N3X(I)+VY3(I)*N3Y(I)+VZ3(I)*N3Z(I))*UNSIX
-        FLUX4(I)=(VX4(I)*N4X(I)+VY4(I)*N4Y(I)+VZ4(I)*N4Z(I))*UNSIX      
+        FLUX5(I)=(VX1(I)*N1X(I)+VY1(I)*N1Y(I)+VZ1(I)*N1Z(I))*ONE_OVER_6
+        FLUX6(I)=(VX2(I)*N2X(I)+VY2(I)*N2Y(I)+VZ2(I)*N2Z(I))*ONE_OVER_6
+        FLUX2(I)=(VX3(I)*N3X(I)+VY3(I)*N3Y(I)+VZ3(I)*N3Z(I))*ONE_OVER_6
+        FLUX4(I)=(VX4(I)*N4X(I)+VY4(I)*N4Y(I)+VZ4(I)*N4Z(I))*ONE_OVER_6      
       END DO
       
       !======================================================!
@@ -226,7 +226,7 @@ C-----------------------------------------------
         FLUX2(I)=FLUX2(I)*REDUC
        ELSEIF(II.GT.0)THEN
         IF(INT(PM(19,IXS(1,II))).EQ.11)THEN
-          UPWL(2,I)=UN
+          UPWL(2,I)=ONE
           FLUX2(I)=FLUX2(I)*PM(92,IXS(1,II))
         ENDIF
        ENDIF
@@ -236,7 +236,7 @@ C-----------------------------------------------
         FLUX4(I)=FLUX4(I)*REDUC
        ELSEIF(II.GT.0)THEN
         IF(INT(PM(19,IXS(1,II))).EQ.11)THEN
-          UPWL(4,I)=UN
+          UPWL(4,I)=ONE
           FLUX4(I)=FLUX4(I)*PM(92,IXS(1,II))
         ENDIF
        ENDIF
@@ -246,7 +246,7 @@ C-----------------------------------------------
         FLUX5(I)=FLUX5(I)*REDUC
        ELSEIF(II.GT.0)THEN
         IF(INT(PM(19,IXS(1,II))).EQ.11)THEN
-          UPWL(5,I)=UN
+          UPWL(5,I)=ONE
           FLUX5(I)=FLUX5(I)*PM(92,IXS(1,II))
         ENDIF
        ENDIF
@@ -256,7 +256,7 @@ C-----------------------------------------------
         FLUX6(I)=FLUX6(I)*REDUC
        ELSEIF(II.GT.0)THEN
         IF(INT(PM(19,IXS(1,II))).EQ.11)THEN
-          UPWL(6,I)=UN
+          UPWL(6,I)=ONE
           FLUX6(I)=FLUX6(I)*PM(92,IXS(1,II))
         ENDIF
        ENDIF

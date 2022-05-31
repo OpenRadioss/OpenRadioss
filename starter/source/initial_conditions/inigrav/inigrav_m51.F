@@ -223,11 +223,11 @@ C NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VA
          VOL3 = ALPHA3*VOL
 C
          CALL POLYSOLVE(C01, C11, C21, C31, C41, C51, PGRAV, EINT1, MU, RHO10, VOL1,PEXT,IX(11,I+NFT))
-         RHO1 = RHO10 * (MU + UN)
+         RHO1 = RHO10 * (MU + ONE)
          CALL POLYSOLVE(C02, C12, C22, C32, C42, C52, PGRAV, EINT2, MU, RHO20, VOL2,PEXT,IX(11,I+NFT))
-         RHO2 = RHO20 * (MU + UN)
+         RHO2 = RHO20 * (MU + ONE)
          CALL POLYSOLVE(C03, C13, C23, C33, C43, C53, PGRAV, EINT3, MU, RHO30, VOL3,PEXT,IX(11,I+NFT))
-         RHO3 = RHO30 * (MU + UN)
+         RHO3 = RHO30 * (MU + ONE)
       !Store partial densities
          MBUF%VAR(I + (K1 + 09 - 1) * NELG) = RHO1  !initialize rho(t=0)
          MBUF%VAR(I + (K2 + 09 - 1) * NELG) = RHO2
@@ -312,15 +312,15 @@ C-----------------------------------------------
       CONT        = .TRUE.
       VOL         = VOL0
       VOL_prev    = VOL0
-      IF(VOL0.EQ.ZERO)VOL0=UN
+      IF(VOL0.EQ.ZERO)VOL0=ONE
       !Initial guess for MU
       MU          = ZERO
       DO WHILE (CONT .AND. ITER .LT. MAX_ITER)
          !pressure difference
          FUNC     = (C0 + C1 * MU + C2 * MAX(ZERO, MU)*MU + C3 * MAX(ZERO, MU)*MU*MU + (C4 + C5 * MU) * EINT) - PRES
          !total derivative
-         DFUNC    = C1 + DEUX * C2 * MAX(ZERO, MU) + TROIS * C3 * MU*MAX(MU,ZERO) + C5 * EINT 
-         DFUNC   = DFUNC + (PEXT+FUNC+PRES)/(UN+MU)/(UN+MU)*(C4+C5*MU)
+         DFUNC    = C1 + TWO * C2 * MAX(ZERO, MU) + THREE * C3 * MU*MAX(MU,ZERO) + C5 * EINT 
+         DFUNC   = DFUNC + (PEXT+FUNC+PRES)/(ONE+MU)/(ONE+MU)*(C4+C5*MU)
          IF(DFUNC.EQ.ZERO)EXIT   !iform=6 cell with no adj elem (not automatically initialized)
          ! MU INCREMENT
          INCR     = - FUNC / DFUNC
@@ -329,7 +329,7 @@ C-----------------------------------------------
          IF(ABS(MU+INCR).GT.EM20) ERROR = MAX(ERROR, ABS(INCR / (MU + INCR)))
          MU       = MU + INCR
          !ENERGY INCREMENT
-         VOL      = VOL0/(UN+MU)
+         VOL      = VOL0/(ONE+MU)
          EINT     = EINT - (PEXT+FUNC+PRES)*(VOL-VOL_prev)/VOL0 
          VOL_prev = VOL
          ITER     = ITER + 1

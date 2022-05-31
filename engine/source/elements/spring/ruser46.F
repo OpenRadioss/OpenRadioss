@@ -177,7 +177,7 @@ C Loop over elements
           NEWLEN = UVAR(3,I) + UVAR(1,I)!UVAR(3,I)=initial length of the spring at time=0
 C
           IF (EPSI == 0) THEN
-             DELTALEN   = NEWLEN/UVAR(3,I) - UN
+             DELTALEN   = NEWLEN/UVAR(3,I) - ONE
                 IF (DT == ZERO) THEN
                    DELTALEN = ZERO
                 ELSE

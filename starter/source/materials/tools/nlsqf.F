@@ -140,18 +140,18 @@ C
 c     limit ATRY (ALPHA) to avoid too big power (overflow)
 c     |ALPHA_i| <= 20.0
       DO J=1, MA-1, 2
-        if (ATRY(J+1) .GT. VINGT) then
+        if (ATRY(J+1) .GT. TWENTY) then
           IF (IDEBUG .GT. 0) THEN 
-            write(IOUT,*) 'Setting Big ALPHA to ',VINGT
+            write(IOUT,*) 'Setting Big ALPHA to ',TWENTY
             write(IOUT,*) '  J, ATRY(J) = ',J+1,ATRY(J+1)
           ENDIF
-          ATRY(J+1) = VINGT
-        ELSEIF (ATRY(J+1) .LT. -VINGT) THEN
+          ATRY(J+1) = TWENTY
+        ELSEIF (ATRY(J+1) .LT. -TWENTY) THEN
           IF (IDEBUG .GT. 0) THEN
-            write(IOUT,*) 'Setting Big ALPHA to -',VINGT
+            write(IOUT,*) 'Setting Big ALPHA to -',TWENTY
             write(IOUT,*) '  J, ATRY(J) = ',J+1,ATRY(J+1)
           ENDIF
-          ATRY(J+1) = -VINGT
+          ATRY(J+1) = -TWENTY
         ENDIF
       ENDDO
 
@@ -1070,10 +1070,10 @@ c     output curcves to .csv format to simplify visualization
         CALL OGDEN0(STRETCH(I), A, YOGD, NMUAL)
 !!        WRITE(IOUT,'(F18.4,F20.4,F28.4)') 
         WRITE(IOUT, '(1F18.6, 3X,1F20.13, 6X, 1F20.13)')
-     *   STRETCH(I)-UN,Y(I),YOGD
+     *   STRETCH(I)-ONE,Y(I),YOGD
         IF (ICURV .GT. 0) THEN
            WRITE(ICURV, '(F18.4, A, F18.4, A, F18.4)') 
-     $            STRETCH(I)-UN,',',Y(I),',',YOGD
+     $            STRETCH(I)-ONE,',',Y(I),',',YOGD
         ENDIF
       ENDDO      
 
@@ -1309,7 +1309,7 @@ Chd|====================================================================
 
        AVE_SLOPE = ZERO
        DO I = 1, NPT
-         dx = X(I) - UN
+         dx = X(I) - ONE
 c        avolid dx to be too small
          IF (dx .GE. ZERO) THEN
            dx = MAX(dx, EM6)
@@ -1319,7 +1319,7 @@ c        avolid dx to be too small
          AVE_SLOPE = AVE_SLOPE + (Y(I) - ZERO) / dx
 !ok          AVE_SLOPE = MAX(AVE_SLOPE , (Y(I) - ZERO) / dx )
        ENDDO
-       AVE_SLOPE = AVE_SLOPE / (UN * NPT)
+       AVE_SLOPE = AVE_SLOPE / (ONE * NPT)
        IF (IDEBUG .GT. 0) THEN
          WRITE(IOUT, *) 'AVE_SLOPE = ', AVE_SLOPE
        ENDIF

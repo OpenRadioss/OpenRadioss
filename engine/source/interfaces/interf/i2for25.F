@@ -126,10 +126,10 @@ C
           IX3(K) = IRECT(3,L)                                       
           IX4(K) = IRECT(4,L)  
           NIR= 4
-          SP = UN + S
-          SM = UN - S
-          TP = QUART*(UN + T)
-          TM = QUART*(UN - T)
+          SP = ONE + S
+          SM = ONE - S
+          TP = FOURTH*(ONE + T)
+          TM = FOURTH*(ONE - T)
           H(1,K)=TM*SM           
           H(2,K)=TM*SP           
           H(3,K)=TP*SP           
@@ -341,15 +341,15 @@ C--  Old visc formulation from Radioss V14 --
             MHARM = ZERO
             VISCL = ZERO
           ELSEIF(NIR==4)THEN
-            MHARM = UN/MS_PENA(I) + 
-     .              UN/MS_PENA(IX1(K)) + UN/MS_PENA(IX2(K)) + UN/MS_PENA(IX3(K)) + UN/MS_PENA(IX4(K))
-            MHARM = UN/MHARM
+            MHARM = ONE/MS_PENA(I) + 
+     .              ONE/MS_PENA(IX1(K)) + ONE/MS_PENA(IX2(K)) + ONE/MS_PENA(IX3(K)) + ONE/MS_PENA(IX4(K))
+            MHARM = ONE/MHARM
           ELSE
-            MHARM = UN/MS_PENA(I) + 
-     .              UN/MS_PENA(IX1(K)) + UN/MS_PENA(IX2(K)) + UN/MS_PENA(IX3(K))
-            MHARM = UN/MHARM
+            MHARM = ONE/MS_PENA(I) + 
+     .              ONE/MS_PENA(IX1(K)) + ONE/MS_PENA(IX2(K)) + ONE/MS_PENA(IX3(K))
+            MHARM = ONE/MHARM
           END IF
-          DKM    = DEUX*STFN(II)*MHARM
+          DKM    = TWO*STFN(II)*MHARM
           VIS(K) = VISC*SQRT(DKM)
 C
           FXV = VIS(K) * V1
@@ -357,7 +357,7 @@ C
           FZV = VIS(K) * V3
 c
           DXT = DX(1,II)*DX(1,II) + DX(2,II)*DX(2,II) + DX(3,II)*DX(3,II)
-          ECONTT = ECONTT + UNDEMI*STFN(II)*DXT
+          ECONTT = ECONTT + HALF*STFN(II)*DXT
 
           ECONVT = ECONVT + (FXV*V1 + FYV*V2 + FZV*V3)*DT1
 c
@@ -400,14 +400,14 @@ C
           IF (IVISC.EQ.1) THEN
 C--  Old visc formulation from Radioss V14 --
           DTINV = ZERO
-          IF (DT1 > ZERO) DTINV=UN/DT1
-          STF = (UN+STBRK)*STFN(II) + DEUX*VIS(K)*DTINV
+          IF (DT1 > ZERO) DTINV=ONE/DT1
+          STF = (ONE+STBRK)*STFN(II) + TWO*VIS(K)*DTINV
           ELSE 
-            STF     = STFN(II)*(VISCL + SQRT(VISCL**2 + (UN+STBRK)))**2
+            STF     = STFN(II)*(VISCL + SQRT(VISCL**2 + (ONE+STBRK)))**2
           ENDIF
 C
           SAV_FOR_PENA(4,I)= SAV_FOR_PENA(4,I)+STF
-          STIF(K) = (UN+STBRK)*STFN(II)
+          STIF(K) = (ONE+STBRK)*STFN(II)
 C----------------------------------------------------
 C         Main forces
 C----------------------------------------------------
@@ -431,7 +431,7 @@ c
             A(2,IX4(K)) = A(2,IX4(K)) + FY(4)
             A(3,IX4(K)) = A(3,IX4(K)) + FZ(4)
             STIFN(IX4(K)) = STIFN(IX4(K))+ABS(STF*H(4,K))
-     .                              +STIFM(K)*STF*SIGN(UN,ABS(H(4,K)))
+     .                              +STIFM(K)*STF*SIGN(ONE,ABS(H(4,K)))
           ENDIF
 
 C------------------------------------------------

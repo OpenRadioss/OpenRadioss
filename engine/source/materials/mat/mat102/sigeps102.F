@@ -119,7 +119,7 @@ C----------------------------------------------------------------
       A2        = UPARAM(6)
       AMAX      = UPARAM(7) 
       G         = UPARAM(8)
-      GG        = DEUX*G
+      GG        = TWO*G
       IFORM     = NINT(UPARAM(9))
       !----------------------------------------------------------------!
       !  STATE INIT.                                                   !
@@ -127,7 +127,7 @@ C----------------------------------------------------------------
       DO I=1,NEL
         POLD(I) = -(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*THIRD           !POLD(I)=-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
         SCRT(I) =  (DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))*THIRD           !SVRT(I)= THIRD*(D1(I)+D2(I)+D3(I))
-        MU(I)   = RHO(I)/RHO0(I) - UN
+        MU(I)   = RHO(I)/RHO0(I) - ONE
         MU2(I)  = MU(I) * MAX(ZERO,MU(I))
       ENDDO !next I    
       !----------------------------------------------------------------!
@@ -145,23 +145,23 @@ C----------------------------------------------------------------
       !  SOUND SPEED                                                   !
       !----------------------------------------------------------------!      
       DO I=1,NEL
-        DPDM(I) = DPDM(I) + UNP333*G
+        DPDM(I) = DPDM(I) + ONEP333*G
         SSP(I)  = SQRT(ABS(DPDM(I))/RHO0(I))
       ENDDO !next I      
       !----------------------------------------------------------------!
       !  YIELD SURFACE                                                 !
       !----------------------------------------------------------------!     
       DO I=1,NEL
-        AJ2(I)= UNDEMI*(T1(I)**2+T2(I)**2+T3(I)**2)+T4(I)**2+T5(I)**2+T6(I)**2
+        AJ2(I)= HALF*(T1(I)**2+T2(I)**2+T3(I)**2)+T4(I)**2+T5(I)**2+T6(I)**2
       ENDDO
       !----SUBCASE --- ORIGINAL MOHR COULOMB
       IF(IFORM.EQ.4)THEN
-        K = UN/SQRT(TROIS)
+        K = ONE/SQRT(THREE)
         DO I=1,NEL
           I3(I)    = T2(I)*T3(I)*T1(I)-T2(I)*T6(I)*T6(I)-T3(I)*T4(I)*T4(I)-T5(I)*T5(I)*T1(I)+2*T5(I)*T4(I)*T6(I)
           SQRT_J2  = SQRT(MAX(ZERO,AJ2(I)))
-          COS3T(I) = NEUF*I3(I)/DEUX/SQRT(TROIS)/SQRT_J2/SQRT_J2/SQRT_J2
-          THETA    = ACOS(MAX(ZERO,MIN(UN,COS3T(I))))
+          COS3T(I) = NINE*I3(I)/TWO/SQRT(THREE)/SQRT_J2/SQRT_J2/SQRT_J2
+          THETA    = ACOS(MAX(ZERO,MIN(ONE,COS3T(I))))
           PTOT     = PNEW(I)+PSH(I)
           G0(I)    = -PTOT*SIN(PHI)+SQRT_J2*(COS(THETA)-K*SIN(THETA)*SIN(PHI))-C*COS(PHI)
           G0(I)    = MAX(ZERO,G0(I))
@@ -185,7 +185,7 @@ C----------------------------------------------------------------
       DO  I=1,NEL
         RATIO(I)=ZERO
         IF(YIELD2(I).LE.ZERO .AND. G0(I).GT.ZERO)THEN
-          RATIO(I)=UN
+          RATIO(I)=ONE
         ELSE
           RATIO(I)=SQRT(G0(I)/(AJ2(I)+ EM14))
         ENDIF
@@ -200,7 +200,7 @@ C----------------------------------------------------------------
         SIGNXY(I)=RATIO(I)*T4(I)*OFF(I)
         SIGNYZ(I)=RATIO(I)*T5(I)*OFF(I)
         SIGNZX(I)=RATIO(I)*T6(I)*OFF(I)
-        DPLA(I)  =(UN -RATIO(I))*SQRT(ABS(AJ2(I)))*DT1 / MAX(EM20,TROIS*G)
+        DPLA(I)  =(ONE -RATIO(I))*SQRT(ABS(AJ2(I)))*DT1 / MAX(EM20,THREE*G)
       ENDDO !next I     
       !----------------------------------------------------------------!
       !  RECORD                                                        !

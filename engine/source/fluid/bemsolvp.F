@@ -151,9 +151,9 @@ C Assemblage de H
                Z1=X(3,N1)
                Z2=X(3,N2)
                Z3=X(3,N3)
-               X0=TIERS*(X1+X2+X3)
-               Y0=TIERS*(Y1+Y2+Y3)    
-               Z0=TIERS*(Z1+Z2+Z3)
+               X0=THIRD*(X1+X2+X3)
+               Y0=THIRD*(Y1+Y2+Y3)    
+               Z0=THIRD*(Z1+Z2+Z3)
                D2=MIN((X0-X1)**2+(Y0-Y1)**2+(Z0-Z1)**2,
      .                (X0-X2)**2+(Y0-Y2)**2+(Z0-Z2)**2,
      .                (X0-X3)**2+(Y0-Y3)**2+(Z0-Z3)**2)
@@ -193,9 +193,9 @@ C Assemblage de G
                Z1=X(3,N1)
                Z2=X(3,N2)
                Z3=X(3,N3)
-               X0=TIERS*(X1+X2+X3)
-               Y0=TIERS*(Y1+Y2+Y3)    
-               Z0=TIERS*(Z1+Z2+Z3)
+               X0=THIRD*(X1+X2+X3)
+               Y0=THIRD*(Y1+Y2+Y3)    
+               Z0=THIRD*(Z1+Z2+Z3)
                D2=MIN((X0-X1)**2+(Y0-Y1)**2+(Z0-Z1)**2,
      .                (X0-X2)**2+(Y0-Y2)**2+(Z0-Z2)**2,
      .                (X0-X3)**2+(Y0-Y3)**2+(Z0-Z3)**2)
@@ -276,9 +276,9 @@ C
                Z1=X(3,N1)
                Z2=X(3,N2)
                Z3=X(3,N3)
-               X0=TIERS*(X1+X2+X3)
-               Y0=TIERS*(Y1+Y2+Y3)    
-               Z0=TIERS*(Z1+Z2+Z3)
+               X0=THIRD*(X1+X2+X3)
+               Y0=THIRD*(Y1+Y2+Y3)    
+               Z0=THIRD*(Z1+Z2+Z3)
                NRX=NORM(1,IEL)
                NRY=NORM(2,IEL)
                NRZ=NORM(3,IEL)
@@ -322,7 +322,7 @@ C---------------------------------------------------
          WRITE(ISTDO,'(A)') 
      .' ** BEMSOLV : PARALLEL LINEAR SYSTEM SOLUTION'
       ENDIF
-      CALL PDGEMV('N', NNO, NEL,    UN,   GBEM,
+      CALL PDGEMV('N', NNO, NEL,    ONE,   GBEM,
      .            1,   1,   DESC_G, Q,    1,
      .            1,   DESC_Q, 1,   ZERO, PHI,
      .            1,   1,   DESC_P, 1)
@@ -464,7 +464,7 @@ C
          ETAP=PG(IAD2+1)
          IAD=IAD+1
          IAD2=IAD2+2
-         VAL1=UN-KSIP-ETAP
+         VAL1=ONE-KSIP-ETAP
          VAL2=KSIP
          VAL3=ETAP
          XP=VAL1*X1+VAL2*X2+VAL3*X3
@@ -622,7 +622,7 @@ C
          ETAP=PG(IAD2+1)
          IAD=IAD+1
          IAD2=IAD2+2
-         VAL1=UN-KSIP-ETAP
+         VAL1=ONE-KSIP-ETAP
          VAL2=KSIP
          VAL3=ETAP
          PHI_INFP=PHI_INF(N1)*VAL1+PHI_INF(N2)*VAL2+PHI_INF(N3)*VAL3

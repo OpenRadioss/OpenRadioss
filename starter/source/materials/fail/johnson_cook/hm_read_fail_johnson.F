@@ -125,7 +125,7 @@ C--------------------------------------------------
       IF (ISOLID == 0)   ISOLID=1
       IF (IXFEM /= 1 .AND. IXFEM /= 2) IXFEM = 0
       IF (IXFEM > 0)     ISOLID = 0
-      IF (DADV == ZERO .OR. DADV > UN) DADV = UN
+      IF (DADV == ZERO .OR. DADV > ONE) DADV = ONE
 !
       UPARAM(1) = D1
       UPARAM(2) = D2

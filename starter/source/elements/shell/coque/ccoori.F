@@ -152,14 +152,14 @@ C
           X1(I)=ZERO
           Y1(I)=ZERO
           Z1(I)=ZERO
-          X2(I)=UN
+          X2(I)=ONE
           Y2(I)=ZERO
           Z2(I)=ZERO
-          X3(I)=UN
-          Y3(I)=UN
+          X3(I)=ONE
+          Y3(I)=ONE
           Z3(I)=ZERO
           X4(I)=ZERO
-          Y4(I)=UN
+          Y4(I)=ONE
           Z4(I)=ZERO 
         ENDIF
       ENDDO

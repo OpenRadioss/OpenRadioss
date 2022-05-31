@@ -399,8 +399,8 @@ c
           p2  = dd(K)
           IED = EDGEL(K,I)
           IF (IED > 0) THEN
-            XMI(IED) = UNDEMI*(XXL(p1,I)+XXL(p2,I))
-            YMI(IED) = UNDEMI*(YYL(p1,I)+YYL(p2,I))
+            XMI(IED) = HALF*(XXL(p1,I)+XXL(p2,I))
+            YMI(IED) = HALF*(YYL(p1,I)+YYL(p2,I))
           ENDIF
         ENDDO
         DO K=1,4
@@ -459,10 +459,10 @@ C
 C
         ICRK = ELFISS(I)              ! Id fissure qui avance
 C
-        ISIGN(1) = INT(SIGN(UN,FIT(1,I)))
-        ISIGN(2) = INT(SIGN(UN,FIT(2,I)))
-        ISIGN(3) = INT(SIGN(UN,FIT(3,I)))
-        ISIGN(4) = INT(SIGN(UN,FIT(4,I)))
+        ISIGN(1) = INT(SIGN(ONE,FIT(1,I)))
+        ISIGN(2) = INT(SIGN(ONE,FIT(2,I)))
+        ISIGN(3) = INT(SIGN(ONE,FIT(3,I)))
+        ISIGN(4) = INT(SIGN(ONE,FIT(4,I)))
 C
         IF (FIT(1,I) == ZERO) ISIGN(1) = 0
         IF (FIT(2,I) == ZERO) ISIGN(2) = 0
@@ -598,10 +598,10 @@ C------------------
             Y4 = YIN(IED,I)
           ELSE
           ENDIF
-          AREA1 = UNDEMI*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
+          AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
      .            
           AREA1 = AREA1 * A_I(I)
-          AREA2 = UN - AREA1
+          AREA2 = ONE - AREA1
           AREA3 = ZERO
 c
           XFEM_STR(3)%GBUF%OFF(I) = ZERO                         
@@ -634,18 +634,18 @@ c--           IXEL=2 AREA factor
               Y2  = YYL(NX3,I)                                       
               X3  = XXL(NX4,I)                                       
               Y3  = YYL(NX4,I)                                       
-              AREA2 = UNDEMI*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
+              AREA2 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
 c--           IXEL=1 AREA factor                                     
               IED = CRKEDGE(ILAY)%IEDGEC(NX1,ELCRK)                    
               X2  = XIN(IED,I)                                       
               Y2  = YIN(IED,I)                                       
               X3  = XXL(NX1,I)                                       
               Y3  = YYL(NX1,I)                                       
-              AREA1 = UNDEMI*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
+              AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
 c
               AREA1 = AREA1 * A_I(I)                                
               AREA2 = AREA2 * A_I(I)                                
-              AREA3 = UN - AREA1 - AREA2                             
+              AREA3 = ONE - AREA1 - AREA2                             
             ELSEIF (CRKEDGE(ILAY)%ICUTEDGE(IE1) > 1) THEN
                print*,' IMPOSSIBLE CASE'
             ENDIF
@@ -674,18 +674,18 @@ c--           IXEL=1 AREA factor
               Y2  = YYL(NX2,I)                                       
               X3  = XXL(NX3,I)                                       
               Y3  = YYL(NX3,I)                                       
-              AREA1 = UNDEMI*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
+              AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
 c--           IXEL=2 AREA factor                                     
               IED = CRKEDGE(ILAY)%IEDGEC(NX4,ELCRK)                    
               X2  = XIN(IED,I)                                       
               Y2  = YIN(IED,I)                                       
               X3  = XXL(NX1,I)                                       
               Y3  = YYL(NX1,I)                                       
-              AREA2 = UNDEMI*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
+              AREA2 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
 c
               AREA1 = AREA1 * A_I(I)                                
               AREA2 = AREA2 * A_I(I)                                
-              AREA3 = UN - AREA1 - AREA2                             
+              AREA3 = ONE - AREA1 - AREA2                             
             ELSEIF (CRKEDGE(ILAY)%ICUTEDGE(IE2) > 1) THEN
                print*,' IMPOSSIBLE CASE'
             ENDIF
@@ -695,7 +695,7 @@ c----
           CRKLVSET(PP2)%AREA(ELCRK) = AREA2  
           CRKLVSET(PP3)%AREA(ELCRK) = AREA3
 c
-          IF (AREA3 < ZERO .or. AREA1 > UN .or. AREA2 > UN .or. AREA3 > UN ) THEN
+          IF (AREA3 < ZERO .or. AREA1 > ONE .or. AREA2 > ONE .or. AREA3 > ONE ) THEN
             print*,'ERROR : XFEM PHANTOM ELEMENT AREA: ELCRK=',ELCRK
           ENDIF
 c        

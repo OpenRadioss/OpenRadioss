@@ -140,14 +140,14 @@ C---  CARD2 :
       CALL HM_GET_FLOATV('MAX_N_DIST',DNMAX,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAX_T_DIST',DTMAX,IS_AVAILABLE,LSUBMODEL,UNITAB)
 !---
-      IF (SCAL_F  == 0.0) SCAL_F  = UN
-      IF (SCAL_D  == 0.0) SCAL_D  = UN
-      IF (SCAL_SR == 0.0) SCAL_SR = UN
+      IF (SCAL_F  == 0.0) SCAL_F  = ONE
+      IF (SCAL_D  == 0.0) SCAL_D  = ONE
+      IF (SCAL_SR == 0.0) SCAL_SR = ONE
       IF (DNMAX == 0.0) DNMAX = EP20
       IF (DTMAX == 0.0) DTMAX = EP20
       IF (IFILTR == 1) THEN
-        IF (ALPHA  == ZERO) ALPHA  = UN
-        ALPHA = MIN(ALPHA,UN)
+        IF (ALPHA  == ZERO) ALPHA  = ONE
+        ALPHA = MIN(ALPHA,ONE)
         ALPHA = MAX(ALPHA,ZERO)
       ENDIF
       IF (IFUNN == 0 .OR. IFUNT == 0) GOTO 999

@@ -445,33 +445,33 @@ C
 C-------------------------------------
 C     DRILLING RE-PROJECTION ONLY
 C-------------------------------------
-         MM(1,1)=(UN-VQN(K,1,1)*VQN(K,1,1))*ML(1,1)-
+         MM(1,1)=(ONE-VQN(K,1,1)*VQN(K,1,1))*ML(1,1)-
      1                VQN(K,1,1)*VQN(K,2,1) *ML(2,1)
-         MM(2,1)=(UN-VQN(K,2,1)*VQN(K,2,1))*ML(2,1)-
+         MM(2,1)=(ONE-VQN(K,2,1)*VQN(K,2,1))*ML(2,1)-
      1                VQN(K,1,1)*VQN(K,2,1) *ML(1,1)
          MM(3,1)=    -VQN(K,1,1)*VQN(K,3,1) *ML(1,1)-
      1                VQN(K,2,1)*VQN(K,3,1) *ML(2,1)
 C
 C        J=2
-         MM(1,2)=(UN - VQN(K,1,2)*VQN(K,1,2))*ML(1,2)-
+         MM(1,2)=(ONE - VQN(K,1,2)*VQN(K,1,2))*ML(1,2)-
      1                VQN(K,1,2)*VQN(K,2,2) *ML(2,2)
-         MM(2,2)=(UN - VQN(K,2,2)*VQN(K,2,2))*ML(2,2)-
+         MM(2,2)=(ONE - VQN(K,2,2)*VQN(K,2,2))*ML(2,2)-
      1                VQN(K,1,2)*VQN(K,2,2) *ML(1,2)
          MM(3,2)=    -VQN(K,1,2)*VQN(K,3,2) *ML(1,2)-
      1                VQN(K,2,2)*VQN(K,3,2) *ML(2,2)
 C
 C        J=3
-         MM(1,3)=(UN-VQN(K,1,3)*VQN(K,1,3))*ML(1,3)-
+         MM(1,3)=(ONE-VQN(K,1,3)*VQN(K,1,3))*ML(1,3)-
      1                VQN(K,1,3)*VQN(K,2,3) *ML(2,3)
-         MM(2,3)=(UN-VQN(K,2,3)*VQN(K,2,3))*ML(2,3)-
+         MM(2,3)=(ONE-VQN(K,2,3)*VQN(K,2,3))*ML(2,3)-
      1                VQN(K,1,3)*VQN(K,2,3) *ML(1,3)
          MM(3,3)=    -VQN(K,1,3)*VQN(K,3,3) *ML(1,3)-
      1                VQN(K,2,3)*VQN(K,3,3) *ML(2,3)
 C
 C        J=4
-         MM(1,4)=(UN-VQN(K,1,4)*VQN(K,1,4))*ML(1,4)-
+         MM(1,4)=(ONE-VQN(K,1,4)*VQN(K,1,4))*ML(1,4)-
      1                VQN(K,1,4)*VQN(K,2,4) *ML(2,4)
-         MM(2,4)=(UN-VQN(K,2,4)*VQN(K,2,4))*ML(2,4)-
+         MM(2,4)=(ONE-VQN(K,2,4)*VQN(K,2,4))*ML(2,4)-
      1                VQN(K,1,4)*VQN(K,2,4) *ML(1,4)
          MM(3,4)=    -VQN(K,1,4)*VQN(K,3,4) *ML(1,4)-
      1                VQN(K,2,4)*VQN(K,3,4) *ML(2,4)
@@ -712,33 +712,33 @@ C
 C-------------------------------------
 C     DRILLING RE-PROJECTION ONLY
 C-------------------------------------
-         MM(1,1)=(UN-VQN(K,1,1)*VQN(K,1,1))*ML(1,1)-
+         MM(1,1)=(ONE-VQN(K,1,1)*VQN(K,1,1))*ML(1,1)-
      1                VQN(K,1,1)*VQN(K,2,1) *ML(2,1)
-         MM(2,1)=(UN-VQN(K,2,1)*VQN(K,2,1))*ML(2,1)-
+         MM(2,1)=(ONE-VQN(K,2,1)*VQN(K,2,1))*ML(2,1)-
      1                VQN(K,1,1)*VQN(K,2,1) *ML(1,1)
          MM(3,1)=    -VQN(K,1,1)*VQN(K,3,1) *ML(1,1)-
      1                VQN(K,2,1)*VQN(K,3,1) *ML(2,1)
 C
 C        J=2
-         MM(1,2)=(UN - VQN(K,1,2)*VQN(K,1,2))*ML(1,2)-
+         MM(1,2)=(ONE - VQN(K,1,2)*VQN(K,1,2))*ML(1,2)-
      1                VQN(K,1,2)*VQN(K,2,2) *ML(2,2)
-         MM(2,2)=(UN - VQN(K,2,2)*VQN(K,2,2))*ML(2,2)-
+         MM(2,2)=(ONE - VQN(K,2,2)*VQN(K,2,2))*ML(2,2)-
      1                VQN(K,1,2)*VQN(K,2,2) *ML(1,2)
          MM(3,2)=    -VQN(K,1,2)*VQN(K,3,2) *ML(1,2)-
      1                VQN(K,2,2)*VQN(K,3,2) *ML(2,2)
 C
 C        J=3
-         MM(1,3)=(UN-VQN(K,1,3)*VQN(K,1,3))*ML(1,3)-
+         MM(1,3)=(ONE-VQN(K,1,3)*VQN(K,1,3))*ML(1,3)-
      1                VQN(K,1,3)*VQN(K,2,3) *ML(2,3)
-         MM(2,3)=(UN-VQN(K,2,3)*VQN(K,2,3))*ML(2,3)-
+         MM(2,3)=(ONE-VQN(K,2,3)*VQN(K,2,3))*ML(2,3)-
      1                VQN(K,1,3)*VQN(K,2,3) *ML(1,3)
          MM(3,3)=    -VQN(K,1,3)*VQN(K,3,3) *ML(1,3)-
      1                VQN(K,2,3)*VQN(K,3,3) *ML(2,3)
 C
 C        J=4
-         MM(1,4)=(UN-VQN(K,1,4)*VQN(K,1,4))*ML(1,4)-
+         MM(1,4)=(ONE-VQN(K,1,4)*VQN(K,1,4))*ML(1,4)-
      1                VQN(K,1,4)*VQN(K,2,4) *ML(2,4)
-         MM(2,4)=(UN-VQN(K,2,4)*VQN(K,2,4))*ML(2,4)-
+         MM(2,4)=(ONE-VQN(K,2,4)*VQN(K,2,4))*ML(2,4)-
      1                VQN(K,1,4)*VQN(K,2,4) *ML(1,4)
          MM(3,4)=    -VQN(K,1,4)*VQN(K,3,4) *ML(1,4)-
      1                VQN(K,2,4)*VQN(K,3,4) *ML(2,4)
@@ -1049,33 +1049,33 @@ C---------warped element------------
 C-------------------------------------
 C     DRILLING RE-PROJECTION ONLY
 C-------------------------------------
-         MM(1,1)=(UN-VQN(K,1,1)*VQN(K,1,1))*ML(1,1)-
+         MM(1,1)=(ONE-VQN(K,1,1)*VQN(K,1,1))*ML(1,1)-
      1                VQN(K,1,1)*VQN(K,2,1) *ML(2,1)
-         MM(2,1)=(UN-VQN(K,2,1)*VQN(K,2,1))*ML(2,1)-
+         MM(2,1)=(ONE-VQN(K,2,1)*VQN(K,2,1))*ML(2,1)-
      1                VQN(K,1,1)*VQN(K,2,1) *ML(1,1)
          MM(3,1)=    -VQN(K,1,1)*VQN(K,3,1) *ML(1,1)-
      1                VQN(K,2,1)*VQN(K,3,1) *ML(2,1)
 C
 C        J=2
-         MM(1,2)=(UN - VQN(K,1,2)*VQN(K,1,2))*ML(1,2)-
+         MM(1,2)=(ONE - VQN(K,1,2)*VQN(K,1,2))*ML(1,2)-
      1                VQN(K,1,2)*VQN(K,2,2) *ML(2,2)
-         MM(2,2)=(UN - VQN(K,2,2)*VQN(K,2,2))*ML(2,2)-
+         MM(2,2)=(ONE - VQN(K,2,2)*VQN(K,2,2))*ML(2,2)-
      1                VQN(K,1,2)*VQN(K,2,2) *ML(1,2)
          MM(3,2)=    -VQN(K,1,2)*VQN(K,3,2) *ML(1,2)-
      1                VQN(K,2,2)*VQN(K,3,2) *ML(2,2)
 C
 C        J=3
-         MM(1,3)=(UN-VQN(K,1,3)*VQN(K,1,3))*ML(1,3)-
+         MM(1,3)=(ONE-VQN(K,1,3)*VQN(K,1,3))*ML(1,3)-
      1                VQN(K,1,3)*VQN(K,2,3) *ML(2,3)
-         MM(2,3)=(UN-VQN(K,2,3)*VQN(K,2,3))*ML(2,3)-
+         MM(2,3)=(ONE-VQN(K,2,3)*VQN(K,2,3))*ML(2,3)-
      1                VQN(K,1,3)*VQN(K,2,3) *ML(1,3)
          MM(3,3)=    -VQN(K,1,3)*VQN(K,3,3) *ML(1,3)-
      1                VQN(K,2,3)*VQN(K,3,3) *ML(2,3)
 C
 C        J=4
-         MM(1,4)=(UN-VQN(K,1,4)*VQN(K,1,4))*ML(1,4)-
+         MM(1,4)=(ONE-VQN(K,1,4)*VQN(K,1,4))*ML(1,4)-
      1                VQN(K,1,4)*VQN(K,2,4) *ML(2,4)
-         MM(2,4)=(UN-VQN(K,2,4)*VQN(K,2,4))*ML(2,4)-
+         MM(2,4)=(ONE-VQN(K,2,4)*VQN(K,2,4))*ML(2,4)-
      1                VQN(K,1,4)*VQN(K,2,4) *ML(1,4)
          MM(3,4)=    -VQN(K,1,4)*VQN(K,3,4) *ML(1,4)-
      1                VQN(K,2,4)*VQN(K,3,4) *ML(2,4)
@@ -1313,33 +1313,33 @@ C
 C-------------------------------------
 C     DRILLING RE-PROJECTION ONLY
 C-------------------------------------
-         MM(1,1)=(UN-VQN(K,1,1)*VQN(K,1,1))*ML(1,1)-
+         MM(1,1)=(ONE-VQN(K,1,1)*VQN(K,1,1))*ML(1,1)-
      1                VQN(K,1,1)*VQN(K,2,1) *ML(2,1)
-         MM(2,1)=(UN-VQN(K,2,1)*VQN(K,2,1))*ML(2,1)-
+         MM(2,1)=(ONE-VQN(K,2,1)*VQN(K,2,1))*ML(2,1)-
      1                VQN(K,1,1)*VQN(K,2,1) *ML(1,1)
          MM(3,1)=    -VQN(K,1,1)*VQN(K,3,1) *ML(1,1)-
      1                VQN(K,2,1)*VQN(K,3,1) *ML(2,1)
 C
 C        J=2
-         MM(1,2)=(UN - VQN(K,1,2)*VQN(K,1,2))*ML(1,2)-
+         MM(1,2)=(ONE - VQN(K,1,2)*VQN(K,1,2))*ML(1,2)-
      1                VQN(K,1,2)*VQN(K,2,2) *ML(2,2)
-         MM(2,2)=(UN - VQN(K,2,2)*VQN(K,2,2))*ML(2,2)-
+         MM(2,2)=(ONE - VQN(K,2,2)*VQN(K,2,2))*ML(2,2)-
      1                VQN(K,1,2)*VQN(K,2,2) *ML(1,2)
          MM(3,2)=    -VQN(K,1,2)*VQN(K,3,2) *ML(1,2)-
      1                VQN(K,2,2)*VQN(K,3,2) *ML(2,2)
 C
 C        J=3
-         MM(1,3)=(UN-VQN(K,1,3)*VQN(K,1,3))*ML(1,3)-
+         MM(1,3)=(ONE-VQN(K,1,3)*VQN(K,1,3))*ML(1,3)-
      1                VQN(K,1,3)*VQN(K,2,3) *ML(2,3)
-         MM(2,3)=(UN-VQN(K,2,3)*VQN(K,2,3))*ML(2,3)-
+         MM(2,3)=(ONE-VQN(K,2,3)*VQN(K,2,3))*ML(2,3)-
      1                VQN(K,1,3)*VQN(K,2,3) *ML(1,3)
          MM(3,3)=    -VQN(K,1,3)*VQN(K,3,3) *ML(1,3)-
      1                VQN(K,2,3)*VQN(K,3,3) *ML(2,3)
 C
 C        J=4
-         MM(1,4)=(UN-VQN(K,1,4)*VQN(K,1,4))*ML(1,4)-
+         MM(1,4)=(ONE-VQN(K,1,4)*VQN(K,1,4))*ML(1,4)-
      1                VQN(K,1,4)*VQN(K,2,4) *ML(2,4)
-         MM(2,4)=(UN-VQN(K,2,4)*VQN(K,2,4))*ML(2,4)-
+         MM(2,4)=(ONE-VQN(K,2,4)*VQN(K,2,4))*ML(2,4)-
      1                VQN(K,1,4)*VQN(K,2,4) *ML(1,4)
          MM(3,4)=    -VQN(K,1,4)*VQN(K,3,4) *ML(1,4)-
      1                VQN(K,2,4)*VQN(K,3,4) *ML(2,4)

@@ -86,7 +86,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C
       IF(IEPSDOT.NE.0)THEN
        DO I=JFT,JLT
-        FAC1(I)  =UN/AREA(I)
+        FAC1(I)  =ONE/AREA(I)
         K = I + NFT
         EPSDOT(1,K)=EXX(I)*FAC1(I)
         EPSDOT(2,K)=EYY(I)*FAC1(I)
@@ -144,15 +144,15 @@ C
          GTMP7(I)=GSTR(I,7)
          GTMP8(I)=GSTR(I,8)
          R1(I)= EXY(I)
-         R2(I)=DEUX*EXY(I)
-         Q1(I)=-UNDEMI*GSTR(I,3)*R1(I)
+         R2(I)=TWO*EXY(I)
+         Q1(I)=-HALF*GSTR(I,3)*R1(I)
          GSTR(I,3)=GSTR(I,3)-R2(I)*(GSTR(I,1)-GSTR(I,2))
          GSTR(I,1)=GSTR(I,1)-Q1(I)
          GSTR(I,2)=GSTR(I,2)+Q1(I)
          Q1(I)= R1(I)*GSTR(I,4)
          GSTR(I,4)=GSTR(I,4)-R1(I)*GSTR(I,5)
          GSTR(I,5)=GSTR(I,5)+Q1(I)
-         Q1(I)=-UNDEMI*GSTR(I,8)*R1(I)
+         Q1(I)=-HALF*GSTR(I,8)*R1(I)
          GSTR(I,8)=GSTR(I,8)-R2(I)*(GSTR(I,6)-GSTR(I,7))
          GSTR(I,6)=GSTR(I,6)-Q1(I)
          GSTR(I,7)=GSTR(I,7)+Q1(I)
@@ -178,8 +178,8 @@ C-----
         DO I=JFT,JLT 
           F_DEF(I,6) = GSTR(I,6)
           F_DEF(I,7) = GSTR(I,7)
-          F_DEF(I,8) = (GSTR(I,8)+GSTRW(I))*UNDEMI
-          F_DEF(I,5) = (GSTR(I,8)-GSTRW(I))*UNDEMI
+          F_DEF(I,8) = (GSTR(I,8)+GSTRW(I))*HALF
+          F_DEF(I,5) = (GSTR(I,8)-GSTRW(I))*HALF
         ENDDO
        ELSEIF(ISMSTR /= 11 )THEN
         DO I=JFT,JLT
@@ -194,7 +194,7 @@ C-----
         ENDDO
        ELSE
         DO I=JFT,JLT
-         FAC1(I)  =UN/AREA(I)
+         FAC1(I)  =ONE/AREA(I)
          UX13=UX1(I)-UX3(I)
          UX24=UX2(I)-UX4(I)
          UY13=UY1(I)-UY3(I)

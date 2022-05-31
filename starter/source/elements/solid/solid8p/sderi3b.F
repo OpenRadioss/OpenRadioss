@@ -188,7 +188,7 @@ C
         ENDDO
 C
         DO I=LFT,LLT
-          VLINV(I)=UN/VLINC(I,JPT)
+          VLINV(I)=ONE/VLINC(I,JPT)
           AI11(I)=VLINV(I)*AI11(I)
           AI21(I)=VLINV(I)*AI21(I)
           AI31(I)=VLINV(I)*AI31(I)
@@ -338,7 +338,7 @@ C surface * 16
      .                + (XX3 * YY2 - XX2 * YY3)**2)
         VMIN = MIN(VLINC(I,1),VLINC(I,2),VLINC(I,3),VLINC(I,4),
      .             VLINC(I,5),VLINC(I,6),VLINC(I,7),VLINC(I,8))
-        DELTAX(I)=CENT28*VMIN/SQRT(SMAX)
+        DELTAX(I)=HUNDRED28*VMIN/SQRT(SMAX)
       ENDDO
 C
       DO J=1,12

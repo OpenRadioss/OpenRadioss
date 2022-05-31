@@ -709,7 +709,7 @@ C-----------------------------------------------
       SA  = ZERO
 
       DO J = 1, NN
-         DIR = UNDEMI
+         DIR = HALF
          I1 = SURF%NODES(J,1)
          I2 = SURF%NODES(J,2)
          I3 = SURF%NODES(J,3)
@@ -717,9 +717,9 @@ C-----------------------------------------------
          ISH34 = SURF%ELTYP(J)
          I = SURF%ELEM(J)
          IF(ISH34.EQ.7)I4 = I3
-         XX =UNDEMI*(NODE_COORD(1,I1)+NODE_COORD(1,I2))
-         YY =UNDEMI*(NODE_COORD(2,I1)+NODE_COORD(2,I2))
-         ZZ =UNDEMI*(NODE_COORD(3,I1)+NODE_COORD(3,I2))
+         XX =HALF*(NODE_COORD(1,I1)+NODE_COORD(1,I2))
+         YY =HALF*(NODE_COORD(2,I1)+NODE_COORD(2,I2))
+         ZZ =HALF*(NODE_COORD(3,I1)+NODE_COORD(3,I2))
 
          X13=NODE_COORD(1,I3)-NODE_COORD(1,I1)
          Y13=NODE_COORD(2,I3)-NODE_COORD(2,I1)
@@ -744,15 +744,15 @@ C-----------------------------------------------
       ENDDO
 
       DO J = 1, T_MONVOLN%NB_FILL_TRI
-         DIR = UNDEMI
+         DIR = HALF
          I1 = T_MONVOLN%FILL_TRI(3 * (J - 1) + 1)
          I2 = T_MONVOLN%FILL_TRI(3 * (J - 1) + 2)
          I3 = T_MONVOLN%FILL_TRI(3 * (J - 1) + 3)
          I4 = I3
 
-         XX =UNDEMI*(NODE_COORD(1,I1)+NODE_COORD(1,I2))
-         YY =UNDEMI*(NODE_COORD(2,I1)+NODE_COORD(2,I2))
-         ZZ =UNDEMI*(NODE_COORD(3,I1)+NODE_COORD(3,I2))
+         XX =HALF*(NODE_COORD(1,I1)+NODE_COORD(1,I2))
+         YY =HALF*(NODE_COORD(2,I1)+NODE_COORD(2,I2))
+         ZZ =HALF*(NODE_COORD(3,I1)+NODE_COORD(3,I2))
 
          X13=NODE_COORD(1,I3)-NODE_COORD(1,I1)
          Y13=NODE_COORD(2,I3)-NODE_COORD(2,I1)
@@ -774,7 +774,7 @@ C
       ROT = ROT/SA
 C     
       SV   = SQRT(SX*SX+SY*SY+SZ*SZ)
-      VMIN = EM4*SA**TDEMI
+      VMIN = EM4*SA**THREE_HALF
       VEPS = MAX(ZERO,VMIN-ABS(VOL))
 C-----------------------------------------------
 C     E n d   o f   s o u r c e
@@ -839,7 +839,7 @@ C-----------------------------------------------
       SHOL = ZERO
       NN = IGRSURF(ISUR)%NSEG
       DO J=1,NN
-         DIR = UNDEMI
+         DIR = HALF
          I1 = IGRSURF(ISUR)%NODES(J,1)
          I2 = IGRSURF(ISUR)%NODES(J,2)
          I3 = IGRSURF(ISUR)%NODES(J,3)
@@ -848,9 +848,9 @@ C-----------------------------------------------
          IF(ISH34==7)I4 = I3
          IF(ISH34/=3.AND.ISH34/=7)
      .        CALL ANCMSG(MSGID=18,ANMODE=ANINFO,MSGTYPE=MSGERROR,I2=IGRSURF(ISUR)%ID,I1=T_MONVOLN%ID,C1=T_MONVOLN%TITLE)
-         XX=UNDEMI*(X(1,I1)+X(1,I2))
-         YY=UNDEMI*(X(2,I1)+X(2,I2))
-         ZZ=UNDEMI*(X(3,I1)+X(3,I2))
+         XX=HALF*(X(1,I1)+X(1,I2))
+         YY=HALF*(X(2,I1)+X(2,I2))
+         ZZ=HALF*(X(3,I1)+X(3,I2))
          X13=X(1,I3)-X(1,I1)
          Y13=X(2,I3)-X(2,I1)
          Z13=X(3,I3)-X(3,I1)

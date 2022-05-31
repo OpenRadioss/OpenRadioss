@@ -101,7 +101,7 @@ C-----------------------------------------------
       UTD_CST       =  UPARAM(16)   ! ultimate displacement in tangential direction (UTD)
 
 c
-      DTINV   = UN / (MAX(TIMESTEP, EM20))
+      DTINV   = ONE / (MAX(TIMESTEP, EM20))
       STF     = E_ELAS_N + E_ELAS_S
       NINDXF  = 0
 c-------------------------
@@ -131,7 +131,7 @@ c-------------------------
          DO I=1,NEL             
            TMAX_N(I) = T_N * FINTER(IFUNC(1),LENGTH(I),NPF,TF,DYDX1(I))
            DELTA0N(I)= TMAX_N(I) /E_ELAS_N
-           UND(I)    = DEUX*GIC /TMAX_N(I)
+           UND(I)    = TWO*GIC /TMAX_N(I)
          ENDDO !I=1,NEL
       ELSE      
          DO I=1,NEL             
@@ -143,7 +143,7 @@ c-------------------------
          DO I=1,NEL             
            TMAX_S(I) = T_S * FINTER(IFUNC(2),LENGTH(I),NPF,TF,DYDX2(I))
            DELTA0S(I)= TMAX_S(I) /E_ELAS_S
-           UTD(I)    = DEUX*GIIC/TMAX_S(I)
+           UTD(I)    = TWO*GIIC/TMAX_S(I)
          ENDDO !I=1,NEL
       ELSE      
          DO I=1,NEL             
@@ -161,7 +161,7 @@ c-------------------------
            DELTA0M(I) = DELTA0S(I)
         ELSE      ! mixed mode 
            BETA(I)   = ABS(EPST(I) / EPSN(I))
-           DELTA0M(I)= DELTA0S(I)* DELTA0N(I)*SQRT((UN + BETA(I)**2)/           
+           DELTA0M(I)= DELTA0S(I)* DELTA0N(I)*SQRT((ONE + BETA(I)**2)/           
      .                    ((DELTA0S(I)**2) + (BETA(I)* DELTA0N(I))**2))
         END IF
       ENDDO !I=1,NEL
@@ -176,11 +176,11 @@ c-------------------------
          ELSE IF (EPSN(I) == ZERO) THEN
            DELTAFMAX(I)= UTD(I)
          ELSE      ! mixed mode 
-            FAC1(I) = (E_ELAS_N**GAMA)/(UN + BETA(I)**2)
-            FAC2(I) = (E_ELAS_S**GAMA)*(BETA(I)**2)/(UN + BETA(I)**2)
-            FAC3(I) = (FAC1(I) + FAC2(I) )**(UN/GAMA)
+            FAC1(I) = (E_ELAS_N**GAMA)/(ONE + BETA(I)**2)
+            FAC2(I) = (E_ELAS_S**GAMA)*(BETA(I)**2)/(ONE + BETA(I)**2)
+            FAC3(I) = (FAC1(I) + FAC2(I) )**(ONE/GAMA)
             !ultimate mixed mode displacement           
-            DELTAFMAX(I)= DEUX/(DELTA0M(I)*  FAC3(I)   )*
+            DELTAFMAX(I)= TWO/(DELTA0M(I)*  FAC3(I)   )*
      .                    (GIC + (GIIC - GIC)*((E_ELAS_S*BETA(I)**2)/
      .                    (E_ELAS_N + E_ELAS_S*BETA(I)**2))**ABS(EXP_BK))
          END IF
@@ -193,10 +193,10 @@ c-------------------------
          ELSE IF (EPSN(I) == ZERO) THEN
            DELTAFMAX(I)= UTD(I)
          ELSE      ! mixed mode 
-           FAC1(I) = DEUX*((UN+BETA(I)**2))/DELTA0M(I)
+           FAC1(I) = TWO*((ONE+BETA(I)**2))/DELTA0M(I)
            !ultimate mixed mode displacement
            DELTAFMAX(I)= FAC1(I)*((E_ELAS_N/GIC)**EXP_G + 
-     .                  (E_ELAS_S*(BETA(I)**2)/GIIC)**EXP_G)**(-UN/EXP_G)
+     .                  (E_ELAS_S*(BETA(I)**2)/GIIC)**EXP_G)**(-ONE/EXP_G)
          END IF
         ENDDO
       ENDIF
@@ -211,8 +211,8 @@ c-------------------------
      .            MAX((DELTAFMAX(I) - DELTA0M(I)), EM20) 
                
           DMG(I) = MAX(DMG(I), DAM)!
-          DMG(I) = MIN(DMG(I), UN)
-          IF (OFFL(I) == UN .AND. EPSMMAX(I) > DELTAFMAX(I) ) THEN
+          DMG(I) = MIN(DMG(I), ONE)
+          IF (OFFL(I) == ONE .AND. EPSMMAX(I) > DELTAFMAX(I) ) THEN
             NINDXF = NINDXF+1
             INDXF(NINDXF) = I
             OFFL(I) = ZERO
@@ -226,12 +226,12 @@ c-------------------------
          IF (EPSN(I) < ZERO )  THEN 
             SIGNZZ(I) = E_ELAS_N*EPSN(I)            
           ELSE
-            SIGNZZ(I) = (UN-DMG(I))*E_ELAS_N*EPSN(I)
+            SIGNZZ(I) = (ONE-DMG(I))*E_ELAS_N*EPSN(I)
           ENDIF
           ! sigma shear Y   
-          SIGNYZ(I) = (UN-DMG(I))*E_ELAS_S*(EPSYZ(I))
+          SIGNYZ(I) = (ONE-DMG(I))*E_ELAS_S*(EPSYZ(I))
           !  sigma shear X  
-          SIGNZX(I) = (UN-DMG(I))*E_ELAS_S*(EPSZX(I))
+          SIGNZX(I) = (ONE-DMG(I))*E_ELAS_S*(EPSZX(I))
       ENDDO
      
       DO I=1,NEL      
@@ -253,7 +253,7 @@ c     omega = sqrt(2k/2*dmels), dt=2/omega, 2*dmels=dt**2 * 2k / 4
       IF (IDTMINS==2 .AND. JSMS/=0) THEN
         DTB = (DTMINS/DTFACS)**2
         DO I=1,NEL                                                 
-          DMELS(I)=MAX(DMELS(I),UNDEMI*DTB*STF*AREA(I)*OFF(I))
+          DMELS(I)=MAX(DMELS(I),HALF*DTB*STF*AREA(I)*OFF(I))
         ENDDO                                                        
       END IF
       STIFM(1:NEL) = STIFM(1:NEL) + STF*AREA(1:NEL)*OFF(1:NEL)    

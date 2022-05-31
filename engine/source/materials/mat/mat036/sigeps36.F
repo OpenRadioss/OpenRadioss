@@ -213,7 +213,7 @@ C
 C
 #include "vectorize.inc"
       DO I=1,NEL
-        PFAC(I)   = UN
+        PFAC(I)   = ONE
         PSCALE(I) = UPARAM(17+2*NRATE)
         E(I)  = E11   
         G(I)  = G11 
@@ -277,22 +277,22 @@ c------------------------------------------
            I = INDEX_PLA(II)                
 !           ESCALE1 = FINTER(KFUNC(IFUNCE),PLA(I),NPF,TF,DYDXE(I))   
            E(I) =  ESCALE12(II)* E(I)   
-           G(I) =  UNDEMI*E(I)/(UN+NU) 
-           G2(I) = DEUX*G(I)                                  
-           G3(I) = TROIS*G(I) 
-           C1(I) = E(I)/TROIS/(UN - DEUX*NU)            
-           SOUNDSP(I) = SQRT((C1(I) + QTHIRD*G(I))/RHO0(I))                 
+           G(I) =  HALF*E(I)/(ONE+NU) 
+           G2(I) = TWO*G(I)                                  
+           G3(I) = THREE*G(I) 
+           C1(I) = E(I)/THREE/(ONE - TWO*NU)            
+           SOUNDSP(I) = SQRT((C1(I) + FOUR_OVER_3*G(I))/RHO0(I))                 
         ENDDO   
       ELSEIF ( CE1 /= ZERO) THEN 
 #include "vectorize.inc"
         DO I=1,NEL                                           
           IF(PLA(I) > ZERO)THEN                                                        
-            E(I) = E11-(E11-EINF)*(UN-EXP(-CE1*PLA(I)))              
-            G(I) =  UNDEMI*E(I)/(UN+NU)   
-            G2(I) = DEUX*G(I)                                  
-            G3(I) = TROIS*G(I)                                               
-            C1(I) =E(I)/TROIS/(UN - DEUX*NU)               
-            SOUNDSP(I) = SQRT((C1(I) + QTHIRD*G(I))/RHO0(I))
+            E(I) = E11-(E11-EINF)*(ONE-EXP(-CE1*PLA(I)))              
+            G(I) =  HALF*E(I)/(ONE+NU)   
+            G2(I) = TWO*G(I)                                  
+            G3(I) = THREE*G(I)                                               
+            C1(I) =E(I)/THREE/(ONE - TWO*NU)               
+            SOUNDSP(I) = SQRT((C1(I) + FOUR_OVER_3*G(I))/RHO0(I))
           ENDIF    
         ENDDO         
       ENDIF
@@ -345,7 +345,7 @@ C
       VISCMAX(1:NEL) = ZERO
       DPLA1(1:NEL) =ZERO
       EPSTT(1:NEL) = ZERO
-      FAIL(1:NEL)  = UN
+      FAIL(1:NEL)  = ONE
 C-------------------
 C     STRAIN principal 1, 4 newton iterations (only when rupture)
 C-------------------
@@ -357,9 +357,9 @@ c          IF(EPSR1F == EP30)CYCLE
           E1 = EPSXX(I) - DAV
           E2 = EPSYY(I) - DAV
           E3 = EPSZZ(I) - DAV
-          E4 = UNDEMI*EPSXY(I)
-          E5 = UNDEMI*EPSYZ(I)
-          E6 = UNDEMI*EPSZX(I)
+          E4 = HALF*EPSXY(I)
+          E5 = HALF*EPSYZ(I)
+          E6 = HALF*EPSZX(I)
 C          -y = (e1-x)(e2-x)(e3-x)
 C             - e5^2(e1-x) - e6^2(e2-x) - e4^2(e3-x)
 C             + 2e4 e5 e6
@@ -369,36 +369,36 @@ c           yp= 3 x^2 + c
           E42 = E4*E4  
           E52 = E5*E5
           E62 = E6*E6
-          C = - UNDEMI *(E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
+          C = - HALF *(E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
           EPST = SQRT(-C*THIRD)
 c         2*EPST est un majorant de la solution
           EPSR1DAV = EPSR1F - DAV
           IF(EPST+EPST < EPSR1DAV)CYCLE
           D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
-     &        - DEUX*E4*E5*E6
+     &        - TWO*E4*E5*E6
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
           IF(ABS(Y) > EM8)THEN
-            EPST = UNP75 * EPST
+            EPST = ONEP75 * EPST
             EPST2 = EPST * EPST
             Y = (EPST2 + C)* EPST + D
-            YP = TROIS*EPST2 + C
+            YP = THREE*EPST2 + C
             EPST = EPST - Y/YP
 c           EPST est un majorant de la solution
             IF(EPST < EPSR1DAV)CYCLE
             EPST2 = EPST * EPST
             Y = (EPST2 + C)* EPST + D
-            YP = TROIS*EPST2 + C
+            YP = THREE*EPST2 + C
             EPST = EPST - Y/YP
             IF(EPST < EPSR1DAV)CYCLE
             EPST2 = EPST * EPST
             Y = (EPST2 + C)* EPST + D
-            YP = TROIS*EPST2 + C
+            YP = THREE*EPST2 + C
             EPST = EPST - Y/YP
             IF(EPST < EPSR1DAV)CYCLE
             EPST2 = EPST * EPST
             Y = (EPST2 + C)* EPST + D
-            YP = TROIS*EPST2 + C
+            YP = THREE*EPST2 + C
             EPST = EPST - Y/YP
           ENDIF
           EPST = EPST + DAV
@@ -406,7 +406,7 @@ c           EPST est un majorant de la solution
 C-------------------
 C     tension failure 
 C-------------------
-          FAIL(I) = MAX(EM20, MIN(UN, (EPSR2-EPST)/(EPSR2-EPSR1) ))
+          FAIL(I) = MAX(EM20, MIN(ONE, (EPSR2-EPST)/(EPSR2-EPSR1) ))
         ENDDO
       ENDIF
 c================================================================
@@ -432,10 +432,10 @@ c
 c
           IF (FISOKIN == ZERO) THEN
             YLD(1:NEL) = Y1(1:NEL) * FACT(1:NEL)
-          ELSE IF (FISOKIN == UN) THEN
+          ELSE IF (FISOKIN == ONE) THEN
             YLD(1:NEL) =  TF(NPF(IFUNC(1))+1) * FACT(1:NEL)  
           ELSE IF (FISOKIN > ZERO) THEN
-            YLD(1:NEL) = ((UN-FISOKIN)*Y1(1:NEL) + FISOKIN *TF(NPF(IFUNC(1))+1))*FACT(1:NEL) 
+            YLD(1:NEL) = ((ONE-FISOKIN)*Y1(1:NEL) + FISOKIN *TF(NPF(IFUNC(1))+1))*FACT(1:NEL) 
           END IF
 c-----------        
         ELSE  ! strain rate interpolation
@@ -493,7 +493,7 @@ C
               H(I) = (DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I))) * CC
             ENDDO
 c
-          ELSEIF (FISOKIN == UN) THEN   ! ecrouissage cinematique
+          ELSEIF (FISOKIN == ONE) THEN   ! ecrouissage cinematique
 c
 #include "vectorize.inc"
             DO I=1,NEL
@@ -531,7 +531,7 @@ c
               Y2(I)=TF(NPF(IFUNC(J2))+1)
               Y1(I)=Y1(I)*YFAC(I,1)
               Y2(I)=Y2(I)*YFAC(I,2)   
-              YLD(I) = (UN - FISOKIN) * YLD(I)
+              YLD(I) = (ONE - FISOKIN) * YLD(I)
      .               + FISOKIN * (FAIL(I)*(Y1(I)  + FAC*(Y2(I)-Y1(I))))      
               YLD(I) = YLD(I) * PFAC(I)
             ENDDO
@@ -548,7 +548,7 @@ C       PROJECTION
 C-------------------
         IF (IPLA == 0) THEN
           DO I=1,NEL
-            VM =TROIS*(UNDEMI*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
+            VM =THREE*(HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      .           + SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2)
             IF(VM > YLD(I)*YLD(I))THEN
               VM = SQRT(VM)
@@ -559,15 +559,15 @@ C-------------------
               SIGNXY(I)=SIGNXY(I)*R(I)
               SIGNYZ(I)=SIGNYZ(I)*R(I)
               SIGNZX(I)=SIGNZX(I)*R(I)
-              PLA(I) = PLA(I) + (UN - R(I))*VM/MAX(G3(I)+H(I),EM20)
-              DPLA1(I) = (UN - R(I))*VM/MAX(G3(I)+H(I),EM20)         
+              PLA(I) = PLA(I) + (ONE - R(I))*VM/MAX(G3(I)+H(I),EM20)
+              DPLA1(I) = (ONE - R(I))*VM/MAX(G3(I)+H(I),EM20)         
             ENDIF
           ENDDO
 c
         ELSEIF(IPLA == 2)THEN
 c
          DO I=1,NEL
-           VM = TROIS*(UNDEMI*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
+           VM = THREE*(HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      .        + SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2)
            IF (VM > YLD(I)*YLD(I)) THEN
              VM = SQRT(VM)
@@ -578,8 +578,8 @@ c
              SIGNXY(I)=SIGNXY(I)*R(I)
              SIGNYZ(I)=SIGNYZ(I)*R(I)
              SIGNZX(I)=SIGNZX(I)*R(I)
-             PLA(I)=PLA(I) + (UN-R(I))*VM/MAX(G3(I),EM20)
-             DPLA1(I) =  (UN-R(I))*VM/MAX(G3(I),EM20)     
+             PLA(I)=PLA(I) + (ONE-R(I))*VM/MAX(G3(I),EM20)
+             DPLA1(I) =  (ONE-R(I))*VM/MAX(G3(I),EM20)     
            ENDIF 
          ENDDO
 c
@@ -587,16 +587,16 @@ c
 c
           IF (IMPL_S == 0) THEN
             DO I=1,NEL
-              VM = TROIS*(UNDEMI*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
+              VM = THREE*(HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      .           + SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2)
               IF (VM > YLD(I)*YLD(I)) THEN
                 VM = SQRT(VM)
                 R(I) = YLD(I)/ MAX(VM,EM20)
 C               plastic strain increment.
-                DPLA =(UN - R(I)) * VM/MAX(G3(I)+H(I),EM20)
+                DPLA =(ONE - R(I)) * VM/MAX(G3(I)+H(I),EM20)
 C               updated yield stress.
-                YLD(I) = MAX(YLD(I)+(UN - FISOKIN)*DPLA*H(I),ZERO)
-                R(I)   = MIN(UN,YLD(I) / MAX(VM,EM20))
+                YLD(I) = MAX(YLD(I)+(ONE - FISOKIN)*DPLA*H(I),ZERO)
+                R(I)   = MIN(ONE,YLD(I) / MAX(VM,EM20))
 C
 c     .     .   here the updated stresses are shifted stresses
 c               (for kinematic or mixed hardening)
@@ -620,8 +620,8 @@ c ---       nonlinear hardening requires iterations in radial return --
               DO I=1,NEL
 C               inside M36ITER_IMP, IPOS1=0        
                 J1 = JJ(I)
-                IAD1(I)  = UNDEMI*NPF(IFUNC(J1)) + 1
-                ILEN1(I) = UNDEMI*NPF(IFUNC(J1)+1) - IAD1(I) 
+                IAD1(I)  = HALF*NPF(IFUNC(J1)) + 1
+                ILEN1(I) = HALF*NPF(IFUNC(J1)+1) - IAD1(I) 
               ENDDO
               CALL M36ITER_IMP( SIGNXX,  SIGNYY,  SIGNZZ,
      $                          SIGNXY,  SIGNYZ,  SIGNZX,
@@ -668,12 +668,12 @@ C-------------------------
 C       CRITERE DE VON MISES
 C-------------------------
         DO I=1,NEL
-          SVM2(I) = TROIS*(UNDEMI*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
+          SVM2(I) = THREE*(HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      .            + SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2)
         ENDDO
         NINDX=0
         DO I=1,NEL         
-          IF(SVM2(I)>YLD(I)*YLD(I).AND.OFF(I)== UN) THEN
+          IF(SVM2(I)>YLD(I)*YLD(I).AND.OFF(I)== ONE) THEN
             NINDX=NINDX+1
             INDEX(NINDX)=I
           ENDIF
@@ -879,7 +879,7 @@ c------------------------
               UVAR(I,3) = YLD(I)     
             ENDDO  !NINDX      
 c------------------------------------------------  
-          ELSEIF (FISOKIN == UN ) THEN  ! PURE kinematic hardening 
+          ELSEIF (FISOKIN == ONE ) THEN  ! PURE kinematic hardening 
 c------------------------------------------------  
             !Plastic increment : 
             !------------------- 
@@ -962,11 +962,11 @@ c------------------------------------------------
               DYDX2(I)=DYDX2(I)*YFAC(I,2)
               H(I)   = FAIL(I)*(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
               H(I)   = H(I)  *MAX(ZERO,PFAC(I))          
-              HI(I)   = H(I)*(UN-FISOKIN)
+              HI(I)   = H(I)*(ONE-FISOKIN)
 
               COEF    = (Y2(I)-Y1(I))/(UPARAM(6+J2)-UPARAM(6+J1)) /TIMESTEP   
               DFSR   = H(I)+ COEF
-              DFSR   = DFSR * (UN-FISOKIN)*MAX(ZERO,PFAC(I))  
+              DFSR   = DFSR * (ONE-FISOKIN)*MAX(ZERO,PFAC(I))  
               !Hardening
               Y1(I)=TF(NPF(IFUNC(J1))+1)
               Y2(I)=TF(NPF(IFUNC(J2))+1)
@@ -974,7 +974,7 @@ c------------------------------------------------
               Y2(I)= Y2(I)*YFAC(I,2)
               COEF = MAX(ZERO,PFAC(I))*FISOKIN * FAIL(I)*(Y2(I)-Y1(I))
      .               /(UPARAM(6+J2)-UPARAM(6+J1)) /TIMESTEP   
-              YLD(I) = (UN-FISOKIN) * YLD(I) + 
+              YLD(I) = (ONE-FISOKIN) * YLD(I) + 
      .              FISOKIN * (FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I))))
               YLD(I) = MAX(YLD(I),EM20)
               YLD(I)   = YLD(I)  *MAX(ZERO,PFAC(I))
@@ -1075,8 +1075,8 @@ c------------------------------------------------
                 DYDX2(I)=DYDX2(I)*YFAC(I,2)
                 H(I)  = FAIL(I)*(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
                 H(I)  = H(I)  *MAX(ZERO,PFAC(I))          
-                HI(I) = H(I)*(UN-FISOKIN)
-                DFSR  = HI(I)+ MAX(ZERO,PFAC(I))* (UN-FISOKIN)*(Y2(I)-Y1(I))
+                HI(I) = H(I)*(ONE-FISOKIN)
+                DFSR  = HI(I)+ MAX(ZERO,PFAC(I))* (ONE-FISOKIN)*(Y2(I)-Y1(I))
      .                / (UPARAM(7+JJ(I))-UPARAM(6+JJ(I))) /TIMESTEP
                 Y1(I)=TF(NPF(IFUNC(J1))+1)
                 Y2(I)=TF(NPF(IFUNC(J2))+1)
@@ -1084,7 +1084,7 @@ c------------------------------------------------
                 Y2(I)=Y2(I)*YFAC(I,2)
                 COEF = MAX(ZERO,PFAC(I))*FISOKIN * FAIL(I)*(Y2(I)-Y1(I))
      .               / (UPARAM(6+J2)-UPARAM(6+J1)) /TIMESTEP   
-                YLD(I) = (UN-FISOKIN) * YLD(I)
+                YLD(I) = (ONE-FISOKIN) * YLD(I)
      .                 + FISOKIN * (FAIL(I)*(Y1(I) + FAC*(Y2(I)-Y1(I))))
                 YLD(I) = MAX(YLD(I),EM20)
                 YLD(I) = YLD(I) * MAX(ZERO,PFAC(I))
@@ -1190,11 +1190,11 @@ c------------------------------------------------
               DYDX2(I)=DYDX2(I)*YFAC(I,2)
               H(I)  = FAIL(I)*(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
               H(I)  = H(I)  *MAX(ZERO,PFAC(I))          
-              HI(I) = H(I)*(UN-FISOKIN)
+              HI(I) = H(I)*(ONE-FISOKIN)
         
               COEF = (Y2(I)-Y1(I))/(UPARAM(6+J2)-UPARAM(6+J1)) /TIMESTEP   
               DFSR = H(I)+ COEF
-              DFSR = DFSR * (UN-FISOKIN)*MAX(ZERO,PFAC(I))  
+              DFSR = DFSR * (ONE-FISOKIN)*MAX(ZERO,PFAC(I))  
               !Hardening
               Y1(I)=TF(NPF(IFUNC(J1))+1)
               Y2(I)=TF(NPF(IFUNC(J2))+1)
@@ -1202,7 +1202,7 @@ c------------------------------------------------
               Y2(I)= Y2(I)*YFAC(I,2)
               COEF = MAX(ZERO,PFAC(I))*FISOKIN * FAIL(I)*(Y2(I)-Y1(I))
      .               /(UPARAM(6+J2)-UPARAM(6+J1)) /TIMESTEP   
-              YLD(I) = (UN-FISOKIN) * YLD(I) + 
+              YLD(I) = (ONE-FISOKIN) * YLD(I) + 
      .              FISOKIN * (FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I))))
               YLD(I) = MAX(YLD(I),EM20)
               YLD(I) = YLD(I)*MAX(ZERO,PFAC(I))
@@ -1303,8 +1303,8 @@ c------------------------------------------------
                 DYDX2(I)=DYDX2(I)*YFAC(I,2)
                 H(I) = FAIL(I)*(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
                 H(I) = H(I)  *MAX(ZERO,PFAC(I))          
-                HI(I)= H(I)*(UN-FISOKIN)
-                DFSR = HI(I)+ MAX(ZERO,PFAC(I))* (UN-FISOKIN)*(Y2(I)-Y1(I))
+                HI(I)= H(I)*(ONE-FISOKIN)
+                DFSR = HI(I)+ MAX(ZERO,PFAC(I))* (ONE-FISOKIN)*(Y2(I)-Y1(I))
      .                   /(UPARAM(7+JJ(I))-UPARAM(6+JJ(I))) /TIMESTEP
                 Y1(I)=TF(NPF(IFUNC(J1))+1)
                 Y2(I)=TF(NPF(IFUNC(J2))+1)
@@ -1312,7 +1312,7 @@ c------------------------------------------------
                 Y2(I)=Y2(I)*YFAC(I,2)
                 COEF = MAX(ZERO,PFAC(I))*FISOKIN * FAIL(I)*(Y2(I)-Y1(I))
      .                /(UPARAM(6+J2)-UPARAM(6+J1)) /TIMESTEP   
-                YLD(I) = (UN-FISOKIN) * YLD(I) + 
+                YLD(I) = (ONE-FISOKIN) * YLD(I) + 
      .               FISOKIN * (FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I))))
                 YLD(I) = MAX(YLD(I),EM20)
                 YLD(I) = YLD(I)  *MAX(ZERO,PFAC(I))
@@ -1341,7 +1341,7 @@ c------------------------------------------
 c======================================================================
       IF (IPLA /= 1 .OR. IMPL_S <= 0) THEN
 C------------------------------------------
-        IF (FISOKIN == UN ) THEN  ! ECROUISSAGE CINE
+        IF (FISOKIN == ONE ) THEN  ! ECROUISSAGE CINE
 #include "vectorize.inc"
           DO I=1,NEL
              DSXX = SIGEXX(I) - SIGNXX(I) 
@@ -1351,7 +1351,7 @@ C------------------------------------------
              DSYZ = SIGEYZ(I) - SIGNYZ(I)
              DSZX = SIGEZX(I) - SIGNZX(I)
  
-             HKIN = DTIERS*FISOKIN*H(I)
+             HKIN = TWO_THIRD*FISOKIN*H(I)
              ALPHA = HKIN/(G2(I)+HKIN)  
              SIGPXX = ALPHA*DSXX 
              SIGPYY = ALPHA*DSYY
@@ -1387,7 +1387,7 @@ c          ..gets stresses from shifted stresses and back stresses
              DSYZ = SIGEYZ(I) - SIGNYZ(I)
              DSZX = SIGEZX(I) - SIGNZX(I)
  
-                HKIN = DTIERS*FISOKIN*H(I)
+                HKIN = TWO_THIRD*FISOKIN*H(I)
              ALPHA = HKIN/(G2(I)+HKIN)  
              SIGPXX = ALPHA*DSXX 
              SIGPYY = ALPHA*DSYY
@@ -1417,7 +1417,7 @@ c          ..gets stresses from shifted stresses and back stresses
 
 c   ..adds pressure to the deviatoric stress
       DO I=1,NEL
-c        P = C1(I) * (RHO(I)/RHO0(I)-UN)
+c        P = C1(I) * (RHO(I)/RHO0(I)-ONE)
         P = C1(I) * AMU(I)
         SIGNXX(I)=SIGNXX(I)-P
         SIGNYY(I)=SIGNYY(I)-P
@@ -1438,11 +1438,11 @@ c
 
 c ......    Von Mises stress at the elastic predictor (point B)
 c ......    SIGEXX, etc. are deviatoric stresses
-            VM =UNDEMI*(SIGEXX(I)**2+SIGEYY(I)**2+SIGEZZ(I)**2)
+            VM =HALF*(SIGEXX(I)**2+SIGEYY(I)**2+SIGEZZ(I)**2)
      .             +SIGEXY(I)**2+SIGEYZ(I)**2+SIGEZX(I)**2
-            VM_1 =UN/SQRT(TROIS*VM)
+            VM_1 =ONE/SQRT(THREE*VM)
             G3H = G3(I)+H(I)
-            R(I) = MAX(ZERO,UN-G3H*DPLA1(I)*VM_1)
+            R(I) = MAX(ZERO,ONE-G3H*DPLA1(I)*VM_1)
 c ......    NORM_1 normalizes deviatoric stresses, includes consistent
 c ......    stiffness matrix parameter beta, von Mises at B, and two_pmi
             NORM_1=G3(I)*VM_1*SQRT(R(I)/G3H)
@@ -1455,32 +1455,32 @@ c ......    Deviatoric stresses "normalized"
             SIGNOR(I,6)=SIGEZX(I)*NORM_1
 
 c ......    Parameter alpha of consistent matrix
-            AL_IMP(I)= UN - G3(I)*DPLA1(I)*VM_1
+            AL_IMP(I)= ONE - G3(I)*DPLA1(I)*VM_1
           ELSE
-            AL_IMP(I)=UN
+            AL_IMP(I)=ONE
           ENDIF
         ENDDO
       ENDIF  ! IMPL_S > 0
 c-------------------------
       DO I=1,NEL
         IF (OFF(I) < EM01) OFF(I) = ZERO
-        IF (OFF(I) < UN)   OFF(I) = OFF(I)*QCINQ
+        IF (OFF(I) < ONE)   OFF(I) = OFF(I)*FOUR_OVER_5
       ENDDO
 c
       IF (IFAIL > 0) THEN
         NINDX = 0
         IF (IFAIL == 2) THEN
           DO I=1,NEL
-            IF ((PLA(I) > EPSMAX .OR. EPSTT(I) > EPSF) .AND. OFF(I) == UN) THEN
-              OFF(I)= QCINQ
+            IF ((PLA(I) > EPSMAX .OR. EPSTT(I) > EPSF) .AND. OFF(I) == ONE) THEN
+              OFF(I)= FOUR_OVER_5
               NINDX = NINDX+1
               INDX(NINDX) = I
             ENDIF
           ENDDO
         ELSE
           DO I=1,NEL
-            IF (PLA(I) > EPSMAX .AND. OFF(I) == UN) THEN
-              OFF(I)= QCINQ
+            IF (PLA(I) > EPSMAX .AND. OFF(I) == ONE) THEN
+              OFF(I)= FOUR_OVER_5
               NINDX = NINDX+1
               INDX(NINDX) = I
             ENDIF

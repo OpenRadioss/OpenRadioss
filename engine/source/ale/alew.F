@@ -175,18 +175,18 @@ C
          ENDDO
       ENDIF
 C     
-      IF(GAMMA.LT.QUATREVINGT19)THEN
+      IF(GAMMA.LT.EIGHTY19)THEN
          DO I = NODFT,NODLT
             IF(NALE(I) .NE. 0) THEN
                IF(V(1,I).NE.ZERO)
      .              W(1,I)=VGX*V(1,I)*
-     .              MAX((UN-GAMMA), MIN((UN+GAMMA),W(1,I)/V(1,I)))
+     .              MAX((ONE-GAMMA), MIN((ONE+GAMMA),W(1,I)/V(1,I)))
                IF(V(2,I).NE.ZERO)
      .              W(2,I)=VGY*V(2,I)*
-     .              MAX((UN-GAMMA), MIN((UN+GAMMA),W(2,I)/V(2,I)))
+     .              MAX((ONE-GAMMA), MIN((ONE+GAMMA),W(2,I)/V(2,I)))
                IF(V(3,I).NE.ZERO)
      .              W(3,I)=VGZ*V(3,I)*
-     .              MAX((UN-GAMMA), MIN((UN+GAMMA),W(3,I)/V(3,I)))
+     .              MAX((ONE-GAMMA), MIN((ONE+GAMMA),W(3,I)/V(3,I)))
             ENDIF
          ENDDO
       ENDIF

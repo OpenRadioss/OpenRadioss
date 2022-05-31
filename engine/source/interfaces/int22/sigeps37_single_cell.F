@@ -151,7 +151,7 @@ C-----------------------------------------------
                 !! Phase 2 seule presente                                                 
                 UVAR( 1) = ZERO                                                           
                 UVAR( 4) = ZERO                                                           
-                UVAR( 5) = UN                                                             
+                UVAR( 5) = ONE                                                             
                 RHO2 = MAS / VOL                                                          
                 UVAR( 2) = RHO2                                                           
                 P = P0 * (RHO2/RHO20)**GAM                                                
@@ -160,7 +160,7 @@ C-----------------------------------------------
                 RHO1 = MAS / VOL                                                          
                 UVAR( 1) = RHO1                                                           
                 UVAR( 3) = RHO1                                                           
-                UVAR( 4) = UN                                                             
+                UVAR( 4) = ONE                                                             
                 UVAR( 5) = ZERO                                                           
                 P = R1 * RHO1 - C1 + P0                                                   
              ELSE                                                                         
@@ -174,12 +174,12 @@ C-----------------------------------------------
                    DF11 = - MAS1 / (RHO1 * RHO1)                                          
                    DF12 = - MAS2 / (RHO2 * RHO2)                                          
                    DF21 = R1                                                              
-                   DF22 = - GAM * P0 / (RHO20**GAM) * RHO2**(GAM - UN)                    
+                   DF22 = - GAM * P0 / (RHO20**GAM) * RHO2**(GAM - ONE)                    
                    DET = DF11 * DF22 - DF12 * DF21                                        
                    DRHO1 = (-DF22 * F1 + DF12 * F2) / DET                                 
                    DRHO2 = (DF21 * F1 - DF11 * F2) / DET                                  
-                   DRHO1 = MIN(TROIS * RHO1, MAX(DRHO1, - UNDEMI * RHO1))                 
-                   DRHO2 = MIN(TROIS * RHO2, MAX(DRHO2, - UNDEMI * RHO2))                 
+                   DRHO1 = MIN(THREE * RHO1, MAX(DRHO1, - HALF * RHO1))                 
+                   DRHO2 = MIN(THREE * RHO2, MAX(DRHO2, - HALF * RHO2))                 
                    RHO1 = RHO1 + DRHO1                                                    
                    RHO2 = RHO2 + DRHO2                                                    
                    ERROR = ABS(DRHO1 / RHO1) + ABS(DRHO2 / RHO2)                          
@@ -195,13 +195,13 @@ C-----------------------------------------------
              ENDIF                                                                        
              SSP1 = R1 * RHO1                                                             
              SSP2 = GAM * P0 * (RHO2/RHO20)**GAM                                          
-             ! P2 = P0 * ((RHO2/RHO20)**GAM-UN)                                           
+             ! P2 = P0 * ((RHO2/RHO20)**GAM-ONE)                                           
              !---output                                                                   
              UVAR(2)  = RHO2                                                              
              UVAR(3)  = RHO1                                                              
              UVAR(4)  = UVAR(1)/RHO1                                                      
              IF(UVAR(4).LT.EM20)UVAR(4)=ZERO                                              
-             UVAR(5)  = UN-UVAR(4)                                                        
+             UVAR(5)  = ONE-UVAR(4)                                                        
              IF (SSP1 .GT. ZERO) THEN                                                     
                 SSP1 = UVAR(4) / SSP1                                                     
              ELSE                                                                         
@@ -213,7 +213,7 @@ C-----------------------------------------------
                 SSP2 = ZERO                                                               
              ENDIF                                                                        
              SSP = SSP1 + SSP2                                                            
-             SSP = SQRT(UN / SSP / RHO)                                                   
+             SSP = SQRT(ONE / SSP / RHO)                                                   
              !print *, "SSP :", SSP, SQRT(R1), SQRT(GAM*P/RHO2)                           
              P          = MAX(PMIN, P) + PSH                                              
              !SOUNDSP(I) = SSP                                                            

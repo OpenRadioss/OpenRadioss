@@ -92,9 +92,9 @@ C-----------------------------------------------
       AN=A**DGR
       BN=B**DGR
       CN=C**DGR
-      AN=UN/AN
-      BN=UN/BN
-      CN=UN/CN      
+      AN=ONE/AN
+      BN=ONE/BN
+      CN=ONE/CN      
       DO I=1,9
        ROT(I)=BUFSF(ADRBUF+7+I-1)
       END DO
@@ -255,7 +255,7 @@ C---------------------------------
        DO I=1,MIN(MVSIZ,NREST)
         IL=KSP(I+NDEB)
         IN=KSI(IL)
-        VIS(I) = VISC*DEUX*SQRT(STF*MS(IN))
+        VIS(I) = VISC*TWO*SQRT(STF*MS(IN))
        ENDDO
       ELSEIF (NDAMP1.EQ.0) THEN
 C---------------------------------

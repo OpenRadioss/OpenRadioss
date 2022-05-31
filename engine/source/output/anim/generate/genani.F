@@ -522,7 +522,7 @@ c=======================================================================
       I16M=I16L+LNOPT1*NRBE2T
       I16N=I16M+LNOPT1*NRBE3T
 C-----------------------------------------------
-      S3000 = TROIS1000
+      S3000 = THREE1000
       I3000 = S3000
 C-----------------------------------------------
 C   OPEN FILE
@@ -2508,7 +2508,7 @@ C------------ams : diagonale mass change
               ENDDO
             ELSE
               DO N=1,NUMNOD
-                WA4(N)=MAX(ZERO,DIAG_SMS(N)/MAX(EM20,MS(N))-UN)
+                WA4(N)=MAX(ZERO,DIAG_SMS(N)/MAX(EM20,MS(N))-ONE)
               ENDDO
             END IF
 C------------dama type2 : % damage inter type2 with pena
@@ -3002,20 +3002,20 @@ C
 C
                DO J=1,FVDATA(I)%NPOLH
                   GAMA=FVDATA(I)%GPOLH(J)
-                  SSP=SQRT((GAMA-UN)*GAMA*FVDATA(I)%EPOLH(J)/
+                  SSP=SQRT((GAMA-ONE)*GAMA*FVDATA(I)%EPOLH(J)/
      .                                   FVDATA(I)%MPOLH(J))
                   DO K=FVDATA(I)%IFVPADR(J),FVDATA(I)%IFVPADR(J+1)-1
                      KK=FVDATA(I)%IFVPOLH(K)
                      DO N=FVDATA(I)%IFVTADR(KK),
      .                         FVDATA(I)%IFVTADR(KK+1)-1
                         NN=FVDATA(I)%IFVPOLY(N)
-                        FAC=UN
+                        FAC=ONE
                         IF (FVDATA(I)%IFVTRI(4,NN).GT.0) THEN
                            IDP=FVDATA(I)%IDPOLH(J)
                            FVVISU(FVEL2FA(ELOFF+NN))=IDP-(IDP/8)*8+1
                         ELSE
                            FVVISU(FVEL2FA(ELOFF+NN))=-1
-                           FAC=UNDEMI
+                           FAC=HALF
                         ENDIF
                         NN=FVEL2FA(ELOFF+NN)
                         FVMASS(NN)=FVMASS(NN)+FAC*FVDATA(I)%MPOLH(J)
@@ -3343,7 +3343,7 @@ C avoir pour anim ply en spmd
       ENDIF
       IF (ANIM_V(11).EQ.1) THEN
        IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
-         FAC=UN
+         FAC=ONE
          IF (IMPL_S.GT.0.AND.IDYNA.EQ.0)FAC=ZERO 
           DO J=1,3
           DO N=1,NUMNOD
@@ -5221,7 +5221,7 @@ C-----------------------------------------------
       IF (NFVSUBS > 0 .AND. NSPMD > 1) CALL SPMD_FVB_ASUB2()
       IF (ISPMD.EQ.0) THEN
        IF (NSUBS.EQ.1) THEN
-C UN SEUL SUBSET OU INPUT V31
+C ONE SEUL SUBSET OU INPUT V31
           MXSUBS=1
 C-----------------
 C SUBSET RBODIES
@@ -6570,12 +6570,12 @@ C-----------------------------------------------
         IF(N6.EQ.0)N6=N2
         IF(N7.EQ.0)N7=N3
         IF(N8.EQ.0)N8=N4
-        XX = UNDEMI *(X(1,N5)+X(1,N6)+X(1,N7)+X(1,N8))
-     .      -QUART*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
-        YY = UNDEMI *(X(2,N5)+X(2,N6)+X(2,N7)+X(2,N8))
-     .      -QUART*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))
-        ZZ = UNDEMI *(X(3,N5)+X(3,N6)+X(3,N7)+X(3,N8))
-     .      -QUART*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))
+        XX = HALF *(X(1,N5)+X(1,N6)+X(1,N7)+X(1,N8))
+     .      -FOURTH*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
+        YY = HALF *(X(2,N5)+X(2,N6)+X(2,N7)+X(2,N8))
+     .      -FOURTH*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))
+        ZZ = HALF *(X(3,N5)+X(3,N6)+X(3,N7)+X(3,N8))
+     .      -FOURTH*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))
         IF (NSPMD == 1) THEN
           R4 = XX
           CALL WRITE_R_C(R4,1)
@@ -6600,12 +6600,12 @@ C-----------------------------------------------
         IF(N6.EQ.0)N6=N2
         IF(N7.EQ.0)N7=N3
         IF(N8.EQ.0)N8=N4
-        XX = UNDEMI *(X(1,N5)+X(1,N6)+X(1,N7)+X(1,N8))
-     .      -QUART*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
-        YY = UNDEMI *(X(2,N5)+X(2,N6)+X(2,N7)+X(2,N8))
-     .      -QUART*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))
-        ZZ = UNDEMI *(X(3,N5)+X(3,N6)+X(3,N7)+X(3,N8))
-     .      -QUART*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))
+        XX = HALF *(X(1,N5)+X(1,N6)+X(1,N7)+X(1,N8))
+     .      -FOURTH*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
+        YY = HALF *(X(2,N5)+X(2,N6)+X(2,N7)+X(2,N8))
+     .      -FOURTH*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))
+        ZZ = HALF *(X(3,N5)+X(3,N6)+X(3,N7)+X(3,N8))
+     .      -FOURTH*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))
         IF (NSPMD == 1) THEN
           R4 = XX
           CALL WRITE_R_C(R4,1)

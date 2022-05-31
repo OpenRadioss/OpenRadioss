@@ -98,8 +98,8 @@ C
       YZ2=YZ*YZ
       ZX2=ZX*ZX
       DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 
-     .                                     - DEUX*XY*YZ*ZX
-      DET=UN/DET
+     .                                     - TWO*XY*YZ*ZX
+      DET=ONE/DET
       B1=ZZZ*YYY-YZ2
       B2=XXX*ZZZ-ZX2
       B3=YYY*XXX-XY2
@@ -211,8 +211,8 @@ C
       YZ2=YZ*YZ
       ZX2=ZX*ZX
       DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 
-     .                                     - DEUX*XY*YZ*ZX
-      DET=UN/DET
+     .                                     - TWO*XY*YZ*ZX
+      DET=ONE/DET
       B1=ZZZ*YYY-YZ2
       B2=XXX*ZZZ-ZX2
       B3=YYY*XXX-XY2
@@ -343,8 +343,8 @@ C
       YZ2=YZ*YZ
       ZX2=ZX*ZX
       DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 
-     .                                     - DEUX*XY*YZ*ZX
-      DET=UN/DET
+     .                                     - TWO*XY*YZ*ZX
+      DET=ONE/DET
       B1=ZZZ*YYY-YZ2
       B2=XXX*ZZZ-ZX2
       B3=YYY*XXX-XY2
@@ -369,9 +369,9 @@ C
         WY = VRM(2)
         WZ = VRM(3)
       ELSE
-        WX = (VRM(1)+VRS(1))*UNDEMI
-        WY = (VRM(2)+VRS(2))*UNDEMI
-        WZ = (VRM(3)+VRS(3))*UNDEMI
+        WX = (VRM(1)+VRS(1))*HALF
+        WY = (VRM(2)+VRS(2))*HALF
+        WZ = (VRM(3)+VRS(3))*HALF
       ENDIF
 C
 C     rayon vecteur a TT=0 
@@ -481,8 +481,8 @@ C
       YZ2=YZ*YZ
       ZX2=ZX*ZX
       DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 
-     .                                     - DEUX*XY*YZ*ZX
-      DET=UN/DET
+     .                                     - TWO*XY*YZ*ZX
+      DET=ONE/DET
       B1=ZZZ*YYY-YZ2
       B2=XXX*ZZZ-ZX2
       B3=YYY*XXX-XY2
@@ -507,9 +507,9 @@ C--    For solid secnd node VRM=VRS=velocity main segment
         WY = VRM(2)
         WZ = VRM(3)
       ELSE
-        WX = (VRM(1)+VRS(1))*UNDEMI
-        WY = (VRM(2)+VRS(2))*UNDEMI
-        WZ = (VRM(3)+VRS(3))*UNDEMI
+        WX = (VRM(1)+VRS(1))*HALF
+        WY = (VRM(2)+VRS(2))*HALF
+        WZ = (VRM(3)+VRS(3))*HALF
       ENDIF
 C
 C     rayon vecteur a TT=0 

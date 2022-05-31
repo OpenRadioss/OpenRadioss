@@ -61,8 +61,8 @@ C-----------------------------------------------
         N2  = ZM1-ZM2
         N3  = YM2-YM1
         SS  = CRST(1,II)
-        SCK = ABS(SS)-UN
-        IF(ABS(SCK).LE.CINQEM2) THEN
+        SCK = ABS(SS)-ONE
+        IF(ABS(SCK).LE.FIVEEM2) THEN
           !C----------------------------------
           !C     TRAITEMENTS DES EXTREMITES
           !C     MOYENNE PONDEREE DES NORMALES

@@ -1219,7 +1219,7 @@ c-----------------------------------------------------------------------
         ENDIF
 c--------------------------------------------      
         ISRATE = MAX(ISRATE, NINT(PARMAT(4)))  ! just in case ...
-        ASRATE = PARMAT(5)*DEUX*PI             ! ASRATE = 2*PI*FCUT
+        ASRATE = PARMAT(5)*TWO*PI             ! ASRATE = 2*PI*FCUT
 !!        IF (ASRATE == ZERO) ASRATE = EP20
 c
         MATPARAM%ILAW   = ILAW
@@ -1236,16 +1236,16 @@ c
           C1    = PARMAT(1)
           YOUNG = PARMAT(2)
           NU    = PARMAT(3)
-          G     = UNDEMI*YOUNG/(UN + NU)
+          G     = HALF*YOUNG/(ONE + NU)
           IF (ILAW==34) G=PM(22,I)
           IF (ILAW==42) G=PARMAT(1)
-          IF (ILAW==62) G=PARMAT(2)/(UN + NU)
+          IF (ILAW==62) G=PARMAT(2)/(ONE + NU)
           IF (ILAW==69) G=PARMAT(1)
-          IF (ILAW==82) G=PARMAT(2)/(UN + NU)
+          IF (ILAW==82) G=PARMAT(2)/(ONE + NU)
           PM(20,I) = YOUNG
           PM(21,I) = NU
           PM(22,I) = G
-          PM(24,I) = YOUNG/(UN - NU**2)
+          PM(24,I) = YOUNG/(ONE - NU**2)
           PM(32,I) = C1     
           IF (ILAW==71 ) PM(27,I)=SQRT(YOUNG/MAX(PM(1,I),EM20))  ! Sound speed
 C---------

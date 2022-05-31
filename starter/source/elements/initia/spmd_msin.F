@@ -544,7 +544,7 @@ C
         IGTYP = NINT(GEO(12,IXR(1,I)))
         IF(IGTYP.EQ.12) THEN
           N = IXR(4,I)
-          STIFINT(N) = STIFINT(N)  + DEUX*STR(I)
+          STIFINT(N) = STIFINT(N)  + TWO*STR(I)
         ENDIF
        ENDDO
       ENDIF

@@ -73,18 +73,18 @@ c         Set default membrane shell viscosity parameter (DM)
 c
           IF (DM == ZERO) THEN
             IF (ILAW == 65 ) THEN
-              DM = CINQEM2
+              DM = FIVEEM2
             ELSEIF (ILAW == 19) THEN
               IF (ITY == 3 .and. IHBE == 23) THEN
                 DM = ZEP015
               ELSE
-                DM = QUART
+                DM = FOURTH
               END IF
             ELSEIF (ILAW == 58) THEN
               IF (IHBE == 11) THEN
-                DM = UNCINQ
+                DM = ONE_FIFTH
               ELSE
-                DM = TQUART*EM01
+                DM = THREE_OVER_4*EM01
               ENDIF
             ELSEIF (IHBE == 23 .AND. (IGTYP==1.OR.IGTYP==9)) THEN
               DM = ZEP015
@@ -100,11 +100,11 @@ c------   specific default dm for QEPH,QBAT
           ENDIF
 c
           IF (IGMAT > 0) THEN  ! .and. (ILAW /= 15 .AND. ILAW /= 27)) THEN
-            IF (DM == ZERO) DM = CINQEM2
+            IF (DM == ZERO) DM = FIVEEM2
           ELSEIF (ILAW == 1 .or. ILAW == 2 .or. ILAW == 22 ) THEN
             IF (IDEF == 1) DM = ZERO
           ELSEIF ( ILAW == 15 .or. ILAW == 27 .or. ILAW == 25) THEN
-            IF (DM == ZERO) DM = CINQEM2
+            IF (DM == ZERO) DM = FIVEEM2
           ENDIF !(IGMAT > 0
 c          
           GROUP_PARAM_TAB(NG)%VISC_DM = DM  

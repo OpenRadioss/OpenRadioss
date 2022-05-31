@@ -593,10 +593,10 @@ C  loading function
      .                     R1=EMAX)
             ENDIF ! Emax
 C automatic modification of EPST1 and E0
-            EPS0 = UN
+            EPS0 = ONE
             IFLAG = 0
             IFLAG0= 0
-            EPST1 = UN            
+            EPST1 = ONE            
             DO K=1,NC
                IFC = IPM(10+K,I)
                ICHK = 0
@@ -928,8 +928,8 @@ C
              XSCALE=GEO(39,I)
              LOAD=IGEO(101,I)
              UNLOAD=IGEO(103,I)
-             NP1  = (NPC(LOAD+1)-NPC(LOAD))*UNDEMI
-             NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD))*UNDEMI
+             NP1  = (NPC(LOAD+1)-NPC(LOAD))*HALF
+             NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD))*HALF
              ALPHA1=ZERO  
              ALPHA2=ZERO             
 c---
@@ -1065,8 +1065,8 @@ c
              XSCALE=GEO(39,I)
              LOAD=IGEO(101,I)
              UNLOAD=IGEO(103,I)
-             NP1  = (NPC(LOAD+1)-NPC(LOAD))*UNDEMI
-             NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD))*UNDEMI
+             NP1  = (NPC(LOAD+1)-NPC(LOAD))*HALF
+             NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD))*HALF
              ALPHA1=ZERO  
              ALPHA2=ZERO             
 c---
@@ -1241,8 +1241,8 @@ C
               ENDIF
               LOAD=IGEO(101+3*(J-1),I)
               UNLOAD=IGEO(103+3*(J-1),I)
-              NP1  = (NPC(LOAD+1)-NPC(LOAD))*UNDEMI
-              NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD))*UNDEMI
+              NP1  = (NPC(LOAD+1)-NPC(LOAD))*HALF
+              NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD))*HALF
               ALPHA1=ZERO  
               ALPHA2=ZERO             
 c---
@@ -1406,8 +1406,8 @@ c --------
              ENDIF                                                      
              LOAD=IGEO(102+4*(J-1),I)                                  
              UNLOAD=IGEO(103+4*(J-1),I)                              
-             NP1  = (NPC(LOAD+1)-NPC(LOAD))*UNDEMI                      
-             NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD))*UNDEMI   
+             NP1  = (NPC(LOAD+1)-NPC(LOAD))*HALF                      
+             NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD))*HALF   
              ALPHA1=ZERO  
              ALPHA2=ZERO             
 c---

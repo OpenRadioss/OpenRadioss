@@ -1396,7 +1396,7 @@ C
            IF (NB_JLT(ITASK+1).EQ.0) THEN
             PCT1= ZERO
            ELSE
-            PCT1 = CENT - CENT*NB_STOK_N(ITASK+1)/NB_JLT(ITASK+1)
+            PCT1 = HUNDRED - HUNDRED*NB_STOK_N(ITASK+1)/NB_JLT(ITASK+1)
            ENDIF
 #include "lockon.inc"
            WRITE(ISTDO,'(A,I6,A,I4,A,I4,A,I10,A,I10,2X,F5.2,A)')

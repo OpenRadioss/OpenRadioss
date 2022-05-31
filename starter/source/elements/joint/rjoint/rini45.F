@@ -419,18 +419,18 @@ C-----------------------------------------------
 C-----------------------------------------------      
 C---   on utilise le rep   re global
 C-----------------------------------------------
-             EX(1)= UN
+             EX(1)= ONE
 	     EX(2)= ZERO
 	     EX(3)= ZERO
 	     EX(4)= ZERO
-	     EX(5)= UN	
+	     EX(5)= ONE	
 	     EX(6)= ZERO
 	     EX(7)= ZERO
 	     EX(8)= ZERO	
-	     EX(9)= UN
-	     PP1 = UN
-	     PP2 = UN
-	     PP3 = UN
+	     EX(9)= ONE
+	     PP1 = ONE
+	     PP2 = ONE
+	     PP3 = ONE
       ELSEIF ((NNOD.EQ.2).AND.(LEN.GT.EM10)) THEN
 C-----------------------------------------------      
 C---  1 axis joint definit avec le 2e noeud
@@ -734,16 +734,16 @@ C   IF IDSK1 ==0 > local frame set to global frame
           DO I=1,9
             EX(I)=ZERO
           ENDDO
-          EX(1)=UN
-          EX(5)=UN
-          EX(9)=UN
+          EX(1)=ONE
+          EX(5)=ONE
+          EX(9)=ONE
         ENDIF
 C
         CALL PROD_ATB(U,V,Q)
 C
         E = Q(1)+Q(5)+Q(9)
-        COSK = UNDEMI * (E - 1.)
-        COSK = MIN(COSK,UN)
+        COSK = HALF * (E - 1.)
+        COSK = MIN(COSK,ONE)
         COSK = MAX(COSK,UMI)
         KSI = ACOS(COSK)
         SINK   = SIN(KSI)
@@ -752,14 +752,14 @@ C
         IF(SINK.EQ.ZERO) THEN
           SI2 = ZERO
         ELSE
-          SI2  = UNDEMI / SINK
+          SI2  = HALF / SINK
         ENDIF
 C
         T(1) = (Q(6) - Q(8)) * SI2
         T(2) = (Q(7) - Q(3)) * SI2
         T(3) = (Q(2) - Q(4)) * SI2
         NR = SQRT(T(1)*T(1)+T(2)*T(2)+T(3)*T(3))
-        IF (NR.NE.ZERO) NR = UN/NR
+        IF (NR.NE.ZERO) NR = ONE/NR
 C
         T(1) = T(1)*NR
         T(2) = T(2)*NR

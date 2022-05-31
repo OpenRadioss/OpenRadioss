@@ -143,31 +143,31 @@ C-----------------------------------------------
          SR(I)=ZERO
       ENDDO
       DO I=1,3
-         SR(1)=SR(1)-UN/(DT1+DT2)*(DEUX*V1(I)+
+         SR(1)=SR(1)-ONE/(DT1+DT2)*(TWO*V1(I)+
      .               DT2*(FXBVIT(I)-FXBVIT(9+I)))
      .                  *(FXBVIT(I)-FXBVIT(9+I))
-         SR(2)=SR(2)-UN/(DT1+DT2)*(DEUX*V2(I)+
+         SR(2)=SR(2)-ONE/(DT1+DT2)*(TWO*V2(I)+
      .               DT2*(FXBVIT(3+I)-FXBVIT(9+I)))
      .                  *(FXBVIT(3+I)-FXBVIT(9+I))
-         SR(3)=SR(3)-UN/(DT1+DT2)*(DEUX*V3(I)+
+         SR(3)=SR(3)-ONE/(DT1+DT2)*(TWO*V3(I)+
      .               DT2*(FXBVIT(6+I)-FXBVIT(9+I)))
      .                  *(FXBVIT(6+I)-FXBVIT(9+I))
-         SR(4)=SR(4)-UN/(DT1+DT2)*(DEUX*V4(I)+
+         SR(4)=SR(4)-ONE/(DT1+DT2)*(TWO*V4(I)+
      .               DT2*(FXBVIT(3+I)-FXBVIT(I)))
      .                  *(FXBVIT(3+I)-FXBVIT(I))
-         SR(5)=SR(5)-UN/(DT1+DT2)*(DEUX*V5(I)+
+         SR(5)=SR(5)-ONE/(DT1+DT2)*(TWO*V5(I)+
      .               DT2*(FXBVIT(6+I)-FXBVIT(I)))
      .                  *(FXBVIT(6+I)-FXBVIT(I))
-         SR(6)=SR(6)-UN/(DT1+DT2)*(DEUX*V6(I)+
+         SR(6)=SR(6)-ONE/(DT1+DT2)*(TWO*V6(I)+
      .               DT2*(FXBVIT(6+I)-FXBVIT(3+I)))
      .                  *(FXBVIT(6+I)-FXBVIT(3+I))
       END DO
-      SR(1)=SR(1)+UN/(DT2*(DT1+DT2))*(UN-D1)
-      SR(2)=SR(2)+UN/(DT2*(DT1+DT2))*(UN-D2)
-      SR(3)=SR(3)+UN/(DT2*(DT1+DT2))*(UN-D3)
-      SR(4)=SR(4)+UN/(DT2*(DT1+DT2))*(DEUX-D4)
-      SR(5)=SR(5)+UN/(DT2*(DT1+DT2))*(DEUX-D5)
-      SR(6)=SR(6)+UN/(DT2*(DT1+DT2))*(DEUX-D6)
+      SR(1)=SR(1)+ONE/(DT2*(DT1+DT2))*(ONE-D1)
+      SR(2)=SR(2)+ONE/(DT2*(DT1+DT2))*(ONE-D2)
+      SR(3)=SR(3)+ONE/(DT2*(DT1+DT2))*(ONE-D3)
+      SR(4)=SR(4)+ONE/(DT2*(DT1+DT2))*(TWO-D4)
+      SR(5)=SR(5)+ONE/(DT2*(DT1+DT2))*(TWO-D5)
+      SR(6)=SR(6)+ONE/(DT2*(DT1+DT2))*(TWO-D6)
 C      
       RETURN
       END   
@@ -201,7 +201,7 @@ C-----------------------------------------------
       my_real
      .   P11,P12,P13,P21,P22,P23,P31,P32,P33,DT05
 C      
-      DT05=UNDEMI*DT1
+      DT05=HALF*DT1
 C
       DO I=1,3
          DO II=1,DMT
@@ -223,9 +223,9 @@ C
       P33=FXBRPM(10)
 C
       IF (NCYCLE.EQ.0) THEN
-         MT(22,13)=UN
-         MT(23,14)=UN
-         MT(24,15)=UN
+         MT(22,13)=ONE
+         MT(23,14)=ONE
+         MT(24,15)=ONE
       ELSE
          MT(22,4)=-P13*P11
          MT(22,5)=-P13*P21
@@ -235,7 +235,7 @@ C
          MT(22,10)=P13*P11
          MT(22,11)=P11*P22-P12*P21+P13*P21
          MT(22,12)=P11*P32-P12*P31+P13*P31
-         MT(22,13)=-UN
+         MT(22,13)=-ONE
          MT(23,4)=-P23*P11
          MT(23,5)=-P23*P21
          MT(23,6)=-P23*P31
@@ -244,7 +244,7 @@ C
          MT(23,10)=P21*P12-P22*P11+P23*P11
          MT(23,11)=P23*P21
          MT(23,12)=P21*P32-P22*P31+P23*P31
-         MT(23,14)=-UN
+         MT(23,14)=-ONE
          MT(24,4)=-P33*P11
          MT(24,5)=-P33*P21
          MT(24,6)=-P33*P31
@@ -253,7 +253,7 @@ C
          MT(24,10)=P31*P12-P32*P11+P33*P11
          MT(24,11)=P31*P22-P32*P21+P33*P21
          MT(24,12)=P33*P31
-         MT(24,15)=-UN
+         MT(24,15)=-ONE
       ENDIF
 C
       IF (NCYCLE.EQ.0) THEN
@@ -321,7 +321,7 @@ C-----------------------------------------------
      .   RT(3,3),RP(3,3),OM(3,3)
       INTEGER I,J,K
 C
-      DT05=UNDEMI*DT2
+      DT05=HALF*DT2
       DO I=1,12
          DDEP(I)=DT05*FXBVIT(I)
       ENDDO

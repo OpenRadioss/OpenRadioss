@@ -114,11 +114,11 @@ c------------------------------------
 c
         IF (NFAIL == 1 .and. P_THICKG > ZERO) THEN
           PTHKF(IL,1) = MAX(P_THICKG,EM06)
-          PTHKF(IL,1) = MIN(P_THICKG,UN-EM06)
+          PTHKF(IL,1) = MIN(P_THICKG,ONE-EM06)
         ELSE
           DO IFL = 1,NFAIL
             PTHKF(IL,IFL) = MAX(PTHKF(IL,IFL),EM06)
-            PTHKF(IL,IFL) = MIN(PTHKF(IL,IFL),UN-EM06)
+            PTHKF(IL,IFL) = MIN(PTHKF(IL,IFL),ONE-EM06)
           ENDDO
         ENDIF
 c------------------
@@ -129,8 +129,8 @@ c------------------
             DO IPT=1,NPTT
               FOFF => ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IPT)%FLOC(IFL)%OFF
 c              OFFL => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IPT)%OFF
-c              IF (OFFL(IEL) == UN .and. FOFF(IEL) < 1) OFFL(IEL) = FOFF(IEL)
-              IF (FOFF(IEL) < UN)  THEN
+c              IF (OFFL(IEL) == ONE .and. FOFF(IEL) < 1) OFFL(IEL) = FOFF(IEL)
+              IF (FOFF(IEL) < ONE)  THEN
                 IPOS = (IPT-1)*NEL + IEL
                 THFACT = THFACT + THKLY(IPOS)
               ENDIF
@@ -151,14 +151,14 @@ c------------------
 c------------------
         IF (IPG == NPG) THEN
           DO IEL=1,NEL
-            IF (OFF(IEL) == UN) THEN
+            IF (OFF(IEL) == ONE) THEN
               COUNTPG = 0
               DO IG=1,IPG
                 JPG  = (IG-1)*NEL
                 COUNTPG = COUNTPG + ELBUF_STR%BUFLY(IL)%OFFPG(JPG+IEL)
               ENDDO
               IF (COUNTPG == 0) THEN  ! all Gauss pts are failed
-                OFF(IEL) = QCINQ          
+                OFF(IEL) = FOUR_OVER_5          
                 IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1   ! set frontwave propagation flag                                
               ENDIF
             ENDIF
@@ -171,9 +171,9 @@ c---------------------------------------------------
 c       check old Ishell settings
         IF (P_THICKG > ZERO) THEN
           P_THICKG = MAX(P_THICKG, EM06)
-          P_THICKG = MIN(P_THICKG, UN-EM06)
+          P_THICKG = MIN(P_THICKG, ONE-EM06)
         ELSE
-          P_THICKG = UN-EM06
+          P_THICKG = ONE-EM06
           DO IL=1,NLAY
             DO IFL = 1,ELBUF_STR%BUFLY(IL)%NFAIL
               IF (PTHKF(IL,IFL) > ZERO) THEN
@@ -193,12 +193,12 @@ c-------
             WEIGHT(IL) = STACK%GEO(IPWEIGHT+ IL,ISUBSTACK)                        
             NINDXPG = 0                                                           
             DO IEL=1,NEL                                                          
-              IF (OFF(IEL) == UN .and. OFFPG(IEL) == 1 .and.                      
+              IF (OFF(IEL) == ONE .and. OFFPG(IEL) == 1 .and.                      
      .            ELBUF_STR%BUFLY(IL)%OFF(IEL) == 1) THEN                         
                 DO IFL = 1,NFAIL                                                  
                   FOFF => ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IPT)%FLOC(IFL)%OFF       
                   OFFL => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IPT)%OFF                 
-                  IF (FOFF(IEL) < UN)  THEN                                       
+                  IF (FOFF(IEL) < ONE)  THEN                                       
                     OFFPG(IEL) = 0            ! PG per layer                      
                     NINDXPG = NINDXPG + 1                                         
                     INDXPG(NINDXPG) = IEL                                         
@@ -209,7 +209,7 @@ c-------
             IF (IPG == NPG) THEN                                                  
               NINDXLY  = 0                                                       
               DO IEL=1,NEL                                                       
-                IF (OFF(IEL) == UN) THEN                                          
+                IF (OFF(IEL) == ONE) THEN                                          
                   IF (ELBUF_STR%BUFLY(IL)%OFF(IEL) == 1) THEN                     
                     COUNTPG = 0                                                   
                     DO IG=1,NPG                                                   
@@ -237,7 +237,7 @@ c
           ENDDO      ! IL=1,NLAY  
 C
           DO IEL=1,NEL                                                                    
-            IF (OFF(IEL) == UN) THEN                                                      
+            IF (OFF(IEL) == ONE) THEN                                                      
               THFACT = ZERO                                                               
               NORM   = ZERO                                                               
               DO IL=1,NLAY                                                                
@@ -245,12 +245,12 @@ C
                 WEIGHT(IL) = STACK%GEO(IPWEIGHT+ IL,ISUBSTACK)                            
                 DFAIL = THKLY(IPOS)*WEIGHT(IL)                                            
                 NORM  = NORM  + DFAIL                                                     
-                IF (OFF(IEL) == UN .and. ELBUF_STR%BUFLY(IL)%OFF(IEL) == 0) THEN          
+                IF (OFF(IEL) == ONE .and. ELBUF_STR%BUFLY(IL)%OFF(IEL) == 0) THEN          
                   THFACT = THFACT + THKLY(IPOS)*WEIGHT(IL)                                
                 ENDIF                                                                     
               ENDDO                                                                       
               IF (THFACT >= P_THICKG*NORM) THEN      ! delete element                     
-                OFF(IEL) = QCINQ                                                           
+                OFF(IEL) = FOUR_OVER_5                                                           
                 IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1   ! set frontwave propagation flag                                  
               ENDIF                                                                       
             ENDIF                                                                         
@@ -263,12 +263,12 @@ C
             WEIGHT(IL) = GEO(IPWEIGHT + IL,PID)                               
             NINDXPG = 0                                                       
             DO IEL=1,NEL                                                      
-              IF (OFF(IEL) == UN .and. OFFPG(IEL) == 1 .and.                  
+              IF (OFF(IEL) == ONE .and. OFFPG(IEL) == 1 .and.                  
      .            ELBUF_STR%BUFLY(IL)%OFF(IEL) == 1) THEN                     
                 DO IFL = 1,NFAIL                                              
                   FOFF => ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IPT)%FLOC(IFL)%OFF   
                   OFFL => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IPT)%OFF             
-                  IF (FOFF(IEL) < UN)  THEN                                   
+                  IF (FOFF(IEL) < ONE)  THEN                                   
                     OFFPG(IEL) = 0            ! PG per layer                  
                     NINDXPG = NINDXPG + 1                                     
                     INDXPG(NINDXPG) = IEL                                     
@@ -280,7 +280,7 @@ c
             IF (IPG == NPG) THEN                                               
               NINDXLY  = 0                                                     
               DO IEL=1,NEL                                                     
-                IF (OFF(IEL) == UN) THEN                                       
+                IF (OFF(IEL) == ONE) THEN                                       
                   IF (ELBUF_STR%BUFLY(IL)%OFF(IEL) == 1) THEN                  
                     COUNTPG = 0                                                
                     DO IG=1,NPG                                                
@@ -308,7 +308,7 @@ c
           ENDDO      ! IL=1,NLAY                                             
 C
           DO IEL=1,NEL                                                               
-            IF (OFF(IEL) == UN) THEN                                                 
+            IF (OFF(IEL) == ONE) THEN                                                 
               THFACT = ZERO                                                          
               NORM   = ZERO                                                          
               DO IL=1,NLAY                                                           
@@ -316,12 +316,12 @@ C
                 WEIGHT(IL) = GEO(IPWEIGHT + IL,PID)                                  
                 DFAIL = THKLY(IPOS)*WEIGHT(IL)                                       
                 NORM  = NORM  + DFAIL                                                
-                IF (OFF(IEL) == UN .and. ELBUF_STR%BUFLY(IL)%OFF(IEL) == 0) THEN     
+                IF (OFF(IEL) == ONE .and. ELBUF_STR%BUFLY(IL)%OFF(IEL) == 0) THEN     
                   THFACT = THFACT + THKLY(IPOS)*WEIGHT(IL)                           
                 ENDIF                                                                
               ENDDO                                                                  
               IF (THFACT >= P_THICKG*NORM) THEN      ! delete element                
-                OFF(IEL) = QCINQ                                                      
+                OFF(IEL) = FOUR_OVER_5                                                      
                 IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1   ! set frontwave propagation flag                                
               ENDIF                                                                  
             ENDIF                                                                    
@@ -350,7 +350,7 @@ c
             DO IPT=1,NPTT
               FOFF => ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IPT)%FLOC(IFL)%OFF
               OFFL => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IPT)%OFF
-              IF (FOFF(IEL) < UN)  THEN
+              IF (FOFF(IEL) < ONE)  THEN
                 IP   = IPT_ALL + IPT
                 IPOS = (IP-1)*NEL + IEL
                 THFACT = THFACT + THKLY(IPOS)/THK_LY(IEL,IL)
@@ -371,7 +371,7 @@ c-----------
 C
         IF (IPG == NPG) THEN
           DO IEL=1,NEL
-            IF (OFF(IEL) == UN) THEN
+            IF (OFF(IEL) == ONE) THEN
               DO IL=1,NLAY
                 NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL                 
                 LAY_OFF => ELBUF_STR%BUFLY(IL)%OFF
@@ -417,12 +417,12 @@ c-----------
 c
 c-------------------
          P_THICKG = MAX(P_THICKG, EM06)
-         P_THICKG = MIN(P_THICKG, UN-EM06)
+         P_THICKG = MIN(P_THICKG, ONE-EM06)
 c      
          IPTHKLY  = 1 + 4*NLAY 
          IPWEIGHT = IPTHKLY + NLAY
          DO IEL=1,NEL
-            IF (OFF(IEL) == UN) THEN
+            IF (OFF(IEL) == ONE) THEN
               THFACT = ZERO
               NORM   = ZERO
               DO IL=1,NLAY
@@ -433,10 +433,10 @@ c
                   THFACT = THFACT + DFAIL
                 ENDIF 
               ENDDO      ! IL=1,NLAY
-              THFACT = THFACT**(UN/FAIL_EXP)
-              NORM   = NORM**(UN/FAIL_EXP)
+              THFACT = THFACT**(ONE/FAIL_EXP)
+              NORM   = NORM**(ONE/FAIL_EXP)
               IF (THFACT >= P_THICKG*NORM) THEN      ! delete element
-                OFF(IEL) = QCINQ
+                OFF(IEL) = FOUR_OVER_5
               ENDIF
             ENDIF
           ENDDO     ! IEL=1,NEL

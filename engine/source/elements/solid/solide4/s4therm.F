@@ -92,7 +92,7 @@ C
 C
 C force thermique nodale
 C
-          A = QUART* DIE(I)
+          A = FOURTH* DIE(I)
           FPHI(I,1) = A - (PHIX*PX1(I) + PHIY*PY1(I) + PZ1(I)*PHIZ)
           FPHI(I,2) = A - (PHIX*PX2(I) + PHIY*PY2(I) + PZ2(I)*PHIZ)
           FPHI(I,3) = A - (PHIX*PX3(I) + PHIY*PY3(I) + PZ3(I)*PHIZ)

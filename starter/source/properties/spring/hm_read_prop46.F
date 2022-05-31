@@ -166,7 +166,7 @@ C
       FAC_M  = UNITAB%FAC_M(IUNIT)                        
       FAC_L  = UNITAB%FAC_L(IUNIT)
       FAC_T  = UNITAB%FAC_T(IUNIT)
-      FSCALE = FAC_M * FAC_L / (FAC_T **DEUX)
+      FSCALE = FAC_M * FAC_L / (FAC_T **TWO)
 c        WRITE(IOUT,*) ' My User routine : Debug Start USER'
 c        WRITE(IOUT,*) '        *** MAT MUSCLE ***'
       NUVAR     = 4
@@ -178,13 +178,13 @@ C
       PARGEO(1) = ZERO
       PARGEO(2) = XK
 C     front wave = 1
-      PARGEO(3) = UN
+      PARGEO(3) = ONE
 C
       IF (XLIM1 == ZERO) XLIM1 = EP30*SCALEV_UNIT
-      IF (SCALET == ZERO) SCALET = UN*FAC_T
-      IF (SCALEX == ZERO) SCALEX = UN*SCALEX_UNIT
-      IF (SCALEV == ZERO) SCALEV = UN*SCALEV_UNIT
-      IF (SCALEF == ZERO) SCALEF = UN*FSCALE
+      IF (SCALET == ZERO) SCALET = ONE*FAC_T
+      IF (SCALEX == ZERO) SCALEX = ONE*SCALEX_UNIT
+      IF (SCALEV == ZERO) SCALEV = ONE*SCALEV_UNIT
+      IF (SCALEF == ZERO) SCALEF = ONE*FSCALE
 C
       IERROR = SET_U_GEO(1,AMAS)
       IERROR = SET_U_GEO(2,ELASTIF)

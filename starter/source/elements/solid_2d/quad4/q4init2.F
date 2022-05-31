@@ -113,7 +113,7 @@ C                           (7~10,*): NUMBER, DENSITY, PLASTIC STRAIN, INTERNAL 
 C  I   IGEO(NPROPGI,*)    - GEOMETRICAL PROPERTY DATA (INTEGER)
 C  I   NEL                - ELEMENT NUMBER IN THIS GROUP
 C  I   SKEW(LSKEW,*)          - ELEMENT SKEW
-C  O   MSQ(*)             - ONE QUART OF ELEMENT MASS
+C  O   MSQ(*)             - ONE FOURTH OF ELEMENT MASS
 C  I   IPART(LIPART1,*)        - PART PROPERTY DATA (USED FOR SPH CASE)
 C  I   IPARTQ(*)          - ID OF PART THAT ELEMENT BELONGS TO (USED FOR SPH CASE)
 C  I   IPM(NPROPMI,*)     - MATERIAL DATA (INTEGER)
@@ -233,7 +233,7 @@ C
      .        Z1, Z2, Z3, Z4,
      .        SY, SZ, TY, TZ)
           DO I=LFT,LLT
-            YAVG(I) = QUART*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
+            YAVG(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
           ENDDO
       ELSE
         CALL Q4RCOOR2(X,IXQ(1,NF1),NGL,MAT,

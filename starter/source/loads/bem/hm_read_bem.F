@@ -480,15 +480,15 @@ C
             
             IF(SFVEL  == ZERO) THEN
                CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Sfvel', FAC_GEN, J, IS_AVAILABLE, LSUBMODEL, UNITAB)
-               SFVEL  = UN * FAC_GEN
+               SFVEL  = ONE * FAC_GEN
             ENDIF
             IF(SFPRES == ZERO) THEN
                CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Sfpres', FAC_GEN, J, IS_AVAILABLE, LSUBMODEL, UNITAB)
-               SFPRES = UN * FAC_GEN
+               SFPRES = ONE * FAC_GEN
             ENDIF
             IF(SCALT  == ZERO) THEN
                CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Scal_t', FAC_GEN, J, IS_AVAILABLE, LSUBMODEL, UNITAB)
-               SCALT  = UN * FAC_GEN
+               SCALT  = ONE * FAC_GEN
             ENDIF
 C     
             ISUIO=0
@@ -920,7 +920,7 @@ C
             CALL HM_GET_FLOATV('a', APMAX, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('aTheta', ATHETA, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-            IF(APMAX == ZERO) APMAX = UN
+            IF(APMAX == ZERO) APMAX = ONE
          ELSEIF(IPRES == 2) THEN
 C     Initialization 
             PMAX = EP30
@@ -929,7 +929,7 @@ C     Initialization
             CALL HM_GET_FLOATV('FscaleP', SFPRES, IS_AVAILABLE, LSUBMODEL, UNITAB)
             IF(SFPRES == ZERO) THEN
                CALL HM_GET_FLOATV_DIM('FscaleP', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-               SFPRES = UN * FAC_GEN
+               SFPRES = ONE * FAC_GEN
             ENDIF
             IF (IFPRES.NE.0) THEN
                IFUNC=0
@@ -981,9 +981,9 @@ C     Initialization
 C     Compute Image D of Charge C
             IF(FREESURF == 2) THEN
                TT = DIRX*(XC-XA)+DIRY*(YC-YA)+DIRZ*(ZC-ZA)
-               XD = XC - DEUX*TT*DIRX
-               YD = YC - DEUX*TT*DIRY
-               ZD = ZC - DEUX*TT*DIRZ
+               XD = XC - TWO*TT*DIRX
+               YD = YC - TWO*TT*DIRY
+               ZD = ZC - TWO*TT*DIRZ
             ENDIF
          ENDIF
 
@@ -1068,7 +1068,7 @@ C
          RFLOW(IADR+5)=RHO
          RFLOW(IADR+6)=PMAX
          RFLOW(IADR+7)=THETA
-         RFLOW(IADR+8)=-UN
+         RFLOW(IADR+8)=-ONE
          RFLOW(IADR+9) =XC
          RFLOW(IADR+10)=YC
          RFLOW(IADR+11)=ZC

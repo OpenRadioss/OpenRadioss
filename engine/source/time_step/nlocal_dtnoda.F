@@ -101,7 +101,7 @@ C
           NDDL = NLOC_DMG%POSI(N+1) - NPOS
           ! Computation of the non-local nodal timestep
           DO I = NPOS,NPOS+NDDL-1
-            DTN(I) = DTFAC1(11)*CDAMP*SQRT(DEUX*MASS(I)/MAX(STIFN(I),EM20))
+            DTN(I) = DTFAC1(11)*CDAMP*SQRT(TWO*MASS(I)/MAX(STIFN(I),EM20))
             DTNOD  = MIN(DTNOD,DTN(I))
           ENDDO    
         ENDDO
@@ -124,7 +124,7 @@ C
               DO I = NPOS,NPOS+NDDL-1
                 IF (DTN(I) < DTMIN1(11)) THEN
                   DT2P    = DTMIN1(11)/(DTFAC1(11)*CDAMP)
-                  MASS(I) = CSTA*MAX(MASS(I),UNDEMI * STIFN(I) * DT2P * DT2P * UNP00001)
+                  MASS(I) = CSTA*MAX(MASS(I),HALF * STIFN(I) * DT2P * DT2P * ONEP00001)
                 ENDIF
               ENDDO
             ENDDO

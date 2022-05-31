@@ -597,19 +597,19 @@ C
         IF (N >= 2) THEN
 
           IF (UNITAB%FAC_M(N) == ZERO) THEN
-              UNITAB%FAC_M(N) = UN
+              UNITAB%FAC_M(N) = ONE
           ELSE
               UNITAB%FAC_M(N) = UNITAB%FAC_M(N) / UNITAB%FAC_M(1)
           ENDIF
 
           IF (UNITAB%FAC_L(N) == ZERO) THEN
-              UNITAB%FAC_L(N) = UN
+              UNITAB%FAC_L(N) = ONE
           ELSE
               UNITAB%FAC_L(N) = UNITAB%FAC_L(N) / UNITAB%FAC_L(1)
           ENDIF
 
           IF (UNITAB%FAC_T(N) == ZERO) THEN
-              UNITAB%FAC_T(N) = UN
+              UNITAB%FAC_T(N) = ONE
           ELSE
               UNITAB%FAC_T(N) = UNITAB%FAC_T(N) / UNITAB%FAC_T(1)
           ENDIF

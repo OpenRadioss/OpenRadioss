@@ -91,20 +91,20 @@ c        J = (IPT-1)*NEL*NUVAR+K-NFT-1
         TAN_PHI  = UVAR(5*NEL+IEL)  ! uvar(iel,6)
       ENDIF
 C
-      LBD1  = UN+EPS(1,1)
-      LBD2  = UN+EPS(2,1)
+      LBD1  = ONE+EPS(1,1)
+      LBD2  = ONE+EPS(2,1)
       RS    = LBD1*LBD2
-      IF(RS > UN) THEN
+      IF(RS > ONE) THEN
         LR1   = PM(164,IM)
         FTHK  = PM(166,IM)
         C1    = PM(167,IM)
         C2    = PM(168,IM)
         C3    = PM(169,IM)
-        DELTAP= MAX(P/PEXT-UN,ZERO)
+        DELTAP= MAX(P/PEXT-ONE,ZERO)
         APOR0 = (LR1-FTHK)*(LR1-FTHK)
         APOR1 = (LR1*LBD1-FTHK/SQRT(LBD2))*(LR1*LBD2-FTHK/SQRT(LBD1))
         DELTAA= MAX(APOR1-APOR0,ZERO)
-        COS_PHI = UN / SQRT(UN + TAN_PHI*TAN_PHI)
+        COS_PHI = ONE / SQRT(ONE + TAN_PHI*TAN_PHI)
         SVTFAC= C1*APOR0*EXP(C2*LOG(DELTAP)) + C3*DELTAA
         SVTFAC= SVTFAC*COS_PHI/(RS*LR1*LR1)
       ENDIF
@@ -173,20 +173,20 @@ C
         TAN_PHI  = UVAR(5*NEL+IEL)  ! uvar(iel,6)
       ENDIF
 C
-      LBD1  = UN+EPS(1,1)
-      LBD2  = UN+EPS(2,1)
+      LBD1  = ONE+EPS(1,1)
+      LBD2  = ONE+EPS(2,1)
       RS    = LBD1*LBD2
-      IF(RS > UN) THEN
+      IF(RS > ONE) THEN
         LR1   = PM(164,IM)
         FTHK  = PM(166,IM)
         C1    = PM(167,IM)
         C2    = PM(168,IM)
         C3    = PM(169,IM)
-        DELTAP= MAX(P/PEXT-UN,ZERO)
+        DELTAP= MAX(P/PEXT-ONE,ZERO)
         APOR0 = (LR1-FTHK)*(LR1-FTHK)
         APOR1 = (LR1*LBD1-FTHK/SQRT(LBD2))*(LR1*LBD2-FTHK/SQRT(LBD1))
         DELTAA= MAX(APOR1-APOR0,ZERO)
-        COS_PHI = UN / SQRT(UN + TAN_PHI*TAN_PHI)
+        COS_PHI = ONE / SQRT(ONE + TAN_PHI*TAN_PHI)
         SVTFAC= C1*APOR0*EXP(C2*LOG(DELTAP)) + C3*DELTAA
         SVTFAC= SVTFAC*COS_PHI/(LR1*LR1)
       ENDIF

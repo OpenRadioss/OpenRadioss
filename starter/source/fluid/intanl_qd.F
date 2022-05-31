@@ -54,9 +54,9 @@ C-----------------------------------------------
      .        D2, L12, L22, L32, L42, LM2
       my_real CS(4), SN(4)
 C
-      X0=QUART*(X1+X2+X3+X4)
-      Y0=QUART*(Y1+Y2+Y3+Y4)
-      Z0=QUART*(Z1+Z2+Z3+Z4)
+      X0=FOURTH*(X1+X2+X3+X4)
+      Y0=FOURTH*(Y1+Y2+Y3+Y4)
+      Z0=FOURTH*(Z1+Z2+Z3+Z4)
 C
 C SIMPLIFICATION SI SOURCE LOIN DU POINT P
       D2 =(X0-XP)**2+(Y0-YP)**2+(Z0-ZP)**2
@@ -66,9 +66,9 @@ C SIMPLIFICATION SI SOURCE LOIN DU POINT P
       L42=(X1-X4)**2+(Y1-Y4)**2+(Z1-Z4)**2
       LM2=MAX(L12,L22,L32,L42)
 
-      IF(D2.GT.VINGT5*LM2) THEN  
+      IF(D2.GT.TWENTY5*LM2) THEN  
         RVLG=AREA/SQRT(D2)
-        RVLH=AREA*(NRX*(X0-XP)+NRY*(Y0-YP)+NRZ*(Z0-ZP))/(D2**TDEMI)	  
+        RVLH=AREA*(NRX*(X0-XP)+NRY*(Y0-YP)+NRZ*(Z0-ZP))/(D2**THREE_HALF)	  
       ELSE
 C COORDONNEES LOCALES
         VX1=X2-X1

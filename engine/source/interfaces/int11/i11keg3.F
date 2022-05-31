@@ -108,7 +108,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 #include "sync_dir.inc"
       IF (IRESP .EQ. 1) THEN
-         PREC = CINQEM4
+         PREC = FIVEEM4
       ELSE 
          PREC = EM10
       ENDIF
@@ -116,7 +116,7 @@ C
       DO I=1,JLT
          S2 = SQRT(NX(I)**2 + NY(I)**2 + NZ(I)**2)
          PENE(I) = GAPV(I) - S2
-         S2 = UN/MAX(EM30,S2)
+         S2 = ONE/MAX(EM30,S2)
          NX(I) = NX(I)*S2
          NY(I) = NY(I)*S2
          NZ(I) = NZ(I)*S2
@@ -126,8 +126,8 @@ C
        IF(IMACH.NE.3) THEN
 #include "lockon.inc"
         DO I=1,JLT
-        PENIS(2,CS_LOC(I)) = MAX(PENIS(2,CS_LOC(I)),UNDEMI*PENE(I))
-        PENIM(2,CM_LOC(I)) = MAX(PENIM(2,CM_LOC(I)),UNDEMI*PENE(I))
+        PENIS(2,CS_LOC(I)) = MAX(PENIS(2,CS_LOC(I)),HALF*PENE(I))
+        PENIM(2,CM_LOC(I)) = MAX(PENIM(2,CM_LOC(I)),HALF*PENE(I))
         ENDDO
 #include "lockoff.inc"
         DO I=1,JLT
@@ -139,12 +139,12 @@ C
        ELSE
         DO I=1,JLT
          IF(CS_LOC(I).LE.NRTS) THEN
-           PENIS(2,CS_LOC(I)) = MAX(PENIS(2,CS_LOC(I)),UNDEMI*PENE(I))
+           PENIS(2,CS_LOC(I)) = MAX(PENIS(2,CS_LOC(I)),HALF*PENE(I))
          ELSE
            NI = CS_LOC(I)-NRTS
-           PENFI(NIN)%P(2,NI) = MAX(PENFI(NIN)%P(2,NI),UNDEMI*PENE(I))
+           PENFI(NIN)%P(2,NI) = MAX(PENFI(NIN)%P(2,NI),HALF*PENE(I))
          END IF
-         PENIM(2,CM_LOC(I)) = MAX(PENIM(2,CM_LOC(I)),UNDEMI*PENE(I))
+         PENIM(2,CM_LOC(I)) = MAX(PENIM(2,CM_LOC(I)),HALF*PENE(I))
         ENDDO
         DO I=1,JLT
          IF(CS_LOC(I).LE.NRTS) THEN
@@ -165,7 +165,7 @@ C
        IF(IMACH.NE.3) THEN
 #include "lockon.inc"
         DO I=1,JLT
-        PPLUS=UNDEMI*(PENE(I)+CINQEM2*(GAPV(I)-PENE(I)))
+        PPLUS=HALF*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I)))
         PENIS(2,CS_LOC(I)) = MAX(PENIS(2,CS_LOC(I)),PPLUS)
         PENIM(2,CM_LOC(I)) = MAX(PENIM(2,CM_LOC(I)),PPLUS)
         ENDDO
@@ -178,7 +178,7 @@ C
         ENDDO
        ELSE
         DO I=1,JLT
-         PPLUS=UNDEMI*(PENE(I)+CINQEM2*(GAPV(I)-PENE(I)))
+         PPLUS=HALF*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I)))
          IF(CS_LOC(I).LE.NRTS) THEN
            PENIS(2,CS_LOC(I)) = MAX(PENIS(2,CS_LOC(I)),PPLUS)
          ELSE
@@ -222,7 +222,7 @@ C-------------------------------------------
 C
       IF(IMP_INT7.GE.2)THEN
        DO I=1,JLT
-         STIF(I) = UNDEMI*STIF(I) 
+         STIF(I) = HALF*STIF(I) 
        ENDDO
       ELSEIF(IMP_INT7.EQ.1)THEN
        DO I=1,JLT
@@ -233,7 +233,7 @@ C
          PENE(I)= ZERO
          IDESAC = 1
         ELSE
-         STIF(I) = UNDEMI*STIF(I) * FAC
+         STIF(I) = HALF*STIF(I) * FAC
         ENDIF
        ENDDO
       ELSE
@@ -245,7 +245,7 @@ C
          PENE(I)= ZERO
          IDESAC = 1
        ELSE
-        STIF(I) = UNDEMI*STIF(I) * FAC
+        STIF(I) = HALF*STIF(I) * FAC
        ENDIF
       ENDDO
       DO I=1,JLT
@@ -265,7 +265,7 @@ C---------------------------------
         VTZ = VZ(I) -VN(I)*NZ(I)
         VT  = VTX*VTX+VTY*VTY+VTZ*VTZ
         IF (VT.GT.EM20) THEN
-         S2=UN/SQRT(VT)
+         S2=ONE/SQRT(VT)
          Q(1,1,I)=VTX*S2
          Q(1,2,I)=VTY*S2
          Q(1,3,I)=VTZ*S2
@@ -388,7 +388,7 @@ C
        ENDDO
 C
        DO I=1,JLT
-        OFF(I)=UN
+        OFF(I)=ONE
        ENDDO
 C
        IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
@@ -542,14 +542,14 @@ C-------------------------------------------
         VTZ = VZ(I) -VN(I)*NZ(I)
         VT  = VTX*VTX+VTY*VTY+VTZ*VTZ
         IF (VT.GT.EM20) THEN
-         S2=UN/SQRT(VT)
+         S2=ONE/SQRT(VT)
          T1(I)=VTX*S2
          T2(I)=VTY*S2
          T3(I)=VTZ*S2
          FACT(I)=FRIC
         ELSE
          FACT(I)=ZERO
-         T1(I)=UN
+         T1(I)=ONE
          T2(I)=ZERO
          T3(I)=ZERO
         ENDIF
@@ -702,7 +702,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 #include "sync_dir.inc"
       IF (IRESP .EQ. 1) THEN
-         PREC = CINQEM4
+         PREC = FIVEEM4
       ELSE 
          PREC = EM10
       ENDIF
@@ -746,7 +746,7 @@ C
       DO I=1,JLT
          S2 = SQRT(NX(I)**2 + NY(I)**2 + NZ(I)**2)
          PENE(I) = GAPV(I) - S2
-         S2 = UN/MAX(EM30,S2)
+         S2 = ONE/MAX(EM30,S2)
          NX(I) = NX(I)*S2
          NY(I) = NY(I)*S2
          NZ(I) = NZ(I)*S2
@@ -756,8 +756,8 @@ C
        IF(IMACH.NE.3) THEN
 #include "lockon.inc"
         DO I=1,JLT
-        PENIS(2,CS_LOC(I)) = MAX(PENIS(2,CS_LOC(I)),UNDEMI*PENE(I))
-        PENIM(2,CM_LOC(I)) = MAX(PENIM(2,CM_LOC(I)),UNDEMI*PENE(I))
+        PENIS(2,CS_LOC(I)) = MAX(PENIS(2,CS_LOC(I)),HALF*PENE(I))
+        PENIM(2,CM_LOC(I)) = MAX(PENIM(2,CM_LOC(I)),HALF*PENE(I))
         ENDDO
 #include "lockoff.inc"
         DO I=1,JLT
@@ -768,12 +768,12 @@ C
        ELSE
         DO I=1,JLT
          IF(CS_LOC(I).LE.NRTS) THEN
-           PENIS(2,CS_LOC(I)) = MAX(PENIS(2,CS_LOC(I)),UNDEMI*PENE(I))
+           PENIS(2,CS_LOC(I)) = MAX(PENIS(2,CS_LOC(I)),HALF*PENE(I))
          ELSE
            NI = CS_LOC(I)-NRTS
-           PENFI(NIN)%P(2,NI) = MAX(PENFI(NIN)%P(2,NI),UNDEMI*PENE(I))
+           PENFI(NIN)%P(2,NI) = MAX(PENFI(NIN)%P(2,NI),HALF*PENE(I))
          END IF
-         PENIM(2,CM_LOC(I)) = MAX(PENIM(2,CM_LOC(I)),UNDEMI*PENE(I))
+         PENIM(2,CM_LOC(I)) = MAX(PENIM(2,CM_LOC(I)),HALF*PENE(I))
         ENDDO
         DO I=1,JLT
          IF(CS_LOC(I).LE.NRTS) THEN
@@ -792,7 +792,7 @@ C
        IF(IMACH.NE.3) THEN
 #include "lockon.inc"
         DO I=1,JLT
-        PPLUS=UNDEMI*(PENE(I)+CINQEM2*(GAPV(I)-PENE(I)))
+        PPLUS=HALF*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I)))
         PENIS(2,CS_LOC(I)) = MAX(PENIS(2,CS_LOC(I)),PPLUS)
         PENIM(2,CM_LOC(I)) = MAX(PENIM(2,CM_LOC(I)),PPLUS)
         ENDDO
@@ -804,7 +804,7 @@ C
         ENDDO
        ELSE
         DO I=1,JLT
-         PPLUS=UNDEMI*(PENE(I)+CINQEM2*(GAPV(I)-PENE(I)))
+         PPLUS=HALF*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I)))
          IF(CS_LOC(I).LE.NRTS) THEN
            PENIS(2,CS_LOC(I)) = MAX(PENIS(2,CS_LOC(I)),PPLUS)
          ELSE
@@ -851,7 +851,7 @@ C-------------------------------------------
 C
       IF(IMP_INT7.GE.2)THEN
        DO I=1,JLT
-         STIF(I) = UNDEMI*STIF(I) 
+         STIF(I) = HALF*STIF(I) 
        ENDDO
       ELSEIF(IMP_INT7.EQ.1)THEN
        DO I=1,JLT
@@ -862,7 +862,7 @@ C
          PENE(I)= ZERO
          IDESAC = 1
         ELSE
-         STIF(I) = UNDEMI*STIF(I) * FAC
+         STIF(I) = HALF*STIF(I) * FAC
         ENDIF
        ENDDO
       ELSE
@@ -874,7 +874,7 @@ C
          PENE(I)= ZERO
          IDESAC = 1
        ELSE
-        STIF(I) = UNDEMI*STIF(I) * FAC
+        STIF(I) = HALF*STIF(I) * FAC
        ENDIF
       ENDDO
       DO I=1,JLT

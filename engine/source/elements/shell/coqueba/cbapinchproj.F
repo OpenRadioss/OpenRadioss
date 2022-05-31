@@ -58,7 +58,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include "vectorize.inc"
       DO EP=JFT,JLT
         K=IPLAT(EP)        
-        ELTHKINV = UN/THK0(EP)
+        ELTHKINV = ONE/THK0(EP)
 C       FPP(1:3,node) = VFPINCH(node) * Normal(1:3,node)
 C       Node 1 : FX,FY,FZ
         FPP(1,1)= VFPINCH(K,1)*VQN(K,7,1)*ELTHKINV

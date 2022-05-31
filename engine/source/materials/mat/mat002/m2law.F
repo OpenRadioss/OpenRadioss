@@ -111,7 +111,7 @@ C-----------------------------------------------
 C
       EPIF    = ZERO
       NPIF    = 0
-      FACQ0   = UN
+      FACQ0   = ONE
 C
       MX      = MAT(LFT)
       RHO0    = PM( 1,MX)
@@ -128,7 +128,7 @@ C
       CP      = PM(53,MX)
       CMX     = PM(45,MX)
       ISRATE  = IPM(3,MX)
-      ASRATE  = MIN(UN,PM(9,MX)*DT1)
+      ASRATE  = MIN(ONE,PM(9,MX)*DT1)
       FISOKIN = PM(55,MX)
       G_1     = PM(22,MX)
       CA_1    = PM(38,MX)
@@ -145,7 +145,7 @@ c     --sigma_0 = a + b*(eps_p)**n
         NPIF    = NPIF+IRTY
         T(I)   =T_1
 C
-        ETSE(I) = UN
+        ETSE(I) = ONE
       ENDDO
 C
 C------------------------------------------
@@ -168,8 +168,8 @@ C
        P  =-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
        DAV(I)=-THIRD*(D1(I)+D2(I)+D3(I))
        G1=DT1*G(I)
-       G2=DEUX*G1
-       SSP(I)=SQRT((UNP333*G(I)+C1)/RHO0)
+       G2=TWO*G1
+       SSP(I)=SQRT((ONEP333*G(I)+C1)/RHO0)
 C-------------------------------
 C     CONTRAINTES DEVIATORIQUES
 C-------------------------------
@@ -182,9 +182,9 @@ c     -- deviatoric elastic stress predictor
        SIG(I,6)=SIG(I,6)+G1*D6(I)
 C
 c     -- von Mises stress at elastic predictor
-       AJ2(I)=UNDEMI*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)
+       AJ2(I)=HALF*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)
      1               +SIG(I,4)**2+SIG(I,5)**2+SIG(I,6)**2
-       AJ2(I)=SQRT(TROIS*AJ2(I))
+       AJ2(I)=SQRT(THREE*AJ2(I))
       ENDDO
 C
 c     --  storing elastic predictors for stiffness computation
@@ -203,16 +203,16 @@ C     STRAIN RATE (JOHNSON-COOK, ZERILLI-ARMSTRONG)
 C-------------
       IF (ISRATE > 0) THEN
         DO I=LFT,LLT
-          EPD(I) = UNDEMI*((D1(I)+DAV(I))**2+(D2(I)+DAV(I))**2
+          EPD(I) = HALF*((D1(I)+DAV(I))**2+(D2(I)+DAV(I))**2
      .                                  +(D3(I)+DAV(I))**2) 
-     .           + QUART*(D4(I)**2+D5(I)**2+D6(I)**2)
-          EPD(I) = SQRT(TROIS*EPD(I))/TDEMI
-          EPSD(I) = ASRATE*EPD(I) + (UN -ASRATE)*EPSD(I)
+     .           + FOURTH*(D4(I)**2+D5(I)**2+D6(I)**2)
+          EPD(I) = SQRT(THREE*EPD(I))/THREE_HALF
+          EPSD(I) = ASRATE*EPD(I) + (ONE -ASRATE)*EPSD(I)
         ENDDO
       ELSE
         DO I=LFT,LLT
           EPSD(I)=OFF(I)* MAX( ABS(D1(I)), ABS(D2(I)), ABS(D3(I)),
-     .      UNDEMI*ABS(D4(I)),UNDEMI*ABS(D5(I)),UNDEMI*ABS(D6(I)))
+     .      HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))
         ENDDO
       ENDIF   ! israte
       EPSP(1:NEL) = EPSD(1:NEL)                   
@@ -227,7 +227,7 @@ c
           IF(TM.EQ.ZERO)TM=EP30   
           DO I=LFT,LLT
             T(I) = T(I) +CP*EINT(I)/MAX(EM15,VOL(I))
-            TSTAR(I)=MIN(UN,MAX(ZERO,(T(I)-T_1)/(TM-T_1))) 
+            TSTAR(I)=MIN(ONE,MAX(ZERO,(T(I)-T_1)/(TM-T_1))) 
           ENDDO
         ENDIF  
   
@@ -238,7 +238,7 @@ c
 c epd(i) >= 0
 c
              EPD(I)= MAX(ZERO,EPD(I))
-             EPD(I)= (UN +CC * EPD(I))*(UN -TSTAR(I)**MT)
+             EPD(I)= (ONE +CC * EPD(I))*(ONE -TSTAR(I)**MT)
              IF(ICC.EQ.1)SIGMX(I)= SIGMX(I)*EPD(I)
           ENDDO
         ELSEIF(NPIF.EQ.LLT)THEN
@@ -246,26 +246,26 @@ c
              EPD(I)= CC*EXP((-Z3+Z4 * EPD(I))*T(I))
              IF(ICC.EQ.1)SIGMX(I)= SIGMX(I) + EPD(I)
              CA(I) = CA(I) + EPD(I)
-             EPD(I)=UN
+             EPD(I)=ONE
           ENDDO
         ELSE
           DO I=LFT,LLT
            IF(IRTY.EQ.0)THEN
              MT=Z3
            EPD(I)= MAX(ZERO,EPD(I))
-             EPD(I)= (UN +CC * EPD(I))*(UN -TSTAR(I)**MT)
+             EPD(I)= (ONE +CC * EPD(I))*(ONE -TSTAR(I)**MT)
              IF(ICC.EQ.1)SIGMX(I)= SIGMX(I)*EPD(I)
            ELSE
              EPD(I)= CC*EXP((-Z3+Z4 * EPD(I))*T(I))
              IF(ICC.EQ.1)SIGMX(I)= SIGMX(I) + EPD(I)
              CA(I) = CA(I) + EPD(I)
-             EPD(I)=UN
+             EPD(I)=ONE
            ENDIF
           ENDDO
         ENDIF
       ELSE
         DO I=LFT,LLT
-          EPD(I)=UN
+          EPD(I)=ONE
         ENDDO
       ENDIF
 C-------------
@@ -274,17 +274,17 @@ C-------------
 C--------pure-isotrope----
       IF (IKFLG == 0 ) THEN
       IF(IPLA.NE.2)THEN
-        IF(CN.EQ.UN) THEN
+        IF(CN.EQ.ONE) THEN
                 AK(LFT:LLT)= CA(LFT:LLT)+CB(LFT:LLT)*EPXE(LFT:LLT)
                 QH(LFT:LLT)= CB(LFT:LLT)*EPD(LFT:LLT)
         ELSE
                 DO  I=LFT,LLT
                         IF(EPXE(I).GT.ZERO) THEN
                                 AK(I)=CA(I)+CB(I)*EPXE(I)**CN
-                                IF(CN.GT.UN) THEN
-                                        QH(I)= (CB(I)*CN*EPXE(I)**(CN - UN))*EPD(I)
+                                IF(CN.GT.ONE) THEN
+                                        QH(I)= (CB(I)*CN*EPXE(I)**(CN - ONE))*EPD(I)
                                 ELSE
-                                        QH(I)= (CB(I)*CN/EPXE(I)**(UN -CN))*EPD(I)
+                                        QH(I)= (CB(I)*CN/EPXE(I)**(ONE -CN))*EPD(I)
                                 ENDIF
                         ELSE
                                 AK(I)=CA(I)
@@ -306,7 +306,7 @@ C--------pure-isotrope----
         ENDDO
       ELSE
        DO 95 I=LFT,LLT
-       IF(CN.EQ.UN) THEN
+       IF(CN.EQ.ONE) THEN
         AK(I)= CA(I)+CB(I)*EPXE(I)
        ELSE
        IF(EPXE(I).GT.ZERO) THEN
@@ -326,9 +326,9 @@ C     ECROUISSAGE CINE&MIXE
 C------------------------------------------
        IF(IPLA.NE.2)THEN
         DO I=LFT,LLT
-         BETA = UN-FISOKIN
+         BETA = ONE-FISOKIN
 C------------SIGY is used for hourglass stress compute--         
-         IF(CN.EQ.UN) THEN
+         IF(CN.EQ.ONE) THEN
           SIGY(I) = CA(I)+CB(I)*EPXE(I)
           AK(I)= CA(I)+BETA*CB(I)*EPXE(I)
           QH(I)= CB(I)*EPD(I)
@@ -336,10 +336,10 @@ C------------SIGY is used for hourglass stress compute--
           IF(EPXE(I).GT.ZERO) THEN
            SIGY(I)=CA(I)+CB(I)*EPXE(I)**CN
            AK(I)=CA(I)+BETA*CB(I)*EPXE(I)**CN
-           IF(CN.GT.UN) THEN
-            QH(I)= (CB(I)*CN*EPXE(I)**(CN - UN))*EPD(I)
+           IF(CN.GT.ONE) THEN
+            QH(I)= (CB(I)*CN*EPXE(I)**(CN - ONE))*EPD(I)
            ELSE
-            QH(I)= (CB(I)*CN/EPXE(I)**(UN -CN))*EPD(I)
+            QH(I)= (CB(I)*CN/EPXE(I)**(ONE -CN))*EPD(I)
            ENDIF
           ELSE
            AK(I)=CA(I)
@@ -362,8 +362,8 @@ C------------SIGY is used for hourglass stress compute--
 C
        ELSE
         DO I=LFT,LLT
-         BETA = UN-FISOKIN
-         IF(CN.EQ.UN) THEN
+         BETA = ONE-FISOKIN
+         IF(CN.EQ.ONE) THEN
           SIGY(I)= CA(I)+CB(I)*EPXE(I)
           AK(I)= CA(I)+BETA*CB(I)*EPXE(I)
           QH(I)= CB(I)*EPD(I)
@@ -371,10 +371,10 @@ C
           IF(EPXE(I).GT.ZERO) THEN
            SIGY(I)=CA(I)+CB(I)*EPXE(I)**CN
            AK(I)=CA(I)+BETA*CB(I)*EPXE(I)**CN
-           IF(CN.GT.UN) THEN
-            QH(I)= (CB(I)*CN*EPXE(I)**(CN - UN))*EPD(I)
+           IF(CN.GT.ONE) THEN
+            QH(I)= (CB(I)*CN*EPXE(I)**(CN - ONE))*EPD(I)
            ELSE
-            QH(I)= (CB(I)*CN/EPXE(I)**(UN -CN))*EPD(I)
+            QH(I)= (CB(I)*CN/EPXE(I)**(ONE -CN))*EPD(I)
            ENDIF
           ELSE
            AK(I)=CA(I)
@@ -394,41 +394,41 @@ C
 C
       IF(IPLA.EQ.0)THEN
        DO 110 I=LFT,LLT
-       SCALE= MIN(UN,AK(I)/ MAX(AJ2(I),EM15))
+       SCALE= MIN(ONE,AK(I)/ MAX(AJ2(I),EM15))
        SIG(I,1)=SCALE*SIG(I,1)
        SIG(I,2)=SCALE*SIG(I,2)
        SIG(I,3)=SCALE*SIG(I,3)
        SIG(I,4)=SCALE*SIG(I,4)
        SIG(I,5)=SCALE*SIG(I,5)
        SIG(I,6)=SCALE*SIG(I,6)
-       EPXE(I)=EPXE(I)+(UN-SCALE)*AJ2(I)/MAX(TROIS*G(I)+QH(I),EM15)
+       EPXE(I)=EPXE(I)+(ONE-SCALE)*AJ2(I)/MAX(THREE*G(I)+QH(I),EM15)
 C
-       DPLA1(I) = (UN-SCALE)*AJ2(I)/MAX(TROIS*G(I)+QH(I),EM15)     
+       DPLA1(I) = (ONE-SCALE)*AJ2(I)/MAX(THREE*G(I)+QH(I),EM15)     
   110 CONTINUE
 C
       ELSEIF(IPLA.EQ.2)THEN
        DO I=LFT,LLT
-       SCALE= MIN(UN,AK(I)/ MAX(AJ2(I),EM15))
+       SCALE= MIN(ONE,AK(I)/ MAX(AJ2(I),EM15))
        SIG(I,1)=SCALE*SIG(I,1)
        SIG(I,2)=SCALE*SIG(I,2)
        SIG(I,3)=SCALE*SIG(I,3)
        SIG(I,4)=SCALE*SIG(I,4)
        SIG(I,5)=SCALE*SIG(I,5)
        SIG(I,6)=SCALE*SIG(I,6)
-       EPXE(I)=EPXE(I)+(UN -SCALE)*AJ2(I)/MAX(3.*G(I),EM15)
-       DPLA1(I) = (UN -SCALE)*AJ2(I)/MAX(3.*G(I),EM15)
+       EPXE(I)=EPXE(I)+(ONE -SCALE)*AJ2(I)/MAX(3.*G(I),EM15)
+       DPLA1(I) = (ONE -SCALE)*AJ2(I)/MAX(3.*G(I),EM15)
        ENDDO
 C
       ELSEIF(IPLA.EQ.1)THEN
 C
       IF (IMPL_S.EQ.0) THEN
        DO I=LFT,LLT
-       SCALE= MIN(UN,AK(I)/ MAX(AJ2(I),EM15))
+       SCALE= MIN(ONE,AK(I)/ MAX(AJ2(I),EM15))
 Clm    plastic strain increment.
-       DPLA=(UN-SCALE)*AJ2(I)/MAX(TROIS*G(I)+QH(I),EM15)
+       DPLA=(ONE-SCALE)*AJ2(I)/MAX(THREE*G(I)+QH(I),EM15)
 Clm    actual yield stress.
-       AK(I)=AK(I)+(UN - FISOKIN)*DPLA*QH(I)
-       SCALE= MIN(UN,AK(I)/ MAX(AJ2(I),EM15))
+       AK(I)=AK(I)+(ONE - FISOKIN)*DPLA*QH(I)
+       SCALE= MIN(ONE,AK(I)/ MAX(AJ2(I),EM15))
        SIG(I,1)=SCALE*SIG(I,1)
        SIG(I,2)=SCALE*SIG(I,2)
        SIG(I,3)=SCALE*SIG(I,3)
@@ -458,8 +458,8 @@ c-----------------------------------------
           DSYZ = SIGEYZ(I) - SIG(I,5)
           DSZX = SIGEZX(I) - SIG(I,6)
 C 
-          HKIN = DTIERS*FISOKIN*QH(I)
-          ALPHA = HKIN/MAX(DEUX*G(I)+HKIN,EM15)  
+          HKIN = TWO_THIRD*FISOKIN*QH(I)
+          ALPHA = HKIN/MAX(TWO*G(I)+HKIN,EM15)  
 C       ..updates back stresses
           SIGBAK(I,1) = SIGBAK(I,1) + ALPHA*DSXX 
           SIGBAK(I,2) = SIGBAK(I,2) + ALPHA*DSYY 
@@ -495,7 +495,7 @@ C
      6        NGL     ,QNEW    ,SSP_EQ  ,G_DT    ,DTEL)
       ENDIF
 C
-      DTA =UNDEMI*DT1
+      DTA =HALF*DT1
 C
       DO I=LFT,LLT
        PNEW(I)=C1*AMU(I)
@@ -515,7 +515,7 @@ C
        E5=D5(I)*(SOLD5(I)+SIG(I,5))
        E6=D6(I)*(SOLD6(I)+SIG(I,6))
 C
-       EINC = VOL_AVG(I)*(E1+E2+E3+E4+E5+E6)*DTA - UNDEMI*DVOL(I)*(QOLD(I)+QNEW(I))
+       EINC = VOL_AVG(I)*(E1+E2+E3+E4+E5+E6)*DTA - HALF*DVOL(I)*(QOLD(I)+QNEW(I))
        EINT(I)=(EINT(I)+EINC*OFF(I)) / MAX(EM15,VOL(I))
       ENDDO
 C
@@ -525,19 +525,19 @@ C
        SIGY(I)=MAX(SIGY(I),AK(I))
       ENDDO
        DO I=LFT,LLT
-         IF(DPLA1(I).GT.0) ETSE(I)= UNDEMI*QH(I)*OFF(I)/MAX(G(I),EM15)
+         IF(DPLA1(I).GT.0) ETSE(I)= HALF*QH(I)*OFF(I)/MAX(G(I),EM15)
        ENDDO
       IF (IMPL_S.GT.0) THEN
        IF (IKT==0) RETURN
        IF(IPLA.NE.2.AND.IKFLG.EQ.0)THEN
         DO I=LFT,LLT
          IF(DPLA1(I).GT.0)THEN
-          IF(CN.EQ.UN) THEN
+          IF(CN.EQ.ONE) THEN
            QH(I)= CB(I)*EPD(I)
-          ELSEIF(CN.GT.UN) THEN
-           QH(I)= (CB(I)*CN*EPXE(I)**(CN - UN))*EPD(I)
+          ELSEIF(CN.GT.ONE) THEN
+           QH(I)= (CB(I)*CN*EPXE(I)**(CN - ONE))*EPD(I)
           ELSE
-           QH(I)= (CB(I)*CN/EPXE(I)**(UN -CN))*EPD(I)
+           QH(I)= (CB(I)*CN/EPXE(I)**(ONE -CN))*EPD(I)
           ENDIF
          ENDIF
         ENDDO
@@ -548,12 +548,12 @@ C      -----IKT=4------------
 
 c ...... Von Mises stress at the elastic predictor (point B)
 c ...... SIGEXX, etc. are deviatoric stresses
-         VM =UNDEMI*(SIGEXX(I)**2+SIGEYY(I)**2+SIGEZZ(I)**2)
+         VM =HALF*(SIGEXX(I)**2+SIGEYY(I)**2+SIGEZZ(I)**2)
      1              +SIGEXY(I)**2+SIGEYZ(I)**2+SIGEZX(I)**2
-         VM_1 =UN/SQRT(TROIS*VM)
-         G3 = TROIS*G(I)
+         VM_1 =ONE/SQRT(THREE*VM)
+         G3 = THREE*G(I)
          G3H = MAX(G3+QH(I),EM15)
-         SCALE = MAX(ZERO,UN-G3H*DPLA1(I)*VM_1)
+         SCALE = MAX(ZERO,ONE-G3H*DPLA1(I)*VM_1)
 c ...... NORM_1 normalizes deviatoric stresses, includes consistent
 c ...... stiffness matrix parameter beta, von Mises at B, and two_pmi
          NORM_1=G3*VM_1*SQRT(SCALE/G3H)
@@ -566,9 +566,9 @@ c ...... Deviatoric stresses "normalized"
          SIGNOR(I,6)=SIGEZX(I)*NORM_1
 
 c ...... Parameter alpha of consistent matrix
-         AL_IMP(I)= UN - G3*DPLA1(I)*VM_1
+         AL_IMP(I)= ONE - G3*DPLA1(I)*VM_1
         ELSE
-         AL_IMP(I)=UN
+         AL_IMP(I)=ONE
         ENDIF
        ENDDO
       ENDIF
@@ -656,7 +656,7 @@ C
 C
 C      -- PREVIOUS TIME-STEP EQUIVALENT PLASTIC STRAIN
        EPXE(I) = MAX(ZERO,EPXE(I))
-       G3(I) =MAX(TROIS*G(I),EM15)
+       G3(I) =MAX(THREE*G(I),EM15)
 C
 C      -- PREVIOUS TIME-STEP YIELD STRESS !!!!! if EPXE=0!!!!!
 C       AK(I)=CA(I)+CB(I)*EPXE(I)**CN(I) !..SIGMA0(EPS_P)
@@ -664,7 +664,7 @@ C
 C      -- COMPARE IT WITH ELASTIC PREDICTOR
        IF(AJ2(I).LT.AK(I)) GO TO 90 
 C
-       BETA = UN-FISOKIN
+       BETA = ONE-FISOKIN
        DO 80 ITER = 1,NITER ! .. NR ITERATIONS ..
 C
        IF(EPXE(I).GT.ZERO) THEN !..TESTING FOR ZERO EQUIV.PL.STRN
@@ -673,21 +673,21 @@ C
 C      --COMPUTE THE HARDENING PARAMETER H
 C      --(JUST THE DERIVATIVE OF THE SIG-EPS_PL FUNCTION)
 C
-         IF(CN.GT.UN) THEN
-           QH(I) = (CB(I)*CN*EPXE(I)**(CN - UN))*EPD(I)
-         ELSEIF(CN.EQ.UN) THEN !.. LINEAR HARDENING
+         IF(CN.GT.ONE) THEN
+           QH(I) = (CB(I)*CN*EPXE(I)**(CN - ONE))*EPD(I)
+         ELSEIF(CN.EQ.ONE) THEN !.. LINEAR HARDENING
            QH(I)= CB(I)*EPD(I)
          ELSE !.. POWER LESS THAN UNITY
-           QH(I) = (CB(I)*CN/EPXE(I)**(UN -CN))*EPD(I)
+           QH(I) = (CB(I)*CN/EPXE(I)**(ONE -CN))*EPD(I)
          ENDIF
 C
        ELSEIF(EPXE(I).EQ.ZERO) THEN
 C
          AK(I)=CA(I)
 C
-         IF(CN.GT.UN )THEN
+         IF(CN.GT.ONE )THEN
                QH(I) = ZERO
-         ELSEIF(CN.EQ.UN) THEN 
+         ELSEIF(CN.EQ.ONE) THEN 
                QH(I) = CB(I)*EPD(I)
          ELSE
                QH(I) = EP10 *EPD(I) !.. SHOULD BE +INFINITY
@@ -734,7 +734,7 @@ C
 C     -- RADIAL RETURN ------
 C     -- ALPHA_RADIAL := PARAMETER ALPHA OF THE RADIAL RETURN
 C
-       ALPHA_RADIAL= MIN(UN,AK(I)/ MAX(AJ2(I),EM15))
+       ALPHA_RADIAL= MIN(ONE,AK(I)/ MAX(AJ2(I),EM15))
        SIG(I,1)=ALPHA_RADIAL*SIG(I,1)
        SIG(I,2)=ALPHA_RADIAL*SIG(I,2)
        SIG(I,3)=ALPHA_RADIAL*SIG(I,3)

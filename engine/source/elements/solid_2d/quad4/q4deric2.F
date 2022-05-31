@@ -94,24 +94,24 @@ C-----------------------------------------------
 C
       DO I=LFT,LLT
 C       dNi/dY, dNi/dZ, A=4.*|J|
-        PYC1(I) = UNDEMI*(Z2(I)-Z4(I))/AIRE(I)
-        PYC2(I) = UNDEMI*(Z3(I)-Z1(I))/AIRE(I)
-        PZC1(I) = UNDEMI*(Y4(I)-Y2(I))/AIRE(I)
-        PZC2(I) = UNDEMI*(Y1(I)-Y3(I))/AIRE(I)
+        PYC1(I) = HALF*(Z2(I)-Z4(I))/AIRE(I)
+        PYC2(I) = HALF*(Z3(I)-Z1(I))/AIRE(I)
+        PZC1(I) = HALF*(Y4(I)-Y2(I))/AIRE(I)
+        PZC2(I) = HALF*(Y1(I)-Y3(I))/AIRE(I)
       ENDDO
 C     COMPUTE VOLUME/(2*PI) FOR AXISYMMETRIC CASE 
       IF(N2D==1.AND.JHBE==17) THEN
           DO I=LFT,LLT
-            VOLU(I) = QUART*YAVG(I)*AIRE(I)
+            VOLU(I) = FOURTH*YAVG(I)*AIRE(I)
           ENDDO
       ENDIF
       DO I=LFT,LLT
-        RX(I) = UN
+        RX(I) = ONE
         RY(I) = ZERO
         RZ(I) = ZERO
         SX(I) = ZERO
-        SY(I) =UNDEMI*(Y2(I)+Y3(I)-Y1(I)-Y4(I))
-        SZ(I) =UNDEMI*(Z2(I)+Z3(I)-Z1(I)-Z4(I))
+        SY(I) =HALF*(Y2(I)+Y3(I)-Y1(I)-Y4(I))
+        SZ(I) =HALF*(Z2(I)+Z3(I)-Z1(I)-Z4(I))
       END DO
 C
       RETURN

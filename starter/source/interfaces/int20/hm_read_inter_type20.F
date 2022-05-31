@@ -174,7 +174,7 @@ C
       BUMULT = ZERO
 
 C ADMESH not read but initialized
-      PADM   =UN
+      PADM   =ONE
       ANGLADM=ZERO
 C
       NTYP = 20
@@ -274,8 +274,8 @@ C
       IF (ISU1 == 0 .AND. ISU2 == 0) IEDGE = -1
       IPARI(58)=IEDGE
 
-      IF(IEDGE==3 .and. EDG_ANGL==ZERO) EDG_ANGL=QUATREVINGTDIX+UN
-      FRIGAP(26)  = COS((CENT80-EDG_ANGL)*PI/CENT80)
+      IF(IEDGE==3 .and. EDG_ANGL==ZERO) EDG_ANGL=NINTY+ONE
+      FRIGAP(26)  = COS((HUNDRED80-EDG_ANGL)*PI/HUNDRED80)
 
       INGR2USR => IGRNOD(1:NGRNOD)%ID
       IF(NOD1 /= 0) NOD1=NGR2USR(NOD1,INGR2USR,NGRNOD)
@@ -342,7 +342,7 @@ C....* Card4  *.............
 C
 
        IF(IGAP.EQ.2)THEN
-          IF(GAPSCALE.EQ.ZERO)GAPSCALE=UN
+          IF(GAPSCALE.EQ.ZERO)GAPSCALE=ONE
           FRIGAP(13) = GAPSCALE
           FRIGAP(16) = GAPMAX
         END IF
@@ -352,9 +352,9 @@ C
            FRIGAP(16)=GAPMAX
         END IF
 
-        IF (FPENMAX == ZERO) FPENMAX = UN
+        IF (FPENMAX == ZERO) FPENMAX = ONE
         FRIGAP(27) = FPENMAX
-        FRIGAP(29) = GAPSOL/QUATRE
+        FRIGAP(29) = GAPSOL/FOUR
 C
 C....* Card6  *.............
 C
@@ -369,9 +369,9 @@ C
         END IF
 
         IF(STFAC.EQ.ZERO.AND.IGSTI.NE.1) THEN
-          STFAC=UN
+          STFAC=ONE
         ENDIF
-        IF (STFAC == ZERO )STFAC = UNCINQ
+        IF (STFAC == ZERO )STFAC = ONE_FIFTH
 
         IF (STOPT == ZERO) STOPT = EP30
 
@@ -390,12 +390,12 @@ c        IF (BCFLAGM(LFIELD-2:LFIELD-2).EQ. '1') IBC1M = 1
 c        IF (BCFLAGM(LFIELD-1:LFIELD-1).EQ. '1') IBC2M = 1
 c        IF (BCFLAGM(LFIELD  :LFIELD  ).EQ. '1') IBC3M = 1
 
-        IF(FRIC.NE.ZERO.AND.VISCF.EQ.ZERO)VISCF=UN
+        IF(FRIC.NE.ZERO.AND.VISCF.EQ.ZERO)VISCF=ONE
           IF(VISC.EQ.ZERO)THEN
             IF(IVIS2.EQ.5)THEN
-              VISC=UN
+              VISC=ONE
             ELSE
-              VISC=CINQEM2
+              VISC=FIVEEM2
             ENDIF
         ENDIF
 
@@ -406,7 +406,7 @@ C
 C....* Card8 : FRICTION data *.............
 C
 
-         IF (MFROT.NE.0.AND.VISCF.EQ.0.0) VISCF=UN
+         IF (MFROT.NE.0.AND.VISCF.EQ.0.0) VISCF=ONE
 
          IF (ALPHA.EQ.0.) IFQ = 0
 
@@ -415,10 +415,10 @@ C
          IF(MODFR.EQ.2)VISCF=ZERO
 
          IF (IFQ.GT.0) THEN
-             IF (IFQ.EQ.10) XFILTR = UN
+             IF (IFQ.EQ.10) XFILTR = ONE
              IF (MOD(IFQ,10).EQ.1) XFILTR = ALPHA
-             IF (MOD(IFQ,10).EQ.2) XFILTR=QUATRE*ATAN2(UN,ZERO) / ALPHA
-             IF (MOD(IFQ,10).EQ.3) XFILTR=QUATRE*ATAN2(UN,ZERO) * ALPHA
+             IF (MOD(IFQ,10).EQ.2) XFILTR=FOUR*ATAN2(ONE,ZERO) / ALPHA
+             IF (MOD(IFQ,10).EQ.3) XFILTR=FOUR*ATAN2(ONE,ZERO) * ALPHA
              IF (XFILTR.LT.ZERO) THEN
                CALL ANCMSG(MSGID=554,
      .                     MSGTYPE=MSGERROR,
@@ -458,7 +458,7 @@ C------------------------------------------------------------
 C  General Storage IPARI FRIGAP 
 C------------------------------------------------------------
 
-        CADM      =COS(ANGLADM*PI/CENT80)
+        CADM      =COS(ANGLADM*PI/HUNDRED80)
         IPARI(49) =NRADM
         FRIGAP(24)=PADM
         FRIGAP(25)=CADM
@@ -467,9 +467,9 @@ C BUMULT is increased for big models
       IF(BUMULT.EQ.ZERO) THEN
         BUMULT = BMUL0
         IF(NUMNOD > 2500000) THEN
-          BUMULT = BMUL0*DEUX
+          BUMULT = BMUL0*TWO
         ELSEIF(NUMNOD > 1500000) THEN
-          BUMULT = BMUL0*TROIS/DEUX
+          BUMULT = BMUL0*THREE/TWO
         END IF
       END IF
       FRIGAP(4)=BUMULT

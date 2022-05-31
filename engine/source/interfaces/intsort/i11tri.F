@@ -63,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   ROLE DE LA ROUTINE:
 C   ===================
-C   CLASSE LES ELETS DE BPE ET LES NOEUDS DE BPN EN DEUX ZONES
+C   CLASSE LES ELETS DE BPE ET LES NOEUDS DE BPN EN TWO ZONES
 C   > OU < A UNE FRONTIERE ICI DETERMINEE ET SORT LE TOUT
 C   DANS bpe,hpe, et bpn,hpn
 C-----------------------------------------------
@@ -381,7 +381,7 @@ c       et le calcul de Xmin, Txmin ... est plus simple
       TSMAX = SEUIL + TZINF
 
 C
-C    2- DIVISER LES SECONDS EN DEUX ZONES 
+C    2- DIVISER LES SECONDS EN TWO ZONES 
 C
 
 c            +-----------+-----------+--Xjmax  
@@ -611,7 +611,7 @@ C
 C
 C    2- TEST ARRET = BOITE VIDE
 C                    BOITE TROP PETITE 
-C                    BOITE NE CONTENANT QU'UN NOEUD
+C                    BOITE NE CONTENANT QU'ONE NOEUD
 C                    PLUS DE MEMOIRE DISPONIBLE
 C                    LE DECOUPAGE NE REDUIT PAS LES CANDIDATS
 C

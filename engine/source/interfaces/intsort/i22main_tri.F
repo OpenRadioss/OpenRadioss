@@ -512,9 +512,9 @@ C      IRECT_L(    :,NRTM+1:NRTM + NSNR)         : remotes elements data
         IRECT_L(13:16, J)  = X(3,INTBUF_TAB%IRECTM(I1:I2))             ! Z-coordinates 
         IRECT_L(17:19, J)  = (/XMINE(J),YMINE(J),ZMINE(J)/)            ! Minimum X,Y,Z 
         IRECT_L(20:22, J)  = (/XMAXE(J),YMAXE(J),ZMAXE(J)/)            ! Maximum X,Y,Z
-        IRECT_L(24, J)     = SUM(V(1,INTBUF_TAB%IRECTM(I1:I2)))/QUATRE ! X-Velocity (mean)
-        IRECT_L(25, J)     = SUM(V(2,INTBUF_TAB%IRECTM(I1:I2)))/QUATRE ! Y-Velocity (mean)
-        IRECT_L(26, J)     = SUM(V(3,INTBUF_TAB%IRECTM(I1:I2)))/QUATRE ! Z-Velocity (mean)
+        IRECT_L(24, J)     = SUM(V(1,INTBUF_TAB%IRECTM(I1:I2)))/FOUR ! X-Velocity (mean)
+        IRECT_L(25, J)     = SUM(V(2,INTBUF_TAB%IRECTM(I1:I2)))/FOUR ! Y-Velocity (mean)
+        IRECT_L(26, J)     = SUM(V(3,INTBUF_TAB%IRECTM(I1:I2)))/FOUR ! Z-Velocity (mean)
         
         !cinematic time step
         vel(1)             = dot_product(V(1:3,INTBUF_TAB%IRECTM(I1+0)),V(1:3,INTBUF_TAB%IRECTM(I1+0)))

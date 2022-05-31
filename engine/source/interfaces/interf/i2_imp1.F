@@ -263,8 +263,8 @@ C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
 C-------pour simplement etre coherent avec INTTI2, on ne distinque pas 3n,4n
 C-------on est oblige de distinque quand meme, sinon la matrice n'est plus positive
-C      FACM = UN / NIR
-      NUN=-UN 
+C      FACM = ONE / NIR
+      NUN=-ONE 
       J1=0 
       DO II=1,NSN
         I=NSV(II)
@@ -282,26 +282,26 @@ C      FACM = UN / NIR
 C
         SS=CRST(1,II)
         TT=CRST(2,II)
-        SS = MIN(UN,SS)
-        TT = MIN(UN,TT)
+        SS = MIN(ONE,SS)
+        TT = MIN(ONE,TT)
         SS = MAX(NUN,SS)
         TT = MAX(NUN,TT)
-        SP=UN + SS
-        SM=UN - SS
+        SP=ONE + SS
+        SM=ONE - SS
         IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
          NIR=3
-         TP=QUART*(UN + TT)
-         TM=QUART*(UN - TT)
+         TP=FOURTH*(ONE + TT)
+         TM=FOURTH*(ONE - TT)
          H(1,II)=TM*SM
          H(2,II)=TM*SP
-         H(3,II)=UN-H(1,II)-H(2,II)
+         H(3,II)=ONE-H(1,II)-H(2,II)
          H2(1)=H(1,II)*H(1,II)
          H2(2)=H(2,II)*H(2,II)
          H2(3)=H(3,II)*H(3,II)
         ELSE
          NIR=4
-         TP=QUART*(UN + TT)
-         TM=QUART*(UN - TT)
+         TP=FOURTH*(ONE + TT)
+         TM=FOURTH*(ONE - TT)
          H(1,II)=TM*SM
          H(2,II)=TM*SP
          H(3,II)=TP*SP
@@ -510,28 +510,28 @@ C     REAL ou REAL*8
      .   H(4),H1(4),SS, TT, SP,SM,TP,TM,NUN,
      .   KII(6,6),XS,YS,ZS,XS1,YS1,ZS1,XM0,YM0,ZM0,XM1,YM1,ZM1
 C------------------------------------
-       NUN=-UN
+       NUN=-ONE
        L=IRTL(NS1)
        L1=IRTL1(NS2)
         SS=CRST(1,NS1)
         TT=CRST(2,NS1)
-        SS = MIN(UN,SS)
-        TT = MIN(UN,TT)
+        SS = MIN(ONE,SS)
+        TT = MIN(ONE,TT)
         SS = MAX(NUN,SS)
         TT = MAX(NUN,TT)
-        SP=UN + SS
-        SM=UN - SS
+        SP=ONE + SS
+        SM=ONE - SS
         IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
          NIR=3
-         TP=QUART*(UN + TT)
-         TM=QUART*(UN - TT)
+         TP=FOURTH*(ONE + TT)
+         TM=FOURTH*(ONE - TT)
          H(1)=TM*SM
          H(2)=TM*SP
-         H(3)=UN-H(1)-H(2)
+         H(3)=ONE-H(1)-H(2)
         ELSE
          NIR=4
-         TP=QUART*(UN + TT)
-         TM=QUART*(UN - TT)
+         TP=FOURTH*(ONE + TT)
+         TM=FOURTH*(ONE - TT)
          H(1)=TM*SM
          H(2)=TM*SP
          H(3)=TP*SP
@@ -549,23 +549,23 @@ C------------------------------------
 C---------NJ------
         SS=CRST1(1,NS2)
         TT=CRST1(2,NS2)
-        SS = MIN(UN,SS)
-        TT = MIN(UN,TT)
+        SS = MIN(ONE,SS)
+        TT = MIN(ONE,TT)
         SS = MAX(NUN,SS)
         TT = MAX(NUN,TT)
-        SP=UN + SS
-        SM=UN - SS
+        SP=ONE + SS
+        SM=ONE - SS
         IF (IRECT1(3,L1).EQ.IRECT1(4,L1)) THEN
          NIR1=3
-         TP=QUART*(UN + TT)
-         TM=QUART*(UN - TT)
+         TP=FOURTH*(ONE + TT)
+         TM=FOURTH*(ONE - TT)
          H1(1)=TM*SM
          H1(2)=TM*SP
-         H1(3)=UN-H1(1)-H1(2)
+         H1(3)=ONE-H1(1)-H1(2)
         ELSE
          NIR1=4
-         TP=QUART*(UN + TT)
-         TM=QUART*(UN - TT)
+         TP=FOURTH*(ONE + TT)
+         TM=FOURTH*(ONE - TT)
          H1(1)=TM*SM
          H1(2)=TM*SP
          H1(3)=TP*SP
@@ -1268,7 +1268,7 @@ C------------------------------------
         YM(4)=ZERO
         ZM(4)=ZERO
        ENDIF
-       FACM = UN / NIR
+       FACM = ONE / NIR
 C----------------------------------------------------
 C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
 C----------------------------------------------------
@@ -1304,8 +1304,8 @@ C--------cette partie est une double travail que INTTI1
         XY2=XY*XY
         YZ2=YZ*YZ
         ZX2=ZX*ZX
-        DET= XXX*YYY*ZZZ -XXX*YZ2 -YYY*ZX2 -ZZZ*XY2 -DEUX*XY*YZ*ZX
-        DET=UN/DET
+        DET= XXX*YYY*ZZZ -XXX*YZ2 -YYY*ZX2 -ZZZ*XY2 -TWO*XY*YZ*ZX
+        DET=ONE/DET
         B1=(ZZZ*YYY-YZ2)*DET
         B2=(XXX*ZZZ-ZX2)*DET
         B3=(YYY*XXX-XY2)*DET
@@ -1465,7 +1465,7 @@ C------------------------------------
         YM(4)=ZERO
         ZM(4)=ZERO
        ENDIF
-       FACM = UN / NIR
+       FACM = ONE / NIR
 C----------------------------------------------------
 C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
 C----------------------------------------------------
@@ -1501,8 +1501,8 @@ C--------cette partie est une double travail que INTTI1
         XY2=XY*XY
         YZ2=YZ*YZ
         ZX2=ZX*ZX
-        DET= XXX*YYY*ZZZ -XXX*YZ2 -YYY*ZX2 -ZZZ*XY2 -DEUX*XY*YZ*ZX
-        DET=UN/DET
+        DET= XXX*YYY*ZZZ -XXX*YZ2 -YYY*ZX2 -ZZZ*XY2 -TWO*XY*YZ*ZX
+        DET=ONE/DET
         B1=(ZZZ*YYY-YZ2)*DET
         B2=(XXX*ZZZ-ZX2)*DET
         B3=(YYY*XXX-XY2)*DET
@@ -1586,7 +1586,7 @@ C-----------------------------------------------
          YM(4)=ZERO
          ZM(4)=ZERO
         ENDIF
-        FACM = UN / NIR
+        FACM = ONE / NIR
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
         Z0=FACM*(ZM(1)+ZM(2)+ZM(3)+ZM(4))	
@@ -1667,7 +1667,7 @@ C     REAL ou REAL*8
      .   H(4), SS, TT, FXI, FYI, FZI,SP,SM,TP,TM,NUN,
      .   MXI, MYI, MZI,XS,YS,ZS,XS0,YS0,ZS0
 C-----------------------------------------------
-      NUN=-UN 
+      NUN=-ONE 
 C
 C
        I=NSV(II)
@@ -1675,8 +1675,8 @@ C
 C
         SS=CRST(1,II)
         TT=CRST(2,II)
-        SS = MIN(UN,SS)
-        TT = MIN(UN,TT)
+        SS = MIN(ONE,SS)
+        TT = MIN(ONE,TT)
         SS = MAX(NUN,SS)
         TT = MAX(NUN,TT)
 C
@@ -1684,21 +1684,21 @@ C
         FYI=A(2,I)
         FZI=A(3,I)
 C
-        SP=UN + SS
-        SM=UN - SS
-        TP=QUART*(UN + TT)
-        TM=QUART*(UN - TT)
+        SP=ONE + SS
+        SM=ONE - SS
+        TP=FOURTH*(ONE + TT)
+        TM=FOURTH*(ONE - TT)
         IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
          NIR=3
-         TP=QUART*(UN + TT)
-         TM=QUART*(UN - TT)
+         TP=FOURTH*(ONE + TT)
+         TM=FOURTH*(ONE - TT)
          H(1)=TM*SM
          H(2)=TM*SP
-         H(3)=UN-H(1)-H(2)
+         H(3)=ONE-H(1)-H(2)
         ELSE
          NIR=4
-         TP=QUART*(UN + TT)
-         TM=QUART*(UN - TT)
+         TP=FOURTH*(ONE + TT)
+         TM=FOURTH*(ONE - TT)
          H(1)=TM*SM
          H(2)=TM*SP
          H(3)=TP*SP
@@ -1779,18 +1779,18 @@ C-----------------------------------------------
 C
        SS=CRST(1,II)
        TT=CRST(2,II)
-       SP=UN + SS
-       SM=UN - SS
+       SP=ONE + SS
+       SM=ONE - SS
        IF(IRECT(3,L).EQ.IRECT(4,L)) THEN
 	 NIR = 3
-         TP=QUART*(UN + TT)
-         TM=QUART*(UN - TT)
+         TP=FOURTH*(ONE + TT)
+         TM=FOURTH*(ONE - TT)
          H(1)=TM*SM
          H(2)=TM*SP
-         H(3)=UN-H(1)-H(2)
+         H(3)=ONE-H(1)-H(2)
        ELSE
-         TP=QUART*(UN + TT)
-         TM=QUART*(UN - TT)
+         TP=FOURTH*(ONE + TT)
+         TM=FOURTH*(ONE - TT)
          H(1)=TM*SM
          H(2)=TM*SP
          H(3)=TP*SP
@@ -1886,7 +1886,7 @@ C
         YM(4)=ZERO
         ZM(4)=ZERO
        ENDIF
-       FACM = UN / NIR
+       FACM = ONE / NIR
 C----------------------------------------------------
 C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
 C----------------------------------------------------
@@ -2052,7 +2052,7 @@ C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
 C-------pour simplement etre coherent avec INTTI2, on ne distinque pas 3n,4n
 C-------on est oblige de distinque quand meme, sinon la matrice n'est plus positive
-      NUN=-UN 
+      NUN=-ONE 
       J1=0 
       DO II=1,NSN
         I=NSV(II)
@@ -2068,23 +2068,23 @@ C-------on est oblige de distinque quand meme, sinon la matrice n'est plus posit
 C
         SS=CRST(1,II)
         TT=CRST(2,II)
-        SS = MIN(UN,SS)
-        TT = MIN(UN,TT)
+        SS = MIN(ONE,SS)
+        TT = MIN(ONE,TT)
         SS = MAX(NUN,SS)
         TT = MAX(NUN,TT)
-        SP=UN + SS
-        SM=UN - SS
+        SP=ONE + SS
+        SM=ONE - SS
         IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
          NIR=3
-         TP=QUART*(UN + TT)
-         TM=QUART*(UN - TT)
+         TP=FOURTH*(ONE + TT)
+         TM=FOURTH*(ONE - TT)
          H(1)=TM*SM
          H(2)=TM*SP
-         H(3)=UN-H(1)-H(2)
+         H(3)=ONE-H(1)-H(2)
         ELSE
          NIR=4
-         TP=QUART*(UN + TT)
-         TM=QUART*(UN - TT)
+         TP=FOURTH*(ONE + TT)
+         TM=FOURTH*(ONE - TT)
          H(1)=TM*SM
          H(2)=TM*SP
          H(3)=TP*SP
@@ -2342,7 +2342,7 @@ C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
 C-------pour simplement etre coherent avec INTTI2, on ne distinque pas 3n,4n
 C-------on est oblige de distinque quand meme, sinon la matrice n'est plus positive
-      NUN=-UN 
+      NUN=-ONE 
       J1=0 
       IF (IRODDL.NE.0) THEN
        ND = 6
@@ -2368,23 +2368,23 @@ C-------on est oblige de distinque quand meme, sinon la matrice n'est plus posit
 C
         SS=CRST(1,II)
         TT=CRST(2,II)
-        SS = MIN(UN,SS)
-        TT = MIN(UN,TT)
+        SS = MIN(ONE,SS)
+        TT = MIN(ONE,TT)
         SS = MAX(NUN,SS)
         TT = MAX(NUN,TT)
-        SP=UN + SS
-        SM=UN - SS
+        SP=ONE + SS
+        SM=ONE - SS
         IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
          NIR=3
-         TP=QUART*(UN + TT)
-         TM=QUART*(UN - TT)
+         TP=FOURTH*(ONE + TT)
+         TM=FOURTH*(ONE - TT)
          H(1)=TM*SM
          H(2)=TM*SP
-         H(3)=UN-H(1)-H(2)
+         H(3)=ONE-H(1)-H(2)
         ELSE
          NIR=4
-         TP=QUART*(UN + TT)
-         TM=QUART*(UN - TT)
+         TP=FOURTH*(ONE + TT)
+         TM=FOURTH*(ONE - TT)
          H(1)=TM*SM
          H(2)=TM*SP
          H(3)=TP*SP
@@ -2562,30 +2562,30 @@ C     REAL ou REAL*8
 C------------------------------------
 C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
-      NUN=-UN 
+      NUN=-ONE 
         I=NSV(II)
         L=IRTL(II)
         NDOFI = 3
 C
         SS=CRST(1,II)
         TT=CRST(2,II)
-        SS = MIN(UN,SS)
-        TT = MIN(UN,TT)
+        SS = MIN(ONE,SS)
+        TT = MIN(ONE,TT)
         SS = MAX(NUN,SS)
         TT = MAX(NUN,TT)
-        SP=UN + SS
-        SM=UN - SS
+        SP=ONE + SS
+        SM=ONE - SS
         IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
          NIR=3
-         TP=TIERS*(UN + TT)
-         TM=TIERS*(UN - TT)
+         TP=THIRD*(ONE + TT)
+         TM=THIRD*(ONE - TT)
          H(1)=TM*SM
          H(2)=TM*SP
-         H(3)=UN-H(1)-H(2)
+         H(3)=ONE-H(1)-H(2)
         ELSE
          NIR=4
-         TP=QUART*(UN + TT)
-         TM=QUART*(UN - TT)
+         TP=FOURTH*(ONE + TT)
+         TM=FOURTH*(ONE - TT)
          H(1)=TM*SM
          H(2)=TM*SP
          H(3)=TP*SP
@@ -2745,7 +2745,7 @@ C
          YM(4)=ZERO
          ZM(4)=ZERO
         ENDIF
-        FACM = UN / NIR
+        FACM = ONE / NIR
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
         Z0=FACM*(ZM(1)+ZM(2)+ZM(3)+ZM(4))
@@ -2778,8 +2778,8 @@ C--------cette partie est une double travail que INTTI1
         XY2=XY*XY
         YZ2=YZ*YZ
         ZX2=ZX*ZX
-        DET= XXX*YYY*ZZZ -XXX*YZ2 -YYY*ZX2 -ZZZ*XY2 -DEUX*XY*YZ*ZX
-        DET=UN/DET
+        DET= XXX*YYY*ZZZ -XXX*YZ2 -YYY*ZX2 -ZZZ*XY2 -TWO*XY*YZ*ZX
+        DET=ONE/DET
         B1=(ZZZ*YYY-YZ2)*DET
         B2=(XXX*ZZZ-ZX2)*DET
         B3=(YYY*XXX-XY2)*DET

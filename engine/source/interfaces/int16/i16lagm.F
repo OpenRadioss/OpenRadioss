@@ -279,8 +279,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       test si contact
 C-----------------------------------------------
-        IF(R(I).GE.-UN.AND.S(I).GE.-UN.AND.T(I).GE.-UN.AND.
-     .     R(I).LE. UN.AND.S(I).LE. UN.AND.T(I).LE. UN)THEN
+        IF(R(I).GE.-ONE.AND.S(I).GE.-ONE.AND.T(I).GE.-ONE.AND.
+     .     R(I).LE. ONE.AND.S(I).LE. ONE.AND.T(I).LE. ONE)THEN
 C
           NK = 17
           VX = ZERO
@@ -305,7 +305,7 @@ c      print *, "vitesse entrante",vn
 c      print *, "s = ",S(I)
 c
 c           AA = DT12/SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
-           AA = UN/SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
+           AA = ONE/SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
            NX(I) = NX(I)*AA
            NY(I) = NY(I)*AA
            NZ(I) = NZ(I)*AA
@@ -354,8 +354,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       test si contact
 C-----------------------------------------------
-        IF(R(I).GE.-UN.AND.S(I).GE.-UN.AND.T(I).GE.-UN.AND.
-     .     R(I).LE. UN.AND.S(I).LE. UN.AND.T(I).LE. UN)THEN
+        IF(R(I).GE.-ONE.AND.S(I).GE.-ONE.AND.T(I).GE.-ONE.AND.
+     .     R(I).LE. ONE.AND.S(I).LE. ONE.AND.T(I).LE. ONE)THEN
 C
           NK = 17
           VX = ZERO
@@ -441,8 +441,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       test si contact
 C-----------------------------------------------
-        IF(R(I).GE.-UN.AND.S(I).GE.-UN.AND.T(I).GE.-UN.AND.
-     .     R(I).LE. UN.AND.S(I).LE. UN.AND.T(I).LE. UN)THEN
+        IF(R(I).GE.-ONE.AND.S(I).GE.-ONE.AND.T(I).GE.-ONE.AND.
+     .     R(I).LE. ONE.AND.S(I).LE. ONE.AND.T(I).LE. ONE)THEN
 C
            NK = 17
 C-----------------------------------------------
@@ -678,18 +678,18 @@ C     calcul de Ni
 C-----------------------------------------------------------------------
       DO I=1,LLT
 C
-        R05 = UNDEMI*RR(I)
-        S05 = UNDEMI*SS(I)
-        T05 = UNDEMI*TT(I)
+        R05 = HALF*RR(I)
+        S05 = HALF*SS(I)
+        T05 = HALF*TT(I)
 C
-        U_M_R = UNDEMI - R05
-        U_P_R = UNDEMI + R05
+        U_M_R = HALF - R05
+        U_P_R = HALF + R05
 C
-        U_M_S = UNDEMI - S05
-        U_P_S = UNDEMI + S05
+        U_M_S = HALF - S05
+        U_P_S = HALF + S05
 C
-        U_M_T = UNDEMI - T05
-        U_P_T = UNDEMI + T05
+        U_M_T = HALF - T05
+        U_P_T = HALF + T05
 C
         UMS_UMT = U_M_S * U_M_T
         UMS_UPT = U_M_S * U_P_T
@@ -706,32 +706,32 @@ C
         UPT_UMR = U_P_T * U_M_R
         UPT_UPR = U_P_T * U_P_R
 C
-        A = -RR(I)-TT(I) - UN
+        A = -RR(I)-TT(I) - ONE
         NI(I,1) = U_M_R * UMS_UMT * A
         NI(I,5) = U_M_R * UPS_UMT * A
-        A = -RR(I)+TT(I) - UN
+        A = -RR(I)+TT(I) - ONE
         NI(I,2) = U_M_R * UMS_UPT * A
         NI(I,6) = U_M_R * UPS_UPT * A
-        A = RR(I)+TT(I) - UN
+        A = RR(I)+TT(I) - ONE
         NI(I,3) = U_P_R * UMS_UPT * A
         NI(I,7) = U_P_R * UPS_UPT * A
-        A = RR(I)-TT(I) - UN
+        A = RR(I)-TT(I) - ONE
         NI(I,4) = U_P_R * UMS_UMT * A
         NI(I,8) = U_P_R * UPS_UMT * A
 C------------------------------------
-        A = (UN - RR(I)*RR(I))
+        A = (ONE - RR(I)*RR(I))
         NI(I,10) = A * UMS_UPT
         NI(I,12) = A * UMS_UMT
         NI(I,14) = A * UPS_UPT
         NI(I,16) = A * UPS_UMT
 C------------------------------------
-        A = (UN - TT(I)*TT(I))
+        A = (ONE - TT(I)*TT(I))
         NI(I,9)  = A * UMR_UMS
         NI(I,11) = A * UPR_UMS
         NI(I,13) = A * UMR_UPS
         NI(I,15) = A * UPR_UPS
 C------------------------------------
-        NI(I,17) = -UN
+        NI(I,17) = -ONE
 C------------------------------------
       ENDDO
 C-----------------------------------------------
@@ -821,13 +821,13 @@ C
         S(I) = SS(I)
         T(I) = TT(I)
 C
-        IF(R(I).GE.-UN.AND.S(I).GE.-UN.AND.T(I).GE.-UN.AND.
-     .     R(I).LE. UN.AND.S(I).LE. UN.AND.T(I).LE. UN)THEN
+        IF(R(I).GE.-ONE.AND.S(I).GE.-ONE.AND.T(I).GE.-ONE.AND.
+     .     R(I).LE. ONE.AND.S(I).LE. ONE.AND.T(I).LE. ONE)THEN
           ERR = MAX(ERR,ABS(DR),ABS(DS),ABS(DT))
         ELSE
-          RR(I) = MAX(MIN(RR(I),UN),-UN)
-          SS(I) = MAX(MIN(SS(I),UN),-UN)
-          TT(I) = MAX(MIN(TT(I),UN),-UN)
+          RR(I) = MAX(MIN(RR(I),ONE),-ONE)
+          SS(I) = MAX(MIN(SS(I),ONE),-ONE)
+          TT(I) = MAX(MIN(TT(I),ONE),-ONE)
         ENDIF
 c
 c      print *, "3r,s,t",r(1),s(1),t(1)
@@ -955,18 +955,18 @@ C-----------------------------------------------------------------------
 C     Ni; dNi/dr; dNi/ds; dNi/dt
 C-----------------------------------------------------------------------
       DO I=1,LLT
-        R05 = UNDEMI*RR(I)
-        S05 = UNDEMI*SS(I)
-        T05 = UNDEMI*TT(I)
+        R05 = HALF*RR(I)
+        S05 = HALF*SS(I)
+        T05 = HALF*TT(I)
 C
-        U_M_R = UNDEMI - R05
-        U_P_R = UNDEMI + R05
+        U_M_R = HALF - R05
+        U_P_R = HALF + R05
 C
-        U_M_S = UNDEMI - S05
-        U_P_S = UNDEMI + S05
+        U_M_S = HALF - S05
+        U_P_S = HALF + S05
 C
-        U_M_T = UNDEMI - T05
-        U_P_T = UNDEMI + T05
+        U_M_T = HALF - T05
+        U_P_T = HALF + T05
 C
         UMS_UMT = U_M_S * U_M_T
         UMS_UPT = U_M_S * U_P_T
@@ -983,16 +983,16 @@ C
         UPT_UMR = U_P_T * U_M_R
         UPT_UPR = U_P_T * U_P_R
 C
-        A = -RR(I)-TT(I)-UN
+        A = -RR(I)-TT(I)-ONE
         NI(I,1) = U_M_R * UMS_UMT * A
         NI(I,5) = U_M_R * UPS_UMT * A
-        A = -RR(I)+TT(I)-UN
+        A = -RR(I)+TT(I)-ONE
         NI(I,2) = U_M_R * UMS_UPT * A
         NI(I,6) = U_M_R * UPS_UPT * A
-        A = RR(I)+TT(I)-UN
+        A = RR(I)+TT(I)-ONE
         NI(I,3) = U_P_R * UMS_UPT * A
         NI(I,7) = U_P_R * UPS_UPT * A
-        A = RR(I)-TT(I)-UN
+        A = RR(I)-TT(I)-ONE
         NI(I,4) = U_P_R * UMS_UMT * A
         NI(I,8) = U_P_R * UPS_UMT * A
 C
@@ -1035,40 +1035,40 @@ C
         DNIDT(4) = -UPR_UMS * A
         DNIDT(8) = -UPR_UPS * A
 C------------------------------------
-        A = (UN-RR(I)*RR(I))
+        A = (ONE-RR(I)*RR(I))
         NI(I,10) = A * UMS_UPT
         NI(I,12) = A * UMS_UMT
         NI(I,14) = A * UPS_UPT
         NI(I,16) = A * UPS_UMT
 C    
-        A = UNDEMI*A
+        A = HALF*A
         DNIDT(10) =  A * U_M_S
         DNIDT(14) =  A * U_P_S
         DNIDS(10) = -A * U_P_T
         DNIDS(12) = -A * U_M_T
 C    
-        A = -DEUX*RR(I)
+        A = -TWO*RR(I)
         DNIDR(10) = A * UMS_UPT
         DNIDR(12) = A * UMS_UMT
         DNIDR(14) = A * UPS_UPT
         DNIDR(16) = A * UPS_UMT
 C------------------------------------
-        A = (UN-TT(I)*TT(I))
+        A = (ONE-TT(I)*TT(I))
         NI(I,9)  = A * UMR_UMS
         NI(I,11) = A * UPR_UMS
         NI(I,13) = A * UMR_UPS
         NI(I,15) = A * UPR_UPS
 C
-        NI(I,17) = -UN
+        NI(I,17) = -ONE
 C
-        A = UNDEMI*A
+        A = HALF*A
         DNIDR(9)  = -A * U_M_S
         DNIDR(13) = -A * U_P_S
 C
         DNIDS(9)  = -A * U_M_R
         DNIDS(11) = -A * U_P_R
 C
-        A = -DEUX*TT(I)
+        A = -TWO*TT(I)
         DNIDT(9)  = A * UMR_UMS
         DNIDT(11) = A * UPR_UMS
         DNIDT(13) = A * UMR_UPS
@@ -1184,7 +1184,7 @@ C-----------------------------------------------------------------------
 C          -1            
 C       [J]              Inversion du jacobien suite
 C-----------------------------------------------------------------------
-        D = UN/DET(I)
+        D = ONE/DET(I)
         DRDX(I)=D*DRDX(I)
         DSDX(I)=D*DSDX(I)
         DTDX(I)=D*DTDX(I)

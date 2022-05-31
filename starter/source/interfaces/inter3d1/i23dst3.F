@@ -165,9 +165,9 @@ C  CAS DES PAQUETS MIXTES
 C--------------------------------------------------------
        DO I=1,JLT
         IF(IX3(I).NE.IX4(I))THEN
-         X0(I) = QUART*(X1(I)+X2(I)+X3(I)+X4(I))
-         Y0(I) = QUART*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-         Z0(I) = QUART*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
+         X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
+         Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
+         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
         ELSE
          X0(I) = X3(I)
          Y0(I) = Y3(I)
@@ -224,7 +224,7 @@ C
         SX0 = Y01(I)*Z02(I) - Z01(I)*Y02(I)
         SY0 = Z01(I)*X02(I) - X01(I)*Z02(I)
         SZ0 = X01(I)*Y02(I) - Y01(I)*X02(I)
-        S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+        S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
 C
         NN=SQRT(S2)
         N11(I)=SX0*NN
@@ -243,7 +243,7 @@ C
         SX0 = Y02(I)*Z03(I) - Z02(I)*Y03(I)
         SY0 = Z02(I)*X03(I) - X02(I)*Z03(I)
         SZ0 = X02(I)*Y03(I) - Y02(I)*X03(I)
-        S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+        S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
 C
         NN=SQRT(S2)
         N12(I)=SX0*NN
@@ -262,7 +262,7 @@ C
         SX0 = Y03(I)*Z04(I) - Z03(I)*Y04(I)
         SY0 = Z03(I)*X04(I) - X03(I)*Z04(I)
         SZ0 = X03(I)*Y04(I) - Y03(I)*X04(I)
-        S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+        S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
 C
         NN=SQRT(S2)
         N13(I)=SX0*NN
@@ -277,7 +277,7 @@ C
         SX0 = Y04(I)*Z01(I) - Z04(I)*Y01(I)
         SY0 = Z04(I)*X01(I) - X04(I)*Z01(I)
         SZ0 = X04(I)*Y01(I) - Y04(I)*X01(I)
-        S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+        S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
 C
         NN=SQRT(S2)
         N14(I)=SX0*NN
@@ -285,7 +285,7 @@ C
         N34(I)=SZ0*NN
 C
         AREA(I)=AREA(I)+NN
-        AREA(I)=UNDEMI*AREA(I)
+        AREA(I)=HALF*AREA(I)
 C
         LB4(I) = -(SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
         LC4(I) =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
@@ -293,42 +293,42 @@ C
 C---------------------------------------------------------
 C
        DO I=1,JLT
-        AAA    = UN/MAX(EM30,X01(I)*X01(I)+Y01(I)*Y01(I)+Z01(I)*Z01(I))
+        AAA    = ONE/MAX(EM30,X01(I)*X01(I)+Y01(I)*Y01(I)+Z01(I)*Z01(I))
         HLC1(I)= LC1(I)*ABS(LC1(I))*AAA
         HLB4(I)= LB4(I)*ABS(LB4(I))*AAA
         AL1(I) = -(XI0V(I)*X01(I)+YI0V(I)*Y01(I)+ZI0V(I)*Z01(I))*AAA
-        AL1(I) = MAX(ZERO,MIN(UN,AL1(I)))
-        AAA    = UN/MAX(EM30,X02(I)*X02(I)+Y02(I)*Y02(I)+Z02(I)*Z02(I))
+        AL1(I) = MAX(ZERO,MIN(ONE,AL1(I)))
+        AAA    = ONE/MAX(EM30,X02(I)*X02(I)+Y02(I)*Y02(I)+Z02(I)*Z02(I))
         HLC2(I)= LC2(I)*ABS(LC2(I))*AAA
         HLB1(I)= LB1(I)*ABS(LB1(I))*AAA
         AL2(I) = -(XI0V(I)*X02(I)+YI0V(I)*Y02(I)+ZI0V(I)*Z02(I))*AAA
-        AL2(I) = MAX(ZERO,MIN(UN,AL2(I)))
-        AAA    = UN/MAX(EM30,X03(I)*X03(I)+Y03(I)*Y03(I)+Z03(I)*Z03(I))
+        AL2(I) = MAX(ZERO,MIN(ONE,AL2(I)))
+        AAA    = ONE/MAX(EM30,X03(I)*X03(I)+Y03(I)*Y03(I)+Z03(I)*Z03(I))
         HLC3(I)= LC3(I)*ABS(LC3(I))*AAA
         HLB2(I)= LB2(I)*ABS(LB2(I))*AAA
         AL3(I) = -(XI0V(I)*X03(I)+YI0V(I)*Y03(I)+ZI0V(I)*Z03(I))*AAA
-        AL3(I) = MAX(ZERO,MIN(UN,AL3(I)))
-        AAA    = UN/MAX(EM30,X04(I)*X04(I)+Y04(I)*Y04(I)+Z04(I)*Z04(I))
+        AL3(I) = MAX(ZERO,MIN(ONE,AL3(I)))
+        AAA    = ONE/MAX(EM30,X04(I)*X04(I)+Y04(I)*Y04(I)+Z04(I)*Z04(I))
         HLC4(I)= LC4(I)*ABS(LC4(I))*AAA
         HLB3(I)= LB3(I)*ABS(LB3(I))*AAA
         AL4(I) = -(XI0V(I)*X04(I)+YI0V(I)*Y04(I)+ZI0V(I)*Z04(I))*AAA
-        AL4(I) = MAX(ZERO,MIN(UN,AL4(I)))
+        AL4(I) = MAX(ZERO,MIN(ONE,AL4(I)))
        ENDDO
 C
        DO I=1,JLT
         X12 = X2(I) - X1(I)
         Y12 = Y2(I) - Y1(I)
         Z12 = Z2(I) - Z1(I)
-        LA = UN - LB1(I) - LC1(I)
+        LA = ONE - LB1(I) - LC1(I)
 C     HLA, HLB1, HLC1 necessaires pour triangle angle obtu
-        AAA = UN / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
+        AAA = ONE / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
         HLA= LA*ABS(LA) * AAA
         INPROJ(1,I)=0
         IF(LA.LT.ZERO.AND.
      +     HLA.LE.HLB1(I).AND.HLA.LE.HLC1(I))THEN
          LB1(I) = (XI2(I)*X12+YI2(I)*Y12+ZI2(I)*Z12) * AAA
-         LB1(I) = MAX(ZERO,MIN(UN,LB1(I)))
-         LC1(I) = UN - LB1(I)
+         LB1(I) = MAX(ZERO,MIN(ONE,LB1(I)))
+         LC1(I) = ONE - LB1(I)
          INPROJ(1,I)=1
         ELSEIF(LB1(I).LT.ZERO.AND.
      +         HLB1(I).LE.HLC1(I).AND.HLB1(I).LE.HLA)THEN
@@ -348,16 +348,16 @@ C
         X23 = X3(I) - X2(I)
         Y23 = Y3(I) - Y2(I)
         Z23 = Z3(I) - Z2(I)
-        LA = UN - LB2(I) - LC2(I)
+        LA = ONE - LB2(I) - LC2(I)
 C     HLA, HLB1, HLC1 necessaires pour triangle angle obtu
-        AAA = UN / MAX(EM20,X23*X23+Y23*Y23+Z23*Z23)
+        AAA = ONE / MAX(EM20,X23*X23+Y23*Y23+Z23*Z23)
         HLA= LA*ABS(LA) * AAA
         INPROJ(2,I)=0
 	IF(LA.LT.ZERO.AND.
      +     HLA.LE.HLB2(I).AND.HLA.LE.HLC2(I))THEN
 	  LB2(I) = (XI3(I)*X23+YI3(I)*Y23+ZI3(I)*Z23)*AAA
-	  LB2(I) = MAX(ZERO,MIN(UN,LB2(I)))
-	  LC2(I) = UN - LB2(I)
+	  LB2(I) = MAX(ZERO,MIN(ONE,LB2(I)))
+	  LC2(I) = ONE - LB2(I)
           INPROJ(2,I)=1
 	ELSEIF(LB2(I).LT.ZERO.AND.
      +          HLB2(I).LE.HLC2(I).AND.HLB2(I).LE.HLA)THEN
@@ -377,16 +377,16 @@ C
         X34 = X4(I) - X3(I)
         Y34 = Y4(I) - Y3(I)
         Z34 = Z4(I) - Z3(I)
-        LA = UN - LB3(I) - LC3(I)
+        LA = ONE - LB3(I) - LC3(I)
 C     HLA, HLB1, HLC1 necessaires pour triangle angle obtu
-        AAA = UN / MAX(EM20,X34*X34+Y34*Y34+Z34*Z34)
+        AAA = ONE / MAX(EM20,X34*X34+Y34*Y34+Z34*Z34)
         HLA= LA*ABS(LA) * AAA
         INPROJ(3,I)=0
         IF(LA.LT.ZERO.AND.
      +     HLA.LE.HLB3(I).AND.HLA.LE.HLC3(I))THEN
          LB3(I) = (XI4(I)*X34+YI4(I)*Y34+ZI4(I)*Z34)*AAA
-         LB3(I) = MAX(ZERO,MIN(UN,LB3(I)))
-         LC3(I) = UN - LB3(I)
+         LB3(I) = MAX(ZERO,MIN(ONE,LB3(I)))
+         LC3(I) = ONE - LB3(I)
          INPROJ(3,I)=1
         ELSEIF(LB3(I).LT.ZERO.AND.
      +         HLB3(I).LE.HLC3(I).AND.HLB3(I).LE.HLA)THEN
@@ -406,16 +406,16 @@ C
         X41 = X1(I) - X4(I)
         Y41 = Y1(I) - Y4(I)
         Z41 = Z1(I) - Z4(I)
-        LA = UN - LB4(I) - LC4(I)
+        LA = ONE - LB4(I) - LC4(I)
 C     HLA, HLB1, HLC1 necessaires pour triangle angle obtu
-        AAA = UN / MAX(EM20,X41*X41+Y41*Y41+Z41*Z41)
+        AAA = ONE / MAX(EM20,X41*X41+Y41*Y41+Z41*Z41)
         HLA= LA*ABS(LA) * AAA
         INPROJ(4,I)=0
         IF(LA.LT.ZERO.AND.
      +     HLA.LE.HLB4(I).AND.HLA.LE.HLC4(I))THEN
          LB4(I) = (XI1(I)*X41+YI1(I)*Y41+ZI1(I)*Z41)*AAA
-         LB4(I) = MAX(ZERO,MIN(UN,LB4(I)))
-         LC4(I) = UN - LB4(I)
+         LB4(I) = MAX(ZERO,MIN(ONE,LB4(I)))
+         LC4(I) = ONE - LB4(I)
          INPROJ(4,I)=1
         ELSEIF(LB4(I).LT.ZERO.AND.
      +         HLB4(I).LE.HLC4(I).AND.HLB4(I).LE.HLA)THEN
@@ -434,7 +434,7 @@ C---------------------------------------------------------
 C
          GAP2(I)=GAPV(I)*GAPV(I)
 C
-         LA1 = UN - LB1(I) - LC1(I)
+         LA1 = ONE - LB1(I) - LC1(I)
          XP1(I) = LB1(I)*X1(I) + LC1(I)*X2(I) + LA1*X0(I) 
          YP1(I) = LB1(I)*Y1(I) + LC1(I)*Y2(I) + LA1*Y0(I) 
          ZP1(I) = LB1(I)*Z1(I) + LC1(I)*Z2(I) + LA1*Z0(I) 
@@ -444,7 +444,7 @@ C
          NZ1(I) = ZI(I)-ZP1(I)
          P1(I) = NX1(I)*NX1(I) + NY1(I)*NY1(I) +NZ1(I)*NZ1(I)
 C
-         LA2 = UN - LB2(I) - LC2(I)
+         LA2 = ONE - LB2(I) - LC2(I)
          XP2(I) = LB2(I)*X2(I) + LC2(I)*X3(I) + LA2*X0(I) 
          YP2(I) = LB2(I)*Y2(I) + LC2(I)*Y3(I) + LA2*Y0(I) 
          ZP2(I) = LB2(I)*Z2(I) + LC2(I)*Z3(I) + LA2*Z0(I) 
@@ -454,7 +454,7 @@ C
          NZ2(I) = ZI(I)-ZP2(I)
          P2(I) = NX2(I)*NX2(I) + NY2(I)*NY2(I) +NZ2(I)*NZ2(I)
 C
-         LA3 = UN - LB3(I) - LC3(I)
+         LA3 = ONE - LB3(I) - LC3(I)
          XP3(I) = LB3(I)*X3(I) + LC3(I)*X4(I) + LA3*X0(I) 
          YP3(I) = LB3(I)*Y3(I) + LC3(I)*Y4(I) + LA3*Y0(I) 
          ZP3(I) = LB3(I)*Z3(I) + LC3(I)*Z4(I) + LA3*Z0(I) 
@@ -464,7 +464,7 @@ C
          NZ3(I) = ZI(I)-ZP3(I)
          P3(I) = NX3(I)*NX3(I) + NY3(I)*NY3(I) +NZ3(I)*NZ3(I)
 C
-         LA4 = UN - LB4(I) - LC4(I)
+         LA4 = ONE - LB4(I) - LC4(I)
          XP4(I) = LB4(I)*X4(I) + LC4(I)*X1(I) + LA4*X0(I) 
          YP4(I) = LB4(I)*Y4(I) + LC4(I)*Y1(I) + LA4*Y0(I) 
          ZP4(I) = LB4(I)*Z4(I) + LC4(I)*Z1(I) + LA4*Z0(I) 
@@ -521,23 +521,23 @@ C
         N2(I) = P1(I)*N21(I)+P2(I)*N22(I)+P3(I)*N23(I)+P4(I)*N24(I)
         N3(I) = P1(I)*N31(I)+P2(I)*N32(I)+P3(I)*N33(I)+P4(I)*N34(I)
         NN=SQRT(N1(I)*N1(I)+N2(I)*N2(I)+N3(I)*N3(I))
-        NN=UN/MAX(EM20,NN)
+        NN=ONE/MAX(EM20,NN)
         N1(I)=N1(I)*NN
         N2(I)=N2(I)*NN
         N3(I)=N3(I)*NN
 C
-        LA1 = UN - LB1(I) - LC1(I)
-        LA2 = UN - LB2(I) - LC2(I)
-        LA3 = UN - LB3(I) - LC3(I)
-        LA4 = UN - LB4(I) - LC4(I) 
+        LA1 = ONE - LB1(I) - LC1(I)
+        LA2 = ONE - LB2(I) - LC2(I)
+        LA3 = ONE - LB3(I) - LC3(I)
+        LA4 = ONE - LB4(I) - LC4(I) 
 C
-        H0    = QUART * 
+        H0    = FOURTH * 
      .        (P1(I)*LA1 + P2(I)*LA2 + P3(I)*LA3 + P4(I)*LA4)
         H1(I) = H0 + P1(I) * LB1(I) + P4(I) * LC4(I)
         H2(I) = H0 + P2(I) * LB2(I) + P1(I) * LC1(I)
         H3(I) = H0 + P3(I) * LB3(I) + P2(I) * LC2(I)
         H4(I) = H0 + P4(I) * LB4(I) + P3(I) * LC3(I)
-        H00    = UN/MAX(EM20,H1(I) + H2(I) + H3(I) + H4(I))
+        H00    = ONE/MAX(EM20,H1(I) + H2(I) + H3(I) + H4(I))
         H1(I) = H1(I) * H00
         H2(I) = H2(I) * H00
         H3(I) = H3(I) * H00
@@ -547,7 +547,7 @@ C
 C
         H1(I) = LB1(I)
         H2(I) = LC1(I)
-        H3(I) = UN - LB1(I) - LC1(I)
+        H3(I) = ONE - LB1(I) - LC1(I)
         H4(I) = ZERO
 C
         N1(I) = N11(I)
@@ -586,13 +586,13 @@ C--------------------------------------------------------
          SIDE=N1(I)*NX1(I)+N2(I)*NY1(I)+N3(I)*NZ1(I)
 C
          IF(IFPEN(I)==0)THEN
-            FIRSTIMP(1,I) = SIGN(UN,SIDE) 
+            FIRSTIMP(1,I) = SIGN(ONE,SIDE) 
             IF(FIRSTIMP(1,I) < ZERO)THEN
               N1(I)  = -N1(I)
               N2(I)  = -N2(I)
               N3(I)  = -N3(I)
             END IF
-            NVERS(1,I) = UN
+            NVERS(1,I) = ONE
 C 1st impact below gap (sorting security)
          ELSE ! IF(IFPEN(I)==0.OR.TT==ZERO)THEN
             IF(IFPEN(I) < 0)THEN
@@ -601,7 +601,7 @@ C 1st impact below gap (sorting security)
               N3(I)  = -N3(I)
 C             SIDE   = -SIDE
             END IF
-            NVERS(1,I)= SIGN(UN,SIDE*IFPEN(I))
+            NVERS(1,I)= SIGN(ONE,SIDE*IFPEN(I))
          END IF
 C---------------------
          IF(NVERS(1,I)==ZERO)THEN
@@ -611,7 +611,7 @@ C---------------------
 C
 C attention a la traversee de la coque => 1E20..., 
 C prendre normale = normale au triangle
-         NN=UN/
+         NN=ONE/
      .      MAX(EM20,SQRT(N1(I)*N1(I)+N2(I)*N2(I)+N3(I)*N3(I)))
          N1(I)=N1(I)*NN
          N2(I)=N2(I)*NN

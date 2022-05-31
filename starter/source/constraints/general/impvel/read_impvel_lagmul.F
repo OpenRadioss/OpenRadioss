@@ -233,7 +233,7 @@ c
             FBFVEL(2,INUM)  = TSTART
             FBFVEL(3,INUM)  = TSTOP
             FBFVEL(4,INUM)  = ZERO
-            FBFVEL(5,INUM)  = UN/XSCALE
+            FBFVEL(5,INUM)  = ONE/XSCALE
             FBFVEL(6,INUM)  = ZERO
 
             IF(XYZ(1:2) == XX)THEN

@@ -132,7 +132,7 @@ c
           DO I=1,NMN                   
             J = INTBUF_TAB(N)%MSR(I)   
             IF ((ILEV == 0 .OR. ILEV == 1 .OR. ILEV == 27 .OR. ILEV == 28) .AND. PENTAG(J) == 0) THEN
-              PENTAG(J) = UN
+              PENTAG(J) = ONE
             ENDIF  
           ENDDO    
         ENDIF

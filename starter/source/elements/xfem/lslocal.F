@@ -144,8 +144,8 @@ C
           RATIO = BETA0(I)
           IF(RATIO == ZERO)THEN
             BETA0(I) = EM05
-          ELSEIF(RATIO == UN)THEN
-            BETA0(I) = UN-EM05
+          ELSEIF(RATIO == ONE)THEN
+            BETA0(I) = ONE-EM05
           ENDIF
         ENDDO
 C-----------------------------------------------
@@ -452,7 +452,7 @@ C
 C---
       DO I=LFT,LLT                         
         SUMA   = E3X(I)*E3X(I)+E3Y(I)*E3Y(I)+E3Z(I)*E3Z(I)  
-        SUMA   = UN/MAX(SQRT(SUMA),EM20)                    
+        SUMA   = ONE/MAX(SQRT(SUMA),EM20)                    
         E3X(I) = E3X(I)*SUMA                              
         E3Y(I) = E3Y(I)*SUMA                              
         E3Z(I) = E3Z(I)*SUMA                              
@@ -465,7 +465,7 @@ C
         E1Z(I) = E1Z(I) + (E2X(I)*E3Y(I)-E2Y(I)*E3X(I))*SUMA
 C
         SUMA   = E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I)  
-        SUMA   = UN/MAX(SQRT(SUMA),EM20)                    
+        SUMA   = ONE/MAX(SQRT(SUMA),EM20)                    
         E1X(I) = E1X(I)*SUMA                              
         E1Y(I) = E1Y(I)*SUMA                              
         E1Z(I) = E1Z(I)*SUMA                              
@@ -538,7 +538,7 @@ C----------------------------
      .     RX, RY, RZ, SX, SY, SZ, 
      .     E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,SUM)
 c      DO I=JFT,JLT
-c        AREA(I) = UNDEMI*SUM(I)
+c        AREA(I) = HALF*SUM(I)
 c      ENDDO
 C----------------------------
 C

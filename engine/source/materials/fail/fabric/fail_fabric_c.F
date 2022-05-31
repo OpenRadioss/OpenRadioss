@@ -128,8 +128,8 @@ C-------------------
           RFAC2(I) = MAX(RFAC2(I),EM20)
         ENDDO
       ELSE
-        RFAC1(1:NEL) = UN
-        RFAC2(1:NEL) = UN
+        RFAC1(1:NEL) = ONE
+        RFAC2(1:NEL) = ONE
       ENDIF
 c
       DO I=1,NEL
@@ -139,8 +139,8 @@ c
         RR1  = EPSR1*RFAC1(I)
         RF2  = EPSF2*RFAC2(I)
         RR2  = EPSR2*RFAC2(I)
-        IF (EPS1(I) > RF1) DMG1 = MIN(UN, (EPS1(I)-RF1)/(RR1-RF1))
-        IF (EPS2(I) > RF2) DMG2 = MIN(UN, (EPS2(I)-RF2)/(RR2-RF2))
+        IF (EPS1(I) > RF1) DMG1 = MIN(ONE, (EPS1(I)-RF1)/(RR1-RF1))
+        IF (EPS2(I) > RF2) DMG2 = MIN(ONE, (EPS2(I)-RF2)/(RR2-RF2))
 c
         IF (UVAR(I,1) == ZERO .and. DMG1 > ZERO) THEN
           NINDX1 = NINDX1 + 1
@@ -152,9 +152,9 @@ c
         ENDIF
         UVAR(I,1) = MAX(UVAR(I,1), DMG1)
         UVAR(I,2) = MAX(UVAR(I,2), DMG2)
-        IF (UVAR(I,1)>ZERO .and. SIG1(I)>ZERO) SIG1(I) = SIG1(I)*(UN-UVAR(I,1))
-        IF (UVAR(I,2)>ZERO .and. SIG2(I)>ZERO) SIG2(I) = SIG2(I)*(UN-UVAR(I,2))
-        IF (UVAR(I,1) == UN .and. UVAR(I,2) == UN) THEN
+        IF (UVAR(I,1)>ZERO .and. SIG1(I)>ZERO) SIG1(I) = SIG1(I)*(ONE-UVAR(I,1))
+        IF (UVAR(I,2)>ZERO .and. SIG2(I)>ZERO) SIG2(I) = SIG2(I)*(ONE-UVAR(I,2))
+        IF (UVAR(I,1) == ONE .and. UVAR(I,2) == ONE) THEN
           FOFF(I) = 0
           TDEL(I) = TIME                      
         ENDIF

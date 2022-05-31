@@ -150,14 +150,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 #include "sync_dir.inc"
       IF(DT1.GT.ZERO)THEN
-        DT1INV = UN/DT1
+        DT1INV = ONE/DT1
       ELSE
         DT1INV =ZERO
       ENDIF
       ECONTT = ZERO
       ECONTDT = ZERO
 C
-      DT05 = UNDEMI * DT1
+      DT05 = HALF * DT1
       IBID = 0
       BID = ZERO
 C-----------------------------------------------
@@ -190,19 +190,19 @@ C
         IF(IX3(I).NE.IX4(I))THEN
          PENE(I) = MAX(P1(I),P2(I),P3(I),P4(I))
 C
-         LA1 = UN - LB1(I) - LC1(I)
-         LA2 = UN - LB2(I) - LC2(I)
-         LA3 = UN - LB3(I) - LC3(I)
-         LA4 = UN - LB4(I) - LC4(I) 
+         LA1 = ONE - LB1(I) - LC1(I)
+         LA2 = ONE - LB2(I) - LC2(I)
+         LA3 = ONE - LB3(I) - LC3(I)
+         LA4 = ONE - LB4(I) - LC4(I) 
 C
-          H0    = QUART *
+          H0    = FOURTH *
      .         (P1(I)*LA1 + P2(I)*LA2 + P3(I)*LA3 + P4(I)*LA4)
          H1(I) = H0 + P1(I) * LB1(I) + P4(I) * LC4(I)
          H2(I) = H0 + P2(I) * LB2(I) + P1(I) * LC1(I)
          H3(I) = H0 + P3(I) * LB3(I) + P2(I) * LC2(I)
          H4(I) = H0 + P4(I) * LB4(I) + P3(I) * LC3(I)
 C
-         H0    = UN/MAX(EM20,H1(I) + H2(I) + H3(I) + H4(I))
+         H0    = ONE/MAX(EM20,H1(I) + H2(I) + H3(I) + H4(I))
          H1(I) = H1(I) * H0
          H2(I) = H2(I) * H0
          H3(I) = H3(I) * H0
@@ -215,13 +215,13 @@ C
          N3(I) = NZ1(I)
          H1(I) = LB1(I)
          H2(I) = LC1(I)
-         H3(I) = UN - LB1(I) - LC1(I)
+         H3(I) = ONE - LB1(I) - LC1(I)
          H4(I) = ZERO
         ENDIF
       ENDDO
 C
       DO I=1,JLT
-         S2 = UN/MAX(EM30,SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2))
+         S2 = ONE/MAX(EM30,SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2))
          N1(I) = N1(I)*S2
          N2(I) = N2(I)*S2
          N3(I) = N3(I)*S2
@@ -231,7 +231,7 @@ CC    VMAX = 0.
       DO I=1,JLT
 C       correction hourglass
         IF(IX3(I).NE.IX4(I))THEN
-          H0 = -QUART*(H1(I) - H2(I) + H3(I) - H4(I))
+          H0 = -FOURTH*(H1(I) - H2(I) + H3(I) - H4(I))
           H0 = MIN(H0,H2(I),H4(I))
           H0 = MAX(H0,-H1(I),-H3(I))
           H1(I) = H1(I) + H0
@@ -257,7 +257,7 @@ C------------------------------------
         H1(I) = CAND_F(4,II)
         H2(I) = CAND_F(5,II)
         H3(I) = CAND_F(6,II)
-        H4(I) = UN - H1(I) - H2(I) - H3(I)
+        H4(I) = ONE - H1(I) - H2(I) - H3(I)
        ENDIF
  5    CONTINUE
 C
@@ -275,7 +275,7 @@ C
         T1X(I) = X3(I) - X1(I)
         T1Y(I) = Y3(I) - Y1(I)
         T1Z(I) = Z3(I) - Z1(I)
-        NORMINV = UN/SQRT(T1X(I)**2+T1Y(I)**2+T1Z(I)**2)
+        NORMINV = ONE/SQRT(T1X(I)**2+T1Y(I)**2+T1Z(I)**2)
         T1X(I) = T1X(I)*NORMINV
         T1Y(I) = T1Y(I)*NORMINV
         T1Z(I) = T1Z(I)*NORMINV
@@ -287,7 +287,7 @@ C
         NX(I) = T1Y(I)*T2Z(I) - T1Z(I)*T2Y(I)
         NY(I) = T1Z(I)*T2X(I) - T1X(I)*T2Z(I)
         NZ(I) = T1X(I)*T2Y(I) - T1Y(I)*T2X(I)
-        NORMINV = UN/SQRT(NX(I)**2+NY(I)**2+NZ(I)**2)
+        NORMINV = ONE/SQRT(NX(I)**2+NY(I)**2+NZ(I)**2)
         NX(I) = NX(I)*NORMINV
         NY(I) = NY(I)*NORMINV
         NZ(I) = NZ(I)*NORMINV
@@ -357,18 +357,18 @@ C
 C
       IF(KDTINT.EQ.0.AND.(IDTMINS/=2.AND.IDTMINS_INT==0))THEN
        DO 120 I=1,JLT
-        VIS = VISC * SQRT(DEUX * STIF(I) * MSI(I)) 
+        VIS = VISC * SQRT(TWO * STIF(I) * MSI(I)) 
         FNI(I) = FNI(I) + VN(I)  * VIS
         FT1(I) = FT1(I) + VT1(I) * VIS
         FT2(I) = FT2(I) + VT2(I) * VIS
-        STIF(I) = STIF(I) + DEUX * VIS * DT1INV
+        STIF(I) = STIF(I) + TWO * VIS * DT1INV
 Clm     no second order correction :
         ECONTDT = ECONTDT 
      .          + VIS * (VX(I)*VX(I)+VY(I)*VY(I)+VZ(I)*VZ(I)) * DT1
  120   CONTINUE
       ELSE
        DO I=1,JLT
-        VIS = VISC * SQRT(DEUX * STIF(I) * MSI(I)) 
+        VIS = VISC * SQRT(TWO * STIF(I) * MSI(I)) 
         FNI(I) = FNI(I) + VN(I)  * VIS
         FT1(I) = FT1(I) + VT1(I) * VIS
         FT2(I) = FT2(I) + VT2(I) * VIS

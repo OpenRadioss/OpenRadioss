@@ -109,7 +109,7 @@ C
             A(N2,N1)=A(N2,N1)+MS(N1)*AA
             IF(IB(J).GT.0)
      .        TFEXTT=TFEXTT
-     .              +UNDEMI*(A0+AA)*MS(N1)*V(N2,N1)*DT1*WEIGHT(N1)
+     .              +HALF*(A0+AA)*MS(N1)*V(N2,N1)*DT1*WEIGHT(N1)
           ENDDO
         ELSE
           K1=3*N2-2
@@ -125,7 +125,7 @@ C
             A(2,N1)=A(2,N1)+SKEW(K2,ISK)*MS(N1)*AA
             A(3,N1)=A(3,N1)+SKEW(K3,ISK)*MS(N1)*AA
             IF(IB(J).GT.0)
-     .        TFEXTT=TFEXTT+UNDEMI*(A0+AA)*MS(N1)*VV*DT1*WEIGHT(N1)
+     .        TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*WEIGHT(N1)
           ENDDO
         ENDIF
       END DO

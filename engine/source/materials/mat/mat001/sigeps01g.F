@@ -98,11 +98,11 @@ C-----------------------------------------------
       IF (ISMSTR == 10) THEN
 C---------[F]=[F_DEF]+[1]; [B]=[F][F]^t strain----
         DO I=JFT,JLT
-          EPSXX(I)=F_DEF(I,1)*(DEUX+F_DEF(I,1))+
-     .             F_DEF(I,3)*F_DEF(I,3) + UN
-          EPSYY(I)=F_DEF(I,2)*(DEUX+F_DEF(I,2))+
-     .             F_DEF(I,4)*F_DEF(I,4) + UN
-c          EPSZZ(I)=MFZZ(I)*(DEUX+MFZZ(I))+
+          EPSXX(I)=F_DEF(I,1)*(TWO+F_DEF(I,1))+
+     .             F_DEF(I,3)*F_DEF(I,3) + ONE
+          EPSYY(I)=F_DEF(I,2)*(TWO+F_DEF(I,2))+
+     .             F_DEF(I,4)*F_DEF(I,4) + ONE
+c          EPSZZ(I)=MFZZ(I)*(TWO+MFZZ(I))+
 c     .             MFZX(I)*MFZX(I)+MFZY(I)*MFZY(I)
           EPSXY(I)=F_DEF(I,3)+F_DEF(I,4)+F_DEF(I,1)*F_DEF(I,4)+
      .             F_DEF(I,3)*F_DEF(I,2)
@@ -111,22 +111,22 @@ C     principal stretch (def gradient eigenvalues)
         DO I=JFT,JLT
           TRAV(I)  = EPSXX(I)+EPSYY(I)
           ROOTV(I) = SQRT((EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
-     .               + EPSXY(I)*EPSXY(I)*QUATRE)
-          EB1(I) = UNDEMI*(TRAV(I)+ROOTV(I)) 
-          EB2(I) = UNDEMI*(TRAV(I)-ROOTV(I)) 
-          EH1(I) = UNDEMI*LOG(EB1(I))
-          EH2(I) = UNDEMI*LOG(EB2(I))
+     .               + EPSXY(I)*EPSXY(I)*FOUR)
+          EB1(I) = HALF*(TRAV(I)+ROOTV(I)) 
+          EB2(I) = HALF*(TRAV(I)-ROOTV(I)) 
+          EH1(I) = HALF*LOG(EB1(I))
+          EH2(I) = HALF*LOG(EB2(I))
           FOR1(I)=A1(I)*EH1(I)+A2(I)*EH2(I)
           FOR2(I)=A1(I)*EH2(I)+A2(I)*EH1(I)
         ENDDO
 C     rot matrix (eigenvectors), ROOTV= 2R
         DO I=JFT,JLT
           IF (ABS(EB2(I)-EB1(I)) < EM15) THEN
-            EIGV(I,1,1)=UN
+            EIGV(I,1,1)=ONE
             EIGV(I,2,1)=ZERO
             EIGV(I,3,1)=ZERO
             EIGV(I,1,2)=ZERO
-            EIGV(I,2,2)=UN
+            EIGV(I,2,2)=ONE
             EIGV(I,3,2)=ZERO
           ELSE                                             
             EIGV(I,1,1) = (EPSXX(I)-EB2(I)) / ROOTV(I)
@@ -141,7 +141,7 @@ C     rot matrix (eigenvectors), ROOTV= 2R
 !---
 C
       DO I=JFT,JLT
-        THK08 = THK0(I)*UNDOUZE
+        THK08 = THK0(I)*ONE_OVER_12
         B1(I) = A1(I)*THK08
         B2(I) = A2(I)*THK08
         B3(I) = G(I) *THK08
@@ -170,10 +170,10 @@ C
 C-----curveture        
 C---------[F]=[F_DEF]+[1]; [B]=[F][F]^t strain-----
         DO I=JFT,JLT
-          EPSXX(I)=F_DEF(I,6)*(DEUX+F_DEF(I,6))+
-     .             F_DEF(I,8)*F_DEF(I,8) +UN
-          EPSYY(I)=F_DEF(I,7)*(DEUX+F_DEF(I,7))+
-     .             F_DEF(I,5)*F_DEF(I,5) +UN
+          EPSXX(I)=F_DEF(I,6)*(TWO+F_DEF(I,6))+
+     .             F_DEF(I,8)*F_DEF(I,8) +ONE
+          EPSYY(I)=F_DEF(I,7)*(TWO+F_DEF(I,7))+
+     .             F_DEF(I,5)*F_DEF(I,5) +ONE
           EPSXY(I)=F_DEF(I,8)+F_DEF(I,5)+F_DEF(I,6)*F_DEF(I,5)+
      .             F_DEF(I,8)*F_DEF(I,7)
         ENDDO
@@ -181,22 +181,22 @@ C     principal stretch (def gradient eigenvalues)
         DO I=JFT,JLT
           TRAV(I)  = EPSXX(I)+EPSYY(I)
           ROOTV(I) = SQRT((EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
-     .             + EPSXY(I)*EPSXY(I)*QUATRE)
-          EB1(I) = UNDEMI*(TRAV(I)+ROOTV(I)) 
-          EB2(I) = UNDEMI*(TRAV(I)-ROOTV(I)) 
-          EH1(I) = UNDEMI*LOG(EB1(I))
-          EH2(I) = UNDEMI*LOG(EB2(I))
+     .             + EPSXY(I)*EPSXY(I)*FOUR)
+          EB1(I) = HALF*(TRAV(I)+ROOTV(I)) 
+          EB2(I) = HALF*(TRAV(I)-ROOTV(I)) 
+          EH1(I) = HALF*LOG(EB1(I))
+          EH2(I) = HALF*LOG(EB2(I))
           MOM1(I)=B1(I)*EH1(I)+B2(I)*EH2(I)
           MOM2(I)=B1(I)*EH2(I)+B2(I)*EH1(I)
         ENDDO
 C     rot matrix (eigenvectors)
         DO I=JFT,JLT
           IF (ABS(EB2(I)-EB1(I)) < EM15) THEN
-            EIGV(I,1,1)=UN
+            EIGV(I,1,1)=ONE
             EIGV(I,2,1)=ZERO
             EIGV(I,3,1)=ZERO
             EIGV(I,1,2)=ZERO
-            EIGV(I,2,2)=UN
+            EIGV(I,2,2)=ONE
             EIGV(I,3,2)=ZERO
           ELSE                                             
             EIGV(I,1,1) = (EPSXX(I)-EB2(I)) / ROOTV(I)
@@ -215,8 +215,8 @@ C     rot matrix (eigenvectors)
       ENDIF ! IF (ISMSTR /= 10) THEN
 C
       DO I=JFT,JLT
-        EZZ(I) = -NU(I) * (DEPSXX(I)+DEPSYY(I)) / (UN-NU(I))
-        THK(I) = THK(I) * (UN + EZZ(I) * OFF(I))
+        EZZ(I) = -NU(I) * (DEPSXX(I)+DEPSYY(I)) / (ONE-NU(I))
+        THK(I) = THK(I) * (ONE + EZZ(I) * OFF(I))
       ENDDO
 C
       RETURN

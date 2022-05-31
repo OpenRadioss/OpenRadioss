@@ -98,7 +98,7 @@ C     Update global quantities
 ! Square norm of the velocity
          VEL2 = MULTI_FVM%VEL(1, I)**2 + MULTI_FVM%VEL(2, I)**2 + MULTI_FVM%VEL(3, I)**2
 ! Internal energy
-         MULTI_FVM%EINT(I) = VII(5) - UNDEMI * VEL2 * VII(1)
+         MULTI_FVM%EINT(I) = VII(5) - HALF * VEL2 * VII(1)
       ENDDO
 C     Balance for output
       IF (.NOT. PRED) THEN

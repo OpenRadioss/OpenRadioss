@@ -123,7 +123,7 @@ C
         E3X(I)=E3X(I)/SUM(I)
         E3Y(I)=E3Y(I)/SUM(I)
         E3Z(I)=E3Z(I)/SUM(I)
-        AREA(I) = UNDEMI * SUM(I)
+        AREA(I) = HALF * SUM(I)
       ENDDO
 C
       DO I=JFT,JLT
@@ -155,7 +155,7 @@ C---
      .   E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,SUM,OFFG)
        DO I=JFT,JLT        
         ECOS(I) = E1X(I)*E1X0(I)+E1Y(I)*E1Y0(I)+E1Z(I)*E1Z0(I)
-        AA = MAX(ZERO,UN-ECOS(I)*ECOS(I))
+        AA = MAX(ZERO,ONE-ECOS(I)*ECOS(I))
         ESIN(I) = SQRT(AA)
         BB = E2X(I)*E1X0(I)+E2Y(I)*E1Y0(I)+E2Z(I)*E1Z0(I)
         IF (BB >ZERO) ESIN(I) = -ESIN(I)
@@ -195,7 +195,7 @@ C---        Axe I
             V3 = AA*E13(I) + BB*E23(I)
             VR = V1*E1X(I) + V2*E1Y(I) + V3*E1Z(I)
             VS = V1*E2X(I) + V2*E2Y(I) + V3*E2Z(I)
-            SUMA = UN / MAX( SQRT(VR*VR + VS*VS), EM20)
+            SUMA = ONE / MAX( SQRT(VR*VR + VS*VS), EM20)
             DIR_A(I,J+1) = VR*SUMA
             DIR_A(I,J+2) = VS*SUMA
 C---        Axe II
@@ -206,7 +206,7 @@ C---        Axe II
             V3 = AA*E13(I) + BB*E23(I)
             VR = V1*E1X(I) + V2*E1Y(I) + V3*E1Z(I)
             VS = V1*E2X(I) + V2*E2Y(I) + V3*E2Z(I)
-            SUMA = UN / MAX( SQRT(VR*VR + VS*VS), EM20)
+            SUMA = ONE / MAX( SQRT(VR*VR + VS*VS), EM20)
             DIR_B(I,J+1) = VR*SUMA
             DIR_B(I,J+2) = VS*SUMA
           ENDDO
@@ -229,7 +229,7 @@ C---        Axe I
               V3 = AA*E13(I) + BB*E23(I)		
               VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
               VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
-              SUMA = UN / MAX( SQRT(VR*VR + VS*VS), EM20)
+              SUMA = ONE / MAX( SQRT(VR*VR + VS*VS), EM20)
               DIR_A(I,J+1) = VR*SUMA
               DIR_A(I,J+2) = VS*SUMA
 C---        Axe II                                  
@@ -240,7 +240,7 @@ C---        Axe II
               V3 = AA*E13(I) + BB*E23(I)		
               VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
               VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
-              SUMA = UN / MAX( SQRT(VR*VR + VS*VS), EM20)
+              SUMA = ONE / MAX( SQRT(VR*VR + VS*VS), EM20)
               DIR_B(I,J+1) = VR*SUMA
               DIR_B(I,J+2) = VS*SUMA
             ENDDO
@@ -270,7 +270,7 @@ C---        Axe I
               V3 = AA*E13(I) + BB*E23(I)		
               VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
               VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
-              SUMA = UN / MAX( SQRT(VR*VR + VS*VS), EM20)
+              SUMA = ONE / MAX( SQRT(VR*VR + VS*VS), EM20)
               DIR_A(I,J+1) = VR*SUMA
               DIR_A(I,J+2) = VS*SUMA
 C---        Axe II                                  
@@ -281,7 +281,7 @@ C---        Axe II
               V3 = AA*E13(I) + BB*E23(I)		
               VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
               VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
-              SUMA = UN / MAX( SQRT(VR*VR + VS*VS), EM20)
+              SUMA = ONE / MAX( SQRT(VR*VR + VS*VS), EM20)
               DIR_B(I,J+1) = VR*SUMA
               DIR_B(I,J+2) = VS*SUMA
             ENDDO
@@ -368,7 +368,7 @@ C     REAL ou REAL*8
      .   THETA
 C=======================================================================
       DO I=JFT,JLT
-        THETA  = UNDEMI*(ATAN(TG3(I)))
+        THETA  = HALF*(ATAN(TG3(I)))
         ECOS(I)= COS(THETA)
         ESIN(I)= SIN(THETA)
       ENDDO
@@ -415,7 +415,7 @@ C-----------------------------------------------
        M2(I)= ECOS(I)*ECOS(I)
        N2(I)= ESIN(I)*ESIN(I)
        MN(I)= ECOS(I)*ESIN(I)
-       MN2(I)= DEUX*MN(I)
+       MN2(I)= TWO*MN(I)
       ENDDO
 C------Exy :2*exy      
       DO I=JFT,JLT
@@ -484,7 +484,7 @@ C-----------------------------------------------
        M2(I)= ECOS(I)*ECOS(I)
        N2(I)= ESIN(I)*ESIN(I)
        MN(I)= ECOS(I)*ESIN(I)
-       MN2(I)= DEUX*MN(I)
+       MN2(I)= TWO*MN(I)
       ENDDO
 C------Exy :2*exy 
       IF (ISMSTR==10) THEN   
@@ -555,7 +555,7 @@ C-----------------------------------------------
         M2(I)= ECOS(I)*ECOS(I)
         N2(I)= ESIN(I)*ESIN(I)
         MN(I)= ECOS(I)*ESIN(I)
-        MN2(I)= DEUX*MN(I)
+        MN2(I)= TWO*MN(I)
        ENDDO
 C------
        DO I=JFT,JLT

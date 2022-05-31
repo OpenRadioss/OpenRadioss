@@ -83,23 +83,23 @@ c
       DO I=1,NEL
 c
         ! If the element is not broken
-        IF (OFF(I) ==  UN .AND. DPLA(I) /= ZERO) THEN
+        IF (OFF(I) ==  ONE .AND. DPLA(I) /= ZERO) THEN
 c        
           ! Computation of hydrostatic stress, Von Mises stress, and stress triaxiality
-          hydros = (SIGNXX(I)+ SIGNYY(I))/TROIS
-          vmises = SQRT((SIGNXX(I)**2)+(SIGNYY(I)**2)-(SIGNXX(I)*SIGNYY(I))+(TROIS*SIGNXY(I)**2))
+          hydros = (SIGNXX(I)+ SIGNYY(I))/THREE
+          vmises = SQRT((SIGNXX(I)**2)+(SIGNYY(I)**2)-(SIGNXX(I)*SIGNYY(I))+(THREE*SIGNXY(I)**2))
           triaxs = hydros / MAX(EM20,vmises)
-          IF (triaxs > DTIERS)  triaxs = DTIERS
-          IF (triaxs < -DTIERS) triaxs = -DTIERS
+          IF (triaxs > TWO_THIRD)  triaxs = TWO_THIRD
+          IF (triaxs < -TWO_THIRD) triaxs = -TWO_THIRD
 c
           ! Computing the plastic strain at failure according to stress triaxiality
-          IF (triaxs < -TIERS) THEN 
+          IF (triaxs < -THIRD) THEN 
             F_RTCL = ZERO
-          ELSEIF ((triaxs >= -TIERS).AND.(triaxs < TIERS)) THEN
-            F_RTCL = DEUX*((UN+triaxs*SQRT(DOUZE-VINGT7*(triaxs**2)))/
-     .                  (TROIS*triaxs+SQRT(DOUZE-VINGT7*(triaxs**2))))
+          ELSEIF ((triaxs >= -THIRD).AND.(triaxs < THIRD)) THEN
+            F_RTCL = TWO*((ONE+triaxs*SQRT(TWELVE-TWENTY7*(triaxs**2)))/
+     .                  (THREE*triaxs+SQRT(TWELVE-TWENTY7*(triaxs**2))))
           ELSE
-            F_RTCL = EXP(-UNDEMI)*EXP(TDEMI*triaxs)
+            F_RTCL = EXP(-HALF)*EXP(THREE_HALF*triaxs)
           ENDIF
 c 
           ! Computation of simple tension failure strain (according to mesh size)
@@ -111,10 +111,10 @@ c
 c
           ! Computation of damage variables
           DFMAX(I) = DFMAX(I) + F_RTCL*DPLA(I)/MAX(EPS_CR,EM6)
-          DFMAX(I) = MIN(UN,DFMAX(I))
+          DFMAX(I) = MIN(ONE,DFMAX(I))
 c
           ! Checking element failure using global damage
-          IF (OFFL(I) == UN .AND. DFMAX(I) >= UN) THEN
+          IF (OFFL(I) == ONE .AND. DFMAX(I) >= ONE) THEN
             OFFL(I)          = ZERO
             FOFF(I)          = 0
             NINDX            = NINDX + 1

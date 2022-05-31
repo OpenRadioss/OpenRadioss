@@ -71,11 +71,11 @@ C     mass init en parith pour spmd
 C
         MASS(I)=FILL(I)*RHO(I)*VOLG(I)
         DTELEM(I)=MIN(DTELEM(I),DTX(I))
-        STI(I) = FILL(I) * RHO(I) * VOLG(I) * DEUX / SOIXANTE4 /
+        STI(I) = FILL(I) * RHO(I) * VOLG(I) * TWO / SIXTY4 /
      .        MAX(EM20,DTX(I)*DTX(I))
-        FAC=TQUATORZE
-        AM = MASS(I)*FAC/(HUIT*FAC + DOUZE)
-        BM = MASS(I)*UN/(HUIT*FAC + DOUZE)
+        FAC=TRHEE_OVER_14
+        AM = MASS(I)*FAC/(EIGHT*FAC + TWELVE)
+        BM = MASS(I)*ONE/(EIGHT*FAC + TWELVE)
         MSS(1,I)=AM
         MSS(2,I)=AM
         MSS(3,I)=AM
@@ -99,10 +99,10 @@ C
             MSSX(N-8,I)=BM
             STIFN(NC(I,N))=STIFN(NC(I,N))+STI(I)
           ELSE
-            MSS(N1,I)=MSS(N1,I)+ UNDEMI*BM
-            MSS(N2,I)=MSS(N2,I)+ UNDEMI*BM
-            STIFN(NC(I,N1))=STIFN(NC(I,N1)) + UNDEMI*STI(I)
-            STIFN(NC(I,N2))=STIFN(NC(I,N2)) + UNDEMI*STI(I)
+            MSS(N1,I)=MSS(N1,I)+ HALF*BM
+            MSS(N2,I)=MSS(N2,I)+ HALF*BM
+            STIFN(NC(I,N1))=STIFN(NC(I,N1)) + HALF*STI(I)
+            STIFN(NC(I,N2))=STIFN(NC(I,N2)) + HALF*STI(I)
           ENDIF
         ENDDO
 C
@@ -205,7 +205,7 @@ C
      .         +VZ(I,5)+VZ(I,6)+VZ(I,7)+VZ(I,8))
      .    + BM*(VZ(I,9) +VZ(I,10)+VZ(I,11)+VZ(I,12)+VZ(I,13)+VZ(I,14)
      .         +VZ(I,15)+VZ(I,16)+VZ(I,17)+VZ(I,18)+VZ(I,19)+VZ(I,20))
-        PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * 
+        PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * 
      .       (AM*(VX(I,1)*VX(I,1)+VX(I,2)*VX(I,2)
      .           +VX(I,3)*VX(I,3)+VX(I,4)*VX(I,4)
      .           +VX(I,5)*VX(I,5)+VX(I,6)*VX(I,6)
@@ -243,9 +243,9 @@ c
        IF(JTHE < 0 ) THEN
         DO I=LFT,LLT
           MASSCP=FILL(I)*RHOCP(I)*VOLG(I)        
-          FAC=TQUATORZE
-          AM = MASSCP*FAC/(HUIT*FAC + DOUZE)
-          BM = MASSCP*UN/(HUIT*FAC + DOUZE)
+          FAC=TRHEE_OVER_14
+          AM = MASSCP*FAC/(EIGHT*FAC + TWELVE)
+          BM = MASSCP*ONE/(EIGHT*FAC + TWELVE)
           MCPS(1,I)=AM
           MCPS(2,I)=AM
           MCPS(3,I)=AM
@@ -260,8 +260,8 @@ c
             IF(NC(I,N) /= 0)THEN
               MCPSX(N-8,I)=BM
             ELSE
-              MCPS(N1,I)=MCPS(N1,I)+ UNDEMI*BM
-              MCPS(N2,I)=MCPS(N2,I)+ UNDEMI*BM
+              MCPS(N1,I)=MCPS(N1,I)+ HALF*BM
+              MCPS(N2,I)=MCPS(N2,I)+ HALF*BM
             ENDIF
           ENDDO
         ENDDO 
@@ -405,11 +405,11 @@ C
               GAMA(5)=BUFGAMA(I + 4*NEL)
               GAMA(6)=BUFGAMA(I + 5*NEL)
             ELSE
-              GAMA(1)=UN
+              GAMA(1)=ONE
               GAMA(2)=ZERO
               GAMA(3)=ZERO
               GAMA(4)=ZERO
-              GAMA(5)=UN
+              GAMA(5)=ONE
               GAMA(6)=ZERO
             END IF
           ENDIF

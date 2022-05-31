@@ -305,9 +305,9 @@ c
 c-----------
       ENDIF  ! UNLOAD
 c-----------
-      IF (KC > ZERO)   KC   = KC * DEUX      !  2 * max slope dir1
-      IF (KT > ZERO)   KT   = KT * DEUX      !  2 * max slope dir2
-      IF (GMAX > ZERO) GMAX = GMAX * DEUX    !  2 * max slope shear
+      IF (KC > ZERO)   KC   = KC * TWO      !  2 * max slope dir1
+      IF (KT > ZERO)   KT   = KT * TWO      !  2 * max slope dir2
+      IF (GMAX > ZERO) GMAX = GMAX * TWO    !  2 * max slope shear
       KC   = MAX(UPARAM(9) , KC)
       KT   = MAX(UPARAM(10), KT)
       GMAX = MAX(UPARAM(14), GMAX)
@@ -324,9 +324,9 @@ c      STIFF = KC + KT + GMAX
 c
       PM(20) = STIFF
       PM(21) = ZERO           ! NU
-      PM(22) = STIFF*UNDEMI   ! GMAX
+      PM(22) = STIFF*HALF   ! GMAX
       PM(24) = STIFF
-      PM(32) = STIFF/TROIS
+      PM(32) = STIFF/THREE
 c-----------
       RETURN
       END

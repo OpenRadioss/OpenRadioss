@@ -69,7 +69,7 @@ C-----------------------------------------------
          IF (IV2.LE.0)IV2=IE
          IF (IV3.LE.0)IV3=IE
          IF (IV4.LE.0)IV4=IE
-         IF (VOL(I) > ZERO) VAR(IDX,I)=VAR(IDX,I) + UNDEMI*DT1*(PHI(IE)*
+         IF (VOL(I) > ZERO) VAR(IDX,I)=VAR(IDX,I) + HALF*DT1*(PHI(IE)*
      2   (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
      3   -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
      4   -PHI(IV4)*FLUX(4,I)) / VOL(I)
@@ -90,7 +90,7 @@ c       if(i==1)print*,'AREZO2,VAR=',VAR(IDX,I)
         IF(IV4.LE.0)IV4=IE
         VOLN=VOL(I)-DT1 * (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
         IF (VOLN.GT.EM15) THEN
-          VAR(IDX,I) = VAR(IDX,I) + UNDEMI * DT1 * (PHI(IE)*
+          VAR(IDX,I) = VAR(IDX,I) + HALF * DT1 * (PHI(IE)*
      2  (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
      3  -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
      4  -PHI(IV4)*FLUX(4,I)) / MAX(EM15,VOLN)
@@ -148,7 +148,7 @@ C-----------------------------------------------
          IF (IV2.LE.0)IV2=IE
          IF (IV3.LE.0)IV3=IE
          IF (IV4.LE.0)IV4=IE
-         IF (VOL(I) > ZERO) SIG(I,IDX)=SIG(I,IDX) + UNDEMI*DT1*(PHI(IE)*
+         IF (VOL(I) > ZERO) SIG(I,IDX)=SIG(I,IDX) + HALF*DT1*(PHI(IE)*
      2   (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
      3   -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
      4   -PHI(IV4)*FLUX(4,I)) / VOL(I)
@@ -168,7 +168,7 @@ c       if(i==1)print*,'AREZO2,VAR=',VAR(IDX,I)
         IF(IV4.LE.0)IV4=IE
         VOLN=VOL(I)-DT1 * (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
         IF (VOLN.GT.EM15) THEN
-          SIG(I,IDX) = SIG(I,IDX) + UNDEMI * DT1 * (PHI(IE)*
+          SIG(I,IDX) = SIG(I,IDX) + HALF * DT1 * (PHI(IE)*
      2  (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
      3  -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
      4  -PHI(IV4)*FLUX(4,I)) / MAX(EM15,VOLN)

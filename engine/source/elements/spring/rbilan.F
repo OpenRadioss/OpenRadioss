@@ -142,11 +142,11 @@ C
         ELSE
           XMAS(I)=GEO(1,IXR(1,I))
         ENDIF
-        XMAS2(I)=XMAS(I)*UNDEMI
+        XMAS2(I)=XMAS(I)*HALF
         XM(I)= XMAS2(I)*VXA(I)
         YM(I)= XMAS2(I)*VYA(I)
         ZM(I)= XMAS2(I)*VZA(I)
-        EK(I)= XMAS2(I)*VA2(I)*UNDEMI
+        EK(I)= XMAS2(I)*VA2(I)*HALF
       ENDDO
 C
       DO I=LFT,LLT
@@ -159,7 +159,7 @@ C
         ELSE
           INEL=GEO(9,IXR(1,I))
         ENDIF
-        IN2 = INEL*UNDEMI
+        IN2 = INEL*HALF
         IXY(I) = -XMAS2(I)*XY(I)
         IYZ(I) = -XMAS2(I)*YZ(I)
         IZX(I) = -XMAS2(I)*ZX(I)
@@ -179,12 +179,12 @@ C
      .    (V1(I,2)*X1(I)-V1(I,1)*Y1(I)
      .    +V2(I,2)*X2(I)-V2(I,1)*Y2(I))
      .         +IN2*(VR1(I,3)+VR2(I,3))
-        REK(I)= IN2*VRA2(I)*UNDEMI
+        REK(I)= IN2*VRA2(I)*HALF
       ENDDO
 C
       IF (IGRE /= 0) THEN
           DO I=LFT,LLT
-            OFF(I) = UN
+            OFF(I) = ONE
           ENDDO
           CALL GRELEM_SAV(LFT   ,LLT   ,GRESAV,IGRTH ,GRTH  ,
      2                    OFF   ,EINT  ,EK    ,XM    ,YM    ,
@@ -217,7 +217,7 @@ C
          PARTSAV(22,MX)=PARTSAV(22,MX) + REK(I)
       ENDDO
 
-      OFF(1:MVSIZ) = UN
+      OFF(1:MVSIZ) = ONE
       CALL SENSOR_ENERGY_BILAN(LFT,LLT,EINT,EK,OFF,IPARTR,ITASK) 
 C
       RETURN

@@ -1052,10 +1052,10 @@ C============================================================
       dx22min_l(0:NTHREAD-1)                                          = EP30
       v22_max                                                         = ZERO
       v22max_l(0:NTHREAD-1)                                           = ZERO
-      nCross22                                                        = CINQ
-      CritMerge22                                                     = UNDEMI                                                                         
-      CritDeMerge22                                                   = UNDEMI                                                                         
-      CritDVol22                                                      = QUART                                                                          
+      nCross22                                                        = FIVE
+      CritMerge22                                                     = HALF                                                                         
+      CritDeMerge22                                                   = HALF                                                                         
+      CritDVol22                                                      = FOURTH                                                                          
       NADJ_F                                                          = 5                                                                              
       NBOLD(1)                                                        = NB                                                                             
       IIAD22(:,:)                                                     = 0                                                                              

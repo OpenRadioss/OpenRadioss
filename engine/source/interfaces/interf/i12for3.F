@@ -91,10 +91,10 @@ C-----------------------------------------------
           FXI=A(I1)
           FYI=A(I2)
           FZI=A(I3)
-          SP=UN+SS
-          SM=UN-SS
-          TP=QUART*(UN+TT)
-          TM=QUART*(UN-TT)
+          SP=ONE+SS
+          SM=ONE-SS
+          TP=FOURTH*(ONE+TT)
+          TM=FOURTH*(ONE-TT)
           H(1)=TM*SM
           H(2)=TM*SP
           H(3)=TP*SP

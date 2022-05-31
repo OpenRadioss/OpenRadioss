@@ -170,27 +170,27 @@ c--------------------------
       SELECT CASE (STRFLAG)
         CASE (1)  !  transform Cauchy-Green to engineering
           DO I=1,NEL
-            IF (OFF(I) == UN ) THEN
-              THETA  = UNDEMI*ATAN(EPSXY(I) / (EPSXX(I)-EPSYY(I)))
+            IF (OFF(I) == ONE ) THEN
+              THETA  = HALF*ATAN(EPSXY(I) / (EPSXX(I)-EPSYY(I)))
               C = COS(THETA)
               S = SIN(THETA)
 c             strain principal + transformation              
-              EPST_A = UNDEMI*(EPSXX(I)+EPSYY(I))
-              EPST_B = SQRT( (UNDEMI*(EPSXX(I)-EPSYY(I)))**2 + (EPSXY(I)**2) )
+              EPST_A = HALF*(EPSXX(I)+EPSYY(I))
+              EPST_B = SQRT( (HALF*(EPSXX(I)-EPSYY(I)))**2 + (EPSXY(I)**2) )
               EPST1  = EPST_A + EPST_B
               EPST2  = EPST_A - EPST_B
-              EPST1  = SQRT(EPST1 + UN) - UN
-              EPST2  = SQRT(EPST2 + UN) - UN
+              EPST1  = SQRT(EPST1 + ONE) - ONE
+              EPST2  = SQRT(EPST2 + ONE) - ONE
               EPS11(I) = C*C*EPST1 + S*S*EPST2
               EPS22(I) = S*S*EPST1 + C*C*EPST2
               EPS12(I) = S*C*(EPST1 - EPST2)
 c             strain rate
-              EPST_A = UNDEMI*(EPSPXX(I)+EPSPYY(I))
-              EPST_B = SQRT( (UNDEMI*(EPSPXX(I)-EPSPYY(I)))**2 + (EPSPXY(I)**2) )
+              EPST_A = HALF*(EPSPXX(I)+EPSPYY(I))
+              EPST_B = SQRT( (HALF*(EPSPXX(I)-EPSPYY(I)))**2 + (EPSPXY(I)**2) )
               EPSD1  = EPST_A + EPST_B
               EPSD2  = EPST_A - EPST_B
-              EPSD1  = SQRT(EPSD1 + UN) - UN
-              EPSD2  = SQRT(EPSD2 + UN) - UN
+              EPSD1  = SQRT(EPSD1 + ONE) - ONE
+              EPSD2  = SQRT(EPSD2 + ONE) - ONE
               EPSP11(I) = C*C*EPSD1 + S*S*EPSD2
               EPSP22(I) = S*S*EPSD1 + C*C*EPSD2
               EPSP12(I) = S*C*(EPSD1 - EPSD2)
@@ -199,59 +199,59 @@ c             strain rate
 c
         CASE (2)  !  transform true strain to engineering
           DO I=1,NEL
-            IF (OFF(I) == UN ) THEN
-              THETA  = UNDEMI*ATAN(EPSXY(I) / (EPSXX(I)-EPSYY(I)))
+            IF (OFF(I) == ONE ) THEN
+              THETA  = HALF*ATAN(EPSXY(I) / (EPSXX(I)-EPSYY(I)))
               C = COS(THETA)
               S = SIN(THETA)
 c             strain principal + transformation              
-              EPST_A = UNDEMI*(EPSXX(I)+EPSYY(I))
-              EPST_B = SQRT( (UNDEMI*(EPSXX(I)-EPSYY(I)))**2 + (EPSXY(I)**2) )
+              EPST_A = HALF*(EPSXX(I)+EPSYY(I))
+              EPST_B = SQRT( (HALF*(EPSXX(I)-EPSYY(I)))**2 + (EPSXY(I)**2) )
               EPST1  = EPST_A + EPST_B
               EPST2  = EPST_A - EPST_B
-              EPS11(I)  = EXP(EPSXX(I)) - UN
-              EPS22(I)  = EXP(EPSYY(I)) - UN
-              EPS12(I)  = EXP(EPSXY(I)) - UN
-              EPSP11(I) = EXP(EPSPXX(I)) - UN
-              EPSP22(I) = EXP(EPSPYY(I)) - UN
-              EPSP12(I) = EXP(EPSPXY(I)) - UN
+              EPS11(I)  = EXP(EPSXX(I)) - ONE
+              EPS22(I)  = EXP(EPSYY(I)) - ONE
+              EPS12(I)  = EXP(EPSXY(I)) - ONE
+              EPSP11(I) = EXP(EPSPXX(I)) - ONE
+              EPSP22(I) = EXP(EPSPYY(I)) - ONE
+              EPSP12(I) = EXP(EPSPXY(I)) - ONE
             END IF
           ENDDO
 c
         CASE (3)  !  transform engineering to true strain
           DO I=1,NEL
-            IF (OFF(I) == UN ) THEN
-              EPS11(I)  = LOG(EPSXX(I) + UN)
-              EPS22(I)  = LOG(EPSYY(I) + UN)
-              EPS12(I)  = LOG(EPSXY(I) + UN)
-              EPSP11(I) = LOG(EPSPXX(I) + UN)
-              EPSP22(I) = LOG(EPSPYY(I) + UN)
-              EPSP12(I) = LOG(EPSPXY(I) + UN)
+            IF (OFF(I) == ONE ) THEN
+              EPS11(I)  = LOG(EPSXX(I) + ONE)
+              EPS22(I)  = LOG(EPSYY(I) + ONE)
+              EPS12(I)  = LOG(EPSXY(I) + ONE)
+              EPSP11(I) = LOG(EPSPXX(I) + ONE)
+              EPSP22(I) = LOG(EPSPYY(I) + ONE)
+              EPSP12(I) = LOG(EPSPXY(I) + ONE)
             END IF
           ENDDO
 c
         CASE (4)  !  transform Cauchy-Green to true strain
           DO I=1,NEL
-            IF (OFF(I) == UN ) THEN
-              THETA  = UNDEMI*ATAN(EPSXY(I) / (EPSXX(I)-EPSYY(I)))
+            IF (OFF(I) == ONE ) THEN
+              THETA  = HALF*ATAN(EPSXY(I) / (EPSXX(I)-EPSYY(I)))
               C = COS(THETA)
               S = SIN(THETA)
 c             strain principal + transformation              
-              EPST_A = UNDEMI*(EPSXX(I)+EPSYY(I))
-              EPST_B = SQRT( (UNDEMI*(EPSXX(I)-EPSYY(I)))**2 + (EPSXY(I)**2) )
+              EPST_A = HALF*(EPSXX(I)+EPSYY(I))
+              EPST_B = SQRT( (HALF*(EPSXX(I)-EPSYY(I)))**2 + (EPSXY(I)**2) )
               EPST1  = EPST_A + EPST_B
               EPST2  = EPST_A - EPST_B
-              EPST1  = LOG(SQRT(EPST1+UN))
-              EPST2  = LOG(SQRT(EPST2+UN))
+              EPST1  = LOG(SQRT(EPST1+ONE))
+              EPST2  = LOG(SQRT(EPST2+ONE))
               EPS11(I) = C*C*EPST1 + S*S*EPST2
               EPS22(I) = S*S*EPST1 + C*C*EPST2
               EPS12(I) = S*C*(EPST1 - EPST2)
 c             strain rate
-              EPST_A = UNDEMI*(EPSPXX(I)+EPSPYY(I))
-              EPST_B = SQRT( (UNDEMI*(EPSPXX(I)-EPSPYY(I)))**2 + (EPSPXY(I)**2) )
+              EPST_A = HALF*(EPSPXX(I)+EPSPYY(I))
+              EPST_B = SQRT( (HALF*(EPSPXX(I)-EPSPYY(I)))**2 + (EPSPXY(I)**2) )
               EPST1  = EPST_A + EPST_B
               EPST2  = EPST_A - EPST_B
-              EPST1  = LOG(SQRT(EPST1+UN))
-              EPST2  = LOG(SQRT(EPST2+UN))
+              EPST1  = LOG(SQRT(EPST1+ONE))
+              EPST2  = LOG(SQRT(EPST2+ONE))
               EPSP11(I) = C*C*EPST1 + S*S*EPST2
               EPSP22(I) = S*S*EPST1 + C*C*EPST2
               EPSP12(I) = S*C*(EPST1 - EPST2)
@@ -280,7 +280,7 @@ c
 c
           CALL VINTER2(TF,IADP,IPOSP,ILENP,NEL,ESCAL,DYDXE,FSIZE)
         ELSE
-	         FSIZE(1:NEL) = UN
+	         FSIZE(1:NEL) = ONE
         ENDIF
       ENDIF
 c
@@ -303,16 +303,16 @@ c     variable initialisation, current time
 c      
 c     strain rate filtering
       DO I=1,NEL
-        EPSP(I,XX) = ALPHA * ABS(EPSP11(I)) + (UN-ALPHA)*EPSP(I,XX) 
-        EPSP(I,YY) = ALPHA * ABS(EPSP22(I)) + (UN-ALPHA)*EPSP(I,YY) 
-        EPSP(I,XY) = ALPHA * ABS(EPSP12(I)) + (UN-ALPHA)*EPSP(I,XY)
+        EPSP(I,XX) = ALPHA * ABS(EPSP11(I)) + (ONE-ALPHA)*EPSP(I,XX) 
+        EPSP(I,YY) = ALPHA * ABS(EPSP22(I)) + (ONE-ALPHA)*EPSP(I,YY) 
+        EPSP(I,XY) = ALPHA * ABS(EPSP12(I)) + (ONE-ALPHA)*EPSP(I,XY)
       ENDDO 
 c
 c     failure and damage calculation in each mode (dir)
 c
       NINDX = 0  
       DO I=1, NEL
-        IF (OFF(I) == UN .and. OFFLY(I) == 1 .and. FOFF(I) == 1) THEN
+        IF (OFF(I) == ONE .and. OFFLY(I) == 1 .and. FOFF(I) == 1) THEN
           ET1    = UPARAM(4)
           ET1M   = UPARAM(5)
           ET2    = UPARAM(6)
@@ -346,21 +346,21 @@ c
           IF (IFUNC(MODE) > 0) THEN
             FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
           ELSE
-            FRATE = UN
+            FRATE = ONE
           ENDIF
 		        FRATE = FRATE*FSIZE(I)
           ET1M = FRATE * ET1M
           ET1  = FRATE * ET1
           DEPS = EPS11(I) - ET1
-          IF (DEPS > ZERO .and. DAM(I,MODE) < UN) THEN
+          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = ET1M - ET1
             FACT  = ET1M / EPS11(I)
             DI    = FACT * DEPS / DEPSM 
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= UN) THEN
+            IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = UN
+              DAM(I,MODE) = ONE
             ENDIF
           ENDIF
 c
@@ -369,21 +369,21 @@ c
           IF (IFUNC(MODE) > 0) THEN
             FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
           ELSE
-            FRATE = UN
+            FRATE = ONE
           ENDIF
 		        FRATE = FRATE*FSIZE(I)
           ET2M = FRATE * ET2M
           ET2  = FRATE * ET2
           DEPS = MAX(EPS22(I) - ET2, ZERO)
-          IF (DEPS > ZERO .and. DAM(I,MODE) < UN) THEN
+          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = (ET2M - ET2)
             FACT  = ET2M / EPS22(I)
             DI    = FACT * DEPS / DEPSM 
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= UN) THEN
+            IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = UN
+              DAM(I,MODE) = ONE
             ENDIF
           ENDIF
 c
@@ -392,21 +392,21 @@ c
           IF (IFUNC(MODE) > 0) THEN
             FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
           ELSE
-            FRATE = UN
+            FRATE = ONE
           ENDIF
 		        FRATE = FRATE*FSIZE(I)
           ET12M = FRATE * ET12M
           ET12  = FRATE * ET12
           DEPS  = MAX(EPS12(I) - ET12, ZERO)
-          IF (DEPS > ZERO .and. DAM(I,MODE) < UN) THEN
+          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = (ET12M - ET12)
             FACT  = ET12M / EPS12(I)
             DI    = FACT * DEPS / DEPSM
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= UN) THEN
+            IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = UN
+              DAM(I,MODE) = ONE
             ENDIF
           ENDIF
 c
@@ -415,21 +415,21 @@ c
           IF (IFUNC(MODE) > 0) THEN
             FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
           ELSE
-            FRATE = UN
+            FRATE = ONE
           ENDIF
 		        FRATE = FRATE*FSIZE(I)
           EC1M = FRATE * EC1M
           EC1  = FRATE * EC1
           DEPS = -EPS11(I) - EC1
-          IF (DEPS > ZERO .and. DAM(I,MODE) < UN) THEN
+          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = (EC1M - EC1)
             FACT = EC1M / ABS(EPS11(I))
             DI = FACT * DEPS / DEPSM
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= UN) THEN
+            IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = UN
+              DAM(I,MODE) = ONE
             ENDIF
           ENDIF
 c
@@ -438,21 +438,21 @@ c
           IF (IFUNC(MODE) > 0) THEN
             FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
           ELSE
-            FRATE = UN
+            FRATE = ONE
           ENDIF
 		        FRATE = FRATE*FSIZE(I)
           EC2M = FRATE * EC2M
           EC2  = FRATE * EC2
           DEPS = MAX(-EPS22(I) - EC2, ZERO)
-          IF (DEPS > ZERO .and. DAM(I,MODE) < UN) THEN
+          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = (EC2M - EC2)
             FACT  = EC2M / ABS(EPS22(I))
             DI = FACT * DEPS / DEPSM
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= UN) THEN
+            IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = UN
+              DAM(I,MODE) = ONE
             ENDIF
           ENDIF
 c
@@ -461,21 +461,21 @@ c
           IF (IFUNC(MODE) > 0) THEN
             FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
           ELSE
-            FRATE = UN
+            FRATE = ONE
           ENDIF
 		        FRATE = FRATE*FSIZE(I)
           EC12M = FRATE * EC12M
           EC12  = FRATE * EC12
           DEPS  = MAX(-EPS12(I) - EC12, ZERO)
-          IF (DEPS > ZERO .and. DAM(I,MODE) < UN) THEN
+          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = (EC12M - EC12)
             FACT  = EC12M / ABS(EPS12(I))
             DI = FACT * DEPS / DEPSM
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= UN) THEN
+            IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = UN
+              DAM(I,MODE) = ONE
             ENDIF
           ENDIF
 c-----
@@ -516,8 +516,8 @@ c-----------------------------------------------------------------------
           DFMAX(I) = MAX(DFMAX(I), DAMXX)
           DFMAX(I) = MAX(DFMAX(I), DAMYY)
           DFMAX(I) = MAX(DFMAX(I), DAMXY)
-          DFMAX(I) = MIN(UN,DFMAX(I))
-          DMG_SCALE(I) = UN - DFMAX(I)
+          DFMAX(I) = MIN(ONE,DFMAX(I))
+          DMG_SCALE(I) = ONE - DFMAX(I)
         ENDDO
       ELSE                      ! directional damage applied to stress
         DO I=1, NEL
@@ -527,18 +527,18 @@ c-----------------------------------------------------------------------
           DFMAX(I) = MAX(DFMAX(I), DAMXX)
           DFMAX(I) = MAX(DFMAX(I), DAMYY)
           DFMAX(I) = MAX(DFMAX(I), DAMXY)
-          DFMAX(I) = MIN(UN,DFMAX(I))
+          DFMAX(I) = MIN(ONE,DFMAX(I))
           ODAMXX = MAX(ODAM(I,1),ODAM(I,4))
           ODAMYY = MAX(ODAM(I,2),ODAM(I,5))
           ODAMXY = MAX(ODAM(I,3),ODAM(I,6))
 c         Undamaged stress estimate
-          SIGNXX(I) = SIGOXX(I)/(UN-ODAMXX) + (SIGNXX(I) - SIGOXX(I))
-          SIGNYY(I) = SIGOYY(I)/(UN-ODAMYY) + (SIGNYY(I) - SIGOYY(I))
-          SIGNXY(I) = SIGOXY(I)/(UN-ODAMXY) + (SIGNXY(I) - SIGOXY(I))
+          SIGNXX(I) = SIGOXX(I)/(ONE-ODAMXX) + (SIGNXX(I) - SIGOXX(I))
+          SIGNYY(I) = SIGOYY(I)/(ONE-ODAMYY) + (SIGNYY(I) - SIGOYY(I))
+          SIGNXY(I) = SIGOXY(I)/(ONE-ODAMXY) + (SIGNXY(I) - SIGOXY(I))
 c         Damaged stress
-          SIGNXX(I) = SIGNXX(I)* (UN-DAMXX)
-          SIGNYY(I) = SIGNYY(I)* (UN-DAMYY)
-          SIGNXY(I) = SIGNXY(I)* (UN-DAMXY)
+          SIGNXX(I) = SIGNXX(I)* (ONE-DAMXX)
+          SIGNYY(I) = SIGNYY(I)* (ONE-DAMYY)
+          SIGNXY(I) = SIGNXY(I)* (ONE-DAMXY)
           UVAR(I,13) = SIGNXX(I)
           UVAR(I,14) = SIGNYY(I)
           UVAR(I,15) = SIGNXY(I)

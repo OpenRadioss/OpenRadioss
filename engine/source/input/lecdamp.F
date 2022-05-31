@@ -112,7 +112,7 @@ c            IF(TSTOP == ZERO) TSTOP = EP30
              END IF 
              CALL ARRET(2)
             ENDIF
-            IF (FACTB == ZERO) FACTB = UN
+            IF (FACTB == ZERO) FACTB = ONE
             IF(KORTH.EQ.0)THEN
               IF (ISPMD.EQ.0) WRITE (IOUT,2200) IDNEW,DAMPA,DAMPB,FACTB
 c              IF (ISPMD.EQ.0) WRITE (IOUT,2200) IDNEW,DAMPA,DAMPB,FACTB,

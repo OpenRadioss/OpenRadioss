@@ -94,7 +94,7 @@ C     LGRAV(1:SLGRAV) skyline vector of nodes numbers (one /GRAV option after th
 C-----------------------------------------------
 C     GRAV(LFACGRV,NGRAV)   
 C     GRAV(1,K) : FCY
-C     GRAV(2,K) : UN/FCX
+C     GRAV(2,K) : ONE/FCX
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------
@@ -237,7 +237,7 @@ C
 	IGRV(5,K)=ID
         IGRV(6,K)=ISENS
         GRAV(1,K) = FCY
-        GRAV(2,K) = UN/FCX
+        GRAV(2,K) = ONE/FCX
         TSENS=0
         DO J=1,NSENSOR
           IF(ISENS.NE.0) THEN

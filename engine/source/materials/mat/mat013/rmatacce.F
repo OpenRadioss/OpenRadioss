@@ -65,7 +65,7 @@ C     REAL ou REAL*8
      .        VX2,VX1,VX3,VG(3)
 
 C======================================================================|
-       USDT = UN /DT12
+       USDT = ONE /DT12
 
 !$OMP DO
 
@@ -104,11 +104,11 @@ C
           VX3 = V1X2 - V2X1
 C          
           A(1,N)= ARBYM(1,M) + USDT*(
-     .     VRBYM(1,M) + VX1+UNDEMI*DT2*(VG(2)*VX3-VG(3)*VX2)-V(1,N) )
+     .     VRBYM(1,M) + VX1+HALF*DT2*(VG(2)*VX3-VG(3)*VX2)-V(1,N) )
           A(2,N)= ARBYM(2,M) + USDT*(
-     .      VRBYM(2,M) + VX2+UNDEMI*DT2*(VG(3)*VX1-VG(1)*VX3)-V(2,N))
+     .      VRBYM(2,M) + VX2+HALF*DT2*(VG(3)*VX1-VG(1)*VX3)-V(2,N))
           A(3,N)= ARBYM(3,M) + USDT*(
-     .      VRBYM(3,M)+VX3+UNDEMI*DT2*(VG(1)*VX2-VG(2)*VX1)-V(3,N))
+     .      VRBYM(3,M)+VX3+HALF*DT2*(VG(1)*VX2-VG(2)*VX1)-V(3,N))
 C compute rotational velocity
 C
         ENDDO

@@ -158,22 +158,22 @@ cC     ([F]=[M_F]+[1]) -----
 c      IF (ISMSTR == 10) THEN
 cC--------- [B]=[F][F]^t strain-----
 c        DO I=1,NEL
-c         EPSXX(I) = MFXX(I)*(DEUX+MFXX(I))
+c         EPSXX(I) = MFXX(I)*(TWO+MFXX(I))
 c     .            + MFXY(I)*MFXY(I)+MFXZ(I)*MFXZ(I)
-c         EPSYY(I) = MFYY(I)*(DEUX+MFYY(I))
+c         EPSYY(I) = MFYY(I)*(TWO+MFYY(I))
 c     .            + MFYX(I)*MFYX(I)+MFYZ(I)*MFYZ(I)
-c         EPSZZ(I) = MFZZ(I)*(DEUX+MFZZ(I))
+c         EPSZZ(I) = MFZZ(I)*(TWO+MFZZ(I))
 c     .            + MFZX(I)*MFZX(I)+MFZY(I)*MFZY(I)
-c         EPSXY(I) = DEUX*(MFXY(I)+MFYX(I)+MFXX(I)*MFYX(I)
+c         EPSXY(I) = TWO*(MFXY(I)+MFYX(I)+MFXX(I)*MFYX(I)
 c     .            +       MFXY(I)*MFYY(I)+MFXZ(I)*MFYZ(I))
-c         EPSZX(I) = DEUX*(MFXZ(I)+MFZX(I)+MFXX(I)*MFZX(I)
+c         EPSZX(I) = TWO*(MFXZ(I)+MFZX(I)+MFXX(I)*MFZX(I)
 c     .            +       MFXY(I)*MFZY(I)+MFXZ(I)*MFZZ(I))
-c         EPSYZ(I) = DEUX*(MFZY(I)+MFYZ(I)+MFZX(I)*MFYX(I)
+c         EPSYZ(I) = TWO*(MFZY(I)+MFYZ(I)+MFZX(I)*MFYX(I)
 c     .            +       MFZY(I)*MFYY(I)+MFZZ(I)*MFYZ(I))
 c        ENDDO
 c        IF(IDTMIN(1)==3)THEN
 c         DO I=1,NEL
-c	  IF (OFFG(I) <=UN) CYCLE
+c	  IF (OFFG(I) <=ONE) CYCLE
 c           EPSXX(I)=MFXX(I)
 c           EPSYY(I)=MFYY(I)
 c           EPSZZ(I)=MFZZ(I)
@@ -188,9 +188,9 @@ C
         AV(I,1)=EPSXX(I)
         AV(I,2)=EPSYY(I)
         AV(I,3)=EPSZZ(I)
-        AV(I,4)=EPSXY(I) * UNDEMI
-        AV(I,5)=EPSYZ(I) * UNDEMI
-        AV(I,6)=EPSZX(I) * UNDEMI
+        AV(I,4)=EPSXY(I) * HALF
+        AV(I,5)=EPSYZ(I) * HALF
+        AV(I,6)=EPSZX(I) * HALF
       ENDDO
 C         Eigenvalues needed to be calcultated in double precision
 C         for a simple precision executing
@@ -202,20 +202,20 @@ C         for a simple precision executing
 C     Strain definition
       IF (ISMSTR == 1 .OR. ISMSTR == 3 ) THEN  ! engineering strain
         DO I=1,NEL
-          EV(I,1)=EVV(I,1)+ UN
-          EV(I,2)=EVV(I,2)+ UN
-          EV(I,3)=EVV(I,3)+ UN  
+          EV(I,1)=EVV(I,1)+ ONE
+          EV(I,2)=EVV(I,2)+ ONE
+          EV(I,3)=EVV(I,3)+ ONE  
         ENDDO
       ELSEIF(ISMSTR==10.OR.ISMSTR==12) THEN
         DO I =1,NEL
-        IF(OFFG(I)<=UN) THEN
-          EV(I,1)=SQRT(EVV(I,1)+ UN)
-          EV(I,2)=SQRT(EVV(I,2)+ UN)
-          EV(I,3)=SQRT(EVV(I,3)+ UN)
+        IF(OFFG(I)<=ONE) THEN
+          EV(I,1)=SQRT(EVV(I,1)+ ONE)
+          EV(I,2)=SQRT(EVV(I,2)+ ONE)
+          EV(I,3)=SQRT(EVV(I,3)+ ONE)
 	ELSE
-         EV(I,1)=EVV(I,1)+ UN
-         EV(I,2)=EVV(I,2)+ UN
-         EV(I,3)=EVV(I,3)+ UN
+         EV(I,1)=EVV(I,1)+ ONE
+         EV(I,2)=EVV(I,2)+ ONE
+         EV(I,3)=EVV(I,3)+ ONE
         END IF
         ENDDO 
       ELSE  ! true strain
@@ -234,10 +234,10 @@ C        ET(I) = ZERO
             DO I  = 1,NEL
 	     AMAX = EV(I,J)
              IF(AMAX>ZERO) THEN
-              IF((Al(K)-UN)==ZERO) THEN
+              IF((Al(K)-ONE)==ZERO) THEN
                  ETI(I)  = ETI(I) + MU(K)*Al(K)
               ELSE
-                 ETI(I)  = ETI(I) + MU(K)*Al(K)*EXP((Al(K)-UN)*LOG(AMAX))
+                 ETI(I)  = ETI(I) + MU(K)*Al(K)*EXP((Al(K)-ONE)*LOG(AMAX))
               ENDIF
              ENDIF   
             ENDDO
@@ -245,7 +245,7 @@ C        ET(I) = ZERO
           ET(1:NEL) = MAX(ETI(1:NEL),ET(1:NEL))
         ENDDO
         DO I=1,NEL
-          ET(I) = MAX(UN,ET(I)/GMAX)
+          ET(I) = MAX(ONE,ET(I)/GMAX)
         ENDDO
       ENDIF
 C----------------
@@ -306,7 +306,7 @@ c
            ENDIF
           ENDIF   
         ENDDO                                                  
-        DWDRV    = P(I)*(RV(I)- UN)
+        DWDRV    = P(I)*(RV(I)- ONE)
         SUMDWDL  =(DWDL(1)+DWDL(2)+DWDL(3))* THIRD
 c----------------------------
 C     principal Cauchy stress
@@ -405,7 +405,7 @@ C
                 DO I=1,NEL
                      H0(II) = UVARV((II-1)*6*NEL + NEL*(J-1) + I)     
                      H(II)  = EXP(FAC)*H0(II) +
-     .                  EXP(UNDEMI*FAC)*(C1(I,J) - C0(I,J))
+     .                  EXP(HALF*FAC)*(C1(I,J) - C0(I,J))
                      UVARV((II-1)*6*NEL + NEL*(J-1) + I) =  H(II)
                 ENDDO
               ENDDO                 
@@ -429,7 +429,7 @@ C
 C-----------------------------------------------------------
 C     set sound speed & viscosity
       DO I=1,NEL
-        SOUNDSP(I) = SQRT((DTHIRD*GMAX+P(I))/RHO(I))
+        SOUNDSP(I) = SQRT((TWO_THIRD*GMAX+P(I))/RHO(I))
         VISCMAX(I) = ZERO
       ENDDO
 C-----------      

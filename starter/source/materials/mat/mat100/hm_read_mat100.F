@@ -196,7 +196,7 @@ card
        CALL HM_GET_FLOATV('Fscale_AB' ,SCALEFAC ,IS_AVAILABLE, LSUBMODEL, UNITAB)
        IF(SCALEFAC == ZERO)THEN 
         CALL HM_GET_FLOATV_DIM('Fscale_AB' ,FAC_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        SCALEFAC = UN * FAC_UNIT
+        SCALEFAC = ONE * FAC_UNIT
        ENDIF       
        IF(ITEST == 0) ITEST = 1
        NHYPER = 11
@@ -231,11 +231,11 @@ card
        CALL HM_GET_FLOATV('MAT_Fscale_BM' ,SCALE2   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
        IF(SCALE1 == ZERO)THEN 
         CALL HM_GET_FLOATV_DIM('MAT_Fscale_SM' ,FAC_SM    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        SCALE1 = UN * FAC_SM
+        SCALE1 = ONE * FAC_SM
        ENDIF       
        IF(SCALE2 == ZERO)THEN 
         CALL HM_GET_FLOATV_DIM('MAT_Fscale_BM' ,FAC_BM    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        SCALE2 = UN * FAC_BM
+        SCALE2 = ONE * FAC_BM
        ENDIF       
        NFUNC = 2
        NHYPER = 5
@@ -271,10 +271,10 @@ card
        CALL HM_GET_INTV  ('MAT_N_pl'      ,EXPPL    ,IS_AVAILABLE, LSUBMODEL)
 
        IF(EXPPL   == 0) EXPPL=1
-       IF(FACPL   == ZERO) FACPL=UN
-       IF(EPSHAT  == ZERO) EPSHAT=UN
-       IF(FF      == ZERO) FF=UN
-       IF(TAUY    == ZERO) TAUY = UN
+       IF(FACPL   == ZERO) FACPL=ONE
+       IF(EPSHAT  == ZERO) EPSHAT=ONE
+       IF(FF      == ZERO) FF=ONE
+       IF(TAUY    == ZERO) TAUY = ONE
        ! NUVAR = NUVAR + 13
       ENDIF
 c=====================
@@ -301,7 +301,7 @@ card
             SHIFT = 9 +2 !SET NUVAR
             IF(TAUREF(NET) == ZERO) THEN
               CALL HM_GET_FLOATV_DIM('TAU_ref' ,TAUREF_UNIT   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-              TAUREF(NET) = UN * TAUREF_UNIT
+              TAUREF(NET) = ONE * TAUREF_UNIT
             ENDIF
                              
                 
@@ -345,39 +345,39 @@ C
       !==============HE========================      
       IF (FLAG_HE == 1 .OR. FLAG_HE == 3 .OR.FLAG_HE == 4 .OR.FLAG_HE == 5 )THEN
       !--------------------------------------
-       IF(D2 /=  ZERO ) D2 = UN/D2    
-       IF(D3 /=  ZERO ) D3 = UN/D3 
-       G = DEUX  * (C10 + C01) *(SB + UN)  
+       IF(D2 /=  ZERO ) D2 = ONE/D2    
+       IF(D3 /=  ZERO ) D3 = ONE/D3 
+       G = TWO  * (C10 + C01) *(SB + ONE)  
        IF(D1 /= ZERO) THEN
-         D1 = UN/D1 
-         RBULK= DEUX*D1 *(UN + SB) 
-         NU = (TROIS*RBULK -DEUX*G)/(TROIS*RBULK + G)/DEUX
-         E = NEUF*RBULK*G/(TROIS*RBULK + G)
+         D1 = ONE/D1 
+         RBULK= TWO*D1 *(ONE + SB) 
+         NU = (THREE*RBULK -TWO*G)/(THREE*RBULK + G)/TWO
+         E = NINE*RBULK*G/(THREE*RBULK + G)
        ELSE
          D2 = ZERO
          D3 = ZERO
          NU = 0.495
-         RBULK = DTHIRD*G*(UN + NU)/(UN-DEUX*NU)
-         D1    = RBULK / DEUX ! 1/D1 A VOIR SI ON SUPRIME PAS LE TERME AVEC J
-         E     = DEUX*G*(UN + NU)      
+         RBULK = TWO_THIRD*G*(ONE + NU)/(ONE-TWO*NU)
+         D1    = RBULK / TWO ! 1/D1 A VOIR SI ON SUPRIME PAS LE TERME AVEC J
+         E     = TWO*G*(ONE + NU)      
        ENDIF
       !==============HE========================      
       ELSEIF (FLAG_HE == 2)THEN
       !--------------------------------------
-       C1 = UNDEMI
-       C2 = UN/VINGT
-       C3 = ONZE/1050.
+       C1 = HALF
+       C2 = ONE/TWENTY
+       C3 = ELEVEN/1050.
        C4 = 19.D00/7000.
        C5 = 519.D00/673750.
        IF(D == ZERO ) D  = EM20
-       IF(LM == ZERO) LM = SEPT 
-       BETA = UN/LM/LM
-       G = MU*(UN +  TROIS*BETA /CINQ + QUATREVINGT19*BETA*BETA/175. 
-     .         + 513.*BETA**3/875. + 42039.*BETA**4/67375.)*(SB + UN)   
-       RBULK =  DEUX *(UN + SB) /D
-       E = NEUF*RBULK*G/(TROIS*RBULK + G)
+       IF(LM == ZERO) LM = SEVEN 
+       BETA = ONE/LM/LM
+       G = MU*(ONE +  THREE*BETA /FIVE + EIGHTY19*BETA*BETA/175. 
+     .         + 513.*BETA**3/875. + 42039.*BETA**4/67375.)*(SB + ONE)   
+       RBULK =  TWO *(ONE + SB) /D
+       E = NINE*RBULK*G/(THREE*RBULK + G)
        IF(IFUNC(1) == 0)THEN
-        NU = (TROIS*RBULK -DEUX*G)/(TROIS*RBULK + G)/DEUX
+        NU = (THREE*RBULK -TWO*G)/(THREE*RBULK + G)/TWO
        ELSE  !(IFUNC(1) /= 0) THEN
         NFUNC = 1
         IF (NU == ZERO) NU= 0.495
@@ -421,7 +421,7 @@ c==============================================================
        UPARAM(TAB + 4)  = C4
        UPARAM(TAB + 5)  = C5
        UPARAM(TAB + 6)  = MU
-       UPARAM(TAB + 7)  = UN/D
+       UPARAM(TAB + 7)  = ONE/D
        UPARAM(TAB + 8)  = BETA
        UPARAM(TAB + 9)  = ITEST
        UPARAM(TAB +10)  = NU
@@ -453,7 +453,7 @@ c==============================================================
         UPARAM(TAB + 2) = FLAG_VISC(N)
         UPARAM(TAB + 3) = NVISC(N) 
         IF (FLAG_VISC(N) == 1)THEN  
-          IF(EXPM(N) == ZERO)EXPM(N) = UN
+          IF(EXPM(N) == ZERO)EXPM(N) = ONE
           IF(EXPC(N) == ZERO)EXPC(N) = -0.700000000
           IF(KSI(N)  == ZERO)KSI(N) = EM02  
           UPARAM(TAB + 4) = A(N)

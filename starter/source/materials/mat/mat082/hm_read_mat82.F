@@ -95,7 +95,7 @@ C=======================================================================
       IS_AVAILABLE = .FALSE.
       IMATVIS = 1
       ILAW    = 82
-      ZEP495  = ZEP4 + NEUF*EM02 + CINQ*EM03
+      ZEP495  = ZEP4 + NINE*EM02 + FIVE*EM03
       NFUNC = 0
 
       CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
@@ -132,24 +132,24 @@ C
      .              C1=TITR)
       ENDIF           
 C ...   
-       IF(NU0 == UNDEMI) NU0= ZEP495
+       IF(NU0 == HALF) NU0= ZEP495
        IF(NU0 == ZERO ) THEN
          IF( D(1) > ZERO) THEN
-            P=DEUX/D(1)
-            NU = UN/(SIX*P + DEUX*GS)
-            NU = (TROIS*P - DEUX*GS)*NU
-            IF(NU == UNDEMI) NU= ZEP499
-            D(1) = TROIS*(UN - DEUX*NU)/GS/(UN + NU)
-            P = DEUX/D(1)
+            P=TWO/D(1)
+            NU = ONE/(SIX*P + TWO*GS)
+            NU = (THREE*P - TWO*GS)*NU
+            IF(NU == HALF) NU= ZEP499
+            D(1) = THREE*(ONE - TWO*NU)/GS/(ONE + NU)
+            P = TWO/D(1)
           ELSE
            NU = ZEP495
-           D(1) = TROIS*(UN - DEUX*NU)/GS/(UN + NU)
-           P = DEUX/D(1) 
+           D(1) = THREE*(ONE - TWO*NU)/GS/(ONE + NU)
+           P = TWO/D(1) 
           ENDIF     
        ELSE
           NU = NU0
-          D(1) = TROIS*(UN - DEUX*NU)/GS/(UN + NU)
-          P = DEUX/D(1)
+          D(1) = THREE*(ONE - TWO*NU)/GS/(ONE + NU)
+          P = TWO/D(1)
        ENDIF   
 C
        UPARAM(1) = NORDRE
@@ -161,11 +161,11 @@ C
        NUPARAM = 1 + 3*NORDRE 
        NUVAR  = 1
 C nu =0 ---> K = 2*G/3 ???????????? je ne comprends pas GW
-csm       PARMAT(1) = UNDEMI*P
+csm       PARMAT(1) = HALF*P
 csm       PARMAT(2) = GS*(1 + NU)
 csm       PARMAT(3) = NU
        PARMAT(1) = P
-       PARMAT(2) = DEUX*GS*(UN + NU)
+       PARMAT(2) = TWO*GS*(ONE + NU)
        PARMAT(3) = NU
        PARMAT(6) = P
 C       

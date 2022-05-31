@@ -141,35 +141,35 @@ C-----------------------------------------------
       PM(01)=RHOR
       PM(89)=RHO0
 
-      IF(ANU.EQ.UNDEMI)ANU=ZEP499
-      IF(R00.EQ.ZERO) R00   = UN
-      IF(R45.EQ.ZERO) R45   = UN
-      IF(R90.EQ.ZERO) R90   = UN
+      IF(ANU.EQ.HALF)ANU=ZEP499
+      IF(R00.EQ.ZERO) R00   = ONE
+      IF(R45.EQ.ZERO) R45   = ONE
+      IF(R90.EQ.ZERO) R90   = ONE
       IF(CA.EQ.ZERO)  CA    = INFINITY
-      IF(CN.EQ.ZERO)  CN    = UN
+      IF(CN.EQ.ZERO)  CN    = ONE
       IF(EPSM.EQ.ZERO) EPSM  = INFINITY
       IF(SIGM.EQ.ZERO) SIGM  = INFINITY
-      IF(CM.EQ.ZERO)  EPS0  = UN
+      IF(CM.EQ.ZERO)  EPS0  = ONE
 C
-      G=YOUNG/(DEUX*(UN + ANU))
+      G=YOUNG/(TWO*(ONE + ANU))
       E0=ZERO
       C0=ZERO
-      C1=YOUNG/(TROIS*(UN  - DEUX*ANU))
-      E1MN2=YOUNG/(UN-ANU**2)      
+      C1=YOUNG/(THREE*(ONE  - TWO*ANU))
+      E1MN2=YOUNG/(ONE-ANU**2)      
       EN1N2=ANU*E1MN2
       SDSP =SQRT(YOUNG/MAX(PM(1),EM20))
       AMU=PM(17)
-      R = QUART * (R00 + DEUX*R45 + R90)
-      H = R / (UN + R)
-      A11   = H * (UN + UN/R00)
-      A22   = H * (UN + UN/R90)
-      A1122 = H * DEUX
-      A12   = H * DEUX * (R45 + UNDEMI) * (UN/R00 + UN/R90)
+      R = FOURTH * (R00 + TWO*R45 + R90)
+      H = R / (ONE + R)
+      A11   = H * (ONE + ONE/R00)
+      A22   = H * (ONE + ONE/R90)
+      A1122 = H * TWO
+      A12   = H * TWO * (R45 + HALF) * (ONE/R00 + ONE/R90)
       IF (IR0 > 0) THEN
        A22=A22/A11
        A1122=A1122/A11
        A12=A12/A11
-       A11=UN
+       A11=ONE
       END IF
       ICC = 0
 C
@@ -179,11 +179,11 @@ C
       PM(23)=E0
       PM(24)=E1MN2
       PM(25)=EN1N2
-      PM(26)=CSIX
+      PM(26)=FIVE_OVER_6
       PM(27)=SDSP
-      PM(28)=UN/YOUNG
+      PM(28)=ONE/YOUNG
       PM(29)=-ANU*PM(28)
-      PM(30)=UN/G
+      PM(30)=ONE/G
       PM(31)=C0
       PM(32)=C1
       PM(38)=CA
@@ -198,11 +198,11 @@ C
       PM(47)=A1122
       PM(48)=A12
       PM(49)=ICC
-      PM(52)=UNP414*AMU*PM(1)*SDSP
+      PM(52)=ONEP414*AMU*PM(1)*SDSP
 CCC-----------
 C     Formulation for solid elements time step computation.
       IPM(252)= 2
-      PM(105) = (UN -DEUX*ANU)/(UN - ANU)
+      PM(105) = (ONE -TWO*ANU)/(ONE - ANU)
       
       MTAG%G_SEQ = 1
 C      

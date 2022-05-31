@@ -87,7 +87,7 @@ c Initializations
       STARTT = ZERO
       STOPT  = EP20
       GAP    = ZERO
-      STFAC  = UNCINQ
+      STFAC  = ONE_FIFTH
       FRIC   = ZERO
 c------------------------------------------------------------
 c  Card1
@@ -132,7 +132,7 @@ C
       FRIGAP(2) = GAP
       FRIGAP(3) = STARTT
       FRIGAP(4) = BUMULT
-      FRIGAP(5) = UN
+      FRIGAP(5) = ONE
       FRIGAP(11)= STOPT
 C------------------------------------------------------------
 C     PRINTOUT

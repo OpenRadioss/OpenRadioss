@@ -73,7 +73,7 @@ C-----------------------------------------------
      .   XIOFF(MVSIZ), AREAM(MVSIZ), ATEST(MVSIZ), AREA(MVSIZ,6)
 C-----------------------------------------------
       DO I=LFT,LLT
-        XIOFF(I) = UN
+        XIOFF(I) = ONE
         AREAM(I) = EM20
       ENDDO
 
@@ -86,7 +86,7 @@ C-----------------------------------------------
      .     Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .     Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,AREAM)     
         DO I=LFT,LLT
-          DELTAX(I)=DEUX*VOLN(I)*XIOFF(I)/SQRT(AREAM(I))
+          DELTAX(I)=TWO*VOLN(I)*XIOFF(I)/SQRT(AREAM(I))
         ENDDO
       ELSE
         CALL SLEN(X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,1,AREA,AREAM)
@@ -118,7 +118,7 @@ C-----------------------------------------------
           ENDDO                                          
        END IF
        DO  I=LFT,LLT
-         DELTAX(I)=QUATRE*VOLN(I)*XIOFF(I)/SQRT(AREAM(I))
+         DELTAX(I)=FOUR*VOLN(I)*XIOFF(I)/SQRT(AREAM(I))
        ENDDO      
       ENDIF
 C-----------------------------------------------      
@@ -181,9 +181,9 @@ C-------due to the fact that AREA_Max*L is far from V for Dege---
                 AREAM(I) =EM20
 C----tetra 4  ,pyrami    
                 IF (IDEG(I)>=2) THEN
-                 FAC(I)=UNNEUF
+                 FAC(I)=ONE_OVER_9
                 ELSE
-                 FAC(I)=QUART
+                 FAC(I)=FOURTH
                 END IF
                 N_INDX = N_INDX + 1
                 INDX(N_INDX) = I
@@ -456,7 +456,7 @@ C
        TSY =  Z43*X42 - Z42*X43
        TSZ =  X43*Y42 - X42*Y43
 C------V=r*(s^t)/6
-       DET = ABS(RX*TSX + RY*TSY + RZ*TSZ)*UNSIX
+       DET = ABS(RX*TSX + RY*TSY + RZ*TSZ)*ONE_OVER_6
 C      
       RETURN
       END
@@ -517,11 +517,11 @@ C-------due to the fact that AREA_Max*L is far from V for Dege---
         AREAM(I) =EM20
 C----tetra 4  ,pyrami     
         IF (IDEGE(I)>2) THEN
-         FAC=UNNEUF
+         FAC=ONE_OVER_9
         ELSEIF (IDEGE(I)>1) THEN
-         FAC=QUART
+         FAC=FOURTH
         ELSE
-         FAC=UN
+         FAC=ONE
         END IF
 		IT = 0
         CALL IDEGE8(X1(I),X2(I),X3(I),X4(I),Y1(I),Y2(I),Y3(I),Y4(I),
@@ -547,7 +547,7 @@ C----tetra 4
 		ELSE
 		 V_G=VOLG(I)
 		END IF
-        LAT(I) = QUATRE*V_G/SQRT(AREAM(I))
+        LAT(I) = FOUR*V_G/SQRT(AREAM(I))
 
        ENDIF
       ENDDO
@@ -729,7 +729,7 @@ C----------DELTAX crrection for degenerated element
       INTEGER I,IT
 C-----------------------------------------------
       DO I=LFT,LLT
-       DELTAX(I)=MIN(DELTAX(I),SEIZE*VOLG(I)*SMAX(I))
+       DELTAX(I)=MIN(DELTAX(I),SIXTEEN*VOLG(I)*SMAX(I))
        IDEGE(I) = 1
       ENDDO
 C      

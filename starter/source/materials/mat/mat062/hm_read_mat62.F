@@ -141,15 +141,15 @@ c--------------------------------------------------
       IF (RHOR == ZERO)  RHOR  = RHO0
 c
       DO I=1,NORDER
-        IF (AL(I) == ZERO) AL(I) = UN
+        IF (AL(I) == ZERO) AL(I) = ONE
       ENDDO  
 c
-      GAMMAINF = UN
+      GAMMAINF = ONE
       SUM      = ZERO
       IF (NVISC > 0) THEN 
         DO I=1,NVISC
           IF (TAUX(I) <= ZERO) TAUX(I) = EP20
-          IF (GAMA(I) > UN .OR. GAMA(I) < ZERO) THEN
+          IF (GAMA(I) > ONE .OR. GAMA(I) < ZERO) THEN
             CALL ANCMSG(MSGID=560,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
@@ -159,16 +159,16 @@ c
           ENDIF  
           SUM = SUM + GAMA(I)
         ENDDO
-        GAMMAINF = UN - SUM
+        GAMMAINF = ONE - SUM
       ENDIF
-      IF (NU >= UNDEMI) NU=0.49999999
+      IF (NU >= HALF) NU=0.49999999
       IF (VISCMAX == ZERO) VISCMAX=EP20
 c
       GS = ZERO
       DO I=1,NORDER 
         GS = GS + MU(I)
       ENDDO
-      GS = GS*DEUX
+      GS = GS*TWO
       IF (GS < ZERO) THEN
         CALL ANCMSG(MSGID=846,
      .              MSGTYPE=MSGERROR,
@@ -177,7 +177,7 @@ c
      .              C1=TITR)
       ENDIF
 
-      P = GS*(UN+NU)/MAX(EM20,TROIS*(UN-DEUX*NU)) 
+      P = GS*(ONE+NU)/MAX(EM20,THREE*(ONE-TWO*NU)) 
 C          
        IF (NVISC > 0) THEN
          IVISC = 1
@@ -208,10 +208,10 @@ c
        UPARAM(NUPARAM) = IVISC
 c---------------------
       PARMAT(1) = P
-      PARMAT(2) = GS*(UN + NU)
+      PARMAT(2) = GS*(ONE + NU)
       PARMAT(3) = NU
       PARMAT(16) = 2  ! Formulation for solid elements time step computation.
-      PARMAT(17) = GS/(P + DTHIRD*GS)
+      PARMAT(17) = GS/(P + TWO_THIRD*GS)
 c-----------------
       PM(1)  = RHOR
       PM(89) = RHO0
@@ -242,7 +242,7 @@ c-----------------
       ELSE
         WRITE(IOUT,1200) RHO0
 
-        WRITE(IOUT,1300) NU,GS*UNDEMI,VISCMAX,NORDER
+        WRITE(IOUT,1300) NU,GS*HALF,VISCMAX,NORDER
         WRITE(IOUT,1400) (MU(I),AL(I),I=1,NORDER)
         IF (IVISC > 0) THEN
           WRITE(IOUT,1500) NVISC,FLAG_VISC

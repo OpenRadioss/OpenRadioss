@@ -266,7 +266,7 @@ C-----------------------------------------------
         DO IXEL=1,NXEL
           DO I=LFT,LLT
             XFEM_STR(NG,IXEL)%GBUF%THK(I) = THK(I)
-            XFEM_STR(NG,IXEL)%GBUF%OFF(I) = -UN
+            XFEM_STR(NG,IXEL)%GBUF%OFF(I) = -ONE
           END DO
         ENDDO
       ENDIF
@@ -577,7 +577,7 @@ C
 C---
         DO I=JFT,JLT                         
           SUMA   = E3X(I)*E3X(I)+E3Y(I)*E3Y(I)+E3Z(I)*E3Z(I)  
-          SUMA   = UN/MAX(SQRT(SUMA),EM20)                    
+          SUMA   = ONE/MAX(SQRT(SUMA),EM20)                    
           E3X(I) = E3X(I)*SUMA                              
           E3Y(I) = E3Y(I)*SUMA                              
           E3Z(I) = E3Z(I)*SUMA                              
@@ -590,7 +590,7 @@ C
           E1Z(I) = E1Z(I) + (E2X(I)*E3Y(I)-E2Y(I)*E3X(I))*SUMA
 C
           SUMA   = E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I)  
-          SUMA   = UN/MAX(SQRT(SUMA),EM20)                    
+          SUMA   = ONE/MAX(SQRT(SUMA),EM20)                    
           E1X(I) = E1X(I)*SUMA                              
           E1Y(I) = E1Y(I)*SUMA                              
           E1Z(I) = E1Z(I)*SUMA                              

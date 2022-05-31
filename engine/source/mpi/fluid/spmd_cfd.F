@@ -1542,7 +1542,7 @@ C
                     KK(K) = KLT*(K-1)
                   ENDDO
 !
-                  WA(II+1) =-(GBUF%SIG(KK(1)+IS)+GBUF%SIG(KK(2)+IS)+ GBUF%SIG(KK(3)+IS))*TIERS               
+                  WA(II+1) =-(GBUF%SIG(KK(1)+IS)+GBUF%SIG(KK(2)+IS)+ GBUF%SIG(KK(3)+IS))*THIRD               
                   WA(II+2) = GBUF%EINT(IS)                        
                   WA(II+3) = GBUF%RHO(IS)                         
                   IF (G_PLA > 0) THEN                             
@@ -2773,7 +2773,7 @@ C-----------------------------------------------
                      KJ(K) = KLT*(K-1)
                    ENDDO
                    !-------------GLOBAL DATA------------------------------------------!
-                   WA(II+1)   = -(GBUF%SIG(KJ(1)+IS)+GBUF%SIG(KJ(2)+IS)+GBUF%SIG(KJ(3)+IS))*TIERS           
+                   WA(II+1)   = -(GBUF%SIG(KJ(1)+IS)+GBUF%SIG(KJ(2)+IS)+GBUF%SIG(KJ(3)+IS))*THIRD           
                    WA(II+2)   = GBUF%EINT(IS)                    
                    WA(II+3)   = GBUF%RHO(IS)                                   
                    IF (L_TEMP > 0)THEN                         

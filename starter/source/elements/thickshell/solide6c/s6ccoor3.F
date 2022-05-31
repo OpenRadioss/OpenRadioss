@@ -75,7 +75,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
       my_real
-     .   XL,YL,ZL,O6TH
+     .   XL,YL,ZL
 C-----------------------------------------------
 C   E x t e r n a l  F u n c t i o n s
 C-----------------------------------------------
@@ -84,7 +84,6 @@ C-----------------------------------------------
 C=======================================================================
 C     CONNECTIVITES ET NUMERO DE MATERIAU ET PID
 C--------------------------------------------------
-      O6TH = UNSIX
       DO I=LFT,LLT
         MXT(I)=IXS(1,I)
         IX1(I)=IXS(2,I)
@@ -146,9 +145,9 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-        XL=O6TH*(X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I))
-        YL=O6TH*(Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I))
-        ZL=O6TH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)+Z5(I)+Z6(I))
+        XL=ONE_OVER_6*(X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I))
+        YL=ONE_OVER_6*(Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I))
+        ZL=ONE_OVER_6*(Z1(I)+Z2(I)+Z3(I)+Z4(I)+Z5(I)+Z6(I))
         X1(I)=X1(I)-XL
         Y1(I)=Y1(I)-YL
         Z1(I)=Z1(I)-ZL

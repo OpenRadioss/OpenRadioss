@@ -133,8 +133,8 @@ C Initialisation
       CPDI_MIX=0
       CPEI_MIX=0
       CPFI_MIX=0
-      FAC_T=UN
-      FAC_M=UN
+      FAC_T=ONE
+      FAC_M=ONE
 C Lecture carte 1
       CALL HM_GET_INTV('NIP',NGASES,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('IFLOW',IFLOW,IS_AVAILABLE,LSUBMODEL)
@@ -165,8 +165,8 @@ C Lecture carte 2
       CALL HM_GET_FLOATV_DIM('A_SCALE_X',FAC_T,IS_AVAILABLE,LSUBMODEL,UNITAB)
 
 
-      IF(FSMASS(1) == ZERO)FSMASS(1)=UN*FAC_M                                                     
-      IF(FSTEMP(1) == ZERO)FSTEMP(1)=UN*FAC_T                                                     
+      IF(FSMASS(1) == ZERO)FSMASS(1)=ONE*FAC_M                                                     
+      IF(FSTEMP(1) == ZERO)FSTEMP(1)=ONE*FAC_T                                                     
       IF(F_IDMASS(1,1) == 0) THEN                                                                 
           CALL ANCMSG(MSGID=1115,                                                                 
      .                MSGTYPE=MSGERROR,                                                           
@@ -207,7 +207,7 @@ C Lecture carte 2
      .                  I1=PROP_ID,                                                               
      .                  C1=IDTITL)                                                                
           END IF                                                                                  
-          IF (F_IDMF(1,I).NE.0) MOLFR(I)=UN                                                       
+          IF (F_IDMF(1,I).NE.0) MOLFR(I)=ONE                                                       
 C         Verification existence materiau et functions                                            
 C ---
 C ---     Materiaux                                                                               
@@ -243,7 +243,7 @@ C ---     Fonctions
       ENDIF                                                                                       
 
 C Conversion d unites ----------------------
-      IF(ASTIME == ZERO)ASTIME=UN*FAC_T
+      IF(ASTIME == ZERO)ASTIME=ONE*FAC_T
       R_IGC1=PM(27,MAT_ID(2,1))
 C     Verification de la croissance des fonctions de masse
       DO I=1,NGASES
@@ -355,7 +355,7 @@ C     Dans le cas ou il y a au moins une fonction
      .                     *MOLFR(I)                                      
             END IF                                                        
           END DO                                                          
-          IF (ABS(MF_TOT-UN).GT.EM03) THEN                                
+          IF (ABS(MF_TOT-ONE).GT.EM03) THEN                                
             CALL ANCMSG(MSGID=716,                                        
      .                  MSGTYPE=MSGERROR,                                 
      .                  ANMODE=ANINFO_BLIND_1,                            
@@ -377,7 +377,7 @@ C     Dans le cas ou il y a au moins une fonction
      .                ANMODE=ANINFO,
      .                I1=PROP_ID,
      .                C1=IDTITL)
-        ELSE IF (ABS(MF_TOT-UN).GT.EM03) THEN
+        ELSE IF (ABS(MF_TOT-ONE).GT.EM03) THEN
       !Sinon on normalise par rapport a la somme
           DO I=1,NGASES
             MOLFR(I)=MOLFR(I)/MF_TOT

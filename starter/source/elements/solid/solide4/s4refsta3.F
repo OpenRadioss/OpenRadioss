@@ -285,7 +285,7 @@ C------
           ZR(I,4) = ZERO
         END DO
 C
-        FAC = UN/FLOAT(NITRS)
+        FAC = ONE/FLOAT(NITRS)
         DO I=LFT,LLT
           XT=X(1,IX4(I))
           YT=X(2,IX4(I))
@@ -388,15 +388,15 @@ c        CALL SREPLOC3(
          IF (ISMSTR >= 10) THEN
 C----------- in global system for total strain
            DO I=LFT,LLT
-            E1X(I)   = UN
+            E1X(I)   = ONE
             E1Y(I)   = ZERO
             E1Z(I)   = ZERO
             E2X(I)   = ZERO
-            E2Y(I)   = UN
+            E2Y(I)   = ONE
             E2Z(I)   = ZERO
             E3X(I)   = ZERO
             E3Y(I)   = ZERO
-            E3Z(I)   = UN
+            E3Z(I)   = ONE
            END DO
           ELSE
             CALL SORTHO3(
@@ -518,9 +518,9 @@ c       strain -> global coordinates
             D1(I) = LBUF%STRA(JJ(1) + I)
             D2(I) = LBUF%STRA(JJ(2) + I)
             D3(I) = LBUF%STRA(JJ(3) + I)
-            D4(I) = LBUF%STRA(JJ(4) + I)*UNDEMI
-            D5(I) = LBUF%STRA(JJ(5) + I)*UNDEMI
-            D6(I) = LBUF%STRA(JJ(6) + I)*UNDEMI
+            D4(I) = LBUF%STRA(JJ(4) + I)*HALF
+            D5(I) = LBUF%STRA(JJ(5) + I)*HALF
+            D6(I) = LBUF%STRA(JJ(6) + I)*HALF
             A11 = D1(I)*E1X(I)+D4(I)*E2X(I)+D6(I)*E3X(I)
             A12 = D1(I)*E1Y(I)+D4(I)*E2Y(I)+D6(I)*E3Y(I)
             A13 = D1(I)*E1Z(I)+D4(I)*E2Z(I)+D6(I)*E3Z(I)
@@ -539,9 +539,9 @@ c       strain -> global coordinates
             LBUF%STRA(JJ(1) + I) = D1(I)
             LBUF%STRA(JJ(2) + I) = D2(I)
             LBUF%STRA(JJ(3) + I) = D3(I)
-            LBUF%STRA(JJ(4) + I) = D4(I)*DEUX
-            LBUF%STRA(JJ(5) + I) = D5(I)*DEUX
-            LBUF%STRA(JJ(6) + I) = D6(I)*DEUX
+            LBUF%STRA(JJ(4) + I) = D4(I)*TWO
+            LBUF%STRA(JJ(5) + I) = D5(I)*TWO
+            LBUF%STRA(JJ(6) + I) = D6(I)*TWO
           ENDDO
         ENDIF
 C-----

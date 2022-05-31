@@ -194,9 +194,9 @@ C
            E3Y=Z31*X42-X31*Z42
            E3Z=X31*Y42-Y31*X42
 
-           E3X=UNHUIT*E3X
-           E3Y=UNHUIT*E3Y
-           E3Z=UNHUIT*E3Z
+           E3X=ONE_OVER_8*E3X
+           E3Y=ONE_OVER_8*E3Y
+           E3Z=ONE_OVER_8*E3Z
 
            AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
            AREA_SH4(N)=AREA
@@ -247,9 +247,9 @@ C
            E3X=Y31*Z32-Z31*Y32
            E3Y=Z31*X32-X31*Z32
            E3Z=X31*Y32-Y31*X32
-           E3X=UNSIX*E3X
-           E3Y=UNSIX*E3Y
-           E3Z=UNSIX*E3Z
+           E3X=ONE_OVER_6*E3X
+           E3Y=ONE_OVER_6*E3Y
+           E3Z=ONE_OVER_6*E3Z
 
            AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
            AREA_SH3(N)=AREA
@@ -331,13 +331,13 @@ C
            N3=IXC(4,N)
            N4=IXC(5,N)
 
-           UNT=UN/THICK_SH4(N)
-           TN1=ABS(THICK_NOD(N1)/MAX(EM30,AREA_NOD(N1))*UNT-UN)
-           TN2=ABS(THICK_NOD(N2)/MAX(EM30,AREA_NOD(N2))*UNT-UN)
-           TN3=ABS(THICK_NOD(N3)/MAX(EM30,AREA_NOD(N3))*UNT-UN)
-           TN4=ABS(THICK_NOD(N4)/MAX(EM30,AREA_NOD(N4))*UNT-UN)
+           UNT=ONE/THICK_SH4(N)
+           TN1=ABS(THICK_NOD(N1)/MAX(EM30,AREA_NOD(N1))*UNT-ONE)
+           TN2=ABS(THICK_NOD(N2)/MAX(EM30,AREA_NOD(N2))*UNT-ONE)
+           TN3=ABS(THICK_NOD(N3)/MAX(EM30,AREA_NOD(N3))*UNT-ONE)
+           TN4=ABS(THICK_NOD(N4)/MAX(EM30,AREA_NOD(N4))*UNT-ONE)
 
-           ERR_THK_SH4(N)=QUART*(TN1+TN2+TN3+TN4)
+           ERR_THK_SH4(N)=FOURTH*(TN1+TN2+TN3+TN4)
 
          END DO
         END IF
@@ -353,12 +353,12 @@ C
            N2=IXTG(3,N)
            N3=IXTG(4,N)
 
-           UNT=UN/THICK_SH3(N)
-           TN1=ABS(THICK_NOD(N1)/MAX(EM30,AREA_NOD(N1))*UNT-UN)
-           TN2=ABS(THICK_NOD(N2)/MAX(EM30,AREA_NOD(N2))*UNT-UN)
-           TN3=ABS(THICK_NOD(N3)/MAX(EM30,AREA_NOD(N3))*UNT-UN)
+           UNT=ONE/THICK_SH3(N)
+           TN1=ABS(THICK_NOD(N1)/MAX(EM30,AREA_NOD(N1))*UNT-ONE)
+           TN2=ABS(THICK_NOD(N2)/MAX(EM30,AREA_NOD(N2))*UNT-ONE)
+           TN3=ABS(THICK_NOD(N3)/MAX(EM30,AREA_NOD(N3))*UNT-ONE)
 
-           ERR_THK_SH3(N)=TIERS*(TN1+TN2+TN3)
+           ERR_THK_SH3(N)=THIRD*(TN1+TN2+TN3)
 
          END DO
         END IF

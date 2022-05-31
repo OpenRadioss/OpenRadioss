@@ -164,12 +164,12 @@ C!  Initialization
 C-----------------------------------------------
        IF(FLAG_PERTURB == 0) THEN
          DO I =1,NEL
-           IF(OFF(I) == UN .AND. DPLA(I) /= ZERO .AND. FOFF(I) .EQ. 1 ) THEN
+           IF(OFF(I) == ONE .AND. DPLA(I) /= ZERO .AND. FOFF(I) .EQ. 1 ) THEN
              hydros= (SIGNXX(I)+ SIGNYY(I))/3.0
              vmises= sqrt((SIGNXX(I)**2)+(SIGNYY(I)**2)-(SIGNXX(I)*SIGNYY(I))+(3.0*SIGNXY(I)**2))
              triaxs = hydros / MAX(EM20,vmises)
              DAMAGE = UVAR(I,1)
-             IF (triaxs <= TIERS) THEN     ! triax < 1/3
+             IF (triaxs <= THIRD) THEN     ! triax < 1/3
                EPS_FAIL =   X_1(1) +  X_1(2) * triaxs + X_1(3) * triaxs**2
                IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
              ELSE                          ! triax > 1/3
@@ -178,38 +178,38 @@ C-----------------------------------------------
                  EPS_FAIL   =   X_2(1) +  X_2(2) * triaxs + X_2(3) * triaxs**2
                  IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
                CASE(2)
-                 IF (triaxs <= UN/SQR3) THEN                     ! triax < 0.57735
-                   P1X      = TIERS
+                 IF (triaxs <= ONE/SQR3) THEN                     ! triax < 0.57735
+                   P1X      = THIRD
                    P1Y      = X_1(1) + X_1(2) * P1X + X_1(3) * P1X**2
-                   S1X      = UN/SQR3
-                   S1Y      = X_2(1) + X_2(2) / SQR3  + X_2(3) * (UN/SQR3)**2
+                   S1X      = ONE/SQR3
+                   S1Y      = X_2(1) + X_2(2) / SQR3  + X_2(3) * (ONE/SQR3)**2
                    A1       = (P1Y - S1Y) / (P1X - S1X)**2
-                   B1       = -DEUX * A1 * S1X
+                   B1       = -TWO * A1 * S1X
                    C1       = A1 * S1X**2 + S1Y 
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
                    IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
                  ELSE                                             ! triax > 0.57735
-                   P1X      = DEUX * TIERS
+                   P1X      = TWO * THIRD
                    P1Y      = X_2(1) + X_2(2) * P1X + X_2(3) * P1X**2
-                   S1X      = UN/SQR3
-                   S1Y      = X_2(1) + X_2(2) / SQR3  + X_2(3) * (UN/SQR3)**2
+                   S1X      = ONE/SQR3
+                   S1Y      = X_2(1) + X_2(2) / SQR3  + X_2(3) * (ONE/SQR3)**2
                    A1       = (P1Y - S1Y) / (P1X - S1X)**2
-                   B1       = -DEUX * A1 * S1X
+                   B1       = -TWO * A1 * S1X
                    C1       = A1 * S1X**2 + S1Y 
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
                    IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
                  ENDIF
                CASE(3)
-                 IF (triaxs <= UN/SQR3) THEN                       ! triax < 0.57735
-                   P1X      = TIERS
+                 IF (triaxs <= ONE/SQR3) THEN                       ! triax < 0.57735
+                   P1X      = THIRD
                    P1Y      = X_1(1) + X_1(2) * P1X + X_1(3) * P1X**2
-                   S1X      = UN/SQR3
-                   S1Y      = X_2(1) + X_2(2) / SQR3  + X_2(3) * (UN/SQR3)**2
+                   S1X      = ONE/SQR3
+                   S1Y      = X_2(1) + X_2(2) / SQR3  + X_2(3) * (ONE/SQR3)**2
                    S2Y      = INST
                    A1       = (P1Y - S1Y) / (P1X - S1X)**2
                    A2       = (P1Y - S2Y) / (P1X - S1X)**2
-                   B1       = -DEUX * A1 * S1X
-                   B2       = -DEUX * A2 * S1X
+                   B1       = -TWO * A1 * S1X
+                   B2       = -TWO * A2 * S1X
                    C1       = A1 * S1X**2 + S1Y 
                    C2       = A2 * S1X**2 + S2Y 
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
@@ -217,15 +217,15 @@ C-----------------------------------------------
                    EPS_FAIL2 = C2 + B2 * triaxs + A2 * triaxs**2   ! INSTABILITY
                    IF (NUVAR == 3) EPS_FAIL2 = EPS_FAIL2 * UVAR(I,3)
                  ELSE                          ! triax > 0.57735
-                   P1X      = DEUX * TIERS
+                   P1X      = TWO * THIRD
                    P1Y      = X_2(1) + X_2(2) * P1X + X_2(3) * P1X**2
-                   S1X      = UN/SQR3
-                   S1Y      = X_2(1) + X_2(2) / SQR3  + X_2(3) * (UN/SQR3)**2
+                   S1X      = ONE/SQR3
+                   S1Y      = X_2(1) + X_2(2) / SQR3  + X_2(3) * (ONE/SQR3)**2
                    S2Y      = INST
                    A1       = (P1Y - S1Y) / (P1X - S1X)**2
                    A2       = (P1Y - S2Y) / (P1X - S1X)**2
-                   B1       = -DEUX * A1 * S1X
-                   B2       = -DEUX * A2 * S1X
+                   B1       = -TWO * A1 * S1X
+                   B2       = -TWO * A2 * S1X
                    C1       = A1 * S1X**2 + S1Y 
                    C2       = A2 * S1X**2 + S2Y 
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
@@ -241,7 +241,7 @@ C-----------------------------------------------
            ENDIF
            
              DFMAX(I) = DFMAX(I) + DPLA(I)/MAX(EPS_FAIL,EM6)
-             DFMAX(I) = MIN(UN,DFMAX(I))
+             DFMAX(I) = MIN(ONE,DFMAX(I))
            
            IF (OFFL(I).EQ.1. .AND. DFMAX(I).GE.1.0) THEN
              FOFF(I)       = 0
@@ -249,9 +249,9 @@ C-----------------------------------------------
              INDX1(NINDX1) = I  
            ENDIF
            
-           IF (DAMAGE .GE. UN .AND. UVAR(I,2) .EQ. ZERO .AND. OFFL(I) .EQ. UN) THEN
-             UVAR(I,2) = UN  
-             UEL1(I)   = UEL1(I) + UN
+           IF (DAMAGE .GE. ONE .AND. UVAR(I,2) .EQ. ZERO .AND. OFFL(I) .EQ. ONE) THEN
+             UVAR(I,2) = ONE  
+             UEL1(I)   = UEL1(I) + ONE
              IF (INT(UEL1(I)) == NPTOT) THEN
                NINDX2        = NINDX2 + 1
                INDX2(NINDX2) = I
@@ -268,12 +268,12 @@ C-----------------------------------------------
          ENDDO
        ELSEIF(FLAG_PERTURB == 1) THEN
          DO I =1,NEL
-           IF(OFF(I) == UN .AND. DPLA(I) /= ZERO .AND. FOFF(I) .EQ. 1 ) THEN
+           IF(OFF(I) == ONE .AND. DPLA(I) /= ZERO .AND. FOFF(I) .EQ. 1 ) THEN
            hydros= (SIGNXX(I)+ SIGNYY(I))/3.0
            vmises= sqrt((SIGNXX(I)**2)+(SIGNYY(I)**2)-(SIGNXX(I)*SIGNYY(I))+(3.0*SIGNXY(I)**2))
            triaxs = hydros / MAX(EM20,vmises)
            DAMAGE = UVAR(I,1)
-             IF (triaxs <= TIERS) THEN
+             IF (triaxs <= THIRD) THEN
         	   EPS_FAIL =   UVAR(I,3) +  UVAR(I,4) * triaxs + UVAR(I,5) * triaxs**2
                IF (NUVAR == 9) EPS_FAIL = EPS_FAIL * UVAR(I,9)
              ELSE           ! triax > 1/3
@@ -282,38 +282,38 @@ C-----------------------------------------------
          	    EPS_FAIL =   UVAR(I,6) +  UVAR(I,7) * triaxs + UVAR(I,8) * triaxs**2
                 IF (NUVAR == 9) EPS_FAIL = EPS_FAIL * UVAR(I,9)
                CASE(2)
-                 IF (triaxs <= UN/SQR3) THEN
-                   P1X      = TIERS
+                 IF (triaxs <= ONE/SQR3) THEN
+                   P1X      = THIRD
                    P1Y      = UVAR(I,3) + UVAR(I,4) * P1X + UVAR(I,5) * P1X**2
-                   S1X      = UN/SQR3
-                   S1Y      = UVAR(I,6) + UVAR(I,7) / SQR3  + UVAR(I,8) * (UN/SQR3)**2
+                   S1X      = ONE/SQR3
+                   S1Y      = UVAR(I,6) + UVAR(I,7) / SQR3  + UVAR(I,8) * (ONE/SQR3)**2
                    A1       = (P1Y - S1Y) / (P1X - S1X)**2
-                   B1       = -DEUX * A1 * S1X
+                   B1       = -TWO * A1 * S1X
                    C1       = A1 * S1X**2 + S1Y 
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
                    IF (NUVAR == 9) EPS_FAIL = EPS_FAIL * UVAR(I,9)
                  ELSE 
-                   P1X      = DEUX * TIERS
+                   P1X      = TWO * THIRD
                    P1Y      = UVAR(I,3) + UVAR(I,4) * P1X + UVAR(I,5) * P1X**2
-                   S1X      = UN/SQR3
-                   S1Y      = UVAR(I,6) + UVAR(I,7) / SQR3  + UVAR(I,8) * (UN/SQR3)**2
+                   S1X      = ONE/SQR3
+                   S1Y      = UVAR(I,6) + UVAR(I,7) / SQR3  + UVAR(I,8) * (ONE/SQR3)**2
                    A1       = (P1Y - S1Y) / (P1X - S1X)**2
-                   B1       = -DEUX * A1 * S1X
+                   B1       = -TWO * A1 * S1X
                    C1       = A1 * S1X**2 + S1Y 
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
                    IF (NUVAR == 9) EPS_FAIL = EPS_FAIL * UVAR(I,9)
                  ENDIF
                CASE(3)
-                 IF (triaxs <= UN/SQR3) THEN
-                   P1X      = TIERS
+                 IF (triaxs <= ONE/SQR3) THEN
+                   P1X      = THIRD
                    P1Y      = UVAR(I,3) + UVAR(I,4) * P1X + UVAR(I,5) * P1X**2
-                   S1X      = UN/SQR3
-                   S1Y      = UVAR(I,6) + UVAR(I,7) / SQR3  + UVAR(I,8) * (UN/SQR3)**2
+                   S1X      = ONE/SQR3
+                   S1Y      = UVAR(I,6) + UVAR(I,7) / SQR3  + UVAR(I,8) * (ONE/SQR3)**2
                    S2Y      = INST
                    A1       = (P1Y - S1Y) / (P1X - S1X)**2
                    A2       = (P1Y - S2Y) / (P1X - S1X)**2
-                   B1       = -DEUX * A1 * S1X
-                   B2       = -DEUX * A2 * S1X
+                   B1       = -TWO * A1 * S1X
+                   B2       = -TWO * A2 * S1X
                    C1       = A1 * S1X**2 + S1Y 
                    C2       = A2 * S1X**2 + S2Y 
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
@@ -321,15 +321,15 @@ C-----------------------------------------------
                    EPS_FAIL2 = C2 + B2 * triaxs + A2 * triaxs**2
                    IF (NUVAR == 9) EPS_FAIL2 = EPS_FAIL2 * UVAR(I,9)
                  ELSE 
-                   P1X      = DEUX * TIERS
+                   P1X      = TWO * THIRD
                    P1Y      = UVAR(I,3) + UVAR(I,4) * P1X + UVAR(I,5) * P1X**2
-                   S1X      = UN/SQR3
-                   S1Y      = UVAR(I,6) + UVAR(I,7) / SQR3  + UVAR(I,8) * (UN/SQR3)**2
+                   S1X      = ONE/SQR3
+                   S1Y      = UVAR(I,6) + UVAR(I,7) / SQR3  + UVAR(I,8) * (ONE/SQR3)**2
                    S2Y      = INST
                    A1       = (P1Y - S1Y) / (P1X - S1X)**2
                    A2       = (P1Y - S2Y) / (P1X - S1X)**2
-                   B1       = -DEUX * A1 * S1X
-                   B2       = -DEUX * A2 * S1X
+                   B1       = -TWO * A1 * S1X
+                   B2       = -TWO * A2 * S1X
                    C1       = A1 * S1X**2 + S1Y 
                    C2       = A2 * S1X**2 + S2Y 
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
@@ -345,7 +345,7 @@ C-----------------------------------------------
            ENDIF
            
              DFMAX(I) = DFMAX(I) + DPLA(I)/MAX(EPS_FAIL,EM6)
-             DFMAX(I) = MIN(UN,DFMAX(I))
+             DFMAX(I) = MIN(ONE,DFMAX(I))
              
            IF (OFFL(I).EQ.1. .AND. DFMAX(I).GE.1.0) THEN
              FOFF(I)       = 0
@@ -353,9 +353,9 @@ C-----------------------------------------------
              INDX1(NINDX1) = I  
            ENDIF
            
-           IF (DAMAGE .GT. UN .AND. UVAR(I,2) .EQ. ZERO .AND. OFFL(I) .EQ. UN) THEN
-             UVAR(I,2) = UN   
-             UEL1(I)   = UEL1(I) + UN
+           IF (DAMAGE .GT. ONE .AND. UVAR(I,2) .EQ. ZERO .AND. OFFL(I) .EQ. ONE) THEN
+             UVAR(I,2) = ONE   
+             UEL1(I)   = UEL1(I) + ONE
              IF (INT(UEL1(I)) == NPTOT) THEN
                NINDX2        = NINDX2 + 1
                INDX2(NINDX2) = I

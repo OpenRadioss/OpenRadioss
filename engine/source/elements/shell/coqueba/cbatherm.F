@@ -95,7 +95,7 @@ C
 C Thermal nodal Force
 C
 
-          A = QUART *QUART * DIE(I)
+          A = FOURTH *FOURTH * DIE(I)
 
           FPHI(I,1) = A - (PHIX*(BM(I,1)+BM(I,3)) + PHIY*(BM(I,5)+BM(I,7)))
           FPHI(I,2) = A - (PHIX*(BM(I,2)-BM(I,3)) + PHIY*(BM(I,6)-BM(I,7)))
@@ -133,7 +133,7 @@ C
 C
 C Thermal nodal Force
 C          
-          A = QUART *QUART * DIE(I)
+          A = FOURTH *FOURTH * DIE(I)
 
           FPHI(I,1) = A - (PHIX*(BM(I,1)+BM(I,4))   + PHIY*(BM(I,2)+BM(I,5)))
           FPHI(I,2) = A - (PHIX*(BM(I,10)+BM(I,13)) + PHIY*(BM(I,11)+BM(I,14)))

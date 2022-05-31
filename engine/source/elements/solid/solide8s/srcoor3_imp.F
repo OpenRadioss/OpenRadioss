@@ -308,8 +308,8 @@ C     REPERE CONVECTE
 C-----------
       IF((ISMSTR<=4.OR.(ISMSTR==12.AND.IDTMIN(1)==3)).AND.JLAG>0) THEN
         DO I=LFT,LLT
-          IF(ABS(OFFG(I)) > UN)THEN
-            OFF(I) = ABS(OFFG(I))-UN
+          IF(ABS(OFFG(I)) > ONE)THEN
+            OFF(I) = ABS(OFFG(I))-ONE
             OFF_L  = MIN(OFF_L,OFFG(I))
           ELSE
             OFF(I) = ABS(OFFG(I))
@@ -318,7 +318,7 @@ C-----------
         ENDDO
         IF((ISMSTR==12.AND.IDTMIN(1)==3).AND.JLAG>0) THEN
          DO I=LFT,LLT	  
-          IF(ABS(OFFG(I)) > UN)THEN
+          IF(ABS(OFFG(I)) > ONE)THEN
           END IF
 	 ENDDO
         END IF
@@ -433,11 +433,11 @@ C
 !      IF (IGTYP /= 21 .AND. IGTYP /= 22) THEN
 !        IF (ISORTH == 0) THEN
 !          DO I=LFT,LLT                                          
-!            GAMA(I,1) = UN                             
+!            GAMA(I,1) = ONE                             
 !            GAMA(I,2) = ZERO                              
 !            GAMA(I,3) = ZERO
 !            GAMA(I,4) = ZERO                              
-!            GAMA(I,5) = UN                              
+!            GAMA(I,5) = ONE                              
 !            GAMA(I,6) = ZERO
 !          ENDDO      
 !        ELSE    
@@ -675,7 +675,7 @@ C-----------------------------------------------
 C=======================================================================
         !print*,'OFFG(10) ', offg(10)
         DO I=LFT,LLT
-          IF(ABS(OFFG(I)) <= UN )THEN
+          IF(ABS(OFFG(I)) <= ONE )THEN
            SAV(I,1)=XD2(I)-XD1(I)
            SAV(I,2)=YD2(I)-YD1(I)
            SAV(I,3)=ZD2(I)-ZD1(I)
@@ -784,26 +784,26 @@ C=======================================================================
         DX_DR = (X0(3)+X0(4)+X0(7)+X0(8))-(X0(1)+X0(2)+X0(5)+X0(6))
         DY_DR = (Y0(3)+Y0(4)+Y0(7)+Y0(8))-(Y0(1)+Y0(2)+Y0(5)+Y0(6))
         DZ_DR = (Z0(3)+Z0(4)+Z0(7)+Z0(8))-(Z0(1)+Z0(2)+Z0(5)+Z0(6))
-        !DX_DR = DX_DR/HUIT
-        !DY_DR = DY_DR/HUIT
-        !DZ_DR = DZ_DR/HUIT
+        !DX_DR = DX_DR/EIGHT
+        !DY_DR = DY_DR/EIGHT
+        !DZ_DR = DZ_DR/EIGHT
         DX_DS = (X0(5)+X0(6)+X0(7)+X0(8))-(X0(1)+X0(2)+X0(3)+X0(4))
         DY_DS = (Y0(5)+Y0(6)+Y0(7)+Y0(8))-(Y0(1)+Y0(2)+Y0(3)+Y0(4))
         DZ_DS = (Z0(5)+Z0(6)+Z0(7)+Z0(8))-(Z0(1)+Z0(2)+Z0(3)+Z0(4))
-        !DX_DS = DX_DS/HUIT
-        !DY_DS = DY_DS/HUIT
-        !DZ_DS = DZ_DS/HUIT
+        !DX_DS = DX_DS/EIGHT
+        !DY_DS = DY_DS/EIGHT
+        !DZ_DS = DZ_DS/EIGHT
         DX_DT = (X0(2)+X0(3)+X0(6)+X0(7))-(X0(1)+X0(4)+X0(5)+X0(8))
         DY_DT = (Y0(2)+Y0(3)+Y0(6)+Y0(7))-(Y0(1)+Y0(4)+Y0(5)+Y0(8))
         DZ_DT = (Z0(2)+Z0(3)+Z0(6)+Z0(7))-(Z0(1)+Z0(4)+Z0(5)+Z0(8))
-        !DX_DT = DX_DT/HUIT
-        !DY_DT = DY_DT/HUIT
-        !DZ_DT = DZ_DT/HUIT
+        !DX_DT = DX_DT/EIGHT
+        !DY_DT = DY_DT/EIGHT
+        !DZ_DT = DZ_DT/EIGHT
         DETJ0 =(DX_DR*(DY_DS*DZ_DT-DZ_DS*DY_DT)
      .         -DX_DS*(DY_DR*DZ_DT-DY_DT*DZ_DR)
      .         +DX_DT*(DY_DR*DZ_DS-DY_DS*DZ_DR))
-        DETM1 = UN/DETJ0
-        DETM1 = HUIT*DETM1
+        DETM1 = ONE/DETJ0
+        DETM1 = EIGHT*DETM1
         INVJ(I,1,1) = (DY_DS*DZ_DT-DZ_DS*DY_DT)*DETM1
         INVJ(I,2,1) = (DZ_DR*DY_DT-DY_DR*DZ_DT)*DETM1
         INVJ(I,3,1) = (DY_DR*DZ_DS-DY_DS*DZ_DR)*DETM1
@@ -817,21 +817,21 @@ C=======================================================================
         DX_DR = (XD3(I)+XD4(I)+XD7(I)+XD8(I))-(XD1(I)+XD2(I)+XD5(I)+XD6(I))
         DY_DR = (YD3(I)+YD4(I)+YD7(I)+YD8(I))-(YD1(I)+YD2(I)+YD5(I)+YD6(I))
         DZ_DR = (ZD3(I)+ZD4(I)+ZD7(I)+ZD8(I))-(ZD1(I)+ZD2(I)+ZD5(I)+ZD6(I))
-        DX_DR = DX_DR/HUIT
-        DY_DR = DY_DR/HUIT
-        DZ_DR = DZ_DR/HUIT
+        DX_DR = DX_DR/EIGHT
+        DY_DR = DY_DR/EIGHT
+        DZ_DR = DZ_DR/EIGHT
         DX_DS = (XD5(I)+XD6(I)+XD7(I)+XD8(I))-(XD1(I)+XD2(I)+XD3(I)+XD4(I))
         DY_DS = (YD5(I)+YD6(I)+YD7(I)+YD8(I))-(YD1(I)+YD2(I)+YD3(I)+YD4(I))
         DZ_DS = (ZD5(I)+ZD6(I)+ZD7(I)+ZD8(I))-(ZD1(I)+ZD2(I)+ZD3(I)+ZD4(I))
-        DX_DS = DX_DS/HUIT
-        DY_DS = DY_DS/HUIT
-        DZ_DS = DZ_DS/HUIT
+        DX_DS = DX_DS/EIGHT
+        DY_DS = DY_DS/EIGHT
+        DZ_DS = DZ_DS/EIGHT
         DX_DT = (XD2(I)+XD3(I)+XD6(I)+XD7(I))-(XD1(I)+XD4(I)+XD5(I)+XD8(I))
         DY_DT = (YD2(I)+YD3(I)+YD6(I)+YD7(I))-(YD1(I)+YD4(I)+YD5(I)+YD8(I))
         DZ_DT = (ZD2(I)+ZD3(I)+ZD6(I)+ZD7(I))-(ZD1(I)+ZD4(I)+ZD5(I)+ZD8(I))
-        DX_DT = DX_DT/HUIT
-        DY_DT = DY_DT/HUIT
-        DZ_DT = DZ_DT/HUIT
+        DX_DT = DX_DT/EIGHT
+        DY_DT = DY_DT/EIGHT
+        DZ_DT = DZ_DT/EIGHT
         
         FMAT(1,1) = (DX_DR*INVJ(I,1,1)+DX_DS*INVJ(I,2,1)+DX_DT*INVJ(I,3,1))
         FMAT(2,1) = (DY_DR*INVJ(I,1,1)+DY_DS*INVJ(I,2,1)+DY_DT*INVJ(I,3,1))
@@ -868,29 +868,29 @@ C=======================================================================
         I3C = C11*C22*C33+C12*C23*C31+C13*C21*C32
      .      -(C13*C22*C31+C12*C21*C33+C11*C23*C32)
      	
-        A = (DEUX*IC*IC*IC-NEUF*IC*I2C+VINGT7*I3C)*TRENTE2/VINGT7
-	  B = (QUATRE*(I2C*I2C*I2C+IC*IC*IC*I3C)-IC*IC*I2C*I2C-DIXHUIT*IC*I2C*I3C
-     .      +VINGT7*I3C*I3C)*MILLE24/VINGT7
+        A = (TWO*IC*IC*IC-NINE*IC*I2C+TWENTY7*I3C)*THIRTY2/TWENTY7
+	  B = (FOUR*(I2C*I2C*I2C+IC*IC*IC*I3C)-IC*IC*I2C*I2C-DIXHUIT*IC*I2C*I3C
+     .      +TWENTY7*I3C*I3C)*MILLE24/TWENTY7
         B = MAX(B,ZERO)
         A1 = A+SQRT(B)
         A2 = A-SQRT(B)
-        !ZZ = -DTIERS*IC+CBRT(A1)+CBRT(A2)
-        ZZ = -DTIERS*IC+SIGN(ABS(A1)**THIRD,A1)+SIGN(ABS(A2)**THIRD,A2)
-        A = DEUX*IC+ZZ
+        !ZZ = -TWO_THIRD*IC+CBRT(A1)+CBRT(A2)
+        ZZ = -TWO_THIRD*IC+SIGN(ABS(A1)**THIRD,A1)+SIGN(ABS(A2)**THIRD,A2)
+        A = TWO*IC+ZZ
         IF (A == ZERO) THEN
-          IU = SQRT(IC+DEUX*SQRT(I2C))
+          IU = SQRT(IC+TWO*SQRT(I2C))
         ELSE
           A = SQRT(A)
-          IU = UNDEMI*(A+SQRT(DEUX*IC-ZZ+SEIZE*SQRT(I3C)/A))
+          IU = HALF*(A+SQRT(TWO*IC-ZZ+SIXTEEN*SQRT(I3C)/A))
         ENDIF
         I3U = SQRT(I3C)
-        I2U = UNDEMI*(IU*IU-IC)
+        I2U = HALF*(IU*IU-IC)
         A = IU*I2U-I3U
         B = I3U+IU*IC
         A1 = IU*A
         A2 = A*B
         A3 = I2U*I3U*B+IU*IU*(I2U*I2C+I3C)
-        A4 = UN/(I3U*I3U*B+IU*IU*(IU*I3C+I3U*I2C))
+        A4 = ONE/(I3U*I3U*B+IU*IU*(IU*I3C+I3U*I2C))
         UM(1,1) = A4*(A1*CC11-A2*C11+A3)
         UM(2,1) = A4*(A1*CC21-A2*C21)
         UM(3,1) = A4*(A1*CC31-A2*C31)
@@ -1356,7 +1356,7 @@ C=======================================================================
      .   ZI1(MVSIZ), ZI2(MVSIZ), ZI3(MVSIZ), ZI4(MVSIZ),
      .   ZI5(MVSIZ), ZI6(MVSIZ), ZI7(MVSIZ), ZI8(MVSIZ)
       
-      AA = UN/HUIT
+      AA = ONE/EIGHT
       
       DO I=LFT,LLT
         XI1(I) = ZERO
@@ -1543,7 +1543,7 @@ C=======================================================================
         BB = B11*(B22*B33-B23*B32)               !Determinant
      .      -B12*(B21*B33-B31*B23)
      .      +B13*(B21*B32-B31*B22)
-        IF (BB /= ZERO) BB = UN/BB
+        IF (BB /= ZERO) BB = ONE/BB
         BI11 = (B22*B33-B32*B23)*BB              !Inverse
         BI21 = (B31*B23-B21*B33)*BB
         BI31 = (B21*B32-B31*B22)*BB
@@ -2421,7 +2421,7 @@ C-----------------------------------------------
      .    U,V,W,UL,VL,WL
 C=======================================================================
         DO I=LFT,LLT
-          !IF(ABS(OFFG(I)) <= UN )THEN           !sb voir comment faire avec OFFG
+          !IF(ABS(OFFG(I)) <= ONE )THEN           !sb voir comment faire avec OFFG
             U = XD2(I)-XD1(I)
             V = YD2(I)-YD1(I)
             W = ZD2(I)-ZD1(I)

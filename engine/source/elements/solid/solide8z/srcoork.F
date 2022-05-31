@@ -174,11 +174,11 @@ C-------sauf thick shells --------------
       IF (IGTYP /= 21 .AND. IGTYP /= 22) THEN
         IF (ISORTH == 0) THEN
           DO I=LFT,LLT                                          
-            GAMA(I,1) = UN                             
+            GAMA(I,1) = ONE                             
             GAMA(I,2) = ZERO                              
             GAMA(I,3) = ZERO
             GAMA(I,4) = ZERO                              
-            GAMA(I,5) = UN                              
+            GAMA(I,5) = ONE                              
             GAMA(I,6) = ZERO
           ENDDO      
         ELSE    
@@ -202,7 +202,7 @@ Clm   X=RX' <=> X'=t(R)X chgt de base.
      .   (ISMSTR.EQ.2.AND.IDTMIN(1).EQ.3))THEN
        IF (JHBE.EQ.14.OR.JHBE.EQ.24.OR.JHBE.EQ.15.OR.JHBE.EQ.222) THEN
        DO I=LFT,LLT
-       IF(OFFG(I).GT.UN)THEN
+       IF(OFFG(I).GT.ONE)THEN
         X1(I)=SAV(I,1)
         Y1(I)=SAV(I,2)
         Z1(I)=SAV(I,3)
@@ -227,7 +227,7 @@ Clm   X=RX' <=> X'=t(R)X chgt de base.
         X8(I)=ZERO
         Y8(I)=ZERO
         Z8(I)=ZERO
-        OFF(I) = OFFG(I)-UN
+        OFF(I) = OFFG(I)-ONE
        ELSE
         XL=R11(I)*X1(I)+R21(I)*Y1(I)+R31(I)*Z1(I)
         YL=R12(I)*X1(I)+R22(I)*Y1(I)+R32(I)*Z1(I)
@@ -305,7 +305,7 @@ C       SAV(I,21)=Z7(I)-Z8(I)
 C------due to different initial systems and [K] is calculated using always HA8 system      
        ELSE
         DO I=LFT,LLT
-        IF(OFFG(I).GT.UN)THEN
+        IF(OFFG(I).GT.ONE)THEN
          X1(I)=SAV(I,1)
          Y1(I)=SAV(I,2)
          Z1(I)=SAV(I,3)
@@ -330,7 +330,7 @@ C------due to different initial systems and [K] is calculated using always HA8 s
          X8(I)=ZERO
          Y8(I)=ZERO
          Z8(I)=ZERO
-         OFF(I) = OFFG(I)-UN
+         OFF(I) = OFFG(I)-ONE
         ENDIF
         ENDDO
         IF (JCVT.EQ.0) THEN
@@ -437,7 +437,7 @@ C------due to different initial systems and [K] is calculated using always HA8 s
         ENDDO
         ENDIF !IF (JCVT.EQ.0)
         DO I=LFT,LLT
-        IF(OFFG(I).LE.UN)THEN
+        IF(OFFG(I).LE.ONE)THEN
 C       SAV dans rep. local.
         SAV(I,1)=X1(I)-X8(I)
         SAV(I,2)=Y1(I)-Y8(I)
@@ -515,7 +515,7 @@ C
         X8(I)=XL
         Y8(I)=YL
         Z8(I)=ZL
-        OFF(I) = MIN(UN,OFFG(I))
+        OFF(I) = MIN(ONE,OFFG(I))
        ENDDO
 C
        ENDIF
@@ -606,21 +606,21 @@ C=======================================================================
         IF (JCVT== 0) THEN
 C------U,V,DW ->R,S,T orthogalized        
          DO I=LFT,LLT                                            
-          SUMA = UN/SQRT(RX(I)**2+RY(I)**2+RZ(I)**2)
+          SUMA = ONE/SQRT(RX(I)**2+RY(I)**2+RZ(I)**2)
           UX = RX(I)*SUMA
           UY = RY(I)*SUMA
           UZ = RZ(I)*SUMA             
           WX = UY*SZ(I)-UZ*SY(I)                 
           WY = UZ*SX(I)-UX*SZ(I)                 
           WZ = UX*SY(I)-UY*SX(I)                 
-          SUMA = UN/SQRT(WX*WX + WY*WY + WZ*WZ)
+          SUMA = ONE/SQRT(WX*WX + WY*WY + WZ*WZ)
           WX = WX*SUMA                 
           WY = WY*SUMA                 
           WZ = WZ*SUMA                 
           VX = WY*UZ-WZ*UY                 
           VY = WZ*UX-WX*UZ                 
           VZ = WX*UY-WY*UX                 
-          SUMA = UN/SQRT(VX*VX + VY*VY + VZ*VZ)
+          SUMA = ONE/SQRT(VX*VX + VY*VY + VZ*VZ)
           VX = VX*SUMA                 
           VY = VY*SUMA                 
           VZ = VZ*SUMA

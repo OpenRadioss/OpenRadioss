@@ -210,20 +210,20 @@ C-----------
 C
 C----------------------
        DO I=LFT,LLT
-        NU(I)=MIN(UNDEMI,PM(21,MXT(I)))
+        NU(I)=MIN(HALF,PM(21,MXT(I)))
         C1 =PM(32,MXT(I))
-        E0(I) =TROIS*(UN-DEUX*NU(I))*C1
+        E0(I) =THREE*(ONE-TWO*NU(I))*C1
        ENDDO
 C
         IF (ICP.EQ.1) THEN
           DO I=LFT,LLT
-           NU1(I)=UNDEMI
+           NU1(I)=HALF
           ENDDO
         ELSEIF (ICP.EQ.2) THEN
           CALL S8ZSIGP3(LFT  ,LLT       ,GBUF%SIG,E0,GBUF%PLA,
      2                  FAC  ,GBUF%G_PLA,NEL     )
           DO I=LFT,LLT
-           NU1(I)=NU(I)+(UNDEMI-NU(I))*FAC(I)
+           NU1(I)=NU(I)+(HALF-NU(I))*FAC(I)
           ENDDO
         ELSE
           DO I=LFT,LLT
@@ -261,7 +261,7 @@ C-----------Begin integrating points----
       DO IS=1,NLAY
         LBUF => ELBUF_STR%BUFLY(IS)%LBUF(1,1,1)
        DO I=LFT,LLT
-       VOLN(I)=UNDEMI*W_GAUSS(IS,NLAY)*(VOLG(I)+VZL(I)*A_GAUSS(IS,NLAY))
+       VOLN(I)=HALF*W_GAUSS(IS,NLAY)*(VOLG(I)+VZL(I)*A_GAUSS(IS,NLAY))
        ENDDO
        CALL MMSTIFS(PM   ,MXT  ,HH    ,VOLN  ,IBID  ,
      .              DD   ,GG   ,DG    ,G33   ,DM    ,
@@ -979,20 +979,20 @@ C-----------
 C
 C----------------------
        DO I=LFT,LLT
-        NU(I)=MIN(UNDEMI,PM(21,MXT(I)))
+        NU(I)=MIN(HALF,PM(21,MXT(I)))
         C1 =PM(32,MXT(I))
-        E0(I) =TROIS*(UN-DEUX*NU(I))*C1
+        E0(I) =THREE*(ONE-TWO*NU(I))*C1
        ENDDO
 C
         IF (ICP.EQ.1) THEN
           DO I=LFT,LLT
-           NU1(I)=UNDEMI
+           NU1(I)=HALF
           ENDDO
         ELSEIF (ICP.EQ.2) THEN
 C          CALL S8ZSIGP3(LFT,LLT,EV(NB2),E0,EV(NB10),FAC)
           DO I=LFT,LLT
-           FAC(I)=UN
-           NU1(I)=NU(I)+(UNDEMI-NU(I))*FAC(I)
+           FAC(I)=ONE
+           NU1(I)=NU(I)+(HALF-NU(I))*FAC(I)
           ENDDO
         ELSE
           DO I=LFT,LLT
@@ -1029,7 +1029,7 @@ C-----------Begin integrating points----
        IAD=IAD0+IS*LIAD*NEL
 c       CALL SBUFAD(IAD,NEL,MTN)
        DO I=LFT,LLT
-        VOLN(I)=UNDEMI*W_GAUSS(IS,MPT)*(VOLG(I)+VZL(I)*A_GAUSS(IS,MPT))
+        VOLN(I)=HALF*W_GAUSS(IS,MPT)*(VOLG(I)+VZL(I)*A_GAUSS(IS,MPT))
        ENDDO
        CALL MMSTIFS(PM   ,MXT  ,HH    ,VOLN  ,IBID  ,
      .              DD   ,GG   ,DG    ,G33   ,DM    ,

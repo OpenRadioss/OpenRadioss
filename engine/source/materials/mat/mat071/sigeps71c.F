@@ -193,14 +193,14 @@ C======================================================================|
       YLD_SAS   = UPARAM(8)                     
       YLD_SAF   = UPARAM(9)                     
       ALPHA     = UPARAM(10)                    
-      EPSL      = UPARAM(11)/(SQRT(DTIERS)+ALPHA)                    
+      EPSL      = UPARAM(11)/(SQRT(TWO_THIRD)+ALPHA)                    
       EMART     = UPARAM(14)                    
       EFLAG     = INT(UPARAM(15))               
       GM        = UPARAM(16)                    
       KM        = UPARAM(17)                    
-      G2        = DEUX*G                        
-      BETA      = EPSL*(G2+NEUF*K*ALPHA*ALPHA)  
-      SQDT      = SQRT(DEUX/TROIS)              
+      G2        = TWO*G                        
+      BETA      = EPSL*(G2+NINE*K*ALPHA*ALPHA)  
+      SQDT      = SQRT(TWO/THREE)              
       CAS       = UPARAM(18)                    
       CSA       = UPARAM(19)                    
       TSAS      = UPARAM(20)                    
@@ -214,14 +214,14 @@ C     principal stretch (def gradient eigenvalues)
       TRAV(1:NEL)  = EPSXX(1:NEL)+EPSYY(1:NEL)                                     
       ROOTV(1:NEL) = SQRT((EPSXX(1:NEL)-EPSYY(1:NEL))*(EPSXX(1:NEL)-EPSYY(1:NEL))  
      .           + EPSXY(1:NEL)*EPSXY(1:NEL))
-	     EVV(1:NEL,1) = UNDEMI*(TRAV(1:NEL)+ROOTV(1:NEL))
-      EVV(1:NEL,2) = UNDEMI*(TRAV(1:NEL)-ROOTV(1:NEL))  
+	     EVV(1:NEL,1) = HALF*(TRAV(1:NEL)+ROOTV(1:NEL))
+      EVV(1:NEL,2) = HALF*(TRAV(1:NEL)-ROOTV(1:NEL))  
       EVV(1:NEL,3) = ZERO                               
 C     rot matrix (eigenvectors)
       DO I=1,NEL
         IF(ABS(EVV(I,2)-EVV(I,1)) < EM10) THEN
-          EIGV(I,1,1) = UN
-          EIGV(I,2,1) = UN
+          EIGV(I,1,1) = ONE
+          EIGV(I,2,1) = ONE
           EIGV(I,3,1) = ZERO
           EIGV(I,1,2) = ZERO
           EIGV(I,2,2) = ZERO
@@ -231,27 +231,27 @@ C     rot matrix (eigenvectors)
           EIGV(I,2,1) = (EPSYY(I)-EVV(I,2)) /ROOTV(I)
           EIGV(I,1,2) = (EVV(I,1)-EPSXX(I)) /ROOTV(I)
           EIGV(I,2,2) = (EVV(I,1)-EPSYY(I)) /ROOTV(I)
-          EIGV(I,3,1) = (UNDEMI*EPSXY(I))   /ROOTV(I)
-          EIGV(I,3,2) =-(UNDEMI*EPSXY(I))   /ROOTV(I)
+          EIGV(I,3,1) = (HALF*EPSXY(I))   /ROOTV(I)
+          EIGV(I,3,2) =-(HALF*EPSXY(I))   /ROOTV(I)
         ENDIF
       ENDDO
       IF (ISMSTR == 1 .OR. ISMSTR == 3 .OR. ISMSTR == 11) THEN  ! engineering strain
         DO I=1,NEL
-          EV(I,1)=EVV(I,1)+ UN
-          EV(I,2)=EVV(I,2)+ UN
-          EV(I,3)=UN/EV(I,1)/EV(I,2)
+          EV(I,1)=EVV(I,1)+ ONE
+          EV(I,2)=EVV(I,2)+ ONE
+          EV(I,3)=ONE/EV(I,1)/EV(I,2)
         ENDDO
       ELSEIF(ISMSTR == 10) THEN
         DO I=1,NEL
-          EV(I,1)=SQRT(EVV(I,1)+ UN)
-          EV(I,2)=SQRT(EVV(I,2)+ UN)
-          EV(I,3)=UN/EV(I,1)/EV(I,2)!initialization before plane stress iterations
+          EV(I,1)=SQRT(EVV(I,1)+ ONE)
+          EV(I,2)=SQRT(EVV(I,2)+ ONE)
+          EV(I,3)=ONE/EV(I,1)/EV(I,2)!initialization before plane stress iterations
         ENDDO
       ELSE  ! true strain
         DO I=1,NEL
           EV(I,1)=EXP(EVV(I,1))
           EV(I,2)=EXP(EVV(I,2))
-          EV(I,3)=UN/EV(I,1)/EV(I,2)
+          EV(I,3)=ONE/EV(I,1)/EV(I,2)
         ENDDO
       ENDIF
 C-----------------------------------------------
@@ -311,7 +311,7 @@ c----------------------------------------------
            GT(I) = G + FM * (GM - G) !G_n
            KT(I) = K + FM * (KM - K) !K_n
           !pressure
-           P11(I) = KT(I) * (TRDE(I) - TROIS*ALPHA*EPSL*FM)
+           P11(I) = KT(I) * (TRDE(I) - THREE*ALPHA*EPSL*FM)
            ! n= e/ norm(e)
            NE = SQRT( EE1(I)**2 + EE2(I)**2 + EE3(I)**2 )
            NXX(I) =EE1(I)/MAX(NE,EM20) 
@@ -319,9 +319,9 @@ c----------------------------------------------
            NZZ(I) =EE3(I)/MAX(NE,EM20)  
  
 !          Estimation dev(sigma_n+1)
-           SXX(I)= DEUX*GT(I)*(EE1(I) -EPSL*FM*NXX(I))
-           SYY(I)= DEUX*GT(I)*(EE2(I) -EPSL*FM*NYY(I))
-           SZZ(I)= DEUX*GT(I)*(EE3(I) -EPSL*FM*NZZ(I))
+           SXX(I)= TWO*GT(I)*(EE1(I) -EPSL*FM*NXX(I))
+           SYY(I)= TWO*GT(I)*(EE2(I) -EPSL*FM*NYY(I))
+           SZZ(I)= TWO*GT(I)*(EE3(I) -EPSL*FM*NZZ(I))
 
 	      SV(I) =  SQRT( SXX(I)*SXX(I) + SYY(I)*SYY(I) + SZZ(I)*SZZ(I)  )
 	      !-------------------
@@ -331,58 +331,58 @@ c----------------------------------------------
            DFMAS = ZERO
 
            ! loading function
-           FS(I) = SV(I) + TROIS*ALPHA*P11(I) - CAS*TEMP(I) ! loading function A--> M
+           FS(I) = SV(I) + THREE*ALPHA*P11(I) - CAS*TEMP(I) ! loading function A--> M
            !----------------------
            !   Check Austenite -----> martensite  (dependance tempurature a voir ...)
            FASS = FS(I) -RSAS 
            FASF = FS(I) -RFAS 
            FS0  = UVAR(I,2)
-           BETA      = EPSL*(DEUX*GT(I)+NEUF*KT(I)*ALPHA*ALPHA)
-           IF((FS(I) - FS0) > ZERO .AND. FASS > ZERO.AND. FASF < ZERO .AND. FM < UN )THEN
-           ! DFMAS = MIN(UN, -(FS-FS0)*(UN-FM)/(FASF-BETA*(UN-FM) )  ) ! (should be positive)
-            DB    = (DEUX * (GM-G) +NEUF*ALPHA*ALPHA*(KM-K)) *EPSL
-            UNMXN = UN - FM
-            DFTR  = DEUX*NE*(GM-G) + TROIS*ALPHA*TRDE(I)*(KM-K)
-            DFMAS = MIN(UN, -(FS(I)-FS0)*(UN-FM)/(FASF-BETA*(UN-FM) )  )
+           BETA      = EPSL*(TWO*GT(I)+NINE*KT(I)*ALPHA*ALPHA)
+           IF((FS(I) - FS0) > ZERO .AND. FASS > ZERO.AND. FASF < ZERO .AND. FM < ONE )THEN
+           ! DFMAS = MIN(ONE, -(FS-FS0)*(ONE-FM)/(FASF-BETA*(ONE-FM) )  ) ! (should be positive)
+            DB    = (TWO * (GM-G) +NINE*ALPHA*ALPHA*(KM-K)) *EPSL
+            UNMXN = ONE - FM
+            DFTR  = TWO*NE*(GM-G) + THREE*ALPHA*TRDE(I)*(KM-K)
+            DFMAS = MIN(ONE, -(FS(I)-FS0)*(ONE-FM)/(FASF-BETA*(ONE-FM) )  )
             A = UNMXN *DB 
             B = (RFAS-FS(I)+UNMXN*(BETA-DFTR))
             C =  UNMXN*(FS0 - FS(I))
             DO JJ = 1,3
              FCT  = DFMAS*DFMAS *A+ DFMAS*   B  +C
-             FCTP = DEUX*DFMAS *A+ B
+             FCTP = TWO*DFMAS *A+ B
              DFMAS = DFMAS - FCT / FCTP     
             ENDDO
-            DFMAS = MIN(UN,DFMAS  ) ! (should be positive)
+            DFMAS = MIN(ONE,DFMAS  ) ! (should be positive)
            ENDIF
 
 
-           !IF((FS(I) - FS0) > ZERO .AND. FASS > ZERO.AND. FASF < ZERO.AND. FM < UN ) THEN!          
-           !       DFMAS = MIN(UN, -(FS(I)-FS0)*(UN-FM)/(FASF-BETA*(UN-FM) )  ) ! (should be positive)
+           !IF((FS(I) - FS0) > ZERO .AND. FASS > ZERO.AND. FASF < ZERO.AND. FM < ONE ) THEN!          
+           !       DFMAS = MIN(ONE, -(FS(I)-FS0)*(ONE-FM)/(FASF-BETA*(ONE-FM) )  ) ! (should be positive)
            !ENDIF
            !----------------------
            !   Check marteniste -----> austenite  (dependance au tempurature a voir ...)
            !----------------------
-           FS(I) = SV(I) + TROIS*ALPHA*P11(I) - CSA*TEMP(I) ! Unloading function M--> A
+           FS(I) = SV(I) + THREE*ALPHA*P11(I) - CSA*TEMP(I) ! Unloading function M--> A
            FSAS = FS(I) - RSSA
            FSAF = FS(I) - RFSA
            FS0 = UVAR(I,3)
            IF((FS(I) - FS0) < ZERO .AND. FSAS < ZERO.AND. FSAF > ZERO )THEN 
-             !DFMSA =  MAX(-UN , FM * (FS - FS0)/ (FSAF+BETA*FM) )
-            DB    = (DEUX * (GM-G) +NEUF*ALPHA*ALPHA*(KM-K))*EPSL
-            DFTR  = DEUX * (GM-G)*NE+ TROIS*ALPHA*(KM-K)*TRDE(I)
+             !DFMSA =  MAX(-ONE , FM * (FS - FS0)/ (FSAF+BETA*FM) )
+            DB    = (TWO * (GM-G) +NINE*ALPHA*ALPHA*(KM-K))*EPSL
+            DFTR  = TWO * (GM-G)*NE+ THREE*ALPHA*(KM-K)*TRDE(I)
             DFMSA = ZERO
             A = FM *DB 
             B = -(RFSA-FS(I)+FM*(DFTR-BETA))
             C =  -FM*(FS(I) - FS0)
             DO JJ = 1,3
              FCT  = DFMSA*DFMSA *A+ DFMSA*   B  +C
-             FCTP = DEUX*DFMSA *A+ B
+             FCTP = TWO*DFMSA *A+ B
              DFMSA = DFMSA - FCT / FCTP        
             ENDDO
-            DFMSA =  MAX(-UN , DFMSA )
+            DFMSA =  MAX(-ONE , DFMSA )
            ENDIF
            !IF((FS(I) - FS0) < ZERO .AND. FSAS < ZERO .AND. FSAF > ZERO ) THEN                       
-           !       DFMSA =  MAX(-UN , FM * (FS(I) - FS0)/ (FSAF+BETA*FM) )  !compute marteniste fraction
+           !       DFMSA =  MAX(-ONE , FM * (FS(I) - FS0)/ (FSAF+BETA*FM) )  !compute marteniste fraction
            !ENDIF
 
                   
@@ -393,15 +393,15 @@ c
            !UPDATE
            DGT = DFM(I) * (GM - G)
            DKT = DFM(I) * (KM - K)
-           SXX(I) =  SXX(I) -DEUX*GT(I)* EPSL*DFM(I)*NXX(I) 
-     .               +       DEUX*DGT* (EE1(I)-EPSL*NXX(I)*DFM(I))
-           SYY(I) =  SYY(I) -DEUX*GT(I)* EPSL*DFM(I)*NYY(I) 
-     .               +       DEUX*DGT* (EE2(I)-EPSL*NYY(I)*DFM(I))
-           SZZ(I) =  SZZ(I) -DEUX*GT(I)* EPSL*DFM(I)*NZZ(I) 
-     .               +       DEUX*DGT* (EE3(I)-EPSL*NZZ(I)*DFM(I))
+           SXX(I) =  SXX(I) -TWO*GT(I)* EPSL*DFM(I)*NXX(I) 
+     .               +       TWO*DGT* (EE1(I)-EPSL*NXX(I)*DFM(I))
+           SYY(I) =  SYY(I) -TWO*GT(I)* EPSL*DFM(I)*NYY(I) 
+     .               +       TWO*DGT* (EE2(I)-EPSL*NYY(I)*DFM(I))
+           SZZ(I) =  SZZ(I) -TWO*GT(I)* EPSL*DFM(I)*NZZ(I) 
+     .               +       TWO*DGT* (EE3(I)-EPSL*NZZ(I)*DFM(I))
 
-           P11(I) = P11(I) - KT(I)*EPSL*TROIS*ALPHA*DFM(I)
-     .          +   DKT *(TRDE(I) -EPSL*TROIS*ALPHA*DFM(I))
+           P11(I) = P11(I) - KT(I)*EPSL*THREE*ALPHA*DFM(I)
+     .          +   DKT *(TRDE(I) -EPSL*THREE*ALPHA*DFM(I))
 
            !KIRCHHOFF STRESS
            SIGXX(I)= SXX(I) + P11(I)
@@ -409,7 +409,7 @@ c
            SIGZZ(I)= SZZ(I) + P11(I)
 
            SV(I) =  SQRT( SXX(I)*SXX(I) + SYY(I)*SYY(I) + SZZ(I)*SZZ(I) )         
-           FS(I) = SV(I) + TROIS*ALPHA*P11(I)
+           FS(I) = SV(I) + THREE*ALPHA*P11(I)
            DFS(I) = ZERO
            IF (DFMAS /= ZERO) DFS(I)     = ABS(FS(I)-CAS*TEMP(I) - FS0)
            IF (DFMSA /= ZERO) DFS(I)     = ABS(FS(I)-CSA*TEMP(I) - FS0)
@@ -417,7 +417,7 @@ c
 !             H       = DFS(I)/EPSL/DFM(I)
 !             ETSE(I) = H /( (E + UVAR(I,1)*(EMART-E))  + H)
 !           ELSE
-!             ETSE(I) = UN
+!             ETSE(I) = ONE
 !           ENDIF
 
          ENDDO
@@ -426,7 +426,7 @@ c
          DO II =1,NINDX_LOOP
            I = INDX_LOOP(II)
            IF(DET(I)/=zero)THEN 
-                   INVE = UN/DET(I)
+                   INVE = ONE/DET(I)
            ELSE
                    INVE = zero
            ENDIF
@@ -443,7 +443,7 @@ c
            I = INDX_LOOP(II) 
 	      FM = UVAR(I,1)   ! fraction of Martensite    
            !pressure
-           P11(I) = K * (TRDE(I) - TROIS*ALPHA*EPSL*FM)
+           P11(I) = K * (TRDE(I) - THREE*ALPHA*EPSL*FM)
            ! n= e/ norm(e)
            NE = SQRT( EE1(I)**2 + EE2(I)**2 + EE3(I)**2 )
            NXX(I) =EE1(I)/(NE+EM20) 
@@ -463,23 +463,23 @@ c
            DFMAS = ZERO
 
            ! loading function
-           FS(I) = SV(I) + TROIS*ALPHA*P11(I) - CAS*TEMP(I) ! loading function A--> M
+           FS(I) = SV(I) + THREE*ALPHA*P11(I) - CAS*TEMP(I) ! loading function A--> M
            !----------------------
            !Check Austenite -----> martensite  (dependance tempurature a voir ...)
            FASS = FS(I) -RSAS 
            FASF = FS(I) -RFAS 
            FS0 = UVAR(I,2)
-           IF((FS(I) - FS0) > ZERO .AND. FASS > ZERO.AND. FASF < ZERO.AND. FM < UN ) THEN!          
-                  DFMAS = MIN(UN, -(FS(I)-FS0)*(UN-FM)/(FASF-BETA*(UN-FM) )  ) ! (should be positive)
+           IF((FS(I) - FS0) > ZERO .AND. FASS > ZERO.AND. FASF < ZERO.AND. FM < ONE ) THEN!          
+                  DFMAS = MIN(ONE, -(FS(I)-FS0)*(ONE-FM)/(FASF-BETA*(ONE-FM) )  ) ! (should be positive)
            ENDIF
            !----------------------
            !Check marteniste -----> austenite  (dependance au tempurature a voir ...)
-           FS(I) = SV(I) + TROIS*ALPHA*P11(I) - CSA*TEMP(I) ! Unloading function M--> A
+           FS(I) = SV(I) + THREE*ALPHA*P11(I) - CSA*TEMP(I) ! Unloading function M--> A
            FSAS = FS(I) - RSSA
            FSAF = FS(I) - RFSA
            FS0 = UVAR(I,3)
            IF((FS(I) - FS0) < ZERO .AND. FSAS < ZERO .AND. FSAF > ZERO ) THEN                       
-                  DFMSA =  MAX(-UN , FM * (FS(I) - FS0)/ (FSAF+BETA*FM) )  !compute marteniste fraction
+                  DFMSA =  MAX(-ONE , FM * (FS(I) - FS0)/ (FSAF+BETA*FM) )  !compute marteniste fraction
            ENDIF
                  
            DFM(I) =  DFMAS + DFMSA !new martensite fraction 
@@ -489,12 +489,12 @@ c
 	      SXX(I) =  SXX(I) -G2* EPSL*DFM(I)*NXX(I) 
 	      SYY(I) =  SYY(I) -G2* EPSL*DFM(I)*NYY(I)
 	      SZZ(I) =  SZZ(I) -G2* EPSL*DFM(I)*NZZ(I)
-           P11(I) =  P11(I) - K*EPSL*TROIS*ALPHA*DFM(I)
+           P11(I) =  P11(I) - K*EPSL*THREE*ALPHA*DFM(I)
            SIGXX(I)= SXX(I) + P11(I)
            SIGYY(I)= SYY(I) + P11(I)
            SIGZZ(I)= SZZ(I) + P11(I)
            SV(I) =  SQRT( SXX(I)*SXX(I) + SYY(I)*SYY(I) + SZZ(I)*SZZ(I) )         
-           FS(I) = SV(I) + TROIS*ALPHA*P11(I)
+           FS(I) = SV(I) + THREE*ALPHA*P11(I)
            DFS(I) = ZERO
            IF (DFMAS /= ZERO) DFS(I)     = ABS(FS(I)-CAS*TEMP(I) - FS0)
            IF (DFMSA /= ZERO) DFS(I)     = ABS(FS(I)-CSA*TEMP(I) - FS0)
@@ -503,7 +503,7 @@ c
 !               ETSE(I) = H /(E + H)
 !               !print*, 'ETSE(I) H/G2/EPSL', ETSE(I), H/G2/EPSL
 !           ELSE
-!               ETSE(I) = UN
+!               ETSE(I) = ONE
 !           ENDIF
 
          ENDDO
@@ -512,7 +512,7 @@ c
          DO II =1,NINDX_LOOP
            I = INDX_LOOP(II)
            IF(DET(I)/=zero)THEN 
-                   INVE = UN/DET(I)
+                   INVE = ONE/DET(I)
            ELSE
                    INVE = zero
            ENDIF
@@ -535,7 +535,7 @@ c
            IF(ABS(SIGZZ(I))>EM20.OR.KK< 3)THEN !  CRITERE           
                 IF (KK == 1) THEN                                       
                      EPSIM1(I) = EV(I,3)                                      
-                     EV(I,3)   = EV(I,3) /DEUX                     
+                     EV(I,3)   = EV(I,3) /TWO                     
                      SIGZIM1(I) = SIGZZ(I) 
                 ELSE       
                      TEST =  SIGZZ(I)-SIGZIM1(I)                                           
@@ -571,7 +571,7 @@ C ---------------update UVAR -------------------------------
       UVAR(1:NEL,3) = FS(1:NEL)- CSA*TEMP(1:NEL)
 C ----------------------------------------------------------
       DO I=1,NEL
-        EPSZZ(I) =EV(I,3) - UN ! left gauchy-green strain
+        EPSZZ(I) =EV(I,3) - ONE ! left gauchy-green strain
       ENDDO
 C     TRANSFORM PRINCIPAL  CAUCHY STRESSES TO GLOBAL DIRECTIONS
       SIGNXX(1:NEL) = EIGV(1:NEL,1,1)*SIGXX(1:NEL)+EIGV(1:NEL,1,2)*SIGYY(1:NEL)  
@@ -582,7 +582,7 @@ C     TRANSFORM PRINCIPAL  CAUCHY STRESSES TO GLOBAL DIRECTIONS
       THK(1:NEL)    = THK(1:NEL)     + (EPSZZ(1:NEL)-UVAR(1:NEL,4))*THKLY(1:NEL)*OFF(1:NEL)
 
 C ---------------update UVAR ---------------------
-      UVAR(1:NEL,1)  = MIN(UN, UVAR(1:NEL,1))
+      UVAR(1:NEL,1)  = MIN(ONE, UVAR(1:NEL,1))
       UVAR(1:NEL,10) = EPSXX(1:NEL)
       UVAR(1:NEL,11) = TEMP(1:NEL)
       UVAR(1:NEL,4)  = EPSZZ(1:NEL)
@@ -590,7 +590,7 @@ C ---------------update UVAR ---------------------
 c       sound velocity     
       VISCMAX(1:NEL) = ZERO
       DO I=1,NEL
-        SSPSH  = SQRT( E /(UN - NU*NU)/RHO0(I) )
+        SSPSH  = SQRT( E /(ONE - NU*NU)/RHO0(I) )
         SSPSOL = SQRT( AA1/RHO0(I) )
         SOUNDSP(I) =MAX(SSPSH ,SSPSOL)
       ENDDO  

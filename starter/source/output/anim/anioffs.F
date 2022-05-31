@@ -90,10 +90,10 @@ C-----------------------------------------------
           ELSE                                                          
             DO I=LFT,LLT                                                
               N = NFT + I                                               
-              IOFF(EL2FA(NN2+N))   = NINT(MIN(GBUF%OFF(I),UN))
-              IOFF(EL2FA(NN2+N)+1) = NINT(MIN(GBUF%OFF(I),UN))
-              IOFF(EL2FA(NN2+N)+2) = NINT(MIN(GBUF%OFF(I),UN))
-              IOFF(EL2FA(NN2+N)+3) = NINT(MIN(GBUF%OFF(I),UN))
+              IOFF(EL2FA(NN2+N))   = NINT(MIN(GBUF%OFF(I),ONE))
+              IOFF(EL2FA(NN2+N)+1) = NINT(MIN(GBUF%OFF(I),ONE))
+              IOFF(EL2FA(NN2+N)+2) = NINT(MIN(GBUF%OFF(I),ONE))
+              IOFF(EL2FA(NN2+N)+3) = NINT(MIN(GBUF%OFF(I),ONE))
             ENDDO                                                       
           ENDIF                                                         
 C-----------------------------------------------                        
@@ -109,7 +109,7 @@ C-----------------------------------------------
           ELSE                                                          
             DO I=LFT,LLT                                                
               N = NFT + I                                               
-              IOFF(EL2FA(NN2+N)) = NINT(MIN(GBUF%OFF(I),UN))        
+              IOFF(EL2FA(NN2+N)) = NINT(MIN(GBUF%OFF(I),ONE))        
             ENDDO                                                       
           ENDIF                                                         
         ELSEIF(ISPH3D.EQ.1.AND.ITY.EQ.51)THEN                           
@@ -125,7 +125,7 @@ C-----------------------------------------------
           ELSE                                                          
             DO I=LFT,LLT                                                
               N = NFT + I                                               
-              IOFF(EL2FA(NN3+N)) = NINT(MIN(GBUF%OFF(I),UN))      
+              IOFF(EL2FA(NN3+N)) = NINT(MIN(GBUF%OFF(I),ONE))      
             ENDDO                                                       
           ENDIF                                                         
         ELSE                                                            

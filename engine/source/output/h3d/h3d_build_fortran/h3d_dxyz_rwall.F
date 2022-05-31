@@ -123,7 +123,7 @@ C
             VV2 = V3 * XN - V1 * ZN
             VV3 = V1 * YN - V2 * XN
             VV = SQRT(VV1*VV1 + VV2*VV2 + VV3*VV3)
-            IF(VV.LE.UNDEMI)THEN
+            IF(VV.LE.HALF)THEN
               V1 = ZERO
               V2 = -ZEP707
               V3 = ZEP707        
@@ -160,8 +160,8 @@ c
           DY = YMAX - YMIN
           DZ = ZMAX - ZMIN
 
-  	  R =  UNDEMI*RWBUF(7,N)
-  	  XL = UNDEMI*MAX(DX,DY,DZ)
+  	  R =  HALF*RWBUF(7,N)
+  	  XL = HALF*MAX(DX,DY,DZ)
   	  V1 = ZERO
   	  V2 = ZEP707
   	  V3 = ZEP707
@@ -169,7 +169,7 @@ c
   	  VV2 = V3 * XN - V1 * ZN
   	  VV3 = V1 * YN - V2 * XN
   	  VV = SQRT(VV1*VV1 + VV2*VV2 + VV3*VV3)
-  	  IF(VV.LE.UNDEMI)THEN
+  	  IF(VV.LE.HALF)THEN
   	    V1 = ZERO
   	    V2 = -ZEP707
   	    V3 = ZEP707
@@ -201,7 +201,7 @@ c
           YN = RWBUF(2,N)
           ZN = RWBUF(3,N)
 
-          RWALL_V1(N) = UNDEMI*RWBUF(7,N)
+          RWALL_V1(N) = HALF*RWBUF(7,N)
           RWALL_V2(N) = ZERO
           RWALL_V3(N) = ZERO
           RWALL_V4(N) = ZERO

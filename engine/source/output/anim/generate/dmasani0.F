@@ -103,7 +103,7 @@ C-----------------------------------------------
                  MT  =IPART(1,IPRT)
                  VALUE=PM(89,MT)*GBUF%VOL(I)
                ELSE
-                 OFF = MIN(GBUF%OFF(I),UN)
+                 OFF = MIN(GBUF%OFF(I),ONE)
                  VALUE=GBUF%RHO(I)*GBUF%VOL(I)*OFF
                ENDIF
                MAS(EL2FA(NN1+N)) = VALUE

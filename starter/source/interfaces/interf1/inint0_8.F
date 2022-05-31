@@ -114,7 +114,7 @@ C
      .           +(YMAX-YMIN)*(ZMAX-ZMIN)
      .           +(ZMAX-ZMIN)*(XMAX-XMIN)))
 
-      AAA = TQUART*AAA
+      AAA = THREE_OVER_4*AAA
 
       NBX = NINT(AAA*(XMAX-XMIN))
       NBY = NINT(AAA*(YMAX-YMIN))

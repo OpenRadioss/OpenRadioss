@@ -104,14 +104,14 @@ C-----------------------------------------------
 C     CALCUL PAR FACE DE V MATIERE - V MAILLAGE
 C-----------------------------------------------
       DO I=LFT,LLT
-        VY1(I)=UNDEMI*(VDY1(I)+VDY2(I))
-        VY2(I)=UNDEMI*(VDY2(I)+VDY3(I))
-        VY3(I)=UNDEMI*(VDY3(I)+VDY4(I))
-        VY4(I)=UNDEMI*(VDY4(I)+VDY1(I))      
-        VZ1(I)=UNDEMI*(VDZ1(I)+VDZ2(I))
-        VZ2(I)=UNDEMI*(VDZ2(I)+VDZ3(I))
-        VZ3(I)=UNDEMI*(VDZ3(I)+VDZ4(I))
-        VZ4(I)=UNDEMI*(VDZ4(I)+VDZ1(I))      
+        VY1(I)=HALF*(VDY1(I)+VDY2(I))
+        VY2(I)=HALF*(VDY2(I)+VDY3(I))
+        VY3(I)=HALF*(VDY3(I)+VDY4(I))
+        VY4(I)=HALF*(VDY4(I)+VDY1(I))      
+        VZ1(I)=HALF*(VDZ1(I)+VDZ2(I))
+        VZ2(I)=HALF*(VDZ2(I)+VDZ3(I))
+        VZ3(I)=HALF*(VDZ3(I)+VDZ4(I))
+        VZ4(I)=HALF*(VDZ4(I)+VDZ1(I))      
       ENDDO
 C------------------------------------------
 C     CALCUL DE LA NORMALE A CHAQUE FACE
@@ -131,14 +131,14 @@ C------------------------------------------
       ENDDO
       IF(N2D.EQ.1)THEN
        DO I=LFT,LLT
-         N1Y(I) = N1Y(I)*(Y1(I)+Y2(I))*UNDEMI
-         N1Z(I) = N1Z(I)*(Y1(I)+Y2(I))*UNDEMI
-         N2Y(I) = N2Y(I)*(Y2(I)+Y3(I))*UNDEMI
-         N2Z(I) = N2Z(I)*(Y2(I)+Y3(I))*UNDEMI
-         N3Y(I) = N3Y(I)*(Y3(I)+Y4(I))*UNDEMI
-         N3Z(I) = N3Z(I)*(Y3(I)+Y4(I))*UNDEMI
-         N4Y(I) = N4Y(I)*(Y1(I)+Y4(I))*UNDEMI
-         N4Z(I) = N4Z(I)*(Y1(I)+Y4(I))*UNDEMI       
+         N1Y(I) = N1Y(I)*(Y1(I)+Y2(I))*HALF
+         N1Z(I) = N1Z(I)*(Y1(I)+Y2(I))*HALF
+         N2Y(I) = N2Y(I)*(Y2(I)+Y3(I))*HALF
+         N2Z(I) = N2Z(I)*(Y2(I)+Y3(I))*HALF
+         N3Y(I) = N3Y(I)*(Y3(I)+Y4(I))*HALF
+         N3Z(I) = N3Z(I)*(Y3(I)+Y4(I))*HALF
+         N4Y(I) = N4Y(I)*(Y1(I)+Y4(I))*HALF
+         N4Z(I) = N4Z(I)*(Y1(I)+Y4(I))*HALF       
        ENDDO
       ENDIF
 C--------------------

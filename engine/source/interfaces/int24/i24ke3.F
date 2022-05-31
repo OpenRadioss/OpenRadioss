@@ -382,7 +382,7 @@ C-----------------------------------------------
      .   ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA ,TM,TS
 C-----------------------------------------------
       IF (IRESP.EQ.1) THEN
-           PREC = CINQEM4
+           PREC = FIVEEM4
       ELSE
            PREC = EM10
       ENDIF
@@ -463,7 +463,7 @@ c       ENDDO
 C-----
 c      DO I=1,JLT
 c       IF(STIGLO.LE.ZERO)THEN
-c        STIF(I) = UNDEMI*STIF(I) 
+c        STIF(I) = HALF*STIF(I) 
 c       ELSEIF(STIF(I).NE.ZERO)THEN
 c        STIF(I) = STIGLO 
 c       ENDIF
@@ -476,7 +476,7 @@ C    ----sans frottement d'abord---
         VTZ = VZ(I) -VN(I)*N3(I)
         VT  = VTX*VTX+VTY*VTY+VTZ*VTZ
         IF (VT.GT.EM20) THEN
-         S2=UN/SQRT(VT)
+         S2=ONE/SQRT(VT)
          Q(1,1,I)=VTX*S2
          Q(1,2,I)=VTY*S2
          Q(1,3,I)=VTZ*S2
@@ -597,7 +597,7 @@ C
        ENDDO
 C
        DO I=1,JLT
-        OFF(I)=UN
+        OFF(I)=ONE
        ENDDO
 C
       IF (NSPMD > 1) THEN
@@ -704,14 +704,14 @@ C-----------------------------------------------
       IF (NSN == 0) RETURN
       DO I=1,JLT
        IF(STIGLO.LE.ZERO)THEN
-        STIF(I) = UNDEMI*STIF(I) 
+        STIF(I) = HALF*STIF(I) 
        ELSEIF(STIF(I).NE.ZERO)THEN
         STIF(I) = STIGLO 
        ENDIF
         FNI(I)= -STIF(I) * PENE(I)
       ENDDO
 C---------------------------------
-       LNS1=UNDEMI*(LL_S(1)+LL_S(NSN))
+       LNS1=HALF*(LL_S(1)+LL_S(NSN))
        DO I=1,JLT
         NS=NSVG(I)
 C-------in spmd LNS is simplified        
@@ -728,7 +728,7 @@ C-------in spmd LNS is simplified
         AL(3,I)=LNS+LL_M(TAG_M(NM))
         NM=IX4(I)
         AL(4,I)=LNS+LL_M(TAG_M(NM))
-        LMAX=UNP01*PENE(I)
+        LMAX=ONEP01*PENE(I)
         DO J=1,4
          AL(J,I)=MAX(LMAX,AL(J,I))
         END DO

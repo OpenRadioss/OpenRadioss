@@ -70,7 +70,7 @@ C====================================================================
 !====================================================================
        ICRYPT = 0    !
        NSTART = 2
-       ERRTOL = CINQEM3   
+       ERRTOL = FIVEEM3   
        IFC = IFUNC(1)
        IC1 = NPC(IFC)
        IC2 = NPC(IFC + 1)
@@ -122,26 +122,26 @@ C
         !!GS  = STIFFMAX  
         GS  = STIFFINI 
 C        
-        RBULK=DEUX*GS*(UN+NU)                                               
-     .        /MAX(EM30,TROIS*(UN-DEUX*NU)) 
+        RBULK=TWO*GS*(ONE+NU)                                               
+     .        /MAX(EM30,THREE*(ONE-TWO*NU)) 
         UPARAM(4) = GS                                                  
         UPARAM(5) = RBULK
         UPARAM(6) = UPARAM(4)
         IF(NCOMP == 0) UPARAM(7) = 1  
-!!        UPARAM(6)=DEUX*STIFFMIN*(UN+NU)
-!!     .        /MAX(EM30,TROIS*(UN-DEUX*NU))
+!!        UPARAM(6)=TWO*STIFFMIN*(ONE+NU)
+!!     .        /MAX(EM30,THREE*(ONE-TWO*NU))
 c       parameters    
-        YOUNG  = DEUX*GS*(UN + NU)               
+        YOUNG  = TWO*GS*(ONE + NU)               
         PM(20) = YOUNG                      
         PM(21) = NU                         
         PM(22) = GS                         
-        PM(24) = YOUNG/(UN - NU**2)         
+        PM(24) = YOUNG/(ONE - NU**2)         
         PM(32) = RBULK                      
         PM(100) = RBULK  !PARMAT(1) 
 C-----------
 C     Formulation for solid elements time step computation.
         IPM(252)= 2
-        PM(105) = DEUX*GS/(RBULK + QTHIRD*GS)        
+        PM(105) = TWO*GS/(RBULK + FOUR_OVER_3*GS)        
 C                          
         IF (ICRYPT == 0) THEN
           WRITE(IOUT,1000)

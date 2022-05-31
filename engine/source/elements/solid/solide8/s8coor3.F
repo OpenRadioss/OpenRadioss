@@ -130,7 +130,7 @@ C
       VXLOC(I,8)=V(1,NC(8,I))
       VYLOC(I,8)=V(2,NC(8,I))
       VZLOC(I,8)=V(3,NC(8,I))
-      OFF(I) = MIN(UN,ABS(OFFG(I)))
+      OFF(I) = MIN(ONE,ABS(OFFG(I)))
       OFF_L  = MIN(OFF_L,OFFG(I))
    20 CONTINUE
       IF(OFF_L.LT.ZERO)THEN

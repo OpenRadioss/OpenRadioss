@@ -105,7 +105,7 @@ C
          DTI=MIN(DTI,DTMINS_INT)
        END IF
 C
-       MAS= UNDEMI * DTS * ( DTS * KT(I) + C(I) )
+       MAS= HALF * DTS * ( DTS * KT(I) + C(I) )
 C
        IG =NSVG(I)
        IF(IG >  0)THEN

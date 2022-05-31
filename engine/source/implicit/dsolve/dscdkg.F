@@ -230,16 +230,16 @@ C
       IF (NDI.GT.0) THEN
          IF (NDF.GT.0)
      .   CALL DGEMM('N',  'N',  NDI, NDF, NDI,
-     .              UN,   KLI,  NDI, VS,  NDI,
+     .              ONE,   KLI,  NDI, VS,  NDI,
      .              ZERO, KTMP, NRT)
          IF (NDF.GT.0)
      .   CALL DGEMM('T', 'N', NDF, NDF,  NDI,
-     .              UN,  VS,  NDI, KTMP, NRT,
-     .              UN,  KPS, NDF)
+     .              ONE,  VS,  NDI, KTMP, NRT,
+     .              ONE,  KPS, NDF)
 C
          IF (NDF.GT.0)
      .   CALL DGEMM('N',  'N',  NDF, NDF, NDI,
-     .              UN,   KLC,  NDF, VS,  NDI,
+     .              ONE,   KLC,  NDF, VS,  NDI,
      .              ZERO, KTMP, NRT)
          DO I=1,NDF
             DO J=1,NDF
@@ -249,19 +249,19 @@ C
 C
          IF (NDF.GT.0)
      .   CALL DGEMM('N',   'N', NDF, NVD, NDI,
-     .              UN,    KLC, NDF, VD,  NDI,
+     .              ONE,    KLC, NDF, VD,  NDI,
      .              ZERO,  KPC, NDF)
 C
          CALL DGEMM('N',  'N',  NDI, NVD, NDI,
-     .              UN,   KLI,  NDI, VD,  NDI,
+     .              ONE,   KLI,  NDI, VD,  NDI,
      .              ZERO, KTMP, NRT)
          IF (NDF.GT.0)
      .   CALL DGEMM('T', 'N', NDF, NVD,  NDI,
-     .              UN,  VS,  NDI, KTMP, NRT,
-     .              UN,  KPC, NDF)
+     .              ONE,  VS,  NDI, KTMP, NRT,
+     .              ONE,  KPC, NDF)
          IF (NVD.GT.0) 
      .   CALL DGEMM('T',  'N', NVD, NVD,  NDI,
-     .              UN,   VD,  NDI, KTMP, NRT,
+     .              ONE,   VD,  NDI, KTMP, NRT,
      .              ZERO, KPI, NVD)
       ENDIF
 C

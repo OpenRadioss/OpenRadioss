@@ -261,7 +261,7 @@ c     1       IERR  ,AREAM   ,TSTIFM,TM             ,VOLM      ,
 c     2       NB3M  ,IELEM(L),X     ,IXS(1,IELEM(L)),IX        ,
 c     3       IPARG ,PM      ,ELBUF )
 c          IF(IERR.EQ.0) THEN
-c            EFRIC = UNDEMI * EE(II) / (LL2-LL1+1)
+c            EFRIC = HALF * EE(II) / (LL2-LL1+1)
 c            DO 80 LL=LL1,LL2
 c             LG  = LMSR(LL)
 c             IXX(1)=NSV(IRECTS(1,LG))
@@ -282,7 +282,7 @@ c 80         CONTINUE
 c          ENDIF
 c         ELSEIF(ISPMD.EQ.0)THEN
            KK = TAGM(L)
-           EFRIC = UNDEMI * EE(II) / (LL2-LL1+1)
+           EFRIC = HALF * EE(II) / (LL2-LL1+1)
            IERR = ICOMERR(KK)
            AREAM = COMAREA(KK)
            TSTIFM = COMSTF(KK)
@@ -350,7 +350,7 @@ C------------------------------------------------------
           TZ = Z1 + Z2
           TTT = MAX(EM30,SQRT(TX**2+TY**2+TZ**2))
           VT = V(1,N)*TX + V(2,N)*TY + V(3,N)*TZ
-          P = UNP0001 - UPW*(UNDEMI + SIGN(UNDEMI,VT))
+          P = ONEP0001 - UPW*(HALF + SIGN(HALF,VT))
           NX = Y1 * Z2 - Z1 * Y2
           NY = Z1 * X2 - X1 * Z2
           NZ = X1 * Y2 - Y1 * X2

@@ -439,8 +439,8 @@ C F et XMT stockoques dans RWL et appliques debut cycle suivant
       RWL(20)=XMT
 C test pour ne cummuler qu'une fois en multiprocessors dans le cas moving
       IF(ISPMD+1 == PMAIN.OR. MSR == 0) THEN
-        DT15=UNDEMI*DT1
-        DT25=UNDEMI*DT2
+        DT15=HALF*DT1
+        DT25=HALF*DT2
         FSAV(1)=FSAV(1)+RWL(21)+DT15*FXN
         FSAV(2)=FSAV(2)+RWL(22)+DT15*FYN
         FSAV(3)=FSAV(3)+RWL(23)+DT15*FZN

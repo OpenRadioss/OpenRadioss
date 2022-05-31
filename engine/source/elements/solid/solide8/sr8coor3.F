@@ -158,7 +158,7 @@ C-----------
         VX8(I)=V(1,NC(8,I))
         VY8(I)=V(2,NC(8,I))
         VZ8(I)=V(3,NC(8,I))
-        OFF(I) = MIN(UN,ABS(OFFG(I)))
+        OFF(I) = MIN(ONE,ABS(OFFG(I)))
         OFF_L  = MIN(OFF_L,OFFG(I))
       ENDDO
 Clm
@@ -316,11 +316,11 @@ C-----------
         VZLOC(I,8)=VZL
 C
         VXL = (VXLOC(I,1)+VXLOC(I,2)+VXLOC(I,3)+VXLOC(I,4)
-     .       + VXLOC(I,5)+VXLOC(I,6)+VXLOC(I,7)+VXLOC(I,8))*UNHUIT
+     .       + VXLOC(I,5)+VXLOC(I,6)+VXLOC(I,7)+VXLOC(I,8))*ONE_OVER_8
         VYL = (VYLOC(I,1)+VYLOC(I,2)+VYLOC(I,3)+VYLOC(I,4)
-     .       + VYLOC(I,5)+VYLOC(I,6)+VYLOC(I,7)+VYLOC(I,8))*UNHUIT
+     .       + VYLOC(I,5)+VYLOC(I,6)+VYLOC(I,7)+VYLOC(I,8))*ONE_OVER_8
         VZL = (VZLOC(I,1)+VZLOC(I,2)+VZLOC(I,3)+VZLOC(I,4)
-     .       + VZLOC(I,5)+VZLOC(I,6)+VZLOC(I,7)+VZLOC(I,8)) * UNHUIT
+     .       + VZLOC(I,5)+VZLOC(I,6)+VZLOC(I,7)+VZLOC(I,8)) * ONE_OVER_8
         VXLOC(I,1)=VXLOC(I,1)-VXL
         VYLOC(I,1)=VYLOC(I,1)-VYL
         VZLOC(I,1)=VZLOC(I,1)-VZL

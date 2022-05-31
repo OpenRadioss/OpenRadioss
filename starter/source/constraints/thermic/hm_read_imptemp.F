@@ -144,7 +144,7 @@ C--------------------------------------------------
         IF (FACY == ZERO) FACY=FACY_DIM
         IF (FACX == ZERO) FACX=FACX_DIM
         IF (FAC2 == ZERO) FAC2=EP30 * FAC2_DIM
-        FACX = UN / FACX
+        FACX = ONE / FACX
 C--------------------------------------------------
         NUM0 = NUM
         NN = NODGRNR5(IGU    ,IGRS   ,NWORK(1+NIFT*NUM0),IGRNOD ,

@@ -154,18 +154,18 @@ C
      .       .AND.N3.NE.N2
      .       .AND.N2.NE.N1
      .       .AND.N1.NE.N4)THEN
-             E3X=UNHUIT*E3X
-             E3Y=UNHUIT*E3Y
-             E3Z=UNHUIT*E3Z
+             E3X=ONE_OVER_8*E3X
+             E3Y=ONE_OVER_8*E3Y
+             E3Z=ONE_OVER_8*E3Z
              AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
              NODAREA(N1)=NODAREA(N1)+AREA
              NODAREA(N2)=NODAREA(N2)+AREA
              NODAREA(N3)=NODAREA(N3)+AREA
              NODAREA(N4)=NODAREA(N4)+AREA
            ELSE
-             E3X=UNSIX*E3X
-             E3Y=UNSIX*E3Y
-             E3Z=UNSIX*E3Z
+             E3X=ONE_OVER_6*E3X
+             E3Y=ONE_OVER_6*E3Y
+             E3Z=ONE_OVER_6*E3Z
              AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
              IF(N4.EQ.N3)THEN
                 IF(N2.NE.N1) THEN
@@ -249,9 +249,9 @@ C
                 E3Y=Z31*X32-X31*Z32
                 E3Z=X31*Y32-Y31*X32
 C
-                E3X=UNSIX*E3X
-                E3Y=UNSIX*E3Y
-                E3Z=UNSIX*E3Z
+                E3X=ONE_OVER_6*E3X
+                E3Y=ONE_OVER_6*E3Y
+                E3Z=ONE_OVER_6*E3Z
                 AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
 
                 NODAREA(N1)=NODAREA(N1)+AREA
@@ -292,9 +292,9 @@ C
           E3Y=Z31*X42-X31*Z42
           E3Z=X31*Y42-Y31*X42
 C
-          E3X=UNHUIT*E3X
-          E3Y=UNHUIT*E3Y
-          E3Z=UNHUIT*E3Z
+          E3X=ONE_OVER_8*E3X
+          E3Y=ONE_OVER_8*E3Y
+          E3Z=ONE_OVER_8*E3Z
 C
           AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
           NODAREA(N1)=NODAREA(N1)+AREA
@@ -322,9 +322,9 @@ C
           E3X=Y31*Z32-Z31*Y32
           E3Y=Z31*X32-X31*Z32
           E3Z=X31*Y32-Y31*X32
-          E3X=UNSIX*E3X
-          E3Y=UNSIX*E3Y
-          E3Z=UNSIX*E3Z
+          E3X=ONE_OVER_6*E3X
+          E3Y=ONE_OVER_6*E3Y
+          E3Z=ONE_OVER_6*E3Z
 C
           AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
           NODAREA(N1)=NODAREA(N1)+AREA
@@ -356,9 +356,9 @@ C
         E3X=Y31*Z32-Z31*Y32
         E3Y=Z31*X32-X31*Z32
         E3Z=X31*Y32-Y31*X32
-        E3X=UNSIX*E3X
-        E3Y=UNSIX*E3Y
-        E3Z=UNSIX*E3Z
+        E3X=ONE_OVER_6*E3X
+        E3Y=ONE_OVER_6*E3Y
+        E3Z=ONE_OVER_6*E3Z
 C
         AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
         NODAREA(N1)=NODAREA(N1)+AREA
@@ -379,7 +379,7 @@ C
         Z2=X(3,N2)
 
         AREA = SQRT((Y2-Y1)*(Y2-Y1)+(Z2-Z1)*(Z2-Z1))
-        AREA = AREA*UNDEMI
+        AREA = AREA*HALF
 
 
        NODAREA(N1)=NODAREA(N1)+AREA
@@ -402,7 +402,7 @@ C
              CONTT(2,N)=ZERO
              CONTT(3,N)=ZERO
            ELSE
-             NODAREA(N)=UN/MAX(EM30,NODAREA(N))
+             NODAREA(N)=ONE/MAX(EM30,NODAREA(N))
              CONTN(1,N)=NODAREA(N)*CONTN(1,N)
              CONTN(2,N)=NODAREA(N)*CONTN(2,N)
              CONTN(3,N)=NODAREA(N)*CONTN(3,N)
@@ -423,7 +423,7 @@ C
              FTCONTP2(2,N)=ZERO
              FTCONTP2(3,N)=ZERO
            ELSE
-             NODAREA(N)=UN/MAX(EM30,NODAREA(N))
+             NODAREA(N)=ONE/MAX(EM30,NODAREA(N))
              FNCONTP2(1,N)=NODAREA(N)*FNCONTP2(1,N)
              FNCONTP2(2,N)=NODAREA(N)*FNCONTP2(2,N)
              FNCONTP2(3,N)=NODAREA(N)*FNCONTP2(3,N)
@@ -545,18 +545,18 @@ C
      .    .AND.N3.NE.N2
      .    .AND.N2.NE.N1
      .    .AND.N1.NE.N4)THEN
-          E3X=UNHUIT*E3X
-          E3Y=UNHUIT*E3Y
-          E3Z=UNHUIT*E3Z
+          E3X=ONE_OVER_8*E3X
+          E3Y=ONE_OVER_8*E3Y
+          E3Z=ONE_OVER_8*E3Z
           AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
           NODAREA(N1)=NODAREA(N1)+AREA
           NODAREA(N2)=NODAREA(N2)+AREA
           NODAREA(N3)=NODAREA(N3)+AREA
           NODAREA(N4)=NODAREA(N4)+AREA
         ELSE
-          E3X=UNSIX*E3X
-          E3Y=UNSIX*E3Y
-          E3Z=UNSIX*E3Z
+          E3X=ONE_OVER_6*E3X
+          E3Y=ONE_OVER_6*E3Y
+          E3Z=ONE_OVER_6*E3Z
           AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
           IF(N4.EQ.N3)THEN
             IF(N2.NE.N1) THEN
@@ -616,9 +616,9 @@ C
           E3Y=Z31*X42-X31*Z42
           E3Z=X31*Y42-Y31*X42
 C
-          E3X=UNHUIT*E3X
-          E3Y=UNHUIT*E3Y
-          E3Z=UNHUIT*E3Z
+          E3X=ONE_OVER_8*E3X
+          E3Y=ONE_OVER_8*E3Y
+          E3Z=ONE_OVER_8*E3Z
 C
           AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
           NODAREA(N1)=NODAREA(N1)+AREA
@@ -646,9 +646,9 @@ C
           E3X=Y31*Z32-Z31*Y32
           E3Y=Z31*X32-X31*Z32
           E3Z=X31*Y32-Y31*X32
-          E3X=UNSIX*E3X
-          E3Y=UNSIX*E3Y
-          E3Z=UNSIX*E3Z
+          E3X=ONE_OVER_6*E3X
+          E3Y=ONE_OVER_6*E3Y
+          E3Z=ONE_OVER_6*E3Z
 C
           AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
           NODAREA(N1)=NODAREA(N1)+AREA
@@ -680,9 +680,9 @@ C
         E3X=Y31*Z32-Z31*Y32
         E3Y=Z31*X32-X31*Z32
         E3Z=X31*Y32-Y31*X32
-        E3X=UNSIX*E3X
-        E3Y=UNSIX*E3Y
-        E3Z=UNSIX*E3Z
+        E3X=ONE_OVER_6*E3X
+        E3Y=ONE_OVER_6*E3Y
+        E3Z=ONE_OVER_6*E3Z
 C
         AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
         NODAREA(N1)=NODAREA(N1)+AREA
@@ -709,7 +709,7 @@ C     INTER == 21
               FTCONTG(2,I)=ZERO
               FTCONTG(3,I)=ZERO
             ELSE
-              TMP=UN/MAX(EM30,NODAREA(N))
+              TMP=ONE/MAX(EM30,NODAREA(N))
               FNCONTG(1,I)=FNCONTG(1,I)*TMP
               FNCONTG(2,I)=FNCONTG(2,I)*TMP
               FNCONTG(3,I)=FNCONTG(3,I)*TMP
@@ -742,7 +742,7 @@ C     INTER == 21
                 FTCONTG(2,N)=ZERO
                 FTCONTG(3,N)=ZERO
                ELSE
-                TMP=UN/MAX(EM30,NODAREAG(N))
+                TMP=ONE/MAX(EM30,NODAREAG(N))
                 FNCONTG(1,N)=FNCONTG(1,N)*TMP
                 FNCONTG(2,N)=FNCONTG(2,N)*TMP
                 FNCONTG(3,N)=FNCONTG(3,N)*TMP
@@ -775,7 +775,7 @@ C
              FTCONTP2(2,N)=ZERO
              FTCONTP2(3,N)=ZERO
            ELSE
-             NODAREA(N)=UN/MAX(EM30,NODAREA(N))
+             NODAREA(N)=ONE/MAX(EM30,NODAREA(N))
              FNCONTP2(1,N)=NODAREA(N)*FNCONTP2(1,N)
              FNCONTP2(2,N)=NODAREA(N)*FNCONTP2(2,N)
              FNCONTP2(3,N)=NODAREA(N)*FNCONTP2(3,N)

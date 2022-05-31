@@ -374,29 +374,29 @@ c
 c--------------------------------
       IF (ISRATE == ZERO) ISRATE = 1    ! for backward compatibility 
       IF (FCUT == ZERO)   FCUT   = EP20
-      IF (CN == ZERO)     CN     = UN 
+      IF (CN == ZERO)     CN     = ONE 
       IF (DMAX  == ZERO)  DMAX   = ZEP999
       IF (FMAX  == ZERO)  FMAX   = EP20
       IF (EPST1 == ZERO)  EPST1  = EP20
       IF (EPST2 == ZERO)  EPST2  = EP20
-      IF (EPSM1 == ZERO)  EPSM1  = UNP1*EP20
-      IF (EPSM2 == ZERO)  EPSM2  = UNP1*EP20
-      IF (EPSF1 == ZERO)  EPSF1  = UNP2*EP20
-      IF (EPSF2 == ZERO)  EPSF2  = UNP2*EP20
+      IF (EPSM1 == ZERO)  EPSM1  = ONEP1*EP20
+      IF (EPSM2 == ZERO)  EPSM2  = ONEP1*EP20
+      IF (EPSF1 == ZERO)  EPSF1  = ONEP2*EP20
+      IF (EPSF2 == ZERO)  EPSF2  = ONEP2*EP20
       FMAX   = MIN(FMAX  ,EP20)
       EPST1  = MIN(EPST1 ,EP20)
       EPST2  = MIN(EPST2 ,EP20)      
-      EPSM1  = MIN(EPSM1 ,UNP1*EP20)
-      EPSM2  = MIN(EPSM2 ,UNP1*EP20)
-      EPSF1  = MIN(EPSF1 ,UNP2*EP20)
-      EPSF2  = MIN(EPSF2 ,UNP2*EP20)
+      EPSM1  = MIN(EPSM1 ,ONEP1*EP20)
+      EPSM2  = MIN(EPSM2 ,ONEP1*EP20)
+      EPSF1  = MIN(EPSF1 ,ONEP2*EP20)
+      EPSF2  = MIN(EPSF2 ,ONEP2*EP20)
 c
       IF (WPLAMX == ZERO) WPLAMX  = EP20
       IF (SHRDAM == ZERO) SHRDAM  = EP20
-      IF (SHRMAX == ZERO) SHRMAX  = UNP1*EP20
-      IF (SHRDMAX == ZERO)SHRDMAX = UN
-      IF (ALPHA == ZERO)  ALPHA   = UN
-      IF (EPS0 ==  ZERO)  EPS0    = UN 
+      IF (SHRMAX == ZERO) SHRMAX  = ONEP1*EP20
+      IF (SHRDMAX == ZERO)SHRDMAX = ONE
+      IF (ALPHA == ZERO)  ALPHA   = ONE
+      IF (EPS0 ==  ZERO)  EPS0    = ONE 
       IF (ICC == ZERO)    ICC     = 1
 c--------------------------------
       IF (((EPST1 >= EPSM1) .AND.((EPST1 /= ZERO) .AND.
@@ -417,9 +417,9 @@ c
 c--------------------------------------------------------
       IF (IFLAG == 1) THEN  ! crasurv
         CALL HM_GET_FLOATV_DIM('WPMAX',FSCAL_UNIT,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        WPLAREF = UN *FSCAL_UNIT
+        WPLAREF = ONE *FSCAL_UNIT
 c
-        IF (CNT1 == ZERO)    CNT1  = UN
+        IF (CNT1 == ZERO)    CNT1  = ONE
         IF (CNT2 == ZERO)    CNT2  = CNT1
         IF (CNC1 == ZERO)    CNC1  = CNT2
         IF (CNC2 == ZERO)    CNC2  = CNC1
@@ -436,15 +436,15 @@ c
         IF (SIGMXT12 == ZERO)SIGMXT12 = EP20
 C
         IF (EPS1T1 == ZERO)  EPS1T1  = EP20
-        IF (EPS2T1 == ZERO)  EPS2T1  = SICINQ*EPS1T1
+        IF (EPS2T1 == ZERO)  EPS2T1  = SIX_OVER_5*EPS1T1
         IF (EPS1T2 == ZERO)  EPS1T2  = EP20
-        IF (EPS2T2 == ZERO)  EPS2T2  = SICINQ*EPS1T2
+        IF (EPS2T2 == ZERO)  EPS2T2  = SIX_OVER_5*EPS1T2
         IF (EPS1C1 == ZERO)  EPS1C1  = EP20
-        IF (EPS2C1 == ZERO)  EPS2C1  = SICINQ*EPS1C1
+        IF (EPS2C1 == ZERO)  EPS2C1  = SIX_OVER_5*EPS1C1
         IF (EPS1C2 == ZERO)  EPS1C2  = EP20
-        IF (EPS2C2 == ZERO)  EPS2C2  = SICINQ*EPS1C2
+        IF (EPS2C2 == ZERO)  EPS2C2  = SIX_OVER_5*EPS1C2
         IF (EPS1T12 == ZERO) EPS1T12 = EP20
-        IF (EPS2T12 == ZERO) EPS2T12 = SICINQ*EPS1T12     
+        IF (EPS2T12 == ZERO) EPS2T12 = SIX_OVER_5*EPS1T12     
 C
         IF (SIGRST1 == ZERO) SIGRST1  = EM3*SIGYT1
         IF (SIGRST2 == ZERO) SIGRST2  = EM3*SIGYT2
@@ -465,15 +465,15 @@ C
         WPLAMXT12 = WPLAMXT12 / WPLAREF
       ELSE  ! Tsai-Wu
         CALL HM_GET_FLOATV_DIM('WPREF',FSCAL_UNIT,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        IF (WPLAREF == ZERO) WPLAREF = UN *FSCAL_UNIT
+        IF (WPLAREF == ZERO) WPLAREF = ONE *FSCAL_UNIT
       ENDIF
       WPLAMX = WPLAMX / WPLAREF
 c
-      IF (RATIO == ZERO .OR. RATIO > UN ) RATIO = UN
-      IF (RATIO < ZERO) RATIO = -UN
+      IF (RATIO == ZERO .OR. RATIO > ONE ) RATIO = ONE
+      IF (RATIO < ZERO) RATIO = -ONE
 c--------------------------------
       N21  = N12*E22/E11
-      DETC = UN-N12*N21
+      DETC = ONE-N12*N21
       IF (DETC <= ZERO) THEN
          CALL ANCMSG(MSGID=307,
      .               MSGTYPE=MSGERROR,
@@ -482,7 +482,7 @@ c--------------------------------
      .               C1=TITR)
       ENDIF
 C
-      IF (CN > UN) THEN
+      IF (CN > ONE) THEN
          CALL ANCMSG(MSGID=213,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -538,10 +538,10 @@ C-------------------------------------------------
       PM(1)  = RHOR
       PM(89) = RHO0
 c-----------------
-      PM(9)  = FCUT*DEUX*PI
+      PM(9)  = FCUT*TWO*PI
       PM(20) = MAX(E11,E22)/DETC
       PM(24) = PM(20)
-      PM(26) = CSIX
+      PM(26) = FIVE_OVER_6
       PM(33) = E11
       PM(34) = E22
       PM(35) = N12
@@ -552,7 +552,7 @@ c-----------------
       PM(40) = IFLAG
       PM(41) = WPLAMX
       PM(42) = IOFF
-      DE     = UN
+      DE     = ONE
       PM(44) = DE
       PM(46) = CB
       PM(47) = CN
@@ -618,13 +618,13 @@ C----------------------------------------
      .               C2='SIGYC12')
       ENDIF      
 C
-      F1  = UN / SIGYT1 - UN / SIGYC1
-      F2  = UN / SIGYT2 - UN / SIGYC2
-      F11 = UN / MIN(EP20,(SIGYT1*SIGYC1))
-      F22 = UN / MIN(EP20,(SIGYT2*SIGYC2))
-      F33 = UN / MIN(EP20,(SIGYT12*SIGYC12))
-      F12 = -ALPHA/(DEUX*SQRT(MIN(EP20,SIGYT1*SIGYC1*SIGYT2*SIGYC2)))    
-      FT1 = F11*F22 - QUATRE*F12**2
+      F1  = ONE / SIGYT1 - ONE / SIGYC1
+      F2  = ONE / SIGYT2 - ONE / SIGYC2
+      F11 = ONE / MIN(EP20,(SIGYT1*SIGYC1))
+      F22 = ONE / MIN(EP20,(SIGYT2*SIGYC2))
+      F33 = ONE / MIN(EP20,(SIGYT12*SIGYC12))
+      F12 = -ALPHA/(TWO*SQRT(MIN(EP20,SIGYT1*SIGYC1*SIGYT2*SIGYC2)))    
+      FT1 = F11*F22 - FOUR*F12**2
       WRITE(IOUT,1650) F1,F2,F11,F22,F33,F12
 c------------------------------------------------------------
       PM(54)=F1
@@ -716,7 +716,7 @@ C-----------------------------------------
       PM(188) = RATIO
       PM(189) = IMODWP
 CC    Formulation for solid elements time step computation.
-      FAC = UN/(UN - N12*N21)
+      FAC = ONE/(ONE - N12*N21)
       D11  = E11*FAC
       D22  = E22*FAC
       D12 = N21*D11

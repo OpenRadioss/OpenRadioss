@@ -46,10 +46,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: SP, SM, TP, TM
 C-----------------------------------------------
-      SP   = UN +S
-      SM   = UN -S
-      TP   = QUART*(UN + T)
-      TM   = QUART*(UN - T)
+      SP   = ONE +S
+      SM   = ONE -S
+      TP   = FOURTH*(ONE + T)
+      TM   = FOURTH*(ONE - T)
       H(1) = TM*SM
       H(2) = TM*SP
       H(3) = TP*SP

@@ -88,7 +88,7 @@ C Fin Partie non parallele smt
 !$OMP END SINGLE
 
       END IF
-      FAC=UN/DT2/TROIS
+      FAC=ONE/DT2/THREE
       DO I = NODFT, NODLT
          IF(IABS(NALE(I)).EQ.1) THEN
             IAD1 = ALE_NN_CONNECT%IAD_CONNECT(I)
@@ -108,16 +108,16 @@ C Fin Partie non parallele smt
                DZ_MAX = MAX(DZ_MAX, D(3, NODE_ID))
                DZ_MIN = MIN(DZ_MIN, D(3, NODE_ID))
             ENDDO
-            DX = FAC * (DX_MAX + DX_MIN - DEUX * D(1, I))
-            DY = FAC * (DY_MAX + DY_MIN - DEUX * D(2, I))
-            DZ = FAC * (DZ_MAX + DZ_MIN - DEUX * D(3, I))
+            DX = FAC * (DX_MAX + DX_MIN - TWO * D(1, I))
+            DY = FAC * (DY_MAX + DY_MIN - TWO * D(2, I))
+            DZ = FAC * (DZ_MAX + DZ_MIN - TWO * D(3, I))
 
             DX=VGX*DX
             DY=VGY*DY
             DZ=VGZ*DZ
-            W(1,I)=SIGN(UN,DX)*MIN(ABS(DX),ALPHA)
-            W(2,I)=SIGN(UN,DY)*MIN(ABS(DY),ALPHA)
-            W(3,I)=SIGN(UN,DZ)*MIN(ABS(DZ),ALPHA)
+            W(1,I)=SIGN(ONE,DX)*MIN(ABS(DX),ALPHA)
+            W(2,I)=SIGN(ONE,DY)*MIN(ABS(DY),ALPHA)
+            W(3,I)=SIGN(ONE,DZ)*MIN(ABS(DZ),ALPHA)
          ELSEIF(NALE(I).EQ.0)THEN
             W(1,I)=V(1,I)
             W(2,I)=V(2,I)

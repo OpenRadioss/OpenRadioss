@@ -139,21 +139,21 @@ C-----------------------------------------------
       ALPH(3,4)=ZEP5854102
       ALPH(4,4)=ZEP5854102
       ALPH(5,4)=ZERO
-      ALPH(1,5)=UNDEMI
-      ALPH(2,5)=UNDEMI
-      ALPH(3,5)=UNDEMI
-      ALPH(4,5)=UNDEMI
-      ALPH(5,5)=QUART
+      ALPH(1,5)=HALF
+      ALPH(2,5)=HALF
+      ALPH(3,5)=HALF
+      ALPH(4,5)=HALF
+      ALPH(5,5)=FOURTH
       BETA(1,4)=ZEP1381966
       BETA(2,4)=ZEP1381966
       BETA(3,4)=ZEP1381966
       BETA(4,4)=ZEP1381966
       BETA(5,4)=ZERO
-      BETA(1,5)=UNSIX
-      BETA(2,5)=UNSIX
-      BETA(3,5)=UNSIX
-      BETA(4,5)=UNSIX
-      BETA(5,5)=QUART
+      BETA(1,5)=ONE_OVER_6
+      BETA(2,5)=ONE_OVER_6
+      BETA(3,5)=ONE_OVER_6
+      BETA(4,5)=ONE_OVER_6
+      BETA(5,5)=FOURTH
       IF (ISORTH>0) THEN
        IKORTH=1
       ELSE
@@ -185,11 +185,11 @@ C-----------
      .       E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  ) 
       IF (ISORTH == 0) THEN            
         DO I=LFT,LLT                                            
-          GAMA(I,1) = UN                               
+          GAMA(I,1) = ONE                               
           GAMA(I,2) = ZERO                                
           GAMA(I,3) = ZERO             
           GAMA(I,4) = ZERO                                
-          GAMA(I,5) = UN                                
+          GAMA(I,5) = ONE                                
           GAMA(I,6) = ZERO             
         ENDDO                          
       ELSE                             

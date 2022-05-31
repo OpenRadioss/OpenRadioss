@@ -22,24 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
       module QA_OUT_MOD
 
-! originally from qa-out.F and qa-common.blk with the following comments
-
-! --- qa-out.F --- Mon Jun  5 16:41:31 CDT 2000 ----
-!   Author: T. Liszka --- Maintained by: N.Pagaldipti 
-!   Copyright: Altair Engineering, Inc., 1996 - 2014
-!===================================================================
-! --- qa-common.blk --- Mon Jun  5 16:41:31 CDT 2000 ----
-!   Author: T. Liszka --- Maintained by: T. Liszka
-!   Copyright: Altair Engineering, Inc., 1996 - 2015
-!===================================================================
-
-! modified by Zheng Yuan, 06/02/2015
-!   1. combine two files together within the module
-!   2. limit to real value output only
-!   3. minor changes for free form
-! modified by Aurelien Soulet, 2015/08/20
-!   1. add qa_set and qa_get to store values in memory and print them later on in qa_close
-
 !#if CPP_mach == CPP_p4win64 
 !      use IFPORT
 !#endif

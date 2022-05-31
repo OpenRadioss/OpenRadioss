@@ -137,7 +137,7 @@ c-------------------------------
               N = I + NFT            
                WA(JJ) = - (GBUF%SIG(II(1)+I)
      .                  +  GBUF%SIG(II(2)+I)
-     .                  +  GBUF%SIG(II(3)+I)) / TROIS    
+     .                  +  GBUF%SIG(II(3)+I)) / THREE    
             ENDDO     
 c-------------------------------
            ELSEIF(NBX == -2)THEN
@@ -146,14 +146,14 @@ c-------------------------------
                N = I + NFT            
                P = - (GBUF%SIG(II(1)+I) 	   
      .             +  GBUF%SIG(II(2)+I) 	   
-     .             +  GBUF%SIG(II(3)+I)) / TROIS		  
+     .             +  GBUF%SIG(II(3)+I)) / THREE		  
                S1 = GBUF%SIG(II(1)+I) + P			  
                S2 = GBUF%SIG(II(2)+I) + P			  
                S3 = GBUF%SIG(II(3)+I) + P			  
-               VONM2 = TROIS*(GBUF%SIG(II(4)+I)**2 +               
+               VONM2 = THREE*(GBUF%SIG(II(4)+I)**2 +               
      .                        GBUF%SIG(II(5)+I)**2 +               
      .                        GBUF%SIG(II(6)+I)**2 +               
-     .                UNDEMI*(S1*S1+S2*S2+S3*S3))             
+     .                HALF*(S1*S1+S2*S2+S3*S3))             
                WA(JJ)= SQRT(VONM2)
              ENDDO                  
 c-------------------------------
@@ -290,14 +290,14 @@ C  equivalent stress - other then VON MISES
                 N = I + NFT            
                 P = - (GBUF%SIG(II(1)+I)
      .              +  GBUF%SIG(II(2)+I)
-     .              +  GBUF%SIG(II(3)+I)) / TROIS
+     .              +  GBUF%SIG(II(3)+I)) / THREE
                 S1 = GBUF%SIG(II(1)+I) + P			   
                 S2 = GBUF%SIG(II(2)+I) + P			   
                 S3 = GBUF%SIG(II(3)+I) + P			   
-                VONM2 = TROIS*(GBUF%SIG(II(4)+I)**2 +               
+                VONM2 = THREE*(GBUF%SIG(II(4)+I)**2 +               
      .                         GBUF%SIG(II(5)+I)**2 +               
      .                         GBUF%SIG(II(6)+I)**2 +               
-     .                 UNDEMI*(S1*S1+S2*S2+S3*S3))             
+     .                 HALF*(S1*S1+S2*S2+S3*S3))             
                 WA(JJ)= SQRT(VONM2)
               ENDDO
             ENDIF

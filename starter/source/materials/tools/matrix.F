@@ -83,7 +83,7 @@ C SUM OF THE OFF DIAGONALS
         IF (ITER .GT. 4)   THEN
           EPS = ZERO
         ELSE
-          EPS = UNCINQ*SUMRS/N**2
+          EPS = ONE_FIFTH*SUMRS/N**2
         ENDIF
 
         DO 220 IZ=1,N-1
@@ -97,13 +97,13 @@ C SUM OF THE OFF DIAGONALS
               IF (ABS(H)+G.EQ.ABS(H)) THEN
                 T = A(IZ,IS)/H
               ELSE
-                THETA = UNDEMI*H/A(IZ,IS)
-                T=UN/(ABS(THETA)+SQRT(UN+THETA**2))
+                THETA = HALF*H/A(IZ,IS)
+                T=ONE/(ABS(THETA)+SQRT(ONE+THETA**2))
                 IF (THETA .LT. ZERO) T=-T
               ENDIF
-              C=UN/SQRT(UN+T**2)
+              C=ONE/SQRT(ONE+T**2)
               S=T*C
-              TAU=S/(UN+C)
+              TAU=S/(ONE+C)
               H=T*A(IZ,IS)
               Z(IZ)=Z(IZ)-H
               Z(IS)=Z(IS)+H
@@ -250,12 +250,12 @@ C     FTPI=(4/3)*PI, TTPI=(2/3)*PI
 C
 C     DEVIATEUR PRINCIPAL DE CONTRAINTE
 C . . . . . . . . . . . . . . . . . . .
-      MDEMI = -UNDEMI
+      MDEMI = -HALF
       TTPI = ACOS(MDEMI)
-      FTPI = DEUX*TTPI
+      FTPI = TWO*TTPI
 C precision minimum dependant du type REAL ou DOUBLE
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
-      FLM = DEUX*SQRT(FLMIN)
+      FLM = TWO*SQRT(FLMIN)
       NINDEX3=0  
       DO NN = 1, NEL
         CS(1) = SIG(1,NN)
@@ -278,13 +278,13 @@ C cas racine triple
 C
         BB=CS(1)*CS(5)**2 + CS(2)*CS(6)**2
      &     + CS(3)*CS(4)**2 - CS(1)*CS(2)*CS(3)
-     &     - DEUX*CS(4)*CS(5)*CS(6)     
+     &     - TWO*CS(4)*CS(5)*CS(6)     
 C
-        CC=-SQRT(VINGT7/AA)*BB*UNDEMI/AA
-        CC= MIN(CC,UN)
-        CC= MAX(CC,-UN)
+        CC=-SQRT(TWENTY7/AA)*BB*HALF/AA
+        CC= MIN(CC,ONE)
+        CC= MAX(CC,-ONE)
         ANGP=ACOS(CC) * THIRD
-        DD=DEUX*SQRT(AA * THIRD)
+        DD=TWO*SQRT(AA * THIRD)
         STR(1,NN)=DD*COS(ANGP)
         STR(2,NN)=DD*COS(ANGP+FTPI)
         STR(3,NN)=DD*COS(ANGP+TTPI)
@@ -356,11 +356,11 @@ C
           VAL(1,NN) = SIG(1,NN)
           VAL(2,NN) = SIG(2,NN)
           VAL(3,NN) = SIG(3,NN)
-          V(1,1,NN) = UN
+          V(1,1,NN) = ONE
           V(2,1,NN) = ZERO
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
-          V(2,2,NN) = UN
+          V(2,2,NN) = ONE
           V(3,2,NN) = ZERO
 
         ELSEIF(XMAXV(NN).GT.TOL1(NN)) THEN
@@ -376,7 +376,7 @@ C #include      "vectorize.inc"
       DO N = 1, NINDEX1
         NN = INDEX1(N)
         LMAX = LMAXV(NN)
-        XMAXINV = UN/XMAXV(NN)
+        XMAXINV = ONE/XMAXV(NN)
         V(1,1,NN)=B(1,LMAX,NN)*XMAXINV
         V(2,1,NN)=B(2,LMAX,NN)*XMAXINV
         V(3,1,NN)=B(3,LMAX,NN)*XMAXINV
@@ -414,14 +414,14 @@ C
         VMAG=SQRT(V(1,1,NN)**2+V(2,1,NN)**2)
         LMAX = LMAXV(NN)
         IF(XMAXV(NN).GT.TOL2(NN))THEN
-          XMAXINV = UN/XMAXV(NN)
+          XMAXINV = ONE/XMAXV(NN)
           V(1,3,NN)=B(1,LMAX,NN)*XMAXINV
           V(2,3,NN)=B(2,LMAX,NN)*XMAXINV
           V(3,3,NN)=B(3,LMAX,NN)*XMAXINV
           V(1,2,NN)=V(2,3,NN)*V(3,1,NN)-V(2,1,NN)*V(3,3,NN)
           V(2,2,NN)=V(3,3,NN)*V(1,1,NN)-V(3,1,NN)*V(1,3,NN)
           V(3,2,NN)=V(1,3,NN)*V(2,1,NN)-V(1,1,NN)*V(2,3,NN)
-          VMAG=UN/SQRT(V(1,2,NN)**2+V(2,2,NN)**2+V(3,2,NN)**2)
+          VMAG=ONE/SQRT(V(1,2,NN)**2+V(2,2,NN)**2+V(3,2,NN)**2)
           V(1,2,NN)=V(1,2,NN)*VMAG
           V(2,2,NN)=V(2,2,NN)*VMAG
           V(3,2,NN)=V(3,2,NN)*VMAG
@@ -430,7 +430,7 @@ C
           V(2,2,NN)=V(1,1,NN)/VMAG
           V(3,2,NN)=ZERO
         ELSE
-          V(1,2,NN)=UN
+          V(1,2,NN)=ONE
           V(2,2,NN)=ZERO
           V(3,2,NN)=ZERO  
         ENDIF
@@ -461,32 +461,32 @@ C
         LMAX = LMAXV(NN)
         IF(MAX(ABS(A(3,1,NN)),ABS(A(3,2,NN)),ABS(A(3,3,NN)))
      &       .LT.TOL2(NN))THEN
-          XMAXINV = UN/XMAXV(NN)
+          XMAXINV = ONE/XMAXV(NN)
           V(1,1,NN)= ZERO
           V(2,1,NN)= ZERO
-          V(3,1,NN)= UN
+          V(3,1,NN)= ONE
           V(1,2,NN)=-A(2,LMAX,NN)*XMAXINV
           V(2,2,NN)= A(1,LMAX,NN)*XMAXINV
           V(3,2,NN)= ZERO
 C
         ELSEIF(XMAXV(NN).GT.TOL2(NN))THEN
-          XMAXINV = UN/XMAXV(NN)
+          XMAXINV = ONE/XMAXV(NN)
           V(1,1,NN)=-A(2,LMAX,NN)*XMAXINV
           V(2,1,NN)= A(1,LMAX,NN)*XMAXINV
           V(3,1,NN)= ZERO
           V(1,2,NN)=-A(3,LMAX,NN)*V(2,1,NN)
           V(2,2,NN)= A(3,LMAX,NN)*V(1,1,NN)
           V(3,2,NN)= A(1,LMAX,NN)*V(2,1,NN)-A(2,LMAX,NN)*V(1,1,NN)
-          VMAG=UN/SQRT(V(1,2,NN)**2+V(2,2,NN)**2+V(3,2,NN)**2)
+          VMAG=ONE/SQRT(V(1,2,NN)**2+V(2,2,NN)**2+V(3,2,NN)**2)
           V(1,2,NN)=V(1,2,NN)*VMAG
           V(2,2,NN)=V(2,2,NN)*VMAG
           V(3,2,NN)=V(3,2,NN)*VMAG
         ELSE
-          V(1,1,NN) = UN
+          V(1,1,NN) = ONE
           V(2,1,NN) = ZERO
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
-          V(2,2,NN) = UN
+          V(2,2,NN) = ONE
           V(3,2,NN) = ZERO	  
         ENDIF
       ENDDO
@@ -569,12 +569,12 @@ C     FTPI=(4/3)*PI, TTPI=(2/3)*PI
 C
 C     DEVIATEUR PRINCIPAL DE CONTRAINTE
 C . . . . . . . . . . . . . . . . . . .
-      MDEMI = -UNDEMI
+      MDEMI = -HALF
       TTPI = ACOS(MDEMI)
-      FTPI = DEUX*TTPI
+      FTPI = TWO*TTPI
 C precision minimum dependant du type REAL ou DOUBLE
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
-      FLM = DEUX*SQRT(FLMIN)
+      FLM = TWO*SQRT(FLMIN)
       NINDEX3=0  
       DO NN = 1, NEL
         CS(1) = SIG(1,NN)
@@ -597,13 +597,13 @@ C cas racine triple
 C
         BB=CS(1)*CS(5)**2 + CS(2)*CS(6)**2
      &     + CS(3)*CS(4)**2 - CS(1)*CS(2)*CS(3)
-     &     - DEUX*CS(4)*CS(5)*CS(6)
+     &     - TWO*CS(4)*CS(5)*CS(6)
 C
-        CC=-SQRT(VINGT7/AA)*BB*UNDEMI/AA
-        CC= MIN(CC,UN)
-        CC= MAX(CC,-UN)
+        CC=-SQRT(TWENTY7/AA)*BB*HALF/AA
+        CC= MIN(CC,ONE)
+        CC= MAX(CC,-ONE)
         ANGP=ACOS(CC) * THIRD
-        DD=DEUX*SQRT(AA * THIRD)
+        DD=TWO*SQRT(AA * THIRD)
         STR(1,NN)=DD*COS(ANGP)
         STR(2,NN)=DD*COS(ANGP+FTPI)
         STR(3,NN)=DD*COS(ANGP+TTPI)
@@ -675,11 +675,11 @@ C
           VALDP(1,NN) = SIG(1,NN)
           VALDP(2,NN) = SIG(2,NN)
           VALDP(3,NN) = SIG(3,NN)
-          V(1,1,NN) = UN
+          V(1,1,NN) = ONE
           V(2,1,NN) = ZERO
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
-          V(2,2,NN) = UN
+          V(2,2,NN) = ONE
           V(3,2,NN) = ZERO	  
         ELSEIF(XMAXV(NN).GT.TOL1(NN)) THEN
           NINDEX1 = NINDEX1 + 1
@@ -694,7 +694,7 @@ C #include      "vectorize.inc"
       DO N = 1, NINDEX1
         NN = INDEX1(N)
         LMAX = LMAXV(NN)
-        XMAXINV = UN/XMAXV(NN)
+        XMAXINV = ONE/XMAXV(NN)
         V(1,1,NN)=B(1,LMAX,NN)*XMAXINV
         V(2,1,NN)=B(2,LMAX,NN)*XMAXINV
         V(3,1,NN)=B(3,LMAX,NN)*XMAXINV
@@ -732,14 +732,14 @@ C
         VMAG=SQRT(V(1,1,NN)**2+V(2,1,NN)**2)
         LMAX = LMAXV(NN)
         IF(XMAXV(NN).GT.TOL2(NN))THEN
-          XMAXINV = UN/XMAXV(NN)
+          XMAXINV = ONE/XMAXV(NN)
           V(1,3,NN)=B(1,LMAX,NN)*XMAXINV
           V(2,3,NN)=B(2,LMAX,NN)*XMAXINV
           V(3,3,NN)=B(3,LMAX,NN)*XMAXINV
           V(1,2,NN)=V(2,3,NN)*V(3,1,NN)-V(2,1,NN)*V(3,3,NN)
           V(2,2,NN)=V(3,3,NN)*V(1,1,NN)-V(3,1,NN)*V(1,3,NN)
           V(3,2,NN)=V(1,3,NN)*V(2,1,NN)-V(1,1,NN)*V(2,3,NN)
-          VMAG=UN/SQRT(V(1,2,NN)**2+V(2,2,NN)**2+V(3,2,NN)**2)
+          VMAG=ONE/SQRT(V(1,2,NN)**2+V(2,2,NN)**2+V(3,2,NN)**2)
           V(1,2,NN)=V(1,2,NN)*VMAG
           V(2,2,NN)=V(2,2,NN)*VMAG
           V(3,2,NN)=V(3,2,NN)*VMAG
@@ -748,7 +748,7 @@ C
           V(2,2,NN)=V(1,1,NN)/VMAG
           V(3,2,NN)=ZERO
         ELSE
-          V(1,2,NN)=UN
+          V(1,2,NN)=ONE
           V(2,2,NN)=ZERO
           V(3,2,NN)=ZERO  
         ENDIF
@@ -779,32 +779,32 @@ C
         LMAX = LMAXV(NN)
         IF(MAX(ABS(A(3,1,NN)),ABS(A(3,2,NN)),ABS(A(3,3,NN)))
      &       .LT.TOL2(NN))THEN
-          XMAXINV = UN/XMAXV(NN)
+          XMAXINV = ONE/XMAXV(NN)
           V(1,1,NN)= ZERO
           V(2,1,NN)= ZERO
-          V(3,1,NN)= UN  
+          V(3,1,NN)= ONE  
           V(1,2,NN)=-A(2,LMAX,NN)*XMAXINV
           V(2,2,NN)= A(1,LMAX,NN)*XMAXINV
           V(3,2,NN)= ZERO
 C
         ELSEIF(XMAXV(NN).GT.TOL2(NN))THEN
-          XMAXINV = UN/XMAXV(NN)
+          XMAXINV = ONE/XMAXV(NN)
           V(1,1,NN)=-A(2,LMAX,NN)*XMAXINV
           V(2,1,NN)= A(1,LMAX,NN)*XMAXINV
           V(3,1,NN)= ZERO
           V(1,2,NN)=-A(3,LMAX,NN)*V(2,1,NN)
           V(2,2,NN)= A(3,LMAX,NN)*V(1,1,NN)
           V(3,2,NN)= A(1,LMAX,NN)*V(2,1,NN)-A(2,LMAX,NN)*V(1,1,NN)
-          VMAG=UN/SQRT(V(1,2,NN)**2+V(2,2,NN)**2+V(3,2,NN)**2)
+          VMAG=ONE/SQRT(V(1,2,NN)**2+V(2,2,NN)**2+V(3,2,NN)**2)
           V(1,2,NN)=V(1,2,NN)*VMAG
           V(2,2,NN)=V(2,2,NN)*VMAG
           V(3,2,NN)=V(3,2,NN)*VMAG
         ELSE
-          V(1,1,NN) = UN
+          V(1,1,NN) = ONE
           V(2,1,NN) = ZERO
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
-          V(2,2,NN) = UN
+          V(2,2,NN) = ONE
           V(3,2,NN) = ZERO	  
         ENDIF
       ENDDO

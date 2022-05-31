@@ -72,11 +72,11 @@ C-----------------------------------------------
 C
       IF (ICP.EQ.1) THEN
         DO I=LFT,LLT
-          BH(I) = (HH(1,I)+DTIERS*HH(2,I))*AIR(I)
+          BH(I) = (HH(1,I)+TWO_THIRD*HH(2,I))*AIR(I)
         ENDDO
       ELSE
         DO I=LFT,LLT
-          BH(I) = (HH(1,I)*FAC(I)+DTIERS*HH(2,I)*(UN-FAC(I)))*AIR(I)
+          BH(I) = (HH(1,I)*FAC(I)+TWO_THIRD*HH(2,I)*(ONE-FAC(I)))*AIR(I)
         ENDDO
       ENDIF
 C

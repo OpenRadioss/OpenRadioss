@@ -65,9 +65,9 @@ C-----------------------------------------------
 #include      "vectorize.inc"
       DO N=NODFT,NODLT
         IF(MS(N).GT.ZERO) THEN
-          FACTOR = (DTNOD**2) * UNDEMI / (DTFAC**2)
+          FACTOR = (DTNOD**2) * HALF / (DTFAC**2)
           MSPINCH(N) = MAX(MSPINCH(N), STIFPINCH(N)*FACTOR) 
-          RTMP = UN / MSPINCH(N)
+          RTMP = ONE / MSPINCH(N)
 C       
           APINCH(1,N) = APINCH(1,N) * RTMP
           APINCH(2,N) = APINCH(2,N) * RTMP

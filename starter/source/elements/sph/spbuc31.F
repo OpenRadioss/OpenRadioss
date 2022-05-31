@@ -212,7 +212,7 @@ C-----------------
 
        JG       =KXSP(3,JK)
 
-       IF(DK.LT.UN)THEN
+       IF(DK.LT.ONE)THEN
         NVOIS1=NVOIS1+1
         IXSP(NVOIS1,IL)=JG
        ELSE

@@ -159,7 +159,7 @@ C
           IF (ISHFRAM == 0 .OR. IGTYP == 16) THEN
 C----       Repere convecte symetrique - version 5 (default)
             SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z
-            SUMA   = UN / MAX(SQRT(SUMA),EM20)                  
+            SUMA   = ONE / MAX(SQRT(SUMA),EM20)                  
             E3X = E3X * SUMA                            
             E3Y = E3Y * SUMA                            
             E3Z = E3Z * SUMA                            
@@ -172,7 +172,7 @@ C
             E1Z = E1Z + (E2X*E3Y-E2Y*E3X)*SUMA
 C
             SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z  
-            SUMA   = UN / MAX(SQRT(SUMA),EM20)                  
+            SUMA   = ONE / MAX(SQRT(SUMA),EM20)                  
             E1X = E1X * SUMA
             E1Y = E1Y * SUMA
             E1Z = E1Z * SUMA
@@ -187,13 +187,13 @@ C----       Repere convecte nonsymetrique - version 4
             E1Y = E1Y*SUMA + E2Z*E3X-E2X*E3Z
             E1Z = E1Z*SUMA + E2X*E3Y-E2Y*E3X
             SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z
-            SUMA   = UN/MAX(SQRT(SUMA),EM20)
+            SUMA   = ONE/MAX(SQRT(SUMA),EM20)
             E1X = E1X*SUMA
             E1Y = E1Y*SUMA
             E1Z = E1Z*SUMA
 C
             SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z
-            SUMA   = UN / MAX(SQRT(SUMA),EM20)                  
+            SUMA   = ONE / MAX(SQRT(SUMA),EM20)                  
             E3X = E3X * SUMA                            
             E3Y = E3Y * SUMA                            
             E3Z = E3Z * SUMA                            
@@ -202,7 +202,7 @@ C
             E2Y = E3Z*E1X-E3X*E1Z
             E2Z = E3X*E1Y-E3Y*E1X
             SUMA   = E2X*E2X+E2Y*E2Y+E2Z*E2Z
-            SUMA   = UN/MAX(SQRT(SUMA),EM20)
+            SUMA   = ONE/MAX(SQRT(SUMA),EM20)
             E2X = E2X*SUMA
             E2Y = E2Y*SUMA
             E2Z = E2Z*SUMA
@@ -454,7 +454,7 @@ C
 C   skip ILAW = WAP0(J + 1)  ! not used for IGTYP = 9
             J = J + 1
             ANGLE1 = ATAN2(WAP0(J + 2), WAP0(J + 1))
-            IF(FLAGDEG == 1) ANGLE1=ANGLE1*CENT80/PI
+            IF(FLAGDEG == 1) ANGLE1=ANGLE1*HUNDRED80/PI
             IF (IZIPSTRS == 0) THEN
               WRITE(IUGEO,'(5I10)')ID,NPT,NPG,NDIR,FLAGDEG
               WRITE(IUGEO,'(1PE20.13)')ANGLE1
@@ -482,9 +482,9 @@ C---
 C IGTYP = 16 or (IGTYP = 51 + ILAW 58)
                 ANGLE1 = ATAN2(WAP0(J + 2), WAP0(J + 1))
                 ANGLE2 = ATAN2(WAP0(J + 4), WAP0(J + 3))
-                ANGLE2 = MOD(ANGLE2 - ANGLE1,DEUX*PI)
-                IF (FLAGDEG == 1) ANGLE1=ANGLE1*CENT80/PI
-                IF (FLAGDEG == 1) ANGLE2=ANGLE2*CENT80/PI
+                ANGLE2 = MOD(ANGLE2 - ANGLE1,TWO*PI)
+                IF (FLAGDEG == 1) ANGLE1=ANGLE1*HUNDRED80/PI
+                IF (FLAGDEG == 1) ANGLE2=ANGLE2*HUNDRED80/PI
                 IF (IZIPSTRS == 0) THEN
                   WRITE(IUGEO,'(1P2E20.13)')ANGLE1,ANGLE2
                 ELSE
@@ -494,7 +494,7 @@ C IGTYP = 16 or (IGTYP = 51 + ILAW 58)
                 J = J + 4
               ELSE
                 ANGLE1 = ATAN2(WAP0(J + 2), WAP0(J + 1))
-                IF (FLAGDEG == 1) ANGLE1=ANGLE1*CENT80/PI
+                IF (FLAGDEG == 1) ANGLE1=ANGLE1*HUNDRED80/PI
                 IF (IZIPSTRS == 0) THEN
                   WRITE(IUGEO,'(1PE20.13)')ANGLE1
                 ELSE
@@ -588,7 +588,7 @@ C
           E3X=E3X/SUM
           E3Y=E3Y/SUM
           E3Z=E3Z/SUM
-          AREA = UNDEMI * SUM
+          AREA = HALF * SUM
           E2X=E3Y*E1Z-E3Z*E1Y
           E2Y=E3Z*E1X-E3X*E1Z
           E2Z=E3X*E1Y-E3Y*E1X
@@ -844,7 +844,7 @@ C
 C   skip ILAW = WAP0(J + 1)  ! not used for IGTYP = 9
             J = J + 1
             ANGLE1 = ATAN2(WAP0(J + 2), WAP0(J + 1))
-            IF (FLAGDEG == 1) ANGLE1=ANGLE1*CENT80/PI
+            IF (FLAGDEG == 1) ANGLE1=ANGLE1*HUNDRED80/PI
             IF (IZIPSTRS == 0) THEN
               WRITE(IUGEO,'(5I10)')ID,NPT,NPG,NDIR,FLAGDEG
               WRITE(IUGEO,'(1PE20.13)')ANGLE1
@@ -870,9 +870,9 @@ C   skip ILAW = WAP0(J + 1)  ! not used for IGTYP = 9
 C IGTYP = 16 or (IGTYP = 51 + ILAW 58)
                 ANGLE1 = ATAN2(WAP0(J + 2), WAP0(J + 1))
                 ANGLE2 = ATAN2(WAP0(J + 4), WAP0(J + 3))
-                ANGLE2 = MOD(ANGLE2 - ANGLE1,DEUX*PI)
-                IF (FLAGDEG == 1) ANGLE1=ANGLE1*CENT80/PI
-                IF (FLAGDEG == 1) ANGLE2=ANGLE2*CENT80/PI
+                ANGLE2 = MOD(ANGLE2 - ANGLE1,TWO*PI)
+                IF (FLAGDEG == 1) ANGLE1=ANGLE1*HUNDRED80/PI
+                IF (FLAGDEG == 1) ANGLE2=ANGLE2*HUNDRED80/PI
                 IF (IZIPSTRS == 0) THEN
                   WRITE(IUGEO,'(1P2E20.13)')ANGLE1,ANGLE2
                 ELSE
@@ -882,7 +882,7 @@ C IGTYP = 16 or (IGTYP = 51 + ILAW 58)
                 J = J + 4
               ELSE
                 ANGLE1 = ATAN2(WAP0(J + 2), WAP0(J + 1))
-                IF (FLAGDEG == 1) ANGLE1=ANGLE1*CENT80/PI
+                IF (FLAGDEG == 1) ANGLE1=ANGLE1*HUNDRED80/PI
                 IF (IZIPSTRS == 0) THEN
                   WRITE(IUGEO,'(1PE20.13)')ANGLE1
                 ELSE

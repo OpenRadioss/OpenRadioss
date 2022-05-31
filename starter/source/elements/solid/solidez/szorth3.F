@@ -66,15 +66,15 @@ C-----------------------------------------------
          G3Y(I)=G1Z(I)*G2X(I)-G1X(I)*G2Z(I)
          G3Z(I)=G1X(I)*G2Y(I)-G1Y(I)*G2X(I)
         ELSE
-         G1X(I)=UN
+         G1X(I)=ONE
          G1Y(I)=ZERO
          G1Z(I)=ZERO
          G2X(I)=ZERO
-         G2Y(I)=UN
+         G2Y(I)=ONE
          G2Z(I)=ZERO
          G3X(I)=ZERO
          G3Y(I)=ZERO
-         G3Z(I)=UN       
+         G3Z(I)=ONE       
         ENDIF 
       ENDDO
 C
@@ -120,9 +120,9 @@ C-----------------------------------------------
         DEF(1,I) = DXX(I)
         DEF(2,I) = DYY(I)
         DEF(3,I) = DZZ(I)
-        DEF(4,I) = UNDEMI*D4(I)
-        DEF(5,I) = UNDEMI*D5(I)
-        DEF(6,I) = UNDEMI*D6(I)
+        DEF(4,I) = HALF*D4(I)
+        DEF(5,I) = HALF*D5(I)
+        DEF(6,I) = HALF*D6(I)
       ENDDO
       CALL SROTO3(JFT,JLT,DEF,DEFN,
      .                 G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)
@@ -130,9 +130,9 @@ C-----------------------------------------------
         DXX(I) = DEFN(1,I)
         DYY(I) = DEFN(2,I)
         DZZ(I) = DEFN(3,I)
-        D4(I) = DEUX*DEFN(4,I)
-        D5(I) = DEUX*DEFN(5,I)
-        D6(I) = DEUX*DEFN(6,I)
+        D4(I) = TWO*DEFN(4,I)
+        D5(I) = TWO*DEFN(5,I)
+        D6(I) = TWO*DEFN(6,I)
       ENDDO
 C
       RETURN

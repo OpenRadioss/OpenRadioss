@@ -219,7 +219,7 @@ C
        A11  = UPARAM(IADBUF+3)
        A21  = UPARAM(IADBUF+4)
        G1   = UPARAM(IADBUF+5)
-       G31  = TROIS*G1
+       G31  = THREE*G1
        NUX  = UPARAM(IADBUF+6)
        NRATE1 = NINT(UPARAM(IADBUF+1))
        EPSMAX1=UPARAM(IADBUF+6+2*NRATE1+1)
@@ -231,14 +231,14 @@ C
          ENDIF
        ENDIF
 C
-       NNU11 = NUX / (UN - NUX)
+       NNU11 = NUX / (ONE - NUX)
        NNU2    = NNU11*NNU11
-       NU11 = UN/(UN-NUX)
-       NU21 = UN/(UN+NUX)
-       NU31 = UN-NNU11
-       NU41 = UN + NNU2 + NNU11
-       NU51 = UN + NNU2 - DEUX*NNU11
-       NU61 = UNDEMI - NNU2 + UNDEMI*NNU11       
+       NU11 = ONE/(ONE-NUX)
+       NU21 = ONE/(ONE+NUX)
+       NU31 = ONE-NNU11
+       NU41 = ONE + NNU2 + NNU11
+       NU51 = ONE + NNU2 - TWO*NNU11
+       NU61 = HALF - NNU2 + HALF*NNU11       
 C
        EPSR11 =UPARAM(IADBUF+6+2*NRATE1+2)
        EPSR21 =UPARAM(IADBUF+6+2*NRATE1+3)
@@ -281,21 +281,21 @@ C
 C
          SOUNDSP(I) = SQRT(A11/RHO0(I))
          VISCMAX(I) = ZERO
-         ETSE(I) = UN
+         ETSE(I) = ONE
 C-------------------
 C     STRAIN RATE
 C-------------------
          IF (ISRATE.EQ.0) EPSP(I) = 
-     .     UNDEMI*( ABS(EPSPXX(I)+EPSPYY(I))
+     .     HALF*( ABS(EPSPXX(I)+EPSPYY(I))
      .   + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .                 + EPSPXY(I)*EPSPXY(I) ) )
 C-------------------
 C     STRAIN 
 C-------------------
-         EPST = UNDEMI*( EPSXX(I)+EPSYY(I)
+         EPST = HALF*( EPSXX(I)+EPSYY(I)
      .   + SQRT( (EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
      .                 + EPSXY(I)*EPSXY(I) ) )
-         FAIL(I) = MAX(ZERO,MIN(UN,(EPSR21-EPST)/(EPSR21-EPSR11)))
+         FAIL(I) = MAX(ZERO,MIN(ONE,(EPSR21-EPST)/(EPSR21-EPSR11)))
 C
        ENDDO
 C-------------------
@@ -397,19 +397,19 @@ C projection radiale
            SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
      .             +SIGNYY(I)*SIGNYY(I)
      .             -SIGNXX(I)*SIGNYY(I)
-     .          +TROIS*SIGNXY(I)*SIGNXY(I))
-           R  = MIN(UN,YLD(I)/MAX(EM20,SVM(I)))
+     .          +THREE*SIGNXY(I)*SIGNXY(I))
+           R  = MIN(ONE,YLD(I)/MAX(EM20,SVM(I)))
            SIGNXX(I)=SIGNXX(I)*R
            SIGNYY(I)=SIGNYY(I)*R
            SIGNXY(I)=SIGNXY(I)*R
-           UMR = UN - R
+           UMR = ONE - R
            DPLA_I(I) = OFF(I)*SVM(I)*UMR/(G31+H(I))
            PLA(I) = PLA(I) + DPLA_I(I)
-           S1=UNDEMI*(SIGNXX(I)+SIGNYY(I))
-           DEZZ = DPLA_I(I) * UNDEMI*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
+           S1=HALF*(SIGNXX(I)+SIGNYY(I))
+           DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
            DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU11-NU31*DEZZ
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
-           IF(R.LT.UN) ETSE(I)= H(I)/(H(I)+E1) 
+           IF(R.LT.ONE) ETSE(I)= H(I)/(H(I)+E1) 
          ENDDO
 C
        ELSEIF(IFLAG(1).EQ.1)THEN
@@ -421,8 +421,8 @@ C-------------------------
            S1=SIGNXX(I)+SIGNYY(I)
            S2=SIGNXX(I)-SIGNYY(I)
            S3=SIGNXY(I)
-           AA(I)=QUART*S1*S1
-           BB(I)=TQUART*S2*S2+3.*S3*S3
+           AA(I)=FOURTH*S1*S1
+           BB(I)=THREE_OVER_4*S2*S2+3.*S3*S3
            SVM(I)=SQRT(AA(I)+BB(I))  
            DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU11
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
@@ -432,7 +432,7 @@ C     GATHER PLASTIC FLOW
 C-------------------------
          NINDX=0
          DO I=1,NEL0
-           IF(SVM(I).GT.YLD(I).AND.OFF(I).EQ.UN) THEN
+           IF(SVM(I).GT.YLD(I).AND.OFF(I).EQ.ONE) THEN
              NINDX=NINDX+1
              INDEX(NINDX)=I
            ENDIF
@@ -446,7 +446,7 @@ C---------------------------
            I=INDEX(J)
            DPLA_J(I)=(SVM(I)-YLD(I))/(G31+H(I))
            ETSE(I)= H(I)/(H(I)+E1)
-           HK(I) = H(I)*(UN-FISOKIN1)
+           HK(I) = H(I)*(ONE-FISOKIN1)
           ENDDO
 C
           DO N=1,NMAX
@@ -455,15 +455,15 @@ C
              I=INDEX(J)
              DPLA_I(I)=DPLA_J(I)
              YLD_I =YLD(I)+HK(I)*DPLA_I(I)
-             DR(I) =UNDEMI*E1*DPLA_I(I)/YLD_I
-             PP(I)  =UN/(UN+DR(I)*NU11)
-             QQ(I)  =UN/(UN+TROIS*DR(I)*NU21)     
+             DR(I) =HALF*E1*DPLA_I(I)/YLD_I
+             PP(I)  =ONE/(ONE+DR(I)*NU11)
+             QQ(I)  =ONE/(ONE+THREE*DR(I)*NU21)     
              P2    =PP(I)*PP(I)
              Q2    =QQ(I)*QQ(I)
              F     =AA(I)*P2+BB(I)*Q2-YLD_I*YLD_I
-             DF    =-(AA(I)*NU11*P2*PP(I)+TROIS*BB(I)*NU21*Q2*QQ(I))
-     .         *(E1-DEUX*DR(I)*HK(I))/YLD_I
-     .         -DEUX*HK(I)*YLD_I
+             DF    =-(AA(I)*NU11*P2*PP(I)+THREE*BB(I)*NU21*Q2*QQ(I))
+     .         *(E1-TWO*DR(I)*HK(I))/YLD_I
+     .         -TWO*HK(I)*YLD_I
              DF = SIGN(MAX(ABS(DF),EM20),DF)
              IF(DPLA_I(I).GT.ZERO) THEN
                DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F/DF)
@@ -481,8 +481,8 @@ C------------------------------------------
            PLA(I) = PLA(I) + DPLA_I(I)
            S1=(SIGNXX(I)+SIGNYY(I))*PP(I)
            S2=(SIGNXX(I)-SIGNYY(I))*QQ(I)
-           SIGNXX(I)=UNDEMI*(S1+S2)
-           SIGNYY(I)=UNDEMI*(S1-S2) 
+           SIGNXX(I)=HALF*(S1+S2)
+           SIGNYY(I)=HALF*(S1-S2) 
            SIGNXY(I)=SIGNXY(I)*QQ(I)
            DEZZ = - NU31*DR(I)*S1/E1
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
@@ -502,33 +502,33 @@ C          s33 = p = -(S11 + S22)
            S12 = SIGNXY(I)
 C
            P2 = P*P
-           VM2= TROIS*(S12*S12 - S11*S22)
+           VM2= THREE*(S12*S12 - S11*S22)
            A  = P2*NU41 + VM2
-           VM2= TROIS*P2  + VM2
+           VM2= THREE*P2  + VM2
            B  = P2*NU61
            C  = P2*NU51 - YLD(I)*YLD(I)
-           R  = MIN(UN,(-B + SQRT(MAX(ZERO,B*B-A*C)))/MAX(A ,EM20))
+           R  = MIN(ONE,(-B + SQRT(MAX(ZERO,B*B-A*C)))/MAX(A ,EM20))
            SIGNXX(I) = S11*R - P
            SIGNYY(I) = S22*R - P
            SIGNXY(I) = S12*R
 C         signzz    = p*r - p
 C proj.   signzz    = 0.
-           UMR = UN - R
+           UMR = ONE - R
            SIGZ      = NNU11*P*UMR
            SIGNXX(I) = SIGNXX(I) + SIGZ
            SIGNYY(I) = SIGNYY(I) + SIGZ
            SVM(I)=SQRT(VM2)
            DPLA_I(I) = OFF(I)*SVM(I)*UMR/(G31+H(I))
            PLA(I) = PLA(I) + DPLA_I(I)
-           DEZZ = DPLA_I(I) * UNDEMI*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
+           DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
            DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU11-NU31*DEZZ
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
-           IF(R.LT.UN) ETSE(I)= H(I)/(H(I)+E1)         
+           IF(R.LT.ONE) ETSE(I)= H(I)/(H(I)+E1)         
          ENDDO
        ENDIF
 C
        DO I=1,NEL0
-         IF(PLA(I).GT.EPSMAX1.AND.OFF(I).EQ.UN)OFF(I)=QCINQ
+         IF(PLA(I).GT.EPSMAX1.AND.OFF(I).EQ.ONE)OFF(I)=FOUR_OVER_5
        ENDDO
 C------------------------------------------
 C     ECROUISSAGE CINE
@@ -541,10 +541,10 @@ C test bypass
           DSXY = SIGEXY(I) - SIGNXY(I)
           DEXX = (DSXX - NUX*DSYY) 
           DEYY = (DSYY - NUX*DSXX)
-          DEXY = DEUX*(UN+NUX)*DSXY
-          ALPHA = FISOKIN1*H(I)/(E1+H(I))/TROIS
-          SIGPXX = ALPHA*(QUATRE*DEXX+DEUX*DEYY)
-          SIGPYY = ALPHA*(QUATRE*DEYY+DEUX*DEXX)
+          DEXY = TWO*(ONE+NUX)*DSXY
+          ALPHA = FISOKIN1*H(I)/(E1+H(I))/THREE
+          SIGPXX = ALPHA*(FOUR*DEXX+TWO*DEYY)
+          SIGPYY = ALPHA*(FOUR*DEYY+TWO*DEXX)
           SIGPXY = ALPHA*DEXY
          SIGNXX(I) = SIGNXX(I) + UVAR(I,2)
          SIGNYY(I) = SIGNYY(I) + UVAR(I,3)

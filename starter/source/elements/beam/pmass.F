@@ -89,7 +89,7 @@ C=======================================================================
           NIP    = IGEO(3,MXG(I))
           DO J=1,NIP
             ARI = GEO(IPA+J,MXG(I))
-            INI = ARI*ARI*UNDOUZE
+            INI = ARI*ARI*ONE_OVER_12
             RYI = GEO(IPY+J,MXG(I))
             RZI = GEO(IPZ+J,MXG(I))
             AREA(I) = AREA(I) + ARI
@@ -113,15 +113,15 @@ C----------------------------------------------
 C     MASSE ELEMENT /2
 C----------------------------------------------
       DO I=LFT,LLT
-       EMS(I)=RHO(I)*AL(I)*AREA(I)* UNDEMI
-       TIN(I)=EMS(I)*AL(I)**2*UNDOUZE + RHO(I)*(AL(I)*UNDEMI)
+       EMS(I)=RHO(I)*AL(I)*AREA(I)* HALF
+       TIN(I)=EMS(I)*AL(I)**2*ONE_OVER_12 + RHO(I)*(AL(I)*HALF)
      .       * MAX(TIYY(I),TIZZ(I))
-       TIN(I)= MAX(TIN(I),RHO(I)*AL(I)/DEUX*TIXX(I))
+       TIN(I)= MAX(TIN(I),RHO(I)*AL(I)/TWO*TIXX(I))
       ENDDO
        IF( JTHE > 0 ) THEN
            DO I=LFT,LLT
               RHOCP(I) = PM(69,MXT(I))
-              MCPP(I)  = RHOCP(I)*AL(I)*AREA(I)* UNDEMI
+              MCPP(I)  = RHOCP(I)*AL(I)*AREA(I)* HALF
            ENDDO
        ENDIF
 C----------------------------------------------
@@ -183,25 +183,25 @@ C----------------------------------------------
        G = PM (22,MXT(I))
 C
        DMP =MAX(GEO(16,MXG(I)),GEO(17,MXG(I)))
-       DMP =DMP*SQRT(DEUX)
-       AA  =(SQRT(UN +DMP*DMP)-DMP)
+       DMP =DMP*SQRT(TWO)
+       AA  =(SQRT(ONE +DMP*DMP)-DMP)
        AA  = AL(I) * AA * AA
        BB  = MAX(TIYY(I),TIZZ(I))
-       STIR = MAX(G*TIXX(I),QUATRE*E*BB) / AA
+       STIR = MAX(G*TIXX(I),FOUR*E*BB) / AA
        STI  = AREA(I) * E / AA
 C
 C      calcul du pourcentage d'amortissement en cisaillement
        SL2I= AREA(I)*AL(I)**2 / MAX(BB,EM30)
-       SHF    = UN-GEO(37,MXG(I))
-       PHI    = DOUZE*E/(CINQ/SIX*G)/MAX(EM30,SL2I)
+       SHF    = ONE-GEO(37,MXG(I))
+       PHI    = TWELVE*E/(FIVE/SIX*G)/MAX(EM30,SL2I)
 C
 C      DSH > DMP : ne change pas ce qui marche, meme si trop severe
        DSH = DMP
-     .         *MAX(UN,
-     .  	SQRT(DOUZE/MAX(EM30,SL2I))*SQRT(UN+PHI*SHF))
-       AA     = SQRT(UN+DSH*DSH)-DSH
+     .         *MAX(ONE,
+     .  	SQRT(TWELVE/MAX(EM30,SL2I))*SQRT(ONE+PHI*SHF))
+       AA     = SQRT(ONE+DSH*DSH)-DSH
        AA     = AL(I) * AA * AA
-       STI = MAX(STI,DOUZE*BB*E/AL(I)/AL(I) / AA)
+       STI = MAX(STI,TWELVE*BB*E/AL(I)/AL(I) / AA)
 C
        STIFN(NC1(I))=STIFN(NC1(I))+STI
        STIFN(NC2(I))=STIFN(NC2(I))+STI
@@ -215,7 +215,7 @@ C
         I2 = NC2(I)
 C
         IP=IPART(I)
-        PARTSAV(1,IP)=PARTSAV(1,IP) + DEUX*EMS(I)
+        PARTSAV(1,IP)=PARTSAV(1,IP) + TWO*EMS(I)
         PARTSAV(2,IP)=PARTSAV(2,IP) + EMS(I)*(X1(I)+X2(I))
         PARTSAV(3,IP)=PARTSAV(3,IP) + EMS(I)*(Y1(I)+Y2(I))
         PARTSAV(4,IP)=PARTSAV(4,IP) + EMS(I)*(Z1(I)+Z2(I))
@@ -225,9 +225,9 @@ C
         YZ = (Y1(I)*Z1(I)+Y2(I)*Z2(I))
         ZZ = (Z1(I)*Z1(I)+Z2(I)*Z2(I))
         ZX = (Z1(I)*X1(I)+Z2(I)*X2(I))
-        PARTSAV(5,IP) =PARTSAV(5,IP) + DEUX*TIN(I) + EMS(I) * (YY+ZZ)
-        PARTSAV(6,IP) =PARTSAV(6,IP) + DEUX*TIN(I) + EMS(I) * (ZZ+XX)
-        PARTSAV(7,IP) =PARTSAV(7,IP) + DEUX*TIN(I) + EMS(I) * (XX+YY)
+        PARTSAV(5,IP) =PARTSAV(5,IP) + TWO*TIN(I) + EMS(I) * (YY+ZZ)
+        PARTSAV(6,IP) =PARTSAV(6,IP) + TWO*TIN(I) + EMS(I) * (ZZ+XX)
+        PARTSAV(7,IP) =PARTSAV(7,IP) + TWO*TIN(I) + EMS(I) * (XX+YY)
         PARTSAV(8,IP) =PARTSAV(8,IP)  - EMS(I) * XY
         PARTSAV(9,IP) =PARTSAV(9,IP)  - EMS(I) * YZ
         PARTSAV(10,IP)=PARTSAV(10,IP) - EMS(I) * ZX
@@ -235,7 +235,7 @@ C
         PARTSAV(11,IP)=PARTSAV(11,IP) + EMS(I)*(V(1,I1)+V(1,I2))
         PARTSAV(12,IP)=PARTSAV(12,IP) + EMS(I)*(V(2,I1)+V(2,I2))
         PARTSAV(13,IP)=PARTSAV(13,IP) + EMS(I)*(V(3,I1)+V(3,I2))
-        PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * EMS(I) *
+        PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS(I) *
      .     (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
      .     +V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2))
       ENDDO

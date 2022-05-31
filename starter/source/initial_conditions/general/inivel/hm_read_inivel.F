@@ -555,7 +555,7 @@ C
 C--                 /INIVEL/AXIS -> data must be stored to update initial velocity when RBODY main node is moved (inirby.F)
                     IF (NRBODY > 0) THEN
                       IF (TAGNO_RBY(NOSYS) > 0) THEN
-                        RBY_INIAXIS(1,TAGNO_RBY(NOSYS)) = UN
+                        RBY_INIAXIS(1,TAGNO_RBY(NOSYS)) = ONE
                         RBY_INIAXIS(2,TAGNO_RBY(NOSYS)) = V(1,NOSYS)
                         RBY_INIAXIS(3,TAGNO_RBY(NOSYS)) = V(2,NOSYS)
                         RBY_INIAXIS(4,TAGNO_RBY(NOSYS)) = V(3,NOSYS)

@@ -91,7 +91,7 @@ C-----------------------------------------------
       IF (IFORM == 0) THEN ! Heat exchange MAIN ->SECONDARY
 C
        IF(IFUNCTK==0)THEN ! KTHE =/ F(PEN)
-         RSTIF = UN/MAX(EM30,KTHE)
+         RSTIF = ONE/MAX(EM30,KTHE)
 C
          DO I=1,JLT
           PHIS1(I) = ZERO
@@ -179,7 +179,7 @@ C---------------------------------
 C           CALCUL DE LA CONDUCTIBILITE
 C---------------------------------
               P      = XTHE * FNI(I) / AREAC(I)
-              RSTIFF  = UN /MAX(EM30,FINTER(IFUNCTK,P,NPC,TF,DYDX)*KTHE)
+              RSTIFF  = ONE /MAX(EM30,FINTER(IFUNCTK,P,NPC,TF,DYDX)*KTHE)
               COND = PM(75,MAT)+PM(76,MAT)*TS
               DIST = PENRAD(I) + GAPV(I)
               TSTIFM =   MAX(DIST,ZERO) / COND
@@ -213,7 +213,7 @@ C--------------------------------------------------------
 C  CAS DES PAQUETS MIXTES OU QUADRANGLE
 C--------------------------------------------------------
 C     
-        RSTIF = UN/MAX(EM30,KTHE)
+        RSTIF = ONE/MAX(EM30,KTHE)
         DO I=1,JLT
           PHIS1(I) = ZERO
           PHIS2(I) = ZERO
@@ -299,7 +299,7 @@ C---------------------------------
 C         Conduction
 C---------------------------------
               P      = XTHE * FNI(I) / AREAC(I)
-              RSTIFF  = UN /MAX(EM30,FINTER(IFUNCTK,P,NPC,TF,DYDX)*KTHE)
+              RSTIFF  = ONE /MAX(EM30,FINTER(IFUNCTK,P,NPC,TF,DYDX)*KTHE)
               MAT = IELECI(I)
               CONDS1 = PM(75,MAT)+PM(76,MAT)*TS1
               CONDS2 = PM(75,MAT)+PM(76,MAT)*TS2

@@ -77,9 +77,9 @@ C
      .   .OR.ISMSTR.EQ.10.OR.ISMSTR.EQ.12) RETURN
 C
       DO I=LFT,LLT
-        Q1 = DEUX*S4(I)*WZZ(I)
-        Q2 = DEUX*S6(I)*WYY(I)
-        Q3 = DEUX*S5(I)*WXX(I)
+        Q1 = TWO*S4(I)*WZZ(I)
+        Q2 = TWO*S6(I)*WYY(I)
+        Q3 = TWO*S5(I)*WXX(I)
 !
         SIG(I,1)=S1(I)-Q1+Q2
         SIG(I,2)=S2(I)+Q1-Q3

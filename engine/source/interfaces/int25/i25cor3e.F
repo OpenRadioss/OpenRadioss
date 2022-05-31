@@ -350,24 +350,24 @@ C
         DEBUG_E2E( EDGE_ID(1,I) ==  D_EM.AND. EDGE_ID(2,I) == D_ES ,DZ)
 
         IF(NNI < ZERO)THEN
-          DX=DX-DEUX*NNI*EX(I)
-          DY=DY-DEUX*NNI*EY(I)
-          DZ=DZ-DEUX*NNI*EZ(I)
+          DX=DX-TWO*NNI*EX(I)
+          DY=DY-TWO*NNI*EY(I)
+          DZ=DZ-TWO*NNI*EZ(I)
           NNI=-NNI
         END IF
 
-        IF(DEUX*NNI*NNI < NI2)THEN
+        IF(TWO*NNI*NNI < NI2)THEN
 c         scharp angle bound nodal normal to 45 from edge normal
           AAA = SQRT(MAX(ZERO,NI2-NNI*NNI)) - NNI
           DX = DX + AAA*EX(I)
           DY = DY + AAA*EY(I)
           DZ = DZ + AAA*EZ(I)
         ENDIF
-        DD=UN/MAX(EM20,SQRT(DX*DX+DY*DY+DZ*DZ))
+        DD=ONE/MAX(EM20,SQRT(DX*DX+DY*DY+DZ*DZ))
         DX = DX*DD
         DY = DY*DD
         DZ = DZ*DD
-        INVCOS  = UN / MAX(EM20,EX(I)*DX  + EY(I)*DY  + EZ(I)*DZ)
+        INVCOS  = ONE / MAX(EM20,EX(I)*DX  + EY(I)*DY  + EZ(I)*DZ)
         DX = DX*INVCOS
         DY = DY*INVCOS
         DZ = DZ*INVCOS
@@ -385,24 +385,24 @@ C
         NI2 = DX*DX + DY*DY + DZ*DZ
 
         IF(NNI < ZERO)THEN
-          DX=DX-DEUX*NNI*EX(I)
-          DY=DY-DEUX*NNI*EY(I)
-          DZ=DZ-DEUX*NNI*EZ(I)
+          DX=DX-TWO*NNI*EX(I)
+          DY=DY-TWO*NNI*EY(I)
+          DZ=DZ-TWO*NNI*EZ(I)
           NNI=-NNI
         END IF
 
-        IF(DEUX*NNI*NNI < NI2)THEN
+        IF(TWO*NNI*NNI < NI2)THEN
 c         scharp angle bound nodal normal to 45 from edge normal
           AAA = SQRT(MAX(ZERO,NI2-NNI*NNI)) - NNI
           DX = DX + AAA*EX(I)
           DY = DY + AAA*EY(I)
           DZ = DZ + AAA*EZ(I)
         ENDIF
-        DD=UN/MAX(EM20,SQRT(DX*DX+DY*DY+DZ*DZ))
+        DD=ONE/MAX(EM20,SQRT(DX*DX+DY*DY+DZ*DZ))
         DX = DX*DD
         DY = DY*DD
         DZ = DZ*DD
-        INVCOS  = UN / MAX(EM20,EX(I)*DX  + EY(I)*DY  + EZ(I)*DZ)
+        INVCOS  = ONE / MAX(EM20,EX(I)*DX  + EY(I)*DY  + EZ(I)*DZ)
         DX = DX*INVCOS
         DY = DY*INVCOS
         DZ = DZ*INVCOS
@@ -460,24 +460,24 @@ C           DX, DY, DZ Direction for shifting
           NI2 = DX*DX + DY*DY + DZ*DZ
 
           IF(NNI < ZERO)THEN
-            DX=DX-DEUX*NNI*FX(I)
-            DY=DY-DEUX*NNI*FY(I)
-            DZ=DZ-DEUX*NNI*FZ(I)
+            DX=DX-TWO*NNI*FX(I)
+            DY=DY-TWO*NNI*FY(I)
+            DZ=DZ-TWO*NNI*FZ(I)
             NNI=-NNI
           END IF
 
-          IF(DEUX*NNI*NNI < NI2)THEN
+          IF(TWO*NNI*NNI < NI2)THEN
 c           scharp angle bound nodal normal to 45 from edge normal
             AAA = SQRT(MAX(ZERO,NI2-NNI*NNI)) - NNI
             DX = DX + AAA*FX(I)
             DY = DY + AAA*FY(I)
             DZ = DZ + AAA*FZ(I)
           ENDIF
-          DD=UN/MAX(EM20,SQRT(DX*DX+DY*DY+DZ*DZ))
+          DD=ONE/MAX(EM20,SQRT(DX*DX+DY*DY+DZ*DZ))
           DX = DX*DD
           DY = DY*DD
           DZ = DZ*DD
-          INVCOS  = UN / MAX(EM20,FX(I)*DX  + FY(I)*DY  + FZ(I)*DZ)
+          INVCOS  = ONE / MAX(EM20,FX(I)*DX  + FY(I)*DY  + FZ(I)*DZ)
           DX = DX*INVCOS
           DY = DY*INVCOS
           DZ = DZ*INVCOS
@@ -507,24 +507,24 @@ C
           NI2 = DX*DX + DY*DY + DZ*DZ
 
           IF(NNI < ZERO)THEN
-            DX=DX-DEUX*NNI*FX(I)
-            DY=DY-DEUX*NNI*FY(I)
-            DZ=DZ-DEUX*NNI*FZ(I)
+            DX=DX-TWO*NNI*FX(I)
+            DY=DY-TWO*NNI*FY(I)
+            DZ=DZ-TWO*NNI*FZ(I)
             NNI=-NNI
           END IF
 
-          IF(DEUX*NNI*NNI < NI2)THEN
+          IF(TWO*NNI*NNI < NI2)THEN
 c           scharp angle bound nodal normal to 45 from edge normal
             AAA = SQRT(MAX(ZERO,NI2-NNI*NNI)) - NNI
             DX = DX + AAA*FX(I)
             DY = DY + AAA*FY(I)
             DZ = DZ + AAA*FZ(I)
           ENDIF
-          DD=UN/MAX(EM20,SQRT(DX*DX+DY*DY+DZ*DZ))
+          DD=ONE/MAX(EM20,SQRT(DX*DX+DY*DY+DZ*DZ))
           DX = DX*DD
           DY = DY*DD
           DZ = DZ*DD
-          INVCOS  = UN / MAX(EM20,FX(I)*DX  + FY(I)*DY  + FZ(I)*DZ)
+          INVCOS  = ONE / MAX(EM20,FX(I)*DX  + FY(I)*DY  + FZ(I)*DZ)
           DX = DX*INVCOS
           DY = DY*INVCOS
           DZ = DZ*INVCOS

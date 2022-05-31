@@ -63,11 +63,11 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include "vectorize.inc"
       DO I=JFT,JLT 
         EP=IPLAT(I)
-        THKN(EP,1) = THK(EP) * (UN + EZZPG(EP,1))
-        THKN(EP,2) = THK(EP) * (UN + EZZPG(EP,2))
-        THKN(EP,3) = THK(EP) * (UN + EZZPG(EP,3))
-        THKN(EP,4) = THK(EP) * (UN + EZZPG(EP,4))
-        THKAVG = QUART*(THKN(EP,1)+THKN(EP,2)+THKN(EP,3)+THKN(EP,4))
+        THKN(EP,1) = THK(EP) * (ONE + EZZPG(EP,1))
+        THKN(EP,2) = THK(EP) * (ONE + EZZPG(EP,2))
+        THKN(EP,3) = THK(EP) * (ONE + EZZPG(EP,3))
+        THKN(EP,4) = THK(EP) * (ONE + EZZPG(EP,4))
+        THKAVG = FOURTH*(THKN(EP,1)+THKN(EP,2)+THKN(EP,3)+THKN(EP,4))
         THK(EP) = THKAVG
         THK0(EP) = THKAVG      
       ENDDO       

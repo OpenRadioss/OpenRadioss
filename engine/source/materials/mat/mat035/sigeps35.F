@@ -134,16 +134,12 @@ C----------------------------------------------------------------
      . SIGAIR(MVSIZ)
 
       my_real
-     . ONE,TWO,THREE,TWOTHIRD,SMALL,TINY , AUX1, AUX2, 
+     . SMALL,TINY , AUX1, AUX2, 
      . MIDSTEP, DT05    
       LOGICAL TEST
 C----------------------------------------------------------------
-         SMALL = EM3
-         TINY  = EM30
-         ONE = UN
-         TWO = DEUX
-         THREE = TROIS
-         TWOTHIRD = DTHIRD
+      SMALL = EM3
+      TINY  = EM30
       TEST=.FALSE.
 
 C SET INITIAL MATERIAL CONSTANTS
@@ -181,7 +177,7 @@ C SET INITIAL MATERIAL CONSTANTS
       IF(NUPARAM.GE.19) ICORRECT=NINT(UPARAM(19))
 C
       IF(ICORRECT.EQ.0)THEN
-        DT05=UNDEMI*TIMESTEP
+        DT05=HALF*TIMESTEP
       ELSE
         DT05=ZERO
       END IF
@@ -217,17 +213,17 @@ C  COMPUTE DEVIATORIC STRAINS
         DEXX(I)=EPSXX(I)-EM(I)
         DEYY(I)=EPSYY(I)-EM(I)
         DEZZ(I)=EPSZZ(I)-EM(I)
-        DEXY(I)=EPSXY(I)* UNDEMI
-        DEYZ(I)=EPSYZ(I)* UNDEMI
-        DEZX(I)=EPSZX(I)* UNDEMI
+        DEXY(I)=EPSXY(I)* HALF
+        DEYZ(I)=EPSYZ(I)* HALF
+        DEZX(I)=EPSZX(I)* HALF
 
 C  COMPUTE DEVIATORIC STRAIN RATES
         DEDTXX(I)=EPSPXX(I)-DEDTM(I)
         DEDTYY(I)=EPSPYY(I)-DEDTM(I)
         DEDTZZ(I)=EPSPZZ(I)-DEDTM(I)
-        DEDTXY(I)=EPSPXY(I)*UNDEMI
-        DEDTYZ(I)=EPSPYZ(I)*UNDEMI
-        DEDTZX(I)=EPSPZX(I)*UNDEMI
+        DEDTXY(I)=EPSPXY(I)*HALF
+        DEDTYZ(I)=EPSPYZ(I)*HALF
+        DEDTZX(I)=EPSPZX(I)*HALF
   210 CONTINUE
 
       DO I=1,NEL
@@ -238,7 +234,7 @@ C  COMPUTE DEVIATORIC STRAIN RATES
         IF (ISRATE == 0) THEN 
           EDOT(I) = EPSP
         ELSE
-          EDOT(I)   = ASRATE*EPSP + (UN - ASRATE)*UVAR(I,4)
+          EDOT(I)   = ASRATE*EPSP + (ONE - ASRATE)*UVAR(I,4)
           UVAR(I,4) = EDOT(I)
         ENDIF
       ENDDO
@@ -275,7 +271,7 @@ C COMPUTE DEVIATORIC STRESS RATE INCREMENTS
      &            G2(I)*GT2*DEYZ(I)/VMU2
         DSDTZX(I)=G2(I)*DEDTZX(I)-(G2(I)+GT2)*DSZX(I)/VMU2+
      &            G2(I)*GT2*DEZX(I)/VMU2
-        MIDSTEP=UN/(UN+(G2(I)+GT2)/VMU2*DT05)
+        MIDSTEP=ONE/(ONE+(G2(I)+GT2)/VMU2*DT05)
         DSDTXX(I)=DSDTXX(I)*MIDSTEP
         DSDTYY(I)=DSDTYY(I)*MIDSTEP
         DSDTZZ(I)=DSDTZZ(I)*MIDSTEP
@@ -295,15 +291,15 @@ C COMPUTE PRESSURE
             PDOT(I)=( C1*(BULK3(I)*DEDTM(I))
      &               -C2*((BULK3(I)+BULKT3)*SM(I)/(VLAMDA3+VMU2))
      &               +C3*((BULK3(I)*BULKT3)*EM(I)/(VLAMDA3+VMU2)))
-     &             / (UN+C2*(BULK3(I)+BULKT3)/(VLAMDA3+VMU2)*DT05)
+     &             / (ONE+C2*(BULK3(I)+BULKT3)/(VLAMDA3+VMU2)*DT05)
             P(I)=SM(I)+PDOT(I)*TIMESTEP
      &           -FAC*FINTER(KF,AMU(I),NPF,TF,DPDMU(I))
           ENDIF
         ELSE
-	  PDOT(I)=( C1*(BULK3(I)*DEDTM(I))
-     &  	   -C2*((BULK3(I)+BULKT3)*SM(I)/(VLAMDA3+VMU2))
-     &  	   +C3*((BULK3(I)*BULKT3)*EM(I)/(VLAMDA3+VMU2)))
-     &             / (UN+C2*(BULK3(I)+BULKT3)/(VLAMDA3+VMU2)*DT05)
+          PDOT(I)=( C1*(BULK3(I)*DEDTM(I))
+     &             -C2*((BULK3(I)+BULKT3)*SM(I)/(VLAMDA3+VMU2))
+     &             +C3*((BULK3(I)*BULKT3)*EM(I)/(VLAMDA3+VMU2)))
+     &             / (ONE+C2*(BULK3(I)+BULKT3)/(VLAMDA3+VMU2)*DT05)
           P(I)=SM(I)+PDOT(I)*TIMESTEP
         ENDIF
         IF(P(I).LE.PMIN) P(I)=PMIN
@@ -312,19 +308,19 @@ C COMPUTE PRESSURE
 C COMPUTE SOUND SPEED 
       DO I=1,NEL
         IF(KF==0)THEN
-          DPDRO(I)=TWOTHIRD*G2(I)+THIRD*BULK3(I)
+          DPDRO(I)=TWO_THIRD*G2(I)+THIRD*BULK3(I)
      &            +P0*(ONE-PHI)/(ONE+GAMA(I)-PHI)**2
         ELSEIF(IFLAG==0)THEN
 C
 C BULK may be unnecessary ; stability over 2 cycles is not fully insured.
-Cqz---normally BULK3 is not used in this case, just keep it as assurance
-          DPDRO(I)=TWOTHIRD*G2(I)
+C---normally BULK3 is not used in this case, just keep it as assurance
+          DPDRO(I)=TWO_THIRD*G2(I)
      &            +MAX(THIRD*BULK3(I),ABS(FAC*DPDMU(I)))
      &            +P0*(ONE-PHI)/(ONE+GAMA(I)-PHI)**2
         ELSE
 C
 C stability over 2 cycles is not fully insured.
-          DPDRO(I)=TWOTHIRD*G2(I)+THIRD*BULK3(I)+ABS(FAC*DPDMU(I))
+          DPDRO(I)=TWO_THIRD*G2(I)+THIRD*BULK3(I)+ABS(FAC*DPDMU(I))
      &            +P0*(ONE-PHI)/(ONE+GAMA(I)-PHI)**2
         END IF
       ENDDO

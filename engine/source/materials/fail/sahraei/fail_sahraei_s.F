@@ -175,7 +175,7 @@ c
       ! Recovering internal variables
       DO I=1,NEL
         ! Checking failure flag
-        IF (OFF(I) < UN)   OFF(I) = OFF(I)*QCINQ
+        IF (OFF(I) < ONE)   OFF(I) = OFF(I)*FOUR_OVER_5
         IF (OFF(I) < EM01) OFF(I) = ZERO
         ! Resetting damage variable
         DAMAGE(I)    = ZERO
@@ -184,7 +184,7 @@ c
         IF (NFUNC == 2) THEN
           FAC = UVAR(I,1)
         ELSE
-          FAC = UN
+          FAC = ONE
         ENDIF
       END DO
 c
@@ -193,7 +193,7 @@ c
       NINDX2   = 0  
       NINDXOFF = 0
       DO I = 1,NEL
-        IF (OFF(I) == UN) THEN
+        IF (OFF(I) == ONE) THEN
           NINDXOFF = NINDXOFF + 1
           INDXOFF(NINDXOFF) = I
         ENDIF        
@@ -216,22 +216,22 @@ C
         EXX = EPSXX(I)
         EYY = EPSYY(I)
         EZZ = EPSZZ(I)
-        EXY = UNDEMI*EPSXY(I)
-        EYZ = UNDEMI*EPSYZ(I)
-        EZX = UNDEMI*EPSZX(I)
+        EXY = HALF*EPSXY(I)
+        EYZ = HALF*EPSYZ(I)
+        EZX = HALF*EPSZX(I)
 C
         ! Computation of strain tensor invariants (attention au formalisme : EPSXY = GAMMAXY = 2*DEFXY)
         I1 = EXX + EYY + EZZ
         I2 = EXX*EYY + EYY*EZZ + EZZ*EXX - EXY*EXY - EZX*EZX - EYZ*EYZ
-        I3 = EXX*EYY*EZZ - EXX*EYZ*EYZ - EYY*EZX*EZX - EZZ*EXY*EXY + DEUX*EXY*EZX*EYZ
-        Q  = (TROIS*I2 - I1*I1)/NEUF
-        R  = (DEUX*I1*I1*I1-NEUF*I1*I2+VINGT7*I3)/CINQUANTE4
-        R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),UN)
-        PHI     = ACOS(MAX(R_INTER,-UN))
+        I3 = EXX*EYY*EZZ - EXX*EYZ*EYZ - EYY*EZX*EZX - EZZ*EXY*EXY + TWO*EXY*EZX*EYZ
+        Q  = (THREE*I2 - I1*I1)/NINE
+        R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4
+        R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
+        PHI     = ACOS(MAX(R_INTER,-ONE))
         ! Computation of principal strain
-        E11 = DEUX*SQRT(MAX(-Q,ZERO))*COS( PHI/TROIS           ) + TIERS*I1
-        E22 = DEUX*SQRT(MAX(-Q,ZERO))*COS((PHI+DEUX*PI)/TROIS  ) + TIERS*I1
-        E33 = DEUX*SQRT(MAX(-Q,ZERO))*COS((PHI+QUATRE*PI)/TROIS) + TIERS*I1
+        E11 = TWO*SQRT(MAX(-Q,ZERO))*COS( PHI/THREE           ) + THIRD*I1
+        E22 = TWO*SQRT(MAX(-Q,ZERO))*COS((PHI+TWO*PI)/THREE  ) + THIRD*I1
+        E33 = TWO*SQRT(MAX(-Q,ZERO))*COS((PHI+FOUR*PI)/THREE) + THIRD*I1
         ! Sorting principal strains
         IF (E11 < E22) THEN 
           R_INTER = E11
@@ -274,11 +274,11 @@ C
 C
           ! Denominator flag for strain-ratio     
           IF (DEN == 1) THEN 
-            DENOMINATOR = ((EXX + EZZ)/DEUX) + SQRT(((EXX - EZZ)/DEUX)**2 + EZX**2)            
+            DENOMINATOR = ((EXX + EZZ)/TWO) + SQRT(((EXX - EZZ)/TWO)**2 + EZX**2)            
           ELSEIF (DEN == 2) THEN
-            DENOMINATOR = ((EXX + EYY)/DEUX) + SQRT(((EXX - EYY)/DEUX)**2 + EXY**2)            
+            DENOMINATOR = ((EXX + EYY)/TWO) + SQRT(((EXX - EYY)/TWO)**2 + EXY**2)            
           ELSEIF (DEN == 3) THEN
-            DENOMINATOR = ((EYY + EZZ)/DEUX) + SQRT(((EYY - EZZ)/DEUX)**2 + EYZ**2)       
+            DENOMINATOR = ((EYY + EZZ)/TWO) + SQRT(((EYY - EZZ)/TWO)**2 + EYZ**2)       
           ELSEIF (DEN == 4) THEN
             DENOMINATOR = E11 
           ELSEIF (DEN == 5) THEN
@@ -305,8 +305,8 @@ C
               TDELE(I)      = TIME 
               NINDX1        = NINDX1 + 1  
               INDX1(NINDX1) = I
-              DAMAGE(I)     = UN
-              OFF(I)        = QCINQ
+              DAMAGE(I)     = ONE
+              OFF(I)        = FOUR_OVER_5
             ENDIF
           ELSEIF (FAIL_ORT == 2) THEN
             DAMAGE(I) = EXX/(MAX(PLAMAX(I),EM20))
@@ -314,8 +314,8 @@ C
               TDELE(I)      = TIME 
               NINDX1        = NINDX1 + 1  
               INDX1(NINDX1) = I
-              DAMAGE(I)     = UN
-              OFF(I)        = QCINQ
+              DAMAGE(I)     = ONE
+              OFF(I)        = FOUR_OVER_5
             ENDIF            
           ELSEIF (FAIL_ORT == 3) THEN
             DAMAGE(I) = EYY/(MAX(PLAMAX(I),EM20))
@@ -323,8 +323,8 @@ C
               TDELE(I)      = TIME 
               NINDX1        = NINDX1 + 1  
               INDX1(NINDX1) = I
-              DAMAGE(I)     = UN
-              OFF(I)        = QCINQ
+              DAMAGE(I)     = ONE
+              OFF(I)        = FOUR_OVER_5
             ENDIF            
           ELSEIF (FAIL_ORT == 4) THEN
             DAMAGE(I) = EZZ/(MAX(PLAMAX(I),EM20))
@@ -332,8 +332,8 @@ C
               TDELE(I)      = TIME 
               NINDX1        = NINDX1 + 1  
               INDX1(NINDX1) = I
-              DAMAGE(I)     = UN
-              OFF(I)        = QCINQ
+              DAMAGE(I)     = ONE
+              OFF(I)        = FOUR_OVER_5
             ENDIF            
           ELSEIF (FAIL_ORT == 5) THEN
             DAMAGE(I) = E11/(MAX(PLAMAX(I),EM20))
@@ -341,38 +341,38 @@ C
               TDELE(I)      = TIME 
               NINDX1        = NINDX1 + 1  
               INDX1(NINDX1) = I
-              DAMAGE(I)     = UN
-              OFF(I)        = QCINQ
+              DAMAGE(I)     = ONE
+              OFF(I)        = FOUR_OVER_5
             ENDIF            
           ELSEIF (FAIL_ORT == 6) THEN
-            E00 = ((EXX + EZZ)/DEUX) + SQRT(((EXX - EZZ)/DEUX)**2 + EZX**2)
+            E00 = ((EXX + EZZ)/TWO) + SQRT(((EXX - EZZ)/TWO)**2 + EZX**2)
             DAMAGE(I) = E00/(MAX(PLAMAX(I),EM20))
             IF (E00 >= PLAMAX(I) .AND. E00 > ZERO) THEN
               TDELE(I)      = TIME 
               NINDX1        = NINDX1 + 1  
               INDX1(NINDX1) = I
-              DAMAGE(I)     = UN
-              OFF(I)        = QCINQ
+              DAMAGE(I)     = ONE
+              OFF(I)        = FOUR_OVER_5
             ENDIF            
           ELSEIF (FAIL_ORT == 7) THEN
-            E00 = ((EXX + EYY)/DEUX) + SQRT(((EXX - EYY)/DEUX)**2 + EXY**2)
+            E00 = ((EXX + EYY)/TWO) + SQRT(((EXX - EYY)/TWO)**2 + EXY**2)
             DAMAGE(I) = E00/(MAX(PLAMAX(I),EM20))
             IF (E00 >= PLAMAX(I) .AND. E00 > ZERO) THEN
               TDELE(I)      = TIME 
               NINDX1        = NINDX1 + 1  
               INDX1(NINDX1) = I
-              DAMAGE(I)     = UN
-              OFF(I)        = QCINQ
+              DAMAGE(I)     = ONE
+              OFF(I)        = FOUR_OVER_5
             ENDIF            
           ELSEIF (FAIL_ORT == 8) THEN
-            E00 = ((EYY + EZZ)/DEUX) + SQRT(((EYY - EZZ)/DEUX)**2 + EYZ**2)
+            E00 = ((EYY + EZZ)/TWO) + SQRT(((EYY - EZZ)/TWO)**2 + EYZ**2)
             DAMAGE(I) = E00/(MAX(PLAMAX(I),EM20))
             IF (E00 >= PLAMAX(I) .AND. E00 > ZERO) THEN
               TDELE(I)      = TIME 
               NINDX1        = NINDX1 + 1  
               INDX1(NINDX1) = I
-              DAMAGE(I)     = UN
-              OFF(I)        = QCINQ
+              DAMAGE(I)     = ONE
+              OFF(I)        = FOUR_OVER_5
             ENDIF 
           ENDIF
         ENDIF
@@ -380,23 +380,23 @@ C
         !-----------------------------------------------------------------------------------
         ! In-plane compression failure
         !-----------------------------------------------------------------------------------
-        IF (COMP_DIR > 0 .AND. DFMAX(I) < UN) THEN
+        IF (COMP_DIR > 0 .AND. DFMAX(I) < ONE) THEN
           IF (COMP_DIR == 1) THEN 
             IF (EYY < (-ABS(MAX_COMP_STRAIN))) THEN
               IF (IDEL > 0) THEN 
-                OFF(I)   = QCINQ
+                OFF(I)   = FOUR_OVER_5
                 TDELE(I) = TIME 
               ENDIF
-              DAMAGE(I)     = UN
+              DAMAGE(I)     = ONE
               NINDX2        = NINDX2 + 1  
               INDX2(NINDX2) = I
               INDX3(NINDX2) = 2
             ELSEIF (EZZ < (-ABS(MAX_COMP_STRAIN)*RATIO_2)) THEN
               IF (IDEL > 0) THEN
-                OFF(I)   = QCINQ
+                OFF(I)   = FOUR_OVER_5
                 TDELE(I) = TIME 
               ENDIF
-              DAMAGE(I)     = UN
+              DAMAGE(I)     = ONE
               NINDX2        = NINDX2 + 1  
               INDX2(NINDX2) = I               
               INDX3(NINDX2) = 3
@@ -404,19 +404,19 @@ C
           ELSEIF (COMP_DIR == 2) THEN 
             IF (EZZ < (-ABS(MAX_COMP_STRAIN))) THEN
               IF (IDEL > 0) THEN
-                OFF(I)   = QCINQ
+                OFF(I)   = FOUR_OVER_5
                 TDELE(I) = TIME 
               ENDIF
-              DAMAGE(I)     = UN
+              DAMAGE(I)     = ONE
               NINDX2        = NINDX2 + 1  
               INDX2(NINDX2) = I
               INDX3(NINDX2) = 3
             ELSEIF (EXX < (-ABS(MAX_COMP_STRAIN)*RATIO_2)) THEN
               IF (IDEL > 0) THEN
-                OFF(I)   = QCINQ
+                OFF(I)   = FOUR_OVER_5
                 TDELE(I) = TIME 
               ENDIF
-              DAMAGE(I)     = UN
+              DAMAGE(I)     = ONE
               NINDX2        = NINDX2 + 1  
               INDX2(NINDX2) = I               
               INDX3(NINDX2) = 1
@@ -424,19 +424,19 @@ C
           ELSEIF (COMP_DIR == 3) THEN 
             IF (EXX < (-ABS(MAX_COMP_STRAIN))) THEN
               IF (IDEL > 0) THEN
-                OFF(I)   = QCINQ
+                OFF(I)   = FOUR_OVER_5
                 TDELE(I) = TIME 
               ENDIF
-              DAMAGE(I)     = UN
+              DAMAGE(I)     = ONE
               NINDX2        = NINDX2 + 1  
               INDX2(NINDX2) = I
               INDX3(NINDX2) = 1
             ELSEIF (EYY < (-ABS(MAX_COMP_STRAIN)*RATIO_2)) THEN
               IF (IDEL > 0) THEN
-                OFF(I)   = QCINQ
+                OFF(I)   = FOUR_OVER_5
                 TDELE(I) = TIME 
               ENDIF
-              DAMAGE(I)     = UN
+              DAMAGE(I)     = ONE
               NINDX2        = NINDX2 + 1  
               INDX2(NINDX2) = I               
               INDX3(NINDX2) = 2
@@ -446,8 +446,8 @@ C
 c
         ! Storing damage maximal value
         DAMAGE_SP(I) = DAMAGE(I)
-        IF (DFMAX(I) <= UN) DFMAX(I) = MAX(DFMAX(I),DAMAGE_SP(I))
-        DFMAX(I) = MIN(DFMAX(I),UN)
+        IF (DFMAX(I) <= ONE) DFMAX(I) = MAX(DFMAX(I),DAMAGE_SP(I))
+        DFMAX(I) = MIN(DFMAX(I),ONE)
 c        
       ENDDO
 c        

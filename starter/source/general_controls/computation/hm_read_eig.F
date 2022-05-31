@@ -366,7 +366,7 @@ C
          IF (NEV.EQ.0) NEV=100
          EIGIPM(IAD+4)=NEV
          EIGRPM(IADF+1)=ZERO
-         EIGRPM(IADF+2)=(SHIFTINI*DEUX*PI)**2
+         EIGRPM(IADF+2)=(SHIFTINI*TWO*PI)**2
          EIGRPM(IADF+3)=CUTFREQ
 C
          IF (NBLFR.EQ.0) NBLFR=NEV      

@@ -130,7 +130,7 @@ C
              IFQ = INTBUF_FRIC_TAB(INTFRIC)%IFFILTER
              IF (IFQ.LT.10) IFQ = IFQ + 10
              INTBUF_FRIC_TAB(INTFRIC)%IFFILTER = IFQ
-             IF (IFQ.EQ.10) INTBUF_FRIC_TAB(INTFRIC)%XFILTR_FRIC = UN
+             IF (IFQ.EQ.10) INTBUF_FRIC_TAB(INTFRIC)%XFILTR_FRIC = ONE
           ENDIF
 
           IF ((NTYP.EQ.7.OR.NTYP.EQ.24..OR.NTYP.EQ.25).AND.IPARI(72) > 0) THEN ! we put the MFROT ifq flag to the value set in friction interface 

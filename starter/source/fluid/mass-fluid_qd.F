@@ -78,14 +78,14 @@ C-------------------------------------------------------------------
      . ASSEMBLY OF INTEGRAL OPERATORS'
       ENDIF
 C Collocation BEM 
-      WI(1,1)=QUART
-      WI(2,1)=QUART
-      WI(3,1)=QUART
-      WI(4,1)=QUART
-      WI(1,2)=TIERS
-      WI(2,2)=TIERS
-      WI(3,2)=UNSIX
-      WI(4,2)=UNSIX
+      WI(1,1)=FOURTH
+      WI(2,1)=FOURTH
+      WI(3,1)=FOURTH
+      WI(4,1)=FOURTH
+      WI(1,2)=THIRD
+      WI(2,2)=THIRD
+      WI(3,2)=ONE_OVER_6
+      WI(4,2)=ONE_OVER_6
       ALLOCATE(BBEM(NEL,NEL), STAT = AERR)
       IF (AERR /= 0) THEN
          CALL ANCMSG(MSGID = 1710, ANMODE=ANINFO, MSGTYPE = MSGERROR) 
@@ -136,8 +136,8 @@ C  Control point P
 C   
            DO JEL=1,NEL
               IF(IEL == JEL) THEN
-                BBEM(IEL,JEL)=DEUX*SQRT(PI*AF(JEL))
-                CBEM(IEL,JEL)=DEUX*PI
+                BBEM(IEL,JEL)=TWO*SQRT(PI*AF(JEL))
+                CBEM(IEL,JEL)=TWO*PI
               ELSE
                 N1=ELEM(1,JEL)
                 N2=ELEM(2,JEL)
@@ -260,7 +260,7 @@ C  Control point P
               ENDIF
 C Matrice C=H
               IF(IEL == JEL) THEN
-                 CBEM(IEL,JEL)=DEUX*PI
+                 CBEM(IEL,JEL)=TWO*PI
               ELSE
                  CBEM(IEL,JEL)=RVLH
               ENDIF
@@ -395,7 +395,7 @@ c$$$      ENDDO
 
       DO IN=1,NEL
          DO JN=1,NEL
-            MFLE(IN,JN)=UNDEMI*RHO*AF(IN)*(CBEM(IN,JN)+CBEM(JN,IN))
+            MFLE(IN,JN)=HALF*RHO*AF(IN)*(CBEM(IN,JN)+CBEM(JN,IN))
             BBEM(IN,JN)=MFLE(IN,JN)
          ENDDO
       ENDDO	  

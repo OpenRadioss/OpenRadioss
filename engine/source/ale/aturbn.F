@@ -68,7 +68,7 @@ C
       
        DO I=LFT,LLT
          XFAC=TMU(I)/VIS(I)
-         PNEW(I)=DEUX*RK(I)/(VNEW(I)*TROIS)
+         PNEW(I)=TWO*RK(I)/(VNEW(I)*THREE)
          EI  =XFAC*EINC(I)-DVOL(I)*PNEW(I)
          EI  =MAX(ZERO,EI)
          RK(I)  =RK(I)+(EI-RE(I)*DT1)*OFF(I)
@@ -76,7 +76,7 @@ C
          C1 =PM(82,MAT(I))/ARK
          C2 =PM(83,MAT(I))/ARK
          C3 =PM(84,MAT(I))
-         RE(I)=RE(I)*(UN +(C1*EI-C2*RE(I)*DT1+C3*DVOL(I)/VNEW(I))*OFF(I))
+         RE(I)=RE(I)*(ONE +(C1*EI-C2*RE(I)*DT1+C3*DVOL(I)/VNEW(I))*OFF(I))
          RK(I)= MAX(EM15,RK(I)/VNEW(I))
          RE(I)= MAX(EM15,RE(I)/VNEW(I))
        ENDDO
@@ -88,7 +88,7 @@ C
           C2 =PM(83,MAT(I))
           SE =PM(86,MAT(I))
           FAC=SQRT(CMU/(SE*(C2-C1)))/SGSL
-          RESGS=RHO(I)*FAC*(RK(I)/RHO(I))**TDEMI
+          RESGS=RHO(I)*FAC*(RK(I)/RHO(I))**THREE_HALF
           RE(I)= MAX(RE(I),RESGS)
         ENDDO
        ELSE
@@ -99,7 +99,7 @@ C
           C2 =PM(83,MAT(I))
           SE =PM(86,MAT(I))
           FAC=SQRT(CMU/(SE*(C2-C1)))/MAX(SGSL,EM15)
-          RESGS=RHO(I)*FAC*(RK(I)/RHO(I))**TDEMI
+          RESGS=RHO(I)*FAC*(RK(I)/RHO(I))**THREE_HALF
           RE(I)= MAX(RE(I),RESGS)
         ENDDO
        ENDIF
@@ -108,7 +108,7 @@ C
        DO I=LFT,LLT
          ! W VITESSE DE GRILLE EST SUPOSEE FAIBLE DEVANT V (QUASI EULERIEN)
          RK(I)=RHO(I)*GEO(22,NGEO(I))**2*VD2(I)
-         RE(I)=(RK(I)**3/RHO(I))**UNDEMI/GEO(23,NGEO(I))
+         RE(I)=(RK(I)**3/RHO(I))**HALF/GEO(23,NGEO(I))
        ENDDO
        
       ENDIF! (JPOR.NE.2)

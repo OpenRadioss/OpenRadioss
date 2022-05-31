@@ -271,7 +271,7 @@ C-----------------------------------------------
      .   X17 , X28 , X35 , X46,
      .   Y17 , Y28 , Y35 , Y46,
      .   Z17 , Z28 , Z35 , Z46,
-     .   AJ5968(MVSIZ), AJ6749(MVSIZ), AJ4857(MVSIZ),
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
      .   AJ12, AJ45, AJ78,
      .   A17 , A28 ,
      .   B17 , B28 ,
@@ -475,12 +475,12 @@ c      ALLOCATE (Ntarget(NBF:NBL))
                     AJ9(I)=C17-C28
                   ENDDO
                   DO I=LFT,LLT      
-                    AJ5968(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-                    AJ6749(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-                    AJ4857(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+                    JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+                    JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+                    JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
                   ENDDO
                   DO I=LFT,LLT    
-                    DETT(I)=O64TH*(AJ1(I)*AJ5968(I)+AJ2(I)*AJ6749(I)+AJ3(I)*AJ4857(I))
+                    DETT(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
                   ENDDO
                   GBUF%VOL(LFT:LLT) = DETT(LFT:LLT)
                 ENDIF!JEUL/=0
@@ -682,7 +682,7 @@ c      ALLOCATE (Ntarget(NBF:NBL))
                                                   
         DO J=1,NV46                           
           ! compute Brick Face New Area !suplicated eflux3/aflux3, to optimize                           
-          F(J,IB)        =  UNDEMI * SQRT( SUM( N(:,J) * N(:,J) )  ) ! N is 2Sn                          
+          F(J,IB)        =  HALF * SQRT( SUM( N(:,J) * N(:,J) )  ) ! N is 2Sn                          
         ENDDO                                 
         pFACE(1:9)      => BRICK_LIST(NIN,IB)%POLY(1:9)                         
 !        pFACE(2)%p(1:6)      => BRICK_LIST(NIN,IB)%POLY(2)%FACE(1:6)%Surf                                
@@ -1215,13 +1215,13 @@ C              print *, "sinit22_fvm marked closure hypothesis."
             NBCUTprev                                  = NBCUT
           ENDDO!next INOD
           BRICK_LIST(NIN,IB)%PCUT(8+J)%NP              = NP
-          BRICK_LIST(NIN,IB)%PCUT(8+J)%B(1)            = QUART * pPOINT(1)
-          BRICK_LIST(NIN,IB)%PCUT(8+J)%B(2)            = QUART * pPOINT(2)
-          BRICK_LIST(NIN,IB)%PCUT(8+J)%B(3)            = QUART * pPOINT(3)                   
+          BRICK_LIST(NIN,IB)%PCUT(8+J)%B(1)            = FOURTH * pPOINT(1)
+          BRICK_LIST(NIN,IB)%PCUT(8+J)%B(2)            = FOURTH * pPOINT(2)
+          BRICK_LIST(NIN,IB)%PCUT(8+J)%B(3)            = FOURTH * pPOINT(3)                   
           BRICK_LIST(NIN,IB)%PCUT(8+J)%N(1:3)          = BRICK_LIST(NIN,IB)%N(J,1:3) * BRICK_LIST(NIN,IB)%POLY(9)%FACE(J)%Surf
           BRICK_LIST(NIN,IB)%PCUT(8+J)%SEFF            = ZERO 
-          !BRICK_LIST(NIN,IB)%POLY(9)%FACE0%Vel(1:3)    = CUT_Vel(1:3) / (NP*UN)
-          BRICK_LIST(NIN,IB)%PCUT(8+J)%Vel(1:3)        = CUT_Vel(1:3) / (NP*UN)
+          !BRICK_LIST(NIN,IB)%POLY(9)%FACE0%Vel(1:3)    = CUT_Vel(1:3) / (NP*ONE)
+          BRICK_LIST(NIN,IB)%PCUT(8+J)%Vel(1:3)        = CUT_Vel(1:3) / (NP*ONE)
           pPOINT(1:3)                                  = BRICK_LIST(NIN,IB)%PCUT(8+J)%B(1:3)
           VecTMP(1:3)                                  = I22AERA(NP, BRICK_LIST(NIN,IB)%PCUT(8+J)%P(1:3,1:NP), pPOINT(1:3) )
           FACE                                         = SQRT(SUM(VecTMP(1:3)*VecTMP(1:3)))
@@ -1430,9 +1430,9 @@ C              print *, "sinit22_fvm marked closure hypothesis."
                 IDadj_MCELLv(J)         = 1 
                 IVadj_MCELLv(J)         = IV 
                 IBadj_MCELLv(J)         = 0               
-                adjMAIN_centroid(1,J) = SUM(X(1,IXS(2:9,IV))) / HUIT          
-                adjMAIN_centroid(2,J) = SUM(X(2,IXS(2:9,IV))) / HUIT          
-                adjMAIN_centroid(3,J) = SUM(X(3,IXS(2:9,IV))) / HUIT                                          
+                adjMAIN_centroid(1,J) = SUM(X(1,IXS(2:9,IV))) / EIGHT          
+                adjMAIN_centroid(2,J) = SUM(X(2,IXS(2:9,IV))) / EIGHT          
+                adjMAIN_centroid(3,J) = SUM(X(3,IXS(2:9,IV))) / EIGHT                                          
               ELSE
                 DO K=1,NAdjCell
                   ICELLv = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_Cell(K)
@@ -1806,7 +1806,7 @@ c        Ntarget(IB)                = NTAG ! number of secnd cell whose nodes we
             IBv    = BRICK_LIST(NIN,IB )%Adjacent_Brick(J,4)        !TARGET CELL DATA IS STORED IN EINT_L(...,IBv), RHOL, UVARL...     
           ENDIF          
           GBUFv           => ELBUF_TAB(NGv)%GBUF  
-          RATIO           =  UN/Ntar !in the loop but avoid conditionnal tests "IF(Ntar>0)" for NBF:NBL if not applicable 
+          RATIO           =  ONE/Ntar !in the loop but avoid conditionnal tests "IF(Ntar>0)" for NBF:NBL if not applicable 
           ITASKv          =  BRICK_LIST(NIN,IBv)%ITASK
           IMERGEL(ITASKv) = 1
           BRICK_LIST(NIN,IBv)%IsMergeTarget = 1
@@ -1977,7 +1977,7 @@ c                 print *, "adding j "   , BRICK_LIST(NIN,IB)%bakMAT%UVAR(K) ,VA
         IF(BRICK_LIST(NIN,IB)%Ntarget>0)THEN
           DELTA                      =  ZERO
         ELSE
-          DELTA                      =  UN      
+          DELTA                      =  ONE      
         ENDIF
 
           if (IBUG22_merge==-1)then
@@ -2489,8 +2489,8 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
             ADV = ZERO
             IF(IADV==1)THEN
             !MCELL         = BRICK_LIST(NIN,IB)%MainID
-            VM            = UN ! BRICK_LIST(NIN,IBm)%POLY(MCELL)%Vnew 
-            ADV           = -UNDEMI* UNDEMI* DT1*VM*SURF_S* (VEL_M(1)*NORM_S(1)+VEL_M(2)*NORM_S(2)+VEL_M(3)*NORM_S(3)) 
+            VM            = ONE ! BRICK_LIST(NIN,IBm)%POLY(MCELL)%Vnew 
+            ADV           = -HALF* HALF* DT1*VM*SURF_S* (VEL_M(1)*NORM_S(1)+VEL_M(2)*NORM_S(2)+VEL_M(3)*NORM_S(3)) 
             RHO_ADV       = RHO_ADV    + ADV * GBUF%RHO(IDLOCv)
             EINT_ADV      = EINT       + ADV * GBUF%EINT(IDLOCv)
             MOM_ADV(1)    = MOM_ADV(1) + ADV * GBUF%MOM(3*(IDLOCv-1)+1)
@@ -2655,7 +2655,7 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
         FCELL(1, BRICK_LIST(NIN,IB)%ID )        = MOM(1)
         FCELL(2, BRICK_LIST(NIN,IB)%ID )        = MOM(2)
         FCELL(3, BRICK_LIST(NIN,IB)%ID )        = MOM(3)         
-        FCELL(6, BRICK_LIST(NIN,IB)%ID )        = -TIERS*(SIG(1)+SIG(2)+SIG(3)) 
+        FCELL(6, BRICK_LIST(NIN,IB)%ID )        = -THIRD*(SIG(1)+SIG(2)+SIG(3)) 
         FCELL(5, BRICK_LIST(NIN,IB)%ID )        = SSP
         
         !---MUKLTIMAT-------------------------------------!
@@ -2902,7 +2902,7 @@ c            pause
          JJ    = ICELL                 
          VAR   = ZERO                  
          DO II=1,9                     
-           IF(M(II,JJ).GT.ZERO)VAR=VAR+UN                                                         
+           IF(M(II,JJ).GT.ZERO)VAR=VAR+ONE                                                         
          ENDDO!next II                 
          IF(NCELL==0)THEN              
            II=MAXLOC(BRICK_LIST(NIN,IB)%POLY(1:9)%OLD_Vnew,1)                                     
@@ -2911,9 +2911,9 @@ c            pause
              M(I,JJ) = ZERO            
            ENDDO                       
          ELSE                          
-           IF(VAR.GT.DEUX  )THEN       
+           IF(VAR.GT.TWO  )THEN       
              M(1:8,JJ) = ZERO    !plusieurs polyedres disparraissent, on ne les compte plus.      
-           ELSEIF(VAR.EQ.DEUX   )THEN  
+           ELSEIF(VAR.EQ.TWO   )THEN  
              !garder le volume le plus gros                                                       
 cc             DO II=1,8    ! 1st value is between 1,8 ; last one is at index 9            
 cc               VAR = BRICK_LIST(NIN,IB)%POLY(II)%OLD_Vnew                                         
@@ -2997,21 +2997,21 @@ c            icellTag(1:9)     = 0
 c            icellTag_old(1:9) = 0
 c            do ii=1,9
 c              if(M(ii,ICELL).GT.ZERO)then
-c                var_=var_+UN
+c                var_=var_+ONE
 c                icellTag(ii) = 1
 c              endif
 c            enddo
-c            if(var_==UN)then
+c            if(var_==ONE)then
 c              var__=zero
 c              do ii=1,9
 c                K = MAXLOC(icellTag,1)
 c                if(   M(  K  ,ii)    .GT.  ZERO   )then
-c                  var__=var__+UN
+c                  var__=var__+ONE
 c                  icelltag_old(ii) = 1
 c                endif
 c              enddo          
 c            endif
-c            if ( var_ .GE. DEUX )then
+c            if ( var_ .GE. TWO )then
 c              SOM        = ZERO
 c              VFRAC(1:4) = ZERO
 c              DO k=1,9
@@ -3020,9 +3020,9 @@ c                Vi   = BRICK_LIST(NIN,IB)%POLY(K)%OLD_Vnew
 c                SOM = SOM + Vi 
 c              enddo
 c              write(*,FMT=('(A,I8)'))               "          merge from poly:", IcellTag(1:9)
-c            elseif (var_ .EQ. UN .AND. var__.EQ.UN)then     
+c            elseif (var_ .EQ. ONE .AND. var__.EQ.ONE)then     
 c              write(*,FMT=('(A,I8)'))               "          cell is stable (same number as previous cycle)", Icelltag(1)               
-c            elseif (var__ .GE. DEUX)then         
+c            elseif (var__ .GE. TWO)then         
 c              K = MAXLOC(icellTag,1)
 c              write(*,FMT=('(A,I8)'))               "          cell is a fragment of a previous polyhedron   ",K             !1seul dans la colonne (var_) et sur la ligne (var__)
 c            endif
@@ -3145,8 +3145,8 @@ c        print *, "check switch in brickID=", ixs(11,brick_list(nin,ib)%id)
                 INOD2  = OLD_SecndList(NIN,IBmo)%ListNodID(IC2,K2)
                 ICELL2 = BRICK_LIST(NIN,IBv2)%NODE(INOD2)%WhichCell
                 IBmCur = BRICK_LIST(NIN,IBv2)%POLY(ICELL2)%WhereIsMain(4)
-                IF(IBmCur == IB) VolSECND = VolSECND + UN/NNODES*BRICK_LIST(NIN,IBv2)%POLY(ICELL2)%Vnew   !exemple brick 20 devient main dans cas 15.14 : le penta dans 41 a deux noeuds, si on boucle 2 fois on prend 2 fois son volume pour l'injecter dans bric 30.
-                VolCELL = VolCELL + UN/NNODES*BRICK_LIST(NIN,IBv2)%POLY(ICELL2)%Vnew
+                IF(IBmCur == IB) VolSECND = VolSECND + ONE/NNODES*BRICK_LIST(NIN,IBv2)%POLY(ICELL2)%Vnew   !exemple brick 20 devient main dans cas 15.14 : le penta dans 41 a deux noeuds, si on boucle 2 fois on prend 2 fois son volume pour l'injecter dans bric 30.
+                VolCELL = VolCELL + ONE/NNODES*BRICK_LIST(NIN,IBv2)%POLY(ICELL2)%Vnew
               ENDDO
               if (VolSECND == ZERO)CYCLE
               !BRICK_LIST(NIN,IB)%SecndList%ISWITCH(IC) = 1
@@ -3677,7 +3677,7 @@ ccc          endif
         DO II = 1,NTRUS
             !print *, "reset TRUS_id=", IXT(NIXT,IGRTRUSS(IGR)%ENTITY(II))
             X(1:3,IXT(2,IGRTRUSS(IGR)%ENTITY(II))) = (/ZERO, ZERO, ZERO/)
-            X(1:3,IXT(3,IGRTRUSS(IGR)%ENTITY(II))) = (/  UN, ZERO, ZERO/)
+            X(1:3,IXT(3,IGRTRUSS(IGR)%ENTITY(II))) = (/  ONE, ZERO, ZERO/)
         ENDDO
       ENDIF !ITASK==0
 
@@ -4079,9 +4079,9 @@ C     .          "  vold=",brick_list(nin,ib)%vold_scell,"  vnew=",brick_list(ni
           IE        = BRICK_LIST(NIN,IB)%ID
           NC(1:8)   = IXS(2:9,IE)
           DO J=1,6
-            BRICK_LIST(NIN,IB)%POLY(1)%FACE(J)%Center(1) = QUART * SUM(   X(1, NC(ICF(1:4,J))  )   ) 
-            BRICK_LIST(NIN,IB)%POLY(1)%FACE(J)%Center(2) = QUART * SUM(   X(2, NC(ICF(1:4,J))  )   ) 
-            BRICK_LIST(NIN,IB)%POLY(1)%FACE(J)%Center(3) = QUART * SUM(   X(3, NC(ICF(1:4,J))  )   )                     
+            BRICK_LIST(NIN,IB)%POLY(1)%FACE(J)%Center(1) = FOURTH * SUM(   X(1, NC(ICF(1:4,J))  )   ) 
+            BRICK_LIST(NIN,IB)%POLY(1)%FACE(J)%Center(2) = FOURTH * SUM(   X(2, NC(ICF(1:4,J))  )   ) 
+            BRICK_LIST(NIN,IB)%POLY(1)%FACE(J)%Center(3) = FOURTH * SUM(   X(3, NC(ICF(1:4,J))  )   )                     
           ENDDO
         ELSE
           !simplification, car approximation precendente invalide lorsque limit(FACE9) = 0
@@ -4136,13 +4136,13 @@ C     .          "  vold=",brick_list(nin,ib)%vold_scell,"  vnew=",brick_list(ni
               pPOINT(2)           = SUM(   X(2, NC(ICF(1:4,J))  )   )   
               pPOINT(3)           = SUM(   X(3, NC(ICF(1:4,J))  )   )                            
               CUT_point(1:3)      = BRICK_LIST(NIN,IB)%POLY(9)%FACE(J)%Center(1:3) !stored there in i22subvol.F    it is SUM(cutpoints on the face J)
-              Point0(1)           = pPOINT(1) + DEUX*CUT_point(1) 
+              Point0(1)           = pPOINT(1) + TWO*CUT_point(1) 
      .                              - Np_(1)*Center(1,1)- Np_(2)*Center(1,2)- Np_(3)*Center(1,3)- Np_(4)*Center(1,4)
      .                              - Np_(5)*Center(1,5)- Np_(6)*Center(1,6)- Np_(7)*Center(1,7)- Np_(8)*Center(1,8)  
-              Point0(2)           = pPOINT(2) + DEUX*CUT_point(2) 
+              Point0(2)           = pPOINT(2) + TWO*CUT_point(2) 
      .                              - Np_(1)*Center(2,1)- Np_(2)*Center(2,2)- Np_(3)*Center(2,3)- Np_(4)*Center(2,4)
      .                              - Np_(5)*Center(2,5)- Np_(6)*Center(2,6)- Np_(7)*Center(2,7)- Np_(8)*Center(2,8)
-              Point0(3)           = pPOINT(3) + DEUX*CUT_point(3) 
+              Point0(3)           = pPOINT(3) + TWO*CUT_point(3) 
      .                              - Np_(1)*Center(3,1)- Np_(2)*Center(3,2)- Np_(3)*Center(3,3)- Np_(4)*Center(3,4)
      .                              - Np_(5)*Center(3,5)- Np_(6)*Center(3,6)- Np_(7)*Center(3,7)- Np_(8)*Center(3,8)   
               Point0(1:3)         = Point0(1:3) / NP_(9) 

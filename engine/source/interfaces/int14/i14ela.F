@@ -86,9 +86,9 @@ C-----------------------------------------------
       AN=A**DGR
       BN=B**DGR
       CN=C**DGR
-      AN=UN/AN
-      BN=UN/BN
-      CN=UN/CN      
+      AN=ONE/AN
+      BN=ONE/BN
+      CN=ONE/CN      
       DO I=1,9
        ROT(I)=BUFSF(ADRBUF+7+I-1)
       END DO
@@ -122,14 +122,14 @@ C-------------------------------
       IN=KSI(IL)
 C-------------------------------
       XPVN1 =XPV(1,I)**(DGR-1)
-      SGNXN=-UN      
-      IF (XPVN1*XPV(1,I).GE.ZERO) SGNXN=UN
+      SGNXN=-ONE      
+      IF (XPVN1*XPV(1,I).GE.ZERO) SGNXN=ONE
       YPVN1 =XPV(2,I)**(DGR-1)
-      SGNYN=-UN
-      IF (YPVN1*XPV(2,I).GE.ZERO) SGNYN=UN
+      SGNYN=-ONE
+      IF (YPVN1*XPV(2,I).GE.ZERO) SGNYN=ONE
       ZPVN1 =XPV(3,I)**(DGR-1)
-      SGNZN=-UN
-      IF (ZPVN1*XPV(3,I).GE.ZERO) SGNZN=UN
+      SGNZN=-ONE
+      IF (ZPVN1*XPV(3,I).GE.ZERO) SGNZN=ONE
 C-------------------------------
       N1 =SGNXN*XPVN1*AN
       N2 =SGNYN*YPVN1*BN

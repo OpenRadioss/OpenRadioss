@@ -47,7 +47,7 @@ C-----------------------------------------------
 c=======================================================================
       ANGA = ZERO
       DO I = 1,NEL
-        ANGA = ANGA + ABS(ANG(I,1)-UN) + ABS(ANG(I,5)-UN)
+        ANGA = ANGA + ABS(ANG(I,1)-ONE) + ABS(ANG(I,5)-ONE)
       ENDDO
       IF (ANGA <= EM3) RETURN
 C

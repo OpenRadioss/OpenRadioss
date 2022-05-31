@@ -98,7 +98,7 @@ c---
               IF (ITY == 3) THEN
                 KK = NGRNOD + NGRBRIC + NGRQUAD
                 IGRID = UPARAM(12)
-                UPARAM(11) = UN / SQRT(PI)  ! GEORED for underintegrated 4N shells
+                UPARAM(11) = ONE / SQRT(PI)  ! GEORED for underintegrated 4N shells
                 IF (IGRID > 0) IGR = NGR2USRN(IGRID,IGRSH4N,NGRSHEL,NUM)
                 TAGSH(1:NUMELC)  = 0
               ELSEIF (ITY == 7) THEN

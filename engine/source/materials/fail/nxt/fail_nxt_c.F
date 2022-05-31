@@ -128,16 +128,16 @@ c-----------------------------
       IF (IFAIL_SH == 1) THEN
         PTHKF = EM06
       ELSEIF (IFAIL_SH == 2) THEN
-        PTHKF = UN
+        PTHKF = ONE
       ENDIF
 C-------------------------------------------------------
 C     SIGMA1 and SIGMA2 computing: Principal stresses
 C-------------------------------------------------------
       DO I=1,NEL
-        IF (OFF(I) == UN .and. FOFF(I) == 1) THEN
+        IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
           S12= SIGNXY(I)
-          S1 = UNDEMI*(SIGNXX(I) + SIGNYY(I))
-          S2 = UNDEMI*(SIGNXX(I) - SIGNYY(I))
+          S1 = HALF*(SIGNXX(I) + SIGNYY(I))
+          S2 = HALF*(SIGNXX(I) - SIGNYY(I))
           SIG1(I) = S1  + SQRT(S2**2 + S12**2)
           SS   = S1  - SQRT(S2**2 + S12**2)
           SIG2(I) = SS
@@ -149,7 +149,7 @@ C-------------------------------------------------------
           CHECK = 1
           IF (SIG2(I).NE.ZERO) THEN
             SS = SIG1(I)/SIG2(I)
-            IF ((SS < -Un .AND. SS < ZERO) .OR.
+            IF ((SS < -ONE .AND. SS < ZERO) .OR.
      .          (SIG1(I) < ZERO .AND. SIG2(I) < ZERO)) THEN
               CHECK = 0
             ENDIF
@@ -164,16 +164,16 @@ C --- compute variables from input curve SR and 3D
             SIGSR =  FINTER(IFUNC(1),SIG2(I),NPF,TF,DYDX1)
             SIG3D =  FINTER(IFUNC(2),SIG2(I),NPF,TF,DYDX2)      
             IF(SIGSR < ABS(SIG2(I)).AND.SIG3D < ABS(SIG2(I))) THEN
-               LAMBDANXT(I) = DEUX
+               LAMBDANXT(I) = TWO
             ELSEIF(SIGSR < ABS(SIG2(I))) THEN
               SIGSR = ABS(SIG2(I))  
-              LAMBDANXT(I) = UN + ((SIG1(I) - SIGSR)/(SIG3D - SIGSR))
+              LAMBDANXT(I) = ONE + ((SIG1(I) - SIGSR)/(SIG3D - SIGSR))
             ELSE 
 C --- The instability factor
-             LAMBDANXT(I) = UN + ((SIG1(I) - SIGSR)/(SIG3D - SIGSR))
+             LAMBDANXT(I) = ONE + ((SIG1(I) - SIGSR)/(SIG3D - SIGSR))
             ENDIF
             LAMBDANXT(I) = MAX(LAMBDANXT(I),ZERO)
-            LAMBDANXT(I) = MIN(LAMBDANXT(I),DEUX)
+            LAMBDANXT(I) = MIN(LAMBDANXT(I),TWO)
           ELSE
             LAMBDANXT(I) = ZERO
           ENDIF  
@@ -182,8 +182,8 @@ C --- The instability factor
 c
 c-----------------------
       DO I=1,NEL
-        IF (OFF(I) == UN .and. FOFF(I) == 1) THEN
-          IF (LAMBDANXT(I) >= DEUX) THEN
+        IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
+          IF (LAMBDANXT(I) >= TWO) THEN
             NINDX = NINDX + 1
             INDX(NINDX) = I  
             FOFF(I) = 0
@@ -208,7 +208,7 @@ c-----------------------
         DAM(I)    = MAX(DAM(I),LAMBDANXT(I))                                     
         UVAR(I,1) = SIG1(I)                                                      
         UVAR(I,2) = SIG2(I)                                                      
-        DFMAX(I)  = MIN(UN, DAM(I)/DEUX) ! Maximum Dmg for output : 0 < DFMAX < 1  
+        DFMAX(I)  = MIN(ONE, DAM(I)/TWO) ! Maximum Dmg for output : 0 < DFMAX < 1  
       ENDDO                                                                      
 C-----------------------------------------------
  2000 FORMAT(1X,'(NXT FAILURE) FOR SHELL ELEMENT ',I10,1X,

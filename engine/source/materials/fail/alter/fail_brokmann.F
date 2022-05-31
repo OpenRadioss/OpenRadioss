@@ -90,25 +90,25 @@ c--------------------------------------------------
       KCM      = K_IC * SQRT(FAC_L)  ! conversion to [stress*sqrt(m)]
       KTM      = K_TH * SQRT(FAC_L)  ! conversion to [stress*sqrt(m)]
 c-----------------------------------
-      ALPHAI = UN - ALPHA
+      ALPHAI = ONE - ALPHA
       NINDX  = 0
 c
       DSIG_INI = 2.0    ! [MPa/s]
       XDAMP    = 25.0   ! hard coded damping exponent
-      EXP_M    = UN / (UN + XDAMP) 
+      EXP_M    = ONE / (ONE + XDAMP) 
       FAC_PI0  = ZERO
-      FAC_PI2  = UNDEMI
+      FAC_PI2  = HALF
 c--------------------------------------------------------------------
       DO I = 1,NEL
-        IF (OFF(I) == UN .and. UVAR(I,15) == ZERO .and. UVAR(I,16) > ZERO) THEN
+        IF (OFF(I) == ONE .and. UVAR(I,15) == ZERO .and. UVAR(I,16) > ZERO) THEN
           V_A  = ZERO
           V_C  = ZERO          
 c
 c         Crack openenig stress (stress rotated in crack direction)
-          CR_ANG  = UVAR(I,18) * DEUX
-          SIG_COS = UNDEMI*(SIGNXX(I)+SIGNYY(I)) 
-     .            + COS(CR_ANG) * UNDEMI*(SIGNXX(I)-SIGNYY(I))
-     .            + SIN(CR_ANG) * UNDEMI*SIGNXY(I)
+          CR_ANG  = UVAR(I,18) * TWO
+          SIG_COS = HALF*(SIGNXX(I)+SIGNYY(I)) 
+     .            + COS(CR_ANG) * HALF*(SIGNXX(I)-SIGNYY(I))
+     .            + SIN(CR_ANG) * HALF*SIGNXY(I)
           SIG_COS = SIG_COS * ALPHA + UVAR(I,21)*ALPHAI   ! filter using exp average
 c
 c         take into account high stress rates
@@ -139,7 +139,7 @@ c         Check rupture criterion #1
             NINDXF  = NINDXF+ 1                                                    
             INDX(NINDX)   = I                                                           
             INDXF(NINDXF) = I         ! tag to save crack direction                                                          
-            UVAR(I,15)    = UN        ! set failure flag = 1
+            UVAR(I,15)    = ONE        ! set failure flag = 1
           END IF
 c         
           IF (K1_A >= KTM .and. K1_A < KCM) V_A = V0*(K1_A/KCM)**EXP_N
@@ -159,7 +159,7 @@ c         Check rupture criterion #2
             NINDXF  = NINDXF+ 1                                                    
             INDX(NINDX)   = I                                                           
             INDXF(NINDXF) = I         ! tag to save crack direction                                                          
-            UVAR(I,15)    = UN        ! set failure flag = 1
+            UVAR(I,15)    = ONE        ! set failure flag = 1
           END IF
     
         END IF

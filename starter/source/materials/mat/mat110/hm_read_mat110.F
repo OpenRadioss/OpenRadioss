@@ -99,7 +99,7 @@ C     REAL ou REAL*8
      .   DMU_DCOS2,T(3,3),D(3,3),WEIGHT,DWEIGHT_DCOS2,D2WEIGHT_D2COS2,U,UPRIM,UPPRIM,
      .   DU_DMU,DUPRIM_DMU,V,VPRIM,VPPRIM,DV_DMU,DVPRIM_DMU,W0,fUN_AV,rLank_AV,
      .   fBI_MIN,fBI_MAX,fBI_TRANS,ADIRAC,FDIRAC,fPS_MIN,fPS_MAX,fPS_TRANS,
-     .   fSH_MIN,fSH_MAX,fSH_TRANS,fH(2),fPS1,rhoUN_theta,PHI,DfPS1_DWEIGHT
+     .   fSH_MIN,fSH_MAX,fSH_TRANS,fH(2),fPS1,rhoONE_theta,PHI,DfPS1_DWEIGHT
       REAL*8  :: COS2(10,10),D2PHI_D2(3,3),WORK(102),WR(3),WI(3),VL(3,3),VR(3,3)
       REAL*8 , DIMENSION(:,:), ALLOCATABLE :: AMAT,BVEC
       my_real, DIMENSION(:,:), ALLOCATABLE :: fUN,fSH,fPS,HIPS,HIUN,HISH,
@@ -198,7 +198,7 @@ card7 - Yield criterion parameters
         DO J = 1, NANGLE
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_fUN_THETA' ,fUN(J,1),J,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_R_THETA'   ,rLank(J),J,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          IF (rLank(J) == 0) rLank(J) = UN
+          IF (rLank(J) == 0) rLank(J) = ONE
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_fPS1_THETA',fPS(J,1),J,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_fPS2_THETA',fPS(J,2),J,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_fSH_THETA' ,fSH(J,1),J,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -219,10 +219,10 @@ card7 - Yield criterion parameters
         DO J = 1, NANGLE
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_fUN_THETA' ,fUN(J,1),J,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_R_THETA'   ,rLank(J),J,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          IF (rLank(J) == 0) rLank(J) = UN
+          IF (rLank(J) == 0) rLank(J) = ONE
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_fPS1_THETA',fPS(J,1),J,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_ALPS_THETA',ALPS(J) ,J,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          IF (ALPS(J) == ZERO) ALPS(J) = UNDEMI
+          IF (ALPS(J) == ZERO) ALPS(J) = HALF
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_fSH_THETA' ,fSH(J,1),J,IS_AVAILABLE, LSUBMODEL, UNITAB)
         ENDDO
       ! Vegter - 2017 yield locus
@@ -248,44 +248,44 @@ card7 - Yield criterion parameters
         CALL HM_GET_FLOATV('MAT_AG_45' ,AG(2)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_AG_90' ,AG(3)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_R_0'   ,rLank(1) ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        IF (rLank(1) == ZERO) rLank(1) = UN
+        IF (rLank(1) == ZERO) rLank(1) = ONE
         CALL HM_GET_FLOATV('MAT_R_45'  ,rLank(2) ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        IF (rLank(2) == ZERO) rLank(2) = UN
+        IF (rLank(2) == ZERO) rLank(2) = ONE
         CALL HM_GET_FLOATV('MAT_R_90'  ,rLank(3) ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        IF (rLank(3) == ZERO) rLank(3) = UN
+        IF (rLank(3) == ZERO) rLank(3) = ONE
 c        
         ! Computation of uniaxial reference point
         !  Uniaxial strain at AG
-        EPSAG(1) = LOG(UN + AG(1)/CENT)
-        EPSAG(2) = LOG(UN + AG(2)/CENT)
-        EPSAG(3) = LOG(UN + AG(3)/CENT)
+        EPSAG(1) = LOG(ONE + AG(1)/HUNDRED)
+        EPSAG(2) = LOG(ONE + AG(2)/HUNDRED)
+        EPSAG(3) = LOG(ONE + AG(3)/HUNDRED)
         !  Uniaxial stress at AG
-        SIGAG(1) = RM(1)*(UN + AG(1)/CENT)
-        SIGAG(2) = RM(2)*(UN + AG(2)/CENT)
-        SIGAG(3) = RM(3)*(UN + AG(3)/CENT)
+        SIGAG(1) = RM(1)*(ONE + AG(1)/HUNDRED)
+        SIGAG(2) = RM(2)*(ONE + AG(2)/HUNDRED)
+        SIGAG(3) = RM(3)*(ONE + AG(3)/HUNDRED)
         !  Energy at 0 deg direction
         CAG(1)   = SIGAG(1)/(EPSAG(1)**EPSAG(1))
         CAG(2)   = SIGAG(2)/(EPSAG(2)**EPSAG(2))
         CAG(3)   = SIGAG(3)/(EPSAG(3)**EPSAG(3))  
-        W0       = (CAG(1)/(EPSAG(1) + UN))*((EPSAG(1))**(EPSAG(1)+UN))
+        W0       = (CAG(1)/(EPSAG(1) + ONE))*((EPSAG(1))**(EPSAG(1)+ONE))
         !  Equivalent strain
-        EPSEQ(1) = ((EPSAG(1)+UN)*(W0/CAG(1)))**(UN/(EPSAG(1)+UN))
-        EPSEQ(2) = ((EPSAG(2)+UN)*(W0/CAG(2)))**(UN/(EPSAG(2)+UN))
-        EPSEQ(3) = ((EPSAG(3)+UN)*(W0/CAG(3)))**(UN/(EPSAG(3)+UN))
+        EPSEQ(1) = ((EPSAG(1)+ONE)*(W0/CAG(1)))**(ONE/(EPSAG(1)+ONE))
+        EPSEQ(2) = ((EPSAG(2)+ONE)*(W0/CAG(2)))**(ONE/(EPSAG(2)+ONE))
+        EPSEQ(3) = ((EPSAG(3)+ONE)*(W0/CAG(3)))**(ONE/(EPSAG(3)+ONE))
         !  Reference point
         fUN(1,1) = EPSAG(1)/EPSEQ(1)
         fUN(2,1) = EPSAG(1)/EPSEQ(2)
         fUN(3,1) = EPSAG(1)/EPSEQ(3)
 c        
         ! Computation of biaxial reference point
-        fUN_AV    = (fUN(1,1) + DEUX*fUN(2,1) + fUN(3,1))/QUATRE
-        rLank_AV  = (rLank(1) + DEUX*rLank(2) + rLank(3))/QUATRE
+        fUN_AV    = (fUN(1,1) + TWO*fUN(2,1) + fUN(3,1))/FOUR
+        rLank_AV  = (rLank(1) + TWO*rLank(2) + rLank(3))/FOUR
         fBI_MIN   = 0.97D0
         fBI_MAX   = 1.14D0
         fBI_TRANS = 1.22D0
         ADIRAC    = 3.4D0
         FDIRAC    = EXP(ADIRAC*(rLank_AV-fBI_TRANS))
-        fBI       = fUN_AV*((fBI_MIN/(UN+FDIRAC)) + (fBI_MAX/(UN+(UN/FDIRAC))))
+        fBI       = fUN_AV*((fBI_MIN/(ONE+FDIRAC)) + (fBI_MAX/(ONE+(ONE/FDIRAC))))
         IF (rhoBI == ZERO) THEN 
           rhoBI = rLank(1)/rLank(3)
         ENDIF
@@ -297,7 +297,7 @@ c
         ADIRAC    = 1.2D0
         DO J = 1,NANGLE
           FDIRAC    = EXP(ADIRAC*(rLank(J)-fPS_TRANS))
-          fPS(J,1)  = fUN(J,1)*((fPS_MIN/(UN+FDIRAC)) + (fPS_MAX/(UN+(UN/FDIRAC))))
+          fPS(J,1)  = fUN(J,1)*((fPS_MIN/(ONE+FDIRAC)) + (fPS_MAX/(ONE+(ONE/FDIRAC))))
         ENDDO
 c        
         ! Computation of shear reference point first coordinate
@@ -305,13 +305,13 @@ c
         fSH_MAX   = 0.525D0
         fSH_TRANS = ZERO
         ADIRAC    = 1.6D0
-        fUN_AV    = (fUN(1,1)+fUN(3,1))/DEUX
-        rLank_AV  = (rLank(1)+rLank(3))/DEUX
+        fUN_AV    = (fUN(1,1)+fUN(3,1))/TWO
+        rLank_AV  = (rLank(1)+rLank(3))/TWO
         FDIRAC    = EXP(ADIRAC*(rLank_AV - fSH_TRANS))
-        fSH(1,1)  = fUN_AV*((fSH_MIN/(UN+FDIRAC)) + (fSH_MAX/(UN+(UN/FDIRAC))))
-        fSH(3,1)  = fUN_AV*((fSH_MIN/(UN+FDIRAC)) + (fSH_MAX/(UN+(UN/FDIRAC))))
+        fSH(1,1)  = fUN_AV*((fSH_MIN/(ONE+FDIRAC)) + (fSH_MAX/(ONE+(ONE/FDIRAC))))
+        fSH(3,1)  = fUN_AV*((fSH_MIN/(ONE+FDIRAC)) + (fSH_MAX/(ONE+(ONE/FDIRAC))))
         FDIRAC    = EXP(ADIRAC*(rLank(2)-fSH_TRANS))
-        fSH(2,1)  = fUN(2,1)*((fSH_MIN/(UN+FDIRAC)) + (fSH_MAX/(UN+(UN/FDIRAC))))
+        fSH(2,1)  = fUN(2,1)*((fSH_MIN/(ONE+FDIRAC)) + (fSH_MAX/(ONE+(ONE/FDIRAC))))
 c
         ! Computation of plane strain reference point second coordinate
         DO J = 1, NANGLE
@@ -319,37 +319,37 @@ c
           THETA(J)     = (J-1)*(90.0D0/(NANGLE-1))
           THETA_RAD(J) = THETA(J)*(PI/180.0D0)
           ! Strain-rate ratio
-          rhoBI_theta  = (rhoBI + UN) + (rhoBI - UN)*COS(DEUX*THETA_RAD(J))
-          rhoBI_theta  = rhoBI_theta / ((rhoBI + UN) - (rhoBI - UN)*COS(DEUX*THETA_RAD(J)))
-          rhoUN_theta  = -rLank(J)/(rLank(J)+UN) 
+          rhoBI_theta  = (rhoBI + ONE) + (rhoBI - ONE)*COS(TWO*THETA_RAD(J))
+          rhoBI_theta  = rhoBI_theta / ((rhoBI + ONE) - (rhoBI - ONE)*COS(TWO*THETA_RAD(J)))
+          rhoONE_theta  = -rLank(J)/(rLank(J)+ONE) 
           ! Virtual hinge point
-          fH(2) = (fBI + rhoBI_theta*fBI - fUN(J,1))/(rhoBI_theta - rhoUN_theta)
+          fH(2) = (fBI + rhoBI_theta*fBI - fUN(J,1))/(rhoBI_theta - rhoONE_theta)
           fH(1) = fBI - rhoBI_theta*(fH(2)-fBI)
           ! Initialization of the computation of Weight
-          MU     = UNDEMI
+          MU     = HALF
           WEIGHT = ZERO
-          fPS1   = (fUN(J,1)*((UN - MU)**2) + DEUX*fH(1)*MU*WEIGHT*(UN-MU) + fBI*(MU**2))/
-     .                 ((UN-MU)**2 + DEUX*WEIGHT*MU*(UN-MU) + MU**2)
+          fPS1   = (fUN(J,1)*((ONE - MU)**2) + TWO*fH(1)*MU*WEIGHT*(ONE-MU) + fBI*(MU**2))/
+     .                 ((ONE-MU)**2 + TWO*WEIGHT*MU*(ONE-MU) + MU**2)
           PHI    = fPS1-fPS(J,1)
           ! Newton iteration to compute WEIGHT
           DO ITER = 1,10
             ! Derivative of fPS1 with respect to WEIGHT
-            U        = fUN(J,1)*((UN - MU)**2) + DEUX*fH(1)*MU*WEIGHT*(UN-MU) + fBI*(MU**2) 
-            UPRIM    = DEUX*MU*(UN-MU)*fH(1)
-            V        = (UN-MU)**2 + DEUX*WEIGHT*MU*(UN-MU) + MU**2
-            VPRIM    = DEUX*MU*(UN-MU)
+            U        = fUN(J,1)*((ONE - MU)**2) + TWO*fH(1)*MU*WEIGHT*(ONE-MU) + fBI*(MU**2) 
+            UPRIM    = TWO*MU*(ONE-MU)*fH(1)
+            V        = (ONE-MU)**2 + TWO*WEIGHT*MU*(ONE-MU) + MU**2
+            VPRIM    = TWO*MU*(ONE-MU)
             DfPS1_DWEIGHT = (UPRIM*V - U*VPRIM)/(MAX(V**2,EM20))         
             ! Updating the Weight
             WEIGHT   = WEIGHT - (PHI / DfPS1_DWEIGHT)
             ! Updating the fPS1 value
-            fPS1   = (fUN(J,1)*((UN - MU)**2) + DEUX*fH(1)*MU*WEIGHT*(UN-MU) + fBI*(MU**2))/
-     .                 ((UN-MU)**2 + DEUX*WEIGHT*MU*(UN-MU) + MU**2)
+            fPS1   = (fUN(J,1)*((ONE - MU)**2) + TWO*fH(1)*MU*WEIGHT*(ONE-MU) + fBI*(MU**2))/
+     .                 ((ONE-MU)**2 + TWO*WEIGHT*MU*(ONE-MU) + MU**2)
             ! Updating the PHI value
             PHI    = fPS1-fPS(J,1)
           ENDDO
           ! Filling the second coordinate of the plane-strain point
-          fPS(J,2) = (DEUX*fH(2)*MU*WEIGHT*(UN-MU) + fBI*(MU**2))/
-     .                 ((UN-MU)**2 + DEUX*WEIGHT*MU*(UN-MU) + MU**2)
+          fPS(J,2) = (TWO*fH(2)*MU*WEIGHT*(ONE-MU) + fBI*(MU**2))/
+     .                 ((ONE-MU)**2 + TWO*WEIGHT*MU*(ONE-MU) + MU**2)
         ENDDO
 c         
       ! Simplified Vegter lite yield locus
@@ -367,7 +367,7 @@ c
         DO J = 1, NANGLE
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_fUN_THETA' ,fUN(J,1),J,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_R_THETA'   ,rLank(J),J,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          IF (rLank(J) == 0) rLank(J) = UN
+          IF (rLank(J) == 0) rLank(J) = ONE
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_W_PS' ,WPS(J)  ,J,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_W_SH' ,WSH(J)  ,J,IS_AVAILABLE, LSUBMODEL, UNITAB)
         ENDDO
@@ -387,7 +387,7 @@ c---------------------
       IF (RHOR == ZERO)  RHOR  = RHO0
       IF (Ires == 0)     Ires  = 2
       ! Poisson's ratio
-      IF (NU < ZERO .OR. NU >= UNDEMI) THEN
+      IF (NU < ZERO .OR. NU >= HALF) THEN
          CALL ANCMSG(MSGID=49,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
@@ -396,9 +396,9 @@ c---------------------
      .               C1=TITR)
       ENDIF
       ! Elasticity parameter
-      BULK = YOUNG / TROIS / (UN - DEUX*NU)
-      A11  = YOUNG / (UN-NU*NU)
-      G    = YOUNG / DEUX  / (UN + NU)
+      BULK = YOUNG / THREE / (ONE - TWO*NU)
+      A11  = YOUNG / (ONE-NU*NU)
+      G    = YOUNG / TWO  / (ONE + NU)
       ! Default strain-rate computation
       IF (Ivflag == 0) Ivflag = 2
       IF (Ivflag > 3) THEN 
@@ -409,8 +409,8 @@ c---------------------
       ! No Strain-rate dependence
       IF ((TAB_YLD == 0).AND.((Deps0 == ZERO).OR.(DG0 == ZERO).OR.(SIGSTAR == ZERO))) THEN
         SIGSTAR = ZERO
-        Deps0   = UN
-        DG0     = UN
+        Deps0   = ONE
+        DG0     = ONE
         ISRATE  = 0
         ASRATE  = ZERO
         ! Info message
@@ -426,7 +426,7 @@ c---------------------
       KBOLTZ = 8.6173303*EM5 ! eV/K (~J/K)
       KBOLTZ = KBOLTZ/(FAC_M_WORK*FAC_L_WORK*FAC_L_WORK/(FAC_T_WORK*FAC_T_WORK))
       ! Kinematic hardening factor
-      IF (FISOKIN > UN)   FISOKIN = UN
+      IF (FISOKIN > ONE)   FISOKIN = ONE
       IF (FISOKIN < ZERO) FISOKIN = ZERO
       ! Default interpolation computation
       IF (Ismooth == 0) Ismooth = 1
@@ -439,11 +439,11 @@ c---------------------
       IF ((TAB_TEMP > 0).AND.(TINI == ZERO)) TINI = 293.0D0
       IF ((YSCALE == ZERO).AND.(TAB_YLD>0)) THEN
         CALL HM_GET_FLOATV_DIM('MAT_Yscale' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        YSCALE = UN * YSCALE_UNIT
+        YSCALE = ONE * YSCALE_UNIT
       ENDIF
       IF ((XSCALE == ZERO).AND.(TAB_YLD>0)) THEN
         CALL HM_GET_FLOATV_DIM('MAT_Xscale' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        XSCALE = UN * XSCALE_UNIT
+        XSCALE = ONE * XSCALE_UNIT
       ENDIF
 c----------------------------------------------
 c     Computation of yield criterion parameter
@@ -474,14 +474,14 @@ c
           !   Plane strain point and normal
           A1 = fPS(J,1)
           A2 = fPS(J,2)
-          N1 = UN
+          N1 = ONE
           N2 = ZERO
           !   Biaxial point and normal
-          rhoBI_theta = (rhoBI + UN) + (rhoBI - UN)*COS(DEUX*THETA_RAD(J))
-          rhoBI_theta = rhoBI_theta / ((rhoBI + UN) - (rhoBI - UN)*COS(DEUX*THETA_RAD(J)))
+          rhoBI_theta = (rhoBI + ONE) + (rhoBI - ONE)*COS(TWO*THETA_RAD(J))
+          rhoBI_theta = rhoBI_theta / ((rhoBI + ONE) - (rhoBI - ONE)*COS(TWO*THETA_RAD(J)))
           C1 = fBI
           C2 = fBI
-          M1 = UN
+          M1 = ONE
           M2 = rhoBI_theta
           !   Hinge point
           HIPS(J,1) = (M2*(N1*A1+N2*A2) - N2*(M1*C1+M2*C2))/(N1*M2 - M1*N2)
@@ -492,12 +492,12 @@ c
           A1 = fUN(J,1)
           fUN(J,2) = ZERO
           A2 = fUN(J,2)
-          N1 = UN
-          N2 = -rLank(J)/(rLank(J)+UN)      
+          N1 = ONE
+          N2 = -rLank(J)/(rLank(J)+ONE)      
           !  Plane strain point and normal
           C1 = fPS(J,1)
           C2 = fPS(J,2)
-          M1 = UN
+          M1 = ONE
           M2 = ZERO
           !  Hinge point
           HIUN(J,1) = (M2*(N1*A1+N2*A2) - N2*(M1*C1+M2*C2))/(N1*M2 - M1*N2)
@@ -505,7 +505,7 @@ c
 c
           ! If fPS2 is not measured or if Icrit = 2
           IF ((Icrit == 1).AND.(fPS(J,2) == ZERO)) THEN
-            fPS(J,2) = HIUN(J,2) + UNDEMI*(HIPS(J,2) - HIUN(J,2))
+            fPS(J,2) = HIUN(J,2) + HALF*(HIPS(J,2) - HIUN(J,2))
           ELSEIF (Icrit == 2) THEN
             fPS(J,2) = HIUN(J,2) + ALPS(J)*(HIPS(J,2) - HIUN(J,2))
           ENDIF
@@ -515,13 +515,13 @@ c
           A1 = fSH(J,1)
           fSH(J,2) = -fSH(NANGLE-(J-1),1)
           A2 = fSH(J,2)
-          N1 = UN
-          N2 = -UN      
+          N1 = ONE
+          N2 = -ONE      
           !  Plane strain point and normal
           C1 = fUN(J,1)
           C2 = ZERO
-          M1 = UN
-          M2 = -rLank(J)/(rLank(J)+UN)
+          M1 = ONE
+          M2 = -rLank(J)/(rLank(J)+ONE)
           !  Hinge point
           HISH(J,1) = (M2*(N1*A1+N2*A2) - N2*(M1*C1+M2*C2))/(N1*M2 - M1*N2)
           HISH(J,2) = (N1*(M1*C1+M2*C2) - M1*(N1*A1+N2*A2))/(N1*M2 - M1*N2)
@@ -533,14 +533,14 @@ c
           A1 = fUN(J,1)
           fUN(J,2) = ZERO
           A2 = fUN(J,2)
-          N1 = UN
-          N2 = -rLank(J)/(rLank(J)+UN)
+          N1 = ONE
+          N2 = -rLank(J)/(rLank(J)+ONE)
           !   Biaxial point and normal
-          rhoBI_theta = (rhoBI + UN) + (rhoBI - UN)*COS(DEUX*THETA_RAD(J))
-          rhoBI_theta = rhoBI_theta / ((rhoBI + UN) - (rhoBI - UN)*COS(DEUX*THETA_RAD(J)))
+          rhoBI_theta = (rhoBI + ONE) + (rhoBI - ONE)*COS(TWO*THETA_RAD(J))
+          rhoBI_theta = rhoBI_theta / ((rhoBI + ONE) - (rhoBI - ONE)*COS(TWO*THETA_RAD(J)))
           C1 = fBI
           C2 = fBI
-          M1 = UN
+          M1 = ONE
           M2 = rhoBI_theta
           !   Hinge point
           HIPS(J,1) = (M2*(N1*A1+N2*A2) - N2*(M1*C1+M2*C2))/(N1*M2 - M1*N2)
@@ -550,13 +550,13 @@ c
           !  Uniaxial point in compression
           A1 = fUN(J,2)
           A2 = -fUN(J,1)
-          N1 = rLank(J)/(rLank(J)+UN)
-          N2 = -UN
+          N1 = rLank(J)/(rLank(J)+ONE)
+          N2 = -ONE
           !  Uniaxial point in tension
           C1 = fUN(J,1)
           C2 = fUN(J,2)
-          M1 = UN
-          M2 = -rLank(J)/(rLank(J)+UN)
+          M1 = ONE
+          M2 = -rLank(J)/(rLank(J)+ONE)
           !  Hinge point
           HISH(J,1) = (M2*(N1*A1+N2*A2) - N2*(M1*C1+M2*C2))/(N1*M2 - M1*N2)
           HISH(J,2) = (N1*(M1*C1+M2*C2) - M1*(N1*A1+N2*A2))/(N1*M2 - M1*N2)
@@ -575,7 +575,7 @@ c
         DO I = 1,NANGLE
           AMAT(J,I) = ZERO
           DO K = 1,I
-            AMAT(J,I) = AMAT(J,I) + COS2(K,I)*(COS(DEUX*THETA_RAD(J)))**(K-1)
+            AMAT(J,I) = AMAT(J,I) + COS2(K,I)*(COS(TWO*THETA_RAD(J)))**(K-1)
           ENDDO
         ENDDO
       ENDDO
@@ -707,12 +707,12 @@ c
           DO I = 1,NANGLE
             ! Computation of the reference points
             DO K = 1,I
-              A1 = A1 + Q_fSH(I,1)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              A2 = A2 + Q_fSH(I,2)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              B1 = B1 + Q_HISH(I,1)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              B2 = B2 + Q_HISH(I,2)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              C1 = C1 + Q_fUN(I,1)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              C2 = C2 + Q_fUN(I,2)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
+              A1 = A1 + Q_fSH(I,1)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              A2 = A2 + Q_fSH(I,2)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              B1 = B1 + Q_HISH(I,1)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              B2 = B2 + Q_HISH(I,2)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              C1 = C1 + Q_fUN(I,1)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              C2 = C2 + Q_fUN(I,2)*COS2(K,I)*(COS(TWO*THET))**(K-1)
             ENDDO
           ENDDO
           ! If anisotropic, compute derivatives with respect to COS2THET
@@ -720,18 +720,18 @@ c
             ! Computation of their first derivative with respect to COS2THET
             DO I = 2, NANGLE
               DO K = 2,I
-                DA_DCOS2(1:2) = DA_DCOS2(1:2) + Q_fSH(I,1:2)*(K-1)*COS2(K,I)*(COS(DEUX*THET))**(K-2)
-                DB_DCOS2(1:2) = DB_DCOS2(1:2) + Q_HISH(I,1:2)*(K-1)*COS2(K,I)*(COS(DEUX*THET))**(K-2)
-                DC_DCOS2(1:2) = DC_DCOS2(1:2) + Q_fUN(I,1:2)*(K-1)*COS2(K,I)*(COS(DEUX*THET))**(K-2)
+                DA_DCOS2(1:2) = DA_DCOS2(1:2) + Q_fSH(I,1:2)*(K-1)*COS2(K,I)*(COS(TWO*THET))**(K-2)
+                DB_DCOS2(1:2) = DB_DCOS2(1:2) + Q_HISH(I,1:2)*(K-1)*COS2(K,I)*(COS(TWO*THET))**(K-2)
+                DC_DCOS2(1:2) = DC_DCOS2(1:2) + Q_fUN(I,1:2)*(K-1)*COS2(K,I)*(COS(TWO*THET))**(K-2)
               ENDDO              
             ENDDO
             ! Computation of their second derivative with respect to COS2THET
             IF (NANGLE > 2) THEN
               DO I = 3, NANGLE
                 DO K = 3,I
-                  D2A_D2COS2(1:2) = D2A_D2COS2(1:2) + Q_fSH(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(DEUX*THET))**(K-3)
-                  D2B_D2COS2(1:2) = D2B_D2COS2(1:2) + Q_HISH(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(DEUX*THET))**(K-3)
-                  D2C_D2COS2(1:2) = D2C_D2COS2(1:2) + Q_fUN(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(DEUX*THET))**(K-3)
+                  D2A_D2COS2(1:2) = D2A_D2COS2(1:2) + Q_fSH(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(TWO*THET))**(K-3)
+                  D2B_D2COS2(1:2) = D2B_D2COS2(1:2) + Q_HISH(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(TWO*THET))**(K-3)
+                  D2C_D2COS2(1:2) = D2C_D2COS2(1:2) + Q_fUN(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(TWO*THET))**(K-3)
                 ENDDO              
               ENDDO            
             ENDIF
@@ -743,14 +743,14 @@ c
           DO I = 1,21
 c
             ! Computation of F1 and F2
-            F1 = ((UN-MU)**2)*A1 + DEUX*MU*(UN-MU)*B1 + (MU**2)*C1
-            F2 = ((UN-MU)**2)*A2 + DEUX*MU*(UN-MU)*B2 + (MU**2)*C2 
+            F1 = ((ONE-MU)**2)*A1 + TWO*MU*(ONE-MU)*B1 + (MU**2)*C1
+            F2 = ((ONE-MU)**2)*A2 + TWO*MU*(ONE-MU)*B2 + (MU**2)*C2 
             ! Derivatives of Fi with respect to MU
-            DF1_DMU = -DEUX*(UN-MU)*A1 + DEUX*(UN-DEUX*MU)*B1 + DEUX*MU*C1
-            DF2_DMU = -DEUX*(UN-MU)*A2 + DEUX*(UN-DEUX*MU)*B2 + DEUX*MU*C2
+            DF1_DMU = -TWO*(ONE-MU)*A1 + TWO*(ONE-TWO*MU)*B1 + TWO*MU*C1
+            DF2_DMU = -TWO*(ONE-MU)*A2 + TWO*(ONE-TWO*MU)*B2 + TWO*MU*C2
             ! Second derivatives of Fi with respect to MU
-            D2F1_D2MU = DEUX*(A1+C1-DEUX*B1)
-            D2F2_D2MU = DEUX*(A2+C2-DEUX*B2)
+            D2F1_D2MU = TWO*(A1+C1-TWO*B1)
+            D2F2_D2MU = TWO*(A2+C2-TWO*B2)
             ! Denominator and its derivative with respect to MU
             DENOM = F1*DF2_DMU - F2*DF1_DMU
             DENOM = SIGN(MAX(ABS(DENOM),EM20),DENOM)
@@ -762,83 +762,83 @@ c
             DMU_DSIG2  = F1/DENOM
 c
             ! Derivatives of Fi with respect to COS2
-            DF1_DCOS2  = ((UN-MU)**2)*DA_DCOS2(1) + DEUX*MU*(UN-MU)*DB_DCOS2(1) + (MU**2)*DC_DCOS2(1)
-            DF2_DCOS2  = ((UN-MU)**2)*DA_DCOS2(2) + DEUX*MU*(UN-MU)*DB_DCOS2(2) + (MU**2)*DC_DCOS2(2)
+            DF1_DCOS2  = ((ONE-MU)**2)*DA_DCOS2(1) + TWO*MU*(ONE-MU)*DB_DCOS2(1) + (MU**2)*DC_DCOS2(1)
+            DF2_DCOS2  = ((ONE-MU)**2)*DA_DCOS2(2) + TWO*MU*(ONE-MU)*DB_DCOS2(2) + (MU**2)*DC_DCOS2(2)
             DPHI_DCOS2 = (DF2_DCOS2*DF1_DMU - DF1_DCOS2*DF2_DMU)/DENOM
             DMU_DCOS2  = (F2*DF1_DCOS2 - F1*DF2_DCOS2)/DENOM
 c
             ! Second derivatives of Fi with respect to COS2
-            D2F1_D2MUCOS2 = -DEUX*(UN-MU)*DA_DCOS2(1)  + DEUX*(UN-DEUX*MU)*DB_DCOS2(1) + DEUX*MU*DC_DCOS2(1)
-            D2F2_D2MUCOS2 = -DEUX*(UN-MU)*DA_DCOS2(2)  + DEUX*(UN-DEUX*MU)*DB_DCOS2(2) + DEUX*MU*DC_DCOS2(2)
-            D2F1_D2COS2   = ((UN-MU)**2)*D2A_D2COS2(1) + DEUX*MU*(UN-MU)*D2B_D2COS2(1) + (MU**2)*D2C_D2COS2(1)
-            D2F2_D2COS2   = ((UN-MU)**2)*D2A_D2COS2(2) + DEUX*MU*(UN-MU)*D2B_D2COS2(2) + (MU**2)*D2C_D2COS2(2)
+            D2F1_D2MUCOS2 = -TWO*(ONE-MU)*DA_DCOS2(1)  + TWO*(ONE-TWO*MU)*DB_DCOS2(1) + TWO*MU*DC_DCOS2(1)
+            D2F2_D2MUCOS2 = -TWO*(ONE-MU)*DA_DCOS2(2)  + TWO*(ONE-TWO*MU)*DB_DCOS2(2) + TWO*MU*DC_DCOS2(2)
+            D2F1_D2COS2   = ((ONE-MU)**2)*D2A_D2COS2(1) + TWO*MU*(ONE-MU)*D2B_D2COS2(1) + (MU**2)*D2C_D2COS2(1)
+            D2F2_D2COS2   = ((ONE-MU)**2)*D2A_D2COS2(2) + TWO*MU*(ONE-MU)*D2B_D2COS2(2) + (MU**2)*D2C_D2COS2(2)
 c
             ! Second derivatives of PHI with respect to SIG1 and SIG2 (Hessian matrix)
             !-------------------------------------------------------------------------
             !   FIRST LINE OF THE MATRIX
             !   D2PHI_D2SIG1
-            D2PHI_D2(1,1) = (-UN/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG1*DMU_DSIG1
+            D2PHI_D2(1,1) = (-ONE/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG1*DMU_DSIG1
             !   D2PHI_DSIG1SIG2
-            D2PHI_D2(1,2) = (-UN/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG1*DMU_DSIG2
+            D2PHI_D2(1,2) = (-ONE/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG1*DMU_DSIG2
             !   D2PHI_DSIG1COS2
-            D2PHI_D2(1,3) = (-UN/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
+            D2PHI_D2(1,3) = (-ONE/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
      .                            DF1_DMU*(D2F2_D2MUCOS2+D2F2_D2MU*DMU_DCOS2))*DMU_DSIG1
      .                         + (DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DSIG1)
 c
             !   SECOND LINE OF THE MATRIX
             !   D2PHI_DSIG2SIG1
-            D2PHI_D2(2,1) = (-UN/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG2*DMU_DSIG1
+            D2PHI_D2(2,1) = (-ONE/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG2*DMU_DSIG1
             !   D2PHI_D2SIG2
-            D2PHI_D2(2,2) = (-UN/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG2*DMU_DSIG2
+            D2PHI_D2(2,2) = (-ONE/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG2*DMU_DSIG2
             !   D2PHI_DSIG2COS2   
-            D2PHI_D2(2,3) = (-UN/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
+            D2PHI_D2(2,3) = (-ONE/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
      .                            DF1_DMU*(D2F2_D2MUCOS2+D2F2_D2MU*DMU_DCOS2))*DMU_DSIG2
      .                         + (DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DSIG2)
 c
             !   THIRD LINE OF THE MATRIX
             !   D2PHI_D2COS2SIG1
-            D2PHI_D2(3,1) = (-UN/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
+            D2PHI_D2(3,1) = (-ONE/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
      .                            DF1_DMU*(D2F2_D2MUCOS2+D2F2_D2MU*DMU_DCOS2))*DMU_DSIG1
      .                         + (DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DSIG1)
             !   D2PHI_D2COS2SIG2
-            D2PHI_D2(3,2) = (-UN/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
+            D2PHI_D2(3,2) = (-ONE/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
      .                            DF1_DMU*(D2F2_D2MUCOS2+D2F2_D2MU*DMU_DCOS2))*DMU_DSIG2
      .                         + (DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DSIG2)          
             !   D2PHI_D2COS2
-            D2PHI_D2(3,3) = (-UN/DENOM)*(DF2_DMU*(D2F1_D2COS2 + DEUX*D2F1_D2MUCOS2*DMU_DCOS2 + D2F1_D2MU*(DMU_DCOS2**2)) 
-     .                          - DF1_DMU*(D2F2_D2COS2 + DEUX*D2F2_D2MUCOS2*DMU_DCOS2 + D2F2_D2MU*(DMU_DCOS2**2))
-     .                          + DEUX*(DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DCOS2)
+            D2PHI_D2(3,3) = (-ONE/DENOM)*(DF2_DMU*(D2F1_D2COS2 + TWO*D2F1_D2MUCOS2*DMU_DCOS2 + D2F1_D2MU*(DMU_DCOS2**2)) 
+     .                          - DF1_DMU*(D2F2_D2COS2 + TWO*D2F2_D2MUCOS2*DMU_DCOS2 + D2F2_D2MU*(DMU_DCOS2**2))
+     .                          + TWO*(DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DCOS2)
 c    
             ! Filling the T matrix
-            T(1,1) =  (UNDEMI/(F1-F2))*((SIN(DEUX*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2) +
-     .                DPHI_DCOS2*(-TROIS/(F1-F2)**2)*COS(DEUX*THET)*(SIN(DEUX*THET))**2
-            T(1,2) =  (UNDEMI/(F1-F2))*((SIN(DEUX*THET))**2)*(DPHI_DSIG2 - DPHI_DSIG1)  +
-     .                DPHI_DCOS2*(TROIS/(F1-F2)**2)*COS(DEUX*THET)*(SIN(DEUX*THET))**2
-            T(1,3) =  (UN/(F1-F2))*(SIN(DEUX*THET)*COS(DEUX*THET))*(DPHI_DSIG2 - DPHI_DSIG1) +
-     .                DPHI_DCOS2*(UN/(F1-F2)**2)*(QUATRE*SIN(DEUX*THET)*(COS(DEUX*THET))**2 - 
-     .                DEUX*(SIN(DEUX*THET)**3))
+            T(1,1) =  (HALF/(F1-F2))*((SIN(TWO*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2) +
+     .                DPHI_DCOS2*(-THREE/(F1-F2)**2)*COS(TWO*THET)*(SIN(TWO*THET))**2
+            T(1,2) =  (HALF/(F1-F2))*((SIN(TWO*THET))**2)*(DPHI_DSIG2 - DPHI_DSIG1)  +
+     .                DPHI_DCOS2*(THREE/(F1-F2)**2)*COS(TWO*THET)*(SIN(TWO*THET))**2
+            T(1,3) =  (ONE/(F1-F2))*(SIN(TWO*THET)*COS(TWO*THET))*(DPHI_DSIG2 - DPHI_DSIG1) +
+     .                DPHI_DCOS2*(ONE/(F1-F2)**2)*(FOUR*SIN(TWO*THET)*(COS(TWO*THET))**2 - 
+     .                TWO*(SIN(TWO*THET)**3))
             T(2,1) =  T(1,2)
-            T(2,2) =  (UNDEMI/(F1-F2))*((SIN(DEUX*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2) +
-     .                DPHI_DCOS2*(-TROIS/(F1-F2)**2)*COS(DEUX*THET)*(SIN(DEUX*THET))**2
-            T(2,3) =  (UN/(F1-F2))*(SIN(DEUX*THET)*COS(DEUX*THET))*(DPHI_DSIG1-DPHI_DSIG2) +
-     .                DPHI_DCOS2*(UN/(F1-F2)**2)*(-QUATRE*SIN(DEUX*THET)*(COS(DEUX*THET))**2 + 
-     .                DEUX*(SIN(DEUX*THET)**3))
+            T(2,2) =  (HALF/(F1-F2))*((SIN(TWO*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2) +
+     .                DPHI_DCOS2*(-THREE/(F1-F2)**2)*COS(TWO*THET)*(SIN(TWO*THET))**2
+            T(2,3) =  (ONE/(F1-F2))*(SIN(TWO*THET)*COS(TWO*THET))*(DPHI_DSIG1-DPHI_DSIG2) +
+     .                DPHI_DCOS2*(ONE/(F1-F2)**2)*(-FOUR*SIN(TWO*THET)*(COS(TWO*THET))**2 + 
+     .                TWO*(SIN(TWO*THET)**3))
             T(3,1) =  T(1,3)
             T(3,2) =  T(2,3)
-            T(3,3) =  (DEUX/(F1-F2))*((COS(DEUX*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2)+
-     .                DPHI_DCOS2*(UN/(F1-F2)**2)*(HUIT*(SIN(DEUX*THET)**2)*COS(DEUX*THET) - 
-     .                QUATRE*(COS(DEUX*THET)**3))
+            T(3,3) =  (TWO/(F1-F2))*((COS(TWO*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2)+
+     .                DPHI_DCOS2*(ONE/(F1-F2)**2)*(EIGHT*(SIN(TWO*THET)**2)*COS(TWO*THET) - 
+     .                FOUR*(COS(TWO*THET)**3))
      
             ! Filling the rotation D matrix
-            D(1,1) = UNDEMI*(UN+COS(DEUX*THET))
-            D(1,2) = UNDEMI*(UN-COS(DEUX*THET))
-            D(1,3) = SIN(DEUX*THET)
-            D(2,1) = UNDEMI*(UN-COS(DEUX*THET))
-            D(2,2) = UNDEMI*(UN+COS(DEUX*THET))
-            D(2,3) = -SIN(DEUX*THET)
-            D(3,1) = (SIN(DEUX*THET)**2)/(F1-F2)
-            D(3,2) = -(SIN(DEUX*THET)**2)/(F1-F2)
-            D(3,3) = -(DEUX*SIN(DEUX*THET)*COS(DEUX*THET))/(F1-F2)
+            D(1,1) = HALF*(ONE+COS(TWO*THET))
+            D(1,2) = HALF*(ONE-COS(TWO*THET))
+            D(1,3) = SIN(TWO*THET)
+            D(2,1) = HALF*(ONE-COS(TWO*THET))
+            D(2,2) = HALF*(ONE+COS(TWO*THET))
+            D(2,3) = -SIN(TWO*THET)
+            D(3,1) = (SIN(TWO*THET)**2)/(F1-F2)
+            D(3,2) = -(SIN(TWO*THET)**2)/(F1-F2)
+            D(3,3) = -(TWO*SIN(TWO*THET)*COS(TWO*THET))/(F1-F2)
             
             ! Assembling the Hessian Matrix Dt*DPHI_DSIG*D + T
             D2PHI_D2 = MATMUL(D2PHI_D2,D)
@@ -864,10 +864,10 @@ c
               MINEIGTHET = THET*(180.0D0/PI)
             ENDIF
             ! Updating the MU parameter
-            MU = MU + UN/VINGT
+            MU = MU + ONE/TWENTY
           ENDDO
           ! Updating the theta angle
-          THET = THET + (PI/DEUX)/60.0D0
+          THET = THET + (PI/TWO)/60.0D0
         ENDDO
 c        
         ! Convexity check and error message
@@ -914,12 +914,12 @@ c
           DO I = 1,NANGLE
             ! Computation of the reference points
             DO K = 1,I
-              A1 = A1 + Q_fUN(I,1)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              A2 = A2 + Q_fUN(I,2)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              B1 = B1 + Q_HIUN(I,1)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              B2 = B2 + Q_HIUN(I,2)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              C1 = C1 + Q_fPS(I,1)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              C2 = C2 + Q_fPS(I,2)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
+              A1 = A1 + Q_fUN(I,1)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              A2 = A2 + Q_fUN(I,2)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              B1 = B1 + Q_HIUN(I,1)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              B2 = B2 + Q_HIUN(I,2)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              C1 = C1 + Q_fPS(I,1)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              C2 = C2 + Q_fPS(I,2)*COS2(K,I)*(COS(TWO*THET))**(K-1)
             ENDDO
           ENDDO
           ! If anisotropic, compute derivatives with respect to COS2THET
@@ -927,18 +927,18 @@ c
             ! Computation of their first derivative with respect to COS2THET
             DO I = 2, NANGLE
               DO K = 2,I
-                DA_DCOS2(1:2) = DA_DCOS2(1:2) + Q_fUN(I,1:2)*(K-1)*COS2(K,I)*(COS(DEUX*THET))**(K-2)
-                DB_DCOS2(1:2) = DB_DCOS2(1:2) + Q_HIUN(I,1:2)*(K-1)*COS2(K,I)*(COS(DEUX*THET))**(K-2)
-                DC_DCOS2(1:2) = DC_DCOS2(1:2) + Q_fPS(I,1:2)*(K-1)*COS2(K,I)*(COS(DEUX*THET))**(K-2)
+                DA_DCOS2(1:2) = DA_DCOS2(1:2) + Q_fUN(I,1:2)*(K-1)*COS2(K,I)*(COS(TWO*THET))**(K-2)
+                DB_DCOS2(1:2) = DB_DCOS2(1:2) + Q_HIUN(I,1:2)*(K-1)*COS2(K,I)*(COS(TWO*THET))**(K-2)
+                DC_DCOS2(1:2) = DC_DCOS2(1:2) + Q_fPS(I,1:2)*(K-1)*COS2(K,I)*(COS(TWO*THET))**(K-2)
               ENDDO              
             ENDDO
             ! Computation of their second derivative with respect to COS2THET
             IF (NANGLE > 2) THEN
               DO I = 3, NANGLE
                 DO K = 3,I
-                  D2A_D2COS2(1:2) = D2A_D2COS2(1:2) + Q_fUN(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(DEUX*THET))**(K-3)
-                  D2B_D2COS2(1:2) = D2B_D2COS2(1:2) + Q_HIUN(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(DEUX*THET))**(K-3)
-                  D2C_D2COS2(1:2) = D2C_D2COS2(1:2) + Q_fPS(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(DEUX*THET))**(K-3)
+                  D2A_D2COS2(1:2) = D2A_D2COS2(1:2) + Q_fUN(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(TWO*THET))**(K-3)
+                  D2B_D2COS2(1:2) = D2B_D2COS2(1:2) + Q_HIUN(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(TWO*THET))**(K-3)
+                  D2C_D2COS2(1:2) = D2C_D2COS2(1:2) + Q_fPS(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(TWO*THET))**(K-3)
                 ENDDO              
               ENDDO            
             ENDIF
@@ -950,14 +950,14 @@ c
           DO I = 1,21
 c
             ! Computation of F1 and F2
-            F1 = ((UN-MU)**2)*A1 + DEUX*MU*(UN-MU)*B1 + (MU**2)*C1
-            F2 = ((UN-MU)**2)*A2 + DEUX*MU*(UN-MU)*B2 + (MU**2)*C2 
+            F1 = ((ONE-MU)**2)*A1 + TWO*MU*(ONE-MU)*B1 + (MU**2)*C1
+            F2 = ((ONE-MU)**2)*A2 + TWO*MU*(ONE-MU)*B2 + (MU**2)*C2 
             ! Derivatives of Fi with respect to MU
-            DF1_DMU = -DEUX*(UN-MU)*A1 + DEUX*(UN-DEUX*MU)*B1 + DEUX*MU*C1
-            DF2_DMU = -DEUX*(UN-MU)*A2 + DEUX*(UN-DEUX*MU)*B2 + DEUX*MU*C2
+            DF1_DMU = -TWO*(ONE-MU)*A1 + TWO*(ONE-TWO*MU)*B1 + TWO*MU*C1
+            DF2_DMU = -TWO*(ONE-MU)*A2 + TWO*(ONE-TWO*MU)*B2 + TWO*MU*C2
             ! Second derivatives of Fi with respect to MU
-            D2F1_D2MU = DEUX*(A1+C1-DEUX*B1)
-            D2F2_D2MU = DEUX*(A2+C2-DEUX*B2)
+            D2F1_D2MU = TWO*(A1+C1-TWO*B1)
+            D2F2_D2MU = TWO*(A2+C2-TWO*B2)
             ! Denominator and its derivative with respect to MU
             DENOM = F1*DF2_DMU - F2*DF1_DMU
             DENOM = SIGN(MAX(ABS(DENOM),EM20),DENOM)
@@ -969,83 +969,83 @@ c
             DMU_DSIG2  = F1/DENOM
 c
             ! Derivatives of Fi with respect to COS2
-            DF1_DCOS2  = ((UN-MU)**2)*DA_DCOS2(1) + DEUX*MU*(UN-MU)*DB_DCOS2(1) + (MU**2)*DC_DCOS2(1)
-            DF2_DCOS2  = ((UN-MU)**2)*DA_DCOS2(2) + DEUX*MU*(UN-MU)*DB_DCOS2(2) + (MU**2)*DC_DCOS2(2)
+            DF1_DCOS2  = ((ONE-MU)**2)*DA_DCOS2(1) + TWO*MU*(ONE-MU)*DB_DCOS2(1) + (MU**2)*DC_DCOS2(1)
+            DF2_DCOS2  = ((ONE-MU)**2)*DA_DCOS2(2) + TWO*MU*(ONE-MU)*DB_DCOS2(2) + (MU**2)*DC_DCOS2(2)
             DPHI_DCOS2 = (DF2_DCOS2*DF1_DMU - DF1_DCOS2*DF2_DMU)/DENOM
             DMU_DCOS2  = (F2*DF1_DCOS2 - F1*DF2_DCOS2)/DENOM
 c
             ! Second derivatives of Fi with respect to COS2
-            D2F1_D2MUCOS2 = -DEUX*(UN-MU)*DA_DCOS2(1)  + DEUX*(UN-DEUX*MU)*DB_DCOS2(1) + DEUX*MU*DC_DCOS2(1)
-            D2F2_D2MUCOS2 = -DEUX*(UN-MU)*DA_DCOS2(2)  + DEUX*(UN-DEUX*MU)*DB_DCOS2(2) + DEUX*MU*DC_DCOS2(2)
-            D2F1_D2COS2   = ((UN-MU)**2)*D2A_D2COS2(1) + DEUX*MU*(UN-MU)*D2B_D2COS2(1) + (MU**2)*D2C_D2COS2(1)
-            D2F2_D2COS2   = ((UN-MU)**2)*D2A_D2COS2(2) + DEUX*MU*(UN-MU)*D2B_D2COS2(2) + (MU**2)*D2C_D2COS2(2)
+            D2F1_D2MUCOS2 = -TWO*(ONE-MU)*DA_DCOS2(1)  + TWO*(ONE-TWO*MU)*DB_DCOS2(1) + TWO*MU*DC_DCOS2(1)
+            D2F2_D2MUCOS2 = -TWO*(ONE-MU)*DA_DCOS2(2)  + TWO*(ONE-TWO*MU)*DB_DCOS2(2) + TWO*MU*DC_DCOS2(2)
+            D2F1_D2COS2   = ((ONE-MU)**2)*D2A_D2COS2(1) + TWO*MU*(ONE-MU)*D2B_D2COS2(1) + (MU**2)*D2C_D2COS2(1)
+            D2F2_D2COS2   = ((ONE-MU)**2)*D2A_D2COS2(2) + TWO*MU*(ONE-MU)*D2B_D2COS2(2) + (MU**2)*D2C_D2COS2(2)
 c
             ! Second derivatives of PHI with respect to SIG1 and SIG2 (Hessian matrix)
             !-------------------------------------------------------------------------
             !   FIRST LINE OF THE MATRIX
             !   D2PHI_D2SIG1
-            D2PHI_D2(1,1) = (-UN/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG1*DMU_DSIG1
+            D2PHI_D2(1,1) = (-ONE/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG1*DMU_DSIG1
             !   D2PHI_DSIG1SIG2
-            D2PHI_D2(1,2) = (-UN/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG1*DMU_DSIG2
+            D2PHI_D2(1,2) = (-ONE/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG1*DMU_DSIG2
             !   D2PHI_DSIG1COS2
-            D2PHI_D2(1,3) = (-UN/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
+            D2PHI_D2(1,3) = (-ONE/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
      .                            DF1_DMU*(D2F2_D2MUCOS2+D2F2_D2MU*DMU_DCOS2))*DMU_DSIG1
      .                         + (DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DSIG1)
 c
             !   SECOND LINE OF THE MATRIX
             !   D2PHI_DSIG2SIG1
-            D2PHI_D2(2,1) = (-UN/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG2*DMU_DSIG1
+            D2PHI_D2(2,1) = (-ONE/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG2*DMU_DSIG1
             !   D2PHI_D2SIG2
-            D2PHI_D2(2,2) = (-UN/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG2*DMU_DSIG2
+            D2PHI_D2(2,2) = (-ONE/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG2*DMU_DSIG2
             !   D2PHI_DSIG2COS2   
-            D2PHI_D2(2,3) = (-UN/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
+            D2PHI_D2(2,3) = (-ONE/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
      .                            DF1_DMU*(D2F2_D2MUCOS2+D2F2_D2MU*DMU_DCOS2))*DMU_DSIG2
      .                         + (DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DSIG2)
 c
             !   THIRD LINE OF THE MATRIX
             !   D2PHI_D2COS2SIG1
-            D2PHI_D2(3,1) = (-UN/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
+            D2PHI_D2(3,1) = (-ONE/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
      .                            DF1_DMU*(D2F2_D2MUCOS2+D2F2_D2MU*DMU_DCOS2))*DMU_DSIG1
      .                         + (DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DSIG1)
             !   D2PHI_D2COS2SIG2
-            D2PHI_D2(3,2) = (-UN/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
+            D2PHI_D2(3,2) = (-ONE/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
      .                            DF1_DMU*(D2F2_D2MUCOS2+D2F2_D2MU*DMU_DCOS2))*DMU_DSIG2
      .                         + (DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DSIG2)          
             !   D2PHI_D2COS2
-            D2PHI_D2(3,3) = (-UN/DENOM)*(DF2_DMU*(D2F1_D2COS2 + DEUX*D2F1_D2MUCOS2*DMU_DCOS2 + D2F1_D2MU*(DMU_DCOS2**2)) 
-     .                          - DF1_DMU*(D2F2_D2COS2 + DEUX*D2F2_D2MUCOS2*DMU_DCOS2 + D2F2_D2MU*(DMU_DCOS2**2))
-     .                          + DEUX*(DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DCOS2)
+            D2PHI_D2(3,3) = (-ONE/DENOM)*(DF2_DMU*(D2F1_D2COS2 + TWO*D2F1_D2MUCOS2*DMU_DCOS2 + D2F1_D2MU*(DMU_DCOS2**2)) 
+     .                          - DF1_DMU*(D2F2_D2COS2 + TWO*D2F2_D2MUCOS2*DMU_DCOS2 + D2F2_D2MU*(DMU_DCOS2**2))
+     .                          + TWO*(DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DCOS2)
 c    
             ! Filling the T matrix
-            T(1,1) =  (UNDEMI/(F1-F2))*((SIN(DEUX*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2) +
-     .                DPHI_DCOS2*(-TROIS/(F1-F2)**2)*COS(DEUX*THET)*(SIN(DEUX*THET))**2
-            T(1,2) =  (UNDEMI/(F1-F2))*((SIN(DEUX*THET))**2)*(DPHI_DSIG2 - DPHI_DSIG1)  +
-     .                DPHI_DCOS2*(TROIS/(F1-F2)**2)*COS(DEUX*THET)*(SIN(DEUX*THET))**2
-            T(1,3) =  (UN/(F1-F2))*(SIN(DEUX*THET)*COS(DEUX*THET))*(DPHI_DSIG2 - DPHI_DSIG1) +
-     .                DPHI_DCOS2*(UN/(F1-F2)**2)*(QUATRE*SIN(DEUX*THET)*(COS(DEUX*THET))**2 - 
-     .                DEUX*(SIN(DEUX*THET)**3))
+            T(1,1) =  (HALF/(F1-F2))*((SIN(TWO*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2) +
+     .                DPHI_DCOS2*(-THREE/(F1-F2)**2)*COS(TWO*THET)*(SIN(TWO*THET))**2
+            T(1,2) =  (HALF/(F1-F2))*((SIN(TWO*THET))**2)*(DPHI_DSIG2 - DPHI_DSIG1)  +
+     .                DPHI_DCOS2*(THREE/(F1-F2)**2)*COS(TWO*THET)*(SIN(TWO*THET))**2
+            T(1,3) =  (ONE/(F1-F2))*(SIN(TWO*THET)*COS(TWO*THET))*(DPHI_DSIG2 - DPHI_DSIG1) +
+     .                DPHI_DCOS2*(ONE/(F1-F2)**2)*(FOUR*SIN(TWO*THET)*(COS(TWO*THET))**2 - 
+     .                TWO*(SIN(TWO*THET)**3))
             T(2,1) =  T(1,2)
-            T(2,2) =  (UNDEMI/(F1-F2))*((SIN(DEUX*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2) +
-     .                DPHI_DCOS2*(-TROIS/(F1-F2)**2)*COS(DEUX*THET)*(SIN(DEUX*THET))**2
-            T(2,3) =  (UN/(F1-F2))*(SIN(DEUX*THET)*COS(DEUX*THET))*(DPHI_DSIG1-DPHI_DSIG2) +
-     .                DPHI_DCOS2*(UN/(F1-F2)**2)*(-QUATRE*SIN(DEUX*THET)*(COS(DEUX*THET))**2 + 
-     .                DEUX*(SIN(DEUX*THET)**3))
+            T(2,2) =  (HALF/(F1-F2))*((SIN(TWO*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2) +
+     .                DPHI_DCOS2*(-THREE/(F1-F2)**2)*COS(TWO*THET)*(SIN(TWO*THET))**2
+            T(2,3) =  (ONE/(F1-F2))*(SIN(TWO*THET)*COS(TWO*THET))*(DPHI_DSIG1-DPHI_DSIG2) +
+     .                DPHI_DCOS2*(ONE/(F1-F2)**2)*(-FOUR*SIN(TWO*THET)*(COS(TWO*THET))**2 + 
+     .                TWO*(SIN(TWO*THET)**3))
             T(3,1) =  T(1,3)
             T(3,2) =  T(2,3)
-            T(3,3) =  (DEUX/(F1-F2))*((COS(DEUX*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2)+
-     .                DPHI_DCOS2*(UN/(F1-F2)**2)*(HUIT*(SIN(DEUX*THET)**2)*COS(DEUX*THET) - 
-     .                QUATRE*(COS(DEUX*THET)**3))
+            T(3,3) =  (TWO/(F1-F2))*((COS(TWO*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2)+
+     .                DPHI_DCOS2*(ONE/(F1-F2)**2)*(EIGHT*(SIN(TWO*THET)**2)*COS(TWO*THET) - 
+     .                FOUR*(COS(TWO*THET)**3))
 c     
             ! Filling the rotation D matrix
-            D(1,1) = UNDEMI*(UN+COS(DEUX*THET))
-            D(1,2) = UNDEMI*(UN-COS(DEUX*THET))
-            D(1,3) = SIN(DEUX*THET)
-            D(2,1) = UNDEMI*(UN-COS(DEUX*THET))
-            D(2,2) = UNDEMI*(UN+COS(DEUX*THET))
-            D(2,3) = -SIN(DEUX*THET)
-            D(3,1) = (SIN(DEUX*THET)**2)/(F1-F2)
-            D(3,2) = -(SIN(DEUX*THET)**2)/(F1-F2)
-            D(3,3) = -(DEUX*SIN(DEUX*THET)*COS(DEUX*THET))/(F1-F2)
+            D(1,1) = HALF*(ONE+COS(TWO*THET))
+            D(1,2) = HALF*(ONE-COS(TWO*THET))
+            D(1,3) = SIN(TWO*THET)
+            D(2,1) = HALF*(ONE-COS(TWO*THET))
+            D(2,2) = HALF*(ONE+COS(TWO*THET))
+            D(2,3) = -SIN(TWO*THET)
+            D(3,1) = (SIN(TWO*THET)**2)/(F1-F2)
+            D(3,2) = -(SIN(TWO*THET)**2)/(F1-F2)
+            D(3,3) = -(TWO*SIN(TWO*THET)*COS(TWO*THET))/(F1-F2)
 c            
             ! Assembling the Hessian Matrix Dt*DPHI_DSIG*D + T
             D2PHI_D2 = MATMUL(D2PHI_D2,D)
@@ -1058,6 +1058,9 @@ c
             VL   = ZERO
             VR   = ZERO
             WORK = ZERO
+            
+
+
 #ifndef WITHOUT_LINALG
             CALL DGEEV('N','N',3,D2PHI_D2,3,WR,WI,VL,3,VR,3,WORK,102,INFO)
 #else 
@@ -1071,10 +1074,10 @@ c
               MINEIGTHET = THET*(180.0D0/PI)
             ENDIF
             ! Updating the MU parameter
-            MU = MU + UN/VINGT
+            MU = MU + ONE/TWENTY
           ENDDO
           ! Updating the theta angle
-          THET = THET + (PI/DEUX)/60.0D0
+          THET = THET + (PI/TWO)/60.0D0
         ENDDO
 c        
         ! Convexity check and error message
@@ -1121,10 +1124,10 @@ c
           DO I = 1,NANGLE
             ! Computation of the reference points
             DO K = 1,I
-              A1 = A1 + Q_fPS(I,1)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              A2 = A2 + Q_fPS(I,2)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              B1 = B1 + Q_HIPS(I,1)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              B2 = B2 + Q_HIPS(I,2)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
+              A1 = A1 + Q_fPS(I,1)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              A2 = A2 + Q_fPS(I,2)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              B1 = B1 + Q_HIPS(I,1)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              B2 = B2 + Q_HIPS(I,2)*COS2(K,I)*(COS(TWO*THET))**(K-1)
             ENDDO
           ENDDO
           ! If anisotropic, compute derivatives with respect to COS2THET
@@ -1132,16 +1135,16 @@ c
             ! Computation of their first derivative with respect to COS2THET
             DO I = 2, NANGLE
               DO K = 2,I
-                DA_DCOS2(1:2) = DA_DCOS2(1:2) + Q_fPS(I,1:2)*(K-1)*COS2(K,I)*(COS(DEUX*THET))**(K-2)
-                DB_DCOS2(1:2) = DB_DCOS2(1:2) + Q_HIPS(I,1:2)*(K-1)*COS2(K,I)*(COS(DEUX*THET))**(K-2)
+                DA_DCOS2(1:2) = DA_DCOS2(1:2) + Q_fPS(I,1:2)*(K-1)*COS2(K,I)*(COS(TWO*THET))**(K-2)
+                DB_DCOS2(1:2) = DB_DCOS2(1:2) + Q_HIPS(I,1:2)*(K-1)*COS2(K,I)*(COS(TWO*THET))**(K-2)
               ENDDO              
             ENDDO
             ! Computation of their second derivative with respect to COS2THET
             IF (NANGLE > 2) THEN
               DO I = 3, NANGLE
                 DO K = 3,I
-                  D2A_D2COS2(1:2) = D2A_D2COS2(1:2) + Q_fPS(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(DEUX*THET))**(K-3)
-                  D2B_D2COS2(1:2) = D2B_D2COS2(1:2) + Q_HIPS(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(DEUX*THET))**(K-3)
+                  D2A_D2COS2(1:2) = D2A_D2COS2(1:2) + Q_fPS(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(TWO*THET))**(K-3)
+                  D2B_D2COS2(1:2) = D2B_D2COS2(1:2) + Q_HIPS(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(TWO*THET))**(K-3)
                 ENDDO              
               ENDDO            
             ENDIF
@@ -1153,14 +1156,14 @@ c
           DO I = 1,20
 c
             ! Computation of F1 and F2
-            F1 = ((UN-MU)**2)*A1 + DEUX*MU*(UN-MU)*B1 + (MU**2)*C1
-            F2 = ((UN-MU)**2)*A2 + DEUX*MU*(UN-MU)*B2 + (MU**2)*C2 
+            F1 = ((ONE-MU)**2)*A1 + TWO*MU*(ONE-MU)*B1 + (MU**2)*C1
+            F2 = ((ONE-MU)**2)*A2 + TWO*MU*(ONE-MU)*B2 + (MU**2)*C2 
             ! Derivatives of Fi with respect to MU
-            DF1_DMU = -DEUX*(UN-MU)*A1 + DEUX*(UN-DEUX*MU)*B1 + DEUX*MU*C1
-            DF2_DMU = -DEUX*(UN-MU)*A2 + DEUX*(UN-DEUX*MU)*B2 + DEUX*MU*C2
+            DF1_DMU = -TWO*(ONE-MU)*A1 + TWO*(ONE-TWO*MU)*B1 + TWO*MU*C1
+            DF2_DMU = -TWO*(ONE-MU)*A2 + TWO*(ONE-TWO*MU)*B2 + TWO*MU*C2
             ! Second derivatives of Fi with respect to MU
-            D2F1_D2MU = DEUX*(A1+C1-DEUX*B1)
-            D2F2_D2MU = DEUX*(A2+C2-DEUX*B2)
+            D2F1_D2MU = TWO*(A1+C1-TWO*B1)
+            D2F2_D2MU = TWO*(A2+C2-TWO*B2)
             ! Denominator and its derivative with respect to MU
             DENOM = F1*DF2_DMU - F2*DF1_DMU
             DENOM = SIGN(MAX(ABS(DENOM),EM20),DENOM)
@@ -1172,83 +1175,83 @@ c
             DMU_DSIG2  = F1/DENOM
 c
             ! Derivatives of Fi with respect to COS2
-            DF1_DCOS2  = ((UN-MU)**2)*DA_DCOS2(1) + DEUX*MU*(UN-MU)*DB_DCOS2(1) + (MU**2)*DC_DCOS2(1)
-            DF2_DCOS2  = ((UN-MU)**2)*DA_DCOS2(2) + DEUX*MU*(UN-MU)*DB_DCOS2(2) + (MU**2)*DC_DCOS2(2)
+            DF1_DCOS2  = ((ONE-MU)**2)*DA_DCOS2(1) + TWO*MU*(ONE-MU)*DB_DCOS2(1) + (MU**2)*DC_DCOS2(1)
+            DF2_DCOS2  = ((ONE-MU)**2)*DA_DCOS2(2) + TWO*MU*(ONE-MU)*DB_DCOS2(2) + (MU**2)*DC_DCOS2(2)
             DPHI_DCOS2 = (DF2_DCOS2*DF1_DMU - DF1_DCOS2*DF2_DMU)/DENOM
             DMU_DCOS2  = (F2*DF1_DCOS2 - F1*DF2_DCOS2)/DENOM
 c
             ! Second derivatives of Fi with respect to COS2
-            D2F1_D2MUCOS2 = -DEUX*(UN-MU)*DA_DCOS2(1)  + DEUX*(UN-DEUX*MU)*DB_DCOS2(1) + DEUX*MU*DC_DCOS2(1)
-            D2F2_D2MUCOS2 = -DEUX*(UN-MU)*DA_DCOS2(2)  + DEUX*(UN-DEUX*MU)*DB_DCOS2(2) + DEUX*MU*DC_DCOS2(2)
-            D2F1_D2COS2   = ((UN-MU)**2)*D2A_D2COS2(1) + DEUX*MU*(UN-MU)*D2B_D2COS2(1) + (MU**2)*D2C_D2COS2(1)
-            D2F2_D2COS2   = ((UN-MU)**2)*D2A_D2COS2(2) + DEUX*MU*(UN-MU)*D2B_D2COS2(2) + (MU**2)*D2C_D2COS2(2)
+            D2F1_D2MUCOS2 = -TWO*(ONE-MU)*DA_DCOS2(1)  + TWO*(ONE-TWO*MU)*DB_DCOS2(1) + TWO*MU*DC_DCOS2(1)
+            D2F2_D2MUCOS2 = -TWO*(ONE-MU)*DA_DCOS2(2)  + TWO*(ONE-TWO*MU)*DB_DCOS2(2) + TWO*MU*DC_DCOS2(2)
+            D2F1_D2COS2   = ((ONE-MU)**2)*D2A_D2COS2(1) + TWO*MU*(ONE-MU)*D2B_D2COS2(1) + (MU**2)*D2C_D2COS2(1)
+            D2F2_D2COS2   = ((ONE-MU)**2)*D2A_D2COS2(2) + TWO*MU*(ONE-MU)*D2B_D2COS2(2) + (MU**2)*D2C_D2COS2(2)
 c
             ! Second derivatives of PHI with respect to SIG1 and SIG2 (Hessian matrix)
             !-------------------------------------------------------------------------
             !   FIRST LINE OF THE MATRIX
             !   D2PHI_D2SIG1
-            D2PHI_D2(1,1) = (-UN/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG1*DMU_DSIG1
+            D2PHI_D2(1,1) = (-ONE/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG1*DMU_DSIG1
             !   D2PHI_DSIG1SIG2
-            D2PHI_D2(1,2) = (-UN/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG1*DMU_DSIG2
+            D2PHI_D2(1,2) = (-ONE/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG1*DMU_DSIG2
             !   D2PHI_DSIG1COS2
-            D2PHI_D2(1,3) = (-UN/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
+            D2PHI_D2(1,3) = (-ONE/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
      .                            DF1_DMU*(D2F2_D2MUCOS2+D2F2_D2MU*DMU_DCOS2))*DMU_DSIG1
      .                         + (DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DSIG1)
 c
             !   SECOND LINE OF THE MATRIX
             !   D2PHI_DSIG2SIG1
-            D2PHI_D2(2,1) = (-UN/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG2*DMU_DSIG1
+            D2PHI_D2(2,1) = (-ONE/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG2*DMU_DSIG1
             !   D2PHI_D2SIG2
-            D2PHI_D2(2,2) = (-UN/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG2*DMU_DSIG2
+            D2PHI_D2(2,2) = (-ONE/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG2*DMU_DSIG2
             !   D2PHI_DSIG2COS2   
-            D2PHI_D2(2,3) = (-UN/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
+            D2PHI_D2(2,3) = (-ONE/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
      .                            DF1_DMU*(D2F2_D2MUCOS2+D2F2_D2MU*DMU_DCOS2))*DMU_DSIG2
      .                         + (DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DSIG2)
 c
             !   THIRD LINE OF THE MATRIX
             !   D2PHI_D2COS2SIG1
-            D2PHI_D2(3,1) = (-UN/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
+            D2PHI_D2(3,1) = (-ONE/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
      .                            DF1_DMU*(D2F2_D2MUCOS2+D2F2_D2MU*DMU_DCOS2))*DMU_DSIG1
      .                         + (DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DSIG1)
             !   D2PHI_D2COS2SIG2
-            D2PHI_D2(3,2) = (-UN/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
+            D2PHI_D2(3,2) = (-ONE/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
      .                            DF1_DMU*(D2F2_D2MUCOS2+D2F2_D2MU*DMU_DCOS2))*DMU_DSIG2
      .                         + (DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DSIG2)          
             !   D2PHI_D2COS2
-            D2PHI_D2(3,3) = (-UN/DENOM)*(DF2_DMU*(D2F1_D2COS2 + DEUX*D2F1_D2MUCOS2*DMU_DCOS2 + D2F1_D2MU*(DMU_DCOS2**2)) 
-     .                          - DF1_DMU*(D2F2_D2COS2 + DEUX*D2F2_D2MUCOS2*DMU_DCOS2 + D2F2_D2MU*(DMU_DCOS2**2))
-     .                          + DEUX*(DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DCOS2)
+            D2PHI_D2(3,3) = (-ONE/DENOM)*(DF2_DMU*(D2F1_D2COS2 + TWO*D2F1_D2MUCOS2*DMU_DCOS2 + D2F1_D2MU*(DMU_DCOS2**2)) 
+     .                          - DF1_DMU*(D2F2_D2COS2 + TWO*D2F2_D2MUCOS2*DMU_DCOS2 + D2F2_D2MU*(DMU_DCOS2**2))
+     .                          + TWO*(DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DCOS2)
 c    
             ! Filling the T matrix
-            T(1,1) =  (UNDEMI/(F1-F2))*((SIN(DEUX*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2) +
-     .                DPHI_DCOS2*(-TROIS/(F1-F2)**2)*COS(DEUX*THET)*(SIN(DEUX*THET))**2
-            T(1,2) =  (UNDEMI/(F1-F2))*((SIN(DEUX*THET))**2)*(DPHI_DSIG2 - DPHI_DSIG1)  +
-     .                DPHI_DCOS2*(TROIS/(F1-F2)**2)*COS(DEUX*THET)*(SIN(DEUX*THET))**2
-            T(1,3) =  (UN/(F1-F2))*(SIN(DEUX*THET)*COS(DEUX*THET))*(DPHI_DSIG2 - DPHI_DSIG1) +
-     .                DPHI_DCOS2*(UN/(F1-F2)**2)*(QUATRE*SIN(DEUX*THET)*(COS(DEUX*THET))**2 - 
-     .                DEUX*(SIN(DEUX*THET)**3))
+            T(1,1) =  (HALF/(F1-F2))*((SIN(TWO*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2) +
+     .                DPHI_DCOS2*(-THREE/(F1-F2)**2)*COS(TWO*THET)*(SIN(TWO*THET))**2
+            T(1,2) =  (HALF/(F1-F2))*((SIN(TWO*THET))**2)*(DPHI_DSIG2 - DPHI_DSIG1)  +
+     .                DPHI_DCOS2*(THREE/(F1-F2)**2)*COS(TWO*THET)*(SIN(TWO*THET))**2
+            T(1,3) =  (ONE/(F1-F2))*(SIN(TWO*THET)*COS(TWO*THET))*(DPHI_DSIG2 - DPHI_DSIG1) +
+     .                DPHI_DCOS2*(ONE/(F1-F2)**2)*(FOUR*SIN(TWO*THET)*(COS(TWO*THET))**2 - 
+     .                TWO*(SIN(TWO*THET)**3))
             T(2,1) =  T(1,2)
-            T(2,2) =  (UNDEMI/(F1-F2))*((SIN(DEUX*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2) +
-     .                DPHI_DCOS2*(-TROIS/(F1-F2)**2)*COS(DEUX*THET)*(SIN(DEUX*THET))**2
-            T(2,3) =  (UN/(F1-F2))*(SIN(DEUX*THET)*COS(DEUX*THET))*(DPHI_DSIG1-DPHI_DSIG2) +
-     .                DPHI_DCOS2*(UN/(F1-F2)**2)*(-QUATRE*SIN(DEUX*THET)*(COS(DEUX*THET))**2 + 
-     .                DEUX*(SIN(DEUX*THET)**3))
+            T(2,2) =  (HALF/(F1-F2))*((SIN(TWO*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2) +
+     .                DPHI_DCOS2*(-THREE/(F1-F2)**2)*COS(TWO*THET)*(SIN(TWO*THET))**2
+            T(2,3) =  (ONE/(F1-F2))*(SIN(TWO*THET)*COS(TWO*THET))*(DPHI_DSIG1-DPHI_DSIG2) +
+     .                DPHI_DCOS2*(ONE/(F1-F2)**2)*(-FOUR*SIN(TWO*THET)*(COS(TWO*THET))**2 + 
+     .                TWO*(SIN(TWO*THET)**3))
             T(3,1) =  T(1,3)
             T(3,2) =  T(2,3)
-            T(3,3) =  (DEUX/(F1-F2))*((COS(DEUX*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2)+
-     .                DPHI_DCOS2*(UN/(F1-F2)**2)*(HUIT*(SIN(DEUX*THET)**2)*COS(DEUX*THET) - 
-     .                QUATRE*(COS(DEUX*THET)**3))
+            T(3,3) =  (TWO/(F1-F2))*((COS(TWO*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2)+
+     .                DPHI_DCOS2*(ONE/(F1-F2)**2)*(EIGHT*(SIN(TWO*THET)**2)*COS(TWO*THET) - 
+     .                FOUR*(COS(TWO*THET)**3))
      
             ! Filling the rotation D matrix
-            D(1,1) = UNDEMI*(UN+COS(DEUX*THET))
-            D(1,2) = UNDEMI*(UN-COS(DEUX*THET))
-            D(1,3) = SIN(DEUX*THET)
-            D(2,1) = UNDEMI*(UN-COS(DEUX*THET))
-            D(2,2) = UNDEMI*(UN+COS(DEUX*THET))
-            D(2,3) = -SIN(DEUX*THET)
-            D(3,1) = (SIN(DEUX*THET)**2)/(F1-F2)
-            D(3,2) = -(SIN(DEUX*THET)**2)/(F1-F2)
-            D(3,3) = -(DEUX*SIN(DEUX*THET)*COS(DEUX*THET))/(F1-F2)
+            D(1,1) = HALF*(ONE+COS(TWO*THET))
+            D(1,2) = HALF*(ONE-COS(TWO*THET))
+            D(1,3) = SIN(TWO*THET)
+            D(2,1) = HALF*(ONE-COS(TWO*THET))
+            D(2,2) = HALF*(ONE+COS(TWO*THET))
+            D(2,3) = -SIN(TWO*THET)
+            D(3,1) = (SIN(TWO*THET)**2)/(F1-F2)
+            D(3,2) = -(SIN(TWO*THET)**2)/(F1-F2)
+            D(3,3) = -(TWO*SIN(TWO*THET)*COS(TWO*THET))/(F1-F2)
             
             ! Assembling the Hessian Matrix Dt*DPHI_DSIG*D + T
             D2PHI_D2 = MATMUL(D2PHI_D2,D)
@@ -1275,10 +1278,10 @@ c
             ENDIF
 c
             ! Updating the MU parameter
-            MU = MU + UN/VINGT
+            MU = MU + ONE/TWENTY
           ENDDO
           ! Updating the theta angle
-          THET = THET + (PI/DEUX)/60.0D0
+          THET = THET + (PI/TWO)/60.0D0
         ENDDO
 c
         ! Convexity check and error message
@@ -1331,11 +1334,11 @@ c
           DO I = 1,NANGLE
             ! Computation of the reference points
             DO K = 1,I
-              B1 = B1 + Q_HISH(I,1)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              B2 = B2 + Q_HISH(I,2)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              C1 = C1 + Q_fUN(I,1)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              C2 = C2 + Q_fUN(I,2)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              WEIGHT = WEIGHT + Q_WSH(I)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
+              B1 = B1 + Q_HISH(I,1)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              B2 = B2 + Q_HISH(I,2)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              C1 = C1 + Q_fUN(I,1)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              C2 = C2 + Q_fUN(I,2)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              WEIGHT = WEIGHT + Q_WSH(I)*COS2(K,I)*(COS(TWO*THET))**(K-1)
             ENDDO
           ENDDO
           A1 = C2
@@ -1345,9 +1348,9 @@ c
             ! Computation of their first derivative with respect to COS2THET
             DO I = 2, NANGLE
               DO K = 2,I
-                DB_DCOS2(1:2) = DB_DCOS2(1:2) + Q_HISH(I,1:2)*(K-1)*COS2(K,I)*(COS(DEUX*THET))**(K-2)
-                DC_DCOS2(1:2) = DC_DCOS2(1:2) + Q_fUN(I,1:2)*(K-1)*COS2(K,I)*(COS(DEUX*THET))**(K-2)
-                DWEIGHT_DCOS2 = DWEIGHT_DCOS2 + Q_WSH(I)*(K-1)*COS2(K,I)*(COS(DEUX*THET))**(K-2)
+                DB_DCOS2(1:2) = DB_DCOS2(1:2) + Q_HISH(I,1:2)*(K-1)*COS2(K,I)*(COS(TWO*THET))**(K-2)
+                DC_DCOS2(1:2) = DC_DCOS2(1:2) + Q_fUN(I,1:2)*(K-1)*COS2(K,I)*(COS(TWO*THET))**(K-2)
+                DWEIGHT_DCOS2 = DWEIGHT_DCOS2 + Q_WSH(I)*(K-1)*COS2(K,I)*(COS(TWO*THET))**(K-2)
               ENDDO              
             ENDDO
             DA_DCOS2(1) =  DC_DCOS2(2)
@@ -1356,9 +1359,9 @@ c
             IF (NANGLE > 2) THEN
               DO I = 3, NANGLE
                 DO K = 3,I
-                  D2B_D2COS2(1:2) = D2B_D2COS2(1:2) + Q_HISH(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(DEUX*THET))**(K-3)
-                  D2C_D2COS2(1:2) = D2C_D2COS2(1:2) + Q_fUN(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(DEUX*THET))**(K-3)
-                  D2WEIGHT_D2COS2 = D2WEIGHT_D2COS2 + Q_WSH(I)*(K-1)*(K-2)*COS2(K,I)*(COS(DEUX*THET))**(K-3)
+                  D2B_D2COS2(1:2) = D2B_D2COS2(1:2) + Q_HISH(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(TWO*THET))**(K-3)
+                  D2C_D2COS2(1:2) = D2C_D2COS2(1:2) + Q_fUN(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(TWO*THET))**(K-3)
+                  D2WEIGHT_D2COS2 = D2WEIGHT_D2COS2 + Q_WSH(I)*(K-1)*(K-2)*COS2(K,I)*(COS(TWO*THET))**(K-3)
                 ENDDO              
               ENDDO 
               D2A_D2COS2(1) =  D2C_D2COS2(2)
@@ -1372,26 +1375,26 @@ c
           DO I = 1,21
 c
             ! Computation of F1 and F2
-            F1 = ((UN-MU)**2)*A1 + DEUX*MU*WEIGHT*(UN-MU)*B1 + (MU**2)*C1
-            F1 = F1/(((UN-MU)**2) + DEUX*MU*WEIGHT*(UN-MU) + (MU**2))
-            F2 = ((UN-MU)**2)*A2 + DEUX*MU*WEIGHT*(UN-MU)*B2 + (MU**2)*C2 
-            F2 = F2/(((UN-MU)**2) + DEUX*MU*WEIGHT*(UN-MU) + (MU**2))
+            F1 = ((ONE-MU)**2)*A1 + TWO*MU*WEIGHT*(ONE-MU)*B1 + (MU**2)*C1
+            F1 = F1/(((ONE-MU)**2) + TWO*MU*WEIGHT*(ONE-MU) + (MU**2))
+            F2 = ((ONE-MU)**2)*A2 + TWO*MU*WEIGHT*(ONE-MU)*B2 + (MU**2)*C2 
+            F2 = F2/(((ONE-MU)**2) + TWO*MU*WEIGHT*(ONE-MU) + (MU**2))
             ! Derivatives of Fi with respect to MU
-            U       = A1*((UN - MU)**2) + DEUX*B1*MU*WEIGHT*(UN-MU) + C1*(MU**2)  
-            UPRIM   = -DEUX*(UN-MU)*A1  + DEUX*WEIGHT*B1*(UN-DEUX*MU)  + DEUX*MU*C1
-            UPPRIM  = DEUX*A1 - QUATRE*WEIGHT*B1 + DEUX*C1
-            V       = (UN-MU)**2 + DEUX*WEIGHT*MU*(UN-MU) + MU**2
-            VPRIM   = -DEUX*(UN-MU) + DEUX*WEIGHT*(UN-DEUX*MU) + DEUX*MU
-            VPPRIM  = DEUX - QUATRE*WEIGHT + DEUX
+            U       = A1*((ONE - MU)**2) + TWO*B1*MU*WEIGHT*(ONE-MU) + C1*(MU**2)  
+            UPRIM   = -TWO*(ONE-MU)*A1  + TWO*WEIGHT*B1*(ONE-TWO*MU)  + TWO*MU*C1
+            UPPRIM  = TWO*A1 - FOUR*WEIGHT*B1 + TWO*C1
+            V       = (ONE-MU)**2 + TWO*WEIGHT*MU*(ONE-MU) + MU**2
+            VPRIM   = -TWO*(ONE-MU) + TWO*WEIGHT*(ONE-TWO*MU) + TWO*MU
+            VPPRIM  = TWO - FOUR*WEIGHT + TWO
             DF1_DMU = (UPRIM*V - U*VPRIM)/MAX((V**2),EM20)
             D2F1_D2MU = ((UPPRIM*V - U*VPPRIM)*(V**2) - 
-     .                   (UPRIM*V - U*VPRIM)*(DEUX*V*VPRIM))/MAX((V**4),EM20)
-            U       = A2*((UN - MU)**2) + DEUX*B2*MU*WEIGHT*(UN-MU) + C2*(MU**2)  
-            UPRIM   = -DEUX*(UN-MU)*A2  + DEUX*WEIGHT*B2*(UN-DEUX*MU) + DEUX*MU*C2
-            UPPRIM  = DEUX*A2 - QUATRE*WEIGHT*B2 + DEUX*C2
+     .                   (UPRIM*V - U*VPRIM)*(TWO*V*VPRIM))/MAX((V**4),EM20)
+            U       = A2*((ONE - MU)**2) + TWO*B2*MU*WEIGHT*(ONE-MU) + C2*(MU**2)  
+            UPRIM   = -TWO*(ONE-MU)*A2  + TWO*WEIGHT*B2*(ONE-TWO*MU) + TWO*MU*C2
+            UPPRIM  = TWO*A2 - FOUR*WEIGHT*B2 + TWO*C2
             DF2_DMU = (UPRIM*V - U*VPRIM)/MAX((V**2),EM20)   
             D2F2_D2MU = ((UPPRIM*V - U*VPPRIM)*(V**2) - 
-     .                   (UPRIM*V - U*VPRIM)*(DEUX*V*VPRIM))/MAX((V**4),EM20)
+     .                   (UPRIM*V - U*VPRIM)*(TWO*V*VPRIM))/MAX((V**4),EM20)
             ! Denominator and its derivative with respect to MU
             DENOM = F1*DF2_DMU - F2*DF1_DMU
             DENOM = SIGN(MAX(ABS(DENOM),EM20),DENOM)
@@ -1403,40 +1406,40 @@ c
             DMU_DSIG2  = F1/DENOM
 c
             ! Derivatives of Fi with respect to COS2
-            U          = A1*((UN - MU)**2) + DEUX*B1*MU*WEIGHT*(UN-MU) + C1*(MU**2)  
-            UPRIM      = DA_DCOS2(1)*((UN - MU)**2) + DEUX*MU*(UN-MU)*(DWEIGHT_DCOS2*B1+
+            U          = A1*((ONE - MU)**2) + TWO*B1*MU*WEIGHT*(ONE-MU) + C1*(MU**2)  
+            UPRIM      = DA_DCOS2(1)*((ONE - MU)**2) + TWO*MU*(ONE-MU)*(DWEIGHT_DCOS2*B1+
      .                       WEIGHT*DB_DCOS2(1)) + DC_DCOS2(1)*(MU**2)
-            UPPRIM     = D2A_D2COS2(1)*((UN - MU)**2) + DEUX*MU*(UN-MU)*(D2WEIGHT_D2COS2*B1+
-     .                       DEUX*DWEIGHT_DCOS2*DB_DCOS2(1) + WEIGHT*D2B_D2COS2(1)) + 
+            UPPRIM     = D2A_D2COS2(1)*((ONE - MU)**2) + TWO*MU*(ONE-MU)*(D2WEIGHT_D2COS2*B1+
+     .                       TWO*DWEIGHT_DCOS2*DB_DCOS2(1) + WEIGHT*D2B_D2COS2(1)) + 
      .                       D2C_D2COS2(1)*(MU**2)
-            DU_DMU     = -DEUX*(UN-MU)*A1  + DEUX*WEIGHT*B1*(UN-DEUX*MU)  + DEUX*MU*C1
-            DUPRIM_DMU = -DEUX*(UN-MU)*DA_DCOS2(1) + DEUX*(UN-DEUX*MU)*(DWEIGHT_DCOS2*B1+
-     .                       WEIGHT*DB_DCOS2(1)) + DEUX*MU*DC_DCOS2(1)
-            V          = (UN-MU)**2 + DEUX*WEIGHT*MU*(UN-MU) + MU**2
-            DV_DMU     = -DEUX*(UN-MU) + DEUX*WEIGHT*(UN-DEUX*MU) + DEUX*MU
-            VPRIM      = DEUX*MU*(UN-MU)*DWEIGHT_DCOS2
-            DVPRIM_DMU = DEUX*(UN-DEUX*MU)*DWEIGHT_DCOS2
-            VPPRIM     = DEUX*MU*(UN-MU)*D2WEIGHT_D2COS2
+            DU_DMU     = -TWO*(ONE-MU)*A1  + TWO*WEIGHT*B1*(ONE-TWO*MU)  + TWO*MU*C1
+            DUPRIM_DMU = -TWO*(ONE-MU)*DA_DCOS2(1) + TWO*(ONE-TWO*MU)*(DWEIGHT_DCOS2*B1+
+     .                       WEIGHT*DB_DCOS2(1)) + TWO*MU*DC_DCOS2(1)
+            V          = (ONE-MU)**2 + TWO*WEIGHT*MU*(ONE-MU) + MU**2
+            DV_DMU     = -TWO*(ONE-MU) + TWO*WEIGHT*(ONE-TWO*MU) + TWO*MU
+            VPRIM      = TWO*MU*(ONE-MU)*DWEIGHT_DCOS2
+            DVPRIM_DMU = TWO*(ONE-TWO*MU)*DWEIGHT_DCOS2
+            VPPRIM     = TWO*MU*(ONE-MU)*D2WEIGHT_D2COS2
             DF1_DCOS2  = (UPRIM*V - U*VPRIM)/MAX((V**2),EM20)
             D2F1_D2COS2 = ((UPPRIM*V - U*VPPRIM)*(V**2) - 
-     .                   (UPRIM*V - U*VPRIM)*(DEUX*V*VPRIM))/MAX((V**4),EM20)
+     .                   (UPRIM*V - U*VPRIM)*(TWO*V*VPRIM))/MAX((V**4),EM20)
             D2F1_D2MUCOS2 = ((DUPRIM_DMU*V + UPRIM*DV_DMU - DU_DMU*VPRIM - U*DVPRIM_DMU)*(V**2) - 
-     .                       (UPRIM*V - U*VPRIM)*(DEUX*V*DV_DMU))/MAX((V**4),EM20)
+     .                       (UPRIM*V - U*VPRIM)*(TWO*V*DV_DMU))/MAX((V**4),EM20)
 c            
-            U          = A2*((UN - MU)**2) + DEUX*B2*MU*WEIGHT*(UN-MU) + C2*(MU**2)  
-            UPRIM      = DA_DCOS2(2)*((UN - MU)**2) + DEUX*MU*(UN-MU)*(DWEIGHT_DCOS2*B2+
+            U          = A2*((ONE - MU)**2) + TWO*B2*MU*WEIGHT*(ONE-MU) + C2*(MU**2)  
+            UPRIM      = DA_DCOS2(2)*((ONE - MU)**2) + TWO*MU*(ONE-MU)*(DWEIGHT_DCOS2*B2+
      .                       WEIGHT*DB_DCOS2(2)) + DC_DCOS2(2)*(MU**2)
-            UPPRIM     = D2A_D2COS2(2)*((UN - MU)**2) + DEUX*MU*(UN-MU)*(D2WEIGHT_D2COS2*B2+
-     .                       DEUX*DWEIGHT_DCOS2*DB_DCOS2(2) + WEIGHT*D2B_D2COS2(2)) + 
+            UPPRIM     = D2A_D2COS2(2)*((ONE - MU)**2) + TWO*MU*(ONE-MU)*(D2WEIGHT_D2COS2*B2+
+     .                       TWO*DWEIGHT_DCOS2*DB_DCOS2(2) + WEIGHT*D2B_D2COS2(2)) + 
      .                       D2C_D2COS2(2)*(MU**2)
-            DU_DMU     = -DEUX*(UN-MU)*A2  + DEUX*WEIGHT*B2*(UN-DEUX*MU)  + DEUX*MU*C2
-            DUPRIM_DMU = -DEUX*(UN-MU)*DA_DCOS2(2) + DEUX*(UN-DEUX*MU)*(DWEIGHT_DCOS2*B2+
-     .                       WEIGHT*DB_DCOS2(2)) + DEUX*MU*DC_DCOS2(2)
+            DU_DMU     = -TWO*(ONE-MU)*A2  + TWO*WEIGHT*B2*(ONE-TWO*MU)  + TWO*MU*C2
+            DUPRIM_DMU = -TWO*(ONE-MU)*DA_DCOS2(2) + TWO*(ONE-TWO*MU)*(DWEIGHT_DCOS2*B2+
+     .                       WEIGHT*DB_DCOS2(2)) + TWO*MU*DC_DCOS2(2)
             DF2_DCOS2  = (UPRIM*V - U*VPRIM)/MAX((V**2),EM20)
             D2F2_D2COS2 = ((UPPRIM*V - U*VPPRIM)*(V**2) - 
-     .                    (UPRIM*V - U*VPRIM)*(DEUX*V*VPRIM))/MAX((V**4),EM20)
+     .                    (UPRIM*V - U*VPRIM)*(TWO*V*VPRIM))/MAX((V**4),EM20)
             D2F2_D2MUCOS2 = ((DUPRIM_DMU*V + UPRIM*DV_DMU - DU_DMU*VPRIM - U*DVPRIM_DMU)*(V**2) - 
-     .                       (UPRIM*V - U*VPRIM)*(DEUX*V*DV_DMU))/MAX((V**4),EM20)
+     .                       (UPRIM*V - U*VPRIM)*(TWO*V*DV_DMU))/MAX((V**4),EM20)
 c            
             DPHI_DCOS2 = (DF2_DCOS2*DF1_DMU - DF1_DCOS2*DF2_DMU)/DENOM
             DMU_DCOS2  = (F2*DF1_DCOS2 - F1*DF2_DCOS2)/DENOM
@@ -1445,68 +1448,68 @@ c
             !-------------------------------------------------------------------------
             !   FIRST LINE OF THE MATRIX
             !   D2PHI_D2SIG1
-            D2PHI_D2(1,1) = (-UN/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG1*DMU_DSIG1
+            D2PHI_D2(1,1) = (-ONE/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG1*DMU_DSIG1
             !   D2PHI_DSIG1SIG2
-            D2PHI_D2(1,2) = (-UN/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG1*DMU_DSIG2
+            D2PHI_D2(1,2) = (-ONE/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG1*DMU_DSIG2
             !   D2PHI_DSIG1COS2
-            D2PHI_D2(1,3) = (-UN/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
+            D2PHI_D2(1,3) = (-ONE/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
      .                            DF1_DMU*(D2F2_D2MUCOS2+D2F2_D2MU*DMU_DCOS2))*DMU_DSIG1
      .                         + (DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DSIG1)
 c
             !   SECOND LINE OF THE MATRIX
             !   D2PHI_DSIG2SIG1
-            D2PHI_D2(2,1) = (-UN/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG2*DMU_DSIG1
+            D2PHI_D2(2,1) = (-ONE/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG2*DMU_DSIG1
             !   D2PHI_D2SIG2
-            D2PHI_D2(2,2) = (-UN/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG2*DMU_DSIG2
+            D2PHI_D2(2,2) = (-ONE/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG2*DMU_DSIG2
             !   D2PHI_DSIG2COS2   
-            D2PHI_D2(2,3) = (-UN/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
+            D2PHI_D2(2,3) = (-ONE/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
      .                            DF1_DMU*(D2F2_D2MUCOS2+D2F2_D2MU*DMU_DCOS2))*DMU_DSIG2
      .                         + (DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DSIG2)
 c
             !   THIRD LINE OF THE MATRIX
             !   D2PHI_D2COS2SIG1
-            D2PHI_D2(3,1) = (-UN/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
+            D2PHI_D2(3,1) = (-ONE/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
      .                            DF1_DMU*(D2F2_D2MUCOS2+D2F2_D2MU*DMU_DCOS2))*DMU_DSIG1
      .                         + (DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DSIG1)
             !   D2PHI_D2COS2SIG2
-            D2PHI_D2(3,2) = (-UN/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
+            D2PHI_D2(3,2) = (-ONE/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
      .                            DF1_DMU*(D2F2_D2MUCOS2+D2F2_D2MU*DMU_DCOS2))*DMU_DSIG2
      .                         + (DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DSIG2)          
             !   D2PHI_D2COS2
-            D2PHI_D2(3,3) = (-UN/DENOM)*(DF2_DMU*(D2F1_D2COS2 + DEUX*D2F1_D2MUCOS2*DMU_DCOS2 + D2F1_D2MU*(DMU_DCOS2**2)) 
-     .                          - DF1_DMU*(D2F2_D2COS2 + DEUX*D2F2_D2MUCOS2*DMU_DCOS2 + D2F2_D2MU*(DMU_DCOS2**2))
-     .                          + DEUX*(DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DCOS2)
+            D2PHI_D2(3,3) = (-ONE/DENOM)*(DF2_DMU*(D2F1_D2COS2 + TWO*D2F1_D2MUCOS2*DMU_DCOS2 + D2F1_D2MU*(DMU_DCOS2**2)) 
+     .                          - DF1_DMU*(D2F2_D2COS2 + TWO*D2F2_D2MUCOS2*DMU_DCOS2 + D2F2_D2MU*(DMU_DCOS2**2))
+     .                          + TWO*(DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DCOS2)
 c    
             ! Filling the T matrix
-            T(1,1) =  (UNDEMI/(F1-F2))*((SIN(DEUX*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2) +
-     .                DPHI_DCOS2*(-TROIS/(F1-F2)**2)*COS(DEUX*THET)*(SIN(DEUX*THET))**2
-            T(1,2) =  (UNDEMI/(F1-F2))*((SIN(DEUX*THET))**2)*(DPHI_DSIG2 - DPHI_DSIG1)  +
-     .                DPHI_DCOS2*(TROIS/(F1-F2)**2)*COS(DEUX*THET)*(SIN(DEUX*THET))**2
-            T(1,3) =  (UN/(F1-F2))*(SIN(DEUX*THET)*COS(DEUX*THET))*(DPHI_DSIG2 - DPHI_DSIG1) +
-     .                DPHI_DCOS2*(UN/(F1-F2)**2)*(QUATRE*SIN(DEUX*THET)*(COS(DEUX*THET))**2 - 
-     .                DEUX*(SIN(DEUX*THET)**3))
+            T(1,1) =  (HALF/(F1-F2))*((SIN(TWO*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2) +
+     .                DPHI_DCOS2*(-THREE/(F1-F2)**2)*COS(TWO*THET)*(SIN(TWO*THET))**2
+            T(1,2) =  (HALF/(F1-F2))*((SIN(TWO*THET))**2)*(DPHI_DSIG2 - DPHI_DSIG1)  +
+     .                DPHI_DCOS2*(THREE/(F1-F2)**2)*COS(TWO*THET)*(SIN(TWO*THET))**2
+            T(1,3) =  (ONE/(F1-F2))*(SIN(TWO*THET)*COS(TWO*THET))*(DPHI_DSIG2 - DPHI_DSIG1) +
+     .                DPHI_DCOS2*(ONE/(F1-F2)**2)*(FOUR*SIN(TWO*THET)*(COS(TWO*THET))**2 - 
+     .                TWO*(SIN(TWO*THET)**3))
             T(2,1) =  T(1,2)
-            T(2,2) =  (UNDEMI/(F1-F2))*((SIN(DEUX*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2) +
-     .                DPHI_DCOS2*(-TROIS/(F1-F2)**2)*COS(DEUX*THET)*(SIN(DEUX*THET))**2
-            T(2,3) =  (UN/(F1-F2))*(SIN(DEUX*THET)*COS(DEUX*THET))*(DPHI_DSIG1-DPHI_DSIG2) +
-     .                DPHI_DCOS2*(UN/(F1-F2)**2)*(-QUATRE*SIN(DEUX*THET)*(COS(DEUX*THET))**2 + 
-     .                DEUX*(SIN(DEUX*THET)**3))
+            T(2,2) =  (HALF/(F1-F2))*((SIN(TWO*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2) +
+     .                DPHI_DCOS2*(-THREE/(F1-F2)**2)*COS(TWO*THET)*(SIN(TWO*THET))**2
+            T(2,3) =  (ONE/(F1-F2))*(SIN(TWO*THET)*COS(TWO*THET))*(DPHI_DSIG1-DPHI_DSIG2) +
+     .                DPHI_DCOS2*(ONE/(F1-F2)**2)*(-FOUR*SIN(TWO*THET)*(COS(TWO*THET))**2 + 
+     .                TWO*(SIN(TWO*THET)**3))
             T(3,1) =  T(1,3)
             T(3,2) =  T(2,3)
-            T(3,3) =  (DEUX/(F1-F2))*((COS(DEUX*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2)+
-     .                DPHI_DCOS2*(UN/(F1-F2)**2)*(HUIT*(SIN(DEUX*THET)**2)*COS(DEUX*THET) - 
-     .                QUATRE*(COS(DEUX*THET)**3))
+            T(3,3) =  (TWO/(F1-F2))*((COS(TWO*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2)+
+     .                DPHI_DCOS2*(ONE/(F1-F2)**2)*(EIGHT*(SIN(TWO*THET)**2)*COS(TWO*THET) - 
+     .                FOUR*(COS(TWO*THET)**3))
      
             ! Filling the rotation D matrix
-            D(1,1) = UNDEMI*(UN+COS(DEUX*THET))
-            D(1,2) = UNDEMI*(UN-COS(DEUX*THET))
-            D(1,3) = SIN(DEUX*THET)
-            D(2,1) = UNDEMI*(UN-COS(DEUX*THET))
-            D(2,2) = UNDEMI*(UN+COS(DEUX*THET))
-            D(2,3) = -SIN(DEUX*THET)
-            D(3,1) = (SIN(DEUX*THET)**2)/(F1-F2)
-            D(3,2) = -(SIN(DEUX*THET)**2)/(F1-F2)
-            D(3,3) = -(DEUX*SIN(DEUX*THET)*COS(DEUX*THET))/(F1-F2)
+            D(1,1) = HALF*(ONE+COS(TWO*THET))
+            D(1,2) = HALF*(ONE-COS(TWO*THET))
+            D(1,3) = SIN(TWO*THET)
+            D(2,1) = HALF*(ONE-COS(TWO*THET))
+            D(2,2) = HALF*(ONE+COS(TWO*THET))
+            D(2,3) = -SIN(TWO*THET)
+            D(3,1) = (SIN(TWO*THET)**2)/(F1-F2)
+            D(3,2) = -(SIN(TWO*THET)**2)/(F1-F2)
+            D(3,3) = -(TWO*SIN(TWO*THET)*COS(TWO*THET))/(F1-F2)
             
             ! Assembling the Hessian Matrix Dt*DPHI_DSIG*D + T
             D2PHI_D2 = MATMUL(D2PHI_D2,D)
@@ -1533,10 +1536,10 @@ c
               MINEIGTHET = THET*(180.0D0/PI)
             ENDIF
             ! Updating the MU parameter
-            MU = MU + UN/VINGT
+            MU = MU + ONE/TWENTY
           ENDDO
           ! Updating the theta angle
-          THET = THET + (PI/DEUX)/60.0D0
+          THET = THET + (PI/TWO)/60.0D0
         ENDDO
 c        
         ! Convexity check and error message
@@ -1586,11 +1589,11 @@ c
           DO I = 1,NANGLE
             ! Computation of the reference points
             DO K = 1,I
-              A1 = A1 + Q_fUN(I,1)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              A2 = A2 + Q_fUN(I,2)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              B1 = B1 + Q_HIPS(I,1)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              B2 = B2 + Q_HIPS(I,2)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
-              WEIGHT = WEIGHT + Q_WPS(I)*COS2(K,I)*(COS(DEUX*THET))**(K-1)
+              A1 = A1 + Q_fUN(I,1)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              A2 = A2 + Q_fUN(I,2)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              B1 = B1 + Q_HIPS(I,1)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              B2 = B2 + Q_HIPS(I,2)*COS2(K,I)*(COS(TWO*THET))**(K-1)
+              WEIGHT = WEIGHT + Q_WPS(I)*COS2(K,I)*(COS(TWO*THET))**(K-1)
             ENDDO
           ENDDO
           C1 = fBI
@@ -1600,18 +1603,18 @@ c
             ! Computation of their first derivative with respect to COS2THET
             DO I = 2, NANGLE
               DO K = 2,I
-                DA_DCOS2(1:2) = DA_DCOS2(1:2) + Q_fUN(I,1:2)*(K-1)*COS2(K,I)*(COS(DEUX*THET))**(K-2)
-                DB_DCOS2(1:2) = DB_DCOS2(1:2) + Q_HIPS(I,1:2)*(K-1)*COS2(K,I)*(COS(DEUX*THET))**(K-2)
-                DWEIGHT_DCOS2 = DWEIGHT_DCOS2 + Q_WPS(I)*(K-1)*COS2(K,I)*(COS(DEUX*THET))**(K-2)
+                DA_DCOS2(1:2) = DA_DCOS2(1:2) + Q_fUN(I,1:2)*(K-1)*COS2(K,I)*(COS(TWO*THET))**(K-2)
+                DB_DCOS2(1:2) = DB_DCOS2(1:2) + Q_HIPS(I,1:2)*(K-1)*COS2(K,I)*(COS(TWO*THET))**(K-2)
+                DWEIGHT_DCOS2 = DWEIGHT_DCOS2 + Q_WPS(I)*(K-1)*COS2(K,I)*(COS(TWO*THET))**(K-2)
               ENDDO              
             ENDDO
             ! Computation of their second derivative with respect to COS2THET
             IF (NANGLE > 2) THEN
               DO I = 3, NANGLE
                 DO K = 3,I
-                  D2A_D2COS2(1:2) = D2A_D2COS2(1:2) + Q_fUN(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(DEUX*THET))**(K-3)
-                  D2B_D2COS2(1:2) = D2B_D2COS2(1:2) + Q_HIPS(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(DEUX*THET))**(K-3)
-                  D2WEIGHT_D2COS2 = D2WEIGHT_D2COS2 + Q_WPS(I)*(K-1)*(K-2)*COS2(K,I)*(COS(DEUX*THET))**(K-3)
+                  D2A_D2COS2(1:2) = D2A_D2COS2(1:2) + Q_fUN(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(TWO*THET))**(K-3)
+                  D2B_D2COS2(1:2) = D2B_D2COS2(1:2) + Q_HIPS(I,1:2)*(K-1)*(K-2)*COS2(K,I)*(COS(TWO*THET))**(K-3)
+                  D2WEIGHT_D2COS2 = D2WEIGHT_D2COS2 + Q_WPS(I)*(K-1)*(K-2)*COS2(K,I)*(COS(TWO*THET))**(K-3)
                 ENDDO              
               ENDDO
             ENDIF
@@ -1623,26 +1626,26 @@ c
           DO I = 1,20
 c
             ! Computation of F1 and F2
-            F1 = ((UN-MU)**2)*A1 + DEUX*MU*WEIGHT*(UN-MU)*B1 + (MU**2)*C1
-            F1 = F1/(((UN-MU)**2) + DEUX*MU*WEIGHT*(UN-MU) + (MU**2))
-            F2 = ((UN-MU)**2)*A2 + DEUX*MU*WEIGHT*(UN-MU)*B2 + (MU**2)*C2 
-            F2 = F2/(((UN-MU)**2) + DEUX*MU*WEIGHT*(UN-MU) + (MU**2))
+            F1 = ((ONE-MU)**2)*A1 + TWO*MU*WEIGHT*(ONE-MU)*B1 + (MU**2)*C1
+            F1 = F1/(((ONE-MU)**2) + TWO*MU*WEIGHT*(ONE-MU) + (MU**2))
+            F2 = ((ONE-MU)**2)*A2 + TWO*MU*WEIGHT*(ONE-MU)*B2 + (MU**2)*C2 
+            F2 = F2/(((ONE-MU)**2) + TWO*MU*WEIGHT*(ONE-MU) + (MU**2))
             ! Derivatives of Fi with respect to MU
-            U       = A1*((UN - MU)**2) + DEUX*B1*MU*WEIGHT*(UN-MU) + C1*(MU**2)  
-            UPRIM   = -DEUX*(UN-MU)*A1  + DEUX*WEIGHT*B1*(UN-DEUX*MU)  + DEUX*MU*C1
-            UPPRIM  = DEUX*A1 - QUATRE*WEIGHT*B1 + DEUX*C1
-            V       = (UN-MU)**2 + DEUX*WEIGHT*MU*(UN-MU) + MU**2
-            VPRIM   = -DEUX*(UN-MU) + DEUX*WEIGHT*(UN-DEUX*MU) + DEUX*MU
-            VPPRIM  = DEUX - QUATRE*WEIGHT + DEUX
+            U       = A1*((ONE - MU)**2) + TWO*B1*MU*WEIGHT*(ONE-MU) + C1*(MU**2)  
+            UPRIM   = -TWO*(ONE-MU)*A1  + TWO*WEIGHT*B1*(ONE-TWO*MU)  + TWO*MU*C1
+            UPPRIM  = TWO*A1 - FOUR*WEIGHT*B1 + TWO*C1
+            V       = (ONE-MU)**2 + TWO*WEIGHT*MU*(ONE-MU) + MU**2
+            VPRIM   = -TWO*(ONE-MU) + TWO*WEIGHT*(ONE-TWO*MU) + TWO*MU
+            VPPRIM  = TWO - FOUR*WEIGHT + TWO
             DF1_DMU = (UPRIM*V - U*VPRIM)/MAX((V**2),EM20)
             D2F1_D2MU = ((UPPRIM*V - U*VPPRIM)*(V**2) - 
-     .                   (UPRIM*V - U*VPRIM)*(DEUX*V*VPRIM))/MAX((V**4),EM20)
-            U       = A2*((UN - MU)**2) + DEUX*B2*MU*WEIGHT*(UN-MU) + C2*(MU**2)  
-            UPRIM   = -DEUX*(UN-MU)*A2  + DEUX*WEIGHT*B2*(UN-DEUX*MU) + DEUX*MU*C2
-            UPPRIM  = DEUX*A2 - QUATRE*WEIGHT*B2 + DEUX*C2
+     .                   (UPRIM*V - U*VPRIM)*(TWO*V*VPRIM))/MAX((V**4),EM20)
+            U       = A2*((ONE - MU)**2) + TWO*B2*MU*WEIGHT*(ONE-MU) + C2*(MU**2)  
+            UPRIM   = -TWO*(ONE-MU)*A2  + TWO*WEIGHT*B2*(ONE-TWO*MU) + TWO*MU*C2
+            UPPRIM  = TWO*A2 - FOUR*WEIGHT*B2 + TWO*C2
             DF2_DMU = (UPRIM*V - U*VPRIM)/MAX((V**2),EM20)   
             D2F2_D2MU = ((UPPRIM*V - U*VPPRIM)*(V**2) - 
-     .                   (UPRIM*V - U*VPRIM)*(DEUX*V*VPRIM))/MAX((V**4),EM20)
+     .                   (UPRIM*V - U*VPRIM)*(TWO*V*VPRIM))/MAX((V**4),EM20)
             ! Denominator and its derivative with respect to MU
             DENOM = F1*DF2_DMU - F2*DF1_DMU
             DENOM = SIGN(MAX(ABS(DENOM),EM20),DENOM)
@@ -1654,40 +1657,40 @@ c
             DMU_DSIG2  = F1/DENOM
 c
             ! Derivatives of Fi with respect to COS2
-            U          = A1*((UN - MU)**2) + DEUX*B1*MU*WEIGHT*(UN-MU) + C1*(MU**2)  
-            UPRIM      = DA_DCOS2(1)*((UN - MU)**2) + DEUX*MU*(UN-MU)*(DWEIGHT_DCOS2*B1+
+            U          = A1*((ONE - MU)**2) + TWO*B1*MU*WEIGHT*(ONE-MU) + C1*(MU**2)  
+            UPRIM      = DA_DCOS2(1)*((ONE - MU)**2) + TWO*MU*(ONE-MU)*(DWEIGHT_DCOS2*B1+
      .                       WEIGHT*DB_DCOS2(1)) + DC_DCOS2(1)*(MU**2)
-            UPPRIM     = D2A_D2COS2(1)*((UN - MU)**2) + DEUX*MU*(UN-MU)*(D2WEIGHT_D2COS2*B1+
-     .                       DEUX*DWEIGHT_DCOS2*DB_DCOS2(1) + WEIGHT*D2B_D2COS2(1)) + 
+            UPPRIM     = D2A_D2COS2(1)*((ONE - MU)**2) + TWO*MU*(ONE-MU)*(D2WEIGHT_D2COS2*B1+
+     .                       TWO*DWEIGHT_DCOS2*DB_DCOS2(1) + WEIGHT*D2B_D2COS2(1)) + 
      .                       D2C_D2COS2(1)*(MU**2)
-            DU_DMU     = -DEUX*(UN-MU)*A1  + DEUX*WEIGHT*B1*(UN-DEUX*MU)  + DEUX*MU*C1
-            DUPRIM_DMU = -DEUX*(UN-MU)*DA_DCOS2(1) + DEUX*(UN-DEUX*MU)*(DWEIGHT_DCOS2*B1+
-     .                       WEIGHT*DB_DCOS2(1)) + DEUX*MU*DC_DCOS2(1)
-            V          = (UN-MU)**2 + DEUX*WEIGHT*MU*(UN-MU) + MU**2
-            DV_DMU     = -DEUX*(UN-MU) + DEUX*WEIGHT*(UN-DEUX*MU) + DEUX*MU
-            VPRIM      = DEUX*MU*(UN-MU)*DWEIGHT_DCOS2
-            DVPRIM_DMU = DEUX*(UN-DEUX*MU)*DWEIGHT_DCOS2
-            VPPRIM     = DEUX*MU*(UN-MU)*D2WEIGHT_D2COS2
+            DU_DMU     = -TWO*(ONE-MU)*A1  + TWO*WEIGHT*B1*(ONE-TWO*MU)  + TWO*MU*C1
+            DUPRIM_DMU = -TWO*(ONE-MU)*DA_DCOS2(1) + TWO*(ONE-TWO*MU)*(DWEIGHT_DCOS2*B1+
+     .                       WEIGHT*DB_DCOS2(1)) + TWO*MU*DC_DCOS2(1)
+            V          = (ONE-MU)**2 + TWO*WEIGHT*MU*(ONE-MU) + MU**2
+            DV_DMU     = -TWO*(ONE-MU) + TWO*WEIGHT*(ONE-TWO*MU) + TWO*MU
+            VPRIM      = TWO*MU*(ONE-MU)*DWEIGHT_DCOS2
+            DVPRIM_DMU = TWO*(ONE-TWO*MU)*DWEIGHT_DCOS2
+            VPPRIM     = TWO*MU*(ONE-MU)*D2WEIGHT_D2COS2
             DF1_DCOS2  = (UPRIM*V - U*VPRIM)/MAX((V**2),EM20)
             D2F1_D2COS2 = ((UPPRIM*V - U*VPPRIM)*(V**2) - 
-     .                   (UPRIM*V - U*VPRIM)*(DEUX*V*VPRIM))/MAX((V**4),EM20)
+     .                   (UPRIM*V - U*VPRIM)*(TWO*V*VPRIM))/MAX((V**4),EM20)
             D2F1_D2MUCOS2 = ((DUPRIM_DMU*V + UPRIM*DV_DMU - DU_DMU*VPRIM - U*DVPRIM_DMU)*(V**2) - 
-     .                       (UPRIM*V - U*VPRIM)*(DEUX*V*DV_DMU))/MAX((V**4),EM20)
+     .                       (UPRIM*V - U*VPRIM)*(TWO*V*DV_DMU))/MAX((V**4),EM20)
 c            
-            U          = A2*((UN - MU)**2) + DEUX*B2*MU*WEIGHT*(UN-MU) + C2*(MU**2)  
-            UPRIM      = DA_DCOS2(2)*((UN - MU)**2) + DEUX*MU*(UN-MU)*(DWEIGHT_DCOS2*B2+
+            U          = A2*((ONE - MU)**2) + TWO*B2*MU*WEIGHT*(ONE-MU) + C2*(MU**2)  
+            UPRIM      = DA_DCOS2(2)*((ONE - MU)**2) + TWO*MU*(ONE-MU)*(DWEIGHT_DCOS2*B2+
      .                       WEIGHT*DB_DCOS2(2)) + DC_DCOS2(2)*(MU**2)
-            UPPRIM     = D2A_D2COS2(2)*((UN - MU)**2) + DEUX*MU*(UN-MU)*(D2WEIGHT_D2COS2*B2+
-     .                       DEUX*DWEIGHT_DCOS2*DB_DCOS2(2) + WEIGHT*D2B_D2COS2(2)) + 
+            UPPRIM     = D2A_D2COS2(2)*((ONE - MU)**2) + TWO*MU*(ONE-MU)*(D2WEIGHT_D2COS2*B2+
+     .                       TWO*DWEIGHT_DCOS2*DB_DCOS2(2) + WEIGHT*D2B_D2COS2(2)) + 
      .                       D2C_D2COS2(2)*(MU**2)
-            DU_DMU     = -DEUX*(UN-MU)*A2  + DEUX*WEIGHT*B2*(UN-DEUX*MU)  + DEUX*MU*C2
-            DUPRIM_DMU = -DEUX*(UN-MU)*DA_DCOS2(2) + DEUX*(UN-DEUX*MU)*(DWEIGHT_DCOS2*B2+
-     .                       WEIGHT*DB_DCOS2(2)) + DEUX*MU*DC_DCOS2(2)
+            DU_DMU     = -TWO*(ONE-MU)*A2  + TWO*WEIGHT*B2*(ONE-TWO*MU)  + TWO*MU*C2
+            DUPRIM_DMU = -TWO*(ONE-MU)*DA_DCOS2(2) + TWO*(ONE-TWO*MU)*(DWEIGHT_DCOS2*B2+
+     .                       WEIGHT*DB_DCOS2(2)) + TWO*MU*DC_DCOS2(2)
             DF2_DCOS2  = (UPRIM*V - U*VPRIM)/MAX((V**2),EM20)
             D2F2_D2COS2 = ((UPPRIM*V - U*VPPRIM)*(V**2) - 
-     .                    (UPRIM*V - U*VPRIM)*(DEUX*V*VPRIM))/MAX((V**4),EM20)
+     .                    (UPRIM*V - U*VPRIM)*(TWO*V*VPRIM))/MAX((V**4),EM20)
             D2F2_D2MUCOS2 = ((DUPRIM_DMU*V + UPRIM*DV_DMU - DU_DMU*VPRIM - U*DVPRIM_DMU)*(V**2) - 
-     .                       (UPRIM*V - U*VPRIM)*(DEUX*V*DV_DMU))/MAX((V**4),EM20)
+     .                       (UPRIM*V - U*VPRIM)*(TWO*V*DV_DMU))/MAX((V**4),EM20)
 c            
             DPHI_DCOS2 = (DF2_DCOS2*DF1_DMU - DF1_DCOS2*DF2_DMU)/DENOM
             DMU_DCOS2  = (F2*DF1_DCOS2 - F1*DF2_DCOS2)/DENOM
@@ -1696,68 +1699,68 @@ c
             !-------------------------------------------------------------------------
             !   FIRST LINE OF THE MATRIX
             !   D2PHI_D2SIG1
-            D2PHI_D2(1,1) = (-UN/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG1*DMU_DSIG1
+            D2PHI_D2(1,1) = (-ONE/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG1*DMU_DSIG1
             !   D2PHI_DSIG1SIG2
-            D2PHI_D2(1,2) = (-UN/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG1*DMU_DSIG2
+            D2PHI_D2(1,2) = (-ONE/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG1*DMU_DSIG2
             !   D2PHI_DSIG1COS2
-            D2PHI_D2(1,3) = (-UN/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
+            D2PHI_D2(1,3) = (-ONE/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
      .                            DF1_DMU*(D2F2_D2MUCOS2+D2F2_D2MU*DMU_DCOS2))*DMU_DSIG1
      .                         + (DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DSIG1)
 c
             !   SECOND LINE OF THE MATRIX
             !   D2PHI_DSIG2SIG1
-            D2PHI_D2(2,1) = (-UN/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG2*DMU_DSIG1
+            D2PHI_D2(2,1) = (-ONE/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG2*DMU_DSIG1
             !   D2PHI_D2SIG2
-            D2PHI_D2(2,2) = (-UN/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG2*DMU_DSIG2
+            D2PHI_D2(2,2) = (-ONE/DENOM)*(DF2_DMU*D2F1_D2MU-DF1_DMU*D2F2_D2MU)*DMU_DSIG2*DMU_DSIG2
             !   D2PHI_DSIG2COS2   
-            D2PHI_D2(2,3) = (-UN/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
+            D2PHI_D2(2,3) = (-ONE/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
      .                            DF1_DMU*(D2F2_D2MUCOS2+D2F2_D2MU*DMU_DCOS2))*DMU_DSIG2
      .                         + (DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DSIG2)
 c
             !   THIRD LINE OF THE MATRIX
             !   D2PHI_D2COS2SIG1
-            D2PHI_D2(3,1) = (-UN/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
+            D2PHI_D2(3,1) = (-ONE/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
      .                            DF1_DMU*(D2F2_D2MUCOS2+D2F2_D2MU*DMU_DCOS2))*DMU_DSIG1
      .                         + (DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DSIG1)
             !   D2PHI_D2COS2SIG2
-            D2PHI_D2(3,2) = (-UN/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
+            D2PHI_D2(3,2) = (-ONE/DENOM)*((DF2_DMU*(D2F1_D2MUCOS2+D2F1_D2MU*DMU_DCOS2) - 
      .                            DF1_DMU*(D2F2_D2MUCOS2+D2F2_D2MU*DMU_DCOS2))*DMU_DSIG2
      .                         + (DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DSIG2)          
             !   D2PHI_D2COS2
-            D2PHI_D2(3,3) = (-UN/DENOM)*(DF2_DMU*(D2F1_D2COS2 + DEUX*D2F1_D2MUCOS2*DMU_DCOS2 + D2F1_D2MU*(DMU_DCOS2**2)) 
-     .                          - DF1_DMU*(D2F2_D2COS2 + DEUX*D2F2_D2MUCOS2*DMU_DCOS2 + D2F2_D2MU*(DMU_DCOS2**2))
-     .                          + DEUX*(DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DCOS2)
+            D2PHI_D2(3,3) = (-ONE/DENOM)*(DF2_DMU*(D2F1_D2COS2 + TWO*D2F1_D2MUCOS2*DMU_DCOS2 + D2F1_D2MU*(DMU_DCOS2**2)) 
+     .                          - DF1_DMU*(D2F2_D2COS2 + TWO*D2F2_D2MUCOS2*DMU_DCOS2 + D2F2_D2MU*(DMU_DCOS2**2))
+     .                          + TWO*(DF2_DMU*DF1_DCOS2 - DF1_DMU*DF2_DCOS2)*DPHI_DCOS2)
 c    
             ! Filling the T matrix
-            T(1,1) =  (UNDEMI/(F1-F2))*((SIN(DEUX*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2) +
-     .                DPHI_DCOS2*(-TROIS/(F1-F2)**2)*COS(DEUX*THET)*(SIN(DEUX*THET))**2
-            T(1,2) =  (UNDEMI/(F1-F2))*((SIN(DEUX*THET))**2)*(DPHI_DSIG2 - DPHI_DSIG1)  +
-     .                DPHI_DCOS2*(TROIS/(F1-F2)**2)*COS(DEUX*THET)*(SIN(DEUX*THET))**2
-            T(1,3) =  (UN/(F1-F2))*(SIN(DEUX*THET)*COS(DEUX*THET))*(DPHI_DSIG2 - DPHI_DSIG1) +
-     .                DPHI_DCOS2*(UN/(F1-F2)**2)*(QUATRE*SIN(DEUX*THET)*(COS(DEUX*THET))**2 - 
-     .                DEUX*(SIN(DEUX*THET)**3))
+            T(1,1) =  (HALF/(F1-F2))*((SIN(TWO*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2) +
+     .                DPHI_DCOS2*(-THREE/(F1-F2)**2)*COS(TWO*THET)*(SIN(TWO*THET))**2
+            T(1,2) =  (HALF/(F1-F2))*((SIN(TWO*THET))**2)*(DPHI_DSIG2 - DPHI_DSIG1)  +
+     .                DPHI_DCOS2*(THREE/(F1-F2)**2)*COS(TWO*THET)*(SIN(TWO*THET))**2
+            T(1,3) =  (ONE/(F1-F2))*(SIN(TWO*THET)*COS(TWO*THET))*(DPHI_DSIG2 - DPHI_DSIG1) +
+     .                DPHI_DCOS2*(ONE/(F1-F2)**2)*(FOUR*SIN(TWO*THET)*(COS(TWO*THET))**2 - 
+     .                TWO*(SIN(TWO*THET)**3))
             T(2,1) =  T(1,2)
-            T(2,2) =  (UNDEMI/(F1-F2))*((SIN(DEUX*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2) +
-     .                DPHI_DCOS2*(-TROIS/(F1-F2)**2)*COS(DEUX*THET)*(SIN(DEUX*THET))**2
-            T(2,3) =  (UN/(F1-F2))*(SIN(DEUX*THET)*COS(DEUX*THET))*(DPHI_DSIG1-DPHI_DSIG2) +
-     .                DPHI_DCOS2*(UN/(F1-F2)**2)*(-QUATRE*SIN(DEUX*THET)*(COS(DEUX*THET))**2 + 
-     .                DEUX*(SIN(DEUX*THET)**3))
+            T(2,2) =  (HALF/(F1-F2))*((SIN(TWO*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2) +
+     .                DPHI_DCOS2*(-THREE/(F1-F2)**2)*COS(TWO*THET)*(SIN(TWO*THET))**2
+            T(2,3) =  (ONE/(F1-F2))*(SIN(TWO*THET)*COS(TWO*THET))*(DPHI_DSIG1-DPHI_DSIG2) +
+     .                DPHI_DCOS2*(ONE/(F1-F2)**2)*(-FOUR*SIN(TWO*THET)*(COS(TWO*THET))**2 + 
+     .                TWO*(SIN(TWO*THET)**3))
             T(3,1) =  T(1,3)
             T(3,2) =  T(2,3)
-            T(3,3) =  (DEUX/(F1-F2))*((COS(DEUX*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2)+
-     .                DPHI_DCOS2*(UN/(F1-F2)**2)*(HUIT*(SIN(DEUX*THET)**2)*COS(DEUX*THET) - 
-     .                QUATRE*(COS(DEUX*THET)**3))
+            T(3,3) =  (TWO/(F1-F2))*((COS(TWO*THET))**2)*(DPHI_DSIG1-DPHI_DSIG2)+
+     .                DPHI_DCOS2*(ONE/(F1-F2)**2)*(EIGHT*(SIN(TWO*THET)**2)*COS(TWO*THET) - 
+     .                FOUR*(COS(TWO*THET)**3))
      
             ! Filling the rotation D matrix
-            D(1,1) = UNDEMI*(UN+COS(DEUX*THET))
-            D(1,2) = UNDEMI*(UN-COS(DEUX*THET))
-            D(1,3) = SIN(DEUX*THET)
-            D(2,1) = UNDEMI*(UN-COS(DEUX*THET))
-            D(2,2) = UNDEMI*(UN+COS(DEUX*THET))
-            D(2,3) = -SIN(DEUX*THET)
-            D(3,1) = (SIN(DEUX*THET)**2)/(F1-F2)
-            D(3,2) = -(SIN(DEUX*THET)**2)/(F1-F2)
-            D(3,3) = -(DEUX*SIN(DEUX*THET)*COS(DEUX*THET))/(F1-F2)
+            D(1,1) = HALF*(ONE+COS(TWO*THET))
+            D(1,2) = HALF*(ONE-COS(TWO*THET))
+            D(1,3) = SIN(TWO*THET)
+            D(2,1) = HALF*(ONE-COS(TWO*THET))
+            D(2,2) = HALF*(ONE+COS(TWO*THET))
+            D(2,3) = -SIN(TWO*THET)
+            D(3,1) = (SIN(TWO*THET)**2)/(F1-F2)
+            D(3,2) = -(SIN(TWO*THET)**2)/(F1-F2)
+            D(3,3) = -(TWO*SIN(TWO*THET)*COS(TWO*THET))/(F1-F2)
             
             ! Assembling the Hessian Matrix Dt*DPHI_DSIG*D + T
             D2PHI_D2 = MATMUL(D2PHI_D2,D)
@@ -1784,10 +1787,10 @@ c
               MINEIGTHET = THET*(180.0D0/PI)
             ENDIF
             ! Updating the MU parameter
-            MU = MU + UN/VINGT
+            MU = MU + ONE/TWENTY
           ENDDO
           ! Updating the theta angle
-          THET = THET + (PI/DEUX)/60.0D0
+          THET = THET + (PI/TWO)/60.0D0
         ENDDO
 c        
         ! Convexity check and error message
@@ -1833,8 +1836,8 @@ c
       UPARAM(1)  = YOUNG
       UPARAM(2)  = NU
       UPARAM(3)  = G
-      UPARAM(4)  = DEUX*G
-      UPARAM(5)  = NU/(UN-NU)
+      UPARAM(4)  = TWO*G
+      UPARAM(5)  = NU/(ONE-NU)
       UPARAM(6)  = A11
       UPARAM(7)  = A11*NU
       UPARAM(8)  = YLD0
@@ -1849,7 +1852,7 @@ c
       UPARAM(17) = MEXP
       UPARAM(18) = KBOLTZ
       IF (XSCALE /= ZERO) THEN
-        UPARAM(19) = UN/XSCALE
+        UPARAM(19) = ONE/XSCALE
       ELSE
         UPARAM(19) = ZERO
       ENDIF

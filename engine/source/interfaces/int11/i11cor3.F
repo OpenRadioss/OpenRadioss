@@ -145,10 +145,10 @@ C
       ELSEIF(IGSTI == 2)THEN
         DO I=1,JLT
           IF(CAND_S(I).LE.NRTS) THEN
-            STIF(I)=UNDEMI*(ABS(STFS(CAND_S(I)))+STFM(CAND_M(I)))
+            STIF(I)=HALF*(ABS(STFS(CAND_S(I)))+STFM(CAND_M(I)))
           ELSE
             NN = CAND_S(I) - NRTS            
-            STIF(I)=UNDEMI*(ABS(STIFI(NIN)%P(NN))+STFM(CAND_M(I)))
+            STIF(I)=HALF*(ABS(STIFI(NIN)%P(NN))+STFM(CAND_M(I)))
           END IF
           STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
         END DO
@@ -329,7 +329,7 @@ C     AREA COMPUTING
              LM = SQRT(XM*XM + YM*YM + ZM*ZM)
 
              CT = (XS*XM + YS*YM + ZS*ZM)/(LS*LM)
-             ST = SQRT(UN-MIN(CT*CT,UN))
+             ST = SQRT(ONE-MIN(CT*CT,ONE))
 
              AREA1 = MIN(LS,LM)*MIN(SECS,SECM)
              AREA2 = SECS*SECM/MAX(ST,EM30)
@@ -363,12 +363,12 @@ C     AREA COMPUTING
              LM = SQRT(XM*XM + YM*YM + ZM*ZM)
 
              CT = (XS*XM + YS*YM + ZS*ZM)/(LS*LM)
-             ST = SQRT(UN-MIN(CT*CT,UN))
+             ST = SQRT(ONE-MIN(CT*CT,ONE))
 
              AREA1 = MIN(LS,LM)*MIN(SECS,SECM)
              AREA2 = SECS*SECM/MAX(ST,EM30)
 
-             AREAC(I) = MIN(AREA1,AREA2)*UNDEMI
+             AREAC(I) = MIN(AREA1,AREA2)*HALF
 
 C     SECND TEMPERATURE
              TEMPI1(I) = TEMPFI(NIN)%P(N1(I))

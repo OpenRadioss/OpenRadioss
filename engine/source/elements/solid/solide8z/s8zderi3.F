@@ -141,9 +141,9 @@ C                                                                     12
      .   AJI1, AJI2, AJI3,
      .   AJI4, AJI5, AJI6,
      .   AJI7, AJI8, AJI9,
-     .   AJ5968(MVSIZ), AJ6749(MVSIZ), AJ4857(MVSIZ),
-     .   AJ3829(MVSIZ), AJ1937(MVSIZ), AJ2718(MVSIZ),
-     .   AJ2635(MVSIZ), AJ3416(MVSIZ), AJ1524(MVSIZ),
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
+     .   JAC_38_29(MVSIZ), JAC_19_37(MVSIZ), JAC_27_18(MVSIZ),
+     .   JAC_26_35(MVSIZ), JAC_34_16(MVSIZ), JAC_15_24(MVSIZ),
      .   AJ12(MVSIZ), AJ45(MVSIZ), AJ78(MVSIZ),
      .   D1X(MVSIZ) , D2X(MVSIZ) , D3X(MVSIZ) , D4X(MVSIZ) ,
      .   D1Y(MVSIZ) , D2Y(MVSIZ) , D3Y(MVSIZ) , D4Y(MVSIZ) ,
@@ -171,17 +171,17 @@ C
 C
 C     JACOBIAN
 C
-       AJ5968(I)=AJ5*AJ9-AJ6*AJ8
-       AJ6749(I)=AJ6*AJ7-AJ4*AJ9
-       AJ3829(I)=(-AJ2*AJ9+AJ3*AJ8)
-       AJ1937(I)=( AJ1*AJ9-AJ3*AJ7)
-       AJ2718(I)=(-AJ1*AJ8+AJ2*AJ7)
-       AJ2635(I)=( AJ2*AJ6-AJ3*AJ5)
-       AJ3416(I)=(-AJ1*AJ6+AJ3*AJ4)
-       AJ1524(I)=( AJ1*AJ5-AJ2*AJ4)
-       AJ4857(I)=AJ4*AJ8-AJ5*AJ7
+       JAC_59_68(I)=AJ5*AJ9-AJ6*AJ8
+       JAC_67_49(I)=AJ6*AJ7-AJ4*AJ9
+       JAC_38_29(I)=(-AJ2*AJ9+AJ3*AJ8)
+       JAC_19_37(I)=( AJ1*AJ9-AJ3*AJ7)
+       JAC_27_18(I)=(-AJ1*AJ8+AJ2*AJ7)
+       JAC_26_35(I)=( AJ2*AJ6-AJ3*AJ5)
+       JAC_34_16(I)=(-AJ1*AJ6+AJ3*AJ4)
+       JAC_15_24(I)=( AJ1*AJ5-AJ2*AJ4)
+       JAC_48_57(I)=AJ4*AJ8-AJ5*AJ7
 C 
-       DETDP=O512TH*(AJ1*AJ5968(I)+AJ2*AJ6749(I)+AJ3*AJ4857(I))
+       DETDP=ONE_OVER_512*(AJ1*JAC_59_68(I)+AJ2*JAC_67_49(I)+AJ3*JAC_48_57(I))
        DET(I) = DETDP
        VOLDP(I) = WI * DETDP
        VOL(I) = VOLDP(I)
@@ -191,8 +191,8 @@ C
       DO I=LFT,LLT
         OFF(I)=OFFG(I)
         IF(OFF(I).EQ.ZERO)THEN
-         DET(I)=UN
-         IF (VOL(I).LE.ZERO) VOL(I)=UN
+         DET(I)=ONE
+         IF (VOL(I).LE.ZERO) VOL(I)=ONE
         ELSEIF (VOL(I).LE.ZERO ) THEN
          VOL(I)= EM20
          OFF(I) =ZERO
@@ -226,18 +226,18 @@ C
       F2 = KSI*ZETA
       F3 = KSI*ETA
       DO I=LFT,LLT
-        DETT=O512TH/DET(I)
-       AJI1=DETT*AJ5968(I)
-       AJI4=DETT*AJ6749(I)
-       AJI7=DETT*AJ4857(I)
-       AJI2=DETT*AJ3829(I)
-       AJI5=DETT*AJ1937(I)
-       AJI8=DETT*AJ2718(I)
-       AJI3=DETT*AJ2635(I)
-       AJI6=DETT*AJ3416(I)
-       AJI9=DETT*AJ1524(I)
+        DETT=ONE_OVER_512/DET(I)
+       AJI1=DETT*JAC_59_68(I)
+       AJI4=DETT*JAC_67_49(I)
+       AJI7=DETT*JAC_48_57(I)
+       AJI2=DETT*JAC_38_29(I)
+       AJI5=DETT*JAC_19_37(I)
+       AJI8=DETT*JAC_27_18(I)
+       AJI3=DETT*JAC_26_35(I)
+       AJI6=DETT*JAC_34_16(I)
+       AJI9=DETT*JAC_15_24(I)
 C
-       NU1(I) = NU(I)/(UN - NU(I))
+       NU1(I) = NU(I)/(ONE - NU(I))
 C
        D1X(I)=AJI3*ETA +AJI2*ZETA
        D2X(I)=AJI1*ZETA +AJI3*KSI
@@ -647,11 +647,11 @@ C
       ENDIF
       IF (IDTS6==0) THEN
        DO I=LFT,LLT
-        DELTAX(I)=MIN(DELTAX(I),CENT28*DET(I)*SMAX(I))
+        DELTAX(I)=MIN(DELTAX(I),HUNDRED28*DET(I)*SMAX(I))
        ENDDO
       ELSE
       DO I=LFT,LLT
-       IF (IDEG(I)==0) DELTAX(I)=MIN(DELTAX(I),CENT28*DET(I)*SMAX(I))
+       IF (IDEG(I)==0) DELTAX(I)=MIN(DELTAX(I),HUNDRED28*DET(I)*SMAX(I))
       ENDDO
       END IF
 C
@@ -776,12 +776,12 @@ C-------|BXY BYY BZY |  same than H8A
 C-------|BXZ BYZ BZZ |
       IF (ICP==11) THEN
        DO I=LFT,LLT
-        BXHI=TIERS*(PX1(I)-PXC1(I))
-        BYHI=TIERS*(PY1(I)-PYC1(I))
-        BZHI=TIERS*(PZ1(I)-PZC1(I))
-        PX1(I)=PXC1(I)+DEUX*BXHI
-        PY1(I)=PYC1(I)+DEUX*BYHI
-        PZ1(I)=PZC1(I)+DEUX*BZHI
+        BXHI=THIRD*(PX1(I)-PXC1(I))
+        BYHI=THIRD*(PY1(I)-PYC1(I))
+        BZHI=THIRD*(PZ1(I)-PZC1(I))
+        PX1(I)=PXC1(I)+TWO*BXHI
+        PY1(I)=PYC1(I)+TWO*BYHI
+        PZ1(I)=PZC1(I)+TWO*BZHI
         BXY1(I)=-BXHI
         BXZ1(I)=-BXHI
         BYX1(I)=-BYHI
@@ -790,12 +790,12 @@ C-------|BXZ BYZ BZZ |
         BZY1(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX2(I)-PXC2(I))
-        BYHI=TIERS*(PY2(I)-PYC2(I))
-        BZHI=TIERS*(PZ2(I)-PZC2(I))
-        PX2(I)=PXC2(I)+DEUX*BXHI
-        PY2(I)=PYC2(I)+DEUX*BYHI
-        PZ2(I)=PZC2(I)+DEUX*BZHI
+        BXHI=THIRD*(PX2(I)-PXC2(I))
+        BYHI=THIRD*(PY2(I)-PYC2(I))
+        BZHI=THIRD*(PZ2(I)-PZC2(I))
+        PX2(I)=PXC2(I)+TWO*BXHI
+        PY2(I)=PYC2(I)+TWO*BYHI
+        PZ2(I)=PZC2(I)+TWO*BZHI
         BXY2(I)=-BXHI
         BXZ2(I)=-BXHI
         BYX2(I)=-BYHI
@@ -804,12 +804,12 @@ C-------|BXZ BYZ BZZ |
         BZY2(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX3(I)-PXC3(I))
-        BYHI=TIERS*(PY3(I)-PYC3(I))
-        BZHI=TIERS*(PZ3(I)-PZC3(I))
-        PX3(I)=PXC3(I)+DEUX*BXHI
-        PY3(I)=PYC3(I)+DEUX*BYHI
-        PZ3(I)=PZC3(I)+DEUX*BZHI
+        BXHI=THIRD*(PX3(I)-PXC3(I))
+        BYHI=THIRD*(PY3(I)-PYC3(I))
+        BZHI=THIRD*(PZ3(I)-PZC3(I))
+        PX3(I)=PXC3(I)+TWO*BXHI
+        PY3(I)=PYC3(I)+TWO*BYHI
+        PZ3(I)=PZC3(I)+TWO*BZHI
         BXY3(I)=-BXHI
         BXZ3(I)=-BXHI
         BYX3(I)=-BYHI
@@ -818,12 +818,12 @@ C-------|BXZ BYZ BZZ |
         BZY3(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX4(I)-PXC4(I))
-        BYHI=TIERS*(PY4(I)-PYC4(I))
-        BZHI=TIERS*(PZ4(I)-PZC4(I))
-        PX4(I)=PXC4(I)+DEUX*BXHI
-        PY4(I)=PYC4(I)+DEUX*BYHI
-        PZ4(I)=PZC4(I)+DEUX*BZHI
+        BXHI=THIRD*(PX4(I)-PXC4(I))
+        BYHI=THIRD*(PY4(I)-PYC4(I))
+        BZHI=THIRD*(PZ4(I)-PZC4(I))
+        PX4(I)=PXC4(I)+TWO*BXHI
+        PY4(I)=PYC4(I)+TWO*BYHI
+        PZ4(I)=PZC4(I)+TWO*BZHI
         BXY4(I)=-BXHI
         BXZ4(I)=-BXHI
         BYX4(I)=-BYHI
@@ -832,12 +832,12 @@ C-------|BXZ BYZ BZZ |
         BZY4(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX5(I)+PXC3(I))
-        BYHI=TIERS*(PY5(I)+PYC3(I))
-        BZHI=TIERS*(PZ5(I)+PZC3(I))
-        PX5(I)=-PXC3(I)+DEUX*BXHI
-        PY5(I)=-PYC3(I)+DEUX*BYHI
-        PZ5(I)=-PZC3(I)+DEUX*BZHI
+        BXHI=THIRD*(PX5(I)+PXC3(I))
+        BYHI=THIRD*(PY5(I)+PYC3(I))
+        BZHI=THIRD*(PZ5(I)+PZC3(I))
+        PX5(I)=-PXC3(I)+TWO*BXHI
+        PY5(I)=-PYC3(I)+TWO*BYHI
+        PZ5(I)=-PZC3(I)+TWO*BZHI
         BXY5(I)=-BXHI
         BXZ5(I)=-BXHI
         BYX5(I)=-BYHI
@@ -846,12 +846,12 @@ C-------|BXZ BYZ BZZ |
         BZY5(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX6(I)+PXC4(I))
-        BYHI=TIERS*(PY6(I)+PYC4(I))
-        BZHI=TIERS*(PZ6(I)+PZC4(I))
-        PX6(I)=-PXC4(I)+DEUX*BXHI
-        PY6(I)=-PYC4(I)+DEUX*BYHI
-        PZ6(I)=-PZC4(I)+DEUX*BZHI
+        BXHI=THIRD*(PX6(I)+PXC4(I))
+        BYHI=THIRD*(PY6(I)+PYC4(I))
+        BZHI=THIRD*(PZ6(I)+PZC4(I))
+        PX6(I)=-PXC4(I)+TWO*BXHI
+        PY6(I)=-PYC4(I)+TWO*BYHI
+        PZ6(I)=-PZC4(I)+TWO*BZHI
         BXY6(I)=-BXHI
         BXZ6(I)=-BXHI
         BYX6(I)=-BYHI
@@ -860,12 +860,12 @@ C-------|BXZ BYZ BZZ |
         BZY6(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX7(I)+PXC1(I))
-        BYHI=TIERS*(PY7(I)+PYC1(I))
-        BZHI=TIERS*(PZ7(I)+PZC1(I))
-        PX7(I)=-PXC1(I)+DEUX*BXHI
-        PY7(I)=-PYC1(I)+DEUX*BYHI
-        PZ7(I)=-PZC1(I)+DEUX*BZHI
+        BXHI=THIRD*(PX7(I)+PXC1(I))
+        BYHI=THIRD*(PY7(I)+PYC1(I))
+        BZHI=THIRD*(PZ7(I)+PZC1(I))
+        PX7(I)=-PXC1(I)+TWO*BXHI
+        PY7(I)=-PYC1(I)+TWO*BYHI
+        PZ7(I)=-PZC1(I)+TWO*BZHI
         BXY7(I)=-BXHI
         BXZ7(I)=-BXHI
         BYX7(I)=-BYHI
@@ -874,12 +874,12 @@ C-------|BXZ BYZ BZZ |
         BZY7(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX8(I)+PXC2(I))
-        BYHI=TIERS*(PY8(I)+PYC2(I))
-        BZHI=TIERS*(PZ8(I)+PZC2(I))
-        PX8(I)=-PXC2(I)+DEUX*BXHI
-        PY8(I)=-PYC2(I)+DEUX*BYHI
-        PZ8(I)=-PZC2(I)+DEUX*BZHI
+        BXHI=THIRD*(PX8(I)+PXC2(I))
+        BYHI=THIRD*(PY8(I)+PYC2(I))
+        BZHI=THIRD*(PZ8(I)+PZC2(I))
+        PX8(I)=-PXC2(I)+TWO*BXHI
+        PY8(I)=-PYC2(I)+TWO*BYHI
+        PZ8(I)=-PZC2(I)+TWO*BZHI
         BXY8(I)=-BXHI
         BXZ8(I)=-BXHI
         BYX8(I)=-BYHI
@@ -978,9 +978,9 @@ C                                                                     12
      .   X17 , X28 , X35 , X46,
      .   Y17 , Y28 , Y35 , Y46,
      .   Z17 , Z28 , Z35 , Z46,
-     .   AJ5968(MVSIZ), AJ6749(MVSIZ), AJ4857(MVSIZ),
-     .   AJ3829(MVSIZ), AJ1937(MVSIZ), AJ2718(MVSIZ),
-     .   AJ2635(MVSIZ), AJ3416(MVSIZ), AJ1524(MVSIZ),
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
+     .   JAC_38_29(MVSIZ), JAC_19_37(MVSIZ), JAC_27_18(MVSIZ),
+     .   JAC_26_35(MVSIZ), JAC_34_16(MVSIZ), JAC_15_24(MVSIZ),
      .   AJ12, AJ45, AJ78,
      .   A17 , A28 ,
      .   B17 , B28 ,
@@ -1021,12 +1021,12 @@ C
 C     JACOBIAN
 C
       DO 100 I=LFT,LLT
-      AJ5968(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-      AJ6749(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-  100 AJ4857(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+      JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+      JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+  100 JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
 C
       DO 110 I=LFT,LLT
-  110 DET(I)=O64TH*(AJ1(I)*AJ5968(I)+AJ2(I)*AJ6749(I)+AJ3(I)*AJ4857(I))
+  110 DET(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
 C
       CALL SCHKJABT3(OFF,DET,NGL,OFFG,NNEGA,INDEX)
       IF (NNEGA>0) THEN
@@ -1121,37 +1121,37 @@ C
             AJ2(I)=B17-B28
             AJ3(I)=C17-C28
 C	    
-            AJ5968(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-            AJ6749(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-            AJ4857(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+            JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+            JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+            JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
 C
-           DET(I)=O64TH*(AJ1(I)*AJ5968(I)+AJ2(I)*AJ6749(I)+AJ3(I)*AJ4857(I))
-	   OFFG(I) = DEUX
+           DET(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
+	   OFFG(I) = TWO
          ENDDO
       END IF
 C      
       DO I=LFT,LLT
-      AJ3829(I)=(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
-      AJ1937(I)=( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
-      AJ2718(I)=(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
-      AJ2635(I)=( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
-      AJ3416(I)=(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
-      AJ1524(I)=( AJ1(I)*AJ5(I)-AJ2(I)*AJ4(I))
+      JAC_38_29(I)=(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
+      JAC_19_37(I)=( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
+      JAC_27_18(I)=(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
+      JAC_26_35(I)=( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
+      JAC_34_16(I)=(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
+      JAC_15_24(I)=( AJ1(I)*AJ5(I)-AJ2(I)*AJ4(I))
       END DO
 C
 C     INVERSE DE LA MATRICE JACOBIENNE
 C
       DO I=LFT,LLT
-        DETT=O64TH/DET(I)
-        AJI1=DETT*AJ5968(I)
-        AJI4=DETT*AJ6749(I)
-        AJI7=DETT*AJ4857(I)
-        AJI2=DETT*AJ3829(I)
-        AJI5=DETT*AJ1937(I)
-        AJI8=DETT*AJ2718(I)
-        AJI3=DETT*AJ2635(I)
-        AJI6=DETT*AJ3416(I)
-        AJI9=DETT*AJ1524(I)
+        DETT=ONE_OVER_64/DET(I)
+        AJI1=DETT*JAC_59_68(I)
+        AJI4=DETT*JAC_67_49(I)
+        AJI7=DETT*JAC_48_57(I)
+        AJI2=DETT*JAC_38_29(I)
+        AJI5=DETT*JAC_19_37(I)
+        AJI8=DETT*JAC_27_18(I)
+        AJI3=DETT*JAC_26_35(I)
+        AJI6=DETT*JAC_34_16(I)
+        AJI9=DETT*JAC_15_24(I)
 C
         AJ12=AJI1-AJI2
         AJ45=AJI4-AJI5
@@ -1222,12 +1222,12 @@ C -1 1 -1 1 1 -1 1 -1
        ENDDO
 C----surface max mediane-- *16
        DO I=LFT,LLT
-         SMAX(I)= AJ5968(I)*AJ5968(I)+AJ6749(I)*AJ6749(I)
-     .            +AJ4857(I)*AJ4857(I)
-         SMAX(I)= MAX(SMAX(I),AJ3829(I)*AJ3829(I)+AJ1937(I)*AJ1937(I)
-     .            +AJ2718(I)*AJ2718(I))
-         SMAX(I)= MAX(SMAX(I),AJ2635(I)*AJ2635(I)+AJ3416(I)*AJ3416(I)
-     .            +AJ1524(I)*AJ1524(I))
+         SMAX(I)= JAC_59_68(I)*JAC_59_68(I)+JAC_67_49(I)*JAC_67_49(I)
+     .            +JAC_48_57(I)*JAC_48_57(I)
+         SMAX(I)= MAX(SMAX(I),JAC_38_29(I)*JAC_38_29(I)+JAC_19_37(I)*JAC_19_37(I)
+     .            +JAC_27_18(I)*JAC_27_18(I))
+         SMAX(I)= MAX(SMAX(I),JAC_26_35(I)*JAC_26_35(I)+JAC_34_16(I)*JAC_34_16(I)
+     .            +JAC_15_24(I)*JAC_15_24(I))
        ENDDO
        DO I=LFT,LLT
          IF(SMAX(I).LE.ZERO)THEN
@@ -1235,7 +1235,7 @@ C----surface max mediane-- *16
      .                 I1=NGL(I))
            CALL ARRET(2)
          ENDIF
-         SMAX(I)= UN/SQRT(SMAX(I))
+         SMAX(I)= ONE/SQRT(SMAX(I))
        ENDDO
       RETURN
 C
@@ -1323,9 +1323,9 @@ C                                                                     12
      .   X17 , X28 , X35 , X46,
      .   Y17 , Y28 , Y35 , Y46,
      .   Z17 , Z28 , Z35 , Z46,
-     .   AJ5968(MVSIZ), AJ6749(MVSIZ), AJ4857(MVSIZ),
-     .   AJ3829(MVSIZ), AJ1937(MVSIZ), AJ2718(MVSIZ),
-     .   AJ2635(MVSIZ), AJ3416(MVSIZ), AJ1524(MVSIZ),
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
+     .   JAC_38_29(MVSIZ), JAC_19_37(MVSIZ), JAC_27_18(MVSIZ),
+     .   JAC_26_35(MVSIZ), JAC_34_16(MVSIZ), JAC_15_24(MVSIZ),
      .   AJ12, AJ45, AJ78,
      .   A17 , A28 ,
      .   B17 , B28 ,
@@ -1367,18 +1367,18 @@ C
 C     JACOBIAN
 C
       DO 100 I=LFT,LLT
-      AJ5968(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-      AJ6749(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-      AJ3829(I)=(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
-      AJ1937(I)=( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
-      AJ2718(I)=(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
-      AJ2635(I)=( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
-      AJ3416(I)=(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
-      AJ1524(I)=( AJ1(I)*AJ5(I)-AJ2(I)*AJ4(I))
-  100 AJ4857(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+      JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+      JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+      JAC_38_29(I)=(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
+      JAC_19_37(I)=( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
+      JAC_27_18(I)=(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
+      JAC_26_35(I)=( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
+      JAC_34_16(I)=(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
+      JAC_15_24(I)=( AJ1(I)*AJ5(I)-AJ2(I)*AJ4(I))
+  100 JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
 C
       DO I=LFT,LLT
-      DET(I)=O64TH*(AJ1(I)*AJ5968(I)+AJ2(I)*AJ6749(I)+AJ3(I)*AJ4857(I))
+      DET(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
       ENDDO
 C
       CALL SCHKJAB3(OFF,DET,NGL)
@@ -1386,16 +1386,16 @@ C
 C     INVERSE DE LA MATRICE JACOBIENNE
 C
       DO I=LFT,LLT
-        DETT=O64TH/DET(I)
-        AJI1=DETT*AJ5968(I)
-        AJI4=DETT*AJ6749(I)
-        AJI7=DETT*AJ4857(I)
-        AJI2=DETT*AJ3829(I)
-        AJI5=DETT*AJ1937(I)
-        AJI8=DETT*AJ2718(I)
-        AJI3=DETT*AJ2635(I)
-        AJI6=DETT*AJ3416(I)
-        AJI9=DETT*AJ1524(I)
+        DETT=ONE_OVER_64/DET(I)
+        AJI1=DETT*JAC_59_68(I)
+        AJI4=DETT*JAC_67_49(I)
+        AJI7=DETT*JAC_48_57(I)
+        AJI2=DETT*JAC_38_29(I)
+        AJI5=DETT*JAC_19_37(I)
+        AJI8=DETT*JAC_27_18(I)
+        AJI3=DETT*JAC_26_35(I)
+        AJI6=DETT*JAC_34_16(I)
+        AJI9=DETT*JAC_15_24(I)
 !
         AJ12=AJI1-AJI2
         AJ45=AJI4-AJI5
@@ -1466,12 +1466,12 @@ C -1 1 -1 1 1 -1 1 -1
        ENDDO
 C----surface max mediane-- *16
        DO I=LFT,LLT
-         SMAX(I)= AJ5968(I)*AJ5968(I)+AJ6749(I)*AJ6749(I)
-     .            +AJ4857(I)*AJ4857(I)
-         SMAX(I)= MAX(SMAX(I),AJ3829(I)*AJ3829(I)+AJ1937(I)*AJ1937(I)
-     .            +AJ2718(I)*AJ2718(I))
-         SMAX(I)= MAX(SMAX(I),AJ2635(I)*AJ2635(I)+AJ3416(I)*AJ3416(I)
-     .            +AJ1524(I)*AJ1524(I))
+         SMAX(I)= JAC_59_68(I)*JAC_59_68(I)+JAC_67_49(I)*JAC_67_49(I)
+     .            +JAC_48_57(I)*JAC_48_57(I)
+         SMAX(I)= MAX(SMAX(I),JAC_38_29(I)*JAC_38_29(I)+JAC_19_37(I)*JAC_19_37(I)
+     .            +JAC_27_18(I)*JAC_27_18(I))
+         SMAX(I)= MAX(SMAX(I),JAC_26_35(I)*JAC_26_35(I)+JAC_34_16(I)*JAC_34_16(I)
+     .            +JAC_15_24(I)*JAC_15_24(I))
        ENDDO
        DO I=LFT,LLT
          IF(SMAX(I).LE.ZERO)THEN
@@ -1479,7 +1479,7 @@ C----surface max mediane-- *16
      .                 I1=NGL(I))
            CALL ARRET(2)
          ENDIF
-         SMAX(I)= UN/SQRT(SMAX(I))
+         SMAX(I)= ONE/SQRT(SMAX(I))
        ENDDO
       RETURN
 C
@@ -1553,9 +1553,9 @@ C     REAL ou REAL*8
 C                                                                     12
       my_real
      .   DET(MVSIZ) ,DETT ,
-     .   AJ5968(MVSIZ), AJ6749(MVSIZ), AJ4857(MVSIZ),
-     .   AJ3829(MVSIZ), AJ1937(MVSIZ), AJ2718(MVSIZ),
-     .   AJ2635(MVSIZ), AJ3416(MVSIZ), AJ1524(MVSIZ),
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
+     .   JAC_38_29(MVSIZ), JAC_19_37(MVSIZ), JAC_27_18(MVSIZ),
+     .   JAC_26_35(MVSIZ), JAC_34_16(MVSIZ), JAC_15_24(MVSIZ),
      .   AJ7,AJ8,AJ9,VOL(MVSIZ)
       DOUBLE PRECISION 
      .   DETDP
@@ -1575,19 +1575,19 @@ C
 C
 C     JACOBIAN
 C
-       AJ5968(I)=AJ5(I)*AJ9-AJ6(I)*AJ8
-       AJ6749(I)=AJ6(I)*AJ7-AJ4(I)*AJ9
-       AJ3829(I)=(-AJ2(I)*AJ9+AJ3(I)*AJ8)
-       AJ1937(I)=( AJ1(I)*AJ9-AJ3(I)*AJ7)
-       AJ2718(I)=(-AJ1(I)*AJ8+AJ2(I)*AJ7)
-       AJ2635(I)=( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
-       AJ3416(I)=(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
-       AJ1524(I)=( AJ1(I)*AJ5(I)-AJ2(I)*AJ4(I))
-       AJ4857(I)=AJ4(I)*AJ8-AJ5(I)*AJ7
+       JAC_59_68(I)=AJ5(I)*AJ9-AJ6(I)*AJ8
+       JAC_67_49(I)=AJ6(I)*AJ7-AJ4(I)*AJ9
+       JAC_38_29(I)=(-AJ2(I)*AJ9+AJ3(I)*AJ8)
+       JAC_19_37(I)=( AJ1(I)*AJ9-AJ3(I)*AJ7)
+       JAC_27_18(I)=(-AJ1(I)*AJ8+AJ2(I)*AJ7)
+       JAC_26_35(I)=( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
+       JAC_34_16(I)=(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
+       JAC_15_24(I)=( AJ1(I)*AJ5(I)-AJ2(I)*AJ4(I))
+       JAC_48_57(I)=AJ4(I)*AJ8-AJ5(I)*AJ7
       ENDDO
 C
       DO I=LFT,LLT
-      DETDP=O512TH*(AJ1(I)*AJ5968(I)+AJ2(I)*AJ6749(I)+AJ3(I)*AJ4857(I))
+      DETDP=ONE_OVER_512*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
       DET(I) = DETDP
       VOLDP(I) = WI * DETDP
       VOL(I) = VOLDP(I)
@@ -1596,19 +1596,19 @@ C
       ICOR = 0
       DO I=LFT,LLT
         IF(OFFG(I).EQ.ZERO)THEN
-         DET(I)=UN
-         IF (VOL(I).LE.ZERO) VOL(I)=UN
-         IF (VOLDP(I).LE.ZERO) VOLDP(I)=UN
+         DET(I)=ONE
+         IF (VOL(I).LE.ZERO) VOL(I)=ONE
+         IF (VOLDP(I).LE.ZERO) VOLDP(I)=ONE
         ELSEIF (VOL(I).LE.ZERO ) THEN
           ICOR=1
         ENDIF
       ENDDO
       IF (ICOR>0.AND.INCONV==1) THEN
        DO I=LFT,LLT
-       IF (OFFG(I) /= DEUX.AND.OFFG(I) /= ZERO ) THEN
+       IF (OFFG(I) /= TWO.AND.OFFG(I) /= ZERO ) THEN
          NNEGA=NNEGA+1
         INDEX(NNEGA)=I
-        OFFG(I) = DEUX
+        OFFG(I) = TWO
        END IF
        ENDDO
       END IF
@@ -1631,16 +1631,16 @@ C
       END IF
 C
       DO I=LFT,LLT
-       DETT=O512TH/DET(I)
-       AJI1(I)=DETT*AJ5968(I)
-       AJI4(I)=DETT*AJ6749(I)
-       AJI7(I)=DETT*AJ4857(I)
-       AJI2(I)=DETT*AJ3829(I)
-       AJI5(I)=DETT*AJ1937(I)
-       AJI8(I)=DETT*AJ2718(I)
-       AJI3(I)=DETT*AJ2635(I)
-       AJI6(I)=DETT*AJ3416(I)
-       AJI9(I)=DETT*AJ1524(I)
+       DETT=ONE_OVER_512/DET(I)
+       AJI1(I)=DETT*JAC_59_68(I)
+       AJI4(I)=DETT*JAC_67_49(I)
+       AJI7(I)=DETT*JAC_48_57(I)
+       AJI2(I)=DETT*JAC_38_29(I)
+       AJI5(I)=DETT*JAC_19_37(I)
+       AJI8(I)=DETT*JAC_27_18(I)
+       AJI3(I)=DETT*JAC_26_35(I)
+       AJI6(I)=DETT*JAC_34_16(I)
+       AJI9(I)=DETT*JAC_15_24(I)
       ENDDO
 C
       RETURN
@@ -1792,7 +1792,7 @@ C------ICP= 1 : fast assumed volumic strain for the laws(elastoplastic)P=f(rho,r
 C------ICP= 11 : EAD nominal assumed strain for the incmpressible laws(hyperelastic)P/=f(rho,rho0)
 C
       DO I=LFT,LLT
-       NU1(I) = NU(I)/(UN - NU(I))
+       NU1(I) = NU(I)/(ONE - NU(I))
        OFF(I) = OFFG(I)
       ENDDO
        F1 = ETA*ZETA
@@ -2209,11 +2209,11 @@ C
       ENDDO
       IF (IDTS6==0) THEN
        DO I=LFT,LLT
-        DELTAX(I)=MIN(DELTAX(I),CENT28*VOL(I)*SMAX(I)/WI)
+        DELTAX(I)=MIN(DELTAX(I),HUNDRED28*VOL(I)*SMAX(I)/WI)
        ENDDO
       ELSE
       DO I=LFT,LLT
-       IF (IDEG(I)==0) DELTAX(I)=MIN(DELTAX(I),CENT28*VOL(I)*SMAX(I)/WI)
+       IF (IDEG(I)==0) DELTAX(I)=MIN(DELTAX(I),HUNDRED28*VOL(I)*SMAX(I)/WI)
       ENDDO
       END IF
 C
@@ -2337,12 +2337,12 @@ C-------|BXY BYY BZY |  same than H8A
 C-------|BXZ BYZ BZZ |
       IF (ICP==11) THEN
        DO I=LFT,LLT
-        BXHI=TIERS*(PX1(I)-PXC1(I))
-        BYHI=TIERS*(PY1(I)-PYC1(I))
-        BZHI=TIERS*(PZ1(I)-PZC1(I))
-        PX1(I)=PXC1(I)+DEUX*BXHI
-        PY1(I)=PYC1(I)+DEUX*BYHI
-        PZ1(I)=PZC1(I)+DEUX*BZHI
+        BXHI=THIRD*(PX1(I)-PXC1(I))
+        BYHI=THIRD*(PY1(I)-PYC1(I))
+        BZHI=THIRD*(PZ1(I)-PZC1(I))
+        PX1(I)=PXC1(I)+TWO*BXHI
+        PY1(I)=PYC1(I)+TWO*BYHI
+        PZ1(I)=PZC1(I)+TWO*BZHI
         BXY1(I)=-BXHI
         BXZ1(I)=-BXHI
         BYX1(I)=-BYHI
@@ -2351,12 +2351,12 @@ C-------|BXZ BYZ BZZ |
         BZY1(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX2(I)-PXC2(I))
-        BYHI=TIERS*(PY2(I)-PYC2(I))
-        BZHI=TIERS*(PZ2(I)-PZC2(I))
-        PX2(I)=PXC2(I)+DEUX*BXHI
-        PY2(I)=PYC2(I)+DEUX*BYHI
-        PZ2(I)=PZC2(I)+DEUX*BZHI
+        BXHI=THIRD*(PX2(I)-PXC2(I))
+        BYHI=THIRD*(PY2(I)-PYC2(I))
+        BZHI=THIRD*(PZ2(I)-PZC2(I))
+        PX2(I)=PXC2(I)+TWO*BXHI
+        PY2(I)=PYC2(I)+TWO*BYHI
+        PZ2(I)=PZC2(I)+TWO*BZHI
         BXY2(I)=-BXHI
         BXZ2(I)=-BXHI
         BYX2(I)=-BYHI
@@ -2365,12 +2365,12 @@ C-------|BXZ BYZ BZZ |
         BZY2(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX3(I)-PXC3(I))
-        BYHI=TIERS*(PY3(I)-PYC3(I))
-        BZHI=TIERS*(PZ3(I)-PZC3(I))
-        PX3(I)=PXC3(I)+DEUX*BXHI
-        PY3(I)=PYC3(I)+DEUX*BYHI
-        PZ3(I)=PZC3(I)+DEUX*BZHI
+        BXHI=THIRD*(PX3(I)-PXC3(I))
+        BYHI=THIRD*(PY3(I)-PYC3(I))
+        BZHI=THIRD*(PZ3(I)-PZC3(I))
+        PX3(I)=PXC3(I)+TWO*BXHI
+        PY3(I)=PYC3(I)+TWO*BYHI
+        PZ3(I)=PZC3(I)+TWO*BZHI
         BXY3(I)=-BXHI
         BXZ3(I)=-BXHI
         BYX3(I)=-BYHI
@@ -2379,12 +2379,12 @@ C-------|BXZ BYZ BZZ |
         BZY3(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX4(I)-PXC4(I))
-        BYHI=TIERS*(PY4(I)-PYC4(I))
-        BZHI=TIERS*(PZ4(I)-PZC4(I))
-        PX4(I)=PXC4(I)+DEUX*BXHI
-        PY4(I)=PYC4(I)+DEUX*BYHI
-        PZ4(I)=PZC4(I)+DEUX*BZHI
+        BXHI=THIRD*(PX4(I)-PXC4(I))
+        BYHI=THIRD*(PY4(I)-PYC4(I))
+        BZHI=THIRD*(PZ4(I)-PZC4(I))
+        PX4(I)=PXC4(I)+TWO*BXHI
+        PY4(I)=PYC4(I)+TWO*BYHI
+        PZ4(I)=PZC4(I)+TWO*BZHI
         BXY4(I)=-BXHI
         BXZ4(I)=-BXHI
         BYX4(I)=-BYHI
@@ -2393,12 +2393,12 @@ C-------|BXZ BYZ BZZ |
         BZY4(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX5(I)+PXC3(I))
-        BYHI=TIERS*(PY5(I)+PYC3(I))
-        BZHI=TIERS*(PZ5(I)+PZC3(I))
-        PX5(I)=-PXC3(I)+DEUX*BXHI
-        PY5(I)=-PYC3(I)+DEUX*BYHI
-        PZ5(I)=-PZC3(I)+DEUX*BZHI
+        BXHI=THIRD*(PX5(I)+PXC3(I))
+        BYHI=THIRD*(PY5(I)+PYC3(I))
+        BZHI=THIRD*(PZ5(I)+PZC3(I))
+        PX5(I)=-PXC3(I)+TWO*BXHI
+        PY5(I)=-PYC3(I)+TWO*BYHI
+        PZ5(I)=-PZC3(I)+TWO*BZHI
         BXY5(I)=-BXHI
         BXZ5(I)=-BXHI
         BYX5(I)=-BYHI
@@ -2407,12 +2407,12 @@ C-------|BXZ BYZ BZZ |
         BZY5(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX6(I)+PXC4(I))
-        BYHI=TIERS*(PY6(I)+PYC4(I))
-        BZHI=TIERS*(PZ6(I)+PZC4(I))
-        PX6(I)=-PXC4(I)+DEUX*BXHI
-        PY6(I)=-PYC4(I)+DEUX*BYHI
-        PZ6(I)=-PZC4(I)+DEUX*BZHI
+        BXHI=THIRD*(PX6(I)+PXC4(I))
+        BYHI=THIRD*(PY6(I)+PYC4(I))
+        BZHI=THIRD*(PZ6(I)+PZC4(I))
+        PX6(I)=-PXC4(I)+TWO*BXHI
+        PY6(I)=-PYC4(I)+TWO*BYHI
+        PZ6(I)=-PZC4(I)+TWO*BZHI
         BXY6(I)=-BXHI
         BXZ6(I)=-BXHI
         BYX6(I)=-BYHI
@@ -2421,12 +2421,12 @@ C-------|BXZ BYZ BZZ |
         BZY6(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX7(I)+PXC1(I))
-        BYHI=TIERS*(PY7(I)+PYC1(I))
-        BZHI=TIERS*(PZ7(I)+PZC1(I))
-        PX7(I)=-PXC1(I)+DEUX*BXHI
-        PY7(I)=-PYC1(I)+DEUX*BYHI
-        PZ7(I)=-PZC1(I)+DEUX*BZHI
+        BXHI=THIRD*(PX7(I)+PXC1(I))
+        BYHI=THIRD*(PY7(I)+PYC1(I))
+        BZHI=THIRD*(PZ7(I)+PZC1(I))
+        PX7(I)=-PXC1(I)+TWO*BXHI
+        PY7(I)=-PYC1(I)+TWO*BYHI
+        PZ7(I)=-PZC1(I)+TWO*BZHI
         BXY7(I)=-BXHI
         BXZ7(I)=-BXHI
         BYX7(I)=-BYHI
@@ -2435,12 +2435,12 @@ C-------|BXZ BYZ BZZ |
         BZY7(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX8(I)+PXC2(I))
-        BYHI=TIERS*(PY8(I)+PYC2(I))
-        BZHI=TIERS*(PZ8(I)+PZC2(I))
-        PX8(I)=-PXC2(I)+DEUX*BXHI
-        PY8(I)=-PYC2(I)+DEUX*BYHI
-        PZ8(I)=-PZC2(I)+DEUX*BZHI
+        BXHI=THIRD*(PX8(I)+PXC2(I))
+        BYHI=THIRD*(PY8(I)+PYC2(I))
+        BZHI=THIRD*(PZ8(I)+PZC2(I))
+        PX8(I)=-PXC2(I)+TWO*BXHI
+        PY8(I)=-PYC2(I)+TWO*BYHI
+        PZ8(I)=-PZC2(I)+TWO*BZHI
         BXY8(I)=-BXHI
         BXZ8(I)=-BXHI
         BYX8(I)=-BYHI
@@ -2532,9 +2532,9 @@ C                                                                     12
      .   X17 , X28 , X35 , X46,
      .   Y17 , Y28 , Y35 , Y46,
      .   Z17 , Z28 , Z35 , Z46,
-     .   AJ5968(MVSIZ), AJ6749(MVSIZ), AJ4857(MVSIZ),
-     .   AJ3829(MVSIZ), AJ1937(MVSIZ), AJ2718(MVSIZ),
-     .   AJ2635(MVSIZ), AJ3416(MVSIZ), AJ1524(MVSIZ),
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
+     .   JAC_38_29(MVSIZ), JAC_19_37(MVSIZ), JAC_27_18(MVSIZ),
+     .   JAC_26_35(MVSIZ), JAC_34_16(MVSIZ), JAC_15_24(MVSIZ),
      .   AJ12, AJ45, AJ78,
      .   A17 , A28 ,
      .   B17 , B28 ,
@@ -2644,31 +2644,31 @@ C
             AJ2(I)=B17-B28
             AJ3(I)=C17-C28
 C	    
-            AJ5968(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-            AJ6749(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-            AJ4857(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+            JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+            JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+            JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
 C
-          DET(I)=O64TH*(AJ1(I)*AJ5968(I)+AJ2(I)*AJ6749(I)+AJ3(I)*AJ4857(I))
+          DET(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
         ENDDO
 #include "vectorize.inc"
          DO J=1,NNEGA
           I = INDEX(J)
-          AJ3829(I)=(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
-          AJ1937(I)=( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
-          AJ2718(I)=(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
-          AJ2635(I)=( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
-          AJ3416(I)=(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
-          AJ1524(I)=( AJ1(I)*AJ5(I)-AJ2(I)*AJ4(I))
-          DETT=O64TH/DET(I)
-          AJI1=DETT*AJ5968(I)
-          AJI4=DETT*AJ6749(I)
-          AJI7=DETT*AJ4857(I)
-          AJI2=DETT*AJ3829(I)
-          AJI5=DETT*AJ1937(I)
-          AJI8=DETT*AJ2718(I)
-          AJI3=DETT*AJ2635(I)
-          AJI6=DETT*AJ3416(I)
-          AJI9=DETT*AJ1524(I)
+          JAC_38_29(I)=(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
+          JAC_19_37(I)=( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
+          JAC_27_18(I)=(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
+          JAC_26_35(I)=( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
+          JAC_34_16(I)=(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
+          JAC_15_24(I)=( AJ1(I)*AJ5(I)-AJ2(I)*AJ4(I))
+          DETT=ONE_OVER_64/DET(I)
+          AJI1=DETT*JAC_59_68(I)
+          AJI4=DETT*JAC_67_49(I)
+          AJI7=DETT*JAC_48_57(I)
+          AJI2=DETT*JAC_38_29(I)
+          AJI5=DETT*JAC_19_37(I)
+          AJI8=DETT*JAC_27_18(I)
+          AJI3=DETT*JAC_26_35(I)
+          AJI6=DETT*JAC_34_16(I)
+          AJI9=DETT*JAC_15_24(I)
           AJ12=AJI1-AJI2
           AJ45=AJI4-AJI5
           AJ78=AJI7-AJI8
@@ -2725,12 +2725,12 @@ C
          PX2H4(I)=PX2(I)*HX(I,4)+ PY2(I)*HY(I,4)+PZ2(I)*HZ(I,4)
          PX3H4(I)=PX3(I)*HX(I,4)+ PY3(I)*HY(I,4)+PZ3(I)*HZ(I,4)
          PX4H4(I)=PX4(I)*HX(I,4)+ PY4(I)*HY(I,4)+PZ4(I)*HZ(I,4)
-         SMAX(I)= AJ5968(I)*AJ5968(I)+AJ6749(I)*AJ6749(I)
-     .            +AJ4857(I)*AJ4857(I)
-         SMAX(I)= MAX(SMAX(I),AJ3829(I)*AJ3829(I)+AJ1937(I)*AJ1937(I)
-     .            +AJ2718(I)*AJ2718(I))
-         SMAX(I)= MAX(SMAX(I),AJ2635(I)*AJ2635(I)+AJ3416(I)*AJ3416(I)
-     .            +AJ1524(I)*AJ1524(I))
+         SMAX(I)= JAC_59_68(I)*JAC_59_68(I)+JAC_67_49(I)*JAC_67_49(I)
+     .            +JAC_48_57(I)*JAC_48_57(I)
+         SMAX(I)= MAX(SMAX(I),JAC_38_29(I)*JAC_38_29(I)+JAC_19_37(I)*JAC_19_37(I)
+     .            +JAC_27_18(I)*JAC_27_18(I))
+         SMAX(I)= MAX(SMAX(I),JAC_26_35(I)*JAC_26_35(I)+JAC_34_16(I)*JAC_34_16(I)
+     .            +JAC_15_24(I)*JAC_15_24(I))
        ENDDO
       RETURN
 C
@@ -2796,9 +2796,9 @@ C     REAL ou REAL*8
 C                                                                     12
       my_real
      .   DET ,DETT ,  
-     .   AJ5968, AJ6749, AJ4857,
-     .   AJ3829, AJ1937, AJ2718,
-     .   AJ2635, AJ3416, AJ1524
+     .   JAC_59_68, JAC_67_49, JAC_48_57,
+     .   JAC_38_29, JAC_19_37, JAC_27_18,
+     .   JAC_26_35, JAC_34_16, JAC_15_24
       DOUBLE PRECISION 
      .   DETDP
 C-----------------------------------------------
@@ -2819,28 +2819,28 @@ C
 C       
 C     JACOBIAN
 C
-       AJ5968=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-       AJ6749=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-       AJ3829=(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
-       AJ1937=( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
-       AJ2718=(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
-       AJ2635=( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
-       AJ3416=(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
-       AJ1524=( AJ1(I)*AJ5(I)-AJ2(I)*AJ4(I))
-       AJ4857=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
-       DETDP=O512TH*(AJ1(I)*AJ5968+AJ2(I)*AJ6749+AJ3(I)*AJ4857)
+       JAC_59_68=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+       JAC_67_49=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+       JAC_38_29=(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
+       JAC_19_37=( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
+       JAC_27_18=(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
+       JAC_26_35=( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
+       JAC_34_16=(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
+       JAC_15_24=( AJ1(I)*AJ5(I)-AJ2(I)*AJ4(I))
+       JAC_48_57=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+       DETDP=ONE_OVER_512*(AJ1(I)*JAC_59_68+AJ2(I)*JAC_67_49+AJ3(I)*JAC_48_57)
        DET = DETDP
        VOLDP(I)= WI*DETDP
-       DETT=O512TH/DET
-       AJI1(I)=DETT*AJ5968
-       AJI4(I)=DETT*AJ6749
-       AJI7(I)=DETT*AJ4857
-       AJI2(I)=DETT*AJ3829
-       AJI5(I)=DETT*AJ1937
-       AJI8(I)=DETT*AJ2718
-       AJI3(I)=DETT*AJ2635
-       AJI6(I)=DETT*AJ3416
-       AJI9(I)=DETT*AJ1524
+       DETT=ONE_OVER_512/DET
+       AJI1(I)=DETT*JAC_59_68
+       AJI4(I)=DETT*JAC_67_49
+       AJI7(I)=DETT*JAC_48_57
+       AJI2(I)=DETT*JAC_38_29
+       AJI5(I)=DETT*JAC_19_37
+       AJI8(I)=DETT*JAC_27_18
+       AJI3(I)=DETT*JAC_26_35
+       AJI6(I)=DETT*JAC_34_16
+       AJI9(I)=DETT*JAC_15_24
       ENDDO
 C
       RETURN
@@ -2963,9 +2963,9 @@ C                                                                     12
      .   AJI1(MVSIZ), AJI2(MVSIZ), AJI3(MVSIZ),
      .   AJI4(MVSIZ), AJI5(MVSIZ), AJI6(MVSIZ),
      .   AJI7(MVSIZ), AJI8(MVSIZ), AJI9(MVSIZ),
-     .   AJ5968, AJ6749, AJ4857,
-     .   AJ3829, AJ1937, AJ2718,
-     .   AJ2635, AJ3416, AJ1524,
+     .   JAC_59_68, JAC_67_49, JAC_48_57,
+     .   JAC_38_29, JAC_19_37, JAC_27_18,
+     .   JAC_26_35, JAC_34_16, JAC_15_24,
      .   AJ12(MVSIZ), AJ45(MVSIZ), AJ78(MVSIZ),
      .   D1X(MVSIZ) , D2X(MVSIZ) , D3X(MVSIZ) , D4X(MVSIZ) ,
      .   D1Y(MVSIZ) , D2Y(MVSIZ) , D3Y(MVSIZ) , D4Y(MVSIZ) ,
@@ -2994,37 +2994,37 @@ C
 C
 C     JACOBIAN
 C
-       AJ5968=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-       AJ6749=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-       AJ3829=(-AJ2*AJ9(I)+AJ3*AJ8(I))
-       AJ1937=( AJ1*AJ9(I)-AJ3*AJ7(I))
-       AJ2718=(-AJ1*AJ8(I)+AJ2*AJ7(I))
-       AJ2635=( AJ2*AJ6(I)-AJ3*AJ5(I))
-       AJ3416=(-AJ1*AJ6(I)+AJ3*AJ4(I))
-       AJ1524=( AJ1*AJ5(I)-AJ2*AJ4(I))
-       AJ4857=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+       JAC_59_68=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+       JAC_67_49=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+       JAC_38_29=(-AJ2*AJ9(I)+AJ3*AJ8(I))
+       JAC_19_37=( AJ1*AJ9(I)-AJ3*AJ7(I))
+       JAC_27_18=(-AJ1*AJ8(I)+AJ2*AJ7(I))
+       JAC_26_35=( AJ2*AJ6(I)-AJ3*AJ5(I))
+       JAC_34_16=(-AJ1*AJ6(I)+AJ3*AJ4(I))
+       JAC_15_24=( AJ1*AJ5(I)-AJ2*AJ4(I))
+       JAC_48_57=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
 C
-       DET(I)=O512TH*(AJ1*AJ5968+AJ2*AJ6749+AJ3*AJ4857)
+       DET(I)=ONE_OVER_512*(AJ1*JAC_59_68+AJ2*JAC_67_49+AJ3*JAC_48_57)
        VOL(I)= WI*DET(I)
-       DETT=O512TH/DET(I)
-       AJI1(I)=DETT*AJ5968
-       AJI4(I)=DETT*AJ6749
-       AJI7(I)=DETT*AJ4857
-       AJI2(I)=DETT*AJ3829
-       AJI5(I)=DETT*AJ1937
-       AJI8(I)=DETT*AJ2718
-       AJI3(I)=DETT*AJ2635
-       AJI6(I)=DETT*AJ3416
-       AJI9(I)=DETT*AJ1524
+       DETT=ONE_OVER_512/DET(I)
+       AJI1(I)=DETT*JAC_59_68
+       AJI4(I)=DETT*JAC_67_49
+       AJI7(I)=DETT*JAC_48_57
+       AJI2(I)=DETT*JAC_38_29
+       AJI5(I)=DETT*JAC_19_37
+       AJI8(I)=DETT*JAC_27_18
+       AJI3(I)=DETT*JAC_26_35
+       AJI6(I)=DETT*JAC_34_16
+       AJI9(I)=DETT*JAC_15_24
       ENDDO
 C
       IF (IDTS6==0) THEN
        DO I=LFT,LLT
-        DELTAX(I)=MIN(DELTAX(I),CENT28*DET(I)*SMAX(I))
+        DELTAX(I)=MIN(DELTAX(I),HUNDRED28*DET(I)*SMAX(I))
        ENDDO
       ELSE
       DO I=LFT,LLT
-       IF (IDEG(I)==0) DELTAX(I)=MIN(DELTAX(I),CENT28*DET(I)*SMAX(I))
+       IF (IDEG(I)==0) DELTAX(I)=MIN(DELTAX(I),HUNDRED28*DET(I)*SMAX(I))
       ENDDO
       END IF
 C------ISMSTR = 10      
@@ -3044,7 +3044,7 @@ C------ISMSTR = 10
       END IF !(ISMSTR==11) THEN
 C
       DO I=LFT,LLT
-       NU1(I) = NU(I)/(UN - NU(I))
+       NU1(I) = NU(I)/(ONE - NU(I))
       ENDDO
        F1 = ETA*ZETA
        F2 = KSI*ZETA
@@ -3575,12 +3575,12 @@ C-------|BXY BYY BZY |  same than H8A
 C-------|BXZ BYZ BZZ |
       IF (ICP==11) THEN
        DO I=LFT,LLT
-        BXHI=TIERS*(PX1(I)-PXC1(I))
-        BYHI=TIERS*(PY1(I)-PYC1(I))
-        BZHI=TIERS*(PZ1(I)-PZC1(I))
-        PX1(I)=PXC1(I)+DEUX*BXHI
-        PY1(I)=PYC1(I)+DEUX*BYHI
-        PZ1(I)=PZC1(I)+DEUX*BZHI
+        BXHI=THIRD*(PX1(I)-PXC1(I))
+        BYHI=THIRD*(PY1(I)-PYC1(I))
+        BZHI=THIRD*(PZ1(I)-PZC1(I))
+        PX1(I)=PXC1(I)+TWO*BXHI
+        PY1(I)=PYC1(I)+TWO*BYHI
+        PZ1(I)=PZC1(I)+TWO*BZHI
         BXY1(I)=-BXHI
         BXZ1(I)=-BXHI
         BYX1(I)=-BYHI
@@ -3589,12 +3589,12 @@ C-------|BXZ BYZ BZZ |
         BZY1(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX2(I)-PXC2(I))
-        BYHI=TIERS*(PY2(I)-PYC2(I))
-        BZHI=TIERS*(PZ2(I)-PZC2(I))
-        PX2(I)=PXC2(I)+DEUX*BXHI
-        PY2(I)=PYC2(I)+DEUX*BYHI
-        PZ2(I)=PZC2(I)+DEUX*BZHI
+        BXHI=THIRD*(PX2(I)-PXC2(I))
+        BYHI=THIRD*(PY2(I)-PYC2(I))
+        BZHI=THIRD*(PZ2(I)-PZC2(I))
+        PX2(I)=PXC2(I)+TWO*BXHI
+        PY2(I)=PYC2(I)+TWO*BYHI
+        PZ2(I)=PZC2(I)+TWO*BZHI
         BXY2(I)=-BXHI
         BXZ2(I)=-BXHI
         BYX2(I)=-BYHI
@@ -3603,12 +3603,12 @@ C-------|BXZ BYZ BZZ |
         BZY2(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX3(I)-PXC3(I))
-        BYHI=TIERS*(PY3(I)-PYC3(I))
-        BZHI=TIERS*(PZ3(I)-PZC3(I))
-        PX3(I)=PXC3(I)+DEUX*BXHI
-        PY3(I)=PYC3(I)+DEUX*BYHI
-        PZ3(I)=PZC3(I)+DEUX*BZHI
+        BXHI=THIRD*(PX3(I)-PXC3(I))
+        BYHI=THIRD*(PY3(I)-PYC3(I))
+        BZHI=THIRD*(PZ3(I)-PZC3(I))
+        PX3(I)=PXC3(I)+TWO*BXHI
+        PY3(I)=PYC3(I)+TWO*BYHI
+        PZ3(I)=PZC3(I)+TWO*BZHI
         BXY3(I)=-BXHI
         BXZ3(I)=-BXHI
         BYX3(I)=-BYHI
@@ -3617,12 +3617,12 @@ C-------|BXZ BYZ BZZ |
         BZY3(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX4(I)-PXC4(I))
-        BYHI=TIERS*(PY4(I)-PYC4(I))
-        BZHI=TIERS*(PZ4(I)-PZC4(I))
-        PX4(I)=PXC4(I)+DEUX*BXHI
-        PY4(I)=PYC4(I)+DEUX*BYHI
-        PZ4(I)=PZC4(I)+DEUX*BZHI
+        BXHI=THIRD*(PX4(I)-PXC4(I))
+        BYHI=THIRD*(PY4(I)-PYC4(I))
+        BZHI=THIRD*(PZ4(I)-PZC4(I))
+        PX4(I)=PXC4(I)+TWO*BXHI
+        PY4(I)=PYC4(I)+TWO*BYHI
+        PZ4(I)=PZC4(I)+TWO*BZHI
         BXY4(I)=-BXHI
         BXZ4(I)=-BXHI
         BYX4(I)=-BYHI
@@ -3631,12 +3631,12 @@ C-------|BXZ BYZ BZZ |
         BZY4(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX5(I)+PXC3(I))
-        BYHI=TIERS*(PY5(I)+PYC3(I))
-        BZHI=TIERS*(PZ5(I)+PZC3(I))
-        PX5(I)=-PXC3(I)+DEUX*BXHI
-        PY5(I)=-PYC3(I)+DEUX*BYHI
-        PZ5(I)=-PZC3(I)+DEUX*BZHI
+        BXHI=THIRD*(PX5(I)+PXC3(I))
+        BYHI=THIRD*(PY5(I)+PYC3(I))
+        BZHI=THIRD*(PZ5(I)+PZC3(I))
+        PX5(I)=-PXC3(I)+TWO*BXHI
+        PY5(I)=-PYC3(I)+TWO*BYHI
+        PZ5(I)=-PZC3(I)+TWO*BZHI
         BXY5(I)=-BXHI
         BXZ5(I)=-BXHI
         BYX5(I)=-BYHI
@@ -3645,12 +3645,12 @@ C-------|BXZ BYZ BZZ |
         BZY5(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX6(I)+PXC4(I))
-        BYHI=TIERS*(PY6(I)+PYC4(I))
-        BZHI=TIERS*(PZ6(I)+PZC4(I))
-        PX6(I)=-PXC4(I)+DEUX*BXHI
-        PY6(I)=-PYC4(I)+DEUX*BYHI
-        PZ6(I)=-PZC4(I)+DEUX*BZHI
+        BXHI=THIRD*(PX6(I)+PXC4(I))
+        BYHI=THIRD*(PY6(I)+PYC4(I))
+        BZHI=THIRD*(PZ6(I)+PZC4(I))
+        PX6(I)=-PXC4(I)+TWO*BXHI
+        PY6(I)=-PYC4(I)+TWO*BYHI
+        PZ6(I)=-PZC4(I)+TWO*BZHI
         BXY6(I)=-BXHI
         BXZ6(I)=-BXHI
         BYX6(I)=-BYHI
@@ -3659,12 +3659,12 @@ C-------|BXZ BYZ BZZ |
         BZY6(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX7(I)+PXC1(I))
-        BYHI=TIERS*(PY7(I)+PYC1(I))
-        BZHI=TIERS*(PZ7(I)+PZC1(I))
-        PX7(I)=-PXC1(I)+DEUX*BXHI
-        PY7(I)=-PYC1(I)+DEUX*BYHI
-        PZ7(I)=-PZC1(I)+DEUX*BZHI
+        BXHI=THIRD*(PX7(I)+PXC1(I))
+        BYHI=THIRD*(PY7(I)+PYC1(I))
+        BZHI=THIRD*(PZ7(I)+PZC1(I))
+        PX7(I)=-PXC1(I)+TWO*BXHI
+        PY7(I)=-PYC1(I)+TWO*BYHI
+        PZ7(I)=-PZC1(I)+TWO*BZHI
         BXY7(I)=-BXHI
         BXZ7(I)=-BXHI
         BYX7(I)=-BYHI
@@ -3673,12 +3673,12 @@ C-------|BXZ BYZ BZZ |
         BZY7(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX8(I)+PXC2(I))
-        BYHI=TIERS*(PY8(I)+PYC2(I))
-        BZHI=TIERS*(PZ8(I)+PZC2(I))
-        PX8(I)=-PXC2(I)+DEUX*BXHI
-        PY8(I)=-PYC2(I)+DEUX*BYHI
-        PZ8(I)=-PZC2(I)+DEUX*BZHI
+        BXHI=THIRD*(PX8(I)+PXC2(I))
+        BYHI=THIRD*(PY8(I)+PYC2(I))
+        BZHI=THIRD*(PZ8(I)+PZC2(I))
+        PX8(I)=-PXC2(I)+TWO*BXHI
+        PY8(I)=-PYC2(I)+TWO*BYHI
+        PZ8(I)=-PZC2(I)+TWO*BZHI
         BXY8(I)=-BXHI
         BXZ8(I)=-BXHI
         BYX8(I)=-BYHI
@@ -3768,9 +3768,9 @@ C                                                                     12
      .   X17 , X28 , X35 , X46,
      .   Y17 , Y28 , Y35 , Y46,
      .   Z17 , Z28 , Z35 , Z46,
-     .   AJ5968, AJ6749, AJ4857,
-     .   AJ3829, AJ1937, AJ2718,
-     .   AJ2635, AJ3416, AJ1524,
+     .   JAC_59_68, JAC_67_49, JAC_48_57,
+     .   JAC_38_29, JAC_19_37, JAC_27_18,
+     .   JAC_26_35, JAC_34_16, JAC_15_24,
      .   AJ12, AJ45, AJ78,
      .   A17 , A28 ,
      .   B17 , B28 ,
@@ -3893,22 +3893,22 @@ C
 C
 C     JACOBIAN
 C
-        AJ5968=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-        AJ6749=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-        AJ3829=(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
-        AJ1937=( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
-        AJ2718=(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
-        AJ2635=( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
-        AJ3416=(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
-        AJ1524=( AJ1(I)*AJ5(I)-AJ2(I)*AJ4(I))
-        AJ4857=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+        JAC_59_68=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+        JAC_67_49=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+        JAC_38_29=(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
+        JAC_19_37=( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
+        JAC_27_18=(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
+        JAC_26_35=( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
+        JAC_34_16=(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
+        JAC_15_24=( AJ1(I)*AJ5(I)-AJ2(I)*AJ4(I))
+        JAC_48_57=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
 C----surface max mediane-- *16
-        SMAX(I)= AJ5968*AJ5968+AJ6749*AJ6749
-     .            +AJ4857*AJ4857
-        SMAX(I)= MAX(SMAX(I),AJ3829*AJ3829+AJ1937*AJ1937
-     .            +AJ2718*AJ2718)
-        SMAX(I)= MAX(SMAX(I),AJ2635*AJ2635+AJ3416*AJ3416
-     .            +AJ1524*AJ1524)
+        SMAX(I)= JAC_59_68*JAC_59_68+JAC_67_49*JAC_67_49
+     .            +JAC_48_57*JAC_48_57
+        SMAX(I)= MAX(SMAX(I),JAC_38_29*JAC_38_29+JAC_19_37*JAC_19_37
+     .            +JAC_27_18*JAC_27_18)
+        SMAX(I)= MAX(SMAX(I),JAC_26_35*JAC_26_35+JAC_34_16*JAC_34_16
+     .            +JAC_15_24*JAC_15_24)
        ENDDO
        DO I=LFT,LLT
          IF(SMAX(I).LE.ZERO)THEN
@@ -3916,7 +3916,7 @@ C----surface max mediane-- *16
      .                 I1=NGL(I))
            CALL ARRET(2)
          ENDIF
-         SMAX(I)= UN/SQRT(SMAX(I))
+         SMAX(I)= ONE/SQRT(SMAX(I))
        ENDDO
       RETURN
 C
@@ -4039,9 +4039,9 @@ C                                                                     12
      .   AJI1, AJI2, AJI3,
      .   AJI4, AJI5, AJI6,
      .   AJI7, AJI8, AJI9,
-     .   AJ5968(MVSIZ), AJ6749(MVSIZ), AJ4857(MVSIZ),
-     .   AJ3829(MVSIZ), AJ1937(MVSIZ), AJ2718(MVSIZ),
-     .   AJ2635(MVSIZ), AJ3416(MVSIZ), AJ1524(MVSIZ),
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
+     .   JAC_38_29(MVSIZ), JAC_19_37(MVSIZ), JAC_27_18(MVSIZ),
+     .   JAC_26_35(MVSIZ), JAC_34_16(MVSIZ), JAC_15_24(MVSIZ),
      .   AJ12(MVSIZ), AJ45(MVSIZ), AJ78(MVSIZ),
      .   D1X(MVSIZ) , D2X(MVSIZ) , D3X(MVSIZ) , D4X(MVSIZ) ,
      .   D1Y(MVSIZ) , D2Y(MVSIZ) , D3Y(MVSIZ) , D4Y(MVSIZ) ,
@@ -4067,17 +4067,17 @@ C
 C
 C     JACOBIAN
 C
-       AJ5968(I)=AJ5*AJ9-AJ6*AJ8
-       AJ6749(I)=AJ6*AJ7-AJ4*AJ9
-       AJ3829(I)=(-AJ2*AJ9+AJ3*AJ8)
-       AJ1937(I)=( AJ1*AJ9-AJ3*AJ7)
-       AJ2718(I)=(-AJ1*AJ8+AJ2*AJ7)
-       AJ2635(I)=( AJ2*AJ6-AJ3*AJ5)
-       AJ3416(I)=(-AJ1*AJ6+AJ3*AJ4)
-       AJ1524(I)=( AJ1*AJ5-AJ2*AJ4)
-       AJ4857(I)=AJ4*AJ8-AJ5*AJ7
+       JAC_59_68(I)=AJ5*AJ9-AJ6*AJ8
+       JAC_67_49(I)=AJ6*AJ7-AJ4*AJ9
+       JAC_38_29(I)=(-AJ2*AJ9+AJ3*AJ8)
+       JAC_19_37(I)=( AJ1*AJ9-AJ3*AJ7)
+       JAC_27_18(I)=(-AJ1*AJ8+AJ2*AJ7)
+       JAC_26_35(I)=( AJ2*AJ6-AJ3*AJ5)
+       JAC_34_16(I)=(-AJ1*AJ6+AJ3*AJ4)
+       JAC_15_24(I)=( AJ1*AJ5-AJ2*AJ4)
+       JAC_48_57(I)=AJ4*AJ8-AJ5*AJ7
 C 
-       DET(I)=O512TH*(AJ1*AJ5968(I)+AJ2*AJ6749(I)+AJ3*AJ4857(I))
+       DET(I)=ONE_OVER_512*(AJ1*JAC_59_68(I)+AJ2*JAC_67_49(I)+AJ3*JAC_48_57(I))
        VOL(I)= WI*DET(I)
       ENDDO
 C
@@ -4085,8 +4085,8 @@ C
       DO I=LFT,LLT
         OFF(I)=OFFG(I)
         IF(OFF(I).EQ.ZERO)THEN
-         DET(I)=UN
-         IF (VOL(I).LE.ZERO) VOL(I)=UN
+         DET(I)=ONE
+         IF (VOL(I).LE.ZERO) VOL(I)=ONE
         ELSEIF (VOL(I).LE.ZERO ) THEN
          VOL(I)= EM20
          OFF(I) =ZERO
@@ -4120,18 +4120,18 @@ C
       F2 = KSI*ZETA
       F3 = KSI*ETA
       DO I=LFT,LLT
-        DETT=O512TH/DET(I)
-       AJI1=DETT*AJ5968(I)
-       AJI4=DETT*AJ6749(I)
-       AJI7=DETT*AJ4857(I)
-       AJI2=DETT*AJ3829(I)
-       AJI5=DETT*AJ1937(I)
-       AJI8=DETT*AJ2718(I)
-       AJI3=DETT*AJ2635(I)
-       AJI6=DETT*AJ3416(I)
-       AJI9=DETT*AJ1524(I)
+        DETT=ONE_OVER_512/DET(I)
+       AJI1=DETT*JAC_59_68(I)
+       AJI4=DETT*JAC_67_49(I)
+       AJI7=DETT*JAC_48_57(I)
+       AJI2=DETT*JAC_38_29(I)
+       AJI5=DETT*JAC_19_37(I)
+       AJI8=DETT*JAC_27_18(I)
+       AJI3=DETT*JAC_26_35(I)
+       AJI6=DETT*JAC_34_16(I)
+       AJI9=DETT*JAC_15_24(I)
 C
-       NU1(I) = NU(I)/(UN - NU(I))
+       NU1(I) = NU(I)/(ONE - NU(I))
 C
        D1X(I)=AJI3*ETA +AJI2*ZETA
        D2X(I)=AJI1*ZETA +AJI3*KSI
@@ -4540,11 +4540,11 @@ C
       ENDIF
       IF (IDTS6==0) THEN
        DO I=LFT,LLT
-        DELTAX(I)=MIN(DELTAX(I),CENT28*DET(I)*SMAX(I))
+        DELTAX(I)=MIN(DELTAX(I),HUNDRED28*DET(I)*SMAX(I))
        ENDDO
       ELSE
       DO I=LFT,LLT
-       IF (IDEG(I)==0) DELTAX(I)=MIN(DELTAX(I),CENT28*DET(I)*SMAX(I))
+       IF (IDEG(I)==0) DELTAX(I)=MIN(DELTAX(I),HUNDRED28*DET(I)*SMAX(I))
       ENDDO
       END IF
 C
@@ -4668,12 +4668,12 @@ C-------|BXY BYY BZY |  same than H8A
 C-------|BXZ BYZ BZZ |
       IF (ICP==11) THEN
        DO I=LFT,LLT
-        BXHI=TIERS*(PX1(I)-PXC1(I))
-        BYHI=TIERS*(PY1(I)-PYC1(I))
-        BZHI=TIERS*(PZ1(I)-PZC1(I))
-        PX1(I)=PXC1(I)+DEUX*BXHI
-        PY1(I)=PYC1(I)+DEUX*BYHI
-        PZ1(I)=PZC1(I)+DEUX*BZHI
+        BXHI=THIRD*(PX1(I)-PXC1(I))
+        BYHI=THIRD*(PY1(I)-PYC1(I))
+        BZHI=THIRD*(PZ1(I)-PZC1(I))
+        PX1(I)=PXC1(I)+TWO*BXHI
+        PY1(I)=PYC1(I)+TWO*BYHI
+        PZ1(I)=PZC1(I)+TWO*BZHI
         BXY1(I)=-BXHI
         BXZ1(I)=-BXHI
         BYX1(I)=-BYHI
@@ -4682,12 +4682,12 @@ C-------|BXZ BYZ BZZ |
         BZY1(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX2(I)-PXC2(I))
-        BYHI=TIERS*(PY2(I)-PYC2(I))
-        BZHI=TIERS*(PZ2(I)-PZC2(I))
-        PX2(I)=PXC2(I)+DEUX*BXHI
-        PY2(I)=PYC2(I)+DEUX*BYHI
-        PZ2(I)=PZC2(I)+DEUX*BZHI
+        BXHI=THIRD*(PX2(I)-PXC2(I))
+        BYHI=THIRD*(PY2(I)-PYC2(I))
+        BZHI=THIRD*(PZ2(I)-PZC2(I))
+        PX2(I)=PXC2(I)+TWO*BXHI
+        PY2(I)=PYC2(I)+TWO*BYHI
+        PZ2(I)=PZC2(I)+TWO*BZHI
         BXY2(I)=-BXHI
         BXZ2(I)=-BXHI
         BYX2(I)=-BYHI
@@ -4696,12 +4696,12 @@ C-------|BXZ BYZ BZZ |
         BZY2(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX3(I)-PXC3(I))
-        BYHI=TIERS*(PY3(I)-PYC3(I))
-        BZHI=TIERS*(PZ3(I)-PZC3(I))
-        PX3(I)=PXC3(I)+DEUX*BXHI
-        PY3(I)=PYC3(I)+DEUX*BYHI
-        PZ3(I)=PZC3(I)+DEUX*BZHI
+        BXHI=THIRD*(PX3(I)-PXC3(I))
+        BYHI=THIRD*(PY3(I)-PYC3(I))
+        BZHI=THIRD*(PZ3(I)-PZC3(I))
+        PX3(I)=PXC3(I)+TWO*BXHI
+        PY3(I)=PYC3(I)+TWO*BYHI
+        PZ3(I)=PZC3(I)+TWO*BZHI
         BXY3(I)=-BXHI
         BXZ3(I)=-BXHI
         BYX3(I)=-BYHI
@@ -4710,12 +4710,12 @@ C-------|BXZ BYZ BZZ |
         BZY3(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX4(I)-PXC4(I))
-        BYHI=TIERS*(PY4(I)-PYC4(I))
-        BZHI=TIERS*(PZ4(I)-PZC4(I))
-        PX4(I)=PXC4(I)+DEUX*BXHI
-        PY4(I)=PYC4(I)+DEUX*BYHI
-        PZ4(I)=PZC4(I)+DEUX*BZHI
+        BXHI=THIRD*(PX4(I)-PXC4(I))
+        BYHI=THIRD*(PY4(I)-PYC4(I))
+        BZHI=THIRD*(PZ4(I)-PZC4(I))
+        PX4(I)=PXC4(I)+TWO*BXHI
+        PY4(I)=PYC4(I)+TWO*BYHI
+        PZ4(I)=PZC4(I)+TWO*BZHI
         BXY4(I)=-BXHI
         BXZ4(I)=-BXHI
         BYX4(I)=-BYHI
@@ -4724,12 +4724,12 @@ C-------|BXZ BYZ BZZ |
         BZY4(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX5(I)+PXC3(I))
-        BYHI=TIERS*(PY5(I)+PYC3(I))
-        BZHI=TIERS*(PZ5(I)+PZC3(I))
-        PX5(I)=-PXC3(I)+DEUX*BXHI
-        PY5(I)=-PYC3(I)+DEUX*BYHI
-        PZ5(I)=-PZC3(I)+DEUX*BZHI
+        BXHI=THIRD*(PX5(I)+PXC3(I))
+        BYHI=THIRD*(PY5(I)+PYC3(I))
+        BZHI=THIRD*(PZ5(I)+PZC3(I))
+        PX5(I)=-PXC3(I)+TWO*BXHI
+        PY5(I)=-PYC3(I)+TWO*BYHI
+        PZ5(I)=-PZC3(I)+TWO*BZHI
         BXY5(I)=-BXHI
         BXZ5(I)=-BXHI
         BYX5(I)=-BYHI
@@ -4738,12 +4738,12 @@ C-------|BXZ BYZ BZZ |
         BZY5(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX6(I)+PXC4(I))
-        BYHI=TIERS*(PY6(I)+PYC4(I))
-        BZHI=TIERS*(PZ6(I)+PZC4(I))
-        PX6(I)=-PXC4(I)+DEUX*BXHI
-        PY6(I)=-PYC4(I)+DEUX*BYHI
-        PZ6(I)=-PZC4(I)+DEUX*BZHI
+        BXHI=THIRD*(PX6(I)+PXC4(I))
+        BYHI=THIRD*(PY6(I)+PYC4(I))
+        BZHI=THIRD*(PZ6(I)+PZC4(I))
+        PX6(I)=-PXC4(I)+TWO*BXHI
+        PY6(I)=-PYC4(I)+TWO*BYHI
+        PZ6(I)=-PZC4(I)+TWO*BZHI
         BXY6(I)=-BXHI
         BXZ6(I)=-BXHI
         BYX6(I)=-BYHI
@@ -4752,12 +4752,12 @@ C-------|BXZ BYZ BZZ |
         BZY6(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX7(I)+PXC1(I))
-        BYHI=TIERS*(PY7(I)+PYC1(I))
-        BZHI=TIERS*(PZ7(I)+PZC1(I))
-        PX7(I)=-PXC1(I)+DEUX*BXHI
-        PY7(I)=-PYC1(I)+DEUX*BYHI
-        PZ7(I)=-PZC1(I)+DEUX*BZHI
+        BXHI=THIRD*(PX7(I)+PXC1(I))
+        BYHI=THIRD*(PY7(I)+PYC1(I))
+        BZHI=THIRD*(PZ7(I)+PZC1(I))
+        PX7(I)=-PXC1(I)+TWO*BXHI
+        PY7(I)=-PYC1(I)+TWO*BYHI
+        PZ7(I)=-PZC1(I)+TWO*BZHI
         BXY7(I)=-BXHI
         BXZ7(I)=-BXHI
         BYX7(I)=-BYHI
@@ -4766,12 +4766,12 @@ C-------|BXZ BYZ BZZ |
         BZY7(I)=-BZHI
        ENDDO
        DO I=LFT,LLT
-        BXHI=TIERS*(PX8(I)+PXC2(I))
-        BYHI=TIERS*(PY8(I)+PYC2(I))
-        BZHI=TIERS*(PZ8(I)+PZC2(I))
-        PX8(I)=-PXC2(I)+DEUX*BXHI
-        PY8(I)=-PYC2(I)+DEUX*BYHI
-        PZ8(I)=-PZC2(I)+DEUX*BZHI
+        BXHI=THIRD*(PX8(I)+PXC2(I))
+        BYHI=THIRD*(PY8(I)+PYC2(I))
+        BZHI=THIRD*(PZ8(I)+PZC2(I))
+        PX8(I)=-PXC2(I)+TWO*BXHI
+        PY8(I)=-PYC2(I)+TWO*BYHI
+        PZ8(I)=-PZC2(I)+TWO*BZHI
         BXY8(I)=-BXHI
         BXZ8(I)=-BXHI
         BYX8(I)=-BYHI

@@ -164,11 +164,11 @@ c
                   GAMA(5)=GBUF%GAMA(KK(5)+I)				       
                   GAMA(6)=GBUF%GAMA(KK(6)+I)				       
                 ELSE                                                        
-                  GAMA(1)=UN                                                
+                  GAMA(1)=ONE                                                
                   GAMA(2)=ZERO                                              
                   GAMA(3)=ZERO                                              
                   GAMA(4)=ZERO                                              
-                  GAMA(5)=UN                                                
+                  GAMA(5)=ONE                                                
                   GAMA(6)=ZERO                                              
                 END IF                                                      
               ENDIF                                                         
@@ -227,11 +227,11 @@ C             pointeur de fin de zone dans WA
                   GAMA(5)=GBUF%GAMA(KK(5)+I)				       
                   GAMA(6)=GBUF%GAMA(KK(6)+I)				       
                 ELSE                                                        
-                  GAMA(1)=UN                                                
+                  GAMA(1)=ONE                                                
                   GAMA(2)=ZERO                                              
                   GAMA(3)=ZERO                                              
                   GAMA(4)=ZERO                                              
-                  GAMA(5)=UN                                                
+                  GAMA(5)=ONE                                                
                   GAMA(6)=ZERO                                              
                 END IF                                                      
               ENDIF                                                         
@@ -291,11 +291,11 @@ C             pointeur de fin de zone dans WA
                   GAMA(5)=GBUF%GAMA(KK(5)+I)				       
                   GAMA(6)=GBUF%GAMA(KK(6)+I)				       
                 ELSE                                                        
-                  GAMA(1)=UN                                                
+                  GAMA(1)=ONE                                                
                   GAMA(2)=ZERO                                              
                   GAMA(3)=ZERO                                              
                   GAMA(4)=ZERO                                              
-                  GAMA(5)=UN                                                
+                  GAMA(5)=ONE                                                
                   GAMA(6)=ZERO                                              
                 END IF                                                      
               ENDIF                                                         
@@ -346,11 +346,11 @@ C             pointeur de fin de zone dans WA
               WA(JJ+10)= IGTYP       
               WA(JJ+11) = GBUF%OFF(I)                                                                                    
               JJ = JJ + 11                                                  
-              GAMA(1)=UN                                                
+              GAMA(1)=ONE                                                
               GAMA(2)=ZERO                                              
               GAMA(3)=ZERO                                              
               GAMA(4)=ZERO                                              
-              GAMA(5)=UN                                                
+              GAMA(5)=ONE                                                
               GAMA(6)=ZERO                                              
 c---
               DO IR=1,NPTR                                               
@@ -434,11 +434,11 @@ c
                   GAMA(5)=GBUF%GAMA(KK(5)+I)						   
                   GAMA(6)=GBUF%GAMA(KK(6)+I)						   
                 ELSE                                                                    
-                  GAMA(1)=UN                                                            
+                  GAMA(1)=ONE                                                            
                   GAMA(2)=ZERO                                                          
                   GAMA(3)=ZERO                                                          
                   GAMA(4)=ZERO                                                          
-                  GAMA(5)=UN                                                            
+                  GAMA(5)=ONE                                                            
                   GAMA(6)=ZERO                                                          
                 END IF                                                                  
               ENDIF                                                                     
@@ -504,11 +504,11 @@ c
                   GAMA(5)=GBUF%GAMA(KK(5)+I)						   
                   GAMA(6)=GBUF%GAMA(KK(6)+I)						   
                 ELSE                                                                    
-                  GAMA(1)=UN                                                            
+                  GAMA(1)=ONE                                                            
                   GAMA(2)=ZERO                                                          
                   GAMA(3)=ZERO                                                          
                   GAMA(4)=ZERO                                                          
-                  GAMA(5)=UN                                                            
+                  GAMA(5)=ONE                                                            
                   GAMA(6)=ZERO                                                          
                 END IF                                                                  
               ENDIF                                                                     
@@ -570,11 +570,11 @@ c
                   GAMA(5)=GBUF%GAMA(KK(5)+I)						   
                   GAMA(6)=GBUF%GAMA(KK(6)+I)						   
                 ELSE                                                                    
-                  GAMA(1)=UN                                                            
+                  GAMA(1)=ONE                                                            
                   GAMA(2)=ZERO                                                          
                   GAMA(3)=ZERO                                                          
                   GAMA(4)=ZERO                                                          
-                  GAMA(5)=UN                                                            
+                  GAMA(5)=ONE                                                            
                   GAMA(6)=ZERO                                                          
                 END IF                                                                  
               ENDIF                                                                     

@@ -178,9 +178,9 @@ C----------------------------
      .   SX, SY, SSZ, 
      .   R11,R12,R13,R21,R22,R23,R31,R32,R33,DETA1,OFFG )
       DO I=JFT,JLT
-        AREA(I)=QUART*DETA1(I)
+        AREA(I)=FOURTH*DETA1(I)
         OFF_LOC = ZERO
-        IF(ABS(OFFG(I))/=ZERO) OFF_LOC = UN
+        IF(ABS(OFFG(I))/=ZERO) OFF_LOC = ONE
         AREA_I(I)=OFF_LOC/AREA(I)
         AREA_I(I) = MAX(AREA_I(I),EM20)
         VQ(I,1,1)=R11(I)
@@ -203,11 +203,11 @@ C--------------------------
           IXCTMP4=IXC(4,I)
           IXCTMP5=IXC(5,I)
           
-          LXYZ0(1)=QUART*(X(1,IXCTMP4)+X(1,IXCTMP5)
+          LXYZ0(1)=FOURTH*(X(1,IXCTMP4)+X(1,IXCTMP5)
      .                  + X(1,IXCTMP2)+X(1,IXCTMP3))
-          LXYZ0(2)=QUART*(X(2,IXCTMP4)+X(2,IXCTMP5)
+          LXYZ0(2)=FOURTH*(X(2,IXCTMP4)+X(2,IXCTMP5)
      .                  + X(2,IXCTMP2)+X(2,IXCTMP3))
-          LXYZ0(3)=QUART*(X(3,IXCTMP4)+X(3,IXCTMP5)
+          LXYZ0(3)=FOURTH*(X(3,IXCTMP4)+X(3,IXCTMP5)
      .                  + X(3,IXCTMP2)+X(3,IXCTMP3))
 
           J=IXCTMP2
@@ -237,11 +237,11 @@ C--------------------------
         ENDDO
       ELSE IF(IXFEM==1)THEN
         DO I=JFT,JLT
-          LXYZ0(1)=QUART*(X3G(I)+X4G(I)
+          LXYZ0(1)=FOURTH*(X3G(I)+X4G(I)
      .                   +X1G(I)+X2G(I))
-          LXYZ0(2)=QUART*(Y3G(I)+Y4G(I)
+          LXYZ0(2)=FOURTH*(Y3G(I)+Y4G(I)
      .                   +Y1G(I)+Y2G(I))
-          LXYZ0(3)=QUART*(Z3G(I)+Z4G(I)
+          LXYZ0(3)=FOURTH*(Z3G(I)+Z4G(I)
      .                   +Z1G(I)+Z2G(I))
 C          J=IXC(2,I)
 C          K=IXC(3,I)
@@ -275,7 +275,7 @@ C----------------------------
       IF(ISMSTR == 11)THEN
 #include "vectorize.inc" 
         DO I=JFT,JLT
-          IF(ABS(OFFG(I)) == UN)OFFG(I)=SIGN(DEUX,OFFG(I))
+          IF(ABS(OFFG(I)) == ONE)OFFG(I)=SIGN(TWO,OFFG(I))
           UX1(I) = ZERO
           UY1(I) = ZERO
           UX2(I) = ZERO
@@ -284,7 +284,7 @@ C----------------------------
           UY3(I) = ZERO
           UX4(I) = ZERO
           UY4(I) = ZERO
-          IF(ABS(OFFG(I)) == DEUX)THEN
+          IF(ABS(OFFG(I)) == TWO)THEN
             UX2(I) = XL2(I)-SMSTR(II(1)+I)
             UY2(I) = YL2(I)-SMSTR(II(2)+I)
             UX3(I) = XL3(I)-SMSTR(II(3)+I)
@@ -298,9 +298,9 @@ C----------------------------
             XL4(I) = SMSTR(II(5)+I)
             YL4(I) = SMSTR(II(6)+I)
             Z1(I) = ZERO
-            AREA(I) = UNDEMI*
+            AREA(I) = HALF*
      .              ((XL2(I)-XL4(I))*YL3(I)-XL3(I)*(YL2(I)-YL4(I)))
-            AREA_I(I) = UN/MAX(EM20,AREA(I))
+            AREA_I(I) = ONE/MAX(EM20,AREA(I))
           ELSE
             SMSTR(II(1)+I) = XL2(I)
             SMSTR(II(2)+I) = YL2(I) 
@@ -313,7 +313,7 @@ C----------------------------
       ELSEIF(ISMSTR == 1.OR.ISMSTR == 2)THEN
 #include "vectorize.inc" 
         DO I=JFT,JLT
-          IF(ABS(OFFG(I)) == DEUX)THEN
+          IF(ABS(OFFG(I)) == TWO)THEN
             XL2(I) = SMSTR(II(1)+I)
             YL2(I) = SMSTR(II(2)+I)
             XL3(I) = SMSTR(II(3)+I)
@@ -321,9 +321,9 @@ C----------------------------
             XL4(I) = SMSTR(II(5)+I)
             YL4(I) = SMSTR(II(6)+I)
             Z1(I) = ZERO
-            AREA(I) = UNDEMI*
+            AREA(I) = HALF*
      .              ((XL2(I)-XL4(I))*YL3(I)-XL3(I)*(YL2(I)-YL4(I)))
-            AREA_I(I) = UN/MAX(EM20,AREA(I))
+            AREA_I(I) = ONE/MAX(EM20,AREA(I))
           ELSE
             SMSTR(II(1)+I)=XL2(I)
             SMSTR(II(2)+I)=YL2(I)
@@ -336,7 +336,7 @@ C----------------------------
       ENDIF
       IF(ISMSTR == 1)THEN
         DO I=JFT,JLT
-          IF(OFFG(I) == UN)OFFG(I)=DEUX
+          IF(OFFG(I) == ONE)OFFG(I)=TWO
         ENDDO
       ENDIF
 C----------------------------
@@ -349,8 +349,8 @@ C----------------------------
 C----------------------------
       IF (IVECTOR == 1)THEN
        DO I=JFT,JLT
-        LXYZ0(1)=QUART*(XL2(I)+XL3(I)+XL4(I))
-        LXYZ0(2)=QUART*(YL2(I)+YL3(I)+YL4(I))
+        LXYZ0(1)=FOURTH*(XL2(I)+XL3(I)+XL4(I))
+        LXYZ0(2)=FOURTH*(YL2(I)+YL3(I)+YL4(I))
         CORELV(I,1,1)=-LXYZ0(1)
         CORELV(I,1,2)=XL2(I)-LXYZ0(1)
         CORELV(I,1,3)=XL3(I)-LXYZ0(1)
@@ -359,17 +359,17 @@ C----------------------------
         CORELV(I,2,2)=YL2(I)-LXYZ0(2)
         CORELV(I,2,3)=YL3(I)-LXYZ0(2)
         CORELV(I,2,4)=YL4(I)-LXYZ0(2)
-        X13(I)=(CORELV(I,1,1)-CORELV(I,1,3))*UNDEMI
-        X24(I)=(CORELV(I,1,2)-CORELV(I,1,4))*UNDEMI
-        Y13(I)=(CORELV(I,2,1)-CORELV(I,2,3))*UNDEMI
-        Y24(I)=(CORELV(I,2,2)-CORELV(I,2,4))*UNDEMI
+        X13(I)=(CORELV(I,1,1)-CORELV(I,1,3))*HALF
+        X24(I)=(CORELV(I,1,2)-CORELV(I,1,4))*HALF
+        Y13(I)=(CORELV(I,2,1)-CORELV(I,2,3))*HALF
+        Y24(I)=(CORELV(I,2,2)-CORELV(I,2,4))*HALF
 C
-        MX13(I)=(CORELV(I,1,1)+CORELV(I,1,3))*UNDEMI
-        MX23(I)=(CORELV(I,1,2)+CORELV(I,1,3))*UNDEMI
-        MX34(I)=(CORELV(I,1,3)+CORELV(I,1,4))*UNDEMI
-        MY13(I)=(CORELV(I,2,1)+CORELV(I,2,3))*UNDEMI
-        MY23(I)=(CORELV(I,2,2)+CORELV(I,2,3))*UNDEMI
-        MY34(I)=(CORELV(I,2,3)+CORELV(I,2,4))*UNDEMI
+        MX13(I)=(CORELV(I,1,1)+CORELV(I,1,3))*HALF
+        MX23(I)=(CORELV(I,1,2)+CORELV(I,1,3))*HALF
+        MX34(I)=(CORELV(I,1,3)+CORELV(I,1,4))*HALF
+        MY13(I)=(CORELV(I,2,1)+CORELV(I,2,3))*HALF
+        MY23(I)=(CORELV(I,2,2)+CORELV(I,2,3))*HALF
+        MY34(I)=(CORELV(I,2,3)+CORELV(I,2,4))*HALF
 C
         PY1(I) = -X24(I)
         PX2(I) = -Y13(I)
@@ -393,8 +393,8 @@ C
       ELSE
 C Partie Normale
        DO I=JFT,JLT
-        LXYZ0(1)=QUART*(XL2(I)+XL3(I)+XL4(I))
-        LXYZ0(2)=QUART*(YL2(I)+YL3(I)+YL4(I))
+        LXYZ0(1)=FOURTH*(XL2(I)+XL3(I)+XL4(I))
+        LXYZ0(2)=FOURTH*(YL2(I)+YL3(I)+YL4(I))
         COREL(I,1,1)=-LXYZ0(1)
         COREL(I,1,2)=XL2(I)-LXYZ0(1)
         COREL(I,1,3)=XL3(I)-LXYZ0(1)
@@ -403,17 +403,17 @@ C Partie Normale
         COREL(I,2,2)=YL2(I)-LXYZ0(2)
         COREL(I,2,3)=YL3(I)-LXYZ0(2)
         COREL(I,2,4)=YL4(I)-LXYZ0(2)
-        X13(I)=(COREL(I,1,1)-COREL(I,1,3))*UNDEMI
-        X24(I)=(COREL(I,1,2)-COREL(I,1,4))*UNDEMI
-        Y13(I)=(COREL(I,2,1)-COREL(I,2,3))*UNDEMI
-        Y24(I)=(COREL(I,2,2)-COREL(I,2,4))*UNDEMI
+        X13(I)=(COREL(I,1,1)-COREL(I,1,3))*HALF
+        X24(I)=(COREL(I,1,2)-COREL(I,1,4))*HALF
+        Y13(I)=(COREL(I,2,1)-COREL(I,2,3))*HALF
+        Y24(I)=(COREL(I,2,2)-COREL(I,2,4))*HALF
 C
-        MX13(I)=(COREL(I,1,1)+COREL(I,1,3))*UNDEMI
-        MX23(I)=(COREL(I,1,2)+COREL(I,1,3))*UNDEMI
-        MX34(I)=(COREL(I,1,3)+COREL(I,1,4))*UNDEMI
-        MY13(I)=(COREL(I,2,1)+COREL(I,2,3))*UNDEMI
-        MY23(I)=(COREL(I,2,2)+COREL(I,2,3))*UNDEMI
-        MY34(I)=(COREL(I,2,3)+COREL(I,2,4))*UNDEMI
+        MX13(I)=(COREL(I,1,1)+COREL(I,1,3))*HALF
+        MX23(I)=(COREL(I,1,2)+COREL(I,1,3))*HALF
+        MX34(I)=(COREL(I,1,3)+COREL(I,1,4))*HALF
+        MY13(I)=(COREL(I,2,1)+COREL(I,2,3))*HALF
+        MY23(I)=(COREL(I,2,2)+COREL(I,2,3))*HALF
+        MY34(I)=(COREL(I,2,3)+COREL(I,2,4))*HALF
 C
         PY1(I) = -X24(I)
         PX2(I) = -Y13(I)
@@ -436,9 +436,9 @@ C
 C----------------------------
 C---------Facteur pour longueur caracteristique---
 C----------------------------
-       FACDT = CQUATRE
+       FACDT = FIVE_OVER_4
 C-------same than QBAT       
-       IF (IDT1SH.GT.0) FACDT =QTIERS
+       IF (IDT1SH.GT.0) FACDT =FOUR_OVER_3
        DO I=JFT,JLT
         RX(I)=XL2(I)+XL3(I)-XL4(I)
         RY(I)=YL2(I)+YL3(I)-YL4(I)
@@ -446,15 +446,15 @@ C-------same than QBAT
         SY(I)=-YL2(I)+YL3(I)+YL4(I)
         C1=SQRT(RX(I)*RX(I)+RY(I)*RY(I))
         C2=SQRT(SX(I)*SX(I)+SY(I)*SY(I))
-        S1=QUART*(MAX(C1,C2)/MIN(C1,C2)-UN)
-        FAC1=MIN(UNDEMI,S1)+UN
-        FAC2=QUATRE*AREA(I)/(C1*C2)
+        S1=FOURTH*(MAX(C1,C2)/MIN(C1,C2)-ONE)
+        FAC1=MIN(HALF,S1)+ONE
+        FAC2=FOUR*AREA(I)/(C1*C2)
         FAC2=3.413*MAX(ZERO,FAC2-0.7071)
         FAC2=0.78+0.22*FAC2*FAC2*FAC2
-        FACI=DEUX*FAC1*FAC2
+        FACI=TWO*FAC1*FAC2
 C
         LL(I)=MAX(L13(I),L24(I))
-        LM(I)=UNDEMI*(L13(I)+L24(I))
+        LM(I)=HALF*(L13(I)+L24(I))
         FACN(I,1)=SQRT(L24(I)/LL(I))
         FACN(I,2)=SQRT(L13(I)/LL(I))
         S1 = SQRT(FACI*(FACDT+HS(I))*LL(I))
@@ -463,9 +463,9 @@ C
        ENDDO
 C       IF (IDRIL.GT.0) THEN
 C        DO I=JFT,JLT
-C	     S1=UN/SQRT(MAX(L13(I),L24(I)))
-C	     FAC1=0.95*S1*SQRT(UNSIX*(AREA(I)+THK(I)*THK(I)))
-c	     FAC1=S1*SQRT(UNNEUF*(AREA(I)+THK(I)*THK(I)))
+C	     S1=ONE/SQRT(MAX(L13(I),L24(I)))
+C	     FAC1=0.95*S1*SQRT(ONE_OVER_6*(AREA(I)+THK(I)*THK(I)))
+c	     FAC1=S1*SQRT(ONE_OVER_9*(AREA(I)+THK(I)*THK(I)))
 C         SL= FAC1*AREA(I)*S1
 C         LL(I) = MIN(LL(I),SL)
 C        ENDDO
@@ -662,8 +662,8 @@ C--------------------------
 C-------Correction 2nd order rigid rotation due a V(t+dt/2),X(t+dt)----
 C--------------------------
        IF (ISHV51.GT.51.AND.(IMPL_S == 0.OR.IMP_LR.GT.0)) THEN
-        DT05 = UNDEMI*DT1
-        DT025 =QUART*DT1
+        DT05 = HALF*DT1
+        DT025 =FOURTH*DT1
         DO I=JFT,JLT
          EXZ =  Y24(I)*V13(I,3)-Y13(I)*V24(I,3)
          EYZ = -X24(I)*V13(I,3)+X13(I)*V24(I,3)
@@ -777,15 +777,15 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
       DO I=JFT,JLT
         V13(I,1)=V13(I,1)*AREA_I(I)
         V24(I,1)=V24(I,1)*AREA_I(I)
-        VHI(I,1)=VHI(I,1)*QUART
+        VHI(I,1)=VHI(I,1)*FOURTH
 C
         V13(I,2)=V13(I,2)*AREA_I(I)
         V24(I,2)=V24(I,2)*AREA_I(I)
-        VHI(I,2)=VHI(I,2)*QUART
+        VHI(I,2)=VHI(I,2)*FOURTH
 C
         V13(I,3)=V13(I,3)*AREA_I(I)
         V24(I,3)=V24(I,3)*AREA_I(I)
-        VHI(I,3)=VHI(I,3)*QUART
+        VHI(I,3)=VHI(I,3)*FOURTH
       ENDDO
 C
       RETURN
@@ -822,8 +822,8 @@ C-----------------------------------------------
          XXYZ2 = D(1)*D(6)*D(6)
          YYXZ2 = D(2)*D(5)*D(5)
          ZZXY2 = D(3)*D(4)*D(4)
-         DETA = ABS(ABC+DEUX*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2)
-         DETA = UN/MAX(DETA,EM20)
+         DETA = ABS(ABC+TWO*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2)
+         DETA = ONE/MAX(DETA,EM20)
          DI(1) = (ABC-XXYZ2)*DETA/MAX(D(1),EM20)
          DI(2) = (ABC-YYXZ2)*DETA/MAX(D(2),EM20)
          DI(3) = (ABC-ZZXY2)*DETA/MAX(D(3),EM20)
@@ -893,12 +893,12 @@ C--------------------------------------------------
 C TRAITEMENT SPECIAL POUR ELEMENT GAUCHE
 C full projection eliminer drilling rotations and rigid rotations
 C--------------------------------------------------------------------------  
-         A_4=AREA(I)*QUART
+         A_4=AREA(I)*FOURTH
 C----------  node N ----------
          SZ1=MX13(I)*Y24(I)-MY13(I)*X24(I)
          SZ2=A_4+SZ1
          SZ=Z2(I)*L24(I)
-         SL=UN/SQRT(SZ+SZ2*SZ2)
+         SL=ONE/SQRT(SZ+SZ2*SZ2)
          VQN(I,1,1)=-Z1(I)*Y24(I)
          VQN(I,2,1)= Z1(I)*X24(I)
          VQN(I,3,1)= SZ2*SL
@@ -908,7 +908,7 @@ C----------  node N ----------
          VQN(I,2,1)= VQN(I,2,1)*SL
 C
          SZ2=A_4-SZ1
-         SL=UN/SQRT(SZ+SZ2*SZ2)
+         SL=ONE/SQRT(SZ+SZ2*SZ2)
          VQN(I,1,3)= VQN(I,1,3)*SL
          VQN(I,2,3)= VQN(I,2,3)*SL
          VQN(I,3,3)= SZ2*SL
@@ -916,7 +916,7 @@ C
          SZ1=MX13(I)*Y13(I)-MY13(I)*X13(I)
          SZ2=A_4+SZ1
          SZ=Z2(I)*L13(I)
-         SL=UN/SQRT(SZ+SZ2*SZ2)
+         SL=ONE/SQRT(SZ+SZ2*SZ2)
          VQN(I,1,2)=-Z1(I)*Y13(I)
          VQN(I,2,2)= Z1(I)*X13(I)
          VQN(I,3,2)= SZ2*SL
@@ -926,7 +926,7 @@ C
          VQN(I,2,2)= VQN(I,2,2)*SL
 C
          SZ2=A_4-SZ1
-         SL=UN/SQRT(SZ+SZ2*SZ2)
+         SL=ONE/SQRT(SZ+SZ2*SZ2)
          VQN(I,1,4)= VQN(I,1,4)*SL
          VQN(I,2,4)= VQN(I,2,4)*SL
          VQN(I,3,4)= SZ2*SL
@@ -979,9 +979,9 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
      1       +CORELV(I,2,3)*CORELV(I,2,3)+CORELV(I,2,4)*CORELV(I,2,4)
          XY = CORELV(I,1,1)*CORELV(I,2,1)+CORELV(I,1,2)*CORELV(I,2,2)
      1       +CORELV(I,1,3)*CORELV(I,2,3)+CORELV(I,1,4)*CORELV(I,2,4)
-         ZZ = QUATRE*Z2(I)
+         ZZ = FOUR*Z2(I)
          C1 = Z1(I)/A_4
-         BTB_C = DEUX *C1*C1
+         BTB_C = TWO *C1*C1
          BTB(1)= BTB_C*(Y24_2(I)+Y13_2(I))
          BTB(2)= BTB_C*(X24_2(I)+X13_2(I))
          BTB(3)= BTB_C*(X24(I)*Y24(I)+X13(I)*Y13(I))
@@ -994,11 +994,11 @@ C
          Z1(I)=ZERO
          PLAT(I)=.TRUE.
         ELSE         
-         DETA = UN/DETA
+         DETA = ONE/DETA
          DI(I,1) = D(2)*DETA
          DI(I,2) = D(1)*DETA
          DI(I,4) =-D(3)*DETA
-         DI(I,3) = UN/MAX(XX+YY,EM20)
+         DI(I,3) = ONE/MAX(XX+YY,EM20)
          DI(I,5) = ZERO
          DI(I,6) = ZERO
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -1035,13 +1035,13 @@ C
          C1 = 2.0*ALR(3)
           V13(I,1)= V13(I,1)+C1*Y13(I)
           V24(I,1)= V24(I,1)+C1*Y24(I)
-          VHI(I,1)= VHI(I,1)+QUATRE*(ALR(3)*MY13(I)-Z1(I)*ALR(2))
+          VHI(I,1)= VHI(I,1)+FOUR*(ALR(3)*MY13(I)-Z1(I)*ALR(2))
           V13(I,2)= V13(I,2)-C1*X13(I)
           V24(I,2)= V24(I,2)-C1*X24(I)
-          VHI(I,2)= VHI(I,2)-QUATRE*(ALR(3)*MX13(I)-Z1(I)*ALR(1))
-          V13(I,3)= V13(I,3)-DEUX*(Y13(I)*ALR(1)-X13(I)*ALR(2))
-          V24(I,3)= V24(I,3)-DEUX*(Y24(I)*ALR(1)-X24(I)*ALR(2))
-          VHI(I,3)= VHI(I,3)+QUATRE*(MX13(I)*ALR(2)-MY13(I)*ALR(1))
+          VHI(I,2)= VHI(I,2)-FOUR*(ALR(3)*MX13(I)-Z1(I)*ALR(1))
+          V13(I,3)= V13(I,3)-TWO*(Y13(I)*ALR(1)-X13(I)*ALR(2))
+          V24(I,3)= V24(I,3)-TWO*(Y24(I)*ALR(1)-X24(I)*ALR(2))
+          VHI(I,3)= VHI(I,3)+FOUR*(MX13(I)*ALR(2)-MY13(I)*ALR(1))
 C
           RLXYZV(I,1,1)= RRXYZ(1,1)-ALR(1)-VQN(I,1,1)*ALD(1)
           RLXYZV(I,1,2)= RRXYZ(1,2)-ALR(1)-VQN(I,1,2)*ALD(2)
@@ -1120,13 +1120,13 @@ C--------------------------------------------------
 C TRAITEMENT SPECIAL POUR ELEMENT GAUCHE
 C full projection eliminer drilling rotations and rigid rotations
 C--------------------------------------------------------------------------  
-        A_4=AREA(I)*QUART
+        A_4=AREA(I)*FOURTH
 C
 C----------  node N ----------
         SZ1=MX13(I)*Y24(I)-MY13(I)*X24(I)
         SZ2=A_4+SZ1
         SZ=Z2(I)*L24(I)
-        SL=UN/SQRT(SZ+SZ2*SZ2)
+        SL=ONE/SQRT(SZ+SZ2*SZ2)
         VQN(I,1,1)=-Z1(I)*Y24(I)
         VQN(I,2,1)= Z1(I)*X24(I)
         VQN(I,3,1)= SZ2*SL
@@ -1136,7 +1136,7 @@ C----------  node N ----------
         VQN(I,2,1)= VQN(I,2,1)*SL
 C
         SZ2=A_4-SZ1
-        SL=UN/SQRT(SZ+SZ2*SZ2)
+        SL=ONE/SQRT(SZ+SZ2*SZ2)
         VQN(I,1,3)= VQN(I,1,3)*SL
         VQN(I,2,3)= VQN(I,2,3)*SL
         VQN(I,3,3)= SZ2*SL
@@ -1144,7 +1144,7 @@ C
         SZ1=MX13(I)*Y13(I)-MY13(I)*X13(I)
         SZ2=A_4+SZ1
         SZ=Z2(I)*L13(I)
-        SL=UN/SQRT(SZ+SZ2*SZ2)
+        SL=ONE/SQRT(SZ+SZ2*SZ2)
         VQN(I,1,2)=-Z1(I)*Y13(I)
         VQN(I,2,2)= Z1(I)*X13(I)
         VQN(I,3,2)= SZ2*SL
@@ -1154,7 +1154,7 @@ C
         VQN(I,2,2)= VQN(I,2,2)*SL
 C
         SZ2=A_4-SZ1
-        SL=UN/SQRT(SZ+SZ2*SZ2)
+        SL=ONE/SQRT(SZ+SZ2*SZ2)
         VQN(I,1,4)= VQN(I,1,4)*SL
         VQN(I,2,4)= VQN(I,2,4)*SL
         VQN(I,3,4)= SZ2*SL
@@ -1207,9 +1207,9 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
      1      +COREL(I,2,3)*COREL(I,2,3)+COREL(I,2,4)*COREL(I,2,4)
         XY = COREL(I,1,1)*COREL(I,2,1)+COREL(I,1,2)*COREL(I,2,2)
      1      +COREL(I,1,3)*COREL(I,2,3)+COREL(I,1,4)*COREL(I,2,4)
-        ZZ = QUATRE*Z2(I)
+        ZZ = FOUR*Z2(I)
         C1 = Z1(I)/A_4
-        BTB_C = DEUX *C1*C1
+        BTB_C = TWO *C1*C1
         BTB(1)= BTB_C*(Y24_2(I)+Y13_2(I))
         BTB(2)= BTB_C*(X24_2(I)+X13_2(I))
         BTB(3)= BTB_C*(X24(I)*Y24(I)+X13(I)*Y13(I))
@@ -1222,11 +1222,11 @@ C
          Z1(I)=ZERO
          PLAT(I)=.TRUE.
        ELSE         
-        DETA = UN/DETA
+        DETA = ONE/DETA
         DI(I,1) = D(2)*DETA
         DI(I,2) = D(1)*DETA
         DI(I,4) =-D(3)*DETA
-        DI(I,3) = UN/MAX(XX+YY,EM20)
+        DI(I,3) = ONE/MAX(XX+YY,EM20)
         DI(I,5) = ZERO
         DI(I,6) = ZERO
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -1261,16 +1261,16 @@ C
      2            -DB(I,1,4)*AR(1)-DB(I,2,4)*AR(2)-DB(I,3,4)*AR(3)
 C
 C
-         C1 = DEUX*ALR(3)
+         C1 = TWO*ALR(3)
           V13(I,1)= V13(I,1)+C1*Y13(I)
           V24(I,1)= V24(I,1)+C1*Y24(I)
-          VHI(I,1)= VHI(I,1)+QUATRE*(ALR(3)*MY13(I)-Z1(I)*ALR(2))
+          VHI(I,1)= VHI(I,1)+FOUR*(ALR(3)*MY13(I)-Z1(I)*ALR(2))
           V13(I,2)= V13(I,2)-C1*X13(I)
           V24(I,2)= V24(I,2)-C1*X24(I)
-          VHI(I,2)= VHI(I,2)-QUATRE*(ALR(3)*MX13(I)-Z1(I)*ALR(1))
-          V13(I,3)= V13(I,3)-DEUX*(Y13(I)*ALR(1)-X13(I)*ALR(2))
-          V24(I,3)= V24(I,3)-DEUX*(Y24(I)*ALR(1)-X24(I)*ALR(2))
-          VHI(I,3)= VHI(I,3)+QUATRE*(MX13(I)*ALR(2)-MY13(I)*ALR(1))
+          VHI(I,2)= VHI(I,2)-FOUR*(ALR(3)*MX13(I)-Z1(I)*ALR(1))
+          V13(I,3)= V13(I,3)-TWO*(Y13(I)*ALR(1)-X13(I)*ALR(2))
+          V24(I,3)= V24(I,3)-TWO*(Y24(I)*ALR(1)-X24(I)*ALR(2))
+          VHI(I,3)= VHI(I,3)+FOUR*(MX13(I)*ALR(2)-MY13(I)*ALR(1))
           RLXYZ(I,1,1)= RRXYZ(1,1)-ALR(1)-VQN(I,1,1)*ALD(1)
           RLXYZ(I,1,2)= RRXYZ(1,2)-ALR(1)-VQN(I,1,2)*ALD(2)
           RLXYZ(I,1,3)= RRXYZ(1,3)-ALR(1)-VQN(I,1,3)*ALD(3)
@@ -1353,13 +1353,13 @@ C--------------------------------------------------
 C TRAITEMENT SPECIAL POUR ELEMENT GAUCHE
 C full projection eliminer drilling rotations and rigid rotations
 C--------------------------------------------------------------------------  
-        A_4=AREA(I)*QUART
+        A_4=AREA(I)*FOURTH
 C
 C----------  node N ----------
         SZ1=MX13(I)*Y24(I)-MY13(I)*X24(I)
         SZ2=A_4+SZ1
         SZ=Z2(I)*L24(I)
-        SL=UN/SQRT(SZ+SZ2*SZ2)
+        SL=ONE/SQRT(SZ+SZ2*SZ2)
         VQN(I,1,1)=-Z1(I)*Y24(I)
         VQN(I,2,1)= Z1(I)*X24(I)
         VQN(I,3,1)= SZ2*SL
@@ -1369,7 +1369,7 @@ C----------  node N ----------
         VQN(I,2,1)= VQN(I,2,1)*SL
 C
         SZ2=A_4-SZ1
-        SL=UN/SQRT(SZ+SZ2*SZ2)
+        SL=ONE/SQRT(SZ+SZ2*SZ2)
         VQN(I,1,3)= VQN(I,1,3)*SL
         VQN(I,2,3)= VQN(I,2,3)*SL
         VQN(I,3,3)= SZ2*SL
@@ -1377,7 +1377,7 @@ C
         SZ1=MX13(I)*Y13(I)-MY13(I)*X13(I)
         SZ2=A_4+SZ1
         SZ=Z2(I)*L13(I)
-        SL=UN/SQRT(SZ+SZ2*SZ2)
+        SL=ONE/SQRT(SZ+SZ2*SZ2)
         VQN(I,1,2)=-Z1(I)*Y13(I)
         VQN(I,2,2)= Z1(I)*X13(I)
         VQN(I,3,2)= SZ2*SL
@@ -1387,7 +1387,7 @@ C
         VQN(I,2,2)= VQN(I,2,2)*SL
 C
         SZ2=A_4-SZ1
-        SL=UN/SQRT(SZ+SZ2*SZ2)
+        SL=ONE/SQRT(SZ+SZ2*SZ2)
         VQN(I,1,4)= VQN(I,1,4)*SL
         VQN(I,2,4)= VQN(I,2,4)*SL
         VQN(I,3,4)= SZ2*SL
@@ -1439,9 +1439,9 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
      1      +COREL(I,2,3)*COREL(I,2,3)+COREL(I,2,4)*COREL(I,2,4)
         XY = COREL(I,1,1)*COREL(I,2,1)+COREL(I,1,2)*COREL(I,2,2)
      1      +COREL(I,1,3)*COREL(I,2,3)+COREL(I,1,4)*COREL(I,2,4)
-        ZZ = QUATRE*Z2(I)
+        ZZ = FOUR*Z2(I)
         C1 = Z1(I)/A_4
-        BTB_C = DEUX *C1*C1
+        BTB_C = TWO *C1*C1
         BTB(1)= BTB_C*(Y24_2(I)+Y13_2(I))
         BTB(2)= BTB_C*(X24_2(I)+X13_2(I))
         BTB(3)= BTB_C*(X24(I)*Y24(I)+X13(I)*Y13(I))
@@ -1454,11 +1454,11 @@ C
          Z1(I)=ZERO
          PLAT(I)=.TRUE.
        ELSE         
-        DETA = UN/DETA
+        DETA = ONE/DETA
         DI(I,1) = D(2)*DETA
         DI(I,2) = D(1)*DETA
         DI(I,4) =-D(3)*DETA
-        DI(I,3) = UN/MAX(XX+YY,EM20)
+        DI(I,3) = ONE/MAX(XX+YY,EM20)
         DI(I,5) = ZERO
         DI(I,6) = ZERO
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -1493,16 +1493,16 @@ C
      2            -DB(I,1,4)*AR(1)-DB(I,2,4)*AR(2)-DB(I,3,4)*AR(3)
 C
 C
-         C1 = DEUX*ALR(3)
+         C1 = TWO*ALR(3)
           V13(I,1)= V13(I,1)+C1*Y13(I)
           V24(I,1)= V24(I,1)+C1*Y24(I)
-          VHI(I,1)= VHI(I,1)+QUATRE*(ALR(3)*MY13(I)-Z1(I)*ALR(2))
+          VHI(I,1)= VHI(I,1)+FOUR*(ALR(3)*MY13(I)-Z1(I)*ALR(2))
           V13(I,2)= V13(I,2)-C1*X13(I)
           V24(I,2)= V24(I,2)-C1*X24(I)
-          VHI(I,2)= VHI(I,2)-QUATRE*(ALR(3)*MX13(I)-Z1(I)*ALR(1))
-          V13(I,3)= V13(I,3)-DEUX*(Y13(I)*ALR(1)-X13(I)*ALR(2))
-          V24(I,3)= V24(I,3)-DEUX*(Y24(I)*ALR(1)-X24(I)*ALR(2))
-          VHI(I,3)= VHI(I,3)+QUATRE*(MX13(I)*ALR(2)-MY13(I)*ALR(1))
+          VHI(I,2)= VHI(I,2)-FOUR*(ALR(3)*MX13(I)-Z1(I)*ALR(1))
+          V13(I,3)= V13(I,3)-TWO*(Y13(I)*ALR(1)-X13(I)*ALR(2))
+          V24(I,3)= V24(I,3)-TWO*(Y24(I)*ALR(1)-X24(I)*ALR(2))
+          VHI(I,3)= VHI(I,3)+FOUR*(MX13(I)*ALR(2)-MY13(I)*ALR(1))
           RLXYZ(I,1,1)= RRXYZ(1,1)-ALR(1)-VQN(I,1,1)*ALD(1)
           RLXYZ(I,1,2)= RRXYZ(1,2)-ALR(1)-VQN(I,1,2)*ALD(2)
           RLXYZ(I,1,3)= RRXYZ(1,3)-ALR(1)-VQN(I,1,3)*ALD(3)
@@ -1584,13 +1584,13 @@ C--------------------------------------------------
 C TRAITEMENT SPECIAL POUR ELEMENT GAUCHE
 C full projection eliminer drilling rotations and rigid rotations
 C--------------------------------------------------------------------------  
-         A_4=AREA(I)*QUART
+         A_4=AREA(I)*FOURTH
 C
 C----------  node N ----------
          SZ1=MX13(I)*Y24(I)-MY13(I)*X24(I)
          SZ2=A_4+SZ1
          SZ=Z2(I)*L24(I)
-         SL=UN/SQRT(SZ+SZ2*SZ2)
+         SL=ONE/SQRT(SZ+SZ2*SZ2)
          VQN(I,1,1)=-Z1(I)*Y24(I)
          VQN(I,2,1)= Z1(I)*X24(I)
          VQN(I,3,1)= SZ2*SL
@@ -1600,7 +1600,7 @@ C----------  node N ----------
          VQN(I,2,1)= VQN(I,2,1)*SL
 C
          SZ2=A_4-SZ1
-         SL=UN/SQRT(SZ+SZ2*SZ2)
+         SL=ONE/SQRT(SZ+SZ2*SZ2)
          VQN(I,1,3)= VQN(I,1,3)*SL
          VQN(I,2,3)= VQN(I,2,3)*SL
          VQN(I,3,3)= SZ2*SL
@@ -1608,7 +1608,7 @@ C
          SZ1=MX13(I)*Y13(I)-MY13(I)*X13(I)
          SZ2=A_4+SZ1
          SZ=Z2(I)*L13(I)
-         SL=UN/SQRT(SZ+SZ2*SZ2)
+         SL=ONE/SQRT(SZ+SZ2*SZ2)
          VQN(I,1,2)=-Z1(I)*Y13(I)
          VQN(I,2,2)= Z1(I)*X13(I)
          VQN(I,3,2)= SZ2*SL
@@ -1618,7 +1618,7 @@ C
          VQN(I,2,2)= VQN(I,2,2)*SL
 C
          SZ2=A_4-SZ1
-         SL=UN/SQRT(SZ+SZ2*SZ2)
+         SL=ONE/SQRT(SZ+SZ2*SZ2)
          VQN(I,1,4)= VQN(I,1,4)*SL
          VQN(I,2,4)= VQN(I,2,4)*SL
          VQN(I,3,4)= SZ2*SL
@@ -1658,31 +1658,31 @@ C-------------------------------------
      1            VQN(I,2,4)*RRXYZ(2,4)+VQN(I,3,4)*RRXYZ(3,4))
         END IF
 C        
-         RLXYZV(I,1,1)=(UN-VQN(I,1,1)*VQN(I,1,1))*RRXYZ(1,1)
+         RLXYZV(I,1,1)=(ONE-VQN(I,1,1)*VQN(I,1,1))*RRXYZ(1,1)
      1                   -VQN(I,1,1)*VQN(I,2,1) *RRXYZ(2,1)
      2                   -VQN(I,1,1)*VQN(I,3,1) *RRXYZ(3,1)
-         RLXYZV(I,2,1)=(UN-VQN(I,2,1)*VQN(I,2,1))*RRXYZ(2,1)
+         RLXYZV(I,2,1)=(ONE-VQN(I,2,1)*VQN(I,2,1))*RRXYZ(2,1)
      1                   -VQN(I,1,1)*VQN(I,2,1) *RRXYZ(1,1)
      2                   -VQN(I,2,1)*VQN(I,3,1) *RRXYZ(3,1)
 C
-         RLXYZV(I,1,2)=(UN-VQN(I,1,2)*VQN(I,1,2))*RRXYZ(1,2)
+         RLXYZV(I,1,2)=(ONE-VQN(I,1,2)*VQN(I,1,2))*RRXYZ(1,2)
      1                   -VQN(I,1,2)*VQN(I,2,2) *RRXYZ(2,2)
      2                   -VQN(I,1,2)*VQN(I,3,2) *RRXYZ(3,2)
-         RLXYZV(I,2,2)=(UN-VQN(I,2,2)*VQN(I,2,2))*RRXYZ(2,2)
+         RLXYZV(I,2,2)=(ONE-VQN(I,2,2)*VQN(I,2,2))*RRXYZ(2,2)
      1                   -VQN(I,1,2)*VQN(I,2,2) *RRXYZ(1,2)
      2                   -VQN(I,2,2)*VQN(I,3,2) *RRXYZ(3,2)
 C
-         RLXYZV(I,1,3)=(UN-VQN(I,1,3)*VQN(I,1,3))*RRXYZ(1,3)
+         RLXYZV(I,1,3)=(ONE-VQN(I,1,3)*VQN(I,1,3))*RRXYZ(1,3)
      1                   -VQN(I,1,3)*VQN(I,2,3) *RRXYZ(2,3)
      2                   -VQN(I,1,3)*VQN(I,3,3) *RRXYZ(3,3)
-         RLXYZV(I,2,3)=(UN-VQN(I,2,3)*VQN(I,2,3))*RRXYZ(2,3)
+         RLXYZV(I,2,3)=(ONE-VQN(I,2,3)*VQN(I,2,3))*RRXYZ(2,3)
      1                   -VQN(I,1,3)*VQN(I,2,3) *RRXYZ(1,3)
      2                   -VQN(I,2,3)*VQN(I,3,3) *RRXYZ(3,3)
 C
-         RLXYZV(I,1,4)=(UN-VQN(I,1,4)*VQN(I,1,4))*RRXYZ(1,4)
+         RLXYZV(I,1,4)=(ONE-VQN(I,1,4)*VQN(I,1,4))*RRXYZ(1,4)
      1                   -VQN(I,1,4)*VQN(I,2,4) *RRXYZ(2,4)
      2                   -VQN(I,1,4)*VQN(I,3,4) *RRXYZ(3,4)
-         RLXYZV(I,2,4)=(UN-VQN(I,2,4)*VQN(I,2,4))*RRXYZ(2,4)
+         RLXYZV(I,2,4)=(ONE-VQN(I,2,4)*VQN(I,2,4))*RRXYZ(2,4)
      1                   -VQN(I,1,4)*VQN(I,2,4) *RRXYZ(1,4)
      2                   -VQN(I,2,4)*VQN(I,3,4) *RRXYZ(3,4)
        ELSE
@@ -1717,7 +1717,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
      .           *Z1(I)
          YZ =(CORELV(I,2,1)-CORELV(I,2,2)+CORELV(I,2,3)-CORELV(I,2,4))
      .           *Z1(I)
-         ZZ = QUATRE*Z2(I)
+         ZZ = FOUR*Z2(I)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
          BTB(1)= VQN(I,1,1)*VQN(I,1,1)+VQN(I,1,2)*VQN(I,1,2)
      1          +VQN(I,1,3)*VQN(I,1,3)+VQN(I,1,4)*VQN(I,1,4)
@@ -1731,9 +1731,9 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
      1          +VQN(I,1,3)*VQN(I,3,3)+VQN(I,1,4)*VQN(I,3,4)
          BTB(6)= VQN(I,2,1)*VQN(I,3,1)+VQN(I,2,2)*VQN(I,3,2)
      1          +VQN(I,2,3)*VQN(I,3,3)+VQN(I,2,4)*VQN(I,3,4)
-         D(1)= YY+ZZ+QUATRE-BTB(1)
-         D(2)= XX+ZZ+QUATRE-BTB(2)
-         D(3)= XX+YY+QUATRE-BTB(3)
+         D(1)= YY+ZZ+FOUR-BTB(1)
+         D(2)= XX+ZZ+FOUR-BTB(2)
+         D(3)= XX+YY+FOUR-BTB(3)
          D(4)= -XY-BTB(4)
          D(5)= -XZ-BTB(5)
          D(6)= -YZ-BTB(6)
@@ -1745,8 +1745,8 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
          XXYZ2 = D(1)*D(6)*D(6)
          YYXZ2 = D(2)*D(5)*D(5)
          ZZXY2 = D(3)*D(4)*D(4)
-         DETA = ABS(ABC+DEUX*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2)
-         DETA = UN/MAX(DETA,EM20)
+         DETA = ABS(ABC+TWO*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2)
+         DETA = ONE/MAX(DETA,EM20)
          DI(I,1) = (ABC-XXYZ2)*DETA/MAX(D(1),EM20)
          DI(I,2) = (ABC-YYXZ2)*DETA/MAX(D(2),EM20)
          DI(I,3) = (ABC-ZZXY2)*DETA/MAX(D(3),EM20)
@@ -1787,16 +1787,16 @@ C
      1            +VQN(I,3,4)*DBAD(3)
      2            -DB(I,1,4)*AR(1)-DB(I,2,4)*AR(2)-DB(I,3,4)*AR(3)
 C
-         C1 = DEUX*ALR(3)
+         C1 = TWO*ALR(3)
           V13(I,1)= V13(I,1)+C1*Y13(I)
           V24(I,1)= V24(I,1)+C1*Y24(I)
-          VHI(I,1)= VHI(I,1)+QUATRE*(ALR(3)*MY13(I)-Z1(I)*ALR(2))
+          VHI(I,1)= VHI(I,1)+FOUR*(ALR(3)*MY13(I)-Z1(I)*ALR(2))
           V13(I,2)= V13(I,2)-C1*X13(I)
           V24(I,2)= V24(I,2)-C1*X24(I)
-          VHI(I,2)= VHI(I,2)-QUATRE*(ALR(3)*MX13(I)-Z1(I)*ALR(1))
-          V13(I,3)= V13(I,3)-DEUX*(Y13(I)*ALR(1)-X13(I)*ALR(2))
-          V24(I,3)= V24(I,3)-DEUX*(Y24(I)*ALR(1)-X24(I)*ALR(2))
-          VHI(I,3)= VHI(I,3)+QUATRE*(MX13(I)*ALR(2)-MY13(I)*ALR(1))
+          VHI(I,2)= VHI(I,2)-FOUR*(ALR(3)*MX13(I)-Z1(I)*ALR(1))
+          V13(I,3)= V13(I,3)-TWO*(Y13(I)*ALR(1)-X13(I)*ALR(2))
+          V24(I,3)= V24(I,3)-TWO*(Y24(I)*ALR(1)-X24(I)*ALR(2))
+          VHI(I,3)= VHI(I,3)+FOUR*(MX13(I)*ALR(2)-MY13(I)*ALR(1))
 C
           RLXYZV(I,1,1)= RRXYZ(1,1)-ALR(1)-VQN(I,1,1)*ALD(1)
           RLXYZV(I,1,2)= RRXYZ(1,2)-ALR(1)-VQN(I,1,2)*ALD(2)
@@ -1808,9 +1808,9 @@ C
           RLXYZV(I,2,3)= RRXYZ(2,3)-ALR(2)-VQN(I,2,3)*ALD(3)
           RLXYZV(I,2,4)= RRXYZ(2,4)-ALR(2)-VQN(I,2,4)*ALD(4)
          IF (IDRIL.GT.0) THEN
-          D(1)= YY+ZZ+QUATRE
-          D(2)= XX+ZZ+QUATRE
-          D(3)= XX+YY+QUATRE
+          D(1)= YY+ZZ+FOUR
+          D(2)= XX+ZZ+FOUR
+          D(3)= XX+YY+FOUR
           D(4)= -XY
           D(5)= -XZ
           D(6)= -YZ
@@ -1824,8 +1824,8 @@ C
            XXYZ2 = D(1)*D(6)*D(6)
            YYXZ2 = D(2)*D(5)*D(5)
            ZZXY2 = D(3)*D(4)*D(4)
-           DETA = ABS(ABC+DEUX*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2)
-           DETA = UN/MAX(DETA,EM20)
+           DETA = ABS(ABC+TWO*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2)
+           DETA = ONE/MAX(DETA,EM20)
            DIZ(I,3) = (ABC-ZZXY2)*DETA/MAX(D(3),EM20)
            DIZ(I,1) = (D(6)*D(4)-D(5)*D(2))*DETA
            DIZ(I,2) = (D(4)*D(5)-D(6)*D(1))*DETA
@@ -1909,13 +1909,13 @@ C--------------------------------------------------
 C TRAITEMENT SPECIAL POUR ELEMENT GAUCHE
 C full projection eliminer drilling rotations and rigid rotations
 C--------------------------------------------------------------------------  
-         A_4=AREA(I)*QUART
+         A_4=AREA(I)*FOURTH
 C
 C----------  node N ----------
          SZ1=MX13(I)*Y24(I)-MY13(I)*X24(I)
          SZ2=A_4+SZ1
          SZ=Z2(I)*L24(I)
-         SL=UN/SQRT(SZ+SZ2*SZ2)
+         SL=ONE/SQRT(SZ+SZ2*SZ2)
          VQN(I,1,1)=-Z1(I)*Y24(I)
          VQN(I,2,1)= Z1(I)*X24(I)
          VQN(I,3,1)= SZ2*SL
@@ -1925,7 +1925,7 @@ C----------  node N ----------
          VQN(I,2,1)= VQN(I,2,1)*SL
 C
          SZ2=A_4-SZ1
-         SL=UN/SQRT(SZ+SZ2*SZ2)
+         SL=ONE/SQRT(SZ+SZ2*SZ2)
          VQN(I,1,3)= VQN(I,1,3)*SL
          VQN(I,2,3)= VQN(I,2,3)*SL
          VQN(I,3,3)= SZ2*SL
@@ -1933,7 +1933,7 @@ C
          SZ1=MX13(I)*Y13(I)-MY13(I)*X13(I)
          SZ2=A_4+SZ1
          SZ=Z2(I)*L13(I)
-         SL=UN/SQRT(SZ+SZ2*SZ2)
+         SL=ONE/SQRT(SZ+SZ2*SZ2)
          VQN(I,1,2)=-Z1(I)*Y13(I)
          VQN(I,2,2)= Z1(I)*X13(I)
          VQN(I,3,2)= SZ2*SL
@@ -1943,7 +1943,7 @@ C
          VQN(I,2,2)= VQN(I,2,2)*SL
 C
          SZ2=A_4-SZ1
-         SL=UN/SQRT(SZ+SZ2*SZ2)
+         SL=ONE/SQRT(SZ+SZ2*SZ2)
          VQN(I,1,4)= VQN(I,1,4)*SL
          VQN(I,2,4)= VQN(I,2,4)*SL
          VQN(I,3,4)= SZ2*SL
@@ -2042,7 +2042,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
      .           *Z1(I)
          YZ =(COREL(I,2,1)-COREL(I,2,2)+COREL(I,2,3)-COREL(I,2,4))
      .           *Z1(I)
-         ZZ = QUATRE*Z2(I)
+         ZZ = FOUR*Z2(I)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
          BTB(1)= VQN(I,1,1)*VQN(I,1,1)+VQN(I,1,2)*VQN(I,1,2)
      1          +VQN(I,1,3)*VQN(I,1,3)+VQN(I,1,4)*VQN(I,1,4)
@@ -2056,9 +2056,9 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
      1          +VQN(I,1,3)*VQN(I,3,3)+VQN(I,1,4)*VQN(I,3,4)
          BTB(6)= VQN(I,2,1)*VQN(I,3,1)+VQN(I,2,2)*VQN(I,3,2)
      1          +VQN(I,2,3)*VQN(I,3,3)+VQN(I,2,4)*VQN(I,3,4)
-         D(1)= YY+ZZ+QUATRE-BTB(1)
-         D(2)= XX+ZZ+QUATRE-BTB(2)
-         D(3)= XX+YY+QUATRE-BTB(3)
+         D(1)= YY+ZZ+FOUR-BTB(1)
+         D(2)= XX+ZZ+FOUR-BTB(2)
+         D(3)= XX+YY+FOUR-BTB(3)
          D(4)= -XY-BTB(4)
          D(5)= -XZ-BTB(5)
          D(6)= -YZ-BTB(6)
@@ -2070,8 +2070,8 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
          XXYZ2 = D(1)*D(6)*D(6)
          YYXZ2 = D(2)*D(5)*D(5)
          ZZXY2 = D(3)*D(4)*D(4)
-         DETA = ABS(ABC+DEUX*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2)
-         DETA = UN/MAX(DETA,EM20)
+         DETA = ABS(ABC+TWO*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2)
+         DETA = ONE/MAX(DETA,EM20)
          DI(I,1) = (ABC-XXYZ2)*DETA/MAX(D(1),EM20)
          DI(I,2) = (ABC-YYXZ2)*DETA/MAX(D(2),EM20)
          DI(I,3) = (ABC-ZZXY2)*DETA/MAX(D(3),EM20)
@@ -2112,16 +2112,16 @@ C
      1            +VQN(I,3,4)*DBAD(3)
      2            -DB(I,1,4)*AR(1)-DB(I,2,4)*AR(2)-DB(I,3,4)*AR(3)
 C
-         C1 = DEUX*ALR(3)
+         C1 = TWO*ALR(3)
           V13(I,1)= V13(I,1)+C1*Y13(I)
           V24(I,1)= V24(I,1)+C1*Y24(I)
-          VHI(I,1)= VHI(I,1)+QUATRE*(ALR(3)*MY13(I)-Z1(I)*ALR(2))
+          VHI(I,1)= VHI(I,1)+FOUR*(ALR(3)*MY13(I)-Z1(I)*ALR(2))
           V13(I,2)= V13(I,2)-C1*X13(I)
           V24(I,2)= V24(I,2)-C1*X24(I)
-          VHI(I,2)= VHI(I,2)-QUATRE*(ALR(3)*MX13(I)-Z1(I)*ALR(1))
-          V13(I,3)= V13(I,3)-DEUX*(Y13(I)*ALR(1)-X13(I)*ALR(2))
-          V24(I,3)= V24(I,3)-DEUX*(Y24(I)*ALR(1)-X24(I)*ALR(2))
-          VHI(I,3)= VHI(I,3)+QUATRE*(MX13(I)*ALR(2)-MY13(I)*ALR(1))
+          VHI(I,2)= VHI(I,2)-FOUR*(ALR(3)*MX13(I)-Z1(I)*ALR(1))
+          V13(I,3)= V13(I,3)-TWO*(Y13(I)*ALR(1)-X13(I)*ALR(2))
+          V24(I,3)= V24(I,3)-TWO*(Y24(I)*ALR(1)-X24(I)*ALR(2))
+          VHI(I,3)= VHI(I,3)+FOUR*(MX13(I)*ALR(2)-MY13(I)*ALR(1))
           RLXYZ(I,1,1)= RRXYZ(1,1)-ALR(1)-VQN(I,1,1)*ALD(1)
           RLXYZ(I,1,2)= RRXYZ(1,2)-ALR(1)-VQN(I,1,2)*ALD(2)
           RLXYZ(I,1,3)= RRXYZ(1,3)-ALR(1)-VQN(I,1,3)*ALD(3)
@@ -2132,9 +2132,9 @@ C
           RLXYZ(I,2,3)= RRXYZ(2,3)-ALR(2)-VQN(I,2,3)*ALD(3)
           RLXYZ(I,2,4)= RRXYZ(2,4)-ALR(2)-VQN(I,2,4)*ALD(4)
          IF (IDRIL.GT.0) THEN
-          D(1)= YY+ZZ+QUATRE
-          D(2)= XX+ZZ+QUATRE
-          D(3)= XX+YY+QUATRE
+          D(1)= YY+ZZ+FOUR
+          D(2)= XX+ZZ+FOUR
+          D(3)= XX+YY+FOUR
           D(4)= -XY
           D(5)= -XZ
           D(6)= -YZ
@@ -2148,8 +2148,8 @@ C
            XXYZ2 = D(1)*D(6)*D(6)
            YYXZ2 = D(2)*D(5)*D(5)
            ZZXY2 = D(3)*D(4)*D(4)
-           DETA = ABS(ABC+DEUX*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2)
-           DETA = UN/MAX(DETA,EM20)
+           DETA = ABS(ABC+TWO*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2)
+           DETA = ONE/MAX(DETA,EM20)
            DIZ(I,3) = (ABC-ZZXY2)*DETA/MAX(D(3),EM20)
            DIZ(I,1) = (D(6)*D(4)-D(5)*D(2))*DETA
            DIZ(I,2) = (D(4)*D(5)-D(6)*D(1))*DETA
@@ -2237,13 +2237,13 @@ C--------------------------------------------------
 C TRAITEMENT SPECIAL POUR ELEMENT GAUCHE
 C full projection eliminer drilling rotations and rigid rotations
 C--------------------------------------------------------------------------  
-         A_4=AREA(I)*QUART
+         A_4=AREA(I)*FOURTH
 C
 C----------  node N ----------
          SZ1=MX13(I)*Y24(I)-MY13(I)*X24(I)
          SZ2=A_4+SZ1
          SZ=Z2(I)*L24(I)
-         SL=UN/SQRT(SZ+SZ2*SZ2)
+         SL=ONE/SQRT(SZ+SZ2*SZ2)
          VQN(I,1,1)=-Z1(I)*Y24(I)
          VQN(I,2,1)= Z1(I)*X24(I)
          VQN(I,3,1)= SZ2*SL
@@ -2253,7 +2253,7 @@ C----------  node N ----------
          VQN(I,2,1)= VQN(I,2,1)*SL
 C
          SZ2=A_4-SZ1
-         SL=UN/SQRT(SZ+SZ2*SZ2)
+         SL=ONE/SQRT(SZ+SZ2*SZ2)
          VQN(I,1,3)= VQN(I,1,3)*SL
          VQN(I,2,3)= VQN(I,2,3)*SL
          VQN(I,3,3)= SZ2*SL
@@ -2261,7 +2261,7 @@ C
          SZ1=MX13(I)*Y13(I)-MY13(I)*X13(I)
          SZ2=A_4+SZ1
          SZ=Z2(I)*L13(I)
-         SL=UN/SQRT(SZ+SZ2*SZ2)
+         SL=ONE/SQRT(SZ+SZ2*SZ2)
          VQN(I,1,2)=-Z1(I)*Y13(I)
          VQN(I,2,2)= Z1(I)*X13(I)
          VQN(I,3,2)= SZ2*SL
@@ -2271,7 +2271,7 @@ C
          VQN(I,2,2)= VQN(I,2,2)*SL
 C
          SZ2=A_4-SZ1
-         SL=UN/SQRT(SZ+SZ2*SZ2)
+         SL=ONE/SQRT(SZ+SZ2*SZ2)
          VQN(I,1,4)= VQN(I,1,4)*SL
          VQN(I,2,4)= VQN(I,2,4)*SL
          VQN(I,3,4)= SZ2*SL
@@ -2359,7 +2359,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
      .           *Z1(I)
          YZ =(COREL(I,2,1)-COREL(I,2,2)+COREL(I,2,3)-COREL(I,2,4))
      .           *Z1(I)
-         ZZ = QUATRE*Z2(I)
+         ZZ = FOUR*Z2(I)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
          BTB(1)= VQN(I,1,1)*VQN(I,1,1)+VQN(I,1,2)*VQN(I,1,2)
      1          +VQN(I,1,3)*VQN(I,1,3)+VQN(I,1,4)*VQN(I,1,4)
@@ -2373,9 +2373,9 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
      1          +VQN(I,1,3)*VQN(I,3,3)+VQN(I,1,4)*VQN(I,3,4)
          BTB(6)= VQN(I,2,1)*VQN(I,3,1)+VQN(I,2,2)*VQN(I,3,2)
      1          +VQN(I,2,3)*VQN(I,3,3)+VQN(I,2,4)*VQN(I,3,4)
-         D(1)= YY+ZZ+QUATRE-BTB(1)
-         D(2)= XX+ZZ+QUATRE-BTB(2)
-         D(3)= XX+YY+QUATRE-BTB(3)
+         D(1)= YY+ZZ+FOUR-BTB(1)
+         D(2)= XX+ZZ+FOUR-BTB(2)
+         D(3)= XX+YY+FOUR-BTB(3)
          D(4)= -XY-BTB(4)
          D(5)= -XZ-BTB(5)
          D(6)= -YZ-BTB(6)
@@ -2387,8 +2387,8 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
          XXYZ2 = D(1)*D(6)*D(6)
          YYXZ2 = D(2)*D(5)*D(5)
          ZZXY2 = D(3)*D(4)*D(4)
-         DETA = ABS(ABC+DEUX*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2)
-         DETA = UN/MAX(DETA,EM20)
+         DETA = ABS(ABC+TWO*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2)
+         DETA = ONE/MAX(DETA,EM20)
          DI(I,1) = (ABC-XXYZ2)*DETA/MAX(D(1),EM20)
          DI(I,2) = (ABC-YYXZ2)*DETA/MAX(D(2),EM20)
          DI(I,3) = (ABC-ZZXY2)*DETA/MAX(D(3),EM20)
@@ -2429,16 +2429,16 @@ C
      1            +VQN(I,3,4)*DBAD(3)
      2            -DB(I,1,4)*AR(1)-DB(I,2,4)*AR(2)-DB(I,3,4)*AR(3)
 C
-         C1 = DEUX*ALR(3)
+         C1 = TWO*ALR(3)
           V13(I,1)= V13(I,1)+C1*Y13(I)
           V24(I,1)= V24(I,1)+C1*Y24(I)
-          VHI(I,1)= VHI(I,1)+QUATRE*(ALR(3)*MY13(I)-Z1(I)*ALR(2))
+          VHI(I,1)= VHI(I,1)+FOUR*(ALR(3)*MY13(I)-Z1(I)*ALR(2))
           V13(I,2)= V13(I,2)-C1*X13(I)
           V24(I,2)= V24(I,2)-C1*X24(I)
-          VHI(I,2)= VHI(I,2)-QUATRE*(ALR(3)*MX13(I)-Z1(I)*ALR(1))
-          V13(I,3)= V13(I,3)-DEUX*(Y13(I)*ALR(1)-X13(I)*ALR(2))
-          V24(I,3)= V24(I,3)-DEUX*(Y24(I)*ALR(1)-X24(I)*ALR(2))
-          VHI(I,3)= VHI(I,3)+QUATRE*(MX13(I)*ALR(2)-MY13(I)*ALR(1))
+          VHI(I,2)= VHI(I,2)-FOUR*(ALR(3)*MX13(I)-Z1(I)*ALR(1))
+          V13(I,3)= V13(I,3)-TWO*(Y13(I)*ALR(1)-X13(I)*ALR(2))
+          V24(I,3)= V24(I,3)-TWO*(Y24(I)*ALR(1)-X24(I)*ALR(2))
+          VHI(I,3)= VHI(I,3)+FOUR*(MX13(I)*ALR(2)-MY13(I)*ALR(1))
           RLXYZ(I,1,1)= RRXYZ(1,1)-ALR(1)-VQN(I,1,1)*ALD(1)
           RLXYZ(I,1,2)= RRXYZ(1,2)-ALR(1)-VQN(I,1,2)*ALD(2)
           RLXYZ(I,1,3)= RRXYZ(1,3)-ALR(1)-VQN(I,1,3)*ALD(3)
@@ -2543,7 +2543,7 @@ C
       END IF
 C
        DO I=JFT,JLT
-          IF(ABS(OFFG(I))==UN)OFFG(I)=SIGN(DEUX,OFFG(I))
+          IF(ABS(OFFG(I))==ONE)OFFG(I)=SIGN(TWO,OFFG(I))
           AXYZ(I,1:3,1:4)= ZERO
 C            
            IF (IDRIL > 0  ) THEN
@@ -2593,8 +2593,8 @@ C----------------------------
      .   SX, SY, SSZ, 
      .   R11,R12,R13,R21,R22,R23,R31,R32,R33,DETA1,OFFG )
       DO I=JFT,JLT
-        AREA(I)=QUART*DETA1(I)
-        AREA_I(I)=UN/AREA(I)
+        AREA(I)=FOURTH*DETA1(I)
+        AREA_I(I)=ONE/AREA(I)
         VQ0(I,1,1)=R11(I)
         VQ0(I,2,1)=R21(I)
         VQ0(I,3,1)=R31(I)
@@ -2606,9 +2606,9 @@ C----------------------------
         VQ0(I,3,3)=R33(I)
       ENDDO 
       DO I=JFT,JLT
-        LXYZ0(1)=QUART*(X0G2(I)+X0G3(I)+X0G4(I))
-        LXYZ0(2)=QUART*(Y0G2(I)+Y0G3(I)+Y0G4(I))
-        LXYZ0(3)=QUART*(Z0G2(I)+Z0G3(I)+Z0G4(I))
+        LXYZ0(1)=FOURTH*(X0G2(I)+X0G3(I)+X0G4(I))
+        LXYZ0(2)=FOURTH*(Y0G2(I)+Y0G3(I)+Y0G4(I))
+        LXYZ0(3)=FOURTH*(Z0G2(I)+Z0G3(I)+Z0G4(I))
         Z1(I)=-(VQ0(I,1,3)*LXYZ0(1)+VQ0(I,2,3)*LXYZ0(2)+VQ0(I,3,3)*LXYZ0(3))
       ENDDO 
 C----------------------------
@@ -2617,8 +2617,8 @@ C----------------------------
       DO I=JFT,JLT
        VR1_12=VQ0(I,1,1)*VQ(I,1,2)+VQ0(I,2,1)*VQ(I,2,2)+VQ0(I,3,1)*VQ(I,3,2)
        VR1_21=VQ0(I,1,2)*VQ(I,1,1)+VQ0(I,2,2)*VQ(I,2,1)+VQ0(I,3,1)*VQ(I,3,2)
-       DIRZ(I,2) = UNDEMI*(VR1_12-VR1_21)
-       DET_1 = UN-DIRZ(I,2)*DIRZ(I,2)
+       DIRZ(I,2) = HALF*(VR1_12-VR1_21)
+       DET_1 = ONE-DIRZ(I,2)*DIRZ(I,2)
        DIRZ(I,1) = SQRT(MAX(ZERO,DET_1))
       ENDDO 
       DO I=JFT,JLT
@@ -2662,7 +2662,7 @@ C-----------UL : xl - x0l' (rotated of rz0)
         V13(I,2)=-YL3(I)-(-Y0L3(I))
         V24(I,2)=YL2(I)-YL4(I)-(Y0L2(I)-Y0L4(I))
         VHI(I,2)=-YL2(I)+YL3(I)-YL4(I)-(-Y0L2(I)+Y0L3(I)-Y0L4(I))
-        VHI(I,3)=QUATRE*(ZL(I)-Z1(I))
+        VHI(I,3)=FOUR*(ZL(I)-Z1(I))
       ENDDO 
 C-------set up B_l by rotating B0_l (Rz0)      
       DO I=JFT,JLT
@@ -2675,8 +2675,8 @@ C-------set up B_l by rotating B0_l (Rz0)
       ENDDO
 C----------------------------
        DO I=JFT,JLT
-        LXYZ0(1)=QUART*(XL2(I)+XL3(I)+XL4(I))
-        LXYZ0(2)=QUART*(YL2(I)+YL3(I)+YL4(I))
+        LXYZ0(1)=FOURTH*(XL2(I)+XL3(I)+XL4(I))
+        LXYZ0(2)=FOURTH*(YL2(I)+YL3(I)+YL4(I))
         COREL(I,1,1)=-LXYZ0(1)
         COREL(I,1,2)=XL2(I)-LXYZ0(1)
         COREL(I,1,3)=XL3(I)-LXYZ0(1)
@@ -2685,26 +2685,26 @@ C----------------------------
         COREL(I,2,2)=YL2(I)-LXYZ0(2)
         COREL(I,2,3)=YL3(I)-LXYZ0(2)
         COREL(I,2,4)=YL4(I)-LXYZ0(2)
-        X13(I) =(COREL(I,1,1)-COREL(I,1,3))*UNDEMI
-        X24(I) =(COREL(I,1,2)-COREL(I,1,4))*UNDEMI
-        Y13(I) =(COREL(I,2,1)-COREL(I,2,3))*UNDEMI
-        Y24(I) =(COREL(I,2,2)-COREL(I,2,4))*UNDEMI
+        X13(I) =(COREL(I,1,1)-COREL(I,1,3))*HALF
+        X24(I) =(COREL(I,1,2)-COREL(I,1,4))*HALF
+        Y13(I) =(COREL(I,2,1)-COREL(I,2,3))*HALF
+        Y24(I) =(COREL(I,2,2)-COREL(I,2,4))*HALF
         X13_T(I) =X13(I)*AREA_I(I)
         X24_T(I) =X24(I)*AREA_I(I)
         Y13_T(I) =Y13(I)*AREA_I(I)
         Y24_T(I) =Y24(I)*AREA_I(I)
 C
-        MX13(I)=(COREL(I,1,1)+COREL(I,1,3))*UNDEMI
-        MX23(I)=(COREL(I,1,2)+COREL(I,1,3))*UNDEMI
-        MX34(I)=(COREL(I,1,3)+COREL(I,1,4))*UNDEMI
-        MY13(I)=(COREL(I,2,1)+COREL(I,2,3))*UNDEMI
-        MY23(I)=(COREL(I,2,2)+COREL(I,2,3))*UNDEMI
-        MY34(I)=(COREL(I,2,3)+COREL(I,2,4))*UNDEMI
+        MX13(I)=(COREL(I,1,1)+COREL(I,1,3))*HALF
+        MX23(I)=(COREL(I,1,2)+COREL(I,1,3))*HALF
+        MX34(I)=(COREL(I,1,3)+COREL(I,1,4))*HALF
+        MY13(I)=(COREL(I,2,1)+COREL(I,2,3))*HALF
+        MY23(I)=(COREL(I,2,2)+COREL(I,2,3))*HALF
+        MY34(I)=(COREL(I,2,3)+COREL(I,2,4))*HALF
 C-
         L13(I) = X13(I)*X13(I)+Y13(I)*Y13(I)
 C-------------------------------
         L24(I) = X24(I)*X24(I)+Y24(I)*Y24(I)
-        LM(I)=UNDEMI*(L13(I)+L24(I))
+        LM(I)=HALF*(L13(I)+L24(I))
 C
        ENDDO
 C----------------------------
@@ -2740,7 +2740,7 @@ C--------------------------------------------------
 C TRAITEMENT SPECIAL POUR ELEMENT GAUCHE
 C full projection eliminer drilling rotations and rigid rotations
 C--------------------------------------------------------------------------  
-         A_4=AREA(I)*QUART
+         A_4=AREA(I)*FOURTH
 C
 C-------------------------------------
 C     DRILLING PROJECTION ONLY
@@ -2908,8 +2908,8 @@ C----------------------------
      .   SX, SY, SSZ, 
      .   R11,R12,R13,R21,R22,R23,R31,R32,R33,DETA1,OFFG )
       DO I=JFT,JLT
-        AREA(I)=QUART*DETA1(I)
-        AREA_I(I)=UN/AREA(I)
+        AREA(I)=FOURTH*DETA1(I)
+        AREA_I(I)=ONE/AREA(I)
         VQ0(I,1,1)=R11(I)
         VQ0(I,2,1)=R21(I)
         VQ0(I,3,1)=R31(I)
@@ -2921,9 +2921,9 @@ C----------------------------
         VQ0(I,3,3)=R33(I)
       ENDDO 
       DO I=JFT,JLT
-        LXYZ0(1)=QUART*(X0G2(I)+X0G3(I)+X0G4(I))
-        LXYZ0(2)=QUART*(Y0G2(I)+Y0G3(I)+Y0G4(I))
-        LXYZ0(3)=QUART*(Z0G2(I)+Z0G3(I)+Z0G4(I))
+        LXYZ0(1)=FOURTH*(X0G2(I)+X0G3(I)+X0G4(I))
+        LXYZ0(2)=FOURTH*(Y0G2(I)+Y0G3(I)+Y0G4(I))
+        LXYZ0(3)=FOURTH*(Z0G2(I)+Z0G3(I)+Z0G4(I))
         Z1(I)=-(VQ0(I,1,3)*LXYZ0(1)+VQ0(I,2,3)*LXYZ0(2)+VQ0(I,3,3)*LXYZ0(3))
       ENDDO 
 C----------------------------
@@ -2932,8 +2932,8 @@ C----------------------------
       DO I=JFT,JLT
        VR1_12=VQ0(I,1,1)*VQ(I,1,2)+VQ0(I,2,1)*VQ(I,2,2)+VQ0(I,3,1)*VQ(I,3,2)
        VR1_21=VQ0(I,1,2)*VQ(I,1,1)+VQ0(I,2,2)*VQ(I,2,1)+VQ0(I,3,1)*VQ(I,3,2)
-       DIRZ(I,2) = UNDEMI*(VR1_12-VR1_21)
-       DET_1 = UN-DIRZ(I,2)*DIRZ(I,2)
+       DIRZ(I,2) = HALF*(VR1_12-VR1_21)
+       DET_1 = ONE-DIRZ(I,2)*DIRZ(I,2)
        DIRZ(I,1) = SQRT(MAX(ZERO,DET_1))
       ENDDO 
       DO I=JFT,JLT
@@ -2991,8 +2991,8 @@ C-------set up B_l by rotating B0_l (Rz0)
       ENDDO
 C----------------------------
        DO I=JFT,JLT
-        LXYZ0(1)=QUART*(XL2(I)+XL3(I)+XL4(I))
-        LXYZ0(2)=QUART*(YL2(I)+YL3(I)+YL4(I))
+        LXYZ0(1)=FOURTH*(XL2(I)+XL3(I)+XL4(I))
+        LXYZ0(2)=FOURTH*(YL2(I)+YL3(I)+YL4(I))
         COREL(I,1,1)=-LXYZ0(1)
         COREL(I,1,2)=XL2(I)-LXYZ0(1)
         COREL(I,1,3)=XL3(I)-LXYZ0(1)
@@ -3001,21 +3001,21 @@ C----------------------------
         COREL(I,2,2)=YL2(I)-LXYZ0(2)
         COREL(I,2,3)=YL3(I)-LXYZ0(2)
         COREL(I,2,4)=YL4(I)-LXYZ0(2)
-        X13(I) =(COREL(I,1,1)-COREL(I,1,3))*UNDEMI
-        X24(I) =(COREL(I,1,2)-COREL(I,1,4))*UNDEMI
-        Y13(I) =(COREL(I,2,1)-COREL(I,2,3))*UNDEMI
-        Y24(I) =(COREL(I,2,2)-COREL(I,2,4))*UNDEMI
+        X13(I) =(COREL(I,1,1)-COREL(I,1,3))*HALF
+        X24(I) =(COREL(I,1,2)-COREL(I,1,4))*HALF
+        Y13(I) =(COREL(I,2,1)-COREL(I,2,3))*HALF
+        Y24(I) =(COREL(I,2,2)-COREL(I,2,4))*HALF
 C
-        MX13(I)=(COREL(I,1,1)+COREL(I,1,3))*UNDEMI
-        MY13(I)=(COREL(I,2,1)+COREL(I,2,3))*UNDEMI
+        MX13(I)=(COREL(I,1,1)+COREL(I,1,3))*HALF
+        MY13(I)=(COREL(I,2,1)+COREL(I,2,3))*HALF
 C----1/4*hx		
-c	    HX(I) = QUART*(COREL(I,1,1)-COREL(I,1,2)+COREL(I,1,3)-COREL(I,1,4))
-c	    HY(I) = QUART*(COREL(I,2,1)-COREL(I,2,2)+COREL(I,2,3)-COREL(I,2,4))
+c	    HX(I) = FOURTH*(COREL(I,1,1)-COREL(I,1,2)+COREL(I,1,3)-COREL(I,1,4))
+c	    HY(I) = FOURTH*(COREL(I,2,1)-COREL(I,2,2)+COREL(I,2,3)-COREL(I,2,4))
 C-
         L13(I) = X13(I)*X13(I)+Y13(I)*Y13(I)
 C-------------------------------
         L24(I) = X24(I)*X24(I)+Y24(I)*Y24(I)
-        LM(I)=UNDEMI*(L13(I)+L24(I))
+        LM(I)=HALF*(L13(I)+L24(I))
 C
        ENDDO
        DO I=JFT,JLT

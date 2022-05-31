@@ -85,7 +85,7 @@ C-----------------------------------------------
 
       DO II=1,NSN
         L=IRTL(II)
-        MCOUNT(L)=MCOUNT(L)+UN
+        MCOUNT(L)=MCOUNT(L)+ONE
       ENDDO
 
       DO KVAR=1,NVCONV
@@ -111,7 +111,7 @@ C-----------------------------------------------
          
       ENDDO
 
-      !CALCUL PARTICULIER SI IL EXISTE UN SEGMENT SANS NOEUD SECOND. DETECTE
+      !CALCUL PARTICULIER SI IL EXISTE ONE SEGMENT SANS NOEUD SECOND. DETECTE
       PB=0
       DO I=1,NRTM
         IF(MCOUNT(I).EQ.ZERO)PB=1

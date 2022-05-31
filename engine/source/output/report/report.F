@@ -124,8 +124,8 @@ c
        ENTOT1=ENTOT0 + TFEXT
        ENTOT1B=ENTOT0 + TFEXT + DELTAE + TFEXT_MD       
        IF(ABS(ENTOT1B).GT.EM20)THEN
-         ERR = ENTOTB/ENTOT1B - UN
-         ERR1 = MAX(-X99, MIN(X99,ERR*CENT))     
+         ERR = ENTOTB/ENTOT1B - ONE
+         ERR1 = MAX(-X99, MIN(X99,ERR*HUNDRED))     
        ELSE
         ERR = ZERO
         ERR1 =ZERO

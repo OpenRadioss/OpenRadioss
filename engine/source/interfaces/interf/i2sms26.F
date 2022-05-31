@@ -99,11 +99,11 @@ C
         END IF
 
 C
-        DMINT2(1,I) = UNDEMI * DTS * ( DTS * STIF(1,I) + VIS(1,I) )
-        DMINT2(2,I) = UNDEMI * DTS * ( DTS * STIF(2,I) + VIS(2,I) )
-        DMINT2(3,I) = UNDEMI * DTS * ( DTS * STIF(3,I) + VIS(3,I) )
+        DMINT2(1,I) = HALF * DTS * ( DTS * STIF(1,I) + VIS(1,I) )
+        DMINT2(2,I) = HALF * DTS * ( DTS * STIF(2,I) + VIS(2,I) )
+        DMINT2(3,I) = HALF * DTS * ( DTS * STIF(3,I) + VIS(3,I) )
         IF (IX4(I) /= IX3(I)) THEN
-          DMINT2(4,I) = UNDEMI * DTS * ( DTS * STIF(4,I) + VIS(4,I) )
+          DMINT2(4,I) = HALF * DTS * ( DTS * STIF(4,I) + VIS(4,I) )
         ENDIF
       ENDDO                
 C-----------      

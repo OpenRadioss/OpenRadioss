@@ -114,10 +114,10 @@ c!CARD1
 
       IF (F_FLAG == 0 .OR. F_FLAG == 1 ) THEN
          F_FLAG = 1
-         IF (EMA == ZERO) EMA = UN
+         IF (EMA == ZERO) EMA = ONE
       ELSE
          BUTTER = EMA 
-         EMA    = UN       
+         EMA    = ONE       
          NUVAR  = 8! User variable # 3-8, Storage values for the Butterworth filter
       ENDIF
 
@@ -131,7 +131,7 @@ c-----------------------------------------------------------------------
       ! Value = USER_INPUT * 2 * Pi * DT1
       ! Alpha = Value / (Value + 1)
       ! Actual_filtered_stress = Alpha * actual_Stress + (1-Alpha) * previous_filtered_stress
-      ! UPARAM(4) = EMA  * DEUX * 3.14159265
+      ! UPARAM(4) = EMA  * TWO * 3.14159265
       UPARAM(4) = EMA
       UPARAM(5) = BUTTER
       UPARAM(6) = REAL(F_FLAG) +0.00001
@@ -142,7 +142,7 @@ c-----------------------------------------------------------------------
       ELSE 
        IF (TYPE_MAX == 1) THEN
          WRITE(IOUT, 1000) C_MIN, C_MAX
-         IF (F_FLAG ==1 .AND. EMA /= UN) THEN
+         IF (F_FLAG ==1 .AND. EMA /= ONE) THEN
            WRITE(IOUT, 2010) EMA
           ELSEIF(F_FLAG ==2)THEN
            WRITE(IOUT, 2020) BUTTER
@@ -152,7 +152,7 @@ c-----------------------------------------------------------------------
        ENDIF
        IF (TYPE_MAX == 2) THEN
          WRITE(IOUT, 2000) C_MIN, C_MAX, STRDEF
-         IF (F_FLAG ==1 .AND. EMA /= UN) THEN
+         IF (F_FLAG ==1 .AND. EMA /= ONE) THEN
            WRITE(IOUT, 2010) EMA
          ELSEIF(F_FLAG ==2)THEN
            WRITE(IOUT, 2020) BUTTER

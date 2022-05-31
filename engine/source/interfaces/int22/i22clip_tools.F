@@ -207,8 +207,8 @@ c          print *, "not colinear"
             alpha = alpha/tmp2
             ! if a is not in [0;1]
 c            print *, "alpha=", alpha
-            if ( (alpha >= -EM03) .and. (alpha <= UN+EM03)) then
-              alpha=max(ZERO,min(alpha,UN))
+            if ( (alpha >= -EM03) .and. (alpha <= ONE+EM03)) then
+              alpha=max(ZERO,min(alpha,ONE))
               intersectP(:) = Seg_P1(:) + alpha*v1(:)
             end if
           end if
@@ -301,7 +301,7 @@ C-----------------------------------------------
             total = total + (x(I+1)-x(I))*(y(I+1)+y(I))
           ENDDO
           
-          Area = UNDEMI * ABS(total)
+          Area = HALF * ABS(total)
           
           !setclockwise
           IF (total < ZERO) THEN
@@ -351,7 +351,7 @@ C-----------------------------------------------
             total = total + (x(I+1)-x(I))*(y(I+1)+y(I))
           ENDDO
           
-          Area = UNDEMI * ABS(total)
+          Area = HALF * ABS(total)
           
           !setclockwise
           IF (total > ZERO) THEN

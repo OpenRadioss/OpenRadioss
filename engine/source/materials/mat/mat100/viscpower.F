@@ -70,10 +70,10 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
         DO I=1,NEL 
           
-          TEMP1 = (EXPM +UN ) * GAMMAOLD(I)
+          TEMP1 = (EXPM +ONE ) * GAMMAOLD(I)
           TEMP2 =  EXP(EXPN*LOG(TBNORM(I))) 
           TEMP3 =  EXP( EXPM*LOG(TEMP1) )     
-          DGAMMA(I) = A1* EXP(  (UN/(UN +EXPM)) *LOG(TEMP2 * TEMP3 )) 
+          DGAMMA(I) = A1* EXP(  (ONE/(ONE +EXPM)) *LOG(TEMP2 * TEMP3 )) 
 
         ENDDO
       RETURN

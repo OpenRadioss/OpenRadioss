@@ -189,7 +189,7 @@ C
                      WRITE(IOUT,'(A18,G11.4,A33,G11.4,G11.4)') 
      .    '    GIVEN LENGTH ',LX,
      .    ' IS SMALLER THAN BOUNDING LENGTH ',LXMAX
-                     LX=LXMAX*UNP01
+                     LX=LXMAX*ONEP01
                      WRITE(IOUT,'(A20,G11.4)') '    IT IS RESET TO ',LX
                   ENDIF
                   IF (LYMAX.GT.LY) THEN
@@ -199,7 +199,7 @@ C
                      WRITE(IOUT,'(A18,G11.4,A33,G11.4,G11.4)') 
      .    '    GIVEN LENGTH ',LY,
      .    ' IS SMALLER THAN BOUNDING LENGTH ',LYMAX
-                     LY=LYMAX*UNP01
+                     LY=LYMAX*ONEP01
                      WRITE(IOUT,'(A20,G11.4)') '    IT IS RESET TO ',LY
                   ENDIF
 C On autorise le decoupage horizontal d'une bande du maillage uniquement
@@ -210,7 +210,7 @@ C                     WRITE(IOUT,'(A)') '    IN LOCAL FRAME DIRECTION 3'
 C                     WRITE(IOUT,'(A18,G11.4,A33,G11.4,G11.4)') 
 C     .    '    GIVEN LENGTH ',LZ,
 C     .    ' IS SMALLER THAN BOUNDING LENGTH ',LZMAX
-C                     LZ=LZMAX*UNP01
+C                     LZ=LZMAX*ONEP01
 C                     WRITE(IOUT,'(A20,G11.4)') '    IT IS RESET TO ',LZ
 C                  ENDIF
 C

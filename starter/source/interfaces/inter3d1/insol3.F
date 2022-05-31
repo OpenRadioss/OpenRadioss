@@ -143,9 +143,9 @@ C-----------------------------------------------
        XX1(JJ)=X(1,NN)
        XX2(JJ)=X(2,NN)
        XX3(JJ)=X(3,NN)
-       XS1=XS1+QUART*X(1,NN)
-       YS1=YS1+QUART*X(2,NN)
-  100  ZS1=ZS1+QUART*X(3,NN)
+       XS1=XS1+FOURTH*X(1,NN)
+       YS1=YS1+FOURTH*X(2,NN)
+  100  ZS1=ZS1+FOURTH*X(3,NN)
 C
        CALL NORMA1(N1,N2,N3,AREA)
        XC=ZERO
@@ -157,9 +157,9 @@ C
          YC=YC+X(2,KK)
          ZC=ZC+X(3,KK)
  110   CONTINUE
-       XC=XC*UNHUIT
-       YC=YC*UNHUIT
-       ZC=ZC*UNHUIT
+       XC=XC*ONE_OVER_8
+       YC=YC*ONE_OVER_8
+       ZC=ZC*ONE_OVER_8
        IF(IR.NE.0) RETURN
        IF(IC.GE.2)RETURN
        DDS=N1*(XC-XS1)+N2*(YC-YS1)+N3*(ZC-ZS1)
@@ -324,9 +324,9 @@ C-----------------------------------------------
        XX1(JJ)=X(1,NN)
        XX2(JJ)=X(2,NN)
        XX3(JJ)=X(3,NN)
-       XS1=XS1+QUART*X(1,NN)
-       YS1=YS1+QUART*X(2,NN)
-  100  ZS1=ZS1+QUART*X(3,NN)       
+       XS1=XS1+FOURTH*X(1,NN)
+       YS1=YS1+FOURTH*X(2,NN)
+  100  ZS1=ZS1+FOURTH*X(3,NN)       
 C
        CALL NORMA1D(N1,N2,N3,AREA)
        XC=0.
@@ -338,9 +338,9 @@ C
          YC=YC+X(2,KK)
          ZC=ZC+X(3,KK)
  110   CONTINUE
-       XC=XC*UNHUIT
-       YC=YC*UNHUIT
-       ZC=ZC*UNHUIT
+       XC=XC*ONE_OVER_8
+       YC=YC*ONE_OVER_8
+       ZC=ZC*ONE_OVER_8
        IF(IR.NE.0) RETURN
        IF(IC.GE.2)RETURN
        DDS=N1*(XC-XS1)+N2*(YC-YS1)+N3*(ZC-ZS1)
@@ -489,9 +489,9 @@ C-----------------------------------------------
        XX1(JJ)=X(1,NN)
        XX2(JJ)=X(2,NN)
        XX3(JJ)=X(3,NN)
-       XS1=XS1+QUART*X(1,NN)
-       YS1=YS1+QUART*X(2,NN)
-  100  ZS1=ZS1+QUART*X(3,NN)       
+       XS1=XS1+FOURTH*X(1,NN)
+       YS1=YS1+FOURTH*X(2,NN)
+  100  ZS1=ZS1+FOURTH*X(3,NN)       
 C
        CALL NORMA1(N1,N2,N3,AREA)
        XC=ZERO
@@ -503,9 +503,9 @@ C
          YC=YC+X(2,KK)
          ZC=ZC+X(3,KK)
  110   CONTINUE
-       XC=XC*UNHUIT
-       YC=YC*UNHUIT
-       ZC=ZC*UNHUIT
+       XC=XC*ONE_OVER_8
+       YC=YC*ONE_OVER_8
+       ZC=ZC*ONE_OVER_8
        DDS=N1*(XC-XS1)+N2*(YC-YS1)+N3*(ZC-ZS1)
        IF(DDS.LT.0) RETURN
        IF(IY(3).EQ.IY(4)) THEN

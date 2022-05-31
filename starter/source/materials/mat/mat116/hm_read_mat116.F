@@ -146,45 +146,45 @@ c-------------------
       IF (FG2 == ZERO .or. GC2_INI == ZERO) IFAIL2 = 0
       IF (THICK == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('MAT_THICK' ,UNIT_L ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        THICK = UN * UNIT_L
+        THICK = ONE * UNIT_L
       ENDIF
       ALPHA  = 0.005   ! strain rate filtering coefficient (exp average)
 c-------------------
 c     Check parameter values
 c-------------------
       IF (IFAIL1 == 1) THEN
-        IF (FG1 >= UN - UNDEMI*SIGA1**2 / (E * GC1_INI)) THEN
+        IF (FG1 >= ONE - HALF*SIGA1**2 / (E * GC1_INI)) THEN
           CALL ANCMSG(MSGID=1825,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,
      .                I1 = MAT_ID,
      .                C1 = TITR,
      .                C2 = 'FG1',
-     .                R1 = UNDEMI*SIGA1**2 / (E * GC1_INI)  )
+     .                R1 = HALF*SIGA1**2 / (E * GC1_INI)  )
         END IF
       ELSE IF (IFAIL1 == 2) THEN
-        IF (FG1 >= UN) THEN
+        IF (FG1 >= ONE) THEN
           CALL ANCMSG(MSGID=1825,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,
      .                I1 = MAT_ID,
      .                C1 = TITR,
      .                C2 = 'FG1',
-     .                R1 = UN)
+     .                R1 = ONE)
         END IF
       END IF
 c
       IF (IFAIL2 == 1) THEN
-        IF (FG2 >= UN - UNDEMI*SIGA2**2 / (E * GC2_INI)) THEN
+        IF (FG2 >= ONE - HALF*SIGA2**2 / (E * GC2_INI)) THEN
           CALL ANCMSG(MSGID=1825,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,
      .                I1 = MAT_ID,
      .                C1 = TITR,
      .                C2 = 'FG2',
-     .                R1 = UNDEMI*SIGA2**2 / (E * GC2_INI)  )
+     .                R1 = HALF*SIGA2**2 / (E * GC2_INI)  )
         END IF
       ELSE IF (IFAIL2 == 2) THEN
-        IF (FG2 >= UN) THEN
+        IF (FG2 >= ONE) THEN
           CALL ANCMSG(MSGID=1825,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,
      .                I1 = MAT_ID,
      .                C1 = TITR,
      .                C2 = 'FG2',
-     .                R1 = UN)
+     .                R1 = ONE)
         END IF
       END IF
 c-------------------
@@ -218,9 +218,9 @@ c-------------------
       UPARAM(24) = THICK  
       UPARAM(25) = ALPHA  
 C----------------
-      PARMAT(1)  = MAX(E,G) / TROIS
+      PARMAT(1)  = MAX(E,G) / THREE
       PARMAT(2)  = MAX(E,G)
-      PARMAT(17) = UN ! (UN - DEUX*NU)/(UN - NU), NU=0      
+      PARMAT(17) = ONE ! (ONE - TWO*NU)/(ONE - NU), NU=0      
 c
       MTAG%G_PLA  = 2
       MTAG%G_EPSD = 1  

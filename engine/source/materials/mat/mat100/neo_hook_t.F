@@ -79,7 +79,7 @@ C----------------------------------------------------------------
      .   JTHIRD(NEL),J4THIRD(NEL),ETA(NEL),WW(NEL) ,
      .   DPHIDI1(NEL)  , DPHIDJ(NEL) 
 C----------------------------------------------------------------
-      ETA(1:NEL) = UN !MULLINS DAMAGE FACTOR
+      ETA(1:NEL) = ONE !MULLINS DAMAGE FACTOR
  
       DO I = 1,NEL
          !J = RHO0/RHO = RELATIVE VOLUME = DET F (F = GRADIENT OF DEFORMATION)
@@ -92,7 +92,7 @@ C----------------------------------------------------------------
          I1(I) = MATB(I,1,1)+MATB(I,2,2)+MATB(I,3,3)
 
          IF(JDET(I)>ZERO) THEN
-          J2THIRD(I)  = EXP((-DTIERS )*LOG(JDET(I)))
+          J2THIRD(I)  = EXP((-TWO_THIRD )*LOG(JDET(I)))
          ELSE
           J2THIRD(I)  = ZERO
          ENDIF
@@ -109,7 +109,7 @@ C----------------------------------------------------------------
       !====================================
       IF(FLAG_MUL == 1)THEN
        DO I = 1,NEL
-         WW(I) =  MU(I) *(BI1(I)-TROIS) /DEUX   
+         WW(I) =  MU(I) *(BI1(I)-THREE) /TWO   
  
        ENDDO
        CALL MULLINS_OR(
@@ -119,10 +119,10 @@ C----------------------------------------------------------------
       !====================================
 
       DO I = 1,NEL
-        ETA(I) = MAX(MIN(ETA(I),UN),EM20)
-        DPHIDI1(I) = ETA(I)*MU(I)/DEUX
-        DPHIDJ(I)  = D(I)* (JDET(I)-UN) 
-        INVJ(I)=UN/MAX(EM20,JDET(I))
+        ETA(I) = MAX(MIN(ETA(I),ONE),EM20)
+        DPHIDI1(I) = ETA(I)*MU(I)/TWO
+        DPHIDJ(I)  = D(I)* (JDET(I)-ONE) 
+        INVJ(I)=ONE/MAX(EM20,JDET(I))
       ENDDO
 
       DO I=1,NEL   

@@ -399,12 +399,12 @@ C-----------------------------------------------
        ENDDO 
       ENDDO 
 C
-       VKSI(1,1)=-QUART*(UN+PG)
+       VKSI(1,1)=-FOURTH*(ONE+PG)
        VKSI(2,1)=-VKSI(1,1)
-       VKSI(3,1)= QUART*(UN-PG)
+       VKSI(3,1)= FOURTH*(ONE-PG)
        VKSI(4,1)=-VKSI(3,1)
-       VETA(1,1)=-QUART*(UN+PG)
-       VETA(2,1)=-QUART*(UN-PG)
+       VETA(1,1)=-FOURTH*(ONE+PG)
+       VETA(2,1)=-FOURTH*(ONE-PG)
        VETA(3,1)=-VETA(2,1)
        VETA(4,1)=-VETA(1,1)
        VKSI(1,2)= VKSI(1,1)

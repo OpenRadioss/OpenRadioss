@@ -169,7 +169,7 @@ C    RLOC           -> NB14
      4              SKEW   ,GEO    ,GBUF%OFF,OFF    ,AL     ,
      5              IGEO )
       DO I=JFT,JLT
-       AL0(I)=UN
+       AL0(I)=ONE
       ENDDO
 cc      CALL R13MAT3(JFT    ,JLT    ,GEO    ,KX      ,KY     ,
 cc     2             KZ     ,MX     ,MY     ,MZ      ,PID    ,
@@ -257,7 +257,7 @@ C     REAL ou REAL*8
      .   SCAL,ALX,ALY,ALZ,SX,SY,SZ,S1,S2
 C-----------------------------------------------
       IF (IMP_CHK .GT. 0) THEN
-       SCAL = CENT
+       SCAL = HUNDRED
        DO I=JFT,JLT
         IF(OFF(I).NE.ZERO)THEN
          ALX = ABS(AL(1,I))*SCAL

@@ -631,7 +631,7 @@ C
             YNA = Z01*X02 - X01*Z02
             ZNA = X01*Y02 - Y01*X02
 C
-            AAA=UN/MAX(EM30,SQRT(XNA*XNA+YNA*YNA+ZNA*ZNA))
+            AAA=ONE/MAX(EM30,SQRT(XNA*XNA+YNA*YNA+ZNA*ZNA))
             XNA = -XNA*AAA
             YNA = -YNA*AAA
             ZNA = -ZNA*AAA
@@ -666,7 +666,7 @@ C
             YNB = Z01*X02 - X01*Z02
             ZNB = X01*Y02 - Y01*X02
 C
-            BBB=UN/MAX(EM30,SQRT(XNB*XNB+YNB*YNB+ZNB*ZNB))
+            BBB=ONE/MAX(EM30,SQRT(XNB*XNB+YNB*YNB+ZNB*ZNB))
             XNB = -XNB*BBB
             YNB = -YNB*BBB
             ZNB = -ZNB*BBB
@@ -1014,13 +1014,13 @@ C------------------------------------
          IGTYP = IGEO(11,MG)
          IP = IPARTC(I)
          IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-           DX=UNDEMI*THK_PART(IP)
+           DX=HALF*THK_PART(IP)
          ELSEIF ( THK(I) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-           DX=UNDEMI*THK(I)
+           DX=HALF*THK(I)
          ELSEIF(IGTYP == 17) THEN
-           DX=UNDEMI*THK(I)
+           DX=HALF*THK(I)
          ELSE
-           DX=UNDEMI*GEO(1,MG)
+           DX=HALF*GEO(1,MG)
          ENDIF
          WA(IXC(2,I))=MAX(WA(IXC(2,I)),DX)
          WA(IXC(3,I))=MAX(WA(IXC(3,I)),DX)
@@ -1033,13 +1033,13 @@ C
          IGTYP = IGEO(11,MG)
          IP = IPARTTG(I)
          IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-           DX=UNDEMI*THK_PART(IP)
+           DX=HALF*THK_PART(IP)
          ELSEIF ( THK(NUMELC+I) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-           DX=UNDEMI*THK(NUMELC+I)
+           DX=HALF*THK(NUMELC+I)
          ELSEIF(IGTYP == 17) THEN
-           DX=UNDEMI*THK(NUMELC+I)
+           DX=HALF*THK(NUMELC+I)
          ELSE
-           DX=UNDEMI*GEO(1,MG)
+           DX=HALF*GEO(1,MG)
          ENDIF
          WA(IXTG(2,I))=MAX(WA(IXTG(2,I)),DX)
          WA(IXTG(3,I))=MAX(WA(IXTG(3,I)),DX)
@@ -1052,14 +1052,14 @@ C
 C--------exclude lines in main surfaces
 C       DO I=1,NUMELT
 C        MG=IXT(4,I)
-C        DX=UNDEMI*SQRT(GEO(1,MG))
+C        DX=HALF*SQRT(GEO(1,MG))
 C        WA(IXT(2,I))=MAX(WA(IXT(2,I)),DX)
 C        WA(IXT(3,I))=MAX(WA(IXT(3,I)),DX)
 C       ENDDO
 C
 C       DO I=1,NUMELP
 C        MG=IXP(5,I)
-C        DX=UNDEMI*SQRT(GEO(1,MG))
+C        DX=HALF*SQRT(GEO(1,MG))
 C        WA(IXP(2,I))=MAX(WA(IXP(2,I)),DX)
 C        WA(IXP(3,I))=MAX(WA(IXP(3,I)),DX)
 C       ENDDO
@@ -1358,17 +1358,17 @@ C----YJ =  N_ie ^ 21
          ANGLE(I)=YI(1)*YJ(1,I)+YI(2)*YJ(2,I)+YI(3)*YJ(3,I)
         END DO
 C        
-        SMAX=-UNP01
+        SMAX=-ONEP01
         J1=0
 C--------groupe YJ*Ni>=0 :concave keep angle (max_cos) only
         DO I=1,N
          IF (YJNI(I)<ZERO) CYCLE
-          IF (ANGLE(I)>=-UN) THEN
+          IF (ANGLE(I)>=-ONE) THEN
            IF(SMAX < ANGLE(I)) THEN
             SMAX=ANGLE(I)
             J1=I
            END IF
-          END IF !(ANGLE(I)>=-UN) THEN
+          END IF !(ANGLE(I)>=-ONE) THEN
         END DO
 C------angle >180------        
         IF(J1==0.AND.J >0) THEN
@@ -1386,10 +1386,10 @@ C--------same side
 C--------only groupe YJ*Ni<0(convex)  and no valid one before    
         ELSEIF(J==0.OR.J1==0) THEN
 C------angle >180- first-----        
-          SMAX=-UNP01
+          SMAX=-ONEP01
           DO I=1,N
            IF (YJNI(I)>=ZERO) CYCLE
-           IF(ANGLE(I)< -UN .AND.SMAX < ANGLE(I)) THEN
+           IF(ANGLE(I)< -ONE .AND.SMAX < ANGLE(I)) THEN
             SMAX=ANGLE(I)
             J1=I
            END IF
@@ -1400,7 +1400,7 @@ C ------------------
           DO I=1,N
            IF (YJNI(I)>=ZERO) CYCLE
 C--------groupe YJ*Ni<0 :convex keep angle (min_cos) only
-           IF(ANGLE(I)>= -UN .AND. SMIN > ANGLE(I)) THEN
+           IF(ANGLE(I)>= -ONE .AND. SMIN > ANGLE(I)) THEN
             SMIN=ANGLE(I)
             J1=I
            END IF

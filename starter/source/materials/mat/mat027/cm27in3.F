@@ -115,7 +115,7 @@ C
           DIR_DMG => LBUF%DMG(1:L_DMG*LLT)
 C
           DO I=LFT,LLT
-            DIR_DMG(I) = UN
+            DIR_DMG(I) = ONE
             DIR_DMG(I+LLT) = ZERO
           ENDDO
         ENDDO
@@ -129,7 +129,7 @@ C
             DIR_DMG => LBUF%DMG(1:L_DMG*LLT)
 C
             DO I=LFT,LLT
-              DIR_DMG(I) = UN
+              DIR_DMG(I) = ONE
               DIR_DMG(I+LLT) = ZERO
             ENDDO
           ENDDO
@@ -140,8 +140,8 @@ C
       IPPOS = 400
       IPMAT = 100
       IF(IGTYP.NE.11 .AND. IGTYP.NE.17 . AND. IGTYP.NE.51) THEN
-        THKL = UN / NPT
-        POS0 =-UNDEMI*(UN + THKL)
+        THKL = ONE / NPT
+        POS0 =-HALF*(ONE + THKL)
         DO N=1,NPT                                                
           I1=IPPOS+N                                              
           I2=IPTHK+N                                              

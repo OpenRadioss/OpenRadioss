@@ -96,7 +96,7 @@ C initialisation of Alpha and KK if Ifuncr and Ifunck is defined
 C
       IFUNCR = IFUNC(NFUNC)
       IFUNCK = IFUNC(NFUNC-1)
-      MU = UN
+      MU = ONE
       IF(IFUNCR > 0) ALPHA= ALPHA*FINTER(IFUNCR,MU,NPF,TF,DF)
       IF(IFUNCK > 0) KK= KK*FINTER(IFUNCK,MU,NPF,TF,DF)
 C      

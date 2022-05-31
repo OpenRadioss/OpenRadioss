@@ -415,7 +415,7 @@ C
 	VZ=VZ/MASSE
       ENDIF
 C
-      DT05=UNDEMI*DT1
+      DT05=HALF*DT1
       DO I=1,NSN
       N = NOD(I)
 C
@@ -468,7 +468,7 @@ C----------------------------
       VG(2)=VYY+AYY*DT12
       VG(3)=VZZ+AZZ*DT12
 C
-      USDT = UN/DT12
+      USDT = ONE/DT12
 C
       DO I=1,NSN
       N = NOD(I)
@@ -667,7 +667,7 @@ C
 C----------------------------
 C     CALCUL ACCELERATIONS
 C----------------------------
-      USDT = UN/DT12
+      USDT = ONE/DT12
 C
       DO I=1,NSN
       N = NOD(I)
@@ -695,13 +695,13 @@ C
       A0=N1*A(1,N)+N2*A(2,N)+N3*A(3,N)
       V0=N1*V(1,N)+N2*V(2,N)+N3*V(3,N)
       A(1,N)=AX
-     .    +(VX+VX1+UNDEMI*DT2*(VG(2)*VX3-VG(3)*VX2)-(V(1,N)-N1*V0))*USDT
+     .    +(VX+VX1+HALF*DT2*(VG(2)*VX3-VG(3)*VX2)-(V(1,N)-N1*V0))*USDT
      .    +N1*A0
       A(2,N)=AY
-     .    +(VY+VX2+UNDEMI*DT2*(VG(3)*VX1-VG(1)*VX3)-(V(2,N)-N2*V0))*USDT
+     .    +(VY+VX2+HALF*DT2*(VG(3)*VX1-VG(1)*VX3)-(V(2,N)-N2*V0))*USDT
      .    +N2*A0
       A(3,N)=AZ
-     .    +(VZ+VX3+UNDEMI*DT2*(VG(1)*VX2-VG(2)*VX1)-(V(3,N)-N3*V0))*USDT
+     .    +(VZ+VX3+HALF*DT2*(VG(1)*VX2-VG(2)*VX1)-(V(3,N)-N3*V0))*USDT
      .    +N3*A0
 C
       END DO

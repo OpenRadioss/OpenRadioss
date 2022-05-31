@@ -75,7 +75,7 @@ C     REAL ou REAL*8
       DOUBLE PRECISION 
      .   DVP,DV,DV1
 C                                                                     12
-      TOL = UN-EM20
+      TOL = ONE-EM20
 C-----------------------------------------------
       DO I=LFT,LLT
        DXX(I)=DN_X(I,1)*ULX1(I)+DN_X(I,2)*ULX2(I)
@@ -134,8 +134,8 @@ C-------------Volume traitement------
         IF (DV.GT.TOL) THEN
           DV =ZERO
         ENDIF
-        IF(OFFS(I)==DEUX.OR.ISMSTR==11) CYCLE
-         DV1 = UN- DV
+        IF(OFFS(I)==TWO.OR.ISMSTR==11) CYCLE
+         DV1 = ONE- DV
          VOLO(I) = VOLO(I)*DV1
          EINT(I) = EINT(I)/DV1
 c        ENDIF
@@ -146,9 +146,9 @@ c        ENDIF
        ENDDO
       ENDIF 
 C
-      DT1D2=UNDEMI*DT1
+      DT1D2=HALF*DT1
       IF (ISCAU.GT.0)DT1D2=DT1
-      DT1D=DEUX*DT1D2
+      DT1D=TWO*DT1D2
        DO I=LFT,LLT
         D4(I)=DXY(I)+DYX(I)
         D5(I)=DYZ(I)+DZY(I)
@@ -157,8 +157,8 @@ C
         WYY(I)=DT1D2*(DXZ(I)-DZX(I))
         WXX(I)=DT1D2*(DZY(I)-DYZ(I))
        ENDDO
-       UDT1 = UN     ! sb a supprimer, si je garde la vitesse pour ce calcul
-       IF (DT1 > ZERO) UDT1 = UN/DT1
+       UDT1 = ONE     ! sb a supprimer, si je garde la vitesse pour ce calcul
+       IF (DT1 > ZERO) UDT1 = ONE/DT1
        DO I=LFT,LLT
         DXX(I)= DXX(I)*UDT1
         DYY(I)= DYY(I)*UDT1
@@ -247,7 +247,7 @@ C     REAL ou REAL*8
       DOUBLE PRECISION 
      .   DVP,DV,DV1
 C                                                                     
-      TOL = UN-EM20
+      TOL = ONE-EM20
 C-----------------------------------------------
       
       DO I=LFT,LLT
@@ -265,21 +265,21 @@ C-----------------------------------------------
         ENDDO
 
 ! sortir cette partie car independante du PG
-        A1A1 = (X2(I)+X3(I)-X1(I)-X4(I))*QUART
-        A1A2 = (Y2(I)+Y3(I)-Y1(I)-Y4(I))*QUART
-        A1A3 = (Z2(I)+Z3(I)-Z1(I)-Z4(I))*QUART
-        A2A1 = (X4(I)+X3(I)-X1(I)-X2(I))*QUART
-        A2A2 = (Y4(I)+Y3(I)-Y1(I)-Y2(I))*QUART
-        A2A3 = (Z4(I)+Z3(I)-Z1(I)-Z2(I))*QUART
-        A1B1 = (X6(I)+X7(I)-X5(I)-X8(I))*QUART
-        A1B2 = (Y6(I)+Y7(I)-Y5(I)-Y8(I))*QUART
-        A1B3 = (Z6(I)+Z7(I)-Z5(I)-Z8(I))*QUART
-        A2B1 = (X8(I)+X7(I)-X5(I)-X6(I))*QUART
-        A2B2 = (Y8(I)+Y7(I)-Y5(I)-Y6(I))*QUART
-        A2B3 = (Z8(I)+Z7(I)-Z5(I)-Z6(I))*QUART
+        A1A1 = (X2(I)+X3(I)-X1(I)-X4(I))*FOURTH
+        A1A2 = (Y2(I)+Y3(I)-Y1(I)-Y4(I))*FOURTH
+        A1A3 = (Z2(I)+Z3(I)-Z1(I)-Z4(I))*FOURTH
+        A2A1 = (X4(I)+X3(I)-X1(I)-X2(I))*FOURTH
+        A2A2 = (Y4(I)+Y3(I)-Y1(I)-Y2(I))*FOURTH
+        A2A3 = (Z4(I)+Z3(I)-Z1(I)-Z2(I))*FOURTH
+        A1B1 = (X6(I)+X7(I)-X5(I)-X8(I))*FOURTH
+        A1B2 = (Y6(I)+Y7(I)-Y5(I)-Y8(I))*FOURTH
+        A1B3 = (Z6(I)+Z7(I)-Z5(I)-Z8(I))*FOURTH
+        A2B1 = (X8(I)+X7(I)-X5(I)-X6(I))*FOURTH
+        A2B2 = (Y8(I)+Y7(I)-Y5(I)-Y6(I))*FOURTH
+        A2B3 = (Z8(I)+Z7(I)-Z5(I)-Z6(I))*FOURTH
 !
-        UM = (UN-ZETA)/HUIT
-        UP = (UN+ZETA)/HUIT
+        UM = (ONE-ZETA)/EIGHT
+        UP = (ONE+ZETA)/EIGHT
         B(4,1) = -UM*(A1A1+A2A1)
         B(4,2) = -UM*(A1A2+A2A2)
         B(4,3) = -UM*(A1A3+A2A3)
@@ -306,21 +306,21 @@ C-----------------------------------------------
         B(4,24) = UP*(A1B3-A2B3)
       
 ! sortir cette partie car independante du PG
-        B1A1 = (X2(I)+X6(I)-X1(I)-X5(I))*QUART
-        B1A2 = (Y2(I)+Y6(I)-Y1(I)-Y5(I))*QUART
-        B1A3 = (Z2(I)+Z6(I)-Z1(I)-Z5(I))*QUART
-        B2A1 = (X5(I)+X6(I)-X1(I)-X2(I))*QUART
-        B2A2 = (Y5(I)+Y6(I)-Y1(I)-Y2(I))*QUART
-        B2A3 = (Z5(I)+Z6(I)-Z1(I)-Z2(I))*QUART
-        B1B1 = (X3(I)+X7(I)-X4(I)-X8(I))*QUART
-        B1B2 = (Y3(I)+Y7(I)-Y4(I)-Y8(I))*QUART
-        B1B3 = (Z3(I)+Z7(I)-Z4(I)-Z8(I))*QUART
-        B2B1 = (X7(I)+X8(I)-X3(I)-X4(I))*QUART
-        B2B2 = (Y7(I)+Y8(I)-Y3(I)-Y4(I))*QUART
-        B2B3 = (Z7(I)+Z8(I)-Z3(I)-Z4(I))*QUART
+        B1A1 = (X2(I)+X6(I)-X1(I)-X5(I))*FOURTH
+        B1A2 = (Y2(I)+Y6(I)-Y1(I)-Y5(I))*FOURTH
+        B1A3 = (Z2(I)+Z6(I)-Z1(I)-Z5(I))*FOURTH
+        B2A1 = (X5(I)+X6(I)-X1(I)-X2(I))*FOURTH
+        B2A2 = (Y5(I)+Y6(I)-Y1(I)-Y2(I))*FOURTH
+        B2A3 = (Z5(I)+Z6(I)-Z1(I)-Z2(I))*FOURTH
+        B1B1 = (X3(I)+X7(I)-X4(I)-X8(I))*FOURTH
+        B1B2 = (Y3(I)+Y7(I)-Y4(I)-Y8(I))*FOURTH
+        B1B3 = (Z3(I)+Z7(I)-Z4(I)-Z8(I))*FOURTH
+        B2B1 = (X7(I)+X8(I)-X3(I)-X4(I))*FOURTH
+        B2B2 = (Y7(I)+Y8(I)-Y3(I)-Y4(I))*FOURTH
+        B2B3 = (Z7(I)+Z8(I)-Z3(I)-Z4(I))*FOURTH
 !
-        UM = (UN-ETA)/HUIT
-        UP = (UN+ETA)/HUIT
+        UM = (ONE-ETA)/EIGHT
+        UP = (ONE+ETA)/EIGHT
         B(5,1) = -UM*(B1A1+B2A1)
         B(5,2) = -UM*(B1A2+B2A2)
         B(5,3) = -UM*(B1A3+B2A3)
@@ -347,21 +347,21 @@ C-----------------------------------------------
         B(5,24)=  UP*(B1B3-B2B3)
       
 ! sortir cette partie car independante du PG
-        C1A1 = (X4(I)+X8(I)-X1(I)-X5(I))*QUART
-        C1A2 = (Y4(I)+Y8(I)-Y1(I)-Y5(I))*QUART
-        C1A3 = (Z4(I)+Z8(I)-Z1(I)-Z5(I))*QUART
-        C2A1 = (X5(I)+X8(I)-X1(I)-X4(I))*QUART
-        C2A2 = (Y5(I)+Y8(I)-Y1(I)-Y4(I))*QUART
-        C2A3 = (Z5(I)+Z8(I)-Z1(I)-Z4(I))*QUART
-        C1B1 = (X3(I)+X7(I)-X2(I)-X6(I))*QUART
-        C1B2 = (Y3(I)+Y7(I)-Y2(I)-Y6(I))*QUART
-        C1B3 = (Z3(I)+Z7(I)-Z2(I)-Z6(I))*QUART
-        C2B1 = (X6(I)+X7(I)-X2(I)-X3(I))*QUART
-        C2B2 = (Y6(I)+Y7(I)-Y2(I)-Y3(I))*QUART
-        C2B3 = (Z6(I)+Z7(I)-Z2(I)-Z3(I))*QUART
+        C1A1 = (X4(I)+X8(I)-X1(I)-X5(I))*FOURTH
+        C1A2 = (Y4(I)+Y8(I)-Y1(I)-Y5(I))*FOURTH
+        C1A3 = (Z4(I)+Z8(I)-Z1(I)-Z5(I))*FOURTH
+        C2A1 = (X5(I)+X8(I)-X1(I)-X4(I))*FOURTH
+        C2A2 = (Y5(I)+Y8(I)-Y1(I)-Y4(I))*FOURTH
+        C2A3 = (Z5(I)+Z8(I)-Z1(I)-Z4(I))*FOURTH
+        C1B1 = (X3(I)+X7(I)-X2(I)-X6(I))*FOURTH
+        C1B2 = (Y3(I)+Y7(I)-Y2(I)-Y6(I))*FOURTH
+        C1B3 = (Z3(I)+Z7(I)-Z2(I)-Z6(I))*FOURTH
+        C2B1 = (X6(I)+X7(I)-X2(I)-X3(I))*FOURTH
+        C2B2 = (Y6(I)+Y7(I)-Y2(I)-Y3(I))*FOURTH
+        C2B3 = (Z6(I)+Z7(I)-Z2(I)-Z3(I))*FOURTH
 !
-        UM = (UN-KSI)/HUIT
-        UP = (UN+KSI)/HUIT
+        UM = (ONE-KSI)/EIGHT
+        UP = (ONE+KSI)/EIGHT
         B(6,1) = -UM*(C1A1+C2A1)
         B(6,2) = -UM*(C1A2+C2A2)
         B(6,3) = -UM*(C1A3+C2A3)
@@ -402,21 +402,21 @@ C-----------------------------------------------
        C(1,1) = CA11*CA11
        C(2,1) = CA12*CA12
        C(3,1) = CA13*CA13
-       C(4,1) = DEUX*CA11*CA12
-       C(5,1) = DEUX*CA11*CA13
-       C(6,1) = DEUX*CA12*CA13
+       C(4,1) = TWO*CA11*CA12
+       C(5,1) = TWO*CA11*CA13
+       C(6,1) = TWO*CA12*CA13
        C(1,2) = CA21*CA21
        C(2,2) = CA22*CA22
        C(3,2) = CA23*CA23
-       C(4,2) = DEUX*CA21*CA22
-       C(5,2) = DEUX*CA21*CA23
-       C(6,2) = DEUX*CA22*CA23
+       C(4,2) = TWO*CA21*CA22
+       C(5,2) = TWO*CA21*CA23
+       C(6,2) = TWO*CA22*CA23
        C(1,3) = CA31*CA31
        C(2,3) = CA32*CA32
        C(3,3) = CA33*CA33
-       C(4,3) = DEUX*CA31*CA32
-       C(5,3) = DEUX*CA31*CA33
-       C(6,3) = DEUX*CA32*CA33
+       C(4,3) = TWO*CA31*CA32
+       C(5,3) = TWO*CA31*CA33
+       C(6,3) = TWO*CA32*CA33
        C(1,4) = CA11*CA21
        C(2,4) = CA12*CA22
        C(3,4) = CA13*CA23
@@ -525,8 +525,8 @@ C-------------Volume traitement------
         IF (DV.GT.TOL) THEN
           DV =ZERO
         ENDIF
-        IF(OFFS(I)==DEUX.OR.ISMSTR==11) CYCLE
-         DV1 = UN- DV
+        IF(OFFS(I)==TWO.OR.ISMSTR==11) CYCLE
+         DV1 = ONE- DV
          VOLO(I) = VOLO(I)*DV1
          EINT(I) = EINT(I)/DV1
 c        ENDIF
@@ -537,11 +537,11 @@ c        ENDIF
        ENDDO
       ENDIF 
 C
-      DT1D2=UNDEMI*DT1
+      DT1D2=HALF*DT1
       IF (ISCAU.GT.0)DT1D2=DT1
-      DT1D=DEUX*DT1D2
-       UDT1 = UN     ! sb a supprimer, si je garde la vitesse pour ce calcul
-       IF (DT1 > ZERO) UDT1 = UN/DT1
+      DT1D=TWO*DT1D2
+       UDT1 = ONE     ! sb a supprimer, si je garde la vitesse pour ce calcul
+       IF (DT1 > ZERO) UDT1 = ONE/DT1
        DO I=LFT,LLT
         DXX(I)= DXX(I)*UDT1
         DYY(I)= DYY(I)*UDT1

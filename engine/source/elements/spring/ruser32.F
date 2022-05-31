@@ -152,7 +152,7 @@ C
       IF (TACTI == ZERO .AND. ISENS /= ZERO) THEN
         IACT=0
         DO I=1,NEL
-          IF (UVAR(2,I) == UN) THEN
+          IF (UVAR(2,I) == ONE) THEN
             UVAR(2,I) = ZERO
           ENDIF
           FX(I)    = FX(I) + STIF0 * DT * VX(I)
@@ -164,7 +164,7 @@ C
         DO I=1,NEL
           IF (UVAR(2,I) == ZERO) THEN
             UVAR(1,I) = ZERO
-            UVAR(2,I) = UN    
+            UVAR(2,I) = ONE    
           ENDIF
           UVAR(1,I) = UVAR(1,I) + DT * VX(I)
           FX(I)     = FX(I) + STIF0 * DT * VX(I)
@@ -179,7 +179,7 @@ C
         DO I=1,NEL
           X  = UVAR(1,I)
           FF = F0 + STIF1 * X
-          IF (FX(I) >  FF .AND. ILOCK == 2) UVAR(3,I) = UN
+          IF (FX(I) >  FF .AND. ILOCK == 2) UVAR(3,I) = ONE
           IF (FF > ZERO  .AND. UVAR(3,I) == ZERO) THEN 
             FX(I) = MAX(FF,FX(I))
             IF (IMPL_S > ZERO) THEN
@@ -195,8 +195,8 @@ C
         DO I=1,NEL
           X  = UVAR(1,I) 
           FF = FSCAL*GET_U_FUNC(IFUNC1,X*DSCAL,DXDY)
-          IF (X < D1 .AND. D1 /= ZERO) UVAR(3,I) = UN
-          IF (FX(I) > FF .AND. ILOCK == 2) UVAR(3,I) = UN
+          IF (X < D1 .AND. D1 /= ZERO) UVAR(3,I) = ONE
+          IF (FX(I) > FF .AND. ILOCK == 2) UVAR(3,I) = ONE
           IF (FF > ZERO .AND. UVAR(3,I) == ZERO) THEN
             FX(I) = MAX(FF,FX(I))
             IF (IMPL_S > ZERO) THEN
@@ -212,8 +212,8 @@ C
         F0 = FSCAL*GET_U_FUNC(IFUNC2,TACTI*TSCAL,DXDY)
         DO I=1,NEL
           X = UVAR(1,I) 
-          IF (X < D1 .AND. D1 /= ZERO) UVAR(3,I) = UN
-          IF (FX(I) > F0 .AND. ILOCK == 2) UVAR(3,I) = UN
+          IF (X < D1 .AND. D1 /= ZERO) UVAR(3,I) = ONE
+          IF (FX(I) > F0 .AND. ILOCK == 2) UVAR(3,I) = ONE
           IF (F0 > ZERO .AND. UVAR(3,I) == ZERO) THEN
             FX(I) = MAX(F0,FX(I))
           ENDIF
@@ -225,8 +225,8 @@ C
         DO I=1,NEL
           X  = UVAR(1,I) 
           FF = F0*GET_U_FUNC(IFUNC1,X*DSCAL,DXDY)
-          IF (X < D1 .AND. D1 /= ZERO) UVAR(3,I) = UN
-          IF (FX(I) > FF .AND. ILOCK == 2) UVAR(3,I) = UN
+          IF (X < D1 .AND. D1 /= ZERO) UVAR(3,I) = ONE
+          IF (FX(I) > FF .AND. ILOCK == 2) UVAR(3,I) = ONE
           IF (FF > ZERO .AND. UVAR(3,I) == ZERO) THEN
             FX(I) = MAX(FF,FX(I))
             IF (IMPL_S > ZERO) THEN

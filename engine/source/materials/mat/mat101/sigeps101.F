@@ -198,8 +198,7 @@ c
      . COEFF1, COEFF2, COEFF3, EXCHANGE, GAMV0, ROT, ps
      
       my_real
-     .  ONE, TWO, THREE, FOUR, FIVE,  SEVEN,
-     . FIFTEEN, TSEVEN, HALF, SMALL, BIG, TWOTHIRD, DS32, DS3, DS13, DKB, 
+     . TSEVEN,  SMALL, BIG, THO_THIRD, DS32, DS3, DS13, DKB, 
      . DR
 
       my_real
@@ -212,27 +211,17 @@ C
       DATA    PIDENT    /1.D0, 1.D0, 1.D0, 0.D0,  0.D0,  0.D0/
       DATA    FACTOTWO  /1.D0, 1.D0, 1.D0, 2.D0,  2.D0,  2.D0/
       DATA    FACTOHALF /1.D0, 1.D0, 1.D0, 0.5D0, 0.5D0, 0.5D0/
-C-----------------------------------------------	  
+C-----------------------------------------------          
 C
-      	NDI= 3
+        NDI= 3
 C----------------------------------------------- 
 C   TIMESTEP
  
 
-	     DTIME = TIMESTEP
-      ONE     = UN
-	     TWO     = DEUX
-      THREE   = TROIS
-      FOUR    = QUATRE
-      FIVE    = CINQ
-
-      SEVEN   = SEPT
-      FIFTEEN = DEUX*SEPT+UN
-      TSEVEN  = DEUX*DIX+SEPT
-      HALF    = UNDEMI
+      DTIME = TIMESTEP
+      TSEVEN  = TWO*TEN+SEVEN
       SMALL   = EM6
       BIG     = EP16
-      TWOTHIRD= TWO/THREE
 
       DS32    = SQRT(THREE/TWO)
       DS3     = SQRT(THREE)
@@ -324,18 +313,18 @@ C
 C
 C-------- INITIALIZE STATE VARIABLES
 C
-        UVAR(IE, 1) = UN !FV11
-        UVAR(IE, 2) = UN !FV22
-        UVAR(IE, 3) = UN !FV33
+        UVAR(IE, 1) = ONE !FV11
+        UVAR(IE, 2) = ONE !FV22
+        UVAR(IE, 3) = ONE !FV33
         UVAR(IE, 4) = ZERO !FV12
         UVAR(IE, 5) = ZERO !FV23
         UVAR(IE, 6) = ZERO !FV13
         UVAR(IE, 7) = DES1_0 !DES1
         UVAR(IE, 8) = DESTAR_0 !DESTAR   
         UVAR(IE, 9) = DES2_0 !DES2
-        UVAR(IE,10) = UN  !BETA11
-        UVAR(IE,11) = UN  !BETA22
-        UVAR(IE,12) = UN  !BETA33
+        UVAR(IE,10) = ONE  !BETA11
+        UVAR(IE,11) = ONE  !BETA22
+        UVAR(IE,12) = ONE  !BETA33
         UVAR(IE,13) = ZERO  !BETA12
         UVAR(IE,14) = ZERO  !BETA23
         UVAR(IE,15) = ZERO  !BETA13
@@ -344,31 +333,31 @@ C
         UVAR(IE,18) = ZERO  !DGAMV
         UVAR(IE,19) = ZERO  !GAMVEQ
         UVAR(IE,20) = THETAI
-        IF (ABS(D_THETA_OPT-UN) .LT. EM06) THEN
+        IF (ABS(D_THETA_OPT-ONE) .LT. EM06) THEN
             UVAR(IE,20)  = TEMP(IE)
         ENDIF
         UVAR(IE,21) = ZERO !THETADOT (ADIABATIC)
-		
-        UVAR(IE,22) = UN !F011
-        UVAR(IE,23) = UN !F022
-        UVAR(IE,24) = UN !F033
+                
+        UVAR(IE,22) = ONE !F011
+        UVAR(IE,23) = ONE !F022
+        UVAR(IE,24) = ONE !F033
         UVAR(IE,25) = ZERO !F012
         UVAR(IE,26) = ZERO !F021
         UVAR(IE,27) = ZERO !F013
         UVAR(IE,28) = ZERO !F031
         UVAR(IE,29) = ZERO !F023
         UVAR(IE,30) = ZERO !F032
-		
-        UVAR(IE,31) = UN !U011
-        UVAR(IE,32) = UN !U022
-        UVAR(IE,33) = UN !U033
+                
+        UVAR(IE,31) = ONE !U011
+        UVAR(IE,32) = ONE !U022
+        UVAR(IE,33) = ONE !U033
         UVAR(IE,34) = ZERO !U012
         UVAR(IE,35) = ZERO !U021
         UVAR(IE,36) = ZERO !U013
         UVAR(IE,37) = ZERO !U031
         UVAR(IE,38) = ZERO !U023
-        UVAR(IE,39) = ZERO !U032		
-	       UVAR(IE,40) = ZERO !E133 true strain xx
+        UVAR(IE,39) = ZERO !U032                
+               UVAR(IE,40) = ZERO !E133 true strain xx
         UVAR(IE,41) = ZERO !E133 true strain yy
         UVAR(IE,42) = ZERO !E133 true strain zz
 
@@ -394,7 +383,7 @@ C
         F1(3,1) = FPSZX(IE)
         F1(2,3) = FPSYZ(IE)
         F1(3,2) = FPSZY(IE)
-	  
+          
         U1(1,1) = UPSXX(IE)
         U1(2,2) = UPSYY(IE)
         U1(3,3) = UPSZZ(IE)
@@ -422,13 +411,13 @@ C
         CALL EMOD_TPU(DEREF,DE0,THETA,THETA0,DVE1,DVE2,
      &                EM04,DEDOT_REF,DE)
 
-        DMU  = DE / (DEUX+DEUX*DPOISS)
-        DK   = DEUX*DMU*(UN+DPOISS)/(TROIS*(UN-DEUX*DPOISS))
+        DMU  = DE / (TWO+TWO*DPOISS)
+        DK   = TWO*DMU*(ONE+DPOISS)/(THREE*(ONE-TWO*DPOISS))
 
         !CALCULATE SOME CONSTANTS
 
-        TWOMU0    = DEUX*DMU
-        BULKA0    = DK - (DEUX/3.D0)*DMU
+        TWOMU0    = TWO*DMU
+        BULKA0    = DK - (TWO/3.D0)*DMU
 
         !COMPUTE: FE->CE->UE->RE->EE
         CALL ST_TPU(FVM,    ZERO, 3*3)
@@ -469,9 +458,9 @@ C
        !IF DET(B)<0 MEANS THAT THE SYSTEM IS LEFT HANDED. IT IS MADE
        !RIGHT
        !HANDED BY EXCHANGING 1 AND 2.
-        SIGN=-UN
+        SIGN=-ONE
         CALL DET_TPU(VCE1, DET_VCE1)
-        IF(DET_VCE1 .LE. ZERO) SIGN=UN
+        IF(DET_VCE1 .LE. ZERO) SIGN=ONE
            DO I=1,3
               EXCHANGE=VCE1(I,1)
               VCE1(I,1)=VCE1(I,2)
@@ -500,7 +489,7 @@ C
                END DO
             END DO
 C
-	       	   CALL INV_TPU(UE1, UE1_INV, DET)
+                   CALL INV_TPU(UE1, UE1_INV, DET)
             CALL AXB_TPU(FE1, UE1_INV, ROTE1, 3)
             CALL DET_TPU(FE1, DET_FE)
 C
@@ -521,7 +510,7 @@ C
             CALL ST_TPU(SIGMAM,     ZERO, 3*3)
             CALL ST_TPU(SIGMA_Q,    ZERO, 3*3)
 C
-            CALL SST_TPU(UN/DET_FE, TAUM, SIGMAM, 3*3)
+            CALL SST_TPU(ONE/DET_FE, TAUM, SIGMAM, 3*3)
 C
 C-------    DETERMINATION OF SIGMA  (IN THE ROTATED CONFIGURATION)
             CALL QTAQ_TPU(ROT1, SIGMAM, SIGMA_Q, 3)
@@ -533,7 +522,7 @@ C-------    SIGMA_Q(I,J)
             UVAR(IE,25) = F1(1,2) !F012
             UVAR(IE,26) = F1(2,1) !F021
             UVAR(IE,27) = F1(1,3) !F013
-	       UVAR(IE,28) = F1(3,1) !F031
+               UVAR(IE,28) = F1(3,1) !F031
             UVAR(IE,29) = F1(2,3) !F023
             UVAR(IE,30) = F1(3,2) !F032
             UVAR(IE,31) = U1(1,1) !U011
@@ -667,7 +656,7 @@ C
         CALL AT_TPU(ONE, RDFGRD, ONE, PMIDENT, TENSOR1, 3*3)         
         CALL INV_TPU(TENSOR1, TENSOR3, DET)                          
         CALL AXB_TPU(TENSOR2, TENSOR3, VGRAD, 3)                     
-        CALL SST_TPU(DEUX/DTIME, VGRAD, VGRAD, 3*3)                  
+        CALL SST_TPU(TWO/DTIME, VGRAD, VGRAD, 3*3)                  
 C
 C------- RATE OF DEFORMATION AND SPIN: D_UMAT=SYM(L), W_UMAT=SKW(L) -
 C
@@ -683,7 +672,7 @@ C
 C
         CALL MAT3X3TOVEC6X1(D_UMAT,D_UMAT_VEC,3)                     
         CALL SP_TPU(D_UMAT_VEC,D_UMAT_VEC,COEFF3,6)                  
-        COEFF2 = SQRT((DEUX/TROIS)*COEFF3)                           
+        COEFF2 = SQRT((TWO/THREE)*COEFF3)                           
 C
 C-------- ROTATION TENSORS FROM F=RU, I.E., R=F*U^(-1)
 C
@@ -700,8 +689,8 @@ C------- TEMPERATURE DEPENDENCE OF PARAMETERS                      -
 C
         CALL EMOD_TPU(DEREF,DE0,THETA,THETA0,DVE1,DVE2,             
      &                COEFF2,DEDOT_REF,DE)                          
-        DMU  = DE / (DEUX+DEUX*DPOISS)                              
-        DK   = DEUX*DMU*(UN+DPOISS)/(TROIS*(UN-DEUX*DPOISS))        
+        DMU  = DE / (TWO+TWO*DPOISS)                              
+        DK   = TWO*DMU*(ONE+DPOISS)/(THREE*(ONE-TWO*DPOISS))        
         DY0  = DC3*(THETA-THETA0)+DC4                               
         CKAPPA1 = CALPHAK1*DMU                                      
         DESTAR_0 = DC5*(THETA-THETA0)+DC6                           
@@ -716,7 +705,7 @@ C
         !CHECK PARAM
         !-----------------------------------------------------
         TWOMU0 = TWO*DMU
-        BULKA0 = DK - TWOTHIRD*DMU
+        BULKA0 = DK - THO_THIRD*DMU
         !-------------------------------------------------------------72
         !- AT THE BEGINNING OF THE STEP
         !-------------------------------------------------------------72
@@ -875,7 +864,7 @@ C
      &                + (DESTAR_S-G0*DESTAR0)*DGAMV_ITER   
 C
         DES1       = DES10 + H0*                           
-     &		       (ONE-DES10/DESTAR)*DGAMV_ITER               
+     &                 (ONE-DES10/DESTAR)*DGAMV_ITER               
 C
         DLAMBDAP_BAR = ONE/DS3*SQRT(TR_BP)                 
         DES2         = DES20 + H1*(DLAMBDAP_BAR-ONE)*      
@@ -917,9 +906,9 @@ C
         IF (IER.EQ.1) THEN                                                     
           CALL ERR_TPU('ERROR IN EIG VAL')                                     
         ENDIF                                                                  
-        SIGN=-UN                                                               
+        SIGN=-ONE                                                               
         CALL DET_TPU(VCE1, DET_VCE1)                                           
-        IF(DET_VCE1.LE.0.) SIGN=UN                                             
+        IF(DET_VCE1.LE.0.) SIGN=ONE                                             
         DO I=1,3                                                                   
            EXCHANGE=VCE1(I,1)                                                      
            VCE1(I,1)=VCE1(I,2)                                                     
@@ -937,12 +926,12 @@ C
         END DO                                                                     
 C
 C...... DETERMINATION OF MATERIAL FUNCTION  MU_B                                  
-        DMU_B = DMU_R*(ONE-(DCE1(1)+DCE1(2)+DCE1(3)-TROIS)/DLAMBDA_L)**(-1.0)     
+        DMU_B = DMU_R*(ONE-(DCE1(1)+DCE1(2)+DCE1(3)-THREE)/DLAMBDA_L)**(-1.0)     
 C...... DETERMINATION OF ALPHA                                                    
 C
 C
         CALL AT_TPU(DTIME, DV, ONE, PMIDENT, TEMP1, 9)                             
-      	 CALL AXB_TPU(TEMP1, FVM, FVM_ITER, 3)                                      
+         CALL AXB_TPU(TEMP1, FVM, FVM_ITER, 3)                                      
         CALL MAT3X3TOVEC6X1(FVM_ITER,FV_ITER,3)                                    
 C--------------------------------------------------------------------72
 C-------- ELASTIC STRESSES AT THE END OF THE STEP
@@ -1049,9 +1038,9 @@ C====================================================================72
 C============ UPDATE VARIABLES
 C====================================================================72
 C
-		      CALL SP_TPU(DV_VEC, DV_VEC,ps,6)                          
+                      CALL SP_TPU(DV_VEC, DV_VEC,ps,6)                          
         GAMV_ITER    = GAMV + DGAMV_ITER                          
-        GAMVEQ       = GAMVEQ +SQRT((DEUX/TROIS)*ps)*DTIME        
+        GAMVEQ       = GAMVEQ +SQRT((TWO/THREE)*ps)*DTIME        
 C
 C-------TEMPERATURE, ASSUMING ADIABATIC CONDITIONS            ----
 C
@@ -1062,10 +1051,10 @@ C
 C
         RHO_P = RHO_P*(1.42D0*THETAG+44.7D0)                      
      &                / (1.42D0*THETAG+0.15D0*THETA)              
-        CV = CV*(0.106D0+TROIS*EM03*THETA)                        
+        CV = CV*(0.106D0+THREE*EM03*THETA)                        
 C
         CALL MAT3X3TOVEC6X1(XM, XM_VEC, 3)                        
-				    CALL SP_TPU(XM_VEC,DV_VEC,ps,6)                           
+                                    CALL SP_TPU(XM_VEC,DV_VEC,ps,6)                           
         DTHETA_ITER  = (DTIME*FACTOR*ps) /(CV*RHO_P)              
         THETAITER    = THETA + DTHETA_ITER                        
         THETADOTITER = DTHETA_ITER/DTIME                          
@@ -1108,7 +1097,7 @@ C
         UVAR(IE,25) = F1(1,2) !F012         
         UVAR(IE,26) = F1(2,1) !F021         
         UVAR(IE,27) = F1(1,3) !F013         
-	   UVAR(IE,28) = F1(3,1) !F031         
+           UVAR(IE,28) = F1(3,1) !F031         
         UVAR(IE,29) = F1(2,3) !F023         
         UVAR(IE,30) = F1(3,2) !F032         
         UVAR(IE,31) = U1(1,1) !U011         
@@ -1117,19 +1106,19 @@ C
         UVAR(IE,34) = U1(1,2) !U012         
         UVAR(IE,35) = U1(2,1) !U021         
         UVAR(IE,36) = U1(1,3) !U013         
-	   UVAR(IE,37) = U1(3,1) !U031         
+           UVAR(IE,37) = U1(3,1) !U031         
         UVAR(IE,38) = U1(2,3) !U023         
         UVAR(IE,39) = U1(3,2) !U032         
         UVAR(IE,40) = LOG(U1(1,1)) !E111    
         UVAR(IE,41) = LOG(U1(2,2)) !E122    
         UVAR(IE,42) = LOG(U1(3,3)) !E133    
-		
+                
 C
 
 C sound velocity  
             SOUNDSP(IE) = SQRT((DK+4*DMU/3)/RHO0(IE)) 
             VISCMAX(IE) = ZERO     
-	 
+         
 C................................... MODEL IMPLEMENTATION CHOICE
 C
 20    ENDDO 
@@ -1457,7 +1446,7 @@ C
         C(I) = COEFA*A(I) + COEFB*B(I)
 C        WRITE(0 , *) 'CHECK AT_TPU '
 C        WRITE(0 , *) 'COEFA ',COEFA,' ','COEFB ',COEFB
-C    	 WRITE(0 , *) 'A ',I,' ',A(I)
+C        WRITE(0 , *) 'A ',I,' ',A(I)
 C        WRITE(0 , *) 'B ',I,' ',B(I) 
 C        WRITE(0 , *) 'C ',I,' ',C(I)
       ENDDO
@@ -1490,7 +1479,7 @@ C
      &   CALL ERR_TPU('DEVIATORICTENSOR: N =! 3')
 C
       CALL TR_TPU(TENSOR, TR_TENSOR, N)
-      TENSKK = TR_TENSOR / TROIS
+      TENSKK = TR_TENSOR / THREE
 C
       TENSORDEV(1) = TENSOR(1) - TENSKK
       TENSORDEV(5) = TENSOR(5) - TENSKK
@@ -1589,15 +1578,15 @@ C
       IF (N .EQ. 2) THEN
          SYMMTENSOR(1) = TENSOR(1)
          SYMMTENSOR(4) = TENSOR(4)
-         SYMMTENSOR(3) = UNDEMI*(TENSOR(3) + TENSOR(2))
+         SYMMTENSOR(3) = HALF*(TENSOR(3) + TENSOR(2))
          SYMMTENSOR(2) = SYMMTENSOR(3)
       ELSE   ! N = 3
          SYMMTENSOR(1) = TENSOR(1)                     ! 11
          SYMMTENSOR(5) = TENSOR(5)                     ! 22
          SYMMTENSOR(9) = TENSOR(9)                     ! 33
-         SYMMTENSOR(4) = UNDEMI*(TENSOR(4) + TENSOR(2))   ! 12
-         SYMMTENSOR(7) = UNDEMI*(TENSOR(7) + TENSOR(3))   ! 13
-         SYMMTENSOR(8) = UNDEMI*(TENSOR(8) + TENSOR(6))   ! 23
+         SYMMTENSOR(4) = HALF*(TENSOR(4) + TENSOR(2))   ! 12
+         SYMMTENSOR(7) = HALF*(TENSOR(7) + TENSOR(3))   ! 13
+         SYMMTENSOR(8) = HALF*(TENSOR(8) + TENSOR(6))   ! 23
          SYMMTENSOR(2) = SYMMTENSOR(4)                 ! 21
          SYMMTENSOR(3) = SYMMTENSOR(7)                 ! 31
          SYMMTENSOR(6) = SYMMTENSOR(8)                 ! 32
@@ -1633,12 +1622,12 @@ C
       CALL ST_TPU(SKEWTENSOR,ZERO, N*N)
 C
       IF (N .EQ. 2) THEN
-         SKEWTENSOR(3) = UNDEMI*(TENSOR(3) - TENSOR(2))
+         SKEWTENSOR(3) = HALF*(TENSOR(3) - TENSOR(2))
          SKEWTENSOR(2) = - SKEWTENSOR(3)
       ELSE   ! N = 3
-         SKEWTENSOR(4) = UNDEMI*(TENSOR(4) - TENSOR(2))
-         SKEWTENSOR(7) = UNDEMI*(TENSOR(7) - TENSOR(3))
-         SKEWTENSOR(8) = UNDEMI*(TENSOR(8) - TENSOR(6))
+         SKEWTENSOR(4) = HALF*(TENSOR(4) - TENSOR(2))
+         SKEWTENSOR(7) = HALF*(TENSOR(7) - TENSOR(3))
+         SKEWTENSOR(8) = HALF*(TENSOR(8) - TENSOR(6))
          SKEWTENSOR(2) = - SKEWTENSOR(4)
          SKEWTENSOR(3) = - SKEWTENSOR(7)
          SKEWTENSOR(6) = - SKEWTENSOR(8)
@@ -1735,13 +1724,13 @@ C
       ! ENDDO   
 
       ! DO I = 4, N
-        ! SP_TPU = SP_TPU + DEUX*A(I)*B(I)        
+        ! SP_TPU = SP_TPU + TWO*A(I)*B(I)        
       ! ENDDO   
 
       ! RETURN
       ! END
-	  
-	  
+          
+          
 Chd|====================================================================
 Chd|  SP_TPU                        source/materials/mat/mat101/sigeps101.F
 Chd|-- called by -----------
@@ -1762,13 +1751,13 @@ C
       ENDDO   
 
       DO I = 4, N
-        c = c + DEUX*A(I)*B(I)        
+        c = c + TWO*A(I)*B(I)        
       ENDDO   
 
       RETURN
-      END	  
-	  
-	  
+      END         
+          
+          
 C
 C=====================================================================72
 C
@@ -1822,8 +1811,8 @@ Chd|====================================================================
 C---------------------------------------------------------------------72
 
 C
-      RES   = (AREF + A0*(C-C0))*(UN+DE1/
-     &          (UN+ EXP(-(LOG10(MAX(EM20,D1))-LOG10(MAX(EM20, DREF)) ) /MAX(EM20,DE2))))
+      RES   = (AREF + A0*(C-C0))*(ONE+DE1/
+     &          (ONE+ EXP(-(LOG10(MAX(EM20,D1))-LOG10(MAX(EM20, DREF)) ) /MAX(EM20,DE2))))
 C
       RETURN
       END
@@ -1852,7 +1841,7 @@ Chd|====================================================================
         DO 11 IQ=1,N
           V(IP,IQ)=0.
 11      CONTINUE
-        V(IP,IP)=UN
+        V(IP,IP)=ONE
 12    CONTINUE
       DO 13 IP=1,N
         B(IP)=A(IP,IP)
@@ -1881,7 +1870,7 @@ C
         ENDIF
         DO 22 IP=1,N-1
           DO 21 IQ=IP+1,N
-            G=CENT*ABS(A(IP,IQ))
+            G=HUNDRED*ABS(A(IP,IQ))
             IF((I.GT.4).AND.(ABS(D(IP))+
      *G.EQ.ABS(D(IP))).AND.(ABS(D(IQ))+G.EQ.ABS(D(IQ))))THEN
               A(IP,IQ)=0.
@@ -1891,13 +1880,13 @@ C
                 T=A(IP,IQ)/H
 C
               ELSE
-                THETA=UNDEMI*H/A(IP,IQ)
-                T=UN/(ABS(THETA)+SQRT(UN+THETA**2))
+                THETA=HALF*H/A(IP,IQ)
+                T=ONE/(ABS(THETA)+SQRT(ONE+THETA**2))
                 IF(THETA.LT.ZERO)T=-T
               ENDIF
-              C=UN/SQRT(UN+T**2)
+              C=ONE/SQRT(ONE+T**2)
               S=T*C
-              TAU=S/(UN+C)
+              TAU=S/(ONE+C)
               H=T*A(IP,IQ)
               Z(IP)=Z(IP)-H
               Z(IQ)=Z(IQ)+H
@@ -2016,7 +2005,7 @@ Chd|====================================================================
       my_real FV(6)
       my_real INV1, INV2, INV3, B, C, M, N, T
       my_real L1, L2, L3, P1, P2, P3, D1,  SMALL
-      my_real ONE, TWO, THREE, X1, X2, X3,  DET
+      my_real X1, X2, X3,  DET
       my_real COEFF1, COEFF2, TR_CE2
 C
 !      DATA PI/3.141592653589793238462643D0/
@@ -2026,11 +2015,7 @@ C
 C*********************************************************************72
 C
 C---- NUMERICAL CONSTANTS
-C
 
-      ONE     = UN
-      TWO     = DEUX
-      THREE   = TROIS
       SMALL   = EM06
 C
 C--------------------------------------------------------------------72
@@ -2075,7 +2060,7 @@ C
         CALL DET_TPU(CE, INV3)
 C
         B    = INV2 - (INV1**TWO)/THREE
-        C    = -(DEUX/27.D0)*(INV1**THREE) + INV1*INV2/THREE - INV3
+        C    = -(TWO/27.D0)*(INV1**THREE) + INV1*INV2/THREE - INV3
 C
         IF ( ABS(B) .LT. EM04) THEN
                 X1 = -ABS(C)**(THIRD)
@@ -2085,17 +2070,17 @@ C
                 M  = TWO*SQRT(-B/THREE)
                 N  = THREE*C/(M*B)
 C
-                IF (N .LT. -UN) THEN
-                        N = -UN
-                ELSE IF (N .GT. UN) THEN
-                        N = UN
+                IF (N .LT. -ONE) THEN
+                        N = -ONE
+                ELSE IF (N .GT. ONE) THEN
+                        N = ONE
                 ENDIF
 C
 
                 T  = ATAN2(SQRT(ONE-(N*N)),N)/THREE
                 X1 = M * COS(T)
-                X2 = M * COS(T+DEUX*PI/THREE)
-                X3 = M * COS(T+quatre*PI/THREE)
+                X2 = M * COS(T+TWO*PI/THREE)
+                X3 = M * COS(T+FOUR*PI/THREE)
         ENDIF
 C
         L1   = SQRT(X1 + INV1/THREE)
@@ -2131,7 +2116,7 @@ C
         CALL ST_TPU(EE, ZERO, 3*3)
         EE(1,1)     = LOG(UE(1,1))
         EE(2,2)     = LOG(UE(2,2))
-	EE(3,3)     = LOG(UE(3,3))
+        EE(3,3)     = LOG(UE(3,3))
 C
 C        WRITE(0 , *) 'EE IN SUBR'
 C        WRITE(0 , *) EE(1,1),' ',EE(1,2),' ',EE(1,3)
@@ -2165,9 +2150,9 @@ C
       ARG = A / B
       IF ( ABS(ARG) .LT. 0.84136D0) THEN
         C = 1.31446D0 * TAN(1.58986D0*ARG) + 0.91209D0 * ARG
-      ELSE IF (ABS(ARG) .GE. 0.84136D0 .AND. ABS(ARG) .LT. UN) THEN
+      ELSE IF (ABS(ARG) .GE. 0.84136D0 .AND. ABS(ARG) .LT. ONE) THEN
         CALL SIGNUM_TPU(ARG, SARG)
-        C = UN / (SARG - ARG)
+        C = ONE / (SARG - ARG)
       ELSE
         WRITE(0 ,*) 'CHECK ERROR LANGEVIN'
         WRITE(0 ,*) 'LAMBDA_BAR ', A, ' COEFF ', B
@@ -2197,9 +2182,9 @@ C
 C---------------------------------------------------------------------72
 C
        IF (A .GT. 0.0) THEN
-         B = UN
+         B = ONE
        ELSE IF (A .LT.ZERO) THEN
-         B = -UN
+         B = -ONE
        ELSE
          B =ZERO
        ENDIF

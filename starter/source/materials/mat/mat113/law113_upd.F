@@ -326,8 +326,8 @@ C
               XSCALE=UPARAM(7+J)
               LOAD  =IFUNC(IF1 + J)
               UNLOAD=IFUNC(IF3 + J)
-              NP1  = (NPC(LOAD+1)-NPC(LOAD))*UNDEMI
-              NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD))*UNDEMI
+              NP1  = (NPC(LOAD+1)-NPC(LOAD))*HALF
+              NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD))*HALF
               ALPHA1=ZERO  
               ALPHA2=ZERO             
 c---

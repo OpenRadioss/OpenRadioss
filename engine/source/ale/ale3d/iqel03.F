@@ -84,8 +84,8 @@ C-----------------------------------------------
         XX334 =XX3(3)-XX3(4)
         SS=CRST(1,II)
         TT=CRST(2,II)
-        TP=QUART*(UN + TT)
-        TM=QUART*(UN - TT)
+        TP=FOURTH*(ONE + TT)
+        TM=FOURTH*(ONE - TT)
         FS1=TP*XX134-TM*XX112
         FS2=TP*XX234-TM*XX212
         FS3=TP*XX334-TM*XX312
@@ -96,8 +96,8 @@ C-----------------------------------------------
           FS3=-XX312
         ENDIF
 
-        SP=UN + SS
-        SM=UN - SS
+        SP=ONE + SS
+        SM=ONE - SS
         FT1=-SM*XX114-SP*XX123
         FT2=-SM*XX214-SP*XX223
         FT3=-SM*XX314-SP*XX323
@@ -106,17 +106,17 @@ C-----------------------------------------------
         N2=FS3*FT1-FS1*FT3
         N3=FS1*FT2-FS2*FT1
 
-        SCK=ABS(SS) - UN
-        TCK=ABS(TT) - UN
+        SCK=ABS(SS) - ONE
+        TCK=ABS(TT) - ONE
 
         LK=L
         NUM=NSEG(J+1)-NSEG(J)
-        IF(NUM.LE.4 .AND. (ABS(SCK).LE.CINQEM2.OR.ABS(TCK).LE.CINQEM2) ) THEN  
+        IF(NUM.LE.4 .AND. (ABS(SCK).LE.FIVEEM2.OR.ABS(TCK).LE.FIVEEM2) ) THEN  
           NPT = NSEG(J)-1
           N1  = ZERO
           N2  = ZERO
           N3  = ZERO    
-          IF(ABS(SCK).GT.CINQEM2 .OR. ABS(TCK).GT.CINQEM2) THEN
+          IF(ABS(SCK).GT.FIVEEM2 .OR. ABS(TCK).GT.FIVEEM2) THEN
             !C----------------------------------------------------
             !C     TRAITEMENT DES BORDS
             !C---------------------------------------------------

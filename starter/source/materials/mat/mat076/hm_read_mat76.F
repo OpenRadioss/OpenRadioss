@@ -178,7 +178,7 @@ c
       ENDIF
 C
       IF (EPSF == ZERO) EPSF = INFINITY
-      IF (EPSR == ZERO) EPSR = DEUX*EPSF
+      IF (EPSR == ZERO) EPSR = TWO*EPSF
       IF (IFORM == 1 .AND. IQUAD == 0) IQUAD = 1
 C
 c-----------------------------------------
@@ -192,8 +192,8 @@ c-----------------------------------------
       IF (ICAS == 2) ICAS = -1
       IF (ITABLE(2) > 0 .AND. ICAS == 1) ICAS = 1
       IF (ITABLE(3) > 0 .AND. ICAS == 1) ICAS = 2
-      NUP = MAX(ZERO, MIN(NUP, UNDEMI))
-      IF(ICAS==0 .AND. NUP == ZERO .AND. IFUNC(1)==0)NUP = UNDEMI
+      NUP = MAX(ZERO, MIN(NUP, HALF))
+      IF(ICAS==0 .AND. NUP == ZERO .AND. IFUNC(1)==0)NUP = HALF
 c     
       IF (XFAC    == ZERO) XFAC    = XFAC_UNIT
       IF (TFAC(1) == ZERO) TFAC(1) = FAC_UNIT(1)
@@ -202,13 +202,13 @@ c
       IF (YFAC(1) == ZERO) YFAC(1) = FAC_UNIT(4)
       IF (YFAC(2) == ZERO) YFAC(2) = FAC_UNIT(5)
 C
-      G  = UNDEMI*E/( UN + NU)
-      A1 = E*(UN-NU) /((UN + NU)*(UN - DEUX*NU))
-      A2 = A1*NU/(UN - NU)
-      C1 = E/TROIS/(UN - DEUX*NU)
+      G  = HALF*E/( ONE + NU)
+      A1 = E*(ONE-NU) /((ONE + NU)*(ONE - TWO*NU))
+      A2 = A1*NU/(ONE - NU)
+      C1 = E/THREE/(ONE - TWO*NU)
 c-----------------------------------------------
       UPARAM(1)  = E
-      UPARAM(2)  = E/(UN - NU*NU)
+      UPARAM(2)  = E/(ONE - NU*NU)
       UPARAM(3)  = NU*UPARAM(2)
       UPARAM(4)  = G
       UPARAM(5)  = NU
@@ -222,9 +222,9 @@ c-----------------------------------------------
       UPARAM(13) = IFORM
       UPARAM(14) = IQUAD
       UPARAM(15) = ICONV
-      UPARAM(16) = FCUT*PI*DEUX   ! ASRATE
+      UPARAM(16) = FCUT*PI*TWO   ! ASRATE
       UPARAM(17) = ICAS
-      UPARAM(18) = UN / XFAC
+      UPARAM(18) = ONE / XFAC
       UPARAM(19) = ZERO ! EPDT_MIN
       UPARAM(20) = ZERO ! EPDT_MAX
       UPARAM(21) = ZERO ! EPDC_MIN
@@ -249,7 +249,7 @@ c --------------------------
       PARMAT(4)  = ISRATE
       PARMAT(5)  = ZERO ! FCUT
       PARMAT(16) = 2   ! Formulation for solid elements time step computation.
-      PARMAT(17) = (UN - DEUX*NU)/(UN - NU) ! == DEUX*G/(C1+QTHIRD*G)
+      PARMAT(17) = (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G)
 c
       IF (RHOR == ZERO) RHOR=RHO0
       PM(1) = RHOR

@@ -272,10 +272,10 @@ c     ENDIF
           WRITE(IOUT,*)'       MULTIPLIED BY 0.75'
 #include "lockoff.inc"
         ENDIF
-        TZINF = TQUART*TZINF
+        TZINF = THREE_OVER_4*TZINF
 C ne pas dimunuer la taille des boite
-C        MINBOX= TQUART*MINBOX
-C        MAXBOX= TQUART*MAXBOX
+C        MINBOX= THREE_OVER_4*MINBOX
+C        MAXBOX= THREE_OVER_4*MAXBOX
         IF( TZINF.LE.MAX(MAXGAP,DRAD) ) THEN
           CALL ANCMSG(MSGID=98,ANMODE=ANINFO,
      .            I1=NOINT,C1='(I11BUCE)')
@@ -528,10 +528,10 @@ C --- --- ---           WRITE(IOUT,*)'       SIZE OF INFLUENCE ZONE IS'
 C --- --- ---           WRITE(IOUT,*)'       MULTIPLIED BY 0.75'
 C --- --- --- #include "lockoff.inc"
 C --- --- ---         ENDIF
-C --- --- ---         TZINF = TQUART*TZINF
+C --- --- ---         TZINF = THREE_OVER_4*TZINF
 C --- --- --- C ne pas dimunuer la taille des boite
-C --- --- --- C        MINBOX= TQUART*MINBOX
-C --- --- --- C        MAXBOX= TQUART*MAXBOX
+C --- --- --- C        MINBOX= THREE_OVER_4*MINBOX
+C --- --- --- C        MAXBOX= THREE_OVER_4*MAXBOX
 C --- --- ---         IF( TZINF.LE.MAX(GAP,DRAD) ) THEN
 C --- --- ---           CALL ANCMSG(MSGID=98,ANMODE=ANINFO,
 C --- --- ---      .            I1=NOINT,C1='(I11BUCE)')

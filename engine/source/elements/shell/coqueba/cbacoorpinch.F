@@ -61,9 +61,9 @@ C=======================================================================
 
 
 C     shape function I evaluated at gauss point J = TNPG(I,J)
-      PGPP = QUART*(UN+PG)*(UN+PG)
-      PGPM = QUART*(UN+PG)*(UN-PG)
-      PGMM = QUART*(UN-PG)*(UN-PG)
+      PGPP = FOURTH*(ONE+PG)*(ONE+PG)
+      PGPM = FOURTH*(ONE+PG)*(ONE-PG)
+      PGMM = FOURTH*(ONE-PG)*(ONE-PG)
 C
       DO I=JFT,JLT
         EP =IPLAT(I)
@@ -166,13 +166,13 @@ C       projection of BETABETA onto nodal normal giving VPINCHXYZ
      +             VQN(EP,8,4)*BETABETA(2,4)+VQN(EP,9,4)*BETABETA(3,4)
 
 C       calculate average thickness
-        THKN(1) = THK(EP)*(UN+DEUX*VPINCHXYZ(EP,1)*DT1C(EP))
-        THKN(2) = THK(EP)*(UN+DEUX*VPINCHXYZ(EP,2)*DT1C(EP))
-        THKN(3) = THK(EP)*(UN+DEUX*VPINCHXYZ(EP,3)*DT1C(EP))          
-        THKN(4) = THK(EP)*(UN+DEUX*VPINCHXYZ(EP,4)*DT1C(EP))
+        THKN(1) = THK(EP)*(ONE+TWO*VPINCHXYZ(EP,1)*DT1C(EP))
+        THKN(2) = THK(EP)*(ONE+TWO*VPINCHXYZ(EP,2)*DT1C(EP))
+        THKN(3) = THK(EP)*(ONE+TWO*VPINCHXYZ(EP,3)*DT1C(EP))          
+        THKN(4) = THK(EP)*(ONE+TWO*VPINCHXYZ(EP,4)*DT1C(EP))
 C    
-        AVGTHK = QUART*(THKN(1) + THKN(2) + THKN(3) + THKN(4))
-        ELTHKINV = DEUX/AVGTHK
+        AVGTHK = FOURTH*(THKN(1) + THKN(2) + THKN(3) + THKN(4))
+        ELTHKINV = TWO/AVGTHK
 
 C       dividing by thickness (definition of beta for pinching)
         VPINCHXYZ(EP,1) = VPINCHXYZ(EP,1)*ELTHKINV

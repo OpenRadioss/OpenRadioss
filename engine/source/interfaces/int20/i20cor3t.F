@@ -93,7 +93,7 @@ C
 C           GAPV(I)=GAPFI(NIN)%P(CAND_N(I)-NSN)+GAP_M(CAND_E(I))
           END IF
           GAPV(I)=MIN(GAPV(I),GAPMAX)
-          GAPV(I)=GAPV(I)+DEUX*GAP_SH(CAND_E(I))
+          GAPV(I)=GAPV(I)+TWO*GAP_SH(CAND_E(I))
           GAPV(I)=MAX(GAPMIN,GAPV(I))
         END DO
       END IF

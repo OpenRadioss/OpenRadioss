@@ -134,8 +134,8 @@ C--------------------------------------
       IF(N2D.EQ.0)THEN
         CALL SHAPEH(H,CRST(1,II),CRST(2,II))
       ELSE
-        H(1) = UNDEMI*(UN - CRST(1,II))
-        H(2) = UNDEMI*(UN + CRST(1,II))
+        H(1) = HALF*(ONE - CRST(1,II))
+        H(2) = HALF*(ONE + CRST(1,II))
       ENDIF
       I3=3*I
       I2=I3-1
@@ -180,7 +180,7 @@ C
       AT = SQRT(AXT**2+AYT**2+AZT**2)
       FTT = (VT/DT12 + AT) * MS(I)
 C
-      FAC = MIN(UN,FRIC*FNN/MAX(EM30,FTT))
+      FAC = MIN(ONE,FRIC*FNN/MAX(EM30,FTT))
       FTT  = FTT*FAC
       AXT = AXT*FAC
       AYT = AYT*FAC

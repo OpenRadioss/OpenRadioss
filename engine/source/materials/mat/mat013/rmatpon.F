@@ -201,7 +201,7 @@ C           | Iyx Iyy | { gamay } = { My }
 C           et gamaz=0
 C------------------
           IF(LCOD == 1)THEN                                  
-            DET=UN/(RBY(18)*RBY(22) - RBY(19)*RBY(21))         
+            DET=ONE/(RBY(18)*RBY(22) - RBY(19)*RBY(21))         
             WA1=ARRBY(1,M)                                      
             WA2=ARRBY(2,M)                                      
             ARRBY(1,M)=( RBY(22)*WA1 - RBY(21)*WA2)*DET           
@@ -209,7 +209,7 @@ C------------------
             ARRBY(3,M)=  ZERO                               
             VRRBY(3,M) = ZERO                                    
           ELSEIF(LCOD == 2)THEN                              
-            DET=UN/(RBY(18)*RBY(26) - RBY(20)*RBY(24))         
+            DET=ONE/(RBY(18)*RBY(26) - RBY(20)*RBY(24))         
             WA1=ARRBY(1,M)                                      
             WA2=ARRBY(3,M)                                      
             ARRBY(1,M)=( RBY(26)*WA1 - RBY(24)*WA2)*DET           
@@ -223,7 +223,7 @@ C------------------
             VRRBY(2,M) = ZERO                               
             VRRBY(3,M) = ZERO                                     
           ELSEIF(LCOD == 4)THEN                              
-            DET=UN/(RBY(22)*RBY(26) - RBY(23)*RBY(25))         
+            DET=ONE/(RBY(22)*RBY(26) - RBY(23)*RBY(25))         
             WA1=ARRBY(2,M)                                      
             WA2=ARRBY(3,M)                                      
             ARRBY(1,M)=ZERO                                     
@@ -276,7 +276,7 @@ C
      .                   + ((RB(12)-RB(10))*VI(3)*VI(1))
           ARRBY(3,M) = ARRBY(3,M)  
      .                   + ((RB(10)-RB(11))*VI(1)*VI(2))
-C CALCUL D'UN PSEUDO MOMENT: 
+C CALCUL D'ONE PSEUDO MOMENT: 
 C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
 C
           WA1 = ARRBY(1,M)*IN/RB(10)

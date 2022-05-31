@@ -159,7 +159,7 @@ C-----------------------------------------------
       PM(36)=C5
       PM(37)=PMIN
 
-      MU = RHO0/RHOR-UN
+      MU = RHO0/RHOR-ONE
       IF(MU.LT.ZERO)THEN
         PM(31) = -PSH + C0+C1*MU+         C3*MU**3+(C4+C5*MU)*E0
       ELSE
@@ -172,29 +172,29 @@ C-----------------------------------------------
       PM(46)=SSL
       PM(95)=RPR      
 
-      IF(CTM.EQ.ZERO)CTM=NEUFEM2                           
-      IF(CT1.EQ.ZERO)CT1=UNP44                             
-      IF(CT2.EQ.ZERO)CT2=UNP92                             
+      IF(CTM.EQ.ZERO)CTM=NINEEM2                           
+      IF(CT1.EQ.ZERO)CT1=ONEP44                             
+      IF(CT2.EQ.ZERO)CT2=ONEP92                             
       IF(CT3.EQ.ZERO)CT3=-ZEP373                           
-      IF(SK.EQ.ZERO)SK=UN                                  
-      IF(SE.EQ.ZERO)SE=UNP3                                
-      IF(RPR.EQ.ZERO)RPR=SENEUF                            
+      IF(SK.EQ.ZERO)SK=ONE                                  
+      IF(SE.EQ.ZERO)SE=ONEP3                                
+      IF(RPR.EQ.ZERO)RPR=SEVEN_OVER_9                            
       !PARAMETRES MUR TURBULENT                            
       IF(AK.EQ.ZERO) AK=ZEP4187                            
-      IF(E.EQ.ZERO)  E=NEUFP793                            
-      IF(A.EQ.ZERO)  A=UNDEMI                              
+      IF(E.EQ.ZERO)  E=NINEP793                            
+      IF(A.EQ.ZERO)  A=HALF                              
       PM(47)=A*AK                                          
       PM(48)=E                                             
       PM(49)=A                                             
       PM(50)=B                                             
-      YP0=ONZEP5                                           
+      YP0=ELEVENP5                                           
       DO 10 I=1,100                                        
       YP1=LOG(E*YP0)/AK                                    
       IF(YP1.EQ.YP0)GOTO 15                                
       YP0=YP1                                              
   10  CONTINUE                                             
   15  PM(51)=YP1                                           
-      PM(79)=TROIS100                                      
+      PM(79)=THREE100                                      
       ! FIN PARAMS MUR TURBULENT                           
       PM(81)=CTM                                           
       PM(82)=CT1                                           

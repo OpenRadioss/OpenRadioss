@@ -91,7 +91,7 @@ C=================================================================
       FAC_M = UNITAB%FAC_M(IUNIT)
       FAC_L = UNITAB%FAC_L(IUNIT)
       FAC_T = UNITAB%FAC_T(IUNIT)
-      FAC_MM = UN / FAC_T
+      FAC_MM = ONE / FAC_T
       FAC_CT = FAC_M / FAC_T
       FAC_CR = FAC_M * FAC_L**2 / FAC_T
       FAC_KT = FAC_CT / FAC_T
@@ -158,7 +158,7 @@ C-----------------------
      .               I1=ID,
      .               C1=TITR)
       ENDIF
-      IF (CR.EQ.ZERO) CR = CINQEM2
+      IF (CR.EQ.ZERO) CR = FIVEEM2
 C
       XTYP = ITYP
       XFLG = SKFLAG
@@ -167,12 +167,12 @@ C
       MASS = ZERO
       INER = ZERO
 C
-      IF(CRX.EQ.ZERO.AND.IFUN_CRX.NE.0)CRX = UN
-      IF(CRY.EQ.ZERO.AND.IFUN_CRY.NE.0)CRY = UN
-      IF(CRZ.EQ.ZERO.AND.IFUN_CRZ.NE.0)CRZ = UN
-      IF(KRX.EQ.ZERO.AND.IFUN_RX.NE.0) KRX = UN
-      IF(KRY.EQ.ZERO.AND.IFUN_RY.NE.0) KRY = UN
-      IF(KRZ.EQ.ZERO.AND.IFUN_RZ.NE.0) KRZ = UN
+      IF(CRX.EQ.ZERO.AND.IFUN_CRX.NE.0)CRX = ONE
+      IF(CRY.EQ.ZERO.AND.IFUN_CRY.NE.0)CRY = ONE
+      IF(CRZ.EQ.ZERO.AND.IFUN_CRZ.NE.0)CRZ = ONE
+      IF(KRX.EQ.ZERO.AND.IFUN_RX.NE.0) KRX = ONE
+      IF(KRY.EQ.ZERO.AND.IFUN_RY.NE.0) KRY = ONE
+      IF(KRZ.EQ.ZERO.AND.IFUN_RZ.NE.0) KRZ = ONE
 C-----------------------
       IF (IFUN_RX  /= 0) KRX = KRX * FAC_MM
       IF (IFUN_RY  /= 0) KRY = KRY * FAC_MM

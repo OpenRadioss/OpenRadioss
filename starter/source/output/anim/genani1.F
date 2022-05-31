@@ -463,9 +463,9 @@ C
          ZMAX = MAX(ZMAX,(X(3,N)-D(3,N)))
       END DO
 C
-      CDG(1) = UNDEMI * (XMAX + XMIN)
-      CDG(2) = UNDEMI * (YMAX + YMIN)
-      CDG(3) = UNDEMI * (ZMAX + ZMIN)
+      CDG(1) = HALF * (XMAX + XMIN)
+      CDG(2) = HALF * (YMAX + YMIN)
+      CDG(3) = HALF * (ZMAX + ZMIN)
 C
       DO I=1,NUMNOD
          R4 = X(1,I)
@@ -1865,7 +1865,7 @@ C   SUBSET HEAD/PARENT/
 C-----------------------------------------------
        IF (NSUBS.EQ.1) THEN
 C-----------------------------
-C UN SEUL SUBSET OU INPUT V31
+C ONE SEUL SUBSET OU INPUT V31
 C-----------------------------
           MXSUBS=1
 C-----------------
@@ -2761,12 +2761,12 @@ C-----------------------------------------------
         IF(N6.EQ.0)N6=N2
         IF(N7.EQ.0)N7=N3
         IF(N8.EQ.0)N8=N4
-        XX = UNDEMI *(X(1,N5)+X(1,N6)+X(1,N7)+X(1,N8))
-     .      -QUART*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
-        YY = UNDEMI *(X(2,N5)+X(2,N6)+X(2,N7)+X(2,N8))
-     .      -QUART*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))
-        ZZ = UNDEMI *(X(3,N5)+X(3,N6)+X(3,N7)+X(3,N8))
-     .      -QUART*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))
+        XX = HALF *(X(1,N5)+X(1,N6)+X(1,N7)+X(1,N8))
+     .      -FOURTH*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
+        YY = HALF *(X(2,N5)+X(2,N6)+X(2,N7)+X(2,N8))
+     .      -FOURTH*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))
+        ZZ = HALF *(X(3,N5)+X(3,N6)+X(3,N7)+X(3,N8))
+     .      -FOURTH*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))
         R4 = XX
         CALL WRITE_R_C(R4,1)
         R4 = YY
@@ -2785,12 +2785,12 @@ C-----------------------------------------------
         IF(N6.EQ.0)N6=N2
         IF(N7.EQ.0)N7=N3
         IF(N8.EQ.0)N8=N4
-        XX = UNDEMI *(X(1,N5)+X(1,N6)+X(1,N7)+X(1,N8))
-     .      -QUART*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
-        YY = UNDEMI *(X(2,N5)+X(2,N6)+X(2,N7)+X(2,N8))
-     .      -QUART*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))
-        ZZ = UNDEMI *(X(3,N5)+X(3,N6)+X(3,N7)+X(3,N8))
-     .      -QUART*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))
+        XX = HALF *(X(1,N5)+X(1,N6)+X(1,N7)+X(1,N8))
+     .      -FOURTH*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
+        YY = HALF *(X(2,N5)+X(2,N6)+X(2,N7)+X(2,N8))
+     .      -FOURTH*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))
+        ZZ = HALF *(X(3,N5)+X(3,N6)+X(3,N7)+X(3,N8))
+     .      -FOURTH*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))
         R4 = XX
         CALL WRITE_R_C(R4,1)
         R4 = YY

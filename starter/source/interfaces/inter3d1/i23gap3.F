@@ -127,8 +127,8 @@ C---------------------
           MG=IXTG(5,NELTG)
           IGTYP = IGEO(11,MG)
 	  IP = IPARTTG(NELTG)
-          DX=UNDEMI*GEO(1,MG)
-          IF(IGTYP == 17) DX = UNDEMI*THK(NUMELC + NELTG)
+          DX=HALF*GEO(1,MG)
+          IF(IGTYP == 17) DX = HALF*THK(NUMELC + NELTG)
           WA(IXTG(2,NELTG))=MAX(WA(IXTG(2,NELTG)),DX)
           WA(IXTG(3,NELTG))=MAX(WA(IXTG(3,NELTG)),DX)
           WA(IXTG(4,NELTG))=MAX(WA(IXTG(4,NELTG)),DX)
@@ -138,8 +138,8 @@ C---------------------
           MG=IXC(6,NELC)
           IGTYP = IGEO(11,MG)
           IP = IPARTC(NELC)
-          DX=UNDEMI*GEO(1,MG)
-          IF(IGTYP == 17) DX = UNDEMI*THK(NELC)
+          DX=HALF*GEO(1,MG)
+          IF(IGTYP == 17) DX = HALF*THK(NELC)
           WA(IXC(2,NELC))=MAX(WA(IXC(2,NELC)),DX)
           WA(IXC(3,NELC))=MAX(WA(IXC(3,NELC)),DX)
           WA(IXC(4,NELC))=MAX(WA(IXC(4,NELC)),DX)
@@ -211,8 +211,8 @@ c        IF(IGAP.GE.1)THEN
           IF(IGTYP == 17) DX =THK(NELC)*GAPSCALE
 c        END IF
       ENDIF
-      GAPM=UNDEMI*DX
-      GAPMN = MIN(GAPMN,UNDEMI*DX)
+      GAPM=HALF*DX
+      GAPMN = MIN(GAPMN,HALF*DX)
       DXM=DXM+DX
       NDX=NDX+1
       IF(IGAP/=0) GAP_M(I)=GAPM
@@ -246,7 +246,7 @@ C GAP FIXE
          IF(GAP.LE.ZERO)THEN
            IF(NDX.NE.0)THEN
              GAP = DXM/NDX
-             GAP = MIN(UNDEMI*GAPMX,GAP)
+             GAP = MIN(HALF*GAPMX,GAP)
            ELSE
              GAP = EM01 * GAPMX
            ENDIF
@@ -256,12 +256,12 @@ C GAP FIXE
          GAPMAX = GAP
        ELSE
 C GAP VARIABLE :
-C    - GAPMIN CONTIENT UN GAP MINIMUM UTILISE SI GAP_S(I)+GAP_M(J) < GAPMIN
+C    - GAPMIN CONTIENT ONE GAP MINIMUM UTILISE SI GAP_S(I)+GAP_M(J) < GAPMIN
 C    - GAP CONTIENT LE SUP DE (GAP_S(I)+GAP_M(J),GAPMIN) 
          IF(GAP.LE.ZERO)THEN
            IF(NDX.NE.0)THEN
              GAPMIN = GAPMN
-             GAPMIN = MIN(UNDEMI*GAPMX,GAPMIN)
+             GAPMIN = MIN(HALF*GAPMX,GAPMIN)
            ELSE
              GAPMIN = EM01 * GAPMX
            ENDIF
@@ -297,13 +297,13 @@ C---------------------------------------------
 C     STiff cote main (1: active ; 0: inactive)
 C------------------------------------
       DO I=1,NRTM
-        STF(I)=UN
+        STF(I)=ONE
       END DO
 C---------------------------------------------
-C     MISE A UN DU MULTIPLICATEUR NODALE DES RIGIDITES 
+C     MISE A ONE DU MULTIPLICATEUR NODALE DES RIGIDITES 
 C---------------------------------------------
       DO I=1,NSN
-        STFN(I) = UN
+        STFN(I) = ONE
       END DO
 C---------------------------
       RETURN

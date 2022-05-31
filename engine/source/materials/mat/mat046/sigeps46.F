@@ -87,7 +87,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ISGS,IADBUF,K
       my_real 
-     . TWO,TWOIRD,VIS,C1,SMAG2,
+     . VIS,C1,SMAG2,
      . DAV(MVSIZ),DXX(MVSIZ),DYY(MVSIZ),DZZ(MVSIZ),
 C     . DAV,DXX(MVSIZ),DYY(MVSIZ),DZZ(MVSIZ),
      . DXY(MVSIZ),DYZ(MVSIZ),DZX(MVSIZ),SS(MVSIZ),
@@ -98,9 +98,7 @@ C CONSTANTES
 C
       YPM=ONZEP225
       KAPA=ZEP4187
-      E=NEUFP793
-      TWOIRD=DTHIRD
-      TWO=DEUX
+      E=NINEP793
 C
 C INITIALISATION
 C
@@ -141,7 +139,7 @@ C
        ENDDO
       ELSE
        DO I=1,NEL
-        SIGNXX(I)=C1*(UN -RHO(I)/RHO0(I))
+        SIGNXX(I)=C1*(ONE -RHO(I)/RHO0(I))
         SIGNYY(I)=SIGNXX(I)
         SIGNZZ(I)=SIGNXX(I)
         SIGNXY(I)=ZERO
@@ -159,15 +157,15 @@ C
 C        DXX(I)=EPSPXX(I)-DAV
 C        DYY(I)=EPSPYY(I)-DAV
 C        DZZ(I)=EPSPZZ(I)-DAV
-        DXY(I)=UNDEMI*EPSPXY(I)
-        DYZ(I)=UNDEMI*EPSPYZ(I)
-        DZX(I)=UNDEMI*EPSPZX(I)
+        DXY(I)=HALF*EPSPXY(I)
+        DYZ(I)=HALF*EPSPYZ(I)
+        DZX(I)=HALF*EPSPZX(I)
 C        SS(I)=SQRT(TWO*(DXX(I)**2+DYY(I)**2+DZZ(I)**2+
         SS(I)=SQRT(TWO*(EPSPXX(I)**2+EPSPYY(I)**2+EPSPZZ(I)**2+
      .                  DXY(I)**2+DYZ(I)**2+DZX(I)**2))
-	DXX(I)=EPSPXX(I)-DAV(I)
-	DYY(I)=EPSPYY(I)-DAV(I)
-	DZZ(I)=EPSPZZ(I)-DAV(I)
+        DXX(I)=EPSPXX(I)-DAV(I)
+        DYY(I)=EPSPYY(I)-DAV(I)
+        DZZ(I)=EPSPZZ(I)-DAV(I)
       ENDDO
 C PARTIE COURANTE
       IF(MTN.EQ.46)THEN
@@ -178,7 +176,7 @@ C PARTIE COURANTE
              ENDDO
           ELSE
              DO I=1,NEL
-              DELTA(I)=VOLUME(I)**TWOIRD
+              DELTA(I)=VOLUME(I)**TWO_THIRD
              ENDDO
             ENDIF
         ELSE
@@ -225,9 +223,9 @@ c         GOTO10
 c  20     CONTINUE
           UVAR(I,1)=Y2P
          ELSE
-          VIS1N=UN
+          VIS1N=ONE
           VIS2N=ZERO
-          UVAR(I,1)=UN
+          UVAR(I,1)=ONE
          ENDIF
 c         UVAR(I,1)=VIS1N
          VIS1(I)=VIS*VIS1N
@@ -237,9 +235,9 @@ c         UVAR(I,1)=VIS1N
 C
       DO I=1,NEL
         VIS1(I)=RHO(I)*VIS1(I)
-        VIS2(I)=TROIS*RHO(I)*VIS2(I)
+        VIS2(I)=THREE*RHO(I)*VIS2(I)
         VISCPRESSION=VIS2(I)*DAV(I)
-        VISCMAX(I) = VIS1(I)+UNDEMI*VIS2(I)
+        VISCMAX(I) = VIS1(I)+HALF*VIS2(I)
 C        VISCMAX(I) = VIS1(I)
         VIS1(I)=2.*VIS1(I)
         SIGVXX(I)=VIS1(I)*DXX(I)+VISCPRESSION
@@ -258,7 +256,7 @@ C
       IF((ANIM_E(10).EQ.1 .OR. ANIM_SE(10).EQ.1)
      .                                 .AND. TIMESTEP.NE.0.)THEN
 c      IF(ANIM_E(10).EQ.1 .AND. TIMESTEP.NE.0.)THEN
-        FAC=QUATRE/TIMESTEP
+        FAC=FOUR/TIMESTEP
         IF(N2D.EQ.0)THEN
          DO  I=1,NEL
           UVAR(I,2)=FAC*SQRT(WXX(I)**2+WYY(I)**2+WZZ(I)**2)

@@ -132,7 +132,7 @@ C-----------------------------------------------
               KK(K) = KLT*(K-1)
             ENDDO
 !
-            PV(I)   = -TIERS*(GBUF%SIG(KK(1)+IS+1)+
+            PV(I)   = -THIRD*(GBUF%SIG(KK(1)+IS+1)+
      .                        GBUF%SIG(KK(2)+IS+1)+
      .                        GBUF%SIG(KK(3)+IS+1))
             !ENERGY
@@ -189,7 +189,7 @@ C-----------------------------------------------
           IX2  = IXQ(ICF(2,J)+1,II)
           YN   = (X(2,IX2)-X(2,IX1))
           ZN   = (X(3,IX2)-X(3,IX1))
-          FAC  = UN/SQRT(YN**2+ZN**2)
+          FAC  = ONE/SQRT(YN**2+ZN**2)
           INOD = NINT(PM(51,MT))
           !
           !      STANDARD FEM FOR MOMENTUM (VELOCITY ON NODES)
@@ -198,11 +198,11 @@ C-----------------------------------------------
             !
             !      SUPG&ITG
             !
-            VDY(I)=UNDEMI*(V(2,IX1)+V(2,IX2))
-            VDZ(I)=UNDEMI*(V(3,IX1)+V(3,IX2))
+            VDY(I)=HALF*(V(2,IX1)+V(2,IX2))
+            VDZ(I)=HALF*(V(3,IX1)+V(3,IX2))
             IF(JALE.GT.0)THEN
-             VDY(I)=VDY(I)-UNDEMI*(W(2,IX1)+W(2,IX2))
-             VDZ(I)=VDZ(I)-UNDEMI*(W(3,IX1)+W(3,IX2))
+             VDY(I)=VDY(I)-HALF*(W(2,IX1)+W(2,IX2))
+             VDZ(I)=VDZ(I)-HALF*(W(3,IX1)+W(3,IX2))
             ENDIF
             VD2(I)=VDY(I)**2+VDZ(I)**2
             IF(-VDY(I)*ZN+VDZ(I)*YN.LE.ZERO)THEN
@@ -219,7 +219,7 @@ C-----------------------------------------------
               VN1=-V(2,IX1)*ZN+V(3,IX1)*YN
               VN2=-V(2,IX2)*ZN+V(3,IX2)*YN
               VEL(I)=(MIN(VN1,VN2))**2
-              VN(I)=UNDEMI*FAC*(VN1+VN2)
+              VN(I)=HALF*FAC*(VN1+VN2)
               IF(VN(I).GE.ZERO)VEL(I)=ZERO
               DVY=V(2,IX2)-V(2,IX1)
               DVZ=V(3,IX2)-V(3,IX1)
@@ -233,8 +233,8 @@ C-----------------------------------------------
           !      SWITCH TO FVM FOR MOMENTUM (VELOCITY ON CELL CENTROID)
           !              
           ELSE ! => (IALEFVM_FLG .GE. 2)
-            VDY(I)   = UNDEMI * (Vy(I) + VyV(I))
-            VDZ(I)   = UNDEMI * (Vz(I) + VzV(I)) 
+            VDY(I)   = HALF * (Vy(I) + VyV(I))
+            VDZ(I)   = HALF * (Vz(I) + VzV(I)) 
             VD2(I)   = VDY(I)**2 + VDZ(I)**2                                  
             IF(VDY(I)*YN + VDZ(I)*ZN .LE. ZERO)THEN                                                                              
               VDY(I) = ZERO                                                         

@@ -451,7 +451,7 @@ c            Z^2 = (L.N)^2 L^2 / 4(N^2 L^2 - (L.N)^2)
      .            N4L34N4L34*L34L34 / (N4N4*L34L34 - N4L34N4L34),
      .            N4L41N4L41*L41L41 / (N4N4*L41L41 - N4L41N4L41),
      .            N1L41N1L41*L41L41 / (N1N1*L41L41 - N1L41N1L41))
-        CMAJ(I) = UNDEMI*SQRT(AAA)
+        CMAJ(I) = HALF*SQRT(AAA)
 
       ENDDO
 
@@ -563,7 +563,7 @@ C-----------------------------------------------
 
         RPMM = RP - RM
         SPMM = SP - SM
-        AAA = QUATRE  - RPMM*SPMM
+        AAA = FOUR  - RPMM*SPMM
         RPPM = RP + RM
         SPPM = SP + SM
        
@@ -611,7 +611,7 @@ C-----------------------------------------------
         NX = CRY(I)*CSZ(I)-CRZ(I)*CSY(I)
         NY = CRZ(I)*CSX(I)-CRX(I)*CSZ(I)
         NZ = CRX(I)*CSY(I)-CRY(I)*CSX(I)
-        AAA = UN / SQRT(NX*NX+NY*NY+NZ*NZ)
+        AAA = ONE / SQRT(NX*NX+NY*NY+NZ*NZ)
         NX = NX*AAA
         NY = NY*AAA
         NZ = NZ*AAA
@@ -619,9 +619,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 c       point calcul  sur la surface cubique (r,s)
 C-----------------------------------------------
-        XA(I) = UNDEMI*(XA(I)+XB(I))
-        YA(I) = UNDEMI*(YA(I)+YB(I))
-        ZA(I) = UNDEMI*(ZA(I)+ZB(I))
+        XA(I) = HALF*(XA(I)+XB(I))
+        YA(I) = HALF*(YA(I)+YB(I))
+        ZA(I) = HALF*(ZA(I)+ZB(I))
  
 C-----------------------------------------------
 c       vecteur: point calcul  -> noeud second. 
@@ -677,8 +677,8 @@ C-----------------------------------------------
 c           -1<r<+1 et -1<s<+1
 C-----------------------------------------------
 c           r et s peuvent  tres recalcul s
-c           R(I) = DEUX*DDD/EEE - UN
-c           S(I) = DEUX*BBB/CCC - UN
+c           R(I) = TWO*DDD/EEE - ONE
+c           S(I) = TWO*BBB/CCC - ONE
 C-----------------------------------------------
             IF(DIST > ZERO)THEN
               PENE(I) = GAPV(I) - DIST
@@ -784,7 +784,7 @@ c
         ERZ = Z2(I)-Z1(I)
 
         R2  = SQRT(ERX*ERX+ERY*ERY+ERZ*ERZ)
-        AAA = UN / R2
+        AAA = ONE / R2
         ERX = ERX*AAA
         ERY = ERY*AAA
         ERZ = ERZ*AAA
@@ -798,7 +798,7 @@ c
         ETY = ETY - ERY*AAA
         ETZ = ETZ - ERZ*AAA
 
-        AAA = UN / SQRT(ETX*ETX+ETY*ETY+ETZ*ETZ)
+        AAA = ONE / SQRT(ETX*ETX+ETY*ETY+ETZ*ETZ)
         ETX = ETX*AAA
         ETY = ETY*AAA
         ETZ = ETZ*AAA
@@ -819,11 +819,11 @@ c---------------------------------------------------
 c       la d riv  est born e   +- 1 pour limiter la taille
 c       des boites dans i7tri
 c---------------------------------------------------
-        DTDR1 = DTDR1/MAX(UN,ABS(DTDR1))
-        DTDR2 = DTDR2/MAX(UN,ABS(DTDR2))
+        DTDR1 = DTDR1/MAX(ONE,ABS(DTDR1))
+        DTDR2 = DTDR2/MAX(ONE,ABS(DTDR2))
 
-        UPR2 = UNDEMI*(UN+R(I))
-        UMR2 = UNDEMI*(UN-R(I))
+        UPR2 = HALF*(ONE+R(I))
+        UMR2 = HALF*(ONE-R(I))
         RR = UPR2*R2
 
 c   a0 =  0 
@@ -831,11 +831,11 @@ c   a1 = dr1
 c   a2 = - (dr2 + 2 a1)/r2
 c   a3 = - (a2 r2 + a1)/r2^2
 c      A1 = DTDR1
-c      A2 = -(DTDR2 + DEUX*DTDR1)/R2
+c      A2 = -(DTDR2 + TWO*DTDR1)/R2
 c      A3 = (DTDR2 + DTDR1)/R2/R2
 
 c      TT = ((A3*RR + A2)*RR + A1)*RR
-c      DTDR = (TROIS*A3*RR + DEUX*A2)*RR + A1
+c      DTDR = (THREE*A3*RR + TWO*A2)*RR + A1
 
         A1 = DTDR1
         A2RR = -(DTDR2 + DTDR1 + DTDR1)*UPR2
@@ -850,7 +850,7 @@ c---------------------------------------------------
         Y12(I) = Y1(I) + RR*ERY + TT(I)*ETY
         Z12(I) = Z1(I) + RR*ERZ + TT(I)*ETZ
 
-        DTDR = TROIS*A3RR2 + A2RR + A2RR + A1
+        DTDR = THREE*A3RR2 + A2RR + A2RR + A1
 
 c---------------------------------------------------
 c       vecteur directeur en r

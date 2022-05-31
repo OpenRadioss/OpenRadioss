@@ -103,7 +103,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C     inlets.
 C-----------------------------------------------
-      T05=TT + UNDEMI*DT2
+      T05=TT + HALF*DT2
 
       DO I=1,NSPHIO
        ITYPE=ISPHIO(1,I)
@@ -139,7 +139,7 @@ C------
 
 C-----
       TFEXTT=ZERO
-      DTINV =UN/DT12
+      DTINV =ONE/DT12
 C
       DO NS=1,NSPHACT
       N=WASPACT(NS)
@@ -161,7 +161,7 @@ C------
           VX=UX+(VN-UN1)*NX
           VY=UY+(VN-UN1)*NY
           VZ=UZ+(VN-UN1)*NZ
-          TFEXTT=TFEXTT+UNDEMI*MS(INOD)*
+          TFEXTT=TFEXTT+HALF*MS(INOD)*
      .     ((VX*VX+VY*VY+VZ*VZ)-(UX*UX+UY*UY+UZ*UZ))
           A(1,INOD)=(VX-V(1,INOD))*DTINV
           A(2,INOD)=(VY-V(2,INOD))*DTINV
@@ -276,7 +276,7 @@ c partie JNOD > 0
               XJ  =X(1,JNOD)
               YJ  =X(2,JNOD)
               ZJ  =X(3,JNOD)
-               DIJ =(DJ+DI)*UNDEMI
+               DIJ =(DJ+DI)*HALF
                RHOJ=SPBUF(2,M)
                CALL WEIGHT1(XP,YP,ZP,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
                VJ=SPBUF(12,M)/MAX(EM20,RHOJ)
@@ -299,7 +299,7 @@ c partie JNOD > 0
                XJ  =XSPHR(3,NN)
                YJ  =XSPHR(4,NN)
                ZJ  =XSPHR(5,NN)
-               DIJ =(DJ+DI)*UNDEMI
+               DIJ =(DJ+DI)*HALF
                RHOJ=XSPHR(7,NN)
                CALL WEIGHT1(XP,YP,ZP,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
                VJ=XSPHR(8,NN)/MAX(EM20,RHOJ)
@@ -311,7 +311,7 @@ c partie JNOD > 0
            ENDIF
           ENDDO
 C------
-          ALPHAI =UN/MAX(EM20,ALPHAI)
+          ALPHAI =ONE/MAX(EM20,ALPHAI)
           ALPHAI2=ALPHAI*ALPHAI
           ALPHAXI=-ALPHAXI*ALPHAI2
           ALPHAYI=-ALPHAYI*ALPHAI2
@@ -346,7 +346,7 @@ C------
               XJ  =X(1,JNOD)
               YJ  =X(2,JNOD)
               ZJ  =X(3,JNOD)
-               DIJ =(DJ+DI)*UNDEMI
+               DIJ =(DJ+DI)*HALF
                RHOJ=SPBUF(2,M)
                CALL WEIGHT1(XP,YP,ZP,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
                WGRDX=WGRAD(1)*ALPHAI+WGHT*ALPHAXI
@@ -382,7 +382,7 @@ C------
                XJ  =XSPHR(3,NN)
                YJ  =XSPHR(4,NN)
                ZJ  =XSPHR(5,NN)
-               DIJ =(DJ+DI)*UNDEMI
+               DIJ =(DJ+DI)*HALF
                RHOJ=XSPHR(7,NN)
                CALL WEIGHT1(XP,YP,ZP,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
                WGRDX=WGRAD(1)*ALPHAI+WGHT*ALPHAXI
@@ -446,7 +446,7 @@ C          impose une vitesse sortante uniquement.
           UZ=V(3,INOD)+A(3,INOD)*DT12
 
           VT=VX*VX+VY*VY+VZ*VZ
-          TFEXTT=TFEXTT+UNDEMI*MS(INOD)*(VT-(UX*UX+UY*UY+UZ*UZ))
+          TFEXTT=TFEXTT+HALF*MS(INOD)*(VT-(UX*UX+UY*UY+UZ*UZ))
           A(1,INOD)=(VX-V(1,INOD))*DTINV
           A(2,INOD)=(VY-V(2,INOD))*DTINV
           A(3,INOD)=(VZ-V(3,INOD))*DTINV

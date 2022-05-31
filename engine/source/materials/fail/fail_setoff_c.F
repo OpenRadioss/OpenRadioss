@@ -104,10 +104,10 @@ c------------------------------------
         NPTT  = ELBUF_STR%BUFLY(IL)%NPTT        
 c
         IF (NFAIL == 1 .and. P_THICKG > ZERO) THEN
-          PTHKF1(1) = MAX(MIN(P_THICKG,UN-EM06),EM06)
+          PTHKF1(1) = MAX(MIN(P_THICKG,ONE-EM06),EM06)
         ELSE
           DO IFL = 1,NFAIL
-            PTHKF1(IFL) = MAX(MIN(PTHKF(IL,IFL),UN-EM06),EM06)
+            PTHKF1(IFL) = MAX(MIN(PTHKF(IL,IFL),ONE-EM06),EM06)
           ENDDO
         ENDIF
 c------------------
@@ -117,7 +117,7 @@ c------------------
             FOFF => ELBUF_STR%BUFLY(IL)%FAIL(1,1,IPT)%FLOC(IFL)%OFF
             DO IEL=1,NEL                                                        
               IF (OFF(IEL) /= ZERO) THEN                                        
-                IF (FOFF(IEL) < UN)  THEN     ! FOFF(IEL)<1                     
+                IF (FOFF(IEL) < ONE)  THEN     ! FOFF(IEL)<1                     
                   IPOS = (IPT-1)*NEL + IEL                                      
                   THFACT(IEL) = THFACT(IEL) + THKLY(IPOS)
                 ENDIF                                                           
@@ -127,7 +127,7 @@ c------------------
           DO IEL=1,NEL                                                          
             IF (OFF(IEL) /= ZERO) THEN                                        
               IF (THFACT(IEL) >= PTHKF1(IFL)) THEN  ! delete element          
-                OFF(IEL) = QCINQ
+                OFF(IEL) = FOUR_OVER_5
                 IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1 ! set frontwave flag                      
               ENDIF   ! THFACT>=PTHKF                                           
             ENDIF                                                           
@@ -140,9 +140,9 @@ c---------------------------------------------------
 c       check old Ishell settings
 c
         IF (P_THICKG > ZERO) THEN
-          P_THICKG = MAX(MIN(P_THICKG, UN-EM06), EM06)
+          P_THICKG = MAX(MIN(P_THICKG, ONE-EM06), EM06)
         ELSE
-          P_THICKG = UN-EM06
+          P_THICKG = ONE-EM06
           DO IL=1,NLAY
             DO IFL = 1,ELBUF_STR%BUFLY(IL)%NFAIL
               IF (PTHKF(IL,IFL) > ZERO) THEN
@@ -160,7 +160,7 @@ c
           DO IFL = 1,NFAIL
             FOFF => ELBUF_STR%BUFLY(IL)%FAIL(1,1,IPT)%FLOC(IFL)%OFF
             DO IEL=1,NEL
-              IF (OFF(IEL) == UN .and. LAY_OFF(IEL) == 1) THEN
+              IF (OFF(IEL) == ONE .and. LAY_OFF(IEL) == 1) THEN
                 IF (FOFF(IEL) < 1)  THEN
                   NINDXLY = NINDXLY + 1    
                   INDXLY(NINDXLY) = IEL    
@@ -191,7 +191,7 @@ c
             WEIGHT(IL) = STACK%GEO(IPWEIGHT+ IL,ISUBSTACK)
             II = (IL-1)*NEL
             DO IEL =1,NEL
-              IF (OFF(IEL) == UN) THEN
+              IF (OFF(IEL) == ONE) THEN
                 IPOS  = II + IEL
                 DFAIL = THKLY(IPOS)*WEIGHT(IL)
                 NORM(IEL)  = NORM(IEL)  + DFAIL
@@ -203,9 +203,9 @@ c
           ENDDO        ! IL=1-->NLAY
 c
           DO IEL =1,NEL
-            IF (OFF(IEL) == UN) THEN
+            IF (OFF(IEL) == ONE) THEN
               IF (THFACT(IEL) >= P_THICKG*NORM(IEL)) THEN      ! delete element
-                OFF(IEL) = QCINQ                                            
+                OFF(IEL) = FOUR_OVER_5                                            
                 IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1  ! set frontwave flag                      
               ENDIF   ! THFACT>= P_T*NORM
             ENDIF   ! OFF == 1
@@ -220,7 +220,7 @@ c
             LAY_OFF => ELBUF_STR%BUFLY(IL)%OFF
             II = (IL-1)*NEL
             DO IEL=1,NEL
-              IF (OFF(IEL) == UN) THEN
+              IF (OFF(IEL) == ONE) THEN
                 IPOS = II + IEL
                 DFAIL = THKLY(IPOS)*WEIGHT(IL)
                 NORM(IEL)  = NORM(IEL)  + DFAIL
@@ -232,9 +232,9 @@ c
           ENDDO   ! IL=1-->NLAY
 c
           DO IEL=1,NEL
-            IF (OFF(IEL) == UN) THEN
+            IF (OFF(IEL) == ONE) THEN
               IF (THFACT(IEL) >= P_THICKG*NORM(IEL)) THEN      ! delete element      
-                OFF(IEL) = QCINQ                                            
+                OFF(IEL) = FOUR_OVER_5                                            
                 IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1   ! set frontwave propagation flag                                
               ENDIF
             ENDIF   ! OFF=1
@@ -262,9 +262,9 @@ c
             DO IPT=1,NPTT
               FOFF => ELBUF_STR%BUFLY(IL)%FAIL(1,1,IPT)%FLOC(IFL)%OFF
               DO IEL=1,NEL                                                        
-                IF (OFF(IEL) == UN) THEN
+                IF (OFF(IEL) == ONE) THEN
                   IF (LAY_OFF(IEL) == 1) THEN
-                    IF (FOFF(IEL) < UN)  THEN
+                    IF (FOFF(IEL) < ONE)  THEN
                       IP   = IPT_ALL + IPT
                       IPOS = II + IEL
                       THFACT(IEL) = THFACT(IEL) + THKLY(IPOS)/THK_LY(IEL,IL)
@@ -275,7 +275,7 @@ c
             ENDDO   ! IPT=1-->NPTT
 c
             DO IEL=1,NEL
-              IF(OFF(IEL) == UN) THEN
+              IF(OFF(IEL) == ONE) THEN
                 IF (THFACT(IEL) >= P_THKLY(IL)) THEN
                   NINDXLY = NINDXLY + 1                                     
                   INDXLY(NINDXLY) = IEL                                     
@@ -301,7 +301,7 @@ c
         ENDDO      ! IL=1,NLAY
 c-------------------
         P_THICKG = MAX(P_THICKG, EM06)
-        P_THICKG = MIN(P_THICKG, UN-EM06)
+        P_THICKG = MIN(P_THICKG, ONE-EM06)
 c        
         IPTHKLY  = 1 + 4*NLAY 
         IPWEIGHT = IPTHKLY + NLAY
@@ -312,7 +312,7 @@ c
           WEIGHT(IL) = STACK%GEO(IPWEIGHT + IL,ISUBSTACK)
           LAY_OFF => ELBUF_STR%BUFLY(IL)%OFF
           DO IEL=1,NEL
-            IF (OFF(IEL) == UN) THEN
+            IF (OFF(IEL) == ONE) THEN
               DFAIL = (THK_LY(IEL,IL)*WEIGHT(IL))**FAIL_EXP
               NORM(IEL)  = NORM(IEL) + DFAIL
               IF (LAY_OFF(IEL) == 0) THEN
@@ -323,11 +323,11 @@ c
         ENDDO   ! IL=1-->NLAY
 c
         DO IEL=1,NEL
-          IF (OFF(IEL) == UN) THEN
-            THFACT(IEL) = THFACT(IEL)**(UN/FAIL_EXP)
-            NORM(IEL)   = NORM(IEL)**(UN/FAIL_EXP)
+          IF (OFF(IEL) == ONE) THEN
+            THFACT(IEL) = THFACT(IEL)**(ONE/FAIL_EXP)
+            NORM(IEL)   = NORM(IEL)**(ONE/FAIL_EXP)
             IF (THFACT(IEL) >= P_THICKG*NORM(IEL)) THEN      ! delete element
-              OFF(IEL) = QCINQ
+              OFF(IEL) = FOUR_OVER_5
               IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1  ! set frontwave flag                      
             ENDIF
           ENDIF   ! OFF==1

@@ -801,9 +801,9 @@ C======================================================================|
 	 DO K=1,LSKEW
 	  SKEW(K)=ZERO
 	 ENDDO
-	  SKEW(1)=UN
-	  SKEW(5)=UN
-	  SKEW(9)=UN
+	  SKEW(1)=ONE
+	  SKEW(5)=ONE
+	  SKEW(9)=ONE
         ENDIF
        IC = JT(1)*100+JT(2)*10+JT(3)
        CALL CDI_BCN(IC   ,SKEW  ,JT   ,CDT  ,JT1  )
@@ -911,7 +911,7 @@ C----------------011-------------------------
            EJ1(3)=SKEW(6)/SKEW(3+J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-	  S=UN/(UN-EJ(J1)*EJ1(J))
+	  S=ONE/(ONE-EJ(J1)*EJ1(J))
 	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
 	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
 C----------------101-------------------------
@@ -932,7 +932,7 @@ C----------------101-------------------------
            EJ1(3)=SKEW(3)/SKEW(J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-	  S=UN/(UN-EJ(J1)*EJ1(J))
+	  S=ONE/(ONE-EJ(J1)*EJ1(J))
 	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
 	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
 C----------------110-------------------------
@@ -953,7 +953,7 @@ C----------------110-------------------------
            EJ1(3)=SKEW(3)/SKEW(J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-	  S=UN/(UN-EJ(J1)*EJ1(J))
+	  S=ONE/(ONE-EJ(J1)*EJ1(J))
 	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
 	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
        END SELECT
@@ -1064,7 +1064,7 @@ C----------------011-------------------------
            EJ1(3)=SKEW(6)/SKEW(3+J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-	  S=UN/(UN-EJ(J1)*EJ1(J))
+	  S=ONE/(ONE-EJ(J1)*EJ1(J))
 	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
 	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
           A(K,NS)=A(K,NS)+EA*A(J,NS)+EB*A(J1,NS)
@@ -1086,7 +1086,7 @@ C----------------101-------------------------
            EJ1(3)=SKEW(3)/SKEW(J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-	  S=UN/(UN-EJ(J1)*EJ1(J))
+	  S=ONE/(ONE-EJ(J1)*EJ1(J))
 	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
 	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
           A(K,NS)=A(K,NS)+EA*A(J,NS)+EB*A(J1,NS)
@@ -1108,7 +1108,7 @@ C----------------110-------------------------
            EJ1(3)=SKEW(3)/SKEW(J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-	  S=UN/(UN-EJ(J1)*EJ1(J))
+	  S=ONE/(ONE-EJ(J1)*EJ1(J))
 	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
 	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
           A(K,NS)=A(K,NS)+EA*A(J,NS)+EB*A(J1,NS)

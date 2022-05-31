@@ -77,7 +77,7 @@ C-----------------------------------------------
      .   X13,X24,Y13,Y24,L13,L24,C1,C2,THKLY,POSLY,
      .   FAC,VISCE,RX,RY,SX,SY,S1,FAC1,FAC2,FACI,FAC11,BULK,GMAX
 C=======================================================================
-      FAC = DEUX
+      FAC = TWO
 C
       IGTYP = NINT(GEO(12,IPROP))
       IGMAT = IGEO(98,IPROP)
@@ -109,7 +109,7 @@ C
      .                  + UPARAM(IADB+4)*UPARAM(IADB+9) 
      .                  + UPARAM(IADB+5)*UPARAM(IADB+10) 
                    RHO  = PM(1,IMT)
-                   A11  = GMAX*(UN + NU)/(UN - NU**2)
+                   A11  = GMAX*(ONE + NU)/(ONE - NU**2)
                    SSP(I)=MAX(SSP(I), SQRT(A11/RHO)) 
                  ENDDO
                ENDDO
@@ -131,7 +131,7 @@ C
                    RHO  =PM(1,IMT)
                    YOUNG=PM(20,IMT)
                    NU   =PM(21,IMT)
-                   SSP(I)=MAX(SSP(I), SQRT(YOUNG/(UN-NU*NU)/RHO)) 
+                   SSP(I)=MAX(SSP(I), SQRT(YOUNG/(ONE-NU*NU)/RHO)) 
                  ENDDO
                ENDDO
              ENDIF
@@ -161,7 +161,7 @@ CCC
      .                  + UPARAM(IADB+4)*UPARAM(IADB+9) 
      .                  + UPARAM(IADB+5)*UPARAM(IADB+10) 
                    RHO  = PM(1,IMT)
-                   A11  = GMAX*(UN + NU)/(UN - NU**2)
+                   A11  = GMAX*(ONE + NU)/(ONE - NU**2)
                    SSP(I)=MAX(SSP(I), SQRT(A11/RHO)) 
                  ENDDO
                ENDDO
@@ -183,7 +183,7 @@ CCC
                    RHO  =PM(1,IMT)
                    YOUNG=PM(20,IMT)
                    NU   =PM(21,IMT)
-                   SSP(I)=MAX(SSP(I), SQRT(YOUNG/(UN-NU*NU)/RHO)) 
+                   SSP(I)=MAX(SSP(I), SQRT(YOUNG/(ONE-NU*NU)/RHO)) 
                  ENDDO
                ENDDO
              ENDIF
@@ -206,7 +206,7 @@ CCC
      .               + UPARAM(IADB+4)*UPARAM(IADB+9) 
      .               + UPARAM(IADB+5)*UPARAM(IADB+10) 
                 RHO  = PM(1,IMT)
-                A11  = GMAX*(UN + NU)/(UN - NU**2)
+                A11  = GMAX*(ONE + NU)/(ONE - NU**2)
                 SSP(I)=MAX(SSP(I), SQRT(A11/RHO))
               ELSEIF (MLAWLY == 65) THEN
                 RHO  =PM(1,IMT)
@@ -216,7 +216,7 @@ CCC
                 RHO  =PM(1,IMT)
                 YOUNG=PM(20,IMT)
                 NU   =PM(21,IMT)
-                SSP(I)=MAX(SSP(I), SQRT(YOUNG/(UN-NU*NU)/RHO))
+                SSP(I)=MAX(SSP(I), SQRT(YOUNG/(ONE-NU*NU)/RHO))
               ENDIF
               ENDDO
             ENDDO
@@ -244,7 +244,7 @@ CCC
      .           + UPARAM(IADB+4)*UPARAM(IADB+9) 
      .           + UPARAM(IADB+5)*UPARAM(IADB+10) 
              RHO  = PM(1,IMAT) 
-             A11 = GMAX*(UN + NU)/(UN - NU**2)                                
+             A11 = GMAX*(ONE + NU)/(ONE - NU**2)                                
              SSP(I)=MAX(SSP(I), SQRT(A11/RHO))    
           ENDDO
       ELSEIF (MTN == 65) THEN
@@ -258,15 +258,15 @@ CCC
             RHO  =PM(1,IMAT)
             YOUNG=PM(20,IMAT)
             NU   =PM(21,IMAT)
-            SSP(I)=SQRT(YOUNG/(UN-NU*NU)/RHO)
+            SSP(I)=SQRT(YOUNG/(ONE-NU*NU)/RHO)
           ENDDO
       ENDIF
 C-------longueur caracteristique--------------
-      FAC11=CQUATRE
-      IF (IHBE == 11) FAC11=QTIERS
+      FAC11=FIVE_OVER_4
+      IF (IHBE == 11) FAC11=FOUR_OVER_3
       DO I=LFT,LLT
-        LXYZ0(1)=QUART*(X2L(I)+X3L(I)+X4L(I))
-        LXYZ0(2)=QUART*(Y2L(I)+Y3L(I)+Y4L(I))
+        LXYZ0(1)=FOURTH*(X2L(I)+X3L(I)+X4L(I))
+        LXYZ0(2)=FOURTH*(Y2L(I)+Y3L(I)+Y4L(I))
         COREL(1,1)=-LXYZ0(1)
         COREL(1,2)=X2L(I)-LXYZ0(1)
         COREL(1,3)=X3L(I)-LXYZ0(1)
@@ -275,10 +275,10 @@ C-------longueur caracteristique--------------
         COREL(2,2)=Y2L(I)-LXYZ0(2)
         COREL(2,3)=Y3L(I)-LXYZ0(2)
         COREL(2,4)=Y4L(I)-LXYZ0(2)
-        X13=(COREL(1,1)-COREL(1,3))*UNDEMI
-        X24=(COREL(1,2)-COREL(1,4))*UNDEMI
-        Y13=(COREL(2,1)-COREL(2,3))*UNDEMI
-        Y24=(COREL(2,2)-COREL(2,4))*UNDEMI
+        X13=(COREL(1,1)-COREL(1,3))*HALF
+        X24=(COREL(1,2)-COREL(1,4))*HALF
+        Y13=(COREL(2,1)-COREL(2,3))*HALF
+        Y24=(COREL(2,2)-COREL(2,4))*HALF
 
 C
         L13=X13*X13+Y13*Y13
@@ -293,12 +293,12 @@ C
         SY=-Y24-Y13
         C1=SQRT(RX*RX+RY*RY)
         C2=SQRT(SX*SX+SY*SY)
-        S1=QUART*(MAX(C1,C2)/MIN(C1,C2)-UN)
-        FAC1=MIN(UNDEMI,S1)+UN
+        S1=FOURTH*(MAX(C1,C2)/MIN(C1,C2)-ONE)
+        FAC1=MIN(HALF,S1)+ONE
         FAC2=AREA(I)/(C1*C2)
         FAC2=3.413*MAX(ZERO,FAC2-0.7071)
         FAC2=0.78+0.22*FAC2*FAC2*FAC2
-        FACI=DEUX*FAC1*FAC2
+        FACI=TWO*FAC1*FAC2
         S1 = SQRT(FACI*(FAC11+AL2(I))*AL1(I))
         S1 = MAX(S1,EM20)
         AL1(I)=S1
@@ -322,9 +322,9 @@ c-------------------------------------------------------
       ENDIF
 C
       IF(MTN == 19)THEN
-          VISCDEF=QUART
+          VISCDEF=FOURTH
       ELSEIF(MTN == 25.OR.MTN == 27)THEN
-          VISCDEF=CINQEM2
+          VISCDEF=FIVEEM2
       ELSE
           VISCDEF=ZERO
       ENDIF
@@ -335,7 +335,7 @@ c
       IF (MTN == 1 .OR.MTN == 2 .OR. MTN == 3.OR.
      .    MTN == 22.OR.MTN == 23.OR.MTN == 91) VISCMX = ZERO
       VISCMX = MAX(VISCMX,VISCE)
-      VISCMX = SQRT(UN + VISCMX*VISCMX)-VISCMX
+      VISCMX = SQRT(ONE + VISCMX*VISCMX)-VISCMX
 c
       DO I=LFT,LLT
         DTEL(I)= ALMIN(I)*VISCMX/SSP(I)
@@ -352,9 +352,9 @@ C----------------------------------------------------------
              A11R =GEO(IPGMAT +7 ,IPROP) 
              VV = VISCMX * ALMIN(I)
              VV = VV*VV
-             FAC = UNDEMI*AREA(I)*THK(I) / VV
+             FAC = HALF*AREA(I)*THK(I) / VV
              STI = FAC * A11 
-             STIR = UNDOUZE*FAC*A11R*THK(I)**2
+             STIR = ONE_OVER_12*FAC*A11R*THK(I)**2
              STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI
              STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI
              STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI
@@ -372,9 +372,9 @@ C----------------------------------------------------------
               A11R = PM_STACK(7 ,ISUBSTACK)
               VV = VISCMX * ALMIN(I)
               VV = VV*VV
-              FAC = UNDEMI*AREA(I)*THK(I) / VV
+              FAC = HALF*AREA(I)*THK(I) / VV
               STI = FAC * A11 
-              STIR = UNDOUZE*FAC*A11R*THK(I)**2
+              STIR = ONE_OVER_12*FAC*A11R*THK(I)**2
               STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI
               STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI
               STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI
@@ -390,8 +390,8 @@ C----------------------------------------------------------
              A11 =PM(24,IMAT)
              VV = VISCMX * ALMIN(I)
              VV = VV*VV
-             STI = UNDEMI*THK(I) *AREA(I)* A11 / VV
-             STIR = STI * THK(I)*THK(I) * UNDOUZE
+             STI = HALF*THK(I) *AREA(I)* A11 / VV
+             STIR = STI * THK(I)*THK(I) * ONE_OVER_12
              STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI
              STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI
              STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI
@@ -412,9 +412,9 @@ C----------------------------------------------------------
                 A11R = GEO(IPGMAT +7 ,IPROP) 
                 VV = VISCMX * ALMIN(I)
                 VV = VV*VV
-                FAC = UNDEMI*AREA(I)*THK(I) / VV
+                FAC = HALF*AREA(I)*THK(I) / VV
                 STI = FAC * A11 
-                STIR = UNDOUZE*FAC*A11R*THK(I)**2
+                STIR = ONE_OVER_12*FAC*A11R*THK(I)**2
                 STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI
                 STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI
                 STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI
@@ -435,9 +435,9 @@ C----------------------------------------------------------
                  A11R = PM_STACK(7 ,ISUBSTACK) 
                 VV = VISCMX * ALMIN(I)
                 VV = VV*VV
-                FAC = UNDEMI*AREA(I)*THK(I) / VV
+                FAC = HALF*AREA(I)*THK(I) / VV
                 STI = FAC * A11 
-                STIR = UNDOUZE*FAC*A11R*THK(I)**2
+                STIR = ONE_OVER_12*FAC*A11R*THK(I)**2
                 STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI
                 STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI
                 STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI
@@ -456,8 +456,8 @@ C----------------------------------------------------------
                 A11 =PM(24,IMAT)
                 VV = VISCMX * ALMIN(I)
                 VV = VV*VV
-                STI = UNDEMI*THK(I) *AREA(I)* A11 / VV
-                STIR = STI * THK(I)*THK(I) * UNDOUZE
+                STI = HALF*THK(I) *AREA(I)* A11 / VV
+                STIR = STI * THK(I)*THK(I) * ONE_OVER_12
                 STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI
                 STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI
                 STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI

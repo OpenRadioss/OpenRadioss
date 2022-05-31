@@ -162,7 +162,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
                  NN13=NB12 + NPG*NEL8
                  NN14=NN13 + NPG*NEL8*ISTRAIN
                  NN15=NN14 + NPTM*NPG*NEL
-                 IF (MPT >= UN) THEN
+                 IF (MPT >= ONE) THEN
                    NN16=NN15 + NPG*MPT*NEL5
                    NN16A=NN16 + 2*MPT*NEL
                  ENDIF
@@ -225,12 +225,12 @@ C-----------------------------------------------
                     DO IS = 1,NPTS
                         DO IR = 1,NPTR
                               LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(IR,IS,1)
-                              OFFIPLY = NINT(MIN(GBUF%OFF(I),LBUF%OFF(I),UN))
+                              OFFIPLY = NINT(MIN(GBUF%OFF(I),LBUF%OFF(I),ONE))
                               IOFF(EL2FA(N_FA+IE)) = MIN(IOFF(EL2FA(N_FA+IE)),OFFIPLY)
                         ENDDO
                     ENDDO   
-C!!     .               NINT(MIN(BUFLY%DMG(I),UN))  ! on traite OFF de layer comme DMG
-C!!     .               NINT(MIN(BUFEL(NBX+(IPT- 1)*NEL + I),UN)) 
+C!!     .               NINT(MIN(BUFLY%DMG(I),ONE))  ! on traite OFF de layer comme DMG
+C!!     .               NINT(MIN(BUFEL(NBX+(IPT- 1)*NEL + I),ONE)) 
                   ENDIF
                 ENDDO
              ELSE
@@ -245,22 +245,22 @@ C!!     .               NINT(MIN(BUFEL(NBX+(IPT- 1)*NEL + I),UN))
                     DO IS = 1,NPTS
                         DO IR = 1,NPTR 
                            LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(IR,IS,1)
-                           OFFIPLY = NINT(MIN(GBUF%OFF(I),LBUF%OFF(I),UN))
+                           OFFIPLY = NINT(MIN(GBUF%OFF(I),LBUF%OFF(I),ONE))
                            IOFF(EL2FA(N_FA+IE))=MIN(IOFF(EL2FA(N_FA+IE)),OFFIPLY)
                         ENDDO
                      ENDDO      
-cc     .              NINT(MAX(ZERO,MIN(BUFLY%DMG(I),UN)))
-!!     .              NINT(MAX(ZERO,MIN(BUFLY%LBUF(1,1,1)%OFF(I),UN)))
+cc     .              NINT(MAX(ZERO,MIN(BUFLY%DMG(I),ONE)))
+!!     .              NINT(MAX(ZERO,MIN(BUFLY%LBUF(1,1,1)%OFF(I),ONE)))
                   ELSE
                     DO IS = 1,NPTS
                         DO IR = 1,NPTR 
                              LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(IR,IS,1)
-                             OFFIPLY = NINT(MIN(GBUF%OFF(I),LBUF%OFF(I),UN))
+                             OFFIPLY = NINT(MIN(GBUF%OFF(I),LBUF%OFF(I),ONE))
                              IOFF(EL2FA(N_FA+IE)) =MIN(IOFF(EL2FA(N_FA+IE)),OFFIPLY) 
                         ENDDO
                      ENDDO   
-cc     .               NINT(MIN(BUFLY%DMG(I),UN))
-!!     .               NINT(MIN(BUFLY%LBUF(1,1,1)%OFF(I),UN))
+cc     .               NINT(MIN(BUFLY%DMG(I),ONE))
+!!     .               NINT(MIN(BUFLY%LBUF(1,1,1)%OFF(I),ONE))
                   END IF
                 ENDIF
               ENDDO

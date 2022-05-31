@@ -152,11 +152,11 @@ C     User variables initialisation
           DO J=1,NUVAR                          
             UVAR(I,J) = ZERO                  
           ENDDO                               
-          UVAR(I,3) = UN                      
+          UVAR(I,3) = ONE                      
         ENDDO 
       ELSEIF (TIME == ZERO ) THEN 
         DO I=1,NEL                                  
-          UVAR(I,3) = UN           
+          UVAR(I,3) = ONE           
         ENDDO 
       ENDIF                                   
 C     principal stretch (def gradient eigenvalues)
@@ -164,58 +164,58 @@ C     principal stretch (def gradient eigenvalues)
         TRAV(I)  = EPSXX(I)+EPSYY(I)
         ROOTV(I) = SQRT((EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
      .           + EPSXY(I)*EPSXY(I))
-        EVV(I,1) = UNDEMI*(TRAV(I)+ROOTV(I))
-        EVV(I,2) = UNDEMI*(TRAV(I)-ROOTV(I))
+        EVV(I,1) = HALF*(TRAV(I)+ROOTV(I))
+        EVV(I,2) = HALF*(TRAV(I)-ROOTV(I))
         EVV(I,3) = ZERO
         EA(I) = ZERO
       ENDDO
 C-- avoid NaN---------        
       IF(ISMSTR == 10) THEN
         DO I=1,NEL
-          IF (MIN(EVV(I,1),EVV(I,2))<=-UN) THEN
+          IF (MIN(EVV(I,1),EVV(I,2))<=-ONE) THEN
            EVV(I,1) = ZERO
            EVV(I,2) = ZERO
-           OFF(I) = QCINQ
+           OFF(I) = FOUR_OVER_5
           END IF
         ENDDO
       END IF  
 C     rot matrix (eigenvectors)
       DO I=1,NEL
         IF (ABS(EVV(I,2)-EVV(I,1)) < EM10) THEN
-          EIGV(I,1,1)=UN
-          EIGV(I,2,1)=UN
+          EIGV(I,1,1)=ONE
+          EIGV(I,2,1)=ONE
           EIGV(I,3,1)=ZERO
           EIGV(I,1,2)=ZERO
           EIGV(I,2,2)=ZERO
           EIGV(I,3,2)=ZERO
         ELSE
-          INVRV(I) = UN / ROOTV(I)                                 
+          INVRV(I) = ONE / ROOTV(I)                                 
           EIGV(I,1,1) = (EPSXX(I)-EVV(I,2)) * INVRV(I)
           EIGV(I,2,1) = (EPSYY(I)-EVV(I,2)) * INVRV(I)
-          EIGV(I,3,1) = (UNDEMI*EPSXY(I))   * INVRV(I)
+          EIGV(I,3,1) = (HALF*EPSXY(I))   * INVRV(I)
           EIGV(I,1,2) = (EVV(I,1)-EPSXX(I)) * INVRV(I) 
           EIGV(I,2,2) = (EVV(I,1)-EPSYY(I)) * INVRV(I)
-          EIGV(I,3,2) =-(UNDEMI*EPSXY(I))   * INVRV(I)  
+          EIGV(I,3,2) =-(HALF*EPSXY(I))   * INVRV(I)  
         ENDIF                          
       ENDDO
 C     Strain definition
       IF (ISMSTR == 1 .OR. ISMSTR == 3 .OR. ISMSTR == 11) THEN  ! engineering strain
         DO I=1,NEL
-          EV(I,1)=EVV(I,1)+ UN
-          EV(I,2)=EVV(I,2)+ UN
-          EV(I,3)=UN/EV(I,1)/EV(I,2)
+          EV(I,1)=EVV(I,1)+ ONE
+          EV(I,2)=EVV(I,2)+ ONE
+          EV(I,3)=ONE/EV(I,1)/EV(I,2)
         ENDDO
       ELSEIF(ISMSTR == 10) THEN
         DO I=1,NEL
-          EV(I,1)=SQRT(EVV(I,1)+ UN)
-          EV(I,2)=SQRT(EVV(I,2)+ UN)
-          EV(I,3)=UN/EV(I,1)/EV(I,2)
+          EV(I,1)=SQRT(EVV(I,1)+ ONE)
+          EV(I,2)=SQRT(EVV(I,2)+ ONE)
+          EV(I,3)=ONE/EV(I,1)/EV(I,2)
         ENDDO
       ELSE  ! true strain
         DO I=1,NEL
           EV(I,1)=EXP(EVV(I,1))
           EV(I,2)=EXP(EVV(I,2))
-          EV(I,3)=UN/EV(I,1)/EV(I,2)
+          EV(I,3)=ONE/EV(I,1)/EV(I,2)
         ENDDO
       ENDIF
       IF(IVISC >  0) THEN
@@ -224,7 +224,7 @@ C     Strain definition
         ENDDO 
       ENDIF
       DO I=1,NEL
-        IF (OFF(I)==ZERO.OR.OFF(I)==QCINQ) EV(I,1:3)=UN
+        IF (OFF(I)==ZERO.OR.OFF(I)==FOUR_OVER_5) EV(I,1:3)=ONE
       ENDDO 
 C--------------------------------------
 C     Newton method =>  Find EV(3) : T3(EV(3)) = 0
@@ -243,7 +243,7 @@ c----     normalized stretch => unified compressible/uncompressible formulation
             ! else   --> RVT = exp( -third * ln( RV)) 
             IF (RV(I)/= ZERO) THEN
               RVT(I) = EXP( (-THIRD)* LOG(RV(I)) )
-              INVRV(I) = UN / RV(I)
+              INVRV(I) = ONE / RV(I)
             ELSE
               RVT(I)   = ZERO
               INVRV(I) = ZERO
@@ -297,25 +297,25 @@ C----     partial derivatives of strain energy
             DWDL(2) = EVMA2(I,1)+EVMA2(I,2)+EVMA2(I,3)+EVMA2(I,4)+EVMA2(I,5)                
             DWDL(3) = EVMA3(I,1)+EVMA3(I,2)+EVMA3(I,3)+EVMA3(I,4)+EVMA3(I,5)                
             SUMDWDL = (DWDL(1)+DWDL(2)+DWDL(3))* THIRD                            
-            PARTP   = RBULK*(RV(I)- UN)                                           
+            PARTP   = RBULK*(RV(I)- ONE)                                           
 c---------
 c         principal cauchy stress
             IF (EV(I,3) == ZERO) THEN
               INVV3(I) = ZERO
             ELSE
-              INVV3(I) = UN / EV(I,3)
+              INVV3(I) = ONE / EV(I,3)
             ENDIF
             T(I,1)  = (DWDL(1) - SUMDWDL) *INVRV(I)  + PARTP                         
             T(I,2)  = (DWDL(2) - SUMDWDL) *INVRV(I)  + PARTP                         
             T(I,3)  = (DWDL(3) - SUMDWDL) *INVRV(I)  + PARTP                         
 c---------
-            KT3(I) = -THIRD*(DWDL(1) + DWDL(2)) + DTHIRD*(DWDL(3))          
+            KT3(I) = -THIRD*(DWDL(1) + DWDL(2)) + TWO_THIRD*(DWDL(3))          
             KT3(I) = -EV(I,1)*EV(I,2)*KT3(I)*INVRV(I)*INVRV(I)  + RBULK*EV(I,1)*EV(I,2)
-            KT3(I) = KT3(I) + ( UNNEUF*(AL1*EVMA1(I,1) + AL2*EVMA1(I,2) + AL3*EVMA1(I,3) 
+            KT3(I) = KT3(I) + ( ONE_OVER_9*(AL1*EVMA1(I,1) + AL2*EVMA1(I,2) + AL3*EVMA1(I,3) 
      .              +  AL4*EVMA1(I,4)+AL5*EVMA1(I,5) 
      .              +  AL1*EVMA2(I,1)+AL2*EVMA2(I,2) + AL3*EVMA2(I,3) 
      .              +  AL4*EVMA2(I,4)+AL5*EVMA2(I,5) 
-     .              +  QUATRE*(AL1*EVMA3(I,1) + AL2*EVMA3(I,2) + AL3*EVMA3(I,3)
+     .              +  FOUR*(AL1*EVMA3(I,1) + AL2*EVMA3(I,2) + AL3*EVMA3(I,3)
      .              +  AL4*EVMA3(I,4)+AL5*EVMA3(I,5))))*INVRV(I)*INVV3(I)                                            
 C viscosty traitement            
            C30(I) = UVAR(I,5) 
@@ -323,7 +323,7 @@ C
            SUM = THIRD*(EVM(I,1)**2 +  EVM(I,2)**2 + EVM(I,3)**2)
            C31(I)   =  EVM(I,3)**2 - SUM 
 !!         SV3 = ZERO
-           DC3EV3(I) = QTHIRD*RVT(I)*EVM(I,3)-DTHIRD*(DTHIRD*EVM(I,3)**2 - 
+           DC3EV3(I) = FOUR_OVER_3*RVT(I)*EVM(I,3)-TWO_THIRD*(TWO_THIRD*EVM(I,3)**2 - 
      .                                        THIRD* EVM(I,1)**2 - 
      .                                        THIRD* EVM(I,2)**2)*INVV3(I)
          ENDDO  ! 1,NEL
@@ -332,7 +332,7 @@ C
          DO II= 1,NPRONY
              FAC= -TIMESTEP/TAUX(II)                          
              H30(1:NEL,II)  =  UVAR(1:NEL,JNV + II)                
-             H31(1:NEL,II)  = EXP(FAC)*H30(1:NEL,II)+ EXP(UNDEMI*FAC)*(C31(1:NEL) - C30(1:NEL)) 
+             H31(1:NEL,II)  = EXP(FAC)*H30(1:NEL,II)+ EXP(HALF*FAC)*(C31(1:NEL) - C30(1:NEL)) 
          ENDDO
 C           Kirchoff visco stress --->
 C   PK2 stress, PK2 = F**(-1)*Taux* F**(-T)n 
@@ -341,10 +341,10 @@ C   cauchy =Taux/RV is used here
                   FAC= -TIMESTEP/TAUX(II) 
                   T(1:NEL,3) = T(1:NEL,3) + GI(II)*H31(1:NEL,II)*INVRV(1:NEL)
                   KT3(1:NEL) = KT3(1:NEL) - GI(II)*H31(1:NEL,II)*INVV3(1:NEL)*INVRV(1:NEL)
-     .                 + DC3EV3(1:NEL)*GI(II)*EXP(UNDEMI*FAC)*INVRV(1:NEL)
+     .                 + DC3EV3(1:NEL)*GI(II)*EXP(HALF*FAC)*INVRV(1:NEL)
          ENDDO
          DO I=1,NEL                                                 
-          IF (OFF(I)==ZERO.OR.OFF(I)==QCINQ) CYCLE
+          IF (OFF(I)==ZERO.OR.OFF(I)==FOUR_OVER_5) CYCLE
           IF (ABS(KT3(I))>EM20) EV(I,3) = EV(I,3)  - T(I,3)/KT3(I)
          ENDDO
        ENDDO  ! iteration
@@ -395,9 +395,9 @@ C
               H10(II)   =  UVAR(I,JNV + II )                        
               H20(II)   =  UVAR(I,JNV + NPRONY + II )                        
               H120(II)  =  UVAR(I,JNV + 2*NPRONY + II )                
-              H1(II)  = EXP(FAC)*H10(II)+ EXP(UNDEMI*FAC)*(CD1(I) - CD10(I))                
-              H2(II)  = EXP(FAC)*H20(II)+ EXP(UNDEMI*FAC)*(CD2(I) - CD20(I))              
-              H12(II)  = EXP(FAC)*H120(II)+ EXP(UNDEMI*FAC)*(CD12(I) - CD120(I)) 
+              H1(II)  = EXP(FAC)*H10(II)+ EXP(HALF*FAC)*(CD1(I) - CD10(I))                
+              H2(II)  = EXP(FAC)*H20(II)+ EXP(HALF*FAC)*(CD2(I) - CD20(I))              
+              H12(II)  = EXP(FAC)*H120(II)+ EXP(HALF*FAC)*(CD12(I) - CD120(I)) 
               UVAR(I,JNV +            II )= H1(II)              
               UVAR(I,JNV + NPRONY   + II )= H2(II)   
               UVAR(I,JNV + 2*NPRONY + II )= H12(II)          
@@ -426,7 +426,7 @@ C----     partial derivatives of strain energy
            ELSE
             IF(IAL(JJ)==0) THEN
              EVMA1(I,JJ) = MUTAB(JJ)
-             PUI11 = UN
+             PUI11 = ONE
             ELSE
              PUI11 = EXP(ALTAB(JJ)* LOG(EV(I,1)) )
              EVMA1(I,JJ) = MUTAB(JJ) * PUI11
@@ -438,7 +438,7 @@ C----     partial derivatives of strain energy
            ELSE
             IF(IAL(JJ)==0) THEN
              EVMA2(I,JJ) = MUTAB(JJ)
-             PUI22 = UN
+             PUI22 = ONE
             ELSE
              PUI22 = EXP(ALTAB(JJ)* LOG(EV(I,2)) )
              EVMA2(I,JJ) = MUTAB(JJ) * PUI22
@@ -480,38 +480,38 @@ c         principal cauchy stress
           !                 with PUIXX = exp( AL * ln(EVX) )
           !            --> CXY = 1/2 * MU * [1/2 * AL + 1] / ( PUIXX*PUIYY*(EVX**(4)*EVY**(4) )
          DO I=1,NEL
-           IF((ALTAB(JJ)-QUATRE)==0) THEN
-            C11(I,JJ) = UNDEMI*MUTAB(JJ)*(UNDEMI*ALTAB(JJ)-UN)
-            C22(I,JJ) = UNDEMI*MUTAB(JJ)*(UNDEMI*ALTAB(JJ)-UN)
-            C12(I,JJ) = UNDEMI*MUTAB(JJ)*(UNDEMI*ALTAB(JJ) + UN) /
+           IF((ALTAB(JJ)-FOUR)==0) THEN
+            C11(I,JJ) = HALF*MUTAB(JJ)*(HALF*ALTAB(JJ)-ONE)
+            C22(I,JJ) = HALF*MUTAB(JJ)*(HALF*ALTAB(JJ)-ONE)
+            C12(I,JJ) = HALF*MUTAB(JJ)*(HALF*ALTAB(JJ) + ONE) /
      .                (EV(I,1)*EV(I,2))**(8)
            ELSEIF(ALTAB(JJ)==0) THEN
-            C11(I,JJ) = UNDEMI*MUTAB(JJ)*(UNDEMI*ALTAB(JJ)-UN) / 
+            C11(I,JJ) = HALF*MUTAB(JJ)*(HALF*ALTAB(JJ)-ONE) / 
      .                EV(I,1)**(4)
-            C22(I,JJ) = UNDEMI*MUTAB(JJ)*(UNDEMI*ALTAB(JJ)-UN) /
+            C22(I,JJ) = HALF*MUTAB(JJ)*(HALF*ALTAB(JJ)-ONE) /
      .                EV(I,2)**(4)
      
-            C12(I,JJ) = UNDEMI*MUTAB(JJ)*(UNDEMI*ALTAB(JJ) + UN) /
+            C12(I,JJ) = HALF*MUTAB(JJ)*(HALF*ALTAB(JJ) + ONE) /
      .                (EV(I,1)*EV(I,2))**(4)
            ELSE
             IF(EV(I,1)/=ZERO) THEN
              PUI11 = EXP((ALTAB(JJ) )* LOG(EV(I,1)) )
-             C11(I,JJ) = UNDEMI*MUTAB(JJ)*(UNDEMI*ALTAB(JJ) - UN)*PUI11 / 
+             C11(I,JJ) = HALF*MUTAB(JJ)*(HALF*ALTAB(JJ) - ONE)*PUI11 / 
      .                 EV(I,1)**(4)
             ELSE
              C11(I,JJ) = ZERO
-             PUI11 = UN
+             PUI11 = ONE
             ENDIF
             IF(EV(I,2)/=ZERO) THEN
              PUI22 = EXP((ALTAB(JJ))* LOG(EV(I,2)) )
-             C22(I,JJ) = UNDEMI*MUTAB(JJ)*(UNDEMI*ALTAB(JJ) - UN)*PUI22 /
+             C22(I,JJ) = HALF*MUTAB(JJ)*(HALF*ALTAB(JJ) - ONE)*PUI22 /
      .                 EV(I,2)**(4)
             ELSE
              C22(I,JJ) = ZERO
-             PUI22 = UN
+             PUI22 = ONE
             ENDIF
             IF(EV(I,1)*EV(I,2)/=ZERO) THEN
-             C12(I,JJ) = UNDEMI*MUTAB(JJ)*(UNDEMI*ALTAB(JJ) + UN)       /
+             C12(I,JJ) = HALF*MUTAB(JJ)*(HALF*ALTAB(JJ) + ONE)       /
      .                 ( (PUI11 * PUI22)*(EV(I,1)**4 * EV(I,2)**4) )
             ELSE
              C12(I,JJ) = ZERO
@@ -543,7 +543,7 @@ c     tension cut
           T(I,1) = ZERO                                                  
           T(I,2) = ZERO                                                  
           T(I,3) = ZERO                                                  
-          OFF(I) = QCINQ                                 
+          OFF(I) = FOUR_OVER_5                                 
         ENDIF                                                                
       ENDDO                                                                  
 C-------------------------------------------------------------
@@ -551,12 +551,12 @@ C     transform principal Cauchy stress to global directions
       
       IF (ISMSTR == 1 .OR. ISMSTR == 3 .OR. ISMSTR == 11) THEN  ! engineering strain
         DO I=1,NEL
-          EPSZZ(I)  = EV(I,3) - UN
+          EPSZZ(I)  = EV(I,3) - ONE
           UVAR(I,3) = EV(I,3)
         ENDDO
       ELSEIF (ISMSTR == 10) THEN  ! left gauchy-green strain
         DO I=1,NEL
-          EPSZZ(I) =EV(I,3) - UN
+          EPSZZ(I) =EV(I,3) - ONE
           UVAR(I,3) = EV(I,3)
         ENDDO
       ELSE  ! true strain
@@ -569,12 +569,12 @@ c
       DO I=1,NEL
         RV(I)   = EV(I,1)*EV(I,2)*EV(I,3)
         IF (RV(I) /= ZERO) THEN
-          INVRV(I) = UN / RV(I)
+          INVRV(I) = ONE / RV(I)
         ELSE
           INVRV(I) = ZERO
         ENDIF
 c
-        DEZZ(I) =-NU/(UN-NU)*(DEPSXX(I)+DEPSYY(I))
+        DEZZ(I) =-NU/(ONE-NU)*(DEPSXX(I)+DEPSYY(I))
 !!        DEZZ(I) = EPSZZ(I) - UVAR(I,4)
         SIGNXX(I) = EIGV(I,1,1)*T(I,1) + EIGV(I,1,2)*T(I,2) + SV(I,1)*INVRV(I)
         SIGNYY(I) = EIGV(I,2,1)*T(I,1) + EIGV(I,2,2)*T(I,2) + SV(I,2)*INVRV(I)
@@ -586,9 +586,9 @@ c
         VISCMAX(I)= ZERO
         UVAR(I,4) = EPSZZ(I)  
 C         
-        EMAX = GMAX*(UN + NU)
+        EMAX = GMAX*(ONE + NU)
         EMAX = MAX(EMAX,EA(I))
-        A11  = EMAX/(UN - NU**2)
+        A11  = EMAX/(ONE - NU**2)
         SOUNDSP(I)= SQRT(A11/RHO0(I))
       ENDDO
 C-----------

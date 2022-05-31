@@ -139,17 +139,17 @@ C
        PM(1) = RHOR
        PM(89)= RHO0    
 C           
-      IF(ANU == UNDEMI) ANU=ZEP499
+      IF(ANU == HALF) ANU=ZEP499
       IF(EPSL == ZERO) EPSL=ZEP15
-      IF(CN  == ZERO)  CN    = UN
+      IF(CN  == ZERO)  CN    = ONE
       IF(EPSM == ZERO) EPSM  = EP30
       IF(SIGM == ZERO) SIGM  = EP30
-      IF(CC == ZERO)  EPS0  = UN
-      G=YOUNG/(DEUX*(UN + ANU))
+      IF(CC == ZERO)  EPS0  = ONE
+      G=YOUNG/(TWO*(ONE + ANU))
       E0=ZERO
       C0=ZERO
-      C1=YOUNG/(TROIS*(UN - DEUX*ANU))
-      E1MN2=YOUNG/(UN - ANU**2)            
+      C1=YOUNG/(THREE*(ONE - TWO*ANU))
+      E1MN2=YOUNG/(ONE - ANU**2)            
       EN1N2=ANU*E1MN2
       SDSP =SQRT(YOUNG/MAX(PM(1),EM20))
       HL   =YOUNG * EL / MAX(EM20,YOUNG-EL)
@@ -162,11 +162,11 @@ C
       PM(23)=E0
       PM(24)=E1MN2
       PM(25)=EN1N2
-      PM(26)=CSIX
+      PM(26)=FIVE_OVER_6
       PM(27)=SDSP
-      PM(28)=UN/YOUNG
+      PM(28)=ONE/YOUNG
       PM(29)=-ANU*PM(28)
-      PM(30)=UN/G
+      PM(30)=ONE/G
       PM(31)=C0
       PM(32)=C1
       PM(38)=CA
@@ -184,7 +184,7 @@ C
 C-----------
 C     Formulation for solid elements time step computation.
       IPM(252)= 2
-      PM(105) = DEUX*G/(C1+QTHIRD*G) ! =(1-2*Nu)/(1-Nu)
+      PM(105) = TWO*G/(C1+FOUR_OVER_3*G) ! =(1-2*Nu)/(1-Nu)
 C
       WRITE(IOUT,1010) TRIM(TITR),ID,ILAW
       WRITE(IOUT,1000)     
@@ -198,7 +198,7 @@ C
         WRITE(IOUT,1800)EPSL,EL
       ENDIF
 C
-      IF(CN.GT.UN) THEN
+      IF(CN.GT.ONE) THEN
          CALL ANCMSG(MSGID=213,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -214,7 +214,7 @@ C
      .               I2=ID,
      .               C1=TITR)
       ENDIF
-      IF(EL.GT.ZERO.OR.EL.LE.-YOUNG.OR.EL.LE.-TROIS*G) THEN
+      IF(EL.GT.ZERO.OR.EL.LE.-YOUNG.OR.EL.LE.-THREE*G) THEN
          CALL ANCMSG(MSGID=308,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,

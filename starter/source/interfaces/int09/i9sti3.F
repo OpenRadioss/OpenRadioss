@@ -87,7 +87,7 @@ C-----------------------------------------------
 C
 C--------------------------------------------------------------
 C     CALCUL DES RIGIDITES DES SEGMENTS ET DES NOEUDS
-C     V16 : DANS LE CAS OU UN SEGMENT APPARTIENT A LA FOIS
+C     V16 : DANS LE CAS OU ONE SEGMENT APPARTIENT A LA FOIS
 C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
 C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
 C---------------------------------------------------------------

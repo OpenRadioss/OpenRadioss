@@ -496,21 +496,21 @@ C
             XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X12-XSAV(IDIR,J))
             XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X12-XSAV(IDIR,J))
 C
-            XC = UNDEMI*(X9+X10+X11+X12) - QUART*(X1+X2+X3+X4)
+            XC = HALF*(X9+X10+X11+X12) - FOURTH*(X1+X2+X3+X4)
 C
-            D4 = QUART * ABS(X1-X2)
+            D4 = FOURTH * ABS(X1-X2)
             AN = MIN( X1 , X2 , X9-D4 )
             AX = MAX( X1 , X2 , X9+D4 )
 C
-            D4 = QUART * ABS(X3-X4)
+            D4 = FOURTH * ABS(X3-X4)
             BN = MIN( X3 , X4 , X11-D4 )
             BX = MAX( X3 , X4 , X11+D4 )
 C
-            D4 = QUART * ABS(X12-X10)
+            D4 = FOURTH * ABS(X12-X10)
             CN = MIN( X12 , X10 , XC-D4 )
             CX = MAX( X12 , X10 , XC+D4 )
 C
-            D8 = UNHUIT * MAX( AX-BN , BX-AN )
+            D8 = ONE_OVER_8 * MAX( AX-BN , BX-AN )
             D4 = D8 + D8
             DN = MAX(MIN( AN , BN , CN-D4 ),MIN(AN , BN , CN) - D8 )
             DX = MIN(MAX( AX , BX , CX+D4 ),MAX( AX , BX , CX) + D8 )
@@ -715,21 +715,21 @@ C
 C-----------------------------------------------------------------------
 C           Face 1 2 3 4
 C-----------------------------------------------------------------------
-            XC = UNDEMI*(X9+X10+X11+X12) - QUART*(X1+X2+X3+X4)
+            XC = HALF*(X9+X10+X11+X12) - FOURTH*(X1+X2+X3+X4)
 C
-            D4 = QUART * ABS(X1-X2)
+            D4 = FOURTH * ABS(X1-X2)
             AN12 = MIN( X1 , X2 , X9-D4 )
             AX12 = MAX( X1 , X2 , X9+D4 )
 C
-            D4 = QUART * ABS(X3-X4)
+            D4 = FOURTH * ABS(X3-X4)
             AN34 = MIN( X3 , X4 , X11-D4 )
             AX34 = MAX( X3 , X4 , X11+D4 )
 C
-            D4 = QUART * ABS(X12-X10)
+            D4 = FOURTH * ABS(X12-X10)
             CN = MIN( X12 , X10 , XC-D4 )
             CX = MAX( X12 , X10 , XC+D4 )
 C
-            D8 = UNHUIT * MAX( AX12-AN34 , AX34-AN12 )
+            D8 = ONE_OVER_8 * MAX( AX12-AN34 , AX34-AN12 )
             D4 = D8 + D8
             DN = MAX(MIN(AN12 , AN34 , CN-D4 ),
      .               MIN(AN12 , AN34 , CN) - D8 )
@@ -741,21 +741,21 @@ C
 C-----------------------------------------------------------------------
 C           Face 5 6 7 8
 C-----------------------------------------------------------------------
-            XC = UNDEMI*(X17+X18+X19+X20) - QUART*(X5+X6+X7+X8)
+            XC = HALF*(X17+X18+X19+X20) - FOURTH*(X5+X6+X7+X8)
 C
-            D4 = QUART * ABS(X5-X6)
+            D4 = FOURTH * ABS(X5-X6)
             AN56 = MIN( X5 , X6 , X17-D4 )
             AX56 = MAX( X5 , X6 , X17+D4 )
 C
-            D4 = QUART * ABS(X7-X8)
+            D4 = FOURTH * ABS(X7-X8)
             AN78 = MIN( X7 , X8 , X19-D4 )
             AX78 = MAX( X7 , X8 , X19+D4 )
 C
-            D4 = QUART * ABS(X20-X18)
+            D4 = FOURTH * ABS(X20-X18)
             CN = MIN( X20 , X18 , XC-D4 )
             CX = MAX( X20 , X18 , XC+D4 )
 C
-            D8 = UNHUIT * MAX( AX56-AN78 , AX78-AN56 )
+            D8 = ONE_OVER_8 * MAX( AX56-AN78 , AX78-AN56 )
             D4 = D8 + D8
             DN = MAX(MIN(AN56 , AN78 , CN-D4 ),
      .               MIN(AN56 , AN78 , CN) - D8 )
@@ -767,13 +767,13 @@ C
 C-----------------------------------------------------------------------
 C           Face 1 2 6 5
 C-----------------------------------------------------------------------
-            XC = UNDEMI*(X9+X14+X17+X13) - QUART*(X1+X2+X6+X5)
+            XC = HALF*(X9+X14+X17+X13) - FOURTH*(X1+X2+X6+X5)
 C
-            D4 = QUART * ABS(X13-X14)
+            D4 = FOURTH * ABS(X13-X14)
             CN = MIN( X13 , X14 , XC-D4 )
             CX = MAX( X13 , X14 , XC+D4 )
 C
-            D8 = UNHUIT * MAX( AX12-AN56 , AX56-AN12 )
+            D8 = ONE_OVER_8 * MAX( AX12-AN56 , AX56-AN12 )
             D4 = D8 + D8
             DN = MAX(MIN(AN12 , AN56 , CN-D4 ),
      .               MIN(AN12 , AN56 , CN) - D8 )
@@ -785,13 +785,13 @@ C
 C-----------------------------------------------------------------------
 C           Face 3 4 8 7
 C-----------------------------------------------------------------------
-            XC = UNDEMI*(X11+X15+X19+X16) - QUART*(X3+X4+X8+X7)
+            XC = HALF*(X11+X15+X19+X16) - FOURTH*(X3+X4+X8+X7)
 C
-            D4 = QUART * ABS(X16-X15)
+            D4 = FOURTH * ABS(X16-X15)
             CN = MIN( X15 , X16 , XC-D4 )
             CX = MAX( X15 , X16 , XC+D4 )
 C
-            D8 = UNHUIT * MAX( AX34-AN78 , AX78-AN34 )
+            D8 = ONE_OVER_8 * MAX( AX34-AN78 , AX78-AN34 )
             D4 = D8 + D8
             DN = MAX(MIN(AN34 , AN78 , CN-D4 ),
      .               MIN(AN34 , AN78 , CN) - D8 )
@@ -803,21 +803,21 @@ C
 C-----------------------------------------------------------------------
 C           Face 4 1 5 8
 C-----------------------------------------------------------------------
-            XC = UNDEMI*(X12+X13+X20+X16) - QUART*(X4+X1+X5+X8)
+            XC = HALF*(X12+X13+X20+X16) - FOURTH*(X4+X1+X5+X8)
 C
-            D4 = QUART * ABS(X4-X1)
+            D4 = FOURTH * ABS(X4-X1)
             AN12 = MIN( X4 , X1 , X12-D4 )
             AX12 = MAX( X4 , X1 , X12+D4 )
 C
-            D4 = QUART * ABS(X8-X5)
+            D4 = FOURTH * ABS(X8-X5)
             AN34 = MIN( X8 , X5 , X20-D4 )
             AX34 = MAX( X8 , X5 , X20+D4 )
 C
-            D4 = QUART * ABS(X16-X13)
+            D4 = FOURTH * ABS(X16-X13)
             CN = MIN( X16 , X13 , XC-D4 )
             CX = MAX( X16 , X13 , XC+D4 )
 C
-            D8 = UNHUIT * MAX( AX12-AN34 , AX34-AN12 )
+            D8 = ONE_OVER_8 * MAX( AX12-AN34 , AX34-AN12 )
             D4 = D8 + D8
             DN = MAX(MIN(AN12 , AN34 , CN-D4 ),
      .               MIN(AN12 , AN34 , CN) - D8 )
@@ -829,21 +829,21 @@ C
 C-----------------------------------------------------------------------
 C           Face 3 2 6 7
 C-----------------------------------------------------------------------
-            XC = UNDEMI*(X10+X14+X18+X15) - QUART*(X3+X2+X6+X7)
+            XC = HALF*(X10+X14+X18+X15) - FOURTH*(X3+X2+X6+X7)
 C
-            D4 = QUART * ABS(X3-X2)
+            D4 = FOURTH * ABS(X3-X2)
             AN12 = MIN( X3 , X2 , X10-D4 )
             AX12 = MAX( X3 , X2 , X10+D4 )
 C
-            D4 = QUART * ABS(X7-X6)
+            D4 = FOURTH * ABS(X7-X6)
             AN34 = MIN( X7 , X6 , X18-D4 )
             AX34 = MAX( X7 , X6 , X18+D4 )
 C
-            D4 = QUART * ABS(X15-X14)
+            D4 = FOURTH * ABS(X15-X14)
             CN = MIN( X15 , X14 , XC-D4 )
             CX = MAX( X15 , X14 , XC+D4 )
 C
-            D8 = UNHUIT* MAX( AX12-AN34 , AX34-AN12 )
+            D8 = ONE_OVER_8* MAX( AX12-AN34 , AX34-AN12 )
             D4 = D8 + D8
             DN = MAX(MIN(AN12 , AN34 , CN-D4 ),
      .               MIN(AN12 , AN34 , CN) - D8 )
@@ -964,19 +964,19 @@ C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
 C           Face 1 2 3 4
 C-----------------------------------------------------------------------
-            XC = (DEUX*(X5+X6+X7) - (X1+X2+X3))* THIRD
+            XC = (TWO*(X5+X6+X7) - (X1+X2+X3))* THIRD
             EMINX(IDIR,I)   = MIN( EMINX(IDIR,I)  , XC )
             EMINX(IDIR+3,I) = MAX( EMINX(IDIR+3,I), XC )
 C
-            XC = (DEUX*(X5+X8+X9) - (X1+X2+X4))*THIRD
+            XC = (TWO*(X5+X8+X9) - (X1+X2+X4))*THIRD
             EMINX(IDIR,I)   = MIN( EMINX(IDIR,I)  , XC )
             EMINX(IDIR+3,I) = MAX( EMINX(IDIR+3,I), XC )
 C
-            XC = (DEUX*(X6+X9+X10) - (X2+X3+X4)) * THIRD
+            XC = (TWO*(X6+X9+X10) - (X2+X3+X4)) * THIRD
             EMINX(IDIR,I)   = MIN( EMINX(IDIR,I)  , XC )
             EMINX(IDIR+3,I) = MAX( EMINX(IDIR+3,I), XC )
 C
-            XC = (DEUX*(X7+X8+X10) - (X3+X1+X4)) * THIRD
+            XC = (TWO*(X7+X8+X10) - (X3+X1+X4)) * THIRD
             EMINX(IDIR,I)   = MIN( EMINX(IDIR,I)  , XC )
             EMINX(IDIR+3,I) = MAX( EMINX(IDIR+3,I), XC )
 C

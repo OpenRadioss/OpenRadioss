@@ -131,14 +131,14 @@ C-----------------------------------------------
       IF(ISIGI == ZERO)THEN 
         IF(TIME.EQ.ZERO)THEN
          DO I=1,NEL
-          UVAR(I,12)  = UN
+          UVAR(I,12)  = ONE
          ENDDO   
         ENDIF    
       ENDIF   
 C-----------------------------------------------
       DO I=1,NEL
         IF(OFF(I).LT.EM01) OFF(I)=ZERO
-        IF(OFF(I).LT.UN) OFF(I)=OFF(I)*QCINQ
+        IF(OFF(I).LT.ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       END DO
 C           
         NINDX=0 
@@ -148,12 +148,12 @@ C
 C
                    
         DO I=1,NEL
-         IF (OFF(I) == UN )THEN
+         IF (OFF(I) == ONE )THEN
            IF(IFLAG == 1) THEN
 C-------------------------------     
 C     OFF = 0. one layer fiber or matrix criteria is reached
 C-------------------------------                  
-            IF(UVAR(I,12) < UN)THEN 
+            IF(UVAR(I,12) < ONE)THEN 
               UVAR(I,12)= EXP(-(TIME - UVAR(I,11))/TMAX)  
               IF(UVAR(I,12) < EM02) UVAR(I,12) = ZERO
               SIGNXX(I) = UVAR(I,5)*UVAR(I,12)
@@ -163,7 +163,7 @@ C-------------------------------
               SIGNYZ(I) = UVAR(I,9)*UVAR(I,12)
               SIGNZX(I) = UVAR(I,10)*UVAR(I,12) 
               IF(UVAR(I,12) == ZERO ) THEN
-                OFF(I)=QCINQ 
+                OFF(I)=FOUR_OVER_5 
                 NINDX=NINDX+1
                 INDX(NINDX)=I
                 TDELE(I) = TIME  
@@ -173,25 +173,25 @@ C
 C   direction 33
 C
              DAM = UVAR(I,1)
-             SIG = UNDEMI*(SIGNZZ(I) + ABS(SIGNZZ(I)))
-             YD3 = K3*(UN - DAM)**2
-             YD3 = UNDEMI*SIG*SIG/MAX(YD3, EM20)
+             SIG = HALF*(SIGNZZ(I) + ABS(SIGNZZ(I)))
+             YD3 = K3*(ONE - DAM)**2
+             YD3 = HALF*SIG*SIG/MAX(YD3, EM20)
              YD3 = MAX(YD3, UVAR(I,2))
              UVAR(I,2) = YD3
 C
 C   direction 32
 C
              SIG = SIGNYZ(I) 
-             YD2 = K2*(UN - DAM)**2
-             YD2 = UNDEMI*SIG*SIG/MAX(YD2, EM20)
+             YD2 = K2*(ONE - DAM)**2
+             YD2 = HALF*SIG*SIG/MAX(YD2, EM20)
              YD2 = MAX(YD2, UVAR(I,3))
              UVAR(I,3) = YD2          
 C
 C   direction 13
 C
              SIG = SIGNZX(I)         
-             YD1 = K1*(UN - DAM)**2
-             YD1 = UNDEMI*SIG*SIG/MAX(YD1, EM20)
+             YD1 = K1*(ONE - DAM)**2
+             YD1 = HALF*SIG*SIG/MAX(YD1, EM20)
              YD1 = MAX(YD1, UVAR(I,4))
              UVAR(I,4) = YD1                            
 C
@@ -199,12 +199,12 @@ C  compute new damage
 C              
               YD = YD3 + GAMA1*YD1 + GAMA2*YD2
               DELTA = SQRT(YD) - Y0
-              DELTA = UNDEMI*(DELTA + ABS(DELTA))
+              DELTA = HALF*(DELTA + ABS(DELTA))
               W = DELTA /(YC - Y0)
               CC = W - DAM
-              CC = UNDEMI*(CC + ABS(CC))
+              CC = HALF*(CC + ABS(CC))
               FAC = K*TIMESTEP/A
-              DAM = DAM + FAC*(UN - EXP(-A*CC))
+              DAM = DAM + FAC*(ONE - EXP(-A*CC))
               UVAR(I,1)  = DAM
               IF( DAM >= 1 )THEN 
                UVAR(I,5) = SIGNXX(I)
@@ -214,7 +214,7 @@ C
                UVAR(I,9) = SIGNYZ(I)
                UVAR(I,10) = SIGNZX(I)
                UVAR(I,11) = TIME
-               UVAR(I,12) = QCINQ
+               UVAR(I,12) = FOUR_OVER_5
               ENDIF
              ENDIF
 C             
@@ -230,7 +230,7 @@ C-------------------------------
                 SIGNXY(I) = ZERO
                 SIGNZX(I) = ZERO
                 SIGNYZ(I) = ZERO
-               ELSE IF(UVAR(I,12) < UN) THEN
+               ELSE IF(UVAR(I,12) < ONE) THEN
                 UVAR(I,12)= EXP(-(TIME - UVAR(I,11))/TMAX) 
                 IF(UVAR(I,12) < EM02)UVAR(I,12) = ZERO
                 SIGNXX(I) = UVAR(I,5)*UVAR(I,12)
@@ -244,7 +244,7 @@ C-------------------------------
                    IF(NOFF(I) == NPT0 .OR. NPT0 == 1) THEN
                     NINDX=NINDX+1
                     INDX(NINDX)=I
-                    OFF(I) = QCINQ
+                    OFF(I) = FOUR_OVER_5
                     TDELE(I) = TIME  
                    ENDIF 
                 ENDIF            
@@ -253,25 +253,25 @@ C
 C   direction 33
 C
              DAM = UVAR(I,1)
-             SIG = UNDEMI*(SIGNZZ(I) + ABS(SIGNZZ(I)))
-             YD3 = K3*(UN - DAM)**2
-             YD3 = UNDEMI*SIG*SIG/MAX(YD3, EM20)
+             SIG = HALF*(SIGNZZ(I) + ABS(SIGNZZ(I)))
+             YD3 = K3*(ONE - DAM)**2
+             YD3 = HALF*SIG*SIG/MAX(YD3, EM20)
              YD3 = MAX(YD3, UVAR(I,2))
              UVAR(I,2) = YD3
 C
 C   direction 32
 C
              SIG =SIGNYZ(I)
-             YD2 = K2*(UN - DAM)**2
-             YD2 = UNDEMI*SIG*SIG/MAX(YD2, EM20)
+             YD2 = K2*(ONE - DAM)**2
+             YD2 = HALF*SIG*SIG/MAX(YD2, EM20)
              YD2 = MAX(YD2, UVAR(I,3))
              UVAR(I,3) = YD2             
 C
 C   direction 13
 C
              SIG = SIGNZX(I) 
-             YD1 = K1*(UN - DAM)**2
-             YD1 = UNDEMI*SIG*SIG/MAX(YD1, EM20)
+             YD1 = K1*(ONE - DAM)**2
+             YD1 = HALF*SIG*SIG/MAX(YD1, EM20)
              YD1 = MAX(YD1, UVAR(I,4))
              UVAR(I,4) = YD1                 
 C
@@ -279,14 +279,14 @@ C  compute new damage
 C                 
                 YD = YD3 + GAMA1*YD1 + GAMA2*YD2
                 DELTA = SQRT(YD) - Y0
-                DELTA = UNDEMI*(DELTA + ABS(DELTA))
+                DELTA = HALF*(DELTA + ABS(DELTA))
                 W = DELTA /(YC - Y0)
                 CC = W - DAM
-                CC = UNDEMI*(CC + ABS(CC))
+                CC = HALF*(CC + ABS(CC))
                 FAC = K*TIMESTEP/A
-                DAM = DAM + FAC*(UN - EXP(-A*CC))
+                DAM = DAM + FAC*(ONE - EXP(-A*CC))
                 UVAR(I,1)  = DAM
-                IF(DAM >= UN  )THEN                             
+                IF(DAM >= ONE  )THEN                             
                    UVAR(I,5) =  SIGNXX(I)                                  
                    UVAR(I,6) =  SIGNYY(I)             
                    UVAR(I,7) =  SIGNZZ(I)                                 
@@ -294,7 +294,7 @@ C
                    UVAR(I,9) =  SIGNYZ(I)                                  
                    UVAR(I,10) = SIGNZX(I)                                  
                    UVAR(I,11) = TIME                                       
-                   UVAR(I,12) = QCINQ
+                   UVAR(I,12) = FOUR_OVER_5
                    NINDX0= NINDX0+1
                    INDX0(NINDX0)=I                
                  ENDIF
@@ -307,7 +307,7 @@ C-------------------------------
                 SIGNZZ(I) = ZERO
                 SIGNZX(I) = ZERO
                 SIGNYZ(I) = ZERO
-               ELSE IF(UVAR(I,12) < UN) THEN
+               ELSE IF(UVAR(I,12) < ONE) THEN
                 UVAR(I,12)= EXP(-(TIME - UVAR(I,11))/TMAX) 
                 IF(UVAR(I,12) < EM02)UVAR(I,12) = ZERO
                 SIGNZZ(I) = UVAR(I,7)*UVAR(I,12)
@@ -320,7 +320,7 @@ c                  NOFF(I) = NOFF(I) + 1
                   IF (INT(NOFF(I))==NPT0 .OR. NPT0 == 1)THEN
 c                    NINDX=NINDX+1                             
 c                    INDX(NINDX)=I                             
-c                    OFF(I) = QCINQ  
+c                    OFF(I) = FOUR_OVER_5  
                   ENDIF            
                 ENDIF            
 c
@@ -329,25 +329,25 @@ C
 C   direction 33
 C
                 DAM = UVAR(I,1)
-                SIG = UNDEMI*(SIGNZZ(I) + ABS(SIGNZZ(I)))
-                YD3 = K3*(UN - DAM)**2
-                YD3 = UNDEMI*SIG*SIG/MAX(YD3, EM20)
+                SIG = HALF*(SIGNZZ(I) + ABS(SIGNZZ(I)))
+                YD3 = K3*(ONE - DAM)**2
+                YD3 = HALF*SIG*SIG/MAX(YD3, EM20)
                 YD3 = MAX(YD3, UVAR(I,2))
                 UVAR(I,2) = YD3
 C
 C   direction 32
 C
                 SIG = SIGNYZ(I) 
-                YD2 = K2*(UN - DAM)**2
-                YD2 = UNDEMI*SIG*SIG/MAX(YD2, EM20)
+                YD2 = K2*(ONE - DAM)**2
+                YD2 = HALF*SIG*SIG/MAX(YD2, EM20)
                 YD2 = MAX(YD2, UVAR(I,3))
                 UVAR(I,3) = YD2             
 C
 C   direction 13
 C
                 SIG = SIGNZX(I) 
-                YD1 = K1*(UN - DAM)**2
-                YD1 = UNDEMI*SIG*SIG/MAX(YD1, EM20)
+                YD1 = K1*(ONE - DAM)**2
+                YD1 = HALF*SIG*SIG/MAX(YD1, EM20)
                 YD1 = MAX(YD1, UVAR(I,4))
                 UVAR(I,4) = YD1                 
 C
@@ -355,19 +355,19 @@ C  compute new damage
 C                 
                 YD = YD3 + GAMA1*YD1 + GAMA2*YD2
                 DELTA = SQRT(YD) - Y0
-                DELTA = UNDEMI*(DELTA + ABS(DELTA))
+                DELTA = HALF*(DELTA + ABS(DELTA))
                 W = DELTA /(YC - Y0)
                 CC = W - DAM
-                CC = UNDEMI*(CC + ABS(CC))
+                CC = HALF*(CC + ABS(CC))
                 FAC = K*TIMESTEP/A
-                DAM = DAM + FAC*(UN - EXP(-A*CC))
+                DAM = DAM + FAC*(ONE - EXP(-A*CC))
                 UVAR(I,1)  = DAM
-                IF(DAM >= UN  )THEN                                    
+                IF(DAM >= ONE  )THEN                                    
                    UVAR(I,7)  = SIGNZZ(I)                                  
                    UVAR(I,9)  = SIGNYZ(I)                                  
                    UVAR(I,10) = SIGNZX(I)                                  
                    UVAR(I,11) = TIME                                       
-                   UVAR(I,12) = QCINQ   
+                   UVAR(I,12) = FOUR_OVER_5   
                  ENDIF
                ENDIF
              ENDIF  !  iflag choice 
@@ -376,7 +376,7 @@ C
 C
 C-----Maximum Damage storing for output : 0 < DFMAX < 1
       DO I=1,NEL
-        DFMAX(I) = MIN(UN,MAX(DFMAX(I),UVAR(I,1)))
+        DFMAX(I) = MIN(ONE,MAX(DFMAX(I),UVAR(I,1)))
       ENDDO  
 C-------------------------------------------- 
       IF(NINDX > 0)THEN

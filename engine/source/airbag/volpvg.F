@@ -112,34 +112,34 @@ C
             AMTOT=AMTOT-DMOUT*DT1
 C     
 C     CALCUL DE L ENERGIE PUIS DE LA PRESSION
-            FAC  = UNDEMI*(GAMA-UN)*DV
+            FAC  = HALF*(GAMA-ONE)*DV
             IF(TRELAX == ZERO .OR. TT > TRELAX)THEN
                DEIN = ZERO
             ELSE
                DEIN = RVOLU(52)
             ENDIF
-            ENERGY= ((UN-FAC/(VOLD-VINC))*ENERG_OLD +(DEIN-DEOUT)*DT1) /
-     .           (UN+FAC/(VOL-VINC))
+            ENERGY= ((ONE-FAC/(VOLD-VINC))*ENERG_OLD +(DEIN-DEOUT)*DT1) /
+     .           (ONE+FAC/(VOL-VINC))
             ENERGY = MAX(ENERGY,ZERO)
 C     
-            PRES=(GAMA-UN)*ENERGY/(VOL-VINC)
+            PRES=(GAMA-ONE)*ENERGY/(VOL-VINC)
          ELSE IF (IEQUI == 1) THEN
             IF (TT <= TRELAX) THEN
                PRES = PEXT + TT * (PINI - PEXT) / TRELAX 
-               ENERGY = PRES * (VOL - VINC) / (GAMA - UN) 
+               ENERGY = PRES * (VOL - VINC) / (GAMA - ONE) 
                AMTOT = M0 * PRES * VOL / (PEXT * VOL0)
             ELSE
                PRES = PEXT * AMTOT / M0 * VOL0 / VOL
-               ENERGY = PRES * (VOL - VINC) / (GAMA - UN)
+               ENERGY = PRES * (VOL - VINC) / (GAMA - ONE)
             ENDIF
          ELSE IF (IEQUI == 2) THEN
             IF (TT <= TRELAX) THEN
                PRES = PEXT + TT * (PINI - PEXT) / TRELAX 
-               ENERGY = PRES * (VOL - VINC) / (GAMA - UN) 
-               AMTOT = M0 * (PRES / PEXT)**(UN / GAMA) * VOL / VOL0
+               ENERGY = PRES * (VOL - VINC) / (GAMA - ONE) 
+               AMTOT = M0 * (PRES / PEXT)**(ONE / GAMA) * VOL / VOL0
             ELSE
                PRES = PEXT * (AMTOT / M0 * VOL0 / VOL)**GAMA
-               ENERGY = PRES * (VOL - VINC) / (GAMA - UN)
+               ENERGY = PRES * (VOL - VINC) / (GAMA - ONE)
             ENDIF
          ENDIF
          IF (IEQUI /= 0) THEN
@@ -172,7 +172,7 @@ C
       RVOLU(12) = PRES
 C
       IF (ISPMD+1.EQ.PMAIN) THEN
-        TFEXT=TFEXT+(UNDEMI*(Q+QOLD+PRES+POLD)-PEXT)*DV
+        TFEXT=TFEXT+(HALF*(Q+QOLD+PRES+POLD)-PEXT)*DV
         FSAV(1)=AMTOT
         FSAV(2)=VOL
         FSAV(3)=PRES
@@ -282,7 +282,7 @@ C
        AREA   =RVOLU(18)
 C
        RO    = AMTOT/(VOL-VINC)
-       PCRIT = P*(DEUX/(GAMA+UN))**(GAMA/(GAMA-UN))
+       PCRIT = P*(TWO/(GAMA+ONE))**(GAMA/(GAMA-ONE))
 C
 C      FLUX SORTANT PAR LES TROUS
 C
@@ -451,15 +451,15 @@ C
 C-------
        IF(AOUTOT.GT.0.)THEN
            PEXT = MAX(PEXT,PCRIT)
-           U=DEUX*GAMA/(GAMA-UN)*P/RO*(UN-(PEXT/P)**((GAMA-UN)/GAMA))
+           U=TWO*GAMA/(GAMA-ONE)*P/RO*(ONE-(PEXT/P)**((GAMA-ONE)/GAMA))
            U=SQRT(U)
-           DE=(ENERGY/(VOL-VINC)+P)*(PEXT/P)**(UN/GAMA)
-           U=MIN(U,(P-PEXT)*UNDEMI*(VOL-VINC)
-     .      /(GAMA-UN)/DE/MAX(EM20,AOUTOT*DT1))
-           U=MIN(U,UNDEMI*(VOL-VINC)/MAX(EM20,AOUTOT*DT1))
+           DE=(ENERGY/(VOL-VINC)+P)*(PEXT/P)**(ONE/GAMA)
+           U=MIN(U,(P-PEXT)*HALF*(VOL-VINC)
+     .      /(GAMA-ONE)/DE/MAX(EM20,AOUTOT*DT1))
+           U=MIN(U,HALF*(VOL-VINC)/MAX(EM20,AOUTOT*DT1))
            FLOUT=AOUTOT*U
            DEOUT=FLOUT*DE
-           DMOUT=FLOUT*RO*(PEXT/P)**(UN/GAMA)
+           DMOUT=FLOUT*RO*(PEXT/P)**(ONE/GAMA)
        ELSE
            U=ZERO
            DEOUT=ZERO

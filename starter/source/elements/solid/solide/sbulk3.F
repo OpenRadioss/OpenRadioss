@@ -92,7 +92,7 @@ C
 C 
 C     4 nodes tetrahedra
       DO I=LFT,LLT
-       AV1 =VOLU(I)*QUART
+       AV1 =VOLU(I)*FOURTH
        VNS(1,I)=AV1
        VNS(3,I)=AV1
        VNS(6,I)=AV1
@@ -108,7 +108,7 @@ C
 C     Penta6 :
 60    CONTINUE
       DO I=LFT,LLT
-       AV1 =VOLU(I)*UNSIX
+       AV1 =VOLU(I)*ONE_OVER_6
        VNS(1,I)=AV1
        VNS(2,I)=AV1
        VNS(3,I)=AV1
@@ -128,7 +128,7 @@ C
 C     8 nodes bricks :
 80    CONTINUE
       DO I=LFT,LLT
-       AV1 =VOLU(I)*UNHUIT
+       AV1 =VOLU(I)*ONE_OVER_8
        VNS(1,I)=AV1
        VNS(2,I)=AV1
        VNS(3,I)=AV1
@@ -152,9 +152,9 @@ C
 C     10 nodes tetrahedra :
 100   CONTINUE
       DO I=LFT,LLT
-       FAC=TQUATORZE
-       AV1 = VOLU(I)*FAC/(QUATRE*FAC+SIX)
-       AV2 = VOLU(I)*UN /(QUATRE*FAC+SIX)
+       FAC=TRHEE_OVER_14
+       AV1 = VOLU(I)*FAC/(FOUR*FAC+SIX)
+       AV2 = VOLU(I)*ONE /(FOUR*FAC+SIX)
        VNS(1,I)=AV1
        VNS(3,I)=AV1
        VNS(6,I)=AV1
@@ -174,10 +174,10 @@ C     10 nodes tetrahedra :
            N1 =IPERM103(N11)
            N22=IPERM102(N)
            N2 =IPERM103(N22)
-           VNS(N1,I)=VNS(N1,I)+UNDEMI*AV2
-           VNS(N2,I)=VNS(N2,I)+UNDEMI*AV2
-           BNS(N1,I)=BNS(N1,I)+UNDEMI*CV2
-           BNS(N2,I)=BNS(N2,I)+UNDEMI*CV2
+           VNS(N1,I)=VNS(N1,I)+HALF*AV2
+           VNS(N2,I)=VNS(N2,I)+HALF*AV2
+           BNS(N1,I)=BNS(N1,I)+HALF*CV2
+           BNS(N2,I)=BNS(N2,I)+HALF*CV2
          ENDIF
        ENDDO
       ENDDO
@@ -186,8 +186,8 @@ C
 C     16 nodes thick shells :
 160   CONTINUE
       DO I=LFT,LLT
-       AV1 = VOLU(I)/TRENTE2
-       AV2 = VOLU(I)*TROIS/TRENTE2
+       AV1 = VOLU(I)/THIRTY2
+       AV2 = VOLU(I)*THREE/THIRTY2
        VNS(1,I)=AV1
        VNS(2,I)=AV1
        VNS(3,I)=AV1
@@ -213,10 +213,10 @@ C     16 nodes thick shells :
          ELSE
            N1=IPERM161(N)
            N2=IPERM162(N)
-           VNS(N1,I)=VNS(N1,I)+UNDEMI*AV2
-           VNS(N2,I)=VNS(N2,I)+UNDEMI*AV2
-           BNS(N1,I)=BNS(N1,I)+UNDEMI*CV2
-           BNS(N2,I)=BNS(N2,I)+UNDEMI*CV2
+           VNS(N1,I)=VNS(N1,I)+HALF*AV2
+           VNS(N2,I)=VNS(N2,I)+HALF*AV2
+           BNS(N1,I)=BNS(N1,I)+HALF*CV2
+           BNS(N2,I)=BNS(N2,I)+HALF*CV2
          ENDIF
        ENDDO
       ENDDO
@@ -225,9 +225,9 @@ C
 C     20 nodes bricks :
 200   CONTINUE
       DO I=LFT,LLT
-       FAC=TQUATORZE
-       AV1 = VOLU(I)*FAC/(HUIT*FAC+DOUZE)
-       AV2 = VOLU(I)*UN /(HUIT*FAC+DOUZE)
+       FAC=TRHEE_OVER_14
+       AV1 = VOLU(I)*FAC/(EIGHT*FAC+TWELVE)
+       AV2 = VOLU(I)*ONE /(EIGHT*FAC+TWELVE)
        VNS(1,I)=AV1
        VNS(2,I)=AV1
        VNS(3,I)=AV1
@@ -253,10 +253,10 @@ C     20 nodes bricks :
          ELSE
            N1=IPERM201(N)
            N2=IPERM202(N)
-           VNS(N1,I)=VNS(N1,I)+UNDEMI*AV2
-           VNS(N2,I)=VNS(N2,I)+UNDEMI*AV2
-           BNS(N1,I)=BNS(N1,I)+UNDEMI*CV2
-           BNS(N2,I)=BNS(N2,I)+UNDEMI*CV2
+           VNS(N1,I)=VNS(N1,I)+HALF*AV2
+           VNS(N2,I)=VNS(N2,I)+HALF*AV2
+           BNS(N1,I)=BNS(N1,I)+HALF*CV2
+           BNS(N2,I)=BNS(N2,I)+HALF*CV2
          ENDIF
        ENDDO
       ENDDO

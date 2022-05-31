@@ -125,15 +125,15 @@ C----------------------------
         X6(I)=X(1,NC6(I))
         Y6(I)=X(2,NC6(I))
         Z6(I)=X(3,NC6(I))
-        OFF(I) = MIN(UN,ABS(OFFG(I)))
+        OFF(I) = MIN(ONE,ABS(OFFG(I)))
       ENDDO
 C-----------
 C     REPERE CONVECTE (ITERATIONS).
 C-----------
       DO I=LFT,LLT
-        XL=UNSIX*(X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I))
-        YL=UNSIX*(Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I))
-        ZL=UNSIX*(Z1(I)+Z2(I)+Z3(I)+Z4(I)+Z5(I)+Z6(I))
+        XL=ONE_OVER_6*(X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I))
+        YL=ONE_OVER_6*(Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I))
+        ZL=ONE_OVER_6*(Z1(I)+Z2(I)+Z3(I)+Z4(I)+Z5(I)+Z6(I))
         X1(I)=X1(I)-XL
         Y1(I)=Y1(I)-YL
         Z1(I)=Z1(I)-ZL
@@ -165,7 +165,7 @@ C-----------
       IF((ISMSTR.EQ.1.OR.ISMSTR.EQ.3).OR.
      .   (ISMSTR.EQ.2.AND.IDTMIN(1).EQ.3))THEN
        DO I=LFT,LLT
-       IF(OFFG(I).EQ.DEUX)THEN
+       IF(OFFG(I).EQ.TWO)THEN
         X1(I)=SAV(I,1)
         Y1(I)=SAV(I,2)
         Z1(I)=SAV(I,3)
@@ -184,10 +184,10 @@ C-----------
         X6(I)=ZERO
         Y6(I)=ZERO
         Z6(I)=ZERO
-        OFF(I) = UN
-        XL=UNSIX*(X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I))
-        YL=UNSIX*(Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I))
-        ZL=UNSIX*(Z1(I)+Z2(I)+Z3(I)+Z4(I)+Z5(I)+Z6(I))
+        OFF(I) = ONE
+        XL=ONE_OVER_6*(X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I))
+        YL=ONE_OVER_6*(Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I))
+        ZL=ONE_OVER_6*(Z1(I)+Z2(I)+Z3(I)+Z4(I)+Z5(I)+Z6(I))
         X1(I)=X1(I)-XL
         Y1(I)=Y1(I)-YL
         Z1(I)=Z1(I)-ZL
@@ -286,7 +286,7 @@ C
         X6(I)=XL
         Y6(I)=YL
         Z6(I)=-Z3(I)
-        OFF(I) = MIN(UN,OFFG(I))
+        OFF(I) = MIN(ONE,OFFG(I))
        ENDDO
 C
        ENDIF

@@ -65,13 +65,13 @@ C-----------------------------------------------
         RSOM(1)=(RLXYZV(I,1,4)+RLXYZV(I,1,3)+RLXYZV(I,1,1)
      .         +RLXYZV(I,1,2))*AA(I)
         RHI(1) =(RLXYZV(I,1,1)-RLXYZV(I,1,2)+RLXYZV(I,1,3)
-     .         -RLXYZV(I,1,4))*QUART
+     .         -RLXYZV(I,1,4))*FOURTH
         R13(2) =(RLXYZV(I,2,1)-RLXYZV(I,2,3))*AA(I)
         R24(2) =(RLXYZV(I,2,2)-RLXYZV(I,2,4))*AA(I)
         RSOM(2)=(RLXYZV(I,2,4)+RLXYZV(I,2,3)+RLXYZV(I,2,1)
      .         +RLXYZV(I,2,2))*AA(I)
         RHI(2) =(RLXYZV(I,2,1)-RLXYZV(I,2,2)+RLXYZV(I,2,3)
-     .         - RLXYZV(I,2,4))*QUART
+     .         - RLXYZV(I,2,4))*FOURTH
 C---------------
 C  MEMBRANE
 C---------------
@@ -91,7 +91,7 @@ C---------
 C--------
 C  C.T
 C--------
-        BCXY=AREA(I)*QUART
+        BCXY=AREA(I)*FOURTH
         BCX=V13(I,3)-MY13(I)*R13(1)+MX13(I)*R13(2)
         BCY=V24(I,3)+MY13(I)*R24(1)-MX13(I)*R24(2)
         VDEF(I,4)=Y24(I)*BCX-Y13(I)*BCY+BCXY*RSOM(2)
@@ -104,9 +104,9 @@ C----------------------------------
         VHG(I,3)= RHI(2)-MX13(I)*VDEF(I,6)-MY13(I)*BYR2     
         VHG(I,4)=-RHI(1)-MX13(I)*BXR1     -MY13(I)*VDEF(I,7)
         VHG(I,5)=(VHI(I,3)*4.-(MY13(I)*RSOM(1)-MY23(I)*(R13(1)+R24(1))
-     1         +MX23(I)*(R13(2)+R24(2))-MX13(I)*RSOM(2))*AREA(I))*QUATRE
+     1         +MX23(I)*(R13(2)+R24(2))-MX13(I)*RSOM(2))*AREA(I))*FOUR
         VHG(I,6)=(VHI(I,3)*4.-(MY13(I)*RSOM(1)-MY34(I)*(R13(1)-R24(1))
-     1         +MX34(I)*(R13(2)-R24(2))-MX13(I)*RSOM(2))*AREA(I))*QUATRE
+     1         +MX34(I)*(R13(2)-R24(2))-MX13(I)*RSOM(2))*AREA(I))*FOUR
 C 
         VHG(I,1)=VHG(I,1)+( Y24(I)*V13(I,3)-Y13(I)*V24(I,3))*Z1(I)
         VHG(I,2)=VHG(I,2)+(-X24(I)*V13(I,3)+X13(I)*V24(I,3))*Z1(I)
@@ -118,13 +118,13 @@ C
         RSOM(1)=(RLXYZ(I,1,4)+RLXYZ(I,1,3)+RLXYZ(I,1,1)+RLXYZ(I,1,2))
      .         *AA(I)
         RHI(1) =(RLXYZ(I,1,1)-RLXYZ(I,1,2)+RLXYZ(I,1,3)-RLXYZ(I,1,4))
-     .         *QUART
+     .         *FOURTH
         R13(2) =(RLXYZ(I,2,1)-RLXYZ(I,2,3))*AA(I)
         R24(2) =(RLXYZ(I,2,2)-RLXYZ(I,2,4))*AA(I)
         RSOM(2)=(RLXYZ(I,2,4)+RLXYZ(I,2,3)+RLXYZ(I,2,1)+RLXYZ(I,2,2))
      .         *AA(I)
         RHI(2) =(RLXYZ(I,2,1)-RLXYZ(I,2,2)+RLXYZ(I,2,3)-RLXYZ(I,2,4))
-     .         *QUART
+     .         *FOURTH
 C---------------
 C  MEMBRANE
 C---------------
@@ -144,7 +144,7 @@ C---------
 C--------
 C  C.T
 C--------
-        BCXY=AREA(I)*QUART
+        BCXY=AREA(I)*FOURTH
         BCX=V13(I,3)-MY13(I)*R13(1)+MX13(I)*R13(2)
         BCY=V24(I,3)+MY13(I)*R24(1)-MX13(I)*R24(2)
         VDEF(I,4)=Y24(I)*BCX-Y13(I)*BCY+BCXY*RSOM(2)
@@ -157,16 +157,16 @@ C----------------------------------
         VHG(I,3)= RHI(2)-MX13(I)*VDEF(I,6)-MY13(I)*BYR2     
         VHG(I,4)=-RHI(1)-MX13(I)*BXR1     -MY13(I)*VDEF(I,7)
         VHG(I,5)=(VHI(I,3)*4.-(MY13(I)*RSOM(1)-MY23(I)*(R13(1)+R24(1))
-     1         +MX23(I)*(R13(2)+R24(2))-MX13(I)*RSOM(2))*AREA(I))*QUATRE
+     1         +MX23(I)*(R13(2)+R24(2))-MX13(I)*RSOM(2))*AREA(I))*FOUR
         VHG(I,6)=(VHI(I,3)*4.-(MY13(I)*RSOM(1)-MY34(I)*(R13(1)-R24(1))
-     1         +MX34(I)*(R13(2)-R24(2))-MX13(I)*RSOM(2))*AREA(I))*QUATRE
+     1         +MX34(I)*(R13(2)-R24(2))-MX13(I)*RSOM(2))*AREA(I))*FOUR
 C 
         VHG(I,1)=VHG(I,1)+( Y24(I)*V13(I,3)-Y13(I)*V24(I,3))*Z1(I)
         VHG(I,2)=VHG(I,2)+(-X24(I)*V13(I,3)+X13(I)*V24(I,3))*Z1(I)
       ENDDO
       ENDIF
       DO I=JFT,JLT
-       DETA1=Z1(I)*QUATRE*AA(I)
+       DETA1=Z1(I)*FOUR*AA(I)
        VDEF(I,6)=VDEF(I,6)+(X13(I)*V13(I,1)-X24(I)*V24(I,1))*DETA1
        VDEF(I,7)=VDEF(I,7)+(Y13(I)*V13(I,2)-Y24(I)*V24(I,2))*DETA1
        VDEF(I,8)=VDEF(I,8)+(X13(I)*V13(I,2)-X24(I)*V24(I,2)+
@@ -174,7 +174,7 @@ C
       ENDDO
       OFF_L = ZERO
       DO I=JFT,JLT
-        OFF(I) = MIN(UN,ABS(OFFG(I)))
+        OFF(I) = MIN(ONE,ABS(OFFG(I)))
         OFF_L  = MIN(OFF_L,OFFG(I))
       ENDDO
       IF(OFF_L.LT.ZERO)THEN
@@ -258,7 +258,7 @@ C--------NxI,x *A------pay attention Bi*A--- RLZ: VRZ/A--
         BYV1=-X24(I)*V13(I,1)+X13(I)*V24(I,1)
         VRLZ(I)=(BXV2-BYV1+
      1           BM0RZ(I,4,1)*RLZ(I,1)+BM0RZ(I,4,2)*RLZ(I,2)
-     1          +BM0RZ(I,4,3)*RLZ(I,3)+BM0RZ(I,4,4)*RLZ(I,4))*UNDEMI
+     1          +BM0RZ(I,4,3)*RLZ(I,3)+BM0RZ(I,4,4)*RLZ(I,4))*HALF
       ENDDO
 C---------------
 C  Hourglass : 3: 4:
@@ -277,7 +277,7 @@ C        DHX =VHG(I,1)-( Y24(I)*V13(I,3)-Y13(I)*V24(I,3))*Z1(I)
 C        DHY =VHG(I,2)-(-X24(I)*V13(I,3)+X13(I)*V24(I,3))*Z1(I)
         DHX =VHG(I,1)
         DHY =VHG(I,2)
-        C3=QUATRE*AA(I)
+        C3=FOUR*AA(I)
         HXX=C3*MY34(I)
         HYY=C3*MX34(I)
         HXX_K=C3*MY23(I)
@@ -322,22 +322,22 @@ C-----------------------------------------------
      .   XIJ(MVSIZ,4),YIJ(MVSIZ,4),XIL(MVSIZ,4),YIL(MVSIZ,4)
 C--------(14,23,32,41)/4---------------------------------------
       DO I=JFT,JLT
-       XIJ(I,1) = UNDEMI*(MX13(I)-MX34(I))
-       XIJ(I,2) = UNDEMI*(X13(I)+MX23(I)-MX13(I))
+       XIJ(I,1) = HALF*(MX13(I)-MX34(I))
+       XIJ(I,2) = HALF*(X13(I)+MX23(I)-MX13(I))
        XIJ(I,3) = -XIJ(I,2)
        XIJ(I,4) = -XIJ(I,1)
-       YIJ(I,1) = UNDEMI*(MY13(I)-MY34(I))
-       YIJ(I,2) = UNDEMI*(Y13(I)+MY23(I)-MY13(I))
+       YIJ(I,1) = HALF*(MY13(I)-MY34(I))
+       YIJ(I,2) = HALF*(Y13(I)+MY23(I)-MY13(I))
        YIJ(I,3) = -YIJ(I,2)
        YIJ(I,4) = -YIJ(I,1)
 C--------(12,21,34,43)/4---------------------------------------
-       XIL(I,1) = UNDEMI*(MX13(I)-MX23(I))
+       XIL(I,1) = HALF*(MX13(I)-MX23(I))
        XIL(I,2) = -XIL(I,1)
-       XIL(I,3) = UNDEMI*(MX13(I)-MX34(I)-X13(I))
+       XIL(I,3) = HALF*(MX13(I)-MX34(I)-X13(I))
        XIL(I,4) = -XIL(I,3)
-       YIL(I,1) = UNDEMI*(MY13(I)-MY23(I))
+       YIL(I,1) = HALF*(MY13(I)-MY23(I))
        YIL(I,2) = -YIL(I,1)
-       YIL(I,3) = UNDEMI*(MY13(I)-MY34(I)-Y13(I))
+       YIL(I,3) = HALF*(MY13(I)-MY34(I)-Y13(I))
        YIL(I,4) = -YIL(I,3)
       ENDDO
 C      
@@ -349,15 +349,15 @@ C-------- MY34YIJ KSI - MY23YIL ETA
        BM0RZ(I,1,3) = ( MY34(I)*YIJ(I,3)-MY23(I)*YIL(I,3))
        BM0RZ(I,1,4) = (-MY34(I)*YIJ(I,4)-MY23(I)*YIL(I,4))
 C-------- MY13YIJ KSI - 2MY34YIL      
-       BMKRZ(I,1,1) = (-MY13(I)*YIJ(I,1)-DEUX*MY34(I)*YIL(I,1))
-       BMKRZ(I,1,2) = ( MY13(I)*YIJ(I,2)-DEUX*MY34(I)*YIL(I,2))
-       BMKRZ(I,1,3) = ( MY13(I)*YIJ(I,3)-DEUX*MY34(I)*YIL(I,3))
-       BMKRZ(I,1,4) = (-MY13(I)*YIJ(I,4)-DEUX*MY34(I)*YIL(I,4))
+       BMKRZ(I,1,1) = (-MY13(I)*YIJ(I,1)-TWO*MY34(I)*YIL(I,1))
+       BMKRZ(I,1,2) = ( MY13(I)*YIJ(I,2)-TWO*MY34(I)*YIL(I,2))
+       BMKRZ(I,1,3) = ( MY13(I)*YIJ(I,3)-TWO*MY34(I)*YIL(I,3))
+       BMKRZ(I,1,4) = (-MY13(I)*YIJ(I,4)-TWO*MY34(I)*YIL(I,4))
 C-------- -MY13YIL ETA + 2MY23YIJ      
-       BMERZ(I,1,1) = ( MY13(I)*YIL(I,1)+DEUX*MY23(I)*YIJ(I,1))
-       BMERZ(I,1,2) = ( MY13(I)*YIL(I,2)+DEUX*MY23(I)*YIJ(I,2))
-       BMERZ(I,1,3) = (-MY13(I)*YIL(I,3)+DEUX*MY23(I)*YIJ(I,3))
-       BMERZ(I,1,4) = (-MY13(I)*YIL(I,4)+DEUX*MY23(I)*YIJ(I,4))
+       BMERZ(I,1,1) = ( MY13(I)*YIL(I,1)+TWO*MY23(I)*YIJ(I,1))
+       BMERZ(I,1,2) = ( MY13(I)*YIL(I,2)+TWO*MY23(I)*YIJ(I,2))
+       BMERZ(I,1,3) = (-MY13(I)*YIL(I,3)+TWO*MY23(I)*YIJ(I,3))
+       BMERZ(I,1,4) = (-MY13(I)*YIL(I,4)+TWO*MY23(I)*YIJ(I,4))
 C -------NyI,y *A-------------      
 C-------- MX34XIJ KSI - MX23XIL ETA       
        BM0RZ(I,2,1) = (-MX34(I)*XIJ(I,1)+MX23(I)*XIL(I,1))
@@ -365,15 +365,15 @@ C-------- MX34XIJ KSI - MX23XIL ETA
        BM0RZ(I,2,3) = ( MX34(I)*XIJ(I,3)-MX23(I)*XIL(I,3))
        BM0RZ(I,2,4) = (-MX34(I)*XIJ(I,4)-MX23(I)*XIL(I,4))
 C-------- MX13XIJ KSI - 2MX34XIL      
-       BMKRZ(I,2,1) = (-MX13(I)*XIJ(I,1)-DEUX*MX34(I)*XIL(I,1))
-       BMKRZ(I,2,2) = ( MX13(I)*XIJ(I,2)-DEUX*MX34(I)*XIL(I,2))
-       BMKRZ(I,2,3) = ( MX13(I)*XIJ(I,3)-DEUX*MX34(I)*XIL(I,3))
-       BMKRZ(I,2,4) = (-MX13(I)*XIJ(I,4)-DEUX*MX34(I)*XIL(I,4))
+       BMKRZ(I,2,1) = (-MX13(I)*XIJ(I,1)-TWO*MX34(I)*XIL(I,1))
+       BMKRZ(I,2,2) = ( MX13(I)*XIJ(I,2)-TWO*MX34(I)*XIL(I,2))
+       BMKRZ(I,2,3) = ( MX13(I)*XIJ(I,3)-TWO*MX34(I)*XIL(I,3))
+       BMKRZ(I,2,4) = (-MX13(I)*XIJ(I,4)-TWO*MX34(I)*XIL(I,4))
 C-------- -MX13XIL ETA + 2MX23XIJ      
-       BMERZ(I,2,1) = ( MX13(I)*XIL(I,1)+DEUX*MX23(I)*XIJ(I,1))
-       BMERZ(I,2,2) = ( MX13(I)*XIL(I,2)+DEUX*MX23(I)*XIJ(I,2))
-       BMERZ(I,2,3) = (-MX13(I)*XIL(I,3)+DEUX*MX23(I)*XIJ(I,3))
-       BMERZ(I,2,4) = (-MX13(I)*XIL(I,4)+DEUX*MX23(I)*XIJ(I,4))
+       BMERZ(I,2,1) = ( MX13(I)*XIL(I,1)+TWO*MX23(I)*XIJ(I,1))
+       BMERZ(I,2,2) = ( MX13(I)*XIL(I,2)+TWO*MX23(I)*XIJ(I,2))
+       BMERZ(I,2,3) = (-MX13(I)*XIL(I,3)+TWO*MX23(I)*XIJ(I,3))
+       BMERZ(I,2,4) = (-MX13(I)*XIL(I,4)+TWO*MX23(I)*XIJ(I,4))
 C--------NxI,y *A    
 C-------- -MX34YIJ KSI + MX23YIL ETA       
        BM0RZ(I,3,1) = ( MX34(I)*YIJ(I,1)-MX23(I)*YIL(I,1))
@@ -381,15 +381,15 @@ C-------- -MX34YIJ KSI + MX23YIL ETA
        BM0RZ(I,3,3) = (-MX34(I)*YIJ(I,3)+MX23(I)*YIL(I,3))
        BM0RZ(I,3,4) = ( MX34(I)*YIJ(I,4)+MX23(I)*YIL(I,4))
 C-------- -MX13YIJ KSI + 2MX34YIL      
-       BMKRZ(I,3,1) = ( MX13(I)*YIJ(I,1)+DEUX*MX34(I)*YIL(I,1))
-       BMKRZ(I,3,2) = (-MX13(I)*YIJ(I,2)+DEUX*MX34(I)*YIL(I,2))
-       BMKRZ(I,3,3) = (-MX13(I)*YIJ(I,3)+DEUX*MX34(I)*YIL(I,3))
-       BMKRZ(I,3,4) = ( MX13(I)*YIJ(I,4)+DEUX*MX34(I)*YIL(I,4))
+       BMKRZ(I,3,1) = ( MX13(I)*YIJ(I,1)+TWO*MX34(I)*YIL(I,1))
+       BMKRZ(I,3,2) = (-MX13(I)*YIJ(I,2)+TWO*MX34(I)*YIL(I,2))
+       BMKRZ(I,3,3) = (-MX13(I)*YIJ(I,3)+TWO*MX34(I)*YIL(I,3))
+       BMKRZ(I,3,4) = ( MX13(I)*YIJ(I,4)+TWO*MX34(I)*YIL(I,4))
 C-------- MX13YIL ETA - 2MX23YIJ      
-       BMERZ(I,3,1) = (-MX13(I)*YIL(I,1)-DEUX*MX23(I)*YIJ(I,1))
-       BMERZ(I,3,2) = (-MX13(I)*YIL(I,2)-DEUX*MX23(I)*YIJ(I,2))
-       BMERZ(I,3,3) = ( MX13(I)*YIL(I,3)-DEUX*MX23(I)*YIJ(I,3))
-       BMERZ(I,3,4) = ( MX13(I)*YIL(I,4)-DEUX*MX23(I)*YIJ(I,4))
+       BMERZ(I,3,1) = (-MX13(I)*YIL(I,1)-TWO*MX23(I)*YIJ(I,1))
+       BMERZ(I,3,2) = (-MX13(I)*YIL(I,2)-TWO*MX23(I)*YIJ(I,2))
+       BMERZ(I,3,3) = ( MX13(I)*YIL(I,3)-TWO*MX23(I)*YIJ(I,3))
+       BMERZ(I,3,4) = ( MX13(I)*YIL(I,4)-TWO*MX23(I)*YIJ(I,4))
 C--------NyI,x *A   
 C-------- -MY34XIJ KSI + MY23XIJ ETA       
        BM0RZ(I,4,1) = ( MY34(I)*XIJ(I,1)-MY23(I)*XIL(I,1))
@@ -397,15 +397,15 @@ C-------- -MY34XIJ KSI + MY23XIJ ETA
        BM0RZ(I,4,3) = (-MY34(I)*XIJ(I,3)+MY23(I)*XIL(I,3))
        BM0RZ(I,4,4) = ( MY34(I)*XIJ(I,4)+MY23(I)*XIL(I,4))
 C-------- -MY13XIJ KSI + 2MY34XIL      
-       BMKRZ(I,4,1) = ( MY13(I)*XIJ(I,1)+DEUX*MY34(I)*XIL(I,1))
-       BMKRZ(I,4,2) = (-MY13(I)*XIJ(I,2)+DEUX*MY34(I)*XIL(I,2))
-       BMKRZ(I,4,3) = (-MY13(I)*XIJ(I,3)+DEUX*MY34(I)*XIL(I,3))
-       BMKRZ(I,4,4) = ( MY13(I)*XIJ(I,4)+DEUX*MY34(I)*XIL(I,4))
+       BMKRZ(I,4,1) = ( MY13(I)*XIJ(I,1)+TWO*MY34(I)*XIL(I,1))
+       BMKRZ(I,4,2) = (-MY13(I)*XIJ(I,2)+TWO*MY34(I)*XIL(I,2))
+       BMKRZ(I,4,3) = (-MY13(I)*XIJ(I,3)+TWO*MY34(I)*XIL(I,3))
+       BMKRZ(I,4,4) = ( MY13(I)*XIJ(I,4)+TWO*MY34(I)*XIL(I,4))
 C-------- MY13XIL ETA - 2MY23XIJ      
-       BMERZ(I,4,1) = (-MY13(I)*XIL(I,1)-DEUX*MY23(I)*XIJ(I,1))
-       BMERZ(I,4,2) = (-MY13(I)*XIL(I,2)-DEUX*MY23(I)*XIJ(I,2))
-       BMERZ(I,4,3) = ( MY13(I)*XIL(I,3)-DEUX*MY23(I)*XIJ(I,3))
-       BMERZ(I,4,4) = ( MY13(I)*XIL(I,4)-DEUX*MY23(I)*XIJ(I,4))
+       BMERZ(I,4,1) = (-MY13(I)*XIL(I,1)-TWO*MY23(I)*XIJ(I,1))
+       BMERZ(I,4,2) = (-MY13(I)*XIL(I,2)-TWO*MY23(I)*XIJ(I,2))
+       BMERZ(I,4,3) = ( MY13(I)*XIL(I,3)-TWO*MY23(I)*XIJ(I,3))
+       BMERZ(I,4,4) = ( MY13(I)*XIL(I,4)-TWO*MY23(I)*XIJ(I,4))
       ENDDO
 C--------correction to pass the patch test
       CALL CBPATCH(JFT ,JLT  ,BM0RZ,BMKRZ,BMERZ  ,AREA ,
@@ -413,7 +413,7 @@ C--------correction to pass the patch test
 C      
       DO I=JFT,JLT
 C--------BM0RZ(I,3,1)->(NxI,y+NyI,x) *A-;BM0RZ(I,4,1)->(-NxI,y+NyI,x -2NI) *A-----
-       A05= UNDEMI*AREA(I)
+       A05= HALF*AREA(I)
        A05K(1)= -A05
        A05K(2)= A05
        A05K(3)= A05
@@ -573,22 +573,22 @@ C-----------------------------------------------
      .  BMKRZ(MVSIZ,4,4),BMERZ(MVSIZ,4,4)
 C--------(14,23,32,41)/4---------------------------------------
       DO I=JFT,JLT
-       XIJ(I,1) = UNDEMI*(MX13(I)-MX34(I))
-       XIJ(I,2) = UNDEMI*(X13(I)+MX23(I)-MX13(I))
+       XIJ(I,1) = HALF*(MX13(I)-MX34(I))
+       XIJ(I,2) = HALF*(X13(I)+MX23(I)-MX13(I))
        XIJ(I,3) = -XIJ(I,2)
        XIJ(I,4) = -XIJ(I,1)
-       YIJ(I,1) = UNDEMI*(MY13(I)-MY34(I))
-       YIJ(I,2) = UNDEMI*(Y13(I)+MY23(I)-MY13(I))
+       YIJ(I,1) = HALF*(MY13(I)-MY34(I))
+       YIJ(I,2) = HALF*(Y13(I)+MY23(I)-MY13(I))
        YIJ(I,3) = -YIJ(I,2)
        YIJ(I,4) = -YIJ(I,1)
 C--------(12,21,34,43)/4---------------------------------------
-       XIL(I,1) = UNDEMI*(MX13(I)-MX23(I))
+       XIL(I,1) = HALF*(MX13(I)-MX23(I))
        XIL(I,2) = -XIL(I,1)
-       XIL(I,3) = UNDEMI*(MX13(I)-MX34(I)-X13(I))
+       XIL(I,3) = HALF*(MX13(I)-MX34(I)-X13(I))
        XIL(I,4) = -XIL(I,3)
-       YIL(I,1) = UNDEMI*(MY13(I)-MY23(I))
+       YIL(I,1) = HALF*(MY13(I)-MY23(I))
        YIL(I,2) = -YIL(I,1)
-       YIL(I,3) = UNDEMI*(MY13(I)-MY34(I)-Y13(I))
+       YIL(I,3) = HALF*(MY13(I)-MY34(I)-Y13(I))
        YIL(I,4) = -YIL(I,3)
       ENDDO
 C      
@@ -600,15 +600,15 @@ C-------- MY34YIJ KSI - MY23YIL ETA
        BM0RZ(I,1,3) = ( MY34(I)*YIJ(I,3)-MY23(I)*YIL(I,3))
        BM0RZ(I,1,4) = (-MY34(I)*YIJ(I,4)-MY23(I)*YIL(I,4))
 C-------- MY13YIJ KSI - 2MY34YIL      
-       BMKRZ(I,1,1) = (-MY13(I)*YIJ(I,1)-DEUX*MY34(I)*YIL(I,1))
-       BMKRZ(I,1,2) = ( MY13(I)*YIJ(I,2)-DEUX*MY34(I)*YIL(I,2))
-       BMKRZ(I,1,3) = ( MY13(I)*YIJ(I,3)-DEUX*MY34(I)*YIL(I,3))
-       BMKRZ(I,1,4) = (-MY13(I)*YIJ(I,4)-DEUX*MY34(I)*YIL(I,4))
+       BMKRZ(I,1,1) = (-MY13(I)*YIJ(I,1)-TWO*MY34(I)*YIL(I,1))
+       BMKRZ(I,1,2) = ( MY13(I)*YIJ(I,2)-TWO*MY34(I)*YIL(I,2))
+       BMKRZ(I,1,3) = ( MY13(I)*YIJ(I,3)-TWO*MY34(I)*YIL(I,3))
+       BMKRZ(I,1,4) = (-MY13(I)*YIJ(I,4)-TWO*MY34(I)*YIL(I,4))
 C-------- -MY13YIL ETA + 2MY23YIJ      
-       BMERZ(I,1,1) = ( MY13(I)*YIL(I,1)+DEUX*MY23(I)*YIJ(I,1))
-       BMERZ(I,1,2) = ( MY13(I)*YIL(I,2)+DEUX*MY23(I)*YIJ(I,2))
-       BMERZ(I,1,3) = (-MY13(I)*YIL(I,3)+DEUX*MY23(I)*YIJ(I,3))
-       BMERZ(I,1,4) = (-MY13(I)*YIL(I,4)+DEUX*MY23(I)*YIJ(I,4))
+       BMERZ(I,1,1) = ( MY13(I)*YIL(I,1)+TWO*MY23(I)*YIJ(I,1))
+       BMERZ(I,1,2) = ( MY13(I)*YIL(I,2)+TWO*MY23(I)*YIJ(I,2))
+       BMERZ(I,1,3) = (-MY13(I)*YIL(I,3)+TWO*MY23(I)*YIJ(I,3))
+       BMERZ(I,1,4) = (-MY13(I)*YIL(I,4)+TWO*MY23(I)*YIJ(I,4))
 C -------NyI,y *A-------------      
 C-------- MX34XIJ KSI - MX23XIL ETA       
        BM0RZ(I,2,1) = (-MX34(I)*XIJ(I,1)+MX23(I)*XIL(I,1))
@@ -616,15 +616,15 @@ C-------- MX34XIJ KSI - MX23XIL ETA
        BM0RZ(I,2,3) = ( MX34(I)*XIJ(I,3)-MX23(I)*XIL(I,3))
        BM0RZ(I,2,4) = (-MX34(I)*XIJ(I,4)-MX23(I)*XIL(I,4))
 C-------- MX13XIJ KSI - 2MX34XIL      
-       BMKRZ(I,2,1) = (-MX13(I)*XIJ(I,1)-DEUX*MX34(I)*XIL(I,1))
-       BMKRZ(I,2,2) = ( MX13(I)*XIJ(I,2)-DEUX*MX34(I)*XIL(I,2))
-       BMKRZ(I,2,3) = ( MX13(I)*XIJ(I,3)-DEUX*MX34(I)*XIL(I,3))
-       BMKRZ(I,2,4) = (-MX13(I)*XIJ(I,4)-DEUX*MX34(I)*XIL(I,4))
+       BMKRZ(I,2,1) = (-MX13(I)*XIJ(I,1)-TWO*MX34(I)*XIL(I,1))
+       BMKRZ(I,2,2) = ( MX13(I)*XIJ(I,2)-TWO*MX34(I)*XIL(I,2))
+       BMKRZ(I,2,3) = ( MX13(I)*XIJ(I,3)-TWO*MX34(I)*XIL(I,3))
+       BMKRZ(I,2,4) = (-MX13(I)*XIJ(I,4)-TWO*MX34(I)*XIL(I,4))
 C-------- -MX13XIL ETA + 2MX23XIJ      
-       BMERZ(I,2,1) = ( MX13(I)*XIL(I,1)+DEUX*MX23(I)*XIJ(I,1))
-       BMERZ(I,2,2) = ( MX13(I)*XIL(I,2)+DEUX*MX23(I)*XIJ(I,2))
-       BMERZ(I,2,3) = (-MX13(I)*XIL(I,3)+DEUX*MX23(I)*XIJ(I,3))
-       BMERZ(I,2,4) = (-MX13(I)*XIL(I,4)+DEUX*MX23(I)*XIJ(I,4))
+       BMERZ(I,2,1) = ( MX13(I)*XIL(I,1)+TWO*MX23(I)*XIJ(I,1))
+       BMERZ(I,2,2) = ( MX13(I)*XIL(I,2)+TWO*MX23(I)*XIJ(I,2))
+       BMERZ(I,2,3) = (-MX13(I)*XIL(I,3)+TWO*MX23(I)*XIJ(I,3))
+       BMERZ(I,2,4) = (-MX13(I)*XIL(I,4)+TWO*MX23(I)*XIJ(I,4))
 C--------NxI,y *A    
 C-------- -MX34YIJ KSI + MX23YIL ETA       
        BM0RZ(I,3,1) = ( MX34(I)*YIJ(I,1)-MX23(I)*YIL(I,1))
@@ -632,15 +632,15 @@ C-------- -MX34YIJ KSI + MX23YIL ETA
        BM0RZ(I,3,3) = (-MX34(I)*YIJ(I,3)+MX23(I)*YIL(I,3))
        BM0RZ(I,3,4) = ( MX34(I)*YIJ(I,4)+MX23(I)*YIL(I,4))
 C-------- -MX13YIJ KSI + 2MX34YIL      
-       BMKRZ(I,3,1) = ( MX13(I)*YIJ(I,1)+DEUX*MX34(I)*YIL(I,1))
-       BMKRZ(I,3,2) = (-MX13(I)*YIJ(I,2)+DEUX*MX34(I)*YIL(I,2))
-       BMKRZ(I,3,3) = (-MX13(I)*YIJ(I,3)+DEUX*MX34(I)*YIL(I,3))
-       BMKRZ(I,3,4) = ( MX13(I)*YIJ(I,4)+DEUX*MX34(I)*YIL(I,4))
+       BMKRZ(I,3,1) = ( MX13(I)*YIJ(I,1)+TWO*MX34(I)*YIL(I,1))
+       BMKRZ(I,3,2) = (-MX13(I)*YIJ(I,2)+TWO*MX34(I)*YIL(I,2))
+       BMKRZ(I,3,3) = (-MX13(I)*YIJ(I,3)+TWO*MX34(I)*YIL(I,3))
+       BMKRZ(I,3,4) = ( MX13(I)*YIJ(I,4)+TWO*MX34(I)*YIL(I,4))
 C-------- MX13YIL ETA - 2MX23YIJ      
-       BMERZ(I,3,1) = (-MX13(I)*YIL(I,1)-DEUX*MX23(I)*YIJ(I,1))
-       BMERZ(I,3,2) = (-MX13(I)*YIL(I,2)-DEUX*MX23(I)*YIJ(I,2))
-       BMERZ(I,3,3) = ( MX13(I)*YIL(I,3)-DEUX*MX23(I)*YIJ(I,3))
-       BMERZ(I,3,4) = ( MX13(I)*YIL(I,4)-DEUX*MX23(I)*YIJ(I,4))
+       BMERZ(I,3,1) = (-MX13(I)*YIL(I,1)-TWO*MX23(I)*YIJ(I,1))
+       BMERZ(I,3,2) = (-MX13(I)*YIL(I,2)-TWO*MX23(I)*YIJ(I,2))
+       BMERZ(I,3,3) = ( MX13(I)*YIL(I,3)-TWO*MX23(I)*YIJ(I,3))
+       BMERZ(I,3,4) = ( MX13(I)*YIL(I,4)-TWO*MX23(I)*YIJ(I,4))
 C--------NyI,x *A   
 C-------- -MY34XIJ KSI + MY23XIJ ETA       
        BM0RZ(I,4,1) = ( MY34(I)*XIJ(I,1)-MY23(I)*XIL(I,1))
@@ -648,15 +648,15 @@ C-------- -MY34XIJ KSI + MY23XIJ ETA
        BM0RZ(I,4,3) = (-MY34(I)*XIJ(I,3)+MY23(I)*XIL(I,3))
        BM0RZ(I,4,4) = ( MY34(I)*XIJ(I,4)+MY23(I)*XIL(I,4))
 C-------- -MY13XIJ KSI + 2MY34XIL      
-       BMKRZ(I,4,1) = ( MY13(I)*XIJ(I,1)+DEUX*MY34(I)*XIL(I,1))
-       BMKRZ(I,4,2) = (-MY13(I)*XIJ(I,2)+DEUX*MY34(I)*XIL(I,2))
-       BMKRZ(I,4,3) = (-MY13(I)*XIJ(I,3)+DEUX*MY34(I)*XIL(I,3))
-       BMKRZ(I,4,4) = ( MY13(I)*XIJ(I,4)+DEUX*MY34(I)*XIL(I,4))
+       BMKRZ(I,4,1) = ( MY13(I)*XIJ(I,1)+TWO*MY34(I)*XIL(I,1))
+       BMKRZ(I,4,2) = (-MY13(I)*XIJ(I,2)+TWO*MY34(I)*XIL(I,2))
+       BMKRZ(I,4,3) = (-MY13(I)*XIJ(I,3)+TWO*MY34(I)*XIL(I,3))
+       BMKRZ(I,4,4) = ( MY13(I)*XIJ(I,4)+TWO*MY34(I)*XIL(I,4))
 C-------- MY13XIL ETA - 2MY23XIJ      
-       BMERZ(I,4,1) = (-MY13(I)*XIL(I,1)-DEUX*MY23(I)*XIJ(I,1))
-       BMERZ(I,4,2) = (-MY13(I)*XIL(I,2)-DEUX*MY23(I)*XIJ(I,2))
-       BMERZ(I,4,3) = ( MY13(I)*XIL(I,3)-DEUX*MY23(I)*XIJ(I,3))
-       BMERZ(I,4,4) = ( MY13(I)*XIL(I,4)-DEUX*MY23(I)*XIJ(I,4))
+       BMERZ(I,4,1) = (-MY13(I)*XIL(I,1)-TWO*MY23(I)*XIJ(I,1))
+       BMERZ(I,4,2) = (-MY13(I)*XIL(I,2)-TWO*MY23(I)*XIJ(I,2))
+       BMERZ(I,4,3) = ( MY13(I)*XIL(I,3)-TWO*MY23(I)*XIJ(I,3))
+       BMERZ(I,4,4) = ( MY13(I)*XIL(I,4)-TWO*MY23(I)*XIJ(I,4))
       ENDDO
 C--------correction to pass the patch test
       CALL CBPATCH(JFT ,JLT  ,BM0RZ,BMKRZ,BMERZ  ,AREA ,
@@ -701,7 +701,7 @@ C-----------------------------------------------
      .   BXV2,BYV1,BXR1,BYR2,KXY,KYX
 C-----------------------------------------------
       DO I=JFT,JLT
-       DETA1=Z1(I)*QUATRE*AA(I)
+       DETA1=Z1(I)*FOUR*AA(I)
         R13(1) =(RLXYZ(I,1,1)-RLXYZ(I,1,3))*AA(I)
         R24(1) =(RLXYZ(I,1,2)-RLXYZ(I,1,4))*AA(I)
         R13(2) =(RLXYZ(I,2,1)-RLXYZ(I,2,3))*AA(I)

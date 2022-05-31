@@ -64,10 +64,10 @@ C======================================================================|
       T2 = T*T
       T3 = T*T2
 c
-      SLM  = (UN - S)*UNDEMI                                            
-      SLP  = (UN + S)*UNDEMI                                            
-      TLM  = (UN - T)*UNDEMI                                            
-      TLP  = (UN + T)*UNDEMI                                            
+      SLM  = (ONE - S)*HALF                                            
+      SLP  = (ONE + S)*HALF                                            
+      TLM  = (ONE - T)*HALF                                            
+      TLP  = (ONE + T)*HALF                                            
 C
       LS   = TLM*LS1 + TLP*LS2                                             
       LT   = SLM*LT1 + SLP*LT2                              
@@ -90,10 +90,10 @@ c     F(i)    =  HH(i)*Fz +  HPS(i)*Ms +  HPT(i)*Mt
 c     Ms(i)   = HRS(i)*Fz + HPRS(i)*Ms +  HXT(i)*Mt
 c     Mt(i)   = HRT(i)*Fz +  HXS(i)*Ms + HPRT(i)*Mt
 C-------------------------
-      HH(1)  = SLM*TLM*(UN - S*SLP - T*TLP)                                               
-      HH(2)  = SLP*TLM*(UN + S*SLM - T*TLP)                                                 
-      HH(3)  = SLP*TLP*(UN + S*SLM + T*TLM)                                                  
-      HH(4)  = SLM*TLP*(UN - S*SLP + T*TLM)                                                 
+      HH(1)  = SLM*TLM*(ONE - S*SLP - T*TLP)                                               
+      HH(2)  = SLP*TLM*(ONE + S*SLM - T*TLP)                                                 
+      HH(3)  = SLP*TLP*(ONE + S*SLM + T*TLM)                                                  
+      HH(4)  = SLM*TLP*(ONE - S*SLP + T*TLM)                                                 
 
       HRS(1) = SLM*TLP*TM2*LT                                             
       HRS(2) = SLP*TLP*TM2*LT                                            
@@ -105,20 +105,20 @@ c
       HRT(3) = TLP*SLM*SP2*LS                    
       HRT(4) =-TLP*SLP*SM2*LS                    
 C-----
-      HPS(1) = (-TROIS + QUATRE*S + SIX*T2*SLM - S3) * QUART / LT                                         
-      HPS(2) = (-TROIS - QUATRE*S + SIX*T2*SLP + S3) * QUART / LT                                          
-      HPS(3) = ( TROIS + QUATRE*S - SIX*T2*SLP - S3) * QUART / LT                                         
-      HPS(4) = ( TROIS - QUATRE*S - SIX*T2*SLM + S3) * QUART / LT          
+      HPS(1) = (-THREE + FOUR*S + SIX*T2*SLM - S3) * FOURTH / LT                                         
+      HPS(2) = (-THREE - FOUR*S + SIX*T2*SLP + S3) * FOURTH / LT                                          
+      HPS(3) = ( THREE + FOUR*S - SIX*T2*SLP - S3) * FOURTH / LT                                         
+      HPS(4) = ( THREE - FOUR*S - SIX*T2*SLM + S3) * FOURTH / LT          
 
-      HPT(1) =-(-TROIS + QUATRE*T + SIX*S2*TLM - T3) * QUART / LS                                          
-      HPT(2) =-( TROIS - QUATRE*T - SIX*S2*TLM + T3) * QUART / LS                                           
-      HPT(3) =-( TROIS + QUATRE*T - SIX*S2*TLP - T3) * QUART / LS                                                
-      HPT(4) =-(-TROIS - QUATRE*T + SIX*S2*TLP + T3) * QUART / LS
+      HPT(1) =-(-THREE + FOUR*T + SIX*S2*TLM - T3) * FOURTH / LS                                          
+      HPT(2) =-( THREE - FOUR*T - SIX*S2*TLM + T3) * FOURTH / LS                                           
+      HPT(3) =-( THREE + FOUR*T - SIX*S2*TLP - T3) * FOURTH / LS                                                
+      HPT(4) =-(-THREE - FOUR*T + SIX*S2*TLP + T3) * FOURTH / LS
 C-----
-      SRPM = TDEMI*S2 - S - UNDEMI                                          
-      SRPP = TDEMI*S2 + S - UNDEMI                                           
-      TRPM = TDEMI*T2 - T - UNDEMI                                           
-      TRPP = TDEMI*T2 + T - UNDEMI                                          
+      SRPM = THREE_HALF*S2 - S - HALF                                          
+      SRPP = THREE_HALF*S2 + S - HALF                                           
+      TRPM = THREE_HALF*T2 - T - HALF                                           
+      TRPP = THREE_HALF*T2 + T - HALF                                          
 
       HPRS(1) = SLM * TRPM                                               
       HPRS(2) = SLP * TRPM                                               

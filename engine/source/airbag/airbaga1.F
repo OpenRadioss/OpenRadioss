@@ -184,7 +184,7 @@ C
           TBAG_OLD =RVOLU(13)
           AREA     =RVOLU(18)
           IF(IEQUI.EQ.1)THEN
-            VMIN     =EM4*AREA**TDEMI
+            VMIN     =EM4*AREA**THREE_HALF
             VEPS     =MAX(ZERO,VMIN-VOL)
             RVOLU(17)=VEPS
             RMWI     = RVOLU(10)
@@ -319,10 +319,10 @@ C
           ELSE
             TEMP=FTEMP
           ENDIF
-          EFAC= TEMP*(CPA+UNDEMI*CPB*TEMP+TIERS*CPC*TEMP*TEMP
-     .                +QUART*CPD*TEMP*TEMP*TEMP
+          EFAC= TEMP*(CPA+HALF*CPB*TEMP+THIRD*CPC*TEMP*TEMP
+     .                +FOURTH*CPD*TEMP*TEMP*TEMP
      .                -CPE/(TEMP*TEMP)
-     .                +UNCINQ*CPF*TEMP*TEMP*TEMP*TEMP)
+     .                +ONE_FIFTH*CPF*TEMP*TEMP*TEMP*TEMP)
          ELSE
           EFAC=ZERO
          ENDIF
@@ -332,7 +332,7 @@ C
          GMASS_OLD=RBAGJET(KK+2,IJ)
          IF(TT.GE.TSTART)THEN
           IF(IMASS.GT.0) THEN
-            GMASS=UNDEMI * FMASS * (FINTER(IMASS,TSG,NPC,TF,DYDX) + 
+            GMASS=HALF * FMASS * (FINTER(IMASS,TSG,NPC,TF,DYDX) + 
      .            FINTER(IMASS,TSG2,NPC,TF,DYDX))
             IF(I_TYPINJ == 2) THEN
                MW_MIX = RBAGJET(19,IJ)
@@ -358,11 +358,11 @@ C
          RMWG = R_IGC1/MW
          GMTOT = GMTOT_OLD + DGMASS
          RIGHT = RIGHT -DGMASS*TBAG_OLD*
-     .                 (CPA+UNDEMI*CPB*TBAG_OLD
-     .                  +TIERS*CPC*TBAG_OLD*TBAG_OLD
-     .                  +QUART*CPD*TBAG_OLD*TBAG_OLD*TBAG_OLD
+     .                 (CPA+HALF*CPB*TBAG_OLD
+     .                  +THIRD*CPC*TBAG_OLD*TBAG_OLD
+     .                  +FOURTH*CPD*TBAG_OLD*TBAG_OLD*TBAG_OLD
      .                  -CPE/(TBAG_OLD*TBAG_OLD)
-     .                  +UNCINQ*CPF*TBAG_OLD*TBAG_OLD*TBAG_OLD*TBAG_OLD
+     .                  +ONE_FIFTH*CPF*TBAG_OLD*TBAG_OLD*TBAG_OLD*TBAG_OLD
      .                  -RMWG)
          KK=20+(IK-1)*4
          RBAGJET(KK+1,IJ) = GMTOT
@@ -399,11 +399,11 @@ C-------------------------
 C
            RIGHT = RIGHT -DGEOUT
            RIGHT = RIGHT +DGMOUT*TBAG_OLD*
-     .                   (CPA+UNDEMI*CPB*TBAG_OLD
-     .                   +TIERS*CPC*TBAG_OLD*TBAG_OLD
-     .                   +QUART*CPD*TBAG_OLD*TBAG_OLD*TBAG_OLD
+     .                   (CPA+HALF*CPB*TBAG_OLD
+     .                   +THIRD*CPC*TBAG_OLD*TBAG_OLD
+     .                   +FOURTH*CPD*TBAG_OLD*TBAG_OLD*TBAG_OLD
      .                   -CPE/(TBAG_OLD*TBAG_OLD)
-     .                   +UNCINQ*CPF*TBAG_OLD*TBAG_OLD*TBAG_OLD*TBAG_OLD
+     .                   +ONE_FIFTH*CPF*TBAG_OLD*TBAG_OLD*TBAG_OLD*TBAG_OLD
      .                   -RMWG)
            CVG  =  CPA+CPB*TBAG_OLD+CPC*TBAG_OLD*TBAG_OLD
      .            +CPD*TBAG_OLD*TBAG_OLD*TBAG_OLD
@@ -442,11 +442,11 @@ C
        DGEIN =RVOLU(65)*DT1
 C
        RIGHT = RIGHT+(DGMOUT-DGMIN)*TBAG_OLD
-     .              *(CPAI+UNDEMI*CPBI*TBAG_OLD
-     .                +TIERS*CPCI*TBAG_OLD*TBAG_OLD
-     .                +QUART*CPDI*TBAG_OLD*TBAG_OLD*TBAG_OLD
+     .              *(CPAI+HALF*CPBI*TBAG_OLD
+     .                +THIRD*CPCI*TBAG_OLD*TBAG_OLD
+     .                +FOURTH*CPDI*TBAG_OLD*TBAG_OLD*TBAG_OLD
      .                -CPEI/(TBAG_OLD*TBAG_OLD)
-     .                +UNCINQ*CPFI*TBAG_OLD*TBAG_OLD*TBAG_OLD*TBAG_OLD
+     .                +ONE_FIFTH*CPFI*TBAG_OLD*TBAG_OLD*TBAG_OLD*TBAG_OLD
      .                -RMWI)
        RIGHT = RIGHT+DGEIN-DGEOUT
        LEFT  = LEFT+GMI*CVI
@@ -480,8 +480,8 @@ C------------------------------------------
 C---------------------
        HCONV = RVOLU(19)
        TEXT  = RVOLU(25)
-       LEFT  = LEFT + UNDEMI*(RNM*DV/VOL+HCONV*AREA*DT1)
-       RIGHT = RIGHT- UNDEMI*TBAG_OLD*(RNM_OLD*DV/VOLD+HCONV*AREA*DT1)
+       LEFT  = LEFT + HALF*(RNM*DV/VOL+HCONV*AREA*DT1)
+       RIGHT = RIGHT- HALF*TBAG_OLD*(RNM_OLD*DV/VOLD+HCONV*AREA*DT1)
      .              + HCONV*AREA*TEXT*DT1
 C---------------------------------------------------------------------
        TBAG  = RIGHT/LEFT
@@ -543,8 +543,8 @@ C------
         Q=-AMU*SQRT(P*AREA*ROT/VOL)*DV/AREA/DT1
        ENDIF
        IF (IMACH.NE.3.OR.ISPMD+1.EQ.PMAIN) THEN
-        TFEXT=TFEXT+(UNDEMI*(P+POLD+Q+QOLD)-PEXT)*DV
-        RVOLU(32)=RVOLU(32) + (UNDEMI*(P+POLD)-PEXT)*DV
+        TFEXT=TFEXT+(HALF*(P+POLD+Q+QOLD)-PEXT)*DV
+        RVOLU(32)=RVOLU(32) + (HALF*(P+POLD)-PEXT)*DV
        ENDIF
 C------
        RVOLU(12)=P

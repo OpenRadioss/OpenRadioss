@@ -88,7 +88,7 @@ C     REAL ou REAL*8
 C------------------------------------------------------------------
       SMALL = EM7
       DO I=JFT,JLT
-        ETSE(I) = UN
+        ETSE(I) = ONE
 c remise aux val. initiales
         CA(I)   = CA0
         CB(I)   = CB0 
@@ -131,14 +131,14 @@ C-------------
 #include "vectorize.inc" 
           DO I=JFT,JLT
             IF (ISRATE == 0) EPSP(I) = 
-     .         MAX( ABS(DEPSXX(I)), ABS(DEPSYY(I)), UNDEMI*ABS(DEPSXY(I)))
+     .         MAX( ABS(DEPSXX(I)), ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
             EPSP(I) = MAX(EPSP(I),EPDR(I))
             MT=MAX(EM20,Z3)
             IF (TSTAR(I) == ZERO) THEN
-              Q(I) = (UN + CC * LOG(EPSP(I)/EPDR(I)))
+              Q(I) = (ONE + CC * LOG(EPSP(I)/EPDR(I)))
             ELSE
-              Q(I) = (UN + CC * LOG(EPSP(I)/EPDR(I)))*
-     .                             (UN-EXP(MT*LOG(TSTAR(I))))             
+              Q(I) = (ONE + CC * LOG(EPSP(I)/EPDR(I)))*
+     .                             (ONE-EXP(MT*LOG(TSTAR(I))))             
             ENDIF
             Q(I) = MAX(Q(I),EM20)
             CA(I) = CA(I) * Q(I)
@@ -148,7 +148,7 @@ C-------------
         ELSEIF (NPIF == JLT) THEN
           DO I=JFT,JLT
             IF (ISRATE == 0) EPSP(I) = MAX( ABS(DEPSXX(I)),
-     .                   ABS(DEPSYY(I)), UNDEMI*ABS(DEPSXY(I)))
+     .                   ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
             EPSP(I) = MAX(EPSP(I),EM20)
             Q(I) = LOG(EPSP(I)/EPDR(I))
             Q(I)= CC*EXP((-Z3+Z4 * Q(I))*T(I))
@@ -159,14 +159,14 @@ C-------------
           DO I=JFT,JLT
             IF (IRTY == 0) THEN
               IF (ISRATE == 0) EPSP(I) = 
-     .          MAX( ABS(DEPSXX(I)), ABS(DEPSYY(I)), UNDEMI*ABS(DEPSXY(I)))
+     .          MAX( ABS(DEPSXX(I)), ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
               EPSP(I) = MAX(EPSP(I),EPDR(I))
               MT=MAX(EM20,Z3)
               IF (TSTAR(I) == ZERO) THEN
-                Q(I) = (UN + CC * LOG(EPSP(I)/EPDR(I)))
+                Q(I) = (ONE + CC * LOG(EPSP(I)/EPDR(I)))
               ELSE
-                Q(I) = (UN + CC * LOG(EPSP(I)/EPDR(I)))
-     .                            *(UN-EXP(MT*LOG(TSTAR(I))))                
+                Q(I) = (ONE + CC * LOG(EPSP(I)/EPDR(I)))
+     .                            *(ONE-EXP(MT*LOG(TSTAR(I))))                
               ENDIF
               Q(I) = MAX(Q(I),EM20)
               CA(I) = CA(I) * Q(I)
@@ -174,7 +174,7 @@ C-------------
               IF (ICC == 1) YMAX(I) = YMAX(I) * Q(I)
             ELSE
               IF (ISRATE == 0) EPSP(I) = MAX( ABS(DEPSXX(I)), 
-     .                    ABS(DEPSYY(I)), UNDEMI*ABS(DEPSXY(I)))
+     .                    ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
               EPSP(I) = MAX(EPSP(I),EM20)
               Q(I) = LOG(EPSP(I)/EPDR(I))
               Q(I)= CC*EXP((-Z3+Z4 * Q(I))*T(I))
@@ -192,7 +192,7 @@ C-----------------------------------
         IF (EPSEQ(I) == ZERO) THEN
            YLD(I)= CA(I)
         ELSE
-           BETA = CB(I)*(UN-FISOKIN)
+           BETA = CB(I)*(ONE-FISOKIN)
            YLD(I)= CA(I)+BETA*EXP(CN*LOG(EPSEQ(I)))
         ENDIF
         YLD(I)= MIN(YLD(I),YMAX(I))
@@ -208,25 +208,25 @@ C-------------------
           SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
      .               +SIGNYY(I)*SIGNYY(I)
      .               -SIGNXX(I)*SIGNYY(I)
-     .         +TROIS*SIGNXY(I)*SIGNXY(I))
+     .         +THREE*SIGNXY(I)*SIGNXY(I))
         ENDDO
 C projection radiale 
 #include "vectorize.inc" 
         DO I=JFT,JLT
-          R = MIN(UN,YLD(I)/(SVM(I)+EM15))
-          IF (R < UN) THEN 
+          R = MIN(ONE,YLD(I)/(SVM(I)+EM15))
+          IF (R < ONE) THEN 
             SIGNXX(I)=SIGNXX(I)*R
             SIGNYY(I)=SIGNYY(I)*R
             SIGNXY(I)=SIGNXY(I)*R
             DPLA(I) =  OFF(I) * MAX(ZERO,(SVM(I)-YLD(I))/YOUNG)
-            S1=UNDEMI*(SIGNXX(I)+SIGNYY(I))
+            S1=HALF*(SIGNXX(I)+SIGNYY(I))
             EZZ(I) = DPLA(I) * S1 /YLD(I)
             EPSEQ(I) = EPSEQ(I) + DPLA(I)
             EPCHK(I) = MAX(EPSEQ(I),EPCHK(I))     
             IF (YLD(I) >=YMAX(I)) THEN
               H(I)=ZERO
             ELSE
-              H(I)=CN*CB(I)*EXP((CN-UN)*LOG(EPSEQ(I)+SMALL))
+              H(I)=CN*CB(I)*EXP((CN-ONE)*LOG(EPSEQ(I)+SMALL))
             ENDIF
             ETSE(I)= H(I)/(H(I)+YOUNG)
           ENDIF
@@ -240,8 +240,8 @@ C-------------------------
           S1=SIGNXX(I)+SIGNYY(I)
           S2=SIGNXX(I)-SIGNYY(I)
           S3=SIGNXY(I)
-          A(I)=QUART*S1*S1
-          B(I)=TQUART*S2*S2+TROIS*S3*S3
+          A(I)=FOURTH*S1*S1
+          B(I)=THREE_OVER_4*S2*S2+THREE*S3*S3
           SVM(I)=SQRT(A(I)+B(I))  
         ENDDO
 C-------------------------
@@ -249,7 +249,7 @@ C     GATHER PLASTIC FLOW
 C-------------------------
         NINDX=0
         DO I=JFT,JLT
-          IF (SVM(I) > YLD(I) .AND. OFF(I) == UN) THEN
+          IF (SVM(I) > YLD(I) .AND. OFF(I) == ONE) THEN
             NINDX=NINDX+1
             INDEX(NINDX)=I
           ENDIF
@@ -275,18 +275,18 @@ C---------------------------
 #include "vectorize.inc" 
         DO  J=1,NINDX
           I=INDEX(J)
-          NU1(I)=UN/(UN-NU)
-          NU2(I)=UN/(UN+NU)
+          NU1(I)=ONE/(ONE-NU)
+          NU2(I)=ONE/(ONE+NU)
           IF (YLD(I) >= YMAX(I)) THEN
             H(I)=ZERO
           ELSE
-            H(I)=CN*CB(I)*EXP((CN-UN)*LOG(EPSEQ(I)+SMALL))
+            H(I)=CN*CB(I)*EXP((CN-ONE)*LOG(EPSEQ(I)+SMALL))
           ENDIF
-          DPLA_J(I)=(SVM(I)-YLD(I))/(TROIS*G+H(I))
+          DPLA_J(I)=(SVM(I)-YLD(I))/(THREE*G+H(I))
           ETSE(I)= H(I)/(H(I)+YOUNG)
           ANU1(I)  = A(I)*NU1(I)
-          BNU2(I) = TROIS*B(I)*NU2(I)
-          H2(I)= DEUX*H(I)
+          BNU2(I) = THREE*B(I)*NU2(I)
+          H2(I)= TWO*H(I)
         ENDDO
 C-----just keep at least old performance--to update H(I) inside iteration for implicit+ETSE---------
         IF (IKFLG == 0) THEN
@@ -302,9 +302,9 @@ C-----just keep at least old performance--to update H(I) inside iteration for im
               ELSE
                 YLD_I =MIN(YMAX(I),CA(I)+CB(I)*EXP(CN*LOG(PLA_I)))
               ENDIF
-              DR(I) =UNDEMI*YOUNG*DPLA_I(I)/YLD_I
-              P(I)  =UN/(UN+DR(I)*NU1(I))
-              Q(I)  =UN/(UN+TROIS*DR(I)*NU2(I))
+              DR(I) =HALF*YOUNG*DPLA_I(I)/YLD_I
+              P(I)  =ONE/(ONE+DR(I)*NU1(I))
+              Q(I)  =ONE/(ONE+THREE*DR(I)*NU2(I))
               P2    =P(I)*P(I)
               Q2    =Q(I)*Q(I)
               F     =A(I)*P2+B(I)*Q2-YLD_I*YLD_I
@@ -325,13 +325,13 @@ C----------kinematic&mix hardening
             I=INDEX(J)
             BETA = H(I)*FISOKIN
             HI(I) = H(I)-BETA
-            HK(I) = DTIERS*BETA
-            AAA = TROIS*HK(I)/YOUNG
+            HK(I) = TWO_THIRD*BETA
+            AAA = THREE*HK(I)/YOUNG
             NU11(I) = NU1(I) + AAA 
-            NU21(I) = TROIS*NU2(I) + AAA 
+            NU21(I) = THREE*NU2(I) + AAA 
             ANU1(I) = A(I)*NU11(I)
             BNU2(I) = B(I)*NU21(I)
-            H2(I)= DEUX*HI(I)
+            H2(I)= TWO*HI(I)
           ENDDO
 !
           DO N=1,NMAX
@@ -341,15 +341,15 @@ C----------kinematic&mix hardening
               DPLA_I(I)=DPLA_J(I)
               PLA_I =EPSEQ(I)+DPLA_I(I)
               DPLA(I) = DPLA_J(I)
-              BETA = UN-FISOKIN
+              BETA = ONE-FISOKIN
               IF (PLA_I == ZERO) THEN
                 YLD_I =MIN(YMAX(I),CA(I))
               ELSE
                 YLD_I =MIN(YMAX(I),CA(I)+BETA*CB(I)*EXP(CN*LOG(PLA_I)))
               ENDIF
-              DR(I) =UNDEMI*YOUNG*DPLA_I(I)/YLD_I
-              P(I)  =UN/(UN+DR(I)*NU11(I))
-              Q(I)  =UN/(UN+DR(I)*NU21(I))
+              DR(I) =HALF*YOUNG*DPLA_I(I)/YLD_I
+              P(I)  =ONE/(ONE+DR(I)*NU11(I))
+              Q(I)  =ONE/(ONE+DR(I)*NU21(I))
               P2    =P(I)*P(I)
               Q2    =Q(I)*Q(I)
               F     =A(I)*P2+B(I)*Q2-YLD_I*YLD_I
@@ -374,8 +374,8 @@ C------------------------------------------
           EPCHK(I) = MAX(EPSEQ(I),EPCHK(I))
           S1=(SIGNXX(I)+SIGNYY(I))*P(I)
           S2=(SIGNXX(I)-SIGNYY(I))*Q(I)
-          SIGNXX(I)=UNDEMI*(S1+S2)
-          SIGNYY(I)=UNDEMI*(S1-S2)
+          SIGNXX(I)=HALF*(S1+S2)
+          SIGNYY(I)=HALF*(S1-S2)
           SIGNXY(I)=SIGNXY(I)*Q(I)
           EZZ(I) = DR(I)*S1/YOUNG
         ENDDO
@@ -388,7 +388,7 @@ C-------------------------
           SVM2(I)= SIGNXX(I)*SIGNXX(I)
      .  	  +SIGNYY(I)*SIGNYY(I)
      .  	  -SIGNXX(I)*SIGNYY(I)
-     .  	  +TROIS*SIGNXY(I)*SIGNXY(I)
+     .  	  +THREE*SIGNXY(I)*SIGNXY(I)
           SVM(I)=SQRT(SVM2(I))  
         END DO
 C-------------------------
@@ -397,7 +397,7 @@ C-------------------------
         NINDX=0
         DO I=JFT,JLT
           YLD2(I)=YLD(I)*YLD(I)
-          IF (SVM2(I) > YLD2(I) .AND. OFF(I) == UN) THEN
+          IF (SVM2(I) > YLD2(I) .AND. OFF(I) == ONE) THEN
             NINDX=NINDX+1
             INDEX(NINDX)=I
           END IF
@@ -413,19 +413,19 @@ C-------------
             IF (YLD(I) >= YMAX(I)) THEN
               H(I)=ZERO
             ELSE
-              H(I)=CN*CB(I)*EXP((CN-UN)*LOG(EPSEQ(I)+SMALL))
+              H(I)=CN*CB(I)*EXP((CN-ONE)*LOG(EPSEQ(I)+SMALL))
             ENDIF
             ETSE(I)= H(I)/(H(I)+YOUNG)
 C
             AA=(SVM2(I)-YLD2(I))
-     .        /(CINQ*SVM2(I)+TROIS*(-SIGNXX(I)*SIGNYY(I)+SIGNXY(I)*SIGNXY(I)))
-            S1=(UN-DEUX*AA)*SIGNXX(I)+	     AA*SIGNYY(I)
-            S2=	       AA*SIGNXX(I)+(UN-DEUX*AA)*SIGNYY(I)
-            S3=(UN-TROIS*AA)*SIGNXY(I)
+     .        /(FIVE*SVM2(I)+THREE*(-SIGNXX(I)*SIGNYY(I)+SIGNXY(I)*SIGNXY(I)))
+            S1=(ONE-TWO*AA)*SIGNXX(I)+	     AA*SIGNYY(I)
+            S2=	       AA*SIGNXX(I)+(ONE-TWO*AA)*SIGNYY(I)
+            S3=(ONE-THREE*AA)*SIGNXY(I)
             SIGNXX(I)=S1
             SIGNYY(I)=S2
             SIGNXY(I)=S3
-            DPLA(I) = OFF(I)*(SVM(I)-YLD(I))/(TROIS*G+H(I))
+            DPLA(I) = OFF(I)*(SVM(I)-YLD(I))/(THREE*G+H(I))
             EPSEQ(I) = EPSEQ(I) + DPLA(I)
 C
             YLD(I) =YLD(I)+H(I)*DPLA(I)
@@ -437,12 +437,12 @@ C
             SVM(I)=SQRT( SIGNXX(I)*SIGNXX(I)
      .                  +SIGNYY(I)*SIGNYY(I)
      .                  -SIGNXX(I)*SIGNYY(I)
-     .            +TROIS*SIGNXY(I)*SIGNXY(I))
-            R  = MIN(UN,YLD(I)/MAX(EM20,SVM(I)))
+     .            +THREE*SIGNXY(I)*SIGNXY(I))
+            R  = MIN(ONE,YLD(I)/MAX(EM20,SVM(I)))
             SIGNXX(I)=SIGNXX(I)*R
             SIGNYY(I)=SIGNYY(I)*R
             SIGNXY(I)=SIGNXY(I)*R
-            EZZ(I) = DPLA(I) * UNDEMI*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
+            EZZ(I) = DPLA(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
           END DO ! DO J=1,NINDX
         END IF ! IF (NINDX /= 0)
       ENDIF ! IF (IPLA == 0)
@@ -455,16 +455,16 @@ C------------------------------------------
             IF (DPLA(I) > ZERO) THEN
 c ...... Parameter d(gama)
               PLA_I =EPSEQ(I)
-              BETA = UN-FISOKIN
+              BETA = ONE-FISOKIN
               YLD(I) =MIN(YMAX(I),CA(I)+BETA*CB(I)*EXP(CN*LOG(PLA_I)))
-              GAMA_IMP(I)= TDEMI*DPLA(I)/YLD(I)
+              GAMA_IMP(I)= THREE_HALF*DPLA(I)/YLD(I)
 c ...... HK,HH---
               SIGNOR(I,4)=FISOKIN*H(I)
-              SIGNOR(I,5)=(UN-FISOKIN)*H(I)
+              SIGNOR(I,5)=(ONE-FISOKIN)*H(I)
 c ...... Deviatoric stresses shifted by modified back stress ->ksi
-              SIGNOR(I,1)=TIERS*(DEUX*SIGNXX(I)-SIGNYY(I))
-              SIGNOR(I,2)=TIERS*(DEUX*SIGNYY(I)-SIGNXX(I))
-              SIGNOR(I,3)=DEUX*SIGNXY(I)
+              SIGNOR(I,1)=THIRD*(TWO*SIGNXX(I)-SIGNYY(I))
+              SIGNOR(I,2)=THIRD*(TWO*SIGNYY(I)-SIGNXX(I))
+              SIGNOR(I,3)=TWO*SIGNXY(I)
             ELSE
               GAMA_IMP(I) = ZERO
             END IF ! IF (DPLA(I) > ZERO)
@@ -480,7 +480,7 @@ C------------------------------------------
           DO J=1,NINDX
             I=INDEX(J)
             PLA_I =EPSEQ(I)
-            BETA = UN-FISOKIN
+            BETA = ONE-FISOKIN
 C------YLD, H(I) should not be updated----
             IF (PLA_I == ZERO) THEN
               YLD(I) =CA(I)

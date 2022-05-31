@@ -146,11 +146,11 @@ C-----------------------------------------------
 !----------------------------
         DO I=JFT,JLT
           IF (OFF(I) == OFF_OLD(I) .and. OFF(I) > ZERO) THEN
-            IF (OFF(I) == UN .and. EPCHK(I) >= EPMX) THEN
-              OFF(I)= QCINQ
+            IF (OFF(I) == ONE .and. EPCHK(I) >= EPMX) THEN
+              OFF(I)= FOUR_OVER_5
               IOFF_DUCT(I) = 1    ! debut de la rupture progressive
-            ELSE IF (OFF(I) < UN ) THEN
-              OFF(I) = OFF(I)*QCINQ
+            ELSE IF (OFF(I) < ONE ) THEN
+              OFF(I) = OFF(I)*FOUR_OVER_5
             ENDIF
           ENDIF
         ENDDO
@@ -160,10 +160,10 @@ c------------------------------------
       DO I=JFT,JLT
         IF (INLOC > 0) THEN
           EZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG
-          EZZ(I) = EZZ(I) - MAX(DPLANL(I),ZERO)*UNDEMI*(SIGNXX(I)+SIGNYY(I))/YLD(I)
+          EZZ(I) = EZZ(I) - MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/YLD(I)
         ELSE
-          EZZ(I) = -(DEPSXX(I)+DEPSYY(I))*NU-(UN - DEUX*NU)*EZZ(I)
-          EZZ(I) = EZZ(I)/(UN-NU)
+          EZZ(I) = -(DEPSXX(I)+DEPSYY(I))*NU-(ONE - TWO*NU)*EZZ(I)
+          EZZ(I) = EZZ(I)/(ONE-NU)
         ENDIF
         THK(I) = THK(I) + EZZ(I) * THKLYL(I)*OFF(I)
       ENDDO

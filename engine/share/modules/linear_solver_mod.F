@@ -506,7 +506,7 @@ C-----------------------------------------------
          i = this%mat%irow(ii)
          j = this%mat%jcol(ii)
          if (i == j) then
-            this%diag(i) = un / sqrt(this%mat%val(ii))
+            this%diag(i) = ONE / sqrt(this%mat%val(ii))
          endif
       enddo
       

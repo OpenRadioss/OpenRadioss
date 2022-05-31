@@ -127,21 +127,21 @@ c
             IF (NBX == -2) THEN    ! Von Mises Stress
                P = - (GBUF%SIG(II(1)+I)
      .             +  GBUF%SIG(II(2)+I)
-     .             +  GBUF%SIG(II(3)+I)) / TROIS
+     .             +  GBUF%SIG(II(3)+I)) / THREE
                S1 = GBUF%SIG(II(1)+I) + P
                S2 = GBUF%SIG(II(2)+I) + P
                S3 = GBUF%SIG(II(3)+I) + P
-               VONM2 = TROIS*(GBUF%SIG(II(4)+I)**2 +               
+               VONM2 = THREE*(GBUF%SIG(II(4)+I)**2 +               
      .                        GBUF%SIG(II(5)+I)**2 +               
      .                        GBUF%SIG(II(6)+I)**2 +               
-     .                UNDEMI*(S1*S1+S2*S2+S3*S3))
+     .                HALF*(S1*S1+S2*S2+S3*S3))
                WA(JJ)= SQRT(VONM2)
             ELSEIF (NBX == 1) THEN       ! OFF
               WA(JJ) = GBUF%OFF(I)
             ELSEIF (NBX == 2) THEN       ! pressure
               WA(JJ) = - (GBUF%SIG(II(1)+I)
      .                 +  GBUF%SIG(II(2)+I)
-     .                 +  GBUF%SIG(II(3)+I)) / TROIS  
+     .                 +  GBUF%SIG(II(3)+I)) / THREE  
             ELSEIF (NBX == 3) THEN       ! energy
               WA(JJ) = GBUF%EINT(I)
             ELSEIF (NBX == 4) THEN       ! density
@@ -173,14 +173,14 @@ C  equivalent stress -  (NON VON MISES / VON MISES)
               ELSE                      ! VON MISES
                 P = - (GBUF%SIG(II(1)+I)
      .              +  GBUF%SIG(II(2)+I)
-     .              +  GBUF%SIG(II(3)+I)) / TROIS
+     .              +  GBUF%SIG(II(3)+I)) / THREE
                 S1 = GBUF%SIG(II(1)+I) + P
                 S2 = GBUF%SIG(II(2)+I) + P
                 S3 = GBUF%SIG(II(3)+I) + P
-                VONM2 = TROIS*(GBUF%SIG(II(4)+I)**2 +               
+                VONM2 = THREE*(GBUF%SIG(II(4)+I)**2 +               
      .                         GBUF%SIG(II(5)+I)**2 +               
      .                         GBUF%SIG(II(6)+I)**2 +               
-     .                  UNDEMI*(S1*S1+S2*S2+S3*S3))
+     .                  HALF*(S1*S1+S2*S2+S3*S3))
                 WA(JJ)= SQRT(VONM2)
               ENDIF
             ENDIF

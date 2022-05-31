@@ -265,9 +265,9 @@ C----- Initialisation de EXPREC
 	    ENDIF
 	      
 C----- Calcul de DEX
-            X21(I) = UNDEMI*(VR(1,NC2(I))+VR(1,NC1(I)))*DT1
-            Y21(I) = UNDEMI*(VR(2,NC2(I))+VR(2,NC1(I)))*DT1
-            Z21(I) = UNDEMI*(VR(3,NC2(I))+VR(3,NC1(I)))*DT1
+            X21(I) = HALF*(VR(1,NC2(I))+VR(1,NC1(I)))*DT1
+            Y21(I) = HALF*(VR(2,NC2(I))+VR(2,NC1(I)))*DT1
+            Z21(I) = HALF*(VR(3,NC2(I))+VR(3,NC1(I)))*DT1
             DT(1)=EXPREC(1)*X21(I)+EXPREC(2)*Y21(I)+EXPREC(3)*Z21(I)
             DT(2)=EXPREC(4)*X21(I)+EXPREC(5)*Y21(I)+EXPREC(6)*Z21(I)
             DT(3)=EXPREC(7)*X21(I)+EXPREC(8)*Y21(I)+EXPREC(9)*Z21(I)
@@ -406,8 +406,8 @@ C-----------------------------------------------
       my_real E11,E22,E33,E12,E21,E13,E31,E23,E32,NR,KSI,
      .        PI1    
 C=================================================================
-CCsm45a2       PI= 2.*ATAN2(UN,ZERO)
-       PI1 = 2.*ATAN2(UN,ZERO)
+CCsm45a2       PI= 2.*ATAN2(ONE,ZERO)
+       PI1 = 2.*ATAN2(ONE,ZERO)
 C---   first skew rotation
        E11 = SKEW(1)   
        E12 = SKEW(4)   
@@ -418,17 +418,17 @@ C---   first skew rotation
        E31 = SKEW(3)   
        E32 = SKEW(6)   
        E33 = SKEW(9)  
-       C = UNDEMI * (E11+E22+E33 - UN)
-       C = MIN(C,UN)
-       C = MAX(C,-UN)
+       C = HALF * (E11+E22+E33 - ONE)
+       C = MIN(C,ONE)
+       C = MAX(C,-ONE)
        KSI = ACOS(C)
        S   = SIN(KSI)
-       IF(S.NE.ZERO) S = UNDEMI / S
+       IF(S.NE.ZERO) S = HALF / S
        T(1) = (E32 - E23) * S
        T(2) = (E13 - E31) * S
        T(3) = (E21 - E12) * S
        NR = SQRT(T(1)*T(1)+T(2)*T(2)+T(3)*T(3))
-       IF (NR.NE.ZERO) NR = UN/NR
+       IF (NR.NE.ZERO) NR = ONE/NR
        T(1) = T(1)*NR
        T(2) = T(2)*NR 
        T(3) = T(3)*NR 
@@ -461,7 +461,7 @@ C-----------------------------------------------
      .        PI1      
 C=================================================================
 C
-       PI1 = 2.*ATAN2(UN,ZERO)
+       PI1 = 2.*ATAN2(ONE,ZERO)
 C---   first skew rotation
        E11 = SKEW(1)   
        E12 = SKEW(4)   
@@ -472,23 +472,23 @@ C---   first skew rotation
        E31 = SKEW(3)   
        E32 = SKEW(6)   
        E33 = SKEW(9)  
-       C = UNDEMI * (E11+E22+E33 - UN)
-       C = MIN(C,UN)
-       C = MAX(C,-UN)
+       C = HALF * (E11+E22+E33 - ONE)
+       C = MIN(C,ONE)
+       C = MAX(C,-ONE)
        KSI = ACOS(C)
        S   = SIN(KSI)
-       IF(S.NE.ZERO) S  = UNDEMI / S
+       IF(S.NE.ZERO) S  = HALF / S
        RVEC(1) = (E32 - E23) * S
        RVEC(2) = (E13 - E31) * S
        RVEC(3) = (E21 - E12) * S
        NR = SQRT(RVEC(1)*RVEC(1)+RVEC(2)*RVEC(2)+RVEC(3)*RVEC(3))
-       IF (NR.NE.ZERO) NR = UN/NR
+       IF (NR.NE.ZERO) NR = ONE/NR
        RVEC(1) = RVEC(1)*NR
        RVEC(2) = RVEC(2)*NR 
        RVEC(3) = RVEC(3)*NR 
 C
-       C = UNDEMI*(C+ UN)
-       S = SQRT(UN-C)
+       C = HALF*(C+ ONE)
+       S = SQRT(ONE-C)
        C = SQRT(C)
 C---------------------------
       RETURN
@@ -516,7 +516,7 @@ C-----------------------------------------------
       my_real E11,E22,E33,E12,E21,E13,E31,E23,E32,
      .        U1,U2,U3, U1S, U2S, U3S, S,C,CI
 C=================================================================
-      CI = UN - C
+      CI = ONE - C
       U1 = T(1)
       U2 = T(2)
       U3 = T(3)

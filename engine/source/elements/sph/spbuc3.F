@@ -423,7 +423,7 @@ C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
          JK       =JVOIS(K)
          DK       =DVOIS(K)
 
-         IF(DK < UN)THEN
+         IF(DK < ONE)THEN
            NVOIS1=NVOIS1+1
            IXSP(NVOIS1,N)=JK
          ELSE

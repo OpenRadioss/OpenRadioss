@@ -63,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C-----------------------------------------------
       
-      DTA =QUART*DT1
+      DTA =FOURTH*DT1
 
       DO I=LFT,LLT
         E1(I)=D1(I)*(SOLD1(I)+SNEW(I,1)+POLD(I))
@@ -75,13 +75,13 @@ C-----------------------------------------------
       ENDDO
 
       DO I=LFT,LLT
-        VAVG(I)=(DEUX*VOLN(I)-DVOL(I))*OFF(I)
+        VAVG(I)=(TWO*VOLN(I)-DVOL(I))*OFF(I)
         DVOL(I)=DVOL(I)*OFF(I)
         EINC(I)=VAVG(I)*(E1(I)+E2(I)+E3(I)+E4(I)+E5(I)+E6(I))*DTA
       ENDDO
 
       DO I=LFT,LLT
-        EINC(I)=EINC(I)-DVOL(I)*(POLD(I)+QOLD(I))*UNDEMI
+        EINC(I)=EINC(I)-DVOL(I)*(POLD(I)+QOLD(I))*HALF
         EINT(I)=EINT(I)+EINC(I)
       ENDDO
 

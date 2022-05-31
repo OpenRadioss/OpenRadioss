@@ -58,7 +58,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
         K11(1,I)=KX(I)
         K11(2,I)=KY(I)
         K11(3,I)=KZ(I)
-        ALDEMI = UNDEMI*AL(I)
+        ALDEMI = HALF*AL(I)
         MF23(I)= ALDEMI*KY(I)
         MF32(I)= ALDEMI*KZ(I)
         M11(1,I)=MX(I)

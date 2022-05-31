@@ -61,7 +61,7 @@ C     REAL ou REAL*8
       INTEGER I
 C-----------------------------------------------
       DO I=LFT,LLT
-       MASS(I)=RHO(I)*AREA(I)*OFF(I)*QUART
+       MASS(I)=RHO(I)*AREA(I)*OFF(I)*FOURTH
       ENDDO
 C
       CALL IDP_LOCK(1)
@@ -116,7 +116,7 @@ C     REAL ou REAL*8
       INTEGER I, II, K
 C-----------------------------------------------
       DO I=LFT,LLT
-       MASS(I)=RHO(I)*AREA(I)*OFF(I)*QUART
+       MASS(I)=RHO(I)*AREA(I)*OFF(I)*FOURTH
       ENDDO
 C
 
@@ -198,7 +198,7 @@ C     REAL ou REAL*8
       INTEGER I, II, K
 C-----------------------------------------------
       DO I=LFT,LLT
-       MASS(I)=RHO(I)*AREA(I)*OFF(I)*QUART
+       MASS(I)=RHO(I)*AREA(I)*OFF(I)*FOURTH
       ENDDO
 C
 
@@ -287,7 +287,7 @@ C     REAL ou REAL*8
       INTEGER I
 C-----------------------------------------------
       DO I=LFT,LLT
-       MASS(I)=RHO(I)*VNEW(I)*OFF(I)*QUART
+       MASS(I)=RHO(I)*VNEW(I)*OFF(I)*FOURTH
       ENDDO
 C
       CALL IDP_LOCK(1)
@@ -341,7 +341,7 @@ C     REAL ou REAL*8
       INTEGER I, II, K
 C-----------------------------------------------
       DO I=LFT,LLT
-       MASS(I)=RHO(I)*VNEW(I)*OFF(I)*QUART
+       MASS(I)=RHO(I)*VNEW(I)*OFF(I)*FOURTH
       ENDDO
 C
       DO I=LFT,LLT
@@ -400,7 +400,7 @@ C     REAL ou REAL*8
       INTEGER I, II, K
 C-----------------------------------------------
       DO I=LFT,LLT
-       MASS(I)=RHO(I)*VNEW(I)*OFF(I)*QUART
+       MASS(I)=RHO(I)*VNEW(I)*OFF(I)*FOURTH
       ENDDO
 C
       DO I=LFT,LLT

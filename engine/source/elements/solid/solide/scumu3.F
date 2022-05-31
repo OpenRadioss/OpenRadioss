@@ -187,11 +187,11 @@ C case /DT/BRICK/DEL => OFFG==0 &  F,STI/=0
 C
 C     because 2*Mnodal = 2*Melement/8
       DO I=LFT,LLT
-        STI(I)=QUART*STI(I)
+        STI(I)=FOURTH*STI(I)
       END DO
       IF(NODADT_THERM == 1 ) THEN  
         DO I=LFT,LLT
-           CONDE(I)=UNHUIT*CONDE(I)
+           CONDE(I)=ONE_OVER_8*CONDE(I)
         END DO
       ENDIF
 C
@@ -868,11 +868,11 @@ C case /DT/BRICK/DEL => OFFG==0 &  F,STI/=0
 C
 C     because 2*Mnodal = 2*Melement/8
       DO I=LFT,LLT
-        STI(I)=QUART*STI(I)
+        STI(I)=FOURTH*STI(I)
       END DO
       IF(NODADT_THERM == 1 ) THEN  
         DO I=LFT,LLT
-           CONDE(I)=UNHUIT*CONDE(I)
+           CONDE(I)=ONE_OVER_8*CONDE(I)
         END DO
       ENDIF
 C

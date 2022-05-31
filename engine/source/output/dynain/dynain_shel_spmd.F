@@ -155,7 +155,7 @@ C SPMD: Need to send infos even if 0 elems
           NODTAG(IXC(5,N))=1
 
           IF(IGTYP /= 1) THEN
-           BETAC(II) = (CENT80*ACOS(GBUF%BETAORTH(I)))/PI
+           BETAC(II) = (HUNDRED80*ACOS(GBUF%BETAORTH(I)))/PI
           ENDIF
 
          END DO
@@ -227,7 +227,7 @@ C
           NODTAG(IXTG(4,N))=1
 
           IF(IGTYP /= 1) THEN
-           BETATG(II) = (CENT80*ACOS(GBUF%BETAORTH(I)))/PI
+           BETATG(II) = (HUNDRED80*ACOS(GBUF%BETAORTH(I)))/PI
           ENDIF
 
          END DO

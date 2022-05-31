@@ -125,7 +125,7 @@ C-----------------------------------------------
       IF (ISIGI == ZERO) THEN
         IF (TIME == ZERO) THEN
           DO I=1,NEL
-            UVAR(I,6)= UN         
+            UVAR(I,6)= ONE         
             UVAR(I,13)= AREA(I)  
           ENDDO   
         ENDIF     
@@ -164,7 +164,7 @@ c-----  Energy criterion
 c-----------------------------
         IF (IFAILE == 1) THEN   !  global energy criterion
           C1 = EI(I)/MAXEI
-          IF (C1 > UN) THEN
+          IF (C1 > ONE) THEN
             IF (DAM1(I) == ZERO) THEN
               NINDXE = NINDXE+1
               INDXE(NINDXE) = I
@@ -174,7 +174,7 @@ c-----------------------------
 c         
         ELSEIF (IFAILE == 2) THEN  !  orthotropic energy rupture
           C2 = (ET(I)/MAXET)**NT+ (EN(I)/MAXEN)**NN          
-          IF (C2 > UN) THEN
+          IF (C2 > ONE) THEN
             IF (DAM1(I) == ZERO) THEN
               NINDXE = NINDXE+1
               INDXE(NINDXE) = I
@@ -185,7 +185,7 @@ c
           C1 =  EI(I)/MAXEI
           C2 = (ET(I)/MAXET)**NT+ (EN(I)/MAXEN)**NN
           C1 = MAX(C1,C2)
-          IF (C1 > UN) THEN
+          IF (C1 > ONE) THEN
             IF (DAM1(I) == ZERO) THEN
               NINDXE = NINDXE+1
               INDXE(NINDXE) = I
@@ -208,7 +208,7 @@ c-----------------------------
           IF (IFAILS == 1) THEN
 c           unidirectional rupture in strain
             C3 = MAX(C3,C4)
-            IF (C3 > UN) THEN
+            IF (C3 > ONE) THEN
               IF (DAM3(I) == ZERO) THEN
                 NINDXS = NINDXS+1
                 INDXS(NINDXS) = I
@@ -218,7 +218,7 @@ c           unidirectional rupture in strain
           ELSEIF (IFAILS == 2) THEN
 c           multidirectional rupture in strain
             CM = ABS(C3)**EXPN + ABS(C4)**EXPT
-            IF (CM > UN) THEN
+            IF (CM > ONE) THEN
               IF (DAM3(I) == ZERO) THEN
                 NINDXS = NINDXS+1
                 INDXS(NINDXS) = I
@@ -232,13 +232,13 @@ c-----------------------------
         IF (DAMT > DTIME) THEN
           IDEL =1
           SOFT(I) = ZERO
-        ELSEIF (DSOFT == UN) THEN
-          SOFT(I) = UN - DAMT/MAX(DTIME,EM20)
+        ELSEIF (DSOFT == ONE) THEN
+          SOFT(I) = ONE - DAMT/MAX(DTIME,EM20)
         ELSEIF (DSOFT > ZERO) THEN
-          SOFT(I) = (UN - DAMT/MAX(DTIME,EM20))**DSOFT
+          SOFT(I) = (ONE - DAMT/MAX(DTIME,EM20))**DSOFT
         ENDIF  
 c-----------------------------
-        IF (IDEL == 1 .AND. OFFL(I) == UN) THEN
+        IF (IDEL == 1 .AND. OFFL(I) == ONE) THEN
           OFFL(I) = ZERO       ! local integ point rupture    
           NINDX = NINDX+1
           INDX(NINDX) = I
@@ -246,7 +246,7 @@ c-----------------------------
         ENDIF 
 c-----------------------------
 c---    deformed elements check
-        IF (AREASCALE > ZERO .AND. OFFG(I) == UN ) THEN
+        IF (AREASCALE > ZERO .AND. OFFG(I) == ONE ) THEN
           DEFO = UVAR(I,13) * AREASCALE
           IF (AREA(I) > DEFO) THEN
             OFFL(I) = ZERO
@@ -271,7 +271,7 @@ c
         UVAR(I,11)= EN(I)            
         UVAR(I,12)= ET(I)   
 c--     Maximum Damage storing for output : 0 < DFMAX < 1
-        DFMAX(I) = MIN(UN,MAX(DFMAX(I),DAMT/ MAX(DTIME,EM20))) 
+        DFMAX(I) = MIN(ONE,MAX(DFMAX(I),DAMT/ MAX(DTIME,EM20))) 
 c
       ENDDO     ! I=1,NEL                        
 C-----------------------------------------------

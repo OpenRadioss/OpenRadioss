@@ -37,7 +37,7 @@ C NUMEL  NOMBRE D'ELEMENTS DE LA COUPE
 C NUMCON NOMBRE DE CONNECTIVITES DE LA COUPE
 C NC     TABLEAU DES CONNECTIVITES
 C XYZ    TABLEAU DES COORDONNEES
-C NVOIS  TABLEAU DES DEUX NOEUDS VOISINS 
+C NVOIS  TABLEAU DES TWO NOEUDS VOISINS 
 C LA     TABLEAU DES COEFFICIENTS D'INTERPOLATION
 C------------------------------------------
 C-----------------------------------------------
@@ -68,7 +68,7 @@ C     REAL ou REAL*8
      .   X1,Y1,Z1,V1,XI,YI,ZI,VI,XI1,YI1,ZI1,CSI,SSI,TETMIN,
      .   X12,Y12,Z12,X23,Y23,Z23,V12,X2,Y2,Z2
       DATA IARETE/1,2,2,3,3,4,4,1,1,5,2,6,3,7,4,8,5,6,6,7,7,8,8,5/
-      UNM = -UN
+      UNM = -ONE
 C      
       NEWL=0
       NUMNEW=0
@@ -218,14 +218,14 @@ C
               ZI=ZI/VI
               CSI=X1*XI+Y1*YI+Z1*ZI
               CSI=MAX(CSI,UNM)
-              CSI=MIN(CSI,UN)
+              CSI=MIN(CSI,ONE)
 C              IF(ABS(CSI).LT.1.E-8)CSI=0.
               XI1=Y1*ZI-YI*Z1
               YI1=Z1*XI-ZI*X1
               ZI1=X1*YI-XI*Y1
               SSI=XI1*VN(1)+YI1*VN(2)+ZI1*VN(3)
               SSI=MAX(SSI,UNM)
-              SSI=MIN(SSI,UN)
+              SSI=MIN(SSI,ONE)
   140         TET(K)=ATAN2(SSI,CSI)
 C
             DO 150 K=1,NODEL

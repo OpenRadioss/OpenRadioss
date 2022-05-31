@@ -98,7 +98,7 @@ C=======================================================================
       EPIF = ZERO
       NPIF = 0
 C
-      DTA =UNDEMI*DT1
+      DTA =HALF*DT1
       MX=MAT(LFT)
       ICC  =NINT(PM(49,MX))
       C1   =PM(32,MX)
@@ -124,7 +124,7 @@ C
        SIGMX(I)=SIGMX_1
        NPIF    = NPIF+IRTY
        T(I)   =T_1
-       ETSE(I) = UN
+       ETSE(I) = ONE
       ENDDO
 C
       DO I=LFT,LLT
@@ -140,8 +140,8 @@ C-----------------------
       DO I=LFT,LLT
         P(I)  =-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
         G1(I)=DT1*G(I)
-        G2(I)=DEUX*G1(I)
-        AMU(I)=UN/DF(I)-UN
+        G2(I)=TWO*G1(I)
+        AMU(I)=ONE/DF(I)-ONE
         SIG(I,1)=ZERO
         SIG(I,2)=ZERO
         SIG(I,3)=ZERO
@@ -155,7 +155,7 @@ C------------------------------
 C     DP/DRHO ET VITESSE DU SON
 C------------------------------
       DO I=LFT,LLT
-        DPDM(I)=UNP333*G(I)+C1
+        DPDM(I)=ONEP333*G(I)+C1
         SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       ENDDO
 C--------------------------------------------------
@@ -183,7 +183,7 @@ C--------------------------------------------------
         JPT=(IPT-1)*LLT
 C
         DO I=LFT,LLT
-          DAV=UN-DVOL(I)/VNEW(I)
+          DAV=ONE-DVOL(I)/VNEW(I)
           SOLD1(I)=SIGP(JJ(1)+I)*DAV
           SOLD2(I)=SIGP(JJ(2)+I)*DAV
           SOLD3(I)=SIGP(JJ(3)+I)*DAV
@@ -205,9 +205,9 @@ C--------------------------------------------------
         ENDDO
 C
         DO I=LFT,LLT
-          AJ2(I)=UNDEMI*(SIGP(JJ(1)+I)**2+SIGP(JJ(2)+I)**2+SIGP(JJ(3)+I)**2)
+          AJ2(I)=HALF*(SIGP(JJ(1)+I)**2+SIGP(JJ(2)+I)**2+SIGP(JJ(3)+I)**2)
      .                  +SIGP(JJ(4)+I)**2+SIGP(JJ(5)+I)**2+SIGP(JJ(6)+I)**2
-          AJ2(I)=SQRT(TROIS*AJ2(I))
+          AJ2(I)=SQRT(THREE*AJ2(I))
         ENDDO
 C-------------
 C     STRAIN RATE (JOHNSON-COOK, ZERILLI-ARMSTRONG)
@@ -217,7 +217,7 @@ C-------------
           II=I+JPT
           EPD(I)=OFF(I)* 
      .      MAX( ABS(D1(I,IPT)), ABS(D2(I,IPT)), ABS(D3(I,IPT)),
-     .UNDEMI*ABS(D4(I,IPT)),UNDEMI*ABS(D5(I,IPT)),UNDEMI*ABS(D6(I,IPT)))
+     .HALF*ABS(D4(I,IPT)),HALF*ABS(D5(I,IPT)),HALF*ABS(D6(I,IPT)))
            EPD(I)= MAX(EPD(I),EM15)
            EPSP(II) = EPD(I)           
            EPD(I)= LOG(EPD(I)/EPDR)
@@ -228,9 +228,9 @@ C-------------
           TM=Z4_1
           IF(TM.EQ.ZERO)TM=EP30
             DO I=LFT,LLT
-            TSTAR(I)=MIN(UN,MAX(ZERO,(T(I)-DEUXCENT98)/(TM-DEUXCENT98)))
+            TSTAR(I)=MIN(ONE,MAX(ZERO,(T(I)-TWOHUNDRED98)/(TM-TWOHUNDRED98)))
              EPD(I)= MAX(ZERO,EPD(I))
-             EPD(I)= (UN + CC * EPD(I))*(UN - TSTAR(I)**MT)
+             EPD(I)= (ONE + CC * EPD(I))*(ONE - TSTAR(I)**MT)
              IF(ICC.EQ.1)SIGMX(I)= SIGMX(I)*EPD(I)
           ENDDO
         ELSEIF(NPIF.EQ.LLT)THEN
@@ -238,44 +238,44 @@ C-------------
              EPD(I)= CC*EXP((-Z3_1+Z4_1 * EPD(I))*T(I))
              IF(ICC.EQ.1)SIGMX(I)= SIGMX(I) + EPD(I)
              CA(I) = CA(I) + EPD(I)
-             EPD(I)=UN
+             EPD(I)=ONE
           ENDDO
         ELSE
           MT=Z3_1
           TM=Z4_1
           DO I=LFT,LLT
            IF(IRTY.EQ.0)THEN
-            TSTAR(I)=MIN(UN,MAX(ZERO,(T(I)-DEUXCENT98)/(TM-DEUXCENT98)))
+            TSTAR(I)=MIN(ONE,MAX(ZERO,(T(I)-TWOHUNDRED98)/(TM-TWOHUNDRED98)))
             EPD(I)= MAX(ZERO,EPD(I))
-             EPD(I)= (UN +CC * EPD(I))*(1.-TSTAR(I)**MT)
+             EPD(I)= (ONE +CC * EPD(I))*(1.-TSTAR(I)**MT)
              IF(ICC.EQ.1)SIGMX(I)= SIGMX(I)*EPD(I)
            ELSE
              EPD(I)= CC*EXP((-Z3_1+Z4_1 * EPD(I))*T(I))
              IF(ICC.EQ.1)SIGMX(I)= SIGMX(I) + EPD(I)
              CA(I) = CA(I) + EPD(I)
-             EPD(I)=UN
+             EPD(I)=ONE
            ENDIF
           ENDDO
         ENDIF
       ELSE
         DO I=LFT,LLT
-          EPD(I)=UN
+          EPD(I)=ONE
         ENDDO
       ENDIF
 C-------------
 C     CRITERE
 C-------------
       DO I=LFT,LLT
-       IF(CN.EQ.UN) THEN
+       IF(CN.EQ.ONE) THEN
          AK(I)= CA(I)+CB_1*EPLA(I)
          QH(I)= CB_1*EPD(I)
        ELSE
          IF(EPLA(I).GT.ZERO) THEN
            AK(I)=CA(I)+CB_1*EPLA(I)**CN
-           IF(CN.GT.UN) THEN
-             QH(I)= (CB_1*CN*EPLA(I)**(CN-UN))*EPD(I)
+           IF(CN.GT.ONE) THEN
+             QH(I)= (CB_1*CN*EPLA(I)**(CN-ONE))*EPD(I)
            ELSE
-             QH(I)= (CB_1*CN/EPLA(I)**(UN - CN))*EPD(I)
+             QH(I)= (CB_1*CN/EPLA(I)**(ONE - CN))*EPD(I)
            ENDIF
          ELSE
            AK(I)=CA(I)
@@ -289,40 +289,40 @@ C
       IF(IPLA.EQ.0)THEN
        DO I=LFT,LLT
          II=I+JPT
-         SCALE= MIN(UN,AK(I)/ MAX(AJ2(I),EM15))
+         SCALE= MIN(ONE,AK(I)/ MAX(AJ2(I),EM15))
          SIGP(JJ(1)+I)=SCALE*SIGP(JJ(1)+I)
          SIGP(JJ(2)+I)=SCALE*SIGP(JJ(2)+I)
          SIGP(JJ(3)+I)=SCALE*SIGP(JJ(3)+I)
          SIGP(JJ(4)+I)=SCALE*SIGP(JJ(4)+I)
          SIGP(JJ(5)+I)=SCALE*SIGP(JJ(5)+I)
          SIGP(JJ(6)+I)=SCALE*SIGP(JJ(6)+I)
-         EPLA(I)=EPLA(I)+(UN-SCALE)*AJ2(I)
-     .                         / MAX(TROIS*G(I)+QH(I),EM15)
-         DPLA(II) =(UN-SCALE)*AJ2(I)/ MAX(TROIS*G(I)+QH(I),EM15)     
+         EPLA(I)=EPLA(I)+(ONE-SCALE)*AJ2(I)
+     .                         / MAX(THREE*G(I)+QH(I),EM15)
+         DPLA(II) =(ONE-SCALE)*AJ2(I)/ MAX(THREE*G(I)+QH(I),EM15)     
        ENDDO
       ELSEIF(IPLA.EQ.2)THEN
        DO I=LFT,LLT
          II=I+JPT
-         SCALE= MIN(UN,AK(I)/ MAX(AJ2(I),EM15))
+         SCALE= MIN(ONE,AK(I)/ MAX(AJ2(I),EM15))
          SIGP(JJ(1)+I)=SCALE*SIGP(JJ(1)+I)
          SIGP(JJ(2)+I)=SCALE*SIGP(JJ(2)+I)
          SIGP(JJ(3)+I)=SCALE*SIGP(JJ(3)+I)
          SIGP(JJ(4)+I)=SCALE*SIGP(JJ(4)+I)
          SIGP(JJ(5)+I)=SCALE*SIGP(JJ(5)+I)
          SIGP(JJ(6)+I)=SCALE*SIGP(JJ(6)+I)
-         EPLA(I)=EPLA(I)+(UN -SCALE)*AJ2(I)
-     .                         / MAX(TROIS*G(I),EM15)
-         DPLA(II) = (UN -SCALE)*AJ2(I)/ MAX(TROIS*G(I),EM15)     
+         EPLA(I)=EPLA(I)+(ONE -SCALE)*AJ2(I)
+     .                         / MAX(THREE*G(I),EM15)
+         DPLA(II) = (ONE -SCALE)*AJ2(I)/ MAX(THREE*G(I),EM15)     
        ENDDO
       ELSEIF(IPLA.EQ.1)THEN
         DO I=LFT,LLT
          II=I+JPT
-         SCALE= MIN(UN,AK(I)/ MAX(AJ2(I),EM15))
+         SCALE= MIN(ONE,AK(I)/ MAX(AJ2(I),EM15))
 Clm      plastic strain increment.
-         DPLA(II)=(UN -SCALE)*AJ2(I)/MAX(TROIS*G(I)+QH(I),EM15)
+         DPLA(II)=(ONE -SCALE)*AJ2(I)/MAX(THREE*G(I)+QH(I),EM15)
 Clm      actual yeld stress.
          AK(I)=AK(I)+DPLA(II)*QH(I)
-         SCALE= MIN(UN,AK(I)/ MAX(AJ2(I),EM15))
+         SCALE= MIN(ONE,AK(I)/ MAX(AJ2(I),EM15))
          SIGP(JJ(1)+I)=SCALE*SIGP(JJ(1)+I)
          SIGP(JJ(2)+I)=SCALE*SIGP(JJ(2)+I)
          SIGP(JJ(3)+I)=SCALE*SIGP(JJ(3)+I)
@@ -359,13 +359,13 @@ C--------------------------------------------------
 C     CONTRAINTE MOYENNE (OUTPUT)
 C--------------------------------------------------
         DO I=LFT,LLT
-          SIG(I,1)=SIG(I,1)+UNHUIT*SIGP(JJ(1)+I)
-          SIG(I,2)=SIG(I,2)+UNHUIT*SIGP(JJ(2)+I)
-          SIG(I,3)=SIG(I,3)+UNHUIT*SIGP(JJ(3)+I)
-          SIG(I,4)=SIG(I,4)+UNHUIT*SIGP(JJ(4)+I)
-          SIG(I,5)=SIG(I,5)+UNHUIT*SIGP(JJ(5)+I)
-          SIG(I,6)=SIG(I,6)+UNHUIT*SIGP(JJ(6)+I)
-          EPSEQ(I)=EPSEQ(I)+UNHUIT*EPLA(I)	
+          SIG(I,1)=SIG(I,1)+ONE_OVER_8*SIGP(JJ(1)+I)
+          SIG(I,2)=SIG(I,2)+ONE_OVER_8*SIGP(JJ(2)+I)
+          SIG(I,3)=SIG(I,3)+ONE_OVER_8*SIGP(JJ(3)+I)
+          SIG(I,4)=SIG(I,4)+ONE_OVER_8*SIGP(JJ(4)+I)
+          SIG(I,5)=SIG(I,5)+ONE_OVER_8*SIGP(JJ(5)+I)
+          SIG(I,6)=SIG(I,6)+ONE_OVER_8*SIGP(JJ(6)+I)
+          EPSEQ(I)=EPSEQ(I)+ONE_OVER_8*EPLA(I)	
         ENDDO
 C
       ENDDO  ! NPT

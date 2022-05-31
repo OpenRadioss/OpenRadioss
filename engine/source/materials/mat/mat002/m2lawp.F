@@ -130,12 +130,12 @@ C     AMORTISSEMENT
 C-----------------------------
       DO I=LFT,LLT
         ESP(I) = (EINT(I,1)+EINT(I,2))/AL(I)/A1(I)
-        FA1(I) = EXX(I)*DMPM(I)*A1(I)*SQRT(DEUX*YM(I)*RHO(I))
-        FA2(I) = EXY(I)*DMPF(I)*12*B2(I)*SQRT(DEUX*YM(I)*RHO(I))/AL(I)**2
-        FA3(I) = EXZ(I)*DMPF(I)*12*B1(I)*SQRT(DEUX*YM(I)*RHO(I))/AL(I)**2
-        MA1(I) = KXX(I)*DMPF(I)*B3(I)*SQRT(DEUX*G(I)*RHO(I))
-        MA2(I) = KYY(I)*DMPF(I)*B1(I)*SQRT(DEUX*YM(I)*RHO(I))
-        MA3(I) = KZZ(I)*DMPF(I)*B2(I)*SQRT(DEUX*YM(I)*RHO(I))
+        FA1(I) = EXX(I)*DMPM(I)*A1(I)*SQRT(TWO*YM(I)*RHO(I))
+        FA2(I) = EXY(I)*DMPF(I)*12*B2(I)*SQRT(TWO*YM(I)*RHO(I))/AL(I)**2
+        FA3(I) = EXZ(I)*DMPF(I)*12*B1(I)*SQRT(TWO*YM(I)*RHO(I))/AL(I)**2
+        MA1(I) = KXX(I)*DMPF(I)*B3(I)*SQRT(TWO*G(I)*RHO(I))
+        MA2(I) = KYY(I)*DMPF(I)*B1(I)*SQRT(TWO*YM(I)*RHO(I))
+        MA3(I) = KZZ(I)*DMPF(I)*B2(I)*SQRT(TWO*YM(I)*RHO(I))
         FA1(I) = FA1(I)*OFF(I)
         FA2(I) = FA2(I)*OFF(I)
         FA3(I) = FA3(I)*OFF(I)
@@ -162,11 +162,11 @@ C
 C     CISAILLEMENT TRANSVERSAL CALCULE AVEC K1=12EI/L**2 K2=5/6GA
 C
       DO I=LFT,LLT
-        SH(I)=CSIX*G(I)*A1(I)
-        YMA2(I)=DOUZE*YM(I)/AL(I)**2
+        SH(I)=FIVE_OVER_6*G(I)*A1(I)
+        YMA2(I)=TWELVE*YM(I)/AL(I)**2
         SH10(I)=YMA2(I)*B1(I)
         SH20(I)=YMA2(I)*B2(I)
-        SH0(I)=(UN - SHF(I))*SH(I)
+        SH0(I)=(ONE - SHF(I))*SH(I)
         SH1(I)=SH0(I)*SH10(I)/(SH(I)+SH10(I)) + SHF(I)*SH10(I)
         SH2(I)=SH0(I)*SH20(I)/(SH(I)+SH20(I)) + SHF(I)*SH20(I)
 C
@@ -181,7 +181,7 @@ C-------------
 C     CRITERE
 C-------------
       DO I=LFT,LLT
-        YEQ(I)= F1(I)*F1(I) + TROIS * A1(I) *
+        YEQ(I)= F1(I)*F1(I) + THREE * A1(I) *
      +                    ( M1(I)*M1(I) / MAX(B3(I),EM20)
      +                    + M2(I)*M2(I) / MAX(B1(I),EM20)
      +                    + M3(I)*M3(I) / MAX(B2(I),EM20) )
@@ -200,37 +200,37 @@ C-------------
         ENDDO
         IF (NPIF == ZERO) THEN
           DO I=LFT,LLT
-            EPSP(I)=(UN + CC(I) * EPSP(I))
+            EPSP(I)=(ONE + CC(I) * EPSP(I))
             IF (ICC(I) == 1) YMAX(I) = YMAX(I) * EPSP(I)
           ENDDO
         ELSEIF (NPIF == LLT) THEN
           DO I=LFT,LLT
-            EPSP(I)=(UN + CC(I) * EPSP(I))
+            EPSP(I)=(ONE + CC(I) * EPSP(I))
             TMP1(I)=EPSP(I)
             EPSP(I)= CC(I)*EXP((-Z3(I)+Z4(I) * EPSP(I))*ESP(I))
             IF(ICC(I).EQ.1)YMAX(I)= YMAX(I) + EPSP(I)
             CA(I) = CA(I) + EPSP(I)
-            EPSP(I)=UN
+            EPSP(I)=ONE
           ENDDO
         ELSE
           DO I=LFT,LLT
             IF (IRTY(I) == 0)THEN
-              EPSP(I)=(UN + CC(I) * EPSP(I))
+              EPSP(I)=(ONE + CC(I) * EPSP(I))
               TMP1(I)=YMAX(I)
               IF(ICC(I).EQ.1) YMAX(I) = YMAX(I) * EPSP(I)
             ELSE
-              EPSP(I)=(UN  + CC(I) * EPSP(I))
+              EPSP(I)=(ONE  + CC(I) * EPSP(I))
               TMP1(I)=EPSP(I)
               EPSP(I)= CC(I)*EXP((-Z3(I)+Z4(I) * EPSP(I))*ESP(I))
               IF(ICC(I).EQ.1)YMAX(I)= YMAX(I) + EPSP(I)
               CA(I) = CA(I) + EPSP(I)
-              EPSP(I)=UN
+              EPSP(I)=ONE
             ENDIF
           ENDDO
         ENDIF
       ELSE
         DO I=LFT,LLT
-          EPSP(I)=UN
+          EPSP(I)=ONE
         ENDDO
       ENDIF
 C-----------------------------------
@@ -240,7 +240,7 @@ C-----------------------------------
         YLD(I)= CA(I) + CB(I) * EXP(CN(I) * LOG(PLA(I)+EM30))
         YLDTMP(I)=YLD(I)
         YLD(I)= MIN(YLD(I)*EPSP(I),YMAX(I))
-        RR(I) = MIN(UN,YLD(I)/(YEQ(I)+ EM20))
+        RR(I) = MIN(ONE,YLD(I)/(YEQ(I)+ EM20))
       ENDDO
 C
       DO I=LFT,LLT
@@ -266,7 +266,7 @@ C
       DO I=LFT,LLT
         DWPLA(I)=DEGMB(I)+DEGFX(I)-DWELM(I)-DWELF(I)
         DEGSH(I)= DEGSH(I)+FOR(I,2)*EXY(I)+FOR(I,3)*EXZ(I)
-        FACT=UNDEMI*OFF(I)*AL(I)
+        FACT=HALF*OFF(I)*AL(I)
         EINT(I,1) = EINT(I,1) + (DEGSH(I)+DEGMB(I))*FACT
         EINT(I,2) = EINT(I,2) +  FACT*DEGFX(I)
       ENDDO
@@ -276,21 +276,21 @@ C-----------------------
       DO I=LFT,LLT
         TMP1(I)=EPSP(I)*DWPLA(I)/YLD(I)
 c       PLA(I)=PLA(I)+OFF(I)*MAX(ZERO,0.5*EPSP(I)*DWPLA(I)/YLD(I)/A1(I))
-        PLA(I)=PLA(I)+OFF(I)*MAX(ZERO,UNDEMI*TMP1(I)/A1(I))
+        PLA(I)=PLA(I)+OFF(I)*MAX(ZERO,HALF*TMP1(I)/A1(I))
       ENDDO
 C--------------------------------
 C     TEST DE RUPTURE DUCTILE
 C--------------------------------
       DO I=LFT,LLT
         IF (OFF(I) < EM01) OFF(I)=ZERO
-        IF (OFF(I) < UN)   OFF(I)=OFF(I)*QCINQ
+        IF (OFF(I) < ONE)   OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 C
       NINDX  = 0
       DO I=LFT,LLT
-        IF (OFF(I) < UN)      CYCLE
+        IF (OFF(I) < ONE)      CYCLE
         IF (PLA(I) < EPMX(I)) CYCLE
-        OFF(I)=QCINQ
+        OFF(I)=FOUR_OVER_5
         IDEL7NOK = 1
         NINDX=NINDX+1
         INDX(NINDX)=I

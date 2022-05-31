@@ -147,12 +147,12 @@ C
 C-----------------------------------------------
 #include "sync_dir.inc"
       IF (IRESP.EQ.1) THEN
-           PREC = CINQEM4
+           PREC = FIVEEM4
       ELSE
            PREC = EM10
       ENDIF
       IF(DT1.GT.ZERO)THEN
-        DT1INV = UN/DT1
+        DT1INV = ONE/DT1
       ELSE
         DT1INV =ZERO
       ENDIF
@@ -170,7 +170,7 @@ C---------------------
          DO I=1,JLT
 C REDUCTION DE LA PENE INITIALE
            PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
-     .            ((UN-CINQEM2)*PENI(CAND_N_N(I))+CINQEM2*PENE(I))  )
+     .            ((ONE-FIVEEM2)*PENI(CAND_N_N(I))+FIVEEM2*PENE(I))  )
 C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
            PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
            IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
@@ -180,8 +180,8 @@ C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
          DO I=1,JLT
 C REDUCTION DE LA PENE INITIALE
            PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
-     .        ( (UN-CINQEM2)*PENI(CAND_N_N(I))
-     .          +CINQEM2*(PENE(I)+CINQEM2*(GAPV(I)-PENE(I))))  )
+     .        ( (ONE-FIVEEM2)*PENI(CAND_N_N(I))
+     .          +FIVEEM2*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I))))  )
 C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
            PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
            IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
@@ -200,7 +200,7 @@ C REDUCTION DE LA PENE INITIALE
            IF(PENX(I) > MAX(GAPV(I)-GAP0(I),ZERO))
      .        PENX(I) = PENX(I)-MAX(GAPV(I)-GAP0(I),ZERO)
            PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
-     .            ((UN-CINQEM2)*PENI(CAND_N_N(I))+CINQEM2*PENX(I))  )
+     .            ((ONE-FIVEEM2)*PENI(CAND_N_N(I))+FIVEEM2*PENX(I))  )
 C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
            PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
            IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
@@ -214,8 +214,8 @@ C REDUCTION DE LA PENE INITIALE
            IF(PENX(I) > MAX(GAPV(I)-GAP0(I),ZERO))
      .        PENX(I) = PENX(I)-MAX(GAPV(I)-GAP0(I),ZERO)
            PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
-     .        ( (UN-CINQEM2)*PENI(CAND_N_N(I))
-     .          +CINQEM2*(PENX(I)+CINQEM2*(GAP0(I)-PENX(I))))  )
+     .        ( (ONE-FIVEEM2)*PENI(CAND_N_N(I))
+     .          +FIVEEM2*(PENX(I)+FIVEEM2*(GAP0(I)-PENX(I))))  )
 C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
            PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
            IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
@@ -235,8 +235,8 @@ C----  ILEV=1
         DO I=1,JLT
 C REDUCTION DE LA PENE INITIALE
           PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
-     .       ( (UN-CINQEM2)*PENI(CAND_N_N(I))
-     .         +CINQEM2*(PENE(I)+CINQEM2*ABS(GAPV(I)-PENE(I))))  )
+     .       ( (ONE-FIVEEM2)*PENI(CAND_N_N(I))
+     .         +FIVEEM2*(PENE(I)+FIVEEM2*ABS(GAPV(I)-PENE(I))))  )
 C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
           PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
           IF( PENE(I).EQ.ZERO .AND. 
@@ -246,7 +246,7 @@ C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
         DO I=1,JLT
 C REDUCTION DE LA PENE INITIALE
           PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
-     .           ((UN-CINQEM2)*PENI(CAND_N_N(I))+CINQEM2*PENE(I))  )
+     .           ((ONE-FIVEEM2)*PENI(CAND_N_N(I))+FIVEEM2*PENE(I))  )
 C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
           PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
           IF( PENE(I).EQ.ZERO .AND. 
@@ -272,7 +272,7 @@ C---------------------------------
         DO I=1,JLT
          IG=NSVG(I)
          IF(STIGLO.LE.ZERO)THEN
-           ECONTT  = ECONTT - UNDEMI*STIGLO*STIF(I)*PENE(I)**2 
+           ECONTT  = ECONTT - HALF*STIGLO*STIF(I)*PENE(I)**2 
      .                              * WEIGHT(IG)
            STIF(I) = -STIGLO*STIF(I)
 
@@ -293,13 +293,13 @@ C---------------------------------
          PA = AREA0(I)*PMAX
          IF(STIF(I)*MAX(GAPV(I)-GAP0(I),ZERO) <= PA)THEN
            FNI(I)= - STIF(I)*PENE(I)
-           ECONTT = ECONTT - UNDEMI * PENE(I) * FNI(I)* WEIGHT(IG)
+           ECONTT = ECONTT - HALF * PENE(I) * FNI(I)* WEIGHT(IG)
          ELSE
            FNI(I)= - STIF(I)*MAX(PENE(I)-MAX(GAPV(I)-GAP0(I),ZERO),ZERO)
      .             - MIN(PA,STIF(I)*PENE(I))
            PLIN  = -FNI(I)/MAX(EM20,STIF(I))
            ECONTT = ECONTT + WEIGHT(IG)*
-     .   ( MAX(PENE(I)-PLIN,ZERO)*AREA0(I)*PMAX - UNDEMI *PLIN *FNI(I) )
+     .   ( MAX(PENE(I)-PLIN,ZERO)*AREA0(I)*PMAX - HALF *PLIN *FNI(I) )
          END IF
         END DO
        END IF
@@ -320,7 +320,7 @@ C
 C     IF(KDTINT.EQ.0.AND.IDTMINS/=2)THEN
       IF(IDTMINS/=2.AND.IDTMINS_INT==0)THEN
         DO I=1,JLT
-          VIS = VISC * SQRT(DEUX * STIF(I) * MSI(I))
+          VIS = VISC * SQRT(TWO * STIF(I) * MSI(I))
           STIF(I) = STIF(I) + VIS *DT1INV
           FNI(I)  = FNI(I) + VIS * VN(I)
           IG=NSVG(I)
@@ -328,7 +328,7 @@ C     IF(KDTINT.EQ.0.AND.IDTMINS/=2)THEN
         ENDDO
       ELSE
         DO I=1,JLT
-          C(I) = VISC * SQRT(DEUX * STIF(I) * MSI(I))
+          C(I) = VISC * SQRT(TWO * STIF(I) * MSI(I))
           KT(I)= STIF(I)
           STIF(I) = STIF(I) + C(I) *DT1INV
           FNI(I)  = FNI(I) + C(I) * VN(I)
@@ -453,15 +453,15 @@ C attention : normale <> normale a l'elt
           IF(VV.GE.0.AND.VV.LE.FROT_P(5)) THEN
             DMU = FROT_P(3)-FROT_P(1)
             VV1 = VV / FROT_P(5)
-            XMU(I) = FROT_P(1)+ DMU*VV1*(DEUX-VV1)
+            XMU(I) = FROT_P(1)+ DMU*VV1*(TWO-VV1)
           ELSEIF(VV.GT.FROT_P(5).AND.VV.LT.FROT_P(6)) THEN
             DMU = FROT_P(4)-FROT_P(3) 
             VV1 = (VV - FROT_P(5))/(FROT_P(6)-FROT_P(5))
-            XMU(I) = FROT_P(3)+ DMU * (TROIS-DEUX*VV1)*VV1**2
+            XMU(I) = FROT_P(3)+ DMU * (THREE-TWO*VV1)*VV1**2
           ELSE
             DMU = FROT_P(2)-FROT_P(4)
             VV2 = (VV - FROT_P(6))**2
-            XMU(I) = FROT_P(2) - DMU / (UN + DMU*VV2)
+            XMU(I) = FROT_P(2) - DMU / (ONE + DMU*VV2)
           ENDIF
           XMU(I) = MAX(XMU(I),EM30)
         ENDDO
@@ -481,7 +481,7 @@ C---------------------------------
 C     INCREMENTAL (STIFFNESS) FORMULATION
 C---------------------------------
       IF (IFQ.EQ.13) THEN
-        ALPHA = MAX(UN,ALPHA0*DT12)
+        ALPHA = MAX(ONE,ALPHA0*DT12)
       ELSE
         ALPHA = ALPHA0
       ENDIF
@@ -514,17 +514,17 @@ C---------------------------------
         FT = SQRT(FT)
 
         BETA1 = XMU(I)*FN/FT
-        BETA = MIN(UN,BETA1)
+        BETA = MIN(ONE,BETA1)
 
 C should be the current nodal surface instead of the initial one.
         AREA = AREA0(I)
-        FS   = FTMAX/SQRT(TROIS)*AREA
+        FS   = FTMAX/SQRT(THREE)*AREA
         BETA = MIN(BETA,FS/FT)
         IF(PSKIDFLAG >0) THEN
            BETA1 = MIN(BETA1,FS/FT)
-           IF(BETA1 <= UN) THEN
-             FS2   = PMAXSKID/SQRT(TROIS)*AREA
-             PRATIO(I) =  MIN(UN,BETA*FT/FS2)
+           IF(BETA1 <= ONE) THEN
+             FS2   = PMAXSKID/SQRT(THREE)*AREA
+             PRATIO(I) =  MIN(ONE,BETA*FT/FS2)
            ENDIF
         ENDIF
 C
@@ -623,7 +623,7 @@ c     .   IDTMIN(10).EQ.5.OR.IDTMIN(10).EQ.6)THEN
        DTMI0 = EP20
         DO I=1,JLT
          DTMI(I) = EP20
-         MAS2  = DEUX * MSI(I)
+         MAS2  = TWO * MSI(I)
          JG = NSVG(I)
          IF(MAS2.GT.ZERO.AND.STIF(I).GT.ZERO.AND.
      .     IRB(KINET(JG)).EQ.0.AND.IRB2(KINET(JG)).EQ.0)THEN

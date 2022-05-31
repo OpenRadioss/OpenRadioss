@@ -100,10 +100,10 @@ C-----------------------------------------------
 C---  MVOISN,IRTLM(2,*) is used temporaly for Pen_ini MVOISN(1,*) -> MTYPE(solid),MVOISN(2,*) -> E_id
 C-----MVOISN(3,*) -> part_id, PEN_OLD(1-3,*)->SECONDARY nodal normal, reput PEN_OLD(1-2,*)=0, 3,)=5,)after
 C-----to be consiting with engine for PENMIN
-      IF (IRESP==1.AND.PENMIN<=EM06) PENMIN = DEUX*EM06
+      IF (IRESP==1.AND.PENMIN<=EM06) PENMIN = TWO*EM06
           TOL = PENMIN
-      ALP = DEUX*EM06
-      IF (IRESP==1) ALP = DEUX*EM05
+      ALP = TWO*EM06
+      IF (IRESP==1) ALP = TWO*EM05
       DO I=LFT,LLT
         L  = CAND_E(I)
         NI = CAND_N(I)         
@@ -335,7 +335,7 @@ C--------hide option------
             IF (ILEV ==3) THEN
              DPEN = PEN + TOL
             ELSE
-             DPEN = UNDEMI*(PEN + TOL)
+             DPEN = HALF*(PEN + TOL)
             END IF
 C-------change SECONDARY node
             IF (TAG(NS)==0) THEN
@@ -452,9 +452,9 @@ C
       Z3=ZZ(3)
       Z4=ZZ(4)
 C
-      X0 = QUART*(X1+X2+X3+X4)
-      Y0 = QUART*(Y1+Y2+Y3+Y4)
-      Z0 = QUART*(Z1+Z2+Z3+Z4)
+      X0 = FOURTH*(X1+X2+X3+X4)
+      Y0 = FOURTH*(Y1+Y2+Y3+Y4)
+      Z0 = FOURTH*(Z1+Z2+Z3+Z4)
 C
       XL1 = X1-X0
       XL2 = X2-X0
@@ -521,7 +521,7 @@ C
         IER=-1
         RETURN
       ENDIF
-      AREA=UNDEMI*AN
+      AREA=HALF*AN
 C
       A12=(N1*XN1+N2*YN1+N3*ZN1)
       A23=(N1*XN2+N2*YN2+N3*ZN2)
@@ -565,62 +565,62 @@ C
         TTC=ZERO
        END IF
       ELSE
-       TTC=B12/A12-UN
+       TTC=B12/A12-ONE
        IF(B23.LE.ZERO.AND.B41.LE.ZERO)THEN
          IF(-B23/A12.LE.ALP.AND.-B41/A12.LE.ALP)SSC=ZERO
        ELSEIF(B23.LE.ZERO)THEN
          IF(-B23/A12.LE.ALP) THEN
-          SSC=UN
+          SSC=ONE
          ELSE
-          SSC=DEUX
+          SSC=TWO
          END IF
        ELSEIF(B41.LE.ZERO)THEN
          IF(-B41/A12.LE.ALP) THEN
-          SSC=-UN
+          SSC=-ONE
          ELSE
-          SSC=-DEUX
+          SSC=-TWO
          END IF
        ENDIF
       ENDIF
 C-------------out of seg
-      IF(ABS(SSC).GT.UN+ALP.OR.ABS(TTC).GT.UN+ALP) THEN
+      IF(ABS(SSC).GT.ONE+ALP.OR.ABS(TTC).GT.ONE+ALP) THEN
         IER=1
 C------case tria  re-compute      
-        IF (A34==ZERO.AND.TTC< UN) THEN
-             LB=QUART*(UN - TTC)*(UN - SSC)
-             LC=QUART*(UN - TTC)*(UN + SSC)
-             LA = UN - LB - LC
+        IF (A34==ZERO.AND.TTC< ONE) THEN
+             LB=FOURTH*(ONE - TTC)*(ONE - SSC)
+             LC=FOURTH*(ONE - TTC)*(ONE + SSC)
+             LA = ONE - LB - LC
              IF (LA>=ZERO) THEN
-               LB= MIN(UN,MAX(ZERO,LB))
-               LC= MIN(UN,MAX(ZERO,LC))
-             ELSEIF(LC>LB.AND.LC >= UN) THEN
-               LC = UN
+               LB= MIN(ONE,MAX(ZERO,LB))
+               LC= MIN(ONE,MAX(ZERO,LC))
+             ELSEIF(LC>LB.AND.LC >= ONE) THEN
+               LC = ONE
                LB = ZERO
-             ELSEIF(LB >= UN) THEN
+             ELSEIF(LB >= ONE) THEN
                LC = ZERO
-               LB = UN
+               LB = ONE
              ELSE             
-               LBS = UNDEMI*(UN+LB-LC)
-               LCS = UNDEMI*(UN-LB+LC)
-               LB= MIN(UN,MAX(ZERO,LBS))
-               LC= MIN(UN,MAX(ZERO,LCS))
+               LBS = HALF*(ONE+LB-LC)
+               LCS = HALF*(ONE-LB+LC)
+               LB= MIN(ONE,MAX(ZERO,LBS))
+               LC= MIN(ONE,MAX(ZERO,LCS))
              ENDIF
              SSC= (LC-LB)/(LC+LB)
-             TTC= UN - DEUX*LB - DEUX*LC 
+             TTC= ONE - TWO*LB - TWO*LC 
         END IF
-        IF(ABS(SSC).GT.UN)SSC=SSC/ABS(SSC)
-        IF(ABS(TTC).GT.UN)TTC=TTC/ABS(TTC)
+        IF(ABS(SSC).GT.ONE)SSC=SSC/ABS(SSC)
+        IF(ABS(TTC).GT.ONE)TTC=TTC/ABS(TTC)
       ELSE
         IER=0
-        IF(ABS(SSC).GT.UN)SSC=SSC/ABS(SSC)
-        IF(ABS(TTC).GT.UN)TTC=TTC/ABS(TTC)
+        IF(ABS(SSC).GT.ONE)SSC=SSC/ABS(SSC)
+        IF(ABS(TTC).GT.ONE)TTC=TTC/ABS(TTC)
       ENDIF
 C
-      TP=QUART*(UN+TTC)
-      TM=QUART*(UN-TTC)
+      TP=FOURTH*(ONE+TTC)
+      TM=FOURTH*(ONE-TTC)
 C
-      SP=UN+SSC
-      SM=UN-SSC
+      SP=ONE+SSC
+      SM=ONE-SSC
       H(1)=TM*SM
       H(2)=TM*SP
       H(3)=TP*SP

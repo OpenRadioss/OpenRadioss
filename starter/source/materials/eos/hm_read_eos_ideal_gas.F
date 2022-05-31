@@ -99,13 +99,13 @@ C-----------------------------------------------
         RHO0=RHOR                   
       ENDIF
       
-      MU0 = RHOI/RHOR-UN
+      MU0 = RHOI/RHOR-ONE
       DF = RHOR/RHOI
-      E0 = P0/(GAMMA-UN)/(UN+MU0)
+      E0 = P0/(GAMMA-ONE)/(ONE+MU0)
 
       !ERREURS :
       ! P0 <=0
-      ! GAMMA <=UN
+      ! GAMMA <=ONE
       IF(P0.LE.ZERO)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
@@ -115,7 +115,7 @@ C-----------------------------------------------
      .               C2='INITIAL PRESSURE MUST BE POSITIVE')
       ENDIF
       
-      IF(GAMMA.LE.UN)THEN
+      IF(GAMMA.LE.ONE)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -124,7 +124,7 @@ C-----------------------------------------------
      .               C2='SPECIFIC HEAT RATIO (GAMMA) MUST BE GREATER THAN 1.0')
       ENDIF
 
-      IF(T0.EQ.ZERO)T0=TROIS100
+      IF(T0.EQ.ZERO)T0=THREE100
       Cv = E0/RHO0/T0
       
       PM(32) = GAMMA
@@ -140,10 +140,10 @@ C-----------------------------------------------
       SSP0 = ZERO 
       G0 = PM(22)
       RHOI = PM(89)
-      DPDMU =  (GAMMA-UN)*E0+(UN+MU0)*(GAMMA-UN)*DF*DF*(PM(31)+PSH)
+      DPDMU =  (GAMMA-ONE)*E0+(ONE+MU0)*(GAMMA-ONE)*DF*DF*(PM(31)+PSH)
 
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + DTIERS*G0)/RHOR) 
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0      
 
       WRITE(IOUT,1000)

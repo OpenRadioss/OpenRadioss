@@ -109,7 +109,7 @@ C     ALE ON / OFF
           LBUF2 => ELBUF_STR(NG)%BUFLY(2)%LBUF(1,1,1)
           LFT=1
           IF (DT1 > ZERO)THEN
-            UDT=UN/DT1
+            UDT=ONE/DT1
    	      ELSE
    	       UDT=ZERO
    	      ENDIF

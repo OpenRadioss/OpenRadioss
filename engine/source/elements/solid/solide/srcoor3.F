@@ -293,11 +293,11 @@ C-------sauf thick shells --------------
       IF (IGTYP /= 21 .AND. IGTYP /= 22) THEN
         IF (ISORTH == 0) THEN
           DO I=LFT,LLT                                          
-            GAMA(I,1) = UN                             
+            GAMA(I,1) = ONE                             
             GAMA(I,2) = ZERO                              
             GAMA(I,3) = ZERO
             GAMA(I,4) = ZERO                              
-            GAMA(I,5) = UN                              
+            GAMA(I,5) = ONE                              
             GAMA(I,6) = ZERO
           ENDDO      
         ELSE    
@@ -313,7 +313,7 @@ C-----------
 Clm   X=RX' <=> X'=t(R)X chgt de base.
       IF((ISMSTR<=4.OR.(ISMSTR==12.AND.IDTMIN(1)==3)).AND.JLAG>0) THEN
         DO I=LFT,LLT
-          IF(ABS(OFFG(I)) > UN)THEN
+          IF(ABS(OFFG(I)) > ONE)THEN
             XD1(I)=SAV(I,1)
             YD1(I)=SAV(I,2)
             ZD1(I)=SAV(I,3)
@@ -338,7 +338,7 @@ Clm   X=RX' <=> X'=t(R)X chgt de base.
             XD8(I)=ZERO
             YD8(I)=ZERO
             ZD8(I)=ZERO
-            OFF(I) = ABS(OFFG(I))-UN
+            OFF(I) = ABS(OFFG(I))-ONE
             OFF_L  = MIN(OFF_L,OFFG(I))
           ELSE
             XDL=R11(I)*XD1(I)+R21(I)*YD1(I)+R31(I)*ZD1(I)
@@ -395,7 +395,7 @@ Clm   X=RX' <=> X'=t(R)X chgt de base.
         ENDDO
         IF((ISMSTR==12.AND.IDTMIN(1)==3).AND.JLAG>0) THEN
          DO I=LFT,LLT	  
-          IF(ABS(OFFG(I)) > UN)THEN
+          IF(ABS(OFFG(I)) > ONE)THEN
           XDL=R11(I)*XD1(I)+R21(I)*YD1(I)+R31(I)*ZD1(I)
           YDL=R12(I)*XD1(I)+R22(I)*YD1(I)+R32(I)*ZD1(I)
           ZDL=R13(I)*XD1(I)+R23(I)*YD1(I)+R33(I)*ZD1(I)
@@ -744,7 +744,7 @@ C-----------------------------------------------
       INTEGER I      
 C=======================================================================
         DO I=LFT,LLT
-          IF(ABS(OFFG(I)) <= UN )THEN
+          IF(ABS(OFFG(I)) <= ONE )THEN
            SAV(I,1)=XD1(I)-XD8(I)
            SAV(I,2)=YD1(I)-YD8(I)
            SAV(I,3)=ZD1(I)-ZD8(I)
@@ -808,7 +808,7 @@ C-----------------------------------------------
       INTEGER I      
 C=======================================================================
         DO I=LFT,LLT
-          IF(ABS(OFFG(I)) <= UN )THEN
+          IF(ABS(OFFG(I)) <= ONE )THEN
            SAV(I,1)=XD(I,1)-XD(I,8)
            SAV(I,2)=YD(I,1)-YD(I,8)
            SAV(I,3)=ZD(I,1)-ZD(I,8)
@@ -886,7 +886,7 @@ C-----Always in global system and fixed then (not like Ismstr=11
 C-----for JCVT>0 Fixed SAV is rotated w/ local system not like Ismstr=1
         IH=0
         DO I=LFT,LLT
-         IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > UN ) IH=1
+         IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > ONE ) IH=1
 	END DO
 	IF (IH==0) RETURN
 C	
@@ -947,7 +947,7 @@ C
       ENDIF
 C   -----attention, format is different to Ismstr=10,11
         DO I=LFT,LLT
-          IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > UN )THEN
+          IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > ONE )THEN
            SAV(I,1)=XD1(I)-XD8(I)
            SAV(I,2)=YD1(I)-YD8(I)
            SAV(I,3)=ZD1(I)-ZD8(I)
@@ -1039,7 +1039,7 @@ C     NODAL COORDINATES     |
 C----------------------------
       IF(IRESP==1)THEN 
         DO I=LFT,LLT
-         IF (OFF(I) <= UN ) CYCLE 
+         IF (OFF(I) <= ONE ) CYCLE 
           XD1(I)=XDP(1,NC1(I))  
           YD1(I)=XDP(2,NC1(I))  
           ZD1(I)=XDP(3,NC1(I))  
@@ -1067,7 +1067,7 @@ C----------------------------
         ENDDO
       ELSE	
         DO I=LFT,LLT
-         IF (OFF(I) <= UN ) CYCLE 
+         IF (OFF(I) <= ONE ) CYCLE 
           XD1(I)=X(1,NC1(I))  
           YD1(I)=X(2,NC1(I))  
           ZD1(I)=X(3,NC1(I))  

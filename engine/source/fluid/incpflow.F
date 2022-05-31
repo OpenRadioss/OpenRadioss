@@ -264,10 +264,10 @@ C
          NORM(2,I)=NRY
          NORM(3,I)=NRZ
          AREA=SQRT(NRX**2+NRY**2+NRZ**2)
-         ELAREA(I)=UNDEMI*AREA
-         NODAREA(N1)=NODAREA(N1)+UNSIX*AREA
-         NODAREA(N2)=NODAREA(N2)+UNSIX*AREA
-         NODAREA(N3)=NODAREA(N3)+UNSIX*AREA
+         ELAREA(I)=HALF*AREA
+         NODAREA(N1)=NODAREA(N1)+ONE_OVER_6*AREA
+         NODAREA(N2)=NODAREA(N2)+ONE_OVER_6*AREA
+         NODAREA(N3)=NODAREA(N3)+ONE_OVER_6*AREA
       ENDDO
 C
       DO I=1,NNO+NNI
@@ -334,13 +334,13 @@ C---------------------------------------------------
          NRZ=NORM(3,I)
          AREA=ELAREA(I)
          IF(AREA.GT.EM20)THEN
-           AREA2=DEUX*AREA         
+           AREA2=TWO*AREA         
            NRX=NRX/AREA2
            NRY=NRY/AREA2
            NRZ=NRZ/AREA2
-           VX=TIERS*(VL(1,N1)+VL(1,N2)+VL(1,N3))
-           VY=TIERS*(VL(2,N1)+VL(2,N2)+VL(2,N3))
-           VZ=TIERS*(VL(3,N1)+VL(3,N2)+VL(3,N3))
+           VX=THIRD*(VL(1,N1)+VL(1,N2)+VL(1,N3))
+           VY=THIRD*(VL(2,N1)+VL(2,N2)+VL(2,N3))
+           VZ=THIRD*(VL(3,N1)+VL(3,N2)+VL(3,N3))
            Q(I)=VX*NRX+VY*NRY+VZ*NRZ           
          ELSE
            Q(I)=ZERO
@@ -531,22 +531,22 @@ C
             NRY=NORM(2,I)
             NRZ=NORM(3,I)
             AREA=ELAREA(I)
-            AREA2=DEUX*AREA
+            AREA2=TWO*AREA
             UX=GRX+Q(I)*NRX/AREA2
             UY=GRY+Q(I)*NRY/AREA2
             UZ=GRZ+Q(I)*NRZ/AREA2
             AREAN1=NODAREA(N1)
             AREAN2=NODAREA(N2)
             AREAN3=NODAREA(N3)
-            U(1,N1)=U(1,N1)+UX*TIERS*AREA/AREAN1
-            U(2,N1)=U(2,N1)+UY*TIERS*AREA/AREAN1
-            U(3,N1)=U(3,N1)+UZ*TIERS*AREA/AREAN1
-            U(1,N2)=U(1,N2)+UX*TIERS*AREA/AREAN2
-            U(2,N2)=U(2,N2)+UY*TIERS*AREA/AREAN2
-            U(3,N2)=U(3,N2)+UZ*TIERS*AREA/AREAN2
-            U(1,N3)=U(1,N3)+UX*TIERS*AREA/AREAN3
-            U(2,N3)=U(2,N3)+UY*TIERS*AREA/AREAN3
-            U(3,N3)=U(3,N3)+UZ*TIERS*AREA/AREAN3
+            U(1,N1)=U(1,N1)+UX*THIRD*AREA/AREAN1
+            U(2,N1)=U(2,N1)+UY*THIRD*AREA/AREAN1
+            U(3,N1)=U(3,N1)+UZ*THIRD*AREA/AREAN1
+            U(1,N2)=U(1,N2)+UX*THIRD*AREA/AREAN2
+            U(2,N2)=U(2,N2)+UY*THIRD*AREA/AREAN2
+            U(3,N2)=U(3,N2)+UZ*THIRD*AREA/AREAN2
+            U(1,N3)=U(1,N3)+UX*THIRD*AREA/AREAN3
+            U(2,N3)=U(2,N3)+UY*THIRD*AREA/AREAN3
+            U(3,N3)=U(3,N3)+UZ*THIRD*AREA/AREAN3
          ENDDO
 C Vitesses sur les points auxiliaire
          IF (NNI.GT.0.AND.IPINT.EQ.1) THEN
@@ -618,12 +618,12 @@ C
                      SS1=-(NX1*NX2+NY1*NY2+NZ1*NZ2)/RR1/RR2
                      SS2=-(NX2*NX3+NY2*NY3+NZ2*NZ3)/RR2/RR3
                      SS3=-(NX3*NX1+NY3*NY1+NZ3*NZ1)/RR3/RR1
-                     IF (SS1.GT.UN) SS1=UN
-                     IF (SS1.LT.-UN) SS1=-UN
-                     IF (SS2.GT.UN) SS2=UN
-                     IF (SS2.LT.-UN) SS2=-UN
-                     IF (SS3.GT.UN) SS3=UN
-                     IF (SS3.LT.-UN) SS3=-UN
+                     IF (SS1.GT.ONE) SS1=ONE
+                     IF (SS1.LT.-ONE) SS1=-ONE
+                     IF (SS2.GT.ONE) SS2=ONE
+                     IF (SS2.LT.-ONE) SS2=-ONE
+                     IF (SS3.GT.ONE) SS3=ONE
+                     IF (SS3.LT.-ONE) SS3=-ONE
                      SAREA=ACOS(SS1)+ACOS(SS2)+ACOS(SS3)-PI
 C
                      VX1=X2-X1
@@ -635,9 +635,9 @@ C
                      NX=VY1*VZ2-VZ1*VY2
                      NY=VZ1*VX2-VX1*VZ2
                      NZ=VX1*VY2-VY1*VX2
-                     XC=TIERS*(X1+X2+X3)
-                     YC=TIERS*(Y1+Y2+Y3)
-                     ZC=TIERS*(Z1+Z2+Z3)
+                     XC=THIRD*(X1+X2+X3)
+                     YC=THIRD*(Y1+Y2+Y3)
+                     ZC=THIRD*(Z1+Z2+Z3)
                      SS=NX*(XC-XX)+NY*(YC-YY)+NZ*(ZC-ZZ)
                      IF (SS.LT.ZERO) SAREA=-SAREA
                      ST=ST+SAREA
@@ -673,21 +673,21 @@ C
                   X3=XL(1,N3)
                   Y3=XL(2,N3)
                   Z3=XL(3,N3)
-                  X0=TIERS*(X1+X2+X3)
-                  Y0=TIERS*(Y1+Y2+Y3)
-                  Z0=TIERS*(Z1+Z2+Z3)
+                  X0=THIRD*(X1+X2+X3)
+                  Y0=THIRD*(Y1+Y2+Y3)
+                  Z0=THIRD*(Z1+Z2+Z3)
                   R2=(X0-XX)**2+(Y0-YY)**2+(Z0-ZZ)**2
                   D2=MIN((X0-X1)**2+(Y0-Y1)**2+(Z0-Z1)**2,
      .                   (X0-X2)**2+(Y0-Y2)**2+(Z0-Z2)**2,
      .                   (X0-X3)**2+(Y0-Y3)**2+(Z0-Z3)**2)
 C Nombre de points de gauss sur le triangle
-                  IF (R2.GT.CENT*D2) THEN
+                  IF (R2.GT.HUNDRED*D2) THEN
                      NPG=1
                      IAD=1
-                  ELSEIF (R2.GT.VINGT5*D2) THEN
+                  ELSEIF (R2.GT.TWENTY5*D2) THEN
                      NPG=4
                      IAD=2
-                  ELSEIF (R2.GT.QUATRE*D2) THEN
+                  ELSEIF (R2.GT.FOUR*D2) THEN
                      NPG=7
                      IAD=6
                   ELSE
@@ -697,7 +697,7 @@ C Nombre de points de gauss sur le triangle
 C
                   QM=Q(J)
                   AREA=ELAREA(J)
-                  AREA2=DEUX*AREA
+                  AREA2=TWO*AREA
                   NRX=NORM(1,J)/AREA2
                   NRY=NORM(2,J)/AREA2
                   NRZ=NORM(3,J)/AREA2
@@ -708,7 +708,7 @@ C
                      ETA=PG(IAD2+1)
                      IAD=IAD+1
                      IAD2=IAD2+2
-                     VAL1=UN-KSI-ETA
+                     VAL1=ONE-KSI-ETA
                      VAL2=KSI
                      VAL3=ETA
                      XM=X1*VAL1+X2*VAL2+X3*VAL3
@@ -716,11 +716,11 @@ C
                      ZM=Z1*VAL1+Z2*VAL2+Z3*VAL3
                      PHIM=PHI(N1)*VAL1+PHI(N2)*VAL2+PHI(N3)*VAL3
                      R=SQRT((XX-XM)**2+(YY-YM)**2+(ZZ-ZM)**2)
-                     FAC=QUART/PI/R**3
-                     FAC2=TROIS/R**2*
+                     FAC=FOURTH/PI/R**3
+                     FAC2=THREE/R**2*
      .                       ((XX-XM)*NRX+(YY-YM)*NRY+(ZZ-ZM)*NRZ)
 C
-                     PHIS=QUART/PI/R
+                     PHIS=FOURTH/PI/R
                      QS=FAC*((XX-XM)*NRX+(YY-YM)*NRY+(ZZ-ZM)*NRZ)
                      DPSDX=-FAC*(XX-XM)
                      DPSDY=-FAC*(YY-YM)
@@ -797,22 +797,22 @@ C
             NRZ=NORM(3,I)
             AREA=ELAREA(I)
             IF(AREA.GT.EM20)THEN
-              AREA2=DEUX*AREA
+              AREA2=TWO*AREA
               UX=GRX+Q(I)*NRX/AREA2
               UY=GRY+Q(I)*NRY/AREA2
               UZ=GRZ+Q(I)*NRZ/AREA2
               AREAN1=NODAREA(N1)
               AREAN2=NODAREA(N2)
               AREAN3=NODAREA(N3)
-              U(1,N1)=U(1,N1)+UX*TIERS*AREA/AREAN1
-              U(2,N1)=U(2,N1)+UY*TIERS*AREA/AREAN1
-              U(3,N1)=U(3,N1)+UZ*TIERS*AREA/AREAN1
-              U(1,N2)=U(1,N2)+UX*TIERS*AREA/AREAN2
-              U(2,N2)=U(2,N2)+UY*TIERS*AREA/AREAN2
-              U(3,N2)=U(3,N2)+UZ*TIERS*AREA/AREAN2
-              U(1,N3)=U(1,N3)+UX*TIERS*AREA/AREAN3
-              U(2,N3)=U(2,N3)+UY*TIERS*AREA/AREAN3
-              U(3,N3)=U(3,N3)+UZ*TIERS*AREA/AREAN3              
+              U(1,N1)=U(1,N1)+UX*THIRD*AREA/AREAN1
+              U(2,N1)=U(2,N1)+UY*THIRD*AREA/AREAN1
+              U(3,N1)=U(3,N1)+UZ*THIRD*AREA/AREAN1
+              U(1,N2)=U(1,N2)+UX*THIRD*AREA/AREAN2
+              U(2,N2)=U(2,N2)+UY*THIRD*AREA/AREAN2
+              U(3,N2)=U(3,N2)+UZ*THIRD*AREA/AREAN2
+              U(1,N3)=U(1,N3)+UX*THIRD*AREA/AREAN3
+              U(2,N3)=U(2,N3)+UY*THIRD*AREA/AREAN3
+              U(3,N3)=U(3,N3)+UZ*THIRD*AREA/AREAN3              
             ENDIF              
 
          ENDDO    
@@ -889,12 +889,12 @@ C
                      SS1=-(NX1*NX2+NY1*NY2+NZ1*NZ2)/RR1/RR2
                      SS2=-(NX2*NX3+NY2*NY3+NZ2*NZ3)/RR2/RR3
                      SS3=-(NX3*NX1+NY3*NY1+NZ3*NZ1)/RR3/RR1
-                     IF (SS1.GT.UN) SS1=UN
-                     IF (SS1.LT.-UN) SS1=-UN
-                     IF (SS2.GT.UN) SS2=UN
-                     IF (SS2.LT.-UN) SS2=-UN
-                     IF (SS3.GT.UN) SS3=UN
-                     IF (SS3.LT.-UN) SS3=-UN
+                     IF (SS1.GT.ONE) SS1=ONE
+                     IF (SS1.LT.-ONE) SS1=-ONE
+                     IF (SS2.GT.ONE) SS2=ONE
+                     IF (SS2.LT.-ONE) SS2=-ONE
+                     IF (SS3.GT.ONE) SS3=ONE
+                     IF (SS3.LT.-ONE) SS3=-ONE
                      SAREA=ACOS(SS1)+ACOS(SS2)+ACOS(SS3)-PI
 C
                      VX1=X2-X1
@@ -906,9 +906,9 @@ C
                      NX=VY1*VZ2-VZ1*VY2
                      NY=VZ1*VX2-VX1*VZ2
                      NZ=VX1*VY2-VY1*VX2
-                     XC=TIERS*(X1+X2+X3)
-                     YC=TIERS*(Y1+Y2+Y3)
-                     ZC=TIERS*(Z1+Z2+Z3)
+                     XC=THIRD*(X1+X2+X3)
+                     YC=THIRD*(Y1+Y2+Y3)
+                     ZC=THIRD*(Z1+Z2+Z3)
                      SS=NX*(XC-XX)+NY*(YC-YY)+NZ*(ZC-ZZ)
                      IF (SS.LT.ZERO) SAREA=-SAREA
                      ST=ST+SAREA
@@ -944,21 +944,21 @@ C
                   X3=XL(1,N3)
                   Y3=XL(2,N3)
                   Z3=XL(3,N3)
-                  X0=TIERS*(X1+X2+X3)
-                  Y0=TIERS*(Y1+Y2+Y3)
-                  Z0=TIERS*(Z1+Z2+Z3)
+                  X0=THIRD*(X1+X2+X3)
+                  Y0=THIRD*(Y1+Y2+Y3)
+                  Z0=THIRD*(Z1+Z2+Z3)
                   R2=(X0-XX)**2+(Y0-YY)**2+(Z0-ZZ)**2
                   D2=MIN((X0-X1)**2+(Y0-Y1)**2+(Z0-Z1)**2,
      .                   (X0-X2)**2+(Y0-Y2)**2+(Z0-Z2)**2,
      .                   (X0-X3)**2+(Y0-Y3)**2+(Z0-Z3)**2)
 C Nombre de points de gauss sur le triangle
-                  IF (R2.GT.CENT*D2) THEN
+                  IF (R2.GT.HUNDRED*D2) THEN
                      NPG=1
                      IAD=1
-                  ELSEIF (R2.GT.VINGT5*D2) THEN
+                  ELSEIF (R2.GT.TWENTY5*D2) THEN
                      NPG=4
                      IAD=2
-                  ELSEIF (R2.GT.QUATRE*D2) THEN
+                  ELSEIF (R2.GT.FOUR*D2) THEN
                      NPG=7
                      IAD=6
                   ELSE
@@ -969,7 +969,7 @@ C
                   QM=Q(J)
                   AREA=ELAREA(J)
                   IF(AREA.GT.EM20)THEN
-                    AREA2=DEUX*AREA
+                    AREA2=TWO*AREA
                     NRX=NORM(1,J)/AREA2
                     NRY=NORM(2,J)/AREA2
                     NRZ=NORM(3,J)/AREA2
@@ -985,7 +985,7 @@ C
                      ETA=PG(IAD2+1)
                      IAD=IAD+1
                      IAD2=IAD2+2
-                     VAL1=UN-KSI-ETA
+                     VAL1=ONE-KSI-ETA
                      VAL2=KSI
                      VAL3=ETA
                      XM=X1*VAL1+X2*VAL2+X3*VAL3
@@ -994,10 +994,10 @@ C
                      PHIM=PHI(N1)*VAL1+PHI(N2)*VAL2+PHI(N3)*VAL3
                      R=SQRT((XX-XM)**2+(YY-YM)**2+(ZZ-ZM)**2)
                      IF(R.GT.EM20)THEN
-                       FAC=QUART/PI/R**3
-                       FAC2=TROIS/R**2*
+                       FAC=FOURTH/PI/R**3
+                       FAC2=THREE/R**2*
      .                       ((XX-XM)*NRX+(YY-YM)*NRY+(ZZ-ZM)*NRZ)
-                       PHIS=QUART/PI/R
+                       PHIS=FOURTH/PI/R
                      ELSE
                        FAC  = ZERO
                        FAC2 = ZERO
@@ -1085,7 +1085,7 @@ C La pression est imposee a une des entrees-sorties
                    PIO=SFPRES*FINTER_SMOOTH(IFPRES, TSG, NPC, TF, DYDX)
                  ENDIF ! IF (ISMOOTH == 0)
                ENDIF
-               PA=PIO+UNDEMI*RHO*QI(I)**2
+               PA=PIO+HALF*RHO*QI(I)**2
             ENDIF
          ENDDO
       ENDIF
@@ -1108,7 +1108,7 @@ C
 C
          DO I=1,NNO+NNI
             UU=U(1,I)**2+U(2,I)**2+U(3,I)**2
-            PRES(I)=PA-RHO*PHIP(I)-UNDEMI*RHO*UU
+            PRES(I)=PA-RHO*PHIP(I)-HALF*RHO*UU
          ENDDO
       ELSE
          DO I=1,NNO+NNI
@@ -1123,7 +1123,7 @@ C---------------------------------------------------
             N1=ELEM(1,I)
             N2=ELEM(2,I)
             N3=ELEM(3,I)
-            COEF=UNSIX*TIERS*(PRES(N1)+PRES(N2)+PRES(N3))
+            COEF=ONE_OVER_6*THIRD*(PRES(N1)+PRES(N2)+PRES(N3))
             NRX=NORM(1,I)
             NRY=NORM(2,I)
             NRZ=NORM(3,I)
@@ -1165,7 +1165,7 @@ C---------------------------------------------------
             N1=ELEM(1,II)
             N2=ELEM(2,II)
             N3=ELEM(3,II)
-            COEF=UNSIX*TIERS*(PRES(N1)+PRES(N2)+PRES(N3))
+            COEF=ONE_OVER_6*THIRD*(PRES(N1)+PRES(N2)+PRES(N3))
             NRX=NORM(1,II)
             NRY=NORM(2,II)
             NRZ=NORM(3,II)

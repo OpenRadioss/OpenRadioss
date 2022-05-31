@@ -105,7 +105,7 @@ C---------------------------------------------------------
                     H1 =PM( 5,MX)
                     H2 =PM( 6,MX)
                 ENDIF
-            DTHOUR = UNDEMI * (ALMIN(I)+ALDT(I)) / MAX(H1,H2)
+            DTHOUR = HALF * (ALMIN(I)+ALDT(I)) / MAX(H1,H2)
 C Bug HP            ALDT(I)  = MIN(ALDT(I),DTHOUR)
             IF (DTHOUR.LT.ALDT(I)) ALDT(I)=DTHOUR
           ENDDO
@@ -120,7 +120,7 @@ C Bug HP            ALDT(I)  = MIN(ALDT(I),DTHOUR)
            H1 =PM( 5,MX)
            H2 =PM( 6,MX)
           ENDIF
-            DTHOUR = UNDEMI * (ALMIN(I)+ALDT(I)) / MAX(H1,H2)
+            DTHOUR = HALF * (ALMIN(I)+ALDT(I)) / MAX(H1,H2)
             ALDT(I)  = MIN(ALDT(I),DTHOUR)
           ENDDO
         ENDIF

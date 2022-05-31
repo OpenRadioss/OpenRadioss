@@ -77,7 +77,7 @@ c
            EMAX = ZERO
            EMIN = EP20
            EINI = ZERO
-           EPSMAX = UN
+           EPSMAX = ONE
           DO J = 1, NFUNC 
               SCALEFAC= UPARAM(10 + NFUNC + J )  
               CALL FUNC_SLOPE(IFUNC(J),SCALEFAC,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STFAVG)  
@@ -89,8 +89,8 @@ c
           IF(EMAX <= E0) THEN
             EMAX = E0
           ELSE  
-!!          EMAX= MIN(EMAX, CENT*E0) 
-           EMAX = CENT*E0 ! by default value 
+!!          EMAX= MIN(EMAX, HUNDRED*E0) 
+           EMAX = HUNDRED*E0 ! by default value 
           ENDIF   
           UPARAM(11 + 2*NFUNC) = EMAX
           UPARAM(12 + 2*NFUNC) = EPSMAX

@@ -461,7 +461,7 @@ C-----------------------------------------------
             STATE_INIMAP_BUF(1)%SUBMAT(1)%VFRAC(K) = 1.D00                             
             STATE_INIMAP_BUF(1)%SUBMAT(1)%RHO(K) = GBUF%RHO(I)                         
             STATE_INIMAP_BUF(1)%SUBMAT(1)%E(K)  = GBUF%EINT(I) 
-            STATE_INIMAP_BUF(1)%SUBMAT(1)%PRES(K) = -TIERS * (GBUF%SIG(I) + GBUF%SIG(I + NEL) + GBUF%SIG(I + 2 * NEL))
+            STATE_INIMAP_BUF(1)%SUBMAT(1)%PRES(K) = -THIRD * (GBUF%SIG(I) + GBUF%SIG(I + NEL) + GBUF%SIG(I + 2 * NEL))
           ENDDO                                                                        
         ENDIF
       ENDIF

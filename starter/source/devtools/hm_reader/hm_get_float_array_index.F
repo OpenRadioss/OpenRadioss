@@ -164,7 +164,7 @@ C--------------------------------------------------
         LENGTH_DIM = ZERO
         MASS_DIM = ZERO
         TIME_DIM = ZERO
-        FAC = UN
+        FAC = ONE
 C--------------------------------------------------
         CALL CPP_GET_FLOATV_FLOATD_INDEX(NAME(1:LEN_TRIM(NAME)),LEN_TRIM(NAME),DVAL,INDEX,IS_AVAILABLE,
      .                    LENGTH_DIM,MASS_DIM,TIME_DIM,UID,SUB_ID)

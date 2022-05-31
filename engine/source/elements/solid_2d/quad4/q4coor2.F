@@ -106,7 +106,7 @@ C-----Exx ia calculated anyway in global system
         ENDDO
 C-----JHBE=17 -> petrov G, constant Exx, JHBE=22-> Bubnov
          DO I=LFT,LLT
-          AY(I) =UN/MAX(EM20,YAVG(I))
+          AY(I) =ONE/MAX(EM20,YAVG(I))
           EXX(I) = VYG(I)*AY(I)
          ENDDO
       ENDIF

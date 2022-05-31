@@ -133,7 +133,7 @@ C     LCFIELD(SLCFIELD) skyline vector of nodes vs all /LOAD/CENTRI
 C-----------------------------------------------
 C     CFIELD(LFACLOAD,NLOADC)
 C     CFIELD(1,K) : FCY
-C     CFIELD(2,K) : UN/FCX
+C     CFIELD(2,K) : ONE/FCX
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------      
@@ -287,7 +287,7 @@ C-----------
         ICFIELD(8,K)  = IVAR
         ICFIELD(9,K)  = ID
         CFIELD(1,K)   = FCY
-        CFIELD(2,K)   = UN/FCX
+        CFIELD(2,K)   = ONE/FCX
 C-----------
         IF (IVAR == 1)THEN
           WRITE (IOUT,2000) ID

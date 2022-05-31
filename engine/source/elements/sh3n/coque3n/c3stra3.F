@@ -80,7 +80,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C
       IF(IEPSDOT.NE.0)THEN
         DO I=JFT,JLT
-          FAC1  =UN/AREA(I)
+          FAC1  =ONE/AREA(I)
           J = I + NFT
           EPSDOT(1,J)=EXX(I)*FAC1
           EPSDOT(2,J)=EYY(I)*FAC1
@@ -121,8 +121,8 @@ C-----
         DO I=JFT,JLT 
           F_DEF(I,6) = GSTR(I,6)
           F_DEF(I,7) = GSTR(I,7)
-          F_DEF(I,8) = (GSTR(I,8)+GSTRW(I))*UNDEMI
-          F_DEF(I,5) = (GSTR(I,8)-GSTRW(I))*UNDEMI
+          F_DEF(I,8) = (GSTR(I,8)+GSTRW(I))*HALF
+          F_DEF(I,5) = (GSTR(I,8)-GSTRW(I))*HALF
         ENDDO
        ELSEIF (ISMSTR /= 11 ) THEN
         DO I=JFT,JLT
@@ -137,7 +137,7 @@ C-----
         ENDDO
        ELSE
         DO I=JFT,JLT
-          FAC1  =UN/AREA(I)
+          FAC1  =ONE/AREA(I)
           UX12=UX1(I)-UX2(I)
           UX13=UX1(I)-UX3(I)
           UX23=UX2(I)-UX3(I)

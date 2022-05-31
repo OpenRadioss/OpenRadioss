@@ -156,21 +156,21 @@ C--        Shape functions of triangles
            NIR = 3
            H(1) = CRST(1,II)
            H(2) = CRST(2,II)
-           H(3) = UN-CRST(1,II)-CRST(2,II)
+           H(3) = ONE-CRST(1,II)-CRST(2,II)
            H(4) = ZERO
            H2(1) = CSTS_BIS(1,II)
            H2(2) = CSTS_BIS(2,II)
-           H2(3) = UN-CSTS_BIS(1,II)-CSTS_BIS(2,II)
+           H2(3) = ONE-CSTS_BIS(1,II)-CSTS_BIS(2,II)
            H2(4) = ZERO
         ELSE
 C--        Shape functions of quadrangles
            NIR = 4
            SS=CRST(1,II)                                    
            ST=CRST(2,II)
-           SP=UN + SS                                       
-           SM=UN - SS                                       
-           TP=QUART*(UN + ST)                               
-           TM=QUART*(UN - ST)                               
+           SP=ONE + SS                                       
+           SM=ONE - SS                                       
+           TP=FOURTH*(ONE + ST)                               
+           TM=FOURTH*(ONE - ST)                               
            H(1)=TM*SM                                       
            H(2)=TM*SP                                       
            H(3)=TP*SP                                       
@@ -179,10 +179,10 @@ C--        Shape functions of quadrangles
 C          Additional form functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
            SS=CSTS_BIS(1,II)                                    
            ST=CSTS_BIS(2,II)
-           SP=UN + SS                                       
-           SM=UN - SS                                       
-           TP=QUART*(UN + ST)                               
-           TM=QUART*(UN - ST)                               
+           SP=ONE + SS                                       
+           SM=ONE - SS                                       
+           TP=FOURTH*(ONE + ST)                               
+           TM=FOURTH*(ONE - ST)                               
            H2(1)=TM*SM                                       
            H2(2)=TM*SP                                       
            H2(3)=TP*SP                                       
@@ -217,10 +217,10 @@ C
 
 C                 
             IF (NIR == 4) THEN
-              FAC_TRIANG = UN
-              X0  = QUART*(X1 + X2 + X3 + X4)
-              Y0  = QUART*(Y1 + Y2 + Y3 + Y4)
-              Z0  = QUART*(Z1 + Z2 + Z3 + Z4)
+              FAC_TRIANG = ONE
+              X0  = FOURTH*(X1 + X2 + X3 + X4)
+              Y0  = FOURTH*(Y1 + Y2 + Y3 + Y4)
+              Z0  = FOURTH*(Z1 + Z2 + Z3 + Z4)
             ELSE
               FAC_TRIANG = ZERO                                       
               X0  = THIRD*(X1 + X2 + X3)
@@ -315,7 +315,7 @@ C
           DO JJ=1,NIR
             J=IRECT(JJ,L)
             MS(J)=MS(J)+MS(I)*H2(JJ)
-            STIFN(J)=STIFN(J)+STIFN(I)*(UN+STBRK)*(ABS(H(JJ))+STIFM)+STIFR(I)*STIFMR*DWDU
+            STIFN(J)=STIFN(J)+STIFN(I)*(ONE+STBRK)*(ABS(H(JJ))+STIFM)+STIFR(I)*STIFMR*DWDU
             IN(J)=IN(J)+INS*H2(JJ)
             STIFR(J)=STIFR(J)+ABS(STF*H(JJ))
           ENDDO
@@ -329,7 +329,7 @@ C
           DO JJ=1,NIR
             J=IRECT(JJ,L)
             MS(J)=MS(J)+MS(I)*H2(JJ)
-            STIFN(J)=STIFN(J)+STIFN(I)*(UN+STBRK)*(ABS(H(JJ))+STIFM)
+            STIFN(J)=STIFN(J)+STIFN(I)*(ONE+STBRK)*(ABS(H(JJ))+STIFM)
           ENDDO
 C
           STIFN(I)=ZERO
@@ -415,7 +415,7 @@ C
 C
           IF ((MSEGTYP2(L)==1).AND.(IN(I)>EM20)) THEN
 C-- shell main segment --
-            IROT = UN
+            IROT = ONE
           ELSE
 C-- solid main segment --
             IROT = ZERO
@@ -426,15 +426,15 @@ C--         Shape functions of triangles
             NIR = 3
             H(1) = S
             H(2) = T
-            H(3) = UN-S-T
+            H(3) = ONE-S-T
             H(4) = ZERO
           ELSE
 C--         Shape functions of quadrangles
             NIR = 4
-            SP=UN + S                                       
-            SM=UN - S                                       
-            TP=QUART*(UN + T)                               
-            TM=QUART*(UN - T)                               
+            SP=ONE + S                                       
+            SM=ONE - S                                       
+            TP=FOURTH*(ONE + T)                               
+            TM=FOURTH*(ONE - T)                               
             H(1)=TM*SM                                       
             H(2)=TM*SP                                       
             H(3)=TP*SP                                       
@@ -469,7 +469,7 @@ C---------------------
      .               E3X    ,E3Y    ,E3Z    ,NIR    )
 C------------------------------------------------                  
         IF (NIR == 4) THEN
-          FAC_TRIANG = UN
+          FAC_TRIANG = ONE
 C
           XM = X1*H(1) + X2*H(2) + X3*H(3) + X4*H(4)
           YM = Y1*H(1) + Y2*H(2) + Y3*H(3) + Y4*H(4)
@@ -562,7 +562,7 @@ C---------
 C
 C------------------------------------------------
 C                           
-          STF     = STFN(II)*(VISC + SQRT(VISC**2 + (UN+STBRK)))**2
+          STF     = STFN(II)*(VISC + SQRT(VISC**2 + (ONE+STBRK)))**2
           STIFM=ZERO
 
 C------------------------------------------------
@@ -572,7 +572,7 @@ C
 C--   Secnd node shell of  spring 
 C
             LEN2 = XSM**2+YSM**2+ZSM**2  
-            STR = (STFR(II)+STFN(II)*LEN2)*(VISC + SQRT(VISC**2 + UN))**2
+            STR = (STFR(II)+STFN(II)*LEN2)*(VISC + SQRT(VISC**2 + ONE))**2
 C
           ELSE
 C

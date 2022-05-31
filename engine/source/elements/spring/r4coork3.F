@@ -98,7 +98,7 @@ C----------------------------
       ENDDO 
 C
       DO I=JFT, JLT
-       NORM=UN/MAX(EM20,AL(I))
+       NORM=ONE/MAX(EM20,AL(I))
        R11(I)=R11(I)*NORM
        R21(I)=R21(I)*NORM
        R31(I)=R31(I)*NORM
@@ -111,7 +111,7 @@ C
 C
       DO I=JFT, JLT
        NORM=SQRT(R13(I)*R13(I)+R23(I)*R23(I)+R33(I)*R33(I))
-       NORM=UN/MAX(EM20,NORM)
+       NORM=ONE/MAX(EM20,NORM)
        R13(I)=R13(I)*NORM
        R23(I)=R23(I)*NORM
        R33(I)=R33(I)*NORM

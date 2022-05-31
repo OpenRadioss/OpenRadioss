@@ -262,7 +262,7 @@ c         INITIALISATION DES MASSES
 C
           CALL S20MSI(LBUF%RHO, MASS    , LBUF%VOL , DTELEM(NF1), STI    ,
      .                LBUF%OFF, LBUF%SIG, LBUF%EINT, DTX        , NEL    ,
-     .                GBUF%OFF, GBUF%SIG, GBUF%EINT, GBUF%RHO   , WI/HUIT)
+     .                GBUF%OFF, GBUF%SIG, GBUF%EINT, GBUF%RHO   , WI/EIGHT)
 C----------------------------------------
          IF (MTN.GE.28)THEN
            NUVAR  = IPM(8,IXS(1,NF1))

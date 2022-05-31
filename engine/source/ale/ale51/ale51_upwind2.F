@@ -132,10 +132,10 @@ C
 C                                   
                FLU1(I) = QMV(5,I)  +  QMV(6,I)  +  QMV(7,I)  +  QMV(8,I)
 
-               R1 = UNDEMI * (X(2, IXQ(2, II)) + X(2, IXQ(3, II)))
-               R2 = UNDEMI * (X(2, IXQ(3, II)) + X(2, IXQ(4, II)))
-               R3 = UNDEMI * (X(2, IXQ(4, II)) + X(2, IXQ(5, II)))
-               R4 = UNDEMI * (X(2, IXQ(5, II)) + X(2, IXQ(2, II)))
+               R1 = HALF * (X(2, IXQ(2, II)) + X(2, IXQ(3, II)))
+               R2 = HALF * (X(2, IXQ(3, II)) + X(2, IXQ(4, II)))
+               R3 = HALF * (X(2, IXQ(4, II)) + X(2, IXQ(5, II)))
+               R4 = HALF * (X(2, IXQ(5, II)) + X(2, IXQ(2, II)))
                
                !!! Beware of r=0 axis
                IF (R1 .NE. ZERO) QMV(5,I) = QMV(5,I) / R1
@@ -179,7 +179,7 @@ C
       IF(ITRIMAT.GT.0)THEN
         DO I=LFT,LLT
 C
-          DDVOL(I)=UNDEMI*(FLU1(I)
+          DDVOL(I)=HALF*(FLU1(I)
      .            +FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
         ENDDO
       ENDIF

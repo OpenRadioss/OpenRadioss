@@ -89,7 +89,7 @@ C
        ICHECK = NINT(UPARAM(19))
        NSTART = NINT(UPARAM(20))
        ERRTOL = UPARAM(21)
-       ERRTOL = CINQEM3 
+       ERRTOL = FIVEEM3 
 C      
        IC1 = NPC(IFUNC(2))
        IC2 = NPC(IFUNC(2)+1)
@@ -112,9 +112,9 @@ C
        IS = IFUNC(2)                                   
        DO II = IC1,IC2-2,2                                   
             JJ=JJ+1                                          
-            STRETCH(JJ) = PLD(II) + UN                       
+            STRETCH(JJ) = PLD(II) + ONE                       
             STRESS(JJ)  = PLD(II+1)  
-              IF(PLD(II) <=  -UN) THEN
+              IF(PLD(II) <=  -ONE) THEN
                 CALL ANCMSG(MSGID=1175,
      .                       MSGTYPE=MSGERROR,
      .                       ANMODE=ANINFO,
@@ -148,8 +148,8 @@ C  check if the curve is monotonic
      .              I2=FUNC_ID(IS))                               
        ENDIF                                              
        DO II=1,5                                          
-         MUAL(2*II-1)=CINQ                                
-         MUAL(2*II)=DEUX                                  
+         MUAL(2*II-1)=FIVE                                
+         MUAL(2*II)=TWO                                  
        ENDDO 
 !       
        IF(IS_CRYPTED)THEN
@@ -170,23 +170,23 @@ C  check if the curve is monotonic
          UPARAM(II+5)=MUAL(2*II)                                        
          GS=GS+MUAL(2*II-1)*MUAL(2*II)                                       
        ENDDO                                                                 
-       G=GS/DEUX                                                            
+       G=GS/TWO                                                            
        NU = UPARAM(14)                                   
-       RBULK=GS*(UN+UPARAM(14))                                         
-     &       /MAX(EM30,TROIS*(UN-DEUX*UPARAM(14)))                      
+       RBULK=GS*(ONE+UPARAM(14))                                         
+     &       /MAX(EM30,THREE*(ONE-TWO*UPARAM(14)))                      
        UPARAM(11)=RBULK                                                 
        UPARAM(17)=GS                                                    
 C parameters                                                                 
-       YOUNG  = GS*(UN + NU)                                                 
+       YOUNG  = GS*(ONE + NU)                                                 
        PM(20) = YOUNG                                                   
        PM(21) = NU                                                      
        PM(22) = GS                                                      
-       PM(24) = YOUNG/(UN - NU**2)                                      
+       PM(24) = YOUNG/(ONE - NU**2)                                      
        PM(32) = GS                                                      
        PM(100) = RBULK 
 C     Formulation for solid elements time step computation.
        IPM(252)= 2
-       PM(105) = GS/(RBULK + DTHIRD*G)       
+       PM(105) = GS/(RBULK + TWO_THIRD*G)       
        
 C                                                        
       IF(.NOT.IS_CRYPTED) THEN 
@@ -198,7 +198,7 @@ C
          ELSE                                                                
            WRITE(IOUT,279)                                                   
      &  UPARAM(1),UPARAM(2),UPARAM(6),UPARAM(7),         
-     &  UNDEMI*UPARAM(1),-UNDEMI*UPARAM(2),G,RBULK                
+     &  HALF*UPARAM(1),-HALF*UPARAM(2),G,RBULK                
          ENDIF    
        ENDIF                                                                 
 c----------------
@@ -209,7 +209,7 @@ C====================================================================
 !====================================================================
        NDATA = 10000  ! La=0.1,10, EM3!!
        LAM_MIN= EM3                                         
-       LAM_MAX= DIX 
+       LAM_MAX= TEN 
 C       
        DO I=1,5
          MU(I) = UPARAM(I)
@@ -235,7 +235,7 @@ C  Tension/compression
           D22= ZERO                                   
           D12= ZERO 
           LAM1 =STRETCH(I)
-          LAM2 = UN/SQRT(LAM1)
+          LAM2 = ONE/SQRT(LAM1)
           LAM3 = LAM2
 C            
           DO K=1,5 
@@ -257,12 +257,12 @@ C
          WRITE(IOUT,1010)
          I = INDEX(1) - 1
          IF(I > 1) THEN
-          STRAIN_MIN = STRETCH(I) - UN 
+          STRAIN_MIN = STRETCH(I) - ONE 
           WRITE(IOUT,1100)STRAIN_MIN 
          ENDIF
          I = INDEX(INDX) + 1
          IF(I <= NDATA)THEN
-           STRAIN_MAX = STRETCH(I) - UN
+           STRAIN_MAX = STRETCH(I) - ONE
            WRITE(IOUT,1200)STRAIN_MAX
          ENDIF 
        ENDIF
@@ -274,7 +274,7 @@ C  Biaxial
           D12= ZERO 
           LAM1 =STRETCH(I)
           LAM2 = LAM1
-          LAM3 = UN/LAM1/LAM1
+          LAM3 = ONE/LAM1/LAM1
 C            
           DO K=1,5 
              LAM12 = (lAM1*LAM2)**(-AL(K))
@@ -295,12 +295,12 @@ C
          WRITE(IOUT,1020)
          I = INDEX(1) - 1
          IF(I > 1) THEN
-          STRAIN_MIN = STRETCH(I) - UN 
+          STRAIN_MIN = STRETCH(I) - ONE 
           WRITE(IOUT,1100)STRAIN_MIN 
          ENDIF 
          I = INDEX(INDX) + 1
           IF(I <= NDATA)THEN
-           STRAIN_MAX = STRETCH(I) - UN
+           STRAIN_MAX = STRETCH(I) - ONE
            WRITE(IOUT,1200)STRAIN_MAX
          ENDIF 
        ENDIF
@@ -311,8 +311,8 @@ C shear test
           D22= ZERO                                   
           D12= ZERO 
           LAM1 =STRETCH(I)
-          LAM2 = UN
-          LAM3 = UN/LAM1
+          LAM2 = ONE
+          LAM3 = ONE/LAM1
 C            
           DO K=1,5 
              LAM12 = (lAM1*LAM2)**(-AL(K))
@@ -333,12 +333,12 @@ C
          WRITE(IOUT,1030)
           I = INDEX(1) - 1
           IF(I > 1) THEN
-            STRAIN_MIN = STRETCH(I) - UN 
+            STRAIN_MIN = STRETCH(I) - ONE 
             WRITE(IOUT,1100)STRAIN_MIN 
          ENDIF  
          I = INDEX(INDX) + 1
          IF(I <= NDATA)THEN
-           STRAIN_MAX = STRETCH(I) - UN
+           STRAIN_MAX = STRETCH(I) - ONE
            WRITE(IOUT,1200)STRAIN_MAX
          ENDIF
        ENDIF       

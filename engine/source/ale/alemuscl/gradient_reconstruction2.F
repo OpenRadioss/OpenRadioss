@@ -122,11 +122,11 @@ C-----------------------------------------------
                NODEID1 = IXQ(1 + FACE_TO_NODE_LOCAL_ID(KK, 1), II)
                NODEID2 = IXQ(1 + FACE_TO_NODE_LOCAL_ID(KK, 2), II)
 
-               YF = UNDEMI * (X(2, NODEID1) + X(2, NODEID2))
-               ZF = UNDEMI * (X(3, NODEID1) + X(3, NODEID2))
+               YF = HALF * (X(2, NODEID1) + X(2, NODEID2))
+               ZF = HALF * (X(3, NODEID1) + X(3, NODEID2))
 
-               YL = DEUX * YF - ELCENTER(2, II)
-               ZL = DEUX * ZF - ELCENTER(3, II)
+               YL = TWO * YF - ELCENTER(2, II)
+               ZL = TWO * ZF - ELCENTER(3, II)
             ENDIF
 
             !!! Incrementing mat and rhs
@@ -142,7 +142,7 @@ C-----------------------------------------------
          IF (det .EQ. 0) THEN
             PRINT*, "OUPS"
          ENDIF
-         undet = UN / det
+         undet = ONE / det
          sol(1) = undet * (rhs(1) * mat(2,2) - rhs(2) * mat(1,2))
          sol(2) = undet * (- mat(2,1) * rhs(1) + mat(1, 1) * rhs(2))
          !!! Solution goes to the gradient

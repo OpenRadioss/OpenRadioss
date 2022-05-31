@@ -67,10 +67,10 @@ c------------------------------------------
           I  = JCT(IR)            
           S1 = DIR_A(I,1)*DIR_A(I,1)*TENS(I,1)
      .       + DIR_A(I,2)*DIR_A(I,2)*TENS(I,2)
-     .       - DEUX*DIR_A(I,1)*DIR_A(I,2)*TENS(I,3)
+     .       - TWO*DIR_A(I,1)*DIR_A(I,2)*TENS(I,3)
           S2 = DIR_A(I,2)*DIR_A(I,2)*TENS(I,1)
      .       + DIR_A(I,1)*DIR_A(I,1)*TENS(I,2)
-     .       + DEUX*DIR_A(I,2)*DIR_A(I,1)*TENS(I,3)
+     .       + TWO*DIR_A(I,2)*DIR_A(I,1)*TENS(I,3)
           S3 = DIR_A(I,1)*DIR_A(I,2)*TENS(I,1)
      .       - DIR_A(I,2)*DIR_A(I,1)*TENS(I,2)
      .       +(DIR_A(I,1)*DIR_A(I,1)-DIR_A(I,2)*DIR_A(I,2))*TENS(I,3)
@@ -86,8 +86,8 @@ c------------------------------------------
 c
       DO IR=1,NEWCRK
         I   = JCT(IR)              
-        CC  = (TENS(I,1)+TENS(I,2))*UNDEMI      
-        BB  = (TENS(I,1)-TENS(I,2))*UNDEMI      
+        CC  = (TENS(I,1)+TENS(I,2))*HALF      
+        BB  = (TENS(I,1)-TENS(I,2))*HALF      
         CR  = SQRT(BB*BB+TENS(I,3)*TENS(I,3))   
         SS1 = CC+CR                             
         SS2 = CC-CR                             
@@ -97,7 +97,7 @@ c
      .        DIR2_CRK(ILAY,I)*DIR2_CRK(ILAY,I)    
         ORM = SQRT(ORM)                          
         IF (ORM < EM8) THEN                      
-          DIR1_CRK(ILAY,I)=UN                   
+          DIR1_CRK(ILAY,I)=ONE                   
           DIR2_CRK(ILAY,I)=ZERO                 
         ELSE                                   
           DIR1_CRK(ILAY,I)=DIR1_CRK(ILAY,I)/ORM  

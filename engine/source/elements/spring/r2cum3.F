@@ -112,9 +112,9 @@ C-------------------------
 C
       DO I=LFT,LLT
         IF (IEQUIL(I) == 1) THEN
-          MMX = UNDEMI*((Y2(I)-Y1(I))*FZ2(I) - (Z2(I)-Z1(I))*FY2(I))
-          MMY = UNDEMI*((Z2(I)-Z1(I))*FX2(I) - (X2(I)-X1(I))*FZ2(I))
-          MMZ = UNDEMI*((X2(I)-X1(I))*FY2(I) - (Y2(I)-Y1(I))*FX2(I)) 
+          MMX = HALF*((Y2(I)-Y1(I))*FZ2(I) - (Z2(I)-Z1(I))*FY2(I))
+          MMY = HALF*((Z2(I)-Z1(I))*FX2(I) - (X2(I)-X1(I))*FZ2(I))
+          MMZ = HALF*((X2(I)-X1(I))*FY2(I) - (Y2(I)-Y1(I))*FX2(I)) 
           MX1(I) = MX1(I) - MMX
           MY1(I) = MY1(I) - MMY
           MZ1(I) = MZ1(I) - MMZ
@@ -257,9 +257,9 @@ C-------------------------
 C
       DO I=LFT,LLT
         IF (IEQUIL(I) == 1) THEN
-          MMX = UNDEMI*((Y2(I)-Y1(I))*FZ2(I) - (Z2(I)-Z1(I))*FY2(I))
-          MMY = UNDEMI*((Z2(I)-Z1(I))*FX2(I) - (X2(I)-X1(I))*FZ2(I))
-          MMZ = UNDEMI*((X2(I)-X1(I))*FY2(I) - (Y2(I)-Y1(I))*FX2(I)) 
+          MMX = HALF*((Y2(I)-Y1(I))*FZ2(I) - (Z2(I)-Z1(I))*FY2(I))
+          MMY = HALF*((Z2(I)-Z1(I))*FX2(I) - (X2(I)-X1(I))*FZ2(I))
+          MMZ = HALF*((X2(I)-X1(I))*FY2(I) - (Y2(I)-Y1(I))*FX2(I)) 
           MX1(I) = MX1(I) - MMX
           MY1(I) = MY1(I) - MMY
           MZ1(I) = MZ1(I) - MMZ

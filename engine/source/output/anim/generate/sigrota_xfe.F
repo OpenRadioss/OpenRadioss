@@ -161,7 +161,7 @@ C
 C
         DO I=JFT,JLT
           SUMA=E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I)
-          SUMA=UN/MAX(SQRT(SUMA),EM20)
+          SUMA=ONE/MAX(SQRT(SUMA),EM20)
           E1X(I)=E1X(I)*SUMA
           E1Y(I)=E1Y(I)*SUMA
           E1Z(I)=E1Z(I)*SUMA
@@ -169,7 +169,7 @@ C
 C
         DO I=JFT,JLT
           SUMA=E3X(I)*E3X(I)+E3Y(I)*E3Y(I)+E3Z(I)*E3Z(I)
-          SUMA=UN/MAX(SQRT(SUMA),EM20)
+          SUMA=ONE/MAX(SQRT(SUMA),EM20)
           E3X(I)=E3X(I)*SUMA
           E3Y(I)=E3Y(I)*SUMA
           E3Z(I)=E3Z(I)*SUMA
@@ -180,7 +180,7 @@ C
 C
         DO I=JFT,JLT
           SUMA=E2X(I)*E2X(I)+E2Y(I)*E2Y(I)+E2Z(I)*E2Z(I)
-          SUMA=UN/MAX(SQRT(SUMA),EM20)
+          SUMA=ONE/MAX(SQRT(SUMA),EM20)
           E2X(I)=E2X(I)*SUMA
           E2Y(I)=E2Y(I)*SUMA
           E2Z(I)=E2Z(I)*SUMA
@@ -238,7 +238,7 @@ C
           E1Y(I)= Y21(I)
           E1Z(I)= Z21(I)
           SUMA = SQRT(E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I))
-          SUMA = UN/MAX(SUMA,EM20)
+          SUMA = ONE/MAX(SUMA,EM20)
           E1X(I)=E1X(I)*SUMA
           E1Y(I)=E1Y(I)*SUMA
           E1Z(I)=E1Z(I)*SUMA
@@ -249,7 +249,7 @@ C
           E3Y(I)=Z31(I)*X32(I)-X31(I)*Z32(I)
           E3Z(I)=X31(I)*Y32(I)-Y31(I)*X32(I)
           SUMA = SQRT(E3X(I)*E3X(I)+E3Y(I)*E3Y(I)+E3Z(I)*E3Z(I))
-          SUMA = UN/MAX(SUMA,EM20)
+          SUMA = ONE/MAX(SUMA,EM20)
           E3X(I)=E3X(I)*SUMA
           E3Y(I)=E3Y(I)*SUMA
           E3Z(I)=E3Z(I)*SUMA
@@ -260,7 +260,7 @@ C
           E2Y(I)=E3Z(I)*E1X(I)-E3X(I)*E1Z(I)
           E2Z(I)=E3X(I)*E1Y(I)-E3Y(I)*E1X(I)
           SUMA = SQRT(E2X(I)*E2X(I)+E2Y(I)*E2Y(I)+E2Z(I)*E2Z(I))
-          SUMA = UN/MAX(SUMA,EM20)
+          SUMA = ONE/MAX(SUMA,EM20)
           E2X(I)=E2X(I)*SUMA
           E2Y(I)=E2Y(I)*SUMA
           E2Z(I)=E2Z(I)*SUMA

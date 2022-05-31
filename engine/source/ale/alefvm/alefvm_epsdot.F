@@ -204,33 +204,33 @@ C-----------------------------------------------
       
       DO I=LFT,LLT
         II=I+NFT
-        GradV(1,1) =  UNDEMI/VOL(I) * ( Vface(1,1)*N1X(I) + Vface(1,2)*N2X(I) + Vface(1,3)*N3X(I) 
+        GradV(1,1) =  HALF/VOL(I) * ( Vface(1,1)*N1X(I) + Vface(1,2)*N2X(I) + Vface(1,3)*N3X(I) 
      .                                + Vface(1,4)*N4X(I) + Vface(1,5)*N5X(I) + Vface(1,6)*N6X(I) )
-        GradV(1,2) =  UNDEMI/VOL(I) * ( Vface(1,1)*N1Y(I) + Vface(1,2)*N2Y(I) + Vface(1,3)*N3Y(I) 
+        GradV(1,2) =  HALF/VOL(I) * ( Vface(1,1)*N1Y(I) + Vface(1,2)*N2Y(I) + Vface(1,3)*N3Y(I) 
      .                                + Vface(1,4)*N4Y(I) + Vface(1,5)*N5Y(I) + Vface(1,6)*N6Y(I) )
-        GradV(1,3) =  UNDEMI/VOL(I) * ( Vface(1,1)*N1Z(I) + Vface(1,2)*N2Z(I) + Vface(1,3)*N3Z(I) 
+        GradV(1,3) =  HALF/VOL(I) * ( Vface(1,1)*N1Z(I) + Vface(1,2)*N2Z(I) + Vface(1,3)*N3Z(I) 
      .                                + Vface(1,4)*N4Z(I) + Vface(1,5)*N5Z(I) + Vface(1,6)*N6Z(I) )
       
-        GradV(2,1) =  UNDEMI/VOL(I) * ( Vface(2,1)*N1X(I) + Vface(2,2)*N2X(I) + Vface(2,3)*N3X(I) 
+        GradV(2,1) =  HALF/VOL(I) * ( Vface(2,1)*N1X(I) + Vface(2,2)*N2X(I) + Vface(2,3)*N3X(I) 
      .                                + Vface(2,4)*N4X(I) + Vface(2,5)*N5X(I) + Vface(2,6)*N6X(I) )
-        GradV(2,2) =  UNDEMI/VOL(I) * ( Vface(2,1)*N1Y(I) + Vface(2,2)*N2Y(I) + Vface(2,3)*N3Y(I) 
+        GradV(2,2) =  HALF/VOL(I) * ( Vface(2,1)*N1Y(I) + Vface(2,2)*N2Y(I) + Vface(2,3)*N3Y(I) 
      .                                + Vface(2,4)*N4Y(I) + Vface(2,5)*N5Y(I) + Vface(2,6)*N6Y(I) )
-        GradV(2,3) =  UNDEMI/VOL(I) * ( Vface(2,1)*N1Z(I) + Vface(2,2)*N2Z(I) + Vface(2,3)*N3Z(I) 
+        GradV(2,3) =  HALF/VOL(I) * ( Vface(2,1)*N1Z(I) + Vface(2,2)*N2Z(I) + Vface(2,3)*N3Z(I) 
      .                                + Vface(2,4)*N4Z(I) + Vface(2,5)*N5Z(I) + Vface(2,6)*N6Z(I) )
      
-        GradV(3,1) =  UNDEMI/VOL(I) * ( Vface(3,1)*N1X(I) + Vface(3,2)*N2X(I) + Vface(3,3)*N3X(I) 
+        GradV(3,1) =  HALF/VOL(I) * ( Vface(3,1)*N1X(I) + Vface(3,2)*N2X(I) + Vface(3,3)*N3X(I) 
      .                                + Vface(3,4)*N4X(I) + Vface(3,5)*N5X(I) + Vface(3,6)*N6X(I) )      
-        GradV(3,2) =  UNDEMI/VOL(I) * ( Vface(3,1)*N1Y(I) + Vface(3,2)*N2Y(I) + Vface(3,3)*N3Y(I) 
+        GradV(3,2) =  HALF/VOL(I) * ( Vface(3,1)*N1Y(I) + Vface(3,2)*N2Y(I) + Vface(3,3)*N3Y(I) 
      .                                + Vface(3,4)*N4Y(I) + Vface(3,5)*N5Y(I) + Vface(3,6)*N6Y(I) )    
-        GradV(3,3) =  UNDEMI/VOL(I) * ( Vface(3,1)*N1Z(I) + Vface(3,2)*N2Z(I) + Vface(3,3)*N3Z(I) 
+        GradV(3,3) =  HALF/VOL(I) * ( Vface(3,1)*N1Z(I) + Vface(3,2)*N2Z(I) + Vface(3,3)*N3Z(I) 
      .                                + Vface(3,4)*N4Z(I) + Vface(3,5)*N5Z(I) + Vface(3,6)*N6Z(I) )    
 
         EPSDOT(1) = GradV(1,1)
         EPSDOT(2) = GradV(2,2)
         EPSDOT(3) = GradV(3,3)                
-        EPSDOT(4) = UNDEMI*(GradV(1,2)+GradV(2,1))
-        EPSDOT(5) = UNDEMI*(GradV(2,3)+GradV(3,2))
-        EPSDOT(6) = UNDEMI*(GradV(1,3)+GradV(3,1)) 
+        EPSDOT(4) = HALF*(GradV(1,2)+GradV(2,1))
+        EPSDOT(5) = HALF*(GradV(2,3)+GradV(3,2))
+        EPSDOT(6) = HALF*(GradV(1,3)+GradV(3,1)) 
         
         DXX(I)    = EPSDOT(1)
         DYY(I)    = EPSDOT(2)
@@ -281,7 +281,7 @@ C-----------------------------------------------
 !            write (*,FMT='(A,3E26.14,A)')  "                            | ", EPSDOT(1),EPSDOT(4),EPSDOT(6),   " |"
 !            write (*,FMT='(A,3E26.14,A)')  "         Eps_dot           =| ", EPSDOT(4),EPSDOT(2),EPSDOT(5),   " |"  
 !            write (*,FMT='(A,3E26.14,A)')  "                            |_", EPSDOT(6),EPSDOT(5),EPSDOT(3),   "_|" 
-            write (*,FMT='(A,1E26.14  )')  "         tr(Eps_dot)/3.    =  ", TIERS*(EPSDOT(1)+EPSDOT(2)+EPSDOT(3))
+            write (*,FMT='(A,1E26.14  )')  "         tr(Eps_dot)/3.    =  ", THIRD*(EPSDOT(1)+EPSDOT(2)+EPSDOT(3))
  
           enddo
 !#!include "lockoff.inc"       

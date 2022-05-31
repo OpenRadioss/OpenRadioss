@@ -177,12 +177,12 @@ c
       FUNC_YLD = ITABLE(1)
       NDIM_YLD = TABLE(FUNC_YLD)%NDIM
 c
-      G2 = G * DEUX
+      G2 = G * TWO
       ALPHA  = 0.005
-      ALPHAI = UN - ALPHA
+      ALPHAI = ONE - ALPHA
 c
       IF (INLOC > 0) THEN
-        DTINV = UN / MAX(TIMESTEP, EM20)
+        DTINV = ONE / MAX(TIMESTEP, EM20)
         DO I = 1,NEL
           PLA_NL(I)  = UVAR(I,5) + MAX(DPLANL(I),ZERO)
           UVAR(I,5)  = PLA_NL(I)
@@ -193,12 +193,12 @@ c------------------------------------------------------------------
 c     Computation of the nominal trial stress tensor (non damaged)
 c------------------------------------------------------------------
       DAM (1:NEL) = UVAR(1:NEL,2)
-      FDAM(1:NEL) = UN - DAM(1:NEL)
+      FDAM(1:NEL) = ONE - DAM(1:NEL)
 c
       DO I = 1,NEL
         IF (OFF(I) < 0.001) OFF(I) = ZERO
-        IF (OFF(I) < UN)    OFF(I) = OFF(I)*QCINQ
-        IF (OFF(I) == UN) THEN
+        IF (OFF(I) < ONE)    OFF(I) = OFF(I)*FOUR_OVER_5
+        IF (OFF(I) == ONE) THEN
           SIGNXX(I) = SIGOXX(I)/FDAM(I) + C11*DEPSXX(I) + C12*(DEPSYY(I) + DEPSZZ(I))
           SIGNYY(I) = SIGOYY(I)/FDAM(I) + C11*DEPSYY(I) + C12*(DEPSXX(I) + DEPSZZ(I))
           SIGNZZ(I) = SIGOZZ(I)/FDAM(I) + C11*DEPSZZ(I) + C12*(DEPSXX(I) + DEPSYY(I))
@@ -213,28 +213,28 @@ c
           SXY(I) = SIGNXY(I)
           SYZ(I) = SIGNYZ(I)
           SZX(I) = SIGNZX(I)
-          J2(I)  = (SXX(I)**2 + SYY(I)**2 + SZZ(I)**2)*UNDEMI
+          J2(I)  = (SXX(I)**2 + SYY(I)**2 + SZZ(I)**2)*HALF
      .           +  SXY(I)**2 + SYZ(I)**2 + SZX(I)**2
         END IF
       ENDDO
 c     Johnson & Cook rate dependency  (total strain rate)
       JCR_LOG(1:NEL) = ZERO
-      JCRATE(1:NEL)  = UN
+      JCRATE(1:NEL)  = ONE
       IF (EPSDREF > ZERO) THEN
         IF (INLOC == 1) THEN   ! non local plastic strain rate
           JCR_LOG(1:NEL) = LOG(DPDT_NL(1:NEL) / EPSDREF)
-          JCRATE(1:NEL)  = UN + CC * JCR_LOG(1:NEL)
+          JCRATE(1:NEL)  = ONE + CC * JCR_LOG(1:NEL)
         ELSE                   ! total strain rate
           DO I = 1,NEL
-            IF (OFF(I) == UN) THEN
-              EPSD(I) = (EPSPXX(I)**2 + EPSPYY(I)**2 + EPSPZZ(I)**2 )*DEUX
+            IF (OFF(I) == ONE) THEN
+              EPSD(I) = (EPSPXX(I)**2 + EPSPYY(I)**2 + EPSPZZ(I)**2 )*TWO
      .                +  EPSPXY(I)**2 + EPSPYZ(I)**2 + EPSPZX(I)**2
               EPSD(I) = MIN(SQRT(EPSD(I)) ,EPSDMAX)
               EPSD(I) = ALPHA*EPSD(I) + ALPHAI*UVAR(I,3)
               UVAR(I,3) = EPSD(I)
               IF (EPSD(I) > EPSDREF) THEN
                 JCR_LOG(I) = LOG(EPSD(I) / EPSDREF)
-                JCRATE(I)  = UN + CC * JCR_LOG(I)
+                JCRATE(I)  = ONE + CC * JCR_LOG(I)
               END IF
             END IF
           ENDDO
@@ -286,9 +286,9 @@ c
       END IF
 c
       DO I = 1,NEL
-        FVM(I) = MAX(ZERO, I1(I) + UNDEMI*SQR3*A1F*YLD0 / A2F )
+        FVM(I) = MAX(ZERO, I1(I) + HALF*SQR3*A1F*YLD0 / A2F )
         PHI(I) = J2(I) + THIRD*A2F * FVM(I)**2 
-     .         - (YLD(I)**2 + QUART*(A1F*YLD0)**2/A2F)
+     .         - (YLD(I)**2 + FOURTH*(A1F*YLD0)**2/A2F)
       ENDDO
 c------------------------------------------------------------------
 c     Check plasticity
@@ -296,7 +296,7 @@ c------------------------------------------------------------------
       NINDX = 0
       NINDF = 0
       DO I = 1,NEL
-        IF (PHI(I) > ZERO .and. OFF(I) == UN) THEN
+        IF (PHI(I) > ZERO .and. OFF(I) == ONE) THEN
           NINDX = NINDX + 1
           INDX(NINDX) = I
         END IF
@@ -315,7 +315,7 @@ c
             ! normal to non associated plastic flow surface = d_psi/d_sig
             I1P   = MAX(ZERO, I1(I))
             JP    = THIRD * AS * I1P
-            TP    = DEUX  * JP
+            TP    = TWO  * JP
 c
             NP_XX = SXX(I) + TP
             NP_YY = SYY(I) + TP
@@ -325,7 +325,7 @@ c
             NP_ZX = SZX(I)
 c
             ! normal to plastic yield surface = d_phi/d_sig
-            IP = DTHIRD * A2F * FVM(I)
+            IP = TWO_THIRD * A2F * FVM(I)
             NF_XX = SXX(I) + IP
             NF_YY = SYY(I) + IP
             NF_ZZ = SZZ(I) + IP
@@ -337,11 +337,11 @@ c
             DFDLAM =-NF_XX * (C11*NP_XX + C12 * (NP_YY + NP_ZZ))
      .             - NF_YY * (C11*NP_YY + C12 * (NP_XX + NP_ZZ))
      .             - NF_ZZ * (C11*NP_ZZ + C12 * (NP_XX + NP_YY))
-     .             -(NF_XY*NP_XY + NF_YZ*NP_YZ + NF_ZX*NP_ZX)*DEUX*G2
+     .             -(NF_XY*NP_XY + NF_YZ*NP_YZ + NF_ZX*NP_ZX)*TWO*G2
 c
-            DPLA_DLAM = DEUX*SQRT((J2(I) + TP*AS*I1(I)))
+            DPLA_DLAM = TWO*SQRT((J2(I) + TP*AS*I1(I)))
             DPLA_DLAM = DPLA_DLAM / FDAM(I)
-            DPHI_DLAM = DFDLAM - DEUX*YLD(I)*HARDP(I)*DPLA_DLAM
+            DPHI_DLAM = DFDLAM - TWO*YLD(I)*HARDP(I)*DPLA_DLAM
 c----------------------------------------------------------------
             DLAM = -PHI(I) / DPHI_DLAM
 c----------------------------------------------------------------
@@ -432,11 +432,11 @@ c----------------------
             SXY(I) = SIGNXY(I)
             SYZ(I) = SIGNYZ(I)
             SZX(I) = SIGNZX(I)
-            J2(I)  =(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 ) * UNDEMI
+            J2(I)  =(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 ) * HALF
      .             + SXY(I)**2 + SYZ(I)**2 + SZX(I)**2
-            FVM(I) = MAX(ZERO, I1(I) + UNDEMI*SQR3*A1F*YLD0 / A2F )
+            FVM(I) = MAX(ZERO, I1(I) + HALF*SQR3*A1F*YLD0 / A2F )
             PHI(I) = J2(I) + THIRD*A2F * FVM(I)**2 
-     .             - (YLD(I)**2 + QUART*(A1F*YLD0)**2/A2F)
+     .             - (YLD(I)**2 + FOURTH*(A1F*YLD0)**2/A2F)
             UVAR(I,4) = PHI(I) / YLD(I)**2
           END DO 
 c
@@ -470,12 +470,12 @@ c
         DO II = 1,NINDX
           I = INDX(II)
 c
-          FACR = UN + D_JC * JCR_LOG(I)  ! total strain rate factor on damage
+          FACR = ONE + D_JC * JCR_LOG(I)  ! total strain rate factor on damage
           IF (ITRX == 1) THEN
-            TRIAX = THIRD * I1(I) / SQRT(TROIS*J2(I))
+            TRIAX = THIRD * I1(I) / SQRT(THREE*J2(I))
             FACT  = EXP(-D_TRX*TRIAX)
           ELSE IF (I1(I) <= ZERO) THEN  ! ITRX = 2 => no triaxiality influence in compression
-            FACT = UN
+            FACT = ONE
           END IF
           GAMC = (D1C + D2C * FACT) * FACR
           GAMF = (D1F + D2F * FACT) * FACR
@@ -484,22 +484,22 @@ c
               NINDF = NINDF + 1
               INDF(NINDF) = I
             END IF
-            IF (EXPN == UN) THEN
+            IF (EXPN == ONE) THEN
               DAM(I) = DAM(I) + DGAMM(I) / (GAMF - GAMC)
             ELSE
               DFAC   = (GAMMA(I) - GAMC) / (GAMF - GAMC)
-              DAM(I) = DAM(I) + EXPN * DFAC**(EXPN-UN) * DGAMM(I) / (GAMF - GAMC)
+              DAM(I) = DAM(I) + EXPN * DFAC**(EXPN-ONE) * DGAMM(I) / (GAMF - GAMC)
             END IF
-            IF (DAM(I) >= UN) THEN
-              DAM(I) = UN
-              OFF(I) = QCINQ
+            IF (DAM(I) >= ONE) THEN
+              DAM(I) = ONE
+              OFF(I) = FOUR_OVER_5
             END IF
             UVAR(I,2) = DAM(I)
           END IF ! GAMMA > GAMC
         ENDDO
 c       Update damaged stress
         DO I = 1, NEL
-          FACD = UN - DAM(I)
+          FACD = ONE - DAM(I)
           SIGNXX(I) = SIGNXX(I) * FACD
           SIGNYY(I) = SIGNYY(I) * FACD
           SIGNZZ(I) = SIGNZZ(I) * FACD

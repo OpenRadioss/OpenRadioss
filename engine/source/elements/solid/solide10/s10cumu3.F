@@ -70,10 +70,10 @@ C-----------------------------------------------
      .   OFF_L,XM,YM,ZM,XX,YY,ZZ,FACIROT,FACIROT2
 C-----------------------------------------------
 c     FACIROT  = (7./48.) / (1./32/)  ! rapport des masses
-      FACIROT  = (NEUF + TIERS) 
-c     FACIROT2 = DEUX * (7./48.) / (1./32/)  ! 2 * rapport des masses
-c     FACIROT2 = NEUF + TIERS
-      FACIROT2 = DEUX * (NEUF + TIERS)
+      FACIROT  = (NINE + THIRD) 
+c     FACIROT2 = TWO * (7./48.) / (1./32/)  ! 2 * rapport des masses
+c     FACIROT2 = NINE + THIRD
+      FACIROT2 = TWO * (NINE + THIRD)
 
       OFF_L = 0.
       DO I=LFT,LLT
@@ -118,8 +118,8 @@ C           STIG = sum(Kp)                                              cf s10fi
 C                => STIG == sum( Volp*rho ) *  Omega**2/4 == M * Omega**2/4
 C
 C           cf Assembling respectively Kvertex=Mvertex * Omega**2/2 and Kedge=Medge * Omega**2/2
-            STIV(I) = DEUX/TRENTE2 * STI(I)
-            STIE(I) = DEUX*SEPT/QUARANTE8 * STI(I)
+            STIV(I) = TWO/THIRTY2 * STI(I)
+            STIE(I) = TWO*SEVEN/FOURTY8 * STI(I)
           END DO
 C
           DO N=1,4
@@ -145,14 +145,14 @@ C              Assembling Medge * Rayon(M-1 K)/2
              ELSE
                N1=NC(I,IPERM1(N))
                N2=NC(I,IPERM2(N))
-               A(1,N1)=A(1,N1)+UNDEMI*FX(I,N)
-               A(2,N1)=A(2,N1)+UNDEMI*FY(I,N)
-               A(3,N1)=A(3,N1)+UNDEMI*FZ(I,N)
-               STIFN(N1)=STIFN(N1)+UNDEMI*STIE(I)
-               A(1,N2)=A(1,N2)+UNDEMI*FX(I,N)
-               A(2,N2)=A(2,N2)+UNDEMI*FY(I,N)
-               A(3,N2)=A(3,N2)+UNDEMI*FZ(I,N)
-               STIFN(N2)=STIFN(N2)+UNDEMI*STIE(I)
+               A(1,N1)=A(1,N1)+HALF*FX(I,N)
+               A(2,N1)=A(2,N1)+HALF*FY(I,N)
+               A(3,N1)=A(3,N1)+HALF*FZ(I,N)
+               STIFN(N1)=STIFN(N1)+HALF*STIE(I)
+               A(1,N2)=A(1,N2)+HALF*FX(I,N)
+               A(2,N2)=A(2,N2)+HALF*FY(I,N)
+               A(3,N2)=A(3,N2)+HALF*FZ(I,N)
+               STIFN(N2)=STIFN(N2)+HALF*STIE(I)
              ENDIF
            ENDDO
           ENDDO
@@ -164,7 +164,7 @@ C           DELTAX/SSP = 2/Omega, Omega=SQRT[Spectral Radius(K)/Mmin] with Mmin=
 C                      = SQRT[Volp*Rho/Kp]                                   cf mqviscb.F
 C           STIG = sum(Kp)                                                   cf s10fint3.F
 C                => STIG == sum( Volp*rho ) *  Radius(K) / (4 Mmin) == Radius(K)
-            STI(I) = UNDEMI * STI(I)
+            STI(I) = HALF * STI(I)
           END DO
 
           DO N=1,4
@@ -183,12 +183,12 @@ C                => STIG == sum( Volp*rho ) *  Radius(K) / (4 Mmin) == Radius(K)
              IF(NN == 0)THEN
               N1=NC(I,IPERM1(N))
               N2=NC(I,IPERM2(N))
-              A(1,N1)=A(1,N1)+UNDEMI*FX(I,N)
-              A(2,N1)=A(2,N1)+UNDEMI*FY(I,N)
-              A(3,N1)=A(3,N1)+UNDEMI*FZ(I,N)
-              A(1,N2)=A(1,N2)+UNDEMI*FX(I,N)
-              A(2,N2)=A(2,N2)+UNDEMI*FY(I,N)
-              A(3,N2)=A(3,N2)+UNDEMI*FZ(I,N)
+              A(1,N1)=A(1,N1)+HALF*FX(I,N)
+              A(2,N1)=A(2,N1)+HALF*FY(I,N)
+              A(3,N1)=A(3,N1)+HALF*FZ(I,N)
+              A(1,N2)=A(1,N2)+HALF*FX(I,N)
+              A(2,N2)=A(2,N2)+HALF*FY(I,N)
+              A(3,N2)=A(3,N2)+HALF*FZ(I,N)
              ELSEIF(ITAGDN(NN)/=0) THEN
 C-----------will be done in resol    
               A(1,NN)=A(1,NN)+FX(I,N)
@@ -203,7 +203,7 @@ C-----------will be done in resol
       ELSE ! IF(IDT1TET10/=0 .AND. ISROT/=1)THEN
 C       same as version 44./ to be checked
         DO I=LFT,LLT
-          STI(I)=QUART*STI(I)
+          STI(I)=FOURTH*STI(I)
         END DO
 C
         IF(ISROT == 0)THEN
@@ -228,14 +228,14 @@ C
             ELSE
               N1=NC(I,IPERM1(N))
               N2=NC(I,IPERM2(N))
-              A(1,N1)=A(1,N1)+UNDEMI*FX(I,N)
-              A(2,N1)=A(2,N1)+UNDEMI*FY(I,N)
-              A(3,N1)=A(3,N1)+UNDEMI*FZ(I,N)
-              STIFN(N1)=STIFN(N1)+UNDEMI*STI(I)
-              A(1,N2)=A(1,N2)+UNDEMI*FX(I,N)
-              A(2,N2)=A(2,N2)+UNDEMI*FY(I,N)
-              A(3,N2)=A(3,N2)+UNDEMI*FZ(I,N)
-              STIFN(N2)=STIFN(N2)+UNDEMI*STI(I)
+              A(1,N1)=A(1,N1)+HALF*FX(I,N)
+              A(2,N1)=A(2,N1)+HALF*FY(I,N)
+              A(3,N1)=A(3,N1)+HALF*FZ(I,N)
+              STIFN(N1)=STIFN(N1)+HALF*STI(I)
+              A(1,N2)=A(1,N2)+HALF*FX(I,N)
+              A(2,N2)=A(2,N2)+HALF*FY(I,N)
+              A(3,N2)=A(3,N2)+HALF*FZ(I,N)
+              STIFN(N2)=STIFN(N2)+HALF*STI(I)
             ENDIF
           ENDDO
          ENDDO
@@ -248,8 +248,8 @@ C
             A(1,NN)=A(1,NN)+FX(I,N)
             A(2,NN)=A(2,NN)+FY(I,N)
             A(3,NN)=A(3,NN)+FZ(I,N)
-            STIFN(NN)=STIFN(NN) + STI(I)*DEUX
-            STIFR(NN)=STIFR(NN) + UNHUIT*STI(I)*DELTAX2(I)*TROIS
+            STIFN(NN)=STIFN(NN) + STI(I)*TWO
+            STIFR(NN)=STIFR(NN) + ONE_OVER_8*STI(I)*DELTAX2(I)*THREE
            ENDDO
           ENDDO
           
@@ -258,25 +258,25 @@ C
             DO I=LFT,LLT
               N1=NC(I,IPERM1(N))
               N2=NC(I,IPERM2(N))
-              A(1,N1)=A(1,N1)+UNDEMI*FX(I,N)
-              A(2,N1)=A(2,N1)+UNDEMI*FY(I,N)
-              A(3,N1)=A(3,N1)+UNDEMI*FZ(I,N)
-              A(1,N2)=A(1,N2)+UNDEMI*FX(I,N)
-              A(2,N2)=A(2,N2)+UNDEMI*FY(I,N)
-              A(3,N2)=A(3,N2)+UNDEMI*FZ(I,N)
-      	      IF(ABS(OFFG(I)).GT.UN)THEN
+              A(1,N1)=A(1,N1)+HALF*FX(I,N)
+              A(2,N1)=A(2,N1)+HALF*FY(I,N)
+              A(3,N1)=A(3,N1)+HALF*FZ(I,N)
+              A(1,N2)=A(1,N2)+HALF*FX(I,N)
+              A(2,N2)=A(2,N2)+HALF*FY(I,N)
+              A(3,N2)=A(3,N2)+HALF*FZ(I,N)
+      	      IF(ABS(OFFG(I)).GT.ONE)THEN
       	  	XX=SAV(I,IPERM2(N))-SAV(I,IPERM1(N))
       	  	YY=SAV(I,IPERM2(N)+10)-SAV(I,IPERM1(N)+10)
       	  	ZZ=SAV(I,IPERM2(N)+20)-SAV(I,IPERM1(N)+20)
-      	  	XM = UNHUIT*(YY*FZ(I,N) - ZZ*FY(I,N))
-      	  	YM = UNHUIT*(ZZ*FX(I,N) - XX*FZ(I,N))
-      	  	ZM = UNHUIT*(XX*FY(I,N) - YY*FX(I,N))
+      	  	XM = ONE_OVER_8*(YY*FZ(I,N) - ZZ*FY(I,N))
+      	  	YM = ONE_OVER_8*(ZZ*FX(I,N) - XX*FZ(I,N))
+      	  	ZM = ONE_OVER_8*(XX*FY(I,N) - YY*FX(I,N))
       	      ELSE
-        	XM = UNHUIT*
+        	XM = ONE_OVER_8*
      .  	((X(2,N2)-X(2,N1))*FZ(I,N) - (X(3,N2)-X(3,N1))*FY(I,N))
-        	YM = UNHUIT*
+        	YM = ONE_OVER_8*
      .  	((X(3,N2)-X(3,N1))*FX(I,N) - (X(1,N2)-X(1,N1))*FZ(I,N))
-        	ZM = UNHUIT*
+        	ZM = ONE_OVER_8*
      .  	((X(1,N2)-X(1,N1))*FY(I,N) - (X(2,N2)-X(2,N1))*FX(I,N))
               END IF		
               AR(1,N1) = AR(1,N1) + XM
@@ -292,17 +292,17 @@ C
             DO I=LFT,LLT
               N1=NC(I,IPERM1(N))
               N2=NC(I,IPERM2(N))
-              A(1,N1)=A(1,N1)+UNDEMI*FX(I,N)
-              A(2,N1)=A(2,N1)+UNDEMI*FY(I,N)
-              A(3,N1)=A(3,N1)+UNDEMI*FZ(I,N)
-              A(1,N2)=A(1,N2)+UNDEMI*FX(I,N)
-              A(2,N2)=A(2,N2)+UNDEMI*FY(I,N)
-              A(3,N2)=A(3,N2)+UNDEMI*FZ(I,N)
-              XM = UNHUIT*
+              A(1,N1)=A(1,N1)+HALF*FX(I,N)
+              A(2,N1)=A(2,N1)+HALF*FY(I,N)
+              A(3,N1)=A(3,N1)+HALF*FZ(I,N)
+              A(1,N2)=A(1,N2)+HALF*FX(I,N)
+              A(2,N2)=A(2,N2)+HALF*FY(I,N)
+              A(3,N2)=A(3,N2)+HALF*FZ(I,N)
+              XM = ONE_OVER_8*
      .        ((X(2,N2)-X(2,N1))*FZ(I,N) - (X(3,N2)-X(3,N1))*FY(I,N))
-              YM = UNHUIT*
+              YM = ONE_OVER_8*
      .        ((X(3,N2)-X(3,N1))*FX(I,N) - (X(1,N2)-X(1,N1))*FZ(I,N))
-              ZM = UNHUIT*
+              ZM = ONE_OVER_8*
      .        ((X(1,N2)-X(1,N1))*FY(I,N) - (X(2,N2)-X(2,N1))*FX(I,N))
               AR(1,N1) = AR(1,N1) + XM
               AR(2,N1) = AR(2,N1) + YM
@@ -321,7 +321,7 @@ C
             A(1,NN)=A(1,NN)+FX(I,N)
             A(2,NN)=A(2,NN)+FY(I,N)
             A(3,NN)=A(3,NN)+FZ(I,N)
-            STIFN(NN)=STIFN(NN)+STI(I)*DEUX
+            STIFN(NN)=STIFN(NN)+STI(I)*TWO
            ENDDO
           ENDDO
           DO N=5,10
@@ -330,12 +330,12 @@ C
              IF(NN == 0)THEN
               N1=NC(I,IPERM1(N))
               N2=NC(I,IPERM2(N))
-              A(1,N1)=A(1,N1)+UNDEMI*FX(I,N)
-              A(2,N1)=A(2,N1)+UNDEMI*FY(I,N)
-              A(3,N1)=A(3,N1)+UNDEMI*FZ(I,N)
-              A(1,N2)=A(1,N2)+UNDEMI*FX(I,N)
-              A(2,N2)=A(2,N2)+UNDEMI*FY(I,N)
-              A(3,N2)=A(3,N2)+UNDEMI*FZ(I,N)
+              A(1,N1)=A(1,N1)+HALF*FX(I,N)
+              A(2,N1)=A(2,N1)+HALF*FY(I,N)
+              A(3,N1)=A(3,N1)+HALF*FZ(I,N)
+              A(1,N2)=A(1,N2)+HALF*FX(I,N)
+              A(2,N2)=A(2,N2)+HALF*FY(I,N)
+              A(3,N2)=A(3,N2)+HALF*FZ(I,N)
              ELSEIF(ITAGDN(NN)/=0) THEN
 C-----------will be done in resol    
               A(1,NN)=A(1,NN)+FX(I,N)
@@ -369,8 +369,8 @@ C
             ELSE
               N1=NC(I,IPERM1(N))
               N2=NC(I,IPERM2(N))
-              FTHE(N1)= FTHE(N1) + UNDEMI*THEM(I,N)
-              FTHE(N2)= FTHE(N2) + UNDEMI*THEM(I,N)   
+              FTHE(N1)= FTHE(N1) + HALF*THEM(I,N)
+              FTHE(N2)= FTHE(N2) + HALF*THEM(I,N)   
             ENDIF
           ENDDO
          ENDDO
@@ -383,7 +383,7 @@ C
        IF(NODADT_THERM == 1 ) THEN  
 
         DO I=LFT,LLT
-          CONDE(I)=QUART*CONDE(I)
+          CONDE(I)=FOURTH*CONDE(I)
         END DO
 
 
@@ -403,8 +403,8 @@ C
             ELSE
               N1=NC(I,IPERM1(N))
               N2=NC(I,IPERM2(N))
-              CONDN(N1)= CONDN(N1)+UNDEMI*CONDE(I)
-              CONDN(N2)= CONDN(N2)+UNDEMI*CONDE(I)
+              CONDN(N1)= CONDN(N1)+HALF*CONDE(I)
+              CONDN(N2)= CONDN(N2)+HALF*CONDE(I)
             ENDIF
           ENDDO
          ENDDO
@@ -414,7 +414,7 @@ C
           DO N=1,4
            DO I=LFT,LLT
             NN = NC(I,N)
-            CONDN(NN)= CONDN(NN) + CONDE(I)*DELTAX2(I)*TROIS*UNHUIT
+            CONDN(NN)= CONDN(NN) + CONDE(I)*DELTAX2(I)*THREE*ONE_OVER_8
            ENDDO
           ENDDO
         ELSEIF(ISROT == 2)THEN
@@ -422,7 +422,7 @@ C
           DO N=1,4
            DO I=LFT,LLT
             NN = NC(I,N)
-            CONDN(NN)= CONDN(NN) + CONDE(I)*DEUX
+            CONDN(NN)= CONDN(NN) + CONDE(I)*TWO
            ENDDO
           ENDDO
           DO N=5,10
@@ -445,12 +445,12 @@ C
           IF(NN.EQ.0)THEN
             N1=IPERM1(N)
             N2=IPERM2(N)
-            FX(I,N1)=FX(I,N1)+UNDEMI*FX(I,N)
-            FY(I,N1)=FY(I,N1)+UNDEMI*FY(I,N)
-            FZ(I,N1)=FZ(I,N1)+UNDEMI*FZ(I,N)
-            FX(I,N2)=FX(I,N2)+UNDEMI*FX(I,N)
-            FY(I,N2)=FY(I,N2)+UNDEMI*FY(I,N)
-            FZ(I,N2)=FZ(I,N2)+UNDEMI*FZ(I,N)
+            FX(I,N1)=FX(I,N1)+HALF*FX(I,N)
+            FY(I,N1)=FY(I,N1)+HALF*FY(I,N)
+            FZ(I,N1)=FZ(I,N1)+HALF*FZ(I,N)
+            FX(I,N2)=FX(I,N2)+HALF*FX(I,N)
+            FY(I,N2)=FY(I,N2)+HALF*FY(I,N)
+            FZ(I,N2)=FZ(I,N2)+HALF*FZ(I,N)
           END IF
         END DO
        END DO
@@ -511,10 +511,10 @@ C-----------------------------------------------
      .   OFF_L,XM,YM,ZM,XX,YY,ZZ,FACIROT,FACIROT2
 C-----------------------------------------------
 c     FACIROT  = (7./48.) / (1./32/)  ! rapport des masses
-      FACIROT  = (NEUF + TIERS) 
-c     FACIROT2 = DEUX * (7./48.) / (1./32/)  ! 2 * rapport des masses
-c     FACIROT2 = NEUF + TIERS
-      FACIROT2 = DEUX * (NEUF + TIERS)
+      FACIROT  = (NINE + THIRD) 
+c     FACIROT2 = TWO * (7./48.) / (1./32/)  ! 2 * rapport des masses
+c     FACIROT2 = NINE + THIRD
+      FACIROT2 = TWO * (NINE + THIRD)
 
       OFF_L = 0.
       DO I=LFT,LLT
@@ -557,7 +557,7 @@ C
       ELSE
 C       same as version 44./ to be checked
         DO I=LFT,LLT
-          STI(I)=QUART*STI(I)
+          STI(I)=FOURTH*STI(I)
         END DO
       END IF
 C
@@ -573,8 +573,8 @@ C             STIG = sum(Kp)						  cf s10fint3.F
 C           	   => STIG == sum( Volp*rho ) *  Omega**2/4 == M * Omega**2/4
 C
 C             cf Assembling respectively Kvertex=Mvertex * Omega**2/2 and Kedge=Medge * Omega**2/2
-              STIV(I) = DEUX/TRENTE2 * STI(I)
-              STIE(I) = DEUX*SEPT/QUARANTE8 * STI(I)
+              STIV(I) = TWO/THIRTY2 * STI(I)
+              STIE(I) = TWO*SEVEN/FOURTY8 * STI(I)
             END DO
 
             DO N= 1,4
@@ -612,21 +612,21 @@ C             cf Assembling respectively Kvertex=Mvertex * Omega**2/2 and Kedge=
            	 FSKYV(K,7)=STIE(I)
                ELSE
            	 K = IADS(L1,II)
-           	 FSKYV(K,1)=FSKYV(K,1)+UNDEMI*FX(I,N+4)
-           	 FSKYV(K,2)=FSKYV(K,2)+UNDEMI*FY(I,N+4)
-           	 FSKYV(K,3)=FSKYV(K,3)+UNDEMI*FZ(I,N+4)
+           	 FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+4)
+           	 FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+4)
+           	 FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+4)
            	 FSKYV(K,4)=ZERO
            	 FSKYV(K,5)=ZERO
            	 FSKYV(K,6)=ZERO
-           	 FSKYV(K,7)=FSKYV(K,7)+UNDEMI*STIE(I)
+           	 FSKYV(K,7)=FSKYV(K,7)+HALF*STIE(I)
            	 K = IADS(L2,II)
-           	 FSKYV(K,1)=FSKYV(K,1)+UNDEMI*FX(I,N+4)
-           	 FSKYV(K,2)=FSKYV(K,2)+UNDEMI*FY(I,N+4)
-           	 FSKYV(K,3)=FSKYV(K,3)+UNDEMI*FZ(I,N+4)
+           	 FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+4)
+           	 FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+4)
+           	 FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+4)
            	 FSKYV(K,4)=ZERO
            	 FSKYV(K,5)=ZERO
            	 FSKYV(K,6)=ZERO
-           	 FSKYV(K,7)=FSKYV(K,7)+UNDEMI*STIE(I)
+           	 FSKYV(K,7)=FSKYV(K,7)+HALF*STIE(I)
                ENDIF
               ENDDO
             ENDDO
@@ -637,7 +637,7 @@ C             DELTAX/SSP = 2/Omega, Omega=SQRT[Spectral Radius(K)/Mmin] with Mmi
 C           		 = SQRT[Volp*Rho/Kp]				       cf mqviscb.F
 C             STIG = sum(Kp)						       cf s10fint3.F
 C           	   => STIG == sum( Volp*rho ) *  Radius(K) / (4 Mmin) == Radius(K)
-              STI(I) = UNDEMI * STI(I)
+              STI(I) = HALF * STI(I)
             END DO
 
             DO N= 1,4
@@ -671,13 +671,13 @@ C           	   => STIG == sum( Volp*rho ) *  Radius(K) / (4 Mmin) == Radius(K)
                IF(NN == 0)THEN
 
          	K = IADS(L1,II)
-         	FSKYV(K,1)=FSKYV(K,1)+UNDEMI*FX(I,N+4)
-         	FSKYV(K,2)=FSKYV(K,2)+UNDEMI*FY(I,N+4)
-         	FSKYV(K,3)=FSKYV(K,3)+UNDEMI*FZ(I,N+4)
+         	FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+4)
+         	FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+4)
+         	FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+4)
          	K = IADS(L2,II)
-         	FSKYV(K,1)=FSKYV(K,1)+UNDEMI*FX(I,N+4)
-         	FSKYV(K,2)=FSKYV(K,2)+UNDEMI*FY(I,N+4)
-         	FSKYV(K,3)=FSKYV(K,3)+UNDEMI*FZ(I,N+4)
+         	FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+4)
+         	FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+4)
+         	FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+4)
 
                ELSEIF(ITAGDN(NN)/=0) THEN
          	  K = IADS10(N,JJ)
@@ -725,21 +725,21 @@ C           	   => STIG == sum( Volp*rho ) *  Radius(K) / (4 Mmin) == Radius(K)
              FSKYV(K,7)=STI(I)
            ELSE
              K = IADS(L1,II)
-             FSKYV(K,1)=FSKYV(K,1)+UNDEMI*FX(I,N+4)
-             FSKYV(K,2)=FSKYV(K,2)+UNDEMI*FY(I,N+4)
-             FSKYV(K,3)=FSKYV(K,3)+UNDEMI*FZ(I,N+4)
+             FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+4)
+             FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+4)
+             FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+4)
              FSKYV(K,4)=ZERO
              FSKYV(K,5)=ZERO
              FSKYV(K,6)=ZERO
-             FSKYV(K,7)=FSKYV(K,7)+UNDEMI*STI(I)
+             FSKYV(K,7)=FSKYV(K,7)+HALF*STI(I)
              K = IADS(L2,II)
-             FSKYV(K,1)=FSKYV(K,1)+UNDEMI*FX(I,N+4)
-             FSKYV(K,2)=FSKYV(K,2)+UNDEMI*FY(I,N+4)
-             FSKYV(K,3)=FSKYV(K,3)+UNDEMI*FZ(I,N+4)
+             FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+4)
+             FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+4)
+             FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+4)
              FSKYV(K,4)=ZERO
              FSKYV(K,5)=ZERO
              FSKYV(K,6)=ZERO
-             FSKYV(K,7)=FSKYV(K,7)+UNDEMI*STI(I)
+             FSKYV(K,7)=FSKYV(K,7)+HALF*STI(I)
            ENDIF
           ENDDO
          ENDDO
@@ -756,8 +756,8 @@ C           	   => STIG == sum( Volp*rho ) *  Radius(K) / (4 Mmin) == Radius(K)
            FSKYV(K,4)=ZERO
            FSKYV(K,5)=ZERO
            FSKYV(K,6)=ZERO
-           FSKYV(K,7)=STI(I)*DEUX
-           FSKYV(K,8)=STI(I)*DELTAX2(I)*UNHUIT*TROIS
+           FSKYV(K,7)=STI(I)*TWO
+           FSKYV(K,8)=STI(I)*DELTAX2(I)*ONE_OVER_8*THREE
           ENDDO
          ENDDO
 
@@ -773,32 +773,32 @@ C           	   => STIG == sum( Volp*rho ) *  Radius(K) / (4 Mmin) == Radius(K)
             II=I+NFT
             JJ=II-NUMELS8
             NN = NC(I,N+4)
-	    IF(ABS(OFFG(I)).GT.UN)THEN
+	    IF(ABS(OFFG(I)).GT.ONE)THEN
 	     XX=SAV(I,K2)-SAV(I,K1)
 	     YY=SAV(I,K2+10)-SAV(I,K1+10)
 	     ZZ=SAV(I,K2+20)-SAV(I,K1+20)
-	     XM = UNHUIT*(YY*FZ(I,N+4) - ZZ*FY(I,N+4))
-	     YM = UNHUIT*(ZZ*FX(I,N+4) - XX*FZ(I,N+4))
-	     ZM = UNHUIT*(XX*FY(I,N+4) - YY*FX(I,N+4))
+	     XM = ONE_OVER_8*(YY*FZ(I,N+4) - ZZ*FY(I,N+4))
+	     YM = ONE_OVER_8*(ZZ*FX(I,N+4) - XX*FZ(I,N+4))
+	     ZM = ONE_OVER_8*(XX*FY(I,N+4) - YY*FX(I,N+4))
 	    ELSE
-             XM = UNHUIT*
+             XM = ONE_OVER_8*
      .       ((X(2,N2)-X(2,N1))*FZ(I,N+4) - (X(3,N2)-X(3,N1))*FY(I,N+4))
-             YM = UNHUIT*
+             YM = ONE_OVER_8*
      .       ((X(3,N2)-X(3,N1))*FX(I,N+4) - (X(1,N2)-X(1,N1))*FZ(I,N+4))
-             ZM = UNHUIT*
+             ZM = ONE_OVER_8*
      .       ((X(1,N2)-X(1,N1))*FY(I,N+4) - (X(2,N2)-X(2,N1))*FX(I,N+4))
             END IF            
             K = IADS(L1,II)
-            FSKYV(K,1)=FSKYV(K,1)+UNDEMI*FX(I,N+4)
-            FSKYV(K,2)=FSKYV(K,2)+UNDEMI*FY(I,N+4)
-            FSKYV(K,3)=FSKYV(K,3)+UNDEMI*FZ(I,N+4)
+            FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+4)
+            FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+4)
+            FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+4)
             FSKYV(K,4)=FSKYV(K,4) + XM
             FSKYV(K,5)=FSKYV(K,5) + YM
             FSKYV(K,6)=FSKYV(K,6) + ZM
             K = IADS(L2,II)
-            FSKYV(K,1)=FSKYV(K,1)+UNDEMI*FX(I,N+4)
-            FSKYV(K,2)=FSKYV(K,2)+UNDEMI*FY(I,N+4)
-            FSKYV(K,3)=FSKYV(K,3)+UNDEMI*FZ(I,N+4)
+            FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+4)
+            FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+4)
+            FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+4)
             FSKYV(K,4)=FSKYV(K,4) - XM
             FSKYV(K,5)=FSKYV(K,5) - YM
             FSKYV(K,6)=FSKYV(K,6) - ZM
@@ -816,24 +816,24 @@ C           	   => STIG == sum( Volp*rho ) *  Radius(K) / (4 Mmin) == Radius(K)
             II=I+NFT
             JJ=II-NUMELS8
             NN = NC(I,N+4)
-            XM = UNHUIT*
+            XM = ONE_OVER_8*
      .      ((X(2,N2)-X(2,N1))*FZ(I,N+4) - (X(3,N2)-X(3,N1))*FY(I,N+4)) 
-            YM = UNHUIT*
+            YM = ONE_OVER_8*
      .      ((X(3,N2)-X(3,N1))*FX(I,N+4) - (X(1,N2)-X(1,N1))*FZ(I,N+4)) 
-            ZM = UNHUIT*
+            ZM = ONE_OVER_8*
      .      ((X(1,N2)-X(1,N1))*FY(I,N+4) - (X(2,N2)-X(2,N1))*FX(I,N+4)) 
 
             K = IADS(L1,II)
-            FSKYV(K,1)=FSKYV(K,1)+UNDEMI*FX(I,N+4)
-            FSKYV(K,2)=FSKYV(K,2)+UNDEMI*FY(I,N+4)
-            FSKYV(K,3)=FSKYV(K,3)+UNDEMI*FZ(I,N+4)
+            FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+4)
+            FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+4)
+            FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+4)
             FSKYV(K,4)=FSKYV(K,4) + XM
             FSKYV(K,5)=FSKYV(K,5) + YM
             FSKYV(K,6)=FSKYV(K,6) + ZM
             K = IADS(L2,II)
-            FSKYV(K,1)=FSKYV(K,1)+UNDEMI*FX(I,N+4)
-            FSKYV(K,2)=FSKYV(K,2)+UNDEMI*FY(I,N+4)
-            FSKYV(K,3)=FSKYV(K,3)+UNDEMI*FZ(I,N+4)
+            FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+4)
+            FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+4)
+            FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+4)
             FSKYV(K,4)=FSKYV(K,4) - XM
             FSKYV(K,5)=FSKYV(K,5) - YM
             FSKYV(K,6)=FSKYV(K,6) - ZM
@@ -853,7 +853,7 @@ C           	   => STIG == sum( Volp*rho ) *  Radius(K) / (4 Mmin) == Radius(K)
            FSKYV(K,4)=ZERO
            FSKYV(K,5)=ZERO
            FSKYV(K,6)=ZERO
-           FSKYV(K,7)=STI(I)*DEUX
+           FSKYV(K,7)=STI(I)*TWO
            FSKYV(K,8)=ZERO
           ENDDO
          ENDDO
@@ -872,13 +872,13 @@ C           	   => STIG == sum( Volp*rho ) *  Radius(K) / (4 Mmin) == Radius(K)
            IF(NN == 0)THEN
 
             K = IADS(L1,II)
-            FSKYV(K,1)=FSKYV(K,1)+UNDEMI*FX(I,N+4)
-            FSKYV(K,2)=FSKYV(K,2)+UNDEMI*FY(I,N+4)
-            FSKYV(K,3)=FSKYV(K,3)+UNDEMI*FZ(I,N+4)
+            FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+4)
+            FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+4)
+            FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+4)
             K = IADS(L2,II)
-            FSKYV(K,1)=FSKYV(K,1)+UNDEMI*FX(I,N+4)
-            FSKYV(K,2)=FSKYV(K,2)+UNDEMI*FY(I,N+4)
-            FSKYV(K,3)=FSKYV(K,3)+UNDEMI*FZ(I,N+4)
+            FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+4)
+            FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+4)
+            FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+4)
 
            ELSEIF(ITAGDN(NN)/=0) THEN
               K = IADS10(N,JJ)
@@ -904,8 +904,8 @@ C             STIG = sum(Kp)						  cf s10fint3.F
 C           	   => STIG == sum( Volp*rho ) *  Omega**2/4 == M * Omega**2/4
 C
 C             cf Assembling respectively Kvertex=Mvertex * Omega**2/2 and Kedge=Medge * Omega**2/2
-              STIV(I) = DEUX/TRENTE2 * STI(I)
-              STIE(I) = DEUX*SEPT/QUARANTE8 * STI(I)
+              STIV(I) = TWO/THIRTY2 * STI(I)
+              STIE(I) = TWO*SEVEN/FOURTY8 * STI(I)
             END DO
 
             DO N= 1,4
@@ -938,15 +938,15 @@ C             cf Assembling respectively Kvertex=Mvertex * Omega**2/2 and Kedge=
            	FSKY(7,K)=STIE(I)
               ELSE
            	K = IADS(L1,II)
-           	FSKY(1,K)=FSKY(1,K)+UNDEMI*FX(I,N+4)
-           	FSKY(2,K)=FSKY(2,K)+UNDEMI*FY(I,N+4)
-           	FSKY(3,K)=FSKY(3,K)+UNDEMI*FZ(I,N+4)
-           	FSKY(7,K)=FSKY(7,K) + UNDEMI*STIE(I)
+           	FSKY(1,K)=FSKY(1,K)+HALF*FX(I,N+4)
+           	FSKY(2,K)=FSKY(2,K)+HALF*FY(I,N+4)
+           	FSKY(3,K)=FSKY(3,K)+HALF*FZ(I,N+4)
+           	FSKY(7,K)=FSKY(7,K) + HALF*STIE(I)
            	K = IADS(L2,II)
-           	FSKY(1,K)=FSKY(1,K) + UNDEMI*FX(I,N+4)
-           	FSKY(2,K)=FSKY(2,K) + UNDEMI*FY(I,N+4)
-           	FSKY(3,K)=FSKY(3,K) + UNDEMI*FZ(I,N+4)
-           	FSKY(7,K)=FSKY(7,K ) + UNDEMI*STIE(I)
+           	FSKY(1,K)=FSKY(1,K) + HALF*FX(I,N+4)
+           	FSKY(2,K)=FSKY(2,K) + HALF*FY(I,N+4)
+           	FSKY(3,K)=FSKY(3,K) + HALF*FZ(I,N+4)
+           	FSKY(7,K)=FSKY(7,K ) + HALF*STIE(I)
               ENDIF
              ENDDO
             ENDDO
@@ -960,7 +960,7 @@ C             STIG = sum(Kp)						  cf s10fint3.F
 C           	   => STIG == sum( Volp*rho ) *  Omega**2/4 == M * Omega**2/4
 C
 C             cf Assembling K = 1/2 * M/4 * Omega**2 
-              STI(I) = UNDEMI * STI(I)
+              STI(I) = HALF * STI(I)
             END DO
 
             DO N= 1,4
@@ -987,13 +987,13 @@ C             cf Assembling K = 1/2 * M/4 * Omega**2
                NN = NC(I,N+4)
               IF(NN == 0)THEN
                K = IADS(L1,II)
-               FSKY(1,K)=FSKY(1,K) + UNDEMI*FX(I,N+4)
-               FSKY(2,K)=FSKY(2,K) + UNDEMI*FY(I,N+4)
-               FSKY(3,K)=FSKY(3,K) + UNDEMI*FZ(I,N+4)
+               FSKY(1,K)=FSKY(1,K) + HALF*FX(I,N+4)
+               FSKY(2,K)=FSKY(2,K) + HALF*FY(I,N+4)
+               FSKY(3,K)=FSKY(3,K) + HALF*FZ(I,N+4)
                K = IADS(L2,II)
-               FSKY(1,K)=FSKY(1,K) + UNDEMI*FX(I,N+4)
-               FSKY(2,K)=FSKY(2,K) + UNDEMI*FY(I,N+4)
-               FSKY(3,K)=FSKY(3,K) + UNDEMI*FZ(I,N+4)
+               FSKY(1,K)=FSKY(1,K) + HALF*FX(I,N+4)
+               FSKY(2,K)=FSKY(2,K) + HALF*FY(I,N+4)
+               FSKY(3,K)=FSKY(3,K) + HALF*FZ(I,N+4)
 
               ELSEIF(ITAGDN(NN)/=0) THEN
                K = IADS10(N,JJ)
@@ -1038,15 +1038,15 @@ C             cf Assembling K = 1/2 * M/4 * Omega**2
               FSKY(7,K)=STI(I)
             ELSE
               K = IADS(L1,II)
-              FSKY(1,K)=FSKY(1,K)+UNDEMI*FX(I,N+4)
-              FSKY(2,K)=FSKY(2,K)+UNDEMI*FY(I,N+4)
-              FSKY(3,K)=FSKY(3,K)+UNDEMI*FZ(I,N+4)
-              FSKY(7,K)=FSKY(7,K) + UNDEMI*STI(I)
+              FSKY(1,K)=FSKY(1,K)+HALF*FX(I,N+4)
+              FSKY(2,K)=FSKY(2,K)+HALF*FY(I,N+4)
+              FSKY(3,K)=FSKY(3,K)+HALF*FZ(I,N+4)
+              FSKY(7,K)=FSKY(7,K) + HALF*STI(I)
               K = IADS(L2,II)
-              FSKY(1,K)=FSKY(1,K) + UNDEMI*FX(I,N+4)
-              FSKY(2,K)=FSKY(2,K) + UNDEMI*FY(I,N+4)
-              FSKY(3,K)=FSKY(3,K) + UNDEMI*FZ(I,N+4)
-              FSKY(7,K)=FSKY(7,K ) + UNDEMI*STI(I)
+              FSKY(1,K)=FSKY(1,K) + HALF*FX(I,N+4)
+              FSKY(2,K)=FSKY(2,K) + HALF*FY(I,N+4)
+              FSKY(3,K)=FSKY(3,K) + HALF*FZ(I,N+4)
+              FSKY(7,K)=FSKY(7,K ) + HALF*STI(I)
             ENDIF
            ENDDO
           ENDDO
@@ -1063,8 +1063,8 @@ C             cf Assembling K = 1/2 * M/4 * Omega**2
            FSKY(4,K)=ZERO
            FSKY(5,K)=ZERO
            FSKY(6,K)=ZERO
-           FSKY(7,K)=STI(I)*DEUX
-           FSKY(8,K)=STI(I)*DELTAX2(I)*UNHUIT*TROIS
+           FSKY(7,K)=STI(I)*TWO
+           FSKY(8,K)=STI(I)*DELTAX2(I)*ONE_OVER_8*THREE
           ENDDO
          ENDDO
 
@@ -1080,32 +1080,32 @@ C             cf Assembling K = 1/2 * M/4 * Omega**2
              II=I+NFT
              JJ=II-NUMELS8
              NN = NC(I,N+4)
-	     IF(ABS(OFFG(I)).GT.UN)THEN
+	     IF(ABS(OFFG(I)).GT.ONE)THEN
 	      XX=SAV(I,K2)-SAV(I,K1)
 	      YY=SAV(I,K2+10)-SAV(I,K1+10)
 	      ZZ=SAV(I,K2+20)-SAV(I,K1+20)
-	      XM = UNHUIT*(YY*FZ(I,N+4) - ZZ*FY(I,N+4))
-	      YM = UNHUIT*(ZZ*FX(I,N+4) - XX*FZ(I,N+4))
-	      ZM = UNHUIT*(XX*FY(I,N+4) - YY*FX(I,N+4))
+	      XM = ONE_OVER_8*(YY*FZ(I,N+4) - ZZ*FY(I,N+4))
+	      YM = ONE_OVER_8*(ZZ*FX(I,N+4) - XX*FZ(I,N+4))
+	      ZM = ONE_OVER_8*(XX*FY(I,N+4) - YY*FX(I,N+4))
 	     ELSE
-              XM = UNHUIT*
+              XM = ONE_OVER_8*
      .       ((X(2,N2)-X(2,N1))*FZ(I,N+4) - (X(3,N2)-X(3,N1))*FY(I,N+4)) 
-              YM = UNHUIT*
+              YM = ONE_OVER_8*
      .       ((X(3,N2)-X(3,N1))*FX(I,N+4) - (X(1,N2)-X(1,N1))*FZ(I,N+4)) 
-              ZM = UNHUIT*
+              ZM = ONE_OVER_8*
      .       ((X(1,N2)-X(1,N1))*FY(I,N+4) - (X(2,N2)-X(2,N1))*FX(I,N+4)) 
              END IF
              K = IADS(L1,II)
-             FSKY(1,K)=FSKY(1,K)+UNDEMI*FX(I,N+4)
-             FSKY(2,K)=FSKY(2,K)+UNDEMI*FY(I,N+4)
-             FSKY(3,K)=FSKY(3,K)+UNDEMI*FZ(I,N+4)
+             FSKY(1,K)=FSKY(1,K)+HALF*FX(I,N+4)
+             FSKY(2,K)=FSKY(2,K)+HALF*FY(I,N+4)
+             FSKY(3,K)=FSKY(3,K)+HALF*FZ(I,N+4)
              FSKY(4,K)=FSKY(4,K) + XM
              FSKY(5,K)=FSKY(5,K) + YM
              FSKY(6,K)=FSKY(6,K) + ZM
              K = IADS(L2,II)
-             FSKY(1,K)=FSKY(1,K) + UNDEMI*FX(I,N+4)
-             FSKY(2,K)=FSKY(2,K) + UNDEMI*FY(I,N+4)
-             FSKY(3,K)=FSKY(3,K) + UNDEMI*FZ(I,N+4)
+             FSKY(1,K)=FSKY(1,K) + HALF*FX(I,N+4)
+             FSKY(2,K)=FSKY(2,K) + HALF*FY(I,N+4)
+             FSKY(3,K)=FSKY(3,K) + HALF*FZ(I,N+4)
              FSKY(4,K)=FSKY(4,K) - XM
              FSKY(5,K)=FSKY(5,K) - YM
              FSKY(6,K)=FSKY(6,K) - ZM
@@ -1123,24 +1123,24 @@ C             cf Assembling K = 1/2 * M/4 * Omega**2
              II=I+NFT
              JJ=II-NUMELS8
              NN = NC(I,N+4)
-             XM = UNHUIT*
+             XM = ONE_OVER_8*
      .       ((X(2,N2)-X(2,N1))*FZ(I,N+4) - (X(3,N2)-X(3,N1))*FY(I,N+4)) 
-             YM = UNHUIT*
+             YM = ONE_OVER_8*
      .       ((X(3,N2)-X(3,N1))*FX(I,N+4) - (X(1,N2)-X(1,N1))*FZ(I,N+4)) 
-             ZM = UNHUIT*
+             ZM = ONE_OVER_8*
      .       ((X(1,N2)-X(1,N1))*FY(I,N+4) - (X(2,N2)-X(2,N1))*FX(I,N+4)) 
 
              K = IADS(L1,II)
-             FSKY(1,K)=FSKY(1,K)+UNDEMI*FX(I,N+4)
-             FSKY(2,K)=FSKY(2,K)+UNDEMI*FY(I,N+4)
-             FSKY(3,K)=FSKY(3,K)+UNDEMI*FZ(I,N+4)
+             FSKY(1,K)=FSKY(1,K)+HALF*FX(I,N+4)
+             FSKY(2,K)=FSKY(2,K)+HALF*FY(I,N+4)
+             FSKY(3,K)=FSKY(3,K)+HALF*FZ(I,N+4)
              FSKY(4,K)=FSKY(4,K) + XM
              FSKY(5,K)=FSKY(5,K) + YM
              FSKY(6,K)=FSKY(6,K) + ZM
              K = IADS(L2,II)
-             FSKY(1,K)=FSKY(1,K) + UNDEMI*FX(I,N+4)
-             FSKY(2,K)=FSKY(2,K) + UNDEMI*FY(I,N+4)
-             FSKY(3,K)=FSKY(3,K) + UNDEMI*FZ(I,N+4)
+             FSKY(1,K)=FSKY(1,K) + HALF*FX(I,N+4)
+             FSKY(2,K)=FSKY(2,K) + HALF*FY(I,N+4)
+             FSKY(3,K)=FSKY(3,K) + HALF*FZ(I,N+4)
              FSKY(4,K)=FSKY(4,K) - XM
              FSKY(5,K)=FSKY(5,K) - YM
              FSKY(6,K)=FSKY(6,K) - ZM
@@ -1156,7 +1156,7 @@ C             cf Assembling K = 1/2 * M/4 * Omega**2
            FSKY(1,K)=FX(I,N)
            FSKY(2,K)=FY(I,N)
            FSKY(3,K)=FZ(I,N)
-           FSKY(7,K)=STI(I)*DEUX
+           FSKY(7,K)=STI(I)*TWO
           ENDDO
          ENDDO
 
@@ -1173,13 +1173,13 @@ C             cf Assembling K = 1/2 * M/4 * Omega**2
             NN = NC(I,N+4)
            IF(NN == 0)THEN
             K = IADS(L1,II)
-            FSKY(1,K)=FSKY(1,K) + UNDEMI*FX(I,N+4)
-            FSKY(2,K)=FSKY(2,K) + UNDEMI*FY(I,N+4)
-            FSKY(3,K)=FSKY(3,K) + UNDEMI*FZ(I,N+4)
+            FSKY(1,K)=FSKY(1,K) + HALF*FX(I,N+4)
+            FSKY(2,K)=FSKY(2,K) + HALF*FY(I,N+4)
+            FSKY(3,K)=FSKY(3,K) + HALF*FZ(I,N+4)
             K = IADS(L2,II)
-            FSKY(1,K)=FSKY(1,K) + UNDEMI*FX(I,N+4)
-            FSKY(2,K)=FSKY(2,K) + UNDEMI*FY(I,N+4)
-            FSKY(3,K)=FSKY(3,K) + UNDEMI*FZ(I,N+4)
+            FSKY(1,K)=FSKY(1,K) + HALF*FX(I,N+4)
+            FSKY(2,K)=FSKY(2,K) + HALF*FY(I,N+4)
+            FSKY(3,K)=FSKY(3,K) + HALF*FZ(I,N+4)
 
            ELSEIF(ITAGDN(NN)/=0) THEN
             K = IADS10(N,JJ)
@@ -1217,9 +1217,9 @@ C
                   FTHESKY(K)=THEM(I,N+4)
                ELSE
                   K = IADS(IPERM(N1),II)
-                  FTHESKY(K)=FTHESKY(K) + UNDEMI*THEM(I,N+4)            
+                  FTHESKY(K)=FTHESKY(K) + HALF*THEM(I,N+4)            
                   K = IADS(IPERM(N2),II)
-                  FTHESKY(K)=FTHESKY(K) + UNDEMI*THEM(I,N+4)            
+                  FTHESKY(K)=FTHESKY(K) + HALF*THEM(I,N+4)            
                ENDIF
            ENDDO
          ENDDO 
@@ -1229,7 +1229,7 @@ C
       IF(NODADT_THERM == 1) THEN
 
          DO I=LFT,LLT
-            CONDE(I)=QUART*CONDE(I)
+            CONDE(I)=FOURTH*CONDE(I)
          END DO
 
          IF(ISROT == 0)THEN ! IF(IDT1SOL/=0 .AND. ISROT/=1)THEN
@@ -1253,9 +1253,9 @@ C
                 CONDNSKY(K)=CONDE(I)
                ELSE
                 K = IADS(L1,II)
-                CONDNSKY(K)=CONDNSKY(K) + UNDEMI*CONDE(I)
+                CONDNSKY(K)=CONDNSKY(K) + HALF*CONDE(I)
                 K = IADS(L2,II)
-                CONDNSKY(K)=CONDNSKY(K) + UNDEMI*CONDE(I)
+                CONDNSKY(K)=CONDNSKY(K) + HALF*CONDE(I)
               ENDIF
              ENDDO
            ENDDO
@@ -1264,7 +1264,7 @@ C
              DO I=LFT,LLT
                II=I+NFT
                 K = IADS(IPERM(N),II)
-                CONDNSKY(K)=CONDE(I)*DELTAX2(I)*UNHUIT*TROIS
+                CONDNSKY(K)=CONDE(I)*DELTAX2(I)*ONE_OVER_8*THREE
              ENDDO
            ENDDO   
          ELSEIF(ISROT == 2)THEN
@@ -1272,7 +1272,7 @@ C
            DO I=LFT,LLT
             II=I+NFT
             K = IADS(IPERM(N),II)
-            CONDNSKY(K)=CONDE(I)*DEUX
+            CONDNSKY(K)=CONDE(I)*TWO
            ENDDO
           ENDDO
 
@@ -1304,12 +1304,12 @@ C
           DO I=LFT,LLT
            NN = NC(I,N+4)
            IF(NN.EQ.0)THEN
-             FX(I,N1)=FX(I,N1)+UNDEMI*FX(I,N+4)
-             FY(I,N1)=FY(I,N1)+UNDEMI*FY(I,N+4)
-             FZ(I,N1)=FZ(I,N1)+UNDEMI*FZ(I,N+4)
-             FX(I,N2)=FX(I,N2)+UNDEMI*FX(I,N+4)
-             FY(I,N2)=FY(I,N2)+UNDEMI*FY(I,N+4)
-             FZ(I,N2)=FZ(I,N2)+UNDEMI*FZ(I,N+4)
+             FX(I,N1)=FX(I,N1)+HALF*FX(I,N+4)
+             FY(I,N1)=FY(I,N1)+HALF*FY(I,N+4)
+             FZ(I,N1)=FZ(I,N1)+HALF*FZ(I,N+4)
+             FX(I,N2)=FX(I,N2)+HALF*FX(I,N+4)
+             FY(I,N2)=FY(I,N2)+HALF*FY(I,N+4)
+             FZ(I,N2)=FZ(I,N2)+HALF*FZ(I,N+4)
            END IF
           END DO
         END DO

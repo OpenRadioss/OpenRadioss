@@ -65,7 +65,7 @@ C   S o u r c e   C o d e
 C-----------------------------------------------
       CALL UPWIND4(RHO,VIS,VDX,VDY,VDZ,R,S,T,GAM)
       DO I=LFT,LLT
-        A(I)=QUART*RHO(I)*VOL(I)*(UN+QUATRE*GAM(I)*( PX(I)*VDX(I)+PY(I)*VDY(I)+PZ(I)*VDZ(I)))
+        A(I)=FOURTH*RHO(I)*VOL(I)*(ONE+FOUR*GAM(I)*( PX(I)*VDX(I)+PY(I)*VDY(I)+PZ(I)*VDZ(I)))
         FX(I)=FX(I)-A(I)*(VDX(I)*DXX(I)+VDY(I)*DXY(I)+VDZ(I)*DXZ(I))
         FY(I)=FY(I)-A(I)*(VDX(I)*DYX(I)+VDY(I)*DYY(I)+VDZ(I)*DYZ(I))
         FZ(I)=FZ(I)-A(I)*(VDX(I)*DZX(I)+VDY(I)*DZY(I)+VDZ(I)*DZZ(I))

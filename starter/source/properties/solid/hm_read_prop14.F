@@ -235,7 +235,7 @@ C------  for Salim new solid17 IINT=3
      .              I3=14)
       ENDIF    
       
-      IF(QH.LT.ZERO .OR. QH.GE.QUINZE/CENT)THEN                                                                       
+      IF(QH.LT.ZERO .OR. QH.GE.FIFTEEN/HUNDRED)THEN                                                                       
          CALL ANCMSG(MSGID=311,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_1,
@@ -372,8 +372,8 @@ C  viscosity
 C
 C igeo(31)  flag for default qa qb for law 70 can be used for other law
       IF(QA == ZERO .AND. QB == ZERO) IGEO(31) = 1
-      IF (QA == ZERO) QA = UNP1         
-      IF (QB == ZERO) QB = CINQEM2      
+      IF (QA == ZERO) QA = ONEP1         
+      IF (QB == ZERO) QB = FIVEEM2      
 C                                 
 C  hourglass
 C
@@ -715,7 +715,7 @@ C
      .               I3=IHBE)
       ENDIF                                                            
 
-      IF(QH.LT.ZERO .OR. QH.GE.QUINZE/CENT)THEN                                                                       
+      IF(QH.LT.ZERO .OR. QH.GE.FIFTEEN/HUNDRED)THEN                                                                       
          CALL ANCMSG(MSGID=311,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_1,

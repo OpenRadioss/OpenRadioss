@@ -71,7 +71,7 @@ C-----------------------------------------------
       IF(N2D == 0) THEN
         DO N=NODFT,NODLT
           IF(MS(N).GT.ZERO) THEN
-            RTMP = UN / MS(N)
+            RTMP = ONE / MS(N)
             A(1,N) = A(1,N) * RTMP
             A(2,N) = A(2,N) * RTMP
             A(3,N) = A(3,N) * RTMP
@@ -93,7 +93,7 @@ C-----------------------------------------------
         ENDDO
         DO N=NODFT,NODLT
           IF(MS(N).GT.ZERO) THEN
-            RTMP = UN / MS(N)
+            RTMP = ONE / MS(N)
             A(1,N) = A(1,N) * RTMP
             A(2,N) = A(2,N) * RTMP
             A(3,N) = A(3,N) * RTMP
@@ -117,7 +117,7 @@ C-----------------------------------------------
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
           IF(IN(N).GT.ZERO) THEN
-            RTMP = UN / IN(N)
+            RTMP = ONE / IN(N)
             AR(1,N) = AR(1,N) * RTMP
             AR(2,N) = AR(2,N) * RTMP
             AR(3,N) = AR(3,N) * RTMP

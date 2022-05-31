@@ -137,7 +137,7 @@ C-----------------------
         ZT = ZZ(I)*THK0(I)
         STRN1(I) = GSTR(I,1)+ZT*GSTR(I,6)
         STRN2(I) = GSTR(I,2)+ZT*GSTR(I,7)
-        STRN3(I) =(GSTR(I,3)+ZT*GSTR(I,8))*UNDEMI
+        STRN3(I) =(GSTR(I,3)+ZT*GSTR(I,8))*HALF
       ENDDO
 C-----------------------
       CALL M27CRAK(JFT    ,JLT    ,PM     ,DAM    ,DIRDMG ,
@@ -155,10 +155,10 @@ C-----------------------
       DO I=JFT,JLT
         IF (INLOC > 0) THEN
           EZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG
-          EZZ(I) = EZZ(I) - MAX(DPLANL(I),ZERO)*UNDEMI*(SIGNXX(I)+SIGNYY(I))/YLD(I)
+          EZZ(I) = EZZ(I) - MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/YLD(I)
         ELSE
-          EZZ(I) =-(DEPSXX(I)+DEPSYY(I))*NU-(UN - DEUX*NU)*EZZ(I)
-          EZZ(I) = EZZ(I)/(UN-NU)
+          EZZ(I) =-(DEPSXX(I)+DEPSYY(I))*NU-(ONE - TWO*NU)*EZZ(I)
+          EZZ(I) = EZZ(I)/(ONE-NU)
         ENDIF
         THK(I) = THK(I) + EZZ(I) * THKLYL(I)*OFF(I)
       ENDDO

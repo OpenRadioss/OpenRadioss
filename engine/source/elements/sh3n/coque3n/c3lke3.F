@@ -201,10 +201,10 @@ C
          DF6(EP)=HFOR(EP,2)*C1
         ENDDO
         DO EP=JFT,JLT 
-         DM5_2(EP)=DEUX*DM5(EP)
-         DM6_2(EP)=DEUX*DM6(EP)
-         DF5_2(EP)=DEUX*DF5(EP)
-         DF6_2(EP)=DEUX*DF6(EP)
+         DM5_2(EP)=TWO*DM5(EP)
+         DM6_2(EP)=TWO*DM6(EP)
+         DF5_2(EP)=TWO*DF5(EP)
+         DF6_2(EP)=TWO*DF6(EP)
         ENDDO
 C----Px2=-Px1,--Px3=0---
         DO EP=JFT,JLT
@@ -522,7 +522,7 @@ C---------membrane--only-----
          FXX=FOR(EP,1)*C2
          FYY=FOR(EP,2)*C2
          FXY=FOR(EP,3)*C2
-         FXY2=DEUX*FXY
+         FXY2=TWO*FXY
          H11(EP)=FXX*PX1PX1(EP)+FYY*PY1PY1(EP)+FXY2*PX1PY1(EP)
          H12(EP)=-FXX*PX1PX1(EP)+FYY*PY1PY2(EP)
      .           +FXY*(PX1PY2(EP)-PX1PY1(EP))
@@ -547,7 +547,7 @@ C------ renforce positive  ----------
           C1 = MIN(H11(EP),H22(EP),H33(EP))
           IF (C1 < ZERO) THEN
            C2 =MIN(M11(3,3,EP),M22(3,3,EP),M33(3,3,EP))
-           C1 = MIN(-C1,DIX*C2)
+           C1 = MIN(-C1,TEN*C2)
            M11(3,3,EP)=M11(3,3,EP) + C1
            M22(3,3,EP)=M22(3,3,EP) + C1
            M33(3,3,EP)=M33(3,3,EP) + C1
@@ -645,7 +645,7 @@ C---------------|[FMIJ]{MIJ]|----
 C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
 C--------Bi: Bi*A--- DM: DM/A
        DO EP=JFT,JLT
-        A_I(EP)=UN/MAX(AREA(EP),EM20)
+        A_I(EP)=ONE/MAX(AREA(EP),EM20)
        ENDDO
        DO EP=JFT,JLT
         C2=VOL(EP)
@@ -654,7 +654,7 @@ C--------Bi: Bi*A--- DM: DM/A
         DM(1,2,EP)=HM(EP,3)*C2
         DM(2,1,EP)=DM(1,2,EP)
         DM(3,3,EP)=HM(EP,4)*C2
-        DHZ(EP)=HZ(EP)*QUART*C2
+        DHZ(EP)=HZ(EP)*FOURTH*C2
         DZ12(EP)=DHZ(EP)*THIRD
         DM(1,3,EP)=ZERO
         DM(2,3,EP)=ZERO

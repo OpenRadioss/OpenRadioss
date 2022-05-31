@@ -148,7 +148,7 @@ C-----------------------------------------------
       DMG_FLAG = 1
       IADR = (IPT-1)*NEL
       INDX = 0
-      SIGM_PS = UN/SQRT(TROIS)
+      SIGM_PS = ONE/SQRT(THREE)
 
       IF (TIME == ZERO) THEN
        DO I=1,NEL
@@ -220,7 +220,7 @@ c---  failure strain interpolation
       DO I=1,NEL
         P    = THIRD*(SIGNXX(I) + SIGNYY(I))     
         SVM  = SQRT(SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)          
-     .       - SIGNXX(I)*SIGNYY(I) + TROIS*SIGNXY(I)*SIGNXY(I))        
+     .       - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))        
         SIGM = P / MAX(EM20,SVM)
 C----
 C         XX0(1)=SIGM *X1SCALE
@@ -266,16 +266,16 @@ C-------------------------------------------------------------------
           IF (ISHELL == 1) THEN    ! shell deleted when rupture in one integration point
             IF (IXFEM == 1 .OR. IXFEM == 2) THEN 
               DO I=1,NEL
-                IF (ISHELL == 1 .AND. OFF(I)==UN) THEN
+                IF (ISHELL == 1 .AND. OFF(I)==ONE) THEN
                   ID_DD = IFUNC(NFUNC)
                   IF(ID_DD /= 0 )THEN
                     DP = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
                   ELSE
                     IF(UVAR(I,1) == ZERO) THEN 
-                      DP = UN
+                      DP = ONE
                       ELSE
-C                     DP = DN*DD**(UN-UN/DN) ! old and wrong
-                      DP = DN*UVAR(I,1)**(UN-UN/DN)
+C                     DP = DN*DD**(ONE-ONE/DN) ! old and wrong
+                      DP = DN*UVAR(I,1)**(ONE-ONE/DN)
                     ENDIF
                   ENDIF
                   IF (EPSF(I) > ZERO) UVAR(I,1)=
@@ -284,7 +284,7 @@ C                     DP = DN*DD**(UN-UN/DN) ! old and wrong
                     IF (ELCRKINI(ILAY,I)==0) THEN
                       IF (UVAR(I,1) >= DCRIT) THEN
                         ELCRKINI(ILAY,I) = -1
-                        OFF(I) = QCINQ                                           
+                        OFF(I) = FOUR_OVER_5                                           
                         NINDX=NINDX+1
                         INDX(NINDX)=I
                         RFLAG(I) = 1
@@ -293,7 +293,7 @@ C                     DP = DN*DD**(UN-UN/DN) ! old and wrong
                     ELSEIF (ELCRKINI(ILAY,I) == 2) THEN
                       IF (UVAR(I,1) >= DADV) THEN
                         ELCRKINI(ILAY,I) = 1
-                        OFF(I) = QCINQ                                           
+                        OFF(I) = FOUR_OVER_5                                           
                         NINDX=NINDX+1
                         INDX(NINDX)=I
                         RFLAG(I) = -1
@@ -301,7 +301,7 @@ C                     DP = DN*DD**(UN-UN/DN) ! old and wrong
                       ENDIF
                     ENDIF
                   ELSEIF (UVAR(I,1 )>= DCRIT) THEN  ! IXEL > 0
-                    OFF(I) = QCINQ                                           
+                    OFF(I) = FOUR_OVER_5                                           
                     NINDX=NINDX+1
                     INDX(NINDX)=I
                     RFLAG(I) = 2
@@ -333,17 +333,17 @@ C-------------------------------
           IF (ISHELL > 1) THEN  
             IF (IXFEM == 1) THEN
               DO I=1,NEL
-                IF (OFF(I) == UN)THEN
+                IF (OFF(I) == ONE)THEN
                   IF (UVAR(I,1) < DCRIT) THEN
                     ID_DD = IFUNC(NFUNC)
                     IF(ID_DD /= 0 )THEN
                       DP = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
                     ELSE
                      IF(UVAR(I,1) == ZERO) THEN 
-                       DP = UN
+                       DP = ONE
                        ELSE
-C                      DP = DN*DD**(UN-UN/DN) ! old and wrong
-                       DP = DN*UVAR(I,1)**(UN-UN/DN)
+C                      DP = DN*DD**(ONE-ONE/DN) ! old and wrong
+                       DP = DN*UVAR(I,1)**(ONE-ONE/DN)
                      ENDIF
                     ENDIF
                     IF (EPSF(I) > ZERO) UVAR(I,1)=
@@ -363,7 +363,7 @@ C                      DP = DN*DD**(UN-UN/DN) ! old and wrong
                         ELCRKINI(ILAY,I) = -1
                         NOFF(I) = NOFF(I) + 1
                         IF (NOFF(I) == NPTOT) THEN
-                          OFF(I) = QCINQ                                           
+                          OFF(I) = FOUR_OVER_5                                           
                           TDEL(I)= TIME
                         ENDIF 
                         RFLAG(I) = 1
@@ -382,7 +382,7 @@ C                      DP = DN*DD**(UN-UN/DN) ! old and wrong
                         NOFF(I) = NOFF(I) + 1
                         IF(DADV < DCRIT) UVAR(I,1) = DCRIT
                         IF (NOFF(I) == NPTOT) THEN
-                          OFF(I) = QCINQ                                           
+                          OFF(I) = FOUR_OVER_5                                           
                           TDEL(I)= TIME
                         ENDIF
                         RFLAG(I) = -1
@@ -400,7 +400,7 @@ C                      DP = DN*DD**(UN-UN/DN) ! old and wrong
                       NOFF(I) = NOFF(I) + 1
                       RFLAG(I) = 3
                       IF (NOFF(I) == NPTOT) THEN
-                        OFF(I) = QCINQ                                           
+                        OFF(I) = FOUR_OVER_5                                           
                         RFLAG(I) = 4 !!! obsolete
                       ENDIF
                     ENDIF ! IXEL
@@ -415,17 +415,17 @@ C                      DP = DN*DD**(UN-UN/DN) ! old and wrong
               ENDDO
             ELSEIF (IXFEM == 2) THEN
               DO I=1,NEL
-                IF (OFF(I)==UN .AND. (ISHELL==2 .OR. ISHELL==3))THEN
+                IF (OFF(I)==ONE .AND. (ISHELL==2 .OR. ISHELL==3))THEN
                   IF (UVAR(I,1) < DCRIT) THEN
                      ID_DD = IFUNC(NFUNC)
                     IF(ID_DD /= 0 )THEN
                       DP = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
                     ELSE
                      IF(UVAR(I,1) == ZERO) THEN 
-                       DP = UN
+                       DP = ONE
                        ELSE
-C                      DP = DN*DD**(UN-UN/DN) ! old and wrong
-                       DP = DN*UVAR(I,1)**(UN-UN/DN)
+C                      DP = DN*DD**(ONE-ONE/DN) ! old and wrong
+                       DP = DN*UVAR(I,1)**(ONE-ONE/DN)
                      ENDIF
                     ENDIF
 
@@ -445,7 +445,7 @@ C                      DP = DN*DD**(UN-UN/DN) ! old and wrong
                         INDX(NINDX)=I
                         NOFF(I) = NOFF(I) + 1
                         IF (NOFF(I) == NPTOT) THEN
-                          OFF(I) = QCINQ                                           
+                          OFF(I) = FOUR_OVER_5                                           
                           ELCRKINI(ILAY,I) = -1
                           RFLAG(I) = 1
                           TDEL(I)= TIME
@@ -464,7 +464,7 @@ C                      DP = DN*DD**(UN-UN/DN) ! old and wrong
                         NOFF(I) = NOFF(I) + 1
                         IF(DADV < DCRIT) UVAR(I,1) = DCRIT
                         IF (NOFF(I) == NPTOT) THEN
-                          OFF(I) = QCINQ                                           
+                          OFF(I) = FOUR_OVER_5                                           
                           ELCRKINI(ILAY,I) = 1
                           RFLAG(I) = -1
                           TDEL(I)= TIME
@@ -482,7 +482,7 @@ C                      DP = DN*DD**(UN-UN/DN) ! old and wrong
                       INDX(NINDX)=I
                       NOFF(I) = NOFF(I) + 1
                       IF (NOFF(I) == NPTOT) THEN
-                        OFF(I) = QCINQ                                           
+                        OFF(I) = FOUR_OVER_5                                           
                         RFLAG(I) = 4
                       ENDIF
                     ENDIF ! IXEL
@@ -536,7 +536,7 @@ c               delete
 c
 C-------------Maximum Damage storing for output : 0 < DFMAX < 1--------------    
       DO I=1,NEL
-        DFMAX(I)= MIN(UN,MAX(DFMAX(I),UVAR(I,1)/DCRIT))
+        DFMAX(I)= MIN(ONE,MAX(DFMAX(I),UVAR(I,1)/DCRIT))
       ENDDO
 C------------------
  2000 FORMAT(1X,'FAILURE OF SHELL ELEMENT (TAB)',I10,1X,

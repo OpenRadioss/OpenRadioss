@@ -54,7 +54,7 @@ C     REAL ou REAL*8
      .   S3000,S
       INTEGER I,INORM(3),K,P,IXNN
 C-----------------------------------------------
-      S3000 = TROIS1000
+      S3000 = THREE1000
       IXNN = S3000
       IF(FMT_ANI.EQ.4)IXNN=0
 C

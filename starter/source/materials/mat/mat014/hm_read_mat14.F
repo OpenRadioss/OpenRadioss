@@ -162,17 +162,17 @@ C
       ENDIF
 C        
 C wplaref
-      IF(WPLAREF == ZERO) WPLAREF = UN    
+      IF(WPLAREF == ZERO) WPLAREF = ONE    
 c
-      IF(ALPHA.EQ.UN)ALPHA= ZEP99
-      IF(DELTA.EQ.ZERO)DELTA= CINQEM2
+      IF(ALPHA.EQ.ONE)ALPHA= ZEP99
+      IF(DELTA.EQ.ZERO)DELTA= FIVEEM2
       IF(SIGT1.EQ.ZERO)SIGT1= INFINITY
       IF(SIGT2.EQ.ZERO)SIGT2= SIGT1
       IF(SIGT3.EQ.ZERO)SIGT3= SIGT1
-      CA=UN
-      IF(CN.EQ.ZERO)   CN   = UN
+      CA=ONE
+      IF(CN.EQ.ZERO)   CN   = ONE
       IF(SIGMX.EQ.ZERO)SIGMX= EP10
-      IF(CC.EQ.ZERO)  EPS0  = UN
+      IF(CC.EQ.ZERO)  EPS0  = ONE
       IF(ICC.EQ.0.)   ICC  = 1
       EPSFC=-INFINITY
       EPSFT= INFINITY
@@ -194,9 +194,9 @@ C-------------------------------------
         WRITE(IOUT,1620)CC,EPS0,ICC
       ENDIF
 C--------------------------------------------------------
-      C11 = UN/E11
-      C22 = UN/E22
-      C33 = UN/E33
+      C11 = ONE/E11
+      C22 = ONE/E22
+      C33 = ONE/E33
       C12 =-N12/E11
       C13 =-N31/E33
       C23 =-N23/E22
@@ -237,7 +237,7 @@ C-----------------------------------------
       PM(26)= CB
       PM(27)= CN
 C THIS CAN GIVE PB IN V16!!!
-      PM(28) = MAX(UNP0001,(SIGMX/CA)**2)
+      PM(28) = MAX(ONEP0001,(SIGMX/CA)**2)
       C1  = MAX(D11,D22,D33)
       SSP = SQRT(C1/MAX(PM(1),EM20))
       PM(32)= C1
@@ -279,19 +279,19 @@ C
      .               I1=MAT_ID,
      .               C1=TITR)
       ENDIF
-      F1  = UN/SIGYT1-UN/SIGYC1
-      F2  = UN/SIGYT2-UN/SIGYC2
-      F4  = UN/SYSP12-UN/SYSN12
-      F5  = UN/SYSP23-UN/SYSN23
-      F11 = UN/(SIGYT1*SIGYC1)
-      F22 = UN/(SIGYT2*SIGYC2)
-      F44 = UN/(SYSP12*SYSN12)
-      F55 = UN/(SYSP23*SYSN23)
-      F12 = -UN/(DEUX*SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2))
-      F23 = -UN/(DEUX*SQRT(SIGYT2*SIGYC2*SIGYT2*SIGYC2))
+      F1  = ONE/SIGYT1-ONE/SIGYC1
+      F2  = ONE/SIGYT2-ONE/SIGYC2
+      F4  = ONE/SYSP12-ONE/SYSN12
+      F5  = ONE/SYSP23-ONE/SYSN23
+      F11 = ONE/(SIGYT1*SIGYC1)
+      F22 = ONE/(SIGYT2*SIGYC2)
+      F44 = ONE/(SYSP12*SYSN12)
+      F55 = ONE/(SYSP23*SYSN23)
+      F12 = -ONE/(TWO*SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2))
+      F23 = -ONE/(TWO*SQRT(SIGYT2*SIGYC2*SIGYT2*SIGYC2))
 C
-      FT1=F11*F22- QUATRE*F12**2
-      FT2=F22**2- QUATRE*F23**2
+      FT1=F11*F22- FOUR*F12**2
+      FT2=F22**2- FOUR*F23**2
       IF(IS_ENCRYPTED)THEN
        WRITE(IOUT,1650) F1,F2,F4,F5,F11,F22,F44,F55,F12,F23,FT1,FT2
       ENDIF

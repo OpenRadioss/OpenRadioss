@@ -52,7 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF(ISMSTR.EQ.1.OR.ISMSTR.EQ.3)THEN
         DO I=LFT,LLT
-          IF(OFFG(I).GT.ZERO)OFFG(I)=DEUX 
+          IF(OFFG(I).GT.ZERO)OFFG(I)=TWO 
         ENDDO
       ENDIF
 C
@@ -67,7 +67,7 @@ C-- Sol2sph
               IDEL7NOK=1
 #include "lockoff.inc"
             END IF
-            IF(OFF(I).LT.UN) OFFG(I) = OFF(I)
+            IF(OFF(I).LT.ONE) OFFG(I) = OFF(I)
           ENDIF
         ENDDO
 C
@@ -81,7 +81,7 @@ C
             IDEL7NOK=1
 #include "lockoff.inc"
           END IF
-          IF(OFF(I).LT.UN) OFFG(I) = OFF(I)
+          IF(OFF(I).LT.ONE) OFFG(I) = OFF(I)
         ENDDO
 C
       ENDIF

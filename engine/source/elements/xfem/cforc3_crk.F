@@ -273,9 +273,9 @@ C
 C
         DO I=JFT,JLT
           SIGY(I)    = EP30
-          ZCFAC(I,1) = UN
-          ZCFAC(I,2) = UN
-          ALPE(I)    = UN
+          ZCFAC(I,1) = ONE
+          ZCFAC(I,2) = ONE
+          ALPE(I)    = ONE
           TEMPEL(I)  = ZERO
         ENDDO
 C---
@@ -450,7 +450,7 @@ C-----------------------------
 C       FORCES ANTI-SABLIER
 C-----------------------------
       DO I=JFT,JLT
-        VISCMX(I) = SQRT(UN + VISCMX(I)*VISCMX(I)) - VISCMX(I)
+        VISCMX(I) = SQRT(ONE + VISCMX(I)*VISCMX(I)) - VISCMX(I)
       ENDDO
 c---------------------------------------------------
         IF (NPTT == 1) THEN

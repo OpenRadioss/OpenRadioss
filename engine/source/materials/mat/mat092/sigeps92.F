@@ -156,29 +156,29 @@ C ---- (STRAIN IS LOGARITHMIC)
         ENDDO 
       ELSEIF(ISMSTR==10.OR.ISMSTR==12) THEN
         DO I =1,NEL
-        IF(OFFG(I)<=UN) THEN
-          EV(I,1)=SQRT(EVV(I,1)+ UN)
-          EV(I,2)=SQRT(EVV(I,2)+ UN)
-          EV(I,3)=SQRT(EVV(I,3)+ UN)
+        IF(OFFG(I)<=ONE) THEN
+          EV(I,1)=SQRT(EVV(I,1)+ ONE)
+          EV(I,2)=SQRT(EVV(I,2)+ ONE)
+          EV(I,3)=SQRT(EVV(I,3)+ ONE)
         ELSE
-         EV(I,1)=EVV(I,1)+ UN
-         EV(I,2)=EVV(I,2)+ UN
-         EV(I,3)=EVV(I,3)+ UN
+         EV(I,1)=EVV(I,1)+ ONE
+         EV(I,2)=EVV(I,2)+ ONE
+         EV(I,3)=EVV(I,3)+ ONE
         END IF
         ENDDO 
       ELSE
 C ----  STRAIN IS ENGINEERING)
         DO I=1,NEL
-         EV(I,1)=EVV(I,1)+ UN
-         EV(I,2)=EVV(I,2)+ UN
-         EV(I,3)=EVV(I,3)+ UN
+         EV(I,1)=EVV(I,1)+ ONE
+         EV(I,2)=EVV(I,2)+ ONE
+         EV(I,3)=EVV(I,3)+ ONE
         ENDDO 
       ENDIF
 
       IF (IMPL_S > 0 .OR. IHET > 1) THEN
        ETI(1:NEL)=ZERO
        DO J= 1,5
-         BB = UN/LAM**(2*J - 2)
+         BB = ONE/LAM**(2*J - 2)
          AA = J*(J-1)*C(J)
          DO I=1,NEL
           TRACE(I) = EV(I,1)*EV(I,1)+ EV(I,2)*EV(I,2) + EV(I,3)*EV(I,3)
@@ -189,7 +189,7 @@ C ----  STRAIN IS ENGINEERING)
        DO I=1,NEL
         ETI(I) = MU*ETI(I)
         ET(I)= ETI(I)
-        ET(I)= MAX(UN,ET(I)/G)
+        ET(I)= MAX(ONE,ET(I)/G)
        ENDDO
       ENDIF
 C----------------
@@ -223,15 +223,15 @@ C----------------
          EVM(I,1:3) = EVD(1:3)
 C         
          TRACE(I) = EVD(1)**2 + EVD(2)**2 + EVD(3)**2
-         DI1LAM1(I) = DEUX*EVD(1)**2 - DTHIRD*TRACE(I)
-         DI1LAM2(I) = DEUX*EVD(2)**2 - DTHIRD*TRACE(I)
-         DI1LAM3(I) = DEUX*EVD(3)**2 - DTHIRD*TRACE(I)       
+         DI1LAM1(I) = TWO*EVD(1)**2 - TWO_THIRD*TRACE(I)
+         DI1LAM2(I) = TWO*EVD(2)**2 - TWO_THIRD*TRACE(I)
+         DI1LAM3(I) = TWO*EVD(3)**2 - TWO_THIRD*TRACE(I)       
          T1(I) = ZERO
          T2(I) = ZERO
          T3(I) = ZERO
       ENDDO
       DO J=1,5
-          BB = UN/LAM**(2*J - 2)
+          BB = ONE/LAM**(2*J - 2)
           AA = J*C(J)
 		  CLAM(J) = BB*C(J)
           DO I=1,NEL
@@ -243,8 +243,8 @@ C
       ENDDO
 C RBilk = 2/D
       DO I=1,NEL
-         RV_1(I) = UN/RV(I)	  
-         P = RV_1(I)*RBULK*(RV(I)**2 - UN)/DEUX
+         RV_1(I) = ONE/RV(I)	  
+         P = RV_1(I)*RBULK*(RV(I)**2 - ONE)/TWO
          T1(I) = (MU*T1(I) + P)*RV_1(I)
          T2(I) = (MU*T2(I) + P)*RV_1(I)
          T3(I) = (MU*T3(I) + P)*RV_1(I)
@@ -252,24 +252,24 @@ C RBilk = 2/D
 c------------------------
       IF(MULLINS == 1)THEN
        DO I = 1,NEL
-         BETA  = UN/LAM**2
-         WW(I) = MU *(C(1)*(TRACE(I)- TROIS)+C(2) * BETA    *(TRACE(I)**2- NEUF)
-     .   +                                   C(3) * BETA**2 *(TRACE(I)**3- TROIS**3)    
-     .   +                                   C(4) * BETA**3 *(TRACE(I)**4- TROIS**4)
-     .   +                                   C(5) * BETA**4 *(TRACE(I)**5- TROIS**5) )
+         BETA  = ONE/LAM**2
+         WW(I) = MU *(C(1)*(TRACE(I)- THREE)+C(2) * BETA    *(TRACE(I)**2- NINE)
+     .   +                                   C(3) * BETA**2 *(TRACE(I)**3- THREE**3)    
+     .   +                                   C(4) * BETA**3 *(TRACE(I)**4- THREE**4)
+     .   +                                   C(5) * BETA**4 *(TRACE(I)**5- THREE**5) )
 
        ENDDO
       ENDIF
 c----compute GT_MAX
         GTMAX(1:NEL) = G
-        RKMAX(1:NEL) = RBULK/DEUX
+        RKMAX(1:NEL) = RBULK/TWO
           CII(1:NEL,1:3) = ZERO
           DO II = 1,5
-            CLP = QUATRE*II*CLAM(II)
+            CLP = FOUR*II*CLAM(II)
             DO I=1,NEL
              LAM_2(1:3) = EVM(I,1:3)**2
              LAM_4(1:3) = LAM_2(1:3)**2
-             AA = UNNEUF*II*TRACE(I)**II
+             AA = ONE_OVER_9*II*TRACE(I)**II
 			 BB = ZERO
 			 CC = ZERO
 			 IF (II>1) BB =THIRD*(3-II)*TRACE(I)**(II-1)
@@ -280,12 +280,12 @@ c----compute GT_MAX
           DO I=1,NEL
            AMAX= MAX(CII(I,1),CII(I,2),CII(I,3))
 C---------reduce old result change		   
-           ETI(I) = MAX(UN,AMAX*0.81) 
+           ETI(I) = MAX(ONE,AMAX*0.81) 
            GTMAX(I) = G*ETI(I)
-           RKMAX(I) = RKMAX(I)*(UN+RV_1(I)*RV_1(I))
+           RKMAX(I) = RKMAX(I)*(ONE+RV_1(I)*RV_1(I))
            RKMAX(I) = MAX(RBULK,RKMAX(I))
 C----  
-           ET(I)= MAX(UN,AMAX)
+           ET(I)= MAX(ONE,AMAX)
           ENDDO
 C
 C cauchy to glabale
@@ -315,7 +315,7 @@ C cauchy to glabale
      .            + DIRPRV(I,3,2)*DIRPRV(I,1,2)*T2(I)
 C
 * SET SOUND SPEED
-         SOUNDSP(I)=SQRT((QTHIRD*GTMAX(I) + RKMAX(I))/RHO(I))
+         SOUNDSP(I)=SQRT((FOUR_OVER_3*GTMAX(I) + RKMAX(I))/RHO(I))
 * SET VISCOSITY
          VISCMAX(I) = ZERO
        ENDDO

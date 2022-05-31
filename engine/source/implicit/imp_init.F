@@ -88,22 +88,22 @@ C ADD FOR SOLVER AUTO SELECTION
        NNSIZ=1024
        IKPAT=0
        TREST=TSTOP-TT
-       IF (D_TOL.EQ.ZERO.AND.N_PAT.GT.1) D_TOL=-UN
-       IF (D_TOL.EQ.ZERO) D_TOL=TROIS*EM5
+       IF (D_TOL.EQ.ZERO.AND.N_PAT.GT.1) D_TOL=-ONE
+       IF (D_TOL.EQ.ZERO) D_TOL=THREE*EM5
        IF (IPREC.EQ.5)IKPAT=1
        IF (IPREC.EQ.6) THEN
         IPREC=5
         IKPAT=2
        ENDIF
-       IF (SK_INT.EQ.ZERO) SK_INT=UNP01
+       IF (SK_INT.EQ.ZERO) SK_INT=ONEP01
 C--------direct-----
        IF (DT_IMP.EQ.ZERO.OR.DT_IMP.GE.TREST) DT_IMP=TREST
        IF (ILINE.EQ.1) THEN
         DT_IMP=TREST
-        IF (KZ_TOL.EQ.ZERO) KZ_TOL=DEUX*EM4
+        IF (KZ_TOL.EQ.ZERO) KZ_TOL=TWO*EM4
        ELSE
 C--------non-linear-----
-        IF (KZ_TOL.EQ.ZERO) KZ_TOL=CINQ*EM4
+        IF (KZ_TOL.EQ.ZERO) KZ_TOL=FIVE*EM4
        ENDIF
        IF (ISPRB.EQ.1.AND.IDYNA.EQ.0) THEN
          CALL ZEROR(V,NUMNOD)
@@ -119,7 +119,7 @@ C--------non-linear-----
        ENDIF
       ENDIF
       IF (NEIG.GT.0) THEN
-         IF (IDEFKZ.EQ.1) KZ_TOL=DIX
+         IF (IDEFKZ.EQ.1) KZ_TOL=TEN
 C         IKG=0
          IKPAT=0
         IF (IMACH.EQ.3) IKPAT=1
@@ -308,7 +308,7 @@ c-------------------------------------------------
         ALLOCATE (KTBUF_STR(NG)%ETFAC(NEL*L_ETFAC) ,STAT=ERR)
         ALLOCATE (KTBUF_STR(NG)%KTBUFEP(NPTR,NPTS,NPTT) ,STAT=ERR)
 
-        IF (L_ETFAC>0) KTBUF_STR(NG)%ETFAC = UN
+        IF (L_ETFAC>0) KTBUF_STR(NG)%ETFAC = ONE
         MTAG => KTBUF_STR(NG)%MLAW_TAG(MLW)
         MTAG%L_ETFAC=L_ETFAC
         MTAG%L_A_KT =L_A_KT
@@ -323,7 +323,7 @@ c-------------------------------------------------
             DO IT = 1,NPTT
 c              GBUF => KTBUF_STR(NG)%KTBUFG(IR,IS,IT)
 c              ALLOCATE(GBUF%ETFAC(NEL*L_ETFAC), STAT=ERR)
-c              GBUF%ETFAC = UN
+c              GBUF%ETFAC = ONE
               LBUF => KTBUF_STR(NG)%KTBUFEP(IR,IS,IT)
               ALLOCATE(LBUF%A_KT(NEL*L_A_KT), STAT=ERR)
               LBUF%A_KT = ZERO
@@ -461,7 +461,7 @@ c-------------------------------------------------
         IF (ITY /=1 .AND.ITY /=3 .AND.ITY /=7 ) CYCLE
         IF (L_ETFAC>0) THEN
          DO I=1,NEL
-          KTBUF_STR(NG)%ETFAC(I) = UN
+          KTBUF_STR(NG)%ETFAC(I) = ONE
          END DO
         END IF
       END DO !IG = 1,NGROUP

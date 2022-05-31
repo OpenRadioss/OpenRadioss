@@ -133,9 +133,9 @@ C=======================================================================
       C1_KH = UPARAM(22)
 c
       NITER = 3
-      CUN = THIRD/(UN-DEUX*NU)
-      CDEUX = UNDEMI/(UN+NU)
-      CTROIS = NU/(UN+NU)/(UN-DEUX*NU)     
+      CUN = THIRD/(ONE-TWO*NU)
+      CDEUX = HALF/(ONE+NU)
+      CTROIS = NU/(ONE+NU)/(ONE-TWO*NU)     
       IF (ISIGI == 0) THEN
         IF(TIME == ZERO) THEN
          DO I=1,NEL
@@ -166,7 +166,7 @@ C     READING STORED STATE_VARIABLES
         DO I=1,NEL
           YOUNG(I)=EINI
           IF(PLA(I) > ZERO)THEN
-           YOUNG(I)=EINI-(EINI-EINF)*(UN-EXP(-COE*PLA(I)))          
+           YOUNG(I)=EINI-(EINI-EINF)*(ONE-EXP(-COE*PLA(I)))          
           ENDIF
         ENDDO
       ENDIF
@@ -174,7 +174,7 @@ C     READING STORED STATE_VARIABLES
         RBULK(I) = YOUNG(I)*CUN
         SHEAR(I) = YOUNG(I)*CDEUX
         LAMDA(I) = YOUNG(I)*CTROIS
-        G2(I) = DEUX*SHEAR(I)
+        G2(I) = TWO*SHEAR(I)
 C       Module d'onde de compression
         WAVE(I)=G2(I)+LAMDA(I)
         ASTA(I)=ZERO
@@ -188,9 +188,9 @@ C       Module d'onde de compression
         ALXY(I)=AST(4,I)+BETA(4,I)
         ALYZ(I)=AST(5,I)+BETA(5,I)
         ALZX(I)=AST(6,I)+BETA(6,I)
-        ASTA(I)=ASTA(I)+TDEMI*(
+        ASTA(I)=ASTA(I)+THREE_HALF*(
      .       AST(1,I)*AST(1,I)+AST(2,I)*AST(2,I)+AST(3,I)*AST(3,I)
-     .      +DEUX*(AST(4,I)*AST(4,I)+AST(5,I)*AST(5,I)
+     .      +TWO*(AST(4,I)*AST(4,I)+AST(5,I)*AST(5,I)
      .      +AST(6,I)*AST(6,I)))
         ASTA(I)=SQRT(MAX(EM20,ASTA(I)))
         MAX_ASTA(I) = MAX(MAX_ASTA(I),ASTA(I))
@@ -223,11 +223,11 @@ C    CURRENT TRIAL EQUIVALENT STRESS CALCULATION
 C    =====================================================
       DO I=1,NEL
 C     f=3/2(s-alpha):(s-alpha)-Y.Y
-        SEFF=SQRT(TDEMI*(
+        SEFF=SQRT(THREE_HALF*(
      .         (STRIALXX(I)-ALXX(I))*(STRIALXX(I)-ALXX(I))
      .          +(STRIALYY(I)-ALYY(I))*(STRIALYY(I)-ALYY(I))
      .          +(STRIALZZ(I)-ALZZ(I))*(STRIALZZ(I)-ALZZ(I))
-     .          +DEUX*((STRIALXY(I)-ALXY(I))*(STRIALXY(I)-ALXY(I))
+     .          +TWO*((STRIALXY(I)-ALXY(I))*(STRIALXY(I)-ALXY(I))
      .          +(STRIALYZ(I)-ALYZ(I))*(STRIALYZ(I)-ALYZ(I))
      .          +(STRIALZX(I)-ALZX(I))*(STRIALZX(I)-ALZX(I)))))
        DEP(I)=ZERO
@@ -252,12 +252,12 @@ C======================================================================
         ELSE
           CYU = C2_KH
         ENDIF        
-        PRDEN=TROIS*SHEAR(I)+CYU*AYU(I)+MYU*BYU
+        PRDEN=THREE*SHEAR(I)+CYU*AYU(I)+MYU*BYU
         CASTA=CYU*SQRT(AYU(I)/ASTA(I))
         DO K=1,NITER     
 c       THA et THB pour semi implicite---------------------------------
-        THA=UN-CASTA*DEP(I)
-        THB=UN-MYU*DEP(I)
+        THA=ONE-CASTA*DEP(I)
+        THB=ONE-MYU*DEP(I)
 C       sum of Tetaa alpha* + Tetab Beta=STHAB
         STHABXX=THA*AST(1,I)+THB*BETA(1,I)
         STHABYY=THA*AST(2,I)+THB*BETA(2,I)
@@ -265,36 +265,36 @@ C       sum of Tetaa alpha* + Tetab Beta=STHAB
         STHABXY=THA*AST(4,I)+THB*BETA(4,I)
         STHABYZ=THA*AST(5,I)+THB*BETA(5,I)
         STHABZX=THA*AST(6,I)+THB*BETA(6,I)
-        SEFF=SQRT(TDEMI*(
+        SEFF=SQRT(THREE_HALF*(
      .           (STRIALXX(I)-STHABXX)*(STRIALXX(I)-STHABXX)
      .          +(STRIALYY(I)-STHABYY)*(STRIALYY(I)-STHABYY)
      .          +(STRIALZZ(I)-STHABZZ)*(STRIALZZ(I)-STHABZZ)
-     .    +DEUX*((STRIALXY(I)-STHABXY)*(STRIALXY(I)-STHABXY)
+     .    +TWO*((STRIALXY(I)-STHABXY)*(STRIALXY(I)-STHABXY)
      .          +(STRIALYZ(I)-STHABYZ)*(STRIALYZ(I)-STHABYZ)
      .          +(STRIALZX(I)-STHABZX)*(STRIALZX(I)-STHABZX))))
         SEFF=MAX(EM20,SEFF)
         FCT=SEFF-YIELD-PRDEN*DEP(I)
-        SEFFP=TROIS*((STRIALXX(I)-STHABXX)
+        SEFFP=THREE*((STRIALXX(I)-STHABXX)
      .              *(CASTA*AST(1,I)+MYU*BETA(1,I))   
      .           +(STRIALYY(I)-STHABYY)
      .              *(CASTA*AST(2,I)+MYU*BETA(2,I))
      .           +(STRIALZZ(I)-STHABZZ)   
      .              *(CASTA*AST(3,I)+MYU*BETA(3,I))
-     .     +DEUX*((STRIALXY(I)-STHABXY)
+     .     +TWO*((STRIALXY(I)-STHABXY)
      .              *(CASTA*AST(4,I)+MYU*BETA(4,I))
      .           +(STRIALYZ(I)-STHABYZ)
      .              *(CASTA*AST(5,I)+MYU*BETA(5,I))
      .           +(STRIALZX(I)-STHABZX)
      .             *(CASTA*AST(6,I)+MYU*BETA(6,I))))
 c        
-        FCTP=UNDEMI*SEFFP/SEFF-PRDEN
+        FCTP=HALF*SEFFP/SEFF-PRDEN
         DEP(I)=MAX(ZERO,DEP(I)-FCT/FCTP)
         ENDDO
 C======================================================================
 C                    END of Newton iteration
 C======================================================================
-        THA=UN-CASTA*DEP(I)
-        THB=UN-MYU*DEP(I)
+        THA=ONE-CASTA*DEP(I)
+        THB=ONE-MYU*DEP(I)
 C       somme de Tetaa alpha* + Tetab Beta=STHAB
         STHABXX=THA*AST(1,I)+THB*BETA(1,I)
         STHABYY=THA*AST(2,I)+THB*BETA(2,I)
@@ -303,11 +303,11 @@ C       somme de Tetaa alpha* + Tetab Beta=STHAB
         STHABYZ=THA*AST(5,I)+THB*BETA(5,I)
         STHABZX=THA*AST(6,I)+THB*BETA(6,I)
 c       
-c        SEFF=SQRT(TROIS*UNDEMI*(
+c        SEFF=SQRT(THREE*HALF*(
 c     .           (STRIALXX(I)-STHABXX)*(STRIALXX(I)-STHABXX)
 c     .          +(STRIALYY(I)-STHABYY)*(STRIALYY(I)-STHABYY)
 c     .          +(STRIALZZ(I)-STHABZZ)*(STRIALZZ(I)-STHABZZ)
-c     .    +DEUX*((STRIALXY(I)-STHABXY)*(STRIALXY(I)-STHABXY)
+c     .    +TWO*((STRIALXY(I)-STHABXY)*(STRIALXY(I)-STHABXY)
 c     .          +(STRIALYZ(I)-STHABYZ)*(STRIALYZ(I)-STHABYZ)
 c     .          +(STRIALZX(I)-STHABZX)*(STRIALZX(I)-STHABZX))))
 c        SEFF=MAX(EM20,SEFF)
@@ -320,18 +320,18 @@ C        Calcul de s_n+1 - alpha_n+1
           SAYZ=YIELD*(STRIALYZ(I)-STHABYZ)/(YIELD+DEP(I)*PRDEN)  
           SAZX=YIELD*(STRIALZX(I)-STHABZX)/(YIELD+DEP(I)*PRDEN)   
 C============= EP= delta epsilon_n+1^p=======================
-          EP(1,I)=TDEMI*DEP(I)*SAXX/YIELD
-          EP(2,I)=TDEMI*DEP(I)*SAYY/YIELD
-          EP(3,I)=TDEMI*DEP(I)*SAZZ/YIELD
-          EP(4,I)=TDEMI*DEP(I)*SAXY/YIELD
-          EP(5,I)=TDEMI*DEP(I)*SAYZ/YIELD
-          EP(6,I)=TDEMI*DEP(I)*SAZX/YIELD
+          EP(1,I)=THREE_HALF*DEP(I)*SAXX/YIELD
+          EP(2,I)=THREE_HALF*DEP(I)*SAYY/YIELD
+          EP(3,I)=THREE_HALF*DEP(I)*SAZZ/YIELD
+          EP(4,I)=THREE_HALF*DEP(I)*SAXY/YIELD
+          EP(5,I)=THREE_HALF*DEP(I)*SAYZ/YIELD
+          EP(6,I)=THREE_HALF*DEP(I)*SAZX/YIELD
 c          EPBAR(I)=SQRT(2./3.*(EP(1,I)*EP(1,I)+EP(2,I)*EP(2,I)
-c     .      +EP(3,I)*EP(3,I)+DEUX*(EP(4,I)*EP(4,I)+EP(5,I)*EP(5,I)
+c     .      +EP(3,I)*EP(3,I)+TWO*(EP(4,I)*EP(4,I)+EP(5,I)*EP(5,I)
 c     .      +EP(6,I)*EP(6,I))))
 c================================================================
-        DTCA=DEUX*THIRD*CYU*AYU(I)
-        DTBM=DEUX*THIRD*BYU*MYU
+        DTCA=TWO*THIRD*CYU*AYU(I)
+        DTBM=TWO*THIRD*BYU*MYU
         DO J=1,6
 C         Actualisation de alpha* et beta avec Epsilon_n+1^p
           AST(J,I)=THA*AST(J,I)+DTCA*EP(J,I)
@@ -354,7 +354,7 @@ C============================================================
 C         BQ= beta_n+1-q_n
           BQ(J,I)=BETA(J,I)-SIGC(J,I)
 C         Compute g_sigma the non-IH surface
-          EQBQ=EQBQ+TDEMI*BQ(J,I)*BQ(J,I)
+          EQBQ=EQBQ+THREE_HALF*BQ(J,I)*BQ(J,I)
           BQDB=BQDB+BQ(J,I)*DB(J,I)
         ENDDO
        TOLR=EQBQ-RNIH(I)*RNIH(I)
@@ -367,17 +367,17 @@ C         Compute g_sigma the non-IH surface
        GAMA=ZERO
        DMU=ZERO
        IF ( HYU> ZERO )THEN
-           HDGSIG=TROIS*HYU*BQDB
+           HDGSIG=THREE*HYU*BQDB
            IF (RNIH(I) == ZERO)THEN
-              DMU = EQBQ/HDGSIG-UN
+              DMU = EQBQ/HDGSIG-ONE
            ELSE
-              DMU =((TROIS*HYU*BQDB+SQRT(HDGSIG*HDGSIG
-     .          +QUATRE*RNIH(I)*RNIH(I)*EQBQ))
-     .         /(DEUX*RNIH(I)*RNIH(I)))-UN
+              DMU =((THREE*HYU*BQDB+SQRT(HDGSIG*HDGSIG
+     .          +FOUR*RNIH(I)*RNIH(I)*EQBQ))
+     .         /(TWO*RNIH(I)*RNIH(I)))-ONE
            ENDIF
            BQDB=ZERO
           DO J=1,6
-           SIGC(J,I)=BETA(J,I)-BQ(J,I)/(UN+DMU) !update of q_n+1
+           SIGC(J,I)=BETA(J,I)-BQ(J,I)/(ONE+DMU) !update of q_n+1
           ENDDO
           DO J=1,6
            BQ(J,I)=BETA(J,I)-SIGC(J,I)
@@ -387,9 +387,9 @@ C         Compute g_sigma the non-IH surface
           ENDDO
           IF (DR(I) > ZERO) THEN
                 IF ( RNIH(I) == ZERO) THEN
-                    RNIH(I)=TROIS*BQDB*HYU
+                    RNIH(I)=THREE*BQDB*HYU
                 ELSE
-                GAMA=BQDB*TDEMI/RNIH(I)
+                GAMA=BQDB*THREE_HALF/RNIH(I)
                 RNIH(I)= UVAR(I,2)+ HYU*GAMA 
                ENDIF
           ENDIF
@@ -421,11 +421,11 @@ c==========Module tangent=====================================
          
         IF( DEP(I) > ZERO)THEN
          SIGM(I)=-(SIGNXX(I)+SIGNYY(I)+SIGNZZ(I))*THIRD
-         SIGY=SQRT(TDEMI*(
+         SIGY=SQRT(THREE_HALF*(
      .    (SIGNXX(I)+SIGM(I))*(SIGNXX(I)+SIGM(I))
      .   +(SIGNYY(I)+SIGM(I))*(SIGNYY(I)+SIGM(I))  
      .   +(SIGNZZ(I)+SIGM(I))*(SIGNZZ(I)+SIGM(I))
-     .   +DEUX*(SIGNXY(I)*SIGNXY(I)+SIGNYZ(I)*SIGNYZ(I)
+     .   +TWO*(SIGNXY(I)*SIGNXY(I)+SIGNYZ(I)*SIGNYZ(I)
      .   +SIGNZX(I)*SIGNZX(I))))
          H = (SIGY-UVAR(I,4))/DEP(I)
          H = MAX(EM10, H)
@@ -435,10 +435,10 @@ c==========Module tangent=====================================
          ETSE(I) = H/G2(I)
          PLA(I)  = PLA(I)+DEP(I)
         ELSE
-         ETSE(I) = UN
+         ETSE(I) = ONE
         ENDIF
 c=======================================================================
-        SOUNDSP(I) = SQRT((RBULK(I)+QTHIRD*SHEAR(I))/RHO0(I))
+        SOUNDSP(I) = SQRT((RBULK(I)+FOUR_OVER_3*SHEAR(I))/RHO0(I))
         YLD(I) = UVAR(I,4)
       ENDDO
 c-----------

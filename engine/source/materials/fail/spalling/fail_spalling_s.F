@@ -133,30 +133,30 @@ C
 C
         DO I=1,NEL
           IF(OFF(I).LT.EM01) OFF(I)=ZERO
-          IF(OFF(I).LT.UN) OFF(I)=OFF(I)*QCINQ
+          IF(OFF(I).LT.ONE) OFF(I)=OFF(I)*FOUR_OVER_5
         END DO
 C      
       IF(IDEL.EQ.1)THEN
        NINDX=0  
        DO I=1,NEL
         IF((IFLAG.EQ.2.OR.IFLAG.EQ.4).
-     .                AND.OFF(I).EQ.UN.AND.DPLA(I).NE.ZERO
+     .                AND.OFF(I).EQ.ONE.AND.DPLA(I).NE.ZERO
      .                .AND.OFFG(I).GT.ZERO)THEN
          P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
          SXX = SIGNXX(I) - P
          SYY = SIGNYY(I) - P
          SZZ = SIGNZZ(I) - P
-         SVM =UNDEMI*(SXX**2 + SYY**2 + SZZ**2)
+         SVM =HALF*(SXX**2 + SYY**2 + SZZ**2)
      .          +SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
-         SVM=SQRT(TROIS*SVM)
+         SVM=SQRT(THREE*SVM)
          EPSF = D3*P/MAX(EM20,SVM)
          EPSF = (D1 + 
-     .           D2*EXP(EPSF))*(UN 
-     .                  + D4*LOG(MAX(UN,EPSP(I)/EPSP0)))
-     .                    *(UN + D5*TSTAR(I))
+     .           D2*EXP(EPSF))*(ONE 
+     .                  + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
+     .                    *(ONE + D5*TSTAR(I))
          IF(EPSF.GT.ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF       
-         IF(DFMAX(I).GE.UN.AND.OFF(I).EQ.UN) THEN
-          OFF(I)=QCINQ
+         IF(DFMAX(I).GE.ONE.AND.OFF(I).EQ.ONE) THEN
+          OFF(I)=FOUR_OVER_5
           NINDX=NINDX+1
           INDX(NINDX)=I
           IDEL7NOK = 1  
@@ -178,23 +178,23 @@ Cc deviatoric will be vanished
        NINDX=0 
        NINDEX = 0 
        DO I=1,NEL
-        IF(IFLAG.EQ.3.AND.OFF(I).EQ.UN.AND.DPLA(I).NE.ZERO.AND.
+        IF(IFLAG.EQ.3.AND.OFF(I).EQ.ONE.AND.DPLA(I).NE.ZERO.AND.
      .         OFFG(I).GT.ZERO)THEN
-         IF(DFMAX(I).LT.UN)THEN
+         IF(DFMAX(I).LT.ONE)THEN
           P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
           SXX = SIGNXX(I) - P
           SYY = SIGNYY(I) - P
           SZZ = SIGNZZ(I) - P
-          SVM =UNDEMI*(SXX**2+ SYY**2 + SZZ**2)
+          SVM =HALF*(SXX**2+ SYY**2 + SZZ**2)
      .          +SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
-          SVM=SQRT(TROIS*SVM)
+          SVM=SQRT(THREE*SVM)
           EPSF = D3*P/MAX(EM20,SVM)
           EPSF = (D1 + 
-     .           D2*EXP(EPSF))*(UN 
-     .                  + D4*LOG(MAX(UN,EPSP(I)/EPSP0)))
-     .                    *(UN + D5*TSTAR(I))
+     .           D2*EXP(EPSF))*(ONE 
+     .                  + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
+     .                    *(ONE + D5*TSTAR(I))
           IF(EPSF.GT.ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
-          IF(DFMAX(I).GE.UN.AND.OFF(I).EQ.UN) THEN
+          IF(DFMAX(I).GE.ONE.AND.OFF(I).EQ.ONE) THEN
            NINDX=NINDX+1
            INDX(NINDX)=I
            SIGNXX(I) =   P
@@ -232,7 +232,7 @@ C...Spalling
          P= -THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
          IF(ISPALL.EQ.1.AND.OFFG(I).GT.ZERO) THEN
           IF(UVAR(I,1).EQ.ZERO.AND.P.LE.PMIN)THEN
-           UVAR(I,1) = UN
+           UVAR(I,1) = ONE
            SIGNXX(I)= ZERO
            SIGNYY(I)= ZERO
            SIGNZZ(I)= ZERO
@@ -241,7 +241,7 @@ C...Spalling
            SIGNYZ(I)= ZERO
            NINDX=NINDX+1
            INDX(NINDX)=I 
-          ELSEIF(UVAR(I,1).EQ.UN)THEN
+          ELSEIF(UVAR(I,1).EQ.ONE)THEN
            SIGNXX(I) = -MAX(P , ZERO)
            SIGNYY(I) = -MAX(P , ZERO)
            SIGNZZ(I) = -MAX(P , ZERO)
@@ -249,9 +249,9 @@ C...Spalling
            SIGNZX(I)= ZERO
            SIGNYZ(I)= ZERO
           ENDIF
-        ELSEIF(ISPALL.EQ.2.AND.P.LE.PMIN.AND.OFF(I).EQ.UN.AND.
+        ELSEIF(ISPALL.EQ.2.AND.P.LE.PMIN.AND.OFF(I).EQ.ONE.AND.
      .         OFFG(I).GT.ZERO)THEN
-          OFF(I)= QCINQ
+          OFF(I)= FOUR_OVER_5
           NINDEX=NINDEX+1
           INDEX(NINDEX)=I
           IDEL7NOK = 1  
@@ -278,7 +278,7 @@ C
        END IF  
 C-------------Maximum Damage storing for output : 0 < DFMAX < 1--------------
        DO I=1,NEL
-          DFMAX(I) = MIN(UN,DFMAX(I))
+          DFMAX(I) = MIN(ONE,DFMAX(I))
        ENDDO                   
 C-----------------------------------------------
  1000 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER ',I10)

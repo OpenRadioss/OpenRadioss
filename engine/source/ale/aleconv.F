@@ -127,7 +127,7 @@ C
         VL(4) = VALVOIS(I,4)*FLUX(I,4)
         VL(5) = VALVOIS(I,5)*FLUX(I,5)
         VL(6) = VALVOIS(I,6)*FLUX(I,6)
-        VTOT(I)= VTOT(I) + UNDEMI * DT1 *(
+        VTOT(I)= VTOT(I) + HALF * DT1 *(
      .          -VALEL(I)*FLU1(I) - VL(1)-VL(2)-VL(3)-VL(4)-VL(5)-VL(6))
       ENDDO
 C-----------

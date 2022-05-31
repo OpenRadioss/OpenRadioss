@@ -52,8 +52,8 @@ C ANAGONYE WANG EFFECTIVE LEAKAGE AREA  FORMULATION
 C--------------------------------------------------
       EPSXX = STRAIN(IEL)
       EPSYY = STRAIN(IEL+NEL)
-      RS=MAX(UN+EPSXX+EPSYY+EPSXX*EPSYY,UN)
-      RP=MIN(PEXT/P,UN)
+      RS=MAX(ONE+EPSXX+EPSYY+EPSXX*EPSYY,ONE)
+      RP=MIN(PEXT/P,ONE)
 C
       X0 = PM(164,IM)
       X1 = PM(165,IM)
@@ -93,8 +93,8 @@ C-----------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C ANAGONYE WANG EFFECTIVE LEAKAGE AREA  FORMULATION
 C--------------------------------------------------
-      RS=MAX(AREA/AREA0,UN)
-      RP=MIN(PEXT/P,UN)
+      RS=MAX(AREA/AREA0,ONE)
+      RP=MIN(PEXT/P,ONE)
 C
       X0 = PM(164,IM)
       X1 = PM(165,IM)

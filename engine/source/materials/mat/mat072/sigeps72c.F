@@ -133,10 +133,10 @@ c
       ! Recovering internal variables
       DO I=1,NEL
         ! Checking deletion flag value
-        IF (OFF(I) < UN)   OFF(I) = QCINQ*OFF(I)
+        IF (OFF(I) < ONE)   OFF(I) = FOUR_OVER_5*OFF(I)
         IF (OFF(I) < EM01) OFF(I) = ZERO
         ! Hourglass coefficient
-        ETSE(I) = UN
+        ETSE(I) = ONE
         H(I)    = ZERO
         ! Plastic strain increment
         DPLA(I) = ZERO
@@ -151,10 +151,10 @@ c
       ! Computing yield stress and checking damage criteria
       DO I = 1,NEL
         ! Computation of the BETA factor
-        BETA(I) = UN
-        IF (OFF(I) == UN) THEN
-          IF ((DAM(I) <= DC) .AND. (DAM(I) >= UN)) THEN
-            BETA(I) = UN/(MAX(DC - UN,EM20))
+        BETA(I) = ONE
+        IF (OFF(I) == ONE) THEN
+          IF ((DAM(I) <= DC) .AND. (DAM(I) >= ONE)) THEN
+            BETA(I) = ONE/(MAX(DC - ONE,EM20))
             BETA(I) = (DC - DAM(I))*BETA(I)
             BETA(I) = BETA(I)**MEXP
           ENDIF
@@ -179,7 +179,7 @@ c
 C
         ! Hill equivalent stress
         SIGHL(I) = (FF+HH)*SIGNYY(I)**2 + (GG+HH)*SIGNXX(I)**2
-     .           - DEUX*HH*SIGNXX(I)*SIGNYY(I) + DEUX*NN*SIGNXY(I)**2    
+     .           - TWO*HH*SIGNXX(I)*SIGNYY(I) + TWO*NN*SIGNXY(I)**2    
         SIGHL(I) = SQRT(MAX(ZERO,SIGHL(I)))
 C        
       ENDDO 
@@ -192,7 +192,7 @@ c
       NINDX = 0
       INDEX = 0
       DO I=1,NEL         
-        IF ((PHI(I)>ZERO).AND.(OFF(I) == UN)) THEN
+        IF ((PHI(I)>ZERO).AND.(OFF(I) == ONE)) THEN
           NINDX = NINDX+1
           INDEX(NINDX) = I
         ENDIF
@@ -226,7 +226,7 @@ c
           !------------------------------------------------------------- 
           NORMXX = (GG*SIGNXX(I) + HH*(SIGNXX(I)-SIGNYY(I)))/(MAX(SIGHL(I),EM20))
           NORMYY = (FF*SIGNYY(I) + HH*(SIGNYY(I)-SIGNXX(I)))/(MAX(SIGHL(I),EM20))
-          NORMXY = DEUX*NN*SIGNXY(I)/(MAX(SIGHL(I),EM20))
+          NORMXY = TWO*NN*SIGNXY(I)/(MAX(SIGHL(I),EM20))
 c          
           ! 2 - Computation of DPHI_DLAMBDA
           !---------------------------------------------------------
@@ -283,7 +283,7 @@ c
 c
           ! Update Hill equivalent stress          
           SIGHL(I) = (FF+HH)*SIGNYY(I)**2 + (GG+HH)*SIGNXX(I)**2
-     .             - DEUX*HH*SIGNXX(I)*SIGNYY(I) + DEUX*NN*SIGNXY(I)**2    
+     .             - TWO*HH*SIGNXX(I)*SIGNYY(I) + TWO*NN*SIGNXY(I)**2    
           SIGHL(I) = SQRT(MAX(ZERO,SIGHL(I)))          
 c
           ! Update yield function value
@@ -303,32 +303,32 @@ C
       ! Update and store new internal variables
       DO I=1,NEL
         ! Modified Mohr Criteria Failure Model
-        IF (OFF(I) == UN) THEN
+        IF (OFF(I) == ONE) THEN
           ! Pressure
           P = THIRD*(SIGNXX(I) + SIGNYY(I))
           ! Von Mises equivalent stress
           SVM(I) = SIGNXX(I)**2 + SIGNYY(I)**2 - SIGNXX(I)*SIGNYY(I) +
-     .             TROIS*SIGNXY(I)**2
+     .             THREE*SIGNXY(I)**2
           SVM(I) = SQRT(SVM(I))
 C
           ! Computation of triaxiality
           ETA = P/MAX(SVM(I),EM20)
-          IF (ETA < -DTIERS) ETA = DTIERS
-          IF (ETA > DTIERS)  ETA = DTIERS
+          IF (ETA < -TWO_THIRD) ETA = TWO_THIRD
+          IF (ETA > TWO_THIRD)  ETA = TWO_THIRD
           ! Computation of Lode angle
-          COS3THETA = -UNDEMI*VINGT7*ETA*(ETA**2 - THIRD)
-          IF (COS3THETA < -UN ) COS3THETA = -UN
-          IF (COS3THETA > UN )  COS3THETA = UN
-          THETA = UN - DEUX*ACOS(COS3THETA)/PI
+          COS3THETA = -HALF*TWENTY7*ETA*(ETA**2 - THIRD)
+          IF (COS3THETA < -ONE ) COS3THETA = -ONE
+          IF (COS3THETA > ONE )  COS3THETA = ONE
+          THETA = ONE - TWO*ACOS(COS3THETA)/PI
 C             
           ! Computation of the failure factor
           F1 = COS(THETA*PI/SIX)
           F2 = SIN(THETA*PI/SIX)
-          F3 = C3 + (SQRT(TROIS)/(DEUX - SQRT(TROIS)))*(UN - C3)*(UN/MAX(F1,EM20) - UN)
+          F3 = C3 + (SQRT(THREE)/(TWO - SQRT(THREE)))*(ONE - C3)*(ONE/MAX(F1,EM20) - ONE)
 C
           ! Computation of the failure plastic strain
-          EPSF = (SIGY/MAX(C2,EM20))*F3*(F1*SQRT(THIRD*(UN + C1**2)) + C1*(ETA + F2*THIRD))
-          EPSF = MAX(EPSF,EM20)**(-UN/NEXP)
+          EPSF = (SIGY/MAX(C2,EM20))*F3*(F1*SQRT(THIRD*(ONE + C1**2)) + C1*(ETA + F2*THIRD))
+          EPSF = MAX(EPSF,EM20)**(-ONE/NEXP)
 C               
           ! Computation of the damage variable
           IF (INLOC > 0) THEN 
@@ -338,7 +338,7 @@ C
           ENDIF
           IF (DAM(I) >= DC) THEN 
             DAM(I) = DC
-            OFF(I) = QCINQ
+            OFF(I) = FOUR_OVER_5
           ENDIF
 C
           ! Store the new value of damage

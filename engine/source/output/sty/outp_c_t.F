@@ -138,48 +138,48 @@ C------------------------
               IF (ITENS == 1) THEN
                 NS1 = 5
                 NS2 = 3
-                A1 = UN
+                A1 = ONE
                 A2 = ZERO
               ELSEIF (ITENS == 2) THEN
                 NS1 = 5
                 NS2 = 3
                 A1 = ZERO
-                A2 = UN
+                A2 = ONE
               ELSEIF (ITENS == 3) THEN
                 NS1 = 5
                 NS2 = 3
                 IF (MLW == 1) THEN
-                  A1 = UN
+                  A1 = ONE
                   A2 = SIX
                 ELSEIF (MLW == 3 .OR. MLW == 23) THEN
-                  A1 = UN
+                  A1 = ONE
                   A2 = ZERO
                 ELSE
-                  A1 = UN
+                  A1 = ONE
                   A2 = ZERO
                 ENDIF
               ELSEIF (ITENS == 4) THEN
                 NS1 = 5
                 NS2 = 3
                 IF (MLW == 1) THEN
-                  A1 = UN
+                  A1 = ONE
                   A2 = -SIX
                 ELSEIF (MLW == 3 .OR. MLW == 23) THEN
-                  A1 = UN
+                  A1 = ONE
                   A2 = ZERO
                 ELSE
-                  A1 = UN
+                  A1 = ONE
                   A2 = ZERO
                 ENDIF
               ELSEIF (ITENS >= 11  .and.  ITENS <= 40) THEN
                 NS1 = 5
                 NS2 = 3
                 IF (MLW == 1 .OR. MLW == 3 .OR. MLW == 23) THEN
-                  A1 = UN
+                  A1 = ONE
                   A2 = ZERO
                 ELSE
                   IPT = MIN(MPT,ITENS-10)
-                  A1 = UN
+                  A1 = ONE
                   A2 = ZERO
                 ENDIF
 C------------------------
@@ -190,7 +190,7 @@ C------------------------
                 NS1 = 8
                 NS2 = 8
                 IF (ISTRAIN == 1) THEN
-                  A1 = UN
+                  A1 = ONE
                   A2 = ZERO
                 ELSE
                   A1 = ZERO
@@ -202,7 +202,7 @@ C------------------------
                 NS2 = 8
                 IF (ISTRAIN == 1) THEN
                   A1 = ZERO
-                  A2 = UN
+                  A2 = ONE
                 ELSE
                   A1 = ZERO
                   A2 = ZERO
@@ -212,8 +212,8 @@ C------------------------
                 NS1 = 8
                 NS2 = 8
                 IF (ISTRAIN == 1) THEN
-                  A1 = UN
-                  A2 = UNDEMI
+                  A1 = ONE
+                  A2 = HALF
                 ELSE
                   A1 = ZERO
                   A2 = ZERO
@@ -223,8 +223,8 @@ C------------------------
                 NS1 = 8
                 NS2 = 8
                 IF (ISTRAIN == 1) THEN
-                  A1 = UN
-                  A2 = -UNDEMI
+                  A1 = ONE
+                  A2 = -HALF
                 ELSE
                   A1 = ZERO
                   A2 = ZERO
@@ -235,8 +235,8 @@ C------------------------
                 NS2 = 8
                 IF (ISTRAIN == 1  .and.  MPT /= 0) THEN
                   IPT = MIN(MPT,ITENS-50)
-                  A1 = UN
-                  A2 = UNDEMI*(((2*IPT-UN)/MPT)- UN)
+                  A1 = ONE
+                  A2 = HALF*(((2*IPT-ONE)/MPT)- ONE)
                 ELSE
                   A1 = ZERO
                   A2 = ZERO
@@ -246,25 +246,25 @@ C        STRAIN RATE
 C------------------------
               ELSEIF (ITENS == 91) THEN
                 ISTRE = 2
-                A1 = UN
+                A1 = ONE
                 A2 = ZERO
               ELSEIF (ITENS == 92) THEN
                 ISTRE = 2
                 A1 = ZERO
-                A2 = UN
+                A2 = ONE
               ELSEIF (ITENS == 93) THEN
                 ISTRE = 2
-                A1 = UN
-                A2 = UNDEMI
+                A1 = ONE
+                A2 = HALF
               ELSEIF (ITENS == 94) THEN
                 ISTRE = 2
-                A1 = UN
-                A2 = -UNDEMI
+                A1 = ONE
+                A2 = -HALF
               ELSEIF (ITENS >= 101  .and.  ITENS <= 130) THEN
                 ISTRE = 2
                 IPT = MIN(MPT,ITENS-100)
-                A1 = UN
-                A2 = UNDEMI*(((2*IPT-UN)/MPT)-UN)
+                A1 = ONE
+                A2 = HALF*(((2*IPT-ONE)/MPT)-ONE)
               ENDIF
 C
               IF (ISTRE == 1) THEN
@@ -287,7 +287,7 @@ C------------------------
                   JJ = JJ + 3
                   WA(JJ-2)= A1*GBUF%STRA(II(1)+I)+ A2*GBUF%STRA(II(1)+I)*THK
                   WA(JJ-1)= A1*GBUF%STRA(II(2)+I)+ A2*GBUF%STRA(II(2)+I)*THK
-                  WA(JJ)  = UNDEMI*(GBUF%STRA(II(3)+I)+ A2*GBUF%STRA(II(3)+I)*THK)
+                  WA(JJ)  = HALF*(GBUF%STRA(II(3)+I)+ A2*GBUF%STRA(II(3)+I)*THK)
                 ENDDO
               ELSEIF (ISTRE == 2) THEN
 C------------------------
@@ -304,7 +304,7 @@ C------------------------
                   JJ = JJ + 3
                   WA(JJ-2)= A1 * EPSDOT(1,N+N0) + A2 * EPSDOT(4,N+N0)*THK 
                   WA(JJ-1)= A1 * EPSDOT(2,N+N0) + A2 * EPSDOT(5,N+N0)*THK 
-                  WA(JJ)= UNDEMI*(A1*EPSDOT(3,N+N0)+A2*EPSDOT(6,N+N0)*THK) 
+                  WA(JJ)= HALF*(A1*EPSDOT(3,N+N0)+A2*EPSDOT(6,N+N0)*THK) 
                 ENDDO
               ENDIF  !  IF (ISTRE == 1)
             ENDIF  !  IF (ITY == 3 .OR. ITY == 7)

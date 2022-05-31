@@ -76,11 +76,11 @@ C       ALE SUB-CYCLING SUITE
 C--------------------------------------------------------
       IF(ITASK.EQ.0) THEN
           DT2=DT2*DTFSUB
-          IF(DT2S.NE.ZERO)DT2=MIN(DT2,UNP1*DT2S)
+          IF(DT2S.NE.ZERO)DT2=MIN(DT2,ONEP1*DT2S)
           IF(TT.GT.ZERO)THEN
-           DT12S=UNDEMI*(DT1+INT(DT2/DT1SAVE)*DT1SAVE)
+           DT12S=HALF*(DT1+INT(DT2/DT1SAVE)*DT1SAVE)
           ELSE
-           DT12S=UNDEMI*DT2
+           DT12S=HALF*DT2
           ENDIF
           DT2S=DT2
           DT1=DT1SAVE

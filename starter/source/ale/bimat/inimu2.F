@@ -61,7 +61,7 @@ C-----------------------------------------------
           DO J=2,5
             N=IX(J,I)
             F(N,M)=F(N,M)+ALPH
-            DF(N,M)=DF(N,M)+UN
+            DF(N,M)=DF(N,M)+ONE
           END DO
         END DO !M=1,NMULT
       END DO !I=1,NUMELQ

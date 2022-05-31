@@ -85,7 +85,7 @@ C-------BM(1-4)->BxI,BM(5-8)->ByI
 C------- (I=1:BMT(1)+BMT(3);I=2:BMT(2)+BMT(4);I=3:-BMT(1)+BMT(3);I=4:-BMT(2)+BMT(4))
         BMT(1)=VCORE(EP,1)+HX(EP,NG)*VCORE(EP,5)
         BMT(2)=VCORE(EP,2)+HX(EP,NG)*VCORE(EP,6)
-        BMT(3)=HX(EP,NG)*QUART
+        BMT(3)=HX(EP,NG)*FOURTH
         BMT(4)=-BMT(3)
         BM(I,1)=BMT(1)+BMT(3)
         BM(I,2)=BMT(2)+BMT(4)
@@ -93,7 +93,7 @@ C------- (I=1:BMT(1)+BMT(3);I=2:BMT(2)+BMT(4);I=3:-BMT(1)+BMT(3);I=4:-BMT(2)+BMT
         BM(I,4)=-BMT(2)+BMT(4)
         BMT(5)=VCORE(EP,3)+HY(EP,NG)*VCORE(EP,5)
         BMT(6)=VCORE(EP,4)+HY(EP,NG)*VCORE(EP,6)
-        BMT(7)=HY(EP,NG)*QUART
+        BMT(7)=HY(EP,NG)*FOURTH
         BMT(8)=-BMT(7)
         BM(I,5)=BMT(5)+BMT(7)
         BM(I,6)=BMT(6)+BMT(8)
@@ -102,7 +102,7 @@ C------- (I=1:BMT(1)+BMT(3);I=2:BMT(2)+BMT(4);I=3:-BMT(1)+BMT(3);I=4:-BMT(2)+BMT
        ENDDO 
        DO I=JFT,NPLAT 
         EP=IPLAT(I)
-        A_1 = UN/MAX(CDET(EP),EM20)
+        A_1 = ONE/MAX(CDET(EP),EM20)
         C11=(VCORE(EP,10)+VCORE(EP,12)*VPG(1,NG))*A_1
         C12=-(VCORE(EP,8)+VCORE(EP,12)*VPG(2,NG))*A_1
         C21=-(VCORE(EP,9)+VCORE(EP,11)*VPG(1,NG))*A_1
@@ -115,10 +115,10 @@ C------- (I=1:BMT(1)+BMT(3);I=2:BMT(2)+BMT(4);I=3:-BMT(1)+BMT(3);I=4:-BMT(2)+BMT
         BZZ(I,6)=C21*VKSI(3,NG)+C22*VETA(3,NG)
         BZZ(I,7)=C11*VKSI(4,NG)+C12*VETA(4,NG)
         BZZ(I,8)=C21*VKSI(4,NG)+C22*VETA(4,NG)
-        C11=QUART*C11
-        C12=QUART*C12
-        C21=QUART*C21
-        C22=QUART*C22
+        C11=FOURTH*C11
+        C12=FOURTH*C12
+        C21=FOURTH*C21
+        C22=FOURTH*C22
 C--------C.T-----
 C-----PARTIE SYM---------
         BETA1=VCORE(EP,8)+VCORE(EP,12)*VPG(2,NG)

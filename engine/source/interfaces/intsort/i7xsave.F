@@ -185,7 +185,7 @@ C
      .            X(3,IRECT(3,I)),X(3,IRECT(4,I)))
      .       -MIN(X(3,IRECT(1,I)),X(3,IRECT(2,I)),
      .            X(3,IRECT(3,I)),X(3,IRECT(4,I)))
-          CURV_MAX(I) = UNDEMI * MAX(XXX,YYY,ZZZ)
+          CURV_MAX(I) = HALF * MAX(XXX,YYY,ZZZ)
           C_MAX = MAX(C_MAX,CURV_MAX(I))
         ENDDO
       ELSE

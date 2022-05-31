@@ -250,9 +250,9 @@ C-----------------------------------------------
               SELECT CASE(I_ALE_SOLVER)
                 CASE(1)
                   !CENTERED FVM - U average              
-                  VF(1)                     = UNDEMI * (VALEL(1)/VALEL(4)+VALVOIS(J,1,IADj)/VALVOIS(J,4,IADj))
-                  VF(2)                     = UNDEMI * (VALEL(2)/VALEL(4)+VALVOIS(J,2,IADj)/VALVOIS(J,4,IADj))
-                  VF(3)                     = UNDEMI * (VALEL(3)/VALEL(4)+VALVOIS(J,3,IADj)/VALVOIS(J,4,IADj))                         
+                  VF(1)                     = HALF * (VALEL(1)/VALEL(4)+VALVOIS(J,1,IADj)/VALVOIS(J,4,IADj))
+                  VF(2)                     = HALF * (VALEL(2)/VALEL(4)+VALVOIS(J,2,IADj)/VALVOIS(J,4,IADj))
+                  VF(3)                     = HALF * (VALEL(3)/VALEL(4)+VALVOIS(J,3,IADj)/VALVOIS(J,4,IADj))                         
                 CASE(2)
                   !CENTERED FVM - rho.U average              
                   VF(1)                     = (VALEL(1)+VALVOIS(J,1,IADj))/(VALEL(4)+VALVOIS(J,4,IADj))
@@ -314,9 +314,9 @@ C-----------------------------------------------
                     NC(6)                   = IXS(7,IEv)    
                     NC(7)                   = IXS(8,IEv)    
                     NC(8)                   = IXS(9,IEv)    
-                    Zadj(1)                 = UNHUIT*SUM(X(1,NC(1:8)))          
-                    Zadj(2)                 = UNHUIT*SUM(X(2,NC(1:8)))          
-                    Zadj(3)                 = UNHUIT*SUM(X(3,NC(1:8)))          
+                    Zadj(1)                 = ONE_OVER_8*SUM(X(1,NC(1:8)))          
+                    Zadj(2)                 = ONE_OVER_8*SUM(X(2,NC(1:8)))          
+                    Zadj(3)                 = ONE_OVER_8*SUM(X(3,NC(1:8)))          
                   ENDIF
                   
                   CF(1:3)                   = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Center(1:3)
@@ -334,12 +334,12 @@ C-----------------------------------------------
                   PS                        = ZCf(1)*ZZadj(1) + ZCf(2)*ZZadj(2) + ZCf(3)*ZZadj(3)     
                   ZZadj_                    = ZZadj(1)**2 + ZZadj(2)**2 + ZZadj(3)**2                 
                   LAMBDA                    = PS / MAX(EM20,ZZadj_)                                   
-                  IF(lambda.LT.ZERO .OR. lambda .GT.UN)then                          
+                  IF(lambda.LT.ZERO .OR. lambda .GT.ONE)then                          
                     print *, "labmda=", lambda                                       
                     pause                                                            
                   endif                                                              
-                  LAMBDA                    = MIN(MAX(ZERO,LAMBDA) , UN)                             
-                  LAMBDA                    = SIN(UNDEMI*3.14159265358979D00*LAMBDA)                 
+                  LAMBDA                    = MIN(MAX(ZERO,LAMBDA) , ONE)                             
+                  LAMBDA                    = SIN(HALF*3.14159265358979D00*LAMBDA)                 
                   LAMBDA                    = LAMBDA * LAMBDA                                        
                   !face density                                                                      
                   SR1                       = VALEL(4)                                             
@@ -521,7 +521,7 @@ C-----------------------------------------------
                NG      = BRICK_LIST(NIN,IB)%NG
                ISILENT = IPARG(64,NG)
                IF(ISILENT==1)THEN
-                 UPWL(J)=UN
+                 UPWL(J)=ONE
                  cellFLUX(J,ICELL,IB,IADJ)=cellFLUX(J,ICELL,IB,IADJ)*PM(92,IXS(1,IDV))
                ENDIF
               ENDIF 

@@ -126,12 +126,12 @@ C-----------------------------
 C     AMORTISSEMENT
 C-----------------------------
       DO I=1,NEL
-        FA1(I) = EXX(I)*DMPM(I)*A1(I)*SQRT(DEUX*E(I)*RHO(I))
-        FA2(I) = EXY(I)*DMPF(I)*12*B2(I)*SQRT(DEUX*E(I)*RHO(I))/AL(I)**2
-        FA3(I) = EXZ(I)*DMPF(I)*12*B1(I)*SQRT(DEUX*E(I)*RHO(I))/AL(I)**2
-        MA1(I) = KXX(I)*DMPF(I)*B3(I)*SQRT(DEUX*G(I)*RHO(I))
-        MA2(I) = KYY(I)*DMPF(I)*B1(I)*SQRT(DEUX*E(I)*RHO(I))
-        MA3(I) = KZZ(I)*DMPF(I)*B2(I)*SQRT(DEUX*E(I)*RHO(I))
+        FA1(I) = EXX(I)*DMPM(I)*A1(I)*SQRT(TWO*E(I)*RHO(I))
+        FA2(I) = EXY(I)*DMPF(I)*12*B2(I)*SQRT(TWO*E(I)*RHO(I))/AL(I)**2
+        FA3(I) = EXZ(I)*DMPF(I)*12*B1(I)*SQRT(TWO*E(I)*RHO(I))/AL(I)**2
+        MA1(I) = KXX(I)*DMPF(I)*B3(I)*SQRT(TWO*G(I)*RHO(I))
+        MA2(I) = KYY(I)*DMPF(I)*B1(I)*SQRT(TWO*E(I)*RHO(I))
+        MA3(I) = KZZ(I)*DMPF(I)*B2(I)*SQRT(TWO*E(I)*RHO(I))
         FA1(I) = FA1(I)*OFF(I)
         FA2(I) = FA2(I)*OFF(I)
         FA3(I) = FA3(I)*OFF(I)
@@ -158,11 +158,11 @@ C
 C     CISAILLEMENT TRANSVERSAL CALCULE AVEC K1=12EI/L**2 K2=5/6GA
 C
       DO I=1,NEL
-        SH(I)  = CSIX*G(I)*A1(I)
-        YMA2(I)= DOUZE*E(I)/AL(I)**2
+        SH(I)  = FIVE_OVER_6*G(I)*A1(I)
+        YMA2(I)= TWELVE*E(I)/AL(I)**2
         SH10(I)= YMA2(I)*B1(I)
         SH20(I)= YMA2(I)*B2(I)
-        SH0(I) = (UN - SHF(I))*SH(I)
+        SH0(I) = (ONE - SHF(I))*SH(I)
         SH1(I) = SH0(I)*SH10(I)/(SH(I)+SH10(I)) + SHF(I)*SH10(I)
         SH2(I) = SH0(I)*SH20(I)/(SH(I)+SH20(I)) + SHF(I)*SH20(I)
 C
@@ -178,7 +178,7 @@ C-------------
 C     CRITERE
 C-------------
       DO I=1,NEL
-        YEQ(I) = F1(I)*F1(I) + TROIS * A1(I) *
+        YEQ(I) = F1(I)*F1(I) + THREE * A1(I) *
      .           (M1(I)*M1(I) / MAX(B3(I),EM20)
      .         +  M2(I)*M2(I) / MAX(B1(I),EM20)
      .         +  M3(I)*M3(I) / MAX(B2(I),EM20) )
@@ -228,8 +228,8 @@ C-------------
             EPSP(I) = ABS(DEGMB(I) + DEGFX(I))/YEQ(I)/A1(I)
             IF (VFLAG(I) /= 1) THEN
               IF (ISRATE(I) == 1) THEN
-                ALPHA = MIN(UN, ASRATE(I)*DT1)
-                EPSDOT = ALPHA*ABS(EPSP(I)/MAX(EM20,DT1)) + (UN-ALPHA)*UVAR(I,1)
+                ALPHA = MIN(ONE, ASRATE(I)*DT1)
+                EPSDOT = ALPHA*ABS(EPSP(I)/MAX(EM20,DT1)) + (ONE-ALPHA)*UVAR(I,1)
                 UVAR(I,1) = EPSDOT
               ELSE
                 EPSDOT = ABS(EPSP(I)/MAX(EM20,DT1))
@@ -237,13 +237,13 @@ C-------------
             ELSE
              EPSDOT = UVAR(I,1)
             ENDIF
-            FRATE   = UN + (EPSDOT*EPDR(I))**CP(I)
+            FRATE   = ONE + (EPSDOT*EPDR(I))**CP(I)
             IF (ICC(I)== 1) YLDMAX(I) = YLDMAX(I) * FRATE
             IF ((NFUNC > 0) .AND. (CA(I) /= ZERO)) THEN 
               IF (PLA(I)>ZERO) THEN 
-                YLD(I) = YLD(I) + (CA(I) + CB(I)*EXP(CN(I)*LOG(PLA(I))))*(FRATE-UN)
+                YLD(I) = YLD(I) + (CA(I) + CB(I)*EXP(CN(I)*LOG(PLA(I))))*(FRATE-ONE)
               ELSE
-                YLD(I) = YLD(I) + CA(I)*(FRATE-UN)
+                YLD(I) = YLD(I) + CA(I)*(FRATE-ONE)
               ENDIF
             ELSE
               YLD(I) = YLD(I) * FRATE
@@ -251,14 +251,14 @@ C-------------
           ENDIF
         ENDDO
       ELSE
-        EPSP(1:NEL )= UN
+        EPSP(1:NEL )= ONE
       ENDIF
 c-------------------
 c     PROJECTION
 c-------------------
       DO I=1,NEL
         YLD(I) = MIN(YLD(I),YLDMAX(I))    
-        RR(I)  = MIN(UN, YLD(I) / YEQ(I))
+        RR(I)  = MIN(ONE, YLD(I) / YEQ(I))
         F1(I)  = F1(I)*RR(I)
         DWELM(I) =(F1(I) + FOR(I,1))*(F1(I)-FOR(I,1)) / E(I)/A1(I)
         DEGMB(I) = DEGMB(I)+ F1(I)*EXX(I)
@@ -277,7 +277,7 @@ C
       DO I=1,NEL
         DWPLA(I) = DEGMB(I) + DEGFX(I) - DWELM(I) - DWELF(I)
         DEGSH(I) = DEGSH(I) + FOR(I,2)*EXY(I) + FOR(I,3)*EXZ(I)
-        FACT = UNDEMI*OFF(I)*AL(I)
+        FACT = HALF*OFF(I)*AL(I)
         EINT(I,1) = EINT(I,1) + (DEGSH(I)+DEGMB(I))*FACT
         EINT(I,2) = EINT(I,2) +  FACT*DEGFX(I)
       ENDDO
@@ -286,23 +286,23 @@ C     EPS PLASTIQUE
 C-----------------------
       DO I=1,NEL
         FACT    = DWPLA(I)/YLD(I)
-        DPLA(I) = OFF(I)*MAX(ZERO,UNDEMI*FACT/A1(I))
-        PLA(I)  = PLA(I) + OFF(I)*MAX(ZERO,UNDEMI*FACT/A1(I))
+        DPLA(I) = OFF(I)*MAX(ZERO,HALF*FACT/A1(I))
+        PLA(I)  = PLA(I) + OFF(I)*MAX(ZERO,HALF*FACT/A1(I))
       ENDDO
 c--------------------------------
 c     DUCTILE RUPTURE
 c--------------------------------
       DO I=1,NEL
         IF (OFF(I) < EM01) OFF(I) = ZERO
-        IF (OFF(I) < UN)   OFF(I) = OFF(I)*QCINQ
+        IF (OFF(I) < ONE)   OFF(I) = OFF(I)*FOUR_OVER_5
       ENDDO
 c--------------------------------
 c     AXIAL TENSION OR PLASTIC STRAIN FAILURE 
 c--------------------------------
       NINDX = 0
       DO I = 1,NEL
-        IF (OFF(I) == UN) THEN
-          DMG = UN
+        IF (OFF(I) == ONE) THEN
+          DMG = ONE
           IF (EPST(I) > EPSR1(I)) THEN
             DMG = (EPSR2(I) - EPST(I)) / (EPSR2(I) - EPSR1(I))
             DMG = MAX(DMG, ZERO)
@@ -315,16 +315,16 @@ c--------------------------------
           ENDIF
 c         test strain failure
           IF (DMG == ZERO .or. PLA(I) >= EPMAX(I)) THEN
-            OFF(I)   = QCINQ
+            OFF(I)   = FOUR_OVER_5
             IDEL7NOK = 1
             NINDX = NINDX+1
             INDX(NINDX) = I
           ENDIF   
 c
           IF (VFLAG(I) == 1) THEN 
-            ALPHA   = MIN(UN, ASRATE(I)*DT1)
+            ALPHA   = MIN(ONE, ASRATE(I)*DT1)
             EPSDOT  = DPLA(I)/MAX(EM20,DT1)
-            UVAR(I,1) = ALPHA*EPSDOT + (UN - ALPHA)*UVAR(I,1)
+            UVAR(I,1) = ALPHA*EPSDOT + (ONE - ALPHA)*UVAR(I,1)
           ENDIF
 c
         ENDIF

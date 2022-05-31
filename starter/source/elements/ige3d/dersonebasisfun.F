@@ -74,7 +74,7 @@ C-------------------------------------------------------------------------------
 
       DO J=0,PXI
         IF ((XI.GE.KXI(IDXI+J)).AND.(XI.LT.KXI(IDXI+J+1))) THEN
-          ANDU(J+1,1) = UN
+          ANDU(J+1,1) = ONE
         ELSE
           ANDU(J+1,1) = ZERO
         ENDIF

@@ -86,7 +86,7 @@ C-----------------------------------------------
 C------explicit KFAC=1.0e-3 for quad 1.0e-2 for T3(could be 1.0e-2 fro all)--
 C------implicit KFAC=0.1 for all----
       IF(IMPL_S.GT.0)THEN
-       KFAC= EM01*MIN(UN,KZ_TOL*2000)
+       KFAC= EM01*MIN(ONE,KZ_TOL*2000)
       ELSE
        KFAC= EM03
       ENDIF
@@ -161,7 +161,7 @@ C
              E11 = R12*T1 + R22*T2
              E22 = S12*T1 + S22*T2
              YM(I)  = MAX(E11,E22)
-             G(I)  = UNDEMI*YM(I)
+             G(I)  = HALF*YM(I)
              NU(I)  = ZERO
              NUSR(I) =EM01
 C---- for dt compute			 
@@ -172,7 +172,7 @@ C---- for dt compute
 C----	FAC58(I,1:2) could be different values, but too complicated		 
              IF (UVAR(I,11)/=ZERO.AND.UVAR(I,12)/=ZERO) THEN
                FAC58(I,1:2) = EM01*K58I
-             ELSEIF (MIN(RFAC,RFAT)>UN) THEN
+             ELSEIF (MIN(RFAC,RFAT)>ONE) THEN
                FAC58(I,1:2) = 1.2*K58I
 			 END IF
            ENDDO                                                    
@@ -181,7 +181,7 @@ C----	FAC58(I,1:2) could be different values, but too complicated
              E11 = K58(1)                                         
              E22 = K58(2)                                         
              YM(I)  = MAX(E11,E22)
-             G(I)  = UNDEMI*YM(I)
+             G(I)  = HALF*YM(I)
              NU(I)  = ZERO
              NUSR(I) =EM01
 C---- for dt compute			 
@@ -252,7 +252,7 @@ c
         DN = ZERO
       ELSE
         DN = GEO(13,PID(1))
-        IF(DN == ZERO) DN = ZEP01 + CINQEM3 ! 0.015 default value
+        IF(DN == ZERO) DN = ZEP01 + FIVEEM3 ! 0.015 default value
       ENDIF
       AMU(JFT:JLT) = DN
 c-----------
@@ -318,7 +318,7 @@ C-----------------------------------------------
       ENDIF
 C      
       IF(IMPL_S.GT.0)THEN
-       KFAC= EM01*MIN(UN,KZ_TOL*2000)
+       KFAC= EM01*MIN(ONE,KZ_TOL*2000)
       ELSE
        KFAC= EM03
       ENDIF
@@ -449,7 +449,7 @@ C     REAL ou REAL*8
       my_real KFAC ,LMAX
 C-----------------------------------------------
       IF(IMPL_S.GT.0)THEN
-        KFAC= EM01*MIN(UN,KZ_TOL*2000)
+        KFAC= EM01*MIN(ONE,KZ_TOL*2000)
       ELSE
         KFAC= EM02
       ENDIF
@@ -459,11 +459,11 @@ C
       ENDDO
 C
 c      DO I=JFT,JLT
-c       LMAX=UNDEMI*ALDT(I)/MAX(EM20,AREA(I))
-c       KFAC=LMAX*SQRT(TROIS*AREA(I)+THK(I)*THK(I))
-c       KFAC=LMAX*SQRT((HUIT*AREA(I)+TROIS*THK(I)*THK(I))*TIERS)
-c       KFAC=LMAX*SQRT((HUIT*AREA(I)+TROIS*THK(I)*THK(I))*UNNEUF)
-c       KFAC= MIN(UN,KFAC)
+c       LMAX=HALF*ALDT(I)/MAX(EM20,AREA(I))
+c       KFAC=LMAX*SQRT(THREE*AREA(I)+THK(I)*THK(I))
+c       KFAC=LMAX*SQRT((EIGHT*AREA(I)+THREE*THK(I)*THK(I))*THIRD)
+c       KFAC=LMAX*SQRT((EIGHT*AREA(I)+THREE*THK(I)*THK(I))*ONE_OVER_9)
+c       KFAC= MIN(ONE,KFAC)
 c       ALDT(I)= KFAC*ALDT(I)
 c      ENDDO
       RETURN
@@ -563,7 +563,7 @@ C--------IORTH=2 -> HMFOR couplage non-null----------------
       IGTYP = IGEO(11,PID(1))
       IGMAT = IGEO(98,PID(1))
       IPOS  = IGEO(99,PID(1))
-C----------unify the factor UNDOUZE after       
+C----------unify the factor ONE_OVER_12 after       
       IF (IORTH == 1) THEN
         HMFOR(JFT:JLT,1:6)=ZERO
         IF (NPT == 1) THEN
@@ -585,12 +585,12 @@ C----------unify the factor UNDOUZE after
             HM(I,4)=HMLY(I,4)
             HM(I,5)=HMOR(I,1)
             HM(I,6)=HMOR(I,2)
-            HF(I,1)=UNDOUZE*HMLY(I,1)
-            HF(I,2)=UNDOUZE*HMLY(I,2)
-            HF(I,3)=UNDOUZE*HMLY(I,3)
-            HF(I,4)=UNDOUZE*HMLY(I,4)
-            HF(I,5)=UNDOUZE*HMOR(I,1)
-            HF(I,6)=UNDOUZE*HMOR(I,2)
+            HF(I,1)=ONE_OVER_12*HMLY(I,1)
+            HF(I,2)=ONE_OVER_12*HMLY(I,2)
+            HF(I,3)=ONE_OVER_12*HMLY(I,3)
+            HF(I,4)=ONE_OVER_12*HMLY(I,4)
+            HF(I,5)=ONE_OVER_12*HMOR(I,1)
+            HF(I,6)=ONE_OVER_12*HMOR(I,2)
           ENDDO
         ELSEIF (MTN == 15.OR.MTN == 25) THEN
           SELECT CASE (IGTYP)
@@ -600,12 +600,12 @@ C----------unify the factor UNDOUZE after
               DO I=JFT,JLT
                 HM(I,5)=HMOR(I,1)
                 HM(I,6)=HMOR(I,2)
-                HF(I,1)=UNDOUZE*HM(I,1)
-                HF(I,2)=UNDOUZE*HM(I,2)
-                HF(I,3)=UNDOUZE*HM(I,3)
-                HF(I,4)=UNDOUZE*HM(I,4)
-                HF(I,5)=UNDOUZE*HMOR(I,1)
-                HF(I,6)=UNDOUZE*HMOR(I,2)
+                HF(I,1)=ONE_OVER_12*HM(I,1)
+                HF(I,2)=ONE_OVER_12*HM(I,2)
+                HF(I,3)=ONE_OVER_12*HM(I,3)
+                HF(I,4)=ONE_OVER_12*HM(I,4)
+                HF(I,5)=ONE_OVER_12*HMOR(I,1)
+                HF(I,6)=ONE_OVER_12*HMOR(I,2)
               ENDDO
             CASE(10,11,16,17,51,52)
               CALL LAYINI(ELBUF_STR,JFT      ,JLT      ,GEO      ,IGEO    , 
@@ -658,7 +658,7 @@ C
                     DO I=JFT,JLT
                       JJ = J2 - 1 + I
                       WM = POSLY(I,J)*THKLY(JJ)
-                      WMC= POSLY(I,J)*WM + UNDOUZE*THKLY(JJ)**3
+                      WMC= POSLY(I,J)*WM + ONE_OVER_12*THKLY(JJ)**3
                       HM(I,1)=HM(I,1)+THKLY(JJ)*HMLY(I,1)
                       HM(I,2)=HM(I,2)+THKLY(JJ)*HMLY(I,2)
                       HM(I,3)=HM(I,3)+THKLY(JJ)*HMLY(I,3)
@@ -696,7 +696,7 @@ C
                     DO I=JFT,JLT
                       JJ = J2 - 1 + I
                       WM = POSLY(I,J)*THKLY(JJ)
-                      WMC= POSLY(I,J)*WM + UNDOUZE*THKLY(JJ)**3
+                      WMC= POSLY(I,J)*WM + ONE_OVER_12*THKLY(JJ)**3
                       HM(I,1)=HM(I,1)+THKLY(JJ)*HMLY(I,1)
                       HM(I,2)=HM(I,2)+THKLY(JJ)*HMLY(I,2)
                       HM(I,3)=HM(I,3)+THKLY(JJ)*HMLY(I,3)

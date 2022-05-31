@@ -83,9 +83,9 @@ C=======================================================================
       IS_AVAILABLE = .FALSE.
 c
       EPSP_MIN    = ZERO
-      SOFT1 = UN
-      SOFT2 = UN
-      SOFT3 = UN
+      SOFT1 = ONE
+      SOFT2 = ONE
+      SOFT3 = ONE
 C--------------------------------------------------
 C     check crypting
 C--------------------------------------------------
@@ -141,14 +141,14 @@ c--------------------------------------------------
       IF (TMAX == ZERO)   TMAX   = EP20
       IF (TCUT == ZERO)   TCUT   = TMAX
       IF (EPSP_REF == ZERO) EPSP_REF = EM20
-      IF (SDELAM == ZERO) SDELAM = UN
+      IF (SDELAM == ZERO) SDELAM = ONE
       IF (IMODEL == 0) IMODEL = 1
       IF (ISHELL == 0) ISHELL = 1
       IF (ISOLID == 0) ISOLID = 1 
-      IF (RATIO == ZERO) RATIO = UN
+      IF (RATIO == ZERO) RATIO = ONE
       IF (DMG_FLAG == 0) DMG_FLAG = 1  ! DMG_FLAG = 1    => damage reduces forces after criteria is met
       IF (DMG_FLAG == 2) DMG_FLAG = 0  ! DMG_FLAG = 2->0 => damage reduces saved stress (old method)
-      SOFT1 = MIN(UN,MAX(ZERO,SOFT1))
+      SOFT1 = MIN(ONE,MAX(ZERO,SOFT1))
 c--------------------------------------------------
       UPARAM(1)  = IMODEL
       UPARAM(2)  = SIGT1
@@ -161,7 +161,7 @@ c--------------------------------------------------
       UPARAM(9)  = MSIG12
       UPARAM(10) = MSIG13
       UPARAM(11) = MSIG23
-      UPARAM(12) = ANGLE*PI/CENT80   ! degre ---> radian 
+      UPARAM(12) = ANGLE*PI/HUNDRED80   ! degre ---> radian 
       UPARAM(13) = SDELAM
       UPARAM(14) = TMAX
       UPARAM(15) = ISHELL

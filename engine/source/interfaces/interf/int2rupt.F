@@ -192,10 +192,10 @@ C
 C         initial distance main-secnd
           S = CRST(1,II)                                         
           T = CRST(2,II)                                         
-          SP=UN + S                                              
-          SM=UN - S                                              
-          TP=QUART*(UN + T)                                      
-          TM=QUART*(UN - T)                                      
+          SP=ONE + S                                              
+          SM=ONE - S                                              
+          TP=FOURTH*(ONE + T)                                      
+          TM=FOURTH*(ONE - T)                                      
           H(1)=TM*SM                                             
           H(2)=TM*SP                                             
           H(3)=TP*SP                                             
@@ -242,7 +242,7 @@ C
             VNX = SY * TZ - SZ * TY
             VNY = SZ * TX - SX * TZ
             VNZ = SX * TY - SY * TX
-            SUM = UN / SQRT(VNX*VNX + VNY*VNY + VNZ*VNZ)
+            SUM = ONE / SQRT(VNX*VNX + VNY*VNY + VNZ*VNZ)
             VNX = VNX * SUM
             VNY = VNY * SUM
             VNZ = VNZ * SUM
@@ -252,9 +252,9 @@ C
             INORM(II) = IONE
           ENDIF
         ENDDO
-        DT12M = UN/DT2
+        DT12M = ONE/DT2
       ELSE
-        DT12M = UN/DT12
+        DT12M = ONE/DT12
       ENDIF                 
 C---------------
 C     Reset initial main & secnd masse /inertia
@@ -293,10 +293,10 @@ c          rupture totale
          ELSE
            S = CRST(1,II)
            T = CRST(2,II)
-           SP=UN + S
-           SM=UN - S
-           TP=QUART*(UN + T)
-           TM=QUART*(UN - T)
+           SP=ONE + S
+           SM=ONE - S
+           TP=FOURTH*(ONE + T)
+           TM=FOURTH*(ONE - T)
            H(1)=TM*SM
            H(2)=TM*SP
            H(3)=TP*SP
@@ -353,7 +353,7 @@ C------------------------------------------------
            VNX = VNX * SUM 
            VNY = VNY * SUM
            VNZ = VNZ * SUM
-           SUM = UN / SQRT(SX*SX + SY*SY + SZ*SZ)
+           SUM = ONE / SQRT(SX*SX + SY*SY + SZ*SZ)
            VTX = SX * SUM
            VTY = SY * SUM
            VTZ = SZ * SUM
@@ -370,7 +370,7 @@ C------------------------------------------------
            DXTANG = SQRT(DXT(1)**2 + DXT(2)**2 + DXT(3)**2)
 C          repere local
            IF (DXTANG > ZERO) THEN
-             SUM = UN / DXTANG
+             SUM = ONE / DXTANG
              VTX = DXT(1) * SUM
              VTY = DXT(2) * SUM
              VTZ = DXT(3) * SUM
@@ -383,7 +383,7 @@ C         force main/secnd
 C------------------------------------------------                  
            IF (IRUPT(II) == 0) THEN
 C            pas de rupture - interface cinematique          
-             MCDG = UN/(MS(I)+MS(N1)+MS(N2)+MS(N3)+MS(N4))
+             MCDG = ONE/(MS(I)+MS(N1)+MS(N2)+MS(N3)+MS(N4))
              VX = V(1,I)*MS(I)+V(1,N1)*MS(N1)
      .           +V(1,N2)*MS(N2)+V(1,N3)*MS(N3)+V(1,N4)*MS(N4)
              VY = V(2,I)*MS(I)+V(2,N1)*MS(N1)

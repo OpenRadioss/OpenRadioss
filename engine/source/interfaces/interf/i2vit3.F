@@ -65,10 +65,10 @@ C
 C
           SS=CRST(1,II)
           TT=CRST(2,II)
-          SP=UN + SS
-          SM=UN - SS
-          TP=QUART*(UN + TT)
-          TM=QUART*(UN - TT)
+          SP=ONE + SS
+          SM=ONE - SS
+          TP=FOURTH*(ONE + TT)
+          TM=FOURTH*(ONE - TT)
           H(1)=TM*SM
           H(2)=TM*SP
           H(3)=TP*SP
@@ -153,10 +153,10 @@ C
 C
         SS=CRST(1,II)
         TT=CRST(2,II)
-        SP=UN + SS
-        SM=UN - SS
-        TP=QUART*(UN + TT)
-        TM=QUART*(UN - TT)
+        SP=ONE + SS
+        SM=ONE - SS
+        TP=FOURTH*(ONE + TT)
+        TM=FOURTH*(ONE - TT)
         H(1)=TM*SM
         H(2)=TM*SP
         H(3)=TP*SP
@@ -249,10 +249,10 @@ C
 C
         SS=CRST(1,II)
         TT=CRST(2,II)
-        SP=UN + SS
-        SM=UN - SS
-        TP=QUART*(UN + TT)
-        TM=QUART*(UN - TT)
+        SP=ONE + SS
+        SM=ONE - SS
+        TP=FOURTH*(ONE + TT)
+        TM=FOURTH*(ONE - TT)
         H(1)=TM*SM
         H(2)=TM*SP
         H(3)=TP*SP
@@ -294,9 +294,9 @@ C
         VMYY = VMZ*XC0 - VMX*ZC0
         VMZZ = VMX*YC0 - VMY*XC0
 C
-        A(1,I)= A(1,I) + AMY*ZC0 -AMZ*YC0 +UNDEMI*(VMY*VMZZ-VMZ*VMYY)
-        A(2,I)= A(2,I) + AMZ*XC0 -AMX*ZC0 +UNDEMI*(VMZ*VMXX-VMX*VMZZ)
-        A(3,I)= A(3,I) + AMX*YC0 -AMY*XC0 +UNDEMI*(VMX*VMYY-VMY*VMXX)
+        A(1,I)= A(1,I) + AMY*ZC0 -AMZ*YC0 +HALF*(VMY*VMZZ-VMZ*VMYY)
+        A(2,I)= A(2,I) + AMZ*XC0 -AMX*ZC0 +HALF*(VMZ*VMXX-VMX*VMZZ)
+        A(3,I)= A(3,I) + AMX*YC0 -AMY*XC0 +HALF*(VMX*VMYY-VMY*VMXX)
         V(1,I)= V(1,I) + VMXX
         V(2,I)= V(2,I) + VMYY
         V(3,I)= V(3,I) + VMZZ
@@ -390,12 +390,12 @@ Cgw        J4=MSR(IRECT(4,L))
 C----------------------------------------
 C       VITESSE MOYENNE DU SEGMENT MAIN
 C----------------------------------------
-        VMX=QUART*(V(1,J1)+V(1,J2)+V(1,J3)+V(1,J4))
-        VMY=QUART*(V(2,J1)+V(2,J2)+V(2,J3)+V(2,J4))
-        VMZ=QUART*(V(3,J1)+V(3,J2)+V(3,J3)+V(3,J4))
-        AMX=QUART*(A(1,J1)+A(1,J2)+A(1,J3)+A(1,J4))
-        AMY=QUART*(A(2,J1)+A(2,J2)+A(2,J3)+A(2,J4))
-        AMZ=QUART*(A(3,J1)+A(3,J2)+A(3,J3)+A(3,J4))	
+        VMX=FOURTH*(V(1,J1)+V(1,J2)+V(1,J3)+V(1,J4))
+        VMY=FOURTH*(V(2,J1)+V(2,J2)+V(2,J3)+V(2,J4))
+        VMZ=FOURTH*(V(3,J1)+V(3,J2)+V(3,J3)+V(3,J4))
+        AMX=FOURTH*(A(1,J1)+A(1,J2)+A(1,J3)+A(1,J4))
+        AMY=FOURTH*(A(2,J1)+A(2,J2)+A(2,J3)+A(2,J4))
+        AMZ=FOURTH*(A(3,J1)+A(3,J2)+A(3,J3)+A(3,J4))	
 C----------------------------------------------------
 C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
 C----------------------------------------------------
@@ -411,9 +411,9 @@ C----------------------------------------------------
         X4=X(1,J4)
         Y4=X(2,J4)
         Z4=X(3,J4)
-        X0=QUART*(X1+X2+X3+X4)
-        Y0=QUART*(Y1+Y2+Y3+Y4)
-        Z0=QUART*(Z1+Z2+Z3+Z4)	
+        X0=FOURTH*(X1+X2+X3+X4)
+        Y0=FOURTH*(Y1+Y2+Y3+Y4)
+        Z0=FOURTH*(Z1+Z2+Z3+Z4)	
         X1=X1-X0
         Y1=Y1-Y0
         Z1=Z1-Z0
@@ -573,14 +573,14 @@ C
 C--      Shape functions of triangles
           H(1) = SS
           H(2) = TT
-          H(3) = UN-SS-TT
+          H(3) = ONE-SS-TT
           H(4) = ZERO
         ELSE
 C--       Shape functions of quadrangles         
-          SP = UN + SS           
-          SM = UN - SS           
-          TP = QUART*(UN + TT)    
-          TM = QUART*(UN - TT)
+          SP = ONE + SS           
+          SM = ONE - SS           
+          TP = FOURTH*(ONE + TT)    
+          TM = FOURTH*(ONE - TT)
 C       
           H(1)=TM*SM           
           H(2)=TM*SP           
@@ -628,9 +628,9 @@ C
             Y0=THIRD*(Y1+Y2+Y3)
             Z0=THIRD*(Z1+Z2+Z3)
           ELSE
-            X0=QUART*(X1+X2+X3+X4)
-            Y0=QUART*(Y1+Y2+Y3+Y4)
-            Z0=QUART*(Z1+Z2+Z3+Z4)
+            X0=FOURTH*(X1+X2+X3+X4)
+            Y0=FOURTH*(Y1+Y2+Y3+Y4)
+            Z0=FOURTH*(Z1+Z2+Z3+Z4)
           ENDIF
 C	
           X1=X1-X0
@@ -718,9 +718,9 @@ C
         VMYY = VMZ*XC0 - VMX*ZC0
         VMZZ = VMX*YC0 - VMY*XC0
 C
-        A(1,I)= A(1,I) + AMY*ZC0 -AMZ*YC0 +UNDEMI*(VMY*VMZZ-VMZ*VMYY)
-        A(2,I)= A(2,I) + AMZ*XC0 -AMX*ZC0 +UNDEMI*(VMZ*VMXX-VMX*VMZZ)
-        A(3,I)= A(3,I) + AMX*YC0 -AMY*XC0 +UNDEMI*(VMX*VMYY-VMY*VMXX)
+        A(1,I)= A(1,I) + AMY*ZC0 -AMZ*YC0 +HALF*(VMY*VMZZ-VMZ*VMYY)
+        A(2,I)= A(2,I) + AMZ*XC0 -AMX*ZC0 +HALF*(VMZ*VMXX-VMX*VMZZ)
+        A(3,I)= A(3,I) + AMX*YC0 -AMY*XC0 +HALF*(VMX*VMYY-VMY*VMXX)
         V(1,I)= V(1,I) + VMXX
         V(2,I)= V(2,I) + VMYY
         V(3,I)= V(3,I) + VMZZ
@@ -780,14 +780,14 @@ C
 C--        Shape functions of triangles
             H(1) = SS
             H(2) = TT
-            H(3) = UN-SS-TT
+            H(3) = ONE-SS-TT
             H(4) = ZERO
           ELSE
 C--         Shape functions of quadrangles         
-            SP = UN + SS           
-            SM = UN - SS           
-            TP = QUART*(UN + TT)    
-            TM = QUART*(UN - TT)
+            SP = ONE + SS           
+            SM = ONE - SS           
+            TP = FOURTH*(ONE + TT)    
+            TM = FOURTH*(ONE - TT)
 C       
             H(1)=TM*SM           
             H(2)=TM*SP           

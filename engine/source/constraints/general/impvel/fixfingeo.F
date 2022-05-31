@@ -85,7 +85,7 @@ C-----------------------------------------------
       EXTERNAL FINTER2,FINTER2_SMOOTH
 C-----------------------------------------------
       IF(N2D.EQ.1)THEN
-       AX=UN
+       AX=ONE
       ELSE
        AX=ZERO
       ENDIF
@@ -166,10 +166,10 @@ C-----------------------
         ENDIF
         TSC = (TS+DT2)*FACX
         IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
-           RW_SMS = UN
+           RW_SMS = ONE
         ELSE
            IF(NODNX_SMS(I)==0)THEN
-              RW_SMS = UN
+              RW_SMS = ONE
            ELSE
               RW_SMS = ZERO
            ENDIF
@@ -231,10 +231,10 @@ C IF sms on the degree of freedom,
 C dw was already counted in TFEXT, in sms_fixvel...
         DW      = VEL(4,N)
         TFEXT   = TFEXT + RW_SMS*DW
-        VEL(4,N)= (UN-RW_SMS)*VEL(4,N)
+        VEL(4,N)= (ONE-RW_SMS)*VEL(4,N)
 C
         YC = YC * FAC
-        AXI=UN-AX+AX*X(2,I)
+        AXI=ONE-AX+AX*X(2,I)
 C
         DD = SKEW1*D(1,I) + SKEW2*D(2,I) + SKEW3*D(3,I)
         VV = SKEW1*V(1,I) + SKEW2*V(2,I) + SKEW3*V(3,I)
@@ -248,7 +248,7 @@ C
         A(2,I)=SKEW2*YC
         A(3,I)=SKEW3*YC
 C
-        DW = QUART*MS(I)*(YC*DT12+DEUX*VV)*AA*AXI*WEIGHT(I)
+        DW = FOURTH*MS(I)*(YC*DT12+TWO*VV)*AA*AXI*WEIGHT(I)
         TFEXT = TFEXT + DT1*DW
 Clm
 C dt2*dw into memory ; if sms on the degree of freedom,

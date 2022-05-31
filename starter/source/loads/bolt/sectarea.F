@@ -90,7 +90,7 @@ C=======================================================================
            Y3=Z1*X2-Z2*X1
            Z3=X1*Y2-X2*Y1
            N3=X3*X3+Y3*Y3+Z3*Z3
-           AREA=AREA+UNDEMI*SQRT(N3)
+           AREA=AREA+HALF*SQRT(N3)
            IF(J==4)THEN
              IN2 = NODE(4)
              X1=X(1,IN1)-X(1,IN2)
@@ -103,7 +103,7 @@ C=======================================================================
              Y3=Z1*X2-Z2*X1
              Z3=X1*Y2-X2*Y1
              N3=X3*X3+Y3*Y3+Z3*Z3
-             AREA=AREA+UNDEMI*SQRT(N3)
+             AREA=AREA+HALF*SQRT(N3)
            ENDIF
          ENDIF
          
@@ -138,7 +138,7 @@ C=======================================================================
           Y3=Z1*X2-Z2*X1
           Z3=X1*Y2-X2*Y1
           N3=X3*X3+Y3*Y3+Z3*Z3
-          AREA=AREA+UNDEMI*SQRT(N3)
+          AREA=AREA+HALF*SQRT(N3)
          ENDIF
         ENDIF
         ENDIF

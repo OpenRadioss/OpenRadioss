@@ -88,34 +88,34 @@ c
         IF(ITY == 4 )THEN
           IF(MLW == 0 .OR. MLW == 13)THEN
             DO I=1,NEL
-              ONED_SCALAR(OFFSET+NFT+I) = UN
+              ONED_SCALAR(OFFSET+NFT+I) = ONE
             ENDDO
           ELSE
             GBUF => ELBUF_TAB(NG)%GBUF
             DO I=1,NEL
-              ONED_SCALAR(OFFSET+NFT+I) = MIN(ABS(GBUF%OFF(I)),UN)
+              ONED_SCALAR(OFFSET+NFT+I) = MIN(ABS(GBUF%OFF(I)),ONE)
             ENDDO
           ENDIF
         ELSEIF(ITY == 5)THEN
           IF(MLW == 0 .OR. MLW == 13)THEN
             DO I=1,NEL
-              ONED_SCALAR(OFFSET+NFT+I) = UN
+              ONED_SCALAR(OFFSET+NFT+I) = ONE
             ENDDO
           ELSE
             GBUF => ELBUF_TAB(NG)%GBUF
             DO I=1,NEL
-              ONED_SCALAR(OFFSET+NFT+I) = MIN(ABS(GBUF%OFF(I)),UN)
+              ONED_SCALAR(OFFSET+NFT+I) = MIN(ABS(GBUF%OFF(I)),ONE)
             ENDDO
           ENDIF
         ELSEIF(ITY == 6)THEN
           IF(MLW == 0 .OR. MLW == 13)THEN
             DO I=1,NEL
-              ONED_SCALAR(OFFSET+NFT+I) = UN
+              ONED_SCALAR(OFFSET+NFT+I) = ONE
             ENDDO
           ELSE
             GBUF => ELBUF_TAB(NG)%GBUF
             DO I=1,NEL
-              ONED_SCALAR(OFFSET+NFT+I) = MIN(ABS(GBUF%OFF(I)),UN)
+              ONED_SCALAR(OFFSET+NFT+I) = MIN(ABS(GBUF%OFF(I)),ONE)
             ENDDO
           ENDIF
         ENDIF

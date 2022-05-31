@@ -138,7 +138,7 @@ C Barrier to wait init voxel and allocation NEX_NOD
       CALL MY_BARRIER
 C Phase initiale de construction de BPE et BPN deplacee de I7BUCE => I7TRI
 C
-      ALPHA_MARGE = SQRT(UN +SPASORT)
+      ALPHA_MARGE = SQRT(ONE +SPASORT)
 
       XMIN = BMINMA(4)
       YMIN = BMINMA(5)
@@ -268,7 +268,7 @@ c        IF(STF(NE) == ZERO)CYCLE
          NN = KXSP(3,J)
 
 c a revoir !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-         AAA = DEUX*SPBUF(1,J)* ALPHA_MARGE
+         AAA = TWO*SPBUF(1,J)* ALPHA_MARGE
 
 c        indice des voxels occupes par la facette
 
@@ -392,7 +392,7 @@ C================================================================
         I = J+NSN
         N = NLIST(I)-NUMSPH
 
-         AAA = DEUX * XSPHR(2,N) * ALPHA_MARGE
+         AAA = TWO * XSPHR(2,N) * ALPHA_MARGE
 
 c        indice des voxels occupes par la facette
 
@@ -503,7 +503,7 @@ C-------------------------------------------------------------------------
          YN=GAUGE(3,IG)
          ZN=GAUGE(4,IG)
 c a revoir !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-         AAA = (DEUX*DISTMAX)* ALPHA_MARGE
+         AAA = (TWO*DISTMAX)* ALPHA_MARGE
 
 c        indice des voxels occupes par la facette
 
@@ -547,7 +547,7 @@ cc             nnpelem = nnpelem + 1
                  YS = X(2,NS)
                  ZS = X(3,NS)
 
-                 AAA = DEUX*SPBUF(1,JS)
+                 AAA = TWO*SPBUF(1,JS)
                ELSE
                  GOTO 300
                ENDIF

@@ -95,7 +95,7 @@ C     Face of the element
          VII(2) = RHO * VX
          VII(3) = RHO * VY
          VII(4) = RHO * VZ
-         VII(5) = MULTI_FVM%EINT(ELEMID) + UNDEMI * RHO * VEL2
+         VII(5) = MULTI_FVM%EINT(ELEMID) + HALF * RHO * VEL2
 
          FII(1) = VII(1) * NORMVEL
          FII(2) = VII(2) * NORMVEL + P * NX

@@ -85,14 +85,14 @@ C----  Assemble
         FX1(I) = -F11(I)
         FY1(I) = -F21(I)
         FZ1(I) = -F31(I)
-        STIFN(NC1(I))=STIFN(NC1(I))+DEUX*STI(1,I)
+        STIFN(NC1(I))=STIFN(NC1(I))+TWO*STI(1,I)
         F(1,NC2(I))=F(1,NC2(I))-F11(I)
         F(2,NC2(I))=F(2,NC2(I))-F21(I)
         F(3,NC2(I))=F(3,NC2(I))-F31(I)
         FX2(I) = F11(I)
         FY2(I) = F21(I)
         FZ2(I) = F31(I)
-        STIFN(NC2(I))=STIFN(NC2(I))+DEUX*STI(2,I)
+        STIFN(NC2(I))=STIFN(NC2(I))+TWO*STI(2,I)
   100 CONTINUE
 C
 C-------------------------
@@ -104,9 +104,9 @@ C
       DO J=1,9
 	EX(J) = UVAR(21+J,I)
       END DO
-      M1 = UNDEMI*(XL(I,2)*FORZ(I)-XL(I,3)*FORY(I))
-      M2 = UNDEMI*(XL(I,3)*FORX(I)-XL(I,1)*FORZ(I))
-      M3 = UNDEMI*(XL(I,1)*FORY(I)-XL(I,2)*FORX(I))
+      M1 = HALF*(XL(I,2)*FORZ(I)-XL(I,3)*FORY(I))
+      M2 = HALF*(XL(I,3)*FORX(I)-XL(I,1)*FORZ(I))
+      M3 = HALF*(XL(I,1)*FORY(I)-XL(I,2)*FORX(I))
       XMOM1 = XMOM(I) + M1
       YMOM1 = YMOM(I) + M2
       ZMOM1 = ZMOM(I) + M3
@@ -222,7 +222,7 @@ C
           FX1(I) = -F11(I)
           FY1(I) = -F21(I)
           FZ1(I) = -F31(I)
-          FSKYV(N,7)=STI(1,I)*DEUX
+          FSKYV(N,7)=STI(1,I)*TWO
           N = IADR(2,II)
           FSKYV(N,1)=-F11(I)
           FSKYV(N,2)=-F21(I)
@@ -230,7 +230,7 @@ C
           FX2(I) = F11(I)
           FY2(I) = F21(I)
           FZ2(I) = F31(I)
-          FSKYV(N,7)=STI(2,I)*DEUX
+          FSKYV(N,7)=STI(2,I)*TWO
         ENDDO
       ELSE
         DO I=JFT,JLT
@@ -242,7 +242,7 @@ C
           FX1(I) = -F11(I)
           FY1(I) = -F21(I)
           FZ1(I) = -F31(I)
-          FSKY(7,N)=STI(1,I)*DEUX
+          FSKY(7,N)=STI(1,I)*TWO
           N = IADR(2,II)
           FSKY(1,N)=-F11(I)
           FSKY(2,N)=-F21(I)
@@ -250,7 +250,7 @@ C
           FX2(I) = F11(I)
           FY2(I) = F21(I)
           FZ2(I) = F31(I)
-          FSKY(7,N)=STI(2,I)*DEUX
+          FSKY(7,N)=STI(2,I)*TWO
         ENDDO
       ENDIF
 C
@@ -263,9 +263,9 @@ C
 	  EX(J) = UVAR(21+J,I)
         END DO
 C	
-        M1 = UNDEMI*(XL(I,2)*FORZ(I)-XL(I,3)*FORY(I))
-        M2 = UNDEMI*(XL(I,3)*FORX(I)-XL(I,1)*FORZ(I))
-        M3 = UNDEMI*(XL(I,1)*FORY(I)-XL(I,2)*FORX(I))
+        M1 = HALF*(XL(I,2)*FORZ(I)-XL(I,3)*FORY(I))
+        M2 = HALF*(XL(I,3)*FORX(I)-XL(I,1)*FORZ(I))
+        M3 = HALF*(XL(I,1)*FORY(I)-XL(I,2)*FORX(I))
 C
         XMOM1 = XMOM(I) + M1
         YMOM1 = YMOM(I) + M2

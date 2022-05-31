@@ -258,7 +258,7 @@ C           I=JS+IS
 C           IE=CAND_M(I) ! segment, zero gap
 C           JE=CAND_S(I) ! edge
 C           GAPV(IS)=GAPE(JE)
-C           IF(SH_EDGE /= 0 .AND. IGAP0 /= 0) GAPV(IS)=DEUX*GAPV(IS)
+C           IF(SH_EDGE /= 0 .AND. IGAP0 /= 0) GAPV(IS)=TWO*GAPV(IS)
 C           IF(IGAP==3)
 C     .       GAPV(IS)=MIN(GAPV(IS),GAP_M_L(IE)+GAP_E_L(JE))
 C           GAPV(IS)=MAX(GAPV(IS),DRAD)
@@ -296,7 +296,7 @@ C========== LOCAL
          IE=CAND_M(I) ! segment, zero gap
          JE=CAND_S(I) ! edge
          GAPV(IS)=GAPE(JE)
-         IF(SH_EDGE /= 0 .AND. IGAP0 /= 0) GAPV(IS)=DEUX*GAPV(IS)
+         IF(SH_EDGE /= 0 .AND. IGAP0 /= 0) GAPV(IS)=TWO*GAPV(IS)
          IF(IGAP==3)
      .     GAPV(IS)=MIN(GAPV(IS),GAP_M_L(IE)+GAP_E_L(JE))
          GAPV(IS)=MAX(GAPV(IS),DRAD)
@@ -331,7 +331,7 @@ C - The logal segment is broken
 C Boundary edge, owned by ISPMD, but local segment broken
 C In that case, we assume that the segment on the 
 C other side of the boundary is not broken
-           S = UN
+           S = ONE
 C          S = ZERO
          ENDIF
 
@@ -444,7 +444,7 @@ C =========  REMOTE
            I=JS+IS
            IE=CAND_M(I)
            GAPV(IS)=GAPFIE(NIN)%P(CAND_S(I)-NEDGE)
-           IF(SH_EDGE /= 0 .AND. IGAP0 /= 0) GAPV(IS)=DEUX*GAPV(IS)
+           IF(SH_EDGE /= 0 .AND. IGAP0 /= 0) GAPV(IS)=TWO*GAPV(IS)
 
            IF(IGAP==3)
      .       GAPV(IS)=MIN(GAPV(IS),GAPE_L_FIE(NIN)%P(CAND_S(I)-NEDGE)+GAP_M_L(IE))

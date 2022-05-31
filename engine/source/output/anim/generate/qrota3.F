@@ -84,10 +84,10 @@ C----------------------------
 C-----------
 C       REPERE CONVECTE
 C-----------
-        SY=UNDEMI*(Y2+Y3-Y1-Y4)
-        SZ=UNDEMI*(Z2+Z3-Z1-Z4)
-        TY=UNDEMI*(Y3+Y4-Y1-Y2)
-        TZ=UNDEMI*(Z3+Z4-Z1-Z2)
+        SY=HALF*(Y2+Y3-Y1-Y4)
+        SZ=HALF*(Z2+Z3-Z1-Z4)
+        TY=HALF*(Y3+Y4-Y1-Y2)
+        TZ=HALF*(Z3+Z4-Z1-Z2)
         CT = TY*TY+TZ*TZ
         CS = SY*SY+SZ*SZ
         IF(CS /= ZERO) THEN
@@ -99,7 +99,7 @@ C-----------
           SY = SY + TZ*SUMA
           SZ = SZ - TY*SUMA
         END IF 
-        SUMA=UN/MAX(SQRT(SY*SY+SZ*SZ),EM20)
+        SUMA=ONE/MAX(SQRT(SY*SY+SZ*SZ),EM20)
         SY=SY*SUMA
         SZ=SZ*SUMA
 C-----------

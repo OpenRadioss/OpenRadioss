@@ -1452,7 +1452,7 @@ C------condense STIFN(ND)
       DO I=1,NS10E
        ND = IABS(ICNDS10(1,I))
        IF (STIFN(ND)<=ZERO) CYCLE
-       STIF =UNDEMI*STIFN(ND)
+       STIF =HALF*STIFN(ND)
        N1 = ICNDS10(2,I)
        N2 = ICNDS10(3,I)
        STIFN(N1)=STIFN(N1)+STIF

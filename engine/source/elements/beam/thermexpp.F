@@ -168,7 +168,7 @@ C-----------------------------------------------
         YM  =PM(20,MAT(I))
         A1  =GEO(1,PID(I))
         FOR(I,1) = (FOR(I,1)  - ETH(I)*A1*YM )*OFF(I)   
-!!        EINT(I,1) = EINT(I,1) - FOR(I,1)*ETH(I)*AL(I)*UNDEMI*OFF(I)
+!!        EINT(I,1) = EINT(I,1) - FOR(I,1)*ETH(I)*AL(I)*HALF*OFF(I)
       ENDDO             
 C-----------------------------------------------
       RETURN

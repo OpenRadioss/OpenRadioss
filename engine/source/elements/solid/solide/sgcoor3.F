@@ -100,7 +100,7 @@ C--------ISMSTR == 12 diff format of SAV
          DO N=1,NPE1
            N2 = 3*(N-1)+1
            DO I=LFT,LLT
-            IF (OFF(I) <= UN ) CYCLE 
+            IF (OFF(I) <= ONE ) CYCLE 
             X0(I,N)=SAV(I,N2)
             Y0(I,N)=SAV(I,N2+1)
             Z0(I,N)=SAV(I,N2+2)
@@ -152,7 +152,7 @@ C-------law1 special two increment
        IF (MTN/=1) THEN
          DO N=1,NPE1
           DO I=LFT,LLT
-           IF (OFF(I) <= UN ) CYCLE 
+           IF (OFF(I) <= ONE ) CYCLE 
             VX0(I,N)=D(1,NC(I,N))-D(1,NC(I,NPE)) 
             VY0(I,N)=D(2,NC(I,N))-D(2,NC(I,NPE))  
             VZ0(I,N)=D(3,NC(I,N))-D(3,NC(I,NPE)) 
@@ -161,7 +161,7 @@ C-------law1 special two increment
          DO N=1,NPE1
            N2 = 3*(N-1)+1
            DO I=LFT,LLT
-            IF (OFF(I) <= UN ) CYCLE 
+            IF (OFF(I) <= ONE ) CYCLE 
             X0(I,N)=SAV(I,N2)
             Y0(I,N)=SAV(I,N2+1)
             Z0(I,N)=SAV(I,N2+2)
@@ -273,9 +273,9 @@ C
         RY(I) =  Y0(I,3) + Y0(I,6) - Y0(I,1)- Y0(I,4)
         RZ(I) =  Z0(I,3) + Z0(I,6) - Z0(I,1) - Z0(I,4)
 C
-        SX(I) = (X0(I,4)+X0(I,5)+X0(I,6)-X0(I,1)+X0(I,2)+X0(I,3))*TIERS
-        SY(I) = (Y0(I,4)+Y0(I,5)+Y0(I,6)-Y0(I,1)+Y0(I,2)+Y0(I,3))*TIERS
-        SZ(I) = (Z0(I,4)+Z0(I,5)+Z0(I,6)-Z0(I,1)+Z0(I,2)+Z0(I,3))*TIERS
+        SX(I) = (X0(I,4)+X0(I,5)+X0(I,6)-X0(I,1)+X0(I,2)+X0(I,3))*THIRD
+        SY(I) = (Y0(I,4)+Y0(I,5)+Y0(I,6)-Y0(I,1)+Y0(I,2)+Y0(I,3))*THIRD
+        SZ(I) = (Z0(I,4)+Z0(I,5)+Z0(I,6)-Z0(I,1)+Z0(I,2)+Z0(I,3))*THIRD
 C
         TX(I) = X0(I,2) + X0(I,5)- X0(I,1) - X0(I,4)
         TY(I) = Y0(I,2) + Y0(I,5)- Y0(I,1) - Y0(I,4)

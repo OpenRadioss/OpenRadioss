@@ -230,7 +230,7 @@ C=======================================================================
 !  add filtering:
 !
       IF (NCF > ZERO) THEN
-        ALPHA = DEUX/(NCF+UN)
+        ALPHA = TWO/(NCF+ONE)
 !
         DO I=1,NEL
           XDOT_OLD(I)   = UVAR(37,I) ! old strain rate
@@ -252,12 +252,12 @@ C=======================================================================
         ENDDO
 !  filter current strain rate
         DO I=1,NEL
-          XDOT(I)   =  ALPHA * XDOT(I)   + (UN-ALPHA) * XDOT_OLD(I)
-          XXDOT(I)  =  ALPHA * XXDOT(I)  + (UN-ALPHA) * XXDOT_OLD(I)
-          YY1DOT(I) =  ALPHA * YY1DOT(I) + (UN-ALPHA) * YY1DOT_OLD(I)
-          ZZ1DOT(I) =  ALPHA * ZZ1DOT(I) + (UN-ALPHA) * ZZ1DOT_OLD(I)
-          YY2DOT(I) =  ALPHA * YY2DOT(I) + (UN-ALPHA) * YY2DOT_OLD(I)
-          ZZ2DOT(I) =  ALPHA * ZZ2DOT(I) + (UN-ALPHA) * ZZ2DOT_OLD(I)
+          XDOT(I)   =  ALPHA * XDOT(I)   + (ONE-ALPHA) * XDOT_OLD(I)
+          XXDOT(I)  =  ALPHA * XXDOT(I)  + (ONE-ALPHA) * XXDOT_OLD(I)
+          YY1DOT(I) =  ALPHA * YY1DOT(I) + (ONE-ALPHA) * YY1DOT_OLD(I)
+          ZZ1DOT(I) =  ALPHA * ZZ1DOT(I) + (ONE-ALPHA) * ZZ1DOT_OLD(I)
+          YY2DOT(I) =  ALPHA * YY2DOT(I) + (ONE-ALPHA) * YY2DOT_OLD(I)
+          ZZ2DOT(I) =  ALPHA * ZZ2DOT(I) + (ONE-ALPHA) * ZZ2DOT_OLD(I)
         ENDDO
 ! save new filtered strain rate:
         DO I=1,NEL
@@ -284,14 +284,14 @@ C================================
 C     ELASTIQUE
 C================================
       DO I=1,NEL
-        MY1(I) = -YMOM(I)+UNDEMI*XL(I)*FZ(I)
-        MY2(I) =  YMOM(I)+UNDEMI*XL(I)*FZ(I)
-        MZ1(I) = -ZMOM(I)-UNDEMI*XL(I)*FY(I)
-        MZ2(I) =  ZMOM(I)-UNDEMI*XL(I)*FY(I)	  
+        MY1(I) = -YMOM(I)+HALF*XL(I)*FZ(I)
+        MY2(I) =  YMOM(I)+HALF*XL(I)*FZ(I)
+        MZ1(I) = -ZMOM(I)-HALF*XL(I)*FY(I)
+        MZ2(I) =  ZMOM(I)-HALF*XL(I)*FY(I)	  
 C
         LENG = MAX(XL(I),EM20)
         LENG2 = LENG*LENG
-        ULENG(I) = UN/LENG
+        ULENG(I) = ONE/LENG
 C
         K11 = UVAR(19,I)
         K44 = UVAR(20,I)
@@ -367,8 +367,8 @@ C
 !  elongation rate for damping (linear + function):
         DO I=1,NEL
            ELODOTX(I)  = VX(I)                                 ! FX
-           ELODOTY(I)  = - UNDEMI * (RZ2(I) + RZ1(I)) * XL(I)  ! FY
-           ELODOTZ(I)  =   UNDEMI * (RY2(I) + RY1(I)) * XL(I)  ! FZ
+           ELODOTY(I)  = - HALF * (RZ2(I) + RZ1(I)) * XL(I)  ! FY
+           ELODOTZ(I)  =   HALF * (RY2(I) + RY1(I)) * XL(I)  ! FZ
            ELODOTXX(I) = RX(I)                                 ! XMOM
            ELODOTYY(I) = RY2(I) - RY1(I)                       ! YMOM
            ELODOTZZ(I) = RZ2(I) - RZ1(I)                       ! ZMOM
@@ -382,12 +382,12 @@ C--------------------------------
           ID2 = NINT(UVAR(29,I)) - 2*ID1
           ID10=ID1
           ID20=ID2
-          IF (FR_WAVE_E(I) == UN) THEN
+          IF (FR_WAVE_E(I) == ONE) THEN
             JPOSXM(I) = 0
             IFUNXM(I) = IFUN_XMR
           ENDIF
           IF (X(I) < XLIMG) THEN  !!! collapsed element
-            FR_WAVE_E(I)=UN
+            FR_WAVE_E(I)=ONE
           ELSE
             FR_WAVE_E(I)=ZERO
           ENDIF
@@ -552,8 +552,8 @@ C
           MZ2(I)  = MAX(MIN(MZ2(I),FZZ2P(I)),FZZ2M(I))
           FZ(I)   =  (MY1(I)+MY2(I)) * ULENG(I)
           FY(I)   = -(MZ1(I)+MZ2(I)) * ULENG(I)
-          YMOM(I) = -UNDEMI*(MY1(I)-MY2(I))
-          ZMOM(I) = -UNDEMI*(MZ1(I)-MZ2(I))
+          YMOM(I) = -HALF*(MY1(I)-MY2(I))
+          ZMOM(I) = -HALF*(MZ1(I)-MZ2(I))
 C
           VISCM(I) = ZERO
           VISCR(I) = ZERO
@@ -611,12 +611,12 @@ C--------------------------------
           ID2 = NINT(UVAR(29,I)) - 2*ID1
           ID10=ID1
           ID20=ID2
-          IF (FR_WAVE_E(I) == UN) THEN  !!! collapsed element
+          IF (FR_WAVE_E(I) == ONE) THEN  !!! collapsed element
             JPOSXM(I) = 0
             IFUNXM(I) = IFUN_XMR
           ENDIF
           IF (X(I) < XLIMG) THEN
-            FR_WAVE_E(I)=UN
+            FR_WAVE_E(I)=ONE
           ELSE
             FR_WAVE_E(I)=ZERO
           ENDIF
@@ -817,12 +817,12 @@ C---------------------------------------------------
           MM = SQRT(AX*AX+AY*AY+AZ*AZ)
 !
           FF = FX(I)/MIN(-EM20,FXM(I))
-          R = (UN+MM-FF)/MAX(EM20,DEUX*MM)
-          IF (R > ZERO .AND. R < UN) THEN
-            FF1 = UNDEMI*(UN-MM+FF)*FXM(I)
+          R = (ONE+MM-FF)/MAX(EM20,TWO*MM)
+          IF (R > ZERO .AND. R < ONE) THEN
+            FF1 = HALF*(ONE-MM+FF)*FXM(I)
           ELSE
             FF1 = FXM(I)
-            R = MAX(ZERO,MIN(UN,R))
+            R = MAX(ZERO,MIN(ONE,R))
           ENDIF
           R1 = R
 !
@@ -831,12 +831,12 @@ C---------------------------------------------------
           AY = MAX(MY2(I)/FYY2P(I),MY2(I)/FYY2M(I))
           AZ = MAX(MZ2(I)/FZZ2P(I),MZ2(I)/FZZ2M(I))
           MM = SQRT(AX*AX+AY*AY+AZ*AZ)
-          R = (UN+MM-FF)/MAX(EM20,DEUX*MM)
-          IF (R > ZERO .AND. R < UN) THEN
-            FF2 = UNDEMI*(UN-MM+FF)*FXM(I)
+          R = (ONE+MM-FF)/MAX(EM20,TWO*MM)
+          IF (R > ZERO .AND. R < ONE) THEN
+            FF2 = HALF*(ONE-MM+FF)*FXM(I)
           ELSE
             FF2 = FXM(I)
-            R = MAX(ZERO,MIN(UN,R))
+            R = MAX(ZERO,MIN(ONE,R))
           ENDIF
           MY1(I) = R1*MY1(I)
           MZ1(I) = R1*MZ1(I)
@@ -849,8 +849,8 @@ C
 C
           FZ(I)   =  (MY1(I)+MY2(I)) * ULENG(I)
           FY(I)   = -(MZ1(I)+MZ2(I)) * ULENG(I)
-          YMOM(I) = -UNDEMI*(MY1(I)-MY2(I))
-          ZMOM(I) = -UNDEMI*(MZ1(I)-MZ2(I))
+          YMOM(I) = -HALF*(MY1(I)-MY2(I))
+          ZMOM(I) = -HALF*(MZ1(I)-MZ2(I))
 C
           VISCM(I) = ZERO
           VISCR(I) = ZERO

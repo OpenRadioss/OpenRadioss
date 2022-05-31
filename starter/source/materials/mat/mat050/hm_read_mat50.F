@@ -266,12 +266,12 @@ c--------------------------------------------------
       IF (EMX31  == ZERO) EMX31  = EP10  
 c
       DO I=1,5
-        IF (FAC11(I) == ZERO) FAC11(I) = UN*PRESS_SCALE
-        IF (FAC22(I) == ZERO) FAC22(I) = UN*PRESS_SCALE
-        IF (FAC33(I) == ZERO) FAC33(I) = UN*PRESS_SCALE
-        IF (FAC12(I) == ZERO) FAC12(I) = UN*PRESS_SCALE
-        IF (FAC23(I) == ZERO) FAC23(I) = UN*PRESS_SCALE
-        IF (FAC31(I) == ZERO) FAC31(I) = UN*PRESS_SCALE
+        IF (FAC11(I) == ZERO) FAC11(I) = ONE*PRESS_SCALE
+        IF (FAC22(I) == ZERO) FAC22(I) = ONE*PRESS_SCALE
+        IF (FAC33(I) == ZERO) FAC33(I) = ONE*PRESS_SCALE
+        IF (FAC12(I) == ZERO) FAC12(I) = ONE*PRESS_SCALE
+        IF (FAC23(I) == ZERO) FAC23(I) = ONE*PRESS_SCALE
+        IF (FAC31(I) == ZERO) FAC31(I) = ONE*PRESS_SCALE
       ENDDO
 c
       N11 = 0

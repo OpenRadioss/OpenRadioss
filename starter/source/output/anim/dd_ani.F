@@ -86,7 +86,7 @@ C     REAL ou REAL*8
       REAL R4
 C
 C      
-      S3000 = TROIS1000
+      S3000 = THREE1000
 C
 Calcul connectivite sph pour A000 domdec
 C

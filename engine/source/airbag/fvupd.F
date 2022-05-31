@@ -534,9 +534,9 @@ C
                Y3=XXXA(2,N3)
                Z3=XXXA(3,N3)
             ENDIF
-            PNOD(1,I)=(UN-KSI-ETA)*X1+KSI*X2+ETA*X3
-            PNOD(2,I)=(UN-KSI-ETA)*Y1+KSI*Y2+ETA*Y3
-            PNOD(3,I)=(UN-KSI-ETA)*Z1+KSI*Z2+ETA*Z3
+            PNOD(1,I)=(ONE-KSI-ETA)*X1+KSI*X2+ETA*X3
+            PNOD(2,I)=(ONE-KSI-ETA)*Y1+KSI*Y2+ETA*Y3
+            PNOD(3,I)=(ONE-KSI-ETA)*Z1+KSI*Z2+ETA*Z3
          ELSEIF (IFVNOD(1,I).EQ.2) THEN
             I2=IFVNOD(3,I)
             PNOD(1,I)=XXXA(1,I2)
@@ -552,9 +552,9 @@ C
             I1=IFVNOD(2,I)
             I2=IFVNOD(3,I)
             FAC=RFVNOD(1,I)
-            PNOD(1,I)=FAC*PNOD(1,I1)+(UN-FAC)*PNOD(1,I2)
-            PNOD(2,I)=FAC*PNOD(2,I1)+(UN-FAC)*PNOD(2,I2)
-            PNOD(3,I)=FAC*PNOD(3,I1)+(UN-FAC)*PNOD(3,I2)
+            PNOD(1,I)=FAC*PNOD(1,I1)+(ONE-FAC)*PNOD(1,I2)
+            PNOD(2,I)=FAC*PNOD(2,I1)+(ONE-FAC)*PNOD(2,I2)
+            PNOD(3,I)=FAC*PNOD(3,I1)+(ONE-FAC)*PNOD(3,I2)
          ENDIF
       ENDDO
 !$OMP END DO
@@ -595,7 +595,7 @@ C Normale et aire des triangles
          NRY=Z12*X13-X12*Z13
          NRZ=X12*Y13-Y12*X13
          AREA2=SQRT(NRX**2+NRY**2+NRZ**2)
-         PAREA(I)=UNDEMI*AREA2
+         PAREA(I)=HALF*AREA2
          IF (AREA2.GT.0) THEN
             PNORM(1,I)=NRX/AREA2
             PNORM(2,I)=NRY/AREA2
@@ -648,7 +648,7 @@ C Boucle sur les triangles du polygone
                X1=PNOD(1,N1)
                Y1=PNOD(2,N1)
                Z1=PNOD(3,N1)
-               PVOLTMP=PVOLTMP+TIERS*AREA*(X1*NX+Y1*NY+Z1*NZ)
+               PVOLTMP=PVOLTMP+THIRD*AREA*(X1*NX+Y1*NY+Z1*NZ)
             ENDDO
          ENDDO
          PVOLU(I) = PVOLTMP
@@ -740,7 +740,7 @@ C
          IF (PVOLU(I).LE.VOLUMIN.OR.PVOLU(I).LE.VVMAX(I).OR.
      .       MPOLH(I).LE.ZERO.OR.EPOLH(I).LE.ZERO.OR.
      .       (DTMERGV12 == 0 .AND. DTPOLH(I) <= DTMIN .AND. 
-     .       PVOLU(I) <= DIX*VOLUMIN) .OR.
+     .       PVOLU(I) <= TEN*VOLUMIN) .OR.
      .       (DTMERGV12 == 1 .AND. DTPOLH(I).LE.DTMIN) ) THEN
 C
             ITYPM=1

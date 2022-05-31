@@ -161,7 +161,7 @@ C
           IX6=ICF2(2,KMAX)
           IX7=ICF2(3,KMAX)
           IX8=ICF2(4,KMAX)
-          DH=UNDEMI*(HTEST(I)-H)
+          DH=HALF*(HTEST(I)-H)
 	  DHX=DH*SX(KMAX)
 	  DHY=DH*SY(KMAX)
 	  DHZ=DH*SZ(KMAX)
@@ -213,8 +213,8 @@ C
   	  XD8(I)=X(1,8)
   	  YD8(I)=X(2,8)
   	  ZD8(I)=X(3,8)	  	  
-          HH(I)=Max(UN-H/HCLOS(I),ZERO)
-	  HH(I)=MIN(UN,HH(I))
+          HH(I)=Max(ONE-H/HCLOS(I),ZERO)
+	  HH(I)=MIN(ONE,HH(I))
 	ENDIF
       ENDDO
       

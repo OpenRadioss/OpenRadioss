@@ -60,7 +60,7 @@ C       E1=R, E3=R^S, E2=E3^E1
 C
       DO I=LFT,LLT                                      
         SUM = SQRT(RX(I)**2+RY(I)**2+RZ(I)**2)          
-        IF (SUM > ZERO) SUM=UN/SUM                      
+        IF (SUM > ZERO) SUM=ONE/SUM                      
         E1X(I) = RX(I)*SUM                              
         E1Y(I) = RY(I)*SUM                              
         E1Z(I) = RZ(I)*SUM                              
@@ -68,7 +68,7 @@ C
         E3Y(I) = E1Z(I)*SX(I) - E1X(I)*SZ(I)              
         E3Z(I) = E1X(I)*SY(I) - E1Y(I)*SX(I)              
         SUM = SQRT(E3X(I)**2+E3Y(I)**2+E3Z(I)**2)       
-        IF (SUM > ZERO) SUM=UN/SUM                      
+        IF (SUM > ZERO) SUM=ONE/SUM                      
         E3X(I) = E3X(I)*SUM                             
         E3Y(I) = E3Y(I)*SUM                             
         E3Z(I) = E3Z(I)*SUM                             
@@ -76,7 +76,7 @@ C
         E2Y(I) = E3Z(I)*E1X(I) - E3X(I)*E1Z(I)                 
         E2Z(I) = E3X(I)*E1Y(I) - E3Y(I)*E1X(I)                 
         SUM = SQRT(E2X(I)**2+E2Y(I)**2+E2Z(I)**2)         
-        IF (SUM > ZERO) SUM=UN/SUM                      
+        IF (SUM > ZERO) SUM=ONE/SUM                      
         E2X(I) = E2X(I)*SUM                             
         E2Y(I) = E2Y(I)*SUM                             
         E2Z(I) = E2Z(I)*SUM                             

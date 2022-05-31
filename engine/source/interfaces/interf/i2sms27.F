@@ -99,7 +99,7 @@ C
          DTI=MIN(DTI,DTMINS_INT)
        END IF
 C
-       MAS = UNDEMI * DTS * ( DTS * STIF(I) + VIS(I) )
+       MAS = HALF * DTS * ( DTS * STIF(I) + VIS(I) )
        MASM= ABS(STIFM(I))*MAS
 C
        DMINT2(1,I)=ABS(H(1,I))*MAS+MASM

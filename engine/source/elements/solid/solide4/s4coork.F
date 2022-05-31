@@ -100,12 +100,12 @@ C----------------------------
         X4(I)=X(1,NC4(I))
         Y4(I)=X(2,NC4(I))
         Z4(I)=X(3,NC4(I))
-        OFF(I) = MIN(UN,ABS(OFFG(I)))
+        OFF(I) = MIN(ONE,ABS(OFFG(I)))
       ENDDO
 C-----------
       IF(ISMSTR.EQ.1.OR.(ISMSTR.EQ.2.AND.IDTMIN(1).EQ.3))THEN
        DO I=LFT,LLT
-       IF(ABS(OFFG(I)).GT.UN)THEN
+       IF(ABS(OFFG(I)).GT.ONE)THEN
         X1(I)=SAV(I,1)
         Y1(I)=SAV(I,2)
         Z1(I)=SAV(I,3)
@@ -118,7 +118,7 @@ C-----------
         X4(I)=ZERO
         Y4(I)=ZERO
         Z4(I)=ZERO
-        OFF(I) = ABS(OFFG(I))-UN
+        OFF(I) = ABS(OFFG(I))-ONE
        ELSE
         OFF(I) = OFFG(I)
        ENDIF

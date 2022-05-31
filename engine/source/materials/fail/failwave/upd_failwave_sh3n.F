@@ -78,7 +78,7 @@ c---------------
         CASE (1)   ! isotropic propagation
 c---------------
           DO I=1,NEL
-            IF (OFFLY(I) == 1 .and. DADV(I) == UN) THEN
+            IF (OFFLY(I) == 1 .and. DADV(I) == ONE) THEN
               N1 = FAILWAVE%IDXI(IXTG(2,I))
               N2 = FAILWAVE%IDXI(IXTG(3,I))
               N3 = FAILWAVE%IDXI(IXTG(4,I))
@@ -95,7 +95,7 @@ c---------------
 c---------------
           NINDX = 0
           DO I=1,NEL
-            IF (OFFLY(I) == 1 .and. DADV(I) == UN) THEN
+            IF (OFFLY(I) == 1 .and. DADV(I) == ONE) THEN
               NINDX = NINDX + 1
               INDX(NINDX) = I
             ENDIF

@@ -184,7 +184,7 @@ c--------------------------
         IF (NPG > 1) THEN
           DO I=1,NEL
             !Integration point failure
-            IF (LOFF(I) == QCINQ) THEN
+            IF (LOFF(I) == FOUR_OVER_5) THEN
               IDEL7NOK   = 1
               NINDX      = NINDX+1
               INDX(NINDX)= I
@@ -200,7 +200,7 @@ c--------------------------
                 DO IS = 1, ELBUF_TAB%NPTS
                   DO IT = 1, ELBUF_TAB%NPTT
                     !If one integration points is not fully broken, the brick remains
-                    IF (ELBUF_TAB%BUFLY(1)%LBUF(IR,IS,IT)%OFF(I)>ZERO) OFF(I) = UN
+                    IF (ELBUF_TAB%BUFLY(1)%LBUF(IR,IS,IT)%OFF(I)>ZERO) OFF(I) = ONE
                   ENDDO
                 ENDDO
               ENDDO
@@ -214,9 +214,9 @@ c--------------------------
               OFF(I) = ZERO
             ENDIF
             !If one integration points is not fully broken, the brick remains
-            IF (LOFF(I)>ZERO) OFF(I) = UN
+            IF (LOFF(I)>ZERO) OFF(I) = ONE
             !Integration point failure
-            IF (LOFF(I) == QCINQ) THEN
+            IF (LOFF(I) == FOUR_OVER_5) THEN
               IDEL7NOK   = 1
               NINDX      = NINDX+1
               INDX(NINDX)= I

@@ -85,11 +85,11 @@ C
      .         +ABS(FILL(NC4(I),JM)-DFILL(NC4(I),JM))
 
           ALP1 =ALPV(JM,II)     *VOL(II)
-          CALP1=(UN -ALPV(JM,II))*VOL(II)
+          CALP1=(ONE -ALPV(JM,II))*VOL(II)
 
           ALPD=ALPD1+ALPD2
           IF(ALPD.EQ.ZERO)THEN
-           ALPH=UN
+           ALPH=ONE
           ELSE
            ALPH=(ALPN1+ALPN2)/ALPD
           ENDIF
@@ -101,14 +101,14 @@ C
            JJ=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
            IF(JJ.EQ.0)JJ=II
            ALP2 =ALPV(JM,JJ)       *VOL(JJ)
-           CALP2=(UN - ALPV(JM,JJ))*VOL(JJ)
+           CALP2=(ONE - ALPV(JM,JJ))*VOL(JJ)
            FLUB1(I)=-MAX(-FLUB1(I),-FLUX1(I)-CALP2)
            FLUB1(I)=-MIN(-FLUB1(I),ALP2)
           ENDIF
 
           ALPD=ALPD2+ALPD3
           IF(ALPD.EQ.ZERO)THEN
-           ALPH=UN
+           ALPH=ONE
           ELSE
            ALPH=(ALPN2+ALPN3)/ALPD
           ENDIF
@@ -120,14 +120,14 @@ C
            JJ=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
            IF(JJ.EQ.0)JJ=II
            ALP2 =ALPV(JM,JJ)     *VOL(JJ)
-           CALP2=(UN-ALPV(JM,JJ))*VOL(JJ)
+           CALP2=(ONE-ALPV(JM,JJ))*VOL(JJ)
            FLUB2(I)=-MAX(-FLUB2(I),-FLUX2(I)-CALP2)
            FLUB2(I)=-MIN(-FLUB2(I),ALP2)
           ENDIF
 
           ALPD=ALPD3+ALPD4
           IF(ALPD.EQ.ZERO)THEN
-           ALPH=UN
+           ALPH=ONE
           ELSE
            ALPH=(ALPN3+ALPN4)/ALPD
           ENDIF
@@ -139,14 +139,14 @@ C
            JJ=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
            IF(JJ.EQ.0)JJ=II
            ALP2 =ALPV(JM,JJ)     *VOL(JJ)
-           CALP2=(UN-ALPV(JM,JJ))*VOL(JJ)
+           CALP2=(ONE-ALPV(JM,JJ))*VOL(JJ)
            FLUB3(I)=-MAX(-FLUB3(I),-FLUX3(I)-CALP2)
            FLUB3(I)=-MIN(-FLUB3(I),ALP2)
           ENDIF
 
           ALPD=ALPD4+ALPD1
           IF(ALPD.EQ.ZERO)THEN
-           ALPH=UN
+           ALPH=ONE
           ELSE
            ALPH=(ALPN4+ALPN1)/ALPD
           ENDIF
@@ -158,7 +158,7 @@ C
            JJ=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
            IF(JJ.EQ.0)JJ=II
            ALP2 =ALPV(JM,JJ)     *VOL(JJ)
-           CALP2=(UN-ALPV(JM,JJ))*VOL(JJ)
+           CALP2=(ONE-ALPV(JM,JJ))*VOL(JJ)
            FLUB4(I)=-MAX(-FLUB4(I),-FLUX4(I)-CALP2)
            FLUB4(I)=-MIN(-FLUB4(I),ALP2)
           ENDIF

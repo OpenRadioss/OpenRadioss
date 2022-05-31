@@ -123,7 +123,7 @@ C-----------------implicit sm disp option---
       IF (ISMDISP.GT.0) THEN
       ELSEIF(ISMSTR<=4.AND.ISMSTR/=3.AND.JLAG>0)THEN
         DO I=LFT,LLT
-         IF(OFFG(I).GT.UN)THEN
+         IF(OFFG(I).GT.ONE)THEN
 C-----------------------------------------------
           DO N=1,10
             X=SAV(I,N)

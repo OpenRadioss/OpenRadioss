@@ -127,11 +127,11 @@ C
         D6(I)   = DXZ(I)+DZX(I)
      .           -(DZZ(I)*DZX(I)+DXZ(I)*DXX(I)+DYZ(I)*DYX(I))
         DXX(I)  = DXX(I)
-     .           -UNDEMI*(DXX(I)*DXX(I)+DYX(I)*DYX(I)+DZX(I)*DZX(I))
+     .           -HALF*(DXX(I)*DXX(I)+DYX(I)*DYX(I)+DZX(I)*DZX(I))
         DYY(I)  = DYY(I)
-     .           -UNDEMI*(DYY(I)*DYY(I)+DZY(I)*DZY(I)+DXY(I)*DXY(I))
+     .           -HALF*(DYY(I)*DYY(I)+DZY(I)*DZY(I)+DXY(I)*DXY(I))
         DZZ(I)  = DZZ(I)
-     .           -UNDEMI*(DZZ(I)*DZZ(I)+DXZ(I)*DXZ(I)+DYZ(I)*DYZ(I))
+     .           -HALF*(DZZ(I)*DZZ(I)+DXZ(I)*DXZ(I)+DYZ(I)*DYZ(I))
         WXX(I)  = ZERO
         WYY(I)  = ZERO
         WZZ(I)  = ZERO

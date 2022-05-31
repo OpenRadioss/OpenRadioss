@@ -167,7 +167,7 @@ C-----------------------------------------------
    	          XX1 = X(1,N2)-D(1,N2)-X(1,N1)+D(1,N1)
    	          YY1 = X(2,N2)-D(2,N2)-X(2,N1)+D(2,N1)
    	          ZZ1 = X(3,N2)-D(3,N2)-X(3,N1)+D(3,N1)
-   	          AL0  = UNDEMI*SQRT(XX1*XX1 + YY1*YY1 + ZZ1*ZZ1)
+   	          AL0  = HALF*SQRT(XX1*XX1 + YY1*YY1 + ZZ1*ZZ1)
    	          MASS(I) = RHO0*AL0*A0
    	        ENDDO
 C-----------------------------------------------
@@ -183,7 +183,7 @@ C-----------------------------------------------
   	          XX1 = X(1,N2)-D(1,N2)-X(1,N1)+D(1,N1)
   	          YY1 = X(2,N2)-D(2,N2)-X(2,N1)+D(2,N1)
   	          ZZ1 = X(3,N2)-D(3,N2)-X(3,N1)+D(3,N1)
-  	          AL0  = UNDEMI*SQRT(XX1*XX1 + YY1*YY1 + ZZ1*ZZ1)
+  	          AL0  = HALF*SQRT(XX1*XX1 + YY1*YY1 + ZZ1*ZZ1)
   	          MASS(I) = RHO0*AL0*A0
   	        ENDDO
 C-----------------------------------------------
@@ -193,7 +193,7 @@ C-----------------------------------------------
   	        IF(MLW.EQ.3)THEN
   	          DO I=1,NEL
   	            N = I + NFT
-  	            MASS(I) = UNDEMI*GEO(1,IXR(1,N))
+  	            MASS(I) = HALF*GEO(1,IXR(1,N))
   	          ENDDO
   	        ELSEIF (MLW == 5) THEN
   	          DO I=1,NEL
@@ -283,12 +283,12 @@ C--------------------------------------------------
 C--------------------------------------------------                     
             DO I=1,NEL
               IF (GBUF%G_OFF > 0) THEN
-                IF(GBUF%OFF(I) > UN) THEN
-                  VALUE(I) = GBUF%OFF(I) - UN
-                ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= UN)) THEN
+                IF(GBUF%OFF(I) > ONE) THEN
+                  VALUE(I) = GBUF%OFF(I) - ONE
+                ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= ONE)) THEN
                   VALUE(I) = GBUF%OFF(I)
                 ELSE
-                  VALUE(I) = -UN
+                  VALUE(I) = -ONE
                 ENDIF
               ENDIF
               IS_WRITTEN_VALUE(I) = 1
@@ -384,7 +384,7 @@ C--------------------------------------------------
              M1 = GBUF%MOM(JJ(1) + I)
              M2 = GBUF%MOM(JJ(2) + I)
              M3 = GBUF%MOM(JJ(3) + I)
-             YEQ= F1*F1 + TROIS* A1 *
+             YEQ= F1*F1 + THREE* A1 *
      +                  ( M1*M1 / MAX(B3,EM30)
      +                  + M2*M2 / MAX(B1,EM30)
      +                  + M3*M3 / MAX(B2,EM30) )
@@ -543,28 +543,28 @@ C--------------------------------------------------
           ELSEIF(KEYWORD == 'ENER')THEN
 C--------------------------------------------------
            IF (MLW.EQ.1) THEN
-            XM = UN/GEO(1,IXR(1,1+NFT))
+            XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
 Clm           XM cannot be zero (was checked in starter).
               VALUE(I) = GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
            ELSEIF (MLW.EQ.2) THEN
-            XM = UN/GEO(1,IXR(1,1+NFT))
+            XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
 Clm           XM cannot be zero (was checked in starter).
               VALUE(I) = GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
            ELSEIF (MLW.EQ.3) THEN
-            XM = UN/GEO(1,IXR(1,1+NFT))
+            XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
 Clm           XM cannot be zero (was checked in starter).
               VALUE(I) = GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
            ELSEIF (MLW.EQ.4) THEN
-            XM = UN/GEO(1,IXR(1,1+NFT))
+            XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
 Clm           XM cannot be zero (was checked in starter).
               VALUE(I) = GBUF%EINT(I)*XM
@@ -578,14 +578,14 @@ Clm         user springs.
             ENDDO
 Cmw51e4+++  Spring axi
            ELSEIF (MLW.EQ.6) THEN
-            XM = UN/GEO(1,IXR(1,1+NFT))
+            XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
 Clm           XM cannot be zero (was checked in starter).
               VALUE(I) = GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
            ELSEIF (MLW.EQ.7) THEN
-            XM = UN/GEO(1,IXR(1,1+NFT))
+            XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
               VALUE(I) = GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1

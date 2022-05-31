@@ -204,7 +204,7 @@ C---------------------
         ENDDO
       ENDIF
 C
-      DT05=UNDEMI*DT1
+      DT05=HALF*DT1
 C
       DO I=LFT,LLT
         VX21  = VX2(I)-VX1(I)
@@ -223,10 +223,10 @@ C
 C
         AT=EPXZ/MAX(AL2DP(I),EM30)
         AT=ATAN(AT)
-        RYAV  = DT05 * (RYAV1) + DEUX * AT
+        RYAV  = DT05 * (RYAV1) + TWO * AT
         AT=EPXY/MAX(AL2DP(I),EM30)
         AT=ATAN(AT)
-        RZAV  = DT05 * (RZAV1) - DEUX * AT
+        RZAV  = DT05 * (RZAV1) - TWO * AT
 C
 !!        DX(I) = ALDP(I) - X0(I)
         DX(I) = ALDP(I) - X0DP(I)
@@ -240,7 +240,7 @@ C
         IF (ILENG /= 0) THEN
           XL0(I)=X0(I)
         ELSE
-          XL0(I)=UN
+          XL0(I)=ONE
         ENDIF
       ENDDO
 C
@@ -277,10 +277,10 @@ C
         CN     = GEO(109,MGN(I))
         XA     = GEO(115,MGN(I))
         XB     = GEO(121,MGN(I))
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL2(I) == 0) THEN
-            XA = UN
-            XB = DEUX
+            XA = ONE
+            XB = TWO
              IF(DX(I) > ZERO)THEN
               DLIM = DX(I) / DMX(I)
             ELSE
@@ -306,7 +306,7 @@ C
           ENDIF
           IF (IFAIL(I) == 0) THEN
 C---      Rupture uniaxiale
-            IF ((XA*DLIM) > UN) THEN
+            IF ((XA*DLIM) > ONE) THEN
               OFF(I)=ZERO
               NINDX = NINDX + 1
               INDX(NINDX) = I
@@ -337,7 +337,7 @@ C---- Cisaillement
         DR(I)    = SQRT(DY(I)**2 + DZ(I)**2)
         DROLD(I) = SQRT(DYOLD(I)**2 + DZOLD(I)**2)
         ST(I)    = ZERO
-        CT(I)    = UN
+        CT(I)    = ONE
         IF (DR(I) > ZERO) THEN
           ST(I) = DY(I) / DR(I)
           CT(I) = DZ(I) / DR(I)
@@ -358,10 +358,10 @@ C---- Cisaillement
         CN  = GEO(110,MGN(I))
         XA  = GEO(116,MGN(I))
         XB  = GEO(122,MGN(I))
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL2(I) == 0) THEN
-            XA = UN
-            XB = DEUX
+            XA = ONE
+            XB = TWO
             DLIM = DR(I) / DMX(I)
           ELSE
             VFAIL = CC * (ABS(DV(I)/VRT(I)))**CN
@@ -379,7 +379,7 @@ C---- Cisaillement
           ENDIF
           IF (IFAIL(I) == 0) THEN
 C---      Rupture uniaxiale
-            IF ((XA*DLIM) > UN) THEN
+            IF ((XA*DLIM) > ONE) THEN
               OFF(I)=ZERO
               NINDX = NINDX + 1
               INDX(NINDX) = I
@@ -466,10 +466,10 @@ C
         CN  = GEO(111,MGN(I))
         XA  = GEO(117,MGN(I))
         XB  = GEO(123,MGN(I))
-        IF (OFF(I) == UN .AND. DMX(I)/=ZERO .AND. DMN(I)/=ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I)/=ZERO .AND. DMN(I)/=ZERO) THEN
           IF (IFAIL2(I) == 0) THEN
-             XA = UN
-            XB = DEUX
+             XA = ONE
+            XB = TWO
             IF (RX(I) > ZERO)THEN
               DLIM = RX(I) / DMX(I)
             ELSE
@@ -495,7 +495,7 @@ C
           ENDIF
           IF (IFAIL(I) == 0) THEN
 C---      Rupture uniaxiale
-            IF ((XA*DLIM) > UN) THEN
+            IF ((XA*DLIM) > ONE) THEN
               OFF(I)=ZERO
               NINDX = NINDX + 1
               INDX(NINDX) = I
@@ -528,7 +528,7 @@ C
         DR(I)    = SQRT(RY(I)**2 + RZ(I)**2)
         DROLD(I) = SQRT(DYOLD(I)**2 + DZOLD(I)**2)
         ST(I)    = ZERO
-        CT(I)    = UN
+        CT(I)    = ONE
         IF (DR(I) > ZERO) THEN
           ST(I) = RY(I) / DR(I)
           CT(I) = RZ(I) / DR(I)
@@ -548,10 +548,10 @@ C
         CN  = GEO(112,MGN(I))
         XA  = GEO(118,MGN(I))
         XB  = GEO(124,MGN(I))
-        IF (OFF(I) == UN .AND. DMX(I)/=ZERO .AND. DMN(I)/=ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I)/=ZERO .AND. DMN(I)/=ZERO) THEN
           IF (IFAIL2(I) == 0) THEN
-            XA = UN
-            XB = DEUX
+            XA = ONE
+            XB = TWO
             DLIM = DR(I) / DMX(I)
           ELSE
             VFAIL = CC * (ABS(DV(I)/VRR(I)))**CN
@@ -569,7 +569,7 @@ C
           ENDIF
           IF (IFAIL(I) == 0) THEN
 C---      Rupture uniaxiale
-            IF ((XA*DLIM) > UN) THEN
+            IF ((XA*DLIM) > ONE) THEN
               OFF(I)=ZERO
               NINDX = NINDX + 1
               INDX(NINDX) = I
@@ -592,8 +592,8 @@ C-------------------------------
 C     RUPTURE COUPLEE
 C-------------------------------
       DO I=LFT,LLT
-        IF (OFF(I) == UN .AND. IFAIL(I) == 1) THEN
-          IF (CRIT(I)/(XL0(I)*XL0(I)) > UN) THEN
+        IF (OFF(I) == ONE .AND. IFAIL(I) == 1) THEN
+          IF (CRIT(I)/(XL0(I)*XL0(I)) > ONE) THEN
             OFF(I)=ZERO
             NINDX = NINDX + 1
             INDX(NINDX) = I

@@ -251,7 +251,7 @@ C------INITIAL ej------
       DO I=1,M
        MJ(I)=ZERO
       ENDDO
-      MJ(IUN)=UN
+      MJ(IUN)=ONE
 C
       RETURN
       END
@@ -300,7 +300,7 @@ C------------Qi=1-u(i)u(i)^t/tau(i)--------------------------------
         D_R(J)=ZERO
         WRITE(*,*)'SIGNULAR A' 
        ELSE
-        SCAL=UN/SCAL
+        SCAL=ONE/SCAL
         DO I=J,M
          A(I,J)=A(I,J)*SCAL
         ENDDO

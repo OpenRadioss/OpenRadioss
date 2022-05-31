@@ -95,10 +95,10 @@ C---------------------------------------
 C     REPERE LOCAL (ISOPARAMETRIQUE)
 C---------------------------------------
       DO I=LFT,LLT
-        SY(I)=UNDEMI*(Y2(I)+Y3(I)-Y1(I)-Y4(I))
-        SZ(I)=UNDEMI*(Z2(I)+Z3(I)-Z1(I)-Z4(I))
-        TY(I)=UNDEMI*(Y3(I)+Y4(I)-Y1(I)-Y2(I))
-        TZ(I)=UNDEMI*(Z3(I)+Z4(I)-Z1(I)-Z2(I))
+        SY(I)=HALF*(Y2(I)+Y3(I)-Y1(I)-Y4(I))
+        SZ(I)=HALF*(Z2(I)+Z3(I)-Z1(I)-Z4(I))
+        TY(I)=HALF*(Y3(I)+Y4(I)-Y1(I)-Y2(I))
+        TZ(I)=HALF*(Z3(I)+Z4(I)-Z1(I)-Z2(I))
       END DO
 C-----------
 C     REPERE CONVECTE ORTHOGONALISE 
@@ -117,7 +117,7 @@ C-----------
           E1Z(I) = SZ(I) - TY(I)*SUMA
         END IF 
         SUMA=SQRT(E1Y(I)**2+E1Z(I)**2)
-        SUMA=UN/MAX(SUMA,EM20)
+        SUMA=ONE/MAX(SUMA,EM20)
         E1Y(I)=E1Y(I)*SUMA
         E1Z(I)=E1Z(I)*SUMA
         E2Y(I)=-E1Z(I)

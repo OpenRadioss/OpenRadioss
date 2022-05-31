@@ -145,7 +145,7 @@ C-----------------------------------------------
       PM(23)=E0
       PM(24)=VIS
 
-      MU = RHO0/RHOR-UN
+      MU = RHO0/RHOR-ONE
       IF(MU.LT.ZERO)THEN
         PM(31) = -PSH + C0+C1*MU+         C3*MU**3+(C4+C5*MU)*E0
       ELSE

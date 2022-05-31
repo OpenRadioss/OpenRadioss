@@ -130,7 +130,7 @@ C-----------------------------------------------
         S6(I) = SIG(I,6) + SVIS(I,6)		   
       ENDDO 
       DO I=LFT,LLT
-        P(I)      = -TIERS*(S1(I)+S2(I)+S3(I))        
+        P(I)      = -THIRD*(S1(I)+S2(I)+S3(I))        
       ENDDO
       ! STORAGE
       DO I=LFT,LLT                           
@@ -202,8 +202,8 @@ C-----------------------------------------------
           IBM                                            = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(4)                                                          
           NGM                                            = BRICK_LIST(NIN,IBM)%NG                                                                                   
           IDLOCM                                         = BRICK_LIST(NIN,IBM)%IDLOC                                                                                                                                                                                                                              
-          ISGN                                           = UN                                                                                                                      
-          IF(ICELL.EQ.9)ISGN = -UN                                                                                                                                                  
+          ISGN                                           = ONE                                                                                                                      
+          IF(ICELL.EQ.9)ISGN = -ONE                                                                                                                                                  
           BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE0%U_N(1:9)  = ZERO                                                                                                                   
           DO K=1,NBCUT                                                                                                                                                           
             ICUT                                         = K                                                                                                                      
@@ -251,11 +251,11 @@ C-----------------------------------------------
           S(1:6)                                         = BRICK_LIST(NIN,IBs)%POLY(ICELLs)%FACE(1:6)%Surf                                                                                                
           S(0)                                           = BRICK_LIST(NIN,IBs)%PCUT(ICELLs)%SCUT(1)                                                                                                       
           IBM                                            = BRICK_LIST(NIN,IBs)%POLY(ICELLs)%WhereIsMain(4)                                                                                                                                                                                                                                                                                                                                                                   
-          ISGN                                           = UN    
+          ISGN                                           = ONE    
           IDEB                                           = ICELLs
           IFIN                                           = ICELLs                                                                                                                                         
           IF(ICELLs.EQ.9)THEN
-            ISGN                                         = -UN                                                                                                                                                         
+            ISGN                                         = -ONE                                                                                                                                                         
             IDEB                                         = 1
             IFIN                                         = NBCUTv
           ENDIF
@@ -345,7 +345,7 @@ C-----------------------------------------------
                write (*,FMT='(A,3E26.14,A)')  "                            | ", S1(I),S4(I),S6(I)," |"
                write (*,FMT='(A,3E26.14,A)')  "           SIGMA = P+VIS+Q =| ", S4(I),S2(I),S5(I)," |"  
                write (*,FMT='(A,3E26.14,A)')  "                            |_", S6(I),S5(I),S3(I),"_|" 
-               write (*,FMT='(A,2E26.14)')    "           p               =  ",-TIERS*SUM(SIG(I,1:3)),P(I)
+               write (*,FMT='(A,2E26.14)')    "           p               =  ",-THIRD*SUM(SIG(I,1:3)),P(I)
                write (*,FMT='(A,1E26.14)')    "           q               =  ",QVIS(I)                                                                           
                write(*,FMT='(A34,8A26)')      "                                  ",    
      .                                        "#-------- face_1 ---------",
@@ -370,7 +370,7 @@ C-----------------------------------------------
              write (*,FMT='(A,3E26.14,A)')  "                            | ", S1(I),S4(I),S6(I)," |"
              write (*,FMT='(A,3E26.14,A)')  "           SIGMA = P+VIS+Q =| ", S4(I),S2(I),S5(I)," |"  
              write (*,FMT='(A,3E26.14,A)')  "                            |_", S6(I),S5(I),S3(I),"_|" 
-             write (*,FMT='(A,2E26.14)')    "           p               =  ",-TIERS*SUM(SIG(I,1:3)),P(I)
+             write (*,FMT='(A,2E26.14)')    "           p               =  ",-THIRD*SUM(SIG(I,1:3)),P(I)
              write (*,FMT='(A,1E26.14)')    "           q               =  ",QVIS(I)                                    
              write(*,FMT='(A34,6A26)')      "                                  ",    
      .                                      "#-------- face_1 ---------","#-------- face_2 ---------",
@@ -398,7 +398,7 @@ C-----------------------------------------------
                write (*,FMT='(A,3E26.14,A)')  "                            | ", S1(I),S4(I),S6(I)," |"
                write (*,FMT='(A,3E26.14,A)')  "           SIGMA = P+VIS+Q =| ", S4(I),S2(I),S5(I)," |"  
                write (*,FMT='(A,3E26.14,A)')  "                            |_", S6(I),S5(I),S3(I),"_|" 
-               write (*,FMT='(A,2E26.14)')    "           p               =  ",-TIERS*SUM(SIG(I,1:3)),P(I)
+               write (*,FMT='(A,2E26.14)')    "           p               =  ",-THIRD*SUM(SIG(I,1:3)),P(I)
                write (*,FMT='(A,1E26.14)')    "           q               =  ",QVIS(I)                                                                           
                write(*,FMT='(A34,8A26)')      "                                  ",    
      .                                        "#-------- face_1 ---------",

@@ -133,7 +133,7 @@ C     LLOADP(4,K) :   NODE4                                           NODE4
 C----------------------------------------------------------------------------------        
 C     FACLOADP(LFACLOAD,*)
 C     FACLOADP( 1,K) = y_scalep                                       FCY                                      
-C     FACLOADP( 2,K) = UN/x_scalep                                    1/FCX     
+C     FACLOADP( 2,K) = ONE/x_scalep                                    1/FCX     
 C----------------------------------------------------------------------------------        
 C   S o u r c e   L i n e s
 C----------------------------------------------------------------------------------        
@@ -362,7 +362,7 @@ C--------------
            ILOADP  ( 9,K) = INORM
                                                                                                   
            FACLOADP( 1,K) = FCY                                          
-           FACLOADP( 2,K) = UN/FCX   
+           FACLOADP( 2,K) = ONE/FCX   
            !Multidomaines -> on decompte les seg communs, on ne les compte qu'une foi---        
 	   IF (IDDOM.GT.0) NN = NN-ISURF_R2R(1,IS)                
          ENDIF    

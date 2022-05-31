@@ -126,7 +126,7 @@ C     Reading submaterial IDS and corresponding volumic fractions
          IPM(20 + II) = MAT_ID
          PM(20 + II) = FRAC_VOL
          SUM_FRAC_VOL = SUM_FRAC_VOL + FRAC_VOL
-         IF (FRAC_VOL .LT. ZERO .OR. FRAC_VOL .GT. UN) THEN
+         IF (FRAC_VOL .LT. ZERO .OR. FRAC_VOL .GT. ONE) THEN
             IF (NINIVOL .EQ. 0) THEN
                CALL ANCMSG(MSGID = 1511, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
      .              C1 = "ERROR", I1 = ID, I2 = MAT_ID, R1 = FRAC_VOL) 
@@ -136,7 +136,7 @@ C     Reading submaterial IDS and corresponding volumic fractions
             ENDIF
          ENDIF
       ENDDO
-      IF (SUM_FRAC_VOL .NE. UN) THEN
+      IF (SUM_FRAC_VOL .NE. ONE) THEN
          IF (NINIVOL .EQ. 0) THEN
             CALL ANCMSG(MSGID = 1512, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
      .           C1 = "ERROR", I1 = ID, R1 = SUM_FRAC_VOL) 

@@ -159,17 +159,17 @@ c
         DO I = 1,NEL  
 c
           ! Minimum timestep
-          IF ((DT(I) > EM20).AND.(DT(I) < DTMIN).AND.(OFF(I) == UN)) THEN 
+          IF ((DT(I) > EM20).AND.(DT(I) < DTMIN).AND.(OFF(I) == ONE)) THEN 
             OFF(I)      = ZERO
             NINDX       = NINDX+1
             INDX(NINDX) = I
           ENDIF   
 c     
           ! Failure criterion
-          IF ((IFUNC(4) > 0).AND.(OFF(I) == UN)) THEN
+          IF ((IFUNC(4) > 0).AND.(OFF(I) == ONE)) THEN
             ! Failure indicator evolution
             IF (OFFL(I) < EM01) OFFL(I) = ZERO
-            IF (OFFL(I) < UN)   OFFL(I) = OFFL(I)*QCINQ
+            IF (OFFL(I) < ONE)   OFFL(I) = OFFL(I)*FOUR_OVER_5
             ! Case of under-integrated shells
             IF ((NPTR == 1).AND.(NPTS == 1)) THEN
               !Initialization for checking complete failure of the shell (all integration points)
@@ -177,7 +177,7 @@ c
                 OFF(I) = ZERO
               ENDIF
               !If one integration points is not fully broken, the shell remains
-              IF (OFFL(I)>ZERO) OFF(I) = UN
+              IF (OFFL(I)>ZERO) OFF(I) = ONE
             ! Case of fully integrated shells
             ELSE
               IF ((IPG == 1).AND.(IPT == 1)) THEN 
@@ -188,24 +188,24 @@ c
                   DO IS = 1,NPTS
                     DO IT = 1,NPTT
                       !If one integration points is not fully broken, the shell remains
-                      IF (BUFLY%LBUF(IR,IS,IT)%OFF(I)>ZERO) OFF(I) = UN
+                      IF (BUFLY%LBUF(IR,IS,IT)%OFF(I)>ZERO) OFF(I) = ONE
                     ENDDO
                   ENDDO
                 ENDDO
               ENDIF
             ENDIF
             ! Check integration point failure
-            IF (OFFL(I) == UN) THEN 
+            IF (OFFL(I) == ONE) THEN 
               ! -> Von Mises stress
               IF (Ifail == 0) THEN
-                IF (SEQ(I) >= FAIL(I)) OFFL(I) = QCINQ
+                IF (SEQ(I) >= FAIL(I)) OFFL(I) = FOUR_OVER_5
               ! -> Plastic strain
               ELSEIF (Ifail == 1) THEN
-                IF (PLA(I) >= FAIL(I)) OFFL(I) = QCINQ
+                IF (PLA(I) >= FAIL(I)) OFFL(I) = FOUR_OVER_5
               ! -> Maximum principal stress and absolute value of minimum principal stress
               ELSEIF (Ifail == 2) THEN
-                S1 = UNDEMI*(SIGNXX(I) + SIGNYY(I))
-                S2 = UNDEMI*(SIGNXX(I) - SIGNYY(I))
+                S1 = HALF*(SIGNXX(I) + SIGNYY(I))
+                S2 = HALF*(SIGNXX(I) - SIGNYY(I))
                 Q  = SQRT(S2**2 + SIGNXY(I)**2)
                 S11(I) = S1 + Q
                 S22(I) = S1 - Q 
@@ -214,11 +214,11 @@ c
                   S22(I)  = S11(I)
                   S11(I)  = R_INTER
                 ENDIF
-                IF ((S11(I)>=FAIL(I)).OR.(ABS(S22(I))>=FAIL(I))) OFFL(I) = QCINQ
+                IF ((S11(I)>=FAIL(I)).OR.(ABS(S22(I))>=FAIL(I))) OFFL(I) = FOUR_OVER_5
               ! -> Maximum principal stress
               ELSEIF (Ifail == 3) THEN 
-                S1 = UNDEMI*(SIGNXX(I) + SIGNYY(I))
-                S2 = UNDEMI*(SIGNXX(I) - SIGNYY(I))
+                S1 = HALF*(SIGNXX(I) + SIGNYY(I))
+                S2 = HALF*(SIGNXX(I) - SIGNYY(I))
                 Q  = SQRT(S2**2 + SIGNXY(I)**2)
                 S11(I) = S1 + Q
                 S22(I) = S1 - Q 
@@ -227,10 +227,10 @@ c
                   S22(I)  = S11(I)
                   S11(I)  = R_INTER
                 ENDIF
-                IF (S11(I)>=FAIL(I)) OFFL(I) = QCINQ
+                IF (S11(I)>=FAIL(I)) OFFL(I) = FOUR_OVER_5
               ENDIF                
               !Integration point failure
-              IF (OFFL(I) == QCINQ) THEN
+              IF (OFFL(I) == FOUR_OVER_5) THEN
                 NINDX2      = NINDX2+1
                 INDX2(NINDX2) = I
               ENDIF

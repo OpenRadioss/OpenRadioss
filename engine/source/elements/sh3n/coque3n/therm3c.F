@@ -70,11 +70,11 @@ C
 C - flux
 C      
 ccc function de forme
-cc          PX1(I) = UNDEMI*(X(2,IXTG(3,I)) - X(2,IXTG(4,I)))/AREA(I)
-cc          PX2(I) = UNDEMI*(X(2,IXTG(4,I)) - X(2,IXTG(2,I)))/AREA(I)
+cc          PX1(I) = HALF*(X(2,IXTG(3,I)) - X(2,IXTG(4,I)))/AREA(I)
+cc          PX2(I) = HALF*(X(2,IXTG(4,I)) - X(2,IXTG(2,I)))/AREA(I)
 C
-cc          PY1(I) = UNDEMI*(X(1,IXTG(4,I)) - X(1,IXTG(3,I)))/AREA(I)
-cc          PY2(I) = UNDEMI*(X(1,IXTG(2,I)) - X(1,IXTG(4,I)))/AREA(I)
+cc          PY1(I) = HALF*(X(1,IXTG(4,I)) - X(1,IXTG(3,I)))/AREA(I)
+cc          PY2(I) = HALF*(X(1,IXTG(2,I)) - X(1,IXTG(4,I)))/AREA(I)
           
 
           KC = (CA + CB*TEL(I))*DT1C(I)/MAX(EM20,AREA(I))

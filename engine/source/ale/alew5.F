@@ -155,7 +155,7 @@ C-----------------------------------------------
                   MAX_DIST = MAXVAL(DIST(1:NUM))             
                   SOM2 = ZERO
                   DO K=1,NUM
-                     SOM2 = SOM2 + UN / DIST(K)
+                     SOM2 = SOM2 + ONE / DIST(K)
                   ENDDO
                   
                   DO K=1,NUM

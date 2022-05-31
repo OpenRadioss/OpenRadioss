@@ -164,15 +164,15 @@ C tab(1st entry = plastic strain, 2nd entry = strain rate, 3rd entry = temperatu
 C
       IF(EPSMAX == ZERO) EPSMAX=INFINITY
       IF(EPSR1  == ZERO) EPSR1=INFINITY
-      IF(EPSR2  == ZERO) EPSR2=DEUX*INFINITY
-      IF(T0     == ZERO) T0=DEUXCENT93
+      IF(EPSR2  == ZERO) EPSR2=TWO*INFINITY
+      IF(T0     == ZERO) T0=TWOHUNDRED93
 C
       NTABLE=1
       UPARAM(1)=FISOKIN
       UPARAM(2)=E
-      UPARAM(3)=E/(UN-NU*NU)
+      UPARAM(3)=E/(ONE-NU*NU)
       UPARAM(4)=NU*UPARAM(3)
-      G=UNDEMI*E/(1.+NU)
+      G=HALF*E/(1.+NU)
       UPARAM(5)=G
       UPARAM(6)=NU
 
@@ -226,33 +226,33 @@ C----------- FF...NN --------
      .               C2='S31Y')
       ENDIF
 C
-      FF=UNDEMI*(UN/S22Y**2+UN/S33Y**2-UN/S11Y**2)
-      GG=UNDEMI*(UN/S11Y**2+UN/S33Y**2-UN/S22Y**2)
-      HH=UNDEMI*(UN/S11Y**2+UN/S22Y**2-UN/S33Y**2)
-      LL=UNDEMI/S23Y**2
-      MM=UNDEMI/S31Y**2
-      NN=UNDEMI/S12Y**2
+      FF=HALF*(ONE/S22Y**2+ONE/S33Y**2-ONE/S11Y**2)
+      GG=HALF*(ONE/S11Y**2+ONE/S33Y**2-ONE/S22Y**2)
+      HH=HALF*(ONE/S11Y**2+ONE/S22Y**2-ONE/S33Y**2)
+      LL=HALF/S23Y**2
+      MM=HALF/S31Y**2
+      NN=HALF/S12Y**2
       UPARAM(7)=FF
       UPARAM(8)=GG
       UPARAM(9)=HH
       UPARAM(10)=LL
       UPARAM(11)=MM
       UPARAM(12)=NN
-      UPARAM(13)=UN/X2FAC
+      UPARAM(13)=ONE/X2FAC
       UPARAM(14)=YFAC
       UPARAM(15)=EPSMAX
       UPARAM(16)=EPSR1
       UPARAM(17)=EPSR2
-      UPARAM(18)=DEUX*G
-      UPARAM(19)=TROIS*G
-      C1=E/TROIS/(UN - DEUX*NU)
+      UPARAM(18)=TWO*G
+      UPARAM(19)=THREE*G
+      C1=E/THREE/(ONE - TWO*NU)
       UPARAM(20)=C1
-      UPARAM(21)=C1+ QTHIRD*G
+      UPARAM(21)=C1+ FOUR_OVER_3*G
       UPARAM(22)=T0
       IF(RHOCP==ZERO)THEN
         UPARAM(23)=ZERO
       ELSE
-        UPARAM(23)=UN/RHOCP
+        UPARAM(23)=ONE/RHOCP
       END IF
 c--------
       OPTE = 0
@@ -276,7 +276,7 @@ C
       NUVAR = 10
 CC     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) =  (UN - DEUX*NU)/(UN - NU) ! == DEUX*G/(C1+QTHIRD*G)
+      PARMAT(17) =  (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G)
 C
         WRITE(IOUT,1001) TRIM(TITR),MAT_ID,ILAW
         WRITE(IOUT,1000)        

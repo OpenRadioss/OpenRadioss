@@ -93,8 +93,8 @@ C=======================================================================
         VISI=ZERO
         FACQ=ZERO
        ELSE
-       VISI=UN
-       FACQ=UN
+       VISI=ONE
+       FACQ=ONE
        ENDIF
       ELSE
        DO I=LFT,LLT
@@ -135,7 +135,7 @@ C
           PNEW(I)=0.
           QAA = QA*QA*AD(I)
           QX(I)=(QB+CNS1)*SSP(I)+DELTAX(I) * QAA
-     .     + VISI*(DEUX*VIS(I)+CNS2) / MAX(EM20,RHO(I)*DELTAX(I))
+     .     + VISI*(TWO*VIS(I)+CNS2) / MAX(EM20,RHO(I)*DELTAX(I))
           QVIS(I)=RHO(I)*AD(I)*AL(I)*(QAA*AL(I)+QB*SSP(I))
         ENDDO
       ELSE
@@ -180,9 +180,9 @@ C
           TMU = PM(81,MT)
           RPR = PM(95,MT)
           ATU=RPR*TMU*RK(I)*RK(I)/(MAX(EM15,RE(I)*VOL(I))*XMU)
-          AKK=AKK*(UN+ATU)
+          AKK=AKK*(ONE+ATU)
          ENDIF
-         DTX(I) = MIN(DTX(I),UNDEMI*DELTAX(I)*DELTAX(I)*SPH/MAX(AKK,EM20))
+         DTX(I) = MIN(DTX(I),HALF*DELTAX(I)*DELTAX(I)*SPH/MAX(AKK,EM20))
         ENDDO
       ENDIF
 C
@@ -193,12 +193,12 @@ C
        TIDT = 1./DTX(I)
        TRHO = RHO(I) * TIDT
        TVOL = VOL(I) * TIDT
-       STI(I) = QUART * TRHO * TVOL
+       STI(I) = FOURTH * TRHO * TVOL
       ELSE
        TIDT = 1./DTX(I)
        TRHO = RHO(I) * TIDT
        TAIRE = AIRE(I) * TIDT
-       STI(I) = UNDEMI * TRHO * TAIRE
+       STI(I) = HALF * TRHO * TAIRE
       ENDIF
       DTX(I)= DTFAC1(ITY)*DTX(I)
       IF(NODADT.EQ.0)DT2T= MIN(DTX(I),DT2T)
@@ -232,8 +232,8 @@ C
       ELSEIF(IDTMIN(ITY).EQ.3.AND.ISMSTR.EQ.2)THEN
         DO 76 I=LFT,LLT
         IF(DTX(I).GT.DTMIN1(ITY).OR.
-     .      OFF(I).LT.UN.OR.OFFG(I).EQ.DEUX) GO TO 76
-          OFFG(I) = DEUX
+     .      OFF(I).LT.ONE.OR.OFFG(I).EQ.TWO) GO TO 76
+          OFFG(I) = TWO
 #include "lockon.inc"
           WRITE(IOUT,*)
      . '-- CONSTANT TIME STEP FOR SOLID ELEMENT NUMBER ',NGL(I)

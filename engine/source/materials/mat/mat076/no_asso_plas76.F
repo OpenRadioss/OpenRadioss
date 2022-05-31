@@ -133,7 +133,7 @@ C
       EPSPR = UPARAM(11) ! Maximum plastic strain (element deletion)                     
       ! -> Flags 
       IQUAD = NINT(UPARAM(14)) ! Flag for quadratic or non-quatratic yield surface
-      ASRATE = MIN(UN,UPARAM(16)*TIMESTEP)
+      ASRATE = MIN(ONE,UPARAM(16)*TIMESTEP)
       ICONV = NINT(UPARAM(15)) ! Flag to ensure convexity
       ICAS  = NINT(UPARAM(17)) ! Flag for tabulated case
       !icas      ifunt   | ifunc   | ifuncs
@@ -167,7 +167,7 @@ c     Initialize plastic Poisson ratio
 c
       DO I=1,NEL    
         IF(OFF(I) < EM01) OFF(I)=ZERO
-        IF(OFF(I) < UN)   OFF(I)=OFF(I)*QCINQ    
+        IF(OFF(I) < ONE)   OFF(I)=OFF(I)*FOUR_OVER_5    
         PLAT(I)  = UVAR(I,1) ! Uniaxial tension plastic strain    
         PLAC(I)  = UVAR(I,2) ! Uniaxial compression plastic strain    
         PLAS(I)  = UVAR(I,3) ! Shear plastic strain
@@ -178,7 +178,7 @@ c
         EPSPC(I) = MIN(EPDC_MAX, MAX(EPSPC(I),EPDC_MIN))
         EPSPS(I) = MIN(EPDS_MAX, MAX(EPSPS(I),EPDS_MIN))
         DAM(I)   = UVAR(I,7) ! Damage variable
-        ALPHA(I) = (NEUF/DEUX)*((UN-DEUX*NUP(I))/(UN+NUP(I)))
+        ALPHA(I) = (NINE/TWO)*((ONE-TWO*NUP(I))/(ONE+NUP(I)))
         DPLA(I)  = ZERO
         DPLAC(I) = ZERO
         DPLAT(I) = ZERO
@@ -190,23 +190,23 @@ C
       XVEC(1:NEL,2)   = EPSPT(1:NEL)*XFAC
       IPOS(1:NEL,1:2) = 1
       CALL TABLE_VINTERP(FUNC_TRAC,NEL,IPOS,XVEC,SIGT,DSIGT_DP)
-      SIGT     = SIGT*TFAC(1)*(UN-DAM(1:NEL))
-      DSIGT_DP = DSIGT_DP*TFAC(1)*(UN-DAM(1:NEL))
+      SIGT     = SIGT*TFAC(1)*(ONE-DAM(1:NEL))
+      DSIGT_DP = DSIGT_DP*TFAC(1)*(ONE-DAM(1:NEL))
       IF (FUNC_COMP%NOTABLE > 0) THEN 
         XVEC(1:NEL,1)   = PLAC(1:NEL)
         XVEC(1:NEL,2)   = EPSPC(1:NEL)*XFAC
         IPOS(1:NEL,1:2) = 1
         CALL TABLE_VINTERP(FUNC_COMP,NEL,IPOS,XVEC,SIGC,DSIGC_DP)
-        SIGC     = SIGC*TFAC(2)*(UN-DAM(1:NEL))
-        DSIGC_DP = DSIGC_DP*TFAC(2)*(UN-DAM(1:NEL))
+        SIGC     = SIGC*TFAC(2)*(ONE-DAM(1:NEL))
+        DSIGC_DP = DSIGC_DP*TFAC(2)*(ONE-DAM(1:NEL))
       ENDIF
       IF (FUNC_SHEAR%NOTABLE > 0) THEN 
         XVEC(1:NEL,1)   = PLAS(1:NEL)
         XVEC(1:NEL,2)   = EPSPS(1:NEL)*XFAC
         IPOS(1:NEL,1:2) = 1
         CALL TABLE_VINTERP(FUNC_SHEAR,NEL,IPOS,XVEC,SIGS,DSIGS_DP)
-        SIGS     = SIGS*TFAC(3)*(UN-DAM(1:NEL))
-        DSIGS_DP = DSIGS_DP*TFAC(3)*(UN-DAM(1:NEL)) 
+        SIGS     = SIGS*TFAC(3)*(ONE-DAM(1:NEL))
+        DSIGS_DP = DSIGS_DP*TFAC(3)*(ONE-DAM(1:NEL)) 
       ENDIF 
       ! Select case for tabulated yield stresses
       SELECT CASE (ICAS)
@@ -216,12 +216,12 @@ C
         CASE(1)
           IF (IQUAD == 1) THEN 
             DO I = 1,NEL
-              SIGS(I) = SQRT(SIGC(I)*SIGT(I)/TROIS)
+              SIGS(I) = SQRT(SIGC(I)*SIGT(I)/THREE)
             ENDDO
           ELSEIF (IQUAD == 0) THEN 
             DO I = 1,NEL
-              SIGS(I) = UN /(SIGT(I) + SIGC(I))/SQR3
-              SIGS(I) = DEUX*SIGT(I)*SIGC(I)*SIGS(I)
+              SIGS(I) = ONE /(SIGT(I) + SIGC(I))/SQR3
+              SIGS(I) = TWO*SIGT(I)*SIGC(I)*SIGS(I)
             ENDDO
           ENDIF
       END SELECT
@@ -251,9 +251,9 @@ C
         SDXY(I) = SIGNXY(I)
         SDYZ(I) = SIGNYZ(I)
         SDZX(I) = SIGNZX(I)
-        SVM(I)  = UNDEMI*(SDXX(I)**2 + SDYY(I)**2 + SDZZ(I)**2)
+        SVM(I)  = HALF*(SDXX(I)**2 + SDYY(I)**2 + SDZZ(I)**2)
      .       +           (SDXY(I)**2 + SDZX(I)**2 + SDYZ(I)**2)
-        SVM(I)  = SQRT(TROIS*SVM(I))
+        SVM(I)  = SQRT(THREE*SVM(I))
       ENDDO
 c      
       !========================================================================
@@ -264,12 +264,12 @@ c
         ! Ensured convexity 
         DO I = 1,NEL
           CONV(I) = .FALSE.
-          AA = UN /(SIGT(I) + SIGC(I))/SQR3
-          IF ((IQUAD == 1) .AND. (SIGS(I) < SFAC*SQRT(SIGC(I)*SIGT(I)/TROIS))) THEN 
-            SIGS(I) = SFAC*SQRT(SIGC(I)*SIGT(I)/TROIS)
+          AA = ONE /(SIGT(I) + SIGC(I))/SQR3
+          IF ((IQUAD == 1) .AND. (SIGS(I) < SFAC*SQRT(SIGC(I)*SIGT(I)/THREE))) THEN 
+            SIGS(I) = SFAC*SQRT(SIGC(I)*SIGT(I)/THREE)
             CONV(I) = .TRUE.
-          ELSEIF ((IQUAD == 0) .AND. (SIGS(I) < SFAC*DEUX*SIGT(I)*SIGC(I)*AA)) THEN 
-            SIGS(I) = SFAC*DEUX*SIGT(I)*SIGC(I)*AA
+          ELSEIF ((IQUAD == 0) .AND. (SIGS(I) < SFAC*TWO*SIGT(I)*SIGC(I)*AA)) THEN 
+            SIGS(I) = SFAC*TWO*SIGT(I)*SIGC(I)*AA
             CONV(I) = .TRUE.
           ENDIF
         ENDDO   
@@ -277,17 +277,17 @@ c
       ! Compute yield criterion parameters A0,A1,A2
       IF (IQUAD == 1) THEN 
         DO I = 1,NEL
-          AA    = UN/SIGC(I)/SIGT(I)
-          A0(I) = TROIS*(SIGS(I)**2)
-          A1(I) = NEUF*(SIGS(I)**2)*(SIGC(I) - SIGT(I))*AA
-          A2(I) = NEUF*(SIGC(I)*SIGT(I) - TROIS*(SIGS(I)**2))*AA
+          AA    = ONE/SIGC(I)/SIGT(I)
+          A0(I) = THREE*(SIGS(I)**2)
+          A1(I) = NINE*(SIGS(I)**2)*(SIGC(I) - SIGT(I))*AA
+          A2(I) = NINE*(SIGC(I)*SIGT(I) - THREE*(SIGS(I)**2))*AA
         ENDDO   
       ELSE
         DO I = 1,NEL
           A0(I) = SIGS(I)*SQR3
-          A1(I) = TROIS*(((SIGT(I)-SIGC(I))/(SIGT(I)+SIGC(I))) - 
+          A1(I) = THREE*(((SIGT(I)-SIGC(I))/(SIGT(I)+SIGC(I))) - 
      .             A0(I)*((SIGT(I)-SIGC(I))/(SIGT(I)*SIGC(I))))
-          A2(I) = DIXHUIT*((UN/(SIGT(I)+SIGC(I)))-A0(I)/(DEUX*SIGT(I)*SIGC(I)))       
+          A2(I) = DIXHUIT*((ONE/(SIGT(I)+SIGC(I)))-A0(I)/(TWO*SIGT(I)*SIGC(I)))       
         ENDDO   
       ENDIF
 c
@@ -299,7 +299,7 @@ c
         ELSE
           PHI(I) = SVM(I) - A0(I) - A1(I)*P(I) - A2(I)*P(I)*P(I)
         ENDIF
-        IF (PHI(I) >= ZERO .AND. OFF(I) == UN) THEN
+        IF (PHI(I) >= ZERO .AND. OFF(I) == ONE) THEN
           NINDX = NINDX + 1
           INDX(NINDX) = I
         ENDIF
@@ -335,28 +335,28 @@ C
             PSI(I)   = MAX(PSI(I),EM20)
 C                  
             ! Computation of normal to non-associated yield surface
-            NORMXX_N = ((TROIS*SDXX(I)/(DEUX*PSI(I))) - TIERS*(ALPHA(I)*P(I)/PSI(I)))
-            NORMYY_N = ((TROIS*SDYY(I)/(DEUX*PSI(I))) - TIERS*(ALPHA(I)*P(I)/PSI(I)))
-            NORMZZ_N = ((TROIS*SDZZ(I)/(DEUX*PSI(I))) - TIERS*(ALPHA(I)*P(I)/PSI(I)))
-            NORMXY_N = (TROIS*SDXY(I)/(DEUX*PSI(I)))
-            NORMYZ_N = (TROIS*SDYZ(I)/(DEUX*PSI(I)))
-            NORMZX_N = (TROIS*SDZX(I)/(DEUX*PSI(I)))
+            NORMXX_N = ((THREE*SDXX(I)/(TWO*PSI(I))) - THIRD*(ALPHA(I)*P(I)/PSI(I)))
+            NORMYY_N = ((THREE*SDYY(I)/(TWO*PSI(I))) - THIRD*(ALPHA(I)*P(I)/PSI(I)))
+            NORMZZ_N = ((THREE*SDZZ(I)/(TWO*PSI(I))) - THIRD*(ALPHA(I)*P(I)/PSI(I)))
+            NORMXY_N = (THREE*SDXY(I)/(TWO*PSI(I)))
+            NORMYZ_N = (THREE*SDYZ(I)/(TWO*PSI(I)))
+            NORMZX_N = (THREE*SDZX(I)/(TWO*PSI(I)))
 C
             ! Computation of the normal to the yield surface
             IF (IQUAD == 1) THEN 
-              NORMXX = TROIS*SDXX(I) + THIRD*(A1(I) + DEUX*A2(I)*P(I)) 
-              NORMYY = TROIS*SDYY(I) + THIRD*(A1(I) + DEUX*A2(I)*P(I))
-              NORMZZ = TROIS*SDZZ(I) + THIRD*(A1(I) + DEUX*A2(I)*P(I))
-              NORMXY = TROIS*SDXY(I)
-              NORMYZ = TROIS*SDYZ(I)
-              NORMZX = TROIS*SDZX(I)
+              NORMXX = THREE*SDXX(I) + THIRD*(A1(I) + TWO*A2(I)*P(I)) 
+              NORMYY = THREE*SDYY(I) + THIRD*(A1(I) + TWO*A2(I)*P(I))
+              NORMZZ = THREE*SDZZ(I) + THIRD*(A1(I) + TWO*A2(I)*P(I))
+              NORMXY = THREE*SDXY(I)
+              NORMYZ = THREE*SDYZ(I)
+              NORMZX = THREE*SDZX(I)
             ELSE
-              NORMXX = TDEMI*(SDXX(I)/SVM(I)) + THIRD*(A1(I) + DEUX*A2(I)*P(I)) 
-              NORMYY = TDEMI*(SDYY(I)/SVM(I)) + THIRD*(A1(I) + DEUX*A2(I)*P(I))
-              NORMZZ = TDEMI*(SDZZ(I)/SVM(I)) + THIRD*(A1(I) + DEUX*A2(I)*P(I))
-              NORMXY = TDEMI*(SDXY(I)/SVM(I))
-              NORMYZ = TDEMI*(SDYZ(I)/SVM(I))
-              NORMZX = TDEMI*(SDZX(I)/SVM(I))
+              NORMXX = THREE_HALF*(SDXX(I)/SVM(I)) + THIRD*(A1(I) + TWO*A2(I)*P(I)) 
+              NORMYY = THREE_HALF*(SDYY(I)/SVM(I)) + THIRD*(A1(I) + TWO*A2(I)*P(I))
+              NORMZZ = THREE_HALF*(SDZZ(I)/SVM(I)) + THIRD*(A1(I) + TWO*A2(I)*P(I))
+              NORMXY = THREE_HALF*(SDXY(I)/SVM(I))
+              NORMYZ = THREE_HALF*(SDYZ(I)/SVM(I))
+              NORMZX = THREE_HALF*(SDZX(I)/SVM(I))
             ENDIF
 C                     
             ! 2 - Computation of DPHI_DLAMBDA
@@ -367,40 +367,40 @@ c
             DFDSIG2 = NORMXX*(AA1*NORMXX_N + AA2*(NORMYY_N + NORMZZ_N)) +
      .                NORMYY*(AA1*NORMYY_N + AA2*(NORMXX_N + NORMZZ_N)) +
      .                NORMZZ*(AA1*NORMZZ_N + AA2*(NORMXX_N + NORMYY_N)) + 
-     .                DEUX*NORMXY*DEUX*G*NORMXY_N + 
-     .                DEUX*NORMYZ*DEUX*G*NORMYZ_N + 
-     .                DEUX*NORMZX*DEUX*G*NORMZX_N
+     .                TWO*NORMXY*TWO*G*NORMXY_N + 
+     .                TWO*NORMYZ*TWO*G*NORMYZ_N + 
+     .                TWO*NORMZX*TWO*G*NORMZX_N
 c
             !   b) Derivative of yield criterion parameters
             !   --------------------------------------------
 C
             ! Derivative of yield surfaces with respect to yield criterion parameter A0,A1,A2                                                                  
-            DSIGT_DLAM = DSIGT_DP(I)*((SVM(I)/PSI(I))*TDEMI/(UN + NUP(I)))
-            IF (FUNC_COMP%NOTABLE  > 0) DSIGC_DLAM = DSIGC_DP(I)*((SVM(I)/PSI(I))*TDEMI/(UN + NUP(I)))
-            IF (FUNC_SHEAR%NOTABLE > 0) DSIGS_DLAM = DSIGS_DP(I)*(SQR3/DEUX)*(SVM(I)/PSI(I))
+            DSIGT_DLAM = DSIGT_DP(I)*((SVM(I)/PSI(I))*THREE_HALF/(ONE + NUP(I)))
+            IF (FUNC_COMP%NOTABLE  > 0) DSIGC_DLAM = DSIGC_DP(I)*((SVM(I)/PSI(I))*THREE_HALF/(ONE + NUP(I)))
+            IF (FUNC_SHEAR%NOTABLE > 0) DSIGS_DLAM = DSIGS_DP(I)*(SQR3/TWO)*(SVM(I)/PSI(I))
             SELECT CASE(ICAS)
               CASE(0)
                 DSIGC_DLAM = DSIGT_DLAM 
-                DSIGS_DLAM = (UN/SQR3)*DSIGT_DLAM
+                DSIGS_DLAM = (ONE/SQR3)*DSIGT_DLAM
               CASE(1)
                 IF (IQUAD == 1) THEN
-                  DSIGS_DLAM = (UN/SQR3)*(UN/(DEUX*SQRT(SIGT(I)*SIGC(I))))*
+                  DSIGS_DLAM = (ONE/SQR3)*(ONE/(TWO*SQRT(SIGT(I)*SIGC(I))))*
      .                         (DSIGC_DLAM*SIGT(I) + SIGC(I)*DSIGT_DLAM)
                 ELSEIF (IQUAD == 0) THEN 
-                  AA = UN /(SIGT(I) + SIGC(I))/SQR3
-                  DSIGS_DLAM = DEUX*(DSIGT_DLAM*SIGC(I) + DSIGC_DLAM*SIGT(I))*AA                 
-     .                  - DEUX*SQR3*SIGC(I)*SIGT(I)*(DSIGT_DLAM + DSIGC_DLAM)*AA*AA
+                  AA = ONE /(SIGT(I) + SIGC(I))/SQR3
+                  DSIGS_DLAM = TWO*(DSIGT_DLAM*SIGC(I) + DSIGC_DLAM*SIGT(I))*AA                 
+     .                  - TWO*SQR3*SIGC(I)*SIGT(I)*(DSIGT_DLAM + DSIGC_DLAM)*AA*AA
                 ENDIF
             END SELECT 
             IF (ICONV == 1) THEN                                         
               IF (CONV(I)) THEN 
                 IF (IQUAD == 1) THEN
-                  DSIGS_DLAM = SFAC*(UN/SQR3)*(UN/(DEUX*SQRT(SIGT(I)*SIGC(I))))*
+                  DSIGS_DLAM = SFAC*(ONE/SQR3)*(ONE/(TWO*SQRT(SIGT(I)*SIGC(I))))*
      .                         (DSIGC_DLAM*SIGT(I) + SIGC(I)*DSIGT_DLAM)
                 ELSEIF (IQUAD == 0) THEN 
-                  AA = UN /(SIGT(I) + SIGC(I))/SQR3
-                  DSIGS_DLAM = SFAC*(DEUX*(DSIGT_DLAM*SIGC(I) + DSIGC_DLAM*SIGT(I))*AA                 
-     .                  - DEUX*SQR3*SIGC(I)*SIGT(I)*(DSIGT_DLAM + DSIGC_DLAM)*AA*AA)
+                  AA = ONE /(SIGT(I) + SIGC(I))/SQR3
+                  DSIGS_DLAM = SFAC*(TWO*(DSIGT_DLAM*SIGC(I) + DSIGC_DLAM*SIGT(I))*AA                 
+     .                  - TWO*SQR3*SIGC(I)*SIGT(I)*(DSIGT_DLAM + DSIGC_DLAM)*AA*AA)
                 ENDIF           
               ENDIF 
             ENDIF
@@ -413,37 +413,37 @@ C
               !   -> With respect to SIGS
               DA1_DSIGS = DIXHUIT*(SIGC(I) - SIGT(I))*CC
               !   -> With respect to SIGC
-              DA1_DSIGC = NEUF*(SIGS(I)/SIGC(I))**2
+              DA1_DSIGC = NINE*(SIGS(I)/SIGC(I))**2
               !   -> With respect to SIGT
-              DA1_DSIGT = -NEUF*(SIGS(I)/SIGT(I))**2
+              DA1_DSIGT = -NINE*(SIGS(I)/SIGT(I))**2
               ! -> A2 derivatives
               !   -> With respect to SIGS
               DA2_DSIGS = -CINQUANTE4*CC
               !   -> With respect to SIGC                                         
-              DA2_DSIGC = VINGT7*CC*SIGS(I)/SIGC(I)  
+              DA2_DSIGC = TWENTY7*CC*SIGS(I)/SIGC(I)  
               !   -> With respect to SIGT                       
-              DA2_DSIGT = VINGT7*CC*SIGS(I)/SIGT(I)   
+              DA2_DSIGT = TWENTY7*CC*SIGS(I)/SIGT(I)   
             ELSE
               ! -> A0 derivatives
               DA0_DSIGS = SQR3
               ! -> A1 derivatives 
               !   -> With respect to SIGS
-              DA1_DSIGS = -TROIS*SQR3*(SIGT(I)-SIGC(I))/(SIGT(I)*SIGC(I))
+              DA1_DSIGS = -THREE*SQR3*(SIGT(I)-SIGC(I))/(SIGT(I)*SIGC(I))
               !   -> With respect to SIGC
-              DA1_DSIGC = TROIS*((SIGS(I)*SQR3/(SIGC(I)**2))-
-     .                             DEUX*SIGT(I)/((SIGT(I) + SIGC(I))**2))
+              DA1_DSIGC = THREE*((SIGS(I)*SQR3/(SIGC(I)**2))-
+     .                             TWO*SIGT(I)/((SIGT(I) + SIGC(I))**2))
               !   -> With respect to SIGT
-              DA1_DSIGT = TROIS*(DEUX*SIGC(I)/((SIGT(I) + SIGC(I))**2) - 
+              DA1_DSIGT = THREE*(TWO*SIGC(I)/((SIGT(I) + SIGC(I))**2) - 
      .                             (SIGS(I)*SQR3/(SIGT(I)**2)))
               ! -> A2 derivatives
               !   -> With respect to SIGS
-              DA2_DSIGS = -NEUF*SQR3/(SIGT(I)*SIGC(I))
+              DA2_DSIGS = -NINE*SQR3/(SIGT(I)*SIGC(I))
               !   -> With respect to SIGC                                         
-              DA2_DSIGC = DIXHUIT*((SIGS(I)*SQR3/(DEUX*SIGT(I)*(SIGC(I)**2))) -
-     .                              UN/((SIGT(I)+SIGC(I))**2))
+              DA2_DSIGC = DIXHUIT*((SIGS(I)*SQR3/(TWO*SIGT(I)*(SIGC(I)**2))) -
+     .                              ONE/((SIGT(I)+SIGC(I))**2))
               !   -> With respect to SIGT                       
-              DA2_DSIGT = DIXHUIT*((SIGS(I)*SQR3/(DEUX*SIGC(I)*(SIGT(I)**2))) -
-     .                              UN/((SIGT(I)+SIGC(I))**2))
+              DA2_DSIGT = DIXHUIT*((SIGS(I)*SQR3/(TWO*SIGC(I)*(SIGT(I)**2))) -
+     .                              ONE/((SIGT(I)+SIGC(I))**2))
             ENDIF                  
 c             
             ! -> A parameters derivatives with respect to lambda        
@@ -475,19 +475,19 @@ c
             SIGNXX(I) = SIGNXX(I) - (AA1*DPXX + AA2*(DPYY + DPZZ)) 
             SIGNYY(I) = SIGNYY(I) - (AA1*DPYY + AA2*(DPXX + DPZZ))
             SIGNZZ(I) = SIGNZZ(I) - (AA1*DPZZ + AA2*(DPXX + DPYY))
-            SIGNXY(I) = SIGNXY(I) - DEUX*G*DPXY     
-            SIGNYZ(I) = SIGNYZ(I) - DEUX*G*DPYZ  
-            SIGNZX(I) = SIGNZX(I) - DEUX*G*DPZX
+            SIGNXY(I) = SIGNXY(I) - TWO*G*DPXY     
+            SIGNYZ(I) = SIGNYZ(I) - TWO*G*DPYZ  
+            SIGNZX(I) = SIGNZX(I) - TWO*G*DPZX
 c          
             ! Cumulated plastic strains update       
-            PLAT(I)  = PLAT(I) + DLAM*(SVM(I)/PSI(I))*TDEMI/(UN + NUP(I))
+            PLAT(I)  = PLAT(I) + DLAM*(SVM(I)/PSI(I))*THREE_HALF/(ONE + NUP(I))
             PLAC(I)  = PLAT(I)    
-            PLAS(I)  = PLAS(I) + (SQR3/DEUX)*(SVM(I)/PSI(I))*DLAM   
+            PLAS(I)  = PLAS(I) + (SQR3/TWO)*(SVM(I)/PSI(I))*DLAM   
             PLA(I)   = PLA(I)  + (SVM(I)/PSI(I))*DLAM  
             ! Plastic strain increments update
-            DPLAT(I) = DPLAT(I) + DLAM*(SVM(I)/PSI(I))*TDEMI/(UN + NUP(I))
+            DPLAT(I) = DPLAT(I) + DLAM*(SVM(I)/PSI(I))*THREE_HALF/(ONE + NUP(I))
             DPLAC(I) = DPLAT(I)
-            DPLAS(I) = DPLAS(I) + (SQR3/DEUX)*(SVM(I)/PSI(I))*DLAM   
+            DPLAS(I) = DPLAS(I) + (SQR3/TWO)*(SVM(I)/PSI(I))*DLAM   
             DPLA(I)  = DPLA(I)  + (SVM(I)/PSI(I))*DLAM
 C
             ! Update pressure
@@ -499,9 +499,9 @@ C
             SDXY(I) = SIGNXY(I)
             SDYZ(I) = SIGNYZ(I)
             SDZX(I) = SIGNZX(I)
-            SVM(I)  = UNDEMI*(SDXX(I)**2 + SDYY(I)**2 + SDZZ(I)**2)
+            SVM(I)  = HALF*(SDXX(I)**2 + SDYY(I)**2 + SDZZ(I)**2)
      .         +           (SDXY(I)**2 + SDZX(I)**2 + SDYZ(I)**2)
-            SVM(I)  = SQRT(TROIS*SVM(I))
+            SVM(I)  = SQRT(THREE*SVM(I))
           ENDDO
 C
           ! Update yield stresses
@@ -509,23 +509,23 @@ C
           XVEC(1:NEL,2)   = EPSPT(1:NEL)*XFAC
           IPOS(1:NEL,1:2) = 1
           CALL TABLE_VINTERP(FUNC_TRAC,NEL,IPOS,XVEC,SIGT,DSIGT_DP)
-          SIGT     = SIGT*TFAC(1)*(UN-DAM(1:NEL))
-          DSIGT_DP = DSIGT_DP*TFAC(1)*(UN-DAM(1:NEL))
+          SIGT     = SIGT*TFAC(1)*(ONE-DAM(1:NEL))
+          DSIGT_DP = DSIGT_DP*TFAC(1)*(ONE-DAM(1:NEL))
           IF (FUNC_COMP%NOTABLE > 0) THEN 
             XVEC(1:NEL,1)   = PLAC(1:NEL)
             XVEC(1:NEL,2)   = EPSPC(1:NEL)*XFAC
             IPOS(1:NEL,1:2) = 1
             CALL TABLE_VINTERP(FUNC_COMP,NEL,IPOS,XVEC,SIGC,DSIGC_DP)
-            SIGC(1:NEL)     = SIGC*TFAC(2)*(UN-DAM(1:NEL))
-            DSIGC_DP(1:NEL) = DSIGC_DP*TFAC(2)*(UN-DAM(1:NEL))
+            SIGC(1:NEL)     = SIGC*TFAC(2)*(ONE-DAM(1:NEL))
+            DSIGC_DP(1:NEL) = DSIGC_DP*TFAC(2)*(ONE-DAM(1:NEL))
           ENDIF
           IF (FUNC_SHEAR%NOTABLE > 0) THEN 
             XVEC(1:NEL,1)   = PLAS(1:NEL)
             XVEC(1:NEL,2)   = EPSPS(1:NEL)*XFAC
             IPOS(1:NEL,1:2) = 1
             CALL TABLE_VINTERP(FUNC_SHEAR,NEL,IPOS,XVEC,SIGS,DSIGS_DP)
-            SIGS(1:NEL)     = SIGS*TFAC(3)*(UN-DAM(1:NEL)) 
-            DSIGS_DP(1:NEL) = DSIGS_DP*TFAC(3)*(UN-DAM(1:NEL)) 
+            SIGS(1:NEL)     = SIGS*TFAC(3)*(ONE-DAM(1:NEL)) 
+            DSIGS_DP(1:NEL) = DSIGS_DP*TFAC(3)*(ONE-DAM(1:NEL)) 
           ENDIF 
           ! Select case for tabulated yield stresses
           SELECT CASE (ICAS)
@@ -539,13 +539,13 @@ C
               IF (IQUAD == 1) THEN 
                 DO II = 1,NINDX
                   I = INDX(II)
-                  SIGS(I) = SQRT(SIGC(I)*SIGT(I)/TROIS)
+                  SIGS(I) = SQRT(SIGC(I)*SIGT(I)/THREE)
                 ENDDO
               ELSEIF (IQUAD == 0) THEN 
                 DO II = 1,NINDX
                   I = INDX(II)
-                  SIGS(I) = UN /(SIGT(I) + SIGC(I))/SQR3
-                  SIGS(I) = DEUX*SIGT(I)*SIGC(I)*SIGS(I)
+                  SIGS(I) = ONE /(SIGT(I) + SIGC(I))/SQR3
+                  SIGS(I) = TWO*SIGT(I)*SIGC(I)*SIGS(I)
                 ENDDO                
               ENDIF
           END SELECT
@@ -554,30 +554,30 @@ C
           IF (ICONV == 1) THEN
             DO II = 1,NINDX         
               I = INDX(II)
-              AA = UN /(SIGT(I) + SIGC(I))/SQR3     
+              AA = ONE /(SIGT(I) + SIGC(I))/SQR3     
               CONV(I) = .FALSE.
-              IF ((IQUAD == 1) .AND. (SIGS(I) < SFAC*SQRT(SIGC(I)*SIGT(I)/TROIS))) THEN 
-                SIGS(I) = SFAC*SQRT(SIGC(I)*SIGT(I)/TROIS)
+              IF ((IQUAD == 1) .AND. (SIGS(I) < SFAC*SQRT(SIGC(I)*SIGT(I)/THREE))) THEN 
+                SIGS(I) = SFAC*SQRT(SIGC(I)*SIGT(I)/THREE)
                 CONV(I) = .TRUE.
-              ELSEIF ((IQUAD == 0) .AND. (SIGS(I) < SFAC*DEUX*SIGT(I)*SIGC(I)*AA)) THEN            
-                SIGS(I) = SFAC*DEUX*SIGT(I)*SIGC(I)*AA
+              ELSEIF ((IQUAD == 0) .AND. (SIGS(I) < SFAC*TWO*SIGT(I)*SIGC(I)*AA)) THEN            
+                SIGS(I) = SFAC*TWO*SIGT(I)*SIGC(I)*AA
                 CONV(I) = .TRUE.
               ENDIF
             ENDDO
           ENDIF
           DO II = 1,NINDX         
             I = INDX(II)
-            IF (DAM(I) < UN) THEN
+            IF (DAM(I) < ONE) THEN
               IF (IQUAD == 1) THEN 
-                AA    = UN/SIGC(I)/SIGT(I)
-                A0(I) = TROIS*(SIGS(I)**2)
-                A1(I) = NEUF*(SIGS(I)**2)*(SIGC(I) - SIGT(I))*AA
-                A2(I) = NEUF*(SIGC(I)*SIGT(I) - TROIS*(SIGS(I)**2))*AA
+                AA    = ONE/SIGC(I)/SIGT(I)
+                A0(I) = THREE*(SIGS(I)**2)
+                A1(I) = NINE*(SIGS(I)**2)*(SIGC(I) - SIGT(I))*AA
+                A2(I) = NINE*(SIGC(I)*SIGT(I) - THREE*(SIGS(I)**2))*AA
               ELSE
                 A0(I) = SIGS(I)*SQR3
-                A1(I) = TROIS*(((SIGT(I)-SIGC(I))/(SIGT(I)+SIGC(I))) - 
+                A1(I) = THREE*(((SIGT(I)-SIGC(I))/(SIGT(I)+SIGC(I))) - 
      .                   A0(I)*((SIGT(I)-SIGC(I))/(SIGT(I)*SIGC(I))))
-                A2(I) = DIXHUIT*((UN/(SIGT(I)+SIGC(I)))-A0(I)/(DEUX*SIGT(I)*SIGC(I)))       
+                A2(I) = DIXHUIT*((ONE/(SIGT(I)+SIGC(I)))-A0(I)/(TWO*SIGT(I)*SIGC(I)))       
               ENDIF
             ELSE
               A0(I) = ZERO
@@ -598,7 +598,7 @@ c-----------------------------------------------
       IF (IFUNC(1) > 0) THEN
         DO I=1,NEL
           NUP(I)    = FINTER(IFUNC(1),PLA(I),NPF,TF,DF) * YFAC(1)
-          UVAR(I,9) = MAX(ZERO, MIN(NUP(I), UNDEMI))
+          UVAR(I,9) = MAX(ZERO, MIN(NUP(I), HALF))
         ENDDO
       END IF
       !====================================================================
@@ -614,13 +614,13 @@ c-----------------------------------------------
         ! Update damage variable
         IF (IFUNC(2) == 0) THEN
           IF (PLA_DAM(I) >= EPSPR) THEN
-            IF (OFF(I) == UN) THEN 
-              OFF(I)      = QCINQ
+            IF (OFF(I) == ONE) THEN 
+              OFF(I)      = FOUR_OVER_5
               IDEL7NOK    = 1
               NINDX       = NINDX+1
               INDX(NINDX) = I
             ENDIF
-            DAM(I)    = UN
+            DAM(I)    = ONE
             SIGNXX(I) = ZERO
             SIGNYY(I) = ZERO
             SIGNZZ(I) = ZERO
@@ -629,20 +629,20 @@ c-----------------------------------------------
             SIGNZX(I) = ZERO
           ELSEIF (PLA_DAM(I) >= EPSPF) THEN  
             DAM(I) = (PLA_DAM(I) - EPSPF)/(EPSPR - EPSPF)
-            DAM(I) = MIN(DAM(I),UN)
+            DAM(I) = MIN(DAM(I),ONE)
           ENDIF
         ! -> Tabulated damage
         ELSE
           DAM(I) = ABS(YFAC(2))*FINTER(IFUNC(2),PLA_DAM(I),NPF,TF,DF)
-          DAM(I) = MIN(DAM(I),UN)
-          IF (DAM(I) >= UN) THEN 
-            IF (OFF(I) == UN) THEN 
-              OFF(I) = QCINQ
+          DAM(I) = MIN(DAM(I),ONE)
+          IF (DAM(I) >= ONE) THEN 
+            IF (OFF(I) == ONE) THEN 
+              OFF(I) = FOUR_OVER_5
               IDEL7NOK    = 1
               NINDX       = NINDX+1
               INDX(NINDX) = I
             ENDIF
-            DAM(I)    = UN
+            DAM(I)    = ONE
             SIGNXX(I) = ZERO
             SIGNYY(I) = ZERO
             SIGNZZ(I) = ZERO
@@ -656,21 +656,21 @@ c-----------------------------------------------
         UVAR(I,2) = PLAC(I)          
         UVAR(I,3) = PLAS(I)    
         DPDT_T    = DPLAT(I)/MAX(TIMESTEP,EM20)
-        UVAR(I,4) = ASRATE*DPDT_T + (UN-ASRATE)*EPSPT(I)   
+        UVAR(I,4) = ASRATE*DPDT_T + (ONE-ASRATE)*EPSPT(I)   
         DPDT_C    = DPLAC(I)/MAX(TIMESTEP,EM20)        
-        UVAR(I,5) = ASRATE*DPDT_C + (UN-ASRATE)*EPSPC(I) 
+        UVAR(I,5) = ASRATE*DPDT_C + (ONE-ASRATE)*EPSPC(I) 
         DPDT_S    = DPLAS(I)/MAX(TIMESTEP,EM20)          
-        UVAR(I,6) = ASRATE*DPDT_S + (UN-ASRATE)*EPSPS(I)
+        UVAR(I,6) = ASRATE*DPDT_S + (ONE-ASRATE)*EPSPS(I)
         UVAR(I,7) = DAM(I)
         DPDT      = DPLA(I)/MAX(TIMESTEP,EM20) 
-        EPSD(I)   = ASRATE*DPDT   + (UN-ASRATE)*EPSD(I)
+        EPSD(I)   = ASRATE*DPDT   + (ONE-ASRATE)*EPSD(I)
         IF (INLOC > 0) UVAR(I,8) = UVAR(I,8) + MAX(DPLANL(I),ZERO)
         ! Computation of soundspeed
-        SOUNDSP(I) = SQRT((C1+QUATRE*G/TROIS)/RHO0(I)) 
+        SOUNDSP(I) = SQRT((C1+FOUR*G/THREE)/RHO0(I)) 
         ! Computation of the yield stress
         YLD(I)    = A0(I) + A1(I)*P(I) + A2(I)*P(I)*P(I)
         ! Computation of the hourglass coefficient
-        ET(I)     = UNDEMI
+        ET(I)     = HALF
       ENDDO     
 c      
       !====================================================================

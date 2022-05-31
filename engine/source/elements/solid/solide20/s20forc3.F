@@ -316,9 +316,9 @@ C
      .           UL(I,5),UL(I,6),UL(I,7),UL(I,8))
         BB = MAX(UL(I,9) ,UL(I,10),UL(I,11),UL(I,12),UL(I,13),UL(I,14),
      .           UL(I,15),UL(I,16),UL(I,17),UL(I,18),UL(I,19),UL(I,20))
-        AA = AA*SOIXANTE4
-        BB = BB*QUATREVINGT16/SEPT
-        DELTAX(I) = SQRT(DEUX*VOLG(I)/MAX(AA,BB))
+        AA = AA*SIXTY4
+        BB = BB*EIGHTY16/SEVEN
+        DELTAX(I) = SQRT(TWO*VOLG(I)/MAX(AA,BB))
       ENDDO
 C
 C-------------

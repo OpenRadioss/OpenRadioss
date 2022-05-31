@@ -102,10 +102,10 @@ C
          IF(OFF(I).LE.ZERO) CYCLE
           XKM(I)   = MAX(EM15,XKM(I))
           DMELRT(I)=MAX(DMELRT(I),
-     .      XCM(I)*DTA+UNDEMI*XKM(I)*DTB-UNDEMI*MSRT(I))
+     .      XCM(I)*DTA+HALF*XKM(I)*DTB-HALF*MSRT(I))
 C
 C         MX2 = 2*(Mn+2*DeltaM)
-          MX2 =MSRT(I)+DEUX*DMELRT(I)
+          MX2 =MSRT(I)+TWO*DMELRT(I)
           DT(I)=DTFACS*
      .      MX2 /MAX(EM15,SQRT(XCM(I)*XCM(I)+MX2*XKM(I))+XCM(I))
           DT(I)=DTMINS

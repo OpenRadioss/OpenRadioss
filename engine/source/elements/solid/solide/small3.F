@@ -135,7 +135,7 @@ c         DVOL(I)=VOL(I)*(DXX(I)+DYY(I)+DZZ(I))*DT1
        ENDDO
 c      ELSEIF(ISMSTR.EQ.3)THEN
 c       DO I=LFT,LLT
-c       IF(OFFG(I).GT.UN)THEN
+c       IF(OFFG(I).GT.ONE)THEN
 cC-----------------------------------------------
 c         RHO(I) = RHOO(I) - RHO(I)*(DXX(I)+DYY(I)+DZZ(I))*DT1
 c         RHO(I) = MAX(RHO(I),EM30)
@@ -148,7 +148,7 @@ c        ENDIF
 c       ENDDO
       ELSEIF(ISMSTR<=4.AND.JLAG>0)THEN
        DO I=LFT,LLT
-       IF(OFFG(I).GT.UN)THEN
+       IF(OFFG(I).GT.ONE)THEN
 C-----------------------------------------------
          X=SAV(I,1)
          Y=SAV(I,2)
@@ -254,16 +254,16 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF(ISMSTR.EQ.1.OR.ISMSTR.EQ.3)THEN
         DO I=LFT,LLT
-          IF(OFFG(I).GT.ZERO)OFFG(I)=DEUX 
+          IF(OFFG(I).GT.ZERO)OFFG(I)=TWO 
         ENDDO
       ENDIF
 C
       DO I=LFT,LLT
-        IF(OFF(I).LT.UN)THEN
+        IF(OFF(I).LT.ONE)THEN
           IF(OFF(I)==ZERO)THEN
             OFFG(I)=ZERO
-          ELSEIF(OFFG(I).GT.UN)THEN
-            OFFG(I) = UN+OFF(I)
+          ELSEIF(OFFG(I).GT.ONE)THEN
+            OFFG(I) = ONE+OFF(I)
           ELSE
             OFFG(I) = OFF(I)
           END IF
@@ -332,7 +332,7 @@ C----- to be done outside the integrating point cycle
       ELSEIF(ISMSTR<=4.AND.JLAG>0)THEN
 C      ISMSTR=3 <==> ISMSTR=1
        DO I=LFT,LLT
-        IF(OFFG(I).GT.UN)THEN
+        IF(OFFG(I).GT.ONE)THEN
          DV=(DXX(I)+DYY(I)+DZZ(I))*DT1+SDV(I)
          RHO(I) = RHOO(I) - RHO(I)*DV
          RHO(I) = MAX(RHO(I),EM30)
@@ -459,7 +459,7 @@ C
       ELSEIF(ISMSTR.EQ.1.OR.
      .  	((ISMSTR.EQ.2.OR.ISMSTR.EQ.12).AND.IDTMIN(1).EQ.3))THEN
        DO I=LFT,LLT
-       IF(OFFG(I).GT.UN)THEN
+       IF(OFFG(I).GT.ONE)THEN
 C-----------------------------------------------
          X=SAV(I,1)
          Y=SAV(I,2)
@@ -628,7 +628,7 @@ C
 	  ELSEIF(ISMSTR==12)THEN
 C------------Wxx,y,z from local system to global 
        DO I=LFT,LLT
-         IF(OFFG(I)<=UN) CYCLE
+         IF(OFFG(I)<=ONE) CYCLE
          WXXG=R11(I)*WXX(I)+R12(I)*WYY(I)+R13(I)*WZZ(I)
          WYYG=R21(I)*WXX(I)+R22(I)*WYY(I)+R23(I)*WZZ(I)
          WZZG=R31(I)*WXX(I)+R32(I)*WYY(I)+R33(I)*WZZ(I)
@@ -638,7 +638,7 @@ C------------Wxx,y,z from local system to global
        END DO
        DO I=LFT,LLT
 C-----------------------------------------------
-         IF(OFFG(I)<=UN) CYCLE
+         IF(OFFG(I)<=ONE) CYCLE
          X=SAV(I,1)
          Y=SAV(I,2)
          Z=SAV(I,3)
@@ -740,15 +740,15 @@ C---------------------------------------------
 C----- MIN_ASPECT, MIN_DEFV will be defined in include file--
       IF(MIN_ASPECT==ZERO.AND.MIN_DEFV==ZERO) RETURN
       IF(ISMSTR/=2.AND.ISMSTR/=12) RETURN
-      COEF = UN
-      IF (ITET >0) COEF = UN/1.24/SQR3
+      COEF = ONE
+      IF (ITET >0) COEF = ONE/1.24/SQR3
 C
       IF (MIN_DEFV >ZERO) THEN
        DO I=LFT,LLT
-        IF (OFFG(I)>UN.OR.OFFG(I)==ZERO) CYCLE
+        IF (OFFG(I)>ONE.OR.OFFG(I)==ZERO) CYCLE
         DEF_V = VOLG(I)/VOLG0(I)
         IF (DEF_V < MIN_DEFV) THEN
-         OFFG(I) = DEUX
+         OFFG(I) = TWO
 #include "lockon.inc"
          CALL ANCMSG(MSGID=267,ANMODE=ANINFO,
      .                    I1=NGL(I),
@@ -761,12 +761,12 @@ C
       IF (MIN_ASPECT>ZERO) THEN
        ICOUNT = 0
        DO I=LFT,LLT
-        IF (OFFG(I)>UN.OR.OFFG(I)==ZERO) CYCLE
+        IF (OFFG(I)>ONE.OR.OFFG(I)==ZERO) CYCLE
 c       AL = VOLG(I)**(1.0D0/3.0D0)!  EXP(THIRD*LOG(VOLG(I)))
-c       TET_COLLA(I)= COEF* (DELTAX(I)/AL)**(3.0D0/2.0D0)!COEF*EXP(TDEMI*LOG(DELTAX(I)/AL))
+c       TET_COLLA(I)= COEF* (DELTAX(I)/AL)**(3.0D0/2.0D0)!COEF*EXP(THREE_HALF*LOG(DELTAX(I)/AL))
         TET_COLLA(I) = COEF * SQRT(DELTAX(I)**3 / VOLG(I))
         IF (TET_COLLA(I) < MIN_ASPECT) THEN
-         OFFG(I) = DEUX
+         OFFG(I) = TWO
          ICOUNT=ICOUNT+1
          LIST(ICOUNT)=I
         END IF	

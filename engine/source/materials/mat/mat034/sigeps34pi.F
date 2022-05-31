@@ -69,7 +69,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL) :: BULK,G_INS,G_INF,GE,GE2,GV,GV2,BETA,C1,C2,
      .      EPSPXX,EPSPXY,EPSPXZ            
 c=======================================================================
-!!      SHFACT = CSIX
+!!      SHFACT = FIVE_OVER_6
 c
       DO I=1,NEL
         IADBUF   = IPM(7,MAT(I))-1
@@ -81,21 +81,21 @@ c
 c        
       GE(1:NEL)  = G_INF(1:NEL)                ! elastic part of shear modulus
       GV(1:NEL)  = G_INS(1:NEL) - G_INF(1:NEL)   ! viscous part of shear modulus
-      GE2(1:NEL) = GE(1:NEL) * DEUX
-      GV2(1:NEL) = GV(1:NEL) * DEUX
-      C1(1:NEL)  = UN - EXP(-BETA(1:NEL)*TIMESTEP)
+      GE2(1:NEL) = GE(1:NEL) * TWO
+      GV2(1:NEL) = GV(1:NEL) * TWO
+      C1(1:NEL)  = ONE - EXP(-BETA(1:NEL)*TIMESTEP)
       C2(1:NEL)  =-C1(1:NEL) / BETA(1:NEL)
       EPSPXX(1:NEL) = DEPSXX(1:NEL)/MAX(EM20,TIMESTEP)
       EPSPXY(1:NEL) = DEPSXY(1:NEL)/MAX(EM20,TIMESTEP)
       EPSPXZ(1:NEL) = DEPSXZ(1:NEL)/MAX(EM20,TIMESTEP)
 c      
       DO I=1,NEL
-        DDEXX = DTIERS*DEPSXX(I)
+        DDEXX = TWO_THIRD*DEPSXX(I)
         DDEXY = DEPSXY(I)
         DDEXZ = DEPSXZ(I)
         
-        DEPSDXX = DTIERS*EPSPXX(I)
-        DEXX = DTIERS*EPSXX(I)
+        DEPSDXX = TWO_THIRD*EPSPXX(I)
+        DEXX = TWO_THIRD*EPSXX(I)
         !
         DEPSVXX = C1(I)*(DEXX     - UVAR(I,1)) + C2(I)*DEPSDXX
         DEPSVXY = C1(I)*(EPSXY(I) - UVAR(I,2)) + C2(I)*EPSPXY(I)

@@ -86,45 +86,45 @@ C-----------------------------------------------
       E4(I)=AX(I)*BX(I)*D1(I)
      .     +AY(I)*BY(I)*D2(I)
      .     +AZ(I)*BZ(I)*D3(I)
-     .     +(AX(I)*BY(I)+AY(I)*BX(I))*D4(I)*UNDEMI
-     .     +(AY(I)*BZ(I)+AZ(I)*BY(I))*D5(I)*UNDEMI
-     .     +(AZ(I)*BX(I)+AX(I)*BZ(I))*D6(I)*UNDEMI
+     .     +(AX(I)*BY(I)+AY(I)*BX(I))*D4(I)*HALF
+     .     +(AY(I)*BZ(I)+AZ(I)*BY(I))*D5(I)*HALF
+     .     +(AZ(I)*BX(I)+AX(I)*BZ(I))*D6(I)*HALF
       E5(I)=BX(I)*CX(I)*D1(I)
      .     +BY(I)*CY(I)*D2(I)
      .     +BZ(I)*CZ(I)*D3(I)
-     .     +(BX(I)*CY(I)+BY(I)*CX(I))*D4(I)*UNDEMI
-     .     +(BY(I)*CZ(I)+BZ(I)*CY(I))*D5(I)*UNDEMI
-     .     +(BZ(I)*CX(I)+BX(I)*CZ(I))*D6(I)*UNDEMI
+     .     +(BX(I)*CY(I)+BY(I)*CX(I))*D4(I)*HALF
+     .     +(BY(I)*CZ(I)+BZ(I)*CY(I))*D5(I)*HALF
+     .     +(BZ(I)*CX(I)+BX(I)*CZ(I))*D6(I)*HALF
       E6(I)=CX(I)*AX(I)*D1(I)
      .     +CY(I)*AY(I)*D2(I)
      .     +CZ(I)*AZ(I)*D3(I)
-     .     +(CX(I)*AY(I)+CY(I)*AX(I))*D4(I)*UNDEMI
-     .     +(CY(I)*AZ(I)+CZ(I)*AY(I))*D5(I)*UNDEMI
-     .     +(CZ(I)*AX(I)+CX(I)*AZ(I))*D6(I)*UNDEMI
-      E4(I)=E4(I)*DEUX
-      E5(I)=E5(I)*DEUX
-      E6(I)=E6(I)*DEUX
+     .     +(CX(I)*AY(I)+CY(I)*AX(I))*D4(I)*HALF
+     .     +(CY(I)*AZ(I)+CZ(I)*AY(I))*D5(I)*HALF
+     .     +(CZ(I)*AX(I)+CX(I)*AZ(I))*D6(I)*HALF
+      E4(I)=E4(I)*TWO
+      E5(I)=E5(I)*TWO
+      E6(I)=E6(I)*TWO
  200   CONTINUE
 C
       DO 400 I=LFT,LLT
       T1(I)=AX(I)*AX(I)*SIG(I,1)
      .     +AY(I)*AY(I)*SIG(I,2)
      .     +AZ(I)*AZ(I)*SIG(I,3)
-     .     +DEUX*AX(I)*AY(I)*SIG(I,4)
-     .     +DEUX*AY(I)*AZ(I)*SIG(I,5)
-     .     +DEUX*AZ(I)*AX(I)*SIG(I,6)
+     .     +TWO*AX(I)*AY(I)*SIG(I,4)
+     .     +TWO*AY(I)*AZ(I)*SIG(I,5)
+     .     +TWO*AZ(I)*AX(I)*SIG(I,6)
       T2(I)=BX(I)*BX(I)*SIG(I,1)
      .     +BY(I)*BY(I)*SIG(I,2)
      .     +BZ(I)*BZ(I)*SIG(I,3)
-     .     +DEUX*BX(I)*BY(I)*SIG(I,4)
-     .     +DEUX*BY(I)*BZ(I)*SIG(I,5)
-     .     +DEUX*BZ(I)*BX(I)*SIG(I,6)
+     .     +TWO*BX(I)*BY(I)*SIG(I,4)
+     .     +TWO*BY(I)*BZ(I)*SIG(I,5)
+     .     +TWO*BZ(I)*BX(I)*SIG(I,6)
       T3(I)=CX(I)*CX(I)*SIG(I,1)
      .     +CY(I)*CY(I)*SIG(I,2)
      .     +CZ(I)*CZ(I)*SIG(I,3)
-     .     +DEUX*CX(I)*CY(I)*SIG(I,4)
-     .     +DEUX*CY(I)*CZ(I)*SIG(I,5)
-     .     +DEUX*CZ(I)*CX(I)*SIG(I,6)
+     .     +TWO*CX(I)*CY(I)*SIG(I,4)
+     .     +TWO*CY(I)*CZ(I)*SIG(I,5)
+     .     +TWO*CZ(I)*CX(I)*SIG(I,6)
       T4(I)=AX(I)*BX(I)*SIG(I,1)
      .     +AY(I)*BY(I)*SIG(I,2)
      .     +AZ(I)*BZ(I)*SIG(I,3)

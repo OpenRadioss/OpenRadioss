@@ -211,9 +211,9 @@ C
         IF((EPSXX(I).GT.EMX11.OR.                                  
      .      EPSYY(I).GT.EMX22.OR.                                  
      .      EPSZZ(I).GT.EMX33.OR.                                  
-     .      ABS(EPSXY(I)/DEUX).GT.EMX12.OR.                             
-     .      ABS(EPSYZ(I)/DEUX).GT.EMX23.OR.                             
-     .      ABS(EPSZX(I)/DEUX).GT.EMX31).AND.OFF(I).NE.ZERO) THEN       
+     .      ABS(EPSXY(I)/TWO).GT.EMX12.OR.                             
+     .      ABS(EPSYZ(I)/TWO).GT.EMX23.OR.                             
+     .      ABS(EPSZX(I)/TWO).GT.EMX31).AND.OFF(I).NE.ZERO) THEN       
           OFF(I) = ZERO                                            
           IDEL7NOK = 1                                             
           NINDX=NINDX+1  
@@ -231,7 +231,7 @@ C
 C
       DO I=1,NEL
 C
-c        AMU = RHO(I)/RHO0(I) - UN ! Change using AMU(I) to take into account THERM_STRESS
+c        AMU = RHO(I)/RHO0(I) - ONE ! Change using AMU(I) to take into account THERM_STRESS
         EP(I,1) = AMU(I)
         EP(I,2) = AMU(I)
         EP(I,3) = AMU(I)

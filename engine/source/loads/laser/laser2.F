@@ -116,7 +116,7 @@ C------------------------------------------------------------
         Z2 = X(3,IXQ(3,II))
         Z3 = X(3,IXQ(4,II))
         Z4 = X(3,IXQ(5,II))
-        ZZ = UNDEMI * (ABS(Z1 - Z3) + ABS(Z2 - Z4))
+        ZZ = HALF * (ABS(Z1 - Z3) + ABS(Z2 - Z4))
 C-------------------------------------------------------------
 C ABSORPTION DE LA LUMIERE LASER DANS LE PLASMA  BREMSTRALUNG  
 C-------------------------------------------------------------
@@ -130,11 +130,11 @@ C-------------------------------------------------------------
 C
         RHOA2    = (RHO/ATOM)**2
         XK       = XK0  * RHOA2 * (Z / HNUK)**3 / SQRT(TE)
-        XKZZ     = XK * (UN - EXP(-HNUK/TE)) * ZZ
+        XKZZ     = XK * (ONE - EXP(-HNUK/TE)) * ZZ
         RHOA2    = ((RHO-RHO0)/ATOM)**2
         IF(TE.LE.EP04) XKZZ = XKZZ + DAR * RHOA2 * ZZ
 C
-        DDFI     = (UN - EXP(-XKZZ)) 
+        DDFI     = (ONE - EXP(-XKZZ)) 
         DFI      = FI * DDFI
         FI       = FI - DFI
         DE       = DFI * DT2 / ZZ
@@ -196,14 +196,14 @@ c
        Y4       = X(2,IXQ(5,II))
        A1       = Y2*(Z3-Z4)+Y3*(Z4-Z2)+Y4*(Z2-Z3)
        A2       = Y2*(Z4-Z1)+Y4*(Z1-Z2)+Y1*(Z2-Z4)
-       AIRE     = (A1+A2)/DEUX
+       AIRE     = (A1+A2)/TWO
 
        TC       = GBUF%TEMP(IC)
-       DFI1     = PM(75,MX) * (DEUX*(TE - TC)/ZZ) / DT2
+       DFI1     = PM(75,MX) * (TWO*(TE - TC)/ZZ) / DT2
 
        D        = (DFI+DFI1) / (RHOC*CHALEUR)
 
-       VM       = D * AIRE * RHOC * QUART
+       VM       = D * AIRE * RHOC * FOURTH
        IF(ZMC.GT.ZM) VM = -VM
        WA(3,N1) = WA(3,N1) + VM
        WA(3,N2) = WA(3,N2) + VM
@@ -219,8 +219,8 @@ c       P   = -(SX+SY+SZ) * THIRD
 c       DP  = RHOC*C0*D
 c       DP  = MIN(DP,P)
 c       DP  = MAX(DP,ZERO)
-c       SX  = -P + DP * UNDEMI 
-c       SY  = -P + DP * UNDEMI
+c       SX  = -P + DP * HALF 
+c       SY  = -P + DP * HALF
 c       SZ  = -P - DP 
 C     
 C-------------------------
@@ -346,7 +346,7 @@ C-------------------------------------------------------------
           Y2           = X(2,IXQ(3,II))
           Y3           = X(2,IXQ(4,II))
           Y4           = X(2,IXQ(5,II))
-          ZZ           = UNDEMI * (ABS(Z1 - Z3) + ABS(Z2 - Z4))
+          ZZ           = HALF * (ABS(Z1 - Z3) + ABS(Z2 - Z4))
           DE           = DFI * DT2 / ZZ      !waring DFI is zero : need to be validated, may be wrong
           GBUF%EINT(I) = GBUF%EINT(I) + DE
           TFEXT        = TFEXT + DE * VOL

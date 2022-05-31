@@ -433,9 +433,9 @@ C
       IF(INTTH == 0) THEN
         IF(NPINCH > 0)THEN
           DO I=1,JLT
-           FACT = UNDEMI
+           FACT = HALF
            IF(MSEGTYP(CE_LOC(I)).LT.0) THEN
-             FACT = -UNDEMI
+             FACT = -HALF
            ENDIF
 C
            HH(I)=H1(I)+H2(I)+H3(I)+H4(I)

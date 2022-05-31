@@ -141,24 +141,24 @@ C-----------------------------------------------
 c! fast degradation
         DO I=1,NEL
          IF(OFF(I).LT.EM01) OFF(I)=ZERO
-         IF(OFF(I).LT.UN.AND.OFF(I).GT.ZERO) OFF(I)=OFF(I)*QCINQ
+         IF(OFF(I).LT.ONE.AND.OFF(I).GT.ZERO) OFF(I)=OFF(I)*FOUR_OVER_5
         END DO
 C-------------------    
        
        NINDX = 0  
        
        DO I=1,NEL
-        IF(OFF(I).EQ. UN .AND. DPLA(I) /= ZERO)THEN
+        IF(OFF(I).EQ. ONE .AND. DPLA(I) /= ZERO)THEN
            P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
            SXX = SIGNXX(I) - P
            SYY = SIGNYY(I) - P
            SZZ = SIGNZZ(I) - P
-           SVM =UNDEMI*(SXX**2 + SYY**2 + SZZ**2)
+           SVM =HALF*(SXX**2 + SYY**2 + SZZ**2)
      .            +SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
-           SVM=SQRT(TROIS*SVM)
+           SVM=SQRT(THREE*SVM)
            triaxs = P/MAX(EM20,SVM)
-           IF (triaxs.LT.-DTIERS) triaxs = -DTIERS
-           IF (triaxs.GT.DTIERS)  triaxs =  DTIERS
+           IF (triaxs.LT.-TWO_THIRD) triaxs = -TWO_THIRD
+           IF (triaxs.GT.TWO_THIRD)  triaxs =  TWO_THIRD
            IF (triaxs .LE. THIRD) THEN
               EPS_FAIL =   X_1(1) +  X_1(2) * triaxs + X_1(3) * triaxs**2
               IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
@@ -171,24 +171,24 @@ C-------------------
                  IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
                  IF (NUVAR == 9) EPS_FAIL = EPS_FAIL * UVAR(I,9)
                CASE(2)
-                 IF (triaxs <= UN/SQR3) THEN                     ! triax < 0.57735
-                   P1X      = TIERS
+                 IF (triaxs <= ONE/SQR3) THEN                     ! triax < 0.57735
+                   P1X      = THIRD
                    P1Y      = X_1(1) + X_1(2) * P1X + X_1(3) * P1X**2
-                   S1X      = UN/SQR3
-                   S1Y      = X_2(1) + X_2(2) / SQR3  + X_2(3) * (UN/SQR3)**2
+                   S1X      = ONE/SQR3
+                   S1Y      = X_2(1) + X_2(2) / SQR3  + X_2(3) * (ONE/SQR3)**2
                    A1       = (P1Y - S1Y) / (P1X - S1X)**2
-                   B1       = -DEUX * A1 * S1X
+                   B1       = -TWO * A1 * S1X
                    C1       = A1 * S1X**2 + S1Y 
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
                    IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
                    IF (NUVAR == 9) EPS_FAIL = EPS_FAIL * UVAR(I,9)
                  ELSE                                             ! triax > 0.57735
-                   P1X      = DEUX * TIERS
+                   P1X      = TWO * THIRD
                    P1Y      = X_2(1) + X_2(2) * P1X + X_2(3) * P1X**2
-                   S1X      = UN/SQR3
-                   S1Y      = X_2(1) + X_2(2) / SQR3  + X_2(3) * (UN/SQR3)**2
+                   S1X      = ONE/SQR3
+                   S1Y      = X_2(1) + X_2(2) / SQR3  + X_2(3) * (ONE/SQR3)**2
                    A1       = (P1Y - S1Y) / (P1X - S1X)**2
-                   B1       = -DEUX * A1 * S1X
+                   B1       = -TWO * A1 * S1X
                    C1       = A1 * S1X**2 + S1Y 
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
                    IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
@@ -197,9 +197,9 @@ C-------------------
                END SELECT
            ENDIF
            DFMAX(I) = DFMAX(I) + DPLA(I)/MAX(EPS_FAIL,EM6)
-           DFMAX(I) = MIN(UN,DFMAX(I))
-         IF(DFMAX(I).GE.UN.AND.OFF(I).EQ.UN) THEN
-          OFF(I)=QCINQ
+           DFMAX(I) = MIN(ONE,DFMAX(I))
+         IF(DFMAX(I).GE.ONE.AND.OFF(I).EQ.ONE) THEN
+          OFF(I)=FOUR_OVER_5
           NINDX=NINDX+1
           INDX(NINDX)=I
           IDEL7NOK = 1   
@@ -222,7 +222,7 @@ c------------------------
 C---------Damage for output  0 < DFMAX < 1 --------------------
 c!       DO J=1,IR
 c!          I=JST(J)
-c!          DFMAX(I)= MIN(UN,DFMAX(I))
+c!          DFMAX(I)= MIN(ONE,DFMAX(I))
 c!       ENDDO
 C------------------
  1000 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER (BIQUAD) el#',I10,

@@ -106,8 +106,8 @@ c
           Y4 = X(2,NQ(4))
           Z4 = X(3,NQ(4))
 c        
-          YG = (Y1+Y2+Y3+Y4)/QUATRE
-          ZG = (Z1+Z2+Z3+Z4)/QUATRE 
+          YG = (Y1+Y2+Y3+Y4)/FOUR
+          ZG = (Z1+Z2+Z3+Z4)/FOUR 
 
           DO L=1,4
              L1 = LINES(1,L)

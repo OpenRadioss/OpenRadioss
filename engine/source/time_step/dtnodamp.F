@@ -126,7 +126,7 @@ C-------->
               IF(STIFR(N).LE.ZERO)THEN
                 ISTOP=-ITAB(N)
               ELSEIF(IN(N).GT.ZERO)THEN
-                DT2N(N)=DTFAC1(11)*SQRT(DEUX*IN(N)/STIFR(N))		
+                DT2N(N)=DTFAC1(11)*SQRT(TWO*IN(N)/STIFR(N))		
               ENDIF      	       	      	      
             ENDDO	    
 C-------->
@@ -135,14 +135,14 @@ C-------->
               DAMPT  = MIN(DT1,DT2N(N))*FACTB
 	      BETA = MIN(DAMPBR,DAMPT)
 	      ALPHA = DAMPAR	         	      
-	      BB = BETA+UNDEMI*UNDEMI*ALPHA*DT2N(N)*DT2N(N)
+	      BB = BETA+HALF*HALF*ALPHA*DT2N(N)*DT2N(N)
 	      ETA = SQRT(BB*BB + DT2N(N)*DT2N(N)) - BB	      
 	      IF (IDTMIN(11)==3) THEN      
 	        DT_CIBLE = ETA+0*MAX(ETA,DTMIN1(11))
               ELSE		
 	        DT_CIBLE = ETA
               ENDIF				      
-	      COEFF = (UN+(2*BETA/DT_CIBLE))/((1-UNDEMI*ALPHA*DT_CIBLE))
+	      COEFF = (ONE+(2*BETA/DT_CIBLE))/((1-HALF*ALPHA*DT_CIBLE))
               IF (DAMPR(19,ND).NE.0) THEN	   	        	      	      	              
 	        IF ((I_DAMP_RDOF_TAB(N)+ICONTACT(N)).NE.0) THEN	
 	          STIFR(N) = STIFR(N)*COEFF		              	       

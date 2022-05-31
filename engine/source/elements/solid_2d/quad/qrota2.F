@@ -68,7 +68,7 @@ C
       IF(JCVT.NE.0) RETURN
 C---------------------------------
       DO 20 I=LFT,LLT
-   20 Q1(I)=DEUX*S4(I)*WYZ(I)
+   20 Q1(I)=TWO*S4(I)*WYZ(I)
 C
       DO 30 I=LFT,LLT
       SIG(I,1)=S1(I)+Q1(I)

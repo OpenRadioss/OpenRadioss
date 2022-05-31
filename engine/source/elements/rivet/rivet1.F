@@ -105,7 +105,7 @@ C----------------------------
           IF(DX2(IS).GT.DMX2)THEN
             OFF=OFF-EM01
             IF(OFF.LE.ZERO)THEN
-              RIVET(1,I)=-UN
+              RIVET(1,I)=-ONE
               RUPT = 1
             ELSE
               RIVET(1,I) = OFF
@@ -139,12 +139,12 @@ C-----------------------------------------------
          FT2 = GEO(2,IG)
          DMX2= GEO(3,IG)
          IROT=NINT(GEO(4,IG))
-         DT12M1=UN/DT12
+         DT12M1=ONE/DT12
 C----------------------------
 C        TRANSLATION DU CDG
 C----------------------------
          MASS = MS(N1)+MS(N2)
-         MASM1= UN / MASS
+         MASM1= ONE / MASS
          XCDG=(X(1,N1)*MS(N1)+X(1,N2)*MS(N2))*MASM1
          YCDG=(X(2,N1)*MS(N1)+X(2,N2)*MS(N2))*MASM1
          ZCDG=(X(3,N1)*MS(N1)+X(3,N2)*MS(N2))*MASM1
@@ -177,7 +177,7 @@ C----------------------------
 C
            IF(DX2(IS).GT.EM15)THEN
 C            POINTS NON CONFONDUS CRITERE FN ET FT
-             S  = UN/SQRT(DX2(IS))
+             S  = ONE/SQRT(DX2(IS))
              XN(IS) =XN(IS)*S
              YN(IS) =YN(IS)*S
              ZN(IS) =ZN(IS)*S
@@ -197,7 +197,7 @@ C            POINTS CONFONDUS CRITERE UNIQUEMENT SUR FN
            ENDIF
 C
            ALP=SQRT((AN2/FN2)+(AT2/FT2))
-           ALP=OFF / MAX(ALP,UN)
+           ALP=OFF / MAX(ALP,ONE)
            AX=ALP*AX
            AY=ALP*AY
            AZ=ALP*AZ
@@ -224,7 +224,7 @@ C
            I1 = (XX1*XX1+YY1*YY1+ZZ1*ZZ1)*MS(N1) + IN(N1)
            I2 = (XX2*XX2+YY2*YY2+ZZ2*ZZ2)*MS(N2) + IN(N2)
            INER = I1 + I2
-           INM1 = UN/INER
+           INM1 = ONE/INER
 C
            VRX1= VR(1,N1)+AR(1,N1)*DT12
            VRY1= VR(2,N1)+AR(2,N1)*DT12
@@ -259,7 +259,7 @@ C
 C
            IF(DX2(IS).GT.EM15)THEN
 C            POINTS NON CONFONDUS CRITERE FN ET FT
-             S = UN/SQRT(DX2(IS))
+             S = ONE/SQRT(DX2(IS))
              XN(IS) =XN(IS)*S
              YN(IS) =YN(IS)*S
              ZN(IS) =ZN(IS)*S
@@ -280,19 +280,19 @@ C            POINTS CONFONDUS CRITERE UNIQUEMENT SUR FN
            ENDIF
 C
            ALP=SQRT((AN2/FN2)+(AT2/FT2))
-           ALP=OFF / MAX(ALP,UN)
+           ALP=OFF / MAX(ALP,ONE)
            AX=ALP*AX
            AY=ALP*AY
            AZ=ALP*AZ
 C----------------------------
 C          CALCUL ACCELERATIONS
 C----------------------------
-           DA1(1) = UNDEMI*DT2*DT12M1*(VYY*VT1(3) - VZZ*VT1(2))
-           DA1(2) = UNDEMI*DT2*DT12M1*(VZZ*VT1(1) - VXX*VT1(3))
-           DA1(3) = UNDEMI*DT2*DT12M1*(VXX*VT1(1) - VYY*VT1(2))
-           DA2(1) = UNDEMI*DT2*DT12M1*(VYY*VT2(3) - VZZ*VT2(2))
-           DA2(2) = UNDEMI*DT2*DT12M1*(VZZ*VT2(1) - VXX*VT2(3))
-           DA2(3) = UNDEMI*DT2*DT12M1*(VXX*VT2(1) - VYY*VT2(2))	   
+           DA1(1) = HALF*DT2*DT12M1*(VYY*VT1(3) - VZZ*VT1(2))
+           DA1(2) = HALF*DT2*DT12M1*(VZZ*VT1(1) - VXX*VT1(3))
+           DA1(3) = HALF*DT2*DT12M1*(VXX*VT1(1) - VYY*VT1(2))
+           DA2(1) = HALF*DT2*DT12M1*(VYY*VT2(3) - VZZ*VT2(2))
+           DA2(2) = HALF*DT2*DT12M1*(VZZ*VT2(1) - VXX*VT2(3))
+           DA2(3) = HALF*DT2*DT12M1*(VXX*VT2(1) - VYY*VT2(2))	   
 C
            A(1,N1)=A(1,N1)+AX/MS(N1)+DA1(1)
            A(2,N1)=A(2,N1)+AY/MS(N1)+DA1(2)
@@ -335,7 +335,7 @@ C          correction energie cinetique de rotation
            WT = (VYY*ZN(IS)-VZZ*YN(IS))**2
      .        + (VZZ*XN(IS)-VXX*ZN(IS))**2
      .        + (VXX*YN(IS)-VYY*XN(IS))**2
-            ENROT_L = ENROT_L + UNDEMI*INER*(WW-WT)
+            ENROT_L = ENROT_L + HALF*INER*(WW-WT)
          ENDIF
        ENDDO
 C-----------------------------------------------
@@ -358,7 +358,7 @@ C-----------------------------------------------
          AMZ=(A(3,N2)-A(3,N1)+(V(3,N2)-V(3,N1))/DT12)*XM
          IF(DX2(IS).GT.EM15)THEN
 C          POINTS NON CONFONDUS CRITERE FN ET FT
-           S = UN/SQRT(DX2(IS))
+           S = ONE/SQRT(DX2(IS))
            XN(IS) =XN(IS)*S
            YN(IS) =YN(IS)*S
            ZN(IS) =ZN(IS)*S
@@ -377,7 +377,7 @@ C          POINTS CONFONDUS CRITERE UNIQUEMENT SUR FN
            AT2=ZERO
          ENDIF
          ALP=SQRT((AN2/FN2)+(AT2/FT2))
-         ALP=OFF / MAX(ALP,UN)
+         ALP=OFF / MAX(ALP,ONE)
          AMX=ALP*AMX
          AMY=ALP*AMY
          AMZ=ALP*AMZ
@@ -388,7 +388,7 @@ C          POINTS CONFONDUS CRITERE UNIQUEMENT SUR FN
          A(2,N2)=A(2,N2)-AMY/MS(N2)
          A(3,N2)=A(3,N2)-AMZ/MS(N2)
          IF(IROT.EQ.1)THEN
-           INM1=UN/(IN(N1)+IN(N2))
+           INM1=ONE/(IN(N1)+IN(N2))
            AR(1,N1)=(AR(1,N1)*IN(N1)+AR(1,N2)*IN(N2))*INM1
            AR(2,N1)=(AR(2,N1)*IN(N1)+AR(2,N2)*IN(N2))*INM1
            AR(3,N1)=(AR(3,N1)*IN(N1)+AR(3,N2)*IN(N2))*INM1
@@ -406,7 +406,7 @@ C
 #include "lockoff.inc"
       IF (RUPT.EQ.1) THEN
         DO I=LFT,LLT
-          IF(RIVET(1,I).EQ.-UN)THEN
+          IF(RIVET(1,I).EQ.-ONE)THEN
             RIVET(1,I)=ZERO
 #include "lockon.inc"
             WRITE(ISTDO,*)' FAILURE OF RIVET',IXRT(4,I)

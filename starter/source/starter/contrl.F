@@ -456,11 +456,11 @@ C----------------------------------------------
 C-----
       IF(IHBE_D.EQ.0)IHBE_D = IHBE_DD
       IF(ISH3N_D.EQ.0)ISH3N_D = ISH3N_DD
-      IF(INSH.EQ.1)INER_9_12 = DOUZE      
-      IF(INSH.EQ.2)INER_9_12 = SEIZE      
-      IF(INSH.EQ.3)INER_9_12 = QUARANTE8  
-      IF(INSH.EQ.4)INER_9_12 = TRENTE     
-      IF(INSH.EQ.5)INER_9_12 = NEUF       
+      IF(INSH.EQ.1)INER_9_12 = TWELVE      
+      IF(INSH.EQ.2)INER_9_12 = SIXTEEN      
+      IF(INSH.EQ.3)INER_9_12 = FOURTY8  
+      IF(INSH.EQ.4)INER_9_12 = THIRTY     
+      IF(INSH.EQ.5)INER_9_12 = NINE       
 C-------------------------------------------------------------------
 C     READING OF INTERFACES DEFAULT VALUES
 C-------------------------------------------------------------------
@@ -1129,7 +1129,7 @@ C----------------------------------------------------------
       NCPRI=1
       IF(DTINI.EQ.ZERO)DTINI=EP06
       IF(VOLMIN.EQ.ZERO)VOLMIN=-EP30
-      DT2OLD=DTINI/UNP1
+      DT2OLD=DTINI/ONEP1
       TT=ZERO
       DT1=ZERO
       DT2=ZERO
@@ -1426,7 +1426,7 @@ C
 
       IF(I_ALE_SOLVER /= 0)IALEMUSCL=0 !muscl not compatible with FVM solver for int22
       CALL HM_OPTION_COUNT('/ALE/MUSCL', NALEMUSCL)     
-      IF( UPWSM.NE.UN)THEN
+      IF( UPWSM.NE.ONE)THEN
        IF(NALEMUSCL>0 .OR. IALEMUSCL>0)THEN
          NALEMUSCL=0 
          IALEMUSCL=0     

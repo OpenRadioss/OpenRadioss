@@ -82,12 +82,12 @@ C-----------------------------------------------
       MAT(1:NEL) = LOCAL_MATID
       DO II = 1, NEL
          IF (VOL(II) .GT. ZERO) THEN
-            MU(II)    = RHO(II) / RHO0(II) - UN
+            MU(II)    = RHO(II) / RHO0(II) - ONE
             DF(II)    = RHO0(II) / RHO(II)
             PSH(II)   = PM(88, LOCAL_MATID)
          ELSE
             MU(II) = ZERO
-            DF(II) = UN
+            DF(II) = ONE
             PSH(II) = -1E20
          ENDIF            
       ENDDO
@@ -109,26 +109,26 @@ C     JWL material
                IF (VOL(II) .GT. ZERO) THEN 
 C     Burnt fraction
                   IF (IFLAG .EQ. 1) THEN
-                     IF (BURNFRAC(II) .LT. UN) THEN
+                     IF (BURNFRAC(II) .LT. ONE) THEN
                         TB = - BURNTIME(II)
                         BFRAC1 = ZERO
                         BFRAC2 = ZERO
                         IF (IBFRAC .NE. 1 .AND. CURRENT_TIME .GT. TB) THEN
-                           BFRAC1 = UN
+                           BFRAC1 = ONE
                            IF (DELTAX(II) .GT. ZERO) THEN
-                              BFRAC1 = VDET * (CURRENT_TIME - TB) / TDEMI / DELTAX(II)
+                              BFRAC1 = VDET * (CURRENT_TIME - TB) / THREE_HALF / DELTAX(II)
                            ENDIF
                         ENDIF
                         IF (IBFRAC .NE. 2) THEN
-                           BFRAC2 = BHE * (UN - DF(II))
+                           BFRAC2 = BHE * (ONE - DF(II))
                         ENDIF
                         !BURNFRAC(II) = MAX(BFRAC1, BFRAC2, BURNFRAC(II))
                         BURNFRAC(II) = MAX(BFRAC1, BFRAC2)
                         IF (BURNFRAC(II) .LT. EM04) THEN
                            BURNFRAC(II) = ZERO
                         ENDIF
-                        IF (BURNFRAC(II) .GT. UN) THEN
-                           BURNFRAC(II) = UN
+                        IF (BURNFRAC(II) .GT. ONE) THEN
+                           BURNFRAC(II) = ONE
                         ENDIF
                      ENDIF
                   ENDIF
@@ -144,12 +144,12 @@ C     Burnt fraction
      .                 + B2 * ER2V * (-W1 / DF(II) / R2 + R2 * DF(II) - W1)
      .                 + DR1V + (PRES(II) + PSH(II)) * W1
                   PRES(II) = BURNFRAC(II) * PRES(II) + 
-     .                 (UN - BURNFRAC(II)) * (-PSH(II)+(C0 + C1 * MU(II)))
+     .                 (ONE - BURNFRAC(II)) * (-PSH(II)+(C0 + C1 * MU(II)))
                   GRUN(II) = BURNFRAC(II) * W1
                   SSP(II) = BURNFRAC(II) * (SSP(II) * DF(II)  / RHO0(II)) + 
-     .                 (UN - BURNFRAC(II)) * (C1 / RHO0(II))
+     .                 (ONE - BURNFRAC(II)) * (C1 / RHO0(II))
                   !SSP(II) = SQRT(SSP(II))
-                  !SSP(II) = MAX(SSP(II), VDET * (UN - BURNFRAC(II)))
+                  !SSP(II) = MAX(SSP(II), VDET * (ONE - BURNFRAC(II)))
                ENDIF
             ENDDO
          CASE (3, 4, 6, 49)
@@ -165,7 +165,7 @@ C     SQUARE sound speed : c^2 = 1/rho0 * dp/dmu
             DO II = 1, NEL
                IF (VOL(II) .GT. ZERO) THEN
                   SSP(II) = SSP(II) / RHO0(II)
-                  GRUN(II) = DPDE(II) / (UN + MU(II))
+                  GRUN(II) = DPDE(II) / (ONE + MU(II))
                ELSE
                   SSP(II) = ZERO
                   GRUN(II) = ZERO

@@ -167,34 +167,34 @@ C------------------------------------------------------------------
       NUVAR = 10
       NUPARAM = 22
 C------------------------------------------------------------------
-      IF(D2 /=  ZERO )   D2 = UN/D2    
-      IF(D3 /=  ZERO )   D3 = UN/D3 
+      IF(D2 /=  ZERO )   D2 = ONE/D2    
+      IF(D3 /=  ZERO )   D3 = ONE/D3 
 
       IF(TAUREF == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('MAT_TAU_REF' ,TAUREF_UNIT   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        TAUREF = UN * TAUREF_UNIT
+        TAUREF = ONE * TAUREF_UNIT
       ENDIF
 
 
-      G = DEUX  * (C10 + C01) *(SB + UN)  
+      G = TWO  * (C10 + C01) *(SB + ONE)  
       IF(D1 /= ZERO) THEN
-         D1 = UN/D1 
-         RBULK= DEUX*D1 *(UN+SB) 
-         NU = (TROIS*RBULK -DEUX*G)/(TROIS*RBULK + G)/DEUX
-         E = NEUF*RBULK*G/(TROIS*RBULK + G)
+         D1 = ONE/D1 
+         RBULK= TWO*D1 *(ONE+SB) 
+         NU = (THREE*RBULK -TWO*G)/(THREE*RBULK + G)/TWO
+         E = NINE*RBULK*G/(THREE*RBULK + G)
       ELSE
          D2 = ZERO
          D3 = ZERO
          NU= 0.495
-         RBULK = DTHIRD*G*(UN + NU)/(UN-DEUX*NU)
-         D1 = RBULK / DEUX ! 1/D1 A VOIR SI ON SUPRIME PAS LE TERME AVEC J
-         E = DEUX*G*(UN + NU)      
+         RBULK = TWO_THIRD*G*(ONE + NU)/(ONE-TWO*NU)
+         D1 = RBULK / TWO ! 1/D1 A VOIR SI ON SUPRIME PAS LE TERME AVEC J
+         E = TWO*G*(ONE + NU)      
       ENDIF
 C------------------------------------------------------------------
       UPARAM(19) = G 
       UPARAM(20) = RBULK 
 C------------------------------------------------------------------
-      IF(EXPM == ZERO)EXPM = UN
+      IF(EXPM == ZERO)EXPM = ONE
       IF(EXPC == ZERO)EXPC = -0.700000000
       IF(KSI  == ZERO)KSI = EM02
 C------------------------------------------------------------------

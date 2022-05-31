@@ -129,7 +129,7 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER USRTOS
 C=======================================================================
-      FAC_L = UN
+      FAC_L = ONE
 
       XMIN = EP20
       YMIN = EP20
@@ -398,9 +398,9 @@ C     Here : NUMNUSR == NUMNOD0 !
 C--------------------------------------------------
 C     CREATION DES NOEUDS POUR LES RESERVES SPH.
 C--------------------------------------------------
-      X1=XMIN-QUART*(XMAX-XMIN) 
-      X2=YMIN-QUART*(YMAX-YMIN) 
-      X3=ZMIN-QUART*(ZMAX-ZMIN) 
+      X1=XMIN-FOURTH*(XMAX-XMIN) 
+      X2=YMIN-FOURTH*(YMAX-YMIN) 
+      X3=ZMIN-FOURTH*(ZMAX-ZMIN) 
 
       CALL HM_OPTION_START('/SPH/RESERVE')   
       I      =NUMNUSR           

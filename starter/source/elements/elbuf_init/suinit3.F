@@ -452,7 +452,7 @@ C=======================================================================
 C       
         VOLU(I) = VOL(I)
         MASS(I) = FILL(I)*(MAS(I,1)+MAS(I,2)+MAS(I,3)+MAS(I,4)
-     +          + MAS(I,5)+MAS(I,6)+MAS(I,7)+MAS(I,8))*UNHUIT
+     +          + MAS(I,5)+MAS(I,6)+MAS(I,7)+MAS(I,8))*ONE_OVER_8
         I1 = NC1(I)
         I2 = NC2(I)
         I3 = NC3(I)
@@ -483,7 +483,7 @@ C
         ENDIF
 C
         IP=IPART(I)
-        PARTSAV(1,IP)=PARTSAV(1,IP) + HUIT*MASS(I)
+        PARTSAV(1,IP)=PARTSAV(1,IP) + EIGHT*MASS(I)
         PARTSAV(2,IP)=PARTSAV(2,IP) + MASS(I)*
      .       (X(1,I1)+X(1,I2)+X(1,I3)+X(1,I4)
      .       +X(1,I5)+X(1,I6)+X(1,I7)+X(1,I8))
@@ -533,7 +533,7 @@ C
         PARTSAV(13,IP)=PARTSAV(13,IP) + MASS(I)*
      .       (V(3,I1)+V(3,I2)+V(3,I3)+V(3,I4)
      .       +V(3,I5)+V(3,I6)+V(3,I7)+V(3,I8))
-        PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * MASS(I) *
+        PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * MASS(I) *
      .     (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
      .     +V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2)
      .     +V(1,I3)*V(1,I3)+V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3)

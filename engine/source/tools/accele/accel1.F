@@ -69,35 +69,35 @@ C
 C-----------------------------------------------
 C INITIALIALISATION DES COEFFICIENTS DU FILTRE
 C-----------------------------------------------
-      PI1   = DEUX*ATAN2(UN,ZERO)
-      PI8  = PI1*UNHUIT
-      PI38 = TROIS*PI8
+      PI1   = TWO*ATAN2(ONE,ZERO)
+      PI8  = PI1*ONE_OVER_8
+      PI38 = THREE*PI8
       SPI8  = SIN(PI8)
       SPI38 = SIN(PI38)
 C
       D  = TAN(PI1*F*DT2)
 
       DD = D*D
-      D2 = DEUX*D
-      DP = UN + DD
+      D2 = TWO*D
+      DP = ONE + DD
       E  = D2*SPI8
       G  = E + DP
-      G  = UN/G
+      G  = ONE/G
 C
       C0 = DD * G
-      C1 = DEUX* C0
+      C1 = TWO* C0
       C2 = C0
-      C3 = DEUX * G - C1
+      C3 = TWO * G - C1
       C4 = (E - DP) * G
 C
       E  = D2*SPI38
       G  = E + DP
-      G  = UN/G
+      G  = ONE/G
 C
       C5 = DD * G
-      C6 = DEUX * C5
+      C6 = TWO * C5
       C7 = C5
-      C8 = DEUX * G - C6
+      C8 = TWO * G - C6
       C9 = (E - DP) * G
 C-----------------------------------------------
 C FILTRAGE

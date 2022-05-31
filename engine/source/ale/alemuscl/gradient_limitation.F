@@ -94,7 +94,7 @@ C-----------------------------------------------
      .                 + GRAD(ITRIMAT, 1, II) * (XN - XK)  
      .                 + GRAD(ITRIMAT, 2, II) * (YN - YK)
      .                 + GRAD(ITRIMAT, 3, II) * (ZN - ZK)
-                  nodal_reduc_factor = UN
+                  nodal_reduc_factor = ONE
                   IF (VALNODE - VOLUME_FRACTION(ITRIMAT, II) .GT. ZERO) THEN
                      nodal_reduc_factor = 
      .                    MIN((NODE_MAX_VALUE(ITRIMAT, NODE_ID) - VOLUME_FRACTION(ITRIMAT, II))

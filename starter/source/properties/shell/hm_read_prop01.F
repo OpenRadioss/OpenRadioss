@@ -165,7 +165,7 @@ c      IF (SUB_INDEX .NE. 0)
 c     .         CALL SUBROTVECT(VX,VY,VZ,RTRANS,SUB_INDEX,LSUBMODEL)
 C----------------------
 C
-        PTHK = MIN(PTHK, UN-EM06)
+        PTHK = MIN(PTHK, ONE-EM06)
         GEO(42) = PTHK
 C----------------------
 C fixing flag and removed from input
@@ -192,7 +192,7 @@ C fixing flag and removed from input
         IF (GEO(16) == ZERO) IGEO(31) = 1
         
         IF (IHBE==24) THEN
-          IF (CVIS==ZERO) CVIS=UN
+          IF (CVIS==ZERO) CVIS=ONE
           IF (GEO(17)==ZERO) GEO(17)=ZEP015
         ENDIF
 C---
@@ -238,7 +238,7 @@ C----------------------
         GEO(3)=ISMSTR
 C----------------------
 C
-        IF(GEO(38)==ZERO) GEO(38)=CSIX
+        IF(GEO(38)==ZERO) GEO(38)=FIVE_OVER_6
         IF(NIP==-1)NIP=NPTS_D
         IF(NIP==1)THEN
           IF(IHBE==0.OR.IHBE==2) THEN
@@ -288,7 +288,7 @@ C-------not change default dn of DKT with old define (ishel=12)
         ENDIF
         NSHELL = NSHELL + 1
         IF (GEO(1).GE.9) NSHSUP = NSHSUP +1
-        IF (GEO(1).LT.QUART) NSHINF = NSHINF +1
+        IF (GEO(1).LT.FOURTH) NSHINF = NSHINF +1
         GEO(6)  =NIP+PUN
         IGEO(4) =NIP
         

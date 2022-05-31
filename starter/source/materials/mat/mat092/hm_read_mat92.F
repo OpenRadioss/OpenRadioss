@@ -124,7 +124,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_FScale'   ,SCALEFAC ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       IF(SCALEFAC == ZERO)THEN 
         CALL HM_GET_FLOATV_DIM('MAT_FScale' ,FAC_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        SCALEFAC = UN * FAC_UNIT
+        SCALEFAC = ONE * FAC_UNIT
       ENDIF       
 
       !========== DEFAULT VALUES=============!              
@@ -152,18 +152,18 @@ C-----------------------------------------------
       !!the proposed one       ELSEIF(STRING(1:6) == 'PLANAR') THEN
       !!the proposed one         ITEST = 3
       !!the proposed one       ENDIF
-      C(1) = UNDEMI
-      C(2) = UN/VINGT
-      C(3) = ONZE/1050.D00
+      C(1) = HALF
+      C(2) = ONE/TWENTY
+      C(3) = ELEVEN/1050.D00
       C(4) = 19.D00/7000.D00
       C(5) = 519.D00/673750.D00
 C
-      IF(LAM == ZERO) LAM = SEPT  
-      A1 = UN/LAM**2
+      IF(LAM == ZERO) LAM = SEVEN  
+      A1 = ONE/LAM**2
       A2 = A1**2
       A3 = A1*A2
       A4 = A2**2
-      G= MU*(UN +  TROIS*A1/CINQ + QUATREVINGT19*A2/175.D00 
+      G= MU*(ONE +  THREE*A1/FIVE + EIGHTY19*A2/175.D00 
      .         + 513.D00*A3/875.D00 + 42039.D00*A4/67375.D00) 
         
       NFUNC= 0
@@ -173,16 +173,16 @@ C
        IF (NU == ZERO) NU= 0.495
       ELSEIF(D == ZERO) THEN
         NU = 0.495
-        RBULK = DTHIRD*(UN + NU)*G/(UN - DEUX*NU)
-        D  = DEUX/RBULK 
+        RBULK = TWO_THIRD*(ONE + NU)*G/(ONE - TWO*NU)
+        D  = TWO/RBULK 
       ELSE
-        RBULK =  DEUX/D 
+        RBULK =  TWO/D 
       ENDIF
 !
 ! computing E
 !
-      E = NEUF*RBULK*G/MAX(EM20,(TROIS*RBULK + G))  
-      IF(IFUNC(1) == 0 ) NU = (TROIS*RBULK -DEUX*G)/(TROIS*RBULK + G)/DEUX
+      E = NINE*RBULK*G/MAX(EM20,(THREE*RBULK + G))  
+      IF(IFUNC(1) == 0 ) NU = (THREE*RBULK -TWO*G)/(THREE*RBULK + G)/TWO
 C     
       UPARAM(1) = MU
       UPARAM(2) = D

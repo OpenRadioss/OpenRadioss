@@ -109,7 +109,7 @@ C
       ENDIF 
       DO  I=JFT, JLT
        IF (AL(I).LT.EM20) OFFG(I)=ZERO
-       ALI(I)=UN/MAX(EM20,AL(I))
+       ALI(I)=ONE/MAX(EM20,AL(I))
       ENDDO 
 C
       DO I=JFT, JLT

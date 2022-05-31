@@ -224,7 +224,7 @@ C-----------------------------------------------
                 M2           =   F_FACE(1, 5,IV)
                 DENOM        =   Z_1 + Z_2
                 Mf           = MIN(M1,M2)
-                THETA        = MIN(UN,Mf)                 !see dellacherie,omnes,raviart : fixing low mach issue
+                THETA        = MIN(ONE,Mf)                 !see dellacherie,omnes,raviart : fixing low mach issue
                 Pf           = (Z_1*P2 + Z_2*P1)/DENOM  +  THETA*(Z_1*Z_2*(U1N1-U2N1)/DENOM)
               ELSE
               !--ADJACENT ELEM DOES NOT EXIST
@@ -232,13 +232,13 @@ C-----------------------------------------------
                 U1N1         = + F_FACE(3, J,II)
                 !Pf          =  P1
                 Mf           = M1
-                THETA        = MIN(UN,Mf)                 !see dellacherie,omnes,raviart : fixing low mach issue
-                Pf           =  P1  + THETA*UNDEMI*Z_1*U1N1
+                THETA        = MIN(ONE,Mf)                 !see dellacherie,omnes,raviart : fixing low mach issue
+                Pf           =  P1  + THETA*HALF*Z_1*U1N1
                 !Pf = P1
               ENDIF 
-              FFACE(1,J,I)   = -UNDEMI*Pf*NX(J,I)    !N= 2.SURF.n  , where abs(n)=1    => abs(N) = 2S , this lines leads to  FFACE(1J,I) = Pf.S.n
-              FFACE(2,J,I)   = -UNDEMI*Pf*NY(J,I)    ! negative sign because int(div.sigma,DV) => int(-P,dS)
-              FFACE(3,J,I)   = -UNDEMI*Pf*NZ(J,I)                               
+              FFACE(1,J,I)   = -HALF*Pf*NX(J,I)    !N= 2.SURF.n  , where abs(n)=1    => abs(N) = 2S , this lines leads to  FFACE(1J,I) = Pf.S.n
+              FFACE(2,J,I)   = -HALF*Pf*NY(J,I)    ! negative sign because int(div.sigma,DV) => int(-P,dS)
+              FFACE(3,J,I)   = -HALF*Pf*NZ(J,I)                               
             ENDDO!next J
           ENDDO!next I     
         CASE DEFAULT
@@ -255,15 +255,15 @@ C-----------------------------------------------
                   IF(ALE_CONNECT%ee_connect%connected(IAD3 + JV - 1)==II)EXIT                                   
                 ENDDO                                                        
                 P2           = F_FACE(1,4,IV)
-                Pf           = UNDEMI*(P1+P2) 
+                Pf           = HALF*(P1+P2) 
               ELSE                                                           
               !--ADJACENT ELEM DOES NOT EXIST                                
                 !SLIDING RWALL BC   
                 Pf           = P1                                                                          
               ENDIF   
-              FFACE(1,J,I)   = -UNDEMI*Pf*NX(J,I) ! negative sign because int(div.sigma,DV) => int(-P,dS)                              
-              FFACE(2,J,I)   = -UNDEMI*Pf*NY(J,I)                             
-              FFACE(3,J,I)   = -UNDEMI*Pf*NZ(J,I) 
+              FFACE(1,J,I)   = -HALF*Pf*NX(J,I) ! negative sign because int(div.sigma,DV) => int(-P,dS)                              
+              FFACE(2,J,I)   = -HALF*Pf*NY(J,I)                             
+              FFACE(3,J,I)   = -HALF*Pf*NZ(J,I) 
               !print  *, "P1,P2,Pf", P1,P2,Pf 
               !print  *, " normal ", NX(J,I), NY(J,I), NZ(J,I) 
 c              write ( *, FMT='(A,I10,A,I3,A,3F20.12,A,F20.12)') 

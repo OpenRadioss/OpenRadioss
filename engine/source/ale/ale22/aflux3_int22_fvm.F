@@ -208,30 +208,30 @@ C-----------------------------------------------
         NC7 = IXS(8,II)
         NC8 = IXS(9,II)
         
-        WfaceB(1,1) = QUART*(W(1,NC1)+W(1,NC2)+W(1,NC3)+W(1,NC4))
-        WfaceB(2,1) = QUART*(W(2,NC1)+W(2,NC2)+W(2,NC3)+W(2,NC4))
-        WfaceB(3,1) = QUART*(W(3,NC1)+W(3,NC2)+W(3,NC3)+W(3,NC4))
+        WfaceB(1,1) = FOURTH*(W(1,NC1)+W(1,NC2)+W(1,NC3)+W(1,NC4))
+        WfaceB(2,1) = FOURTH*(W(2,NC1)+W(2,NC2)+W(2,NC3)+W(2,NC4))
+        WfaceB(3,1) = FOURTH*(W(3,NC1)+W(3,NC2)+W(3,NC3)+W(3,NC4))
 
-        WfaceB(1,2) = QUART*(W(1,NC3)+W(1,NC4)+W(1,NC7)+W(1,NC8))
-        WfaceB(2,2) = QUART*(W(2,NC3)+W(2,NC4)+W(2,NC7)+W(2,NC8))
-        WfaceB(3,2) = QUART*(W(3,NC3)+W(3,NC4)+W(3,NC7)+W(3,NC8))
+        WfaceB(1,2) = FOURTH*(W(1,NC3)+W(1,NC4)+W(1,NC7)+W(1,NC8))
+        WfaceB(2,2) = FOURTH*(W(2,NC3)+W(2,NC4)+W(2,NC7)+W(2,NC8))
+        WfaceB(3,2) = FOURTH*(W(3,NC3)+W(3,NC4)+W(3,NC7)+W(3,NC8))
 
 
-        WfaceB(1,3) = QUART*(W(1,NC5)+W(1,NC6)+W(1,NC7)+W(1,NC8))
-        WfaceB(2,3) = QUART*(W(2,NC5)+W(2,NC6)+W(2,NC7)+W(2,NC8))
-        WfaceB(3,3) = QUART*(W(3,NC5)+W(3,NC6)+W(3,NC7)+W(3,NC8))
+        WfaceB(1,3) = FOURTH*(W(1,NC5)+W(1,NC6)+W(1,NC7)+W(1,NC8))
+        WfaceB(2,3) = FOURTH*(W(2,NC5)+W(2,NC6)+W(2,NC7)+W(2,NC8))
+        WfaceB(3,3) = FOURTH*(W(3,NC5)+W(3,NC6)+W(3,NC7)+W(3,NC8))
 
-        WfaceB(1,4) = QUART*(W(1,NC1)+W(1,NC2)+W(1,NC5)+W(1,NC6))
-        WfaceB(2,4) = QUART*(W(2,NC1)+W(2,NC2)+W(2,NC5)+W(2,NC6))
-        WfaceB(3,4) = QUART*(W(3,NC1)+W(3,NC2)+W(3,NC5)+W(3,NC6))
+        WfaceB(1,4) = FOURTH*(W(1,NC1)+W(1,NC2)+W(1,NC5)+W(1,NC6))
+        WfaceB(2,4) = FOURTH*(W(2,NC1)+W(2,NC2)+W(2,NC5)+W(2,NC6))
+        WfaceB(3,4) = FOURTH*(W(3,NC1)+W(3,NC2)+W(3,NC5)+W(3,NC6))
 
-        WfaceB(1,5) = QUART*(W(1,NC2)+W(1,NC3)+W(1,NC6)+W(1,NC7))
-        WfaceB(2,5) = QUART*(W(2,NC2)+W(2,NC3)+W(2,NC6)+W(2,NC7))
-        WfaceB(3,5) = QUART*(W(3,NC2)+W(3,NC3)+W(3,NC6)+W(3,NC7))
+        WfaceB(1,5) = FOURTH*(W(1,NC2)+W(1,NC3)+W(1,NC6)+W(1,NC7))
+        WfaceB(2,5) = FOURTH*(W(2,NC2)+W(2,NC3)+W(2,NC6)+W(2,NC7))
+        WfaceB(3,5) = FOURTH*(W(3,NC2)+W(3,NC3)+W(3,NC6)+W(3,NC7))
 
-        WfaceB(1,6) = QUART*(W(1,NC1)+W(1,NC4)+W(1,NC5)+W(1,NC8))                                       
-        WfaceB(2,6) = QUART*(W(2,NC1)+W(2,NC4)+W(2,NC5)+W(2,NC8))                                        
-        WfaceB(3,6) = QUART*(W(3,NC1)+W(3,NC4)+W(3,NC5)+W(3,NC8)) 
+        WfaceB(1,6) = FOURTH*(W(1,NC1)+W(1,NC4)+W(1,NC5)+W(1,NC8))                                       
+        WfaceB(2,6) = FOURTH*(W(2,NC1)+W(2,NC4)+W(2,NC5)+W(2,NC8))                                        
+        WfaceB(3,6) = FOURTH*(W(3,NC1)+W(3,NC4)+W(3,NC5)+W(3,NC8)) 
         
         IF(NBCUT==0)THEN
           BRICK_LIST(NIN,IB)%POLY(1)%FACE(1)%W(1:3) = WfaceB(1:3,1) 
@@ -308,9 +308,9 @@ C-----------------------------------------------
               SELECT CASE(I_ALE_SOLVER)
                 CASE(1)
                   !CENTERED FVM - U average              
-                  VF(1)                     = UNDEMI * (VALEL(1)/VALEL(4)+VALVOIS(J,1,IADj)/VALVOIS(J,4,IADj))
-                  VF(2)                     = UNDEMI * (VALEL(2)/VALEL(4)+VALVOIS(J,2,IADj)/VALVOIS(J,4,IADj))
-                  VF(3)                     = UNDEMI * (VALEL(3)/VALEL(4)+VALVOIS(J,3,IADj)/VALVOIS(J,4,IADj))
+                  VF(1)                     = HALF * (VALEL(1)/VALEL(4)+VALVOIS(J,1,IADj)/VALVOIS(J,4,IADj))
+                  VF(2)                     = HALF * (VALEL(2)/VALEL(4)+VALVOIS(J,2,IADj)/VALVOIS(J,4,IADj))
+                  VF(3)                     = HALF * (VALEL(3)/VALEL(4)+VALVOIS(J,3,IADj)/VALVOIS(J,4,IADj))
                   VF(1)                     = VF(1)
                   VF(2)                     = VF(2)
                   VF(3)                     = VF(3)
@@ -388,9 +388,9 @@ C-----------------------------------------------
                     NC(6)                   = IXS(7,IEv)    
                     NC(7)                   = IXS(8,IEv)    
                     NC(8)                   = IXS(9,IEv)    
-                    Zadj(1)                 = UNHUIT*SUM(X(1,NC(1:8)))          
-                    Zadj(2)                 = UNHUIT*SUM(X(2,NC(1:8)))          
-                    Zadj(3)                 = UNHUIT*SUM(X(3,NC(1:8)))          
+                    Zadj(1)                 = ONE_OVER_8*SUM(X(1,NC(1:8)))          
+                    Zadj(2)                 = ONE_OVER_8*SUM(X(2,NC(1:8)))          
+                    Zadj(3)                 = ONE_OVER_8*SUM(X(3,NC(1:8)))          
                   ENDIF
                   
                   CF(1:3)                   = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Center(1:3)
@@ -408,12 +408,12 @@ C-----------------------------------------------
                   PS                        = ZCf(1)*ZZadj(1) + ZCf(2)*ZZadj(2) + ZCf(3)*ZZadj(3)     
                   ZZadj_                    = ZZadj(1)**2 + ZZadj(2)**2 + ZZadj(3)**2                 
                   LAMBDA                    = PS / MAX(EM20,ZZadj_)                                   
-C                 IF(lambda.LT.ZERO .OR. lambda .GT.UN)then                          
+C                 IF(lambda.LT.ZERO .OR. lambda .GT.ONE)then                          
 C                   print *, "labmda=", lambda                                       
 C                   pause                                                            
 C                 endif                                                              
-                  LAMBDA                    = MIN(MAX(ZERO,LAMBDA) , UN)                             
-                  LAMBDA                    = SIN(UNDEMI*3.14159265358979D00*LAMBDA)                 
+                  LAMBDA                    = MIN(MAX(ZERO,LAMBDA) , ONE)                             
+                  LAMBDA                    = SIN(HALF*3.14159265358979D00*LAMBDA)                 
                   LAMBDA                    = LAMBDA * LAMBDA                                        
                   !face density                                                                      
                   SR1                       = VALEL(4)                                             
@@ -452,9 +452,9 @@ C                 endif
                 WFaceV(3) = WFace(3)
               ENDIF
               
-              Wface(1) = UNDEMI*(Wface(1)+WfaceV(1))
-              Wface(2) = UNDEMI*(Wface(2)+WfaceV(2))
-              Wface(3) = UNDEMI*(Wface(3)+WfaceV(3))
+              Wface(1) = HALF*(Wface(1)+WfaceV(1))
+              Wface(2) = HALF*(Wface(2)+WfaceV(2))
+              Wface(3) = HALF*(Wface(3)+WfaceV(3))
               
               
               BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Vel(1) = VF(1)-WFace(1)
@@ -579,7 +579,7 @@ C                 endif
                NG      = BRICK_LIST(NIN,IB)%NG
                ISILENT = IPARG(64,NG)
                IF(ISILENT==1)THEN
-                 UPWL(J)=UN
+                 UPWL(J)=ONE
                  cellFLUX(J,ICELL,IB,IADJ)=cellFLUX(J,ICELL,IB,IADJ)*PM(92,IXS(1,IDV))
                ENDIF
               ENDIF 

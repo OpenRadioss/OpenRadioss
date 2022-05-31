@@ -63,7 +63,7 @@ C
      .   AJ4(MVSIZ),AJ5(MVSIZ),AJ6(MVSIZ),
      .   AJ7(MVSIZ),AJ8(MVSIZ),AJ9(MVSIZ)
 	  my_real
-     .   AJ5968(MVSIZ), AJ6749(MVSIZ), AJ4857(MVSIZ)
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ)
       my_real
      .   X17(MVSIZ) , X28(MVSIZ) , X35(MVSIZ) , X46(MVSIZ),
      .   Y17(MVSIZ) , Y28(MVSIZ) , Y35(MVSIZ) , Y46(MVSIZ),
@@ -176,11 +176,11 @@ C
          AJ2(I)=B17(I)-B28(I)
          AJ3(I)=C17(I)-C28(I)
 
-         AJ5968(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-         AJ6749(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-         AJ4857(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+         JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+         JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+         JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
 C
-         VOLG(I)=O64TH*(AJ1(I)*AJ5968(I)+AJ2(I)*AJ6749(I)+AJ3(I)*AJ4857(I))
+         VOLG(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
       ENDDO
 
 C mode 1
@@ -357,13 +357,13 @@ C---+----1
            WI = W_GAUSS(IR,NPTR)*W_GAUSS(IS,NPTS)*W_GAUSS(IT,NPTT)
 C
            DO I=1,NELA
-              AJ5968(I)=AJP5(I,IP)*AJP9(I,IP)-AJP6(I,IP)*AJP8(I,IP)
-              AJ6749(I)=AJP6(I,IP)*AJP7(I,IP)-AJP4(I,IP)*AJP9(I,IP)
-              AJ4857(I)=AJP4(I,IP)*AJP8(I,IP)-AJP5(I,IP)*AJP7(I,IP)
+              JAC_59_68(I)=AJP5(I,IP)*AJP9(I,IP)-AJP6(I,IP)*AJP8(I,IP)
+              JAC_67_49(I)=AJP6(I,IP)*AJP7(I,IP)-AJP4(I,IP)*AJP9(I,IP)
+              JAC_48_57(I)=AJP4(I,IP)*AJP8(I,IP)-AJP5(I,IP)*AJP7(I,IP)
            ENDDO
 C
            DO I=1,NELA
-              VOLP(I,IP)=O512TH*WI*(AJP1(I,IP)*AJ5968(I)+AJP2(I,IP)*AJ6749(I)+AJP3(I,IP)*AJ4857(I))
+              VOLP(I,IP)=ONE_OVER_512*WI*(AJP1(I,IP)*JAC_59_68(I)+AJP2(I,IP)*JAC_67_49(I)+AJP3(I,IP)*JAC_48_57(I))
            ENDDO
         ENDDO  ! IT=1,NPTT
        ENDDO   ! IS=1,NPTS

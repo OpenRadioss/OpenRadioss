@@ -102,32 +102,32 @@ C-----------------------------------------------
 
       PM( 23) =  E0
       PM( 32) =  BB
-      PM( 33) =  GAMMA-UN     
+      PM( 33) =  GAMMA-ONE     
       PM( 34) =  RHO0         
       PM( 88) =  PSH
-      IF(PM(79)==ZERO)PM(79)=TROIS100
+      IF(PM(79)==ZERO)PM(79)=THREE100
 
       !COMPUTING INITIAL PRESSURE : PM(31) -> SIG(1:3,*)
-      MU=RHOI/RHOR-UN
-      DENOM   = UN-BB*RHOR*(UN+MU)
-      BB      = (GAMMA-UN)*(UN+MU)/DENOM
+      MU=RHOI/RHOR-ONE
+      DENOM   = ONE-BB*RHOR*(ONE+MU)
+      BB      = (GAMMA-ONE)*(ONE+MU)/DENOM
       PP      = BB*E0
       PM(31)  = PP - PSH
       PM(104)  = PP - PSH      
       
       !SSP0
-      MU0 = RHOI/RHOR-UN
+      MU0 = RHOI/RHOR-ONE
       MU2 = MU0*MU0
       DF = RHOR/RHOI
       PP = PM(31)+PSH
       SSP0 = ZERO 
       G0 = PM(22)
       RHOI = PM(89)
-      DPDE = (GAMMA-UN)*(UN+MU0)/DENOM                                               
-      DPDMU = (GAMMA-UN)*E0/DENOM + PP/DENOM*BB*RHOI + PP*DF*DF*DPDE
+      DPDE = (GAMMA-ONE)*(ONE+MU0)/DENOM                                               
+      DPDMU = (GAMMA-ONE)*E0/DENOM + PP/DENOM*BB*RHOI + PP*DF*DF*DPDE
         
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + DTIERS*G0)/RHOR) 
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0       
 
       WRITE(IOUT,1000)

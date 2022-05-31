@@ -95,9 +95,9 @@ C=======================================================================
       ENDDO
 C
       IF(MTN.EQ.19)THEN
-         VISCDEF=QUART
+         VISCDEF=FOURTH
        ELSEIF(MTN.EQ.25.OR.MTN.EQ.27)THEN
-          VISCDEF=CINQEM2
+          VISCDEF=FIVEEM2
       ELSE
            VISCDEF=ZERO
       ENDIF
@@ -124,7 +124,7 @@ C
      .         + UPARAM(IADB+4)*UPARAM(IADB+9) 
      .         + UPARAM(IADB+5)*UPARAM(IADB+10) 
           RHO  = PM(1,IMAT)      
-          A11 = GMAX*(UN + NU)/(UN - NU**2)                             
+          A11 = GMAX*(ONE + NU)/(ONE - NU**2)                             
           SSP=MAX(SSP, SQRT(A11/RHO))     
          ELSEIF (MTN == 65) THEN
           RHO  =PM(1,IMAT)
@@ -134,15 +134,15 @@ C
           RHO  =PM(1,IMAT)
           YOUNG=PM(20,IMAT)
           NU   =PM(21,IMAT)
-          SSP=SQRT(YOUNG/(UN-NU*NU)/RHO)
+          SSP=SQRT(YOUNG/(ONE-NU*NU)/RHO)
          ENDIF
         ENDIF 
         VISCMX = GROUP_PARAM%VISC_DM
         IF (VISCMX == ZERO) VISCMX = VISCDEF
         IF(MTN.EQ.1.OR.MTN.EQ.2.OR.MTN.EQ.3.OR.
      .       MTN.EQ.22.OR.MTN.EQ.23) VISCMX=ZERO
-        VISCMX=SQRT(UN+VISCMX*VISCMX)-VISCMX
-        ALDT(I)= DEUX*AREA(I) / SQRT(ALMAX)
+        VISCMX=SQRT(ONE+VISCMX*VISCMX)-VISCMX
+        ALDT(I)= TWO*AREA(I) / SQRT(ALMAX)
         ALDTV(I)= ALDT(I)*VISCMX
         DT(I) = ALDTV(I) / SSP
   40  CONTINUE
@@ -160,8 +160,8 @@ C-------------------------
            SHF=1.
            FAC= AREA(I) / (ALDTV(I))**2
            STI = FAC* THK(I) * A11
-           STIR = FAC*A11R* (UNDOUZE*THK(I)**3
-     .               + UNDEMI * SHF * AREA(I) * G/A11) 
+           STIR = FAC*A11R* (ONE_OVER_12*THK(I)**3
+     .               + HALF * SHF * AREA(I) * G/A11) 
            STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
            STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
            STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
@@ -180,8 +180,8 @@ C-------------------------
            SHF=1.
            FAC= AREA(I) / (ALDTV(I))**2
            STI = FAC* THK(I) * A11
-           STIR = FAC*A11R* (UNDOUZE*THK(I)**3
-     .               + UNDEMI * SHF * AREA(I) * G/A11) 
+           STIR = FAC*A11R* (ONE_OVER_12*THK(I)**3
+     .               + HALF * SHF * AREA(I) * G/A11) 
            STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
            STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
            STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
@@ -197,8 +197,8 @@ C-------------------------
            G   =PM(22,IMAT)
            SHF=1.
            STI = AREA(I) * THK(I) * A11 / (ALDTV(I))**2
-           STIR = STI * (THK(I) * THK(I) * UNDOUZE
-     .               + UNDEMI * SHF * AREA(I) * G/A11) 
+           STIR = STI * (THK(I) * THK(I) * ONE_OVER_12
+     .               + HALF * SHF * AREA(I) * G/A11) 
            STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
            STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
            STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
@@ -220,8 +220,8 @@ C-------------------------
            SHF=1.
            FAC= AREA(I) / (ALDTV(I))**2
            STI = FAC* THK(I) * A11
-           STIR = FAC*A11R* (UNDOUZE*THK(I)**3
-     .               + UNDEMI * SHF * AREA(I) * G/A11) 
+           STIR = FAC*A11R* (ONE_OVER_12*THK(I)**3
+     .               + HALF * SHF * AREA(I) * G/A11) 
            STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
            STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
            STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
@@ -244,8 +244,8 @@ C-------------------------
            SHF=1.
            FAC= AREA(I) / (ALDTV(I))**2
            STI = FAC* THK(I) * A11
-           STIR = FAC*A11R* (UNDOUZE*THK(I)**3
-     .               + UNDEMI * SHF * AREA(I) * G/A11) 
+           STIR = FAC*A11R* (ONE_OVER_12*THK(I)**3
+     .               + HALF * SHF * AREA(I) * G/A11) 
            STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
            STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
            STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
@@ -265,8 +265,8 @@ C-------------------------
            G   =PM(22,IMAT)
            SHF=1.
            STI = AREA(I) * THK(I) * A11 / (ALDTV(I))**2
-           STIR = STI * (THK(I) * THK(I) * UNDOUZE
-     .               + UNDEMI * SHF * AREA(I) * G/A11) 
+           STIR = STI * (THK(I) * THK(I) * ONE_OVER_12
+     .               + HALF * SHF * AREA(I) * G/A11) 
            STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
            STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
            STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
@@ -290,9 +290,9 @@ C---------------------------------------------------------
 C---------------------------------------------------------
 C
        DO I=JFT,JLT
-        PX1(I) = -UNDEMI*Y3(I)
-        PY1(I) = UNDEMI*(X3(I)-X2(I))
-        PY2(I) = -UNDEMI*X3(I)
+        PX1(I) = -HALF*Y3(I)
+        PY1(I) = HALF*(X3(I)-X2(I))
+        PY2(I) = -HALF*X3(I)
        ENDDO
 C
        DO 80 I=JFT,JLT

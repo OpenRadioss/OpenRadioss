@@ -90,7 +90,7 @@ C
         CNS1=GEO(16,PID(I))                                      
         CNS2=GEO(17,PID(I))*SSP(I)*AL(I)*RHO0(I)                 
         QX(I)= (QB+CNS1)*SSP(I)                                  
-     .        +(DEUX*VIS(I)+CNS2)/(RHO0(I)*MAX(EM20,DELTAX(I))) 
+     .        +(TWO*VIS(I)+CNS2)/(RHO0(I)*MAX(EM20,DELTAX(I))) 
       ENDDO                                                      
 C
       DO I=LFT,LLT
@@ -144,7 +144,7 @@ C     REAL ou REAL*8
      .   QA, QB, CNS1, CNS2,FACQ
 C-----------------------------------------------
 C=======================================================================
-       FACQ = UN
+       FACQ = ONE
 !! qa=qb=zero by default for law70    
       IF(IGEO(31,PID(1)) == 1) FACQ = ZERO
       DO I=LFT,LLT
@@ -159,7 +159,7 @@ C
         CNS1=GEO(16,PID(I))                                      
         CNS2=GEO(17,PID(I))*SSP(I)*AL(I)*RHO0(I)                 
         QX(I)= (QB+CNS1)*SSP(I)                                  
-     .        +(DEUX*VIS(I)+CNS2)/(RHO0(I)*MAX(EM20,DELTAX(I))) 
+     .        +(TWO*VIS(I)+CNS2)/(RHO0(I)*MAX(EM20,DELTAX(I))) 
       ENDDO                                                      
 C
       DO I=LFT,LLT

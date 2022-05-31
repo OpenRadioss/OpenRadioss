@@ -73,12 +73,12 @@ C     REAL ou REAL*8
       MY_REAL
      .   C11(MVSIZ,3,3), C21(MVSIZ,3,3),C22(MVSIZ,3),B11,B12,B13,
      .   B21,B22,B23,B31,B32,B33,B1,B2,B3,H15,H26,H34,FAC
-c     .   EM20,UN,UNDEMI,DEUX,EP20,ZEP6
-c      DATA  EM20/1.E-20/,UN/1.0/,UNDEMI/0.5/,DEUX/2.0/,EP20/1.E+20/,
+c     .   EM20,ONE,HALF,TWO,EP20,ZEP6
+c      DATA  EM20/1.E-20/,ONE/1.0/,HALF/0.5/,TWO/2.0/,EP20/1.E+20/,
 c     .      ZEP6/0.6/
 C-----------------------------------------------
       DO I=JFT,JLT
-       AREAI(I)=UN/AREA2(I)
+       AREAI(I)=ONE/AREA2(I)
        PX2(I)=Y3(I)*AREAI(I)
        PY2(I)=-X3(I)*AREAI(I)
        PX3(I)=-Y2(I)*AREAI(I)
@@ -95,9 +95,9 @@ C------Hi inverse--------
        H1(I) =  AL1(I)*AREAI(I)     
        H2(I) =  AL2(I)*AREAI(I)
        H3(I) =  AL3(I)*AREAI(I)
-       AI1 = UN/AL1(I)   
-       AI2 = UN/AL2(I)    
-       AI3 = UN/AL3(I) 
+       AI1 = ONE/AL1(I)   
+       AI2 = ONE/AL2(I)    
+       AI3 = ONE/AL3(I) 
        C1(I) =  Y32(I)*AI1
        S1(I) = -X32(I)*AI1
        C2(I) = -Y3(I)*AI2
@@ -116,8 +116,8 @@ C------Hi inverse--------
        H14(I) = AREA4(I)*SQRT(AL42)   
        H24(I) = AREA4(I)*SQRT(AL41)
        H4D= (AL42-AL41)/AL3(I)  
-       BETA14(I) = UNDEMI*(H4D-AL3(I))/SQRT(AL41)
-       BETA24(I) = -UNDEMI*(H4D+AL3(I))/SQRT(AL42)
+       BETA14(I) = HALF*(H4D-AL3(I))/SQRT(AL41)
+       BETA24(I) = -HALF*(H4D+AL3(I))/SQRT(AL42)
        Z2 =Z5(I)*Z5(I)
        AL52 = X5(I) * X5(I) + Y5(I) * Y5(I)+Z2
        X53 =X5(I)-X32(I)
@@ -127,8 +127,8 @@ C------Hi inverse--------
        H25(I) = AREA5(I)*SQRT(AL53)   
        H35(I) = AREA5(I)*SQRT(AL52)   
        H5D= (AL53-AL52)/AL1(I)  
-       BETA25(I) = UNDEMI*(H5D-AL1(I))/SQRT(AL52)
-       BETA35(I) = -UNDEMI*(H5D+AL1(I))/SQRT(AL53)
+       BETA25(I) = HALF*(H5D-AL1(I))/SQRT(AL52)
+       BETA35(I) = -HALF*(H5D+AL1(I))/SQRT(AL53)
        Z2 =Z6(I)*Z6(I)
        AL63 = X6(I) * X6(I) + Y6(I) * Y6(I)+Z2
        X61 =X6(I)+X3(I)
@@ -138,8 +138,8 @@ C------Hi inverse--------
        H36(I) = AREA6(I)*SQRT(AL61)   
        H16(I) = AREA6(I)*SQRT(AL63)   
        H6D= (AL61-AL63)/AL2(I) 
-       BETA36(I) = UNDEMI*(H6D-AL2(I))/SQRT(AL63)
-       BETA16(I) = -UNDEMI*(H6D+AL2(I))/SQRT(AL61)
+       BETA36(I) = HALF*(H6D-AL2(I))/SQRT(AL63)
+       BETA16(I) = -HALF*(H6D+AL2(I))/SQRT(AL61)
       ENDDO
       DO I=JFT,JLT
        C11(I,1,1) = H1(I) 	      
@@ -222,10 +222,10 @@ C--------BLOQUE ---------------------------------------
       ENDDO
 C
       DO I=JFT,JLT
-       H15 =-DEUX*H1(I)*H5(I)/(H1(I)+H5(I))
-       H26 =-DEUX*H2(I)*H6(I)/(H2(I)+H6(I))
-       H34 =-DEUX*H3(I)*H4(I)/(H3(I)+H4(I))
-       ALMIN = -UNDEMI*MIN(H15,H26,H34)
+       H15 =-TWO*H1(I)*H5(I)/(H1(I)+H5(I))
+       H26 =-TWO*H2(I)*H6(I)/(H2(I)+H6(I))
+       H34 =-TWO*H3(I)*H4(I)/(H3(I)+H4(I))
+       ALMIN = -HALF*MIN(H15,H26,H34)
        AH(I) = ALMIN*ALMIN*THK2(I)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
        B11=C1(I)*C1(I)*H15
@@ -234,9 +234,9 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
        B21= H15 - B11      
        B22= H26 - B12      
        B23= H34 - B13      
-       B31=DEUX*C1(I)*S1(I)*H15
-       B32=DEUX*C2(I)*S2(I)*H26
-       B33=DEUX*C3(I)*S3(I)*H34
+       B31=TWO*C1(I)*S1(I)*H15
+       B32=TWO*C2(I)*S2(I)*H26
+       B33=TWO*C3(I)*S3(I)*H34
 C
        PB1(I,1,1) =B11*C11(I,1,1)+B12*C11(I,2,1)+B13*C11(I,3,1)	      
        PB1(I,1,2) =B11*C11(I,1,2)+B12*C11(I,2,2)+B13*C11(I,3,2)
@@ -279,10 +279,10 @@ C
       ENDDO
 C
       DO I=JFT,JLT
-       FAC =UN+ZEP6*(1+NU(I))*AH(I)
+       FAC =ONE+ZEP6*(1+NU(I))*AH(I)
        ALMAX = SQRT(FAC)*MAX(AL1(I),AL2(I),AL3(I))
        ALDT(I)= AREA2(I) /ALMAX
-       ALPE(I)=UN
+       ALPE(I)=ONE
       ENDDO
 C
 

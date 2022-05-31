@@ -161,23 +161,23 @@ C
           SLIP_ID(I) = ID
 C
           IF (IFUNC(1) > 0) THEN
-            IF (FRICD== ZERO) FRICD = UN
-            IF (XSCALE1== ZERO) XSCALE1 = UN*XSCALE1_UNIT    
+            IF (FRICD== ZERO) FRICD = ONE
+            IF (XSCALE1== ZERO) XSCALE1 = ONE*XSCALE1_UNIT    
           ENDIF
 C
           IF (IFUNC(2) > 0) THEN
-            IF (YSCALE2== ZERO) YSCALE2 = UN
-            IF (XSCALE2== ZERO) XSCALE2 = UN*XSCALE2_UNIT    
+            IF (YSCALE2== ZERO) YSCALE2 = ONE
+            IF (XSCALE2== ZERO) XSCALE2 = ONE*XSCALE2_UNIT    
           ENDIF
 C
           IF (IFUNC(3) > 0) THEN
-            IF (FRICS== ZERO) FRICS = UN
-            IF (XSCALE3== ZERO) XSCALE3 = UN*XSCALE1_UNIT    
+            IF (FRICS== ZERO) FRICS = ONE
+            IF (XSCALE3== ZERO) XSCALE3 = ONE*XSCALE1_UNIT    
           ENDIF
 C
           IF (IFUNC(4) > 0) THEN
-            IF (YSCALE4== ZERO) YSCALE4 = UN
-            IF (XSCALE4== ZERO) XSCALE4 = UN*XSCALE2_UNIT  
+            IF (YSCALE4== ZERO) YSCALE4 = ONE
+            IF (XSCALE4== ZERO) XSCALE4 = ONE*XSCALE2_UNIT  
           ENDIF
 C
 C---------CHeck of sensors is done in creat_seatblet as sensors are not yet avaialble
@@ -333,11 +333,11 @@ C--         compatibility with random noise
               DO J=1,NRAND
                 ALEA_MAX = MAX(ALEA_MAX,ALEA(J))
               ENDDO 
-              TOLE_2 = MAX(TOLE_2,DIX*ALEA_MAX*ALEA_MAX)
+              TOLE_2 = MAX(TOLE_2,TEN*ALEA_MAX*ALEA_MAX)
             ENDIF
 C
 C--         tolerance if node is very close to anchorage node
-            IF (DIST2 <= DIX*TOLE_2) THEN
+            IF (DIST2 <= TEN*TOLE_2) THEN
               X(1,NODE2) = X(1,NODE_ID)
               X(2,NODE2) = X(2,NODE_ID)
               X(3,NODE2) = X(3,NODE_ID)
@@ -461,7 +461,7 @@ C--------   CHeck of alignement of anchorage nodes
               VECTJ(1) = (X(1,N_FIRST)-X(1,NJ))/NORMJ
               VECTJ(2) = (X(2,N_FIRST)-X(2,NJ))/NORMJ
               VECTJ(3) = (X(3,N_FIRST)-X(3,NJ))/NORMJ 
-              SCAL =  UN - VECT(1)*VECTJ(1) - VECT(2)*VECTJ(2) - VECT(3)*VECTJ(3)           
+              SCAL =  ONE - VECT(1)*VECTJ(1) - VECT(2)*VECTJ(2) - VECT(3)*VECTJ(3)           
               IF ( ABS(SCAL) > EM20) THEN
                 CALL ANCMSG(MSGID=2051,
      .                      MSGTYPE=MSGERROR,
@@ -576,11 +576,11 @@ C--           compatibility with random noise
                 DO K=1,NRAND
                   ALEA_MAX = MAX(ALEA_MAX,ALEA(K))
                 ENDDO 
-                TOLE_2 = MAX(TOLE_2,DIX*ALEA_MAX*ALEA_MAX)
+                TOLE_2 = MAX(TOLE_2,TEN*ALEA_MAX*ALEA_MAX)
               ENDIF
 C
 C--           tolerance if node is very close to anchorage node
-              IF (DIST2 <= DIX*TOLE_2) THEN
+              IF (DIST2 <= TEN*TOLE_2) THEN
                 X(1,NODE2) = X(1,NODE_ID)
                 X(2,NODE2) = X(2,NODE_ID)
                 X(3,NODE2) = X(3,NODE_ID)

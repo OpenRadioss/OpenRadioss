@@ -188,27 +188,27 @@ C-----------------------------------------------
         ENDIF !IF(MTN.EQ.11.AND.UPWM.GT.1)
        
          DO I=LFT,LLT
-           FAC = QUART*RHO(I)*VOL(I)
+           FAC = FOURTH*RHO(I)*VOL(I)
            F1(I) = (VDX(I)*DXX(I)+VDY(I)*DXY(I)+VDZ(I)*DXZ(I))*FAC
            F2(I) = (VDX(I)*DYX(I)+VDY(I)*DYY(I)+VDZ(I)*DYZ(I))*FAC
            F3(I) = (VDX(I)*DZX(I)+VDY(I)*DZY(I)+VDZ(I)*DZZ(I))*FAC
          ENDDO
        
          DO I=LFT,LLT
-          F11(I) = F11(I) - (UN+A1(I))*F1(I)
-          F12(I) = F12(I) - (UN+A2(I))*F1(I)
-          F13(I) = F13(I) - (UN+A3(I))*F1(I)
-          F14(I) = F14(I) - (UN+A4(I))*F1(I)
+          F11(I) = F11(I) - (ONE+A1(I))*F1(I)
+          F12(I) = F12(I) - (ONE+A2(I))*F1(I)
+          F13(I) = F13(I) - (ONE+A3(I))*F1(I)
+          F14(I) = F14(I) - (ONE+A4(I))*F1(I)
 
-          F21(I) = F21(I) - (UN+A1(I))*F2(I)
-          F22(I) = F22(I) - (UN+A3(I))*F2(I)
-          F23(I) = F23(I) - (UN+A3(I))*F2(I)
-          F24(I) = F24(I) - (UN+A4(I))*F2(I)
+          F21(I) = F21(I) - (ONE+A1(I))*F2(I)
+          F22(I) = F22(I) - (ONE+A3(I))*F2(I)
+          F23(I) = F23(I) - (ONE+A3(I))*F2(I)
+          F24(I) = F24(I) - (ONE+A4(I))*F2(I)
 
-          F31(I) = F31(I) - (UN+A1(I))*F3(I)
-          F32(I) = F32(I) - (UN+A3(I))*F3(I)
-          F33(I) = F33(I) - (UN+A3(I))*F3(I)
-          F34(I) = F34(I) - (UN+A4(I))*F3(I)
+          F31(I) = F31(I) - (ONE+A1(I))*F3(I)
+          F32(I) = F32(I) - (ONE+A3(I))*F3(I)
+          F33(I) = F33(I) - (ONE+A3(I))*F3(I)
+          F34(I) = F34(I) - (ONE+A4(I))*F3(I)
          ENDDO
 
       ELSE ! IF(UPWM.LT.2 .OR.MTN.EQ.11)

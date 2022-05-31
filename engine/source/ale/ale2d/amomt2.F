@@ -124,12 +124,12 @@ C-----------------------------------------------
       !   CENTROID VALUE (MEAN)
       !-----------------------------------------------
       DO I=LFT,LLT
-        XMS(I)  = QUART*RHO(I)*AIREM(I)
+        XMS(I)  = FOURTH*RHO(I)*AIREM(I)
         GAMMA(I)= PM(15,MAT(I))
       ENDDO
       DO I=LFT,LLT
-        VDY(I)  = QUART*(VY1(I)+VY2(I)+VY3(I)+VY4(I))
-        VDZ(I)  = QUART*(VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I))
+        VDY(I)  = FOURTH*(VY1(I)+VY2(I)+VY3(I)+VY4(I))
+        VDZ(I)  = FOURTH*(VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I))
       ENDDO
 
       !-----------------------------------------------
@@ -151,11 +151,11 @@ C-----------------------------------------------
         ENDIF
         DO I=LFT,LLT
           AAA      = QMV(1,I)+QMV(2,I)+QMV(3,I)+QMV(4,I)
-          AAA      = QUART * AAA
-          QMV(1,I) = QUART * (QMV(1,I) - AAA)   
-          QMV(2,I) = QUART * (QMV(2,I) - AAA)   
-          QMV(3,I) = QUART * (QMV(3,I) - AAA)   
-          QMV(4,I) = QUART * (QMV(4,I) - AAA)   
+          AAA      = FOURTH * AAA
+          QMV(1,I) = FOURTH * (QMV(1,I) - AAA)   
+          QMV(2,I) = FOURTH * (QMV(2,I) - AAA)   
+          QMV(3,I) = FOURTH * (QMV(3,I) - AAA)   
+          QMV(4,I) = FOURTH * (QMV(4,I) - AAA)   
           DMY      = ZERO
           DMZ      = ZERO
           DM       = QMV(4,I)+QMV(1,I)
@@ -170,20 +170,20 @@ C-----------------------------------------------
           DM       = QMV(3,I)+QMV(4,I)
           DMY      = DMY + VY4(I)*DM
           DMZ      = DMZ + VZ4(I)*DM
-          DMY      = -QUART * DMY
-          DMZ      = -QUART * DMZ
+          DMY      = -FOURTH * DMY
+          DMZ      = -FOURTH * DMZ
           A1(I)    = PY1(I)*VDY(I)+PZ1(I)*VDZ(I)
           A2(I)    = PY2(I)*VDY(I)+PZ2(I)*VDZ(I)
           A1(I)    = SIGN(GAMMA(I),A1(I))
           A2(I)    = SIGN(GAMMA(I),A2(I))
-          T11(I)   = T11(I)+(UN+A1(I))*DMY
-          T12(I)   = T12(I)+(UN+A2(I))*DMY
-          T13(I)   = T13(I)+(UN-A1(I))*DMY
-          T14(I)   = T14(I)+(UN-A2(I))*DMY
-          T21(I)   = T21(I)+(UN+A1(I))*DMZ
-          T22(I)   = T22(I)+(UN+A2(I))*DMZ
-          T23(I)   = T23(I)+(UN-A1(I))*DMZ
-          T24(I)   = T24(I)+(UN-A2(I))*DMZ
+          T11(I)   = T11(I)+(ONE+A1(I))*DMY
+          T12(I)   = T12(I)+(ONE+A2(I))*DMY
+          T13(I)   = T13(I)+(ONE-A1(I))*DMY
+          T14(I)   = T14(I)+(ONE-A2(I))*DMY
+          T21(I)   = T21(I)+(ONE+A1(I))*DMZ
+          T22(I)   = T22(I)+(ONE+A2(I))*DMZ
+          T23(I)   = T23(I)+(ONE-A1(I))*DMZ
+          T24(I)   = T24(I)+(ONE-A2(I))*DMZ
         ENDDO
       ELSEIF (MTN .NE. 51 .AND. UPWM .NE. 3) THEN
       !-----------------------------------------------
@@ -202,22 +202,22 @@ C-----------------------------------------------
           A2(I)   = SIGN(GAMMA(I),A2(I))
         ENDDO
         DO I=LFT,LLT
-          T11(I)   =  T11(I)+(UN+A1(I))*F1(I)
-          T12(I)   =  T12(I)+(UN+A2(I))*F1(I)
-          T13(I)   =  T13(I)+(UN-A1(I))*F1(I)
-          T14(I)   =  T14(I)+(UN-A2(I))*F1(I)
+          T11(I)   =  T11(I)+(ONE+A1(I))*F1(I)
+          T12(I)   =  T12(I)+(ONE+A2(I))*F1(I)
+          T13(I)   =  T13(I)+(ONE-A1(I))*F1(I)
+          T14(I)   =  T14(I)+(ONE-A2(I))*F1(I)
 
-          T21(I)   =  T21(I)+(UN+A1(I))*F2(I)
-          T22(I)   =  T22(I)+(UN+A2(I))*F2(I)
-          T23(I)   =  T23(I)+(UN-A1(I))*F2(I)
-          T24(I)   =  T24(I)+(UN-A2(I))*F2(I)
+          T21(I)   =  T21(I)+(ONE+A1(I))*F2(I)
+          T22(I)   =  T22(I)+(ONE+A2(I))*F2(I)
+          T23(I)   =  T23(I)+(ONE-A1(I))*F2(I)
+          T24(I)   =  T24(I)+(ONE-A2(I))*F2(I)
         ENDDO
 
       ELSEIF (UPWM .EQ.3) THEN
-         PC=QUART
-         PD=UNSEIZE
-         PS=UNSEIZE
-         PP=UNSEIZE
+         PC=FOURTH
+         PD=ONE_OVER_16
+         PS=ONE_OVER_16
+         PP=ONE_OVER_16
          DO I=LFT,LLT
             Y13(I)=Y3(I)-Y1(I)
             Z13(I)=Z3(I)-Z1(I)
@@ -233,10 +233,10 @@ C-----------------------------------------------
             Z41(I)=Z1(I)-Z4(I)
          ENDDO
          DO I=LFT,LLT
-            S(2,I)=UNDEMI*(Y12(I)-Y34(I))
-            S(3,I)=UNDEMI*(Z12(I)-Z34(I))
-            T(2,I)=UNDEMI*(-Y41(I)+Y23(I))
-            T(3,I)=UNDEMI*(-Z41(I)+Z23(I))	 
+            S(2,I)=HALF*(Y12(I)-Y34(I))
+            S(3,I)=HALF*(Z12(I)-Z34(I))
+            T(2,I)=HALF*(-Y41(I)+Y23(I))
+            T(3,I)=HALF*(-Z41(I)+Z23(I))	 
          ENDDO
          !-----------------------------------------------
          ! SUPG implementation for 2D ALE 

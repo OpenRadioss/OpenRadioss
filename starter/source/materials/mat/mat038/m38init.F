@@ -160,9 +160,9 @@ C PRINCIPAL DIRECTIONS
         DO J=17,25
           UVAR(I,J)=ZERO
         ENDDO
-        UVAR(I,17)=UN
-        UVAR(I,21)=UN
-        UVAR(I,25)=UN
+        UVAR(I,17)=ONE
+        UVAR(I,21)=ONE
+        UVAR(I,25)=ONE
 C LAW STORAGE FOR DECAY AND HYSTERESIS
         DO J=26,31
           UVAR(I,J)=ZERO

@@ -134,12 +134,12 @@ C--------------------------------------------
       IF (MAXEI == ZERO) MAXEI = INFINITY
       IF (MAXEN == ZERO) MAXEN = INFINITY
       IF (MAXET == ZERO) MAXET = INFINITY
-      IF (FACN == ZERO)  FACN  = UN
-      IF (FACT == ZERO)  FACT  = UN
-      IF (EXPN == ZERO)  EXPN  = UN
-      IF (EXPT == ZERO)  EXPT  = UN
-      IF (NN    == ZERO) NN    = UN
-      IF (NT    == ZERO) NT    = UN
+      IF (FACN == ZERO)  FACN  = ONE
+      IF (FACT == ZERO)  FACT  = ONE
+      IF (EXPN == ZERO)  EXPN  = ONE
+      IF (EXPT == ZERO)  EXPT  = ONE
+      IF (NN    == ZERO) NN    = ONE
+      IF (NT    == ZERO) NT    = ONE
 c-----------------------------------------------------------------------
 c     Rupture model flag 
 c 
@@ -158,9 +158,9 @@ c-----------------------------------------------------------------------
       IF (UNIT_ID > 0) THEN
         UNIT_T = UNITAB%FAC_T(UNIT_ID)
       ELSE
-        UNIT_T = UN
+        UNIT_T = ONE
       ENDIF
-      ASCALE = UN / UNIT_T
+      ASCALE = ONE / UNIT_T
 c-----------------------------------------------------------------------
       UPARAM(1)  = MAXDN
       UPARAM(2)  = MAXDT

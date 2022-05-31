@@ -301,7 +301,7 @@ C--------------------------------------------------
 C--------------------------------------------------
               NS1 = 5
               NS2 = 3
-              A1  = UN
+              A1  = ONE
               A2  = ZERO
               DO I=1,NEL
                 VALUE(1) = A1 * GBUF%FOR(JJ(1)+I) + A2 * GBUF%MOM(JJ(1)+I)
@@ -316,7 +316,7 @@ C--------------------------------------------------
               NS1 = 5
               NS2 = 3
               A1  = ZERO
-              A2  = UN
+              A2  = ONE
               DO I=1,NEL
                 VALUE(1) = A1 * GBUF%FOR(JJ(1)+I) + A2 * GBUF%MOM(JJ(1)+I)
                 VALUE(2) = A1 * GBUF%FOR(JJ(2)+I) + A2 * GBUF%MOM(JJ(2)+I)
@@ -330,7 +330,7 @@ C--------------------------------------------------
 C--------------------------------------------------
               NS1 = 5
               NS2 = 3
-              A1  = UN
+              A1  = ONE
               A2  = ZERO
 c ILAYER=NULL NPT=NULL
               IF(MPT == 0 .AND. IPT == 1 ) THEN
@@ -841,7 +841,7 @@ C--------------------------------------------------
 C--------------------------------------------------
               NS1 = 8
               NS2 = 8
-              A1 = UN
+              A1 = ONE
               A2 = ZERO
               IF (ISTRAIN == 1) THEN
                 DO I=1,NEL
@@ -851,7 +851,7 @@ C--------------------------------------------------
                   VALUE(1) = A1*GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I) * THK
                   VALUE(2) = A1*GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I) * THK
                   VALUE(3) = A1*GBUF%STRA(JJ(3)+I) + A2*GBUF%STRA(JJ(8)+I) * THK
-                  VALUE(3) = VALUE(3) * UNDEMI 
+                  VALUE(3) = VALUE(3) * HALF 
                   CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                                     VALUE)
                 ENDDO
@@ -862,7 +862,7 @@ C--------------------------------------------------
               NS1 = 8
               NS2 = 8
               A1 = ZERO
-              A2 = UN
+              A2 = ONE
               IF (ISTRAIN == 1) THEN
                 DO I=1,NEL
                   N = I + NFT
@@ -871,7 +871,7 @@ C--------------------------------------------------
                   VALUE(1) = A1*GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I) * THK
                   VALUE(2) = A1*GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I) * THK
                   VALUE(3) = A1*GBUF%STRA(JJ(3)+I) + A2*GBUF%STRA(JJ(8)+I) * THK
-                  VALUE(3) = VALUE(3) * UNDEMI 
+                  VALUE(3) = VALUE(3) * HALF 
                   CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                                     VALUE)    
                 ENDDO
@@ -884,26 +884,26 @@ C--------------------------------------------------
 c ILAYER=NULL NPT=NULL
               IF(MPT == 0 .AND. IPT == 1 ) THEN
                   DO I=1,NEL
-                    A2 = -UNDEMI*GBUF%THK(I)
+                    A2 = -HALF*GBUF%THK(I)
                     VALUE(1) =  GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I) 
                     VALUE(2) =  GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I) 
                     VALUE(3) =  GBUF%STRA(JJ(3)+I) + A2*GBUF%STRA(JJ(8)+I)
-                    VALUE(3) = VALUE(3) * UNDEMI 
+                    VALUE(3) = VALUE(3) * HALF 
                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                                       VALUE)    
                   ENDDO  
               ELSEIF(MPT == 0 .AND. IPT_INPUT == -3 ) THEN
                   DO I=1,NEL
-                    A2 = UNDEMI*GBUF%THK(I)
+                    A2 = HALF*GBUF%THK(I)
                     VALUE(1) =  GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I) 
                     VALUE(2) =  GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I) 
                     VALUE(3) =  GBUF%STRA(JJ(3)+I) + A2*GBUF%STRA(JJ(8)+I)
-                    VALUE(3) = VALUE(3) * UNDEMI 
+                    VALUE(3) = VALUE(3) * HALF 
                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                                       VALUE)    
                   ENDDO  
         ELSEIF ( ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN  
-                A1 = UN
+                A1 = ONE
                 A2 = ZERO
                 IF (ISTRAIN == 1) THEN
                   DO I=1,NEL
@@ -913,7 +913,7 @@ c ILAYER=NULL NPT=NULL
                     VALUE(1) = A1*GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I) * THK
                     VALUE(2) = A1*GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I) * THK
                     VALUE(3) = A1*GBUF%STRA(JJ(3)+I) + A2*GBUF%STRA(JJ(8)+I) * THK
-                    VALUE(3) = VALUE(3) * UNDEMI 
+                    VALUE(3) = VALUE(3) * HALF 
                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                     VALUE)
                   ENDDO
@@ -934,9 +934,9 @@ c PLY=IPLY NPT=IPT
                  ENDIF
                  IF (ID_PLY  == IPLY .AND.
      .               IPT <= NPTT ) THEN
-                   A1 = UN
+                   A1 = ONE
                    A2 = STACK%GEO(IPPOS+J,ISUBSTACK)+ 
-     .                  UNDEMI*(((2*IPT-UN)/NPTT)-UN) *
+     .                  HALF*(((2*IPT-ONE)/NPTT)-ONE) *
      .                     STACK%GEO(IPTHK+J,ISUBSTACK)
                       IF (ISTRAIN == 1) THEN
                        DO I=1,NEL
@@ -945,7 +945,7 @@ c PLY=IPLY NPT=IPT
                          VALUE(1) = A1*GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I) * THK
                          VALUE(2) = A1*GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I) * THK
                          VALUE(3) = A1*GBUF%STRA(JJ(3)+I) + A2*GBUF%STRA(JJ(8)+I) * THK
-                         VALUE(3) = VALUE(3) * UNDEMI 
+                         VALUE(3) = VALUE(3) * HALF 
                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                          VALUE)
                        ENDDO
@@ -961,9 +961,9 @@ c PLY=NULL ILAYER=ILAY NPT=IPT
                IPPOS  = IPTHK + NLAY
                BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
                NPTT = BUFLY%NPTT
-               A1 = UN
+               A1 = ONE
                A2 = STACK%GEO(IPPOS+ILAY,ISUBSTACK)+ 
-     .                    UNDEMI*(((2*IPT-UN)/NPTT)-UN) *
+     .                    HALF*(((2*IPT-ONE)/NPTT)-ONE) *
      .                 STACK%GEO(IPTHK+ILAY,ISUBSTACK)
                   IF (ISTRAIN == 1) THEN
                     DO I=1,NEL
@@ -972,7 +972,7 @@ c PLY=NULL ILAYER=ILAY NPT=IPT
                       VALUE(1) = A1*GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I) * THK
                       VALUE(2) = A1*GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I) * THK
                       VALUE(3) = A1*GBUF%STRA(JJ(3)+I) + A2*GBUF%STRA(JJ(8)+I) * THK
-                      VALUE(3) = VALUE(3) * UNDEMI 
+                      VALUE(3) = VALUE(3) * HALF 
                       CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                             VALUE)
                     ENDDO
@@ -980,8 +980,8 @@ c PLY=NULL ILAYER=ILAY NPT=IPT
           ENDIF
 c PLY=NULL ILAYER=IL NPT=NULL
         ELSEIF (IPLY == -1 .AND.  ILAY <= NLAY .AND. ILAY > 0 .AND. IPT == -1 ) THEN
-                A1 = UN
-                A2 = UNDEMI*(((2*ILAY-UN)/NLAY)-UN)
+                A1 = ONE
+                A2 = HALF*(((2*ILAY-ONE)/NLAY)-ONE)
            IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17 .OR.
      .              IGTYP == 51 .OR. IGTYP == 52) THEN
                   IF (ISTRAIN == 1) THEN
@@ -992,7 +992,7 @@ c PLY=NULL ILAYER=IL NPT=NULL
                       VALUE(1) = A1*GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I) * THK
                       VALUE(2) = A1*GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I) * THK
                       VALUE(3) = A1*GBUF%STRA(JJ(3)+I) + A2*GBUF%STRA(JJ(8)+I) * THK
-                      VALUE(3) = VALUE(3) * UNDEMI 
+                      VALUE(3) = VALUE(3) * HALF 
                       CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                        VALUE)
                     ENDDO
@@ -1000,8 +1000,8 @@ c PLY=NULL ILAYER=IL NPT=NULL
          ENDIF
 c PLY=NULL ILAYER=NULL NPT=IPT
         ELSEIF ( IPT <= MPT .AND. IPT > 0) THEN
-                A1 = UN
-                A2 = UNDEMI*(((2*IPT-UN)/MPT)-UN)
+                A1 = ONE
+                A2 = HALF*(((2*IPT-ONE)/MPT)-ONE)
            IF (IGTYP == 1 .OR. IGTYP == 9) THEN 
                   IF (ISTRAIN == 1) THEN
                     DO I=1,NEL
@@ -1011,7 +1011,7 @@ c PLY=NULL ILAYER=NULL NPT=IPT
                       VALUE(1) = A1*GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I) * THK
                       VALUE(2) = A1*GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I) * THK
                       VALUE(3) = A1*GBUF%STRA(JJ(3)+I) + A2*GBUF%STRA(JJ(8)+I) * THK
-                      VALUE(3) = VALUE(3) * UNDEMI 
+                      VALUE(3) = VALUE(3) * HALF 
                       CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                        VALUE)
                     ENDDO
@@ -1021,13 +1021,13 @@ c PLY=NULL ILAYER=NULL NPT=IPT
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'TENS/EPSDOT/MEMB') THEN  
 C--------------------------------------------------
-              A1 = UN
+              A1 = ONE
               A2 = ZERO
               DO I=1,NEL
                 THK = GBUF%THK(I)  
                 VALUE(1) = A1*EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                 VALUE(2) = A1*EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
-                VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* UNDEMI 
+                VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
                 CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                                   VALUE)
               ENDDO
@@ -1038,7 +1038,7 @@ C--------------------------------------------------
                 THK = GBUF%THK(I)
                 VALUE(1) = EPSDOT(4,I+NFT+OFFSET)
                 VALUE(2) = EPSDOT(5,I+NFT+OFFSET)
-                VALUE(3) = EPSDOT(6,I+NFT+OFFSET) * UNDEMI 
+                VALUE(3) = EPSDOT(6,I+NFT+OFFSET) * HALF 
                 CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                                   VALUE)
               ENDDO
@@ -1047,13 +1047,13 @@ C--------------------------------------------------
 C--------------------------------------------------
 c ILAYER=NULL NPT=NULL
         IF ( ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN  
-                A1 = UN
+                A1 = ONE
                 A2 = ZERO
                 DO I=1,NEL
                   THK = GBUF%THK(I)    
                   VALUE(1) = A1*EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                   VALUE(2) = A1*EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
-                  VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* UNDEMI 
+                  VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
                   CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                   VALUE)
                 ENDDO
@@ -1076,15 +1076,15 @@ c PLY=IPLY NPT=IPT
               BUFLY => ELBUF_TAB(NG)%BUFLY(J)
               NPTT = BUFLY%NPTT
               IF (ID_PLY  == IPLY .AND. IPT <= NPTT) THEN
-                A1 = UN
+                A1 = ONE
                 A2 = STACK%GEO(IPPOS+J,ISUBSTACK)+ 
-     .            UNDEMI*(((2*IPT-UN)/NPTT)-UN) *
+     .            HALF*(((2*IPT-ONE)/NPTT)-ONE) *
      .               STACK%GEO(IPTHK+J,ISUBSTACK)
                       DO I=1,NEL
                         THK = GBUF%THK(I)  
                         VALUE(1) = A1*EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                         VALUE(2) = A1*EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
-                        VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* UNDEMI 
+                        VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
                         CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                              VALUE)
                       ENDDO
@@ -1110,16 +1110,16 @@ c PLY=NULL ILAYER=ILAY NPT=IPT
             BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
             NPTT = BUFLY%NPTT
             IF (IPT <= NPTT) THEN
-              A1 = UN
+              A1 = ONE
               A2 = STACK%GEO(IPPOS+ILAY,ISUBSTACK)+ 
-     .            UNDEMI*(((2*IPT-UN)/NPTT)-UN) *
+     .            HALF*(((2*IPT-ONE)/NPTT)-ONE) *
      .           STACK%GEO(IPTHK+ILAY,ISUBSTACK)
                     DO I=1,NEL
                       N = I + NFT
                       THK = GBUF%THK(I)       
                       VALUE(1) = A1*EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                       VALUE(2) = A1*EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
-                      VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* UNDEMI 
+                      VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
                       CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                         VALUE)
                     ENDDO
@@ -1128,42 +1128,42 @@ c PLY=NULL ILAYER=ILAY NPT=IPT
 c PLY=NULL ILAYER=IL NPT=NULL
         ELSEIF (IPLY == -1 .AND.  ILAY <= NLAY .AND. ILAY > 0 .AND. IPT == -1 ) THEN
           IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17) THEN 
-                  A1 = UN
-                  A2 = UNDEMI*(((2*ILAY-UN)/NLAY)-UN)
+                  A1 = ONE
+                  A2 = HALF*(((2*ILAY-ONE)/NLAY)-ONE)
                   DO I=1,NEL
                     N = I + NFT
                     THK = GBUF%THK(I)      
                     VALUE(1) = A1*EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                     VALUE(2) = A1*EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
-                    VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* UNDEMI 
+                    VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                           VALUE)
                   ENDDO
           ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN 
-                  A1 = UN
+                  A1 = ONE
                   A2 = STACK%GEO(IPPOS+ILAY,ISUBSTACK)+ 
-     .                       UNDEMI*(((2*IPT-UN)/NPTT)-UN) *
+     .                       HALF*(((2*IPT-ONE)/NPTT)-ONE) *
      .                       STACK%GEO(IPTHK+ILAY,ISUBSTACK)
                   DO I=1,NEL
                     N = I + NFT
                     THK = GBUF%THK(I)      
                     VALUE(1) = A1*EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                     VALUE(2) = A1*EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
-                    VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* UNDEMI 
+                    VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                           VALUE)
                   ENDDO
          ENDIF
 c PLY=NULL ILAYER=NULL NPT=IPT
         ELSEIF ( IPT <= MPT .AND. IPT > 0) THEN
-                A1 = UN
-                A2 = UNDEMI*(((2*IPT-UN)/MPT)-UN)
+                A1 = ONE
+                A2 = HALF*(((2*IPT-ONE)/MPT)-ONE)
             IF (IGTYP == 1 .OR. IGTYP == 9) THEN 
                   DO I=1,NEL
                     THK = GBUF%THK(I)      
                     VALUE(1) = A1*EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                     VALUE(2) = A1*EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
-                    VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* UNDEMI 
+                    VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                           VALUE)
                   ENDDO
@@ -2197,10 +2197,10 @@ C------initial configuration :
         CALL C4SYSG2L(X0N,Y0N,Z0N,X0L2,Y0L2,X0L3,Y0L3,X0L4,Y0L4,ZL,AREA,NEL)
 C-------[B0]---remove the origine to the center--------------
        DO I=1,NEL
-C-----------EM20=1.0E-20,QUART=0.25,UNDEMI=0.5,ZERO=0.--------------
-        AREA_I(I) = UN/MAX(EM20,AREA(I))
-        LXYZ0(1)=QUART*(X0L2(I)+X0L3(I)+X0L4(I))
-        LXYZ0(2)=QUART*(Y0L2(I)+Y0L3(I)+Y0L4(I))
+C-----------EM20=1.0E-20,FOURTH=0.25,HALF=0.5,ZERO=0.--------------
+        AREA_I(I) = ONE/MAX(EM20,AREA(I))
+        LXYZ0(1)=FOURTH*(X0L2(I)+X0L3(I)+X0L4(I))
+        LXYZ0(2)=FOURTH*(Y0L2(I)+Y0L3(I)+Y0L4(I))
         COREL(1,1)=-LXYZ0(1)
         COREL(1,2)=X0L2(I)-LXYZ0(1)
         COREL(1,3)=X0L3(I)-LXYZ0(1)
@@ -2210,10 +2210,10 @@ C-----------EM20=1.0E-20,QUART=0.25,UNDEMI=0.5,ZERO=0.--------------
         COREL(2,3)=Y0L3(I)-LXYZ0(2)
         COREL(2,4)=Y0L4(I)-LXYZ0(2)
 C----
-        X13 =(COREL(1,1)-COREL(1,3))*UNDEMI
-        X24 =(COREL(1,2)-COREL(1,4))*UNDEMI
-        Y13 =(COREL(2,1)-COREL(2,3))*UNDEMI
-        Y24 =(COREL(2,2)-COREL(2,4))*UNDEMI
+        X13 =(COREL(1,1)-COREL(1,3))*HALF
+        X24 =(COREL(1,2)-COREL(1,4))*HALF
+        Y13 =(COREL(2,1)-COREL(2,3))*HALF
+        Y24 =(COREL(2,2)-COREL(2,4))*HALF
         PY2(I) =X13*AREA_I(I)
         PY1(I) =-X24*AREA_I(I)
         PX2(I) =-Y13*AREA_I(I)
@@ -2312,11 +2312,11 @@ C------g1,g2 :
 C------Local elem. base:
         CALL CLSYS3(RX, RY, RZ, SX, SY, SZ, 
      .              VQ, DETA1,NEL)
-C------ Global -> Local Coordinate  QUART=0.25 ;
+C------ Global -> Local Coordinate  FOURTH=0.25 ;
         DO I=1,NEL
-          LXYZ0(1)=QUART*(XN(1,I)+XN(2,I)+XN(3,I)+XN(4,I))
-          LXYZ0(2)=QUART*(YN(1,I)+YN(2,I)+YN(3,I)+YN(4,I))
-          LXYZ0(3)=QUART*(ZN(1,I)+ZN(2,I)+ZN(3,I)+ZN(4,I))
+          LXYZ0(1)=FOURTH*(XN(1,I)+XN(2,I)+XN(3,I)+XN(4,I))
+          LXYZ0(2)=FOURTH*(YN(1,I)+YN(2,I)+YN(3,I)+YN(4,I))
+          LXYZ0(3)=FOURTH*(ZN(1,I)+ZN(2,I)+ZN(3,I)+ZN(4,I))
           XX=XN(2,I)-XN(1,I)
           YY=YN(2,I)-YN(1,I)
           ZZ=ZN(2,I)-ZN(1,I)
@@ -2338,7 +2338,7 @@ C
           ZZ=ZN(4,I)-ZN(1,I)
           XL4(I)=VQ(1,1,I)*XX+VQ(2,1,I)*YY+VQ(3,1,I)*ZZ
           YL4(I)=VQ(1,2,I)*XX+VQ(2,2,I)*YY+VQ(3,2,I)*ZZ
-          AREA(I)=QUART*DETA1(I)
+          AREA(I)=FOURTH*DETA1(I)
         ENDDO 
 c-----------
       RETURN
@@ -2411,12 +2411,12 @@ C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
        DO I=1,NEL
         C1C1 = RX(I)*RX(I) + RY(I)*RY(I) + RZ(I)*RZ(I)
         C2C2 = SX(I)*SX(I) + SY(I)*SY(I) + SZ(I)*SZ(I)
-C ----- ZERO=0., UN=1.0    
+C ----- ZERO=0., ONE=1.0    
         IF(C1C1 /= ZERO) THEN
           C2_1 = SQRT(C2C2/MAX(EM20,C1C1))
-          C1_1 = UN
+          C1_1 = ONE
         ELSEIF(C2C2 /= ZERO)THEN
-          C2_1 = UN
+          C2_1 = ONE
           C1_1 = SQRT(C1C1/MAX(EM20,C2C2))
         END IF 
         E1X(I) = RX(I)*C2_1+(SY(I)*E3Z(I)-SZ(I)*E3Y(I))*C1_1
@@ -2426,7 +2426,7 @@ C ----- ZERO=0., UN=1.0
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
        DO I=1,NEL
         C1 = SQRT(E1X(I)*E1X(I) + E1Y(I)*E1Y(I) + E1Z(I)*E1Z(I))
-        IF ( C1 /= ZERO) C1 = UN / MAX(EM20,C1)
+        IF ( C1 /= ZERO) C1 = ONE / MAX(EM20,C1)
         E1X(I) = E1X(I)*C1
         E1Y(I) = E1Y(I)*C1
         E1Z(I) = E1Z(I)*C1
@@ -2680,8 +2680,8 @@ C-----------------------------------------------
         UM(1,1) = CC11*C_A2+CC22*S_A2
         UM(2,2) = CC11*S_A2+CC22*C_A2
         UM(1,2) = (CC11-CC22)*S_A*C_A
-        STRAIN(1,I) = UM(1,1)-UN
-        STRAIN(2,I) = UM(2,2)-UN
+        STRAIN(1,I) = UM(1,1)-ONE
+        STRAIN(2,I) = UM(2,2)-ONE
         STRAIN(3,I) = UM(1,2)
        END DO
 C

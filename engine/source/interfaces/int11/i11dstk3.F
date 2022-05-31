@@ -148,24 +148,24 @@ C
        IF(H1M(I).LT.ZERO)THEN
          H1M(I) = ZERO
          H1S(I) = -XA / XS2
-       ELSEIF(H1M(I).GT.UN)THEN
-         H1M(I) = UN
+       ELSEIF(H1M(I).GT.ONE)THEN
+         H1M(I) = ONE
          H1S(I) = -(XA + XSM) / XS2
        ENDIF
 C
        IF(H1S(I).LT.ZERO)THEN
          H1S(I) = ZERO
          H1M(I) = -XB / XM2
-       ELSEIF(H1S(I).GT.UN)THEN
-         H1S(I) = UN
+       ELSEIF(H1S(I).GT.ONE)THEN
+         H1S(I) = ONE
          H1M(I) = -(XB + XSM) / XM2
        ENDIF
 C
-       H1M(I) = MIN(UN,H1M(I))
+       H1M(I) = MIN(ONE,H1M(I))
        H1M(I) = MAX(ZERO,H1M(I))
 C
-       H2S(I) = UN -H1S(I)
-       H2M(I) = UN -H1M(I)
+       H2S(I) = ONE -H1S(I)
+       H2M(I) = ONE -H1M(I)
 C !!!!!!!!!!!!!!!!!!!!!!!
 C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
 C!!!!!!!!!!!!!!!!!!!!!!!!
@@ -217,7 +217,7 @@ C-----------------------------------------------
      .     PENE2(MVSIZ),GAP2,FAC
 C--------------------------------------------------------
        FAC = ZEP97*ZEP97
-Ctmp       FAC = (UN +UNDEMI)*(UN +UNDEMI)
+Ctmp       FAC = (ONE +HALF)*(ONE +HALF)
       DO I=1,JLT
        GAP2 = FAC*GAPV(I)*GAPV(I)
        PENE2(I) = GAP2 - NX(I)*NX(I) - NY(I)*NY(I) - NZ(I)*NZ(I)

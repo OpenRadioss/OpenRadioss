@@ -194,7 +194,7 @@ C-----------------------------------------------
        A11  = UPARAM(3)
        A21  = UPARAM(4)
        G1   = UPARAM(5)
-       G31  = TROIS*G1
+       G31  = THREE*G1
        NUX  = UPARAM(6)
        NNU11 = NUX / (1. - NUX)
        NRATE1  = NINT(UPARAM(1))
@@ -243,20 +243,20 @@ C
 C
          SOUNDSP(I) = SQRT(A11/RHO0(I))
          VISCMAX(I) = ZERO
-         ETSE(I) = UN
+         ETSE(I) = ONE
 C-------------------
 C     STRAIN RATE
 C-------------------
 C
          IF (ISRATE .EQ. 0) EPSP(I) = 
-     .     UNDEMI*( ABS(EPSPXX(I)+EPSPYY(I))
+     .     HALF*( ABS(EPSPXX(I)+EPSPYY(I))
      .   + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .                 + EPSPXY(I)*EPSPXY(I) ) )
 C-------------------
 C     STRAIN 
 C-------------------
 C
-         EPST(I) = UNDEMI*( EPSXX(I)+EPSYY(I)
+         EPST(I) = HALF*( EPSXX(I)+EPSYY(I)
      .   + SQRT( (EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
      .                 + EPSXY(I)*EPSXY(I) ) )
          JJ(I) = 1
@@ -359,25 +359,25 @@ C-------------------
 C     PROJECTION
 C-------------------
        IF(IFLAG(1).EQ.0)THEN
-         NU31 = UN-NNU11
+         NU31 = ONE-NNU11
 C projection radiale 
          DO I=1,NEL0
            SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
      .             +SIGNYY(I)*SIGNYY(I)
      .             -SIGNXX(I)*SIGNYY(I)
-     .          +TROIS*SIGNXY(I)*SIGNXY(I))
-           R  = MIN(UN,YLD(I)/MAX(EM20,SVM(I)))
+     .          +THREE*SIGNXY(I)*SIGNXY(I))
+           R  = MIN(ONE,YLD(I)/MAX(EM20,SVM(I)))
            SIGNXX(I)=SIGNXX(I)*R
            SIGNYY(I)=SIGNYY(I)*R
            SIGNXY(I)=SIGNXY(I)*R
-           UMR = UN - R
+           UMR = ONE - R
            DPLA_I(I) = OFF(I)*SVM(I)*UMR/(G31+H(I))
            PLA(I) = PLA(I) + DPLA_I(I)
-           S1=UNDEMI*(SIGNXX(I)+SIGNYY(I))
-           DEZZ = DPLA_I(I) * UNDEMI*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
+           S1=HALF*(SIGNXX(I)+SIGNYY(I))
+           DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
            DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU11-NU31*DEZZ
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
-           IF(R.LT.UN) ETSE(I)= H(I)/(H(I)+E1)
+           IF(R.LT.ONE) ETSE(I)= H(I)/(H(I)+E1)
          ENDDO
 C
        ELSEIF(IFLAG(1).EQ.1)THEN
@@ -389,8 +389,8 @@ C-------------------------
            S1=SIGNXX(I)+SIGNYY(I)
            S2=SIGNXX(I)-SIGNYY(I)
            S3=SIGNXY(I)
-           AA(I)=QUART*S1*S1
-           BB(I)=TQUART*S2*S2+3.*S3*S3
+           AA(I)=FOURTH*S1*S1
+           BB(I)=THREE_OVER_4*S2*S2+3.*S3*S3
            SVM(I)=SQRT(AA(I)+BB(I))  
            DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU11
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
@@ -400,7 +400,7 @@ C     GATHER PLASTIC FLOW
 C-------------------------
          NINDX=0
          DO I=1,NEL0
-           IF(SVM(I).GT.YLD(I).AND.OFF(I).EQ.UN) THEN
+           IF(SVM(I).GT.YLD(I).AND.OFF(I).EQ.ONE) THEN
              NINDX=NINDX+1
              INDEX(NINDX)=I
            ENDIF
@@ -414,27 +414,27 @@ C---------------------------
            I=INDEX(J)
            DPLA_J(I)=(SVM(I)-YLD(I))/(G31+H(I))
            ETSE(I)= H(I)/(H(I)+E1)
-           HK(I) = H(I)*(UN-FISOKIN1)
+           HK(I) = H(I)*(ONE-FISOKIN1)
           ENDDO
 C
-          NU11 = UN/(UN-NUX)
-          NU21 = UN/(UN+NUX)
-          NU31 = UN-NNU11
+          NU11 = ONE/(ONE-NUX)
+          NU21 = ONE/(ONE+NUX)
+          NU31 = ONE-NNU11
           DO N=1,NMAX
 #include "vectorize.inc"
            DO J=1,NINDX
              I=INDEX(J)
              DPLA_I(I)=DPLA_J(I)
              YLD_I =YLD(I)+HK(I)*DPLA_I(I)
-             DR(I) =UNDEMI*E1*DPLA_I(I)/YLD_I
-             PP(I)  =UN/(UN+DR(I)*NU11)
-             QQ(I)  =UN/(UN+TROIS*DR(I)*NU21)     
+             DR(I) =HALF*E1*DPLA_I(I)/YLD_I
+             PP(I)  =ONE/(ONE+DR(I)*NU11)
+             QQ(I)  =ONE/(ONE+THREE*DR(I)*NU21)     
              P2    =PP(I)*PP(I)
              Q2    =QQ(I)*QQ(I)
              F     =AA(I)*P2+BB(I)*Q2-YLD_I*YLD_I
-             DF    =-(AA(I)*NU11*P2*PP(I)+TROIS*BB(I)*NU21*Q2*QQ(I))
-     .         *(E1-DEUX*DR(I)*HK(I))/YLD_I
-     .         -DEUX*HK(I)*YLD_I
+             DF    =-(AA(I)*NU11*P2*PP(I)+THREE*BB(I)*NU21*Q2*QQ(I))
+     .         *(E1-TWO*DR(I)*HK(I))/YLD_I
+     .         -TWO*HK(I)*YLD_I
              DF = SIGN(MAX(ABS(DF),EM20),DF)
              IF(DPLA_I(I).GT.ZERO) THEN
 C            IF(N.EQ.NMAX) THEN
@@ -456,8 +456,8 @@ C------------------------------------------
            PLA(I) = PLA(I) + DPLA_I(I)
            S1=(SIGNXX(I)+SIGNYY(I))*PP(I)
            S2=(SIGNXX(I)-SIGNYY(I))*QQ(I)
-           SIGNXX(I)=UNDEMI*(S1+S2)
-           SIGNYY(I)=UNDEMI*(S1-S2) 
+           SIGNXX(I)=HALF*(S1+S2)
+           SIGNYY(I)=HALF*(S1-S2) 
            SIGNXY(I)=SIGNXY(I)*QQ(I)
            DEZZ = - NU31*DR(I)*S1/E1
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
@@ -473,7 +473,7 @@ C-------------------------
            SVM2(I)=SIGNXX(I)*SIGNXX(I)
      .             +SIGNYY(I)*SIGNYY(I)
      .             -SIGNXX(I)*SIGNYY(I)
-     .             +TROIS*SIGNXY(I)*SIGNXY(I)
+     .             +THREE*SIGNXY(I)*SIGNXY(I)
            SVM(I)=SQRT(SVM2(I))  
            DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU11
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
@@ -484,7 +484,7 @@ C-------------------------
          NINDX=0
          DO I=1,NEL0
            YLD2(I)=YLD(I)*YLD(I)
-           IF(SVM2(I).GT.YLD2(I).AND.OFF(I).EQ.UN) THEN
+           IF(SVM2(I).GT.YLD2(I).AND.OFF(I).EQ.ONE) THEN
              NINDX=NINDX+1
              INDEX(NINDX)=I
            ENDIF
@@ -494,20 +494,20 @@ C
 C-------------
 C   PROJ NORMALE AU CRITERE AVEC CALCUL APPROCHE DE LA NORMALE + RETOUR RADIAL
 C-------------
-          NU31 = UN-NNU11
+          NU31 = ONE-NNU11
           DO J=1,NINDX
            I=INDEX(J)
            A=(SVM2(I)-YLD2(I))
-     .  /(CINQ*SVM2(I)+TROIS*(-SIGNXX(I)*SIGNYY(I)+SIGNXY(I)*SIGNXY(I)))
-           S1=(UN-DEUX*A)*SIGNXX(I)+          A*SIGNYY(I)
-           S2=          A*SIGNXX(I)+(UN-DEUX*A)*SIGNYY(I)
-           S3=(UN-TROIS*A)*SIGNXY(I)
+     .  /(FIVE*SVM2(I)+THREE*(-SIGNXX(I)*SIGNYY(I)+SIGNXY(I)*SIGNXY(I)))
+           S1=(ONE-TWO*A)*SIGNXX(I)+          A*SIGNYY(I)
+           S2=          A*SIGNXX(I)+(ONE-TWO*A)*SIGNYY(I)
+           S3=(ONE-THREE*A)*SIGNXY(I)
            SIGNXX(I)=S1
            SIGNYY(I)=S2
            SIGNXY(I)=S3
            DPLA_I(I) = OFF(I)*(SVM(I)-YLD(I))/(G31+H(I))
 C
-           HK(I) = H(I)*(UN-FISOKIN1)
+           HK(I) = H(I)*(ONE-FISOKIN1)
            YLD(I) =YLD(I)+HK(I)*DPLA_I(I)
           END DO
 C
@@ -516,13 +516,13 @@ C
            SVM(I)=SQRT( SIGNXX(I)*SIGNXX(I)
      .                 +SIGNYY(I)*SIGNYY(I)
      .                 -SIGNXX(I)*SIGNYY(I)
-     .                 +TROIS*SIGNXY(I)*SIGNXY(I))  
-           R  = MIN(UN,YLD(I)/MAX(EM20,SVM(I)))
+     .                 +THREE*SIGNXY(I)*SIGNXY(I))  
+           R  = MIN(ONE,YLD(I)/MAX(EM20,SVM(I)))
            SIGNXX(I)=SIGNXX(I)*R
            SIGNYY(I)=SIGNYY(I)*R
            SIGNXY(I)=SIGNXY(I)*R
            PLA(I) = PLA(I) + DPLA_I(I)
-           DEZZ = DPLA_I(I) * UNDEMI*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
+           DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
            DEZZ = -NU31*DEZZ
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
            ETSE(I)= H(I)/(H(I)+E1)
@@ -531,8 +531,8 @@ C
        ENDIF
 C
        DO I=1,NEL0
-         IF(OFF(I).EQ.UN)THEN
-           IF(PLA(I).GT.EPSMAX1.OR.EPST(I).GT.EPSF1)OFF(I)=QCINQ
+         IF(OFF(I).EQ.ONE)THEN
+           IF(PLA(I).GT.EPSMAX1.OR.EPST(I).GT.EPSF1)OFF(I)=FOUR_OVER_5
          END IF
        ENDDO
 C------------------------------------------
@@ -546,10 +546,10 @@ Cel test bypass
           DSXY = SIGEXY(I) - SIGNXY(I)
           DEXX = (DSXX - NUX*DSYY) 
           DEYY = (DSYY - NUX*DSXX)
-          DEXY = DEUX*(UN+NUX)*DSXY
-          ALPHA = FISOKIN1*H(I)/(E1+H(I))/TROIS
-          SIGPXX = ALPHA*(QUATRE*DEXX+DEUX*DEYY)
-          SIGPYY = ALPHA*(QUATRE*DEYY+DEUX*DEXX)
+          DEXY = TWO*(ONE+NUX)*DSXY
+          ALPHA = FISOKIN1*H(I)/(E1+H(I))/THREE
+          SIGPXX = ALPHA*(FOUR*DEXX+TWO*DEYY)
+          SIGPYY = ALPHA*(FOUR*DEYY+TWO*DEXX)
           SIGPXY = ALPHA*DEXY
 C
           SIGNXX(I) = SIGNXX(I) + UVAR(I,2)

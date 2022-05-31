@@ -80,14 +80,14 @@ C-----------------------------------------------
       INTEGER I
 C-----------------------------------------------
       CALL UPWIND_V(RHO,VIS,VDX0,VDY0,VDZ0,R,S,T,DELTAX,GAM)
-      OFF1(1:MVSIZ) = UN
-      OFF2(1:MVSIZ) = UN
-      OFF3(1:MVSIZ) = UN
-      OFF4(1:MVSIZ) = UN
-      OFF5(1:MVSIZ) = UN
-      OFF6(1:MVSIZ) = UN
-      OFF7(1:MVSIZ) = UN
-      OFF8(1:MVSIZ) = UN
+      OFF1(1:MVSIZ) = ONE
+      OFF2(1:MVSIZ) = ONE
+      OFF3(1:MVSIZ) = ONE
+      OFF4(1:MVSIZ) = ONE
+      OFF5(1:MVSIZ) = ONE
+      OFF6(1:MVSIZ) = ONE
+      OFF7(1:MVSIZ) = ONE
+      OFF8(1:MVSIZ) = ONE
       DO I=LFT,LLT
          IF (NALE(NC1(I)) .EQ. 0) OFF1(I) = ZERO
          IF (NALE(NC2(I)) .EQ. 0) OFF2(I) = ZERO
@@ -126,13 +126,13 @@ C-----------------------------------------------
         DZZP(I)=
      .   A0(I,3)*VZ0(I)+A1(I,3)*VZ1(I)+A2(I,3)*VZ2(I)+A3(I,3)*VZ3(I)  
 
-        FAC=HUIT*GAM(I)
-        UP0(I)=UN +FAC*(A0(I,1)*VDX0(I)+A0(I,2)*VDY0(I)+A0(I,3)*VDZ0(I))
-        UP1(I)=UN +FAC*(A1(I,1)*VDX0(I)+A1(I,2)*VDY0(I)+A1(I,3)*VDZ0(I))
-        UP2(I)=UN +FAC*(A2(I,1)*VDX0(I)+A2(I,2)*VDY0(I)+A2(I,3)*VDZ0(I))
-        UP3(I)=UN +FAC*(A3(I,1)*VDX0(I)+A3(I,2)*VDY0(I)+A3(I,3)*VDZ0(I))
+        FAC=EIGHT*GAM(I)
+        UP0(I)=ONE +FAC*(A0(I,1)*VDX0(I)+A0(I,2)*VDY0(I)+A0(I,3)*VDZ0(I))
+        UP1(I)=ONE +FAC*(A1(I,1)*VDX0(I)+A1(I,2)*VDY0(I)+A1(I,3)*VDZ0(I))
+        UP2(I)=ONE +FAC*(A2(I,1)*VDX0(I)+A2(I,2)*VDY0(I)+A2(I,3)*VDZ0(I))
+        UP3(I)=ONE +FAC*(A3(I,1)*VDX0(I)+A3(I,2)*VDY0(I)+A3(I,3)*VDZ0(I))
 
-        FAC=RHO(I)*VOL(I)/AJV(I)/SOIXANTE4
+        FAC=RHO(I)*VOL(I)/AJV(I)/SIXTY4
         F1P(I)= FAC*(VDX0(I)*DXXP(I)+VDY0(I)*DXYP(I)+VDZ0(I)*DXZP(I))
         F2P(I)= FAC*(VDX0(I)*DYXP(I)+VDY0(I)*DYYP(I)+VDZ0(I)*DYZP(I))
         F3P(I)= FAC*(VDX0(I)*DZXP(I)+VDY0(I)*DZYP(I)+VDZ0(I)*DZZP(I))
@@ -235,13 +235,13 @@ C-----------------------------------------------
         DZZP(I)=
      .   A0(I,3)*VZ0(I)+A1(I,3)*VZ1(I)+A2(I,3)*VZ2(I)+A3(I,3)*VZ3(I)  
 
-        FAC=HUIT*GAM(I)
-        UP0(I)=UN+FAC*(A0(I,1)*VDX0(I)+A0(I,2)*VDY0(I)+A0(I,3)*VDZ0(I))
-        UP1(I)=UN+FAC*(A1(I,1)*VDX0(I)+A1(I,2)*VDY0(I)+A1(I,3)*VDZ0(I))
-        UP2(I)=UN+FAC*(A2(I,1)*VDX0(I)+A2(I,2)*VDY0(I)+A2(I,3)*VDZ0(I))
-        UP3(I)=UN+FAC*(A3(I,1)*VDX0(I)+A3(I,2)*VDY0(I)+A3(I,3)*VDZ0(I))
+        FAC=EIGHT*GAM(I)
+        UP0(I)=ONE+FAC*(A0(I,1)*VDX0(I)+A0(I,2)*VDY0(I)+A0(I,3)*VDZ0(I))
+        UP1(I)=ONE+FAC*(A1(I,1)*VDX0(I)+A1(I,2)*VDY0(I)+A1(I,3)*VDZ0(I))
+        UP2(I)=ONE+FAC*(A2(I,1)*VDX0(I)+A2(I,2)*VDY0(I)+A2(I,3)*VDZ0(I))
+        UP3(I)=ONE+FAC*(A3(I,1)*VDX0(I)+A3(I,2)*VDY0(I)+A3(I,3)*VDZ0(I))
 
-        FAC=RHO(I)*VOL(I)/AJV(I)/SOIXANTE4
+        FAC=RHO(I)*VOL(I)/AJV(I)/SIXTY4
         F1P(I)= FAC*(VDX0(I)*DXXP(I)+VDY0(I)*DXYP(I)+VDZ0(I)*DXZP(I))
         F2P(I)= FAC*(VDX0(I)*DYXP(I)+VDY0(I)*DYYP(I)+VDZ0(I)*DYZP(I))
         F3P(I)= FAC*(VDX0(I)*DZXP(I)+VDY0(I)*DZYP(I)+VDZ0(I)*DZZP(I))

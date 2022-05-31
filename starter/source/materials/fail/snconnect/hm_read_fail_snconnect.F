@@ -121,12 +121,12 @@ Card2
 C-------------------------------------------- 
       IF (XSCALE0 == ZERO) THEN 
          CALL HM_GET_FLOATV_DIM('XSCALE0' ,XSCALE0_UNIT  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-         XSCALE0 = UN * XSCALE0_UNIT
+         XSCALE0 = ONE * XSCALE0_UNIT
       ENDIF
 
       IF (XSCALEF == ZERO)THEN 
          CALL HM_GET_FLOATV_DIM('XSCALEF' ,XSCALEF_UNIT  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-         XSCALEF = UN * XSCALEF_UNIT
+         XSCALEF = ONE * XSCALEF_UNIT
       ENDIF 
 C-------------------------------------------- 
       NFAIL  = 1
@@ -135,8 +135,8 @@ C--------------------------------------------
       ELSE IF (ISOLID == 2) THEN
         NFAIL = 4                ! all Gauss points must fail
       END IF  
-      IF (B2 == ZERO) B2 = UN
-      IF (B3 == ZERO) B3 = UN
+      IF (B2 == ZERO) B2 = ONE
+      IF (B3 == ZERO) B3 = ONE
 c-----------------------------------------------------------------------
       UPARAM(1)  = A2
       UPARAM(2)  = B2

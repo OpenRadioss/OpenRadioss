@@ -52,7 +52,7 @@ C-----------------------------------------------
       my_real
      .  DTI
 C------- integrateur ---------- 
-      DTI = UN/DT2
+      DTI = ONE/DT2
            DO I=NODFT,NODLT
             V(1,I)=D(1,I)*DTI
             V(2,I)=D(2,I)*DTI
@@ -111,7 +111,7 @@ C-----------------------------------------------
 C------- integrateur ---------- 
       IF (IDYNA.GT.0) CALL INTE_DYNA(NODFT,NODLT ,
      .                               D    ,DR    ,V    ,VR    )
-      DTI = UN/DT2/NDT
+      DTI = ONE/DT2/NDT
        DO I=NODFT,NODLT
         V(1,I)=DTI*D(1,I)
         V(2,I)=DTI*D(2,I)
@@ -394,7 +394,7 @@ C-----------------------------------------------
       my_real
      .  DTI
 C------- integrateur ---------- 
-      DTI = UN/DT2
+      DTI = ONE/DT2
 !$OMP PARALLEL PRIVATE(ITSK,NODFT ,NODLT,I)
       CALL IMP_SMPINI(ITSK   ,NODFT ,NODLT ,NUMNOD )
            DO I=NODFT,NODLT
@@ -458,7 +458,7 @@ C-----------------------------------------------
       my_real
      .  DTI
 C------- integrateur ---------- 
-      DTI = UN/DT2/NDT
+      DTI = ONE/DT2/NDT
 !$OMP PARALLEL PRIVATE(ITSK,NODFT ,NODLT,I)
       CALL IMP_SMPINI(ITSK   ,NODFT ,NODLT ,NUMNOD )
       IF (IDYNA.GT.0) CALL INTE_DYNA(NODFT,NODLT ,

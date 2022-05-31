@@ -84,7 +84,7 @@ C     REAL ou REAL*8
      .   ER(3),ET(3),ALPHA, NOR1, NOR2, NOR3, YIMP
 C-----------------------------------------------
       IF(N2D.EQ.1)THEN
-       AX=UN
+       AX=ONE
       ELSE
        AX=ZERO
       ENDIF
@@ -121,7 +121,7 @@ C
             IC = IC + 1
             INDEX(IC) = N
             IF(IBFV(7,N).EQ.1) THEN
-              TSC(IC) = (TS+UNDEMI*DT2)*FACX
+              TSC(IC) = (TS+HALF*DT2)*FACX
             ELSE
               TSC(IC) = (TS+DT2)*FACX
             ENDIF
@@ -141,7 +141,7 @@ C
             IC = IC + 1
             INDEX(IC) = N
             IF(IBFV(7,N).EQ.1) THEN
-              TSC(IC) = (TT + UNDEMI*DT2)*FACX
+              TSC(IC) = (TT + HALF*DT2)*FACX
             ELSE
               TSC(IC) = (TT+DT2)*FACX
             ENDIF
@@ -200,17 +200,17 @@ c          VEL(6,N) = YC(II)
           ICOOR = IBFV(10,N)
           SKDIR=ZERO
           FMDIR=ZERO
-          R=UN
+          R=ONE
           IF (IFM.LE.1) J=J-10*ISK
           IF(J.LE.3)THEN
-            AXI=UN-AX+AX*X(2,I)
+            AXI=ONE-AX+AX*X(2,I)
             IF(ISK.LE.1.AND.IFM.LE.1.AND.ICOOR.EQ.0)THEN
               IF(IBFV(7,N).EQ.2) YC(II)=(YC(II)-D(J,I))/DT2
               IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-V(J,I))/DT12
               AOLD=A(J,I)
               A(J,I)=DIAG_SMS(I)*YC(II)
-              DW = QUART*AXI*WEIGHT(I) *
-     .             (YC(II)*DT12 + DEUX*V(J,I))*(MS(I)*YC(II)-AOLD)
+              DW = FOURTH*AXI*WEIGHT(I) *
+     .             (YC(II)*DT12 + TWO*V(J,I))*(MS(I)*YC(II)-AOLD)
             ELSEIF (ISK.GT.1.AND.ICOOR.EQ.0) THEN
               K1=3*J-2
               K2=3*J-1
@@ -231,8 +231,8 @@ c          VEL(6,N) = YC(II)
               A(2,I)=A(2,I)+SKEW(K2,ISK)*AA
               A(3,I)=A(3,I)+SKEW(K3,ISK)*AA
 c ?
-              DW = QUART*AXI*WEIGHT(I) *
-     .             (YC(II)*DT12+DEUX*VV)*(MS(I)*YC(II)-A0)
+              DW = FOURTH*AXI*WEIGHT(I) *
+     .             (YC(II)*DT12+TWO*VV)*(MS(I)*YC(II)-A0)
             ELSEIF ((ISK.LE.1.AND.IFM.LE.1.AND.ICOOR.EQ.1) .OR.
      &               (ISK.GT.1 .AND. ICOOR.EQ.1)) THEN
               COEF = (SKEW(10,ISK)-X(1,I))*SKEW(7,ISK) +
@@ -265,9 +265,9 @@ c ?
                 NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                 ET=ET/MAX(NOR2,EM20)
 c-----------------vitesse angulaire imposee---------
-                ALPHA=-YC(II)*DT2/DEUX
+                ALPHA=-YC(II)*DT2/TWO
 c-----------------sinon-----------------------------
-c                ALPHA=-YC(II)*DT2/(DEUX*R)
+c                ALPHA=-YC(II)*DT2/(TWO*R)
                 SKDIR=ALPHA*ER+ET
               ELSEIF(J.EQ.3) THEN
                 SKDIR(1)=SKEW(7,ISK)
@@ -299,8 +299,8 @@ c----------------------------------------------------
               A(1,I)=A(1,I)+SKDIR(1)*AA
               A(2,I)=A(2,I)+SKDIR(2)*AA
               A(3,I)=A(3,I)+SKDIR(3)*AA
-              DW = QUART*AXI*WEIGHT(I) *
-     .             (YC(II)*DT12+DEUX*VV)*(MS(I)*YC(II)-A0)
+              DW = FOURTH*AXI*WEIGHT(I) *
+     .             (YC(II)*DT12+TWO*VV)*(MS(I)*YC(II)-A0)
             ELSEIF (IFM.GT.1.AND.ICOOR.EQ.0) THEN
 C             Fixed velocity in moving frame (transl)
               K1=3*J-2
@@ -327,8 +327,8 @@ C             Fixed velocity in moving frame (transl)
               A(2,I)=A(2,I)+XFRAME(K2,IFM)*AA
               A(3,I)=A(3,I)+XFRAME(K3,IFM)*AA
 c ?
-              DW = QUART*AXI*WEIGHT(I) *
-     .             (YC(II)*DT12+DEUX*VV)*(MS(I)*YC(II)-A0)
+              DW = FOURTH*AXI*WEIGHT(I) *
+     .             (YC(II)*DT12+TWO*VV)*(MS(I)*YC(II)-A0)
             ELSEIF (IFM.GT.1.AND.ICOOR.EQ.1) THEN
               COEF = (XFRAME(10,IFM)-X(1,I))*XFRAME(7,IFM) +
      &               (XFRAME(11,IFM)-X(2,I))*XFRAME(8,IFM) +
@@ -364,9 +364,9 @@ c ?
                 NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                 ET=ET/MAX(NOR2,EM20)
 c---------------vitesse angulaire imposee--------
-                ALPHA=-YC(II)*DT2/DEUX
+                ALPHA=-YC(II)*DT2/TWO
 c-----------------------------------------------
-c                ALPHA=-YC(II)*DT2/(DEUX*R)
+c                ALPHA=-YC(II)*DT2/(TWO*R)
                 FMDIR=ALPHA*ER+ET
               ELSEIF (J.EQ.3) THEN
                 FMDIR(1)=XFRAME(7,IFM)
@@ -399,8 +399,8 @@ c-------------------------------------------------
               A(1,I)=A(1,I)+FMDIR(1)*AA
               A(2,I)=A(2,I)+FMDIR(2)*AA
               A(3,I)=A(3,I)+FMDIR(3)*AA
-              DW = QUART*AXI*WEIGHT(I) *
-     .             (YC(II)*DT12+DEUX*VV)*(MS(I)*YC(II)-A0)
+              DW = FOURTH*AXI*WEIGHT(I) *
+     .             (YC(II)*DT12+TWO*VV)*(MS(I)*YC(II)-A0)
             ENDIF
           ELSEIF(J.LE.6)THEN
             J = J - 3
@@ -410,13 +410,13 @@ c-------------------------------------------------
               AOLD   = AR(J,I)
               AR(J,I)= IN(I)*YC(II)
               IF(IBFV(6,N).EQ.0)THEN
-                DW=QUART *
-     .           (YC(II)*DT12 + DEUX*VR(J,I))*(AR(J,I)-AOLD) *
+                DW=FOURTH *
+     .           (YC(II)*DT12 + TWO*VR(J,I))*(AR(J,I)-AOLD) *
      .           WEIGHT(I)
               ELSE
                 NR = IBFV(6,N)
-                DW= QUART *
-     .          (YC(II)*DT12 + DEUX*VR(J,I))*WEIGHT(I)*(AR(J,I)-AOLD)*
+                DW= FOURTH *
+     .          (YC(II)*DT12 + TWO*VR(J,I))*WEIGHT(I)*(AR(J,I)-AOLD)*
      .          (RBY(16+J,NR) + RBY(19+J,NR) + RBY(22+J,NR))/MAX(IN(I),EM30)
               ENDIF
             ELSEIF (ISK.GT.1.AND.ICOOR.EQ.0) THEN
@@ -441,10 +441,10 @@ c-------------------------------------------------
               AR(2,I)=AR(2,I)+SKEW(K2,ISK)*AA
               AR(3,I)=AR(3,I)+SKEW(K3,ISK)*AA
               IF(IBFV(6,N).EQ.0)THEN
-                DW= QUART*(YC(II)*DT12+DEUX*VV)*AA*WEIGHT(I)
+                DW= FOURTH*(YC(II)*DT12+TWO*VV)*AA*WEIGHT(I)
               ELSE
                 NR = IBFV(6,N)
-                DW= QUART*(YC(II)*DT12+DEUX*VV)*WEIGHT(I)*AA*
+                DW= FOURTH*(YC(II)*DT12+TWO*VV)*WEIGHT(I)*AA*
      .             ((RBY(17,NR)*SKEW(K1,ISK)
      .              +RBY(18,NR)*SKEW(K2,ISK)
      .              +RBY(19,NR)*SKEW(K3,ISK))*SKEW(K1,ISK) +
@@ -502,10 +502,10 @@ c-------------------------------------------------
               AR(2,I)=AR(2,I)+SKDIR(2)*AA
               AR(3,I)=AR(3,I)+SKDIR(3)*AA
               IF(IBFV(6,N).EQ.0)THEN
-                DW= QUART*(YC(II)*DT12+DEUX*VV)*AA*WEIGHT(I)
+                DW= FOURTH*(YC(II)*DT12+TWO*VV)*AA*WEIGHT(I)
               ELSE
                 NR = IBFV(6,N)
-                DW= QUART*(YC(II)*DT12+DEUX*VV)*WEIGHT(I)*AA*
+                DW= FOURTH*(YC(II)*DT12+TWO*VV)*WEIGHT(I)*AA*
      &              ((RBY(17,NR)*SKDIR(1)
      &               +RBY(18,NR)*SKDIR(2)
      &               +RBY(19,NR)*SKDIR(3))*SKDIR(1) +
@@ -536,10 +536,10 @@ C             Fixed velocity in moving frame (rota)
               AR(2,I)=AR(2,I)+XFRAME(K2,IFM)*AA
               AR(3,I)=AR(3,I)+XFRAME(K3,IFM)*AA
               IF(IBFV(6,N).EQ.0)THEN
-                DW= QUART*(YC(II)+VV)*AA*WEIGHT(I)
+                DW= FOURTH*(YC(II)+VV)*AA*WEIGHT(I)
               ELSE
                 NR = IBFV(6,N)
-                DW= QUART*(YC(II)+VV)*WEIGHT(I)*AA*
+                DW= FOURTH*(YC(II)+VV)*WEIGHT(I)*AA*
      .             ((RBY(17,NR)*XFRAME(K1,IFM)
      .              +RBY(18,NR)*XFRAME(K2,IFM)
      .              +RBY(19,NR)*XFRAME(K3,IFM))*XFRAME(K1,IFM) +
@@ -602,10 +602,10 @@ C             Fixed velocity in moving frame (rota)
               AR(2,I)=AR(2,I)+FMDIR(2)*AA
               AR(3,I)=AR(3,I)+FMDIR(3)*AA
               IF(IBFV(6,N).EQ.0)THEN
-                DW= QUART*(YC(II)+VV)*AA*WEIGHT(I)
+                DW= FOURTH*(YC(II)+VV)*AA*WEIGHT(I)
               ELSE
                 NR = IBFV(6,N)
-                DW= QUART*(YC(II)+VV)*WEIGHT(I)*AA*
+                DW= FOURTH*(YC(II)+VV)*WEIGHT(I)*AA*
      &              ((RBY(17,NR)*FMDIR(1)
      &               +RBY(18,NR)*FMDIR(2)
      &               +RBY(19,NR)*FMDIR(3))*FMDIR(1) +
@@ -651,13 +651,13 @@ C       partie vectorielle
            ISK=IBFV(2,N)/10
            J=IBFV(2,N)-10*ISK
            IF(J.LE.3)THEN
-              AXI=UN-AX+AX*X(2,I)
+              AXI=ONE-AX+AX*X(2,I)
               IF(IBFV(7,N).EQ.2) YC(II)=(YC(II)-D(J,I))/DT2
               IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-V(J,I))/DT12
               AOLD=A(J,I)
               A(J,I)=DIAG_SMS(I)*YC(II)
-              DW = QUART*AXI*WEIGHT(I) *
-     .             (YC(II)*DT12 + DEUX*V(J,I))*(MS(I)*YC(II)-AOLD)
+              DW = FOURTH*AXI*WEIGHT(I) *
+     .             (YC(II)*DT12 + TWO*V(J,I))*(MS(I)*YC(II)-AOLD)
            ELSEIF(J.LE.6)THEN
              J = J - 3
              IF(IBFV(7,N).EQ.2) YC(II)=(YC(II)-DR(J,I))/DT2
@@ -665,13 +665,13 @@ C       partie vectorielle
              AOLD=AR(J,I)
              AR(J,I)= IN(I)*YC(II)
              IF(IBFV(6,N).EQ.0)THEN
-               DW=QUART *
-     .         (AR(J,I)*DT12+DEUX*VR(J,I))*(AR(J,I)-AOLD) *
+               DW=FOURTH *
+     .         (AR(J,I)*DT12+TWO*VR(J,I))*(AR(J,I)-AOLD) *
      .          WEIGHT(I)
              ELSE
                NR = IBFV(6,N)
-               DW= QUART *
-     .          (AR(J,I)*DT12+DEUX*VR(J,I))*WEIGHT(I)*(AR(J,I)-AOLD)*
+               DW= FOURTH *
+     .          (AR(J,I)*DT12+TWO*VR(J,I))*WEIGHT(I)*(AR(J,I)-AOLD)*
      .          (RBY(16+J,NR) + RBY(19+J,NR) + RBY(22+J,NR))
      .          /MAX(IN(I),EM30)
              ENDIF
@@ -693,7 +693,7 @@ C       partie vectorielle
              DW   = VEL(4,N)
              TFEXT=TFEXT + DW
              YC(II) = YC(II) * FAC
-             AXI=UN-AX+AX*X(2,I)
+             AXI=ONE-AX+AX*X(2,I)
              K1=3*J-2
              K2=3*J-1
              K3=3*J
@@ -713,8 +713,8 @@ C       partie vectorielle
              A(2,I)=A(2,I)+SKEW(K2,ISK)*AA
              A(3,I)=A(3,I)+SKEW(K3,ISK)*AA
 c ?
-             DW = QUART*AXI*WEIGHT(I) *
-     .            (YC(II)*DT12+DEUX*VV)*(MS(I)*YC(II)-A0)
+             DW = FOURTH*AXI*WEIGHT(I) *
+     .            (YC(II)*DT12+TWO*VV)*(MS(I)*YC(II)-A0)
              TFEXT=TFEXT + DT1*DW
              VEL(4,N) = DT2*DW
            ENDIF
@@ -756,10 +756,10 @@ c ?
                    AR(2,I)=AR(2,I)+SKEW(K2,ISK)*AA
                    AR(3,I)=AR(3,I)+SKEW(K3,ISK)*AA
                    IF(IBFV(6,N).EQ.0)THEN
-                     DW= QUART*(YC(II)*DT12+DEUX*VV)*AA*WEIGHT(I)
+                     DW= FOURTH*(YC(II)*DT12+TWO*VV)*AA*WEIGHT(I)
                    ELSE
                      NR = IBFV(6,N)
-                     DW= QUART*(YC(II)*DT12+DEUX*VV)*WEIGHT(I)*AA*
+                     DW= FOURTH*(YC(II)*DT12+TWO*VV)*WEIGHT(I)*AA*
      .                   ((RBY(17,NR)*SKEW(K1,ISK)
      .                    +RBY(18,NR)*SKEW(K2,ISK)
      .                    +RBY(19,NR)*SKEW(K3,ISK))*SKEW(K1,ISK) +
@@ -787,7 +787,7 @@ c ?
            ISK=IBFV(2,N)/10
            J=IBFV(2,N)-10*ISK
            SKDIR=ZERO
-           R=UN
+           R=ONE
            IF(J.EQ.K)THEN
              IBFV(5,N) = IPOSC(II)
              FAC  = VEL(1,N)
@@ -797,7 +797,7 @@ c             VEL(6,N) = YC(II)
              TFEXT=TFEXT + DW
              YC(II) = YC(II) * FAC
              YIMP = YIMP * FAC
-             AXI=UN-AX+AX*X(2,I)
+             AXI=ONE-AX+AX*X(2,I)
              COEF = (SKEW(10,ISK)-X(1,I))*SKEW(7,ISK) +
      &              (SKEW(11,ISK)-X(2,I))*SKEW(8,ISK) +
      &              (SKEW(12,ISK)-X(3,I))*SKEW(9,ISK)
@@ -832,9 +832,9 @@ c             VEL(6,N) = YC(II)
                NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                ET=ET/MAX(NOR2,EM20)
 c-----------------vitesse angulaire imposee---------
-               ALPHA=-YC(II)*DT2/DEUX
+               ALPHA=-YC(II)*DT2/TWO
 c-----------------sinon-----------------------------
-c                  ALPHA=-YC(II)*DT2/(DEUX*R)
+c                  ALPHA=-YC(II)*DT2/(TWO*R)
                SKDIR=ALPHA*ER+ET
              ELSEIF(J.EQ.3) THEN
                SKDIR(1)=SKEW(7,ISK)
@@ -870,8 +870,8 @@ c----------------------------------------------------
              A(1,I)=A(1,I)+SKDIR(1)*AA
              A(2,I)=A(2,I)+SKDIR(2)*AA
              A(3,I)=A(3,I)+SKDIR(3)*AA
-             DW = QUART*AXI*WEIGHT(I) *
-     .            (YC(II)*DT12+DEUX*VV)*(MS(I)*YC(II)-A0)
+             DW = FOURTH*AXI*WEIGHT(I) *
+     .            (YC(II)*DT12+TWO*VV)*(MS(I)*YC(II)-A0)
              TFEXT=TFEXT + DT1*DW
              VEL(4,N) = DT2*DW
            ENDIF
@@ -885,7 +885,7 @@ c----------------------------------------------------
                  ISK=IBFV(2,N)/10
                  J=IBFV(2,N)-10*ISK
                  SKDIR=ZERO
-                 R=UN
+                 R=ONE
                  IF(J.EQ.K)THEN
                    IBFV(5,N) = IPOSC(II)
                    FAC  = VEL(1,N)
@@ -949,10 +949,10 @@ c----------------------------------------------------
                     AR(2,I)=AR(2,I)+SKDIR(2)*AA
                     AR(3,I)=AR(3,I)+SKDIR(3)*AA
                     IF(IBFV(6,N).EQ.0)THEN
-                      DW= QUART*(YC(II)*DT12+DEUX*VV)*AA*WEIGHT(I)
+                      DW= FOURTH*(YC(II)*DT12+TWO*VV)*AA*WEIGHT(I)
                     ELSE
                       NR = IBFV(6,N)
-                      DW= QUART*(YC(II)*DT12+DEUX*VV)*WEIGHT(I)*AA*
+                      DW= FOURTH*(YC(II)*DT12+TWO*VV)*WEIGHT(I)*AA*
      &                    ((RBY(17,NR)*SKDIR(1)
      &                    +RBY(18,NR)*SKDIR(2)
      &                    +RBY(19,NR)*SKDIR(3))*SKDIR(1) +
@@ -1013,8 +1013,8 @@ c----------------------------------------------------
                A(2,I)=A(2,I)+XFRAME(K2,IFM)*AA
                A(3,I)=A(3,I)+XFRAME(K3,IFM)*AA
 c ?
-               DW = QUART*AXI*WEIGHT(I) *
-     .             (YC(II)*DT12+DEUX*VV)*(MS(I)*YC(II)-A0)
+               DW = FOURTH*AXI*WEIGHT(I) *
+     .             (YC(II)*DT12+TWO*VV)*(MS(I)*YC(II)-A0)
                TFEXT=TFEXT + DT1*DW
                VEL(4,N) = DT2*DW
              ENDIF
@@ -1048,8 +1048,8 @@ c ?
                A(2,I)=A(2,I)+SKEW(K2,ISK)*AA
                A(3,I)=A(3,I)+SKEW(K3,ISK)*AA
 c ?
-               DW = QUART*AXI*WEIGHT(I) *
-     .            (YC(II)*DT12+DEUX*VV)*(MS(I)*YC(II)-A0)
+               DW = FOURTH*AXI*WEIGHT(I) *
+     .            (YC(II)*DT12+TWO*VV)*(MS(I)*YC(II)-A0)
                TFEXT=TFEXT + DT1*DW
                VEL(4,N) = DT2*DW
              ENDIF
@@ -1089,10 +1089,10 @@ c ?
                      AR(2,I)=AR(2,I)+XFRAME(K2,IFM)*AA
                      AR(3,I)=AR(3,I)+XFRAME(K3,IFM)*AA
                      IF(IBFV(6,N).EQ.0)THEN
-                       DW= QUART*(YC(II)+VV)*AA*WEIGHT(I)
+                       DW= FOURTH*(YC(II)+VV)*AA*WEIGHT(I)
                      ELSE
                        NR = IBFV(6,N)
-                       DW= QUART*(YC(II)+VV)*WEIGHT(I)*AA*
+                       DW= FOURTH*(YC(II)+VV)*WEIGHT(I)*AA*
      .                    ((RBY(17,NR)*XFRAME(K1,IFM)
      .                     +RBY(18,NR)*XFRAME(K2,IFM)
      .                     +RBY(19,NR)*XFRAME(K3,IFM))*XFRAME(K1,IFM) +
@@ -1139,10 +1139,10 @@ c ?
                      AR(2,I)=AR(2,I)+SKEW(K2,ISK)*AA
                      AR(3,I)=AR(3,I)+SKEW(K3,ISK)*AA
                      IF(IBFV(6,N).EQ.0)THEN
-                       DW=QUART*(YC(II)*DT12+DEUX*VV)*AA*WEIGHT(I)
+                       DW=FOURTH*(YC(II)*DT12+TWO*VV)*AA*WEIGHT(I)
                      ELSE
                        NR = IBFV(6,N)
-                       DW= QUART*(YC(II)*DT12+DEUX*VV)*WEIGHT(I)*AA*
+                       DW= FOURTH*(YC(II)*DT12+TWO*VV)*WEIGHT(I)*AA*
      .                    ((RBY(17,NR)*SKEW(K1,ISK)
      .                     +RBY(18,NR)*SKEW(K2,ISK)
      .                     +RBY(19,NR)*SKEW(K3,ISK))*SKEW(K1,ISK) +
@@ -1171,7 +1171,7 @@ c ?
            IF (IFM.GT.1) THEN
              J = IBFV(2,N)
              FMDIR=ZERO
-             R=UN
+             R=ONE
              IF(J.EQ.K)THEN
                IBFV(5,N) = IPOSC(II)
                FAC  = VEL(1,N)
@@ -1213,9 +1213,9 @@ c ?
                  NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                  ET=ET/MAX(NOR2,EM20)
 c--------------------vitesse angulaire imposee--------
-                 ALPHA=-YC(II)*DT2/DEUX
+                 ALPHA=-YC(II)*DT2/TWO
 c-----------------------------------------------
-c                    ALPHA=-YC(II)*DT2/(DEUX*R)
+c                    ALPHA=-YC(II)*DT2/(TWO*R)
                  FMDIR=ALPHA*ER+ET
                ELSEIF (J.EQ.3) THEN
                  FMDIR(1)=XFRAME(7,IFM)
@@ -1255,8 +1255,8 @@ c-------------------------------------------------
                A(1,I)=A(1,I)+FMDIR(1)*AA
                A(2,I)=A(2,I)+FMDIR(2)*AA
                A(3,I)=A(3,I)+FMDIR(3)*AA
-               DW = QUART*AXI*WEIGHT(I) *
-     .             (YC(II)*DT12+DEUX*VV)*(MS(I)*YC(II)-A0)
+               DW = FOURTH*AXI*WEIGHT(I) *
+     .             (YC(II)*DT12+TWO*VV)*(MS(I)*YC(II)-A0)
                TFEXT=TFEXT + DT1*DW
                VEL(4,N) = DT2*DW
              ENDIF
@@ -1264,7 +1264,7 @@ c-------------------------------------------------
              ISK=IBFV(2,N)/10
              J=IBFV(2,N)-10*ISK
              SKDIR=ZERO
-             R=UN
+             R=ONE
              IF(J.EQ.K)THEN
                IBFV(5,N) = IPOSC(II)
                FAC  = VEL(1,N)
@@ -1310,9 +1310,9 @@ c               VEL(6,N) = YC(II)
                  NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                  ET=ET/MAX(NOR2,EM20)
 c-----------------vitesse angulaire imposee---------
-                ALPHA=-YC(II)*DT2/DEUX
+                ALPHA=-YC(II)*DT2/TWO
 c-----------------sinon-----------------------------
-c                  ALPHA=-YC(II)*DT2/(DEUX*R)
+c                  ALPHA=-YC(II)*DT2/(TWO*R)
                 SKDIR=ALPHA*ER+ET
                ELSEIF(J.EQ.3) THEN
                  SKDIR(1)=SKEW(7,ISK)
@@ -1348,8 +1348,8 @@ c----------------------------------------------------
                A(1,I)=A(1,I)+SKDIR(1)*AA
                A(2,I)=A(2,I)+SKDIR(2)*AA
                A(3,I)=A(3,I)+SKDIR(3)*AA
-               DW = QUART*AXI*WEIGHT(I) *
-     .            (YC(II)*DT12+DEUX*VV)*(MS(I)*YC(II)-A0)
+               DW = FOURTH*AXI*WEIGHT(I) *
+     .            (YC(II)*DT12+TWO*VV)*(MS(I)*YC(II)-A0)
                TFEXT=TFEXT + DT1*DW
                VEL(4,N) = DT2*DW
              ENDIF
@@ -1365,7 +1365,7 @@ c----------------------------------------------------
               IF (IFM.GT.1) THEN
                 J=IBFV(2,N)
                 FMDIR=ZERO
-                R=UN
+                R=ONE
                 IF(J.EQ.K)THEN
                   IBFV(5,N) = IPOSC(II)
                   FAC  = VEL(1,N)
@@ -1424,10 +1424,10 @@ c----------------------------------------------------
                   AR(2,I)=AR(2,I)+FMDIR(2)*AA
                   AR(3,I)=AR(3,I)+FMDIR(3)*AA
                   IF(IBFV(6,N).EQ.0)THEN
-                    DW= QUART*(YC(II)+VV)*AA*WEIGHT(I)
+                    DW= FOURTH*(YC(II)+VV)*AA*WEIGHT(I)
                   ELSE
                     NR = IBFV(6,N)
-                    DW= QUART*(YC(II)+VV)*WEIGHT(I)*AA*
+                    DW= FOURTH*(YC(II)+VV)*WEIGHT(I)*AA*
      &                  ((RBY(17,NR)*FMDIR(1)
      &                  +RBY(18,NR)*FMDIR(2)
      &                  +RBY(19,NR)*FMDIR(3))*FMDIR(1) +
@@ -1446,7 +1446,7 @@ c----------------------------------------------------
                 ISK=IBFV(2,N)/10
                 J=IBFV(2,N)-10*ISK
                 SKDIR=ZERO
-                R=UN
+                R=ONE
                 IF(J.EQ.K)THEN
                   IBFV(5,N) = IPOSC(II)
                   FAC  = VEL(1,N)
@@ -1511,11 +1511,11 @@ c----------------------------------------------------
                    AR(2,I)=AR(2,I)+SKDIR(2)*AA
                    AR(3,I)=AR(3,I)+SKDIR(3)*AA
                    IF(IBFV(6,N).EQ.0)THEN
-                     DW= QUART*(YC(II)*DT12+DEUX*VV)*
+                     DW= FOURTH*(YC(II)*DT12+TWO*VV)*
      &                   AA*WEIGHT(I)
                    ELSE
                      NR = IBFV(6,N)
-                     DW= QUART*(YC(II)*DT12+DEUX*VV)*WEIGHT(I)*AA*
+                     DW= FOURTH*(YC(II)*DT12+TWO*VV)*WEIGHT(I)*AA*
      &                   ((RBY(17,NR)*SKDIR(1)
      &                   +RBY(18,NR)*SKDIR(2)
      &                   +RBY(19,NR)*SKDIR(3))*SKDIR(1) +
@@ -1627,7 +1627,7 @@ C-------
           ICOOR = IBFV(10,N)
           SKDIR=ZERO
           FMDIR=ZERO
-          R=UN
+          R=ONE
           IF (IFM.LE.1) J=J-10*ISK
           IF(J.LE.3)THEN
             IF(ISK.LE.1.AND.IFM.LE.1.AND.ICOOR.EQ.0)THEN
@@ -1789,7 +1789,7 @@ C       partie vectorielle
             IBFV(5,N) = IPOSC(II)
             YC(II) = ZERO
             I=IABS(IBFV(1,N))
-            AXI=UN-AX+AX*X(2,I)
+            AXI=ONE-AX+AX*X(2,I)
             K1=3*J-2
             K2=3*J-1
             K3=3*J
@@ -1812,12 +1812,12 @@ C       partie vectorielle
            ISK=IBFV(2,N)/10
            J=IBFV(2,N)-10*ISK
            SKDIR=ZERO
-           R=UN
+           R=ONE
            IF(J.EQ.K)THEN
             IBFV(5,N) = IPOSC(II)
             YC(II) = ZERO
             I=IABS(IBFV(1,N))
-            AXI=UN-AX+AX*X(2,I)
+            AXI=ONE-AX+AX*X(2,I)
             COEF = (SKEW(10,ISK)-X(1,I))*SKEW(7,ISK) +
      &             (SKEW(11,ISK)-X(2,I))*SKEW(8,ISK) +
      &             (SKEW(12,ISK)-X(3,I))*SKEW(9,ISK)
@@ -1917,7 +1917,7 @@ C       partie vectorielle
                IF (IFM.GT.1) THEN
                  J = IBFV(2,N)
                  FMDIR=ZERO
-                 R=UN
+                 R=ONE
                  IF(J.EQ.K)THEN
                    IBFV(5,N) = IPOSC(II)
                    YC(II) = ZERO
@@ -1970,7 +1970,7 @@ C       partie vectorielle
                  ISK=IBFV(2,N)/10
                  J=IBFV(2,N)-10*ISK
                  SKDIR=ZERO
-                 R=UN
+                 R=ONE
                  IF(J.EQ.K)THEN
                    IBFV(5,N) = IPOSC(II)
                    YC(II) = ZERO

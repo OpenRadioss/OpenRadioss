@@ -155,17 +155,17 @@ c
         DO I = 1,NEL  
 c
           ! Minimum timestep
-          IF ((DT(I) > EM20).AND.(DT(I) < DTMIN).AND.(OFF(I) == UN)) THEN 
+          IF ((DT(I) > EM20).AND.(DT(I) < DTMIN).AND.(OFF(I) == ONE)) THEN 
             OFF(I)      = ZERO
             NINDX       = NINDX+1
             INDX(NINDX) = I
           ENDIF   
 c     
           ! Failure criterion
-          IF ((IFUNC(4) > 0).AND.(OFF(I) == UN)) THEN
+          IF ((IFUNC(4) > 0).AND.(OFF(I) == ONE)) THEN
             ! Failure indicator evolution
             IF (LOFF(I) < EM01) LOFF(I) = ZERO
-            IF (LOFF(I) < UN)   LOFF(I) = LOFF(I)*QCINQ
+            IF (LOFF(I) < ONE)   LOFF(I) = LOFF(I)*FOUR_OVER_5
 c
             ! Fully integrated solid elements
             IF (NPG > 1) THEN
@@ -178,7 +178,7 @@ c
                   DO IS = 1, ELBUF_TAB%NPTS
                     DO IT = 1, ELBUF_TAB%NPTT
                       !If one integration points is not fully broken, the brick remains
-                      IF (ELBUF_TAB%BUFLY(1)%LBUF(IR,IS,IT)%OFF(I)>ZERO) OFF(I) = UN
+                      IF (ELBUF_TAB%BUFLY(1)%LBUF(IR,IS,IT)%OFF(I)>ZERO) OFF(I) = ONE
                     ENDDO
                   ENDDO
                 ENDDO
@@ -190,16 +190,16 @@ c
                 OFF(I) = ZERO
               ENDIF
               !If one integration points is not fully broken, the brick remains
-              IF (LOFF(I)>ZERO) OFF(I) = UN
+              IF (LOFF(I)>ZERO) OFF(I) = ONE
             ENDIF
             ! Check integration point failure
-            IF (LOFF(I) == UN) THEN 
+            IF (LOFF(I) == ONE) THEN 
               ! -> Von Mises stress
               IF (Ifail == 0) THEN
-                IF (SEQ(I) >= FAIL(I)) LOFF(I) = QCINQ
+                IF (SEQ(I) >= FAIL(I)) LOFF(I) = FOUR_OVER_5
               ! -> Plastic strain
               ELSEIF (Ifail == 1) THEN
-                IF (PLA(I) >= FAIL(I)) LOFF(I) = QCINQ
+                IF (PLA(I) >= FAIL(I)) LOFF(I) = FOUR_OVER_5
               ! -> Maximum principal stress and absolute value of minimum principal stress
               ELSEIF (Ifail == 2) THEN
                 ! Computing the principal stresses
@@ -208,14 +208,14 @@ c
      .               SIGNXY(I)*SIGNXY(I)-SIGNZX(I)*SIGNZX(I)-SIGNYZ(I)*SIGNYZ(I)
                 I3 = SIGNXX(I)*SIGNYY(I)*SIGNZZ(I)-SIGNXX(I)*SIGNYZ(I)*SIGNYZ(I)-
      .               SIGNYY(I)*SIGNZX(I)*SIGNZX(I)-SIGNZZ(I)*SIGNXY(I)*SIGNXY(I)+
-     .               DEUX*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
-                Q  = (TROIS*I2 - I1*I1)/NEUF
-                R  = (DEUX*I1*I1*I1-NEUF*I1*I2+VINGT7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
-                R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),UN)
-                PSI = ACOS(MAX(R_INTER,-UN))
-                S11 = DEUX*SQRT(-Q)*COS(PSI/TROIS)+THIRD*I1
-                S22 = DEUX*SQRT(-Q)*COS((PSI+DEUX*PI)/TROIS)+THIRD*I1
-                S33 = DEUX*SQRT(-Q)*COS((PSI+QUATRE*PI)/TROIS)+THIRD*I1
+     .               TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
+                Q  = (THREE*I2 - I1*I1)/NINE
+                R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
+                R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
+                PSI = ACOS(MAX(R_INTER,-ONE))
+                S11 = TWO*SQRT(-Q)*COS(PSI/THREE)+THIRD*I1
+                S22 = TWO*SQRT(-Q)*COS((PSI+TWO*PI)/THREE)+THIRD*I1
+                S33 = TWO*SQRT(-Q)*COS((PSI+FOUR*PI)/THREE)+THIRD*I1
                 ! Sorting principal strains
                 IF (S11 < S22) THEN 
                   R_INTER = S11
@@ -232,7 +232,7 @@ c
                   S11     = S22
                   S22     = R_INTER
                 ENDIF     
-                IF ((S11>=FAIL(I)).OR.(ABS(S33)>=FAIL(I))) LOFF(I) = QCINQ
+                IF ((S11>=FAIL(I)).OR.(ABS(S33)>=FAIL(I))) LOFF(I) = FOUR_OVER_5
               ! -> Maximum principal stress
               ELSEIF (Ifail == 3) THEN 
                 ! Computing the principal stresses
@@ -241,14 +241,14 @@ c
      .               SIGNXY(I)*SIGNXY(I)-SIGNZX(I)*SIGNZX(I)-SIGNYZ(I)*SIGNYZ(I)
                 I3 = SIGNXX(I)*SIGNYY(I)*SIGNZZ(I)-SIGNXX(I)*SIGNYZ(I)*SIGNYZ(I)-
      .               SIGNYY(I)*SIGNZX(I)*SIGNZX(I)-SIGNZZ(I)*SIGNXY(I)*SIGNXY(I)+
-     .               DEUX*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
-                Q  = (TROIS*I2 - I1*I1)/NEUF
-                R  = (DEUX*I1*I1*I1-NEUF*I1*I2+VINGT7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
-                R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),UN)
-                PSI = ACOS(MAX(R_INTER,-UN))
-                S11 = DEUX*SQRT(-Q)*COS(PSI/TROIS)+THIRD*I1
-                S22 = DEUX*SQRT(-Q)*COS((PSI+DEUX*PI)/TROIS)+THIRD*I1
-                S33 = DEUX*SQRT(-Q)*COS((PSI+QUATRE*PI)/TROIS)+THIRD*I1
+     .               TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
+                Q  = (THREE*I2 - I1*I1)/NINE
+                R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
+                R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
+                PSI = ACOS(MAX(R_INTER,-ONE))
+                S11 = TWO*SQRT(-Q)*COS(PSI/THREE)+THIRD*I1
+                S22 = TWO*SQRT(-Q)*COS((PSI+TWO*PI)/THREE)+THIRD*I1
+                S33 = TWO*SQRT(-Q)*COS((PSI+FOUR*PI)/THREE)+THIRD*I1
                 ! Sorting principal strains
                 IF (S11 < S22) THEN 
                   R_INTER = S11
@@ -265,10 +265,10 @@ c
                   S11     = S22
                   S22     = R_INTER
                 ENDIF     
-                IF (S11>=FAIL(I)) LOFF(I) = QCINQ
+                IF (S11>=FAIL(I)) LOFF(I) = FOUR_OVER_5
               ENDIF  
               !Integration point failure
-              IF (LOFF(I) == QCINQ) THEN
+              IF (LOFF(I) == FOUR_OVER_5) THEN
                 IDEL7NOK      = 1
                 NINDX2        = NINDX2+1
                 INDX2(NINDX2) = I

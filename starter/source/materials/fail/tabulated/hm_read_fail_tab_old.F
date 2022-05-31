@@ -121,7 +121,7 @@ Card5
 c-----------------------------------------------------------------------
 c     Set default parameter values
 c-----------------------------------------------------------------------
-      IF (DCRIT  == ZERO) DCRIT = UN
+      IF (DCRIT  == ZERO) DCRIT = ONE
       IF (DADV   == ZERO) DADV  = DCRIT
       IF (DADV > DCRIT) THEN
          DADV = DCRIT
@@ -132,18 +132,18 @@ c-----------------------------------------------------------------------
       ENDIF
       IF (EL_REF == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('EI_ref'  ,FSCAL_UNIT ,IS_AVAILABLE ,LSUBMODEL ,UNITAB)
-        EL_REF = UN*FSCAL_UNIT
+        EL_REF = ONE*FSCAL_UNIT
       END IF
-      IF (DD == UN  ) DD = 0.999
-      IF (DN == ZERO) DN = UN
+      IF (DD == ONE  ) DD = 0.999
+      IF (DN == ZERO) DN = ONE
       IF (ISHELL == 0) ISHELL = 1
       IF (ISOLID == 0) ISOLID = 1
       IF (IXFEM /= 1 .AND. IXFEM /= 2) IXFEM = 0
       IF (IXFEM > 0) ISOLID = 0
-      IF (SCALE_EL   == ZERO) SCALE_EL   = UN
-      IF (SCALE_TEMP == ZERO) SCALE_TEMP = UN
+      IF (SCALE_EL   == ZERO) SCALE_EL   = ONE
+      IF (SCALE_TEMP == ZERO) SCALE_TEMP = ONE
 c
-      IF (P_THICKFAIL == UN  ) P_THICKFAIL = P_THICKFAIL - EM06
+      IF (P_THICKFAIL == ONE  ) P_THICKFAIL = P_THICKFAIL - EM06
 c-----------------------------------------------------------------------
 c     UPARAM
 c-----------------------------------------------------------------------
@@ -212,7 +212,7 @@ c-----------------------------------------------------------------------
  1002 FORMAT(
      & 5X,'FLAG XFEM. . . . . . . .. . . . . . . . . . .=',I10/
      & 5X,'CRITICAL ADVANCEMENT VALUE  . . . . . . . . .=',E12.4/
-     & 5X,'PER CENT OF SHELL THICKNESS FAILURE . . . . .=',E12.4)
+     & 5X,'PER HUNDRED OF SHELL THICKNESS FAILURE . . . . .=',E12.4)
  1003 FORMAT(
      & 5X,'CRITICAL DAMAGE VALUE . . . . . . . . . . . .=',E12.4/
      & 5X,'DAMAGE PARAMETER D. . . . . . . . . . . . . .=',E12.4/

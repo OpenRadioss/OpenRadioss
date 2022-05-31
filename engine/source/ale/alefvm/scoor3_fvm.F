@@ -233,11 +233,11 @@ C=======================================================================
      .       RX , RY , RZ , SX , SY , SZ , TX , TY , TZ  ,
      .       E1X, E2X, E3X, E1Y, E2Y, E3Y, E1Z, E2Z, E3Z )
 
-        GAMA(I,1) = UN
+        GAMA(I,1) = ONE
         GAMA(I,2) = ZERO
         GAMA(I,3) = ZERO
         GAMA(I,4) = ZERO
-        GAMA(I,5) = UN
+        GAMA(I,5) = ONE
         GAMA(I,6) = ZERO
 
       DO I=LFT,LLT
@@ -346,9 +346,9 @@ C=======================================================================
       IF(INT22.EQ.0)THEN
         IF(JALE.NE.0)THEN
           DO I=LFT,LLT
-            WDX(I) = UNHUIT*( W(1,NC1(I))+W(1,NC2(I))+W(1,NC3(I))+W(1,NC4(I))+W(1,NC5(I))+W(1,NC6(I))+W(1,NC7(I))+W(1,NC8(I)))
-            WDY(I) = UNHUIT*( W(2,NC1(I))+W(2,NC2(I))+W(2,NC3(I))+W(2,NC4(I))+W(2,NC5(I))+W(2,NC6(I))+W(2,NC7(I))+W(2,NC8(I)))
-            WDZ(I) = UNHUIT*( W(3,NC1(I))+W(3,NC2(I))+W(3,NC3(I))+W(3,NC4(I))+W(3,NC5(I))+W(3,NC6(I))+W(3,NC7(I))+W(3,NC8(I)))
+            WDX(I) = ONE_OVER_8*( W(1,NC1(I))+W(1,NC2(I))+W(1,NC3(I))+W(1,NC4(I))+W(1,NC5(I))+W(1,NC6(I))+W(1,NC7(I))+W(1,NC8(I)))
+            WDY(I) = ONE_OVER_8*( W(2,NC1(I))+W(2,NC2(I))+W(2,NC3(I))+W(2,NC4(I))+W(2,NC5(I))+W(2,NC6(I))+W(2,NC7(I))+W(2,NC8(I)))
+            WDZ(I) = ONE_OVER_8*( W(3,NC1(I))+W(3,NC2(I))+W(3,NC3(I))+W(3,NC4(I))+W(3,NC5(I))+W(3,NC6(I))+W(3,NC7(I))+W(3,NC8(I)))
             VDX(I) = MOM(I,1)/RHO(I) - WDX(I)
             VDY(I) = MOM(I,2)/RHO(I) - WDY(I)
             VDZ(I) = MOM(I,3)/RHO(I) - WDZ(I)
@@ -383,9 +383,9 @@ C=======================================================================
             IF(NBCUT>0)IsCutCell=.TRUE.
           ENDIF
           IF(IsCutCell .EQV. .FALSE.)THEN
-            WDX(I) = UNHUIT*( W(1,NC1(I))+W(1,NC2(I))+W(1,NC3(I))+W(1,NC4(I))+W(1,NC5(I))+W(1,NC6(I))+W(1,NC7(I))+W(1,NC8(I)))
-            WDY(I) = UNHUIT*( W(2,NC1(I))+W(2,NC2(I))+W(2,NC3(I))+W(2,NC4(I))+W(2,NC5(I))+W(2,NC6(I))+W(2,NC7(I))+W(2,NC8(I)))
-            WDZ(I) = UNHUIT*( W(3,NC1(I))+W(3,NC2(I))+W(3,NC3(I))+W(3,NC4(I))+W(3,NC5(I))+W(3,NC6(I))+W(3,NC7(I))+W(3,NC8(I)))
+            WDX(I) = ONE_OVER_8*( W(1,NC1(I))+W(1,NC2(I))+W(1,NC3(I))+W(1,NC4(I))+W(1,NC5(I))+W(1,NC6(I))+W(1,NC7(I))+W(1,NC8(I)))
+            WDY(I) = ONE_OVER_8*( W(2,NC1(I))+W(2,NC2(I))+W(2,NC3(I))+W(2,NC4(I))+W(2,NC5(I))+W(2,NC6(I))+W(2,NC7(I))+W(2,NC8(I)))
+            WDZ(I) = ONE_OVER_8*( W(3,NC1(I))+W(3,NC2(I))+W(3,NC3(I))+W(3,NC4(I))+W(3,NC5(I))+W(3,NC6(I))+W(3,NC7(I))+W(3,NC8(I)))
             VDX(I) = MOM(I,1)/RHO(I) - WDX(I)
             VDY(I) = MOM(I,2)/RHO(I) - WDY(I)
             VDZ(I) = MOM(I,3)/RHO(I) - WDZ(I)

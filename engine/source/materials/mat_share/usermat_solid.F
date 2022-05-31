@@ -240,7 +240,7 @@ C=======================================================================
       ISEQ   = ELBUF_TAB(NG)%BUFLY(ILAY)%L_SEQ
       INLOC  = IPARG(78,NG)
       ! needed in mqviscb
-      FACQ0  = UN                          
+      FACQ0  = ONE                          
       MX     = MAT(1)                      
       NPAR   = IPM(9,MX)                   
       IADBUF = IPM(7,MX)                   
@@ -288,7 +288,7 @@ c
       ENDIF 
 
       !initial scale factor for yield stress defined per IPG,NPI  
-      SCALE1(LFT:LLT) = UN                                        
+      SCALE1(LFT:LLT) = ONE                                        
       YLDFAC => SCALE1(LFT:LLT)                                   
       IF ( ELBUF_TAB(NG)%BUFLY(ILAY)%L_FAC_YLD > 0) THEN          
          YLDFAC => LBUF%FAC_YLD(1:NEL)                            
@@ -350,9 +350,9 @@ C---------------------------
      3               RX  ,RY ,RZ ,SX ,SY ,SZ     ,
      4               TX  ,TY ,TZ )
         DO I=LFT,LLT
-         EP4(I) = UNDEMI*EP4(I)
-         EP5(I) = UNDEMI*EP5(I)
-         EP6(I) = UNDEMI*EP6(I)
+         EP4(I) = HALF*EP4(I)
+         EP5(I) = HALF*EP5(I)
+         EP6(I) = HALF*EP6(I)
         ENDDO
         CALL MROTENS(LFT,LLT,EP1,EP2,EP3,EP4,EP5,EP6,
      .               R11,R12,R13,
@@ -360,9 +360,9 @@ C---------------------------
      .               R31,R32,R33)
 #include "vectorize.inc"
         DO I=LFT,LLT
-         EP4(I) = DEUX*EP4(I)
-         EP5(I) = DEUX*EP5(I)
-         EP6(I) = DEUX*EP6(I)
+         EP4(I) = TWO*EP4(I)
+         EP5(I) = TWO*EP5(I)
+         EP6(I) = TWO*EP6(I)
          DE1(I)= EP1(I)*DT1
          DE2(I)= EP2(I)*DT1
          DE3(I)= EP3(I)*DT1
@@ -480,11 +480,11 @@ c------ Use uniform [ES] (instead of [MF]) as other laws
           ENDDO
 c           Is like 42 ...etc we compute [B]=[F][F]^t - I strain----- e.g. 62,92,88,90 
           DO I=LFT,LLT
-            ES1(I)=MFXX(I)*(DEUX+MFXX(I))+
+            ES1(I)=MFXX(I)*(TWO+MFXX(I))+
      .          MFXY(I)*MFXY(I)+MFXZ(I)*MFXZ(I) 
-            ES2(I)=MFYY(I)*(DEUX+MFYY(I))+
+            ES2(I)=MFYY(I)*(TWO+MFYY(I))+
      .          MFYX(I)*MFYX(I)+MFYZ(I)*MFYZ(I)
-            ES3(I)=MFZZ(I)*(DEUX+MFZZ(I))+
+            ES3(I)=MFZZ(I)*(TWO+MFZZ(I))+
      .          MFZX(I)*MFZX(I)+MFZY(I)*MFZY(I)
             ES4(I)=MFXY(I)+MFYX(I)+MFXX(I)*MFYX(I)+
      .               MFXY(I)*MFYY(I)+MFXZ(I)*MFYZ(I)
@@ -497,13 +497,13 @@ c           Is like 42 ...etc we compute [B]=[F][F]^t - I strain----- e.g. 62,92
 c
         IF(IDTMIN(1)==3.AND.ISMSTR == 12)THEN
           DO I=LFT,LLT
-            IF (OFFG(I) <=UN) CYCLE
+            IF (OFFG(I) <=ONE) CYCLE
             ES1(I)=MFXX(I)
             ES2(I)=MFYY(I)
             ES3(I)=MFZZ(I)
-            ES4(I)=UNDEMI*(MFXY(I)+MFYX(I))
-            ES6(I)=UNDEMI*(MFXZ(I)+MFZX(I))
-            ES5(I)=UNDEMI*(MFZY(I)+MFYZ(I))
+            ES4(I)=HALF*(MFXY(I)+MFYX(I))
+            ES6(I)=HALF*(MFXZ(I)+MFZX(I))
+            ES5(I)=HALF*(MFZY(I)+MFYZ(I))
           ENDDO
         END IF
 C---------------------------
@@ -521,9 +521,9 @@ c
      .                 R31,R32,R33)
         ENDIF
         DO I=LFT,LLT
-          ES4(I) = DEUX*ES4(I)
-          ES5(I) = DEUX*ES5(I)
-          ES6(I) = DEUX*ES6(I)
+          ES4(I) = TWO*ES4(I)
+          ES5(I) = TWO*ES5(I)
+          ES6(I) = TWO*ES6(I)
         ENDDO
 c-------------------------------       
       ELSEIF (ISMSTR.EQ.11) THEN
@@ -541,9 +541,9 @@ C---------------------------
 C         ORTHOTROPE GLOBAL
 C---------------------------
            DO I=LFT,LLT
-            ES4(I) = UNDEMI*ES4(I)
-            ES5(I) = UNDEMI*ES5(I)
-            ES6(I) = UNDEMI*ES6(I)
+            ES4(I) = HALF*ES4(I)
+            ES5(I) = HALF*ES5(I)
+            ES6(I) = HALF*ES6(I)
            ENDDO
             CALL MREPLOC(GAMA,R11,R12,R13,R21,R22    ,
      2                   R23 ,R31,R32,R33,
@@ -554,9 +554,9 @@ C---------------------------
      .                   R21,R22,R23,
      .                   R31,R32,R33)
            DO I=LFT,LLT
-            ES4(I) = DEUX*ES4(I)
-            ES5(I) = DEUX*ES5(I)
-            ES6(I) = DEUX*ES6(I)
+            ES4(I) = TWO*ES4(I)
+            ES5(I) = TWO*ES5(I)
+            ES6(I) = TWO*ES6(I)
            ENDDO
         ENDIF
 C---------------------------
@@ -583,7 +583,7 @@ c     Strain rate filtering coefficient
 c---------------------------------------------------------
       ISRATE = IPM(3,MX)
       IF (ISRATE > 0) THEN
-        ASRATE = MIN(UN, PM(9,MX)*DT1)
+        ASRATE = MIN(ONE, PM(9,MX)*DT1)
       ENDIF
 c--------------------------------------------------------
 c     END TOTAL STRAIN
@@ -747,9 +747,9 @@ C
 
           IF (ISMSTR == 10) THEN
             DO I=LFT,LLT
-             FPSXX(I) = UN+MFXX(I)
-             FPSYY(I) = UN+MFYY(I)
-             FPSZZ(I) = UN+MFZZ(I)
+             FPSXX(I) = ONE+MFXX(I)
+             FPSYY(I) = ONE+MFYY(I)
+             FPSZZ(I) = ONE+MFZZ(I)
             END DO
             FPSXY = MFXY(1:MVSIZ)
             FPSYZ = MFYZ(1:MVSIZ)
@@ -930,9 +930,9 @@ C            ORTHOTROPE
      3                    RX  ,RY ,RZ ,SX ,SY ,SZ     ,
      4                    TX  ,TY ,TZ )
              DO I=LFT,LLT
-              MFXX(I) = UN+MFXX(I)
-              MFYY(I) = UN+MFYY(I)
-              MFZZ(I) = UN+MFZZ(I)
+              MFXX(I) = ONE+MFXX(I)
+              MFYY(I) = ONE+MFYY(I)
+              MFZZ(I) = ONE+MFZZ(I)
              END DO
              CALL MROTENSNS(LFT,LLT,
      .               MFXX,MFXY,MFXZ,
@@ -1044,9 +1044,9 @@ c
 
           IF (ISMSTR == 10) THEN
              DO I=LFT,LLT
-               FPSXX(I) = UN+MFXX(I)
-               FPSYY(I) = UN+MFYY(I)
-               FPSZZ(I) = UN+MFZZ(I)
+               FPSXX(I) = ONE+MFXX(I)
+               FPSYY(I) = ONE+MFYY(I)
+               FPSZZ(I) = ONE+MFZZ(I)
              END DO
               FPSXY = MFXY(1:MVSIZ)
               FPSYZ = MFYZ(1:MVSIZ)
@@ -1166,15 +1166,15 @@ c
           IP=(IR -1)*15         
 C------
           DO I=LFT,LLT 
-            DAV = (EP1(I)+EP2(I)+EP3(I))*TIERS
+            DAV = (EP1(I)+EP2(I)+EP3(I))*THIRD
             E1 = EP1(I) - DAV
             E2 = EP2(I) - DAV
             E3 = EP3(I) - DAV
-            E4 = UNDEMI*EP4(I)
-            E5 = UNDEMI*EP5(I)
-            E6 = UNDEMI*EP6(I)
-            EPSP1(I) =UNDEMI*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
-            EPSP1(I) = SQRT(TROIS*EPSP1(I))*DTIERS
+            E4 = HALF*EP4(I)
+            E5 = HALF*EP5(I)
+            E6 = HALF*EP6(I)
+            EPSP1(I) =HALF*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
+            EPSP1(I) = SQRT(THREE*EPSP1(I))*TWO_THIRD
           ENDDO
 C------------------------------------------------------------
 C     Recovering non-local plastic strain-rate
@@ -1582,15 +1582,15 @@ C-----------------------
 C-----------
       DO I=LFT,LLT                                                           
         P2 = -(SOLD1(I)+SIG(I,1)+SOLD2(I)+SIG(I,2)+SOLD3(I)+SIG(I,3))* THIRD 
-        E1 = D1(I)*(SOLD1(I)+SIG(I,1) + P2+DEUX*SVIS(I,1))                   
-        E2 = D2(I)*(SOLD2(I)+SIG(I,2) + P2+DEUX*SVIS(I,2))                   
-        E3 = D3(I)*(SOLD3(I)+SIG(I,3) + P2+DEUX*SVIS(I,3))                   
-        E4 = D4(I)*(SOLD4(I)+SIG(I,4) + DEUX*SVIS(I,4))                      
-        E5 = D5(I)*(SOLD5(I)+SIG(I,5) + DEUX*SVIS(I,5))                      
-        E6 = D6(I)*(SOLD6(I)+SIG(I,6) + DEUX*SVIS(I,6))         
+        E1 = D1(I)*(SOLD1(I)+SIG(I,1) + P2+TWO*SVIS(I,1))                   
+        E2 = D2(I)*(SOLD2(I)+SIG(I,2) + P2+TWO*SVIS(I,2))                   
+        E3 = D3(I)*(SOLD3(I)+SIG(I,3) + P2+TWO*SVIS(I,3))                   
+        E4 = D4(I)*(SOLD4(I)+SIG(I,4) + TWO*SVIS(I,4))                      
+        E5 = D5(I)*(SOLD5(I)+SIG(I,5) + TWO*SVIS(I,5))                      
+        E6 = D6(I)*(SOLD6(I)+SIG(I,6) + TWO*SVIS(I,6))         
         EINC = VOL_AVG(I)*DT1 * (E1+E2+E3+E4+E5+E6+E7(I))
      .       - DVOL(I)*(Q(I) + QOLD(I) + P2)
-        EINT(I) = EINT(I) + OFF(I)*EINC*UNDEMI
+        EINT(I) = EINT(I) + OFF(I)*EINC*HALF
       END DO                                                                 
       QOLD(LFT:LLT) = Q(LFT:LLT)
 C------------------------------------------

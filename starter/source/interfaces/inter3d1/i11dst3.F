@@ -131,14 +131,14 @@ C
 C
        XS2 = MAX(XS2,EM20)
        XM2 = MAX(XM2,EM20)
-       H1M=MIN(UN,MAX(ZERO,H1M))
+       H1M=MIN(ONE,MAX(ZERO,H1M))
        H1S = -(XA + H1M*XSM) / XS2
-       H1S=MIN(UN,MAX(ZERO,H1S))
+       H1S=MIN(ONE,MAX(ZERO,H1S))
        H1M = -(XB + H1S*XSM) / XM2
-       H1M=MIN(UN,MAX(ZERO,H1M))
+       H1M=MIN(ONE,MAX(ZERO,H1M))
 C
-       H2S = UN - H1S
-       H2M = UN - H1M
+       H2S = ONE - H1S
+       H2M = ONE - H1M
 C !!!!!!!!!!!!!!!!!!!!!!!
 C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
 C!!!!!!!!!!!!!!!!!!!!!!!!

@@ -119,9 +119,9 @@ C
                Y3=X(2,NN3)
                Z3=X(3,NN3)
             ENDIF
-            PNOD(1,I)=(UN-KSI-ETA)*X1+KSI*X2+ETA*X3
-            PNOD(2,I)=(UN-KSI-ETA)*Y1+KSI*Y2+ETA*Y3
-            PNOD(3,I)=(UN-KSI-ETA)*Z1+KSI*Z2+ETA*Z3
+            PNOD(1,I)=(ONE-KSI-ETA)*X1+KSI*X2+ETA*X3
+            PNOD(2,I)=(ONE-KSI-ETA)*Y1+KSI*Y2+ETA*Y3
+            PNOD(3,I)=(ONE-KSI-ETA)*Z1+KSI*Z2+ETA*Z3
 C
          ELSEIF (IFVNOD(1,I).EQ.2) THEN
             I2=IFVNOD(2,I)
@@ -136,9 +136,9 @@ C
             I1=IFVNOD(2,I)
             I2=IFVNOD(3,I)
             FAC=RFVNOD(1,I)
-            PNOD(1,I)=FAC*PNOD(1,I1)+(UN-FAC)*PNOD(1,I2)
-            PNOD(2,I)=FAC*PNOD(2,I1)+(UN-FAC)*PNOD(2,I2)
-            PNOD(3,I)=FAC*PNOD(3,I1)+(UN-FAC)*PNOD(3,I2)
+            PNOD(1,I)=FAC*PNOD(1,I1)+(ONE-FAC)*PNOD(1,I2)
+            PNOD(2,I)=FAC*PNOD(2,I1)+(ONE-FAC)*PNOD(2,I2)
+            PNOD(3,I)=FAC*PNOD(3,I1)+(ONE-FAC)*PNOD(3,I2)
          ENDIF
       ENDDO
 C----------------------------
@@ -150,7 +150,7 @@ C----------------------------
          N3=IFVTRI(3,I)
          CALL FVNORMAL(PNOD,N1,N2,N3,0,NX,NY,NZ)
          AREA2=SQRT(NX*NX+NY*NY+NZ*NZ)
-         PAREA(I)=UNDEMI*AREA2
+         PAREA(I)=HALF*AREA2
          IF (AREA2.GT.0) THEN
             PNORM(1,I)=NX/AREA2
             PNORM(2,I)=NY/AREA2
@@ -193,7 +193,7 @@ C Boucle sur les triangles du polygone
                X1=PNOD(1,N1)
                Y1=PNOD(2,N1)
                Z1=PNOD(3,N1)
-               PVOLU(I)=PVOLU(I)+TIERS*AREA*(X1*NX+Y1*NY+Z1*NZ)
+               PVOLU(I)=PVOLU(I)+THIRD*AREA*(X1*NX+Y1*NY+Z1*NZ)
             ENDDO
          ENDDO
       ENDDO
@@ -231,13 +231,13 @@ C---------------------------------------------------
       PINI =RVOLU(12)
       TI   =RVOLU(13)
       TI2 =TI*TI
-      EFAC=TI*(CPAI+UNDEMI*CPBI*TI+THIRD*CPCI*TI2-RMWI)
+      EFAC=TI*(CPAI+HALF*CPBI*TI+THIRD*CPCI*TI2-RMWI)
       RHOI=PINI/(TI*RMWI)
       CPDI=RVOLU(56)
       CPEI=RVOLU(57)
       CPFI=RVOLU(58)
       IF(ITYP.EQ.8) THEN
-         EFAC=EFAC+QUART*CPDI*TI2*TI2-CPEI/TI+UNCINQ*CPFI*TI2*TI2*TI          
+         EFAC=EFAC+FOURTH*CPDI*TI2*TI2-CPEI/TI+ONE_FIFTH*CPFI*TI2*TI2*TI          
       ENDIF
       DO I=1,NPOLH
          MPOLH(I)=RHOI*PVOLU(I)

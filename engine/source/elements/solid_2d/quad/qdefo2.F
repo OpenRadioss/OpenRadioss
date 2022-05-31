@@ -73,7 +73,7 @@ C-----------------------------------------------
      .   ZM1(MVSIZ), ZM2(MVSIZ), ZM3(MVSIZ), ZM4(MVSIZ), DTH,
      .   YAVG(MVSIZ),A1(MVSIZ) , A2(MVSIZ)
 C-----------------------------------------------
-      DTH=UNDEMI*DT1
+      DTH=HALF*DT1
       
       DO I=LFT,LLT
         !from qforc2 subroutine : &W  = &V  
@@ -111,16 +111,16 @@ C-----------------------------------------------
       ENDDO
 
       DO I=LFT,LLT
-        PY1(I)=UNDEMI*(ZM2(I)-ZM4(I))
-        PY2(I)=UNDEMI*(ZM3(I)-ZM1(I))
-        PZ1(I)=UNDEMI*(YM4(I)-YM2(I))
-        PZ2(I)=UNDEMI*(YM1(I)-YM3(I))      
+        PY1(I)=HALF*(ZM2(I)-ZM4(I))
+        PY2(I)=HALF*(ZM3(I)-ZM1(I))
+        PZ1(I)=HALF*(YM4(I)-YM2(I))
+        PZ2(I)=HALF*(YM1(I)-YM3(I))      
       ENDDO
 
       DO I=LFT,LLT
         A1(I) =YM2(I)*(ZM3(I)-ZM4(I))+YM3(I)*(ZM4(I)-ZM2(I))+YM4(I)*(ZM2(I)-ZM3(I))
         A2(I) =YM2(I)*(ZM4(I)-ZM1(I))+YM4(I)*(ZM1(I)-ZM2(I))+YM1(I)*(ZM2(I)-ZM4(I))
-        AIREM(I)=(A1(I)+A2(I))*UNDEMI
+        AIREM(I)=(A1(I)+A2(I))*HALF
         !AUTRE FORMULE AIREM(I)=2.*(PZ2(I)*PY1(I)-PZ1(I)*PY2(I))
         YAVG(I) =YM1(I)+YM2(I)+YM3(I)+YM4(I)
       ENDDO
@@ -161,22 +161,22 @@ C-----------------------------------------------
 
       DO I=LFT,LLT
         EYZ(I)= DZY(I)+DYZ(I)
-        WYZ(I)=UNDEMI*DT1*(DZY(I)-DYZ(I))
+        WYZ(I)=HALF*DT1*(DZY(I)-DYZ(I))
       ENDDO
 C---------------------------------------
 C     DERIVEES POUR LE CALCUL DES FORCES
 C---------------------------------------
       DO I=LFT,LLT
-        PY1(I)=UNDEMI*(Z2(I)-Z4(I))
-        PY2(I)=UNDEMI*(Z3(I)-Z1(I))
-        PZ1(I)=UNDEMI*(Y4(I)-Y2(I))
-        PZ2(I)=UNDEMI*(Y1(I)-Y3(I))      
+        PY1(I)=HALF*(Z2(I)-Z4(I))
+        PY2(I)=HALF*(Z3(I)-Z1(I))
+        PZ1(I)=HALF*(Y4(I)-Y2(I))
+        PZ2(I)=HALF*(Y1(I)-Y3(I))      
       ENDDO
 C---------------------------------------
 C     REPERE LOCAL POUR MATERIAUX NON ISOTROPES
 C---------------------------------------
       DO I=LFT,LLT
-        RX(I)=UN
+        RX(I)=ONE
         RY(I)=ZERO
         RZ(I)=ZERO
         SX(I)=ZERO    

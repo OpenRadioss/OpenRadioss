@@ -190,7 +190,7 @@ C         FOR NODAL AND ELEMENT TIME STEP COMPUTATION
           VISCR(I) = ZERO
           UVAR(27,I) = MASS(I)
           UVAR(28,I) = XINER(I)
-          UVAR(30,I) = UN/XL(I)
+          UVAR(30,I) = ONE/XL(I)
 !
 !  add damping (linear + function):
 !

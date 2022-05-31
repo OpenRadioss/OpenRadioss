@@ -100,7 +100,7 @@ C-----------------------------------------------
 
 C--------------------------------------------------------------
 C     CALCUL DES RIGIDITES DES SEGMENTS ET DES NOEUDS
-C     V16 : DANS LE CAS OU UN SEGMENT APPARTIENT A LA FOIS
+C     V16 : DANS LE CAS OU ONE SEGMENT APPARTIENT A LA FOIS
 C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
 C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
 C---------------------------------------------------------------
@@ -166,7 +166,7 @@ C----------------------
           IGMAT = IGEO(98,MG)
           DX=GEO(1,MG)
           IF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP ==52) DX = THK(NUMELC + NELTG)
-          IF (NTY.EQ.8) GAPN(I) = DX/DEUX
+          IF (NTY.EQ.8) GAPN(I) = DX/TWO
           DXM=DXM+DX
           NDX=NDX+1
           IF(MT.GT.0)THEN
@@ -212,7 +212,7 @@ C----------------------
           IGMAT = IGEO(98,MG)
           DX=GEO(1,MG)
           IF(IGTYP == 17 .OR. IGTYP == 51) DX = THK(NELC)
-          IF (NTY.EQ.8) GAPN(I) = DX/DEUX
+          IF (NTY.EQ.8) GAPN(I) = DX/TWO
           DXM=DXM+DX
           NDX=NDX+1
           IF(MT.GT.0)THEN
@@ -308,7 +308,7 @@ C---------------------
         IGMAT = IGEO(98,MG)
         DX=GEO(1,MG)
         IF(IGTYP == 17 .OR. IGTYP == 51) DX = THK(NELC)
-        IF (NTY.EQ.8) GAPN(I) = DX/DEUX
+        IF (NTY.EQ.8) GAPN(I) = DX/TWO
         DXM=DXM+DX
         NDX=NDX+1
         IF(MT.GT.0)THEN
@@ -353,7 +353,7 @@ C---------------------
         IGMAT = IGEO(98,MG)
         DX=GEO(1,MG)
         IF(IGTYP == 17 .OR. IGTYP == 51) DX = THK(NELC)
-        IF (NTY.EQ.8) GAPN(I) = DX/DEUX
+        IF (NTY.EQ.8) GAPN(I) = DX/TWO
         DXM=DXM+DX
         NDX=NDX+1
         IF(MT.GT.0)THEN
@@ -458,7 +458,7 @@ C---------------------------------------------
         NPT=NSEG(J)-1
         DO JJ=1,NUM
           LL=LNSV(NPT+JJ)
-          STFN(J)=STFN(J)+QUART*STF(LL)
+          STFN(J)=STFN(J)+FOURTH*STF(LL)
         ENDDO
       ENDDO
 C

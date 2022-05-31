@@ -105,8 +105,8 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV ('FAIL_Le_max'    ,LE_MAX  ,IS_AVAILABLE,LSUBMODEL,UNITAB)      
 c-----------------------------------------------------------------------
       ! Checking Gurson yield criterion parameters
-      IF (Q1 == ZERO) Q1 = TDEMI
-      IF (Q2 == ZERO) Q2 = UN
+      IF (Q1 == ZERO) Q1 = THREE_HALF
+      IF (Q2 == ZERO) Q2 = ONE
       Q3 = Q1**2
       ! Checking value of nucleation function
       IF (AS == ZERO) THEN
@@ -115,7 +115,7 @@ c-----------------------------------------------------------------------
       ENDIF
       ! Checking value of coalescence function
       IF (FC == ZERO) FC = INFINITY
-      IF (FR == ZERO) FR = DEUX*INFINITY
+      IF (FR == ZERO) FR = TWO*INFINITY
       IF (FC >= FR)  THEN
         ! Error message
         CALL ANCMSG(MSGID=1747,MSGTYPE=MSGERROR,

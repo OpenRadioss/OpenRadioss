@@ -246,7 +246,7 @@ C-----------------------------------------------
             FAC_T_bb = FAC_TIME*EP06                          
             FAC_P_bb = FAC_M_bb/FAC_L_bb/FAC_T_bb/FAC_T_bb    
             FAC_I_bb = FAC_P_bb*FAC_T_bb/FAC_M_bb**THIRD      
-            W13      = (WTNT*FAC_M_bb)**TIERS                 
+            W13      = (WTNT*FAC_M_bb)**THIRD                 
 
             !--------------------------------------------------------------
             !   D e f a u l t   V a l u e s 
@@ -309,7 +309,7 @@ C-----------------------------------------------
               IF(SURF_ID_GROUND == 0)THEN
                 Nx_SURF=ZERO
                 Ny_SURF=ZERO
-                IF(IABAC==2)Nz_SURF=UN      !normal vector
+                IF(IABAC==2)Nz_SURF=ONE      !normal vector
                 IF(IABAC==3)Nz_SURF=-Zdet   !Vector from ground projection to det point
               ELSE 
                 lfound = .FALSE.                                                       
@@ -466,14 +466,14 @@ C-----------------------------------------------
                   N4=IGRSURF(internal_SURF_ID)%NODES(I,4)                                
                   IF(N4 /= 0 .AND. N1 /= N2 .AND. N2 /= N3 .AND. N3 /= N4 .AND. N4 /= N1 )THEN
 !     4 NODE SEGEMENT
-                     NPt   = QUATRE
+                     NPt   = FOUR
 !     Segment Zentrum
                      Zx = X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4)
                      Zy = X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4)
                      Zz = X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4)
-                     Zx = Zx*QUART                          
-                     Zy = Zy*QUART
-                     Zz = Zz*QUART                          
+                     Zx = Zx*FOURTH                          
+                     Zy = Zy*FOURTH
+                     Zz = Zz*FOURTH                          
 !     Normal
                      Nx_SEG  = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
                      Ny_SEG  = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
@@ -481,7 +481,7 @@ C-----------------------------------------------
                      NORM_= SQRT(Nx_SEG*Nx_SEG+Ny_SEG*Ny_SEG+Nz_SEG*Nz_SEG)
                   ELSE
 !     3 NODE SEGEMENT 
-                     NPt   = TROIS 
+                     NPt   = THREE 
                      IF(N4==0)THEN
 !     nothing to do
                      ELSEIF(N1 == N2)THEN
@@ -500,9 +500,9 @@ C-----------------------------------------------
                      Zx   = X(1,N1)+X(1,N2)+X(1,N3)
                      Zy   = X(2,N1)+X(2,N2)+X(2,N3)
                      Zz   = X(3,N1)+X(3,N2)+X(3,N3)
-                     Zx   = Zx*TIERS                          
-                     Zy   = Zy*TIERS
-                     Zz   = Zz*TIERS 
+                     Zx   = Zx*THIRD                          
+                     Zy   = Zy*THIRD
+                     Zz   = Zz*THIRD 
                      Nx_SEG   = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))
                      Ny_SEG   = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))
                      Nz_SEG   = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
@@ -545,7 +545,7 @@ C-----------------------------------------------
      .                 "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ", 
      .                 ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)                                                                    
                     endif                                                                                                                                                                                     
-                    LAMBDA = UN                                                                                                                                                                               
+                    LAMBDA = ONE                                                                                                                                                                               
                     Phi_I  = 255                                                                                                                                                                              
                   ENDIF                                                                                                                                                                                       
 
@@ -709,7 +709,7 @@ C-----------------------------------------------
                     tmp(3)=Zdet-ProjZ(3)                                                                                  
                     tmp_var=SQRT( tmp(1)*tmp(1) + tmp(2)*tmp(2) + tmp(3)*tmp(3) )                                         
                     ANGLE_g = ( Nx_SURF*tmp(1) + Ny_SURF*tmp(2) + Nz_SURF*tmp(2) ) /Hc/tmp_var  !must be between [-PI_,PI_]             
-                    ANGLE_g = min(UN,max(-UN,ANGLE_g)) ! bound it to expected range (epsilon) 
+                    ANGLE_g = min(ONE,max(-ONE,ANGLE_g)) ! bound it to expected range (epsilon) 
                     ANGLE_g = acos(ANGLE_g)                                                                                   
                     ANGLE_g = cst_180/PI_*ANGLE_g !debug purpose  
                     IF(ANGLE_g < ZERO)THEN
@@ -741,7 +741,7 @@ C-----------------------------------------------
                     alpha_zc = zero 
                     ZC = ZC/FAC_UNIT
                     IF(ZC < 4)THEN                                                                                        
-                      itmp = INT( DEUX*(ZC)-UN )                                                                            
+                      itmp = INT( TWO*(ZC)-ONE )                                                                            
                       curve_id1 =  max(1,itmp)                                                                       
                       curve_id2 = curve_id1+1                                                                             
                       if(itmp < 1)then                                                                                    
@@ -757,7 +757,7 @@ C-----------------------------------------------
                         alpha_zc = alpha_zc/  ( PBLAST_DATA%Curve_val_2_13(curve_id2) - PBLAST_DATA%Curve_val_2_13(curve_id1) )
                       endif                                                                                               
                     ELSE                                                                                                  
-                      itmp = INT( ZC+TROIS )                                                                                 
+                      itmp = INT( ZC+THREE )                                                                                 
                       curve_id1 = INT( min(10,itmp) )                                                                     
                       curve_id2 = curve_id1+1                                                                             
                       if(curve_id1 == 10)then                                                                             
@@ -803,13 +803,13 @@ C-----------------------------------------------
                     !tmp(1) : angle interpolation on curve_id1 Figure 2_13                                                
                     tmp(1)=PBLAST_DATA%SHTP(curve_id1,idx_zg1)
                     tmp(2)=PBLAST_DATA%SHTP(curve_id1,idx_zg2)
-                    tmp(1) = (UN-alpha_zg)*tmp(1) + alpha_zg*tmp(2)
+                    tmp(1) = (ONE-alpha_zg)*tmp(1) + alpha_zg*tmp(2)
                     !tmp(2) : interpolation on curve_id2 Figure 2_13                                                       
                     tmp(2)=PBLAST_DATA%SHTP(curve_id2,idx_zg1)
                     tmp(3)=PBLAST_DATA%SHTP(curve_id2,idx_zg2)
-                    tmp(2) = (UN-alpha_zg)*tmp(2) + alpha_zg*tmp(3)
+                    tmp(2) = (ONE-alpha_zg)*tmp(2) + alpha_zg*tmp(3)
                     !interpolate now with scaled height of charge 
-                    SHTP = (un-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
+                    SHTP = (ONE-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
                     HTP = SHTP*W13            
  
                     
@@ -863,26 +863,26 @@ C-----------------------------------------------
                     !tmp(1) : angle interpolation on curve_id1 Figure 2_9                                                 
                     tmp(1)=PBLAST_DATA%Pra(curve_id1,idx1_angle)                                                          
                     tmp(2)=PBLAST_DATA%Pra(curve_id1,idx2_angle)                                                          
-                    tmp(1)=(UN-alpha_angle)*LOG10(tmp(1))+alpha_angle*LOG10(tmp(2))                                                          
+                    tmp(1)=(ONE-alpha_angle)*LOG10(tmp(1))+alpha_angle*LOG10(tmp(2))                                                          
                     !tmp(2) : interpolation on curve_id2 Figure 2_9                                                       
                     tmp(2)=PBLAST_DATA%Pra(curve_id2,idx1_angle)                                                          
                     tmp(3)=PBLAST_DATA%Pra(curve_id2,idx2_angle)                                                          
-                    tmp(2)=(UN-alpha_angle)*LOG10(tmp(2))+alpha_angle*LOG10(tmp(3))  
+                    tmp(2)=(ONE-alpha_angle)*LOG10(tmp(2))+alpha_angle*LOG10(tmp(3))  
                     !interpolate now with scaled height of charge                                                         
-                    Pra = (un-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
+                    Pra = (ONE-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
                     Pra = exp(Pra*log10_)
                                                                                                                           
                     !deduce Ira from table                                                                                
                     !tmp(1) : angle interpolation on curve_id1 Figure 2_10                                                 
                     tmp(1)=PBLAST_DATA%SRI(curve_id1,idx1_angle)                                                          
                     tmp(2)=PBLAST_DATA%SRI(curve_id1,idx2_angle)                                                          
-                    tmp(1)=(UN-alpha_angle)*LOG10(tmp(1))+alpha_angle*LOG10(tmp(2))                                                          
+                    tmp(1)=(ONE-alpha_angle)*LOG10(tmp(1))+alpha_angle*LOG10(tmp(2))                                                          
                     !tmp(2) : interpolation on curve_id2 Figure 2_10                                                      
                     tmp(2)=PBLAST_DATA%SRI(curve_id2,idx1_angle)                                                          
                     tmp(3)=PBLAST_DATA%SRI(curve_id2,idx2_angle)                                                          
-                    tmp(2)=(UN-alpha_angle)*LOG10(tmp(2))+alpha_angle*LOG10(tmp(3))  
+                    tmp(2)=(ONE-alpha_angle)*LOG10(tmp(2))+alpha_angle*LOG10(tmp(3))  
                     !interpolate now with scaled height of charge                                                         
-                    Ira = (un-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
+                    Ira = (ONE-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
                     Ira = exp(Ira*log10_)                                                             
            
 
@@ -898,7 +898,7 @@ C-----------------------------------------------
                     !deduce Z
                      bound1 = LOG10(PBLAST_DATA%RW3(idx1))
                      bound2 = LOG10(PBLAST_DATA%RW3(idx2))
-                     LogRes =  (un-lambda)*bound1+lambda*bound2                                                             
+                     LogRes =  (ONE-lambda)*bound1+lambda*bound2                                                             
                      Z = exp(LogRes*log10_)
                      !deduce Pra_refl (=Pr(Z) where Z=Z(Pra) )
                      Phi_DB =  INT(LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN)        
@@ -925,7 +925,7 @@ C-----------------------------------------------
                      !deduce Z
                      bound1 = LOG10(PBLAST_DATA%RW3(idx1))
                      bound2 = LOG10(PBLAST_DATA%RW3(idx2))
-                     LogRes =  (un-lambda)*bound1+lambda*bound2                                                             
+                     LogRes =  (ONE-lambda)*bound1+lambda*bound2                                                             
                      Z = exp(LogRes*log10_)
                      !deduce Ira_refl (=Pr(Z) where Z=Z(Pra) )
                      Phi_DB =  INT(LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN)        
@@ -963,36 +963,36 @@ C-----------------------------------------------
 
                   IF(IMODEL == 1)THEN                                                                                                                                                                         
                     !-Friedlander                                                                                                                                                                             
-                    DECAY_inci = UN                                                                                                                                                                           
-                    DECAY_refl = UN                                                                                                                                                                           
+                    DECAY_inci = ONE                                                                                                                                                                           
+                    DECAY_refl = ONE                                                                                                                                                                           
                                                                                                                                                                                                               
                   ELSEIF(IMODEL == 2) THEN                                                                                                                                                                    
-                    !SOLVE DECAY (b):    I_inci = P_inci*DT_0/b*(UN-(1-exp(-b))/b)                                                                                                                            
-                    !     g: b-> I_inci - P_inci*DT_0/b*(UN-(1-exp(-b))/b)                                                                                                                                    
+                    !SOLVE DECAY (b):    I_inci = P_inci*DT_0/b*(ONE-(1-exp(-b))/b)                                                                                                                            
+                    !     g: b-> I_inci - P_inci*DT_0/b*(ONE-(1-exp(-b))/b)                                                                                                                                    
                     ! find b such as g(b)=0                                                                                                                                                                   
                     ! NEWTON ITERATIONS                                                                                                                                                                       
                     NITER=20                                                                                                                                                                                  
                     TOL=EM06                                                                                                                                                                                  
                     ITER=0                                                                                                                                                                                    
-                    ZETA=UN                                                                                                                                                                                   
+                    ZETA=ONE                                                                                                                                                                                   
                     RES=EP20                                                                                                                                                                                  
                     TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                                    
                     !--initialize first iteration                                                                                                                                                             
                     kk=P_inci*DT_0                                                                                                                                                                            
-                    FUNCT = UNDEMI*kk -I_inci !-UNSIX*kk*ZETA                                                                                                                                                 
+                    FUNCT = HALF*kk -I_inci !-ONE_OVER_6*kk*ZETA                                                                                                                                                 
                     !--iterative solving                                                                                                                                                                      
                     DO WHILE (ITER<=NITER .AND. RES>TOL)                                                                                                                                                      
                       ITER=ITER+1                                                                                                                                                                             
                       IF(ABS(ZETA) < EM06)THEN                                                                                                                                                                
                         !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b?)                                                                                                                                  
-                        DIFF = kk*(-UNSIX + UNDOUZE*ZETA)                                                                                                                                                     
+                        DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)                                                                                                                                                     
                         ZETA = ZETA - FUNCT/DIFF                                                                                                                                                              
-                        FUNCT = UNDEMI*kk-UNSIX*kk*ZETA - I_inci                                                                                                                                              
+                        FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_inci                                                                                                                                              
                       ELSE                                                                                                                                                                                    
-                        DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_inci)*(UN + DEUX/ZETA)                                                                                                                          
+                        DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_inci)*(ONE + TWO/ZETA)                                                                                                                          
                         ZETA = ZETA - FUNCT/DIFF                                                                                                                                                              
                         TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                                
-                        TMP3 = EXP(ZETA)*(ZETA-UN)+UN                                                                                                                                                         
+                        TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE                                                                                                                                                         
                         FUNCT = TMP2 * TMP3 -I_inci                                                                                                                                                           
                       ENDIF                                                                                                                                                                                   
                       RES = ABS(FUNCT)   !g(x_new)                                                                                                                                                            
@@ -1000,25 +1000,25 @@ C-----------------------------------------------
                     DECAY_inci=MAX(EM06,ZETA)                                                                                                                                                                 
 
                     ITER=0                                                                                                                                                                                    
-                    ZETA=UN                                                                                                                                                                                   
+                    ZETA=ONE                                                                                                                                                                                   
                     RES=EP20                                                                                                                                                                                  
                     TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                                    
                     !--initialize first iteration                                                                                                                                                             
                     kk=P_refl*DT_0                                                                                                                                                                            
-                    FUNCT = UNDEMI*kk -I_refl !-UNSIX*kk*ZETA                                                                                                                                                 
+                    FUNCT = HALF*kk -I_refl !-ONE_OVER_6*kk*ZETA                                                                                                                                                 
                     !--iterative solving                                                                                                                                                                      
                     DO WHILE (ITER<=NITER .AND. RES>TOL)                                                                                                                                                      
                       ITER=ITER+1                                                                                                                                                                             
                       IF(ABS(ZETA) < EM06)THEN                                                                                                                                                                
                         !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b?)                                                                                                                                  
-                        DIFF = kk*(-UNSIX + UNDOUZE*ZETA)                                                                                                                                                     
+                        DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)                                                                                                                                                     
                         ZETA = ZETA - FUNCT/DIFF                                                                                                                                                              
-                        FUNCT = UNDEMI*kk-UNSIX*kk*ZETA - I_refl                                                                                                                                              
+                        FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_refl                                                                                                                                              
                       ELSE                                                                                                                                                                                    
-                        DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_refl)*(UN + DEUX/ZETA)                                                                                                                          
+                        DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_refl)*(ONE + TWO/ZETA)                                                                                                                          
                         ZETA = ZETA - FUNCT/DIFF                                                                                                                                                              
                         TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                                
-                        TMP3 = EXP(ZETA)*(ZETA-UN)+UN                                                                                                                                                         
+                        TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE                                                                                                                                                         
                         FUNCT = TMP2 * TMP3 -I_refl                                                                                                                                                           
                       ENDIF                                                                                                                                                                                   
                       RES = ABS(FUNCT)   !g(x_new)                                                                                                                                                            

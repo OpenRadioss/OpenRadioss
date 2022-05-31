@@ -90,7 +90,7 @@ C
       YZ2=YZ*YZ
       ZX2=ZX*ZX
       DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 
-     .  				   - DEUX*XY*YZ*ZX
+     .  				   - TWO*XY*YZ*ZX
 C
 C --- VECT_SURF = 0.5*(X1^X2 + X2^X3 + X3^X4 +X4^X1)
 C
@@ -119,36 +119,36 @@ C      IF (ABS(DET) < 1e-8) print *,"ATTENTION D < 1e-8",DET,RATIO,XX,YY
 C
       IF (RATIO > 5e-3) THEN
 C-- standard situation 
-        DET = UN/DET
+        DET = ONE/DET
         B1=ZZZ*YYY-YZ2
         B2=XXX*ZZZ-ZX2
         B3=YYY*XXX-XY2
         C3=ZZZ*XY+YZ*ZX
         C1=XXX*YZ+ZX*XY
         C2=YYY*ZX+XY*YZ
-        BETAX = UN
-        BETAY = UN
+        BETAX = ONE
+        BETAY = ONE
       ELSEIF (YY < XX) THEN
 C-- nodes are nearly aligned on local X axis - DET = 0 - switch to 1D formulation
-        DET = UN
+        DET = ONE
         B1=ZERO
-        B2=UN/XX
-        B3=UN/XX
+        B2=ONE/XX
+        B3=ONE/XX
         C3=ZERO
         C1=ZERO
         C2=ZERO
         BETAX = ZERO
-        BETAY = UN
+        BETAY = ONE
       ELSE
 C-- nodes are nearly aligned on local Y axis - DET = 0 - switch to 1D formulation
-        DET = UN
-        B1=UN/YY
+        DET = ONE
+        B1=ONE/YY
         B2=ZERO
-        B3=UN/YY
+        B3=ONE/YY
         C3=ZERO
         C1=ZERO
         C2=ZERO
-        BETAX = UN
+        BETAX = ONE
         BETAY = ZERO
       ENDIF
 C

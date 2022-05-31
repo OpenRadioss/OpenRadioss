@@ -154,7 +154,7 @@ c        CALL HM_GET_FLOATV_DIM('HEAT_AS' ,AS_UNIT ,IS_AVAILABLE, LSUBMODEL, UNI
 c        print*,'RCP_UNIT,AS_UNIT=', RCP_UNIT,AS_UNIT
 c--------------------------------------------------
         ILAW = IPM(2,IMAT)                                    
-        PM(71,IMAT) = UNP1
+        PM(71,IMAT) = ONEP1
         PM(69,IMAT) = RHO_CP                                            
         PM(75,IMAT) = AS                                             
         PM(76,IMAT) = BS                                             
@@ -171,7 +171,7 @@ c--------------------------------------------------
           IF (RHO_CP <= ZERO) THEN
               RHO_CPM1 = ZERO
           ELSE
-              RHO_CPM1 = UN/RHO_CP
+              RHO_CPM1 = ONE/RHO_CP
           ENDIF
           IF (PM(53,IMAT) /= RHO_CPM1) THEN
             CALL ANCMSG(MSGID=765, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
@@ -187,7 +187,7 @@ c
           IF (RHO_CP == ZERO) THEN
               RHO_CPM1 = ZERO
           ELSE
-              RHO_CPM1 = UN/RHO_CP
+              RHO_CPM1 = ONE/RHO_CP
           ENDIF
           IF (BUFMAT(IAD_THERM+21) /= RHO_CPM1) THEN
             CALL ANCMSG(MSGID=765, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
@@ -215,7 +215,7 @@ c       Check at least if the corresponding material is indeed lagrangian !!
         ENDIF    
 c
         IF (IFORM /= 0 .AND. LAG == 1) THEN
-           PM(71,IMAT) = -UNP1
+           PM(71,IMAT) = -ONEP1
         ELSE
            IFORM = 0
            CALL ANCMSG(MSGID=1609, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
@@ -234,8 +234,8 @@ c
         IF (T0 == ZERO)    T0 = PM(23,IMAT) / RHO_CP             
         IF (T1 == ZERO)    T1 = EP20                              
         IF (EFRAC < ZERO)  EFRAC = ZERO			  
-        IF (EFRAC > UN )   EFRAC = UN
-        IF (EFRAC == ZERO) EFRAC = UN
+        IF (EFRAC > ONE )   EFRAC = ONE
+        IF (EFRAC == ZERO) EFRAC = ONE
         PM (80,IMAT) = T1
         PM (90,IMAT) = EFRAC			  
 c

@@ -132,7 +132,7 @@ C------TAG_SKIN_ND only the big seg(mid-node of S10 not include)
          ENDDO
 C------------change shear to eij         
          DO N=1,NUMNOD
-           IF (ITAGPS(N)>0) T6GPS(4:6,N)=UNDEMI*AFLU(1:3,N)/ITAGPS(N)
+           IF (ITAGPS(N)>0) T6GPS(4:6,N)=HALF*AFLU(1:3,N)/ITAGPS(N)
          ENDDO
        END IF
 C       
@@ -218,8 +218,8 @@ c --- Minor and major (true) strain deformation.
 C
       DO I = 1,NEL
         E12= EPS3(3,I)
-        S1 = UNDEMI*(EPS3(1,I) + EPS3(2,I))
-        S2 = UNDEMI*(EPS3(1,I) - EPS3(2,I))
+        S1 = HALF*(EPS3(1,I) + EPS3(2,I))
+        S2 = HALF*(EPS3(1,I) - EPS3(2,I))
         Q  = SQRT(S2**2 + E12**2)
         EMAJ(I) = S1 + Q
         EMIN(I) = S1 - Q
@@ -237,7 +237,7 @@ c-----
         LENF = NPF(IFUNC(1)+ 1) - NPF(IFUNC(1))
         ALLOCATE(XF(LENF))
         DO I = 1,LENF
-          XF(I) = LOG(TF(II + I-1) + UN)
+          XF(I) = LOG(TF(II + I-1) + ONE)
         ENDDO
 c
         DO I = 1,NEL
@@ -253,13 +253,13 @@ c--------------------------------------------------------------------
 c     FLD zone index calculation for ANIM output
 c
       R1 = FACT_LOOSEMETAL
-      R2 = RANI/(RANI+UN)
+      R2 = RANI/(RANI+ONE)
       
       IF (IMARGIN == 3) THEN
         DO I = 1,NEL
           IF (EMAJ(I) >= EM(I)) THEN
             FLD_IDX(I) = 6      ! zone 6 = failure
-          ELSEIF (EMAJ(I) >= EM(I)*(UN - FACT_MARGIN)) THEN
+          ELSEIF (EMAJ(I) >= EM(I)*(ONE - FACT_MARGIN)) THEN
             FLD_IDX(I) = 5      ! zone 5 = margin to fail
           ELSEIF (EMAJ(I)**2 + EMIN(I)**2 < R1**2) THEN
             FLD_IDX(I) = 1      ! zone 1 = radius 0.02
@@ -363,8 +363,8 @@ c --- Minor and major (true) strain deformation.
 C
       DO I = 1,NEL
         E12= EPS3(3,I)
-        S1 = UNDEMI*(EPS3(1,I) + EPS3(2,I))
-        S2 = UNDEMI*(EPS3(1,I) - EPS3(2,I))
+        S1 = HALF*(EPS3(1,I) + EPS3(2,I))
+        S2 = HALF*(EPS3(1,I) - EPS3(2,I))
         Q  = SQRT(S2**2 + E12**2)
         EMAJ(I) = S1 + Q
         EMIN(I) = S1 - Q
@@ -382,20 +382,20 @@ c-----
         LENF = NPF(IFUNC(1)+ 1) - NPF(IFUNC(1))
         ALLOCATE(XF(LENF))
         DO I = 1,LENF
-          XF(I) = LOG(TF(II + I-1) + UN)
+          XF(I) = LOG(TF(II + I-1) + ONE)
         ENDDO
 c
         DO I = 1,NEL
           EM(I)    = FINTERFLD(EMIN(I),IFUNC(1),LENF,XF)
           DAM(I)   = EMAJ(I) / EM(I)
-c          DFMAX(I) = MIN(UN, DAM(I))
+c          DFMAX(I) = MIN(ONE, DAM(I))
         ENDDO
         DEALLOCATE(XF)
       ELSE
         DO I = 1,NEL
           EM(I)    = FINTER(IFUNC(1),EMIN(I),NPF,TF,DYDX)
           DAM(I)   = EMAJ(I) / EM(I)
-c          DFMAX(I) = MIN(UN, DAM(I))
+c          DFMAX(I) = MIN(ONE, DAM(I))
         ENDDO
       ENDIF 
 C------------------------

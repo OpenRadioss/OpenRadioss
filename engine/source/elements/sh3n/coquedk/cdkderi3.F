@@ -61,7 +61,7 @@ C     REAL ou REAL*8
      .   X32(MVSIZ), Y32(MVSIZ),AL4, AL5, AL6      
 C-----------------------------------------------
       DO I=JFT,JLT
-       AREAI(I)=UN/AREA2(I)
+       AREAI(I)=ONE/AREA2(I)
        PX2(I)=Y3(I)*AREAI(I)
        PY2(I)=-X3(I)*AREAI(I)
        PX3(I)=-Y2(I)*AREAI(I)
@@ -81,19 +81,19 @@ C
        FAC =1.0+0.6*(1+NU(I))*THK2(I)/ALMIN
        ALMAX = ALMAX*FAC
        ALDT(I)= AREA2(I) / SQRT(ALMAX)
-       ALPE(I)=UN
-       AL4 = TROIS/MAX(AL1,EM20)
-       AL5 = TROIS/MAX(AL2,EM20)
-       AL6 = TROIS/MAX(AL3,EM20)
+       ALPE(I)=ONE
+       AL4 = THREE/MAX(AL1,EM20)
+       AL5 = THREE/MAX(AL2,EM20)
+       AL6 = THREE/MAX(AL3,EM20)
        PXY(I,1)=X32(I)*Y32(I)*AL4
        PXY(I,2)=X3(I)*Y3(I)*AL5
        PXY(I,3)=X2(I)*Y2(I)*AL6
        PYY(I,1)=Y32(I)*Y32(I)*AL4
        PYY(I,2)=Y3(I)*Y3(I)*AL5
        PYY(I,3)=Y2(I)*Y2(I)*AL6
-       AL4 = DEUX*AL4
-       AL5 = DEUX*AL5
-       AL6 = DEUX*AL6       
+       AL4 = TWO*AL4
+       AL5 = TWO*AL5
+       AL6 = TWO*AL6       
        PX(I,1)=X32(I)*AL4
        PX(I,2)=-X3(I)*AL5
        PX(I,3)=X2(I)*AL6
@@ -145,11 +145,11 @@ C     REAL ou REAL*8
      .   XR1,XR2,XR3,YR1,YR2,YR3,XS1,XS2,XS3,YS1,YS2,YS3,
      .   X2Y,Y2X,X6,Y6,XY6,RXY1(3),RXY2(3)
 C-----------------------------------------------
-      X2Y =UN-DEUX*KSI-ETA
-      Y2X =UN-DEUX*ETA-KSI
-      X6  = SIX*KSI-UN
-      Y6  = SIX*ETA-UN
-      XY6 = X6+Y6-TROIS      
+      X2Y =ONE-TWO*KSI-ETA
+      Y2X =ONE-TWO*ETA-KSI
+      X6  = SIX*KSI-ONE
+      Y6  = SIX*ETA-ONE
+      XY6 = X6+Y6-THREE      
       DO I=JFT,JLT
        XR1= PX(I,3)*X2Y
        XR2= PX(I,2)*ETA
@@ -190,11 +190,11 @@ C
        BRX1(I,3)=PX2(I)*(XR2+XR3)+PX3(I)*(XS1+XS3)
 C
        YR1= PYY(I,3)*X2Y
-       YR2= UN-PYY(I,2)*ETA
-       YR3= PYY(I,1)*ETA-UN
+       YR2= ONE-PYY(I,2)*ETA
+       YR3= PYY(I,1)*ETA-ONE
        YS1= PYY(I,2)*Y2X
-       YS2= UN-PYY(I,3)*KSI
-       YS3= PYY(I,1)*KSI-UN
+       YS2= ONE-PYY(I,3)*KSI
+       YS3= PYY(I,1)*KSI-ONE
        BRX2(I,1)=PY2(I)*(YR1+YR2)+PY3(I)*(YS1+YS2)
        BRX2(I,2)=PY2(I)*(YR1+YR3)+PY3(I)*(YS3+YS2)
        BRX2(I,3)=PY2(I)*(YR2+YR3)+PY3(I)*(YS1+YS3)

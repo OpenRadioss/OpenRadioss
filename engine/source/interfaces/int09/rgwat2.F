@@ -151,11 +151,11 @@ C------------------------------------------
 C--------+---------+---------+---------+---------+---------+---------+--
 C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE ( * 4. )
 C-------------------------------------------------------------
-            DY = DEUX*(Y1 + Y2)
+            DY = TWO*(Y1 + Y2)
      .          -X(2,IXQ(2,II))-X(2,IXQ(3,II))
      .          -X(2,IXQ(4,II))-X(2,IXQ(5,II))
 C
-            DZ = DEUX*(Z1 + Z2)
+            DZ = TWO*(Z1 + Z2)
      .          -X(3,IXQ(2,II))-X(3,IXQ(3,II))
      .          -X(3,IXQ(4,II))-X(3,IXQ(5,II))
 C
@@ -163,7 +163,7 @@ C
 C---------------------------------
 C         CALCUL DU GRADIENT * SURFACE
 C---------------------------------
-            GRAD = QUATRE*(DY*NY+DZ*NZ) / MAX(EM15,DD)
+            GRAD = FOUR*(DY*NY+DZ*NZ) / MAX(EM15,DD)
             MAT  =IXQ(1,IE)
             IF(TEMPE.LE.PM(80,MAT))THEN
              COEF=PM(75,MAT)+PM(76,MAT)*TEMPE
@@ -178,7 +178,7 @@ C---------------------------------
      2           / MAX(EM20,(TSTIFE+TSTIF))
             PHI = PHI * DT1
      +          * ( MIN(NTAG(N1),1) + MIN(NTAG(N2),1) )
-     +          / DEUX
+     +          / TWO
 C---------------------------------
 C         ENERGIE / VOLUME
 C---------------------------------

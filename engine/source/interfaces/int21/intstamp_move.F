@@ -86,7 +86,7 @@ C---------------------
          ALPHA=INTSTAMP(NN)%DAMP
          MASS=INTSTAMP(NN)%MASS
          STF =INTSTAMP(NN)%STF
-         VIS =ALPHA*SQRT(QUATRE*MASS*STF)
+         VIS =ALPHA*SQRT(FOUR*MASS*STF)
          MSR=INTSTAMP(NN)%MSR
          IF(INTDAMP==0)THEN
            FVX=VIS*INTSTAMP(NN)%V(1)
@@ -98,11 +98,11 @@ C---------------------
            FVX=VIS*(INTSTAMP(NN)%V(1)-INTSTAMP(INTDAMP)%V(1))
            FVY=VIS*(INTSTAMP(NN)%V(2)-INTSTAMP(INTDAMP)%V(2))
            FVZ=VIS*(INTSTAMP(NN)%V(3)-INTSTAMP(INTDAMP)%V(3))
-           DW=-DEUX*( FVX*(V(1,MSR)-V(1,MSRR))
+           DW=-TWO*( FVX*(V(1,MSR)-V(1,MSRR))
      .               +FVY*(V(2,MSR)-V(2,MSRR))
      .               +FVZ*(V(3,MSR)-V(3,MSRR)))
          END IF
-         INTSTAMP(NN)%DW = UNDEMI * DT2 * DW
+         INTSTAMP(NN)%DW = HALF * DT2 * DW
          IROT=INTSTAMP(NN)%IROT
          IF(IROT/=0)THEN
            ALPHA=INTSTAMP(NN)%DAMPR
@@ -110,7 +110,7 @@ C---------------------
      .             INTSTAMP(NN)%IN(2),
      .             INTSTAMP(NN)%IN(3))
            STR =INTSTAMP(NN)%STR
-           VIS =ALPHA*SQRT(QUATRE*INM*STR)
+           VIS =ALPHA*SQRT(FOUR*INM*STR)
            IF(INTDAMP==0)THEN
              FVX=VIS*INTSTAMP(NN)%VR(1)
              FVY=VIS*INTSTAMP(NN)%VR(2)
@@ -120,11 +120,11 @@ C---------------------
              FVX=VIS*(INTSTAMP(NN)%VR(1)-INTSTAMP(INTDAMP)%VR(1))
              FVY=VIS*(INTSTAMP(NN)%VR(2)-INTSTAMP(INTDAMP)%VR(2))
              FVZ=VIS*(INTSTAMP(NN)%VR(3)-INTSTAMP(INTDAMP)%VR(3))
-             DW=-DEUX*( FVX*(VR(1,MSR)-VR(1,MSRR))
+             DW=-TWO*( FVX*(VR(1,MSR)-VR(1,MSRR))
      .     	       +FVY*(VR(2,MSR)-VR(2,MSRR))
      .     	       +FVZ*(VR(3,MSR)-VR(3,MSRR)))
            END IF
-           INTSTAMP(NN)%DW = INTSTAMP(NN)%DW + UNDEMI * DT2 * DW
+           INTSTAMP(NN)%DW = INTSTAMP(NN)%DW + HALF * DT2 * DW
          END IF
        END IF
       ENDDO

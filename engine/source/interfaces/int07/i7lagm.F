@@ -189,12 +189,12 @@ C
         IF(IX3(I).NE.IX4(I))THEN
          PENE(I) = MAX(P1(I),P2(I),P3(I),P4(I))
 C
-         LA1 = UN - LB1(I) - LC1(I)
-         LA2 = UN - LB2(I) - LC2(I)
-         LA3 = UN - LB3(I) - LC3(I)
-         LA4 = UN - LB4(I) - LC4(I)         
+         LA1 = ONE - LB1(I) - LC1(I)
+         LA2 = ONE - LB2(I) - LC2(I)
+         LA3 = ONE - LB3(I) - LC3(I)
+         LA4 = ONE - LB4(I) - LC4(I)         
 C
-         H0    = QUART * 
+         H0    = FOURTH * 
      .         (P1(I)*LA1 + P2(I)*LA2 + P3(I)*LA3 + P4(I)*LA4)
          H1(I) = H0 + P1(I) * LB1(I) + P4(I) * LC4(I)
          H2(I) = H0 + P2(I) * LB2(I) + P1(I) * LC1(I)
@@ -213,7 +213,7 @@ C
          NZ(I) = NZ1(I)
          H1(I) = LB1(I)
          H2(I) = LC1(I)
-         H3(I) = UN - LB1(I) - LC1(I)
+         H3(I) = ONE - LB1(I) - LC1(I)
          H4(I) = ZERO
         ENDIF
       ENDDO
@@ -271,7 +271,7 @@ C
         VN(I) = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
 #include "lockon.inc"
        IF(STIF(I).NE.ZERO.AND.PENE(I).GT.ZERO.AND.VN(I).LT.XTAG(IG))THEN
-            AA = UN/SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
+            AA = ONE/SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
             NX(I) = NX(I)*AA
             NY(I) = NY(I)*AA
             NZ(I) = NZ(I)*AA

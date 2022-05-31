@@ -117,8 +117,8 @@ C               REDUCTION DU GAP
                   JWARN = 1
                   IS=CAND_S(I)
                   IM=CAND_M(I)
-                   PENIS(2,IS)=MAX(PENIS(2,IS),UNDEMI*PENE(I))
-                   PENIM(2,IM)=MAX(PENIM(2,IM),UNDEMI*PENE(I))
+                   PENIS(2,IS)=MAX(PENIS(2,IS),HALF*PENE(I))
+                   PENIM(2,IM)=MAX(PENIM(2,IM),HALF*PENE(I))
                   PENIS(1,IS)=PENIS(2,IS)
                   PENIM(1,IM)=PENIM(2,IM)
                 ENDIF
@@ -135,7 +135,7 @@ C             INACTI.EQ.6
                 JWARN = 1
                 IS=CAND_S(I)
                 IM=CAND_M(I)
-                PPLUS=UNDEMI*(PENE(I)+ZEP05*(GAPV(I)-PENE(I)))
+                PPLUS=HALF*(PENE(I)+ZEP05*(GAPV(I)-PENE(I)))
                 PENIS(2,IS)=MAX(PENIS(2,IS),PPLUS)
                 PENIM(2,IM)=MAX(PENIM(2,IM),PPLUS)
                 PENIS(1,IS)=PENIS(2,IS)

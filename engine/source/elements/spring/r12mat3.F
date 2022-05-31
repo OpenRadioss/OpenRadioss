@@ -84,7 +84,7 @@ C
       DO I=JFT,JLT
        FRIC= GEO(17,MGN(I))
        IF(FRIC.NE.ZERO)THEN
-        DKX(I) = KX(I)*TANH(UNDEMI*FRIC*BETA(I))
+        DKX(I) = KX(I)*TANH(HALF*FRIC*BETA(I))
        ELSE
         DKX(I)=ZERO
        ENDIF

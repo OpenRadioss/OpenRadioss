@@ -85,7 +85,7 @@ C-------------------------
 C     ASSEMBLE
 C-------------------------
        DO I=LFT,LLT
-         ALPHT=UN
+         ALPHT=ONE
          ALPHX=ALPH(I)
          E(2,NC1(I))   = E(2,NC1(I))-AX1(I)+ALPHX*(-T11(I)-F11(I))-ALPHT*B11(I)
          E(3,NC1(I))   = E(3,NC1(I))+AX2(I)+ALPHX*(-T21(I)-F21(I))-ALPHT*B21(I)
@@ -219,7 +219,7 @@ C     ASSEMBLE
 C-------------------------
       IF(IVECTOR.EQ.1) THEN
         DO I=LFT,LLT
-          ALPHT=UN
+          ALPHT=ONE
           ALPHX=ALPH(I)
           II=I+NFT
           K = IADQ(1,II)
@@ -244,7 +244,7 @@ C-------------------------
         ENDDO
       ELSE
         DO I=LFT,LLT
-          ALPHT=UN
+          ALPHT=ONE
           ALPHX=ALPH(I)
           II=I+NFT
           K = IADQ(1,II)
@@ -387,7 +387,7 @@ C     ASSEMBLE
 C-------------------------
       IF(IVECTOR.EQ.1) THEN
         DO I=LFT,LLT
-          ALPHT=UN
+          ALPHT=ONE
           ALPHX=ALPH(I)
           II=I+NFT
           K = IADQ(1,II)
@@ -420,7 +420,7 @@ C-------------------------
         ENDDO
       ELSE
         DO I=LFT,LLT
-          ALPHT=UN
+          ALPHT=ONE
           ALPHX=ALPH(I)
           II=I+NFT
           K = IADQ(1,II)

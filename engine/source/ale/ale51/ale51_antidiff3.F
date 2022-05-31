@@ -149,7 +149,7 @@ C-----------------------------------------------
       !     SURFACE MOUILLEE PAR LA PHASE DU TRIMATERIAUX
       !-----------------------------------------------
       IF(DT1.GT.ZERO)THEN
-        UDT = UN/DT1
+        UDT = ONE/DT1
       ELSE
         UDT = ZERO
       ENDIF
@@ -279,7 +279,7 @@ C-----------------------------------------------
             !stable              FF(K) = ALPH(II)*FLUX(K,II)
             !stable              FF(K) = FF(K)
 
-            FF(K) = UNDEMI * ( FF(K)*(UN-UPWSM)+ALPH(II)*FLUX(K,II)*(UN+UPWSM) )
+            FF(K) = HALF * ( FF(K)*(ONE-UPWSM)+ALPH(II)*FLUX(K,II)*(ONE+UPWSM) )
 
             !INTERFACE 22 ONLY------------------------!
             if(int22>0)then

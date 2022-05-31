@@ -56,7 +56,7 @@ C P0       |  1   | SIMPLIFICATION FOR 0-DEGREE POLYNOMIAL COEFFICIENT C
 C----------+------+----------------------------------------------------C
 C
       P0=PEXT+C0
-      MU0=-UN
+      MU0=-ONE
       PCRIT=ZERO
       C45=MAX(C4,C5)
       IE_BOUND=-INFINITY !default : pas de minimum
@@ -190,7 +190,7 @@ C
           GOTO 100
         END IF
         
-      ELSEIF((C4.EQ.UN).OR.(C4.EQ.DEUX))THEN
+      ELSEIF((C4.EQ.ONE).OR.(C4.EQ.TWO))THEN
         !test diverge en expansion
         IF(C1-P0.LT.ZERO)THEN
           IE_BOUND=-INFINITY

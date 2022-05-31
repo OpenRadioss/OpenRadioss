@@ -102,7 +102,7 @@ C-----------------------------------------------
         VL(4,I)          = VALVOIS(4,I)*FLUX(4,I)
         VL(5,I)          = VALVOIS(5,I)*FLUX(5,I)
         VL(6,I)          = VALVOIS(6,I)*FLUX(6,I) 
-        DELTA(I)         = UNDEMI * DT1 *(-VALEL(I)*FLU1(I) - VL(1,I)-VL(2,I)-VL(3,I)-VL(4,I)-VL(5,I)-VL(6,I))
+        DELTA(I)         = HALF * DT1 *(-VALEL(I)*FLU1(I) - VL(1,I)-VL(2,I)-VL(3,I)-VL(4,I)-VL(5,I)-VL(6,I))
       ENDDO
 
       IF(IALEFVM/=0)THEN

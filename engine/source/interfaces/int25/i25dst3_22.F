@@ -152,10 +152,10 @@ C-----------------------------------------------
       LOGICAL :: ANY_TRIANGLE
 C-----------------------------------------------------------------------
 C
-      UNP   = UN + EM4
+      UNP   = ONE + EM4
       ZEROM = ZERO - EM4
-      EPS   = (DEUX+UNDEMI)/CENT
-      UNPT   = UN + EPS
+      EPS   = (TWO+HALF)/HUNDRED
+      UNPT   = ONE + EPS
       ZEROMT = ZERO - EPS
 C
 C initialisation (cf triangles)
@@ -194,7 +194,7 @@ C
         Y0N(I,4) = YY(I,4) - YY(I,5)
         Z0N(I,4) = ZZ(I,4) - ZZ(I,5)
 C
-        GAP_MM(I)=QUART*(GAP_NM(1,I)+GAP_NM(2,I)+GAP_NM(3,I)+GAP_NM(4,I))
+        GAP_MM(I)=FOURTH*(GAP_NM(1,I)+GAP_NM(2,I)+GAP_NM(3,I)+GAP_NM(4,I))
       ENDDO
       
       IF (ANY_TRIANGLE) THEN
@@ -288,9 +288,9 @@ C
          ZOI = ZI(I) - DT1*VZI(I) 
 
          IF(IX3(I) /= IX4(I))THEN
-           XO5 = QUART*(XO1+XO2+XO3+XO4)
-           YO5 = QUART*(YO1+YO2+YO3+YO4)
-           ZO5 = QUART*(ZO1+ZO2+ZO3+ZO4) 
+           XO5 = FOURTH*(XO1+XO2+XO3+XO4)
+           YO5 = FOURTH*(YO1+YO2+YO3+YO4)
+           ZO5 = FOURTH*(ZO1+ZO2+ZO3+ZO4) 
          ELSE
            XO5 = XO3
            YO5 = YO3
@@ -418,7 +418,7 @@ C
         SY4 = ZI0V(I)*XIJ(I,4) - XI0V(I)*ZIJ(I,4)
         SZ4 = XI0V(I)*YIJ(I,4) - YI0V(I)*XIJ(I,4)
 C
-        NN = UN/
+        NN = ONE/
      .       MAX(EM30,SQRT(XN(I,1)*XN(I,1)+ YN(I,1)*YN(I,1)+ ZN(I,1)*ZN(I,1)))
         XN(I,1)=XN(I,1)*NN
         YN(I,1)=YN(I,1)*NN
@@ -426,7 +426,7 @@ C
         LB(I,1) = -(XN(I,1)*SX2 + YN(I,1)*SY2 + ZN(I,1)*SZ2)*NN
         LC(I,1) =  (XN(I,1)*SX1 + YN(I,1)*SY1 + ZN(I,1)*SZ1)*NN
 C
-        NN = UN/
+        NN = ONE/
      .       MAX(EM30,SQRT(XN(I,2)*XN(I,2)+ YN(I,2)*YN(I,2)+ ZN(I,2)*ZN(I,2)))
         XN(I,2)=XN(I,2)*NN
         YN(I,2)=YN(I,2)*NN
@@ -434,7 +434,7 @@ C
         LB(I,2) = -(XN(I,2)*SX3 + YN(I,2)*SY3 + ZN(I,2)*SZ3)*NN
         LC(I,2) =  (XN(I,2)*SX2 + YN(I,2)*SY2 + ZN(I,2)*SZ2)*NN
 C
-        NN = UN/
+        NN = ONE/
      .       MAX(EM30,SQRT(XN(I,3)*XN(I,3)+ YN(I,3)*YN(I,3)+ ZN(I,3)*ZN(I,3)))
         XN(I,3)=XN(I,3)*NN
         YN(I,3)=YN(I,3)*NN
@@ -442,7 +442,7 @@ C
         LB(I,3) = -(XN(I,3)*SX4 + YN(I,3)*SY4 + ZN(I,3)*SZ4)*NN
         LC(I,3) =  (XN(I,3)*SX3 + YN(I,3)*SY3 + ZN(I,3)*SZ3)*NN
 C
-        NN = UN/
+        NN = ONE/
      .       MAX(EM30,SQRT(XN(I,4)*XN(I,4)+ YN(I,4)*YN(I,4)+ ZN(I,4)*ZN(I,4)))
         XN(I,4)=XN(I,4)*NN
         YN(I,4)=YN(I,4)*NN
@@ -458,33 +458,33 @@ C#include  "vectorize.inc"
 C
 C       IF(STIF(I) == ZERO)CYCLE
 C
-        AAA      = UN/MAX(EM30,X0N(I,1)*X0N(I,1)+Y0N(I,1)*Y0N(I,1)+Z0N(I,1)*Z0N(I,1))
+        AAA      = ONE/MAX(EM30,X0N(I,1)*X0N(I,1)+Y0N(I,1)*Y0N(I,1)+Z0N(I,1)*Z0N(I,1))
         HLC(I,1) = LC(I,1)*ABS(LC(I,1))*AAA
         HLB(I,4) = LB(I,4)*ABS(LB(I,4))*AAA
         AL(I,1)  = -(XI0V(I)*X0N(I,1)+YI0V(I)*Y0N(I,1)+ZI0V(I)*Z0N(I,1))*AAA
-        AL(I,1)  = MAX(ZERO,MIN(UN,AL(I,1)))
-        AAA      = UN/MAX(EM30,X0N(I,2)*X0N(I,2)+Y0N(I,2)*Y0N(I,2)+Z0N(I,2)*Z0N(I,2))
+        AL(I,1)  = MAX(ZERO,MIN(ONE,AL(I,1)))
+        AAA      = ONE/MAX(EM30,X0N(I,2)*X0N(I,2)+Y0N(I,2)*Y0N(I,2)+Z0N(I,2)*Z0N(I,2))
         HLC(I,2) = LC(I,2)*ABS(LC(I,2))*AAA
         HLB(I,1) = LB(I,1)*ABS(LB(I,1))*AAA
         AL(I,2)  = -(XI0V(I)*X0N(I,2)+YI0V(I)*Y0N(I,2)+ZI0V(I)*Z0N(I,2))*AAA
-        AL(I,2)  = MAX(ZERO,MIN(UN,AL(I,2)))
-        AAA      = UN/MAX(EM30,X0N(I,3)*X0N(I,3)+Y0N(I,3)*Y0N(I,3)+Z0N(I,3)*Z0N(I,3))
+        AL(I,2)  = MAX(ZERO,MIN(ONE,AL(I,2)))
+        AAA      = ONE/MAX(EM30,X0N(I,3)*X0N(I,3)+Y0N(I,3)*Y0N(I,3)+Z0N(I,3)*Z0N(I,3))
         HLC(I,3) = LC(I,3)*ABS(LC(I,3))*AAA
         HLB(I,2) = LB(I,2)*ABS(LB(I,2))*AAA
         AL(I,3)  = -(XI0V(I)*X0N(I,3)+YI0V(I)*Y0N(I,3)+ZI0V(I)*Z0N(I,3))*AAA
-        AL(I,3)  = MAX(ZERO,MIN(UN,AL(I,3)))
-        AAA      = UN/MAX(EM30,X0N(I,4)*X0N(I,4)+Y0N(I,4)*Y0N(I,4)+Z0N(I,4)*Z0N(I,4))
+        AL(I,3)  = MAX(ZERO,MIN(ONE,AL(I,3)))
+        AAA      = ONE/MAX(EM30,X0N(I,4)*X0N(I,4)+Y0N(I,4)*Y0N(I,4)+Z0N(I,4)*Z0N(I,4))
         HLC(I,4) = LC(I,4)*ABS(LC(I,4))*AAA
         HLB(I,3) = LB(I,3)*ABS(LB(I,3))*AAA
         AL(I,4)  = -(XI0V(I)*X0N(I,4)+YI0V(I)*Y0N(I,4)+ZI0V(I)*Z0N(I,4))*AAA
-        AL(I,4)  = MAX(ZERO,MIN(UN,AL(I,4)))
+        AL(I,4)  = MAX(ZERO,MIN(ONE,AL(I,4)))
 C
       END DO
 C--------------------------------------------------------
       DO I=1,JLT
 C       Projection en dehors du triangle
         IF(LB(I,1) < -EM03 .OR. LC(I,1) < -EM03 .OR.
-     .      LB(I,1)+LC(I,1) > UN+EM03) THEN
+     .      LB(I,1)+LC(I,1) > ONE+EM03) THEN
            FARA(I,1)=1
            FARB(I,1)=1
         END IF
@@ -493,14 +493,14 @@ C       Projection en dehors du triangle
         Z12 = ZZ(I,2) - ZZ(I,1)
         LBP(I,1) = LB(I,1)
         LCP(I,1) = LC(I,1)
-        LAP       = UN-LBP(I,1)-LCP(I,1)
-        AAA = UN / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
+        LAP       = ONE-LBP(I,1)-LCP(I,1)
+        AAA = ONE / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
         HLA= LAP*ABS(LAP) * AAA
         IF(LAP.LT.ZERO.AND.
      +     HLA.LE.HLB(I,1).AND.HLA.LE.HLC(I,1))THEN
          LBP(I,1) = (XIJ(I,2)*X12+YIJ(I,2)*Y12+ZIJ(I,2)*Z12) * AAA
-         LBP(I,1) = MAX(ZERO,MIN(UN,LBP(I,1)))
-         LCP(I,1) = UN - LBP(I,1)
+         LBP(I,1) = MAX(ZERO,MIN(ONE,LBP(I,1)))
+         LCP(I,1) = ONE - LBP(I,1)
         ELSEIF(LBP(I,1).LT.ZERO.AND.
      +         HLB(I,1).LE.HLC(I,1).AND.HLB(I,1).LE.HLA)THEN
          LBP(I,1) = ZERO
@@ -512,7 +512,7 @@ C       Projection en dehors du triangle
         ENDIF
 C       Projection en dehors du triangle
         IF(LB(I,2) < -EM03 .OR. LC(I,2) < -EM03 .OR.
-     .      LB(I,2)+LC(I,2) > UN+EM03) THEN
+     .      LB(I,2)+LC(I,2) > ONE+EM03) THEN
            FARA(I,2)=1
            FARB(I,2)=1
         ENDIF
@@ -521,14 +521,14 @@ C       Projection en dehors du triangle
         Z12 = ZZ(I,3) - ZZ(I,2)
         LBP(I,2) = LB(I,2)
         LCP(I,2) = LC(I,2)
-        LAP       = UN-LBP(I,2)-LCP(I,2)
-        AAA = UN / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
+        LAP       = ONE-LBP(I,2)-LCP(I,2)
+        AAA = ONE / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
         HLA= LAP*ABS(LAP) * AAA
         IF(LAP.LT.ZERO.AND.
      +     HLA.LE.HLB(I,2).AND.HLA.LE.HLC(I,2))THEN
          LBP(I,2) = (XIJ(I,3)*X12+YIJ(I,3)*Y12+ZIJ(I,3)*Z12) * AAA
-         LBP(I,2) = MAX(ZERO,MIN(UN,LBP(I,2)))
-         LCP(I,2) = UN - LBP(I,2)
+         LBP(I,2) = MAX(ZERO,MIN(ONE,LBP(I,2)))
+         LCP(I,2) = ONE - LBP(I,2)
         ELSEIF(LBP(I,2).LT.ZERO.AND.
      +         HLB(I,2).LE.HLC(I,2).AND.HLB(I,2).LE.HLA)THEN
          LBP(I,2) = ZERO
@@ -540,7 +540,7 @@ C       Projection en dehors du triangle
         END IF
 C       Projection en dehors du triangle
         IF(LB(I,3) < -EM03 .OR. LC(I,3) < -EM03 .OR.
-     .      LB(I,3)+LC(I,3) > UN+EM03) THEN
+     .      LB(I,3)+LC(I,3) > ONE+EM03) THEN
            FARA(I,3)=1
            FARB(I,3)=1
         END IF
@@ -549,14 +549,14 @@ C       Projection en dehors du triangle
         Z12 = ZZ(I,4) - ZZ(I,3)
         LBP(I,3) = LB(I,3)
         LCP(I,3) = LC(I,3)
-        LAP       = UN-LBP(I,3)-LCP(I,3)
-        AAA = UN / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
+        LAP       = ONE-LBP(I,3)-LCP(I,3)
+        AAA = ONE / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
         HLA= LAP*ABS(LAP) * AAA
         IF(LAP.LT.ZERO.AND.
      +     HLA.LE.HLB(I,3).AND.HLA.LE.HLC(I,3))THEN
          LBP(I,3) = (XIJ(I,4)*X12+YIJ(I,4)*Y12+ZIJ(I,4)*Z12) * AAA
-         LBP(I,3) = MAX(ZERO,MIN(UN,LBP(I,3)))
-         LCP(I,3) = UN - LBP(I,3)
+         LBP(I,3) = MAX(ZERO,MIN(ONE,LBP(I,3)))
+         LCP(I,3) = ONE - LBP(I,3)
         ELSEIF(LBP(I,3).LT.ZERO.AND.
      +         HLB(I,3).LE.HLC(I,3).AND.HLB(I,3).LE.HLA)THEN
          LBP(I,3) = ZERO
@@ -568,7 +568,7 @@ C       Projection en dehors du triangle
         ENDIF
 C       Projection en dehors du triangle
         IF(LB(I,4) < -EM03 .OR. LC(I,4) < -EM03 .OR.
-     .      LB(I,4)+LC(I,4) > UN+EM03) THEN
+     .      LB(I,4)+LC(I,4) > ONE+EM03) THEN
            FARA(I,4)=1
            FARB(I,4)=1
         END IF
@@ -577,14 +577,14 @@ C       Projection en dehors du triangle
         Z12 = ZZ(I,1) - ZZ(I,4)
         LBP(I,4) = LB(I,4)
         LCP(I,4) = LC(I,4)
-        LAP       = UN-LBP(I,4)-LCP(I,4)
-        AAA = UN / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
+        LAP       = ONE-LBP(I,4)-LCP(I,4)
+        AAA = ONE / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
         HLA= LAP*ABS(LAP) * AAA
         IF(LAP.LT.ZERO.AND.
      +     HLA.LE.HLB(I,4).AND.HLA.LE.HLC(I,4))THEN
          LBP(I,4) = (XIJ(I,1)*X12+YIJ(I,1)*Y12+ZIJ(I,1)*Z12) * AAA
-         LBP(I,4) = MAX(ZERO,MIN(UN,LBP(I,4)))
-         LCP(I,4) = UN - LBP(I,4)
+         LBP(I,4) = MAX(ZERO,MIN(ONE,LBP(I,4)))
+         LCP(I,4) = ONE - LBP(I,4)
         ELSEIF(LBP(I,4).LT.ZERO.AND.
      +         HLB(I,4).LE.HLC(I,4).AND.HLB(I,4).LE.HLA)THEN
          LBP(I,4) = ZERO
@@ -599,7 +599,7 @@ C       Projection en dehors du triangle
 
         DO I = 1,JLT
 
-          LAP1 = UN-LBP(I,1)-LCP(I,1)
+          LAP1 = ONE-LBP(I,1)-LCP(I,1)
           XP  =LAP1*XX(I,5)+LBP(I,1)*XX(I,1) + LCP(I,1)*XX(I,2)
           YP  =LAP1*YY(I,5)+LBP(I,1)*YY(I,1) + LCP(I,1)*YY(I,2)
           ZP  =LAP1*ZZ(I,5)+LBP(I,1)*ZZ(I,1) + LCP(I,1)*ZZ(I,2)
@@ -608,7 +608,7 @@ C       Projection en dehors du triangle
           DZ  =ZI(I)-ZP
           DD(I,1) =DX*DX+DY*DY+DZ*DZ
 C
-          LAP2 = UN-LBP(I,2)-LCP(I,2)
+          LAP2 = ONE-LBP(I,2)-LCP(I,2)
           XP  =LAP2*XX(I,5)+LBP(I,2)*XX(I,2) + LCP(I,2)*XX(I,3)
           YP  =LAP2*YY(I,5)+LBP(I,2)*YY(I,2) + LCP(I,2)*YY(I,3)
           ZP  =LAP2*ZZ(I,5)+LBP(I,2)*ZZ(I,2) + LCP(I,2)*ZZ(I,3)
@@ -617,7 +617,7 @@ C
           DZ  =ZI(I)-ZP
           DD(I,2) =DX*DX+DY*DY+DZ*DZ
 C
-          LAP3 = UN-LBP(I,3)-LCP(I,3)
+          LAP3 = ONE-LBP(I,3)-LCP(I,3)
           XP  =LAP3*XX(I,5)+LBP(I,3)*XX(I,3) + LCP(I,3)*XX(I,4)
           YP  =LAP3*YY(I,5)+LBP(I,3)*YY(I,3) + LCP(I,3)*YY(I,4)
           ZP  =LAP3*ZZ(I,5)+LBP(I,3)*ZZ(I,3) + LCP(I,3)*ZZ(I,4)
@@ -626,7 +626,7 @@ C
           DZ  =ZI(I)-ZP
           DD(I,3) =DX*DX+DY*DY+DZ*DZ
 C
-          LAP4 = UN-LBP(I,4)-LCP(I,4)
+          LAP4 = ONE-LBP(I,4)-LCP(I,4)
           XP  =LAP4*XX(I,5)+LBP(I,4)*XX(I,4) + LCP(I,4)*XX(I,1)
           YP  =LAP4*YY(I,5)+LBP(I,4)*YY(I,4) + LCP(I,4)*YY(I,1)
           ZP  =LAP4*ZZ(I,5)+LBP(I,4)*ZZ(I,4) + LCP(I,4)*ZZ(I,1)
@@ -701,10 +701,10 @@ C
           DMIN=MIN(DD(I,1),DD(I,2),DD(I,3),DD(I,4))
           LD=EP20
           DO IT=1,4
-            IF(DD(I,IT) <= UNP03*DMIN)THEN
+            IF(DD(I,IT) <= ONEP03*DMIN)THEN
               LBX = LB(I,IT)
               LCX = LC(I,IT)
-              LAX = UN-LB(I,IT)-LC(I,IT)
+              LAX = ONE-LB(I,IT)-LC(I,IT)
 C
 C             Privilegier secteur dans lequel on se trouve.
               IF(LBX >= ZERO .AND. LCX >= ZERO)THEN
@@ -758,7 +758,7 @@ C
        I1=ITRIA(1,IT)
        I2=ITRIA(2,IT)
 C
-       LAP = UN-LBP(I,IT)-LCP(I,IT)
+       LAP = ONE-LBP(I,IT)-LCP(I,IT)
        GAP  = MIN(MAX(DRAD,GAPS(I)+LAP*GAP_MM(I)+LBP(I,IT)*GAP_NM(I1,I)+LCP(I,IT)*GAP_NM(I2,I)),MAX(DRAD,GAPMXL(I)))
 C
        IF(BB(I,IT) > ZERO)THEN
@@ -833,7 +833,7 @@ C
               VX = X0N(I,IX) ! fake bisector of angle at vertex IX
               VY = Y0N(I,IX)
               VZ = Z0N(I,IX)
-              NN = UN/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
+              NN = ONE/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
               PN = ((XH-XX(I,IX))*VX+(YH-YY(I,IX))*VY+(ZH-ZZ(I,IX))*VZ)*NN
               IF(PN >= GAPS(I)) FARA(I,IT) =3
             END IF
@@ -856,7 +856,7 @@ C           normal to the bisecting plane (pointing toward the inside)
 C
             LL  = XIJ(I,I1)*XIJ(I,I1)+YIJ(I,I1)*YIJ(I,I1)+ZIJ(I,I1)*ZIJ(I,I1)
 C
-            SIDA(I,IT)=-(XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(UN/MAX(EM30,LL*PP))                 
+            SIDA(I,IT)=-(XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))                 
             IF(SIDA(I,IT) < -ZEP01) FARA(I,IT) =2
 C
           END IF
@@ -914,10 +914,10 @@ C
      .             (ZH-ZZ(I,IX))* VTX_BISECTOR(3,2,IBX)
               IF(P1 >= GAPS(I) .AND. P2 >= GAPS(I)) FARA(I,IT) =3
             ELSE
-              VX = DEUX*XX(I,IX)-(XX(I,IY)+XX(I,IZ)) ! fake bisector of angle 2,1,3
-              VY = DEUX*YY(I,IX)-(YY(I,IY)+YY(I,IZ))
-              VZ = DEUX*ZZ(I,IX)-(ZZ(I,IY)+ZZ(I,IZ))
-              NN = UN/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
+              VX = TWO*XX(I,IX)-(XX(I,IY)+XX(I,IZ)) ! fake bisector of angle 2,1,3
+              VY = TWO*YY(I,IX)-(YY(I,IY)+YY(I,IZ))
+              VZ = TWO*ZZ(I,IX)-(ZZ(I,IY)+ZZ(I,IZ))
+              NN = ONE/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
               PN = ((XH-XX(I,IX))*VX+(YH-YY(I,IX))*VY+(ZH-ZZ(I,IX))*VZ)*NN
               IF(PN >= GAPS(I)) FARA(I,IT) =3
             END IF
@@ -942,7 +942,7 @@ C             normal to the bisecting plane (pointing toward the inside)
 C
               LL  = XIJ(I,1)*XIJ(I,1)+YIJ(I,1)*YIJ(I,1)+ZIJ(I,1)*ZIJ(I,1)
 C
-              SIDA(I,1)=-(XIJ(I,1)*PX+YIJ(I,1)*PY+ZIJ(I,1)*PZ)*SQRT(UN/MAX(EM30,LL*PP))             
+              SIDA(I,1)=-(XIJ(I,1)*PX+YIJ(I,1)*PY+ZIJ(I,1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
               IF(SIDA(I,1) < -ZEP01) FARA(I,IT) =2
 C
             END IF
@@ -963,7 +963,7 @@ C             normal to the bisecting plane (pointing toward the inside)
 C
               LL  = XIJ(I,2)*XIJ(I,2)+YIJ(I,2)*YIJ(I,2)+ZIJ(I,2)*ZIJ(I,2)
 C
-              SIDA(I,2)=-(XIJ(I,2)*PX+YIJ(I,2)*PY+ZIJ(I,2)*PZ)*SQRT(UN/MAX(EM30,LL*PP))             
+              SIDA(I,2)=-(XIJ(I,2)*PX+YIJ(I,2)*PY+ZIJ(I,2)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
               IF(SIDA(I,2) < -ZEP01) FARA(I,IT) =2
 C
             END IF
@@ -983,7 +983,7 @@ C             normal to the bisecting plane (pointing toward the inside)
 C
               LL  =  XIJ(I,3)*XIJ(I,3)+YIJ(I,3)*YIJ(I,3)+ZIJ(I,3)*ZIJ(I,3)
 C
-              SIDA(I,4)=-(XIJ(I,3)*PX+YIJ(I,3)*PY+ZIJ(I,3)*PZ)*SQRT(UN/MAX(EM30,LL*PP))             
+              SIDA(I,4)=-(XIJ(I,3)*PX+YIJ(I,3)*PY+ZIJ(I,3)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
               IF(SIDA(I,4) < -ZEP01) FARA(I,IT) =2
 C
             END IF
@@ -1008,7 +1008,7 @@ C
        I1=ITRIA(1,IT)
        I2=ITRIA(2,IT)
 C
-       LAP = UN-LBP(I,IT)-LCP(I,IT)
+       LAP = ONE-LBP(I,IT)-LCP(I,IT)
        GAP  = MIN(MAX(DRAD,GAPS(I)+LAP*GAP_MM(I)+LBP(I,IT)*GAP_NM(I1,I)+LCP(I,IT)*GAP_NM(I2,I)),MAX(DRAD,GAPMXL(I)))
 C
        IF(BB(I,IT) < ZERO)THEN
@@ -1082,7 +1082,7 @@ C
               VX = X0N(I,IX) ! fake bisector of angle at vertex IX
               VY = Y0N(I,IX)
               VZ = Z0N(I,IX)
-              NN = UN/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
+              NN = ONE/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
               PN = ((XH-XX(I,IX))*VX+(YH-YY(I,IX))*VY+(ZH-ZZ(I,IX))*VZ)*NN
               IF(PN >= GAPS(I)) FARB(I,IT) =3
             END IF
@@ -1106,7 +1106,7 @@ C           normal to the bisecting plane (pointing toward the inside)
 C
             LL  = XIJ(I,I1)*XIJ(I,I1)+YIJ(I,I1)*YIJ(I,I1)+ZIJ(I,I1)*ZIJ(I,I1)
 C
-            SIDB(I,IT)= (XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(UN/MAX(EM30,LL*PP))                 
+            SIDB(I,IT)= (XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))                 
             IF(SIDB(I,IT) < -ZEP01) FARB(I,IT) =2
 C
           END IF
@@ -1164,10 +1164,10 @@ C
      .             (ZH-ZZ(I,IX))* VTX_BISECTOR(3,2,IBX)
               IF(P1 >= GAPS(I) .AND. P2 >= GAPS(I)) FARB(I,IT) =3
             ELSE
-              VX = DEUX*XX(I,IX)-(XX(I,IY)+XX(I,IZ)) ! fake bisector of angle 2,1,3
-              VY = DEUX*YY(I,IX)-(YY(I,IY)+YY(I,IZ))
-              VZ = DEUX*ZZ(I,IX)-(ZZ(I,IY)+ZZ(I,IZ))
-              NN = UN/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
+              VX = TWO*XX(I,IX)-(XX(I,IY)+XX(I,IZ)) ! fake bisector of angle 2,1,3
+              VY = TWO*YY(I,IX)-(YY(I,IY)+YY(I,IZ))
+              VZ = TWO*ZZ(I,IX)-(ZZ(I,IY)+ZZ(I,IZ))
+              NN = ONE/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
               PN = ((XH-XX(I,IX))*VX+(YH-YY(I,IX))*VY+(ZH-ZZ(I,IX))*VZ)*NN
               IF(PN >= GAPS(I)) FARB(I,IT) =3
             END IF
@@ -1192,7 +1192,7 @@ C             normal to the bisecting plane (pointing toward the inside)
 C
               LL  = XIJ(I,1)*XIJ(I,1)+YIJ(I,1)*YIJ(I,1)+ZIJ(I,1)*ZIJ(I,1)
 C
-              SIDB(I,1)= (XIJ(I,1)*PX+YIJ(I,1)*PY+ZIJ(I,1)*PZ)*SQRT(UN/MAX(EM30,LL*PP))             
+              SIDB(I,1)= (XIJ(I,1)*PX+YIJ(I,1)*PY+ZIJ(I,1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
               IF(SIDB(I,1) < -ZEP01) FARB(I,IT) =2
 C
             END IF
@@ -1211,7 +1211,7 @@ C             normal to the bisecting plane (pointing toward the inside)
 C
               LL  = XIJ(I,2)*XIJ(I,2)+YIJ(I,2)*YIJ(I,2)+ZIJ(I,2)*ZIJ(I,2)
 C
-              SIDB(I,2)= (XIJ(I,2)*PX+YIJ(I,2)*PY+ZIJ(I,2)*PZ)*SQRT(UN/MAX(EM30,LL*PP))             
+              SIDB(I,2)= (XIJ(I,2)*PX+YIJ(I,2)*PY+ZIJ(I,2)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
               IF(SIDB(I,2) < -ZEP01) FARB(I,IT) =2
 C
             END IF
@@ -1230,7 +1230,7 @@ C             normal to the bisecting plane (pointing toward the inside)
 C
               LL  =  XIJ(I,3)*XIJ(I,3)+YIJ(I,3)*YIJ(I,3)+ZIJ(I,3)*ZIJ(I,3)
 C
-              SIDB(I,4)= (XIJ(I,3)*PX+YIJ(I,3)*PY+ZIJ(I,3)*PZ)*SQRT(UN/MAX(EM30,LL*PP))             
+              SIDB(I,4)= (XIJ(I,3)*PX+YIJ(I,3)*PY+ZIJ(I,3)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
               IF(SIDB(I,4) < -ZEP01) FARB(I,IT) =2
 C
             END IF
@@ -1417,7 +1417,7 @@ C------------------------------------------------
 
          IF(VO12 <= ZERO .AND. V12 >= ZERO)THEN
            IF(ABS(VO12) < EM20)THEN
-             AAA = UN
+             AAA = ONE
            ELSEIF(ABS(V12) < EM20)THEN
              AAA = ZERO
            ELSE
@@ -1476,10 +1476,10 @@ C------------------------------------------------
            SY2 = ZI2*XI5 - XI2*ZI5
            SZ2 = XI2*YI5 - YI2*XI5
            
-           S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+           S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
            LB0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
            LC0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
-           LA0 =  UN-LB0-LC0 
+           LA0 =  ONE-LB0-LC0 
 
           IF(IXX3 /= IXX4)THEN
            IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
@@ -1499,7 +1499,7 @@ C----------loose tolerance for tria
          IF(IXX3 /= IXX4)THEN
            IF(VO23 <= ZERO .AND. V23 >= ZERO)THEN
              IF(ABS(VO23) < EM20)THEN
-               AAA = UN
+               AAA = ONE
              ELSEIF(ABS(V23) < EM20)THEN
                AAA = ZERO
              ELSE
@@ -1558,10 +1558,10 @@ C----------loose tolerance for tria
              SY3 = ZI3*XI5 - XI3*ZI5
              SZ3 = XI3*YI5 - YI3*XI5
              
-             S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+             S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
              LB0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
              LC0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
-             LA0 =  UN-LB0-LC0 
+             LA0 =  ONE-LB0-LC0 
 
              IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .          LC0 >= ZEROM .and. LC0 <= UNP .and.
@@ -1571,7 +1571,7 @@ C----------loose tolerance for tria
           ENDIF
            IF(VO34 <= ZERO .AND. V34 >= ZERO)THEN
             IF(ABS(VO34) < EM20)THEN
-              AAA = UN
+              AAA = ONE
             ELSEIF(ABS(V34) < EM20)THEN
               AAA = ZERO
             ELSE
@@ -1630,10 +1630,10 @@ C----------loose tolerance for tria
             SY4 = ZI4*XI5 - XI4*ZI5
             SZ4 = XI4*YI5 - YI4*XI5
             
-            S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+            S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
             LC0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
-            LA0 =  UN-LB0-LC0 
+            LA0 =  ONE-LB0-LC0 
 
            IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .         LC0 >= ZEROM .and. LC0 <= UNP .and.
@@ -1644,7 +1644,7 @@ C----------loose tolerance for tria
 
            IF(VO41 <= ZERO .AND. V41 >= ZERO)THEN
             IF(ABS(VO41) < EM20)THEN
-              AAA = UN
+              AAA = ONE
             ELSEIF(ABS(V41) < EM20)THEN
               AAA = ZERO
             ELSE
@@ -1703,10 +1703,10 @@ C----------loose tolerance for tria
             SY1 = ZI1*XI5 - XI1*ZI5
             SZ1 = XI1*YI5 - YI1*XI5
             
-            S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+            S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
             LC0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
-            LA0 =  UN-LB0-LC0 
+            LA0 =  ONE-LB0-LC0 
 
             IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .         LC0 >= ZEROM .and. LC0 <= UNP .and.
@@ -1789,7 +1789,7 @@ C------------------------------------------------
 
          IF(VO12 * V12 <= ZERO)THEN
            IF(ABS(VO12) < EM20)THEN
-             AAA = UN
+             AAA = ONE
            ELSEIF(ABS(V12) < EM20)THEN
              AAA = ZERO
            ELSE
@@ -1848,10 +1848,10 @@ C------------------------------------------------
            SY2 = ZI2*XI5 - XI2*ZI5
            SZ2 = XI2*YI5 - YI2*XI5
            
-           S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+           S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
            LB0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
            LC0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
-           LA0 =  UN-LB0-LC0 
+           LA0 =  ONE-LB0-LC0 
 
           IF(IXX3 /= IXX4)THEN
            IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
@@ -1883,7 +1883,7 @@ C----------loose tolerance for tria
          IF(IXX3 /= IXX4)THEN
            IF(VO23 * V23 <= ZERO)THEN
              IF(ABS(VO23) < EM20)THEN
-               AAA = UN
+               AAA = ONE
              ELSEIF(ABS(V23) < EM20)THEN
                AAA = ZERO
              ELSE
@@ -1942,10 +1942,10 @@ C----------loose tolerance for tria
              SY3 = ZI3*XI5 - XI3*ZI5
              SZ3 = XI3*YI5 - YI3*XI5
              
-             S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+             S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
              LB0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
              LC0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
-             LA0 =  UN-LB0-LC0 
+             LA0 =  ONE-LB0-LC0 
 
              IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .          LC0 >= ZEROM .and. LC0 <= UNP .and.
@@ -1961,7 +1961,7 @@ C----------loose tolerance for tria
            ENDIF
            IF(VO34 * V34 <= ZERO)THEN
             IF(ABS(VO34) < EM20)THEN
-              AAA = UN
+              AAA = ONE
             ELSEIF(ABS(V34) < EM20)THEN
               AAA = ZERO
             ELSE
@@ -2020,10 +2020,10 @@ C----------loose tolerance for tria
             SY4 = ZI4*XI5 - XI4*ZI5
             SZ4 = XI4*YI5 - YI4*XI5
             
-            S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+            S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
             LC0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
-            LA0 =  UN-LB0-LC0 
+            LA0 =  ONE-LB0-LC0 
 
            IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .         LC0 >= ZEROM .and. LC0 <= UNP .and.
@@ -2040,7 +2040,7 @@ C----------loose tolerance for tria
 
            IF(VO41 * V41 <= ZERO)THEN
             IF(ABS(VO41) < EM20)THEN
-              AAA = UN
+              AAA = ONE
             ELSEIF(ABS(V41) < EM20)THEN
               AAA = ZERO
             ELSE
@@ -2099,10 +2099,10 @@ C----------loose tolerance for tria
             SY1 = ZI1*XI5 - XI1*ZI5
             SZ1 = XI1*YI5 - YI1*XI5
             
-            S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+            S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
             LC0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
-            LA0 =  UN-LB0-LC0 
+            LA0 =  ONE-LB0-LC0 
 
             IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .         LC0 >= ZEROM .and. LC0 <= UNP .and.
@@ -2187,7 +2187,7 @@ C-----------------------------------------------
 C------------------------------------------------
          IF(VO12 <= ZERO .AND. V12 >= ZERO)THEN
            IF(ABS(VO12) < EM20)THEN
-             AAA = UN
+             AAA = ONE
            ELSEIF(ABS(V12) < EM20)THEN
              AAA = ZERO
            ELSE
@@ -2246,10 +2246,10 @@ C------------------------------------------------
            SY2 = ZI2*XI5 - XI2*ZI5
            SZ2 = XI2*YI5 - YI2*XI5
            
-           S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+           S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
            LB0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
            LC0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
-           LA0 =  UN-LB0-LC0 
+           LA0 =  ONE-LB0-LC0 
 
           IF(IXX3 /= IXX4)THEN
            IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
@@ -2277,7 +2277,7 @@ C----------loose tolerance for tria
          IF(IXX3 /= IXX4)THEN
            IF(VO23 <= ZERO .AND. V23 >= ZERO)THEN
              IF(ABS(VO23) < EM20)THEN
-               AAA = UN
+               AAA = ONE
              ELSEIF(ABS(V23) < EM20)THEN
                AAA = ZERO
              ELSE
@@ -2336,10 +2336,10 @@ C----------loose tolerance for tria
              SY3 = ZI3*XI5 - XI3*ZI5
              SZ3 = XI3*YI5 - YI3*XI5
              
-             S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+             S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
              LB0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
              LC0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
-             LA0 =  UN-LB0-LC0 
+             LA0 =  ONE-LB0-LC0 
 
              IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .          LC0 >= ZEROM .and. LC0 <= UNP .and.
@@ -2356,7 +2356,7 @@ C----------loose tolerance for tria
           ENDIF
            IF(VO34 <= ZERO .AND. V34 >= ZERO)THEN
             IF(ABS(VO34) < EM20)THEN
-              AAA = UN
+              AAA = ONE
             ELSEIF(ABS(V34) < EM20)THEN
               AAA = ZERO
             ELSE
@@ -2415,10 +2415,10 @@ C----------loose tolerance for tria
             SY4 = ZI4*XI5 - XI4*ZI5
             SZ4 = XI4*YI5 - YI4*XI5
             
-            S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+            S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
             LC0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
-            LA0 =  UN-LB0-LC0 
+            LA0 =  ONE-LB0-LC0 
 
            IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .         LC0 >= ZEROM .and. LC0 <= UNP .and.
@@ -2435,7 +2435,7 @@ C----------loose tolerance for tria
 
            IF(VO41 <= ZERO .AND. V41 >= ZERO)THEN
             IF(ABS(VO41) < EM20)THEN
-              AAA = UN
+              AAA = ONE
             ELSEIF(ABS(V41) < EM20)THEN
               AAA = ZERO
             ELSE
@@ -2494,10 +2494,10 @@ C----------loose tolerance for tria
             SY1 = ZI1*XI5 - XI1*ZI5
             SZ1 = XI1*YI5 - YI1*XI5
             
-            S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+            S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
             LC0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
-            LA0 =  UN-LB0-LC0 
+            LA0 =  ONE-LB0-LC0 
 
             IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .         LC0 >= ZEROM .and. LC0 <= UNP .and.
@@ -2580,7 +2580,7 @@ C-----------------------------------------------
 C------------------------------------------------
 C---------------- cas V>0 V_old>0
          IF(VO12 > ZERO .and. V12 >= ZERO )THEN
-           AAA = UN
+           AAA = ONE
            ADT = DT1
 
            XM1 = XO1
@@ -2635,10 +2635,10 @@ c           ZOI = ZI - ADT*VZI
            SY2 = ZI2*XI5 - XI2*ZI5
            SZ2 = XI2*YI5 - YI2*XI5
            
-           S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+           S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
            LB0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
            LC0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
-           LA0 =  UN-LB0-LC0 
+           LA0 =  ONE-LB0-LC0 
 
            IF(LB0 >= ZEROMT .AND. LB0 <= UNPT .AND.
      .        LC0 >= ZEROMT .AND. LC0 <= UNPT .AND.
@@ -2648,7 +2648,7 @@ c           ZOI = ZI - ADT*VZI
            ENDIF
          ENDIF
          IF(IXX3 /= IXX4)THEN
-           AAA = UN
+           AAA = ONE
            ADT = DT1
 
              XM2 = XO2
@@ -2703,10 +2703,10 @@ c             ZOI = ZI - ADT*VZI
              SY3 = ZI3*XI5 - XI3*ZI5
              SZ3 = XI3*YI5 - YI3*XI5
              
-             S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+             S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
              LB0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
              LC0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
-             LA0 =  UN-LB0-LC0 
+             LA0 =  ONE-LB0-LC0 
 
              IF(LB0 >= ZEROMT.and. LB0 <= UNPT .and.
      .          LC0 >= ZEROMT.and. LC0 <= UNPT .and.
@@ -2719,7 +2719,7 @@ c             ZOI = ZI - ADT*VZI
              ENDIF
           ENDIF
           IF(VO34 > ZERO .and. V34 >= ZERO )THEN
-           AAA = UN
+           AAA = ONE
            ADT = DT1
 
             XM3 = XO3
@@ -2774,10 +2774,10 @@ c            ZOI = ZI - ADT*VZI
             SY4 = ZI4*XI5 - XI4*ZI5
             SZ4 = XI4*YI5 - YI4*XI5
             
-            S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+            S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
             LC0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
-            LA0 =  UN-LB0-LC0 
+            LA0 =  ONE-LB0-LC0 
 
            IF(LB0  >= ZEROMT.and. LB0 <= UNPT .and.
      .         LC0 >= ZEROMT.and. LC0 <= UNPT .and.
@@ -2790,7 +2790,7 @@ c            ZOI = ZI - ADT*VZI
           ENDIF
 
           IF(VO41 > ZERO .and. V41 >= ZERO )THEN
-           AAA = UN
+           AAA = ONE
            ADT = DT1
 
             XM4 = XO4
@@ -2845,10 +2845,10 @@ c            ZOI = ZI - ADT*VZI
             SY1 = ZI1*XI5 - XI1*ZI5
             SZ1 = XI1*YI5 - YI1*XI5
             
-            S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+            S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
             LC0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
-            LA0 =  UN-LB0-LC0 
+            LA0 =  ONE-LB0-LC0 
 
             IF(LB0 >= ZEROMT.and. LB0 <= UNPT .and.
      .         LC0 >= ZEROMT.and. LC0 <= UNPT .and.

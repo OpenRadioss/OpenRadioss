@@ -189,7 +189,7 @@ C
       BIDON3 = ZERO      
       BIDON4 = ZERO      
       BIDON5 = ZERO 
-      CST1(LFT:LLT) = UN
+      CST1(LFT:LLT) = ONE
      
       DO I=LFT,LLT
         C1(I)  = PM(32,MX)
@@ -251,17 +251,17 @@ c
         ISRATE = IPM(3,MAT(LFT))
         IF(ISRATE.GE.1)THEN
            DO I=1,LLT
-            DAV = (EP1(I)+EP2(I)+EP3(I))/VINGT4
-            E1 = EP1(I)*UNHUIT - DAV
-            E2 = EP2(I)*UNHUIT - DAV
-            E3 = EP3(I)*UNHUIT - DAV
-            E4 = EP4(I)*UNSEIZE
-            E5 = EP5(I)*UNSEIZE
-            E6 = EP6(I)*UNSEIZE
-            EPSP =UNDEMI*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
-            EPSP = SQRT(TROIS*EPSP)*DTIERS
-            ASRATE = MIN(UN, PM(9,MX)*DT1)
-            EPSP = ASRATE*EPSP + (UN -ASRATE)*EPSD(I)
+            DAV = (EP1(I)+EP2(I)+EP3(I))/TWENTY4
+            E1 = EP1(I)*ONE_OVER_8 - DAV
+            E2 = EP2(I)*ONE_OVER_8 - DAV
+            E3 = EP3(I)*ONE_OVER_8 - DAV
+            E4 = EP4(I)*ONE_OVER_16
+            E5 = EP5(I)*ONE_OVER_16
+            E6 = EP6(I)*ONE_OVER_16
+            EPSP =HALF*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
+            EPSP = SQRT(THREE*EPSP)*TWO_THIRD
+            ASRATE = MIN(ONE, PM(9,MX)*DT1)
+            EPSP = ASRATE*EPSP + (ONE -ASRATE)*EPSD(I)
             EPSD(I)=EPSP
           ENDDO
         ENDIF
@@ -296,9 +296,9 @@ C
 C
       IF (ISORTH /= 0) THEN
         DO I=LFT,LLT
-          EP4(I) = UNDEMI*EP4(I)
-          EP5(I) = UNDEMI*EP5(I)
-          EP6(I) = UNDEMI*EP6(I)
+          EP4(I) = HALF*EP4(I)
+          EP5(I) = HALF*EP5(I)
+          EP6(I) = HALF*EP6(I)
         ENDDO
         CALL MROTENS(LFT,LLT,EP1,EP2,EP3,EP4,EP5,EP6,
      .               R11,R12,R13,
@@ -306,9 +306,9 @@ C
      .               R31,R32,R33)
         DO I=LFT,LLT
           J = (I-1)*6
-          EP4(I) = DEUX*EP4(I)
-          EP5(I) = DEUX*EP5(I)
-          EP6(I) = DEUX*EP6(I)
+          EP4(I) = TWO*EP4(I)
+          EP5(I) = TWO*EP5(I)
+          EP6(I) = TWO*EP6(I)
           SO1(I) = SIGLP(JJ(1)+I)
           SO2(I) = SIGLP(JJ(2)+I)
           SO3(I) = SIGLP(JJ(3)+I)
@@ -332,13 +332,13 @@ C
           SS2=STRAIN(JJ(2)+I)+Q1-Q3
           SS3=STRAIN(JJ(3)+I)-Q2+Q3
           SS4=STRAIN(JJ(4)+I)+
-     .      DEUX*WZZ(I,IPT)*(STRAIN(JJ(1)+I)-STRAIN(JJ(2)+I))+
+     .      TWO*WZZ(I,IPT)*(STRAIN(JJ(1)+I)-STRAIN(JJ(2)+I))+
      .      WYY(I,IPT)*STRAIN(JJ(5)+I)-WXX(I,IPT)*STRAIN(JJ(6)+I)
           SS5=STRAIN(JJ(5)+I)+
-     .      DEUX*WXX(I,IPT)*(STRAIN(JJ(2)+I)-STRAIN(JJ(3)+I))+
+     .      TWO*WXX(I,IPT)*(STRAIN(JJ(2)+I)-STRAIN(JJ(3)+I))+
      .      WZZ(I,IPT)*STRAIN(JJ(6)+I)-WYY(I,IPT)*STRAIN(JJ(4)+I)
           SS6=STRAIN(JJ(6)+I)+
-     .     DEUX*WYY(I,IPT)*(STRAIN(JJ(3)+I)-STRAIN(JJ(1)+I))+
+     .     TWO*WYY(I,IPT)*(STRAIN(JJ(3)+I)-STRAIN(JJ(1)+I))+
      .      WXX(I,IPT)*STRAIN(JJ(4)+I)-WZZ(I,IPT)*STRAIN(JJ(5)+I)
           STRAIN(JJ(1)+I)= SS1
           STRAIN(JJ(2)+I)= SS2
@@ -376,11 +376,11 @@ C------Compute of AMU as in mmain after thermal expansion computation ----------
       ENDDO
       IF(MTN == 45) THEN     ! for compatibility with QA tests
         DO I=LFT,LLT
-          AMU(I) =  UN/DF(I)-UN
+          AMU(I) =  ONE/DF(I)-ONE
         ENDDO 
       ELSE
         DO I=LFT,LLT
-          AMU(I) =  RHO(I)/RHO0(I)-UN
+          AMU(I) =  RHO(I)/RHO0(I)-ONE
         ENDDO 
       ENDIF
       IEXPAN8 = 0
@@ -510,11 +510,11 @@ C-------------------
             E1 = EP1(I) - DAV
             E2 = EP2(I) - DAV
             E3 = EP3(I) - DAV
-            E4 = UNDEMI*EP4(I)
-            E5 = UNDEMI*EP5(I)
-            E6 = UNDEMI*EP6(I)
-            EPSP =UNDEMI*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
-            EPSP = SQRT(TROIS*EPSP)*DTIERS
+            E4 = HALF*EP4(I)
+            E5 = HALF*EP5(I)
+            E6 = HALF*EP6(I)
+            EPSP =HALF*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
+            EPSP = SQRT(THREE*EPSP)*TWO_THIRD
             EPSD(I)=EPSP
           ENDIF
         ENDDO
@@ -595,11 +595,11 @@ C
 !             E1 = EP1(I) - DAV
 !             E2 = EP2(I) - DAV
 !             E3 = EP3(I) - DAV
-!             E4 = UNDEMI*EP4(I)
-!             E5 = UNDEMI*EP5(I)
-!             E6 = UNDEMI*EP6(I)
-!             EPSP =UNDEMI*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
-!             EPSP = SQRT(TROIS*EPSP)*DTIERS
+!             E4 = HALF*EP4(I)
+!             E5 = HALF*EP5(I)
+!             E6 = HALF*EP6(I)
+!             EPSP =HALF*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
+!             EPSP = SQRT(THREE*EPSP)*TWO_THIRD
 !             EPSD(I)=EPSP
 !           ENDIF
 !         ENDDO
@@ -639,11 +639,11 @@ C---    strain rate
             E1 = EP1(I) - DAV
             E2 = EP2(I) - DAV
             E3 = EP3(I) - DAV
-            E4 = UNDEMI*EP4(I)
-            E5 = UNDEMI*EP5(I)
-            E6 = UNDEMI*EP6(I)
-            EPSP =UNDEMI*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
-            EPSP = SQRT(TROIS*EPSP)*DTIERS
+            E4 = HALF*EP4(I)
+            E5 = HALF*EP5(I)
+            E6 = HALF*EP6(I)
+            EPSP =HALF*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
+            EPSP = SQRT(THREE*EPSP)*TWO_THIRD
             EPSD(I)=EPSP
           ENDIF
         ENDDO
@@ -680,11 +680,11 @@ C---    strain rate
             E1 = EP1(I) - DAV
             E2 = EP2(I) - DAV
             E3 = EP3(I) - DAV
-            E4 = UNDEMI*EP4(I)
-            E5 = UNDEMI*EP5(I)
-            E6 = UNDEMI*EP6(I)
-            EPSP =UNDEMI*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
-            EPSP = SQRT(TROIS*EPSP)*DTIERS
+            E4 = HALF*EP4(I)
+            E5 = HALF*EP5(I)
+            E6 = HALF*EP6(I)
+            EPSP =HALF*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
+            EPSP = SQRT(THREE*EPSP)*TWO_THIRD
             EPSD(I)=EPSP
           ENDIF
         ENDDO
@@ -725,11 +725,11 @@ C-------------------
             E1 = EP1(I) - DAV
             E2 = EP2(I) - DAV
             E3 = EP3(I) - DAV
-            E4 = UNDEMI*EP4(I)
-            E5 = UNDEMI*EP5(I)
-            E6 = UNDEMI*EP6(I)
-            EPSP =UNDEMI*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
-            EPSP = SQRT(TROIS*EPSP)*DTIERS
+            E4 = HALF*EP4(I)
+            E5 = HALF*EP5(I)
+            E6 = HALF*EP6(I)
+            EPSP =HALF*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
+            EPSP = SQRT(THREE*EPSP)*TWO_THIRD
             EPSD(I)=EPSP
           ENDIF
         ENDDO
@@ -754,15 +754,15 @@ C-------------------
         DO I=1,LLT
           ISRATE = IPM(3,MAT(LFT))
           IF(ISRATE == 0)THEN
-            DAV = (EP1(I)+EP2(I)+EP3(I))*TIERS
+            DAV = (EP1(I)+EP2(I)+EP3(I))*THIRD
             E1 = EP1(I) - DAV
             E2 = EP2(I) - DAV
             E3 = EP3(I) - DAV
-            E4 = UNDEMI*EP4(I)
-            E5 = UNDEMI*EP5(I)
-            E6 = UNDEMI*EP6(I)
-            EPSP =UNDEMI*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
-            EPSP = SQRT(TROIS*EPSP)*DTIERS
+            E4 = HALF*EP4(I)
+            E5 = HALF*EP5(I)
+            E6 = HALF*EP6(I)
+            EPSP =HALF*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
+            EPSP = SQRT(THREE*EPSP)*TWO_THIRD
             EPSD(I)=EPSP
           ENDIF
         ENDDO
@@ -829,15 +829,15 @@ C
          ELSE
            DO I=LFT,LLT 
             TSTAR(I) = ZERO      
-            DAV = (EP1(I)+EP2(I)+EP3(I))*TIERS
+            DAV = (EP1(I)+EP2(I)+EP3(I))*THIRD
             E1 = EP1(I) - DAV
             E2 = EP2(I) - DAV
             E3 = EP3(I) - DAV
-            E4 = UNDEMI*EP4(I)
-            E5 = UNDEMI*EP5(I)
-            E6 = UNDEMI*EP6(I)
-            EPSP1(I) =UNDEMI*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
-            EPSP1(I) = SQRT(TROIS*EPSP1(I))*DTIERS
+            E4 = HALF*EP4(I)
+            E5 = HALF*EP5(I)
+            E6 = HALF*EP6(I)
+            EPSP1(I) =HALF*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
+            EPSP1(I) = SQRT(THREE*EPSP1(I))*TWO_THIRD
            ENDDO
          ENDIF
           NVARF_MAX = 0
@@ -1072,28 +1072,28 @@ c----------
           SIGP(JJ(4)+I) = S4(I)
           SIGP(JJ(5)+I) = S5(I)
           SIGP(JJ(6)+I) = S6(I)
-          SIG(I,1)= SIG(I,1) + UNHUIT*S1(I)
-          SIG(I,2)= SIG(I,2) + UNHUIT*S2(I)
-          SIG(I,3)= SIG(I,3) + UNHUIT*S3(I)
-          SIG(I,4)= SIG(I,4) + UNHUIT*S4(I)
-          SIG(I,5)= SIG(I,5) + UNHUIT*S5(I)
-          SIG(I,6)= SIG(I,6) + UNHUIT*S6(I)
-          SVIS(I,1)= SVIS(I,1) + UNHUIT*SV1(I)
-          SVIS(I,2)= SVIS(I,2) + UNHUIT*SV2(I)
-          SVIS(I,3)= SVIS(I,3) + UNHUIT*SV3(I)
-          SVIS(I,4)= SVIS(I,4) + UNHUIT*SV4(I)
-          SVIS(I,5)= SVIS(I,5) + UNHUIT*SV5(I)
-          SVIS(I,6)= SVIS(I,6) + UNHUIT*SV6(I)
+          SIG(I,1)= SIG(I,1) + ONE_OVER_8*S1(I)
+          SIG(I,2)= SIG(I,2) + ONE_OVER_8*S2(I)
+          SIG(I,3)= SIG(I,3) + ONE_OVER_8*S3(I)
+          SIG(I,4)= SIG(I,4) + ONE_OVER_8*S4(I)
+          SIG(I,5)= SIG(I,5) + ONE_OVER_8*S5(I)
+          SIG(I,6)= SIG(I,6) + ONE_OVER_8*S6(I)
+          SVIS(I,1)= SVIS(I,1) + ONE_OVER_8*SV1(I)
+          SVIS(I,2)= SVIS(I,2) + ONE_OVER_8*SV2(I)
+          SVIS(I,3)= SVIS(I,3) + ONE_OVER_8*SV3(I)
+          SVIS(I,4)= SVIS(I,4) + ONE_OVER_8*SV4(I)
+          SVIS(I,5)= SVIS(I,5) + ONE_OVER_8*SV5(I)
+          SVIS(I,6)= SVIS(I,6) + ONE_OVER_8*SV6(I)
           SSP(I) = MAX(SSP(I),SSPP(I))
         ENDDO
 
 c        DO J=1,NUVAR
 c          DO I=LFT,LLT
-c            UVARG(I,J)= UVARG(I,J) + UNHUIT*UVAR(I,J,IPT)
+c            UVARG(I,J)= UVARG(I,J) + ONE_OVER_8*UVAR(I,J,IPT)
 c          ENDDO
 c        ENDDO
 c
-        DTA =UNDEMI*DT1
+        DTA =HALF*DT1
         DO I=LFT,LLT
           DAV=VOLGP(I,IPT)*OFF(I)*DTA
           EINT(I)=EINT(I)+DAV*(D1(I,IPT)*(SOLD1(I)+SIGP(JJ(1)+I))+

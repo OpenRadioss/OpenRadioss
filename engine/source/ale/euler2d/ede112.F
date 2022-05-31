@@ -77,12 +77,12 @@ C FP 11-dec-96   AIRE=VEUL(1,IVOI)
           NC2=IXQ(3,IVOI)
           NC3=IXQ(4,IVOI)
           NC4=IXQ(5,IVOI)
-          PY1=UNDEMI*(X(3,NC2)-X(3,NC4))
-          PY2=UNDEMI*(X(3,NC3)-X(3,NC1))
-          PZ1=UNDEMI*(X(2,NC4)-X(2,NC2))
-          PZ2=UNDEMI*(X(2,NC1)-X(2,NC3))	  
+          PY1=HALF*(X(3,NC2)-X(3,NC4))
+          PY2=HALF*(X(3,NC3)-X(3,NC1))
+          PZ1=HALF*(X(2,NC4)-X(2,NC2))
+          PZ2=HALF*(X(2,NC1)-X(2,NC3))	  
 C Added 1 ligne FP 11-dec-96
-          AIRE=DEUX*(PY1*PZ2-PZ1*PY2)
+          AIRE=TWO*(PY1*PZ2-PZ1*PY2)
           VY13=V(2,NC1)-V(2,NC3)
           VY24=V(2,NC2)-V(2,NC4)
           VZ13=V(3,NC1)-V(3,NC3)
@@ -94,7 +94,7 @@ C Added 1 ligne FP 11-dec-96
           EZZ(I)=ZERO
 C          DZY(I)=0.
 C          DYZ(I)=0.
-          WYZ(I)=UNDEMI*DT1*(DZY(I)-DYZ(I))
+          WYZ(I)=HALF*DT1*(DZY(I)-DYZ(I))
          ENDIF
         ENDIF
        ENDDO

@@ -95,7 +95,7 @@ c
        DO II = 1, NB_INTERV
          VALUE = DISTRIB(II)
          VALUE = VALUE/S_ARRAY
-         VALUE = VALUE * CENT
+         VALUE = VALUE * HUNDRED
          CHAR(II)= " "
          X_MAXVALUE1 = MAX(X_MAXVALUE1,VALUE)
          MAX_DISTRIB = MAX(MAX_DISTRIB,DISTRIB(II))
@@ -104,7 +104,7 @@ c
        DO II = 1, NB_INTERV
          VALUE = DISTRIB(II)
          VALUE = VALUE/S_ARRAY
-         VALUE = VALUE * CENT
+         VALUE = VALUE * HUNDRED
          CHAR(II)= " "
          DO J = 1,(SIZEY+1)
            IF( VALUE > (J-1) * X_MAXVALUE1/(SIZEY+1)) THEN 

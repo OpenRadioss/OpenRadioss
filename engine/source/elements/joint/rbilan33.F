@@ -74,7 +74,7 @@ C
 #include "atomend.inc"
 C
       DO I=JFT,JLT
-        XMAS2=UMAS(I)*UNDEMI
+        XMAS2=UMAS(I)*HALF
         VXA=V(1,NC1(I))+V(1,NC2(I))
         VYA=V(2,NC1(I))+V(2,NC2(I))
         VZA=V(3,NC1(I))+V(3,NC2(I))
@@ -84,7 +84,7 @@ C
         VA2   =V(1,NC1(I))*V(1,NC1(I))+V(1,NC2(I))*V(1,NC2(I))
      .        +V(2,NC1(I))*V(2,NC1(I))+V(2,NC2(I))*V(2,NC2(I))
      .        +V(3,NC1(I))*V(3,NC1(I))+V(3,NC2(I))*V(3,NC2(I))
-        EK(I)= XMAS2*VA2*UNDEMI
+        EK(I)= XMAS2*VA2*HALF
       ENDDO
 C
       IF (IGRE /= 0) THEN

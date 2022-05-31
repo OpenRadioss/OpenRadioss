@@ -71,14 +71,14 @@ C
       X= MIN(X,P99)
       X= MAX(X,-P99)
       A=ABS(X)
-      IF(A.LT.UNP001EM32)THEN
+      IF(A.LT.ONEP001EM32)THEN
        STRR='10000000'
        RETURN
       ENDIF
 C
       IEXP=LOG10(A)
       ISE=MAX(0,-ISIGN(1,IEXP))
-      ISM=SIGN(UN,X)
+      ISM=SIGN(ONE,X)
       ISM=MAX(0,-ISM)
       XMAN =A*10.**(-IEXP)
       XMAN =XMAN*1000000000.

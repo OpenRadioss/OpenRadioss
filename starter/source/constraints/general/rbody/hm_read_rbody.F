@@ -286,8 +286,8 @@ C
           CALL HM_GET_FLOATV('expT',EXPT,IS_AVAILABLE,LSUBMODEL,UNITAB)
           IF(FN==ZERO)FN=EP20
           IF(FT==ZERO)FT=EP20
-          IF(EXPN==ZERO) EXPN=DEUX
-          IF(EXPT==ZERO) EXPT=DEUX
+          IF(EXPN==ZERO) EXPN=TWO
+          IF(EXPT==ZERO) EXPT=TWO
           RBY(26,NRB)=FN
           RBY(27,NRB)=FT
           RBY(28,NRB)=EXPN
@@ -877,7 +877,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
            IF(IOK == 1)THEN
              IGOF = 1
@@ -902,7 +902,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
            IF(IOK == 1)THEN
              IGOF = 1
@@ -929,7 +929,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
            IF(IOK == 1)THEN
              IGOF = 1
@@ -954,7 +954,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
 C Incompatible avec option de gap dans propriete de truss
 C        IGOF = 1
@@ -977,7 +977,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
            IF(IOK == 1)THEN
              IGOF = 1
@@ -994,7 +994,7 @@ C-----------------------
            DO I=1,NEL
              II=I+NFT
              IF(IRESOFF(II).NE.0)THEN
-               IF (GBUF%OFF(I) /= -DIX) GBUF%OFF(I) = -ABS(GBUF%OFF(I))
+               IF (GBUF%OFF(I) /= -TEN) GBUF%OFF(I) = -ABS(GBUF%OFF(I))
 C             spring is active
                IF(IPRI.GE.5) WRITE(IOUT,*)' SPRING DEACTIVATION:',
      .         IXR(6,II)
@@ -1002,7 +1002,7 @@ C             spring is active
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
            IF(IOK == 1)THEN
              IGOF = 1
@@ -1027,7 +1027,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
            IF(IOK == 1)THEN
              IGOF = 1

@@ -129,7 +129,7 @@ C
      -                   - SQRT(XX**2 +  XY**2 + XZ**2 )
      -           - SQRT(X21MSR(1,KK)**2+X21MSR(2,KK)**2+X21MSR(3,KK)**2)
               IF(DIST0(KK).LE.ZERO) THEN
-                INTBUF_TAB(I)%VARIABLES(5) = -UN
+                INTBUF_TAB(I)%VARIABLES(5) = -ONE
                 IF(DEBUG(3).GE.1.AND.NCYCLE.NE.0) THEN
                  WRITE(ISTDO,'(A,I10,A,I10,I10)')
      .             '** NEW SORT FOR INTERFACE NUMBER ',
@@ -162,7 +162,7 @@ C test sur pas de temps sur l'interface (parith on spmd)
            J = INTLIST21(I)
            KK = INTSTAMP(J)%NOINTER
            IF(DIST0(J).LE.ZERO) THEN
-              INTBUF_TAB(KK)%VARIABLES(5) = -UN
+              INTBUF_TAB(KK)%VARIABLES(5) = -ONE
                 IF(DEBUG(3).GE.1.AND.NCYCLE.NE.0) THEN
                  WRITE(ISTDO,'(A,I10,A,I10,I10)')
      .             '** NEW SORT FOR INTERFACE NUMBER ',

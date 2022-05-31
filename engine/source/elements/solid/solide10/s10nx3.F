@@ -64,10 +64,10 @@ C-----------------------------------------------
 C-----------------------------------------------
       ALPH=ZEP5854102
       BETA=ZEP1381966
-      AA = (DEUX*ALPH - UN)*ALPH
-      BB = (DEUX*BETA - UN)*BETA
-      B2 = QUATRE*BETA*BETA
-      AB = QUATRE*ALPH*BETA      
+      AA = (TWO*ALPH - ONE)*ALPH
+      BB = (TWO*BETA - ONE)*BETA
+      B2 = FOUR*BETA*BETA
+      AB = FOUR*ALPH*BETA      
 C
       DO IP=1,4
         K1 = IPERM(1,IP)

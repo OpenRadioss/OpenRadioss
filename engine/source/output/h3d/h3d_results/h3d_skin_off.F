@@ -120,12 +120,12 @@ C-----------------------------------------------
 
 C-------- grp skin_inf first
             DO I=1,NEL
-              SKIN_OFF(NSKIN+I) = NINT(MIN(GBUF%OFF(I),UN))
+              SKIN_OFF(NSKIN+I) = NINT(MIN(GBUF%OFF(I),ONE))
             END DO
             NSKIN = NSKIN + NEL
 C-------- grp skin_sup 
             DO I=1,NEL
-              SKIN_OFF(NSKIN+I) = NINT(MIN(GBUF%OFF(I),UN))
+              SKIN_OFF(NSKIN+I) = NINT(MIN(GBUF%OFF(I),ONE))
             END DO
             NSKIN = NSKIN + NEL
 C-----------------------------------------------
@@ -160,25 +160,25 @@ C---------each face
                IF(MOD(LL,PWR(JJ+1))/PWR(JJ) == 0) THEN
 C---------3,2,1
                 NSKIN = NSKIN + 1
-                SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),UN))
+                SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),ONE))
                END IF
 C---------2,3 ,4            
                JJ = 4
                IF(MOD(LL,PWR(JJ+1))/PWR(JJ) == 0) THEN
                 NSKIN = NSKIN + 1
-                SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),UN))
+                SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),ONE))
                END IF
 C---------1,4,3           
                JJ = 3
                IF(MOD(LL,PWR(JJ+1))/PWR(JJ) == 0) THEN
                 NSKIN = NSKIN + 1
-                SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),UN))
+                SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),ONE))
                END IF
 C---------1,2,4            
                JJ = 6
                IF(MOD(LL,PWR(JJ+1))/PWR(JJ) == 0) THEN
                 NSKIN = NSKIN + 1
-                SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),UN))
+                SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),ONE))
                END IF
              ENDDO
            ELSEIF(ISOLNOD == 6)THEN
@@ -192,7 +192,7 @@ C---------1,2,3
                IF(MOD(LL,PWR(JJ+1))/PWR(JJ) == 0) THEN
                   DO J=1,4
                      NSKIN = NSKIN + 1
-                     SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),UN))
+                     SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),ONE))
                   END DO 
                END IF
 C---------2,3 ,4            
@@ -200,7 +200,7 @@ C---------2,3 ,4
                IF(MOD(LL,PWR(JJ+1))/PWR(JJ) == 0) THEN
                   DO J=1,4
                      NSKIN = NSKIN + 1
-                     SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),UN))
+                     SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),ONE))
                   END DO 
                END IF
 C---------1,4,3           
@@ -208,7 +208,7 @@ C---------1,4,3
                IF(MOD(LL,PWR(JJ+1))/PWR(JJ) == 0) THEN
                   DO J=1,4
                      NSKIN = NSKIN + 1
-                     SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),UN))
+                     SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),ONE))
                   END DO 
                END IF
 C---------1,2,4            
@@ -216,7 +216,7 @@ C---------1,2,4
                IF(MOD(LL,PWR(JJ+1))/PWR(JJ) == 0) THEN
                   DO J=1,4
                      NSKIN = NSKIN + 1
-                     SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),UN))
+                     SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),ONE))
                   END DO 
                END IF
              ENDDO
@@ -248,7 +248,7 @@ C---------for degenerated cases
                 END DO
                 IF (NN>2) THEN
                   NSKIN = NSKIN + 1
-                  SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),UN))
+                  SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),ONE))
                 END IF
                ENDDO
              ENDDO
@@ -260,7 +260,7 @@ C------to show pressure
        NFT = NSKIN
       IF (NUMSKINP>0) THEN      
        DO I=NFT+1,NSKIN
-         SKIN_OFF(I) = UN
+         SKIN_OFF(I) = ONE
        END DO 
       END IF      
 C-----------

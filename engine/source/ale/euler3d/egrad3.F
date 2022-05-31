@@ -237,12 +237,12 @@ C---------------------------------
 C     CALCUL DES GRADIENTS * SURFACES
 C---------------------------------
       DO I=LFT,LLT
-        GRAD(1,I)= QUATRE*(D1X(I)*N1X(I)+D1Y(I)*N1Y(I)+D1Z(I)*N1Z(I)) / MAX(EM15,DD1(I))
-        GRAD(2,I)= QUATRE*(D2X(I)*N2X(I)+D2Y(I)*N2Y(I)+D2Z(I)*N2Z(I)) / MAX(EM15,DD2(I))
-        GRAD(3,I)= QUATRE*(D3X(I)*N3X(I)+D3Y(I)*N3Y(I)+D3Z(I)*N3Z(I)) / MAX(EM15,DD3(I))
-        GRAD(4,I)= QUATRE*(D4X(I)*N4X(I)+D4Y(I)*N4Y(I)+D4Z(I)*N4Z(I)) / MAX(EM15,DD4(I))
-        GRAD(5,I)= QUATRE*(D5X(I)*N5X(I)+D5Y(I)*N5Y(I)+D5Z(I)*N5Z(I)) / MAX(EM15,DD5(I))
-        GRAD(6,I)= QUATRE*(D6X(I)*N6X(I)+D6Y(I)*N6Y(I)+D6Z(I)*N6Z(I)) / MAX(EM15,DD6(I))
+        GRAD(1,I)= FOUR*(D1X(I)*N1X(I)+D1Y(I)*N1Y(I)+D1Z(I)*N1Z(I)) / MAX(EM15,DD1(I))
+        GRAD(2,I)= FOUR*(D2X(I)*N2X(I)+D2Y(I)*N2Y(I)+D2Z(I)*N2Z(I)) / MAX(EM15,DD2(I))
+        GRAD(3,I)= FOUR*(D3X(I)*N3X(I)+D3Y(I)*N3Y(I)+D3Z(I)*N3Z(I)) / MAX(EM15,DD3(I))
+        GRAD(4,I)= FOUR*(D4X(I)*N4X(I)+D4Y(I)*N4Y(I)+D4Z(I)*N4Z(I)) / MAX(EM15,DD4(I))
+        GRAD(5,I)= FOUR*(D5X(I)*N5X(I)+D5Y(I)*N5Y(I)+D5Z(I)*N5Z(I)) / MAX(EM15,DD5(I))
+        GRAD(6,I)= FOUR*(D6X(I)*N6X(I)+D6Y(I)*N6Y(I)+D6Z(I)*N6Z(I)) / MAX(EM15,DD6(I))
       ENDDO
 
       RETURN

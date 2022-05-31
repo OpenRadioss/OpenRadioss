@@ -141,7 +141,7 @@ C msr < 0 <=> shooting nodes
      .              XA(3,IRECT(3,I)),XA(3,IRECT(4,I)))
      .         -MIN(XA(3,IRECT(1,I)),XA(3,IRECT(2,I)),
      .              XA(3,IRECT(3,I)),XA(3,IRECT(4,I)))
-            CURV_MAX(I) = UNDEMI * MAX(XXX,YYY,ZZZ)
+            CURV_MAX(I) = HALF * MAX(XXX,YYY,ZZZ)
             C_MAX = MAX(C_MAX,CURV_MAX(I))
           ENDDO
         ELSE

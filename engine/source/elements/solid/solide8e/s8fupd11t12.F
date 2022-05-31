@@ -75,7 +75,7 @@ C=======================================================================
 C-----Always in global system and fixed then (not like Ismstr=11
         NCH=0
         DO I=LFT,LLT
-         IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > UN ) THEN
+         IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > ONE ) THEN
            NCH = NCH +1
            INDEX(NCH) = I
          END IF

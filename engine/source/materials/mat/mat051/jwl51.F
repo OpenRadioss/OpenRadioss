@@ -84,14 +84,14 @@ C==========================================
       ! Calculation of BFRAC in [0,1]  !
       !--------------------------------!
       RHO = MAS1 / VOLUME
-      IF(BFRAC < UN) THEN
+      IF(BFRAC < ONE) THEN
        BFRAC = ZERO
-       IF(IBFRAC/=1 .AND. TIME > -TBURN) BFRAC = VDET*(TIME+TBURN)*DTIERS/XL 
-       IF(IBFRAC/=2) BFRAC  = MAX( BFRAC , BHE * (UN - RHO10/RHO) )
+       IF(IBFRAC/=1 .AND. TIME > -TBURN) BFRAC = VDET*(TIME+TBURN)*TWO_THIRD/XL 
+       IF(IBFRAC/=2) BFRAC  = MAX( BFRAC , BHE * (ONE - RHO10/RHO) )
        IF(BFRAC < EM03) THEN
          BFRAC = ZERO
-       ELSEIF(BFRAC > UN) THEN
-         BFRAC = UN
+       ELSEIF(BFRAC > ONE) THEN
+         BFRAC = ONE
        ENDIF
       ENDIF
       
@@ -100,28 +100,28 @@ C==========================================
       ! SSP & ARTIFICIAL VISCO         !
       !--------------------------------!
       MUP1          = RHO/RHO10
-      MU            = MUP1 - UN
+      MU            = MUP1 - ONE
       R1M           = R1/MUP1
       R2M           = R2/MUP1     
       ER1M          = EXP(-R1M)
       ER2M          = EXP(-R2M)
       AA            = W1/VOLUME
-      P0            = B1*(UN-W1/R1M)*ER1M + B2*(UN-W1/R2M)*ER2M
+      P0            = B1*(ONE-W1/R1M)*ER1M + B2*(ONE-W1/R2M)*ER2M
       P             = P0 + AA*EINT1   !total jwl pressure for ssp              
       DPDMU         = B1*ER1M*( (-W1*MUP1/R1) + R1M - W1) + B2*ER2M*( (-W1*MUP1/R2) + R2M - W1) + W1*EINT1/VOLUME +P*W1
       DPDMU         = ABS(DPDMU) / MUP1  ! if DPDMU <0 => numerical error during energy integration (increase iteration number or reduce submaterial volume change ratio)
       SSP_reacted   = SQRT(DPDMU/RHO10)
       SSP_unreacted = SQRT(C11/RHO10)          
-      SOUNDSP       = MAX(BFRAC*SSP_reacted,(UN-BFRAC)*SSP_unreacted)
+      SOUNDSP       = MAX(BFRAC*SSP_reacted,(ONE-BFRAC)*SSP_unreacted)
       QAL           = QA*XL
       QAL           = QAL*QAL
       QBL           = QB*XL
       VISCMAX       = RHO*(QAL*MAX(ZERO,DD) + QBL*SOUNDSP)
       Q1            = VISCMAX*MAX(ZERO,DD)
-      BB            = UNDEMI*(VOLUME-V1OLD)   
+      BB            = HALF*(VOLUME-V1OLD)   
 !      EINT1         = EINT1 - (P1OLD+PEXT+PEXT)*BB
       AA            = AA
-      P1            = ( P0-PEXT + AA*EINT1 )!  /  (UN+AA*BB) 
+      P1            = ( P0-PEXT + AA*EINT1 )!  /  (ONE+AA*BB) 
 
      
       !--------------------------------!
@@ -135,7 +135,7 @@ C==========================================
       Pgas_min = -PEXT                !p>0 for detonation products
       Pgas     = MAX(Pgas,Pgas_min)
       
-      P1       = BFRAC*Pgas + (UN-BFRAC)*Psol
+      P1       = BFRAC*Pgas + (ONE-BFRAC)*Psol
       
 !      EINT1    = EINT1 - P1*BB
 !      EINT1    = MAX (EINT1, ZERO)
@@ -147,7 +147,7 @@ C==========================================
       DPDMU         = ABS(DPDMU) / MUP1  ! if DPDMU <0 => numerical error during energy integration (increase iteration number or reduce submaterial volume change ratio)
       SSP_reacted   = SQRT(DPDMU/RHO10)
       SSP_unreacted = SQRT(C11/RHO10)          
-      SOUNDSP       = MAX(BFRAC*SSP_reacted,(UN-BFRAC)*SSP_unreacted)
+      SOUNDSP       = MAX(BFRAC*SSP_reacted,(ONE-BFRAC)*SSP_unreacted)
 
  
       !--------------------------------!
@@ -214,7 +214,7 @@ C------------------------
       DVDP1I = DVDP1
       RHO1   = MAS1/V1
       MUP1   = RHO1/RHO10
-      MU1    = MUP1 - UN
+      MU1    = MUP1 - ONE
 
       R1M    = R1/MUP1
       R2M    = R2/MUP1
@@ -225,28 +225,28 @@ C------------------------
       ! Calculation of BFRAC in [0,1]  !
       !--------------------------------!
 c$$$      IF (ITER .EQ. 1) THEN
-c$$$      IF(BFRAC < UN) THEN
+c$$$      IF(BFRAC < ONE) THEN
 c$$$        BFRAC = ZERO
 c$$$        IF(IBFRAC/=1 .AND. TIME > -TBURN)THEN
 c$$$          XL = V1**THIRD
-c$$$          BFRAC = VDET*(TIME+TBURN)*DTIERS/XL 
+c$$$          BFRAC = VDET*(TIME+TBURN)*TWO_THIRD/XL 
 c$$$        ENDIF
-c$$$        IF(IBFRAC/=2) BFRAC  = MAX( BFRAC , BHE * (UN - RHO10/RHO1) )
+c$$$        IF(IBFRAC/=2) BFRAC  = MAX( BFRAC , BHE * (ONE - RHO10/RHO1) )
 c$$$        IF(BFRAC < EM03) THEN
 c$$$          BFRAC = ZERO
-c$$$        ELSEIF(BFRAC > UN) THEN
-c$$$          BFRAC = UN
+c$$$        ELSEIF(BFRAC > ONE) THEN
+c$$$          BFRAC = ONE
 c$$$        ENDIF
 c$$$      ENDIF
 c$$$      ENDIF
 
       AA       = W1*MUP1/V10 !W1/V1    same digits this way                                 
       AA       = AA                                        
-      BB       = UNDEMI*(V1-V1OLD)                         
+      BB       = HALF*(V1-V1OLD)                         
       IF (FLAG .EQ. 1) EINT1    = EINT1 - (P1OLD+PEXT+PEXT)*BB     
-      P0       = B1*(UN-W1/R1M)*ER1M + B2*(UN-W1/R2M)*ER2M 
+      P0       = B1*(ONE-W1/R1M)*ER1M + B2*(ONE-W1/R2M)*ER2M 
       IF (FLAG .EQ. 1) THEN
-         P1       = ( P0-PEXT + AA*EINT1 )  /  (UN+AA*BB)   
+         P1       = ( P0-PEXT + AA*EINT1 )  /  (ONE+AA*BB)   
       ELSE
          P1 = P0 - PEXT + AA * EINT1
       ENDIF
@@ -263,7 +263,7 @@ c$$$      ENDIF
       Pgas_min = -PEXT                !p>0 for detonation products
       Pgas     = MAX(Pgas,Pgas_min)
 
-      P1       = BFRAC*Pgas + (UN-BFRAC)*Psol
+      P1       = BFRAC*Pgas + (ONE-BFRAC)*Psol
       IF (FLAG .EQ. 1) EINT1    = EINT1 - P1*BB
       IF (FLAG .EQ. 1) EINT1    = MAX(EINT1, ZERO)
 
@@ -275,7 +275,7 @@ c$$$      ENDIF
       DPDMU         = ABS(DPDMU) / MUP1
       SSP_PRODUCTS  = SQRT(DPDMU/RHO10)
       SSP_UNREACTED = SQRT(C11/RHO10)
-      SSP1          = (UN-BFRAC)*SSP_UNREACTED + BFRAC*SSP_PRODUCTS
+      SSP1          = (ONE-BFRAC)*SSP_UNREACTED + BFRAC*SSP_PRODUCTS
 
       !--------------------------------!
       ! DPDV                           !
@@ -286,26 +286,26 @@ c$$$      ENDIF
 
       DPDV1_REACTED    = -DPDMU*MUP1/V1
       DPDV1_UNREACTED  = -C11*MUP1/V1
-      DPDV1            = BFRAC*DPDV1_REACTED + (UN-BFRAC)*DPDV1_UNREACTED
+      DPDV1            = BFRAC*DPDV1_REACTED + (ONE-BFRAC)*DPDV1_UNREACTED
       
       IF(ABS(DPDV1).LT.EM20)THEN
         DVDP1 = ZERO 
       ELSE
-        DVDP1 = UN/DPDV1
+        DVDP1 = ONE/DPDV1
       ENDIF
 
       
 c     dvdp < 0
-c      IF(DVDP1.LT.DEUX*DVDP1I)THEN
-c        DVDP1 = DEUX*DVDP1I
+c      IF(DVDP1.LT.TWO*DVDP1I)THEN
+c        DVDP1 = TWO*DVDP1I
 c      ELSEIF(DVDP1.GT.ZERO)THEN
-c        DVDP1 = DEUX*DVDP1I
-c      ELSEIF(DVDP1.GT.UNDEMI*DVDP1I)THEN
-c        DVDP1 = UNDEMI*DVDP1I
+c        DVDP1 = TWO*DVDP1I
+c      ELSEIF(DVDP1.GT.HALF*DVDP1I)THEN
+c        DVDP1 = HALF*DVDP1I
 c      ENDIF
 
 !      IF(DVDP1.NE.ZERO)THEN
-!         DPDV1 = UN / DVDP1
+!         DPDV1 = ONE / DVDP1
 !      ENDIF
 
       RETURN
@@ -366,16 +366,16 @@ C==========================================
       !--------------------------------!
       RHO1 = MAS1/V1
       MUP1 = RHO1/RHO10
-      MU1  = MUP1 - UN
+      MU1  = MUP1 - ONE
       XL   = V1**THIRD
-      IF(BFRAC < UN) THEN
+      IF(BFRAC < ONE) THEN
        BFRAC = ZERO
-       IF(TIME > -TBURN) BFRAC = VDET*(TIME+TBURN)*DTIERS/XL 
-       BFRAC  = MAX( BFRAC , BHE * (UN - RHO10/RHO1) )
+       IF(TIME > -TBURN) BFRAC = VDET*(TIME+TBURN)*TWO_THIRD/XL 
+       BFRAC  = MAX( BFRAC , BHE * (ONE - RHO10/RHO1) )
        IF(BFRAC < EM03) THEN
          BFRAC = ZERO
-       ELSEIF(BFRAC >= UN) THEN
-         BFRAC = UN
+       ELSEIF(BFRAC >= ONE) THEN
+         BFRAC = ONE
        ENDIF
       ENDIF
 
@@ -384,7 +384,7 @@ C==========================================
       ER1M     = EXP(-R1M)                                 
       ER2M     = EXP(-R2M)                                 
       AA       = W1/V1                                     
-      P0       = B1*(UN-W1/R1M)*ER1M + B2*(UN-W1/R2M)*ER2M 
+      P0       = B1*(ONE-W1/R1M)*ER1M + B2*(ONE-W1/R2M)*ER2M 
 
       !--------------------------------!
       ! SSP & ARTIFICIAL VISCO         !
@@ -402,7 +402,7 @@ C==========================================
       Pgas_min = -PEXT                 !p>0 for detonation products
       Pgas     = MAX(Pgas,Pgas_min)
       
-      P1I      = BFRAC*Pgas + (UN-BFRAC)*Psol
+      P1I      = BFRAC*Pgas + (ONE-BFRAC)*Psol
 
 
       !--------------------------------!
@@ -412,7 +412,7 @@ C==========================================
       DPDMU         = ABS(DPDMU) / MUP1
       SSP_PRODUCTS  = SQRT(DPDMU/RHO10)
       SSP_UNREACTED = SQRT(C11/RHO10)
-      SSP1          = (UN-BFRAC)*SSP_UNREACTED + BFRAC*SSP_PRODUCTS
+      SSP1          = (ONE-BFRAC)*SSP_UNREACTED + BFRAC*SSP_PRODUCTS
 
 
 
@@ -421,7 +421,7 @@ C==========================================
       !--------------------------------!
       DPDV1_REACTED    = -DPDMU*MUP1/V1
       DPDV1_UNREACTED  = -C11*MUP1/V1
-      DPDV1            = BFRAC*DPDV1_REACTED + (UN-BFRAC)*DPDV1_UNREACTED
+      DPDV1            = BFRAC*DPDV1_REACTED + (ONE-BFRAC)*DPDV1_UNREACTED
 
 !      IF(DPDV1 > ZERO)THEN
 !        DPDV1 = -BFRAC*(B1*(R1M - W1 + W1/R1M)*ER1M+B2*(R2M - W1 + W1/R2M)*ER2M+W1*(EINT1/V1)) / V1
@@ -430,7 +430,7 @@ C==========================================
       IF(ABS(DPDV1).LT.EM20)THEN
         DVDP1 = ZERO 
       ELSE
-        DVDP1 = UN/DPDV1
+        DVDP1 = ONE/DPDV1
       ENDIF
       
       RETURN
@@ -486,7 +486,7 @@ C------------------------
       DVDP1I = DVDP1
       RHO1   = MAS1/V1
       MUP1   = RHO1/RHO10
-      MU1    = MUP1 - UN
+      MU1    = MUP1 - ONE
 
       R1M    = R1/MUP1
       R2M    = R2/MUP1
@@ -496,17 +496,17 @@ C------------------------
       !--------------------------------!
       ! Calculation of BFRAC in [0,1]  !
       !--------------------------------!
-c$$$      IF(BFRAC < UN) THEN
+c$$$      IF(BFRAC < ONE) THEN
 c$$$        BFRAC = ZERO
 c$$$        IF(IBFRAC/=1 .AND. TIME > -TBURN)THEN
 c$$$          XL = V1**THIRD
-c$$$          BFRAC = VDET*(TIME+TBURN)*DTIERS/XL 
+c$$$          BFRAC = VDET*(TIME+TBURN)*TWO_THIRD/XL 
 c$$$        ENDIF
-c$$$        IF(IBFRAC/=2) BFRAC  = MAX( BFRAC , BHE * (UN - RHO10/RHO1) )
+c$$$        IF(IBFRAC/=2) BFRAC  = MAX( BFRAC , BHE * (ONE - RHO10/RHO1) )
 c$$$        IF(BFRAC < EM03) THEN
 c$$$          BFRAC = ZERO
-c$$$        ELSEIF(BFRAC > UN) THEN
-c$$$          BFRAC = UN
+c$$$        ELSEIF(BFRAC > ONE) THEN
+c$$$          BFRAC = ONE
 c$$$        ENDIF
 c$$$      ENDIF
       !!! BFRAC is an input
@@ -517,13 +517,13 @@ c$$$      ENDIF
       ELSE
          AA       = W1*MUP1/V10 !W1/V1    same digits this way                                 
          AA       = AA                                        
-         BB       = UNDEMI*(V1-V1OLD)                         
-         P0       = B1*(UN-W1/R1M)*ER1M + B2*(UN-W1/R2M)*ER2M 
+         BB       = HALF*(V1-V1OLD)                         
+         P0       = B1*(ONE-W1/R1M)*ER1M + B2*(ONE-W1/R2M)*ER2M 
          Psol     = C01+C11*MU1 !linear eos relative pressure
 
-         EINT1 = (P1 - (UN - BFRAC) * Psol) / BFRAC + PEXT - P0
+         EINT1 = (P1 - (ONE - BFRAC) * Psol) / BFRAC + PEXT - P0
          GRUN = BFRAC * W1
-         PGAS = (P1 - (UN - BFRAC) * Psol) / BFRAC
+         PGAS = (P1 - (ONE - BFRAC) * Psol) / BFRAC
          
 !--------------------------------!
 ! Sound Speed                    !
@@ -533,7 +533,7 @@ c$$$      ENDIF
          DPDMU         = ABS(DPDMU) / MUP1
          SSP_PRODUCTS  = SQRT(DPDMU/RHO10)
          SSP_UNREACTED = SQRT(C11/RHO10)
-         SSP1          = (UN-BFRAC)*SSP_UNREACTED + BFRAC*SSP_PRODUCTS
+         SSP1          = (ONE-BFRAC)*SSP_UNREACTED + BFRAC*SSP_PRODUCTS
       ENDIF
 
 

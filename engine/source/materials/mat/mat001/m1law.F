@@ -83,7 +83,7 @@ C-----------------------------------------------
      .    BID1, BID2, BID3, DTA,  YM, DPDMP,FACQ0,
      .    RHO0_1,C1_1
 C-----------------------------------------------
-      FACQ0 = UN
+      FACQ0 = ONE
       MX = MAT(LFT)
       RHO0_1 =PM( 1,MX)
       C1_1   =PM(32,MX)
@@ -95,14 +95,14 @@ C-----------------------------------------------
 C
       DO I=LFT,LLT
        G1(I)=DT1*G(I)
-       G2(I)=DEUX*G1(I)
+       G2(I)=TWO*G1(I)
        !-----------------------
        !     CALCUL DE DP/DRHO
        !-----------------------
        !     P = C1 mu, mu = rho/rho0-1 (cf Hydrodynamic pressure)
        !     d(rho)/d(mu)  = rho0
        !-----------------------
-       SSP(I)  =SQRT((UNP333*G(I)+C1(I))/RHO0(I))
+       SSP(I)  =SQRT((ONEP333*G(I)+C1(I))/RHO0(I))
        RHOSP(I)=RHO0(I)
        !-------------------------------
        !     CONTRAINTES DEVIATORIQUES
@@ -134,7 +134,7 @@ C
      6        NGL     ,QNEW    ,SSP_EQ  ,G_DT    ,DTEL)
       ENDIF
 
-      DTA =UNDEMI*DT1
+      DTA =HALF*DT1
 
       DO I=LFT,LLT
        PNEW(I)=C1(I)*AMU(I)
@@ -151,7 +151,7 @@ C
        E4=D4(I)*(SOLD4(I)+SIG(I,4))
        E5=D5(I)*(SOLD5(I)+SIG(I,5))
        E6=D6(I)*(SOLD6(I)+SIG(I,6))
-       EINC= VOL_AVG(I)*(E1+E2+E3+E4+E5+E6)*DTA - UNDEMI*DVOL(I)*(QOLD(I)+QNEW(I)+P2)
+       EINC= VOL_AVG(I)*(E1+E2+E3+E4+E5+E6)*DTA - HALF*DVOL(I)*(QOLD(I)+QNEW(I)+P2)
        EINT(I)=(EINT(I)+EINC*OFF(I)) / MAX(EM15,VOL(I))
        QOLD(I)=QNEW(I)
       ENDDO
@@ -224,7 +224,7 @@ C-----------------------------------------------
       my_real
      .    lmb(mvsiz),epsm 
 C-----------------------------------------------
-      FACQ0 = UN
+      FACQ0 = ONE
       MX = MAT(LFT)
       RHO0_1 =PM( 1,MX)
       C1_1   =PM(32,MX)
@@ -232,7 +232,7 @@ C-----------------------------------------------
       RHO0(I) =RHO0_1
       G(I)    =PM(22,MX)*OFF(I)
       C1(I)   =C1_1
-      lmb(i)  =(trois*c1(i)-deux*g(i))
+      lmb(i)  =(THREE*c1(i)-TWO*g(i))
    10 CONTINUE
 C
        !print*,' sig avant '
@@ -243,14 +243,14 @@ C
 
       DO I=LFT,LLT
        G1(I)=DT1*G(I)
-       G2(I)=DEUX*G1(I)
+       G2(I)=TWO*G1(I)
        !-----------------------
        !     CALCUL DE DP/DRHO 
        !-----------------------
        !     P = C1 mu, mu = rho/rho0-1
        !     d(rho)/d(mu)  = rho0
        !-----------------------
-       SSP(I)=SQRT((UNP333*G(I)+C1(I))/RHO0(I))
+       SSP(I)=SQRT((ONEP333*G(I)+C1(I))/RHO0(I))
        RHOSP(I)=RHO0(I)
        !-------------------------------
        !     CONTRAINTES DEVIATORIQUES
@@ -276,13 +276,13 @@ C
      6        NGL     ,QNEW    ,SSP_EQ  ,G_DT    ,DTEL)
       ENDIF
 
-      DTA =UNDEMI*DT1
+      DTA =HALF*DT1
 
       DO I=LFT,LLT
        epsm = third*(D1(i)+d2(i)+d3(i))
-       sig(i,1)=sig(i,1)+ (DEUX*G(i)*d1(i)+lmb(i)*epsm) *dt1
-       sig(i,2)=sig(i,2)+ (DEUX*G(i)*d2(i)+lmb(i)*epsm) *dt1
-       sig(i,3)=sig(i,3)+ (DEUX*G(i)*d3(i)+lmb(i)*epsm) *dt1
+       sig(i,1)=sig(i,1)+ (TWO*G(i)*d1(i)+lmb(i)*epsm) *dt1
+       sig(i,2)=sig(i,2)+ (TWO*G(i)*d2(i)+lmb(i)*epsm) *dt1
+       sig(i,3)=sig(i,3)+ (TWO*G(i)*d3(i)+lmb(i)*epsm) *dt1
        sig(i,4)=sig(i,4)+ G(i)*d4(i) *dt1
        sig(i,5)=sig(i,5)+ G(i)*d5(i) *dt1
        sig(i,6)=sig(i,6)+ G(i)*d6(i) *dt1
@@ -294,7 +294,7 @@ C
        E4=D4(I)*(SOLD4(I)+SIG(I,4))
        E5=D5(I)*(SOLD5(I)+SIG(I,5))
        E6=D6(I)*(SOLD6(I)+SIG(I,6))
-       EINC= VOL_AVG(I)*(E1+E2+E3+E4+E5+E6)*DTA - UNDEMI*DVOL(I)*(QOLD(I)+QNEW(I)+P2)
+       EINC= VOL_AVG(I)*(E1+E2+E3+E4+E5+E6)*DTA - HALF*DVOL(I)*(QOLD(I)+QNEW(I)+P2)
        EINT(I)=(EINT(I)+EINC*OFF(I)) / MAX(EM15,VOL(I))
        QOLD(I)=QNEW(I)
        
@@ -384,11 +384,11 @@ C-----------------------------------------------
      .    SV(3),P3,P2,
      .    EPSTH11(MVSIZ),SIGTMP(MVSIZ,6)
 C-----------------------------------------------
-      FACQ0 = UN
+      FACQ0 = ONE
       MX = MAT(LFT)
       RHO0_1 =PM( 1,MX)
       C1_1   =PM(32,MX)
-      G2_11 = DEUX*PM(22,MX)
+      G2_11 = TWO*PM(22,MX)
       DO I=LFT,LLT
         RHO0(I) =RHO0_1
         G(I)    =PM(22,MX)*OFF(I)
@@ -408,9 +408,9 @@ C------------[F] = [MF]+ 1 ----ISMSTR10,11,12
         ENDDO
        ELSE
         DO I=LFT,LLT
-           ES1(I)=MFXX(I)*(DEUX+MFXX(I))+MFXY(I)*MFXY(I)+MFXZ(I)*MFXZ(I)
-           ES2(I)=MFYY(I)*(DEUX+MFYY(I))+MFYX(I)*MFYX(I)+MFYZ(I)*MFYZ(I)
-           ES3(I)=MFZZ(I)*(DEUX+MFZZ(I))+MFZX(I)*MFZX(I)+MFZY(I)*MFZY(I)
+           ES1(I)=MFXX(I)*(TWO+MFXX(I))+MFXY(I)*MFXY(I)+MFXZ(I)*MFXZ(I)
+           ES2(I)=MFYY(I)*(TWO+MFYY(I))+MFYX(I)*MFYX(I)+MFYZ(I)*MFYZ(I)
+           ES3(I)=MFZZ(I)*(TWO+MFZZ(I))+MFZX(I)*MFZX(I)+MFZY(I)*MFZY(I)
            ES4(I)=MFXY(I)+MFYX(I)+MFXX(I)*MFYX(I)+MFXY(I)*MFYY(I)+MFXZ(I)*MFYZ(I)
            ES6(I)=MFXZ(I)+MFZX(I)+MFXX(I)*MFZX(I)+MFXY(I)*MFZY(I)+MFXZ(I)*MFZZ(I)
            ES5(I)=MFZY(I)+MFYZ(I)+MFZX(I)*MFYX(I)+MFZY(I)*MFYY(I)+MFZZ(I)*MFYZ(I)
@@ -423,7 +423,7 @@ C------------[F] = [MF]+ 1 ----ISMSTR10,11,12
         NLAR = 0
        IF (ISELECT>0) THEN
         DO I=LFT,LLT
-          IF (OFFG0(I)<=UN) THEN
+          IF (OFFG0(I)<=ONE) THEN
            NLAR =NLAR+1
            INDEX(NLAR)=I
            ES1(NLAR)=ETOTSH(I,1)
@@ -433,21 +433,21 @@ C------------[F] = [MF]+ 1 ----ISMSTR10,11,12
            ES6(NLAR)=ETOTSH(I,6)
            ES5(NLAR)=ETOTSH(I,5)
            EPSTH11(NLAR)=EPSTH(I)
-          END IF !(OFFG0(I)<=UN)
+          END IF !(OFFG0(I)<=ONE)
         ENDDO
        ELSE
         DO I=LFT,LLT
-          IF (OFFG0(I)<=UN) THEN
+          IF (OFFG0(I)<=ONE) THEN
            NLAR =NLAR+1
            INDEX(NLAR)=I
-           ES1(NLAR)=MFXX(I)*(DEUX+MFXX(I))+MFXY(I)*MFXY(I)+MFXZ(I)*MFXZ(I)
-           ES2(NLAR)=MFYY(I)*(DEUX+MFYY(I))+MFYX(I)*MFYX(I)+MFYZ(I)*MFYZ(I)
-           ES3(NLAR)=MFZZ(I)*(DEUX+MFZZ(I))+MFZX(I)*MFZX(I)+MFZY(I)*MFZY(I)
+           ES1(NLAR)=MFXX(I)*(TWO+MFXX(I))+MFXY(I)*MFXY(I)+MFXZ(I)*MFXZ(I)
+           ES2(NLAR)=MFYY(I)*(TWO+MFYY(I))+MFYX(I)*MFYX(I)+MFYZ(I)*MFYZ(I)
+           ES3(NLAR)=MFZZ(I)*(TWO+MFZZ(I))+MFZX(I)*MFZX(I)+MFZY(I)*MFZY(I)
            ES4(NLAR)=MFXY(I)+MFYX(I)+MFXX(I)*MFYX(I)+MFXY(I)*MFYY(I)+MFXZ(I)*MFYZ(I)
            ES6(NLAR)=MFXZ(I)+MFZX(I)+MFXX(I)*MFZX(I)+MFXY(I)*MFZY(I)+MFXZ(I)*MFZZ(I)
            ES5(NLAR)=MFZY(I)+MFYZ(I)+MFZX(I)*MFYX(I)+MFZY(I)*MFYY(I)+MFZZ(I)*MFYZ(I)
            EPSTH11(NLAR)=EPSTH(I)
-          END IF !(OFFG0(I)<=UN)
+          END IF !(OFFG0(I)<=ONE)
         ENDDO
        END IF !(ISELECT>0) THEN
 C------------C1,G are const, otherwise to update 
@@ -464,7 +464,7 @@ C--------switch to Ismstr11
           NSM = 0
           IF (JCVT>0) THEN
             DO I=LFT,LLT
-              IF (OFFG0(I)>UN) THEN
+              IF (OFFG0(I)>ONE) THEN
                NSM = NSM +1
                INDEX(NSM) = I            
                ES1(NSM)=MFXX(I)
@@ -474,7 +474,7 @@ C--------switch to Ismstr11
                ES6(NSM)=MFXZ(I)+MFZX(I)
                ES5(NSM)=MFZY(I)+MFYZ(I)
                EPSTH11(NSM)=EPSTH(I)
-              END IF !(OFFG0(I)>UN)
+              END IF !(OFFG0(I)>ONE)
             ENDDO
             DO I=1,NSM
               EKK=ES1(I)+ES2(I)+ES3(I)-EPSTH11(I)
@@ -494,7 +494,7 @@ C--------switch to Ismstr11
           ELSE
 		   IF (ISELECT>0) THEN
             DO I=LFT,LLT
-              IF (OFFG0(I)>UN) THEN
+              IF (OFFG0(I)>ONE) THEN
                NSM = NSM +1
                INDEX(NSM) = I            
                ES1(NSM)=ETOTSH(I,1)
@@ -504,16 +504,16 @@ C--------switch to Ismstr11
                ES6(NSM)=ETOTSH(I,6)
                ES5(NSM)=ETOTSH(I,5)
                EPSTH11(NSM)=EPSTH(I)
-              END IF !(OFFG0(I)>UN)
+              END IF !(OFFG0(I)>ONE)
             ENDDO
            ELSE
             DO I=LFT,LLT
-             IF (OFFG0(I)>UN) THEN
+             IF (OFFG0(I)>ONE) THEN
               NSM = NSM +1
               INDEX(NSM) = I            
-              ES1(NSM)=MFXX(I)*(DEUX+MFXX(I))+MFXY(I)*MFXY(I)+MFXZ(I)*MFXZ(I)
-              ES2(NSM)=MFYY(I)*(DEUX+MFYY(I))+MFYX(I)*MFYX(I)+MFYZ(I)*MFYZ(I)
-              ES3(NSM)=MFZZ(I)*(DEUX+MFZZ(I))+MFZX(I)*MFZX(I)+MFZY(I)*MFZY(I)
+              ES1(NSM)=MFXX(I)*(TWO+MFXX(I))+MFXY(I)*MFXY(I)+MFXZ(I)*MFXZ(I)
+              ES2(NSM)=MFYY(I)*(TWO+MFYY(I))+MFYX(I)*MFYX(I)+MFYZ(I)*MFYZ(I)
+              ES3(NSM)=MFZZ(I)*(TWO+MFZZ(I))+MFZX(I)*MFZX(I)+MFZY(I)*MFZY(I)
               ES4(NSM)=MFXY(I)+MFYX(I)+MFXX(I)*MFYX(I)+MFXY(I)*MFYY(I)+MFXZ(I)*MFYZ(I)
               ES6(NSM)=MFXZ(I)+MFZX(I)+MFXX(I)*MFZX(I)+MFXY(I)*MFZY(I)+MFXZ(I)*MFZZ(I)
               ES5(NSM)=MFZY(I)+MFYZ(I)+MFZX(I)*MFYX(I)+MFZY(I)*MFYY(I)+MFZZ(I)*MFYZ(I)
@@ -546,7 +546,7 @@ C--------switch to Ismstr11
           ENDDO
           DO I=LFT,LLT
            G1(I)=G(I)
-           G2(I)=DEUX*G1(I)
+           G2(I)=TWO*G1(I)
            EKK=ES1(I)+ES2(I)+ES3(I)-EPSTH(I)
            DAV=-THIRD*(ES1(I)+ES2(I)+ES3(I))
            SIG(I,1)=C1(I)*EKK+G2(I)*(ES1(I)+DAV)
@@ -559,11 +559,11 @@ C--------switch to Ismstr11
       ENDIF  ! ismstr
       IF(ISMSTR==12)THEN 
         DO I=LFT,LLT
-          IF(ABS(OFFG0(I)) <= UN)THEN ! Large Strain
-            SSP(I)=SQRT((UNP333*G(I)+C1(I))/RHO(I))
+          IF(ABS(OFFG0(I)) <= ONE)THEN ! Large Strain
+            SSP(I)=SQRT((ONEP333*G(I)+C1(I))/RHO(I))
             RHOSP(I)=RHO(I)
           ELSE ! large to small strain: conservative
-            SSP(I)=SQRT((UNP333*G(I)+C1(I))/RHOREF(I))
+            SSP(I)=SQRT((ONEP333*G(I)+C1(I))/RHOREF(I))
             RHOSP(I)=RHOREF(I)
           END IF
         ENDDO
@@ -574,7 +574,7 @@ C--------switch to Ismstr11
           !     P = C1 mu, mu = rho/rho0-1
           !     d(rho)/d(mu)  = rho0
           !-----------------------
-          SSP(I)=SQRT((UNP333*G(I)+C1(I))/RHO0(I))
+          SSP(I)=SQRT((ONEP333*G(I)+C1(I))/RHO0(I))
           RHOSP(I)=RHO0(I)
         ENDDO
       ELSEIF(ISMSTR==11)THEN ! Small Strain, IF(ISMSTR==1 .OR. ISMSTR==11)
@@ -583,24 +583,24 @@ C--------switch to Ismstr11
           !     P = C1 mu, mu = rho/rho0-1
           !     d(rho)/d(mu)  = rho0
           !-----------------------
-          SSP(I)=SQRT((UNP333*G(I)+C1(I))/RHO0(I))
+          SSP(I)=SQRT((ONEP333*G(I)+C1(I))/RHO0(I))
           RHOSP(I)=RHO0(I)
         ENDDO
       ELSE
         DO I=LFT,LLT
-          IF(ABS(OFFG0(I)) <= UN)THEN ! Large Strain
+          IF(ABS(OFFG0(I)) <= ONE)THEN ! Large Strain
             !-----------------------
             !     P = C1 mu, mu = ln(rho/rho0), rho= rho0 exp(mu)
             !     d(rho)/d(mu)  = rho
             !-----------------------
-            SSP(I)=SQRT((UNP333*G(I)+C1(I))/RHO(I))
+            SSP(I)=SQRT((ONEP333*G(I)+C1(I))/RHO(I))
             RHOSP(I)=RHO(I)
           ELSE ! Small Strain
            !-----------------------
            !     P = C1 mu, mu = rho/rho0-1
            !     d(rho)/d(mu)  = rho0
            !-----------------------
-            SSP(I)=SQRT((UNP333*G(I)+C1(I))/RHO0(I))
+            SSP(I)=SQRT((ONEP333*G(I)+C1(I))/RHO0(I))
             RHOSP(I)=RHO0(I)
           END IF
         ENDDO
@@ -623,7 +623,7 @@ C
      6        NGL     ,QNEW    ,SSP_EQ  ,G_DT      ,DTEL)
       ENDIF
 
-      DTA =UNDEMI*DT1
+      DTA =HALF*DT1
 C---questionable to do PNEW(I)=C1(I)*AMU(I) for Ismstr10
       DO I=LFT,LLT
        SIG(I,1)=SIG(I,1)*OFF(I)
@@ -639,7 +639,7 @@ C---questionable to do PNEW(I)=C1(I)*AMU(I) for Ismstr10
        E4=D4(I)*(SOLD4(I)+SIG(I,4))
        E5=D5(I)*(SOLD5(I)+SIG(I,5))
        E6=D6(I)*(SOLD6(I)+SIG(I,6))
-       EINC= VOL_AVG(I)*(E1+E2+E3+E4+E5+E6)*DTA - UNDEMI*DVOL(I)*(QOLD(I)+QNEW(I)+P2)
+       EINC= VOL_AVG(I)*(E1+E2+E3+E4+E5+E6)*DTA - HALF*DVOL(I)*(QOLD(I)+QNEW(I)+P2)
        EINT(I)=(EINT(I)+EINC*OFF(I)) / MAX(EM15,VOL(I))
        QOLD(I)=QNEW(I)
       ENDDO
@@ -702,9 +702,9 @@ c      ENDIF
         CALL VALPVECOP_V(AV,EVV,DIRPRV,NEL)
 
       DO I=1,NEL
-        EV(I,1)=UNDEMI*LOG(EVV(I,1)+ UN)
-        EV(I,2)=UNDEMI*LOG(EVV(I,2)+ UN)
-        EV(I,3)=UNDEMI*LOG(EVV(I,3)+ UN)
+        EV(I,1)=HALF*LOG(EVV(I,1)+ ONE)
+        EV(I,2)=HALF*LOG(EVV(I,2)+ ONE)
+        EV(I,3)=HALF*LOG(EVV(I,3)+ ONE)
       ENDDO
 C----------------
 C      
@@ -752,7 +752,7 @@ C----------------------------------------------------------------
      .    E1Q,E2Q,E3Q,E4Q,E5Q,E6Q,
      .    E1T,E2T,E3T,E4T,E5T,E6T,B2(6),EMIN,EMAX
 C----------------------------------------------------------------
-         G2(1:NEL)=DEUX*G(1:NEL)
+         G2(1:NEL)=TWO*G(1:NEL)
           NPRIN = 0
           DO I=1,NEL
             IFAST(I) =1
@@ -791,12 +791,12 @@ C
            B2(4)=E1*E4+E2*E4+E5*E6
            B2(6)=E1*E6+E4*E5+E3*E6
            B2(5)=E4*E6+E2*E5+E3*E5
-           ES1(I)=UNDEMI*(E1-UNDEMI*B2(1))
-           ES2(I)=UNDEMI*(E2-UNDEMI*B2(2))
-           ES3(I)=UNDEMI*(E3-UNDEMI*B2(3))
-           ES4(I)=E4-UNDEMI*B2(4)
-           ES6(I)=E6-UNDEMI*B2(6)
-           ES5(I)=E5-UNDEMI*B2(5)
+           ES1(I)=HALF*(E1-HALF*B2(1))
+           ES2(I)=HALF*(E2-HALF*B2(2))
+           ES3(I)=HALF*(E3-HALF*B2(3))
+           ES4(I)=E4-HALF*B2(4)
+           ES6(I)=E6-HALF*B2(6)
+           ES5(I)=E5-HALF*B2(5)
           ENDDO
           DO I=1,NEL
            IF (IFAST(I)==0) CYCLE
@@ -896,7 +896,7 @@ C--------- [B]=[F][F]^t -1 strain-----
         CALL VALPVECOP_V(AV,EVV,DIRPRV,NEL)
 
       DO I=1,NEL
-        EV(I,1:3)=SQRT(MAX(ZERO,(EVV(I,1:3)+ UN))) - UN
+        EV(I,1:3)=SQRT(MAX(ZERO,(EVV(I,1:3)+ ONE))) - ONE
       ENDDO
 C----------------
 C      
@@ -980,12 +980,12 @@ C----------------------------------------------------------------
            B2(4)=E1*E4+E2*E4+E5*E6
            B2(6)=E1*E6+E4*E5+E3*E6
            B2(5)=E4*E6+E2*E5+E3*E5
-           ES1(I)=UNDEMI*(E1-QUART*B2(1))
-           ES2(I)=UNDEMI*(E2-QUART*B2(2))
-           ES3(I)=UNDEMI*(E3-QUART*B2(3))
-           ES4(I)=UNDEMI*(E4-QUART*B2(4))
-           ES6(I)=UNDEMI*(E6-QUART*B2(6))
-           ES5(I)=UNDEMI*(E5-QUART*B2(5))
+           ES1(I)=HALF*(E1-FOURTH*B2(1))
+           ES2(I)=HALF*(E2-FOURTH*B2(2))
+           ES3(I)=HALF*(E3-FOURTH*B2(3))
+           ES4(I)=HALF*(E4-FOURTH*B2(4))
+           ES6(I)=HALF*(E6-FOURTH*B2(6))
+           ES5(I)=HALF*(E5-FOURTH*B2(5))
           ENDDO
 C
           DO I=1,NEL

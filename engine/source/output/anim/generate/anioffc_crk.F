@@ -126,7 +126,7 @@ c--  -        SH - 4N
                   IF (IEL_CRK(N) > 0) THEN
                     OFFG = XOFF(I)
                     IE(ILEV) = IE(ILEV) + 1
-                    IOFF(EL2FA(N_FA+IE(ILEV))) = NINT(MIN(OFFG,UN))
+                    IOFF(EL2FA(N_FA+IE(ILEV))) = NINT(MIN(OFFG,ONE))
                   ENDIF
                 ENDDO
               ENDIF  !  IF (MLW == 0 .OR. MLW == 13)
@@ -147,7 +147,7 @@ c---          SH - 3N
                   IF (IEL_CRK(N) > 0) THEN
                     OFFG = XOFF(I)
                     IE(ILEV) = IE(ILEV) + 1
-                    IOFF(EL2FA(N_FA+IE(ILEV)))=NINT(MIN(OFFG,UN))
+                    IOFF(EL2FA(N_FA+IE(ILEV)))=NINT(MIN(OFFG,ONE))
                   ENDIF
                 ENDDO
               ENDIF  !  IF (MLW == 0 .OR. MLW == 13)

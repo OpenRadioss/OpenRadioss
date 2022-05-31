@@ -134,7 +134,7 @@ C-----------------------------------------------
         ENDIF
       ENDDO
       
-      TZINF = (UN+CINQ/CENT) * DDmax
+      TZINF = (ONE+FIVE/HUNDRED) * DDmax
            
       RETURN
       END

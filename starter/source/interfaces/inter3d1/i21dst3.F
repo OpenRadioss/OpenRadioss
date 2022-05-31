@@ -160,17 +160,17 @@ C
        DO I=1,JLT
          IRTLM_L(1,I)=0
          IRTLM_L(2,I)=0
-         CSTS_L(1,I) =-UN
-         CSTS_L(2,I) =-UN
+         CSTS_L(1,I) =-ONE
+         CSTS_L(2,I) =-ONE
        END DO
 C--------------------------------------------------------
 C  CAS DES PAQUETS MIXTES
 C--------------------------------------------------------
        DO I=1,JLT
         IF(IX3(I).NE.IX4(I))THEN
-         X0(I) = QUART*(X1(I)+X2(I)+X3(I)+X4(I))
-         Y0(I) = QUART*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-         Z0(I) = QUART*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
+         X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
+         Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
+         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
         ELSE
          X0(I) = X3(I)
          Y0(I) = Y3(I)
@@ -201,9 +201,9 @@ C--------------------------------------------------------
        DO I=1,JLT
 
         IF(IX3(I).NE.IX4(I))THEN
-          NNX0(I)=QUART*(NNX1(I)+NNX2(I)+NNX3(I)+NNX4(I))
-          NNY0(I)=QUART*(NNY1(I)+NNY2(I)+NNY3(I)+NNY4(I))
-          NNZ0(I)=QUART*(NNZ1(I)+NNZ2(I)+NNZ3(I)+NNZ4(I))
+          NNX0(I)=FOURTH*(NNX1(I)+NNX2(I)+NNX3(I)+NNX4(I))
+          NNY0(I)=FOURTH*(NNY1(I)+NNY2(I)+NNY3(I)+NNY4(I))
+          NNZ0(I)=FOURTH*(NNZ1(I)+NNZ2(I)+NNZ3(I)+NNZ4(I))
         ELSE
           NNX0(I)=NNX3(I)
           NNY0(I)=NNY3(I)
@@ -293,7 +293,7 @@ C
         SY2(I) = ZI0V(I)*XI2(I) - XI0V(I)*ZI2(I)
         SZ2(I) = XI0V(I)*YI2(I) - YI0V(I)*XI2(I)
 C
-        S2 = UN/
+        S2 = ONE/
      .       MAX(EM30,(XN1(I)*XN1(I)+ YN1(I)*YN1(I)+ ZN1(I)*ZN1(I)))
         LB1(I) = -(XN1(I)*SX2(I) + YN1(I)*SY2(I) + ZN1(I)*SZ2(I))*S2
         LC1(I) =  (XN1(I)*SX1(I) + YN1(I)*SY1(I) + ZN1(I)*SZ1(I))*S2
@@ -375,13 +375,13 @@ C
           HSY2 = HZI0*HXI2 - HXI0*HZI2
           HSZ2 = HXI0*HYI2 - HYI0*HXI2
 C
-          S2 = UN/
+          S2 = ONE/
      .         MAX(EM30,(HXN1*HXN1+ HYN1*HYN1+ HZN1*HZN1))
           LB1(I) = -(HXN1*HSX2 + HYN1*HSY2 + HZN1*HSZ2)*S2
           LC1(I) =  (HXN1*HSX1 + HYN1*HSY1 + HZN1*HSZ1)*S2
 C
           IF(LB1(I) < -ZEP05 .OR. LC1(I) < -ZEP05 .OR.
-     .        LB1(I)+LC1(I) > UNP05) FAR(I)=1
+     .        LB1(I)+LC1(I) > ONEP05) FAR(I)=1
 C
         ENDDO
 C
@@ -391,9 +391,9 @@ C
          IF(FAR(I)==1)CYCLE
 C
 C normale interpolee dans le triangle //
-         NX(I)=(UN-LB1(I)-LC1(I))*NNX0(I)+LB1(I)*NNX1(I)+LC1(I)*NNX2(I)
-         NY(I)=(UN-LB1(I)-LC1(I))*NNY0(I)+LB1(I)*NNY1(I)+LC1(I)*NNY2(I)
-         NZ(I)=(UN-LB1(I)-LC1(I))*NNZ0(I)+LB1(I)*NNZ1(I)+LC1(I)*NNZ2(I)
+         NX(I)=(ONE-LB1(I)-LC1(I))*NNX0(I)+LB1(I)*NNX1(I)+LC1(I)*NNX2(I)
+         NY(I)=(ONE-LB1(I)-LC1(I))*NNY0(I)+LB1(I)*NNY1(I)+LC1(I)*NNY2(I)
+         NZ(I)=(ONE-LB1(I)-LC1(I))*NNZ0(I)+LB1(I)*NNZ1(I)+LC1(I)*NNZ2(I)
 C
 C projection sur triangle 1
          NN = NX(I)*XN1(I)+ NY(I)*YN1(I)+ NZ(I)*ZN1(I)
@@ -402,7 +402,7 @@ C cas limite
              FAR(I)=1
              CYCLE
          END IF
-         NN = UN/MAX(EM30,NN)
+         NN = ONE/MAX(EM30,NN)
 C
          LAMBDA=(XN1(I)*XI0V(I)+YN1(I)*YI0V(I)+ZN1(I)*ZI0V(I))*NN
          XP=XI(I)+LAMBDA*NX(I)
@@ -429,7 +429,7 @@ C
          SY2(I) = ZI0V(I)*XI2(I) - XI0V(I)*ZI2(I)
          SZ2(I) = XI0V(I)*YI2(I) - YI0V(I)*XI2(I)
 C
-         NN = UN/
+         NN = ONE/
      .        MAX(EM30,(XN1(I)*XN1(I)+ YN1(I)*YN1(I)+ ZN1(I)*ZN1(I)))
          LB1(I) = -(XN1(I)*SX2(I) + YN1(I)*SY2(I) + ZN1(I)*SZ2(I))*NN
          LC1(I) =  (XN1(I)*SX1(I) + YN1(I)*SY1(I) + ZN1(I)*SZ1(I))*NN
@@ -440,11 +440,11 @@ C
 C
          IF(FAR(I)==1)CYCLE
 C
-         LB = MIN(UN,MAX(LB1(I),ZERO))
-         LC = MIN(UN,MAX(LC1(I),ZERO))
-         LA = MIN(UN,MAX(UN-LB1(I)-LC1(I),ZERO))
+         LB = MIN(ONE,MAX(LB1(I),ZERO))
+         LC = MIN(ONE,MAX(LC1(I),ZERO))
+         LA = MIN(ONE,MAX(ONE-LB1(I)-LC1(I),ZERO))
 
-         SL=UN/MAX(EM20,LA+LB+LC)
+         SL=ONE/MAX(EM20,LA+LB+LC)
          LB = LB*SL
          LC = LC*SL
          LA = LA*SL
@@ -459,26 +459,26 @@ C        NY(I)=(1-LB1(I)-LC1(I))*NNY0(I)+LB1(I)*NNY1(I)+LC1(I)*NNY2(I)
 C        NZ(I)=(1-LB1(I)-LC1(I))*NNZ0(I)+LB1(I)*NNZ1(I)+LC1(I)*NNZ2(I)
 C        SIDE=NX1(I)*NX(I)+NY1(I)*NY(I)+NZ1(I)*NZ(I)
 
-         SIDE=SIGN(UN,NX1(I)*XN1(I)+NY1(I)*YN1(I)+NZ1(I)*ZN1(I))
+         SIDE=SIGN(ONE,NX1(I)*XN1(I)+NY1(I)*YN1(I)+NZ1(I)*ZN1(I))
          IF((SIDE >= ZERO .AND. P1(I) < MAX(GAP2(I),DRAD2)) .OR.
      .      (SIDE <  ZERO .AND. P1(I) < DEPTH2))THEN
            IF(LB1(I) < -ZEP05 .OR. LC1(I) < -ZEP05 .OR.
-     .        LB1(I)+LC1(I) > UNP05) CYCLE
-           CRIT  =  ABS(TIERS-LB1(I))
-     .            + ABS(TIERS-LC1(I))
-     .            + ABS(DTIERS-LB1(I)-LC1(I))
+     .        LB1(I)+LC1(I) > ONEP05) CYCLE
+           CRIT  =  ABS(THIRD-LB1(I))
+     .            + ABS(THIRD-LC1(I))
+     .            + ABS(TWO_THIRD-LB1(I)-LC1(I))
            LBO   = CSTS_L(1,I)
            LCO   = CSTS_L(2,I)
-           CRITO =  ABS(TIERS-LBO)
-     .            + ABS(TIERS-LCO)
-     .            + ABS(DTIERS-LBO-LCO)
+           CRITO =  ABS(THIRD-LBO)
+     .            + ABS(THIRD-LCO)
+     .            + ABS(TWO_THIRD-LBO-LCO)
            IF(CRIT < CRITO)THEN
 
-             LA   =UN-LB1(I)-LC1(I)
+             LA   =ONE-LB1(I)-LC1(I)
              NX(I)=LB1(I)*NNX1(I)+LC1(I)*NNX2(I)+LA*NNX0(I)
              NY(I)=LB1(I)*NNY1(I)+LC1(I)*NNY2(I)+LA*NNY0(I)
              NZ(I)=LB1(I)*NNZ1(I)+LC1(I)*NNZ2(I)+LA*NNZ0(I)
-             NN=UN/MAX(EM20,SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I)))
+             NN=ONE/MAX(EM20,SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I)))
              NX(I)=NX(I)*NN
              NY(I)=NY(I)*NN
              NZ(I)=NZ(I)*NN
@@ -497,22 +497,22 @@ C        SIDE=NX1(I)*NX(I)+NY1(I)*NY(I)+NZ1(I)*NZ(I)
            END IF
          ELSEIF(SIDE >= ZERO .AND. P1(I) < DRAD2) THEN
            IF(LB1(I) < -ZEP05 .OR. LC1(I) < -ZEP05 .OR.
-     .        LB1(I)+LC1(I) > UNP05) CYCLE
-           CRIT  =  ABS(TIERS-LB1(I))
-     .            + ABS(TIERS-LC1(I))
-     .            + ABS(DTIERS-LB1(I)-LC1(I))
+     .        LB1(I)+LC1(I) > ONEP05) CYCLE
+           CRIT  =  ABS(THIRD-LB1(I))
+     .            + ABS(THIRD-LC1(I))
+     .            + ABS(TWO_THIRD-LB1(I)-LC1(I))
            LBO   = CSTS_L(1,I)
            LCO   = CSTS_L(2,I)
-           CRITO =  ABS(TIERS-LBO)
-     .            + ABS(TIERS-LCO)
-     .            + ABS(DTIERS-LBO-LCO)
+           CRITO =  ABS(THIRD-LBO)
+     .            + ABS(THIRD-LCO)
+     .            + ABS(TWO_THIRD-LBO-LCO)
            IF(CRIT < CRITO)THEN
 
-             LA   =UN-LB1(I)-LC1(I)
+             LA   =ONE-LB1(I)-LC1(I)
              NX(I)=LB1(I)*NNX1(I)+LC1(I)*NNX2(I)+LA*NNX0(I)
              NY(I)=LB1(I)*NNY1(I)+LC1(I)*NNY2(I)+LA*NNY0(I)
              NZ(I)=LB1(I)*NNZ1(I)+LC1(I)*NNZ2(I)+LA*NNZ0(I)
-             NN=UN/MAX(EM20,SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I)))
+             NN=ONE/MAX(EM20,SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I)))
              NX(I)=NX(I)*NN
              NY(I)=NY(I)*NN
              NZ(I)=NZ(I)*NN
@@ -567,7 +567,7 @@ C
         SY2(I) = ZI0V(I)*XI2(I) - XI0V(I)*ZI2(I)
         SZ2(I) = XI0V(I)*YI2(I) - YI0V(I)*XI2(I)
 C
-        S2 = UN/
+        S2 = ONE/
      .        MAX(EM30,(XN2(I)*XN2(I)+ YN2(I)*YN2(I)+ ZN2(I)*ZN2(I)))
         LB2(I) = -(XN2(I)*SX2(I) + YN2(I)*SY2(I) + ZN2(I)*SZ2(I))*S2
         LC2(I) =  (XN2(I)*SX1(I) + YN2(I)*SY1(I) + ZN2(I)*SZ1(I))*S2
@@ -655,13 +655,13 @@ C
          HSY2 = HZI0*HXI2 - HXI0*HZI2
          HSZ2 = HXI0*HYI2 - HYI0*HXI2
 C
-         S2 = UN/
+         S2 = ONE/
      .        MAX(EM30,(HXN1*HXN1+ HYN1*HYN1+ HZN1*HZN1))
          LB2(I) = -(HXN1*HSX2 + HYN1*HSY2 + HZN1*HSZ2)*S2
          LC2(I) =  (HXN1*HSX1 + HYN1*HSY1 + HZN1*HSZ1)*S2
 C
           IF(LB2(I) < -ZEP05 .OR. LC2(I) < -ZEP05 .OR.
-     .        LB2(I)+LC2(I) > UNP05) FAR(I)=1
+     .        LB2(I)+LC2(I) > ONEP05) FAR(I)=1
        ENDDO
 C
 C  necessaire au calcul de distance // normale
@@ -683,7 +683,7 @@ C cas limite
              FAR(I)=1
              CYCLE
          END IF
-         NN = UN/MAX(EM30,NN)
+         NN = ONE/MAX(EM30,NN)
 C
          LAMBDA=(XN2(I)*XI0V(I)+YN2(I)*YI0V(I)+ZN2(I)*ZI0V(I))*NN
          XP=XI(I)+LAMBDA*NX(I)
@@ -710,7 +710,7 @@ C
          SY2(I) = ZI0V(I)*XI2(I) - XI0V(I)*ZI2(I)
          SZ2(I) = XI0V(I)*YI2(I) - YI0V(I)*XI2(I)
 C
-         NN = UN/
+         NN = ONE/
      .        MAX(EM30,(XN2(I)*XN2(I)+ YN2(I)*YN2(I)+ ZN2(I)*ZN2(I)))
          LB2(I) = -(XN2(I)*SX2(I) + YN2(I)*SY2(I) + ZN2(I)*SZ2(I))*NN
          LC2(I) =  (XN2(I)*SX1(I) + YN2(I)*SY1(I) + ZN2(I)*SZ1(I))*NN
@@ -723,11 +723,11 @@ C
 C
          IF(FAR(I)==1)CYCLE
 C
-         LB = MIN(UN,MAX(LB2(I),ZERO))
-         LC = MIN(UN,MAX(LC2(I),ZERO))
-         LA = MIN(UN,MAX(UN-LB2(I)-LC2(I),ZERO))
+         LB = MIN(ONE,MAX(LB2(I),ZERO))
+         LC = MIN(ONE,MAX(LC2(I),ZERO))
+         LA = MIN(ONE,MAX(ONE-LB2(I)-LC2(I),ZERO))
 
-         SL=UN/MAX(EM20,LA+LB+LC)
+         SL=ONE/MAX(EM20,LA+LB+LC)
          LB = LB*SL
          LC = LC*SL
          LA = LA*SL
@@ -742,26 +742,26 @@ C        NY(I)=(1-LB2(I)-LC2(I))*NNY0(I)+LB2(I)*NNY2(I)+LC2(I)*NNY3(I)
 C        NZ(I)=(1-LB2(I)-LC2(I))*NNZ0(I)+LB2(I)*NNZ2(I)+LC2(I)*NNZ3(I)
 C        SIDE=NX2(I)*NX(I)+NY2(I)*NY(I)+NZ2(I)*NZ(I)
 
-         SIDE=SIGN(UN,NX2(I)*XN2(I)+NY2(I)*YN2(I)+NZ2(I)*ZN2(I))
+         SIDE=SIGN(ONE,NX2(I)*XN2(I)+NY2(I)*YN2(I)+NZ2(I)*ZN2(I))
          IF((SIDE >= ZERO .AND. P2(I) < MAX(GAP2(I),DRAD2)) .OR.
      .      (SIDE <  ZERO .AND. P2(I) < DEPTH2))THEN
            IF(LB2(I) < -ZEP05 .OR. LC2(I) < -ZEP05 .OR.
-     .        LB2(I)+LC2(I) > UNP05) CYCLE
-           CRIT  =  ABS(TIERS-LB2(I))
-     .            + ABS(TIERS-LC2(I))
-     .            + ABS(DTIERS-LB2(I)-LC2(I))
+     .        LB2(I)+LC2(I) > ONEP05) CYCLE
+           CRIT  =  ABS(THIRD-LB2(I))
+     .            + ABS(THIRD-LC2(I))
+     .            + ABS(TWO_THIRD-LB2(I)-LC2(I))
            LBO   = CSTS_L(1,I)
            LCO   = CSTS_L(2,I)
-           CRITO =  ABS(TIERS-LBO)
-     .            + ABS(TIERS-LCO)
-     .            + ABS(DTIERS-LBO-LCO)
+           CRITO =  ABS(THIRD-LBO)
+     .            + ABS(THIRD-LCO)
+     .            + ABS(TWO_THIRD-LBO-LCO)
            IF(CRIT < CRITO)THEN
 
-             LA   =UN-LB2(I)-LC2(I)
+             LA   =ONE-LB2(I)-LC2(I)
              NX(I)=LB2(I)*NNX2(I)+LC2(I)*NNX3(I)+LA*NNX0(I)
              NY(I)=LB2(I)*NNY2(I)+LC2(I)*NNY3(I)+LA*NNY0(I)
              NZ(I)=LB2(I)*NNZ2(I)+LC2(I)*NNZ3(I)+LA*NNZ0(I)
-             NN=UN/MAX(EM20,SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I)))
+             NN=ONE/MAX(EM20,SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I)))
              NX(I)=NX(I)*NN
              NY(I)=NY(I)*NN
              NZ(I)=NZ(I)*NN
@@ -774,28 +774,28 @@ C        SIDE=NX2(I)*NX(I)+NY2(I)*NY(I)+NZ2(I)*NZ(I)
              PENE(I)=GAPV(I)-DIST
 
              IRTLM_L(1,I) = CAND_E(I)
-             IRTLM_L(2,I) = NINT(DEUX*SIDE) 
+             IRTLM_L(2,I) = NINT(TWO*SIDE) 
              CSTS_L(1,I)  = LB2(I)
              CSTS_L(2,I)  = LC2(I)
            END IF
          ELSEIF(SIDE >= ZERO .AND. P2(I) < DRAD2) THEN
            IF(LB2(I) < -ZEP05 .OR. LC2(I) < -ZEP05 .OR.
-     .        LB2(I)+LC2(I) > UNP05) CYCLE
-           CRIT  =  ABS(TIERS-LB2(I))
-     .            + ABS(TIERS-LC2(I))
-     .            + ABS(DTIERS-LB2(I)-LC2(I))
+     .        LB2(I)+LC2(I) > ONEP05) CYCLE
+           CRIT  =  ABS(THIRD-LB2(I))
+     .            + ABS(THIRD-LC2(I))
+     .            + ABS(TWO_THIRD-LB2(I)-LC2(I))
            LBO   = CSTS_L(1,I)
            LCO   = CSTS_L(2,I)
-           CRITO =  ABS(TIERS-LBO)
-     .            + ABS(TIERS-LCO)
-     .            + ABS(DTIERS-LBO-LCO)
+           CRITO =  ABS(THIRD-LBO)
+     .            + ABS(THIRD-LCO)
+     .            + ABS(TWO_THIRD-LBO-LCO)
            IF(CRIT < CRITO)THEN
 
-             LA   =UN-LB2(I)-LC2(I)
+             LA   =ONE-LB2(I)-LC2(I)
              NX(I)=LB2(I)*NNX2(I)+LC2(I)*NNX3(I)+LA*NNX0(I)
              NY(I)=LB2(I)*NNY2(I)+LC2(I)*NNY3(I)+LA*NNY0(I)
              NZ(I)=LB2(I)*NNZ2(I)+LC2(I)*NNZ3(I)+LA*NNZ0(I)
-             NN=UN/MAX(EM20,SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I)))
+             NN=ONE/MAX(EM20,SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I)))
              NX(I)=NX(I)*NN
              NY(I)=NY(I)*NN
              NZ(I)=NZ(I)*NN
@@ -808,7 +808,7 @@ C        SIDE=NX2(I)*NX(I)+NY2(I)*NY(I)+NZ2(I)*NZ(I)
              PENE(I)=GAPV(I)-DIST
 
              IRTLM_L(1,I) = -CAND_E(I)
-             IRTLM_L(2,I) = NINT(DEUX*SIDE) 
+             IRTLM_L(2,I) = NINT(TWO*SIDE) 
              CSTS_L(1,I)  = LB2(I)
              CSTS_L(2,I)  = LC2(I)
            END IF
@@ -841,7 +841,7 @@ C
          SY2(I) = ZI0V(I)*XI2(I) - XI0V(I)*ZI2(I)
          SZ2(I) = XI0V(I)*YI2(I) - YI0V(I)*XI2(I)
 C
-         S2 = UN/
+         S2 = ONE/
      .        MAX(EM30,(XN3(I)*XN3(I)+ YN3(I)*YN3(I)+ ZN3(I)*ZN3(I)))
          LB3(I) = -(XN3(I)*SX2(I) + YN3(I)*SY2(I) + ZN3(I)*SZ2(I))*S2
          LC3(I) =  (XN3(I)*SX1(I) + YN3(I)*SY1(I) + ZN3(I)*SZ1(I))*S2
@@ -929,13 +929,13 @@ C
          HSY2 = HZI0*HXI2 - HXI0*HZI2
          HSZ2 = HXI0*HYI2 - HYI0*HXI2
 C
-         S2 = UN/
+         S2 = ONE/
      .        MAX(EM30,(HXN1*HXN1+ HYN1*HYN1+ HZN1*HZN1))
          LB3(I) = -(HXN1*HSX2 + HYN1*HSY2 + HZN1*HSZ2)*S2
          LC3(I) =  (HXN1*HSX1 + HYN1*HSY1 + HZN1*HSZ1)*S2
 C
          IF(LB3(I) < -ZEP05 .OR. LC3(I) < -ZEP05 .OR.
-     .       LB3(I)+LC3(I) > UNP05) FAR(I)=1
+     .       LB3(I)+LC3(I) > ONEP05) FAR(I)=1
        ENDDO
 C
 C  necessaire au calcul de distance // normale
@@ -957,7 +957,7 @@ C cas limite
              FAR(I)=1
              CYCLE
          END IF
-         NN = UN/MAX(EM30,NN)
+         NN = ONE/MAX(EM30,NN)
 C
          LAMBDA=(XN3(I)*XI0V(I)+YN3(I)*YI0V(I)+ZN3(I)*ZI0V(I))*NN
          XP=XI(I)+LAMBDA*NX(I)
@@ -984,7 +984,7 @@ C
          SY2(I) = ZI0V(I)*XI2(I) - XI0V(I)*ZI2(I)
          SZ2(I) = XI0V(I)*YI2(I) - YI0V(I)*XI2(I)
 C
-         NN = UN/
+         NN = ONE/
      .        MAX(EM30,(XN3(I)*XN3(I)+ YN3(I)*YN3(I)+ ZN3(I)*ZN3(I)))
          LB3(I) = -(XN3(I)*SX2(I) + YN3(I)*SY2(I) + ZN3(I)*SZ2(I))*NN
          LC3(I) =  (XN3(I)*SX1(I) + YN3(I)*SY1(I) + ZN3(I)*SZ1(I))*NN
@@ -997,11 +997,11 @@ C
 C
          IF(FAR(I)==1)CYCLE
 C
-         LB = MIN(UN,MAX(LB3(I),ZERO))
-         LC = MIN(UN,MAX(LC3(I),ZERO))
-         LA = MIN(UN,MAX(UN-LB3(I)-LC3(I),ZERO))
+         LB = MIN(ONE,MAX(LB3(I),ZERO))
+         LC = MIN(ONE,MAX(LC3(I),ZERO))
+         LA = MIN(ONE,MAX(ONE-LB3(I)-LC3(I),ZERO))
 
-         SL=UN/MAX(EM20,LA+LB+LC)
+         SL=ONE/MAX(EM20,LA+LB+LC)
          LB = LB*SL
          LC = LC*SL
          LA = LA*SL
@@ -1016,26 +1016,26 @@ C        NY(I)=(1-LB3(I)-LC3(I))*NNY0(I)+LB3(I)*NNY3(I)+LC3(I)*NNY4(I)
 C        NZ(I)=(1-LB3(I)-LC3(I))*NNZ0(I)+LB3(I)*NNZ3(I)+LC3(I)*NNZ4(I)
 C        SIDE=NX3(I)*NX(I)+NY3(I)*NY(I)+NZ3(I)*NZ(I)
 
-         SIDE=SIGN(UN,NX3(I)*XN3(I)+NY3(I)*YN3(I)+NZ3(I)*ZN3(I))
+         SIDE=SIGN(ONE,NX3(I)*XN3(I)+NY3(I)*YN3(I)+NZ3(I)*ZN3(I))
          IF((SIDE >= ZERO .AND. P3(I) < MAX(GAP2(I),DRAD2)) .OR.
      .      (SIDE <  ZERO .AND. P3(I) < DEPTH2))THEN
            IF(LB3(I) < -ZEP05 .OR. LC3(I) < -ZEP05 .OR.
-     .        LB3(I)+LC3(I) > UNP05) CYCLE
-           CRIT  =  ABS(TIERS-LB3(I))
-     .            + ABS(TIERS-LC3(I))
-     .            + ABS(DTIERS-LB3(I)-LC3(I))
+     .        LB3(I)+LC3(I) > ONEP05) CYCLE
+           CRIT  =  ABS(THIRD-LB3(I))
+     .            + ABS(THIRD-LC3(I))
+     .            + ABS(TWO_THIRD-LB3(I)-LC3(I))
            LBO   = CSTS_L(1,I)
            LCO   = CSTS_L(2,I)
-           CRITO =  ABS(TIERS-LBO)
-     .            + ABS(TIERS-LCO)
-     .            + ABS(DTIERS-LBO-LCO)
+           CRITO =  ABS(THIRD-LBO)
+     .            + ABS(THIRD-LCO)
+     .            + ABS(TWO_THIRD-LBO-LCO)
            IF(CRIT < CRITO)THEN
 
-             LA   =UN-LB3(I)-LC3(I)
+             LA   =ONE-LB3(I)-LC3(I)
              NX(I)=LB3(I)*NNX3(I)+LC3(I)*NNX4(I)+LA*NNX0(I)
              NY(I)=LB3(I)*NNY3(I)+LC3(I)*NNY4(I)+LA*NNY0(I)
              NZ(I)=LB3(I)*NNZ3(I)+LC3(I)*NNZ4(I)+LA*NNZ0(I)
-             NN=UN/MAX(EM20,SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I)))
+             NN=ONE/MAX(EM20,SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I)))
              NX(I)=NX(I)*NN
              NY(I)=NY(I)*NN
              NZ(I)=NZ(I)*NN
@@ -1048,28 +1048,28 @@ C        SIDE=NX3(I)*NX(I)+NY3(I)*NY(I)+NZ3(I)*NZ(I)
              PENE(I)=GAPV(I)-DIST
 
              IRTLM_L(1,I) = CAND_E(I)
-             IRTLM_L(2,I) = NINT(TROIS*SIDE) 
+             IRTLM_L(2,I) = NINT(THREE*SIDE) 
              CSTS_L(1,I)  = LB3(I)
              CSTS_L(2,I)  = LC3(I)
            END IF
          ELSEIF(SIDE >= ZERO .AND. P3(I) < DRAD2) THEN
            IF(LB3(I) < -ZEP05 .OR. LC3(I) < -ZEP05 .OR.
-     .        LB3(I)+LC3(I) > UNP05) CYCLE
-           CRIT  =  ABS(TIERS-LB3(I))
-     .            + ABS(TIERS-LC3(I))
-     .            + ABS(DTIERS-LB3(I)-LC3(I))
+     .        LB3(I)+LC3(I) > ONEP05) CYCLE
+           CRIT  =  ABS(THIRD-LB3(I))
+     .            + ABS(THIRD-LC3(I))
+     .            + ABS(TWO_THIRD-LB3(I)-LC3(I))
            LBO   = CSTS_L(1,I)
            LCO   = CSTS_L(2,I)
-           CRITO =  ABS(TIERS-LBO)
-     .            + ABS(TIERS-LCO)
-     .            + ABS(DTIERS-LBO-LCO)
+           CRITO =  ABS(THIRD-LBO)
+     .            + ABS(THIRD-LCO)
+     .            + ABS(TWO_THIRD-LBO-LCO)
            IF(CRIT < CRITO)THEN
 
-             LA   =UN-LB3(I)-LC3(I)
+             LA   =ONE-LB3(I)-LC3(I)
              NX(I)=LB3(I)*NNX3(I)+LC3(I)*NNX4(I)+LA*NNX0(I)
              NY(I)=LB3(I)*NNY3(I)+LC3(I)*NNY4(I)+LA*NNY0(I)
              NZ(I)=LB3(I)*NNZ3(I)+LC3(I)*NNZ4(I)+LA*NNZ0(I)
-             NN=UN/MAX(EM20,SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I)))
+             NN=ONE/MAX(EM20,SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I)))
              NX(I)=NX(I)*NN
              NY(I)=NY(I)*NN
              NZ(I)=NZ(I)*NN
@@ -1082,7 +1082,7 @@ C        SIDE=NX3(I)*NX(I)+NY3(I)*NY(I)+NZ3(I)*NZ(I)
              PENE(I)=GAPV(I)-DIST
 
              IRTLM_L(1,I) = -CAND_E(I)
-             IRTLM_L(2,I) = NINT(TROIS*SIDE) 
+             IRTLM_L(2,I) = NINT(THREE*SIDE) 
              CSTS_L(1,I)  = LB3(I)
              CSTS_L(2,I)  = LC3(I)
            END IF
@@ -1115,7 +1115,7 @@ C
          SY2(I) = ZI0V(I)*XI2(I) - XI0V(I)*ZI2(I)
          SZ2(I) = XI0V(I)*YI2(I) - YI0V(I)*XI2(I)
 C
-         S2 = UN/
+         S2 = ONE/
      .        MAX(EM30,(XN4(I)*XN4(I)+ YN4(I)*YN4(I)+ ZN4(I)*ZN4(I)))
          LB4(I) = -(XN4(I)*SX2(I) + YN4(I)*SY2(I) + ZN4(I)*SZ2(I))*S2
          LC4(I) =  (XN4(I)*SX1(I) + YN4(I)*SY1(I) + ZN4(I)*SZ1(I))*S2
@@ -1203,13 +1203,13 @@ C
          HSY2 = HZI0*HXI2 - HXI0*HZI2
          HSZ2 = HXI0*HYI2 - HYI0*HXI2
 C
-         S2 = UN/
+         S2 = ONE/
      .        MAX(EM30,(HXN1*HXN1+ HYN1*HYN1+ HZN1*HZN1))
          LB4(I) = -(HXN1*HSX2 + HYN1*HSY2 + HZN1*HSZ2)*S2
          LC4(I) =  (HXN1*HSX1 + HYN1*HSY1 + HZN1*HSZ1)*S2
 C
          IF(LB4(I) < -ZEP05 .OR. LC4(I) < -ZEP05 .OR.
-     .       LB4(I)+LC4(I) > UNP05) FAR(I)=1
+     .       LB4(I)+LC4(I) > ONEP05) FAR(I)=1
        ENDDO
 C
 C  necessaire au calcul de distance // normale
@@ -1231,7 +1231,7 @@ C cas limite
              FAR(I)=1
              CYCLE
          END IF
-         NN = UN/MAX(EM30,NN)
+         NN = ONE/MAX(EM30,NN)
 C
          LAMBDA=(XN4(I)*XI0V(I)+YN4(I)*YI0V(I)+ZN4(I)*ZI0V(I))*NN
          XP=XI(I)+LAMBDA*NX(I)
@@ -1258,7 +1258,7 @@ C
          SY2(I) = ZI0V(I)*XI2(I) - XI0V(I)*ZI2(I)
          SZ2(I) = XI0V(I)*YI2(I) - YI0V(I)*XI2(I)
 C
-         NN = UN/
+         NN = ONE/
      .        MAX(EM30,(XN4(I)*XN4(I)+ YN4(I)*YN4(I)+ ZN4(I)*ZN4(I)))
          LB4(I) = -(XN4(I)*SX2(I) + YN4(I)*SY2(I) + ZN4(I)*SZ2(I))*NN
          LC4(I) =  (XN4(I)*SX1(I) + YN4(I)*SY1(I) + ZN4(I)*SZ1(I))*NN
@@ -1272,11 +1272,11 @@ C
 C
          IF(FAR(I)==1)CYCLE
 C
-         LB = MIN(UN,MAX(LB4(I),ZERO))
-         LC = MIN(UN,MAX(LC4(I),ZERO))
-         LA = MIN(UN,MAX(UN-LB4(I)-LC4(I),ZERO))
+         LB = MIN(ONE,MAX(LB4(I),ZERO))
+         LC = MIN(ONE,MAX(LC4(I),ZERO))
+         LA = MIN(ONE,MAX(ONE-LB4(I)-LC4(I),ZERO))
 
-         SL=UN/MAX(EM20,LA+LB+LC)
+         SL=ONE/MAX(EM20,LA+LB+LC)
          LB = LB*SL
          LC = LC*SL
          LA = LA*SL
@@ -1286,27 +1286,27 @@ C
          NZ4(I) = ZI(I)-(LA*Z0(I) + LB*Z4(I) + LC*Z1(I))
          P4(I) = NX4(I)*NX4(I) + NY4(I)*NY4(I) +NZ4(I)*NZ4(I)
 
-         SIDE=SIGN(UN,NX4(I)*XN4(I)+NY4(I)*YN4(I)+NZ4(I)*ZN4(I))
+         SIDE=SIGN(ONE,NX4(I)*XN4(I)+NY4(I)*YN4(I)+NZ4(I)*ZN4(I))
          IF((SIDE >= ZERO .AND. P4(I) < GAP2(I)) .OR.
      .      (SIDE <  ZERO .AND. P4(I) < DEPTH2))THEN
            IF(LB4(I) < -ZEP05 .OR. LC4(I) < -ZEP05 .OR.
-     .        LB4(I)+LC4(I) > UNP05) CYCLE
-           CRIT  =  ABS(TIERS-LB4(I))
-     .            + ABS(TIERS-LC4(I))
-     .            + ABS(DTIERS-LB4(I)-LC4(I))
+     .        LB4(I)+LC4(I) > ONEP05) CYCLE
+           CRIT  =  ABS(THIRD-LB4(I))
+     .            + ABS(THIRD-LC4(I))
+     .            + ABS(TWO_THIRD-LB4(I)-LC4(I))
 
            LBO   = CSTS_L(1,I)
            LCO   = CSTS_L(2,I)
-           CRITO =  ABS(TIERS-LBO)
-     .            + ABS(TIERS-LCO)
-     .            + ABS(DTIERS-LBO-LCO)
+           CRITO =  ABS(THIRD-LBO)
+     .            + ABS(THIRD-LCO)
+     .            + ABS(TWO_THIRD-LBO-LCO)
            IF(CRIT < CRITO)THEN
 
-             LA   =UN-LB4(I)-LC4(I)
+             LA   =ONE-LB4(I)-LC4(I)
              NX(I)=LB4(I)*NNX4(I)+LC4(I)*NNX1(I)+LA*NNX0(I)
              NY(I)=LB4(I)*NNY4(I)+LC4(I)*NNY1(I)+LA*NNY0(I)
              NZ(I)=LB4(I)*NNZ4(I)+LC4(I)*NNZ1(I)+LA*NNZ0(I)
-             NN=UN/MAX(EM20,SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I)))
+             NN=ONE/MAX(EM20,SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I)))
              NX(I)=NX(I)*NN
              NY(I)=NY(I)*NN
              NZ(I)=NZ(I)*NN
@@ -1319,29 +1319,29 @@ C
              PENE(I)=GAPV(I)-DIST
 
              IRTLM_L(1,I) = CAND_E(I)
-             IRTLM_L(2,I) = NINT(QUATRE*SIDE) 
+             IRTLM_L(2,I) = NINT(FOUR*SIDE) 
              CSTS_L(1,I)  = LB4(I)
              CSTS_L(2,I)  = LC4(I)
            END IF
          ELSEIF(SIDE >= ZERO .AND. P4(I) < DRAD2) THEN
            IF(LB4(I) < -ZEP05 .OR. LC4(I) < -ZEP05 .OR.
-     .        LB4(I)+LC4(I) > UNP05) CYCLE
-           CRIT  =  ABS(TIERS-LB4(I))
-     .            + ABS(TIERS-LC4(I))
-     .            + ABS(DTIERS-LB4(I)-LC4(I))
+     .        LB4(I)+LC4(I) > ONEP05) CYCLE
+           CRIT  =  ABS(THIRD-LB4(I))
+     .            + ABS(THIRD-LC4(I))
+     .            + ABS(TWO_THIRD-LB4(I)-LC4(I))
 
            LBO   = CSTS_L(1,I)
            LCO   = CSTS_L(2,I)
-           CRITO =  ABS(TIERS-LBO)
-     .            + ABS(TIERS-LCO)
-     .            + ABS(DTIERS-LBO-LCO)
+           CRITO =  ABS(THIRD-LBO)
+     .            + ABS(THIRD-LCO)
+     .            + ABS(TWO_THIRD-LBO-LCO)
            IF(CRIT < CRITO)THEN
 
-             LA   =UN-LB4(I)-LC4(I)
+             LA   =ONE-LB4(I)-LC4(I)
              NX(I)=LB4(I)*NNX4(I)+LC4(I)*NNX1(I)+LA*NNX0(I)
              NY(I)=LB4(I)*NNY4(I)+LC4(I)*NNY1(I)+LA*NNY0(I)
              NZ(I)=LB4(I)*NNZ4(I)+LC4(I)*NNZ1(I)+LA*NNZ0(I)
-             NN=UN/MAX(EM20,SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I)))
+             NN=ONE/MAX(EM20,SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I)))
              NX(I)=NX(I)*NN
              NY(I)=NY(I)*NN
              NZ(I)=NZ(I)*NN
@@ -1354,7 +1354,7 @@ C
              PENE(I)=GAPV(I)-DIST
 
              IRTLM_L(1,I) = -CAND_E(I)
-             IRTLM_L(2,I) = NINT(QUATRE*SIDE) 
+             IRTLM_L(2,I) = NINT(FOUR*SIDE) 
              CSTS_L(1,I)  = LB4(I)
              CSTS_L(2,I)  = LC4(I)
            END IF
@@ -1368,14 +1368,14 @@ C---------------------
           IF(IRTLM_L(1,I)/=0)THEN
              LB=CSTS_L(1,I)
              LC=CSTS_L(2,I)
-             CRIT  =  ABS(TIERS-LB)
-     .              + ABS(TIERS-LC)
-     .              + ABS(DTIERS-LB-LC)
+             CRIT  =  ABS(THIRD-LB)
+     .              + ABS(THIRD-LC)
+     .              + ABS(TWO_THIRD-LB-LC)
              LBO   = CSTS(1,CAND_N(I))
              LCO   = CSTS(2,CAND_N(I))
-             CRITO =  ABS(TIERS-LBO)
-     .              + ABS(TIERS-LCO)
-     .              + ABS(DTIERS-LBO-LCO)
+             CRITO =  ABS(THIRD-LBO)
+     .              + ABS(THIRD-LCO)
+     .              + ABS(TWO_THIRD-LBO-LCO)
 
              IF(CRIT < CRITO)THEN
 

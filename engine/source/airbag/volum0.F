@@ -87,18 +87,18 @@ C--------------------------------------------------------------
           NOD2 = SURF_NODES(I,2)
           NOD3 = SURF_NODES(I,3)
           NOD4 = SURF_NODES(I,4)
-          XX=UNDEMI*(X(1,NOD1)+X(1,NOD2))
-          YY=UNDEMI*(X(2,NOD1)+X(2,NOD2))
-          ZZ=UNDEMI*(X(3,NOD1)+X(3,NOD2)) 
+          XX=HALF*(X(1,NOD1)+X(1,NOD2))
+          YY=HALF*(X(2,NOD1)+X(2,NOD2))
+          ZZ=HALF*(X(3,NOD1)+X(3,NOD2)) 
           X13=X(1,NOD3)-X(1,NOD1)
           Y13=X(2,NOD3)-X(2,NOD1)
           Z13=X(3,NOD3)-X(3,NOD1)
           X24=X(1,NOD4)-X(1,NOD2)
           Y24=X(2,NOD4)-X(2,NOD2)
           Z24=X(3,NOD4)-X(3,NOD2)
-          N(1,II)=UNDEMI*(Y13*Z24-Y24*Z13)
-          N(2,II)=UNDEMI*(Z13*X24-Z24*X13)
-          N(3,II)=UNDEMI*(X13*Y24-X24*Y13)
+          N(1,II)=HALF*(Y13*Z24-Y24*Z13)
+          N(2,II)=HALF*(Z13*X24-Z24*X13)
+          N(3,II)=HALF*(X13*Y24-X24*Y13)
           F1(I) = SQRT( N(1,II)**2+N(2,II)**2+N(3,II)**2 )
           F2(I) = THIRD*( N(1,II)*XX+N(2,II)*YY+N(3,II)*ZZ )
         ENDDO
@@ -111,10 +111,10 @@ C--------------------------------------------------------------
           NOD4 = SURF_NODES(I,4)
           IF(SURF_ELTYP(I).EQ.3)THEN
             PORO(II)=ZERO
-            IF(ICONTACT(NOD1).NE.0)PORO(II)=PORO(II)+QUART
-            IF(ICONTACT(NOD2).NE.0)PORO(II)=PORO(II)+QUART
-            IF(ICONTACT(NOD3).NE.0)PORO(II)=PORO(II)+QUART
-            IF(ICONTACT(NOD4).NE.0)PORO(II)=PORO(II)+QUART
+            IF(ICONTACT(NOD1).NE.0)PORO(II)=PORO(II)+FOURTH
+            IF(ICONTACT(NOD2).NE.0)PORO(II)=PORO(II)+FOURTH
+            IF(ICONTACT(NOD3).NE.0)PORO(II)=PORO(II)+FOURTH
+            IF(ICONTACT(NOD4).NE.0)PORO(II)=PORO(II)+FOURTH
           ELSEIF(SURF_ELTYP(I).EQ.7)THEN
             II=II+NUMELC
             PORO(II)=ZERO
@@ -124,23 +124,23 @@ C--------------------------------------------------------------
           ELSE
             II=I+NUMELC+NUMELTG
             PORO(II)=ZERO
-            IF(ICONTACT(NOD1).NE.0)PORO(II)=PORO(II)+QUART
-            IF(ICONTACT(NOD2).NE.0)PORO(II)=PORO(II)+QUART
-            IF(ICONTACT(NOD3).NE.0)PORO(II)=PORO(II)+QUART
-            IF(ICONTACT(NOD4).NE.0)PORO(II)=PORO(II)+QUART    
+            IF(ICONTACT(NOD1).NE.0)PORO(II)=PORO(II)+FOURTH
+            IF(ICONTACT(NOD2).NE.0)PORO(II)=PORO(II)+FOURTH
+            IF(ICONTACT(NOD3).NE.0)PORO(II)=PORO(II)+FOURTH
+            IF(ICONTACT(NOD4).NE.0)PORO(II)=PORO(II)+FOURTH    
           ENDIF
-          XX=UNDEMI*(X(1,NOD1)+X(1,NOD2))
-          YY=UNDEMI*(X(2,NOD1)+X(2,NOD2))
-          ZZ=UNDEMI*(X(3,NOD1)+X(3,NOD2))
+          XX=HALF*(X(1,NOD1)+X(1,NOD2))
+          YY=HALF*(X(2,NOD1)+X(2,NOD2))
+          ZZ=HALF*(X(3,NOD1)+X(3,NOD2))
           X13=X(1,NOD3)-X(1,NOD1)
           Y13=X(2,NOD3)-X(2,NOD1)
           Z13=X(3,NOD3)-X(3,NOD1)
           X24=X(1,NOD4)-X(1,NOD2)
           Y24=X(2,NOD4)-X(2,NOD2)
           Z24=X(3,NOD4)-X(3,NOD2)
-          N(1,II)=UNDEMI*(Y13*Z24-Y24*Z13)
-          N(2,II)=UNDEMI*(Z13*X24-Z24*X13)
-          N(3,II)=UNDEMI*(X13*Y24-X24*Y13)
+          N(1,II)=HALF*(Y13*Z24-Y24*Z13)
+          N(2,II)=HALF*(Z13*X24-Z24*X13)
+          N(3,II)=HALF*(X13*Y24-X24*Y13)
           F1(I) = SQRT( N(1,II)**2+N(2,II)**2+N(3,II)**2 )
           F2(I) = THIRD*( N(1,II)*XX+N(2,II)*YY+N(3,II)*ZZ )
         ENDDO
@@ -151,18 +151,18 @@ C--------------------------------------------------------------
             NOD2 = T_MONVOLN%FILL_TRI(3 * (II - 1) + 2)
             NOD3 = T_MONVOLN%FILL_TRI(3 * (II - 1) + 3)
             NOD4 = NOD3
-            XX=UNDEMI*(X(1,NOD1)+X(1,NOD2))
-            YY=UNDEMI*(X(2,NOD1)+X(2,NOD2))
-            ZZ=UNDEMI*(X(3,NOD1)+X(3,NOD2)) 
+            XX=HALF*(X(1,NOD1)+X(1,NOD2))
+            YY=HALF*(X(2,NOD1)+X(2,NOD2))
+            ZZ=HALF*(X(3,NOD1)+X(3,NOD2)) 
             X13=X(1,NOD3)-X(1,NOD1)
             Y13=X(2,NOD3)-X(2,NOD1)
             Z13=X(3,NOD3)-X(3,NOD1)
             X24=X(1,NOD4)-X(1,NOD2)
             Y24=X(2,NOD4)-X(2,NOD2)
             Z24=X(3,NOD4)-X(3,NOD2)
-            NX=UNDEMI*(Y13*Z24-Y24*Z13)
-            NY=UNDEMI*(Z13*X24-Z24*X13)
-            NZ=UNDEMI*(X13*Y24-X24*Y13)
+            NX=HALF*(Y13*Z24-Y24*Z13)
+            NY=HALF*(Z13*X24-Z24*X13)
+            NZ=HALF*(X13*Y24-X24*Y13)
             F1(NN + II) = SQRT( NX**2+NY**2+NZ**2 )
             F2(NN + II) = THIRD*( NX*XX+NY*YY+NZ*ZZ )
          ENDDO

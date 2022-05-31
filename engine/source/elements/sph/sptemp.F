@@ -143,7 +143,7 @@ C------
           VJ=XSPHR(8,NN)/MAX(EM20,RHOJ)
           TJ=WTR(NN)
         END IF
-        BETAX=UN +BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
+        BETAX=ONE +BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
         WGRDX=
      .   WGRAD(1)*ALPHAI*BETAX
      .   +WGHT*
@@ -181,7 +181,7 @@ C      partie symetrique.
           YJ =XSPSYM(2,JS)
           ZJ =XSPSYM(3,JS)
           DJ  =SPBUF(1,SM)
-          DIJ =UNDEMI*(DI+DJ)
+          DIJ =HALF*(DI+DJ)
           RHOJ=WA(10,SM)
           CALL WEIGHT1(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
           JNOD=KXSP(3,SM)
@@ -195,14 +195,14 @@ C      partie symetrique.
           YJ =XSPSYM(2,JS)
           ZJ =XSPSYM(3,JS)
           DJ  =XSPHR(2,SM)
-          DIJ =UNDEMI*(DI+DJ)
+          DIJ =HALF*(DI+DJ)
           RHOJ=XSPHR(7,SM)
           CALL WEIGHT1(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
           JNOD=KXSP(3,SM)
           VJ=XSPHR(8,SM)/MAX(EM20,RHOJ)
           TJ=WTR(SM)
         END IF
-        BETAX=UN + BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
+        BETAX=ONE + BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
         WGRDX=
      .   WGRAD(1)*ALPHAI*BETAX
      .   +WGHT*
@@ -355,7 +355,7 @@ C------
           WGRDX=WGRAD(1)
           WGRDY=WGRAD(2)
           WGRDZ=WGRAD(3)
-          BETAX=UN +BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
+          BETAX=ONE +BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
           WGRAD(1)=
      .     WGRDX*ALPHAI*BETAX
      .     +WGHT*
@@ -390,7 +390,7 @@ C         noyau conjugue Grad[Wa(b)]
           BETAYZJ=WACOMP(15,M)
           BETAZZJ=WACOMP(16,M)
 C
-          BETAX=UN +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
+          BETAX=ONE +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
           WGRD(1)=
      .     -WGRDX*ALPHAJ*BETAX
      .     +WGHT*
@@ -462,7 +462,7 @@ C         noyau conjugue Grad[Wa(b)]
           BETAYZJ=WACOMPR(15,NN)
           BETAZZJ=WACOMPR(16,NN)
 C
-          BETAX=UN +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
+          BETAX=ONE +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
           WGRD(1)=
      .     -WGRDX*ALPHAJ*BETAX
      .     +WGHT*
@@ -497,7 +497,7 @@ C      partie symetrique.
           YJ =XSPSYM(2,JS)
           ZJ =XSPSYM(3,JS)
           DJ  =SPBUF(1,SM)
-          DIJ =UNDEMI*(DI+DJ)
+          DIJ =HALF*(DI+DJ)
           RHOJ=WA(10,SM)
           CALL WEIGHT1(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
           JNOD=KXSP(3,SM)
@@ -508,7 +508,7 @@ C      partie symetrique.
           WGRDX=WGRAD(1)
           WGRDY=WGRAD(2)
           WGRDZ=WGRAD(3)
-          BETAX=UN + BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
+          BETAX=ONE + BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
           WGRAD(1)=
      .     WGRDX*ALPHAI*BETAX
      .     +WGHT*
@@ -549,7 +549,7 @@ C         ALPHAZJ=WACOMP( 7,SM)
           BETAYZJ=WACOMP(15,SM)
           BETAZZJ=WACOMP(16,SM)
 C	  
-          BETAX=UN +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
+          BETAX=ONE +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
           WGRD(1)=
      .     -WGRDX*ALPHAJ*BETAX
      .     +WGHT*
@@ -577,7 +577,7 @@ C
           YJ =XSPSYM(2,JS)
           ZJ =XSPSYM(3,JS)
           DJ  =XSPHR(2,SM)
-          DIJ =UNDEMI*(DI+DJ)
+          DIJ =HALF*(DI+DJ)
           RHOJ=XSPHR(7,SM)
           CALL WEIGHT1(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
           JNOD=KXSP(3,SM)
@@ -588,7 +588,7 @@ C
            WGRDX=WGRAD(1)
            WGRDY=WGRAD(2)
            WGRDZ=WGRAD(3)
-           BETAX=UN +BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
+           BETAX=ONE +BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
            WGRAD(1)=
      .      WGRDX*ALPHAI*BETAX
      .      +WGHT*
@@ -629,7 +629,7 @@ C          ALPHAZJ=WACOMPR( 7,SM)
            BETAYZJ=WACOMPR(15,SM)
            BETAZZJ=WACOMPR(16,SM)
 C  
-           BETAX=UN +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
+           BETAX=ONE +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
            WGRD(1)=
      .      -WGRDX*ALPHAJ*BETAX
      .      +WGHT*

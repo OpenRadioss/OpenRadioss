@@ -153,14 +153,14 @@ C
           CALL HM_GET_FLOATV('Thkerr',THKERR,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
 C
-          IF(ANGLDEGR <= ZERO .OR.ANGLDEGR >= CENT80)THEN
+          IF(ANGLDEGR <= ZERO .OR.ANGLDEGR >= HUNDRED80)THEN
             CALL ANCMSG(MSGID=649,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
      .                  I1=ID,
      .                  C1=TITR)
           END IF
-          ANGL=ANGLDEGR*PI/CENT80
+          ANGL=ANGLDEGR*PI/HUNDRED80
 C
 C         pour creer les structures LSH4UPL, PSH4UPL, LSH3UPL, PSH3UPL
           IF(THKERR > ZERO) IADMERRT=1

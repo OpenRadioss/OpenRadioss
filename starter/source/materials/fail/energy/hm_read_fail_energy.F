@@ -113,7 +113,7 @@ CARD1     2F_I_F_I) RIEF1,RIEF2,IRFUN,SCALE_EPSP,DMG_FLAG
       CALL HM_GET_INTV           ('I_Dam'      ,DMG_FLAG   ,IS_AVAILABLE,LSUBMODEL)
 C=======================================================================
       IF (RIEF1 <= ZERO) RIEF1 = EP30
-      IF (RIEF2 <= ZERO) RIEF2 = DEUX*EP30      
+      IF (RIEF2 <= ZERO) RIEF2 = TWO*EP30      
       IF (DMG_FLAG == 0) DMG_FLAG = 1  ! DMG_FLAG = 1    => damage reduces forces after criteria is met
       IF (DMG_FLAG == 2) DMG_FLAG = 0  ! DMG_FLAG = 2->0 => damage reduces saved stress (old method)
 C=============================================
@@ -127,14 +127,14 @@ C
       PTHKF = EM06
       IF(SCALE_EPSP == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('xscale' ,SCALE_EPSP   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        SCALE_EPSP = UN * SCALE_EPSP
+        SCALE_EPSP = ONE * SCALE_EPSP
       ENDIF
 C=============================================  
       UPARAM(1) = RIEF1
       UPARAM(2) = RIEF2
       UPARAM(3) = PTHKF
 
-      UPARAM(4) = UN/SCALE_EPSP
+      UPARAM(4) = ONE/SCALE_EPSP
       UPARAM(5) = DMG_FLAG   
       IFUNC(1)  = IRFUN
 C

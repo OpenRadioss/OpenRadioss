@@ -207,7 +207,7 @@ C----
      .               I1=IG,
      .               C1=TITR)
       ENDIF    
-      IF (IFUNC == 0 .AND. A /= ZERO .AND. A /= UN) THEN
+      IF (IFUNC == 0 .AND. A /= ZERO .AND. A /= ONE) THEN
         CALL ANCMSG(MSGID=663,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
@@ -215,20 +215,20 @@ C----
      .              C1=TITR)
       ENDIF                                        
 C----
-      IF (A == ZERO) A = UN * A_UNIT               
-      IF (D == ZERO) D = UN * D_UNIT         
-      IF (E == ZERO) E = UN * E_UNIT
-      IF (F == ZERO) F = UN * F_UNIT
-      IF (GF3 == ZERO) GF3 = UN * GF3_UNIT
+      IF (A == ZERO) A = ONE * A_UNIT               
+      IF (D == ZERO) D = ONE * D_UNIT         
+      IF (E == ZERO) E = ONE * E_UNIT
+      IF (F == ZERO) F = ONE * F_UNIT
+      IF (GF3 == ZERO) GF3 = ONE * GF3_UNIT
       IF (LSCALE == ZERO) THEN
         IF (ILENG == 0) THEN                                 
-          LSCALE = UN * LSCALE_UNIT
+          LSCALE = ONE * LSCALE_UNIT
         ELSE
-          LSCALE = UN
+          LSCALE = ONE
         ENDIF  
       ENDIF 
       IF (IFUNC == 0) THEN
-        A = UN
+        A = ONE
         B = ZERO
         E = ZERO
       ENDIF
@@ -256,15 +256,15 @@ C------------------------
 C------------------------
       GEO(2)  = GEO(2) / A
       GEO(7)  = IECROU+PUN                  
-      GEO(8)  = UNP1                        
+      GEO(8)  = ONEP1                        
       GEO(9)  = ZERO                        
       GEO(10) = A                           
       GEO(11) = B                           
       GEO(13) = D                           
       GEO(40) = E 
       GEO(132)= GF3                       
-      GEO(18) = UN/F             
-      GEO(39) = UN/LSCALE                        
+      GEO(18) = ONE/F             
+      GEO(39) = ONE/LSCALE                        
       GEO(15) = DN                          
       GEO(16) = DX                          
       GEO(80) = IFL                         
@@ -323,7 +323,7 @@ C
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC 2:UNCOUPLED',/,
-     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'8:ELASTIC, TOTAL LENGHT FUNCTION',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
@@ -355,7 +355,7 @@ C
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC 2:UNCOUPLED',/,
-     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'8:ELASTIC, TOTAL LENGHT FUNCTION. . . .',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,

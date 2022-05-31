@@ -131,7 +131,7 @@ c!      UVAR(I,3) contains the previous first principal stress
 c!       PTHKF               = P_THICK
 C-----------------------------------------------
        DO I =1,NEL
-         IF(OFF(I) .GE. UN .AND. FOFF(I) .EQ. 1 ) THEN
+         IF(OFF(I) .GE. ONE .AND. FOFF(I) .EQ. 1 ) THEN
 c! equivalent strain calculation (negative = total strain ; positive = plastic strain)
           IF(C0 < ZERO)THEN
             E_HYD = THIRD * (EPSXX(I) + EPSYY(I))
@@ -140,7 +140,7 @@ c! equivalent strain calculation (negative = total strain ; positive = plastic s
             E_33  =  -E_HYD
             
             EEQ   = E_11**2 + E_22**2 + E_33**2
-            EEQ   = EEQ + DEUX * EPSXY(I)**2 + DEUX * EPSYZ(I)**2 + DEUX * EPSZX(I)**2
+            EEQ   = EEQ + TWO * EPSXY(I)**2 + TWO * EPSYZ(I)**2 + TWO * EPSZX(I)**2
             EEQ   = 0.8164965809 * SQRT(EEQ) ! sqrt (2/3)*sqrt(...)
             
             D_EEQ = EEQ - UVAR(I,1)
@@ -152,16 +152,16 @@ c! equivalent strain calculation (negative = total strain ; positive = plastic s
           ENDIF
 
 c! first principal stress Sigma_1 calculation          
-          SIG_A  = (SIGNXX(I) + SIGNYY(I))/DEUX
-          SIG_B  = SQRT(((SIGNXX(I)-SIGNYY(I))/DEUX)**2+SIGNXY(I)**2)
+          SIG_A  = (SIGNXX(I) + SIGNYY(I))/TWO
+          SIG_B  = SQRT(((SIGNXX(I)-SIGNYY(I))/TWO)**2+SIGNXY(I)**2)
           SIG_11 = SIG_A + SIG_B
-          SIG_11   = SIG_11 * EMA + (UN-EMA)* UVAR(I,3)
+          SIG_11   = SIG_11 * EMA + (ONE-EMA)* UVAR(I,3)
           UVAR(I,3)= SIG_11
           UVAR(I,2) = UVAR(I,2) + MAX(SIG_11,ZERO) * D_EEQ
           
-          DFMAX(I) =  MIN(UVAR(I,2) / MAX(EM20,ABS(C0)),UN)
+          DFMAX(I) =  MIN(UVAR(I,2) / MAX(EM20,ABS(C0)),ONE)
           
-          IF (DFMAX(I) >= UN) THEN
+          IF (DFMAX(I) >= ONE) THEN
             NINDX = NINDX + 1
             INDX(NINDX) = I  
             FOFF(I) = 0

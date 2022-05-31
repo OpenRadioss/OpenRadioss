@@ -374,7 +374,7 @@ C
             NUMNOD_NEW=NUMNOD_NEW+1
             TAG(I,N)=NUMNOD_NEW
             DO J=1,3
-              X(J,NUMNOD_NEW)=UNDEMI*(X(J,NI)+X(J,NJ))
+              X(J,NUMNOD_NEW)=HALF*(X(J,NI)+X(J,NJ))
             END DO
             DO K=KNOD2SH(NI-1)+1,KNOD2SH(NI)
               P=NOD2SH(K)
@@ -425,9 +425,9 @@ C
         NK=TAG(2,N)
         NL=TAG(4,N)
         DO J=1,3
-          XA=UNDEMI*(X(J,NI)+X(J,NJ))
-          XB=UNDEMI*(X(J,NK)+X(J,NL))
-          X(J,NUMNOD_NEW)=UNDEMI*(XA+XB)
+          XA=HALF*(X(J,NI)+X(J,NJ))
+          XB=HALF*(X(J,NK)+X(J,NL))
+          X(J,NUMNOD_NEW)=HALF*(XA+XB)
         END DO
       END DO
 C
@@ -444,7 +444,7 @@ C
             NUMNOD_NEW=NUMNOD_NEW+1
             TAG(I,N+NUMELC_LEV)=NUMNOD_NEW
             DO J=1,3
-              X(J,NUMNOD_NEW)=UNDEMI*(X(J,NI)+X(J,NJ))
+              X(J,NUMNOD_NEW)=HALF*(X(J,NI)+X(J,NJ))
             END DO
             DO K=KNOD2SH(NI-1)+1,KNOD2SH(NI)
               P=NOD2SH(K)

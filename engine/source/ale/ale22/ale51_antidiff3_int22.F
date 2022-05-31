@@ -91,7 +91,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
 
       IF(DT1.GT.ZERO)THEN
-        UDT = UN/DT1
+        UDT = ONE/DT1
       ELSE
         UDT = ZERO
       ENDIF
@@ -251,7 +251,7 @@ C-----------------------------------------------
               IFV    = BRICK_LIST(NIN,IB)%Adjacent_Brick(K,5)
               ICELLv = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(K)%Adjacent_Cell(IADJ)                         
               IF(tmpFLUX(K,IADJ).GT.ZERO)THEN
-                FF(K,IADJ) = UNDEMI * ( FF(K,IADJ)*(UN-UPWSM)+ALPH*tmpFLUX(K,IADJ)*(UN+UPWSM) )
+                FF(K,IADJ) = HALF * ( FF(K,IADJ)*(ONE-UPWSM)+ALPH*tmpFLUX(K,IADJ)*(ONE+UPWSM) )
 
                 
                 

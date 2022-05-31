@@ -80,7 +80,7 @@ C-----------------------------------------------
         ELSEIF(BHOLE(NM,IE).LT.0. .AND.ABS(BHOLE(NM,IV4)).NE.ABS(BHOLE(NM,IE)))THEN
           IV4=IE
         ENDIF
-        VTOT(I) = VTOT(I) + UNDEMI * DT1 *(
+        VTOT(I) = VTOT(I) + HALF * DT1 *(
      1 - PHI(IE)*FLU1(I)
      2 - PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)-PHI(IV4)*FLUX(4,I))
       ENDDO

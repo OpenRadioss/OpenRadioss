@@ -116,49 +116,49 @@ C-----------------------------------------------
       PM(34)  = A
       PM(35)  = B
       PM(36)  = ER
-      IF(PM(79)==ZERO)PM(79)=TROIS100
+      IF(PM(79)==ZERO)PM(79)=THREE100
       PM(160) = ES
       PM(161) = VS
       PM(162) = ALPHA
       PM(163) = BETA
 
       !COMPUTING INITIAL PRESSURE FOR PM(31) -> SIG(1:3,*)
-      MU    = RHOI/RHOR-UN
+      MU    = RHOI/RHOR-ONE
       MU2   = MU*MU
       DF    = RHOR/RHOI
-      FACC1 = UN
-      FACC2 = UN
-      FACPB = UN
+      FACC1 = ONE
+      FACC2 = ONE
+      FACPB = ONE
       IF(MU<ZERO) THEN
         FACC2=ZERO
         IF(DF>VS .OR. (DF<=VS .AND. E0>=ES) ) THEN
-         XX    = MU/(UN+MU)
+         XX    = MU/(ONE+MU)
          EXPA  = EXP(-ALPHA*XX*XX)
          EXPB  = EXP(BETA*XX)
          FACC1 = EXPA*EXPB
          FACPB = EXPA
         ENDIF
       ENDIF      
-      ETA   = UN+MU        
-      OMEGA = UN+E0/(ER*ETA**2)
+      ETA   = ONE+MU        
+      OMEGA = ONE+E0/(ER*ETA**2)
       AA    = FACC1*C1*MU+FACC2*C2*MU2
       BB    = A+FACPB*B/OMEGA
       PP    = MAX(AA+BB*ETA*E0,PM(37))
       PM(31)= PP
       
       !P0
-      MU0 = RHOI/RHOR-UN
+      MU0 = RHOI/RHOR-ONE
       DF = RHOR/RHOI     
       !SSP0
       SSP0 = ZERO 
       G0 = PM(22)
       RHOI = PM(89)
       
-      DPDMU=FACC1*C1+DEUX*FACC2*C2*MU0+BB*ETA*PP*DF*DF
-     .         +E0*( BB+(DEUX*E0/ETA-PP*DF*DF)
+      DPDMU=FACC1*C1+TWO*FACC2*C2*MU0+BB*ETA*PP*DF*DF
+     .         +E0*( BB+(TWO*E0/ETA-PP*DF*DF)
      .         *B*FACPB/(ER*ETA*OMEGA**2) )
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + DTIERS*G0)/RHOR) 
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0      
 
       WRITE(IOUT,1000)

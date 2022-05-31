@@ -214,7 +214,7 @@ C     ALE ON / OFF
                II     = I+NFT    
                VOLUME_FRACTION(ITRIMAT, II) = VOLP(I)/VOLG(I)
                VOLUME_FRACTION(ITRIMAT, II) = 
-     .              MAX(ZERO,MIN(UN,VOLUME_FRACTION(ITRIMAT, II))) 
+     .              MAX(ZERO,MIN(ONE,VOLUME_FRACTION(ITRIMAT, II))) 
                
             ENDDO  
          ENDDO  

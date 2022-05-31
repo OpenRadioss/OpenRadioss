@@ -124,7 +124,7 @@ C=======================================================================
           EPSMAX= EP30
         ENDIF
       ENDIF
-      NNU1 = NU / (UN - NU)
+      NNU1 = NU / (ONE - NU)
       EPSR1 =UPARAM(NS+2*NRATE+2)
       EPSR2 =UPARAM(NS+2*NRATE+3)
       FISOKIN =UPARAM(NS+2*NRATE+8)
@@ -145,21 +145,21 @@ c------------------------------------------------------
              IFUNCE = UPARAM(NS+2*NRATE+9)                                        
              ESCALE(I) = FINTER(IFUNC(IFUNCE),PLA(I),NPF,TF,DYDXE(I))     
              E(I) =  ESCALE(I)* E(I)   
-             A1(I) = E(I)/(UN - NU*NU)
+             A1(I) = E(I)/(ONE - NU*NU)
              A2(I) = NU*A1(I) 
-             G(I) =  UNDEMI*E(I)/(UN+NU)                                   
-             G3(I) = TROIS*G(I)    
+             G(I) =  HALF*E(I)/(ONE+NU)                                   
+             G3(I) = THREE*G(I)    
              GS(I) = G(I) * SHF(I)                 
            ENDIF
          ENDDO           
       ELSEIF ( CE /= ZERO) THEN
         DO I=1,NEL      
            IF(PLA(I) > ZERO)THEN                                                        
-             E(I) = E(I)-(E(I)-EINF)*(UN-EXP(-CE*PLA(I)))  
-             A1(I) = E(I)/(UN - NU*NU)
+             E(I) = E(I)-(E(I)-EINF)*(ONE-EXP(-CE*PLA(I)))  
+             A1(I) = E(I)/(ONE - NU*NU)
              A2(I) = NU*A1(I)                                             
-             G(I) =  UNDEMI*E(I)/(UN+NU)                                    
-             G3(I) = TROIS*G(I)   
+             G(I) =  HALF*E(I)/(ONE+NU)                                    
+             G3(I) = THREE*G(I)   
              GS(I) = G(I) * SHF(I)                                              
            ENDIF                                                                    
         ENDDO
@@ -169,7 +169,7 @@ c--------------------------------------------------------------
 c      IF (TIME == ZERO) THEN  
 c        DO I=1,NEL            
 c          DO J=1,NRATE(I)     
-c            UVAR(I,J+4) = UN
+c            UVAR(I,J+4) = ONE
 c          ENDDO               
 c        ENDDO                 
 c      ENDIF                   
@@ -188,22 +188,22 @@ C
         SIGNZX(I)=SIGOZX(I)+GS(I)*DEPSZX(I)
 C
         SOUNDSP(I) = SQRT(A1(I)/RHO0(I))
-        ETSE(I) = UN
+        ETSE(I) = ONE
 C-------------------
 C     STRAIN RATE
 C-------------------
         IF (ISRATE == 0) THEN
-          EPSP(I) = UNDEMI*( ABS(EPSPXX(I)+EPSPYY(I))
+          EPSP(I) = HALF*( ABS(EPSPXX(I)+EPSPYY(I))
      .            + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .            + EPSPXY(I)*EPSPXY(I) ) )
         ENDIF
 C-------------------
 C     STRAIN 
 C-------------------
-        EPST = UNDEMI*( EPSXX(I)+EPSYY(I)
+        EPST = HALF*( EPSXX(I)+EPSYY(I)
      .       + SQRT( (EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
      .       + EPSXY(I)*EPSXY(I) ) )
-        FAIL(I) = MAX(ZERO,MIN(UN,(EPSR2-EPST)/(EPSR2-EPSR1)))
+        FAIL(I) = MAX(ZERO,MIN(ONE,(EPSR2-EPST)/(EPSR2-EPSR1)))
 C
       ENDDO
 C-------------------
@@ -248,7 +248,7 @@ C
 C       ECROUISSAGE CINEMATIQUE
         Y1(I)=TF(NPF(IFUNC(J1))+1)
         Y2(I)=TF(NPF(IFUNC(J2))+1)
-        YLD(I) = (UN-FISOKIN) * YLD(I) + 
+        YLD(I) = (ONE-FISOKIN) * YLD(I) + 
      .       FISOKIN * (FAIL(I)*(Y1(I) + FAC*(Y2(I)-Y1(I))))
         YLD(I) = MAX(YLD(I),EM20)
         SIGY(I) = YLD(I)
@@ -273,7 +273,7 @@ C     GATHER PLASTIC FLOW
 C-------------------------
       NINDX=0
       DO I=1,NEL
-        IF(SVM(I).GT.YLD(I).AND.OFF(I) == UN) THEN
+        IF(SVM(I).GT.YLD(I).AND.OFF(I) == ONE) THEN
           NINDX=NINDX+1
           INDEX(NINDX)=I
         ENDIF
@@ -289,18 +289,18 @@ C---------------------------
          ETSE(I)= H(I)/(H(I)+E(I))
 C        +++cette partie peut etre neglige quand FHK est tres petit
          HK(I) = H(I)*FISOKIN
-         FHK = QTHIRD*HK(I)/A1(I)
+         FHK = FOUR_OVER_3*HK(I)/A1(I)
          FA01 =A01*FHK
          FA02 =A02*FHK
          FA03 =A03*FHK
-         NU1 =NU+UNDEMI*FHK
+         NU1 =NU+HALF*FHK
 C        ---
          NU2(I) = 1.-NU1*NU1+FHK*FHK
-         NU3(I) = NU1*UNDEMI
-         NU4(I) = UNDEMI*(UN-NU)
-         NU5(I) = UN-NNU1
-         S1=A01*NU1*DEUX-A03-FA03
-         S2=A02*NU1*DEUX-A03-FA03
+         NU3(I) = NU1*HALF
+         NU4(I) = HALF*(ONE-NU)
+         NU5(I) = ONE-NNU1
+         S1=A01*NU1*TWO-A03-FA03
+         S2=A02*NU1*TWO-A03-FA03
          S12=A03-NU1*(A01+A02)+FA03
          S3=SQRT(NU2(I)*(A01-A02)*(A01-A02)+S12*S12)
          IF (ABS(S1).LT.EM20) THEN 
@@ -313,13 +313,13 @@ C        ---
          ELSE
            Q21(I)=(A01-A02+S3+FA01-FA02)/S2
          ENDIF
-         JQ(I)=UN/(1-Q12(I)*Q21(I))
+         JQ(I)=ONE/(1-Q12(I)*Q21(I))
          JQ2(I)=JQ(I)*JQ(I)
          A=A01*Q12(I)
          B=A02*Q21(I)
          A_1=(A01+A03*Q21(I)+B*Q21(I))*JQ2(I)
          A_2=(A02+A03*Q12(I)+A*Q12(I))*JQ2(I)
-         A_3=(A+B)*JQ2(I)*DEUX+A03*(JQ2(I)*DEUX-JQ(I))
+         A_3=(A+B)*JQ2(I)*TWO+A03*(JQ2(I)*TWO-JQ(I))
          S11(I)=SIGNXX(I)+SIGNYY(I)*Q12(I)
          S22(I)=Q21(I)*SIGNXX(I)+SIGNYY(I)
          AXX(I)=A_1*S11(I)*S11(I)
@@ -329,7 +329,7 @@ C        ---
          B=S3*JQ(I)
          B_1(I)=A02-A-B+FA02
          B_2(I)=A01-A+B+FA01
-         B_3(I)=A12*(NU4(I)+UNDEMI*FHK)
+         B_3(I)=A12*(NU4(I)+HALF*FHK)
          H(I) = H(I)-HK(I)
          H(I) = MAX(ZERO,H(I))
         ENDDO
@@ -341,19 +341,19 @@ C
            IF(DPLA_I(I).GT.ZERO) THEN
            YLD_I =YLD(I)+H(I)*DPLA_I(I)
            DR  =A1(I)*DPLA_I(I)/YLD_I
-           P_1=UN/(UN + B_1(I)*DR)
+           P_1=ONE/(ONE + B_1(I)*DR)
            PP1=P_1*P_1
-           P_2=UN/(UN+B_2(I)*DR)
+           P_2=ONE/(ONE+B_2(I)*DR)
            PP2=P_2*P_2
-           P_3=UN/(UN+B_3(I)*DR)
+           P_3=ONE/(ONE+B_3(I)*DR)
            PP3=P_3*P_3
            F     =AXX(I)*PP1+AYY(I)*PP2-A_XY(I)*P_1*P_2+AXY(I)*PP3
      .            -YLD_I*YLD_I
-           DF    =-((AXX(I)*P_1-A_XY(I)*P_2*UNDEMI)*PP1*B_1(I)+
-     .              (AYY(I)*P_2-A_XY(I)*P_1*UNDEMI)*PP2*B_2(I)+
+           DF    =-((AXX(I)*P_1-A_XY(I)*P_2*HALF)*PP1*B_1(I)+
+     .              (AYY(I)*P_2-A_XY(I)*P_1*HALF)*PP2*B_2(I)+
      .              AXY(I)*PP3*P_3*B_3(I))*(A1(I)-DR*H(I))/YLD_I
      .             -H(I)*YLD_I
-            DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F*UNDEMI/DF)
+            DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F*HALF/DF)
            ELSE
             DPLA_J(I)=ZERO
            ENDIF        
@@ -368,33 +368,33 @@ C------------------------------------------
           YLD_I =YLD(I)+H(I)*DPLA_J(I)
           DR0  =DPLA_J(I)/YLD_I
           DR  =A1(I)*DR0
-          P_1=UN/(UN + B_1(I)*DR)
-          P_2=UN/(UN + B_2(I)*DR)
-          P_3=UN/(UN + B_3(I)*DR)	
+          P_1=ONE/(ONE + B_1(I)*DR)
+          P_2=ONE/(ONE + B_2(I)*DR)
+          P_3=ONE/(ONE + B_3(I)*DR)	
          S1=S11(I)*P_1
          S2=S22(I)*P_2
          SIGNXX(I)=JQ(I)*(S1-S2*Q12(I))
          SIGNYY(I)=JQ(I)*(S2-S1*Q21(I))
          SIGNXY(I)=SIGNXY(I)*P_3
          S1=A01*SIGNXX(I)+A02*SIGNYY(I)
-     .          -A03*(SIGNXX(I)+SIGNYY(I))*UNDEMI
+     .          -A03*(SIGNXX(I)+SIGNYY(I))*HALF
          IF (INLOC == 0) THEN 
            DEZZ = - NU5(I)*DPLA_J(I)*S1/YLD_I
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
          ENDIF
-         S1 =A03*UNDEMI
+         S1 =A03*HALF
          P_1=A01*SIGNXX(I)-S1*SIGNYY(I)
          P_2=A02*SIGNYY(I)-S1*SIGNXX(I)
          P_3=A12*SIGNXY(I)
-         DR0  = DTHIRD*DR0*HK(I)
-         UVAR(I,2) = UVAR(I,2) + (DEUX*P_1+P_2)*DR0
-         UVAR(I,3) = UVAR(I,3) + (DEUX*P_2+P_1)*DR0
-         UVAR(I,4) = UVAR(I,4) + UNDEMI*P_3*DR0
+         DR0  = TWO_THIRD*DR0*HK(I)
+         UVAR(I,2) = UVAR(I,2) + (TWO*P_1+P_2)*DR0
+         UVAR(I,3) = UVAR(I,3) + (TWO*P_2+P_1)*DR0
+         UVAR(I,4) = UVAR(I,4) + HALF*P_3*DR0
          DPLA1(I) =  DPLA_J(I)
         ENDDO
 C
         DO I=1,NEL
-          IF(PLA(I).GT.EPSMAX.AND.OFF(I) == UN)OFF(I)=QCINQ
+          IF(PLA(I).GT.EPSMAX.AND.OFF(I) == ONE)OFF(I)=FOUR_OVER_5
         ENDDO
       ENDIF
       DO I=1,NEL
@@ -418,8 +418,8 @@ C--------------------------------
           S3      = A03*SIGNXX(I)*SIGNYY(I)
           AXY(I)  = A12*SIGNXY(I)*SIGNXY(I)
           SVM(I)  = SQRT(S1+S2-S3+AXY(I))  
-          NORMXX  = (DEUX*A01*SIGNXX(I) - A03*SIGNYY(I))/(MAX(DEUX*SVM(I),EM20))
-          NORMYY  = (DEUX*A02*SIGNYY(I) - A03*SIGNXX(I))/(MAX(DEUX*SVM(I),EM20))
+          NORMXX  = (TWO*A01*SIGNXX(I) - A03*SIGNYY(I))/(MAX(TWO*SVM(I),EM20))
+          NORMYY  = (TWO*A02*SIGNYY(I) - A03*SIGNXX(I))/(MAX(TWO*SVM(I),EM20))
           DEZZ    = MAX(DPLANL(I),ZERO)*(NORMXX + NORMYY)
           DEZZ    = -NU*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E(I)) - DEZZ
           THK(I)  = THK(I) + DEZZ*THKLY(I)*OFF(I)          

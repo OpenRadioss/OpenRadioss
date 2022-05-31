@@ -203,47 +203,47 @@ C     Reverse all normals to ensure positive volume
 C     Default value for time scale factor
       IF (SCAL_T == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('Ascalet', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)     
-         SCAL_T = UN * FAC_GEN 
+         SCAL_T = ONE * FAC_GEN 
       ENDIF
       IF (SCAL_P == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleP', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)     
-         SCAL_P = UN * FAC_GEN 
+         SCAL_P = ONE * FAC_GEN 
       ENDIF
 C     Default value
       IF (IFBULK > 0) THEN
          IF (SFBULK == ZERO) THEN
             CALL HM_GET_FLOATV_DIM('Fscale_K', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)   
-            SFBULK = UN * FAC_GEN
+            SFBULK = ONE * FAC_GEN
          ENDIF
       ENDIF
       IF (IFMIN > 0) THEN
          IF (SFMIN == ZERO) THEN
             CALL HM_GET_FLOATV_DIM('Fscale_Mtin', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)   
-            SFMIN = UN * FAC_GEN
+            SFMIN = ONE * FAC_GEN
          ENDIF
       ENDIF
       IF (IFMOUTT > 0) THEN
          IF (SFMOUTT == ZERO) THEN
             CALL HM_GET_FLOATV_DIM('Fscale_Mtout', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)   
-            SFMOUTT = UN * FAC_GEN
+            SFMOUTT = ONE * FAC_GEN
          ENDIF
       ENDIF
       IF (IFMOUTP > 0) THEN
          IF (SFMOUTP == ZERO) THEN
             CALL HM_GET_FLOATV_DIM('Fscale_Mpout', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)   
-            SFMOUTP = UN * FAC_GEN
+            SFMOUTP = ONE * FAC_GEN
          ENDIF
       ENDIF
       IF (IFP0 > 0) THEN
          IF (SFP0 == ZERO) THEN
             CALL HM_GET_FLOATV_DIM('Fscale_Padd', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)   
-            SFP0 = UN * FAC_GEN
+            SFP0 = ONE * FAC_GEN
          ENDIF
       ENDIF
       CALL HM_GET_FLOATV_DIM('Fscale_Pmax', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)   
       IF (IFPMAX > 0) THEN
          IF (SFPMAX == ZERO) THEN
-            SFPMAX = UN * FAC_GEN
+            SFPMAX = ONE * FAC_GEN
          ENDIF
       ELSE
          SFPMAX = INFINITY * FAC_GEN
@@ -265,11 +265,11 @@ C     Store in data structure
       T_MONVOLN%IVOLU(26) = IFUNCT_ID(6)
       T_MONVOLN%RVOLU(40) = SFPMAX
 
-      T_MONVOLN%RVOLU(26) = UN / SCAL_T
-      T_MONVOLN%RVOLU(27) = UN / SCAL_P
-      T_MONVOLN%RVOLU(28) = UN
-      T_MONVOLN%RVOLU(29) = UN
-      T_MONVOLN%RVOLU(30) = UN
+      T_MONVOLN%RVOLU(26) = ONE / SCAL_T
+      T_MONVOLN%RVOLU(27) = ONE / SCAL_P
+      T_MONVOLN%RVOLU(28) = ONE
+      T_MONVOLN%RVOLU(29) = ONE
+      T_MONVOLN%RVOLU(30) = ONE
 
       T_MONVOLN%RVOLU(34) = RHOI
 C     

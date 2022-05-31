@@ -149,8 +149,8 @@ C
 c
 
       ELSEIF (NIR == 3) THEN
-        RXX = RX(2)+RX(3)-DEUX*RX(1)
-        RYY = DEUX*RY(3)-RY(1)-RY(2)
+        RXX = RX(2)+RX(3)-TWO*RX(1)
+        RYY = TWO*RY(3)-RY(1)-RY(2)
 C---    Moment Z
 C
         MXY = RSX(1)*FMY(1)+RSX(2)*FMY(2)+RSX(3)*FMY(3)
@@ -164,14 +164,14 @@ C
 C
         FMX(1) = FMX(1) - FXX   
         FMX(2) = FMX(2) - FXX    
-        FMX(3) = FMX(3) + DEUX * FXX    
+        FMX(3) = FMX(3) + TWO * FXX    
 
-        FMY(1) = FMY(1) - DEUX * FYY
+        FMY(1) = FMY(1) - TWO * FYY
         FMY(2) = FMY(2) + FYY    
         FMY(3) = FMY(3) + FYY    
 c
-        MX=MX+(DEUX*RSZ(1)-RSZ(2)-RSZ(3))*FYY
-        MY=MY+(DEUX*RSZ(3)-RSZ(1)-RSZ(2))*FXX
+        MX=MX+(TWO*RSZ(1)-RSZ(2)-RSZ(3))*FYY
+        MY=MY+(TWO*RSZ(3)-RSZ(1)-RSZ(2))*FXX
 c---    Moments Mx, MY
 c
         MAT(1,1) = RSY(1)
@@ -180,9 +180,9 @@ c
         MAT(2,1) = RSX(1)
         MAT(2,2) = RSX(2)
         MAT(2,3) = RSX(3)
-        MAT(3,1) = UN
-        MAT(3,2) = UN
-        MAT(3,3) = UN
+        MAT(3,1) = ONE
+        MAT(3,2) = ONE
+        MAT(3,3) = ONE
         CALL INV3(MAT,MATI)
         DF(1) = -MATI(1,1)*MX + MATI(1,2)*MY
         DF(2) = -MATI(2,1)*MX + MATI(2,2)*MY
@@ -298,7 +298,7 @@ C
 C       RQ : ALPHA is a coeff used for a optimised repartition of moment MZS on FXX and FYY
 C
         MXY = RSX(1)*FMY(1)+RSX(2)*FMY(2)+RSX(3)*FMY(3)+RSX(4)*FMY(4)-ALPHA*MZS
-        MYX = RSY(1)*FMX(1)+RSY(2)*FMX(2)+RSY(3)*FMX(3)+RSY(4)*FMX(4)+(UN-ALPHA)*MZS
+        MYX = RSY(1)*FMX(1)+RSY(2)*FMX(2)+RSY(3)*FMX(3)+RSY(4)*FMX(4)+(ONE-ALPHA)*MZS
         MZZ = MXY - MYX
 C
 C       RQ : BETAX = BETAY = 1 in standard situation - moment mz must be tranfered either only by FXX or FXX if swicth to 1D formulation
@@ -306,11 +306,11 @@ C       standard situation  -> FXX = -MYX/RYY and FYY = MXY/RXX
 C       1D formulation in X -> FXX = 0 and FYY = MZ / RXX
 C       1D formulation in Y -> FYY = 0 and FXX = MZ / RYY
 C
-        FYY = (BETAY*MXY-(UN-BETAX)*MYX)/RXX         
-        FXX = ((UN-BETAY)*MXY-BETAX*MYX)/RYY      
+        FYY = (BETAY*MXY-(ONE-BETAX)*MYX)/RXX         
+        FXX = ((ONE-BETAY)*MXY-BETAX*MYX)/RYY      
 C
-        STIFM=MAX(SQRT((UN-BETAX)*BY*BY+ BETAY*BX*BX)/ABS(RXX),SQRT(BETAX*BY*BY+ (UN-BETAY)*BX*BX)/ABS(RYY))
-        STIFMR=UN/(ABS(RXX)+ABS(RYY))  
+        STIFM=MAX(SQRT((ONE-BETAX)*BY*BY+ BETAY*BX*BX)/ABS(RXX),SQRT(BETAX*BY*BY+ (ONE-BETAY)*BX*BX)/ABS(RYY))
+        STIFMR=ONE/(ABS(RXX)+ABS(RYY))  
 C
         FMX(1) = FMX(1) - FXX    
         FMX(2) = FMX(2) - FXX    
@@ -356,8 +356,8 @@ C
 c
 
       ELSEIF (NIR == 3) THEN
-        RXX = RX(2)+RX(3)-DEUX*RX(1)
-        RYY = DEUX*RY(3)-RY(1)-RY(2)
+        RXX = RX(2)+RX(3)-TWO*RX(1)
+        RYY = TWO*RY(3)-RY(1)-RY(2)
 C
 C       RQ : ALPHA is a coeff used for a optimised repartition of moment MZS on FXX and FYY
 C
@@ -367,7 +367,7 @@ C---    Moment Z
 C
 C
         MXY = RSX(1)*FMY(1)+RSX(2)*FMY(2)+RSX(3)*FMY(3)-ALPHA*MZS
-        MYX = RSY(1)*FMX(1)+RSY(2)*FMX(2)+RSY(3)*FMX(3)+(UN-ALPHA)*MZS
+        MYX = RSY(1)*FMX(1)+RSY(2)*FMX(2)+RSY(3)*FMX(3)+(ONE-ALPHA)*MZS
         MZZ = MXY - MYX
 C
 C       RQ : BETAX = BETAY = 1 in standard situation - moment mz must be tranfered either only by FXX or FXX if swicth to 1D formulation
@@ -375,17 +375,17 @@ C       standard situation  -> FXX = -MYX/RYY and FYY = MXY/RXX
 C       1D formulation in X -> FXX = 0 and FYY = MZ / RXX
 C       1D formulation in Y -> FYY = 0 and FXX = MZ / RYY
 C
-        FYY = -(BETAY*MXY-(UN-BETAX)*MYX)/RXX         
-        FXX = ((UN-BETAY)*MXY-BETAX*MYX)/RYY      
+        FYY = -(BETAY*MXY-(ONE-BETAX)*MYX)/RXX         
+        FXX = ((ONE-BETAY)*MXY-BETAX*MYX)/RYY      
 C
-        STIFM=MAX(SQRT((UN-BETAX)*BY*BY+ BETAY*BX*BX)/ABS(RXX),SQRT(BETAX*BY*BY+ (UN-BETAY)*BX*BX)/ABS(RYY))
-        STIFMR=UN/(ABS(RXX)+ABS(RYY))  
+        STIFM=MAX(SQRT((ONE-BETAX)*BY*BY+ BETAY*BX*BX)/ABS(RXX),SQRT(BETAX*BY*BY+ (ONE-BETAY)*BX*BX)/ABS(RYY))
+        STIFMR=ONE/(ABS(RXX)+ABS(RYY))  
 C
         FMX(1) = FMX(1) - FXX   
         FMX(2) = FMX(2) - FXX    
-        FMX(3) = FMX(3) + DEUX * FXX    
+        FMX(3) = FMX(3) + TWO * FXX    
 
-        FMY(1) = FMY(1) - DEUX * FYY
+        FMY(1) = FMY(1) - TWO * FYY
         FMY(2) = FMY(2) + FYY    
         FMY(3) = FMY(3) + FYY    
 c
@@ -393,8 +393,8 @@ c---    Moments Mx, MY
 C
 C       RQ : BETAX = BETAY = 1 in standard situation - used to impose that mx=0 or my=0 if swicth to 1D formulation
 c
-        MX=BETAX*(MX+(DEUX*RSZ(1)-RSZ(2)-RSZ(3))*FYY - MXS)
-        MY=BETAY*(MY+(DEUX*RSZ(3)-RSZ(1)-RSZ(2))*FXX - MYS)
+        MX=BETAX*(MX+(TWO*RSZ(1)-RSZ(2)-RSZ(3))*FYY - MXS)
+        MY=BETAY*(MY+(TWO*RSZ(3)-RSZ(1)-RSZ(2))*FXX - MYS)
 c
         MAT(1,1) = RSY(1)
         MAT(1,2) = RSY(2)
@@ -402,9 +402,9 @@ c
         MAT(2,1) = RSX(1)
         MAT(2,2) = RSX(2)
         MAT(2,3) = RSX(3)
-        MAT(3,1) = UN
-        MAT(3,2) = UN
-        MAT(3,3) = UN
+        MAT(3,1) = ONE
+        MAT(3,2) = ONE
+        MAT(3,3) = ONE
         CALL INV3(MAT,MATI)
         DF(1) = -MATI(1,1)*MX + MATI(1,2)*MY
         DF(2) = -MATI(2,1)*MX + MATI(2,2)*MY

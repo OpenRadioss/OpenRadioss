@@ -161,7 +161,7 @@ C
         LISTLINTOTAL(1:NRTM) = 0
         CPT_TOTAL = 0
 C
-        DMAX = SQRT(DEUX) * MAX(GAP,DRAD)
+        DMAX = SQRT(TWO) * MAX(GAP,DRAD)
 C
         DO I=I_START,NRTM
 
@@ -191,8 +191,8 @@ C
               TAGNOD(IRECTM(1:2,LIN))=2
 C
 C              ESTA = (DIST1(IRECTM(2,LIN))*DIST1(IRECTM(2,LIN))-DIST1(IRECTM(1,LIN))*DIST1(IRECTM(1,LIN))-XL*XL)
-C     .               /(DEUX*XL*DIST1(IRECTM(1,LIN)))
-C              DIST_AXIS = DIST1(IRECTM(1,LIN))*SQRT(UN-ESTA*ESTA)
+C     .               /(TWO*XL*DIST1(IRECTM(1,LIN)))
+C              DIST_AXIS = DIST1(IRECTM(1,LIN))*SQRT(ONE-ESTA*ESTA)
 C
               PENE = ZERO
               IF ((DIST1(IRECTM(1,LIN)) > DMAX).AND.(DIST1(IRECTM(2,LIN)) > DMAX).AND.(LEVEL>2)) THEN
@@ -276,7 +276,7 @@ C--- lines with common nodes with main lines are aready removed - no need to sto
                   REMNODE(KREMNODE(I)+CPT1) = LIN
                   CPT1 = CPT1 + 1
                 ELSE
-                  PENE = I11PENE_LIN(X,IRECTM(1,LIN),IRECTM(2,LIN),IRECTM(1,I),IRECTM(2,I),SQRT(DEUX)*GAP,DRAD)
+                  PENE = I11PENE_LIN(X,IRECTM(1,LIN),IRECTM(2,LIN),IRECTM(1,I),IRECTM(2,I),SQRT(TWO)*GAP,DRAD)
                   IF (PENE > 0) THEN
                     REMNODE(KREMNODE(I)+CPT1) = LIN
                     CPT1 = CPT1 + 1
@@ -292,7 +292,7 @@ C--- lines with common nodes with main lines are aready removed - no need to sto
      .           .AND.(IM2 /= IRECTM(1,LIN)).AND.(IM2 /= IRECTM(2,LIN))) THEN
 C--- lines with common nodes with main lines are aready removed - no need to store them in remnode
                 GAPV = GAP_S(LIN)+GAP_M(I)
-                GAPV = SQRT(DEUX)*MAX(DRAD,GAPMIN,GAPV)
+                GAPV = SQRT(TWO)*MAX(DRAD,GAPMIN,GAPV)
                 IF ((DIST1(IRECTM(1,LIN)) <= GAPV).OR.(DIST1(IRECTM(2,LIN)) <= GAPV)) THEN
                   REMNODE(KREMNODE(I)+CPT1) = LIN
                   CPT1 = CPT1 + 1
@@ -402,14 +402,14 @@ C
 C
        XS2 = MAX(XS2,EM20)
        XM2 = MAX(XM2,EM20)
-       H1M=MIN(UN,MAX(ZERO,H1M))
+       H1M=MIN(ONE,MAX(ZERO,H1M))
        H1S = -(XA + H1M*XSM) / XS2
-       H1S=MIN(UN,MAX(ZERO,H1S))
+       H1S=MIN(ONE,MAX(ZERO,H1S))
        H1M = -(XB + H1S*XSM) / XM2
-       H1M=MIN(UN,MAX(ZERO,H1M))
+       H1M=MIN(ONE,MAX(ZERO,H1M))
 C
-       H2S = UN - H1S
-       H2M = UN - H1M
+       H2S = ONE - H1S
+       H2M = ONE - H1M
 C !!!!!!!!!!!!!!!!!!!!!!!
 C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
 C!!!!!!!!!!!!!!!!!!!!!!!!

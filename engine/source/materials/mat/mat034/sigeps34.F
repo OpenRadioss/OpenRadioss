@@ -96,15 +96,15 @@ c=======================================================================
 c      
       GE  = G_INF              ! elastic part of shear modulus
       GV  = G_INS-G_INF        ! viscous part of shear modulus
-      GE2 = GE * DEUX
-      GV2 = GV * DEUX
-      C1  = UN - EXP(-BETA*TIMESTEP)
+      GE2 = GE * TWO
+      GV2 = GV * TWO
+      C1  = ONE - EXP(-BETA*TIMESTEP)
       C2  =-C1 / BETA
-      BULK3 = BULK*TROIS
+      BULK3 = BULK*THREE
 c
       DO I=1,NEL
-        GAMA(I) = RHO0(I)/RHO(I) - UN + GAMA0
-        DPDGAMA(I)=-P0*(UN-PHI) / (UN+GAMA(I)-PHI)
+        GAMA(I) = RHO0(I)/RHO(I) - ONE + GAMA0
+        DPDGAMA(I)=-P0*(ONE-PHI) / (ONE+GAMA(I)-PHI)
         DEPSM(I) = THIRD *(DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))
         EPSPM(I) = THIRD *(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))
         EM(I)    = THIRD *(EPSXX(I) +EPSYY(I) +EPSZZ(I) )
@@ -155,7 +155,7 @@ c
         SIGNZX(I) = SIGOZX(I) + GE *DDEZX(I) - GV *DEPSVZX(I)
       END DO        
 c
-      DP_DRHO = QTHIRD*G_INS + BULK
+      DP_DRHO = FOUR_OVER_3*G_INS + BULK
       SOUNDSP(1:NEL) = SQRT(DP_DRHO / RHO0(1:NEL))
 c
       DO I=1,NEL

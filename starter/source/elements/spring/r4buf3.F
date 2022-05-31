@@ -78,16 +78,16 @@ C     REAL ou REAL*8
       my_real
      .     NOISE
 C-----------------------------------------------
-      NOISE = DEUX*SQRT(TROIS)*XALEA
+      NOISE = TWO*SQRT(THREE)*XALEA
 C
       DO I=LFT,LLT
         J=I+NFT
         USENS=IGEO(3,IX(1,J))
         IF (USENS <= 0) THEN
 C         no sensor or Isflag=1
-          OFF(I)=UN
+          OFF(I)=ONE
         ELSE
-          OFF(I)=-DIX
+          OFF(I)=-TEN
         ENDIF
       ENDDO
 C
@@ -124,7 +124,7 @@ C
         IALIGN=0
         IF (X0(I) < EM15 .OR. X0(I) <= NOISE) THEN
 C         IWARN=IWARN+1
-         RLOC(1,I)= UN
+         RLOC(1,I)= ONE
          RLOC(2,I)= ZERO
          RLOC(3,I)= ZERO
 C       WRITE(ISTDO,*) '** WARNING: SPRING LENGTH IS NULL',
@@ -236,13 +236,13 @@ C         WRITE(IOUT,1200)IX(NIXR,J)
           ENDIF ! IF (I3 /= 0)
 C
           IF (IALIGN /= 1)THEN
-            IF (ABS(Y1) < UNDEMI*X0(I)) THEN
+            IF (ABS(Y1) < HALF*X0(I)) THEN
               RLOC(1,I)=ZERO
-              RLOC(2,I)=UN
+              RLOC(2,I)=ONE
               RLOC(3,I)=ZERO
               WRITE(IOUT,1400)IX(NIXR,J)
             ELSE
-              RLOC(1,I)=UN
+              RLOC(1,I)=ONE
               RLOC(2,I)=ZERO
               RLOC(3,I)=ZERO
               WRITE(IOUT,1450)IX(NIXR,J)

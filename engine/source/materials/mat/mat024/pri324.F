@@ -69,13 +69,13 @@ C
       IF (AA < EM20) RETURN                                           
 C
       BB = CS(1)*CS(5)**2 + CS(2)*CS(6)**2 + CS(3)*CS(4)**2             
-     &   - CS(1)*CS(2)*CS(3) - DEUX*CS(4)*CS(5)*CS(6)                  
+     &   - CS(1)*CS(2)*CS(3) - TWO*CS(4)*CS(5)*CS(6)                  
 C
-      CC=-SQRT(VINGT7/AA)*BB*UNDEMI/AA                                
-      CC= MIN(CC,UN)                                                  
-      CC= MAX(CC,-UN)                                                 
+      CC=-SQRT(TWENTY7/AA)*BB*HALF/AA                                
+      CC= MIN(CC,ONE)                                                  
+      CC= MAX(CC,-ONE)                                                 
       ANGP=ACOS(CC) * THIRD                                           
-      DD=DEUX*SQRT(AA*THIRD)                                          
+      DD=TWO*SQRT(AA*THIRD)                                          
       STR(1)=DD*COS(ANGP)                                             
       STR(2)=DD*COS(ANGP+FTPI)                                        
       STR(3)=DD*COS(ANGP+TTPI)                                        
@@ -85,7 +85,7 @@ C . . . . . . . . . . .
         STRMAX= MAX(ABS(STR(1)),ABS(STR(3)))
 
         TOL1= MAX(EM20,SIXEM4*STRMAX**2)
-        TOL2= DEUXEM4*STRMAX
+        TOL2= TWOEM4*STRMAX
 
         A(1,1)=CS(1)-STR(1)
         A(2,2)=CS(2)-STR(1)
@@ -158,7 +158,7 @@ C
                V(2,2)= V(1,1)/VMAG
                V(3,2)= ZERO
              ELSE
-               V(1,2)=UN
+               V(1,2)=ONE
                V(2,2)=ZERO
                V(3,2)=ZERO     
              ENDIF
@@ -181,7 +181,7 @@ C
          IF(MAX(ABS(A(3,1)),ABS(A(3,2)),ABS(A(3,3))) < TOL2)THEN
            V(1,1) = ZERO
            V(2,1) = ZERO
-           V(3,1) = UN   
+           V(3,1) = ONE   
            V(1,2) = -A(2,LMAX)/XMAX
            V(2,2) =  A(1,LMAX)/XMAX
            V(3,2) =  ZERO
@@ -198,11 +198,11 @@ C
            V(2,2)=V(2,2)/VMAG
            V(3,2)=V(3,2)/VMAG
          ELSE
-           V(1,1) = UN
+           V(1,1) = ONE
            V(2,1) = ZERO
            V(3,1) = ZERO
            V(1,2) = ZERO
-           V(2,2) = UN
+           V(2,2) = ONE
            V(3,2) = ZERO	   
          ENDIF
       ENDIF
@@ -239,9 +239,9 @@ C
       SIG(5)=S12*A13+S22*A23+S32*A33
       SIG(6)=S11*A13+S21*A23+S31*A33
 C
-      EPS(4)=UNDEMI*EPS(4)
-      EPS(5)=UNDEMI*EPS(5)
-      EPS(6)=UNDEMI*EPS(6)      
+      EPS(4)=HALF*EPS(4)
+      EPS(5)=HALF*EPS(5)
+      EPS(6)=HALF*EPS(6)      
       A11=EPS(1)*S11+EPS(4)*S21+EPS(6)*S31
       A12=EPS(1)*S12+EPS(4)*S22+EPS(6)*S32
       A13=EPS(1)*S13+EPS(4)*S23+EPS(6)*S33
@@ -254,9 +254,9 @@ C
       EPS(1)=S11*A11+S21*A21+S31*A31
       EPS(2)=S12*A12+S22*A22+S32*A32
       EPS(3)=S13*A13+S23*A23+S33*A33
-      EPSTOT(4)=UNDEMI*EPSTOT(4)
-      EPSTOT(5)=UNDEMI*EPSTOT(5)
-      EPSTOT(6)=UNDEMI*EPSTOT(6)      
+      EPSTOT(4)=HALF*EPSTOT(4)
+      EPSTOT(5)=HALF*EPSTOT(5)
+      EPSTOT(6)=HALF*EPSTOT(6)      
       A11=EPSTOT(1)*S11+EPSTOT(4)*S21+EPSTOT(6)*S31
       A12=EPSTOT(1)*S12+EPSTOT(4)*S22+EPSTOT(6)*S32
       A13=EPSTOT(1)*S13+EPSTOT(4)*S23+EPSTOT(6)*S33

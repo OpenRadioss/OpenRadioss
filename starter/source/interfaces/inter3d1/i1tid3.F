@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      ALP = DEUXEM2
+      ALP = TWOEM2
       DO II=1,NSN
         I=NSV(II)
         IF ((NTY.EQ.1).OR.((NTY.EQ.2).AND.(ILEV /= 25 .and. ILEV /= 26 .and. ILEV /= 27 .and. ILEV /= 28))) THEN

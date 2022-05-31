@@ -150,7 +150,7 @@ C
 C necessaire pour gap TYPE5
        DO LS=NLF,NLT
          IS = LISTI(LS)
-         GAPV(IS)=SQRT(TROIS)*GAPV(IS)
+         GAPV(IS)=SQRT(THREE)*GAPV(IS)
        ENDDO
        NLS=0
        IF(ICURV/=0)THEN
@@ -180,13 +180,13 @@ C necessaire pour gap TYPE5
            Z2=X(3,IX2(IS))
            Z3=X(3,IX3(IS))
            Z4=X(3,IX4(IS))
-           X0 = QUART*(X1+X2+X3+X4)
-           Y0 = QUART*(Y1+Y2+Y3+Y4)
-           Z0 = QUART*(Z1+Z2+Z3+Z4)
+           X0 = FOURTH*(X1+X2+X3+X4)
+           Y0 = FOURTH*(Y1+Y2+Y3+Y4)
+           Z0 = FOURTH*(Z1+Z2+Z3+Z4)
            XXX=MAX(X1,X2,X3,X4)-MIN(X1,X2,X3,X4)
            YYY=MAX(Y1,Y2,Y3,Y4)-MIN(Y1,Y2,Y3,Y4)
            ZZZ=MAX(Z1,Z2,Z3,Z4)-MIN(Z1,Z2,Z3,Z4)
-           CURV_MAX = UNDEMI * MAX(XXX,YYY,ZZZ)
+           CURV_MAX = HALF * MAX(XXX,YYY,ZZZ)
            XMIN = X0-CURV_MAX-GAPV(IS)
            YMIN = Y0-CURV_MAX-GAPV(IS)
            ZMIN = Z0-CURV_MAX-GAPV(IS)
@@ -284,7 +284,7 @@ C
 C necessaire pour gap TYPE5
           DO LS = NLF, NLT
             IS = LISTI(LS)
-            GAPV(IS)=SQRT(TROIS)*GAPV(IS)
+            GAPV(IS)=SQRT(THREE)*GAPV(IS)
           ENDDO
 C
           IF(ICURV/=0)THEN
@@ -314,13 +314,13 @@ C
              Z2=X(3,IX2(IS))
              Z3=X(3,IX3(IS))
              Z4=X(3,IX4(IS))
-             X0 = QUART*(X1+X2+X3+X4)
-             Y0 = QUART*(Y1+Y2+Y3+Y4)
-             Z0 = QUART*(Z1+Z2+Z3+Z4)
+             X0 = FOURTH*(X1+X2+X3+X4)
+             Y0 = FOURTH*(Y1+Y2+Y3+Y4)
+             Z0 = FOURTH*(Z1+Z2+Z3+Z4)
              XXX=MAX(X1,X2,X3,X4)-MIN(X1,X2,X3,X4)
              YYY=MAX(Y1,Y2,Y3,Y4)-MIN(Y1,Y2,Y3,Y4)
              ZZZ=MAX(Z1,Z2,Z3,Z4)-MIN(Z1,Z2,Z3,Z4)
-             CURV_MAX = UNDEMI * MAX(XXX,YYY,ZZZ)
+             CURV_MAX = HALF * MAX(XXX,YYY,ZZZ)
              XMIN = X0-CURV_MAX-GAPV(IS)
              YMIN = Y0-CURV_MAX-GAPV(IS)
              ZMIN = Z0-CURV_MAX-GAPV(IS)

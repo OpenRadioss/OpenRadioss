@@ -97,14 +97,14 @@ C-----------------------------------------
        ENDDO
 C
        DO I=LFT,LLT
-        FACC1=UN
-        FACC2=UN
-        FACPB=UN
+        FACC1=ONE
+        FACC2=ONE
+        FACPB=ONE
         IF(MU(I)<ZERO) THEN
           FACC2=ZERO
           IF(DF(I)> VSUBL(I).OR.
      .      (DF(I)<=VSUBL(I).AND.ESPE(I)>=ESUBL(I))) THEN
-           XX  = MU(I)/(UN+MU(I))
+           XX  = MU(I)/(ONE+MU(I))
            EXPA= EXP(-ALPHA(I)*XX*XX)
            EXPB= EXP(BETA(I)*XX)
            FACC1=EXPA*EXPB
@@ -112,25 +112,25 @@ C
           ENDIF
         ENDIF
 C        
-        ETA=UN+MU(I)        
-        OMEGA= UN+ESPE(I)/(EZERO(I)*ETA**2)
+        ETA=ONE+MU(I)        
+        OMEGA= ONE+ESPE(I)/(EZERO(I)*ETA**2)
         AA=FACC1*C1(I)*MU(I)+FACC2*C2(I)*MU2(I)
         BB=PTIA(I)+FACPB*PTIB(I)/OMEGA
         PP=MAX(AA+BB*ETA*ESPE(I),PC(I))*OFF(I)
-        DPDM(I)=FACC1*C1(I)+DEUX*FACC2*C2(I)*MU(I)+BB*ETA*PP*DF(I)*DF(I)
-     .         +ESPE(I)*( BB+(DEUX*ESPE(I)/ETA-PP*DF(I)*DF(I))
+        DPDM(I)=FACC1*C1(I)+TWO*FACC2*C2(I)*MU(I)+BB*ETA*PP*DF(I)*DF(I)
+     .         +ESPE(I)*( BB+(TWO*ESPE(I)/ETA-PP*DF(I)*DF(I))
      .         *PTIB(I)*FACPB/(EZERO(I)*ETA*OMEGA**2) )
         DPDE(I)=BB*ETA
        ENDDO
 C
        DO I=LFT,LLT
-        ECOLD(I)=-TROIS100*SPH(I)
+        ECOLD(I)=-THREE100*SPH(I)
         IF(MU(I).GT.ZERO) THEN
-           XX  = MU(I)/(UN+MU(I))
-           ETA=UN+MU(I)
-           GA=PTIA(I)+PTIB(I)-DTIERS
-           ECOLD(I)=ECOLD(I)*EXP(GA*XX)*ETA**DTIERS+
-     .              UNDEMI*C1(I)*MU2(I)
+           XX  = MU(I)/(ONE+MU(I))
+           ETA=ONE+MU(I)
+           GA=PTIA(I)+PTIB(I)-TWO_THIRD
+           ECOLD(I)=ECOLD(I)*EXP(GA*XX)*ETA**TWO_THIRD+
+     .              HALF*C1(I)*MU2(I)
         ENDIF
        ENDDO
 C
@@ -153,18 +153,18 @@ C----------------------------------------
        ENDDO
 C
        DO I=LFT,LLT
-        DVV=UNDEMI*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-        ETA=UN+MU(I)        
-        OMEGA= UN+ESPE(I)/(EZERO(I)*ETA**2)
+        DVV=HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
+        ETA=ONE+MU(I)        
+        OMEGA= ONE+ESPE(I)/(EZERO(I)*ETA**2)
 C
-        FACC1=UN
-        FACC2=UN
-        FACPB=UN
+        FACC1=ONE
+        FACC2=ONE
+        FACPB=ONE
         IF(MU(I)<ZERO) THEN
          FACC2=ZERO
          IF(DF(I)>VSUBL(I).OR.
      .     (DF(I)<=VSUBL(I).AND.ESPE(I)>=ESUBL(I))) THEN       
-           XX  = MU(I)/(UN+MU(I))
+           XX  = MU(I)/(ONE+MU(I))
            EXPA= EXP(-ALPHA(I)*XX*XX)
            EXPB= EXP(BETA(I)*XX)
            FACC1=EXPA*EXPB
@@ -174,14 +174,14 @@ C
 C
         AA=FACC1*C1(I)*MU(I)+FACC2*C2(I)*MU2(I)
         BB=(PTIA(I)+FACPB*PTIB(I)/OMEGA)*ETA 
-        PNEW(I) = (AA +BB*ESPE(I))/(UN+ BB*DVV)
+        PNEW(I) = (AA +BB*ESPE(I))/(ONE+ BB*DVV)
         ENEW = ESPE(I) - PNEW(I)*DVV
 C       ONE ITERATION
-        OMEGA= UN+ENEW/(EZERO(I)*ETA**2)
+        OMEGA= ONE+ENEW/(EZERO(I)*ETA**2)
         BB=(PTIA(I)+FACPB*PTIB(I)/OMEGA)*ETA        
-        PNEW(I) = (AA +BB*ESPE(I))/(UN+ BB*DVV)
+        PNEW(I) = (AA +BB*ESPE(I))/(ONE+ BB*DVV)
         PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)
-        EINT(I)= EINT(I) - UNDEMI*DVOL(I)*PNEW(I)
+        EINT(I)= EINT(I) - HALF*DVOL(I)*PNEW(I)
        ENDDO
 C------------------------
 C     COMPUTE TEMPERATURE
@@ -193,7 +193,7 @@ C------------------------
        DO I=LFT,LLT
         XX=-ECOLD(I)
         IF(VNEW(I).GT.EM15)XX=DF(I)*EINT(I)/VNEW(I)-ECOLD(I)
-        IF(OFF(I).LT.UN.OR.SPH(I).LE.ZERO.OR.XX.LT.ZERO) CYCLE
+        IF(OFF(I).LT.ONE.OR.SPH(I).LE.ZERO.OR.XX.LT.ZERO) CYCLE
         THETA(I)=XX/SPH(I)
        ENDDO
 C
@@ -215,14 +215,14 @@ C
 C     
          DO I=1, NEL
             IF (VNEW(I) .GT. ZERO) THEN
-               FACC1=UN
-               FACC2=UN
-               FACPB=UN
+               FACC1=ONE
+               FACC2=ONE
+               FACPB=ONE
                IF(MU(I)<ZERO) THEN
                   FACC2=ZERO
                   IF(DF(I)> VSUBL(I).OR.
      .                 (DF(I)<=VSUBL(I).AND.ESPE(I)>=ESUBL(I))) THEN
-                     XX  = MU(I)/(UN+MU(I))
+                     XX  = MU(I)/(ONE+MU(I))
                      EXPA= EXP(-ALPHA(I)*XX*XX)
                      EXPB= EXP(BETA(I)*XX)
                      FACC1=EXPA*EXPB
@@ -230,13 +230,13 @@ C
                   ENDIF
                ENDIF
 C     
-               ETA=UN+MU(I)        
-               OMEGA= UN+ESPE(I)/(EZERO(I)*ETA**2)
+               ETA=ONE+MU(I)        
+               OMEGA= ONE+ESPE(I)/(EZERO(I)*ETA**2)
                AA=FACC1*C1(I)*MU(I)+FACC2*C2(I)*MU2(I)
                BB=PTIA(I)+FACPB*PTIB(I)/OMEGA
                PP=MAX(AA+BB*ETA*ESPE(I),PC(I))*OFF(I)
-               DPDM(I)=FACC1*C1(I)+DEUX*FACC2*C2(I)*MU(I)+BB*ETA*PP*DF(I)*DF(I)
-     .              +ESPE(I)*( BB+(DEUX*ESPE(I)/ETA-PP*DF(I)*DF(I))
+               DPDM(I)=FACC1*C1(I)+TWO*FACC2*C2(I)*MU(I)+BB*ETA*PP*DF(I)*DF(I)
+     .              +ESPE(I)*( BB+(TWO*ESPE(I)/ETA-PP*DF(I)*DF(I))
      .              *PTIB(I)*FACPB/(EZERO(I)*ETA*OMEGA**2) )
                DPDE(I)=BB*ETA
             ENDIF

@@ -160,15 +160,15 @@ C     =====
       FAC_C = FAC_M / (FAC_L * FAC_T * FAC_T)
 C     Default value for time scale factor
       IF (SCAL_T == ZERO) THEN
-         SCAL_T = UN * FAC_T
+         SCAL_T = ONE * FAC_T
       ENDIF
-      SCAL_P = UN * FAC_C
-      SCAL_S = UN * FAC_L * FAC_L
-      SCAL_A = UN 
-      SCAL_D = UN * FAC_L
+      SCAL_P = ONE * FAC_C
+      SCAL_S = ONE * FAC_L * FAC_L
+      SCAL_A = ONE 
+      SCAL_D = ONE * FAC_L
 C     Default value for FFUNC
       IF (FFUNC == ZERO) THEN
-         FFUNC = UN * FAC_C
+         FFUNC = ONE * FAC_C
       ENDIF
 
 C     =====
@@ -176,11 +176,11 @@ C     Store
 C     =====
       T_MONVOLN%RVOLU(15) = FFUNC
 C     Store in data structure
-      T_MONVOLN%RVOLU(26) = UN / SCAL_T
-      T_MONVOLN%RVOLU(27) = UN / SCAL_P
-      T_MONVOLN%RVOLU(28) = UN / SCAL_S
-      T_MONVOLN%RVOLU(29) = UN / SCAL_A
-      T_MONVOLN%RVOLU(30) = UN / SCAL_D   
+      T_MONVOLN%RVOLU(26) = ONE / SCAL_T
+      T_MONVOLN%RVOLU(27) = ONE / SCAL_P
+      T_MONVOLN%RVOLU(28) = ONE / SCAL_S
+      T_MONVOLN%RVOLU(29) = ONE / SCAL_A
+      T_MONVOLN%RVOLU(30) = ONE / SCAL_D   
 C     
       T_MONVOLN%RVOLU(3) = ZERO
       VEPS = MAX(ZERO, VMIN - VOL)

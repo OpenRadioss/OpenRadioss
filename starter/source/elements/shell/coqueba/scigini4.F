@@ -168,7 +168,7 @@ c     .                C1=TITR,
         ENDIF
         IF (ISTRAIN /= 0.AND.ITHKSHEL==2) THEN
 C--- in global sys NPGI=1 for QEPH not like stress
-          IF(SIGSH(17,II) == UN)THEN
+          IF(SIGSH(17,II) == ONE)THEN
             PT = INISHVAR1          
             IF(NPGI <= 1.OR.IHBE == 23)THEN
              IF (NPTI==1) THEN
@@ -183,7 +183,7 @@ C--- in global sys NPGI=1 for QEPH not like stress
               Z1 = SIGSH(PT+6,II)
               E2(1:6) = SIGSH(PT+7:PT+12,II)
               Z2 = SIGSH(PT+13,II)
-              AA = UNDEMI*THKE(I)
+              AA = HALF*THKE(I)
               CALL CG2LEPS(
      7           E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
      8           E1Z(I) ,E2Z(I),E3Z(I),E1   )
@@ -209,7 +209,7 @@ c             error out
                Z0 = AA*(Z2-Z1)
                GSTR(I,6:8)=(E2(1:3)-E1(1:3))/Z0
                GSTR(I,1:3)=E1(1:3)-AA*Z1*GSTR(I,6:8)
-               GSTR(I,4:5)= UNDEMI*(E2(4:5) + E1(4:5))
+               GSTR(I,4:5)= HALF*(E2(4:5) + E1(4:5))
               END IF
              END IF
 C------   NPG > 1 : GSTR-> GBUF%STRPG        
@@ -228,7 +228,7 @@ c                    GBUF%STRPG(PTS+KK(1:5))=E1(1:5)
                  PT = PT + 7
                END DO 
              ELSE
-               AA = UNDEMI*THKE(I)
+               AA = HALF*THKE(I)
                DO IP = 1,NPG
                  E1G(1:6,IP) = SIGSH(PT:PT+5,II)
                  Z1G(IP) = SIGSH(PT+6,II)
@@ -266,7 +266,7 @@ c                error out
                   Z0 = AA*(Z2G(IP)-Z1G(IP))
                   GSTR(I,6:8)=(E2G(1:3,IP)-E1G(1:3,IP))/Z0
                   GSTR(I,1:3)=E1G(1:3,IP)-AA*Z1G(IP)*GSTR(I,6:8)
-                  GSTR(I,4:5)= UNDEMI*(E2G(4:5,IP)+E1G(4:5,IP))
+                  GSTR(I,4:5)= HALF*(E2G(4:5,IP)+E1G(4:5,IP))
                  END IF
                 END IF !(IP==IPG) THEN
                END DO 
@@ -285,7 +285,7 @@ c                error out
         ENDIF
         IF (ISIGSH==0) CYCLE
 C--- in global sys modifying directly SIGSH
-        IF(SIGSH(17,II) == UN)THEN
+        IF(SIGSH(17,II) == ONE)THEN
           IF (NPT == 0)THEN
             IF (NPG>1) THEN
               IF (IHBE == 23) THEN
@@ -427,7 +427,7 @@ C------ Q4,T3
         ENDIF
         IF (IHBE == 23) THEN      !  QEPH-----
 c---
-          PG2I=UNDEMI/PG
+          PG2I=HALF/PG
           IF (NPT == 0)THEN
 
             PT = 22
@@ -435,43 +435,43 @@ c---
             S2(1)=SIGSH(PT+9,II)
             S3(1)=SIGSH(PT+18,II)
             S4(1)=SIGSH(PT+27,II)
-            FOR(I,1)=QUART*(S1(1)+S2(1)+S3(1)+S4(1))
-            HH(I,1)=(S3(1)+S4(1)-DEUX*FOR(I,1))*PG2I
-            HH(I,7)=-(S2(1)+S3(1)-DEUX*FOR(I,1))*PG2I
+            FOR(I,1)=FOURTH*(S1(1)+S2(1)+S3(1)+S4(1))
+            HH(I,1)=(S3(1)+S4(1)-TWO*FOR(I,1))*PG2I
+            HH(I,7)=-(S2(1)+S3(1)-TWO*FOR(I,1))*PG2I
 
             PT = 23
             S1(1)=SIGSH(PT,II)
             S2(1)=SIGSH(PT+9,II)
             S3(1)=SIGSH(PT+18,II)
             S4(1)=SIGSH(PT+27,II)
-            FOR(I,2)=QUART*(S1(1)+S2(1)+S3(1)+S4(1))
-            HH(I,2)=-(S3(1)+S4(1)-DEUX*FOR(I,2))*PG2I
-            HH(I,8)=(S2(1)+S3(1)-DEUX*FOR(I,2))*PG2I
+            FOR(I,2)=FOURTH*(S1(1)+S2(1)+S3(1)+S4(1))
+            HH(I,2)=-(S3(1)+S4(1)-TWO*FOR(I,2))*PG2I
+            HH(I,8)=(S2(1)+S3(1)-TWO*FOR(I,2))*PG2I
 
             PT = 24
             S1(1)=SIGSH(PT,II)
             S2(1)=SIGSH(PT+9,II)
             S3(1)=SIGSH(PT+18,II)
             S4(1)=SIGSH(PT+27,II)
-            FOR(I,3)=QUART*(S1(1)+S2(1)+S3(1)+S4(1))
+            FOR(I,3)=FOURTH*(S1(1)+S2(1)+S3(1)+S4(1))
 
             PT = 25
             S1(1)=SIGSH(PT,II)
             S2(1)=SIGSH(PT+9,II)
             S3(1)=SIGSH(PT+18,II)
             S4(1)=SIGSH(PT+27,II)
-            FOR(I,4)=QUART*(S1(1)+S2(1)+S3(1)+S4(1))
-            HH(I,6)=-(S3(1)+S4(1)-DEUX*FOR(I,4))*PG2I
-            HH(I,12)=(S2(1)+S3(1)-DEUX*FOR(I,4))*PG2I
+            FOR(I,4)=FOURTH*(S1(1)+S2(1)+S3(1)+S4(1))
+            HH(I,6)=-(S3(1)+S4(1)-TWO*FOR(I,4))*PG2I
+            HH(I,12)=(S2(1)+S3(1)-TWO*FOR(I,4))*PG2I
 
             PT = 26
             S1(1)=SIGSH(PT,II)
             S2(1)=SIGSH(PT+9,II)
             S3(1)=SIGSH(PT+18,II)
             S4(1)=SIGSH(PT+27,II)
-            FOR(I,5)=QUART*(S1(1)+S2(1)+S3(1)+S4(1))
-            HH(I,5)=(S3(1)+S4(1)-DEUX*FOR(I,5))*PG2I
-            HH(I,11)=-(S2(1)+S3(1)-DEUX*FOR(I,5))*PG2I
+            FOR(I,5)=FOURTH*(S1(1)+S2(1)+S3(1)+S4(1))
+            HH(I,5)=(S3(1)+S4(1)-TWO*FOR(I,5))*PG2I
+            HH(I,11)=-(S2(1)+S3(1)-TWO*FOR(I,5))*PG2I
 
             PT = 27
             S1(1)=SIGSH(PT,II)
@@ -485,25 +485,25 @@ c---
             S2(1)=SIGSH(PT+9,II)
             S3(1)=SIGSH(PT+18,II)
             S4(1)=SIGSH(PT+27,II)
-            MOM(I,1)=QUART*(S1(1)+S2(1)+S3(1)+S4(1))
-            HH(I,3)= (S3(1)+S4(1)-DEUX*MOM(I,1))*PG2I
-            HH(I,9)=-(S2(1)+S3(1)-DEUX*MOM(I,1))*PG2I
+            MOM(I,1)=FOURTH*(S1(1)+S2(1)+S3(1)+S4(1))
+            HH(I,3)= (S3(1)+S4(1)-TWO*MOM(I,1))*PG2I
+            HH(I,9)=-(S2(1)+S3(1)-TWO*MOM(I,1))*PG2I
 
             PT = 29
             S1(1)=SIGSH(PT,II)
             S2(1)=SIGSH(PT+9,II)
             S3(1)=SIGSH(PT+18,II)
             S4(1)=SIGSH(PT+27,II)
-            MOM(I,2)=QUART*(S1(1)+S2(1)+S3(1)+S4(1))
-            HH(I,4)=-(S3(1)+S4(1)-DEUX*MOM(I,2))*PG2I
-            HH(I,10)=(S2(1)+S3(1)-DEUX*MOM(I,2))*PG2I
+            MOM(I,2)=FOURTH*(S1(1)+S2(1)+S3(1)+S4(1))
+            HH(I,4)=-(S3(1)+S4(1)-TWO*MOM(I,2))*PG2I
+            HH(I,10)=(S2(1)+S3(1)-TWO*MOM(I,2))*PG2I
 
             PT = 30
             S1(1)=SIGSH(PT,II)
             S2(1)=SIGSH(PT+9,II)
             S3(1)=SIGSH(PT+18,II)
             S4(1)=SIGSH(PT+27,II)
-            MOM(I,3)=QUART*(S1(1)+S2(1)+S3(1)+S4(1))
+            MOM(I,3)=FOURTH*(S1(1)+S2(1)+S3(1)+S4(1))
 
           ELSE  ! IHBE=23, NPT > 0
 
@@ -520,20 +520,20 @@ C---------Sx-----------------
                 S2(IP)=SIGSH(PT+6,II)
                 S3(IP)=SIGSH(PT+12,II)
                 S4(IP)=SIGSH(PT+18,II)
-                SM(IP)=QUART*(S1(IP)+S2(IP)+S3(IP)+S4(IP))
+                SM(IP)=FOURTH*(S1(IP)+S2(IP)+S3(IP)+S4(IP))
                 LBUF%SIG(KK(1)+I)=SM(IP)
                 PT = PT + 6*NPG
               ENDDO
               NPTMX = NPTMX + NPTT
             ENDDO
-            HH(I,1)=UNDEMI*PG2I*(S3(1)+S4(1)-DEUX*SM(1)+
-     .                           S3(NPTMX)+S4(NPTMX)-DEUX*SM(NPTMX))
-            HH(I,7)=-UNDEMI*PG2I*(S2(1)+S3(1)-DEUX*SM(1)+
-     .                            S2(NPTMX)+S3(NPTMX)-DEUX*SM(NPTMX))
+            HH(I,1)=HALF*PG2I*(S3(1)+S4(1)-TWO*SM(1)+
+     .                           S3(NPTMX)+S4(NPTMX)-TWO*SM(NPTMX))
+            HH(I,7)=-HALF*PG2I*(S2(1)+S3(1)-TWO*SM(1)+
+     .                            S2(NPTMX)+S3(NPTMX)-TWO*SM(NPTMX))
             HH(I,3)=FM*(S3(1)-S3(NPTMX)+S4(1)-S4(NPTMX)
-     .                           -DEUX*(SM(1)-SM(NPTMX)))
+     .                           -TWO*(SM(1)-SM(NPTMX)))
             HH(I,9)=-FM*(S2(1)-S2(NPTMX)+S3(1)-S3(NPTMX)
-     .                            -DEUX*(SM(1)-SM(NPTMX)))
+     .                            -TWO*(SM(1)-SM(NPTMX)))
 C---------Sy-----------------------
             PT = 22
             NPTMX = 0
@@ -546,20 +546,20 @@ C---------Sy-----------------------
                 S2(IP)=SIGSH(PT+7,II)
                 S3(IP)=SIGSH(PT+13,II)
                 S4(IP)=SIGSH(PT+19,II)
-                SM(IP)=QUART*(S1(IP)+S2(IP)+S3(IP)+S4(IP))
+                SM(IP)=FOURTH*(S1(IP)+S2(IP)+S3(IP)+S4(IP))
                 LBUF%SIG(KK(2)+I)=SM(IP)
                 PT = PT + 6*NPG
               ENDDO
               NPTMX = NPTMX + NPTT
             ENDDO
-            HH(I,2)=-UNDEMI*PG2I*(S3(1)+S4(1)-DEUX*SM(1)+
-     .                            S3(NPTMX)+S4(NPTMX)-DEUX*SM(NPTMX))
-            HH(I,8)=UNDEMI*PG2I*(S2(1)+S3(1)-DEUX*SM(1)+
-     .                           S2(NPTMX)+S3(NPTMX)-DEUX*SM(NPTMX))
+            HH(I,2)=-HALF*PG2I*(S3(1)+S4(1)-TWO*SM(1)+
+     .                            S3(NPTMX)+S4(NPTMX)-TWO*SM(NPTMX))
+            HH(I,8)=HALF*PG2I*(S2(1)+S3(1)-TWO*SM(1)+
+     .                           S2(NPTMX)+S3(NPTMX)-TWO*SM(NPTMX))
             HH(I,4)=-FM*(S3(1)-S3(NPTMX)+S4(1)-S4(NPTMX)
-     .                            -DEUX*(SM(1)-SM(NPTMX)))
+     .                            -TWO*(SM(1)-SM(NPTMX)))
             HH(I,10)=FM*(S2(1)-S2(NPTMX)+S3(1)-S3(NPTMX)
-     .                            -DEUX*(SM(1)-SM(NPTMX)))
+     .                            -TWO*(SM(1)-SM(NPTMX)))
 C---------Sxy,ep-----------------------
             PT = 22
             NPTMX = 0
@@ -573,14 +573,14 @@ C---------Sxy,ep-----------------------
                 S2(IP)=SIGSH(PT+8,II)
                 S3(IP)=SIGSH(PT+14,II)
                 S4(IP)=SIGSH(PT+20,II)
-                SM(IP)=QUART*(S1(IP)+S2(IP)+S3(IP)+S4(IP))
+                SM(IP)=FOURTH*(S1(IP)+S2(IP)+S3(IP)+S4(IP))
                 LBUF%SIG(KK(3)+I)=SM(IP)
                 S1(IP)=SIGSH(PT+5,II)
                 S2(IP)=SIGSH(PT+11,II)
                 S3(IP)=SIGSH(PT+17,II)
                 S4(IP)=SIGSH(PT+23,II)
                 SM(IP)=MIN(S1(IP),S2(IP),S3(IP),S4(IP))
-C                SM(IT)=QUART*(S1(IT)+S2(IT)+S3(IT)+S4(IT))
+C                SM(IT)=FOURTH*(S1(IT)+S2(IT)+S3(IT)+S4(IT))
                 IF (L_PLA > 0) LBUF%PLA(I)=SM(IP)
                 PT = PT + 6*NPG
               ENDDO
@@ -598,16 +598,16 @@ C---------Syz-----------------------
                 S2(IP)=SIGSH(PT+9,II)
                 S3(IP)=SIGSH(PT+15,II)
                 S4(IP)=SIGSH(PT+21,II)
-                SM(IP)=QUART*(S1(IP)+S2(IP)+S3(IP)+S4(IP))
+                SM(IP)=FOURTH*(S1(IP)+S2(IP)+S3(IP)+S4(IP))
                 LBUF%SIG(KK(4)+I)=SM(IP)
                 PT = PT + 6*NPG
               ENDDO
               NPTMX = NPTMX + NPTT
             ENDDO
-            HH(I,6)=-UNDEMI*PG2I*(S3(1)+S4(1)-DEUX*SM(1)+
-     .                            S3(NPTMX)+S4(NPTMX)-DEUX*SM(NPTMX))
-            HH(I,12)=UNDEMI*PG2I*(S2(1)+S3(1)-DEUX*SM(1)+
-     .                            S2(NPTMX)+S3(NPTMX)-DEUX*SM(NPTMX))
+            HH(I,6)=-HALF*PG2I*(S3(1)+S4(1)-TWO*SM(1)+
+     .                            S3(NPTMX)+S4(NPTMX)-TWO*SM(NPTMX))
+            HH(I,12)=HALF*PG2I*(S2(1)+S3(1)-TWO*SM(1)+
+     .                            S2(NPTMX)+S3(NPTMX)-TWO*SM(NPTMX))
 C---------Sxz-----------------------
             PT = 22
             NPTMX = 0
@@ -620,16 +620,16 @@ C---------Sxz-----------------------
                 S2(IP)=SIGSH(PT+10,II)
                 S3(IP)=SIGSH(PT+16,II)
                 S4(IP)=SIGSH(PT+22,II)
-                SM(IP)=QUART*(S1(IP)+S2(IP)+S3(IP)+S4(IP))
+                SM(IP)=FOURTH*(S1(IP)+S2(IP)+S3(IP)+S4(IP))
                 LBUF%SIG(KK(5)+I)=SM(IP)
                 PT = PT + 6*NPG
               ENDDO
               NPTMX = NPTMX + NPTT
             ENDDO
-            HH(I,5)=UNDEMI*PG2I*(S3(1)+S4(1)-DEUX*SM(1)+
-     .                           S3(NPTMX)+S4(NPTMX)-DEUX*SM(NPTMX))
-            HH(I,11)=-UNDEMI*PG2I*(S2(1)+S3(1)-DEUX*SM(1)+
-     .                             S2(NPTMX)+S3(NPTMX)-DEUX*SM(NPTMX))
+            HH(I,5)=HALF*PG2I*(S3(1)+S4(1)-TWO*SM(1)+
+     .                           S3(NPTMX)+S4(NPTMX)-TWO*SM(NPTMX))
+            HH(I,11)=-HALF*PG2I*(S2(1)+S3(1)-TWO*SM(1)+
+     .                             S2(NPTMX)+S3(NPTMX)-TWO*SM(NPTMX))
           ENDIF
 c---
         ELSEIF (IHBE == 11.AND.SIGSH(17,II) == ZERO) THEN  ! QBAT,DKT18-----
@@ -754,9 +754,9 @@ C
               UYZ = A*E3X + B*E3Y + C*E3Z   
              EPS(1) = UXX  
              EPS(2) = UYY  
-             EPS(3) = DEUX*UXY 
-             EPS(4) = DEUX*UYZ 
-             EPS(5) = DEUX*UZX 
+             EPS(3) = TWO*UXY 
+             EPS(4) = TWO*UYZ 
+             EPS(5) = TWO*UZX 
              EPS(6) = ZERO 
       RETURN
       END
@@ -893,9 +893,9 @@ C     REAL ou REAL*8
      .   S1, S2, S3, S4, S5
 C-----------------------------------------------
        S1 = DIR1*DIR1*SIG(1)
-     .     +DIR2*DIR2*SIG(2)+DEUX*DIR1*DIR2*SIG(3)
+     .     +DIR2*DIR2*SIG(2)+TWO*DIR1*DIR2*SIG(3)
        S2 = DIR2*DIR2*SIG(1)
-     .     +DIR1*DIR1*SIG(2)-DEUX*DIR2*DIR1*SIG(3)
+     .     +DIR1*DIR1*SIG(2)-TWO*DIR2*DIR1*SIG(3)
        S3 =-DIR1*DIR2*SIG(1)
      .     +DIR2*DIR1*SIG(2)
      .    +(DIR1*DIR1-DIR2*DIR2)*SIG(3)

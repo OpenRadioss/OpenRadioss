@@ -144,11 +144,11 @@ card8 Johnson-Cook strain rate dependency on damage
       CALL HM_GET_FLOATV('MAT_EXP'   ,EXP_N    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 c
 c-------------------------------------------------------------------------------
-      G    = E * UNDEMI  / (UN + NU)
-      BULK = E * THIRD / (UN - DEUX*NU)
-      C11  = E * (UN-NU) /((UN + NU)*(UN - DEUX*NU))
-      C12  = C11 * NU/(UN - NU)
-      SSP  = SQRT((BULK + QTHIRD*G) / RHO0)  ! sound speed estimation
+      G    = E * HALF  / (ONE + NU)
+      BULK = E * THIRD / (ONE - TWO*NU)
+      C11  = E * (ONE-NU) /((ONE + NU)*(ONE - TWO*NU))
+      C12  = C11 * NU/(ONE - NU)
+      SSP  = SQRT((BULK + FOUR_OVER_3*G) / RHO0)  ! sound speed estimation
 c-------------------
 c     Default values
 c-------------------
@@ -157,17 +157,17 @@ c-------------------
       IF (CC > ZERO) THEN
         FCUT = 1000.0D0 * FAC_T_WORK
       END IF
-      IF (EXP_N == ZERO) EXP_N = UN  
+      IF (EXP_N == ZERO) EXP_N = ONE  
       IF (IFORM == 0) IFORM = 1  
       IF (ITRX  == 0) ITRX  = 1  
       IF (IDAM  == 0) IDAM  = 1  
       IF (XSCALE == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('MAT_Xscale' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        XSCALE = UN * XSCALE_UNIT
+        XSCALE = ONE * XSCALE_UNIT
       ENDIF
       IF (YSCALE == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('MAT_Yscale' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        YSCALE = UN * YSCALE_UNIT
+        YSCALE = ONE * YSCALE_UNIT
       ENDIF
 c-----------------
 c     Johnson/Cookss fracture strain parameters check
@@ -220,7 +220,7 @@ c
 c
       UPARAM(28) = SSP   
       UPARAM(29) = YTAB_ID
-      UPARAM(30) = UN / XSCALE   
+      UPARAM(30) = ONE / XSCALE   
       UPARAM(31) = YSCALE            
       UPARAM(32) = C11            
       UPARAM(33) = C12            
@@ -239,7 +239,7 @@ c--------------------------------
       PARMAT(5)  = FCUT
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) = DEUX*G/(C11+QTHIRD*G) ! == (1-2*nu)/(1-nu)
+      PARMAT(17) = TWO*G/(C11+FOUR_OVER_3*G) ! == (1-2*nu)/(1-nu)
 c-----------------
 c     Element buffer variable allocation
 c-----------------

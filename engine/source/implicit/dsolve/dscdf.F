@@ -173,8 +173,8 @@ C Projection du vecteur des forces
                IF (NDI.GT.0.AND.NSCM.GT.0) 
      .            CALL DGEMM(
      .           'N', 'N',                     NSCM,   NDF, NDI,
-     .           UN,  BL,                      NSCM,   VS,  NDI,
-     .           UN,  GRAPHE(I)%DGRAPH(ISD)%B, NSBMAX)
+     .           ONE,  BL,                      NSCM,   VS,  NDI,
+     .           ONE,  GRAPHE(I)%DGRAPH(ISD)%B, NSBMAX)
                DEALLOCATE(VS)
                DEALLOCATE(BL)
             ENDDO

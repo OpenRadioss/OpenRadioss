@@ -74,14 +74,14 @@ C=======================================================================
       CALL FUNC_MAXY(IDFC,FAC1,NPC,PLD,CMAX)
       CALL FUNC_MAXY(IDFD,FAC2,NPC,PLD,DMAX)
 
-      G    = CMAX *(SB + UN)
-      RBULK= DMAX *(UN + SB) 
+      G    = CMAX *(SB + ONE)
+      RBULK= DMAX *(ONE + SB) 
 
-      NU = (TROIS*RBULK -DEUX*G)/(TROIS*RBULK + G)/DEUX
-      PM(20)= CMAX / DEUX
+      NU = (THREE*RBULK -TWO*G)/(THREE*RBULK + G)/TWO
+      PM(20)= CMAX / TWO
       PM(21)= NU
       PM(22)= G
-      PM(24)= CMAX/(UN - NU**2) / DEUX
+      PM(24)= CMAX/(ONE - NU**2) / TWO
       PM(32)= RBULK  
       UPARAM(8+4)  = G 
       UPARAM(8+5)  = RBULK 
@@ -143,7 +143,7 @@ C====================================================================
        CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
        TAB = 8 
        NSTART = 2
-       ERRTOL = CINQEM3   
+       ERRTOL = FIVEEM3   
        IC1 = NPC(IFUNC(1))
        IC2 = NPC(IFUNC(1)+1)
 
@@ -166,7 +166,7 @@ C====================================================================
        LAM_MIN= ZERO                                         
        DO II = IC1,IC2-2,2                                   
             JJ=JJ+1                                          
-            STRETCH(JJ) = PLD(II)  + UN                       
+            STRETCH(JJ) = PLD(II)  + ONE                       
             STRESS(JJ)  = SCALEFAC * PLD(II+1)                          
             LAM_MAX = MAX(LAM_MAX, ABS(STRETCH(JJ)))         
        ENDDO                                                 
@@ -174,7 +174,7 @@ C====================================================================
        MU_MAX = ZERO                                          
        MU_MIN = 1E20                                          
        DO K = 1, NDATA                                        
-        DX = STRETCH(K) - UN                                  
+        DX = STRETCH(K) - ONE                                  
 c       avolid dx to be too small                             
         IF (DX >= ZERO) THEN                                  
           DX = MAX(DX, EM6)                                   
@@ -185,10 +185,10 @@ c       avolid dx to be too small
         MU_MAX = MAX (MU_MAX, STRESS(K)  / DX)                
         AVE_SLOPE = AVE_SLOPE + ABS(STRESS(K))  / DX          
        ENDDO                                                   
-       AVE_SLOPE = AVE_SLOPE / (UN * NDATA)                  
+       AVE_SLOPE = AVE_SLOPE / (ONE * NDATA)                  
        MU= AVE_SLOPE                                           
 ! initial value  
-       LAM = MAX(SEPT,TROIS*LAM_MAX)         
+       LAM = MAX(SEVEN,THREE*LAM_MAX)         
 C                                            
        NMULA  = 2                            
        AMULA(1) = MAX(MU,MU_MAX)             
@@ -210,14 +210,14 @@ C
         NU  =  UPARAM( TAB+10)                                             
         MU  = AMULA(1)                                                       
         LAM = AMULA(2)                                                       
-        BETA = UN/LAM/LAM
-        GS= MU*(UN +  TROIS*BETA /CINQ + QUATREVINGT19*BETA*BETA/175. 
+        BETA = ONE/LAM/LAM
+        GS= MU*(ONE +  THREE*BETA /FIVE + EIGHTY19*BETA*BETA/175. 
      .         + 513.*BETA**3/875. + 42039.*BETA**4/67375.) 
-        RBULK=DEUX*GS*(UN+NU)                                               
-     .        /MAX(EM30,TROIS*(UN-DEUX*NU))                                  
-        D= DEUX/RBULK                                                        
+        RBULK=TWO*GS*(ONE+NU)                                               
+     .        /MAX(EM30,THREE*(ONE-TWO*NU))                                  
+        D= TWO/RBULK                                                        
         UPARAM(TAB + 6)=MU                                                  
-        UPARAM(TAB + 7)=UN/D                                                   
+        UPARAM(TAB + 7)=ONE/D                                                   
         UPARAM(TAB + 8)=BETA !LAM 
         N_NETWORK = UPARAM(1)                                       
         NMUL    = UPARAM( 6)  
@@ -232,11 +232,11 @@ C
         UPARAM( TAB + 1 )=GS                                                  
         UPARAM( TAB + 2 )=RBULK       
 C parameter    
-        YOUNG  = DEUX*GS*(UN + NU)               
+        YOUNG  = TWO*GS*(ONE + NU)               
         PM(20) = YOUNG                      
         PM(21) = NU                         
         PM(22) = GS                         
-        PM(24) = YOUNG/(UN - NU**2)         
+        PM(24) = YOUNG/(ONE - NU**2)         
         PM(32) = RBULK                      
         PM(100) = RBULK  !PARMAT(1)                   
 !!        
@@ -316,7 +316,7 @@ C=======================================================================
             STIFFMIN = MIN(STIFFMIN,DYDX)
             STIFFAVG = STIFFAVG + DYDX
           ENDDO
-          STIFFAVG = STIFFAVG*DEUX /(PN2-PN1)
+          STIFFAVG = STIFFAVG*TWO /(PN2-PN1)
 c-----------
       RETURN
       END

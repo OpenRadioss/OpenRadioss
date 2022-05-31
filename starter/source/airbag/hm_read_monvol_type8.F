@@ -401,7 +401,7 @@ C     Reverse all normals to ensure positive volume
      .        I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE)
       ENDIF
       IF (TI == ZERO) THEN
-         TI = DEUXCENT95
+         TI = TWOHUNDRED95
       ENDIF  
 !     Find material 
       T_MONVOLN%IVOLU(66) = 0
@@ -494,23 +494,23 @@ C     Default values
 C     ==============
       IF (SCAL_T == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('Ascalet', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)      
-         SCAL_T = UN
+         SCAL_T = ONE
       ENDIF
       IF (SCAL_P == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleP', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)      
-         SCAL_P = UN
+         SCAL_P = ONE
       ENDIF
       IF (SCAL_S == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleS', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)      
-         SCAL_S = UN
+         SCAL_S = ONE
       ENDIF
       IF (SCAL_A == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleA', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)      
-         SCAL_A = UN
+         SCAL_A = ONE
       ENDIF
       IF (SCAL_D == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleD', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)      
-         SCAL_D = UN
+         SCAL_D = ONE
       ENDIF
 
       AMU = EM02
@@ -527,9 +527,9 @@ C     ==============
 !     Injectors
       IF (NJET > 0) THEN
          DO II = 1, NJET
-            FPT(II) = UN * FAC_C
-            FPA(II) = UN * FAC_C
-            FPZ(II) = UN * FAC_C
+            FPT(II) = ONE * FAC_C
+            FPA(II) = ONE * FAC_C
+            FPZ(II) = ONE * FAC_C
          ENDDO
       ENDIF
 !     Ventholes
@@ -538,12 +538,12 @@ C     ==============
             IF (IPVENT(II) == 0) THEN
                BVENT(II) = ZERO
             ENDIF
-            IF (FPORT(II)  == ZERO) FPORT(II) = UN
-            IF (FPORP(II)  == ZERO) FPORP(II) = UN
-            IF (FPORA(II)  == ZERO) FPORA(II) = UN
-            IF (FPORT1(II) == ZERO) FPORT1(II) = UN
-            IF (FPORP1(II) == ZERO) FPORP1(II) = UN
-            IF (FPORA1(II) == ZERO) FPORA1(II) = UN
+            IF (FPORT(II)  == ZERO) FPORT(II) = ONE
+            IF (FPORP(II)  == ZERO) FPORP(II) = ONE
+            IF (FPORA(II)  == ZERO) FPORA(II) = ONE
+            IF (FPORT1(II) == ZERO) FPORT1(II) = ONE
+            IF (FPORP1(II) == ZERO) FPORP1(II) = ONE
+            IF (FPORA1(II) == ZERO) FPORA1(II) = ONE
          ENDDO
       ENDIF
 !     
@@ -563,7 +563,7 @@ C     ==============
         DO JJ=1,NFUNCT
            IF (IVEL(II)==NPC(JJ)) T_MONVOLN%IBAGJET(11, II)=JJ
         ENDDO
-        IF (FVEL(II) == ZERO)  FVEL(II) = UN 
+        IF (FVEL(II) == ZERO)  FVEL(II) = ONE 
       ENDDO 
 
       IF(TSWITCH == ZERO) TSWITCH=EP30
@@ -607,11 +607,11 @@ C     =====
       T_MONVOLN%IVOLU(74) = AUTO_UP_SWITCH !Parameter for autoswitching to uniform pressure airbag
 
       T_MONVOLN%RVOLU(19) = HCONV
-      T_MONVOLN%RVOLU(26) = UN / SCAL_T
-      T_MONVOLN%RVOLU(27) = UN / SCAL_P
-      T_MONVOLN%RVOLU(28) = UN / SCAL_S
-      T_MONVOLN%RVOLU(29) = UN / SCAL_A
-      T_MONVOLN%RVOLU(30) = UN / SCAL_D
+      T_MONVOLN%RVOLU(26) = ONE / SCAL_T
+      T_MONVOLN%RVOLU(27) = ONE / SCAL_P
+      T_MONVOLN%RVOLU(28) = ONE / SCAL_S
+      T_MONVOLN%RVOLU(29) = ONE / SCAL_A
+      T_MONVOLN%RVOLU(30) = ONE / SCAL_D
       T_MONVOLN%RVOLU(31)=CGMERG             
       T_MONVOLN%RVOLU(34)=CNMERG             
       T_MONVOLN%RVOLU(35)=DIRX          
@@ -690,8 +690,8 @@ C     =====
       T_MONVOLN%RVOLU(62) = RHOI
       T_MONVOLN%RVOLU(10) = RMWI
       TI2=TI*TI
-      ESPECI=TI*(CPAI+UNDEMI*CPBI*TI+THIRD*CPCI*TI2-RMWI)
-      ESPECI=ESPECI+QUART*CPDI*TI2*TI2-CPEI/TI+UNCINQ*CPFI*TI2*TI2*TI
+      ESPECI=TI*(CPAI+HALF*CPBI*TI+THIRD*CPCI*TI2-RMWI)
+      ESPECI=ESPECI+FOURTH*CPDI*TI2*TI2-CPEI/TI+ONE_FIFTH*CPFI*TI2*TI2*TI
       T_MONVOLN%RVOLU(63)= ESPECI+RMWI*TI
       T_MONVOLN%RVOLU(64)= ZERO
       T_MONVOLN%RVOLU(65)= ZERO
@@ -831,7 +831,7 @@ C     =====
                CALL ANCMSG(MSGID = 330, ANMODE = ANINFO, MSGTYPE = MSGERROR,
      .              I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE)
             ENDIF
-            IF (AVENT(II) == ZERO) AVENT(II) = UN
+            IF (AVENT(II) == ZERO) AVENT(II) = ONE
          ENDIF
          IF (AVENT(II) == ZERO) DPDEF(II) = INFINITY
          IF (AVENT(II) == ZERO) TVENT(II) = INFINITY
@@ -843,7 +843,7 @@ C     =====
          T_MONVOLN%RBAGHOL(3, II) = TVENT(II)
          T_MONVOLN%RBAGHOL(4, II) = DTPDEF(II)
          T_MONVOLN%RBAGHOL(6, II) = BVENT(II)
-         IF (IVDP(II) /= 0 .AND. FVDP(II) == ZERO) FVDP(II) = UN
+         IF (IVDP(II) /= 0 .AND. FVDP(II) == ZERO) FVDP(II) = ONE
          T_MONVOLN%RBAGHOL(13, II) = FVDP(II)
          IF (TSTOPE(II) == ZERO) TSTOPE(II) = INFINITY
          T_MONVOLN%RBAGHOL(14, II) = TSTOPE(II)
@@ -912,8 +912,8 @@ C
          T_MONVOLN%IBAGHOL(13, NVENTHOLES + II) = 1
          IF (IFVENT(NVENTHOLES + II) == 1) T_MONVOLN%IBAGHOL(10, NVENTHOLES + II) = 2
          IF (IFVENT(NVENTHOLES + II) == 2) T_MONVOLN%IBAGHOL(10, NVENTHOLES + II) = 3
-         IF (FPORT(NVENTHOLES + II)  == ZERO) FPORT(NVENTHOLES + II) = UN
-         IF (FPORA(NVENTHOLES + II)  == ZERO) FPORA(NVENTHOLES + II) = UN
+         IF (FPORT(NVENTHOLES + II)  == ZERO) FPORT(NVENTHOLES + II) = ONE
+         IF (FPORA(NVENTHOLES + II)  == ZERO) FPORA(NVENTHOLES + II) = ONE
          T_MONVOLN%RBAGHOL(7, NVENTHOLES + II) = FPORT(NVENTHOLES + II)
          T_MONVOLN%RBAGHOL(9, NVENTHOLES + II) = FPORA(NVENTHOLES + II)
 C     
@@ -949,7 +949,7 @@ C
          T_MONVOLN%RBAGHOL(3, NVENTHOLES + II) = TVENT(NVENTHOLES + II)
          T_MONVOLN%RBAGHOL(4, NVENTHOLES + II) = DTPDEF(NVENTHOLES + II)
          T_MONVOLN%RBAGHOL(6, NVENTHOLES + II) = CLEAK(NVENTHOLES + II)
-         IF (IVDP(NVENTHOLES + II) /= 0 .AND. FVDP(NVENTHOLES + II) == ZERO) FVDP=UN
+         IF (IVDP(NVENTHOLES + II) /= 0 .AND. FVDP(NVENTHOLES + II) == ZERO) FVDP=ONE
          T_MONVOLN%RBAGHOL(13, NVENTHOLES + II)=FVDP(NVENTHOLES + II)
          IF (TSTOPE(NVENTHOLES + II) == ZERO) TSTOPE(NVENTHOLES + II) = INFINITY
          T_MONVOLN%RBAGHOL(14, NVENTHOLES + II) = TSTOPE(NVENTHOLES + II)
@@ -1074,16 +1074,16 @@ C     =========
             ELSE 
                NN = IGRSURF(SURFID_INJ)%NSEG  
                DO JJ = 1, NN    
-                  DIR = UNDEMI   
+                  DIR = HALF   
                   I1 = IGRSURF(SURFID_INJ)%NODES(JJ,1)   
                   I2 = IGRSURF(SURFID_INJ)%NODES(JJ,2)   
                   I3 = IGRSURF(SURFID_INJ)%NODES(JJ,3)  
                   I4 = IGRSURF(SURFID_INJ)%NODES(JJ,4)  
                   ISH34 = IGRSURF(SURFID_INJ)%ELTYP(JJ) 
                   IF (ISH34 == 7)I4 = I3    
-                  XX = UNDEMI * (X(1, I1) + X(1, I2))   
-                  YY = UNDEMI * (X(2, I1) + X(2, I2))   
-                  ZZ = UNDEMI * (X(3, I1) + X(3, I2))   
+                  XX = HALF * (X(1, I1) + X(1, I2))   
+                  YY = HALF * (X(2, I1) + X(2, I2))   
+                  ZZ = HALF * (X(3, I1) + X(3, I2))   
                   X13 = X(1, I3) - X(1, I1)  
                   Y13 = X(2, I3) - X(2, I1)  
                   Z13 = X(3, I3) - X(3, I1)  

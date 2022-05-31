@@ -479,7 +479,7 @@ C
         DTELEM(NFT+I)=DTX(I)
 C
 C       STI = 0.25 * RHO * VOL / (DT*DT)
-        STI = QUART * GBUF%FILL(I) * GBUF%RHO(I) * VOLU(I) /
+        STI = FOURTH * GBUF%FILL(I) * GBUF%RHO(I) * VOLU(I) /
      .        MAX(EM20,DTX(I)*DTX(I))
         STIFN(IXS(2,I+NFT))=STIFN(IXS(2,I+NFT))+STI
         STIFN(IXS(3,I+NFT))=STIFN(IXS(3,I+NFT))+STI

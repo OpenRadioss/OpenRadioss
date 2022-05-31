@@ -26,8 +26,8 @@ Chd|-- called by -----------
 Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        NINTRI                        source/system/nintrr.F        
+Chd|        FREERR                        source/starter/freform.F
+Chd|        NINTRI                        source/system/nintrr.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE FILL_BUFFER_51( IPM, PM, UPARAM, BUFMAT, USER_ID, TITR, INTERNAL_ID)
@@ -325,8 +325,8 @@ C-----------------------------------------------
                  C1     = ZERO
                  C2     = ZERO
                  C3     = ZERO
-                 C4     = PM_(32)-UN
-                 C5     = PM_(32)-UN
+                 C4     = PM_(32)-ONE
+                 C5     = PM_(32)-ONE
                  PSH    = PM_(88)
                  T0     = PM_(35)
                CASE(10)                    !10:/EOS/STIFF-GAS
@@ -336,8 +336,8 @@ C-----------------------------------------------
                  C1     = ZERO
                  C2     = ZERO
                  C3     = ZERO
-                 C4     = PM_(34)-UN
-                 C5     = PM_(34)-UN
+                 C4     = PM_(34)-ONE
+                 C5     = PM_(34)-ONE
                  PSH    = PM_(88)
                  T0     = PM_(35)
                CASE DEFAULT
@@ -356,7 +356,7 @@ C-----------------------------------------------
             P0     = C0+C4*E0
             G      =  PM_(22)
             DPDMU  = (C1+C5*E0) + C4*(P0)
-            SSP    = SQRT( (DPDMU + DTIERS*G) / RHO )
+            SSP    = SQRT( (DPDMU + TWO_THIRD*G) / RHO )
             PM(27,INTERNAL_ID) = MAX( PM(27,INTERNAL_ID), SSP  )
             !---WRITING LAW51 SUBMATERIAL BUFFER FOR EOS
             J = UPARAM(276+I)
@@ -375,7 +375,7 @@ C-----------------------------------------------
             UPARAM(IDX_YIELD(J)+24) = SSP
             UPARAM(IDX_YIELD(J)+26) = RHO*SSP*SSP
             UPARAM(IDX_VISC+J) = VISC
-         ENDIF !(MLN /= 5)
+         ENDIF !(MLN.NE.5)
 
          SELECT CASE(MLN)
            CASE (5)
@@ -398,8 +398,8 @@ C-----------------------------------------------
               C14            = PM_(44)
               TMELT4         = INFINITY
               THETL4         = INFINITY
-              SPH4           = UN
-              T40            = TROIS100
+              SPH4           = ONE
+              T40            = THREE100
               XKA4           = EM20
               XKB4           = ZERO
               SSP4           = VDET
@@ -421,7 +421,7 @@ C-----------------------------------------------
                 UPARAM(44) = INFINITY
               END IF
               UPARAM(45)  = B1
-              VCJ   = UN  - UN/UPARAM(44)
+              VCJ   = ONE  - ONE/UPARAM(44)
               UPARAM(46)  = AV4
               UPARAM(47)  = RHO40
               IF(UPARAM(47)==ZERO) UPARAM(47) = EM20
@@ -481,8 +481,8 @@ C-----------------------------------------------
              CS     =  PM_(48)
              SPH    =  PM_(69)
              T0     =  PM_(79)
-             GG     =  DEUX*G
-             SSP    = SQRT( (DPDMU + DTIERS*G) / RHO )
+             GG     =  TWO*G
+             SSP    = SQRT( (DPDMU + TWO_THIRD*G) / RHO )
              !---WRITING LAW51 SUBMATERIAL BUFFER
              J = UPARAM(276+I)
              UPARAM(IDX_IPLA    +J)  = 1
@@ -521,7 +521,7 @@ C-----------------------------------------------
 
            CASE(6)
              !no yield criteria
-             T0    = TROIS100
+             T0    = THREE100
              G     = ZERO
              GG    = ZERO
              EPSM  = ZERO
@@ -593,7 +593,7 @@ C-----------------------------------------------
                ANU    =  UPARAM_(11)
                G      =  UPARAM_(08)
                BULK   =  PM_(32)
-               IF(BULK == ZERO)BULK=TIERS*YOUNG/(UN-DEUX*ANU)
+               IF(BULK == ZERO)BULK=THIRD*YOUNG/(ONE-TWO*ANU)
                PMIN   =  PM_(37)
                A0     =  UPARAM_(04)
                A1     =  UPARAM_(05)
@@ -601,8 +601,8 @@ C-----------------------------------------------
                AMX    =  UPARAM_(07)
                PSTAR  =  UPARAM_(03)
              ENDIF
-             GG     =  DEUX*G
-             SSP    = SQRT( (DPDMU + DTIERS*G) / RHO )
+             GG     =  TWO*G
+             SSP    = SQRT( (DPDMU + TWO_THIRD*G) / RHO )
              !---WRITING LAW51 SUBMATERIAL BUFFER
              J = UPARAM(276+I)
              UPARAM(IDX_IPLA    +J)  = 2
@@ -649,22 +649,22 @@ C-----------------------------------------------
 C   Default
 C-----------------------------------------------
       !ABCS
-      IF(UPARAM(38)==ZERO)      UPARAM(38)=UN
+      IF(UPARAM(38)==ZERO)      UPARAM(38)=ONE
       !SPH
-      IF(UPARAM(112)==ZERO)    UPARAM(112)=UN
-      IF(UPARAM(162)==ZERO)    UPARAM(162)=UN
-      IF(UPARAM(212)==ZERO)    UPARAM(212)=UN
-      IF(UPARAM(262)==ZERO)    UPARAM(262)=UN
+      IF(UPARAM(112)==ZERO)    UPARAM(112)=ONE
+      IF(UPARAM(162)==ZERO)    UPARAM(162)=ONE
+      IF(UPARAM(212)==ZERO)    UPARAM(212)=ONE
+      IF(UPARAM(262)==ZERO)    UPARAM(262)=ONE
       !JCOOK EXPONENT
-      IF(UPARAM(104)==ZERO)    UPARAM(104)=UN
-      IF(UPARAM(154)==ZERO)    UPARAM(154)=UN
-      IF(UPARAM(204)==ZERO)    UPARAM(204)=UN
-      !IF(UPARAM(254)==ZERO)    UPARAM(254)=UN
+      IF(UPARAM(104)==ZERO)    UPARAM(104)=ONE
+      IF(UPARAM(154)==ZERO)    UPARAM(154)=ONE
+      IF(UPARAM(204)==ZERO)    UPARAM(204)=ONE
+      !IF(UPARAM(254)==ZERO)    UPARAM(254)=ONE
       !INITIAL TEMPERATURE
-      IF(UPARAM(113)==ZERO)    UPARAM(113)=TROIS100
-      IF(UPARAM(163)==ZERO)    UPARAM(163)=TROIS100
-      IF(UPARAM(213)==ZERO)    UPARAM(213)=TROIS100
-      IF(UPARAM(263)==ZERO)    UPARAM(263)=TROIS100
+      IF(UPARAM(113)==ZERO)    UPARAM(113)=THREE100
+      IF(UPARAM(163)==ZERO)    UPARAM(163)=THREE100
+      IF(UPARAM(213)==ZERO)    UPARAM(213)=THREE100
+      IF(UPARAM(263)==ZERO)    UPARAM(263)=THREE100
       !MAXIMUM PLASTIC STRAIN
       IF(UPARAM(110)==ZERO)    UPARAM(110)=INFINITY
       IF(UPARAM(160)==ZERO)    UPARAM(160)=INFINITY
@@ -691,10 +691,10 @@ C-----------------------------------------------
       IF(UPARAM(214)==ZERO)    UPARAM(214)=EM20
       IF(UPARAM(264)==ZERO)    UPARAM(264)=EM20
       !JCOOK EPS_DOT_REF
-      IF(UPARAM(106)==ZERO)    UPARAM(106)=UN
-      IF(UPARAM(156)==ZERO)    UPARAM(156)=UN
-      IF(UPARAM(206)==ZERO)    UPARAM(206)=UN
-      !IF(UPARAM(256)==ZERO)    UPARAM(256)=UN
+      IF(UPARAM(106)==ZERO)    UPARAM(106)=ONE
+      IF(UPARAM(156)==ZERO)    UPARAM(156)=ONE
+      IF(UPARAM(206)==ZERO)    UPARAM(206)=ONE
+      !IF(UPARAM(256)==ZERO)    UPARAM(256)=ONE
       !DPRAG MUMAX
       IF(UPARAM(119)==ZERO)    UPARAM(119)=INFINITY
       IF(UPARAM(169)==ZERO)    UPARAM(169)=INFINITY
@@ -736,7 +736,7 @@ C-----------------------------------------------
 
        RATIO=UPARAM(74)
        IF(RATIO <= ZERO)THEN
-         RATIO = 0.25D00   !UN is for previous formulation (permitted large volume change)
+         RATIO = 0.25D00   !ONE is for previous formulation (permitted large volume change)
          UPARAM(74)=RATIO
        ENDIF
 

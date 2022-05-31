@@ -130,7 +130,7 @@ C
 C
 C-----DEBUT DE LA PHASE DE TRI 
 C 
-C       SEPARER B ET N EN DEUX
+C       SEPARER B ET N EN TWO
       MARGE = TZINF-GAP  ! il s agit bien de la marge
       CALL I10TRI(
      1   ADD     ,NSN     ,RENUM    ,NSNR     ,NRTM     ,    
@@ -164,10 +164,10 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
           WRITE(IOUT,*)'       MULTIPLIED BY 0.75'
 #include "lockoff.inc"
         ENDIF
-        TZINF = TQUART*TZINF
+        TZINF = THREE_OVER_4*TZINF
 C ne pas dimunuer la taille des boite
-C        MINBOX= TQUART*MINBOX
-C        MAXBOX= TQUART*MAXBOX
+C        MINBOX= THREE_OVER_4*MINBOX
+C        MAXBOX= THREE_OVER_4*MAXBOX
         IF( TZINF.LE.GAP ) THEN
           CALL ANCMSG(MSGID=85,ANMODE=ANINFO,
      .                I1=NOINT)

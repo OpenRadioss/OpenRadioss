@@ -421,12 +421,12 @@ C            First segment is local
              STF = STFM(LEDGE(1,I))
            ELSEIF (LEDGE(3,I) > 0) THEN
 C            First segment is on the other side of the boundary
-             STF = UN
+             STF = ONE
              IF(MVOISIN(LEDGE(4,I),LEDGE(3,I)) == 0) STF = 0
            ELSE ! 
              
              ! ISPMD owns a boundary edge, but the local segment is deleted
-             STF = UN
+             STF = ONE
            ENDIF
            DEBUG_E2E(LEDGE(8,I) == D_ES,P-1)
            DEBUG_E2E(LEDGE(8,I) == D_ES,STF)

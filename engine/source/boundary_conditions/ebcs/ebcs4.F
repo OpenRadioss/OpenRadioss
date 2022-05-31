@@ -117,10 +117,10 @@ C SURFACE NORMALE NODALES
         N3=IRECT(3,IS)
         N4=IRECT(4,IS)
         IF(N4.EQ.0 .OR. N4.EQ.N3) THEN
-          FAC=UNSIX*ORIENT
+          FAC=ONE_OVER_6*ORIENT
           N4=N3
         ELSE
-          FAC=UNHUIT*ORIENT
+          FAC=ONE_OVER_8*ORIENT
         ENDIF
 c
         NG1=LISTE(N1)
@@ -199,7 +199,7 @@ c
         A(1,N)=A(1,N)-P*LA(1,I)
         A(2,N)=A(2,N)-P*LA(2,I)
         A(3,N)=A(3,N)-P*LA(3,I)
-        STIFN(N)=STIFN(N)+(DEUX*(S*ROC)**2)/MS(N)
+        STIFN(N)=STIFN(N)+(TWO*(S*ROC)**2)/MS(N)
       ENDDO
 c      write(6,*)'ebcs4',vx,vy,vz
 c

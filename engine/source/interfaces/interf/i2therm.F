@@ -83,10 +83,10 @@ C
            W = WEIGHT(I)
            S = CRST(1,II)  
            T = CRST(2,II)  
-           SP=UN + S          
-           SM=UN - S          
-           TP=QUART*(UN + T)  
-           TM=QUART*(UN - T)  
+           SP=ONE + S          
+           SM=ONE - S          
+           TP=FOURTH*(ONE + T)  
+           TM=FOURTH*(ONE - T)  
 C
            IX1 = IRECT(1,L)                                       
            IX2 = IRECT(2,L)                                       
@@ -95,7 +95,7 @@ C
            IF(IX3.EQ.IX4) THEN
               H1=TM*SM                                         
               H2=TM*SP  
-              H3=UN-H1-H2
+              H3=ONE-H1-H2
               H4=ZERO
            ELSE
               H1=TM*SM                                         
@@ -115,7 +115,7 @@ C
            AY  = AZ1*AX2 - AX1*AZ2
            AZ  = AX1*AY2 - AY1*AX2
 C
-           AREAM = UNHUIT*SQRT(AX*AX+AY*AY+AZ*AZ)      
+           AREAM = ONE_OVER_8*SQRT(AX*AX+AY*AY+AZ*AZ)      
            AREAC = MIN(AREAS(II),AREAM)
 C            
            TEMPS = TEMP(I)

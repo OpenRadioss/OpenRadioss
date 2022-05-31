@@ -262,7 +262,7 @@ C
             NN = NI - NSN
             STIF(I)=ABS(STIFI(NIN)%P(NN))
           END IF
-          STIF(I)=UNDEMI*(STF(L)+STIF(I))
+          STIF(I)=HALF*(STF(L)+STIF(I))
           STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
          ENDDO
         ELSEIF(IGSTI.EQ.3)THEN

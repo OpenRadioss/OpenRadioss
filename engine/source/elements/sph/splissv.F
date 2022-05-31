@@ -256,7 +256,7 @@ C       a optimiser : traiter NSPHACT only !!!
 C-----------------------------------------------
 
       IF (NSPHSOL > 0) THEN
-        USDT=UN/DT12
+        USDT=ONE/DT12
 !$OMP DO SCHEDULE(DYNAMIC,1)
         DO IG = 1, NGROUNC
           NG = IGROUNC(IG)        
@@ -373,7 +373,7 @@ C               SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
                 VY8=V(2,N8)+DT12*A(2,N8)/MS(N8)
                 VZ8=V(3,N8)+DT12*A(3,N8)/MS(N8)
 C
-                NSPHDIR=NINT((SOL2SPH(2,N)-SOL2SPH(1,N))**TIERS)
+                NSPHDIR=NINT((SOL2SPH(2,N)-SOL2SPH(1,N))**THIRD)
 C-----------------------------------------------
                 DO KP=1,SOL2SPH(2,N)-SOL2SPH(1,N)
                   NP  =SOL2SPH(1,N)+KP
@@ -384,19 +384,19 @@ C-----------------------------------------------
                   ETA  = A_GAUSS(IS,NSPHDIR)
                   ZETA = A_GAUSS(IT,NSPHDIR)
 C
-                  PHI1=(UN-KSI)*(UN-ETA)*(UN-ZETA)
-                  PHI2=(UN-KSI)*(UN-ETA)*(UN+ZETA)
-                  PHI3=(UN+KSI)*(UN-ETA)*(UN+ZETA)
-                  PHI4=(UN+KSI)*(UN-ETA)*(UN-ZETA)
-                  PHI5=(UN-KSI)*(UN+ETA)*(UN-ZETA)
-                  PHI6=(UN-KSI)*(UN+ETA)*(UN+ZETA)
-                  PHI7=(UN+KSI)*(UN+ETA)*(UN+ZETA)
-                  PHI8=(UN+KSI)*(UN+ETA)*(UN-ZETA)
-                  VXI=UNHUIT*(PHI1*VX1+PHI2*VX2+PHI3*VX3+PHI4*VX4+
+                  PHI1=(ONE-KSI)*(ONE-ETA)*(ONE-ZETA)
+                  PHI2=(ONE-KSI)*(ONE-ETA)*(ONE+ZETA)
+                  PHI3=(ONE+KSI)*(ONE-ETA)*(ONE+ZETA)
+                  PHI4=(ONE+KSI)*(ONE-ETA)*(ONE-ZETA)
+                  PHI5=(ONE-KSI)*(ONE+ETA)*(ONE-ZETA)
+                  PHI6=(ONE-KSI)*(ONE+ETA)*(ONE+ZETA)
+                  PHI7=(ONE+KSI)*(ONE+ETA)*(ONE+ZETA)
+                  PHI8=(ONE+KSI)*(ONE+ETA)*(ONE-ZETA)
+                  VXI=ONE_OVER_8*(PHI1*VX1+PHI2*VX2+PHI3*VX3+PHI4*VX4+
      .                        PHI5*VX5+PHI6*VX6+PHI7*VX7+PHI8*VX8)
-                  VYI=UNHUIT*(PHI1*VY1+PHI2*VY2+PHI3*VY3+PHI4*VY4+
+                  VYI=ONE_OVER_8*(PHI1*VY1+PHI2*VY2+PHI3*VY3+PHI4*VY4+
      .                        PHI5*VY5+PHI6*VY6+PHI7*VY7+PHI8*VY8)
-                  VZI=UNHUIT*(PHI1*VZ1+PHI2*VZ2+PHI3*VZ3+PHI4*VZ4+
+                  VZI=ONE_OVER_8*(PHI1*VZ1+PHI2*VZ2+PHI3*VZ3+PHI4*VZ4+
      .                        PHI5*VZ5+PHI6*VZ6+PHI7*VZ7+PHI8*VZ8)
                   INOD=KXSP(3,NP)
                   A(1,INOD)=MS(INOD)*(VXI-V(1,INOD))*USDT
@@ -459,9 +459,9 @@ C-----------------------------------------------
            AZS=-AZI
           ELSE
            AN=AXI*NX+AYI*NY+AZI*NZ
-           AXS=AXI-DEUX*AN*NX
-           AYS=AYI-DEUX*AN*NY
-           AZS=AZI-DEUX*AN*NZ	   
+           AXS=AXI-TWO*AN*NX
+           AYS=AYI-TWO*AN*NY
+           AZS=AZI-TWO*AN*NZ	   
           ENDIF
           WASPSYM(1,JS)=AXS
           WASPSYM(2,JS)=AYS
@@ -486,9 +486,9 @@ C
            AZS=-AZI
           ELSE
            AN=AXI*NX+AYI*NY+AZI*NZ
-           AXS=AXI-DEUX*AN*NX
-           AYS=AYI-DEUX*AN*NY
-           AZS=AZI-DEUX*AN*NZ	   
+           AXS=AXI-TWO*AN*NX
+           AYS=AYI-TWO*AN*NY
+           AZS=AZI-TWO*AN*NZ	   
           ENDIF
           WASPSYM(1,JS)=AXS
           WASPSYM(2,JS)=AYS
@@ -502,16 +502,16 @@ C    /---------------/
 C    /---------------/
 C-------------------------------------------
       EHOURT=ZERO
-      DTINV=UN/DT12
+      DTINV=ONE/DT12
       DO NS =ITASK+1,NSPHACT,NTHREAD
         N=WASPACT(NS)
         INOD =KXSP(3,N)
-        UNM=UN/MAX(EM30,MS(INOD))
+        UNM=ONE/MAX(EM30,MS(INOD))
         VXI=V(1,INOD)+DT12*A(1,INOD)*UNM
         VYI=V(2,INOD)+DT12*A(2,INOD)*UNM
         VZI=V(3,INOD)+DT12*A(3,INOD)*UNM
         VV=VXI*VXI+VYI*VYI+VZI*VZI
-        KV=UNDEMI*MS(INOD)*VV
+        KV=HALF*MS(INOD)*VV
         EHOURT=EHOURT+KV
         IPRT=IPARTSP(N)
         PARTSAV(8,IPRT)=PARTSAV(8,IPRT)+KV
@@ -573,16 +573,16 @@ C Solids to SPH, no interaction if both particles are inactive
           AYJ=A(2,JNOD)
           AZJ=A(3,JNOD)
           DJ=SPBUF(1,M)
-          DIJ=UNDEMI*(DI+DJ)
+          DIJ=HALF*(DI+DJ)
           CALL WEIGHT0(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT)
-          BETAI=UN+BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
+          BETAI=ONE+BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
           ALPHAJ=WACOMP(1,M)
           BETAXJ=WACOMP(2,M)
           BETAYJ=WACOMP(3,M)
           BETAZJ=WACOMP(4,M)
-          BETAJ=UN+BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
-          WGHT=WGHT*(ALPHAI*BETAI+ALPHAJ*BETAJ)*UNDEMI
-          FACT=DEUX*WGHT/(RHOI+RHOJ)
+          BETAJ=ONE+BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
+          WGHT=WGHT*(ALPHAI*BETAI+ALPHAJ*BETAJ)*HALF
+          FACT=TWO*WGHT/(RHOI+RHOJ)
           WAX=AXJ-AXI+MS(INOD)*(VXJ-VXI)*DTINV
           WAY=AYJ-AYI+MS(INOD)*(VYJ-VYI)*DTINV
           WAZ=AZJ-AZI+MS(INOD)*(VZJ-VZI)*DTINV
@@ -603,16 +603,16 @@ C Solids to SPH, no interaction if both particles are inactive
           AYJ=ASPHR(2,NN)
           AZJ=ASPHR(3,NN)
           DJ=XSPHR(2,NN)
-          DIJ=UNDEMI*(DI+DJ)
+          DIJ=HALF*(DI+DJ)
           CALL WEIGHT0(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT)
-          BETAI=UN+BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
+          BETAI=ONE+BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
           ALPHAJ=WACOMPR(1,NN)
           BETAXJ=WACOMPR(2,NN)
           BETAYJ=WACOMPR(3,NN)
           BETAZJ=WACOMPR(4,NN)
-          BETAJ=UN+BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
-          WGHT=WGHT*(ALPHAI*BETAI+ALPHAJ*BETAJ)*UNDEMI
-          FACT=DEUX*WGHT/(RHOI+RHOJ)
+          BETAJ=ONE+BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
+          WGHT=WGHT*(ALPHAI*BETAI+ALPHAJ*BETAJ)*HALF
+          FACT=TWO*WGHT/(RHOI+RHOJ)
           WAX=AXJ-AXI+MS(INOD)*(VXJ-VXI)*DTINV
           WAY=AYJ-AYI+MS(INOD)*(VYJ-VYI)*DTINV
           WAZ=AZJ-AZI+MS(INOD)*(VZJ-VZI)*DTINV
@@ -645,10 +645,10 @@ C Solids to SPH, no interaction if both particles are inactive
           AZJ=WASPSYM(3,JS)
           RHOJ=SPBUF(2,SM)
           DJ  =SPBUF(1,SM)
-          DIJ =UNDEMI*(DI+DJ)
+          DIJ =HALF*(DI+DJ)
           CALL WEIGHT0(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT)
           JNOD=KXSP(3,SM)
-          BETAI=UN +BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
+          BETAI=ONE +BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
           ALPHAJ=WACOMP(1,SM)
 C         BETAXJ=WACOMP(2,SM)
 C         BETAYJ=WACOMP(3,SM)
@@ -656,9 +656,9 @@ C         BETAZJ=WACOMP(4,SM)
           BETAXJ=WSMCOMP(1,JS)
           BETAYJ=WSMCOMP(2,JS)
           BETAZJ=WSMCOMP(3,JS)
-          BETAJ=UN+BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
-          WGHT=WGHT*(ALPHAI*BETAI+ALPHAJ*BETAJ)*UNDEMI
-          FACT=ALPCI*DEUX*SPBUF(12,SM)*WGHT/(RHOI+RHOJ)
+          BETAJ=ONE+BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
+          WGHT=WGHT*(ALPHAI*BETAI+ALPHAJ*BETAJ)*HALF
+          FACT=ALPCI*TWO*SPBUF(12,SM)*WGHT/(RHOI+RHOJ)
           WAX=AXJ-AXI+MS(INOD)*(VXJ-VXI)*DTINV
           WAY=AYJ-AYI+MS(INOD)*(VYJ-VYI)*DTINV
           WAZ=AZJ-AZI+MS(INOD)*(VZJ-VZI)*DTINV
@@ -680,9 +680,9 @@ C Solids to SPH, no interaction if both particles are inactive
           AZJ=WASPSYM(3,JS)
           RHOJ=XSPHR(7,SM)
           DJ  =XSPHR(2,SM)
-          DIJ =UNDEMI*(DI+DJ)
+          DIJ =HALF*(DI+DJ)
           CALL WEIGHT0(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT)
-          BETAI=UN +BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
+          BETAI=ONE +BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
           ALPHAJ=WACOMPR(1,SM)
 C         BETAXJ=WACOMPR(2,SM)
 C         BETAYJ=WACOMPR(3,SM)
@@ -690,9 +690,9 @@ C         BETAZJ=WACOMPR(4,SM)
           BETAXJ=WSMCOMP(1,JS)
           BETAYJ=WSMCOMP(2,JS)
           BETAZJ=WSMCOMP(3,JS)
-          BETAJ=UN+BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
-          WGHT=WGHT*(ALPHAI*BETAI+ALPHAJ*BETAJ)*UNDEMI
-          FACT=ALPCI*DEUX*XSPHR(8,SM)*WGHT/(RHOI+RHOJ)
+          BETAJ=ONE+BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
+          WGHT=WGHT*(ALPHAI*BETAI+ALPHAJ*BETAJ)*HALF
+          FACT=ALPCI*TWO*XSPHR(8,SM)*WGHT/(RHOI+RHOJ)
           WAX=AXJ-AXI+MS(INOD)*(VXJ-VXI)*DTINV
           WAY=AYJ-AYI+MS(INOD)*(VYJ-VYI)*DTINV
           WAZ=AZJ-AZI+MS(INOD)*(VZJ-VZI)*DTINV
@@ -758,10 +758,10 @@ C
             ETA  = A_GAUSS(IS,NSPHDIR)
             ZETA = A_GAUSS(IT,NSPHDIR)
 C
-            PHI1=UNHUIT*(UN-KSI)*(UN-ETA)*(UN-ZETA)
-            PHI2=UNHUIT*(UN-KSI)*(UN-ETA)*(UN+ZETA)
-            PHI3=UNHUIT*(UN+KSI)*(UN-ETA)*(UN+ZETA)
-            PHI4=UNHUIT*(UN+KSI)*(UN-ETA)*(UN-ZETA)
+            PHI1=ONE_OVER_8*(ONE-KSI)*(ONE-ETA)*(ONE-ZETA)
+            PHI2=ONE_OVER_8*(ONE-KSI)*(ONE-ETA)*(ONE+ZETA)
+            PHI3=ONE_OVER_8*(ONE+KSI)*(ONE-ETA)*(ONE+ZETA)
+            PHI4=ONE_OVER_8*(ONE+KSI)*(ONE-ETA)*(ONE-ZETA)
 C
             II=II+1
             AS(1,II)=PHI1*WA(MYADRN+1)
@@ -807,20 +807,20 @@ C
             IR=IRST(1,N-FIRST_SPHSOL+1)
             IS=IRST(2,N-FIRST_SPHSOL+1)
             IT=IRST(3,N-FIRST_SPHSOL+1)
-            NSPHDIR=NINT((SOL2SPH(2,NSOL)-SOL2SPH(1,NSOL))**TIERS)
+            NSPHDIR=NINT((SOL2SPH(2,NSOL)-SOL2SPH(1,NSOL))**THIRD)
 C
             KSI  = A_GAUSS(IR,NSPHDIR)
             ETA  = A_GAUSS(IS,NSPHDIR)
             ZETA = A_GAUSS(IT,NSPHDIR)
 C
-            PHI1=UNHUIT*(UN-KSI)*(UN-ETA)*(UN-ZETA)
-            PHI2=UNHUIT*(UN-KSI)*(UN-ETA)*(UN+ZETA)
-            PHI3=UNHUIT*(UN+KSI)*(UN-ETA)*(UN+ZETA)
-            PHI4=UNHUIT*(UN+KSI)*(UN-ETA)*(UN-ZETA)
-            PHI5=UNHUIT*(UN-KSI)*(UN+ETA)*(UN-ZETA)
-            PHI6=UNHUIT*(UN-KSI)*(UN+ETA)*(UN+ZETA)
-            PHI7=UNHUIT*(UN+KSI)*(UN+ETA)*(UN+ZETA)
-            PHI8=UNHUIT*(UN+KSI)*(UN+ETA)*(UN-ZETA)
+            PHI1=ONE_OVER_8*(ONE-KSI)*(ONE-ETA)*(ONE-ZETA)
+            PHI2=ONE_OVER_8*(ONE-KSI)*(ONE-ETA)*(ONE+ZETA)
+            PHI3=ONE_OVER_8*(ONE+KSI)*(ONE-ETA)*(ONE+ZETA)
+            PHI4=ONE_OVER_8*(ONE+KSI)*(ONE-ETA)*(ONE-ZETA)
+            PHI5=ONE_OVER_8*(ONE-KSI)*(ONE+ETA)*(ONE-ZETA)
+            PHI6=ONE_OVER_8*(ONE-KSI)*(ONE+ETA)*(ONE+ZETA)
+            PHI7=ONE_OVER_8*(ONE+KSI)*(ONE+ETA)*(ONE+ZETA)
+            PHI8=ONE_OVER_8*(ONE+KSI)*(ONE+ETA)*(ONE-ZETA)
 C
             II=II+1
             AS(1,II)=PHI1*WA(MYADRN+1)
@@ -1019,12 +1019,12 @@ C
         DO NS =ITASK+1,NSPHACT,NTHREAD
           N    =WASPACT(NS)
           INOD =KXSP(3,N)
-          UNM=UN/MAX(EM30,MS(INOD))
+          UNM=ONE/MAX(EM30,MS(INOD))
           VXI=V(1,INOD)+DT12*A(1,INOD)*UNM
           VYI=V(2,INOD)+DT12*A(2,INOD)*UNM
           VZI=V(3,INOD)+DT12*A(3,INOD)*UNM
           VV=VXI*VXI+VYI*VYI+VZI*VZI
-          KV=UNDEMI*MS(INOD)*VV
+          KV=HALF*MS(INOD)*VV
           EHOURT=EHOURT-KV
           IPRT=IPARTSP(N)
           PARTSAV(8,IPRT)=PARTSAV(8,IPRT)-KV

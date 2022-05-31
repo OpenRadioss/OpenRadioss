@@ -77,7 +77,7 @@ C     REAL ou REAL*8
 c=======================================================================
       IF(ITHK.GT.0.AND.ISMSTR.NE.3)THEN
         DO I=JFT,JLT
-          ALPE(I)=UN
+          ALPE(I)=ONE
 C --- A CORRIGER : VOL00(I) = THK0(I)*AREA0(I)
           VOL00(I) = THK0(I)*AREA(I)
           THK0(I)=THK(I)
@@ -86,7 +86,7 @@ C --- A CORRIGER : VOL00(I) = THK0(I)*AREA0(I)
         ENDDO
       ELSE
         DO I=JFT,JLT
-          ALPE(I)=UN
+          ALPE(I)=ONE
 C --- A CORRIGER : VOL00(I) = THK0(I)*AREA0(I)
           VOL00(I) = THK0(I)*AREA(I)
           VOL0(I) = VOL00(I)

@@ -127,7 +127,7 @@ C----------voir ici quand ca tombre sur diagonal---
         NNE=NNE+1
         AII=SIGN(MAX(ABS(AII),EM20),AII)
        ENDIF 
-       DIAG_M(I) = UN/AII
+       DIAG_M(I) = ONE/AII
        IADM(I+1)=NNZM+1
        DO J = IADM(I),NNZM
         LT_M(J)=LT_M(J)*DIAG_M(I)

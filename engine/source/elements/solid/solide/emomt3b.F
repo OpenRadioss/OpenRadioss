@@ -124,14 +124,14 @@ C
 C
         DO I=LFT,LLT
           AAA = QMV(1,I)+QMV(2,I)+QMV(3,I)+QMV(4,I)+QMV(5,I)+QMV(6,I)
-          AAA = UNSIX * AAA
+          AAA = ONE_OVER_6 * AAA
 
-          QMV(1,I) = UNHUIT * (QMV(1,I) - AAA)   
-          QMV(2,I) = UNHUIT * (QMV(2,I) - AAA)   
-          QMV(3,I) = UNHUIT * (QMV(3,I) - AAA)   
-          QMV(4,I) = UNHUIT * (QMV(4,I) - AAA)   
-          QMV(5,I) = UNHUIT * (QMV(5,I) - AAA)   
-          QMV(6,I) = UNHUIT * (QMV(6,I) - AAA)   
+          QMV(1,I) = ONE_OVER_8 * (QMV(1,I) - AAA)   
+          QMV(2,I) = ONE_OVER_8 * (QMV(2,I) - AAA)   
+          QMV(3,I) = ONE_OVER_8 * (QMV(3,I) - AAA)   
+          QMV(4,I) = ONE_OVER_8 * (QMV(4,I) - AAA)   
+          QMV(5,I) = ONE_OVER_8 * (QMV(5,I) - AAA)   
+          QMV(6,I) = ONE_OVER_8 * (QMV(6,I) - AAA)   
           DMX = ZERO
           DMY = ZERO
           DMZ = ZERO
@@ -181,32 +181,32 @@ C
           A3(I) = SIGN(GAM(I),A3(I))
           A4(I) = SIGN(GAM(I),A4(I))
 C
-          F11(I) = F11(I) - (UN+A1(I))*DMX
-          F12(I) = F12(I) - (UN+A2(I))*DMX
-          F13(I) = F13(I) - (UN+A3(I))*DMX
-          F14(I) = F14(I) - (UN+A4(I))*DMX
-          F15(I) = F15(I) - (UN-A3(I))*DMX
-          F16(I) = F16(I) - (UN-A4(I))*DMX
-          F17(I) = F17(I) - (UN-A1(I))*DMX
-          F18(I) = F18(I) - (UN-A2(I))*DMX
+          F11(I) = F11(I) - (ONE+A1(I))*DMX
+          F12(I) = F12(I) - (ONE+A2(I))*DMX
+          F13(I) = F13(I) - (ONE+A3(I))*DMX
+          F14(I) = F14(I) - (ONE+A4(I))*DMX
+          F15(I) = F15(I) - (ONE-A3(I))*DMX
+          F16(I) = F16(I) - (ONE-A4(I))*DMX
+          F17(I) = F17(I) - (ONE-A1(I))*DMX
+          F18(I) = F18(I) - (ONE-A2(I))*DMX
 C
-          F21(I) = F21(I) - (UN+A1(I))*DMY
-          F22(I) = F22(I) - (UN+A2(I))*DMY
-          F23(I) = F23(I) - (UN+A3(I))*DMY
-          F24(I) = F24(I) - (UN+A4(I))*DMY
-          F25(I) = F25(I) - (UN-A3(I))*DMY
-          F26(I) = F26(I) - (UN-A4(I))*DMY
-          F27(I) = F27(I) - (UN-A1(I))*DMY
-          F28(I) = F28(I) - (UN-A2(I))*DMY
+          F21(I) = F21(I) - (ONE+A1(I))*DMY
+          F22(I) = F22(I) - (ONE+A2(I))*DMY
+          F23(I) = F23(I) - (ONE+A3(I))*DMY
+          F24(I) = F24(I) - (ONE+A4(I))*DMY
+          F25(I) = F25(I) - (ONE-A3(I))*DMY
+          F26(I) = F26(I) - (ONE-A4(I))*DMY
+          F27(I) = F27(I) - (ONE-A1(I))*DMY
+          F28(I) = F28(I) - (ONE-A2(I))*DMY
 C
-          F31(I) = F31(I) - (UN+A1(I))*DMZ
-          F32(I) = F32(I) - (UN+A2(I))*DMZ
-          F33(I) = F33(I) - (UN+A3(I))*DMZ
-          F34(I) = F34(I) - (UN+A4(I))*DMZ
-          F35(I) = F35(I) - (UN-A3(I))*DMZ
-          F36(I) = F36(I) - (UN-A4(I))*DMZ
-          F37(I) = F37(I) - (UN-A1(I))*DMZ
-          F38(I) = F38(I) - (UN-A2(I))*DMZ
+          F31(I) = F31(I) - (ONE+A1(I))*DMZ
+          F32(I) = F32(I) - (ONE+A2(I))*DMZ
+          F33(I) = F33(I) - (ONE+A3(I))*DMZ
+          F34(I) = F34(I) - (ONE+A4(I))*DMZ
+          F35(I) = F35(I) - (ONE-A3(I))*DMZ
+          F36(I) = F36(I) - (ONE-A4(I))*DMZ
+          F37(I) = F37(I) - (ONE-A1(I))*DMZ
+          F38(I) = F38(I) - (ONE-A2(I))*DMZ
         ENDDO
         RETURN
       ENDIF
@@ -243,32 +243,32 @@ C
         F3(I) = (VDX(I)*DZX(I)+VDY(I)*DZY(I)+VDZ(I)*DZZ(I))*FAC
        ENDDO
        DO I=LFT,LLT
-        F11(I) = F11(I) - (UN+A1(I))*F1(I)*VOLGP(1,I)
-        F12(I) = F12(I) - (UN+A2(I))*F1(I)*VOLGP(2,I)
-        F13(I) = F13(I) - (UN+A3(I))*F1(I)*VOLGP(3,I)
-        F14(I) = F14(I) - (UN+A4(I))*F1(I)*VOLGP(4,I)
-        F15(I) = F15(I) - (UN+A5(I))*F1(I)*VOLGP(5,I)
-        F16(I) = F16(I) - (UN+A6(I))*F1(I)*VOLGP(6,I)
-        F17(I) = F17(I) - (UN+A7(I))*F1(I)*VOLGP(7,I)
-        F18(I) = F18(I) - (UN+A8(I))*F1(I)*VOLGP(8,I)
+        F11(I) = F11(I) - (ONE+A1(I))*F1(I)*VOLGP(1,I)
+        F12(I) = F12(I) - (ONE+A2(I))*F1(I)*VOLGP(2,I)
+        F13(I) = F13(I) - (ONE+A3(I))*F1(I)*VOLGP(3,I)
+        F14(I) = F14(I) - (ONE+A4(I))*F1(I)*VOLGP(4,I)
+        F15(I) = F15(I) - (ONE+A5(I))*F1(I)*VOLGP(5,I)
+        F16(I) = F16(I) - (ONE+A6(I))*F1(I)*VOLGP(6,I)
+        F17(I) = F17(I) - (ONE+A7(I))*F1(I)*VOLGP(7,I)
+        F18(I) = F18(I) - (ONE+A8(I))*F1(I)*VOLGP(8,I)
 C
-        F21(I) = F21(I) - (UN+A1(I))*F2(I)*VOLGP(1,I)
-        F22(I) = F22(I) - (UN+A2(I))*F2(I)*VOLGP(2,I)
-        F23(I) = F23(I) - (UN+A3(I))*F2(I)*VOLGP(3,I)
-        F24(I) = F24(I) - (UN+A4(I))*F2(I)*VOLGP(4,I)
-        F25(I) = F25(I) - (UN+A5(I))*F2(I)*VOLGP(5,I)
-        F26(I) = F26(I) - (UN+A6(I))*F2(I)*VOLGP(6,I)
-        F27(I) = F27(I) - (UN+A7(I))*F2(I)*VOLGP(7,I)
-        F28(I) = F28(I) - (UN+A8(I))*F2(I)*VOLGP(8,I)
+        F21(I) = F21(I) - (ONE+A1(I))*F2(I)*VOLGP(1,I)
+        F22(I) = F22(I) - (ONE+A2(I))*F2(I)*VOLGP(2,I)
+        F23(I) = F23(I) - (ONE+A3(I))*F2(I)*VOLGP(3,I)
+        F24(I) = F24(I) - (ONE+A4(I))*F2(I)*VOLGP(4,I)
+        F25(I) = F25(I) - (ONE+A5(I))*F2(I)*VOLGP(5,I)
+        F26(I) = F26(I) - (ONE+A6(I))*F2(I)*VOLGP(6,I)
+        F27(I) = F27(I) - (ONE+A7(I))*F2(I)*VOLGP(7,I)
+        F28(I) = F28(I) - (ONE+A8(I))*F2(I)*VOLGP(8,I)
 C
-        F31(I) = F31(I) - (UN+A1(I))*F3(I)*VOLGP(1,I)
-        F32(I) = F32(I) - (UN+A2(I))*F3(I)*VOLGP(2,I)
-        F33(I) = F33(I) - (UN+A3(I))*F3(I)*VOLGP(3,I)
-        F34(I) = F34(I) - (UN+A4(I))*F3(I)*VOLGP(4,I)
-        F35(I) = F35(I) - (UN+A5(I))*F3(I)*VOLGP(5,I)
-        F36(I) = F36(I) - (UN+A6(I))*F3(I)*VOLGP(6,I)
-        F37(I) = F37(I) - (UN+A7(I))*F3(I)*VOLGP(7,I)
-        F38(I) = F38(I) - (UN+A8(I))*F3(I)*VOLGP(8,I)	
+        F31(I) = F31(I) - (ONE+A1(I))*F3(I)*VOLGP(1,I)
+        F32(I) = F32(I) - (ONE+A2(I))*F3(I)*VOLGP(2,I)
+        F33(I) = F33(I) - (ONE+A3(I))*F3(I)*VOLGP(3,I)
+        F34(I) = F34(I) - (ONE+A4(I))*F3(I)*VOLGP(4,I)
+        F35(I) = F35(I) - (ONE+A5(I))*F3(I)*VOLGP(5,I)
+        F36(I) = F36(I) - (ONE+A6(I))*F3(I)*VOLGP(6,I)
+        F37(I) = F37(I) - (ONE+A7(I))*F3(I)*VOLGP(7,I)
+        F38(I) = F38(I) - (ONE+A8(I))*F3(I)*VOLGP(8,I)	
        ENDDO
 C
       RETURN

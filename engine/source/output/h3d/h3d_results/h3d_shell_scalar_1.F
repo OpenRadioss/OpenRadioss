@@ -108,7 +108,7 @@ C-----------------------------------------------
      .   VALUE(MVSIZ),VG(5),VLY(5),VE(5),MASS(MVSIZ),A002(MVSIZ),
      .   XPXX(MVSIZ),XPYY(MVSIZ),XPXY(MVSIZ),XPPXX(MVSIZ),
      .   XPPYY(MVSIZ),XPPXY(MVSIZ),XP1(MVSIZ),XP2(MVSIZ),XPP1(MVSIZ),XPP2(MVSIZ),
-     .   PHIP(MVSIZ),PHIPP(MVSIZ),QUATREVINGTDIX
+     .   PHIP(MVSIZ),PHIPP(MVSIZ),NINTY
       my_real
      .   OFF, P,VONM2,S1,S2,S12,S3,DMGMX,FAC,A1,A2,A3,A4,
      .   DIR1_1,DIR1_2,DIR2_1,DIR2_2,AA,BB,V1,V2,V3,X21,X32,X34,
@@ -146,7 +146,7 @@ C-----------------------------------------------
       my_real, DIMENSION(:) ,POINTER  :: UPARAM
       DATA NS/10/
 C----------------------------------------------- 
-       QUATREVINGTDIX = 90.
+       NINTY = 90.
        CALL INITBUF (IPARG    ,NG     ,                    
      2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
      3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTURB   ,  
@@ -261,7 +261,7 @@ C
              	    XX3 = YY1*ZZ2 - ZZ1*YY2
              	    YY3 = ZZ1*XX2 - XX1*ZZ2
              	    ZZ3 = XX1*YY2 - YY1*XX2
-             	    A0  = UNDEMI*SQRT(XX3*XX3 + YY3*YY3 + ZZ3*ZZ3)
+             	    A0  = HALF*SQRT(XX3*XX3 + YY3*YY3 + ZZ3*ZZ3)
              	    MASS(I) = RHO0(I)*THK0*A0
              	  ENDDO
              	ELSE
@@ -282,7 +282,7 @@ C
              	    XX3 = YY1*ZZ2 - ZZ1*YY2
              	    YY3 = ZZ1*XX2 - XX1*ZZ2
              	    ZZ3 = XX1*YY2 - YY1*XX2
-             	    A0  = UNDEMI*SQRT(XX3*XX3 + YY3*YY3 + ZZ3*ZZ3)
+             	    A0  = HALF*SQRT(XX3*XX3 + YY3*YY3 + ZZ3*ZZ3)
              	    MASS(I) = RHO0(I)*THK0*A0
              	  ENDDO 
              	ENDIF 
@@ -308,7 +308,7 @@ C
                     XX3 = YY1*ZZ2 - ZZ1*YY2
                     YY3 = ZZ1*XX2 - XX1*ZZ2
                     ZZ3 = XX1*YY2 - YY1*XX2
-                    A0  = UNDEMI*SQRT(XX3*XX3 + YY3*YY3 + ZZ3*ZZ3)
+                    A0  = HALF*SQRT(XX3*XX3 + YY3*YY3 + ZZ3*ZZ3)
                     MASS(I) = RHO0(I)*THK0*A0
                   ENDDO
             	ELSE
@@ -328,7 +328,7 @@ C
             	    XX3 = YY1*ZZ2 - ZZ1*YY2
             	    YY3 = ZZ1*XX2 - XX1*ZZ2
             	    ZZ3 = XX1*YY2 - YY1*XX2
-            	    A0  = UNDEMI*SQRT(XX3*XX3 + YY3*YY3 + ZZ3*ZZ3)
+            	    A0  = HALF*SQRT(XX3*XX3 + YY3*YY3 + ZZ3*ZZ3)
             	    MASS(I) = RHO0(I)*THK0*A0
             	  ENDDO       
             	ENDIF
@@ -540,7 +540,7 @@ C--------------------------------------------------
                 S1 = GBUF%FOR(JJ(1)+I)
                 S2 = GBUF%FOR(JJ(2)+I)
                 S12= GBUF%FOR(JJ(3)+I)
-                VONM2= S1*S1 + S2*S2 - S1*S2 + TROIS*S12*S12
+                VONM2= S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12
 		VALUE(I) = SQRT(VONM2)		 
                 IS_WRITTEN_VALUE(I) = 1
               ENDDO
@@ -609,7 +609,7 @@ C--------------------------------------------------
                 DO I=1,NEL
                   VALUE(I) = ZERO
                   DO IPG=1,4 
-                    VALUE(I) = VALUE(I) + QUART*GBUF%FORPGPINCH(NEL*(IPG-1)+I)
+                    VALUE(I) = VALUE(I) + FOURTH*GBUF%FORPGPINCH(NEL*(IPG-1)+I)
                   ENDDO 
                   IS_WRITTEN_VALUE(I) = 1
                 ENDDO
@@ -727,7 +727,7 @@ C--------------------------------------------------
            ELSEIF(KEYWORD == 'THIN')THEN
 C--------------------------------------------------
               DO I=1,NEL
-                VALUE(I) = CENT *(GBUF%THK_I(I)-GBUF%THK(I))/GBUF%THK_I(I)			 
+                VALUE(I) = HUNDRED *(GBUF%THK_I(I)-GBUF%THK(I))/GBUF%THK_I(I)			 
                 IS_WRITTEN_VALUE(I) = 1			
               ENDDO
 C--------------------------------------------------
@@ -761,7 +761,7 @@ c
                           UVAR=>ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IPT)%VAR                     
                           IF(IUVAR==3.OR.IUVAR==4)THEN                                                         
                            DO I=1,NEL                                              
-                             VALUE(I) = VALUE(I) + LOG(UVAR(I1 + I)+UN)/NPG                        
+                             VALUE(I) = VALUE(I) + LOG(UVAR(I1 + I)+ONE)/NPG                        
                              IS_WRITTEN_VALUE(I) = 1
                            ENDDO                          
                           ELSE                                                         
@@ -1018,7 +1018,7 @@ c
                         IF (ISHFRAM == 0 .OR. IGTYP == 16 ) THEN                  
 C------                   Repere convecte symetrique - version 5 (default)        
                           SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z                        
-                          SUMA   = UN / MAX(SQRT(SUMA),EM20)                      
+                          SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
                           E3X = E3X * SUMA                                        
                           E3Y = E3Y * SUMA                                        
                           E3Z = E3Z * SUMA                                        
@@ -1031,7 +1031,7 @@ C
                           E1Z = E1Z + (E2X*E3Y-E2Y*E3X)*SUMA                      
 C
                           SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z                        
-                          SUMA   = UN / MAX(SQRT(SUMA),EM20)                      
+                          SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
                           E1X = E1X * SUMA                                        
                           E1Y = E1Y * SUMA                                        
                           E1Z = E1Z * SUMA                                        
@@ -1046,13 +1046,13 @@ C------                   Repere convecte nonsymetrique - version 4
                           E1Y = E1Y*SUMA + E2Z*E3X-E2X*E3Z                        
                           E1Z = E1Z*SUMA + E2X*E3Y-E2Y*E3X                        
                           SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z                        
-                          SUMA   = UN/MAX(SQRT(SUMA),EM20)                        
+                          SUMA   = ONE/MAX(SQRT(SUMA),EM20)                        
                           E1X = E1X*SUMA                                          
                           E1Y = E1Y*SUMA                                          
                           E1Z = E1Z*SUMA                                          
 C
                           SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z                        
-                          SUMA   = UN / MAX(SQRT(SUMA),EM20)                      
+                          SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
                           E3X = E3X * SUMA                                        
                           E3Y = E3Y * SUMA                                        
                           E3Z = E3Z * SUMA                                        
@@ -1061,7 +1061,7 @@ C
                           E2Y = E3Z*E1X-E3X*E1Z                                   
                           E2Z = E3X*E1Y-E3Y*E1X                                   
                           SUMA   = E2X*E2X+E2Y*E2Y+E2Z*E2Z                        
-                          SUMA   = UN/MAX(SQRT(SUMA),EM20)                        
+                          SUMA   = ONE/MAX(SQRT(SUMA),EM20)                        
                           E2X = E2X*SUMA                                          
                           E2Y = E2Y*SUMA                                          
                           E2Z = E2Z*SUMA                                          
@@ -1082,11 +1082,11 @@ C
                           DIR1_2 = BUFLY%DIRA(I+NEL)                          
                         ENDIF                                       
 c
-                        PHI =(CENT80/PI)*ATAN2(DIR1_2,DIR1_1)  
-                        ERR = (ABS(PHI) - QUATREVINGTDIX)/QUATREVINGTDIX
+                        PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
+                        ERR = (ABS(PHI) - NINTY)/NINTY
                         VALUE(I) = PHI
-                        IF(ABS(ERR) < EM02) VALUE(I) = SIGN(QUATREVINGTDIX,PHI)
-                        IF(ABS(VALUE(I)) < UN) VALUE(I) = ZERO
+                        IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
+                        IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
                         IS_WRITTEN_VALUE(I) = 1				
                       ENDDO                                                       
                     ENDIF  ! MLW                                                  
@@ -1134,7 +1134,7 @@ C
                         E3X=E3X/SUM_                                             
                         E3Y=E3Y/SUM_                                             
                         E3Z=E3Z/SUM_                                             
-                        AREA = UNDEMI * SUM_                                     
+                        AREA = HALF * SUM_                                     
                         E2X=E3Y*E1Z-E3Z*E1Y                                     
                         E2Y=E3Z*E1X-E3X*E1Z                                     
                         E2Z=E3X*E1Y-E3Y*E1X                                     
@@ -1157,11 +1157,11 @@ C
                           DIR1_1 = BUFLY%DIRA(I)                        
                           DIR1_2 = BUFLY%DIRA(I+NEL)                        
                         ENDIF                                         
-                        PHI =(CENT80/PI)*ATAN2(DIR1_2,DIR1_1)  
-                        ERR = (ABS(PHI) - QUATREVINGTDIX)/QUATREVINGTDIX
+                        PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
+                        ERR = (ABS(PHI) - NINTY)/NINTY
                         VALUE(I) = PHI
-                        IF(ABS(ERR) < EM02) VALUE(I) = SIGN(QUATREVINGTDIX,PHI)
-                        IF(ABS(VALUE(I)) < UN) VALUE(I) = ZERO
+                        IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
+                        IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
                         IS_WRITTEN_VALUE(I) = 1				
                       ENDDO                                                     
                     ENDIF                                                       
@@ -1222,7 +1222,7 @@ c
                 	  IF (ISHFRAM == 0 .OR. IGTYP == 16 ) THEN		    
 C------         	    Repere convecte symetrique - version 5 (default)	    
                 	    SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z			    
-                	    SUMA   = UN / MAX(SQRT(SUMA),EM20)  	    
+                	    SUMA   = ONE / MAX(SQRT(SUMA),EM20)  	    
                 	    E3X = E3X * SUMA					    
                 	    E3Y = E3Y * SUMA					    
                 	    E3Z = E3Z * SUMA					    
@@ -1235,7 +1235,7 @@ C
                 	    E1Z = E1Z + (E2X*E3Y-E2Y*E3X)*SUMA  		    
 C
                 	    SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z			    
-                	    SUMA   = UN / MAX(SQRT(SUMA),EM20)  		    
+                	    SUMA   = ONE / MAX(SQRT(SUMA),EM20)  		    
                 	    E1X = E1X * SUMA					    
                 	    E1Y = E1Y * SUMA					    
                 	    E1Z = E1Z * SUMA					    
@@ -1250,13 +1250,13 @@ C------         	    Repere convecte nonsymetrique - version 4
                 	    E1Y = E1Y*SUMA + E2Z*E3X-E2X*E3Z			    
                 	    E1Z = E1Z*SUMA + E2X*E3Y-E2Y*E3X			    
                 	    SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z			    
-                	    SUMA   = UN/MAX(SQRT(SUMA),EM20)			    
+                	    SUMA   = ONE/MAX(SQRT(SUMA),EM20)			    
                 	    E1X = E1X*SUMA					    
                 	    E1Y = E1Y*SUMA					    
                 	    E1Z = E1Z*SUMA					    
 C
                 	    SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z			    
-                	    SUMA   = UN / MAX(SQRT(SUMA),EM20)  		    
+                	    SUMA   = ONE / MAX(SQRT(SUMA),EM20)  		    
                 	    E3X = E3X * SUMA					    
                 	    E3Y = E3Y * SUMA					    
                 	    E3Z = E3Z * SUMA					    
@@ -1265,7 +1265,7 @@ C
                 	    E2Y = E3Z*E1X-E3X*E1Z				    
                 	    E2Z = E3X*E1Y-E3Y*E1X				    
                 	    SUMA   = E2X*E2X+E2Y*E2Y+E2Z*E2Z			    
-                	    SUMA   = UN/MAX(SQRT(SUMA),EM20)			    
+                	    SUMA   = ONE/MAX(SQRT(SUMA),EM20)			    
                 	    E2X = E2X*SUMA					    
                 	    E2Y = E2Y*SUMA					    
                 	    E2Z = E2Z*SUMA					    
@@ -1286,11 +1286,11 @@ C
                 	    DIR1_2 = BUFLY%DIRA(I+NEL)	
                 	  ENDIF 				      
 c
-                          PHI =(CENT80/PI)*ATAN2(DIR1_2,DIR1_1)  
-                          ERR = (ABS(PHI) - QUATREVINGTDIX)/QUATREVINGTDIX
+                          PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
+                          ERR = (ABS(PHI) - NINTY)/NINTY
                           VALUE(I) = PHI
-                          IF(ABS(ERR) < EM02) VALUE(I) = SIGN(QUATREVINGTDIX,PHI)
-                          IF(ABS(VALUE(I)) < UN) VALUE(I) = ZERO
+                          IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
+                          IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
                           IS_WRITTEN_VALUE(I) = 1				
                 	ENDDO							    
                       ENDIF  ! MLW						    
@@ -1335,7 +1335,7 @@ C
                 	  E3X=E3X/SUM_						  
                 	  E3Y=E3Y/SUM_						  
                 	  E3Z=E3Z/SUM_						  
-                	  AREA = UNDEMI * SUM_					  
+                	  AREA = HALF * SUM_					  
                 	  E2X=E3Y*E1Z-E3Z*E1Y					  
                 	  E2Y=E3Z*E1X-E3X*E1Z					  
                 	  E2Z=E3X*E1Y-E3Y*E1X					  
@@ -1358,11 +1358,11 @@ C
                 	    DIR1_1 = BUFLY%DIRA(I)			    
                 	    DIR1_2 = BUFLY%DIRA(I+NEL)				  
                 	  ENDIF 					
-                	  PHI =(CENT80/PI)*ATAN2(DIR1_2,DIR1_1)  
-                          ERR = (ABS(PHI) - QUATREVINGTDIX)/QUATREVINGTDIX
+                	  PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
+                          ERR = (ABS(PHI) - NINTY)/NINTY
                           VALUE(I) = PHI
-                          IF(ABS(ERR) < EM02) VALUE(I) = SIGN(QUATREVINGTDIX,PHI)
-                          IF(ABS(VALUE(I)) < UN) VALUE(I) = ZERO
+                          IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
+                          IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
                           IS_WRITTEN_VALUE(I) = 1				
                 	ENDDO							  
                       ENDIF							  
@@ -2040,7 +2040,7 @@ c
      .                             .OR.WPLA(I) < ZERO.OR.WPLA(I) >= WPMAX(I))  
      .                             FAILG(IL,I) = FAILG(IL,I) + 1                 
                                IF (FAILG(IL,I) == NPG ) THEN                  
-                                 FAIL(I) = FAIL(I) + UN                      
+                                 FAIL(I) = FAIL(I) + ONE                      
                                  FAILG(IL,I) = NPG + 1                        
                                ENDIF                                         
                               ENDDO
@@ -2070,7 +2070,7 @@ c
                             WPMAX(I)= PM(41,MATLY(J))                        
                             IF (DAM1(I) >= DMAX(I).OR.DAM2(I) >= DMAX(I).OR.  
      .                          WPLA(I) < ZERO.OR.WPLA(I) >= WPMAX(I))          
-     .                      FAIL(I) = FAIL(I) + UN  
+     .                      FAIL(I) = FAIL(I) + ONE  
                           ENDDO
                         ENDIF
                       ENDDO
@@ -2084,9 +2084,9 @@ c                    IF (IFAILA == 1) THEN
 c                      DO  I=1,NEL
 c                        OFF = GBUF%OFF(I)
 c                        IF (OFF.LT.ZERO) THEN
-c                          FAIL(I)= -UN
+c                          FAIL(I)= -ONE
 c                        ELSEIF (OFF.GT.ZERO) THEN
-c                          FAIL(I)=  UN
+c                          FAIL(I)=  ONE
 c                        ELSE
 c                          FAIL(I)=  ZERO
 c                        END IF
@@ -2122,9 +2122,9 @@ c                IF (IFAILURE==0 .OR.(IFAILURE /=0 .AND.IFAILA==1)) THEN
 c                  DO  I=1,NEL                                         
 c                    OFF = GBUF%OFF(I)                                  
 c                    IF (OFF.LT.ZERO)THEN                                  
-c                      FAIL(I)= -UN                                       
+c                      FAIL(I)= -ONE                                       
 c                    ELSEIF(OFF.GT.ZERO)THEN                              
-c                      FAIL(I)=  UN                                       
+c                      FAIL(I)=  ONE                                       
 c                    ELSE                                                 
 c                      FAIL(I)=  ZERO                                     
 c                    END IF    
@@ -2238,12 +2238,12 @@ C
                        DO IR=1,NPTR
                   	 DO IS=1,NPTS
                   	   LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
-                  	   DMAX(I) = UN/PM(64,MATLY(J)) 			      
-                  	   WPMAX(I)= UN/PM(41,MATLY(J)) 			      
+                  	   DMAX(I) = ONE/PM(64,MATLY(J)) 			      
+                  	   WPMAX(I)= ONE/PM(41,MATLY(J)) 			      
                   	   EPST1(I)= PM(60,MATLY(J))				   
                   	   EPST2(I)= PM(61,MATLY(J))				   
-                  	   EPSF1(I)= UN/PM(98,MATLY(J)) 			      
-                  	   EPSF2(I)= UN/PM(99,MATLY(J))
+                  	   EPSF1(I)= ONE/PM(98,MATLY(J)) 			      
+                  	   EPSF2(I)= ONE/PM(99,MATLY(J))
 C   
                   	   VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I)) 
                   	   VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I)) 
@@ -2324,12 +2324,12 @@ c
                         DO IR=1,NPTR
                           DO IS=1,NPTS
                             LBUF=> ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)  
-                            DMAX(I) = UN/PM(64,MATLY(IADR + I)) 		       
-                            WPMAX(I)= UN/PM(41,MATLY(IADR + I)) 		       
+                            DMAX(I) = ONE/PM(64,MATLY(IADR + I)) 		       
+                            WPMAX(I)= ONE/PM(41,MATLY(IADR + I)) 		       
                             EPST1(I)= PM(60,MATLY(IADR + I))				    
                             EPST2(I)= PM(61,MATLY(IADR + I))				    
-                            EPSF1(I)= UN/PM(98,MATLY(IADR + I)) 		       
-                            EPSF2(I)= UN/PM(99,MATLY(IADR + I))
+                            EPSF1(I)= ONE/PM(98,MATLY(IADR + I)) 		       
+                            EPSF2(I)= ONE/PM(99,MATLY(IADR + I))
 C   
                             VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I)) 
                             VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I)) 
@@ -2402,12 +2402,12 @@ c
                           DO IS=1,NPTS
                             DO IT=1,NPTT
                               LBUF=> ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)  
-                              DMAX(I) = UN/PM(64,MATLY(IADR + I))			 
-                              WPMAX(I)= UN/PM(41,MATLY(IADR + I))			 
+                              DMAX(I) = ONE/PM(64,MATLY(IADR + I))			 
+                              WPMAX(I)= ONE/PM(41,MATLY(IADR + I))			 
                               EPST1(I)= PM(60,MATLY(IADR + I))  			      
                               EPST2(I)= PM(61,MATLY(IADR + I))  			      
-                              EPSF1(I)= UN/PM(98,MATLY(IADR + I))			 
-                              EPSF2(I)= UN/PM(99,MATLY(IADR + I))
+                              EPSF1(I)= ONE/PM(98,MATLY(IADR + I))			 
+                              EPSF2(I)= ONE/PM(99,MATLY(IADR + I))
 C   
                               VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I)) 
                               VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I)) 
@@ -2462,12 +2462,12 @@ c ILAYER=ILAY NPT=IPT
                 	 DO IR=1,NPTR
                 	   DO IS=1,NPTS
                 	     LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IPT)        
-                	     DMAX(I) = UN/PM(64,MATLY(J))				
-                	     WPMAX(I)= UN/PM(41,MATLY(J))				
+                	     DMAX(I) = ONE/PM(64,MATLY(J))				
+                	     WPMAX(I)= ONE/PM(41,MATLY(J))				
                 	     EPST1(I)= PM(60,MATLY(J))  			     
                 	     EPST2(I)= PM(61,MATLY(J))  			     
-                	     EPSF1(I)= UN/PM(98,MATLY(J))				
-                	     EPSF2(I)= UN/PM(99,MATLY(J))
+                	     EPSF1(I)= ONE/PM(98,MATLY(J))				
+                	     EPSF2(I)= ONE/PM(99,MATLY(J))
 C   
                 	     VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I)) 
                 	     VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I)) 
@@ -2518,12 +2518,12 @@ c ILAYER=IL NPT=NULL
                 	 DO IR=1,NPTR
                 	   DO IS=1,NPTS
                 	     LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,1)	    
-                	     DMAX(I) = UN/PM(64,MATLY(J))				
-                	     WPMAX(I)= UN/PM(41,MATLY(J))				
+                	     DMAX(I) = ONE/PM(64,MATLY(J))				
+                	     WPMAX(I)= ONE/PM(41,MATLY(J))				
                 	     EPST1(I)= PM(60,MATLY(J))  			     
                 	     EPST2(I)= PM(61,MATLY(J))  			     
-                	     EPSF1(I)= UN/PM(98,MATLY(J))				
-                	     EPSF2(I)= UN/PM(99,MATLY(J))
+                	     EPSF1(I)= ONE/PM(98,MATLY(J))				
+                	     EPSF2(I)= ONE/PM(99,MATLY(J))
 C   
                 	     VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I)) 
                 	     VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I)) 
@@ -2583,12 +2583,12 @@ C
                 	 DO IR=1,NPTR
                 	   DO IS=1,NPTS
                 	     LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)	     
-                	     DMAX(I) = UN/PM(64,MATLY(J))				
-                	     WPMAX(I)= UN/PM(41,MATLY(J))				
+                	     DMAX(I) = ONE/PM(64,MATLY(J))				
+                	     WPMAX(I)= ONE/PM(41,MATLY(J))				
                 	     EPST1(I)= PM(60,MATLY(J))  			     
                 	     EPST2(I)= PM(61,MATLY(J))  			     
-                	     EPSF1(I)= UN/PM(98,MATLY(J))				
-                	     EPSF2(I)= UN/PM(99,MATLY(J))
+                	     EPSF1(I)= ONE/PM(98,MATLY(J))				
+                	     EPSF2(I)= ONE/PM(99,MATLY(J))
 C   
                 	     VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I)) 
                 	     VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I)) 
@@ -2645,12 +2645,12 @@ c NPT=IPT
                 	 DO IR=1,NPTR
                 	   DO IS=1,NPTS
                 	     LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IPT)	   
-                	     DMAX(I) = UN/PM(64,MATLY(J))				
-                	     WPMAX(I)= UN/PM(41,MATLY(J))				
+                	     DMAX(I) = ONE/PM(64,MATLY(J))				
+                	     WPMAX(I)= ONE/PM(41,MATLY(J))				
                 	     EPST1(I)= PM(60,MATLY(J))  			     
                 	     EPST2(I)= PM(61,MATLY(J))  			     
-                	     EPSF1(I)= UN/PM(98,MATLY(J))				
-                	     EPSF2(I)= UN/PM(99,MATLY(J))
+                	     EPSF1(I)= ONE/PM(98,MATLY(J))				
+                	     EPSF2(I)= ONE/PM(99,MATLY(J))
 C   
                 	     VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I)) 
                 	     VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I)) 
@@ -2776,12 +2776,12 @@ C
                        DO IR=1,NPTR
                 	 DO IS=1,NPTS
                 	   LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(IR,IS,IT)	  
-                	   DMAX(I) = UN/PM(64,MATLY(J)) 			      
-                	   WPMAX(I)= UN/PM(41,MATLY(J)) 			      
+                	   DMAX(I) = ONE/PM(64,MATLY(J)) 			      
+                	   WPMAX(I)= ONE/PM(41,MATLY(J)) 			      
                 	   EPST1(I)= PM(60,MATLY(J))				   
                 	   EPST2(I)= PM(61,MATLY(J))				   
-                	   EPSF1(I)= UN/PM(98,MATLY(J)) 			      
-                	   EPSF2(I)= UN/PM(99,MATLY(J))
+                	   EPSF1(I)= ONE/PM(98,MATLY(J)) 			      
+                	   EPSF2(I)= ONE/PM(99,MATLY(J))
 C   
                 	   VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I)) 
                 	   VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I)) 
@@ -2828,7 +2828,7 @@ c
                   DO I=1,NEL                                                              
                     DO IR = 1,NPTR                                                       
                       DO IS = 1,NPTS                                                     
-                        LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,CEILING(NPTT/DEUX))     
+                        LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,CEILING(NPTT/TWO))     
                         VALUE(I) = VALUE(I) + LBUF%DMG(I)/NPGT                                                           
                       ENDDO                                                               
                     ENDDO                                                                 
@@ -2841,7 +2841,7 @@ c
                     DO IR = 1,NPTR                                                       
                       DO IS = 1,NPTS                                                     
                         LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,NPTT/2)                       
-                        VALUE(I) = VALUE(I) + LBUF%DMG(I)/(DEUX*NPGT)                                                          
+                        VALUE(I) = VALUE(I) + LBUF%DMG(I)/(TWO*NPGT)                                                          
                       ENDDO                                                               
                     ENDDO
                   ENDDO 
@@ -2849,7 +2849,7 @@ c
                     DO IR = 1,NPTR                                                       
                       DO IS = 1,NPTS                                                     
                         LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,(NPTT/2)+1)                       
-                        VALUE(I) = VALUE(I) + LBUF%DMG(I)/(DEUX*NPGT)                                                          
+                        VALUE(I) = VALUE(I) + LBUF%DMG(I)/(TWO*NPGT)                                                          
                       ENDDO                                                               
                     ENDDO                                                                 
                     IS_WRITTEN_VALUE(I) = 1
@@ -3051,17 +3051,17 @@ C------------------
                     S2 = GBUF%FOR(JJ(2)+I)
                     S12= GBUF%FOR(JJ(3)+I)
 !
-                    B_1 = UNDEMI*(S1 - A03*S2)
+                    B_1 = HALF*(S1 - A03*S2)
                     B_2 = A12*S12
                     B_3 = SQRT(B_1*B_1 + B_2*B_2)
 !
-                    A = UNDEMI*(S1 + A03*S2)
+                    A = HALF*(S1 + A03*S2)
                     B_1 = A - B_3
                     B_2 = A + B_3
 !
-                    A002(I) = A002(I)*DEUX**M
+                    A002(I) = A002(I)*TWO**M
                     CRIT = A01*(ABS(B_1**M) + ABS(B_2**M)) + A002(I)*B_3**M
-                    VALUE(I) = (UNDEMI*CRIT)**(UN/M)
+                    VALUE(I) = (HALF*CRIT)**(ONE/M)
                     IS_WRITTEN_VALUE(I) = 1   
                   ENDDO ! DO I=1,NEL
 !
@@ -3104,12 +3104,12 @@ C------------------
                   AL7   =  UPARAM(9)  
                   AL8   =  UPARAM(10)
                   EXPA  =  NINT(UPARAM(15))
-                  UNSA  =  UN/EXPA
+                  UNSA  =  ONE/EXPA
 !
-                  LPP11=(-DEUX* AL3+DEUX*AL4  +  HUIT*AL5-  DEUX*AL6)/NEUF
-                  LPP12=(       AL3-QUATRE*AL4-QUATRE*AL5+QUATRE*AL6)/NEUF
-                  LPP21=(QUATRE*AL3-QUATRE*AL4-QUATRE*AL5+       AL6)/NEUF
-                  LPP22=(-DEUX* AL3+  HUIT*AL4+  DEUX*AL5-  DEUX*AL6)/NEUF
+                  LPP11=(-TWO* AL3+TWO*AL4  +  EIGHT*AL5-  TWO*AL6)/NINE
+                  LPP12=(       AL3-FOUR*AL4-FOUR*AL5+FOUR*AL6)/NINE
+                  LPP21=(FOUR*AL3-FOUR*AL4-FOUR*AL5+       AL6)/NINE
+                  LPP22=(-TWO* AL3+  EIGHT*AL4+  TWO*AL5-  TWO*AL6)/NINE
                   LPP66=AL8
 !
                   DO I=1,NEL
@@ -3117,8 +3117,8 @@ C------------------
                     S2 = GBUF%FOR(JJ(2)+I)
                     S12= GBUF%FOR(JJ(3)+I)
 !
-                    XPXX(I) = (DEUX*AL1*S1-AL1*S2)/TROIS
-                    XPYY(I) =(-AL2*S1+DEUX*AL2*S2)/TROIS
+                    XPXX(I) = (TWO*AL1*S1-AL1*S2)/THREE
+                    XPYY(I) =(-AL2*S1+TWO*AL2*S2)/THREE
                     XPXY(I) = AL7*S12
 !       
                     XPPXX(I) = LPP11*S1 + LPP12*S2
@@ -3127,24 +3127,24 @@ C------------------
 !
                     XP1(I) =(XPXX(I)+XPYY(I)+SQRT(MAX(ZERO,
      .                      (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))
-     .                      +QUATRE*XPXY(I)*XPXY(I))))*UNDEMI
+     .                      +FOUR*XPXY(I)*XPXY(I))))*HALF
                     XP2(I) =(XPXX(I)+XPYY(I)-SQRT(MAX(ZERO,
      .                      (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))
-     .                      +QUATRE*XPXY(I)*XPXY(I))))*UNDEMI
+     .                      +FOUR*XPXY(I)*XPXY(I))))*HALF
 !
                     XPP1(I)=(XPPXX(I)+XPPYY(I)+SQRT(MAX(ZERO,
      .                      (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))
-     .                      +QUATRE*XPPXY(I)*XPPXY(I) ) ))*UNDEMI
+     .                      +FOUR*XPPXY(I)*XPPXY(I) ) ))*HALF
                     XPP2(I)=(XPPXX(I)+XPPYY(I)-SQRT(MAX(ZERO,
      .                      (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))
-     .                      +QUATRE*XPPXY(I)*XPPXY(I))))*UNDEMI
+     .                      +FOUR*XPPXY(I)*XPPXY(I))))*HALF
                     PHIP(I) = ABS(XP1(I)-XP2(I))**EXPA
-                    PHIPP(I)= ABS(DEUX*XPP2(I)+XPP1(I))**EXPA
-     .                       +ABS(DEUX*XPP1(I)+XPP2(I))**EXPA
+                    PHIPP(I)= ABS(TWO*XPP2(I)+XPP1(I))**EXPA
+     .                       +ABS(TWO*XPP1(I)+XPP2(I))**EXPA
 !
                     CRIT = ZERO
                     IF ((PHIP(I)+PHIPP(I))> ZERO)
-     .              CRIT = EXP(UNSA*LOG(UNDEMI*(PHIP(I)+PHIPP(I))))
+     .              CRIT = EXP(UNSA*LOG(HALF*(PHIP(I)+PHIPP(I))))
                     VALUE(I) = CRIT
                     IS_WRITTEN_VALUE(I) = 1   
                   ENDDO ! DO I=1,NEL
@@ -3200,7 +3200,7 @@ C------------------
                   S1 = GBUF%FOR(JJ(1)+I)
                   S2 = GBUF%FOR(JJ(2)+I)
                   S12= GBUF%FOR(JJ(3)+I)
-                  VONM2= S1*S1 + S2*S2 - S1*S2 + TROIS*S12*S12
+                  VONM2= S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12
                   VALUE(I) = SQRT(VONM2)
                   IS_WRITTEN_VALUE(I) = 1   
                 ENDDO
@@ -3321,7 +3321,7 @@ c
                       A2 =  ABS( ATAND(LBUF2%ANG(I) ))
                       A3 =  ABS( ATAND(LBUF3%ANG(I) ))
                       A4 =  ABS( ATAND(LBUF4%ANG(I) ))
-                      VALUE(I) = QUART*(A1 + A2 + A3 + A4)
+                      VALUE(I) = FOURTH*(A1 + A2 + A3 + A4)
                       IS_WRITTEN_VALUE(I) = 1	
                     ENDDO 
                   ELSE
@@ -3357,7 +3357,7 @@ c
                             A2 =  ABS( ATAND(LBUF2%ANG(I) ))
                             A3 =  ABS( ATAND(LBUF3%ANG(I) ))
                             A4 =  ABS( ATAND(LBUF4%ANG(I) ))
-                            VALUE(I) = QUART*(A1 + A2 + A3 + A4)
+                            VALUE(I) = FOURTH*(A1 + A2 + A3 + A4)
                             IS_WRITTEN_VALUE(I) = 1	
                           ENDDO 
                 	       ELSE
@@ -3386,7 +3386,7 @@ c
                       A2 =  ABS( ATAND(LBUF2%ANG(I) ))
                       A3 =  ABS( ATAND(LBUF3%ANG(I) ))
                       A4 =  ABS( ATAND(LBUF4%ANG(I) ))
-                      VALUE(I) = QUART*(A1 + A2 + A3 + A4)
+                      VALUE(I) = FOURTH*(A1 + A2 + A3 + A4)
                       IS_WRITTEN_VALUE(I) = 1	
                     ENDDO 
                 	 ELSE
@@ -3577,12 +3577,12 @@ C--------------------------------------------------
 C--------------------------------------------------                     
              DO I=1,NEL
                IF (GBUF%G_OFF > 0) THEN
-                 IF(GBUF%OFF(I) > UN) THEN
-                   VALUE(I) = GBUF%OFF(I) - UN
-                 ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= UN)) THEN
+                 IF(GBUF%OFF(I) > ONE) THEN
+                   VALUE(I) = GBUF%OFF(I) - ONE
+                 ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= ONE)) THEN
                    VALUE(I) = GBUF%OFF(I)
                  ELSE
-                   VALUE(I) = -UN
+                   VALUE(I) = -ONE
                  ENDIF
                ENDIF
                IS_WRITTEN_VALUE(I) = 1
@@ -3624,9 +3624,9 @@ C--------------------------------------------------
                         TMP(1,1:3)=V(1,IXTG(2:4,I+NFT))-W(1,IXTG(2:4,I+NFT))                                                     
                         TMP(2,1:3)=V(2,IXTG(2:4,I+NFT))-W(2,IXTG(2:4,I+NFT))                                                     
                         TMP(3,1:3)=V(3,IXTG(2:4,I+NFT))-W(3,IXTG(2:4,I+NFT))                                                     
-                        VEL(1) = SUM(TMP(1,1:3))*TIERS                                                     
-                        VEL(2) = SUM(TMP(2,1:3))*TIERS                                                     
-                        VEL(3) = SUM(TMP(3,1:3))*TIERS                                                     
+                        VEL(1) = SUM(TMP(1,1:3))*THIRD                                                     
+                        VEL(2) = SUM(TMP(2,1:3))*THIRD                                                     
+                        VEL(3) = SUM(TMP(3,1:3))*THIRD                                                     
                         VALUE(I) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)  
                         IS_WRITTEN_VALUE(I) = 1                                   
                       ENDDO 
@@ -3636,9 +3636,9 @@ C--------------------------------------------------
                         TMP(1,1:3)=V(1,IXTG(2:4,I+NFT))                                                    
                         TMP(2,1:3)=V(2,IXTG(2:4,I+NFT))                                                    
                         TMP(3,1:3)=V(3,IXTG(2:4,I+NFT))                                                    
-                        VEL(1) = SUM(TMP(1,1:3))*TIERS                                                     
-                        VEL(2) = SUM(TMP(2,1:3))*TIERS                                                     
-                        VEL(3) = SUM(TMP(3,1:3))*TIERS                                                     
+                        VEL(1) = SUM(TMP(1,1:3))*THIRD                                                     
+                        VEL(2) = SUM(TMP(2,1:3))*THIRD                                                     
+                        VEL(3) = SUM(TMP(3,1:3))*THIRD                                                     
                         VALUE(I) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I) 
                         IS_WRITTEN_VALUE(I) = 1                                    
                       ENDDO 
@@ -3734,9 +3734,9 @@ C--------------------------------------------------
                     VY = MULTI_FVM%VEL(2, II)                                              
                     VZ = MULTI_FVM%VEL(3, II)                                              
                     IF(IV /=0)THEN                                                         
-                      VX = ZERO ! UNDEMI(VX + MULTI_FVM%VEL(1, IV))                        
-                      VY = UNDEMI*(VY + MULTI_FVM%VEL(2, IV))                              
-                      VZ = UNDEMI*(VZ + MULTI_FVM%VEL(3, IV))                              
+                      VX = ZERO ! HALF(VX + MULTI_FVM%VEL(1, IV))                        
+                      VY = HALF*(VY + MULTI_FVM%VEL(2, IV))                              
+                      VZ = HALF*(VZ + MULTI_FVM%VEL(3, IV))                              
                     ENDIF                                                                  
                     CUMUL(1)=CUMUL(1)+SURF*(NY*VZ-NZ*VY)                                   
                     !CUMUL(2)=CUMUL(2)+NZ*VX-NX*VZ                                         

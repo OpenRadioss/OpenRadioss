@@ -119,7 +119,7 @@ C-----------------------------------------------
              GBUF => ELBUF_TAB(NG)%GBUF                       
               DO I=1,NEL
                 P = GBUF%SIG(NEL*(1-1)+I)+GBUF%SIG(NEL*(2-1)+I)+GBUF%SIG(NEL*(3-1)+I)   
-                P = -P*TIERS   
+                P = -P*THIRD   
                 V = GBUF%VOL(I)                            
                 DO J=2,NNOD+1
                   JJ=IX(J,NFT+I)
@@ -179,7 +179,7 @@ C                print *, "treating brick id=", IX(11,I+NFT)
                 ENDIF             
                 IF(IB==0)THEN                
                   P = GBUF%SIG(NEL*(1-1)+I)+GBUF%SIG(NEL*(2-1)+I)+GBUF%SIG(NEL*(3-1)+I)   
-                  P = -P*TIERS   
+                  P = -P*THIRD   
                   V = GBUF%VOL(I)                           
                   DO J=2,NNOD+1
                     JJ=IX(J,NFT+I)
@@ -206,7 +206,7 @@ c                   endif
                     ICELL=BRICK_LIST(NIN,IB)%NODE(J-1)%WhichCell
                     IF(ICELL == MCELL)THEN
                       P  = GBUF%SIG(NEL*(1-1)+I)+GBUF%SIG(NEL*(2-1)+I)+GBUF%SIG(NEL*(3-1)+I)   
-                      P  = -P*TIERS   
+                      P  = -P*THIRD   
                       V  = GBUF%VOL(I)                      
                     ELSE
                       pAdjBRICK  => BRICK_LIST(NIN,IB)%Adjacent_Brick(1:6,1:5)       
@@ -229,7 +229,7 @@ c                   endif
                       P          =  GBUFv%SIG(NELv*(1-1)+IDLOCv)+
      .                              GBUFv%SIG(NELv*(2-1)+IDLOCv)+
      .                              GBUFv%SIG(NELv*(3-1)+IDLOCv)
-                      P          = -P*TIERS   
+                      P          = -P*THIRD   
                       V          =  GBUFv%VOL(IDLOCv)                                             
                     ENDIF
                     WA4(JJ)=WA4(JJ)+P*V

@@ -117,7 +117,7 @@ C
       IF ((CFAIL > ZERO).OR.(PFAIL > ZERO)) THEN
         NINDX = 0
         DO I = 1,NEL
-          IF (OFF(I) == QCINQ) THEN
+          IF (OFF(I) == FOUR_OVER_5) THEN
             IDEL7NOK    = 1
             NINDX       = NINDX+1
             INDX(NINDX) = I

@@ -58,16 +58,16 @@ C=======================================================================
       IF(NADMESH==0)THEN
         DO I=LFT,LLT
           THK(I)=THKE(I)
-          OFF(I)=UN
+          OFF(I)=ONE
         END DO
       ELSE
         DO I=LFT,LLT
           THK(I)=THKE(I)
           N=NFT+I
           IF(SHTREE(3,N)>=0)THEN
-            OFF(I)=UN
+            OFF(I)=ONE
           ELSE
-            OFF(I)=-UN
+            OFF(I)=-ONE
           END IF
         END DO
       END IF

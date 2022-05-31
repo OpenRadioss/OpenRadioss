@@ -196,7 +196,7 @@ C-----------------------------------------------
         L5=L4+NMN*NVCONV
         L6=L5+NMN
         !-----------------------------------------------------------------!
-        !   ECHANGE DES INFORMATIONS ENTRE LES DEUX FACES DE l'INTERFACE  !
+        !   ECHANGE DES INFORMATIONS ENTRE LES TWO FACES DE l'INTERFACE  !
         !-----------------------------------------------------------------!
         ! 1- Transforme Valeurs elementaires en valeurs nodales cote second.     
         !-----------------------------------------------------------------!      

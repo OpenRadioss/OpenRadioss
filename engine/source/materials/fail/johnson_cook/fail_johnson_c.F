@@ -112,20 +112,20 @@ c-----------------------------
       IF (IFAIL_SH == 1) THEN
         PTHKF = EM06
       ELSEIF (IFAIL_SH == 2) THEN
-        PTHKF = UN
+        PTHKF = ONE
       ENDIF
 c-----------------------------
       DO I=1,NEL
-        IF (OFF(I) == UN .and. FOFF(I) == 1 .and. DPLA(I) > ZERO) THEN
+        IF (OFF(I) == ONE .and. FOFF(I) == 1 .and. DPLA(I) > ZERO) THEN
           P   = THIRD*(SIGNXX(I) + SIGNYY(I))
           SVM = SQRT (SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)
-     .              - SIGNXX(I)*SIGNYY(I) + TROIS*SIGNXY(I)*SIGNXY(I))
+     .              - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))
           EPSF = D3*P/MAX(EM20,SVM)
-          EPSF = (D1 + D2*EXP(EPSF))*(UN 
-     .               + D4*LOG(MAX(UN,EPSP(I)/EPSP0)))
-     .               * (UN + D5*TSTAR(I))
+          EPSF = (D1 + D2*EXP(EPSF))*(ONE 
+     .               + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
+     .               * (ONE + D5*TSTAR(I))
           IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF  
-          IF (DFMAX(I) >= UN) THEN
+          IF (DFMAX(I) >= ONE) THEN
             NINDX = NINDX + 1
             INDX(NINDX) = I  
             FOFF(I) = 0
@@ -147,7 +147,7 @@ c------------------
 c     Damage for output  0 < DFMAX < 1
 c------------------
       DO I=1,NEL
-        DFMAX(I) = MIN(UN,DFMAX(I))
+        DFMAX(I) = MIN(ONE,DFMAX(I))
       ENDDO
 c------------------
  2000 FORMAT(1X,'FAILURE (JC) OF SHELL ELEMENT ',I10,1X,',GAUSS PT',I2,1X,',LAYER',I3,

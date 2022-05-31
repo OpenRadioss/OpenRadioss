@@ -1437,12 +1437,12 @@ C
 C-----------------------------------------------
 #include "sync_dir.inc"
       IF (IRESP.EQ.1) THEN
-           PREC = CINQEM4
+           PREC = FIVEEM4
       ELSE
            PREC = EM10
       ENDIF
       IF(DT1.GT.ZERO)THEN
-        DT1INV = UN/DT1
+        DT1INV = ONE/DT1
       ELSE
         DT1INV =ZERO
       ENDIF
@@ -1470,15 +1470,15 @@ C
          PP4 = MAX(ZERO, GAPV(I) - D4)
 C
          PENE(I) = MAX(PP1,PP2,PP3,PP4)
-         LA1 = UN - LB1(I) - LC1(I)
-         LA2 = UN - LB2(I) - LC2(I)
-         LA3 = UN - LB3(I) - LC3(I)
-         LA4 = UN - LB4(I) - LC4(I)
+         LA1 = ONE - LB1(I) - LC1(I)
+         LA2 = ONE - LB2(I) - LC2(I)
+         LA3 = ONE - LB3(I) - LC3(I)
+         LA4 = ONE - LB4(I) - LC4(I)
          IF(PENE(I) == PP1)THEN
            N1(I) = NX1(I)
            N2(I) = NY1(I)
            N3(I) = NZ1(I)
-           H0    = QUART * LA1
+           H0    = FOURTH * LA1
            H1(I) = H0 + LB1(I)
            H2(I) = H0 + LC1(I)
            H3(I) = H0
@@ -1487,7 +1487,7 @@ C
            N1(I) = NX2(I)
            N2(I) = NY2(I)
            N3(I) = NZ2(I)
-           H0    = QUART * LA2
+           H0    = FOURTH * LA2
            H1(I) = H0
            H2(I) = H0 + LB2(I)
            H3(I) = H0 + LC2(I)
@@ -1496,7 +1496,7 @@ C
            N1(I) = NX3(I)
            N2(I) = NY3(I)
            N3(I) = NZ3(I)
-           H0    = QUART * LA3
+           H0    = FOURTH * LA3
            H1(I) = H0
            H2(I) = H0
            H3(I) = H0 + LB3(I)
@@ -1505,7 +1505,7 @@ C
            N1(I) = NX4(I)
            N2(I) = NY4(I)
            N3(I) = NZ4(I)
-           H0    = QUART * LA4
+           H0    = FOURTH * LA4
            H1(I) = H0 + LC4(I)
            H2(I) = H0
            H3(I) = H0
@@ -1519,24 +1519,24 @@ c         N1(I) = A1*NX1(I) + A2*NX2(I) + A3*NX3(I) + A4*NX4(I)
 c         N2(I) = A1*NY1(I) + A2*NY2(I) + A3*NY3(I) + A4*NY4(I)
 c         N3(I) = A1*NZ1(I) + A2*NZ2(I) + A3*NZ3(I) + A4*NZ4(I)
 C
-c         LA1 = UN - LB1(I) - LC1(I)
-c         LA2 = UN - LB2(I) - LC2(I)
-c         LA3 = UN - LB3(I) - LC3(I)
-c         LA4 = UN - LB4(I) - LC4(I)
+c         LA1 = ONE - LB1(I) - LC1(I)
+c         LA2 = ONE - LB2(I) - LC2(I)
+c         LA3 = ONE - LB3(I) - LC3(I)
+c         LA4 = ONE - LB4(I) - LC4(I)
 C
-c         H0    = QUART *
+c         H0    = FOURTH *
 c     .         (PP1*LA1 + PP2*LA2 + PP3*LA3 + PP4*LA4)
 c         H1(I) = H0 + PP1 * LB1(I) + PP4 * LC4(I)
 c         H2(I) = H0 + PP2 * LB2(I) + PP1 * LC1(I)
 c         H3(I) = H0 + PP3 * LB3(I) + PP2 * LC2(I)
 c         H4(I) = H0 + PP4 * LB4(I) + PP3 * LC3(I)
-c         H0    = QUART *
+c         H0    = FOURTH *
 c     .         (A1*LA1 + A2*LA2 + A3*LA3 + A4*LA4)
 c         H1(I) = H0 + A1 * LB1(I) + A4 * LC4(I)
 c         H2(I) = H0 + A2 * LB2(I) + A1 * LC1(I)
 c         H3(I) = H0 + A3 * LB3(I) + A2 * LC2(I)
 c         H4(I) = H0 + A4 * LB4(I) + A3 * LC3(I)
-         H00    = UN/MAX(EM20,H1(I) + H2(I) + H3(I) + H4(I))
+         H00    = ONE/MAX(EM20,H1(I) + H2(I) + H3(I) + H4(I))
          H1(I) = H1(I) * H00
          H2(I) = H2(I) * H00
          H3(I) = H3(I) * H00
@@ -1552,7 +1552,7 @@ C
          N3(I) = NZ1(I)
          H1(I) = LB1(I)
          H2(I) = LC1(I)
-         H3(I) = UN - LB1(I) - LC1(I)
+         H3(I) = ONE - LB1(I) - LC1(I)
          H4(I) = ZERO
         ENDIF
       ENDDO
@@ -1560,7 +1560,7 @@ C---------------------
 C     NORMALE
 C---------------------
       DO I=1,JLT
-         S2 = UN/MAX(EM30,SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2))
+         S2 = ONE/MAX(EM30,SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2))
          N1(I) = N1(I)*S2
          N2(I) = N2(I)*S2
          N3(I) = N3(I)*S2
@@ -1587,7 +1587,7 @@ C---------------------
          IF(PENE(I) > MTF(11,IG))THEN
            MTF(11,IG) = PENE(I)
          ELSEIF(PENE(I) == MTF(11,IG))THEN
-           PENE(I) = PENE(I)*(UN-EM6)
+           PENE(I) = PENE(I)*(ONE-EM6)
          ENDIF
          MTF(10,IG) = MTF(10,IG) + PENE(I)
          MTF(12,IG) = MTF(12,IG) + PENE(I)*N1(I)
@@ -1600,7 +1600,7 @@ C---------------------
          IF(PENE(I) > MTFI_PENEMIN(NIN)%P(NN))THEN
            MTFI_PENEMIN(NIN)%P(NN) = PENE(I)
          ELSEIF(PENE(I) == MTFI_PENEMIN(NIN)%P(NN))THEN
-           PENE(I) = PENE(I)*(UN-EM6)
+           PENE(I) = PENE(I)*(ONE-EM6)
          ENDIF
          MTFI_PENE(NIN)%P(NN) = MTFI_PENE(NIN)%P(NN) +  PENE(I)
          MTFI_N(NIN)%P(1,NN) = MTFI_N(NIN)%P(1,NN) + PENE(I)*N1(I)
@@ -1787,9 +1787,9 @@ c            N3(I)   = MTF(14,IG)
 c           ponderation impact multiple
 cc            FAC  = PENE(I) / MTF(10,IG)
 c           ponderation distance
-c quad           FAC = FAC * (UN-MTF(11,IG)*MTF(11,IG))
-c line           FAC = FAC * (UN-MTF(11,IG))
-c            FAC = FAC * (MTF(11,IG)**4-DEUX*MTF(11,IG)**2+UN)
+c quad           FAC = FAC * (ONE-MTF(11,IG)*MTF(11,IG))
+c line           FAC = FAC * (ONE-MTF(11,IG))
+c            FAC = FAC * (MTF(11,IG)**4-TWO*MTF(11,IG)**2+ONE)
 cc            MSI(I)  = MS(IG) * FAC
 c           la normale n'est pas normee!
 c            FNI(I)  = N1(I) * A(1,IG) * FAC
@@ -1800,7 +1800,7 @@ c     .              + N3(I) * A(3,IG) * FAC
      .              + N2(I) * A(2,IG)
      .              + N3(I) * A(3,IG)
 
-            AAA = UN/MAX(EM30,N1(I)**2 + N2(I)**2 + N3(I)**2)
+            AAA = ONE/MAX(EM30,N1(I)**2 + N2(I)**2 + N3(I)**2)
             MSI(I)  = MSI(I) * AAA
             AAA = FNI(I) * AAA
             FXI(I)  = N1(I) * AAA
@@ -1818,7 +1818,7 @@ c            N3(I)   = MTFI_N(NIN)%P(3,NN)
 cc            FAC  = PENE(I) / MTFI_PENE(NIN)%P(NN)
 c           ponderation distance
 c            FAC = FAC * (MTFI_PENEMIN(NIN)%P(NN)**4-
-c     *              DEUX*MTFI_PENEMIN(NIN)%P(NN)**2+UN)
+c     *              TWO*MTFI_PENEMIN(NIN)%P(NN)**2+ONE)
 cc            MSI(I)= MSFI(NIN)%P(NN) * FAC
 cc            FNI(I)  = N1(I) * I18KAFI(NIN)%P(1,NN) * FAC
 cc     .              + N2(I) * I18KAFI(NIN)%P(2,NN) * FAC
@@ -1829,7 +1829,7 @@ cc     .              + N3(I) * I18KAFI(NIN)%P(3,NN) * FAC
      .              + N2(I) * I18KAFI(NIN)%P(2,NN)
      .              + N3(I) * I18KAFI(NIN)%P(3,NN)
 
-            AAA = UN/MAX(EM30,N1(I)**2 + N2(I)**2 + N3(I)**2)
+            AAA = ONE/MAX(EM30,N1(I)**2 + N2(I)**2 + N3(I)**2)
             MSI(I)  = MSI(I) * AAA
             AAA = FNI(I) * AAA
             FXI(I)  = N1(I) * AAA
@@ -2114,7 +2114,7 @@ C---------------------------------
       DO I=1,JLT
         IF(PENE(I).GT.ZERO)THEN
           IG=NSVG(I)
-          FAC = UN
+          FAC = ONE
 c          IF(IG.GT.0)THEN
 c            N1(I)   = MTF(12,IG)
 c            N2(I)   = MTF(13,IG)
@@ -2317,7 +2317,7 @@ C
 C-----------------------------------------------
 #include "sync_dir.inc"
       IF(DT12.GT.ZERO)THEN
-        DT12INV = UN/DT12
+        DT12INV = ONE/DT12
       ELSE
         DT12INV =ZERO
       ENDIF
@@ -2367,11 +2367,11 @@ c la force est ponderee avec FAC
             VSYP = MTF(5,IG)
             VSZP = MTF(6,IG)
 c            FAC  = PENE(I) / MTF(10,IG)
-            FAC = UN
-            FAC2 = UN
-c quad           FAC2 = (UN-MTF(11,IG)*MTF(11,IG))
-c line            FAC2 = (UN-MTF(11,IG))
-c            FAC2 = (MTF(11,IG)**4-DEUX*MTF(11,IG)**2+UN)
+            FAC = ONE
+            FAC2 = ONE
+c quad           FAC2 = (ONE-MTF(11,IG)*MTF(11,IG))
+c line            FAC2 = (ONE-MTF(11,IG))
+c            FAC2 = (MTF(11,IG)**4-TWO*MTF(11,IG)**2+ONE)
             MSI(I)  = MS(IG)
             VXI(I)  = V(1,IG)
             VYI(I)  = V(2,IG)
@@ -2385,10 +2385,10 @@ c            FAC2 = (MTF(11,IG)**4-DEUX*MTF(11,IG)**2+UN)
             VSYP = MTFI_V(NIN)%P(5,NN)
             VSZP = MTFI_V(NIN)%P(6,NN)
 c            FAC  = PENE(I) / MTFI_PENE(NIN)%P(NN)
-            FAC = UN
-            FAC2 = UN
+            FAC = ONE
+            FAC2 = ONE
 c            FAC2 = (     MTFI_PENEMIN(NIN)%P(NN)**4-
-c     *              DEUX*MTFI_PENEMIN(NIN)%P(NN)**2+UN)
+c     *              TWO*MTFI_PENEMIN(NIN)%P(NN)**2+ONE)
             MSI(I)  = MSFI(NIN)%P(NN)
             VXI(I)  = VFI(NIN)%P(1,NN)
             VYI(I)  = VFI(NIN)%P(2,NN)
@@ -2397,7 +2397,7 @@ c     *              DEUX*MTFI_PENEMIN(NIN)%P(NN)**2+UN)
           AAA = VSX*VSX + VSY*VSY + VSZ*VSZ
           BBB = MAX(AAA,EM30)
           AAA = (VXI(I)*VSX + VYI(I)*VSY + VZI(I)*VSZ)/BBB
-          AAA = (UN-AAA)*FAC2
+          AAA = (ONE-AAA)*FAC2
           DVSX = AAA * VSX
           DVSY = AAA * VSY
           DVSZ = AAA * VSZ
@@ -2427,7 +2427,7 @@ C les accelerations sur le proc qui possede le noeud.
 c         forces d'interface
 
           AAA = (VSXP*VSX + VSYP*VSY + VSZP*VSZ)/BBB
-          AAA = (UN-AAA)*FAC2
+          AAA = (ONE-AAA)*FAC2
           AAA = AAA*FAC*MSI(I)*DT12INV
 
           FXI(I) = -AAA * VSX

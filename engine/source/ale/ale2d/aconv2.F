@@ -77,7 +77,7 @@ C-----------------------------------------------
       ENDDO
       DO I=LFT,LLT
         IE =NFT+I
-        VTOT(I) = VTOT(I) + UNDEMI * DT1 *
+        VTOT(I) = VTOT(I) + HALF * DT1 *
      1 (- PHI(IE)*FLU1(I) - VL(1,I)-VL(2,I)-VL(3,I)-VL(4,I) )
         VTOT(I)=MAX(EM20,VTOT(I))
       ENDDO
@@ -86,15 +86,15 @@ C
          IF (N2D .EQ. 1) THEN
             DO I=LFT,LLT
                IE =NFT+I
-               R1 = UNDEMI * (X(2, IXQ(2, IE)) + X(2, IXQ(3, IE)))
-               R2 = UNDEMI * (X(2, IXQ(3, IE)) + X(2, IXQ(4, IE)))
-               R3 = UNDEMI * (X(2, IXQ(4, IE)) + X(2, IXQ(5, IE)))
-               R4 = UNDEMI * (X(2, IXQ(5, IE)) + X(2, IXQ(2, IE)))
+               R1 = HALF * (X(2, IXQ(2, IE)) + X(2, IXQ(3, IE)))
+               R2 = HALF * (X(2, IXQ(3, IE)) + X(2, IXQ(4, IE)))
+               R3 = HALF * (X(2, IXQ(4, IE)) + X(2, IXQ(5, IE)))
+               R4 = HALF * (X(2, IXQ(5, IE)) + X(2, IXQ(2, IE)))
                !!! Beware of r=0 axis
-               IF (R1 .EQ. ZERO) R1 = UN
-               IF (R2 .EQ. ZERO) R2 = UN
-               IF (R3 .EQ. ZERO) R3 = UN
-               IF (R4 .EQ. ZERO) R4 = UN
+               IF (R1 .EQ. ZERO) R1 = ONE
+               IF (R2 .EQ. ZERO) R2 = ONE
+               IF (R3 .EQ. ZERO) R3 = ONE
+               IF (R4 .EQ. ZERO) R4 = ONE
                !!! Divide by mean radius
                QMV(1,I) = QMV(1,I) - VL(1,I) / R1 - PHI(IE)*QMV(5,I) 
                QMV(2,I) = QMV(2,I) - VL(2,I) / R2 - PHI(IE)*QMV(6,I) 

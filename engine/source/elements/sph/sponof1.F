@@ -118,7 +118,6 @@ C-----------------------------------------------
       EXTERNAL GET_U_GEO
       DATA IUN/1/
 C-----------------------------------------------
-      TIERS =THIRD
       TFEXTT=ZERO
       BID=ZERO
 C-------
@@ -139,7 +138,7 @@ C-----------------------------------------------
 C------
 C      general inlet.
        IVAD=ISPHIO(4,I)
-       T05=TT - UNDEMI*DT1
+       T05=TT - HALF*DT1
 C
        IFVITS=ISPHIO(8,I)
        VN    =ZERO
@@ -399,7 +398,7 @@ C      check active particles within distance / re-impose kinematic condition.
          IACTIVE=MWA(KP)
          N=LONFSPH(IACTIVE)
          INOD=KXSP(3,N)
-         TFEXTT=TFEXTT + UNDEMI*MS(INOD)*(VT-
+         TFEXTT=TFEXTT + HALF*MS(INOD)*(VT-
      . (V(1,INOD)*V(1,INOD)+V(2,INOD)*V(2,INOD)+V(3,INOD)*V(3,INOD)))
          VNORMAL(1,N)=-WA(KVNORM+3*(N-1))
          VNORMAL(2,N)=-WA(KVNORM+3*(N-1)+1)
@@ -470,28 +469,28 @@ c          IN4=IBUFSSG_IO(IAD2+NIBSPH*(J-1)+3)
           X4=X(1,IN4)
           Y4=X(2,IN4)
           Z4=X(3,IN4)
-          XP=QUART*(X1+X2+X3+X4)
-          YP=QUART*(Y1+Y2+Y3+Y4)
-          ZP=QUART*(Z1+Z2+Z3+Z4)	  
+          XP=FOURTH*(X1+X2+X3+X4)
+          YP=FOURTH*(Y1+Y2+Y3+Y4)
+          ZP=FOURTH*(Z1+Z2+Z3+Z4)	  
          ELSE
           X4=X3
           Y4=Y3
           Z4=Z3
-          XP=TIERS*(X1+X2+X3)
-          YP=TIERS*(Y1+Y2+Y3)
-          ZP=TIERS*(Z1+Z2+Z3)
+          XP=THIRD*(X1+X2+X3)
+          YP=THIRD*(Y1+Y2+Y3)
+          ZP=THIRD*(Z1+Z2+Z3)
          ENDIF
 C--------
-         X12=UNDEMI*(X2+X3-X1-X4)
-         Y12=UNDEMI*(Y2+Y3-Y1-Y4)
-         Z12=UNDEMI*(Z2+Z3-Z1-Z4)
-         X23=UNDEMI*(X3+X4-X1-X2)
-         Y23=UNDEMI*(Y3+Y4-Y1-Y2)
-         Z23=UNDEMI*(Z3+Z4-Z1-Z2)	 
+         X12=HALF*(X2+X3-X1-X4)
+         Y12=HALF*(Y2+Y3-Y1-Y4)
+         Z12=HALF*(Z2+Z3-Z1-Z4)
+         X23=HALF*(X3+X4-X1-X2)
+         Y23=HALF*(Y3+Y4-Y1-Y2)
+         Z23=HALF*(Z3+Z4-Z1-Z2)	 
          NX = Y12*Z23-Z12*Y23
          NY =-X12*Z23+Z12*X23
          NZ = X12*Y23-Y12*X23
-         NN =UN/MAX(EM20,SQRT(NX*NX+NY*NY+NZ*NZ))
+         NN =ONE/MAX(EM20,SQRT(NX*NX+NY*NY+NZ*NZ))
          NX=NN*NX
          NY=NN*NY
          NZ=NN*NZ
@@ -508,7 +507,7 @@ C--------
            XDP(2,INOD)=YP
            XDP(3,INOD)=ZP
          END IF
-         TFEXTT=TFEXTT+UNDEMI*MP*VT
+         TFEXTT=TFEXTT+HALF*MP*VT
          VNORMAL(1,N)=NX
          VNORMAL(2,N)=NY
          VNORMAL(3,N)=NZ
@@ -532,7 +531,7 @@ C--------
           VOLO=GBUF%VOL(K)
           TFEXTT=TFEXTT+EI*VOLO
           GBUF%EINT(K) =EI
-          GBUF%OFF(K)  =UN
+          GBUF%OFF(K)  =ONE
           GBUF%RHO(K)  =RHON
           SPBUF(1,N)=DIAM
           SPBUF(2,N) =RHON

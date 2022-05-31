@@ -147,7 +147,7 @@ C
           EPS(I,5)=EXZ(I)
           STRN1(I)= GSTR(I,1)+ZT*GSTR(I,6)
           STRN2(I)= GSTR(I,2)+ZT*GSTR(I,7)
-          STRN3(I)=(GSTR(I,3)+ZT*GSTR(I,8))*UNDEMI
+          STRN3(I)=(GSTR(I,3)+ZT*GSTR(I,8))*HALF
         ENDDO
       ELSE 
         DO I=JFT,JLT
@@ -161,7 +161,7 @@ C
 !          EPS(5,I)=EXZ(I) + PLY_EXZ(I,J) 
           STRN1(I)= GSTR(I,1)+ ZT*GSTR(I,6)
           STRN2(I)= GSTR(I,2)+ ZT*GSTR(I,7)
-          STRN3(I)=(GSTR(I,3)+ ZT*GSTR(I,8))*UNDEMI  
+          STRN3(I)=(GSTR(I,3)+ ZT*GSTR(I,8))*HALF  
         ENDDO
       ENDIF
 C
@@ -267,19 +267,19 @@ C     TEST DE RUPTURE ---special treatment inside law25 ---
 C----------------------------
       DO I=JFT,JLT
         IF (OFF(I) == OFF_OLD(I) .and. OFF(I) > ZERO) THEN
-          IF (OFF(I) == UN) THEN
+          IF (OFF(I) == ONE) THEN
             IOFF = NINT(PM(42,IMATLY))
             RATIO = PM(188,IMATLY)
             IF (RATIO < ZERO) THEN
               FAILNPT = NPTTOT - 1   ! NPTT =MAX(NPTT) for IGTYP=51
             ELSE
-              FAILNPT = NPTTOT - NINT(NPTTOT*(UN-RATIO))
+              FAILNPT = NPTTOT - NINT(NPTTOT*(ONE-RATIO))
 c              FAILNPT = CEILING(NPTTOT*RATIO)
             END IF
             IF (IOFF < 0) IOFF=-(IOFF+1)
             JOFF=0
 C       
-            IF (IOFF == 0 .AND. WPLAR(I) >= UN) JOFF=1
+            IF (IOFF == 0 .AND. WPLAR(I) >= ONE) JOFF=1
             IF (IOFF == 1 .AND. NINT(WPLAR(I)) >= FAILNPT) JOFF=1
             IF (IOFF == 2 .AND. NFIS1(I) >= FAILNPT) JOFF=1
             IF (IOFF == 3 .AND. NFIS2(I) >= FAILNPT) JOFF=1
@@ -290,11 +290,11 @@ C
             IF (IOFF == 6 .AND. NFIS3(I) >= FAILNPT) JOFF=1
 C                
             IF (JOFF == 1) THEN
-              OFF(I) = QCINQ ! progressive rupture
+              OFF(I) = FOUR_OVER_5 ! progressive rupture
               IF (IFAILURE == 0) IOFF_DUCT(I) = 1 ! flag for progressive rupture
             ENDIF
-          ELSE IF (IFAILURE == 0 .and. OFF(I) < UN ) THEN
-            OFF(I) = OFF(I)*QCINQ
+          ELSE IF (IFAILURE == 0 .and. OFF(I) < ONE ) THEN
+            OFF(I) = OFF(I)*FOUR_OVER_5
           ENDIF
         ENDIF
       ENDDO

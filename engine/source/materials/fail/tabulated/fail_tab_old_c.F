@@ -120,13 +120,13 @@ c---------------------------
       ELSEIF (IFAIL_SH == 1) THEN
         PTHKF = EM06
       ELSEIF (IFAIL_SH == 2) THEN
-        PTHKF = UN - EM06
+        PTHKF = ONE - EM06
       ENDIF
 C---------
       NINDXF = 0  
       NINDX  = 0  
       DO I=1,NEL
-        IF (OFF(I) == UN .and. FOFF(I) == 1) THEN
+        IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
           NINDX = NINDX+1                                                 
           INDX(NINDX) = I
         ENDIF
@@ -142,7 +142,7 @@ c-------------------------------------------------------------------
         ENDDO                                                              
         P    = THIRD*(SIGNXX(I) + SIGNYY(I))     
         SVM  = SQRT(SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)          
-     .       - SIGNXX(I)*SIGNYY(I) + TROIS*SIGNXY(I)*SIGNXY(I))        
+     .       - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))        
         SIGM = P / MAX(EM20,SVM)
 c----
         IF (NRATE > 1) THEN                                                 
@@ -196,9 +196,9 @@ c-----------------------------------------------------------------------------
         I = INDX(J)  
           IF (UVAR(I,1) < DCRIT) THEN
             IF (UVAR(I,1) == ZERO) THEN 
-              DP = UN
+              DP = ONE
             ELSE
-              DP = DN*UVAR(I,1)**(UN-UN/DN)
+              DP = DN*UVAR(I,1)**(ONE-ONE/DN)
             ENDIF
             IF (EPSF(I) > ZERO) UVAR(I,1) = UVAR(I,1)+DP*DPLA(I)/EPSF(I)
 c-----            
@@ -220,7 +220,7 @@ c     Maximum Damage storing for output : 0 < DFMAX < 1
 c
       DO J=1,NINDX                           
         I = INDX(J)  
-        DFMAX(I)= MIN(UN,MAX(DFMAX(I),UVAR(I,1)/DCRIT))
+        DFMAX(I)= MIN(ONE,MAX(DFMAX(I),UVAR(I,1)/DCRIT))
       ENDDO
 c--------------------------------------------      
 c     print

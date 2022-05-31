@@ -119,7 +119,7 @@ c
         E3X=Y12*Z13-Z12*Y13
         E3Y=Z12*X13-X12*Z13
         E3Z=X12*Y13-Y12*X13
-        SURF=UNDEMI*SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
+        SURF=HALF*SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
 C
         TEST0=0
         TEST1=0
@@ -147,11 +147,11 @@ C
           X1(I)=ZERO
           Y1(I)=ZERO
           Z1(I)=ZERO
-          X2(I)=UN
+          X2(I)=ONE
           Y2(I)=ZERO
           Z2(I)=ZERO
-          X3(I)=UN
-          Y3(I)=UN
+          X3(I)=ONE
+          Y3(I)=ONE
           Z3(I)=ZERO
         ENDIF
       ENDDO

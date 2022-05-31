@@ -54,17 +54,17 @@ C-----------------------------------------------
 C     REAL ou REAL*8
 C-----------------------------------------------
       DO 20 I=LFT,LLT
-      ANG(I,1)=UN
+      ANG(I,1)=ONE
       ANG(I,2)=ZERO
       ANG(I,3)=ZERO
       ANG(I,4)=ZERO
-      ANG(I,5)=UN
+      ANG(I,5)=ONE
    20 ANG(I,6)=ZERO
 C
       DO 30 I=LFT,LLT
-      SF(I,1)=-UN
-      SF(I,2)=-UN
-   30 SF(I,3)=-UN
+      SF(I,1)=-ONE
+      SF(I,2)=-ONE
+   30 SF(I,3)=-ONE
 C
       DO 40 I=LFT,LLT
       IPRT=IPARTSP(I+NFT)

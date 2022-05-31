@@ -148,7 +148,7 @@ c---------------------
       ! Density
       IF ((Ires == 0).OR.(Ires > 2)) Ires  = 2
       ! Poisson's ratio
-      IF (NU < ZERO .OR. NU >= UNDEMI) THEN
+      IF (NU < ZERO .OR. NU >= HALF) THEN
         CALL ANCMSG(MSGID=49,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_2,
@@ -157,12 +157,12 @@ c---------------------
      .              C1=TITR)
       ENDIF
       ! Elasticity parameter
-      G2   = YOUNG / (UN + NU)
-      G    = UNDEMI * G2
-      LAM  = G2 * NU /(UN - DEUX*NU)  
-      BULK = TIERS * YOUNG / (UN - NU*DEUX)
-      NNU  = NU  / (UN - NU)
-      NNU1 = UN - NNU
+      G2   = YOUNG / (ONE + NU)
+      G    = HALF * G2
+      LAM  = G2 * NU /(ONE - TWO*NU)  
+      BULK = THIRD * YOUNG / (ONE - NU*TWO)
+      NNU  = NU  / (ONE - NU)
+      NNU1 = ONE - NNU
       ! Plastic data initialization
       IF (Istat == 0) THEN
         ! Initial yield stress
@@ -186,7 +186,7 @@ c---------------------
      .                C1=TITR)             
         ENDIF 
         ! Beta parameter
-        IF (BETA == ZERO) BETA = UN
+        IF (BETA == ZERO) BETA = ONE
       ENDIF
       ! Yield function shape parameter
       IF ((ALPHA < ZERO).OR.(ALPHA > SQRT(4.5D0))) THEN
@@ -301,7 +301,7 @@ c
       ! PM table
       PM(1)  = RHO0
       PM(89) = RHO0
-      PM(27) = SQRT((BULK + QTIERS*G)/RHO0)  ! sound speed estimation
+      PM(27) = SQRT((BULK + FOUR_OVER_3*G)/RHO0)  ! sound speed estimation
       PM(100)= BULK   
 c      
       ! MTAG variable activation

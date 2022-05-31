@@ -430,7 +430,7 @@ C
         MM(I,1) = ZERO
         MM(I,2) = SIGY(I)
         VOLM(I) = ZERO
-        NU(I)  = MIN(UNDEMI,PM(21,MX))
+        NU(I)  = MIN(HALF,PM(21,MX))
         USB(I) = 0.1/PM(32,MX)
         STIN(I)= ZERO
         DHXZ(I)= ZERO
@@ -439,7 +439,7 @@ C
       ENDDO
         IF (ICP == 1) THEN
           DO I=LFT,LLT
-           NU1(I)=UNDEMI
+           NU1(I)=HALF
           ENDDO
         ELSEIF (ICP == 2) THEN
           DO I=LFT,LLT
@@ -476,7 +476,7 @@ C
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
-        ALPHA_E(LFT:LLT) = UN  
+        ALPHA_E(LFT:LLT) = ONE  
         DO I=LFT,LLT
           IF (GBUF%IDT_TSH(I)<=0) CYCLE
           FACDP = 1.343*LLSH(I)/DELTAX(I)
@@ -552,14 +552,14 @@ C-------------------------------------------
       IF (DT1 == ZERO) THEN
         DTI =ZERO
       ELSE
-        DTI = UN/DT1
+        DTI = ONE/DT1
       ENDIF 
 C-------------------------------------------
 C    COMPUTE TEMPERATURE IN ELEMENT
 C-------------------------------------------
       IF(JTHE < 0) THEN       
         DO I=LFT,LLT
-          TEMPEL(I) = UNHUIT *(  TEMP(NC1(I)) + TEMP(NC2(I))  
+          TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
      .                         + TEMP(NC3(I)) + TEMP(NC4(I)) 
      .                         + TEMP(NC5(I)) + TEMP(NC6(I)) 
      .                         + TEMP(NC7(I)) + TEMP(NC8(I)))
@@ -728,7 +728,7 @@ C
         ENDIF 
         DO I=LFT,LLT
           OFFG(I)=MIN(OFFG(I),OFF(I))
-         IF (LBUF%OFF(I) > UN .AND. GBUF%OFF(I) == UN) THEN
+         IF (LBUF%OFF(I) > ONE .AND. GBUF%OFF(I) == ONE) THEN
            OFFS(I) = MIN(LBUF%OFF(I),OFFS(I))
            IOFFS   = 1
          ENDIF
@@ -738,7 +738,7 @@ C-----------------------------
 C-----------------------------
       IF (IOFFS == 1)THEN
         DO I=LFT,LLT
-          IF (OFFS(I).LE.DEUX) GBUF%OFF(I)=OFFS(I)
+          IF (OFFS(I).LE.TWO) GBUF%OFF(I)=OFFS(I)
         END DO
         DO ILAY=1,NLAY
           LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
@@ -747,7 +747,7 @@ C-----------------------------
             MTN=NINT(PM(19,MID))
           ENDIF
           DO I=LFT,LLT
-            IF (GBUF%OFF(I) > UN) LBUF%OFF(I) = GBUF%OFF(I)
+            IF (GBUF%OFF(I) > ONE) LBUF%OFF(I) = GBUF%OFF(I)
           ENDDO
         ENDDO  !  ILAY=1,NLAY
       ENDIF
@@ -887,7 +887,7 @@ C-----------------------------------------------
           VR=V1*E1X(I)+V2*E1Y(I)+V3*E1Z(I)  
           VS=V1*E2X(I)+V2*E2Y(I)+V3*E2Z(I)  
           SUMA=SQRT(VR*VR + VS*VS)          
-          SUMA=UN/MAX(EM20,SUMA)            
+          SUMA=ONE/MAX(EM20,SUMA)            
           DIRB(I,1) = VR*SUMA               
           DIRB(I,2) = VS*SUMA               
         ENDDO                               
@@ -932,7 +932,7 @@ C-----------------------------------------------
          X2=DIR(I,1)*DIR(I,1)
          Y2=DIR(I,2)*DIR(I,2)
          XY=DIR(I,1)*DIR(I,2)
-         XYS2=DEUX*XY*SIG(I,4)
+         XYS2=TWO*XY*SIG(I,4)
          SIGN(I,1) = X2*SIG(I,1)+Y2*SIG(I,2)-XYS2
          SIGN(I,2) = Y2*SIG(I,1)+X2*SIG(I,2)+XYS2
          SIGN(I,3) = SIG(I,3)
@@ -981,7 +981,7 @@ C-----------------------------------------------
          X2=DIR(I,1)*DIR(I,1)
          Y2=DIR(I,2)*DIR(I,2)
          XY=DIR(I,1)*DIR(I,2)
-         XYS2=DEUX*XY*SIG(I,4)
+         XYS2=TWO*XY*SIG(I,4)
          SIGN(I,1) = X2*SIG(I,1)+Y2*SIG(I,2)-XYS2
          SIGN(I,2) = Y2*SIG(I,1)+X2*SIG(I,2)+XYS2
          SIGN(I,3) = SIG(I,3)
@@ -1032,9 +1032,9 @@ C-----------------------------------------------
         DEF(I,1) = DXX(I)
         DEF(I,2) = DYY(I)
         DEF(I,3) = DZZ(I)
-        DEF(I,4) = UNDEMI*D4(I)
-        DEF(I,5) = UNDEMI*D5(I)
-        DEF(I,6) = UNDEMI*D6(I)
+        DEF(I,4) = HALF*D4(I)
+        DEF(I,5) = HALF*D5(I)
+        DEF(I,6) = HALF*D6(I)
         DIRN(I,1)=DIR(I,1)
         DIRN(I,2)=-DIR(I,2)
       ENDDO
@@ -1042,9 +1042,9 @@ C-----------------------------------------------
       DO I=JFT,JLT
         DXX(I) = DEFN(I,1)
         DYY(I) = DEFN(I,2)
-        D4(I) = DEUX*DEFN(I,4)
-        D5(I) = DEUX*DEFN(I,5)
-        D6(I) = DEUX*DEFN(I,6)
+        D4(I) = TWO*DEFN(I,4)
+        D5(I) = TWO*DEFN(I,5)
+        D6(I) = TWO*DEFN(I,6)
       ENDDO
 C-----------
       RETURN

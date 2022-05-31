@@ -83,7 +83,7 @@ C-------------------------------------------------
       CALL HM_GET_FLOATV('C0', C0, IS_AVAILABLE, LSUBMODEL, UNITAB)  
       CALL HM_GET_FLOATV('ALPHA', EMA, IS_AVAILABLE, LSUBMODEL, UNITAB)  
 !     Default values
-      IF (EMA == ZERO) EMA = UN
+      IF (EMA == ZERO) EMA = ONE
 
       UPARAM(1) = C0
       UPARAM(2) = EMA

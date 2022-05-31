@@ -124,7 +124,7 @@ C Initializations
       IGAP=0              
       MULTIMP=0           
       ICURV=0             
-      GAPSCALE=UN         
+      GAPSCALE=ONE         
       GAPMAX=EP30         
       STMIN=ZERO          
       STMAX=ZERO          
@@ -243,7 +243,7 @@ c          ENDIF
              CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR, ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)                          
         ENDIF
         IF(ISTIFF==2)THEN
-          IF(STFAC == ZERO)STFAC=UN
+          IF(STFAC == ZERO)STFAC=ONE
         ENDIF                                                                                                  
       
       IF(ISTIFF == 2 .AND. GRBRIC_ID == 0)THEN
@@ -255,12 +255,12 @@ c          ENDIF
 !===DEFAULT
         IF(IBAG.LE.-1 .OR. IBAG.GE.4)IBAG=1
         IF(IDEL7N.LE.-1 .OR. IDEL7N.GE.3)IDEL7N=0
-        IF(STFAC.EQ.ZERO)STFAC=UN
+        IF(STFAC.EQ.ZERO)STFAC=ONE
         STFAC=-STFAC 
           
 !===STORAGE  
 
-        FRIGAP(13) = UN     !GAPSCALE
+        FRIGAP(13) = ONE     !GAPSCALE
         FRIGAP(16) = EP30   !GAPMAX
         FRIGAP(17) = ZERO   !STMIN
         FRIGAP(18) = ZERO   !STMAX

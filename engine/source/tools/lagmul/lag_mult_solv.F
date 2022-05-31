@@ -177,7 +177,7 @@ C        la(i) = la(i-1) + alpha p(i)
 C        r(i)  = r(i-1)  - alpha q(i)
 C     end
 C======================================================================|
-      SCALE = TQUART
+      SCALE = THREE_OVER_4
       ASMAX = ZEP6
       R2NEW = ZERO      
       LAG_NC= NC
@@ -567,7 +567,7 @@ C        la(i) = la(i-1) + alpha p(i)
 C        r(i)  = r(i-1)  - alpha q(i)
 C     end
 C======================================================================|
-      SCALE = TQUART
+      SCALE = THREE_OVER_4
       ASMAX = ZEP6
       R2NEW = ZERO      
       LAG_NC= NC
@@ -965,7 +965,7 @@ C     end
 C======================================================================|
 #ifdef MUMPS5
       IF(ISPMD.EQ.0) THEN
-       SCALE = TQUART
+       SCALE = THREE_OVER_4
        ASMAX = ZEP6
        R2NEW = ZERO      
        LAG_NC= NC

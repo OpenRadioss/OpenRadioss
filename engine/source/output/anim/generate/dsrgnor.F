@@ -159,9 +159,9 @@ C
         NX  =NX/NORMN
         NY  =NY/NORMN
         NZ  =NZ/NORMN
-        NNOR(1,INOE)=TROIS1000*NX
-        NNOR(2,INOE)=TROIS1000*NY
-        NNOR(3,INOE)=TROIS1000*NZ        
+        NNOR(1,INOE)=THREE1000*NX
+        NNOR(2,INOE)=THREE1000*NY
+        NNOR(3,INOE)=THREE1000*NZ        
        END DO
 C-------------------------------------------------------
 C      Ecriture des normales aux noeuds.

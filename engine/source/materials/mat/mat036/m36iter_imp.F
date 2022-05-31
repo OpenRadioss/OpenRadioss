@@ -174,7 +174,7 @@ c    -- scaling if pressure dependent yield function --
 c    -- compute the scaling factor for pressure + delta-pressure
 c
         DO I=1,NEL
-          PFAC(I)  =  UN
+          PFAC(I)  =  ONE
         ENDDO
 c
         IF (IPFLAG == NEL.AND.(IMACH.NE.3.OR.IPARIT == 0)) THEN
@@ -209,7 +209,7 @@ c    -- store "fractional" eqivalent plastic strain
 c
        DO I=1,NEL
          PLA0(I) = PLA(I)
-         PLAM(I) = (UN - FISOKIN) * PLA(I) 
+         PLAM(I) = (ONE - FISOKIN) * PLA(I) 
        ENDDO
 c
 c      -- computes the yield stress --
@@ -241,7 +241,7 @@ c          -- PREVIOUS TIME-STEP EQUIVALENT PLASTIC STRAIN
             PLA(I) = MAX(ZERO, PLA(I))
 c
 c          -- von Mises stress at elastic predictor --
-            VM =TROIS*(UNDEMI*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
+            VM =THREE*(HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      $                        +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2)
             VM =SQRT(VM)
 c
@@ -357,7 +357,7 @@ c
               IF(FISOKIN == ZERO)then
                  RHS = VM - G3(I) * XSI - YLD_CURR
                  LHS = G3(I) +  H(I)
-              ELSEIF(FISOKIN == UN)then
+              ELSEIF(FISOKIN == ONE)then
                  RHS = VM - G3(I)*XSI + YLD_PREV - YLD_CURR - YLD_M_PREV
                  LHS = G3(I) +  H(I)
               ELSE
@@ -397,7 +397,7 @@ c           update of stresses and back stresses
 c          --------------------------------------
 c
             IF(FISOKIN == ZERO)then
-              ALPHA_RADIAL =  UN - ( G3(I)/MAX(VM,EM20) )*DPLA
+              ALPHA_RADIAL =  ONE - ( G3(I)/MAX(VM,EM20) )*DPLA
 c
               SIGNXX(I) = SIGNXX(I) * ALPHA_RADIAL
               SIGNYY(I) = SIGNYY(I) * ALPHA_RADIAL
@@ -406,10 +406,10 @@ c
               SIGNYZ(I) = SIGNYZ(I) * ALPHA_RADIAL
               SIGNZX(I) = SIGNZX(I) * ALPHA_RADIAL
 c
-            ELSEIF(FISOKIN > ZERO.and.FISOKIN.LE.UN)then
+            ELSEIF(FISOKIN > ZERO.and.FISOKIN.LE.ONE)then
 c
 c          -- update "fractional" equivalent plastic strain --  
-              PLAM(I) = (UN - FISOKIN)*PLA(I) !. for mixed hardeneing
+              PLAM(I) = (ONE - FISOKIN)*PLA(I) !. for mixed hardeneing
 c
 c
 c            ------------------------------------------------------
@@ -446,7 +446,7 @@ c           ..updates (shifted) stresses
 c
 c          -- ALPHA_RADIAL := PARAMETER ALPHA OF THE RADIAL RETURN
 c
-              ALPHA_RADIAL =  UN - ( G3(I)/MAX(VM,EM20) )*DPLA
+              ALPHA_RADIAL =  ONE - ( G3(I)/MAX(VM,EM20) )*DPLA
      $        - (YLD_CURR - YLD_PREV -YLD_M  + YLD_M_PREV )/MAX(VM,EM20)
 c
               SIGNXX(I) = SIGNXX(I) * ALPHA_RADIAL
@@ -475,13 +475,13 @@ c           --adds the back stresses  to shifted stresses
              SIGNYZ(I) = SIGNYZ(I) + SIGBYZ(I) 
              SIGNZX(I) = SIGNZX(I) + SIGBZX(I) 
 c
-            ENDIF ! ..FISOKIN > ZERO.and.FISOKIN.LE.UN .. 
+            ENDIF ! ..FISOKIN > ZERO.and.FISOKIN.LE.ONE .. 
 c
 c
 c        .. updates yield stress.
             IF(FISOKIN == ZERO)then
               YLD(I) = YLD_CURR   
-            ELSEIF(FISOKIN == UN)then
+            ELSEIF(FISOKIN == ONE)then
 cccc              YLD(I) =  YLD(I)
             ELSE
               YLD(I) =  YLD_M
@@ -516,17 +516,17 @@ c
 c         .. elastic predictor is temporarily stored in sxx, ... , szx
 c
 c         .. von Mises stress**2  at the elastic predictor ..
-            VM =TROIS*(UNDEMI*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
+            VM =THREE*(HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      $               +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2)
 c
             IF(VM > YLD(I)*YLD(I))THEN !..  plastically active process
               VM =SQRT(VM)
               R = YLD(I)/ MAX(VM,EM20)
 c          .. plastic strain increment.
-              DPLA=(UN - R)*VM/MAX(G3(I)+H(I),EM20)
+              DPLA=(ONE - R)*VM/MAX(G3(I)+H(I),EM20)
 c
 c         ... updates stresses ..
-              ALPHA_RADIAL = UN - G3(I)*( (UN - R)/( G3(I) + H(I) ) )
+              ALPHA_RADIAL = ONE - G3(I)*( (ONE - R)/( G3(I) + H(I) ) )
 c
               SIGNXX(I) = SIGNXX(I) * ALPHA_RADIAL
               SIGNYY(I) = SIGNYY(I) * ALPHA_RADIAL
@@ -558,7 +558,7 @@ c
               ENDIF ! .. FISOKIN > ZERO ..       
 c
 c          .. updated yield stress.
-              YLD(I) = MAX(YLD(I)+(UN - FISOKIN)*DPLA*H(I),ZERO)
+              YLD(I) = MAX(YLD(I)+(ONE - FISOKIN)*DPLA*H(I),ZERO)
 c
 c          .. updates equivalent plastic strain
               PLA(I)    = PLA(I) + DPLA   

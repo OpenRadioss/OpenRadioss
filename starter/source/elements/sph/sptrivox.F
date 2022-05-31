@@ -122,7 +122,7 @@ C Barrier to wait init voxel and allocation NEX_NOD
 C      CALL MY_BARRIER
 C Phase initiale de construction de BPE et BPN deplacee de I7BUCE => I7TRI
 C
-      ALPHA_MARGE = SQRT(UN +SPASORT)
+      ALPHA_MARGE = SQRT(ONE +SPASORT)
 
       XMAX = BMINMA(1)
       YMAX = BMINMA(2)

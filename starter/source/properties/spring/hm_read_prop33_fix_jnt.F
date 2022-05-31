@@ -125,7 +125,7 @@ C-----------------------
      .  	     I1=ID,
      .  	     C1=TITR)
       ENDIF
-      IF (CR.EQ.ZERO) CR = CINQEM2	      
+      IF (CR.EQ.ZERO) CR = FIVEEM2	      
 C
       XTYP = ITYP
       XFLG = SKFLAG

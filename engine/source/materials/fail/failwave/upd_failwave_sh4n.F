@@ -80,7 +80,7 @@ c---------------
         CASE (1)   ! isotropic propagation
 c---------------
           DO I=1,NEL
-            IF (OFFLY(I) == 1 .and. DADV(I) == UN) THEN
+            IF (OFFLY(I) == 1 .and. DADV(I) == ONE) THEN
               N1 = FAILWAVE%IDXI(IXC(2,I))
               N2 = FAILWAVE%IDXI(IXC(3,I))
               N3 = FAILWAVE%IDXI(IXC(4,I))
@@ -97,7 +97,7 @@ c---------------
 c---------------
           NINDX = 0
           DO I=1,NEL
-            IF (OFFLY(I) == 1 .and. DADV(I) == UN) THEN
+            IF (OFFLY(I) == 1 .and. DADV(I) == ONE) THEN
               NINDX = NINDX + 1    ! count of non damaged elements
               INDX(NINDX) = I
             ENDIF
@@ -153,7 +153,7 @@ c---------------
 c
           NINDX = 0
           DO I=1,NEL
-            IF (OFFLY(I) == 1 .and. DADV(I) == UN) THEN
+            IF (OFFLY(I) == 1 .and. DADV(I) == ONE) THEN
               NINDX = NINDX + 1
               INDX(NINDX) = I
             ENDIF

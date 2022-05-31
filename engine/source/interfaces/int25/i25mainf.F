@@ -381,7 +381,7 @@ C-----Press-fit
         NCY_PFIT = IPARI(40,NIN)
         IF (NCY_PFIT >0 .AND. NCYCLE> NCY_PFIT) IPARI(40,NIN) = 0
 		IF (IPARI(40,NIN)>0) THEN
-          FINC= UN/IPARI(40,NIN)
+          FINC= ONE/IPARI(40,NIN)
           TNCY = (NCYCLE+1)*FINC
 		END IF
        END IF

@@ -145,11 +145,11 @@ C-----------------------------------------------
       IF(RHOR == ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0  
-      IF (FAC1 == ZERO) FAC1 = UN*FAC_UNIT
-      IF (FAC2 == ZERO) FAC2 = UN*FAC_UNIT
-      IF (FAC3 == ZERO) FAC3 = UN*FAC_UNIT
-      IF (FAC4 == ZERO) FAC4 = UN*FAC_UNIT
-      IF (FAC5 == ZERO) FAC5 = UN*FAC_UNIT
+      IF (FAC1 == ZERO) FAC1 = ONE*FAC_UNIT
+      IF (FAC2 == ZERO) FAC2 = ONE*FAC_UNIT
+      IF (FAC3 == ZERO) FAC3 = ONE*FAC_UNIT
+      IF (FAC4 == ZERO) FAC4 = ONE*FAC_UNIT
+      IF (FAC5 == ZERO) FAC5 = ONE*FAC_UNIT
 
       !---STORAGE
       UPARAM(1)=E11

@@ -98,7 +98,7 @@ C
       ENDDO
 C
       G1=DT1*G
-      G2=DEUX*G1
+      G2=TWO*G1
       DO I=LFT,LLT
         EPSEQ(I)=ZERO
         TSTAR(I) = ZERO       
@@ -120,7 +120,7 @@ C--------------------------------------------------
          SIGP(JJ(1)+I) = SIGP(JJ(1)+I)-POLD(I) 
          SIGP(JJ(2)+I) = SIGP(JJ(2)+I)-POLD(I) 
          SIGP(JJ(3)+I) = SIGP(JJ(3)+I)-POLD(I) 
-         DAV = UN-DVOL(I)/VNEW(I)
+         DAV = ONE-DVOL(I)/VNEW(I)
          SOLD1(I,IPT)=SIGP(JJ(1)+I)*DAV
          SOLD2(I,IPT)=SIGP(JJ(2)+I)*DAV
          SOLD3(I,IPT)=SIGP(JJ(3)+I)*DAV
@@ -129,8 +129,8 @@ C--------------------------------------------------
          SOLD6(I,IPT)=SIGP(JJ(6)+I)*DAV
          EPD(II)=OFF(I)* 
      .       MAX( ABS(D1(I,IPT)), ABS(D2(I,IPT)), ABS(D3(I,IPT)),
-     .       UNDEMI*ABS(D4(I,IPT)),
-     .       UNDEMI*ABS(D5(I,IPT)),UNDEMI*ABS(D6(I,IPT)))        
+     .       HALF*ABS(D4(I,IPT)),
+     .       HALF*ABS(D5(I,IPT)),HALF*ABS(D6(I,IPT)))        
         ENDDO
 C
         DO I=LFT,LLT
@@ -153,14 +153,14 @@ C       MODULE ECROUISSAGE
 C-----------------------
         DO I=LFT,LLT
          II=I+JPT
-         IF(CN.EQ.UN) THEN
+         IF(CN.EQ.ONE) THEN
           QH(I)= CB
          ELSE
-          IF(CN.GT.UN) THEN
-           QH(I)= CB*CN*EPLA(I)**(CN-UN)
+          IF(CN.GT.ONE) THEN
+           QH(I)= CB*CN*EPLA(I)**(CN-ONE)
           ELSE
            IF(EPLA(I).NE.ZERO)THEN
-            QH(I)= CB*CN/EPLA(I)**(UN - CN)
+            QH(I)= CB*CN/EPLA(I)**(ONE - CN)
            ELSE
             QH(I)=ZERO
            ENDIF
@@ -170,49 +170,49 @@ C-----------------------
 C
         DO I=LFT,LLT
           J = (I-1)*6
-          AJ2(I)=UNDEMI*(SIGP(JJ(1)+I)**2+SIGP(JJ(2)+I)**2+SIGP(JJ(3)+I)**2)
+          AJ2(I)=HALF*(SIGP(JJ(1)+I)**2+SIGP(JJ(2)+I)**2+SIGP(JJ(3)+I)**2)
      .                  +SIGP(JJ(4)+I)**2+SIGP(JJ(5)+I)**2+SIGP(JJ(6)+I)**2
-          SJ2(I)=SQRT(TROIS*AJ2(I))
+          SJ2(I)=SQRT(THREE*AJ2(I))
         ENDDO
 C
       IF(IPLA.EQ.0)THEN
        DO I=LFT,LLT
         II=I+JPT
         IF (YLD(I).EQ.ZERO) CYCLE
-          SCALE= MIN(UN,YLD(I)/ MAX(SJ2(I),EM15))
+          SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
           SIGP(JJ(1)+I)=SCALE*SIGP(JJ(1)+I)
           SIGP(JJ(2)+I)=SCALE*SIGP(JJ(2)+I)
           SIGP(JJ(3)+I)=SCALE*SIGP(JJ(3)+I)
           SIGP(JJ(4)+I)=SCALE*SIGP(JJ(4)+I)
           SIGP(JJ(5)+I)=SCALE*SIGP(JJ(5)+I)
           SIGP(JJ(6)+I)=SCALE*SIGP(JJ(6)+I)
-          EPLA(I) = EPLA(I)+(UN-SCALE)*SJ2(I)/(TROIS*G+QH(I))
-          DPLA(II)= (UN-SCALE)*SJ2(I)/(TROIS*G+QH(I))       
+          EPLA(I) = EPLA(I)+(ONE-SCALE)*SJ2(I)/(THREE*G+QH(I))
+          DPLA(II)= (ONE-SCALE)*SJ2(I)/(THREE*G+QH(I))       
         ENDDO
       ELSEIF(IPLA.EQ.2)THEN
        DO 110 I=LFT,LLT
         II=I+JPT
         IF(YLD(I).EQ.ZERO)    GO TO 110
-          SCALE= MIN(UN,YLD(I)/ MAX(SJ2(I),EM15))
+          SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
           SIGP(JJ(1)+I)=SCALE*SIGP(JJ(1)+I)
           SIGP(JJ(2)+I)=SCALE*SIGP(JJ(2)+I)
           SIGP(JJ(3)+I)=SCALE*SIGP(JJ(3)+I)
           SIGP(JJ(4)+I)=SCALE*SIGP(JJ(4)+I)
           SIGP(JJ(5)+I)=SCALE*SIGP(JJ(5)+I)
           SIGP(JJ(6)+I)=SCALE*SIGP(JJ(6)+I)
-          EPLA(I)=EPLA(I)+(UN-SCALE)*SJ2(I)/(TROIS*G)
-          DPLA(II)=(UN-SCALE)*SJ2(I)/(TROIS*G)         
+          EPLA(I)=EPLA(I)+(ONE-SCALE)*SJ2(I)/(THREE*G)
+          DPLA(II)=(ONE-SCALE)*SJ2(I)/(THREE*G)         
   110  CONTINUE
       ELSEIF(IPLA.EQ.1)THEN
        DO 120 I=LFT,LLT
         II=I+JPT
         IF(YLD(I).EQ.ZERO)    GO TO 120
-        SCALE= MIN(UN,YLD(I)/ MAX(SJ2(I),EM15))
+        SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
 Clm     plastic strain increment.
-        DPLA(II)=(UN - SCALE)*SJ2(I)/(TROIS*G+QH(I))
+        DPLA(II)=(ONE - SCALE)*SJ2(I)/(THREE*G+QH(I))
 Clm     actual yeld stress.
         YLD(I)=YLD(I)+DPLA(II)*QH(I)
-        SCALE= MIN(UN,YLD(I)/ MAX(SJ2(I),EM15))
+        SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
         SIGP(JJ(1)+I)=SCALE*SIGP(JJ(1)+I)
         SIGP(JJ(2)+I)=SCALE*SIGP(JJ(2)+I)
         SIGP(JJ(3)+I)=SCALE*SIGP(JJ(3)+I)
@@ -226,7 +226,7 @@ C--------------------------------------------------
 C     EPS PLASTIQUE MOYEN (OUTPUT ET RUPTURE)
 C--------------------------------------------------
         DO I=LFT,LLT
-          EPSEQ(I)=EPSEQ(I)+UNHUIT*EPLA(I)
+          EPSEQ(I)=EPSEQ(I)+ONE_OVER_8*EPLA(I)
         ENDDO
 C
       ENDDO ! DO IPT=1,NPT
@@ -236,29 +236,29 @@ C     TEST DE RUPTURE DUCTILE
 C---------------------------
       DO I=LFT,LLT
         IF(OFF(I).LT.EM01) OFF(I)=ZERO
-        IF(OFF(I).LT.UN) OFF(I)=OFF(I)*QCINQ
+        IF(OFF(I).LT.ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 C
       IWR=0
       DO I=LFT,LLT
         IF(EPMX .EQ.ZERO)    CYCLE
-        IF(OFF(I)  .LT.UN)      CYCLE
+        IF(OFF(I)  .LT.ONE)      CYCLE
         IF(EPSEQ(I).LT.EPMX) CYCLE
         IWR=1
       ENDDO
       IF(IWR.EQ.1) THEN
         DO I=LFT,LLT
           IF(EPMX .EQ.ZERO)    CYCLE
-          IF(OFF(I)  .LT.UN)      CYCLE
+          IF(OFF(I)  .LT.ONE)      CYCLE
           IF(EPSEQ(I).LT.EPMX) CYCLE
-          OFF(I)=OFF(I)*QCINQ
+          OFF(I)=OFF(I)*FOUR_OVER_5
 #include "lockon.inc"
           WRITE(IOUT,1000) NGL(I)
 #include "lockoff.inc"
           IDEL7NOK = 1
         ENDDO
       ENDIF
-      DTA=UNDEMI*DT1
+      DTA=HALF*DT1
 C--------------------------------------------------
 C     BOUCLE 2 SUR LES POINTS DE GAUSS
 C--------------------------------------------------

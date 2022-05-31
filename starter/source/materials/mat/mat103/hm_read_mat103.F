@@ -150,18 +150,18 @@ C-----------------------------------------------
         CALL ANCMSG(MSGID=276,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=103,I2=MAT_ID,C1=TITR)   
       ENDIF 
 
-      IF(NU <= -UN)  THEN       
+      IF(NU <= -ONE)  THEN       
         CALL ANCMSG(MSGID=300,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=103,I2=MAT_ID,C1=TITR)
       ENDIF 
 C
-      ETA=MIN(UN,ETA)
+      ETA=MIN(ONE,ETA)
 C----------------------------------------------- 
 C     USER MATERIAL PARAMETERS DEFINITION   
 C----------------------------------------------- 
-      G = E/DEUX/(UN+NU) 
+      G = E/TWO/(ONE+NU) 
       NUPARAM   = 14
       UPARAM(1) = A0
-      UPARAM(2) = UN/FAC_T_WORK
+      UPARAM(2) = ONE/FAC_T_WORK
       UPARAM(3) = G
       UPARAM(4) = M1
       UPARAM(5) = M2
@@ -177,7 +177,7 @@ C-----------------------------------------------
 C	  
       NUVAR     = 1  ! temperature
       NFUNC     = 0 
-      BULK   = E/TROIS/(UN-DEUX*NU)
+      BULK   = E/THREE/(ONE-TWO*NU)
       PARMAT(1) = BULK 
       PARMAT(2) = E
       PARMAT(3) = NU

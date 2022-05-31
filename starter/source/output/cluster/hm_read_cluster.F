@@ -208,7 +208,7 @@ c----------------------------
               CLUSTERS(I)%NEL  = NEL                                         
               CLUSTERS(I)%IFAIL= IFAIL                                       
               CLUSTERS(I)%OFF  = 1                                       
-              CLUSTERS(I)%FAIL = UN                                         
+              CLUSTERS(I)%FAIL = ONE                                         
 c
               ALLOCATE (CLUSTERS(I)%NG(NEL) )
               ALLOCATE (CLUSTERS(I)%ELEM(NEL) )                              
@@ -266,7 +266,7 @@ c----------------------------
               CLUSTERS(I)%NEL  = NEL                                         
               CLUSTERS(I)%IFAIL= IFAIL                                         
               CLUSTERS(I)%OFF  = 1                                       
-              CLUSTERS(I)%FAIL = UN                                         
+              CLUSTERS(I)%FAIL = ONE                                         
 c
               ALLOCATE (CLUSTERS(I)%NG(NEL) )                                
               ALLOCATE (CLUSTERS(I)%ELEM(NEL) )                              
@@ -325,14 +325,14 @@ c--------------------------
         IF (IFAIL == 3) THEN                                                  
           ALLOCATE (CLUSTERS(I)%AX(4) )                                    
           ALLOCATE (CLUSTERS(I)%NX(4) )             
-          IF (AX(1) == ZERO) AX(1) = UN           
-          IF (AX(2) == ZERO) AX(2) = UN           
-          IF (AX(3) == ZERO) AX(3) = UN           
-          IF (AX(4) == ZERO) AX(4) = UN           
-          IF (NX(1) == ZERO) NX(1) = UN           
-          IF (NX(2) == ZERO) NX(2) = UN           
-          IF (NX(3) == ZERO) NX(3) = UN           
-          IF (NX(4) == ZERO) NX(4) = UN           
+          IF (AX(1) == ZERO) AX(1) = ONE           
+          IF (AX(2) == ZERO) AX(2) = ONE           
+          IF (AX(3) == ZERO) AX(3) = ONE           
+          IF (AX(4) == ZERO) AX(4) = ONE           
+          IF (NX(1) == ZERO) NX(1) = ONE           
+          IF (NX(2) == ZERO) NX(2) = ONE           
+          IF (NX(3) == ZERO) NX(3) = ONE           
+          IF (NX(4) == ZERO) NX(4) = ONE           
           CLUSTERS(I)%AX(1) = AX(1)                                         
           CLUSTERS(I)%AX(2) = AX(2)                                         
           CLUSTERS(I)%AX(3) = AX(3)                                         

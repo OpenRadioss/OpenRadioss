@@ -73,12 +73,12 @@ C-----------------------------------------------
       PLAMX     = UPARAM(10)
       SIGMX     = UPARAM(11)
       T0        = UPARAM(13)  
-      G2        = DEUX*G
-      G3        = TROIS*G
+      G2        = TWO*G
+      G3        = THREE*G
       VM2X      = ZERO
       EPS0      = EM06
       BEPS0PNM1 = B * EPS0**N / EPS0
-      BETA      = EM06  !UNDEMI
+      BETA      = EM06  !HALF
 
       if(timestep==zero)return
 
@@ -96,17 +96,17 @@ C-----------------------------------------------
           Y(I)    = ZERO
           H(I)    = ZERO
         ELSE
-          CTE = UN
+          CTE = ONE
           !temperature
           IF(CM /= ZERO.and.TEMP(I) > T0) THEN
             TSTAR = (TEMP(I)-T0)/(TMELT-T0)
             CMX   = CM
-            IF(TEMP(I) > THETL) CMX = UN
-            CTE   = UN - TSTAR**CMX
+            IF(TEMP(I) > THETL) CMX = ONE
+            CTE   = ONE - TSTAR**CMX
           ENDIF
           !vitesse de deformation
           IF(CC /= ZERO.and.EPD(I) > EPDR) THEN
-            CTE   = CTE * (UN + CC * LOG(EPD(I)/EPDR))
+            CTE   = CTE * (ONE + CC * LOG(EPD(I)/EPDR))
           ENDIF
           IF(PLAS(I) <= EM20)THEN
             !H(I)  = CTE * BEPS0PNM1
@@ -132,7 +132,7 @@ C-----------------------------------------------
           !--------------
           ! elastique
           !--------------
-          FACT         = UN
+          FACT         = ONE
           SIGDO(1:6,I) = SIGD(1:6,I)
           SIGD(1,I)    = SIGD(1,I) + G2 * (DEPS(1,I)-DE(I))*FACT
           SIGD(2,I)    = SIGD(2,I) + G2 * (DEPS(2,I)-DE(I))*FACT
@@ -144,8 +144,8 @@ C-----------------------------------------------
           ! von mises
           !--------------
           !s_vm = sqrt(3.J2),  J2 = 1/2 (s1**2 + s2**2 + s3**2) + (s4**2 + s5**2 + s6**2)   where s is deviator
-          VM2(I) = TDEMI * ( SIGD(1,I)*SIGD(1,I) + SIGD(2,I)*SIGD(2,I) + SIGD(3,I)*SIGD(3,I) )
-     .            +TROIS * ( SIGD(4,I)*SIGD(4,I) + SIGD(5,I)*SIGD(5,I) + SIGD(6,I)*SIGD(6,I) )
+          VM2(I) = THREE_HALF * ( SIGD(1,I)*SIGD(1,I) + SIGD(2,I)*SIGD(2,I) + SIGD(3,I)*SIGD(3,I) )
+     .            +THREE * ( SIGD(4,I)*SIGD(4,I) + SIGD(5,I)*SIGD(5,I) + SIGD(6,I)*SIGD(6,I) )
           VM2X   = MAX(VM2X,VM2(I))
         ENDIF
       ENDDO
@@ -173,10 +173,10 @@ C-----------------------------------------------
               !--------------                                                                       
               ! energie                                                                             
               !--------------                                                                       
-              FACT    = UN! VFRAC(I) 
-              VOL_AVG = UNDEMI*(VFRAC(I)*VOLUME(I)+VOL(I))    
+              FACT    = ONE! VFRAC(I) 
+              VOL_AVG = HALF*(VFRAC(I)*VOLUME(I)+VOL(I))    
               
-              EINC    = UNDEMI    *UNDEMI*VOL_AVG*                                                          
+              EINC    = HALF    *HALF*VOL_AVG*                                                          
      .                       ( (SIGDO(1,I)+SIGD(1,I)) * DEPS(1,I)                                   
      .                       + (SIGDO(2,I)+SIGD(2,I)) * DEPS(2,I)                                   
      .                       + (SIGDO(3,I)+SIGD(3,I)) * DEPS(3,I)                                   

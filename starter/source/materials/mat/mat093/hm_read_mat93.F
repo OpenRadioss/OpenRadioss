@@ -142,7 +142,7 @@ card5 - Curves parameters
           CALL HM_GET_FLOAT_ARRAY_INDEX('LAW93_arr3',RATE(I)  ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)     
           IF (YFAC(I) == ZERO) THEN
             CALL HM_GET_FLOATV_DIM('LAW93_arr2' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-            YFAC(I) = UN * YSCALE_UNIT        
+            YFAC(I) = ONE * YSCALE_UNIT        
           ENDIF
         ENDDO
       ENDIF
@@ -181,16 +181,16 @@ C
 C            
       ! Yield stresses
       IF(SIGY == ZERO) SIGY = INFINITY
-      IF(R11 == ZERO)  R11  = UN
-      IF(R22 == ZERO)  R22  = UN
-      IF(R33 == ZERO)  R33  = UN
-      IF(R12 == ZERO)  R12  = UN
-      IF(R23 == ZERO)  R23  = UN
-      IF(R13 == ZERO)  R13  = UN
+      IF(R11 == ZERO)  R11  = ONE
+      IF(R22 == ZERO)  R22  = ONE
+      IF(R33 == ZERO)  R33  = ONE
+      IF(R12 == ZERO)  R12  = ONE
+      IF(R23 == ZERO)  R23  = ONE
+      IF(R13 == ZERO)  R13  = ONE
 C
       ! Elastic parameters
       !   Poisson's ratio
-      IF (NU12 < ZERO .OR. NU12 >= UNDEMI) THEN
+      IF (NU12 < ZERO .OR. NU12 >= HALF) THEN
          CALL ANCMSG(MSGID=49,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
@@ -198,7 +198,7 @@ C
      .               I1=MAT_ID,
      .               C1=TITR)
       ENDIF  
-      IF (NU13 < ZERO .OR. NU13 >= UNDEMI) THEN
+      IF (NU13 < ZERO .OR. NU13 >= HALF) THEN
          CALL ANCMSG(MSGID=49,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
@@ -206,7 +206,7 @@ C
      .               I1=MAT_ID,
      .               C1=TITR)
       ENDIF   
-      IF (NU23 < ZERO .OR. NU23 >= UNDEMI) THEN
+      IF (NU23 < ZERO .OR. NU23 >= HALF) THEN
          CALL ANCMSG(MSGID=49,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
@@ -226,7 +226,7 @@ C
       NU32 = NU23*E33/E22    
 C
       ! Checking Poisson's ratio 
-      DETC = UN - NU12*NU21
+      DETC = ONE - NU12*NU21
       IF (DETC <= ZERO) THEN
         CALL ANCMSG(MSGID=307,
      .              MSGTYPE=MSGERROR,
@@ -236,25 +236,25 @@ C
       ENDIF 
 C
       ! Hill coefficient
-      A1 = UN/R11/R11
-      A2 = UN/R22/R22
-      A3 = UN/R33/R33
-      FF = UNDEMI*(A2 + A3 - A1)
-      GG = UNDEMI*(A3 + A1 - A2)
-      HH = UNDEMI*(A1 + A2 - A3)
-      LL = TDEMI/R23/R23
-      MM = TDEMI/R13/R13
-      NN = TDEMI/R12/R12
+      A1 = ONE/R11/R11
+      A2 = ONE/R22/R22
+      A3 = ONE/R33/R33
+      FF = HALF*(A2 + A3 - A1)
+      GG = HALF*(A3 + A1 - A2)
+      HH = HALF*(A1 + A2 - A3)
+      LL = THREE_HALF/R23/R23
+      MM = THREE_HALF/R13/R13
+      NN = THREE_HALF/R12/R12
 C
       ! Elasticity matrix for 2D plane stress
-      FAC = UN/(UN - NU12*NU21)
+      FAC = ONE/(ONE - NU12*NU21)
       A11 = E11*FAC
       A12 = NU21*A11
       A22 = E22*FAC
       ! Compliance matrix for 3D
-      C11 = UN/E11
-      C22 = UN/E22
-      C33 = UN/E33
+      C11 = ONE/E11
+      C22 = ONE/E22
+      C33 = ONE/E33
       C12 =-NU12/E11
       C13 =-NU31/E33
       C23 =-NU23/E22      

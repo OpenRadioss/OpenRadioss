@@ -107,7 +107,7 @@ C
       DO I=LFT,LLT
         XMAS(I)= RHO(I)*VOL(I)
         EI(I)  = EINT(I)*VOL0(I)
-        EK(I)  = XMAS(I)*VA2(I)*UNDEMI
+        EK(I)  = XMAS(I)*VA2(I)*HALF
         XM(I)  = XMAS(I)*VXA(I)
         YM(I)  = XMAS(I)*VYA(I)
         ZM(I)  = XMAS(I)*VZA(I)
@@ -116,7 +116,7 @@ C
       DO I=LFT,LLT
         M=IPARTS(I)
         PARTSAV(1,M)=PARTSAV(1,M) + EINT(I)*VOL0(I)
-        PARTSAV(2,M)=PARTSAV(2,M) + XMAS(I)*VA2(I)*UNDEMI
+        PARTSAV(2,M)=PARTSAV(2,M) + XMAS(I)*VA2(I)*HALF
         PARTSAV(3,M)=PARTSAV(3,M) + XMAS(I)*VXA(I)
         PARTSAV(4,M)=PARTSAV(4,M) + XMAS(I)*VYA(I)
         PARTSAV(5,M)=PARTSAV(5,M) + XMAS(I)*VZA(I)
@@ -204,7 +204,7 @@ C
 C-----------------------------------------------
       IF (IGRE /= 0) THEN
           DO I=LFT,LLT
-            OFF(I)     = UN
+            OFF(I)     = ONE
           ENDDO
           CALL GRELEM_SAV(LFT   ,LLT   ,GRESAV,IGRTH ,GRTH  ,
      2                    OFF   ,EI    ,EK    ,XM    ,YM    ,
@@ -216,7 +216,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
       DO I=LFT,LLT
-        OFF_L(I) = UN
+        OFF_L(I) = ONE
       ENDDO
       CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK) 
 C

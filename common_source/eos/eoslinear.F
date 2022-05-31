@@ -92,9 +92,9 @@ C----------------------------
 C     COLD COMPRESSION ENERGY
 C----------------------------
        DO I=LFT,LLT
-        ECOLD(I)=-TROIS100*SPH(I)
+        ECOLD(I)=-THREE100*SPH(I)
         IF(MU(I) > ZERO) THEN
-          ECOLD(I)=ECOLD(I)+UNDEMI*BULK(I)*MU2(I)
+          ECOLD(I)=ECOLD(I)+HALF*BULK(I)*MU2(I)
         ENDIF
        ENDDO
 C------------------------------------------------
@@ -113,7 +113,7 @@ C----------------------------------------
         PNEW(I) = C0(I)+BULK(I)*MU(I)
         PNEW(I) = MAX(PNEW(I),PC(I)-PSH(I))
         PNEW(I) = PNEW(I)*OFF(I)
-        EINT(I) = EINT(I) - UNDEMI*DVOL(I)*(PNEW(I)+PSH(I))
+        EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
        ENDDO
 C------------------------
 C     COMPUTE TEMPERATURE

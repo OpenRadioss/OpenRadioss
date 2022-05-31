@@ -101,7 +101,7 @@ C                                                                     12
      .   X17(MVSIZ) , X28(MVSIZ) , X35(MVSIZ) , X46(MVSIZ),
      .   Y17(MVSIZ) , Y28(MVSIZ) , Y35(MVSIZ) , Y46(MVSIZ),
      .   Z17(MVSIZ) , Z28(MVSIZ) , Z35(MVSIZ) , Z46(MVSIZ),
-     .   AJ5968(MVSIZ), AJ6749(MVSIZ), AJ4857(MVSIZ),AJ1937(MVSIZ),
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),JAC_19_37(MVSIZ),
      .   AJ12, AJ45, AJ78,
      .   A17 , A28 ,
      .   B17 , B28 ,
@@ -151,23 +151,23 @@ C
 C     JACOBIAN
 C
       DO I=LFT,LLT
-        AJ5968(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-        AJ6749(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-        AJ1937(I)=AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I)
-        AJ4857(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+        JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+        JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+        JAC_19_37(I)=AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I)
+        JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
       ENDDO
 C
       DO I=LFT,LLT
-       AREA(I) = O64TH*AJ1937(I)
-       DET(I)=O64TH*(AJ1(I)*AJ5968(I)+AJ2(I)*AJ6749(I)+AJ3(I)*AJ4857(I))
+       AREA(I) = ONE_OVER_64*JAC_19_37(I)
+       DET(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
       ENDDO
 C
       IF(IDTMIN(1).EQ.1)THEN
         ICOR = 0
         DO I=LFT,LLT
           IF(OFF(I) .EQ.ZERO)THEN
-            AREA(I) = UN
-            DET(I)=UN
+            AREA(I) = ONE
+            DET(I)=ONE
           ELSEIF((DET(I).LE.VOLMIN).OR.(DET(I).LE.ZERO)
      .           .OR.(AREA(I).LE.ZERO))THEN
             ICOR = 1
@@ -177,8 +177,8 @@ C
           DO I=LFT,LLT
            IF(OFF(I).NE.ZERO)THEN
              IF(DET(I).LE.VOLMIN)THEN
-              AREA(I) = UN
-              DET(I)=UN
+              AREA(I) = ONE
+              DET(I)=ONE
               OFF(I)=ZERO
 #include "lockon.inc"
                 WRITE(ISTDO,2000) NGL(I)
@@ -196,8 +196,8 @@ C
         ICOR = 0
         DO I=LFT,LLT
           IF(OFF(I) .EQ.ZERO)THEN
-            AREA(I) = UN
-            DET(I)=UN
+            AREA(I) = ONE
+            DET(I)=ONE
           ELSEIF((DET(I).LE.VOLMIN).OR.(DET(I).LE.ZERO)
      .           .OR.(AREA(I).LE.ZERO))THEN
             ICOR=1
@@ -208,8 +208,8 @@ C
             IF((OFF(I).NE.0.).AND.
      .         (DET(I).LE.VOLMIN.OR.DET(I).LE.ZERO)
      .           .OR.(AREA(I).LE.ZERO))THEN
-              AREA(I) = UN
-              DET(I)=UN
+              AREA(I) = ONE
+              DET(I)=ONE
               OFF(I)=ZERO
 #include "lockon.inc"
                 WRITE(ISTDO,2000) NGL(I)
@@ -222,7 +222,7 @@ C
         ICOR = 0
         DO I=LFT,LLT
           IF(OFF(I) .EQ.ZERO)THEN
-            DET(I)=UN
+            DET(I)=ONE
           ELSEIF((DET(I).LE.VOLMIN).OR.(AREA(I).LE.ZERO))THEN
             ICOR = 1
           ENDIF
@@ -230,9 +230,9 @@ C
         IF (ICOR.GT.0) THEN
         DO I=LFT,LLT
           IF(OFF(I) == ZERO)THEN
-            DET(I)=UN
-            AREA(I) = UN
-          ELSEIF(OFFG(I) > UN)THEN
+            DET(I)=ONE
+            AREA(I) = ONE
+          ELSEIF(OFFG(I) > ONE)THEN
 	  
           ELSEIF((DET(I)<=VOLMIN).OR.(AREA(I)<=ZERO))THEN
             NNEGA=NNEGA+1
@@ -252,8 +252,8 @@ C
         ICOR = 0
         DO I=LFT,LLT
           IF(OFF(I) .EQ.ZERO)THEN
-            DET(I)=UN
-            AREA(I) = UN
+            DET(I)=ONE
+            AREA(I) = ONE
           ELSEIF(DET(I).LE.ZERO)THEN
             ICOR=1
           ENDIF
@@ -319,25 +319,25 @@ C----------
             AJ7(I)=B17-B28
             AJ8(I)=C17-C28
 C
-            AJ5968(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-            AJ6749(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-            AJ1937(I)=AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I)
-            AJ4857(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+            JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+            JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+            JAC_19_37(I)=AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I)
+            JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
 C
-            AREA(I) = O64TH*AJ1937(I)
-            DET(I)=O64TH*(AJ1(I)*AJ5968(I)+AJ2(I)*AJ6749(I)+AJ3(I)*AJ4857(I))
-	   OFFG(I) = DEUX
+            AREA(I) = ONE_OVER_64*JAC_19_37(I)
+            DET(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
+	   OFFG(I) = TWO
          ENDDO
       END IF
 C
       DO I=LFT,LLT
-        DETT=O64TH/DET(I)
+        DETT=ONE_OVER_64/DET(I)
 C       INVERSE DE LA MATRICE JACOBIENNE
-        AJI1=DETT*AJ5968(I)
-        AJI4=DETT*AJ6749(I)
-        AJI7=DETT*AJ4857(I)
+        AJI1=DETT*JAC_59_68(I)
+        AJI4=DETT*JAC_67_49(I)
+        AJI7=DETT*JAC_48_57(I)
         AJI2=DETT*(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
-        AJI5=DETT*AJ1937(I)
+        AJI5=DETT*JAC_19_37(I)
         AJI8=DETT*(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
         AJI3=DETT*( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
         AJI6=DETT*(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
@@ -369,9 +369,9 @@ C
        DO 200 I=LFT,LLT
 Cqz h3
 C 1 -1 1 -1 1 -1 1 -1
-         HX=UNHUIT*(X1(I)-X2(I)+X3(I)-X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
-         HY=UNHUIT*(Y1(I)-Y2(I)+Y3(I)-Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
-         HZ=UNHUIT*(Z1(I)-Z2(I)+Z3(I)-Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))
+         HX=ONE_OVER_8*(X1(I)-X2(I)+X3(I)-X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
+         HY=ONE_OVER_8*(Y1(I)-Y2(I)+Y3(I)-Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
+         HZ=ONE_OVER_8*(Z1(I)-Z2(I)+Z3(I)-Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))
          PX1H3(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H3(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H3(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
@@ -383,9 +383,9 @@ C 1 1 -1 -1 -1 -1 1 1
          H1X(I)=X1(I)+X2(I)-X3(I)-X4(I)-X5(I)-X6(I)+X7(I)+X8(I)
          H1Y(I)=Y1(I)+Y2(I)-Y3(I)-Y4(I)-Y5(I)-Y6(I)+Y7(I)+Y8(I)
          H1Z(I)=Z1(I)+Z2(I)-Z3(I)-Z4(I)-Z5(I)-Z6(I)+Z7(I)+Z8(I)
-         HX=UNHUIT*H1X(I)
-         HY=UNHUIT*H1Y(I)
-         HZ=UNHUIT*H1Z(I)
+         HX=ONE_OVER_8*H1X(I)
+         HY=ONE_OVER_8*H1Y(I)
+         HZ=ONE_OVER_8*H1Z(I)
          PX1H1(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H1(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H1(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
@@ -397,9 +397,9 @@ C 1 -1 -1 1 -1 1 1 -1
          H2X(I)=X1(I)-X2(I)-X3(I)+X4(I)-X5(I)+X6(I)+X7(I)-X8(I)
          H2Y(I)=Y1(I)-Y2(I)-Y3(I)+Y4(I)-Y5(I)+Y6(I)+Y7(I)-Y8(I)
          H2Z(I)=Z1(I)-Z2(I)-Z3(I)+Z4(I)-Z5(I)+Z6(I)+Z7(I)-Z8(I)
-         HX=UNHUIT*H2X(I)
-         HY=UNHUIT*H2Y(I)
-         HZ=UNHUIT*H2Z(I)	 
+         HX=ONE_OVER_8*H2X(I)
+         HY=ONE_OVER_8*H2Y(I)
+         HZ=ONE_OVER_8*H2Z(I)	 
          PX1H2(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H2(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H2(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
@@ -408,9 +408,9 @@ C 1 -1 -1 1 -1 1 1 -1
 Cqz h4
 C -1 1 -1 1 1 -1 1 -1
        DO 203 I=LFT,LLT
-         HX=UNHUIT*(-X1(I)+X2(I)-X3(I)+X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
-         HY=UNHUIT*(-Y1(I)+Y2(I)-Y3(I)+Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
-         HZ=UNHUIT*(-Z1(I)+Z2(I)-Z3(I)+Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))	 
+         HX=ONE_OVER_8*(-X1(I)+X2(I)-X3(I)+X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
+         HY=ONE_OVER_8*(-Y1(I)+Y2(I)-Y3(I)+Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
+         HZ=ONE_OVER_8*(-Z1(I)+Z2(I)-Z3(I)+Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))	 
          PX1H4(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H4(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H4(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
@@ -418,18 +418,18 @@ C -1 1 -1 1 1 -1 1 -1
   203  CONTINUE
 C
        DO I=LFT,LLT
-        A_I = UNHUIT/AREA(I)
+        A_I = ONE_OVER_8/AREA(I)
         RX0(I) = AJ9(I)*A_I
         RY0(I) = AJ7(I)*A_I
         SX0(I) = AJ3(I)*A_I
         SY0(I) = AJ1(I)*A_I
-        VZL(I) = O64TH*AJ5(I)*(
+        VZL(I) = ONE_OVER_64*AJ5(I)*(
      .          AJ9(I)*H1Y(I)+AJ1(I)*H2X(I)-AJ3(I)*H2Y(I)-AJ7(I)*H1X(I))
-     .          + O64TH*AJ4(I)*(
+     .          + ONE_OVER_64*AJ4(I)*(
      .          AJ3(I)*H2Z(I)+AJ8(I)*H1X(I)-AJ9(I)*H1Z(I)-AJ2(I)*H2X(I))
-     .          + O64TH*AJ6(I)*(
+     .          + ONE_OVER_64*AJ6(I)*(
      .          AJ7(I)*H1Z(I)+AJ2(I)*H2Y(I)-AJ1(I)*H2Z(I)-AJ8(I)*H1Y(I))
-C        VZQ(I) = O64TH*AJ5(I)*(H1Y(I)*H2X(I)-H2Y(I)*H1X(I))
+C        VZQ(I) = ONE_OVER_64*AJ5(I)*(H1Y(I)*H2X(I)-H2Y(I)*H1X(I))
         VOLG(I)= DET(I)
        ENDDO
 C-----------

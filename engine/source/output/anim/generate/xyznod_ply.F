@@ -71,7 +71,7 @@ C
              EMPL = PLYNOD(IPLY)%PLYNODID(ND)-EMPSIZPL
              N = NOD_PXFEM(I)
              NORM = SQRT(VN_NOD(1,N)**2 + VN_NOD(2,N)**2 + VN_NOD(3,N)**2)
-             NORM = UN/MAX(EM20, NORM)
+             NORM = ONE/MAX(EM20, NORM)
              VN = VN_NOD(1,N)*NORM
              XNODARRAY(1,EMPL)=X(1,I)+ZI_PLY(N,IPLY)*VN+PLY(IPLY)%U(1,N)
              VN = VN_NOD(2,N)*NORM

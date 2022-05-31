@@ -112,7 +112,7 @@ C---------------------------------------------
               SZ(I)= ZERO
               TX(I)= ZERO
               TY(I)= ZERO
-              TZ(I)= UN     
+              TZ(I)= ONE     
  120      CONTINUE
         ENDIF
 C

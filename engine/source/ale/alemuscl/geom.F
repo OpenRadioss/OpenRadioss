@@ -50,9 +50,9 @@ C-----------------------------------------------
       
       VOL = VOL + DOT_PRODUCT(A, NORM)
       
-      AB = DOT_PRODUCT(UNDEMI * (A + B), UNDEMI * (A + B))
-      BC = DOT_PRODUCT(UNDEMI * (B + C), UNDEMI * (B + C))
-      CA = DOT_PRODUCT(UNDEMI * (C + A), UNDEMI * (C + A))
+      AB = DOT_PRODUCT(HALF * (A + B), HALF * (A + B))
+      BC = DOT_PRODUCT(HALF * (B + C), HALF * (B + C))
+      CA = DOT_PRODUCT(HALF * (C + A), HALF * (C + A))
 
       DO JJ = 1, 3
          CENTER(JJ) = CENTER(JJ) + NORM(JJ) * (AB + BC + CA)

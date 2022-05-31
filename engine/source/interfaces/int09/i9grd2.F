@@ -114,18 +114,18 @@ C------------------------------------------
 C--------+---------+---------+---------+---------+---------+---------+--
 C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE ( * 4. )
 C-------------------------------------------------------------
-            DY = DEUX*(Y1 + Y2)
+            DY = TWO*(Y1 + Y2)
      .          -X(2,IXQ(2))-X(2,IXQ(3))
      .          -X(2,IXQ(4))-X(2,IXQ(5))
 C
-            DZ = DEUX*(Z1 + Z2)
+            DZ = TWO*(Z1 + Z2)
      .          -X(3,IXQ(2))-X(3,IXQ(3))
      .          -X(3,IXQ(4))-X(3,IXQ(5))
 C----------------------------------------------------------
 C         CALCUL DISTANCE ET 1/2 SURFACE(SURFACE NODALE))
 C----------------------------------------------------------
-            DIST = QUART*(DY*NY+DZ*NZ) / MAX(EM15,NORM) 
-            AREA = UNDEMI*NORM
+            DIST = FOURTH*(DY*NY+DZ*NZ) / MAX(EM15,NORM) 
+            AREA = HALF*NORM
 C--------------------------------------------
 C         CALCUL DE LA RESISTANCE THERMIQUE
 C--------------------------------------------

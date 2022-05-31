@@ -174,12 +174,12 @@ C-----------------------------------------------
           N(2,6,I)=(Zi(8)-Zi(1))*(Xi(4)-Xi(5)) - (Xi(8)-Xi(1))*(Zi(4)-Zi(5))     
           N(3,6,I)=(Xi(8)-Xi(1))*(Yi(4)-Yi(5)) - (Yi(8)-Yi(1))*(Xi(4)-Xi(5))     
           !
-          N(1:3,1,I) = UNDEMI * N(1:3,1,I)
-          N(1:3,2,I) = UNDEMI * N(1:3,2,I)
-          N(1:3,3,I) = UNDEMI * N(1:3,3,I)
-          N(1:3,4,I) = UNDEMI * N(1:3,4,I)
-          N(1:3,5,I) = UNDEMI * N(1:3,5,I)
-          N(1:3,6,I) = UNDEMI * N(1:3,6,I)
+          N(1:3,1,I) = HALF * N(1:3,1,I)
+          N(1:3,2,I) = HALF * N(1:3,2,I)
+          N(1:3,3,I) = HALF * N(1:3,3,I)
+          N(1:3,4,I) = HALF * N(1:3,4,I)
+          N(1:3,5,I) = HALF * N(1:3,5,I)
+          N(1:3,6,I) = HALF * N(1:3,6,I)
         ENDDO 
       ELSEIF(ITYP.EQ.2)THEN !quads
         DO I=LFT,LLT                                                                                                                
@@ -229,7 +229,7 @@ C-----------------------------------------------
           IF(MLW /= 151)THEN
             A1 =Yi(2)*(Zi(3)-Zi(4))+Yi(3)*(Zi(4)-Zi(2))+Yi(4)*(Zi(2)-Zi(3))
             A2 =Yi(2)*(Zi(4)-Zi(1))+Yi(4)*(Zi(1)-Zi(2))+Yi(1)*(Zi(2)-Zi(4))
-            AREA(I)=(A1+A2)* UNDEMI
+            AREA(I)=(A1+A2)* HALF
           ELSE
            GBUF => ELBUF_TAB(NG)%GBUF
            AREA(I)=GBUF%AREA(I)
@@ -271,7 +271,7 @@ C-----------------------------------------------
           N(1:3,4:6,I)=ZERO
           !
           IF(MLW /= 151)THEN
-            NX = UNDEMI * ((Yi(2) - Yi(1)) * (Zi(3) - Zi(1)) - (Zi(2) - Zi(1)) * (Yi(3) - Yi(1)))
+            NX = HALF * ((Yi(2) - Yi(1)) * (Zi(3) - Zi(1)) - (Zi(2) - Zi(1)) * (Yi(3) - Yi(1)))
             AREA(I)=ABS(NX)  !SQRT(NX*NX+NY*NY+NZ*NZ)
           ELSE
            GBUF => ELBUF_TAB(NG)%GBUF
@@ -280,7 +280,7 @@ C-----------------------------------------------
         ENDDO            
       ELSE
           N(1:3,1:6,LFT:LLT) = ZERO
-          AREA(LFT:LLT)=UN
+          AREA(LFT:LLT)=ONE
       ENDIF
         
       !-------------------------------------!
@@ -299,12 +299,12 @@ C-----------------------------------------------
               VALVOIS(J) = WA_L(IE)
             ENDIF
           ENDDO            
-          RHO(1) = UNDEMI*( WA_L(IE) + VALVOIS(1) )
-          RHO(2) = UNDEMI*( WA_L(IE) + VALVOIS(2) )
-          RHO(3) = UNDEMI*( WA_L(IE) + VALVOIS(3) )
-          RHO(4) = UNDEMI*( WA_L(IE) + VALVOIS(4) )
-          RHO(5) = UNDEMI*( WA_L(IE) + VALVOIS(5) )
-          RHO(6) = UNDEMI*( WA_L(IE) + VALVOIS(6) )                              
+          RHO(1) = HALF*( WA_L(IE) + VALVOIS(1) )
+          RHO(2) = HALF*( WA_L(IE) + VALVOIS(2) )
+          RHO(3) = HALF*( WA_L(IE) + VALVOIS(3) )
+          RHO(4) = HALF*( WA_L(IE) + VALVOIS(4) )
+          RHO(5) = HALF*( WA_L(IE) + VALVOIS(5) )
+          RHO(6) = HALF*( WA_L(IE) + VALVOIS(6) )                              
           !-------------------------------------!
           !  FVM GRADIENT (GREEN OSTROGRADSKI)
           !-------------------------------------! 
@@ -337,10 +337,10 @@ C-----------------------------------------------
               VALVOIS(J) = WA_L(IE)
             ENDIF
           ENDDO
-          RHO(1) = UNDEMI*( WA_L(IE) + VALVOIS(1) )
-          RHO(2) = UNDEMI*( WA_L(IE) + VALVOIS(2) )
-          RHO(3) = UNDEMI*( WA_L(IE) + VALVOIS(3) )
-          RHO(4) = UNDEMI*( WA_L(IE) + VALVOIS(4) )
+          RHO(1) = HALF*( WA_L(IE) + VALVOIS(1) )
+          RHO(2) = HALF*( WA_L(IE) + VALVOIS(2) )
+          RHO(3) = HALF*( WA_L(IE) + VALVOIS(3) )
+          RHO(4) = HALF*( WA_L(IE) + VALVOIS(4) )
           !-------------------------------------!
           !  FVM GRADIENT (GREEN OSTROGRADSKI)
           !-------------------------------------! 
@@ -371,9 +371,9 @@ C-----------------------------------------------
               VALVOIS(J) = WA_L(IE)
             ENDIF
           ENDDO
-          RHO(1) = UNDEMI*( WA_L(IE) + VALVOIS(1) )
-          RHO(2) = UNDEMI*( WA_L(IE) + VALVOIS(2) )
-          RHO(3) = UNDEMI*( WA_L(IE) + VALVOIS(3) )
+          RHO(1) = HALF*( WA_L(IE) + VALVOIS(1) )
+          RHO(2) = HALF*( WA_L(IE) + VALVOIS(2) )
+          RHO(3) = HALF*( WA_L(IE) + VALVOIS(3) )
           !-------------------------------------!
           !  FVM GRADIENT (GREEN OSTROGRADSKI)
           !-------------------------------------! 

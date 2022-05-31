@@ -175,19 +175,19 @@ C------------------------------------------
 C--------+---------+---------+---------+---------+---------+---------+--
 C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE ( * 8. )
 C-------------------------------------------------------------
-            DX = DEUX*(X1 + X2 + X3 + X4)
+            DX = TWO*(X1 + X2 + X3 + X4)
      .          -X(1,IXS(2,II))-X(1,IXS(3,II))
      .          -X(1,IXS(4,II))-X(1,IXS(5,II))
      .          -X(1,IXS(6,II))-X(1,IXS(7,II))
      .          -X(1,IXS(8,II))-X(1,IXS(9,II))
 C
-            DY = DEUX*(Y1 + Y2 + Y3 + Y4)
+            DY = TWO*(Y1 + Y2 + Y3 + Y4)
      .          -X(2,IXS(2,II))-X(2,IXS(3,II))
      .          -X(2,IXS(4,II))-X(2,IXS(5,II))
      .          -X(2,IXS(6,II))-X(2,IXS(7,II))
      .          -X(2,IXS(8,II))-X(2,IXS(9,II))
 C
-            DZ = DEUX*(Z1 + Z2 + Z3 + Z4)
+            DZ = TWO*(Z1 + Z2 + Z3 + Z4)
      .          -X(3,IXS(2,II))-X(3,IXS(3,II))
      .          -X(3,IXS(4,II))-X(3,IXS(5,II))
      .          -X(3,IXS(6,II))-X(3,IXS(7,II))
@@ -197,7 +197,7 @@ C
 C---------------------------------
 C         CALCUL DU GRADIENT * SURFACE
 C---------------------------------
-            GRAD = QUATRE*(DX*NX+DY*NY+DZ*NZ) / MAX(EM15,DD)
+            GRAD = FOUR*(DX*NX+DY*NY+DZ*NZ) / MAX(EM15,DD)
 C---------------------------------
 C         CALCUL DU FLUX
 C---------------------------------
@@ -215,7 +215,7 @@ C
             PHI = PHI * DT1 *
      +         ( MIN(NTAG(N1),1) + MIN(NTAG(N2),1)
      +         + MIN(NTAG(N3),1) + MIN(NTAG(N4),1) )
-     +         / QUATRE   
+     +         / FOUR   
 C---------------------------------
 C         ENERGIE / VOLUME
 C---------------------------------

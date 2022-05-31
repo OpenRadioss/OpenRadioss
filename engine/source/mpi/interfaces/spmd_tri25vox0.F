@@ -298,7 +298,7 @@ Clm     BGAPEMX already counted in BMINMAL
 C       IF(IGAP0==0)THEN
 C         AAA = MARGE+BGAPEMX+GAPE(IE)
 C       ELSE
-C         AAA = MARGE+DEUX*BGAPEMX+GAPE(IE)
+C         AAA = MARGE+TWO*BGAPEMX+GAPE(IE)
 C       END IF
 
         N1 = LEDGE(5,IE)

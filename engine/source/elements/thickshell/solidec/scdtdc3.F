@@ -563,18 +563,18 @@ C-----------------------------------------------
      .   FAC,VISCE,RX1,RY1,SX1,SY1,S1,FAC1,FAC2,FACI,FAC11,FACDT
 C=======================================================================
         DO I=LFT,LLT
-          XN(1,I) = UNDEMI*(X1(I)+X5(I))
-          YN(1,I) = UNDEMI*(Y1(I)+Y5(I))
-          ZN(1,I) = UNDEMI*(Z1(I)+Z5(I))
-          XN(2,I) = UNDEMI*(X2(I)+X6(I))
-          YN(2,I) = UNDEMI*(Y2(I)+Y6(I))
-          ZN(2,I) = UNDEMI*(Z2(I)+Z6(I))
-          XN(3,I) = UNDEMI*(X3(I)+X7(I))
-          YN(3,I) = UNDEMI*(Y3(I)+Y7(I))
-          ZN(3,I) = UNDEMI*(Z3(I)+Z7(I))
-          XN(4,I) = UNDEMI*(X4(I)+X8(I))
-          YN(4,I) = UNDEMI*(Y4(I)+Y8(I))
-          ZN(4,I) = UNDEMI*(Z4(I)+Z8(I))
+          XN(1,I) = HALF*(X1(I)+X5(I))
+          YN(1,I) = HALF*(Y1(I)+Y5(I))
+          ZN(1,I) = HALF*(Z1(I)+Z5(I))
+          XN(2,I) = HALF*(X2(I)+X6(I))
+          YN(2,I) = HALF*(Y2(I)+Y6(I))
+          ZN(2,I) = HALF*(Z2(I)+Z6(I))
+          XN(3,I) = HALF*(X3(I)+X7(I))
+          YN(3,I) = HALF*(Y3(I)+Y7(I))
+          ZN(3,I) = HALF*(Z3(I)+Z7(I))
+          XN(4,I) = HALF*(X4(I)+X8(I))
+          YN(4,I) = HALF*(Y4(I)+Y8(I))
+          ZN(4,I) = HALF*(Z4(I)+Z8(I))
         ENDDO 
 C------g1,g2 :
         DO I=LFT,LLT
@@ -588,11 +588,11 @@ C------g1,g2 :
 C------Local elem. base:
         CALL CLSYS3(RX, RY, RZ, SX, SY, SZ, 
      .              VQ, DETA1,LLT)
-C------ Global -> Local Coordinate  QUART=0.25 ;
+C------ Global -> Local Coordinate  FOURTH=0.25 ;
         DO I=LFT,LLT
-          LXYZ0(1)=QUART*(XN(1,I)+XN(2,I)+XN(3,I)+XN(4,I))
-          LXYZ0(2)=QUART*(YN(1,I)+YN(2,I)+YN(3,I)+YN(4,I))
-          LXYZ0(3)=QUART*(ZN(1,I)+ZN(2,I)+ZN(3,I)+ZN(4,I))
+          LXYZ0(1)=FOURTH*(XN(1,I)+XN(2,I)+XN(3,I)+XN(4,I))
+          LXYZ0(2)=FOURTH*(YN(1,I)+YN(2,I)+YN(3,I)+YN(4,I))
+          LXYZ0(3)=FOURTH*(ZN(1,I)+ZN(2,I)+ZN(3,I)+ZN(4,I))
           XX=XN(2,I)-XN(1,I)
           YY=YN(2,I)-YN(1,I)
           ZZ=ZN(2,I)-ZN(1,I)
@@ -614,16 +614,16 @@ C
           ZZ=ZN(4,I)-ZN(1,I)
           XL4(I)=VQ(1,1,I)*XX+VQ(2,1,I)*YY+VQ(3,1,I)*ZZ
           YL4(I)=VQ(1,2,I)*XX+VQ(2,2,I)*YY+VQ(3,2,I)*ZZ
-          AREA(I)=QUART*DETA1(I)
+          AREA(I)=FOURTH*DETA1(I)
         ENDDO 
-      FAC = DEUX
-      FACDT = CQUATRE
+      FAC = TWO
+      FACDT = FIVE_OVER_4
 C-------same than QBAT       
-      IF (IDT1SOL.GT.0) FACDT =QTIERS
+      IF (IDT1SOL.GT.0) FACDT =FOUR_OVER_3
 C---- compute COREL(2,4) mean surface and area     
       DO I=LFT,LLT
-        LXYZ0(1)=QUART*(XL2(I)+XL3(I)+XL4(I))
-        LXYZ0(2)=QUART*(YL2(I)+YL3(I)+YL4(I))
+        LXYZ0(1)=FOURTH*(XL2(I)+XL3(I)+XL4(I))
+        LXYZ0(2)=FOURTH*(YL2(I)+YL3(I)+YL4(I))
         COREL(1,1)=-LXYZ0(1)
         COREL(1,2)=XL2(I)-LXYZ0(1)
         COREL(1,3)=XL3(I)-LXYZ0(1)
@@ -632,10 +632,10 @@ C---- compute COREL(2,4) mean surface and area
         COREL(2,2)=YL2(I)-LXYZ0(2)
         COREL(2,3)=YL3(I)-LXYZ0(2)
         COREL(2,4)=YL4(I)-LXYZ0(2)
-        X13=(COREL(1,1)-COREL(1,3))*UNDEMI
-        X24=(COREL(1,2)-COREL(1,4))*UNDEMI
-        Y13=(COREL(2,1)-COREL(2,3))*UNDEMI
-        Y24=(COREL(2,2)-COREL(2,4))*UNDEMI
+        X13=(COREL(1,1)-COREL(1,3))*HALF
+        X24=(COREL(1,2)-COREL(1,4))*HALF
+        Y13=(COREL(2,1)-COREL(2,3))*HALF
+        Y24=(COREL(2,2)-COREL(2,4))*HALF
 C
         L13=X13*X13+Y13*Y13
         L24=X24*X24+Y24*Y24
@@ -649,12 +649,12 @@ C
         SY1=-Y24-Y13
         C1=SQRT(RX1*RX1+RY1*RY1)
         C2=SQRT(SX1*SX1+SY1*SY1)
-        S1=QUART*(MAX(C1,C2)/MIN(C1,C2)-UN)
-        FAC1=MIN(UNDEMI,S1)+UN
+        S1=FOURTH*(MAX(C1,C2)/MIN(C1,C2)-ONE)
+        FAC1=MIN(HALF,S1)+ONE
         FAC2=AREA(I)/(C1*C2)
         FAC2=3.413*MAX(ZERO,FAC2-0.7071)
         FAC2=0.78+0.22*FAC2*FAC2*FAC2
-        FACI=DEUX*FAC1*FAC2
+        FACI=TWO*FAC1*FAC2
         S1 = SQRT(FACI*(FACDT+AL2)*AL1)
         S1 = MAX(S1,EM20)
         LLSH(I) = AREA(I)/S1
@@ -714,15 +714,15 @@ C-----------------------------------------------
      .   AL1,AL2,AL3,ALMAX,SUM
 C=======================================================================
        DO I=LFT,LLT
-          XN(1,I) = UNDEMI*(X1(I)+X4(I))
-          YN(1,I) = UNDEMI*(Y1(I)+Y4(I))
-          ZN(1,I) = UNDEMI*(Z1(I)+Z4(I))
-          XN(2,I) = UNDEMI*(X2(I)+X5(I))
-          YN(2,I) = UNDEMI*(Y2(I)+Y5(I))
-          ZN(2,I) = UNDEMI*(Z2(I)+Z5(I))
-          XN(3,I) = UNDEMI*(X3(I)+X6(I))
-          YN(3,I) = UNDEMI*(Y3(I)+Y6(I))
-          ZN(3,I) = UNDEMI*(Z3(I)+Z6(I))
+          XN(1,I) = HALF*(X1(I)+X4(I))
+          YN(1,I) = HALF*(Y1(I)+Y4(I))
+          ZN(1,I) = HALF*(Z1(I)+Z4(I))
+          XN(2,I) = HALF*(X2(I)+X5(I))
+          YN(2,I) = HALF*(Y2(I)+Y5(I))
+          ZN(2,I) = HALF*(Z2(I)+Z5(I))
+          XN(3,I) = HALF*(X3(I)+X6(I))
+          YN(3,I) = HALF*(Y3(I)+Y6(I))
+          ZN(3,I) = HALF*(Z3(I)+Z6(I))
        ENDDO 
       DO I=LFT,LLT
         X21(I)=XN(2,I)-XN(1,I)
@@ -754,7 +754,7 @@ C
         E3X(I)=E3X(I)/SUM
         E3Y(I)=E3Y(I)/SUM
         E3Z(I)=E3Z(I)/SUM
-        AREA(I) = UNDEMI * SUM
+        AREA(I) = HALF * SUM
       ENDDO
 C
       DO I=LFT,LLT
@@ -773,7 +773,7 @@ C
         AL2 = (X3L(I)-X2L(I)) * (X3L(I)-X2L(I)) + Y3L(I) * Y3L(I)
         AL3 = X3L(I) * X3L(I) + Y3L(I) * Y3L(I)
         ALMAX = MAX(AL1,AL2,AL3)
-        LLSH3N(I)= DEUX*AREA(I) / SQRT(ALMAX)
+        LLSH3N(I)= TWO*AREA(I) / SQRT(ALMAX)
       ENDDO
 C
       RETURN
@@ -942,7 +942,7 @@ C-----------------------------------------------
       DO I=EFTSK ,ELTSK
         N1= IENUNL(1,I)
         N2= IENUNL(2,I)
-        IF (MAX(ALPHA_DC(N1),ALPHA_DC(N2))<=UN) CYCLE
+        IF (MAX(ALPHA_DC(N1),ALPHA_DC(N2))<=ONE) CYCLE
         IF (MAX(MS(N1),MS(N2))==ZERO) CYCLE
         IF (MS(N1)==ZERO) THEN
           F1(1:3) = A(1:3,N1)
@@ -954,10 +954,10 @@ C-----------------------------------------------
         ELSE
           F2(1:3) = MS(N2)*A(1:3,N2)
         END IF
-        MSS_1 = UN/(MS(N1)+MS(N2))
+        MSS_1 = ONE/(MS(N1)+MS(N2))
         AM(1:3) = (F1(1:3)+F2(1:3))*MSS_1
         AD(1:3) = (F2(1:3)-F1(1:3))*MSS_1
-        ALPHA_1 =UN/MAX(ALPHA_DC(N1),ALPHA_DC(N2))
+        ALPHA_1 =ONE/MAX(ALPHA_DC(N1),ALPHA_DC(N2))
         A(1:3,N1) = AM(1:3) - AD(1:3)*ALPHA_1
         A(1:3,N2) = AM(1:3) + AD(1:3)*ALPHA_1
       END DO 

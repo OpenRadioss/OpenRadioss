@@ -190,16 +190,16 @@ C
         IF ((AREA.LE.ZERO).AND.(RAY.NE.ZERO)) THEN
          AREA=RAY*RAY*PI
 C
-         IXX=AREA*RAY*RAY*UNDEMI
-         IYY=UNDEMI*IXX
+         IXX=AREA*RAY*RAY*HALF
+         IYY=HALF*IXX
 
          IZZ=IYY
          RY=RAY
          RZ=RAY
         ELSE
 C
-         RY=SQRT(QUATRE*IYY/AREA)
-         RZ=SQRT(QUATRE*IZZ/AREA)
+         RY=SQRT(FOUR*IYY/AREA)
+         RZ=SQRT(FOUR*IZZ/AREA)
         ENDIF
 C
         AA = IUTYP
@@ -419,17 +419,17 @@ C
 C
 C       MEAN VALUES
 C
-        AREA   = UNDEMI*(AREA1+AREA2)
-        RHO    = UNDEMI*(RHO1+RHO2)
+        AREA   = HALF*(AREA1+AREA2)
+        RHO    = HALF*(RHO1+RHO2)
         FAC    = AREA*RHO
-        IXX    = UNDEMI*(IXX1+IXX2)
-        IYY    = UNDEMI*(IYY1+IYY2)
-        IZZ    = UNDEMI*(IZZ1+IZZ2)
-        RY     = UNDEMI*(RY1+RY2)
-        RZ     = UNDEMI*(RZ1+RZ2)
+        IXX    = HALF*(IXX1+IXX2)
+        IYY    = HALF*(IYY1+IYY2)
+        IZZ    = HALF*(IZZ1+IZZ2)
+        RY     = HALF*(RY1+RY2)
+        RZ     = HALF*(RZ1+RZ2)
         IMYZ   = MAX(IYY,IZZ)
-        YOUNG  = UNDEMI*(YOUNG1+YOUNG2)
-        G      = UNDEMI*(G1+G2)
+        YOUNG  = HALF*(YOUNG1+YOUNG2)
+        G      = HALF*(G1+G2)
 	ATMP   = YOUNG/MAX(EM20,G*AREA)
 C--------------------------------------
 C       ELEMENT CHECK
@@ -454,8 +454,8 @@ c---------------------------------------------
 C FOR NODAL AND ELEMENT TIME STEP COMPUTATION
 c---------------------------------------------
           XL2      = XL(I)*XL(I)/12.
-          ARY      = UN/(ATMP+XL2/MAX(EM20,IYY))
-          ARZ      = UN/(ATMP+XL2/MAX(EM20,IZZ))
+          ARY      = ONE/(ATMP+XL2/MAX(EM20,IYY))
+          ARZ      = ONE/(ATMP+XL2/MAX(EM20,IZZ))
           KTRAN    = MAX(AREA,ARY,ARZ)/XL(I)
           KROT     = 4. *MAX(IYY/XL(I),IZZ/XL(I))
           STIFM(I) = YOUNG*KTRAN

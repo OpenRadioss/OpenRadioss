@@ -127,7 +127,7 @@ C
        ENDDO
 C
 C
-      DT1D2=UNDEMI*DT1
+      DT1D2=HALF*DT1
       IF (ISCAU.GT.0)DT1D2=DT1
 C
       IF (JCVT > 0) THEN
@@ -166,7 +166,7 @@ C-------implicit static---------
          WZZ(I)=ZERO
         ENDDO
        ELSE
-         DT1D=DEUX*DT1D2
+         DT1D=TWO*DT1D2
          DO I=LFT,LLT
           D4(I)   = DXY(I)+DYX(I)
      .             -DT1D*(DXX(I)*DXY(I)+DYX(I)*DYY(I)+DZX(I)*DZY(I))

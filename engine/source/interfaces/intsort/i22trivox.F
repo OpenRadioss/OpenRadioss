@@ -316,7 +316,7 @@ C================================================================
       
       !If AAA=0 then voxel domain can be degenerated. Example : 1shell in plane XY => DZB=0
       DAAA =  ( (BMINMA(1)-BMINMA(4))+(BMINMA(2)-BMINMA(5))+ 
-     .          (BMINMA(3)-BMINMA(6)) ) / TROIS/CENT
+     .          (BMINMA(3)-BMINMA(6)) ) / THREE/HUNDRED
       DMAX = MAX(MAX(DXB,DYB),DZB)
      
       IF(DXB/DMAX.LT.EM06)DXB=DAAA

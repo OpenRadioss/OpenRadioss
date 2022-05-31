@@ -98,7 +98,7 @@ C
           DAMP=DX(I)/MAX(DMX(I),EM15)
           DAMM=DX(I)/MIN(DMN(I),-EM15)
           ANIM(II)=MAX(ANIM(II),DAMP,DAMM)
-          ANIM(II)=MIN(ANIM(II),UN)
+          ANIM(II)=MIN(ANIM(II),ONE)
         ENDDO
       ENDIF
 C
@@ -137,7 +137,7 @@ C-------------------------------------
         DO J=LFT,LLT_LOC
           I = INDEXA(J)                                          
           FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
-          NP2  = (NPF(FUND+1)-NPF(FUND))*UNDEMI                       
+          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
           AN3Y0(J)= ZERO
           DXELA(J)=DX(I)-DPX(I)
           IF (((DXELA(J) >= ZERO).OR.(FXEP(I) >= ZERO)).AND.(FUND > 0)) THEN
@@ -187,7 +187,7 @@ C--- Compression - perfectly plastic behavior
          I = INDEXA(J)
          IF(IFUNC(I).NE.0.AND.IECROU(I)== 10)THEN
           FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
-          NP2  = (NPF(FUND+1)-NPF(FUND))*UNDEMI                       
+          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
           AN3Y0(J)= ZERO
           DXELA(J)=DX(I)-DPX(I)
           IF (((DXELA(J) >= ZERO).OR.(FXEP(I) >= ZERO)).AND.(FUND > 0)) THEN
@@ -368,13 +368,13 @@ C--------------------------------------------------------------------
         DO J=LFT,LLT_LOC
           I = INDEXA(J)
           FX(I)= (AK(I)*FX(I) + XC(I)*DVX(J)) *OFF(I)
-          E(I) = E(I) + (DX(I)-DXOLD(I)) * (FX(I)+FOLD(J)) * UNDEMI
+          E(I) = E(I) + (DX(I)-DXOLD(I)) * (FX(I)+FOLD(J)) * HALF
         ENDDO
       ELSE
         DO J=LFT,LLT_LOC
           I = INDEXA(J)
           FX(I)= FX(I)  *AK(I)* OFF(I)
-          E(I) = E(I) + (DX(I)-DXOLD(I)) * (FX(I)+FOLD(J)) * UNDEMI
+          E(I) = E(I) + (DX(I)-DXOLD(I)) * (FX(I)+FOLD(J)) * HALF
         ENDDO
       ENDIF
 c-------------------------  

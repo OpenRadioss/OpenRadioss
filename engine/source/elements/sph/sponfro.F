@@ -164,7 +164,7 @@ c remote neigbourg, get values from SPMD_SPHGETWA
           ENDIF
 
           DIVV=DXX+DYY+DZZ
-          SPBUF(2,N)=WA_EPSD(10,N)*(UN - DIVV*DT1)
+          SPBUF(2,N)=WA_EPSD(10,N)*(ONE - DIVV*DT1)
           WA_EPSD(1,N) =DXX
           WA_EPSD(2,N) =DYY
           WA_EPSD(3,N) =DZZ

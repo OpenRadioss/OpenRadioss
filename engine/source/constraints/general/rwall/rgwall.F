@@ -276,7 +276,7 @@ C---        test pour noeuds penetres
       ENDIF
 C-----------------
       IF(DT12 /= ZERO)THEN
-        FACT=UN/DT12
+        FACT=ONE/DT12
       ELSE
         FACT = ZERO
       ENDIF
@@ -363,7 +363,7 @@ C---     friction filtering
          FRIC = RWL(13)
          ALPHA= RWL(14)
          IF (IFQ == 3) ALPHA = ALPHA * DT12
-         ALPHI = UN - ALPHA
+         ALPHI = ONE - ALPHA
          FRIC2 = FRIC**2
          DO J = 1,NINDEX
            I = INDEX(J)
@@ -405,13 +405,13 @@ C---
              RWSAV(K+1) = FNYT
              RWSAV(K+2) = FNZT
            ENDIF
-           FCOE=MIN(UN,FRIC*SQRT(FNDFN/MAX(EM20,FTDFT)))
+           FCOE=MIN(ONE,FRIC*SQRT(FNDFN/MAX(EM20,FTDFT)))
            FNXT=FCOE*FNXT
            FNYT=FCOE*FNYT
            FNZT=FCOE*FNZT
            FAC = DT12*MS(N)
            IF(FAC /= ZERO)THEN
-             FAC=UN/FAC
+             FAC=ONE/FAC
            ENDIF
            A(N1)=A(N1)-(DA*RWL(1)+FNXT*FAC)
            A(N2)=A(N2)-(DA*RWL(2)+FNYT*FAC)
@@ -479,7 +479,7 @@ C---         sliding secnd point
              FNXT=FCOE*FNXT
              FNYT=FCOE*FNYT
              FNZT=FCOE*FNZT
-             FAC=UN/(DT12*MS(N))
+             FAC=ONE/(DT12*MS(N))
              
              A(N1)=A(N1)-(DA*RWL(1)+FNXT*FAC)
              A(N2)=A(N2)-(DA*RWL(2)+FNYT*FAC)
@@ -509,8 +509,8 @@ C---         sliding secnd point
       ENDIF
 C
       IF(IMCONV == 1)THEN
-          TFXT=TFXT+UNDEMI*DT1*TFXTN
-          TFXT2=TFXT2+UNDEMI*DT1*TFXTN2
+          TFXT=TFXT+HALF*DT1*TFXTN
+          TFXT2=TFXT2+HALF*DT1*TFXTN2
 #include "atomic.inc"
           TFEXT=TFEXT+TFXT
           TFEXT_MD=TFEXT_MD+TFXT2

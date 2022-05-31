@@ -230,7 +230,7 @@ C-------------------------------------------------------
             JJ = JJ + 1
             WA(JJ) = NPG  ! Gauss points
             JJ = JJ + 1
-            WA(JJ) = UN  ! LARGE
+            WA(JJ) = ONE  ! LARGE
 
 c---------
 
@@ -254,11 +254,11 @@ c---------
 ! LOWER
               DO IPG=1,NPG
                  K = (IPG-1)*NEL*G_STRA 
-                 ZH = -UNDEMI*THKP
+                 ZH = -HALF*THKP
 
                  STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
-                 STRAING(3)=UNDEMI*STRAING(3)
-                 STRAING(4:5)=UNDEMI*STRAIN(KK(4:5)+I+K)
+                 STRAING(3)=HALF*STRAING(3)
+                 STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
 
                  CALL SHELL2G(STRAING,QT(1,I))             
  
@@ -267,7 +267,7 @@ c---------
                     WA(JJ) = STRAING(J)
                  END DO  
                  JJ = JJ + 1
-                 WA(JJ) = -UN
+                 WA(JJ) = -ONE
               ENDDO
 
 ! MEMBRANE
@@ -275,7 +275,7 @@ c---------
                  K = (IPG-1)*NEL*G_STRA 
 
                  STRAING(1:2)=STRAIN(KK(1:2)+I+K)
-                 STRAING(3:5)=UNDEMI*STRAIN(KK(3:5)+I+K)
+                 STRAING(3:5)=HALF*STRAIN(KK(3:5)+I+K)
 
                  CALL SHELL2G(STRAING,QT(1,I))             
  
@@ -290,11 +290,11 @@ c---------
 ! Upper
               DO IPG=1,NPG
                  K = (IPG-1)*NEL*G_STRA 
-                 ZH = UNDEMI*THKP
+                 ZH = HALF*THKP
 
                  STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
-                 STRAING(3)=UNDEMI*STRAING(3)
-                 STRAING(4:5)=UNDEMI*STRAIN(KK(4:5)+I+K)
+                 STRAING(3)=HALF*STRAING(3)
+                 STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
 
                  CALL SHELL2G(STRAING,QT(1,I))             
  
@@ -303,7 +303,7 @@ c---------
                     WA(JJ) = STRAING(J)
                  END DO  
                  JJ = JJ + 1
-                 WA(JJ) = UN
+                 WA(JJ) = ONE
               ENDDO
 
 
@@ -331,8 +331,8 @@ C--
                        K = (IPG-1)*NEL*G_STRA 
                        ZH = POSLY(I,IPT)*THKP
                        STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
-                       STRAING(3)=UNDEMI*STRAING(3)
-                       STRAING(4:5)=UNDEMI*STRAIN(KK(4:5)+I+K)
+                       STRAING(3)=HALF*STRAING(3)
+                       STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
 
                        CALL SHELL2G(STRAING,QT(1,I))             
 C               
@@ -341,7 +341,7 @@ C
                          WA(JJ) = STRAING(J)
                        END DO      
                        JJ    = JJ + 1
-                       WA(JJ) = POSLY(I,IPT)*DEUX
+                       WA(JJ) = POSLY(I,IPT)*TWO
                     END DO        
                  END DO !IT=1,NPTT
                  IPT_ALL = IPT_ALL + NPTT
@@ -535,7 +535,7 @@ C
             JJ = JJ + 1
             WA(JJ) = NPG
             JJ = JJ + 1
-            WA(JJ) = UN  ! LARGE
+            WA(JJ) = ONE  ! LARGE
 
             IF (ITHK >0 ) THEN
                THKP = GBUF%THK(I)
@@ -565,11 +565,11 @@ c---------
 ! LOWER
               DO IPG=1,NPG
                  K = (IPG-1)*NEL*G_STRA 
-                 ZH = -UNDEMI*THKP
+                 ZH = -HALF*THKP
 
                  STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
-                 STRAING(3)=UNDEMI*STRAING(3)
-                 STRAING(4:5)=UNDEMI*STRAIN(KK(4:5)+I+K)
+                 STRAING(3)=HALF*STRAING(3)
+                 STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
 
                  CALL SHELL2G(STRAING,QT(1,I))             
  
@@ -578,7 +578,7 @@ c---------
                     WA(JJ) = STRAING(J)
                  END DO  
                  JJ = JJ + 1
-                 WA(JJ) = -UN
+                 WA(JJ) = -ONE
               ENDDO
 
 ! MEMBRANE
@@ -586,7 +586,7 @@ c---------
                  K = (IPG-1)*NEL*G_STRA 
 
                  STRAING(1:2)=STRAIN(KK(1:2)+I+K)
-                 STRAING(3:5)=UNDEMI*STRAIN(KK(3:5)+I+K)
+                 STRAING(3:5)=HALF*STRAIN(KK(3:5)+I+K)
 
                  CALL SHELL2G(STRAING,QT(1,I))             
  
@@ -601,11 +601,11 @@ c---------
 ! Upper
               DO IPG=1,NPG
                  K = (IPG-1)*NEL*G_STRA 
-                 ZH = UNDEMI*THKP
+                 ZH = HALF*THKP
 
                  STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
-                 STRAING(3)=UNDEMI*STRAING(3)
-                 STRAING(4:5)=UNDEMI*STRAIN(KK(4:5)+I+K)
+                 STRAING(3)=HALF*STRAING(3)
+                 STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
 
                  CALL SHELL2G(STRAING,QT(1,I))             
  
@@ -614,7 +614,7 @@ c---------
                     WA(JJ) = STRAING(J)
                  END DO  
                  JJ = JJ + 1
-                 WA(JJ) = UN
+                 WA(JJ) = ONE
               ENDDO
 
 
@@ -642,8 +642,8 @@ C--
                        K = (IPG-1)*NEL*G_STRA 
                        ZH = POSLY(I,IPT)*THKP
                        STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
-                       STRAING(3)=UNDEMI*STRAING(3)
-                       STRAING(4:5)=UNDEMI*STRAIN(KK(4:5)+I+K)
+                       STRAING(3)=HALF*STRAING(3)
+                       STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
 
                        CALL SHELL2G(STRAING,QT(1,I))             
 C               
@@ -652,7 +652,7 @@ C
                          WA(JJ) = STRAING(J)
                        END DO      
                        JJ    = JJ + 1
-                       WA(JJ) = POSLY(I,IPT)*DEUX
+                       WA(JJ) = POSLY(I,IPT)*TWO
                     END DO        
                  END DO !IT=1,NPTT
                  IPT_ALL = IPT_ALL + NPTT

@@ -110,13 +110,13 @@ C
       IF(IFLAG1 <= 0) IFLAG1=1
       IF(IFLAG2 <= 0) IFLAG2=1
       IF(ITEMAX <= 0) ITEMAX=5
-      IF(NN  <= ZERO) NN=DEUX
+      IF(NN  <= ZERO) NN=TWO
       IF(TOL <= ZERO) TOL=EM08    
 
       NUVAR = 4
       PM(1) = RHOR
       PM(89) = RHO0
-      BULK=YOUNG/TROIS/(UN-DEUX*NU)
+      BULK=YOUNG/THREE/(ONE-TWO*NU)
       CE=SQRT(BULK/RHO0)
 C     
       UPARAM(1) = BULK
@@ -127,8 +127,8 @@ C
       UPARAM(6) = MATS
       UPARAM(7) = IFLAG1
       UPARAM(8) = IFLAG2
-      UPARAM(9) = YOUNG/(UN+NU)
-      UPARAM(10)= UNDEMI*UPARAM(9)
+      UPARAM(9) = YOUNG/(ONE+NU)
+      UPARAM(10)= HALF*UPARAM(9)
       UPARAM(17)= ITEMAX
 C     
       NUPARAM= 17
@@ -138,7 +138,7 @@ C
       PARMAT(3) = NU
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) = (UN - DEUX*NU)/(UN - NU) ! ==DEUX*G/(BULK+sQTHIRD*G)
+      PARMAT(17) = (ONE - TWO*NU)/(ONE - NU) ! ==TWO*G/(BULK+sFOUR_OVER_3*G)
 C----------------------
       WRITE(IOUT, 900) TRIM(TITR),MAT_ID,75
       WRITE(IOUT,1000)

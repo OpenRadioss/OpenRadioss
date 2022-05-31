@@ -119,7 +119,7 @@ C
             N1=IABS(IB(J))
             AXI=X(2,N1)
             A(N2,N1)=A(N2,N1)+AA
-            IF(IB(J).GT.0)TFEXTT=TFEXTT+UNDEMI*(A0+AA)*MS(N1)*V(N2,N1)*DT1*AXI*WEIGHT(N1)
+            IF(IB(J).GT.0)TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*V(N2,N1)*DT1*AXI*WEIGHT(N1)
           ENDDO
         ELSEIF(N2D.EQ.1.AND.ISK.GT.1)THEN
           K1=3*N2-2
@@ -133,14 +133,14 @@ C
             A(1,N1)=A(1,N1)+SKEW(K1,ISK)*AA
             A(2,N1)=A(2,N1)+SKEW(K2,ISK)*AA
             A(3,N1)=A(3,N1)+SKEW(K3,ISK)*AA
-            IF(IB(J).GT.0)TFEXTT=TFEXTT+UNDEMI*(A0+AA)*MS(N1)*VV*DT1*AXI*WEIGHT(N1)
+            IF(IB(J).GT.0)TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*AXI*WEIGHT(N1)
           ENDDO
         ELSEIF(ISK.LE.1)THEN
 #include "vectorize.inc"
           DO J=IADF,IADL
             N1=IABS(IB(J))
             A(N2,N1)=A(N2,N1)+AA
-            IF(IB(J).GT.0)TFEXTT=TFEXTT+UNDEMI*(A0+AA)*MS(N1)*V(N2,N1)*DT1*WEIGHT(N1)
+            IF(IB(J).GT.0)TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*V(N2,N1)*DT1*WEIGHT(N1)
           ENDDO
         ELSE
           K1=3*N2-2
@@ -153,7 +153,7 @@ C
             A(1,N1)=A(1,N1)+SKEW(K1,ISK)*AA
             A(2,N1)=A(2,N1)+SKEW(K2,ISK)*AA
             A(3,N1)=A(3,N1)+SKEW(K3,ISK)*AA
-            IF(IB(J).GT.0)TFEXTT=TFEXTT+UNDEMI*(A0+AA)*MS(N1)*VV*DT1*WEIGHT(N1)
+            IF(IB(J).GT.0)TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*WEIGHT(N1)
           ENDDO
         ENDIF
 C       /---------------/

@@ -115,11 +115,11 @@ c----------------------------
       DO I=1,8! NFUNC
        YFAC(I)= UPARAM(8+I)  
       ENDDO
-      DC0 = UN+EMBC
-      HC0 = SQRT(DC0*DC0 - UN)
+      DC0 = ONE+EMBC
+      HC0 = SQRT(DC0*DC0 - ONE)
 
-      DT0 = UN+EMBT 
-      HT0 = SQRT(DT0*DT0 - UN)
+      DT0 = ONE+EMBT 
+      HT0 = SQRT(DT0*DT0 - ONE)
 
 
       ! TRANSFORMER CONTRAINTE DEF TISSU EN FORCE DEP FIBRE
@@ -130,7 +130,7 @@ c----------------------------
 C---------------------------------------------------------------------
       PN1  = NPC(IFUNC(1))
       PN2  = NPC(IFUNC(1)+1)
-      LENC = UNDEMI*(PN2 - PN1) ! 
+      LENC = HALF*(PN2 - PN1) ! 
       !DIRECTION CHAINE  = FMINC
       DO I = 1,LENC
        II = 2*(I-1)
@@ -145,7 +145,7 @@ C---------------------------------------------------------------------
       !DIRECTION TRAME = FMINT
       PN1  = NPC(IFUNC(2))
       PN2  = NPC(IFUNC(2)+1)
-      LENT = UNDEMI*(PN2 - PN1) ! 
+      LENT = HALF*(PN2 - PN1) ! 
       DO I = 1,LENT
        II = 2*(I-1)  
        ET(I) = PLD(NPC(IFUNC(2))+ II ) 
@@ -156,7 +156,7 @@ C---------------------------------------------------------------------
         FMINT = FMINT + A2**2   !somme de la difference des carres
       ENDDO
 C----------------------------------------------------------- 
-      IF (IGOTO == 5 .or. IGOTO == 8) FUN =  (FMINC + FMINT )/DEUX                                   
+      IF (IGOTO == 5 .or. IGOTO == 8) FUN =  (FMINC + FMINT )/TWO                                   
 C----------------------------------------------------------
 C-----------------------------------------------------------
 c     DERIVATIVES - CHAINE
@@ -167,8 +167,8 @@ C----------------------------------------------------------
       !PERTURBATION STRETCH DIRECTION CHAINE  = FMINS
          EMBCP  = X(1) + DEMBC 
          FLEX1  = X(2)
-         DC0 = UN + EMBCP
-         HC0 = SQRT(DC0*DC0 - UN)
+         DC0 = ONE + EMBCP
+         HC0 = SQRT(DC0*DC0 - ONE)
          DO I = 1,LENC
            II = 2*(I-1)
            EC(I) = PLD(NPC(IFUNC(1))+ II )
@@ -189,8 +189,8 @@ C----------------------------------------------------------
          EMBT  = X(3)
          FLEXP = X(2) + DFLEX
          FLEX2 = X(4)
-         DC0 = UN + EMBC
-         HC0 = SQRT(DC0*DC0 - UN)
+         DC0 = ONE + EMBC
+         HC0 = SQRT(DC0*DC0 - ONE)
          DO I = 1,LENC
            II = 2*(I-1)
            EC(I) = PLD(NPC(IFUNC(1))+ II )
@@ -203,8 +203,8 @@ c
            FMINF1 = FMINF1 + A1**2 !somme de la difference des carres
          ENDDO !LENC  
 
-         DT0 = UN + EMBT
-         HT0 = SQRT(DT0*DT0 - UN)
+         DT0 = ONE + EMBT
+         HT0 = SQRT(DT0*DT0 - ONE)
          DO I = 1,LENT
            II = 2*(I-1)
            ET(I) = PLD(NPC(IFUNC(2))+ II )
@@ -227,8 +227,8 @@ C----------------------------------------------------------
          !PERTURBATION STRETCH DIRECTION TRAME  = FMINS2
          EMBTP  = X(3) + DEMBT 
          FLEX2  = X(4)
-         DT0 = UN + EMBTP
-         HT0 = SQRT(DT0*DT0 - UN)
+         DT0 = ONE + EMBTP
+         HT0 = SQRT(DT0*DT0 - ONE)
          DO I = 1,LENT
            II = 2*(I-1)
            ET(I) = PLD(NPC(IFUNC(2))+ II )
@@ -249,8 +249,8 @@ C----------------------------------------------------------
          FLEX1= X(2)
          FLEXP = X(4) + DFLEX
 
-         DC0 = UN + EMBC
-         HC0 = SQRT(DC0*DC0 - UN)
+         DC0 = ONE + EMBC
+         HC0 = SQRT(DC0*DC0 - ONE)
          DO I = 1,LENC
            II = 2*(I-1)
            EC(I) = PLD(NPC(IFUNC(1))+ II )
@@ -262,8 +262,8 @@ c
            !A1 = FCU(I) - SIGC(I)
            FMINF1 = FMINF1 + A1**2 !somme de la difference des carres
          ENDDO !LENC  
-         DT0 = UN + EMBT
-         HT0 = SQRT(DT0*DT0 - UN)
+         DT0 = ONE + EMBT
+         HT0 = SQRT(DT0*DT0 - ONE)
          DO I = 1,LENT
            II = 2*(I-1)
            ET(I) = PLD(NPC(IFUNC(2))+ II )
@@ -295,15 +295,15 @@ C----------------------------------------------------------
       DO I=1,8! NFUNC
        YFAC(I)= UPARAM(8+I)  
       ENDDO
-      DC0 = UN+EMBC
-      HC0 = SQRT(DC0*DC0 - UN)
+      DC0 = ONE+EMBC
+      HC0 = SQRT(DC0*DC0 - ONE)
 
-      DT0 = UN+EMBT 
-      HT0 = SQRT(DT0*DT0 - UN)
+      DT0 = ONE+EMBT 
+      HT0 = SQRT(DT0*DT0 - ONE)
       ! IL FAUT PRENDRE LA LONGUEUR DE LA FONCTION CR  EE
       PN1 = NPC(IFUNC(7))
       PN2 = NPC(IFUNC(7)+1)
-      SIZEPN = UNDEMI*(PN2 - PN1) ! 
+      SIZEPN = HALF*(PN2 - PN1) ! 
 
 
       ! TRANSFORMER CONTRAINTE DEF TISSU EN FORCE DEP FIBRE
@@ -331,8 +331,8 @@ C----------------------------------------------------------
       IF (IGOTO == 3 .or. IGOTO == 8) THEN
          EMBCP  = X(1) + DEMBC 
          FLEX1  = X(2)
-         DC0 = UN + EMBCP
-         HC0 = SQRT(DC0*DC0 - UN)
+         DC0 = ONE + EMBCP
+         HC0 = SQRT(DC0*DC0 - ONE)
          DT0 = DC0
          HT0 = HC0  
          DO I = 1,SIZEPN
@@ -350,8 +350,8 @@ C----------------------------------------------------------
         ! Deriv over flex                          
          EMBC  = X(1)
          FLEXP = X(2) + DFLEX
-         DC0 = UN + EMBC
-         HC0 = SQRT(DC0*DC0 - UN)
+         DC0 = ONE + EMBC
+         HC0 = SQRT(DC0*DC0 - ONE)
          DT0 = DC0
          HT0 = HC0  
          DO I = 1,SIZEPN
@@ -427,18 +427,18 @@ c-----------------------------------------------
 
       NITER = 5
       YC  = ZERO      ! initialization
-      LC  = UN + EC
+      LC  = ONE + EC
 c----------------------
       DO ITER = 1, NITER
         HC   = HC0 + YC 
         DC   = SQRT(LC*LC + HC*HC) 
         DCC  = DC - DC0
-        UDC  = UN / DC
+        UDC  = ONE / DC
         HDC  = HC * UDC
         FC   = YFAC * FINTER58(DCC,XFIB,YFIB,FPC,SIZEPN)
         FPC  = FPC*HDC*YFAC
-        FUNC = DEUX*FLEX*YC + FC*HDC
-        DERIC= DEUX*FLEX + FPC*HDC + FC*UDC*(UN - HDC*HDC)
+        FUNC = TWO*FLEX*YC + FC*HDC
+        DERIC= TWO*FLEX + FPC*HDC + FC*UDC*(ONE - HDC*HDC)
         YC   = YC - FUNC / MAX(DERIC,EM20)
       ENDDO !iter
 c----------------------
@@ -449,10 +449,10 @@ c----------------------
       FC   = YFAC * FINTER58(DCC,XFIB,YFIB,FPC,SIZEPN)
       DT0 = DC0
       LT   = SQRT(MAX(EM20, DT0**2 - HT**2))
-      EC2  = LT - UN 
+      EC2  = LT - ONE 
       SIGC = FC * LC / DC ! ENGINEERING
 
-c      SIGC = FC * LC / DC /(EC2+UN)!TRUE
+c      SIGC = FC * LC / DC /(EC2+ONE)!TRUE
 c
 c-----------
       RETURN
@@ -555,8 +555,8 @@ c----------------------------------------------
         J = 2*(I-1)
         STISSUC(I) =  YFAC1 * FINTER(IDN1,XBIA(I),NPC,PLD,FPC)!IFUNC7
         STISSUT(I) =  YFAC2 * FINTER(IDN2,XBIA(I),NPC,PLD,FPT)!IFUNC8
-        LC = UN + XBIA(I)  
-        LT = UN + XBIA(I) 
+        LC = ONE + XBIA(I)  
+        LT = ONE + XBIA(I) 
 
 c        FTISS(I)= YB(I)*(1.0 + XX(I))
          Y = ZERO
@@ -565,8 +565,8 @@ c        FTISS(I)= YB(I)*(1.0 + XX(I))
             HT = HT0 - Y 
             DC = SQRT(LC *LC  + HC*HC) 
             DT = SQRT(LT *LT  + HT*HT)
-            UDC= UN / DC
-            UDT= UN / DT
+            UDC= ONE / DC
+            UDT= ONE / DT
             HDC= HC * UDC
             HDT= HT * UDT
             FC  = STISSUC(I) * LC/DC
@@ -577,8 +577,8 @@ c        FTISS(I)= YB(I)*(1.0 + XX(I))
             !FPT = STISSUT(I) * HDT
             KF  = KFC + KFT
             FUNC  = KF*Y + FC * HDC - FT * HDT
-            DERIC = KF + FPC*HDC + FC*UDC*(UN - HDC*HDC)
-     .                 + FPT*HDT + FT*UDT*(UN - HDT*HDT)
+            DERIC = KF + FPC*HDC + FC*UDC*(ONE - HDC*HDC)
+     .                 + FPT*HDT + FT*UDT*(ONE - HDT*HDT)
             Y = Y - FUNC / DERIC
 C
             IF (Y > 0) THEN
@@ -645,12 +645,12 @@ C-----------------------------------------------
        INTENT(IN)    :: NPC,PLD 
 c---------------------------- 
       !IDN = IFUNC(7)
-      NP1  = (NPC(IDN+1)-NPC(IDN))*UNDEMI  
+      NP1  = (NPC(IDN+1)-NPC(IDN))*HALF  
 
       DO I = 1, NP1        
         J = 2*(I-1)
         XX(I) = PLD(NPC(IDN)+J)
-        LC = UN + XX(I)
+        LC = ONE + XX(I)
         DC = SQRT(HC0*HC0 + LC*LC)
         XFIB(I) = DC - DC0
         YFIB(I) = PLD(NPC(IDN)+J+1)*LC/DC
@@ -710,18 +710,18 @@ c-----------------------------------------------
 
       NITER = 5
       YC  = ZERO      ! initialization
-      LC  = UN + EC
+      LC  = ONE + EC
 c----------------------
       DO ITER = 1, NITER
         HC   = HC0 + YC 
         DC   = SQRT(LC*LC + HC*HC) 
         DCC  = DC - DC0
-        UDC  = UN / DC
+        UDC  = ONE / DC
         HDC  = HC * UDC
         FC   = YFAC * FINTER58(DCC,XFIB,YFIB,FPC,SIZEPN)
         FPC  = FPC*HDC*YFAC
         FUNC = (FLEX1+FLEX2)*YC + FC*HDC
-        DERIC= (FLEX1+FLEX2) + FPC*HDC + FC*UDC*(UN - HDC*HDC)
+        DERIC= (FLEX1+FLEX2) + FPC*HDC + FC*UDC*(ONE - HDC*HDC)
         YC   = YC - FUNC / MAX(DERIC,EM20)
       ENDDO !iter
 c----------------------
@@ -731,7 +731,7 @@ c----------------------
       FC   = YFAC * FINTER58(DCC,XFIB,YFIB,FPC,SIZEPN)
       SIGC = FC * LC / DC ! ENGINEERING (ON PREND L INITIAL EC2 = 0)
 
-c      SIGC = FC * LC / DC /(EC2+UN)
+c      SIGC = FC * LC / DC /(EC2+ONE)
 c
 c-----------
       RETURN

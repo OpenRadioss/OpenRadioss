@@ -322,10 +322,10 @@ c      if(nft==45952)then
 c        ibug=1
 c      endif
       NOR_OLD = 0  
-      UNP   = UN + EM4
+      UNP   = ONE + EM4
       ZEROM = ZERO - EM4
-      EPS = (DEUX+UNDEMI)/CENT
-      UNPT   = UN + EPS
+      EPS = (TWO+HALF)/HUNDRED
+      UNPT   = ONE + EPS
       ZEROMT = ZERO - EPS
 C------used for high penetration case (extention criterion)      
       EPS2=EPS*EPS
@@ -333,13 +333,13 @@ C------0.1%----
       EPS = EM3
       EPS02=EPS*EPS
       EPS = EPS0
-      OVERW0=UN
-      MARGE025=QUART*MARGE
+      OVERW0=ONE
+      MARGE025=FOURTH*MARGE
 C--- 
 C--- TOL_INTS,TOL_B : tols for intersection w/ tiny shell, for returning old seg w/ higher pene
       IF (IRESP==1) THEN
-       TOL_INTS = DEUX*EM3
-       TOL_B = DEUX*EM6
+       TOL_INTS = TWO*EM3
+       TOL_B = TWO*EM6
       ELSE
        TOL_INTS = EM08
        TOL_B = EM08
@@ -608,9 +608,9 @@ c      write(iout,*)'i=',i,'i24dst3 23'
          NYY(I,4) = Z11_1 * X12_3 - X11_1 * Z12_3
          NZZ(I,4) = X11_1 * Y12_3 - Y11_1 * X12_3
 
-         NXX(I,5) = QUART*(NXX(I,1)+NXX(I,2)+NXX(I,3)+NXX(I,4))
-         NYY(I,5) = QUART*(NYY(I,1)+NYY(I,2)+NYY(I,3)+NYY(I,4))
-         NZZ(I,5) = QUART*(NZZ(I,1)+NZZ(I,2)+NZZ(I,3)+NZZ(I,4))
+         NXX(I,5) = FOURTH*(NXX(I,1)+NXX(I,2)+NXX(I,3)+NXX(I,4))
+         NYY(I,5) = FOURTH*(NYY(I,1)+NYY(I,2)+NYY(I,3)+NYY(I,4))
+         NZZ(I,5) = FOURTH*(NZZ(I,1)+NZZ(I,2)+NZZ(I,3)+NZZ(I,4))
 
        ELSE
 
@@ -740,22 +740,22 @@ C------taking into account Igap0=1
            YY(I,4) = YY0(I,4) + NY4
            ZZ(I,4) = ZZ0(I,4) + NZ4
 
-           XX(I,5) = QUART*(XX(I,1)+XX(I,2)+XX(I,3)+XX(I,4))
-           YY(I,5) = QUART*(YY(I,1)+YY(I,2)+YY(I,3)+YY(I,4))
-           ZZ(I,5) = QUART*(ZZ(I,1)+ZZ(I,2)+ZZ(I,3)+ZZ(I,4))
+           XX(I,5) = FOURTH*(XX(I,1)+XX(I,2)+XX(I,3)+XX(I,4))
+           YY(I,5) = FOURTH*(YY(I,1)+YY(I,2)+YY(I,3)+YY(I,4))
+           ZZ(I,5) = FOURTH*(ZZ(I,1)+ZZ(I,2)+ZZ(I,3)+ZZ(I,4))
            IF(IXX(I,10)==IXX(I,11))THEN
              XX(I,16) = XX0(I,10)
              YY(I,16) = YY0(I,10)
              ZZ(I,16) = ZZ0(I,10)
            ELSE
-             XX(I,16) = QUART*(XX0(I,4)+XX0(I,3)+XX0(I,10)+XX0(I,11))
-             YY(I,16) = QUART*(YY0(I,4)+YY0(I,3)+YY0(I,10)+YY0(I,11))
-             ZZ(I,16) = QUART*(ZZ0(I,4)+ZZ0(I,3)+ZZ0(I,10)+ZZ0(I,11))
+             XX(I,16) = FOURTH*(XX0(I,4)+XX0(I,3)+XX0(I,10)+XX0(I,11))
+             YY(I,16) = FOURTH*(YY0(I,4)+YY0(I,3)+YY0(I,10)+YY0(I,11))
+             ZZ(I,16) = FOURTH*(ZZ0(I,4)+ZZ0(I,3)+ZZ0(I,10)+ZZ0(I,11))
            ENDIF
            NX16 = SX43160(I)
            NY16 = SY43160(I)
            NZ16 = SZ43160(I)
-           AAA = GAPS(I)+QUART*(
+           AAA = GAPS(I)+FOURTH*(
      .             GAP_NM(3,L)+GAP_NM(4,L)
      .           + GAP_NM(9,L)+GAP_NM(10,L) )
            AAA = AAA/SQRT(NX16*NX16+NY16*NY16+NZ16*NZ16)
@@ -801,14 +801,14 @@ C------taking into account Igap0=1
            YY(I,14) = YY0(I,6)
            ZZ(I,14) = ZZ0(I,6)
          ELSE
-           XX(I,14) = QUART*(XX0(I,2)+XX0(I,1)+XX0(I,6)+XX0(I,7))
-           YY(I,14) = QUART*(YY0(I,2)+YY0(I,1)+YY0(I,6)+YY0(I,7))
-           ZZ(I,14) = QUART*(ZZ0(I,2)+ZZ0(I,1)+ZZ0(I,6)+ZZ0(I,7))
+           XX(I,14) = FOURTH*(XX0(I,2)+XX0(I,1)+XX0(I,6)+XX0(I,7))
+           YY(I,14) = FOURTH*(YY0(I,2)+YY0(I,1)+YY0(I,6)+YY0(I,7))
+           ZZ(I,14) = FOURTH*(ZZ0(I,2)+ZZ0(I,1)+ZZ0(I,6)+ZZ0(I,7))
          ENDIF
          NX14 = SX21140(I)
          NY14 = SY21140(I)
          NZ14 = SZ21140(I)
-         AAA = GAPS(I)+QUART*(
+         AAA = GAPS(I)+FOURTH*(
      .           GAP_NM(1,L)+GAP_NM(2,L)
      .         + GAP_NM(5,L)+GAP_NM(6,L) )
          AAA = AAA/SQRT(NX14*NX14+NY14*NY14+NZ14*NZ14)
@@ -820,14 +820,14 @@ C------taking into account Igap0=1
            YY(I,15) = YY0(I,8)
            ZZ(I,15) = ZZ0(I,8)
          ELSE
-           XX(I,15) = QUART*(XX0(I,3)+XX0(I,2)+XX0(I,8)+XX0(I,9))
-           YY(I,15) = QUART*(YY0(I,3)+YY0(I,2)+YY0(I,8)+YY0(I,9))
-           ZZ(I,15) = QUART*(ZZ0(I,3)+ZZ0(I,2)+ZZ0(I,8)+ZZ0(I,9))
+           XX(I,15) = FOURTH*(XX0(I,3)+XX0(I,2)+XX0(I,8)+XX0(I,9))
+           YY(I,15) = FOURTH*(YY0(I,3)+YY0(I,2)+YY0(I,8)+YY0(I,9))
+           ZZ(I,15) = FOURTH*(ZZ0(I,3)+ZZ0(I,2)+ZZ0(I,8)+ZZ0(I,9))
          ENDIF
          NX15 = SX32150(I)
          NY15 = SY32150(I)
          NZ15 = SZ32150(I)
-         AAA = GAPS(I)+QUART*(
+         AAA = GAPS(I)+FOURTH*(
      .           GAP_NM(2,L)+GAP_NM(3,L)
      .         + GAP_NM(7,L)+GAP_NM(8,L) )
          AAA = AAA/SQRT(NX15*NX15+NY15*NY15+NZ15*NZ15)
@@ -839,14 +839,14 @@ C------taking into account Igap0=1
            YY(I,17) = YY0(I,12)
            ZZ(I,17) = ZZ0(I,12)
          ELSE
-           XX(I,17) = QUART*(XX0(I,1)+XX0(I,4)+XX0(I,12)+XX0(I,13))
-           YY(I,17) = QUART*(YY0(I,1)+YY0(I,4)+YY0(I,12)+YY0(I,13))
-           ZZ(I,17) = QUART*(ZZ0(I,1)+ZZ0(I,4)+ZZ0(I,12)+ZZ0(I,13))
+           XX(I,17) = FOURTH*(XX0(I,1)+XX0(I,4)+XX0(I,12)+XX0(I,13))
+           YY(I,17) = FOURTH*(YY0(I,1)+YY0(I,4)+YY0(I,12)+YY0(I,13))
+           ZZ(I,17) = FOURTH*(ZZ0(I,1)+ZZ0(I,4)+ZZ0(I,12)+ZZ0(I,13))
          ENDIF
          NX17 = SX14170(I)
          NY17 = SY14170(I)
          NZ17 = SZ14170(I)
-         AAA = GAPS(I)+QUART*(
+         AAA = GAPS(I)+FOURTH*(
      .           GAP_NM(4,L)+GAP_NM(1,L)
      .         + GAP_NM(11,L)+GAP_NM(12,L) )
          AAA = AAA/SQRT(NX17*NX17+NY17*NY17+NZ17*NZ17)
@@ -978,7 +978,7 @@ C
         ENDIF
         
         S2 = MAX(EM30,SQRT(NQX*NQX + NQY*NQY + NQZ*NQZ))
-        AAA = UN/S2
+        AAA = ONE/S2
         NQX = NQX*AAA
         NQY = NQY*AAA
         NQZ = NQZ*AAA
@@ -1107,7 +1107,7 @@ c project triangle on SECONDARY node
         SBY = ZIC*XIA - XIC*ZIA
         SBZ = XIC*YIA - YIC*XIA
         LB(I) = (SX*SBX+SY*SBY+SZ*SBZ)/S2
-        LC(I) = UN - LA(I) - LB(I)
+        LC(I) = ONE - LA(I) - LB(I)
         IZLIM=0
         SUBTRIA_TM(I) = SUBTRIA(I)
         LA_TM(I) = LA(I)
@@ -1266,11 +1266,11 @@ c             convex
           IF(LB(I)<ZERO)THEN
             LA(I) = ZERO
             LB(I) = ZERO
-            LC(I) = UN
+            LC(I) = ONE
           ELSEIF(LC(I)<ZERO)THEN
             LC(I) = ZERO
             LA(I) = ZERO
-            LB(I) = UN
+            LB(I) = ONE
           ELSE
             LA(I) = ZERO
             AAA = LB(I) + LC(I)
@@ -1281,7 +1281,7 @@ c             convex
           IF(LC(I)<ZERO)THEN
             LB(I) = ZERO
             LC(I) = ZERO
-            LA(I) = UN
+            LA(I) = ONE
           ELSE
             LB(I) = ZERO
             AAA = LC(I) + LA(I)
@@ -1323,7 +1323,7 @@ C
         
             NNI = NQX*N1(I) + NQY*N2(I) + NQZ*N3(I)
             NI2  = N1(I)*N1(I) + N2(I)*N2(I) + N3(I)*N3(I)
-            IF(DEUX*NNI*NNI < NI2)THEN
+            IF(TWO*NNI*NNI < NI2)THEN
 c             scharp angle bound nodal normal to 45 from segment normal
               AAA = SQRT(NI2-NNI*NNI) - NNI
               N1(I) = N1(I) + AAA*NQX
@@ -1331,7 +1331,7 @@ c             scharp angle bound nodal normal to 45 from segment normal
               N3(I) = N3(I) + AAA*NQZ
               NI2  = N1(I)*N1(I) + N2(I)*N2(I) + N3(I)*N3(I)
              ENDIF
-            S2 = UN/MAX(EM30,SQRT(NI2))
+            S2 = ONE/MAX(EM30,SQRT(NI2))
             N1(I) = N1(I)*S2
             N2(I) = N2(I)*S2
             N3(I) = N3(I)*S2
@@ -1343,7 +1343,7 @@ C-------special case, skew mesh------------
             N3(I) = NQZ
            END IF            
 C            NNI = NQX*N1(I) + NQY*N2(I) + NQZ*N3(I)
-C            AAA = MAX(UN,UN/MAX(NNI,EM20))
+C            AAA = MAX(ONE,ONE/MAX(NNI,EM20))
 C            PENE(I) = PENE(I)*AAA 
            
         ENDIF
@@ -1401,7 +1401,7 @@ c       ELSEIF(IX3(I) == IX4(I))THEN impossible
           H3(I) = LB(I) 
           H4(I) = ZERO
         ELSE
-          H0    = QUART * LA(I)
+          H0    = FOURTH * LA(I)
           H1(I) = H0
           H2(I) = H0 
           H3(I) = H0 + LB(I)
@@ -1444,7 +1444,7 @@ C
            NX1 = NXX(I,1)                            
            NY1 = NYY(I,1)                            
            NZ1 = NZZ(I,1)                            
-           AAA = UN/SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1)    
+           AAA = ONE/SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1)    
            NX1 = NX1 * AAA                           
            NY1 = NY1 * AAA                           
            NZ1 = NZ1 * AAA                           
@@ -1456,7 +1456,7 @@ C
            NX1 = NXX(I,2)                           
            NY1 = NYY(I,2)                           
            NZ1 = NZZ(I,2)                           
-           AAA = UN/SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1)   
+           AAA = ONE/SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1)   
            NX1 = NX1 * AAA                          
            NY1 = NY1 * AAA                          
            NZ1 = NZ1 * AAA                          
@@ -1468,7 +1468,7 @@ C
            NX1 = NXX(I,3)                           
            NY1 = NYY(I,3)                           
            NZ1 = NZZ(I,3)                           
-           AAA = UN/SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1)   
+           AAA = ONE/SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1)   
            NX1 = NX1 * AAA                          
            NY1 = NY1 * AAA                          
            NZ1 = NZ1 * AAA                          
@@ -1480,7 +1480,7 @@ C
            NX1 = NXX(I,4)                           
            NY1 = NYY(I,4)                           
            NZ1 = NZZ(I,4)                           
-           AAA = UN/SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1)   
+           AAA = ONE/SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1)   
            NX1 = NX1 * AAA                          
            NY1 = NY1 * AAA                          
            NZ1 = NZ1 * AAA                          
@@ -1511,9 +1511,9 @@ C
          ZOI = ZI(I) - DT1*VZI(I) 
 
          IF(IXX(I,3) /= IXX(I,4))THEN
-           XO5 = QUART*(XO1+XO2+XO3+XO4)
-           YO5 = QUART*(YO1+YO2+YO3+YO4)
-           ZO5 = QUART*(ZO1+ZO2+ZO3+ZO4) 
+           XO5 = FOURTH*(XO1+XO2+XO3+XO4)
+           YO5 = FOURTH*(YO1+YO2+YO3+YO4)
+           ZO5 = FOURTH*(ZO1+ZO2+ZO3+ZO4) 
          ELSE
            XO5 = XO3
            YO5 = YO3
@@ -1562,7 +1562,7 @@ c        compute volumes at previous time step
          SOZ415 = X54*Y51 - Y54*X51
          VO41  = SOX415*XI5 + SOY415*YI5 + SOZ415*ZI5 
 
-         ADT0(I)   = -UN
+         ADT0(I)   = -ONE
 
 c        compute intersection time (linear approximation)
 c        compute coordinates at intersection time
@@ -1887,36 +1887,36 @@ c      write(iout,*)'i=',i,'i24dst3 29'
            YY(I,14) = YY(I,6)
            ZZ(I,14) = ZZ(I,6)
          ELSE
-           XX(I,14) = QUART*(XX(I,2)+XX(I,1)+XX(I,6)+XX(I,7))
-           YY(I,14) = QUART*(YY(I,2)+YY(I,1)+YY(I,6)+YY(I,7))
-           ZZ(I,14) = QUART*(ZZ(I,2)+ZZ(I,1)+ZZ(I,6)+ZZ(I,7))
+           XX(I,14) = FOURTH*(XX(I,2)+XX(I,1)+XX(I,6)+XX(I,7))
+           YY(I,14) = FOURTH*(YY(I,2)+YY(I,1)+YY(I,6)+YY(I,7))
+           ZZ(I,14) = FOURTH*(ZZ(I,2)+ZZ(I,1)+ZZ(I,6)+ZZ(I,7))
          ENDIF
          IF(IXX(I,8)==IXX(I,9))THEN
            XX(I,15) = XX(I,8)
            YY(I,15) = YY(I,8)
            ZZ(I,15) = ZZ(I,8)
          ELSE
-           XX(I,15) = QUART*(XX(I,3)+XX(I,2)+XX(I,8)+XX(I,9))
-           YY(I,15) = QUART*(YY(I,3)+YY(I,2)+YY(I,8)+YY(I,9))
-           ZZ(I,15) = QUART*(ZZ(I,3)+ZZ(I,2)+ZZ(I,8)+ZZ(I,9))
+           XX(I,15) = FOURTH*(XX(I,3)+XX(I,2)+XX(I,8)+XX(I,9))
+           YY(I,15) = FOURTH*(YY(I,3)+YY(I,2)+YY(I,8)+YY(I,9))
+           ZZ(I,15) = FOURTH*(ZZ(I,3)+ZZ(I,2)+ZZ(I,8)+ZZ(I,9))
          ENDIF
          IF(IXX(I,10)==IXX(I,11))THEN
            XX(I,16) = XX(I,10)
            YY(I,16) = YY(I,10)
            ZZ(I,16) = ZZ(I,10)
          ELSE
-           XX(I,16) = QUART*(XX(I,4)+XX(I,3)+XX(I,10)+XX(I,11))
-           YY(I,16) = QUART*(YY(I,4)+YY(I,3)+YY(I,10)+YY(I,11))
-           ZZ(I,16) = QUART*(ZZ(I,4)+ZZ(I,3)+ZZ(I,10)+ZZ(I,11))
+           XX(I,16) = FOURTH*(XX(I,4)+XX(I,3)+XX(I,10)+XX(I,11))
+           YY(I,16) = FOURTH*(YY(I,4)+YY(I,3)+YY(I,10)+YY(I,11))
+           ZZ(I,16) = FOURTH*(ZZ(I,4)+ZZ(I,3)+ZZ(I,10)+ZZ(I,11))
          ENDIF
          IF(IXX(I,12)==IXX(I,13))THEN
            XX(I,17) = XX(I,12)
            YY(I,17) = YY(I,12)
            ZZ(I,17) = ZZ(I,12)
          ELSE
-           XX(I,17) = QUART*(XX(I,1)+XX(I,4)+XX(I,12)+XX(I,13))
-           YY(I,17) = QUART*(YY(I,1)+YY(I,4)+YY(I,12)+YY(I,13))
-           ZZ(I,17) = QUART*(ZZ(I,1)+ZZ(I,4)+ZZ(I,12)+ZZ(I,13))
+           XX(I,17) = FOURTH*(XX(I,1)+XX(I,4)+XX(I,12)+XX(I,13))
+           YY(I,17) = FOURTH*(YY(I,1)+YY(I,4)+YY(I,12)+YY(I,13))
+           ZZ(I,17) = FOURTH*(ZZ(I,1)+ZZ(I,4)+ZZ(I,12)+ZZ(I,13))
          ENDIF
 
          X141 = XX(I,1) - XX(I,14)
@@ -2389,7 +2389,7 @@ c      write(iout,*)'i24dst3 8'
         NQZ = NZ(I)
         
         AAA = MAX(EM30,SQRT(NQX*NQX + NQY*NQY + NQZ*NQZ))
-        S2 = UN/AAA
+        S2 = ONE/AAA
         NQX = NQX*S2
         NQY = NQY*S2
         NQZ = NQZ*S2
@@ -2455,7 +2455,7 @@ c project triangle on SECONDARY node
   
         NNI = (NQX*NAX + NQY*NAY + NQZ*NAZ)
         NI2  = NAX*NAX + NAY*NAY + NAZ*NAZ
-        IF(DEUX*NNI*NNI < NI2)THEN
+        IF(TWO*NNI*NNI < NI2)THEN
 c         scharp angle bound nodal normal to 45 from segment normal
           AAA = SQRT(NI2-NNI*NNI) - NNI
           NAX = NAX + AAA*NQX
@@ -2475,7 +2475,7 @@ c         scharp angle bound nodal normal to 45 from segment normal
 
         NNI = (NQX*NBX + NQY*NBY + NQZ*NBZ)
         NI2  = NBX*NBX + NBY*NBY + NBZ*NBZ
-        IF(DEUX*NNI*NNI < NI2)THEN
+        IF(TWO*NNI*NNI < NI2)THEN
 c         scharp angle bound nodal normal to 45 from segment normal
           AAA = SQRT(NI2-NNI*NNI) - NNI
           NBX = NBX + AAA*NQX
@@ -2495,7 +2495,7 @@ c         scharp angle bound nodal normal to 45 from segment normal
 
         NNI = (NQX*NCX + NQY*NCY + NQZ*NCZ)
         NI2  = NCX*NCX + NCY*NCY + NCZ*NCZ
-        IF(DEUX*NNI*NNI < NI2)THEN
+        IF(TWO*NNI*NNI < NI2)THEN
 c         scharp angle bound nodal normal to 45 from segment normal
           AAA = SQRT(NI2-NNI*NNI) - NNI
           NCX = NCX + AAA*NQX
@@ -2569,7 +2569,7 @@ c         scharp angle bound nodal normal to 45 from segment normal
         SBY = ZIC*XIA - XIC*ZIA
         SBZ = XIC*YIA - YIC*XIA
         LB(I) = (SX*SBX+SY*SBY+SZ*SBZ)/S2
-        LC(I) = UN - LA(I) - LB(I)
+        LC(I) = ONE - LA(I) - LB(I)
 
         IF(LA(I)>=ZERO.and.LB(I)>=ZERO.and.LC(I)>=ZERO)THEN
 c interpolation des normales
@@ -2626,16 +2626,16 @@ C---------for implicit
 
           LA(I) = LA_TM(I) 
           LB(I) = LB_TM(I) 
-          LC(I) = UN - LA(I) - LB(I)
+          LC(I) = ONE - LA(I) - LB(I)
           IF(LA(I)<ZERO)THEN
             IF(LB(I)<ZERO)THEN
               LA(I) = ZERO
               LB(I) = ZERO
-              LC(I) = UN
+              LC(I) = ONE
             ELSEIF(LC(I)<ZERO)THEN
               LC(I) = ZERO
               LA(I) = ZERO
-              LB(I) = UN
+              LB(I) = ONE
             ELSE
               LA(I) = ZERO
               AAA = LB(I) + LC(I)
@@ -2646,7 +2646,7 @@ C---------for implicit
             IF(LC(I)<ZERO)THEN
               LB(I) = ZERO
               LC(I) = ZERO
-              LA(I) = UN
+              LA(I) = ONE
             ELSE
               LB(I) = ZERO
               AAA = LC(I) + LA(I)
@@ -2677,7 +2677,7 @@ c          ELSEIF(IX3(I) == IX4(I))THEN impossible
             H3(I) = LB(I) 
             H4(I) = ZERO
           ELSE
-            H0    = QUART * LA(I)
+            H0    = FOURTH * LA(I)
             H1(I) = H0
             H2(I) = H0 
             H3(I) = H0 + LB(I)
@@ -2694,15 +2694,15 @@ c          ELSEIF(IX3(I) == IX4(I))THEN impossible
           IF(LA(I)<ZERO.and.LB(I)<ZERO)THEN
             LA(I) = ZERO
             LB(I) = ZERO
-            LC(I) = UN
+            LC(I) = ONE
           ELSEIF(LB(I)<ZERO.and.LC(I)<ZERO)THEN
             LB(I) = ZERO
             LC(I) = ZERO
-            LA(I) = UN
+            LA(I) = ONE
           ELSEIF(LC(I)<ZERO.and.LA(I)<ZERO)THEN
             LC(I) = ZERO
             LA(I) = ZERO
-            LB(I) = UN
+            LB(I) = ONE
           ELSEIF(LA(I)<ZERO)THEN
             LA(I) = ZERO
             AAA = LB(I) + LC(I)
@@ -2727,7 +2727,7 @@ c          ELSEIF(IX3(I) == IX4(I))THEN impossible
           N2(I) = YPI - YI(I)
           N3(I) = ZPI - ZI(I)
           PENE(I) = SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2)
-          S2 = UN/MAX(EM30,PENE(I))
+          S2 = ONE/MAX(EM30,PENE(I))
           N1(I) = N1(I)*S2
           N2(I) = N2(I)*S2
           N3(I) = N3(I)*S2
@@ -2750,13 +2750,13 @@ c            N2(I) = OVERW*NQY + LA(I)*NAY + LB(I)*NBY + LC(I)*NCY
 c            N3(I) = OVERW*NQZ + LA(I)*NAZ + LB(I)*NBZ + LC(I)*NCZ
 c          ENDIF
 
-          S2 = UN/MAX(EM30,SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2))
+          S2 = ONE/MAX(EM30,SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2))
           N1(I) = N1(I)*S2
           N2(I) = N2(I)*S2
           N3(I) = N3(I)*S2
         
           AAA = NQX*N1(I) + NQY*N2(I) + NQZ*N3(I)
-          AAA = MAX(UN,UN/MAX(AAA,EM20))
+          AAA = MAX(ONE,ONE/MAX(AAA,EM20))
           PENE(I) = PENE(I)*AAA
 
 c        if(pene(i) > 1.e17)then
@@ -2814,7 +2814,7 @@ c       ELSEIF(IX3(I) == IX4(I))THEN impossible
           H3(I) = LB(I) 
           H4(I) = ZERO
         ELSE
-          H0    = QUART * LA(I)
+          H0    = FOURTH * LA(I)
           H1(I) = H0
           H2(I) = H0 
           H3(I) = H0 + LB(I)
@@ -3155,7 +3155,7 @@ C       in right direction
         NQZ = -NZ(I)
         
         AAA = MAX(EM30,SQRT(NQX*NQX + NQY*NQY + NQZ*NQZ))
-        S2 = UN/AAA
+        S2 = ONE/AAA
         NQX = NQX*S2
         NQY = NQY*S2
         NQZ = NQZ*S2
@@ -3201,8 +3201,8 @@ C       in right direction
         VZ4(I) = VZ(I,IC(10,ITQ))
         H1(I) = ZERO
         H2(I) = ZERO
-        H3(I) = UNDEMI 
-        H4(I) = UNDEMI
+        H3(I) = HALF 
+        H4(I) = HALF
 
         N=CAND_N(I)
         MGLOB = MSEGLO(CAND_E(I))
@@ -3312,7 +3312,7 @@ C -------Calculate Nz,Area,Z1 IF Z1*Z1/AREA > f(angle 45) CYCLE
          IF(AAA > ZERO)THEN
 
            AAA = XS**2 + YS**2 + ZS**2
-           AAA = UNP01*SQRT(AAA) 
+           AAA = ONEP01*SQRT(AAA) 
            PMAX_GAP = MAX(PMAX_GAP,AAA)
 
            N=CAND_N(I)
@@ -3555,7 +3555,7 @@ C-----------------------------------------------
      9  -1,11,15,
      .  -1,12,16/
 
-      UNP   = UN + EM4
+      UNP   = ONE + EM4
       ZEROM = ZERO - EM4
       EPS = EPS0
 
@@ -3598,7 +3598,7 @@ C-----------------------------------------------
        N3 = SZ415
       ENDIF
       
-      S2 = UN/MAX(EM30,SQRT(N1*N1 + N2*N2 + N3*N3))
+      S2 = ONE/MAX(EM30,SQRT(N1*N1 + N2*N2 + N3*N3))
       N1 = N1*S2
       N2 = N2*S2
       N3 = N3*S2
@@ -3641,7 +3641,7 @@ C-----------------------------------------------
       SBY = ZIC*XIA - XIC*ZIA
       SBZ = XIC*YIA - YIC*XIA
       LB = (SX*SBX+SY*SBY+SZ*SBZ)/S2
-      LC = UN - LA - LB
+      LC = ONE - LA - LB
 
 c------------------------------------------------------
 c         quadrangles
@@ -3873,9 +3873,9 @@ C-----------------------------------------------
      9  -1,11,15,
      .  -1,12,16/
 
-      UNP   = UN + EM4
+      UNP   = ONE + EM4
       ZEROM = ZERO - EM4
-c      EPS = (DEUX+UNDEMI)/CENT
+c      EPS = (TWO+HALF)/HUNDRED
 
       ITQ = SUBTRIA
       K = IC(1,ITQ)
@@ -3916,7 +3916,7 @@ c      EPS = (DEUX+UNDEMI)/CENT
        N3 = SZ415
       ENDIF
       
-      S2 = UN/MAX(EM30,SQRT(N1*N1 + N2*N2 + N3*N3))
+      S2 = ONE/MAX(EM30,SQRT(N1*N1 + N2*N2 + N3*N3))
       N1 = N1*S2
       N2 = N2*S2
       N3 = N3*S2
@@ -3959,7 +3959,7 @@ c      EPS = (DEUX+UNDEMI)/CENT
       SBY = ZIC*XIA - XIC*ZIA
       SBZ = XIC*YIA - YIC*XIA
       LB = (SX*SBX+SY*SBY+SZ*SBZ)/S2
-      LC = UN - LA - LB
+      LC = ONE - LA - LB
 
 c------------------------------------------------------
 c         quadrangles
@@ -4056,9 +4056,9 @@ C     REAL ou REAL*8
 C------------------------------------------------
       IER = 0
       ALP=EM8
-      X0 = QUART*(X1+X2+X3+X4)
-      Y0 = QUART*(Y1+Y2+Y3+Y4)
-      Z0 = QUART*(Z1+Z2+Z3+Z4)
+      X0 = FOURTH*(X1+X2+X3+X4)
+      Y0 = FOURTH*(Y1+Y2+Y3+Y4)
+      Z0 = FOURTH*(Z1+Z2+Z3+Z4)
 C
       XL1 = X1-X0
       XL2 = X2-X0
@@ -4125,7 +4125,7 @@ C
         IER=-1
         RETURN
       ENDIF
-      AREA=UNDEMI*AN
+      AREA=HALF*AN
 C
       A12=(N1*XN1+N2*YN1+N3*ZN1)
       A23=(N1*XN2+N2*YN2+N3*ZN2)
@@ -4165,25 +4165,25 @@ C
        AB2=B34*A12
        TTC=(AB1-AB2)/(AB1+AB2)
       ELSE
-       TTC=B12/A12-UN
+       TTC=B12/A12-ONE
        IF(B23.LE.ZERO.AND.B41.LE.ZERO)THEN
          IF(-B23/A12.LE.ALP.AND.-B41/A12.LE.ALP)SSC=ZERO
        ELSEIF(B23.LE.ZERO)THEN
          IF(-B23/A12.LE.ALP) THEN
-          SSC=UN
+          SSC=ONE
          ELSE
-          SSC=DEUX
+          SSC=TWO
          END IF
        ELSEIF(B41.LE.ZERO)THEN
          IF(-B41/A12.LE.ALP) THEN
-          SSC=-UN
+          SSC=-ONE
          ELSE
-          SSC=-DEUX
+          SSC=-TWO
          END IF
        ENDIF
       ENDIF
 C
-      IF(ABS(SSC).GT.UN+ALP.OR.ABS(TTC).GT.UN+ALP) THEN
+      IF(ABS(SSC).GT.ONE+ALP.OR.ABS(TTC).GT.ONE+ALP) THEN
         IER=1
       ENDIF
 C
@@ -4262,7 +4262,7 @@ C------------------------------------------------
          IF(VO12 <= ZERO .and. V12 >= ZERO )THEN
           IF ((ABS(SX125)+ABS(SY125)+ABS(SZ125))>EM20) THEN
            IF(ABS(VO12) < EM20)THEN
-             AAA = UN
+             AAA = ONE
            ELSEIF(ABS(V12) < EM20)THEN
              AAA = ZERO
            ELSE
@@ -4323,10 +4323,10 @@ C------------------------------------------------
            SY2 = ZI2*XI5 - XI2*ZI5
            SZ2 = XI2*YI5 - YI2*XI5
            
-           S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+           S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
            LB0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
            LC0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
-           LA0 =  UN-LB0-LC0 
+           LA0 =  ONE-LB0-LC0 
 
           IF(IXX3 /= IXX4)THEN
            IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
@@ -4360,7 +4360,7 @@ C----------loose tolerance for tria
            IF(VO23 <= ZERO .and. V23 >= ZERO )THEN
             IF ((ABS(SX235)+ABS(SY235)+ABS(SZ235))>EM20) THEN
              IF(ABS(VO23) < EM20)THEN
-               AAA = UN
+               AAA = ONE
              ELSEIF(ABS(V23) < EM20)THEN
                AAA = ZERO
              ELSE
@@ -4421,10 +4421,10 @@ C----------loose tolerance for tria
              SY3 = ZI3*XI5 - XI3*ZI5
              SZ3 = XI3*YI5 - YI3*XI5
              
-             S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+             S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
              LB0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
              LC0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
-             LA0 =  UN-LB0-LC0 
+             LA0 =  ONE-LB0-LC0 
 
              IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .          LC0 >= ZEROM .and. LC0 <= UNP .and.
@@ -4445,7 +4445,7 @@ C----------loose tolerance for tria
           IF(VO34 <= ZERO .and. V34 >= ZERO )THEN
            IF ((ABS(SX345)+ABS(SY345)+ABS(SZ345))>EM20) THEN
             IF(ABS(VO34) < EM20)THEN
-              AAA = UN
+              AAA = ONE
             ELSEIF(ABS(V34) < EM20)THEN
               AAA = ZERO
             ELSE
@@ -4506,10 +4506,10 @@ C----------loose tolerance for tria
             SY4 = ZI4*XI5 - XI4*ZI5
             SZ4 = XI4*YI5 - YI4*XI5
             
-            S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+            S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
             LC0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
-            LA0 =  UN-LB0-LC0 
+            LA0 =  ONE-LB0-LC0 
 
            IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .         LC0 >= ZEROM .and. LC0 <= UNP .and.
@@ -4530,7 +4530,7 @@ C----------loose tolerance for tria
           IF(VO41 <= ZERO .and. V41 >= ZERO )THEN
            IF ((ABS(SX415)+ABS(SY415)+ABS(SZ415))>EM20) THEN
             IF(ABS(VO41) < EM20)THEN
-              AAA = UN
+              AAA = ONE
             ELSEIF(ABS(V41) < EM20)THEN
               AAA = ZERO
             ELSE
@@ -4591,10 +4591,10 @@ C----------loose tolerance for tria
             SY1 = ZI1*XI5 - XI1*ZI5
             SZ1 = XI1*YI5 - YI1*XI5
             
-            S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+            S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
             LC0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
-            LA0 =  UN-LB0-LC0 
+            LA0 =  ONE-LB0-LC0 
 
             IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .         LC0 >= ZEROM .and. LC0 <= UNP .and.
@@ -4688,7 +4688,7 @@ C------------------------------------------------
 C---------------- cas V>0 V_old>0
          IF(VO12 > ZERO .and. V12 >= ZERO )THEN
           IF ((ABS(SX125)+ABS(SY125)+ABS(SZ125))>EM20) THEN
-           AAA = UN
+           AAA = ONE
            ADT = DT1
 
            XM1 = XO1
@@ -4743,10 +4743,10 @@ c           ZOI = ZI - ADT*VZI
            SY2 = ZI2*XI5 - XI2*ZI5
            SZ2 = XI2*YI5 - YI2*XI5
            
-           S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+           S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
            LB0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
            LC0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
-           LA0 =  UN-LB0-LC0 
+           LA0 =  ONE-LB0-LC0 
 
            IF(LB0 >= ZEROMT .AND. LB0 <= UNPT .AND.
      .        LC0 >= ZEROMT .AND. LC0 <= UNPT .AND.
@@ -4763,7 +4763,7 @@ c           ZOI = ZI - ADT*VZI
          ENDIF
          IF(IXX3 /= IXX4)THEN
           IF ((ABS(SX235)+ABS(SY235)+ABS(SZ235))>EM20) THEN
-           AAA = UN
+           AAA = ONE
            ADT = DT1
 
              XM2 = XO2
@@ -4818,10 +4818,10 @@ c             ZOI = ZI - ADT*VZI
              SY3 = ZI3*XI5 - XI3*ZI5
              SZ3 = XI3*YI5 - YI3*XI5
              
-             S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+             S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
              LB0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
              LC0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
-             LA0 =  UN-LB0-LC0 
+             LA0 =  ONE-LB0-LC0 
 
              IF(LB0 >= ZEROMT.and. LB0 <= UNPT .and.
      .          LC0 >= ZEROMT.and. LC0 <= UNPT .and.
@@ -4841,7 +4841,7 @@ c             ZOI = ZI - ADT*VZI
 c          ENDIF
           IF(VO34 > ZERO .and. V34 >= ZERO )THEN
            IF ((ABS(SX345)+ABS(SY345)+ABS(SZ345))>EM20) THEN
-           AAA = UN
+           AAA = ONE
            ADT = DT1
 
             XM3 = XO3
@@ -4896,10 +4896,10 @@ c            ZOI = ZI - ADT*VZI
             SY4 = ZI4*XI5 - XI4*ZI5
             SZ4 = XI4*YI5 - YI4*XI5
             
-            S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+            S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
             LC0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
-            LA0 =  UN-LB0-LC0 
+            LA0 =  ONE-LB0-LC0 
 
            IF(LB0  >= ZEROMT.and. LB0 <= UNPT .and.
      .         LC0 >= ZEROMT.and. LC0 <= UNPT .and.
@@ -4919,7 +4919,7 @@ c            ZOI = ZI - ADT*VZI
 
           IF(VO41 > ZERO .and. V41 >= ZERO )THEN
            IF ((ABS(SX415)+ABS(SY415)+ABS(SZ415))>EM20) THEN
-           AAA = UN
+           AAA = ONE
            ADT = DT1
 
             XM4 = XO4
@@ -4974,10 +4974,10 @@ c            ZOI = ZI - ADT*VZI
             SY1 = ZI1*XI5 - XI1*ZI5
             SZ1 = XI1*YI5 - YI1*XI5
             
-            S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+            S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
             LC0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
-            LA0 =  UN-LB0-LC0 
+            LA0 =  ONE-LB0-LC0 
 
             IF(LB0 >= ZEROMT.and. LB0 <= UNPT .and.
      .         LC0 >= ZEROMT.and. LC0 <= UNPT .and.
@@ -5321,9 +5321,9 @@ C-----------------------------------------------
              NIJ(3)= NX*XMIJ(2) - NY*XMIJ(1)
              AA = NIJ(1)*NIJ(1)+NIJ(2)*NIJ(2)+NIJ(3)*NIJ(3)
              NORM=MAX(EM20,SQRT(AA))
-             DI(1)=UNDEMI*(XXI+XXJ)-XI
-             DI(2)=UNDEMI*(YYI+YYJ)-YI
-             DI(3)=UNDEMI*(ZZI+ZZJ)-ZI
+             DI(1)=HALF*(XXI+XXJ)-XI
+             DI(2)=HALF*(YYI+YYJ)-YI
+             DI(3)=HALF*(ZZI+ZZJ)-ZI
              BBB = (DI(1)*NIJ(1)+DI(2)*NIJ(2)+DI(3)*NIJ(3))/NORM
 C
       RETURN

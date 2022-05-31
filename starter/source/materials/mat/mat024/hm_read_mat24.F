@@ -152,14 +152,14 @@ c--------------------------------------------------
       IF (RHOR == ZERO)  RHOR  = RHO0
 c
       IF (FT == ZERO) FT = EM01
-      IF (FB == ZERO) FB = SICINQ
-      IF (S0 == ZERO) S0 = CQUATRE
+      IF (FB == ZERO) FB = SIX_OVER_5
+      IF (S0 == ZERO) S0 = FIVE_OVER_4
       IF (HT >= ZERO) HT =-YMC
       IF (DSUP1 == ZERO)  DSUP1 = ZEP99999
       IF (VMAX >= ZERO)   VMAX  =-ZEP35
       IF (EPSMAX <= ZERO) EPSMAX= EP20
 c      
-      IF (VKY  ==  ZERO) VKY = UNDEMI
+      IF (VKY  ==  ZERO) VKY = HALF
       IF (RC   ==  ZERO) RC  =-THIRD*FC
       IF (HBP  ==  ZERO) THEN
         IF(ETC /= ZERO )THEN
@@ -173,7 +173,7 @@ c
      .               C1=TITR)
           ENDIF
         ELSEIF (ETC == ZERO )THEN
-          ETC = (UN-VKY)*YMC*FC/(DEUXEM3*YMC-VKY*FC)
+          ETC = (ONE-VKY)*YMC*FC/(TWOEM3*YMC-VKY*FC)
           IF(ETC < YMC) THEN
             HBP = YMC*ETC/(YMC-ETC)
           ELSE
@@ -185,31 +185,31 @@ c
           ENDIF
         ENDIF
       ENDIF
-      BULK = YMC/TROIS/(UN-DEUX*ANUC)
+      BULK = YMC/THREE/(ONE-TWO*ANUC)
       IF (ROK == ZERO) ROK = RC
       IF (ICAP == 0 .AND. INVERS < 2017) ICAP = 1
       IF (ICAP == 2) THEN
-        IF (F2D  ==  ZERO) F2D  = SEPT
-        IF (RO0  == ZERO)  RO0  =-DEUX*FC
-        IF (HV0  == ZERO)  HV0  = UNDEMI*BULK
+        IF (F2D  ==  ZERO) F2D  = SEVEN
+        IF (RO0  == ZERO)  RO0  =-TWO*FC
+        IF (HV0  == ZERO)  HV0  = HALF*BULK
         IF (EPS0 == ZERO)  EPS0 = ZEP02
         IF (HVFAC== ZERO)  HVFAC= ZEP1
-        EXPO = -UN/EPS0
+        EXPO = -ONE/EPS0
       ELSE
-        IF (F2D  ==  ZERO) F2D = QUATRE
-        IF (RO0 == ZERO) RO0 =-QCINQ*FC
-        IF (HV0 == ZERO) HV0 = YMC/CINQ
-        EXPO  = UN/HV0/VMAX
+        IF (F2D  ==  ZERO) F2D = FOUR
+        IF (RO0 == ZERO) RO0 =-FOUR_OVER_5*FC
+        IF (HV0 == ZERO) HV0 = YMC/FIVE
+        EXPO  = ONE/HV0/VMAX
         HVFAC = ZERO
       ENDIF
-      !IF(ALI == ZERO) ALI = -UN/CINQ
-      !IF(ALF == ZERO) ALF = -UN/DIX
+      !IF(ALI == ZERO) ALI = -ONE/FIVE
+      !IF(ALF == ZERO) ALF = -ONE/TEN
       IF (ALI >= ZERO) THEN
         IF (ICAP == 1) THEN
           message='CAP REQUIRES ALPHAI PARAMETER  STRICTLY <0   ' 
         ELSE
           message='ALPHAI RESET TO DEFAULT -0.2 CAP REQUIRES ALPHAI <0' 
-          ALI =- UN/CINQ
+          ALI =- ONE/FIVE
         ENDIF 
         CALL ANCMSG(MSGID=1161,
      .              MSGTYPE=MSGWARNING,
@@ -219,7 +219,7 @@ c
      .              C2=message)
       ENDIF
 c
-      IF (DSUP1 >= UN .OR. DSUP1 < ZERO) THEN
+      IF (DSUP1 >= ONE .OR. DSUP1 < ZERO) THEN
          CALL ANCMSG(MSGID=605,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
@@ -238,10 +238,10 @@ C
 C     AA,BC,BT,CC are deduced from material input :
 C    
       F2D0 = F2D - S0
-      AA = TDEMI* ( S0 /(F2D0 -UN) - FT * FB /(FB-FT))/(F2D0 - FB*FT)
-      CC = FB * FT * ( F2D0 /(FB-FT) - S0 /(F2D0-UN))/(F2D0 - FB*FT)
-      BC = UNDEMI*SQR3_2 * (CC + THIRD - DEUX*THIRD*AA)
-      BT = UNDEMI*SQR3_2 * (CC/FT - THIRD - DEUX*THIRD*AA*FT)
+      AA = THREE_HALF* ( S0 /(F2D0 -ONE) - FT * FB /(FB-FT))/(F2D0 - FB*FT)
+      CC = FB * FT * ( F2D0 /(FB-FT) - S0 /(F2D0-ONE))/(F2D0 - FB*FT)
+      BC = HALF*SQR3_2 * (CC + THIRD - TWO*THIRD*AA)
+      BT = HALF*SQR3_2 * (CC/FT - THIRD - TWO*THIRD*AA*FT)
       AC = CC*AA
       AA = AA/FC
 c-----------------
@@ -250,12 +250,12 @@ c-----------------
 c
       PM(20) = YMC
       PM(21) = ANUC
-      PM(22) = YMC/(DEUX*(UN+ANUC))
-      PM(25) = YMC*ANUC/(UN+ANUC)/(UN-DEUX*ANUC)
-      PM(24) = PM(25) + DEUX*PM(22)
+      PM(22) = YMC/(TWO*(ONE+ANUC))
+      PM(25) = YMC*ANUC/(ONE+ANUC)/(ONE-TWO*ANUC)
+      PM(24) = PM(25) + TWO*PM(22)
       PM(26) = MAX(ZERO,DSUP1)
       PM(27) = VMAX
-      PM(28) = UN-HT/YMC
+      PM(28) = ONE-HT/YMC
 C
       PM(29) = ROK
       PM(30) = RO0
@@ -264,7 +264,7 @@ C
       PM(33) = FC
       PM(34) = RT
       PM(35) = RC
-      PM(36) = RT*(DEUX*RC-RT)
+      PM(36) = RT*(TWO*RC-RT)
       PM(37) = (RC-RT)**2
       PM(38) = AA
       PM(39) = BC
@@ -286,11 +286,11 @@ C
       PM(53) = ARM1
       PM(54) = ARM2
       PM(55) = ARM3
-      PM(56) = UN      !                                                      
+      PM(56) = ONE      !                                                      
       PM(57) = ICAP+EM01
-      PM(58) = UN-HVFAC
+      PM(58) = ONE-HVFAC
       PM(59) = ZERO    ! 
-      PM(105)= DEUX*PM(22)/(BULK+QTHIRD*PM(22)) ! =(1-2*Nuc)/(1-Nuc)
+      PM(105)= TWO*PM(22)/(BULK+FOUR_OVER_3*PM(22)) ! =(1-2*Nuc)/(1-Nuc)
 c---------------------
       IPM(252)= 2  ! Formulation for solid element time step computation.
 c---------------------

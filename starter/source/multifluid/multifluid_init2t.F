@@ -130,7 +130,7 @@ C     Gather nodale coordinates, compute surface (and volume)
          Y3(II) = XGRID(2, IXTG(1 + 3, I))
          Z3(II) = XGRID(3, IXTG(1 + 3, I))
          NGL(II) = IXTG(6, I)
-         NX(II) = UNDEMI * ((Y2(II) - Y1(II)) * (Z3(II) - Z1(II)) - 
+         NX(II) = HALF * ((Y2(II) - Y1(II)) * (Z3(II) - Z1(II)) - 
      .        (Z2(II) - Z1(II)) * (Y3(II) - Y1(II)))
          NY(II) = ZERO
          NZ(II) = ZERO
@@ -141,7 +141,7 @@ C     Gather nodale coordinates, compute surface (and volume)
             GBUF%VOL(II) = (Y1(II) + Y2(II) + Y3(II)) * (
      .           Y1(II) * (Z2(II) - Z3(II)) + 
      .           Y2(II) * (Z3(II) - Z1(II)) + 
-     .           Y3(II) * (Z1(II) - Z2(II))) * UNSIX
+     .           Y3(II) * (Z1(II) - Z2(II))) * ONE_OVER_6
          ENDIF
          ! TODO(DC) Calcul volume axi
          LGTH1(II) = SQRT((Y2(II) - Y1(II)) * (Y2(II) - Y1(II)) + 

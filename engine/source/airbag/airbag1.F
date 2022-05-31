@@ -176,7 +176,7 @@ C
           AREA     =RVOLU(18)
           IF(IEQUI.EQ.1)THEN
 C
-            VMIN     =EM4*AREA**TDEMI
+            VMIN     =EM4*AREA**THREE_HALF
             VEPS     =MAX(ZERO,VMIN-VOL)
             RVOLU(17)=VEPS
 C
@@ -253,7 +253,7 @@ C
          ELSE
            TEMP=FTEMP
          ENDIF
-         EFAC= TEMP*(CPA+UNDEMI*CPB*TEMP+THIRD*CPC*TEMP*TEMP)
+         EFAC= TEMP*(CPA+HALF*CPB*TEMP+THIRD*CPC*TEMP*TEMP)
         ELSE         
         ENDIF
 C
@@ -279,7 +279,7 @@ C
 C
         RIGHT= RIGHT-DGEOUT
         RIGHT= RIGHT+(DGMOUT-DGMASS)*TBAG_OLD*
-     .                 (CPA+UNDEMI*CPB*TBAG_OLD
+     .                 (CPA+HALF*CPB*TBAG_OLD
      .                     +THIRD*CPC*TBAG_OLD*TBAG_OLD-RMWG)
 C
         CVG  = CPA+CPB*TBAG_OLD+CPC*TBAG_OLD*TBAG_OLD-RMWG
@@ -308,7 +308,7 @@ C
        DGEOUT=RVOLU(22)*DT1
 C
        RIGHT=RIGHT+DGMOUT*TBAG_OLD*
-     .             (CPAI+UNDEMI*CPBI*TBAG_OLD
+     .             (CPAI+HALF*CPBI*TBAG_OLD
      .                  +THIRD*CPCI*TBAG_OLD*TBAG_OLD-RMWI)
      .            -DGEOUT
        LEFT  = LEFT+GMI*CVI
@@ -332,8 +332,8 @@ C---------------------
         RNM  =RNM+RNMG
        ENDDO
 C---------------------
-       LEFT  = LEFT + UNDEMI*RNM*DV/VOL
-       RIGHT = RIGHT- UNDEMI*RNM_OLD*TBAG_OLD*DV/VOLD
+       LEFT  = LEFT + HALF*RNM*DV/VOL
+       RIGHT = RIGHT- HALF*RNM_OLD*TBAG_OLD*DV/VOLD
 C---------------------
        TBAG  = RIGHT/LEFT
        TBAG  = MAX(TBAG,ZERO)
@@ -369,7 +369,7 @@ C------
         Q=-AMU*SQRT(P*AREA*ROT/VOL)*DV/AREA/DT1
        ENDIF
        IF (IMACH.NE.3.OR.ISPMD+1.EQ.PMAIN) THEN
-        TFEXT=TFEXT+(UNDEMI*(P+POLD+Q+QOLD)-PEXT)*DV
+        TFEXT=TFEXT+(HALF*(P+POLD+Q+QOLD)-PEXT)*DV
        ENDIF
 C------
        RVOLU(12)=P

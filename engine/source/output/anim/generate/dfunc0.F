@@ -234,10 +234,10 @@ c-----------
                   S1=GBUF%SIG(II(1) + I) + P		      
                   S2=GBUF%SIG(II(2) + I) + P		      
                   S3=GBUF%SIG(II(3) + I) + P		      
-                  VONM2= TROIS*(GBUF%SIG(II(4) + I)**2 +      
+                  VONM2= THREE*(GBUF%SIG(II(4) + I)**2 +      
      .                          GBUF%SIG(II(5) + I)**2 +      
      .                          GBUF%SIG(II(6) + I)**2 +      
-     .                   UNDEMI*(S1*S1+S2*S2+S3*S3) )           
+     .                   HALF*(S1*S1+S2*S2+S3*S3) )           
                   VONM= SQRT(VONM2) 
                   VALUE = VONM
                 ENDIF
@@ -377,10 +377,10 @@ C  equivalent stress -  (NON VON MISES / VON MISES)
                    S1=GBUF%SIG(II(1) + I) + P		       
                    S2=GBUF%SIG(II(2) + I) + P		       
                    S3=GBUF%SIG(II(3) + I) + P		       
-                   VONM2= TROIS*(GBUF%SIG(II(4) + I)**2 +      
+                   VONM2= THREE*(GBUF%SIG(II(4) + I)**2 +      
      .                           GBUF%SIG(II(5) + I)**2 +      
      .                           GBUF%SIG(II(6) + I)**2 +      
-     .                     UNDEMI*(S1*S1+S2*S2+S3*S3))           
+     .                     HALF*(S1*S1+S2*S2+S3*S3))           
                    VONM= SQRT(VONM2) 
                    FUNC(EL2FA(NN1+N)) = VONM
                  ENDIF
@@ -565,12 +565,12 @@ c-----------OFF
              IF (GBUF%G_OFF > 0) THEN
                DO I=LFT,LLT
                  N = I + NFT
-                 IF(GBUF%OFF(I) > UN) THEN
-                   FUNC(EL2FA(NN1+N)) = GBUF%OFF(I) - UN
-                 ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= UN)) THEN
+                 IF(GBUF%OFF(I) > ONE) THEN
+                   FUNC(EL2FA(NN1+N)) = GBUF%OFF(I) - ONE
+                 ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= ONE)) THEN
                    FUNC(EL2FA(NN1+N)) = GBUF%OFF(I)
                  ELSE
-                   FUNC(EL2FA(NN1+N)) = -UN
+                   FUNC(EL2FA(NN1+N)) = -ONE
                  ENDIF
                ENDDO  
              ENDIF

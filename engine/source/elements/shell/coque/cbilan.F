@@ -168,8 +168,8 @@ C
      5      +VL1(I,3)*VL1(I,3)+VL2(I,3)*VL2(I,3)
      6      +VL3(I,3)*VL3(I,3)+VL4(I,3)*VL4(I,3)
         EI(I)= EINT(I,1) + EINT(I,2)
-        EK(I)= XMAS(I)*VA2*UNHUIT
-        XMAS25(I)= XMAS(I)*QUART
+        EK(I)= XMAS(I)*VA2*ONE_OVER_8
+        XMAS25(I)= XMAS(I)*FOURTH
         XM(I)= XMAS25(I)*VXA(I)
         YM(I)= XMAS25(I)*VYA(I)
         ZM(I)= XMAS25(I)*VZA(I)
@@ -186,11 +186,11 @@ C                CFORC3 et pas par CSUBC3 et CZFORC3 (IFLA=0) !!!!!!!
          YCG(I)= XMAS25(I)*YY
          ZCG(I)= XMAS25(I)*ZZ
 C
-         IN25 = XMAS25(I)*(THK02(I)+AREA(I))*UNDOUZE
-         INEL = QUATRE*IN25
-         XX = QUART*XX
-         YY = QUART*YY
-         ZZ = QUART*ZZ
+         IN25 = XMAS25(I)*(THK02(I)+AREA(I))*ONE_OVER_12
+         INEL = FOUR*IN25
+         XX = FOURTH*XX
+         YY = FOURTH*YY
+         ZZ = FOURTH*ZZ
          IXY(I) = -XCG(I)*YY
          IYZ(I) = -YCG(I)*ZZ
          IZX(I) = -ZCG(I)*XX
@@ -200,9 +200,9 @@ C
          IXX(I)= INEL + YY + ZZ
          IYY(I)= INEL + ZZ + XX
          IZZ(I)= INEL + XX + YY
-         VXA(I)=QUART*VXA(I)
-         VYA(I)=QUART*VYA(I)
-         VZA(I)=QUART*VZA(I)
+         VXA(I)=FOURTH*VXA(I)
+         VYA(I)=FOURTH*VYA(I)
+         VZA(I)=FOURTH*VZA(I)
          XXM(I)= VZA(I)*YCG(I)-VYA(I)*ZCG(I)
      .           +IN25*
      .     (VRL1(I,1)+VRL2(I,1)+VRL3(I,1)+VRL4(I,1))
@@ -219,7 +219,7 @@ C
      5        + VRL1(I,3)*VRL1(I,3)+VRL2(I,3)*VRL2(I,3)
      6        + VRL3(I,3)*VRL3(I,3)+VRL4(I,3)*VRL4(I,3)
          REI(I)= EINT(I,2)
-         REK(I)= IN25*VA2*UNDEMI
+         REK(I)= IN25*VA2*HALF
         ENDDO
 C
         IF (IGRE /= 0) THEN

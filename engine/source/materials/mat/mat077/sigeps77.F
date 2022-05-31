@@ -229,12 +229,12 @@ C
           V0 = VNEW*MU
 Cccc          PGAZ0 = UVAR(I,20)          
           ESPE = E_AIR0/MAX(EM15,V0)  
-          PGAZ0= (GAMA - UN)*MU*ESPE
-          E_AIR = E_AIR0 - UNDEMI*PGAZ0*DVOL          
-          BB = UN + UNDEMI*(GAMA - UN)*MU*DVOL/MAX(EM15,V0)
+          PGAZ0= (GAMA - ONE)*MU*ESPE
+          E_AIR = E_AIR0 - HALF*PGAZ0*DVOL          
+          BB = ONE + HALF*(GAMA - ONE)*MU*DVOL/MAX(EM15,V0)
           E_AIR = E_AIR/MAX(EM20,BB)
           ESPE = E_AIR/MAX(EM15,V0) 
-          PGAZ =(GAMA - UN)*MU*ESPE 
+          PGAZ =(GAMA - ONE)*MU*ESPE 
 C          
           P_AIR(I) = PGAZ - PEXT   
           P_AIR(I)= MAX(P_AIR(I),-PEXT) 
@@ -270,7 +270,7 @@ C-------------------
 C     epst_spherique
 C-------------------
         EPST(I) = EPSXX(I)**2+EPSYY(I)**2 + EPSZZ(I)**2 +
-     .            UNDEMI*(EPSXY(I)**2+EPSYZ(I)**2+EPSZX(I)**2)
+     .            HALF*(EPSXY(I)**2+EPSYZ(I)**2+EPSZX(I)**2)
         EPST(I) = SQRT(EPST(I))    
 C-------------------
 C     estimation elastique
@@ -425,9 +425,9 @@ C
            E = MAX(E, E0)
            UVAR(I,12) = E
 C==================================================       
-          AA1(I) = E*(UN-NU)/(UN + NU)/(UN - DEUX*NU)
-          AA2(I) = AA1(I)*NU/(UN - NU)  
-          G(I) =UNDEMI*E/(UN + NU)
+          AA1(I) = E*(ONE-NU)/(ONE + NU)/(ONE - TWO*NU)
+          AA2(I) = AA1(I)*NU/(ONE - NU)  
+          G(I) =HALF*E/(ONE + NU)
 C ---- 
           SIGNXX(I)= AA1(I)*DEPSXX(I) +  AA2(I)*(DEPSYY(I) + DEPSZZ(I))
           SIGNYY(I)= AA1(I)*DEPSYY(I) +  AA2(I)*(DEPSXX(I) + DEPSZZ(I))
@@ -436,7 +436,7 @@ C ----
           SIGNYZ(I)= G(I) *DEPSYZ(I)
           SIGNZX(I)= G(I) *DEPSZX(I)
           DSIG = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)      
-     .       + DEUX*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2) 
+     .       + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2) 
           DSIG =SQRT(DSIG)                         
 C   estimate stress   
           SIGNXX(I)=SIG0XX(I) +  AA1(I)*DEPSXX(I)
@@ -451,7 +451,7 @@ C   estimate stress
 c          
 
           SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)      
-     .       + DEUX*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2) 
+     .       + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2) 
           SVM =SQRT(SVM2)
 C  sound speed     
           ET = AA1(I)
@@ -481,7 +481,7 @@ C
 cc               IF(DELTA < ZERO .AND. SVM > YLDMAX(I)
 cc     .                         .AND. DSIG < SVM )YLD(I) = SVM 
               UVAR(I,17) = UVAR(I,17) + 
-     .                     UNDEMI*(YLD(I ) + UVAR(I,15))*DELTA  
+     .                     HALF*(YLD(I ) + UVAR(I,15))*DELTA  
               UVAR(I,17) = MAX(ZERO, UVAR(I,17))
               UVAR(I,18) = MAX(UVAR(I,18), UVAR(I,17)) 
           ENDIF
@@ -500,7 +500,7 @@ C-------------------
         SIGNZX(I)= G(I) *EPSZX(I)          
 C 
         SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)      
-     .       + DEUX*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2) 
+     .       + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2) 
         SVM =SQRT(SVM2)
         R  = YLD(I)/MAX(EM20,SVM)  
         SIGNXX(I)=SIGNXX(I)*R                                
@@ -533,7 +533,7 @@ C
          SIGNZX(I)= G(I) *EPSZX(I)        
 C
          SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)      
-     .       + DEUX*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2) 
+     .       + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2) 
          SVM =SQRT(SVM2)
          R  = YLD(I)/MAX(EM20,SVM)
          SIGNXX(I)=SIGNXX(I)*R                                
@@ -554,7 +554,7 @@ C
           ENDIF        
 C        
          SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)        
-     .     + DEUX*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)   
+     .     + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)   
          SVM =SQRT(SVM2)
          UVAR(I,13) = EPST(I)
          UVAR(I,14) = ILOAD(I)
@@ -573,7 +573,7 @@ C
 C             
 C     
          SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)      
-     .       + DEUX*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2) 
+     .       + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2) 
          SVM =SQRT(SVM2)
          R  = (YLD(I)/MAX(EM20,SVM)) 
          SIGNXX(I)=SIGNXX(I)*R                                
@@ -584,8 +584,8 @@ C
          SIGNZX(I)=SIGNZX(I)*R 
 C         
          IF(ILOAD(I) == -1) THEN
-            R = UN - (UVAR(I,17)/MAX(EM20,UVAR(I,18)))**EXPO
-            R = UN - (UN - HYS)*R
+            R = ONE - (UVAR(I,17)/MAX(EM20,UVAR(I,18)))**EXPO
+            R = ONE - (ONE - HYS)*R
             SIGNXX(I)=SIGNXX(I)*R 
             SIGNYY(I)=SIGNYY(I)*R                             
             SIGNZZ(I)=SIGNZZ(I)*R                             
@@ -595,7 +595,7 @@ C
           ENDIF        
 C                
          SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)        
-     .     + DEUX*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)   
+     .     + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)   
          SVM =SQRT(SVM2)            
          UVAR(I,13) = EPST(I)
          UVAR(I,14) = ILOAD(I)

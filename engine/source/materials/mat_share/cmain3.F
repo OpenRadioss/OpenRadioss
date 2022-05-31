@@ -190,7 +190,7 @@ c
             ALPHA = FINTER(IFUNC_ALPHA,TEMPEL(I),NPF,TF,DF)
             ALPHA = ALPHA * FSCAL_ALPHA
             ETH(I) = ALPHA*DTEMP(I)
-            DEINTTH = -UNDEMI*(FOR(I,1) + FOR(I,2))*ETH(I)*THK0(I)*AREA(I)
+            DEINTTH = -HALF*(FOR(I,1) + FOR(I,2))*ETH(I)*THK0(I)*AREA(I)
             GBUF%EINTTH(I) = GBUF%EINTTH(I)  + DEINTTH
             EINT(I,1) = EINT(I,1) + DEINTTH
           ENDDO 

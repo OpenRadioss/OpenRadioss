@@ -128,28 +128,28 @@ c
 c-----------------
       IF (ISRATE == 0 .AND. FCUT /= ZERO) ISRATE = 1
       IF (FCUT == ZERO) FCUT = EP20
-      IF (NU >= UNDEMI) NU   = ZEP499
+      IF (NU >= HALF) NU   = ZEP499
       IF (ICC == 0)   ICC = 1
       IF (CA == ZERO) CA  = EP20
-      IF (CN == ZERO) CN  = UN
+      IF (CN == ZERO) CN  = ONE
       IF (SIGM == ZERO)  SIGM  = EP20
-      IF (CC == ZERO)    EPS0  = UN
+      IF (CC == ZERO)    EPS0  = ONE
       IF (EPST1 == ZERO) EPST1 = EP20
-      IF (EPSM1 == ZERO) EPSM1 = UNP1*EP20
+      IF (EPSM1 == ZERO) EPSM1 = ONEP1*EP20
       IF (DMAX1 == ZERO) DMAX1 = ZEP999
       IF (EPST2 == ZERO) EPST2 = EP20
-      IF (EPSM2 == ZERO) EPSM2 = UNP1*EP20
+      IF (EPSM2 == ZERO) EPSM2 = ONEP1*EP20
       IF (DMAX2 == ZERO) DMAX2 = ZEP999
-      IF (EPSF1 == ZERO) EPSF1 = UNP2*EP20
-      IF (EPSF2 == ZERO) EPSF2 = UNP2*EP20
+      IF (EPSF1 == ZERO) EPSF1 = ONEP2*EP20
+      IF (EPSF2 == ZERO) EPSF2 = ONEP2*EP20
 c-----------------
-      G  = UNDEMI*YOUNG/(UN + NU)
-      C1 = YOUNG/(TROIS*(UN - DEUX*NU))
-      E1MN2 = YOUNG/(UN-NU**2)
+      G  = HALF*YOUNG/(ONE + NU)
+      C1 = YOUNG/(THREE*(ONE - TWO*NU))
+      E1MN2 = YOUNG/(ONE-NU**2)
       EN1N2 = NU*E1MN2
       SDSP  = SQRT(YOUNG/MAX(RHO0,EM20))
       MU    = PM(17)
-      IF (MU == ZERO) MU = CINQEM2
+      IF (MU == ZERO) MU = FIVEEM2
 c-----------------
       PARMAT(1) = C1
       PARMAT(2) = YOUNG
@@ -161,7 +161,7 @@ c-----------------
       PM(89) = RHO0
       PM(100)= C1      
 c-----------------
-      PM(9)  = FCUT*DEUX*PI
+      PM(9)  = FCUT*TWO*PI
       PM(17) = MU
       PM(20) = YOUNG
       PM(21) = NU
@@ -169,11 +169,11 @@ c-----------------
       PM(23) = ZERO ! E0
       PM(24) = E1MN2
       PM(25) = EN1N2
-      PM(26) = CSIX
+      PM(26) = FIVE_OVER_6
       PM(27) = SDSP
-      PM(28) = UN/YOUNG
+      PM(28) = ONE/YOUNG
       PM(29) = -NU*PM(28)
-      PM(30) = UN/G
+      PM(30) = ONE/G
       PM(31) = ZERO ! C0
       PM(32) = C1
       PM(38) = CA
@@ -184,7 +184,7 @@ c-----------------
       PM(43) = CC
       PM(44) = EPS0
       PM(49) = ICC
-      PM(52) = UNP414*MU*PM(1)*SDSP
+      PM(52) = ONEP414*MU*PM(1)*SDSP
       PM(60) = EPST1
       PM(61) = EPST2
       PM(62) = EPSM1
@@ -222,7 +222,7 @@ c-----------------------
 c-----------------
 c     Error handling
 c-----------------
-      IF (CN > UN) THEN
+      IF (CN > ONE) THEN
          CALL ANCMSG(MSGID=213,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -252,14 +252,14 @@ c-----------------
      .               I1=MAT_ID,
      .               C1=TITR)
       ENDIF
-      IF (DMAX1 >= UN .OR. DMAX1 < ZERO) THEN
+      IF (DMAX1 >= ONE .OR. DMAX1 < ZERO) THEN
          CALL ANCMSG(MSGID=210,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
      .               I1=MAT_ID,
      .               C1=TITR)
       ENDIF
-      IF (DMAX2 >= UN .OR. DMAX2 < ZERO) THEN
+      IF (DMAX2 >= ONE .OR. DMAX2 < ZERO) THEN
          CALL ANCMSG(MSGID=211,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,

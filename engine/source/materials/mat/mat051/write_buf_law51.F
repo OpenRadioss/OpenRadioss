@@ -155,7 +155,7 @@ C-----------------------------------------------
         write (*,FMT='(A16,E30.16)') "   17.   Edif/V=", UVAR(I,17+KK)                                                      
         write (*,FMT='(A16,E30.16)') "   18.        P=", UVAR(I,18+KK)                                                      
         write (*,FMT='(A16,E30.16)') "   19.      EPX=", UVAR(I,19+KK)
-        write (*,FMT='(A16,E30.16)') "     .       MU=", UVAR(I,9+KK)/RHO0(ITRIMAT) - UN        
+        write (*,FMT='(A16,E30.16)') "     .       MU=", UVAR(I,9+KK)/RHO0(ITRIMAT) - ONE        
         VAR = VAR + UVAR(I,11+KK)
       ENDDO                                                                
 

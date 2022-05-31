@@ -137,7 +137,7 @@ C
            A(N2,N1)=A(N2,N1)+MA
            IF(IB(J).GT.0)
      .       TFEXTT=TFEXTT
-     .             +UNDEMI*(A0+AA)*MS(N1)*V(N2,N1)*AXI*WEIGHT(N1)
+     .             +HALF*(A0+AA)*MS(N1)*V(N2,N1)*AXI*WEIGHT(N1)
          ENDDO
        ELSEIF(N2D.EQ.1.AND.ISK.GT.1)THEN
          K1=3*N2-2
@@ -154,7 +154,7 @@ C
            A(2,N1)=A(2,N1)+SKEW(K2,ISK)*MA
            A(3,N1)=A(3,N1)+SKEW(K3,ISK)*MA
            IF(IB(J).GT.0)
-     .       TFEXTT=TFEXTT+UNDEMI*(A0+AA)*MS(N1)*VV*AXI*WEIGHT(N1)
+     .       TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*AXI*WEIGHT(N1)
          ENDDO
        ELSEIF(ISK.LE.1)THEN
 #include "vectorize.inc"
@@ -164,7 +164,7 @@ C
            A(N2,N1)=A(N2,N1)+MA
            IF(IB(J).GT.0)
      .       TFEXTT=TFEXTT
-     .             +UNDEMI*(A0+AA)*MS(N1)*V(N2,N1)*WEIGHT(N1)
+     .             +HALF*(A0+AA)*MS(N1)*V(N2,N1)*WEIGHT(N1)
          ENDDO
        ELSE
          K1=3*N2-2
@@ -180,7 +180,7 @@ C
            A(2,N1)=A(2,N1)+SKEW(K2,ISK)*MA
            A(3,N1)=A(3,N1)+SKEW(K3,ISK)*MA
            IF(IB(J).GT.0)
-     .       TFEXTT=TFEXTT+UNDEMI*(A0+AA)*MS(N1)*VV*WEIGHT(N1)
+     .       TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*WEIGHT(N1)
          ENDDO
        ENDIF
       ELSEIF(N2D.EQ.1.AND.ISK.LE.1)THEN
@@ -192,7 +192,7 @@ C
            MA=AA*MS0(N1)
           A(N2,N1)=A(N2,N1)+MA
           IF(IB(J).GT.0)
-     .        TFEXTT=TFEXTT+UNDEMI*(A0+AA)*MS(N1)*V(N2,N1)*AXI
+     .        TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*V(N2,N1)*AXI
         ENDDO
 C
       ELSEIF(N2D.EQ.1.AND.ISK.GT.1)THEN
@@ -211,7 +211,7 @@ C
           A(2,N1)=A(2,N1)+SKEW(K2,ISK)*MA
           A(3,N1)=A(3,N1)+SKEW(K3,ISK)*MA
           IF(IB(J).GT.0)
-     .        TFEXTT=TFEXTT+UNDEMI*(A0+AA)*MS(N1)*VV*AXI
+     .        TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*AXI
         ENDDO
 C
       ELSEIF(ISK.LE.1)THEN
@@ -222,7 +222,7 @@ C
            MA=AA*MS0(N1)
           A(N2,N1)=A(N2,N1)+MA
           IF(IB(J).GT.0)
-     .        TFEXTT=TFEXTT+UNDEMI*(A0+AA)*MS(N1)*V(N2,N1)
+     .        TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*V(N2,N1)
         ENDDO
 C
       ELSE
@@ -240,7 +240,7 @@ C
           A(2,N1)=A(2,N1)+SKEW(K2,ISK)*MA
           A(3,N1)=A(3,N1)+SKEW(K3,ISK)*MA
           IF(IB(J).GT.0)
-     .        TFEXTT=TFEXTT+UNDEMI*(A0+AA)*MS(N1)*VV
+     .        TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV
         ENDDO
 C
       ENDIF

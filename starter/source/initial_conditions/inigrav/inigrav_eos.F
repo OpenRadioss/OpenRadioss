@@ -101,7 +101,7 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
            PSH(K)     = PM(88, MATID)
            MAT(K)     = MATID
            PREF(K)    = PSURF - RHO0 * GRAV0 * DEPTH(K)   !RHO in : RHO0_mixture (gravity model applied to the mixture not to the single submaterial)
-           VOL(K)     = UN   !  Real volume value not useful here, just an indicator : UN = compute, ZERO = do not compute
+           VOL(K)     = ONE   !  Real volume value not useful here, just an indicator : ONE = compute, ZERO = do not compute
            MU(K)      = ZERO
            SIG(K,1)   = -PM(31,MATID)
            SIG(K,2)   = -PM(31,MATID)
@@ -137,7 +137,7 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
       DO WHILE(CONT .AND. ITER .LT. MAX_ITER)   !Start nonlinear solver loop
          ITER = ITER + 1
          DO K = 1, NEL
-            MU(K) = RHO(K) / RHOZERO(K) - UN
+            MU(K) = RHO(K) / RHOZERO(K) - ONE
             DF(K) = RHOZERO(I) / RHO(K)
             EINT(K) = EINT(K) / DF(K) !with IFLAG==2 we need ESPE=Df*EINT
          ENDDO
@@ -156,7 +156,7 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
          DO K = 1, NEL                                                                                                     
             IF (.NOT. CONVERGED(K)) THEN   ! No need to take the square root, only the squared sound speed is needed here  
                DPDRHO(K) = DPDM(K) / RHOZERO(K)  !DPDM is total derivative (variation along isentropic path)                        
-               !GRUN(K) = DPDE(K) / (UN + MU(K))                                                                            
+               !GRUN(K) = DPDE(K) / (ONE + MU(K))                                                                            
                FUNC(K) = PRES(K)-PREF(K)
                DFUNC(K) = DPDRHO(K) !- GRUN(K) * PRES(K) / RHO(K)                                                              
                INCR = - FUNC(K) / DFUNC(K)  
@@ -164,7 +164,7 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
                RHO(K) = RHO(K) + INCR  
                ERROR(K)= MAX( ABS(INCR)/RHOZERO(K) , ABS(FUNC(K)) )
                
-               INCR =   - (PRES(K)+PSH(K)+UNDEMI*DPDRHO(K)*INCR)*(RHOZERO(K)/RHO(K)-RHOZERO(K)/RHO_OLD)
+               INCR =   - (PRES(K)+PSH(K)+HALF*DPDRHO(K)*INCR)*(RHOZERO(K)/RHO(K)-RHOZERO(K)/RHO_OLD)
                EINT(K) = EINT(K) + INCR   !EINT is in fact Eint/V with law 151 here 
                IF(DPDE(K).EQ.ZERO)EINT(K)=ZERO
                

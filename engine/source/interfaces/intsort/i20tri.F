@@ -68,7 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   ROLE DE LA ROUTINE:
 C   ===================
-C   CLASSE LES ELETS DE BPE ET LES NOEUDS DE BPN EN DEUX ZONES
+C   CLASSE LES ELETS DE BPE ET LES NOEUDS DE BPN EN TWO ZONES
 C   > OU < A UNE FRONTIERE ICI DETERMINEE ET SORT LE TOUT
 C   DANS bpe,hpe, et bpn,hpn
 C-----------------------------------------------
@@ -225,9 +225,9 @@ C
       ENDIF
       SMOINS = XYZM(DIR,I_ADD)
       SPLUS  = XYZM(DIR+3,I_ADD)
-      SEUIL =(SMOINS+SPLUS)*UNDEMI
+      SEUIL =(SMOINS+SPLUS)*HALF
 C
-C    2- DIVISER LES NOEUDS EN DEUX ZONES
+C    2- DIVISER LES NOEUDS EN TWO ZONES
 C
       NB_NCN= 0
       NB_NCN1= 0
@@ -370,7 +370,7 @@ C Optimisation gap variable
             XX4=XA(DIR, IRECT(4,NE))
             XMAX=MAX(XX1,XX2,XX3,XX4)
      +          +MIN(MAX(BGAPSMX+GAP_M(NE),GAPMIN),GAPMAX)
-     +          +MARGE+CURV_MAX(NE)+DEUX*GAP_SH(NE)
+     +          +MARGE+CURV_MAX(NE)+TWO*GAP_SH(NE)
             IF(XMAX >= SPLUS) THEN
 C             ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
               NB_ECN = NB_ECN + 1
@@ -387,7 +387,7 @@ C             ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
             XX4=XA(DIR, IRECT(4,NE))
             XMIN=MIN(XX1,XX2,XX3,XX4)
      -          -MIN(MAX(GAPSMX+GAP_M(NE),GAPMIN),GAPMAX)
-     -          -MARGE-CURV_MAX(NE)-DEUX*GAP_SH(NE)
+     -          -MARGE-CURV_MAX(NE)-TWO*GAP_SH(NE)
             IF(XMIN < SMOINS) THEN
 C             ON STOCKE DANS LE BAS DE LA PILE BP
               ADDNE = ADDNE + 1
@@ -404,7 +404,7 @@ C             ON STOCKE DANS LE BAS DE LA PILE BP
             XX4=XA(DIR, IRECT(4,NE))
             XMIN=MIN(XX1,XX2,XX3,XX4)
      -          -MIN(MAX(GAPSMX+GAP_M(NE),GAPMIN),GAPMAX)
-     -          -MARGE-CURV_MAX(NE)-DEUX*GAP_SH(NE)
+     -          -MARGE-CURV_MAX(NE)-TWO*GAP_SH(NE)
             IF(XMIN < SMOINS) THEN
 C             ON STOCKE DANS LE BAS DE LA PILE BP
               ADDNE = ADDNE + 1
@@ -412,7 +412,7 @@ C             ON STOCKE DANS LE BAS DE LA PILE BP
             ENDIF
             XMAX=MAX(XX1,XX2,XX3,XX4)
      +          +MIN(MAX(BGAPSMX+GAP_M(NE),GAPMIN),GAPMAX)
-     +          +MARGE+CURV_MAX(NE)+DEUX*GAP_SH(NE)
+     +          +MARGE+CURV_MAX(NE)+TWO*GAP_SH(NE)
             IF(XMAX >= SPLUS) THEN
 C             ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
               NB_ECN = NB_ECN + 1
@@ -458,7 +458,7 @@ C
 C
 C    2- TEST ARRET = BOITE VIDE
 C                    BOITE TROP PETITE
-C                    BOITE NE CONTENANT QU'UN NOEUD
+C                    BOITE NE CONTENANT QU'ONE NOEUD
 C                    PLUS DE MEMOIRE DISPONIBLE
 C
 C-------------------TEST SUR MEMOIRE DEPASSEE------------
@@ -572,7 +572,7 @@ C
                JJ = BPN(J)
                IF(JJ.LE.NSN) THEN
                  TZ=MAX(MIN(GAP_S(JJ)+GAP_M(NE),GAPMAX),GAPMIN)
-     +             +MARGE+CURV_MAX(NE)+DEUX*GAP_SH(NE)
+     +             +MARGE+CURV_MAX(NE)+TWO*GAP_SH(NE)
                  XMAX=MAX(XX1,XX2,XX3,XX4)+TZ
                  XMIN=MIN(XX1,XX2,XX3,XX4)-TZ
                  YMAX=MAX(YY1,YY2,YY3,YY4)+TZ
@@ -591,7 +591,7 @@ C
                ELSE
                  II = JJ-NSN
                  TZ=MAX(MIN(XREM(13,II)+GAP_M(NE),GAPMAX),GAPMIN)
-     +             +MARGE+CURV_MAX(NE)+DEUX*GAP_SH(NE)
+     +             +MARGE+CURV_MAX(NE)+TWO*GAP_SH(NE)
                  XMAX=MAX(XX1,XX2,XX3,XX4)+TZ
                  XMIN=MIN(XX1,XX2,XX3,XX4)-TZ
                  YMAX=MAX(YY1,YY2,YY3,YY4)+TZ
@@ -709,7 +709,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   ROLE DE LA ROUTINE:
 C   ===================
-C   CLASSE LES ELETS DE BPE ET LES NOEUDS DE BPN EN DEUX ZONES
+C   CLASSE LES ELETS DE BPE ET LES NOEUDS DE BPN EN TWO ZONES
 C   > OU < A UNE FRONTIERE ICI DETERMINEE ET SORT LE TOUT
 C   DANS bpe,hpe, et bpn,hpn
 C-----------------------------------------------
@@ -1030,7 +1030,7 @@ c       et le calcul de Xmin, Txmin ... est plus simple
       TSMAX = SEUIL + TZINF
 
 C
-C    2- DIVISER LES SECONDS EN DEUX ZONES 
+C    2- DIVISER LES SECONDS EN TWO ZONES 
 C
 
 c            +-----------+-----------+--Xjmax  
@@ -1227,7 +1227,7 @@ C
 C
 C    2- TEST ARRET = BOITE VIDE
 C                    BOITE TROP PETITE 
-C                    BOITE NE CONTENANT QU'UN NOEUD
+C                    BOITE NE CONTENANT QU'ONE NOEUD
 C                    PLUS DE MEMOIRE DISPONIBLE
 C                    LE DECOUPAGE NE REDUIT PAS LES CANDIDATS
 C

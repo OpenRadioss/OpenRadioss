@@ -302,9 +302,9 @@ c-------------------------------------
       ENDDO
       DO I=JFT,JLT
         SIGY(I)    = EP30
-        ZCFAC(I,1) = UN
-        ZCFAC(I,2) = UN
-        ALPE(I)    = UN
+        ZCFAC(I,1) = ONE
+        ZCFAC(I,2) = ONE
+        ALPE(I)    = ONE
       ENDDO
 C
       DO I=JFT,JLT                
@@ -480,7 +480,7 @@ c-------------------------------------------
             IPOS(2) = NLOC_DMG%POSI(INOD(2)) 
             IPOS(3) = NLOC_DMG%POSI(INOD(3)) 
             IPOS(4) = NLOC_DMG%POSI(INOD(4))
-            VAR_REG(I,K) = QUART*(DNL(IPOS(1)+K-1) + DNL(IPOS(2)+K-1) 
+            VAR_REG(I,K) = FOURTH*(DNL(IPOS(1)+K-1) + DNL(IPOS(2)+K-1) 
      .                          + DNL(IPOS(3)+K-1) + DNL(IPOS(4)+K-1))
           ENDDO
         ENDDO

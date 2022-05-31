@@ -78,7 +78,7 @@ C----------------------------------------------------------------
      .             FP(I,3,3)**2           
           LPCHAIN (I) = SQRT(MAX(ZERO,THIRD*IP1(I)))          
           !MAXL = MAX(MAXL, LPCHAIN (I))
-          TEMP = MAX(EM20,LPCHAIN(I) - UN +KSI)       
+          TEMP = MAX(EM20,LPCHAIN(I) - ONE +KSI)       
           DGAMMA(I) = A1* EXP(EXPC*LOG(TEMP))* ((TBNORM(I)**EXPM)/MAX(EM20, TAUREF**EXPM))   
          ENDDO
 

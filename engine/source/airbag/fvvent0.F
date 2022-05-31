@@ -133,7 +133,7 @@ C------------------------------------------
            N1=ELEM(1,IEL)
            N2=ELEM(2,IEL)
            N3=ELEM(3,IEL)
-           PMEAN=TIERS*(P(N1)+P(N2)+P(N3))
+           PMEAN=THIRD*(P(N1)+P(N2)+P(N3))
 C-------------
 C  VENT HOLES
 C-------------
@@ -162,7 +162,7 @@ C
             FPORP1=RBAGHOL(11,IVENT)
             FPORA1=RBAGHOL(12,IVENT)
 C
-            AOUT=AVENT*AREA*(UN-PORO(IEL))
+            AOUT=AVENT*AREA*(ONE-PORO(IEL))
             AOUT1=BVENT*AREA*PORO(IEL)
             TT1=TT-TTF
             IF (ITTF.EQ.13) TT1=TT-TTF-TVENT
@@ -261,10 +261,10 @@ C
                AOUT1= ZERO
             ELSE
                IF(IBLOCKAGE==1) THEN
-                 AOUT = (UN - PORO(IEL))*AREA*SVTFAC
+                 AOUT = (ONE - PORO(IEL))*AREA*SVTFAC
                  AOUT1= ZERO
                ELSE
-                 AOUT =(UN - PORO(IEL))*AREA*SVTFAC
+                 AOUT =(ONE - PORO(IEL))*AREA*SVTFAC
                  FAC1=PM(162,IM)
                  IF(FAC1 == ZERO) THEN
                    IPORT=IPM(10+NFUNC,IM)
@@ -285,7 +285,7 @@ C
            RBAGHOL(17,IVENT)=RBAGHOL(17,IVENT)+AOUT1
 C Triangle interne
            IF(IEL > NEL) THEN
-              POROSITY(IEL-NEL)=MIN(UN,ELSOUT(IEL)/AREA)
+              POROSITY(IEL-NEL)=MIN(ONE,ELSOUT(IEL)/AREA)
            ENDIF
          ENDIF  ! test if triangle is venting
       ENDDO     ! loop on triangles

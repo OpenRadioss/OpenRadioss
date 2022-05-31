@@ -154,7 +154,7 @@ c
 C                                                                       
           A11(I,IPLY) = E33 + G                                         
           IF(ILAW /= 59) THEN                                           
-            G   =  DEUX*G/TH_IPLY(I,IPLY)*OFF(I)                        
+            G   =  TWO*G/TH_IPLY(I,IPLY)*OFF(I)                        
             E33 =  E33/TH_IPLY(I,IPLY)*OFF(I)                           
             A11(I,IPLY) = E33 + G                                       
             G0 = PM(22, MAT_IPLY(I, IPLY))*OFF(I)                       
@@ -297,9 +297,9 @@ c                ELSE
 c                  FOR(I,5)=F5
 c                END IF                                                       
 c                DEGMB(I) = DEGMB(I) + FOR(I,4)*DEXZ(I)+FOR(I,5)*DEYZ(I)               
-c                EINT(I,1)= EINT(I,1) + DEGMB(I)*UNDEMI*THK0(I)*AREA(I)               
+c                EINT(I,1)= EINT(I,1) + DEGMB(I)*HALF*THK0(I)*AREA(I)               
 C            
-            ELSEIF(OFFI(I,IPLY) <  UN) THEN
+            ELSEIF(OFFI(I,IPLY) <  ONE) THEN
 C             
                SIG(I,1,IPLY) =  SYZ0(I) *OFFI(I,IPLY)
                SIG(I,2,IPLY) =  SXZ0(I) *OFFI(I,IPLY)
@@ -314,11 +314,11 @@ C
 C viscosity 
             VISC    =GEO(20,PID(I))
 !!          VISC    =GEO(16,PID(I))
-!!          IF(VISC == ZERO) VISC = CINQEM2
-            FAC = VISC + SQRT(VISC**2 + UN)
+!!          IF(VISC == ZERO) VISC = FIVEEM2
+            FAC = VISC + SQRT(VISC**2 + ONE)
             DTINV   =DT1C(I)/MAX(DT1C(I)**2,EM20)
             SSPI=SQRT(A11(I,IPLY)*TH_IPLY(I,IPLY)/PM(1,MAT_IPLY(I,IPLY)))
-            VISC    =UNP414*VISC*PM(1,MAT_IPLY(I,IPLY))*SSPI
+            VISC    =ONEP414*VISC*PM(1,MAT_IPLY(I,IPLY))*SSPI
             VISC    =VISC*SQRT(AREA(I))*DTINV
 C           
             SIG(I,1,IPLY)= SIG(I,1,IPLY) + VISC*DEYZ_IP(I)*OFFI(I,IPLY)
@@ -349,7 +349,7 @@ c
 C Energie          
             IF (IR == 1 .and. IS == 1) INTLAY%EINT(I) = ZERO
             VOL  =   AREA(I)*TH_IPLY(I,IPLY)
-            INTLAY%EINT(I) = INTLAY%EINT(I) + UNDEMI*(
+            INTLAY%EINT(I) = INTLAY%EINT(I) + HALF*(
      .         SIG(I,3,IPLY)*EPSZZ_IP(I) +
      .         SIG(I,1,IPLY)*EPSYZ_IP(I)+ SIG(I,2,IPLY)*EPSXZ_IP(I))*VOL
 c
@@ -393,7 +393,7 @@ C
 C
               DEGFX(I) = DEGFX(I) + MOM(I,1)*KXX(I)+MOM(I,2)*KYY(I)                 
      +                  + MOM(I,3)*KXY(I)                                            
-              EINT(I,2)= EINT(I,2) + DEGFX(I)*UNDEMI*THK0(I)*THK0(I)*AREA(I) 
+              EINT(I,2)= EINT(I,2) + DEGFX(I)*HALF*THK0(I)*THK0(I)*AREA(I) 
          ENDIF                
         ENDDO   ! I=JFT,JLT
 C -----------------------------------------------------------------

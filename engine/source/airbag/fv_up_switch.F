@@ -398,7 +398,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
          NORM(2,IEL)=NRY/AREA2
          NORM(3,IEL)=NRZ/AREA2
          IF(IEL.LE.NEL) THEN
-           TMP(IEL) = UNSIX * (X1*NRX+Y1*NRY+Z1*NRZ)
+           TMP(IEL) = ONE_OVER_6 * (X1*NRX+Y1*NRY+Z1*NRZ)
          ENDIF
          PEL(IEL)=ZERO
       ENDDO
@@ -410,11 +410,11 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
          N1=ELEM(1,IEL)
          N2=ELEM(2,IEL)
          N3=ELEM(3,IEL)
-         AREA2 = ELAREA(IEL)
-         ELAREA(IEL) = UNDEMI * AREA2
-         NODAREA(N1)=NODAREA(N1)+UNSIX*AREA2
-         NODAREA(N2)=NODAREA(N2)+UNSIX*AREA2
-         NODAREA(N3)=NODAREA(N3)+UNSIX*AREA2
+         AREA2 = ELAREA(IEL) 
+         ELAREA(IEL) = HALF * AREA2
+         NODAREA(N1)=NODAREA(N1)+ONE_OVER_6*AREA2
+         NODAREA(N2)=NODAREA(N2)+ONE_OVER_6*AREA2
+         NODAREA(N3)=NODAREA(N3)+ONE_OVER_6*AREA2
          IF(IEL.LE.NEL) THEN
            VOLG=VOLG+TMP(IEL)
          ENDIF
@@ -443,7 +443,7 @@ C
          X2 = XXX(2, N1)
          X3 = XXX(3, N1)
          AREA = ELAREA(IEL)
-         PVOLTMP = TIERS * AREA * (NX * X1 + NY * X2 + NZ * X3)
+         PVOLTMP = THIRD * AREA * (NX * X1 + NY * X2 + NZ * X3)
          TAB_PVOL(IEL) = PVOLTMP
       ENDDO
 !$OMP END DO
@@ -606,9 +606,9 @@ C---------------------------------------------------
             N2=ELEM(2,IEL)
             N3=ELEM(3,IEL)
             PORO(IEL)=ZERO
-            IF (ICONT(N1).NE.0) PORO(IEL)=PORO(IEL)+TIERS
-            IF (ICONT(N2).NE.0) PORO(IEL)=PORO(IEL)+TIERS
-            IF (ICONT(N3).NE.0) PORO(IEL)=PORO(IEL)+TIERS
+            IF (ICONT(N1).NE.0) PORO(IEL)=PORO(IEL)+THIRD
+            IF (ICONT(N2).NE.0) PORO(IEL)=PORO(IEL)+THIRD
+            IF (ICONT(N3).NE.0) PORO(IEL)=PORO(IEL)+THIRD
          ENDDO
 !$OMP END DO
 !$OMP END PARALLEL
@@ -754,16 +754,16 @@ C----------------------
                ELSEIF ((ITVENT == 2 .AND. P1 > ZERO) .OR. (ITVENT == 4 .AND. P1 >= PEXT)) THEN
                   VV = NX * UX1 + NY * UY1 + NZ * UZ1
                   VV = MAX(VV, ZERO)
-                  ETA = (GAMA1 - UN) / GAMA1
-                  KSI = UN / ETA
-                  PSTAG = P1 * (UN + UNDEMI * ETA * RHO1 * VV * VV / P1)**KSI
-                  PCRIT = PSTAG * (DEUX / (GAMA1+UN))**KSI
+                  ETA = (GAMA1 - ONE) / GAMA1
+                  KSI = ONE / ETA
+                  PSTAG = P1 * (ONE + HALF * ETA * RHO1 * VV * VV / P1)**KSI
+                  PCRIT = PSTAG * (TWO / (GAMA1+ONE))**KSI
                   P2 = MAX(PEXT, PCRIT)
-                  RHO2 = RHO1 * (P2 / P1)**(UN / GAMA1)
-                  UU = DEUX * P1 * (UN - (P2 / P1)**ETA) / (RHO1 * ETA)
+                  RHO2 = RHO1 * (P2 / P1)**(ONE / GAMA1)
+                  UU = TWO * P1 * (ONE - (P2 / P1)**ETA) / (RHO1 * ETA)
                   UU = MAX(UU, ZERO)
                   UU = SQRT(UU)
-                  VMAX = UNDEMI * ((P1 - PEXT) * PVOLU(I) / (GAMA1 - UN))
+                  VMAX = HALF * ((P1 - PEXT) * PVOLU(I) / (GAMA1 - ONE))
      .                 / MAX(EM20, RHO2 * AOUT * DT1 * GAMA1 * RE1 / RHO1)
                   VMAX = MAX(VMAX, ZERO)
                   UU = MIN(UU, VMAX)
@@ -782,14 +782,14 @@ C----------------------
                ELSEIF (ITVENT == 4 .AND. P1 < PEXT) THEN
                   GAMAI = RVOLU(1)
                   RHOI = RVOLU(62)
-                  ETA = (GAMAI - UN) / GAMAI
-                  PCRIT = PEXT * (DEUX / (GAMAI + UN))**(UN / ETA)
+                  ETA = (GAMAI - ONE) / GAMAI
+                  PCRIT = PEXT * (TWO / (GAMAI + ONE))**(ONE / ETA)
                   P2 = MAX(P1, PCRIT)
-                  RHO2 = RHOI * (P2 / PEXT)**(UN / GAMAI)
-                  UU = DEUX * PEXT * (UN - (P2 / PEXT)**ETA)/(RHOI * ETA)
+                  RHO2 = RHOI * (P2 / PEXT)**(ONE / GAMAI)
+                  UU = TWO * PEXT * (ONE - (P2 / PEXT)**ETA)/(RHOI * ETA)
                   UU = MAX(UU, ZERO)
                   UU = SQRT(UU)
-                  VMAX = UNDEMI*((PEXT - P1) * PVOLU(I) / (GAMA1 - UN))
+                  VMAX = HALF*((PEXT - P1) * PVOLU(I) / (GAMA1 - ONE))
      .                 / MAX(EM20, RHO2 * AOUT * DT1 * RVOLU(63))
                   VMAX = MAX(VMAX, ZERO)
                   UU = MIN(UU, VMAX)
@@ -798,7 +798,7 @@ C----------------------
                ELSE IF (ITVENT == 5) THEN
                   P2 = P1 - PEXT
                   RHO2 = RHO1
-                  UU = DEUX * P2 / RHO2
+                  UU = TWO * P2 / RHO2
                   UU = MAX(UU, ZERO)
                   UU = SQRT(UU)
                ENDIF
@@ -892,9 +892,9 @@ C
                      VY3=VVVA(2,N3)
                      VZ3=VVVA(3,N3)
                   ENDIF
-                  VVX=TIERS*(VX1+VX2+VX3)
-                  VVY=TIERS*(VY1+VY2+VY3)
-                  VVZ=TIERS*(VZ1+VZ2+VZ3)
+                  VVX=THIRD*(VX1+VX2+VX3)
+                  VVY=THIRD*(VY1+VY2+VY3)
+                  VVZ=THIRD*(VZ1+VZ2+VZ3)
                   NX=NORM(1,IEL)
                   NY=NORM(2,IEL)
                   NZ=NORM(3,IEL)
@@ -917,20 +917,20 @@ C
                   UY2 = PU(2, I2)
                   UZ2 = PU(3, I2)
                   GAMA2 = GPOLH(I2)
-                  VFX = UNDEMI * (UX1 + UX2)
-                  VFY = UNDEMI * (UY1 + UY2)
-                  VFZ = UNDEMI * (UZ1 + UZ2)
+                  VFX = HALF * (UX1 + UX2)                 
+                  VFY = HALF * (UY1 + UY2)
+                  VFZ = HALF * (UZ1 + UZ2)
                   SS = NX * (VFX - VVX) + NY * (VFY - VVY) + NZ * (VFZ - VVZ)
                   IF (SS <= ZERO) THEN
                      ALPHA = ZERO
                   ELSE
-                     ALPHA = UN
+                     ALPHA = ONE
                   ENDIF
-                  RHOM = ALPHA * RHO1 + (UN - ALPHA) * RHO2
-                  RUXM = ALPHA * RHO1 * UX1 + (UN - ALPHA) * RHO2 * UX2
-                  RUYM = ALPHA * RHO1 * UY1 + (UN - ALPHA) * RHO2 * UY2
-                  RUZM = ALPHA * RHO1 * UZ1 + (UN - ALPHA) * RHO2 * UZ2
-                  REM = ALPHA * GAMA1 * RE1 + (UN - ALPHA) * GAMA2 * RE2
+                  RHOM = ALPHA * RHO1 + (ONE - ALPHA) * RHO2
+                  RUXM = ALPHA * RHO1 * UX1 + (ONE - ALPHA) * RHO2 * UX2
+                  RUYM = ALPHA * RHO1 * UY1 + (ONE - ALPHA) * RHO2 * UY2
+                  RUZM = ALPHA * RHO1 * UZ1 + (ONE - ALPHA) * RHO2 * UZ2
+                  REM = ALPHA * GAMA1 * RE1 + (ONE - ALPHA) * GAMA2 * RE2
 
                   MASSFLOW = RHOM * SS * AREA
                   MASS_FLUX(IEL) = -MASSFLOW
@@ -942,18 +942,18 @@ C
                   ELFMASS(IEL) = ELFMASS(IEL) + MASSFLOW * DT1
                   ELFVEL(IEL) = ELFVEL(IEL) + SS * AREA
 
-                  CPAM = ALPHA * CPAPOLH(I1) + (UN - ALPHA) * CPAPOLH(I2)
-                  CPBM = ALPHA * CPBPOLH(I1) + (UN - ALPHA) * CPBPOLH(I2)
-                  CPCM = ALPHA * CPCPOLH(I1) + (UN - ALPHA) * CPCPOLH(I2)
-                  RGASM = ALPHA * RMWPOLH(I1) + (UN - ALPHA) * RMWPOLH(I2)
+                  CPAM = ALPHA * CPAPOLH(I1) + (ONE - ALPHA) * CPAPOLH(I2)
+                  CPBM = ALPHA * CPBPOLH(I1) + (ONE - ALPHA) * CPBPOLH(I2)
+                  CPCM = ALPHA * CPCPOLH(I1) + (ONE - ALPHA) * CPCPOLH(I2)
+                  RGASM = ALPHA * RMWPOLH(I1) + (ONE - ALPHA) * RMWPOLH(I2)
                   CPA_FLUX(IEL) = -MASSFLOW * CPAM
                   CPB_FLUX(IEL) = -MASSFLOW * CPBM
                   CPC_FLUX(IEL) = -MASSFLOW * CPCM
                   RGAS_FLUX(IEL) = -MASSFLOW * RGASM
                   IF (ITYP == 8) THEN
-                     CPDM = ALPHA * CPDPOLH(I1) + (UN - ALPHA) * CPDPOLH(I2)
-                     CPEM = ALPHA * CPEPOLH(I1) + (UN - ALPHA) * CPEPOLH(I2)
-                     CPFM = ALPHA * CPFPOLH(I1) + (UN - ALPHA) * CPFPOLH(I2)
+                     CPDM = ALPHA * CPDPOLH(I1) + (ONE - ALPHA) * CPDPOLH(I2)
+                     CPEM = ALPHA * CPEPOLH(I1) + (ONE - ALPHA) * CPEPOLH(I2)
+                     CPFM = ALPHA * CPFPOLH(I1) + (ONE - ALPHA) * CPFPOLH(I2)
                      CPD_FLUX(IEL) = -MASSFLOW * CPDM
                      CPE_FLUX(IEL) = -MASSFLOW * CPEM
                      CPF_FLUX(IEL) = -MASSFLOW * CPFM
@@ -1114,22 +1114,22 @@ C---------------------------------------------------
       DTX=EP30
       PHDT=0
 !$OMP END SINGLE
-
       SELECT CASE (IDTMIN(52))
 
         CASE(0,1)
 !$OMP DO SCHEDULE(GUIDED,1)
-          DO I=1,NPOLH
-             IF(MPOLH(I).LE.ZERO.OR.EPOLH(I).LE.ZERO.OR.GPOLH(I).LE.UN) THEN
-               DTPOLH(I)=EP30
-               QVISC(I) =ZERO
-             ELSE
-               AL=PVOLU(I)**THIRD
-               DD=DM(I)/MPOLH(I)
-               AD=MAX(ZERO,DD)
-               GAMA=GPOLH(I)
-               SSP=SQRT((GAMA-UN)*GAMA*EPOLH(I)/MPOLH(I))
-               QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)
+      DO I=1,NPOLH
+         IF(MPOLH(I).LE.ZERO.OR.EPOLH(I).LE.ZERO.OR.GPOLH(I).LE.ONE) THEN
+            DTPOLH(I)=EP30
+            QVISC(I) =ZERO
+         ELSE 
+C
+         AL=PVOLU(I)**THIRD
+         DD=DM(I)/MPOLH(I)
+         AD=MAX(ZERO,DD)
+         GAMA=GPOLH(I)
+         SSP=SQRT((GAMA-ONE)*GAMA*EPOLH(I)/MPOLH(I))
+         QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)
 C
                QX=QB*SSP+AL*QA*QA*AD
                SSP=QX+SQRT(QX*QX+SSP*SSP)
@@ -1143,7 +1143,7 @@ C
 
 !$OMP DO SCHEDULE(GUIDED,1)
           DO I=1,NPOLH
-             IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= UN) THEN
+             IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= ONE) THEN
                 DTPOLH(I)=EP30
                 QVISC(I) =ZERO
              ELSE
@@ -1162,12 +1162,12 @@ C
                      IEL2=IFVTRI(6, KK)
                      IF(IEL2==0)IEL2=I !bounday surface
                      IF(IEL1==0)IEL1=I
-                     VMAT(1) = UNDEMI*(PU(1,IEL1)+PU(1,IEL2))
-                     VMAT(2) = UNDEMI*(PU(2,IEL1)+PU(2,IEL2))
-                     VMAT(3) = UNDEMI*(PU(3,IEL1)+PU(3,IEL2))
-                     SSP1= SQRT((GAMA-UN)*GAMA*EPOLH(IEL1)/MPOLH(IEL1))
-                     SSP2= SQRT((GAMA-UN)*GAMA*EPOLH(IEL2)/MPOLH(IEL2))
-                     SSPt = UNDEMI*(SSP1+SSP2)
+                     VMAT(1) = HALF*(PU(1,IEL1)+PU(1,IEL2))
+                     VMAT(2) = HALF*(PU(2,IEL1)+PU(2,IEL2))
+                     VMAT(3) = HALF*(PU(3,IEL1)+PU(3,IEL2))
+                     SSP1= SQRT((GAMA-ONE)*GAMA*EPOLH(IEL1)/MPOLH(IEL1))
+                     SSP2= SQRT((GAMA-ONE)*GAMA*EPOLH(IEL2)/MPOLH(IEL2))
+                     SSPt = HALF*(SSP1+SSP2)
                      TMP_VEC(1) = (VMAT(1)-VGRID(1,KK))*PNORM(1,KK)
                      TMP_VEC(2) = (VMAT(2)-VGRID(2,KK))*PNORM(2,KK)
                      TMP_VEC(3) = (VMAT(3)-VGRID(3,KK))*PNORM(3,KK)
@@ -1180,7 +1180,7 @@ C
                DD=DM(I)/MPOLH(I)
                AD=MAX(ZERO,DD)
                GAMA=GPOLH(I)
-               SSP=SQRT((GAMA-UN)*GAMA*EPOLH(I)/MPOLH(I))
+               SSP=SQRT((GAMA-ONE)*GAMA*EPOLH(I)/MPOLH(I))
                QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)
                QX=QB*SSP+AL*QA*QA*AD
                SSP=QX+SQRT(QX*QX+SSP*SSP)
@@ -1195,7 +1195,7 @@ C
 
 !$OMP DO SCHEDULE(GUIDED,1)
           DO I=1,NPOLH
-             IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= UN) THEN
+             IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= ONE) THEN
                 DTPOLH(I)=EP30
                 QVISC(I) =ZERO
              ELSE
@@ -1229,7 +1229,7 @@ C
                DD=DM(I)/MPOLH(I)
                AD=MAX(ZERO,DD)
                GAMA=GPOLH(I)
-               SSP=SQRT((GAMA-UN)*GAMA*EPOLH(I)/MPOLH(I))
+               SSP=SQRT((GAMA-ONE)*GAMA*EPOLH(I)/MPOLH(I))
                QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)
                QX=QB*SSP+AL*QA*QA*AD
                SSP=QX+SQRT(QX*QX+SSP*SSP)
@@ -1289,9 +1289,9 @@ C---------------------------------------------------
          VX3=VVV(1,N3)
          VY3=VVV(2,N3)
          VZ3=VVV(3,N3)
-         VVX=TIERS*(VX1+VX2+VX3)
-         VVY=TIERS*(VY1+VY2+VY3)
-         VVZ=TIERS*(VZ1+VZ2+VZ3)
+         VVX=THIRD*(VX1+VX2+VX3)
+         VVY=THIRD*(VY1+VY2+VY3)
+         VVZ=THIRD*(VZ1+VZ2+VZ3)
          NX=NORM(1,IEL)
          NY=NORM(2,IEL)
          NZ=NORM(3,IEL)
@@ -1333,7 +1333,7 @@ C---------------------------------------------------
 !     INTERNAL TRIANGLE, SEPARATES 2 FINITE VOLUMES
             P1 = PPOLH(I1) + QVISC(I1)
             P2 = PPOLH(I2) + QVISC(I2)
-            PMEAN = UNDEMI * (P1 + P2)
+            PMEAN = HALF * (P1 + P2)
             AREA_OLD = AREA
             AREA = AREA * POROSITY(IEL - NEL)
             AREA1 = AREA_OLD - AREA
@@ -1382,9 +1382,9 @@ C---------------------------------------------------
             VX3=VVV(1,N3)
             VY3=VVV(2,N3)
             VZ3=VVV(3,N3)
-            VVX=TIERS*(VX1+VX2+VX3)
-            VVY=TIERS*(VY1+VY2+VY3)
-            VVZ=TIERS*(VZ1+VZ2+VZ3)
+            VVX=THIRD*(VX1+VX2+VX3)
+            VVY=THIRD*(VY1+VY2+VY3)
+            VVZ=THIRD*(VZ1+VZ2+VZ3)
             AREA = ELAREA(IEL)
             I1 = FVDATA(IFV)%TRI_TO_ELEM(1, IEL)
             I2 = FVDATA(IFV)%TRI_TO_ELEM(2, IEL)
@@ -1429,9 +1429,9 @@ C---------------------------------------------------
             VX3=VVV(1,N3)
             VY3=VVV(2,N3)
             VZ3=VVV(3,N3)
-            VVX=TIERS*(VX1+VX2+VX3)
-            VVY=TIERS*(VY1+VY2+VY3)
-            VVZ=TIERS*(VZ1+VZ2+VZ3)
+            VVX=THIRD*(VX1+VX2+VX3)
+            VVY=THIRD*(VY1+VY2+VY3)
+            VVZ=THIRD*(VZ1+VZ2+VZ3)
             AREA = ELAREA(IEL)
             I1 = FVDATA(IFV)%TRI_TO_ELEM(1, IEL)
             I2 = FVDATA(IFV)%TRI_TO_ELEM(2, IEL)
@@ -1634,14 +1634,14 @@ C     PEL(1:NELT)=ZERO
          AREA = ELAREA(IEL)
          I1 = FVDATA(IFV)%TRI_TO_ELEM(1, IEL)
          I2 = FVDATA(IFV)%TRI_TO_ELEM(2, IEL)
-         PEL(IEL) = UNDEMI * (PPOLH(I1) + PPOLH(I2))
+         PEL(IEL) = HALF * (PPOLH(I1) + PPOLH(I2))
          IF (PREPARE_ANIM == 1) THEN
-            UEL(1, IEL) = UNDEMI * (PU(1, I1) + PU(1, I2))
-            UEL(2, IEL) = UNDEMI * (PU(2, I1) + PU(2, I2))
-            UEL(3, IEL) = UNDEMI * (PU(3, I1) + PU(3, I2))
-            RHOEL(IEL) = UNDEMI * (RPOLH(I1) + RPOLH(I2))
-            TKEL(IEL) = UNDEMI * (TPOLH(I1) + TPOLH(I2))
-            SSPEL(IEL) = UNDEMI * (SQRT(GPOLH(I1)*PPOLH(I1)/RPOLH(I1)) + SQRT(GPOLH(I2)*PPOLH(I2)/RPOLH(I2)))
+            UEL(1, IEL) = HALF * (PU(1, I1) + PU(1, I2))
+            UEL(2, IEL) = HALF * (PU(2, I1) + PU(2, I2))
+            UEL(3, IEL) = HALF * (PU(3, I1) + PU(3, I2))
+            RHOEL(IEL) = HALF * (RPOLH(I1) + RPOLH(I2))
+            TKEL(IEL) = HALF * (TPOLH(I1) + TPOLH(I2))
+            SSPEL(IEL) = HALF * (SQRT(GPOLH(I1)*PPOLH(I1)/RPOLH(I1)) + SQRT(GPOLH(I2)*PPOLH(I2)/RPOLH(I2)))
          ENDIF
       ENDDO
 !$OMP END DO
@@ -1687,9 +1687,9 @@ C------------------
          AREA1=NODAREA(N1)
          AREA2=NODAREA(N2)
          AREA3=NODAREA(N3)
-         FAC1=TIERS*ELAREA(IEL)/AREA1
-         FAC2=TIERS*ELAREA(IEL)/AREA2
-         FAC3=TIERS*ELAREA(IEL)/AREA3
+         FAC1=THIRD*ELAREA(IEL)/AREA1
+         FAC2=THIRD*ELAREA(IEL)/AREA2
+         FAC3=THIRD*ELAREA(IEL)/AREA3
          P(N1) =P(N1) +FAC1*PEL(IEL)
          P(N2) =P(N2) +FAC2*PEL(IEL)
          P(N3) =P(N3) +FAC3*PEL(IEL)
@@ -1703,9 +1703,9 @@ C------------------
            AREA1=NODAREA(N1)
            AREA2=NODAREA(N2)
            AREA3=NODAREA(N3)
-           FAC1=TIERS*ELAREA(IEL)/AREA1
-           FAC2=TIERS*ELAREA(IEL)/AREA2
-           FAC3=TIERS*ELAREA(IEL)/AREA3
+           FAC1=THIRD*ELAREA(IEL)/AREA1
+           FAC2=THIRD*ELAREA(IEL)/AREA2
+           FAC3=THIRD*ELAREA(IEL)/AREA3
            U(1,N1)=U(1,N1)+FAC1*UEL(1,IEL)
            U(2,N1)=U(2,N1)+FAC1*UEL(2,IEL)
            U(3,N1)=U(3,N1)+FAC1*UEL(3,IEL)
@@ -1736,42 +1736,42 @@ C PENTAEDRA
                  J=K
                  IF(K.GE.4) J=J+1
                  JJ=BRNA(J,II)
-                 VOLA(JJ)=VOLA(JJ)+UNSIX*PVOLU(I)
-                 PA(JJ)=PA(JJ)+UNSIX*PPOLH(I)*PVOLU(I)
-                 RHOA(JJ)=RHOA(JJ)+UNSIX*RPOLH(I)*PVOLU(I)
-                 TKA(JJ)=TKA(JJ)+UNSIX*TEMP*PVOLU(I)
-                 SSPKA(JJ)=SSPKA(JJ)+UNSIX*SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*PVOLU(I)
-                 UA(1,JJ)=UA(1,JJ)+UNSIX*PU(1,I)*PVOLU(I)
-                 UA(2,JJ)=UA(2,JJ)+UNSIX*PU(2,I)*PVOLU(I)
-                 UA(3,JJ)=UA(3,JJ)+UNSIX*PU(3,I)*PVOLU(I)
-                ENDDO
+                 VOLA(JJ)=VOLA(JJ)+ONE_OVER_6*PVOLU(I)
+                 PA(JJ)=PA(JJ)+ONE_OVER_6*PPOLH(I)*PVOLU(I)
+                 RHOA(JJ)=RHOA(JJ)+ONE_OVER_6*RPOLH(I)*PVOLU(I)
+                 TKA(JJ)=TKA(JJ)+ONE_OVER_6*TEMP*PVOLU(I)
+                 SSPKA(JJ)=SSPKA(JJ)+ONE_OVER_6*SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*PVOLU(I)
+                 UA(1,JJ)=UA(1,JJ)+ONE_OVER_6*PU(1,I)*PVOLU(I)
+                 UA(2,JJ)=UA(2,JJ)+ONE_OVER_6*PU(2,I)*PVOLU(I)
+                 UA(3,JJ)=UA(3,JJ)+ONE_OVER_6*PU(3,I)*PVOLU(I)
+                ENDDO           
              ELSEIF(BRNA(5,II).EQ.BRNA(8,II).AND.
      .              BRNA(6,II).EQ.BRNA(8,II).AND.
      .              BRNA(7,II).EQ.BRNA(8,II))THEN
 C PYRAMID
                 DO J=1,5
                  JJ=BRNA(J,II)
-                 VOLA(JJ)=VOLA(JJ)+UNCINQ*PVOLU(I)
-                 PA(JJ)=PA(JJ)+UNCINQ*PPOLH(I)*PVOLU(I)
-                 RHOA(JJ)=RHOA(JJ)+UNCINQ*RPOLH(I)*PVOLU(I)
-                 TKA(JJ)=TKA(JJ)+UNCINQ*TEMP*PVOLU(I)
-                 SSPKA(JJ)=SSPKA(JJ)+UNCINQ*SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*PVOLU(I)
-                 UA(1,JJ)=UA(1,JJ)+UNCINQ*PU(1,I)*PVOLU(I)
-                 UA(2,JJ)=UA(2,JJ)+UNCINQ*PU(2,I)*PVOLU(I)
-                 UA(3,JJ)=UA(3,JJ)+UNCINQ*PU(3,I)*PVOLU(I)
+                 VOLA(JJ)=VOLA(JJ)+ONE_FIFTH*PVOLU(I)
+                 PA(JJ)=PA(JJ)+ONE_FIFTH*PPOLH(I)*PVOLU(I)
+                 RHOA(JJ)=RHOA(JJ)+ONE_FIFTH*RPOLH(I)*PVOLU(I)
+                 TKA(JJ)=TKA(JJ)+ONE_FIFTH*TEMP*PVOLU(I)
+                 SSPKA(JJ)=SSPKA(JJ)+ONE_FIFTH*SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*PVOLU(I)
+                 UA(1,JJ)=UA(1,JJ)+ONE_FIFTH*PU(1,I)*PVOLU(I)
+                 UA(2,JJ)=UA(2,JJ)+ONE_FIFTH*PU(2,I)*PVOLU(I)
+                 UA(3,JJ)=UA(3,JJ)+ONE_FIFTH*PU(3,I)*PVOLU(I)
                 ENDDO
              ELSE
 C BRICK OR TETRAEDRA
                 DO J=1,8
                  JJ=BRNA(J,II)
-                 VOLA(JJ)=VOLA(JJ)+UNHUIT*PVOLU(I)
-                 PA(JJ)=PA(JJ)+UNHUIT*PPOLH(I)*PVOLU(I)
-                 RHOA(JJ)=RHOA(JJ)+UNHUIT*RPOLH(I)*PVOLU(I)
-                 TKA(JJ)=TKA(JJ)+UNHUIT*TEMP*PVOLU(I)
-                 SSPKA(JJ)=SSPKA(JJ)+UNHUIT*SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*PVOLU(I)
-                 UA(1,JJ)=UA(1,JJ)+UNHUIT*PU(1,I)*PVOLU(I)
-                 UA(2,JJ)=UA(2,JJ)+UNHUIT*PU(2,I)*PVOLU(I)
-                 UA(3,JJ)=UA(3,JJ)+UNHUIT*PU(3,I)*PVOLU(I)
+                 VOLA(JJ)=VOLA(JJ)+ONE_OVER_8*PVOLU(I)
+                 PA(JJ)=PA(JJ)+ONE_OVER_8*PPOLH(I)*PVOLU(I)
+                 RHOA(JJ)=RHOA(JJ)+ONE_OVER_8*RPOLH(I)*PVOLU(I)
+                 TKA(JJ)=TKA(JJ)+ONE_OVER_8*TEMP*PVOLU(I)
+                 SSPKA(JJ)=SSPKA(JJ)+ONE_OVER_8*SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*PVOLU(I)
+                 UA(1,JJ)=UA(1,JJ)+ONE_OVER_8*PU(1,I)*PVOLU(I)
+                 UA(2,JJ)=UA(2,JJ)+ONE_OVER_8*PU(2,I)*PVOLU(I)
+                 UA(3,JJ)=UA(3,JJ)+ONE_OVER_8*PU(3,I)*PVOLU(I)
                 ENDDO
              ENDIF
            ENDIF
@@ -1853,7 +1853,7 @@ C
          IF(ITTF.EQ.11.OR.ITTF.EQ.12.OR.ITTF.EQ.13) THEN
           IF (IDEF.EQ.0.AND.PM_VENT(IVENT).GT.PDEF+PEXT
      .                 .AND.DTPDEFC.GT.DTPDEFI
-     .                 .AND.VOLPH.GT.EM3*AREAP**TDEMI
+     .                 .AND.VOLPH.GT.EM3*AREAP**THREE_HALF
      .                 .AND.TT.LT.TSTOPE+TTF) THEN
             IDEF=1
             WRITE(IOUT,'(A)')
@@ -1882,7 +1882,7 @@ C
          ELSE IF(ITTF.EQ.0) THEN
           IF (IDEF.EQ.0.AND.PM_VENT(IVENT).GT.PDEF+PEXT
      .                 .AND.DTPDEFC.GT.DTPDEFI
-     .                 .AND.VOLPH.GT.EM3*AREAP**TDEMI
+     .                 .AND.VOLPH.GT.EM3*AREAP**THREE_HALF
      .                 .AND.TT.LT.TSTOPE) THEN
             IDEF=1
             WRITE(IOUT,'(A)')
@@ -1930,15 +1930,15 @@ C
          ELSE
            FF=FEL(IEL)
          ENDIF
-         FVSPMD(IFV)%AAA(1,N1)=FVSPMD(IFV)%AAA(1,N1)+TIERS*FF*NRX
-         FVSPMD(IFV)%AAA(2,N1)=FVSPMD(IFV)%AAA(2,N1)+TIERS*FF*NRY
-         FVSPMD(IFV)%AAA(3,N1)=FVSPMD(IFV)%AAA(3,N1)+TIERS*FF*NRZ
-         FVSPMD(IFV)%AAA(1,N2)=FVSPMD(IFV)%AAA(1,N2)+TIERS*FF*NRX
-         FVSPMD(IFV)%AAA(2,N2)=FVSPMD(IFV)%AAA(2,N2)+TIERS*FF*NRY
-         FVSPMD(IFV)%AAA(3,N2)=FVSPMD(IFV)%AAA(3,N2)+TIERS*FF*NRZ
-         FVSPMD(IFV)%AAA(1,N3)=FVSPMD(IFV)%AAA(1,N3)+TIERS*FF*NRX
-         FVSPMD(IFV)%AAA(2,N3)=FVSPMD(IFV)%AAA(2,N3)+TIERS*FF*NRY
-         FVSPMD(IFV)%AAA(3,N3)=FVSPMD(IFV)%AAA(3,N3)+TIERS*FF*NRZ
+         FVSPMD(IFV)%AAA(1,N1)=FVSPMD(IFV)%AAA(1,N1)+THIRD*FF*NRX
+         FVSPMD(IFV)%AAA(2,N1)=FVSPMD(IFV)%AAA(2,N1)+THIRD*FF*NRY
+         FVSPMD(IFV)%AAA(3,N1)=FVSPMD(IFV)%AAA(3,N1)+THIRD*FF*NRZ
+         FVSPMD(IFV)%AAA(1,N2)=FVSPMD(IFV)%AAA(1,N2)+THIRD*FF*NRX
+         FVSPMD(IFV)%AAA(2,N2)=FVSPMD(IFV)%AAA(2,N2)+THIRD*FF*NRY
+         FVSPMD(IFV)%AAA(3,N2)=FVSPMD(IFV)%AAA(3,N2)+THIRD*FF*NRZ
+         FVSPMD(IFV)%AAA(1,N3)=FVSPMD(IFV)%AAA(1,N3)+THIRD*FF*NRX
+         FVSPMD(IFV)%AAA(2,N3)=FVSPMD(IFV)%AAA(2,N3)+THIRD*FF*NRY
+         FVSPMD(IFV)%AAA(3,N3)=FVSPMD(IFV)%AAA(3,N3)+THIRD*FF*NRZ
 C
          TFEXT=TFEXT+FF*VEL(IEL)*DT1
        ENDDO

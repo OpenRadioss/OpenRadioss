@@ -173,8 +173,8 @@ C-----------------------------------------------
       PFAR   = ZERO
       VIS    = ZERO
       VISV   = ZERO
-      FAC_UNIT_SPH = UN
-      FAC_UNIT_TIME = UN
+      FAC_UNIT_SPH = ONE
+      FAC_UNIT_TIME = ONE
       !----------------!
       AV(1:4)=ZERO
       RHO0_(1:4)=ZERO
@@ -538,9 +538,9 @@ C-----------------------------------------------
      .        VISV   , IS_CRYPTED,LSUBMODEL,  UNITAB)
         CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('DAMP1' ,FAC_UNIT_SPH   ,1 ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !Shear Modulus for DPRAG input
-        IF(GG(1)==ZERO.AND.IPLA(1)==2)GG(1)=Y(1)/DEUX/(UN+NU(1))
-        IF(GG(2)==ZERO.AND.IPLA(2)==2)GG(2)=Y(2)/DEUX/(UN+NU(2))
-        IF(GG(3)==ZERO.AND.IPLA(3)==2)GG(3)=Y(3)/DEUX/(UN+NU(3))
+        IF(GG(1)==ZERO.AND.IPLA(1)==2)GG(1)=Y(1)/TWO/(ONE+NU(1))
+        IF(GG(2)==ZERO.AND.IPLA(2)==2)GG(2)=Y(2)/TWO/(ONE+NU(2))
+        IF(GG(3)==ZERO.AND.IPLA(3)==2)GG(3)=Y(3)/TWO/(ONE+NU(3))
         !Plasticity flags
         IPLA_=0
         IF(GG(1)+GG(2)+GG(3) /= ZERO)THEN
@@ -579,7 +579,7 @@ C-----------------------------------------------
      .                    C2=chain1)
         ENDIF
         DO I=1,MIP
-          IF(tAV(I) < ZERO .OR. tAV(I) > UN)THEN
+          IF(tAV(I).LT.ZERO .OR. tAV(I).GT.ONE)THEN
               chain(1:20)='                    '
               write(chain(1:20),'(e20.14)')tAV(I)
               chain1='VOLUME FRACTION MUST BE BETWEEN 0.0 AND 1.0 , READ VALUE IS '// chain(1:20)
@@ -604,7 +604,7 @@ C-----------------------------------------------
           ENDIF
         ENDDO
         SUMVF = SUM(tAV(1:4))
-        IF(SUMVF > UN)THEN
+        IF(SUMVF.GT.ONE)THEN
             chain(1:20)='                    '
             write(chain(1:20),'(F20.8)')SUMVF
             chain1='SUM OF VOLUME FRACTION MUST BE EQUAL TO 1.0, CURRENT SUM IS '// chain(1:20)
@@ -630,9 +630,9 @@ C-----------------------------------------------
       END SELECT
       !============================!
       ! PLASTICITY DEFAULT         !
-      !============================!
-      IF(RATIO  <= ZERO)THEN
-        RATIO = 0.25D00   !UN is for previous formulation (permitted large volume change)
+      !============================! 
+      IF(RATIO.LE.ZERO)THEN
+        RATIO = 0.25D00   !ONE is for previous formulation (permitted large volume change)
       ENDIF
       IF(IPLA_>0)THEN
         MTAG%G_EPSD  = 1
@@ -659,18 +659,18 @@ C-----------------------------------------------
           MTAG%L_BFRAC = 1
       ENDIF
       DO I=1,3
-        IF(IPLA(I) == 2)THEN
-          IF(A2(I) == ZERO .AND. A1(I) /= ZERO)THEN   !(A21=A11=ZERO => error message)
-            PSTAR(I)=-A0(I)/A1(I)
-          ELSEIF(A2(I) /= ZERO)THEN
-            DELTA = A1(I)*A1(I)-QUATRE*A0(I)*A2(I)
+        IF(IPLA(I) == 2)THEN 
+          IF(A2(I)==ZERO.AND.A1(I)/=ZERO)THEN   !(A21=A11=ZERO => error message)
+            PSTAR(I)=-A0(I)/A1(I) 
+          ELSEIF(A2(I).NE.ZERO)THEN
+            DELTA = A1(I)*A1(I)-FOUR*A0(I)*A2(I)
             !Si intersection avec l'axe
             IF(DELTA  >=  ZERO)THEN
               DELTA=SQRT(DELTA)
-              PSTAR(I) = (-A1(I)+DELTA)/DEUX/A2(I)
-
+              PSTAR(I) = (-A1(I)+DELTA)/TWO/A2(I)
+            
             ELSE
-            !  PSTAR(I) = -A1(I)/DEUX/A2(I) !no let user do what he wants
+            !  PSTAR(I) = -A1(I)/TWO/A2(I) !no let user do what he wants 
               PSTAR(I) = -INFINITY
               chain='SUBMAT-0 : YIELD SURFACE HAS NO ROOT.                          '
               write(chain(8:8),'(i1.1)')I
@@ -699,16 +699,16 @@ C     !============================!
         ELSE
           N_LC=1000
         ENDIF
-      ENDIF
-      IF(ABCS == ZERO) ABCS=  UN*FAC_UNIT_TIME
-      PMIN = -PEXT
+      ENDIF       
+      IF(ABCS.EQ.ZERO) ABCS=  ONE*FAC_UNIT_TIME
+      PMIN = -PEXT  
       DO I=1,4
         ! RhoCp
-        IF(SPH(I) == ZERO) SPH(I) = UN * FAC_UNIT_SPH
+        IF(SPH(I) == ZERO) SPH(I) = ONE * FAC_UNIT_SPH
         !JCook exponent
-        IF(N(I) == ZERO) N(I) = UN
+        IF(N(I) == ZERO) N(I) = ONE
         !Initial Temperature
-        IF(T0(I) == ZERO) T0(I) = TROIS100
+        IF(T0(I) == ZERO) T0(I) = THREE100
         !MAximum plastic Strain
         IF(PLAMX(I) == ZERO) PLAMX(I) = INFINITY
         !Maximum Stress
@@ -720,7 +720,7 @@ C     !============================!
         !Thermal condictivity
         IF(XKA(I) == ZERO)  XKA(I) = EM20
         !Johnson-Cook parameters
-        IF(EPDR(I) == ZERO)  EPDR(I) = UN
+        IF(EPDR(I) == ZERO)  EPDR(I) = ONE
         !Drucker-Prager maximum values
         IF(AMX(I) == ZERO)  AMX(I) = INFINITY
         !Drucker-Prager Poisson's coefficient
@@ -733,11 +733,11 @@ C     !============================!
           IF(C2(I) == ZERO)THEN
            MUMX(I)=INFINITY
           ELSE
-           MUMX(I)=(BUNL(I)-C1(I))/(DEUX*C2(I))
+           MUMX(I)=(BUNL(I)-C1(I))/(TWO*C2(I))
           ENDIF
          ELSE
-          DET=SQRT(C2(I)**2 + TROIS*C3(I)*(BUNL(I)-C1(I)))
-           MUMX(I)=(DET-C2(I))/(TROIS*C3(I))
+          DET=SQRT(C2(I)**2 + THREE*C3(I)*(BUNL(I)-C1(I)))
+           MUMX(I)=(DET-C2(I))/(THREE*C3(I))
          ENDIF
         ENDIF
       ENDDO
@@ -812,17 +812,17 @@ C     !============================!
       IF(IFLG == 0 .OR. IFLG == 1)THEN
         DO I=1,3
           P0(I)    = C0(I)+C4(I)*E0(I)
-          DPDMU(I) = (C1(I)+C5(I)*E0(I)) + C4(I)*(PEXT+P0(I))
-          IF(RHO0_(I) /=  ZERO) SSP(I)  = SQRT( (DPDMU(I) + DTIERS*GG(I)) / RHO0_(I) )   !achtung GG = 2*G   =>  DTIERS*GG = QTIERS*G
+          DPDMU(I) = (C1(I)+C5(I)*E0(I)) + C4(I)*(PEXT+P0(I)) 
+          IF(RHO0_(I) .NE. ZERO) SSP(I)  = SQRT( (DPDMU(I) + TWO_THIRD*GG(I)) / RHO0_(I) )   !achtung GG = 2*G   =>  TWO_THIRD*GG = FOUR_OVER_3*G
         ENDDO
         P0(4)  = C0(4)
         SSP(4) = VDET
       ENDIF
       !============================!
       ! Output through UPARAM(*)   !
-      !============================!
-      UPARAM(1)  = VIS
-      UPARAM(2)  = DEUX*VIS
+      !============================! 
+      UPARAM(1)  = VIS   
+      UPARAM(2)  = TWO*VIS
       UPARAM(3)  = (VISV-UPARAM(2))*THIRD
       UPARAM(4)  = AV(1)
       UPARAM(5)  = AV(2)
@@ -854,9 +854,9 @@ C     !============================!
         UPARAM(25) = C5(1)
         UPARAM(26) = C5(2)
         UPARAM(27) = C5(3)
-        UPARAM(28) = DEUX*GG(1)
-        UPARAM(29) = DEUX*GG(2)
-        UPARAM(30) = DEUX*GG(3)
+        UPARAM(28) = TWO*GG(1)
+        UPARAM(29) = TWO*GG(2)
+        UPARAM(30) = TWO*GG(3)
         UPARAM(31) = IFLG
         UPARAM(32) = E0(1)
         UPARAM(33) = E0(2)
@@ -875,7 +875,7 @@ C     !============================!
         ELSE
           UPARAM(44) = INFINITY
         END IF
-        VCJ   = UN - UN/UPARAM(44)
+        VCJ   = ONE - ONE/UPARAM(44)
         IF(RHO0_(4)==ZERO) UPARAM(47) = EM20 !RHO0_(4)
         UPARAM(48) = E0(4)
         UPARAM(49) = C0(4)
@@ -890,9 +890,9 @@ C     !============================!
         UPARAM(57) = EINF(1)
         UPARAM(58) = EINF(2)
         UPARAM(59) = EINF(3)
-        UPARAM(60) = EINF(4)
-        UPARAM(61) = IOPT
-        UPARAM(62) = UN/N_LC
+        UPARAM(60) = EINF(4)               
+        UPARAM(61) = IOPT  
+        UPARAM(62) = ONE/N_LC
         UPARAM(63) = IPLA_
         UPARAM(64) = IPLA(1)
         UPARAM(65) = IPLA(2)
@@ -1077,12 +1077,12 @@ C     !============================!
         !============================!
         IF(NITER  /= 10)THEN
           WRITE(IOUT,901)NITER
-        ENDIF
-      ENDIF
-
-      PM(38)=VDET
-      IF(IFLG == 12)RHO0=UN
-      IF(RHOR == ZERO)RHOR=RHO0
+        ENDIF   
+      ENDIF  
+      
+      PM(38)=VDET    
+      IF(IFLG.EQ.12)RHO0=ONE    
+      IF(RHOR.EQ.ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0
       PM(91)=MAXVAL(RHO0_(1:4))

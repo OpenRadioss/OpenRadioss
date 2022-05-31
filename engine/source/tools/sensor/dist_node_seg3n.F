@@ -95,12 +95,12 @@ c
       SX = QA_Y * QB_Z - QA_Z * QB_Y
       SY = QA_Z * QB_X - QA_X * QB_Z
       SZ = QA_X * QB_Y - QA_Y * QB_X
-      A1 = SQRT(SX*SX + SY*SY + SZ*SZ) * UNDEMI
+      A1 = SQRT(SX*SX + SY*SY + SZ*SZ) * HALF
       SX = QC_Y * QA_Z - QC_Z * QA_Y
       SY = QC_Z * QA_X - QC_X * QA_Z
       SZ = QC_X * QA_Y - QC_Y * QA_X
-      A2 = SQRT(SX*SX + SY*SY + SZ*SZ) * UNDEMI
-      AREA = UNDEMI*NORM   ! total segment area
+      A2 = SQRT(SX*SX + SY*SY + SZ*SZ) * HALF
+      AREA = HALF*NORM   ! total segment area
 c
       IF (A1 + A2 > AREA) THEN
         ! Point projection on plane is outside the segment
@@ -119,7 +119,7 @@ c
         ! calculate distance to edges
         LEN   = SQRT(ABX**2 + ABY**2 + ABZ**2)
         ALPHA = (UX*ABX + UY*ABY + UZ*ABZ) / LEN
-        IF (ALPHA > 0 .and. ALPHA < UN) THEN
+        IF (ALPHA > 0 .and. ALPHA < ONE) THEN
           QX = AX + ALPHA * ABX
           QY = AY + ALPHA * ABY
           QZ = AZ + ALPHA * ABZ
@@ -129,7 +129,7 @@ c
 c
         LEN   = SQRT(BCX**2 + BCY**2 + BCZ**2)
         ALPHA = (VX*BCX + VY*BCY + VZ*BCZ) / LEN
-        IF (ALPHA > 0 .and. ALPHA < UN) THEN
+        IF (ALPHA > 0 .and. ALPHA < ONE) THEN
           QX = BX + ALPHA * BCX
           QY = BY + ALPHA * BCY
           QZ = BZ + ALPHA * BCZ
@@ -139,7 +139,7 @@ c
 c
         LEN   = SQRT(ACX**2 + ACY**2 + ACZ**2)
         ALPHA = (UX*ACX + UY*ACY + UZ*ACZ) / LEN
-        IF (ALPHA > 0 .and. ALPHA < UN) THEN
+        IF (ALPHA > 0 .and. ALPHA < ONE) THEN
           QX = AX + ALPHA * ACX
           QY = AY + ALPHA * ACY
           QZ = AZ + ALPHA * ACZ

@@ -54,7 +54,7 @@ C-----------------------------------------------
       my_real
      .        GET_U_GEO
 C-----------------------------------------------
-      SQ2 = SQRT(DEUX)
+      SQ2 = SQRT(TWO)
       DO N = 1, NUMSPH
         IPRT=IPARTSP(N)
         IMAT=IPART(1,IPRT)

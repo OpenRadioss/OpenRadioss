@@ -177,32 +177,32 @@ c
         XSCALES = UPARAM(34)
         YSCALES = UPARAM(35)
         ASRATE  = UPARAM(36)
-        ASRATE  = (DEUX*PI*ASRATE*TIMESTEP)/(DEUX*PI*ASRATE*TIMESTEP + UN)
+        ASRATE  = (TWO*PI*ASRATE*TIMESTEP)/(TWO*PI*ASRATE*TIMESTEP + ONE)
         ISMOOTH = INT(UPARAM(37))
       ENDIF
 c
       ! Yield planes normal
-      N1(1)   = UN/(SQRT(UN+NU1P**2))
-      N1(2)   = -NU1P/(SQRT(UN+NU1P**2))
-      N2(1)   = -NU2P/(SQRT(UN+NU2P**2))
-      N2(2)   = UN/(SQRT(UN+NU2P**2))
-      N3      = UN ! SQRT(2)
-      N4(1)   = -UN/(SQRT(UN+NU4P**2))
-      N4(2)   = NU4P/(SQRT(UN+NU4P**2))
-      N5(1)   = NU5P/(SQRT(UN+NU5P**2))
-      N5(2)   = -UN/(SQRT(UN+NU5P**2))
-      N6      = -UN ! -SQRT(2)
+      N1(1)   = ONE/(SQRT(ONE+NU1P**2))
+      N1(2)   = -NU1P/(SQRT(ONE+NU1P**2))
+      N2(1)   = -NU2P/(SQRT(ONE+NU2P**2))
+      N2(2)   = ONE/(SQRT(ONE+NU2P**2))
+      N3      = ONE ! SQRT(2)
+      N4(1)   = -ONE/(SQRT(ONE+NU4P**2))
+      N4(2)   = NU4P/(SQRT(ONE+NU4P**2))
+      N5(1)   = NU5P/(SQRT(ONE+NU5P**2))
+      N5(2)   = -ONE/(SQRT(ONE+NU5P**2))
+      N6      = -ONE ! -SQRT(2)
 c      
       ! Recovering internal variables
       DO I=1,NEL
         ! OFF parameter for element deletion
         IF (OFF(I) < 0.1) OFF(I) = ZERO
-        IF (OFF(I) < UN)  OFF(I) = OFF(I)*QCINQ
+        IF (OFF(I) < ONE)  OFF(I) = OFF(I)*FOUR_OVER_5
         ! Standard inputs
         DPLA(I)  = ZERO      ! Initialization of the "global" plastic strain increment
         DPLA2(I) = ZERO      ! Initialization of the in-plane plastic strain increment
         DPLA4(I) = ZERO      ! Initialization of the transverse shear plastic strain increment
-        ET(I)    = UN        ! Initialization of hourglass coefficient
+        ET(I)    = ONE        ! Initialization of hourglass coefficient
         HARDP(I) = ZERO      ! Initialization of hourglass coefficient
       ENDDO
 c      
@@ -296,12 +296,12 @@ c
         KHI4(I) = ZERO
         KHI5(I) = ZERO
         KHI6(I) = ZERO
-        IF ((N1(1)*SIGNXX(I)+N1(2)*SIGNYY(I)) > ZERO)  KHI1(I) = UN
-        IF ((N2(1)*SIGNXX(I)+N2(2)*SIGNYY(I)) > ZERO)  KHI2(I) = UN       
-        IF (N3*SIGNXY(I) > ZERO)                       KHI3(I) = UN         
-        IF ((N4(1)*SIGNXX(I)+N4(2)*SIGNYY(I)) > ZERO)  KHI4(I) = UN
-        IF ((N5(1)*SIGNXX(I)+N5(2)*SIGNYY(I)) > ZERO)  KHI5(I) = UN
-        IF (N6*SIGNXY(I) > ZERO)                       KHI6(I) = UN
+        IF ((N1(1)*SIGNXX(I)+N1(2)*SIGNYY(I)) > ZERO)  KHI1(I) = ONE
+        IF ((N2(1)*SIGNXX(I)+N2(2)*SIGNYY(I)) > ZERO)  KHI2(I) = ONE       
+        IF (N3*SIGNXY(I) > ZERO)                       KHI3(I) = ONE         
+        IF ((N4(1)*SIGNXX(I)+N4(2)*SIGNYY(I)) > ZERO)  KHI4(I) = ONE
+        IF ((N5(1)*SIGNXX(I)+N5(2)*SIGNYY(I)) > ZERO)  KHI5(I) = ONE
+        IF (N6*SIGNXY(I) > ZERO)                       KHI6(I) = ONE
 c
         ! Computation of the yield function
         GAM1(I) = (N1(1)*SIGNXX(I)+N1(2)*SIGNYY(I))/SIGY1(I)
@@ -312,10 +312,10 @@ c
         GAM6(I) = N6*SIGNXY(I)/SIGY3(I)
         PHI(I)  = KHI1(I)*GAM1(I)**DEUXK + KHI2(I)*GAM2(I)**DEUXK +  
      .            KHI3(I)*GAM3(I)**DEUXK + KHI4(I)*GAM4(I)**DEUXK + 
-     .            KHI5(I)*GAM5(I)**DEUXK + KHI6(I)*GAM6(I)**DEUXK - UN
+     .            KHI5(I)*GAM5(I)**DEUXK + KHI6(I)*GAM6(I)**DEUXK - ONE
 c
         ! Computation of the transverse shear yield function
-        PSI(I) = (SQRT(SIGNYZ(I)**2 + SIGNZX(I)**2)/(SIGYS(I))) - UN
+        PSI(I) = (SQRT(SIGNYZ(I)**2 + SIGNZX(I)**2)/(SIGYS(I))) - ONE
 c
       ENDDO
 c
@@ -328,12 +328,12 @@ c
       NINDX2 = 0
       DO I=1,NEL   
         ! In plane
-        IF (PHI(I) > ZERO .AND. OFF(I) == UN) THEN
+        IF (PHI(I) > ZERO .AND. OFF(I) == ONE) THEN
           NINDX=NINDX+1
           INDEX(NINDX)=I
         ENDIF
         ! Transverse shear
-        IF (PSI(I) > ZERO .AND. OFF(I) == UN) THEN
+        IF (PSI(I) > ZERO .AND. OFF(I) == ONE) THEN
           NINDX2=NINDX2+1
           INDEX2(NINDX2)=I
         ENDIF
@@ -375,12 +375,12 @@ c
      .             DEUXK*KHI2(I)*(GAM2(I)**(DEUXK-1))*(N2(2)/SIGY2(I)) +     
      .             DEUXK*KHI4(I)*(GAM4(I)**(DEUXK-1))*(N4(2)/SIGY4(I)) + 
      .             DEUXK*KHI5(I)*(GAM5(I)**(DEUXK-1))*(N5(2)/SIGY5(I))
-          NORMXY = DEUXK/DEUX*KHI3(I)*(GAM3(I)**(DEUXK-1))*(N3/SIGY3(I)) +
-     .             DEUXK/DEUX*KHI6(I)*(GAM6(I)**(DEUXK-1))*(N6/SIGY3(I))
+          NORMXY = DEUXK/TWO*KHI3(I)*(GAM3(I)**(DEUXK-1))*(N3/SIGY3(I)) +
+     .             DEUXK/TWO*KHI6(I)*(GAM6(I)**(DEUXK-1))*(N6/SIGY3(I))
 c
           ! Normalization of the derivatives
           !  - in-plane normal
-          NORMSIG = SQRT(NORMXX**2 + NORMYY**2 + DEUX*NORMXY**2)
+          NORMSIG = SQRT(NORMXX**2 + NORMYY**2 + TWO*NORMXY**2)
           NORMSIG = MAX(NORMSIG,EM20)
           NORMPXX  = NORMXX/NORMSIG
           NORMPYY  = NORMYY/NORMSIG
@@ -393,7 +393,7 @@ c
           !   --------------------------------------------------------
           DFDSIG2 = NORMXX * (A11*NORMPXX + A12*NORMPYY)
      .            + NORMYY * (A21*NORMPXX + A22*NORMPYY)
-     .            + DEUX*NORMXY * DEUX*NORMPXY * G12
+     .            + TWO*NORMXY * TWO*NORMPXY * G12
 c     
           !   b) Derivatives with respect to hardening parameters 
           !   ---------------------------------------------------
@@ -407,15 +407,15 @@ c
           DPHI_DSIGY5 = DEUXK*KHI5(I)*(GAM5(I)**(DEUXK-1))*(-(N5(1)*SIGNXX(I)+N5(2)*SIGNYY(I))/(SIGY5(I)**2))
           !     ii) Derivatives of yield stresses with respect to hardening parameters
           IF (ITAB == 0) THEN 
-            DSIGY1_DP(I) = A01*B01*(UN-(TANH(B01*PLA(I,2)))**2) + C01
-            DSIGY2_DP(I) = A02*B02*(UN-(TANH(B02*PLA(I,2)))**2) + C02
-            DSIGY3_DP(I) = A03*B03*(UN-(TANH(B03*PLA(I,2)))**2) + C03
-            DSIGY4_DP(I) = A04*B04*(UN-(TANH(B04*PLA(I,2)))**2) + C04
-            DSIGY5_DP(I) = A05*B05*(UN-(TANH(B05*PLA(I,2)))**2) + C05
+            DSIGY1_DP(I) = A01*B01*(ONE-(TANH(B01*PLA(I,2)))**2) + C01
+            DSIGY2_DP(I) = A02*B02*(ONE-(TANH(B02*PLA(I,2)))**2) + C02
+            DSIGY3_DP(I) = A03*B03*(ONE-(TANH(B03*PLA(I,2)))**2) + C03
+            DSIGY4_DP(I) = A04*B04*(ONE-(TANH(B04*PLA(I,2)))**2) + C04
+            DSIGY5_DP(I) = A05*B05*(ONE-(TANH(B05*PLA(I,2)))**2) + C05
           ENDIF
           !     iii) Assembling derivatives of PHI with respect to hardening parameter
           HARDP(I)    = SQRT(DSIGY1_DP(I)**2      + DSIGY2_DP(I)**2 + 
-     .                       DEUX*DSIGY3_DP(I)**2 + DSIGY4_DP(I)**2 + 
+     .                       TWO*DSIGY3_DP(I)**2 + DSIGY4_DP(I)**2 + 
      .                       DSIGY5_DP(I)**2)
           DPHI_DPLA   = DPHI_DSIGY1*DSIGY1_DP(I) + DPHI_DSIGY2*DSIGY2_DP(I) + 
      .                  DPHI_DSIGY3*DSIGY3_DP(I) + DPHI_DSIGY4*DSIGY4_DP(I) +
@@ -434,7 +434,7 @@ c
 	  !   b) Plastic strains tensor update
           DPXX = DLAM * NORMPXX
           DPYY = DLAM * NORMPYY
-          DPXY = DEUX * DLAM * NORMPXY 
+          DPXY = TWO * DLAM * NORMPXY 
 c        
           !   c) Elasto-plastic stresses update   
           SIGNXX(I) = SIGNXX(I) - (A11*DPXX + A12*DPYY)
@@ -467,12 +467,12 @@ c
           KHI4(I) = ZERO
           KHI5(I) = ZERO
           KHI6(I) = ZERO
-          IF ((N1(1)*SIGNXX(I)+N1(2)*SIGNYY(I)) > ZERO)  KHI1(I) = UN
-          IF ((N2(1)*SIGNXX(I)+N2(2)*SIGNYY(I)) > ZERO)  KHI2(I) = UN       
-          IF (N3*SIGNXY(I) > ZERO)                       KHI3(I) = UN         
-          IF ((N4(1)*SIGNXX(I)+N4(2)*SIGNYY(I)) > ZERO)  KHI4(I) = UN
-          IF ((N5(1)*SIGNXX(I)+N5(2)*SIGNYY(I)) > ZERO)  KHI5(I) = UN
-          IF (N6*SIGNXY(I) > ZERO)                       KHI6(I) = UN
+          IF ((N1(1)*SIGNXX(I)+N1(2)*SIGNYY(I)) > ZERO)  KHI1(I) = ONE
+          IF ((N2(1)*SIGNXX(I)+N2(2)*SIGNYY(I)) > ZERO)  KHI2(I) = ONE       
+          IF (N3*SIGNXY(I) > ZERO)                       KHI3(I) = ONE         
+          IF ((N4(1)*SIGNXX(I)+N4(2)*SIGNYY(I)) > ZERO)  KHI4(I) = ONE
+          IF ((N5(1)*SIGNXX(I)+N5(2)*SIGNYY(I)) > ZERO)  KHI5(I) = ONE
+          IF (N6*SIGNXY(I) > ZERO)                       KHI6(I) = ONE
 c
           !  j) Yield function value update
           IF (ITAB == 0) THEN 
@@ -484,7 +484,7 @@ c
             GAM6(I) = N6*SIGNXY(I)/SIGY3(I)
             PHI(I)  = KHI1(I)*GAM1(I)**DEUXK + KHI2(I)*GAM2(I)**DEUXK +  
      .                KHI3(I)*GAM3(I)**DEUXK + KHI4(I)*GAM4(I)**DEUXK + 
-     .                KHI5(I)*GAM5(I)**DEUXK + KHI6(I)*GAM6(I)**DEUXK - UN
+     .                KHI5(I)*GAM5(I)**DEUXK + KHI6(I)*GAM6(I)**DEUXK - ONE
          ENDIF
 c             
         ENDDO
@@ -545,7 +545,7 @@ c
               GAM6(I) = N6*SIGNXY(I)/SIGY3(I)
               PHI(I)  = KHI1(I)*GAM1(I)**DEUXK + KHI2(I)*GAM2(I)**DEUXK +  
      .                  KHI3(I)*GAM3(I)**DEUXK + KHI4(I)*GAM4(I)**DEUXK + 
-     .                  KHI5(I)*GAM5(I)**DEUXK + KHI6(I)*GAM6(I)**DEUXK - UN 
+     .                  KHI5(I)*GAM5(I)**DEUXK + KHI6(I)*GAM6(I)**DEUXK - ONE 
             ENDDO
           ENDIF
         ENDIF
@@ -588,8 +588,8 @@ c
 c        
           !   a) Derivative with respect stress increments tensor DSIG
           !   --------------------------------------------------------
-          DFDSIG2 = DEUX*NORMYZ * G23*SHF(I) * DEUX*NORMYZ +
-     .              DEUX*NORMZX * G31*SHF(I) * DEUX*NORMZX
+          DFDSIG2 = TWO*NORMYZ * G23*SHF(I) * TWO*NORMYZ +
+     .              TWO*NORMZX * G31*SHF(I) * TWO*NORMZX
 c     
           !   b) Derivatives with respect to hardening parameters 
           !   ---------------------------------------------------
@@ -612,8 +612,8 @@ c
           DLAM = - PSI(I) / DPSI_DLAM
 c        
 	  !   b) Plastic strains tensor update
-          DPYZ = DEUX*DLAM * NORMYZ
-          DPZX = DEUX*DLAM * NORMZX
+          DPYZ = TWO*DLAM * NORMYZ
+          DPZX = TWO*DLAM * NORMZX
 c        
           !   c) Elasto-plastic stresses update   
           SIGNYZ(I) = SIGNYZ(I) - G23*SHF(I)*DPYZ
@@ -628,7 +628,7 @@ c
             ! Transverse shear yield stress
             SIGYS(I) = TAU0 + ATAU*PLA(I,4)
             !  i) Yield function value update
-            PSI(I) = (SQRT(SIGNYZ(I)**2 + SIGNZX(I)**2)/SIGYS(I)) - UN
+            PSI(I) = (SQRT(SIGNYZ(I)**2 + SIGNZX(I)**2)/SIGYS(I)) - ONE
           ENDIF
 c             
         ENDDO
@@ -649,7 +649,7 @@ c
             VARTMP(1:NEL,7) = IPOS(1:NEL,1)
             ! Yield function value update
             DO I = 1,NEL
-              PSI(I) = (SQRT(SIGNYZ(I)**2 + SIGNZX(I)**2)/SIGYS(I)) - UN
+              PSI(I) = (SQRT(SIGNYZ(I)**2 + SIGNZX(I)**2)/SIGYS(I)) - ONE
             ENDDO
           ENDIF
         ENDIF
@@ -673,11 +673,11 @@ c
           EPSD(I,4) = DPLA4(I) / MAX(EM20,TIMESTEP)
         ELSE 
           DPDT      = DPLA(I)/MAX(EM20,TIMESTEP)
-          EPSD(I,1) = ASRATE * DPDT + (UN - ASRATE) * EPSD(I,1)
+          EPSD(I,1) = ASRATE * DPDT + (ONE - ASRATE) * EPSD(I,1)
           DPDT      = DPLA2(I)/MAX(EM20,TIMESTEP)
-          EPSD(I,2) = ASRATE * DPDT + (UN - ASRATE) * EPSD(I,2)
+          EPSD(I,2) = ASRATE * DPDT + (ONE - ASRATE) * EPSD(I,2)
           DPDT      = DPLA4(I)/MAX(EM20,TIMESTEP)
-          EPSD(I,4) = ASRATE * DPDT + (UN - ASRATE) * EPSD(I,4)
+          EPSD(I,4) = ASRATE * DPDT + (ONE - ASRATE) * EPSD(I,4)
         ENDIF
         ! Coefficient for hourglass
         ET(I)  = HARDP(I) / (HARDP(I) + MAX(YOUNG1,YOUNG2))  
@@ -685,7 +685,7 @@ c
         SOUNDSP(I) = SQRT(MAX(A11,A12,A21,A22,G12,G23,G31)/ RHO(I))
         ! Storing the yield stress
         SIGY(I) = SQRT(SIGY1(I)**2 + SIGY2(I)**2      + SIGY4(I)**2 + 
-     .                 SIGY5(I)**2 + DEUX*SIGY3(I)**2 + DEUX*SIGYS(I)**2)
+     .                 SIGY5(I)**2 + TWO*SIGY3(I)**2 + TWO*SIGYS(I)**2)
       ENDDO
 c
       END

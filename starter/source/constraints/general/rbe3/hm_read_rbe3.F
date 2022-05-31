@@ -205,7 +205,7 @@ C------- error out
          CALL HM_GET_INT_ARRAY_INDEX('rz',J6(6),J,IS_AVAILABLE,LSUBMODEL)
          CALL HM_GET_INT_ARRAY_INDEX('SKEW_ARRAY',ISK,J,IS_AVAILABLE,LSUBMODEL)
          CALL HM_GET_INT_ARRAY_INDEX('independentnodesets',INGU,J,IS_AVAILABLE,LSUBMODEL)
-         IF (W.EQ.ZERO.OR.IMODIF.EQ.3) W=UN
+         IF (W.EQ.ZERO.OR.IMODIF.EQ.3) W=ONE
          NM = 0
          IF(INGU > 0) THEN
           CALL C_HASH_FIND(GRNOD_UID,INGU,IGM) 
@@ -821,7 +821,7 @@ C
 C
       IF (IERR .GT. 0) GOTO 999
 C
-      IF (IROT.EQ.0 .AND.(SMAX/SMIN).GT.TRENTE) IERR = -100
+      IF (IROT.EQ.0 .AND.(SMAX/SMIN).GT.THIRTY) IERR = -100
 C     CALCULATE 3 FORCE DISTRIBUTIONS THAT CREATE NET X, Y AND Z FORCES
 C     OF 1 (BESIDES OTHER NONZERO FORCES/MOMENTS IN ALL THE DIRECTIONS)
 C
@@ -933,7 +933,7 @@ C--------------special case with Imodif
               END DO
             END DO
          END DO
-        IF (MMAX.LE.UN) THEN
+        IF (MMAX.LE.ONE) THEN
          IERR=0
         ELSE
          TMAX=ZERO
@@ -960,7 +960,7 @@ C
       IF (KDIAG .GE. 2) THEN
 c         CALL WRRINF('REF_POINT',REFPT,3)
 c         CALL WRRINF('INDPT_GRDS',INRBE3,NG)
-c      IF (SMAX/SMIN .GT. TRENTE) print *,'SMAX/SMIN=',SMAX/SMIN
+c      IF (SMAX/SMIN .GT. THIRTY) print *,'SMAX/SMIN=',SMAX/SMIN
          CALL WRRINF('TRAN_WGHTS',TW,3*NG)
          CALL WRRINF('ROT_WGHTS',RW,3*NG)
          CALL WRRINF('CGMX',CGMX,3)
@@ -1348,7 +1348,7 @@ c       !AUGMENT INPUT MATRIX WITH AN IDENTITY MATRIX
                         IF (J <= N ) THEN
                                 AUGMATRIX(I,J) = MATRIX(I,J)
                         ELSE IF ((I+N) == J) THEN
-                                AUGMATRIX(I,J) = UN
+                                AUGMATRIX(I,J) = ONE
                         ELSE
                                 AUGMATRIX(I,J) = ZERO
                         ENDIF

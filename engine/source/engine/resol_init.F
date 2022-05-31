@@ -529,9 +529,9 @@ C
         H3D_DATA%MH3D = 0
         IF(DTIN.NE.0. .AND. MCHECK.EQ.0)THEN   !go on with previous time step in case of checkpoint restart (/CHKPT)
           IF(DT2OLD.EQ.ZERO)THEN
-            DT2OLD=DTIN/UNP1
+            DT2OLD=DTIN/ONEP1
           ELSE
-            DT2OLD= MIN(DT2OLD,DTIN/UNP1)
+            DT2OLD= MIN(DT2OLD,DTIN/ONEP1)
           ENDIF
         ENDIF
 C------------------------
@@ -1201,7 +1201,7 @@ C-----------------------
        IF (NTSHEG > 0) THEN
          ALLOCATE (IENUNL(2*NTSHEG),ALPHA_DC(NUMNOD))
          IENUNL=0
-         ALPHA_DC=UN
+         ALPHA_DC=ONE
          CALL IND_TSHEDG(ELBUF_TAB  ,IENUNL, IXS ,IPARG )
          IF(NSPMD>1) THEN
           NBS = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)

@@ -558,8 +558,8 @@ C-----------
        MX = MXT(LFT)
        C1 =PM(32,MX)
        DO I=LFT,LLT
-        NU(I)=MIN(UNDEMI,PM(21,MX))
-        E0(I) =TROIS*(UN-DEUX*NU(I))*C1
+        NU(I)=MIN(HALF,PM(21,MX))
+        E0(I) =THREE*(ONE-TWO*NU(I))*C1
        ENDDO
 c------ Sigy of GBUF%SIG is not good, take the ip of min(e_ps) 
        SIGP=ZERO   
@@ -571,19 +571,19 @@ c------ Sigy of GBUF%SIG is not good, take the ip of min(e_ps)
        IF (ISELECT >1) THEN
         DO I=LFT,LLT
          IF (FAC(I)>ZERO) THEN
-         NU(I)=NU(I)+(UNDEMI-NU(I))*FAC(I)
+         NU(I)=NU(I)+(HALF-NU(I))*FAC(I)
          END IF
         ENDDO
        END IF
       ELSEIF (ICP > 0 .OR.ISELECT >1.OR.ISEL_V>0) THEN
        MX = MXT(LFT)
        DO I=LFT,LLT
-        NU(I)=MIN(UNDEMI,PM(21,MX))
+        NU(I)=MIN(HALF,PM(21,MX))
        ENDDO
       ENDIF 
       IF (ISELECT >1.OR.ISEL_V>0) THEN
        DO I=LFT,LLT
-        NU1(I) = NU(I)/(UN - NU(I))
+        NU1(I) = NU(I)/(ONE - NU(I))
        ENDDO
       ENDIF 
       CALL S8EPRST_INI(PR ,PS ,PT )
@@ -956,7 +956,7 @@ C-------------------------------------------
       IF(JTHE < 0 ) THEN 
         DO I=LFT,LLT
            IF(GBUF%OFF(I) == ZERO) CYCLE
-           TEMPEL(I) = UNHUIT *(  TEMP(NC1(I)) + TEMP(NC2(I))  
+           TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
      .                          + TEMP(NC3(I)) + TEMP(NC4(I)) 
      .                          + TEMP(NC5(I)) + TEMP(NC6(I)) 
      .                          + TEMP(NC7(I)) + TEMP(NC8(I)))
@@ -1039,7 +1039,7 @@ C-----------Begin integrating points-----
 C-----avoid multi-print   
           IF (IOFFS == 1)THEN
            DO I=LFT,LLT
-            IF (OFFS(I).LE.DEUX) LBUF%OFF(I)=OFFS(I)
+            IF (OFFS(I).LE.TWO) LBUF%OFF(I)=OFFS(I)
            ENDDO
           END IF
 C-----------
@@ -1391,7 +1391,7 @@ c--------------------------
 c
        DO I=LFT,LLT
         OFFG(I)=MIN(OFFG(I),OFF(I))
-        IF (LBUF%OFF(I).GT.UN .AND. GBUF%OFF(I) == UN) THEN
+        IF (LBUF%OFF(I).GT.ONE .AND. GBUF%OFF(I) == ONE) THEN
           OFFS(I)=MIN(LBUF%OFF(I),OFFS(I))
           IOFFS  =1
         END IF
@@ -1421,7 +1421,7 @@ C-----------End integrating points-----
 c
       IF (IOFFS == 1) THEN
        DO I=LFT,LLT
-          IF (OFFS(I).LE.DEUX) GBUF%OFF(I)=OFFS(I)
+          IF (OFFS(I).LE.TWO) GBUF%OFF(I)=OFFS(I)
        END DO
 c-------------------
        DO IR=1,NPTR
@@ -1430,7 +1430,7 @@ c-------------------
             LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
           IP = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR
           DO I=LFT,LLT
-              IF (GBUF%OFF(I) > UN) LBUF%OFF(I)=GBUF%OFF(I)
+              IF (GBUF%OFF(I) > ONE) LBUF%OFF(I)=GBUF%OFF(I)
           END DO
          END DO 
         END DO 
@@ -1466,7 +1466,7 @@ C-----------------------------
       IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
        IOFFS =0
        DO I=LFT,LLT
-        IF(GBUF%OFF(I)/=OFFG0(I).AND.ABS(GBUF%OFF(I)) > UN ) IOFFS=1
+        IF(GBUF%OFF(I)/=OFFG0(I).AND.ABS(GBUF%OFF(I)) > ONE ) IOFFS=1
        ENDDO
        IF (IOFFS == 1) THEN
         CALL S8SAV12(GBUF%OFF,OFFG0,GBUF%SMSTR,X  ,XDP   ,
@@ -1480,7 +1480,7 @@ C-----------------------------
            DO IT=1,NPTT
             LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
             DO I=LFT,LLT
-               IF (ABS(GBUF%OFF(I)) > UN) LBUF%OFF(I)=GBUF%OFF(I)
+               IF (ABS(GBUF%OFF(I)) > ONE) LBUF%OFF(I)=GBUF%OFF(I)
             END DO
            END DO 
           END DO 
@@ -1490,8 +1490,8 @@ C-----------------------------
       IF(IINT==2.AND.MTN==1.AND.ISMSTR/=1.AND.ISMSTR/=11) THEN
          DO I=LFT,LLT
           CAQ=GBUF%RHO(I)*VOLG(I)**THIRD
-          FLD(I)=QUART*EM02*CAQ*CXX(I)*OFFG(I)
-                  IF (ISMSTR==12.AND.GBUF%OFF(I) > UN) FLD(I)=ZERO
+          FLD(I)=FOURTH*EM02*CAQ*CXX(I)*OFFG(I)
+                  IF (ISMSTR==12.AND.GBUF%OFF(I) > ONE) FLD(I)=ZERO
          ENDDO
         CALL S8EVIS3(
      .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
@@ -1695,14 +1695,14 @@ C-----------------------------------------------
      .   E_R,E_S,E_T,FAC,FAC1,FAC2,COEFH,HQ13P,HQ13N,HQ24P,HQ24N,FF
 C-----------------------------------------------
 C
-        NU1 =DEUX/(UN-NU)
+        NU1 =TWO/(ONE-NU)
         NU2 =NU*NU1
-        NU3 =DTHIRD*(UN + NU)
+        NU3 =TWO_THIRD*(ONE + NU)
         NU4 =NU
       DO I=LFT,LLT
-       JR0(I) = UN/MAX(EM20,JR_1(I))
-       JS0(I) = UN/MAX(EM20,JS_1(I))
-       JT0(I) = UN/MAX(EM20,JT_1(I))
+       JR0(I) = ONE/MAX(EM20,JR_1(I))
+       JS0(I) = ONE/MAX(EM20,JS_1(I))
+       JT0(I) = ONE/MAX(EM20,JT_1(I))
        H11(I) = JS0(I)*JT0(I)*JR_1(I)
        H22(I) = JR0(I)*JT0(I)*JS_1(I)
        H33(I) = JR0(I)*JS0(I)*JT_1(I)
@@ -1726,20 +1726,20 @@ C
        VZ1467=VZ1(I)-VZ4(I)-VZ6(I)+VZ7(I)
        VZ1256=VZ1(I)-VZ2(I)-VZ5(I)+VZ6(I)
 !
-       HGX3(I)=(VX1467-VX2358)*UNHUIT
-       HGX1(I)=(VX1467+VX2358)*UNHUIT
-       HGX2(I)=(VX1256-VX3478)*UNHUIT
-       HGX4(I)=-(VX1256+VX3478)*UNHUIT       
+       HGX3(I)=(VX1467-VX2358)*ONE_OVER_8
+       HGX1(I)=(VX1467+VX2358)*ONE_OVER_8
+       HGX2(I)=(VX1256-VX3478)*ONE_OVER_8
+       HGX4(I)=-(VX1256+VX3478)*ONE_OVER_8       
 C
-       HGY3(I)=(VY1467-VY2358)*UNHUIT
-       HGY1(I)=(VY1467+VY2358)*UNHUIT
-       HGY2(I)=(VY1256-VY3478)*UNHUIT
-       HGY4(I)=-(VY1256+VY3478)*UNHUIT       
+       HGY3(I)=(VY1467-VY2358)*ONE_OVER_8
+       HGY1(I)=(VY1467+VY2358)*ONE_OVER_8
+       HGY2(I)=(VY1256-VY3478)*ONE_OVER_8
+       HGY4(I)=-(VY1256+VY3478)*ONE_OVER_8       
 C
-       HGZ3(I)=(VZ1467-VZ2358)*UNHUIT
-       HGZ1(I)=(VZ1467+VZ2358)*UNHUIT
-       HGZ2(I)=(VZ1256-VZ3478)*UNHUIT
-       HGZ4(I)=-(VZ1256+VZ3478)*UNHUIT       
+       HGZ3(I)=(VZ1467-VZ2358)*ONE_OVER_8
+       HGZ1(I)=(VZ1467+VZ2358)*ONE_OVER_8
+       HGZ2(I)=(VZ1256-VZ3478)*ONE_OVER_8
+       HGZ4(I)=-(VZ1256+VZ3478)*ONE_OVER_8       
       ENDDO
       DO I=LFT,LLT
         VX17=VX1(I)-VX7(I)
@@ -1835,10 +1835,10 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-        HQ13P = (NFHOUR(I,1,1)+NFHOUR(I,1,3))*UNHUIT
-        HQ13N = (NFHOUR(I,1,1)-NFHOUR(I,1,3))*UNHUIT
-        HQ24P = (NFHOUR(I,1,2)+NFHOUR(I,1,4))*UNHUIT
-        HQ24N = (NFHOUR(I,1,2)-NFHOUR(I,1,4))*UNHUIT
+        HQ13P = (NFHOUR(I,1,1)+NFHOUR(I,1,3))*ONE_OVER_8
+        HQ13N = (NFHOUR(I,1,1)-NFHOUR(I,1,3))*ONE_OVER_8
+        HQ24P = (NFHOUR(I,1,2)+NFHOUR(I,1,4))*ONE_OVER_8
+        HQ24N = (NFHOUR(I,1,2)-NFHOUR(I,1,4))*ONE_OVER_8
         FF =-PX1H1(I)*NFHOUR(I,1,1)-PX1H2(I)*NFHOUR(I,1,2)
      .      -PX1H3(I)*NFHOUR(I,1,3)-PX1H4(I)*NFHOUR(I,1,4)
         F11(I) =F11(I)-(HQ13P+HQ24N+FF)
@@ -1857,10 +1857,10 @@ C
         F16(I) =F16(I)-(-HQ13P+HQ24N-FF)
       ENDDO
       DO I=LFT,LLT
-        HQ13P = (NFHOUR(I,2,1)+NFHOUR(I,2,3))*UNHUIT
-        HQ13N = (NFHOUR(I,2,1)-NFHOUR(I,2,3))*UNHUIT
-        HQ24P = (NFHOUR(I,2,2)+NFHOUR(I,2,4))*UNHUIT
-        HQ24N = (NFHOUR(I,2,2)-NFHOUR(I,2,4))*UNHUIT
+        HQ13P = (NFHOUR(I,2,1)+NFHOUR(I,2,3))*ONE_OVER_8
+        HQ13N = (NFHOUR(I,2,1)-NFHOUR(I,2,3))*ONE_OVER_8
+        HQ24P = (NFHOUR(I,2,2)+NFHOUR(I,2,4))*ONE_OVER_8
+        HQ24N = (NFHOUR(I,2,2)-NFHOUR(I,2,4))*ONE_OVER_8
         FF =-PX1H1(I)*NFHOUR(I,2,1)-PX1H2(I)*NFHOUR(I,2,2)
      .      -PX1H3(I)*NFHOUR(I,2,3)-PX1H4(I)*NFHOUR(I,2,4)
         F21(I) =F21(I)-(HQ13P+HQ24N+FF)
@@ -1879,10 +1879,10 @@ C
         F26(I) =F26(I)-(-HQ13P+HQ24N-FF)
       ENDDO
       DO I=LFT,LLT
-        HQ13P = (NFHOUR(I,3,1)+NFHOUR(I,3,3))*UNHUIT
-        HQ13N = (NFHOUR(I,3,1)-NFHOUR(I,3,3))*UNHUIT
-        HQ24P = (NFHOUR(I,3,2)+NFHOUR(I,3,4))*UNHUIT
-        HQ24N = (NFHOUR(I,3,2)-NFHOUR(I,3,4))*UNHUIT
+        HQ13P = (NFHOUR(I,3,1)+NFHOUR(I,3,3))*ONE_OVER_8
+        HQ13N = (NFHOUR(I,3,1)-NFHOUR(I,3,3))*ONE_OVER_8
+        HQ24P = (NFHOUR(I,3,2)+NFHOUR(I,3,4))*ONE_OVER_8
+        HQ24N = (NFHOUR(I,3,2)-NFHOUR(I,3,4))*ONE_OVER_8
         FF =-PX1H1(I)*NFHOUR(I,3,1)-PX1H2(I)*NFHOUR(I,3,2)
      .      -PX1H3(I)*NFHOUR(I,3,3)-PX1H4(I)*NFHOUR(I,3,4)
         F31(I) =F31(I)-(HQ13P+HQ24N+FF)

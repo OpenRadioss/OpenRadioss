@@ -77,11 +77,11 @@ C
 C======================================
 C
       READ(IIN,'(2F16.0)')E,NU
-      A11 = E * (UN - NU) / (UN + NU) / (UN - DEUX*NU)
-      A12 = E * NU / (UN + NU) / (UN - DEUX*NU)
-      A44 = E / DEUX / (UN+NU)
+      A11 = E * (ONE - NU) / (ONE + NU) / (ONE - TWO*NU)
+      A12 = E * NU / (ONE + NU) / (ONE - TWO*NU)
+      A44 = E / TWO / (ONE+NU)
 C
-      IF(NU.LT.ZERO.OR.NU.GE.UNDEMI)THEN
+      IF(NU.LT.ZERO.OR.NU.GE.HALF)THEN
          WRITE(IOUT,*)' ** ERROR : WRONG NU VALUE'
       ENDIF
       NUPARAM = 7
@@ -94,9 +94,9 @@ C used in sigeps29 (solid 2d,3d)
         UPARAM(1) = A11 
         UPARAM(2) = A12
         UPARAM(3) = A44
-        UPARAM(4) = E/(UN-NU*NU)
-        UPARAM(5) = NU*E/(UN - NU*NU)
-        UPARAM(6) = UNDEMI*E/(UN + NU)
+        UPARAM(4) = E/(ONE-NU*NU)
+        UPARAM(5) = NU*E/(ONE - NU*NU)
+        UPARAM(6) = HALF*E/(ONE + NU)
 
         UPARAM(7) = E
       ENDIF

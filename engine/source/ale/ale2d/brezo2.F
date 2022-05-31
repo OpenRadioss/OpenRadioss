@@ -86,7 +86,7 @@ C-----------------------------------------------
        ELSEIF(BHOLE(NM,IE).LT.0. .AND.ABS(BHOLE(NM,IV4)).NE.ABS(BHOLE(NM,IE)))THEN
          IV4=IE
        ENDIF
-       VAR(NV,I) = VAR(NV,I) + UNDEMI * DT1 * (PHI(IE)*
+       VAR(NV,I) = VAR(NV,I) + HALF * DT1 * (PHI(IE)*
      2 (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
      3 -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
      4 -PHI(IV4)*FLUX(4,I)) / VOL(I)
@@ -122,7 +122,7 @@ C-----------------------------------------------
        ENDIF
         VOLN=VOL(I)-DT1 * (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
        IF (VOLN.GT.EM15) THEN
-         VAR(NV,I) = VAR(NV,I) + UNDEMI * DT1 * (PHI(IE)*
+         VAR(NV,I) = VAR(NV,I) + HALF * DT1 * (PHI(IE)*
      2 (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
      3 -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
      4 -PHI(IV4)*FLUX(4,I)) / MAX(EM15,VOLN)
@@ -199,7 +199,7 @@ C-----------------------------------------------
        ELSEIF(BHOLE(NM,IE).LT.0. .AND.ABS(BHOLE(NM,IV4)).NE.ABS(BHOLE(NM,IE)))THEN
          IV4=IE
        ENDIF
-       SIG(I,NV) = SIG(I,NV) + UNDEMI * DT1 * (PHI(IE)*
+       SIG(I,NV) = SIG(I,NV) + HALF * DT1 * (PHI(IE)*
      2 (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
      3 -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
      4 -PHI(IV4)*FLUX(4,I)) / VOL(I)
@@ -235,7 +235,7 @@ C-----------------------------------------------
        ENDIF
         VOLN=VOL(I)-DT1 * (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
        IF (VOLN.GT.EM15) THEN
-         SIG(I,NV) = SIG(I,NV) + UNDEMI * DT1 * (PHI(IE)*
+         SIG(I,NV) = SIG(I,NV) + HALF * DT1 * (PHI(IE)*
      2 (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
      3 -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
      4 -PHI(IV4)*FLUX(4,I)) / MAX(EM15,VOLN)

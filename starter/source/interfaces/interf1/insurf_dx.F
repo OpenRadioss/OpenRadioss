@@ -94,7 +94,7 @@ C-----------------------------------------------
           S2n(2) = - D1(1)*D2(3)+D1(3)*D2(1)
           S2n(3) =   D1(1)*D2(2)-D1(2)*D2(1)
           SURF = S2n(1)*S2n(1) + S2n(2)*S2n(2) + S2n(3)*S2n(3)
-          SURF = SQRT(QUART*SURF)        
+          SURF = SQRT(FOURTH*SURF)        
         ELSE
           D1(1)=X(1,IRECT(1,I))-X(1,IRECT(3,I))
           D1(2)=X(2,IRECT(1,I))-X(2,IRECT(3,I))
@@ -106,7 +106,7 @@ C-----------------------------------------------
           S2n(2) = - D1(1)*D2(3)+D1(3)*D2(1)
           S2n(3) =   D1(1)*D2(2)-D1(2)*D2(1)
           SURF = S2n(1)*S2n(1) + S2n(2)*S2n(2) + S2n(3)*S2n(3)
-          SURF = SQRT(QUART*SURF)
+          SURF = SQRT(FOURTH*SURF)
         ENDIF 
         
         SURF_MAX = MAX(SURF_MAX,SURF)

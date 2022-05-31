@@ -93,16 +93,16 @@ C
         E3Y=Z31*X42-X31*Z42
         E3Z=X31*Y42-Y31*X42
         SUM=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
-        AREA=UNDEMI*SUM
+        AREA=HALF*SUM
 C
 C        EMS = RHO * THK * AREA
 C
         SMASS = AMASU * AREA  ! THK is already included in the input AMASU ( = MASS/AREA = RHO * THK)
 C nodal mass
-        MS(IBUFN(1))=MS(IBUFN(1)) + SMASS * QUART
-        MS(IBUFN(2))=MS(IBUFN(2)) + SMASS * QUART
-        MS(IBUFN(3))=MS(IBUFN(3)) + SMASS * QUART
-        MS(IBUFN(4))=MS(IBUFN(4)) + SMASS * QUART
+        MS(IBUFN(1))=MS(IBUFN(1)) + SMASS * FOURTH
+        MS(IBUFN(2))=MS(IBUFN(2)) + SMASS * FOURTH
+        MS(IBUFN(3))=MS(IBUFN(3)) + SMASS * FOURTH
+        MS(IBUFN(4))=MS(IBUFN(4)) + SMASS * FOURTH
 C
         ADDMAS = ADDMAS + SMASS
 C
@@ -137,16 +137,16 @@ C
         BB = SQRT(B2)
         CC = SQRT(C2)
 C
-        ANG1 = ACOS((A2 + C2 - B2)/(DEUX * AA * CC)) / PI
-        ANG2 = ACOS((A2 + B2 - C2)/(DEUX * AA * BB)) / PI
-        ANG3 = ACOS((B2 + C2 - A2)/(DEUX * BB * CC)) / PI
+        ANG1 = ACOS((A2 + C2 - B2)/(TWO * AA * CC)) / PI
+        ANG2 = ACOS((A2 + B2 - C2)/(TWO * AA * BB)) / PI
+        ANG3 = ACOS((B2 + C2 - A2)/(TWO * BB * CC)) / PI
 C
-        IF ( ( (A2 + C2 - B2)/(2. * AA * CC) <= -UN ) .OR.
-     .       ( (A2 + C2 - B2)/(2. * AA * CC) >=  UN ) .OR.
-     .       ( (A2 + B2 - C2)/(2. * AA * BB) <= -UN ) .OR.
-     .       ( (A2 + B2 - C2)/(2. * AA * BB) >=  UN ) .OR.
-     .       ( (B2 + C2 - A2)/(2. * BB * CC) <= -UN ) .OR.
-     .       ( (B2 + C2 - A2)/(2. * BB * CC) >=  UN ) ) THEN      
+        IF ( ( (A2 + C2 - B2)/(2. * AA * CC) <= -ONE ) .OR.
+     .       ( (A2 + C2 - B2)/(2. * AA * CC) >=  ONE ) .OR.
+     .       ( (A2 + B2 - C2)/(2. * AA * BB) <= -ONE ) .OR.
+     .       ( (A2 + B2 - C2)/(2. * AA * BB) >=  ONE ) .OR.
+     .       ( (B2 + C2 - A2)/(2. * BB * CC) <= -ONE ) .OR.
+     .       ( (B2 + C2 - A2)/(2. * BB * CC) >=  ONE ) ) THEN      
           CALL ANCMSG(MSGID=880,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -158,7 +158,7 @@ C
         E3Y=Z21*X31-X21*Z31
         E3Z=X21*Y31-Y21*X31
         SUM=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
-        AREA=UNDEMI*SUM
+        AREA=HALF*SUM
 C
         SMASS = AMASU * AREA
 C

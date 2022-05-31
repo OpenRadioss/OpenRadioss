@@ -93,7 +93,7 @@ C-----------------------------------------------
      .         PY3(I)*VZ3(I)+PY4(I)*VZ4(I)
       ENDDO
 C
-      DT1D2=UNDEMI*DT1
+      DT1D2=HALF*DT1
 C
       IF(ISMSTR==2.OR.ISMSTR==4)THEN
 C
@@ -145,9 +145,9 @@ C                [ 0     wzz    -wyy ]
 C        and R = [ wzz     0    -wxx ]
 C                [ wyy   wxx       0 ]
 C
-         WZZ(I)=DT1*(UNDEMI*(EYX-EXY)-AAA)
-         WYY(I)=DT1*(UNDEMI*(EXZ-EZX)-BBB)
-         WXX(I)=DT1*(UNDEMI*(EZY-EYZ)-CCC)
+         WZZ(I)=DT1*(HALF*(EYX-EXY)-AAA)
+         WYY(I)=DT1*(HALF*(EXZ-EZX)-BBB)
+         WXX(I)=DT1*(HALF*(EZY-EYZ)-CCC)
         ENDDO
       ELSE ! ISMSTR==1 or Total Strain Formulation (Approximated Strain Rate)
         DO I=LFT,LLT

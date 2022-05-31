@@ -157,9 +157,9 @@ c---------------------
       KEP  = UPARAM(17)    ! 1 / (1 + nup^2)   : d_epsp = kep*ldot
       ALPHA= UPARAM(19)    ! strain rate smoothing coefficient
       NUP  = UPARAM(20)
-      NNU  = NU  / (UN - NU)
-      NNUP = NUP / (UN - NUP) - NNU
-      NU2  = UN  / (UN - NU*NU)
+      NNU  = NU  / (ONE - NU)
+      NNUP = NUP / (ONE - NUP) - NNU
+      NU2  = ONE  / (ONE - NU*NU)
 c
       IFUNC_E   = IFUNC(1)
       IFUNC_YLD = IFUNC(2)
@@ -180,13 +180,13 @@ c
         AA(1:NEL) = EINI*NU2*FAC_E(1:NEL)
         K(1:NEL)  = KINI*FAC_E(1:NEL)
         G(1:NEL)  = GINI*FAC_E(1:NEL)
-        G2(1:NEL) = G(1:NEL)*DEUX
+        G2(1:NEL) = G(1:NEL)*TWO
         IVARF = IVARF + 1
       ELSE
         AA(1:NEL) = EINI*NU2
         K(1:NEL)  = KINI
         G(1:NEL)  = GINI
-        G2(1:NEL) = GINI*DEUX
+        G2(1:NEL) = GINI*TWO
       ENDIF
 c---
       IF (IFUNC_YLD > 0) THEN  ! strain rate scale factor for yield
@@ -198,7 +198,7 @@ c---
         ENDDO
         CALL VINTER2(TF,IAD2,IPOS2,ILEN2,NEL,EPSD,DYDX,FRATE)
       ELSE
-         FRATE(1:NEL) = UN
+         FRATE(1:NEL) = ONE
       ENDIF
       UVAR(1:NEL,2) = EPSD(1:NEL)
 c---
@@ -213,15 +213,15 @@ c------------------------------------------
       DO I=1,NEL
         PLA  = EPSPD(I)
         PLA2 = PLA**2
-        PP1  = UN - RC*PLA2
-        PP2  = PP1 + DEUX
-        YLD(I) = SIGY*FRATE(I) + SIGA*(UN - EXP(-RA(I)*PLA)) 
-     .         - SIGB *(UN - EXP(-RB*PLA))
-     .         + SIGR*PLA*TIERS*PP2 / PP1
+        PP1  = ONE - RC*PLA2
+        PP2  = PP1 + TWO
+        YLD(I) = SIGY*FRATE(I) + SIGA*(ONE - EXP(-RA(I)*PLA)) 
+     .         - SIGB *(ONE - EXP(-RB*PLA))
+     .         + SIGR*PLA*THIRD*PP2 / PP1
 c
         DEPSZZ(I) = -NNU * (DEPSXX(I) + DEPSYY(I))
         DEPSV(I)  = (DEPSXX(I) + DEPSYY(I) + DEPSZZ(I))
-        DAV(I) = DEPSV(I)*TIERS
+        DAV(I) = DEPSV(I)*THIRD
         D1(I)  = DEPSXX(I) - DAV(I)
         D2(I)  = DEPSYY(I) - DAV(I)
         D3(I)  = DEPSZZ(I) - DAV(I)
@@ -232,7 +232,7 @@ c       Increments elastiques pression et deviateur
         DS3(I)= G2(I)* D3(I)
         DS4(I)= G(I) * DEPSXY(I)
 c       Valeurs elastiques pression et deviateur   
-        PO(I)  =-(SIGOXX(I)+ SIGOYY(I))*TIERS
+        PO(I)  =-(SIGOXX(I)+ SIGOYY(I))*THIRD
         SO1(I) = SIGOXX(I) + PO(I)
         SO2(I) = SIGOYY(I) + PO(I)
         SO3(I) = PO(I)
@@ -256,13 +256,13 @@ c     EVALUATION FONCTION CRITERE DE PLASTICITE
 c------------------------------------------
 c     old criterion
       DO I=1,NEL          
-        Q2  = TDEMI*(SO1(I)**2 + SO2(I)**2 + SO3(I)**2) + TROIS*SO4(I)**2
+        Q2  = THREE_HALF*(SO1(I)**2 + SO2(I)**2 + SO3(I)**2) + THREE*SO4(I)**2
         Q(I)= SQRT(Q2)
         FO(I)= Q(I) - MAX(ZERO, P(I)*TANB + YLD(I))
       ENDDO
 c------------------------------------------
       DO I=1,NEL          
-        Q2  = TDEMI*(S1(I)**2 + S2(I)**2 + S3(I)**2) + TROIS*S4(I)**2
+        Q2  = THREE_HALF*(S1(I)**2 + S2(I)**2 + S3(I)**2) + THREE*S4(I)**2
         Q(I)= SQRT(Q2)
         F(I)= Q(I) - MAX(ZERO, P(I)*TANB + YLD(I))
       ENDDO
@@ -274,7 +274,7 @@ c------------------------------------------
 c
           FO(1:NEL) = UVAR(1:NEL,1)
           IF (FO(I) < ZERO) THEN
-            X1 = UN
+            X1 = ONE
             X2 = ZERO
             F1 = FO(I)
             F2 = F(I)
@@ -284,7 +284,7 @@ c
               SY2 = S2(I) - X * DS2(I)    
               SY4 = S4(I) - X * DS4(I)
               PY  = P(I)  - X * DP(I) 
-              QY  = TDEMI*(SY1**2 + SY2**2) + TROIS*SY4**2
+              QY  = THREE_HALF*(SY1**2 + SY2**2) + THREE*SY4**2
               QY  = SQRT(QY)
               FY  = QY - MAX(ZERO, PY*TANB + YLD(I))
 c
@@ -331,10 +331,10 @@ c---------------------------------
         IF (F(I) > ZERO) THEN
           DFDP =-TANB  
           DGDP =-TANP  
-          DFDC =-UN
+          DFDC =-ONE
 c
           IF (Q(I) > EM20) THEN
-            FAC   = TDEMI/Q(I)
+            FAC   = THREE_HALF/Q(I)
             DFDS1 = S1(I)*FAC
             DFDS2 = S2(I)*FAC
             DFDS3 = S3(I)*FAC
@@ -347,8 +347,8 @@ c
           ENDIF
 c
           HO = SIGA*RA(I)*EXP(-RA(I)*EPSPD(I)) - SIGB*RB*EXP(-RB*EPSPD(I))
-     .       + SIGR*(UN + DTIERS*RC*PLA2 * PP2 / PP1**2)
-          DENOM = TROIS*G(I) + K(I)*DFDP*DGDP - DFDC*HO
+     .       + SIGR*(ONE + TWO_THIRD*RC*PLA2 * PP2 / PP1**2)
+          DENOM = THREE*G(I) + K(I)*DFDP*DGDP - DFDC*HO
           IF (DENOM /= ZERO) THEN
             LDOT = F(I) / DENOM
           ELSE
@@ -359,12 +359,12 @@ c-----------------------------------------------------------------------
           DO ITER=1,NITER
 c          
             DEPSPD = LDOT
-            DEPSPV = LDOT*DGDP*TIERS
+            DEPSPV = LDOT*DGDP*THIRD
 c
             DEPSP1 = LDOT*DFDS1 
             DEPSP2 = LDOT*DFDS2 
             DEPSP3 = LDOT*DFDS3 
-            DEPSP4 = LDOT*DFDS4 * DEUX
+            DEPSP4 = LDOT*DFDS4 * TWO
 c
 c           Deviatoric elastic deformations
 c
@@ -392,26 +392,26 @@ c
 c
 c           Update yield and plastic increment
 c           
-            Q2   = TDEMI*(S1N(I)**2 + S2N(I)**2 + S3N(I)**2) + TROIS*S4N(I)**2
+            Q2   = THREE_HALF*(S1N(I)**2 + S2N(I)**2 + S3N(I)**2) + THREE*S4N(I)**2
             QN(I)= SQRT(Q2)
 c
             DPLA = LDOT*KEP
             PLA  = EPSPD(I) + DPLA
             PLA2 = PLA**2
-            PP1  = UN - RC*PLA2
-            PP2  = PP1 + DEUX
-            YLD(I) = SIGY*FRATE(I) + SIGA*(UN - EXP(-RA(I)*PLA))
-     .             - SIGB *(UN - EXP(-RB*PLA))
-     .             + SIGR*PLA*TIERS*PP2 / PP1
+            PP1  = ONE - RC*PLA2
+            PP2  = PP1 + TWO
+            YLD(I) = SIGY*FRATE(I) + SIGA*(ONE - EXP(-RA(I)*PLA))
+     .             - SIGB *(ONE - EXP(-RB*PLA))
+     .             + SIGR*PLA*THIRD*PP2 / PP1
             YLD(I) = MAX(YLD(I), ZERO)
 
 c           H = SIGA*RA(I)*EXP(-RA(I)*EPSPD(I)) - SIGB*RB*EXP(-RB*EPSPD(I))
-c    .        + SIGR*(UN + DTIERS*RC*PLA2 * PP2 / PP1**2)
-c            HM = (HO + H) * UNDEMI
+c    .        + SIGR*(ONE + TWO_THIRD*RC*PLA2 * PP2 / PP1**2)
+c            HM = (HO + H) * HALF
             HM = HO
 c
             RES  = QN(I) - MAX(ZERO, PN(I)*TANB + YLD(I))
-            DRES = -(TROIS*G(I) + K(I)*DFDP*DGDP - DFDC*HM)
+            DRES = -(THREE*G(I) + K(I)*DFDP*DGDP - DFDC*HM)
 c            
             IF (DRES /= ZERO) THEN
               LDOT = LDOT - RES / DRES
@@ -436,7 +436,7 @@ c              WRITE(6,*)'TRI-TRACTION FAILURE'
             ELSE 
               IF (QN(I) > SMALL) THEN
                 X = (PN(I)*TANB + YLD(I)) / QN(I)
-                IF (X < UN-EM02 .OR. X > UN) THEN
+                IF (X < ONE-EM02 .OR. X > ONE) THEN
                   WRITE(7,*)'REPROJ Q',X,FY,PN(I),QN(I)
                   WRITE(6,*)'REPROJ Q',X,FY,PN(I),QN(I)
                 ENDIF

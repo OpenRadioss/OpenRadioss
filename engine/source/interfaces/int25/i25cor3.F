@@ -156,9 +156,9 @@ C
       DO I=1,JLT
 C
         IF(IX3(I) /= IX4(I))THEN
-         XX(I,5)= QUART*(XX(I,1)+XX(I,2)+XX(I,3)+XX(I,4))
-         YY(I,5)= QUART*(YY(I,1)+YY(I,2)+YY(I,3)+YY(I,4))
-         ZZ(I,5)= QUART*(ZZ(I,1)+ZZ(I,2)+ZZ(I,3)+ZZ(I,4))
+         XX(I,5)= FOURTH*(XX(I,1)+XX(I,2)+XX(I,3)+XX(I,4))
+         YY(I,5)= FOURTH*(YY(I,1)+YY(I,2)+YY(I,3)+YY(I,4))
+         ZZ(I,5)= FOURTH*(ZZ(I,1)+ZZ(I,2)+ZZ(I,3)+ZZ(I,4))
         ELSE
          XX(I,5)= XX(I,3)
          YY(I,5)= YY(I,3)
@@ -191,15 +191,15 @@ C
 C
       DO I=1,JLT
         IF(IX3(I).NE.IX4(I))THEN
-          NNX(I,5)=QUART*(NNX(I,1)+NNX(I,2)+NNX(I,3)+NNX(I,4))
-          NNY(I,5)=QUART*(NNY(I,1)+NNY(I,2)+NNY(I,3)+NNY(I,4))
-          NNZ(I,5)=QUART*(NNZ(I,1)+NNZ(I,2)+NNZ(I,3)+NNZ(I,4))
+          NNX(I,5)=FOURTH*(NNX(I,1)+NNX(I,2)+NNX(I,3)+NNX(I,4))
+          NNY(I,5)=FOURTH*(NNY(I,1)+NNY(I,2)+NNY(I,3)+NNY(I,4))
+          NNZ(I,5)=FOURTH*(NNZ(I,1)+NNZ(I,2)+NNZ(I,3)+NNZ(I,4))
         ELSE
           NNX(I,5)=NNX(I,4)
           NNY(I,5)=NNY(I,4)
           NNZ(I,5)=NNZ(I,4)
         ENDIF
-        XN=UN/MAX(EM20,SQRT(NNX(I,5)*NNX(I,5)+NNY(I,5)*NNY(I,5)+NNZ(I,5)*NNZ(I,5)))
+        XN=ONE/MAX(EM20,SQRT(NNX(I,5)*NNX(I,5)+NNY(I,5)*NNY(I,5)+NNZ(I,5)*NNZ(I,5)))
         NNX(I,5)=XN*NNX(I,5)
         NNY(I,5)=XN*NNY(I,5)
         NNZ(I,5)=XN*NNZ(I,5)       
@@ -369,9 +369,9 @@ C
       DO I=1,JLT
 C
         IF(IX3(I) /= IX4(I))THEN
-         XX(I,5)= QUART*(XX(I,1)+XX(I,2)+XX(I,3)+XX(I,4))
-         YY(I,5)= QUART*(YY(I,1)+YY(I,2)+YY(I,3)+YY(I,4))
-         ZZ(I,5)= QUART*(ZZ(I,1)+ZZ(I,2)+ZZ(I,3)+ZZ(I,4))
+         XX(I,5)= FOURTH*(XX(I,1)+XX(I,2)+XX(I,3)+XX(I,4))
+         YY(I,5)= FOURTH*(YY(I,1)+YY(I,2)+YY(I,3)+YY(I,4))
+         ZZ(I,5)= FOURTH*(ZZ(I,1)+ZZ(I,2)+ZZ(I,3)+ZZ(I,4))
         ELSE
          XX(I,5)= XX(I,3)
          YY(I,5)= YY(I,3)
@@ -404,15 +404,15 @@ C
 C
       DO I=1,JLT
         IF(IX3(I).NE.IX4(I))THEN
-          NNX(I,5)=QUART*(NNX(I,1)+NNX(I,2)+NNX(I,3)+NNX(I,4))
-          NNY(I,5)=QUART*(NNY(I,1)+NNY(I,2)+NNY(I,3)+NNY(I,4))
-          NNZ(I,5)=QUART*(NNZ(I,1)+NNZ(I,2)+NNZ(I,3)+NNZ(I,4))
+          NNX(I,5)=FOURTH*(NNX(I,1)+NNX(I,2)+NNX(I,3)+NNX(I,4))
+          NNY(I,5)=FOURTH*(NNY(I,1)+NNY(I,2)+NNY(I,3)+NNY(I,4))
+          NNZ(I,5)=FOURTH*(NNZ(I,1)+NNZ(I,2)+NNZ(I,3)+NNZ(I,4))
         ELSE
           NNX(I,5)=NNX(I,4)
           NNY(I,5)=NNY(I,4)
           NNZ(I,5)=NNZ(I,4)
         ENDIF
-        XN=UN/MAX(EM20,SQRT(NNX(I,5)*NNX(I,5)+NNY(I,5)*NNY(I,5)+NNZ(I,5)*NNZ(I,5)))
+        XN=ONE/MAX(EM20,SQRT(NNX(I,5)*NNX(I,5)+NNY(I,5)*NNY(I,5)+NNZ(I,5)*NNZ(I,5)))
         NNX(I,5)=XN*NNX(I,5)
         NNY(I,5)=XN*NNY(I,5)
         NNZ(I,5)=XN*NNZ(I,5)       
@@ -639,9 +639,9 @@ C
       DO I=1,JLT
 C
         IF(IX3(I) /= IX4(I))THEN
-         XX(I,5)= QUART*(XX(I,1)+XX(I,2)+XX(I,3)+XX(I,4))
-         YY(I,5)= QUART*(YY(I,1)+YY(I,2)+YY(I,3)+YY(I,4))
-         ZZ(I,5)= QUART*(ZZ(I,1)+ZZ(I,2)+ZZ(I,3)+ZZ(I,4))
+         XX(I,5)= FOURTH*(XX(I,1)+XX(I,2)+XX(I,3)+XX(I,4))
+         YY(I,5)= FOURTH*(YY(I,1)+YY(I,2)+YY(I,3)+YY(I,4))
+         ZZ(I,5)= FOURTH*(ZZ(I,1)+ZZ(I,2)+ZZ(I,3)+ZZ(I,4))
         ELSE
          XX(I,5)= XX(I,3)
          YY(I,5)= YY(I,3)
@@ -674,15 +674,15 @@ C
 C
       DO I=1,JLT
         IF(IX3(I).NE.IX4(I))THEN
-         NAX(I,5)= QUART*(NAX(I,1)+NAX(I,2)+NAX(I,3)+NAX(I,4))
-         NAY(I,5)= QUART*(NAY(I,1)+NAY(I,2)+NAY(I,3)+NAY(I,4))
-         NAZ(I,5)= QUART*(NAZ(I,1)+NAZ(I,2)+NAZ(I,3)+NAZ(I,4))
+         NAX(I,5)= FOURTH*(NAX(I,1)+NAX(I,2)+NAX(I,3)+NAX(I,4))
+         NAY(I,5)= FOURTH*(NAY(I,1)+NAY(I,2)+NAY(I,3)+NAY(I,4))
+         NAZ(I,5)= FOURTH*(NAZ(I,1)+NAZ(I,2)+NAZ(I,3)+NAZ(I,4))
         ELSE
          NAX(I,5)= NAX(I,4)
          NAY(I,5)= NAY(I,4)
          NAZ(I,5)= NAZ(I,4)
         ENDIF
-        XN=UN/MAX(EM20,SQRT(NAX(I,5)*NAX(I,5)+NAY(I,5)*NAY(I,5)+NAZ(I,5)*NAZ(I,5)))
+        XN=ONE/MAX(EM20,SQRT(NAX(I,5)*NAX(I,5)+NAY(I,5)*NAY(I,5)+NAZ(I,5)*NAZ(I,5)))
         NAX(I,5)=XN*NAX(I,5)
         NAY(I,5)=XN*NAY(I,5)
         NAZ(I,5)=XN*NAZ(I,5)       
@@ -735,15 +735,15 @@ C
         IF(L==0) CYCLE
 C
         IF(IX3(I).NE.IX4(I))THEN
-         NBX(I,5)= QUART*(NBX(I,1)+NBX(I,2)+NBX(I,3)+NBX(I,4))
-         NBY(I,5)= QUART*(NBY(I,1)+NBY(I,2)+NBY(I,3)+NBY(I,4))
-         NBZ(I,5)= QUART*(NBZ(I,1)+NBZ(I,2)+NBZ(I,3)+NBZ(I,4))
+         NBX(I,5)= FOURTH*(NBX(I,1)+NBX(I,2)+NBX(I,3)+NBX(I,4))
+         NBY(I,5)= FOURTH*(NBY(I,1)+NBY(I,2)+NBY(I,3)+NBY(I,4))
+         NBZ(I,5)= FOURTH*(NBZ(I,1)+NBZ(I,2)+NBZ(I,3)+NBZ(I,4))
         ELSE
          NBX(I,5)= NBX(I,4)
          NBY(I,5)= NBY(I,4)
          NBZ(I,5)= NBZ(I,4)
         ENDIF
-        XN=UN/MAX(EM20,SQRT(NBX(I,5)*NBX(I,5)+NBY(I,5)*NBY(I,5)+NBZ(I,5)*NBZ(I,5)))
+        XN=ONE/MAX(EM20,SQRT(NBX(I,5)*NBX(I,5)+NBY(I,5)*NBY(I,5)+NBZ(I,5)*NBZ(I,5)))
         NBX(I,5)=XN*NBX(I,5)
         NBY(I,5)=XN*NBY(I,5)
         NBZ(I,5)=XN*NBZ(I,5)       
@@ -958,9 +958,9 @@ C
            VZ4(I)=V(3,IX)  
 C
            IF(IX3(I) /= IX4(I))THEN
-            XX(I,5)= QUART*(XX(I,1)+XX(I,2)+XX(I,3)+XX(I,4))
-            YY(I,5)= QUART*(YY(I,1)+YY(I,2)+YY(I,3)+YY(I,4))
-            ZZ(I,5)= QUART*(ZZ(I,1)+ZZ(I,2)+ZZ(I,3)+ZZ(I,4))
+            XX(I,5)= FOURTH*(XX(I,1)+XX(I,2)+XX(I,3)+XX(I,4))
+            YY(I,5)= FOURTH*(YY(I,1)+YY(I,2)+YY(I,3)+YY(I,4))
+            ZZ(I,5)= FOURTH*(ZZ(I,1)+ZZ(I,2)+ZZ(I,3)+ZZ(I,4))
            ELSE
             XX(I,5)= XX(I,3)
             YY(I,5)= YY(I,3)
@@ -1014,15 +1014,15 @@ C
 C
       DO I=1,JLT
         IF(IX3(I).NE.IX4(I))THEN
-          NNX(I,5)=QUART*(NNX(I,1)+NNX(I,2)+NNX(I,3)+NNX(I,4))
-          NNY(I,5)=QUART*(NNY(I,1)+NNY(I,2)+NNY(I,3)+NNY(I,4))
-          NNZ(I,5)=QUART*(NNZ(I,1)+NNZ(I,2)+NNZ(I,3)+NNZ(I,4))
+          NNX(I,5)=FOURTH*(NNX(I,1)+NNX(I,2)+NNX(I,3)+NNX(I,4))
+          NNY(I,5)=FOURTH*(NNY(I,1)+NNY(I,2)+NNY(I,3)+NNY(I,4))
+          NNZ(I,5)=FOURTH*(NNZ(I,1)+NNZ(I,2)+NNZ(I,3)+NNZ(I,4))
         ELSE
           NNX(I,5)=NNX(I,4)
           NNY(I,5)=NNY(I,4)
           NNZ(I,5)=NNZ(I,4)
         ENDIF
-        XN=UN/MAX(EM20,SQRT(NNX(I,5)*NNX(I,5)+NNY(I,5)*NNY(I,5)+NNZ(I,5)*NNZ(I,5)))
+        XN=ONE/MAX(EM20,SQRT(NNX(I,5)*NNX(I,5)+NNY(I,5)*NNY(I,5)+NNZ(I,5)*NNZ(I,5)))
         NNX(I,5)=XN*NNX(I,5)
         NNY(I,5)=XN*NNY(I,5)
         NNZ(I,5)=XN*NNZ(I,5)       
@@ -1050,7 +1050,7 @@ C
             NN = NI - NSN
             STIF(I)=ABS(STIFI(NIN)%P(NN))
           END IF
-          STIF(I)=UNDEMI*(STF(L)+STIF(I))
+          STIF(I)=HALF*(STF(L)+STIF(I))
           STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
          ENDDO
       ELSEIF(IGSTI.EQ.3)THEN

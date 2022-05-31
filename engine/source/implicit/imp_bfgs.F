@@ -103,7 +103,7 @@ C-----------------------------------------------
       INTEGER I 
 C------------------------------------------
        N_BFGS = 0
-       S_LIN = UN
+       S_LIN = ONE
 C
        IACTB = 0
 C
@@ -194,7 +194,7 @@ C--------V->dr----------------------------------
          CALL PRODUT_W(NDDL,BFGS_W(1,N),F,W_DDL,A2)
          A2 = A2*S_LIN
 C--------W->b1*du----------------------------------
-         B1 = UN/A1
+         B1 = ONE/A1
          DO I=1,NDDL
           BFGS_W(I,N) = B1*BFGS_W(I,N)
          ENDDO
@@ -495,7 +495,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        N_BFGS = NDDL0
-       S_LIN = UN
+       S_LIN = ONE
 C------------------------------------------
 C
       RETURN
@@ -649,7 +649,7 @@ C---------------------
          CALL PRODUT_H(F_DDL,L_DDL,BFGS_W(1,N),F,W_DDL,A2,ITASK)
          IF (ITASK==0) A2 = A2*S_LIN
 C--------W->b1*du----------------------------------
-         B1 = UN/A1
+         B1 = ONE/A1
          DO I=F_DDL,L_DDL
           BFGS_W(I,N) = B1*BFGS_W(I,N)
          ENDDO

@@ -79,9 +79,9 @@ C-----------------------------------------------
        RZ(I)=Z3(I)+Z6(I)-Z14(I)
  30   CONTINUE
       DO I=LFT,LLT
-        SX(I)= (X4(I)+X5(I)+X6(I)-X1(I)-X2(I)-X3(I))*TIERS
-        SY(I)= (Y4(I)+Y5(I)+Y6(I)-Y1(I)-Y2(I)-Y3(I))*TIERS
-        SZ(I)= (Z4(I)+Z5(I)+Z6(I)-Z1(I)-Z2(I)-Z3(I))*TIERS
+        SX(I)= (X4(I)+X5(I)+X6(I)-X1(I)-X2(I)-X3(I))*THIRD
+        SY(I)= (Y4(I)+Y5(I)+Y6(I)-Y1(I)-Y2(I)-Y3(I))*THIRD
+        SZ(I)= (Z4(I)+Z5(I)+Z6(I)-Z1(I)-Z2(I)-Z3(I))*THIRD
       ENDDO
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO 100 I=LFT,LLT
@@ -91,7 +91,7 @@ C
        E3Z(I) = TX(I) * RY(I) - TY(I) * RX(I) 
 C
        DET = SQRT(E3X(I)*E3X(I) + E3Y(I)*E3Y(I) + E3Z(I)*E3Z(I))
-       IF ( DET.NE.ZERO) DET = UN / DET
+       IF ( DET.NE.ZERO) DET = ONE / DET
        E3X(I) = E3X(I) * DET
        E3Y(I) = E3Y(I) * DET
        E3Z(I) = E3Z(I) * DET
@@ -102,7 +102,7 @@ C
        E1Y(I)=TY(I)*C2 +(RZ(I) * E3X(I) - RX(I) * E3Z(I))*C1  
        E1Z(I)=TZ(I)*C2 +(RX(I) * E3Y(I) - RY(I) * E3X(I))*C1
        DET = SQRT(E1X(I)*E1X(I) + E1Y(I)*E1Y(I) + E1Z(I)*E1Z(I))
-       IF ( DET.NE.ZERO) DET = UN / DET
+       IF ( DET.NE.ZERO) DET = ONE / DET
        E1X(I) = E1X(I)*DET
        E1Y(I) = E1Y(I)*DET
        E1Z(I) = E1Z(I)*DET

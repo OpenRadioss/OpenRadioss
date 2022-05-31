@@ -790,11 +790,11 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
      .           *Z1(I)
          YZ =(CORELV(I,2,1)-CORELV(I,2,2)+CORELV(I,2,3)-CORELV(I,2,4))
      .           *Z1(I)
-         ZZ = QUATRE*Z2
+         ZZ = FOUR*Z2
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-         D(1)= YY+ZZ+QUATRE
-         D(2)= XX+ZZ+QUATRE
-         D(3)= XX+YY+QUATRE
+         D(1)= YY+ZZ+FOUR
+         D(2)= XX+ZZ+FOUR
+         D(3)= XX+YY+FOUR
          D(4)= -XY
          D(5)= -XZ
          D(6)= -YZ
@@ -802,8 +802,8 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
          XXYZ2 = D(1)*D(6)*D(6)
          YYXZ2 = D(2)*D(5)*D(5)
          ZZXY2 = D(3)*D(4)*D(4)
-         DETA = ABS(ABC+DEUX*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2)
-         DETA = UN/MAX(DETA,EM20)
+         DETA = ABS(ABC+TWO*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2)
+         DETA = ONE/MAX(DETA,EM20)
          DI(1) = (ABC-XXYZ2)*DETA/MAX(D(1),EM20)
          DI(2) = (ABC-YYXZ2)*DETA/MAX(D(2),EM20)
          DI(3) = (ABC-ZZXY2)*DETA/MAX(D(3),EM20)

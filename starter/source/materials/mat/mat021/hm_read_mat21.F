@@ -183,14 +183,14 @@ C
       IF(A2==ZERO.AND.A1/=ZERO)THEN   !(A2=A1=ZERO => error message)
         PSTAR=-A0/A1 
       ELSEIF(A2.NE.ZERO)THEN
-        DELTA = A1*A1-QUATRE*A0*A2
+        DELTA = A1*A1-FOUR*A0*A2
         !Si intersection avec l'axe
         IF(DELTA .GE. ZERO)THEN
           DELTA=SQRT(DELTA)
-          PSTAR = (-A1+DELTA)/DEUX/A2
+          PSTAR = (-A1+DELTA)/TWO/A2
         
         ELSE
-        !  PSTAR = -A1/DEUX/A2 !no let user do what he wants 
+        !  PSTAR = -A1/TWO/A2 !no let user do what he wants 
           PSTAR = -INFINITY
           chain='YIELD SURFACE HAS NO ROOT.                                     '      
           CALL ANCMSG(MSGID=829,
@@ -206,8 +206,8 @@ C
         !do nothing let user do what he wants
       ENDIF
 C      
-      IF (FAC_Y == ZERO) FAC_Y = UN*FSCAL_UNIT
-      G=E/(DEUX*(UN + NU))
+      IF (FAC_Y == ZERO) FAC_Y = ONE*FSCAL_UNIT
+      G=E/(TWO*(ONE + NU))
 C
       PM(20)=E
       PM(21)=NU
@@ -231,7 +231,7 @@ C
 C-----------
 C     Formulation for solid elements time step computation.
       IPM(252)= 2
-      PM(105) = DEUX*G/(C1+QTHIRD*G) ! =(1-2*Nu)/(1-Nu)
+      PM(105) = TWO*G/(C1+FOUR_OVER_3*G) ! =(1-2*Nu)/(1-Nu)
 c-------------------
       WRITE(IOUT,1100) TRIM(TITR),MAT_ID,21
       WRITE(IOUT,1000)

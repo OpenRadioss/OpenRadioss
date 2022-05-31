@@ -123,7 +123,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   ROLE DE LA ROUTINE:
 C   ===================
-C   CLASSE LES ELETS DE BPE ET LES NOEUDS DE BPN EN DEUX ZONES
+C   CLASSE LES ELETS DE BPE ET LES NOEUDS DE BPN EN TWO ZONES
 C   > OU < A UNE FRONTIERE ICI DETERMINEE ET SORT LE TOUT
 C   DANS bpe,hpe, et bpn,hpn
 C-----------------------------------------------
@@ -174,7 +174,7 @@ C
 C
 C    1- TEST ARRET = BOITE VIDE
 C                    BOITE TROP PETITE 
-C                    BOITE NE CONTENANT QU'UN NOEUD
+C                    BOITE NE CONTENANT QU'ONE NOEUD
 C                    PLUS DE MEMOIRE DISPONIBLE
 C
 C-----------------------------------------------------------
@@ -307,7 +307,7 @@ C
       ENDIF
       SEUIL =(XYZM(DIR+3,I_ADD)+XYZM(DIR,I_ADD))/2
 C
-C    2- DIVISER LES NOEUDS EN DEUX ZONES 
+C    2- DIVISER LES NOEUDS EN TWO ZONES 
 C
       NB_NCN= 0
       ADDNN= ADD(1,1)

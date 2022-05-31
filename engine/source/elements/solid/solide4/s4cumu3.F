@@ -108,11 +108,11 @@ C-----------------------------------------------
 C
 C     because 2*Mnodal = 2*Melement/4
       DO I=LFT,LLT
-        STI(I)=UNDEMI*STI(I)
+        STI(I)=HALF*STI(I)
       END DO
       IF(NODADT_THERM == 1 ) THEN  
         DO I=LFT,LLT
-           CONDE(I)=QUART*CONDE(I)
+           CONDE(I)=FOURTH*CONDE(I)
         END DO
       ENDIF
 C
@@ -296,11 +296,11 @@ Cf small3b        IF(OFF(I).LT.1.)OFFG(I) = OFF(I)
 C
 C     because 2*Mnodal = 2*Melement/4
       DO I=LFT,LLT
-        STI(I)=UNDEMI*STI(I)
+        STI(I)=HALF*STI(I)
       END DO
       IF(NODADT_THERM == 1 ) THEN  
         DO I=LFT,LLT
-           CONDE(I)=QUART*CONDE(I)
+           CONDE(I)=FOURTH*CONDE(I)
         END DO
       ENDIF
 C

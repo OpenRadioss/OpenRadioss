@@ -316,11 +316,11 @@ C!!!!!!calcul local rep for ISMSTR 10 to 11 (offg>un)
      .   MFXX, MFXY, MFXZ, MFYX, MFYY, MFYZ, MFZX, MFZY, MFZZ) 
         IF (ISORTH == 0) THEN            
           DO I=LFT,LLT                                            
-            GAMA(I,1) = UN                               
+            GAMA(I,1) = ONE                               
             GAMA(I,2) = ZERO                                
             GAMA(I,3) = ZERO             
             GAMA(I,4) = ZERO                                
-            GAMA(I,5) = UN                                
+            GAMA(I,5) = ONE                                
             GAMA(I,6) = ZERO             
           ENDDO                          
         ELSE                             
@@ -352,11 +352,11 @@ C!!!!!!add excetion also for ismstr10+offg>un
 C     
         IF (ISORTH == 0) THEN            
           DO I=LFT,LLT                                            
-            GAMA(I,1) = UN                               
+            GAMA(I,1) = ONE                               
             GAMA(I,2) = ZERO                                
             GAMA(I,3) = ZERO             
             GAMA(I,4) = ZERO                                
-            GAMA(I,5) = UN                                
+            GAMA(I,5) = ONE                                
             GAMA(I,6) = ZERO             
           ENDDO                          
         ELSE                             
@@ -406,7 +406,7 @@ C-----------------------------------------------------
         DO I=LFT,LLT
          IF(OFF(I) .NE. 0) THEN
          SUM=VARNOD(NC1(I))+VARNOD(NC2(I))+VARNOD(NC3(I))+VARNOD(NC4(I))
-         VOLN(I)=QUART*SUM*GBUF%RHO(I)/PM(1,MXT(I))
+         VOLN(I)=FOURTH*SUM*GBUF%RHO(I)/PM(1,MXT(I))
          ENDIF
         ENDDO
       ENDIF
@@ -449,7 +449,7 @@ C     heat transfert
 C
       IF(JTHE < 0 ) THEN
          DO I = LFT, LLT
-           TEMPEL(I) =  QUART*( TEMP(NC1(I)) + TEMP(NC2(I))  +
+           TEMPEL(I) =  FOURTH*( TEMP(NC1(I)) + TEMP(NC2(I))  +
      .                          TEMP(NC3(I)) + TEMP(NC4(I))  )    
          ENDDO  
       ENDIF
@@ -468,7 +468,7 @@ c-------------------------------------------
           IPOS(2) = NLOC_DMG%POSI(INOD(2))
           IPOS(3) = NLOC_DMG%POSI(INOD(3))
           IPOS(4) = NLOC_DMG%POSI(INOD(4))
-          VAR_REG(I) = QUART*(DNL(IPOS(1)) + DNL(IPOS(2)) + DNL(IPOS(3)) + DNL(IPOS(4)))
+          VAR_REG(I) = FOURTH*(DNL(IPOS(1)) + DNL(IPOS(2)) + DNL(IPOS(3)) + DNL(IPOS(4)))
         ENDDO
       ENDIF
 C------------------------------------------------------
@@ -708,7 +708,7 @@ C-----Always in global system and fixed then (not like Ismstr=11
 C-----for JCVT>0 Fixed SAV is rotated w/ local system not like Ismstr=1
         NCH=0
         DO I=LFT,LLT
-         IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > UN ) THEN
+         IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > ONE ) THEN
            NCH = NCH +1
            INDEX(NCH) = I
          END IF
@@ -828,12 +828,12 @@ C
        D3(I) =  X42*Y41 - X41*Y42
        D4(I) =  -(D1(I) + D2(I) + D3(I))
 C
-       VOLDP = (X41*B1DP + Y41*C1DP + Z41*D1DP)*UNSIX
+       VOLDP = (X41*B1DP + Y41*C1DP + Z41*D1DP)*ONE_OVER_6
        VOL(I) = VOLDP
       ENDDO
 C
       DO I=1,NEL
-        D = UN/VOL(I)/SIX
+        D = ONE/VOL(I)/SIX
         PX1=-B1(I)*D
         PY1=-C1(I)*D
         PZ1=-D1(I)*D

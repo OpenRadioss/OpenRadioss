@@ -71,7 +71,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
         NCH=0
         DO I=LFT,LLT
-         IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > UN ) THEN
+         IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > ONE ) THEN
            NCH = NCH +1
            INDEX(NCH) = I
          END IF

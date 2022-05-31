@@ -174,7 +174,7 @@ c
       ! Checking element failure and recovering user variable
       DO I=1,NEL
        IF (OFF(I) < EM01) OFF(I) = ZERO
-       IF (OFF(I) < UN .AND. OFF(I) > ZERO) OFF(I) = OFF(I)*QCINQ
+       IF (OFF(I) < ONE .AND. OFF(I) > ZERO) OFF(I) = OFF(I)*FOUR_OVER_5
       END DO
 C
       ! Initialization of variable
@@ -189,14 +189,14 @@ c
         EPS_FAIL = ZERO
 c
         ! If the element is not broken
-        IF (OFF(I) ==  UN .AND. DPLA(I) /= ZERO) THEN
+        IF (OFF(I) ==  ONE .AND. DPLA(I) /= ZERO) THEN
 c
           ! Computation of loading angle
-          MOHR_RADIUS = SQRT(((SIGNXX(I)-SIGNYY(I))/DEUX)**2 + SIGNXY(I)**2)
+          MOHR_RADIUS = SQRT(((SIGNXX(I)-SIGNYY(I))/TWO)**2 + SIGNXY(I)**2)
           IF (MOHR_RADIUS > EM20) THEN
-            COS2THETA(I) = ((SIGNXX(I)-SIGNYY(I))/DEUX)/MOHR_RADIUS
+            COS2THETA(I) = ((SIGNXX(I)-SIGNYY(I))/TWO)/MOHR_RADIUS
           ELSE
-            COS2THETA(I) = UN
+            COS2THETA(I) = ONE
           ENDIF
 c
           ! Computation of the BIQUAD parameters
@@ -218,12 +218,12 @@ c
           SXX = SIGNXX(I) - P
           SYY = SIGNYY(I) - P
           SZZ = SIGNZZ(I) - P
-          SVM = UNDEMI*(SXX**2 + SYY**2 + SZZ**2)
+          SVM = HALF*(SXX**2 + SYY**2 + SZZ**2)
      .          + SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
-          SVM = SQRT(TROIS*SVM)
+          SVM = SQRT(THREE*SVM)
           triaxs = P/MAX(EM20,SVM)
-          IF (triaxs < -DTIERS) triaxs = -DTIERS
-          IF (triaxs >  DTIERS) triaxs =  DTIERS
+          IF (triaxs < -TWO_THIRD) triaxs = -TWO_THIRD
+          IF (triaxs >  TWO_THIRD) triaxs =  TWO_THIRD
 c
           ! Computing the plastic strain at failure according to stress triaxiality
           IF (triaxs <= THIRD) THEN
@@ -235,23 +235,23 @@ c
                 EPS_FAIL = X_2(1) + X_2(2)*triaxs + X_2(3)*triaxs**2
                 IF (IREG > 0) EPS_FAIL = EPS_FAIL*UVAR(I,3)
               CASE(2)
-                IF (triaxs <= UN/SQR3) THEN                     ! triax < 0.57735
-                  P1X      = TIERS
+                IF (triaxs <= ONE/SQR3) THEN                     ! triax < 0.57735
+                  P1X      = THIRD
                   P1Y      = X_1(1) + X_1(2)*P1X + X_1(3)*P1X**2
-                  S1X      = UN/SQR3
-                  S1Y      = X_2(1) + X_2(2)/SQR3 + X_2(3)*(UN/SQR3)**2
+                  S1X      = ONE/SQR3
+                  S1Y      = X_2(1) + X_2(2)/SQR3 + X_2(3)*(ONE/SQR3)**2
                   A1       = (P1Y - S1Y)/(P1X - S1X)**2
-                  B1       = -DEUX*A1*S1X
+                  B1       = -TWO*A1*S1X
                   C1       = A1*S1X**2 + S1Y 
                   EPS_FAIL = C1 + B1*triaxs + A1*triaxs**2
                   IF (IREG > 0) EPS_FAIL = EPS_FAIL*UVAR(I,3)
                 ELSE                                             ! triax > 0.57735
-                  P1X      = DEUX*TIERS
+                  P1X      = TWO*THIRD
                   P1Y      = X_2(1) + X_2(2)*P1X + X_2(3)*P1X**2
-                  S1X      = UN/SQR3
-                  S1Y      = X_2(1) + X_2(2)/SQR3 + X_2(3)*(UN/SQR3)**2
+                  S1X      = ONE/SQR3
+                  S1Y      = X_2(1) + X_2(2)/SQR3 + X_2(3)*(ONE/SQR3)**2
                   A1       = (P1Y - S1Y)/(P1X - S1X)**2
-                  B1       = -DEUX*A1*S1X
+                  B1       = -TWO*A1*S1X
                   C1       = A1*S1X**2 + S1Y 
                   EPS_FAIL = C1 + B1*triaxs + A1*triaxs**2
                   IF (IREG > 0) EPS_FAIL = EPS_FAIL*UVAR(I,3)
@@ -262,7 +262,7 @@ c
           ! Strain-rate effects
           IF (CJC /= ZERO .OR. IRATE /= 0) THEN 
             IF (CJC /= ZERO) THEN 
-              FRATE = UN
+              FRATE = ONE
               IF (EPSP(I) > EPSD0) FRATE = FRATE + CJC*LOG(EPSP(I)/EPSD0)
             ELSEIF (IRATE /= 0) THEN 
               FRATE = FINTER(KFUNC(IRATE),EPSP(I)/RATE_SCALE,NPF,TF,DF) 
@@ -272,11 +272,11 @@ c
 c
           ! Computation of damage variables
           DFMAX(I) = DFMAX(I) + DPLA(I)/MAX(EPS_FAIL,EM6)
-          DFMAX(I) = MIN(UN,DFMAX(I))
+          DFMAX(I) = MIN(ONE,DFMAX(I))
 c
           ! Checking element failure using global damage
-          IF (DFMAX(I) >= UN .AND. OFF(I) == UN) THEN
-            OFF(I)      = QCINQ
+          IF (DFMAX(I) >= ONE .AND. OFF(I) == ONE) THEN
+            OFF(I)      = FOUR_OVER_5
             NINDX       = NINDX + 1
             INDX(NINDX) = I
             IDEL7NOK    = 1   

@@ -109,15 +109,15 @@ C-----------------------------------------------
 C         PULLEY SPRING                                                 
 C-----------------------------------------------                        
             DO I=LFT,LLT                                                  
-              IOFF(EL2FA(N_FA+I)) = NINT(MIN(GBUF%OFF(I),UN))            
-              IOFF(EL2FA(N_FA+I)+1) = NINT(MIN(GBUF%OFF(I),UN))          
+              IOFF(EL2FA(N_FA+I)) = NINT(MIN(GBUF%OFF(I),ONE))            
+              IOFF(EL2FA(N_FA+I)+1) = NINT(MIN(GBUF%OFF(I),ONE))          
             ENDDO                                                         
 C-----------------------------------------------                        
           ELSEIF (ITY == 1 .or. ITY == 2 .or. ITY == 51 .or.
      .            ITY == 3 .or. ITY == 7 .or. ITY == 4  .or.
      .            ITY == 5 .or. ITY == 6) THEN
             DO I=LFT,LLT
-              IOFF(EL2FA(N_FA+I)) = NINT(MIN(GBUF%OFF(I),UN))
+              IOFF(EL2FA(N_FA+I)) = NINT(MIN(GBUF%OFF(I),ONE))
             ENDDO
 C-----------------------------------------------                        
           ENDIF ! IF (MLW == 0)

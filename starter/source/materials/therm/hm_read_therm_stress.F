@@ -103,7 +103,7 @@ c
             CALL HM_GET_INTV  ('FUNCT_ID'      ,IFUNC_ALPHA    ,IS_AVAILABLE, LSUBMODEL) 
             CALL HM_GET_FLOATV('CLOAD_SCALE_Y' ,FSCAL_ALPHA    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-            IF (FSCAL_ALPHA == ZERO) FSCAL_ALPHA=UN
+            IF (FSCAL_ALPHA == ZERO) FSCAL_ALPHA=ONE
             DO I=1,NUMMAT-1
               IF(IPM(1,I) == MAT_ID) THEN
                  ILAW = IPM(2,I)
@@ -123,7 +123,7 @@ c
                  MLAW_TAG(I)%G_TEMP  = 1
                  MLAW_TAG(I)%L_TEMP  = 1
                  WRITE(IOUT,4000)MAT_ID,IFUNC_ALPHA,FSCAL_ALPHA
-                 IF (PM(72, I) > UN) THEN
+                 IF (PM(72, I) > ONE) THEN
                     ! Euler or ALE material
                     CALL ANCMSG(MSGID=1723,
      .                          MSGTYPE=MSGERROR,

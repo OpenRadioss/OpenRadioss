@@ -406,14 +406,14 @@ C           | Iyx Iyy | { gamay } = { My }
 C           et gamaz=0
 C------------------
         IF(LCOD.EQ.1)THEN
-          DET=UN/(RBY(17)*RBY(21)-RBY(18)*RBY(20))
+          DET=ONE/(RBY(17)*RBY(21)-RBY(18)*RBY(20))
           WA1=AM(1,M)
           WA2=AM(2,M)
           AM(1,M)=( RBY(21)*WA1-RBY(20)*WA2)*DET
           AM(2,M)=(-RBY(18)*WA1+RBY(17)*WA2)*DET
           AM(3,M)=ZERO
         ELSEIF(LCOD.EQ.2)THEN
-          DET=UN/(RBY(17)*RBY(25)-RBY(19)*RBY(23))
+          DET=ONE/(RBY(17)*RBY(25)-RBY(19)*RBY(23))
           WA1=AM(1,M)
           WA2=AM(3,M)
           AM(1,M)=( RBY(25)*WA1-RBY(23)*WA2)*DET
@@ -424,7 +424,7 @@ C------------------
           AM(2,M)=ZERO
           AM(3,M)=ZERO
         ELSEIF(LCOD.EQ.4)THEN
-          DET=UN/(RBY(21)*RBY(25)-RBY(22)*RBY(24))
+          DET=ONE/(RBY(21)*RBY(25)-RBY(22)*RBY(24))
           WA1=AM(2,M)
           WA2=AM(3,M)
           AM(1,M)=ZERO
@@ -493,7 +493,7 @@ C12345678901234567890123456789012345678901234567890123456789012345678901
          IL4=SKEW(4,ISK)*II1+SKEW(5,ISK)*II4+SKEW(6,ISK)*II7
          IL5=SKEW(4,ISK)*II2+SKEW(5,ISK)*II5+SKEW(6,ISK)*II8
 C
-         DET=UN/(IL1*IL5-IL2*IL4)
+         DET=ONE/(IL1*IL5-IL2*IL4)
          WA1=AM(1,M)
          WA2=AM(2,M)
          AM(1,M)=( IL5*WA1-IL4*WA2)*DET
@@ -512,7 +512,7 @@ C        VL(3)=ZERO
          IL7=SKEW(7,ISK)*II1+SKEW(8,ISK)*II4+SKEW(9,ISK)*II7
          IL9=SKEW(7,ISK)*II3+SKEW(8,ISK)*II6+SKEW(9,ISK)*II9
 C
-         DET=UN/(IL1*IL9-IL3*IL7)
+         DET=ONE/(IL1*IL9-IL3*IL7)
          WA1=AM(1,M)
          WA2=AM(3,M)
          AM(1,M)=( IL9*WA1-IL7*WA2)*DET
@@ -542,7 +542,7 @@ C        VL(3)=ZERO
          IL8=SKEW(7,ISK)*II2+SKEW(8,ISK)*II5+SKEW(9,ISK)*II8
          IL9=SKEW(7,ISK)*II3+SKEW(8,ISK)*II6+SKEW(9,ISK)*II9
 C
-         DET=UN/(IL5*IL9-IL6*IL8)
+         DET=ONE/(IL5*IL9-IL6*IL8)
          WA1=AM(2,M)
          WA2=AM(3,M)
          AM(1,M)=ZERO
@@ -587,7 +587,7 @@ C        VL(3)=ZERO
         AM(3,M)=SKEW(3,ISK)*WA1+SKEW(6,ISK)*WA2+SKEW(9,ISK)*WA3
        ENDIF
 C
-C      CALCUL D'UN PSEUDO MOMENT:
+C      CALCUL D'ONE PSEUDO MOMENT:
 C      EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
        AM(1,M)=IN(M)*AM(1,M)
        AM(2,M)=IN(M)*AM(2,M)
@@ -613,7 +613,7 @@ C les contributions des vr ne sont ajoutees que sur le processeur main
            AM(3,M) = AM(3,M) + (RBY(10)-RBY(11))*VI(1)*VI(2)
          END IF
 C
-C CALCUL D'UN PSEUDO MOMENT:
+C CALCUL D'ONE PSEUDO MOMENT:
 C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
 C
          IF (IMPL_S.EQ.0) THEN
@@ -652,7 +652,7 @@ C
 C
         ELSEIF(N2D==1) THEN
 C
-C CALCUL D'UN PSEUDO MOMENT:
+C CALCUL D'ONE PSEUDO MOMENT:
 C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
 C
          IF (IMPL_S.EQ.0) THEN
@@ -684,7 +684,7 @@ C les contributions des vr ne sont ajoutees que sur le processeur main
           VI(3)=ZERO
          CALL ROTBMR(VI,RBY,DT1)
 C
-C CALCUL D'UN PSEUDO MOMENT:
+C CALCUL D'ONE PSEUDO MOMENT:
 C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
 C
          IF (IMPL_S.EQ.0) THEN

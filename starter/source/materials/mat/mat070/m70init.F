@@ -92,8 +92,8 @@ C=======================================================================
           UVAR(I,J)=ZERO
         ENDDO
         UVAR(I,3)=E0
-        UVAR(I,9)=UN
-        UVAR(I,10)=UN
+        UVAR(I,9)=ONE
+        UVAR(I,10)=ONE
       ENDDO
 c-----------
       RETURN

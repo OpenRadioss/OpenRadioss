@@ -106,7 +106,7 @@ c=======================================================================
       SSPNL  = NLOC_DMG%SSPNL(IMAT)  ! Non-local sound speed
       L_NLOC = NLOC_DMG%L_NLOC       ! Length of non-local tables
       LE_MAX = NLOC_DMG%LE_MAX(IMAT) ! Maximal length of convergence
-      H(1)   = UN-ETA-KSI
+      H(1)   = ONE-ETA-KSI
       H(2)   = ETA
       H(3)   = KSI
       ! Allocation of elementary forces vectors
@@ -146,7 +146,7 @@ c
         POS3(I) = NLOC_DMG%POSI(N3)  
 c
         ! Computation of the element volume
-        VOL(I)  = TIERS*AREA(I)*THK(I)
+        VOL(I)  = THIRD*AREA(I)*THK(I)
 c 
         ! Computation of the product BtxB 
         BTB11(I) = (-PX3(I)-PX2(I))**2 + (-PY2(I)-PY3(I))**2
@@ -212,11 +212,11 @@ c
           DO I = 1,NEL
             ! Computation of B-matrix values
             IF ((NDDL==2).AND.(K==2)) THEN
-              BTH1 = (UN/(ZTH(K-1,NDDL)  - ZTH(K,NDDL)))*(UN/THK(I))
-              BTH2 = (UN/(ZTH(K,NDDL)    - ZTH(K-1,NDDL)))*(UN/THK(I))
+              BTH1 = (ONE/(ZTH(K-1,NDDL)  - ZTH(K,NDDL)))*(ONE/THK(I))
+              BTH2 = (ONE/(ZTH(K,NDDL)    - ZTH(K-1,NDDL)))*(ONE/THK(I))
             ELSE
-              BTH1 = (UN/(ZTH(K,NDDL)    - ZTH(K+1,NDDL)))*(UN/THK(I))
-              BTH2 = (UN/(ZTH(K+1,NDDL)  - ZTH(K,NDDL)))*(UN/THK(I))
+              BTH1 = (ONE/(ZTH(K,NDDL)    - ZTH(K+1,NDDL)))*(ONE/THK(I))
+              BTH2 = (ONE/(ZTH(K+1,NDDL)  - ZTH(K,NDDL)))*(ONE/THK(I))
             ENDIF               
 c         
             ! Computation of the non-local K matrix
@@ -266,7 +266,7 @@ C
           DTNOD = EP20
           DO K = 1,NDNOD
             DO I = 1,NEL
-              DTN(I,K) = DTFAC1(11)*CDAMP*SQRT(DEUX*MASSTH(I,K)/MAX(STIFNLTH(I,K),EM20)) 
+              DTN(I,K) = DTFAC1(11)*CDAMP*SQRT(TWO*MASSTH(I,K)/MAX(STIFNLTH(I,K),EM20)) 
               DTNOD    = MIN(DTN(I,K),DTNOD)
             ENDDO
           ENDDO
@@ -279,7 +279,7 @@ C
                 DO I = 1,NEL
                   IF (DTN(I,K) < DTMIN1(11)) THEN
                     DT2P        = DTMIN1(11)/(DTFAC1(11)*CDAMP)
-                    MASSTH(I,K) = MAX(MASSTH(I,K),CSTA*UNDEMI*STIFNLTH(I,K)*DT2P*DT2P*UNP00001)
+                    MASSTH(I,K) = MAX(MASSTH(I,K),CSTA*HALF*STIFNLTH(I,K)*DT2P*DT2P*ONEP00001)
                   ENDIF
                 ENDDO
               ENDDO
@@ -409,23 +409,23 @@ c
             IF (NODADT > 0) THEN 
               ! Non-local absorbing forces
               F1(I,K) = SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1))*H(1)*WF(K,NDDL)*ZETA*SSPNL*
-     .                     UNDEMI*(VNL(POS1(I)+K-1)+VNL0(POS1(I)+K-1))*SQRT((QUATRE/SQRT(TROIS))*(LE_MAX**2))*THK(I)
+     .                     HALF*(VNL(POS1(I)+K-1)+VNL0(POS1(I)+K-1))*SQRT((FOUR/SQRT(THREE))*(LE_MAX**2))*THK(I)
               F2(I,K) = SQRT(MASS(POS2(I)+K-1)/MASS0(POS2(I)+K-1))*H(2)*WF(K,NDDL)*ZETA*SSPNL*
-     .                     UNDEMI*(VNL(POS2(I)+K-1)+VNL0(POS2(I)+K-1))*SQRT((QUATRE/SQRT(TROIS))*(LE_MAX**2))*THK(I) 
+     .                     HALF*(VNL(POS2(I)+K-1)+VNL0(POS2(I)+K-1))*SQRT((FOUR/SQRT(THREE))*(LE_MAX**2))*THK(I) 
               F3(I,K) = SQRT(MASS(POS3(I)+K-1)/MASS0(POS3(I)+K-1))*H(3)*WF(K,NDDL)*ZETA*SSPNL*
-     .                     UNDEMI*(VNL(POS3(I)+K-1)+VNL0(POS3(I)+K-1))*SQRT((QUATRE/SQRT(TROIS))*(LE_MAX**2))*THK(I)
+     .                     HALF*(VNL(POS3(I)+K-1)+VNL0(POS3(I)+K-1))*SQRT((FOUR/SQRT(THREE))*(LE_MAX**2))*THK(I)
               ! Computing nodal equivalent stiffness
               STI1(I,K) = EM20
               STI2(I,K) = EM20
               STI3(I,K) = EM20          
             ELSE
               ! Non-local absorbing forces
-              F1(I,K) = H(1)*WF(K,NDDL)*ZETA*SSPNL*UNDEMI*(VNL(POS1(I)+K-1)+VNL0(POS1(I)+K-1))*
-     .                                    SQRT((QUATRE/SQRT(TROIS))*(LE_MAX**2))*THK(I)
-              F2(I,K) = H(2)*WF(K,NDDL)*ZETA*SSPNL*UNDEMI*(VNL(POS2(I)+K-1)+VNL0(POS2(I)+K-1))*
-     .                                    SQRT((QUATRE/SQRT(TROIS))*(LE_MAX**2))*THK(I) 
-              F3(I,K) = H(3)*WF(K,NDDL)*ZETA*SSPNL*UNDEMI*(VNL(POS3(I)+K-1)+VNL0(POS3(I)+K-1))*
-     .                                    SQRT((QUATRE/SQRT(TROIS))*(LE_MAX**2))*THK(I)
+              F1(I,K) = H(1)*WF(K,NDDL)*ZETA*SSPNL*HALF*(VNL(POS1(I)+K-1)+VNL0(POS1(I)+K-1))*
+     .                                    SQRT((FOUR/SQRT(THREE))*(LE_MAX**2))*THK(I)
+              F2(I,K) = H(2)*WF(K,NDDL)*ZETA*SSPNL*HALF*(VNL(POS2(I)+K-1)+VNL0(POS2(I)+K-1))*
+     .                                    SQRT((FOUR/SQRT(THREE))*(LE_MAX**2))*THK(I) 
+              F3(I,K) = H(3)*WF(K,NDDL)*ZETA*SSPNL*HALF*(VNL(POS3(I)+K-1)+VNL0(POS3(I)+K-1))*
+     .                                    SQRT((FOUR/SQRT(THREE))*(LE_MAX**2))*THK(I)
             ENDIF
           ENDIF
         ENDDO

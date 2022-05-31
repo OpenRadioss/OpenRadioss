@@ -195,7 +195,7 @@ c--------------------------
               OFF(I) = ZERO
             ENDIF
             !If one integration points is not fully broken, the shell remains
-            IF (OFFL(I)>ZERO) OFF(I) = UN
+            IF (OFFL(I)>ZERO) OFF(I) = ONE
           ! Case of fully integrated shells
           ELSE
             IF ((IPG == 1).AND.(IPT == 1)) THEN 
@@ -206,14 +206,14 @@ c--------------------------
                 DO IS = 1,NPTS
                   DO IT = 1,NPTT
                     !If one integration points is not fully broken, the shell remains
-                    IF (BUFLY%LBUF(IR,IS,IT)%OFF(I)>ZERO) OFF(I) = UN
+                    IF (BUFLY%LBUF(IR,IS,IT)%OFF(I)>ZERO) OFF(I) = ONE
                   ENDDO
                 ENDDO
               ENDDO
             ENDIF
           ENDIF
           !Integration point failure
-          IF (OFFL(I) == QCINQ) THEN
+          IF (OFFL(I) == FOUR_OVER_5) THEN
             NINDX      = NINDX+1
             INDX(NINDX)= I
           ENDIF

@@ -129,7 +129,7 @@ C----------------
       PM(33)=NR
       PM(34)=NT
       PM(35)=IDF
-      IF(PM(79) == ZERO)PM(79)=TROIS100
+      IF(PM(79) == ZERO)PM(79)=THREE100
       IDR = IDF
       IDT = IDR + NR
       IDP = IDT + NT
@@ -160,7 +160,7 @@ C
       PM(31) = P0
       
       !SSP0
-      MU0 = RHOI/RHOR-UN
+      MU0 = RHOI/RHOR-ONE
       RHO0I=PM(89)
       DF = RHOR/RHOI     
       SSP0 = ZERO 
@@ -168,7 +168,7 @@ C
       RHOI = PM(89) 
         DPDMU=RHO0I*DPDR
       DPDMU=MAX(ZERO,DPDMU)        
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + DTIERS*G0)/RHOR) 
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0      
       
       RETURN

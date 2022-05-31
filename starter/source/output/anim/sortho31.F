@@ -104,17 +104,17 @@ c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 c     norme r s t                                                       
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                       
       aa = sqrt(rx*rx + ry*ry + rz*rz)                                  
-      if ( aa.ne.ZERO) aa = UN / aa                                     
+      if ( aa.ne.ZERO) aa = ONE / aa                                     
       rx = rx * aa                                                      
       ry = ry * aa                                                      
       rz = rz * aa                                                      
       aa = sqrt(sx*sx + sy*sy + sz*sz)                                  
-      if ( aa.ne.ZERO) aa = UN / aa                                     
+      if ( aa.ne.ZERO) aa = ONE / aa                                     
       sx = sx * aa                                                      
       sy = sy * aa                                                      
       sz = sz * aa                                                      
       aa = sqrt(tx*tx + ty*ty + tz*tz)                                  
-      if ( aa.ne.ZERO) aa = UN / aa                                     
+      if ( aa.ne.ZERO) aa = ONE / aa                                     
       tx = tx * aa                                                      
       ty = ty * aa                                                      
       tz = tz * aa                                                      
@@ -138,19 +138,19 @@ c
        e3z = rx * sy - ry * sx + tz                                     
 c                                                                       
        bb = sqrt(e1x*e1x + e1y*e1y + e1z*e1z)                           
-       if ( bb.ne.ZERO) bb = UN / bb                                    
+       if ( bb.ne.ZERO) bb = ONE / bb                                    
        rx = e1x * bb                                                    
        ry = e1y * bb                                                    
        rz = e1z * bb                                                    
 c                                                                       
        bb = sqrt(e2x*e2x + e2y*e2y + e2z*e2z)                           
-       if ( bb.ne.ZERO) bb = UN / bb                                    
+       if ( bb.ne.ZERO) bb = ONE / bb                                    
        sx = e2x * bb                                                    
        sy = e2y * bb                                                    
        sz = e2z * bb                                                    
 c                                                                       
        bb = sqrt(e3x*e3x + e3y*e3y + e3z*e3z)                           
-       if ( bb.ne.ZERO) bb = UN / bb                                    
+       if ( bb.ne.ZERO) bb = ONE / bb                                    
        tx = e3x * bb                                                    
        ty = e3y * bb                                                    
        tz = e3z * bb                                                    
@@ -167,7 +167,7 @@ c
       e3z = e1x * sy - e1y * sx                                         
 c                                                                       
       aa = sqrt(e3x*e3x + e3y*e3y + e3z*e3z)                            
-      if ( aa.ne.ZERO) aa = UN / aa                                     
+      if ( aa.ne.ZERO) aa = ONE / aa                                     
       e3x = e3x * aa                                                    
       e3y = e3y * aa                                                    
       e3z = e3z * aa                                                    

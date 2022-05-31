@@ -165,25 +165,25 @@ c--------------------------------------------------
 c     Default values
 c--------------------------------------------------
       DO I=1,NRATE
-        IF (YFAC(I) == ZERO) YFAC(I) = UN*PRESS_SCALE
+        IF (YFAC(I) == ZERO) YFAC(I) = ONE*PRESS_SCALE
       ENDDO
 c
       IF (EPSMAX == ZERO) EPSMAX = EP20
 c--------------------------------------------------
-      C1 = TIERS*E/(UN - DEUX*NU)
-      G  = UNDEMI*E/(UN+NU)
+      C1 = THIRD*E/(ONE - TWO*NU)
+      G  = HALF*E/(ONE+NU)
       ISRATE = MAX(ISRATE,ISRAT)
 c---------------------------
       UPARAM(1) = NRATE
       UPARAM(2) = E
       UPARAM(3) = G
       UPARAM(4) = NU
-      UPARAM(5) = UN/(UN - NU*NU)
+      UPARAM(5) = ONE/(ONE - NU*NU)
       UPARAM(6) = NU*UPARAM(5)
-      UPARAM(7) = G*DEUX
-      UPARAM(8) = G*TROIS
+      UPARAM(7) = G*TWO
+      UPARAM(8) = G*THREE
       UPARAM(9) = C1
-      UPARAM(10)= C1 + G*QUATRE*TIERS
+      UPARAM(10)= C1 + G*FOUR*THIRD
       UPARAM(11)= EPSMAX 
       DO I=1,NRATE
         UPARAM(14+I)=RATE(I)
@@ -198,7 +198,7 @@ c-----------------
       PARMAT(5) = FCUT
 c
       PARMAT(16) = 2
-      PARMAT(17) =  (UN - DEUX*NU)/(UN - NU) ! == DEUX*G/(C1+QTHIRD*G)
+      PARMAT(17) =  (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G)
 c-----------------
       PM(1)  = RHOR
       PM(89) = RHO0

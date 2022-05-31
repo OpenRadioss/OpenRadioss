@@ -101,7 +101,7 @@ C-----------------------------------------------
       my_real FINTER, ZFx,ZFy,ZFz, ZZFx,ZZFy,ZZFz,PS, Zx,Zy,Zz,FINTER_SMOOTH
       EXTERNAL FINTER,FINTER_SMOOTH
 C=======================================================================
-      SIXTH  = UNSIX
+      SIXTH  = ONE_OVER_6
       TFEXC  = ZERO
       TFEXTT = ZERO
       N_OLD  = 0
@@ -126,7 +126,7 @@ C code SPMD Parith/OFF ou SMP NE PAS OUBLIER LE CODE P/ON !
 C
 C
        ISENS   = 0
-       XSENS   = UN
+       XSENS   = ONE
        DO K=1,NSENSOR
          IF(IB(6,NL).EQ.LSENSOR(1,K))ISENS=K
        ENDDO
@@ -165,7 +165,7 @@ C----------------
         N2  = IB(2,NL)-10*ISK
         IF(N2.LE.3)THEN
          IF(N2D.NE.1)THEN
-          AXI=UN
+          AXI=ONE
          ELSE
           AXI=X(2,N1)
          ENDIF
@@ -179,7 +179,7 @@ C----------------
           IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
             FEXT(N2,N1)=FEXT(N2,N1)+AA
           ENDIF
-           TFEXC = TFEXC+UNDEMI*(A0+AA)*V(N2,N1)*AXI
+           TFEXC = TFEXC+HALF*(A0+AA)*V(N2,N1)*AXI
          ELSE
           K1=3*N2-2
           K2=3*N2-1
@@ -206,7 +206,7 @@ C----------------
          N2 = N2 - 3
          IF(ISK.LE.1)THEN
           AR(N2,N1)=AR(N2,N1)+AA
-          TFEXC=TFEXC+UNDEMI*(A0+AA)*VR(N2,N1)
+          TFEXC=TFEXC+HALF*(A0+AA)*VR(N2,N1)
 !
           IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
             FTHREAC(N2+3,NODREAC(N1)) = FTHREAC(N2+3,NODREAC(N1)) + AA*DT1
@@ -227,7 +227,7 @@ C----------------
             FTHREAC(6,NODREAC(N1)) = FTHREAC(6,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
           ENDIF
 !
-          TFEXC    = TFEXC+UNDEMI*(A0+AA)*VV
+          TFEXC    = TFEXC+HALF*(A0+AA)*VV
          ENDIF
         ENDIF
 C
@@ -258,9 +258,9 @@ C        ANALYSE 3D
            NX = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
            NY = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
            NZ = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
-           FX = AA*NX*UNHUIT
-           FY = AA*NY*UNHUIT
-           FZ = AA*NZ*UNHUIT
+           FX = AA*NX*ONE_OVER_8
+           FY = AA*NY*ONE_OVER_8
+           FZ = AA*NZ*ONE_OVER_8
 C
            A(1,N1)=A(1,N1)+FX
            A(2,N1)=A(2,N1)+FY
@@ -394,8 +394,8 @@ C
 C        ANALYSE 2D
          NY      = -X(3,N2)+X(3,N1)
          NZ      =  X(2,N2)-X(2,N1)
-         FY      = AA*NY*UNDEMI
-         FZ      = AA*NZ*UNDEMI
+         FY      = AA*NY*HALF
+         FZ      = AA*NZ*HALF
 C
          A(2,N1) = A(2,N1)+FY
          A(3,N1) = A(3,N1)+FZ
@@ -422,9 +422,9 @@ c
 !
 C
          IF(N2D.EQ.1)THEN
-          AX     = UNDEMI*(X(2,N1)+X(2,N2))
+          AX     = HALF*(X(2,N1)+X(2,N2))
          ELSE
-          AX     = UN
+          AX     = ONE
          ENDIF
          TFEXTT  = TFEXTT+DT1*(FY*(V(2,N1)+V(2,N2))+FZ*(V(3,N1)+V(3,N2)))*AX
          
@@ -508,7 +508,7 @@ C-------------------------
            N2  = IB(2,NL)-10*ISK
            IF(N2.LE.3)THEN
              IF(N2D.NE.1)THEN
-               AXI=UN
+               AXI=ONE
              ELSE
                AXI=X(2,N1)
              ENDIF
@@ -522,7 +522,7 @@ C-------------------------
                  FTHREAC(N2,NODREAC(N1)) = FTHREAC(N2,NODREAC(N1)) + AA*DT1
                ENDIF!
 !
-               TFEXC = TFEXC+UNDEMI*(A0+AA)*V(N2,N1)*AXI
+               TFEXC = TFEXC+HALF*(A0+AA)*V(N2,N1)*AXI
              ELSE
                K1  = 3*N2-2
                K2  = 3*N2-1
@@ -544,7 +544,7 @@ C-------------------------
                  FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
                ENDIF
 !
-               TFEXC = TFEXC+UNDEMI*(A0+AA)*VV*AXI
+               TFEXC = TFEXC+HALF*(A0+AA)*VV*AXI
              ENDIF
            ELSEIF(N2.LE.6)THEN
              N2 = N2 - 3
@@ -555,7 +555,7 @@ C-------------------------
                  FTHREAC(N2+3,NODREAC(N1)) = FTHREAC(N2+3,NODREAC(N1)) + AA*DT1
                ENDIF
 !
-               TFEXC=TFEXC+UNDEMI*(A0+AA)*VR(N2,N1)
+               TFEXC=TFEXC+HALF*(A0+AA)*VR(N2,N1)
              ELSE
                K1  = 3*N2-2
                K2  = 3*N2-1
@@ -572,7 +572,7 @@ C-------------------------
                  FTHREAC(6,NODREAC(N1)) = FTHREAC(6,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
                ENDIF
 !
-               TFEXC=TFEXC+UNDEMI*(A0+AA)*VV
+               TFEXC=TFEXC+HALF*(A0+AA)*VV
              ENDIF
            ENDIF
 C
@@ -603,9 +603,9 @@ C--------------------
                NY = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
                NZ = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
 C
-               FX = AA*NX*UNHUIT
-               FY = AA*NY*UNHUIT
-               FZ = AA*NZ*UNHUIT
+               FX = AA*NX*ONE_OVER_8
+               FY = AA*NY*ONE_OVER_8
+               FZ = AA*NZ*ONE_OVER_8
 C
                IAD = IADC(1,NL)
                FSKY(1,IAD) = FX
@@ -746,8 +746,8 @@ C        ANALYSE 2D
              NY  = -X(3,N2)+X(3,N1)
              NZ  =  X(2,N2)-X(2,N1)
 C
-             FY  = AA*NY*UNDEMI
-             FZ  = AA*NZ*UNDEMI
+             FY  = AA*NY*HALF
+             FZ  = AA*NZ*HALF
 C
              IAD = IADC(1,NL)
              FSKY(2,IAD) = FY
@@ -776,9 +776,9 @@ c
 !
 C
              IF(N2D.EQ.1)THEN
-               AX=UNDEMI*(X(2,N1)+X(2,N2))
+               AX=HALF*(X(2,N1)+X(2,N2))
              ELSE
-               AX=UN
+               AX=ONE
              ENDIF
              TFEXTT=TFEXTT+DT1*(FY*(V(2,N1)+V(2,N2))+FZ*(V(3,N1)+V(3,N2)))*AX
            ENDIF
@@ -833,7 +833,7 @@ C---------------------
            N2=IB(2,NL)-10*ISK
            IF(N2.LE.3)THEN
              IF(N2D.NE.1)THEN
-               AXI=UN
+               AXI=ONE
              ELSE
                AXI=X(2,N1)
              ENDIF
@@ -847,7 +847,7 @@ C---------------------
                  FTHREAC(N2,NODREAC(N1)) = FTHREAC(N2,NODREAC(N1)) + AA*DT1
                ENDIF
 !
-               TFEXC = TFEXC+UNDEMI*(A0+AA)*V(N2,N1)*AXI
+               TFEXC = TFEXC+HALF*(A0+AA)*V(N2,N1)*AXI
              ELSE
                K1  = 3*N2-2
                K2  = 3*N2-1
@@ -869,7 +869,7 @@ C---------------------
                  FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
                ENDIF
 !
-               TFEXC = TFEXC+UNDEMI*(A0+AA)*VV*AXI
+               TFEXC = TFEXC+HALF*(A0+AA)*VV*AXI
              ENDIF
            ELSEIF(N2.LE.6)THEN
              N2 = N2 - 3
@@ -880,7 +880,7 @@ C---------------------
                  FTHREAC(N2+3,NODREAC(N1)) = FTHREAC(N2+3,NODREAC(N1)) + AA*DT1
                ENDIF
 !
-               TFEXC=TFEXC+UNDEMI*(A0+AA)*VR(N2,N1)
+               TFEXC=TFEXC+HALF*(A0+AA)*VR(N2,N1)
              ELSE
                K1  = 3*N2-2
                K2  = 3*N2-1
@@ -897,7 +897,7 @@ C---------------------
                  FTHREAC(6,NODREAC(N1)) = FTHREAC(6,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
                ENDIF
 !
-               TFEXC=TFEXC+UNDEMI*(A0+AA)*VV
+               TFEXC=TFEXC+HALF*(A0+AA)*VV
              ENDIF
            ENDIF
 C
@@ -927,9 +927,9 @@ C            ANALYSE 3D
                NX  = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
                NY  = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
                NZ  = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
-               FX  = AA*NX*UNHUIT
-               FY  = AA*NY*UNHUIT
-               FZ  = AA*NZ*UNHUIT
+               FX  = AA*NX*ONE_OVER_8
+               FY  = AA*NY*ONE_OVER_8
+               FZ  = AA*NZ*ONE_OVER_8
 C
                IAD = IADC(1,NL)
                FSKYV(IAD,1) = FX
@@ -1070,8 +1070,8 @@ C
 C        ANALYSE 2D
              NY  =  -X(3,N2)+X(3,N1)
              NZ  =   X(2,N2)-X(2,N1)
-             FY  = AA*NY*UNDEMI
-             FZ  = AA*NZ*UNDEMI
+             FY  = AA*NY*HALF
+             FZ  = AA*NZ*HALF
 C
              IAD = IADC(1,NL)
              FSKYV(IAD,2) = FY
@@ -1100,9 +1100,9 @@ c
 !
 C
              IF(N2D.EQ.1)THEN
-               AX=UNDEMI*(X(2,N1)+X(2,N2))
+               AX=HALF*(X(2,N1)+X(2,N2))
              ELSE
-               AX=UN
+               AX=ONE
              ENDIF
              TFEXTT=TFEXTT+DT1*(FY*(V(2,N1)+V(2,N2))+FZ*(V(3,N1)+V(3,N2)))*AX
            ENDIF

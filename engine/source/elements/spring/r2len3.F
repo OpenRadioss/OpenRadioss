@@ -83,7 +83,7 @@ C
        STIR(2,I) = ZERO
        IF(OFF(I).GT.ZERO)THEN
         IF(MS(NC1(I)).NE.ZERO)THEN
-         MASS2 = DEUX * MS(NC1(I))
+         MASS2 = TWO * MS(NC1(I))
         ELSE
          MASS2 = XM(I)
         ENDIF
@@ -93,12 +93,12 @@ C
         ELSEIF(XKM(I).NE.ZERO)THEN
          STI(1,I) = XKM(I)
         ELSEIF(XCM(I).NE.ZERO.AND.MASS2.NE.ZERO)THEN
-         A = QUATRE * XCM(I)**2 
+         A = FOUR * XCM(I)**2 
          STI(1,I) = A / MASS2
         ENDIF
 C
         IF(MS(NC2(I)).NE.ZERO)THEN
-         MASS2 = DEUX * MS(NC2(I))
+         MASS2 = TWO * MS(NC2(I))
         ELSE
          MASS2 = XM(I)
         ENDIF
@@ -108,12 +108,12 @@ C
         ELSEIF(XKM(I).NE.ZERO)THEN
          STI(2,I) = XKM(I)
         ELSEIF(XCM(I).NE.ZERO.AND.MASS2.NE.ZERO)THEN
-         A = QUATRE * XCM(I)**2 
+         A = FOUR * XCM(I)**2 
          STI(2,I) = A / MASS2
         ENDIF
 C
         IF(IN(NC1(I)).NE.ZERO)THEN
-         IN2 = DEUX * IN(NC1(I))
+         IN2 = TWO * IN(NC1(I))
         ELSE
          IN2 = XIN(I)
         ENDIF
@@ -123,12 +123,12 @@ C
         ELSEIF(XKR(I).NE.ZERO)THEN
          STIR(1,I) = XKR(I)
         ELSEIF(XCR(I).NE.ZERO.AND.IN2.NE.ZERO)THEN
-         A = QUATRE * XCR(I)**2 
+         A = FOUR * XCR(I)**2 
          STIR(1,I) = A / IN2
         ENDIF
 C
         IF(IN(NC2(I)).NE.ZERO)THEN
-         IN2 = DEUX * IN(NC2(I))
+         IN2 = TWO * IN(NC2(I))
         ELSE
          IN2 = XIN(I)
         ENDIF
@@ -138,7 +138,7 @@ C
         ELSEIF(XKR(I).NE.ZERo)THEN
          STIR(2,I) = XKR(I)
         ELSEIF(XCR(I).NE.ZERO.AND.IN2.NE.ZERO)THEN
-         A = QUATRE * XCR(I)**2 
+         A = FOUR * XCR(I)**2 
          STIR(2,I) = A / IN2
         ENDIF
        ENDIF
@@ -155,12 +155,12 @@ C
         DO I=JFT,JLT
           IF(OFF(I).LE.ZERO) CYCLE
           DMELRT(I)=MAX(DMELRT(I),
-     .      XCM(I)*DTA+UNDEMI*XKM(I)*DTB-UNDEMI*MSRT(I))
+     .      XCM(I)*DTA+HALF*XKM(I)*DTB-HALF*MSRT(I))
 C
 C         MX = 2*(Mn+2*DeltaM)
-          MX =MSRT(I)+DEUX*DMELRT(I)
+          MX =MSRT(I)+TWO*DMELRT(I)
 C
-          IF(XCM(I)+XKM(I).LT.EM15)MX =UN
+          IF(XCM(I)+XKM(I).LT.EM15)MX =ONE
           XKM(I)= MAX(EM15,XKM(I))
 
           DT(I)=DTFACS*
@@ -178,10 +178,10 @@ C
        ELSE 
 C
         DO I=JFT,JLT
-          IF(XCM(I)+XKM(I).LT.EM15)XM(I) =UN
+          IF(XCM(I)+XKM(I).LT.EM15)XM(I) =ONE
           XKM(I)= MAX(EM15,XKM(I))
           DT(I)=XM(I)/MAX(EM15,SQRT(XCM(I)*XCM(I)+XM(I)*XKM(I))+XCM(I))
-          IF(XCR(I)+XKR(I).LT.EM15)XIN(I)=UN
+          IF(XCR(I)+XKR(I).LT.EM15)XIN(I)=ONE
           XKR(I)= MAX(EM15,XKR(I))
         DTC(I)=XIN(I)/MAX(EM15,SQRT(XCR(I)*XCR(I)+XIN(I)*XKR(I))+XCR(I))
           DT(I)= MIN(DT(I),DTC(I))
@@ -220,7 +220,7 @@ C
       ELSE
 C
        DO I=JFT,JLT
-         IF(XCM(I)+XKM(I).LT.EM15)XM(I) =UN
+         IF(XCM(I)+XKM(I).LT.EM15)XM(I) =ONE
          XKM(I)= MAX(EM15,XKM(I))
          DT(I)=XM(I)/MAX(EM15,SQRT(XCM(I)*XCM(I)+XM(I)*XKM(I))+XCM(I))
        ENDDO
@@ -237,7 +237,7 @@ C
        ENDDO
 C
        DO  I=JFT,JLT
-         IF(XCR(I)+XKR(I).LT.EM15)XIN(I)=UN
+         IF(XCR(I)+XKR(I).LT.EM15)XIN(I)=ONE
          XKR(I)= MAX(EM15,XKR(I))
         DTC(I)=XIN(I)/MAX(EM15,SQRT(XCR(I)*XCR(I)+XIN(I)*XKR(I))+XCR(I))
          DT(I)= MIN(DT(I),DTC(I))

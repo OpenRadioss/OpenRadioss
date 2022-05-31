@@ -168,7 +168,7 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
       ENDIF     
               
       
-      MU0 = RHOI/RHOR-UN
+      MU0 = RHOI/RHOR-ONE
       DF = RHOR/RHOI
             
       CP = A0 + A1*T0 + A2*T0*T0 + A3*T0**3 + A4*T0**4
@@ -182,10 +182,10 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
      .               C2='Cp(0) < r IS NOT EXPECTED. CHECK INPUT FUNCTION')
       ENDIF               
       
-      E0 = RHO0 * (A0 * T0 + UNDEMI * A1 * T0**2 + TIERS * A2 * T0**3 + QUART * A3 * T0**4 + 
-     .     UNCINQ * A4 * T0**5 - r_GAS_ * T0)
+      E0 = RHO0 * (A0 * T0 + HALF * A1 * T0**2 + THIRD * A2 * T0**3 + FOURTH * A3 * T0**4 + 
+     .     ONE_FIFTH * A4 * T0**5 - r_GAS_ * T0)
      
-      IF(T0.EQ.ZERO)T0=TROIS100
+      IF(T0.EQ.ZERO)T0=THREE100
      
       PM(106) = r_gas_ ! r=R_GAS/M
       PM(88) = PSH
@@ -197,7 +197,7 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
       PM(35) = A3
       PM(36) = A4
       PM(79) = T0
-      IF(PM(79)==ZERO)PM(79)=TROIS100      
+      IF(PM(79)==ZERO)PM(79)=THREE100      
       
       PM(104)=P0-PSH
             
@@ -210,7 +210,7 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
       DPDMU =  RHO0*GAMMA*r_gas_*T0
 
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + DTIERS*G0)/RHOR) 
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0      
 
       WRITE(IOUT,1000)

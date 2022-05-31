@@ -106,13 +106,13 @@ C-----------------------------------------------
       ENDIF
       
       !---Initial State Deduced from e=eos(P0,T0) and t=eos(P0,rho0)
-      T0=(UN/RHO0-B)*(P0+PSTAR)/(GAMMA-UN)/Cv      
-      E0=(P0+GAMMA*PSTAR)*(UN-RHO0*b)/(GAMMA-1)+RHO0*Q
+      T0=(ONE/RHO0-B)*(P0+PSTAR)/(GAMMA-ONE)/Cv      
+      E0=(P0+GAMMA*PSTAR)*(ONE-RHO0*b)/(GAMMA-1)+RHO0*Q
       
       !---warning/errors :
       ! GAMMA <=0
       
-      IF(GAMMA.LE.UN)THEN
+      IF(GAMMA.LE.ONE)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -143,24 +143,24 @@ C-----------------------------------------------
       PM(161)=B
       PM(162)=Cv
       PM(079)=T0
-      IF(PM(79)==ZERO)PM(79)=TROIS100
+      IF(PM(79)==ZERO)PM(79)=THREE100
       
       !P0
-      MU0 = RHOI/RHOR-UN
+      MU0 = RHOI/RHOR-ONE
       DF = RHOR/RHOI     
       !SSP0
       SSP0 = ZERO 
       G0 = PM(22)
       RHOI = PM(89)      
-        UNPMU   =  UN+MU0
-        DENOM   = (UN-RHOI*B*UNPMU)
+        UNPMU   =  ONE+MU0
+        DENOM   = (ONE-RHOI*B*UNPMU)
         NUM     = (E0-RHOI*Q)
         PP      = P0
-        dPdE    = (GAMMA-UN)*UNPMU / DENOM                                         !partial derivative    
-        DPDMU   = (GAMMA-UN)*NUM/DENOM/DENOM + DPDE*(PP)/UNPMU/UNPMU                                  
+        dPdE    = (GAMMA-ONE)*UNPMU / DENOM                                         !partial derivative    
+        DPDMU   = (GAMMA-ONE)*NUM/DENOM/DENOM + DPDE*(PP)/UNPMU/UNPMU                                  
 
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + DTIERS*G0)/RHOR) 
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0           
    
 

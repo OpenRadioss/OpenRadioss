@@ -115,16 +115,16 @@ C-----------------------------------------------
            AREAM       = MAX(AREAM,FACE0M)
            
            !---meth1:supercell dx with 50% of brick dx (smooth time step)
-           !DELTAX(I)   = UNDEMI * DELTAX(I)
+           !DELTAX(I)   = HALF * DELTAX(I)
            
            !---meth2:supercell dx estimated with main cell dx (minorant)
            !DELTAX(I)   = VOLM/AREAM  
             
            !---meth3:isomorph supercell to equivlent brick(cube) 
-           !DELTAX(I)   = (VOLN(I))**TIERS
+           !DELTAX(I)   = (VOLN(I))**THIRD
            
            !---meth4:isomorph main cell only to equivlent brick(cube) 
-           !DELTAX(I)   = VOLM**TIERS  
+           !DELTAX(I)   = VOLM**THIRD  
                     
            !---meth5: no specific treatment (FAST but only valid if time step scale factor <= 0.5 in engine file)
            !DELTAX(I)    = DELTAX(I)

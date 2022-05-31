@@ -277,9 +277,9 @@ C      IGTYP=NINT(GEO(12,PID))
 C      CALL GET_GAMA(MTN,NEL,NBGAMA,JCVT,PM,IXS(1,NF1),IGTYP)
       MX = MXT(LFT)
       DO I=LFT,LLT
-        NU(I)=MIN(UNDEMI,PM(21,MX))
+        NU(I)=MIN(HALF,PM(21,MX))
         C1 =PM(32,MX)
-        E0(I) =TROIS*(UN-DEUX*NU(LFT))*C1
+        E0(I) =THREE*(ONE-TWO*NU(LFT))*C1
         DELTAX(I)=EP30
 		      IDEG(I)=0
       ENDDO
@@ -312,7 +312,7 @@ c
        CALL S8ZSIGP3(LFT  ,LLT       ,GBUF%SIG,E0  ,GBUF%PLA,
      2               FAC  ,GBUF%G_PLA,NEL     )
        DO I=LFT,LLT
-        NU1(I)=NU(I)+(UNDEMI-NU(I))*FAC(I)
+        NU1(I)=NU(I)+(HALF-NU(I))*FAC(I)
        ENDDO
       ELSE
        DO I=LFT,LLT

@@ -142,7 +142,7 @@ C-----------------------------------------------
       !--------------------------------!
       !     INPUT CHECK                !
       !--------------------------------!      
-      IF(A1.LT.ZERO .OR. A1.GT.UN)THEN
+      IF(A1.LT.ZERO .OR. A1.GT.ONE)THEN
         chain1 = 'INITIAL MASSIC FRACTION MUST BE BETWEEN 0 AND 1.              '        
         CALL ANCMSG(MSGID=65,                                               
      .              MSGTYPE=MSGERROR,                                    
@@ -152,7 +152,7 @@ C-----------------------------------------------
      .              C1='ERROR',                                          
      .              C2=TITR,                                               
      .              C3=chain1)
-       A1 = UN        
+       A1 = ONE        
       ENDIF
       
       IF(RHO10.LT.ZERO .OR. RHO20.LT.ZERO)THEN
@@ -217,14 +217,14 @@ C-----------------------------------------------
       
       !===UPARAM STORAGE
       PMIN       = - P0
-      RHO0       = RHO10 * A1 + (UN-A1)*RHO20
+      RHO0       = RHO10 * A1 + (ONE-A1)*RHO20
       RHOR       = RHO0
       PM(01)     = RHO0
       PM(89)     = RHO0
       PM(91)     = RHO10
 
       UPARAM(1)  = VIS                    
-      UPARAM(2)  = DEUX*VIS               
+      UPARAM(2)  = TWO*VIS               
       UPARAM(3)  = (VISV-UPARAM(2))*THIRD 
       UPARAM(4)  = C1                     
       C2         = - PMIN * GAM
@@ -237,7 +237,7 @@ C-----------------------------------------------
       UPARAM(11) = RHO10
       UPARAM(12) = RHO20
       UPARAM(13) = VIS2
-      UPARAM(14) = DEUX*VIS2
+      UPARAM(14) = TWO*VIS2
       UPARAM(15) = (VISV2-UPARAM(14))*THIRD
       UPARAM(16) = PSHIFT  !pressure formulation : total or relative to P0
       UPARAM(17) = ISOLVER

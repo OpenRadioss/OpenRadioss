@@ -115,9 +115,9 @@ C     REAL ou REAL*8
      .   SR2D2,SRSHFPR3, INV9, INV12,SCALE(MVSIZ),IZ
 C=======================================================================
       EHOURT = ZERO
-      SR2D2 = SQRT(DEUX)* UNDEMI
-      INV9 = UNNEUF
-      INV12 = UNDOUZE
+      SR2D2 = SQRT(TWO)* HALF
+      INV9 = ONE_OVER_9
+      INV12 = ONE_OVER_12
       
 !!      IGTYP = IGEO(11,MAT(1))
 C
@@ -127,10 +127,10 @@ C
          PX2V    = PX2(I)*VHX(I)
          PY1V    = PY1(I)*VHY(I)
          PY2V    = PY2(I)*VHY(I)
-         GAMA1(I)= OFF(I)*( UN - PX1V-PY1V)
-         GAMA3(I)= OFF(I)*( UN + PX1V+PY1V)
-         GAMA2(I)= OFF(I)*(-UN - PX2V-PY2V)
-         GAMA4(I)= OFF(I)*(-UN + PX2V+PY2V)         
+         GAMA1(I)= OFF(I)*( ONE - PX1V-PY1V)
+         GAMA3(I)= OFF(I)*( ONE + PX1V+PY1V)
+         GAMA2(I)= OFF(I)*(-ONE - PX2V-PY2V)
+         GAMA4(I)= OFF(I)*(-ONE + PX2V+PY2V)         
        ENDDO
       ELSE
        DO I=JFT,JLT
@@ -142,11 +142,11 @@ C
       ENDIF
 C----------------------------------------
        DO I=JFT,JLT
-          SHFPR3 = SHF(I)/(TROIS*(UN + NU(I)))
+          SHFPR3 = SHF(I)/(THREE*(ONE + NU(I)))
           HVISH1 = HVISC*H1(I)
           HVISH2 = HVISC*H2(I)
-          R0 = QUART*RHO(I)
-          R1 = R0*CENT
+          R0 = FOURTH*RHO(I)
+          R1 = R0*HUNDRED
           R0 = R0*HVLIN
           A1(I) = R1*HVISH1 
           A2(I) = R0*SR2D2*SRH1(I)
@@ -157,7 +157,7 @@ C----------------------------------------
           A5(I) = HH3(I)*R1*ZEP072169
           HH3(I) = SR2D2*SRH3(I)
           A6(I) = HH3(I)*R0*ZEP072169
-          R0 = QUART*YM(I)*HELAS
+          R0 = FOURTH*YM(I)*HELAS
           A7(I) = H1(I)*R0
           A8(I) = H2(I)*R0*SHFPR3
        ENDDO
@@ -220,9 +220,9 @@ C
                   VV = VISCMX(I) * VISCMX(I)  * ALPE(I)
                   FAC = MAX(B1(I),B2(I))/(AREA(I) * VV)
                   STI(I) =  STI(I) + FAC * THK0(I) * A11(I)
-                  STIR(I) = FAC *  A11R(I)*UNDOUZE*THK0(I)**3 + 
+                  STIR(I) = FAC *  A11R(I)*ONE_OVER_12*THK0(I)**3 + 
      .                      FAC *  A11(I)*THK0(I)*AREA(I)*INV9 +
-     .            FAC*SCALE(I)*(UNDOUZE*THK0(I)**2 +  AREA(I)*INV9) 
+     .            FAC*SCALE(I)*(ONE_OVER_12*THK0(I)**2 +  AREA(I)*INV9) 
                ENDIF
              ENDDO  
          ELSE
@@ -234,8 +234,8 @@ C
                   VV = VISCMX(I) * VISCMX(I)  * ALPE(I)
                    FAC = MAX(B1(I),B2(I))/(AREA(I) * VV)
                   STI(I) =  STI(I) + FAC * THK0(I) * A11(I)
-                  STIR(I) = FAC *  A11R(I)*UNDOUZE*THK0(I)**3 + 
-     .                            FAC*SCALE(I)*UNDOUZE*THK0(I)**2
+                  STIR(I) = FAC *  A11R(I)*ONE_OVER_12*THK0(I)**3 + 
+     .                            FAC*SCALE(I)*ONE_OVER_12*THK0(I)**2
                 ENDIF 
              ENDDO
           END IF   

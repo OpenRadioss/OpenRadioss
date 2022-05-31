@@ -121,7 +121,7 @@ C     tag des boites contenant des facettes
 C     et creation des candidats
 C================================================================
       ALLOCATE( INDEX_P(NSP2SORT,NSPMD) )
-      ALPHA_MARGE = SQRT(UN +SPASORT)
+      ALPHA_MARGE = SQRT(ONE +SPASORT)
       LOC_PROC = ISPMD + 1
       PSPHS = 0
       NBX = LRVOXEL
@@ -299,7 +299,7 @@ C
         CALL ARRET(2)
       END IF
       LSPHS = 0
-      DKS = -UN
+      DKS = -ONE
       ! Fill LSPHS with local numbers 
       IDEB = 0 
       L = 0
@@ -381,7 +381,7 @@ C
         CALL ARRET(2)
       END IF
       XSPHR = 0
-      DKR = -UN
+      DKR = -ONE
 
 !   -------------------------
 !   alltoall communication with non-uniform size
@@ -486,7 +486,7 @@ C================================================================
 C     tag des boites contenant des facettes
 C     et creation des candidats
 C================================================================
-      ALPHA_MARGE = SQRT(UN +SPASORT)
+      ALPHA_MARGE = SQRT(ONE +SPASORT)
       LOC_PROC = ISPMD + 1
       PSPHS = 0
       NBX = LRVOXEL
@@ -650,7 +650,7 @@ C
         CALL ARRET(2)
       END IF
       LSPHS = 0
-      DKS = -UN
+      DKS = -ONE
       ! Fill LSPHS with local numbers 
       IDEB = 0 
       DO P = 1, NSPMD  
@@ -700,7 +700,7 @@ C
           CALL ARRET(2)
         END IF
         XSPHR = 0
-        DKR = -UN
+        DKR = -ONE
 
         IDEB = 1
         DO L = 1, NBIRECV

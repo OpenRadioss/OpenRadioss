@@ -86,7 +86,7 @@ C-----------------------------------------------
      .        ALEAT, NN, WX(10), WY(10), WZ(10)
       DATA MAXITER/10/
 C-----------------------------------------------
-      FAC     = UN/(NEUF+TIERS) ! cf FACIROT == NEUF+TIERS 
+      FAC     = ONE/(NINE+THIRD) ! cf FACIROT == NINE+THIRD 
 C      
       IF(IDT1TET10/=0 .AND. ISROT==0)THEN
 
@@ -115,12 +115,12 @@ C        	  PYZ(I) =PYZ(I) + VOL(I,IP)*PY(I,N,IP)*PZ(I,N,IP)
               ENDDO
               DO N=5,10
          	DO I=LFT,LLT
-         	  PXX(I) =PXX(I) + TQUATORZE*VOL(I,IP)*PX(I,N,IP)*PX(I,N,IP)
-         	  PYY(I) =PYY(I) + TQUATORZE*VOL(I,IP)*PY(I,N,IP)*PY(I,N,IP)
-         	  PZZ(I) =PZZ(I) + TQUATORZE*VOL(I,IP)*PZ(I,N,IP)*PZ(I,N,IP)
-C        	  PXY(I) =PXY(I) + TQUATORZE*VOL(I,IP)*PX(I,N,IP)*PY(I,N,IP)
-C        	  PXZ(I) =PXZ(I) + TQUATORZE*VOL(I,IP)*PX(I,N,IP)*PZ(I,N,IP)
-C        	  PYZ(I) =PYZ(I) + TQUATORZE*VOL(I,IP)*PY(I,N,IP)*PZ(I,N,IP)
+         	  PXX(I) =PXX(I) + TRHEE_OVER_14*VOL(I,IP)*PX(I,N,IP)*PX(I,N,IP)
+         	  PYY(I) =PYY(I) + TRHEE_OVER_14*VOL(I,IP)*PY(I,N,IP)*PY(I,N,IP)
+         	  PZZ(I) =PZZ(I) + TRHEE_OVER_14*VOL(I,IP)*PZ(I,N,IP)*PZ(I,N,IP)
+C        	  PXY(I) =PXY(I) + TRHEE_OVER_14*VOL(I,IP)*PX(I,N,IP)*PY(I,N,IP)
+C        	  PXZ(I) =PXZ(I) + TRHEE_OVER_14*VOL(I,IP)*PX(I,N,IP)*PZ(I,N,IP)
+C        	  PYZ(I) =PYZ(I) + TRHEE_OVER_14*VOL(I,IP)*PY(I,N,IP)*PZ(I,N,IP)
          	ENDDO
               ENDDO
             ENDDO
@@ -133,28 +133,28 @@ C        	  PYZ(I) =PYZ(I) + TQUATORZE*VOL(I,IP)*PY(I,N,IP)*PZ(I,N,IP)
             D(LFT:LLT)=ZERO
 
             GFAC=PM(105,MXT(1))
-            LD  =DEUX*SQRT(MAX(UN-GFAC,ZERO))+UN
+            LD  =TWO*SQRT(MAX(ONE-GFAC,ZERO))+ONE
 
             DO IP=1,NPT
 
               DO I=LFT,LLT
          	PXX(I)=PX(I,1,IP)*PX(I,1,IP)+PX(I,2,IP)*PX(I,2,IP)+PX(I,3,IP)*PX(I,3,IP)+PX(I,4,IP)*PX(I,4,IP)+
-     .   	       TQUATORZE*(PX(I,5,IP)*PX(I,5,IP)+PX(I,6,IP)*PX(I,6,IP)+PX(I,7,IP)*PX(I,7,IP)+
+     .   	       TRHEE_OVER_14*(PX(I,5,IP)*PX(I,5,IP)+PX(I,6,IP)*PX(I,6,IP)+PX(I,7,IP)*PX(I,7,IP)+
      .   			  PX(I,8,IP)*PX(I,8,IP)+PX(I,9,IP)*PX(I,9,IP)+PX(I,10,IP)*PX(I,10,IP))
          	PYY(I)=PY(I,1,IP)*PY(I,1,IP)+PY(I,2,IP)*PY(I,2,IP)+PY(I,3,IP)*PY(I,3,IP)+PY(I,4,IP)*PY(I,4,IP)+
-     .   	       TQUATORZE*(PY(I,5,IP)*PY(I,5,IP) +PY(I,6,IP)*PY(I,6,IP)+PY(I,7,IP)*PY(I,7,IP)+
+     .   	       TRHEE_OVER_14*(PY(I,5,IP)*PY(I,5,IP) +PY(I,6,IP)*PY(I,6,IP)+PY(I,7,IP)*PY(I,7,IP)+
      .   			  PY(I,8,IP)*PY(I,8,IP)+PY(I,9,IP)*PY(I,9,IP)+PY(I,10,IP)*PY(I,10,IP))
          	PZZ(I)=PZ(I,1,IP)*PZ(I,1,IP)+PZ(I,2,IP)*PZ(I,2,IP)+PZ(I,3,IP)*PZ(I,3,IP)+PZ(I,4,IP)*PZ(I,4,IP)+
-     .   	       TQUATORZE*(PZ(I,5,IP)*PZ(I,5,IP)+PZ(I,6,IP)*PZ(I,6,IP)+PZ(I,7,IP)*PZ(I,7,IP)+
+     .   	       TRHEE_OVER_14*(PZ(I,5,IP)*PZ(I,5,IP)+PZ(I,6,IP)*PZ(I,6,IP)+PZ(I,7,IP)*PZ(I,7,IP)+
      .   			  PZ(I,8,IP)*PZ(I,8,IP)+PZ(I,9,IP)*PZ(I,9,IP)+PZ(I,10,IP)*PZ(I,10,IP))
          	PXY(I)=PX(I,1,IP)*PY(I,1,IP)+PX(I,2,IP)*PY(I,2,IP)+PX(I,3,IP)*PY(I,3,IP)+PX(I,4,IP)*PY(I,4,IP)+
-     .   	       TQUATORZE*(PX(I,5,IP)*PY(I,5,IP)+PX(I,6,IP)*PY(I,6,IP)+PX(I,7,IP)*PY(I,7,IP)+
+     .   	       TRHEE_OVER_14*(PX(I,5,IP)*PY(I,5,IP)+PX(I,6,IP)*PY(I,6,IP)+PX(I,7,IP)*PY(I,7,IP)+
      .   			  PX(I,8,IP)*PY(I,8,IP)+PX(I,9,IP)*PY(I,9,IP)+PX(I,10,IP)*PY(I,10,IP)) 
          	PXZ(I)=PX(I,1,IP)*PZ(I,1,IP)+PX(I,2,IP)*PZ(I,2,IP)+PX(I,3,IP)*PZ(I,3,IP)+PX(I,4,IP)*PZ(I,4,IP)+ 
-     .   	       TQUATORZE*(PX(I,5,IP)*PZ(I,5,IP)+PX(I,6,IP)*PZ(I,6,IP)+PX(I,7,IP)*PZ(I,7,IP)+
+     .   	       TRHEE_OVER_14*(PX(I,5,IP)*PZ(I,5,IP)+PX(I,6,IP)*PZ(I,6,IP)+PX(I,7,IP)*PZ(I,7,IP)+
      .   			  PX(I,8,IP)*PZ(I,8,IP)+PX(I,9,IP)*PZ(I,9,IP)+PX(I,10,IP)*PZ(I,10,IP)) 
          	PYZ(I)=PY(I,1,IP)*PZ(I,1,IP)+PY(I,2,IP)*PZ(I,2,IP)+PY(I,3,IP)*PZ(I,3,IP)+PY(I,4,IP)*PZ(I,4,IP)+
-     .   	       TQUATORZE*(PY(I,5,IP)*PZ(I,5,IP)+PY(I,6,IP)*PZ(I,6,IP)+PY(I,7,IP)*PZ(I,7,IP)+
+     .   	       TRHEE_OVER_14*(PY(I,5,IP)*PZ(I,5,IP)+PY(I,6,IP)*PZ(I,6,IP)+PY(I,7,IP)*PZ(I,7,IP)+
      .   			  PY(I,8,IP)*PZ(I,8,IP)+PY(I,9,IP)*PZ(I,9,IP)+PY(I,10,IP)*PZ(I,10,IP)) 
               ENDDO
 
@@ -162,7 +162,7 @@ C        	  PYZ(I) =PYZ(I) + TQUATORZE*VOL(I,IP)*PY(I,N,IP)*PZ(I,N,IP)
          	AA = -(PXX(I)+PYY(I)+PZZ(I))
          	BB =  (PXX(I)*PYY(I)+PXX(I)*PZZ(I)+PYY(I)*PZZ(I)-PXY(I)**2-PXZ(I)**2-PYZ(I)**2) 
          	P  = BB-THIRD*AA*AA
-         	D(I)  = D(I)+ LD * VOL(I,IP) * DEUX*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
+         	D(I)  = D(I)+ LD * VOL(I,IP) * TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
               ENDDO
             ENDDO
 
@@ -176,22 +176,22 @@ C        	  PYZ(I) =PYZ(I) + TQUATORZE*VOL(I,IP)*PY(I,N,IP)*PZ(I,N,IP)
 
               DO I=LFT,LLT
          	PXX(I)=PX(I,1,IP)*PX(I,1,IP)+PX(I,2,IP)*PX(I,2,IP)+PX(I,3,IP)*PX(I,3,IP)+PX(I,4,IP)*PX(I,4,IP)+
-     .   	       TQUATORZE*(PX(I,5,IP)*PX(I,5,IP)+PX(I,6,IP)*PX(I,6,IP)+PX(I,7,IP)*PX(I,7,IP)+
+     .   	       TRHEE_OVER_14*(PX(I,5,IP)*PX(I,5,IP)+PX(I,6,IP)*PX(I,6,IP)+PX(I,7,IP)*PX(I,7,IP)+
      .   			  PX(I,8,IP)*PX(I,8,IP)+PX(I,9,IP)*PX(I,9,IP)+PX(I,10,IP)*PX(I,10,IP))
          	PYY(I)=PY(I,1,IP)*PY(I,1,IP)+PY(I,2,IP)*PY(I,2,IP)+PY(I,3,IP)*PY(I,3,IP)+PY(I,4,IP)*PY(I,4,IP)+
-     .   	       TQUATORZE*(PY(I,5,IP)*PY(I,5,IP) +PY(I,6,IP)*PY(I,6,IP)+PY(I,7,IP)*PY(I,7,IP)+
+     .   	       TRHEE_OVER_14*(PY(I,5,IP)*PY(I,5,IP) +PY(I,6,IP)*PY(I,6,IP)+PY(I,7,IP)*PY(I,7,IP)+
      .   			  PY(I,8,IP)*PY(I,8,IP)+PY(I,9,IP)*PY(I,9,IP)+PY(I,10,IP)*PY(I,10,IP))
          	PZZ(I)=PZ(I,1,IP)*PZ(I,1,IP)+PZ(I,2,IP)*PZ(I,2,IP)+PZ(I,3,IP)*PZ(I,3,IP)+PZ(I,4,IP)*PZ(I,4,IP)+
-     .   	       TQUATORZE*(PZ(I,5,IP)*PZ(I,5,IP)+PZ(I,6,IP)*PZ(I,6,IP)+PZ(I,7,IP)*PZ(I,7,IP)+
+     .   	       TRHEE_OVER_14*(PZ(I,5,IP)*PZ(I,5,IP)+PZ(I,6,IP)*PZ(I,6,IP)+PZ(I,7,IP)*PZ(I,7,IP)+
      .   			  PZ(I,8,IP)*PZ(I,8,IP)+PZ(I,9,IP)*PZ(I,9,IP)+PZ(I,10,IP)*PZ(I,10,IP))
          	PXY(I)=PX(I,1,IP)*PY(I,1,IP)+PX(I,2,IP)*PY(I,2,IP)+PX(I,3,IP)*PY(I,3,IP)+PX(I,4,IP)*PY(I,4,IP)+
-     .   	       TQUATORZE*(PX(I,5,IP)*PY(I,5,IP)+PX(I,6,IP)*PY(I,6,IP)+PX(I,7,IP)*PY(I,7,IP)+
+     .   	       TRHEE_OVER_14*(PX(I,5,IP)*PY(I,5,IP)+PX(I,6,IP)*PY(I,6,IP)+PX(I,7,IP)*PY(I,7,IP)+
      .   			  PX(I,8,IP)*PY(I,8,IP)+PX(I,9,IP)*PY(I,9,IP)+PX(I,10,IP)*PY(I,10,IP)) 
          	PXZ(I)=PX(I,1,IP)*PZ(I,1,IP)+PX(I,2,IP)*PZ(I,2,IP)+PX(I,3,IP)*PZ(I,3,IP)+PX(I,4,IP)*PZ(I,4,IP)+ 
-     .   	       TQUATORZE*(PX(I,5,IP)*PZ(I,5,IP)+PX(I,6,IP)*PZ(I,6,IP)+PX(I,7,IP)*PZ(I,7,IP)+
+     .   	       TRHEE_OVER_14*(PX(I,5,IP)*PZ(I,5,IP)+PX(I,6,IP)*PZ(I,6,IP)+PX(I,7,IP)*PZ(I,7,IP)+
      .   			  PX(I,8,IP)*PZ(I,8,IP)+PX(I,9,IP)*PZ(I,9,IP)+PX(I,10,IP)*PZ(I,10,IP)) 
          	PYZ(I)=PY(I,1,IP)*PZ(I,1,IP)+PY(I,2,IP)*PZ(I,2,IP)+PY(I,3,IP)*PZ(I,3,IP)+PY(I,4,IP)*PZ(I,4,IP)+
-     .   	       TQUATORZE*(PY(I,5,IP)*PZ(I,5,IP)+PY(I,6,IP)*PZ(I,6,IP)+PY(I,7,IP)*PZ(I,7,IP)+
+     .   	       TRHEE_OVER_14*(PY(I,5,IP)*PZ(I,5,IP)+PY(I,6,IP)*PZ(I,6,IP)+PY(I,7,IP)*PZ(I,7,IP)+
      .   			  PY(I,8,IP)*PZ(I,8,IP)+PY(I,9,IP)*PZ(I,9,IP)+PY(I,10,IP)*PZ(I,10,IP)) 
               ENDDO
 
@@ -200,7 +200,7 @@ C        	  PYZ(I) =PYZ(I) + TQUATORZE*VOL(I,IP)*PY(I,N,IP)*PZ(I,N,IP)
                BB =  GFAC*(PXX(I)*PYY(I)+PXX(I)*PZZ(I)+PYY(I)*PZZ(I)-PXY(I)**2-PXZ(I)**2-PYZ(I)**2) 
                P  = BB-THIRD*AA*AA
 
-               D(I)  = D(I)+VOL(I,IP)*(DEUX*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA)
+               D(I)  = D(I)+VOL(I,IP)*(TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA)
               ENDDO
             ENDDO
 
@@ -234,7 +234,7 @@ C         Initialization - Note : U normalized
           DO N=1,10
             NN = NN + WX(N)*WX(N)+WY(N)*WY(N)+WZ(N)*WZ(N)
           END DO
-          NN=UN/MAX(EM20,NN)
+          NN=ONE/MAX(EM20,NN)
 
           DO N=1,10
             WX(N)=NN * WX(N)
@@ -254,11 +254,11 @@ C         Initialization - Note : U normalized
 C
 C           It is fine so far as both ratio 3B/rho0 c**2 and G / rho0 c**2
 C           are computed using Gmax and c is also computed in the material using Gmax. 
-            GFAC=UNDEMI*PM(105,MXT(1)) !  G/(B+4/3G)
-            BFAC=TROIS-QUATRE*GFAC     ! 3B/(B+4/3G)
+            GFAC=HALF*PM(105,MXT(1)) !  G/(B+4/3G)
+            BFAC=THREE-FOUR*GFAC     ! 3B/(B+4/3G)
           ELSE ! conservative formulation in all other cases
-            GFAC=UNDEMI ! over-estimation of G/(B+4/3G)
-            BFAC=TROIS  ! 
+            GFAC=HALF ! over-estimation of G/(B+4/3G)
+            BFAC=THREE  ! 
           END IF
 
           NITERX=0
@@ -318,15 +318,15 @@ C             Vol_ip * Transpose(Bip).Bip.U
             END DO
             DO N=5,10
               DO J=1,NINDX
-	        VX(J,N)=TQUATORZE*VX(J,N)
-	        VY(J,N)=TQUATORZE*VY(J,N)
-	        VZ(J,N)=TQUATORZE*VZ(J,N)
+	        VX(J,N)=TRHEE_OVER_14*VX(J,N)
+	        VY(J,N)=TRHEE_OVER_14*VY(J,N)
+	        VZ(J,N)=TRHEE_OVER_14*VZ(J,N)
                 NV(J) = NV(J) + VX(J,N)*VX(J,N)+VY(J,N)*VY(J,N)+VZ(J,N)*VZ(J,N)
               END DO
             END DO
             DO J=1,NINDX
               NV(J)  =SQRT(NV(J))
-              NINV(J)=UN/MAX(EM20,NV(J))
+              NINV(J)=ONE/MAX(EM20,NV(J))
             END DO
             DO N=1,10
               DO J=1,NINDX
@@ -377,8 +377,8 @@ C
 C
           DO I=LFT,LLT
             AA   = MAX(UL(I,1),UL(I,2),UL(I,3),UL(I,4))
-            BB   = TQUATORZE*MAX(UL(I,5),UL(I,6),UL(I,7),UL(I,8),UL(I,9),UL(I,10))
-            D(I) = MAX(D(I),DEUX*MAX(AA,BB))
+            BB   = TRHEE_OVER_14*MAX(UL(I,5),UL(I,6),UL(I,7),UL(I,8),UL(I,9),UL(I,10))
+            D(I) = MAX(D(I),TWO*MAX(AA,BB))
           ENDDO
 C
         END IF ! IF(NITER==0)THEN
@@ -386,13 +386,13 @@ C
         DO I=LFT,LLT
 C
 C         DELTAX2 is not used w/IDT1TET10
-          DELTAX2(I) = UN 
+          DELTAX2(I) = ONE 
 C
 C         beware : VOLO = GBUF%VOL stored in RD Starter = VOLG / 4 
           MASS       = VOLG(I) ! (multiplied by RHOG0)
 
-          MREF       = UN/TRENTE2 * MASS
-          DELTAX(I)  = DEUX*SQRT(MREF/D(I))
+          MREF       = ONE/THIRTY2 * MASS
+          DELTAX(I)  = TWO*SQRT(MREF/D(I))
         END DO
 
       ELSEIF(IDT1TET10/=0 .AND. ISROT==2)THEN
@@ -420,40 +420,40 @@ C-----------------------------------------------------------------------------
 C
 C             Q = M-1 Transpose(B)
  	      DO I=LFT,LLT
- 	        QX(I,1)=PX(I,1,IP)+UNDEMI*(PX(I,5,IP)+PX(I,7,IP)+PX(I,8,IP))   
- 	        QX(I,2)=PX(I,2,IP)+UNDEMI*(PX(I,5,IP)+PX(I,6,IP)+PX(I,9,IP))
- 	        QX(I,3)=PX(I,3,IP)+UNDEMI*(PX(I,6,IP)+PX(I,7,IP)+PX(I,10,IP))
- 	        QX(I,4)=PX(I,4,IP)+UNDEMI*(PX(I,8,IP)+PX(I,9,IP)+PX(I,10,IP))
-C	        QX(I,5)=UNDEMI*(PX(I,1,IP)+PX(I,2,IP))+(UNDEMI+UN/FACIROT)*PX(I,5,IP)
-C	    	  	 +QUART(PX(I,6,IP)+PX(I,7,IP)+PX(I,8,IP)+PX(I,9,IP)
- 	        QX(I,5) =UNDEMI*(QX(I,1)+QX(I,2))+FAC*PX(I,5,IP)
- 	        QX(I,6) =UNDEMI*(QX(I,2)+QX(I,3))+FAC*PX(I,6,IP)
- 	        QX(I,7) =UNDEMI*(QX(I,1)+QX(I,3))+FAC*PX(I,7,IP)
- 	        QX(I,8) =UNDEMI*(QX(I,1)+QX(I,4))+FAC*PX(I,8,IP)
- 	        QX(I,9) =UNDEMI*(QX(I,2)+QX(I,4))+FAC*PX(I,9,IP)
- 	        QX(I,10)=UNDEMI*(QX(I,3)+QX(I,4))+FAC*PX(I,10,IP)
+ 	        QX(I,1)=PX(I,1,IP)+HALF*(PX(I,5,IP)+PX(I,7,IP)+PX(I,8,IP))   
+ 	        QX(I,2)=PX(I,2,IP)+HALF*(PX(I,5,IP)+PX(I,6,IP)+PX(I,9,IP))
+ 	        QX(I,3)=PX(I,3,IP)+HALF*(PX(I,6,IP)+PX(I,7,IP)+PX(I,10,IP))
+ 	        QX(I,4)=PX(I,4,IP)+HALF*(PX(I,8,IP)+PX(I,9,IP)+PX(I,10,IP))
+C	        QX(I,5)=HALF*(PX(I,1,IP)+PX(I,2,IP))+(HALF+ONE/FACIROT)*PX(I,5,IP)
+C	    	  	 +FOURTH(PX(I,6,IP)+PX(I,7,IP)+PX(I,8,IP)+PX(I,9,IP)
+ 	        QX(I,5) =HALF*(QX(I,1)+QX(I,2))+FAC*PX(I,5,IP)
+ 	        QX(I,6) =HALF*(QX(I,2)+QX(I,3))+FAC*PX(I,6,IP)
+ 	        QX(I,7) =HALF*(QX(I,1)+QX(I,3))+FAC*PX(I,7,IP)
+ 	        QX(I,8) =HALF*(QX(I,1)+QX(I,4))+FAC*PX(I,8,IP)
+ 	        QX(I,9) =HALF*(QX(I,2)+QX(I,4))+FAC*PX(I,9,IP)
+ 	        QX(I,10)=HALF*(QX(I,3)+QX(I,4))+FAC*PX(I,10,IP)
 
- 	        QY(I,1)=PY(I,1,IP)+UNDEMI*(PY(I,5,IP)+PY(I,7,IP)+PY(I,8,IP))
- 	        QY(I,2)=PY(I,2,IP)+UNDEMI*(PY(I,5,IP)+PY(I,6,IP)+PY(I,9,IP))
- 	        QY(I,3)=PY(I,3,IP)+UNDEMI*(PY(I,6,IP)+PY(I,7,IP)+PY(I,10,IP))
- 	        QY(I,4)=PY(I,4,IP)+UNDEMI*(PY(I,8,IP)+PY(I,9,IP)+PY(I,10,IP))
- 	        QY(I,5) =UNDEMI*(QY(I,1)+QY(I,2))+FAC*PY(I,5,IP)
- 	        QY(I,6) =UNDEMI*(QY(I,2)+QY(I,3))+FAC*PY(I,6,IP)
- 	        QY(I,7) =UNDEMI*(QY(I,1)+QY(I,3))+FAC*PY(I,7,IP)
- 	        QY(I,8) =UNDEMI*(QY(I,1)+QY(I,4))+FAC*PY(I,8,IP)
- 	        QY(I,9) =UNDEMI*(QY(I,2)+QY(I,4))+FAC*PY(I,9,IP)
- 	        QY(I,10)=UNDEMI*(QY(I,3)+QY(I,4))+FAC*PY(I,10,IP)
+ 	        QY(I,1)=PY(I,1,IP)+HALF*(PY(I,5,IP)+PY(I,7,IP)+PY(I,8,IP))
+ 	        QY(I,2)=PY(I,2,IP)+HALF*(PY(I,5,IP)+PY(I,6,IP)+PY(I,9,IP))
+ 	        QY(I,3)=PY(I,3,IP)+HALF*(PY(I,6,IP)+PY(I,7,IP)+PY(I,10,IP))
+ 	        QY(I,4)=PY(I,4,IP)+HALF*(PY(I,8,IP)+PY(I,9,IP)+PY(I,10,IP))
+ 	        QY(I,5) =HALF*(QY(I,1)+QY(I,2))+FAC*PY(I,5,IP)
+ 	        QY(I,6) =HALF*(QY(I,2)+QY(I,3))+FAC*PY(I,6,IP)
+ 	        QY(I,7) =HALF*(QY(I,1)+QY(I,3))+FAC*PY(I,7,IP)
+ 	        QY(I,8) =HALF*(QY(I,1)+QY(I,4))+FAC*PY(I,8,IP)
+ 	        QY(I,9) =HALF*(QY(I,2)+QY(I,4))+FAC*PY(I,9,IP)
+ 	        QY(I,10)=HALF*(QY(I,3)+QY(I,4))+FAC*PY(I,10,IP)
 
- 	        QZ(I,1)=PZ(I,1,IP)+UNDEMI*(PZ(I,5,IP)+PZ(I,7,IP)+PZ(I,8,IP))
- 	        QZ(I,2)=PZ(I,2,IP)+UNDEMI*(PZ(I,5,IP)+PZ(I,6,IP)+PZ(I,9,IP))
- 	        QZ(I,3)=PZ(I,3,IP)+UNDEMI*(PZ(I,6,IP)+PZ(I,7,IP)+PZ(I,10,IP))
- 	        QZ(I,4)=PZ(I,4,IP)+UNDEMI*(PZ(I,8,IP)+PZ(I,9,IP)+PZ(I,10,IP))
- 	        QZ(I,5) =UNDEMI*(QZ(I,1)+QZ(I,2))+FAC*PZ(I,5,IP)
- 	        QZ(I,6) =UNDEMI*(QZ(I,2)+QZ(I,3))+FAC*PZ(I,6,IP)
- 	        QZ(I,7) =UNDEMI*(QZ(I,1)+QZ(I,3))+FAC*PZ(I,7,IP)
- 	        QZ(I,8) =UNDEMI*(QZ(I,1)+QZ(I,4))+FAC*PZ(I,8,IP)
- 	        QZ(I,9) =UNDEMI*(QZ(I,2)+QZ(I,4))+FAC*PZ(I,9,IP)
- 	        QZ(I,10)=UNDEMI*(QZ(I,3)+QZ(I,4))+FAC*PZ(I,10,IP)
+ 	        QZ(I,1)=PZ(I,1,IP)+HALF*(PZ(I,5,IP)+PZ(I,7,IP)+PZ(I,8,IP))
+ 	        QZ(I,2)=PZ(I,2,IP)+HALF*(PZ(I,5,IP)+PZ(I,6,IP)+PZ(I,9,IP))
+ 	        QZ(I,3)=PZ(I,3,IP)+HALF*(PZ(I,6,IP)+PZ(I,7,IP)+PZ(I,10,IP))
+ 	        QZ(I,4)=PZ(I,4,IP)+HALF*(PZ(I,8,IP)+PZ(I,9,IP)+PZ(I,10,IP))
+ 	        QZ(I,5) =HALF*(QZ(I,1)+QZ(I,2))+FAC*PZ(I,5,IP)
+ 	        QZ(I,6) =HALF*(QZ(I,2)+QZ(I,3))+FAC*PZ(I,6,IP)
+ 	        QZ(I,7) =HALF*(QZ(I,1)+QZ(I,3))+FAC*PZ(I,7,IP)
+ 	        QZ(I,8) =HALF*(QZ(I,1)+QZ(I,4))+FAC*PZ(I,8,IP)
+ 	        QZ(I,9) =HALF*(QZ(I,2)+QZ(I,4))+FAC*PZ(I,9,IP)
+ 	        QZ(I,10)=HALF*(QZ(I,3)+QZ(I,4))+FAC*PZ(I,10,IP)
 
  	      END DO
 C
@@ -493,7 +493,7 @@ C     .      	  		  PY(I,8,IP)*QZ(I,8)+PY(I,9,IP)*QZ(I,9)+PY(I,10,IP)*QZ(I,10)
             D(LFT:LLT)=ZERO
 
             GFAC=PM(105,MXT(1))
-            LD  =DEUX*SQRT(MAX(UN-GFAC,ZERO))+UN
+            LD  =TWO*SQRT(MAX(ONE-GFAC,ZERO))+ONE
 
             DO IP=1,NPT
 c-----------------------------------------------------------------------------
@@ -502,40 +502,40 @@ C-----------------------------------------------------------------------------
 C
 C             Q = M-1 Transpose(B)
  	      DO I=LFT,LLT
- 	        QX(I,1)=PX(I,1,IP)+UNDEMI*(PX(I,5,IP)+PX(I,7,IP)+PX(I,8,IP))   
- 	        QX(I,2)=PX(I,2,IP)+UNDEMI*(PX(I,5,IP)+PX(I,6,IP)+PX(I,9,IP))
- 	        QX(I,3)=PX(I,3,IP)+UNDEMI*(PX(I,6,IP)+PX(I,7,IP)+PX(I,10,IP))
- 	        QX(I,4)=PX(I,4,IP)+UNDEMI*(PX(I,8,IP)+PX(I,9,IP)+PX(I,10,IP))
-C	        QX(I,5)=UNDEMI*(PX(I,1,IP)+PX(I,2,IP))+(UNDEMI+UN/FACIROT)*PX(I,5,IP)
-C	    	  	 +QUART(PX(I,6,IP)+PX(I,7,IP)+PX(I,8,IP)+PX(I,9,IP)
- 	        QX(I,5) =UNDEMI*(QX(I,1)+QX(I,2))+FAC*PX(I,5,IP)
- 	        QX(I,6) =UNDEMI*(QX(I,2)+QX(I,3))+FAC*PX(I,6,IP)
- 	        QX(I,7) =UNDEMI*(QX(I,1)+QX(I,3))+FAC*PX(I,7,IP)
- 	        QX(I,8) =UNDEMI*(QX(I,1)+QX(I,4))+FAC*PX(I,8,IP)
- 	        QX(I,9) =UNDEMI*(QX(I,2)+QX(I,4))+FAC*PX(I,9,IP)
- 	        QX(I,10)=UNDEMI*(QX(I,3)+QX(I,4))+FAC*PX(I,10,IP)
+ 	        QX(I,1)=PX(I,1,IP)+HALF*(PX(I,5,IP)+PX(I,7,IP)+PX(I,8,IP))   
+ 	        QX(I,2)=PX(I,2,IP)+HALF*(PX(I,5,IP)+PX(I,6,IP)+PX(I,9,IP))
+ 	        QX(I,3)=PX(I,3,IP)+HALF*(PX(I,6,IP)+PX(I,7,IP)+PX(I,10,IP))
+ 	        QX(I,4)=PX(I,4,IP)+HALF*(PX(I,8,IP)+PX(I,9,IP)+PX(I,10,IP))
+C	        QX(I,5)=HALF*(PX(I,1,IP)+PX(I,2,IP))+(HALF+ONE/FACIROT)*PX(I,5,IP)
+C	    	  	 +FOURTH(PX(I,6,IP)+PX(I,7,IP)+PX(I,8,IP)+PX(I,9,IP)
+ 	        QX(I,5) =HALF*(QX(I,1)+QX(I,2))+FAC*PX(I,5,IP)
+ 	        QX(I,6) =HALF*(QX(I,2)+QX(I,3))+FAC*PX(I,6,IP)
+ 	        QX(I,7) =HALF*(QX(I,1)+QX(I,3))+FAC*PX(I,7,IP)
+ 	        QX(I,8) =HALF*(QX(I,1)+QX(I,4))+FAC*PX(I,8,IP)
+ 	        QX(I,9) =HALF*(QX(I,2)+QX(I,4))+FAC*PX(I,9,IP)
+ 	        QX(I,10)=HALF*(QX(I,3)+QX(I,4))+FAC*PX(I,10,IP)
 
- 	        QY(I,1)=PY(I,1,IP)+UNDEMI*(PY(I,5,IP)+PY(I,7,IP)+PY(I,8,IP))
- 	        QY(I,2)=PY(I,2,IP)+UNDEMI*(PY(I,5,IP)+PY(I,6,IP)+PY(I,9,IP))
- 	        QY(I,3)=PY(I,3,IP)+UNDEMI*(PY(I,6,IP)+PY(I,7,IP)+PY(I,10,IP))
- 	        QY(I,4)=PY(I,4,IP)+UNDEMI*(PY(I,8,IP)+PY(I,9,IP)+PY(I,10,IP))
- 	        QY(I,5) =UNDEMI*(QY(I,1)+QY(I,2))+FAC*PY(I,5,IP)
- 	        QY(I,6) =UNDEMI*(QY(I,2)+QY(I,3))+FAC*PY(I,6,IP)
- 	        QY(I,7) =UNDEMI*(QY(I,1)+QY(I,3))+FAC*PY(I,7,IP)
- 	        QY(I,8) =UNDEMI*(QY(I,1)+QY(I,4))+FAC*PY(I,8,IP)
- 	        QY(I,9) =UNDEMI*(QY(I,2)+QY(I,4))+FAC*PY(I,9,IP)
- 	        QY(I,10)=UNDEMI*(QY(I,3)+QY(I,4))+FAC*PY(I,10,IP)
+ 	        QY(I,1)=PY(I,1,IP)+HALF*(PY(I,5,IP)+PY(I,7,IP)+PY(I,8,IP))
+ 	        QY(I,2)=PY(I,2,IP)+HALF*(PY(I,5,IP)+PY(I,6,IP)+PY(I,9,IP))
+ 	        QY(I,3)=PY(I,3,IP)+HALF*(PY(I,6,IP)+PY(I,7,IP)+PY(I,10,IP))
+ 	        QY(I,4)=PY(I,4,IP)+HALF*(PY(I,8,IP)+PY(I,9,IP)+PY(I,10,IP))
+ 	        QY(I,5) =HALF*(QY(I,1)+QY(I,2))+FAC*PY(I,5,IP)
+ 	        QY(I,6) =HALF*(QY(I,2)+QY(I,3))+FAC*PY(I,6,IP)
+ 	        QY(I,7) =HALF*(QY(I,1)+QY(I,3))+FAC*PY(I,7,IP)
+ 	        QY(I,8) =HALF*(QY(I,1)+QY(I,4))+FAC*PY(I,8,IP)
+ 	        QY(I,9) =HALF*(QY(I,2)+QY(I,4))+FAC*PY(I,9,IP)
+ 	        QY(I,10)=HALF*(QY(I,3)+QY(I,4))+FAC*PY(I,10,IP)
 
- 	        QZ(I,1)=PZ(I,1,IP)+UNDEMI*(PZ(I,5,IP)+PZ(I,7,IP)+PZ(I,8,IP))
- 	        QZ(I,2)=PZ(I,2,IP)+UNDEMI*(PZ(I,5,IP)+PZ(I,6,IP)+PZ(I,9,IP))
- 	        QZ(I,3)=PZ(I,3,IP)+UNDEMI*(PZ(I,6,IP)+PZ(I,7,IP)+PZ(I,10,IP))
- 	        QZ(I,4)=PZ(I,4,IP)+UNDEMI*(PZ(I,8,IP)+PZ(I,9,IP)+PZ(I,10,IP))
- 	        QZ(I,5) =UNDEMI*(QZ(I,1)+QZ(I,2))+FAC*PZ(I,5,IP)
- 	        QZ(I,6) =UNDEMI*(QZ(I,2)+QZ(I,3))+FAC*PZ(I,6,IP)
- 	        QZ(I,7) =UNDEMI*(QZ(I,1)+QZ(I,3))+FAC*PZ(I,7,IP)
- 	        QZ(I,8) =UNDEMI*(QZ(I,1)+QZ(I,4))+FAC*PZ(I,8,IP)
- 	        QZ(I,9) =UNDEMI*(QZ(I,2)+QZ(I,4))+FAC*PZ(I,9,IP)
- 	        QZ(I,10)=UNDEMI*(QZ(I,3)+QZ(I,4))+FAC*PZ(I,10,IP)
+ 	        QZ(I,1)=PZ(I,1,IP)+HALF*(PZ(I,5,IP)+PZ(I,7,IP)+PZ(I,8,IP))
+ 	        QZ(I,2)=PZ(I,2,IP)+HALF*(PZ(I,5,IP)+PZ(I,6,IP)+PZ(I,9,IP))
+ 	        QZ(I,3)=PZ(I,3,IP)+HALF*(PZ(I,6,IP)+PZ(I,7,IP)+PZ(I,10,IP))
+ 	        QZ(I,4)=PZ(I,4,IP)+HALF*(PZ(I,8,IP)+PZ(I,9,IP)+PZ(I,10,IP))
+ 	        QZ(I,5) =HALF*(QZ(I,1)+QZ(I,2))+FAC*PZ(I,5,IP)
+ 	        QZ(I,6) =HALF*(QZ(I,2)+QZ(I,3))+FAC*PZ(I,6,IP)
+ 	        QZ(I,7) =HALF*(QZ(I,1)+QZ(I,3))+FAC*PZ(I,7,IP)
+ 	        QZ(I,8) =HALF*(QZ(I,1)+QZ(I,4))+FAC*PZ(I,8,IP)
+ 	        QZ(I,9) =HALF*(QZ(I,2)+QZ(I,4))+FAC*PZ(I,9,IP)
+ 	        QZ(I,10)=HALF*(QZ(I,3)+QZ(I,4))+FAC*PZ(I,10,IP)
 
  	      END DO
 C
@@ -565,7 +565,7 @@ C	      B M-1 Transpose(B)
           	AA = -(PXX(I)+PYY(I)+PZZ(I))
           	BB =  (PXX(I)*PYY(I)+PXX(I)*PZZ(I)+PYY(I)*PZZ(I)-PXY(I)**2-PXZ(I)**2-PYZ(I)**2) 
           	P  = BB-THIRD*AA*AA
-          	D(I)  = D(I)+ LD * VOL(I,IP) * DEUX*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
+          	D(I)  = D(I)+ LD * VOL(I,IP) * TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
               ENDDO
             ENDDO
 
@@ -575,7 +575,7 @@ C	      B M-1 Transpose(B)
 
             GFAC=PM(105,MXT(1))
 
-C           FAC     = UN/(NEUF+TIERS) !  FACIROT2 = NEUF+TIERS
+C           FAC     = ONE/(NINE+THIRD) !  FACIROT2 = NINE+THIRD
             DO IP=1,NPT
 c-----------------------------------------------------------------------------
 C            Spectral Radius(M-1K)
@@ -583,40 +583,40 @@ C-----------------------------------------------------------------------------
 C
 C             Q = M-1 Transpose(B)
  	      DO I=LFT,LLT
- 	        QX(I,1)=PX(I,1,IP)+UNDEMI*(PX(I,5,IP)+PX(I,7,IP)+PX(I,8,IP))   
- 	        QX(I,2)=PX(I,2,IP)+UNDEMI*(PX(I,5,IP)+PX(I,6,IP)+PX(I,9,IP))
- 	        QX(I,3)=PX(I,3,IP)+UNDEMI*(PX(I,6,IP)+PX(I,7,IP)+PX(I,10,IP))
- 	        QX(I,4)=PX(I,4,IP)+UNDEMI*(PX(I,8,IP)+PX(I,9,IP)+PX(I,10,IP))
-C	        QX(I,5)=UNDEMI*(PX(I,1,IP)+PX(I,2,IP))+(UNDEMI+UN/FACIROT)*PX(I,5,IP)
-C	    	  	 +QUART(PX(I,6,IP)+PX(I,7,IP)+PX(I,8,IP)+PX(I,9,IP)
- 	        QX(I,5) =UNDEMI*(QX(I,1)+QX(I,2))+FAC*PX(I,5,IP)
- 	        QX(I,6) =UNDEMI*(QX(I,2)+QX(I,3))+FAC*PX(I,6,IP)
- 	        QX(I,7) =UNDEMI*(QX(I,1)+QX(I,3))+FAC*PX(I,7,IP)
- 	        QX(I,8) =UNDEMI*(QX(I,1)+QX(I,4))+FAC*PX(I,8,IP)
- 	        QX(I,9) =UNDEMI*(QX(I,2)+QX(I,4))+FAC*PX(I,9,IP)
- 	        QX(I,10)=UNDEMI*(QX(I,3)+QX(I,4))+FAC*PX(I,10,IP)
+ 	        QX(I,1)=PX(I,1,IP)+HALF*(PX(I,5,IP)+PX(I,7,IP)+PX(I,8,IP))   
+ 	        QX(I,2)=PX(I,2,IP)+HALF*(PX(I,5,IP)+PX(I,6,IP)+PX(I,9,IP))
+ 	        QX(I,3)=PX(I,3,IP)+HALF*(PX(I,6,IP)+PX(I,7,IP)+PX(I,10,IP))
+ 	        QX(I,4)=PX(I,4,IP)+HALF*(PX(I,8,IP)+PX(I,9,IP)+PX(I,10,IP))
+C	        QX(I,5)=HALF*(PX(I,1,IP)+PX(I,2,IP))+(HALF+ONE/FACIROT)*PX(I,5,IP)
+C	    	  	 +FOURTH(PX(I,6,IP)+PX(I,7,IP)+PX(I,8,IP)+PX(I,9,IP)
+ 	        QX(I,5) =HALF*(QX(I,1)+QX(I,2))+FAC*PX(I,5,IP)
+ 	        QX(I,6) =HALF*(QX(I,2)+QX(I,3))+FAC*PX(I,6,IP)
+ 	        QX(I,7) =HALF*(QX(I,1)+QX(I,3))+FAC*PX(I,7,IP)
+ 	        QX(I,8) =HALF*(QX(I,1)+QX(I,4))+FAC*PX(I,8,IP)
+ 	        QX(I,9) =HALF*(QX(I,2)+QX(I,4))+FAC*PX(I,9,IP)
+ 	        QX(I,10)=HALF*(QX(I,3)+QX(I,4))+FAC*PX(I,10,IP)
 
- 	        QY(I,1)=PY(I,1,IP)+UNDEMI*(PY(I,5,IP)+PY(I,7,IP)+PY(I,8,IP))
- 	        QY(I,2)=PY(I,2,IP)+UNDEMI*(PY(I,5,IP)+PY(I,6,IP)+PY(I,9,IP))
- 	        QY(I,3)=PY(I,3,IP)+UNDEMI*(PY(I,6,IP)+PY(I,7,IP)+PY(I,10,IP))
- 	        QY(I,4)=PY(I,4,IP)+UNDEMI*(PY(I,8,IP)+PY(I,9,IP)+PY(I,10,IP))
- 	        QY(I,5) =UNDEMI*(QY(I,1)+QY(I,2))+FAC*PY(I,5,IP)
- 	        QY(I,6) =UNDEMI*(QY(I,2)+QY(I,3))+FAC*PY(I,6,IP)
- 	        QY(I,7) =UNDEMI*(QY(I,1)+QY(I,3))+FAC*PY(I,7,IP)
- 	        QY(I,8) =UNDEMI*(QY(I,1)+QY(I,4))+FAC*PY(I,8,IP)
- 	        QY(I,9) =UNDEMI*(QY(I,2)+QY(I,4))+FAC*PY(I,9,IP)
- 	        QY(I,10)=UNDEMI*(QY(I,3)+QY(I,4))+FAC*PY(I,10,IP)
+ 	        QY(I,1)=PY(I,1,IP)+HALF*(PY(I,5,IP)+PY(I,7,IP)+PY(I,8,IP))
+ 	        QY(I,2)=PY(I,2,IP)+HALF*(PY(I,5,IP)+PY(I,6,IP)+PY(I,9,IP))
+ 	        QY(I,3)=PY(I,3,IP)+HALF*(PY(I,6,IP)+PY(I,7,IP)+PY(I,10,IP))
+ 	        QY(I,4)=PY(I,4,IP)+HALF*(PY(I,8,IP)+PY(I,9,IP)+PY(I,10,IP))
+ 	        QY(I,5) =HALF*(QY(I,1)+QY(I,2))+FAC*PY(I,5,IP)
+ 	        QY(I,6) =HALF*(QY(I,2)+QY(I,3))+FAC*PY(I,6,IP)
+ 	        QY(I,7) =HALF*(QY(I,1)+QY(I,3))+FAC*PY(I,7,IP)
+ 	        QY(I,8) =HALF*(QY(I,1)+QY(I,4))+FAC*PY(I,8,IP)
+ 	        QY(I,9) =HALF*(QY(I,2)+QY(I,4))+FAC*PY(I,9,IP)
+ 	        QY(I,10)=HALF*(QY(I,3)+QY(I,4))+FAC*PY(I,10,IP)
 
- 	        QZ(I,1)=PZ(I,1,IP)+UNDEMI*(PZ(I,5,IP)+PZ(I,7,IP)+PZ(I,8,IP))
- 	        QZ(I,2)=PZ(I,2,IP)+UNDEMI*(PZ(I,5,IP)+PZ(I,6,IP)+PZ(I,9,IP))
- 	        QZ(I,3)=PZ(I,3,IP)+UNDEMI*(PZ(I,6,IP)+PZ(I,7,IP)+PZ(I,10,IP))
- 	        QZ(I,4)=PZ(I,4,IP)+UNDEMI*(PZ(I,8,IP)+PZ(I,9,IP)+PZ(I,10,IP))
- 	        QZ(I,5) =UNDEMI*(QZ(I,1)+QZ(I,2))+FAC*PZ(I,5,IP)
- 	        QZ(I,6) =UNDEMI*(QZ(I,2)+QZ(I,3))+FAC*PZ(I,6,IP)
- 	        QZ(I,7) =UNDEMI*(QZ(I,1)+QZ(I,3))+FAC*PZ(I,7,IP)
- 	        QZ(I,8) =UNDEMI*(QZ(I,1)+QZ(I,4))+FAC*PZ(I,8,IP)
- 	        QZ(I,9) =UNDEMI*(QZ(I,2)+QZ(I,4))+FAC*PZ(I,9,IP)
- 	        QZ(I,10)=UNDEMI*(QZ(I,3)+QZ(I,4))+FAC*PZ(I,10,IP)
+ 	        QZ(I,1)=PZ(I,1,IP)+HALF*(PZ(I,5,IP)+PZ(I,7,IP)+PZ(I,8,IP))
+ 	        QZ(I,2)=PZ(I,2,IP)+HALF*(PZ(I,5,IP)+PZ(I,6,IP)+PZ(I,9,IP))
+ 	        QZ(I,3)=PZ(I,3,IP)+HALF*(PZ(I,6,IP)+PZ(I,7,IP)+PZ(I,10,IP))
+ 	        QZ(I,4)=PZ(I,4,IP)+HALF*(PZ(I,8,IP)+PZ(I,9,IP)+PZ(I,10,IP))
+ 	        QZ(I,5) =HALF*(QZ(I,1)+QZ(I,2))+FAC*PZ(I,5,IP)
+ 	        QZ(I,6) =HALF*(QZ(I,2)+QZ(I,3))+FAC*PZ(I,6,IP)
+ 	        QZ(I,7) =HALF*(QZ(I,1)+QZ(I,3))+FAC*PZ(I,7,IP)
+ 	        QZ(I,8) =HALF*(QZ(I,1)+QZ(I,4))+FAC*PZ(I,8,IP)
+ 	        QZ(I,9) =HALF*(QZ(I,2)+QZ(I,4))+FAC*PZ(I,9,IP)
+ 	        QZ(I,10)=HALF*(QZ(I,3)+QZ(I,4))+FAC*PZ(I,10,IP)
 
  	      END DO
 C
@@ -647,7 +647,7 @@ C-------------------------------------------------------------------------------
                BB =  GFAC*(PXX(I)*PYY(I)+PXX(I)*PZZ(I)+PYY(I)*PZZ(I)-PXY(I)**2-PXZ(I)**2-PYZ(I)**2) 
                P  = BB-THIRD*AA*AA
 
-               D(I)  = D(I)+VOL(I,IP)*(DEUX*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA)
+               D(I)  = D(I)+VOL(I,IP)*(TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA)
               ENDDO
 
             ENDDO
@@ -682,7 +682,7 @@ C         Initialization - Note : U normalized
           DO N=1,10
             NN = NN + WX(N)*WX(N)+WY(N)*WY(N)+WZ(N)*WZ(N)
           END DO
-          NN=UN/MAX(EM20,NN)
+          NN=ONE/MAX(EM20,NN)
 
           DO N=1,10
             WX(N)=NN * WX(N)
@@ -702,11 +702,11 @@ C         Initialization - Note : U normalized
 C
 C           It is fine so far as both ratio 3B/rho0 c**2 and G / rho0 c**2
 C           are computed using Gmax and c is also computed in the material using Gmax. 
-            GFAC=UNDEMI*PM(105,MXT(1)) !  G/(B+4/3G)
-            BFAC=TROIS-QUATRE*GFAC     ! 3B/(B+4/3G)
+            GFAC=HALF*PM(105,MXT(1)) !  G/(B+4/3G)
+            BFAC=THREE-FOUR*GFAC     ! 3B/(B+4/3G)
           ELSE ! conservative formulation in all other cases
-            GFAC=UNDEMI ! over-estimation of G/(B+4/3G)
-            BFAC=TROIS  ! 
+            GFAC=HALF ! over-estimation of G/(B+4/3G)
+            BFAC=THREE  ! 
           END IF
 
           NITERX=0
@@ -760,40 +760,40 @@ C             Vol_ip * Transpose(Bip).Bip.U
 C
 C           M-1 K . U
  	    DO J=1,NINDX
- 	      VX(J,1)=VX(J,1)+UNDEMI*(VX(J,5)+VX(J,7)+VX(J,8))   
- 	      VX(J,2)=VX(J,2)+UNDEMI*(VX(J,5)+VX(J,6)+VX(J,9))
- 	      VX(J,3)=VX(J,3)+UNDEMI*(VX(J,6)+VX(J,7)+VX(J,10))
- 	      VX(J,4)=VX(J,4)+UNDEMI*(VX(J,8)+VX(J,9)+VX(J,10))
-C	      VX(J,5)=UNDEMI*(VX(J,1)+VX(J,2))+(UNDEMI+UN/FACIROT)*VX(J,5)
-C	               +QUART(VX(J,6)+VX(J,7)+VX(J,8)+VX(J,9)
- 	      VX(J,5) =UNDEMI*(VX(J,1)+VX(J,2))+FAC*VX(J,5)
- 	      VX(J,6) =UNDEMI*(VX(J,2)+VX(J,3))+FAC*VX(J,6)
- 	      VX(J,7) =UNDEMI*(VX(J,1)+VX(J,3))+FAC*VX(J,7)
- 	      VX(J,8) =UNDEMI*(VX(J,1)+VX(J,4))+FAC*VX(J,8)
- 	      VX(J,9) =UNDEMI*(VX(J,2)+VX(J,4))+FAC*VX(J,9)
- 	      VX(J,10)=UNDEMI*(VX(J,3)+VX(J,4))+FAC*VX(J,10)
+ 	      VX(J,1)=VX(J,1)+HALF*(VX(J,5)+VX(J,7)+VX(J,8))   
+ 	      VX(J,2)=VX(J,2)+HALF*(VX(J,5)+VX(J,6)+VX(J,9))
+ 	      VX(J,3)=VX(J,3)+HALF*(VX(J,6)+VX(J,7)+VX(J,10))
+ 	      VX(J,4)=VX(J,4)+HALF*(VX(J,8)+VX(J,9)+VX(J,10))
+C	      VX(J,5)=HALF*(VX(J,1)+VX(J,2))+(HALF+ONE/FACIROT)*VX(J,5)
+C	               +FOURTH(VX(J,6)+VX(J,7)+VX(J,8)+VX(J,9)
+ 	      VX(J,5) =HALF*(VX(J,1)+VX(J,2))+FAC*VX(J,5)
+ 	      VX(J,6) =HALF*(VX(J,2)+VX(J,3))+FAC*VX(J,6)
+ 	      VX(J,7) =HALF*(VX(J,1)+VX(J,3))+FAC*VX(J,7)
+ 	      VX(J,8) =HALF*(VX(J,1)+VX(J,4))+FAC*VX(J,8)
+ 	      VX(J,9) =HALF*(VX(J,2)+VX(J,4))+FAC*VX(J,9)
+ 	      VX(J,10)=HALF*(VX(J,3)+VX(J,4))+FAC*VX(J,10)
 
- 	      VY(J,1)=VY(J,1)+UNDEMI*(VY(J,5)+VY(J,7)+VY(J,8))   
- 	      VY(J,2)=VY(J,2)+UNDEMI*(VY(J,5)+VY(J,6)+VY(J,9))
- 	      VY(J,3)=VY(J,3)+UNDEMI*(VY(J,6)+VY(J,7)+VY(J,10))
- 	      VY(J,4)=VY(J,4)+UNDEMI*(VY(J,8)+VY(J,9)+VY(J,10))
- 	      VY(J,5) =UNDEMI*(VY(J,1)+VY(J,2))+FAC*VY(J,5)
- 	      VY(J,6) =UNDEMI*(VY(J,2)+VY(J,3))+FAC*VY(J,6)
- 	      VY(J,7) =UNDEMI*(VY(J,1)+VY(J,3))+FAC*VY(J,7)
- 	      VY(J,8) =UNDEMI*(VY(J,1)+VY(J,4))+FAC*VY(J,8)
- 	      VY(J,9) =UNDEMI*(VY(J,2)+VY(J,4))+FAC*VY(J,9)
- 	      VY(J,10)=UNDEMI*(VY(J,3)+VY(J,4))+FAC*VY(J,10)
+ 	      VY(J,1)=VY(J,1)+HALF*(VY(J,5)+VY(J,7)+VY(J,8))   
+ 	      VY(J,2)=VY(J,2)+HALF*(VY(J,5)+VY(J,6)+VY(J,9))
+ 	      VY(J,3)=VY(J,3)+HALF*(VY(J,6)+VY(J,7)+VY(J,10))
+ 	      VY(J,4)=VY(J,4)+HALF*(VY(J,8)+VY(J,9)+VY(J,10))
+ 	      VY(J,5) =HALF*(VY(J,1)+VY(J,2))+FAC*VY(J,5)
+ 	      VY(J,6) =HALF*(VY(J,2)+VY(J,3))+FAC*VY(J,6)
+ 	      VY(J,7) =HALF*(VY(J,1)+VY(J,3))+FAC*VY(J,7)
+ 	      VY(J,8) =HALF*(VY(J,1)+VY(J,4))+FAC*VY(J,8)
+ 	      VY(J,9) =HALF*(VY(J,2)+VY(J,4))+FAC*VY(J,9)
+ 	      VY(J,10)=HALF*(VY(J,3)+VY(J,4))+FAC*VY(J,10)
 
- 	      VZ(J,1)=VZ(J,1)+UNDEMI*(VZ(J,5)+VZ(J,7)+VZ(J,8))   
- 	      VZ(J,2)=VZ(J,2)+UNDEMI*(VZ(J,5)+VZ(J,6)+VZ(J,9))
- 	      VZ(J,3)=VZ(J,3)+UNDEMI*(VZ(J,6)+VZ(J,7)+VZ(J,10))
- 	      VZ(J,4)=VZ(J,4)+UNDEMI*(VZ(J,8)+VZ(J,9)+VZ(J,10))
- 	      VZ(J,5) =UNDEMI*(VZ(J,1)+VZ(J,2))+FAC*VZ(J,5)
- 	      VZ(J,6) =UNDEMI*(VZ(J,2)+VZ(J,3))+FAC*VZ(J,6)
- 	      VZ(J,7) =UNDEMI*(VZ(J,1)+VZ(J,3))+FAC*VZ(J,7)
- 	      VZ(J,8) =UNDEMI*(VZ(J,1)+VZ(J,4))+FAC*VZ(J,8)
- 	      VZ(J,9) =UNDEMI*(VZ(J,2)+VZ(J,4))+FAC*VZ(J,9)
- 	      VZ(J,10)=UNDEMI*(VZ(J,3)+VZ(J,4))+FAC*VZ(J,10)
+ 	      VZ(J,1)=VZ(J,1)+HALF*(VZ(J,5)+VZ(J,7)+VZ(J,8))   
+ 	      VZ(J,2)=VZ(J,2)+HALF*(VZ(J,5)+VZ(J,6)+VZ(J,9))
+ 	      VZ(J,3)=VZ(J,3)+HALF*(VZ(J,6)+VZ(J,7)+VZ(J,10))
+ 	      VZ(J,4)=VZ(J,4)+HALF*(VZ(J,8)+VZ(J,9)+VZ(J,10))
+ 	      VZ(J,5) =HALF*(VZ(J,1)+VZ(J,2))+FAC*VZ(J,5)
+ 	      VZ(J,6) =HALF*(VZ(J,2)+VZ(J,3))+FAC*VZ(J,6)
+ 	      VZ(J,7) =HALF*(VZ(J,1)+VZ(J,3))+FAC*VZ(J,7)
+ 	      VZ(J,8) =HALF*(VZ(J,1)+VZ(J,4))+FAC*VZ(J,8)
+ 	      VZ(J,9) =HALF*(VZ(J,2)+VZ(J,4))+FAC*VZ(J,9)
+ 	      VZ(J,10)=HALF*(VZ(J,3)+VZ(J,4))+FAC*VZ(J,10)
 
  	    END DO
 
@@ -805,7 +805,7 @@ C	               +QUART(VX(J,6)+VX(J,7)+VX(J,8)+VX(J,9)
             END DO
             DO J=1,NINDX
               NV(J)  =SQRT(NV(J))
-              NINV(J)=UN/MAX(EM20,NV(J))
+              NINV(J)=ONE/MAX(EM20,NV(J))
             END DO
             DO N=1,10
               DO J=1,NINDX
@@ -848,40 +848,40 @@ C
 C
 C           Q = M-1 Transpose(B)
  	    DO I=LFT,LLT
- 	      QX(I,1)=PX(I,1,IP)+UNDEMI*(PX(I,5,IP)+PX(I,7,IP)+PX(I,8,IP))   
- 	      QX(I,2)=PX(I,2,IP)+UNDEMI*(PX(I,5,IP)+PX(I,6,IP)+PX(I,9,IP))
- 	      QX(I,3)=PX(I,3,IP)+UNDEMI*(PX(I,6,IP)+PX(I,7,IP)+PX(I,10,IP))
- 	      QX(I,4)=PX(I,4,IP)+UNDEMI*(PX(I,8,IP)+PX(I,9,IP)+PX(I,10,IP))
-C	      QX(I,5)=UNDEMI*(PX(I,1,IP)+PX(I,2,IP))+(UNDEMI+UN/FACIROT)*PX(I,5,IP)
-C	               +QUART(PX(I,6,IP)+PX(I,7,IP)+PX(I,8,IP)+PX(I,9,IP)
- 	      QX(I,5) =UNDEMI*(QX(I,1)+QX(I,2))+FAC*PX(I,5,IP)
- 	      QX(I,6) =UNDEMI*(QX(I,2)+QX(I,3))+FAC*PX(I,6,IP)
- 	      QX(I,7) =UNDEMI*(QX(I,1)+QX(I,3))+FAC*PX(I,7,IP)
- 	      QX(I,8) =UNDEMI*(QX(I,1)+QX(I,4))+FAC*PX(I,8,IP)
- 	      QX(I,9) =UNDEMI*(QX(I,2)+QX(I,4))+FAC*PX(I,9,IP)
- 	      QX(I,10)=UNDEMI*(QX(I,3)+QX(I,4))+FAC*PX(I,10,IP)
+ 	      QX(I,1)=PX(I,1,IP)+HALF*(PX(I,5,IP)+PX(I,7,IP)+PX(I,8,IP))   
+ 	      QX(I,2)=PX(I,2,IP)+HALF*(PX(I,5,IP)+PX(I,6,IP)+PX(I,9,IP))
+ 	      QX(I,3)=PX(I,3,IP)+HALF*(PX(I,6,IP)+PX(I,7,IP)+PX(I,10,IP))
+ 	      QX(I,4)=PX(I,4,IP)+HALF*(PX(I,8,IP)+PX(I,9,IP)+PX(I,10,IP))
+C	      QX(I,5)=HALF*(PX(I,1,IP)+PX(I,2,IP))+(HALF+ONE/FACIROT)*PX(I,5,IP)
+C	               +FOURTH(PX(I,6,IP)+PX(I,7,IP)+PX(I,8,IP)+PX(I,9,IP)
+ 	      QX(I,5) =HALF*(QX(I,1)+QX(I,2))+FAC*PX(I,5,IP)
+ 	      QX(I,6) =HALF*(QX(I,2)+QX(I,3))+FAC*PX(I,6,IP)
+ 	      QX(I,7) =HALF*(QX(I,1)+QX(I,3))+FAC*PX(I,7,IP)
+ 	      QX(I,8) =HALF*(QX(I,1)+QX(I,4))+FAC*PX(I,8,IP)
+ 	      QX(I,9) =HALF*(QX(I,2)+QX(I,4))+FAC*PX(I,9,IP)
+ 	      QX(I,10)=HALF*(QX(I,3)+QX(I,4))+FAC*PX(I,10,IP)
 
- 	      QY(I,1)=PY(I,1,IP)+UNDEMI*(PY(I,5,IP)+PY(I,7,IP)+PY(I,8,IP))
- 	      QY(I,2)=PY(I,2,IP)+UNDEMI*(PY(I,5,IP)+PY(I,6,IP)+PY(I,9,IP))
- 	      QY(I,3)=PY(I,3,IP)+UNDEMI*(PY(I,6,IP)+PY(I,7,IP)+PY(I,10,IP))
- 	      QY(I,4)=PY(I,4,IP)+UNDEMI*(PY(I,8,IP)+PY(I,9,IP)+PY(I,10,IP))
- 	      QY(I,5) =UNDEMI*(QY(I,1)+QY(I,2))+FAC*PY(I,5,IP)
- 	      QY(I,6) =UNDEMI*(QY(I,2)+QY(I,3))+FAC*PY(I,6,IP)
- 	      QY(I,7) =UNDEMI*(QY(I,1)+QY(I,3))+FAC*PY(I,7,IP)
- 	      QY(I,8) =UNDEMI*(QY(I,1)+QY(I,4))+FAC*PY(I,8,IP)
- 	      QY(I,9) =UNDEMI*(QY(I,2)+QY(I,4))+FAC*PY(I,9,IP)
- 	      QY(I,10)=UNDEMI*(QY(I,3)+QY(I,4))+FAC*PY(I,10,IP)
+ 	      QY(I,1)=PY(I,1,IP)+HALF*(PY(I,5,IP)+PY(I,7,IP)+PY(I,8,IP))
+ 	      QY(I,2)=PY(I,2,IP)+HALF*(PY(I,5,IP)+PY(I,6,IP)+PY(I,9,IP))
+ 	      QY(I,3)=PY(I,3,IP)+HALF*(PY(I,6,IP)+PY(I,7,IP)+PY(I,10,IP))
+ 	      QY(I,4)=PY(I,4,IP)+HALF*(PY(I,8,IP)+PY(I,9,IP)+PY(I,10,IP))
+ 	      QY(I,5) =HALF*(QY(I,1)+QY(I,2))+FAC*PY(I,5,IP)
+ 	      QY(I,6) =HALF*(QY(I,2)+QY(I,3))+FAC*PY(I,6,IP)
+ 	      QY(I,7) =HALF*(QY(I,1)+QY(I,3))+FAC*PY(I,7,IP)
+ 	      QY(I,8) =HALF*(QY(I,1)+QY(I,4))+FAC*PY(I,8,IP)
+ 	      QY(I,9) =HALF*(QY(I,2)+QY(I,4))+FAC*PY(I,9,IP)
+ 	      QY(I,10)=HALF*(QY(I,3)+QY(I,4))+FAC*PY(I,10,IP)
 
- 	      QZ(I,1)=PZ(I,1,IP)+UNDEMI*(PZ(I,5,IP)+PZ(I,7,IP)+PZ(I,8,IP))
- 	      QZ(I,2)=PZ(I,2,IP)+UNDEMI*(PZ(I,5,IP)+PZ(I,6,IP)+PZ(I,9,IP))
- 	      QZ(I,3)=PZ(I,3,IP)+UNDEMI*(PZ(I,6,IP)+PZ(I,7,IP)+PZ(I,10,IP))
- 	      QZ(I,4)=PZ(I,4,IP)+UNDEMI*(PZ(I,8,IP)+PZ(I,9,IP)+PZ(I,10,IP))
- 	      QZ(I,5) =UNDEMI*(QZ(I,1)+QZ(I,2))+FAC*PZ(I,5,IP)
- 	      QZ(I,6) =UNDEMI*(QZ(I,2)+QZ(I,3))+FAC*PZ(I,6,IP)
- 	      QZ(I,7) =UNDEMI*(QZ(I,1)+QZ(I,3))+FAC*PZ(I,7,IP)
- 	      QZ(I,8) =UNDEMI*(QZ(I,1)+QZ(I,4))+FAC*PZ(I,8,IP)
- 	      QZ(I,9) =UNDEMI*(QZ(I,2)+QZ(I,4))+FAC*PZ(I,9,IP)
- 	      QZ(I,10)=UNDEMI*(QZ(I,3)+QZ(I,4))+FAC*PZ(I,10,IP)
+ 	      QZ(I,1)=PZ(I,1,IP)+HALF*(PZ(I,5,IP)+PZ(I,7,IP)+PZ(I,8,IP))
+ 	      QZ(I,2)=PZ(I,2,IP)+HALF*(PZ(I,5,IP)+PZ(I,6,IP)+PZ(I,9,IP))
+ 	      QZ(I,3)=PZ(I,3,IP)+HALF*(PZ(I,6,IP)+PZ(I,7,IP)+PZ(I,10,IP))
+ 	      QZ(I,4)=PZ(I,4,IP)+HALF*(PZ(I,8,IP)+PZ(I,9,IP)+PZ(I,10,IP))
+ 	      QZ(I,5) =HALF*(QZ(I,1)+QZ(I,2))+FAC*PZ(I,5,IP)
+ 	      QZ(I,6) =HALF*(QZ(I,2)+QZ(I,3))+FAC*PZ(I,6,IP)
+ 	      QZ(I,7) =HALF*(QZ(I,1)+QZ(I,3))+FAC*PZ(I,7,IP)
+ 	      QZ(I,8) =HALF*(QZ(I,1)+QZ(I,4))+FAC*PZ(I,8,IP)
+ 	      QZ(I,9) =HALF*(QZ(I,2)+QZ(I,4))+FAC*PZ(I,9,IP)
+ 	      QZ(I,10)=HALF*(QZ(I,3)+QZ(I,4))+FAC*PZ(I,10,IP)
 
  	    END DO
 C
@@ -897,7 +897,7 @@ C
           DO I=LFT,LLT
             AA   = MAX(UL(I,1),UL(I,2),UL(I,3),UL(I,4))
             BB   = MAX(UL(I,5),UL(I,6),UL(I,7),UL(I,8),UL(I,9),UL(I,10))
-            D(I) = MAX(D(I),DEUX*MAX(AA,BB))
+            D(I) = MAX(D(I),TWO*MAX(AA,BB))
           ENDDO
 C
         END IF ! IF(NITER==0)THEN
@@ -905,12 +905,12 @@ C
         DO I=LFT,LLT
 C
 C         DELTAX2 is not used w/IDT1TET10
-          DELTAX2(I) = UN 
+          DELTAX2(I) = ONE 
 C
 C         beware : VOLO = GBUF%VOL stored in RD Starter = VOLG / 4 
           MASS       = VOLG(I) ! (multiplied by RHOG0)
-          MREF       = QUART * MASS
-          DELTAX(I)  = DEUX*SQRT(MREF/D(I))
+          MREF       = FOURTH * MASS
+          DELTAX(I)  = TWO*SQRT(MREF/D(I))
         END DO
 
       ELSE ! IDT1TET10==0 .OR. ISROT==1
@@ -937,9 +937,9 @@ C
             AA = MAX(UL(I,1),UL(I,2),UL(I,3),UL(I,4))
             BB = MAX(UL(I,5),UL(I,6),UL(I,7),UL(I,8),UL(I,9),UL(I,10))
             DELTAX2(I) = AA/MAX(AA,BB)
-            AA = AA*TRENTE2
-            BB = BB*QUARANTE8/SEPT
-            DELTAX(I) = SQRT(DEUX*VOLG(I)/MAX(AA,BB))
+            AA = AA*THIRTY2
+            BB = BB*FOURTY8/SEVEN
+            DELTAX(I) = SQRT(TWO*VOLG(I)/MAX(AA,BB))
           END DO
         ELSEIF (ISROT==2.AND.(IINT==0.OR.IDT1SOL>0)) THEN
             DO I=LFT,LLT
@@ -958,7 +958,7 @@ C
              D3(I) =  SX(I)*RY(I) - RX(I)*SY(I)
              D4(I) =  -(D1(I) + D2(I) + D3(I))
              DET6 = RX(I)*B1(I)+RY(I)*C1(I)+RZ(I)*D1(I)
-             DD = UN/DET6
+             DD = ONE/DET6
              P4X1(I)= B1(I)*DD
              P4Y1(I)= C1(I)*DD
              P4Z1(I)= D1(I)*DD
@@ -971,7 +971,7 @@ C
              P4X4(I)= BB4(I)*DD
              P4Y4(I)= C4(I)*DD
              P4Z4(I)= D4(I)*DD
-c             DELTAX2(I) = UN
+c             DELTAX2(I) = ONE
             END DO
             DO I=LFT,LLT
              AA  = MAX(RX(I)*RX(I)+RY(I)*RY(I)+RZ(I)*RZ(I),
@@ -994,13 +994,13 @@ c             DELTAX2(I) = UN
      .   	+ P4X2(I)*P4X2(I)+P4Y2(I)*P4Y2(I)+P4Z2(I)*P4Z2(I)
      .   	+ P4X3(I)*P4X3(I)+P4Y3(I)*P4Y3(I)+P4Z3(I)*P4Z3(I)
      .   	+ P4X4(I)*P4X4(I)+P4Y4(I)*P4Y4(I)+P4Z4(I)*P4Z4(I)
-               DELTAX(I) = UN / SQRT(DD)
+               DELTAX(I) = ONE / SQRT(DD)
              END DO
 
             ELSEIF(IFORMDT==1)THEN
 
              GFAC=PM(105,MXT(1))
-             LD  =DEUX*SQRT(MAX(UN-GFAC,ZERO))+UN
+             LD  =TWO*SQRT(MAX(ONE-GFAC,ZERO))+ONE
              DO I=LFT,LLT
               PXX(I)=P4X1(I)*P4X1(I)+P4X2(I)*P4X2(I)+P4X3(I)*P4X3(I)+P4X4(I)*P4X4(I)
               PYY(I)=P4Y1(I)*P4Y1(I)+P4Y2(I)*P4Y2(I)+P4Y3(I)*P4Y3(I)+P4Y4(I)*P4Y4(I)
@@ -1012,11 +1012,11 @@ C
               AA = -(PXX(I)+PYY(I)+PZZ(I))
               BB =  (PXX(I)*PYY(I)+PXX(I)*PZZ(I)+PYY(I)*PZZ(I)-PXY(I)**2-PXZ(I)**2-PYZ(I)**2) 
               P  = BB-THIRD*AA*AA
-              DD = DEUX*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
+              DD = TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
 C
               DD=LD*DD
 C
-              DELTAX(I) = UN / SQRT(DD)
+              DELTAX(I) = ONE / SQRT(DD)
              END DO
 
             ELSEIF(IFORMDT==2)THEN
@@ -1033,9 +1033,9 @@ C
               AA = -(PXX(I)+PYY(I)+PZZ(I))
               BB =  GFAC*(PXX(I)*PYY(I)+PXX(I)*PZZ(I)+PYY(I)*PZZ(I)-PXY(I)**2-PXZ(I)**2-PYZ(I)**2) 
               P  = BB-THIRD*AA*AA
-              DD = DEUX*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
+              DD = TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
 C
-              DELTAX(I) = UN / SQRT(DD)
+              DELTAX(I) = ONE / SQRT(DD)
              END DO
             END IF!(IFORMDT==0)THEN
         ELSE
@@ -1065,7 +1065,7 @@ C
 c minoration deltax car inertie constante avec marge 
 c d'un facteur sqrt(8) sur le cot    AA0 
 c approche a partir du volume initial
-            AA0 = ((SIX*SQR2*VOLG(I))**DTIERS) * HUIT
+            AA0 = ((SIX*SQR2*VOLG(I))**TWO_THIRD) * EIGHT
             AA  = MAX(RX(I)*RX(I)+RY(I)*RY(I)+RZ(I)*RZ(I),
      .  	      SX(I)*SX(I)+SY(I)*SY(I)+SZ(I)*SZ(I),
      .  	      TX(I)*TX(I)+TY(I)*TY(I)+TZ(I)*TZ(I),
@@ -1078,7 +1078,7 @@ c approche a partir du volume initial
      .  	      (TX(I)-RX(I))*(TX(I)-RX(I))
      +  	+     (TY(I)-RY(I))*(TY(I)-RY(I))
      +  	+     (TZ(I)-RZ(I))*(TZ(I)-RZ(I)))
-c            DELTAX(I) = DELTAX(I)*MIN(UN,AA0/AA)
+c            DELTAX(I) = DELTAX(I)*MIN(ONE,AA0/AA)
             DELTAX2(I) = AA
           END DO
         END IF

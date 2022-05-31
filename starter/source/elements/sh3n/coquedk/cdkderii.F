@@ -112,9 +112,9 @@ C
       IPGMAT = 700 
 C      
       IF(MTN == 19)THEN
-          VISCDEF=QUART
+          VISCDEF=FOURTH
       ELSEIF(MTN == 25.OR.MTN == 27)THEN
-          VISCDEF=CINQEM2
+          VISCDEF=FIVEEM2
       ELSE
           VISCDEF=ZERO
       ENDIF
@@ -127,7 +127,7 @@ c
         ALMAX = MAX(AL1,AL2,AL3)
         NU   =PM(21,IMAT)
         ALMIN = MIN(AL1,AL2,AL3)
-        FAC =UN+ZEP6*(1+NU)*THK(I)*THK(I)/ALMIN
+        FAC =ONE+ZEP6*(1+NU)*THK(I)*THK(I)/ALMIN
         ALMAX = ALMAX*FAC
         IF(IGTYP == 11 .AND. IGMAT > 0) THEN
           SSP = GEO(IPGMAT +9 ,IPROP)
@@ -147,7 +147,7 @@ c
      .         + UPARAM(IADB+4)*UPARAM(IADB+9)  
      .         + UPARAM(IADB+5)*UPARAM(IADB+10) 
           RHO  = PM(1,IMAT)
-          A11 = GMAX*(UN + NU)/(UN - NU**2)                                   
+          A11 = GMAX*(ONE + NU)/(ONE - NU**2)                                   
           SSP  = MAX(SSP, SQRT(A11/RHO))
          ELSEIF (MTN == 65) THEN
           RHO  =PM(1,IMAT)
@@ -157,7 +157,7 @@ c
           RHO  =PM(1,IMAT)
           YOUNG=PM(20,IMAT)
           NU   =PM(21,IMAT)
-          SSP=SQRT(YOUNG/(UN-NU*NU)/RHO)
+          SSP=SQRT(YOUNG/(ONE-NU*NU)/RHO)
          ENDIF
         ENDIF 
         VISCMX = GROUP_PARAM%VISC_DM
@@ -165,7 +165,7 @@ c
         IF(MTN == 1.OR.MTN == 2.OR.MTN == 3.OR.
      .       MTN == 22.OR.MTN == 23)VISCMX=ZERO
         VISCMX=SQRT(1.+VISCMX*VISCMX)-VISCMX
-        ALDT(I)= DEUX*AREA(I)*VISCMX / SQRT(ALMAX)
+        ALDT(I)= TWO*AREA(I)*VISCMX / SQRT(ALMAX)
         DT(I) = ALDT(I) / SSP
    40 CONTINUE
 C-----------------    
@@ -180,7 +180,7 @@ C-----------------
             G   =  GEO(IPGMAT +  4 ,IPROP)
             FAC = AREA(I)* THK(I) / (ALDT(I))**2
             STI = FAC * A11 
-            STIR =UNDOUZE*FAC* A11R*THK(I)**2
+            STIR =ONE_OVER_12*FAC* A11R*THK(I)**2
             STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
             STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
             STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
@@ -197,7 +197,7 @@ C-----------------
             G    = PM_STACK(4 ,ISUBSTACK)
             FAC = AREA(I)* THK(I) / (ALDT(I))**2
             STI = FAC * A11 
-            STIR =UNDOUZE*FAC* A11R*THK(I)**2
+            STIR =ONE_OVER_12*FAC* A11R*THK(I)**2
             STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
             STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
             STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
@@ -213,7 +213,7 @@ C-----------------
             G   =GEO(IPGMAT +4 ,IPROP)
             FAC  =AREA(I)* THK(I) / (ALDT(I))**2
             STI  =FAC*  A11 
-            STIR =UNDOUZE*FAC* A11R*THK(I)**2 
+            STIR =ONE_OVER_12*FAC* A11R*THK(I)**2 
             STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
             STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
             STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
@@ -235,7 +235,7 @@ C-----------------
 !!              STIR = STI * THK(I) * THK(I) / 12.
               FAC  =AREA(I)* THK(I) / (ALDT(I))**2
               STI  =FAC*  A11 
-              STIR =UNDOUZE*FAC* A11R*THK(I)**2  
+              STIR =ONE_OVER_12*FAC* A11R*THK(I)**2  
               STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
               STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
               STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
@@ -255,7 +255,7 @@ C-----------------
               G    = PM_STACK(4 ,ISUBSTACK)
               FAC  =AREA(I)* THK(I) / (ALDT(I))**2
               STI  =FAC*  A11 
-              STIR =UNDOUZE*FAC* A11R*THK(I)**2  
+              STIR =ONE_OVER_12*FAC* A11R*THK(I)**2  
               STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
               STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
               STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
@@ -297,7 +297,7 @@ C---------------------------------------------------------
 C---------------------------------------------------------
 C
        DO I=JFT,JLT
-        AREAI=UNDEMI/AREA(I)
+        AREAI=HALF/AREA(I)
         PX2(I)=Y3(I)*AREAI
         PY2(I)=-X3(I)*AREAI
         PX3(I)=-Y2(I)*AREAI

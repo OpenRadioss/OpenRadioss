@@ -164,10 +164,10 @@ C SURFACE NORMALE NODALES
         N3=IRECT(3,IS)
         N4=IRECT(4,IS)
         IF(N4.EQ.0 .OR. N4.EQ.N3) THEN
-          FAC=UNSIX*ORIENT
+          FAC=ONE_OVER_6*ORIENT
           N4=N3
         ELSE
-          FAC=UNHUIT*ORIENT
+          FAC=ONE_OVER_8*ORIENT
         ENDIF
 c
         NG1=LISTE(N1)
@@ -230,11 +230,11 @@ C
         VN=(V(1,N)*LA(1,I)+V(2,N)*LA(2,I)+V(3,N)*LA(3,I))/S
 C ajout resistance
         PN=PRES+R1*VN+R2*VN*ABS(VN)
-        DPDV=ROC+R1+DEUX*R2*ABS(VN)
+        DPDV=ROC+R1+TWO*R2*ABS(VN)
 c condition darret
 c        write(6,*)i,n,pn,pres,-0.5*RHO*VN**2
         IF(VN.LT.0)THEN
-          PN=PN-UNDEMI*RHO*VN**2
+          PN=PN-HALF*RHO*VN**2
           DPDV=DPDV-RHO*VN
         ENDIF
 c frontiere silencieuse
@@ -255,9 +255,9 @@ c
         A(2,N)=A(2,N)-P*LA(2,I)
         A(3,N)=A(3,N)-P*LA(3,I)
 C contribution des forces a la perte d'energie globale
-        DEF=DEF-UNDEMI*(PO(I)+P)*DT1*VN*S
+        DEF=DEF-HALF*(PO(I)+P)*DT1*VN*S
         PO(I)=P
-        STIFN(N)=STIFN(N)+(DEUX*(S*DPDV)**2)/MS(N)
+        STIFN(N)=STIFN(N)+(TWO*(S*DPDV)**2)/MS(N)
 c        write(6,*)'stifn',STIFN(N)
       ENDDO
 c

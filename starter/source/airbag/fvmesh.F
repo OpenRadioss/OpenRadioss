@@ -245,7 +245,7 @@ C---------------------------------------------------
          NN3=IBUF(N3)
          CALL FVNORMAL(X,NN1,NN2,NN3,0,NRX,NRY,NRZ)
          AREA2=SQRT(NRX**2+NRY**2+NRZ**2)
-         ELAREA(IEL)=UNDEMI*AREA2
+         ELAREA(IEL)=HALF*AREA2
          NORM(1,IEL)=NRX/AREA2
          NORM(2,IEL)=NRY/AREA2
          NORM(3,IEL)=NRZ/AREA2
@@ -324,9 +324,9 @@ C
             XBMIN=MIN(XBMIN,XX)
             YBMIN=MIN(YBMIN,YY)
             ZBMIN=MIN(ZBMIN,ZZ)
-            XC=XC+UNHUIT*XX
-            YC=YC+UNHUIT*YY
-            ZC=ZC+UNHUIT*ZZ
+            XC=XC+ONE_OVER_8*XX
+            YC=YC+ONE_OVER_8*YY
+            ZC=ZC+ONE_OVER_8*ZZ
          ENDDO
 C Passage repere local brique
          PP(1,1)=SFAC(4,2,I)
@@ -399,18 +399,18 @@ C Liste elargie pour faces laterales
             IF (ICUT == 0) THEN
                TOLE=EM5
 *               TOLE=ZERO
-               XG=TIERS*(X1+X2+X3)
-               YG=TIERS*(Y1+Y2+Y3)
-               ZG=TIERS*(Z1+Z2+Z3)
-               X1=XG+(UN+TOLE)*(X1-XG)
-               Y1=YG+(UN+TOLE)*(Y1-YG)
-               Z1=ZG+(UN+TOLE)*(Z1-ZG)
-               X2=XG+(UN+TOLE)*(X2-XG)
-               Y2=YG+(UN+TOLE)*(Y2-YG)
-               Z2=ZG+(UN+TOLE)*(Z2-ZG)
-               X3=XG+(UN+TOLE)*(X3-XG)
-               Y3=YG+(UN+TOLE)*(Y3-YG)
-               Z3=ZG+(UN+TOLE)*(Z3-ZG)
+               XG=THIRD*(X1+X2+X3)
+               YG=THIRD*(Y1+Y2+Y3)
+               ZG=THIRD*(Z1+Z2+Z3)
+               X1=XG+(ONE+TOLE)*(X1-XG)
+               Y1=YG+(ONE+TOLE)*(Y1-YG)
+               Z1=ZG+(ONE+TOLE)*(Z1-ZG)
+               X2=XG+(ONE+TOLE)*(X2-XG)
+               Y2=YG+(ONE+TOLE)*(Y2-YG)
+               Z2=ZG+(ONE+TOLE)*(Z2-ZG)
+               X3=XG+(ONE+TOLE)*(X3-XG)
+               Y3=YG+(ONE+TOLE)*(Y3-YG)
+               Z3=ZG+(ONE+TOLE)*(Z3-ZG)
 C
                TVERTS(1)=PP(1,1)*(X1-XC)+PP(2,1)*(Y1-YC)+PP(3,1)*(Z1-ZC)
                TVERTS(2)=PP(1,2)*(X1-XC)+PP(2,2)*(Y1-YC)+PP(3,2)*(Z1-ZC)
@@ -486,18 +486,18 @@ C
 C Facettes coupees (1 quadrangle=2 triangles)
                TOLE=EM5
 *               TOLE=ZERO
-               XG=TIERS*(X1+X2+X3)
-               YG=TIERS*(Y1+Y2+Y3)
-               ZG=TIERS*(Z1+Z2+Z3)
-               X1=XG+(UN+TOLE)*(X1-XG)
-               Y1=YG+(UN+TOLE)*(Y1-YG)
-               Z1=ZG+(UN+TOLE)*(Z1-ZG)
-               X2=XG+(UN+TOLE)*(X2-XG)
-               Y2=YG+(UN+TOLE)*(Y2-YG)
-               Z2=ZG+(UN+TOLE)*(Z2-ZG)
-               X3=XG+(UN+TOLE)*(X3-XG)
-               Y3=YG+(UN+TOLE)*(Y3-YG)
-               Z3=ZG+(UN+TOLE)*(Z3-ZG)
+               XG=THIRD*(X1+X2+X3)
+               YG=THIRD*(Y1+Y2+Y3)
+               ZG=THIRD*(Z1+Z2+Z3)
+               X1=XG+(ONE+TOLE)*(X1-XG)
+               Y1=YG+(ONE+TOLE)*(Y1-YG)
+               Z1=ZG+(ONE+TOLE)*(Z1-ZG)
+               X2=XG+(ONE+TOLE)*(X2-XG)
+               Y2=YG+(ONE+TOLE)*(Y2-YG)
+               Z2=ZG+(ONE+TOLE)*(Z2-ZG)
+               X3=XG+(ONE+TOLE)*(X3-XG)
+               Y3=YG+(ONE+TOLE)*(Y3-YG)
+               Z3=ZG+(ONE+TOLE)*(Z3-ZG)
 C
                FV0(1)=X1
                FV0(2)=Y1
@@ -802,7 +802,7 @@ C
          Y0=RVOLU(42)
          Z0=RVOLU(43)
          LZ=RVOLU(53)
-         DZ=DEUX*LZ/NBZ
+         DZ=TWO*LZ/NBZ
          DXM=MIN(DXM,DZ)
 C
          ZBMIN=EP30
@@ -2122,7 +2122,7 @@ C On retranche la surface des trous
             ENDDO
             DEALLOCATE(ADR)
          ENDIF
-         RPOLY_F(1,I)=UNDEMI*ABS(AREA)
+         RPOLY_F(1,I)=HALF*ABS(AREA)
       ENDDO
 C---------------------------------------------------
 C Volume des polyedres
@@ -2170,7 +2170,7 @@ C---------------------------------------------------
             X1=RPOLY_F(5,JJ)
             Y1=RPOLY_F(6,JJ)
             Z1=RPOLY_F(7,JJ)
-            VOLU(I)=VOLU(I)+TIERS*AREA*(X1*NX+Y1*NY+Z1*NZ)
+            VOLU(I)=VOLU(I)+THIRD*AREA*(X1*NX+Y1*NY+Z1*NZ)
          ENDDO
       ENDDO
 C---------------------------------------------------
@@ -2503,7 +2503,7 @@ C
                   AREA=AREA-(NNX*NX+NNY*NY+NNZ*NZ)
                ENDDO
             ENDDO
-            RPOLY_F(1,I)=UNDEMI*ABS(AREA)
+            RPOLY_F(1,I)=HALF*ABS(AREA)
          ENDIF
 C
          DEALLOCATE(IPOLY_OLD, RPOLY_OLD, ADR_OLD, ADR)
@@ -2567,7 +2567,7 @@ C         IF (VOLU(I) < ZERO) THEN
          IF (VOLU(I) < -EM10) THEN
             DO J=1,POLH_F(1,I)
                JJ=POLH_F(2+J,I)
-               RPOLY_F(1,JJ)=-UN
+               RPOLY_F(1,JJ)=-ONE
             ENDDO
             VOLU(I)=ZERO
          ENDIF
@@ -2616,12 +2616,12 @@ C     therefore may create holes through internal surfaces ...
 C
             IF (JMAX /= 0) THEN
                JJMAX=POLH_NEW(2+JMAX,I)
-               RPOLY_F(1,JJMAX)=-UN
+               RPOLY_F(1,JJMAX)=-ONE
             ELSE
                JMAX=1
                JJMAX=POLH_NEW(2+JMAX,I)
                ITY=IPOLY_F(1,JJMAX)
-               IF (ITY == 2) RPOLY_F(1,JJMAX)=-UN
+               IF (ITY == 2) RPOLY_F(1,JJMAX)=-ONE
 C On merge certain polyedres de volume < volumin avec le polyedre 1
 C on ne devrait plus passer la
                IMAX=1
@@ -2637,7 +2637,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
      .         ' (VOL=',VOLU(IMAX),')'
             ENDIF
             VOLU(IMAX)=VOLU(IMAX)+VOLU(I)
-            VOLU(I)=-UN
+            VOLU(I)=-ONE
             IMERGED(I)=1
             DO J=1,POLH_NEW(1,I)
                IF (J /= JMAX) THEN
@@ -2677,7 +2677,7 @@ C
          DO J=1,POLH_NEW(1,I)
             JJ=POLH_NEW(2+J,I)
             IF (IPOLY_F(1,JJ) == 1.OR.RPOLY_F(1,JJ) < ZERO) CYCLE
-            IF (IPOLY_F(5,JJ) == IPOLY_F(6,JJ)) RPOLY_F(1,JJ)=-UN
+            IF (IPOLY_F(5,JJ) == IPOLY_F(6,JJ)) RPOLY_F(1,JJ)=-ONE
          ENDDO
       ENDDO
       DEALLOCATE(VOLU_OLD, RPOLY_F_OLD, IPOLY_F_OLD, IMERGED)
@@ -2804,7 +2804,7 @@ C
             FVDATA(IFV)%IFVNOD(1,NNS+I)=3
             FVDATA(IFV)%IFVNOD(2,NNS+I)=1
             FVDATA(IFV)%IFVNOD(3,NNS+I)=2
-            FVDATA(IFV)%RFVNOD(1,NNS+I)=UN
+            FVDATA(IFV)%RFVNOD(1,NNS+I)=ONE
          ENDIF
       ENDDO
 C
@@ -3109,9 +3109,9 @@ C---------------------------------------------------
       TI2=TI*TI
       RHOI=PINI/(TI*RMWI)
 C
-      CPI=CPAI+UNDEMI*CPBI*TI+THIRD*CPCI*TI2
+      CPI=CPAI+HALF*CPBI*TI+THIRD*CPCI*TI2
       IF(IVOLU(2) == 8) THEN
-        CPI=CPI+QUART*CPDI*TI2*TI-CPEI/TI2+UNCINQ*CPFI*TI2*TI2
+        CPI=CPI+FOURTH*CPDI*TI2*TI-CPEI/TI2+ONE_FIFTH*CPFI*TI2*TI2
       ENDIF      
       CVI=CPI-RMWI
 C
@@ -3226,9 +3226,9 @@ C-----------------------------------------
             X3=X(1,N3)
             Y3=X(2,N3)
             Z3=X(3,N3)
-            PNODES(1,I)=(UN-KSI-ETA)*X1+KSI*X2+ETA*X3
-            PNODES(2,I)=(UN-KSI-ETA)*Y1+KSI*Y2+ETA*Y3
-            PNODES(3,I)=(UN-KSI-ETA)*Z1+KSI*Z2+ETA*Z3
+            PNODES(1,I)=(ONE-KSI-ETA)*X1+KSI*X2+ETA*X3
+            PNODES(2,I)=(ONE-KSI-ETA)*Y1+KSI*Y2+ETA*Y3
+            PNODES(3,I)=(ONE-KSI-ETA)*Z1+KSI*Z2+ETA*Z3
          ELSEIF (FVDATA(IFV)%IFVNOD(1,I) == 2) THEN
             II=FVDATA(IFV)%IFVNOD(2,I)
             PNODES(1,I)=X(1,II)
@@ -3241,9 +3241,9 @@ C-----------------------------------------
          I1=FVDATA(IFV)%IFVNOD(2,II)
          I2=FVDATA(IFV)%IFVNOD(3,II)
          ALPHA=FVDATA(IFV)%RFVNOD(1,II)
-         PNODES(1,II)=ALPHA*PNODES(1,I1)+(UN-ALPHA)*PNODES(1,I2)
-         PNODES(2,II)=ALPHA*PNODES(2,I1)+(UN-ALPHA)*PNODES(2,I2)
-         PNODES(3,II)=ALPHA*PNODES(3,I1)+(UN-ALPHA)*PNODES(3,I2)
+         PNODES(1,II)=ALPHA*PNODES(1,I1)+(ONE-ALPHA)*PNODES(1,I2)
+         PNODES(2,II)=ALPHA*PNODES(2,I1)+(ONE-ALPHA)*PNODES(2,I2)
+         PNODES(3,II)=ALPHA*PNODES(3,I1)+(ONE-ALPHA)*PNODES(3,I2)
       ENDDO
 C--------------------------
 C Impression
@@ -3265,7 +3265,7 @@ C--------------------------
          Z3=PNODES(3,N3)
          CALL FVNORMAL(PNODES,N1,N2,N3,0,NRX,NRY,NRZ)
          AREA2=SQRT(NRX**2+NRY**2+NRZ**2)
-         AREATR(I)=UNDEMI*AREA2
+         AREATR(I)=HALF*AREA2
         ENDDO
 C
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--

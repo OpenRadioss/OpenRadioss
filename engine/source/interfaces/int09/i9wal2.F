@@ -224,8 +224,8 @@ C---------------------------------
         NN=IRECT(JJ,L)
  10     IX(JJ)=MSR(NN)
 C
-        H(1) = UNDEMI*(UN - CRST(1,II))
-        H(2) = UNDEMI*(UN + CRST(1,II))
+        H(1) = HALF*(ONE - CRST(1,II))
+        H(2) = HALF*(ONE + CRST(1,II))
 C---------------------------------
 C       VITESSE DE MAILLAGE
 C---------------------------------
@@ -249,7 +249,7 @@ c     1       IERR  ,AREAM   ,TSTIFM,TM             ,VOLM      ,
 c     2       NB3M  ,IELEM(L),X     ,IXQ(1,IELEM(L)),IX        ,
 c     3       IPARG ,PM      ,ELBUF )
 c          IF(IERR.EQ.0) THEN
-c            EFRIC = UNDEMI * EE(II) / (LL2-LL1 + 1)
+c            EFRIC = HALF * EE(II) / (LL2-LL1 + 1)
 c            DO 80 LL=LL1,LL2
 c             LG  = LMSR(LL)
 c             IXX(1)=NSV(IRECTS(1,LG))
@@ -268,7 +268,7 @@ c 80         CONTINUE
 c          ENDIF
 c         ELSEIF(ISPMD.EQ.0)THEN
            KK = TAGM(L)
-           EFRIC = UNDEMI * EE(II) / (LL2-LL1+1)
+           EFRIC = HALF * EE(II) / (LL2-LL1+1)
 	   IERR = ICOMERR(KK)
 	   AREAM = COMAREA(KK)
 	   TSTIFM = COMSTF(KK)
@@ -326,7 +326,7 @@ C------------------------------------------------------
           TTT = MAX(EM30,SQRT(TY**2+TZ**2))
 C          VT = VY*TY + VZ*TZ
           VT = V(2,N)*TY + V(3,N)*TZ
-          P = UNP0001 - UPW*(UNDEMI + SIGN(UNDEMI,VT))
+          P = ONEP0001 - UPW*(HALF + SIGN(HALF,VT))
           NY = TZ
           NZ =-TY
 C          FAC = P / MAX(EM30,SQRT(NY**2+NZ**2))

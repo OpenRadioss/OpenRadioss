@@ -97,7 +97,7 @@ C optimisable en spmd si ajout flag pour routine de comm, spmd_exchange_n
         SURFY = Z13*X24 - X13*Z24
         SURFZ = X13*Y24 - Y13*X24
 
-        AAA=UN/MAX(EM30,SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ))
+        AAA=ONE/MAX(EM30,SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ))
         SURFX = SURFX * AAA
         SURFY = SURFY * AAA
         SURFZ = SURFZ * AAA
@@ -198,7 +198,7 @@ C-----------------------------------------------
         SURFY = Z13*X24 - X13*Z24
         SURFZ = X13*Y24 - Y13*X24
 
-        AAA=UN/MAX(EM30,SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ))
+        AAA=ONE/MAX(EM30,SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ))
         SURFX = SURFX * AAA
         SURFY = SURFY * AAA
         SURFZ = SURFZ * AAA
@@ -301,7 +301,7 @@ C-----------------------------------------------
      	SURFY = NOD_NORMAL(2,N1)
      	SURFZ = NOD_NORMAL(3,N1)
 
-        AAA=UN/MAX(EM30,SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ))
+        AAA=ONE/MAX(EM30,SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ))
         SURFX = SURFX * AAA
         SURFY = SURFY * AAA
         SURFZ = SURFZ * AAA
@@ -411,7 +411,7 @@ C-------
 
 C       Longueur vraie = LL/2
         LL  = SQRT(ERX*ERX+ERY*ERY+ERZ*ERZ)
-        AAA = UN / LL
+        AAA = ONE / LL
         ERX = ERX*AAA
         ERY = ERY*AAA
         ERZ = ERZ*AAA
@@ -432,7 +432,7 @@ C-------
 
 C       Longueur vraie = LL/2
         LL  = SQRT(ERX*ERX+ERY*ERY+ERZ*ERZ)
-        AAA = UN / LL
+        AAA = ONE / LL
         ERX = ERX*AAA
         ERY = ERY*AAA
         ERZ = ERZ*AAA
@@ -463,7 +463,7 @@ C-------
         SURFY = Z13*X24 - X13*Z24
         SURFZ = X13*Y24 - Y13*X24
 
-        AAA=UN/MAX(EM30,SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ))
+        AAA=ONE/MAX(EM30,SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ))
         SURFX = SURFX * AAA
         SURFY = SURFY * AAA
         SURFZ = SURFZ * AAA

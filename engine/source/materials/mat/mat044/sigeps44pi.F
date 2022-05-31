@@ -74,7 +74,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL) :: E,NU,G,G3,YLD,YLDMAX,EPMAX,EPDR,
      .   EPSR1,EPSR2,CA,CB,CN,CP,ASRATE,YSCALE,DFDPLA,DPLA
 c=======================================================================
-      SHFACT = CSIX
+      SHFACT = FIVE_OVER_6
       EPIF   = ZERO
 c
       DO I=1,NEL
@@ -111,7 +111,7 @@ c
         SIGNXX(I) = SIGOXX(I) + E(I)*DEPSXX(I)
         SIGNXY(I) = SIGOXY(I) + GS*DEPSXY(I)
         SIGNXZ(I) = SIGOXZ(I) + GS*DEPSXZ(I)
-        ETSE(I)   = UN                        
+        ETSE(I)   = ONE                        
       ENDDO  
 c        
 c---    Yield stress
@@ -151,13 +151,13 @@ c
       IF (EPIF > ZERO) THEN
         DO I = 1,NEL
           IF (EPDR(I) > ZERO) THEN
-            FRATE = UN + (EPSP(I)*EPDR(I))**CP(I)
+            FRATE = ONE + (EPSP(I)*EPDR(I))**CP(I)
             IF (ICC(I)== 1) YLDMAX(I) = YLDMAX(I) * FRATE
             IF ((NFUNC > 0) .AND. (CA(I) /= ZERO)) THEN 
               IF (PLA(I)>ZERO) THEN 
-                YLD(I) = YLD(I) + (CA(I) + CB(I)*EXP(CN(I)*LOG(PLA(I))))*(FRATE-UN)
+                YLD(I) = YLD(I) + (CA(I) + CB(I)*EXP(CN(I)*LOG(PLA(I))))*(FRATE-ONE)
               ELSE
-                YLD(I) = YLD(I) + CA(I)*(FRATE-UN)
+                YLD(I) = YLD(I) + CA(I)*(FRATE-ONE)
               ENDIF
             ELSE
               YLD(I) = YLD(I) * FRATE
@@ -170,15 +170,15 @@ c     PROJECTION   -   radial return
 c-------------------
       DO I = 1,NEL
         YLD(I) = MIN(YLD(I),YLDMAX(I))                  
-        SVM    = SIGNXX(I)**2 + TROIS*(SIGNXY(I)**2 + SIGNXZ(I)**2)
+        SVM    = SIGNXX(I)**2 + THREE*(SIGNXY(I)**2 + SIGNXZ(I)**2)
         IF (SVM > YLD(I)**2) THEN
           SVM = SQRT(SVM)                                        
-          R   = MIN( UN, YLD(I) / SVM)                  
+          R   = MIN( ONE, YLD(I) / SVM)                  
           SIGNXX(I) = SIGNXX(I)*R                                  
           SIGNXY(I) = SIGNXY(I)*R                                  
           SIGNXZ(I) = SIGNXZ(I)*R   
-          DPLA(I) = OFF(I)*SVM*(UN - R) / G3(I)                       
-          PLA(I) = PLA(I) + OFF(I)*SVM*(UN - R) / G3(I)
+          DPLA(I) = OFF(I)*SVM*(ONE - R) / G3(I)                       
+          PLA(I) = PLA(I) + OFF(I)*SVM*(ONE - R) / G3(I)
         ENDIF                                   
       ENDDO     
 c--------------------------------
@@ -186,14 +186,14 @@ c     DUCTILE RUPTURE
 c--------------------------------
       DO I=1,NEL
         IF (OFF(I) < EM01) OFF(I) = ZERO
-        IF (OFF(I) < UN)   OFF(I) = OFF(I)*QCINQ
+        IF (OFF(I) < ONE)   OFF(I) = OFF(I)*FOUR_OVER_5
       ENDDO
 c--------------------------------
 c     AXIAL TENSION OR PLASTIC STRAIN FAILURE 
 c--------------------------------
       DO I = 1,NEL
-        IF (OFF(I) == UN) THEN
-          DMG = UN
+        IF (OFF(I) == ONE) THEN
+          DMG = ONE
           IF (EPST(I) > EPSR1(I)) THEN
             DMG = (EPSR2(I) - EPST(I)) / (EPSR2(I) - EPSR1(I))
             DMG = MAX(DMG, ZERO)
@@ -203,13 +203,13 @@ c--------------------------------
           ENDIF
 c         test strain failure
           IF (DMG == ZERO .or. PLA(I) >= EPMAX(I)) THEN
-            OFF(I)   = QCINQ
+            OFF(I)   = FOUR_OVER_5
             IDEL7NOK = 1
           ENDIF
           IF (VFLAG(I) == 1) THEN 
-            ALPHA   = MIN(UN, ASRATE(I)*DT1)
+            ALPHA   = MIN(ONE, ASRATE(I)*DT1)
             EPSDOT  = DPLA(I)/MAX(EM20,DT1) 
-            EPSP(I) = ALPHA*EPSDOT + (UN - ALPHA)*EPSP(I)  
+            EPSP(I) = ALPHA*EPSDOT + (ONE - ALPHA)*EPSP(I)  
             UVAR(I,1) = EPSP(I)
           ENDIF      
 c

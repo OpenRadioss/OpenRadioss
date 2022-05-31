@@ -120,7 +120,7 @@ C-----------------------------------------------
       OFF_L = ZERO
       DO 40 I=JFT,JLT
         DT1C(I) = DT1
-        OFF(I) = MIN(UN,ABS(OFFG(I)))
+        OFF(I) = MIN(ONE,ABS(OFFG(I)))
         OFF_L  = MIN(OFF_L,OFFG(I))
         SIGY(I) = EP30
  40   CONTINUE

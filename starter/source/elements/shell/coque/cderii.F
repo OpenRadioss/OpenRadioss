@@ -86,10 +86,10 @@ c        Z4L(I)=E3X(I)*X41G(I)+E3Y(I)*Y41G(I)+E3Z(I)*Z41G(I)
       ENDDO
 c
       DO I=LFT,LLT
-        PX1(I)= UNDEMI *(Y2L(I)-Y4L(I))
-        PX2(I)= UNDEMI * Y3L(I)
-        PY1(I)=-UNDEMI *(X2L(I)-X4L(I))
-        PY2(I)=-UNDEMI * X3L(I)
+        PX1(I)= HALF *(Y2L(I)-Y4L(I))
+        PX2(I)= HALF * Y3L(I)
+        PY1(I)=-HALF *(X2L(I)-X4L(I))
+        PY2(I)=-HALF * X3L(I)
       ENDDO
 c-----------
       RETURN

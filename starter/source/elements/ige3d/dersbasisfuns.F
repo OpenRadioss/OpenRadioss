@@ -71,7 +71,7 @@ C   S o u r c e  L i n e s
 C=======================================================================
 C
       NDERS=1
-      ANDU(1,1)=UN
+      ANDU(1,1)=ONE
 
       DO J = 1,PXI   
         ALEFT(J+1) = XI - KXI(IDXI+1-J)
@@ -95,7 +95,7 @@ C COMPUTE DERIVATES
       DO L = 0,PXI
         LS1 = 0
         LS2 = 1
-        A(1,1) = UN
+        A(1,1) = ONE
 	
         DO K = 1,NDERS
           D = ZERO

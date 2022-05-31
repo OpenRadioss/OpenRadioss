@@ -143,11 +143,11 @@ C----------------------------
         IF(ISMSTR.EQ.1.OR.(ISMSTR.EQ.2.AND.IDTMIN(1).EQ.3))THEN
 C
           DO I=LFT,LLT
-            IF(OFFG(I).GT.UN)THEN
+            IF(OFFG(I).GT.ONE)THEN
               XX(I,N)=SAV(I,N)
               YY(I,N)=SAV(I,N+NPE)
               ZZ(I,N)=SAV(I,N+2*NPE)
-              OFF(I) = OFFG(I)-UN
+              OFF(I) = OFFG(I)-ONE
             ELSE
               NN = MAX(IUN,NC(I,N))
               XX(I,N)=X(1,NN)
@@ -167,7 +167,7 @@ C
               XX(I,N)=X(1,NN)
               YY(I,N)=X(2,NN)
               ZZ(I,N)=X(3,NN)
-              OFF(I) = MIN(UN,ABS(OFFG(I)))
+              OFF(I) = MIN(ONE,ABS(OFFG(I)))
               OFF_L  = MIN(OFF_L,OFFG(I))
           ENDDO
 C
@@ -219,9 +219,9 @@ C
 C
       IF (JLAG.EQ.0)THEN
         DO I=LFT,LLT
-          VDX(I)=QUART*VDX(I)
-          VDY(I)=QUART*VDY(I)
-          VDZ(I)=QUART*VDZ(I)  
+          VDX(I)=FOURTH*VDX(I)
+          VDY(I)=FOURTH*VDY(I)
+          VDZ(I)=FOURTH*VDZ(I)  
           VD2(I)=(VDX(I)**2+VDY(I)**2+VDZ(I)**2)  
         ENDDO
       ENDIF
@@ -231,12 +231,12 @@ C
         N2=IPERM2(N)
         DO I=LFT,LLT
           IF(NC(I,N).EQ.0)THEN
-            XX(I,N) = UNDEMI*(XX(I,N1)+XX(I,N2))
-            YY(I,N) = UNDEMI*(YY(I,N1)+YY(I,N2))
-            ZZ(I,N) = UNDEMI*(ZZ(I,N1)+ZZ(I,N2))
-            VX(I,N) = UNDEMI*(VX(I,N1)+VX(I,N2))
-            VY(I,N) = UNDEMI*(VY(I,N1)+VY(I,N2))
-            VZ(I,N) = UNDEMI*(VZ(I,N1)+VZ(I,N2))    
+            XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
+            YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
+            ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
+            VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
+            VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
+            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))    
           ENDIF
         ENDDO
       ENDDO

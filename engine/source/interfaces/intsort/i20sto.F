@@ -447,20 +447,20 @@ c         calcul de la distance^2
           ALM = (XXA*XSM-XXB*XS2) / DET
           XS2 = MAX(XS2,EM20)
           XM2 = MAX(XM2,EM20)
-          ALM=MIN(UN,MAX(ZERO,ALM))
+          ALM=MIN(ONE,MAX(ZERO,ALM))
           ALS = -(XXA + ALM*XSM) / XS2
-          ALS=MIN(UN,MAX(ZERO,ALS))
+          ALS=MIN(ONE,MAX(ZERO,ALS))
           ALM = -(XXB + ALS*XSM) / XM2
-          ALM=MIN(UN,MAX(ZERO,ALM))
+          ALM=MIN(ONE,MAX(ZERO,ALM))
 
 C         PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
 
-          XX =  ALS*XA(1,N1) + (UN-ALS)*XA(1,N2)
-     .        - ALM*XA(1,M1) - (UN-ALM)*XA(1,M2)
-          YY =  ALS*XA(2,N1) + (UN-ALS)*XA(2,N2)
-     .        - ALM*XA(2,M1) - (UN-ALM)*XA(2,M2)
-          ZZ =  ALS*XA(3,N1) + (UN-ALS)*XA(3,N2)
-     .        - ALM*XA(3,M1) - (UN-ALM)*XA(3,M2)
+          XX =  ALS*XA(1,N1) + (ONE-ALS)*XA(1,N2)
+     .        - ALM*XA(1,M1) - (ONE-ALM)*XA(1,M2)
+          YY =  ALS*XA(2,N1) + (ONE-ALS)*XA(2,N2)
+     .        - ALM*XA(2,M1) - (ONE-ALM)*XA(2,M2)
+          ZZ =  ALS*XA(3,N1) + (ONE-ALS)*XA(3,N2)
+     .        - ALM*XA(3,M1) - (ONE-ALM)*XA(3,M2)
           PENE(I) = GAP2 - XX*XX - YY*YY - ZZ*ZZ
 C
         ENDDO
@@ -536,30 +536,30 @@ C
           IF(ALM.LT.ZERO)THEN
             ALM = ZERO
             ALS = -XXA / XS2
-          ELSEIF(ALM.GT.UN)THEN
-            ALM = UN
+          ELSEIF(ALM.GT.ONE)THEN
+            ALM = ONE
             ALS = -(XXA + XSM) / XS2
           ENDIF
 C
           IF(ALS.LT.ZERO)THEN
             ALS = ZERO
             ALM = -XXB / XM2
-          ELSEIF(ALS.GT.UN)THEN
-            ALS = UN
+          ELSEIF(ALS.GT.ONE)THEN
+            ALS = ONE
             ALM = -(XXB + XSM) / XM2
           ENDIF
 
-          ALM = MIN(UN,ALM)
+          ALM = MIN(ONE,ALM)
           ALM = MAX(ZERO,ALM)
 
 C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
 
-          XX =  ALS*X11 + (UN-ALS)*X21
-     .        - ALM*XA(1,M1) - (UN-ALM)*XA(1,M2)
-          YY =  ALS*X12 + (UN-ALS)*X22
-     .        - ALM*XA(2,M1) - (UN-ALM)*XA(2,M2)
-          ZZ =  ALS*X13 + (UN-ALS)*X23
-     .        - ALM*XA(3,M1) - (UN-ALM)*XA(3,M2)
+          XX =  ALS*X11 + (ONE-ALS)*X21
+     .        - ALM*XA(1,M1) - (ONE-ALM)*XA(1,M2)
+          YY =  ALS*X12 + (ONE-ALS)*X22
+     .        - ALM*XA(2,M1) - (ONE-ALM)*XA(2,M2)
+          ZZ =  ALS*X13 + (ONE-ALS)*X23
+     .        - ALM*XA(3,M1) - (ONE-ALM)*XA(3,M2)
           PENE(I) = GAP2- XX*XX - YY*YY - ZZ*ZZ
 C
         END DO

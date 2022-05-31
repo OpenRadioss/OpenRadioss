@@ -73,7 +73,7 @@ C-----------------------------------------------
 C      
       IF(DT1.EQ.ZERO)RETURN
       DO I=LFT,LLT
-        FAC=-UNHUIT*HH(I)*RHO(I)*VOLN(I)/DT1
+        FAC=-ONE_OVER_8*HH(I)*RHO(I)*VOLN(I)/DT1
  	F11(I) = F11(I) + FAC*VX1(I)
  	F12(I) = F12(I) + FAC*VX2(I)
  	F13(I) = F13(I) + FAC*VX3(I)

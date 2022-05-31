@@ -49,12 +49,12 @@ C----------------------------------------
 C----------------------------------------
        DO I=NODFT,NODLT
         IF(MS(I).GT.ZERO)THEN
-         C2      = QUATRE*VISCN(I)*VISCN(I)
-         C21     = HUIT*MS(I)*STIFN(I)
+         C2      = FOUR*VISCN(I)*VISCN(I)
+         C21     = EIGHT*MS(I)*STIFN(I)
          AUX     = SQRT(C2+C21)+2.*VISCN(I)
-         STIFN(I)= UNHUIT*AUX*AUX/MAX(MS(I),EM30)
+         STIFN(I)= ONE_OVER_8*AUX*AUX/MAX(MS(I),EM30)
 C        STIFN(I)= STIFN(I)*AUX*AUX/MAX(C21,EM30)
-         STIFN(I)= MAX(STIFN(I),DEUX*VISCN(I)*VISCN(I)/MAX(MS(I),EM30))
+         STIFN(I)= MAX(STIFN(I),TWO*VISCN(I)*VISCN(I)/MAX(MS(I),EM30))
          VISCN(I)= ZERO
         ENDIF
        ENDDO

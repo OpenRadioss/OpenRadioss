@@ -70,22 +70,22 @@ C
          FXY(EP) = 0.0D0*RHO(EP)*LC(EP)*DBETADXY(EP,3)
 C
          VFPINCHDAMPX(EP,1) = VFPINCHDAMPX(EP,1) + C2*(BPINCHDAMP(EP,1)*FXX(EP)
-     .                      + UNDEMI*BPINCHDAMP(EP,2)*FXY(EP))
+     .                      + HALF*BPINCHDAMP(EP,2)*FXY(EP))
          VFPINCHDAMPX(EP,2) = VFPINCHDAMPX(EP,2) + C2*(BPINCHDAMP(EP,3)*FXX(EP)
-     .                      + UNDEMI*BPINCHDAMP(EP,4)*FXY(EP))
+     .                      + HALF*BPINCHDAMP(EP,4)*FXY(EP))
          VFPINCHDAMPX(EP,3) = VFPINCHDAMPX(EP,3) + C2*(BPINCHDAMP(EP,5)*FXX(EP)
-     .                      + UNDEMI*BPINCHDAMP(EP,6)*FXY(EP))
+     .                      + HALF*BPINCHDAMP(EP,6)*FXY(EP))
          VFPINCHDAMPX(EP,4) = VFPINCHDAMPX(EP,4) + C2*(BPINCHDAMP(EP,7)*FXX(EP)
-     .                      + UNDEMI*BPINCHDAMP(EP,8)*FXY(EP))
+     .                      + HALF*BPINCHDAMP(EP,8)*FXY(EP))
 C
          VFPINCHDAMPY(EP,1) = VFPINCHDAMPY(EP,1) + C2*(BPINCHDAMP(EP,2)*FYY(EP)
-     .                      + UNDEMI*BPINCHDAMP(EP,1)*FXY(EP))
+     .                      + HALF*BPINCHDAMP(EP,1)*FXY(EP))
          VFPINCHDAMPY(EP,2) = VFPINCHDAMPY(EP,2) + C2*(BPINCHDAMP(EP,4)*FYY(EP)
-     .                      + UNDEMI*BPINCHDAMP(EP,3)*FXY(EP))
+     .                      + HALF*BPINCHDAMP(EP,3)*FXY(EP))
          VFPINCHDAMPY(EP,3) = VFPINCHDAMPY(EP,3) + C2*(BPINCHDAMP(EP,6)*FYY(EP)
-     .                      + UNDEMI*BPINCHDAMP(EP,5)*FXY(EP))
+     .                      + HALF*BPINCHDAMP(EP,5)*FXY(EP))
          VFPINCHDAMPY(EP,4) = VFPINCHDAMPY(EP,4) + C2*(BPINCHDAMP(EP,8)*FYY(EP)
-     .                      + UNDEMI*BPINCHDAMP(EP,7)*FXY(EP))
+     .                      + HALF*BPINCHDAMP(EP,7)*FXY(EP))
 C
        ENDDO   
       RETURN

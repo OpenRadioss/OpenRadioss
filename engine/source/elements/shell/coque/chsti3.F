@@ -116,10 +116,10 @@ C
          PX2V    = PX2(I)*VHX(I)
          PY1V    = PY1(I)*VHY(I)
          PY2V    = PY2(I)*VHY(I)
-         GAMA1(I)= OFF(I)*( UN - PX1V-PY1V)
-         GAMA3(I)= OFF(I)*( UN + PX1V+PY1V)
-         GAMA2(I)= OFF(I)*(-UN - PX2V-PY2V)
-         GAMA4(I)= OFF(I)*(-UN + PX2V+PY2V)	 
+         GAMA1(I)= OFF(I)*( ONE - PX1V-PY1V)
+         GAMA3(I)= OFF(I)*( ONE + PX1V+PY1V)
+         GAMA2(I)= OFF(I)*(-ONE - PX2V-PY2V)
+         GAMA4(I)= OFF(I)*(-ONE + PX2V+PY2V)	 
        ENDDO
       ELSE
        DO I=JFT,JLT
@@ -134,13 +134,13 @@ C
        HP1(I) =H1(I)
        HP2(I) =H2(I)
        H3(I) =SRH3(I)
-       SHFPR3 = SHF(I)/(TROIS*(UN+NU(I)))
-       FAC    = QUART*RHO(I)*THK02(I)
+       SHFPR3 = SHF(I)/(THREE*(ONE+NU(I)))
+       FAC    = FOURTH*RHO(I)*THK02(I)
        H3L(I) = H3(I)*ZEP072169*FAC*AREA(I)
-       H3Q(I) = H3(I)*H3L(I)*CENT
+       H3Q(I) = H3(I)*H3L(I)*HUNDRED
        H3L(I) = H3L(I)*SSP(I)
 C
-       FAC    = YM(I)*THK0(I)*DT1C(I)*UNHUIT
+       FAC    = YM(I)*THK0(I)*DT1C(I)*ONE_OVER_8
        H1(I)  = HP1(I) * FAC
        B1(I) = PX1(I)*PX1(I)+PY1(I)*PY1(I)
        B2(I) = PX2(I)*PX2(I)+PY2(I)*PY2(I)
@@ -185,9 +185,9 @@ C
                VV = VISCMX(I) * VISCMX(I)  * ALPE(I)
                FAC = MAX(B1(I),B2(I))/(AREA(I) * VV)
                STI(I) =  STI(I) + FAC * THK0(I) * A11(I) 
-               STIR(I) = FAC *  A11R(I)*THK0(I)*THK02(I)*UNDOUZE +
-     .                   FAC *  A11(I) *THK0(I)*AREA(I) *UNNEUF +
-     .                   SCALE(I)*(THK02(I)* UNDOUZE +  AREA(I)*UNNEUF)
+               STIR(I) = FAC *  A11R(I)*THK0(I)*THK02(I)*ONE_OVER_12 +
+     .                   FAC *  A11(I) *THK0(I)*AREA(I) *ONE_OVER_9 +
+     .                   SCALE(I)*(THK02(I)* ONE_OVER_12 +  AREA(I)*ONE_OVER_9)
              ENDIF 
              ENDDO
          ELSE
@@ -199,8 +199,8 @@ C
               VV = VISCMX(I) * VISCMX(I)  * ALPE(I)
                FAC = MAX(B1(I),B2(I))/(AREA(I) * VV)
                STI(I) =  STI(I) + FAC * THK0(I) * A11(I) 
-               STIR(I) = FAC *  A11R(I)*THK0(I)*THK02(I)* UNDOUZE +
-     .                           SCALE(I)*THK02(I)* UNDOUZE
+               STIR(I) = FAC *  A11R(I)*THK0(I)*THK02(I)* ONE_OVER_12 +
+     .                           SCALE(I)*THK02(I)* ONE_OVER_12
             ENDIF 
             ENDDO
          END IF
@@ -214,7 +214,7 @@ C
                VV = VISCMX(I) * VISCMX(I)  * ALPE(I)
                STI(I) =  STI(I) + MAX(B1(I),B2(I)) 
      .                      * THK0(I) * A11(I) / (AREA(I) * VV)
-               STIR(I) = STI(I) * (THK02(I)* UNDOUZE + AREA(I) * UNNEUF)
+               STIR(I) = STI(I) * (THK02(I)* ONE_OVER_12 + AREA(I) * ONE_OVER_9)
 c     ..                + 0.5 * SHF(I) * AREA(I) * G(I)/A11(I)) 
              ENDIF 
              ENDDO
@@ -227,7 +227,7 @@ c     ..                + 0.5 * SHF(I) * AREA(I) * G(I)/A11(I))
               VV = VISCMX(I) * VISCMX(I)  * ALPE(I)
               STI(I) =  STI(I) + MAX(B1(I),B2(I)) 
      .                     * THK0(I) * A11(I) / (AREA(I) * VV)
-              STIR(I) = STI(I) * THK02(I)* UNDOUZE
+              STIR(I) = STI(I) * THK02(I)* ONE_OVER_12
             ENDIF 
             ENDDO
         END IF
@@ -246,7 +246,7 @@ C-----------------------------------
       DO I=JFT,JLT
         HOUR(I,1)=HOUR(I,1)+HG1(I)*H1(I)
         HOUR(I,2)=HOUR(I,2)+HG2(I)*H1(I)
-        FMAX(I) = UNDEMI*SIGY(I)*THK0(I)*SQRT(AREA(I))*HP1(I)
+        FMAX(I) = HALF*SIGY(I)*THK0(I)*SQRT(AREA(I))*HP1(I)
         HOUR(I,1)=SIGN( MIN( ABS(HOUR(I,1)),FMAX(I) ) , HOUR(I,1))
         HOUR(I,2)=SIGN( MIN( ABS(HOUR(I,2)),FMAX(I) ) , HOUR(I,2))
         HOUR1(I)=HOUR(I,1)
@@ -271,7 +271,7 @@ C----------------------------------
       ENDDO
       DO I=JFT,JLT
        HOUR(I,3)=HOUR(I,3)+HG1(I)*H2(I)
-       FMAX(I) = QUART*SIGY(I)*THK0(I)*THK0(I)*HP2(I)
+       FMAX(I) = FOURTH*SIGY(I)*THK0(I)*THK0(I)*HP2(I)
        HOUR(I,3)=SIGN( MIN( ABS(HOUR(I,3)),FMAX(I) ) , HOUR(I,3))
        HOUR3(I) =HOUR(I,3)
        H31(I)=HOUR3(I)*GAMA1(I)

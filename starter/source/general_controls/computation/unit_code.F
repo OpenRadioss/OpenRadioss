@@ -118,11 +118,11 @@ C---
         CASE ('d ')
             FAC=EM01                                       
         CASE ('  ')
-            FAC=UN                                         
+            FAC=ONE                                         
         CASE ('da')
-            FAC=DIX                                        
+            FAC=TEN                                        
         CASE ('h ')
-            FAC=CENT                                       
+            FAC=HUNDRED                                       
         CASE ('k ')
             FAC=EP03                                         
         CASE ('K ')
@@ -138,7 +138,7 @@ C---
         CASE ('E ')
             FAC=EP18                                       
         CASE ('Z ')
-            FAC=EP20*DIX                                   
+            FAC=EP20*TEN                                   
         CASE ('Y ')
             FAC=EP20*EP04                                  
         CASE DEFAULT       

@@ -127,19 +127,19 @@ C------------------------------------------
 C--------+---------+---------+---------+---------+---------+---------+--
 C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE ( * 8. )
 C-------------------------------------------------------------
-            DX = DEUX*(X1 + X2 + X3 + X4)
+            DX = TWO*(X1 + X2 + X3 + X4)
      .          -X(1,IXS(2))-X(1,IXS(3))
      .          -X(1,IXS(4))-X(1,IXS(5))
      .          -X(1,IXS(6))-X(1,IXS(7))
      .          -X(1,IXS(8))-X(1,IXS(9))
 C
-            DY = DEUX*(Y1 + Y2 + Y3 + Y4)
+            DY = TWO*(Y1 + Y2 + Y3 + Y4)
      .          -X(2,IXS(2))-X(2,IXS(3))
      .          -X(2,IXS(4))-X(2,IXS(5))
      .          -X(2,IXS(6))-X(2,IXS(7))
      .          -X(2,IXS(8))-X(2,IXS(9))
 C
-            DZ = DEUX*(Z1 + Z2 + Z3 + Z4)
+            DZ = TWO*(Z1 + Z2 + Z3 + Z4)
      .          -X(3,IXS(2))-X(3,IXS(3))
      .          -X(3,IXS(4))-X(3,IXS(5))
      .          -X(3,IXS(6))-X(3,IXS(7))
@@ -148,8 +148,8 @@ C
 C---------------------------------
 C         CALCUL DISTANCE ET 1/4 SURFACE(SURFFACE NODALE))
 C---------------------------------
-            DIST = UNHUIT*(DX*NX+DY*NY+DZ*NZ) / MAX(EM15,NORM) 
-            AREA = UNHUIT*NORM
+            DIST = ONE_OVER_8*(DX*NX+DY*NY+DZ*NZ) / MAX(EM15,NORM) 
+            AREA = ONE_OVER_8*NORM
 C---------------------------------
 C         CALCUL DE LA CONDUCTIBILITE
 C---------------------------------

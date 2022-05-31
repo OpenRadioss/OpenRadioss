@@ -73,19 +73,19 @@ C-----------------------------------------------
           E2Y = (Y3 + Y4 - Y1 - Y2)                          
           E2Z = (Z3 + Z4 - Z1 - Z2)                          
         ELSE
-          E1X = (X2 + X3 - DEUX * X1)                          
-          E1Y = (Y2 + Y3 - DEUX * Y1)                          
-          E1Z = (Z2 + Z3 - DEUX * Z1)                          
-          E2X = (DEUX * X3 - X1 - X2)                          
-          E2Y = (DEUX * Y3 - Y1 - Y2)                          
-          E2Z = (DEUX * Z3 - Z1 - Z2)                          
+          E1X = (X2 + X3 - TWO * X1)                          
+          E1Y = (Y2 + Y3 - TWO * Y1)                          
+          E1Z = (Z2 + Z3 - TWO * Z1)                          
+          E2X = (TWO * X3 - X1 - X2)                          
+          E2Y = (TWO * Y3 - Y1 - Y2)                          
+          E2Z = (TWO * Z3 - Z1 - Z2)                          
         END IF
         E3X = E1Y*E2Z - E1Z*E2Y                           
         E3Y = E1Z*E2X - E1X*E2Z                           
         E3Z = E1X*E2Y - E1Y*E2X                           
 C
         SUM = E3X*E3X+E3Y*E3Y+E3Z*E3Z                      
-        SUM = UN / MAX(SQRT(SUM),EM20)                     
+        SUM = ONE / MAX(SQRT(SUM),EM20)                     
         E3X = E3X * SUM                                    
         E3Y = E3Y * SUM                                    
         E3Z = E3Z * SUM                                    
@@ -100,7 +100,7 @@ C
         ENDIF                  
 C
         SUM = E1X*E1X+E1Y*E1Y+E1Z*E1Z                      
-        SUM = UN / MAX(SQRT(SUM),EM20)                     
+        SUM = ONE / MAX(SQRT(SUM),EM20)                     
         E1X = E1X * SUM                                    
         E1Y = E1Y * SUM                                    
         E1Z = E1Z * SUM                                    

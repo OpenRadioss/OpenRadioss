@@ -107,8 +107,8 @@ C-----------------------------------------------
       ICRIT   = UPARAM(23)
       THICK   = UPARAM(24)
       ALPHA   = UPARAM(25)   ! filtering coefficient of strain rate (exponential avg)
-      ALPHAI  = UN - ALPHA
-      DTINV   = UN / (MAX(TIMESTEP, EM20))
+      ALPHAI  = ONE - ALPHA
+      DTINV   = ONE / (MAX(TIMESTEP, EM20))
       STF     = E + G
       NINDXF  = 0
       NINDXD  = 0
@@ -209,7 +209,7 @@ c-------------------------
         END DO
       ELSE 
         DO IEL=1,NEL
-          EPSN2(IEL) = (EPSN1(IEL) + DEUX*FG1*GC_N(IEL) / YLD_N(IEL)) / (FG1 + UN)
+          EPSN2(IEL) = (EPSN1(IEL) + TWO*FG1*GC_N(IEL) / YLD_N(IEL)) / (FG1 + ONE)
         END DO
       END IF  
 c
@@ -219,7 +219,7 @@ c
           END DO
       ELSE 
         DO IEL=1,NEL
-          EPST2(IEL) = (EPST1(IEL) + DEUX*FG2*GC_T(IEL) / YLD_T(IEL)) / (FG2 + UN)
+          EPST2(IEL) = (EPST1(IEL) + TWO*FG2*GC_T(IEL) / YLD_T(IEL)) / (FG2 + ONE)
         END DO
       END IF  
 c--------------------------------
@@ -235,12 +235,12 @@ c--------------------------------
             EPSM2(IEL) = EPST2(IEL)
           ELSE      ! mixed mode 
             BETA  = EPST(IEL) / EPSN(IEL)
-            FACT1 = SQRT((UN+BETA**2) /(EPST1(IEL)**2 + (BETA*EPSN1(IEL))**2))
-            FACT2 = SQRT((UN+BETA**2) /(EPST2(IEL)**2 + (BETA*EPSN2(IEL))**2))
+            FACT1 = SQRT((ONE+BETA**2) /(EPST1(IEL)**2 + (BETA*EPSN1(IEL))**2))
+            FACT2 = SQRT((ONE+BETA**2) /(EPST2(IEL)**2 + (BETA*EPSN2(IEL))**2))
             EPSM1(IEL) = EPSN1(IEL)*EPST1(IEL)*FACT1
             EPSM2(IEL) = EPSN2(IEL)*EPST2(IEL)*FACT2
           END IF
-          IF (EPSM(IEL) > EPSM1(IEL)) UVAR(IEL,5) = UN
+          IF (EPSM(IEL) > EPSM1(IEL)) UVAR(IEL,5) = ONE
         END DO
       ELSE
         DO IEL=1,NEL   
@@ -253,17 +253,17 @@ c--------------------------------
           ELSE      ! mixed mode
             BETA = EPST(IEL) / EPSN(IEL)
             IF (BETA*EPSN1(IEL) > EPST1(IEL)) THEN
-              EPSM1(IEL) = EPST1(IEL)*SQRT(UN + BETA**2) / BETA
+              EPSM1(IEL) = EPST1(IEL)*SQRT(ONE + BETA**2) / BETA
             ELSE
-              EPSM1(IEL) = EPSN1(IEL)*SQRT(UN + BETA**2)
+              EPSM1(IEL) = EPSN1(IEL)*SQRT(ONE + BETA**2)
             END IF
             IF (BETA*EPSN2(IEL) > EPST2(IEL)) THEN
-              EPSM2(IEL) = EPST2(IEL)*SQRT(UN + BETA**2) / BETA
+              EPSM2(IEL) = EPST2(IEL)*SQRT(ONE + BETA**2) / BETA
             ELSE
-              EPSM2(IEL) = EPSN2(IEL)*SQRT(UN + BETA**2)
+              EPSM2(IEL) = EPSN2(IEL)*SQRT(ONE + BETA**2)
             END IF
           END IF
-          IF (EPSM(IEL) > EPSM1(IEL)) UVAR(IEL,5) = UN
+          IF (EPSM(IEL) > EPSM1(IEL)) UVAR(IEL,5) = ONE
         END DO
       END IF
 c--------------------------------
@@ -272,9 +272,9 @@ c--------------------------------
       DO IEL=1,NEL
         IF (EPSN(IEL) == ZERO) THEN
           COSG(IEL) = ZERO
-          SING(IEL) = UN
+          SING(IEL) = ONE
         ELSE IF (EPST(IEL) == ZERO) THEN
-          COSG(IEL) = UN
+          COSG(IEL) = ONE
           SING(IEL) = ZERO
         ELSE IF (EPSM(IEL) > ZERO) THEN
           COSG(IEL) = EPSZZ(IEL) / EPSM(IEL)
@@ -283,7 +283,7 @@ c--------------------------------
         IF (EPSM(IEL) > ZERO) THEN
           DM = EPSM1(IEL) - EPSM2(IEL)
           BB = EPSM1(IEL)*(E*GC_T(IEL)*COSG(IEL)**2 + G*GC_N(IEL)*SING(IEL)**2)
-          EPSMF(IEL) = DM + DEUX*GC_T(IEL)*GC_N(IEL) / BB
+          EPSMF(IEL) = DM + TWO*GC_T(IEL)*GC_N(IEL) / BB
         ELSE
           EPSMF(IEL) = EP20
         END IF
@@ -300,8 +300,8 @@ c
           DAM = MAX(DAM, UVAR(IEL,6))
           UVAR(IEL,6) = DAM
           DMG(IEL) = MAX(DMG(IEL), DAM)
-          DMG(IEL) = MIN(DMG(IEL), UN)
-          IF (OFF(IEL)*OFFL(IEL) == UN .and. EPSM(IEL) > EPSMF(IEL)) THEN
+          DMG(IEL) = MIN(DMG(IEL), ONE)
+          IF (OFF(IEL)*OFFL(IEL) == ONE .and. EPSM(IEL) > EPSMF(IEL)) THEN
             NINDXF = NINDXF+1
             INDXF(NINDXF) = IEL
             OFFL(IEL) = ZERO
@@ -312,7 +312,7 @@ c-------------------------
 c     Plastic strains
 c-------------------------
       DO IEL=1,NEL
-        IF (OFF(IEL)*OFFL(IEL) == UN) THEN
+        IF (OFF(IEL)*OFFL(IEL) == ONE) THEN
           DPN = EPSN(IEL) - EPSM1(IEL)*COSG(IEL)
           IF (DPN > ZERO) THEN
             PLA_N(IEL)  = MAX(DPN, PLA_N(IEL))
@@ -334,9 +334,9 @@ c-------------------------
 c     Stress update
 c-------------------------       
       DO IEL=1,NEL   
-        SIGNZZ(IEL) = E * (EPSZZ(IEL) - PLA_N (IEL))*(UN-DMG(IEL))*OFF(IEL)
-        SIGNYZ(IEL) = G * (EPSYZ(IEL) - PLA_T1(IEL))*(UN-DMG(IEL))*OFF(IEL)
-        SIGNZX(IEL) = G * (EPSZX(IEL) - PLA_T2(IEL))*(UN-DMG(IEL))*OFF(IEL)
+        SIGNZZ(IEL) = E * (EPSZZ(IEL) - PLA_N (IEL))*(ONE-DMG(IEL))*OFF(IEL)
+        SIGNYZ(IEL) = G * (EPSYZ(IEL) - PLA_T1(IEL))*(ONE-DMG(IEL))*OFF(IEL)
+        SIGNZX(IEL) = G * (EPSZX(IEL) - PLA_T2(IEL))*(ONE-DMG(IEL))*OFF(IEL)
 c        
         UVAR(IEL,7)  = EPSN(IEL)
         UVAR(IEL,8)  = EPST(IEL)
@@ -350,7 +350,7 @@ c     omega = sqrt(2k/2*dmels), dt=2/omega, 2*dmels=dt**2 * 2k / 4
       IF (IDTMINS==2 .AND. JSMS/=0) THEN
         DTB = (DTMINS/DTFACS)**2
         DO IEL=1,NEL                                                 
-          DMELS(IEL)=MAX(DMELS(IEL),UNDEMI*DTB*STF*AREA(IEL)*OFF(IEL))
+          DMELS(IEL)=MAX(DMELS(IEL),HALF*DTB*STF*AREA(IEL)*OFF(IEL))
         ENDDO                                                        
       END IF
       STIFM(1:NEL) = STIFM(1:NEL) + STF*AREA(1:NEL)*OFF(1:NEL)    

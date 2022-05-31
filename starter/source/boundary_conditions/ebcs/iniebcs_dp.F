@@ -93,13 +93,13 @@ c=======================================================================
         
         !centroid at face
         IF(IS_TRIA) THEN                                               
-          FAC=TIERS*ORIENT                                                           
+          FAC=THIRD*ORIENT                                                           
           !NodeLOC(3)=NodeLOC(4)
           ZF(1) = FAC*SUM( X(1,NodeG(1:3)) )
           ZF(2) = FAC*SUM( X(2,NodeG(1:3)) )
           ZF(3) = FAC*SUM( X(3,NodeG(1:3)) )
         ELSE                                                                         
-          FAC=QUART*ORIENT                                                          
+          FAC=FOURTH*ORIENT                                                          
           ZF(1) = FAC*SUM( X(1,NodeG(1:4)) )
           ZF(2) = FAC*SUM( X(2,NodeG(1:4)) )
           ZF(3) = FAC*SUM( X(3,NodeG(1:4)) )
@@ -138,15 +138,15 @@ c=======================================================================
            IP = IPARTS(ESEG)
         ELSEIF(ITY ==  2)THEN
            NodeG(1:4)=IXQ(2:5,ESEG)
-           ZC(1)= QUART*SUM(X(1,NodeG(1:4)))
-           ZC(2)= QUART*SUM(X(2,NodeG(1:4)))
-           ZC(3)= QUART*SUM(X(3,NodeG(1:4)))  
+           ZC(1)= FOURTH*SUM(X(1,NodeG(1:4)))
+           ZC(2)= FOURTH*SUM(X(2,NodeG(1:4)))
+           ZC(3)= FOURTH*SUM(X(3,NodeG(1:4)))  
            IP = IPARTQ(ESEG)                 
         ELSEIF(ITY == 7)THEN
            NodeG(1:3)=IXTG(2:4,ESEG)
-           ZC(1)= TIERS*SUM(X(1,NodeG(1:3)))
-           ZC(2)= TIERS*SUM(X(2,NodeG(1:3)))
-           ZC(3)= TIERS*SUM(X(3,NodeG(1:3)))
+           ZC(1)= THIRD*SUM(X(1,NodeG(1:3)))
+           ZC(2)= THIRD*SUM(X(2,NodeG(1:3)))
+           ZC(3)= THIRD*SUM(X(3,NodeG(1:3)))
            IP = IPARTTG(ESEG)                     
         ELSE
           !not supposed to happen
@@ -159,7 +159,7 @@ c=======================================================================
         VEC(2) = -ZC(2)+ZF(2)
         VEC(3) = -ZC(3)+ZF(3)
         !DIST = VEC(1)*VEC(1) + VEC(2)*VEC(2) + VEC(3)*VEC(3)
-        !DIST = DEUX*SQRT(DIST) 
+        !DIST = TWO*SQRT(DIST) 
         
         !-- increment of static pressure due to initial gravity loading
         !    stored in DP0 => EBCS_TAB%..%DP0
@@ -179,7 +179,7 @@ c=======================================================================
             NGZ=INIGRAV_PARTS%NG(3,IP)
             
             DIST = VEC(1)*NGX + VEC(2)*NGY +VEC(3)*NGZ
-            DIST = DEUX * DIST
+            DIST = TWO * DIST
             
             DP0(IS) = RHO*ABS(GRAV0)*DIST
          ELSE 

@@ -101,8 +101,8 @@ C=======================================================================
             p2 = dd(K)
             IED = EDGETG(K,I+NFT)
             IF (IED > 0) THEN
-              XMI(IED) = UNDEMI*(XN(p1) + XN(p2))
-              YMI(IED) = UNDEMI*(YN(p1) + YN(p2))
+              XMI(IED) = HALF*(XN(p1) + XN(p2))
+              YMI(IED) = HALF*(YN(p1) + YN(p2))
             ENDIF
           ENDDO
 C
@@ -128,7 +128,7 @@ C
               IF (NOD1 == XNOD(IED,1) .and. NOD2 == XNOD(IED,2)) THEN
                 BETA(IED,I) = BETA0(IED)
               ELSE IF (NOD2 == XNOD(IED,1) .and. NOD1 == XNOD(IED,2)) THEN
-                BETA(IED,I) = UN - BETA0(IED)
+                BETA(IED,I) = ONE - BETA0(IED)
               END IF
             ENDIF
           ENDDO
@@ -155,9 +155,9 @@ C
             N(2) = IXTG(3,I+NFT)
             N(3) = IXTG(4,I+NFT)
 C
-            ISIGN0(1) = INT(SIGN(UN,FIT(1,I))) * ICRK
-            ISIGN0(2) = INT(SIGN(UN,FIT(2,I))) * ICRK
-            ISIGN0(3) = INT(SIGN(UN,FIT(3,I))) * ICRK
+            ISIGN0(1) = INT(SIGN(ONE,FIT(1,I))) * ICRK
+            ISIGN0(2) = INT(SIGN(ONE,FIT(2,I))) * ICRK
+            ISIGN0(3) = INT(SIGN(ONE,FIT(3,I))) * ICRK
 C
             NTAG(1:3) = 0
 C

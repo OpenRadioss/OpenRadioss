@@ -95,7 +95,7 @@ C---      sleeping sol2sph particles considered as deleted in anim
             GBUF => ELBUF_TAB(NG)%GBUF
             DO I=LFT,LLT
               N = NFT + I
-              IOFF(EL2FA(NN1+N)) = NINT(MIN(GBUF%OFF(I),UN))
+              IOFF(EL2FA(NN1+N)) = NINT(MIN(GBUF%OFF(I),ONE))
               IF (SPH2SOL(N).EQ.0) THEN
                 IOFF_LOC(EL2FA(NN1+N)) = IOFF(EL2FA(NN1+N))
               ELSE
@@ -106,7 +106,7 @@ C---      sleeping sol2sph particles considered as deleted in anim
             GBUF => ELBUF_TAB(NG)%GBUF
             DO I=LFT,LLT
               N = NFT + I
-              IOFF(EL2FA(NN1+N)) = NINT(MIN(GBUF%OFF(I),UN))
+              IOFF(EL2FA(NN1+N)) = NINT(MIN(GBUF%OFF(I),ONE))
               IOFF_LOC(EL2FA(NN1+N)) = IOFF(EL2FA(NN1+N))
             ENDDO
           ENDIF

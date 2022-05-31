@@ -87,7 +87,7 @@ C
       INTEGER, ALLOCATABLE :: NODSEG(:,:)
 C
       TOLE2=EPSILON(ZERO)*0.5
-      TOLEI=TOLE2*DIX
+      TOLEI=TOLE2*TEN
       TOLE=TOLE2*LMIN
 C
 C     Initialization to avoid error in debug mode
@@ -263,13 +263,13 @@ C
             SS2=X12*NX+Y12*NY+Z12*NZ
             IF (SS2.EQ.ZERO) CYCLE
             ALPHA=-SS1/SS2
-            IF (ALPHA.LT.-TOLEI.OR.ALPHA.GT.UN+TOLEI) CYCLE
+            IF (ALPHA.LT.-TOLEI.OR.ALPHA.GT.ONE+TOLEI) CYCLE
             XM=X1+ALPHA*X12
             YM=Y1+ALPHA*Y12
             ZM=Z1+ALPHA*Z12
             BETA=((XM-XA1)*XA12+(YM-YA1)*YA12+(ZM-ZA1)*ZA12)
      .          /(XA12**2+YA12**2+ZA12**2)
-            IF (BETA.LT.-TOLEI.OR.BETA.GT.UN+TOLEI) CYCLE
+            IF (BETA.LT.-TOLEI.OR.BETA.GT.ONE+TOLEI) CYCLE
             SS1=(X1-XA1)*NX+(Y1-YA1)*NY+(Z1-ZA1)*NZ
             SS2=(X2-XA1)*NX+(Y2-YA1)*NY+(Z2-ZA1)*NZ
 C
@@ -331,9 +331,9 @@ C
               NZ=NORMT(3,I)
               SS1=XA12*NX+YA12*NY+ZA12*NZ
               IF (SS1.LE.ZERO) THEN
-                 PINTER(J,NPI,4)=UN
+                 PINTER(J,NPI,4)=ONE
               ELSEIF (SS1.GE.ZERO) THEN
-                 PINTER(J,NPI,4)=-UN
+                 PINTER(J,NPI,4)=-ONE
               ENDIF
            ENDIF
          ENDDO  !J=1,4
@@ -524,7 +524,7 @@ C Condensation du tableau REDIR
          ENDDO
          IF (NPI.EQ.0) CYCLE
 C Creation des segments sur les aretes
-         IF (PINTER(I,REDIR(1),4).EQ.-UN) THEN
+         IF (PINTER(I,REDIR(1),4).EQ.-ONE) THEN
             NSEG=NSEG+1
             SEG(NSEG,1,1)=XA1
             SEG(NSEG,2,1)=YA1
@@ -538,7 +538,7 @@ C Creation des segments sur les aretes
          DO J=1,NPI-1
             JJ=REDIR(J)
             JJ1=REDIR(J+1)
-            IF (PINTER(I,JJ,4).EQ.-UN) CYCLE
+            IF (PINTER(I,JJ,4).EQ.-ONE) CYCLE
             XP1=PINTER(I,JJ,1)
             YP1=PINTER(I,JJ,2)
             ZP1=PINTER(I,JJ,3)
@@ -555,7 +555,7 @@ C Creation des segments sur les aretes
             SEG(NSEG,3,2)=ZP2
             ELSEG(NSEG,2)=ELINTER(I,JJ1)
          ENDDO
-         IF (PINTER(I,REDIR(NPI),4).EQ.UN) THEN
+         IF (PINTER(I,REDIR(NPI),4).EQ.ONE) THEN
             NSEG=NSEG+1
             SEG(NSEG,1,1)=PINTER(I,REDIR(NPI),1)
             SEG(NSEG,2,1)=PINTER(I,REDIR(NPI),2)
@@ -926,8 +926,8 @@ C
              YA1P1=YA1P1/NORM
              ZA1P1=ZA1P1/NORM
              SS=XA1A2*XA1P1+YA1A2*YA1P1+ZA1A2*ZA1P1
-             IF(SS < -UN) SS=-UN
-             IF(SS >  UN) SS= UN
+             IF(SS < -ONE) SS=-ONE
+             IF(SS >  ONE) SS= ONE
              ALPHA1=ACOS(SS)
 C
              ID1=ISEG(1,JSEG(3))
@@ -945,8 +945,8 @@ C
              YA1P1=YA1P1/NORM
              ZA1P1=ZA1P1/NORM
              SS=XA1A2*XA1P1+YA1A2*YA1P1+ZA1A2*ZA1P1
-             IF(SS < -UN) SS=-UN
-             IF(SS >  UN) SS= UN
+             IF(SS < -ONE) SS=-ONE
+             IF(SS >  ONE) SS= ONE
              ALPHA2=ACOS(SS)
 C
              IF((ALPHA1 < ZERO .AND. ALPHA2 > ZERO).OR.
@@ -1039,8 +1039,8 @@ C
            YA1P1=YA1P1/NORM
            ZA1P1=ZA1P1/NORM
            SS=XA1A2*XA1P1+YA1A2*YA1P1+ZA1A2*ZA1P1
-           IF(SS < -UN) SS=-UN
-           IF(SS >  UN) SS= UN
+           IF(SS < -ONE) SS=-ONE
+           IF(SS >  ONE) SS= ONE
            ALPHA1=ACOS(SS)
 C
            ID1=ISEG(1,I2)
@@ -1058,8 +1058,8 @@ C
            YA1P1=YA1P1/NORM
            ZA1P1=ZA1P1/NORM
            SS=XA1A2*XA1P1+YA1A2*YA1P1+ZA1A2*ZA1P1
-           IF(SS < -UN) SS=-UN
-           IF(SS >  UN) SS= UN
+           IF(SS < -ONE) SS=-ONE
+           IF(SS >  ONE) SS= ONE
            ALPHA2=ACOS(SS)
 C
            JSEG(1)=I3
@@ -1141,8 +1141,8 @@ C
            YA1P1=YA1P1/NORM
            ZA1P1=ZA1P1/NORM
            SS=NX*XA1P1+NY*YA1P1+NZ*ZA1P1
-           IF(SS < -UN) SS=-UN
-           IF(SS >  UN) SS= UN
+           IF(SS < -ONE) SS=-ONE
+           IF(SS >  ONE) SS= ONE
            ALPHA1=ACOS(SS)
 C
            I3=JSEG(3)
@@ -1161,8 +1161,8 @@ C
            YA1P1=YA1P1/NORM
            ZA1P1=ZA1P1/NORM
            SS=NX*XA1P1+NY*YA1P1+NZ*ZA1P1
-           IF(SS < -UN) SS=-UN
-           IF(SS >  UN) SS= UN
+           IF(SS < -ONE) SS=-ONE
+           IF(SS >  ONE) SS= ONE
            ALPHA2=ACOS(SS)
 C
 C Le cas peu probable alpha1=alpha2 est a completer
@@ -1246,10 +1246,10 @@ C
            YA1P1=YA1P1/NORM
            ZA1P1=ZA1P1/NORM
            SS=NX*XA1P1+NY*YA1P1+NZ*ZA1P1
-           IF(SS < -UN) SS=-UN
-           IF(SS >  UN) SS= UN
+           IF(SS < -ONE) SS=-ONE
+           IF(SS >  ONE) SS= ONE
            ALPHA=ACOS(SS)
-           IF(ABS(ALPHA) < UNDEMI*PI) THEN
+           IF(ABS(ALPHA) < HALF*PI) THEN
               IADR(1)=1
               IADR(2)=2
 Cfa            IADR(1)=2
@@ -1558,8 +1558,8 @@ C
                  VZ2=VZ2/NR2
                ENDIF
                SS=VX1*VX2+VY1*VY2+VZ1*VZ2
-               IF(SS < -UN) SS=-UN
-               IF(SS >  UN) SS= UN
+               IF(SS < -ONE) SS=-ONE
+               IF(SS >  ONE) SS= ONE
                VVX=VY1*VZ2-VZ1*VY2
                VVY=VZ1*VX2-VX1*VZ2
                VVZ=VX1*VY2-VY1*VX2
@@ -1571,8 +1571,8 @@ C
                ENDIF
             ENDDO
 C
-            IF (ABS(ALPHA).LT.DEUX*PI) CYCLE
-C            IF (ABS(ALPHA).GE.UN) THEN
+            IF (ABS(ALPHA).LT.TWO*PI) CYCLE
+C            IF (ABS(ALPHA).GE.ONE) THEN
 C Le premier point du polygone i est a l'interieur du polygone j
 C Un point est interne si ABS(ALPHA)=2PI!
 C On teste tous les autres
@@ -1610,8 +1610,8 @@ C On teste tous les autres
                        VZ2=VZ2/NR2
                      ENDIF
                      SS=VX1*VX2+VY1*VY2+VZ1*VZ2
-                     IF(SS < -UN) SS=-UN
-                     IF(SS >  UN) SS= UN
+                     IF(SS < -ONE) SS=-ONE
+                     IF(SS >  ONE) SS= ONE
                      VVX=VY1*VZ2-VZ1*VY2
                      VVY=VZ1*VX2-VX1*VZ2
                      VVZ=VX1*VY2-VY1*VX2
@@ -1622,8 +1622,8 @@ C On teste tous les autres
                         ALPHA=ALPHA-ACOS(SS)
                      ENDIF
                   ENDDO
-C                  IF (ABS(ALPHA).LT.UN) IPOUT=1
-                  IF (ABS(ALPHA).LT.DEUX*PI) IPOUT=1
+C                  IF (ABS(ALPHA).LT.ONE) IPOUT=1
+                  IF (ABS(ALPHA).LT.TWO*PI) IPOUT=1
                ENDDO
 C
                IF (IPOUT.EQ.1) CYCLE
@@ -1687,7 +1687,7 @@ C Point interieur polygone j
                   IF (XLOC(2,K).LT.YLMIN) YLMIN=XLOC(2,K)
                   IF (XLOC(2,K).GT.YLMAX) YLMAX=XLOC(2,K)
                ENDDO
-               YLSEC=UNDEMI*(YLMIN+YLMAX)
+               YLSEC=HALF*(YLMIN+YLMAX)
 C
                NSEC=0
                DO K=1,LENPOLY(J)
@@ -1699,9 +1699,9 @@ C
                   Y2=XLOC(2,KK)
                   IF (Y1-Y2.NE.ZERO) THEN
                      ALPHA=(YLSEC-Y2)/(Y1-Y2)
-                     IF (ALPHA.GE.ZERO.AND.ALPHA.LE.UN) THEN
+                     IF (ALPHA.GE.ZERO.AND.ALPHA.LE.ONE) THEN
                         NSEC=NSEC+1
-                        XSEC(NSEC)=ALPHA*X1+(UN-ALPHA)*X2
+                        XSEC(NSEC)=ALPHA*X1+(ONE-ALPHA)*X2
                      ENDIF
                   ELSE
                      IF (Y1.EQ.YLSEC) THEN
@@ -1726,7 +1726,7 @@ C
                   IF (XSEC(K).LT.XSMIN2) XSMIN2=XSEC(K)
                ENDDO
 C
-               XS=UNDEMI*(XSMIN1+XSMIN2)
+               XS=HALF*(XSMIN1+XSMIN2)
                YS=YLSEC
                PHOL(1,NHOL)=RPOLY(5,J)+XS*VX1+YS*VX2
                PHOL(2,NHOL)=RPOLY(6,J)+XS*VY1+YS*VY2

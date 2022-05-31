@@ -111,7 +111,7 @@ C--       Cooques 4n
             EX  = Y13*Z24 - Z13*Y24                                      
             EY  = Z13*X24 - X13*Z24                                      
             EZ  = X13*Y24 - Y13*X24                                      
-            AREA(I) = AREA(I) + SQRT(EX*EX+EY*EY+EZ*EZ)*UNDEMI*QUART  
+            AREA(I) = AREA(I) + SQRT(EX*EX+EY*EY+EZ*EZ)*HALF*FOURTH  
           ENDDO 
 C--       Cooques 3n
           DO IAD = KNOD2ELTG(IS)+1,KNOD2ELTG(IS+1)
@@ -137,7 +137,7 @@ C--       Cooques 3n
             EX  = Y12*Z13 - Z12*Y13                                      
             EY  = Z12*X13 - X12*Z13                                      
             EZ  = X12*Y13 - Y12*X13                                      
-            AREA(I) = AREA(I) + SQRT(EX*EX+EY*EY+EZ*EZ)*UNDEMI*TIERS     
+            AREA(I) = AREA(I) + SQRT(EX*EX+EY*EY+EZ*EZ)*HALF*THIRD     
           ENDDO
         ENDIF 
         IF (ISOL == 1) THEN
@@ -266,21 +266,21 @@ C----
               N = IXS(K+1,IEL)
               IF (N == IS) THEN
                 IF (K == 1) THEN
-                  AREA(I) = AREA(I) + (FACE(1)+FACE(4)+FACE(5))*UNDOUZE
+                  AREA(I) = AREA(I) + (FACE(1)+FACE(4)+FACE(5))*ONE_OVER_12
                 ELSEIF  (K == 2) THEN
-                  AREA(I) = AREA(I) + (FACE(1)+FACE(3)+FACE(5))*UNDOUZE
+                  AREA(I) = AREA(I) + (FACE(1)+FACE(3)+FACE(5))*ONE_OVER_12
                 ELSEIF  (K == 3) THEN
-                  AREA(I) = AREA(I) + (FACE(1)+FACE(3)+FACE(6))*UNDOUZE
+                  AREA(I) = AREA(I) + (FACE(1)+FACE(3)+FACE(6))*ONE_OVER_12
                 ELSEIF  (K == 4) THEN
-                  AREA(I) = AREA(I) + (FACE(1)+FACE(4)+FACE(6))*UNDOUZE
+                  AREA(I) = AREA(I) + (FACE(1)+FACE(4)+FACE(6))*ONE_OVER_12
                 ELSEIF  (K == 5) THEN
-                  AREA(I) = AREA(I) + (FACE(2)+FACE(4)+FACE(5))*UNDOUZE
+                  AREA(I) = AREA(I) + (FACE(2)+FACE(4)+FACE(5))*ONE_OVER_12
                 ELSEIF  (K == 6) THEN
-                  AREA(I) = AREA(I) + (FACE(2)+FACE(3)+FACE(5))*UNDOUZE
+                  AREA(I) = AREA(I) + (FACE(2)+FACE(3)+FACE(5))*ONE_OVER_12
                 ELSEIF  (K == 7) THEN
-                  AREA(I) = AREA(I) + (FACE(2)+FACE(3)+FACE(6))*UNDOUZE
+                  AREA(I) = AREA(I) + (FACE(2)+FACE(3)+FACE(6))*ONE_OVER_12
                 ELSEIF  (K == 8) THEN
-                  AREA(I) = AREA(I) + (FACE(2)+FACE(4)+FACE(6))*UNDOUZE
+                  AREA(I) = AREA(I) + (FACE(2)+FACE(4)+FACE(6))*ONE_OVER_12
                 ENDIF
               ENDIF
             ENDDO

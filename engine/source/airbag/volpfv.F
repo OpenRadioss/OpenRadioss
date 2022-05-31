@@ -92,7 +92,7 @@ C
       Q = ZERO
       IF (ISPMD+1.EQ.PMAIN) THEN
         DV=VOL-VOLD
-        TFEXT=TFEXT+(UNDEMI*(Q+QOLD+PRES+POLD))*DV
+        TFEXT=TFEXT+(HALF*(Q+QOLD+PRES+POLD))*DV
         FSAV(1)=ZERO
         FSAV(2)=VOL
         FSAV(3)=PRES

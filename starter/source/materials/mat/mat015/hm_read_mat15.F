@@ -188,13 +188,13 @@ C-----
        ENDIF 
 C-------------------------------------
        IF(ICC.NE.2.AND.ISRATE.EQ.0.AND.FCUT.NE.ZERO)ISRATE=1
-       IF(CN.EQ.ZERO)    CN    = UN
+       IF(CN.EQ.ZERO)    CN    = ONE
        IF(FMAX.EQ.ZERO)   FMAX  = INFINITY    
        IF(WPLAMX.EQ.ZERO)WPLAMX = INFINITY
-       IF (WPLAREF == ZERO) WPLAREF = UN        
+       IF (WPLAREF == ZERO) WPLAREF = ONE        
        WPLAMX = WPLAMX / WPLAREF
-       IF(ALPHA.EQ.ZERO)ALPHA = UN
-       IF(CC.EQ.ZERO)  EPS0  = UN
+       IF(ALPHA.EQ.ZERO)ALPHA = ONE
+       IF(CC.EQ.ZERO)  EPS0  = ONE
        IF(ICC.EQ.ZERO)  ICC  = 1
        IFLAG = 0
        IF(S1.EQ.ZERO.AND.S2.EQ.ZERO.AND.S12.EQ.ZERO.AND.
@@ -209,7 +209,7 @@ C--------------------------------------------------------
       IF(TMAX.EQ.ZERO)WRITE(*,*)'STOP ERROR IN TMAX INPUT'   
 C--------------------------------------------------------
       N21=N12*E22/E11
-      DETC=UN-N12*N21
+      DETC=ONE-N12*N21
       IF(DETC.LE.ZERO) THEN
          CALL ANCMSG(MSGID=307,
      .               MSGTYPE=MSGERROR,
@@ -218,7 +218,7 @@ C--------------------------------------------------------
      .               C1=TITR)
       ENDIF
 C--------------------------------------------------------
-      IF(CN.GT.UN) THEN
+      IF(CN.GT.ONE) THEN
          CALL ANCMSG(MSGID=213,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -226,7 +226,7 @@ C--------------------------------------------------------
      .               I2=MAT_ID,
      .               C1=TITR)
       ENDIF
-      DE = UN
+      DE = ONE
 C-------------------------------------
       WRITE(IOUT, 900) TRIM(TITR),MAT_ID,15
       WRITE(IOUT,1000)
@@ -247,10 +247,10 @@ C
       ENDIF
 C-------------------------------------------------
       PM(8) =ISRATE
-      PM(9) =FCUT*DEUX*PI
+      PM(9) =FCUT*TWO*PI
       PM(20)= MAX(E11,E22)/DETC
       PM(24)= PM(20)
-      PM(26)=CSIX
+      PM(26)=FIVE_OVER_6
       PM(33)=E11
       PM(34)=E22
       PM(35)=N12
@@ -271,7 +271,7 @@ C-----------------------------------------
       SSP = SQRT(MAX(C1,G12,G23,G31)/MAX(PM(1),EM20))
       PM(32)= C1
       PM(27)= SSP
-      PM(52)=UNP414*PM(17)*PM(1)*SSP
+      PM(52)=ONEP414*PM(17)*PM(1)*SSP
 C----------------------------------------
 C     CONSTANTS FOR THE YIELD FUNCTION
 C-------------------------------------------
@@ -325,14 +325,14 @@ C-------------------------------------------
       ENDIF
 C
       IF((SIGYC1.GT.0.).AND.(SIGYC2.GT.0.))THEN
-       F1  = UN/SIGYT1-UN/SIGYC1
-       F2  = UN/SIGYT2-UN/SIGYC2
-       F11 = UN/(SIGYT1*SIGYC1)
-       F22 = UN/(SIGYT2*SIGYC2)
-       F33 = UN/(SIGYT12*SIGYC12)
-       F12 = -ALPHA/(DEUX*SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2))
+       F1  = ONE/SIGYT1-ONE/SIGYC1
+       F2  = ONE/SIGYT2-ONE/SIGYC2
+       F11 = ONE/(SIGYT1*SIGYC1)
+       F22 = ONE/(SIGYT2*SIGYC2)
+       F33 = ONE/(SIGYT12*SIGYC12)
+       F12 = -ALPHA/(TWO*SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2))
 C
-       FT1=F11*F22-QUATRE*F12**2
+       FT1=F11*F22-FOUR*F12**2
        IF(IS_ENCRYPTED)THEN
          WRITE(IOUT,1650) F1,F2,F11,F22,F33,F12
        ENDIF

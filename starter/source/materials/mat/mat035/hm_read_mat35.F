@@ -132,12 +132,12 @@ c
 c------------------------------------------------------------------------------
 c
       CALL HM_GET_FLOATV_DIM('IFscale'  ,FSCAL_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      IF (FSCAL == ZERO) FSCAL = UN*FSCAL_UNIT
+      IF (FSCAL == ZERO) FSCAL = ONE*FSCAL_UNIT
 c
       IF (MU   <= ZERO) MU   = EP20
       IF (PMIN == ZERO) PMIN =-EP20 
       IF (PMIN >  ZERO) PMIN =-PMIN
-      BULK = THIRD*E/(UN - DEUX*POISSON)
+      BULK = THIRD*E/(ONE - TWO*POISSON)
 C
       !----------------------------------------------------------
       ! Filtering frequency
@@ -192,7 +192,7 @@ c-----------------
       PARMAT(4)  = ISRATE
       PARMAT(5)  = ASRATE
       PARMAT(16) = 2
-      PARMAT(17) = (UN - DEUX*POISSON)/(UN - POISSON)
+      PARMAT(17) = (ONE - TWO*POISSON)/(ONE - POISSON)
 c-----------------
       MTAG%L_EPSD = 1
       MTAG%G_EPSD = 1

@@ -141,7 +141,7 @@ c
         VL(3,3,I) = E1Z(I)*XL(1,3,I)+E2Z(I)*XL(2,3,I)
       ENDDO
 c
-      FAC = UN / FLOAT(NITRS)
+      FAC = ONE / FLOAT(NITRS)
       DO I=JFT,JLT
         VL(1,2,I) = (VL(1,2,I) - X2(I))*FAC
         VL(2,2,I) = (VL(2,2,I) - Y2(I))*FAC
@@ -153,7 +153,7 @@ c
 c--------------------------------------------------------
       IF (ISMSTR.NE.1) THEN
         DO NT=1,NITRS
-          FAC = FLOAT(NT) - UN
+          FAC = FLOAT(NT) - ONE
 C
           DO I=JFT,JLT
              X1(I) = XREFTG(1,1,I) + FAC*VL(1,1,I)
@@ -228,7 +228,7 @@ c
      .                AREA ,EXX  ,EYY   ,EXY   ,IMAT )
 c
         ENDDO
-        OFF(JFT:JLT) = DEUX
+        OFF(JFT:JLT) = TWO
       ENDIF
 C ---
       RETURN
