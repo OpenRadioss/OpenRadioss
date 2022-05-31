@@ -1,51 +1,51 @@
 Copyright>        OpenRadioss
 Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
-Copyright>    
+Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
 Copyright>        the Free Software Foundation, either version 3 of the License, or
 Copyright>        (at your option) any later version.
-Copyright>    
+Copyright>
 Copyright>        This program is distributed in the hope that it will be useful,
 Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
 Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 Copyright>        GNU Affero General Public License for more details.
-Copyright>    
+Copyright>
 Copyright>        You should have received a copy of the GNU Affero General Public License
 Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-Copyright>    
-Copyright>    
-Copyright>        Commercial Alternative: Altair Radioss Software 
-Copyright>    
-Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
-Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+Copyright>
+Copyright>
+Copyright>        Commercial Alternative: Altair Radioss Software
+Copyright>
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  LECTUR                        source/input/lectur.F         
+Chd|  LECTUR                        source/input/lectur.F
 Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
+Chd|        RADIOSS2                      source/engine/radioss2.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ANIM_BUILD_INDEX_ALL          source/output/anim/reader/anim_build_index_all.F
-Chd|        ARRET                         source/system/arret.F         
+Chd|        ARRET                         source/system/arret.F
 Chd|        CHKIPARI                      source/interfaces/interf/chkstfn3.F
 Chd|        FR_RLALE                      source/mpi/kinematic_conditions/fr_rlink1.F
 Chd|        FR_RLINK1                     source/mpi/kinematic_conditions/fr_rlink1.F
 Chd|        LCBCSF                        source/constraints/general/bcs/lcbcsf.F
-Chd|        LECCPL                        com/madymo/leccpl.F           
-Chd|        LECCUT                        source/tools/sect/leccut.F    
-Chd|        LECDAMP                       source/input/lecdamp.F        
-Chd|        LECEIG                        source/input/leceig.F         
-Chd|        LECFLSW                       source/fluid/lecflsw.F        
-Chd|        LECFUN                        source/tools/curve/lecfun.F   
-Chd|        LECFVBAG                      source/input/lecfvbag.F       
-Chd|        LECFVBAG1                     source/input/lecfvbag1.F      
-Chd|        LECFXINP                      source/input/lecfxinp.F       
+Chd|        LECCPL                        com/madymo/leccpl.F
+Chd|        LECCUT                        source/tools/sect/leccut.F
+Chd|        LECDAMP                       source/input/lecdamp.F
+Chd|        LECEIG                        source/input/leceig.F
+Chd|        LECFLSW                       source/fluid/lecflsw.F
+Chd|        LECFUN                        source/tools/curve/lecfun.F
+Chd|        LECFVBAG                      source/input/lecfvbag.F
+Chd|        LECFVBAG1                     source/input/lecfvbag1.F
+Chd|        LECFXINP                      source/input/lecfxinp.F
 Chd|        LECH3D                        source/output/h3d/h3d_build_fortran/lech3d.F
-Chd|        LECIMPL                       source/input/lectur.F         
-Chd|        LECINV                        source/input/lecinv.F         
+Chd|        LECIMPL                       source/input/lectur.F
+Chd|        LECINV                        source/input/lecinv.F
 Chd|        LECNOISE                      source/general_controls/computation/lecnoise.F
-Chd|        LECSTAT                       source/input/lecstat.F        
+Chd|        LECSTAT                       source/input/lecstat.F
 Chd|        RBYONF                        source/constraints/general/rbody/rbyonf.F
 Chd|        READ_DYNAIN                   source/output/dynain/read_dynain.F
 Chd|        RLINK0                        source/constraints/general/rlink/rlink0.F
@@ -53,18 +53,18 @@ Chd|        SPMD_CHKW                     source/mpi/generic/spmd_chkw.F
 Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_IBCAST                   source/mpi/generic/spmd_ibcast.F
 Chd|        SPMD_WIOUT                    source/mpi/generic/spmd_wiout.F
-Chd|        NGR2USR                       source/input/freform.F        
+Chd|        NGR2USR                       source/input/freform.F
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
+Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
+Chd|        STACK_MOD                     share/modules/stack_mod.F
+Chd|        TABLE_MOD                     share/modules/table_mod.F
 Chd|====================================================================
       SUBROUTINE LECTUR(ICODE   ,ISKEW ,ISKWN  ,IXTG   ,IXS   ,
      2                  IXQ     ,IXC   ,IXT    ,IXP    ,IXR   ,
@@ -89,9 +89,9 @@ C-----------------------------------------------
       USE TABLE_MOD
       USE MESSAGE_MOD
       USE ELBUFDEF_MOD
-      USE INTBUFDEF_MOD           
-      USE STACK_MOD    
-      USE H3D_MOD  
+      USE INTBUFDEF_MOD
+      USE STACK_MOD
+      USE H3D_MOD
       USE MULTI_FVM_MOD
       USE GROUPDEF_MOD
       USE INTSTAMP_GLOB_MOD
@@ -207,7 +207,7 @@ C-----------------------------------------------
      .   NIPMAX_BEAM,K3,K4,K5,K6,K7,K8,K9
 
       INTEGER :: NBPARTALEON, NBPARTALEOFF, PARTID, ISON, ION, IOFF, NBALEON_PART, NBALEOFF_PART
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ALEOFF_PARTIDS_TMP, ALEOFF_PARTIDS, 
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ALEOFF_PARTIDS_TMP, ALEOFF_PARTIDS,
      .     ALEON_PARTIDS_TMP, ALEON_PARTIDS
       INTEGER, DIMENSION(:), ALLOCATABLE :: ALELIN_ON_OFF
       my_real
@@ -225,7 +225,7 @@ C-----------------------------------------------
       INTEGER NINTRN, NGR2USR
       my_real
      .   SYSFUS
-      EXTERNAL NGR2USR     
+      EXTERNAL NGR2USR
 C-----------------------------------------------
       ! setting NOINT in IPARI(13)
       IERR = 0
@@ -253,10 +253,10 @@ c      READ (IIN,'(65X,I5)')IBID
       READ (IIN,'(I8)')   NSPHOF
       READ (IIN,'(3I8)')  NALEOF,NEULEROF,NTHERMOF
       READ (IIN,'(2I8)')   NRLINK0,NALELK0
-      READ (IIN,'(2I8)')   NALELINK0      
-C--------------  
+      READ (IIN,'(2I8)')   NALELINK0
+C--------------
 C     ALE ON / OFF
-C--------------    
+C--------------
       READ (IIN, '(I8, I8)') NBPARTALEON, NBPARTALEOFF
       IF(MCHECK == 0)THEN
         NRLINK= NRLINK0
@@ -363,7 +363,7 @@ C
         IF(VOLM /= ZERO)VOLMIN=VOLM
         IF(INT22>0)THEN
           DTFAC22 = UN
-          IF(DTFAC.GT.UNDEMI)DTFAC22 = UNDEMI / DTFAC      
+          IF(DTFAC.GT.UNDEMI)DTFAC22 = UNDEMI / DTFAC
         ENDIF
       ENDIF
 C
@@ -432,13 +432,13 @@ C     Coeff CFL pour le FVMBAG
             IF (IFV_TYPE .EQ. 8) THEN
                IF (FVDATA_OLD(IFV)%CFL_COEF == ZERO) THEN
                   FVDATA_OLD(IFV)%CFL_COEF = DTFAC
-               ENDIF   
+               ENDIF
             ELSE
                DTFAC1(52) = DTFAC
             ENDIF
             K1=K1+NIMV
          ENDDO
-         IDTMIN(52) = 1
+         IF(IDTMIN(52) == 0)IDTMIN(52) = 1
       ENDIF
 C     Min timestep pour le FVMBAG
       IF (DTMIN1(52) .GT. ZERO) THEN
@@ -459,13 +459,13 @@ C     Min timestep pour le FVMBAG
             IF (IFV_TYPE .EQ. 8) THEN
                IF (FVDATA_OLD(IFV)%DTMIN == ZERO) THEN
                   FVDATA_OLD(IFV)%DTMIN = DTMIN
-               ENDIF   
+               ENDIF
             ELSE
                DTMIN1(52) = DTMIN
             ENDIF
             K1=K1+NIMV
          ENDDO
-         IDTMIN(52) = 1
+         IF(IDTMIN(52) == 0)IDTMIN(52) = 1
       ENDIF
 
       I=102
@@ -474,7 +474,7 @@ C     Min timestep pour le FVMBAG
           IF(DTFAC1(I) == ZERO)DTFAC1(I) = DTFAC
         ELSE
           IF(DTMIN1(I) == ZERO)DTMIN1(I) = ZERO
-          IF(DTFAC1(I) == ZERO)DTFAC1(I) = UNDEMI         
+          IF(DTFAC1(I) == ZERO)DTFAC1(I) = UNDEMI
         ENDIF
 C
       IF(NODADT == 0)THEN
@@ -525,13 +525,13 @@ C --------------------------------------------------------------------
         IF(IMACH.NE.3.OR.ISPMD.EQ.0) WRITE(IOUT,1099)
         IF (ITFOR0.EQ.1 ) THEN
            CALL ANCMSG(MSGID=242,ANMODE=ANINFO_BLIND)
-           CALL ARRET(2)        
+           CALL ARRET(2)
         ENDIF
       ELSE
-        IF ((R2R_SIU.EQ.1).AND.(ISPMD.EQ.0)) THEN      
+        IF ((R2R_SIU.EQ.1).AND.(ISPMD.EQ.0)) THEN
            CALL ANCMSG(MSGID=239,ANMODE=ANINFO_BLIND)
            CALL ARRET(2)
-        ENDIF           
+        ENDIF
       ENDIF
       IF(ISPMD == 0.AND.MCHECK == 0)
      .  WRITE(IOUT,1100)TSTOP,DTHIS,DTFAC,DTMIN
@@ -756,11 +756,11 @@ C
        ENDIF
       ENDIF
 C-------------------------------------------
-C     .h3d files 
+C     .h3d files
 C-------------------------------------------
       CALL LECH3D(GEO,IGEO,IPM,IPART,H3D_DATA,MULTI_FVM,IPARI,IPARG,TAG_SKINS6,
      .            MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,MDS_NDEPSVAR,
-     .            ELBUF_STR,STACK,IBCL,ILOADP,LLOADP) 
+     .            ELBUF_STR,STACK,IBCL,ILOADP,LLOADP)
 c
       IF(H3D_DATA%N_OUTP_H3D .NE. 0 .AND. ISPMD == 0)THEN
         WRITE(IOUT,5000)H3D_DATA%TH3D,H3D_DATA%DTH3D
@@ -803,9 +803,9 @@ c
             STEXT1 = H3D_DATA%OUTPUT_LIST(I)%S_STRING1
             WRITE(IOUT,*)  '       |----'//CHAR1//' '//CHAR2//' : '
 c            WRITE(IOUT,*)  '	    |----'//H3D_DATA%OUTPUT_LIST(I)%KEYWORD
-            WRITE(IOUT,*)  '       |    '//H3D_DATA%OUTPUT_LIST(I)%STRING1(1:STEXT1) 
+            WRITE(IOUT,*)  '       |    '//H3D_DATA%OUTPUT_LIST(I)%STRING1(1:STEXT1)
 
-            IF (H3D_DATA%OUTPUT_LIST(I)%IUVAR > 0) 
+            IF (H3D_DATA%OUTPUT_LIST(I)%IUVAR > 0)
      .        WRITE(IOUT,*)  '       |        UVAR=',
      .     	H3D_DATA%OUTPUT_LIST(I)%IUVAR
 
@@ -898,7 +898,7 @@ C-----------------------
      +       ANIM_E(4),ANIM_E(5),ANIM_E(6),
      +       ANIM_E(7),ANIM_E(8),ANIM_E(9),
      +        ANIM_E(10)+ANIM_E(4960)+ANIM_E(4961)+ANIM_E(4962)
-        WRITE(IOUT,1129) ANIM_N(3),ANIM_N(4),ANIM_N(6)   
+        WRITE(IOUT,1129) ANIM_N(3),ANIM_N(4),ANIM_N(6)
        WRITE(IOUT,1130)
      +       ANIM_V(1),ANIM_V(2),ANIM_V(3),ANIM_V(4),ANIM_V(5),
      +       ANIM_V(6),ANIM_V(7),ANIM_V(9),ANIM_V(12),
@@ -908,7 +908,7 @@ C-----------------------
      +       ANIM_M,ANIM_K
        ENDIF
 C-----------------------
-C     The correct indexes in ANIM data structures wrt integration points or layers 
+C     The correct indexes in ANIM data structures wrt integration points or layers
 C     of all actual elements will be rebuilt ::
 C-----------------------
       CALL ANIM_BUILD_INDEX_ALL(ISPMD   ,MCHECK ,LSENSOR ,IGEO    ,GEO    )
@@ -917,29 +917,29 @@ C     STOP/LSENSOR
 C-------------------------------------------
       IF(ISPMD == 0.AND.MCHECK == 0) THEN
        IF (NSTOPSENS /= 0) THEN
-          DO K=1,NSTOPSENS          
+          DO K=1,NSTOPSENS
             IERR = 1
             IF(LSTOPSENS(K) /= 0) THEN
               DO I=1,NSENSOR
-               IF (LSENSOR(1,I)==LSTOPSENS(K)) THEN  
+               IF (LSENSOR(1,I)==LSTOPSENS(K)) THEN
                  LSTOPSENS(K) = I
                  IERR = 0
                  EXIT
                 ENDIF
               ENDDO
             ENDIF
-            IF(IERR == 1) THEN    
+            IF(IERR == 1) THEN
              CALL ANCMSG(MSGID=233,
      .             ANMODE=ANINFO,
      .             I1=LSTOPSENS(K))
-            ENDIF 
-          ENDDO 
-        ENDIF    
+            ENDIF
+          ENDDO
+        ENDIF
       ELSEIF(ISPMD == 0 .AND. MCHECK /= 0) THEN
         NSTOPSENS = NSTOPSENS_OLD
         DO K=1,NSTOPSENS_OLD
           LSTOPSENS(K) = LSTOPSENS_OLD(K)
-        ENDDO    
+        ENDDO
       END IF                    !(ISPMD.EQ.0.AND.MCHECK.EQ.0)
 C-------------------------------------------
 C     STATE/LSENSOR
@@ -947,26 +947,26 @@ C-------------------------------------------
       IF(ISPMD == 0.AND.MCHECK == 0) THEN
        MSTATT = 0
        IF (NSTATSENS /= 0) THEN
-          DO K=1,NSTATSENS          
+          DO K=1,NSTATSENS
             IERR = 1
             IF(LSTATSENS(K) /= 0) THEN
               DO I=1,NSENSOR
-               IF (LSENSOR(1,I)==LSTATSENS(K)) THEN  
+               IF (LSENSOR(1,I)==LSTATSENS(K)) THEN
                  LSTATSENS(K) = I
                  IERR = 0
                  EXIT
                 ENDIF
               ENDDO
             ENDIF
-            IF(IERR == 1) THEN    
+            IF(IERR == 1) THEN
              CALL ANCMSG(MSGID=235,
      .             ANMODE=ANINFO,
      .             I1=LSTATSENS(K))
             ELSE
-               MSTAT(K) = 0              
+               MSTAT(K) = 0
             ENDIF
-          ENDDO 
-        ENDIF  
+          ENDDO
+        ENDIF
       ELSEIF(ISPMD == 0 .AND. MCHECK /= 0) THEN
         NSTATSENS = NSTATSENS_OLD
         DO K=1,NSTATSENS_OLD
@@ -978,24 +978,24 @@ C     OUTP/LSENSOR
 C-------------------------------------------
       IF(ISPMD == 0.AND.MCHECK == 0) THEN
        IF (NOUTPSENS /= 0) THEN
-          DO K=1,NOUTPSENS          
+          DO K=1,NOUTPSENS
             IERR = 1
             IF(LOUTPSENS(K) /= 0) THEN
               DO I=1,NSENSOR
-               IF (LSENSOR(1,I)==LOUTPSENS(K)) THEN  
+               IF (LSENSOR(1,I)==LOUTPSENS(K)) THEN
                  LOUTPSENS(K) = I
                  IERR = 0
                  EXIT
                 ENDIF
               ENDDO
             ENDIF
-            IF(IERR == 1) THEN    
+            IF(IERR == 1) THEN
              CALL ANCMSG(MSGID=236,
      .             ANMODE=ANINFO,
      .             I1=LOUTPSENS(K))
-            ENDIF 
-          ENDDO 
-        ENDIF   
+            ENDIF
+          ENDDO
+        ENDIF
       ELSEIF(ISPMD == 0 .AND. MCHECK /= 0) THEN
         NOUTPSENS = NOUTPSENS_OLD
         DO K=1,NOUTPSENS_OLD
@@ -1049,7 +1049,7 @@ C-------------------------------------------
           WRITE(IOUT,5010)ISTATG_P
         END IF
        ENDIF
-C----------------------- 
+C-----------------------
        IF(IPARIT == 0)THEN
           WRITE(IOUT,1180)
        ELSEIF(IPARIT == 1)THEN
@@ -1057,7 +1057,7 @@ C-----------------------
        ELSE
          WRITE(IOUT,1182)IPARIT-1
        ENDIF
-C----------------------- 
+C-----------------------
        IF(IMLAGSOL == 1)THEN
          WRITE(IOUT,'(/,A)')
      .   ' DIRECT SOLVER USED FOR LAGRANGE MULTIPLIERS'
@@ -1066,8 +1066,8 @@ C-----------------------
        WRITE(IOUT,1300) NSLIOF,NELSOF,NELQOF,NELCOF,NELTOF,NELPOF,NELROF,NELTGOF,NSPHOF
        WRITE(IOUT,1400) NRLINK
        WRITE(IOUT,1500) NUBCSN
-       IF(IALE /= 0.OR.IEULER /= 0)WRITE(IOUT,1450) NALELINK+NALELK !format v12 + format v5 
-c     
+       IF(IALE /= 0.OR.IEULER /= 0)WRITE(IOUT,1450) NALELINK+NALELK !format v12 + format v5
+c
       ELSEIF(ISPMD == 0 .AND. MCHECK /= 0) THEN
       ENDIF                     !(ISPMD.EQ.0.AND.MCHECK.EQ.0)
 C-----------------------------------
@@ -1077,7 +1077,7 @@ C----------------------------------------
          !UPW_UPDATE == 2 : /UPWIND CARD IS CHANGING AT LEAST ONE PARAMETER
          !if /UPWIND is defined then set new parameters
       IF(ISPMD == 0.AND.MCHECK == 0)THEN
-        IF(IALE /= 0.OR.IEULER /= 0)THEN                                         
+        IF(IALE /= 0.OR.IEULER /= 0)THEN
          IF(UPW_UPDATE/=0)THEN
            DO K=1,NUMMAT-1
              !ILAW=PM(19,K)
@@ -1085,15 +1085,15 @@ C----------------------------------------
              IF(JALE /= 0)THEN
                IF(PM(15,K)/=UPWMG2.OR.PM(16,K)/=UPWOG2)THEN
                  UPW_UPDATE = 2
-                 PM(15,K) = UPWMG2                                 
-                 PM(16,K) = UPWOG2                  
-               ENDIF                              
-            ENDIF         
-           ENDDO  
+                 PM(15,K) = UPWMG2
+                 PM(16,K) = UPWOG2
+               ENDIF
+            ENDIF
+           ENDDO
            IF(UPWSM/=UPWSM2)THEN
              UPW_UPDATE = 2
              UPWSM      = UPWSM2
-           ENDIF                
+           ENDIF
          !if /UPWIND is not defined then catch parameter from previous run
          ELSEIF(UPW_UPDATE==0)THEN
            UPWMG2=UN
@@ -1105,49 +1105,49 @@ C----------------------------------------
              IF(JALE /= 0)THEN
                IF(PM(15,K)/=UPWMG2.OR.PM(16,K)/=UPWOG2 .OR.UPWSM /= UPWSM2)THEN
                  UPWMG2 = PM(15,K)
-                 UPWOG2 = PM(16,K) 
+                 UPWOG2 = PM(16,K)
                  UPWSM2 = UPWSM
-                 EXIT                 
-               ENDIF                              
-            ENDIF         
-           ENDDO          
+                 EXIT
+               ENDIF
+            ENDIF
+           ENDDO
          ENDIF
            ENDIF
          ENDIF
 C-----------------------------------
 C     ALE/EULER : OUTPUT
 C----------------------------------------
-      IF(IALE /= 0.OR.IEULER /= 0)THEN                                         
+      IF(IALE /= 0.OR.IEULER /= 0)THEN
          !-----------------------
          !     QUASI-INCOMPRESSIBLE /INCMP
-         !-----------------------             
+         !-----------------------
           IF(INCOMP == 1.AND.MCHECK == 0) WRITE(IOUT,1196)
          !-----------------------
          !     GRID FORMULATION
-         !-----------------------                   
+         !-----------------------
          !---ALE GRID FORMULATION CHECK---!
-         IF(NWALE_ENGINE /= NWALE_RST .AND. NWALE_ENGINE /= -1) THEN !Forbid ALE grid formulation switch       
-           IF(NWALE_ENGINE /= 3)THEN  !expect if new one is /ALE/ZERO                 
-             ALEform=(/'DONEA    ','DISP     ','SPRING   ', 'ZERO     ','STANDARD ', 'LAPLACIAN' ,'VOLUME   '/)                     
-             ALEStrL=(/5,4,6,4,8,9,6/)                                             
-             Cale1=ALEform(NWALE_ENGINE)                                              
-             Cale2=ALEform(NWALE_RST)                                          
-             CALL ANCMSG(MSGID=229,ANMODE=ANINFO, C1=Cale1(1:ALEStrL(NWALE_ENGINE)),C2=Cale2(1:ALEStrL(NWALE_RST)))        
+         IF(NWALE_ENGINE /= NWALE_RST .AND. NWALE_ENGINE /= -1) THEN !Forbid ALE grid formulation switch
+           IF(NWALE_ENGINE /= 3)THEN  !expect if new one is /ALE/ZERO
+             ALEform=(/'DONEA    ','DISP     ','SPRING   ', 'ZERO     ','STANDARD ', 'LAPLACIAN' ,'VOLUME   '/)
+             ALEStrL=(/5,4,6,4,8,9,6/)
+             Cale1=ALEform(NWALE_ENGINE)
+             Cale2=ALEform(NWALE_RST)
+             CALL ANCMSG(MSGID=229,ANMODE=ANINFO, C1=Cale1(1:ALEStrL(NWALE_ENGINE)),C2=Cale2(1:ALEStrL(NWALE_RST)))
               CALL ARRET(2)
             ELSE
-             NWALE_ENGINE = 3                                                         
+             NWALE_ENGINE = 3
             END IF
           END IF
-         
+
          !--Labels for Staggered Scheme
          IF(UPWM.EQ.2)THEN
             Label1='TG       '
          ELSEIF(UPWM.EQ.3)THEN
             Label1='SUPG     '
-         ELSE         
+         ELSE
             Label1='UPWIND   '
          ENDIF
-         Label2='UPWIND   '               
+         Label2='UPWIND   '
          Label3='UPWIND   '
          IF(IALEMUSCL.EQ.0)THEN
            Label4='UPWIND   '
@@ -1155,7 +1155,7 @@ C----------------------------------------
            Label4='MUSCL    '
          ENDIF
          !--Labels for Colocated Scheme
-         IF(IALEMUSCL.EQ.0)THEN         
+         IF(IALEMUSCL.EQ.0)THEN
            Label5='1ST-ORDER'
            Label6='1ST-ORDER'
            Label7='1ST-ORDER'
@@ -1165,16 +1165,16 @@ C----------------------------------------
            Label6='2ND-ORDER'
            Label7='2ND-ORDER'
            Label8='2ND-ORDER'
-         ELSEIF(IALEMUSCL.EQ.2)THEN         
+         ELSEIF(IALEMUSCL.EQ.2)THEN
            Label5='1ST-ORDER'
            Label6='1ST-ORDER'
            Label7='1ST-ORDER'
-           Label8='2ND-ORDER'                                                        
+           Label8='2ND-ORDER'
          ENDIF
-         MULTI_FVM%LOWMACH_OPT = .FALSE. 
-         IF (LOWMACH_OPT == 1 .AND. MULTI_FVM%IS_USED) THEN    
-            MULTI_FVM%LOWMACH_OPT = .TRUE.                                      
-         ENDIF         
+         MULTI_FVM%LOWMACH_OPT = .FALSE.
+         IF (LOWMACH_OPT == 1 .AND. MULTI_FVM%IS_USED) THEN
+            MULTI_FVM%LOWMACH_OPT = .TRUE.
+         ENDIF
          ALEform=(/'DONEA    ','DISP     '
      .   ,'SPRING   ', 'ZERO     ','STANDARD ', 'LAPLACIAN', 'VOLUME   ' /)
          !effective value which will be retained during numerical solving
@@ -1182,30 +1182,30 @@ C----------------------------------------
            NWALE = NWALE_ENGINE
          ELSE
            NWALE = NWALE_RST
-         ENDIF 
-         Label9='                '  
-         Label9(1:9)=ALEform(NWALE)          
+         ENDIF
+         Label9='                '
+         Label9(1:9)=ALEform(NWALE)
          eta1=UPWMG2
          eta2=UPWOG2
-         IF(UPWM>1)eta1=CUPWM                      
+         IF(UPWM>1)eta1=CUPWM
          IF(ISPMD==0 .AND. MCHECK==0)THEN
            WRITE(IOUT,1001)
-           WRITE(IOUT,1002)Label1,eta1,Label2,eta2,Label3,eta2,Label4  
+           WRITE(IOUT,1002)Label1,eta1,Label2,eta2,Label3,eta2,Label4
            IF(MULTI_FVM%IS_USED)THEN
              WRITE(IOUT,1003)Label5,Label6,Label7,Label8
              IF(MULTI_FVM%LOWMACH_OPT)
      .       WRITE(IOUT,1004)
              IF(IALEMUSCL.NE.0)
-     .       WRITE(IOUT,1005)I_BETA 
+     .       WRITE(IOUT,1005)I_BETA
            ENDIF
-           WRITE(IOUT,1006) DTFAC1(102),DTMIN1(102)         
-           WRITE(IOUT,1007)Label9   
-           IF(NWALE == 0) WRITE(IOUT,1200) ALPHA,GAMMA,VGX,VGY,VGZ,VOLMIN   
-           IF(NWALE == 1) WRITE(IOUT,1220) ALPHA,VGX,VGY,VGZ,VOLMIN  
-           IF(NWALE == 2) WRITE(IOUT,1250) DT_INPUT,ALPHA,GAMMA,VGX,VGY,VOLMIN            
-           IF(NWALE == 4) WRITE(IOUT,1254) ALPHA,GAMMA,VGX,VGY                        
-         ENDIF           
-       ENDIF !(IALE.NE.0.OR.IEULER.NE.0)          
+           WRITE(IOUT,1006) DTFAC1(102),DTMIN1(102)
+           WRITE(IOUT,1007)Label9
+           IF(NWALE == 0) WRITE(IOUT,1200) ALPHA,GAMMA,VGX,VGY,VGZ,VOLMIN
+           IF(NWALE == 1) WRITE(IOUT,1220) ALPHA,VGX,VGY,VGZ,VOLMIN
+           IF(NWALE == 2) WRITE(IOUT,1250) DT_INPUT,ALPHA,GAMMA,VGX,VGY,VOLMIN
+           IF(NWALE == 4) WRITE(IOUT,1254) ALPHA,GAMMA,VGX,VGY
+         ENDIF
+       ENDIF !(IALE.NE.0.OR.IEULER.NE.0)
           !---CHECK END-------------------!
 !-----------------------
 !     FEM MOMENTUM INTEGRATION
@@ -1221,8 +1221,8 @@ C----------------------------------------
              WRITE(IOUT,1199)
           END SELECT
          ENDIF
-      ENDIF                                                                                         
-                                                
+      ENDIF
+
 C-------------------------------
 C ELIMINATION PARTIE ALE EULER THERMIQUE
 C-------------------------------
@@ -1286,7 +1286,7 @@ C                      SMASS & SINER have been saved only if IDEL2 /= 0
                        END DO
                      END IF
                    END IF
-C----- change T_stop for int25 otherwise issue w/ int25                   
+C----- change T_stop for int25 otherwise issue w/ int25
                    IF(IPARI(7,K)==25)THEN
                      INTBUF_TAB(K)%VARIABLES(11) = ZERO
                    ELSE
@@ -1836,7 +1836,7 @@ C
          ENDIF
       ELSEIF(H3D_DATA%N_SCAL_SKID  == 0.AND.NINTSKIDOLD==0)THEN
          ALLOCATE (PSKIDS(0,0))
-      ENDIF        
+      ENDIF
 
 C-----------------------------------
 
@@ -1864,7 +1864,7 @@ C-----------------------
          IF (MLW /= 0) THEN
            OFFG(I)=ZERO
          ELSE     ! loi0, pas de off
-           CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXS(NIXS,II), 
+           CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXS(NIXS,II),
      .                 C1='BRICK',C2='BRICK')
          ENDIF
         ELSE
@@ -1895,9 +1895,9 @@ C-----------------------
         IF(IXC(1,II) < 0)THEN
           IXC(1,II)=-IXC(1,II)
           IF (MLW /= 0) THEN
-            OFFG(I) = ZERO  
+            OFFG(I) = ZERO
           ELSE     ! loi0, pas de off
-           CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXC(NIXC,II), 
+           CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXC(NIXC,II),
      .                 C1='SHELL',C2='SHELL')
           ENDIF
         ELSE
@@ -1956,9 +1956,9 @@ C-----------------------
         IF(IXTG(1,II) < 0)THEN
          IXTG(1,II)=-IXTG(1,II)
          IF(MLW /= 0) THEN
-           OFFG(I) = ZERO    
+           OFFG(I) = ZERO
          ELSE     ! loi0, pas de off
-          CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXTG(NIXTG,II), 
+          CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXTG(NIXTG,II),
      .                C1='SH_3N',C2='SH_3N')
          ENDIF
         ELSE
@@ -2054,7 +2054,7 @@ C             IC : dir XYZ
 C             IM : formulation option -1,0,1
 C             id*: node_id list or grnod_id
 C
-C      N<0 means that ALE LINK is taged in FRALNK() as defined from a grnod_id. 
+C      N<0 means that ALE LINK is taged in FRALNK() as defined from a grnod_id.
 
 C
 C   +--RADIOSS2
@@ -2073,22 +2073,22 @@ C
 C     SLINALE : starter size
 C     LLINAL  : engine size
 C     NALELK  : engine /VEL/ALE card (obsolete)
-C     NALELINK: engine /ALELINK/VEL   
-C     after reading : SLINALE <- SLINALE+LLINAL     
-C                      NALELK <- NALELK+NALELINK              
+C     NALELINK: engine /ALELINK/VEL
+C     after reading : SLINALE <- SLINALE+LLINAL
+C                      NALELK <- NALELK+NALELINK
 
       NALELK_starter = 0
       IF(MCHECK==0)NALELK_starter = SLINALE/7 !SLINALE : starter linale size
       NALELK_removed=0
       K=6
-      
+
       !seting MAIN node user id to internal id
       DO J=1,NALELK_starter
         IF(IRUN == 1 .AND. MCHECK == 0)
-     .   CALL FR_RLALE(LINALE(K-4),LINALE(K-3),LINALE(K+1),ITABM1,-1) 
-        K=K+1+6    
+     .   CALL FR_RLALE(LINALE(K-4),LINALE(K-3),LINALE(K+1),ITABM1,-1)
+        K=K+1+6
       ENDDO
-      
+
       IF(NALELK /= 0.AND.MCHECK == 0)THEN
        K=SLINALE+6                                                  !LINALE(1:SLINALE):starter cards ; LINALE(SLINALE+1:SLINALE+LLINE):engine cards
        !K=5 !en attendant de copier LIALE starter dans (1:SLINALE)
@@ -2135,7 +2135,7 @@ c           Verification partagee et tag en - noeuds non present
            LINALE(K+1)=NGR2USR(GR_ID,IGRNOD,NGRNOD)
 
            IF(LINALE(K+1)==0)CALL ARRET(2) !node group not found
-         
+
            IF(IM==0.AND.IGRNOD(LINALE(K+1))%SORTED /= 1)THEN
            !option 0 needs to be defined with a /GRNOD/NODENS
              WRITE(ISTDO,*)
@@ -2146,20 +2146,20 @@ c           Verification partagee et tag en - noeuds non present
      .         ' ** ERROR IN ALE LINK:'
              WRITE(IOUT,*)
      . '   UNSORTABLE NODE GROUP REQUIRED WITH OPTION 0 (/GRNOD/NODENS)'
-             CALL ARRET(2)             
+             CALL ARRET(2)
            ENDIF
-         
+
            IC=I3+2*I2+4*I1
            IF(IC == 0)THEN
             IC=7
             I1=1
             I2=1
             I3=1
-           ENDIF 
+           ENDIF
            IF(ISPMD == 0.AND.MCHECK == 0)THEN
-             WRITE(IOUT,2200)M1,M2,I1,I2,I3,IM !N=1 with GRNOD option 
-             WRITE(IOUT,2202)GR_ID          
-           ENDIF    
+             WRITE(IOUT,2200)M1,M2,I1,I2,I3,IM !N=1 with GRNOD option
+             WRITE(IOUT,2202)GR_ID
+           ENDIF
             LINALE(K-4)=M1
             LINALE(K-3)=M2
             LINALE(K-2)=N
@@ -2167,7 +2167,7 @@ c           Verification partagee et tag en - noeuds non present
             LINALE(K)=IM
 c           Verification partagee et tag en - noeuds non present
             CALL FR_RLALE(LINALE(K-4),LINALE(K-3),LINALE(K+1),ITABM1,N)
-            K=K+1+6         
+            K=K+1+6
          ENDIF
        ENDDO !next J
        SLINALE = SLINALE + LLINAL
@@ -2184,8 +2184,8 @@ C-------------------------------------------
          IF(M1>0.AND.M2>0)THEN
            !---------------------------------!
            !  ALE LINK DEFINED FROM NODES    !
-           !---------------------------------!  
-           IF(N>0)THEN        
+           !---------------------------------!
+           IF(N>0)THEN
              READ (IIN,'(10I10)')(LINALE(K+I),I=1,N)
              IC=I3+2*I2+4*I1
              IF(IC == 0)THEN
@@ -2211,62 +2211,62 @@ C-------------------------------------------
               K=K+N+6
             !---------------------------------!
             !  ALE LINK DEFINED FROM GRNOD    !
-            !---------------------------------!   
-           ELSE !(N<=0)               
+            !---------------------------------!
+           ELSE !(N<=0)
               READ (IIN,'(I10)', ERR=999,IOSTAT=IERROR)GR_ID
  0999         IF(IERROR.NE.0)THEN
                 WRITE(ISTDO,*)  ' ** ERROR IN ALE LINK: CANNOT READ GRNOD_ID VALUE'
                 GR_ID = 0
-                CALL ARRET(2) !node group not read     
+                CALL ARRET(2) !node group not read
               ENDIF
-                                                                                      
+
               LINALE(K+1)=NGR2USR(GR_ID,IGRNOD,NGRNOD)
               IF(LINALE(K+1)==0)THEN
                 WRITE(ISTDO,*)  ' ** ERROR IN ALE LINK: INVALID GRNOD_ID'
-                CALL ARRET(2) !node group not found                   
+                CALL ARRET(2) !node group not found
               ENDIF
-                                                                                      
-              IF(IM==0.AND.IGRNOD(LINALE(K+1))%SORTED /= 1)THEN 
-              !option 0 needs to be defined with a /GRNOD/NODENS                      
-                WRITE(ISTDO,*)                                                        
-     .            ' ** ERROR IN ALE LINK:'                                            
-                WRITE(ISTDO,*)                                                        
-     .'    UNSORTABLE NODE GROUP REQUIRED WITH OPTION 0 (/GRNOD/NODENS)'           
-                WRITE(IOUT ,*)                                                        
-     .            ' ** ERROR IN ALE LINK:'                                            
-                WRITE(IOUT,*)                                                         
-     .'    UNSORTABLE NODE GROUP REQUIRED WITH OPTION 0 (/GRNOD/NODENS)'           
-                CALL ARRET(2)                                                         
-              ENDIF                                                                   
-                                                                                      
-              IC=I3+2*I2+4*I1                                                         
-              IF(IC == 0)THEN                                                         
-               IC=7                                                                   
-               I1=1                                                                   
-               I2=1                                                                   
-               I3=1                                                                   
-              ENDIF                                                                   
-              IF(ISPMD == 0.AND.MCHECK == 0)THEN                                          
+
+              IF(IM==0.AND.IGRNOD(LINALE(K+1))%SORTED /= 1)THEN
+              !option 0 needs to be defined with a /GRNOD/NODENS
+                WRITE(ISTDO,*)
+     .            ' ** ERROR IN ALE LINK:'
+                WRITE(ISTDO,*)
+     .'    UNSORTABLE NODE GROUP REQUIRED WITH OPTION 0 (/GRNOD/NODENS)'
+                WRITE(IOUT ,*)
+     .            ' ** ERROR IN ALE LINK:'
+                WRITE(IOUT,*)
+     .'    UNSORTABLE NODE GROUP REQUIRED WITH OPTION 0 (/GRNOD/NODENS)'
+                CALL ARRET(2)
+              ENDIF
+
+              IC=I3+2*I2+4*I1
+              IF(IC == 0)THEN
+               IC=7
+               I1=1
+               I2=1
+               I3=1
+              ENDIF
+              IF(ISPMD == 0.AND.MCHECK == 0)THEN
                 WRITE(IOUT,2200)M1,M2,I1,I2,I3,IM !N=1 with GRNOD option
-                WRITE(IOUT,2202)GR_ID  
+                WRITE(IOUT,2202)GR_ID
               ENDIF
-              LINALE(K-4)=M1                                                         
-              LINALE(K-3)=M2                                                         
-              LINALE(K-2)=N                                                          
-              LINALE(K-1)=IC                                                         
-              LINALE(K)=IM                                                           
-c             Verification partagee et tag en - noeuds non present                   
+              LINALE(K-4)=M1
+              LINALE(K-3)=M2
+              LINALE(K-2)=N
+              LINALE(K-1)=IC
+              LINALE(K)=IM
+c             Verification partagee et tag en - noeuds non present
               CALL FR_RLALE
-     .          (LINALE(K-4),LINALE(K-3),LINALE(K+1),ITABM1,N)            
-              K=K+1+6                                                                
-           ENDIF !(N>0)   
+     .          (LINALE(K-4),LINALE(K-3),LINALE(K+1),ITABM1,N)
+              K=K+1+6
+           ENDIF !(N>0)
 
          !---------------------------------!
          !  ALE LINK SET ON                !
-         !---------------------------------!            
+         !---------------------------------!
          ELSEIF(M1==-1)THEN ! ON
            ALLOCATE(ALELIN_ON_OFF(IABS(N)))
-           READ (IIN,'(10I10)')(ALELIN_ON_OFF(I),I=1,N)         
+           READ (IIN,'(10I10)')(ALELIN_ON_OFF(I),I=1,N)
            !L=1  !pos
            KK=0 ! number of ale link deactivated
            DO I1=1,N
@@ -2275,13 +2275,13 @@ c             Verification partagee et tag en - noeuds non present
            DO I=1,NALELK_starter
              !---------------------------------!
              !  CHECK AND DEACTIVATE           !
-             !---------------------------------!              
+             !---------------------------------!
              IF(L>=SLINALE)THEN
                !warning : uID does not exist
                  WRITE(ISTDO,*)
      .           ' ** WARNING ALE LINK DOES NOT EXIST :',M1
                  WRITE(IOUT,*)
-     .           ' ** WARNING ALE LINK DOES NOT EXIST :',M1                      
+     .           ' ** WARNING ALE LINK DOES NOT EXIST :',M1
                EXIT
              ELSE
                uID = LINALE(L+0)
@@ -2290,15 +2290,15 @@ c             Verification partagee et tag en - noeuds non present
                  NALELK_removed = NALELK_removed+1 !counting deactivated links
                  LINALE(L+0)=-LINALE(L+0)          !setting negative uID to skip ALE LINK treatment (alelin.F)
                  !printout :
-                 IF(ISPMD == 0.AND.MCHECK == 0)                                          
-     .           WRITE(IOUT,2211)M1 !N=1 with GRNOD option 
-                 EXIT !next ALELIN_ON_OFF                     
+                 IF(ISPMD == 0.AND.MCHECK == 0)
+     .           WRITE(IOUT,2211)M1 !N=1 with GRNOD option
+                 EXIT !next ALELIN_ON_OFF
                ELSEIF(uID==M1)THEN
                  NALELK_removed = NALELK_removed+1 !counting deactivated links
                  !warning uID already set OFF :
                  WRITE(ISTDO,*)
      .           ' ** WARNING ALE LINK ALREADY ACTIVATED :  ',M1
-                 EXIT !next ALELIN_ON_OFF          
+                 EXIT !next ALELIN_ON_OFF
                ENDIF
 
              ENDIF
@@ -2306,11 +2306,11 @@ c             Verification partagee et tag en - noeuds non present
            ENDDO
            ENDDO
            DEALLOCATE(ALELIN_ON_OFF)
-           !IF(NALELK_removed>0)NALELK_removed=1 !/ALE/LINK/ON or OFF card is no longer taken into account                    
-       
+           !IF(NALELK_removed>0)NALELK_removed=1 !/ALE/LINK/ON or OFF card is no longer taken into account
+
          !---------------------------------!
          !  ALE LINK SET OFF               !
-         !---------------------------------!            
+         !---------------------------------!
          ELSEIF(M1==-2)THEN ! OFF
            ALLOCATE(ALELIN_ON_OFF(IABS(N)))
            READ (IIN,'(10I10)')(ALELIN_ON_OFF(I),I=1,N)
@@ -2322,13 +2322,13 @@ c             Verification partagee et tag en - noeuds non present
            DO I=1,NALELK_starter
              !---------------------------------!
              !  CHECK AND DEACTIVATE           !
-             !---------------------------------!              
+             !---------------------------------!
              IF(L>=SLINALE)THEN
                !warning : uID does not exist
                  WRITE(ISTDO,*)
      .           ' ** WARNING ALE LINK DOES NOT EXIST :',M1
                  WRITE(IOUT,*)
-     .           ' ** WARNING ALE LINK DOES NOT EXIST :',M1                      
+     .           ' ** WARNING ALE LINK DOES NOT EXIST :',M1
                EXIT
              ELSE
                uID = LINALE(L+0)
@@ -2337,31 +2337,31 @@ c             Verification partagee et tag en - noeuds non present
                  NALELK_removed = NALELK_removed+1 !counting deactivated links
                  LINALE(L+0)=-LINALE(L+0)          !setting negative uID to skip ALE LINK treatment (alelin.F)
                  !printout :
-                 IF(ISPMD == 0.AND.MCHECK == 0)                                          
+                 IF(ISPMD == 0.AND.MCHECK == 0)
      .           WRITE(IOUT,2210)M1 !N=1 with GRNOD option
                  EXIT !next ALELIN_ON_OFF
                ELSEIF(uID==-M1)THEN
-                 NALELK_removed = NALELK_removed+1 !counting deactivated links               
+                 NALELK_removed = NALELK_removed+1 !counting deactivated links
                  !warning uID already set OFF :
                  WRITE(ISTDO,*)
-     .           ' ** WARNING ALE LINK ALREADY DEACTIVATED :',M1 
-                 EXIT !next ALELIN_ON_OFF              
+     .           ' ** WARNING ALE LINK ALREADY DEACTIVATED :',M1
+                 EXIT !next ALELIN_ON_OFF
                ENDIF
              ENDIF
              L = L+6+IABS(N) !next uID position in LINALE()
            ENDDO
            ENDDO
            DEALLOCATE(ALELIN_ON_OFF)
-           !IF(NALELK_removed>0)NALELK_removed=1 !/ALE/LINK/ON or OFF card is no longer taken into account           
+           !IF(NALELK_removed>0)NALELK_removed=1 !/ALE/LINK/ON or OFF card is no longer taken into account
          ENDIF
-   
+
        ENDDO
        SLINALE = SLINALE + LLINAL
-       NALELK  = NALELK+NALELINK-NALELK_removed   
+       NALELK  = NALELK+NALELINK-NALELK_removed
       ENDIF !(NALELINK /= 0.AND.MCHECK == 0)
-      
+
       IF(MCHECK==0)NALELK=NALELK+NALELK_starter
-                   
+
 C-------------------------------------------
 C     ALE ON/ OFF
 C-------------------------------------------
@@ -2455,7 +2455,7 @@ C     Checking that part ids exist in IPART(4, *)
             CALL ANCMSG(MSGID = 271, ANMODE = ANINFO, I1 = PARTID)
             CALL ARRET(2)
          ENDIF
-      ENDDO      
+      ENDDO
 C     Filling module values
       IF (NBALEOFF_PART .GT. 0) ALLOCATE(ALEOFF_PARTIDS(NBALEOFF_PART))
       IF (NBALEON_PART .GT. 0) ALLOCATE(ALEON_PARTIDS(NBALEON_PART))
@@ -2474,7 +2474,7 @@ C     Filling module values
             ISON = ISON + 1
             ALEOFF_PARTIDS(ISON) = PARTID
          ENDIF
-      ENDDO    
+      ENDDO
 C     OUTPUT
       DO I = 1, NBALEOFF_PART
          WRITE(IOUT, 4800) ALEOFF_PARTIDS(I)
@@ -2496,10 +2496,10 @@ C     NB : all elements in a same group belong necessarily to the same part
 
          IF (ITY .EQ. 1) THEN
 C     Solid groups
-            PARTID = IPART(K1 + NFT) 
+            PARTID = IPART(K1 + NFT)
          ELSEIF (ITY .EQ. 2) THEN
 C     Shells and coques
-            PARTID = IPART(K2 + NFT) 
+            PARTID = IPART(K2 + NFT)
          ENDIF
 C     Check if this part is found in ALEOFF_PARTIDS
          DO I = 1, NBALEOFF_PART
@@ -2548,8 +2548,8 @@ C-------------------------------------------
             DO 949 J=1,NINTER
               IF(NOINT == IPARI(15,J)) THEN
                 IF(NSEARCH /= 0) IPARI(13,J)=NSEARCH
-                INTBUF_TAB(J)%VARIABLES(3)  = TSTART 
-                INTBUF_TAB(J)%VARIABLES(11) = TFIN 
+                INTBUF_TAB(J)%VARIABLES(3)  = TSTART
+                INTBUF_TAB(J)%VARIABLES(11) = TFIN
                 JPRI=J
               ENDIF
  949        CONTINUE
@@ -2758,31 +2758,31 @@ C---------------------------------------------------------
  1001 FORMAT(/
      & 1X,'ALE EULER SOLVERS'/
      & 1X,'-----------------'/)
- 1002 FORMAT(                                    
-     & 1X,'  +--STAGGERRED SCHEME'/ 
-     & 1X,'  |  +--MOMENTUM          : ',A16,'  eta=',G14.7/          
-     & 1X,'  |  +--MASS              : ',A16,'  eta=',G14.7/       
-     & 1X,'  |  +--ENERGY            : ',A16,'  eta=',G14.7/ 
+ 1002 FORMAT(
+     & 1X,'  +--STAGGERRED SCHEME'/
+     & 1X,'  |  +--MOMENTUM          : ',A16,'  eta=',G14.7/
+     & 1X,'  |  +--MASS              : ',A16,'  eta=',G14.7/
+     & 1X,'  |  +--ENERGY            : ',A16,'  eta=',G14.7/
      & 1X,'  |  +--VOLUME FRACTION   : ',A16)
- 1003 FORMAT(     
-     & 1X,'  |'/                                 
-     & 1X,'  +--COLOCATED SCHEME (LAW151)'/ 
-     & 1X,'  |  +--MOMENTUM          : ',A16/          
+ 1003 FORMAT(
+     & 1X,'  |'/
+     & 1X,'  +--COLOCATED SCHEME (LAW151)'/
+     & 1X,'  |  +--MOMENTUM          : ',A16/
      & 1X,'  |  +--MASS              : ',A16/
      & 1X,'  |  +--ENERGY            : ',A16/
      & 1X,'  |  +--VOLUME FRACTION   : ',A16   )
- 1004 FORMAT( 
-     & 1X,'  |  +--LOW MACH OPTION   : ENABLED' )                              
- 1005 FORMAT( 
-     & 1X,'  |  +--MUSCL OPTION      : ENABLED          beta=',G14.7)                                 
- 1006 FORMAT(                               
-     & 1X,'  |'/ 
-     & 1X,'  +--TIME STEP'/ 
+ 1004 FORMAT(
+     & 1X,'  |  +--LOW MACH OPTION   : ENABLED' )
+ 1005 FORMAT(
+     & 1X,'  |  +--MUSCL OPTION      : ENABLED          beta=',G14.7)
+ 1006 FORMAT(
+     & 1X,'  |'/
+     & 1X,'  +--TIME STEP'/
      & 1X,'  |  +--COURANT NUMBER    : ',G14.7/
-     & 1X,'  |  +--MINIMUM TIME STEP : ',G14.7)   
- 1007 FORMAT(   
-     & 1X,'  |'/                             
-     & 1X,'  +--GRID SMOOTHING'/ 
+     & 1X,'  |  +--MINIMUM TIME STEP : ',G14.7)
+ 1007 FORMAT(
+     & 1X,'  |'/
+     & 1X,'  +--GRID SMOOTHING'/
      & 1X,'     +--FORMULATION       : ',A16/
      & 1X,'     +--PARAMETERS        :')
 
@@ -2927,7 +2927,7 @@ c    .  ' TIME INTERVAL FOR PATRAN-FILE PLOTS. . . . . . . ',G14.7//
      .  ' NODAL VALUES SAVED ON ANIMATION FILES (1: YES) :',/
      .  '      PRESSURE. . . . . . . . . ',I5/
      .  '      DENSITY . . . . . . . . . ',I5/
-     .  '      TEMPERATURE . . . . . . . ',I5)          
+     .  '      TEMPERATURE . . . . . . . ',I5)
  1130 FORMAT(
      .  ' VECTOR SAVED ON ANIMATION FILES (1: YES) :',/
      .  '      VELOCITY VECTOR . . . . . ',I5/
@@ -2990,7 +2990,7 @@ c    .  ' TIME INTERVAL FOR PATRAN-FILE PLOTS. . . . . . . ',G14.7//
  1198 FORMAT(
      .  '          MOMENTUM : MIXED INTEGRATION')
  1199 FORMAT(
-     .  '          MOMENTUM : VOLUME INTEGRATION')       
+     .  '          MOMENTUM : VOLUME INTEGRATION')
  1200 FORMAT(
      . 28X,' ALPHA   : DONEA COEFFICIENT. . . . . . . . . . . ',G14.7/
      . 28X,' GAMMA   : GRID VELOCITY LIMITATION FACTOR. . . . ',G14.7/
@@ -3056,8 +3056,8 @@ c    .  ' TIME INTERVAL FOR PATRAN-FILE PLOTS. . . . . . . ',G14.7//
      .          '     TYPE         :  ',I2)
  2201 FORMAT(   '     NODES        :')
  2202 FORMAT(   '     NODE GROUP   :  ',I2)
- 2210 FORMAT(' DEACTIVATING ALE LINK ID:',I5)          
- 2211 FORMAT('   ACTIVATING ALE LINK ID:',I5)    
+ 2210 FORMAT(' DEACTIVATING ALE LINK ID:',I5)
+ 2211 FORMAT('   ACTIVATING ALE LINK ID:',I5)
  2300 FORMAT(/' INTERFACE CHANGES'/
      .  ' INTERFACE NB . . . . . . . . . . . . . . . . . . ',I10/
      .  ' SEARCH OF CLOSEST NODES EACH NSEARCH TIME STEPS. ',I5/
@@ -3134,11 +3134,11 @@ C
 
       END
 Chd|====================================================================
-Chd|  PROUT_BUCK                    source/input/lectur.F         
+Chd|  PROUT_BUCK                    source/input/lectur.F
 Chd|-- called by -----------
-Chd|        LECIMPL                       source/input/lectur.F         
+Chd|        LECIMPL                       source/input/lectur.F
 Chd|-- calls ---------------
-Chd|        IMP_KBCS                      share/modules/impbufdef_mod.F 
+Chd|        IMP_KBCS                      share/modules/impbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PROUT_BUCK(IP,NBUCK,IBUCK)
 C-----------------------------------------------
@@ -3185,18 +3185,18 @@ C-----------------------------------------------
      .  ' LINEAR SOLVER : . . . . . . . . . . . . . ',2X,A/)
       END
 Chd|====================================================================
-Chd|  LECIMPL                       source/input/lectur.F         
+Chd|  LECIMPL                       source/input/lectur.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/input/lectur.F         
+Chd|        LECTUR                        source/input/lectur.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
+Chd|        ARRET                         source/system/arret.F
 Chd|        FLOATMIN                      ../common_source/tools/math/precision.c
-Chd|        PROUT_BUCK                    source/input/lectur.F         
+Chd|        PROUT_BUCK                    source/input/lectur.F
 Chd|        SPMD_MAX_S                    source/mpi/implicit/imp_spmd.F
-Chd|        IMP_KBCS                      share/modules/impbufdef_mod.F 
-Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F 
-Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F 
+Chd|        IMP_KBCS                      share/modules/impbufdef_mod.F
+Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F
+Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE LECIMPL
@@ -3297,7 +3297,7 @@ C       IMPMV>0 isolv/=1 --> IMPMV=0
        ENDIF
        IF (NBUCK > 0) THEN
         ILINE=1
-C----fix mono w/ BCS solver        
+C----fix mono w/ BCS solver
         IF (NSPMD == 1) ISOLV =2
        ENDIF
 C--------solvers----
@@ -3759,7 +3759,7 @@ C
           SCAL_RIKS = S*S
          ENDIF
         END IF !(ILINE /= 1)
-        
+
 
 C
         IF (IDYNA == 2) THEN

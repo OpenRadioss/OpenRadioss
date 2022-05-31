@@ -1,41 +1,41 @@
 Copyright>        OpenRadioss
 Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
-Copyright>    
+Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
 Copyright>        the Free Software Foundation, either version 3 of the License, or
 Copyright>        (at your option) any later version.
-Copyright>    
+Copyright>
 Copyright>        This program is distributed in the hope that it will be useful,
 Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
 Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 Copyright>        GNU Affero General Public License for more details.
-Copyright>    
+Copyright>
 Copyright>        You should have received a copy of the GNU Affero General Public License
 Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-Copyright>    
-Copyright>    
-Copyright>        Commercial Alternative: Altair Radioss Software 
-Copyright>    
-Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
-Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+Copyright>
+Copyright>
+Copyright>        Commercial Alternative: Altair Radioss Software
+Copyright>
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  FVBAG0                        source/airbag/fvbag.F         
+Chd|  FVBAG0                        source/airbag/fvbag.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
-Chd|        FVBAG1                        source/airbag/fvbag.F         
-Chd|        FVBAG2                        source/airbag/fvbag2.F        
-Chd|        FVBAG3                        source/airbag/fvbag.F         
+Chd|        FVBAG1                        source/airbag/fvbag.F
+Chd|        FVBAG2                        source/airbag/fvbag2.F
+Chd|        FVBAG3                        source/airbag/fvbag.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
+Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F
 Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/fvmbag_meshcontrol_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|====================================================================
       SUBROUTINE FVBAG0(MONVOL,   VOLMON , X        , SENSOR , V      ,
      .                  A     ,   NPC    , TF       ,
-     .                  FSAV  ,   IFVMESH, ICONTACT , LGAUGE , 
+     .                  FSAV  ,   IFVMESH, ICONTACT , LGAUGE ,
      .                  GAUGE ,   IGEO   , GEO      , PM     , IPM,
      .                  IPARG ,  IGROUPTG, IGROUPC  , ELBUF_TAB, FEXT,
      .                  FLAG  ,  H3D_DATA)
@@ -44,7 +44,7 @@ C FVBAG0 called two times from RESOL
 C  FLAG = 1 : Gather information on PMAIN + Computations
 C  FLAG = 2 : Scatter information from PMAIN (inc. switch to UP)
 C-----------------------------------------------
-C   M o d u l e s 
+C   M o d u l e s
 C-----------------------------------------------
       USE FVBAG_MOD
       USE ELBUFDEF_MOD
@@ -72,11 +72,11 @@ C-----------------------------------------------
       INTEGER MONVOL(*), NPC(*),IFVMESH,
      .        ICONTACT(*), LGAUGE(3,*), IGEO(NPROPGI,*)
       INTEGER IPM(NPROPMI,*), IPARG(NPARG,*)
-      INTEGER IGROUPTG(*), IGROUPC(*) 
+      INTEGER IGROUPTG(*), IGROUPC(*)
       INTEGER FLAG ! 1: gather + computations
                    ! 2: scatter
       my_real
-     .        VOLMON(*), X(3,*), SENSOR(NSENSR,*), V(3,*), A(3,*), 
+     .        VOLMON(*), X(3,*), SENSOR(NSENSR,*), V(3,*), A(3,*),
      .        TF(*), FSAV(NTHVKI,*), GAUGE(LLGAUGE,*), GEO(NPROPG,*),
      .        PM(NPROPM,*), FEXT(*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -124,7 +124,7 @@ c 19:   				   ! Butterworth !
 c 20:   			           ! Butterworth !
 c 21: 				           ! Butterworth !
 c 22: 				           ! Butterworth !
-c 23: 				           ! Butterworth !  
+c 23: 				           ! Butterworth !
 c 24:   				   ! Butterworth !
 c 25:   				   ! Butterworth !
 c 26:   				   ! Butterworth !
@@ -134,7 +134,7 @@ c 29:   				   ! Butterworth !
 c 30:  Pressure      		  	   filtered Pressure
 c 31:  PA            			   filtered PA
 c 32:  Rho           			   filtered Rho
-c 33:  E             			   filtered E	     
+c 33:  E             			   filtered E
 c 34:   				   ! Butterworth !
 c 35:   				   ! Butterworth !
 c 36:   				   ! Butterworth !
@@ -155,7 +155,7 @@ C-----------------------------------------------
 C
       DO N=1,NVOLU
          ITYP=MONVOL(K1-1+2)
-         IF (ITYP.EQ.6.OR.ITYP.EQ.8) THEN
+         IF (ITYP == 6.OR.ITYP == 8) THEN
             IFV = MONVOL(K1 -1 +45)
 C
            IEQUI=MONVOL(K1-1+15)
@@ -169,7 +169,7 @@ C
            IF(NSKIP >= 1 .AND. KMESH(IFV) > 1) GO TO 100
 C
             IDONE=MONVOL(K1-1+57)
-            IF(IDONE.EQ.1) GO TO 100
+            IF(IDONE == 1) GO TO 100
             INFO=0
 C
             NJET=MONVOL(K1+7)
@@ -198,7 +198,7 @@ C
             KR6=KR5+NTGT
             KR7=KR6+NTGT
             KR8=KR7+NTGT
-            KR9=KR8+NTGT            
+            KR9=KR8+NTGT
 C
             NNFV= MONVOL(K1-1+46)
             NTRFV=MONVOL(K1-1+47)
@@ -226,8 +226,7 @@ C
             KRA7=KRA6+3*NNA
             KRA8=KRA7+  NTGI
 
-
-            IF (ITYP .EQ. 8) THEN 
+            IF (ITYP  ==  8) THEN
                CFL_COEF = FVDATA(IFV)%CFL_COEF
             ELSE
                CFL_COEF = DTFAC1(52)
@@ -256,7 +255,7 @@ C
      J                 GEO,   PM,    IPM,      FVDATA(IFV)%TPOLH,  VOLMON(KR8),
      K                 FVDATA(IFV)%CPDPOLH,    FVDATA(IFV)%CPEPOLH,  FVDATA(IFV)%CPFPOLH,
      L                 MONVOL(KI4),  IPARG,  MONVOL(KI5),
-     M                 IGROUPTG,   IGROUPC,  ELBUF_TAB, FEXT, CFL_COEF, 
+     M                 IGROUPTG,   IGROUPC,  ELBUF_TAB, FEXT, CFL_COEF,
      N                 FVDATA(IFV)%PDISP_OLD, FVDATA(IFV)%PDISP)
                ELSE
                   CALL FV_UP_SWITCH(
@@ -281,10 +280,10 @@ C
      J                 GEO,   PM,    IPM,      FVDATA(IFV)%TPOLH,  VOLMON(KR8),
      K                 FVDATA(IFV)%CPDPOLH,    FVDATA(IFV)%CPEPOLH,  FVDATA(IFV)%CPFPOLH,
      L                 MONVOL(KI4),  IPARG,  MONVOL(KI5),
-     M                 IGROUPTG,   IGROUPC,  ELBUF_TAB, CFL_COEF, 
+     M                 IGROUPTG,   IGROUPC,  ELBUF_TAB, CFL_COEF,
      N                 FVDATA(IFV)%PDISP_OLD, FVDATA(IFV)%PDISP)
                ENDIF
-            ELSEIF (FLAG == 2) THEN        
+            ELSEIF (FLAG == 2) THEN
               CALL FVBAG2(IFV, ITYP, NNA, NVENT, NJET, MONVOL(K1), MONVOL(IADHOL), VOLMON(RADHOL),
      .                  X, VOLMON(KK1), VOLMON(KRA5), MONVOL(KIA8), VOLMON(RADJET),
      .                  A,LGAUGE,GAUGE,NNT,FEXT,NSKIP,
@@ -292,7 +291,7 @@ C
 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
                MONVOL(K1-1+57)=1
-            ENDIF          
+            ENDIF
          ENDIF
   100    K1=K1+NIMV
          KK1=KK1+NRVOLU
@@ -301,23 +300,23 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  FVBAG1                        source/airbag/fvbag.F         
+Chd|  FVBAG1                        source/airbag/fvbag.F
 Chd|-- called by -----------
-Chd|        FVBAG0                        source/airbag/fvbag.F         
+Chd|        FVBAG0                        source/airbag/fvbag.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        FVINJT6                       source/airbag/fvinjt6.F       
-Chd|        FVINJT8                       source/airbag/fvinjt8.F       
-Chd|        FVINJT8_1                     source/airbag/fvinjt8_1.F     
-Chd|        FVTEMP                        source/airbag/fvbag.F         
-Chd|        FVVENT0                       source/airbag/fvvent0.F       
+Chd|        ARRET                         source/system/arret.F
+Chd|        FVINJT6                       source/airbag/fvinjt6.F
+Chd|        FVINJT8                       source/airbag/fvinjt8.F
+Chd|        FVINJT8_1                     source/airbag/fvinjt8_1.F
+Chd|        FVTEMP                        source/airbag/fvbag.F
+Chd|        FVVENT0                       source/airbag/fvvent0.F
 Chd|        SPMD_FVB_GATH                 source/mpi/airbags/spmd_fvb_gath.F
 Chd|        SPMD_FVB_IGATH                source/mpi/airbags/spmd_fvb_igath.F
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        GET_U_FUNC                    source/user_interface/ufunc.F 
+Chd|        FINTER                        source/tools/curve/finter.F
+Chd|        GET_U_FUNC                    source/user_interface/ufunc.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
+Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F
 Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/fvmbag_meshcontrol_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
@@ -326,10 +325,10 @@ Chd|====================================================================
      3                  P      , RHO    , TK       , U      , SSPK    ,
      4                           X      , V        , A      , SENSOR  ,
      5                  FSAV   , NPC    , TF       , IVOLU  , RVOLU   ,
-     6                  MPOLH  , QPOLH  , EPOLH    , 
+     6                  MPOLH  , QPOLH  , EPOLH    ,
      7                  PPOLH  , RPOLH  , GPOLH    ,
-     8                  NPOLH  , IFVNOD , RFVNOD   , IFVTRI , 
-     9                  IFVPOLY, IFVTADR, IFVPOLH  , 
+     8                  NPOLH  , IFVNOD , RFVNOD   , IFVTRI ,
+     9                  IFVPOLY, IFVTADR, IFVPOLH  ,
      A                  IFVPADR, INFO   , NNS      , NNTR   , IFV     ,
      B                  NPOLHA , DLH    , CPAPOLH  ,
      C                  CPBPOLH, CPCPOLH, RMWPOLH  ,
@@ -345,7 +344,7 @@ Chd|====================================================================
      M                  IGROUPTG,IGROUPC, ELBUF_TAB, FEXT ,CFL_COEF,
      N                  PDISP_OLD, PDISP)
 C-----------------------------------------------
-C   M o d u l e s 
+C   M o d u l e s
 C-----------------------------------------------
       USE FVBAG_MOD
       USE MESSAGE_MOD
@@ -383,21 +382,21 @@ C-----------------------------------------------
      .        NNS, NNTR, IFV, NPOLHA, ITAGEL(*), ICONTACT(*),
      .        IDPOLH(*), IBUFA(*), ELEMA(3,*), TAGELA(*), BRNA(8,*),
      .        NNA, NTGA, IBPOLH(*), NNT, NELT, NCONA(16,*),
-     .        LGAUGE(3,*), ITYP, IGEO(NPROPGI,*) 
+     .        LGAUGE(3,*), ITYP, IGEO(NPROPGI,*)
       INTEGER ELTG(*)
       INTEGER IPM(NPROPMI,*), IPARG(NPARG,*)
-      INTEGER MATTG(*), IGROUPTG(*), IGROUPC(*) 
+      INTEGER MATTG(*), IGROUPTG(*), IGROUPC(*)
 
       my_real
      .        RBAGJET(NRBJET,*), RBAGHOL(NRBHOL,*), P(*), RHO(*),
      .        TK(*), U(3,*), SSPK(*), X(3,*), V(3,*), A(3,*), SENSOR(NSENSR,*),
-     .        FSAV(NTHVKI), TF(*), RVOLU(*), MPOLH(*), QPOLH(3,*), 
+     .        FSAV(NTHVKI), TF(*), RVOLU(*), MPOLH(*), QPOLH(3,*),
      .        EPOLH(*), PPOLH(*), RPOLH(*), GPOLH(*), RFVNOD(2,*), DLH,
      .        CPAPOLH(*), CPBPOLH(*), CPCPOLH(*), RMWPOLH(*), ELSINI(*),
      .        ELFMASS(*), ELFVEL(*), PA(*), RHOA(*), TKA(*),SSPKA(*), UA(3,*),
-     .        DTPOLH(*), XXXA(3,*), VVVA(3,*), POROSITY(*), 
+     .        DTPOLH(*), XXXA(3,*), VVVA(3,*), POROSITY(*),
      .        GAUGE(LLGAUGE,*), GEO(NPROPG,*), PM(NPROPM,*), ELFEHPY(*),
-     .        TPOLH(*), CPDPOLH(*), CPEPOLH(*), CPFPOLH(*), FEXT(3,*), CFL_COEF, 
+     .        TPOLH(*), CPDPOLH(*), CPEPOLH(*), CPFPOLH(*), FEXT(3,*), CFL_COEF,
      .        PDISP_OLD, PDISP
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
@@ -405,49 +404,49 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II, IINJ, ISU, IEL, N1, N2, N3, JEL,
      .        NN1, NN2, NN3, J, JJ, K, KK, IMASS, IFLU, ISENS, IVEL,
-     .        ITEMP, ITAGP(NPOLH), NV, ILVOUT, NPOLY, IPRI,
+     .        ITEMP, ITAGP(NPOLH), NV, ILVOUT, NPOLYG,NTRIA, IPRI,
      .        IVENT, IDEF, IPORT, IPORP, IPORA, IPORT1, IPORP1, IPORA1,
      .        ITVENT, PHDT, I1, I2, NNSA, ICONT(NNT),IVDP,ITTF, IDPDEF,
      .        IDTPDEF,PMAIN,N21,N22,TAGSURF(2,NELT+1),ITYPL,
-     .        PREPARE_ANIM,IVENTYP
+     .        PREPARE_ANIM,IVENTYP,IMETHOD_LC, IEL1, IEL2
       INTEGER TITREVENT(20)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: SURF_INT,SURF_EXT
 
       my_real
-     .        NODAREA(NNT), X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, 
+     .        NODAREA(NNT), X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3,
      .        X12, Y12, Z12, X13, Y13, Z13, NRX, NRY, NRZ, AREA2,
      .        ELAREA(NELT), NORM(3,NELT), KSI, ETA, PNOD(3,NNS),
-     .        PAREA(NNTR), PNORM(3,NNTR), PVOLU(NPOLH), AREA, NX, NY,
+     .        PAREA(NNTR), PNORM(3,NNTR), PVOLU(NPOLH), AREA,Denom,Denom_max, AREA_MAX(NPOLH), NX, NY,
      .        NZ, GAMAI, CPAI, CPBI, CPCI, RMWI, TI,
      .        CPDI, CPEI, CPFI,
-     .        RHOI, DATAINJ(6,NJET), SCALT, FMASS, GMASS_OLD, 
+     .        RHOI, DATAINJ(6,NJET), SCALT, FMASS, GMASS_OLD,
      .        GMTOT_OLD, FVEL, TSTART, TSG, GMASS, DGMASS, INJVEL,
      .        DYDX, GMTOT, RMWG, CPA, CPB, CPC, FTEMP, EFAC, CPG,
-     .        CVG, PU(3,NPOLH), GAMA, FEL(NELT), DM(NPOLH),
+     .        CVG, PU(3,NPOLH), PW(3,NPOLH),WSURF(3), GAMA, FEL(NELT), DM(NPOLH),
      .        DQ(3,NPOLH), DE(NPOLH), DMI, DQI(3), DEI, RHO1, RE1, UX1,
      .        UY1, UZ1, RHO2, RE2, UX2, UY2, UZ2, VFX, VFY, VFZ, SS,
      .        ALPHA, RHOM, REM, RUXM, RUYM, RUZM, P1, P2,
      .        UEL(3,NELT), AREA1, AREA3, FF, TEMP, PEXT, VOLG, VOLPH,
      .        AREAP, AREAEL, XX, YY, ZZ, QA, QB, DTX, AL, DD, AD, SSP,
-     .        QX, VV, DMINI(NPOLH), DMCPA(NPOLH), DMCPB(NPOLH), 
+     .        QX, VV, DMINI(NPOLH), DMCPA(NPOLH), DMCPB(NPOLH),
      .        DMCPC(NPOLH), DMRMW(NPOLH), MSINI,
      .        RMW, CP, CV, RHOEL(NELT), TKEL(NELT), SSPEL(NELT), GAMA1, GAMA2,
      .        QVISC(NPOLH), AMTOT, PMEAN, PMEAN2, ELSOUT(NELT),TMP(NEL),
      .        AREA_VENT(NVENT), PM_VENT(NVENT), SCALP, SCALS, EXTEN,
      .        AVENT, BVENT, AINI, FPORT, FPORP, FPORA, FPORT1, FPORP1,
-     .        FPORA1, AOUT, AOUT1, DERI, PDEF, PVOLTMP,              
+     .        FPORA1, AOUT, AOUT1, DERI, PDEF, PVOLTMP,
      .        DTPDEFI, DTPDEFC, TVENT, PORO(NELT), VOLA(NNA), HMIN(NNTR),
      .        X23, Y23, Z23, X31, Y31, Z31,  L12, L23, L31, H1, H2, H3,
      .        FAC1, FAC2, FAC3, HM1, AREA_OLD, PP, DLS(NPOLH), VMAX, UU,
-     .        PCRIT, RHOINJ, PINJ, VX1, VY1, VZ1, VX2, VY2, VZ2, 
+     .        PCRIT, RHOINJ, PINJ, VX1, VY1, VZ1, VX2, VY2, VZ2,
      .        VX3, VY3, VZ3, VVX, VVY, VVZ, VEL(NELT), FAC, VNOD(3,NNS),
      .        VGRID(3,NNTR), AOUTOT, SVENT(NVENT), SVENTOT, XXX(3,NNT),
-     .        VVV(3,NNT),  FVDP, RBID, TTF, 
+     .        VVV(3,NNT),  FVDP, RBID, TTF,
      .        DMCPD(NPOLH), DMCPE(NPOLH), DMCPF(NPOLH),
      .        CPD, CPE, CPF, TEMP0, TT1, PEL(NELT), PSTAG, VOLNO,TSTOPE,
-     .        ENINT, MASSFLOW, TFEXT0, ELDMASS(NEL), ELDEHPY(NEL), DMOUT, DHOUT, 
-     .        CPAM, CPBM, CPCM, CPDM, CPEM, CPFM, RMWM
-     
+     .        ENINT, MASSFLOW, TFEXT0, ELDMASS(NEL), ELDEHPY(NEL), DMOUT, DHOUT,
+     .        CPAM, CPBM, CPCM, CPDM, CPEM, CPFM, RMWM, TMP_VEC(3), FAC_W, VMAT(3),SSP1,SSP2,SSPt,NTRIA_TOT
+
       LOGICAL :: boolTAGEL,EXIT_NEG_VOL,INJECTION_STARTED
       LOGICAL :: UP_SWITCH
 C
@@ -467,7 +466,7 @@ c     IF(NSPMD > 1 .AND. FVSPMD(IFV)%RANK > -1 )THEN
         ALLOCATE(FVSPMD(IFV)%AAA(3,NNT))
         FVSPMD(IFV)%AAA(1:3,1:NNT) = ZERO
 
-c     ENDIF 
+c     ENDIF
 
 
 
@@ -489,7 +488,7 @@ C
            VVV(3,I1)=V(3,I2)
          ENDDO
 C
-         IF (INTBAG.NE.0.AND.NVENT.GT.0.AND.IVOLU(39).NE.0) THEN
+         IF (INTBAG /= 0.AND.NVENT > 0.AND.IVOLU(39) /= 0) THEN
            DO I=1,FVSPMD(IFV)%NN_L+FVSPMD(IFV)%NNI_L
              I1=FVSPMD(IFV)%IBUF_L(1,I)
              I2=FVSPMD(IFV)%IBUF_L(2,I)
@@ -502,15 +501,15 @@ C
 C
          CALL SPMD_FVB_GATH(IFV, V, VVV, RBID, RBID, 4)
 C
-         IF (INTBAG.NE.0.AND.NVENT.GT.0.AND.IVOLU(39).NE.0)
+         IF (INTBAG /= 0.AND.NVENT > 0.AND.IVOLU(39) /= 0)
      .      CALL SPMD_FVB_IGATH(IFV, ICONTACT, ICONT)
 
 C
          IF (ISPMD.NE.FVSPMD(IFV)%PMAIN-1) GOTO 1000
-      END IF 
+      END IF
 C
 
-!$OMP PARALLEL PRIVATE(I,J) 
+!$OMP PARALLEL PRIVATE(I,J)
 !$OMP+ PRIVATE(I1,I2,KSI,ETA,N1,N2,N3,IEL,X1,Y1,Z1,FAC)
 !$OMP+ PRIVATE(X2,Y2,Z2,X3,Y3,Z3,VX1,VX2,VX3,VY1,VY2,VY3,VZ1,VZ2,VZ3)
 !$OMP+ PRIVATE(X12,Y12,Z12,X13,Y13,Z13,AREA2,NRX,NRY,NRZ,JJ,AREA,KK,K)
@@ -520,12 +519,12 @@ C---------------------------------------------------
 C Normales et surfaces elementaires
 C---------------------------------------------------
 
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(GUIDED,1)
       DO I=1,NNT
          NODAREA(I)=ZERO
       ENDDO
 !$OMP END DO
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(GUIDED,1)
       DO IEL=1,NELT
          N1=ELEM(1,IEL)
          N2=ELEM(2,IEL)
@@ -553,7 +552,7 @@ C---------------------------------------------------
          NORM(1,IEL)=NRX/AREA2
          NORM(2,IEL)=NRY/AREA2
          NORM(3,IEL)=NRZ/AREA2
-         IF(IEL.LE.NEL) THEN
+         IF(IEL <= NEL) THEN
            TMP(IEL) = UNSIX * (X1*NRX+Y1*NRY+Z1*NRZ)
          ENDIF
          PEL(IEL)=ZERO
@@ -566,13 +565,13 @@ C---------------------------------------------------
          N1=ELEM(1,IEL)
          N2=ELEM(2,IEL)
          N3=ELEM(3,IEL)
-         AREA2 = ELAREA(IEL) 
+         AREA2 = ELAREA(IEL)
          ELAREA(IEL) = UNDEMI * AREA2
          NODAREA(N1)=NODAREA(N1)+UNSIX*AREA2
          NODAREA(N2)=NODAREA(N2)+UNSIX*AREA2
          NODAREA(N3)=NODAREA(N3)+UNSIX*AREA2
-         IF(IEL.LE.NEL) THEN
-           VOLG=VOLG+TMP(IEL)                      
+         IF(IEL <= NEL) THEN
+           VOLG=VOLG+TMP(IEL)
          ENDIF
       ENDDO
 C
@@ -593,7 +592,7 @@ C
 
 !$OMP DO SCHEDULE(GUIDED,1)
       DO I=1,NNS
-         IF (IFVNOD(1,I).EQ.1) THEN
+         IF (IFVNOD(1,I) == 1) THEN
             IEL=IFVNOD(2,I)
             KSI=RFVNOD(1,I)
             ETA=RFVNOD(2,I)
@@ -602,7 +601,7 @@ C
             N2=ELEMA(2,IEL)
             N3=ELEMA(3,IEL)
 C
-            IF (TAGELA(IEL).GT.0) THEN
+            IF (TAGELA(IEL) > 0) THEN
                X1=XXX(1,N1)
                Y1=XXX(2,N1)
                Z1=XXX(3,N1)
@@ -621,7 +620,7 @@ C
                VZ1=VVV(3,N1)
                VZ2=VVV(3,N2)
                VZ3=VVV(3,N3)
-            ELSEIF (TAGELA(IEL).LT.0) THEN
+            ELSEIF (TAGELA(IEL) < 0) THEN
                X1=XXXA(1,N1)
                Y1=XXXA(2,N1)
                Z1=XXXA(3,N1)
@@ -648,7 +647,7 @@ C
             VNOD(2,I)=(UN-KSI-ETA)*VY1+KSI*VY2+ETA*VY3
             VNOD(3,I)=(UN-KSI-ETA)*VZ1+KSI*VZ2+ETA*VZ3
 C
-         ELSEIF (IFVNOD(1,I).EQ.2) THEN
+         ELSEIF (IFVNOD(1,I) == 2) THEN
             I2=IFVNOD(3,I)
 
 c           PNOD(1,I)=XXXA(1,I2)
@@ -662,12 +661,12 @@ c           VNOD(3,I)=VVVA(3,I2)
 
          ENDIF
       ENDDO
-!$OMP END DO  
+!$OMP END DO
 
 C internal node
 !$OMP DO SCHEDULE(GUIDED,1)
       DO I=1,NNS
-         IF (IFVNOD(1,I).EQ.3) THEN
+         IF (IFVNOD(1,I) == 3) THEN
             I1=IFVNOD(2,I)
             I2=IFVNOD(3,I)
             FAC=RFVNOD(1,I)
@@ -706,7 +705,7 @@ C Normale, aire et vitesse grille au centre des triangles
          NRZ=X12*Y13-Y12*X13
          AREA2=SQRT(NRX**2+NRY**2+NRZ**2)
          PAREA(I)=UNDEMI*AREA2
-         IF (AREA2.GT.0) THEN
+         IF (AREA2 > 0) THEN
             PNORM(1,I)=NRX/AREA2
             PNORM(2,I)=NRY/AREA2
             PNORM(3,I)=NRZ/AREA2
@@ -731,52 +730,54 @@ C Normale, aire et vitesse grille au centre des triangles
       ENDDO
 !$OMP END DO
 C Volume des polyhedres
-               
-!$OMP DO SCHEDULE(GUIDED,1) 
+
+!$OMP DO SCHEDULE(GUIDED,1)
       DO I=1,NPOLH
          PVOLU(I)= ZERO
          PVOLTMP = ZERO
+         AREA_MAX(I) = ZERO
 C Boucle sur les polygones du polyhedre
          DO J=IFVPADR(I),IFVPADR(I+1)-1
             JJ=IFVPOLH(J)
 C Boucle sur les triangles du polygone
             DO K=IFVTADR(JJ), IFVTADR(JJ+1)-1
                KK=IFVPOLY(K)
-               AREA=PAREA(KK)
+               AREA=PAREA(KK) !triangle area7
+               AREA_MAX(I)=MAX(AREA_MAX(I), AREA)
                IEL=IFVTRI(4,KK)
-               IF (IEL.GT.0) THEN
+               IF (IEL > 0) THEN
                   NX=PNORM(1,KK)
                   NY=PNORM(2,KK)
                   NZ=PNORM(3,KK)
                ELSE
                   I1 =IFVTRI(5,KK)
                   I2 =IFVTRI(6,KK)
-                  IF (I1.EQ.I) THEN
+                  IF (I1 == I) THEN
                      NX=PNORM(1,KK)
                      NY=PNORM(2,KK)
                      NZ=PNORM(3,KK)
                   ENDIF
-                  IF (I2.EQ.I) THEN
+                  IF (I2 == I) THEN
                      NX=-PNORM(1,KK)
                      NY=-PNORM(2,KK)
                      NZ=-PNORM(3,KK)
-                  ENDIF 
-                  IF (I1.EQ.I.AND.I2.EQ.I) THEN
+                  ENDIF
+                  IF (I1 == I.AND.I2 == I) THEN
                      NX=ZERO
                      NY=ZERO
                      NZ=ZERO
-                  ENDIF   
-               ENDIF      
+                  ENDIF
+               ENDIF
                N1=IFVTRI(1,KK)
                X1=PNOD(1,N1)
                Y1=PNOD(2,N1)
                Z1=PNOD(3,N1)
                PVOLTMP=PVOLTMP+TIERS*AREA*(X1*NX+Y1*NY+Z1*NZ)
-            ENDDO
-         ENDDO
+            ENDDO! next K(triangle)
+         ENDDO! next J (polygon)
          PVOLU(I) = PVOLTMP
-      ENDDO
-!$OMP END DO 
+      ENDDO! next I (polyedron)
+!$OMP END DO
 !$OMP END PARALLEL
 C---------------------------------------------------
 C Verifications
@@ -784,7 +785,7 @@ C---------------------------------------------------
       AREAP=ZERO
       DO I=1,NNTR
          IEL=IFVTRI(4,I)
-         IF (IEL.GT.0) AREAP=AREAP+PAREA(I)
+         IF (IEL > 0) AREAP=AREAP+PAREA(I)
       ENDDO
       AREAEL=ZERO
       DO IEL=1,NEL
@@ -796,13 +797,13 @@ C---------------------------------------------------
       EXIT_NEG_VOL = .FALSE.
       DO I=1,NPOLH
          VOLPH=VOLPH+PVOLU(I)
-         IF(PVOLU(I) .LE. 0) EXIT_NEG_VOL = .TRUE.
+         IF(PVOLU(I)  <=  0) EXIT_NEG_VOL = .TRUE.
       ENDDO
 
       IPRI=MOD(NCYCLE,IABS(NCPRI))
       IF(EXIT_NEG_VOL) THEN
        DO I=1,NPOLH
-         IF (PVOLU(I).LE.ZERO) THEN
+         IF (PVOLU(I) <= ZERO) THEN
             INFO=1
             IERR=IERR+1
             CALL ANCMSG(MSGID=185,ANMODE=ANINFO,
@@ -811,12 +812,12 @@ C---------------------------------------------------
          ENDIF
        ENDDO
       ENDIF
-	  
-	  
+
+
 C---------------------------------------------------
 C Calcul des quantites dans les polyhedres
 C---------------------------------------------------
-      IF (DT1.EQ.ZERO) THEN
+      IF (DT1 == ZERO) THEN
          GAMAI=RVOLU(1)
          GPOLH(1:NPOLH)=GAMAI
          CPAI =RVOLU(7)
@@ -837,7 +838,7 @@ C---------------------------------------------------
          CPFPOLH(1:NPOLH)=CPFI
          RHOI =RVOLU(62)
          RPOLH(1:NPOLH)=RHOI
-      ENDIF 
+      ENDIF
       IF (DT1==ZERO.OR.IVOLU(39)==0) THEN
          RHOI =RVOLU(62)
          EFAC =RVOLU(66)
@@ -853,24 +854,24 @@ C---------------------------------------------------
 
       PEXT =RVOLU(3)
       IF(IVOLU(39) == 0) GO TO 250
-	  
+
 C---------------------------------------------------
 C Injecteurs
 C---------------------------------------------------
       DATAINJ(1:6,1:NJET)=ZERO
       DO IEL=1,NELT
-         IF (ITAGEL(IEL).GT.0) THEN
+         IF (ITAGEL(IEL) > 0) THEN
             IINJ=ITAGEL(IEL)
             DATAINJ(1,IINJ)=DATAINJ(1,IINJ)+ELAREA(IEL)
          ENDIF
-      ENDDO     
+      ENDDO
 C
-      SCALT =RVOLU(26)    
-      IF(ITYP.EQ.6) THEN
-        CALL FVINJT6(NJET, IBAGJET, RBAGJET, NPC, TF, SENSOR, 
+      SCALT =RVOLU(26)
+      IF(ITYP == 6) THEN
+        CALL FVINJT6(NJET, IBAGJET, RBAGJET, NPC, TF, SENSOR,
      .               SCALT, DATAINJ )
-      ELSEIF(ITYP.EQ.8) THEN
-        CALL FVINJT8(NJET, IBAGJET, RBAGJET, NPC, TF, SENSOR, 
+      ELSEIF(ITYP == 8) THEN
+        CALL FVINJT8(NJET, IBAGJET, RBAGJET, NPC, TF, SENSOR,
      .               SCALT, IGEO, GEO, PM, IVOLU, DATAINJ )
       ENDIF
 C
@@ -878,7 +879,7 @@ C
          ISENS=IBAGJET(4,IINJ)
          FVEL=RBAGJET(15,IINJ)
          IVEL=IBAGJET(11,IINJ)
-         IF(ISENS.EQ.0)THEN
+         IF(ISENS == 0)THEN
           TSTART=ZERO
          ELSE
           TSTART=SENSOR(2,ISENS)
@@ -887,16 +888,16 @@ C        ITTF : 1 shift event time (can be removed in a later version)
 C        ITTF : 2 shift event time + event function
 C        ITTF : 1 or 2 +10 1 flag has been activated and RVOLU(60) is filled
          ITTF=IVOLU(17)
-         IF (TT.GE.TSTART.AND.(ITTF.EQ.1.OR.ITTF.EQ.2.OR.ITTF.EQ.3))THEN
+         IF (TT >= TSTART.AND.(ITTF == 1.OR.ITTF == 2.OR.ITTF == 3))THEN
 C        ITTF ne doit etre declenche que si TT plus grand que TSTART
 C        ce qui etait fait avant n'avait pas d'effet
            ITTF=ITTF+10
            RVOLU(60)=TSTART
            IVOLU(17)=ITTF
          END IF
-         IF (TT.GE.TSTART.AND.DT1.GT.ZERO)THEN
+         IF (TT >= TSTART.AND.DT1 > ZERO)THEN
            TSG=(TT-TSTART)*SCALT
-           IF (IVEL.GT.0) THEN
+           IF (IVEL > 0) THEN
               INJVEL=FVEL*FINTER(IVEL,TSG,NPC,TF,DYDX)
            ELSE
               INJVEL = FVEL
@@ -909,27 +910,27 @@ C        ce qui etait fait avant n'avait pas d'effet
 C---------------------------------------------------
 C Vent holes
 C---------------------------------------------------
-      IF (INTBAG.EQ.0) THEN
+      IF (INTBAG == 0) THEN
          PORO(1:NELT)=ZERO
       ELSE
 !$OMP PARALLEL PRIVATE(IEL,N1,N2,N3)
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(GUIDED,1)
          DO IEL=1,NELT
             N1=ELEM(1,IEL)
             N2=ELEM(2,IEL)
             N3=ELEM(3,IEL)
             PORO(IEL)=ZERO
-            IF (ICONT(N1).NE.0) PORO(IEL)=PORO(IEL)+TIERS
-            IF (ICONT(N2).NE.0) PORO(IEL)=PORO(IEL)+TIERS
-            IF (ICONT(N3).NE.0) PORO(IEL)=PORO(IEL)+TIERS
+            IF (ICONT(N1) /= 0) PORO(IEL)=PORO(IEL)+TIERS
+            IF (ICONT(N2) /= 0) PORO(IEL)=PORO(IEL)+TIERS
+            IF (ICONT(N3) /= 0) PORO(IEL)=PORO(IEL)+TIERS
          ENDDO
 !$OMP END DO
 !$OMP END PARALLEL
       ENDIF
 C
       PEXT =RVOLU(3)
-      SCALT=RVOLU(26)    
-      SCALP=RVOLU(27)    
+      SCALT=RVOLU(26)
+      SCALP=RVOLU(27)
       SCALS=RVOLU(28)
       TTF  =RVOLU(60)
 C-----------------------------------------------------------
@@ -984,16 +985,16 @@ C----------------------
          PU(2,1:NPOLH)=QPOLH(2,1:NPOLH)/MPOLH(1:NPOLH)
          PU(3,1:NPOLH)=QPOLH(3,1:NPOLH)/MPOLH(1:NPOLH)
 !$OMP END SECTIONS
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(GUIDED,1)
       DO I=1,NPOLH
          DO J=IFVPADR(I),IFVPADR(I+1)-1
             JJ=IFVPOLH(J)
             DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
               KK=IFVPOLY(K)
               IEL=ABS(IFVTRI(4,KK))
-              JEL=IFVTRI(4,KK)               
+              JEL=IFVTRI(4,KK)
               AREA=PAREA(KK)
-              IF(JEL.EQ.0) THEN
+              IF(JEL == 0) THEN
 C Permeabilite du triangle interne
                  N1=IFVTRI(1,KK)
                  N2=IFVTRI(2,KK)
@@ -1035,11 +1036,11 @@ C----------------
             DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
                KK  =IFVPOLY(K)
                IEL =ABS(IFVTRI(4,KK))
-               JEL =IFVTRI(4,KK)               
+               JEL =IFVTRI(4,KK)
                AREA=PAREA(KK)
-               IF (AREA.EQ.ZERO) CYCLE
+               IF (AREA == ZERO) CYCLE
                boolTAGEL = .FALSE.
-               IF(IEL.GT.0)THEN
+               IF(IEL > 0)THEN
                  IF(ITAGEL(IEL) > 0)boolTAGEL = .TRUE.
                ENDIF
                ! IF (JEL > 0.OR.(JEL < 0.AND.ITAGEL(IEL) > 0)) THEN debuger issue in case of IEL=0 (out of bounds)
@@ -1050,19 +1051,19 @@ C----------------
                   NRZ=NORM(3,IEL)
                   NV = 0
                   IF(JEL < 0) THEN
-                     IF    (IFVTRI(5,KK).EQ.I) THEN
+                     IF    (IFVTRI(5,KK) == I) THEN
                         NV=IFVTRI(6,KK)
                         NX=PNORM(1,KK)
                         NY=PNORM(2,KK)
                         NZ=PNORM(3,KK)
-                     ELSEIF(IFVTRI(6,KK).EQ.I) THEN
+                     ELSEIF(IFVTRI(6,KK) == I) THEN
                         NV=IFVTRI(5,KK)
                         NX=-PNORM(1,KK)
                         NY=-PNORM(2,KK)
                         NZ=-PNORM(3,KK)
                      ENDIF
 C Test si polyedre voisin a ete calcule
-                     IF (NV .LT. I) GOTO 100
+                     IF (NV  <  I) GOTO 100
                      FAC=NX*NRX+NY*NRY+NZ*NRZ
                      IF(FAC < 0) II=NV
                   ENDIF
@@ -1070,7 +1071,7 @@ C--------------------------------------------
 C Triangle appuye sur l'enveloppe de l'airbag
 C Triangle interne injecteur
 C--------------------------------------------
-                  IF (ITAGEL(IEL).GT.0) THEN
+                  IF (ITAGEL(IEL) > 0) THEN
 C Injecteur
                      IINJ=ITAGEL(IEL)
                      DMI=DATAINJ(2,IINJ)*AREA/DATAINJ(1,IINJ)
@@ -1091,7 +1092,7 @@ C Melange des gaz
                      DMCPB(II)=DMCPB(II)+DMI*RBAGJET(3,IINJ)
                      DMCPC(II)=DMCPC(II)+DMI*RBAGJET(4,IINJ)
                      DMRMW(II)=DMRMW(II)+DMI*RBAGJET(1,IINJ)
-                     IF(ITYP.EQ.8) THEN
+                     IF(ITYP == 8) THEN
                        DMCPD(II)=DMCPD(II)+DMI*RBAGJET(16,IINJ)
                        DMCPE(II)=DMCPE(II)+DMI*RBAGJET(17,IINJ)
                        DMCPF(II)=DMCPF(II)+DMI*RBAGJET(18,IINJ)
@@ -1100,7 +1101,7 @@ C
                      ELFMASS(IEL)=ELFMASS(IEL)+DMI*DT1
                      ELFEHPY(IEL)=ELFEHPY(IEL)+DEI*DT1
                      ELFVEL(IEL) =-DATAINJ(3,IINJ)
-                  ELSEIF (ITAGEL(IEL).LT.0) THEN
+                  ELSEIF (ITAGEL(IEL) < 0) THEN
 C Vent hole
                      IVENT  =-ITAGEL(IEL)
                      IDEF   =IBAGHOL(1,IVENT)
@@ -1118,13 +1119,13 @@ C
                      UY1=PU(2,I)
                      UZ1=PU(3,I)
                      UU =ZERO
-C LOCAL VELOCITY 
-                     IF (ITVENT.EQ.1) THEN
+C LOCAL VELOCITY
+                     IF (ITVENT == 1) THEN
                         UU=NX*UX1+NY*UY1+NZ*UZ1
                         RHO2=RHO1
                         IF(P1 < PEXT) UU=ZERO
 C BERNOUILLI
-                     ELSEIF ((ITVENT==2.AND.P1>ZERO).OR.(ITVENT==4.AND.P1>=PEXT)) THEN					 
+                     ELSEIF ((ITVENT==2.AND.P1>ZERO).OR.(ITVENT==4.AND.P1>=PEXT)) THEN
                         VV=NX*UX1+NY*UY1+NZ*UZ1
                         VV=MAX(VV,ZERO)
                         ETA=(GAMA1-UN)/GAMA1
@@ -1141,14 +1142,14 @@ C BERNOUILLI
                         VMAX=MAX(VMAX,ZERO)
                         UU=MIN(UU,VMAX)
 C CHEMKIN
-                     ELSEIF (ITVENT.EQ.3) THEN
+                     ELSEIF (ITVENT == 3) THEN
                         P2=P1-PEXT
                         IVDP=IBAGHOL(9,IVENT)
                         FVDP=RBAGHOL(13,IVENT)
                         UU=FVDP*GET_U_FUNC(IVDP,P2*SCALP,DERI)
                         IF(P2 < ZERO) THEN
                           RHO2=RVOLU(62)
-                        ELSE 
+                        ELSE
                           RHO2=RHO1
                         ENDIF
 C BERNOUILLI with flow-in
@@ -1177,7 +1178,7 @@ C GRAEFE
 C
                      ENDIF
 C
-                     IF (UU.GT.ZERO.AND.IDEF.EQ.1) THEN
+                     IF (UU > ZERO.AND.IDEF == 1) THEN
                         DMOUT=UU*RHO2*AOUT
                         DM(I)=DM(I)-DMOUT
                         DQ(1,I)=DQ(1,I)-DMOUT*UX1
@@ -1194,7 +1195,7 @@ C
                         DMCPB(I)=DMCPB(I)-DMOUT*CPBI
                         DMCPC(I)=DMCPC(I)-DMOUT*CPCI
                         DMRMW(I)=DMRMW(I)-DMOUT*RMWI
-                        IF(ITYP.EQ.8) THEN
+                        IF(ITYP == 8) THEN
                           CPDI=CPDPOLH(I)
                           CPEI=CPEPOLH(I)
                           CPFI=CPFPOLH(I)
@@ -1209,7 +1210,7 @@ C
                         ELDEHPY(IEL)=-DHOUT
                      ENDIF
 C
-                     IF (UU.LT.ZERO.AND.IDEF.EQ.1) THEN
+                     IF (UU < ZERO.AND.IDEF == 1) THEN
                         DMI=-UU*RHO2*AOUT
                         DM(I)=DM(I)+DMI
                         DQ(1,I)=DQ(1,I)+DMI*UX1
@@ -1223,7 +1224,7 @@ C
                         DMCPB(I)=DMCPB(I)+DMI*CPBI
                         DMCPC(I)=DMCPC(I)+DMI*CPCI
                         DMRMW(I)=DMRMW(I)+DMI*RMWI
-                        IF(ITYP.EQ.8) THEN
+                        IF(ITYP == 8) THEN
                           CPDI=RVOLU(56)
                           CPEI=RVOLU(57)
                           CPFI=RVOLU(58)
@@ -1244,19 +1245,19 @@ C----------------------------------------------------------------
 C Triangle interne non injecteur => communication entre polyedres
 C----------------------------------------------------------------
                   NV = 0
-                  IF (IFVTRI(5,KK).EQ.I) THEN
+                  IF (IFVTRI(5,KK) == I) THEN
                      NV=IFVTRI(6,KK)
                      NX=PNORM(1,KK)
                      NY=PNORM(2,KK)
                      NZ=PNORM(3,KK)
-                  ELSEIF (IFVTRI(6,KK).EQ.I) THEN
+                  ELSEIF (IFVTRI(6,KK) == I) THEN
                      NV=IFVTRI(5,KK)
                      NX=-PNORM(1,KK)
                      NY=-PNORM(2,KK)
                      NZ=-PNORM(3,KK)
                   ENDIF
 C Test si polyedre voisin a ete calcule
-                  IF (NV .LE. I) GOTO 100
+                  IF (NV  <=  I) GOTO 100
                   RHO1=RPOLH(I)
                   RE1=EPOLH(I)/PVOLU(I)
                   UX1=PU(1,I)
@@ -1270,14 +1271,14 @@ C Test si polyedre voisin a ete calcule
                   UZ2=PU(3,NV)
                   GAMA2=GPOLH(NV)
 C
-                  VFX=UNDEMI*(UX1+UX2)                  
+                  VFX=UNDEMI*(UX1+UX2)
                   VFY=UNDEMI*(UY1+UY2)
                   VFZ=UNDEMI*(UZ1+UZ2)
-                  IF(JEL.EQ.0) THEN
+                  IF(JEL == 0) THEN
 C Permeabilite du triangle interne
                     HM1=HMIN(KK)
                     H1 = UN-RVOLU(51)/HM1
-                    IF(H1 > 0) THEN 
+                    IF(H1 > 0) THEN
                       AREA=AREA*H1
                     ELSE
                       AREA = ZERO
@@ -1286,14 +1287,14 @@ C Permeabilite du triangle interne
 C                   AREA=AREA*MAX(ZERO,UN-RVOLU(51)/HM1)
                   ELSE
 C Triangle appuy sur structure interne => flux fonction de la porosite
-                    IF(POROSITY(IEL-NEL).EQ.ZERO) GOTO 50
+                    IF(POROSITY(IEL-NEL) == ZERO) GOTO 50
                     AREA=AREA*POROSITY(IEL-NEL)
                   ENDIF
 C
                   SS=NX*(VFX-VGRID(1,KK))+NY*(VFY-VGRID(2,KK))
      .              +NZ*(VFZ-VGRID(3,KK))
 C Full upwind
-                  IF (SS.LE.ZERO) THEN
+                  IF (SS <= ZERO) THEN
                      ALPHA=ZERO
                   ELSE
                      ALPHA=UN
@@ -1345,7 +1346,7 @@ C
                      ELFVEL(IEL) =ELFVEL(IEL) +SS*AREA/ELAREA(IEL)
                   ENDIF
 C Melange des gaz
-c$$$                  IF (SS.GT.ZERO) THEN
+c$$$                  IF (SS > ZERO) THEN
 c$$$                     DMINI(I)=DMINI(I)-MASSFLOW
 c$$$                     DMCPA(NV)=DMCPA(NV)+MASSFLOW*CPAPOLH(I)
 c$$$                     DMCPB(NV)=DMCPB(NV)+MASSFLOW*CPBPOLH(I)
@@ -1358,8 +1359,8 @@ c$$$                     DMCPB(I)=DMCPB(I)-MASSFLOW*CPBPOLH(NV)
 c$$$                     DMCPC(I)=DMCPC(I)-MASSFLOW*CPCPOLH(NV)
 c$$$                     DMRMW(I)=DMRMW(I)-MASSFLOW*RMWPOLH(NV)
 c$$$                  ENDIF
-c$$$                  IF(ITYP.EQ.8) THEN
-c$$$                    IF (SS.GT.ZERO) THEN
+c$$$                  IF(ITYP == 8) THEN
+c$$$                    IF (SS > ZERO) THEN
 c$$$                       DMCPD(NV)=DMCPD(NV)+MASSFLOW*CPDPOLH(I)
 c$$$                       DMCPE(NV)=DMCPE(NV)+MASSFLOW*CPEPOLH(I)
 c$$$                       DMCPF(NV)=DMCPF(NV)+MASSFLOW*CPFPOLH(I)
@@ -1393,7 +1394,7 @@ C
          DQ(1,I)=ZERO
          DQ(2,I)=ZERO
          DQ(3,I)=ZERO
-         DE(I)=ZERO		 
+         DE(I)=ZERO
          IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO) THEN
            TPOLH(I)=ZERO
          ELSE
@@ -1404,7 +1405,7 @@ C Melange des gaz
            CPC=(MSINI*CPCPOLH(I)+DMCPC(I)*DT1)/MPOLH(I)
            RMW=(MSINI*RMWPOLH(I)+DMRMW(I)*DT1)/MPOLH(I)
            EFAC=EPOLH(I)/MPOLH(I)
-           IF(ITYP.EQ.8) THEN
+           IF(ITYP == 8) THEN
              CPD=(MSINI*CPDPOLH(I)+DMCPD(I)*DT1)/MPOLH(I)
              CPE=(MSINI*CPEPOLH(I)+DMCPE(I)*DT1)/MPOLH(I)
              CPF=(MSINI*CPFPOLH(I)+DMCPF(I)*DT1)/MPOLH(I)
@@ -1420,7 +1421,7 @@ C-------------------------
            CPAPOLH(I)=CPA
            CPBPOLH(I)=CPB
            CPCPOLH(I)=CPC
-           IF(ITYP.EQ.8) THEN
+           IF(ITYP == 8) THEN
              CPDPOLH(I)=CPD
              CPEPOLH(I)=CPE
              CPFPOLH(I)=CPF
@@ -1439,68 +1440,218 @@ C---------------------------------------------------
            RPOLH(I)=MPOLH(I)/PVOLU(I)
            PPOLH(I)=RPOLH(I)*RMW*TEMP
          ENDIF
-      ENDDO                              
+      ENDDO
 !$OMP END DO NOWAIT
 
 C---------------------------------------------------
-C Qa, Qb et stabilite
+C TIME STEP & ARTIFICIAL VISCOSITY
 C---------------------------------------------------
       DTX=EP30
       PHDT=0
       QA=RVOLU(46)
       QB=RVOLU(47)
-      DO I=1,NPOLH
-         IF (IBPOLH(I)==0.AND.IDTMIN(52) < 2) THEN
-C Polyedre
-C Longueur constante calculee dans le Starter
-            DLS(I)=DLH
-         ELSE
-C Brique additionelle
-            DLS(I)=PVOLU(I)**THIRD
-         ENDIF
-      ENDDO
 
-!$OMP DO SCHEDULE(GUIDED,1) 
+                  !--------!---------------!------------------------------------------------------
+                  ! VALUE    HOW TO ENABLE    DESCRIPTION
+      !-----------!--------!---------------!------------------------------------------------------
+      !IDTMIN(52) : 0,1      default           legacy time step formulation
+      !             2       /DT/FVMBAG/2       face by face
+      !             3       /DT/FVMBAG/3       characteristic length calculated (more restrictive)
+      !-----------!--------!---------------!------------------------------------------------------
+
+      !-----------------------------------
+      ! CHARACTERISTIC LENGTH
+      !-----------------------------------
+      SELECT CASE (IDTMIN(52))
+
+        CASE(0,1) ! lc=Vol**1/3
+          DO I=1,NPOLH
+             IF (IBPOLH(I)==0.AND.IDTMIN(52) < 2) THEN
+                DLS(I)=DLH ! constant length calculated during starter
+             ELSE
+               DLS(I)=PVOLU(I)**THIRD
+             ENDIF
+          ENDDO
+
+        CASE(2) !characteristic length not used
+           DO I=1,NPOLH
+                DLS(I)=PVOLU(I)
+          ENDDO
+
+        CASE(3)
+          DO I=1,NPOLH ! lc=Vol/Surf_max
+             !IF (IBPOLH(I)==0.AND.IDTMIN(52) < 2) THEN
+             !   DLS(I)=DLH ! constant length from starter
+             !ELSE
+                DLS(I)=PVOLU(I)/ AREA_MAX(I)
+             !ENDIF
+          ENDDO
+
+      END SELECT
+
+      !-----------------------------------
+      ! TIME STEP
+      !-----------------------------------
+        !FAC_W = ZERO !ignore grid velocity for time step (previous formulation)
+        FAC_W = UN  !use grid velocity
+
+      SELECT CASE (IDTMIN(52))
+
+        CASE(0,1)
+!$OMP DO SCHEDULE(GUIDED,1)
       DO I=1,NPOLH
          IF(MPOLH(I).LE.ZERO.OR.EPOLH(I).LE.ZERO.OR.GPOLH(I).LE.UN) THEN
-            DTPOLH(I)=EP30
-            QVISC(I) =ZERO
-         ELSE 
+           DTPOLH(I)=EP30
+           QVISC(I) =ZERO
+         ELSE
+           AL=PVOLU(I)**THIRD
+           DD=DM(I)/MPOLH(I)
+           AD=MAX(ZERO,DD)
+           GAMA=GPOLH(I)
+           SSP=SQRT((GAMA-UN)*GAMA*EPOLH(I)/MPOLH(I))
+           QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)
 C
-         AL=PVOLU(I)**THIRD
-         DD=DM(I)/MPOLH(I)
-         AD=MAX(ZERO,DD)
-         GAMA=GPOLH(I)
-         SSP=SQRT((GAMA-UN)*GAMA*EPOLH(I)/MPOLH(I))
-         QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)
-C
-         QX=QB*SSP+AL*QA*QA*AD
-         SSP=QX+SQRT(QX*QX+SSP*SSP)
-         VV=SQRT(PU(1,I)**2+PU(2,I)**2+PU(3,I)**2)
-         DTPOLH(I)=CFL_COEF*DLS(I)/(SSP+VV)
-C         DTPOLH(I)=DTFAC1(52)*DLS(I)/(SSP+VV)
+           QX=QB*SSP+AL*QA*QA*AD
+           SSP=QX+SQRT(QX*QX+SSP*SSP)
+           VV=SQRT(PU(1,I)**2+PU(2,I)**2+PU(3,I)**2)
+           DTPOLH(I)=CFL_COEF*DLS(I)/(SSP+VV)
          ENDIF
       ENDDO
 !$OMP END DO
+
+        CASE(2) ! check all faces and compute normal relative velocities
+
+!$OMP DO SCHEDULE(GUIDED,1)
+          DO I=1,NPOLH
+             IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= UN) THEN
+                DTPOLH(I)=EP30
+                QVISC(I) =ZERO
+             ELSE
+               GAMA=GPOLH(I)
+               ! 1.calculating Grid Velocity for each polyedron
+               PW(1:3,I)=ZERO
+               Denom_max = ZERO
+               DO J=IFVPADR(I),IFVPADR(I+1)-1
+                  JJ=IFVPOLH(J)
+                  NTRIA = IFVTADR(JJ+1) - IFVTADR(JJ)
+                  WSURF(1:3)=ZERO
+                  DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
+                     KK  =IFVPOLY(K)
+                     AREA=PAREA(KK)
+
+                     IEL1=IFVTRI(5, KK)
+                     IEL2=IFVTRI(6, KK)
+                     IF(IEL2==0)IEL2=I !bounday surface
+                     IF(IEL1==0)IEL1=I
+
+                     VMAT(1) = UNDEMI*(PU(1,IEL1)+PU(1,IEL2))
+                     VMAT(2) = UNDEMI*(PU(2,IEL1)+PU(2,IEL2))
+                     VMAT(3) = UNDEMI*(PU(3,IEL1)+PU(3,IEL2))
+                     SSP1= SQRT((GAMA-UN)*GAMA*EPOLH(IEL1)/MPOLH(IEL1))
+                     SSP2= SQRT((GAMA-UN)*GAMA*EPOLH(IEL2)/MPOLH(IEL2))
+                     SSPt = UNDEMI*(SSP1+SSP2)
+                     TMP_VEC(1) = (VMAT(1)-VGRID(1,KK))*PNORM(1,KK)
+                     TMP_VEC(2) = (VMAT(2)-VGRID(2,KK))*PNORM(2,KK)
+                     TMP_VEC(3) = (VMAT(3)-VGRID(3,KK))*PNORM(3,KK)
+                     Denom = AREA*SQRT(TMP_VEC(1)*TMP_VEC(1)+TMP_VEC(2)*TMP_VEC(2)+TMP_VEC(3)*TMP_VEC(3)) + SSPt
+                     Denom_max = MAX(Denom, Denom_max)
+
+                  ENDDO! next K (triangle)
+               ENDDO! next J (polygon)
+               ! 2.artificial viscosity
+               AL=PVOLU(I)**THIRD
+               DD=DM(I)/MPOLH(I)
+               AD=MAX(ZERO,DD)
+               GAMA=GPOLH(I)
+               SSP=SQRT((GAMA-UN)*GAMA*EPOLH(I)/MPOLH(I))
+               QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)
+               QX=QB*SSP+AL*QA*QA*AD
+               SSP=QX+SQRT(QX*QX+SSP*SSP)
+               ! 3.time step
+               DTPOLH(I)=CFL_COEF*DLS(I)/(denom_max)
+             ENDIF
+          ENDDO
+!$OMP END DO
+
+
+        CASE(3) !time step computed from a characteristic length
+
+!$OMP DO SCHEDULE(GUIDED,1)
+          DO I=1,NPOLH
+             IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= UN) THEN
+                DTPOLH(I)=EP30
+                QVISC(I) =ZERO
+             ELSE
+               ! 1.calculating Grid Velocity for each polyedron
+               PW(1:3,I)=ZERO
+               NPOLYG = IFVPADR(I+1) - IFVPADR(I)
+               NTRIA_TOT = ZERO
+               !loop over polygons
+               DO J=IFVPADR(I),IFVPADR(I+1)-1
+                  JJ=IFVPOLH(J)
+                  NTRIA = IFVTADR(JJ+1) - IFVTADR(JJ)
+                  WSURF(1:3)=ZERO
+                  NTRIA_TOT = NTRIA_TOT + NTRIA
+                  !loop over triangles
+                  DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
+                     KK  =IFVPOLY(K)
+                     WSURF(1)=TIERS*VGRID(1,KK)
+                     WSURF(2)=TIERS*VGRID(2,KK)
+                     WSURF(3)=TIERS*VGRID(3,KK)
+                  ENDDO! next K (triangle)
+                  PW(1,I)=PW(1,I)+WSURF(1)
+                  PW(2,I)=PW(2,I)+WSURF(2)
+                  PW(3,I)=PW(3,I)+WSURF(3)
+               ENDDO! next J (polygon)
+               PW(1,I)=PW(1,I)/NTRIA_TOT
+               PW(2,I)=PW(2,I)/NTRIA_TOT
+               PW(3,I)=PW(3,I)/NTRIA_TOT
+               ! 2.artificial viscosity
+               AL=PVOLU(I)**THIRD
+               DD=DM(I)/MPOLH(I)
+               AD=MAX(ZERO,DD)
+               GAMA=GPOLH(I)
+               SSP=SQRT((GAMA-UN)*GAMA*EPOLH(I)/MPOLH(I))
+               QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)
+               QX=QB*SSP+AL*QA*QA*AD
+               SSP=QX+SQRT(QX*QX+SSP*SSP)
+               ! 3.relative velocty (PU:material velocity : PW:grid velocity)
+               TMP_VEC(1)=PU(1,I)-FAC_W*PW(1,I)
+               TMP_VEC(2)=PU(2,I)-FAC_W*PW(2,I)
+               TMP_VEC(3)=PU(3,I)-FAC_W*PW(3,I)
+               VV=SQRT(TMP_VEC(1)*TMP_VEC(1)+TMP_VEC(2)*TMP_VEC(2)+TMP_VEC(3)*TMP_VEC(3))
+               ! 4.time step
+               DTPOLH(I)=CFL_COEF*DLS(I)/(SSP+VV)
+             ENDIF
+          ENDDO
+!$OMP END DO
+
+
+
+
+      END SELECT
+
+
 !$OMP END PARALLEL
 
 
+
       DO I=1,NPOLH
-         IF (DTPOLH(I).LT.DTX) THEN
+         IF (DTPOLH(I) < DTX) THEN
             DTX=DTPOLH(I)
             PHDT=I
          ENDIF
       ENDDO
 
 
-      IF (ILVOUT >= 1.AND.IPRI.EQ.0) THEN
-         WRITE(IOUT,'(A,I10,A,E12.4,A,I10)') 
+      IF (ILVOUT >= 1.AND.IPRI == 0) THEN
+         WRITE(IOUT,'(A,I10,A,E12.4,A,I10)')
      .         ' ** MONITORED VOLUME ID: ',IVOLU(1),
      .         ' TIME STEP:',DTX,' FINITE VOLUME:',IDPOLH(PHDT)
       ENDIF
 
 C
-      IF (DTX.LT.DT2) THEN
+      IF (DTX < DT2) THEN
          DT2=DTX
          NELTS=IVOLU(1)
          ITYPTS=52
@@ -1511,7 +1662,7 @@ C---------------------------------------------------
 !$OMP PARALLEL PRIVATE(N1,N2,N3,IEL,NX,NY,NZ)
 !$OMP+ PRIVATE(VX1,VX2,VX3,VY1,VY2,VY3,VZ1,VZ2,VZ3)
 !$OMP+ PRIVATE(VVX,VVY,VVZ)
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(GUIDED,1)
       DO IEL=1,NELT
          N1=ELEM(1,IEL)
          N2=ELEM(2,IEL)
@@ -1536,19 +1687,19 @@ C---------------------------------------------------
 !$OMP END DO
 !$OMP END PARALLEL
       DO I=1,NPOLH
-         IF (MPOLH(I).LE.ZERO.OR.EPOLH(I).LE.ZERO) CYCLE
+         IF (MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO) CYCLE
          DO J=IFVPADR(I),IFVPADR(I+1)-1
             JJ=IFVPOLH(J)
             DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
                KK=IFVPOLY(K)
                IEL=IFVTRI(4,KK)
                AREA=PAREA(KK)
-               IF (AREA.EQ.ZERO) CYCLE
-               IF (IEL.GT.0) THEN
+               IF (AREA == ZERO) CYCLE
+               IF (IEL > 0) THEN
                   NX=NORM(1,IEL)
                   NY=NORM(2,IEL)
                   NZ=NORM(3,IEL)
-                  IF (ITAGEL(IEL).LT.0) THEN
+                  IF (ITAGEL(IEL) < 0) THEN
 C Vent hole
                      IVENT  =-ITAGEL(IEL)
                      IDEF   =IBAGHOL(1,IVENT)
@@ -1575,30 +1726,30 @@ C Travail des forces de pression dans le deplacement de l'airbag
                   DE(I)=DE(I)-PP*VEL(IEL)*AREA
 C Heat Loss or Gain (version 2018)
                   DE(I)=DE(I)-RVOLU(19)*AREA*(TPOLH(I)-RVOLU(25))
-               ELSEIF(IEL.EQ.0) THEN
+               ELSEIF(IEL == 0) THEN
 C Permeabilite du triangle
                   AREA_OLD=AREA
                   AREA=AREA*MAX(ZERO,UN-RVOLU(51)/HMIN(KK))
                   AREA1=AREA_OLD-AREA
 C Triangle interne = communication entre polyedres
                   NV = 0
-                  IF (IFVTRI(5,KK).EQ.I) THEN
+                  IF (IFVTRI(5,KK) == I) THEN
                      NV=IFVTRI(6,KK)
                      NX=PNORM(1,KK)
                      NY=PNORM(2,KK)
                      NZ=PNORM(3,KK)
-                  ELSEIF (IFVTRI(6,KK).EQ.I) THEN
+                  ELSEIF (IFVTRI(6,KK) == I) THEN
                      NV=IFVTRI(5,KK)
                      NX=-PNORM(1,KK)
                      NY=-PNORM(2,KK)
                      NZ=-PNORM(3,KK)
                   ENDIF
-                  IF (NV.LT.I .OR.MPOLH(NV).LE.ZERO.OR.
-     .                                  EPOLH(NV).LE.ZERO) GOTO 200
+                  IF (NV < I .OR.MPOLH(NV) <= ZERO.OR.
+     .                                  EPOLH(NV) <= ZERO) GOTO 200
                   P1=PPOLH(I)+QVISC(I)
                   P2=PPOLH(NV)+QVISC(NV)
                   PMEAN=UNDEMI*(P1+P2)
-C                 
+C
                   DQ(1,I)=DQ(1,I)-PMEAN*NX*AREA-P1*NX*AREA1
                   DQ(2,I)=DQ(2,I)-PMEAN*NY*AREA-P1*NY*AREA1
                   DQ(3,I)=DQ(3,I)-PMEAN*NZ*AREA-P1*NZ*AREA1
@@ -1612,19 +1763,19 @@ C added FA
                ELSEIF(IEL < 0) THEN
 C Triangle interne appuye sur surface interne = communication entre polyedres
                   NV = 0
-                  IF (IFVTRI(5,KK).EQ.I) THEN
+                  IF (IFVTRI(5,KK) == I) THEN
                      NV=IFVTRI(6,KK)
                      NX=PNORM(1,KK)
                      NY=PNORM(2,KK)
                      NZ=PNORM(3,KK)
-                  ELSEIF (IFVTRI(6,KK).EQ.I) THEN
+                  ELSEIF (IFVTRI(6,KK) == I) THEN
                      NV=IFVTRI(5,KK)
                      NX=-PNORM(1,KK)
                      NY=-PNORM(2,KK)
                      NZ=-PNORM(3,KK)
                   ENDIF
-                  IF (NV .LE. I .OR.MPOLH(NV).LE.ZERO.OR.
-     .                                  EPOLH(NV).LE.ZERO) GOTO 200
+                  IF (NV  <=  I .OR.MPOLH(NV) <= ZERO.OR.
+     .                                  EPOLH(NV) <= ZERO) GOTO 200
                   P1=PPOLH(I)+QVISC(I)
                   P2=PPOLH(NV)+QVISC(NV)
                   JEL=-IEL
@@ -1685,7 +1836,7 @@ C---------------------------------------------------
 C Nouvelles quantites polyhedres
 C---------------------------------------------------
 !$OMP PARALLEL PRIVATE(I)
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(GUIDED,1)
       DO I=1,NPOLH
          QPOLH(1,I)=QPOLH(1,I)+DQ(1,I)*DT1
          QPOLH(2,I)=QPOLH(2,I)+DQ(2,I)*DT1
@@ -1700,15 +1851,15 @@ C Impressions
 C---------------------------------------------------
  250  IF (ILVOUT >= 1 .AND. IPRI == 0) THEN
          WRITE(IOUT,*)
-         WRITE(IOUT,'(A25,I10,A31)') 
+         WRITE(IOUT,'(A25,I10,A31)')
      .         ' ** MONITORED VOLUME ID: ',IVOLU(1),
      .         ' - FINITE VOLUME MESH UPDATE **'
-         WRITE(IOUT,'(A,I8)') 
+         WRITE(IOUT,'(A,I8)')
      .         '    NUMBER OF FINITE VOLUMES : ',NPOLH
          WRITE(IOUT,'(A,G16.9,A17,G16.9,A1)')
      .         '    SUM VOLUME FINITE VOLUMES : ',VOLPH,
      .         '    (VOLUME AIRBAG: ',VOLG,')'
-         WRITE(IOUT,'(A,G16.9,A17,G16.9,A1)') 
+         WRITE(IOUT,'(A,G16.9,A17,G16.9,A1)')
      .         '    SUM AREA SURFACE POLYGONS : ',AREAP,
      .         '    (AREA AIRBAG  : ',AREAEL,')'
          WRITE(IOUT,*)
@@ -1731,7 +1882,7 @@ C---------------------------------------------------
          CPB=CPBPOLH(I)
          CPC=CPCPOLH(I)
          CP=CPA+CPB*TEMP+CPC*TEMP*TEMP
-         IF(ITYP.EQ.8) THEN
+         IF(ITYP == 8) THEN
            CPD=CPDPOLH(I)
            CPE=CPEPOLH(I)
            CPF=CPFPOLH(I)
@@ -1754,12 +1905,12 @@ C     Pressure dispersion
       FSAV(19) = PDISP
       INJECTION_STARTED = .FALSE.
       DO IINJ = 1, NJET
-         INJECTION_STARTED = INJECTION_STARTED .OR. (DATAINJ(2, IINJ) .GT. ZERO)
+         INJECTION_STARTED = INJECTION_STARTED .OR. (DATAINJ(2, IINJ)  >  ZERO)
       ENDDO
       IF (.NOT. INJECTION_STARTED) THEN
          PDISP = ZERO
       ENDIF
-      
+
 C
       FSAV(1)=AMTOT
       FSAV(2)=VOLPH
@@ -1775,7 +1926,7 @@ C
       ELSE
         FSAV(6) =AOUTOT
         DO IEL=1,NEL
-           IF (ITAGEL(IEL).LT.0) THEN
+           IF (ITAGEL(IEL) < 0) THEN
              IVENT=-ITAGEL(IEL)
              RBAGHOL(18,IVENT)=RBAGHOL(18,IVENT)+ELFVEL(IEL)*ELSOUT(IEL)
              RBAGHOL(19,IVENT)=RBAGHOL(19,IVENT)-ELFMASS(IEL)
@@ -1796,25 +1947,25 @@ C
         ENDDO
         FSAV(7) =FSAV(7) /MAX(AOUTOT,EM20)
         FSAV(13)=DTPOLH(PHDT)
-		
+
         IF(ITYP == 8) THEN
-           CALL FVINJT8_1(NJET, IBAGJET , RBAGJET , IGEO, GEO, PM, 
+           CALL FVINJT8_1(NJET, IBAGJET , RBAGJET , IGEO, GEO, PM,
      .                    IVOLU, RVOLU, DMOUT, DHOUT)
            TTF  =RVOLU(60)
-           IF (IVOLU(74) .EQ. 0) THEN
+           IF (IVOLU(74)  ==  0) THEN
               UP_SWITCH = TT-TTF >= RVOLU(70) .OR. NPOLH <= IVOLU(37)
            ENDIF
-           IF (IVOLU(74) .EQ. 1) THEN
+           IF (IVOLU(74)  ==  1) THEN
 C     Automatic switch to uniform pressure when dispersion of pressure is low
-              UP_SWITCH = ((PDISP .LT. PDISP_OLD) .AND. (PDISP .LT. RVOLU(73)))
+              UP_SWITCH = ((PDISP  <  PDISP_OLD) .AND. (PDISP  <  RVOLU(73)))
               UP_SWITCH = UP_SWITCH .OR. TT-TTF >= RVOLU(70)
            ENDIF
-           IF (IVOLU(74) .EQ. 2) THEN
+           IF (IVOLU(74)  ==  2) THEN
 C     Automatic switch to uniform pressure when dispersion of pressure is low
-              UP_SWITCH = ((PDISP .LT. PDISP_OLD) .AND. (PDISP .LT. RVOLU(73)))
+              UP_SWITCH = ((PDISP  <  PDISP_OLD) .AND. (PDISP  <  RVOLU(73)))
               UP_SWITCH = UP_SWITCH .AND. TT-TTF >= RVOLU(70)
            ENDIF
-           
+
            IF (UP_SWITCH) THEN
               RVOLU(12)=FSAV(3)  ! pression
               RVOLU(13)=FSAV(5)  ! temperature
@@ -1833,7 +1984,7 @@ C     Automatic switch to uniform pressure when dispersion of pressure is low
          IF (ITAGEL(IEL) > 0) THEN
             FSAV(15)=FSAV(15)+ELFMASS(IEL)
             FSAV(16)=FSAV(16)+ELFEHPY(IEL)
-         ENDIF		 
+         ENDIF
       ENDDO
       FSAV(17)=ENINT
 
@@ -1841,31 +1992,31 @@ C     Automatic switch to uniform pressure when dispersion of pressure is low
 C---------------------------------------------------
 C Vitesse fluide aux noeuds
 C---------------------------------------------------
-      IF(TT.GE.TANIM.OR.TT.GE.TOUTP.OR. NBGAUGE > 0 .OR.
-     .              (MANIM.GE.4.AND.MANIM.LE.15)) THEN
-C     Computations for anim, also needed if there are gauges. 
+      IF(TT >= TANIM.OR.TT >= TOUTP.OR. NBGAUGE > 0 .OR.
+     .              (MANIM >= 4.AND.MANIM <= 15)) THEN
+C     Computations for anim, also needed if there are gauges.
         PREPARE_ANIM = 1
         UEL(1:3,1:NELT)=ZERO
         RHOEL(1:NELT)=ZERO
         TKEL(1:NELT) =ZERO
-        SSPEL(1:NELT)=ZERO        
+        SSPEL(1:NELT)=ZERO
       ELSE
         PREPARE_ANIM = 0
       ENDIF
 
 c     PEL(1:NELT)=ZERO
 
-!$OMP PARALLEL PRIVATE(I,J,JJ,K,KK,IEL,JEL,II,NV) 
+!$OMP PARALLEL PRIVATE(I,J,JJ,K,KK,IEL,JEL,II,NV)
 !$OMP+ PRIVATE(NX,NY,NZ,NRX,NRY,NRZ)
 !$OMP+ PRIVATE(FAC,AREA)
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(GUIDED,1)
       DO I=1,NPOLH
          DO J=IFVPADR(I),IFVPADR(I+1)-1
             JJ=IFVPOLH(J)
             DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
                KK=IFVPOLY(K)
                IEL=ABS(IFVTRI(4,KK))
-               JEL=IFVTRI(4,KK)               
+               JEL=IFVTRI(4,KK)
                AREA=PAREA(KK)
                IF (JEL > 0) THEN
                   PEL(IEL)  =PEL(IEL)  +PPOLH(I)*AREA/ELAREA(IEL)
@@ -1873,18 +2024,18 @@ c     PEL(1:NELT)=ZERO
                   NRX=NORM(1,IEL)
                   NRY=NORM(2,IEL)
                   NRZ=NORM(3,IEL)
-                  IF    (IFVTRI(5,KK).EQ.I) THEN
+                  IF    (IFVTRI(5,KK) == I) THEN
                         NV=IFVTRI(6,KK)
                         NX=PNORM(1,KK)
                         NY=PNORM(2,KK)
                         NZ=PNORM(3,KK)
-                  ELSEIF(IFVTRI(6,KK).EQ.I) THEN
+                  ELSEIF(IFVTRI(6,KK) == I) THEN
                         NV=IFVTRI(5,KK)
                         NX=-PNORM(1,KK)
                         NY=-PNORM(2,KK)
                         NZ=-PNORM(3,KK)
                   ENDIF
-                  IF (NV >= I) THEN 
+                  IF (NV >= I) THEN
                     IF (NV == I) AREA=AREA*UNDEMI
                     II=I
                     FAC=NX*NRX+NY*NRY+NZ*NRZ
@@ -1893,19 +2044,19 @@ c     PEL(1:NELT)=ZERO
                   ENDIF
                ENDIF
             ENDDO  ! Fin de boucle triangle
-  300    ENDDO     ! Fin de boucle polygone
+         ENDDO     ! Fin de boucle polygone
       ENDDO        ! Fin de boucle polyedre
 !$OMP END DO
 
       IF(PREPARE_ANIM == 1) THEN
-!$OMP SINGLE                     
+!$OMP SINGLE
       DO I=1,NPOLH
          DO J=IFVPADR(I),IFVPADR(I+1)-1
             JJ=IFVPOLH(J)
             DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
                KK=IFVPOLY(K)
                IEL=ABS(IFVTRI(4,KK))
-               JEL=IFVTRI(4,KK)               
+               JEL=IFVTRI(4,KK)
                AREA=PAREA(KK)
                IF (JEL > 0) THEN
                  UEL(1,IEL)=UEL(1,IEL)+PU(1,I)*AREA/ELAREA(IEL)
@@ -1913,17 +2064,17 @@ c     PEL(1:NELT)=ZERO
                  UEL(3,IEL)=UEL(3,IEL)+PU(3,I)*AREA/ELAREA(IEL)
                  RHOEL(IEL)=RHOEL(IEL)+RPOLH(I)*AREA/ELAREA(IEL)
                  TKEL(IEL) =TKEL(IEL) +TPOLH(I)*AREA/ELAREA(IEL)
-                 SSPEL(IEL)=SSPEL(IEL)+SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*AREA/ELAREA(IEL)                 
+                 SSPEL(IEL)=SSPEL(IEL)+SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*AREA/ELAREA(IEL)
                ELSEIF (JEL < 0) THEN
                  NRX=NORM(1,IEL)
                  NRY=NORM(2,IEL)
                  NRZ=NORM(3,IEL)
-                 IF    (IFVTRI(5,KK).EQ.I) THEN
+                 IF    (IFVTRI(5,KK) == I) THEN
                        NV=IFVTRI(6,KK)
                        NX=PNORM(1,KK)
                        NY=PNORM(2,KK)
                        NZ=PNORM(3,KK)
-                 ELSEIF(IFVTRI(6,KK).EQ.I) THEN
+                 ELSEIF(IFVTRI(6,KK) == I) THEN
                        NV=IFVTRI(5,KK)
                        NX=-PNORM(1,KK)
                        NY=-PNORM(2,KK)
@@ -1939,20 +2090,20 @@ c     PEL(1:NELT)=ZERO
                  UEL(3,IEL)=UEL(3,IEL)+PU(3,II)*AREA/ELAREA(IEL)
                  RHOEL(IEL)=RHOEL(IEL)+RPOLH(II)*AREA/ELAREA(IEL)
                  TKEL(IEL) =TKEL(IEL) +TPOLH(II)*AREA/ELAREA(IEL)
-                 SSPEL(IEL)=SSPEL(IEL)+SQRT(GPOLH(II)*PPOLH(II)/RPOLH(II))*AREA/ELAREA(IEL) 
+                 SSPEL(IEL)=SSPEL(IEL)+SQRT(GPOLH(II)*PPOLH(II)/RPOLH(II))*AREA/ELAREA(IEL)
                ENDIF
             ENDDO  ! Fin de boucle triangle
   310    ENDDO     ! Fin de boucle polygone
       ENDDO        ! Fin de boucle polyedre
-!$OMP END SINGLE 
+!$OMP END SINGLE
       ENDIF
 
-    
+
 
 C------------------
 C VENT HOLES
 C------------------
-      IF(PREPARE_ANIM == 1) THEN 
+      IF(PREPARE_ANIM == 1) THEN
 !$OMP DO SCHEDULE(GUIDED,1)
         DO IEL=1,NEL
            IF(ITAGEL(IEL)<0) THEN
@@ -1962,18 +2113,31 @@ C------------------
            ENDIF
         ENDDO
 !$OMP END DO NOWAIT
-!$OMP SINGLE                     
-        U(1:3,1:NNT)=ZERO
-        RHO(1:NNT)  =ZERO
-        TK(1:NNT)   =ZERO
-        SSPK(1:NNT) =ZERO
-        VOLA(1:NNA)=ZERO
-        PA(1:NNA)=ZERO
-        RHOA(1:NNA)=ZERO
-        TKA(1:NNA)=ZERO
-        SSPKA(1:NNA)=ZERO
-        UA(1:3,1:NNA)=ZERO
-!$OMP END SINGLE 
+
+!$OMP DO SCHEDULE(GUIDED,1)
+        DO I=1,NNT
+          U(1,I)=ZERO
+          U(2,I)=ZERO
+          U(3,I)=ZERO
+          RHO(I)  =ZERO
+          TK(I)   =ZERO
+          SSPK(I) =ZERO
+        ENDDO
+!OMP END DO
+
+!$OMP DO SCHEDULE(GUIDED,1)
+        DO I=1,NNA
+          VOLA(I)=ZERO
+          PA(I)=ZERO
+          RHOA(I)=ZERO
+          TKA(I)=ZERO
+          SSPKA(I)=ZERO
+          UA(1,I)=ZERO
+          UA(2,I)=ZERO
+          UA(3,I)=ZERO
+        ENDDO
+!$OMP ENDDO
+
       ENDIF
 
 !$OMP DO SCHEDULE(GUIDED,1)
@@ -1997,7 +2161,7 @@ C------------------
          P(N2) =P(N2) +FAC2*PEL(IEL)
          P(N3) =P(N3) +FAC3*PEL(IEL)
       ENDDO
-      
+
       IF(PREPARE_ANIM == 1) THEN
         DO IEL=1,NELT
            N1=ELEM(1,IEL)
@@ -2026,18 +2190,18 @@ C------------------
            TK(N3)=TK(N3)+FAC3*TKEL(IEL)
            SSPK(N1)=SSPK(N1)+FAC1*SSPEL(IEL)
            SSPK(N2)=SSPK(N2)+FAC2*SSPEL(IEL)
-           SSPK(N3)=SSPK(N3)+FAC3*SSPEL(IEL)    
+           SSPK(N3)=SSPK(N3)+FAC3*SSPEL(IEL)
         ENDDO
 
         DO I=1,NPOLH
-           IF (IBPOLH(I).NE.0) THEN
+           IF (IBPOLH(I) /= 0) THEN
              TEMP=TPOLH(I)
              II=IABS(IBPOLH(I))
-             IF(BRNA(1,II).EQ.BRNA(4,II).AND.BRNA(5,II).EQ.BRNA(8,II))THEN
+             IF(BRNA(1,II) == BRNA(4,II).AND.BRNA(5,II) == BRNA(8,II))THEN
 C Pentaedre
                 DO K=1,6
                  J=K
-                 IF(K.GE.4) J=J+1
+                 IF(K >= 4) J=J+1
                  JJ=BRNA(J,II)
                  VOLA(JJ)=VOLA(JJ)+UNSIX*PVOLU(I)
                  PA(JJ)=PA(JJ)+UNSIX*PPOLH(I)*PVOLU(I)
@@ -2047,10 +2211,10 @@ C Pentaedre
                  UA(1,JJ)=UA(1,JJ)+UNSIX*PU(1,I)*PVOLU(I)
                  UA(2,JJ)=UA(2,JJ)+UNSIX*PU(2,I)*PVOLU(I)
                  UA(3,JJ)=UA(3,JJ)+UNSIX*PU(3,I)*PVOLU(I)
-                ENDDO           
-             ELSEIF(BRNA(5,II).EQ.BRNA(8,II).AND.
-     .              BRNA(6,II).EQ.BRNA(8,II).AND.
-     .              BRNA(7,II).EQ.BRNA(8,II))THEN
+                ENDDO
+             ELSEIF(BRNA(5,II) == BRNA(8,II).AND.
+     .              BRNA(6,II) == BRNA(8,II).AND.
+     .              BRNA(7,II) == BRNA(8,II))THEN
 C Pyramide
                 DO J=1,5
                  JJ=BRNA(J,II)
@@ -2091,7 +2255,7 @@ C Brique ou Tetraedre
              UA(2,I)=UA(2,I)/VOLNO
              UA(3,I)=UA(3,I)/VOLNO
            ENDIF
-        ENDDO 
+        ENDDO
       ENDIF ! prepare_anim
 
 
@@ -2105,7 +2269,7 @@ C---------------------------------------------------
 
 C
       DO IEL=1,NEL
-         IF (ITAGEL(IEL).LT.0) THEN
+         IF (ITAGEL(IEL) < 0) THEN
             IVENT=-ITAGEL(IEL)
             AREA_VENT(IVENT)=AREA_VENT(IVENT)+ELAREA(IEL)
             PM_VENT(IVENT)=PM_VENT(IVENT)+FEL(IEL)
@@ -2115,7 +2279,7 @@ C
 
 
       DO IVENT=1,NVENT
-         IF (AREA_VENT(IVENT).GT.ZERO) THEN
+         IF (AREA_VENT(IVENT) > ZERO) THEN
             PM_VENT(IVENT)=PM_VENT(IVENT)/AREA_VENT(IVENT)
          ELSE
             PM_VENT(IVENT)=ZERO
@@ -2125,26 +2289,26 @@ C
          IDTPDEF= IBAGHOL(11,IVENT)
          IDPDEF = IBAGHOL(12,IVENT)
 C
-         IF(IDEF.EQ.2) CYCLE
+         IF(IDEF == 2) CYCLE
 C
          PDEF   =RBAGHOL(1,IVENT)
          DTPDEFI=RBAGHOL(4,IVENT)
          DTPDEFC=RBAGHOL(5,IVENT)
          TVENT  =RBAGHOL(3,IVENT)
          TSTOPE =RBAGHOL(14,IVENT)
-         IF (IDTPDEF.EQ.0) THEN
-          IF(PM_VENT(IVENT).GT.PDEF+PEXT) THEN
+         IF (IDTPDEF == 0) THEN
+          IF(PM_VENT(IVENT) > PDEF+PEXT) THEN
             DTPDEFC = DTPDEFC+DT1
           END IF
-         ELSE IF (IDTPDEF.EQ.1) THEN
-           IF (PM_VENT(IVENT).GT.PDEF+PEXT) THEN
+         ELSE IF (IDTPDEF == 1) THEN
+           IF (PM_VENT(IVENT) > PDEF+PEXT) THEN
              IDPDEF = 1
            END IF
-           IF (IDPDEF.EQ.1) THEN
+           IF (IDPDEF == 1) THEN
              DTPDEFC = DTPDEFC+DT1
            END IF
          END IF
-         IBAGHOL(12,IVENT) = IDPDEF 
+         IBAGHOL(12,IVENT) = IDPDEF
          RBAGHOL(5,IVENT)  = DTPDEFC
 C
          ITTF  = IVOLU(17)
@@ -2153,28 +2317,28 @@ C
            TITREVENT(K)=IBAGHOL(14+K,IVENT)
            VENTTITLE(K:K) = ACHAR(TITREVENT(K))
          ENDDO
-         IF(ITTF.EQ.11.OR.ITTF.EQ.12.OR.ITTF.EQ.13) THEN
-          IF (IDEF.EQ.0.AND.PM_VENT(IVENT).GT.PDEF+PEXT
-     .                 .AND.DTPDEFC.GT.DTPDEFI
-     .                 .AND.VOLPH.GT.EM3*AREAP**TDEMI
-     .                 .AND.TT.LT.TSTOPE+TTF) THEN
+         IF(ITTF == 11.OR.ITTF == 12.OR.ITTF == 13) THEN
+          IF (IDEF == 0.AND.PM_VENT(IVENT) > PDEF+PEXT
+     .                 .AND.DTPDEFC > DTPDEFI
+     .                 .AND.VOLPH > EM3*AREAP**TDEMI
+     .                 .AND.TT < TSTOPE+TTF) THEN
             IDEF=1
-            WRITE(IOUT,'(A)') 
+            WRITE(IOUT,'(A)')
      .                  ' ** AIRBAG VENT HOLE MEMBRANE IS DEFLATED **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
      .                  ' VENT HOLE NUMBER',IVENT,' ',VENTTITLE
-            WRITE(ISTDO,'(2A)') 
+            WRITE(ISTDO,'(2A)')
      .                  ' ** VENT HOLE MEMBRANE IS DEFLATED ',VENTTITLE
           ENDIF
-          IF(IDEF.EQ.0 .AND. TT.GT.TVENT+TTF
-     .                 .AND. TT.LT.TSTOPE+TTF) THEN
+          IF(IDEF == 0 .AND. TT > TVENT+TTF
+     .                 .AND. TT < TSTOPE+TTF) THEN
             IDEF=1
             WRITE(IOUT,'(A)') ' ** AIRBAG VENTING STARTS **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
      .                  ' VENT HOLE NUMBER',IVENT,' ',VENTTITLE
             WRITE(ISTDO,'(2A)') ' ** VENTING STARTS ',VENTTITLE
           ENDIF
-          IF(IDEF.EQ.1 .AND. TT.GE.TSTOPE+TTF) THEN
+          IF(IDEF == 1 .AND. TT >= TSTOPE+TTF) THEN
             IDEF=2
             WRITE(IOUT,'(A)') ' ** AIRBAG VENTING STOPS **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
@@ -2182,28 +2346,28 @@ C
             WRITE(ISTDO,'(2A)') ' ** VENTING STOPS ',VENTTITLE
           ENDIF
 C
-         ELSE IF(ITTF.EQ.0) THEN
-          IF (IDEF.EQ.0.AND.PM_VENT(IVENT).GT.PDEF+PEXT
-     .                 .AND.DTPDEFC.GT.DTPDEFI
-     .                 .AND.VOLPH.GT.EM3*AREAP**TDEMI
-     .                 .AND.TT.LT.TSTOPE) THEN
+         ELSE IF(ITTF == 0) THEN
+          IF (IDEF == 0.AND.PM_VENT(IVENT) > PDEF+PEXT
+     .                 .AND.DTPDEFC > DTPDEFI
+     .                 .AND.VOLPH > EM3*AREAP**TDEMI
+     .                 .AND.TT < TSTOPE) THEN
             IDEF=1
-            WRITE(IOUT,'(A)') 
+            WRITE(IOUT,'(A)')
      .                  ' ** AIRBAG VENT HOLE MEMBRANE IS DEFLATED **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
      .                  ' VENT HOLE NUMBER',IVENT,' ',VENTTITLE
-            WRITE(ISTDO,'(2A)') 
+            WRITE(ISTDO,'(2A)')
      .                  ' ** VENT HOLE MEMBRANE IS DEFLATED ',VENTTITLE
           ENDIF
-          IF(IDEF.EQ.0 .AND. TT.GT.TVENT
-     .                 .AND. TT.LT.TSTOPE) THEN
+          IF(IDEF == 0 .AND. TT > TVENT
+     .                 .AND. TT < TSTOPE) THEN
             IDEF=1
             WRITE(IOUT,'(A)') ' ** AIRBAG VENTING STARTS **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
      .                  ' VENT HOLE NUMBER',IVENT,' ',VENTTITLE
             WRITE(ISTDO,'(2A)') ' ** VENTING STARTS ',VENTTITLE
           ENDIF
-          IF(IDEF.EQ.1 .AND. TT.GE.TSTOPE) THEN
+          IF(IDEF == 1 .AND. TT >= TSTOPE) THEN
             IDEF=2
             WRITE(IOUT,'(A)') ' ** AIRBAG VENTING STOPS **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
@@ -2228,7 +2392,7 @@ C
          NRX=NORM(1,IEL)
          NRY=NORM(2,IEL)
          NRZ=NORM(3,IEL)
-         IF(IEL.LE.NEL) THEN
+         IF(IEL <= NEL) THEN
            FF=FEL(IEL)-PEXT*ELAREA(IEL)
          ELSE
            FF=FEL(IEL)
@@ -2275,23 +2439,23 @@ C les noeuds du FVMBAG, sinon on risque d en perdre en SPMD
 
 C
 Chd|====================================================================
-Chd|  FVBAG3                        source/airbag/fvbag.F         
+Chd|  FVBAG3                        source/airbag/fvbag.F
 Chd|-- called by -----------
-Chd|        FVBAG0                        source/airbag/fvbag.F         
+Chd|        FVBAG0                        source/airbag/fvbag.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        FVINJT6                       source/airbag/fvinjt6.F       
-Chd|        FVINJT8                       source/airbag/fvinjt8.F       
-Chd|        FVINJT8_1                     source/airbag/fvinjt8_1.F     
-Chd|        FVTEMP                        source/airbag/fvbag.F         
-Chd|        FVVENT0                       source/airbag/fvvent0.F       
+Chd|        ARRET                         source/system/arret.F
+Chd|        FVINJT6                       source/airbag/fvinjt6.F
+Chd|        FVINJT8                       source/airbag/fvinjt8.F
+Chd|        FVINJT8_1                     source/airbag/fvinjt8_1.F
+Chd|        FVTEMP                        source/airbag/fvbag.F
+Chd|        FVVENT0                       source/airbag/fvvent0.F
 Chd|        SPMD_FVB_GATH                 source/mpi/airbags/spmd_fvb_gath.F
 Chd|        SPMD_FVB_IGATH                source/mpi/airbags/spmd_fvb_igath.F
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        GET_U_FUNC                    source/user_interface/ufunc.F 
+Chd|        FINTER                        source/tools/curve/finter.F
+Chd|        GET_U_FUNC                    source/user_interface/ufunc.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
+Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F
 Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/fvmbag_meshcontrol_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
@@ -2300,10 +2464,10 @@ Chd|====================================================================
      3                  P      , RHO    , TK       , U      , SSPK    ,
      4                           X      , V        , A      , SENSOR  ,
      5                  FSAV   , NPC    , TF       , IVOLU  , RVOLU   ,
-     6                  MPOLH  , QPOLH  , EPOLH    , 
+     6                  MPOLH  , QPOLH  , EPOLH    ,
      7                  PPOLH  , RPOLH  , GPOLH    ,
-     8                  NPOLH  , IFVNOD , RFVNOD   , IFVTRI , 
-     9                  IFVPOLY, IFVTADR, IFVPOLH  , 
+     8                  NPOLH  , IFVNOD , RFVNOD   , IFVTRI ,
+     9                  IFVPOLY, IFVTADR, IFVPOLH  ,
      A                  IFVPADR, INFO   , NNS      , NNTR   , IFV     ,
      B                  NPOLHA , DLH    , CPAPOLH  ,
      C                  CPBPOLH, CPCPOLH, RMWPOLH  ,
@@ -2319,7 +2483,7 @@ Chd|====================================================================
      M                  IGROUPTG,IGROUPC, ELBUF_TAB, FEXT ,CFL_COEF,
      N                  PDISP_OLD, PDISP)
 C-----------------------------------------------
-C   M o d u l e s 
+C   M o d u l e s
 C-----------------------------------------------
       USE FVBAG_MOD
       USE MESSAGE_MOD
@@ -2357,21 +2521,21 @@ C-----------------------------------------------
      .        NNS, NNTR, IFV, NPOLHA, ITAGEL(*), ICONTACT(*),
      .        IDPOLH(*), IBUFA(*), ELEMA(3,*), TAGELA(*), BRNA(8,*),
      .        NNA, NTGA, IBPOLH(*), NNT, NELT, NCONA(16,*),
-     .        LGAUGE(3,*), ITYP, IGEO(NPROPGI,*) 
+     .        LGAUGE(3,*), ITYP, IGEO(NPROPGI,*)
       INTEGER ELTG(*)
       INTEGER IPM(NPROPMI,*), IPARG(NPARG,*)
-      INTEGER MATTG(*), IGROUPTG(*), IGROUPC(*) 
+      INTEGER MATTG(*), IGROUPTG(*), IGROUPC(*)
 
       my_real
      .        RBAGJET(NRBJET,*), RBAGHOL(NRBHOL,*), P(*), RHO(*),
      .        TK(*), U(3,*), SSPK(*), X(3,*), V(3,*), A(3,*), SENSOR(NSENSR,*),
-     .        FSAV(NTHVKI), TF(*), RVOLU(*), MPOLH(*), QPOLH(3,*), 
+     .        FSAV(NTHVKI), TF(*), RVOLU(*), MPOLH(*), QPOLH(3,*),
      .        EPOLH(*), PPOLH(*), RPOLH(*), GPOLH(*), RFVNOD(2,*), DLH,
      .        CPAPOLH(*), CPBPOLH(*), CPCPOLH(*), RMWPOLH(*), ELSINI(*),
      .        ELFMASS(*), ELFVEL(*), PA(*), RHOA(*), TKA(*),SSPKA(*), UA(3,*),
-     .        DTPOLH(*), XXXA(3,*), VVVA(3,*), POROSITY(*), 
+     .        DTPOLH(*), XXXA(3,*), VVVA(3,*), POROSITY(*),
      .        GAUGE(LLGAUGE,*), GEO(NPROPG,*), PM(NPROPM,*), ELFEHPY(*),
-     .        TPOLH(*), CPDPOLH(*), CPEPOLH(*), CPFPOLH(*), FEXT(3,*), CFL_COEF, 
+     .        TPOLH(*), CPDPOLH(*), CPEPOLH(*), CPFPOLH(*), FEXT(3,*), CFL_COEF,
      .        PDISP_OLD, PDISP
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
@@ -2388,13 +2552,13 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: SURF_INT,SURF_EXT
 
       my_real
-     .        NODAREA(NNT), X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, 
+     .        NODAREA(NNT), X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3,
      .        X12, Y12, Z12, X13, Y13, Z13, NRX, NRY, NRZ, AREA2,
      .        ELAREA(NELT), NORM(3,NELT), KSI, ETA, PNOD(3,NNS),
      .        PAREA(NNTR), PNORM(3,NNTR), PVOLU(NPOLH), AREA, NX, NY,
      .        NZ, GAMAI, CPAI, CPBI, CPCI, RMWI, TI,
      .        CPDI, CPEI, CPFI,
-     .        RHOI, DATAINJ(6,NJET), SCALT, FMASS, GMASS_OLD, 
+     .        RHOI, DATAINJ(6,NJET), SCALT, FMASS, GMASS_OLD,
      .        GMTOT_OLD, FVEL, TSTART, TSG, GMASS, DGMASS, INJVEL,
      .        DYDX, GMTOT, RMWG, CPA, CPB, CPC, FTEMP, EFAC, CPG,
      .        CVG, PU(3,NPOLH), GAMA, FEL(NELT), DM(NPOLH),
@@ -2403,25 +2567,25 @@ C-----------------------------------------------
      .        ALPHA, RHOM, REM, RUXM, RUYM, RUZM, P1, P2,
      .        UEL(3,NELT), AREA1, AREA3, FF, TEMP, PEXT, VOLG, VOLPH,
      .        AREAP, AREAEL, XX, YY, ZZ, QA, QB, DTX, AL, DD, AD, SSP,
-     .        QX, VV, DMINI(NPOLH), DMCPA(NPOLH), DMCPB(NPOLH), 
+     .        QX, VV, DMINI(NPOLH), DMCPA(NPOLH), DMCPB(NPOLH),
      .        DMCPC(NPOLH), DMRMW(NPOLH), MSINI,
      .        RMW, CP, CV, RHOEL(NELT), TKEL(NELT), SSPEL(NELT), GAMA1, GAMA2,
      .        QVISC(NPOLH), AMTOT, PMEAN, PMEAN2, ELSOUT(NELT),TMP(NEL),
      .        AREA_VENT(NVENT), PM_VENT(NVENT), SCALP, SCALS, EXTEN,
      .        AVENT, BVENT, AINI, FPORT, FPORP, FPORA, FPORT1, FPORP1,
-     .        FPORA1, AOUT, AOUT1, DERI, PDEF, PVOLTMP,              
+     .        FPORA1, AOUT, AOUT1, DERI, PDEF, PVOLTMP,
      .        DTPDEFI, DTPDEFC, TVENT, PORO(NELT), VOLA(NNA), HMIN(NNTR),
      .        X23, Y23, Z23, X31, Y31, Z31,  L12, L23, L31, H1, H2, H3,
      .        FAC1, FAC2, FAC3, HM1, AREA_OLD, PP, DLS(NPOLH), VMAX, UU,
-     .        PCRIT, RHOINJ, PINJ, VX1, VY1, VZ1, VX2, VY2, VZ2, 
+     .        PCRIT, RHOINJ, PINJ, VX1, VY1, VZ1, VX2, VY2, VZ2,
      .        VX3, VY3, VZ3, VVX, VVY, VVZ, VEL(NELT), FAC, VNOD(3,NNS),
      .        VGRID(3,NNTR), AOUTOT, SVENT(NVENT), SVENTOT, XXX(3,NNT),
-     .        VVV(3,NNT),  FVDP, RBID, TTF, 
+     .        VVV(3,NNT),  FVDP, RBID, TTF,
      .        DMCPD(NPOLH), DMCPE(NPOLH), DMCPF(NPOLH),
      .        CPD, CPE, CPF, TEMP0, TT1, PEL(NELT), PSTAG, VOLNO,TSTOPE,
-     .        ENINT, MASSFLOW, TFEXT0, ELDMASS(NEL), ELDEHPY(NEL), DMOUT, DHOUT, 
+     .        ENINT, MASSFLOW, TFEXT0, ELDMASS(NEL), ELDEHPY(NEL), DMOUT, DHOUT,
      .        CPAM, CPBM, CPCM, CPDM, CPEM, CPFM, RMWM
-     
+
       LOGICAL :: boolTAGEL,EXIT_NEG_VOL,INJECTION_STARTED
       LOGICAL :: UP_SWITCH
 C
@@ -2443,7 +2607,7 @@ c     IF(NSPMD > 1 .AND. FVSPMD(IFV)%RANK > -1 )THEN
         ALLOCATE(FVSPMD(IFV)%AAA(3,NNT))
         FVSPMD(IFV)%AAA(1:3,1:NNT) = ZERO
 
-c     ENDIF 
+c     ENDIF
 
 
 
@@ -2465,7 +2629,7 @@ C
            VVV(3,I1)=V(3,I2)
          ENDDO
 C
-         IF (INTBAG.NE.0.AND.NVENT.GT.0.AND.IVOLU(39).NE.0) THEN
+         IF (INTBAG /= 0.AND.NVENT > 0.AND.IVOLU(39) /= 0) THEN
            DO I=1,FVSPMD(IFV)%NN_L+FVSPMD(IFV)%NNI_L
              I1=FVSPMD(IFV)%IBUF_L(1,I)
              I2=FVSPMD(IFV)%IBUF_L(2,I)
@@ -2478,15 +2642,15 @@ C
 C
          CALL SPMD_FVB_GATH(IFV, V, VVV, RBID, RBID, 4)
 C
-         IF (INTBAG.NE.0.AND.NVENT.GT.0.AND.IVOLU(39).NE.0)
+         IF (INTBAG /= 0.AND.NVENT > 0.AND.IVOLU(39) /= 0)
      .      CALL SPMD_FVB_IGATH(IFV, ICONTACT, ICONT)
 
 C
          IF (ISPMD.NE.FVSPMD(IFV)%PMAIN-1) GOTO 1000
-      END IF 
+      END IF
 C
 
-!$OMP PARALLEL PRIVATE(I,J) 
+!$OMP PARALLEL PRIVATE(I,J)
 !$OMP+ PRIVATE(I1,I2,KSI,ETA,N1,N2,N3,IEL,X1,Y1,Z1,FAC,NN1,NN2,NN3)
 !$OMP+ PRIVATE(X2,Y2,Z2,X3,Y3,Z3,VX1,VX2,VX3,VY1,VY2,VY3,VZ1,VZ2,VZ3)
 !$OMP+ PRIVATE(X12,Y12,Z12,X13,Y13,Z13,AREA2,NRX,NRY,NRZ,JJ,AREA,KK,K)
@@ -2496,12 +2660,12 @@ C---------------------------------------------------
 C Normales et surfaces elementaires
 C---------------------------------------------------
 
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(GUIDED,1)
       DO I=1,NNT
          NODAREA(I)=ZERO
       ENDDO
 !$OMP END DO
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(GUIDED,1)
       DO IEL=1,NELT
          N1=ELEM(1,IEL)
          N2=ELEM(2,IEL)
@@ -2529,7 +2693,7 @@ C---------------------------------------------------
          NORM(1,IEL)=NRX/AREA2
          NORM(2,IEL)=NRY/AREA2
          NORM(3,IEL)=NRZ/AREA2
-         IF(IEL.LE.NEL) THEN
+         IF(IEL <= NEL) THEN
            TMP(IEL) = UNSIX * (X1*NRX+Y1*NRY+Z1*NRZ)
          ENDIF
          PEL(IEL)=ZERO
@@ -2542,13 +2706,13 @@ C---------------------------------------------------
          N1=ELEM(1,IEL)
          N2=ELEM(2,IEL)
          N3=ELEM(3,IEL)
-         AREA2 = ELAREA(IEL) 
+         AREA2 = ELAREA(IEL)
          ELAREA(IEL) = UNDEMI * AREA2
          NODAREA(N1)=NODAREA(N1)+UNSIX*AREA2
          NODAREA(N2)=NODAREA(N2)+UNSIX*AREA2
          NODAREA(N3)=NODAREA(N3)+UNSIX*AREA2
-         IF(IEL.LE.NEL) THEN
-           VOLG=VOLG+TMP(IEL)                      
+         IF(IEL <= NEL) THEN
+           VOLG=VOLG+TMP(IEL)
          ENDIF
       ENDDO
 C
@@ -2648,13 +2812,13 @@ C
                         VNOD(1, N1) = FAC * VX1 + KSI * VX2 + ETA * VX3
                         VNOD(2, N1) = FAC * VY1 + KSI * VY2 + ETA * VY3
                         VNOD(3, N1) = FAC * VZ1 + KSI * VZ2 + ETA * VZ3
-                        FLAG_NODE(N1) = 1 
+                        FLAG_NODE(N1) = 1
                      CASE(2)
 !     Additional solid node (from tetramesher for example)
                         I2 = IFVNOD(3, N1)
                         PNOD(1:3, N1) = XXXA(1:3, I2)
                         VNOD(1:3, N1) = VVVA(1:3, I2)
-                        FLAG_NODE(N1) = 1                     
+                        FLAG_NODE(N1) = 1
                      CASE(3)
 !     Internal node (former way of automatic meshing)
 !     Has to be done in a second loop
@@ -2664,7 +2828,7 @@ C
             ENDDO
          ENDDO
       ENDDO
-!$OMP END SINGLE  
+!$OMP END SINGLE
 
 !$OMP SINGLE
 !     Loop on remaining polyhedra (evolves in time due to mergind)
@@ -2695,15 +2859,15 @@ C
                         VNOD(1,N1) = FAC * VNOD(1, I1) + (UN - FAC) * VNOD(1,I2)
                         VNOD(2,N1) = FAC * VNOD(2, I1) + (UN - FAC) * VNOD(2,I2)
                         VNOD(3,N1) = FAC * VNOD(3, I1) + (UN - FAC) * VNOD(3,I2)
-                        FLAG_NODE(N1) = 1 
+                        FLAG_NODE(N1) = 1
                      END SELECT
                   ENDIF
                ENDDO
             ENDDO
          ENDDO
       ENDDO
-!$OMP END SINGLE 
-      
+!$OMP END SINGLE
+
 !$OMP SINGLE
 !     Loop on remaining polyhedra (evolves in time due to mergind)
       DO I = 1, NPOLH
@@ -2768,11 +2932,11 @@ C
          ENDDO
       ENDDO
 !$OMP END SINGLE
-      
+
 
 C Volume des polyhedres
-               
-!$OMP DO SCHEDULE(GUIDED,1) 
+
+!$OMP DO SCHEDULE(GUIDED,1)
       DO I=1,NPOLH
          PVOLU(I)= ZERO
          PVOLTMP = ZERO
@@ -2784,29 +2948,29 @@ C Boucle sur les triangles du polygone
                KK=IFVPOLY(K)
                AREA=PAREA(KK)
                IEL=IFVTRI(4,KK)
-               IF (IEL.GT.0) THEN
+               IF (IEL > 0) THEN
                   NX=PNORM(1,KK)
                   NY=PNORM(2,KK)
                   NZ=PNORM(3,KK)
                ELSE
                   I1 =IFVTRI(5,KK)
                   I2 =IFVTRI(6,KK)
-                  IF (I1.EQ.I) THEN
+                  IF (I1 == I) THEN
                      NX=PNORM(1,KK)
                      NY=PNORM(2,KK)
                      NZ=PNORM(3,KK)
                   ENDIF
-                  IF (I2.EQ.I) THEN
+                  IF (I2 == I) THEN
                      NX=-PNORM(1,KK)
                      NY=-PNORM(2,KK)
                      NZ=-PNORM(3,KK)
-                  ENDIF 
-                  IF (I1.EQ.I.AND.I2.EQ.I) THEN
+                  ENDIF
+                  IF (I1 == I.AND.I2 == I) THEN
                      NX=ZERO
                      NY=ZERO
                      NZ=ZERO
-                  ENDIF   
-               ENDIF      
+                  ENDIF
+               ENDIF
                N1=IFVTRI(1,KK)
                X1=PNOD(1,N1)
                Y1=PNOD(2,N1)
@@ -2816,7 +2980,7 @@ C Boucle sur les triangles du polygone
          ENDDO
          PVOLU(I) = PVOLTMP
       ENDDO
-!$OMP END DO 
+!$OMP END DO
 !$OMP END PARALLEL
 
 !$OMP SINGLE
@@ -2829,7 +2993,7 @@ C---------------------------------------------------
       AREAP=ZERO
       DO I=1,NNTR
          IEL=IFVTRI(4,I)
-         IF (IEL.GT.0) AREAP=AREAP+PAREA(I)
+         IF (IEL > 0) AREAP=AREAP+PAREA(I)
       ENDDO
       AREAEL=ZERO
       DO IEL=1,NEL
@@ -2841,13 +3005,13 @@ C---------------------------------------------------
       EXIT_NEG_VOL = .FALSE.
       DO I=1,NPOLH
          VOLPH=VOLPH+PVOLU(I)
-         IF(PVOLU(I) .LE. 0) EXIT_NEG_VOL = .TRUE.
+         IF(PVOLU(I)  <=  0) EXIT_NEG_VOL = .TRUE.
       ENDDO
 
       IPRI=MOD(NCYCLE,IABS(NCPRI))
       IF(EXIT_NEG_VOL) THEN
        DO I=1,NPOLH
-         IF (PVOLU(I).LE.ZERO) THEN
+         IF (PVOLU(I) <= ZERO) THEN
             INFO=1
             IERR=IERR+1
             CALL ANCMSG(MSGID=185,ANMODE=ANINFO,
@@ -2856,12 +3020,12 @@ C---------------------------------------------------
          ENDIF
        ENDDO
       ENDIF
-	  
-	  
+
+
 C---------------------------------------------------
 C Calcul des quantites dans les polyhedres
 C---------------------------------------------------
-      IF (DT1.EQ.ZERO) THEN
+      IF (DT1 == ZERO) THEN
          GAMAI=RVOLU(1)
          GPOLH(1:NPOLH)=GAMAI
          CPAI =RVOLU(7)
@@ -2882,7 +3046,7 @@ C---------------------------------------------------
          CPFPOLH(1:NPOLH)=CPFI
          RHOI =RVOLU(62)
          RPOLH(1:NPOLH)=RHOI
-      ENDIF 
+      ENDIF
       IF (DT1==ZERO.OR.IVOLU(39)==0) THEN
          RHOI =RVOLU(62)
          EFAC =RVOLU(66)
@@ -2898,24 +3062,24 @@ C---------------------------------------------------
 
       PEXT =RVOLU(3)
       IF(IVOLU(39) == 0) GO TO 250
-	  
+
 C---------------------------------------------------
 C Injecteurs
 C---------------------------------------------------
       DATAINJ(1:6,1:NJET)=ZERO
       DO IEL=1,NELT
-         IF (ITAGEL(IEL).GT.0) THEN
+         IF (ITAGEL(IEL) > 0) THEN
             IINJ=ITAGEL(IEL)
             DATAINJ(1,IINJ)=DATAINJ(1,IINJ)+ELAREA(IEL)
          ENDIF
-      ENDDO     
+      ENDDO
 C
-      SCALT =RVOLU(26)    
-      IF(ITYP.EQ.6) THEN
-        CALL FVINJT6(NJET, IBAGJET, RBAGJET, NPC, TF, SENSOR, 
+      SCALT =RVOLU(26)
+      IF(ITYP == 6) THEN
+        CALL FVINJT6(NJET, IBAGJET, RBAGJET, NPC, TF, SENSOR,
      .               SCALT, DATAINJ )
-      ELSEIF(ITYP.EQ.8) THEN
-        CALL FVINJT8(NJET, IBAGJET, RBAGJET, NPC, TF, SENSOR, 
+      ELSEIF(ITYP == 8) THEN
+        CALL FVINJT8(NJET, IBAGJET, RBAGJET, NPC, TF, SENSOR,
      .               SCALT, IGEO, GEO, PM, IVOLU, DATAINJ )
       ENDIF
 C
@@ -2923,7 +3087,7 @@ C
          ISENS=IBAGJET(4,IINJ)
          FVEL=RBAGJET(15,IINJ)
          IVEL=IBAGJET(11,IINJ)
-         IF(ISENS.EQ.0)THEN
+         IF(ISENS == 0)THEN
           TSTART=ZERO
          ELSE
           TSTART=SENSOR(2,ISENS)
@@ -2932,16 +3096,16 @@ C        ITTF : 1 shift event time (can be removed in a later version)
 C        ITTF : 2 shift event time + event function
 C        ITTF : 1 or 2 +10 1 flag has been activated and RVOLU(60) is filled
          ITTF=IVOLU(17)
-         IF (TT.GE.TSTART.AND.(ITTF.EQ.1.OR.ITTF.EQ.2.OR.ITTF.EQ.3))THEN
+         IF (TT >= TSTART.AND.(ITTF == 1.OR.ITTF == 2.OR.ITTF == 3))THEN
 C        ITTF ne doit etre declenche que si TT plus grand que TSTART
 C        ce qui etait fait avant n'avait pas d'effet
            ITTF=ITTF+10
            RVOLU(60)=TSTART
            IVOLU(17)=ITTF
          END IF
-         IF (TT.GE.TSTART.AND.DT1.GT.ZERO)THEN
+         IF (TT >= TSTART.AND.DT1 > ZERO)THEN
            TSG=(TT-TSTART)*SCALT
-           IF (IVEL.GT.0) THEN
+           IF (IVEL > 0) THEN
               INJVEL=FVEL*FINTER(IVEL,TSG,NPC,TF,DYDX)
            ELSE
               INJVEL = FVEL
@@ -2954,27 +3118,27 @@ C        ce qui etait fait avant n'avait pas d'effet
 C---------------------------------------------------
 C Vent holes
 C---------------------------------------------------
-      IF (INTBAG.EQ.0) THEN
+      IF (INTBAG == 0) THEN
          PORO(1:NELT)=ZERO
       ELSE
 !$OMP PARALLEL PRIVATE(IEL,N1,N2,N3)
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(GUIDED,1)
          DO IEL=1,NELT
             N1=ELEM(1,IEL)
             N2=ELEM(2,IEL)
             N3=ELEM(3,IEL)
             PORO(IEL)=ZERO
-            IF (ICONT(N1).NE.0) PORO(IEL)=PORO(IEL)+TIERS
-            IF (ICONT(N2).NE.0) PORO(IEL)=PORO(IEL)+TIERS
-            IF (ICONT(N3).NE.0) PORO(IEL)=PORO(IEL)+TIERS
+            IF (ICONT(N1) /= 0) PORO(IEL)=PORO(IEL)+TIERS
+            IF (ICONT(N2) /= 0) PORO(IEL)=PORO(IEL)+TIERS
+            IF (ICONT(N3) /= 0) PORO(IEL)=PORO(IEL)+TIERS
          ENDDO
 !$OMP END DO
 !$OMP END PARALLEL
       ENDIF
 C
       PEXT =RVOLU(3)
-      SCALT=RVOLU(26)    
-      SCALP=RVOLU(27)    
+      SCALT=RVOLU(26)
+      SCALP=RVOLU(27)
       SCALS=RVOLU(28)
       TTF  =RVOLU(60)
 C-----------------------------------------------------------
@@ -3029,16 +3193,16 @@ C----------------------
          PU(2,1:NPOLH)=QPOLH(2,1:NPOLH)/MPOLH(1:NPOLH)
          PU(3,1:NPOLH)=QPOLH(3,1:NPOLH)/MPOLH(1:NPOLH)
 !$OMP END SECTIONS
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(GUIDED,1)
       DO I=1,NPOLH
          DO J=IFVPADR(I),IFVPADR(I+1)-1
             JJ=IFVPOLH(J)
             DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
               KK=IFVPOLY(K)
               IEL=ABS(IFVTRI(4,KK))
-              JEL=IFVTRI(4,KK)               
+              JEL=IFVTRI(4,KK)
               AREA=PAREA(KK)
-              IF(JEL.EQ.0) THEN
+              IF(JEL == 0) THEN
 C Permeabilite du triangle interne
                  N1=IFVTRI(1,KK)
                  N2=IFVTRI(2,KK)
@@ -3080,11 +3244,11 @@ C----------------
             DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
                KK  =IFVPOLY(K)
                IEL =ABS(IFVTRI(4,KK))
-               JEL =IFVTRI(4,KK)               
+               JEL =IFVTRI(4,KK)
                AREA=PAREA(KK)
-               IF (AREA.EQ.ZERO) CYCLE
+               IF (AREA == ZERO) CYCLE
                boolTAGEL = .FALSE.
-               IF(IEL.GT.0)THEN
+               IF(IEL > 0)THEN
                  IF(ITAGEL(IEL) > 0)boolTAGEL = .TRUE.
                ENDIF
                ! IF (JEL > 0.OR.(JEL < 0.AND.ITAGEL(IEL) > 0)) THEN debuger issue in case of IEL=0 (out of bounds)
@@ -3095,19 +3259,19 @@ C----------------
                   NRZ=NORM(3,IEL)
                   NV = 0
                   IF(JEL < 0) THEN
-                     IF    (IFVTRI(5,KK).EQ.I) THEN
+                     IF    (IFVTRI(5,KK) == I) THEN
                         NV=IFVTRI(6,KK)
                         NX=PNORM(1,KK)
                         NY=PNORM(2,KK)
                         NZ=PNORM(3,KK)
-                     ELSEIF(IFVTRI(6,KK).EQ.I) THEN
+                     ELSEIF(IFVTRI(6,KK) == I) THEN
                         NV=IFVTRI(5,KK)
                         NX=-PNORM(1,KK)
                         NY=-PNORM(2,KK)
                         NZ=-PNORM(3,KK)
                      ENDIF
 C Test si polyedre voisin a ete calcule
-                     IF (NV .LT. I) GOTO 100
+                     IF (NV  <  I) GOTO 100
                      FAC=NX*NRX+NY*NRY+NZ*NRZ
                      IF(FAC < 0) II=NV
                   ENDIF
@@ -3115,7 +3279,7 @@ C--------------------------------------------
 C Triangle appuye sur l'enveloppe de l'airbag
 C Triangle interne injecteur
 C--------------------------------------------
-                  IF (ITAGEL(IEL).GT.0) THEN
+                  IF (ITAGEL(IEL) > 0) THEN
 C Injecteur
                      IINJ=ITAGEL(IEL)
                      DMI=DATAINJ(2,IINJ)*AREA/DATAINJ(1,IINJ)
@@ -3136,7 +3300,7 @@ C Melange des gaz
                      DMCPB(II)=DMCPB(II)+DMI*RBAGJET(3,IINJ)
                      DMCPC(II)=DMCPC(II)+DMI*RBAGJET(4,IINJ)
                      DMRMW(II)=DMRMW(II)+DMI*RBAGJET(1,IINJ)
-                     IF(ITYP.EQ.8) THEN
+                     IF(ITYP == 8) THEN
                        DMCPD(II)=DMCPD(II)+DMI*RBAGJET(16,IINJ)
                        DMCPE(II)=DMCPE(II)+DMI*RBAGJET(17,IINJ)
                        DMCPF(II)=DMCPF(II)+DMI*RBAGJET(18,IINJ)
@@ -3145,7 +3309,7 @@ C
                      ELFMASS(IEL)=ELFMASS(IEL)+DMI*DT1
                      ELFEHPY(IEL)=ELFEHPY(IEL)+DEI*DT1
                      ELFVEL(IEL) =-DATAINJ(3,IINJ)
-                  ELSEIF (ITAGEL(IEL).LT.0) THEN
+                  ELSEIF (ITAGEL(IEL) < 0) THEN
 C Vent hole
                      IVENT  =-ITAGEL(IEL)
                      IDEF   =IBAGHOL(1,IVENT)
@@ -3163,13 +3327,13 @@ C
                      UY1=PU(2,I)
                      UZ1=PU(3,I)
                      UU =ZERO
-C LOCAL VELOCITY 
-                     IF (ITVENT.EQ.1) THEN
+C LOCAL VELOCITY
+                     IF (ITVENT == 1) THEN
                         UU=NX*UX1+NY*UY1+NZ*UZ1
                         RHO2=RHO1
                         IF(P1 < PEXT) UU=ZERO
 C BERNOUILLI
-                     ELSEIF ((ITVENT==2.AND.P1>ZERO).OR.(ITVENT==4.AND.P1>=PEXT)) THEN					 
+                     ELSEIF ((ITVENT==2.AND.P1>ZERO).OR.(ITVENT==4.AND.P1>=PEXT)) THEN
                         VV=NX*UX1+NY*UY1+NZ*UZ1
                         VV=MAX(VV,ZERO)
                         ETA=(GAMA1-UN)/GAMA1
@@ -3186,14 +3350,14 @@ C BERNOUILLI
                         VMAX=MAX(VMAX,ZERO)
                         UU=MIN(UU,VMAX)
 C CHEMKIN
-                     ELSEIF (ITVENT.EQ.3) THEN
+                     ELSEIF (ITVENT == 3) THEN
                         P2=P1-PEXT
                         IVDP=IBAGHOL(9,IVENT)
                         FVDP=RBAGHOL(13,IVENT)
                         UU=FVDP*GET_U_FUNC(IVDP,P2*SCALP,DERI)
                         IF(P2 < ZERO) THEN
                           RHO2=RVOLU(62)
-                        ELSE 
+                        ELSE
                           RHO2=RHO1
                         ENDIF
 C BERNOUILLI with flow-in
@@ -3222,7 +3386,7 @@ C GRAEFE
 C
                      ENDIF
 C
-                     IF (UU.GT.ZERO.AND.IDEF.EQ.1) THEN
+                     IF (UU > ZERO.AND.IDEF == 1) THEN
                         DMOUT=UU*RHO2*AOUT
                         DM(I)=DM(I)-DMOUT
                         DQ(1,I)=DQ(1,I)-DMOUT*UX1
@@ -3239,7 +3403,7 @@ C
                         DMCPB(I)=DMCPB(I)-DMOUT*CPBI
                         DMCPC(I)=DMCPC(I)-DMOUT*CPCI
                         DMRMW(I)=DMRMW(I)-DMOUT*RMWI
-                        IF(ITYP.EQ.8) THEN
+                        IF(ITYP == 8) THEN
                           CPDI=CPDPOLH(I)
                           CPEI=CPEPOLH(I)
                           CPFI=CPFPOLH(I)
@@ -3254,7 +3418,7 @@ C
                         ELDEHPY(IEL)=-DHOUT
                      ENDIF
 C
-                     IF (UU.LT.ZERO.AND.IDEF.EQ.1) THEN
+                     IF (UU < ZERO.AND.IDEF == 1) THEN
                         DMI=-UU*RHO2*AOUT
                         DM(I)=DM(I)+DMI
                         DQ(1,I)=DQ(1,I)+DMI*UX1
@@ -3268,7 +3432,7 @@ C
                         DMCPB(I)=DMCPB(I)+DMI*CPBI
                         DMCPC(I)=DMCPC(I)+DMI*CPCI
                         DMRMW(I)=DMRMW(I)+DMI*RMWI
-                        IF(ITYP.EQ.8) THEN
+                        IF(ITYP == 8) THEN
                           CPDI=RVOLU(56)
                           CPEI=RVOLU(57)
                           CPFI=RVOLU(58)
@@ -3289,19 +3453,19 @@ C----------------------------------------------------------------
 C Triangle interne non injecteur => communication entre polyedres
 C----------------------------------------------------------------
                   NV = 0
-                  IF (IFVTRI(5,KK).EQ.I) THEN
+                  IF (IFVTRI(5,KK) == I) THEN
                      NV=IFVTRI(6,KK)
                      NX=PNORM(1,KK)
                      NY=PNORM(2,KK)
                      NZ=PNORM(3,KK)
-                  ELSEIF (IFVTRI(6,KK).EQ.I) THEN
+                  ELSEIF (IFVTRI(6,KK) == I) THEN
                      NV=IFVTRI(5,KK)
                      NX=-PNORM(1,KK)
                      NY=-PNORM(2,KK)
                      NZ=-PNORM(3,KK)
                   ENDIF
 C Test si polyedre voisin a ete calcule
-                  IF (NV .LE. I) GOTO 100
+                  IF (NV  <=  I) GOTO 100
                   RHO1=RPOLH(I)
                   RE1=EPOLH(I)/PVOLU(I)
                   UX1=PU(1,I)
@@ -3315,14 +3479,14 @@ C Test si polyedre voisin a ete calcule
                   UZ2=PU(3,NV)
                   GAMA2=GPOLH(NV)
 C
-                  VFX=UNDEMI*(UX1+UX2)                  
+                  VFX=UNDEMI*(UX1+UX2)
                   VFY=UNDEMI*(UY1+UY2)
                   VFZ=UNDEMI*(UZ1+UZ2)
-                  IF(JEL.EQ.0) THEN
+                  IF(JEL == 0) THEN
 C Permeabilite du triangle interne
                     HM1=HMIN(KK)
                     H1 = UN-RVOLU(51)/HM1
-                    IF(H1 > 0) THEN 
+                    IF(H1 > 0) THEN
                       AREA=AREA*H1
                     ELSE
                       AREA = ZERO
@@ -3331,14 +3495,14 @@ C Permeabilite du triangle interne
 C                   AREA=AREA*MAX(ZERO,UN-RVOLU(51)/HM1)
                   ELSE
 C Triangle appuy sur structure interne => flux fonction de la porosite
-                    IF(POROSITY(IEL-NEL).EQ.ZERO) GOTO 50
+                    IF(POROSITY(IEL-NEL) == ZERO) GOTO 50
                     AREA=AREA*POROSITY(IEL-NEL)
                   ENDIF
 C
                   SS=NX*(VFX-VGRID(1,KK))+NY*(VFY-VGRID(2,KK))
      .              +NZ*(VFZ-VGRID(3,KK))
 C Full upwind
-                  IF (SS.LE.ZERO) THEN
+                  IF (SS <= ZERO) THEN
                      ALPHA=ZERO
                   ELSE
                      ALPHA=UN
@@ -3390,7 +3554,7 @@ C
                      DMCPF(NV) = DMCPF(NV) + MASSFLOW * CPFM
                   ENDIF
 C Melange des gaz
-c$$$                  IF (SS.GT.ZERO) THEN
+c$$$                  IF (SS > ZERO) THEN
 c$$$                     DMINI(I)=DMINI(I)-MASSFLOW
 c$$$                     DMCPA(NV)=DMCPA(NV)+MASSFLOW*CPAPOLH(I)
 c$$$                     DMCPB(NV)=DMCPB(NV)+MASSFLOW*CPBPOLH(I)
@@ -3403,8 +3567,8 @@ c$$$                     DMCPB(I)=DMCPB(I)-MASSFLOW*CPBPOLH(NV)
 c$$$                     DMCPC(I)=DMCPC(I)-MASSFLOW*CPCPOLH(NV)
 c$$$                     DMRMW(I)=DMRMW(I)-MASSFLOW*RMWPOLH(NV)
 c$$$                  ENDIF
-c$$$                  IF(ITYP.EQ.8) THEN
-c$$$                    IF (SS.GT.ZERO) THEN
+c$$$                  IF(ITYP == 8) THEN
+c$$$                    IF (SS > ZERO) THEN
 c$$$                       DMCPD(NV)=DMCPD(NV)+MASSFLOW*CPDPOLH(I)
 c$$$                       DMCPE(NV)=DMCPE(NV)+MASSFLOW*CPEPOLH(I)
 c$$$                       DMCPF(NV)=DMCPF(NV)+MASSFLOW*CPFPOLH(I)
@@ -3438,7 +3602,7 @@ C
          DQ(1,I)=ZERO
          DQ(2,I)=ZERO
          DQ(3,I)=ZERO
-         DE(I)=ZERO		 
+         DE(I)=ZERO
          IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO) THEN
            TPOLH(I)=ZERO
          ELSE
@@ -3449,7 +3613,7 @@ C Melange des gaz
            CPC=(MSINI*CPCPOLH(I)+DMCPC(I)*DT1)/MPOLH(I)
            RMW=(MSINI*RMWPOLH(I)+DMRMW(I)*DT1)/MPOLH(I)
            EFAC=EPOLH(I)/MPOLH(I)
-           IF(ITYP.EQ.8) THEN
+           IF(ITYP == 8) THEN
              CPD=(MSINI*CPDPOLH(I)+DMCPD(I)*DT1)/MPOLH(I)
              CPE=(MSINI*CPEPOLH(I)+DMCPE(I)*DT1)/MPOLH(I)
              CPF=(MSINI*CPFPOLH(I)+DMCPF(I)*DT1)/MPOLH(I)
@@ -3465,7 +3629,7 @@ C-------------------------
            CPAPOLH(I)=CPA
            CPBPOLH(I)=CPB
            CPCPOLH(I)=CPC
-           IF(ITYP.EQ.8) THEN
+           IF(ITYP == 8) THEN
              CPDPOLH(I)=CPD
              CPEPOLH(I)=CPE
              CPFPOLH(I)=CPF
@@ -3484,7 +3648,7 @@ C---------------------------------------------------
            RPOLH(I)=MPOLH(I)/PVOLU(I)
            PPOLH(I)=RPOLH(I)*RMW*TEMP
          ENDIF
-      ENDDO                              
+      ENDDO
 !$OMP END DO NOWAIT
 
 C---------------------------------------------------
@@ -3507,12 +3671,12 @@ C Brique additionelle
       PHDT=0
 !$OMP END SINGLE
 
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(GUIDED,1)
       DO I=1,NPOLH
-         IF(MPOLH(I).LE.ZERO.OR.EPOLH(I).LE.ZERO.OR.GPOLH(I).LE.UN) THEN
+         IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= UN) THEN
             DTPOLH(I)=EP30
             QVISC(I) =ZERO
-         ELSE 
+         ELSE
 C
          AL=PVOLU(I)**THIRD
          DD=DM(I)/MPOLH(I)
@@ -3533,21 +3697,21 @@ C         DTPOLH(I)=DTFAC1(52)*DLS(I)/(SSP+VV)
 
 
       DO I=1,NPOLH
-         IF (DTPOLH(I).LT.DTX) THEN
+         IF (DTPOLH(I) < DTX) THEN
             DTX=DTPOLH(I)
             PHDT=I
          ENDIF
       ENDDO
 
 
-      IF (ILVOUT >= 1.AND.IPRI.EQ.0) THEN
-         WRITE(IOUT,'(A,I10,A,E12.4,A,I10)') 
+      IF (ILVOUT >= 1.AND.IPRI == 0) THEN
+         WRITE(IOUT,'(A,I10,A,E12.4,A,I10)')
      .         ' ** MONITORED VOLUME ID: ',IVOLU(1),
      .         ' TIME STEP:',DTX,' FINITE VOLUME:',IDPOLH(PHDT)
       ENDIF
 
 C
-      IF (DTX.LT.DT2) THEN
+      IF (DTX < DT2) THEN
          DT2=DTX
          NELTS=IVOLU(1)
          ITYPTS=52
@@ -3558,7 +3722,7 @@ C---------------------------------------------------
 !$OMP PARALLEL PRIVATE(N1,N2,N3,IEL,NX,NY,NZ)
 !$OMP+ PRIVATE(VX1,VX2,VX3,VY1,VY2,VY3,VZ1,VZ2,VZ3)
 !$OMP+ PRIVATE(VVX,VVY,VVZ)
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(GUIDED,1)
       DO IEL=1,NELT
          N1=ELEM(1,IEL)
          N2=ELEM(2,IEL)
@@ -3583,19 +3747,19 @@ C---------------------------------------------------
 !$OMP END DO
 !$OMP END PARALLEL
       DO I=1,NPOLH
-         IF (MPOLH(I).LE.ZERO.OR.EPOLH(I).LE.ZERO) CYCLE
+         IF (MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO) CYCLE
          DO J=IFVPADR(I),IFVPADR(I+1)-1
             JJ=IFVPOLH(J)
             DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
                KK=IFVPOLY(K)
                IEL=IFVTRI(4,KK)
                AREA=PAREA(KK)
-               IF (AREA.EQ.ZERO) CYCLE
-               IF (IEL.GT.0) THEN
+               IF (AREA == ZERO) CYCLE
+               IF (IEL > 0) THEN
                   NX=NORM(1,IEL)
                   NY=NORM(2,IEL)
                   NZ=NORM(3,IEL)
-                  IF (ITAGEL(IEL).LT.0) THEN
+                  IF (ITAGEL(IEL) < 0) THEN
 C Vent hole
                      IVENT  =-ITAGEL(IEL)
                      IDEF   =IBAGHOL(1,IVENT)
@@ -3622,30 +3786,30 @@ C Travail des forces de pression dans le deplacement de l'airbag
                   DE(I)=DE(I)-PP*VEL(IEL)*AREA
 C Heat Loss or Gain (version 2018)
                   DE(I)=DE(I)-RVOLU(19)*AREA*(TPOLH(I)-RVOLU(25))
-               ELSEIF(IEL.EQ.0) THEN
+               ELSEIF(IEL == 0) THEN
 C Permeabilite du triangle
                   AREA_OLD=AREA
                   AREA=AREA*MAX(ZERO,UN-RVOLU(51)/HMIN(KK))
                   AREA1=AREA_OLD-AREA
 C Triangle interne = communication entre polyedres
                   NV = 0
-                  IF (IFVTRI(5,KK).EQ.I) THEN
+                  IF (IFVTRI(5,KK) == I) THEN
                      NV=IFVTRI(6,KK)
                      NX=PNORM(1,KK)
                      NY=PNORM(2,KK)
                      NZ=PNORM(3,KK)
-                  ELSEIF (IFVTRI(6,KK).EQ.I) THEN
+                  ELSEIF (IFVTRI(6,KK) == I) THEN
                      NV=IFVTRI(5,KK)
                      NX=-PNORM(1,KK)
                      NY=-PNORM(2,KK)
                      NZ=-PNORM(3,KK)
                   ENDIF
-                  IF (NV.LT.I .OR.MPOLH(NV).LE.ZERO.OR.
-     .                                  EPOLH(NV).LE.ZERO) GOTO 200
+                  IF (NV < I .OR.MPOLH(NV) <= ZERO.OR.
+     .                                  EPOLH(NV) <= ZERO) GOTO 200
                   P1=PPOLH(I)+QVISC(I)
                   P2=PPOLH(NV)+QVISC(NV)
                   PMEAN=UNDEMI*(P1+P2)
-C                 
+C
                   DQ(1,I)=DQ(1,I)-PMEAN*NX*AREA-P1*NX*AREA1
                   DQ(2,I)=DQ(2,I)-PMEAN*NY*AREA-P1*NY*AREA1
                   DQ(3,I)=DQ(3,I)-PMEAN*NZ*AREA-P1*NZ*AREA1
@@ -3659,19 +3823,19 @@ C added FA
                ELSEIF(IEL < 0) THEN
 C Triangle interne appuye sur surface interne = communication entre polyedres
                   NV = 0
-                  IF (IFVTRI(5,KK).EQ.I) THEN
+                  IF (IFVTRI(5,KK) == I) THEN
                      NV=IFVTRI(6,KK)
                      NX=PNORM(1,KK)
                      NY=PNORM(2,KK)
                      NZ=PNORM(3,KK)
-                  ELSEIF (IFVTRI(6,KK).EQ.I) THEN
+                  ELSEIF (IFVTRI(6,KK) == I) THEN
                      NV=IFVTRI(5,KK)
                      NX=-PNORM(1,KK)
                      NY=-PNORM(2,KK)
                      NZ=-PNORM(3,KK)
                   ENDIF
-                  IF (NV .LE. I .OR.MPOLH(NV).LE.ZERO.OR.
-     .                                  EPOLH(NV).LE.ZERO) GOTO 200
+                  IF (NV  <=  I .OR.MPOLH(NV) <= ZERO.OR.
+     .                                  EPOLH(NV) <= ZERO) GOTO 200
                   P1=PPOLH(I)+QVISC(I)
                   P2=PPOLH(NV)+QVISC(NV)
                   JEL=-IEL
@@ -3732,7 +3896,7 @@ C---------------------------------------------------
 C Nouvelles quantites polyhedres
 C---------------------------------------------------
 !$OMP PARALLEL PRIVATE(I)
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(GUIDED,1)
       DO I=1,NPOLH
          QPOLH(1,I)=QPOLH(1,I)+DQ(1,I)*DT1
          QPOLH(2,I)=QPOLH(2,I)+DQ(2,I)*DT1
@@ -3747,15 +3911,15 @@ C Impressions
 C---------------------------------------------------
  250  IF (ILVOUT >= 1 .AND. IPRI == 0) THEN
          WRITE(IOUT,*)
-         WRITE(IOUT,'(A25,I10,A31)') 
+         WRITE(IOUT,'(A25,I10,A31)')
      .         ' ** MONITORED VOLUME ID: ',IVOLU(1),
      .         ' - FINITE VOLUME MESH UPDATE **'
-         WRITE(IOUT,'(A,I8)') 
+         WRITE(IOUT,'(A,I8)')
      .         '    NUMBER OF FINITE VOLUMES : ',NPOLH
          WRITE(IOUT,'(A,G16.9,A17,G16.9,A1)')
      .         '    SUM VOLUME FINITE VOLUMES : ',VOLPH,
      .         '    (VOLUME AIRBAG: ',VOLG,')'
-         WRITE(IOUT,'(A,G16.9,A17,G16.9,A1)') 
+         WRITE(IOUT,'(A,G16.9,A17,G16.9,A1)')
      .         '    SUM AREA SURFACE POLYGONS : ',AREAP,
      .         '    (AREA AIRBAG  : ',AREAEL,')'
          WRITE(IOUT,*)
@@ -3778,7 +3942,7 @@ C---------------------------------------------------
          CPB=CPBPOLH(I)
          CPC=CPCPOLH(I)
          CP=CPA+CPB*TEMP+CPC*TEMP*TEMP
-         IF(ITYP.EQ.8) THEN
+         IF(ITYP == 8) THEN
            CPD=CPDPOLH(I)
            CPE=CPEPOLH(I)
            CPF=CPFPOLH(I)
@@ -3801,12 +3965,12 @@ C     Pressure dispersion
       FSAV(19) = PDISP
       INJECTION_STARTED = .FALSE.
       DO IINJ = 1, NJET
-         INJECTION_STARTED = INJECTION_STARTED .OR. (DATAINJ(2, IINJ) .GT. ZERO)
+         INJECTION_STARTED = INJECTION_STARTED .OR. (DATAINJ(2, IINJ)  >  ZERO)
       ENDDO
       IF (.NOT. INJECTION_STARTED) THEN
          PDISP = ZERO
       ENDIF
-      
+
 C
       FSAV(1)=AMTOT
       FSAV(2)=VOLPH
@@ -3822,7 +3986,7 @@ C
       ELSE
         FSAV(6) =AOUTOT
         DO IEL=1,NEL
-           IF (ITAGEL(IEL).LT.0) THEN
+           IF (ITAGEL(IEL) < 0) THEN
              IVENT=-ITAGEL(IEL)
              RBAGHOL(18,IVENT)=RBAGHOL(18,IVENT)+ELFVEL(IEL)*ELSOUT(IEL)
              RBAGHOL(19,IVENT)=RBAGHOL(19,IVENT)-ELFMASS(IEL)
@@ -3843,25 +4007,25 @@ C
         ENDDO
         FSAV(7) =FSAV(7) /MAX(AOUTOT,EM20)
         FSAV(13)=DTPOLH(PHDT)
-		
+
         IF(ITYP == 8) THEN
-           CALL FVINJT8_1(NJET, IBAGJET , RBAGJET , IGEO, GEO, PM, 
+           CALL FVINJT8_1(NJET, IBAGJET , RBAGJET , IGEO, GEO, PM,
      .                    IVOLU, RVOLU, DMOUT, DHOUT)
            TTF  =RVOLU(60)
-           IF (IVOLU(74) .EQ. 0) THEN
+           IF (IVOLU(74)  ==  0) THEN
               UP_SWITCH = TT-TTF >= RVOLU(70) .OR. NPOLH <= IVOLU(37)
            ENDIF
-           IF (IVOLU(74) .EQ. 1) THEN
+           IF (IVOLU(74)  ==  1) THEN
 C     Automatic switch to uniform pressure when dispersion of pressure is low
-              UP_SWITCH = ((PDISP .LT. PDISP_OLD) .AND. (PDISP .LT. RVOLU(73)))
+              UP_SWITCH = ((PDISP  <  PDISP_OLD) .AND. (PDISP  <  RVOLU(73)))
               UP_SWITCH = UP_SWITCH .OR. TT-TTF >= RVOLU(70)
            ENDIF
-           IF (IVOLU(74) .EQ. 2) THEN
+           IF (IVOLU(74)  ==  2) THEN
 C     Automatic switch to uniform pressure when dispersion of pressure is low
-              UP_SWITCH = ((PDISP .LT. PDISP_OLD) .AND. (PDISP .LT. RVOLU(73)))
+              UP_SWITCH = ((PDISP  <  PDISP_OLD) .AND. (PDISP  <  RVOLU(73)))
               UP_SWITCH = UP_SWITCH .AND. TT-TTF >= RVOLU(70)
            ENDIF
-           
+
            IF (UP_SWITCH) THEN
               RVOLU(12)=FSAV(3)  ! pression
               RVOLU(13)=FSAV(5)  ! temperature
@@ -3880,7 +4044,7 @@ C     Automatic switch to uniform pressure when dispersion of pressure is low
          IF (ITAGEL(IEL) > 0) THEN
             FSAV(15)=FSAV(15)+ELFMASS(IEL)
             FSAV(16)=FSAV(16)+ELFEHPY(IEL)
-         ENDIF		 
+         ENDIF
       ENDDO
       FSAV(17)=ENINT
 
@@ -3888,31 +4052,31 @@ C     Automatic switch to uniform pressure when dispersion of pressure is low
 C---------------------------------------------------
 C Vitesse fluide aux noeuds
 C---------------------------------------------------
-      IF(TT.GE.TANIM.OR.TT.GE.TOUTP.OR. NBGAUGE > 0 .OR.
-     .              (MANIM.GE.4.AND.MANIM.LE.15)) THEN
-C     Computations for anim, also needed if there are gauges. 
+      IF(TT >= TANIM.OR.TT >= TOUTP.OR. NBGAUGE > 0 .OR.
+     .              (MANIM >= 4.AND.MANIM <= 15)) THEN
+C     Computations for anim, also needed if there are gauges.
         PREPARE_ANIM = 1
         UEL(1:3,1:NELT)=ZERO
         RHOEL(1:NELT)=ZERO
         TKEL(1:NELT) =ZERO
-        SSPEL(1:NELT)=ZERO        
+        SSPEL(1:NELT)=ZERO
       ELSE
         PREPARE_ANIM = 0
       ENDIF
 
 c     PEL(1:NELT)=ZERO
 
-!$OMP PARALLEL PRIVATE(I,J,JJ,K,KK,IEL,JEL,II,NV) 
+!$OMP PARALLEL PRIVATE(I,J,JJ,K,KK,IEL,JEL,II,NV)
 !$OMP+ PRIVATE(NX,NY,NZ,NRX,NRY,NRZ)
 !$OMP+ PRIVATE(FAC,AREA)
-!$OMP DO SCHEDULE(GUIDED,1) 
+!$OMP DO SCHEDULE(GUIDED,1)
       DO I=1,NPOLH
          DO J=IFVPADR(I),IFVPADR(I+1)-1
             JJ=IFVPOLH(J)
             DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
                KK=IFVPOLY(K)
                IEL=ABS(IFVTRI(4,KK))
-               JEL=IFVTRI(4,KK)               
+               JEL=IFVTRI(4,KK)
                AREA=PAREA(KK)
                IF (JEL > 0) THEN
                   PEL(IEL)  =PEL(IEL)  +PPOLH(I)*AREA/ELAREA(IEL)
@@ -3920,18 +4084,18 @@ c     PEL(1:NELT)=ZERO
                   NRX=NORM(1,IEL)
                   NRY=NORM(2,IEL)
                   NRZ=NORM(3,IEL)
-                  IF    (IFVTRI(5,KK).EQ.I) THEN
+                  IF    (IFVTRI(5,KK) == I) THEN
                         NV=IFVTRI(6,KK)
                         NX=PNORM(1,KK)
                         NY=PNORM(2,KK)
                         NZ=PNORM(3,KK)
-                  ELSEIF(IFVTRI(6,KK).EQ.I) THEN
+                  ELSEIF(IFVTRI(6,KK) == I) THEN
                         NV=IFVTRI(5,KK)
                         NX=-PNORM(1,KK)
                         NY=-PNORM(2,KK)
                         NZ=-PNORM(3,KK)
                   ENDIF
-                  IF (NV >= I) THEN 
+                  IF (NV >= I) THEN
                     IF (NV == I) AREA=AREA*UNDEMI
                     II=I
                     FAC=NX*NRX+NY*NRY+NZ*NRZ
@@ -3940,19 +4104,19 @@ c     PEL(1:NELT)=ZERO
                   ENDIF
                ENDIF
             ENDDO  ! Fin de boucle triangle
-  300    ENDDO     ! Fin de boucle polygone
+         ENDDO     ! Fin de boucle polygone
       ENDDO        ! Fin de boucle polyedre
 !$OMP END DO
 
       IF(PREPARE_ANIM == 1) THEN
-!$OMP SINGLE                     
+!$OMP SINGLE
       DO I=1,NPOLH
          DO J=IFVPADR(I),IFVPADR(I+1)-1
             JJ=IFVPOLH(J)
             DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
                KK=IFVPOLY(K)
                IEL=ABS(IFVTRI(4,KK))
-               JEL=IFVTRI(4,KK)               
+               JEL=IFVTRI(4,KK)
                AREA=PAREA(KK)
                IF (JEL > 0) THEN
                  UEL(1,IEL)=UEL(1,IEL)+PU(1,I)*AREA/ELAREA(IEL)
@@ -3960,17 +4124,17 @@ c     PEL(1:NELT)=ZERO
                  UEL(3,IEL)=UEL(3,IEL)+PU(3,I)*AREA/ELAREA(IEL)
                  RHOEL(IEL)=RHOEL(IEL)+RPOLH(I)*AREA/ELAREA(IEL)
                  TKEL(IEL) =TKEL(IEL) +TPOLH(I)*AREA/ELAREA(IEL)
-                 SSPEL(IEL)=SSPEL(IEL)+SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*AREA/ELAREA(IEL)                 
+                 SSPEL(IEL)=SSPEL(IEL)+SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*AREA/ELAREA(IEL)
                ELSEIF (JEL < 0) THEN
                  NRX=NORM(1,IEL)
                  NRY=NORM(2,IEL)
                  NRZ=NORM(3,IEL)
-                 IF    (IFVTRI(5,KK).EQ.I) THEN
+                 IF    (IFVTRI(5,KK) == I) THEN
                        NV=IFVTRI(6,KK)
                        NX=PNORM(1,KK)
                        NY=PNORM(2,KK)
                        NZ=PNORM(3,KK)
-                 ELSEIF(IFVTRI(6,KK).EQ.I) THEN
+                 ELSEIF(IFVTRI(6,KK) == I) THEN
                        NV=IFVTRI(5,KK)
                        NX=-PNORM(1,KK)
                        NY=-PNORM(2,KK)
@@ -3986,20 +4150,20 @@ c     PEL(1:NELT)=ZERO
                  UEL(3,IEL)=UEL(3,IEL)+PU(3,II)*AREA/ELAREA(IEL)
                  RHOEL(IEL)=RHOEL(IEL)+RPOLH(II)*AREA/ELAREA(IEL)
                  TKEL(IEL) =TKEL(IEL) +TPOLH(II)*AREA/ELAREA(IEL)
-                 SSPEL(IEL)=SSPEL(IEL)+SQRT(GPOLH(II)*PPOLH(II)/RPOLH(II))*AREA/ELAREA(IEL) 
+                 SSPEL(IEL)=SSPEL(IEL)+SQRT(GPOLH(II)*PPOLH(II)/RPOLH(II))*AREA/ELAREA(IEL)
                ENDIF
             ENDDO  ! Fin de boucle triangle
   310    ENDDO     ! Fin de boucle polygone
       ENDDO        ! Fin de boucle polyedre
-!$OMP END SINGLE 
+!$OMP END SINGLE
       ENDIF
 
-    
+
 
 C------------------
 C VENT HOLES
 C------------------
-      IF(PREPARE_ANIM == 1) THEN 
+      IF(PREPARE_ANIM == 1) THEN
 !$OMP DO SCHEDULE(GUIDED,1)
         DO IEL=1,NEL
            IF(ITAGEL(IEL)<0) THEN
@@ -4009,18 +4173,31 @@ C------------------
            ENDIF
         ENDDO
 !$OMP END DO NOWAIT
-!$OMP SINGLE                     
-        U(1:3,1:NNT)=ZERO
-        RHO(1:NNT)  =ZERO
-        TK(1:NNT)   =ZERO
-        SSPK(1:NNT) =ZERO
-        VOLA(1:NNA)=ZERO
-        PA(1:NNA)=ZERO
-        RHOA(1:NNA)=ZERO
-        TKA(1:NNA)=ZERO
-        SSPKA(1:NNA)=ZERO
-        UA(1:3,1:NNA)=ZERO
-!$OMP END SINGLE 
+
+!$OMP DO SCHEDULE(GUIDED,1)
+        DO I=1,NNT
+          U(1,I)=ZERO
+          U(2,I)=ZERO
+          U(3,I)=ZERO
+          RHO(I)  =ZERO
+          TK(I)   =ZERO
+          SSPK(I) =ZERO
+        ENDDO
+!$OMP END DO NOWAIT
+
+!$OMP DO SCHEDULE(GUIDED,1)
+        DO I=1,NNA
+          VOLA(I)=ZERO
+          PA(I)=ZERO
+          RHOA(I)=ZERO
+          TKA(I)=ZERO
+          SSPKA(I)=ZERO
+          UA(1,I)=ZERO
+          UA(2,I)=ZERO
+          UA(3,I)=ZERO
+        ENDDO
+!$OMP END DO NOWAIT
+
       ENDIF
 
 !$OMP DO SCHEDULE(GUIDED,1)
@@ -4044,7 +4221,7 @@ C------------------
          P(N2) =P(N2) +FAC2*PEL(IEL)
          P(N3) =P(N3) +FAC3*PEL(IEL)
       ENDDO
-      
+
       IF(PREPARE_ANIM == 1) THEN
         DO IEL=1,NELT
            N1=ELEM(1,IEL)
@@ -4073,18 +4250,18 @@ C------------------
            TK(N3)=TK(N3)+FAC3*TKEL(IEL)
            SSPK(N1)=SSPK(N1)+FAC1*SSPEL(IEL)
            SSPK(N2)=SSPK(N2)+FAC2*SSPEL(IEL)
-           SSPK(N3)=SSPK(N3)+FAC3*SSPEL(IEL)    
+           SSPK(N3)=SSPK(N3)+FAC3*SSPEL(IEL)
         ENDDO
 
         DO I=1,NPOLH
-           IF (IBPOLH(I).NE.0) THEN
+           IF (IBPOLH(I) /= 0) THEN
              TEMP=TPOLH(I)
              II=IABS(IBPOLH(I))
-             IF(BRNA(1,II).EQ.BRNA(4,II).AND.BRNA(5,II).EQ.BRNA(8,II))THEN
+             IF(BRNA(1,II) == BRNA(4,II).AND.BRNA(5,II) == BRNA(8,II))THEN
 C Pentaedre
                 DO K=1,6
                  J=K
-                 IF(K.GE.4) J=J+1
+                 IF(K >= 4) J=J+1
                  JJ=BRNA(J,II)
                  VOLA(JJ)=VOLA(JJ)+UNSIX*PVOLU(I)
                  PA(JJ)=PA(JJ)+UNSIX*PPOLH(I)*PVOLU(I)
@@ -4094,10 +4271,10 @@ C Pentaedre
                  UA(1,JJ)=UA(1,JJ)+UNSIX*PU(1,I)*PVOLU(I)
                  UA(2,JJ)=UA(2,JJ)+UNSIX*PU(2,I)*PVOLU(I)
                  UA(3,JJ)=UA(3,JJ)+UNSIX*PU(3,I)*PVOLU(I)
-                ENDDO           
-             ELSEIF(BRNA(5,II).EQ.BRNA(8,II).AND.
-     .              BRNA(6,II).EQ.BRNA(8,II).AND.
-     .              BRNA(7,II).EQ.BRNA(8,II))THEN
+                ENDDO
+             ELSEIF(BRNA(5,II) == BRNA(8,II).AND.
+     .              BRNA(6,II) == BRNA(8,II).AND.
+     .              BRNA(7,II) == BRNA(8,II))THEN
 C Pyramide
                 DO J=1,5
                  JJ=BRNA(J,II)
@@ -4138,7 +4315,7 @@ C Brique ou Tetraedre
              UA(2,I)=UA(2,I)/VOLNO
              UA(3,I)=UA(3,I)/VOLNO
            ENDIF
-        ENDDO 
+        ENDDO
       ENDIF ! prepare_anim
 
 
@@ -4152,7 +4329,7 @@ C---------------------------------------------------
 
 C
       DO IEL=1,NEL
-         IF (ITAGEL(IEL).LT.0) THEN
+         IF (ITAGEL(IEL) < 0) THEN
             IVENT=-ITAGEL(IEL)
             AREA_VENT(IVENT)=AREA_VENT(IVENT)+ELAREA(IEL)
             PM_VENT(IVENT)=PM_VENT(IVENT)+FEL(IEL)
@@ -4162,7 +4339,7 @@ C
 
 
       DO IVENT=1,NVENT
-         IF (AREA_VENT(IVENT).GT.ZERO) THEN
+         IF (AREA_VENT(IVENT) > ZERO) THEN
             PM_VENT(IVENT)=PM_VENT(IVENT)/AREA_VENT(IVENT)
          ELSE
             PM_VENT(IVENT)=ZERO
@@ -4172,26 +4349,26 @@ C
          IDTPDEF= IBAGHOL(11,IVENT)
          IDPDEF = IBAGHOL(12,IVENT)
 C
-         IF(IDEF.EQ.2) CYCLE
+         IF(IDEF == 2) CYCLE
 C
          PDEF   =RBAGHOL(1,IVENT)
          DTPDEFI=RBAGHOL(4,IVENT)
          DTPDEFC=RBAGHOL(5,IVENT)
          TVENT  =RBAGHOL(3,IVENT)
          TSTOPE =RBAGHOL(14,IVENT)
-         IF (IDTPDEF.EQ.0) THEN
-          IF(PM_VENT(IVENT).GT.PDEF+PEXT) THEN
+         IF (IDTPDEF == 0) THEN
+          IF(PM_VENT(IVENT) > PDEF+PEXT) THEN
             DTPDEFC = DTPDEFC+DT1
           END IF
-         ELSE IF (IDTPDEF.EQ.1) THEN
-           IF (PM_VENT(IVENT).GT.PDEF+PEXT) THEN
+         ELSE IF (IDTPDEF == 1) THEN
+           IF (PM_VENT(IVENT) > PDEF+PEXT) THEN
              IDPDEF = 1
            END IF
-           IF (IDPDEF.EQ.1) THEN
+           IF (IDPDEF == 1) THEN
              DTPDEFC = DTPDEFC+DT1
            END IF
          END IF
-         IBAGHOL(12,IVENT) = IDPDEF 
+         IBAGHOL(12,IVENT) = IDPDEF
          RBAGHOL(5,IVENT)  = DTPDEFC
 C
          ITTF  = IVOLU(17)
@@ -4200,28 +4377,28 @@ C
            TITREVENT(K)=IBAGHOL(14+K,IVENT)
            VENTTITLE(K:K) = ACHAR(TITREVENT(K))
          ENDDO
-         IF(ITTF.EQ.11.OR.ITTF.EQ.12.OR.ITTF.EQ.13) THEN
-          IF (IDEF.EQ.0.AND.PM_VENT(IVENT).GT.PDEF+PEXT
-     .                 .AND.DTPDEFC.GT.DTPDEFI
-     .                 .AND.VOLPH.GT.EM3*AREAP**TDEMI
-     .                 .AND.TT.LT.TSTOPE+TTF) THEN
+         IF(ITTF == 11.OR.ITTF == 12.OR.ITTF == 13) THEN
+          IF (IDEF == 0.AND.PM_VENT(IVENT) > PDEF+PEXT
+     .                 .AND.DTPDEFC > DTPDEFI
+     .                 .AND.VOLPH > EM3*AREAP**TDEMI
+     .                 .AND.TT < TSTOPE+TTF) THEN
             IDEF=1
-            WRITE(IOUT,'(A)') 
+            WRITE(IOUT,'(A)')
      .                  ' ** AIRBAG VENT HOLE MEMBRANE IS DEFLATED **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
      .                  ' VENT HOLE NUMBER',IVENT,' ',VENTTITLE
-            WRITE(ISTDO,'(2A)') 
+            WRITE(ISTDO,'(2A)')
      .                  ' ** VENT HOLE MEMBRANE IS DEFLATED ',VENTTITLE
           ENDIF
-          IF(IDEF.EQ.0 .AND. TT.GT.TVENT+TTF
-     .                 .AND. TT.LT.TSTOPE+TTF) THEN
+          IF(IDEF == 0 .AND. TT > TVENT+TTF
+     .                 .AND. TT < TSTOPE+TTF) THEN
             IDEF=1
             WRITE(IOUT,'(A)') ' ** AIRBAG VENTING STARTS **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
      .                  ' VENT HOLE NUMBER',IVENT,' ',VENTTITLE
             WRITE(ISTDO,'(2A)') ' ** VENTING STARTS ',VENTTITLE
           ENDIF
-          IF(IDEF.EQ.1 .AND. TT.GE.TSTOPE+TTF) THEN
+          IF(IDEF == 1 .AND. TT >= TSTOPE+TTF) THEN
             IDEF=2
             WRITE(IOUT,'(A)') ' ** AIRBAG VENTING STOPS **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
@@ -4229,28 +4406,28 @@ C
             WRITE(ISTDO,'(2A)') ' ** VENTING STOPS ',VENTTITLE
           ENDIF
 C
-         ELSE IF(ITTF.EQ.0) THEN
-          IF (IDEF.EQ.0.AND.PM_VENT(IVENT).GT.PDEF+PEXT
-     .                 .AND.DTPDEFC.GT.DTPDEFI
-     .                 .AND.VOLPH.GT.EM3*AREAP**TDEMI
-     .                 .AND.TT.LT.TSTOPE) THEN
+         ELSE IF(ITTF == 0) THEN
+          IF (IDEF == 0.AND.PM_VENT(IVENT) > PDEF+PEXT
+     .                 .AND.DTPDEFC > DTPDEFI
+     .                 .AND.VOLPH > EM3*AREAP**TDEMI
+     .                 .AND.TT < TSTOPE) THEN
             IDEF=1
-            WRITE(IOUT,'(A)') 
+            WRITE(IOUT,'(A)')
      .                  ' ** AIRBAG VENT HOLE MEMBRANE IS DEFLATED **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
      .                  ' VENT HOLE NUMBER',IVENT,' ',VENTTITLE
-            WRITE(ISTDO,'(2A)') 
+            WRITE(ISTDO,'(2A)')
      .                  ' ** VENT HOLE MEMBRANE IS DEFLATED ',VENTTITLE
           ENDIF
-          IF(IDEF.EQ.0 .AND. TT.GT.TVENT
-     .                 .AND. TT.LT.TSTOPE) THEN
+          IF(IDEF == 0 .AND. TT > TVENT
+     .                 .AND. TT < TSTOPE) THEN
             IDEF=1
             WRITE(IOUT,'(A)') ' ** AIRBAG VENTING STARTS **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
      .                  ' VENT HOLE NUMBER',IVENT,' ',VENTTITLE
             WRITE(ISTDO,'(2A)') ' ** VENTING STARTS ',VENTTITLE
           ENDIF
-          IF(IDEF.EQ.1 .AND. TT.GE.TSTOPE) THEN
+          IF(IDEF == 1 .AND. TT >= TSTOPE) THEN
             IDEF=2
             WRITE(IOUT,'(A)') ' ** AIRBAG VENTING STOPS **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
@@ -4275,7 +4452,7 @@ C
          NRX=NORM(1,IEL)
          NRY=NORM(2,IEL)
          NRZ=NORM(3,IEL)
-         IF(IEL.LE.NEL) THEN
+         IF(IEL <= NEL) THEN
            FF=FEL(IEL)-PEXT*ELAREA(IEL)
          ELSE
            FF=FEL(IEL)
@@ -4320,11 +4497,11 @@ C les noeuds du FVMBAG, sinon on risque d en perdre en SPMD
       END
 
 Chd|====================================================================
-Chd|  FVTEMP                        source/airbag/fvbag.F         
+Chd|  FVTEMP                        source/airbag/fvbag.F
 Chd|-- called by -----------
-Chd|        FVBAG1                        source/airbag/fvbag.F         
-Chd|        FVBAG3                        source/airbag/fvbag.F         
-Chd|        FVUPD1                        source/airbag/fvupd.F         
+Chd|        FVBAG1                        source/airbag/fvbag.F
+Chd|        FVBAG3                        source/airbag/fvbag.F
+Chd|        FVUPD1                        source/airbag/fvupd.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FVTEMP(ITYP  , EFAC , CPA  , CPB  , CPC  ,
@@ -4351,10 +4528,10 @@ C-----------------------------------------------
      .        CVA, HH, TEMP2
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 
-      IF(ITYP.EQ.6) THEN
+      IF(ITYP == 6) THEN
          CVA=CPA-RMW
-         IF(CPC.EQ.ZERO) THEN
-            IF(CPB.EQ.ZERO) THEN
+         IF(CPC == ZERO) THEN
+            IF(CPB == ZERO) THEN
                TEMP=EFAC/CVA
             ELSE
                TEMP=(SQRT(CVA*CVA+DEUX*CPB*EFAC)-CVA)/CPB
@@ -4366,12 +4543,12 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
                TEMP=EFAC/(HH-RMW)
             ENDDO
          ENDIF
-      ELSEIF(ITYP.EQ.8) THEN
+      ELSEIF(ITYP == 8) THEN
          TEMP=TEMP0
          DO K=1,5
             TEMP2=TEMP*TEMP
             HH=CPA+UNDEMI*CPB*TEMP+THIRD*CPC*TEMP2+
-     .         QUART*CPD*TEMP*TEMP2-CPE/TEMP2+UNCINQ*CPF*TEMP2*TEMP2   
+     .         QUART*CPD*TEMP*TEMP2-CPE/TEMP2+UNCINQ*CPF*TEMP2*TEMP2
             IF( (HH-RMW) > ZERO) THEN
               TEMP=EFAC/(HH-RMW)
             ELSE
@@ -4382,6 +4559,3 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       ENDIF
       RETURN
       END
-
-
-
