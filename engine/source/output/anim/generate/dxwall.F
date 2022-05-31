@@ -85,7 +85,7 @@ C
       VV2 = V3 * XN - V1 * ZN
       VV3 = V1 * YN - V2 * XN
       VV = SQRT(VV1*VV1 + VV2*VV2 + VV3*VV3)
-      IF(VV.LE.UNDEMI)THEN
+      IF(VV.LE.HALF)THEN
         V1 = ZERO
         V2 = -ZEP707
         V3 = ZEP707        

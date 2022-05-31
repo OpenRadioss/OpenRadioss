@@ -114,7 +114,7 @@ C
        END IF
 
        MAS= DTS * ( DTS * KT(I) + C(I) )
-       MAS = UNDEMI * MAX( MAS, DTS * CF(I) )
+       MAS = HALF * MAX( MAS, DTS * CF(I) )
 C
        IG =NSVG(I)
        IF(IG >  0)THEN

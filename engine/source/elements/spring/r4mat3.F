@@ -286,7 +286,7 @@ C------traction 1er point
          Y=TF(NPF(IFUNCT)+J1+1)-Y0
          E2 = ZERO
          IF (ABS(X).GT.ZERO) E2= Y/X
-         E_S= UNDEMI*(E1+E2)
+         E_S= HALF*(E1+E2)
 C------w/o point (0,0)-----
 	ELSE
          Y=TF(NPF(IFUNCT)+J1+1)-Y0

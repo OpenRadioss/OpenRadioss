@@ -374,7 +374,7 @@ c
        
          NNPT = 8
          DO I=LFT,LLT
-          NU(I)=MIN(UNDEMI,PM(21,MAT(I)))
+          NU(I)=MIN(HALF,PM(21,MAT(I)))
          ENDDO
          CALL S8E_PIJ(NPTR,NPTS,NPTT,NNPT,LLT,
      .               PXC1, PXC2, PXC3, PXC4, 
@@ -613,7 +613,7 @@ c
         ENDIF
         DTELEM(NFT+I)=DTX(I)
 C       STI = 0.25 * RHO * VOL / (DT*DT)
-        STI = QUART * GBUF%FILL(I) * GBUF%RHO(I) * VOLU(I) /
+        STI = FOURTH * GBUF%FILL(I) * GBUF%RHO(I) * VOLU(I) /
      .        MAX(EM20,DTX(I)*DTX(I))
         STIFN(IXS(2,I+NFT))=STIFN(IXS(2,I+NFT))+STI
         STIFN(IXS(3,I+NFT))=STIFN(IXS(3,I+NFT))+STI

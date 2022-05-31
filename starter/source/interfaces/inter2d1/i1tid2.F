@@ -101,11 +101,11 @@ C       CALL ARRET(2)
       N3=-T2
       SS=T2*(YS-YM1)+T3*(ZS-ZM1)
       SS=SS/XL
-      SS=DEUX*SS-UN
+      SS=TWO*SS-ONE
       CRST(1,II)=SS
-      CRST(2,II)=-UN
+      CRST(2,II)=-ONE
       IER2=0
-       IF(SS.GT. UNP05.OR.SS.LT.-UNP05)THEN  
+       IF(SS.GT. ONEP05.OR.SS.LT.-ONEP05)THEN  
        IER1=IER1+1
        IER2=1
       ENDIF

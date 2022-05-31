@@ -81,12 +81,12 @@ C
        IF(OFF(I).GT.ZERO)THEN
         IF(XK(I).NE.ZERO.AND.XC(I).NE.ZERO.AND.
      .    MS(NC1(I)).NE.ZERO)THEN
-         MASS2 = DEUX * MS(NC1(I))
-         STI(1,I) = (SQRT(XC(I)*XC(I)+DEUX*XK(I)*MASS2)+XC(I))**2/MASS2
+         MASS2 = TWO * MS(NC1(I))
+         STI(1,I) = (SQRT(XC(I)*XC(I)+TWO*XK(I)*MASS2)+XC(I))**2/MASS2
         ELSEIF(XK(I).NE.ZERO)THEN
-         STI(1,I) = DEUX*XK(I)
+         STI(1,I) = TWO*XK(I)
         ELSEIF(XC(I).NE.ZERO.AND.MS(NC1(I)).NE.ZERO)THEN
-         A = DEUX * XC(I)**2 
+         A = TWO * XC(I)**2 
          STI(1,I) = A / MS(NC1(I))
         ENDIF
        END IF
@@ -94,12 +94,12 @@ C
        IF(OFF(I).GT.ZERO)THEN
         IF(XK(I).NE.ZERO.AND.XC(I).NE.ZERO.AND.
      .    MS(NC2(I)).NE.ZERO)THEN
-         MASS2 = DEUX* MS(NC2(I))
-         STI(2,I) = (SQRT(XC(I)*XC(I)+DEUX*XK(I)*MASS2)+XC(I))**2/MASS2
+         MASS2 = TWO* MS(NC2(I))
+         STI(2,I) = (SQRT(XC(I)*XC(I)+TWO*XK(I)*MASS2)+XC(I))**2/MASS2
         ELSEIF(XK(I).NE.ZERO)THEN
-         STI(2,I) = DEUX*XK(I)
+         STI(2,I) = TWO*XK(I)
         ELSEIF(XC(I).NE.ZERO.AND.MS(NC2(I)).NE.ZERO)THEN
-         A = DEUX * XC(I)**2 
+         A = TWO * XC(I)**2 
          STI(2,I) = A / MS(NC2(I))
         ENDIF
        END IF
@@ -107,12 +107,12 @@ C
        IF(OFF(I).GT.ZERO)THEN
         IF(XK(I).NE.ZERO.AND.XC(I).NE.ZERO.AND.
      .    MS(NC3(I)).NE.ZERO)THEN
-         MASS2 = DEUX * MS(NC3(I))
-         STI(3,I) = (SQRT(XC(I)*XC(I)+DEUX*XK(I)*MASS2)+XC(I))**2/MASS2
+         MASS2 = TWO * MS(NC3(I))
+         STI(3,I) = (SQRT(XC(I)*XC(I)+TWO*XK(I)*MASS2)+XC(I))**2/MASS2
         ELSEIF(XK(I).NE.ZERO)THEN
-         STI(3,I) = DEUX*XK(I)
+         STI(3,I) = TWO*XK(I)
         ELSEIF(XC(I).NE.ZERO.AND.MS(NC3(I)).NE.ZERO)THEN
-         A = DEUX * XC(I)**2 
+         A = TWO * XC(I)**2 
          STI(3,I) = A / MS(NC3(I))
         ENDIF
        END IF
@@ -126,7 +126,7 @@ C IDTMINS=2 & JSMS=1 <=> AMS & elementary time step
 C
         DO I=JFT,JLT
          DT(I)= XM(I)/MAX(EM15,
-     .          DEUX*SQRT(XC(I)*XC(I)+XM(I)*XK(I))+XC(I))
+     .          TWO*SQRT(XC(I)*XC(I)+XM(I)*XK(I))+XC(I))
         ENDDO
 C
         DTA=DTMINS/DTFACS
@@ -134,17 +134,17 @@ C
         DO I=JFT,JLT
           IF(OFF(I).LE.ZERO) CYCLE
           DMELRT(I)=MAX(DMELRT(I),
-     .      XC(I)*DTA+UNDEMI*XK(I)*DTB-QUART*MSRT(I))
+     .      XC(I)*DTA+HALF*XK(I)*DTB-FOURTH*MSRT(I))
 C
 C         MX2 = 2*(M1+2*DeltaM) = 2*(M3+2*DeltaM)
-          MX2= UNDEMI*MSRT(I)+DEUX*DMELRT(I)
+          MX2= HALF*MSRT(I)+TWO*DMELRT(I)
           DT(I)=DTFACS*MX2 /MAX(EM15,
      .      SQRT(XC(I)*XC(I)+MX2*XK(I))+XC(I))
 C
 C         MY2 = 2*(M2+4*DeltaM)
-C         MY2= MSRT(I)+QUATRE*DMELRT(I))
+C         MY2= MSRT(I)+FOUR*DMELRT(I))
 C          DT(I)=  DTFACS*MY2 /MAX(EM15,
-C     .      SQRT(QUATRE*XC(I)*XC(I)+MY2*DEUX*XK(I))+DEUX*XC(I))
+C     .      SQRT(FOUR*XC(I)*XC(I)+MY2*TWO*XK(I))+TWO*XC(I))
 C               == DTFACS*MX2 /MAX(EM15,
 C    .       SQRT(XC(I)*XC(I)+MX2*XK(I))+XC(I))
         ENDDO
@@ -161,7 +161,7 @@ C
 C
         DO I=JFT,JLT
          DT(I)= XM(I)/MAX(EM15,
-     .          DEUX*SQRT(XC(I)*XC(I)+XM(I)*XK(I))+XC(I))
+     .          TWO*SQRT(XC(I)*XC(I)+XM(I)*XK(I))+XC(I))
         ENDDO
 C
         DO I=JFT,JLT
@@ -198,7 +198,7 @@ C
 C
         DO I=JFT,JLT
          DT(I)= XM(I)/
-     .          MAX(EM15,DEUX*SQRT(XC(I)*XC(I)+XM(I)*XK(I))+XC(I))
+     .          MAX(EM15,TWO*SQRT(XC(I)*XC(I)+XM(I)*XK(I))+XC(I))
         ENDDO
 C
         DO I=JFT,JLT
@@ -206,7 +206,7 @@ C
          STI(2,I) = ZERO
          STI(3,I) = ZERO
          IF(OFF(I).GT.ZERO) THEN
-           STI(1,I) = UNDEMI*XM(I) / DT(I)**2   
+           STI(1,I) = HALF*XM(I) / DT(I)**2   
            STI(2,I) = STI(1,I)
            STI(3,I) = STI(1,I)
            DT(I)=DTFAC1(6)*DT(I)

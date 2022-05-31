@@ -133,7 +133,7 @@ C Initialisation
       CPDI_MIX=0   
       CPEI_MIX=0   
       CPFI_MIX=0   
-      FAC_TIME=UN  
+      FAC_TIME=ONE  
 C Lecture carte 1
       CALL HM_GET_INTV('NIP',NGASES,IS_AVAILABLE,LSUBMODEL)                       
       CALL HM_GET_INTV('IFLOW',IFLOW,IS_AVAILABLE,LSUBMODEL)                      
@@ -172,8 +172,8 @@ C Lecture NGASES cartes
 C       Verification existence materiaux et functions                                         
 C ---
 C ---   Materiaux                                                                             
-        IF(FSMASS(I) == ZERO)FSMASS(I)=UN*FAC_MASS                                            
-        IF(FSTEMP(I) == ZERO)FSTEMP(I)=UN*FAC_TEMP                                            
+        IF(FSMASS(I) == ZERO)FSMASS(I)=ONE*FAC_MASS                                            
+        IF(FSTEMP(I) == ZERO)FSTEMP(I)=ONE*FAC_TEMP                                            
         MAT_ID(2,I) = NINTRI(MAT_ID(1,I),IPM,NPROPMI,NUMMAT,1)                                
         IF(MAT_ID(2,I) == 0) THEN                                                             
           CALL ANCMSG(MSGID=698,                                                              
@@ -220,7 +220,7 @@ C ---   Fonctions
       ENDDO  ! I=1,NGASES                                                                     
 
 C Conversion d unites ----------------------
-      IF(ASTIME == ZERO)ASTIME=UN*FAC_TIME
+      IF(ASTIME == ZERO)ASTIME=ONE*FAC_TIME
       R_IGC1=PM(27,MAT_ID(2,1))
 C     Verification de la croissance des fonctions de masse
       DO I=1,NGASES
@@ -293,7 +293,7 @@ C attention dans ce cas la moyenne faite pour mw est :
 C  mw = somme (moles) / somme (masses)
 C  mw = somme (1/masse_molaire) / somme (masses=1)=ngases
        IF (MASS_TOT == ZERO .OR. F_IDMASS(2,I) == 0) THEN
-         INIT_MASS=UN
+         INIT_MASS=ONE
        ELSE
          INIT_MASS=PLD(NPC(F_IDMASS(2,I))+3)*FSMASS(I)
        END IF

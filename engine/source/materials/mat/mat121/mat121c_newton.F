@@ -98,7 +98,7 @@ c
       ! Flags for computation
       Ivisc        = NINT(UPARAM(12)) ! Viscosity formulation      
       ! Strain-rate filtering (if Ivisc = 0)
-      AFILTR       = MIN(UN, UPARAM(14)*TIMESTEP)
+      AFILTR       = MIN(ONE, UPARAM(14)*TIMESTEP)
       ! Initial yield stress vs strain-rate curve
       Xscale_SIG0  = UPARAM(16) ! Strain-rate scale factor
       Yscale_SIG0  = UPARAM(17) ! Initial yield stress scale factor
@@ -113,15 +113,15 @@ c
       ELSE
         TANG(1:NEL)  = UPARAM(21) ! Constant tangent modulus
       ENDIF
-      DTINV          = UN/MAX(TIMESTEP,EM20) ! Inverse of timestep
+      DTINV          = ONE/MAX(TIMESTEP,EM20) ! Inverse of timestep
 c      
       ! Recovering internal variables
       DO I=1,NEL
         IF (OFF(I) < EM01) OFF(I) = ZERO
-        IF (OFF(I) < UN)   OFF(I) = OFF(I)*QCINQ
+        IF (OFF(I) < ONE)   OFF(I) = OFF(I)*FOUR_OVER_5
         ! Standard inputs
         DPLA(I)       = ZERO ! Initialization of the plastic strain increment
-        ET(I)         = UN   ! Initialization of hourglass coefficient
+        ET(I)         = ONE   ! Initialization of hourglass coefficient
         HARDP(I)      = ZERO ! Initialization of hourglass coefficient
         DEZZ(I)       = ZERO ! Initialization of the strain increment in Z direction
         DPXX(I)       = ZERO ! Initialization of the XX plastic strain increment
@@ -136,14 +136,14 @@ c
       IF (Ivisc == 0) THEN 
         ! Compute effective strain-rate
         DO I = 1,NEL
-          TREPSP    = TIERS*(EPSPXX(I) + EPSPYY(I))
+          TREPSP    = THIRD*(EPSPXX(I) + EPSPYY(I))
           DEVEPSPXX = EPSPXX(I) - TREPSP
           DEVEPSPYY = EPSPYY(I) - TREPSP
           DEVEPSPZZ = -TREPSP
-          DEPSDT    = DTIERS*(DEVEPSPXX**2 + DEVEPSPYY**2 + DEVEPSPZZ**2 +
-     .                        DEUX*(EPSPXY(I)**2))
+          DEPSDT    = TWO_THIRD*(DEVEPSPXX**2 + DEVEPSPYY**2 + DEVEPSPZZ**2 +
+     .                        TWO*(EPSPXY(I)**2))
           DEPSDT    = SQRT(DEPSDT)
-          EPSD(I)   = AFILTR * DEPSDT + (UN - AFILTR) * EPSD(I)
+          EPSD(I)   = AFILTR * DEPSDT + (ONE - AFILTR) * EPSD(I)
         ENDDO
       ELSE
         ! Reset plastic strain-rate
@@ -164,9 +164,9 @@ c
         ILEN(1:NEL)  = NPF(IFUNC(2)+1) / 2 - IAD(1:NEL) - IPOS(1:NEL)
         CALL VINTER2(TF,IAD,IPOS,ILEN,NEL,EPSD/Xscale_YOUN,DYOUNDEPSD,YOUNG) 
         YOUNG(1:NEL) = Yscale_YOUN*YOUNG(1:NEL)
-        G(1:NEL)     = UNDEMI * YOUNG(1:NEL) / (UN + NU)
-        BULK(1:NEL)  = TIERS * YOUNG(1:NEL) / (UN - NU*DEUX)
-        A11(1:NEL)   = YOUNG(1:NEL) / (UN - NU*NU)
+        G(1:NEL)     = HALF * YOUNG(1:NEL) / (ONE + NU)
+        BULK(1:NEL)  = THIRD * YOUNG(1:NEL) / (ONE - NU*TWO)
+        A11(1:NEL)   = YOUNG(1:NEL) / (ONE - NU*NU)
         A12(1:NEL)   = A11(1:NEL) * NU
       ENDIF
       ! Compute the Tangent modulus
@@ -205,7 +205,7 @@ c
         SZZ(I)    = -TRSIG(I) * THIRD
         SXY(I)    = SIGNXY(I)
         ! Von Mises equivalent stress
-        SIGVM(I)  = TDEMI*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2) + TROIS*SXY(I)**2
+        SIGVM(I)  = THREE_HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2) + THREE*SXY(I)**2
         SIGVM(I)  = SQRT(SIGVM(I))
       ENDDO
 c      
@@ -217,7 +217,7 @@ c
       ! Checking plastic behavior for all elements
       NINDX = 0
       DO I=1,NEL         
-        IF (PHI(I) > ZERO .AND. OFF(I) == UN) THEN
+        IF (PHI(I) > ZERO .AND. OFF(I) == ONE) THEN
           NINDX=NINDX+1
           INDEX(NINDX)=I
         ENDIF
@@ -256,9 +256,9 @@ c
 c        
             ! 1 - Computation of DPHI_DSIG the normal to the yield surface
             !-------------------------------------------------------------
-            NORMXX = TDEMI*SXX(I)/SIGVM(I)
-            NORMYY = TDEMI*SYY(I)/SIGVM(I)
-            NORMXY = TROIS*SXY(I)/SIGVM(I)
+            NORMXX = THREE_HALF*SXX(I)/SIGVM(I)
+            NORMYY = THREE_HALF*SYY(I)/SIGVM(I)
+            NORMXY = THREE*SXY(I)/SIGVM(I)
 c          
             ! 2 - Computation of DPHI_DLAMBDA
             !---------------------------------------------------------
@@ -312,7 +312,7 @@ c
             ENDIF
 c          
             ! Von Mises equivalent stress update
-            SIGVM(I) = TDEMI*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2) + TROIS*SXY(I)**2
+            SIGVM(I) = THREE_HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2) + THREE*SXY(I)**2
             SIGVM(I) = SQRT(SIGVM(I)) 
 c
             IF (Ivisc == 0) THEN 
@@ -382,7 +382,7 @@ c
         ! Thickness variation
         IF (INLOC > 0) THEN
           DEZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG(I)
-          DEZZ(I) = DEZZ(I) - MAX(DPLANL(I),ZERO)*UNDEMI*(SIGNXX(I)+SIGNYY(I))/MAX(YLD(I),EM20)
+          DEZZ(I) = DEZZ(I) - MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(YLD(I),EM20)
         ELSE
           DEZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG(I) + DEZZ(I)
         ENDIF

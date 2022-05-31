@@ -149,7 +149,7 @@ C--     computation of default tolerance (only one time)
           DX  = XMAX-XMIN
           DY  = YMAX-YMIN
           DZ  = ZMAX-ZMIN
-          TOL_DEF = EM05*(DX+DY+DZ)/(TROIS*EXP(TIERS*LOG(XN)))
+          TOL_DEF = EM05*(DX+DY+DZ)/(THREE*EXP(THIRD*LOG(XN)))
         ENDIF        
 C
         IF (GR_IDS > 0) THEN

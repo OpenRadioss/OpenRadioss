@@ -195,9 +195,9 @@ C          STRAIN
                 EVAR(1,I) =  LBUF%STRA(JJ(1) + I)
                 EVAR(2,I) =  LBUF%STRA(JJ(2) + I)
                 EVAR(3,I) =  LBUF%STRA(JJ(3) + I)
-                EVAR(4,I) =  LBUF%STRA(JJ(4) + I)*UNDEMI
-                EVAR(5,I) =  LBUF%STRA(JJ(5) + I)*UNDEMI
-                EVAR(6,I) =  LBUF%STRA(JJ(6) + I)*UNDEMI
+                EVAR(4,I) =  LBUF%STRA(JJ(4) + I)*HALF
+                EVAR(5,I) =  LBUF%STRA(JJ(5) + I)*HALF
+                EVAR(6,I) =  LBUF%STRA(JJ(6) + I)*HALF
                 IS_WRITTEN_TENSOR(I) = 1
               ENDDO   
             ELSEIF(MLW == 14)THEN
@@ -215,9 +215,9 @@ C          STRAIN
                 EVAR(1,I) = LBUF%STRA(JJ(1) + I)
                 EVAR(2,I) = LBUF%STRA(JJ(2) + I)
                 EVAR(3,I) = LBUF%STRA(JJ(3) + I)
-                EVAR(4,I) = LBUF%STRA(JJ(4) + I)*UNDEMI
-                EVAR(5,I) = LBUF%STRA(JJ(5) + I)*UNDEMI
-                EVAR(6,I) = LBUF%STRA(JJ(6) + I)*UNDEMI
+                EVAR(4,I) = LBUF%STRA(JJ(4) + I)*HALF
+                EVAR(5,I) = LBUF%STRA(JJ(5) + I)*HALF
+                EVAR(6,I) = LBUF%STRA(JJ(6) + I)*HALF
                 IS_WRITTEN_TENSOR(I) = 1
               ENDDO
             ELSEIF(ISTRAIN == 1)THEN
@@ -227,9 +227,9 @@ C          STRAIN
                   EVAR(1,I) = LBUF%STRA(JJ(1) + I)
                   EVAR(2,I) = LBUF%STRA(JJ(2) + I)
                   EVAR(3,I) = LBUF%STRA(JJ(3) + I)
-                  EVAR(4,I) = LBUF%STRA(JJ(4) + I)*UNDEMI
-                  EVAR(5,I) = LBUF%STRA(JJ(5) + I)*UNDEMI
-                  EVAR(6,I) = LBUF%STRA(JJ(6) + I)*UNDEMI
+                  EVAR(4,I) = LBUF%STRA(JJ(4) + I)*HALF
+                  EVAR(5,I) = LBUF%STRA(JJ(5) + I)*HALF
+                  EVAR(6,I) = LBUF%STRA(JJ(6) + I)*HALF
                   IS_WRITTEN_TENSOR(I) = 1
                 ENDDO
              ENDIF

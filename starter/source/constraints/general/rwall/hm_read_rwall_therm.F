@@ -175,7 +175,7 @@ C
         CALL HM_GET_FLOATV('fric'           ,FRIC       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('Diameter'       ,DIAM       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IFQ   = 0
-        FREQ  = UN
+        FREQ  = ONE
         ALPHA = FREQ
         RWL(13,N) = FRIC
         RWL(14,N) = ALPHA
@@ -406,17 +406,17 @@ C
 C
         ! These two parameters are not set in the input deck
         ! but remain in the buffer table
-        FHEAT = UN
-        FACX  = UN/FAC_T_WORK
+        FHEAT = ONE
+        FACX  = ONE/FAC_T_WORK
 C
         IF (TSTIF == ZERO) THEN 
           CALL HM_GET_FLOATV_DIM('Thermalresistance',FAC_TSTIF,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          TSTIF = UN*FAC_TSTIF
+          TSTIF = ONE*FAC_TSTIF
         ENDIF     
 C       
         WRITE(IOUT,2100) IFUNC,TEMP,TSTIF
 C        
-        TSTIF = UN/TSTIF
+        TSTIF = ONE/TSTIF
 C
         NPRW(N+3*NRWALL)=-ITYP
 C

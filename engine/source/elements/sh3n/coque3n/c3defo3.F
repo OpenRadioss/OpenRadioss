@@ -85,7 +85,7 @@ C
         VZ3(I)=E3X(I)*VL3(I,1)+E3Y(I)*VL3(I,2)+E3Z(I)*VL3(I,3)
       ENDDO
 c
-      DT1V4 = QUART*DT1
+      DT1V4 = FOURTH*DT1
       IF (IMPL_S > 0 .AND. IMP_LR == 0 ) DT1V4=ZERO
       DT1V4B= DT1V4
       IF(ISH3N < 2) DT1V4B=ZERO
@@ -250,7 +250,7 @@ C--------NxI,x *A------pay attention Bi*A--- RLZ: VRZ--
       DO I=JFT,JLT
         BYV1= PY1(I)*VX13(I) + PY2(I)*VX23(I)
         BXV2= PX1(I)*VY12(I)
-        A05=UNDEMI/AREA(I)
+        A05=HALF/AREA(I)
         WXY(I)=(-BYV1+BXV2)*A05
       ENDDO
 C
@@ -306,10 +306,10 @@ C-----------------------------------------------
      .   Y21Y31,X21X31,X21Y31,X31Y21,X21Y21,X31Y31
 C--------X2L=(X2-X1)/4---------------------------------------
       DO I=JFT,JLT
-       X2L(I)=QUART*X2(I)
-       X3L(I)=QUART*X3(I)
-       Y2L(I)=QUART*Y2(I)
-       Y3L(I)=QUART*Y3(I)
+       X2L(I)=FOURTH*X2(I)
+       X3L(I)=FOURTH*X3(I)
+       Y2L(I)=FOURTH*Y2(I)
+       Y3L(I)=FOURTH*Y3(I)
       ENDDO
 C
       DO I=JFT,JLT
@@ -352,24 +352,24 @@ C--------NxI,y *A
        BM0RZ(I,3,2) = -X31Y21
 C       BM0RZ(I,3,3) = -BM0RZ(I,3,1)-BM0RZ(I,3,2)
 C-------- -NxI,y KSI +
-       BMKRZ(I,3,2) = DEUX*X31Y21-X21Y31
+       BMKRZ(I,3,2) = TWO*X31Y21-X21Y31
        BMKRZ(I,3,3) = -X21Y21
        BMKRZ(I,3,1) = -BMKRZ(I,3,2)-BMKRZ(I,3,3)
 C-------- NxI,y ETA -
        BMERZ(I,3,2) = X31Y31
-       BMERZ(I,3,3) = X31Y21-DEUX*X21Y31
+       BMERZ(I,3,3) = X31Y21-TWO*X21Y31
        BMERZ(I,3,1) = -BMERZ(I,3,2)-BMERZ(I,3,3)
 C--------NyI,x *A
        BM0RZ(I,4,1) = X21Y31-X31Y21
        BM0RZ(I,4,2) = -X21Y31
 C       BM0RZ(I,4,3) = -BM0RZ(I,4,1)-BM0RZ(I,4,2)
 C-------- -NyI,x KSI
-       BMKRZ(I,4,2) = DEUX*X21Y31-X31Y21
+       BMKRZ(I,4,2) = TWO*X21Y31-X31Y21
        BMKRZ(I,4,3) = -X21Y21
        BMKRZ(I,4,1) = -BMKRZ(I,4,2)-BMKRZ(I,4,3)
 C-------- NyI,x ETA -
        BMERZ(I,4,2) = X31Y31
-       BMERZ(I,4,3) = X21Y31-DEUX*X31Y21
+       BMERZ(I,4,3) = X21Y31-TWO*X31Y21
        BMERZ(I,4,1) = -BMERZ(I,4,2)-BMERZ(I,4,3)
       ENDDO
 C------------------ voir--
@@ -392,7 +392,7 @@ C--------BM0RZ(I,3,1)->(NxI,y+NyI,x) *A-;BM0RZ(I,4,1)->(-NxI,y+NyI,x -2NI) *A---
 C-------should do here as Ni has no more f(j=3)=-f(j=1)-f(j=2)
        B0RZ(I,3)=-B0RZ(I,1)-B0RZ(I,2)
 C------add 2Ni------
-       A2= DEUX*AREA(I)
+       A2= TWO*AREA(I)
        B0RZ(I,1)=B0RZ(I,1)-A2
        BKRZ(I,1)=BKRZ(I,1)+A2
        BERZ(I,1)=BERZ(I,1)+A2
@@ -431,9 +431,9 @@ C-------crrection to pass patch test
       BMRZ(JFT:JLT,1:3,1:2)=ZERO
       RETURN
 C------- moyen ksi,eta=0.5 for BMRZ(,J,I)
-c       SCAL=UNDEMI
+c       SCAL=HALF
 C------- moyen volume (analytical integration)
-       SCAL=UNSIX
+       SCAL=ONE_OVER_6
       DO J=1,2
       DO I=JFT,JLT
        BMRZ(I,1,J)=BM0RZ(I,1,J)+SCAL*(BMKRZ(I,1,J)+BMERZ(I,1,J))
@@ -482,7 +482,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C-------------anticipe for system change (later)
       DO I=JFT,JLT
-       AREAI=UNDEMI/MAX(EM20,AREA(I))
+       AREAI=HALF/MAX(EM20,AREA(I))
        PX2(I)=Y3(I)*AREAI
        PY2(I)=-X3(I)*AREAI
        PX3(I)=-Y2(I)*AREAI

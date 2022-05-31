@@ -189,10 +189,10 @@ C-----------------------------------------------
         IF(.NOT.ALLOCATED(INIMAP2D%FAC_RHO))ALLOCATE(INIMAP2D%FAC_RHO(NBMAT))          
         IF(.NOT.ALLOCATED(INIMAP2D%FAC_PRES_ENER))ALLOCATE(INIMAP2D%FAC_PRES_ENER(NBMAT))                  
         DO ISUBMAT=1,NBMAT
-          INIMAP2D%FAC_RHO(ISUBMAT) = UN
-          INIMAP2D%FAC_PRES_ENER(ISUBMAT) = UN
+          INIMAP2D%FAC_RHO(ISUBMAT) = ONE
+          INIMAP2D%FAC_PRES_ENER(ISUBMAT) = ONE
         ENDDO
-        INIMAP2D%FAC_VEL = UN
+        INIMAP2D%FAC_VEL = ONE
            
         
         RETURN

@@ -122,13 +122,13 @@ C     REAL ou REAL*8
       EXTERNAL BITUNSET,BITGET,BITSET
 C--------------------------------------------------------------
 C     CALCUL DES RIGIDITES DES SEGMENTS 
-C     V16 : DANS LE CAS OU UN SEGMENT APPARTIENT A LA FOIS
+C     V16 : DANS LE CAS OU ONE SEGMENT APPARTIENT A LA FOIS
 C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
 C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
 C---------------------------------------------------------------
 
 C---------------------------------------------------------------
-      SLSFAC = UN
+      SLSFAC = ONE
 C---------------------------------------------------------------
       IPGMAT = 700
       IGMAT = 0
@@ -150,7 +150,7 @@ C---------------------------------------------------------------
         GAPSCALE = GAPMIN
         GAPMIN   = ZERO
       ELSE
-        GAPSCALE = UN
+        GAPSCALE = ONE
       ENDIF  
 C------------------------------------
 C     GAP NOEUDS SECONDS
@@ -164,13 +164,13 @@ C------------------------------------
               IGTYP = IGEO(11,MG)
 	       IP = IPARTC(I)
 	       IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-	         DX=UNDEMI*THK_PART(IP)
+	         DX=HALF*THK_PART(IP)
 	       ELSEIF ( THK(I) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-	         DX=UNDEMI*THK(I)
+	         DX=HALF*THK(I)
 	       ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR.IGTYP == 52)THEN
-	         DX=UNDEMI*THK(I)
+	         DX=HALF*THK(I)
                ELSE
-                 DX=UNDEMI*GEO(1,MG)
+                 DX=HALF*GEO(1,MG)
 	       ENDIF
         WA(IXC(2,I))=MAX(WA(IXC(2,I)),DX)
         WA(IXC(3,I))=MAX(WA(IXC(3,I)),DX)
@@ -182,13 +182,13 @@ C------------------------------------
         IGTYP = IGEO(11,MG)
         IP = IPARTTG(I)
         IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-          DX=UNDEMI*THK_PART(IP)
+          DX=HALF*THK_PART(IP)
         ELSEIF (THK(NUMELC+I).NE.ZERO .AND. IINTTHICK.EQ.0) THEN
-          DX=UNDEMI*THK(NUMELC+I)
+          DX=HALF*THK(NUMELC+I)
         ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
-          DX=UNDEMI*THK(NUMELC+I)
+          DX=HALF*THK(NUMELC+I)
         ELSE
-          DX=UNDEMI*GEO(1,MG)
+          DX=HALF*GEO(1,MG)
         ENDIF
         WA(IXTG(2,I))=MAX(WA(IXTG(2,I)),DX)
         WA(IXTG(3,I))=MAX(WA(IXTG(3,I)),DX)
@@ -196,7 +196,7 @@ C------------------------------------
        ENDDO
        DO I=1,NUMELT
         MG=IXT(4,I)
-        DX=UNDEMI*SQRT(GEO(1,MG))
+        DX=HALF*SQRT(GEO(1,MG))
         WA(IXT(2,I))=MAX(WA(IXT(2,I)),DX)
         WA(IXT(3,I))=MAX(WA(IXT(3,I)),DX)
        ENDDO
@@ -227,7 +227,7 @@ C calcul du surface second. ---
               SX3  = SY1*SZ2 - SZ1*SY2
               SY3  = SZ1*SX2 - SX1*SZ2
               SZ3  = SX1*SY2 - SY1*SX2
-              AREAS(I) = AREAS(I) + UNHUIT*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+              AREAS(I) = AREAS(I) + ONE_OVER_8*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
           ENDDO
              IELEC(I) = IXC(1,IE)
         ENDDO
@@ -242,13 +242,13 @@ C------------------------------------
         IGTYP = IGEO(11,MG)
 	       IP = IPARTC(I)
 	       IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-	         DX=UNDEMI*THK_PART(IP)
+	         DX=HALF*THK_PART(IP)
 	       ELSEIF ( THK(I) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-	         DX=UNDEMI*THK(I)
+	         DX=HALF*THK(I)
 	       ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52)THEN
-	         DX=UNDEMI*THK(I)
+	         DX=HALF*THK(I)
                ELSE
-                 DX=UNDEMI*GEO(1,MG)
+                 DX=HALF*GEO(1,MG)
 	       ENDIF
         WA(IXC(2,I))=MAX(WA(IXC(2,I)),DX)
         WA(IXC(3,I))=MAX(WA(IXC(3,I)),DX)
@@ -260,13 +260,13 @@ C------------------------------------
         IGTYP = IGEO(11,MG)
         IP = IPARTTG(I)
         IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-          DX=UNDEMI*THK_PART(IP)
+          DX=HALF*THK_PART(IP)
         ELSEIF (THK(NUMELC+I).NE.ZERO .AND. IINTTHICK.EQ.0) THEN
-          DX=UNDEMI*THK(NUMELC+I)
+          DX=HALF*THK(NUMELC+I)
         ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52)THEN
-          DX=UNDEMI*THK(NUMELC+I)
+          DX=HALF*THK(NUMELC+I)
         ELSE
-          DX=UNDEMI*GEO(1,MG)
+          DX=HALF*GEO(1,MG)
         ENDIF
         WA(IXTG(2,I))=MAX(WA(IXTG(2,I)),DX)
         WA(IXTG(3,I))=MAX(WA(IXTG(3,I)),DX)
@@ -274,7 +274,7 @@ C------------------------------------
        ENDDO
        DO I=1,NUMELT
         MG=IXT(4,I)
-        DX=UNDEMI*SQRT(GEO(1,MG))
+        DX=HALF*SQRT(GEO(1,MG))
         WA(IXT(2,I))=MAX(WA(IXT(2,I)),DX)
         WA(IXT(3,I))=MAX(WA(IXT(3,I)),DX)
        ENDDO
@@ -355,8 +355,8 @@ C----------------------
         ENDIF
         IF(IGAP/=0)THEN
           GAP_SH(I)=MIN(VOL/AREA,SQRT(AREA))/SIX
-          GAPSOLIDMAX = MIN(GAPSOLIDMAX,VOL/(AREA*QUATRE))
-          GAPMN=MIN(GAPMN,UNDEMI*GAP_SH(I))
+          GAPSOLIDMAX = MIN(GAPSOLIDMAX,VOL/(AREA*FOUR))
+          GAPMN=MIN(GAPMN,HALF*GAP_SH(I))
           GAP_M(I)=ZERO
           TAG(IRECT(1,INRT)) = 1
           TAG(IRECT(2,INRT)) = 1
@@ -389,7 +389,7 @@ c          NBINFLG(IRECT(4,INRT))=BITUNSET(NBINFLG(IRECT(4,INRT)),7)
           ELSE
             DX=GEO(1,MG)*GAPSCALE
           ENDIF
-          GAPM=UNDEMI*DX
+          GAPM=HALF*DX
           GAPS2=MAX(GAPS2,GAPM)
           GAPMN = MIN(GAPMN,DX)
           DXM=DXM+DX
@@ -456,7 +456,7 @@ c          NBINFLG(IRECT(4,INRT))=BITUNSET(NBINFLG(IRECT(4,INRT)),7)
           ELSE
             DX=GEO(1,MG)*GAPSCALE
           ENDIF
-          GAPM=UNDEMI*DX
+          GAPM=HALF*DX
           GAPS2=MAX(GAPS2,GAPM)
           GAPMN = MIN(GAPMN,DX)
           DXM=DXM+DX
@@ -555,8 +555,8 @@ C----------------------
        ENDIF
        IF(IGAP/=0)THEN
           GAP_SH(I)=MIN(VOL/AREA,SQRT(AREA))/SIX
-          GAPSOLIDMAX = MIN(GAPSOLIDMAX,VOL/(AREA*QUATRE))
-          GAPMN=MIN(GAPMN,UNDEMI*GAP_SH(I))
+          GAPSOLIDMAX = MIN(GAPSOLIDMAX,VOL/(AREA*FOUR))
+          GAPMN=MIN(GAPMN,HALF*GAP_SH(I))
           GAP_M(I)=ZERO
           TAG(IRECT(1,INRT)) = 1
           TAG(IRECT(2,INRT)) = 1
@@ -591,7 +591,7 @@ C
         ELSE
           DX=GEO(1,MG)*GAPSCALE
         ENDIF
-        GAPM=UNDEMI*DX
+        GAPM=HALF*DX
         GAPS2=MAX(GAPS2,GAPM)
         GAPMN = MIN(GAPMN,DX)
         DXM=DXM+DX
@@ -656,7 +656,7 @@ C
         ELSE
           DX=GEO(1,MG)*GAPSCALE
         ENDIF
-        GAPM=UNDEMI*DX
+        GAPM=HALF*DX
         GAPS2=MAX(GAPS2,GAPM)
         GAPMN = MIN(GAPMN,DX)
         DXM=DXM+DX
@@ -757,7 +757,7 @@ C GAP FIXE
          IF(GAP.LE.ZERO)THEN
            IF(NDX.NE.0)THEN
              GAP = DXM/NDX
-             GAP = MIN(UNDEMI*GAPMX,GAP)
+             GAP = MIN(HALF*GAPMX,GAP)
            ELSE
              GAP = EM01 * GAPMX
            ENDIF
@@ -765,7 +765,7 @@ c           WRITE(IOUT,1300)GAP
          ENDIF
          GAPMIN = GAP
          IF(INACTI.NE.7.AND.GAP.GT.0.5*GAPMX)THEN
-          GAPTMP = UNDEMI*GAPMX
+          GAPTMP = HALF*GAPMX
           CALL ANCMSG(MSGID=94,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_2,
@@ -776,12 +776,12 @@ c           WRITE(IOUT,1300)GAP
          ENDIF
        ELSE
 C GAP VARIABLE :
-C    - GAPMIN CONTIENT UN GAP MINIMUM UTILISE SI GAP_S(I)+GAP_M(J) < GAPMIN
+C    - GAPMIN CONTIENT ONE GAP MINIMUM UTILISE SI GAP_S(I)+GAP_M(J) < GAPMIN
 C    - GAP CONTIENT LE SUP DE (GAP_S(I)+GAP_M(J),GAPMIN) 
          IF(GAP.LE.ZERO)THEN
            IF(NDX.NE.0)THEN
              GAPMIN = GAPMN
-             GAPMIN = MIN(UNDEMI*GAPMX,GAPMIN)
+             GAPMIN = MIN(HALF*GAPMX,GAPMIN)
            ELSE
 c             GAPMIN = EM01 * GAPMX
              GAPMIN = MIN(GAPMN,EM01 * GAPMX)
@@ -793,7 +793,7 @@ c           WRITE(IOUT,1300)GAPMIN
 C SUP DES GAPS VARIABLES
          GAP = MAX(GAPS1+GAPS2,GAPMIN)
          GAP=MIN(GAP,GAPMAX)
-         IF(INACTI.NE.7.AND.GAP.GT.UNDEMI*GAPMX)THEN
+         IF(INACTI.NE.7.AND.GAP.GT.HALF*GAPMX)THEN
           GAPTMP = 0.5*GAPMX
           CALL ANCMSG(MSGID=477,
      .                MSGTYPE=MSGWARNING,
@@ -804,7 +804,7 @@ C SUP DES GAPS VARIABLES
          ENDIF
        ENDIF
 C---------------------------------------------
-C     MISE A UN DU MULTIPLICATEUR NODALE DES RIGIDITES 
+C     MISE A ONE DU MULTIPLICATEUR NODALE DES RIGIDITES 
 C---------------------------------------------
 c     STFN est temporairement de 1 a NSN au lien de 1 a NLN
       DO L=1,NSN
@@ -819,7 +819,7 @@ C---------------------------------------------
             GAP_SH(I) = MIN(GAPSOLIDMAX,GAP_SH(I))
             GAP_SH(I) = MAX(GAPSOL,GAP_SH(I))
 c GAP_M pour tri
-            GAP_M(I)=GAP_M(I)+DEUX*GAP_SH(I)
+            GAP_M(I)=GAP_M(I)+TWO*GAP_SH(I)
           ENDIF
         ENDDO
       ENDIF
@@ -839,7 +839,7 @@ C
           GAPSUPS = MAX(GAPSUPS,GAP_S(I))
         ENDDO
         DO I = 1, NRT
-c          GAP_M(I)=GAP_M(I)+DEUX*GAP_SH(I)
+c          GAP_M(I)=GAP_M(I)+TWO*GAP_SH(I)
           GAPINFM = MIN(GAPINFM,GAP_M(I))
           GAPSUPM = MAX(GAPSUPM,GAP_M(I))
           GAPSHMAX = MAX(GAPSHMAX,GAP_SH(I))
@@ -935,7 +935,7 @@ C-----------------------------------------------
       EXTERNAL GET_U_GEO
 C--------------------------------------------------------------
 C     CALCUL DES RIGIDITES DES SEGMENTS 
-C     V16 : DANS LE CAS OU UN SEGMENT APPARTIENT A LA FOIS
+C     V16 : DANS LE CAS OU ONE SEGMENT APPARTIENT A LA FOIS
 C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
 C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
 C---------------------------------------------------------------
@@ -1012,7 +1012,7 @@ C
         DX=GEO(1,MG)
         IF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP ==52)
      .                                   DX = THK(NUMELC + NELTG)
-        GAP_SM(I)=UNDEMI*DX
+        GAP_SM(I)=HALF*DX
         GAPS1=MAX(GAPS1,GAP_SM(I))
         GAPMN = MIN(GAPMN,DX)
         DXM=DXM+DX
@@ -1062,7 +1062,7 @@ C
         DX=GEO(1,MG)
         IF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP ==52)
      .                                         DX = THK(NELC)
-        GAP_SM(I)=UNDEMI*DX
+        GAP_SM(I)=HALF*DX
         GAPS1=MAX(GAPS1,GAP_SM(I))
         GAPMN = MIN(GAPMN,DX)
         DXM=DXM+DX
@@ -1118,7 +1118,7 @@ C
         DX=SQRT(GEO(1,MG))
         IF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 )
      .                                  DX = SQRT(THK(NUMELC + NELT))
-        GAP_SM(I)=MAX(GAP_SM(I),UNDEMI*DX)
+        GAP_SM(I)=MAX(GAP_SM(I),HALF*DX)
         GAPS1=MAX(GAPS1,GAP_SM(I))
         GAPMN = MIN(GAPMN,DX)
         DXM=DXM+DX
@@ -1163,7 +1163,7 @@ C
         MT=IXP(1,NELP)
         MG=IXP(5,NELP)
         DX=SQRT(GEO(1,MG))
-        GAP_SM(I)=MAX(GAP_SM(I),UNDEMI*DX)
+        GAP_SM(I)=MAX(GAP_SM(I),HALF*DX)
         GAPS1=MAX(GAPS1,GAP_SM(I))
         GAPMN = MIN(GAPMN,DX)
         DXM=DXM+DX
@@ -1325,21 +1325,21 @@ C---------------------------
           GAP1 = GAP0
         ELSE
           IF(NDX.NE.0)THEN
-           GAP1 = MIN(UNDEMI*GAPMX,DXM/NDX)
+           GAP1 = MIN(HALF*GAPMX,DXM/NDX)
           ELSE
            GAP1 = EM01* GAPMX
           ENDIF
-          IF(NINTR.LT.0)WRITE(IOUT,1300)UNDEMI*(GAPMIN+GAP1)
+          IF(NINTR.LT.0)WRITE(IOUT,1300)HALF*(GAPMIN+GAP1)
         ENDIF
 C
-        IF(NINTR.LT.0) GAP1 = UNDEMI*(GAPMIN+GAP1)
+        IF(NINTR.LT.0) GAP1 = HALF*(GAPMIN+GAP1)
         GAPMIN = GAP1
         GAPMAX = GAP1
 C
-        IF(GAP1.GT.UNDEMI*GAPMX)THEN
+        IF(GAP1.GT.HALF*GAPMX)THEN
 C          WRITE(IOUT,1400)GAP1,0.5*GAPMX
 C          IWARN=IWARN+1
-          GAPTMP = UNDEMI*GAPMX
+          GAPTMP = HALF*GAPMX
           CALL ANCMSG(MSGID=94,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_2,
@@ -1356,23 +1356,23 @@ C---------------------------
           GAP1 = GAP0
         ELSE
           IF(NDX.NE.0)THEN
-           GAP1 = MIN(UNDEMI*GAPMX,GAPMN)
+           GAP1 = MIN(HALF*GAPMX,GAPMN)
           ELSE
            GAP1 = EM01 * GAPMX
           ENDIF
-          IF(NINTR.LT.0)WRITE(IOUT,1300)UNDEMI*(GAPMIN+GAP1)
+          IF(NINTR.LT.0)WRITE(IOUT,1300)HALF*(GAPMIN+GAP1)
         ENDIF
 C GAP MINI ET SUP DES GAPS VARIABLES
         IF(NINTR.GT.0)THEN
           GAPMIN = GAP1
           GAPMAX = GAPS1
         ELSE
-          GAPMIN = UNDEMI*(GAPMIN+GAP1)
+          GAPMIN = HALF*(GAPMIN+GAP1)
           GAPMAX = MAX(GAPMAX+GAPS1,GAPMIN)
         ENDIF
 C
-        IF(GAPMAX.GT.UNDEMI*GAPMX)THEN
-           GAPTMP = UNDEMI*GAPMX
+        IF(GAPMAX.GT.HALF*GAPMX)THEN
+           GAPTMP = HALF*GAPMX
            CALL ANCMSG(MSGID=94,
      .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_2,
@@ -1395,7 +1395,7 @@ C
 C Calcul du gap reel a utiliser lors du critere de retri
 C
       IF (IGAP.EQ.0) THEN
-        GAPINF=GAPMAX/DEUX ! remultiplie par 2 dans i20ini3
+        GAPINF=GAPMAX/TWO ! remultiplie par 2 dans i20ini3
       ELSE
         DO I = 1, NRT
           GAPINF = MIN(GAPINF,GAP_SM(I))
@@ -1481,10 +1481,10 @@ C-----------------------------------------------
       ENDDO
 
       DO I=1,NLN
-        STIF(I) = UN
-        ALPHAK(1,I)  = UN
-        ALPHAK(2,I)  = UN
-        ALPHAK(3,I)  = UN
+        STIF(I) = ONE
+        ALPHAK(1,I)  = ONE
+        ALPHAK(2,I)  = ONE
+        ALPHAK(3,I)  = ONE
       ENDDO
 
       DO I=1,NSN
@@ -1506,7 +1506,7 @@ c STFA sera recalcule dans I20STIFN /inter3d1/i20stifn.F
      +                   +DXANC(2,I)*DXANC(2,I)
      +                   +DXANC(3,I)*DXANC(3,I))
         PENIA(5,I) = PENIA(4,I)
-        AAA = UN/MAX(PENIA(4,I),EM20)
+        AAA = ONE/MAX(PENIA(4,I),EM20)
         PENIA(1,I) = DXANC(1,I)*AAA
         PENIA(2,I) = DXANC(2,I)*AAA
         PENIA(3,I) = DXANC(3,I)*AAA

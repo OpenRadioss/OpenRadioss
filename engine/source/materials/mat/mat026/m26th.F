@@ -67,18 +67,18 @@ C-----------------------------------------------
         J=I+NFT
         MX = MAT(I)
         ZZ = MAX(EM10,Z(I))
-        DELTAT= TROISP44 * ZEP26 * LOG(ZZ) / ZZ
+        DELTAT= THREEP44 * ZEP26 * LOG(ZZ) / ZZ
         IF(DELTAT.GT.ZERO)THEN
-          DELTAT= UN / ( UN +  DELTAT)
+          DELTAT= ONE / ( ONE +  DELTAT)
         ELSE
           DELTAT= ZERO
         ENDIF
         ATOM  = PM(37,MX)
         NE    = RHO(I)*NA*ZZ/ATOM
-        XLAMB = PM(36,MX)*T(I)**TDEMI/SQRT(NE)
-        XLAMB = MAX(UN,XLAMB)
+        XLAMB = PM(36,MX)*T(I)**THREE_HALF/SQRT(NE)
+        XLAMB = MAX(ONE,XLAMB)
         XLAMB = MAX(EM10, LOG(XLAMB))
-        XK(J) = XK(J) + ZEP4*DELTAT*PM(35,MX)*T(I)**DEUXP5 / (ZZ*XLAMB)
+        XK(J) = XK(J) + ZEP4*DELTAT*PM(35,MX)*T(I)**TWOP5 / (ZZ*XLAMB)
       ENDDO
 
       !----------------------------
@@ -98,9 +98,9 @@ C-----------------------------------------------
           TL = LOG10(T(I))
           CALL MINTP_RT(SESAME(IDR),NR,
      +        SESAME(IDT),NT,SESAME(IDQ),RL,TL,OPAC,DXDR)
-          OPAC = DIX**OPAC
-          ROSSEL = UN / ( RHO(I) * OPAC)
-          XKR = SEIZE * STEFAN * T(I)**3 * ROSSEL * THIRD
+          OPAC = TEN**OPAC
+          ROSSEL = ONE / ( RHO(I) * OPAC)
+          XKR = SIXTEEN * STEFAN * T(I)**3 * ROSSEL * THIRD
           XK(J) = XK(J) + XKR
         ENDIF
         XK(J) = MIN(XK(J),PM(52,MX))

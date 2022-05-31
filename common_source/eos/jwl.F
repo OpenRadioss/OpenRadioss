@@ -105,7 +105,7 @@ C-----------------------------------------------
          PSH(1:NEL) = PM(88,MX)        
              
          DO I=1,NEL
-           BFRAC(I)=UN
+           BFRAC(I)=ONE
          ENDDO    
                                               
          DO I=1, NEL                                                                                        
@@ -114,15 +114,15 @@ C-----------------------------------------------
               R2DF = R2*DF(I)                                                                               
               ER1DF = EXP(-R1DF)                                                                            
               ER2DF = EXP(-R2DF)                                                                              
-              PNEW(I) =  - PSH(I) + AA*(UN-W1/R1DF)*ER1DF + BB*(UN-W1/R2DF)*ER2DF + W1*ESPE(I)/DF(I)   
+              PNEW(I) =  - PSH(I) + AA*(ONE-W1/R1DF)*ER1DF + BB*(ONE-W1/R2DF)*ER2DF + W1*ESPE(I)/DF(I)   
               PNEW(I) = MAX(ZERO - PSH(I), PNEW(I))                                                         
               ! dPdE  : partial derivative                                                                  
               ! dPdmu : partial derivative                                                                  
               ! DPDM  : total derivative                                                                         
               dPdE(I) = W1/DF(I)                                                                            
               dPdmu   =                                                                                     
-     .              -AA*W1*ER1DF/R1 + AA*(UN-W1/(R1DF))*R1DF*R1DF*ER1DF                                     
-     .              -BB*W1*ER2DF/R2 + BB*(UN-W1/(R2DF))*R2DF*R2DF*ER2DF                                     
+     .              -AA*W1*ER1DF/R1 + AA*(ONE-W1/(R1DF))*R1DF*R1DF*ER1DF                                     
+     .              -BB*W1*ER2DF/R2 + BB*(ONE-W1/(R2DF))*R2DF*R2DF*ER2DF                                     
      .              +W1*ESPE(I)                                                                             
               DPDM(I) = dPdmu + (PNEW(I)+PSH(I))*DF(I)*DF(I)*dPdE(I)                                        
             ENDIF                                                                                           

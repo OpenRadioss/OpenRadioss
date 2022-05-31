@@ -2151,7 +2151,7 @@ C-------AUTOSPC
           KII(2,1)=KII(1,2)
           KII(3,1)=KII(1,3)
           KII(3,2)=KII(2,3)
-          S = UN/EJ(J1)
+          S = ONE/EJ(J1)
           DO NN =1,3
            EJ(NN) = EJ(NN)*S
           ENDDO
@@ -3892,7 +3892,7 @@ C-------termes kn,nj-------
        DO NK=1,N_FR
         NB=-IFRLOC(NK)
         IF (NB.LT.0) NB = NK
-        S1 = UN/ITAG(NB)
+        S1 = ONE/ITAG(NB)
         STMP = STMP + S1*NDOF(FR_ELEM(NB))
        ENDDO
        DEALLOCATE(ITAG)
@@ -4266,7 +4266,7 @@ c       IKCFR (before condensation) for comm IKC
 C
         NB=-IFRLOC(NK)
         IF (NB.LT.0) NB = NK
-        S1 = UN/ITAG(NB)
+        S1 = ONE/ITAG(NB)
         STMP = STMP + S1*(IFIX-IND)
 C
        ENDDO
@@ -6574,7 +6574,7 @@ C------------------------------------
           K11(1,2,JLT_NEW) = KSS(4,IS)
           K11(1,3,JLT_NEW) = KSS(5,IS)
           K11(2,3,JLT_NEW) = KSS(6,IS)
-          OFF(JLT_NEW) = UN
+          OFF(JLT_NEW) = ONE
          ENDIF
         ENDDO
         JLT = JLT_NEW
@@ -10230,7 +10230,7 @@ C
          IF (ICONT(NK).GT.0) THEN
           NB=-IFRLOC(NK)
           IF (NB.LT.0) NB = NK
-              S1 = UN/ITAG(NB)
+              S1 = ONE/ITAG(NB)
           STMP = STMP + S1*ICONT(NK)
          ENDIF
        ENDDO

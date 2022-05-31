@@ -190,17 +190,17 @@ C-----------------------------------------------
           REACTION_RATE2 = ZERO 
         CASE(1)
           !---CONSTANT AFTERBURNING RATE
-          REACTION_RATE  = UN/(TEND-TBEGIN) 
+          REACTION_RATE  = ONE/(TEND-TBEGIN) 
           REACTION_RATE2 = ZERO       
         CASE(2)
           !---LINEAR AFTERBURNING RATE
-          REACTION_RATE  = DEUX/(TEND-TBEGIN)**2 
+          REACTION_RATE  = TWO/(TEND-TBEGIN)**2 
           REACTION_RATE2 = TBEGIN**2/(TEND-TBEGIN)**2
         CASE(3)
           !---MILLER S EXTENSION
           REACTION_RATE  = ZERO
           REACTION_RATE2 = ZERO 
-          IF(ALPHA_UNIT == ZERO)ALPHA_UNIT=UN        
+          IF(ALPHA_UNIT == ZERO)ALPHA_UNIT=ONE        
         CASE DEFAULT
           !CLASSICAL MODEL
           EADD          = ZERO
@@ -235,7 +235,7 @@ C-----------------------------------------------
       PM(42)  = QOPT
       PM(43)  = C0
       PM(44)  = BULK
-      VCJ     = UN-UN/PM(40)
+      VCJ     = ONE-ONE/PM(40)
       PM(104) = C0-PSH
       PM(160) = EADD
       PM(161) = TBEGIN

@@ -259,12 +259,12 @@ C---------------------------------------------------
          NRY=Z12*X13-X12*Z13
          NRZ=X12*Y13-Y12*X13
          AREA2=SQRT(NRX**2+NRY**2+NRZ**2)
-         ELAREA(IEL)=UNDEMI*AREA2
+         ELAREA(IEL)=HALF*AREA2
          NORM(1,IEL)=NRX/AREA2
          NORM(2,IEL)=NRY/AREA2
          NORM(3,IEL)=NRZ/AREA2
 C
-         VOLG=VOLG+UNSIX*(X1*NRX+Y1*NRY+Z1*NRZ)
+         VOLG=VOLG+ONE_OVER_6*(X1*NRX+Y1*NRY+Z1*NRZ)
       ENDDO
 C
       DO IEL=1,NELA
@@ -367,9 +367,9 @@ C
             XBMIN=MIN(XBMIN,XX)
             YBMIN=MIN(YBMIN,YY)
             ZBMIN=MIN(ZBMIN,ZZ)
-            XC=XC+UNHUIT*XX
-            YC=YC+UNHUIT*YY
-            ZC=ZC+UNHUIT*ZZ
+            XC=XC+ONE_OVER_8*XX
+            YC=YC+ONE_OVER_8*YY
+            ZC=ZC+ONE_OVER_8*ZZ
          ENDDO
 C Passage repere local brique
          PP(1,1)=SFAC(4,2,I)
@@ -445,18 +445,18 @@ C Liste elargie pour faces laterales
             IF (ICUT.EQ.0) THEN
                TOLE=EM5
 *               TOLE=ZERO
-               XG=TIERS*(X1+X2+X3)
-               YG=TIERS*(Y1+Y2+Y3)
-               ZG=TIERS*(Z1+Z2+Z3)
-               X1=XG+(UN+TOLE)*(X1-XG)
-               Y1=YG+(UN+TOLE)*(Y1-YG)
-               Z1=ZG+(UN+TOLE)*(Z1-ZG)
-               X2=XG+(UN+TOLE)*(X2-XG)
-               Y2=YG+(UN+TOLE)*(Y2-YG)
-               Z2=ZG+(UN+TOLE)*(Z2-ZG)
-               X3=XG+(UN+TOLE)*(X3-XG)
-               Y3=YG+(UN+TOLE)*(Y3-YG)
-               Z3=ZG+(UN+TOLE)*(Z3-ZG)
+               XG=THIRD*(X1+X2+X3)
+               YG=THIRD*(Y1+Y2+Y3)
+               ZG=THIRD*(Z1+Z2+Z3)
+               X1=XG+(ONE+TOLE)*(X1-XG)
+               Y1=YG+(ONE+TOLE)*(Y1-YG)
+               Z1=ZG+(ONE+TOLE)*(Z1-ZG)
+               X2=XG+(ONE+TOLE)*(X2-XG)
+               Y2=YG+(ONE+TOLE)*(Y2-YG)
+               Z2=ZG+(ONE+TOLE)*(Z2-ZG)
+               X3=XG+(ONE+TOLE)*(X3-XG)
+               Y3=YG+(ONE+TOLE)*(Y3-YG)
+               Z3=ZG+(ONE+TOLE)*(Z3-ZG)
 C
                TVERTS(1)=PP(1,1)*(X1-XC)+PP(2,1)*(Y1-YC)+PP(3,1)*(Z1-ZC)
                TVERTS(2)=PP(1,2)*(X1-XC)+PP(2,2)*(Y1-YC)+PP(3,2)*(Z1-ZC)
@@ -532,18 +532,18 @@ C
 C Facettes coupees (1 quadrangle=2 triangles)
                TOLE=EM5
 *               TOLE=ZERO
-               XG=TIERS*(X1+X2+X3)
-               YG=TIERS*(Y1+Y2+Y3)
-               ZG=TIERS*(Z1+Z2+Z3)
-               X1=XG+(UN+TOLE)*(X1-XG)
-               Y1=YG+(UN+TOLE)*(Y1-YG)
-               Z1=ZG+(UN+TOLE)*(Z1-ZG)
-               X2=XG+(UN+TOLE)*(X2-XG)
-               Y2=YG+(UN+TOLE)*(Y2-YG)
-               Z2=ZG+(UN+TOLE)*(Z2-ZG)
-               X3=XG+(UN+TOLE)*(X3-XG)
-               Y3=YG+(UN+TOLE)*(Y3-YG)
-               Z3=ZG+(UN+TOLE)*(Z3-ZG)
+               XG=THIRD*(X1+X2+X3)
+               YG=THIRD*(Y1+Y2+Y3)
+               ZG=THIRD*(Z1+Z2+Z3)
+               X1=XG+(ONE+TOLE)*(X1-XG)
+               Y1=YG+(ONE+TOLE)*(Y1-YG)
+               Z1=ZG+(ONE+TOLE)*(Z1-ZG)
+               X2=XG+(ONE+TOLE)*(X2-XG)
+               Y2=YG+(ONE+TOLE)*(Y2-YG)
+               Z2=ZG+(ONE+TOLE)*(Z2-ZG)
+               X3=XG+(ONE+TOLE)*(X3-XG)
+               Y3=YG+(ONE+TOLE)*(Y3-YG)
+               Z3=ZG+(ONE+TOLE)*(Z3-ZG)
 C
                FV0(1)=X1
                FV0(2)=Y1
@@ -830,7 +830,7 @@ C
          Y0=RVOLU(42)
          Z0=RVOLU(43)
          LZ=RVOLU(53)
-         DZ=DEUX*LZ/NBZ
+         DZ=TWO*LZ/NBZ
          DXM=MIN(DXM,DZ)
 C
          ZBMIN=EP30
@@ -2017,7 +2017,7 @@ C On retranche la surface des trous
             ENDDO
             DEALLOCATE(ADR)
          ENDIF
-         RPOLY_F(1,I)=UNDEMI*ABS(AREA)
+         RPOLY_F(1,I)=HALF*ABS(AREA)
       ENDDO
 C---------------------------------------------------
 C Volume des polyhedres
@@ -2046,7 +2046,7 @@ C---------------------------------------------------
             X1=RPOLY_F(5,JJ)
             Y1=RPOLY_F(6,JJ)
             Z1=RPOLY_F(7,JJ)
-            VOLU(I)=VOLU(I)+TIERS*AREA*(X1*NX+Y1*NY+Z1*NZ)
+            VOLU(I)=VOLU(I)+THIRD*AREA*(X1*NX+Y1*NY+Z1*NZ)
          ENDDO
       ENDDO
 C---------------------------------------------------
@@ -2333,7 +2333,7 @@ C
                   AREA=AREA-(NNX*NX+NNY*NY+NNZ*NZ)
                ENDDO
             ENDDO
-            RPOLY_F(1,I)=UNDEMI*ABS(AREA)
+            RPOLY_F(1,I)=HALF*ABS(AREA)
          ENDIF
 C
          DEALLOCATE(IPOLY_OLD, RPOLY_OLD, ADR_OLD, ADR)
@@ -2396,7 +2396,7 @@ C
          IF (VOLU(I).LT.ZERO) THEN
             DO J=1,POLH_F(1,I)
                JJ=POLH_F(2+J,I)
-               RPOLY_F(1,JJ)=-UN
+               RPOLY_F(1,JJ)=-ONE
             ENDDO
             VOLU(I)=ZERO
          ENDIF
@@ -2457,19 +2457,19 @@ C
             ENDDO
             IF (JMAX.NE.0) THEN
                JJMAX=POLH_NEW(2+JMAX,I)
-               RPOLY_F(1,JJMAX)=-UN
+               RPOLY_F(1,JJMAX)=-ONE
             ELSE
                JMAX=1
                JJMAX=POLH_NEW(2+JMAX,I)
                ITY=IPOLY_F(1,JJMAX)
-               IF (ITY.EQ.2) RPOLY_F(1,JJMAX)=-UN
+               IF (ITY.EQ.2) RPOLY_F(1,JJMAX)=-ONE
 C On merge tous les polyhedres de volume nul avec le polyhedre 1
                IMAX=1
             ENDIF
             IF (IMERGED(IMAX).EQ.1) IMAX=POLH_NEW(2,IMAX)
             NP=POLH_NEW(1,IMAX)
             VOLU(IMAX)=VOLU(IMAX)+VOLU(I)
-            VOLU(I)=-UN
+            VOLU(I)=-ONE
             IMERGED(I)=1
             DO J=1,POLH_NEW(1,I)
                IF (J.NE.JMAX) THEN
@@ -2507,7 +2507,7 @@ C
          DO J=1,POLH_NEW(1,I)
             JJ=POLH_NEW(2+J,I)
             IF (IPOLY_F(1,JJ).EQ.1.OR.RPOLY_F(1,JJ).LT.ZERO) CYCLE
-            IF (IPOLY_F(5,JJ).EQ.IPOLY_F(6,JJ)) RPOLY_F(1,JJ)=-UN
+            IF (IPOLY_F(5,JJ).EQ.IPOLY_F(6,JJ)) RPOLY_F(1,JJ)=-ONE
          ENDDO
       ENDDO
       DEALLOCATE(VOLU_OLD, RPOLY_F_OLD, IPOLY_F_OLD, IMERGED)
@@ -2620,7 +2620,7 @@ C
             FVDATA(IFV)%IFVNOD(1,NNS+I)=3
             FVDATA(IFV)%IFVNOD(2,NNS+I)=1
             FVDATA(IFV)%IFVNOD(3,NNS+I)=2
-            FVDATA(IFV)%RFVNOD(1,NNS+I)=UN
+            FVDATA(IFV)%RFVNOD(1,NNS+I)=ONE
          ENDIF
       ENDDO
 C---------------------------------------------------
@@ -3017,9 +3017,9 @@ C Elimination des noeuds doubles pour anim
                Y3=XXXA(2,N3)
                Z3=XXXA(3,N3)
             ENDIF
-            PNODES(1,I)=(UN-KSI-ETA)*X1+KSI*X2+ETA*X3
-            PNODES(2,I)=(UN-KSI-ETA)*Y1+KSI*Y2+ETA*Y3
-            PNODES(3,I)=(UN-KSI-ETA)*Z1+KSI*Z2+ETA*Z3
+            PNODES(1,I)=(ONE-KSI-ETA)*X1+KSI*X2+ETA*X3
+            PNODES(2,I)=(ONE-KSI-ETA)*Y1+KSI*Y2+ETA*Y3
+            PNODES(3,I)=(ONE-KSI-ETA)*Z1+KSI*Z2+ETA*Z3
          ELSEIF (FVDATA(IFV)%IFVNOD(1,I).EQ.2) THEN
 c            IF (NSPMD == 1) THEN
 c               II=FVDATA(IFV)%IFVNOD(2,I)
@@ -3039,9 +3039,9 @@ c            ENDIF
          I1=FVDATA(IFV)%IFVNOD(2,II)
          I2=FVDATA(IFV)%IFVNOD(3,II)
          ALPHA=FVDATA(IFV)%RFVNOD(1,II)
-         PNODES(1,II)=ALPHA*PNODES(1,I1)+(UN-ALPHA)*PNODES(1,I2)
-         PNODES(2,II)=ALPHA*PNODES(2,I1)+(UN-ALPHA)*PNODES(2,I2)
-         PNODES(3,II)=ALPHA*PNODES(3,I1)+(UN-ALPHA)*PNODES(3,I2)
+         PNODES(1,II)=ALPHA*PNODES(1,I1)+(ONE-ALPHA)*PNODES(1,I2)
+         PNODES(2,II)=ALPHA*PNODES(2,I1)+(ONE-ALPHA)*PNODES(2,I2)
+         PNODES(3,II)=ALPHA*PNODES(3,I1)+(ONE-ALPHA)*PNODES(3,I2)
       ENDDO
       DO I=1,NNS+NNS2
          IF (ILVOUT.LT.0) CALL PROGBAR_C(I,NNS+NNS2)
@@ -3311,7 +3311,7 @@ C
 *      TOLE2=EM5
       TOLE2 = ZERO
       TOLE2 = EPSILON(TOLE2)
-      TOLEI=TOLE2*DIX
+      TOLEI=TOLE2*TEN
       TOLE=TOLE2*LMIN
 C
       A(1)=QUAD(1,1)
@@ -3495,13 +3495,13 @@ C
             SS2=X12*NX+Y12*NY+Z12*NZ
             IF (SS2.EQ.ZERO) CYCLE
             ALPHA=-SS1/SS2
-            IF (ALPHA.LT.-TOLEI.OR.ALPHA.GT.UN+TOLEI) CYCLE
+            IF (ALPHA.LT.-TOLEI.OR.ALPHA.GT.ONE+TOLEI) CYCLE
             XM=X1+ALPHA*X12
             YM=Y1+ALPHA*Y12
             ZM=Z1+ALPHA*Z12
             BETA=((XM-XA1)*XA12+(YM-YA1)*YA12+(ZM-ZA1)*ZA12)
      .          /(XA12**2+YA12**2+ZA12**2)
-            IF (BETA.LT.-TOLEI.OR.BETA.GT.UN+TOLEI) CYCLE
+            IF (BETA.LT.-TOLEI.OR.BETA.GT.ONE+TOLEI) CYCLE
             SS1=(X1-XA1)*NX+(Y1-YA1)*NY+(Z1-ZA1)*NZ
             SS2=(X2-XA1)*NX+(Y2-YA1)*NY+(Z2-ZA1)*NZ
 C
@@ -3560,9 +3560,9 @@ C
             NZ=NORMT(3,I)
             SS1=XA12*NX+YA12*NY+ZA12*NZ
             IF (SS1.LE.ZERO) THEN
-               PINTER(J,NPI,4)=UN
+               PINTER(J,NPI,4)=ONE
             ELSEIF (SS1.GE.ZERO) THEN
-               PINTER(J,NPI,4)=-UN
+               PINTER(J,NPI,4)=-ONE
             ENDIF
          ENDDO
       ENDDO
@@ -3665,7 +3665,7 @@ C Condensation du tableau REDIR
          ENDDO
          IF (NPI.EQ.0) CYCLE
 C Creation des segments sur les aretes
-         IF (PINTER(I,REDIR(1),4).EQ.-UN) THEN
+         IF (PINTER(I,REDIR(1),4).EQ.-ONE) THEN
             NSEG=NSEG+1
             SEG(NSEG,1,1)=XA1
             SEG(NSEG,2,1)=YA1
@@ -3679,7 +3679,7 @@ C Creation des segments sur les aretes
          DO J=1,NPI-1
             JJ=REDIR(J)
             JJ1=REDIR(J+1)
-            IF (PINTER(I,JJ,4).EQ.-UN) CYCLE
+            IF (PINTER(I,JJ,4).EQ.-ONE) CYCLE
             XP1=PINTER(I,JJ,1)
             YP1=PINTER(I,JJ,2)
             ZP1=PINTER(I,JJ,3)
@@ -3696,7 +3696,7 @@ C Creation des segments sur les aretes
             SEG(NSEG,3,2)=ZP2
             ELSEG(NSEG,2)=ELINTER(I,JJ1)
          ENDDO
-         IF (PINTER(I,REDIR(NPI),4).EQ.UN) THEN
+         IF (PINTER(I,REDIR(NPI),4).EQ.ONE) THEN
             NSEG=NSEG+1
             SEG(NSEG,1,1)=PINTER(I,REDIR(NPI),1)
             SEG(NSEG,2,1)=PINTER(I,REDIR(NPI),2)
@@ -3961,7 +3961,7 @@ C
                ENDIF
             ENDDO
 C
-            IF (ABS(ALPHA).GE.UN) THEN
+            IF (ABS(ALPHA).GE.ONE) THEN
 C Le premier point du polygone i est a l'interieur du polygone j
 C On teste tous les autres
                IPOUT=0
@@ -4004,7 +4004,7 @@ C On teste tous les autres
                         ALPHA=ALPHA-ACOS(SS)
                      ENDIF
                   ENDDO
-                  IF (ABS(ALPHA).LT.UN) IPOUT=1
+                  IF (ABS(ALPHA).LT.ONE) IPOUT=1
                ENDDO
 C
                IF (IPOUT.EQ.1) CYCLE
@@ -4058,7 +4058,7 @@ C Point interieur polygone j
                   IF (XLOC(2,K).LT.YLMIN) YLMIN=XLOC(2,K)
                   IF (XLOC(2,K).GT.YLMAX) YLMAX=XLOC(2,K)
                ENDDO
-               YLSEC=UNDEMI*(YLMIN+YLMAX)
+               YLSEC=HALF*(YLMIN+YLMAX)
 C
                NSEC=0
                DO K=1,LENPOLY(J)
@@ -4070,9 +4070,9 @@ C
                   Y2=XLOC(2,KK)
                   IF (Y1-Y2.NE.ZERO) THEN
                      ALPHA=(YLSEC-Y2)/(Y1-Y2)
-                     IF (ALPHA.GE.ZERO.AND.ALPHA.LE.UN) THEN
+                     IF (ALPHA.GE.ZERO.AND.ALPHA.LE.ONE) THEN
                         NSEC=NSEC+1
-                        XSEC(NSEC)=ALPHA*X1+(UN-ALPHA)*X2
+                        XSEC(NSEC)=ALPHA*X1+(ONE-ALPHA)*X2
                      ENDIF
                   ELSE
                      IF (Y1.EQ.YLSEC) THEN
@@ -4097,7 +4097,7 @@ C
                   IF (XSEC(K).LT.XSMIN2) XSMIN2=XSEC(K)
                ENDDO
 C
-               XS=UNDEMI*(XSMIN1+XSMIN2)
+               XS=HALF*(XSMIN1+XSMIN2)
                YS=YLSEC
                PHOL(1,NHOL)=RPOLY(5,J)+XS*VX1+YS*VX2
                PHOL(2,NHOL)=RPOLY(6,J)+XS*VY1+YS*VY2
@@ -4409,14 +4409,14 @@ C Segments du contour exterieur
          ZL2=(X2-X0)*NX+(Y2-Y0)*NY+(Z2-Z0)*NZ
          IF (ZL1-ZL2.NE.ZERO) THEN
             ALPHA=ZL2/(ZL2-ZL1)
-            IF (ALPHA.GT.ZERO.AND.ALPHA.LT.UN) THEN
+            IF (ALPHA.GT.ZERO.AND.ALPHA.LT.ONE) THEN
                NS=NS+1
                INS(1,NS)=IPOLY_OLD(6+I)
                INS(2,NS)=IPOLY_OLD(6+II)
                RNS(1,NS)=ALPHA
-               XNS(1,NS)=ALPHA*X1+(UN-ALPHA)*X2
-               XNS(2,NS)=ALPHA*Y1+(UN-ALPHA)*Y2
-               XNS(3,NS)=ALPHA*Z1+(UN-ALPHA)*Z2
+               XNS(1,NS)=ALPHA*X1+(ONE-ALPHA)*X2
+               XNS(2,NS)=ALPHA*Y1+(ONE-ALPHA)*Y2
+               XNS(3,NS)=ALPHA*Z1+(ONE-ALPHA)*Z2
                NSEG=NSEG+1
                TSEG(1,NSEG)=I
                TSEG(2,NSEG)=-NS
@@ -4450,13 +4450,13 @@ C Segments du contour exterieur
                   TSEG(2,NSEG)=II
                   TSEG(3,NSEG)=NSEG+1
                ENDIF
-            ELSEIF (ALPHA.EQ.UN) THEN
+            ELSEIF (ALPHA.EQ.ONE) THEN
                IF (ITAGN(I).EQ.0) THEN
                   NS=NS+1
                   ITAGN(I)=NS
                   INS(1,NS)=IPOLY_OLD(6+I)
                   INS(2,NS)=IPOLY_OLD(6+II)
-                  RNS(1,NS)=UN
+                  RNS(1,NS)=ONE
                   XNS(1,NS)=X1
                   XNS(2,NS)=Y1
                   XNS(3,NS)=Z1
@@ -4508,15 +4508,15 @@ C Segments des trous
             ZL2=(X2-X0)*NX+(Y2-Y0)*NY+(Z2-Z0)*NZ
             IF (ZL1-ZL2.NE.ZERO) THEN
                ALPHA=ZL2/(ZL2-ZL1)
-               IF (ALPHA.GT.ZERO.AND.ALPHA.LT.UN) THEN
+               IF (ALPHA.GT.ZERO.AND.ALPHA.LT.ONE) THEN
                   ICUT=1
                   NS=NS+1
                   INS(1,NS)=IPOLY_OLD(6+J)
                   INS(2,NS)=IPOLY_OLD(6+JJ)
                   RNS(1,NS)=ALPHA
-                  XNS(1,NS)=ALPHA*X1+(UN-ALPHA)*X2
-                  XNS(2,NS)=ALPHA*Y1+(UN-ALPHA)*Y2
-                  XNS(3,NS)=ALPHA*Z1+(UN-ALPHA)*Z2
+                  XNS(1,NS)=ALPHA*X1+(ONE-ALPHA)*X2
+                  XNS(2,NS)=ALPHA*Y1+(ONE-ALPHA)*Y2
+                  XNS(3,NS)=ALPHA*Z1+(ONE-ALPHA)*Z2
                   NSEG=NSEG+1
                   TSEG(1,NSEG)=J
                   TSEG(2,NSEG)=-NS
@@ -4551,14 +4551,14 @@ C Segments des trous
                      TSEG(2,NSEG)=JJ
                      TSEG(3,NSEG)=NSEG+1
                   ENDIF
-               ELSEIF (ALPHA.EQ.UN) THEN
+               ELSEIF (ALPHA.EQ.ONE) THEN
                   ICUT=1
                   IF (ITAGN(I).EQ.0) THEN
                      NS=NS+1
                      ITAGN(J)=NS
                      INS(1,NS)=IPOLY_OLD(6+J)
                      INS(2,NS)=IPOLY_OLD(6+JJ)
-                     RNS(1,NS)=UN
+                     RNS(1,NS)=ONE
                      XNS(1,NS)=X1
                      XNS(2,NS)=Y1
                      XNS(3,NS)=Z1
@@ -4779,7 +4779,7 @@ C Attribution des trous
                ENDIF
             ENDDO
 C
-            IF (ABS(ALPHA).GE.UN) THOL(I)=J
+            IF (ABS(ALPHA).GE.ONE) THOL(I)=J
          ENDDO
       ENDDO
 C Creation des tableaux de sortie
@@ -4970,7 +4970,7 @@ C
             NNSP=NNSP+1
             NREF(1,NNSP)=IPOLY(6+I)
             NREF(2,NNSP)=IPOLY(6+II)
-            AREF(1,NNSP)=UN
+            AREF(1,NNSP)=ONE
             AREF(2,NNSP)=X1
             AREF(3,NNSP)=Y1
             AREF(4,NNSP)=Z1
@@ -5254,7 +5254,7 @@ C
                ENDIF
             ENDDO
 C
-            IF (ABS(ALPHA).GE.UN) THEN
+            IF (ABS(ALPHA).GE.ONE) THEN
 C Le premier point du polygone i est a l'interieur du polygone j
 C On teste tous les autres
                IPOUT=0
@@ -5297,7 +5297,7 @@ C On teste tous les autres
                         ALPHA=ALPHA-ACOS(SS)
                      ENDIF
                   ENDDO
-                  IF (ABS(ALPHA).LT.UN) IPOUT=1
+                  IF (ABS(ALPHA).LT.ONE) IPOUT=1
                ENDDO
 C
                IF (IPOUT.EQ.1) CYCLE
@@ -5346,7 +5346,7 @@ C Point interieur polygone j
                   IF (XLOC(2,K).LT.YLMIN) YLMIN=XLOC(2,K)
                   IF (XLOC(2,K).GT.YLMAX) YLMAX=XLOC(2,K)
                ENDDO
-               YLSEC=UNDEMI*(YLMIN+YLMAX)
+               YLSEC=HALF*(YLMIN+YLMAX)
 C
                NSEC=0
                DO K=1,LENPOLY(J)
@@ -5358,9 +5358,9 @@ C
                   Y2=XLOC(2,KK)
                   IF (Y1-Y2.NE.ZERO) THEN
                      ALPHA=(YLSEC-Y2)/(Y1-Y2)
-                     IF (ALPHA.GE.ZERO.AND.ALPHA.LE.UN) THEN
+                     IF (ALPHA.GE.ZERO.AND.ALPHA.LE.ONE) THEN
                         NSEC=NSEC+1
-                        XSEC(NSEC)=ALPHA*X1+(UN-ALPHA)*X2
+                        XSEC(NSEC)=ALPHA*X1+(ONE-ALPHA)*X2
                      ENDIF
                   ELSE
                      IF (Y1.EQ.YLSEC) THEN
@@ -5385,7 +5385,7 @@ C
                   IF (XSEC(K).LT.XSMIN2) XSMIN2=XSEC(K)
                ENDDO
 C
-               XS=UNDEMI*(XSMIN1+XSMIN2)
+               XS=HALF*(XSMIN1+XSMIN2)
                YS=YLSEC
                PHOL(1,NHOL)=RPOLY(5,J)+XS*VX1+YS*VX2
                PHOL(2,NHOL)=RPOLY(6,J)+XS*VY1+YS*VY2

@@ -78,7 +78,7 @@ c     EQUIVALENCE (XJ,BV(1,1)) ,(YJ,BV(1,2)) ,(ZJ,BV(1,3))
 c     EQUIVALENCE (XI,BV(1,13)),(YI,BV(1,14)),(ZI,BV(1,15))
 c     EQUIVALENCE (XFACE,BV(1,29))
       DO 100 I=LFT,LLT
-      XFACE(I)=UN
+      XFACE(I)=ONE
       IL=I+NFT
       IG=NSV(IL)
       XI(I)=X(1,IG)

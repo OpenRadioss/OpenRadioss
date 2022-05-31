@@ -69,7 +69,7 @@ C
       VV2 = V3 * XN - V1 * ZN
       VV3 = V1 * YN - V2 * XN
       VV = SQRT(VV1*VV1 + VV2*VV2 + VV3*VV3)
-      IF(VV.LE.UNDEMI)THEN
+      IF(VV.LE.HALF)THEN
         V1 = ZERO
         V2 = -ZEP707
         V3 = ZEP707
@@ -92,13 +92,13 @@ C
         XX = VV1 * S + V1 * C
         YY = VV2 * S + V2 * C
         ZZ = VV3 * S + V3 * C
-        D = TROIS1000
+        D = THREE1000
         DO J=1,2
           CALL WRITE_S_C(NINT(XX*D),1)
           CALL WRITE_S_C(NINT(YY*D),1)
           CALL WRITE_S_C(NINT(ZZ*D),1)
         ENDDO
-        ALPHA = ALPHA + PI*UNDOUZE
+        ALPHA = ALPHA + PI*ONE_OVER_12
       ENDDO
 C
       RETURN

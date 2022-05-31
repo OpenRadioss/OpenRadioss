@@ -66,7 +66,7 @@ C-----------------------------------------------
 c
       OFF_L=ZERO
       DO I=LFT,LLT
-        IF (OFF(I) < UN) OFFG(I) = OFF(I)
+        IF (OFF(I) < ONE) OFFG(I) = OFF(I)
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
 c

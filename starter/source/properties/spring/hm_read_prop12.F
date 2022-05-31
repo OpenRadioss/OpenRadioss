@@ -213,7 +213,7 @@ C----
      .                I2=IECROU)
          IECROU = 2
        ENDIF
-      IF (IFUNC == 0 .AND. A /= ZERO .AND. A /= UN) THEN
+      IF (IFUNC == 0 .AND. A /= ZERO .AND. A /= ONE) THEN
         CALL ANCMSG(MSGID=663,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
@@ -221,14 +221,14 @@ C----
      .               C1=IDTITL)
       ENDIF                                        
 C----
-      IF (A == ZERO) A = UN * A_UNIT
-      IF (D == ZERO) D = UN * D_UNIT
-      IF (E == ZERO) E = UN * E_UNIT
-      IF (F == ZERO) F = UN * F_UNIT
-      IF (LSCALE == ZERO) LSCALE = UN * LSCALE_UNIT
-      IF (GF3 == ZERO) GF3 = UN * GF3_UNIT
+      IF (A == ZERO) A = ONE * A_UNIT
+      IF (D == ZERO) D = ONE * D_UNIT
+      IF (E == ZERO) E = ONE * E_UNIT
+      IF (F == ZERO) F = ONE * F_UNIT
+      IF (LSCALE == ZERO) LSCALE = ONE * LSCALE_UNIT
+      IF (GF3 == ZERO) GF3 = ONE * GF3_UNIT
       IF (IFUNC == 0) THEN
-        A = UN
+        A = ONE
         B = ZERO
         E = ZERO
       ENDIF
@@ -239,8 +239,8 @@ C
       DN = DN * LSCALE / RUP_UNIT
       DX = DX * LSCALE / RUP_UNIT
 c
-      IF (XSCALEF == ZERO) XSCALEF = UN * XSCALE_UNIT
-      IF (YSCALEF == ZERO) YSCALEF = UN
+      IF (XSCALEF == ZERO) XSCALEF = ONE * XSCALE_UNIT
+      IF (YSCALEF == ZERO) YSCALEF = ONE
       IF (FMIN == ZERO) FMIN = -EP30
       IF (FMAX == ZERO) FMAX =  EP30
 C------------------------
@@ -267,14 +267,14 @@ C----
       GEO(10) = A                                            
       GEO(11) = B                                            
       GEO(13) = D                                            
-      GEO(18) = UN / F             
-      GEO(39) = UN / LSCALE 
+      GEO(18) = ONE / F             
+      GEO(39) = ONE / LSCALE 
       GEO(40) = E                         
       GEO(132)= GF3                       
       GEO(15) = DN                                           
       GEO(16) = DX                                           
       GEO(17) = FRIC                                         
-      GEO(20) = UN/XSCALEF            
+      GEO(20) = ONE/XSCALEF            
       GEO(80) = IFL                                          
       GEO(93) = ILENG                                        
       GEO(138) = FMIN
@@ -333,7 +333,7 @@ C------------------------
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC 2:UNCOUPLED',/,
-     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,
@@ -371,7 +371,7 @@ C------------------------
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC 2:UNCOUPLED',/,
-     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,

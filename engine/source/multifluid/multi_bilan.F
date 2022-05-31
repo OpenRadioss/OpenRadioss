@@ -58,7 +58,7 @@ C-----------------------------------------------
      .     MAS(NEL), OFF(NEL), VX(NEL), VY(NEL), VZ(NEL)
       
       RBIDON(1) = ZERO
-      OFF(1:NEL) = UN
+      OFF(1:NEL) = ONE
       DO I = 1, NEL
          MAS(I) = VOL(I) * MULTI_FVM%RHO(I + NFT)
          VX(I) = MULTI_FVM%VEL(1, I + NFT)
@@ -69,7 +69,7 @@ C-----------------------------------------------
       M = IPARTS(1)
       DO I=1,NEL
          PARTSAV(1, M) = PARTSAV(1, M) + MULTI_FVM%EINT(I + NFT) * VOL(I)
-         PARTSAV(2, M) = PARTSAV(2, M) + UNDEMI * MAS(I) * VA2(I)
+         PARTSAV(2, M) = PARTSAV(2, M) + HALF * MAS(I) * VA2(I)
          PARTSAV(6, M) = PARTSAV(6, M) + MAS(I)
          PARTSAV(3, M) = PARTSAV(3, M) + MAS(I) * VX(I)
          PARTSAV(4, M) = PARTSAV(4, M) + MAS(I) * VY(I)

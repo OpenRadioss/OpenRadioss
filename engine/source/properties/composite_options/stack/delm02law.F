@@ -168,23 +168,23 @@ C
         NINDEX = 0
         DO J =1,IR
          I=JST(J)
-         IF(OFF(I) == UN )THEN
+         IF(OFF(I) == ONE )THEN
 C-------------------------------  
-           IF(UVAR(I,1) < UN)THEN 
+           IF(UVAR(I,1) < ONE)THEN 
 C            
              DAM = UVAR(I,1)
              DSHEAR = SQRT(DU(1,I)**2 + DU(2,I)**2)
-             D3 = UNDEMI*(DU(3,I) + ABS(DU(3,I)))
+             D3 = HALF*(DU(3,I) + ABS(DU(3,I)))
              D = SQRT(D3**2 + DSHEAR**2)
              BETA = DSHEAR/MAX((DSHEAR + D3),EM20)
-             IF(D3 == ZERO) BETA = UN
-             B = BETA**2 / (UN + DEUX*BETA**2 - DEUX*BETA)
+             IF(D3 == ZERO) BETA = ONE
+             B = BETA**2 / (ONE + TWO*BETA**2 - TWO*BETA)
 cc             
              CC1 = D0(I)**2 
              CC2 = B**ETA(I)
              DELTA0 = SQRT(CC1 + (DS0(I)**2 - CC1)*CC2)
              DELTAF = GIC(I) + (GIIC(I) - GIC(I))*CC2
-             DELTAF= DEUX*DELTAF/MAX(K(I)*DELTA0, EM20)
+             DELTAF= TWO*DELTAF/MAX(K(I)*DELTA0, EM20)
 C
 C   compute lambda en fonction de DAm
 c             
@@ -198,18 +198,18 @@ C
               CC1 = D*(DELTAF - DELTA0)
               DAM = DAM/MAX(EM20, CC1)
               DAM = MAX(DAM, ZERO)
-              DAM = MIN(UN, DAM)
+              DAM = MIN(ONE, DAM)
 c              
               UVAR(I,1)  = DAM              
-              SIGNXZ(I) = SIGNXZ(I)*MAX((UN  - DAM),REDUC(I))
-              SIGNYZ(I) = SIGNYZ(I)*MAX((UN  - DAM),REDUC(I))
-              IF(D3 > ZERO)SIGNZZ(I)=SIGNZZ(I)*MAX((UN - DAM),REDUC(I)) 
+              SIGNXZ(I) = SIGNXZ(I)*MAX((ONE  - DAM),REDUC(I))
+              SIGNYZ(I) = SIGNYZ(I)*MAX((ONE  - DAM),REDUC(I))
+              IF(D3 > ZERO)SIGNZZ(I)=SIGNZZ(I)*MAX((ONE - DAM),REDUC(I)) 
             
-              IF(DAM == UN) THEN
+              IF(DAM == ONE) THEN
                 NINDX=NINDX+1
                 INDX(NINDX)=I
 !!                OFFI(I) = REDUC(I)
-                COUNT(I) = COUNT(I) + UN
+                COUNT(I) = COUNT(I) + ONE
                 IF(INT(COUNT(I)) == 4)THEN
 !!                     OFFI(I) = MIN(OFFI(I), ZERO)
                     WRITE(IOUT, 1300) NGL(I),IPLY,TIME

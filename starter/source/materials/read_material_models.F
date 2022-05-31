@@ -232,12 +232,12 @@ c-------------------------------------------------------------------
             IF(IPM(1,I) == ID) THEN                   
               ILAW = IPM(2,I)                        
               IF(ILAW == 11)THEN                     
-               IF(FLRD == ZERO) FLRD=UN              
+               IF(FLRD == ZERO) FLRD=ONE              
               ELSE                                   
                FLRD=MAX(ZERO,FLRD)                   
-               FLRD=MIN(UN,FLRD)                     
+               FLRD=MIN(ONE,FLRD)                     
               ENDIF                                  
-              PM(72,I) =UNP1                         
+              PM(72,I) =ONEP1                         
               PM(92,I) =FLRD  
               IPM(251,I)= IALEFVM_FLG                
               IF(IALEFVM_FLG.GE.2)THEN               
@@ -267,12 +267,12 @@ c-------------------------------------------------------------------
             IF(IPM(1,I) == ID)THEN                        
                 ILAW = IPM(2,I)                          
               IF(ILAW == 11)THEN                         
-                IF(FLRD == ZERO) FLRD=UN                 
+                IF(FLRD == ZERO) FLRD=ONE                 
               ELSE                                       
                 FLRD=MAX(ZERO,FLRD)                      
-                FLRD=MIN(UN,FLRD)                        
+                FLRD=MIN(ONE,FLRD)                        
               ENDIF                                      
-              PM(72,I)  = DEUXP1                         
+              PM(72,I)  = TWOP1                         
               PM(92,I)  = FLRD      
               IPM(251,I)= IALEFVM_FLG                    
               IF(IALEFVM_FLG.GE.2)THEN                   

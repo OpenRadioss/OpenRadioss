@@ -150,7 +150,7 @@ C     REAL ou REAL*8
      .             12,15,16/
 C--------------------------------------------------------------
 C     CALCUL DES RIGIDITES DES SEGMENTS 
-C     V16 : DANS LE CAS OU UN SEGMENT APPARTIENT A LA FOIS
+C     V16 : DANS LE CAS OU ONE SEGMENT APPARTIENT A LA FOIS
 C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
 C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
 C---------------------------------------------------------------
@@ -166,7 +166,7 @@ C-----MVOISN(3,*) -> part_id, IPARTNS->part_id(SECONDARY)
       GAPS1=ZERO
       GAPS2=ZERO
       GAPS_MN=EP30
-      GAPSCALE = UN
+      GAPSCALE = ONE
 C-----NRTT:NRTM      
 C     NRT_SH nb of shells before symetrization, NRT nb of MAIN segments before symetrization (symetrization in i24surfi)
       NRTT =NRT+NRT_SH
@@ -181,13 +181,13 @@ C------------------------------------
         IP = IPARTC(I)
         IGTYP = IGEO(11,MG)
        IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-        DX=UNDEMI*THK_PART(IP)
+        DX=HALF*THK_PART(IP)
        ELSEIF ( THK(I) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-        DX=UNDEMI*THK(I)
+        DX=HALF*THK(I)
        ELSEIF(IGTYP == 17 .OR. IGTYP ==51 .OR. IGTYP ==52) THEN
-          DX=UNDEMI*THK(I)         
+          DX=HALF*THK(I)         
        ELSE
-          DX=UNDEMI*GEO(1,MG)
+          DX=HALF*GEO(1,MG)
        ENDIF
         WA(IXC(2,I))=MAX(WA(IXC(2,I)),DX)
         WA(IXC(3,I))=MAX(WA(IXC(3,I)),DX)
@@ -199,13 +199,13 @@ C------------------------------------
         IP = IPARTTG(I)
         IGTYP = IGEO(11,MG)
        IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-        DX=UNDEMI*THK_PART(IP)
+        DX=HALF*THK_PART(IP)
        ELSEIF ( THK(NUMELC+I) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-        DX=UNDEMI*THK(NUMELC+I)
+        DX=HALF*THK(NUMELC+I)
        ELSEIF(IGTYP == 17 .OR. IGTYP ==51 .OR. IGTYP ==52) THEN
-        DX=UNDEMI*THK(NUMELC+I)
+        DX=HALF*THK(NUMELC+I)
        ELSE
-        DX=UNDEMI*GEO(1,MG)
+        DX=HALF*GEO(1,MG)
        ENDIF
         WA(IXTG(2,I))=MAX(WA(IXTG(2,I)),DX)
         WA(IXTG(3,I))=MAX(WA(IXTG(3,I)),DX)
@@ -231,7 +231,7 @@ C-----for case of coating shell--
 C-------
       DO I=1,NUMELT
         MG=IXT(4,I)
-        DX=UNDEMI*SQRT(GEO(1,MG))
+        DX=HALF*SQRT(GEO(1,MG))
         WA(IXT(2,I))=MAX(WA(IXT(2,I)),DX)
         WA(IXT(3,I))=MAX(WA(IXT(3,I)),DX)
       ENDDO
@@ -284,7 +284,7 @@ C calcul du surface second. ---
                SY3  = SZ1*SX2 - SX1*SZ2
                SZ3  = SX1*SY2 - SY1*SX2
                AREAS(I) = AREAS(I) 
-     .                    + UNHUIT*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+     .                    + ONE_OVER_8*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 C overwrite
                IELEC(I) = IXC(1,IE)
              END DO
@@ -301,7 +301,7 @@ C
                SY3  = SZ1*SX2 - SX1*SZ2
                SZ3  = SX1*SY2 - SY1*SX2
                AREAS(I) = AREAS(I) 
-     .                    + UNSIX*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+     .                    + ONE_OVER_6*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 C overwrite
                IELEC(I) = IXTG(1,IE)
              END DO
@@ -328,7 +328,7 @@ C overwrite
                  SY3  = SZ1*SX2 - SX1*SZ2
                  SZ3  = SX1*SY2 - SY1*SX2
                  AREAS(I) = AREAS(I) 
-     .                      + UNHUIT*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+     .                      + ONE_OVER_8*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 C overwrite
                  IELEC(I) = IXC(1,IE)
                END IF
@@ -354,7 +354,7 @@ C
                  SY3  = SZ1*SX2 - SX1*SZ2
                  SZ3  = SX1*SY2 - SY1*SX2
                  AREAS(I) = AREAS(I) 
-     .                      + UNSIX*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+     .                      + ONE_OVER_6*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 C overwrite
                  IELEC(I) = IXTG(1,IE)
                END IF
@@ -774,12 +774,12 @@ C---------------------------
       GAPMX=SQRT(GAPMX)
       GAPMX=MIN(GAPMX,GAPMAX_M)
 C GAP VARIABLE :
-C    - GAPMIN CONTIENT UN GAP MINIMUM UTILISE SI GAP_S(I)+GAP_M(J) < GAPMIN
+C    - GAPMIN CONTIENT ONE GAP MINIMUM UTILISE SI GAP_S(I)+GAP_M(J) < GAPMIN
 C    - GAP CONTIENT LE SUP DE (GAP_S(I)+GAP_M(J),GAPMIN) 
       IF(GAP.LE.ZERO)THEN
            IF(NDX.NE.0)THEN
              GAPMIN = GAPMN
-             GAPMIN = MIN(UNDEMI*GAPMX,GAPMIN)
+             GAPMIN = MIN(HALF*GAPMX,GAPMIN)
            ELSE
 C             GAPMIN = EM01 * GAPMX
              GAPMIN = ZERO
@@ -804,10 +804,10 @@ C------recalculate GAP_MIN,MAX
 C SUP DES GAPS VARIABLES
       GAP = GAPS1+GAPS2
 C---------------------------------------------
-C     MISE A UN DU MULTIPLICATEUR NODALE DES RIGIDITES 
+C     MISE A ONE DU MULTIPLICATEUR NODALE DES RIGIDITES 
 C---------------------------------------------
       DO 610 L=1,NSN
-         STFN(L) = UN
+         STFN(L) = ONE
  610  CONTINUE
 C
 C Calcul du gap reel a utiliser lors du critere de retri
@@ -830,8 +830,8 @@ C---  MVOISN is used temporaly for Pen_ini MVOISN(1,*) -> MTYPE(solid),MVOISN(2,
 C-------supposing only small segments (sub-triangles) for 10 nodes tetras --------------
         IF (MVOISN(1,I)==10) THEN
 C---Verify this factor 3-------------   
-          GAP_N(1,I) = TROIS*UNHUIT*GAP_N(1,I)
-          STF(I) = SEIZE*STF(I)
+          GAP_N(1,I) = THREE*ONE_OVER_8*GAP_N(1,I)
+          STF(I) = SIXTEEN*STF(I)
         ELSEIF (MVOISN(1,I)==16) THEN
           GAP_N(1,I) = GAP_N(1,I)/4
         END IF
@@ -1239,7 +1239,7 @@ C------------------------------------
               ELSE
                 DX=GEO(1,MG)*GAPSCALE
               ENDIF
-          GAPM=UNDEMI*DX
+          GAPM=HALF*DX
           GAPS2=MAX(GAPS2,GAPM)
           GAPMN = MIN(GAPMN,DX)
           DXM=DXM+DX
@@ -1347,7 +1347,7 @@ C ----Friction model ------
           ELSE
             DX=GEO(1,MG)*GAPSCALE
               ENDIF
-          GAPM=UNDEMI*DX
+          GAPM=HALF*DX
           GAPS2=MAX(GAPS2,GAPM)
           GAPMN = MIN(GAPMN,DX)
           DXM=DXM+DX
@@ -1520,7 +1520,7 @@ C
         ELSE
          DX=GEO(1,MG)*GAPSCALE
         ENDIF
-        GAPM=UNDEMI*DX
+        GAPM=HALF*DX
         GAPS2=MAX(GAPS2,GAPM)
         GAPMN = MIN(GAPMN,DX)
         DXM=DXM+DX
@@ -1596,7 +1596,7 @@ C------------------------------------
             ELSE
               DX=GEO(1,MG)*GAPSCALE
         ENDIF
-        GAPM=UNDEMI*DX
+        GAPM=HALF*DX
         GAPS2=MAX(GAPS2,GAPM)
         GAPMN = MIN(GAPMN,DX)
         DXM=DXM+DX
@@ -2200,9 +2200,9 @@ C
          YC=YC+X(2,KK)
          ZC=ZC+X(3,KK)
  110   CONTINUE
-       XC=XC*UNHUIT
-       YC=YC*UNHUIT
-       ZC=ZC*UNHUIT
+       XC=XC*ONE_OVER_8
+       YC=YC*ONE_OVER_8
+       ZC=ZC*ONE_OVER_8
        IF(IR.NE.0) RETURN
        IF(IC.GE.2)RETURN
        DDS=N1*(XC-XS1)+N2*(YC-YS1)+N3*(ZC-ZS1)

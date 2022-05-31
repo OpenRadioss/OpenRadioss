@@ -96,8 +96,8 @@ C-----------------------------------------------
      .   E1, E2, E3, E4, E5, E6, EINC,
      .   BID1, BID2, BID3, DTA,  YM, DPDMP
 C-----------------------------------------------
-      FACQ0 = UN
-      REDUC1 = EM04 !EM03 !UN 
+      FACQ0 = ONE
+      REDUC1 = EM04 !EM03 !ONE 
 
       DO I=LFT,LLT
        T1 = BPRELD(I,1)+ZEP4*(BPRELD(I,2)-BPRELD(I,1))
@@ -105,7 +105,7 @@ C-----------------------------------------------
        REDUC = REDUC1
        TP = TT-T1
        IF(TP > ZERO ) THEN  
-         REDUC = MIN(REDUC1*(UN-TP/(T2-T1))+TP/(T2-T1), UN)
+         REDUC = MIN(REDUC1*(ONE-TP/(T2-T1))+TP/(T2-T1), ONE)
        ENDIF
 C       
        MX = MAT(I)
@@ -114,12 +114,12 @@ C
        EE = PM(20, MX)*REDUC
        GG(I) = PM(22, MX)*REDUC
        C1_1  = PM(32, MX)   
-       LMBD(I) = DT1*EE*NU/((UN+NU)*(UN-DEUX*NU))
+       LMBD(I) = DT1*EE*NU/((ONE+NU)*(ONE-TWO*NU))
        C1(I) = C1_1*REDUC 
        RHO0(I) =RHO0_1  
 C
-       !SSP(I)=SQRT((UNP333*GG(I)+C1(I))/RHO0(I))
-       SSP(I)=SQRT((UNP333*PM(22, MX)+C1_1)/RHO0(I))
+       !SSP(I)=SQRT((ONEP333*GG(I)+C1(I))/RHO0(I))
+       SSP(I)=SQRT((ONEP333*PM(22, MX)+C1_1)/RHO0(I))
       ENDDO
 C
       IF (JSPH.EQ.0)THEN
@@ -139,15 +139,15 @@ C
      6        NGL     ,QNEW    ,SSP_EQ  ,G_DT    ,DTEL)
       ENDIF
 
-      DTA =UNDEMI*DT1
+      DTA =HALF*DT1
 C       
       DO I=LFT,LLT
         PNEW(I)  = C1(I)*AMU(I)                         !
         TREPS    = D1(I)+D2(I)+D3(I)
         GGT      = DT1*GG(I)
-        SIG(I,1) = SIG(I,1)+DEUX*GGT*D1(I)+LMBD(I)*TREPS
-        SIG(I,2) = SIG(I,2)+DEUX*GGT*D2(I)+LMBD(I)*TREPS
-        SIG(I,3) = SIG(I,3)+DEUX*GGT*D3(I)+LMBD(I)*TREPS
+        SIG(I,1) = SIG(I,1)+TWO*GGT*D1(I)+LMBD(I)*TREPS
+        SIG(I,2) = SIG(I,2)+TWO*GGT*D2(I)+LMBD(I)*TREPS
+        SIG(I,3) = SIG(I,3)+TWO*GGT*D3(I)+LMBD(I)*TREPS
         SIG(I,4) = SIG(I,4)+GGT*D4(I)
         SIG(I,5) = SIG(I,5)+GGT*D5(I)
         SIG(I,6) = SIG(I,6)+GGT*D6(I)
@@ -163,19 +163,19 @@ C   cf Law1, Law2, etc <=> Pressure is computed using total formulation P = C1*(
       IF(ISMSTR == 1)THEN
         IF(IRESP==0)THEN
           DO I=LFT,LLT
-           IF(TT >= (BPRELD(I,2)-DEUX*DT1)) THEN
+           IF(TT >= (BPRELD(I,2)-TWO*DT1)) THEN
              P = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
-             RHO(I)=RHO0_1*(UN+P/C1_1) ! rho will be used in next cycles to compute 
+             RHO(I)=RHO0_1*(ONE+P/C1_1) ! rho will be used in next cycles to compute 
                                        ! rho_new = rho_old - rho0 dV
                                        ! AMU = rho/rho0 - 1 in double precision
            ENDIF
           ENDDO
         ELSE ! Single precision
           DO I=LFT,LLT
-           IF(TT >= (BPRELD(I,2)-DEUX*DT1)) THEN
+           IF(TT >= (BPRELD(I,2)-TWO*DT1)) THEN
              P = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
-             RHO(I)=RHO0_1*(UN+P/C1_1)
-             VOL0DP(I) = VOL0(I)*(UN+P/C1_1) ! VOL0DP will be used in next cycle to compute
+             RHO(I)=RHO0_1*(ONE+P/C1_1)
+             VOL0DP(I) = VOL0(I)*(ONE+P/C1_1) ! VOL0DP will be used in next cycle to compute
                                              ! AMU = VOL0DP/VOLDP - 1 in single precision, VOLDP=V0 in small strain
            ENDIF
           ENDDO
@@ -183,16 +183,16 @@ C   cf Law1, Law2, etc <=> Pressure is computed using total formulation P = C1*(
       ELSEIF(ISMSTR==2)THEN
         IF(IRESP==0)THEN
           DO I=LFT,LLT
-            IF(OFFG(I) > UN)THEN
-              IF(TT >= (BPRELD(I,2)-DEUX*DT1)) THEN
+            IF(OFFG(I) > ONE)THEN
+              IF(TT >= (BPRELD(I,2)-TWO*DT1)) THEN
                 P = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
-                RHO(I)=RHO0_1*(UN+P/C1_1) ! rho will be used in next cycles to compute 
+                RHO(I)=RHO0_1*(ONE+P/C1_1) ! rho will be used in next cycles to compute 
                                           ! rho_new = rho_old - rho0 dV
                                           ! AMU = rho/rho0 - 1 in double precision
               ENDIF
             ELSE
               P = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
-              VOL0(I)   = VNEW(I)*(UN+P/C1_1)
+              VOL0(I)   = VNEW(I)*(ONE+P/C1_1)
               RHO(I)    = RHO0_1*VOL0(I)/VNEW(I) ! cf rho = rho0 * V0 / V at each time step
                                                  ! AMU = rho/rho0 - 1 in double precision
 
@@ -200,16 +200,16 @@ C   cf Law1, Law2, etc <=> Pressure is computed using total formulation P = C1*(
           ENDDO
         ELSE ! Single precision
           DO I=LFT,LLT
-            IF(OFFG(I) > UN)THEN
-              IF(TT >= (BPRELD(I,2)-DEUX*DT1)) THEN
+            IF(OFFG(I) > ONE)THEN
+              IF(TT >= (BPRELD(I,2)-TWO*DT1)) THEN
                 P = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
-                RHO(I)    = RHO0_1*(UN+P/C1_1)
-                VOL0DP(I) = VOL0(I)*(UN+P/C1_1) ! VOL0DP will be used in next cycle to compute
+                RHO(I)    = RHO0_1*(ONE+P/C1_1)
+                VOL0DP(I) = VOL0(I)*(ONE+P/C1_1) ! VOL0DP will be used in next cycle to compute
                                                 ! AMU = VOL0DP/VOLDP - 1 in single precision, VOLDP=V0 in small strain
                ENDIF
             ELSE
               P = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
-              VOL0(I)   = VNEW(I)*(UN+P/C1_1)
+              VOL0(I)   = VNEW(I)*(ONE+P/C1_1)
               VOL0DP(I) = VOL0(I)  ! cf rho = rho0 * VOL0DP / VOLDP
                                    ! AMU = VOL0DP/VOLDP - 1 in single precision, VOLDP = V in large strain
               RHO(I)    = RHO0_1*VOL0(I)/VNEW(I)
@@ -220,14 +220,14 @@ C   cf Law1, Law2, etc <=> Pressure is computed using total formulation P = C1*(
         IF(IRESP==0)THEN
           DO I=LFT,LLT
             P = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
-            VOL0(I)=VNEW(I)*(UN+P/C1_1)
+            VOL0(I)=VNEW(I)*(ONE+P/C1_1)
             RHO(I)= RHO0_1*VOL0(I)/VNEW(I) ! cf rho = rho0 * V0 / V at each time step
                                            ! AMU = rho/rho0 - 1 in double precision
           ENDDO
         ELSE ! Single precision
           DO I=LFT,LLT
             P = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
-            VOL0(I)   = VNEW(I)*(UN+P/C1_1)
+            VOL0(I)   = VNEW(I)*(ONE+P/C1_1)
             RHO(I)    = RHO0_1*VOL0(I)/VNEW(I)
             VOL0DP(I) = VOL0(I)  ! cf rho = rho0 * VOL0DP / VOLDP
                                  ! AMU = VOL0DP/VOLDP - 1 in single precision, VOLDP = V in large strain
@@ -242,7 +242,7 @@ C
         E4=D4(I)*(SOLD4(I)+SIG(I,4))
         E5=D5(I)*(SOLD5(I)+SIG(I,5))
         E6=D6(I)*(SOLD6(I)+SIG(I,6))
-        EINC= ZERO !VOL_AVG(I)*(E1+E2+E3+E4+E5+E6)*DTA - UNDEMI*DVOL(I)*(QOLD(I)+QNEW(I))
+        EINC= ZERO !VOL_AVG(I)*(E1+E2+E3+E4+E5+E6)*DTA - HALF*DVOL(I)*(QOLD(I)+QNEW(I))
         EINT(I)=(EINT(I)+EINC*OFF(I)) / MAX(EM15,VOL0(I))
       ENDDO
 C

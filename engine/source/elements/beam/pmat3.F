@@ -73,12 +73,12 @@ C
       ENDDO
 C
       DO I=JFT,JLT
-       SH=CSIX*G(I)*A1(I)
+       SH=FIVE_OVER_6*G(I)*A1(I)
        ALI2 =ALI(I)*ALI(I) 
-       YMA2=DOUZE*YM(I)*ALI2
+       YMA2=TWELVE*YM(I)*ALI2
        SH10=YMA2*B1(I)
        SH20=YMA2*B2(I)
-       SH0=(UN-SHF(I))*SH
+       SH0=(ONE-SHF(I))*SH
        SH1(I)=SH0*SH10/(SH+SH10) + SHF(I)*SH10
        SH2(I)=SH0*SH20/(SH+SH20) + SHF(I)*SH20
       ENDDO

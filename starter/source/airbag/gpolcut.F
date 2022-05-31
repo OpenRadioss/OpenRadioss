@@ -101,14 +101,14 @@ C Segments du contour exterieur
          ZL2=(X2-X0)*NX+(Y2-Y0)*NY+(Z2-Z0)*NZ
          IF (ZL1-ZL2.NE.ZERO) THEN
             ALPHA=ZL2/(ZL2-ZL1)
-            IF (ALPHA.GT.ZERO.AND.ALPHA.LT.UN) THEN
+            IF (ALPHA.GT.ZERO.AND.ALPHA.LT.ONE) THEN
                NS=NS+1
                INS(1,NS)=IPOLY_OLD(6+I)
                INS(2,NS)=IPOLY_OLD(6+II)
                RNS(1,NS)=ALPHA
-               XNS(1,NS)=ALPHA*X1+(UN-ALPHA)*X2
-               XNS(2,NS)=ALPHA*Y1+(UN-ALPHA)*Y2
-               XNS(3,NS)=ALPHA*Z1+(UN-ALPHA)*Z2
+               XNS(1,NS)=ALPHA*X1+(ONE-ALPHA)*X2
+               XNS(2,NS)=ALPHA*Y1+(ONE-ALPHA)*Y2
+               XNS(3,NS)=ALPHA*Z1+(ONE-ALPHA)*Z2
                NSEG=NSEG+1
                TSEG(1,NSEG)=I
                TSEG(2,NSEG)=-NS
@@ -142,13 +142,13 @@ C Segments du contour exterieur
                   TSEG(2,NSEG)=II
                   TSEG(3,NSEG)=NSEG+1
                ENDIF
-            ELSEIF (ALPHA.EQ.UN) THEN
+            ELSEIF (ALPHA.EQ.ONE) THEN
                IF (ITAGN(I).EQ.0) THEN
                   NS=NS+1
                   ITAGN(I)=NS
                   INS(1,NS)=IPOLY_OLD(6+I)
                   INS(2,NS)=IPOLY_OLD(6+II)
-                  RNS(1,NS)=UN
+                  RNS(1,NS)=ONE
                   XNS(1,NS)=X1
                   XNS(2,NS)=Y1
                   XNS(3,NS)=Z1
@@ -200,15 +200,15 @@ C Segments des trous
             ZL2=(X2-X0)*NX+(Y2-Y0)*NY+(Z2-Z0)*NZ
             IF (ZL1-ZL2.NE.ZERO) THEN
                ALPHA=ZL2/(ZL2-ZL1)
-               IF (ALPHA.GT.ZERO.AND.ALPHA.LT.UN) THEN
+               IF (ALPHA.GT.ZERO.AND.ALPHA.LT.ONE) THEN
                   ICUT=1
                   NS=NS+1
                   INS(1,NS)=IPOLY_OLD(6+J)
                   INS(2,NS)=IPOLY_OLD(6+JJ)
                   RNS(1,NS)=ALPHA
-                  XNS(1,NS)=ALPHA*X1+(UN-ALPHA)*X2
-                  XNS(2,NS)=ALPHA*Y1+(UN-ALPHA)*Y2
-                  XNS(3,NS)=ALPHA*Z1+(UN-ALPHA)*Z2
+                  XNS(1,NS)=ALPHA*X1+(ONE-ALPHA)*X2
+                  XNS(2,NS)=ALPHA*Y1+(ONE-ALPHA)*Y2
+                  XNS(3,NS)=ALPHA*Z1+(ONE-ALPHA)*Z2
                   NSEG=NSEG+1
                   TSEG(1,NSEG)=J
                   TSEG(2,NSEG)=-NS
@@ -243,14 +243,14 @@ C Segments des trous
                      TSEG(2,NSEG)=JJ
                      TSEG(3,NSEG)=NSEG+1
                   ENDIF
-               ELSEIF (ALPHA.EQ.UN) THEN
+               ELSEIF (ALPHA.EQ.ONE) THEN
                   ICUT=1
                   IF (ITAGN(I).EQ.0) THEN
                      NS=NS+1
                      ITAGN(J)=NS
                      INS(1,NS)=IPOLY_OLD(6+J)
                      INS(2,NS)=IPOLY_OLD(6+JJ)
-                     RNS(1,NS)=UN
+                     RNS(1,NS)=ONE
                      XNS(1,NS)=X1
                      XNS(2,NS)=Y1
                      XNS(3,NS)=Z1
@@ -475,7 +475,7 @@ C Attribution des trous
                ENDIF
             ENDDO
 C
-            IF (ABS(ALPHA).GE.UN) THOL(I)=J
+            IF (ABS(ALPHA).GE.ONE) THOL(I)=J
          ENDDO
       ENDDO
 C Creation des tableaux de sortie

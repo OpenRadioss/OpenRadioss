@@ -125,11 +125,11 @@ card3 - Coulomb moduli - Poissson's ratio
 c
 card5 - Yield criterion and compressive parameter
       CALL HM_GET_FLOATV('MAT_K'    ,K        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      IF (K == ZERO)   K = UN
+      IF (K == ZERO)   K = ONE
       CALL HM_GET_FLOATV('MAT_E3C'  ,E3C      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       IF (E3C == ZERO) E3C = YOUNG3
       CALL HM_GET_FLOATV('MAT_CC'   ,CC       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      IF (CC == ZERO)  CC = UN
+      IF (CC == ZERO)  CC = ONE
 card6 - Plastic potential parameter       
       CALL HM_GET_FLOATV('MAT_NU1P' ,NU1P     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_NU2P' ,NU2P     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -191,12 +191,12 @@ card7 - Yield stress in tension in direction 1 (MD)
         CALL HM_GET_FLOATV('MAT_Xscale1' ,XSCALE1   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (XSCALE1 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Xscale1' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XSCALE1 = UN * XSCALE_UNIT
+          XSCALE1 = ONE * XSCALE_UNIT
         ENDIF        
         CALL HM_GET_FLOATV('MAT_Yscale1' ,YSCALE1   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (YSCALE1 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Yscale1' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YSCALE1 = UN * YSCALE_UNIT
+          YSCALE1 = ONE * YSCALE_UNIT
         ENDIF
 card8 - Yield stress in compression in direction 1 (MD)
         CALL HM_GET_INTV  ('TAB_YLD2'     ,TAB_YLD2  ,IS_AVAILABLE, LSUBMODEL)
@@ -211,12 +211,12 @@ card8 - Yield stress in compression in direction 1 (MD)
         CALL HM_GET_FLOATV('MAT_Xscale2' ,XSCALE2   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (XSCALE2 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Xscale2' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XSCALE2 = UN * XSCALE_UNIT
+          XSCALE2 = ONE * XSCALE_UNIT
         ENDIF 
         CALL HM_GET_FLOATV('MAT_Yscale2' ,YSCALE2   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (YSCALE2 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Yscale2' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YSCALE2 = UN * YSCALE_UNIT
+          YSCALE2 = ONE * YSCALE_UNIT
         ENDIF
 card9 - Yield stress in positive shear
         CALL HM_GET_INTV  ('TAB_YLD3'     ,TAB_YLD3  ,IS_AVAILABLE, LSUBMODEL)
@@ -231,12 +231,12 @@ card9 - Yield stress in positive shear
         CALL HM_GET_FLOATV('MAT_Xscale3' ,XSCALE3   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (XSCALE3 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Xscale3' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XSCALE3 = UN * XSCALE_UNIT
+          XSCALE3 = ONE * XSCALE_UNIT
         ENDIF 
         CALL HM_GET_FLOATV('MAT_Yscale3' ,YSCALE3   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (YSCALE3 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Yscale3' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YSCALE3 = UN * YSCALE_UNIT
+          YSCALE3 = ONE * YSCALE_UNIT
         ENDIF
 card10 - Yield stress in tension in direction 2 (CD) 
         CALL HM_GET_INTV  ('TAB_YLD4'     ,TAB_YLD4  ,IS_AVAILABLE, LSUBMODEL)
@@ -251,12 +251,12 @@ card10 - Yield stress in tension in direction 2 (CD)
         CALL HM_GET_FLOATV('MAT_Xscale4' ,XSCALE4   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (XSCALE4 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Xscale4' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XSCALE4 = UN * XSCALE_UNIT
+          XSCALE4 = ONE * XSCALE_UNIT
         ENDIF 
         CALL HM_GET_FLOATV('MAT_Yscale4' ,YSCALE4   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (YSCALE4 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Yscale4' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YSCALE4 = UN * YSCALE_UNIT
+          YSCALE4 = ONE * YSCALE_UNIT
         ENDIF
 card11 - Yield stress in compression in direction 2 (CD)  
         CALL HM_GET_INTV  ('TAB_YLD5'     ,TAB_YLD5 ,IS_AVAILABLE, LSUBMODEL)
@@ -271,12 +271,12 @@ card11 - Yield stress in compression in direction 2 (CD)
         CALL HM_GET_FLOATV('MAT_Xscale5' ,XSCALE5   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (XSCALE5 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Xscale5' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XSCALE5 = UN * XSCALE_UNIT
+          XSCALE5 = ONE * XSCALE_UNIT
         ENDIF 
         CALL HM_GET_FLOATV('MAT_Yscale5' ,YSCALE5   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (YSCALE5 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Yscale5' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YSCALE5 = UN * YSCALE_UNIT
+          YSCALE5 = ONE * YSCALE_UNIT
         ENDIF
 card12 - Yield stress in out-of-plane direction
         CALL HM_GET_INTV  ('TAB_YLDC'     ,TAB_YLDC  ,IS_AVAILABLE, LSUBMODEL)
@@ -291,12 +291,12 @@ card12 - Yield stress in out-of-plane direction
         CALL HM_GET_FLOATV('MAT_XscaleC' ,XSCALEC   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (XSCALEC == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_XscaleC' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XSCALEC = UN * XSCALE_UNIT
+          XSCALEC = ONE * XSCALE_UNIT
         ENDIF 
         CALL HM_GET_FLOATV('MAT_YscaleC' ,YSCALEC   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (YSCALEC == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_YscaleC' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YSCALEC = UN * YSCALE_UNIT
+          YSCALEC = ONE * YSCALE_UNIT
         ENDIF 
 card12 - Yield stress in out-of-plane direction
         CALL HM_GET_INTV  ('TAB_YLDS'     ,TAB_YLDS  ,IS_AVAILABLE, LSUBMODEL)
@@ -311,12 +311,12 @@ card12 - Yield stress in out-of-plane direction
         CALL HM_GET_FLOATV('MAT_XscaleS' ,XSCALES   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (XSCALES == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_XscaleS' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XSCALES = UN * XSCALE_UNIT
+          XSCALES = ONE * XSCALE_UNIT
         ENDIF
         CALL HM_GET_FLOATV('MAT_YscaleS' ,YSCALES   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (YSCALES == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_YscaleS' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YSCALES = UN * YSCALE_UNIT
+          YSCALES = ONE * YSCALE_UNIT
         ENDIF
       ENDIF
 c---------------------
@@ -325,7 +325,7 @@ c---------------------
       ! Default algorithm : Cutting plane
       IF (Ires == 0)  Ires = 2
       ! Poisson's ratio
-      IF (NU21 < ZERO .OR. NU21 >= UNDEMI) THEN
+      IF (NU21 < ZERO .OR. NU21 >= HALF) THEN
          CALL ANCMSG(MSGID=2057,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
@@ -334,7 +334,7 @@ c---------------------
      .               C1=TITR)
       ENDIF
       NU12 = NU21*YOUNG1/YOUNG2
-      IF (NU12 < ZERO .OR. NU12 >= UNDEMI) THEN
+      IF (NU12 < ZERO .OR. NU12 >= HALF) THEN
          CALL ANCMSG(MSGID=2058,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
@@ -343,7 +343,7 @@ c---------------------
      .               C1=TITR)
       ENDIF
       ! Checking Poisson's ratio 
-      DETC = UN - NU12*NU21
+      DETC = ONE - NU12*NU21
       IF (DETC <= ZERO) THEN
         CALL ANCMSG(MSGID=307,
      .              MSGTYPE=MSGERROR,
@@ -360,10 +360,10 @@ c
 c
       ! Elasticity parameter
       !  Plane stress elastic constant
-      A11 = YOUNG1/(UN - NU12*NU21)
-      A12 = NU12*YOUNG2/(UN - NU12*NU21)
-      A21 = NU21*YOUNG1/(UN - NU12*NU21)
-      A22 = YOUNG2/(UN - NU12*NU21)
+      A11 = YOUNG1/(ONE - NU12*NU21)
+      A12 = NU12*YOUNG2/(ONE - NU12*NU21)
+      A21 = NU21*YOUNG1/(ONE - NU12*NU21)
+      A22 = YOUNG2/(ONE - NU12*NU21)
 c
 c--------------------------
 c     Filling buffer tables
@@ -407,7 +407,7 @@ c
       UPARAM(12) = G31
       UPARAM(13) = Ires
       UPARAM(14) = Itab
-      UPARAM(15) = DEUX*K
+      UPARAM(15) = TWO*K
       UPARAM(16) = E3C
       UPARAM(17) = CC
       UPARAM(18) = NU1P
@@ -443,43 +443,43 @@ c
         UPARAM(47) = BTAU
       ELSE
         IF (XSCALE1 /= ZERO) THEN
-          UPARAM(22) = UN/XSCALE1
+          UPARAM(22) = ONE/XSCALE1
         ELSE
           UPARAM(22) = ZERO
         ENDIF
         UPARAM(23) = YSCALE1
         IF (XSCALE2 /= ZERO) THEN
-          UPARAM(24) = UN/XSCALE2
+          UPARAM(24) = ONE/XSCALE2
         ELSE
           UPARAM(24) = ZERO
         ENDIF
         UPARAM(25) = YSCALE2      
         IF (XSCALE3 /= ZERO) THEN
-          UPARAM(26) = UN/XSCALE3
+          UPARAM(26) = ONE/XSCALE3
         ELSE
           UPARAM(26) = ZERO
         ENDIF
         UPARAM(27) = YSCALE3
         IF (XSCALE4 /= ZERO) THEN
-          UPARAM(28) = UN/XSCALE4
+          UPARAM(28) = ONE/XSCALE4
         ELSE
           UPARAM(28) = ZERO
         ENDIF
         UPARAM(29) = YSCALE4
         IF (XSCALE5 /= ZERO) THEN
-          UPARAM(30) = UN/XSCALE5
+          UPARAM(30) = ONE/XSCALE5
         ELSE
           UPARAM(30) = ZERO
         ENDIF
         UPARAM(31) = YSCALE5
         IF (XSCALEC /= ZERO) THEN
-          UPARAM(32) = UN/XSCALEC
+          UPARAM(32) = ONE/XSCALEC
         ELSE
           UPARAM(32) = ZERO
         ENDIF
         UPARAM(33) = YSCALEC
         IF (XSCALES /= ZERO) THEN
-          UPARAM(34) = UN/XSCALES
+          UPARAM(34) = ONE/XSCALES
         ELSE
           UPARAM(34) = ZERO
         ENDIF

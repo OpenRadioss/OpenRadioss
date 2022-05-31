@@ -216,7 +216,7 @@ C------first point Z=0  7 real  to print npg w/ QEPH
             DO IPG=1,NPG
               K = (IPG-1)*NEL*G_STRA 
               STRAING(1:2)=STRAIN(KK(1:2)+I+K)
-              STRAING(3:5)=UNDEMI*STRAIN(KK(3:5)+I+K)
+              STRAING(3:5)=HALF*STRAIN(KK(3:5)+I+K)
               CALL SHELL2G(STRAING,QT(1,I))             
 C
               DO J=1,6
@@ -231,8 +231,8 @@ C------2nd point Z=0.5-> 1.0(LSD) 7 real
               K = (IPG-1)*NEL*G_STRA 
               ZH = 1.0*THKP
               STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
-              STRAING(3)=UNDEMI*STRAING(3)
-              STRAING(4:5)=UNDEMI*STRAIN(KK(4:5)+I+K)
+              STRAING(3)=HALF*STRAING(3)
+              STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
               CALL SHELL2G(STRAING,QT(1,I))             
 C
               DO J=1,6
@@ -240,7 +240,7 @@ C
                 WA(JJ) = STRAING(J)
               END DO      
                JJ    = JJ + 1
-               WA(JJ) = UN
+               WA(JJ) = ONE
             END DO        
           ELSEIF (G_STRA /= 0) THEN
             IF (NPG > 1) THEN
@@ -259,8 +259,8 @@ C--
                   K = (IPG-1)*NEL*G_STRA 
                   ZH = POSLY(I,IPT)*THKP
                   STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
-                  STRAING(3)=UNDEMI*STRAING(3)
-                  STRAING(4:5)=UNDEMI*STRAIN(KK(4:5)+I+K)
+                  STRAING(3)=HALF*STRAING(3)
+                  STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
                   CALL SHELL2G(STRAING,QT(1,I))             
 C               
                   DO J=1,6
@@ -268,7 +268,7 @@ C
                     WA(JJ) = STRAING(J)
                   END DO      
                    JJ    = JJ + 1
-                   WA(JJ) = POSLY(I,IPT)*DEUX
+                   WA(JJ) = POSLY(I,IPT)*TWO
                 END DO        
               END DO !IT=1,NPTT
               IPT_ALL = IPT_ALL + NPTT
@@ -512,7 +512,7 @@ C------first point Z=0  7 real
             DO IPG=1,NPG
               K = (IPG-1)*NEL*G_STRA 
               STRAING(1:2)=STRAIN(KK(1:2)+I+K)
-              STRAING(3:5)=UNDEMI*STRAIN(KK(3:5)+I+K)
+              STRAING(3:5)=HALF*STRAIN(KK(3:5)+I+K)
               CALL SHELL2G(STRAING,QT(1,I))             
 C
               DO J=1,6
@@ -527,8 +527,8 @@ C------2nd point Z=0.5-> 1.0(LSD) 7 real
               K = (IPG-1)*NEL*G_STRA 
               ZH = 1.0*THKP
               STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
-              STRAING(3)=UNDEMI*STRAING(3)
-              STRAING(4:5)=UNDEMI*STRAIN(KK(4:5)+I+K)
+              STRAING(3)=HALF*STRAING(3)
+              STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
               CALL SHELL2G(STRAING,QT(1,I))             
 C
               DO J=1,6
@@ -536,7 +536,7 @@ C
                 WA(JJ) = STRAING(J)
               END DO      
                JJ    = JJ + 1
-               WA(JJ) = UN
+               WA(JJ) = ONE
             END DO        
           ELSEIF (G_STRA > 0) THEN
             IF (NPG > 1) THEN
@@ -555,8 +555,8 @@ C--
                   K = (IPG-1)*NEL*G_STRA 
                   ZH = POSLY(I,IPT)*THKP
                   STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
-                  STRAING(3)=UNDEMI*STRAING(3)
-                  STRAING(4:5)=UNDEMI*STRAIN(KK(4:5)+I+K)
+                  STRAING(3)=HALF*STRAING(3)
+                  STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
                   CALL SHELL2G(STRAING,QT(1,I))             
 C               
                   DO J=1,6
@@ -564,7 +564,7 @@ C
                     WA(JJ) = STRAING(J)
                   END DO      
                    JJ    = JJ + 1
-                   WA(JJ) = POSLY(I,IPT)*DEUX
+                   WA(JJ) = POSLY(I,IPT)*TWO
                 END DO        
               END DO !IT=1,NPTT
               IPT_ALL = IPT_ALL + NPTT

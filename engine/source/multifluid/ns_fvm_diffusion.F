@@ -224,7 +224,7 @@ c-----------------------------------------------
                endif
                surf = multi_fvm%face_data%surf(jj, ii)
                xf(1:3) = multi_fvm%face_data%centroid(1:3, jj, ii)
-               xl(1:3) = deux * xf(1:3) - xk(1:3)
+               xl(1:3) = TWO * xf(1:3) - xk(1:3)
                dist = sqrt((xk(1) - xl(1))**2 + (xk(2) - xl(2))**2 + (xk(3) - xl(3))**2)
                nu = diffusion%nu(ii)
                diffusion%mat%val(icount1) = diffusion%mat%val(icount1) + time_step * surf * nu / dist

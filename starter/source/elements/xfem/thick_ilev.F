@@ -106,13 +106,13 @@ C---
         DO ILAY=1,NLAY
           LBUF => XFEM_STR%BUFLY(ILAY)%LBUF(1,1,1)
           DO I=LFT,LLT
-            LBUF%OFF(I) = -UN
+            LBUF%OFF(I) = -ONE
           ENDDO
         ENDDO
       ELSE  ! monolayer
         GBUF => XFEM_STR%GBUF
         DO I=LFT,LLT
-          GBUF%OFF(I) = -UN
+          GBUF%OFF(I) = -ONE
         ENDDO
       ENDIF  !  IF(NLAY > 1)THEN
 C---

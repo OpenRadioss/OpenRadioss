@@ -230,11 +230,11 @@ C---------------------------------
 C---------------------------------
 C     Travail des forces d'interface avec Madymo.
 C---------------------------------
-      FS(7)=FS(7)+DE*DT1*UNDEMI
+      FS(7)=FS(7)+DE*DT1*HALF
       IF (IGRSURF(KSURF)%TYPE.EQ.100) THEN
 C     Sorties Ellipdoides Madymo.
 #include "atomic.inc"
-          TFEXT=TFEXT+DE*DT1*UNDEMI
+          TFEXT=TFEXT+DE*DT1*HALF
 #include "atomend.inc"
       ENDIF
 C----------------------------------

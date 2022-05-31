@@ -465,10 +465,10 @@ c
       ENDIF
 c
       DO I=LFT,LLT
-        NU(I)=MIN(UNDEMI,PM(21,MXT(I)))
+        NU(I)=MIN(HALF,PM(21,MXT(I)))
         DELTAX(I)=EP30
         C1 =PM(32,MXT(I))
-        E0(I) =TROIS*(UN-DEUX*NU(I))*C1
+        E0(I) =THREE*(ONE-TWO*NU(I))*C1
         USB(I)=EM01/C1
         IDEG(I)=0
       ENDDO
@@ -532,7 +532,7 @@ C
         CALL S8ZSIGP3(LFT  ,LLT       ,GBUF%SIG,E0  ,GBUF%PLA,
      2                FAC  ,GBUF%G_PLA,NEL     )
         DO I=LFT,LLT
-          NU1(I)=NU(I)+(UNDEMI-NU(I))*FAC(I)
+          NU1(I)=NU(I)+(HALF-NU(I))*FAC(I)
         ENDDO
       ELSE
         DO I=LFT,LLT
@@ -556,7 +556,7 @@ C-------------------------------------------
       IF(JTHE < 0) THEN 
          DO I=LFT,LLT
            IF(GBUF%OFF(I) == ZERO) CYCLE
-           TEMPEL(I) = UNHUIT *(  TEMP(NC1(I)) + TEMP(NC2(I))  
+           TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
      .                          + TEMP(NC3(I)) + TEMP(NC4(I)) 
      .                          + TEMP(NC5(I)) + TEMP(NC6(I)) 
      .                          + TEMP(NC7(I)) + TEMP(NC8(I)))
@@ -706,7 +706,7 @@ C---------------------------------
         IF (DT1 ==  ZERO) THEN
           DTI =ZERO
         ELSE
-          DTI = UN/DT1
+          DTI = ONE/DT1
         ENDIF 
       ENDIF 
 C
@@ -714,7 +714,7 @@ C
       DO I=LFT,LLT
         OFFS(I)=EP20
 C
-        FAC(I) = UN
+        FAC(I) = ONE
       END DO
       IF(JTHE < 0) THEM(LFT:LLT,1:8) = ZERO
 C-----------Matrix B----------
@@ -731,7 +731,7 @@ c         IF (ICT == 1) ILAY = IT
 C-----avoid multi-print	  
           IF (IOFFS == 1)THEN
            DO I=LFT,LLT
-            IF (OFFS(I).LE.DEUX) LBUF%OFF(I)=OFFS(I)
+            IF (OFFS(I).LE.TWO) LBUF%OFF(I)=OFFS(I)
            ENDDO
           END IF
 C-----------
@@ -1086,7 +1086,7 @@ C----------------------------
         ENDIF
         DO I=LFT,LLT                                        
           OFFL(I)=MIN(OFFL(I),OFF(I))                        
-          IF (LBUF%OFF(I) > UN .AND. GBUF%OFF(I) == UN) THEN  
+          IF (LBUF%OFF(I) > ONE .AND. GBUF%OFF(I) == ONE) THEN  
             OFFS(I)=MIN(LBUF%OFF(I),OFFS(I))                 
             IOFFS  =1                                        
           END IF                                             
@@ -1115,7 +1115,7 @@ C-----------End integrating points-----
 c
       IF (IOFFS == 1) THEN
         DO I=LFT,LLT
-          IF (OFFS(I) <= DEUX) GBUF%OFF(I)=OFFS(I)
+          IF (OFFS(I) <= TWO) GBUF%OFF(I)=OFFS(I)
         END DO
 c
         DO IR=1,NPTR                                         
@@ -1123,7 +1123,7 @@ c
           DO IL=1,NLAY                                       
             LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)       
             DO I=LFT,LLT                                     
-              IF (GBUF%OFF(I) > UN) LBUF%OFF(I)=GBUF%OFF(I)  
+              IF (GBUF%OFF(I) > ONE) LBUF%OFF(I)=GBUF%OFF(I)  
             END DO                                           
           END DO                                             
          END DO                                              
@@ -1209,7 +1209,7 @@ C----------------------------
      8   THEM, FTHESKY,CONDNSKY,CONDEN)
       ENDIF
       IF (NTSHEG > 0) THEN
-        ALPHA_E(LFT:LLT) = UN  
+        ALPHA_E(LFT:LLT) = ONE  
         DO I=LFT,LLT
           IF (GBUF%IDT_TSH(I)<=0) CYCLE
           FACDP = 1.343*LLSH(I)/LLSMIN(I)
@@ -1277,7 +1277,7 @@ C-----------------------------------------------
             VR=V1*E2X(I)+V2*E2Y(I)+V3*E2Z(I)
             VS=V1*E3X(I)+V2*E3Y(I)+V3*E3Z(I)
             SUMA=SQRT(VR*VR + VS*VS)
-            SUMA=UN/MAX(EM20,SUMA)
+            SUMA=ONE/MAX(EM20,SUMA)
             CPN(I) = VR*SUMA
             SPN(I) = VS*SUMA
           ENDDO
@@ -1291,7 +1291,7 @@ C-----------------------------------------------
             VR=V1*E3X(I)+V2*E3Y(I)+V3*E3Z(I)
             VS=V1*E1X(I)+V2*E1Y(I)+V3*E1Z(I)
             SUMA=SQRT(VR*VR + VS*VS)
-            SUMA=UN/MAX(EM20,SUMA)
+            SUMA=ONE/MAX(EM20,SUMA)
             CPN(I) = VR*SUMA
             SPN(I) = VS*SUMA
           ENDDO
@@ -1305,7 +1305,7 @@ C-----------------------------------------------
             VR=V1*E1X(I)+V2*E1Y(I)+V3*E1Z(I)
             VS=V1*E2X(I)+V2*E2Y(I)+V3*E2Z(I)
             SUMA=SQRT(VR*VR + VS*VS)
-            SUMA=UN/MAX(EM20,SUMA)
+            SUMA=ONE/MAX(EM20,SUMA)
             CPN(I) = VR*SUMA
             SPN(I) = VS*SUMA
           ENDDO
@@ -1320,7 +1320,7 @@ C
             G2X(JFT:JLT)=ZERO                                                 
             G2Y(JFT:JLT)=-SPN(JFT:JLT)                                                 
             G2Z(JFT:JLT)=CPN(JFT:JLT)                                               
-            G3X(JFT:JLT)=UN
+            G3X(JFT:JLT)=ONE
             G3Y(JFT:JLT)=ZERO
             G3Z(JFT:JLT)=ZERO
         CASE (100)                                                        
@@ -1331,7 +1331,7 @@ C
             G2Y(JFT:JLT)=ZERO                                                 
             G2Z(JFT:JLT)=-SPN(JFT:JLT)                                               
             G3X(JFT:JLT)=ZERO
-            G3Y(JFT:JLT)=UN
+            G3Y(JFT:JLT)=ONE
             G3Z(JFT:JLT)=ZERO
         CASE (10)                                                        
             G1X(JFT:JLT)=CPN(JFT:JLT)
@@ -1342,7 +1342,7 @@ C
             G2Z(JFT:JLT)= ZERO                                               
             G3X(JFT:JLT)= ZERO
             G3Y(JFT:JLT)= ZERO
-            G3Z(JFT:JLT)= UN
+            G3Z(JFT:JLT)= ONE
        END SELECT                                                      
 C----------
       RETURN

@@ -247,7 +247,7 @@ C     ==============
            ELSE
               INIMAP1D(KK)%FUNC_VEL = 0
            ENDIF
-           IF (FAC_VEL == ZERO) FAC_VEL = UN
+           IF (FAC_VEL == ZERO) FAC_VEL = ONE
            INIMAP1D(KK)%FAC_VEL = FAC_VEL
 
            CALL HM_GET_INTV('Nb_integr', SIZE, IS_AVAILABLE, LSUBMODEL)
@@ -328,8 +328,8 @@ C     OR FUNC_RHO, FUNC_ENER AND FUNC_VEL depending on the forumlation
                  INIMAP1D(KK)%FUNC_PRES(LL) = 0
                  INIMAP1D(KK)%FUNC_ENER(LL) = 0
               ENDIF
-              IF (FAC1 == ZERO) FAC1 = UN
-              IF (FAC2 == ZERO) FAC2 = UN
+              IF (FAC1 == ZERO) FAC1 = ONE
+              IF (FAC2 == ZERO) FAC2 = ONE
               INIMAP1D(KK)%FAC_RHO(LL) = FAC1
               INIMAP1D(KK)%FAC_PRES_ENER(LL) = FAC2
               IF (INIMAP1D(KK)%FORMULATION == 1) THEN

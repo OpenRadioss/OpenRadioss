@@ -145,22 +145,22 @@ C
       RBULK = ZERO
       E  = ZERO
 C I                                    
-      IF(D2 /=  ZERO ) D2 = UN/D2                          
-      IF(D3 /= ZERO )  D3 = UN/D3                          
+      IF(D2 /=  ZERO ) D2 = ONE/D2                          
+      IF(D3 /= ZERO )  D3 = ONE/D3                          
 C                                 
-      G = DEUX*C10                                         
+      G = TWO*C10                                         
       IF(D1 == ZERO) THEN                                  
         D2 = ZERO                                          
         D3 = ZERO                                          
         NU = 0.495                                          
-        RBULK = DTHIRD*G*(UN + NU)/(UN-DEUX*NU)            
-        D1 = RBULK / DEUX ! 1/D1                           
-        E = DEUX*G*(UN + NU)                               
+        RBULK = TWO_THIRD*G*(ONE + NU)/(ONE-TWO*NU)            
+        D1 = RBULK / TWO ! 1/D1                           
+        E = TWO*G*(ONE + NU)                               
       ELSE                                                  
-        D1 = UN/D1                                  
-        RBULK= DEUX*D1                                     
-        NU = (TROIS*RBULK -DEUX*G)/(TROIS*RBULK + G)/DEUX  
-        E = NEUF*RBULK*G/(TROIS*RBULK + G)                 
+        D1 = ONE/D1                                  
+        RBULK= TWO*D1                                     
+        NU = (THREE*RBULK -TWO*G)/(THREE*RBULK + G)/TWO  
+        E = NINE*RBULK*G/(THREE*RBULK + G)                 
       ENDIF                                               
 C               
       UPARAM(1) = G
@@ -187,7 +187,7 @@ C
 C
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) = DEUX*G/(RBULK + QTHIRD*G) 
+      PARMAT(17) = TWO*G/(RBULK + FOUR_OVER_3*G) 
 C  
        IMATVIS = 1                 
        PM(100) = RBULK

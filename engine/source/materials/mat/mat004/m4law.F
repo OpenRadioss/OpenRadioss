@@ -103,13 +103,13 @@ C
         P(I)  =-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
         DAV(I)=-THIRD*(D1(I)+D2(I)+D3(I))
         G1(I)=DT1*G(I)*OFF(I)
-        G2(I)=DEUX*G1(I)*OFF(I)
+        G2(I)=TWO*G1(I)*OFF(I)
       ENDDO
 C-----------------------
 C     SOUND SPEED
 C-----------------------
       DO I=LFT,LLT
-        DPDM(I) = DPDM(I) + UNP333*G(I)
+        DPDM(I) = DPDM(I) + ONEP333*G(I)
         SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       ENDDO
 C-------------------------------
@@ -126,12 +126,12 @@ C-------------------------------
 C
       DO I=LFT,LLT
         EPD(I)=OFF(I)*MAX(   ABS(D1(I)),   ABS(D2(I)),   ABS(D3(I)),
-     .         UNDEMI*ABS(D4(I)),UNDEMI*ABS(D5(I)),UNDEMI*ABS(D6(I)))
+     .         HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))
 C
         EPSP(I) = EPD(I)     
-        AJ2(I)=UNDEMI*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)
+        AJ2(I)=HALF*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)
      .                +SIG(I,4)**2+SIG(I,5)**2+SIG(I,6)**2
-        AJ2(I)=SQRT(TROIS*AJ2(I))
+        AJ2(I)=SQRT(THREE*AJ2(I))
       ENDDO
 C-----------------
 C     TEMPERATURE
@@ -157,17 +157,17 @@ C-------------------------------
         SCALE(I)=ZERO
         CYCLE
        ELSEIF(THETA(I).GT.T0(I)) THEN
-        IF(THETA(I).GT.THETL(I)) CMX(I)=UN
-        CT=UN - TSTAR(I)**CMX(I)
+        IF(THETA(I).GT.THETL(I)) CMX(I)=ONE
+        CT=ONE - TSTAR(I)**CMX(I)
        ELSE
         TSTAR(I) = ZERO
-        CT=UN
+        CT=ONE
        ENDIF
 C
        IF(EPD(I).LE.EPDR(I)) THEN
-        CE=UN
+        CE=ONE
        ELSE
-        CE=UN + CC(I) * LOG(EPD(I)/EPDR(I))
+        CE=ONE + CC(I) * LOG(EPD(I)/EPDR(I))
        ENDIF
 C
        IF(EPXE(I).LE.ZERO) THEN
@@ -182,10 +182,10 @@ C
 C-----------------------
 C     MODULE ECROUISSAGE
 C-----------------------
-       IF(CN(I).GE.UN) THEN
-        QH(I)= (CB(I)*CN(I)*EPXE(I)**(CN(I) - UN))*CE*CT
+       IF(CN(I).GE.ONE) THEN
+        QH(I)= (CB(I)*CN(I)*EPXE(I)**(CN(I) - ONE))*CE*CT
        ELSEIF(EPXE(I).GT.ZERO)THEN
-        QH(I)= (CB(I)*CN(I)/EPXE(I)**(UN -CN(I)))*CE*CT
+        QH(I)= (CB(I)*CN(I)/EPXE(I)**(ONE -CN(I)))*CE*CT
        ELSE
         QH(I)=ZERO
        ENDIF
@@ -209,7 +209,7 @@ C
        SIG(I,4)=SCALE(I)*SIG(I,4)
        SIG(I,5)=SCALE(I)*SIG(I,5)
        SIG(I,6)=SCALE(I)*SIG(I,6)
-       DPLA(I) =(UN -SCALE(I))*AJ2(I)/(TROIS*G(I)+QH(I))      
+       DPLA(I) =(ONE -SCALE(I))*AJ2(I)/(THREE*G(I)+QH(I))      
        EPXE(I)=EPXE(I)+ DPLA(I)
        EPXE(I)=EPXE(I)*OFF(I)
       ENDDO
@@ -222,7 +222,7 @@ C
        SIG(I,4)=SCALE(I)*SIG(I,4)
        SIG(I,5)=SCALE(I)*SIG(I,5)
        SIG(I,6)=SCALE(I)*SIG(I,6)
-       DPLA(I) =(UN -SCALE(I))*AJ2(I)/(TROIS*G(I))      
+       DPLA(I) =(ONE -SCALE(I))*AJ2(I)/(THREE*G(I))      
        EPXE(I)=EPXE(I)+DPLA(I)
        EPXE(I)=EPXE(I)*OFF(I)
        ENDDO
@@ -230,10 +230,10 @@ C
       ELSEIF(IPLA.EQ.1)THEN
        DO I=LFT,LLT
 Clm    plastic strain increment.
-       DPLA(I)=(UN -SCALE(I))*AJ2(I)/(TROIS*G(I)+QH(I))
+       DPLA(I)=(ONE -SCALE(I))*AJ2(I)/(THREE*G(I)+QH(I))
 Clm    actual yeld stress.
        AK(I)=AK(I)+DPLA(I)*QH(I)
-       SCALE(I)= MIN(UN,AK(I)/ MAX(AJ2(I),EM15))
+       SCALE(I)= MIN(ONE,AK(I)/ MAX(AJ2(I),EM15))
        SIG(I,1)=SCALE(I)*SIG(I,1)
        SIG(I,2)=SCALE(I)*SIG(I,2)
        SIG(I,3)=SCALE(I)*SIG(I,3)

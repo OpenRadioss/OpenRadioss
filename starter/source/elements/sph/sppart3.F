@@ -81,7 +81,7 @@ C
         PARTSAV(11,IP)=PARTSAV(11,IP) + MASS(I)*V(1,I1)
         PARTSAV(12,IP)=PARTSAV(12,IP) + MASS(I)*V(2,I1)
         PARTSAV(13,IP)=PARTSAV(13,IP) + MASS(I)*V(3,I1)
-        PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * MASS(I) *
+        PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * MASS(I) *
      .     (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1))
        ENDDO
 C

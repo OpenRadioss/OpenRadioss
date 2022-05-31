@@ -103,7 +103,7 @@ C
          FZ(I,J)=FZ(I,J)-VOL(I)*(MATB(INCTRL+1,I)*SIG(I,6)
      +                         + MATB(INCTRL+2,I)*SIG(I,5) 
      +                         + MATB(INCTRL+3,I)*SIG(I,3))
-         STIN(I,J)= UNDEMI*VOL(I)*
+         STIN(I,J)= HALF*VOL(I)*
      .      (ABS(MATB(INCTRL+1,I))*SUMX 
      .     + ABS(MATB(INCTRL+2,I))*SUMY 
      .     + ABS(MATB(INCTRL+3,I))*SUMZ)

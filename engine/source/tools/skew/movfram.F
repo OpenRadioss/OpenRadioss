@@ -155,26 +155,26 @@ C------------------
               IF (IDIR == 1) THEN
                 PP1=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
                 IF(PP1.EQ.ZERO)THEN
-                  P(1)=UN
+                  P(1)=ONE
                   P(2)=ZERO
                   P(3)=ZERO
-                  PP1 =UN
+                  PP1 =ONE
                 ENDIF
               ELSEIF (IDIR == 2) THEN
                 PP1=SQRT(P(4)*P(4)+P(5)*P(5)+P(6)*P(6))
                 IF(PP1.EQ.ZERO)THEN
-                  P(4)=UN
+                  P(4)=ONE
                   P(5)=ZERO
                   P(6)=ZERO
-                  PP1 =UN
+                  PP1 =ONE
                 ENDIF
               ELSEIF (IDIR == 3) THEN
                 PP1=SQRT(P(7)*P(7)+P(8)*P(8)+P(9)*P(9))
                 IF(PP1.EQ.ZERO)THEN
-                  P(7)=UN
+                  P(7)=ONE
                   P(8)=ZERO
                   P(9)=ZERO
-                  PP1 =UN
+                  PP1 =ONE
                 ENDIF
               ENDIF
 C-----------------
@@ -291,8 +291,8 @@ C------------------
               IF(PP3.EQ.ZERO)THEN
                 P(7)=ZERO
                 P(8)=ZERO
-                P(9)=UN
-                PP3 =UN
+                P(9)=ONE
+                PP3 =ONE
               ENDIF
 C-----------------
 C       CALCUL DE Y = Z x X'
@@ -355,18 +355,18 @@ C       rotation increment DR=Transpose( P Transpose(POLD) )
             DR33=P(3)*POLD(3)+P(6)*POLD(6)+P(9)*POLD(9)
 C-------
 C       rotation increment vector.
-            CS =(DR11+DR22+DR33-UN)*UNDEMI
-            IF (CS.GE.UN) THEN
+            CS =(DR11+DR22+DR33-ONE)*HALF
+            IF (CS.GE.ONE) THEN
 C             DRX=0.
 C             DRY=0.
 C             DRZ=0.
-              DRX=(DR23-DR32)*UNDEMI
-              DRY=(DR31-DR13)*UNDEMI
-              DRZ=(DR12-DR21)*UNDEMI
-            ELSEIF (CS.LE.-UN) THEN
-              DRX=XPI*SQRT((DR11+UN)*UNDEMI)
-              DRY=XPI*SQRT((DR22+UN)*UNDEMI)
-              DRZ=XPI*SQRT((DR33+UN)*UNDEMI)
+              DRX=(DR23-DR32)*HALF
+              DRY=(DR31-DR13)*HALF
+              DRZ=(DR12-DR21)*HALF
+            ELSEIF (CS.LE.-ONE) THEN
+              DRX=XPI*SQRT((DR11+ONE)*HALF)
+              DRY=XPI*SQRT((DR22+ONE)*HALF)
+              DRZ=XPI*SQRT((DR33+ONE)*HALF)
               IF (DR12.LT.ZERO.AND.DR23.LT.ZERO) THEN
                 DRY=-DRY
               ELSEIF (DR23.LT.ZERO.AND.DR31.LT.ZERO) THEN
@@ -383,7 +383,7 @@ C             DRZ=0.
           ELSE
             R  =ACOS(CS)
             SN =SIN(R)
-            RS2=R/(DEUX*SN)
+            RS2=R/(TWO*SN)
             DRX=(DR23-DR32)*RS2
             DRY=(DR31-DR13)*RS2
             DRZ=(DR12-DR21)*RS2
@@ -395,7 +395,7 @@ C-------
 C-------
 C       RETRIEVE ANGULAR ACCELERATION AT TIME T
 C-------
-          DTINV=UN/DT12
+          DTINV=ONE/DT12
           XFRAME(16,N+1)=(VRX-XFRAME(13,N+1))*DTINV
           XFRAME(17,N+1)=(VRY-XFRAME(14,N+1))*DTINV
           XFRAME(18,N+1)=(VRZ-XFRAME(15,N+1))*DTINV
@@ -706,8 +706,8 @@ C------------------
             IF(PP3.EQ.ZERO)THEN
               P(7)=ZERO
               P(8)=ZERO
-              P(9)=UN
-              PP3 =UN
+              P(9)=ONE
+              PP3 =ONE
             ENDIF
 C-----------------
 C       CALCUL DE Y' = Z' x X0'
@@ -933,10 +933,10 @@ C      => X'=X
 C------------------
               PP1=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
               IF(PP1.EQ.ZERO)THEN
-                P(1)=UN
+                P(1)=ONE
                 P(2)=ZERO
                 P(3)=ZERO
-                PP1 =UN
+                PP1 =ONE
               ENDIF
 C-----------------
 C     CALCUL DE Z'
@@ -992,8 +992,8 @@ C------------------
               IF(PP3.EQ.ZERO)THEN
                 P(7)=ZERO
                 P(8)=ZERO
-                P(9)=UN
-                PP3 =UN
+                P(9)=ONE
+                PP3 =ONE
               ENDIF
 C-----------------
 C       CALCUL DE Y = Z x X'
@@ -1065,15 +1065,15 @@ C       rotation increment DR=Transpose( P Transpose(POLD) )
             DR33=P(3)*POLD(3)+P(6)*POLD(6)+P(9)*POLD(9)
 C-------
 C       rotation increment vector.
-            CS =(DR11+DR22+DR33-UN)*UNDEMI
-            IF (CS.GE.UN) THEN
-              DRX=(DR23-DR32)*UNDEMI
-              DRY=(DR31-DR13)*UNDEMI
-              DRZ=(DR12-DR21)*UNDEMI
-            ELSEIF (CS.LE.-UN) THEN
-              DRX=XPI*SQRT((DR11+UN)*UNDEMI)
-              DRY=XPI*SQRT((DR22+UN)*UNDEMI)
-              DRZ=XPI*SQRT((DR33+UN)*UNDEMI)
+            CS =(DR11+DR22+DR33-ONE)*HALF
+            IF (CS.GE.ONE) THEN
+              DRX=(DR23-DR32)*HALF
+              DRY=(DR31-DR13)*HALF
+              DRZ=(DR12-DR21)*HALF
+            ELSEIF (CS.LE.-ONE) THEN
+              DRX=XPI*SQRT((DR11+ONE)*HALF)
+              DRY=XPI*SQRT((DR22+ONE)*HALF)
+              DRZ=XPI*SQRT((DR33+ONE)*HALF)
               IF (DR12.LT.ZERO.AND.DR23.LT.ZERO) THEN
                 DRY=-DRY
               ELSEIF (DR23.LT.ZERO.AND.DR31.LT.ZERO) THEN
@@ -1090,7 +1090,7 @@ C       rotation increment vector.
           ELSE
             R  =ACOS(CS)
             SN =SIN(R)
-            RS2=R/(DEUX*SN)
+            RS2=R/(TWO*SN)
             DRX=(DR23-DR32)*RS2
             DRY=(DR31-DR13)*RS2
             DRZ=(DR12-DR21)*RS2
@@ -1105,7 +1105,7 @@ C-------
           XFRAME(15,N+1)=VRZ
 C RETRIEVE ANGULAR ACCELERATION AT TIME T
 C-------
-          DTINV=UN/DT12
+          DTINV=ONE/DT12
           XFRAME(16,N+1)=(VRX-XFRAME(13,N+1))*DTINV
           XFRAME(17,N+1)=(VRY-XFRAME(14,N+1))*DTINV
           XFRAME(18,N+1)=(VRZ-XFRAME(15,N+1))*DTINV

@@ -229,7 +229,7 @@ C
         IPARI(20)=ILEV
         IPARI(65) = INTKG
         IPARI(12)=IBUC
-      IF (STFAC == ZERO ) STFAC = UNCINQ
+      IF (STFAC == ZERO ) STFAC = ONE_FIFTH
 C
 C------------------------------------------------------------
 C     PRINTOUT

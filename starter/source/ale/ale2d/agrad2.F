@@ -169,13 +169,13 @@ C---------------------------------
 C     CALCUL DES GRADIENTS * SURFACES
 C---------------------------------
       DO I=LFT,LLT
-        GRAD(I,1)= QUATRE*(D1Y(I)*N1Y(I)+D1Z(I)*N1Z(I)) /
+        GRAD(I,1)= FOUR*(D1Y(I)*N1Y(I)+D1Z(I)*N1Z(I)) /
      .             MAX(EM15,DD1(I))
-        GRAD(I,2)= QUATRE*(D2Y(I)*N2Y(I)+D2Z(I)*N2Z(I)) /
+        GRAD(I,2)= FOUR*(D2Y(I)*N2Y(I)+D2Z(I)*N2Z(I)) /
      .             MAX(EM15,DD2(I))
-        GRAD(I,3)= QUATRE*(D3Y(I)*N3Y(I)+D3Z(I)*N3Z(I)) /
+        GRAD(I,3)= FOUR*(D3Y(I)*N3Y(I)+D3Z(I)*N3Z(I)) /
      .             MAX(EM15,DD3(I))
-        GRAD(I,4)= QUATRE*(D4Y(I)*N4Y(I)+D4Z(I)*N4Z(I)) /
+        GRAD(I,4)= FOUR*(D4Y(I)*N4Y(I)+D4Z(I)*N4Z(I)) /
      .             MAX(EM15,DD4(I))
       END DO
       

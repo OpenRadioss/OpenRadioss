@@ -145,7 +145,7 @@ c     AAA = 0.75*AAA
       AAA = (NMN /
      .           ((BMINMA(1)-BMINMA(4))*(BMINMA(2)-BMINMA(5))*(BMINMA(3)-BMINMA(6))))**THIRD
 
-      AAA = DEUX*AAA
+      AAA = TWO*AAA
 
       NBX = NINT(AAA*(BMINMA(1)-BMINMA(4)))
       NBY = NINT(AAA*(BMINMA(2)-BMINMA(5)))
@@ -177,9 +177,9 @@ c
 c      CALL MY_BARRIER      
 c
 c!$OMP SINGLE
-c      LX=DEUX*LX/NEDGE
-c      LY=DEUX*LY/NEDGE
-c      LZ=DEUX*LZ/NEDGE
+c      LX=TWO*LX/NEDGE
+c      LY=TWO*LY/NEDGE
+c      LZ=TWO*LZ/NEDGE
 c!$OMP END SINGLE
 c
 c      NBX = NINT((BMINMA(1)-BMINMA(4))/LX)

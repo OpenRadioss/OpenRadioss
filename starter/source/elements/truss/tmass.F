@@ -79,7 +79,7 @@ C----------------------------------------------
        AL(I)=SQRT((X2(I)-X1(I))**2
      .           +(Y2(I)-Y1(I))**2
      .           +(Z2(I)-Z1(I))**2)
-       EMS(I)=RHO(I)*AL(I)*AREA(I)*UNDEMI
+       EMS(I)=RHO(I)*AL(I)*AREA(I)*HALF
       ENDDO
 C----------------------------------------------
 C     INITIALISATION DES MASSES NODALES
@@ -122,7 +122,7 @@ C
         I2 = NC2(I)
 C
         IP=IPART(I)
-        PARTSAV(1,IP)=PARTSAV(1,IP) + DEUX*EMS(I)
+        PARTSAV(1,IP)=PARTSAV(1,IP) + TWO*EMS(I)
         PARTSAV(2,IP)=PARTSAV(2,IP) + EMS(I)*(X(1,I1)+X(1,I2))
         PARTSAV(3,IP)=PARTSAV(3,IP) + EMS(I)*(X(2,I1)+X(2,I2))
         PARTSAV(4,IP)=PARTSAV(4,IP) + EMS(I)*(X(3,I1)+X(3,I2))
@@ -142,7 +142,7 @@ C
         PARTSAV(11,IP)=PARTSAV(11,IP) + EMS(I)*(V(1,I1)+V(1,I2))
         PARTSAV(12,IP)=PARTSAV(12,IP) + EMS(I)*(V(2,I1)+V(2,I2))
         PARTSAV(13,IP)=PARTSAV(13,IP) + EMS(I)*(V(3,I1)+V(3,I2))
-        PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * EMS(I) *
+        PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS(I) *
      .     (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
      .     +V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2))
       ENDDO

@@ -178,7 +178,7 @@ C--------idtc=3 :modified Riks arc_length-----
        R01=SQRT(R02)
 C--------ROLD=R2(IT=0)---------------------------------------
 Ctmp       IF (ISPRB.EQ.1) R01=MIN(R01,SQRT(ROLD)/R01)
-       RE=UN
+       RE=ONE
 C--------cas particulier---------------------------------------
        IF (R01*NL_TOL.LE.EM12.AND.NL_TOL.GT.EM10.AND.IDIV.NE.10) THEN
        IF (IREFI.NE.5.OR.ICONT==0) THEN
@@ -394,13 +394,13 @@ C---------------------
        IF (IT.EQ.1.AND.ISPRB.EQ.1.AND.IDIV.NE.-2) THEN
         RR1=SQRT(R2/ROLD)
 C
-        IF (ICONT.GT.0.AND.RR.LT.UN) RR1=RR
+        IF (ICONT.GT.0.AND.RR.LT.ONE) RR1=RR
        ELSE
         RR1=RR
        ENDIF
        RE=DE0/EIMP
        IF (IT.EQ.1) THEN
-        RU=UN
+        RU=ONE
        ELSEIF (ICALU.GT.0) THEN
          CALL PRODUT_UHP(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                   D     ,DR    ,U2    ,W_DDL )
@@ -431,10 +431,10 @@ C---------------------
          IDIV=0
 C-------initie line-serach------------
         IF (ILINE_S.NE.1) THEN
-         LS(1)=UN
+         LS(1)=ONE
          LS(2)=ZERO
         ENDIF
-         LS(3)=UN
+         LS(3)=ONE
          IF (NDIVER.GT.0) R02=R2
        ENDIF
        IF(IMCONV.EQ.1) THEN
@@ -479,7 +479,7 @@ C--------diverge----
 C        write(iout,*)'diverge',IMCONV,IT ,IDIV  
         IF(INPRINT.NE.0)THEN
          WRITE(IOUT,*)
-         IF (RR1.GT.UN) THEN
+         IF (RR1.GT.ONE) THEN
           WRITE(IOUT,1011)RR1
          ELSEIF(IT.GT.NL_DTN) THEN
           WRITE(IOUT,1010)
@@ -489,7 +489,7 @@ C        write(iout,*)'diverge',IMCONV,IT ,IDIV
          WRITE(IOUT,*)
          IF(INPRINT.LT.0)THEN
           WRITE(ISTDO,*)
-          IF (RR1.GT.UN) THEN
+          IF (RR1.GT.ONE) THEN
            WRITE(ISTDO,1011)RR1
           ELSEIF(IT.GT.NL_DTN) THEN
            WRITE(ISTDO,1010)
@@ -525,8 +525,8 @@ C---------------------
           R1=DE/DE0
           IF (ILINE_S.EQ.3) THEN
            R1=ABS(DE/DE0)
-           IF (RR.GT.UN) R1=UN
-           IF (RR.GT.UN.AND.IREFI.GE.2) R1=LS(1)
+           IF (RR.GT.ONE) R1=ONE
+           IF (RR.GT.ONE.AND.IREFI.GE.2) R1=LS(1)
            TEMP=EP02
           ENDIF
          ELSE
@@ -557,8 +557,8 @@ C----------------------
 c       CALL MY_BARRIER
 C---------------------
 C
-         IF ((INSOLV.EQ.2.OR.INSOLV.EQ.3).AND.FR.GT.UN.AND.IKT==0) 
-     .       FR = MIN(FR,DEUX)
+         IF ((INSOLV.EQ.2.OR.INSOLV.EQ.3).AND.FR.GT.ONE.AND.IKT==0) 
+     .       FR = MIN(FR,TWO)
         ENDIF
 C        IF (IABS(INSOLV).EQ.5) THEN
 C----------suprimed----------
@@ -829,18 +829,18 @@ C      TOLD=EP04
 C      IF (ILINE_S.EQ.1) TOLD=EP03 
 C      IF (ISMDISP.EQ.1) TOLD=EP10 
       TOLD = TOL_DIV
-      TOLR = UN+TOL
+      TOLR = ONE+TOL
 C--------1:E,2:r,3:E+U,4:r+U,5,r+E,6,r+E+U-----
 C--new:  1:E,2:r,3:U,12:E+r,13,E+U,23,r+U,123,r+E+U
       IF (NITOL.EQ.1) THEN
        ERR=ABS(ER)/TOL
-       IF (IT.EQ.1.OR.RR.GE.UN) ERR=ERR+TOLR 
+       IF (IT.EQ.1.OR.RR.GE.ONE) ERR=ERR+TOLR 
       ELSEIF (NITOL.EQ.2) THEN
        ERR=RR/TOL
       ELSEIF (NITOL.EQ.3) THEN
        ERR=UR/TOL
 C       ERR=MAX(SQRT(ABS(ER)),UR)
-       IF (RR.GE.UN) ERR=ERR+TOLR 
+       IF (RR.GE.ONE) ERR=ERR+TOLR 
       ELSEIF (NITOL.EQ.12) THEN
        ERR=MAX(RR/N_TOLF,ABS(ER)/N_TOLE)
 c       ERR=MAX(RR,UR)
@@ -854,7 +854,7 @@ c       ERR=MAX(SQRT(ABS(ER)),RR,UR)
        ERR=MAX(UR/N_TOLU,RR/N_TOLF,ABS(ER)/N_TOLE)
       ENDIF
 C
-       IF (ERR.LE.UN) THEN
+       IF (ERR.LE.ONE) THEN
 C       IF (ERR.LE.TOL) THEN
         IMCONV=1
 !sb       ELSEIF (UR<MIN(EM05,TOL).AND.RR<EM01) THEN
@@ -915,12 +915,12 @@ C-----------------------------------------------
      .  S1,DR,R
 C-----------------------------------------------
 C      R1=ABS(E1/E0)
-C      IF (R1.LE.UN) THEN
+C      IF (R1.LE.ONE) THEN
       DR=ABS(R0-R1)
       R=MIN(R1/PREC,DR)
 c      R=MIN(R1,DR*PREC)
       IF ((R.LT.DTOL.OR.IDIV.LT.-NLS_LIM) 
-     .    .OR.(R1.GT.UN.AND.IINT.GT.0.AND.IREFI.LT.2)) THEN
+     .    .OR.(R1.GT.ONE.AND.IINT.GT.0.AND.IREFI.LT.2)) THEN
        IF (IMCONV.EQ.-1)IMCONV=0 
 c       IDIV=0
        IDIV=IDIV-1
@@ -933,16 +933,16 @@ c       IDIV=0
       IMCONV=-1     
       S1=S
       S=ABS(S0*R1-S1*R0)/DR
-      IF (R1.GT.UN) THEN
+      IF (R1.GT.ONE) THEN
 C----------diverge---------------------------
-       IF (S.GT.UN) S=UNDEMI*S1/R1
+       IF (S.GT.ONE) S=HALF*S1/R1
        S=MAX(EM01,S)
 C       IDIV=IDIV+1
       ELSE
 C------extrapolation-------
        IF (S.GT.MAX(S1,S0).OR.S.LT.MIN(S1,S0)) THEN
-        S=MIN(TDEMI*S1,S)
-        S=MIN(CINQ,S)
+        S=MIN(THREE_HALF*S1,S)
+        S=MIN(FIVE,S)
        ENDIF
       ENDIF
       S0=S1
@@ -1037,21 +1037,21 @@ C------find sl so that el<0
        IF (E1.GT.ZERO) THEN
         IF (IDIV.EQ.0) THEN
          IDIV = IDIV + 1
-         SP = UN
+         SP = ONE
          EP = E1
-         S = S + UN
+         S = S + ONE
          IF (IRIKS.GT.0.OR.IM > 0) THEN
-          S = UN
+          S = ONE
           IMCONV =0
          END IF
          RETURN
         ELSEIF (IDIV.GT.0) THEN
          SOLD = S
          IF (ABS(E1-EP).LT.DTOL.OR.E1.GT.EP.OR.IDIV.GT.NLS_LIM) THEN	 
-          IF (E1.GT.EP) S = S - UN
+          IF (E1.GT.EP) S = S - ONE
           IMCONV =0
          ELSE
-          S = S + UN
+          S = S + ONE
          ENDIF
          IDIV = IDIV + 1
          SP = SOLD
@@ -1063,10 +1063,10 @@ C------find sl so that el<0
        ELSE
         IF (IDIV.EQ.0) THEN	 
          SP = ZERO
-         EP = UN
-         S = UNDEMI
+         EP = ONE
+         S = HALF
          IDIV = IDIV - 1
-         SN = UN
+         SN = ONE
          EN = E1
          RETURN
         ELSEIF (SP.EQ.ZERO) THEN
@@ -1077,7 +1077,7 @@ C------find sl so that el<0
           ELSE
 c          SN = S
 c	  EN = E1
-           S = S*UNDEMI
+           S = S*HALF
           ENDIF
           IDIV = IDIV - 1
           RETURN
@@ -1094,8 +1094,8 @@ c----------return to
        IM = MAX(ICONT,ICONT0)
        IF (IM.GT.0) THEN
 c        S2 = (EP-EN)/SN+SN
-c        STMP = UNDEMI*(S2-SQRT(S2*S2-QUATRE*EP))
-        STMP = UNDEMI*(-SP+SN)
+c        STMP = HALF*(S2-SQRT(S2*S2-FOUR*EP))
+        STMP = HALF*(-SP+SN)
        ELSE
         STMP = EP*(SN-SP)/(EP-EN)
        ENDIF
@@ -1105,7 +1105,7 @@ c        STMP = UNDEMI*(S2-SQRT(S2*S2-QUATRE*EP))
        IF (STMP.LT.DTOL.OR.IDIV.LT.-NLS_LIM) THEN
         IMCONV =0
        ELSEIF (IRIKS.GT.0.AND.
-     .         (S.GT.DEUX.OR.S.LT.EM01)) THEN
+     .         (S.GT.TWO.OR.S.LT.EM01)) THEN
         IMCONV =0
        ELSE
         IMCONV =-1
@@ -1160,15 +1160,15 @@ C-------DD< DI+DD
          CALL PRODUT_U2(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                  DG    ,DGR   ,DD    ,DDR   ,UIUT  ,
      .                  W_DDL )
-         B= DEUX*(UIUT+SW2*LAMDA)
+         B= TWO*(UIUT+SW2*LAMDA)
          CALL PRODUT_U(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                 DD    ,DDR   ,UI2   ,W_DDL )
          C = UI2-L_A*L_A+SW2*LAMDA
-	 S= B*B-QUATRE*A*C
+	 S= B*B-FOUR*A*C
  	IF (S.GE.0) THEN
 	 S=SQRT(S)
-	 LAM1=UNDEMI*(-B+S)/A
-	 LAM2=UNDEMI*(-B-S)/A
+	 LAM1=HALF*(-B+S)/A
+	 LAM2=HALF*(-B-S)/A
          CALL PRODUT_U2(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                  DD    ,DDR   ,DI    ,DIR   ,UIUD  ,
      .                  W_DDL )
@@ -1189,7 +1189,7 @@ C-------DD< DI+DD
         ELSE
 	 IER=1
 	ENDIF
-	 FAC =-UN
+	 FAC =-ONE
         CALL FRAC_DD(1,NUMNOD,IDDL,NDOF,IKC,DD,DDR,DI,DIR,FAC)
 C
       RETURN
@@ -1371,13 +1371,13 @@ C---------------------
 C----------------------
       CALL MY_BARRIER
 C---------------------
-         B= DEUX*(UIUT+SW2*LAMDA)
+         B= TWO*(UIUT+SW2*LAMDA)
          C = UI2-L_A*L_A+SW2*LAMDA
-	 S= B*B-QUATRE*A*C
+	 S= B*B-FOUR*A*C
 	IF (S.GE.0) THEN
 	 S=SQRT(S)
-	 LAM1=UNDEMI*(-B+S)/A
-	 LAM2=UNDEMI*(-B-S)/A
+	 LAM1=HALF*(-B+S)/A
+	 LAM2=HALF*(-B-S)/A
          CALL PRODUT_UH2(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                  DD    ,DDR   ,DI    ,DIR   ,UIUD  ,
      .                  W_DDL ,F_DDL ,L_DDL ,ITASK )
@@ -1401,7 +1401,7 @@ C---------------------
         ELSE
 	 IER=1
 	ENDIF
-	 FAC =-UN
+	 FAC =-ONE
         CALL FRAC_DD(FT_N,LT_N,IDDL,NDOF,IKC,DD,DDR,DI,DIR,FAC)
 C
       RETURN
@@ -1553,13 +1553,13 @@ C---------------------
          CALL PRODUT_UHP(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                   DD    ,DDR   ,UI2   ,W_DDL  )
 C---------------------
-         B= DEUX*(UIUT+SW2*LAMDA)
+         B= TWO*(UIUT+SW2*LAMDA)
          C = UI2-L_A*L_A+SW2*LAMDA
-	     S= B*B-QUATRE*A*C
+	     S= B*B-FOUR*A*C
 	    IF (S.GE.0) THEN
 	      S=SQRT(S)
-	      LAM1=UNDEMI*(-B+S)/A
-	      LAM2=UNDEMI*(-B-S)/A
+	      LAM1=HALF*(-B+S)/A
+	      LAM2=HALF*(-B-S)/A
          CALL PRODUT_UHP2(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                   DD    ,DDR   ,DI    ,DIR   ,UIUD  ,
      .                   W_DDL )
@@ -1581,7 +1581,7 @@ C---------------------
         ELSE
 	     IER=1
 	    ENDIF
-	    FAC =-UN
+	    FAC =-ONE
         CALL FRAC_DD_HP(IDDL,NDOF,IKC,DD,DDR,DI,DIR,FAC)
 C
       RETURN

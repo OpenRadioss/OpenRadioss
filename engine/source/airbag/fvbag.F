@@ -553,7 +553,7 @@ C---------------------------------------------------
          NORM(2,IEL)=NRY/AREA2
          NORM(3,IEL)=NRZ/AREA2
          IF(IEL <= NEL) THEN
-           TMP(IEL) = UNSIX * (X1*NRX+Y1*NRY+Z1*NRZ)
+           TMP(IEL) = ONE_OVER_6 * (X1*NRX+Y1*NRY+Z1*NRZ)
          ENDIF
          PEL(IEL)=ZERO
       ENDDO
@@ -565,13 +565,13 @@ C---------------------------------------------------
          N1=ELEM(1,IEL)
          N2=ELEM(2,IEL)
          N3=ELEM(3,IEL)
-         AREA2 = ELAREA(IEL)
-         ELAREA(IEL) = UNDEMI * AREA2
-         NODAREA(N1)=NODAREA(N1)+UNSIX*AREA2
-         NODAREA(N2)=NODAREA(N2)+UNSIX*AREA2
-         NODAREA(N3)=NODAREA(N3)+UNSIX*AREA2
+         AREA2 = ELAREA(IEL) 
+         ELAREA(IEL) = HALF * AREA2
+         NODAREA(N1)=NODAREA(N1)+ONE_OVER_6*AREA2
+         NODAREA(N2)=NODAREA(N2)+ONE_OVER_6*AREA2
+         NODAREA(N3)=NODAREA(N3)+ONE_OVER_6*AREA2
          IF(IEL <= NEL) THEN
-           VOLG=VOLG+TMP(IEL)
+           VOLG=VOLG+TMP(IEL)                      
          ENDIF
       ENDDO
 C
@@ -640,12 +640,12 @@ C
                VZ2=VVVA(3,N2)
                VZ3=VVVA(3,N3)
             ENDIF
-            PNOD(1,I)=(UN-KSI-ETA)*X1+KSI*X2+ETA*X3
-            PNOD(2,I)=(UN-KSI-ETA)*Y1+KSI*Y2+ETA*Y3
-            PNOD(3,I)=(UN-KSI-ETA)*Z1+KSI*Z2+ETA*Z3
-            VNOD(1,I)=(UN-KSI-ETA)*VX1+KSI*VX2+ETA*VX3
-            VNOD(2,I)=(UN-KSI-ETA)*VY1+KSI*VY2+ETA*VY3
-            VNOD(3,I)=(UN-KSI-ETA)*VZ1+KSI*VZ2+ETA*VZ3
+            PNOD(1,I)=(ONE-KSI-ETA)*X1+KSI*X2+ETA*X3
+            PNOD(2,I)=(ONE-KSI-ETA)*Y1+KSI*Y2+ETA*Y3
+            PNOD(3,I)=(ONE-KSI-ETA)*Z1+KSI*Z2+ETA*Z3
+            VNOD(1,I)=(ONE-KSI-ETA)*VX1+KSI*VX2+ETA*VX3
+            VNOD(2,I)=(ONE-KSI-ETA)*VY1+KSI*VY2+ETA*VY3
+            VNOD(3,I)=(ONE-KSI-ETA)*VZ1+KSI*VZ2+ETA*VZ3
 C
          ELSEIF (IFVNOD(1,I) == 2) THEN
             I2=IFVNOD(3,I)
@@ -670,12 +670,12 @@ C internal node
             I1=IFVNOD(2,I)
             I2=IFVNOD(3,I)
             FAC=RFVNOD(1,I)
-            PNOD(1,I)=FAC*PNOD(1,I1)+(UN-FAC)*PNOD(1,I2)
-            PNOD(2,I)=FAC*PNOD(2,I1)+(UN-FAC)*PNOD(2,I2)
-            PNOD(3,I)=FAC*PNOD(3,I1)+(UN-FAC)*PNOD(3,I2)
-            VNOD(1,I)=FAC*VNOD(1,I1)+(UN-FAC)*VNOD(1,I2)
-            VNOD(2,I)=FAC*VNOD(2,I1)+(UN-FAC)*VNOD(2,I2)
-            VNOD(3,I)=FAC*VNOD(3,I1)+(UN-FAC)*VNOD(3,I2)
+            PNOD(1,I)=FAC*PNOD(1,I1)+(ONE-FAC)*PNOD(1,I2)
+            PNOD(2,I)=FAC*PNOD(2,I1)+(ONE-FAC)*PNOD(2,I2)
+            PNOD(3,I)=FAC*PNOD(3,I1)+(ONE-FAC)*PNOD(3,I2)
+            VNOD(1,I)=FAC*VNOD(1,I1)+(ONE-FAC)*VNOD(1,I2)
+            VNOD(2,I)=FAC*VNOD(2,I1)+(ONE-FAC)*VNOD(2,I2)
+            VNOD(3,I)=FAC*VNOD(3,I1)+(ONE-FAC)*VNOD(3,I2)
          ENDIF
       ENDDO
 !$OMP END DO
@@ -704,7 +704,7 @@ C Normale, aire et vitesse grille au centre des triangles
          NRY=Z12*X13-X12*Z13
          NRZ=X12*Y13-Y12*X13
          AREA2=SQRT(NRX**2+NRY**2+NRZ**2)
-         PAREA(I)=UNDEMI*AREA2
+         PAREA(I)=HALF*AREA2
          IF (AREA2 > 0) THEN
             PNORM(1,I)=NRX/AREA2
             PNORM(2,I)=NRY/AREA2
@@ -724,9 +724,9 @@ C Normale, aire et vitesse grille au centre des triangles
          VX3=VNOD(1,N3)
          VY3=VNOD(2,N3)
          VZ3=VNOD(3,N3)
-         VGRID(1,I)=TIERS*(VX1+VX2+VX3)
-         VGRID(2,I)=TIERS*(VY1+VY2+VY3)
-         VGRID(3,I)=TIERS*(VZ1+VZ2+VZ3)
+         VGRID(1,I)=THIRD*(VX1+VX2+VX3)
+         VGRID(2,I)=THIRD*(VY1+VY2+VY3)
+         VGRID(3,I)=THIRD*(VZ1+VZ2+VZ3)
       ENDDO
 !$OMP END DO
 C Volume des polyhedres
@@ -772,7 +772,8 @@ C Boucle sur les triangles du polygone
                X1=PNOD(1,N1)
                Y1=PNOD(2,N1)
                Z1=PNOD(3,N1)
-               PVOLTMP=PVOLTMP+TIERS*AREA*(X1*NX+Y1*NY+Z1*NZ)
+               PVOLTMP=PVOLTMP+THIRD*AREA*(X1*NX+Y1*NY+Z1*NZ)
+
             ENDDO! next K(triangle)
          ENDDO! next J (polygon)
          PVOLU(I) = PVOLTMP
@@ -920,9 +921,9 @@ C---------------------------------------------------
             N2=ELEM(2,IEL)
             N3=ELEM(3,IEL)
             PORO(IEL)=ZERO
-            IF (ICONT(N1) /= 0) PORO(IEL)=PORO(IEL)+TIERS
-            IF (ICONT(N2) /= 0) PORO(IEL)=PORO(IEL)+TIERS
-            IF (ICONT(N3) /= 0) PORO(IEL)=PORO(IEL)+TIERS
+            IF (ICONT(N1) /= 0) PORO(IEL)=PORO(IEL)+THIRD
+            IF (ICONT(N2) /= 0) PORO(IEL)=PORO(IEL)+THIRD
+            IF (ICONT(N3) /= 0) PORO(IEL)=PORO(IEL)+THIRD
          ENDDO
 !$OMP END DO
 !$OMP END PARALLEL
@@ -1020,7 +1021,7 @@ C Permeabilite du triangle interne
                  L12=X12**2+Y12**2+Z12**2
                  L23=X23**2+Y23**2+Z23**2
                  L31=X31**2+Y31**2+Z31**2
-                 H1=QUATRE*AREA**2/MAX(L12,L23,L31)
+                 H1=FOUR*AREA**2/MAX(L12,L23,L31)
                  HMIN(KK)=SQRT(H1)
                 ENDIF
               ENDDO
@@ -1075,7 +1076,7 @@ C--------------------------------------------
 C Injecteur
                      IINJ=ITAGEL(IEL)
                      DMI=DATAINJ(2,IINJ)*AREA/DATAINJ(1,IINJ)
-                     IF (NV == I .AND. JEL < 0) DMI=DMI*UNDEMI    ! le triangle est traite deux fois
+                     IF (NV == I .AND. JEL < 0) DMI=DMI*HALF    ! le triangle est traite deux fois
                      DQI(1)=-DMI*DATAINJ(3,IINJ)*NRX
                      DQI(2)=-DMI*DATAINJ(3,IINJ)*NRY
                      DQI(3)=-DMI*DATAINJ(3,IINJ)*NRZ
@@ -1128,16 +1129,16 @@ C BERNOUILLI
                      ELSEIF ((ITVENT==2.AND.P1>ZERO).OR.(ITVENT==4.AND.P1>=PEXT)) THEN
                         VV=NX*UX1+NY*UY1+NZ*UZ1
                         VV=MAX(VV,ZERO)
-                        ETA=(GAMA1-UN)/GAMA1
-                        KSI=UN/ETA
-                        PSTAG=P1*(UN+UNDEMI*ETA*RHO1*VV*VV/P1)**KSI
-                        PCRIT=PSTAG*(DEUX/(GAMA1+UN))**KSI
+                        ETA=(GAMA1-ONE)/GAMA1
+                        KSI=ONE/ETA
+                        PSTAG=P1*(ONE+HALF*ETA*RHO1*VV*VV/P1)**KSI
+                        PCRIT=PSTAG*(TWO/(GAMA1+ONE))**KSI
                         P2 = MAX(PEXT,PCRIT)
-                        RHO2 =RHO1*(P2/P1)**(UN/GAMA1)
-                        UU=DEUX*P1*(UN-(P2/P1)**ETA)/(RHO1*ETA)
+                        RHO2 =RHO1*(P2/P1)**(ONE/GAMA1)
+                        UU=TWO*P1*(ONE-(P2/P1)**ETA)/(RHO1*ETA)
                         UU=MAX(UU,ZERO)
                         UU=SQRT(UU)
-                        VMAX=UNDEMI*((P1-PEXT)*PVOLU(I)/(GAMA1-UN))
+                        VMAX=HALF*((P1-PEXT)*PVOLU(I)/(GAMA1-ONE))
      .                      /MAX(EM20,RHO2*AOUT*DT1*GAMA1*RE1/RHO1)
                         VMAX=MAX(VMAX,ZERO)
                         UU=MIN(UU,VMAX)
@@ -1156,14 +1157,14 @@ C BERNOUILLI with flow-in
                      ELSEIF (ITVENT==4.AND.P1<PEXT) THEN
                         GAMAI=RVOLU(1)
                         RHOI=RVOLU(62)
-                        ETA=(GAMAI-UN)/GAMAI
-                        PCRIT=PEXT*(DEUX/(GAMAI+UN))**(UN/ETA)
+                        ETA=(GAMAI-ONE)/GAMAI
+                        PCRIT=PEXT*(TWO/(GAMAI+ONE))**(ONE/ETA)
                         P2 = MAX(P1,PCRIT)
-                        RHO2 =RHOI*(P2/PEXT)**(UN/GAMAI)
-                        UU=DEUX*PEXT*(UN-(P2/PEXT)**ETA)/(RHOI*ETA)
+                        RHO2 =RHOI*(P2/PEXT)**(ONE/GAMAI)
+                        UU=TWO*PEXT*(ONE-(P2/PEXT)**ETA)/(RHOI*ETA)
                         UU=MAX(UU,ZERO)
                         UU=SQRT(UU)
-                        VMAX=UNDEMI*((PEXT-P1)*PVOLU(I)/(GAMA1-UN))
+                        VMAX=HALF*((PEXT-P1)*PVOLU(I)/(GAMA1-ONE))
      .                      /MAX(EM20,RHO2*AOUT*DT1*RVOLU(63))
                         VMAX=MAX(VMAX,ZERO)
                         UU=MIN(UU,VMAX)
@@ -1172,7 +1173,7 @@ C GRAEFE
                      ELSEIF (ITVENT==5) THEN
                         P2=P1-PEXT
                         RHO2=RHO1
-                        UU=DEUX*P2/RHO2
+                        UU=TWO*P2/RHO2
                         UU=MAX(UU,ZERO)
                         UU=SQRT(UU)
 C
@@ -1271,20 +1272,20 @@ C Test si polyedre voisin a ete calcule
                   UZ2=PU(3,NV)
                   GAMA2=GPOLH(NV)
 C
-                  VFX=UNDEMI*(UX1+UX2)
-                  VFY=UNDEMI*(UY1+UY2)
-                  VFZ=UNDEMI*(UZ1+UZ2)
+                  VFX=HALF*(UX1+UX2)                  
+                  VFY=HALF*(UY1+UY2)
+                  VFZ=HALF*(UZ1+UZ2)
                   IF(JEL == 0) THEN
 C Permeabilite du triangle interne
                     HM1=HMIN(KK)
-                    H1 = UN-RVOLU(51)/HM1
-                    IF(H1 > 0) THEN
+                    H1 = ONE-RVOLU(51)/HM1
+                    IF(H1 > 0) THEN 
                       AREA=AREA*H1
                     ELSE
                       AREA = ZERO
                     ENDIF
 
-C                   AREA=AREA*MAX(ZERO,UN-RVOLU(51)/HM1)
+C                   AREA=AREA*MAX(ZERO,ONE-RVOLU(51)/HM1)
                   ELSE
 C Triangle appuy sur structure interne => flux fonction de la porosite
                     IF(POROSITY(IEL-NEL) == ZERO) GOTO 50
@@ -1297,14 +1298,14 @@ C Full upwind
                   IF (SS <= ZERO) THEN
                      ALPHA=ZERO
                   ELSE
-                     ALPHA=UN
+                     ALPHA=ONE
                   ENDIF
 C
-                  RHOM=ALPHA*RHO1+(UN-ALPHA)*RHO2
-                  RUXM=ALPHA*RHO1*UX1+(UN-ALPHA)*RHO2*UX2
-                  RUYM=ALPHA*RHO1*UY1+(UN-ALPHA)*RHO2*UY2
-                  RUZM=ALPHA*RHO1*UZ1+(UN-ALPHA)*RHO2*UZ2
-                  REM=ALPHA*GAMA1*RE1+(UN-ALPHA)*GAMA2*RE2
+                  RHOM=ALPHA*RHO1+(ONE-ALPHA)*RHO2
+                  RUXM=ALPHA*RHO1*UX1+(ONE-ALPHA)*RHO2*UX2
+                  RUYM=ALPHA*RHO1*UY1+(ONE-ALPHA)*RHO2*UY2
+                  RUZM=ALPHA*RHO1*UZ1+(ONE-ALPHA)*RHO2*UZ2
+                  REM=ALPHA*GAMA1*RE1+(ONE-ALPHA)*GAMA2*RE2
 C
                   MASSFLOW = RHOM*SS*AREA
                   DM(I)=DM(I)-MASSFLOW
@@ -1317,10 +1318,10 @@ C
                   DQ(2,NV)=DQ(2,NV)+RUYM*SS*AREA
                   DQ(3,NV)=DQ(3,NV)+RUZM*SS*AREA
                   DE(NV)=DE(NV)+REM*SS*AREA
-                  CPAM = ALPHA * CPAPOLH(I) + (UN - ALPHA) * CPAPOLH(NV)
-                  CPBM = ALPHA * CPBPOLH(I) + (UN - ALPHA) * CPBPOLH(NV)
-                  CPCM = ALPHA * CPCPOLH(I) + (UN - ALPHA) * CPCPOLH(NV)
-                  RMWM = ALPHA * RMWPOLH(I) + (UN - ALPHA) * RMWPOLH(NV)
+                  CPAM = ALPHA * CPAPOLH(I) + (ONE - ALPHA) * CPAPOLH(NV)
+                  CPBM = ALPHA * CPBPOLH(I) + (ONE - ALPHA) * CPBPOLH(NV)
+                  CPCM = ALPHA * CPCPOLH(I) + (ONE - ALPHA) * CPCPOLH(NV)
+                  RMWM = ALPHA * RMWPOLH(I) + (ONE - ALPHA) * RMWPOLH(NV)
                   DMCPA(I) = DMCPA(I) - MASSFLOW * CPAM
                   DMCPA(NV) = DMCPA(NV) + MASSFLOW * CPAM
                   DMCPB(I) = DMCPB(I) - MASSFLOW * CPBM
@@ -1330,9 +1331,9 @@ C
                   DMRMW(I) = DMRMW(I) - MASSFLOW * RMWM
                   DMRMW(NV) = DMRMW(NV) + MASSFLOW * RMWM
                   IF (ITYP == 8) THEN
-                     CPDM = ALPHA * CPDPOLH(I) + (UN - ALPHA) * CPDPOLH(NV)
-                     CPEM = ALPHA * CPEPOLH(I) + (UN - ALPHA) * CPEPOLH(NV)
-                     CPFM = ALPHA * CPFPOLH(I) + (UN - ALPHA) * CPFPOLH(NV)
+                     CPDM = ALPHA * CPDPOLH(I) + (ONE - ALPHA) * CPDPOLH(NV)
+                     CPEM = ALPHA * CPEPOLH(I) + (ONE - ALPHA) * CPEPOLH(NV)
+                     CPFM = ALPHA * CPFPOLH(I) + (ONE - ALPHA) * CPFPOLH(NV)
                      DMCPD(I) = DMCPD(I) - MASSFLOW * CPDM
                      DMCPD(NV) = DMCPD(NV) + MASSFLOW * CPDM
                      DMCPE(I) = DMCPE(I) - MASSFLOW * CPEM
@@ -1493,23 +1494,24 @@ C---------------------------------------------------
       ! TIME STEP
       !-----------------------------------
         !FAC_W = ZERO !ignore grid velocity for time step (previous formulation)
-        FAC_W = UN  !use grid velocity
+        FAC_W = ONE  !use grid velocity
 
       SELECT CASE (IDTMIN(52))
 
         CASE(0,1)
 !$OMP DO SCHEDULE(GUIDED,1)
       DO I=1,NPOLH
-         IF(MPOLH(I).LE.ZERO.OR.EPOLH(I).LE.ZERO.OR.GPOLH(I).LE.UN) THEN
-           DTPOLH(I)=EP30
-           QVISC(I) =ZERO
-         ELSE
-           AL=PVOLU(I)**THIRD
-           DD=DM(I)/MPOLH(I)
-           AD=MAX(ZERO,DD)
-           GAMA=GPOLH(I)
-           SSP=SQRT((GAMA-UN)*GAMA*EPOLH(I)/MPOLH(I))
-           QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)
+         IF(MPOLH(I).LE.ZERO.OR.EPOLH(I).LE.ZERO.OR.GPOLH(I).LE.ONE) THEN
+            DTPOLH(I)=EP30
+            QVISC(I) =ZERO
+         ELSE 
+C
+         AL=PVOLU(I)**THIRD
+         DD=DM(I)/MPOLH(I)
+         AD=MAX(ZERO,DD)
+         GAMA=GPOLH(I)
+         SSP=SQRT((GAMA-ONE)*GAMA*EPOLH(I)/MPOLH(I))
+         QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)
 C
            QX=QB*SSP+AL*QA*QA*AD
            SSP=QX+SQRT(QX*QX+SSP*SSP)
@@ -1523,7 +1525,7 @@ C
 
 !$OMP DO SCHEDULE(GUIDED,1)
           DO I=1,NPOLH
-             IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= UN) THEN
+             IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= ONE) THEN
                 DTPOLH(I)=EP30
                 QVISC(I) =ZERO
              ELSE
@@ -1542,12 +1544,12 @@ C
                      IEL2=IFVTRI(6, KK)
                      IF(IEL2==0)IEL2=I !bounday surface
                      IF(IEL1==0)IEL1=I
-                     VMAT(1) = UNDEMI*(PU(1,IEL1)+PU(1,IEL2))
-                     VMAT(2) = UNDEMI*(PU(2,IEL1)+PU(2,IEL2))
-                     VMAT(3) = UNDEMI*(PU(3,IEL1)+PU(3,IEL2))
-                     SSP1= SQRT((GAMA-UN)*GAMA*EPOLH(IEL1)/MPOLH(IEL1))
-                     SSP2= SQRT((GAMA-UN)*GAMA*EPOLH(IEL2)/MPOLH(IEL2))
-                     SSPt = UNDEMI*(SSP1+SSP2)
+                     VMAT(1) = HALF*(PU(1,IEL1)+PU(1,IEL2))
+                     VMAT(2) = HALF*(PU(2,IEL1)+PU(2,IEL2))
+                     VMAT(3) = HALF*(PU(3,IEL1)+PU(3,IEL2))
+                     SSP1= SQRT((GAMA-ONE)*GAMA*EPOLH(IEL1)/MPOLH(IEL1))
+                     SSP2= SQRT((GAMA-ONE)*GAMA*EPOLH(IEL2)/MPOLH(IEL2))
+                     SSPt = HALF*(SSP1+SSP2)
                      TMP_VEC(1) = (VMAT(1)-VGRID(1,KK))*PNORM(1,KK)
                      TMP_VEC(2) = (VMAT(2)-VGRID(2,KK))*PNORM(2,KK)
                      TMP_VEC(3) = (VMAT(3)-VGRID(3,KK))*PNORM(3,KK)
@@ -1560,7 +1562,7 @@ C
                DD=DM(I)/MPOLH(I)
                AD=MAX(ZERO,DD)
                GAMA=GPOLH(I)
-               SSP=SQRT((GAMA-UN)*GAMA*EPOLH(I)/MPOLH(I))
+               SSP=SQRT((GAMA-ONE)*GAMA*EPOLH(I)/MPOLH(I))
                QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)
                QX=QB*SSP+AL*QA*QA*AD
                SSP=QX+SQRT(QX*QX+SSP*SSP)
@@ -1575,7 +1577,7 @@ C
 
 !$OMP DO SCHEDULE(GUIDED,1)
           DO I=1,NPOLH
-             IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= UN) THEN
+             IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= ONE) THEN
                 DTPOLH(I)=EP30
                 QVISC(I) =ZERO
              ELSE
@@ -1609,7 +1611,7 @@ C
                DD=DM(I)/MPOLH(I)
                AD=MAX(ZERO,DD)
                GAMA=GPOLH(I)
-               SSP=SQRT((GAMA-UN)*GAMA*EPOLH(I)/MPOLH(I))
+               SSP=SQRT((GAMA-ONE)*GAMA*EPOLH(I)/MPOLH(I))
                QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)
                QX=QB*SSP+AL*QA*QA*AD
                SSP=QX+SQRT(QX*QX+SSP*SSP)
@@ -1674,9 +1676,9 @@ C---------------------------------------------------
          VX3=VVV(1,N3)
          VY3=VVV(2,N3)
          VZ3=VVV(3,N3)
-         VVX=TIERS*(VX1+VX2+VX3)
-         VVY=TIERS*(VY1+VY2+VY3)
-         VVZ=TIERS*(VZ1+VZ2+VZ3)
+         VVX=THIRD*(VX1+VX2+VX3)
+         VVY=THIRD*(VY1+VY2+VY3)
+         VVZ=THIRD*(VZ1+VZ2+VZ3)
          NX=NORM(1,IEL)
          NY=NORM(2,IEL)
          NZ=NORM(3,IEL)
@@ -1727,7 +1729,7 @@ C Heat Loss or Gain (version 2018)
                ELSEIF(IEL == 0) THEN
 C Permeabilite du triangle
                   AREA_OLD=AREA
-                  AREA=AREA*MAX(ZERO,UN-RVOLU(51)/HMIN(KK))
+                  AREA=AREA*MAX(ZERO,ONE-RVOLU(51)/HMIN(KK))
                   AREA1=AREA_OLD-AREA
 C Triangle interne = communication entre polyedres
                   NV = 0
@@ -1746,8 +1748,8 @@ C Triangle interne = communication entre polyedres
      .                                  EPOLH(NV) <= ZERO) GOTO 200
                   P1=PPOLH(I)+QVISC(I)
                   P2=PPOLH(NV)+QVISC(NV)
-                  PMEAN=UNDEMI*(P1+P2)
-C
+                  PMEAN=HALF*(P1+P2)
+C                 
                   DQ(1,I)=DQ(1,I)-PMEAN*NX*AREA-P1*NX*AREA1
                   DQ(2,I)=DQ(2,I)-PMEAN*NY*AREA-P1*NY*AREA1
                   DQ(3,I)=DQ(3,I)-PMEAN*NZ*AREA-P1*NZ*AREA1
@@ -1777,7 +1779,7 @@ C Triangle interne appuye sur surface interne = communication entre polyedres
                   P1=PPOLH(I)+QVISC(I)
                   P2=PPOLH(NV)+QVISC(NV)
                   JEL=-IEL
-                  PMEAN=UNDEMI*(P1+P2)
+                  PMEAN=HALF*(P1+P2)
                   AREA_OLD=AREA
                   AREA=AREA*POROSITY(JEL-NEL)
                   AREA1=AREA_OLD-AREA
@@ -2033,8 +2035,8 @@ c     PEL(1:NELT)=ZERO
                         NY=-PNORM(2,KK)
                         NZ=-PNORM(3,KK)
                   ENDIF
-                  IF (NV >= I) THEN
-                    IF (NV == I) AREA=AREA*UNDEMI
+                  IF (NV >= I) THEN 
+                    IF (NV == I) AREA=AREA*HALF
                     II=I
                     FAC=NX*NRX+NY*NRY+NZ*NRZ
                     IF(FAC < 0) II=NV
@@ -2079,7 +2081,7 @@ c     PEL(1:NELT)=ZERO
                        NZ=-PNORM(3,KK)
                  ENDIF
                  IF (NV < I) GOTO 310
-                 IF (NV == I) AREA=AREA*UNDEMI
+                 IF (NV == I) AREA=AREA*HALF
                  II=I
                  FAC=NX*NRX+NY*NRY+NZ*NRZ
                  IF(FAC < 0) II=NV
@@ -2152,9 +2154,9 @@ C------------------
          AREA1=NODAREA(N1)
          AREA2=NODAREA(N2)
          AREA3=NODAREA(N3)
-         FAC1=TIERS*ELAREA(IEL)/AREA1
-         FAC2=TIERS*ELAREA(IEL)/AREA2
-         FAC3=TIERS*ELAREA(IEL)/AREA3
+         FAC1=THIRD*ELAREA(IEL)/AREA1
+         FAC2=THIRD*ELAREA(IEL)/AREA2
+         FAC3=THIRD*ELAREA(IEL)/AREA3
          P(N1) =P(N1) +FAC1*PEL(IEL)
          P(N2) =P(N2) +FAC2*PEL(IEL)
          P(N3) =P(N3) +FAC3*PEL(IEL)
@@ -2168,9 +2170,9 @@ C------------------
            AREA1=NODAREA(N1)
            AREA2=NODAREA(N2)
            AREA3=NODAREA(N3)
-           FAC1=TIERS*ELAREA(IEL)/AREA1
-           FAC2=TIERS*ELAREA(IEL)/AREA2
-           FAC3=TIERS*ELAREA(IEL)/AREA3
+           FAC1=THIRD*ELAREA(IEL)/AREA1
+           FAC2=THIRD*ELAREA(IEL)/AREA2
+           FAC3=THIRD*ELAREA(IEL)/AREA3
            U(1,N1)=U(1,N1)+FAC1*UEL(1,IEL)
            U(2,N1)=U(2,N1)+FAC1*UEL(2,IEL)
            U(3,N1)=U(3,N1)+FAC1*UEL(3,IEL)
@@ -2201,42 +2203,42 @@ C Pentaedre
                  J=K
                  IF(K >= 4) J=J+1
                  JJ=BRNA(J,II)
-                 VOLA(JJ)=VOLA(JJ)+UNSIX*PVOLU(I)
-                 PA(JJ)=PA(JJ)+UNSIX*PPOLH(I)*PVOLU(I)
-                 RHOA(JJ)=RHOA(JJ)+UNSIX*RPOLH(I)*PVOLU(I)
-                 TKA(JJ)=TKA(JJ)+UNSIX*TEMP*PVOLU(I)
-                 SSPKA(JJ)=SSPKA(JJ)+UNSIX*SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*PVOLU(I)
-                 UA(1,JJ)=UA(1,JJ)+UNSIX*PU(1,I)*PVOLU(I)
-                 UA(2,JJ)=UA(2,JJ)+UNSIX*PU(2,I)*PVOLU(I)
-                 UA(3,JJ)=UA(3,JJ)+UNSIX*PU(3,I)*PVOLU(I)
-                ENDDO
-             ELSEIF(BRNA(5,II) == BRNA(8,II).AND.
-     .              BRNA(6,II) == BRNA(8,II).AND.
-     .              BRNA(7,II) == BRNA(8,II))THEN
+                 VOLA(JJ)=VOLA(JJ)+ONE_OVER_6*PVOLU(I)
+                 PA(JJ)=PA(JJ)+ONE_OVER_6*PPOLH(I)*PVOLU(I)
+                 RHOA(JJ)=RHOA(JJ)+ONE_OVER_6*RPOLH(I)*PVOLU(I)
+                 TKA(JJ)=TKA(JJ)+ONE_OVER_6*TEMP*PVOLU(I)
+                 SSPKA(JJ)=SSPKA(JJ)+ONE_OVER_6*SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*PVOLU(I)
+                 UA(1,JJ)=UA(1,JJ)+ONE_OVER_6*PU(1,I)*PVOLU(I)
+                 UA(2,JJ)=UA(2,JJ)+ONE_OVER_6*PU(2,I)*PVOLU(I)
+                 UA(3,JJ)=UA(3,JJ)+ONE_OVER_6*PU(3,I)*PVOLU(I)
+                ENDDO           
+             ELSEIF(BRNA(5,II).EQ.BRNA(8,II).AND.
+     .              BRNA(6,II).EQ.BRNA(8,II).AND.
+     .              BRNA(7,II).EQ.BRNA(8,II))THEN
 C Pyramide
                 DO J=1,5
                  JJ=BRNA(J,II)
-                 VOLA(JJ)=VOLA(JJ)+UNCINQ*PVOLU(I)
-                 PA(JJ)=PA(JJ)+UNCINQ*PPOLH(I)*PVOLU(I)
-                 RHOA(JJ)=RHOA(JJ)+UNCINQ*RPOLH(I)*PVOLU(I)
-                 TKA(JJ)=TKA(JJ)+UNCINQ*TEMP*PVOLU(I)
-                 SSPKA(JJ)=SSPKA(JJ)+UNCINQ*SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*PVOLU(I)
-                 UA(1,JJ)=UA(1,JJ)+UNCINQ*PU(1,I)*PVOLU(I)
-                 UA(2,JJ)=UA(2,JJ)+UNCINQ*PU(2,I)*PVOLU(I)
-                 UA(3,JJ)=UA(3,JJ)+UNCINQ*PU(3,I)*PVOLU(I)
+                 VOLA(JJ)=VOLA(JJ)+ONE_FIFTH*PVOLU(I)
+                 PA(JJ)=PA(JJ)+ONE_FIFTH*PPOLH(I)*PVOLU(I)
+                 RHOA(JJ)=RHOA(JJ)+ONE_FIFTH*RPOLH(I)*PVOLU(I)
+                 TKA(JJ)=TKA(JJ)+ONE_FIFTH*TEMP*PVOLU(I)
+                 SSPKA(JJ)=SSPKA(JJ)+ONE_FIFTH*SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*PVOLU(I)
+                 UA(1,JJ)=UA(1,JJ)+ONE_FIFTH*PU(1,I)*PVOLU(I)
+                 UA(2,JJ)=UA(2,JJ)+ONE_FIFTH*PU(2,I)*PVOLU(I)
+                 UA(3,JJ)=UA(3,JJ)+ONE_FIFTH*PU(3,I)*PVOLU(I)
                 ENDDO
              ELSE
 C Brique ou Tetraedre
                 DO J=1,8
                  JJ=BRNA(J,II)
-                 VOLA(JJ)=VOLA(JJ)+UNHUIT*PVOLU(I)
-                 PA(JJ)=PA(JJ)+UNHUIT*PPOLH(I)*PVOLU(I)
-                 RHOA(JJ)=RHOA(JJ)+UNHUIT*RPOLH(I)*PVOLU(I)
-                 TKA(JJ)=TKA(JJ)+UNHUIT*TEMP*PVOLU(I)
-                 SSPKA(JJ)=SSPKA(JJ)+UNHUIT*SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*PVOLU(I)
-                 UA(1,JJ)=UA(1,JJ)+UNHUIT*PU(1,I)*PVOLU(I)
-                 UA(2,JJ)=UA(2,JJ)+UNHUIT*PU(2,I)*PVOLU(I)
-                 UA(3,JJ)=UA(3,JJ)+UNHUIT*PU(3,I)*PVOLU(I)
+                 VOLA(JJ)=VOLA(JJ)+ONE_OVER_8*PVOLU(I)
+                 PA(JJ)=PA(JJ)+ONE_OVER_8*PPOLH(I)*PVOLU(I)
+                 RHOA(JJ)=RHOA(JJ)+ONE_OVER_8*RPOLH(I)*PVOLU(I)
+                 TKA(JJ)=TKA(JJ)+ONE_OVER_8*TEMP*PVOLU(I)
+                 SSPKA(JJ)=SSPKA(JJ)+ONE_OVER_8*SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*PVOLU(I)
+                 UA(1,JJ)=UA(1,JJ)+ONE_OVER_8*PU(1,I)*PVOLU(I)
+                 UA(2,JJ)=UA(2,JJ)+ONE_OVER_8*PU(2,I)*PVOLU(I)
+                 UA(3,JJ)=UA(3,JJ)+ONE_OVER_8*PU(3,I)*PVOLU(I)
                 ENDDO
              ENDIF
            ENDIF
@@ -2315,10 +2317,10 @@ C
            TITREVENT(K)=IBAGHOL(14+K,IVENT)
            VENTTITLE(K:K) = ACHAR(TITREVENT(K))
          ENDDO
-         IF(ITTF == 11.OR.ITTF == 12.OR.ITTF == 13) THEN
-          IF (IDEF == 0.AND.PM_VENT(IVENT) > PDEF+PEXT
+         IF(ITTF.EQ.11.OR.ITTF.EQ.12.OR.ITTF.EQ.13) THEN
+          IF (IDEF.EQ.0.AND.PM_VENT(IVENT) > PDEF+PEXT
      .                 .AND.DTPDEFC > DTPDEFI
-     .                 .AND.VOLPH > EM3*AREAP**TDEMI
+     .                 .AND.VOLPH > EM3*AREAP**THREE_HALF
      .                 .AND.TT < TSTOPE+TTF) THEN
             IDEF=1
             WRITE(IOUT,'(A)')
@@ -2344,11 +2346,11 @@ C
             WRITE(ISTDO,'(2A)') ' ** VENTING STOPS ',VENTTITLE
           ENDIF
 C
-         ELSE IF(ITTF == 0) THEN
-          IF (IDEF == 0.AND.PM_VENT(IVENT) > PDEF+PEXT
-     .                 .AND.DTPDEFC > DTPDEFI
-     .                 .AND.VOLPH > EM3*AREAP**TDEMI
-     .                 .AND.TT < TSTOPE) THEN
+         ELSE IF(ITTF.EQ.0) THEN
+          IF (IDEF.EQ.0.AND.PM_VENT(IVENT).GT.PDEF+PEXT
+     .                 .AND.DTPDEFC.GT.DTPDEFI
+     .                 .AND.VOLPH.GT.EM3*AREAP**THREE_HALF
+     .                 .AND.TT.LT.TSTOPE) THEN
             IDEF=1
             WRITE(IOUT,'(A)')
      .                  ' ** AIRBAG VENT HOLE MEMBRANE IS DEFLATED **'
@@ -2395,15 +2397,15 @@ C
          ELSE
            FF=FEL(IEL)
          ENDIF
-         FVSPMD(IFV)%AAA(1,N1)=FVSPMD(IFV)%AAA(1,N1)+TIERS*FF*NRX
-         FVSPMD(IFV)%AAA(2,N1)=FVSPMD(IFV)%AAA(2,N1)+TIERS*FF*NRY
-         FVSPMD(IFV)%AAA(3,N1)=FVSPMD(IFV)%AAA(3,N1)+TIERS*FF*NRZ
-         FVSPMD(IFV)%AAA(1,N2)=FVSPMD(IFV)%AAA(1,N2)+TIERS*FF*NRX
-         FVSPMD(IFV)%AAA(2,N2)=FVSPMD(IFV)%AAA(2,N2)+TIERS*FF*NRY
-         FVSPMD(IFV)%AAA(3,N2)=FVSPMD(IFV)%AAA(3,N2)+TIERS*FF*NRZ
-         FVSPMD(IFV)%AAA(1,N3)=FVSPMD(IFV)%AAA(1,N3)+TIERS*FF*NRX
-         FVSPMD(IFV)%AAA(2,N3)=FVSPMD(IFV)%AAA(2,N3)+TIERS*FF*NRY
-         FVSPMD(IFV)%AAA(3,N3)=FVSPMD(IFV)%AAA(3,N3)+TIERS*FF*NRZ
+         FVSPMD(IFV)%AAA(1,N1)=FVSPMD(IFV)%AAA(1,N1)+THIRD*FF*NRX
+         FVSPMD(IFV)%AAA(2,N1)=FVSPMD(IFV)%AAA(2,N1)+THIRD*FF*NRY
+         FVSPMD(IFV)%AAA(3,N1)=FVSPMD(IFV)%AAA(3,N1)+THIRD*FF*NRZ
+         FVSPMD(IFV)%AAA(1,N2)=FVSPMD(IFV)%AAA(1,N2)+THIRD*FF*NRX
+         FVSPMD(IFV)%AAA(2,N2)=FVSPMD(IFV)%AAA(2,N2)+THIRD*FF*NRY
+         FVSPMD(IFV)%AAA(3,N2)=FVSPMD(IFV)%AAA(3,N2)+THIRD*FF*NRZ
+         FVSPMD(IFV)%AAA(1,N3)=FVSPMD(IFV)%AAA(1,N3)+THIRD*FF*NRX
+         FVSPMD(IFV)%AAA(2,N3)=FVSPMD(IFV)%AAA(2,N3)+THIRD*FF*NRY
+         FVSPMD(IFV)%AAA(3,N3)=FVSPMD(IFV)%AAA(3,N3)+THIRD*FF*NRZ
 C
          TFEXT=TFEXT+FF*VEL(IEL)*DT1
        ENDDO
@@ -2691,8 +2693,8 @@ C---------------------------------------------------
          NORM(1,IEL)=NRX/AREA2
          NORM(2,IEL)=NRY/AREA2
          NORM(3,IEL)=NRZ/AREA2
-         IF(IEL <= NEL) THEN
-           TMP(IEL) = UNSIX * (X1*NRX+Y1*NRY+Z1*NRZ)
+         IF(IEL.LE.NEL) THEN
+           TMP(IEL) = ONE_OVER_6 * (X1*NRX+Y1*NRY+Z1*NRZ)
          ENDIF
          PEL(IEL)=ZERO
       ENDDO
@@ -2704,13 +2706,13 @@ C---------------------------------------------------
          N1=ELEM(1,IEL)
          N2=ELEM(2,IEL)
          N3=ELEM(3,IEL)
-         AREA2 = ELAREA(IEL)
-         ELAREA(IEL) = UNDEMI * AREA2
-         NODAREA(N1)=NODAREA(N1)+UNSIX*AREA2
-         NODAREA(N2)=NODAREA(N2)+UNSIX*AREA2
-         NODAREA(N3)=NODAREA(N3)+UNSIX*AREA2
-         IF(IEL <= NEL) THEN
-           VOLG=VOLG+TMP(IEL)
+         AREA2 = ELAREA(IEL) 
+         ELAREA(IEL) = HALF * AREA2
+         NODAREA(N1)=NODAREA(N1)+ONE_OVER_6*AREA2
+         NODAREA(N2)=NODAREA(N2)+ONE_OVER_6*AREA2
+         NODAREA(N3)=NODAREA(N3)+ONE_OVER_6*AREA2
+         IF(IEL.LE.NEL) THEN
+           VOLG=VOLG+TMP(IEL)                      
          ENDIF
       ENDDO
 C
@@ -2803,7 +2805,7 @@ C
                            VZ2 = VVVA(3, NN2)
                            VZ3 = VVVA(3, NN3)
                         ENDIF
-                        FAC = (UN - KSI - ETA)
+                        FAC = (ONE - KSI - ETA)
                         PNOD(1, N1) = FAC * X1 + KSI * X2 + ETA * X3
                         PNOD(2, N1) = FAC * Y1 + KSI * Y2 + ETA * Y3
                         PNOD(3, N1) = FAC * Z1 + KSI * Z2 + ETA * Z3
@@ -2851,13 +2853,13 @@ C
                         I1 = IFVNOD(2, N1)
                         I2 = IFVNOD(3, N1)
                         FAC = RFVNOD(1, N1)
-                        PNOD(1,N1) = FAC * PNOD(1, I1) + (UN - FAC) * PNOD(1,I2)
-                        PNOD(2,N1) = FAC * PNOD(2, I1) + (UN - FAC) * PNOD(2,I2)
-                        PNOD(3,N1) = FAC * PNOD(3, I1) + (UN - FAC) * PNOD(3,I2)
-                        VNOD(1,N1) = FAC * VNOD(1, I1) + (UN - FAC) * VNOD(1,I2)
-                        VNOD(2,N1) = FAC * VNOD(2, I1) + (UN - FAC) * VNOD(2,I2)
-                        VNOD(3,N1) = FAC * VNOD(3, I1) + (UN - FAC) * VNOD(3,I2)
-                        FLAG_NODE(N1) = 1
+                        PNOD(1,N1) = FAC * PNOD(1, I1) + (ONE - FAC) * PNOD(1,I2)
+                        PNOD(2,N1) = FAC * PNOD(2, I1) + (ONE - FAC) * PNOD(2,I2)
+                        PNOD(3,N1) = FAC * PNOD(3, I1) + (ONE - FAC) * PNOD(3,I2)
+                        VNOD(1,N1) = FAC * VNOD(1, I1) + (ONE - FAC) * VNOD(1,I2)
+                        VNOD(2,N1) = FAC * VNOD(2, I1) + (ONE - FAC) * VNOD(2,I2)
+                        VNOD(3,N1) = FAC * VNOD(3, I1) + (ONE - FAC) * VNOD(3,I2)
+                        FLAG_NODE(N1) = 1 
                      END SELECT
                   ENDIF
                ENDDO
@@ -2901,7 +2903,7 @@ C
                   NRY = Z12 * X13 - X12 * Z13
                   NRZ = X12 * Y13 - Y12 * X13
                   AREA2 = SQRT(NRX**2 + NRY**2 + NRZ**2)
-                  PAREA(KK) = UNDEMI * AREA2
+                  PAREA(KK) = HALF * AREA2
                   IF (AREA2 > 0) THEN
                      PNORM(1, KK) = NRX / AREA2
                      PNORM(2, KK) = NRY / AREA2
@@ -2921,9 +2923,9 @@ C
                   VX3 = VNOD(1, N3)
                   VY3 = VNOD(2, N3)
                   VZ3 = VNOD(3, N3)
-                  VGRID(1, KK) = TIERS * (VX1 + VX2 + VX3)
-                  VGRID(2, KK) = TIERS * (VY1 + VY2 + VY3)
-                  VGRID(3, KK) = TIERS * (VZ1 + VZ2 + VZ3)
+                  VGRID(1, KK) = THIRD * (VX1 + VX2 + VX3)
+                  VGRID(2, KK) = THIRD * (VY1 + VY2 + VY3)
+                  VGRID(3, KK) = THIRD * (VZ1 + VZ2 + VZ3)
                   FLAG_ELEM(KK) = 1
                ENDIF
             ENDDO
@@ -2973,7 +2975,7 @@ C Boucle sur les triangles du polygone
                X1=PNOD(1,N1)
                Y1=PNOD(2,N1)
                Z1=PNOD(3,N1)
-               PVOLTMP=PVOLTMP+TIERS*AREA*(X1*NX+Y1*NY+Z1*NZ)
+               PVOLTMP=PVOLTMP+THIRD*AREA*(X1*NX+Y1*NY+Z1*NZ)
             ENDDO
          ENDDO
          PVOLU(I) = PVOLTMP
@@ -3126,9 +3128,9 @@ C---------------------------------------------------
             N2=ELEM(2,IEL)
             N3=ELEM(3,IEL)
             PORO(IEL)=ZERO
-            IF (ICONT(N1) /= 0) PORO(IEL)=PORO(IEL)+TIERS
-            IF (ICONT(N2) /= 0) PORO(IEL)=PORO(IEL)+TIERS
-            IF (ICONT(N3) /= 0) PORO(IEL)=PORO(IEL)+TIERS
+            IF (ICONT(N1).NE.0) PORO(IEL)=PORO(IEL)+THIRD
+            IF (ICONT(N2).NE.0) PORO(IEL)=PORO(IEL)+THIRD
+            IF (ICONT(N3).NE.0) PORO(IEL)=PORO(IEL)+THIRD
          ENDDO
 !$OMP END DO
 !$OMP END PARALLEL
@@ -3226,7 +3228,7 @@ C Permeabilite du triangle interne
                  L12=X12**2+Y12**2+Z12**2
                  L23=X23**2+Y23**2+Z23**2
                  L31=X31**2+Y31**2+Z31**2
-                 H1=QUATRE*AREA**2/MAX(L12,L23,L31)
+                 H1=FOUR*AREA**2/MAX(L12,L23,L31)
                  HMIN(KK)=SQRT(H1)
                 ENDIF
               ENDDO
@@ -3281,7 +3283,7 @@ C--------------------------------------------
 C Injecteur
                      IINJ=ITAGEL(IEL)
                      DMI=DATAINJ(2,IINJ)*AREA/DATAINJ(1,IINJ)
-                     IF (NV == I .AND. JEL < 0) DMI=DMI*UNDEMI    ! le triangle est traite deux fois
+                     IF (NV == I .AND. JEL < 0) DMI=DMI*HALF    ! le triangle est traite deux fois
                      DQI(1)=-DMI*DATAINJ(3,IINJ)*NRX
                      DQI(2)=-DMI*DATAINJ(3,IINJ)*NRY
                      DQI(3)=-DMI*DATAINJ(3,IINJ)*NRZ
@@ -3334,16 +3336,16 @@ C BERNOUILLI
                      ELSEIF ((ITVENT==2.AND.P1>ZERO).OR.(ITVENT==4.AND.P1>=PEXT)) THEN
                         VV=NX*UX1+NY*UY1+NZ*UZ1
                         VV=MAX(VV,ZERO)
-                        ETA=(GAMA1-UN)/GAMA1
-                        KSI=UN/ETA
-                        PSTAG=P1*(UN+UNDEMI*ETA*RHO1*VV*VV/P1)**KSI
-                        PCRIT=PSTAG*(DEUX/(GAMA1+UN))**KSI
+                        ETA=(GAMA1-ONE)/GAMA1
+                        KSI=ONE/ETA
+                        PSTAG=P1*(ONE+HALF*ETA*RHO1*VV*VV/P1)**KSI
+                        PCRIT=PSTAG*(TWO/(GAMA1+ONE))**KSI
                         P2 = MAX(PEXT,PCRIT)
-                        RHO2 =RHO1*(P2/P1)**(UN/GAMA1)
-                        UU=DEUX*P1*(UN-(P2/P1)**ETA)/(RHO1*ETA)
+                        RHO2 =RHO1*(P2/P1)**(ONE/GAMA1)
+                        UU=TWO*P1*(ONE-(P2/P1)**ETA)/(RHO1*ETA)
                         UU=MAX(UU,ZERO)
                         UU=SQRT(UU)
-                        VMAX=UNDEMI*((P1-PEXT)*PVOLU(I)/(GAMA1-UN))
+                        VMAX=HALF*((P1-PEXT)*PVOLU(I)/(GAMA1-ONE))
      .                      /MAX(EM20,RHO2*AOUT*DT1*GAMA1*RE1/RHO1)
                         VMAX=MAX(VMAX,ZERO)
                         UU=MIN(UU,VMAX)
@@ -3362,14 +3364,14 @@ C BERNOUILLI with flow-in
                      ELSEIF (ITVENT==4.AND.P1<PEXT) THEN
                         GAMAI=RVOLU(1)
                         RHOI=RVOLU(62)
-                        ETA=(GAMAI-UN)/GAMAI
-                        PCRIT=PEXT*(DEUX/(GAMAI+UN))**(UN/ETA)
+                        ETA=(GAMAI-ONE)/GAMAI
+                        PCRIT=PEXT*(TWO/(GAMAI+ONE))**(ONE/ETA)
                         P2 = MAX(P1,PCRIT)
-                        RHO2 =RHOI*(P2/PEXT)**(UN/GAMAI)
-                        UU=DEUX*PEXT*(UN-(P2/PEXT)**ETA)/(RHOI*ETA)
+                        RHO2 =RHOI*(P2/PEXT)**(ONE/GAMAI)
+                        UU=TWO*PEXT*(ONE-(P2/PEXT)**ETA)/(RHOI*ETA)
                         UU=MAX(UU,ZERO)
                         UU=SQRT(UU)
-                        VMAX=UNDEMI*((PEXT-P1)*PVOLU(I)/(GAMA1-UN))
+                        VMAX=HALF*((PEXT-P1)*PVOLU(I)/(GAMA1-ONE))
      .                      /MAX(EM20,RHO2*AOUT*DT1*RVOLU(63))
                         VMAX=MAX(VMAX,ZERO)
                         UU=MIN(UU,VMAX)
@@ -3378,7 +3380,7 @@ C GRAEFE
                      ELSEIF (ITVENT==5) THEN
                         P2=P1-PEXT
                         RHO2=RHO1
-                        UU=DEUX*P2/RHO2
+                        UU=TWO*P2/RHO2
                         UU=MAX(UU,ZERO)
                         UU=SQRT(UU)
 C
@@ -3477,20 +3479,20 @@ C Test si polyedre voisin a ete calcule
                   UZ2=PU(3,NV)
                   GAMA2=GPOLH(NV)
 C
-                  VFX=UNDEMI*(UX1+UX2)
-                  VFY=UNDEMI*(UY1+UY2)
-                  VFZ=UNDEMI*(UZ1+UZ2)
-                  IF(JEL == 0) THEN
+                  VFX=HALF*(UX1+UX2)                  
+                  VFY=HALF*(UY1+UY2)
+                  VFZ=HALF*(UZ1+UZ2)
+                  IF(JEL.EQ.0) THEN
 C Permeabilite du triangle interne
                     HM1=HMIN(KK)
-                    H1 = UN-RVOLU(51)/HM1
-                    IF(H1 > 0) THEN
+                    H1 = ONE-RVOLU(51)/HM1
+                    IF(H1 > 0) THEN 
                       AREA=AREA*H1
                     ELSE
                       AREA = ZERO
                     ENDIF
 
-C                   AREA=AREA*MAX(ZERO,UN-RVOLU(51)/HM1)
+C                   AREA=AREA*MAX(ZERO,ONE-RVOLU(51)/HM1)
                   ELSE
 C Triangle appuy sur structure interne => flux fonction de la porosite
                     IF(POROSITY(IEL-NEL) == ZERO) GOTO 50
@@ -3503,14 +3505,14 @@ C Full upwind
                   IF (SS <= ZERO) THEN
                      ALPHA=ZERO
                   ELSE
-                     ALPHA=UN
+                     ALPHA=ONE
                   ENDIF
 C
-                  RHOM=ALPHA*RHO1+(UN-ALPHA)*RHO2
-                  RUXM=ALPHA*RHO1*UX1+(UN-ALPHA)*RHO2*UX2
-                  RUYM=ALPHA*RHO1*UY1+(UN-ALPHA)*RHO2*UY2
-                  RUZM=ALPHA*RHO1*UZ1+(UN-ALPHA)*RHO2*UZ2
-                  REM=ALPHA*GAMA1*RE1+(UN-ALPHA)*GAMA2*RE2
+                  RHOM=ALPHA*RHO1+(ONE-ALPHA)*RHO2
+                  RUXM=ALPHA*RHO1*UX1+(ONE-ALPHA)*RHO2*UX2
+                  RUYM=ALPHA*RHO1*UY1+(ONE-ALPHA)*RHO2*UY2
+                  RUZM=ALPHA*RHO1*UZ1+(ONE-ALPHA)*RHO2*UZ2
+                  REM=ALPHA*GAMA1*RE1+(ONE-ALPHA)*GAMA2*RE2
 C
                   MASSFLOW = RHOM*SS*AREA
                   DM(I)=DM(I)-MASSFLOW
@@ -3528,10 +3530,10 @@ C
                      ELFMASS(IEL)=ELFMASS(IEL)+MASSFLOW*DT1
                      ELFVEL(IEL) =ELFVEL(IEL) +SS*AREA/ELAREA(IEL)
                   ENDIF
-                  CPAM = ALPHA * CPAPOLH(I) + (UN - ALPHA) * CPAPOLH(NV)
-                  CPBM = ALPHA * CPBPOLH(I) + (UN - ALPHA) * CPBPOLH(NV)
-                  CPCM = ALPHA * CPCPOLH(I) + (UN - ALPHA) * CPCPOLH(NV)
-                  RMWM = ALPHA * RMWPOLH(I) + (UN - ALPHA) * RMWPOLH(NV)
+                  CPAM = ALPHA * CPAPOLH(I) + (ONE - ALPHA) * CPAPOLH(NV)
+                  CPBM = ALPHA * CPBPOLH(I) + (ONE - ALPHA) * CPBPOLH(NV)
+                  CPCM = ALPHA * CPCPOLH(I) + (ONE - ALPHA) * CPCPOLH(NV)
+                  RMWM = ALPHA * RMWPOLH(I) + (ONE - ALPHA) * RMWPOLH(NV)
                   DMCPA(I) = DMCPA(I) - MASSFLOW * CPAM
                   DMCPA(NV) = DMCPA(NV) + MASSFLOW * CPAM
                   DMCPB(I) = DMCPB(I) - MASSFLOW * CPBM
@@ -3541,9 +3543,9 @@ C
                   DMRMW(I) = DMRMW(I) - MASSFLOW * RMWM
                   DMRMW(NV) = DMRMW(NV) + MASSFLOW * RMWM
                   IF (ITYP == 8) THEN
-                     CPDM = ALPHA * CPDPOLH(I) + (UN - ALPHA) * CPDPOLH(NV)
-                     CPEM = ALPHA * CPEPOLH(I) + (UN - ALPHA) * CPEPOLH(NV)
-                     CPFM = ALPHA * CPFPOLH(I) + (UN - ALPHA) * CPFPOLH(NV)
+                     CPDM = ALPHA * CPDPOLH(I) + (ONE - ALPHA) * CPDPOLH(NV)
+                     CPEM = ALPHA * CPEPOLH(I) + (ONE - ALPHA) * CPEPOLH(NV)
+                     CPFM = ALPHA * CPFPOLH(I) + (ONE - ALPHA) * CPFPOLH(NV)
                      DMCPD(I) = DMCPD(I) - MASSFLOW * CPDM
                      DMCPD(NV) = DMCPD(NV) + MASSFLOW * CPDM
                      DMCPE(I) = DMCPE(I) - MASSFLOW * CPEM
@@ -3671,7 +3673,7 @@ C Brique additionelle
 
 !$OMP DO SCHEDULE(GUIDED,1)
       DO I=1,NPOLH
-         IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= UN) THEN
+         IF(MPOLH(I).LE.ZERO.OR.EPOLH(I).LE.ZERO.OR.GPOLH(I).LE.ONE) THEN
             DTPOLH(I)=EP30
             QVISC(I) =ZERO
          ELSE
@@ -3680,7 +3682,7 @@ C
          DD=DM(I)/MPOLH(I)
          AD=MAX(ZERO,DD)
          GAMA=GPOLH(I)
-         SSP=SQRT((GAMA-UN)*GAMA*EPOLH(I)/MPOLH(I))
+         SSP=SQRT((GAMA-ONE)*GAMA*EPOLH(I)/MPOLH(I))
          QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)
 C
          QX=QB*SSP+AL*QA*QA*AD
@@ -3734,9 +3736,9 @@ C---------------------------------------------------
          VX3=VVV(1,N3)
          VY3=VVV(2,N3)
          VZ3=VVV(3,N3)
-         VVX=TIERS*(VX1+VX2+VX3)
-         VVY=TIERS*(VY1+VY2+VY3)
-         VVZ=TIERS*(VZ1+VZ2+VZ3)
+         VVX=THIRD*(VX1+VX2+VX3)
+         VVY=THIRD*(VY1+VY2+VY3)
+         VVZ=THIRD*(VZ1+VZ2+VZ3)
          NX=NORM(1,IEL)
          NY=NORM(2,IEL)
          NZ=NORM(3,IEL)
@@ -3787,7 +3789,7 @@ C Heat Loss or Gain (version 2018)
                ELSEIF(IEL == 0) THEN
 C Permeabilite du triangle
                   AREA_OLD=AREA
-                  AREA=AREA*MAX(ZERO,UN-RVOLU(51)/HMIN(KK))
+                  AREA=AREA*MAX(ZERO,ONE-RVOLU(51)/HMIN(KK))
                   AREA1=AREA_OLD-AREA
 C Triangle interne = communication entre polyedres
                   NV = 0
@@ -3806,8 +3808,7 @@ C Triangle interne = communication entre polyedres
      .                                  EPOLH(NV) <= ZERO) GOTO 200
                   P1=PPOLH(I)+QVISC(I)
                   P2=PPOLH(NV)+QVISC(NV)
-                  PMEAN=UNDEMI*(P1+P2)
-C
+                  PMEAN=HALF*(P1+P2)
                   DQ(1,I)=DQ(1,I)-PMEAN*NX*AREA-P1*NX*AREA1
                   DQ(2,I)=DQ(2,I)-PMEAN*NY*AREA-P1*NY*AREA1
                   DQ(3,I)=DQ(3,I)-PMEAN*NZ*AREA-P1*NZ*AREA1
@@ -3837,7 +3838,7 @@ C Triangle interne appuye sur surface interne = communication entre polyedres
                   P1=PPOLH(I)+QVISC(I)
                   P2=PPOLH(NV)+QVISC(NV)
                   JEL=-IEL
-                  PMEAN=UNDEMI*(P1+P2)
+                  PMEAN=HALF*(P1+P2)
                   AREA_OLD=AREA
                   AREA=AREA*POROSITY(JEL-NEL)
                   AREA1=AREA_OLD-AREA
@@ -4093,8 +4094,8 @@ c     PEL(1:NELT)=ZERO
                         NY=-PNORM(2,KK)
                         NZ=-PNORM(3,KK)
                   ENDIF
-                  IF (NV >= I) THEN
-                    IF (NV == I) AREA=AREA*UNDEMI
+                  IF (NV >= I) THEN 
+                    IF (NV == I) AREA=AREA*HALF
                     II=I
                     FAC=NX*NRX+NY*NRY+NZ*NRZ
                     IF(FAC < 0) II=NV
@@ -4139,7 +4140,7 @@ c     PEL(1:NELT)=ZERO
                        NZ=-PNORM(3,KK)
                  ENDIF
                  IF (NV < I) GOTO 310
-                 IF (NV == I) AREA=AREA*UNDEMI
+                 IF (NV == I) AREA=AREA*HALF
                  II=I
                  FAC=NX*NRX+NY*NRY+NZ*NRZ
                  IF(FAC < 0) II=NV
@@ -4212,9 +4213,9 @@ C------------------
          AREA1=NODAREA(N1)
          AREA2=NODAREA(N2)
          AREA3=NODAREA(N3)
-         FAC1=TIERS*ELAREA(IEL)/AREA1
-         FAC2=TIERS*ELAREA(IEL)/AREA2
-         FAC3=TIERS*ELAREA(IEL)/AREA3
+         FAC1=THIRD*ELAREA(IEL)/AREA1
+         FAC2=THIRD*ELAREA(IEL)/AREA2
+         FAC3=THIRD*ELAREA(IEL)/AREA3
          P(N1) =P(N1) +FAC1*PEL(IEL)
          P(N2) =P(N2) +FAC2*PEL(IEL)
          P(N3) =P(N3) +FAC3*PEL(IEL)
@@ -4228,9 +4229,9 @@ C------------------
            AREA1=NODAREA(N1)
            AREA2=NODAREA(N2)
            AREA3=NODAREA(N3)
-           FAC1=TIERS*ELAREA(IEL)/AREA1
-           FAC2=TIERS*ELAREA(IEL)/AREA2
-           FAC3=TIERS*ELAREA(IEL)/AREA3
+           FAC1=THIRD*ELAREA(IEL)/AREA1
+           FAC2=THIRD*ELAREA(IEL)/AREA2
+           FAC3=THIRD*ELAREA(IEL)/AREA3
            U(1,N1)=U(1,N1)+FAC1*UEL(1,IEL)
            U(2,N1)=U(2,N1)+FAC1*UEL(2,IEL)
            U(3,N1)=U(3,N1)+FAC1*UEL(3,IEL)
@@ -4261,42 +4262,42 @@ C Pentaedre
                  J=K
                  IF(K >= 4) J=J+1
                  JJ=BRNA(J,II)
-                 VOLA(JJ)=VOLA(JJ)+UNSIX*PVOLU(I)
-                 PA(JJ)=PA(JJ)+UNSIX*PPOLH(I)*PVOLU(I)
-                 RHOA(JJ)=RHOA(JJ)+UNSIX*RPOLH(I)*PVOLU(I)
-                 TKA(JJ)=TKA(JJ)+UNSIX*TEMP*PVOLU(I)
-                 SSPKA(JJ)=SSPKA(JJ)+UNSIX*SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*PVOLU(I)
-                 UA(1,JJ)=UA(1,JJ)+UNSIX*PU(1,I)*PVOLU(I)
-                 UA(2,JJ)=UA(2,JJ)+UNSIX*PU(2,I)*PVOLU(I)
-                 UA(3,JJ)=UA(3,JJ)+UNSIX*PU(3,I)*PVOLU(I)
-                ENDDO
+                 VOLA(JJ)=VOLA(JJ)+ONE_OVER_6*PVOLU(I)
+                 PA(JJ)=PA(JJ)+ONE_OVER_6*PPOLH(I)*PVOLU(I)
+                 RHOA(JJ)=RHOA(JJ)+ONE_OVER_6*RPOLH(I)*PVOLU(I)
+                 TKA(JJ)=TKA(JJ)+ONE_OVER_6*TEMP*PVOLU(I)
+                 SSPKA(JJ)=SSPKA(JJ)+ONE_OVER_6*SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*PVOLU(I)
+                 UA(1,JJ)=UA(1,JJ)+ONE_OVER_6*PU(1,I)*PVOLU(I)
+                 UA(2,JJ)=UA(2,JJ)+ONE_OVER_6*PU(2,I)*PVOLU(I)
+                 UA(3,JJ)=UA(3,JJ)+ONE_OVER_6*PU(3,I)*PVOLU(I)
+                ENDDO           
              ELSEIF(BRNA(5,II) == BRNA(8,II).AND.
      .              BRNA(6,II) == BRNA(8,II).AND.
      .              BRNA(7,II) == BRNA(8,II))THEN
 C Pyramide
                 DO J=1,5
                  JJ=BRNA(J,II)
-                 VOLA(JJ)=VOLA(JJ)+UNCINQ*PVOLU(I)
-                 PA(JJ)=PA(JJ)+UNCINQ*PPOLH(I)*PVOLU(I)
-                 RHOA(JJ)=RHOA(JJ)+UNCINQ*RPOLH(I)*PVOLU(I)
-                 TKA(JJ)=TKA(JJ)+UNCINQ*TEMP*PVOLU(I)
-                 SSPKA(JJ)=SSPKA(JJ)+UNCINQ*SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*PVOLU(I)
-                 UA(1,JJ)=UA(1,JJ)+UNCINQ*PU(1,I)*PVOLU(I)
-                 UA(2,JJ)=UA(2,JJ)+UNCINQ*PU(2,I)*PVOLU(I)
-                 UA(3,JJ)=UA(3,JJ)+UNCINQ*PU(3,I)*PVOLU(I)
+                 VOLA(JJ)=VOLA(JJ)+ONE_FIFTH*PVOLU(I)
+                 PA(JJ)=PA(JJ)+ONE_FIFTH*PPOLH(I)*PVOLU(I)
+                 RHOA(JJ)=RHOA(JJ)+ONE_FIFTH*RPOLH(I)*PVOLU(I)
+                 TKA(JJ)=TKA(JJ)+ONE_FIFTH*TEMP*PVOLU(I)
+                 SSPKA(JJ)=SSPKA(JJ)+ONE_FIFTH*SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*PVOLU(I)
+                 UA(1,JJ)=UA(1,JJ)+ONE_FIFTH*PU(1,I)*PVOLU(I)
+                 UA(2,JJ)=UA(2,JJ)+ONE_FIFTH*PU(2,I)*PVOLU(I)
+                 UA(3,JJ)=UA(3,JJ)+ONE_FIFTH*PU(3,I)*PVOLU(I)
                 ENDDO
              ELSE
 C Brique ou Tetraedre
                 DO J=1,8
                  JJ=BRNA(J,II)
-                 VOLA(JJ)=VOLA(JJ)+UNHUIT*PVOLU(I)
-                 PA(JJ)=PA(JJ)+UNHUIT*PPOLH(I)*PVOLU(I)
-                 RHOA(JJ)=RHOA(JJ)+UNHUIT*RPOLH(I)*PVOLU(I)
-                 TKA(JJ)=TKA(JJ)+UNHUIT*TEMP*PVOLU(I)
-                 SSPKA(JJ)=SSPKA(JJ)+UNHUIT*SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*PVOLU(I)
-                 UA(1,JJ)=UA(1,JJ)+UNHUIT*PU(1,I)*PVOLU(I)
-                 UA(2,JJ)=UA(2,JJ)+UNHUIT*PU(2,I)*PVOLU(I)
-                 UA(3,JJ)=UA(3,JJ)+UNHUIT*PU(3,I)*PVOLU(I)
+                 VOLA(JJ)=VOLA(JJ)+ONE_OVER_8*PVOLU(I)
+                 PA(JJ)=PA(JJ)+ONE_OVER_8*PPOLH(I)*PVOLU(I)
+                 RHOA(JJ)=RHOA(JJ)+ONE_OVER_8*RPOLH(I)*PVOLU(I)
+                 TKA(JJ)=TKA(JJ)+ONE_OVER_8*TEMP*PVOLU(I)
+                 SSPKA(JJ)=SSPKA(JJ)+ONE_OVER_8*SQRT(GPOLH(I)*PPOLH(I)/RPOLH(I))*PVOLU(I)
+                 UA(1,JJ)=UA(1,JJ)+ONE_OVER_8*PU(1,I)*PVOLU(I)
+                 UA(2,JJ)=UA(2,JJ)+ONE_OVER_8*PU(2,I)*PVOLU(I)
+                 UA(3,JJ)=UA(3,JJ)+ONE_OVER_8*PU(3,I)*PVOLU(I)
                 ENDDO
              ENDIF
            ENDIF
@@ -4378,7 +4379,7 @@ C
          IF(ITTF == 11.OR.ITTF == 12.OR.ITTF == 13) THEN
           IF (IDEF == 0.AND.PM_VENT(IVENT) > PDEF+PEXT
      .                 .AND.DTPDEFC > DTPDEFI
-     .                 .AND.VOLPH > EM3*AREAP**TDEMI
+     .                 .AND.VOLPH > EM3*AREAP**THREE_HALF
      .                 .AND.TT < TSTOPE+TTF) THEN
             IDEF=1
             WRITE(IOUT,'(A)')
@@ -4404,11 +4405,11 @@ C
             WRITE(ISTDO,'(2A)') ' ** VENTING STOPS ',VENTTITLE
           ENDIF
 C
-         ELSE IF(ITTF == 0) THEN
-          IF (IDEF == 0.AND.PM_VENT(IVENT) > PDEF+PEXT
-     .                 .AND.DTPDEFC > DTPDEFI
-     .                 .AND.VOLPH > EM3*AREAP**TDEMI
-     .                 .AND.TT < TSTOPE) THEN
+         ELSE IF(ITTF.EQ.0) THEN
+          IF (IDEF.EQ.0.AND.PM_VENT(IVENT).GT.PDEF+PEXT
+     .                 .AND.DTPDEFC.GT.DTPDEFI
+     .                 .AND.VOLPH.GT.EM3*AREAP**THREE_HALF
+     .                 .AND.TT.LT.TSTOPE) THEN
             IDEF=1
             WRITE(IOUT,'(A)')
      .                  ' ** AIRBAG VENT HOLE MEMBRANE IS DEFLATED **'
@@ -4455,15 +4456,15 @@ C
          ELSE
            FF=FEL(IEL)
          ENDIF
-         FVSPMD(IFV)%AAA(1,N1)=FVSPMD(IFV)%AAA(1,N1)+TIERS*FF*NRX
-         FVSPMD(IFV)%AAA(2,N1)=FVSPMD(IFV)%AAA(2,N1)+TIERS*FF*NRY
-         FVSPMD(IFV)%AAA(3,N1)=FVSPMD(IFV)%AAA(3,N1)+TIERS*FF*NRZ
-         FVSPMD(IFV)%AAA(1,N2)=FVSPMD(IFV)%AAA(1,N2)+TIERS*FF*NRX
-         FVSPMD(IFV)%AAA(2,N2)=FVSPMD(IFV)%AAA(2,N2)+TIERS*FF*NRY
-         FVSPMD(IFV)%AAA(3,N2)=FVSPMD(IFV)%AAA(3,N2)+TIERS*FF*NRZ
-         FVSPMD(IFV)%AAA(1,N3)=FVSPMD(IFV)%AAA(1,N3)+TIERS*FF*NRX
-         FVSPMD(IFV)%AAA(2,N3)=FVSPMD(IFV)%AAA(2,N3)+TIERS*FF*NRY
-         FVSPMD(IFV)%AAA(3,N3)=FVSPMD(IFV)%AAA(3,N3)+TIERS*FF*NRZ
+         FVSPMD(IFV)%AAA(1,N1)=FVSPMD(IFV)%AAA(1,N1)+THIRD*FF*NRX
+         FVSPMD(IFV)%AAA(2,N1)=FVSPMD(IFV)%AAA(2,N1)+THIRD*FF*NRY
+         FVSPMD(IFV)%AAA(3,N1)=FVSPMD(IFV)%AAA(3,N1)+THIRD*FF*NRZ
+         FVSPMD(IFV)%AAA(1,N2)=FVSPMD(IFV)%AAA(1,N2)+THIRD*FF*NRX
+         FVSPMD(IFV)%AAA(2,N2)=FVSPMD(IFV)%AAA(2,N2)+THIRD*FF*NRY
+         FVSPMD(IFV)%AAA(3,N2)=FVSPMD(IFV)%AAA(3,N2)+THIRD*FF*NRZ
+         FVSPMD(IFV)%AAA(1,N3)=FVSPMD(IFV)%AAA(1,N3)+THIRD*FF*NRX
+         FVSPMD(IFV)%AAA(2,N3)=FVSPMD(IFV)%AAA(2,N3)+THIRD*FF*NRY
+         FVSPMD(IFV)%AAA(3,N3)=FVSPMD(IFV)%AAA(3,N3)+THIRD*FF*NRZ
 C
          TFEXT=TFEXT+FF*VEL(IEL)*DT1
        ENDDO
@@ -4532,12 +4533,12 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
             IF(CPB == ZERO) THEN
                TEMP=EFAC/CVA
             ELSE
-               TEMP=(SQRT(CVA*CVA+DEUX*CPB*EFAC)-CVA)/CPB
+               TEMP=(SQRT(CVA*CVA+TWO*CPB*EFAC)-CVA)/CPB
             ENDIF
          ELSE
             TEMP=TEMP0
             DO K=1,5
-               HH=CPA+UNDEMI*CPB*TEMP+THIRD*CPC*TEMP*TEMP
+               HH=CPA+HALF*CPB*TEMP+THIRD*CPC*TEMP*TEMP
                TEMP=EFAC/(HH-RMW)
             ENDDO
          ENDIF
@@ -4545,8 +4546,8 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
          TEMP=TEMP0
          DO K=1,5
             TEMP2=TEMP*TEMP
-            HH=CPA+UNDEMI*CPB*TEMP+THIRD*CPC*TEMP2+
-     .         QUART*CPD*TEMP*TEMP2-CPE/TEMP2+UNCINQ*CPF*TEMP2*TEMP2
+            HH=CPA+HALF*CPB*TEMP+THIRD*CPC*TEMP2+
+     .         FOURTH*CPD*TEMP*TEMP2-CPE/TEMP2+ONE_FIFTH*CPF*TEMP2*TEMP2   
             IF( (HH-RMW) > ZERO) THEN
               TEMP=EFAC/(HH-RMW)
             ELSE

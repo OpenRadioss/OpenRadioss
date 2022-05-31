@@ -124,9 +124,9 @@ C     ALE ON / OFF
                II     = I+NFT    
                
                !!! Element centroid
-               ELCENTER(2, II) = QUART * (X(2, IXQ(2, II)) + X(2, IXQ(3, II)) +
+               ELCENTER(2, II) = FOURTH * (X(2, IXQ(2, II)) + X(2, IXQ(3, II)) +
      .              X(2, IXQ(4, II)) + X(2, IXQ(5, II)))
-               ELCENTER(3, II) = QUART * (X(3, IXQ(2, II)) + X(3, IXQ(3, II)) +
+               ELCENTER(3, II) = FOURTH * (X(3, IXQ(2, II)) + X(3, IXQ(3, II)) +
      .              X(3, IXQ(4, II)) + X(3, IXQ(5, II)))
                
             ENDDO  
@@ -157,7 +157,7 @@ C     ALE ON / OFF
             DO I=LFT,LLT 
                II     = I+NFT    
                VOLUME_FRACTION(ITRIMAT, II) = VOLP(I)/VOLG(I)
-               VOLUME_FRACTION(ITRIMAT, II) = MAX(ZERO,MIN(UN,VOLUME_FRACTION(ITRIMAT, II))) 
+               VOLUME_FRACTION(ITRIMAT, II) = MAX(ZERO,MIN(ONE,VOLUME_FRACTION(ITRIMAT, II))) 
             ENDDO  
          ENDDO  
       ENDDO  ! NG=ITASK+1,NGROUP,NTHREAD

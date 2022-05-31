@@ -140,7 +140,7 @@ C
      1       +VY1(I)*VY1(I)+VY2(I)*VY2(I)+VY3(I)*VY3(I)
      2       +VZ1(I)*VZ1(I)+VZ2(I)*VZ2(I)+VZ3(I)*VZ3(I)
        EI(I) = EINT(I,1) + EINT(I,2)
-       EK(I) = XMAS(I)*VA2*UNSIX
+       EK(I) = XMAS(I)*VA2*ONE_OVER_6
        XMAS25(I)= XMAS(I)*THIRD
        XM(I) = XMAS25(I)*VXA(I)
        YM(I) = XMAS25(I)*VYA(I)
@@ -159,8 +159,8 @@ C
           XCG(I)= XMAS25(I)*XX
           YCG(I)= XMAS25(I)*YY
           ZCG(I)= XMAS25(I)*ZZ
-          IN25 = XMAS25(I)*(THK02(I)+AREA(I))*UNDOUZE
-          INEL = TROIS*IN25
+          IN25 = XMAS25(I)*(THK02(I)+AREA(I))*ONE_OVER_12
+          INEL = THREE*IN25
           XX   = THIRD*XX
           YY   = THIRD*YY
           ZZ   = THIRD*ZZ
@@ -193,7 +193,7 @@ C
      .  +VR(3,IXTG(2,I))*VR(3,IXTG(2,I))+VR(3,IXTG(3,I))*VR(3,IXTG(3,I))
      .  +VR(3,IXTG(4,I))*VR(3,IXTG(4,I))
           REI(I)= EINT(I,2)
-          REK(I)= IN25*VA2*UNDEMI
+          REK(I)= IN25*VA2*HALF
         ENDDO
        ELSEIF(IXFEM==1)THEN
         DO I=JFT,JLT
@@ -203,8 +203,8 @@ C
           XCG(I)= XMAS25(I)*XX
           YCG(I)= XMAS25(I)*YY
           ZCG(I)= XMAS25(I)*ZZ
-          IN25 = XMAS25(I)*(THK02(I)+AREA(I))*UNDOUZE
-          INEL = TROIS*IN25
+          IN25 = XMAS25(I)*(THK02(I)+AREA(I))*ONE_OVER_12
+          INEL = THREE*IN25
           XX   = THIRD*XX
           YY   = THIRD*YY
           ZZ   = THIRD*ZZ
@@ -230,7 +230,7 @@ C
      .          +VRY1(I)*VRY1(I)+VRY2(I)*VRY2(I)+VRY3(I)*VRY3(I)
      .          +VRZ1(I)*VRZ1(I)+VRZ2(I)*VRZ2(I)+VRZ3(I)*VRZ3(I)
           REI(I)= EINT(I,2)
-          REK(I)= IN25*VA2*UNDEMI
+          REK(I)= IN25*VA2*HALF
         ENDDO
        ENDIF
 C

@@ -181,10 +181,10 @@ c                THKLY(J)   = STACK%GEO (IPTHK + N ,ISUBSTACK)
                   THKLY   = STACK%GEO (IPTHK + N ,ISUBSTACK)*THICKT  
                   RATIO_THKLY(I,N) = THKLY/THK(I)   
                   IF (N == 1) THEN
-                    POSLY(I,N) = -UNDEMI + UNDEMI*RATIO_THKLY(I,N)
+                    POSLY(I,N) = -HALF + HALF*RATIO_THKLY(I,N)
                   ELSE
                     POSLY(I,N) = POSLY(I,N-1)            
-     .                + UNDEMI*(RATIO_THKLY(I,N)+RATIO_THKLY(I,N-1))
+     .                + HALF*(RATIO_THKLY(I,N)+RATIO_THKLY(I,N-1))
                   ENDIF ! IF (N == 1) 
                   POS_LY(I)  = POSLY(I,ILAY)
                 ELSEIF (DRAPE(NFT + I)%IDRAPE(N) > 0) THEN
@@ -195,10 +195,10 @@ c                THKLY(J)   = STACK%GEO (IPTHK + N ,ISUBSTACK)
                   THKLY = THKLY/THK(I)  ! layer thickness ratio
                   RATIO_THKLY(I,N) = THKLY
                   IF (N == 1) THEN
-                    POSLY(I,N) = -UNDEMI + UNDEMI*RATIO_THKLY(I,N)
+                    POSLY(I,N) = -HALF + HALF*RATIO_THKLY(I,N)
                   ELSE
                     POSLY(I,N) = POSLY(I,N-1)            
-     .                + UNDEMI*(RATIO_THKLY(I,N)+RATIO_THKLY(I,N-1))
+     .                + HALF*(RATIO_THKLY(I,N)+RATIO_THKLY(I,N-1))
                   ENDIF ! IF (N == 1)
                 ENDIF ! IF (IDRAPE(N,I) == 0)
               ENDIF ! IF (NDRAPE == 0)
@@ -241,10 +241,10 @@ c
                   POS_LY(I)  = STACK%GEO(IPPOS  + ILAY,ISUBSTACK)*THICKT   ! layer position ratio
                   RATIO_THKLY(I,ILAY) = THK_LY(I)/THK(I)
                    IF (ILAY == 1) THEN
-                    POSLY(I,ILAY) = -UNDEMI + UNDEMI*RATIO_THKLY(I,ILAY)
+                    POSLY(I,ILAY) = -HALF + HALF*RATIO_THKLY(I,ILAY)
                   ELSE
                     POSLY(I,ILAY) = POSLY(I,ILAY-1)            
-     .                + UNDEMI*(RATIO_THKLY(I,ILAY)+RATIO_THKLY(I,ILAY-1))
+     .                + HALF*(RATIO_THKLY(I,ILAY)+RATIO_THKLY(I,ILAY-1))
                   ENDIF ! IF (ILAY == 1)
                   POS_LY(I)  = POSLY(I,ILAY)
                 ELSEIF (DRAPE(NFT + I)%IDRAPE(IDX + ILAY) > 0) THEN
@@ -255,10 +255,10 @@ c
                   THK_LY(I) = THK_LY(I)/THK(I)  ! layer thickness ratio
                   RATIO_THKLY(I,ILAY) = THK_LY(I)
                   IF (ILAY == 1) THEN
-                    POSLY(I,ILAY) = -UNDEMI + UNDEMI*RATIO_THKLY(I,ILAY)
+                    POSLY(I,ILAY) = -HALF + HALF*RATIO_THKLY(I,ILAY)
                   ELSE
                     POSLY(I,ILAY) = POSLY(I,ILAY-1)            
-     .                + UNDEMI*(RATIO_THKLY(I,ILAY)+RATIO_THKLY(I,ILAY-1))
+     .                + HALF*(RATIO_THKLY(I,ILAY)+RATIO_THKLY(I,ILAY-1))
                   ENDIF ! IF (ILAY == 1)
                   POS_LY(I)  = POSLY(I,ILAY)
                 ENDIF ! IF (IDRAPE(ILAY,I) == 0)
@@ -273,18 +273,18 @@ c
                 THK_IT(IT,I) = THK_LY(I)/NPTT  ! uniform distribution of NPTT through layer
               ENDDO 
 C
-              POS_0 = POS_LY(I) - UNDEMI*THK_LY(I)
-              POS_IT(1,I) = POS_0 + UNDEMI*THK_IT(1,I)
+              POS_0 = POS_LY(I) - HALF*THK_LY(I)
+              POS_IT(1,I) = POS_0 + HALF*THK_IT(1,I)
               DO IT=2,NPTT
                 POS_IT(IT,I) = POS_IT(IT-1,I) + 
-     .                         UNDEMI*(THK_IT(IT,I) + THK_IT(IT-1,I))
+     .                         HALF*(THK_IT(IT,I) + THK_IT(IT-1,I))
               ENDDO
              ENDDO
             ELSEIF (IINT == 2) THEN  !  Gauss distribution
              DO I=JFT,JLT
               DO IT=1,NPTT
-                THK_IT(IT,I) = UNDEMI*THK_LY(I)*W_GAUSS(IT,NPTT)
-                POS_IT(IT,I) = POS_LY(I) + UNDEMI*THK_LY(I)*A_GAUSS(IT,NPTT)
+                THK_IT(IT,I) = HALF*THK_LY(I)*W_GAUSS(IT,NPTT)
+                POS_IT(IT,I) = POS_LY(I) + HALF*THK_LY(I)*A_GAUSS(IT,NPTT)
               ENDDO
              ENDDO
             ENDIF

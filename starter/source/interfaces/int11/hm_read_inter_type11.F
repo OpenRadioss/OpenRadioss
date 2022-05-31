@@ -393,7 +393,7 @@ C
         IF (STFAC == ZERO) THEN
         !units
           CALL HM_GET_FLOATV_DIM('TYPE11_SCALE' ,STFAC_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          STFAC = UN * STFAC_UNIT
+          STFAC = ONE * STFAC_UNIT
         ENDIF
         IF (IGSTI == 1)STFAC=-STFAC
         IF (STFAC < ZERO) IGSTI = 1
@@ -420,9 +420,9 @@ c        IF (BCFLAGM(LFIELD-1:LFIELD-1).EQ. '1') IBC2M = 1
 c        IF (BCFLAGM(LFIELD  :LFIELD  ).EQ. '1') IBC3M = 1
 
 
-        IF(VISC.EQ.ZERO)VISC=CINQEM2
+        IF(VISC.EQ.ZERO)VISC=FIVEEM2
 
-        IF(FRIC.NE.ZERO.AND.VISCF.EQ.ZERO.AND.IFORM.NE.2)VISCF=UN
+        IF(FRIC.NE.ZERO.AND.VISCF.EQ.ZERO.AND.IFORM.NE.2)VISCF=ONE
 
         IPARI(11)=4*IBC1+2*IBC2+IBC3 + 8 *(4*IBC1M+2*IBC2M+IBC3M)
         FRIGAP(14)=VISC
@@ -431,9 +431,9 @@ C BUMULT is increased for big models
         IF(BUMULT.EQ.ZERO) THEN
            BUMULT = BMUL0
            IF(NUMNOD > 2500000) THEN
-              BUMULT = BMUL0*DEUX
+              BUMULT = BMUL0*TWO
            ELSEIF(NUMNOD > 1500000) THEN
-              BUMULT = BMUL0*TROIS/DEUX
+              BUMULT = BMUL0*THREE/TWO
            END IF
          END IF
          FRIGAP(4)=BUMULT
@@ -449,13 +449,13 @@ C
         IF(INTTH > 0 ) INTHEAT = 1
         IF(KTHE == ZERO)THEN
            IF(IKTHE /= 0)THEN
-              KTHE = UN
+              KTHE = ONE
            ENDIF
         ENDIF
         IF (XTHE == ZERO) THEN
         !units
           CALL HM_GET_FLOATV_DIM('A_scale_k' ,XTHE_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XTHE = UN * XTHE_UNIT
+          XTHE = ONE * XTHE_UNIT
         ENDIF
 
 C

@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       DO N=1,NUMNOD
         BVOLNOD(N)=BVOLNOD(N)/MAX(EM30,VOLNOD(N))
-        STIFINT(N)=STIFINT(N)+BVOLNOD(N)*(2.*VOLNOD(N))**TIERS
+        STIFINT(N)=STIFINT(N)+BVOLNOD(N)*(2.*VOLNOD(N))**THIRD
         IF(NSHNOD(N).GT.0)
      .    STIFINT(N)=STIFINT(N)+ETNOD(N)/NSHNOD(N)
       ENDDO

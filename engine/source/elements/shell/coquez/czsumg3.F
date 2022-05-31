@@ -289,10 +289,10 @@ C-------------projection-----drilling only------------------------
 #include "vectorize.inc"
        DO M=NF,JLT 
         EP=IPLAT(M)
-        PP(1,1,J,M)=UN-VQN(EP,1,J)*VQN(EP,1,J)
-        PP(2,2,J,M)=UN-VQN(EP,2,J)*VQN(EP,2,J)
+        PP(1,1,J,M)=ONE-VQN(EP,1,J)*VQN(EP,1,J)
+        PP(2,2,J,M)=ONE-VQN(EP,2,J)*VQN(EP,2,J)
 C        PP(3,3,J,M)=VQN(3,J,EP)
-        PP(3,3,J,M)=UN-VQN(EP,3,J)*VQN(EP,3,J)
+        PP(3,3,J,M)=ONE-VQN(EP,3,J)*VQN(EP,3,J)
         PP(1,2,J,M)=-VQN(EP,1,J)*VQN(EP,2,J)
         PP(1,3,J,M)=-VQN(EP,1,J)*VQN(EP,3,J)
         PP(2,3,J,M)=-VQN(EP,2,J)*VQN(EP,3,J)
@@ -705,12 +705,12 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
      .           *Z1(I)
          YZ =(CORELV(I,2,1)-CORELV(I,2,2)+CORELV(I,2,3)-CORELV(I,2,4))
      .           *Z1(I)
-         ZZ = QUATRE*Z2
+         ZZ = FOUR*Z2
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
         IF (IDRIL > 0) THEN
-         D(1)= YY+ZZ+QUATRE
-         D(2)= XX+ZZ+QUATRE
-         D(3)= XX+YY+QUATRE
+         D(1)= YY+ZZ+FOUR
+         D(2)= XX+ZZ+FOUR
+         D(3)= XX+YY+FOUR
          D(4)= -XY
          D(5)= -XZ
          D(6)= -YZ
@@ -718,8 +718,8 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
          XXYZ2 = D(1)*D(6)*D(6)
          YYXZ2 = D(2)*D(5)*D(5)
          ZZXY2 = D(3)*D(4)*D(4)
-         DETA = ABS(ABC+DEUX*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2)
-         DETA = UN/MAX(DETA,EM20)
+         DETA = ABS(ABC+TWO*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2)
+         DETA = ONE/MAX(DETA,EM20)
          DI(3) = (ABC-ZZXY2)*DETA/MAX(D(3),EM20)
          DI(5) = (D(6)*D(4)-D(5)*D(2))*DETA
          DI(6) = (D(4)*D(5)-D(6)*D(1))*DETA
@@ -740,9 +740,9 @@ C
      1          +VQN(I,1,3)*VQN(I,3,3)+VQN(I,1,4)*VQN(I,3,4)
          BTB(6)= VQN(I,2,1)*VQN(I,3,1)+VQN(I,2,2)*VQN(I,3,2)
      1          +VQN(I,2,3)*VQN(I,3,3)+VQN(I,2,4)*VQN(I,3,4)
-         D(1)= YY+ZZ+QUATRE-BTB(1)
-         D(2)= XX+ZZ+QUATRE-BTB(2)
-         D(3)= XX+YY+QUATRE-BTB(3)
+         D(1)= YY+ZZ+FOUR-BTB(1)
+         D(2)= XX+ZZ+FOUR-BTB(2)
+         D(3)= XX+YY+FOUR-BTB(3)
          D(4)= -XY-BTB(4)
          D(5)= -XZ-BTB(5)
          D(6)= -YZ-BTB(6)
@@ -750,8 +750,8 @@ C
          XXYZ2 = D(1)*D(6)*D(6)
          YYXZ2 = D(2)*D(5)*D(5)
          ZZXY2 = D(3)*D(4)*D(4)
-         DETA = ABS(ABC+DEUX*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2)
-         DETA = UN/MAX(DETA,EM20)
+         DETA = ABS(ABC+TWO*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2)
+         DETA = ONE/MAX(DETA,EM20)
          DI(1) = (ABC-XXYZ2)*DETA/MAX(D(1),EM20)
          DI(2) = (ABC-YYXZ2)*DETA/MAX(D(2),EM20)
          DI(3) = (ABC-ZZXY2)*DETA/MAX(D(3),EM20)
@@ -783,7 +783,7 @@ C
           DR(1,J+3,M)=  -DB(1,J)    
           DR(2,J+3,M)=  -DB(2,J)      
           DR(3,J+3,M)=  -DB(3,J)      
-          DR(J+3,J+3,M)=  UN+BTDB(J,J)     
+          DR(J+3,J+3,M)=  ONE+BTDB(J,J)     
           DO K=J+1,4
            DR(J+3,K+3,M)=  BTDB(J,K)     
           ENDDO
@@ -900,10 +900,10 @@ C
         CALL SET_RSJ33(XI ,YI, ZI  ,R4  ,JFT,JLT) 
         DO M=JFT,JLT 
          DO L=1,3
-          R1(3+L,L,M) = UN
-          R2(3+L,L,M) = UN
-          R3(3+L,L,M) = UN
-          R4(3+L,L,M) = UN
+          R1(3+L,L,M) = ONE
+          R2(3+L,L,M) = ONE
+          R3(3+L,L,M) = ONE
+          R4(3+L,L,M) = ONE
          END DO 
         END DO  
 C
@@ -1706,7 +1706,7 @@ C--------------KL=1-KL--------------------------
        IF (IS.EQ.1) THEN
         DO I=1,6 
          DO EP=JFT,JLT 
-          KL(I,I,EP)= KL(I,I,EP) + UN
+          KL(I,I,EP)= KL(I,I,EP) + ONE
          ENDDO
         ENDDO
        END IF 
@@ -2420,11 +2420,11 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
      .           *Z1(I)
          YZ =(CORELV(I,2,1)-CORELV(I,2,2)+CORELV(I,2,3)-CORELV(I,2,4))
      .           *Z1(I)
-         ZZ = QUATRE*Z2
+         ZZ = FOUR*Z2
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-         D(1)= YY+ZZ+QUATRE
-         D(2)= XX+ZZ+QUATRE
-         D(3)= XX+YY+QUATRE
+         D(1)= YY+ZZ+FOUR
+         D(2)= XX+ZZ+FOUR
+         D(3)= XX+YY+FOUR
          D(4)= -XY
          D(5)= -XZ
          D(6)= -YZ
@@ -2432,8 +2432,8 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
          XXYZ2 = D(1)*D(6)*D(6)
          YYXZ2 = D(2)*D(5)*D(5)
          ZZXY2 = D(3)*D(4)*D(4)
-         DETA = ABS(ABC+DEUX*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2)
-         DETA = UN/MAX(DETA,EM20)
+         DETA = ABS(ABC+TWO*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2)
+         DETA = ONE/MAX(DETA,EM20)
          DI(1) = (ABC-XXYZ2)*DETA/MAX(D(1),EM20)
          DI(2) = (ABC-YYXZ2)*DETA/MAX(D(2),EM20)
          DI(3) = (ABC-ZZXY2)*DETA/MAX(D(3),EM20)
@@ -2458,8 +2458,8 @@ C
 #include "vectorize.inc"
        DO M=JFT,JLT 
         EP=IPLAT(M)
-        PP(1,1,J,M)=UN-VQN(1,J,EP)*VQN(1,J,EP)
-        PP(2,2,J,M)=UN-VQN(2,J,EP)*VQN(2,J,EP)
+        PP(1,1,J,M)=ONE-VQN(1,J,EP)*VQN(1,J,EP)
+        PP(2,2,J,M)=ONE-VQN(2,J,EP)*VQN(2,J,EP)
         PP(1,2,J,M)=-VQN(1,J,EP)*VQN(2,J,EP)
         PP(1,3,J,M)=-VQN(1,J,EP)*VQN(3,J,EP)
         PP(2,3,J,M)=-VQN(2,J,EP)*VQN(3,J,EP)
@@ -3133,7 +3133,7 @@ C
        
        IF (IS == 1) THEN
          DO EP=JFT,JLT
-          KR(6,6,EP)= UN+KR(6,6,EP)
+          KR(6,6,EP)= ONE+KR(6,6,EP)
          ENDDO
        END IF !(IS == 1) THEN
 C

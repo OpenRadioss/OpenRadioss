@@ -110,9 +110,9 @@ C
                Y3=X(2,NN3)
                Z3=X(3,NN3)
             ENDIF
-            PNOD(1,I)=(UN-KSI-ETA)*X1+KSI*X2+ETA*X3
-            PNOD(2,I)=(UN-KSI-ETA)*Y1+KSI*Y2+ETA*Y3
-            PNOD(3,I)=(UN-KSI-ETA)*Z1+KSI*Z2+ETA*Z3
+            PNOD(1,I)=(ONE-KSI-ETA)*X1+KSI*X2+ETA*X3
+            PNOD(2,I)=(ONE-KSI-ETA)*Y1+KSI*Y2+ETA*Y3
+            PNOD(3,I)=(ONE-KSI-ETA)*Z1+KSI*Z2+ETA*Z3
 C
          ELSEIF (IFVNOD(1,I).EQ.2) THEN
             I2=IFVNOD(2,I)
@@ -127,9 +127,9 @@ C
             I1=IFVNOD(2,I)
             I2=IFVNOD(3,I)
             FAC=RFVNOD(1,I)
-            PNOD(1,I)=FAC*PNOD(1,I1)+(UN-FAC)*PNOD(1,I2)
-            PNOD(2,I)=FAC*PNOD(2,I1)+(UN-FAC)*PNOD(2,I2)
-            PNOD(3,I)=FAC*PNOD(3,I1)+(UN-FAC)*PNOD(3,I2)
+            PNOD(1,I)=FAC*PNOD(1,I1)+(ONE-FAC)*PNOD(1,I2)
+            PNOD(2,I)=FAC*PNOD(2,I1)+(ONE-FAC)*PNOD(2,I2)
+            PNOD(3,I)=FAC*PNOD(3,I1)+(ONE-FAC)*PNOD(3,I2)
          ENDIF
       ENDDO
 C----------------------------
@@ -141,7 +141,7 @@ C----------------------------
          N3=IFVTRI(3,I)
          CALL FVNORMAL(PNOD,N1,N2,N3,0,NX,NY,NZ)
          AREA2=SQRT(NX*NX+NY*NY+NZ*NZ)
-         PAREA(I)=UNDEMI*AREA2
+         PAREA(I)=HALF*AREA2
          IF (AREA2.GT.0) THEN
             PNORM(1,I)=NX/AREA2
             PNORM(2,I)=NY/AREA2
@@ -194,7 +194,7 @@ C Boucle sur les triangles du polygone
                X1=PNOD(1,N1)
                Y1=PNOD(2,N1)
                Z1=PNOD(3,N1)
-               PVOLU(I)=PVOLU(I)+TIERS*AREA*(X1*NX+Y1*NY+Z1*NZ)
+               PVOLU(I)=PVOLU(I)+THIRD*AREA*(X1*NX+Y1*NY+Z1*NZ)
 C Compute minimum length DL2
                N2=IFVTRI(2,KK)
                X2=PNOD(1,N2)
@@ -251,13 +251,13 @@ C
       ENDDO  ! I=1,NPOLH
 C
       IF(DL1 > ZERO) THEN
-         DL1=DL1**TIERS
+         DL1=DL1**THIRD
       ELSE
          DL1=ZERO
       ENDIF
       DL2=SQRT(DL2)
       IF(DLBR1 > ZERO) THEN
-         DLBR1=DLBR1**TIERS
+         DLBR1=DLBR1**THIRD
       ELSE
          DLBR1=ZERO
       ENDIF

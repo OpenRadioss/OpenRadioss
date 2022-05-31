@@ -273,7 +273,7 @@ c!$OMP END DO
             CALL ZEROR(A,NUMNOD)
 	      END IF
           IF (ICOMV == 1) THEN
-           DTI = UN/DT2
+           DTI = ONE/DT2
            DO N=1,NUMNOD
             V(1,N)=D(1,N)*DTI
             V(2,N)=D(2,N)*DTI
@@ -492,7 +492,7 @@ C-----------------------------------------------
      .      FRWL6(7,4)+FRWL6(7,5)+FRWL6(7,6)
 C
       IF(DT12 /= ZERO)THEN
-        DIVDT12 = UN / DT12
+        DIVDT12 = ONE / DT12
       ELSE
         DIVDT12 = ZERO
       ENDIF

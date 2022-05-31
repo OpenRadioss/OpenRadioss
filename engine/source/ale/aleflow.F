@@ -285,51 +285,51 @@ C
             II=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
             IF(II == 0) THEN
               ALPHA0 = REXCH(I,1)
-              IF(ICONTACT(NC1(I)) > 0)REXCH(I,1)=REXCH(I,1)-QUART*ALPHA0
-              IF(ICONTACT(NC2(I)) > 0)REXCH(I,1)=REXCH(I,1)-QUART*ALPHA0
-              IF(ICONTACT(NC3(I)) > 0)REXCH(I,1)=REXCH(I,1)-QUART*ALPHA0
-              IF(ICONTACT(NC4(I)) > 0)REXCH(I,1)=REXCH(I,1)-QUART*ALPHA0
+              IF(ICONTACT(NC1(I)) > 0)REXCH(I,1)=REXCH(I,1)-FOURTH*ALPHA0
+              IF(ICONTACT(NC2(I)) > 0)REXCH(I,1)=REXCH(I,1)-FOURTH*ALPHA0
+              IF(ICONTACT(NC3(I)) > 0)REXCH(I,1)=REXCH(I,1)-FOURTH*ALPHA0
+              IF(ICONTACT(NC4(I)) > 0)REXCH(I,1)=REXCH(I,1)-FOURTH*ALPHA0
             ENDIF
             II=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
             IF(II == 0) THEN
               ALPHA0 = REXCH(I,2)
-              IF(ICONTACT(NC3(I)) > 0)REXCH(I,2)=REXCH(I,2)-QUART*ALPHA0
-              IF(ICONTACT(NC4(I)) > 0)REXCH(I,2)=REXCH(I,2)-QUART*ALPHA0
-              IF(ICONTACT(NC7(I)) > 0)REXCH(I,2)=REXCH(I,2)-QUART*ALPHA0
-              IF(ICONTACT(NC8(I)) > 0)REXCH(I,2)=REXCH(I,2)-QUART*ALPHA0
+              IF(ICONTACT(NC3(I)) > 0)REXCH(I,2)=REXCH(I,2)-FOURTH*ALPHA0
+              IF(ICONTACT(NC4(I)) > 0)REXCH(I,2)=REXCH(I,2)-FOURTH*ALPHA0
+              IF(ICONTACT(NC7(I)) > 0)REXCH(I,2)=REXCH(I,2)-FOURTH*ALPHA0
+              IF(ICONTACT(NC8(I)) > 0)REXCH(I,2)=REXCH(I,2)-FOURTH*ALPHA0
             ENDIF
             II=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
             IF(II == 0) THEN
               ALPHA0 = REXCH(I,3)
-              IF(ICONTACT(NC5(I)) > 0)REXCH(I,3)=REXCH(I,3)-QUART*ALPHA0
-              IF(ICONTACT(NC6(I)) > 0)REXCH(I,3)=REXCH(I,3)-QUART*ALPHA0
-              IF(ICONTACT(NC7(I)) > 0)REXCH(I,3)=REXCH(I,3)-QUART*ALPHA0
-              IF(ICONTACT(NC8(I)) > 0)REXCH(I,3)=REXCH(I,3)-QUART*ALPHA0
+              IF(ICONTACT(NC5(I)) > 0)REXCH(I,3)=REXCH(I,3)-FOURTH*ALPHA0
+              IF(ICONTACT(NC6(I)) > 0)REXCH(I,3)=REXCH(I,3)-FOURTH*ALPHA0
+              IF(ICONTACT(NC7(I)) > 0)REXCH(I,3)=REXCH(I,3)-FOURTH*ALPHA0
+              IF(ICONTACT(NC8(I)) > 0)REXCH(I,3)=REXCH(I,3)-FOURTH*ALPHA0
             ENDIF  
            
             II=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
             IF(II == 0) THEN
               ALPHA0 = REXCH(I,4)
-              IF(ICONTACT(NC1(I)) > 0)REXCH(I,4)=REXCH(I,4)-QUART*ALPHA0
-              IF(ICONTACT(NC2(I)) > 0)REXCH(I,4)=REXCH(I,4)-QUART*ALPHA0
-              IF(ICONTACT(NC5(I)) > 0)REXCH(I,4)=REXCH(I,4)-QUART*ALPHA0
-              IF(ICONTACT(NC6(I)) > 0)REXCH(I,4)=REXCH(I,4)-QUART*ALPHA0
+              IF(ICONTACT(NC1(I)) > 0)REXCH(I,4)=REXCH(I,4)-FOURTH*ALPHA0
+              IF(ICONTACT(NC2(I)) > 0)REXCH(I,4)=REXCH(I,4)-FOURTH*ALPHA0
+              IF(ICONTACT(NC5(I)) > 0)REXCH(I,4)=REXCH(I,4)-FOURTH*ALPHA0
+              IF(ICONTACT(NC6(I)) > 0)REXCH(I,4)=REXCH(I,4)-FOURTH*ALPHA0
             ENDIF 
             II=ALE_CONNECT%ee_connect%connected(IAD2 + 5 - 1)
             IF(II == 0) THEN
               ALPHA0 = REXCH(I,5)
-              IF(ICONTACT(NC2(I)) > 0)REXCH(I,5)=REXCH(I,5)-QUART*ALPHA0
-              IF(ICONTACT(NC3(I)) > 0)REXCH(I,5)=REXCH(I,5)-QUART*ALPHA0
-              IF(ICONTACT(NC6(I)) > 0)REXCH(I,5)=REXCH(I,5)-QUART*ALPHA0
-              IF(ICONTACT(NC7(I)) > 0)REXCH(I,5)=REXCH(I,5)-QUART*ALPHA0
+              IF(ICONTACT(NC2(I)) > 0)REXCH(I,5)=REXCH(I,5)-FOURTH*ALPHA0
+              IF(ICONTACT(NC3(I)) > 0)REXCH(I,5)=REXCH(I,5)-FOURTH*ALPHA0
+              IF(ICONTACT(NC6(I)) > 0)REXCH(I,5)=REXCH(I,5)-FOURTH*ALPHA0
+              IF(ICONTACT(NC7(I)) > 0)REXCH(I,5)=REXCH(I,5)-FOURTH*ALPHA0
             ENDIF 
             II=ALE_CONNECT%ee_connect%connected(IAD2 + 6 - 1)
             IF(II == 0) THEN
               ALPHA0 = REXCH(I,6)
-              IF(ICONTACT(NC1(I)) > 0)REXCH(I,6)=REXCH(I,6)-QUART*ALPHA0
-              IF(ICONTACT(NC4(I)) > 0)REXCH(I,6)=REXCH(I,6)-QUART*ALPHA0
-              IF(ICONTACT(NC5(I)) > 0)REXCH(I,6)=REXCH(I,6)-QUART*ALPHA0
-              IF(ICONTACT(NC8(I)) > 0)REXCH(I,6)=REXCH(I,6)-QUART*ALPHA0
+              IF(ICONTACT(NC1(I)) > 0)REXCH(I,6)=REXCH(I,6)-FOURTH*ALPHA0
+              IF(ICONTACT(NC4(I)) > 0)REXCH(I,6)=REXCH(I,6)-FOURTH*ALPHA0
+              IF(ICONTACT(NC5(I)) > 0)REXCH(I,6)=REXCH(I,6)-FOURTH*ALPHA0
+              IF(ICONTACT(NC8(I)) > 0)REXCH(I,6)=REXCH(I,6)-FOURTH*ALPHA0
             ENDIF
           ENDDO
        ENDIF
@@ -1090,43 +1090,43 @@ C------------
       DO I=LFT,LLT
         FRHO0(I) =PM(192,MX) 
          KK(I) = MBUF%VAR(21*NEL + I)
-         FAC = UNHUIT*(UN - ALPHA(I))/MAX(EM20,KK(I))       
+         FAC = ONE_OVER_8*(ONE - ALPHA(I))/MAX(EM20,KK(I))       
 
-        VDX(I)=UNHUIT*(VDX1(I)+VDX2(I)+VDX3(I)+VDX4(I)
+        VDX(I)=ONE_OVER_8*(VDX1(I)+VDX2(I)+VDX3(I)+VDX4(I)
      .               +VDX5(I)+VDX6(I)+VDX7(I)+VDX8(I))
-        VDY(I)=UNHUIT*(VDY1(I)+VDY2(I)+VDY3(I)+VDY4(I)
+        VDY(I)=ONE_OVER_8*(VDY1(I)+VDY2(I)+VDY3(I)+VDY4(I)
      .               +VDY5(I)+VDY6(I)+VDY7(I)+VDY8(I))
-        VDZ(I)=UNHUIT*(VDZ1(I)+VDZ2(I)+VDZ3(I)+VDZ4(I)
+        VDZ(I)=ONE_OVER_8*(VDZ1(I)+VDZ2(I)+VDZ3(I)+VDZ4(I)
      .               +VDZ5(I)+VDZ6(I)+VDZ7(I)+VDZ8(I))
         VD2(I)=(VDX(I)**2+VDY(I)**2+VDZ(I)**2)    
 C  darcy forces       
-        VFE(1) = UNHUIT*(VDX1(I) + VDX2(I) + VDX3(I) + VdX4(I) +
+        VFE(1) = ONE_OVER_8*(VDX1(I) + VDX2(I) + VDX3(I) + VdX4(I) +
      .                   VDX5(I) + VDX6(I) + VDX7(I) + VDX8(I))
-        VFE(2) = UNHUIT*(VDY1(I) + VDY2(I) + VDY3(I) + VDY4(I) +
+        VFE(2) = ONE_OVER_8*(VDY1(I) + VDY2(I) + VDY3(I) + VDY4(I) +
      .                   VDY5(I) + VDY6(I) + VDY7(I) + VDY8(I)) 
-        VFE(3) = UNHUIT*(VDZ1(I) + VDZ2(I) + VDZ3(I) + VDZ4(I) +
+        VFE(3) = ONE_OVER_8*(VDZ1(I) + VDZ2(I) + VDZ3(I) + VDZ4(I) +
      .                   VDZ5(I) + VDZ6(I) + VDZ7(I) + VDZ8(I))
 C acceleration 
 C But is always A=Zero is not activated. Is the Gaz acceleration .
 C if is required we should use the relative acceleration as velocity
 C   A= (A_gaz - A_foam).     
-        AFE(1) = UNHUIT*(A(1,NC1(I)) + A(1,NC2(I)) + A(1,NC3(I)) + 
+        AFE(1) = ONE_OVER_8*(A(1,NC1(I)) + A(1,NC2(I)) + A(1,NC3(I)) + 
      .                   A(1,NC4(I)) + A(1,NC5(I)) + A(1,NC6(I)) +
      .                   A(1,NC7(I)) + A(1,NC8(I)))
 C     
-        AFE(2) = UNHUIT*(A(2,NC1(I)) + A(2,NC2(I)) + A(2,NC3(I)) + 
+        AFE(2) = ONE_OVER_8*(A(2,NC1(I)) + A(2,NC2(I)) + A(2,NC3(I)) + 
      .                   A(2,NC4(I)) + A(2,NC5(I)) + A(2,NC6(I)) +
      .                   A(2,NC7(I)) + A(2,NC8(I)))
 C     
-        AFE(3) = UNHUIT*(A(3,NC1(I)) + A(3,NC2(I)) + A(3,NC3(I)) + 
+        AFE(3) = ONE_OVER_8*(A(3,NC1(I)) + A(3,NC2(I)) + A(3,NC3(I)) + 
      .                   A(3,NC4(I)) + A(3,NC5(I)) + A(3,NC6(I)) +
      .                   A(3,NC7(I)) + A(3,NC8(I)))     
 C        
 
 C stablit condition 
-cc         F1 =  QUART*VFE(1)*MASS*DTINV
-cc         F2 =  QUART*VFE(2)*MASS*DTINV   
-cc         F3 =  QUART*VFE(3)*MASS*DTINV 
+cc         F1 =  FOURTH*VFE(1)*MASS*DTINV
+cc         F2 =  FOURTH*VFE(2)*MASS*DTINV   
+cc         F3 =  FOURTH*VFE(3)*MASS*DTINV 
 C                 
          DFE(I,1)=FAC*(AA*VFE(1) + BB*ABS(VFE(1))*VFE(1) + TAUX*AFE(1))
          DFE(I,2)=FAC*(AA*VFE(2) + BB*ABS(VFE(2))*VFE(2) + TAUX*AFE(2))

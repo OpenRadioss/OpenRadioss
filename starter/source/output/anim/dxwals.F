@@ -74,7 +74,7 @@ C
         ZWL=X(3,MSR)
        ENDIF
 C
-      R = UNDEMI*RWL(7)
+      R = HALF*RWL(7)
 C
       DO I = 1,6
         XX0 = X0(I)

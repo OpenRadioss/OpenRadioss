@@ -152,7 +152,7 @@ C
           EPSMAX= EP30
          ENDIF
        ENDIF
-       NNU1 = NU / (UN - NU)
+       NNU1 = NU / (ONE - NU)
        EPSR1 =UPARAM(IADBUF+NS+2*NRATE+2)
        EPSR2 =UPARAM(IADBUF+NS+2*NRATE+3)
 c---------------------  
@@ -165,9 +165,9 @@ c--------------------
         A1(I)  = UPARAM(IADBUF+3)
         A2(I)  = UPARAM(IADBUF+4)
         G(I)   = UPARAM(IADBUF+5)
-        G3(I)  = TROIS*G(I)
+        G3(I)  = THREE*G(I)
 Cgw011        C1=THK(I)*DOUZ
-        C1=THK0(I)*UNDOUZE
+        C1=THK0(I)*ONE_OVER_12
         AM1(I)  = A1(I)*C1
         AM2(I)  = A2(I)*C1
         GM(I)   = G(I)*C1
@@ -179,10 +179,10 @@ C
            IF(PLA(I) > ZERO)THEN     
               ESCALE(I) = FINTER(IFUNC(IFUNCE),PLA(I),NPF,TF,DYDXE(I))
               E(I) =  ESCALE(I)* E(I)           
-              G(I) =  UNDEMI*E(I)/(UN+NU) 
+              G(I) =  HALF*E(I)/(ONE+NU) 
               GS(I) =   G(I)*SHF(I)                              
-              G3(I) = TROIS*G(I) 
-              A1(I) = E(I)/(UN - NU*NU)                         
+              G3(I) = THREE*G(I) 
+              A1(I) = E(I)/(ONE - NU*NU)                         
               A2(I) = NU*A1(I)                                     
               AM1(I)  = A1(I)*C1  
               AM2(I)  = A2(I)*C1  
@@ -192,11 +192,11 @@ C
        ELSEIF ( CE /= ZERO) THEN 
           DO I=1,NEL       
            IF(PLA(I) > ZERO)THEN                                                       
-              E(I) = E(I)-(E(I)-EINF)*(UN-EXP(-CE*PLA(I)))                     
-              G(I) =  UNDEMI*E(I)/(UN+NU)                       
+              E(I) = E(I)-(E(I)-EINF)*(ONE-EXP(-CE*PLA(I)))                     
+              G(I) =  HALF*E(I)/(ONE+NU)                       
               GS(I) =   G(I)*SHF(I)                                                                
-              G3(I) = TROIS*G(I)                                              
-              A1(I) = E(I)/(UN - NU*NU)                         
+              G3(I) = THREE*G(I)                                              
+              A1(I) = E(I)/(ONE - NU*NU)                         
               A2(I) = NU*A1(I)                                     
               AM1(I)  = A1(I)*C1  
               AM2(I)  = A2(I)*C1  
@@ -229,22 +229,22 @@ C
 C
        SOUNDSP(I) = SQRT(A1(I)/RHO0(I))
        VISCMAX(I) = ZERO
-       ETSE(I) = UN
+       ETSE(I) = ONE
 C-------------------
 C     STRAIN RATE
 C-------------------
        IF (ISRATE == 0) THEN
-         EPSP(I) = UNDEMI*( ABS(EPSPXX(I)+EPSPYY(I))
+         EPSP(I) = HALF*( ABS(EPSPXX(I)+EPSPYY(I))
      .    + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .                  + EPSPXY(I)*EPSPXY(I) ) )
        ENDIF
 C-------------------
 C     STRAIN 
 C-------------------
-        EPST = UNDEMI*( EPSXX(I)+EPSYY(I)
+        EPST = HALF*( EPSXX(I)+EPSYY(I)
      .   + SQRT( (EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
      .                 + EPSXY(I)*EPSXY(I) ) )
-        FAIL(I) = MAX(ZERO,MIN(UN,(EPSR2-EPST)/(EPSR2-EPSR1)))
+        FAIL(I) = MAX(ZERO,MIN(ONE,(EPSR2-EPST)/(EPSR2-EPSR1)))
 C
       ENDDO
 C-------------------
@@ -295,11 +295,11 @@ C     HILL CRITERION
 C-------------------------
       DO  I=1,NEL
        C1=PLA(I)*E(I)
-       GAMA(I)=TDEMI*(C1+YLD(I))/(TDEMI*C1+YLD(I))
+       GAMA(I)=THREE_HALF*(C1+YLD(I))/(THREE_HALF*C1+YLD(I))
        GAMA2(I)=GAMA(I)*GAMA(I)
-       CM(I)= SEIZE*GAMA2(I)
+       CM(I)= SIXTEEN*GAMA2(I)
         CNM(I)= SQR16_3*GAMA(I)
-       QTIER(I)=QTHIRD*GAMA2(I)
+       QTIER(I)=FOUR_OVER_3*GAMA2(I)
        H(I) = MAX(ZERO,H(I))
 C
        S1=A01*(SIGNXX(I)*SIGNXX(I)+CM(I)*MOMNXX(I)*MOMNXX(I))
@@ -310,7 +310,7 @@ C
        F1=S1+S2-S3+ANXY(I)+AMXY(I)
        S1=A01*(SIGNXX(I)*MOMNXX(I))
        S2=A02*(SIGNYY(I)*MOMNYY(I))
-       S3=A03*(SIGNXX(I)*MOMNYY(I)+SIGNYY(I)*MOMNXX(I))*UNDEMI
+       S3=A03*(SIGNXX(I)*MOMNYY(I)+SIGNYY(I)*MOMNXX(I))*HALF
        ANMXY(I)=A12*SIGNXY(I)*MOMNXY(I)
        F2=CNM(I)*(S1+S2-S3+ANMXY(I))
        ANMXY(I)=ANMXY(I)*CNM(I)
@@ -324,7 +324,7 @@ C     GATHER PLASTIC FLOW
 C-------------------------
       NINDX=0
       DO I=1,NEL
-      IF(SVM(I).GT.YLD(I).AND.OFF(I).EQ.UN) THEN
+      IF(SVM(I).GT.YLD(I).AND.OFF(I).EQ.ONE) THEN
         NINDX=NINDX+1
         INDEX(NINDX)=I
       ENDIF
@@ -336,13 +336,13 @@ C---------------------------
       DO  J=1,NINDX
        I=INDEX(J)
        NU2(I) = 1.-NU*NU
-       NU3(I) = NU*UNDEMI
-       NU4(I) = UNDEMI -NU3(I)
-       NU5(I) = UN - NNU1
+       NU3(I) = NU*HALF
+       NU4(I) = HALF -NU3(I)
+       NU5(I) = ONE - NNU1
        DPLA_J(I)=(SVM(I)-YLD(I))/(G3(I)*QTIER(I)+H(I))
        ETSE(I)= H(I)/(H(I)+E(I))
-       S1=A01*NU*DEUX - A03
-       S2=A02*NU*DEUX - A03
+       S1=A01*NU*TWO - A03
+       S2=A02*NU*TWO - A03
        S12=A03-NU*(A01+A02)
        S3=SQRT(NU2(I)*(A01-A02)*(A01-A02)+S12*S12)
        IF (ABS(S1).LT.EM20) THEN 
@@ -355,7 +355,7 @@ C---------------------------
        ELSE
         Q21(I)=(A01-A02+S3)/S2
        ENDIF
-       JQ(I)=UN/(UN - Q12(I)*Q21(I))
+       JQ(I)=ONE/(ONE - Q12(I)*Q21(I))
        JQ2(I)=JQ(I)*JQ(I)
        A=A01*Q12(I)
        B=A02*Q21(I)
@@ -374,8 +374,8 @@ C---------------------------
        AM_XY(I)=A_3*SM11(I)*SM22(I)*CM(I)
        ANMXX(I)=A_1*SN11(I)*SM11(I)*CNM(I)
        ANMYY(I)=A_2*SN22(I)*SM22(I)*CNM(I)
-       ANM_XY(I)=A_3*SN11(I)*SM22(I)*CNM(I)*UNDEMI
-       AMN_XY(I)=A_3*SM11(I)*SN22(I)*CNM(I)*UNDEMI
+       ANM_XY(I)=A_3*SN11(I)*SM22(I)*CNM(I)*HALF
+       AMN_XY(I)=A_3*SM11(I)*SN22(I)*CNM(I)*HALF
        A=A03*NU3(I)
        B=S3*JQ(I)
        B_1(I)=A02-A-B
@@ -394,21 +394,21 @@ C-------------------------------
         XP(1)  =B_1(I)*DR
         XP(2)  =B_2(I)*DR
         XP(3)  =B_3(I)*DR
-        C1=UN + QTIER(I)
-        B=DEUXP444*GAMA2(I)
+        C1=ONE + QTIER(I)
+        B=TWOP444*GAMA2(I)
         DO K=1,3
          DJAC(K)=C1+B*XP(K)
-         JAC(K)=UN+(DJAC(K)+C1)*XP(K)*UNDEMI
-         JAC_I(K)=UN/JAC(K)
+         JAC(K)=ONE+(DJAC(K)+C1)*XP(K)*HALF
+         JAC_I(K)=ONE/JAC(K)
          JAC_2(K)= JAC_I(K)*JAC_I(K)
          A=XP(K)*ZEP444*GAMA2(I)
-         DFN(K)=CINQP5+SEIZEP5*A
-         FN(K)=UN+(DFN(K)+CINQP5)*A*UNDEMI
-         A=UNP8333*XP(K)
-         DFM(K)=UNP8333+A
-         FM(K)=UN +(DFM(K)*XP(K)+A)*UNDEMI
+         DFN(K)=FIVEP5+SIXTEENP5*A
+         FN(K)=ONE+(DFN(K)+FIVEP5)*A*HALF
+         A=ONEP8333*XP(K)
+         DFM(K)=ONEP8333+A
+         FM(K)=ONE +(DFM(K)*XP(K)+A)*HALF
          DFNM(K)=-B*XP(K)
-         FNM(K)=UN+DFNM(K)*XP(K)*UNDEMI
+         FNM(K)=ONE+DFNM(K)*XP(K)*HALF
         ENDDO
         A=JAC_2(1)*FN(1)
         B=JAC_2(2)*FN(2)
@@ -427,21 +427,21 @@ C-------------------------------
         IF (C1.LT.TOL) THEN
               S(I)=ZERO
         ELSEIF (SFNM.LT.ZERO) THEN
-         S(I)=-UN
+         S(I)=-ONE
         ELSE
-         S(I)=UN
+         S(I)=ONE
         ENDIF 
         F    =SFN+SFM+S(I)*SFNM-YLD_I*YLD_I
         C1=ZEP444*GAMA2(I)
         S12=JAC_2(1)*B_1(I)
         S1=S12*C1
-        AA1=DEUX*JAC_I(1)*DJAC(1)*S12
+        AA1=TWO*JAC_I(1)*DJAC(1)*S12
         S12=JAC_2(2)*B_2(I)
         S2=S12*C1
-        AA2=DEUX*JAC_I(2)*DJAC(2)*S12
+        AA2=TWO*JAC_I(2)*DJAC(2)*S12
         S12=JAC_2(3)*B_3(I)
         S3=S12*C1
-        AA3=DEUX*JAC_I(3)*DJAC(3)*S12
+        AA3=TWO*JAC_I(3)*DJAC(3)*S12
         A=S1*DFN(1)-AA1*FN(1)
         B=S2*DFN(2)-AA2*FN(2)
         C=S3*DFN(3)-AA3*FN(3)
@@ -456,7 +456,7 @@ C-------------------------------
         DSFNM=A*(ANMXX(I)-ANM_XY(I))+B*(ANMYY(I)-AMN_XY(I))
      .      +C*ANMXY(I)
         DF    =(DSFN+DSFM+S(I)*DSFNM)*
-     .         (A1(I)-DR*H(I))/YLD_I-DEUX*H(I)*YLD_I
+     .         (A1(I)-DR*H(I))/YLD_I-TWO*H(I)*YLD_I
         DPLA_J(I)=MAX(ZERO,DPLA_I-F/DF)
        ENDDO
       ENDDO
@@ -471,19 +471,19 @@ C------------------------------------------
         XP(1)  =B_1(I)*DR
         XP(2)  =B_2(I)*DR
         XP(3)  =B_3(I)*DR
-        C1=UN+QTIER(I)
-        B=DEUXP444*GAMA2(I)
+        C1=ONE+QTIER(I)
+        B=TWOP444*GAMA2(I)
         DO K=1,3
          A=B*XP(K)
          JAC(K)=1.+C1*XP(K)+A*XP(K)
-         JAC_I(K)=UN/JAC(K)
+         JAC_I(K)=ONE/JAC(K)
          JAC_2(K)= JAC_I(K)*JAC_I(K)
-         FNM(K)=UN-A*XP(K)*UNDEMI
+         FNM(K)=ONE-A*XP(K)*HALF
          A=XP(K)*JAC_I(K)
          PN(K)=JAC_I(K)+QTIER(I)*A
          P_M(K)=JAC_I(K)+A
          PNM1(K)=-SQR4_3*GAMA(I)*A
-         PNM2(K)=PNM1(K)*UNDOUZE
+         PNM2(K)=PNM1(K)*ONE_OVER_12
         ENDDO
         A=JAC_2(1)*FNM(1)
         B=JAC_2(2)*FNM(2)
@@ -502,13 +502,13 @@ C------------------------------------------
         MOMNXX(I)=JQ(I)*(SM1-SM2*Q12(I))
         MOMNYY(I)=JQ(I)*(SM2-SM1*Q21(I))
         S1=A01*SIGNXX(I)+A02*SIGNYY(I)
-     .        -A03*(SIGNXX(I)+SIGNYY(I))*UNDEMI
+     .        -A03*(SIGNXX(I)+SIGNYY(I))*HALF
         DEZZ = - NU5(I)*DPLA_J(I)*S1/YLD_I
         THK(I) = THK(I)+THK(I)* DEZZ*OFF(I)
       ENDDO
 C
       DO I=1,NEL
-       IF(PLA(I).GT.EPSMAX.AND.OFF(I).EQ.UN)OFF(I)=QCINQ
+       IF(PLA(I).GT.EPSMAX.AND.OFF(I).EQ.ONE)OFF(I)=FOUR_OVER_5
       ENDDO
 C
       RETURN

@@ -320,7 +320,7 @@ C-------------------------------------------
         IACTI = NPBY(7,N)
         IFAIL = NPBY(18,N)
         CRIT  = RBY(30,N)
-        IF(ISENS.NE.0 .AND. (IFAIL/=1 .OR. CRIT < UN))THEN
+        IF(ISENS.NE.0 .AND. (IFAIL/=1 .OR. CRIT < ONE))THEN
           IF(IACTI.EQ.0.AND. TT.LE.SENSOR(2,ISENS))THEN
 C
 C           - rbody is activated and elements are deactivated at the same time
@@ -380,7 +380,7 @@ C-------------------------------------------
         ISENS=NPBY(4,N)
         IFAIL = NPBY(18,N)
         CRIT  = RBY(30,N)
-        IF(ISENS.NE.0 .AND. (IFAIL/=1 .OR. CRIT < UN) )THEN
+        IF(ISENS.NE.0 .AND. (IFAIL/=1 .OR. CRIT < ONE) )THEN
          IF(IACTI.EQ.1.AND. TT.GT.SENSOR(2,ISENS))THEN
            IF(TT.GT.0.)THEN
              IACTI=4
@@ -462,7 +462,7 @@ C-------------------------------------------
         ISENS=NPBY(4,N)
         IFAIL = NPBY(18,N)
         CRIT  = RBY(30,N)
-        IF(IACTI >= 1.AND.IFAIL == 1.AND.CRIT >= UN)THEN ! If rbody is active
+        IF(IACTI >= 1.AND.IFAIL == 1.AND.CRIT >= ONE)THEN ! If rbody is active
          IF(IACTI==1)THEN ! and failure is detected 
            IF(TT.GT.0.)THEN
              IACTI=4

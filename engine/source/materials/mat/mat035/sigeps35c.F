@@ -98,7 +98,7 @@ C----------------------------------------------------------------
      .        GT2,BULKT,LAMDA,LAMDAT,RELVEXP,
      .        VMU2,VLAMDA,VBULK,FAC,
      .        C1,C2,C3,PMIN,DPDMU,EPSPC,
-     .        P0,PHI,GAMA0, VAR,TWO,TWOTHIRD,
+     .        P0,PHI,GAMA0, VAR,
      .        DPDGAMA(MVSIZ),GAMA(MVSIZ),AMU(MVSIZ),
      .        SM(MVSIZ),EM(MVSIZ),DEDTM(MVSIZ),
      .        G2(MVSIZ),BULK(MVSIZ),
@@ -127,13 +127,13 @@ C SET INITIAL MATERIAL CONSTANTS
 
       POISSON= UPARAM(2)
       E      = UPARAM(1)
-      G02    = UNDEMI*E/(1+POISSON)
+      G02    = HALF*E/(1+POISSON)
       E1     = UPARAM(3)
       E2     = UPARAM(4)
-      GT2    = UPARAM(5)/(UN+UPARAM(6))
-      BULKT  = UPARAM(5)/(UN-DEUX*UPARAM(6))
-      VMU2   = DEUX*UPARAM(7)
-      VBULK  = TROIS*UPARAM(8)+VMU2      
+      GT2    = UPARAM(5)/(ONE+UPARAM(6))
+      BULKT  = UPARAM(5)/(ONE-TWO*UPARAM(6))
+      VMU2   = TWO*UPARAM(7)
+      VBULK  = THREE*UPARAM(8)+VMU2      
 
       P0     = UPARAM(9)
       PHI    = UPARAM(10)
@@ -153,7 +153,7 @@ C
       IF(NUPARAM.GE.19) ICORRECT=NINT(UPARAM(19))
 C
       IF(ICORRECT == 0)THEN
-        DT05=UNDEMI*TIMESTEP
+        DT05=HALF*TIMESTEP
       ELSE
         DT05=ZERO
       END IF
@@ -170,13 +170,13 @@ C
 c-------calcul E_eq-----
         EPSPM =EPSPXX(I)+EPSPYY(I)
         EPSPC =EPSPXX(I)-EPSPYY(I)
-        EPSP  = SQRT(UNDEMI*(EPSPC*EPSPC+EPSPXX(I)*EPSPXX(I)+
-     1          EPSPYY(I)*EPSPYY(I)) +TDEMI* (EPSPXY(I)*EPSPXY(I)
+        EPSP  = SQRT(HALF*(EPSPC*EPSPC+EPSPXX(I)*EPSPXX(I)+
+     1          EPSPYY(I)*EPSPYY(I)) +THREE_HALF* (EPSPXY(I)*EPSPXY(I)
      2          + EPSPYZ(I)*EPSPYZ(I)+EPSPZX(I)*EPSPZX(I)))    
         IF (ISRATE == 0) THEN 
           EDOT(I) = EPSP
         ELSE
-          EDOT(I) = ASRATE*EPSP + (UN - ASRATE)*UVAR(I,4)
+          EDOT(I) = ASRATE*EPSP + (ONE - ASRATE)*UVAR(I,4)
           UVAR(I,4) = EDOT(I)
         ENDIF
 c
@@ -184,18 +184,18 @@ c------UPDATE ELASTIC MODULUS
         RHO(I)=UVAR(I,3)*RHO0(I)/AREA(I)/THK(I)
         RELVOL(I)=RHO0(I)/RHO(I)
         ENEW(I)=(MAX(E,E1*EDOT(I)+E2))/(EXP(RELVEXP*LOG(RELVOL(I))))
-        G2(I)=ENEW(I)/(UN+POISSON)
-        BULK(I)=ENEW(I)/(UN-DEUX*POISSON)
+        G2(I)=ENEW(I)/(ONE+POISSON)
+        BULK(I)=ENEW(I)/(ONE-TWO*POISSON)
         MK(I) = (BULK(I)+BULKT)/VBULK
         PK(I) = BULK(I)*BULKT/VBULK
         MG2(I) = (G2(I)+GT2)/VMU2
         PG2(I) =  G2(I)*GT2/VMU2
-        GAMA(I) = (RELVOL(I)-UN+GAMA0)
-        IF(UN+GAMA(I)-PHI.LE.SMALL) GAMA(I)=-(UN-PHI-SMALL)
+        GAMA(I) = (RELVOL(I)-ONE+GAMA0)
+        IF(ONE+GAMA(I)-PHI.LE.SMALL) GAMA(I)=-(ONE-PHI-SMALL)
         SSM=SIGOXX(I)+SIGOYY(I)
         SM(I)=THIRD*SSM
         EPSM =EPSXX(I)+EPSYY(I)
-        VAR=DEUX*PG2(I)+C3*PK(I)
+        VAR=TWO*PG2(I)+C3*PK(I)
         EPSPZZ(I)=((G2(I)-C1*BULK(I))*EPSPM-(MG2(I)-C2*MK(I))*SSM
      1              +(PG2(I)-C3*PK(I))*EPSM-VAR*UVAR(I,2))
      2            /(G2(I)+C1*BULK(I)+G2(I)+VAR*TIMESTEP)
@@ -235,12 +235,12 @@ C COMPUTE DEVIATORIC STRESSES
 C  COMPUTE DEVIATORIC STRAINS
         DEXX(I)=EPSXX(I)-EM(I)
         DEYY(I)=EPSYY(I)-EM(I)
-        DEXY(I)=EPSXY(I)*UNDEMI
+        DEXY(I)=EPSXY(I)*HALF
 
 C  COMPUTE DEVIATORIC STRAIN RATES
         DEDTXX(I)=EPSPXX(I)-DEDTM(I)
         DEDTYY(I)=EPSPYY(I)-DEDTM(I)
-        DEDTXY(I)=EPSPXY(I)*UNDEMI
+        DEDTXY(I)=EPSPXY(I)*HALF
        END DO
       END IF
 
@@ -250,7 +250,7 @@ C COMPUTE STRESS RATE INCREMENTS
         DSDTXX(I)=G2(I)*DEDTXX(I)-MG2(I)*DSXX(I)+PG2(I)*DEXX(I)
         DSDTYY(I)=G2(I)*DEDTYY(I)-MG2(I)*DSYY(I)+PG2(I)*DEYY(I)
         DSDTXY(I)=G2(I)*DEDTXY(I)-MG2(I)*DSXY(I)+PG2(I)*DEXY(I)
-        MIDSTEP=UN/(UN+MG2(I)*DT05)
+        MIDSTEP=ONE/(ONE+MG2(I)*DT05)
         DSDTXX(I)=DSDTXX(I)*MIDSTEP
         DSDTYY(I)=DSDTYY(I)*MIDSTEP
         DSDTXY(I)=DSDTXY(I)*MIDSTEP
@@ -260,14 +260,14 @@ C COMPUTE STRESS RATE INCREMENTS
       DO 260 I=1,NEL
           SM(I)=SM(I)+UVAR(I,1)
         IF(KF.NE.0) THEN
-          AMU(I)=RHO(I)/RHO0(I)-UN
+          AMU(I)=RHO(I)/RHO0(I)-ONE
           IF(IFLAG == 0) THEN
             P(I)=-FAC*FINTER(KF,AMU(I),NPF,TF,DPDMU)
           ELSE
             PDOT(I)=( C1*BULK(I)*DEDTM(I)
      &               -C2*MK(I)*SM(I)
      &               +C3*PK(I)*EM(I))
-     &             /(UN+C2*DT05*MK(I))
+     &             /(ONE+C2*DT05*MK(I))
             P(I)=SM(I)+PDOT(I)*TIMESTEP
      &           -FAC*FINTER(KF,AMU(I),NPF,TF,DPDMU)
           ENDIF
@@ -275,7 +275,7 @@ C COMPUTE STRESS RATE INCREMENTS
             PDOT(I)=( C1*BULK(I)*DEDTM(I)
      &               -C2*MK(I)*SM(I)
      &               +C3*PK(I)*EM(I))
-     &             /(UN+C2*DT05*MK(I))
+     &             /(ONE+C2*DT05*MK(I))
             P(I)=SM(I)+PDOT(I)*TIMESTEP
         ENDIF
         IF(P(I).LE.PMIN) P(I)=PMIN
@@ -284,8 +284,8 @@ C COMPUTE STRESS RATE INCREMENTS
 
 C COMPUTE SOUND SPEED 
       DO 270 I=1,NEL
-        DPDRO(I)= G2(I)/(UN-POISSON)
-     &          +P0*(UN-PHI)/(UN+GAMA(I)-PHI)**2
+        DPDRO(I)= G2(I)/(ONE-POISSON)
+     &          +P0*(ONE-PHI)/(ONE+GAMA(I)-PHI)**2
   270 CONTINUE
 
       DO 280 I=1,NEL

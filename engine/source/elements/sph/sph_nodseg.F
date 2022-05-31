@@ -74,9 +74,9 @@ C-----------------------------------------------
            Z4 = XX(12)
 C----------
            IF (TFLAG.EQ.0) THEN
-             XC=QUART*(X1+X2+X3+X4)
-             YC=QUART*(Y1+Y2+Y3+Y4)
-             ZC=QUART*(Z1+Z2+Z3+Z4)
+             XC=FOURTH*(X1+X2+X3+X4)
+             YC=FOURTH*(Y1+Y2+Y3+Y4)
+             ZC=FOURTH*(Z1+Z2+Z3+Z4)
            ELSE
              XC=X3
              YC=Y3
@@ -97,7 +97,7 @@ C          triangle 1,2,C
            NX1=-Y12*Z31+Z12*Y31
            NY1=-Z12*X31+X12*Z31
            NZ1=-X12*Y31+Y12*X31
-           NN =UN/MAX(EM20,SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1))
+           NN =ONE/MAX(EM20,SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1))
            NX1=NN*NX1
            NY1=NN*NY1
            NZ1=NN*NZ1
@@ -154,7 +154,7 @@ C          triangle 2,3,C
            NX2=-Y12*Z31+Z12*Y31
            NY2=-Z12*X31+X12*Z31
            NZ2=-X12*Y31+Y12*X31
-           NN =UN/MAX(EM20,SQRT(NX2*NX2+NY2*NY2+NZ2*NZ2))
+           NN =ONE/MAX(EM20,SQRT(NX2*NX2+NY2*NY2+NZ2*NZ2))
            NX2=NN*NX2
            NY2=NN*NY2
            NZ2=NN*NZ2
@@ -209,7 +209,7 @@ C          triangle 3,4,C
            NX3=-Y12*Z31+Z12*Y31
            NY3=-Z12*X31+X12*Z31
            NZ3=-X12*Y31+Y12*X31
-           NN =UN/MAX(EM20,SQRT(NX3*NX3+NY3*NY3+NZ3*NZ3))
+           NN =ONE/MAX(EM20,SQRT(NX3*NX3+NY3*NY3+NZ3*NZ3))
            NX3=NN*NX3
            NY3=NN*NY3
            NZ3=NN*NZ3
@@ -264,7 +264,7 @@ C          triangle 4,1,C
            NX4=-Y12*Z31+Z12*Y31
            NY4=-Z12*X31+X12*Z31
            NZ4=-X12*Y31+Y12*X31
-           NN =UN/MAX(EM20,SQRT(NX4*NX4+NY4*NY4+NZ4*NZ4))
+           NN =ONE/MAX(EM20,SQRT(NX4*NX4+NY4*NY4+NZ4*NZ4))
            NX4=NN*NX4
            NY4=NN*NY4
            NZ4=NN*NZ4
@@ -312,7 +312,7 @@ C          distances aux cotes.
            Y12=Y2-Y1
            Z12=Z2-Z1
            N12=SQRT(X12*X12+Y12*Y12+Z12*Z12)
-           NN =UN/MAX(EM20,N12)
+           NN =ONE/MAX(EM20,N12)
            X12=X12*NN
            Y12=Y12*NN
            Z12=Z12*NN
@@ -334,7 +334,7 @@ C          distances aux cotes.
             Z1H=ZI-Z2
            ENDIF
            D12=SQRT(X1H*X1H+Y1H*Y1H+Z1H*Z1H)
-           IF(D12.LE.UNP001*ABS(DPS(NP)).AND.D1.NE.ZERO)THEN
+           IF(D12.LE.ONEP001*ABS(DPS(NP)).AND.D1.NE.ZERO)THEN
              IF(D12.LT.ZEP999*ABS(DPS(NP)))THEN
               NORMSEG=1
              ELSEIF (FLAG.EQ.0) THEN
@@ -350,7 +350,7 @@ C
            Y12=Y3-Y2
            Z12=Z3-Z2
            N12=SQRT(X12*X12+Y12*Y12+Z12*Z12)
-           NN =UN/MAX(EM20,N12)
+           NN =ONE/MAX(EM20,N12)
            X12=X12*NN
            Y12=Y12*NN
            Z12=Z12*NN
@@ -372,7 +372,7 @@ C
             Z1H=ZI-Z3
            ENDIF
            D23=SQRT(X1H*X1H+Y1H*Y1H+Z1H*Z1H)
-           IF(D23.LE.UNP001*ABS(DPS(NP)).AND.D2.NE.ZERO)THEN
+           IF(D23.LE.ONEP001*ABS(DPS(NP)).AND.D2.NE.ZERO)THEN
              IF(D23.LT.ZEP999*ABS(DPS(NP)))THEN
               NORMSEG=1
              ELSEIF (FLAG.EQ.0) THEN
@@ -389,7 +389,7 @@ C
            Y12=Y4-Y3
            Z12=Z4-Z3
            N12=SQRT(X12*X12+Y12*Y12+Z12*Z12)
-           NN =UN/MAX(EM20,N12)
+           NN =ONE/MAX(EM20,N12)
            X12=X12*NN
            Y12=Y12*NN
            Z12=Z12*NN
@@ -411,7 +411,7 @@ C
             Z1H=ZI-Z4
            ENDIF
            D34=SQRT(X1H*X1H+Y1H*Y1H+Z1H*Z1H)
-           IF(D34.LE.UNP001*ABS(DPS(NP)).AND.D3.NE.ZERO)THEN
+           IF(D34.LE.ONEP001*ABS(DPS(NP)).AND.D3.NE.ZERO)THEN
              IF(D34.LT.ZEP999*ABS(DPS(NP)))THEN
               NORMSEG=1
              ELSEIF (FLAG.EQ.0) THEN
@@ -428,7 +428,7 @@ C
            Y12=Y1-Y4
            Z12=Z1-Z4
            N12=SQRT(X12*X12+Y12*Y12+Z12*Z12)
-           NN =UN/MAX(EM20,N12)
+           NN =ONE/MAX(EM20,N12)
            X12=X12*NN
            Y12=Y12*NN
            Z12=Z12*NN
@@ -450,7 +450,7 @@ C
             Z1H=ZI-Z1
            ENDIF
            D41=SQRT(X1H*X1H+Y1H*Y1H+Z1H*Z1H)
-           IF(D41.LE.UNP001*ABS(DPS(NP)).AND.D4.NE.ZERO)THEN
+           IF(D41.LE.ONEP001*ABS(DPS(NP)).AND.D4.NE.ZERO)THEN
              IF(D41.LT.ZEP999*ABS(DPS(NP)))THEN
               NORMSEG=1
              ELSEIF (FLAG.EQ.0) THEN
@@ -464,31 +464,31 @@ C            WPROJ(3,LONFSPH(IXP(NP)))=ZI-Z1H
  101       CONTINUE
            IF(NORMSEG.EQ.1)THEN
 C             normale sortante au segment.
-              X12=UNDEMI*(X2+X3-X1-X4)
-              Y12=UNDEMI*(Y2+Y3-Y1-Y4)
-              Z12=UNDEMI*(Z2+Z3-Z1-Z4)
-              X23=UNDEMI*(X3+X4-X1-X2)
-              Y23=UNDEMI*(Y3+Y4-Y1-Y2)
-              Z23=UNDEMI*(Z3+Z4-Z1-Z2)	      
+              X12=HALF*(X2+X3-X1-X4)
+              Y12=HALF*(Y2+Y3-Y1-Y4)
+              Z12=HALF*(Z2+Z3-Z1-Z4)
+              X23=HALF*(X3+X4-X1-X2)
+              Y23=HALF*(Y3+Y4-Y1-Y2)
+              Z23=HALF*(Z3+Z4-Z1-Z2)	      
               NX = Y12*Z23-Z12*Y23
               NY =-X12*Z23+Z12*X23
               NZ = X12*Y23-Y12*X23
-              NN =UN/MAX(EM20,SQRT(NX*NX+NY*NY+NZ*NZ))
+              NN =ONE/MAX(EM20,SQRT(NX*NX+NY*NY+NZ*NZ))
               WNORMAL(1,LONFSPH(IXP(NP)))=-NN*NX
               WNORMAL(2,LONFSPH(IXP(NP)))=-NN*NY
               WNORMAL(3,LONFSPH(IXP(NP)))=-NN*NZ
            ELSEIF(NORMSEG.EQ.2)THEN
 C             cumule normale sortante au segment.
-              X12=UNDEMI*(X2+X3-X1-X4)
-              Y12=UNDEMI*(Y2+Y3-Y1-Y4)
-              Z12=UNDEMI*(Z2+Z3-Z1-Z4)
-              X23=UNDEMI*(X3+X4-X1-X2)
-              Y23=UNDEMI*(Y3+Y4-Y1-Y2)
-              Z23=UNDEMI*(Z3+Z4-Z1-Z2)	      
+              X12=HALF*(X2+X3-X1-X4)
+              Y12=HALF*(Y2+Y3-Y1-Y4)
+              Z12=HALF*(Z2+Z3-Z1-Z4)
+              X23=HALF*(X3+X4-X1-X2)
+              Y23=HALF*(Y3+Y4-Y1-Y2)
+              Z23=HALF*(Z3+Z4-Z1-Z2)	      
               NX = Y12*Z23-Z12*Y23
               NY =-X12*Z23+Z12*X23
               NZ = X12*Y23-Y12*X23
-              NN =UN/MAX(EM20,SQRT(NX*NX+NY*NY+NZ*NZ))
+              NN =ONE/MAX(EM20,SQRT(NX*NX+NY*NY+NZ*NZ))
               WNORMAL(1,LONFSPH(IXP(NP)))=
      .            WNORMAL(1,LONFSPH(IXP(NP)))-NN*NX
               WNORMAL(2,LONFSPH(IXP(NP)))=

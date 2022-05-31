@@ -134,7 +134,7 @@ C-----------------------------------------------
       MY_REAL 
      .   XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4
       MY_REAL
-     .   ONE,C1,C2,L13(MVSIZ),L24(MVSIZ),
+     .   C1,C2,L13(MVSIZ),L24(MVSIZ),
      .   AA,VV(3,NNOD),RR(3,NNOD)
       MY_REAL
      .    TOL,PG,J0,J1,J2,DETA,COREL(3,4),X1,Y1,S1
@@ -165,12 +165,12 @@ C
       TOL=EM12
       IF (ISROT > 0  ) TOL=EM8
 C
-       VKSI(1,1)=-QUART*(UN+PG)
+       VKSI(1,1)=-FOURTH*(ONE+PG)
        VKSI(2,1)=-VKSI(1,1)
-       VKSI(3,1)= QUART*(UN-PG)
+       VKSI(3,1)= FOURTH*(ONE-PG)
        VKSI(4,1)=-VKSI(3,1)
-       VETA(1,1)=-QUART*(UN+PG)
-       VETA(2,1)=-QUART*(UN-PG)
+       VETA(1,1)=-FOURTH*(ONE+PG)
+       VETA(2,1)=-FOURTH*(ONE-PG)
        VETA(3,1)=-VETA(2,1)
        VETA(4,1)=-VETA(1,1)
        VKSI(1,2)= VKSI(1,1)
@@ -215,8 +215,8 @@ C----------------------------
      .   SX, SY, SSZ, 
      .   R11,R12,R13,R21,R22,R23,R31,R32,R33,DETA1,OFFG )
       DO I=JFT,JLT
-        AREA(I)=QUART*DETA1(I)
-        AREA_I(I)=UN/AREA(I)
+        AREA(I)=FOURTH*DETA1(I)
+        AREA_I(I)=ONE/AREA(I)
         VQ(I,1,1)=R11(I)
         VQ(I,2,1)=R21(I)
         VQ(I,3,1)=R31(I)
@@ -235,11 +235,11 @@ c
         L=IXC(4,I)
         M=IXC(5,I)
 
-        LXYZ0(1)=QUART*(X(1,L)+X(1,M)
+        LXYZ0(1)=FOURTH*(X(1,L)+X(1,M)
      .                +X(1,J)+X(1,K))
-        LXYZ0(2)=QUART*(X(2,L)+X(2,M)
+        LXYZ0(2)=FOURTH*(X(2,L)+X(2,M)
      .                +X(2,J)+X(2,K))
-        LXYZ0(3)=QUART*(X(3,L)+X(3,M)
+        LXYZ0(3)=FOURTH*(X(3,L)+X(3,M)
      .                +X(3,J)+X(3,K))
 
         XX1=X(1,K)-X(1,J)
@@ -280,7 +280,7 @@ C----------------------------
        ENDDO
       ELSEIF(ISMSTR.EQ.11)THEN
         DO I=JFT,JLT
-          IF(ABS(OFFG(I)).EQ.UN)OFFG(I)=SIGN(DEUX,OFFG(I))
+          IF(ABS(OFFG(I)).EQ.ONE)OFFG(I)=SIGN(TWO,OFFG(I))
           UX1(I) = ZERO
           UY1(I) = ZERO
           UX2(I) = ZERO
@@ -289,7 +289,7 @@ C----------------------------
           UY3(I) = ZERO
           UX4(I) = ZERO
           UY4(I) = ZERO
-          IF(ABS(OFFG(I)).EQ.DEUX)THEN
+          IF(ABS(OFFG(I)).EQ.TWO)THEN
             UX2(I) = XL2(I)-SMSTR(II(1)+I)
             UY2(I) = YL2(I)-SMSTR(II(2)+I)
             UX3(I) = XL3(I)-SMSTR(II(3)+I)
@@ -303,9 +303,9 @@ C----------------------------
             XL4(I) = SMSTR(II(5)+I)
             YL4(I) = SMSTR(II(6)+I)
             ZL1(I) = ZERO
-            AREA(I)=UNDEMI*
+            AREA(I)=HALF*
      .              ((XL2(I)-XL4(I))*YL3(I)-XL3(I)*(YL2(I)-YL4(I)))
-            AREA_I(I)=UN/MAX(EM20,AREA(I))
+            AREA_I(I)=ONE/MAX(EM20,AREA(I))
           ELSE
             SMSTR(II(1)+I)=XL2(I)
             SMSTR(II(2)+I)=YL2(I)
@@ -317,7 +317,7 @@ C----------------------------
         ENDDO
       ELSEIF(ISMSTR.EQ.1.OR.ISMSTR.EQ.2)THEN
         DO I=JFT,JLT
-          IF(ABS(OFFG(I)).EQ.DEUX)THEN
+          IF(ABS(OFFG(I)).EQ.TWO)THEN
             XL2(I)=SMSTR(II(1)+I)
             YL2(I)=SMSTR(II(2)+I)
             XL3(I)=SMSTR(II(3)+I)
@@ -325,9 +325,9 @@ C----------------------------
             XL4(I)=SMSTR(II(5)+I)
             YL4(I)=SMSTR(II(6)+I)
             ZL1(I)=ZERO
-            AREA(I)=UNDEMI*
+            AREA(I)=HALF*
      .              ((XL2(I)-XL4(I))*YL3(I)-XL3(I)*(YL2(I)-YL4(I)))
-            AREA_I(I)=UN/MAX(EM20,AREA(I))
+            AREA_I(I)=ONE/MAX(EM20,AREA(I))
           ELSE
             SMSTR(II(1)+I)=XL2(I)
             SMSTR(II(2)+I)=YL2(I)
@@ -340,7 +340,7 @@ C----------------------------
       ENDIF
       IF(ISMSTR.EQ.1)THEN
         DO I=JFT,JLT
-            IF(OFFG(I).EQ.UN)OFFG(I)=DEUX
+            IF(OFFG(I).EQ.ONE)OFFG(I)=TWO
         ENDDO
       ENDIF
 C----------------------------
@@ -352,8 +352,8 @@ C----------------------------
      .                R31      ,R12    ,R22   ,R32    ,NEL    )
 C----------------------------
       DO EP=JFT,JLT
-        LXYZ0(1)=QUART*(XL2(EP)+XL3(EP)+XL4(EP))
-        LXYZ0(2)=QUART*(YL2(EP)+YL3(EP)+YL4(EP))
+        LXYZ0(1)=FOURTH*(XL2(EP)+XL3(EP)+XL4(EP))
+        LXYZ0(2)=FOURTH*(YL2(EP)+YL3(EP)+YL4(EP))
         VCORE(EP,1,1)=-LXYZ0(1)
         VCORE(EP,1,2)=XL2(EP)-LXYZ0(1)
         VCORE(EP,1,3)=XL3(EP)-LXYZ0(1)
@@ -363,10 +363,10 @@ C----------------------------
         VCORE(EP,2,3)=YL3(EP)-LXYZ0(2)
         VCORE(EP,2,4)=YL4(EP)-LXYZ0(2)
 C
-        X13_T(EP) =(VCORE(EP,1,1)-VCORE(EP,1,3))*UNDEMI
-        X24_T(EP) =(VCORE(EP,1,2)-VCORE(EP,1,4))*UNDEMI
-        Y13_T(EP) =(VCORE(EP,2,1)-VCORE(EP,2,3))*UNDEMI
-        Y24_T(EP) =(VCORE(EP,2,2)-VCORE(EP,2,4))*UNDEMI
+        X13_T(EP) =(VCORE(EP,1,1)-VCORE(EP,1,3))*HALF
+        X24_T(EP) =(VCORE(EP,1,2)-VCORE(EP,1,4))*HALF
+        Y13_T(EP) =(VCORE(EP,2,1)-VCORE(EP,2,3))*HALF
+        Y24_T(EP) =(VCORE(EP,2,2)-VCORE(EP,2,4))*HALF
         L13(EP)=X13_T(EP)*X13_T(EP)+Y13_T(EP)*Y13_T(EP)
         L24(EP)=X24_T(EP)*X24_T(EP)+Y24_T(EP)*Y24_T(EP)
         LL(EP)=MAX(L13(EP),L24(EP))
@@ -428,8 +428,8 @@ C
       ENDDO 
 C
        IF (ISHV51.GT.51.AND.(IMPL_S.EQ.0.OR.IMP_LR.GT.0)) THEN
-        DT05 = UNDEMI*DT1
-        DT025 =QUART*DT1
+        DT05 = HALF*DT1
+        DT025 =FOURTH*DT1
         DO I=JFT,JLT
          EXZ =  Y24_T(I)*V13(I,3)-Y13_T(I)*V24(I,3)
          EYZ =  -X24_T(I)*V13(I,3)+X13_T(I)*V24(I,3)
@@ -475,12 +475,12 @@ C [PM] flat shells algorithm not implemented for pinching
         Y13 =Y13_T(EP)
         Y24 =Y24_T(EP)
 C
-        MX13=(VCORE(EP,1,1)+VCORE(EP,1,3))*UNDEMI
-        MY13=(VCORE(EP,2,1)+VCORE(EP,2,3))*UNDEMI
-        MX23=(VCORE(EP,1,2)+VCORE(EP,1,3))*UNDEMI
-        MX34=(VCORE(EP,1,3)+VCORE(EP,1,4))*UNDEMI
-        MY23=(VCORE(EP,2,2)+VCORE(EP,2,3))*UNDEMI
-        MY34=(VCORE(EP,2,3)+VCORE(EP,2,4))*UNDEMI
+        MX13=(VCORE(EP,1,1)+VCORE(EP,1,3))*HALF
+        MY13=(VCORE(EP,2,1)+VCORE(EP,2,3))*HALF
+        MX23=(VCORE(EP,1,2)+VCORE(EP,1,3))*HALF
+        MX34=(VCORE(EP,1,3)+VCORE(EP,1,4))*HALF
+        MY23=(VCORE(EP,2,2)+VCORE(EP,2,3))*HALF
+        MY34=(VCORE(EP,2,3)+VCORE(EP,2,4))*HALF
         X13_T(EP) =X13*AREA_I(EP)
         X24_T(EP) =X24*AREA_I(EP)
         Y13_T(EP) =Y13*AREA_I(EP)
@@ -548,7 +548,7 @@ C-------SONT STOCKE DANS VCORE---
 C
         J1=(MX23*MY13-MX13*MY23)*PG
         J2=-(MX13*MY34-MX34*MY13)*PG
-        J0=AREA(EP)*QUART
+        J0=AREA(EP)*FOURTH
 C----   JAC(jacobiens aux points d'integration)peut etre negative------        
         JAC(EP,1)=ABS(J0+J2-J1)
         JAC(EP,2)=ABS(J0+J2+J1)
@@ -591,12 +591,12 @@ C
        Y13 =Y13_T(EP)
        Y24 =Y24_T(EP)
 cc       
-       MX13=(VCORE(EP,1,1)+VCORE(EP,1,3))*UNDEMI
-       MY13=(VCORE(EP,2,1)+VCORE(EP,2,3))*UNDEMI
-       MX23=(VCORE(EP,1,2)+VCORE(EP,1,3))*UNDEMI
-       MY23=(VCORE(EP,2,2)+VCORE(EP,2,3))*UNDEMI
-       MX34=(VCORE(EP,1,3)+VCORE(EP,1,4))*UNDEMI
-       MY34=(VCORE(EP,2,3)+VCORE(EP,2,4))*UNDEMI       
+       MX13=(VCORE(EP,1,1)+VCORE(EP,1,3))*HALF
+       MY13=(VCORE(EP,2,1)+VCORE(EP,2,3))*HALF
+       MX23=(VCORE(EP,1,2)+VCORE(EP,1,3))*HALF
+       MY23=(VCORE(EP,2,2)+VCORE(EP,2,3))*HALF
+       MX34=(VCORE(EP,1,3)+VCORE(EP,1,4))*HALF
+       MY34=(VCORE(EP,2,3)+VCORE(EP,2,4))*HALF       
        X13_T(EP) =X13*AREA_I(EP)
        X24_T(EP) =X24*AREA_I(EP)
        Y13_T(EP) =Y13*AREA_I(EP)
@@ -618,9 +618,9 @@ C---------
 C   2A1
 C---------
          X21 =MX23-MX13
-         X34 =(COREL(1,3)-COREL(1,4))*UNDEMI
+         X34 =(COREL(1,3)-COREL(1,4))*HALF
          Y21 =MY23-MY13
-         Y34 =(COREL(2,3)-COREL(2,4))*UNDEMI
+         Y34 =(COREL(2,3)-COREL(2,4))*HALF
          Z21 = -Z1
          Z34 = Z1
          L12 = SQRT(X21*X21+Y21*Y21+Z2)
@@ -629,24 +629,24 @@ C---------
 C   2A2
 C---------
          X41 =MX34-MX13
-         X32 =(COREL(1,3)-COREL(1,2))*UNDEMI
+         X32 =(COREL(1,3)-COREL(1,2))*HALF
          Y41 =MY34-MY13
-         Y32 =(COREL(2,3)-COREL(2,2))*UNDEMI
+         Y32 =(COREL(2,3)-COREL(2,2))*HALF
          Z41 = -Z1
          Z32 = Z1
 C---------- 
 C    CALCUL DE [QN] N=1,4 
 C----------
-        A_4=AREA(EP)*QUART
+        A_4=AREA(EP)*FOURTH
 C
 C---------- N =1----------
-        SL=UN/MAX(L12,EM20)
+        SL=ONE/MAX(L12,EM20)
         VQN(EP,1,1)=X21*SL
         VQN(EP,2,1)=Y21*SL
         VQN(EP,3,1)=Z21*SL
         SZ2=A_4-GAMA1
         SZ=Z2*L24(EP)
-        SL=UN/SQRT(SZ+SZ2*SZ2)
+        SL=ONE/SQRT(SZ+SZ2*SZ2)
         VQN(EP,7,1)=-Z1*Y24
         VQN(EP,8,1)= Z1*X24
         VQN(EP,9,1)= SZ2*SL
@@ -660,12 +660,12 @@ C
         VQN(EP,5,1)= VQN(EP,9,1)*VQN(EP,1,1)-VQN(EP,7,1)*VQN(EP,3,1)
         VQN(EP,6,1)= VQN(EP,7,1)*VQN(EP,2,1)-VQN(EP,8,1)*VQN(EP,1,1)
 C---------- N =3----------
-        SL=UN/MAX(L34,EM20)
+        SL=ONE/MAX(L34,EM20)
         VQN(EP,1,3)=X34*SL
         VQN(EP,2,3)=Y34*SL
         VQN(EP,3,3)=Z34*SL
         SZ2=A_4+GAMA1
-        SL=UN/SQRT(SZ+SZ2*SZ2)
+        SL=ONE/SQRT(SZ+SZ2*SZ2)
         VQN(EP,7,3)= VQN(EP,7,3)*SL
         VQN(EP,8,3)= VQN(EP,8,3)*SL
         VQN(EP,9,3)= SZ2*SL
@@ -679,7 +679,7 @@ C---------- N =2----------
         VQN(EP,3,2)=VQN(EP,3,1)
         SZ2=A_4+GAMA2
         SZ=Z2*L13(EP)
-        SL=UN/SQRT(SZ+SZ2*SZ2)
+        SL=ONE/SQRT(SZ+SZ2*SZ2)
         VQN(EP,7,2)=-Z1*Y13
         VQN(EP,8,2)= Z1*X13
         VQN(EP,9,2)= SZ2*SL
@@ -696,7 +696,7 @@ C---------- N =4----------
         VQN(EP,2,4)=VQN(EP,2,3)
         VQN(EP,3,4)=VQN(EP,3,3)
         SZ2=A_4-GAMA2
-        SL=UN/SQRT(SZ+SZ2*SZ2)
+        SL=ONE/SQRT(SZ+SZ2*SZ2)
         VQN(EP,7,4)= VQN(EP,7,4)*SL
         VQN(EP,8,4)= VQN(EP,8,4)*SL
         VQN(EP,9,4)= SZ2*SL
@@ -805,7 +805,7 @@ C---------- NG =1----------
         SZ=Z2*L24(EP)
         SL=SQRT(SZ+SZ2*SZ2)
         JAC(EP,1)=SL*PG
-        SL=UN/MAX(SL,EM20)
+        SL=ONE/MAX(SL,EM20)
         VQG(EP,7,1)=-Z1*Y24
         VQG(EP,8,1)= Z1*X24
         VQG(EP,9,1)= SZ2*SL
@@ -837,7 +837,7 @@ C
 C
         SL = SQRT(VQG(EP,1,1)*VQG(EP,1,1) + VQG(EP,2,1)*VQG(EP,2,1)
      1            + VQG(EP,3,1)*VQG(EP,3,1))
-        IF ( SL.NE.ZERO) SL = UN / SL
+        IF ( SL.NE.ZERO) SL = ONE / SL
         VQG(EP,1,1) = VQG(EP,1,1)*SL
         VQG(EP,2,1) = VQG(EP,2,1)*SL
         VQG(EP,3,1) = VQG(EP,3,1)*SL
@@ -849,7 +849,7 @@ C---------- NG =3----------
         SZ2=A_4+GAMA1
         SL=SQRT(SZ+SZ2*SZ2)
         JAC(EP,3)=SL*PG
-        SL=UN/MAX(SL,EM20)
+        SL=ONE/MAX(SL,EM20)
         VQG(EP,7,3)= VQG(EP,7,3)*SL
         VQG(EP,8,3)= VQG(EP,8,3)*SL
         VQG(EP,9,3)= SZ2*SL
@@ -878,7 +878,7 @@ C
 C
         SL = SQRT(VQG(EP,1,3)*VQG(EP,1,3) + VQG(EP,2,3)*VQG(EP,2,3)
      1            + VQG(EP,3,3)*VQG(EP,3,3))
-        IF ( SL.NE.ZERO) SL = UN / SL
+        IF ( SL.NE.ZERO) SL = ONE / SL
         VQG(EP,1,3) = VQG(EP,1,3)*SL
         VQG(EP,2,3) = VQG(EP,2,3)*SL
         VQG(EP,3,3) = VQG(EP,3,3)*SL
@@ -891,7 +891,7 @@ C---------- NG =2----------
         SZ=Z2*L13(EP)
         SL=SQRT(SZ+SZ2*SZ2)
         JAC(EP,2)=SL*PG
-        SL=UN/MAX(SL,EM20)
+        SL=ONE/MAX(SL,EM20)
         VQG(EP,7,2)=-Z1*Y13
         VQG(EP,8,2)= Z1*X13
         VQG(EP,9,2)= SZ2*SL
@@ -917,7 +917,7 @@ C
 C
         SL = SQRT(VQG(EP,1,2)*VQG(EP,1,2) + VQG(EP,2,2)*VQG(EP,2,2)
      1            + VQG(EP,3,2)*VQG(EP,3,2))
-        IF ( SL.NE.ZERO) SL = UN / SL
+        IF ( SL.NE.ZERO) SL = ONE / SL
         VQG(EP,1,2) = VQG(EP,1,2)*SL
         VQG(EP,2,2) = VQG(EP,2,2)*SL
         VQG(EP,3,2) = VQG(EP,3,2)*SL
@@ -928,7 +928,7 @@ C---------- NG =4----------
         SZ2=A_4-GAMA2
         SL=SQRT(SZ+SZ2*SZ2)
         JAC(EP,4)=SL*PG
-        SL=UN/MAX(SL,EM20)
+        SL=ONE/MAX(SL,EM20)
         VQG(EP,7,4)= VQG(EP,7,4)*SL
         VQG(EP,8,4)= VQG(EP,8,4)*SL
         VQG(EP,9,4)= SZ2*SL
@@ -950,7 +950,7 @@ C
 C
         SL = SQRT(VQG(EP,1,4)*VQG(EP,1,4) + VQG(EP,2,4)*VQG(EP,2,4)
      1            + VQG(EP,3,4)*VQG(EP,3,4))
-        IF ( SL.NE.ZERO) SL = UN / SL
+        IF ( SL.NE.ZERO) SL = ONE / SL
         VQG(EP,1,4) = VQG(EP,1,4)*SL
         VQG(EP,2,4) = VQG(EP,2,4)*SL
         VQG(EP,3,4) = VQG(EP,3,4)*SL
@@ -996,12 +996,12 @@ C
         NN(2)=IXC(3,EP)
         NN(3)=IXC(4,EP)
         NN(4)=IXC(5,EP)
-        X13 =(VCORE(EP,1,1)-VCORE(EP,1,3))*UNDEMI
-        X24 =(VCORE(EP,1,2)-VCORE(EP,1,4))*UNDEMI
-        Y13 =(VCORE(EP,2,1)-VCORE(EP,2,3))*UNDEMI
-        Y24 =(VCORE(EP,2,2)-VCORE(EP,2,4))*UNDEMI
-        MX13=(VCORE(EP,1,1)+VCORE(EP,1,3))*UNDEMI
-        MY13=(VCORE(EP,2,1)+VCORE(EP,2,3))*UNDEMI
+        X13 =(VCORE(EP,1,1)-VCORE(EP,1,3))*HALF
+        X24 =(VCORE(EP,1,2)-VCORE(EP,1,4))*HALF
+        Y13 =(VCORE(EP,2,1)-VCORE(EP,2,3))*HALF
+        Y24 =(VCORE(EP,2,2)-VCORE(EP,2,4))*HALF
+        MX13=(VCORE(EP,1,1)+VCORE(EP,1,3))*HALF
+        MY13=(VCORE(EP,2,1)+VCORE(EP,2,3))*HALF
 C--------------------------
 C     TRANSMET 6DDL-->5DDL
 C--------------------------
@@ -1047,7 +1047,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
      1      +COREL(1,3)*COREL(2,3)+COREL(1,4)*COREL(2,4)
         XZ1 =(COREL(1,1)-COREL(1,2)+COREL(1,3)-COREL(1,4))*Z1
         YZ =(COREL(2,1)-COREL(2,2)+COREL(2,3)-COREL(2,4))*Z1
-        ZZ = QUATRE*Z2
+        ZZ = FOUR*Z2
           D(1)= YY+ZZ+4
           D(2)= XX1+ZZ+4
           D(3)= XX1+YY+4
@@ -1061,9 +1061,9 @@ C
          ZZXY2 = D(3)*D(4)*D(4)
          DETA = ABC+2*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2
          IF (DETA.LT.EM20) THEN
-          DETA=UN
+          DETA=ONE
          ELSE
-          DETA=UN/DETA
+          DETA=ONE/DETA
          ENDIF
          DI(EP,1) = (ABC-XXYZ2)*DETA/D(1)
          DI(EP,2) = (ABC-YYXZ2)*DETA/D(2)
@@ -1075,15 +1075,15 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
           ALR(1) =DI(EP,1)*AR(1)+DI(EP,4)*AR(2)+DI(EP,5)*AR(3)
           ALR(2) =DI(EP,4)*AR(1)+DI(EP,2)*AR(2)+DI(EP,6)*AR(3)
           ALR(3) =DI(EP,5)*AR(1)+DI(EP,6)*AR(2)+DI(EP,3)*AR(3)
-          V13(EP,1)= UNDEMI*V13(EP,1)+ALR(3)*Y13
-          V24(EP,1)= UNDEMI*V24(EP,1)+ALR(3)*Y24
-          VHI(EP,1)= QUART*VHI(EP,1)+(ALR(3)*MY13-Z1*ALR(2))
-          V13(EP,2)= UNDEMI*V13(EP,2)-ALR(3)*X13
-          V24(EP,2)= UNDEMI*V24(EP,2)-ALR(3)*X24
-          VHI(EP,2)= QUART*VHI(EP,2)-(ALR(3)*MX13-Z1*ALR(1))
-          V13(EP,3)= UNDEMI*V13(EP,3)-(Y13*ALR(1)-X13*ALR(2))
-          V24(EP,3)= UNDEMI*V24(EP,3)-(Y24*ALR(1)-X24*ALR(2))
-          VHI(EP,3)= QUART*VHI(EP,3)+(MX13*ALR(2)-MY13*ALR(1))
+          V13(EP,1)= HALF*V13(EP,1)+ALR(3)*Y13
+          V24(EP,1)= HALF*V24(EP,1)+ALR(3)*Y24
+          VHI(EP,1)= FOURTH*VHI(EP,1)+(ALR(3)*MY13-Z1*ALR(2))
+          V13(EP,2)= HALF*V13(EP,2)-ALR(3)*X13
+          V24(EP,2)= HALF*V24(EP,2)-ALR(3)*X24
+          VHI(EP,2)= FOURTH*VHI(EP,2)-(ALR(3)*MX13-Z1*ALR(1))
+          V13(EP,3)= HALF*V13(EP,3)-(Y13*ALR(1)-X13*ALR(2))
+          V24(EP,3)= HALF*V24(EP,3)-(Y24*ALR(1)-X24*ALR(2))
+          VHI(EP,3)= FOURTH*VHI(EP,3)+(MX13*ALR(2)-MY13*ALR(1))
 C
           VXYZ(EP,1,1)= V13(EP,1)+VHI(EP,1)
           VXYZ(EP,1,2)= V24(EP,1)-VHI(EP,1)
@@ -1153,24 +1153,24 @@ C----------------------------
         SY(I)=-YL2(I)+YL3(I)+YL4(I)
         C1=SQRT(RX(I)*RX(I)+RY(I)*RY(I))
         C2=SQRT(SX(I)*SX(I)+SY(I)*SY(I))
-        S1=QUART*(MAX(C1,C2)/MIN(C1,C2)-UN)
-        FAC1=MIN(UNDEMI,S1)+UN
-        FAC2=QUATRE*AREA(I)/(C1*C2)
+        S1=FOURTH*(MAX(C1,C2)/MIN(C1,C2)-ONE)
+        FAC1=MIN(HALF,S1)+ONE
+        FAC2=FOUR*AREA(I)/(C1*C2)
         FAC2=3.413*MAX(ZERO,FAC2-0.7071)
         FAC2=0.78+0.22*FAC2*FAC2*FAC2
-        FACI=DEUX*FAC1*FAC2
+        FACI=TWO*FAC1*FAC2
 C
         FACN(I,1)=SQRT(L24(I)/LL(I))
         FACN(I,2)=SQRT(L13(I)/LL(I))
-        S1 = SQRT(FACI*(QTIERS+LM(I)*AREA_I(I))*LL(I))
+        S1 = SQRT(FACI*(FOUR_OVER_3+LM(I)*AREA_I(I))*LL(I))
         S1 = MAX(S1,EM20)
         LL(I) = AREA(I)/S1
        ENDDO
 C      
 C      IF (ISROT.GT.0) THEN
 C        DO I=JFT,JLT
-C	     S1=UN/SQRT(MAX(L13(I),L24(I)))
-C	     FAC1=S1*SQRT(UNNEUF*(AREA(I)+THK(I)*THK(I)))
+C	     S1=ONE/SQRT(MAX(L13(I),L24(I)))
+C	     FAC1=S1*SQRT(ONE_OVER_9*(AREA(I)+THK(I)*THK(I)))
 C         SL= FAC1*AREA(I)*S1
 C         LL(I) = MIN(LL(I),SL)
 C        ENDDO
@@ -1179,7 +1179,7 @@ c
       OFF_L = ZERO
       DO EP=JFT,JLT
 C---------Facteur pour longueur caracteristique---
-        OFF(EP) = MIN(UN,ABS(OFFG(EP)))
+        OFF(EP) = MIN(ONE,ABS(OFFG(EP)))
         OFF_L  = MIN(OFF_L,OFFG(EP))
       ENDDO
 C       
@@ -1328,7 +1328,7 @@ C-----------------------------------------------
       MY_REAL 
      .   XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4
       MY_REAL
-     .   ONE,C1,C2,L13(MVSIZ),L24(MVSIZ),
+     .   C1,C2,L13(MVSIZ),L24(MVSIZ),
      .   AA,VV(3,NNOD),RR(3,NNOD),OFF_L
       MY_REAL
      .    TOL,PG,J0,J1,J2,DETA,COREL(3,4),X1,Y1,S1,LL(MVSIZ)
@@ -1369,7 +1369,7 @@ C
       TOL=EM12
       IF (ISROT > 0  ) TOL=EM8
        DO I=JFT,JLT
-          IF(ABS(OFFG(I))==UN)OFFG(I)=SIGN(DEUX,OFFG(I))
+          IF(ABS(OFFG(I))==ONE)OFFG(I)=SIGN(TWO,OFFG(I))
           AXYZ(I,1:3,1:4)= ZERO
 C            
            IF (ISROT > 0  ) THEN
@@ -1424,8 +1424,8 @@ C----------------------------
      .   SX, SY, SSZ, 
      .   R11,R12,R13,R21,R22,R23,R31,R32,R33,DETA1,OFFG )
       DO I=JFT,JLT
-        AREA(I)=QUART*DETA1(I)
-        AREA_I(I)=UN/AREA(I)
+        AREA(I)=FOURTH*DETA1(I)
+        AREA_I(I)=ONE/AREA(I)
         VQ0(I,1,1)=R11(I)
         VQ0(I,2,1)=R21(I)
         VQ0(I,3,1)=R31(I)
@@ -1437,9 +1437,9 @@ C----------------------------
         VQ0(I,3,3)=R33(I)
       ENDDO 
       DO I=JFT,JLT
-        LXYZ0(1)=QUART*(X0G2(I)+X0G3(I)+X0G4(I))
-        LXYZ0(2)=QUART*(Y0G2(I)+Y0G3(I)+Y0G4(I))
-        LXYZ0(3)=QUART*(Z0G2(I)+Z0G3(I)+Z0G4(I))
+        LXYZ0(1)=FOURTH*(X0G2(I)+X0G3(I)+X0G4(I))
+        LXYZ0(2)=FOURTH*(Y0G2(I)+Y0G3(I)+Y0G4(I))
+        LXYZ0(3)=FOURTH*(Z0G2(I)+Z0G3(I)+Z0G4(I))
         ZL1(I)=-(VQ0(I,1,3)*LXYZ0(1)+VQ0(I,2,3)*LXYZ0(2)+VQ0(I,3,3)*LXYZ0(3))
       ENDDO 
 C----------------------------
@@ -1448,8 +1448,8 @@ C----------------------------
       DO I=JFT,JLT
        VR1_12=VQ0(I,1,1)*VQ(I,1,2)+VQ0(I,2,1)*VQ(I,2,2)+VQ0(I,3,1)*VQ(I,3,2)
        VR1_21=VQ0(I,1,2)*VQ(I,1,1)+VQ0(I,2,2)*VQ(I,2,1)+VQ0(I,3,1)*VQ(I,3,2)
-       DIRZ(I,2) = UNDEMI*(VR1_12-VR1_21)
-       NORM = UN-DIRZ(I,2)*DIRZ(I,2)
+       DIRZ(I,2) = HALF*(VR1_12-VR1_21)
+       NORM = ONE-DIRZ(I,2)*DIRZ(I,2)
        DIRZ(I,1) = SQRT(MAX(ZERO,NORM))
       ENDDO 
       DO I=JFT,JLT
@@ -1495,7 +1495,7 @@ C-----------UL : xl - x0l' (rotated of rz0)
         VHI(I,2)=-YL2(I)+YL3(I)-YL4(I)-(-Y0L2(I)+Y0L3(I)-Y0L4(I))
         V13(I,3)=ZERO
         V24(I,3)=ZERO
-        VHI(I,3)=QUATRE*(ZL(I)-ZL1(I))
+        VHI(I,3)=FOUR*(ZL(I)-ZL1(I))
       ENDDO 
 C-------set up B_l by rotating B0_l (Rz0)      
       DO I=JFT,JLT
@@ -1508,8 +1508,8 @@ C-------set up B_l by rotating B0_l (Rz0)
       ENDDO
 C----------------------------
       DO EP=JFT,JLT
-        LXYZ0(1)=QUART*(XL2(EP)+XL3(EP)+XL4(EP))
-        LXYZ0(2)=QUART*(YL2(EP)+YL3(EP)+YL4(EP))
+        LXYZ0(1)=FOURTH*(XL2(EP)+XL3(EP)+XL4(EP))
+        LXYZ0(2)=FOURTH*(YL2(EP)+YL3(EP)+YL4(EP))
         VCORE(EP,1,1)=-LXYZ0(1)
         VCORE(EP,1,2)=XL2(EP)-LXYZ0(1)
         VCORE(EP,1,3)=XL3(EP)-LXYZ0(1)
@@ -1519,10 +1519,10 @@ C----------------------------
         VCORE(EP,2,3)=YL3(EP)-LXYZ0(2)
         VCORE(EP,2,4)=YL4(EP)-LXYZ0(2)
 C
-        X13_T(EP) =(VCORE(EP,1,1)-VCORE(EP,1,3))*UNDEMI
-        X24_T(EP) =(VCORE(EP,1,2)-VCORE(EP,1,4))*UNDEMI
-        Y13_T(EP) =(VCORE(EP,2,1)-VCORE(EP,2,3))*UNDEMI
-        Y24_T(EP) =(VCORE(EP,2,2)-VCORE(EP,2,4))*UNDEMI
+        X13_T(EP) =(VCORE(EP,1,1)-VCORE(EP,1,3))*HALF
+        X24_T(EP) =(VCORE(EP,1,2)-VCORE(EP,1,4))*HALF
+        Y13_T(EP) =(VCORE(EP,2,1)-VCORE(EP,2,3))*HALF
+        Y24_T(EP) =(VCORE(EP,2,2)-VCORE(EP,2,4))*HALF
         L13(EP)=X13_T(EP)*X13_T(EP)+Y13_T(EP)*Y13_T(EP)
         L24(EP)=X24_T(EP)*X24_T(EP)+Y24_T(EP)*Y24_T(EP)
         LL(EP)=MAX(L13(EP),L24(EP))
@@ -1551,12 +1551,12 @@ c
         Y13 =Y13_T(EP)
         Y24 =Y24_T(EP)
 C
-        MX13=(VCORE(EP,1,1)+VCORE(EP,1,3))*UNDEMI
-        MY13=(VCORE(EP,2,1)+VCORE(EP,2,3))*UNDEMI
-        MX23=(VCORE(EP,1,2)+VCORE(EP,1,3))*UNDEMI
-        MX34=(VCORE(EP,1,3)+VCORE(EP,1,4))*UNDEMI
-        MY23=(VCORE(EP,2,2)+VCORE(EP,2,3))*UNDEMI
-        MY34=(VCORE(EP,2,3)+VCORE(EP,2,4))*UNDEMI
+        MX13=(VCORE(EP,1,1)+VCORE(EP,1,3))*HALF
+        MY13=(VCORE(EP,2,1)+VCORE(EP,2,3))*HALF
+        MX23=(VCORE(EP,1,2)+VCORE(EP,1,3))*HALF
+        MX34=(VCORE(EP,1,3)+VCORE(EP,1,4))*HALF
+        MY23=(VCORE(EP,2,2)+VCORE(EP,2,3))*HALF
+        MY34=(VCORE(EP,2,3)+VCORE(EP,2,4))*HALF
         X13_T(EP) =X13*AREA_I(EP)
         X24_T(EP) =X24*AREA_I(EP)
         Y13_T(EP) =Y13*AREA_I(EP)
@@ -1594,7 +1594,7 @@ C-------SONT STOCKE DANS VCORE---
 C
         J1=(MX23*MY13-MX13*MY23)*PG
         J2=-(MX13*MY34-MX34*MY13)*PG
-        J0=AREA(EP)*QUART
+        J0=AREA(EP)*FOURTH
 C----         
         JAC(EP,1)=ABS(J0+J2-J1)
         JAC(EP,2)=ABS(J0+J2+J1)
@@ -1653,12 +1653,12 @@ C----------group warped elements , VJFI,VQN,VQG
        Y13 =Y13_T(EP)
        Y24 =Y24_T(EP)
 cc       
-       MX13=(VCORE(EP,1,1)+VCORE(EP,1,3))*UNDEMI
-       MY13=(VCORE(EP,2,1)+VCORE(EP,2,3))*UNDEMI
-       MX23=(VCORE(EP,1,2)+VCORE(EP,1,3))*UNDEMI
-       MY23=(VCORE(EP,2,2)+VCORE(EP,2,3))*UNDEMI
-       MX34=(VCORE(EP,1,3)+VCORE(EP,1,4))*UNDEMI
-       MY34=(VCORE(EP,2,3)+VCORE(EP,2,4))*UNDEMI       
+       MX13=(VCORE(EP,1,1)+VCORE(EP,1,3))*HALF
+       MY13=(VCORE(EP,2,1)+VCORE(EP,2,3))*HALF
+       MX23=(VCORE(EP,1,2)+VCORE(EP,1,3))*HALF
+       MY23=(VCORE(EP,2,2)+VCORE(EP,2,3))*HALF
+       MX34=(VCORE(EP,1,3)+VCORE(EP,1,4))*HALF
+       MY34=(VCORE(EP,2,3)+VCORE(EP,2,4))*HALF       
        X13_T(EP) =X13*AREA_I(EP)
        X24_T(EP) =X24*AREA_I(EP)
        Y13_T(EP) =Y13*AREA_I(EP)
@@ -1670,22 +1670,22 @@ C--------------------------
 C     CONSTRUIRE [F], [Q], [NM], [A-S], [AS] AUX NOEUDS
 C--------------------------
          X21 =MX23-MX13
-         X34 =(COREL(1,3)-COREL(1,4))*UNDEMI
+         X34 =(COREL(1,3)-COREL(1,4))*HALF
          Y21 =MY23-MY13
-         Y34 =(COREL(2,3)-COREL(2,4))*UNDEMI
+         Y34 =(COREL(2,3)-COREL(2,4))*HALF
          Z21 = -Z1
          Z34 = Z1
          L12 = SQRT(X21*X21+Y21*Y21+Z2)
          L34 = SQRT(X34*X34+Y34*Y34+Z2)
 C---------
          X41 =MX34-MX13
-         X32 =(COREL(1,3)-COREL(1,2))*UNDEMI
+         X32 =(COREL(1,3)-COREL(1,2))*HALF
          Y41 =MY34-MY13
-         Y32 =(COREL(2,3)-COREL(2,2))*UNDEMI
+         Y32 =(COREL(2,3)-COREL(2,2))*HALF
          Z41 = -Z1
          Z32 = Z1
 C----------
-        A_4=AREA(EP)*QUART
+        A_4=AREA(EP)*FOURTH
 C
 C---------- 
 C    CALCUL DE [QG] NG=1,4 
@@ -1700,7 +1700,7 @@ C---------- NG =1----------
         SZ=Z2*L24(EP)
         SL=SQRT(SZ+SZ2*SZ2)
         JAC(EP,1)=SL*PG
-        SL=UN/MAX(SL,EM20)
+        SL=ONE/MAX(SL,EM20)
         VQG(EP,7,1)=-Z1*Y24
         VQG(EP,8,1)= Z1*X24
         VQG(EP,9,1)= SZ2*SL
@@ -1732,7 +1732,7 @@ C
 C
         SL = SQRT(VQG(EP,1,1)*VQG(EP,1,1) + VQG(EP,2,1)*VQG(EP,2,1)
      1            + VQG(EP,3,1)*VQG(EP,3,1))
-        IF ( SL.NE.ZERO) SL = UN / SL
+        IF ( SL.NE.ZERO) SL = ONE / SL
         VQG(EP,1,1) = VQG(EP,1,1)*SL
         VQG(EP,2,1) = VQG(EP,2,1)*SL
         VQG(EP,3,1) = VQG(EP,3,1)*SL
@@ -1744,7 +1744,7 @@ C---------- NG =3----------
         SZ2=A_4+GAMA1
         SL=SQRT(SZ+SZ2*SZ2)
         JAC(EP,3)=SL*PG
-        SL=UN/MAX(SL,EM20)
+        SL=ONE/MAX(SL,EM20)
         VQG(EP,7,3)= VQG(EP,7,3)*SL
         VQG(EP,8,3)= VQG(EP,8,3)*SL
         VQG(EP,9,3)= SZ2*SL
@@ -1773,7 +1773,7 @@ C
 C
         SL = SQRT(VQG(EP,1,3)*VQG(EP,1,3) + VQG(EP,2,3)*VQG(EP,2,3)
      1            + VQG(EP,3,3)*VQG(EP,3,3))
-        IF ( SL.NE.ZERO) SL = UN / SL
+        IF ( SL.NE.ZERO) SL = ONE / SL
         VQG(EP,1,3) = VQG(EP,1,3)*SL
         VQG(EP,2,3) = VQG(EP,2,3)*SL
         VQG(EP,3,3) = VQG(EP,3,3)*SL
@@ -1786,7 +1786,7 @@ C---------- NG =2----------
         SZ=Z2*L13(EP)
         SL=SQRT(SZ+SZ2*SZ2)
         JAC(EP,2)=SL*PG
-        SL=UN/MAX(SL,EM20)
+        SL=ONE/MAX(SL,EM20)
         VQG(EP,7,2)=-Z1*Y13
         VQG(EP,8,2)= Z1*X13
         VQG(EP,9,2)= SZ2*SL
@@ -1812,7 +1812,7 @@ C
 C
         SL = SQRT(VQG(EP,1,2)*VQG(EP,1,2) + VQG(EP,2,2)*VQG(EP,2,2)
      1            + VQG(EP,3,2)*VQG(EP,3,2))
-        IF ( SL.NE.ZERO) SL = UN / SL
+        IF ( SL.NE.ZERO) SL = ONE / SL
         VQG(EP,1,2) = VQG(EP,1,2)*SL
         VQG(EP,2,2) = VQG(EP,2,2)*SL
         VQG(EP,3,2) = VQG(EP,3,2)*SL
@@ -1823,7 +1823,7 @@ C---------- NG =4----------
         SZ2=A_4-GAMA2
         SL=SQRT(SZ+SZ2*SZ2)
         JAC(EP,4)=SL*PG
-        SL=UN/MAX(SL,EM20)
+        SL=ONE/MAX(SL,EM20)
         VQG(EP,7,4)= VQG(EP,7,4)*SL
         VQG(EP,8,4)= VQG(EP,8,4)*SL
         VQG(EP,9,4)= SZ2*SL
@@ -1845,7 +1845,7 @@ C
 C
         SL = SQRT(VQG(EP,1,4)*VQG(EP,1,4) + VQG(EP,2,4)*VQG(EP,2,4)
      1            + VQG(EP,3,4)*VQG(EP,3,4))
-        IF ( SL.NE.ZERO) SL = UN / SL
+        IF ( SL.NE.ZERO) SL = ONE / SL
         VQG(EP,1,4) = VQG(EP,1,4)*SL
         VQG(EP,2,4) = VQG(EP,2,4)*SL
         VQG(EP,3,4) = VQG(EP,3,4)*SL
@@ -1859,20 +1859,20 @@ C     TRANSMET 6DDL-->5DDL, w/o projection
 C--------------------------
        DO I=NPLAT+1,JLT
         EP =IPLAT(I)
-          VXYZ(EP,1,1)= UNDEMI*V13(EP,1)+QUART*VHI(EP,1)
-          VXYZ(EP,1,2)= UNDEMI*V24(EP,1)-QUART*VHI(EP,1)
-          VXYZ(EP,1,3)= -UNDEMI*V13(EP,1)+QUART*VHI(EP,1)
-          VXYZ(EP,1,4)= -UNDEMI*V24(EP,1)-QUART*VHI(EP,1)
+          VXYZ(EP,1,1)= HALF*V13(EP,1)+FOURTH*VHI(EP,1)
+          VXYZ(EP,1,2)= HALF*V24(EP,1)-FOURTH*VHI(EP,1)
+          VXYZ(EP,1,3)= -HALF*V13(EP,1)+FOURTH*VHI(EP,1)
+          VXYZ(EP,1,4)= -HALF*V24(EP,1)-FOURTH*VHI(EP,1)
 
-          VXYZ(EP,2,1)= UNDEMI*V13(EP,2)+QUART*VHI(EP,2)
-          VXYZ(EP,2,2)= UNDEMI*V24(EP,2)-QUART*VHI(EP,2)
-          VXYZ(EP,2,3)= -UNDEMI*V13(EP,2)+QUART*VHI(EP,2)
-          VXYZ(EP,2,4)= -UNDEMI*V24(EP,2)-QUART*VHI(EP,2)
+          VXYZ(EP,2,1)= HALF*V13(EP,2)+FOURTH*VHI(EP,2)
+          VXYZ(EP,2,2)= HALF*V24(EP,2)-FOURTH*VHI(EP,2)
+          VXYZ(EP,2,3)= -HALF*V13(EP,2)+FOURTH*VHI(EP,2)
+          VXYZ(EP,2,4)= -HALF*V24(EP,2)-FOURTH*VHI(EP,2)
 C
-          VXYZ(EP,3,1)= UNDEMI*V13(EP,3)+QUART*VHI(EP,3)
-          VXYZ(EP,3,2)= UNDEMI*V24(EP,3)-QUART*VHI(EP,3)
-          VXYZ(EP,3,3)= -UNDEMI*V13(EP,3)+QUART*VHI(EP,3)
-          VXYZ(EP,3,4)= -UNDEMI*V24(EP,3)-QUART*VHI(EP,3)
+          VXYZ(EP,3,1)= HALF*V13(EP,3)+FOURTH*VHI(EP,3)
+          VXYZ(EP,3,2)= HALF*V24(EP,3)-FOURTH*VHI(EP,3)
+          VXYZ(EP,3,3)= -HALF*V13(EP,3)+FOURTH*VHI(EP,3)
+          VXYZ(EP,3,4)= -HALF*V24(EP,3)-FOURTH*VHI(EP,3)
 C--------drilling dof  
         IF (ISROT.GT.0) THEN
          RR(1,1) =VQ(EP,1,1)*AXYZ(EP,1,1)+VQ(EP,2,1)*AXYZ(EP,2,1)

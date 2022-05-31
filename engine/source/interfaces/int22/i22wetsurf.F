@@ -266,9 +266,9 @@ C--------------------------------------------------------
        DO I=1,JLT
         IF(IX3(I).NE.IX4(I))THEN
          NP_RECT(I) = 4
-         X0(I) = QUART*(X1(I)+X2(I)+X3(I)+X4(I))
-         Y0(I) = QUART*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-         Z0(I) = QUART*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
+         X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
+         Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
+         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
         ELSE
          NP_RECT(I) = 3
          X0(I) = X3(I)
@@ -307,7 +307,7 @@ C
           SZ0     = X01(I)*Y02(I) - Y01(I)*X02(I)
           SS2(1)  = SQRT(MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0))   !2S_tria1
           Sel(I)  = Sel(I) + SS2(1)
-          SS2(1)  = UN/SS2(1)
+          SS2(1)  = ONE/SS2(1)
 
           NNX1(I) = SX0 * SS2(1)
           NNY1(I) = SY0 * SS2(1)
@@ -318,7 +318,7 @@ C
           SZ0     = X02(I)*Y03(I) - Y02(I)*X03(I)
           SS2(2)  = SQRT(MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0))   !2S_tria2
           Sel(I)  = Sel(I) + SS2(2)  
-          SS2(2)  = UN/SS2(2)        
+          SS2(2)  = ONE/SS2(2)        
 
           NNX2(I) = SX0 * SS2(2)
           NNY2(I) = SY0 * SS2(2)
@@ -329,7 +329,7 @@ C
           SZ0     = X03(I)*Y04(I) - Y03(I)*X04(I)
           SS2(3)  = SQRT(MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0))   !2S_tria3
           Sel(I)  = Sel(I) + SS2(3)  
-          SS2(3)  = UN/SS2(3)           
+          SS2(3)  = ONE/SS2(3)           
 
           NNX3(I) = SX0 * SS2(3)
           NNY3(I) = SY0 * SS2(3)
@@ -340,13 +340,13 @@ C
           SZ0     = X04(I)*Y01(I) - Y04(I)*X01(I)
           SS2(4)  = SQRT(MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0))   !2S_tria4
           Sel(I)  = Sel(I) + SS2(4)  
-          SS2(4)  = UN/SS2(4)           
+          SS2(4)  = ONE/SS2(4)           
 
           NNX4(I) = SX0 * SS2(4)
           NNY4(I) = SY0 * SS2(4)
           NNZ4(I) = SZ0 * SS2(4)
           
-          Sel(I)  = UNDEMI * Sel(I)   !(2*1/4 = 1/2)
+          Sel(I)  = HALF * Sel(I)   !(2*1/4 = 1/2)
           
          ELSE ! => NP_RECT(I)==3
          
@@ -363,13 +363,13 @@ C
           SZ0     = X01(I)*Y02(I) - Y01(I)*X02(I)
           SS2(1)  = SQRT(MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0))
           Sel(I)  = SS2(1)
-          SS2(1)  = UN/SS2(1)
+          SS2(1)  = ONE/SS2(1)
 
           NNX1(I) = SX0 * SS2(1)
           NNY1(I) = SY0 * SS2(1)
           NNZ1(I) = SZ0 * SS2(1)
           
-          Sel(I)  = UNDEMI*Sel(I)         
+          Sel(I)  = HALF*Sel(I)         
          
          ENDIF
 
@@ -385,9 +385,9 @@ C--------------------------------------------------------
 #include "lockon.inc"
         DO I=1,JLT
           IF(NP_RECT(I)==4)THEN
-            SURF(1,IABS(CAND_E(I))) = QUART*(NNX1(I) + NNX2(I) + NNX3(I) + NNX4(I))
-            SURF(2,IABS(CAND_E(I))) = QUART*(NNY1(I) + NNY2(I) + NNY3(I) + NNY4(I))
-            SURF(3,IABS(CAND_E(I))) = QUART*(NNZ1(I) + NNZ2(I) + NNZ3(I) + NNZ4(I))
+            SURF(1,IABS(CAND_E(I))) = FOURTH*(NNX1(I) + NNX2(I) + NNX3(I) + NNX4(I))
+            SURF(2,IABS(CAND_E(I))) = FOURTH*(NNY1(I) + NNY2(I) + NNY3(I) + NNY4(I))
+            SURF(3,IABS(CAND_E(I))) = FOURTH*(NNZ1(I) + NNZ2(I) + NNZ3(I) + NNZ4(I))
           ELSE
             SURF(1,IABS(CAND_E(I))) = NNX1(I) 
             SURF(2,IABS(CAND_E(I))) = NNY1(I) 
@@ -402,9 +402,9 @@ C--------------------------------------------------------
 c      DO I=1,JLT
 c        IF(IX3(I).NE.IX4(I))THEN
 c          !moyenne issue des 4 triangles
-c          NX1(I)  = QUART*(NNX1(I)+NNX2(I)+NNX3(I)+NNX4(I))
-c          NY1(I)  = QUART*(NNY1(I)+NNY2(I)+NNY3(I)+NNY4(I))          
-c          NZ1(I)  = QUART*(NNZ1(I)+NNZ2(I)+NNZ3(I)+NNZ4(I))          
+c          NX1(I)  = FOURTH*(NNX1(I)+NNX2(I)+NNX3(I)+NNX4(I))
+c          NY1(I)  = FOURTH*(NNY1(I)+NNY2(I)+NNY3(I)+NNY4(I))          
+c          NZ1(I)  = FOURTH*(NNZ1(I)+NNZ2(I)+NNZ3(I)+NNZ4(I))          
 c        ELSE
 c          NX1(I)  =      (NNX1(I)+NNX2(I)+NNX3(I)+NNX4(I))
 c          NY1(I)  =      (NNY1(I)+NNY2(I)+NNY3(I)+NNY4(I))          
@@ -497,7 +497,7 @@ C--------------------------------------------------------
           a2                    = a*a                                                                                         
           b2                    = b*b                                                                                         
           c2                    = c*c                                                                                         
-          L2                    = UN / MAX(EM30,a2+b2+c2)                                                                     
+          L2                    = ONE / MAX(EM30,a2+b2+c2)                                                                     
           !projected face coordinates
           DO J=1,4    
             Ph(  1,ICUT,J)      = (b2+c2)*P(1,J) -          a*b*P(2,J) -     a*c*P(3,J) - d*a                      
@@ -540,7 +540,7 @@ C--------------------------------------------------------
           a2                    = a*a                                                                        
           b2                    = b*b                                                                        
           c2                    = c*c                                                                        
-          L2                    = UN / MAX(EM30,a2+b2+c2)                                                  
+          L2                    = ONE / MAX(EM30,a2+b2+c2)                                                  
           !projected face coordinates
           DO J=1,4    
             Ph(  1,ICUT,J)      = (b2+c2)*P(1,J) -          a*b*P(2,J) -     a*c*P(3,J) - d*a                      
@@ -629,20 +629,20 @@ C          if(TAG_EL(ICUT)==0)CYCLE
           b                  = NORMAL(2)
           c                  = NORMAL(3)
           IF    (a==ZERO . AND. b==ZERO)THEN
-            V1               = (/ UN,ZERO,ZERO /)
-            V2               = (/ ZERO,UN,ZERO /)     
+            V1               = (/ ONE,ZERO,ZERO /)
+            V2               = (/ ZERO,ONE,ZERO /)     
           ELSEIF(a==ZERO . AND. c==ZERO)THEN
-            V1               = (/ UN,ZERO,ZERO /)
-            V2               = (/ ZERO,ZERO,UN /)      
+            V1               = (/ ONE,ZERO,ZERO /)
+            V2               = (/ ZERO,ZERO,ONE /)      
           ELSEIF(b==ZERO . AND. c==ZERO)THEN                 
-            V1               = (/ ZERO,UN,ZERO /)
-            V2               = (/ ZERO,ZERO,UN /) 
+            V1               = (/ ZERO,ONE,ZERO /)
+            V2               = (/ ZERO,ZERO,ONE /) 
           ELSE
            IF(a.NE.ZERO)THEN
              V1              = (/ -b, a   , ZERO /)
              V2              = (/ -c, ZERO, a    /)       
            ELSE
-             V1              = (/ UN, ZERO, ZERO /)
+             V1              = (/ ONE, ZERO, ZERO /)
              V2              = (/ ZERO, -c, b    /)
            ENDIF
            !ORTHONORMAL
@@ -697,20 +697,20 @@ C            if(TAG_EL(ICUT)==0)CYCLE
             b                  = NORMAL(2)
             c                  = NORMAL(3)
             IF    (a==ZERO . AND. b==ZERO)THEN
-              V1               = (/ UN,ZERO,ZERO /)
-              V2               = (/ ZERO,UN,ZERO /)     
+              V1               = (/ ONE,ZERO,ZERO /)
+              V2               = (/ ZERO,ONE,ZERO /)     
             ELSEIF(a==ZERO . AND. c==ZERO)THEN
-              V1               = (/ UN,ZERO,ZERO /)
-              V2               = (/ ZERO,ZERO,UN /)      
+              V1               = (/ ONE,ZERO,ZERO /)
+              V2               = (/ ZERO,ZERO,ONE /)      
             ELSEIF(b==ZERO . AND. c==ZERO)THEN                 
-              V1               = (/ ZERO,UN,ZERO /)
-              V2               = (/ ZERO,ZERO,UN /) 
+              V1               = (/ ZERO,ONE,ZERO /)
+              V2               = (/ ZERO,ZERO,ONE /) 
             ELSE
              IF(a.NE.ZERO)THEN
                V1              = (/ -b, a   , ZERO /)
                V2              = (/ -c, ZERO, a    /)       
              ELSE
-               V1              = (/ UN, ZERO, ZERO /)
+               V1              = (/ ONE, ZERO, ZERO /)
                V2              = (/ ZERO, -c, b    /)
              ENDIF
              !ORTHONORMAL
@@ -893,7 +893,7 @@ c                P_Grav(2,ICUT,I) = P_Grav(2,ICUT,I) + POLYresult%node(k,2)
             
             P_Grav(1,ICUT,I) = P_Grav(1,ICUT,I) + PGrav(1)
             P_Grav(2,ICUT,I) = P_Grav(2,ICUT,I) + PGrav(2)            
-            NumGrav          = Numgrav + UN
+            NumGrav          = Numgrav + ONE
            
             IF(POLYresult%NumNodes > 0 .AND. STria(J).NE.ZERO)THEN          
               pt1(1:2)   = PolyTria(J)%node(1,1:2) ; pt1(3)=ZERO
@@ -909,7 +909,7 @@ c                P_Grav(2,ICUT,I) = P_Grav(2,ICUT,I) + POLYresult%node(k,2)
               
               !post-condition testing
               WET_RATIO(J) = VAL/Stria(J)
-              IF(WET_RATIO(J).LT.-EM06 .OR. WET_RATIO(J)-UN.GT.EM06)THEN
+              IF(WET_RATIO(J).LT.-EM06 .OR. WET_RATIO(J)-ONE.GT.EM06)THEN
                 print *, "***error: inter22 topology issue while computing wet surface",WET_RATIO(J),VAL1,VAL2
               ENDIF   
             ENDIF
@@ -924,7 +924,7 @@ c                P_Grav(2,ICUT,I) = P_Grav(2,ICUT,I) + POLYresult%node(k,2)
             WET_RATIO(0) = WET_RATIO(0) / Cumul_VAL2          
           ENDIF
                    
-          WET_RATIO(0) = MAX(ZERO,MIN(WET_RATIO(0),UN))
+          WET_RATIO(0) = MAX(ZERO,MIN(WET_RATIO(0),ONE))
           SEFF(ICUT,I) = Cumul_VAL1
           
           SEFF(ICUT,I) = WET_RATIO(0) * Sel(I)
@@ -987,32 +987,32 @@ C          write (*,FMT='(A,2E30.16,A)')  "*createnode ", P_grav(1:2,ICUT,I) ," 
           a            = edge(1)
           b            = distance(1)
           c            = distance(2)          
-          s2           = UNDEMI*(a+b+c)
+          s2           = HALF*(a+b+c)
           Area_tria(1) = SQRT( ABS(s2*(s2-a)*(s2-b)*(s2-c)) ) 
           
           a            = edge(2)
           b            = distance(2)
           c            = distance(3)          
-          s2           = UNDEMI*(a+b+c)
+          s2           = HALF*(a+b+c)
           Area_tria(2) = SQRT( ABS(s2*(s2-a)*(s2-b)*(s2-c)) )  
           
           IF(NP_RECT(I)==4)THEN
             a            = edge(3)
             b            = distance(3)
             c            = distance(4)          
-            s2           = UNDEMI*(a+b+c)
+            s2           = HALF*(a+b+c)
             Area_tria(3) = SQRT( ABS(s2*(s2-a)*(s2-b)*(s2-c)) )  
 
             a            = edge(4)
             b            = distance(4)
             c            = distance(1)          
-            s2           = UNDEMI*(a+b+c)
+            s2           = HALF*(a+b+c)
             Area_tria(4) = SQRT( ABS(s2*(s2-a)*(s2-b)*(s2-c)) )                                                             
           ELSE
             a            = edge(3)
             b            = distance(3)
             c            = distance(1)          
-            s2           = UNDEMI*(a+b+c)
+            s2           = HALF*(a+b+c)
             Area_tria(3) = SQRT( ABS(s2*(s2-a)*(s2-b)*(s2-c)) )  
 
             Area_tria(4) = ZERO          
@@ -1025,19 +1025,19 @@ c22            print *, "Warning: inter22 - nodal forces computation"
 c22          endif
           
           IF(NP_RECT(I)==4)THEN
-            !delta(1,ICUT,I)   = UNDEMI*(Area_tria(2)+Area_tria(3))/Dsum
-            !delta(2,ICUT,I)   = UNDEMI*(Area_tria(3)+Area_tria(4))/Dsum
-            !delta(3,ICUT,I)   = UNDEMI*(Area_tria(1)+Area_tria(4))/Dsum
-            !delta(4,ICUT,I)   = UNDEMI*(Area_tria(1)+Area_tria(2))/Dsum 
+            !delta(1,ICUT,I)   = HALF*(Area_tria(2)+Area_tria(3))/Dsum
+            !delta(2,ICUT,I)   = HALF*(Area_tria(3)+Area_tria(4))/Dsum
+            !delta(3,ICUT,I)   = HALF*(Area_tria(1)+Area_tria(4))/Dsum
+            !delta(4,ICUT,I)   = HALF*(Area_tria(1)+Area_tria(2))/Dsum 
             !uniform loading: same weight
-            delta(1:4,ICUT,I) = QUART                            
+            delta(1:4,ICUT,I) = FOURTH                            
           ELSE
             !delta(1,ICUT,I)   = (Area_tria(2))/Dsum
             !delta(2,ICUT,I)   = (Area_tria(3))/Dsum
             !delta(3,ICUT,I)   = (Area_tria(1))/Dsum
             !delta(4,ICUT,I)   = ZERO 
             !uniform loading : same weight
-            delta(1:4,ICUT,I) = TIERS
+            delta(1:4,ICUT,I) = THIRD
             delta(4  ,ICUT,I) = ZERO                                      
           ENDIF
 
@@ -1193,7 +1193,7 @@ C          if(TAG_EL(ICUT)==0)CYCLE
             
             P_Grav(1,ICUT,I) = P_Grav(1,ICUT,I) + PGrav(1)
             P_Grav(2,ICUT,I) = P_Grav(2,ICUT,I) + PGrav(2)            
-            NumGrav          = Numgrav + UN
+            NumGrav          = Numgrav + ONE
            
             IF(POLYresult%NumNodes > 0 .AND. STria(J).NE.ZERO)THEN          
               pt1(1:2)   = PolyTria(J)%node(1,1:2) ; pt1(3)=ZERO
@@ -1209,7 +1209,7 @@ C          if(TAG_EL(ICUT)==0)CYCLE
               
               !post-condition testing
               WET_RATIO(J) = VAL/Stria(J)
-              IF(WET_RATIO(J).LT.-EM06 .OR. WET_RATIO(J)-UN.GT.EM06)THEN
+              IF(WET_RATIO(J).LT.-EM06 .OR. WET_RATIO(J)-ONE.GT.EM06)THEN
                 print *, "***error: inter22 topology issue while computing wet surface",WET_RATIO(J),VAL1,VAL2
               ENDIF   
             ENDIF
@@ -1224,7 +1224,7 @@ C          if(TAG_EL(ICUT)==0)CYCLE
             WET_RATIO(0) = WET_RATIO(0) / Cumul_VAL2          
           ENDIF
                    
-          WET_RATIO(0) = MAX(ZERO,MIN(WET_RATIO(0),UN))
+          WET_RATIO(0) = MAX(ZERO,MIN(WET_RATIO(0),ONE))
           SEFF(ICUT,I) = Cumul_VAL1  
           
           SEFF(ICUT,I) = WET_RATIO(0) * Sel(I)   
@@ -1287,32 +1287,32 @@ C           write (*,FMT='(A,2E30.16,A)')  "*createnode ", P_grav(1:2,ICUT,I) ,"
           a            = edge(1)
           b            = distance(1)
           c            = distance(2)          
-          s2           = UNDEMI*(a+b+c)
+          s2           = HALF*(a+b+c)
           Area_tria(1) = SQRT( ABS(s2*(s2-a)*(s2-b)*(s2-c)) ) 
           
           a            = edge(2)
           b            = distance(2)
           c            = distance(3)          
-          s2           = UNDEMI*(a+b+c)
+          s2           = HALF*(a+b+c)
           Area_tria(2) = SQRT( ABS(s2*(s2-a)*(s2-b)*(s2-c)) )  
           
           IF(NP_RECT(I)==4)THEN
             a            = edge(3)
             b            = distance(3)
             c            = distance(4)          
-            s2           = UNDEMI*(a+b+c)
+            s2           = HALF*(a+b+c)
             Area_tria(3) = SQRT( ABS(s2*(s2-a)*(s2-b)*(s2-c)) )  
 
             a            = edge(4)
             b            = distance(4)
             c            = distance(1)          
-            s2           = UNDEMI*(a+b+c)
+            s2           = HALF*(a+b+c)
             Area_tria(4) = SQRT( ABS(s2*(s2-a)*(s2-b)*(s2-c)) )                                                             
           ELSE
             a            = edge(3)
             b            = distance(3)
             c            = distance(1)          
-            s2           = UNDEMI*(a+b+c)
+            s2           = HALF*(a+b+c)
             Area_tria(3) = SQRT( ABS(s2*(s2-a)*(s2-b)*(s2-c)) )  
 
             Area_tria(4) = ZERO          
@@ -1325,19 +1325,19 @@ C           write (*,FMT='(A,2E30.16,A)')  "*createnode ", P_grav(1:2,ICUT,I) ,"
           endif
           
           IF(NP_RECT(I)==4)THEN
-            delta(1,ICUT,I)   = UNDEMI*(Area_tria(2)+Area_tria(3))/Dsum
-            delta(2,ICUT,I)   = UNDEMI*(Area_tria(3)+Area_tria(4))/Dsum
-            delta(3,ICUT,I)   = UNDEMI*(Area_tria(1)+Area_tria(4))/Dsum
-            delta(4,ICUT,I)   = UNDEMI*(Area_tria(1)+Area_tria(2))/Dsum  
+            delta(1,ICUT,I)   = HALF*(Area_tria(2)+Area_tria(3))/Dsum
+            delta(2,ICUT,I)   = HALF*(Area_tria(3)+Area_tria(4))/Dsum
+            delta(3,ICUT,I)   = HALF*(Area_tria(1)+Area_tria(4))/Dsum
+            delta(4,ICUT,I)   = HALF*(Area_tria(1)+Area_tria(2))/Dsum  
             !uniform loading : same weight
-            delta(1:4,ICUT,I) = QUART                            
+            delta(1:4,ICUT,I) = FOURTH                            
           ELSE
             delta(1,ICUT,I)   = (Area_tria(2))/Dsum
             delta(2,ICUT,I)   = (Area_tria(3))/Dsum
             delta(3,ICUT,I)   = (Area_tria(1))/Dsum
             delta(4,ICUT,I)   = ZERO
             !uniform loading : same weight 
-            delta(1:4,ICUT,I) = TIERS
+            delta(1:4,ICUT,I) = THIRD
             delta(4,ICUT,I)   = ZERO                                      
           ENDIF
 
@@ -1431,8 +1431,8 @@ C-----------------------------------------------
         ListP(3:4)           = (/3,4/)         
        ELSE
         GetProjectedFaceType = 0        
-        I(1)                 = QUART*(P1(1)+P2(1)+P3(1)+P4(1))
-        I(2)                 = QUART*(P1(2)+P2(2)+P3(2)+P4(2))
+        I(1)                 = FOURTH*(P1(1)+P2(1)+P3(1)+P4(1))
+        I(2)                 = FOURTH*(P1(2)+P2(2)+P3(2)+P4(2))
         ListP(1:4)           = (/1,2,3,4/)
        ENDIF
        

@@ -111,7 +111,7 @@ C-----------------------------------------------
       DO I = 1, NSN
 C si somme masse nulle sur noeuds secnds alors stifn = -1
         IF (MS(NSV(I)).EQ.ZERO) THEN
-          STIFN(I) = -UN
+          STIFN(I) = -ONE
         ENDIF
       ENDDO
       RETURN

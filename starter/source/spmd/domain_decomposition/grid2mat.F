@@ -967,7 +967,7 @@ C
       IF(NSUBDOM.GT.0)THEN
         COST_R2R = ZERO
         DO I=1,NELEM
-          SCAL = UN
+          SCAL = ONE
           IF (I.LE.NUMELS) THEN
               JALE = NINT(PM(72,MID))
               MLN = NINT(PM(19,MID))
@@ -990,7 +990,7 @@ C
          DO K=1,8
            N = IXS(K+1,I)
            IF(N.NE.0)THEN
-             FAC=UN/(ADSKY(N+1)-ADSKY(N))
+             FAC=ONE/(ADSKY(N+1)-ADSKY(N))
              NNC = NNC+ADSKY(N+1)-ADSKY(N)
              IF(ICDDL/=0)RWD(NCOND*(I-1)+ICDDL)=RWD(NCOND*(I-1)+ICDDL)
      +                                         +DSDOF(N)*FAC
@@ -1015,7 +1015,7 @@ C
              N = IXS10(K,II)
              IF(N.NE.0)THEN
 C take care of non connected node
-               FAC=UN/MAX(ADSKY(N+1)-ADSKY(N),1)
+               FAC=ONE/MAX(ADSKY(N+1)-ADSKY(N),1)
                NNC = NNC+ADSKY(N+1)-ADSKY(N)
                IF(ICDDL/=0)RWD(NCOND*(I-1)+ICDDL)=RWD(NCOND*(I-1)+ICDDL)
      +                                           +DSDOF(N)*FAC
@@ -1034,16 +1034,16 @@ C take care of non connected node
      +                                                     +MIN(DSDOF(N),1)*FAC
              ENDIF
            ENDDO
-cc           IF(ICNOD /= 0) RWD(NCOND*(I-1)+ICNOD) = UN ! a definir si besoin
+cc           IF(ICNOD /= 0) RWD(NCOND*(I-1)+ICNOD) = ONE ! a definir si besoin
          ELSE
-cc           IF(ICNOD /= 0) RWD(NCOND*(I-1)+ICNOD) = UN/CINQ ! a definir si besoin
+cc           IF(ICNOD /= 0) RWD(NCOND*(I-1)+ICNOD) = ONE/FIVE ! a definir si besoin
          ENDIF
        ELSE
         DO K=1,8
           N = IXS(K+1,I)
           IF(N.NE.0)THEN
 C take care of non connected node
-            FAC=UN/MAX(ADSKY(N+1)-ADSKY(N),1)
+            FAC=ONE/MAX(ADSKY(N+1)-ADSKY(N),1)
             NNC = NNC+ADSKY(N+1)-ADSKY(N)
             IF(ICDDL/=0)RWD(NCOND*(I-1)+ICDDL)=RWD(NCOND*(I-1)+ICDDL)
      +                                        +DSDOF(N)*FAC
@@ -1062,7 +1062,7 @@ C take care of non connected node
      +                                                  +MIN(DSDOF(N),1)*FAC
           END IF
         ENDDO
-cc        IF(ICNOD /= 0) RWD(NCOND*(I-1)+ICNOD) = (HUIT*HUIT)/NNC
+cc        IF(ICNOD /= 0) RWD(NCOND*(I-1)+ICNOD) = (EIGHT*EIGHT)/NNC
        ENDIF
       ENDDO
 C
@@ -1083,7 +1083,7 @@ C
         DO K=1,4
           N = IXC(K+1,I)
           IF(N.NE.0)THEN
-            FAC=UN/(ADSKY(N+1)-ADSKY(N))
+            FAC=ONE/(ADSKY(N+1)-ADSKY(N))
             NNC = NNC+ADSKY(N+1)-ADSKY(N)
             IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL) =
      +                  RWD(NCOND*(I+OFF-1)+ICDDL) + DSDOF(N)*FAC
@@ -1102,7 +1102,7 @@ C
      +                                                      +MIN(DSDOF(N),1)*FAC
           END IF
         ENDDO
-cc        IF(ICNOD /= 0) RWD(NCOND*(I+OFF-1)+ICNOD)=(QUATRE*QUATRE)/NNC
+cc        IF(ICNOD /= 0) RWD(NCOND*(I+OFF-1)+ICNOD)=(FOUR*FOUR)/NNC
       ENDDO
 C
       OFF = OFF + NUMELC
@@ -1112,7 +1112,7 @@ C
         DO K=1,2
           N = IXT(K+1,I)
           IF(N.NE.0)THEN
-            FAC=UN/(ADSKY(N+1)-ADSKY(N))
+            FAC=ONE/(ADSKY(N+1)-ADSKY(N))
             NNC = NNC+ADSKY(N+1)-ADSKY(N)
             IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL)  = 
      +                  RWD(NCOND*(I+OFF-1)+ICDDL) + DSDOF(N)*FAC
@@ -1131,7 +1131,7 @@ C
      +                                                      +MIN(DSDOF(N),1)*FAC
           END IF
         ENDDO
-cc        IF(ICNOD /= 0) RWD(NCOND*(I+OFF-1)+ICNOD) = (DEUX*DEUX)/NNC
+cc        IF(ICNOD /= 0) RWD(NCOND*(I+OFF-1)+ICNOD) = (TWO*TWO)/NNC
       ENDDO
 C
       OFF = OFF + NUMELT
@@ -1141,7 +1141,7 @@ C
         DO K=1,2
           N = IXP(K+1,I)
           IF(N.NE.0)THEN
-            FAC=UN/(ADSKY(N+1)-ADSKY(N))
+            FAC=ONE/(ADSKY(N+1)-ADSKY(N))
             NNC = NNC+ADSKY(N+1)-ADSKY(N)
             IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL) = 
      +                  RWD(NCOND*(I+OFF-1)+ICDDL) + DSDOF(N)*FAC
@@ -1160,7 +1160,7 @@ C
      +                                                      +MIN(DSDOF(N),1)*FAC
           END IF
         ENDDO
-cc        IF(ICNOD /= 0) RWD(NCOND*(I+OFF-1)+ICNOD) = (DEUX*DEUX)/NNC
+cc        IF(ICNOD /= 0) RWD(NCOND*(I+OFF-1)+ICNOD) = (TWO*TWO)/NNC
       ENDDO
 C
       OFF = OFF + NUMELP 
@@ -1170,7 +1170,7 @@ C
         DO K=1,2
           N = IXR(K+1,I)
           IF(N.NE.0)THEN
-            FAC=UN/(ADSKY(N+1)-ADSKY(N))
+            FAC=ONE/(ADSKY(N+1)-ADSKY(N))
             NNC = NNC+ADSKY(N+1)-ADSKY(N)
             IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL) =
      +                  RWD(NCOND*(I+OFF-1)+ICDDL) + DSDOF(N)*FAC
@@ -1192,7 +1192,7 @@ C
         IF(NINT(GEO(12,IXR(1,I))).EQ.12) THEN
           N = IXR(4,I)
           IF(N.NE.0)THEN
-            FAC=UN/(ADSKY(N+1)-ADSKY(N))
+            FAC=ONE/(ADSKY(N+1)-ADSKY(N))
             NNC = NNC+ADSKY(N+1)-ADSKY(N)
             IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL) =
      +                  RWD(NCOND*(I+OFF-1)+ICDDL) + DSDOF(N)*FAC
@@ -1211,7 +1211,7 @@ C
      +                                                      +MIN(DSDOF(N),1)*FAC
           END IF
         ENDIF
-cc        IF(ICNOD /= 0) RWD(NCOND*(I+OFF-1)+ICNOD) = (DEUX*DEUX)/NNC
+cc        IF(ICNOD /= 0) RWD(NCOND*(I+OFF-1)+ICNOD) = (TWO*TWO)/NNC
       ENDDO
 C
       OFF = OFF + NUMELR
@@ -1221,7 +1221,7 @@ C
         DO K=1,3
           N = IXTG(K+1,I)
           IF(N.NE.0)THEN
-            FAC=UN/(ADSKY(N+1)-ADSKY(N))
+            FAC=ONE/(ADSKY(N+1)-ADSKY(N))
             NNC = NNC+ADSKY(N+1)-ADSKY(N)
             IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL) =
      +                  RWD(NCOND*(I+OFF-1)+ICDDL) + DSDOF(N)*FAC
@@ -1241,7 +1241,7 @@ C
           END IF
         ENDDO
 cc        IF(ICNOD /= 0)
-cc     +    RWD(NCOND*(I+OFF-1)+ICNOD) = (UN/DEUX)*(SIX*TROIS)/NNC
+cc     +    RWD(NCOND*(I+OFF-1)+ICNOD) = (ONE/TWO)*(SIX*THREE)/NNC
       ENDDO
 C
       OFF = OFF + NUMELTG
@@ -1251,7 +1251,7 @@ C
         DO K=1,4
           N = IXUR(K+1,I)
           IF(N.NE.0)THEN
-            FAC=UN/(ADSKY(N+1)-ADSKY(N))
+            FAC=ONE/(ADSKY(N+1)-ADSKY(N))
             NNC = NNC+ADSKY(N+1)-ADSKY(N)
             IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL) =
      +                  RWD(NCOND*(I+OFF-1)+ICDDL) + DSDOF(N)*FAC
@@ -1270,7 +1270,7 @@ C
      +                                                      +MIN(DSDOF(N),1)*FAC
           END IF
         ENDDO
-cc        IF(ICNOD /= 0) RWD(NCOND*(I+OFF-1)+ICNOD)=UN
+cc        IF(ICNOD /= 0) RWD(NCOND*(I+OFF-1)+ICNOD)=ONE
       ENDDO
 C
       OFF = OFF + NUMELUR
@@ -1282,7 +1282,7 @@ C
           ADDX = KXX(4,I)+K-1
           N=IXX(ADDX)
           IF(N.NE.0)THEN
-            FAC=UN/(ADSKY(N+1)-ADSKY(N))
+            FAC=ONE/(ADSKY(N+1)-ADSKY(N))
             NNC = NNC+ADSKY(N+1)-ADSKY(N)
             IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL) =
      +                  RWD(NCOND*(I+OFF-1)+ICDDL) + DSDOF(N)*FAC
@@ -1301,7 +1301,7 @@ C
      +                                                      +MIN(DSDOF(N),1)*FAC
           END IF
         ENDDO
-cc        IF(ICNOD /= 0) RWD(NCOND*(I+OFF-1)+ICNOD) = UN   ! a definir si besoin
+cc        IF(ICNOD /= 0) RWD(NCOND*(I+OFF-1)+ICNOD) = ONE   ! a definir si besoin
       ENDDO
 C
       OFF = OFF + NUMELX

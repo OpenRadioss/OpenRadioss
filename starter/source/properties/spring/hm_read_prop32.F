@@ -154,9 +154,9 @@ C
 C
       NUVAR = 4
 C
-      IF (TSCAL == ZERO) TSCAL = UN * T_UNIT
-      IF (DSCAL == ZERO) DSCAL = UN * L_UNIT
-      IF (FSCAL == ZERO) FSCAL = UN * F_UNIT
+      IF (TSCAL == ZERO) TSCAL = ONE * T_UNIT
+      IF (DSCAL == ZERO) DSCAL = ONE * L_UNIT
+      IF (FSCAL == ZERO) FSCAL = ONE * F_UNIT
 C
       D1 = -ABS(D1)
       STIF00=EM20
@@ -197,25 +197,25 @@ C
           IF(D1.NE.ZERO)THEN
             STIF1=-F1/D1
           ELSEIF(E1.NE.ZERO)THEN
-            STIF1=UNDEMI*F1*F1/E1
+            STIF1=HALF*F1*F1/E1
           ELSEIF(STIF1.EQ.ZERO)THEN  
             STIF1=STIF00
           ENDIF
           D1=-F1/STIF1
-          E1=-UNDEMI*F1*D1
+          E1=-HALF*F1*D1
           ELSEIF(D1.NE.ZERO)THEN
           IF(E1.NE.ZERO)THEN
-            STIF1=DEUX*E1/D1/D1
+            STIF1=TWO*E1/D1/D1
           ELSEIF(STIF1.EQ.ZERO)THEN
             STIF1=STIF00
           ENDIF
           F1=-STIF1*D1
-          E1=-UNDEMI*F1*D1
+          E1=-HALF*F1*D1
         ELSEIF(E1.NE.ZERO)THEN
           IF(STIF1.EQ.ZERO)THEN
             STIF1=STIF00
           ENDIF
-          F1=SQRT(DEUX*E1*STIF1)
+          F1=SQRT(TWO*E1*STIF1)
           D1=-F1/STIF1
         ELSE
           IF(STIF1.EQ.ZERO)THEN
@@ -255,8 +255,8 @@ C
       IERROR = SET_U_GEO(4,F1)
       IERROR = SET_U_PNU(1,IFUNC1,KFUNC)
       IERROR = SET_U_PNU(2,IFUNC2,KFUNC)
-      IERROR = SET_U_GEO(7,UN/TSCAL)
-      IERROR = SET_U_GEO(8,UN/DSCAL)
+      IERROR = SET_U_GEO(7,ONE/TSCAL)
+      IERROR = SET_U_GEO(8,ONE/DSCAL)
       IERROR = SET_U_GEO(9,FSCAL)
       IERROR = SET_U_GEO(11,D1)
 C

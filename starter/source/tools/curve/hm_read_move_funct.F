@@ -93,8 +93,8 @@ C-----------------------------------------------
             CALL HM_GET_FLOATV('Ashiftx', SHX, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('Fshifty', SHY, IS_AVAILABLE, LSUBMODEL, UNITAB)
             
-            IF (SCX == ZERO) SCX = UN          
-            IF (SCY == ZERO) SCY = UN
+            IF (SCX == ZERO) SCX = ONE          
+            IF (SCY == ZERO) SCY = ONE
             DO N = 1,NFUNCT
                IF (NPC(NFUNCT+1+N) == ID) THEN
                   IF (FUNCRYPT(N) == 0) THEN

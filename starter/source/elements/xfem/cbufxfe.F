@@ -102,7 +102,7 @@ c
                 LBUF    => XFEM_STR(NG,IXEL)%BUFLY(ILAY)%LBUF(IR,IS,IT)
                 DIR_DMG => LBUF%DMG(1:L_DMG*LLT)
                 DO I=LFT,LLT
-                  DIR_DMG(I) = UN
+                  DIR_DMG(I) = ONE
                   DIR_DMG(I+LLT) = ZERO
                 ENDDO
               ENDDO
@@ -113,7 +113,7 @@ c
             LBUF    => XFEM_STR(NG,IXEL)%BUFLY(1)%LBUF(IR,IS,IT)
             DIR_DMG => LBUF%DMG(1:L_DMG*LLT)
             DO I=LFT,LLT
-              DIR_DMG(I) = UN
+              DIR_DMG(I) = ONE
               DIR_DMG(I+LLT) = ZERO
             ENDDO
           ENDDO
@@ -266,16 +266,16 @@ c-----------
             DO IT=1,NPTT
               THK_IT(IT) = THK_LY/NPTT  ! equally distribution of NPTT through layer
             ENDDO 
-            POS_0 = POS_LY - UNDEMI*THK_LY
-            IF (NLAY == 1) POS_0 = - UNDEMI !! special case
-            POS_IT(1) = POS_0 + UNDEMI*THK_IT(1)
+            POS_0 = POS_LY - HALF*THK_LY
+            IF (NLAY == 1) POS_0 = - HALF !! special case
+            POS_IT(1) = POS_0 + HALF*THK_IT(1)
             DO IT=2,NPTT
-              POS_IT(IT) = POS_IT(IT-1) + UNDEMI*(THK_IT(IT) + THK_IT(IT-1))
+              POS_IT(IT) = POS_IT(IT-1) + HALF*(THK_IT(IT) + THK_IT(IT-1))
             ENDDO
           ELSEIF (IINT == 2) THEN  !  Gauss distribution
             DO IT=1,NPTT
-              THK_IT(IT) = UNDEMI*THK_LY*W_GAUSS(IT,NPTT)
-              POS_IT(IT) = POS_LY + UNDEMI*THK_LY*A_GAUSS(IT,NPTT)
+              THK_IT(IT) = HALF*THK_LY*W_GAUSS(IT,NPTT)
+              POS_IT(IT) = POS_LY + HALF*THK_LY*A_GAUSS(IT,NPTT)
             ENDDO
           ENDIF
 c         remplissage
@@ -304,7 +304,7 @@ c-----------
           IADR = (N-1)*LLT                        
           DO I = LFT,LLT                            
              J = IADR+I         
-            THKLY(J)   = UN/NPT    
+            THKLY(J)   = ONE/NPT    
             POSLY(I,N) = GEO(IPPOS+N,PID(I))    
             MATLY(J)   = MAT(I)
           ENDDO                                   

@@ -251,7 +251,7 @@ c---------
                  S1 = BUFLY%SIGPT(II + 1)
                  S2 = BUFLY%SIGPT(II + 2)
                  S12= BUFLY%SIGPT(II + 3)
-                 VONM2= S1*S1 + S2*S2 - S1*S2 + TROIS*S12*S12
+                 VONM2= S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12
                  EVAR(I) = SQRT(VONM2)
                ENDIF  
             ENDDO
@@ -501,7 +501,7 @@ CCC
 C------QBAT----
                IF (ITY == 3.AND.IHBE == 11) THEN
                 NPG =4
-                FAC = QUART
+                FAC = FOURTH
                ENDIF
 C------DKT18----
                IF (ITY == 7.AND.IHBE == 11) THEN
@@ -611,7 +611,7 @@ c---------
 C              ------QBAT----
                IF (ITY == 3.AND.IHBE == 11) THEN
                 NPG =4
-                FAC = QUART
+                FAC = FOURTH
                ENDIF
 C               ------DKT18----
                IF (ITY == 7.AND.IHBE == 11) THEN
@@ -827,7 +827,7 @@ c
 !!                    WPMAX(I)= PM(41,MATLY(J))                       
 !!                    IF(DAM1(I).GE.DMAX(I).OR.DAM2(I).GE.DMAX(I).OR. 
 !!     .                 WPLA(I).LT.ZERO.OR.WPLA(I).GE.WPMAX(I))      
-!!     .              FAIL(I) =  FAIL(I) + UN                         
+!!     .              FAIL(I) =  FAIL(I) + ONE                         
 !!                  ENDDO                                               
 !!                ENDDO                                               
 !!              ELSE
@@ -835,9 +835,9 @@ c
 !!                  DO  I=LFT,LLT
 c                    OFF = BUFEL(IADD+I)
 !!                    IF(OFF.LT.ZERO)THEN
-!!                      FAIL(I)= -UN
+!!                      FAIL(I)= -ONE
 !!                    ELSEIF(OFF.GT.ZERO)THEN
-!!                      FAIL(I)=  UN
+!!                      FAIL(I)=  ONE
 !!                    ELSE
 !!                      FAIL(I)=  ZERO
 !!                    END IF
@@ -850,9 +850,9 @@ c                    OFF = BUFEL(IADD+I)
                DO  I=LFT,LLT                                          
                  OFF = GBUF%OFF(I)                                     
                  IF(OFF < ZERO)THEN                                   
-                   FAIL(I) = -UN                                        
+                   FAIL(I) = -ONE                                        
                  ELSEIF(OFF > ZERO)THEN                               
-                   FAIL(I) =  UN                                        
+                   FAIL(I) =  ONE                                        
                  ELSE                                                  
                    FAIL(I) =  ZERO                                      
                  END IF                                                

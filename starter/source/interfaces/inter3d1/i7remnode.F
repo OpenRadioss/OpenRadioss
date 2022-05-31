@@ -424,11 +424,11 @@ C
       DO I=IFIRST,ILAST
 
         IF(IGAP==0)THEN
-          DMAX  = SQRT(DEUX) * MAX(GAP,DRAD)
+          DMAX  = SQRT(TWO) * MAX(GAP,DRAD)
         ELSEIF(IGAP==1 .OR. IGAP==2) THEN
-          DMAX  = SQRT(DEUX) * MAX(GAP_M(I)+GAPS_MX,DRAD)
+          DMAX  = SQRT(TWO) * MAX(GAP_M(I)+GAPS_MX,DRAD)
         ELSEIF(IGAP==3) THEN
-          DMAX  = SQRT(DEUX) * MAX(MIN(GAP_M(I)+GAPS_MX,GAP_M_L(I)+GAPS_L_MX),DRAD)
+          DMAX  = SQRT(TWO) * MAX(MIN(GAP_M(I)+GAPS_MX,GAP_M_L(I)+GAPS_L_MX),DRAD)
         END IF
 
         CPTOPER = 0
@@ -560,7 +560,7 @@ C
           ENDDO
         ELSE
           DO L=1,CPTOPER 
-            IF(DIST1(ID_NOD(L)) <= SQRT(DEUX)*GAPV(ID_NOD(L)))THEN
+            IF(DIST1(ID_NOD(L)) <= SQRT(TWO)*GAPV(ID_NOD(L)))THEN
               CPT1 = CPT1 + 1
               NODDEL(CPT1) = ID_NOD(L)
             ENDIF

@@ -71,22 +71,22 @@ C
          SL2I = GEO(1,IG)*DELTAX(I)**2/ MAX(EM20,IZZ,IYY)
 C
          DMP =MAX(GEO(16,IG),GEO(17,IG))
-         DMP =DMP*SQRT(DEUX)
+         DMP =DMP*SQRT(TWO)
 C
 C        calcul du pourcentage d'amortissement en cisaillement
-         SHF = UN-GEO(37,IG)
+         SHF = ONE-GEO(37,IG)
          YOUNG =PM(20,MX)
 C
-         PHI = DOUZE*YOUNG/(CINQ/SIX*G)/MAX(EM30,SL2I)
+         PHI = TWELVE*YOUNG/(FIVE/SIX*G)/MAX(EM30,SL2I)
          DSH = DMP
-     .      * MAX(UN,
-     .        SQRT(DOUZE/MAX(EM30,SL2I))*SQRT(UN+PHI*SHF))
+     .      * MAX(ONE,
+     .        SQRT(TWELVE/MAX(EM30,SL2I))*SQRT(ONE+PHI*SHF))
 C
-         F1  =SQRT(UN+DMP*DMP)-DMP
+         F1  =SQRT(ONE+DMP*DMP)-DMP
 C        F2 < F1 : ne change pas ce qui marche, meme si trop severe
-         F2  =MIN(F1,SQRT(UN+DSH*DSH)-DSH)
-         FAC =UNDEMI*MIN(SQRT(MIN(QUATRE,UN+SL2I/DOUZE))*F1,
-     .                  SQRT(SL2I/TROIS)*F2)
+         F2  =MIN(F1,SQRT(ONE+DSH*DSH)-DSH)
+         FAC =HALF*MIN(SQRT(MIN(FOUR,ONE+SL2I/TWELVE))*F1,
+     .                  SQRT(SL2I/THREE)*F2)
 C
          DTX(I) = FAC * DELTAX(I) / MAX(EM20,SSP)
       ENDDO

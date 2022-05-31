@@ -80,7 +80,7 @@ C
           YY = YY0                                                      
           ZZ = ZZ0                                                      
           DO L = 1,7                                                    
-            D = TROIS1000/SQRT(XX*XX+YY*YY+ZZ*ZZ)                       
+            D = THREE1000/SQRT(XX*XX+YY*YY+ZZ*ZZ)                       
             CALL WRITE_S_C(NINT(XX*D),1)                                
             CALL WRITE_S_C(NINT(YY*D),1)                                
             CALL WRITE_S_C(NINT(ZZ*D),1)                                

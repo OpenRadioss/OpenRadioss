@@ -225,11 +225,11 @@ C
       IF (ISORTH == 0) THEN 
 C       propriete isotrope
         DO I=LFT,LLT                                            
-          GAMA(I,1) = UN                                
+          GAMA(I,1) = ONE                                
           GAMA(I,2) = ZERO                                  
           GAMA(I,3) = ZERO
           GAMA(I,4) = ZERO                                  
-          GAMA(I,5) = UN                                  
+          GAMA(I,5) = ONE                                  
           GAMA(I,6) = ZERO 
         ENDDO
       ELSE

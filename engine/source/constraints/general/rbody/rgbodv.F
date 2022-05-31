@@ -104,7 +104,7 @@ C
         VG(2)=VR(2,M)+AR(2,M)*DT12
         VG(3)=VR(3,M)+AR(3,M)*DT12
 C
-        USDT = UN/DT12
+        USDT = ONE/DT12
 C
         AM1 = A(1,M)
         AM2 = A(2,M)
@@ -130,11 +130,11 @@ Clm
             VX3=V1X2-V2X1
 
             A(1,N)= AM1 +
-     .        (V(1,M)+VX1+UNDEMI*DT2*(VG(2)*VX3-VG(3)*VX2)-V(1,N))*USDT
+     .        (V(1,M)+VX1+HALF*DT2*(VG(2)*VX3-VG(3)*VX2)-V(1,N))*USDT
             A(2,N)= AM2 +
-     .        (V(2,M)+VX2+UNDEMI*DT2*(VG(3)*VX1-VG(1)*VX3)-V(2,N))*USDT
+     .        (V(2,M)+VX2+HALF*DT2*(VG(3)*VX1-VG(1)*VX3)-V(2,N))*USDT
             A(3,N)= AM3 +
-     .        (V(3,M)+VX3+UNDEMI*DT2*(VG(1)*VX2-VG(2)*VX1)-V(3,N))*USDT
+     .        (V(3,M)+VX3+HALF*DT2*(VG(1)*VX2-VG(2)*VX1)-V(3,N))*USDT
           ENDDO
         ELSE
 #include "scalar.inc"
@@ -155,11 +155,11 @@ Clm
             VX2=V3X1-V1X3
             VX3=V1X2-V2X1
             A(1,N)= AM1 +
-     .        (V(1,M)+VX1+UNDEMI*DT2*(VG(2)*VX3-VG(3)*VX2)-V(1,N))*USDT
+     .        (V(1,M)+VX1+HALF*DT2*(VG(2)*VX3-VG(3)*VX2)-V(1,N))*USDT
             A(2,N)= AM2 +
-     .        (V(2,M)+VX2+UNDEMI*DT2*(VG(3)*VX1-VG(1)*VX3)-V(2,N))*USDT
+     .        (V(2,M)+VX2+HALF*DT2*(VG(3)*VX1-VG(1)*VX3)-V(2,N))*USDT
             A(3,N)= AM3 +
-     .        (V(3,M)+VX3+UNDEMI*DT2*(VG(1)*VX2-VG(2)*VX1)-V(3,N))*USDT
+     .        (V(3,M)+VX3+HALF*DT2*(VG(1)*VX2-VG(2)*VX1)-V(3,N))*USDT
           ENDDO
         ENDIF
       ELSEIF(N2D ==1) THEN
@@ -167,7 +167,7 @@ Clm
         VG(2)=ZERO
         VG(3)=VR(3,M)+AR(3,M)*DT12
 C
-        USDT = UN/DT12
+        USDT = ONE/DT12
 C
         AM1 = ZERO
         AM2 = A(2,M)
@@ -184,8 +184,8 @@ Clm
            VX1= VG(3)*(X(1,N)-X(1,M))
            VY1=-VG(3)*(X(2,N)-X(2,M))
 
-           A(1,N)= AM1 + (V(1,M)+VY1-UNDEMI*DT2*VG(3)*VX1-V(1,N))*USDT
-           A(2,N)= AM2 + (V(2,M)+VX1+UNDEMI*DT2*VG(3)*VY1-V(2,N))*USDT
+           A(1,N)= AM1 + (V(1,M)+VY1-HALF*DT2*VG(3)*VX1-V(1,N))*USDT
+           A(2,N)= AM2 + (V(2,M)+VX1+HALF*DT2*VG(3)*VY1-V(2,N))*USDT
            A(3,N)= AM3 + (V(3,M)-V(3,N))*USDT
          ENDDO
         ELSE
@@ -199,8 +199,8 @@ Clm
            VX1= VG(3)*(X(1,N)-X(1,M))
            VY1=-VG(3)*(X(2,N)-X(2,M))
 
-           A(1,N)= AM1 + (V(1,M)+VY1-UNDEMI*DT2*VG(3)*VX1-V(1,N))*USDT
-           A(2,N)= AM2 + (V(2,M)+VX1+UNDEMI*DT2*VG(3)*VY1-V(2,N))*USDT
+           A(1,N)= AM1 + (V(1,M)+VY1-HALF*DT2*VG(3)*VX1-V(1,N))*USDT
+           A(2,N)= AM2 + (V(2,M)+VX1+HALF*DT2*VG(3)*VY1-V(2,N))*USDT
            A(3,N)= AM3 + (V(3,M)-V(3,N))*USDT
          ENDDO
         ENDIF
@@ -209,7 +209,7 @@ Clm
         VG(2)=ZERO
         VG(3)=ZERO
 C
-        USDT = UN/DT12
+        USDT = ONE/DT12
 C
         AM1 = ZERO
         AM2 = A(2,M)
@@ -232,9 +232,9 @@ Clm
   
            A(1,N)= ZERO
            A(2,N)= AM2 +
-     .       (V(2,M)+VX2+UNDEMI*DT2*VXX2-V(2,N))*USDT
+     .       (V(2,M)+VX2+HALF*DT2*VXX2-V(2,N))*USDT
            A(3,N)= AM3 +
-     .       (V(3,M)+VX3+UNDEMI*DT2*VXX3-V(3,N))*USDT
+     .       (V(3,M)+VX3+HALF*DT2*VXX3-V(3,N))*USDT
          ENDDO
         ELSE
 #include "scalar.inc"
@@ -252,9 +252,9 @@ Clm
            VXX3=-VG(1)*VG(1)*(X(3,N)-X(3,M))
            A(1,N)= ZERO
            A(2,N)= AM2 +
-     .       (V(2,M)+VX2+UNDEMI*DT2*VXX2-V(2,N))*USDT
+     .       (V(2,M)+VX2+HALF*DT2*VXX2-V(2,N))*USDT
            A(3,N)= AM3 +
-     .       (V(3,M)+VX3+UNDEMI*DT2*VXX3-V(3,N))*USDT
+     .       (V(3,M)+VX3+HALF*DT2*VXX3-V(3,N))*USDT
          ENDDO
         ENDIF
       ENDIF
@@ -302,7 +302,7 @@ C
           UX    = X(1,N)-X(1,M)
           UY    = X(2,N)-X(2,M)
           UZ    = X(3,N)-X(3,M)
-          NN    = UN/MAX(EM20,SQRT(UX*UX+UY*UY+UZ*UZ))
+          NN    = ONE/MAX(EM20,SQRT(UX*UX+UY*UY+UZ*UZ))
           UX    = UX*NN
           UY    = UY*NN
           UZ    = UZ*NN

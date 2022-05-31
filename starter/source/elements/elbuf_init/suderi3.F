@@ -79,7 +79,7 @@ C     REAL ou REAL*8
      .   X17(MVSIZ), X28(MVSIZ), X35(MVSIZ), X46(MVSIZ),
      .   Y17(MVSIZ), Y28(MVSIZ), Y35(MVSIZ), Y46(MVSIZ),
      .   Z17(MVSIZ), Z28(MVSIZ), Z35(MVSIZ), Z46(MVSIZ),
-     .   AJ5968(MVSIZ), AJ6749(MVSIZ), AJ4857(MVSIZ),
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
      .   AJ12(MVSIZ),   AJ45(MVSIZ),   AJ78(MVSIZ)
 C=======================================================================
       DO I=1,NEL
@@ -148,13 +148,13 @@ C
 C     JACOBIAN
 C
       DO I=1,NEL
-        AJ5968(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-        AJ6749(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-        AJ4857(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+        JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+        JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+        JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
       ENDDO
 C
       DO I=1,NEL
-        VOL(I)=O64TH*(AJ1(I)*AJ5968(I)+AJ2(I)*AJ6749(I)+AJ3(I)*AJ4857(I))
+        VOL(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
       ENDDO     
 C-----------
       RETURN

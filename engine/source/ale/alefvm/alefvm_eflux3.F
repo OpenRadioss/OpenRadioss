@@ -205,9 +205,9 @@ C-----------------------------------------------
           DO I=LFT,LLT
             II               = I + NFT
             DO J=1,NV46
-               VEC(1,J)      = UNDEMI * (VALEL(1,I)/VALEL(4,I) + VALVOIS(1,J,I)/VALVOIS(4,J,I)) 
-               VEC(2,J)      = UNDEMI * (VALEL(2,I)/VALEL(4,I) + VALVOIS(2,J,I)/VALVOIS(4,J,I)) 
-               VEC(3,J)      = UNDEMI * (VALEL(3,I)/VALEL(4,I) + VALVOIS(3,J,I)/VALVOIS(4,J,I)) 
+               VEC(1,J)      = HALF * (VALEL(1,I)/VALEL(4,I) + VALVOIS(1,J,I)/VALVOIS(4,J,I)) 
+               VEC(2,J)      = HALF * (VALEL(2,I)/VALEL(4,I) + VALVOIS(2,J,I)/VALVOIS(4,J,I)) 
+               VEC(3,J)      = HALF * (VALEL(3,I)/VALEL(4,I) + VALVOIS(3,J,I)/VALVOIS(4,J,I)) 
             ENDDO!next J 
             DO J=1,NV46
               F_FACE(1,J,II) = VEC(1,J)
@@ -389,12 +389,12 @@ C-----------------------------------------------
               ENDDO!next J 
             
             ELSE
-              SURF(1) = UN/SQRT(N1X(I)*N1X(I)+N1Y(I)*N1Y(I)+N1Z(I)*N1Z(I))
-              SURF(2) = UN/SQRT(N2X(I)*N2X(I)+N2Y(I)*N2Y(I)+N2Z(I)*N2Z(I))
-              SURF(3) = UN/SQRT(N3X(I)*N3X(I)+N3Y(I)*N3Y(I)+N3Z(I)*N3Z(I))
-              SURF(4) = UN/SQRT(N4X(I)*N4X(I)+N4Y(I)*N4Y(I)+N4Z(I)*N4Z(I))
-              SURF(5) = UN/SQRT(N5X(I)*N5X(I)+N5Y(I)*N5Y(I)+N5Z(I)*N5Z(I))
-              SURF(6) = UN/SQRT(N6X(I)*N6X(I)+N6Y(I)*N6Y(I)+N6Z(I)*N6Z(I))
+              SURF(1) = ONE/SQRT(N1X(I)*N1X(I)+N1Y(I)*N1Y(I)+N1Z(I)*N1Z(I))
+              SURF(2) = ONE/SQRT(N2X(I)*N2X(I)+N2Y(I)*N2Y(I)+N2Z(I)*N2Z(I))
+              SURF(3) = ONE/SQRT(N3X(I)*N3X(I)+N3Y(I)*N3Y(I)+N3Z(I)*N3Z(I))
+              SURF(4) = ONE/SQRT(N4X(I)*N4X(I)+N4Y(I)*N4Y(I)+N4Z(I)*N4Z(I))
+              SURF(5) = ONE/SQRT(N5X(I)*N5X(I)+N5Y(I)*N5Y(I)+N5Z(I)*N5Z(I))
+              SURF(6) = ONE/SQRT(N6X(I)*N6X(I)+N6Y(I)*N6Y(I)+N6Z(I)*N6Z(I))
               DO J=1,NV46
                  
                  TERM2         = +SURF(J) * ( VALEL(6,I)-VALVOIS(6,J,I) ) / (VALEL(4,I)*VALEL(5,I)+VALVOIS(4,J,I)*VALVOIS(5,J,I))
@@ -450,9 +450,9 @@ C-----------------------------------------------
             NC(6,I)          = IXS(7,II)
             NC(7,I)          = IXS(8,II)
             NC(8,I)          = IXS(9,II)
-            Z(1)             = UNHUIT*SUM(X(1,NC(1:8,I)))
-            Z(2)             = UNHUIT*SUM(X(2,NC(1:8,I)))
-            Z(3)             = UNHUIT*SUM(X(3,NC(1:8,I)))   
+            Z(1)             = ONE_OVER_8*SUM(X(1,NC(1:8,I)))
+            Z(2)             = ONE_OVER_8*SUM(X(2,NC(1:8,I)))
+            Z(3)             = ONE_OVER_8*SUM(X(3,NC(1:8,I)))   
             IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
             LGTH = ALE_CONNECT%ee_connect%iad_connect(II+1) - IAD2
             DO J=1,LGTH
@@ -465,9 +465,9 @@ C-----------------------------------------------
               IX2=IXS(ICF(2,J)+1,II)          
               IX3=IXS(ICF(3,J)+1,II)          
               IX4=IXS(ICF(4,J)+1,II) 
-              CF(1,I) = QUART*(X(1,IX1)+X(1,IX2)+X(1,IX3)+X(1,IX4))
-              CF(2,I) = QUART*(X(2,IX1)+X(2,IX2)+X(2,IX3)+X(2,IX4))
-              CF(3,I) = QUART*(X(3,IX1)+X(3,IX2)+X(3,IX3)+X(3,IX4))                
+              CF(1,I) = FOURTH*(X(1,IX1)+X(1,IX2)+X(1,IX3)+X(1,IX4))
+              CF(2,I) = FOURTH*(X(2,IX1)+X(2,IX2)+X(2,IX3)+X(2,IX4))
+              CF(3,I) = FOURTH*(X(3,IX1)+X(3,IX2)+X(3,IX3)+X(3,IX4))                
               NC(1,I)=IXS(2,IDV)
               NC(2,I)=IXS(3,IDV)
               NC(3,I)=IXS(4,IDV)
@@ -476,9 +476,9 @@ C-----------------------------------------------
               NC(6,I)=IXS(7,IDV)
               NC(7,I)=IXS(8,IDV)
               NC(8,I)=IXS(9,IDV)
-              Zadj(1) = UNHUIT*SUM(X(1,NC(1:8,I)))
-              Zadj(2) = UNHUIT*SUM(X(2,NC(1:8,I)))
-              Zadj(3) = UNHUIT*SUM(X(3,NC(1:8,I)))                    
+              Zadj(1) = ONE_OVER_8*SUM(X(1,NC(1:8,I)))
+              Zadj(2) = ONE_OVER_8*SUM(X(2,NC(1:8,I)))
+              Zadj(3) = ONE_OVER_8*SUM(X(3,NC(1:8,I)))                    
               ZZadj(1)  = Zadj(1)-Z(1)
               ZZadj(2)  = Zadj(2)-Z(2)
               ZZadj(3)  = Zadj(3)-Z(3)                    
@@ -488,12 +488,12 @@ C-----------------------------------------------
               PS        = ZCf(1)*ZZadj(1) + ZCf(2)*ZZadj(2) + ZCf(3)*ZZadj(3)
               ZZadj_    = ZZadj(1)**2 + ZZadj(2)**2 + ZZadj(3)**2
               LAMBDA    = PS / MAX(EM20,ZZadj_)
-C             IF(lambda.LT.ZERO .OR. lambda .GT.UN)then
+C             IF(lambda.LT.ZERO .OR. lambda .GT.ONE)then
 C               print *, "labmda=", lambda
 C               pause
 C             endif
-              LAMBDA    = MIN(MAX(ZERO,LAMBDA) , UN)
-              LAMBDA    = SIN(UNDEMI*3.14159265358979D00*LAMBDA)
+              LAMBDA    = MIN(MAX(ZERO,LAMBDA) , ONE)
+              LAMBDA    = SIN(HALF*3.14159265358979D00*LAMBDA)
               LAMBDA    = LAMBDA * LAMBDA
               !face density
               SR1       = VALEL(4,I)
@@ -546,12 +546,12 @@ C             endif
       !    FLUX_face = [0.5*V_face] . [2S*n]                 !       
       !======================================================!
       DO I=LFT,LLT
-        FLUX1(I)=UNDEMI*(VX1(I)*N1X(I)+VY1(I)*N1Y(I)+VZ1(I)*N1Z(I))
-        FLUX2(I)=UNDEMI*(VX2(I)*N2X(I)+VY2(I)*N2Y(I)+VZ2(I)*N2Z(I))
-        FLUX3(I)=UNDEMI*(VX3(I)*N3X(I)+VY3(I)*N3Y(I)+VZ3(I)*N3Z(I))
-        FLUX4(I)=UNDEMI*(VX4(I)*N4X(I)+VY4(I)*N4Y(I)+VZ4(I)*N4Z(I))
-        FLUX5(I)=UNDEMI*(VX5(I)*N5X(I)+VY5(I)*N5Y(I)+VZ5(I)*N5Z(I))
-        FLUX6(I)=UNDEMI*(VX6(I)*N6X(I)+VY6(I)*N6Y(I)+VZ6(I)*N6Z(I))
+        FLUX1(I)=HALF*(VX1(I)*N1X(I)+VY1(I)*N1Y(I)+VZ1(I)*N1Z(I))
+        FLUX2(I)=HALF*(VX2(I)*N2X(I)+VY2(I)*N2Y(I)+VZ2(I)*N2Z(I))
+        FLUX3(I)=HALF*(VX3(I)*N3X(I)+VY3(I)*N3Y(I)+VZ3(I)*N3Z(I))
+        FLUX4(I)=HALF*(VX4(I)*N4X(I)+VY4(I)*N4Y(I)+VZ4(I)*N4Z(I))
+        FLUX5(I)=HALF*(VX5(I)*N5X(I)+VY5(I)*N5Y(I)+VZ5(I)*N5Z(I))
+        FLUX6(I)=HALF*(VX6(I)*N6X(I)+VY6(I)*N6Y(I)+VZ6(I)*N6Z(I))
       ENDDO
 
 

@@ -113,7 +113,7 @@ C-----------------------------------------------
      .   VG(5),VLY(5),VE(5),DMGMX_LY,EVAR_TMP,A01,A02,A03,A12,A,
      .   B_1,B_2,B_3,M,FF,GG,HH,NN,CRIT,AL1,AL2,AL3,AL4,AL5,AL6,AL7,AL8,
      .   UNSA,LPP11,LPP12,LPP21,LPP22,LPP66,FF0,GG0,HH0,LL0,MM0,NN0,
-     .   S11,S22,S33,S4,S5,S6,VEL(0:3),VFRAC(MVSIZ,21),PHI,ERR,QUATREVINGTDIX
+     .   S11,S22,S33,S4,S5,S6,VEL(0:3),VFRAC(MVSIZ,21),PHI,ERR,NINTY
       INTEGER I,IDX,I1,II,J,NG,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
      .        IR,IS,IT,IL,MLW, NUVAR,IUS,LENF,PTF,PTM,PTS,NFAIL,
      .        N,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
@@ -139,7 +139,7 @@ C-----------------------------------------------
       DATA NS/10/
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
 C-----------------------------------------------
-      QUATREVINGTDIX = 90.
+      NINTY = 90.
       NN1  = 1
       NN3  = 1
       NN4  = NN3 + NUMELQ
@@ -314,8 +314,8 @@ C
                 S1 = GBUF%SIG(JJ(1) + I) + P
                 S2 = GBUF%SIG(JJ(2) + I) + P
                 S3 = GBUF%SIG(JJ(3) + I) + P
-                VONM2 = TROIS*(GBUF%SIG(JJ(4) + I)**2
-     .                + UNDEMI*(S1**2+S2**2+S3**2) )
+                VONM2 = THREE*(GBUF%SIG(JJ(4) + I)**2
+     .                + HALF*(S1**2+S2**2+S3**2) )
                 FUNC(EL2FA(NN3+NFT+I)) = SQRT(VONM2)
                ENDDO
             ELSEIF(IFUNC == 8 .AND. JTURB.NE.0)THEN
@@ -511,8 +511,8 @@ c----           USER VARIABLES from 6 to 60
 !                            S1 = LBUF%SIG(JJ(1) + I) + P
 !                            S2 = LBUF%SIG(JJ(2) + I) + P
 !                            S3 = LBUF%SIG(JJ(3) + I) + P
-!                            VONM2 = TROIS*(LBUF%SIG(JJ(4) + I)**2
-!     .                            + UNDEMI*(S1**2+S2**2+S3**2))
+!                            VONM2 = THREE*(LBUF%SIG(JJ(4) + I)**2
+!     .                            + HALF*(S1**2+S2**2+S3**2))
 !                            EVAR_TMP = EVAR_TMP + SQRT(VONM2)/NPGT
 !                          ENDIF ! IF (ELBUF_TAB(NG)%BUFLY(IL)%L_SEQ > 0)
 !                        ENDDO ! DO IS=1,NPTS
@@ -564,9 +564,9 @@ c----           USER VARIABLES from 6 to 60
                       CRIT = FF0*(S2 - S3)**2
      .                     + GG0*(S3 - S1)**2
      .                     + HH0*(S1 - S2)**2
-     .                     + DEUX*LL0*S5**2
-     .                     + DEUX*MM0*S6**2
-     .                     + DEUX*NN0*S4**2
+     .                     + TWO*LL0*S5**2
+     .                     + TWO*MM0*S6**2
+     .                     + TWO*NN0*S4**2
 !
                       FUNC(EL2FA(NN3+NFT+I)) = SQRT(CRIT)
                     ENDDO ! DO I=LFT,LLT
@@ -585,8 +585,8 @@ c----           USER VARIABLES from 6 to 60
                   S1 = GBUF%SIG(JJ(1) + I) + P
                   S2 = GBUF%SIG(JJ(2) + I) + P
                   S3 = GBUF%SIG(JJ(3) + I) + P
-                  VONM2 = TROIS*(GBUF%SIG(JJ(4) + I)**2
-     .                  + UNDEMI*(S1**2+S2**2+S3**2))
+                  VONM2 = THREE*(GBUF%SIG(JJ(4) + I)**2
+     .                  + HALF*(S1**2+S2**2+S3**2))
                   FUNC(EL2FA(NN3+NFT+I)) = SQRT(VONM2)
                 ENDDO
               ENDIF ! IF (GBUF%G_SEQ > 0)
@@ -912,9 +912,9 @@ c------------------------------------ Mach Number
                       TMP(1,1:4)=V(1,IXQ(2:5,I+NFT))-W(1,IXQ(2:5,I+NFT))                                                    
                       TMP(2,1:4)=V(2,IXQ(2:5,I+NFT))-W(2,IXQ(2:5,I+NFT))                                                    
                       TMP(3,1:4)=V(3,IXQ(2:5,I+NFT))-W(3,IXQ(2:5,I+NFT))                                                    
-                      VEL(1) = SUM(TMP(1,1:4))*QUART                                                       
-                      VEL(2) = SUM(TMP(2,1:4))*QUART                                                       
-                      VEL(3) = SUM(TMP(3,1:4))*QUART                                                       
+                      VEL(1) = SUM(TMP(1,1:4))*FOURTH                                                       
+                      VEL(2) = SUM(TMP(2,1:4))*FOURTH                                                       
+                      VEL(3) = SUM(TMP(3,1:4))*FOURTH                                                       
                       FUNC(EL2FA(NN3+NFT+I)) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I) 
                     ENDDO
                    ELSE
@@ -923,9 +923,9 @@ c------------------------------------ Mach Number
                       TMP(1,1:4)=V(1,IXQ(2:5,I+NFT))                                                   
                       TMP(2,1:4)=V(2,IXQ(2:5,I+NFT))                                                   
                       TMP(3,1:4)=V(3,IXQ(2:5,I+NFT))                                                   
-                      VEL(1) = SUM(TMP(1,1:4))*QUART                                                       
-                      VEL(2) = SUM(TMP(2,1:4))*QUART                                                       
-                      VEL(3) = SUM(TMP(3,1:4))*QUART                                                       
+                      VEL(1) = SUM(TMP(1,1:4))*FOURTH                                                       
+                      VEL(2) = SUM(TMP(2,1:4))*FOURTH                                                       
+                      VEL(3) = SUM(TMP(3,1:4))*FOURTH                                                       
                       FUNC(EL2FA(NN3+NFT+I)) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I) 
                      ENDDO                                    
                    ENDIF
@@ -993,9 +993,9 @@ c------------------------------------ Color Function
               ENDIF 
             ELSEIF(IFUNC == 4*MX_PLY_ANIM + 14566)THEN
                   IF(N2D == 1)THEN
-                    FAC = DEUX*3.141592653589793238  !axi
+                    FAC = TWO*3.141592653589793238  !axi
                   ELSE
-                    FAC = UN                         !plane stress
+                    FAC = ONE                         !plane stress
                   ENDIF
                   DO I = LFT, LLT
                      N = I + NFT
@@ -1174,7 +1174,7 @@ c---
                 S1 = GBUF%FOR(JJ(1)+I)
                 S2 = GBUF%FOR(JJ(2)+I)
                 S12= GBUF%FOR(JJ(3)+I)
-                VONM2= S1*S1 + S2*S2 - S1*S2 + TROIS*S12*S12
+                VONM2= S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12
                 EVAR(I) = SQRT(VONM2)
               ENDDO
 c---
@@ -1229,7 +1229,7 @@ c---
               DO I=LFT,LLT
                 EVAR(I) = ZERO
                 DO IPG=1,4 
-                  EVAR(I) = EVAR(I) + QUART*GBUF%FORPGPINCH(NEL*(IPG-1)+I)
+                  EVAR(I) = EVAR(I) + FOURTH*GBUF%FORPGPINCH(NEL*(IPG-1)+I)
                 ENDDO  
               ENDDO                     
 c---       
@@ -1265,7 +1265,7 @@ c---
 c---
             ELSEIF(IFUNC == 2155)THEN
               DO I=LFT,LLT
-                EVAR(I) = CENT *(GBUF%THK_I(I)-GBUF%THK(I))/GBUF%THK_I(I)
+                EVAR(I) = HUNDRED *(GBUF%THK_I(I)-GBUF%THK(I))/GBUF%THK_I(I)
               ENDDO
 c------------------------------------
             ELSEIF (IFUNC.GE.20 .AND. IFUNC.LE.24) THEN
@@ -1290,7 +1290,7 @@ c
                      DO IS = 1, NPTS                                                       
                       UVAR=>ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IPT)%VAR                     
                       IF(IUS==3.OR.IUS==4)THEN                                             
-                       EVAR(I) = EVAR(I) + LOG(UVAR(I1 + I)+UN)/NPG                       
+                       EVAR(I) = EVAR(I) + LOG(UVAR(I1 + I)+ONE)/NPG                       
                       ELSE                                                                 
                        EVAR(I) = EVAR(I) + UVAR(I1 + I)/NPG                               
                       ENDIF                                                                
@@ -1431,7 +1431,7 @@ c
                         IF (ISHFRAM == 0 .OR. IGTYP == 16 ) THEN                  
 C------                   Repere convecte symetrique - version 5 (default)        
                           SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z                        
-                          SUMA   = UN / MAX(SQRT(SUMA),EM20)                      
+                          SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
                           E3X = E3X * SUMA                                        
                           E3Y = E3Y * SUMA                                        
                           E3Z = E3Z * SUMA                                        
@@ -1444,7 +1444,7 @@ C
                           E1Z = E1Z + (E2X*E3Y-E2Y*E3X)*SUMA                      
 C
                           SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z                        
-                          SUMA   = UN / MAX(SQRT(SUMA),EM20)                      
+                          SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
                           E1X = E1X * SUMA                                        
                           E1Y = E1Y * SUMA                                        
                           E1Z = E1Z * SUMA                                        
@@ -1459,13 +1459,13 @@ C------                   Repere convecte nonsymetrique - version 4
                           E1Y = E1Y*SUMA + E2Z*E3X-E2X*E3Z                        
                           E1Z = E1Z*SUMA + E2X*E3Y-E2Y*E3X                        
                           SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z                        
-                          SUMA   = UN/MAX(SQRT(SUMA),EM20)                        
+                          SUMA   = ONE/MAX(SQRT(SUMA),EM20)                        
                           E1X = E1X*SUMA                                          
                           E1Y = E1Y*SUMA                                          
                           E1Z = E1Z*SUMA                                          
 C
                           SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z                        
-                          SUMA   = UN / MAX(SQRT(SUMA),EM20)                      
+                          SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
                           E3X = E3X * SUMA                                        
                           E3Y = E3Y * SUMA                                        
                           E3Z = E3Z * SUMA                                        
@@ -1474,7 +1474,7 @@ C
                           E2Y = E3Z*E1X-E3X*E1Z                                   
                           E2Z = E3X*E1Y-E3Y*E1X                                   
                           SUMA   = E2X*E2X+E2Y*E2Y+E2Z*E2Z                        
-                          SUMA   = UN/MAX(SQRT(SUMA),EM20)                        
+                          SUMA   = ONE/MAX(SQRT(SUMA),EM20)                        
                           E2X = E2X*SUMA                                          
                           E2Y = E2Y*SUMA                                          
                           E2Z = E2Z*SUMA                                          
@@ -1495,12 +1495,12 @@ C
                           DIR1_2 = BUFLY%DIRA(I+NEL)			      
                         ENDIF                                       
 C
-                        PHI =(CENT80/PI)*ATAN2(DIR1_2,DIR1_1)  
-                        ERR = (ABS(PHI) - QUATREVINGTDIX)/QUATREVINGTDIX
+                        PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
+                        ERR = (ABS(PHI) - NINTY)/NINTY
                         EVAR(I) = PHI
-                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(QUATREVINGTDIX,PHI)
-                        IF(ABS(EVAR(I)) < UN) EVAR(I) = ZERO
-                        !!EVAR(I) = (CENT80/PI)*ATAN2(DIR1_2,DIR1_1)  
+                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINTY,PHI)
+                        IF(ABS(EVAR(I)) < ONE) EVAR(I) = ZERO
+                        !!EVAR(I) = (HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
                       ENDDO                                                       
                     ENDIF  ! MLW                                                  
                   ENDIF  ! IGTYP
@@ -1551,7 +1551,7 @@ C
                         E3X=E3X/SUM_                                             
                         E3Y=E3Y/SUM_                                             
                         E3Z=E3Z/SUM _                                            
-                        AREA = UNDEMI * SUM_                                    
+                        AREA = HALF * SUM_                                    
                         E2X=E3Y*E1Z-E3Z*E1Y                                     
                         E2Y=E3Z*E1X-E3X*E1Z                                     
                         E2Z=E3X*E1Y-E3Y*E1X                                     
@@ -1575,11 +1575,11 @@ C
                           DIR1_1 = BUFLY%DIRA(I)    			    
                           DIR1_2 = BUFLY%DIRA(I+NEL)			    
                         ENDIF                                         
-                        PHI =(CENT80/PI)*ATAN2(DIR1_2,DIR1_1)  
-                        ERR = (ABS(PHI) - QUATREVINGTDIX)/QUATREVINGTDIX
+                        PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
+                        ERR = (ABS(PHI) - NINTY)/NINTY
                         EVAR(I) = PHI
-                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(QUATREVINGTDIX,PHI)
-                        IF(ABS(EVAR(I)) < UN) EVAR(I) = ZERO          
+                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINTY,PHI)
+                        IF(ABS(EVAR(I)) < ONE) EVAR(I) = ZERO          
                       ENDDO                                                     
                     ENDIF                                                       
                   ENDIF              
@@ -2062,14 +2062,14 @@ c
                                    WPMAX(I)= PM(41,MATLY(J))                     
                                    IF (DAM1(I) >= DMAX(I).OR.DAM2(I) >= DMAX(I)  
      .                                .OR.WPLA(I) < ZERO.OR.WPLA(I) >= WPMAX(I) 
-     .                                .OR.OFFL(I) < UN)   FAILG(I) = FAILG(I) + 1              
+     .                                .OR.OFFL(I) < ONE)   FAILG(I) = FAILG(I) + 1              
                                    IF (FAILG(I) == NPG ) THEN                 
-                                       FAIL(I) = FAIL(I) + UN                   
+                                       FAIL(I) = FAIL(I) + ONE                   
                                    ENDIF  
                                 ELSE               
-                                   IF (OFFL(I) < UN)   FAILG(I)= FAILG(I) + 1              
+                                   IF (OFFL(I) < ONE)   FAILG(I)= FAILG(I) + 1              
                                    IF (FAILG(I) == NPG ) THEN                 
-                                       FAIL(I) = FAIL(I) + UN                     
+                                       FAIL(I) = FAIL(I) + ONE                     
                                    ENDIF  
                                 ENDIF ! law25   
                               ENDDO
@@ -2101,9 +2101,9 @@ c
                                WPMAX(I)= PM(41,MATLY(J))                       
                                IF (DAM1(I) >= DMAX(I).OR.DAM2(I) >= DMAX(I).OR.
      .                             WPLA(I) < ZERO.OR.WPLA(I) >= WPMAX(I) .OR.
-     .                             OFFL(I) < UN )  FAIL(I) = FAIL(I) + UN  
+     .                             OFFL(I) < ONE )  FAIL(I) = FAIL(I) + ONE  
                             ELSE                 
-                               IF (OFFL(I) < UN )  FAIL(I) = FAIL(I) + UN 
+                               IF (OFFL(I) < ONE )  FAIL(I) = FAIL(I) + ONE 
                             ENDIF
                           ENDDO
                         ENDIF
@@ -2117,11 +2117,11 @@ c
 !!                      DO  I=LFT,LLT
 !!                        OFF = GBUF%OFF(I)
 !!                        IF (OFF.LT.ZERO) THEN
-!!                          FAIL(I)= -UN
+!!                          FAIL(I)= -ONE
 !                        ELSEIF (OFF.GT.ZERO) THEN
 !!                          FAIL(I)=  ZERO
 !!                        ELSE
-!!                          FAIL(I)=  UN
+!!                          FAIL(I)=  ONE
 !!                        END IF
 !!                         EVAR(I)=FAIL(I)
 !!                      END DO  
@@ -2159,11 +2159,11 @@ c
 !!                  DO  I=LFT,LLT                                         
 !!                    OFF = GBUF%OFF(I)                                  
 !!                    IF (OFF.LT.ZERO)THEN                                  
-!!                      FAIL(I)= -UN                                       
+!!                      FAIL(I)= -ONE                                       
 !!                    ELSEIF(OFF.GT.ZERO)THEN                              
 !!                      FAIL(I)=  ZERO                                       
 !!                    ELSE                                                 
-!!                      FAIL(I)=  UN                                     
+!!                      FAIL(I)=  ONE                                     
 !!                    END IF                                               
 !!                     EVAR(I)=FAIL(I)                                     
 !!                  END DO                                                 
@@ -2331,12 +2331,12 @@ CC                  IF (IHBE == 11) THEN Batoz NPG = 4
                           DO IR=1,NPTR
                             DO IS=1,NPTS
                               LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
-                              DMAX(I) = UN/PM(64,MATLY(J))                               
-                              WPMAX(I)= UN/PM(41,MATLY(J))                               
+                              DMAX(I) = ONE/PM(64,MATLY(J))                               
+                              WPMAX(I)= ONE/PM(41,MATLY(J))                               
                               EPST1(I)= PM(60,MATLY(J))                               
                               EPST2(I)= PM(61,MATLY(J))                               
-                              EPSF1(I)= UN/PM(98,MATLY(J))                               
-                              EPSF2(I)= UN/PM(99,MATLY(J))
+                              EPSF1(I)= ONE/PM(98,MATLY(J))                               
+                              EPSF2(I)= ONE/PM(99,MATLY(J))
 C   
                               VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I)) 
                               VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I)) 
@@ -2380,12 +2380,12 @@ C
                           DO IR=1,NPTR
                             DO IS=1,NPTS
                               LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(IR,IS,IT)        
-                              DMAX(I) = UN/PM(64,MATLY(J))                               
-                              WPMAX(I)= UN/PM(41,MATLY(J))                               
+                              DMAX(I) = ONE/PM(64,MATLY(J))                               
+                              WPMAX(I)= ONE/PM(41,MATLY(J))                               
                               EPST1(I)= PM(60,MATLY(J))                               
                               EPST2(I)= PM(61,MATLY(J))                               
-                              EPSF1(I)= UN/PM(98,MATLY(J))                               
-                              EPSF2(I)= UN/PM(99,MATLY(J))
+                              EPSF1(I)= ONE/PM(98,MATLY(J))                               
+                              EPSF2(I)= ONE/PM(99,MATLY(J))
 C   
                               VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I)) 
                               VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I)) 
@@ -2500,7 +2500,7 @@ C-------------------------------------
 !                            S1 = LBUF%SIG(JJ(1)+I)
 !                            S2 = LBUF%SIG(JJ(2)+I)
 !                            S12= LBUF%SIG(JJ(3)+I)
-!                            VONM2 = S1*S1 + S2*S2 - S1*S2 + TROIS*S12*S12
+!                            VONM2 = S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12
 !                            EVAR_TMP = EVAR_TMP + SQRT(VONM2)/NPGT
 !                          ENDIF ! IF (ELBUF_TAB(NG)%BUFLY(IL)%L_SEQ > 0)
 !                        ENDDO ! DO IS=1,NPTS
@@ -2579,17 +2579,17 @@ C-------------------------------------
                     S2 = GBUF%FOR(JJ(2)+I)
                     S12= GBUF%FOR(JJ(3)+I)
 !
-                    B_1 = UNDEMI*(S1 - A03*S2)
+                    B_1 = HALF*(S1 - A03*S2)
                     B_2 = A12*S12
                     B_3 = SQRT(B_1*B_1 + B_2*B_2)
 !
-                    A = UNDEMI*(S1 + A03*S2)
+                    A = HALF*(S1 + A03*S2)
                     B_1 = A - B_3
                     B_2 = A + B_3
 !
-                    A002(I) = A002(I)*DEUX**M
+                    A002(I) = A002(I)*TWO**M
                     CRIT = A01*(ABS(B_1**M) + ABS(B_2**M)) + A002(I)*B_3**M
-                    EVAR(I) = (UNDEMI*CRIT)**(UN/M)
+                    EVAR(I) = (HALF*CRIT)**(ONE/M)
                   ENDDO ! DO I=LFT,LLT
 !
                 ELSEIF (MLW == 72) THEN
@@ -2629,12 +2629,12 @@ C-------------------------------------
                   AL7   =  UPARAM(9)  
                   AL8   =  UPARAM(10)
                   EXPA  =  NINT(UPARAM(15))
-                  UNSA  =  UN/EXPA
+                  UNSA  =  ONE/EXPA
 !
-                  LPP11=(-DEUX* AL3+DEUX*AL4  +  HUIT*AL5-  DEUX*AL6)/NEUF
-                  LPP12=(       AL3-QUATRE*AL4-QUATRE*AL5+QUATRE*AL6)/NEUF
-                  LPP21=(QUATRE*AL3-QUATRE*AL4-QUATRE*AL5+       AL6)/NEUF
-                  LPP22=(-DEUX* AL3+  HUIT*AL4+  DEUX*AL5-  DEUX*AL6)/NEUF
+                  LPP11=(-TWO* AL3+TWO*AL4  +  EIGHT*AL5-  TWO*AL6)/NINE
+                  LPP12=(       AL3-FOUR*AL4-FOUR*AL5+FOUR*AL6)/NINE
+                  LPP21=(FOUR*AL3-FOUR*AL4-FOUR*AL5+       AL6)/NINE
+                  LPP22=(-TWO* AL3+  EIGHT*AL4+  TWO*AL5-  TWO*AL6)/NINE
                   LPP66=AL8
 !
                   DO I=LFT,LLT
@@ -2642,8 +2642,8 @@ C-------------------------------------
                     S2 = GBUF%FOR(JJ(2)+I)
                     S12= GBUF%FOR(JJ(3)+I)
 !
-                    XPXX(I) = (DEUX*AL1*S1-AL1*S2)/TROIS
-                    XPYY(I) =(-AL2*S1+DEUX*AL2*S2)/TROIS
+                    XPXX(I) = (TWO*AL1*S1-AL1*S2)/THREE
+                    XPYY(I) =(-AL2*S1+TWO*AL2*S2)/THREE
                     XPXY(I) = AL7*S12
 !       
                     XPPXX(I) = LPP11*S1 + LPP12*S2
@@ -2652,24 +2652,24 @@ C-------------------------------------
 !
                     XP1(I) =(XPXX(I)+XPYY(I)+SQRT(MAX(ZERO,
      .                      (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))
-     .                      +QUATRE*XPXY(I)*XPXY(I))))*UNDEMI
+     .                      +FOUR*XPXY(I)*XPXY(I))))*HALF
                     XP2(I) =(XPXX(I)+XPYY(I)-SQRT(MAX(ZERO,
      .                      (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))
-     .                      +QUATRE*XPXY(I)*XPXY(I))))*UNDEMI
+     .                      +FOUR*XPXY(I)*XPXY(I))))*HALF
 !
                     XPP1(I)=(XPPXX(I)+XPPYY(I)+SQRT(MAX(ZERO,
      .                      (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))
-     .                      +QUATRE*XPPXY(I)*XPPXY(I) ) ))*UNDEMI
+     .                      +FOUR*XPPXY(I)*XPPXY(I) ) ))*HALF
                     XPP2(I)=(XPPXX(I)+XPPYY(I)-SQRT(MAX(ZERO,
      .                      (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))
-     .                      +QUATRE*XPPXY(I)*XPPXY(I))))*UNDEMI
+     .                      +FOUR*XPPXY(I)*XPPXY(I))))*HALF
                     PHIP(I) = ABS(XP1(I)-XP2(I))**EXPA
-                    PHIPP(I)= ABS(DEUX*XPP2(I)+XPP1(I))**EXPA
-     .                       +ABS(DEUX*XPP1(I)+XPP2(I))**EXPA
+                    PHIPP(I)= ABS(TWO*XPP2(I)+XPP1(I))**EXPA
+     .                       +ABS(TWO*XPP1(I)+XPP2(I))**EXPA
 !
                     CRIT = ZERO
                     IF ((PHIP(I)+PHIPP(I))> ZERO)
-     .              CRIT = EXP(UNSA*LOG(UNDEMI*(PHIP(I)+PHIPP(I))))
+     .              CRIT = EXP(UNSA*LOG(HALF*(PHIP(I)+PHIPP(I))))
                     EVAR(I) = CRIT
                   ENDDO ! DO I=LFT,LLT
 !
@@ -2708,7 +2708,7 @@ C-------------------------------------
                   S1 = GBUF%FOR(JJ(1)+I)
                   S2 = GBUF%FOR(JJ(2)+I)
                   S12= GBUF%FOR(JJ(3)+I)
-                  VONM2 = S1*S1 + S2*S2 - S1*S2 + TROIS*S12*S12
+                  VONM2 = S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12
                   EVAR(I) = SQRT(VONM2)
                 ENDDO
               ENDIF ! IF (GBUF%G_SEQ > 0)
@@ -2871,9 +2871,9 @@ c------------------------------------
 		          ENDDO 
 		        ENDDO
 		        IF ( NB_PLYOFF == NPTR * NPTS * NPTT ) THEN
-                          EVAR(I) = -UN
+                          EVAR(I) = -ONE
 		        ELSE
-                          EVAR(I) = UN 
+                          EVAR(I) = ONE 
                         ENDIF
 		      ENDDO 
 		    ENDIF
@@ -2897,9 +2897,9 @@ c------------------------------------
 		          ENDDO 
 		        ENDDO 
 		        IF ( NB_PLYOFF == NPTR * NPTS * NPTT ) THEN
-                          EVAR(I) = -UN
+                          EVAR(I) = -ONE
 		        ELSE
-                          EVAR(I) = UN 
+                          EVAR(I) = ONE 
                         ENDIF
 		      ENDDO 
 		    ENDIF
@@ -2964,7 +2964,7 @@ c
                         IF (ISHFRAM == 0 .OR. IGTYP == 16 ) THEN                  
 C------                   Repere convecte symetrique - version 5 (default)        
                           SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z                        
-                          SUMA   = UN / MAX(SQRT(SUMA),EM20)                      
+                          SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
                           E3X = E3X * SUMA                                        
                           E3Y = E3Y * SUMA                                        
                           E3Z = E3Z * SUMA                                        
@@ -2977,7 +2977,7 @@ C
                           E1Z = E1Z + (E2X*E3Y-E2Y*E3X)*SUMA                      
 C
                           SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z                        
-                          SUMA   = UN / MAX(SQRT(SUMA),EM20)                      
+                          SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
                           E1X = E1X * SUMA                                        
                           E1Y = E1Y * SUMA                                        
                           E1Z = E1Z * SUMA                                        
@@ -2992,13 +2992,13 @@ C------                   Repere convecte nonsymetrique - version 4
                           E1Y = E1Y*SUMA + E2Z*E3X-E2X*E3Z                        
                           E1Z = E1Z*SUMA + E2X*E3Y-E2Y*E3X                        
                           SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z                        
-                          SUMA   = UN/MAX(SQRT(SUMA),EM20)                        
+                          SUMA   = ONE/MAX(SQRT(SUMA),EM20)                        
                           E1X = E1X*SUMA                                          
                           E1Y = E1Y*SUMA                                          
                           E1Z = E1Z*SUMA                                          
 C
                           SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z                        
-                          SUMA   = UN / MAX(SQRT(SUMA),EM20)                      
+                          SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
                           E3X = E3X * SUMA                                        
                           E3Y = E3Y * SUMA                                        
                           E3Z = E3Z * SUMA                                        
@@ -3007,7 +3007,7 @@ C
                           E2Y = E3Z*E1X-E3X*E1Z                                   
                           E2Z = E3X*E1Y-E3Y*E1X                                   
                           SUMA   = E2X*E2X+E2Y*E2Y+E2Z*E2Z                        
-                          SUMA   = UN/MAX(SQRT(SUMA),EM20)                        
+                          SUMA   = ONE/MAX(SQRT(SUMA),EM20)                        
                           E2X = E2X*SUMA                                          
                           E2Y = E2Y*SUMA                                          
                           E2Z = E2Z*SUMA                                          
@@ -3028,11 +3028,11 @@ C
                           DIR1_2 = BUFLY%DIRA(I+NEL)			      
                         ENDIF                                       
 c
-                        PHI =(CENT80/PI)*ATAN2(DIR1_2,DIR1_1)  
-                        ERR = (ABS(PHI) - QUATREVINGTDIX)/QUATREVINGTDIX
+                        PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
+                        ERR = (ABS(PHI) - NINTY)/NINTY
                         EVAR(I) = PHI
-                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(QUATREVINGTDIX,PHI)
-                        IF(ABS(EVAR(I)) < UN) EVAR(I) = ZERO
+                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINTY,PHI)
+                        IF(ABS(EVAR(I)) < ONE) EVAR(I) = ZERO
                       ENDDO                                                       
                     ENDIF  ! MLW                                                  
                    ENDIF  ! IGTYP
@@ -3080,7 +3080,7 @@ C
                         E3X=E3X/SUM_                                             
                         E3Y=E3Y/SUM_                                             
                         E3Z=E3Z/SUM_                                             
-                        AREA = UNDEMI * SUM_                                     
+                        AREA = HALF * SUM_                                     
                         E2X=E3Y*E1Z-E3Z*E1Y                                     
                         E2Y=E3Z*E1X-E3X*E1Z                                     
                         E2Z=E3X*E1Y-E3Y*E1X                                     
@@ -3104,11 +3104,11 @@ C
                           DIR1_1 = BUFLY%DIRA(I)                        
                           DIR1_2 = BUFLY%DIRA(I+NEL)                        
                         ENDIF                                         
-                        PHI =(CENT80/PI)*ATAN2(DIR1_2,DIR1_1)  
-                        ERR = (ABS(PHI) - QUATREVINGTDIX)/QUATREVINGTDIX
+                        PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
+                        ERR = (ABS(PHI) - NINTY)/NINTY
                         EVAR(I) = PHI
-                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(QUATREVINGTDIX,PHI)
-                        IF(ABS(EVAR(I)) < UN) EVAR(I) = ZERO     
+                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINTY,PHI)
+                        IF(ABS(EVAR(I)) < ONE) EVAR(I) = ZERO     
                       ENDDO                                                     
                     ENDIF                                                       
                    ENDIF              
@@ -3236,12 +3236,12 @@ c
                         DO IR=1,NPTR
                           DO IS=1,NPTS
                             LBUF=> ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)  
-                            DMAX(I) = UN/PM(64,MATLY(IADR + I))  			     
-                            WPMAX(I)= UN/PM(41,MATLY(IADR + I))  			     
+                            DMAX(I) = ONE/PM(64,MATLY(IADR + I))  			     
+                            WPMAX(I)= ONE/PM(41,MATLY(IADR + I))  			     
                             EPST1(I)= PM(60,MATLY(IADR + I))				  
                             EPST2(I)= PM(61,MATLY(IADR + I))				  
-                            EPSF1(I)= UN/PM(98,MATLY(IADR + I))  			     
-                            EPSF2(I)= UN/PM(99,MATLY(IADR + I))
+                            EPSF1(I)= ONE/PM(98,MATLY(IADR + I))  			     
+                            EPSF2(I)= ONE/PM(99,MATLY(IADR + I))
 C   
                             VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I)) 
                             VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I)) 
@@ -3495,12 +3495,12 @@ C
                     DO IR=1,NPTR
                       DO IS=1,NPTS
                         LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)        
-                        DMAX(I) = UN/PM(64,MATLY(J))                               
-                        WPMAX(I)= UN/PM(41,MATLY(J))                               
+                        DMAX(I) = ONE/PM(64,MATLY(J))                               
+                        WPMAX(I)= ONE/PM(41,MATLY(J))                               
                         EPST1(I)= PM(60,MATLY(J))                               
                         EPST2(I)= PM(61,MATLY(J))                               
-                        EPSF1(I)= UN/PM(98,MATLY(J))                               
-                        EPSF2(I)= UN/PM(99,MATLY(J))
+                        EPSF1(I)= ONE/PM(98,MATLY(J))                               
+                        EPSF2(I)= ONE/PM(99,MATLY(J))
 C 
                         VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I))
                         VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I))
@@ -3584,12 +3584,12 @@ C
                     DO IR=1,NPTR
                       DO IS=1,NPTS
                         LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)        
-                        DMAX(I) = UN/PM(64,MATLY(J))                               
-                        WPMAX(I)= UN/PM(41,MATLY(J))                               
+                        DMAX(I) = ONE/PM(64,MATLY(J))                               
+                        WPMAX(I)= ONE/PM(41,MATLY(J))                               
                         EPST1(I)= PM(60,MATLY(J))                               
                         EPST2(I)= PM(61,MATLY(J))                               
-                        EPSF1(I)= UN/PM(98,MATLY(J))                               
-                        EPSF2(I)= UN/PM(99,MATLY(J))
+                        EPSF1(I)= ONE/PM(98,MATLY(J))                               
+                        EPSF2(I)= ONE/PM(99,MATLY(J))
 C 
                         VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I))
                         VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I))
@@ -3672,12 +3672,12 @@ C
                     DO IR=1,NPTR
                       DO IS=1,NPTS
                         LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)        
-                        DMAX(I) = UN/PM(64,MATLY(J))                               
-                        WPMAX(I)= UN/PM(41,MATLY(J))                               
+                        DMAX(I) = ONE/PM(64,MATLY(J))                               
+                        WPMAX(I)= ONE/PM(41,MATLY(J))                               
                         EPST1(I)= PM(60,MATLY(J))                               
                         EPST2(I)= PM(61,MATLY(J))                               
-                        EPSF1(I)= UN/PM(98,MATLY(J))                               
-                        EPSF2(I)= UN/PM(99,MATLY(J))
+                        EPSF1(I)= ONE/PM(98,MATLY(J))                               
+                        EPSF2(I)= ONE/PM(99,MATLY(J))
 C 
                         VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I))
                         VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I))
@@ -3761,12 +3761,12 @@ C
                       DO IR=1,NPTR
                         DO IS=1,NPTS
                           LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)        
-                          DMAX(I) = UN/PM(64,MATLY(J))                               
-                          WPMAX(I)= UN/PM(41,MATLY(J))                               
+                          DMAX(I) = ONE/PM(64,MATLY(J))                               
+                          WPMAX(I)= ONE/PM(41,MATLY(J))                               
                           EPST1(I)= PM(60,MATLY(J))                               
                           EPST2(I)= PM(61,MATLY(J))                               
-                          EPSF1(I)= UN/PM(98,MATLY(J))                               
-                          EPSF2(I)= UN/PM(99,MATLY(J))
+                          EPSF1(I)= ONE/PM(98,MATLY(J))                               
+                          EPSF2(I)= ONE/PM(99,MATLY(J))
 C 
                           VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I))
                           VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I))
@@ -4056,12 +4056,12 @@ c------------------------------------ OFF
             ELSEIF (IFUNC == 13547 + 4*MX_PLY_ANIM + 1000 + 1)  THEN 
               DO I=LFT,LLT
                 IF (GBUF%G_OFF > 0) THEN
-                  IF(GBUF%OFF(I) > UN) THEN
-                    EVAR(I) = GBUF%OFF(I) - UN
-                  ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= UN)) THEN
+                  IF(GBUF%OFF(I) > ONE) THEN
+                    EVAR(I) = GBUF%OFF(I) - ONE
+                  ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= ONE)) THEN
                     EVAR(I) = GBUF%OFF(I)
                   ELSE
-                    EVAR(I) = -UN
+                    EVAR(I) = -ONE
                   ENDIF
                 ENDIF
               ENDDO   
@@ -4097,9 +4097,9 @@ c------------------------------------ Mach Number
                       TMP(1,1:3)=V(1,IXTG(2:4,I+NFT))-W(1,IXTG(2:4,I+NFT))                                                     
                       TMP(2,1:3)=V(2,IXTG(2:4,I+NFT))-W(2,IXTG(2:4,I+NFT))                                                     
                       TMP(3,1:3)=V(3,IXTG(2:4,I+NFT))-W(3,IXTG(2:4,I+NFT))                                                     
-                      VEL(1) = SUM(TMP(1,1:3))*TIERS                                                       
-                      VEL(2) = SUM(TMP(2,1:3))*TIERS                                                       
-                      VEL(3) = SUM(TMP(3,1:3))*TIERS                                                       
+                      VEL(1) = SUM(TMP(1,1:3))*THIRD                                                       
+                      VEL(2) = SUM(TMP(2,1:3))*THIRD                                                       
+                      VEL(3) = SUM(TMP(3,1:3))*THIRD                                                       
                       EVAR(I) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)                                       
                     ENDDO                                                                                   
                   ELSE
@@ -4107,9 +4107,9 @@ c------------------------------------ Mach Number
                       TMP(1,1:3)=V(1,IXTG(2:4,I+NFT))                                                    
                       TMP(2,1:3)=V(2,IXTG(2:4,I+NFT))                                                    
                       TMP(3,1:3)=V(3,IXTG(2:4,I+NFT))                                                    
-                      VEL(1) = SUM(TMP(1,1:3))*TIERS                                                       
-                      VEL(2) = SUM(TMP(2,1:3))*TIERS                                                       
-                      VEL(3) = SUM(TMP(3,1:3))*TIERS                                                       
+                      VEL(1) = SUM(TMP(1,1:3))*THIRD                                                       
+                      VEL(2) = SUM(TMP(2,1:3))*THIRD                                                       
+                      VEL(3) = SUM(TMP(3,1:3))*THIRD                                                       
                       EVAR(I) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)                                       
                     ENDDO                                                                                   
                   ENDIF
@@ -4177,7 +4177,7 @@ c----------Membrane
                  DO IL=1,NLAY                                              
                    DO IS=1,NPTS 
                      DO IR=1,NPTR                                     
-                       LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,CEILING(NPTT/DEUX))
+                       LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,CEILING(NPTT/TWO))
                        DO I=LFT,LLT
                          EVAR(I) = EVAR(I) + LBUF%DMG(I)/(NPG*NLAY)
                        ENDDO
@@ -4191,11 +4191,11 @@ c----------Membrane
                      DO IR=1,NPTR 
                        LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,NPTT/2) 
                        DO I=LFT,LLT
-                         EVAR(I) = EVAR(I) + LBUF%DMG(I)/(DEUX*NPG*NLAY)
+                         EVAR(I) = EVAR(I) + LBUF%DMG(I)/(TWO*NPG*NLAY)
                        ENDDO
                        LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,NPTT/2+1) 
                        DO I=LFT,LLT
-                         EVAR(I) = EVAR(I) + LBUF%DMG(I)/(DEUX*NPG*NLAY)
+                         EVAR(I) = EVAR(I) + LBUF%DMG(I)/(TWO*NPG*NLAY)
                        ENDDO
                      ENDDO
                    ENDDO
@@ -4369,7 +4369,7 @@ C---------E3------------
        E3Z = RX * SY - RY * SX 
        DET  = SQRT(E3X*E3X + E3Y*E3Y + E3Z*E3Z)
        DET =MAX(EM20,DET)
-       CC = UN / DET
+       CC = ONE / DET
        E3X = E3X * CC 
        E3Y = E3Y * CC 
        E3Z = E3Z * CC 
@@ -4381,7 +4381,7 @@ C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         E1Z = RZ*C2+(SX*E3Y-SY*E3X)*C1
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         C1 = SQRT(E1X*E1X + E1Y*E1Y + E1Z*E1Z)
-        IF ( C1.NE.ZERO) C1 = UN / C1
+        IF ( C1.NE.ZERO) C1 = ONE / C1
         E1X = E1X*C1
         E1Y = E1Y*C1
         E1Z = E1Z*C1

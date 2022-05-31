@@ -195,16 +195,16 @@ C-----------------------------------------------
       END IF
       SPH=CS
       IF(PMIN == ZERO) PMIN  =-EP20
-      IF(CN == ZERO.OR.CN == UN)   CN = UNP0001
+      IF(CN == ZERO.OR.CN == ONE)   CN = ONEP0001
       IF(EPSM == ZERO) EPSM  = EP20
       IF(SIGM == ZERO) SIGM  = EP20
-      IF(CC == ZERO)   EPS0  = UN
-      IF(CM == ZERO)   CM    = UN
+      IF(CC == ZERO)   EPS0  = ONE
+      IF(CM == ZERO)   CM    = ONE
       IF(TMELT == ZERO)TMELT = EP20
       IF(TMAX == ZERO) TMAX  = EP20
-      IF(T0.LE.ZERO) T0    = TROIS100
-      G=YOUNG/(DEUX*(UN + ANU))
-      IF(.NOT.EOS_EMBEDDED)BULK=YOUNG/(TROIS*(UN - DEUX*ANU))
+      IF(T0.LE.ZERO) T0    = THREE100
+      G=YOUNG/(TWO*(ONE + ANU))
+      IF(.NOT.EOS_EMBEDDED)BULK=YOUNG/(THREE*(ONE - TWO*ANU))
 C
       PM(20)=YOUNG
       PM(21)=ANU
@@ -228,7 +228,7 @@ C
 CC-----------
 C     Formulation for solid elements time step computation.
       IPM(252)= 2
-      PM(105) =  (UN -DEUX*ANU)/(UN - ANU) ! DEUX*G/(BULK + QTHIRD*G)       
+      PM(105) =  (ONE -TWO*ANU)/(ONE - ANU) ! TWO*G/(BULK + FOUR_OVER_3*G)       
 C----- Definition des variables internes (stockage elementaire)
       MTAG%G_PLA  = 1
       MTAG%G_TEMP = 1

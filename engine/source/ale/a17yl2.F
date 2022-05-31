@@ -53,8 +53,8 @@ C-----------------------------------------------
 C-----------------------------------------------
       DO 10 I=LFT,LLT
       R    = DELTAX(I)**2/AIRE(I)
-      A    = MAX(ZERO,QUART-R**2)
-      A    = MAX(ZERO,UNDEMI-SQRT(A))
+      A    = MAX(ZERO,FOURTH-R**2)
+      A    = MAX(ZERO,HALF-SQRT(A))
  10   YL(I)=DELTAX(I)*SQRT(A)/R
 C
       RETURN

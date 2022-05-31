@@ -137,15 +137,15 @@ C
 c-----------------------------------------------------------------------
 c     Default values
 c-----------------------------------------------------------------------
-      IF (KWATER    == ZERO) KWATER    = UN
+      IF (KWATER    == ZERO) KWATER    = ONE
       IF (POR0      == ZERO) POR0      = ZERO
       IF (SAT0      == ZERO) SAT0      = ZERO
       IF (U0        == ZERO) U0        = ZERO
       IF (TOL       == ZERO) TOL       = EM04
-      IF (VISCFAC   == ZERO) VISCFAC   = UNDEMI
+      IF (VISCFAC   == ZERO) VISCFAC   = HALF
       IF (MAX_DILAT == ZERO) MAX_DILAT = -EP20
       MAX_DILAT = -ABS(MAX_DILAT)
-      IF (ALPHA     == ZERO) ALPHA     = UNDEMI
+      IF (ALPHA     == ZERO) ALPHA     = HALF
 C-----------------------------------------------
 C     DATA CHECKING
 C-----------------------------------------------
@@ -214,11 +214,11 @@ C
       ! Default value for scale factors of c and Pb
       IF (YLDINI    == ZERO) THEN 
         CALL HM_GET_FLOATV_DIM('MAT_COH0' ,FAC_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        YLDINI = UN*FAC_UNIT
+        YLDINI = ONE*FAC_UNIT
       ENDIF
       IF (CAPINI    == ZERO) THEN 
         CALL HM_GET_FLOATV_DIM('MAT_PB0' ,FAC_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CAPINI = UN*FAC_UNIT
+        CAPINI = ONE*FAC_UNIT
       ENDIF
 C new in May 2015 by Fred Perie (implemented by Marian)
       IF(SAT0/=ZERO)THEN
@@ -237,9 +237,9 @@ C new in May 2015 by Fred Perie (implemented by Marian)
      .                C1=TITR)
        ELSEIF(U0 > ZERO)THEN
          MUW0=U0/KWATER
-         SAT0=UN+MUW0
+         SAT0=ONE+MUW0
        ELSE
-         MUW0=SAT0-UN
+         MUW0=SAT0-ONE
          IF(MUW0 > ZERO)THEN
            U0=KWATER*MUW0
          ELSE 
@@ -247,7 +247,7 @@ C new in May 2015 by Fred Perie (implemented by Marian)
          ENDIF
        ENDIF
       ELSE
-         MUW0=-UN
+         MUW0=-ONE
       ENDIF
 C-----------------------------------------------
 C     USER MATERIAL PARAMETERS DEFINITION  
@@ -263,7 +263,7 @@ C-----------------------------------------------
 c     porosity
       UPARAM(9)  = KWATER
       UPARAM(10) = POR0
-      UPARAM(11) = MUW0+UN
+      UPARAM(11) = MUW0+ONE
       UPARAM(12) = U0
       UPARAM(13) = TOL
       UPARAM(14) = VISCFAC
@@ -283,10 +283,10 @@ C     USED FOR SOLIDS
 C-----------------------------------------------
 C used for interface (solid+shell)
 C
-      PARMAT(1) = KINI + QTHIRD*GINI
+      PARMAT(1) = KINI + FOUR_OVER_3*GINI
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) = DEUX*GINI/(KINI + QTHIRD*GINI) 
+      PARMAT(17) = TWO*GINI/(KINI + FOUR_OVER_3*GINI) 
 c-----------------------------------------------------------------------
       IF (RHOR == ZERO) RHOR = RHO0
       PM(1)      = RHOR

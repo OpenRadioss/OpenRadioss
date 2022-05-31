@@ -159,7 +159,7 @@ C-----------------------------------------------
         DO JJ=1,IR
           I = JST(JJ)
           UEL(I) = ZERO
-          UVAR(I,9)  = UN
+          UVAR(I,9)  = ONE
         ENDDO   
       ENDIF   
 C-------------------------------
@@ -171,33 +171,33 @@ C
         NINDX0 = 0 
         DO J =1,IR
           I=JST(J)
-          IF (OFF(I) == UN ) THEN
+          IF (OFF(I) == ONE ) THEN
 C------------------------------- 
-            IF(UVAR(I,1) < UN)THEN 
+            IF(UVAR(I,1) < ONE)THEN 
              DAM0 = UVAR(I,1)
              DAM  = DAM0
 C
 C   direction 33
 C
-             SIG = UNDEMI*(SIGNZZ(I) + ABS(SIGNZZ(I)))
-             YD3 = K3(I)*(UN - DAM)**2
-             YD3 = UNDEMI*SIG*SIG/MAX(YD3, EM20)
+             SIG = HALF*(SIGNZZ(I) + ABS(SIGNZZ(I)))
+             YD3 = K3(I)*(ONE - DAM)**2
+             YD3 = HALF*SIG*SIG/MAX(YD3, EM20)
              YD3 = MAX(YD3, UVAR(I,2))
              UVAR(I,2) = YD3
 C
 C   direction 32
 C
              SIG = SIGNYZ(I)
-             YD2 = K2(I)*(UN - DAM)**2
-             YD2 = UNDEMI*SIG*SIG/MAX(YD2, EM20)
+             YD2 = K2(I)*(ONE - DAM)**2
+             YD2 = HALF*SIG*SIG/MAX(YD2, EM20)
              YD2 = MAX(YD2, UVAR(I,3))
              UVAR(I,3) = YD2             
 C
 C   direction 13
 C
              SIG =SIGNXZ(I) 
-             YD1 = K1(I)*(UN - DAM)**2
-             YD1 = UNDEMI*SIG*SIG/MAX(YD1, EM20)
+             YD1 = K1(I)*(ONE - DAM)**2
+             YD1 = HALF*SIG*SIG/MAX(YD1, EM20)
              YD1 = MAX(YD1, UVAR(I,4))
              UVAR(I,4) = YD1                            
 C
@@ -205,32 +205,32 @@ C  compute new damage
 C              
               YD = YD3 + GAMA1(I)*YD1 + GAMA2(I)*YD2
               DELTA = SQRT(YD) - Y0(I)
-              DELTA = UNDEMI*(DELTA + ABS(DELTA))
+              DELTA = HALF*(DELTA + ABS(DELTA))
               W = DELTA /(YC(I) - Y0(I))
               CC = W - DAM
-              CC = UNDEMI*(CC + ABS(CC))
+              CC = HALF*(CC + ABS(CC))
               FAC = K(I)*TIMESTEP(I)/A(I)
-              DAM = DAM + FAC*(UN - EXP(-A(I)*CC))
-              DAM = MIN(UN, DAM)
+              DAM = DAM + FAC*(ONE - EXP(-A(I)*CC))
+              DAM = MIN(ONE, DAM)
               UVAR(I,1)  = DAM              
 C
 C  reduce stress interply only
 C
               IF( SIGNZZ(I) > ZERO )
-     .          SIGNZZ(I)  = SIGNZZ(I) *MAX((UN  - DAM),REDUC(I))
-              SIGNYZ0(I) = SIGNYZ0(I)*MAX((UN  - DAM),REDUC(I))
-              SIGNXZ0(I) = SIGNXZ0(I)*MAX((UN  - DAM),REDUC(I)) 
+     .          SIGNZZ(I)  = SIGNZZ(I) *MAX((ONE  - DAM),REDUC(I))
+              SIGNYZ0(I) = SIGNYZ0(I)*MAX((ONE  - DAM),REDUC(I))
+              SIGNXZ0(I) = SIGNXZ0(I)*MAX((ONE  - DAM),REDUC(I)) 
 C
               IF(DAM0 == ZERO .AND. DAM > ZERO) THEN
                NINDX0=NINDX0+1
                INDX0(NINDX0)=I
               ENDIF
 C
-              IF(DAM == UN) THEN
+              IF(DAM == ONE) THEN
                NINDX=NINDX+1
                INDX(NINDX)=I
-!!                OFFI(I) = QCINQ
-                COUNT(I) = COUNT(I) + UN
+!!                OFFI(I) = FOUR_OVER_5
+                COUNT(I) = COUNT(I) + ONE
                 IF(INT(COUNT(I)) == 4)THEN
 !!                    OFFI(I) = MIN(OFFI(I), ZERO)
                    WRITE(IOUT, 1300) NGL(I),IPLY,TIME

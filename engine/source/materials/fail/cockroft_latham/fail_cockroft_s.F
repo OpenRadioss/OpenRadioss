@@ -153,14 +153,14 @@ c!  ***********************
 C-----------------------------------------------
 c! fast degradation
         DO I=1,NEL
-         IF(OFF(I).LT.UN .AND. OFF(I) .GT. ZERO) THEN 
+         IF(OFF(I).LT.ONE .AND. OFF(I) .GT. ZERO) THEN 
            SIGNXX(I) = SIGNXX(I) * OFF(I)
            SIGNYY(I) = SIGNYY(I) * OFF(I)
            SIGNZZ(I) = SIGNZZ(I) * OFF(I)
            SIGNXY(I) = SIGNXY(I) * OFF(I)
            SIGNYZ(I) = SIGNYZ(I) * OFF(I)
            SIGNZX(I) = SIGNZX(I) * OFF(I)
-           OFF(I)    = OFF(I) * QCINQ
+           OFF(I)    = OFF(I) * FOUR_OVER_5
          ENDIF
          IF(OFF(I).LT.EM01) OFF(I) = ZERO
         END DO
@@ -168,7 +168,7 @@ C-------------------
       
       
       DO I=1,NEL
-        IF(OFF(I).EQ.UN) THEN
+        IF(OFF(I).EQ.ONE) THEN
         
 c!          COCKROFT = UVAR(I,2)
 c! equivalent strain calculation (negative = total strain ; positive = plastic strain)
@@ -179,7 +179,7 @@ c! equivalent strain calculation (negative = total strain ; positive = plastic s
             E_33  = EPSZZ(I) - E_HYD
           
             EEQ   = E_11**2 + E_22**2 + E_33**2
-            EEQ   = EEQ + DEUX * EPSXY(I)**2 + DEUX * EPSYZ(I)**2 + DEUX * EPSZX(I)**2
+            EEQ   = EEQ + TWO * EPSXY(I)**2 + TWO * EPSYZ(I)**2 + TWO * EPSZX(I)**2
             EEQ   = 0.8164965809 * SQRT(EEQ) ! sqrt (2/3)*sqrt(...)
 
             D_EEQ = EEQ - UVAR(I,1)
@@ -197,16 +197,16 @@ c!   principal stress calculation
      .         SIGNXY(I)*SIGNXY(I)-SIGNZX(I)*SIGNZX(I)-SIGNYZ(I)*SIGNYZ(I)
           I3 = SIGNXX(I)*SIGNYY(I)*SIGNZZ(I)-SIGNXX(I)*SIGNYZ(I)*SIGNYZ(I)-
      .         SIGNYY(I)*SIGNZX(I)*SIGNZX(I)-SIGNZZ(I)*SIGNXY(I)*SIGNXY(I)+
-     .         DEUX*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
-          Q  = (TROIS*I2 - I1*I1)/NEUF
-          R  = (DEUX*I1*I1*I1-NEUF*I1*I2+VINGT7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
+     .         TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
+          Q  = (THREE*I2 - I1*I1)/NINE
+          R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
            
-          R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),UN)
-          PHI = ACOS(MAX(R_INTER,-UN))
+          R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
+          PHI = ACOS(MAX(R_INTER,-ONE))
            
-          S11 = DEUX*SQRT(-Q)*COS(PHI/TROIS)+THIRD*I1
-          S22 = DEUX*SQRT(-Q)*COS((PHI+DEUX*PI)/TROIS)+THIRD*I1
-          S33 = DEUX*SQRT(-Q)*COS((PHI+QUATRE*PI)/TROIS)+THIRD*I1
+          S11 = TWO*SQRT(-Q)*COS(PHI/THREE)+THIRD*I1
+          S22 = TWO*SQRT(-Q)*COS((PHI+TWO*PI)/THREE)+THIRD*I1
+          S33 = TWO*SQRT(-Q)*COS((PHI+FOUR*PI)/THREE)+THIRD*I1
 
           IF (S11.LT.S22) THEN 
             R_INTER = S11
@@ -225,14 +225,14 @@ c!   principal stress calculation
           ENDIF
           
           IF(S11 .GT. ZERO) THEN
-            S11       = S11 * EMA + (UN-EMA)* UVAR(I,3)
+            S11       = S11 * EMA + (ONE-EMA)* UVAR(I,3)
             UVAR(I,3) = S11
 
             UVAR(I,2) = UVAR(I,2) + S11 * D_EEQ
           ENDIF 
           
           DFMAX(I) = UVAR(I,2) / MAX(ABS(C0),EM20)
-          DFMAX(I) = MIN(UN,DFMAX(I))
+          DFMAX(I) = MIN(ONE,DFMAX(I))
          
           IF (UVAR(I,2) .GE. ABS(C0)) THEN
             TDELE(I)    = TIME  
@@ -240,7 +240,7 @@ c!   principal stress calculation
             INDX(NINDX) = I              
             IDEL7NOK    = 1   
             
-            OFF(I) = QCINQ
+            OFF(I) = FOUR_OVER_5
 
           ENDIF
         

@@ -100,9 +100,8 @@ C     REAL ou REAL*8
      .   VX3614N(MVSIZ),VY3614N(MVSIZ),VX2514N(MVSIZ),VY2514N(MVSIZ),
      .   VXHI(MVSIZ), VYHI(MVSIZ), VZHI(MVSIZ), DT1D2, DT1D1
       my_real 
-     .  O5TH,NU1,PXSVX,PYSVY,PZSVZ,PXAVX,PYAVY,PZAVZ,TERMAD
+     .  NU1,PXSVX,PYSVY,PZSVZ,PXAVX,PYAVY,PZAVZ,TERMAD
 C-----------------------------------------------
-      O5TH=UNDEMI
       DO I=LFT,LLT
        VX14(I)=VX1(I)+VX4(I)
        VX25(I)=VX2(I)+VX5(I)
@@ -147,22 +146,22 @@ Cqz ----------constant part--------------------------------------
         DYX(I)=PX1(I)*VY14(I)+PX2(I)*VY25(I)+
      .         PX3(I)*VY36(I)+PX4(I)*VYHI(I)
 Cqz --------shear traitement-------
-        DXZ(I)=JI33(I)*DEUX*VXHI(I)
+        DXZ(I)=JI33(I)*TWO*VXHI(I)
      .         -B1122(I)*VX36N(I)+B1221(I)*VX25N(I)
      .         +B2212(I)*(VY25N(I)-VY36N(I))  
         DXZ(I)= DXZ(I)+JI33(I)*(VXHI(I)-VX14N(I))
      .         -B1X(I,1)*VX3614N(I)+B1X(I,2)*VX2514N(I)  
      .         -B1Y(I,1)*VY3614N(I)+B1Y(I,2)*VY2514N(I)  
-        DYZ(I)=JI33(I)*DEUX*VYHI(I)
+        DYZ(I)=JI33(I)*TWO*VYHI(I)
      .         -B1122(I)*VY25N(I)+B1221(I)*VY36N(I)
      .         +B1121(I)*(VX36N(I)-VX25N(I))  
         DYZ(I)= DYZ(I)+ JI33(I)*(VYHI(I)-VY14N(I))
      .         +B2X(I,1)*VX3614N(I)-B2X(I,2)*VX2514N(I)
      .         +B2Y(I,1)*VY3614N(I)-B2Y(I,2)*VY2514N(I)  
 C
-        DZX(I)=O5TH*(PX1(I)*VZ14(I)+PX2(I)*VZ25(I)+
+        DZX(I)=HALF*(PX1(I)*VZ14(I)+PX2(I)*VZ25(I)+
      .         PX3(I)*VZ36(I))
-        DZY(I)=O5TH*(PY1(I)*VZ14(I)+PY2(I)*VZ25(I)+
+        DZY(I)=HALF*(PY1(I)*VZ14(I)+PY2(I)*VZ25(I)+
      .         PY3(I)*VZ36(I))
       ENDDO
 C
@@ -173,7 +172,7 @@ C
       ENDDO
 Cqz ----------non-constant part--------------------------------------
       DO I=LFT,LLT
-        NU1 = NU(I)/(UN - NU(I))
+        NU1 = NU(I)/(ONE - NU(I))
         PXAVX = PX1(I)*VX14N(I)+PX2(I)*VX25N(I)+PX3(I)*VX36N(I)
         PYAVY = PY1(I)*VY14N(I)+PY2(I)*VY25N(I)+PY3(I)*VY36N(I)
         PZAVZ = PZ1(I)*VZ14N(I)+PZ2(I)*VZ25N(I)+PZ3(I)*VZ36N(I)
@@ -208,9 +207,9 @@ Cqz --------shear traitement-------
         DHYZ(I)= DHYZ(I) 
      .         +B2XH(I,1)*VX3614N(I)-B2XH(I,2)*VX2514N(I)
      .         +B2YH(I,1)*VY3614N(I)-B2YH(I,2)*VY2514N(I)  
-        DHZX(I)=O5TH*(PX1H(I)*VZ14(I)+PX2H(I)*VZ25(I)+
+        DHZX(I)=HALF*(PX1H(I)*VZ14(I)+PX2H(I)*VZ25(I)+
      .          PX3H(I)*VZ36(I))
-        DHZY(I)=O5TH*(PY1H(I)*VZ14(I)+PY2H(I)*VZ25(I)+
+        DHZY(I)=HALF*(PY1H(I)*VZ14(I)+PY2H(I)*VZ25(I)+
      .          PY3H(I)*VZ36(I))
       ENDDO
 C

@@ -200,7 +200,7 @@ C------- A02 = C*2^M  now, Scalar is sufficient
 C        A02(I) = UPARAM(8)
         G3(I)  = UPARAM(NS+2*NRATE+5)
 C
-        NNU1(I)   = NU(I) / (UN - NU(I))
+        NNU1(I)   = NU(I) / (ONE - NU(I))
        ENDDO
        IF(EPSMAX.EQ.ZERO)THEN
          IF(TF(NPF(IFUNC(1)+1)-1).EQ.ZERO)THEN
@@ -228,23 +228,23 @@ c------------------------------------------------------
          DO I=1,NEL    
           IF(PLA(I) > ZERO)THEN 
              E(I) =  ESCALE(I)* E(I)   
-             A1(I) = E(I)/(UN - NU(I)*NU(I))
+             A1(I) = E(I)/(ONE - NU(I)*NU(I))
              A2(I) = NU(I)*A1(I) 
-             G(I) =  UNDEMI*E(I)/(UN+NU(I)) 
+             G(I) =  HALF*E(I)/(ONE+NU(I)) 
              GS(I)   =  G(I)*SHF(I)                                 
-             G3(I) = TROIS*G(I)                   
+             G3(I) = THREE*G(I)                   
            ENDIF  
          ENDDO                                                                                      
         ELSEIF ( CE /= ZERO) THEN      
 
          DO I=1,NEL                                   
            IF(PLA(I) > ZERO)THEN                                                        
-             E(I) = E(I)-(E(I)-EINF)*(UN-EXP(-CE*PLA(I))) 
-             A1(I) = E(I)/(UN - NU(I)*NU(I))
+             E(I) = E(I)-(E(I)-EINF)*(ONE-EXP(-CE*PLA(I))) 
+             A1(I) = E(I)/(ONE - NU(I)*NU(I))
              A2(I) = NU(I)*A1(I)                                             
-             G(I) =  UNDEMI*E(I)/(UN+NU(I))   
+             G(I) =  HALF*E(I)/(ONE+NU(I))   
              GS(I)   =  G(I)*SHF(I)                                 
-             G3(I) = TROIS*G(I)                                               
+             G3(I) = THREE*G(I)                                               
            ENDIF     
          ENDDO                                                                
 c--------------------------------------------------------------
@@ -284,22 +284,22 @@ Cqz ---
 C
         SOUNDSP(I) = SQRT(A1(I)/RHO0(I))
         VISCMAX(I) = ZERO
-        ETSE(I) = UN
+        ETSE(I) = ONE
 C-------------------
 C     STRAIN RATE
 C-------------------
         IF (ISRATE == 0) THEN 
-          EPSP(I) = UNDEMI*( ABS(EPSPXX(I)+EPSPYY(I))
+          EPSP(I) = HALF*( ABS(EPSPXX(I)+EPSPYY(I))
      .     + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .                   + EPSPXY(I)*EPSPXY(I) ) )
         ENDIF
 C-------------------
 C     STRAIN 
 C-------------------
-        EPST = UNDEMI*( EPSXX(I)+EPSYY(I)
+        EPST = HALF*( EPSXX(I)+EPSYY(I)
      .   + SQRT( (EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
      .                 + EPSXY(I)*EPSXY(I) ) )
-        FAIL(I) = MAX(ZERO,MIN(UN,(EPSR2-EPST)/(EPSR2-EPSR1)))
+        FAIL(I) = MAX(ZERO,MIN(ONE,(EPSR2-EPST)/(EPSR2-EPSR1)))
 C
       ENDDO
 C-------------------
@@ -363,12 +363,12 @@ C     BARLAT 3-PARAMETER CRITERION
 C     A01->a;A02->c*2^m;A03->h;A12->p
 C-------------------------
        H(1:NEL) = MAX(ZERO,H(1:NEL))
-       B_1(1:NEL)=UNDEMI*(SIGNXX(1:NEL)-A03*SIGNYY(1:NEL))
+       B_1(1:NEL)=HALF*(SIGNXX(1:NEL)-A03*SIGNYY(1:NEL))
        B_2(1:NEL)=A12*SIGNXY(1:NEL)
        B_3(1:NEL)=SQRT(B_1(1:NEL)*B_1(1:NEL)+B_2(1:NEL)*B_2(1:NEL))
 
       DO  I=1,NEL
-       A =UNDEMI*(SIGNXX(I)+A03*SIGNYY(I))
+       A =HALF*(SIGNXX(I)+A03*SIGNYY(I))
        B_1(I)=A-B_3(I)
        B_2(I)=A+B_3(I)
       ENDDO
@@ -380,10 +380,10 @@ C----normilized by E*EM03 to avoid numeric failure in SP
        B_3(I)=B_3(I)*NORM
        YLDN(I) = YLD(I)*NORM
       ENDDO
-C       A02(1:NEL)=A02(1:NEL)*DEUX**M
+C       A02(1:NEL)=A02(1:NEL)*TWO**M
        SVM(1:NEL)=A01*(ABS(B_1(1:NEL)**M)+ABS(B_2(1:NEL)**M))
      .           +A02*B_3(1:NEL)**M
-       SVM(1:NEL)=(UNDEMI*SVM(1:NEL))**(UN/M)
+       SVM(1:NEL)=(HALF*SVM(1:NEL))**(ONE/M)
 
       DO  I=1,NEL
        DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU1(I)
@@ -397,7 +397,7 @@ C-------------------------
       NINDX=0
 
       DO I=1,NEL
-      IF(SVM(I).GT.YLDN(I).AND.OFF(I).EQ.UN) THEN
+      IF(SVM(I).GT.YLDN(I).AND.OFF(I).EQ.ONE) THEN
         NINDX=NINDX+1
         INDEX(NINDX)=I
       ENDIF
@@ -417,10 +417,10 @@ C---------------------------
 C       H(I) = H(I)-HK(I)
        H(I) = MAX(ZERO,H(I))
 C--------Ecroui. cinematique
-c       FHK = QTHIRD*HK(I)/A1(I)
-c       NU2(I) = UN+FHK
-c       NU3(I) = NU(I)+FHK*UNDEMI
-c       NU4(I) = UNDEMI*(UN-NU(I))+TQUART*FHK
+c       FHK = FOUR_OVER_3*HK(I)/A1(I)
+c       NU2(I) = ONE+FHK
+c       NU3(I) = NU(I)+FHK*HALF
+c       NU4(I) = HALF*(ONE-NU(I))+THREE_OVER_4*FHK
       ENDDO
 C
 C
@@ -475,21 +475,21 @@ C----to optimize with HK=0--
          SIGNXY(I) =SXY(J)*NORM1
          PLA(I) = PLA(I) + ALPHA(J)
 c       X_ij are inverse signes        
-         NU31=UN-NU(I)/(UN-NU(I))    
+         NU31=ONE-NU(I)/(ONE-NU(I))    
          IF (INLOC == 0) THEN     
            DEZZ = NU31*(XXX(J)+XYY(J))
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
          ENDIF
-         DR0 = DTHIRD*HK(I)
-c         DR0 = QTHIRD*HK(I)
-         UVAR(I,2) = UVAR(I,2) - (DEUX*XXX(J)+XYY(J))*DR0
-         UVAR(I,3) = UVAR(I,3) - (DEUX*XYY(J)+XXX(J))*DR0
+         DR0 = TWO_THIRD*HK(I)
+c         DR0 = FOUR_OVER_3*HK(I)
+         UVAR(I,2) = UVAR(I,2) - (TWO*XXX(J)+XYY(J))*DR0
+         UVAR(I,3) = UVAR(I,3) - (TWO*XYY(J)+XXX(J))*DR0
          UVAR(I,4) = UVAR(I,4) -  XXY(J)*DR0
       ENDDO
 C
 C
       DO I=1,NEL
-        IF(PLA(I).GT.EPSMAX.AND.OFF(I).EQ.UN)OFF(I)=ZEP80
+        IF(PLA(I).GT.EPSMAX.AND.OFF(I).EQ.ONE)OFF(I)=ZEP80
       ENDDO
       ENDIF
 #include "vectorize.inc"
@@ -505,22 +505,22 @@ C
       IF (INLOC > 0) THEN
         DO I = 1,NEL
           ! Computation of the normal to the yield surface
-          K1      = (SIGNXX(I) + A03*SIGNYY(I))*NORM/DEUX
-          K2      = SQRT(((SIGNXX(I) - A03*SIGNYY(I))/DEUX)**DEUX + (A12*SIGNXY(I))**DEUX)*NORM
-          SEFF    = A01*ABS(K1+K2)**M + A01*ABS(K1-K2)**M + A02*ABS(DEUX*K2)**M
-          SEFF    = (UNDEMI*MAX(SEFF,EM20))**(UN/M)
-          DF_DK1  = (SEFF**(1-M))*(A01/DEUX)*(
-     .              +  SIGN(UN,K1+K2)*(ABS(K1+K2)**(M-1)) 
-     .              +  SIGN(UN,K1-K2)*(ABS(K1-K2)**(M-1)))
-          DF_DK2  = (SEFF**(1-M))*((A01/DEUX)*(
-     .              +  SIGN(UN,K1+K2)*(ABS(K1+K2)**(M-1)) 
-     .              -  SIGN(UN,K1-K2)*(ABS(K1-K2)**(M-1))) 
-     .              +  A02*(ABS(DEUX*K2)**(M-1)))
-          DK1_DSIGXX = UNDEMI
-          DK1_DSIGYY = A03/DEUX
-          DK2_DSIGXX = (SIGNXX(I)-A03*SIGNYY(I))*NORM/(MAX(QUATRE*K2,EM20))
-          DK2_DSIGYY = -A03*(SIGNXX(I)-A03*SIGNYY(I))*NORM/(MAX(QUATRE*K2,EM20))
-          DK2_DSIGXY = (A12**DEUX)*SIGNXY(I)*NORM/MAX(K2,EM20)
+          K1      = (SIGNXX(I) + A03*SIGNYY(I))*NORM/TWO
+          K2      = SQRT(((SIGNXX(I) - A03*SIGNYY(I))/TWO)**TWO + (A12*SIGNXY(I))**TWO)*NORM
+          SEFF    = A01*ABS(K1+K2)**M + A01*ABS(K1-K2)**M + A02*ABS(TWO*K2)**M
+          SEFF    = (HALF*MAX(SEFF,EM20))**(ONE/M)
+          DF_DK1  = (SEFF**(1-M))*(A01/TWO)*(
+     .              +  SIGN(ONE,K1+K2)*(ABS(K1+K2)**(M-1)) 
+     .              +  SIGN(ONE,K1-K2)*(ABS(K1-K2)**(M-1)))
+          DF_DK2  = (SEFF**(1-M))*((A01/TWO)*(
+     .              +  SIGN(ONE,K1+K2)*(ABS(K1+K2)**(M-1)) 
+     .              -  SIGN(ONE,K1-K2)*(ABS(K1-K2)**(M-1))) 
+     .              +  A02*(ABS(TWO*K2)**(M-1)))
+          DK1_DSIGXX = HALF
+          DK1_DSIGYY = A03/TWO
+          DK2_DSIGXX = (SIGNXX(I)-A03*SIGNYY(I))*NORM/(MAX(FOUR*K2,EM20))
+          DK2_DSIGYY = -A03*(SIGNXX(I)-A03*SIGNYY(I))*NORM/(MAX(FOUR*K2,EM20))
+          DK2_DSIGXY = (A12**TWO)*SIGNXY(I)*NORM/MAX(K2,EM20)
           NORMXX     = DF_DK1*DK1_DSIGXX + DF_DK2*DK2_DSIGXX
           NORMYY     = DF_DK1*DK1_DSIGYY + DF_DK2*DK2_DSIGYY
           NORMXY     = DF_DK2*DK2_DSIGXY
@@ -537,20 +537,20 @@ C
 !!     EQUIVALENT STRESS FOR OUTPUT - BARLAT -
 !!-------------------------
 !!      IF (ISEQ > 0) THEN
-!!        B_1(1:NEL)=UNDEMI*(SIGNXX(1:NEL)-A03*SIGNYY(1:NEL))
+!!        B_1(1:NEL)=HALF*(SIGNXX(1:NEL)-A03*SIGNYY(1:NEL))
 !!        B_2(1:NEL)=A12*SIGNXY(1:NEL)
 !!        B_3(1:NEL)=SQRT(B_1(1:NEL)*B_1(1:NEL)+B_2(1:NEL)*B_2(1:NEL))
 !!
 !!        DO  I=1,NEL
-!!          A =UNDEMI*(SIGNXX(I)+A03*SIGNYY(I))
+!!          A =HALF*(SIGNXX(I)+A03*SIGNYY(I))
 !!          B_1(I)=A-B_3(I)
 !!          B_2(I)=A+B_3(I)
 !!        ENDDO
 !!        A02(1:NEL) = UPARAM(8)
-!!        A02(1:NEL) = A02(1:NEL)*DEUX**M
+!!        A02(1:NEL) = A02(1:NEL)*TWO**M
 !!        SVM(1:NEL) = A01*(ABS(B_1(1:NEL)**M)+ABS(B_2(1:NEL)**M))
 !!     .             + A02(1:NEL)*B_3(1:NEL)**M
-!!        SVM(1:NEL) = (UNDEMI*SVM(1:NEL))**(UN/M)
+!!        SVM(1:NEL) = (HALF*SVM(1:NEL))**(ONE/M)
 !!
 !!        SEQ_OUTPUT(1:NEL) = SVM(1:NEL)
 !!      ENDIF
@@ -597,8 +597,8 @@ C        A03 = PARAM(I,3)
 C        A12 = PARAM(I,4)
         M = PARAM(I,5)
         SVM=A01*(ABS(B_1(I)**M)+ABS(B_2(I)**M))+A02*B_3(I)**M
-        F(I)=SVM/SIGYM(I)-DEUX
-C        F(I)=SVM-DEUX*SIGY(I)**M
+        F(I)=SVM/SIGYM(I)-TWO
+C        F(I)=SVM-TWO*SIGY(I)**M
        ENDDO
        RETURN
        END
@@ -649,24 +649,24 @@ C
 C-------------------------------------------------------------------------------------------
 C                Derive de f
 C-------------------------------------------------------------------------------------------
-	     C_1=UNDEMI*(SIGXX(I)-A03*SIGYY(I))
+	     C_1=HALF*(SIGXX(I)-A03*SIGYY(I))
          C_2=A12*SIGXY(I)
          B_3(I)=SQRT(C_1*C_1+C_2*C_2)
-         B3_1=UN/MAX(EM20,B_3(I))
-         A =UNDEMI*(SIGXX(I)+A03*SIGYY(I))
+         B3_1=ONE/MAX(EM20,B_3(I))
+         A =HALF*(SIGXX(I)+A03*SIGYY(I))
          B_1(I)=A-B_3(I)
          B_2(I)=A+B_3(I)
-         B_1M2=A01*ABS(B_1(I)**(M-DEUX))
-         B_2M2=A01*ABS(B_2(I)**(M-DEUX))
+         B_1M2=A01*ABS(B_1(I)**(M-TWO))
+         B_2M2=A01*ABS(B_2(I)**(M-TWO))
          B_1M1=B_1(I)*B_1M2
          B_2M1=B_2(I)*B_2M2
-         B_3M2=A02*B_3(I)**(M-DEUX)
+         B_3M2=A02*B_3(I)**(M-TWO)
          B_3M1=B_3(I)*B_3M2
 C-------------------------------------------------------------------------------------------
 C                Dr/Ds11 
 C-------------------------------------------------------------------------------------------
-         DB_3 = QUART*(SIGXX(I)-A03*SIGYY(I))*B3_1
-         AP=UNDEMI*(B_1M1+B_2M1)
+         DB_3 = FOURTH*(SIGXX(I)-A03*SIGYY(I))*B3_1
+         AP=HALF*(B_1M1+B_2M1)
          AN=DB_3*(B_1M1-B_2M1-B_3M1)
          DB_312 = A12*C_2*B3_1
 C-------------------------------------------------------------------------------------------
@@ -675,7 +675,7 @@ C-------------------------------------------------------------------------------
          MF(I,1)=AP-AN
          MF(I,2)=A03*(AP+AN)
          MF(I,3)=DB_312*(-B_1M1+B_2M1+B_3M1)
-         MF(I,4)=-DEUX*M*SIGY(I)**(M-UN)
+         MF(I,4)=-TWO*M*SIGY(I)**(M-ONE)
 C-------------------------------------------------------------------------------------------
 C                Derive seconde de f
 C-------------------------------------------------------------------------------------------
@@ -687,12 +687,12 @@ C-------------------------------------------------------------------------------
 C-------------------------------------------------------------------------------------------
 C                D2r/D2s11 
 C-------------------------------------------------------------------------------------------
-         DB_3_2 =QUART*DB_3_3*B3_1
+         DB_3_2 =FOURTH*DB_3_3*B3_1
 C-------------------------------------------------------------------------------------------
 C                Derive seconde  
 C-------------------------------------------------------------------------------------------
-         A = (M-UN)*DB_3*(B_1M2-B_2M2)
-         D_11(I)=(M-UN)*((QUART+DB_32)*(B_1M2+B_2M2)+DB_32*B_3M2)
+         A = (M-ONE)*DB_3*(B_1M2-B_2M2)
+         D_11(I)=(M-ONE)*((FOURTH+DB_32)*(B_1M2+B_2M2)+DB_32*B_3M2)
      .           +DB_3_2*(-B_1M1+B_2M1+B_3M1)
          D_22(I)=(D_11(I)+A)*H2
          D_11(I)= D_11(I)-A
@@ -700,22 +700,22 @@ C-------------------------------------------------------------------------------
 C                    d2f/d2S12
 C---------------------------------------------------------------------------------------------
          D_33(I)=P2*((-B_1M1+B_2M1+B_3M1)*(B3_1-DB_3_2)
-     .               +(M-UN)*DB_3_3*(-B_1M2+B_2M2+B_3M2))
+     .               +(M-ONE)*DB_3_3*(-B_1M2+B_2M2+B_3M2))
 C--------------------------------------------------------------------------------------------
 C                    d2f/dS11S22
 C---------------------------------------------------------------------------------------------
          A = A03*DB_3_2
-         D_12(I)=A*((M-UN)*B_3(I)*(B_1M2+B_2M2)+(B_1M1-B_2M1-B_3M1)) 
-     .           -A03*(M-UN)*DB_32*B_3M2
+         D_12(I)=A*((M-ONE)*B_3(I)*(B_1M2+B_2M2)+(B_1M1-B_2M1-B_3M1)) 
+     .           -A03*(M-ONE)*DB_32*B_3M2
 C--------------------------------------------------------------------------------------------
 C                    d2f/dS11S12
 C---------------------------------------------------------------------------------------------
-         A = DB_312*(M-UN)*UNDEMI*(-B_1M2+B_2M2)
-         D_13(I)=DB_312*DB_3*((M-UN)*(B_1M2+B_2M2+B_3M2)
+         A = DB_312*(M-ONE)*HALF*(-B_1M2+B_2M2)
+         D_13(I)=DB_312*DB_3*((M-ONE)*(B_1M2+B_2M2+B_3M2)
      .                         +B3_1*(B_1M1-B_2M1-B_3M1))
          D_23(I)=A03*(A-D_13(I))
          D_13(I)=D_13(I)+A
-         GM44(I)  = -DEUX*M*(M-UN)*SIGY(I)**(M-DEUX)
+         GM44(I)  = -TWO*M*(M-ONE)*SIGY(I)**(M-TWO)
         ENDDO
 C---------------------------------------------------------------------------------------------
         DO  I=1,NEL
@@ -761,16 +761,16 @@ C                            JACOBIAN
 C------------------------------------------------------------------------------
 C
         DO I=1,NEL
-	     B(I,1,1) = UN+DG(I)*(GM(I,1)*G(I,1)+GM(I,4)*G(I,4))
+	     B(I,1,1) = ONE+DG(I)*(GM(I,1)*G(I,1)+GM(I,4)*G(I,4))
 	     B(I,1,2) =    DG(I)*(GM(I,1)*G(I,4)+GM(I,4)*G(I,2))
 	     B(I,1,3) =    DG(I)*GM(I,5)*G(I,3)
-	     B(I,2,2) = UN+DG(I)*(GM(I,4)*G(I,4)+GM(I,2)*G(I,2))
+	     B(I,2,2) = ONE+DG(I)*(GM(I,4)*G(I,4)+GM(I,2)*G(I,2))
 	     B(I,2,3) =    DG(I)*GM(I,6)*G(I,3)
-	     B(I,3,3) = UN+DG(I)*GM(I,3)*G(I,3)
+	     B(I,3,3) = ONE+DG(I)*GM(I,3)*G(I,3)
         ENDDO
 C
         DO I=1,NEL  
-         B44(I) =  UN+DG(I)*GM44(I)*G44(I)
+         B44(I) =  ONE+DG(I)*GM44(I)*G44(I)
         ENDDO
 C                   |B11 B12 B13  0 |   |          0 |
 C                   |B21 B22 B23  0 |   |   A      0 |
@@ -788,7 +788,7 @@ C----------------------------------------------------------------------------
        IF(ABS(DETA(I)).LE.EM20) THEN
           DETA(I) = EM20
        ELSE
-          DETA(I) = UN/DETA(I)
+          DETA(I) = ONE/DETA(I)
        ENDIF
       ENDDO
 C------------------------------------------------------------------------------

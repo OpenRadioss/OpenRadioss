@@ -78,7 +78,7 @@ C       8.*|J|
      +           (Y23(I)*Z14(I)-Y14(I)*Z23(I))*ETA +
      +           Y13(I)*Z24(I)-Y24(I)*Z13(I)
 C       W*|J|
-        VOL(I) = UNHUIT*DET(I)*WI
+        VOL(I) = ONE_OVER_8*DET(I)*WI
       ENDDO
 C
       IF(N2D.EQ.1) THEN
@@ -87,12 +87,12 @@ C
             VOL(I) = YAVG(I)*VOL(I)
           ENDDO
 c        ELSE
-c          QN1 = (UN - ETA)*(UN - KSI)
-c          QN2 = (UN - ETA)*(KSI + UN)
-c          QN3 = (ETA + UN)*(KSI + UN)
-c          QN4 = (ETA + UN)*(UN - KSI)
+c          QN1 = (ONE - ETA)*(ONE - KSI)
+c          QN2 = (ONE - ETA)*(KSI + ONE)
+c          QN3 = (ETA + ONE)*(KSI + ONE)
+c          QN4 = (ETA + ONE)*(ONE - KSI)
 c          DO I=LFT,LLT
-c            YAVG1 = QUART*(QN1*Y1(I)+QN2*Y2(I)+QN3*Y3(I)+QN4*Y4(I))
+c            YAVG1 = FOURTH*(QN1*Y1(I)+QN2*Y2(I)+QN3*Y3(I)+QN4*Y4(I))
 c            VOL(I) = YAVG1*VOL(I)
 c          ENDDO
         ENDIF

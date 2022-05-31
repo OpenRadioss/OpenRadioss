@@ -375,7 +375,7 @@ C
           YR(I,8) = ZERO
           ZR(I,8) = ZERO
         END DO
-        FAC=UN/FLOAT(NITRS)
+        FAC=ONE/FLOAT(NITRS)
         DO I=LFT,LLT
           XT=X(1,IX8(I))
           YT=X(2,IX8(I))
@@ -991,7 +991,7 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-       DET(I)=O64TH*(JJ1(I)*JAC_59_68(I)+JJ2(I)*JAC_67_49(I)+JJ3(I)*JAC_48_57(I))
+       DET(I)=ONE_OVER_64*(JJ1(I)*JAC_59_68(I)+JJ2(I)*JAC_67_49(I)+JJ3(I)*JAC_48_57(I))
        VOL(I)=DET(I)
       ENDDO     
 C
@@ -1019,7 +1019,7 @@ C
       IF( JEUL==0 .AND. NXREF==0) RETURN
 C
       DO I=LFT,LLT
-        DETT(I)=O64TH/MAX(DET(I),EM20)
+        DETT(I)=ONE_OVER_64/MAX(DET(I),EM20)
       ENDDO
 C
 C     INVERSE DE LA MATRICE JACOBIENNE
@@ -1239,7 +1239,7 @@ C
 C
 C
       DO I=LFT,LLT
-       DET(I)=O64TH*(JJ1(I)*JAC_59_68(I)+JJ2(I)*JAC_67_49(I)+JJ3(I)*JAC_48_57(I))
+       DET(I)=ONE_OVER_64*(JJ1(I)*JAC_59_68(I)+JJ2(I)*JAC_67_49(I)+JJ3(I)*JAC_48_57(I))
        VOL(I)=DET(I)
       ENDDO
 C
@@ -1255,7 +1255,7 @@ C
       IF (JEUL == 0 .AND. NXREF == 0) RETURN
 C
       DO I=LFT,LLT
-        DETT(I)=O64TH/DET(I)
+        DETT(I)=ONE_OVER_64/DET(I)
       ENDDO
 C
 C     INVERSE DE LA MATRICE JACOBIENNE

@@ -153,9 +153,9 @@ C
 C
 C-----DEBUT DE LA PHASE DE TRI 
 C
-C       SEPARER B ET N EN DEUX
+C       SEPARER B ET N EN TWO
 C
-       MARGE = TZINF - SQRT(TROIS)*GAP
+       MARGE = TZINF - SQRT(THREE)*GAP
 c      CALL I23TRI(
 c     1   ADD      ,NSN      ,IRECT   ,X         ,STF      ,
 c     2   STFN     ,XYZM     ,I_ADD   ,MAXSIZ    ,II_STOK  ,
@@ -260,10 +260,10 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
 #include "lockoff.inc"
         ENDIF
         RETURN
-        TZINF = TQUART*TZINF
+        TZINF = THREE_OVER_4*TZINF
 C taille de boite non diminuee
-C        MINBOX= TQUART*MINBOX
-C        MAXBOX= TQUART*MAXBOX
+C        MINBOX= THREE_OVER_4*MINBOX
+C        MAXBOX= THREE_OVER_4*MAXBOX
         IF( TZINF.LE.GAP ) THEN
           CALL ANCMSG(MSGID=98,ANMODE=ANINFO,
      .            I1=NOINT,C1='(I23BUCE)')

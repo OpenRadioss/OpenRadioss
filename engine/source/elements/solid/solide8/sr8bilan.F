@@ -78,16 +78,16 @@ C-----------------------------------------------
 C     CALCUL BILAN SORTIES DEF 
 C-----------------------------------------------
       DO I=LFT,LLT
-        VXA(I) = VXA(I)*UNHUIT
-        VYA(I) = VYA(I)*UNHUIT
-        VZA(I) = VZA(I)*UNHUIT
-        VA2(I) = VA2(I)*UNHUIT
+        VXA(I) = VXA(I)*ONE_OVER_8
+        VYA(I) = VYA(I)*ONE_OVER_8
+        VZA(I) = VZA(I)*ONE_OVER_8
+        VA2(I) = VA2(I)*ONE_OVER_8
       ENDDO
 C
       DO I=LFT,LLT
         XMAS(I)= RHO(I)*VNEW(I)
         EI(I)  = EINT(I)*VOL(I)
-        EK(I)  = XMAS(I)*VA2(I)*UNDEMI
+        EK(I)  = XMAS(I)*VA2(I)*HALF
         XM(I)  = XMAS(I)*VXA(I)
         YM(I)  = XMAS(I)*VYA(I)
         ZM(I)  = XMAS(I)*VZA(I)
@@ -108,15 +108,15 @@ C     CALCUL BILAN SORTIES ADDITIONNELLES
 C-----------------------------------------------
       IF(FLAG.EQ.1) THEN
         DO I=LFT,LLT
-          XX(I) = XX(I)*UNHUIT
-          YY(I) = YY(I)*UNHUIT
-          ZZ(I) = ZZ(I)*UNHUIT
-          XY(I) = XY(I)*UNHUIT
-          YZ(I) = YZ(I)*UNHUIT
-          ZX(I) = ZX(I)*UNHUIT
-          XX2(I)= XX2(I)*UNHUIT
-          YY2(I)= YY2(I)*UNHUIT
-          ZZ2(I)= ZZ2(I)*UNHUIT
+          XX(I) = XX(I)*ONE_OVER_8
+          YY(I) = YY(I)*ONE_OVER_8
+          ZZ(I) = ZZ(I)*ONE_OVER_8
+          XY(I) = XY(I)*ONE_OVER_8
+          YZ(I) = YZ(I)*ONE_OVER_8
+          ZX(I) = ZX(I)*ONE_OVER_8
+          XX2(I)= XX2(I)*ONE_OVER_8
+          YY2(I)= YY2(I)*ONE_OVER_8
+          ZZ2(I)= ZZ2(I)*ONE_OVER_8
         ENDDO
 C
         DO I=LFT,LLT
@@ -158,7 +158,7 @@ C
 C-----------------------------------------------
       IF (IGRE /= 0) THEN
           DO I=LFT,LLT
-            OFF(I)     = UN
+            OFF(I)     = ONE
           ENDDO
           CALL GRELEM_SAV(LFT   ,LLT   ,GRESAV,IGRTH ,GRTH  ,
      2                    OFF   ,EI    ,EK    ,XM    ,YM    ,
@@ -177,7 +177,7 @@ C
       ENDIF
 
       DO I=LFT,LLT
-            OFF_L(I) = UN
+            OFF_L(I) = ONE
       ENDDO
       CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK) 
 C

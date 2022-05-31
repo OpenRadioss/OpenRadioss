@@ -126,7 +126,7 @@ C-----------------------------------------------
         !------------------------------!  
         DO I=LFT,LLT                         
           P(I)=THIRD*(S1(I)+S2(I)+S3(I))    
-          Pbak(I)=UNHUIT*P(I)                       
+          Pbak(I)=ONE_OVER_8*P(I)                       
         ENDDO          
         !------------------------------!
         !          DIV(SIGMA)          ! 
@@ -137,59 +137,59 @@ C-----------------------------------------------
           TX=N1X(I)+N4X(I)+N6X(I)
           TY=N1Y(I)+N4Y(I)+N6Y(I)
           TZ=N1Z(I)+N4Z(I)+N6Z(I)                    
-          F11(I)=F11(I)-UNHUIT*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
-             !print *, "ID,FINT(11)=", IXS(11,I+NFT), -UNHUIT*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
-          F21(I)=F21(I)-UNHUIT*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
-          F31(I)=F31(I)-UNHUIT*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)                    
+          F11(I)=F11(I)-ONE_OVER_8*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
+             !print *, "ID,FINT(11)=", IXS(11,I+NFT), -ONE_OVER_8*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
+          F21(I)=F21(I)-ONE_OVER_8*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
+          F31(I)=F31(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)                    
           ! node-2 : faces 1,4,5
           TX=N1X(I)+N4X(I)+N5X(I)
           TY=N1Y(I)+N4Y(I)+N5Y(I)
           TZ=N1Z(I)+N4Z(I)+N5Z(I)                    
-          F12(I)=F12(I)-UNHUIT*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
-          F22(I)=F22(I)-UNHUIT*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
-          F32(I)=F32(I)-UNHUIT*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)          
+          F12(I)=F12(I)-ONE_OVER_8*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
+          F22(I)=F22(I)-ONE_OVER_8*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
+          F32(I)=F32(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)          
           ! node-3 : faces 1,2,5
           TX=N1X(I)+N2X(I)+N5X(I)
           TY=N1Y(I)+N2Y(I)+N5Y(I)
           TZ=N1Z(I)+N2Z(I)+N5Z(I)                    
-          F13(I)=F13(I)-UNHUIT*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
-          F23(I)=F23(I)-UNHUIT*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
-          F33(I)=F33(I)-UNHUIT*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)         
+          F13(I)=F13(I)-ONE_OVER_8*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
+          F23(I)=F23(I)-ONE_OVER_8*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
+          F33(I)=F33(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)         
           ! node-4 : faces 1,2,6
           TX=N1X(I)+N2X(I)+N6X(I)
           TY=N1Y(I)+N2Y(I)+N6Y(I)
           TZ=N1Z(I)+N2Z(I)+N6Z(I)                    
-          F14(I)=F14(I)-UNHUIT*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
-          F24(I)=F24(I)-UNHUIT*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
-          F34(I)=F34(I)-UNHUIT*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)   
+          F14(I)=F14(I)-ONE_OVER_8*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
+          F24(I)=F24(I)-ONE_OVER_8*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
+          F34(I)=F34(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)   
           ! node-5 : faces 3,4,6
           TX=N3X(I)+N4X(I)+N6X(I)
           TY=N3Y(I)+N4Y(I)+N6Y(I)
           TZ=N3Z(I)+N4Z(I)+N6Z(I)                    
-          F15(I)=F15(I)-UNHUIT*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
-          F25(I)=F25(I)-UNHUIT*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
-          F35(I)=F35(I)-UNHUIT*(S6(I)*TX + S5(I)*TY + S3(I)*TZ) 
+          F15(I)=F15(I)-ONE_OVER_8*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
+          F25(I)=F25(I)-ONE_OVER_8*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
+          F35(I)=F35(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ) 
           ! node-6 : faces 3,4,5
           TX=N3X(I)+N4X(I)+N5X(I)
           TY=N3Y(I)+N4Y(I)+N5Y(I)
           TZ=N3Z(I)+N4Z(I)+N5Z(I)                    
-          F16(I)=F16(I)-UNHUIT*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
-          F26(I)=F26(I)-UNHUIT*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
-          F36(I)=F36(I)-UNHUIT*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)                           
+          F16(I)=F16(I)-ONE_OVER_8*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
+          F26(I)=F26(I)-ONE_OVER_8*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
+          F36(I)=F36(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)                           
           ! node-7 : faces 2,3,5
           TX=N2X(I)+N3X(I)+N5X(I)
           TY=N2Y(I)+N3Y(I)+N5Y(I)
           TZ=N2Z(I)+N3Z(I)+N5Z(I)                    
-          F17(I)=F17(I)-UNHUIT*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
-          F27(I)=F27(I)-UNHUIT*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
-          F37(I)=F37(I)-UNHUIT*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)     
+          F17(I)=F17(I)-ONE_OVER_8*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
+          F27(I)=F27(I)-ONE_OVER_8*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
+          F37(I)=F37(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)     
           ! node-8 : faces 2,3,6
           TX=N2X(I)+N3X(I)+N6X(I)
           TY=N2Y(I)+N3Y(I)+N6Y(I)
           TZ=N2Z(I)+N3Z(I)+N6Z(I)                    
-          F18(I)=F18(I)-UNHUIT*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
-          F28(I)=F28(I)-UNHUIT*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
-          F38(I)=F38(I)-UNHUIT*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)                              
+          F18(I)=F18(I)-ONE_OVER_8*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
+          F28(I)=F28(I)-ONE_OVER_8*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
+          F38(I)=F38(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)                              
         ENDDO  
         RETURN                          
       ENDIF
@@ -205,7 +205,7 @@ C-----------------------------------------------
          S1(I)=SIG(I,1)+SVIS(I,1)-QVIS_LOC
          S2(I)=SIG(I,2)+SVIS(I,2)-QVIS_LOC
          S3(I)=SIG(I,3)+SVIS(I,3)-QVIS_LOC
-         P(I)=(S1(I)+S2(I)+S3(I))/TROIS
+         P(I)=(S1(I)+S2(I)+S3(I))/THREE
          S1(I)=(S1(I)-P(I))*VOL_LOC
          S2(I)=(S2(I)-P(I))*VOL_LOC
          S3(I)=(S3(I)-P(I))*VOL_LOC
@@ -259,7 +259,7 @@ C-----------------------------------------------
         ENDDO
         IF(IALEFVM.NE.0)THEN
           DO I=LFT,LLT
-            Pbak(I) =0.125 * (S1(I)+S2(I)+S3(I))/TROIS/VOL(I)
+            Pbak(I) =0.125 * (S1(I)+S2(I)+S3(I))/THREE/VOL(I)
           ENDDO
         ENDIF
       ENDIF      

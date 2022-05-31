@@ -135,7 +135,7 @@ C-----------------------------------------------
 C     frottement (ancienne contrainte de frottement) => deplace dans i17main_pena/i17maindb/i17frot pour eviter w++ en spmd
 C-----------------------------------------------
 c      DO I=NMEF,NMEL
-c        AA = UN/MAX(EM20,FROTM(4,I))
+c        AA = ONE/MAX(EM20,FROTM(4,I))
 c        FROTM(5,I)=AA*FROTM(1,I)
 c        FROTM(6,I)=AA*FROTM(2,I)
 c        FROTM(7,I)=AA*FROTM(3,I)
@@ -148,7 +148,7 @@ c      ENDDO
 c      NSEF = 1 + ITASK*NSE / NTHREAD
 c      NSEL = (ITASK+1)*NSE / NTHREAD
 c      DO I=NSEF,NSEL
-c        AA = UN/MAX(EM20,FROTS(4,I))
+c        AA = ONE/MAX(EM20,FROTS(4,I))
 c        FROTS(5,I)=AA*FROTS(1,I)
 c        FROTS(6,I)=AA*FROTS(2,I)
 c        FROTS(7,I)=AA*FROTS(3,I)
@@ -377,12 +377,12 @@ C-----------------------------------------------
 C      noeud centrale face 1 2 3 4
 C-----------------------------------------------
       DO I=1,LLT
-        XX(I,17) = UNDEMI *(XXS(I,5) +XXS(I,6) +XXS(I,7) +XXS(I,8))
-     .           - QUART*(XXS(I,1) +XXS(I,2) +XXS(I,3) +XXS(I,4))
-        YY(I,17) = UNDEMI *(YYS(I,5) +YYS(I,6) +YYS(I,7) +YYS(I,8))
-     .           - QUART*(YYS(I,1) +YYS(I,2) +YYS(I,3) +YYS(I,4))
-        ZZ(I,17) = UNDEMI *(ZZS(I,5) +ZZS(I,6) +ZZS(I,7) +ZZS(I,8))
-     .           - QUART*(ZZS(I,1) +ZZS(I,2) +ZZS(I,3) +ZZS(I,4))     
+        XX(I,17) = HALF *(XXS(I,5) +XXS(I,6) +XXS(I,7) +XXS(I,8))
+     .           - FOURTH*(XXS(I,1) +XXS(I,2) +XXS(I,3) +XXS(I,4))
+        YY(I,17) = HALF *(YYS(I,5) +YYS(I,6) +YYS(I,7) +YYS(I,8))
+     .           - FOURTH*(YYS(I,1) +YYS(I,2) +YYS(I,3) +YYS(I,4))
+        ZZ(I,17) = HALF *(ZZS(I,5) +ZZS(I,6) +ZZS(I,7) +ZZS(I,8))
+     .           - FOURTH*(ZZS(I,1) +ZZS(I,2) +ZZS(I,3) +ZZS(I,4))     
       ENDDO
       CALL I17RST(LLT   ,RI_S(1,1),SI_S(1,1),TI_S(1,1),NI_M  ,
      2            XX    ,YY       ,ZZ       )
@@ -390,12 +390,12 @@ C-----------------------------------------------
 C      noeud centrale face 5 6 7 8
 C-----------------------------------------------
       DO I=1,LLT
-        XX(I,17) = UNDEMI *(XXS(I,13)+XXS(I,14)+XXS(I,15)+XXS(I,16))
-     .           - QUART*(XXS(I,9) +XXS(I,10)+XXS(I,11)+XXS(I,12))
-        YY(I,17) = UNDEMI *(YYS(I,13)+YYS(I,14)+YYS(I,15)+YYS(I,16))
-     .           - QUART*(YYS(I,9) +YYS(I,10)+YYS(I,11)+YYS(I,12))
-        ZZ(I,17) = UNDEMI *(ZZS(I,13)+ZZS(I,14)+ZZS(I,15)+ZZS(I,16))
-     .           - QUART*(ZZS(I,9) +ZZS(I,10)+ZZS(I,11)+ZZS(I,12))     
+        XX(I,17) = HALF *(XXS(I,13)+XXS(I,14)+XXS(I,15)+XXS(I,16))
+     .           - FOURTH*(XXS(I,9) +XXS(I,10)+XXS(I,11)+XXS(I,12))
+        YY(I,17) = HALF *(YYS(I,13)+YYS(I,14)+YYS(I,15)+YYS(I,16))
+     .           - FOURTH*(YYS(I,9) +YYS(I,10)+YYS(I,11)+YYS(I,12))
+        ZZ(I,17) = HALF *(ZZS(I,13)+ZZS(I,14)+ZZS(I,15)+ZZS(I,16))
+     .           - FOURTH*(ZZS(I,9) +ZZS(I,10)+ZZS(I,11)+ZZS(I,12))     
       ENDDO
       CALL I17RST(LLT   ,RI_S(1,2),SI_S(1,2),TI_S(1,2),NI_M  ,
      2            XX    ,YY       ,ZZ       )
@@ -405,10 +405,10 @@ C-----------------------------------------------
       DO I=1,LLT
         IF(ABS(SI_S(I,1)).LE.ABS(SI_S(I,2)))THEN
 C         face 1 2 3 4
-          S_CS(I) = -UN
+          S_CS(I) = -ONE
         ELSE
 C         face 5 6 7 8
-          S_CS(I) =  UN
+          S_CS(I) =  ONE
           IIIS(I,1) = IIIS(I,12)
           IIIS(I,2) = IIIS(I,11)
           IIIS(I,3) = IIIS(I,10)
@@ -761,21 +761,21 @@ C
         F6 = D * SI_S(I,6)
         F7 = D * SI_S(I,7)
         F8 = D * SI_S(I,8)
-        A0 = ( F1 + F2 + F3 + F4 )*UNDEMI
+        A0 = ( F1 + F2 + F3 + F4 )*HALF
         AB = F5 - F7
         BA = F6 - F8
 C
-        A1(I) = -AB * UNDEMI
+        A1(I) = -AB * HALF
         A2(I) = A0 - F6 - F8
-        A3(I) = ( F1 - F2 + F3 - F4 )*QUART
-        A4(I) = (-F1 + F2 + F3 - F4 )*UNDEMI  - BA
-        A5(I) = (-F1 - F2 + F3 + F4 )*QUART - A1(I)
+        A3(I) = ( F1 - F2 + F3 - F4 )*FOURTH
+        A4(I) = (-F1 + F2 + F3 - F4 )*HALF  - BA
+        A5(I) = (-F1 - F2 + F3 + F4 )*FOURTH - A1(I)
 C
-        B1(I) = BA*UNDEMI
+        B1(I) = BA*HALF
         B2(I) = A3(I)
         B3(I) = A0 - F5  - F7
-        B4(I) = (-F1 - F2 + F3 + F4 )*UNDEMI  + AB
-        B5(I) = (-F1 + F2 + F3 - F4 )*QUART - B1(I)
+        B4(I) = (-F1 - F2 + F3 + F4 )*HALF  + AB
+        B5(I) = (-F1 + F2 + F3 - F4 )*FOURTH - B1(I)
 c
         R_CS(I) = ZERO
         T_CS(I) = ZERO
@@ -831,8 +831,8 @@ c------------------------------------------------
           ENDIF
           R_CS(I) = (CC3 * DD1 - DD3 * CC1) / D
           T_CS(I) = (DD2 * CC1 - CC2 * DD1) / D
-          R_CS(I) = MAX(-UN,MIN(UN,R_CS(I)))
-          T_CS(I) = MAX(-UN,MIN(UN,T_CS(I)))
+          R_CS(I) = MAX(-ONE,MIN(ONE,R_CS(I)))
+          T_CS(I) = MAX(-ONE,MIN(ONE,T_CS(I)))
 c          dfdr = A1 + A2 * r + A3 * t + A4 * t * r + A5 * t * t 
 c          dfdt = B1 + B2 * r + B3 * t + B4 * r * t + B5 * r * r 
         ENDDO
@@ -863,11 +863,11 @@ C
 c
       DO I=1,LLT
           IF(S_CM(I).GT.ZERO)THEN
-            B1(I) = B1(I) - UN
-            C1(I) = C1(I) - UN
+            B1(I) = B1(I) - ONE
+            C1(I) = C1(I) - ONE
           ELSE
-            B1(I) = B1(I) + UN
-            C1(I) = C1(I) + UN
+            B1(I) = B1(I) + ONE
+            C1(I) = C1(I) + ONE
           ENDIF
       ENDDO
 c
@@ -896,8 +896,8 @@ c-----------------------------------------------------------------------
           XC = YA*ZB - ZA*YB
           YC = ZA*XB - XA*ZB
           ZC = XA*YB - YA*XB
-c          AAA = PI*QUART*ABS(XC*NX(I) + YC*NY(I) + ZC*NZ(I))
-          AAA = PI*QUART*SQRT(XC*XC+YC*YC+ZC*ZC)
+c          AAA = PI*FOURTH*ABS(XC*NX(I) + YC*NY(I) + ZC*NZ(I))
+          AAA = PI*FOURTH*SQRT(XC*XC+YC*YC+ZC*ZC)
           AREA_EL(I) = AAA
           AREA_TOT(I) = MIN(AREA_TOT(I),AAA)
 c          IF(AREA_TOT(I) == ZERO)AREA_TOT(I) = AAA
@@ -906,7 +906,7 @@ c-----------------------------------------------------------------------
 c      decoupe de l'second 9x9
 c      calcul surface commune
 c-----------------------------------------------------------------------
-      UNPEPS = UN+EM02
+      UNPEPS = ONE+EM02
       DO I=1,LLT
         AREA(I) = ZERO
         PP = ZERO
@@ -926,7 +926,7 @@ c-----------------------------------------------------------------------
                 CALL  I17ABC_PENA(I,SI_S,RT(IR),RT(IT),
      +                      BB1 ,BB2 ,BB3 ,CC1 ,CC2 ,CC3 )
                 SM = CC1 + (CC2 + CC3*RT(IT))*RT(IT)
-                P = UN - ABS(SM)
+                P = ONE - ABS(SM)
                 IF(P > ZERO)THEN
                   AA = AA + AS(IR)*AS(IT)
                   P  = P * AS(IR) * AS(IT)
@@ -951,7 +951,7 @@ c-----------------------------------------------------------------------
           CALL  I17ABC_PENA(I,SI_S,R_CS(I),T_CS(I),
      +                   BB1 ,BB2 ,BB3 ,CC1 ,CC2 ,CC3 )
           S_CM(I) = CC1 + (CC2 + CC3*T_CS(I))*T_CS(I)
-          IF(ABS(S_CM(I)) < UN)THEN
+          IF(ABS(S_CM(I)) < ONE)THEN
             ICONT(I,1) = 1
             AREA(I) = MIN(AREA_EL(I) * AA,AREA_TOT(I))
           ENDIF
@@ -981,7 +981,7 @@ c         main 5678
         XC = YA*ZB - ZA*YB
         YC = ZA*XB - XA*ZB
         ZC = XA*YB - YA*XB
-        AAA = PI*QUART*SQRT(XC*XC+YC*YC+ZC*ZC)
+        AAA = PI*FOURTH*SQRT(XC*XC+YC*YC+ZC*ZC)
         AREA_EL(I) = MIN(AREA_EL(I),AAA)
         AREA_TOT(I) = MIN(AREA_TOT(I),AAA)
         IF(AREA_TOT(I) == ZERO)AREA_TOT(I) = AREA_EL(I)
@@ -1000,7 +1000,7 @@ c     3             XX    ,YY    ,ZZ    ,S_CM)
 c-----------------------------------------------------------------------
 cgw+++
 c      DO I=1,LLT
-c        IF(S_CM(I) > -UN.and.S_CM(I) < UN.and.
+c        IF(S_CM(I) > -ONE.and.S_CM(I) < ONE.and.
 c     +     AREA(I) > EM3*AREA_EL(I))THEN
 c          ICONT(I,1)=1
 c        ENDIF
@@ -1089,13 +1089,13 @@ c
         A7 = (-F(I,1)+F(I,2)+F(I,3)-F(I,4)    -FF6    +FF8) 
         A8 = (-F(I,1)-F(I,2)+F(I,3)+F(I,4)+FF5    -FF7    )
 c
-        B1 = ( A1 + ( A3 + A6 * T ) *T )*QUART
-        B2 = ( A2 + ( A4 + A8 * T ) *T )*QUART
-        B3 = ( A5 + A7 * T             )*QUART
+        B1 = ( A1 + ( A3 + A6 * T ) *T )*FOURTH
+        B2 = ( A2 + ( A4 + A8 * T ) *T )*FOURTH
+        B3 = ( A5 + A7 * T             )*FOURTH
 c
-        C1 = ( A1 + ( A2 + A5 * R ) *R )*QUART
-        C2 = ( A3 + ( A4 + A7 * R ) *R )*QUART
-        C3 = ( A6 + A8 * R             )*QUART
+        C1 = ( A1 + ( A2 + A5 * R ) *R )*FOURTH
+        C2 = ( A3 + ( A4 + A7 * R ) *R )*FOURTH
+        C3 = ( A6 + A8 * R             )*FOURTH
 c
       RETURN
       END
@@ -1132,15 +1132,15 @@ c-----------------------------------------------------------------------
 c-----------------------------------------------------------------------
 c  1.1: borne <r1,t> et <r,t1> a +-1 sur le main
 c-----------------------------------------------------------------------
-        UNPEPS = UN + EM4
+        UNPEPS = ONE + EM4
         DO I=1,LLT
           RS(I) = C(I) + ( B(I) + A(I)*R_S(I) )*R_S(I)
-          IF(RS(I).GT.UN)THEN
-            CC(I) = C(I) - UN
-          ELSEIF(RS(I).LT.-UN)THEN
-            CC(I) = C(I) + UN
+          IF(RS(I).GT.ONE)THEN
+            CC(I) = C(I) - ONE
+          ELSEIF(RS(I).LT.-ONE)THEN
+            CC(I) = C(I) + ONE
           ELSE 
-            CC(I) = UN
+            CC(I) = ONE
           ENDIF
         ENDDO
 c
@@ -1212,30 +1212,30 @@ C-----------------------------------------------
      .  D      
 C
       DO I=1,LLT
-        D =  B(I)*B(I) - QUATRE*A(I)*C(I) 
+        D =  B(I)*B(I) - FOUR*A(I)*C(I) 
         IF(ABS(A(I)).LT.EM20)THEN
           IF(ABS(B(I)).LT.EM20)THEN
-            R1(I) = -UN
-            R2(I) =  UN
+            R1(I) = -ONE
+            R2(I) =  ONE
           ELSE
             R1(I) = -C(I) / B(I)
             R2(I) = B(I) / ABS(B(I))
           ENDIF
         ELSEIF(D.LT.ZERO)THEN
-            R1(I) = -UN
-            R2(I) =  UN	    
+            R1(I) = -ONE
+            R2(I) =  ONE	    
         ELSE
             D = SQRT( D )
-            R1(I) = (-B(I) - D) / (DEUX*A(I))
-            R2(I) = (-B(I) + D) / (DEUX*A(I))
+            R1(I) = (-B(I) - D) / (TWO*A(I))
+            R2(I) = (-B(I) + D) / (TWO*A(I))
         ENDIF
       ENDDO
 c-----------------------------------------------------------------------
 c      borne r (ou t) a +-1 sur l'second
 c-----------------------------------------------------------------------
 c      DO I=1,LLT
-c          R1(I) = MAX(-UN,MIN(UN,R1(I)))
-c          R2(I) = MAX(-UN,MIN(UN,R2(I)))
+c          R1(I) = MAX(-ONE,MIN(ONE,R1(I)))
+c          R2(I) = MAX(-ONE,MIN(ONE,R2(I)))
 c      ENDDO
 c
       RETURN
@@ -1286,22 +1286,22 @@ C-----------------------------------------------------------------------
         R = R1(I)
         T = T1(I)
 C-----------------------------------------------------------------------
-        R05 = UNDEMI*R
-        T05 = UNDEMI*T
+        R05 = HALF*R
+        T05 = HALF*T
 C
-        U_M_R = UNDEMI - R05
-        U_P_R = UNDEMI + R05
-        U_M_T = UNDEMI - T05
-        U_P_T = UNDEMI + T05
+        U_M_R = HALF - R05
+        U_P_R = HALF + R05
+        U_M_T = HALF - T05
+        U_P_T = HALF + T05
 C
-        NI(1) = U_M_T * U_M_R * (-R-T-UN)
-        NI(2) = U_P_T * U_M_R * (-R+T-UN)
-        NI(3) = U_P_T * U_P_R * ( R+T-UN)
-        NI(4) = U_M_T * U_P_R * ( R-T-UN)       
-        A = (UN-R*R)
+        NI(1) = U_M_T * U_M_R * (-R-T-ONE)
+        NI(2) = U_P_T * U_M_R * (-R+T-ONE)
+        NI(3) = U_P_T * U_P_R * ( R+T-ONE)
+        NI(4) = U_M_T * U_P_R * ( R-T-ONE)       
+        A = (ONE-R*R)
         NI(6) = A * U_P_T
         NI(8) = A * U_M_T
-        B = (UN-T*T)
+        B = (ONE-T*T)
         NI(5) = B * U_M_R
         NI(7) = B * U_P_R
         X1 = ZERO
@@ -1338,22 +1338,22 @@ C-----------------------------------------------------------------------
         R = R2(I)
         T = T2(I)
 C-----------------------------------------------------------------------
-        R05 = UNDEMI*R
-        T05 = UNDEMI*T
+        R05 = HALF*R
+        T05 = HALF*T
 C
-        U_M_R = UNDEMI - R05
-        U_P_R = UNDEMI + R05
-        U_M_T = UNDEMI - T05
-        U_P_T = UNDEMI + T05
+        U_M_R = HALF - R05
+        U_P_R = HALF + R05
+        U_M_T = HALF - T05
+        U_P_T = HALF + T05
 C
-        NI(1) = U_M_T * U_M_R * (-R-T-UN)
-        NI(2) = U_P_T * U_M_R * (-R+T-UN)
-        NI(3) = U_P_T * U_P_R * ( R+T-UN)
-        NI(4) = U_M_T * U_P_R * ( R-T-UN)       
-        A = (UN-R*R)
+        NI(1) = U_M_T * U_M_R * (-R-T-ONE)
+        NI(2) = U_P_T * U_M_R * (-R+T-ONE)
+        NI(3) = U_P_T * U_P_R * ( R+T-ONE)
+        NI(4) = U_M_T * U_P_R * ( R-T-ONE)       
+        A = (ONE-R*R)
         NI(6) = A * U_P_T
         NI(8) = A * U_M_T
-        B = (UN-T*T)
+        B = (ONE-T*T)
         NI(5) = B * U_M_R
         NI(7) = B * U_P_R
 C------------------------------------
@@ -1384,22 +1384,22 @@ C-----------------------------------------------------------------------
         R = R3(I)
         T = T3(I)
 C-----------------------------------------------------------------------
-        R05 = UNDEMI*R
-        T05 = UNDEMI*T
+        R05 = HALF*R
+        T05 = HALF*T
 C
-        U_M_R = UNDEMI - R05
-        U_P_R = UNDEMI + R05
-        U_M_T = UNDEMI - T05
-        U_P_T = UNDEMI + T05
+        U_M_R = HALF - R05
+        U_P_R = HALF + R05
+        U_M_T = HALF - T05
+        U_P_T = HALF + T05
 C
-        NI(1) = U_M_T * U_M_R * (-R-T-UN)
-        NI(2) = U_P_T * U_M_R * (-R+T-UN)
-        NI(3) = U_P_T * U_P_R * ( R+T-UN)
-        NI(4) = U_M_T * U_P_R * ( R-T-UN)       
-        A = (UN-R*R)
+        NI(1) = U_M_T * U_M_R * (-R-T-ONE)
+        NI(2) = U_P_T * U_M_R * (-R+T-ONE)
+        NI(3) = U_P_T * U_P_R * ( R+T-ONE)
+        NI(4) = U_M_T * U_P_R * ( R-T-ONE)       
+        A = (ONE-R*R)
         NI(6) = A * U_P_T
         NI(8) = A * U_M_T
-        B = (UN-T*T)
+        B = (ONE-T*T)
         NI(5) = B * U_M_R
         NI(7) = B * U_P_R
 C------------------------------------
@@ -1430,22 +1430,22 @@ C-----------------------------------------------------------------------
         R = R4(I)
         T = T4(I)
 C-----------------------------------------------------------------------
-        R05 = UNDEMI*R
-        T05 = UNDEMI*T
+        R05 = HALF*R
+        T05 = HALF*T
 C
-        U_M_R = UNDEMI - R05
-        U_P_R = UNDEMI + R05
-        U_M_T = UNDEMI - T05
-        U_P_T = UNDEMI + T05
+        U_M_R = HALF - R05
+        U_P_R = HALF + R05
+        U_M_T = HALF - T05
+        U_P_T = HALF + T05
 C
-        NI(1) = U_M_T * U_M_R * (-R-T-UN)
-        NI(2) = U_P_T * U_M_R * (-R+T-UN)
-        NI(3) = U_P_T * U_P_R * ( R+T-UN)
-        NI(4) = U_M_T * U_P_R * ( R-T-UN)       
-        A = (UN-R*R)
+        NI(1) = U_M_T * U_M_R * (-R-T-ONE)
+        NI(2) = U_P_T * U_M_R * (-R+T-ONE)
+        NI(3) = U_P_T * U_P_R * ( R+T-ONE)
+        NI(4) = U_M_T * U_P_R * ( R-T-ONE)       
+        A = (ONE-R*R)
         NI(6) = A * U_P_T
         NI(8) = A * U_M_T
-        B = (UN-T*T)
+        B = (ONE-T*T)
         NI(5) = B * U_M_R
         NI(7) = B * U_P_R
 C------------------------------------
@@ -1477,7 +1477,7 @@ C------------------------------------
         X3 = Y1*Z2 - Z1*Y2
         Y3 = Z1*X2 - X1*Z2
         Z3 = X1*Y2 - Y1*X2
-        AREA(I) = PI*QUART*SQRT(X3*X3+Y3*Y3+Z3*Z3)
+        AREA(I) = PI*FOURTH*SQRT(X3*X3+Y3*Y3+Z3*Z3)
       ENDDO
 C-----------------------------------------------
       RETURN
@@ -1546,7 +1546,7 @@ C-----------------------------------------------
 C       test si contact
 C-----------------------------------------------
 Cgw        ICONT(I,1)=1
-Cgw        IF(ABS(SM(I)) > UN) ICONT(I,1)=0
+Cgw        IF(ABS(SM(I)) > ONE) ICONT(I,1)=0
         IF(ICONT(I,1) /= 0)THEN
 C
           VX = ZERO
@@ -1709,10 +1709,10 @@ c
 c SigtM = SommeM(Fti)/SommeM(Ai)
 c SigtS = SommeS(Fti)/SommeS(Ai)
 C-----------------------------------------------
-      HTSQRTPI = HUIT / (TROIS*SQRT(PI))
+      HTSQRTPI = EIGHT / (THREE*SQRT(PI))
 
       IF(DT1.GT.ZERO)THEN
-        DT1INV = UN/DT1
+        DT1INV = ONE/DT1
       ELSE
         DT1INV =ZERO
       ENDIF
@@ -1728,7 +1728,7 @@ C-----------------------------------------------
       ECONTT = ZERO
       DO I=1,LLT
         LEM = LE(I)
-Cgw        IF(ICONT(I)/=0 .and. ABS(S_CM(I))<UN. and.
+Cgw        IF(ICONT(I)/=0 .and. ABS(S_CM(I))<ONE. and.
 Cgw     +     AREA(I) > EM3*AREA_EL(I))THEN
         IF(ICONT(I)/=0 )THEN
 c---------------------------------------------
@@ -1825,7 +1825,7 @@ C-----------------------------------------------
      +                - ZZ(I,IK+12)*NI_M(I,IK+4)
           ENDDO
           EP = ABS(XE*NX(I) + YE*NY(I) + ZE*NZ(I))
-          PENE = UNDEMI*(UN-ABS(S_CM(I))) * EP
+          PENE = HALF*(ONE-ABS(S_CM(I))) * EP
           if(pene<zero)then
             stop 111
           endif
@@ -1879,7 +1879,7 @@ C-----------------------------------------------
 C          rigidite Hertz
 C-----------------------------------------------
 c   Ki = 8 E*  Ai / 3(A*pi)^1/2 
-c         HTSQRTPI = HUIT / (TROIS*SQRT(PI))
+c         HTSQRTPI = EIGHT / (THREE*SQRT(PI))
           STIF = HTSQRTPI*AREA(I) / 
      .         ((KM(1,LEM)+KS1)*SQRT(AREA_TOT(I)))
           F  = STIF*PENE
@@ -1910,7 +1910,7 @@ C       frottement
 C         calcul avec vitesse totale 
 C         et projection de la force 
 C-----------------------------------------------          
-          AA = UNDEMI*AREA(I)
+          AA = HALF*AREA(I)
           BB = STIF*DT1
           FFX = AA*(SIGTMX+SIGTSX)+BB*VX
           FFY = AA*(SIGTMY+SIGTSY)+BB*VY

@@ -61,16 +61,16 @@ C
         ZMAX = MAX(ZMAX,(X(3,N)-D(3,N)))
  100  CONTINUE
 C
-      CDG(1) = UNDEMI * (XMAX + XMIN)
-      CDG(2) = UNDEMI * (YMAX + YMIN)
-      CDG(3) = UNDEMI * (ZMAX + ZMIN)      
+      CDG(1) = HALF * (XMAX + XMIN)
+      CDG(2) = HALF * (YMAX + YMIN)
+      CDG(3) = HALF * (ZMAX + ZMIN)      
 C
       DX = XMAX - XMIN      
       DY = YMAX - YMIN      
       DZ = ZMAX - ZMIN
 C
       SCALE = MAX(DX,DY,DZ)
-      SCALE = UN/SCALE
+      SCALE = ONE/SCALE
 C      
       RETURN
       END

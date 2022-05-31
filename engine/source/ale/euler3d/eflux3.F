@@ -133,26 +133,26 @@ C-----------------------------------------------
       !    [0.5*V_face] = 1/8 Sum([V_node])                  !       
       !======================================================!
       DO I=LFT,LLT
-        VX1(I)=UNHUIT*(VDX1(I)+VDX2(I)+VDX3(I)+VDX4(I))
-        VX2(I)=UNHUIT*(VDX3(I)+VDX4(I)+VDX8(I)+VDX7(I))
-        VX3(I)=UNHUIT*(VDX5(I)+VDX6(I)+VDX7(I)+VDX8(I))
-        VX4(I)=UNHUIT*(VDX1(I)+VDX2(I)+VDX6(I)+VDX5(I))
-        VX5(I)=UNHUIT*(VDX2(I)+VDX3(I)+VDX7(I)+VDX6(I))
-        VX6(I)=UNHUIT*(VDX1(I)+VDX4(I)+VDX8(I)+VDX5(I))
+        VX1(I)=ONE_OVER_8*(VDX1(I)+VDX2(I)+VDX3(I)+VDX4(I))
+        VX2(I)=ONE_OVER_8*(VDX3(I)+VDX4(I)+VDX8(I)+VDX7(I))
+        VX3(I)=ONE_OVER_8*(VDX5(I)+VDX6(I)+VDX7(I)+VDX8(I))
+        VX4(I)=ONE_OVER_8*(VDX1(I)+VDX2(I)+VDX6(I)+VDX5(I))
+        VX5(I)=ONE_OVER_8*(VDX2(I)+VDX3(I)+VDX7(I)+VDX6(I))
+        VX6(I)=ONE_OVER_8*(VDX1(I)+VDX4(I)+VDX8(I)+VDX5(I))
 
-        VY1(I)=UNHUIT*(VDY1(I)+VDY2(I)+VDY3(I)+VDY4(I))
-        VY2(I)=UNHUIT*(VDY3(I)+VDY4(I)+VDY8(I)+VDY7(I))
-        VY3(I)=UNHUIT*(VDY5(I)+VDY6(I)+VDY7(I)+VDY8(I))
-        VY4(I)=UNHUIT*(VDY1(I)+VDY2(I)+VDY6(I)+VDY5(I))
-        VY5(I)=UNHUIT*(VDY2(I)+VDY3(I)+VDY7(I)+VDY6(I))
-        VY6(I)=UNHUIT*(VDY1(I)+VDY4(I)+VDY8(I)+VDY5(I))
+        VY1(I)=ONE_OVER_8*(VDY1(I)+VDY2(I)+VDY3(I)+VDY4(I))
+        VY2(I)=ONE_OVER_8*(VDY3(I)+VDY4(I)+VDY8(I)+VDY7(I))
+        VY3(I)=ONE_OVER_8*(VDY5(I)+VDY6(I)+VDY7(I)+VDY8(I))
+        VY4(I)=ONE_OVER_8*(VDY1(I)+VDY2(I)+VDY6(I)+VDY5(I))
+        VY5(I)=ONE_OVER_8*(VDY2(I)+VDY3(I)+VDY7(I)+VDY6(I))
+        VY6(I)=ONE_OVER_8*(VDY1(I)+VDY4(I)+VDY8(I)+VDY5(I))
 
-        VZ1(I)=UNHUIT*(VDZ1(I)+VDZ2(I)+VDZ3(I)+VDZ4(I))
-        VZ2(I)=UNHUIT*(VDZ3(I)+VDZ4(I)+VDZ8(I)+VDZ7(I))
-        VZ3(I)=UNHUIT*(VDZ5(I)+VDZ6(I)+VDZ7(I)+VDZ8(I))
-        VZ4(I)=UNHUIT*(VDZ1(I)+VDZ2(I)+VDZ6(I)+VDZ5(I))
-        VZ5(I)=UNHUIT*(VDZ2(I)+VDZ3(I)+VDZ7(I)+VDZ6(I))
-        VZ6(I)=UNHUIT*(VDZ1(I)+VDZ4(I)+VDZ8(I)+VDZ5(I))  
+        VZ1(I)=ONE_OVER_8*(VDZ1(I)+VDZ2(I)+VDZ3(I)+VDZ4(I))
+        VZ2(I)=ONE_OVER_8*(VDZ3(I)+VDZ4(I)+VDZ8(I)+VDZ7(I))
+        VZ3(I)=ONE_OVER_8*(VDZ5(I)+VDZ6(I)+VDZ7(I)+VDZ8(I))
+        VZ4(I)=ONE_OVER_8*(VDZ1(I)+VDZ2(I)+VDZ6(I)+VDZ5(I))
+        VZ5(I)=ONE_OVER_8*(VDZ2(I)+VDZ3(I)+VDZ7(I)+VDZ6(I))
+        VZ6(I)=ONE_OVER_8*(VDZ1(I)+VDZ4(I)+VDZ8(I)+VDZ5(I))  
       ENDDO
       
       !======================================================!

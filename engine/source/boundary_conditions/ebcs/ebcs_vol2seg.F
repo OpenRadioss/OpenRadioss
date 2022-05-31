@@ -77,9 +77,9 @@ C Energie volumique
 C Enthalpie massique
       HIN   = (EN+PRES)/RO
 C
-      GAM1 = UN/(GAM-UN)
-      GAMRP= UNDEMI*(GAM-UN)/GAM
-      VCRT2= DEUX*GAM*PRES/RO/(GAM+UN)
+      GAM1 = ONE/(GAM-ONE)
+      GAMRP= HALF*(GAM-ONE)/GAM
+      VCRT2= TWO*GAM*PRES/RO/(GAM+ONE)
 C
       FLUX =ZERO
       FLUXM=ZERO
@@ -96,7 +96,7 @@ C
           IRECT(4)=IRECT(3)
           FAC=THIRD
         ELSE
-          FAC=QUART
+          FAC=FOURTH
         ENDIF
 C
 C INDEX SEGMENT ET ORIENTATION
@@ -117,7 +117,7 @@ C
         NY=Z13*X24-X13*Z24
         NZ=X13*Y24-Y13*X24
         NORM=SQRT(NX*NX+NY*NY+NZ*NZ)
-        S=UNDEMI*NORM
+        S=HALF*NORM
         IF(NORM.GT.EM20)THEN
           NORM=ORIENT/NORM
           NX=NX*NORM
@@ -152,11 +152,11 @@ C
         VEL=MIN(VEL,VCRT2)
         GV=GAMRP*RO*VEL/PRES
         IF(GV.GT.EM4)THEN
-         RSR    = (UN-GV)**GAM1
+         RSR    = (ONE-GV)**GAM1
          PNA1     = PRES*RSR**GAM
         ELSE
-         RV     = UNDEMI*RO*VEL
-         RSR    = UN - RV/(PRES*GAM)
+         RV     = HALF*RO*VEL
+         RSR    = ONE - RV/(PRES*GAM)
          PNA1     = PRES - RV
         ENDIF
         RSR1=RSR
@@ -165,11 +165,11 @@ C
         VEL=MIN(VEL,VCRT2)
         GV=GAMRP*RO*VEL/PRES
         IF(GV.GT.EM4)THEN
-         RSR    = (UN-GV)**GAM1
+         RSR    = (ONE-GV)**GAM1
          PNA2     = PRES*RSR**GAM
         ELSE
-         RV     = UNDEMI*RO*VEL
-         RSR    = UN - RV/(PRES*GAM)
+         RV     = HALF*RO*VEL
+         RSR    = ONE - RV/(PRES*GAM)
          PNA2     = PRES - RV
         ENDIF
         RSR2=RSR
@@ -178,11 +178,11 @@ C
         VEL=MIN(VEL,VCRT2)
         GV=GAMRP*RO*VEL/PRES
         IF(GV.GT.EM4)THEN
-         RSR    = (UN-GV)**GAM1
+         RSR    = (ONE-GV)**GAM1
          PNA3     = PRES*RSR**GAM
         ELSE
-         RV     = UNDEMI*RO*VEL
-         RSR    = UN - RV/(PRES*GAM)
+         RV     = HALF*RO*VEL
+         RSR    = ONE - RV/(PRES*GAM)
          PNA3     = PRES - RV
         ENDIF
         RSR3=RSR
@@ -191,11 +191,11 @@ C
         VEL=MIN(VEL,VCRT2)
         GV=GAMRP*RO*VEL/PRES
         IF(GV.GT.EM4)THEN
-         RSR    = (UN-GV)**GAM1
+         RSR    = (ONE-GV)**GAM1
          PNA4     = PRES*RSR**GAM
         ELSE
-         RV     = UNDEMI*RO*VEL
-         RSR    = UN - RV/(PRES*GAM)
+         RV     = HALF*RO*VEL
+         RSR    = ONE - RV/(PRES*GAM)
          PNA4     = PRES - RV
         ENDIF
         RSR4=RSR
@@ -231,7 +231,7 @@ C fluide -> airbag
 C hou = (Ef+P)/rof +1/2 v+^2
 C        HOU=(ENOU+PNA)/ROOU+0.5*VPLUS**2
 c
-        HOU=GAM*ENOU/ROOU+UNDEMI*VPLUS**2
+        HOU=GAM*ENOU/ROOU+HALF*VPLUS**2
 c        hin=enin/roin
 c        hou=enou/roou
 c        write(6,*)HIN,HOU,roin,roou,enin,enou

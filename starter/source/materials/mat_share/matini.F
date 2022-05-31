@@ -177,7 +177,7 @@ C=======================================================================
       IF(JSPH==0)THEN
          FILL  => GBUF%FILL(1:NEL)
       ELSE
-         FILLO(1:NEL)=UN
+         FILLO(1:NEL)=ONE
          FILL => FILLO(1:NEL)
       END IF
 c

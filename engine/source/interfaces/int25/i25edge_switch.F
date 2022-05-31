@@ -99,7 +99,7 @@ C because split_interface
               ASSERT(.FALSE.)
 C edge at the boundary of spmd domains
 C secnd side treated by the other domain 
-              S1 = UN ! exact stiffness not known, but it is nnz
+              S1 = ONE ! exact stiffness not known, but it is nnz
 C MVOISIN = 0 <=> STFM( VOISIN )) = 0
               IF(MVOISIN(JEDG,JRM) == 0 ) S1 = ZERO
               S2 = STIFM(JRM)
@@ -109,7 +109,7 @@ C secnd side treated by ISPMD
               S1 = STIFM(IRM)
 !exact stiffness on the other side of the boundary is not known yet
 ! But we can determine if it is zero or not according to MVOISIN
-              S2 = UN 
+              S2 = ONE 
               IF(MVOISIN(IEDG,IRM) == 0) S2 = ZERO
             ELSE
 C not supposed to be there
@@ -192,7 +192,7 @@ C 1      -1 IRM
 C 1       1 IEDG
 C -1      0 JRM         
 C 1       0 JEDG 
-            S1 = UN
+            S1 = ONE
             IEDG=LEDGE(LEDGE_LEFT_ID ,NEDG)
             IF(JRM ==  0) THEN
               IF(MVOISIN(IEDG,ABS(IRM))==0) S1 = ZERO

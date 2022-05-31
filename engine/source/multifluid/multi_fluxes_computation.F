@@ -206,7 +206,7 @@ C     Face normal
                KFACE2_OLD = MULTI_FVM%FVM_CONNECTIVITY%KVOIS(NB_FACE * (I_OLD - 1) + KFACE3)
 
                IF(ID_GLOBAL_VOIS_1<ID_GLOBAL_VOIS_2) THEN
-                    DIRECTION = UN
+                    DIRECTION = ONE
                     KFACE = KFACE3
                     KFACE2 = MULTI_FVM%FVM_CONNECTIVITY%KVOIS(NB_FACE * (I_OLD - 1) + KFACE)
                     I = I_OLD
@@ -218,7 +218,7 @@ C     Face normal
                     IJK = I
                     I = J_old
                     JJ = i_old
-                    DIRECTION = -UN
+                    DIRECTION = -ONE
                ENDIF
 C     Face normal
                 NX = NX *DIRECTION
@@ -278,13 +278,13 @@ C     Intermediate wave speed
 C     Specific for Low Mach number corrections
 C     Intermediate pressure
                PSTAR2 = PII + RHOII * (SSTAR - NORMAL_VELII) * (SL - NORMAL_VELII)
-C               PSTAR2 = UNDEMI * (PSTAR + PJJ + RHOJJ * (SSTAR - NORMAL_VELJJ) * (SR - NORMAL_VELJJ))
+C               PSTAR2 = HALF * (PSTAR + PJJ + RHOJJ * (SSTAR - NORMAL_VELJJ) * (SR - NORMAL_VELJJ))
                IF (MIN(MACHII, MACHJJ) .LT. EM01) THEN
                   THETA = MIN(MACHII, MACHJJ)
                ELSE
-                  THETA = UN
+                  THETA = ONE
                ENDIF
-               PSTAR = (UN - THETA) * UNDEMI * (PII + PJJ) + THETA * PSTAR2
+               PSTAR = (ONE - THETA) * HALF * (PII + PJJ) + THETA * PSTAR2
                IF (MULTI_FVM%LOWMACH_OPT) THEN
                   PP(1) = ZERO
                   PP(2) = PSTAR * NX
@@ -307,7 +307,7 @@ C     Global fluxes
                   VII(2) = RHOII * VXII
                   VII(3) = RHOII * VYII
                   VII(4) = RHOII * VZII
-                  VII(5) = MULTI_FVM%EINT(I) + UNDEMI * RHOII * VELII2
+                  VII(5) = MULTI_FVM%EINT(I) + HALF * RHOII * VELII2
 C     Normal physical flux curent element
                   FII(1) = VII(1) * NORMAL_VELII
                   FII(2) = VII(2) * NORMAL_VELII + PII * NX
@@ -345,7 +345,7 @@ C     Global fluxes
                   VII(2) = RHOII * VXII
                   VII(3) = RHOII * VYII
                   VII(4) = RHOII * VZII
-                  VII(5) = MULTI_FVM%EINT(I) + UNDEMI * RHOII * VELII2
+                  VII(5) = MULTI_FVM%EINT(I) + HALF * RHOII * VELII2
 C     Normal physical flux curent element
                   FII(1) = VII(1) * NORMAL_VELII
                   FII(2) = VII(2) * NORMAL_VELII + PII * NX
@@ -380,7 +380,7 @@ c$$$     .                          SUB_RHOEINTII / SUB_RHOII, SUB_RHOSTAR, SUB_
 c$$$     .                          LBUFS(IMAT)%LBUF%BFRAC(II), GBUF%TB(II), GBUF%DELTAX(II), CURRENT_TIME,
 c$$$     .                          SUB_ESTAR, BUFMAT)
                               SUB_ESTAR = SUB_RHOEINTII / SUB_RHOII - 
-     .                             SUB_PII * (UN / SUB_RHOSTAR - UN / SUB_RHOII)
+     .                             SUB_PII * (ONE / SUB_RHOSTAR - ONE / SUB_RHOII)
                         ELSE
                            SUB_ESTAR = ZERO
                         ENDIF
@@ -404,7 +404,7 @@ C     Global fluxes
                   VII(2) = RHOJJ * VXJJ
                   VII(3) = RHOJJ * VYJJ
                   VII(4) = RHOJJ * VZJJ
-                  VII(5) = MULTI_FVM%EINT(J) + UNDEMI * RHOJJ * VELJJ2
+                  VII(5) = MULTI_FVM%EINT(J) + HALF * RHOJJ * VELJJ2
 C     Normal physical flux curent element
                   FII(1) = VII(1) * NORMAL_VELJJ
                   FII(2) = VII(2) * NORMAL_VELJJ + PJJ * NX
@@ -439,7 +439,7 @@ c$$$     .                          SUB_RHOEINTII / SUB_RHOII, SUB_RHOSTAR, SUB_
 c$$$     .                          LBUFS(IMAT)%LBUF%BFRAC(II), GBUF%TB(II), GBUF%DELTAX(II), CURRENT_TIME,
 c$$$     .                          SUB_ESTAR, BUFMAT)
                            SUB_ESTAR = SUB_RHOEINTII / SUB_RHOII - 
-     .                          SUB_PII * (UN / SUB_RHOSTAR - UN / SUB_RHOII)
+     .                          SUB_PII * (ONE / SUB_RHOSTAR - ONE / SUB_RHOII)
                            
                         ELSE
                            SUB_ESTAR = ZERO
@@ -466,7 +466,7 @@ C     Global fluxes
                   VII(2) = RHOJJ * VXJJ
                   VII(3) = RHOJJ * VYJJ
                   VII(4) = RHOJJ * VZJJ
-                  VII(5) = MULTI_FVM%EINT(J) + UNDEMI * RHOJJ * VELJJ2
+                  VII(5) = MULTI_FVM%EINT(J) + HALF * RHOJJ * VELJJ2
 C     Normal physical flux curent element
                   FII(1) = VII(1) * NORMAL_VELJJ
                   FII(2) = VII(2) * NORMAL_VELJJ + PJJ * NX
@@ -525,8 +525,8 @@ C
                SSP = MULTI_FVM%SOUND_SPEED(ELEMID)
                RHO = MULTI_FVM%RHO(ELEMID)
 C     HLL wave speed estimates
-               SL = MIN(NORMVEL - SSP, DEUX * NORMALW - NORMVEL - SSP)
-               SR = MAX(NORMVEL + SSP, DEUX * NORMALW - NORMVEL + SSP)
+               SL = MIN(NORMVEL - SSP, TWO * NORMALW - NORMVEL - SSP)
+               SR = MAX(NORMVEL + SSP, TWO * NORMALW - NORMVEL + SSP)
 
 C     Intermediate wave speed
                SSTAR = NORMALW
@@ -590,10 +590,10 @@ C-----------------------------------------------
       
       MAX_ITER = 50
       TOL = EM06
-      ERROR = UN
-      OFF = UN
+      ERROR = ONE
+      OFF = ONE
 C     Dummy
-      VOL = UN
+      VOL = ONE
 
 C     Initialization
       ESTAR = EINT
@@ -612,11 +612,11 @@ C     Initialization
             ESTAR = EINT
          ELSE
 
-            FUNC = ESTAR - EINT + ALPHA / RHOSTAR * UNDEMI * (PSTAR + PRES)
-            DFUNC = UN + ALPHA * UNDEMI * GRUN
+            FUNC = ESTAR - EINT + ALPHA / RHOSTAR * HALF * (PSTAR + PRES)
+            DFUNC = ONE + ALPHA * HALF * GRUN
             INCR = - FUNC / DFUNC
 c$$$  IF (INCR .LT. ZERO) THEN
-c$$$  INCR = MAX(INCR, - UNDEMI * ESTAR)
+c$$$  INCR = MAX(INCR, - HALF * ESTAR)
 c$$$  ENDIF
             ESTAR = ESTAR + INCR
             ERROR = ABS(INCR)

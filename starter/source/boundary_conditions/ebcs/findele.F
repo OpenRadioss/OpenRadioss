@@ -142,9 +142,9 @@ C-----------------------------------------------
           XX1(JJ)=X(1,NN)
           XX2(JJ)=X(2,NN)
           XX3(JJ)=X(3,NN)
-          XS1=XS1+QUART*X(1,NN)
-          YS1=YS1+QUART*X(2,NN)
-          ZS1=ZS1+QUART*X(3,NN)
+          XS1=XS1+FOURTH*X(1,NN)
+          YS1=YS1+FOURTH*X(2,NN)
+          ZS1=ZS1+FOURTH*X(3,NN)
         ENDDO
 
         IF (N2D .EQ. 0) THEN               

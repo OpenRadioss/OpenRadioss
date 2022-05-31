@@ -103,10 +103,10 @@ C-----------------------------------------------
       R1=ZERO
       R2=ZERO
       ENER=ZERO
-      FAC_M=UN
-      FAC_L=UN
-      FAC_T=UN
-      FAC_C=UN
+      FAC_M=ONE
+      FAC_L=ONE
+      FAC_T=ONE
+      FAC_C=ONE
       
       CALL HM_OPTION_IS_CRYPTED(IS_ENCRYPTED)
       CALL HM_GET_INTV('entityid',  SURF  ,IS_AVAILABLE,LSUBMODEL)

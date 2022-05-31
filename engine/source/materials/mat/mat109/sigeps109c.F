@@ -118,10 +118,10 @@ c-----------------------------------------------
       G2      =  UPARAM(12)      ! Shear modulus * 2
       G3      =  UPARAM(13)      ! Shear modulus * 3
       LAME    =  UPARAM(15)      ! Lame parameter
-      A11     =  UPARAM(16)      ! YOUNG / (UN - NU**2)
-      A12     =  UPARAM(17)      ! YOUNG * NU / (UN - NU**2)
-      NNU     =  UPARAM(18)      ! NU / (UN - NU)
-      NNU1    =  UPARAM(19)      !(UN - DEUX*NU) / (UN - NU)
+      A11     =  UPARAM(16)      ! YOUNG / (ONE - NU**2)
+      A12     =  UPARAM(17)      ! YOUNG * NU / (ONE - NU**2)
+      NNU     =  UPARAM(18)      ! NU / (ONE - NU)
+      NNU1    =  UPARAM(19)      !(ONE - TWO*NU) / (ONE - NU)
       IF (JTHE /= 0) BETA = ZERO ! No temperature calculation inside material
 c
       FUNC_YLD  = ITABLE(1)
@@ -141,14 +141,14 @@ c
 c     Initializations
 c
       DPLA(1:NEL)  = ZERO          ! Initialization of the plastic strain increment
-      ET(1:NEL)    = UN            ! Initialization of tangent stiffness factor
+      ET(1:NEL)    = ONE            ! Initialization of tangent stiffness factor
       DEPSPXX(1:NEL)  = ZERO 
       DEPSPYY(1:NEL)  = ZERO 
       DEPSPXY(1:NEL)  = ZERO 
-      DTINV  = UN / MAX(EM20, TIMESTEP(1))
+      DTINV  = ONE / MAX(EM20, TIMESTEP(1))
       DLAMIN = EM15
       ALPHA  = 0.025
-      ALPHI  = UN-ALPHA
+      ALPHI  = ONE-ALPHA
       ! Non-local plastic strain
       IF (INLOC > 0) THEN 
         DO I = 1,NEL
@@ -187,10 +187,10 @@ c---  self heating factor and temperatiure initialization
             IF (NDIM_ETA > 1) VARTMP(1:NEL,4) = IPOS_ETA(1:NEL,2)
             IF (NDIM_ETA > 2) VARTMP(1:NEL,5) = IPOS_ETA(1:NEL,3)
             DO I=1,NEL
-              FTHERM(I) = MIN(BETA*FACT_ETA(I), UN)
+              FTHERM(I) = MIN(BETA*FACT_ETA(I), ONE)
             END DO
           ELSE
-            FTHERM(1:NEL) = MIN(BETA, UN)
+            FTHERM(1:NEL) = MIN(BETA, ONE)
           END IF 
         END IF
       ENDIF
@@ -245,7 +245,7 @@ c
         YLD(1:NEL)   = YLD(1:NEL)   * TFAC(1:NEL)      
         HARDP(1:NEL) = HARDP(1:NEL) * TFAC(1:NEL) 
       ELSE
-        TFAC(1:NEL) = UN
+        TFAC(1:NEL) = ONE
       END IF
 c-----------------------------------------------
 c     Check plasticity 
@@ -253,9 +253,9 @@ c-----------------------------------------------
       NINDX = 0
       DO I=1,NEL
         J2 = STXX(I)**2 + STYY(I)**2 + STXX(I)*STYY(I) + STXY(I)**2
-        Q2 = TROIS*J2
+        Q2 = THREE*J2
 c
-        IF (Q2 > YLD(I)**2  .and. OFF(I) == UN) THEN
+        IF (Q2 > YLD(I)**2  .and. OFF(I) == ONE) THEN
           NINDX = NINDX + 1   ! Number of the elements with plastic behaviour
           INDEX(NINDX)  = I
           SVMT(I) = SQRT(Q2)
@@ -283,7 +283,7 @@ c
             I = INDEX(II)
 c
             PHI(I) = SVM(I) - YLD(I)
-            R      = TDEMI / SVM(I)           
+            R      = THREE_HALF / SVM(I)           
             NORMXX(I) = R*SXX(I)
             NORMYY(I) = R*SYY(I)
             NORMXY(I) = R*SXY(I)
@@ -325,7 +325,7 @@ c
             SXY(I) = SXY(I) - G2 * DPXY
 
             J2 = SXX(I)*SXX(I) + SYY(I)*SYY(I) + SXX(I)*SYY(I) + SXY(I)*SXY(I)
-            SVM(I) = SQRT(TROIS*J2)
+            SVM(I) = SQRT(THREE*J2)
             PHI(I) = SVM(I) - YLD(I)
 c
             DEPSPXX(I) = DEPSPXX(I) + DPXX
@@ -364,7 +364,7 @@ c
       EPSP(1:NEL)   = ALPHA*DPLA(1:NEL)*DTINV + ALPHI*EPSP(1:NEL)
       IF (INLOC > 0) THEN 
         DO I = 1,NEL     
-          DEPSZZ(I) = MAX(DPLANL(I),ZERO)*UNDEMI*(SIGNXX(I)+SIGNYY(I))/MAX(YLD(I),EM20)
+          DEPSZZ(I) = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(YLD(I),EM20)
           DEPSZZ(I) = - NU*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG) - DEPSZZ(I)
           IF (JTHE == 0 .AND. BETA > ZERO) THEN 
             TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*MAX(DPLANL(I),ZERO)

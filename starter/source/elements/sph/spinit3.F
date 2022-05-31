@@ -255,7 +255,7 @@ C--------------------------------------------------
 
        DO I=LFT,LLT
          DTELEM(NDEPAR+I)=DTX(I)
-         STI = DEUX * MASS(I) / MAX(EM20,DTX(I)*DTX(I))
+         STI = TWO * MASS(I) / MAX(EM20,DTX(I)*DTX(I))
          STIFN(KXSP(3,I+NFT))=STIFN(KXSP(3,I+NFT))+STI
        ENDDO
 C--------------------------------------------------
@@ -274,7 +274,7 @@ C--------------------------------------------------
           GBUF%SIG(II(6)+I) = ZERO
         ELSEIF(KXSP(2,N) < 0 .AND.
      .     FIRST_SPHSOL <= N .AND. N < FIRST_SPHSOL+NSPHSOL)THEN
-          GBUF%OFF(I)    = -UN
+          GBUF%OFF(I)    = -ONE
         ENDIF
       ENDDO
 C--------------------------------------------------

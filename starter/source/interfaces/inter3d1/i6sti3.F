@@ -129,13 +129,13 @@ C--------------------------------------------------------------
 C     CALCUL DES RIGIDITES DES SEGMENTS ET DES NOEUDS
 C---------------------------------------------------------------
       DO I=1,NRT
-        STF(I)=UN
+        STF(I)=ONE
       ENDDO
 C---------------------------------------------
 C     CALCUL DES RIGIDITES NODALES
 C---------------------------------------------
       DO J=1,NSN
-        STFN(J)=UN
+        STFN(J)=ONE
       ENDDO
 C
       DO I=1,NRT

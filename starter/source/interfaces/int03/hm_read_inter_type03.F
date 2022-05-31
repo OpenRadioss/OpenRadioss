@@ -194,7 +194,7 @@ C.......* Storage IPARI FRIGAP *........
 C
 C....* Card2  *.............
 C
-       IF(STFAC.EQ.ZERO) STFAC=UNCINQ
+       IF(STFAC.EQ.ZERO) STFAC=ONE_FIFTH
 
        IF (STOPT == ZERO) STOPT = EP30
 

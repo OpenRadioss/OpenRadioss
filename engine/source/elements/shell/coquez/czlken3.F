@@ -89,7 +89,7 @@ C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
         DM(1,2,M)=HM(EP,3)*C2
         DM(2,1,M)=DM(1,2,M)
         GM(M) =HM(EP,4)*C2
-        FACF(M)=UNDOUZE*THK2(EP)
+        FACF(M)=ONE_OVER_12*THK2(EP)
 C        DHZ(M)= HZ(EP)*C1
         ZR(M) = Z1(EP)
        ENDDO
@@ -133,10 +133,10 @@ C----------------------------
       END IF !(IDRIL.GT.0) THEN
 C--------------gamaI--------
        DO EP=JFT,JLT
-        GAMA(1,EP)=QUART-PH1(EP)
-        GAMA(2,EP)=-QUART-PH2(EP)
-        GAMA(3,EP)=QUART+PH1(EP)
-        GAMA(4,EP)=-QUART+PH2(EP)
+        GAMA(1,EP)=FOURTH-PH1(EP)
+        GAMA(2,EP)=-FOURTH-PH2(EP)
+        GAMA(3,EP)=FOURTH+PH1(EP)
+        GAMA(4,EP)=-FOURTH+PH2(EP)
         G11(EP) =GAMA(1,EP)*GAMA(1,EP) 
         G12(EP) =GAMA(1,EP)*GAMA(2,EP) 
         G13(EP) =GAMA(1,EP)*GAMA(3,EP) 
@@ -369,10 +369,10 @@ C-------DHZ=0.25*Kg*V---------
        ENDDO
 C--------------gamaI--------
        DO EP=JFT,JLT
-        GAMA(1,EP)=QUART-PH1(EP)
-        GAMA(2,EP)=-QUART-PH2(EP)
-        GAMA(3,EP)=QUART+PH1(EP)
-        GAMA(4,EP)=-QUART+PH2(EP)
+        GAMA(1,EP)=FOURTH-PH1(EP)
+        GAMA(2,EP)=-FOURTH-PH2(EP)
+        GAMA(3,EP)=FOURTH+PH1(EP)
+        GAMA(4,EP)=-FOURTH+PH2(EP)
         G11(EP) =GAMA(1,EP)*GAMA(1,EP) 
         G12(EP) =GAMA(1,EP)*GAMA(2,EP) 
         G13(EP) =GAMA(1,EP)*GAMA(3,EP) 

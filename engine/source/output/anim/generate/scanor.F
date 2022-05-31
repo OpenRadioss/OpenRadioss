@@ -87,9 +87,9 @@ c      ELSE
      .   CALL SPMD_MIN_MAX(XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX)
 c      END IF
 
-      CDG(1) = UNDEMI * (XMAX + XMIN)
-      CDG(2) = UNDEMI * (YMAX + YMIN)
-      CDG(3) = UNDEMI * (ZMAX + ZMIN)      
+      CDG(1) = HALF * (XMAX + XMIN)
+      CDG(2) = HALF * (YMAX + YMIN)
+      CDG(3) = HALF * (ZMAX + ZMIN)      
 C
 Cow
       DX = XMAX - XMIN      
@@ -98,7 +98,7 @@ Cow
 C
       SCALE = MAX(DX,DY,DZ)
 
-      SCALE = UN/SCALE
+      SCALE = ONE/SCALE
 
       RETURN
       END

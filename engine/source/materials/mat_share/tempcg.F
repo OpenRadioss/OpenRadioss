@@ -57,7 +57,7 @@ C-----------------------------------------------
 C     REAL ou REAL*8  
 C --- calcul de la tempurature au CG 
         DO I=JFT,JLT
-          TEMPEL(I) = QUART * ( TEMP(IXC(2,I)) + TEMP(IXC(3,I)) + 
+          TEMPEL(I) = FOURTH * ( TEMP(IXC(2,I)) + TEMP(IXC(3,I)) + 
      .                          TEMP(IXC(4,I)) + TEMP(IXC(5,I)) )
        ENDDO
 C

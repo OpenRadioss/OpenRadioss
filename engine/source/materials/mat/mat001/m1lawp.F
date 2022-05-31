@@ -99,12 +99,12 @@ C-----------------------------
 C     AMORTISSEMENT
 C-----------------------------
       DO I=LFT,LLT
-        F1(I)= EXX(I)*DMPM(I)*A1(I)*SQRT(DEUX*YM(I)*RHO(I))
-        F2(I)= EXY(I)*DMPF(I)*12*B2(I)*SQRT(DEUX*YM(I)*RHO(I))/AL(I)**2
-        F3(I)= EXZ(I)*DMPF(I)*12*B1(I)*SQRT(DEUX*YM(I)*RHO(I))/AL(I)**2
-        M1(I)= KXX(I)*DMPF(I)*B3(I)*SQRT(DEUX*G(I)*RHO(I))
-        M2(I)= KYY(I)*DMPF(I)*B1(I)*SQRT(DEUX*YM(I)*RHO(I))
-        M3(I)= KZZ(I)*DMPF(I)*B2(I)*SQRT(DEUX*YM(I)*RHO(I))
+        F1(I)= EXX(I)*DMPM(I)*A1(I)*SQRT(TWO*YM(I)*RHO(I))
+        F2(I)= EXY(I)*DMPF(I)*12*B2(I)*SQRT(TWO*YM(I)*RHO(I))/AL(I)**2
+        F3(I)= EXZ(I)*DMPF(I)*12*B1(I)*SQRT(TWO*YM(I)*RHO(I))/AL(I)**2
+        M1(I)= KXX(I)*DMPF(I)*B3(I)*SQRT(TWO*G(I)*RHO(I))
+        M2(I)= KYY(I)*DMPF(I)*B1(I)*SQRT(TWO*YM(I)*RHO(I))
+        M3(I)= KZZ(I)*DMPF(I)*B2(I)*SQRT(TWO*YM(I)*RHO(I))
       ENDDO
 C
       DO I=LFT,LLT
@@ -124,11 +124,11 @@ C
 C     CISSAILLEMENT TRANSVERSAL CALCULE AVEC K1=12EI/L**2 K2=5/6GA
 C
       DO I=LFT,LLT
-        SH(I)=CSIX*G(I)*A1(I)
-        YMA2(I)=DOUZE*YM(I)/AL(I)**2
+        SH(I)=FIVE_OVER_6*G(I)*A1(I)
+        YMA2(I)=TWELVE*YM(I)/AL(I)**2
         SH10(I)=YMA2(I)*B1(I)
         SH20(I)=YMA2(I)*B2(I)
-        SH0(I)=(UN-SHF(I))*SH(I)
+        SH0(I)=(ONE-SHF(I))*SH(I)
         SH1(I)=SH0(I)*SH10(I)/(SH(I)+SH10(I)) + SHF(I)*SH10(I)
         SH2(I)=SH0(I)*SH20(I)/(SH(I)+SH20(I)) + SHF(I)*SH20(I)
 C
@@ -155,8 +155,8 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-        EINT(I,1) = EINT(I,1) + DEGMB(I)*AL(I)*UNDEMI*OFF(I)
-        EINT(I,2) = EINT(I,2) + DEGFX(I)*AL(I)*UNDEMI*OFF(I)
+        EINT(I,1) = EINT(I,1) + DEGMB(I)*AL(I)*HALF*OFF(I)
+        EINT(I,2) = EINT(I,2) + DEGFX(I)*AL(I)*HALF*OFF(I)
       ENDDO
 C
       DO I=LFT,LLT

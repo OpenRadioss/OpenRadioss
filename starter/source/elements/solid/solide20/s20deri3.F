@@ -477,13 +477,13 @@ C
      .          UL(I,15),UL(I,16),UL(I,17),UL(I,18),UL(I,19),UL(I,20))
         DELTAX2(I) = AA/MAX(AA,BB)
 C       64,64/5 cf s20mass3 (rapport des masses noeuds sommet/milieu)
-        AA = AA*SOIXANTE4
-        BB = BB*QUATREVINGT16/SEPT
-        DELTAX(I) = SQRT(DEUX*VOLG(I)/MAX(AA,BB))
+        AA = AA*SIXTY4
+        BB = BB*EIGHTY16/SEVEN
+        DELTAX(I) = SQRT(TWO*VOLG(I)/MAX(AA,BB))
        ENDDO
       ELSE
        DO I=LFT,LLT
-        DELTAX2(I) = UN
+        DELTAX2(I) = ONE
         DELTAX(I) =EP20
        ENDDO
       ENDIF
@@ -628,15 +628,15 @@ C 19   +1   +1    0      1/4 (1-t^2)(1+s)
 C 20    0   +1   -1     -1/2 r(1+s)(1-t)
 C-----------------------------------------------
 C
-      U_M_R = UNDEMI*(UN -R)
-      U_P_R = UNDEMI*(UN +R)
+      U_M_R = HALF*(ONE -R)
+      U_P_R = HALF*(ONE +R)
 
 C
-      U_M_S = UNDEMI*(UN -S)
-      U_P_S = UNDEMI*(UN +S)
+      U_M_S = HALF*(ONE -S)
+      U_P_S = HALF*(ONE +S)
 C
-      U_M_T = UNDEMI*(UN -T)
-      U_P_T = UNDEMI*(UN +T)
+      U_M_T = HALF*(ONE -T)
+      U_P_T = HALF*(ONE +T)
 C
       UMS_UMT = U_M_S * U_M_T
       UMS_UPT = U_M_S * U_P_T
@@ -665,40 +665,40 @@ C
 C
 C
 C
-      DNIDR(1) = -UMS_UMT * (U_M_S + U_M_T - R -TDEMI)
-      DNIDR(2) = -UMS_UPT * (U_M_S + U_P_T - R -TDEMI)
-      DNIDR(3) =  UMS_UPT * (U_M_S + U_P_T + R -TDEMI)
-      DNIDR(4) =  UMS_UMT * (U_M_S + U_M_T + R -TDEMI)
-      DNIDR(5) = -UPS_UMT * (U_P_S + U_M_T - R -TDEMI)
-      DNIDR(6) = -UPS_UPT * (U_P_S + U_P_T - R -TDEMI)
-      DNIDR(7) =  UPS_UPT * (U_P_S + U_P_T + R -TDEMI)
-      DNIDR(8) =  UPS_UMT * (U_P_S + U_M_T + R -TDEMI)
+      DNIDR(1) = -UMS_UMT * (U_M_S + U_M_T - R -THREE_HALF)
+      DNIDR(2) = -UMS_UPT * (U_M_S + U_P_T - R -THREE_HALF)
+      DNIDR(3) =  UMS_UPT * (U_M_S + U_P_T + R -THREE_HALF)
+      DNIDR(4) =  UMS_UMT * (U_M_S + U_M_T + R -THREE_HALF)
+      DNIDR(5) = -UPS_UMT * (U_P_S + U_M_T - R -THREE_HALF)
+      DNIDR(6) = -UPS_UPT * (U_P_S + U_P_T - R -THREE_HALF)
+      DNIDR(7) =  UPS_UPT * (U_P_S + U_P_T + R -THREE_HALF)
+      DNIDR(8) =  UPS_UMT * (U_P_S + U_M_T + R -THREE_HALF)
 C
-      DNIDS(1) = -UMT_UMR * (U_M_R + U_M_T - S -TDEMI)
-      DNIDS(2) = -UPT_UMR * (U_M_R + U_P_T - S -TDEMI)
-      DNIDS(3) = -UPT_UPR * (U_P_R + U_P_T - S -TDEMI)
-      DNIDS(4) = -UMT_UPR * (U_P_R + U_M_T - S -TDEMI)
-      DNIDS(5) =  UMT_UMR * (U_M_R + U_M_T + S -TDEMI)
-      DNIDS(6) =  UPT_UMR * (U_M_R + U_P_T + S -TDEMI)
-      DNIDS(7) =  UPT_UPR * (U_P_R + U_P_T + S -TDEMI)
-      DNIDS(8) =  UMT_UPR * (U_P_R + U_M_T + S -TDEMI)
+      DNIDS(1) = -UMT_UMR * (U_M_R + U_M_T - S -THREE_HALF)
+      DNIDS(2) = -UPT_UMR * (U_M_R + U_P_T - S -THREE_HALF)
+      DNIDS(3) = -UPT_UPR * (U_P_R + U_P_T - S -THREE_HALF)
+      DNIDS(4) = -UMT_UPR * (U_P_R + U_M_T - S -THREE_HALF)
+      DNIDS(5) =  UMT_UMR * (U_M_R + U_M_T + S -THREE_HALF)
+      DNIDS(6) =  UPT_UMR * (U_M_R + U_P_T + S -THREE_HALF)
+      DNIDS(7) =  UPT_UPR * (U_P_R + U_P_T + S -THREE_HALF)
+      DNIDS(8) =  UMT_UPR * (U_P_R + U_M_T + S -THREE_HALF)
 C
-      DNIDT(1) = -UMR_UMS * (U_M_R + U_M_S - T -TDEMI)
-      DNIDT(2) =  UMR_UMS * (U_M_R + U_M_S + T -TDEMI)
-      DNIDT(3) =  UPR_UMS * (U_P_R + U_M_S + T -TDEMI)
-      DNIDT(4) = -UPR_UMS * (U_P_R + U_M_S - T -TDEMI)
-      DNIDT(5) = -UMR_UPS * (U_M_R + U_P_S - T -TDEMI)
-      DNIDT(6) =  UMR_UPS * (U_M_R + U_P_S + T -TDEMI)
-      DNIDT(7) =  UPR_UPS * (U_P_R + U_P_S + T -TDEMI)
-      DNIDT(8) = -UPR_UPS * (U_P_R + U_P_S - T -TDEMI)     
+      DNIDT(1) = -UMR_UMS * (U_M_R + U_M_S - T -THREE_HALF)
+      DNIDT(2) =  UMR_UMS * (U_M_R + U_M_S + T -THREE_HALF)
+      DNIDT(3) =  UPR_UMS * (U_P_R + U_M_S + T -THREE_HALF)
+      DNIDT(4) = -UPR_UMS * (U_P_R + U_M_S - T -THREE_HALF)
+      DNIDT(5) = -UMR_UPS * (U_M_R + U_P_S - T -THREE_HALF)
+      DNIDT(6) =  UMR_UPS * (U_M_R + U_P_S + T -THREE_HALF)
+      DNIDT(7) =  UPR_UPS * (U_P_R + U_P_S + T -THREE_HALF)
+      DNIDT(8) = -UPR_UPS * (U_P_R + U_P_S - T -THREE_HALF)     
 C------------------------------------
-      A = (UN-R*R)
+      A = (ONE-R*R)
       NI(10) = A * UMS_UPT
       NI(12) = A * UMS_UMT
       NI(18) = A * UPS_UPT
       NI(20) = A * UPS_UMT
 C    
-      A = UNDEMI*A
+      A = HALF*A
       DNIDT(10) =  A * U_M_S
       DNIDT(18) =  A * U_P_S
       DNIDT(12) = -DNIDT(10)
@@ -709,19 +709,19 @@ C
       DNIDS(10) = -DNIDS(18)
       DNIDS(12) = -DNIDS(20)
 C    
-      A = -DEUX*R
+      A = -TWO*R
       DNIDR(10) = A * UMS_UPT
       DNIDR(12) = A * UMS_UMT
       DNIDR(18) = A * UPS_UPT
       DNIDR(20) = A * UPS_UMT
 C------------------------------------
-      A = (UN - S*S)
+      A = (ONE - S*S)
       NI(13) = A * UMT_UMR
       NI(14) = A * UPT_UMR
       NI(15) = A * UPT_UPR
       NI(16) = A * UMT_UPR
 C
-      A = UNDEMI*A
+      A = HALF*A
       DNIDR(15) =  A * U_P_T
       DNIDR(16) =  A * U_M_T
       DNIDR(13) = -DNIDR(16)
@@ -732,19 +732,19 @@ C
       DNIDT(13) = -DNIDT(14)
       DNIDT(16) = -DNIDT(15)
 C    
-      A = -DEUX*S
+      A = -TWO*S
       DNIDS(13) = A * UMT_UMR
       DNIDS(14) = A * UPT_UMR
       DNIDS(15) = A * UPT_UPR
       DNIDS(16) = A * UMT_UPR
 C------------------------------------
-      A = (UN-T*T)
+      A = (ONE-T*T)
       NI(9)  = A * UMR_UMS
       NI(11) = A * UPR_UMS
       NI(17) = A * UMR_UPS
       NI(19) = A * UPR_UPS
 C
-      A = UNDEMI*A
+      A = HALF*A
       DNIDR(11) =  A * U_M_S
       DNIDR(19) =  A * U_P_S
       DNIDR(9)  = -DNIDR(11)
@@ -755,7 +755,7 @@ C
       DNIDS(9)  = -DNIDS(17)
       DNIDS(11) = -DNIDS(19)
 C
-      A = -DEUX*T
+      A = -TWO*T
       DNIDT(9)  = A * UMR_UMS
       DNIDT(11) = A * UPR_UMS
       DNIDT(17) = A * UMR_UPS

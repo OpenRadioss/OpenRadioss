@@ -265,11 +265,11 @@ c
 c
                   F1 = CP*CP*F11
      .               + SP*SP*F22
-     .               + DEUX*CP*SP*F33
+     .               + TWO*CP*SP*F33
 c
                   F2 = SP*SP*F11
      .               + CP*CP*F22
-     .               - DEUX*CP*SP*F33
+     .               - TWO*CP*SP*F33
 c
                   F3 =-CP*SP*F11
      .               + CP*SP*F22
@@ -280,11 +280,11 @@ c
 c
                   MM1 = CP*CP*MM11
      .               + SP*SP*MM22
-     .               + DEUX*CP*SP*MM33
+     .               + TWO*CP*SP*MM33
 c
                   MM2 = SP*SP*MM11
      .               + CP*CP*MM22
-     .               - DEUX*CP*SP*MM33
+     .               - TWO*CP*SP*MM33
 c
                   MM3 =-CP*SP*MM11
      .               + CP*SP*MM22
@@ -622,7 +622,7 @@ C---
                               DO J = 1, NUVAR
                                 I1 = (J-1)*NEL                             
                                 IF (J==4 .OR. J==5) THEN                                         
-                                  VAR(J,IL) = VAR(J,IL) + LOG(UVAR(I1+I)+UN)/NPG
+                                  VAR(J,IL) = VAR(J,IL) + LOG(UVAR(I1+I)+ONE)/NPG
                                 ELSE
                                   VAR(J,IL) = VAR(J,IL) + UVAR(I1+I)/NPG
                                 ENDIF               
@@ -644,7 +644,7 @@ C---
                             DO J = 1, NUVAR
                               I1 = (J-1)*NEL 
                               IF (J==4 .OR. J==5) THEN
-                               VAR(J,IPT) = VAR(J, IPT) + LOG(UVAR(I1+I)+UN)/NPG               
+                               VAR(J,IPT) = VAR(J, IPT) + LOG(UVAR(I1+I)+ONE)/NPG               
                               ELSE                                          
                                VAR(J,IPT) = VAR(J, IPT) + UVAR(I1 + I)/NPG               
                               ENDIF                                          
@@ -734,12 +734,12 @@ C pinching data
                 IF(IHBE ==11.AND.NPINCH > 0) THEN
                   WWA(37848:37853) = ZERO                 
                   DO IPG=1,4 
-                    WWA(37847+1) = WWA(37847+1) + QUART*GBUF%EPGPINCHXZ(4*(I-1)+IPG)    
-                    WWA(37847+2) = WWA(37847+2) + QUART*GBUF%EPGPINCHYZ(4*(I-1)+IPG)
-                    WWA(37847+3) = WWA(37847+3) + QUART*GBUF%EPGPINCHZZ(4*(I-1)+IPG)
-                    WWA(37847+4) = WWA(37847+4) + QUART*GBUF%FORPGPINCH(4*(I-1)+IPG) 
-                    WWA(37847+5) = WWA(37847+5) + QUART*GBUF%MOMPGPINCH(8*(I-1)+2*(IPG-1)+1)
-                    WWA(37847+6) = WWA(37847+6) + QUART*GBUF%MOMPGPINCH(8*(I-1)+2*IPG)
+                    WWA(37847+1) = WWA(37847+1) + FOURTH*GBUF%EPGPINCHXZ(4*(I-1)+IPG)    
+                    WWA(37847+2) = WWA(37847+2) + FOURTH*GBUF%EPGPINCHYZ(4*(I-1)+IPG)
+                    WWA(37847+3) = WWA(37847+3) + FOURTH*GBUF%EPGPINCHZZ(4*(I-1)+IPG)
+                    WWA(37847+4) = WWA(37847+4) + FOURTH*GBUF%FORPGPINCH(4*(I-1)+IPG) 
+                    WWA(37847+5) = WWA(37847+5) + FOURTH*GBUF%MOMPGPINCH(8*(I-1)+2*(IPG-1)+1)
+                    WWA(37847+6) = WWA(37847+6) + FOURTH*GBUF%MOMPGPINCH(8*(I-1)+2*IPG)
                   ENDDO                  
                   WWA(37847+7) = GBUF%THK(I)
                 ENDIF

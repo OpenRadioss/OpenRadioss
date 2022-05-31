@@ -433,9 +433,9 @@ C----------------------------------------------------------------
         RBY(10) = RBY(1)
         RBY(11) = RBY(5)
         RBY(12) = RBY(9)
-        RBY(1) = UN
-        RBY(5) = UN
-        RBY(9) = UN
+        RBY(1) = ONE
+        RBY(5) = ONE
+        RBY(9) = ONE
       ELSE
         CALL INEPRI(RBY(10),RBY)
       ENDIF

@@ -57,7 +57,7 @@ C-----------------------------------------------
       IF (NUMSPH+MAXPJET.EQ.0) GOTO 100
 C-----------------------------------------------
       CNT = 0
-      FACT =(TROIS/(QUATRE*SQRT(DEUX)))**THIRD
+      FACT =(THREE/(FOUR*SQRT(TWO)))**THIRD
       DO 200 N=1,NUMSPH+MAXPJET
          INOD=KXSP(3,N)
          XI  =X(1,INOD)

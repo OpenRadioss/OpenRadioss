@@ -60,7 +60,7 @@ C     REAL ou REAL*8
      .        DMASS(MVSIZ)
 C-----------------------------------------------
       DO  I=LFT,LLT
-        DMASS(I)=QUART*RHO(I)*VOLU(I)*OFF(I)
+        DMASS(I)=FOURTH*RHO(I)*VOLU(I)*OFF(I)
       ENDDO
 C
 #include "lockon.inc"
@@ -131,7 +131,7 @@ C     REAL ou REAL*8
      .        DMASS(MVSIZ)
 C-----------------------------------------------
       DO  I=LFT,LLT
-        DMASS(I)=QUART*RHO(I)*VOLU(I)*OFF(I)
+        DMASS(I)=FOURTH*RHO(I)*VOLU(I)*OFF(I)
       ENDDO
 C
       DO I=LFT,LLT

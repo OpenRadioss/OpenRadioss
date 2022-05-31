@@ -107,7 +107,7 @@ C
 Ccw>>>
 C
 C     STRAIN RATE AFTER CORRECTION AND INTRINSIC ROTATION
-      DT1D2=UNDEMI*DT1
+      DT1D2=HALF*DT1
       IF(JCVT.EQ.0) THEN
         DO I=LFT,LLT
           WXX(I)=DT1D2*(DZY(I)-DYZ(I))
@@ -139,14 +139,14 @@ c      IF(ICP.GT.0) THEN
 c       IF(N2D==1) THEN
 c        IF(ICP.EQ.2) THEN
 c          DO I=LFT,LLT
-c            DVC(I)=FAC(I)*TIERS*(DSV(I)-DVC(I))
+c            DVC(I)=FAC(I)*THIRD*(DSV(I)-DVC(I))
 c            EYY(I)=EYY(I)+DVC(I)
 c            EZZ(I)=EZZ(I)+DVC(I)
 c            EXX(I)=EXX(I)+DVC(I)
 c          ENDDO
 c        ELSEIF(ICP.EQ.1) THEN
 c          DO I=LFT,LLT
-c            DVC(I)=TIERS*(DSV(I)-DVC(I))
+c            DVC(I)=THIRD*(DSV(I)-DVC(I))
 c            EYY(I)=EYY(I)+DVC(I)
 c            EZZ(I)=EZZ(I)+DVC(I)
 c            EXX(I)=EXXC(I)+DVC(I)
@@ -155,13 +155,13 @@ c        ENDIF
 c       ELSE
 c        IF(ICP.EQ.2) THEN
 c          DO I=LFT,LLT
-c            DVC(I)=FAC(I)*UNDEMI*(DSV(I)-DVC(I))
+c            DVC(I)=FAC(I)*HALF*(DSV(I)-DVC(I))
 c            EYY(I)=EYY(I)+DVC(I)
 c            EZZ(I)=EZZ(I)+DVC(I)
 c          ENDDO
 c        ELSEIF(ICP.EQ.1) THEN
 c          DO I=LFT,LLT
-c            DVC(I)=UNDEMI*(DSV(I)-DVC(I))
+c            DVC(I)=HALF*(DSV(I)-DVC(I))
 c            EYY(I)=EYY(I)+DVC(I)
 c            EZZ(I)=EZZ(I)+DVC(I)
 c          ENDDO
@@ -169,8 +169,8 @@ c        ENDIF
 c       END IF!(N2D==1) THEN
 C----For hypoelastic laws-----       
 c       DO I=LFT,LLT
-c        IF(OFFG(I)==DEUX) CYCLE
-c	 DV1 = UN- DVC(I)*DT1
+c        IF(OFFG(I)==TWO) CYCLE
+c	 DV1 = ONE- DVC(I)*DT1
 c         VOLO(I) = VOLO(I)*DV1
 c         EINT(I) = EINT(I)/DV1
 c       ENDDO

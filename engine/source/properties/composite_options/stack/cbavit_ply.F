@@ -83,12 +83,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 !!        NPLAT0 = JLT
         NPLAT0 = NPLAT
-	A1 = UN - PG
-        A2 = UN + PG
+	A1 = ONE - PG
+        A2 = ONE + PG
 C (-PG, -PG)        
-        VNI(1,1)= QUART*A2*A2
-	VNI(2,1)= QUART*A1*A2
-	VNI(3,1)= QUART*A1*A1
+        VNI(1,1)= FOURTH*A2*A2
+	VNI(2,1)= FOURTH*A1*A2
+	VNI(3,1)= FOURTH*A1*A1
 	VNI(4,1)= VNI(2,1)
 C (xi = PG,eta=-PG)
         VNI(1,2)= VNI(2,1)
@@ -107,7 +107,7 @@ Cxi= -PG, eta= pG
 	VNI(4,4)= VNI(1,1)
 C        
       DO EP=JFT,JLT
-        AREA_I(EP)=UN/MAX(EM20,AREA(EP))
+        AREA_I(EP)=ONE/MAX(EM20,AREA(EP))
       ENDDO
 C
       DO J=1, NPT
@@ -156,8 +156,8 @@ C
          ENDDO 
 C ---
        IF (ISHV51.GT.51.AND.IMPL_S.EQ.0) THEN
-          DT05 = UNDEMI*DT1
-          DT025 =QUART*DT1
+          DT05 = HALF*DT1
+          DT025 =FOURTH*DT1
           DO I=JFT,JLT
              EXZ =   Y24_T(I)*V13(I,3)-Y13_T(I)*V24(I,3)
              EYZ =  -X24_T(I)*V13(I,3)+X13_T(I)*V24(I,3)
@@ -202,12 +202,12 @@ C
        Z2=Z1*Z1
 C
 
-        X13 =(VCORE(EP,1,1)-VCORE(EP,1,3))*UNDEMI
-        X24 =(VCORE(EP,1,2)-VCORE(EP,1,4))*UNDEMI
-        Y13 =(VCORE(EP,2,1)-VCORE(EP,2,3))*UNDEMI
-        Y24 =(VCORE(EP,2,2)-VCORE(EP,2,4))*UNDEMI
-        MX13=(VCORE(EP,1,1)+VCORE(EP,1,3))*UNDEMI
-        MY13=(VCORE(EP,2,1)+VCORE(EP,2,3))*UNDEMI
+        X13 =(VCORE(EP,1,1)-VCORE(EP,1,3))*HALF
+        X24 =(VCORE(EP,1,2)-VCORE(EP,1,4))*HALF
+        Y13 =(VCORE(EP,2,1)-VCORE(EP,2,3))*HALF
+        Y24 =(VCORE(EP,2,2)-VCORE(EP,2,4))*HALF
+        MX13=(VCORE(EP,1,1)+VCORE(EP,1,3))*HALF
+        MY13=(VCORE(EP,2,1)+VCORE(EP,2,3))*HALF
 
 C--------------------------
          AR(1)=-Z1*VHI(EP,2)+Y13*V13(EP,3)+Y24*V24(EP,3)+MY13*VHI(EP,3)
@@ -219,15 +219,15 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
          ALR(2) =DI(EP,4)*AR(1)+DI(EP,2)*AR(2)+DI(EP,6)*AR(3)
          ALR(3) =DI(EP,5)*AR(1)+DI(EP,6)*AR(2)+DI(EP,3)*AR(3)
 C
-         V13(EP,1)= UNDEMI*V13(EP,1)+ALR(3)*Y13
-         V24(EP,1)= UNDEMI*V24(EP,1)+ALR(3)*Y24
-         VHI(EP,1)= QUART*VHI(EP,1)+(ALR(3)*MY13-Z1*ALR(2))
-         V13(EP,2)= UNDEMI*V13(EP,2)-ALR(3)*X13
-         V24(EP,2)= UNDEMI*V24(EP,2)-ALR(3)*X24
-         VHI(EP,2)= QUART*VHI(EP,2)-(ALR(3)*MX13-Z1*ALR(1))
-         V13(EP,3)= UNDEMI*V13(EP,3)-(Y13*ALR(1)-X13*ALR(2))
-         V24(EP,3)= UNDEMI*V24(EP,3)-(Y24*ALR(1)-X24*ALR(2))
-         VHI(EP,3)= QUART*VHI(EP,3)+(MX13*ALR(2)-MY13*ALR(1))
+         V13(EP,1)= HALF*V13(EP,1)+ALR(3)*Y13
+         V24(EP,1)= HALF*V24(EP,1)+ALR(3)*Y24
+         VHI(EP,1)= FOURTH*VHI(EP,1)+(ALR(3)*MY13-Z1*ALR(2))
+         V13(EP,2)= HALF*V13(EP,2)-ALR(3)*X13
+         V24(EP,2)= HALF*V24(EP,2)-ALR(3)*X24
+         VHI(EP,2)= FOURTH*VHI(EP,2)-(ALR(3)*MX13-Z1*ALR(1))
+         V13(EP,3)= HALF*V13(EP,3)-(Y13*ALR(1)-X13*ALR(2))
+         V24(EP,3)= HALF*V24(EP,3)-(Y24*ALR(1)-X24*ALR(2))
+         VHI(EP,3)= FOURTH*VHI(EP,3)+(MX13*ALR(2)-MY13*ALR(1))
 C
          VXYZ(EP,1 ,J) =  V13(EP,1) + VHI(EP,1)
          VXYZ(EP,4 ,J) =  V24(EP,1) - VHI(EP,1)
@@ -250,7 +250,7 @@ C---------Facteur pour longueur caracteristique---
 C----------------------------
       OFF_L = 0.
       DO EP=JFT,JLT
-        OFF(EP) = MIN(UN,ABS(OFFG(EP)))
+        OFF(EP) = MIN(ONE,ABS(OFFG(EP)))
         OFF_L  = MIN(OFF_L,OFFG(EP))
       ENDDO
       IF(OFF_L < ZERO)THEN

@@ -158,24 +158,24 @@ C     eps_eq = sqrt[ eps_m^2 + 1/12 k^2t^2 ]
 !#include "vectorize.inc" 
         DO I=JFT,JLT
           EPS_K2 = (KXX(I)*KXX(I)+KYY(I)*KYY(I)+KXX(I)*KYY(I)
-     .           + QUART*KXY(I)*KXY(I)) *THK(I)*THK(I)*UNNEUF
-          EPS_M2 = QTHIRD*(EXX(I)*EXX(I)+EYY(I)*EYY(I)+EXX(I)*EYY(I)
-     .           + QUART*EXY(I)*EXY(I))
+     .           + FOURTH*KXY(I)*KXY(I)) *THK(I)*THK(I)*ONE_OVER_9
+          EPS_M2 = FOUR_OVER_3*(EXX(I)*EXX(I)+EYY(I)*EYY(I)+EXX(I)*EYY(I)
+     .           + FOURTH*EXY(I)*EXY(I))
           EPSP_LOC(I) = SQRT(EPS_K2 + EPS_M2)*DT_INV(I)
         END DO
       ELSE IF (ISRATE > 1) THEN
 !#include "vectorize.inc" 
         DO I=JFT,JLT
-          EPS_M2  = QTHIRD*(EXX(I)*EXX(I)+EYY(I)*EYY(I)+EXX(I)*EYY(I)
-     .            + QUART*EXY(I)*EXY(I))
+          EPS_M2  = FOUR_OVER_3*(EXX(I)*EXX(I)+EYY(I)*EYY(I)+EXX(I)*EYY(I)
+     .            + FOURTH*EXY(I)*EXY(I))
           EPSP_LOC(I) = SQRT(EPS_M2)*DT_INV(I)
         END DO
       ENDIF
 !
       IF (ISRATE > 0) THEN    ! strain rate filtering with exponential average
         DO I=JFT,JLT
-          ASRATE = MIN(UN,PM(9,MX)*DT1C(I))
-          EPSP(I) = ASRATE*EPSP_LOC(I) + (UN-ASRATE)*EPSP(I)
+          ASRATE = MIN(ONE,PM(9,MX)*DT1C(I))
+          EPSP(I) = ASRATE*EPSP_LOC(I) + (ONE-ASRATE)*EPSP(I)
           EPSPL(I) = EPSP(I)
         END DO
       ENDIF
@@ -230,32 +230,32 @@ C
         DO I=JFT,JLT
           TENS(1,I) = EXX(I)
           TENS(2,I) = EYY(I)
-          TENS(3,I) = UNDEMI*EXY(I)
-          TENS(4,I) = UNDEMI*EYZ(I)
-          TENS(5,I) = UNDEMI*EXZ(I)          
+          TENS(3,I) = HALF*EXY(I)
+          TENS(4,I) = HALF*EYZ(I)
+          TENS(5,I) = HALF*EXZ(I)          
         ENDDO
         CALL ROTO(JFT,JLT,TENS,DIR,NEL)
         DO I=JFT,JLT
           DEPSXX(I) = TENS(1,I)
           DEPSYY(I) = TENS(2,I)
-          DEPSXY(I) = DEUX*TENS(3,I)
-          DEPSYZ(I) = DEUX*TENS(4,I)
-          DEPSZX(I) = DEUX*TENS(5,I)          
+          DEPSXY(I) = TWO*TENS(3,I)
+          DEPSYZ(I) = TWO*TENS(4,I)
+          DEPSZX(I) = TWO*TENS(5,I)          
         ENDDO
         DO I=JFT,JLT
           TENS(1,I) = GSTR(I,1)
           TENS(2,I) = GSTR(I,2)
-          TENS(3,I) = UNDEMI*GSTR(I,3)
-          TENS(4,I) = UNDEMI*GSTR(I,4)
-          TENS(5,I) = UNDEMI*GSTR(I,5)          
+          TENS(3,I) = HALF*GSTR(I,3)
+          TENS(4,I) = HALF*GSTR(I,4)
+          TENS(5,I) = HALF*GSTR(I,5)          
         ENDDO
         CALL ROTO(JFT,JLT,TENS,DIR,NEL)
         DO I=JFT,JLT
           EPSXX(I) = TENS(1,I)
           EPSYY(I) = TENS(2,I)
-          EPSXY(I) = DEUX*TENS(3,I)
-          EPSYZ(I) = DEUX*TENS(4,I)
-          EPSZX(I) = DEUX*TENS(5,I)          
+          EPSXY(I) = TWO*TENS(3,I)
+          EPSYZ(I) = TWO*TENS(4,I)
+          EPSZX(I) = TWO*TENS(5,I)          
         ENDDO
         DO I=JFT,JLT
           TENS(1,I) = FOR(I,1)
@@ -514,9 +514,9 @@ C---------------------------
       IF (DM > ZERO) THEN
         DO I=JFT,JLT                                                   
           VISCMX(I) = MAX(VISCMX(I),DM)
-          VISC = UNP414*DM*RHO(I)*SSP(I)*SQRT(AREA(I))*DT_INV(I)        
-          FOR(I,1) = FOR(I,1) + VISC*(EXX(I)+UNDEMI*EYY(I))		  
-          FOR(I,2) = FOR(I,2) + VISC*(EYY(I)+UNDEMI*EXX(I))		  
+          VISC = ONEP414*DM*RHO(I)*SSP(I)*SQRT(AREA(I))*DT_INV(I)        
+          FOR(I,1) = FOR(I,1) + VISC*(EXX(I)+HALF*EYY(I))		  
+          FOR(I,2) = FOR(I,2) + VISC*(EYY(I)+HALF*EXX(I))		  
           FOR(I,3) = FOR(I,3) + VISC* EXY(I)*THIRD			     
         ENDDO
       ENDIF
@@ -537,7 +537,7 @@ C
      .          + FOR(I,3)*EXY(I)+FOR(I,4)*EYZ(I)+FOR(I,5)*EXZ(I)
         DEGFX(I) = DEGFX(I)+MOM(I,1)*KXX(I)+MOM(I,2)*KYY(I)
      .                     +MOM(I,3)*KXY(I)
-        VOL2 = UNDEMI*THK0(I)*AREA(I)*OFF(I)
+        VOL2 = HALF*THK0(I)*AREA(I)*OFF(I)
         EINT(I,1) = EINT(I,1) + DEGMB(I)*VOL2
         EINT(I,2) = EINT(I,2) + DEGFX(I)*THK0(I)*VOL2
       ENDDO
@@ -547,7 +547,7 @@ C     INDX utilise dans IELOF
 C----------------------------
       NINDX=0
       DO I=JFT,JLT
-        IF (OFF(I) == QCINQ . AND. IOFF_DUCT(I) == 0) THEN
+        IF (OFF(I) == FOUR_OVER_5 . AND. IOFF_DUCT(I) == 0) THEN
           OFF(I)= ZERO
           NINDX=NINDX+1
           INDX(NINDX)=I

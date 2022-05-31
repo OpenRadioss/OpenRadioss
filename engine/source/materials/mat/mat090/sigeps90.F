@@ -182,9 +182,9 @@ C
              AV(1,I) = EPSXX(I)       
              AV(2,I) = EPSYY(I)       
              AV(3,I) = EPSZZ(I)       
-             AV(4,I) = UNDEMI*EPSXY(I)
-             AV(5,I) = UNDEMI*EPSYZ(I)
-             AV(6,I) = UNDEMI*EPSZX(I)
+             AV(4,I) = HALF*EPSXY(I)
+             AV(5,I) = HALF*EPSYZ(I)
+             AV(6,I) = HALF*EPSZX(I)
          ENDDO                     
 CEigenvalues needed to be calcultated in double precision
 C        for a simple precision executing*
@@ -206,22 +206,22 @@ C ---- (STRAIN IS LOGARITHMIC)
         ENDDO 
       ELSEIF(ISMSTR==10.OR.ISMSTR==12) THEN
         DO I =1,NEL
-          IF(OFFG(I)<=UN) THEN
-             EV(I,1)=SQRT(EVV(1,I) + UN )
-             EV(I,2)=SQRT(EVV(2,I) + UN )
-             EV(I,3)=SQRT(EVV(3,I) + UN )
+          IF(OFFG(I)<=ONE) THEN
+             EV(I,1)=SQRT(EVV(1,I) + ONE )
+             EV(I,2)=SQRT(EVV(2,I) + ONE )
+             EV(I,3)=SQRT(EVV(3,I) + ONE )
 	  ELSE
-             EV(I,1)=EVV(1,I)+ UN
-             EV(I,2)=EVV(2,I)+ UN
-             EV(I,3)=EVV(3,I)+ UN
+             EV(I,1)=EVV(1,I)+ ONE
+             EV(I,2)=EVV(2,I)+ ONE
+             EV(I,3)=EVV(3,I)+ ONE
           END IF
         ENDDO 
       ELSE
 C ----  STRAIN IS ENGINEERING)
         DO I=1,NEL
-           EV(I,1)=EVV(1,I) + UN
-           EV(I,2)=EVV(2,I) + UN
-           EV(I,3)=EVV(3,I) + UN 
+           EV(I,1)=EVV(1,I) + ONE
+           EV(I,2)=EVV(2,I) + ONE
+           EV(I,3)=EVV(3,I) + ONE 
         ENDDO 
       ENDIF
          
@@ -229,18 +229,18 @@ C engineering strain   and strain rate
       DO I=1,NEL 
 C engineering strain   e  = lambda-1 ,  according the input curve
 C e=1-lambda (e > 0 compression and e < 0 traction)            
-        STRAIN(I,1) = UN - EV(I,1)         
-        STRAIN(I,2) = UN - EV(I,2)         
-        STRAIN(I,3) = UN - EV(I,3) 
+        STRAIN(I,1) = ONE - EV(I,1)         
+        STRAIN(I,2) = ONE - EV(I,2)         
+        STRAIN(I,3) = ONE - EV(I,3) 
         
         EPST(I) = SQRT(STRAIN(I,1)**2 + STRAIN(I,2)**2 + STRAIN(I,3)**2)       
 C
         EP1 = EPSPXX(I)
         EP2 = EPSPYY(I)      
         EP3 = EPSPZZ(I) 
-        EP4 = UNDEMI*EPSPXY(I)        
-        EP5 = UNDEMI*EPSPYZ(I)
-        EP6 = UNDEMI*EPSPZX(I)
+        EP4 = HALF*EPSPXY(I)        
+        EP5 = HALF*EPSPYZ(I)
+        EP6 = HALF*EPSPZX(I)
 C phi_trans*L*phi_t    
         ERT11 =DIRPRV(1,1,I)*EP1 + DIRPRV(2,1,I)*EP4 + DIRPRV(3,1,I)*EP6
         ERT12 =DIRPRV(1,2,I)*EP1 + DIRPRV(2,2,I)*EP4 + DIRPRV(3,2,I)*EP6
@@ -261,9 +261,9 @@ C
         EPSP(3) = DIRPRV(1,3,I)*ERT13 + DIRPRV(2,3,I)*ERT23 
      .                                + DIRPRV(3,3,I)*ERT33
 C    abs(eps) not necessary  
-        STRAINRATE(I,1) = EPSP(1)*(UN - STRAIN(I,1)) ! eng
-        STRAINRATE(I,2) = EPSP(2)*(UN - STRAIN(I,2))
-        STRAINRATE(I,3) = EPSP(3)*(UN - STRAIN(I,3))
+        STRAINRATE(I,1) = EPSP(1)*(ONE - STRAIN(I,1)) ! eng
+        STRAINRATE(I,2) = EPSP(2)*(ONE - STRAIN(I,2))
+        STRAINRATE(I,3) = EPSP(3)*(ONE - STRAIN(I,3))
 C computing energy increase
           YFAC = UPARAM(NFUNC + 11)
           QUASI_EINT= ZERO
@@ -271,7 +271,7 @@ C computing energy increase
             EPSE = STRAIN(I,K)                                          
             SQSTAT(I,K) = YFAC*FINTER(IFUNC(1),EPSE,NPF,TF,DF(K))       
 C compute curent energy
-            QUASI_EINT= QUASI_EINT + UNDEMI*STRAIN(I,K)*SQSTAT(I,K)
+            QUASI_EINT= QUASI_EINT + HALF*STRAIN(I,K)*SQSTAT(I,K)
           ENDDO   
             DEINT(I)  = QUASI_EINT - UVAR(I,9)
             UVAR(I,9) = QUASI_EINT
@@ -286,7 +286,7 @@ C check loading and unloading.
 C filtring strain
          RATEEPS = SQRT(STRAINRATE(I,1)**2 + STRAINRATE(I,2)**2 + STRAINRATE(I,3)**2)
         IF (ISRATE > 0) THEN
-           RATEEPS =  ASRATE*RATEEPS + (UN - ASRATE)*UVAR(I,3)
+           RATEEPS =  ASRATE*RATEEPS + (ONE - ASRATE)*UVAR(I,3)
          ENDIF    
          EPSD(I) = RATEEPS
       ENDDO
@@ -391,7 +391,7 @@ C unloadind with damage based on the energy.
                    Emax = MAX(Emax, YFAC*DF(K))
                    EMIN = MIN(EMIN, YFAC*DF(K))
 C computecurent energy
-                    ECURENT(I)= ECURENT(I) + UNDEMI*STRAIN(I,K)*SQSTAT(I,K)
+                    ECURENT(I)= ECURENT(I) + HALF*STRAIN(I,K)*SQSTAT(I,K)
                  ENDDO
                    ET(I) = EMIN/E0 ! not used
                    E(I) = MAX(E0,Emax)
@@ -440,9 +440,9 @@ C
                          S(I,K) = SJ1 + FAC*(SJ2 - SJ1)                           
                          !! EMIN = MIN(EMIN,E1 + FAC*(E2 - E1))                   
 C computecurent     nergy                                                        e
-!!                       ECURENT(I)= ECURENT(I) + UNDEMI*STRAIN(I,K)*SQSTAT(I,K)  
-!!                       ECURENT(I)= ECURENT(I) + UNDEMI*STRAIN(I,K)*S(I,K)       
-!!                       ECURENT(I)= ECURENT(I) + UNDEMI*EV(I,K)*ABS(SQSTAT(I,K)) 
+!!                       ECURENT(I)= ECURENT(I) + HALF*STRAIN(I,K)*SQSTAT(I,K)  
+!!                       ECURENT(I)= ECURENT(I) + HALF*STRAIN(I,K)*S(I,K)       
+!!                       ECURENT(I)= ECURENT(I) + HALF*EV(I,K)*ABS(SQSTAT(I,K)) 
                          ENDIF ! strainrate                                       
                      ENDDO  ! K                                                   
 !!                      UVAR(I,2) = MAX(UVAR(I,2),ECURENT(I))                     
@@ -469,8 +469,8 @@ C
                         Emax = MAX(Emax, YFAC*DF(K))
                         EMIN = MIN(EMIN, YFAC*DF(K))
 C compute cure     nt energy
-                         ECURENT(I)= ECURENT(I) + UNDEMI*STRAIN(I,K)*SQSTAT(I,K)
-!!                         ECURENT(I)= ECURENT(I) + UNDEMI*EV(I,K)*ABS(SQSTAT(I,K))
+                         ECURENT(I)= ECURENT(I) + HALF*STRAIN(I,K)*SQSTAT(I,K)
+!!                         ECURENT(I)= ECURENT(I) + HALF*EV(I,K)*ABS(SQSTAT(I,K))
                       ENDDO 
                         E(I) = MAX(E0,Emax)
                         E(I) = EMAX
@@ -530,7 +530,7 @@ C
               DO I=1,NEL
                  DELTA = EPST(I) - UVAR(I,6)
                  UVAR(I,4) = UVAR(I,4) + 
-     .                       UNDEMI*(YLD(I) + UVAR(I,1))*DELTA
+     .                       HALF*(YLD(I) + UVAR(I,1))*DELTA
                  UVAR(I,4) = MAX(ZERO, UVAR(I,4))
                  UVAR(I,2) = MAX(UVAR(I,2) , UVAR(I,4))
                  UVAR(I,1) = YLD(I) 
@@ -543,8 +543,8 @@ C  flag is a hidden falg, only idam=0 is activated, Idam > o not tested.
                 DO II=1,NE_UNL
                   I = INDX_UNL(II)
                   IF(UVAR(I,2) > ZERO) THEN
-                     DAM = UN - (ECURENT(I)/UVAR(I,2))**SHAPE
-                     DAM = UN - (UN - HYS)*DAM
+                     DAM = ONE - (ECURENT(I)/UVAR(I,2))**SHAPE
+                     DAM = ONE - (ONE - HYS)*DAM
                      UVAR(I,7) = DAM
 C  global      
                      DO K=1,3
@@ -558,8 +558,8 @@ C damage by direction to be  tested for
                 DO II=1,NE_UNL
                   I = INDX_UNL(II)
                   IF(UVAR(I,2) > ZERO) THEN
-                     DAM = UN - (ECURENT(I)/UVAR(I,2))**SHAPE
-                     DAM = UN - (UN - HYS)*DAM 
+                     DAM = ONE - (ECURENT(I)/UVAR(I,2))**SHAPE
+                     DAM = ONE - (ONE - HYS)*DAM 
                      DO K=1,3
                          IF(ILOAD(I,K) < 0)S(I,K) = DAM*S(I,K)
                      ENDDO
@@ -607,7 +607,7 @@ C==================================================
            E_OLD = UVAR(I,8)
            EPSS = EPST(I) - YLD(I)/ E_OLD
            EPSS = MAX(ZERO, EPSS)
-           EPSS = MIN(UN, EPSS)
+           EPSS = MIN(ONE, EPSS)
            AA = E_MAX - E0  
            DE = AA*(EPSS - UVAR(I,10))
 !!           E_NEW = E_OLD + AA*MAX(DE,ZERO)
@@ -615,7 +615,7 @@ C==================================================
            E_NEW= MIN(E_MAX, E_NEW)
            UVAR(I,10) = EPSS
            UVAR(I,8) = E_NEW
-           AA = E_NEW*(UN-NU)/(UN + NU)/(UN - DEUX*NU) 
+           AA = E_NEW*(ONE-NU)/(ONE + NU)/(ONE - TWO*NU) 
            SOUNDSP(I) = SQRT(AA/RHO0(I))
            VISCMAX(I) = ZERO 
 C         
@@ -624,8 +624,8 @@ CE0
         IF (IMPL_S > 0 .OR. IHET > 1) THEN
           DO I=1,NEL
             ET(I) = YLD(I)/MAX(EM20,EPST(I))
-!!            ET(I) = MIN(UN , ET(I)/UVAR(I,8))
-            ET(I) = MIN(UN , ET(I)/E_MAX)
+!!            ET(I) = MIN(ONE , ET(I)/UVAR(I,8))
+            ET(I) = MIN(ONE , ET(I)/E_MAX)
          ENDDO
         ENDIF
 C------------------------------------ 

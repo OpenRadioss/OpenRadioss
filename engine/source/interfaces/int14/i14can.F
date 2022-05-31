@@ -83,14 +83,14 @@ C
       C =BUFSF(ADRBUF+3)
 C
        D=MIN(A,B,C)
-       D=UN/D
+       D=ONE/D
 C---------------------------------
        AN=A**DGR
        BN=B**DGR
        CN=C**DGR
-       AN=UN/AN
-       BN=UN/BN
-       CN=UN/CN       
+       AN=ONE/AN
+       BN=ONE/BN
+       CN=ONE/CN       
        DO I=1,9
         ROT(I)=BUFSF(ADRBUF+7+I-1)
        END DO
@@ -150,7 +150,7 @@ C---------------------------------
         ELSE
 C---------------------------------
 C         tri exhaustif.
-          H =UN+G*D
+          H =ONE+G*D
           HN=H**DGR
           IF (EW(IN) .LE. HN) THEN
            NSC=NSC+1

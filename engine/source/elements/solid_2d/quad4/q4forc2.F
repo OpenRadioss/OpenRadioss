@@ -335,11 +335,11 @@ C
 C
       IF (ISORTH == 0) THEN
         DO I=LFT,LLT
-          GAMA(I,1) = UN
+          GAMA(I,1) = ONE
           GAMA(I,2) = ZERO
           GAMA(I,3) = ZERO
           GAMA(I,4) = ZERO
-          GAMA(I,5) = UN
+          GAMA(I,5) = ONE
           GAMA(I,6) = ZERO
         ENDDO
       ELSE
@@ -384,19 +384,19 @@ C----for the moment constant in element
 C     COMPUTE FAC(*) FOR PRESSURE ACCORDING TO PLASTICITY STATE
 C---- now assumed strain is used, no effect for Isolid17
         DO I=LFT,LLT
-          NU(I)=MIN(UNDEMI,PM(21,MAT(I)))
+          NU(I)=MIN(HALF,PM(21,MAT(I)))
           C1 =PM(32,MAT(I))
-          E0(I) =TROIS*(UN-DEUX*NU(I))*C1
+          E0(I) =THREE*(ONE-TWO*NU(I))*C1
         ENDDO
       IF(ICP==2) THEN
         CALL S8ZSIGP3(LFT  ,LLT       ,GBUF%SIG,E0  ,GBUF%PLA,
      2                FAC  ,GBUF%G_PLA,NEL     )
         DO I=LFT,LLT
-          NUU(I)=NU(I)+(UNDEMI-NU(I))*FAC(I)
+          NUU(I)=NU(I)+(HALF-NU(I))*FAC(I)
         ENDDO
       ELSEIF(ICP==1) THEN
         DO I=LFT,LLT
-          NUU(I)=UNDEMI
+          NUU(I)=HALF
         ENDDO
       ELSE
         DO I=LFT,LLT
@@ -535,7 +535,7 @@ C       COMPUTE ELEMENT AVERAGE & SUMMERY DATA
 C
          DO I=LFT,LLT
            OFFG(I)=MIN(OFFG(I),OFF(I))
-           IF (LBUF%OFF(I) > UN .AND. GBUF%OFF(I) == UN) THEN
+           IF (LBUF%OFF(I) > ONE .AND. GBUF%OFF(I) == ONE) THEN
              OFFS(I) = MIN(LBUF%OFF(I),OFFS(I))
              IOFFS = 1
            ENDIF
@@ -547,7 +547,7 @@ C     EXIT THE INTEGRATION POINTS LOOP <--
 C
       IF(IOFFS.EQ.1)THEN
         DO I=LFT,LLT
-          IF(OFFS(I).LE.DEUX) THEN
+          IF(OFFS(I).LE.TWO) THEN
             GBUF%OFF(I) = OFFS(I)
           ENDIF
         ENDDO
@@ -555,7 +555,7 @@ C
           DO IS=1,NPTS
             LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
             DO I=LFT,LLT
-              IF (GBUF%OFF(I) > UN) LBUF%OFF(I) = GBUF%OFF(I)
+              IF (GBUF%OFF(I) > ONE) LBUF%OFF(I) = GBUF%OFF(I)
             ENDDO
           ENDDO
         ENDDO
@@ -709,7 +709,7 @@ C
       DO I=LFT,LLT
        FAC = EM03*OFF(I)
        ARE = MAX(AREA(I),EM20)
-       FCL(I)=UNDEMI*FAC*RHO(I)*SQRT(ARE)*CXX(I)
+       FCL(I)=HALF*FAC*RHO(I)*SQRT(ARE)*CXX(I)
       END DO 
 C
 C
@@ -718,13 +718,13 @@ C
         DO I=LFT,LLT
          HY=Y1(I)-Y2(I)+Y3(I)-Y4(I)
          HZ=Z1(I)-Z2(I)+Z3(I)-Z4(I)
-         FAC=UN/MAX(EM20,AREA(I))
+         FAC=ONE/MAX(EM20,AREA(I))
          PX1H1=FAC*(PY1(I)*HY+PZ1(I)*HZ)
          PX2H1=FAC*(PY2(I)*HY+PZ2(I)*HZ)
-         G11(I)= UN -PX1H1
-         G21(I)=-UN -PX2H1
-         G31(I)= UN +PX1H1
-         G41(I)=-UN +PX2H1 
+         G11(I)= ONE -PX1H1
+         G21(I)=-ONE -PX2H1
+         G31(I)= ONE +PX1H1
+         G41(I)=-ONE +PX2H1 
         END DO 
         DO I=LFT,LLT
          HGY(I)=FCL(I)*(

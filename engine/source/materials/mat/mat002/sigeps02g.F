@@ -154,8 +154,8 @@ Chd|====================================================================
         EPDR(I)= MAX(EM20,AUX)
         NPIF   = NINT(PM(50,MX))
         T(I)   = PM(54,MX)
-        ETSE(I) = UN
-        EPSPDT(I) = UN
+        ETSE(I) = ONE
+        EPSPDT(I) = ONE
       ENDDO
 !---------------------------
 !     CONTRAINTES ELASTIQUES
@@ -171,16 +171,16 @@ Chd|====================================================================
         F4(I) = SIGOYZ(I) + GS(I)*DEPSYZ(I)
         F5(I) = SIGOZX(I) + GS(I)*DEPSZX(I)
 !
-        THK12 = THK0(I)*UNDOUZE
+        THK12 = THK0(I)*ONE_OVER_12
         M1(I) = MOMOXX(I) + (A1(I)*DEPBXX(I)+A2(I)*DEPBYY(I))*THK12
         M2(I) = MOMOYY(I) + (A1(I)*DEPBYY(I)+A2(I)*DEPBXX(I))*THK12
         M3(I) = MOMOXY(I) + G(I)*DEPBXY(I)*THK12
 !
         MS = M1(I)+M2(I)
         FS = F1(I)+F2(I)
-        UNSYEQ(I) = UN/
-     .    SQRT(MAX(SEIZE*(MS*MS + TROIS*(M3(I)*M3(I) - M1(I)*M2(I)))
-     .         +    FS*FS + TROIS*(F3(I)*F3(I) - F1(I)*F2(I)),EM20))
+        UNSYEQ(I) = ONE/
+     .    SQRT(MAX(SIXTEEN*(MS*MS + THREE*(M3(I)*M3(I) - M1(I)*M2(I)))
+     .         +    FS*FS + THREE*(F3(I)*F3(I) - F1(I)*F2(I)),EM20))
       ENDDO
 !-------------
 !     STRAIN RATE (JOHNSON-COOK, ZERILLI-ARMSTRONG)
@@ -213,16 +213,16 @@ Chd|====================================================================
 !--          TSTAR=MAX(ZERO,(T(I)-298.)/(TM-298.))
 !--          ... the MAX() is replaced by the IF below
             EPSPDT(I) = MAX(ZERO,EPSPDT(I))
-            TSTAR = (T(I)-DEUXCENT98)/(TM-DEUXCENT98)
+            TSTAR = (T(I)-TWOHUNDRED98)/(TM-TWOHUNDRED98)
             IF (TSTAR > ZERO) THEN
-              EPSPDT(I) = (UN+CC * EPSPDT(I))*(UN-TSTAR**MT)
+              EPSPDT(I) = (ONE+CC * EPSPDT(I))*(ONE-TSTAR**MT)
 !--          ... emulating the '-pvctl chgpwr' compiler flag
 !--             epspdt(i)= (1.+cc(i) * epspdt(i))*(1.-exp(log(tstar)*mt))
             ELSE
 !--          EPSPDT(I)= (1.+CC(I) * EPSPDT(I))*(1.-TSTAR**MT)
 !--          ...  in case of tstart<=ZERO => tstar**mt=zero**mt=zero 
 !--          ...  => can be skipped
-              EPSPDT(I) = (UN+CC * EPSPDT(I))
+              EPSPDT(I) = (ONE+CC * EPSPDT(I))
             ENDIF
             EPSPDT(I) = MAX(EM20,EPSPDT(I))
             IF (ICC == 1) YMAX(I) = YMAX(I)*EPSPDT(I)
@@ -233,7 +233,7 @@ Chd|====================================================================
             EPSPDT(I) = CC*EXP((-Z3+Z4 * EPSPDT(I))*T(I))
             IF (ICC == 1) YMAX(I) = YMAX(I) + EPSPDT(I)
             CA(I) = CA(I) + EPSPDT(I)
-            EPSPDT(I) = UN
+            EPSPDT(I) = ONE
           ENDDO
         ELSE
 #include "vectorize.inc"
@@ -241,12 +241,12 @@ Chd|====================================================================
             IF (IRTY == 0) THEN
               MT = MAX(EM20,Z3)
               TM = Z4
-              TSTAR = (T(I)-DEUXCENT98)/(TM-DEUXCENT98)
+              TSTAR = (T(I)-TWOHUNDRED98)/(TM-TWOHUNDRED98)
               EPSPDT(I) = MAX(ZERO,EPSPDT(I))
               IF (TSTAR > ZERO) THEN
-                EPSPDT(I) = (UN + CC * EPSPDT(I))*(UN - TSTAR**MT)
+                EPSPDT(I) = (ONE + CC * EPSPDT(I))*(ONE - TSTAR**MT)
               ELSE
-                EPSPDT(I) = (UN + CC * EPSPDT(I))
+                EPSPDT(I) = (ONE + CC * EPSPDT(I))
               ENDIF
               EPSPDT(I) = MAX(EM20,EPSPDT(I))
               IF (ICC == 1) YMAX(I) = YMAX(I)*EPSPDT(I)
@@ -254,7 +254,7 @@ Chd|====================================================================
               EPSPDT(I) = CC*EXP((-Z3+Z4 * EPSPDT(I))*T(I))
               IF (ICC == 1) YMAX(I) = YMAX(I) + EPSPDT(I)
               CA(I) = CA(I) + EPSPDT(I)
-              EPSPDT(I) = UN
+              EPSPDT(I) = ONE
             ENDIF ! IF (IRTY == 0)
           ENDDO
         ENDIF ! IF (NPIF == ZERO .AND. (IMACH /= 3 .OR. IPARIT == 0))
@@ -270,17 +270,17 @@ Chd|====================================================================
         DO I=JFT,JLT
           YLD(I) = CA(I)+CB(I)*EXP(CN * LOG(LBUF%PLA(I)+ EM30))
           YLD(I) = MIN(YLD(I)*EPSPDT(I),YMAX(I))
-          RR(I)  = MIN(UN,YLD(I)*UNSYEQ(I))
+          RR(I)  = MIN(ONE,YLD(I)*UNSYEQ(I))
         ENDDO
 !----------------------------
 !     ETAN/E POUR COQUES ZENG
 !----------------------------
         DO I=JFT,JLT
-          IF (RR(I) < UN) THEN
+          IF (RR(I) < ONE) THEN
             IF (YLD(I) >= YMAX(I)) THEN
               HH(I) = ZERO
             ELSE
-              HH(I) = CN*CB(I)*EXP((CN-UN)*LOG(LBUF%PLA(I)+EM30))
+              HH(I) = CN*CB(I)*EXP((CN-ONE)*LOG(LBUF%PLA(I)+EM30))
             ENDIF
             ETSE(I) = HH(I)/(HH(I)+YM)
           ENDIF
@@ -305,7 +305,7 @@ Chd|====================================================================
           M3(I) = M3(I)*RR(I)
           D1 = M1(I)-MOMOXX(I)
           D2 = M2(I)-MOMOYY(I)
-          DWELF(I) = DOUZE*(
+          DWELF(I) = TWELVE*(
      .              (M1(I)+MOMOXX(I))*(C1*D1+C2*D2)
      .             +(M2(I)+MOMOYY(I))*(C2*D1+C1*D2)
      .             +(M3(I)+MOMOXY(I))*(C3*(M3(I)-MOMOXY(I))) )
@@ -320,13 +320,13 @@ Chd|====================================================================
 !     EPS PLASTIQUE
 !-----------------------
         DO I=JFT,JLT
-          DPLA(I) = OFF(I)* MAX(ZERO,UNDEMI*EPSPDT(I)*DWPLA(I)/YLD(I))
+          DPLA(I) = OFF(I)* MAX(ZERO,HALF*EPSPDT(I)*DWPLA(I)/YLD(I))
           LBUF%PLA(I) = LBUF%PLA(I) + DPLA(I)
           AAA  = ABS(DWELM(I)+DWELF(I))
           BBB  = MAX(ZERO,DWPLA(I))
           CCC  = MAX(EM20,AAA+BBB)
-          EZZ = - (DEPSXX(I) + DEPSYY(I)) * (NU(I)*AAA/(UN-NU(I)) + BBB)/CCC
-          THK(I) = THK(I) * (UN + EZZ*OFF(I))
+          EZZ = - (DEPSXX(I) + DEPSYY(I)) * (NU(I)*AAA/(ONE-NU(I)) + BBB)/CCC
+          THK(I) = THK(I) * (ONE + EZZ*OFF(I))
         ENDDO
       ELSE
 !-------------------------
@@ -348,28 +348,28 @@ Chd|====================================================================
 !-------------------------------------------------------------------------
 !     GAMA (L'INVERSE DE GAMA DANS LA FORMULE) 
 !-------------------------------------------------------------------------
-          CCC = EXP(-DEUXP6666666667*LBUF%PLA(I)*YM/YLD(I))
-          GAMA(I) = DEUX/(TROIS-CCC)
+          CCC = EXP(-TWOP6666666667*LBUF%PLA(I)*YM/YLD(I))
+          GAMA(I) = TWO/(THREE-CCC)
           GAMA2(I)= GAMA(I)*GAMA(I)
-          MM1 = TRENTE6*GAMA2(I)
-          MM2 = TROISP4641*GAMA(I)  
-          QTIER(I) = TROIS*GAMA2(I)
-          NNU1(I) = NU(I)/(UN-NU(I))
-          S1(I) = (F1(I)+F2(I))*UNDEMI
-          S2(I) = (F1(I)-F2(I))*UNDEMI
+          MM1 = THIRTY6*GAMA2(I)
+          MM2 = THREEP4641*GAMA(I)  
+          QTIER(I) = THREE*GAMA2(I)
+          NNU1(I) = NU(I)/(ONE-NU(I))
+          S1(I) = (F1(I)+F2(I))*HALF
+          S2(I) = (F1(I)-F2(I))*HALF
           S3 = F3(I)
-          SM1(I) = (M1(I)+M2(I))*UNDEMI
-          SM2(I) = (M1(I)-M2(I))*UNDEMI
+          SM1(I) = (M1(I)+M2(I))*HALF
+          SM2(I) = (M1(I)-M2(I))*HALF
           SM3 = M3(I)
           AN(I) = S1(I)*S1(I)
-          BN(I) = TROIS*(S2(I)*S2(I)+S3*S3)
+          BN(I) = THREE*(S2(I)*S2(I)+S3*S3)
           AM(I) = SM1(I)*SM1(I)*MM1
-          BM(I) = TROIS*(SM2(I)*SM2(I)+SM3*SM3)*MM1       
+          BM(I) = THREE*(SM2(I)*SM2(I)+SM3*SM3)*MM1       
           ANM(I) = S1(I)*SM1(I)*MM2
-          BNM(I) = TROIS*(S2(I)*SM2(I)+S3*SM3)*MM2
+          BNM(I) = THREE*(S2(I)*SM2(I)+S3*SM3)*MM2
           SVM(I) = SQRT(AN(I)+BN(I)+AM(I)+BM(I)+ABS(ANM(I)+BNM(I)))
           EZZ = -(DEPSXX(I)+DEPSYY(I))*NNU1(I)
-          THK(I) = THK(I) * (UN + EZZ*OFF(I))
+          THK(I) = THK(I) * (ONE + EZZ*OFF(I))
         ENDDO
 !-------------------------
 !     GATHER PLASTIC FLOW
@@ -377,7 +377,7 @@ Chd|====================================================================
         NINDX = 0
 !
         DO I=JFT,JLT
-          IF (SVM(I) > YLD(I) .AND. OFF(I) == UN) THEN
+          IF (SVM(I) > YLD(I) .AND. OFF(I) == ONE) THEN
             NINDX = NINDX+1
             INDEX(NINDX) = I
           ENDIF
@@ -388,21 +388,21 @@ Chd|====================================================================
 #include      "simd.inc"
         DO J=1,NINDX
           I = INDEX(J)
-          NU1(I) = UNDEMI*(UN + NU(I))
-          NU2(I) = TDEMI *(UN - NU(I))
-          NU3(I) = UN - NNU1(I)
-          NUM1(I) = UN + QTIER(I)
-          NUM2(I) = CINQP5*GAMA2(I)
+          NU1(I) = HALF*(ONE + NU(I))
+          NU2(I) = THREE_HALF *(ONE - NU(I))
+          NU3(I) = ONE - NNU1(I)
+          NUM1(I) = ONE + QTIER(I)
+          NUM2(I) = FIVEP5*GAMA2(I)
           LFN(I) = NUM2(I)
-          QFN(I) = SEIZEP5*GAMA2(I)*GAMA2(I)
+          QFN(I) = SIXTEENP5*GAMA2(I)*GAMA2(I)
           QFNM(I) = -NUM2(I)
           IF (YLD(I) >= YMAX(I)) THEN
             HH(I) = ZERO
           ELSE
-            HH(I) = CN*CB(I)*EXP((CN-UN)*LOG(LBUF%PLA(I)+ EM30))
+            HH(I) = CN*CB(I)*EXP((CN-ONE)*LOG(LBUF%PLA(I)+ EM30))
           ENDIF
           ETSE(I) = HH(I)/(HH(I)+YM)
-          DPLA_J(I) = (SVM(I)-YLD(I))/(TROIS*G(I)*QTIER(I)+HH(I))
+          DPLA_J(I) = (SVM(I)-YLD(I))/(THREE*G(I)*QTIER(I)+HH(I))
         ENDDO
 !-------------------------------
 !     TIENT COMPTE DU COUPLAGE
@@ -420,39 +420,39 @@ Chd|====================================================================
             DB = NUM1(I)+NUM2(I)*XQ
             DFNP = LFN(I)+QFN(I)*XP
             DFNQ = LFN(I)+QFN(I)*XQ
-            DFMP = UNP8333*(XP+UN)
-            DFMQ = UNP8333*(XQ+UN)
+            DFMP = ONEP8333*(XP+ONE)
+            DFMQ = ONEP8333*(XQ+ONE)
             DFNMP = QFNM(I)*XP
             DFNMQ = QFNM(I)*XQ
-            XP = UNDEMI*XP
-            XQ = UNDEMI*XQ
-            A = UN+(DA+NUM1(I))*XP
-            B = UN+(DB+NUM1(I))*XQ
-            A_I = UN/A
-            B_I = UN/B
+            XP = HALF*XP
+            XQ = HALF*XQ
+            A = ONE+(DA+NUM1(I))*XP
+            B = ONE+(DB+NUM1(I))*XQ
+            A_I = ONE/A
+            B_I = ONE/B
             AA = A_I*A_I
             BB = B_I*B_I
-            FNP = UN+(DFNP+LFN(I))*XP
-            FNQ = UN+(DFNP+LFN(I))*XQ
-            FMP = UN+(DFMP+UNP8333)*XP
-            FMQ = UN+(DFMQ+UNP8333)*XQ
-            FNMP = UN+DFNMP*XP
-            FNMQ = UN+DFNMQ*XQ
+            FNP = ONE+(DFNP+LFN(I))*XP
+            FNQ = ONE+(DFNP+LFN(I))*XQ
+            FMP = ONE+(DFMP+ONEP8333)*XP
+            FMQ = ONE+(DFMQ+ONEP8333)*XQ
+            FNMP = ONE+DFNMP*XP
+            FNMQ = ONE+DFNMQ*XQ
             FNM = AA*FNMP*ANM(I)+BB*FNMQ*BNM(I)
             IF (FNM < ZERO) THEN
-              S = -UN
+              S = -ONE
             ELSE
-              S = UN
+              S = ONE
             ENDIF
             CP1 = (FNP*AN(I)+S*FNMP*ANM(I)+FMP*AM(I))*AA
             CQ1 = (FNQ*BN(I)+S*FNMQ*BNM(I)+FMQ*BM(I))*BB
             CP2 = (DFNP*AN(I)+S*DFNMP*ANM(I)+DFMP*AM(I))*AA
             CQ2 = (DFNQ*BN(I)+S*DFNMQ*BNM(I)+DFMQ*BM(I))*BB
-            XPG = DEUX*NU1(I)*DA*A_I
-            XQG = DEUX*NU2(I)*DB*B_I
+            XPG = TWO*NU1(I)*DA*A_I
+            XQG = TWO*NU2(I)*DB*B_I
             F   = CP1 +CQ1-YLD_I*YLD_I
             DF  =(CP2*NU1(I)+CQ2*NU2(I)-CP1*XPG-CQ1*XQG)*
-     .           (A1(I)-DR*HH(I))/YLD_I-DEUX*HH(I)*YLD_I
+     .           (A1(I)-DR*HH(I))/YLD_I-TWO*HH(I)*YLD_I
             DPLA_J(I) = MAX(ZERO,DPLA_I-F/DF)
           ENDDO
         ENDDO
@@ -470,36 +470,36 @@ Chd|====================================================================
           XQ = DR*NU2(I)
           XPG = XP*XP
           XQG = XQ*XQ
-          A = UN+NUM1(I)*XP+NUM2(I)*XPG
-          B = UN+NUM1(I)*XQ+NUM2(I)*XQG
-          A_I = UN/A
-          B_I = UN/B
+          A = ONE+NUM1(I)*XP+NUM2(I)*XPG
+          B = ONE+NUM1(I)*XQ+NUM2(I)*XQG
+          A_I = ONE/A
+          B_I = ONE/B
           AA = A_I*A_I
           BB = B_I*B_I
-          FNMP = UN+QFNM(I)*XPG
-          FNMQ = UN+QFNM(I)*XQG
+          FNMP = ONE+QFNM(I)*XPG
+          FNMQ = ONE+QFNM(I)*XQG
           FNM = AA*FNMP*ANM(I)+BB*FNMQ*BNM(I)
           IF (FNM  < ZERO) THEN
-            S = -UNP732*GAMA(I)
+            S = -ONEP732*GAMA(I)
           ELSE
-            S = UNP732*GAMA(I)
+            S = ONEP732*GAMA(I)
           ENDIF
-          QN = UN+QTIER(I)*XQ
+          QN = ONE+QTIER(I)*XQ
           QNM1 = XQ*S
-          QNM2 = QNM1*UNDOUZE
-          SN1 = (S1(I)*(UN +QTIER(I)*XP)-SM1(I)*S*XP)*A_I
+          QNM2 = QNM1*ONE_OVER_12
+          SN1 = (S1(I)*(ONE +QTIER(I)*XP)-SM1(I)*S*XP)*A_I
           SN2 = (S2(I)*QN-SM2(I)*QNM1)*B_I
           S3 = (F3(I)*QN-M3(I)*QNM1)*B_I
-          MM1 = (SM1(I)*(UN+XP)-S1(I)*S*XP*UNDOUZE)*A_I
-          MM2 = (SM2(I)*(UN+XQ)-S2(I)*QNM2)*B_I
-          M3(I) = (M3(I)*(UN+XQ)-F3(I)*QNM2)*B_I
+          MM1 = (SM1(I)*(ONE+XP)-S1(I)*S*XP*ONE_OVER_12)*A_I
+          MM2 = (SM2(I)*(ONE+XQ)-S2(I)*QNM2)*B_I
+          M3(I) = (M3(I)*(ONE+XQ)-F3(I)*QNM2)*B_I
           F1(I) = SN1+SN2
           F2(I) = SN1-SN2
           F3(I) = S3
           M1(I) = MM1+MM2
           M2(I) = MM1-MM2
           EZZ = - NU3(I)*DR*SN1/YM
-          THK(I) = THK(I) * (UN + EZZ*OFF(I))
+          THK(I) = THK(I) * (ONE + EZZ*OFF(I))
         ENDDO
       ENDIF ! IF (IPLA == 0)
 !--------------------------------
@@ -508,15 +508,15 @@ Chd|====================================================================
 #include "simd.inc"
       DO I=JFT,JLT
         IF (OFF(I) < EM01) OFF(I) = ZERO
-        IF (OFF(I) < UN)   OFF(I) = OFF(I)*QCINQ
+        IF (OFF(I) < ONE)   OFF(I) = OFF(I)*FOUR_OVER_5
       ENDDO
 !
       NINDX=0
 !
       DO I=JFT,JLT
-        IF (OFF(I) < UN) CYCLE
+        IF (OFF(I) < ONE) CYCLE
         IF (LBUF%PLA(I) < EPMX) CYCLE
-        OFF(I) = QCINQ
+        OFF(I) = FOUR_OVER_5
         NINDX = NINDX+1
         INDX(NINDX) = I
         IOFF_DUCT(I) = 1

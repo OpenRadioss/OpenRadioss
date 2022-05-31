@@ -110,19 +110,19 @@ C-------------------
           D11 = DIR(I,1)*DIR(I,1)
           D22 = DIR(I,2)*DIR(I,2)
           D12 = DIR(I,1)*DIR(I,2)
-          S11 = D11*SIGNXX(I) + D22*SIGNYY(I) + DEUX*D12*SIGNXY(I)
-          S22 = D22*SIGNXX(I) + D11*SIGNYY(I) - DEUX*D12*SIGNXY(I)
+          S11 = D11*SIGNXX(I) + D22*SIGNYY(I) + TWO*D12*SIGNXY(I)
+          S22 = D22*SIGNXX(I) + D11*SIGNYY(I) - TWO*D12*SIGNXY(I)
           S12 = D12*(SIGNYY(I) - SIGNXX(I)) + ( D11 - D22 )*SIGNXY(I)
 C----------------------------
 C     VITESSE DE DEFORMATION
 C----------------------------
-          EPSP = MAX(ABS(DEPSXX(I)),ABS(DEPSYY(I)),UNDEMI*ABS(DEPSXY(I)))
+          EPSP = MAX(ABS(DEPSXX(I)),ABS(DEPSYY(I)),HALF*ABS(DEPSXY(I)))
           DTINV= DT1C(I)/MAX(DT1C(I)**2,EM20)
           EPSP = EPSP*DTINV
           EPSP = MAX(EPSP ,EPDR)
           EPSPD(I) = EPSP     
-          NNU1(I) = NU / (UN - NU)    
-          NU5(I) = UN-NNU1(I) 
+          NNU1(I) = NU / (ONE - NU)    
+          NU5(I) = ONE-NNU1(I) 
 C-------------
 C     CRITERE
 C-------------
@@ -133,12 +133,12 @@ C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
 C------------------------------------------
           SEQ = SQRT(A11*S11*S11 + A22*S22*S22
      .            -A1122*S11*S22 + A12*S12*S12)
-          SCALE    = MIN(UN,YLD /MAX(SEQ ,EM20))
+          SCALE    = MIN(ONE,YLD /MAX(SEQ ,EM20))
           SIGNXX(I)=SIGNXX(I)*SCALE
           SIGNYY(I)=SIGNYY(I)*SCALE
           SIGNXY(I)=SIGNXY(I)*SCALE
           DPLA     = OFF(I)* MAX(ZERO,(SEQ -YLD )/E)
-          EZZ(I)   = - NU5(I)*DPLA*UNDEMI*(SIGNXX(I)+SIGNYY(I))/MAX(EM20,YLD)
+          EZZ(I)   = - NU5(I)*DPLA*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(EM20,YLD)
           EPSEQ(I) = EPSEQ(I) + DPLA
           DPLA1(I) = DPLA
         ENDDO
@@ -151,13 +151,13 @@ C-------------------
           D11 = DIR(I,1)*DIR(I,1)
           D22 = DIR(I,2)*DIR(I,2)
           D12 = DIR(I,1)*DIR(I,2)
-          S11 = D11*SIGNXX(I) + D22*SIGNYY(I) + DEUX*D12*SIGNXY(I)
-          S22 = D22*SIGNXX(I) + D11*SIGNYY(I) - DEUX*D12*SIGNXY(I)
+          S11 = D11*SIGNXX(I) + D22*SIGNYY(I) + TWO*D12*SIGNXY(I)
+          S22 = D22*SIGNXX(I) + D11*SIGNYY(I) - TWO*D12*SIGNXY(I)
           S12 = D12*(SIGNYY(I) - SIGNXX(I)) + ( D11 - D22 )*SIGNXY(I)
 C----------------------------
 C     VITESSE DE DEFORMATION
 C----------------------------
-          EPSP = MAX(ABS(DEPSXX(I)),ABS(DEPSYY(I)),UNDEMI*ABS(DEPSXY(I)))
+          EPSP = MAX(ABS(DEPSXX(I)),ABS(DEPSYY(I)),HALF*ABS(DEPSXY(I)))
           DTINV= DT1C(I)/MAX(DT1C(I)**2,EM20)
           EPSP = EPSP*DTINV
           EPSP = MAX(EPSP ,EPDR)
@@ -170,28 +170,28 @@ C-------------
 C------------------------------------------
 C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
 C------------------------------------------
-          NU1 = NU/(UN - NU)
-          NU5(I) = UN-NU1 
-          G3(I)  = TDEMI*E/(UN + NU)
+          NU1 = NU/(ONE - NU)
+          NU5(I) = ONE-NU1 
+          G3(I)  = THREE_HALF*E/(ONE + NU)
           P   = -(S11+S22) * THIRD
-          Q   = (UN -NU1)*P
+          Q   = (ONE -NU1)*P
           S11 = S11+Q
           S22 = S22+Q
           A1S1 = A11*S11
           A2S2 = A22*S22
           A = A1S1*S11 + A2S2*S22 - A1122*S11*S22 + A12*S12*S12
-          B = -Q*(A1S1 + A2S2 - UNDEMI*A1122*(S11+S22))
+          B = -Q*(A1S1 + A2S2 - HALF*A1122*(S11+S22))
           C = (A11+A22-A1122)*Q*Q
           SEQ = SQRT(A+B+B+C)
           C = C - YLD*YLD
-          SCALE = MIN(UN,(-B + SQRT(MAX(ZERO,B*B-A*C)))/MAX(A ,EM20))
-          UMR = UN - SCALE
+          SCALE = MIN(ONE,(-B + SQRT(MAX(ZERO,B*B-A*C)))/MAX(A ,EM20))
+          UMR = ONE - SCALE
           Q = Q*UMR
           SIGNXX(I) = SIGNXX(I)*SCALE - Q 
           SIGNYY(I) = SIGNYY(I)*SCALE - Q
           SIGNXY(I) = SIGNXY(I)*SCALE
           DPLA     = OFF(I)*SEQ*UMR/MAX(EM20,G3(I))
-          EZZ(I)   = -NU5(I)*DPLA*UNDEMI*(SIGNXX(I)+SIGNYY(I)) / YLD
+          EZZ(I)   = -NU5(I)*DPLA*HALF*(SIGNXX(I)+SIGNYY(I)) / YLD
           EPSEQ(I) = EPSEQ(I) + DPLA
           DPLA1(I) = DPLA
         ENDDO
@@ -204,14 +204,14 @@ C-------------------------
           D11 = DIR(I,1)*DIR(I,1)
           D22 = DIR(I,2)*DIR(I,2)
           D12 = DIR(I,1)*DIR(I,2)
-          S_11(I) = D11*SIGNXX(I) + D22*SIGNYY(I) + DEUX*D12*SIGNXY(I)
-          S_22(I) = D22*SIGNXX(I) + D11*SIGNYY(I) - DEUX*D12*SIGNXY(I)
+          S_11(I) = D11*SIGNXX(I) + D22*SIGNYY(I) + TWO*D12*SIGNXY(I)
+          S_22(I) = D22*SIGNXX(I) + D11*SIGNYY(I) - TWO*D12*SIGNXY(I)
           S_12(I) = D12*(SIGNYY(I) - SIGNXX(I)) + ( D11 - D22 )*SIGNXY(I)
-          NNU1(I) = NU / (UN - NU)
+          NNU1(I) = NU / (ONE - NU)
 C----------------------------
 C     VITESSE DE DEFORMATION
 C----------------------------
-          EPSP = MAX(ABS(DEPSXX(I)),ABS(DEPSYY(I)),UNDEMI*ABS(DEPSXY(I)))
+          EPSP = MAX(ABS(DEPSXX(I)),ABS(DEPSYY(I)),HALF*ABS(DEPSXY(I)))
           DTINV= DT1C(I)/MAX(DT1C(I)**2,EM20)
           EPSP = EPSP*DTINV
           EPSP = MAX(EPSP ,EPDR)
@@ -225,13 +225,13 @@ C--------------------------------
           AXY(I)=A12*S_12(I)*S_12(I)
           SEQH(I)=SQRT(S1+S2-S3+AXY(I))  
           EZZ(I) = -(DEPSXX(I)+DEPSYY(I))*NNU1(I)
-          G3(I)  = TDEMI*E/(UN+NU)
+          G3(I)  = THREE_HALF*E/(ONE+NU)
           YLDP(I) = CA*(CE+EPSEQ(I))**CN*EPSP**CM
           YLDP(I) = MIN(YLDP(I) ,YMAX)
           IF (YLDP(I) >= YMAX) THEN
             H(I)=ZERO
           ELSE
-            H(I)=CA*CN*(CE+EPSEQ(I))**(CN-UN)*EPSP**CM
+            H(I)=CA*CN*(CE+EPSEQ(I))**(CN-ONE)*EPSP**CM
           ENDIF
         ENDDO
 C--------------------------------
@@ -245,7 +245,7 @@ C     GATHER PLASTIC FLOW
 C-------------------------
         NINDX=0
         DO I=JFT,JLT
-          IF (SEQH(I) > YLDP(I) .AND. OFF(I) == UN) THEN
+          IF (SEQH(I) > YLDP(I) .AND. OFF(I) == ONE) THEN
             NINDX=NINDX+1
             INDEX(NINDX)=I
           ENDIF
@@ -259,12 +259,12 @@ C---------------------------
             I=INDEX(J)
             DPLA_J(I)= (SEQH(I)-YLDP(I))/(G3(I)+H(I))
             ETSE(I)= H(I)/(H(I)+E)
-            NU2(I) = UN-NU*NU
-            NU3(I) = NU*UNDEMI
-            NU4(I) = UNDEMI*(UN-NU)
-            NU5(I) = UN-NNU1(I)
-            S1=A11*NU*DEUX-A1122
-            S2=A22*NU*DEUX-A1122
+            NU2(I) = ONE-NU*NU
+            NU3(I) = NU*HALF
+            NU4(I) = HALF*(ONE-NU)
+            NU5(I) = ONE-NNU1(I)
+            S1=A11*NU*TWO-A1122
+            S2=A22*NU*TWO-A1122
             S12=A1122-NU*(A11+A22)
             S3=SQRT(NU2(I)*(A11-A22)*(A11-A22)+S12*S12)
             IF (ABS(S1) < EM20) THEN 
@@ -277,13 +277,13 @@ C---------------------------
             ELSE
               Q21(I)=(A11-A22+S3)/S2
             ENDIF
-            JQ(I)=UN/(UN-Q12(I)*Q21(I))
+            JQ(I)=ONE/(ONE-Q12(I)*Q21(I))
             JQ2(I)=JQ(I)*JQ(I)
             A=A11*Q12(I)
             B=A22*Q21(I)
             A_1=(A11+A1122*Q21(I)+B*Q21(I))*JQ2(I)
             A_2=(A22+A1122*Q12(I)+A*Q12(I))*JQ2(I)
-            A_3=(A+B)*JQ2(I)*DEUX+A1122*(JQ2(I)*DEUX-JQ(I))
+            A_3=(A+B)*JQ2(I)*TWO+A1122*(JQ2(I)*TWO-JQ(I))
             ST11(I)=S_11(I)+S_22(I)*Q12(I)
             ST22(I)=Q21(I)*S_11(I)+S_22(I)
             AXX(I)=A_1*ST11(I)*ST11(I)
@@ -304,19 +304,19 @@ C
               IF (DPLA_I(I) > ZERO) THEN
                 YLD_I =MIN(YLDP(I)+H(I)*DPLA_I(I),YMAX)
                 DR  =A1*DPLA_I(I)/YLD_I
-                P_1=UN/(UN+B_1(I)*DR)
+                P_1=ONE/(ONE+B_1(I)*DR)
                 PP1=P_1*P_1
-                P_2=UN/(UN+B_2(I)*DR)
+                P_2=ONE/(ONE+B_2(I)*DR)
                 PP2=P_2*P_2
-                P_3=UN/(UN+B_3(I)*DR)
+                P_3=ONE/(ONE+B_3(I)*DR)
                 PP3=P_3*P_3
                 F  = AXX(I)*PP1+AYY(I)*PP2-A_XY(I)*P_1*P_2+AXY(I)*PP3
      .              -YLD_I*YLD_I
-                DF = -((AXX(I)*P_1-A_XY(I)*P_2*UNDEMI)*PP1*B_1(I)+
-     .                 (AYY(I)*P_2-A_XY(I)*P_1*UNDEMI)*PP2*B_2(I)+
+                DF = -((AXX(I)*P_1-A_XY(I)*P_2*HALF)*PP1*B_1(I)+
+     .                 (AYY(I)*P_2-A_XY(I)*P_1*HALF)*PP2*B_2(I)+
      .                  AXY(I)*PP3*P_3*B_3(I))*(A1-DR*H(I))/YLD_I
      .                  -H(I)*YLD_I
-                DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F*UNDEMI/DF)
+                DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F*HALF/DF)
               ELSE
                 DPLA_J(I)=ZERO
               ENDIF !IF (DPLA_I(I) > ZERO)
@@ -332,18 +332,18 @@ C------------------------------------------
            YLD_I =YLDP(I)+H(I)*DPLA_J(I)
            YLD_I =MIN(YLD_I ,YMAX)
            DR  =A1*DPLA_J(I)/YLD_I
-           P_1=UN/(UN+B_1(I)*DR)
-           P_2=UN/(UN+B_2(I)*DR)
-           P_3=UN/(UN+B_3(I)*DR)
+           P_1=ONE/(ONE+B_1(I)*DR)
+           P_2=ONE/(ONE+B_2(I)*DR)
+           P_3=ONE/(ONE+B_3(I)*DR)
             S1=ST11(I)*P_1
             S2=ST22(I)*P_2
             S_11(I)=JQ(I)*(S1-S2*Q12(I))
             S_22(I)=JQ(I)*(S2-S1*Q21(I))
             S_12(I)=S_12(I)*P_3
             S1=A11*S_11(I)+A22*S_22(I)
-     .        -A1122*(S_11(I)+S_22(I))*UNDEMI
+     .        -A1122*(S_11(I)+S_22(I))*HALF
             EZZ(I) = - NU5(I)*DPLA_J(I)*S1/YLD_I
-            S1 =A1122*UNDEMI
+            S1 =A1122*HALF
             P_1=A11*S_11(I)-S1*S_22(I)
             P_2=A22*S_22(I)-S1*S_11(I)
             P_3=A12*S_12(I)
@@ -352,7 +352,7 @@ C------------------------------------------
 C
          NINDX=0
          DO I=JFT,JLT
-            IF (EPSEQ(I) > EPSMAX .AND. OFF(I) == UN) THEN
+            IF (EPSEQ(I) > EPSMAX .AND. OFF(I) == ONE) THEN
              NINDX=NINDX+1
              INDX(NINDX)=I   
              OFF(I)=ZERO

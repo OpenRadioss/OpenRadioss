@@ -196,7 +196,7 @@ C-----------------------------------------------
       ECONTDT = ZERO     
       
       DT1INV =ZERO
-      IF(DT1 > ZERO)DT1INV = UN/DT1
+      IF(DT1 > ZERO)DT1INV = ONE/DT1
 
       ITASK = JTASK-1
       
@@ -227,16 +227,16 @@ C-----------------------------------------------
          N1(I) = A1*NX1(I) + A2*NX2(I) + A3*NX3(I) + A4*NX4(I)
          N2(I) = A1*NY1(I) + A2*NY2(I) + A3*NY3(I) + A4*NY4(I)
          N3(I) = A1*NZ1(I) + A2*NZ2(I) + A3*NZ3(I) + A4*NZ4(I)      
-         LA1 = UN - LB1(I) - LC1(I)
-         LA2 = UN - LB2(I) - LC2(I)
-         LA3 = UN - LB3(I) - LC3(I)
-         LA4 = UN - LB4(I) - LC4(I) 
-         H0    = QUART * (PP1*LA1 + PP2*LA2 + PP3*LA3 + PP4*LA4)
+         LA1 = ONE - LB1(I) - LC1(I)
+         LA2 = ONE - LB2(I) - LC2(I)
+         LA3 = ONE - LB3(I) - LC3(I)
+         LA4 = ONE - LB4(I) - LC4(I) 
+         H0    = FOURTH * (PP1*LA1 + PP2*LA2 + PP3*LA3 + PP4*LA4)
          H1(I) = H0 + PP1 * LB1(I) + PP4 * LC4(I)
          H2(I) = H0 + PP2 * LB2(I) + PP1 * LC1(I)
          H3(I) = H0 + PP3 * LB3(I) + PP2 * LC2(I)
          H4(I) = H0 + PP4 * LB4(I) + PP3 * LC3(I)
-         H00    = UN/MAX(EM20,H1(I) + H2(I) + H3(I) + H4(I))
+         H00    = ONE/MAX(EM20,H1(I) + H2(I) + H3(I) + H4(I))
          H1(I) = H1(I) * H00
          H2(I) = H2(I) * H00
          H3(I) = H3(I) * H00
@@ -250,7 +250,7 @@ C-----------------------------------------------
          N3(I) = NZ1(I)
          H1(I) = LB1(I)
          H2(I) = LC1(I)
-         H3(I) = UN - LB1(I) - LC1(I)
+         H3(I) = ONE - LB1(I) - LC1(I)
          H4(I) = ZERO
         ENDIF
       ENDDO
@@ -258,7 +258,7 @@ C-----------------------------------------------
       !     UNITARY NORMAL VECTOR
       !---------------------
       DO I=1,JLT
-         S2 = UN/MAX(EM30,SQRT(N1(I)*N1(I) + N2(I)*N2(I) + N3(I)*N3(I)))
+         S2 = ONE/MAX(EM30,SQRT(N1(I)*N1(I) + N2(I)*N2(I) + N3(I)*N3(I)))
          N1(I) = N1(I)*S2
          N2(I) = N2(I)*S2
          N3(I) = N3(I)*S2
@@ -273,7 +273,7 @@ C-----------------------------------------------
         VZ(I) = VZI(I) - H1(I)*V(3,IX1(I)) - H2(I)*V(3,IX2(I)) - H3(I)*V(3,IX3(I)) - H4(I)*V(3,IX4(I))
         VN(I) = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
         !hourglass correction
-        H0 = -QUART*(H1(I) - H2(I) + H3(I) - H4(I))       
+        H0 = -FOURTH*(H1(I) - H2(I) + H3(I) - H4(I))       
         H0 = MIN(H0,H2(I),H4(I))                        
         H0 = MAX(H0,-H1(I),-H3(I))                      
         IF(IX3(I) == IX4(I))H0 = ZERO                   
@@ -314,7 +314,7 @@ C-----------------------------------------------
       !DTI = EP20      
       !IF(INTER18_AUTOPARAM == 1)THEN
       !  DO I=1,JLT
-      !      DX =GAP/DIX
+      !      DX =GAP/TEN
       !      RDIST  = DX / MAX(EM20,ABS(VN(I)))
       !      DTI = MIN(RDIST,DTI)
       !  ENDDO
@@ -346,7 +346,7 @@ C-----------------------------------------------
            IF(VN(I) > ZERO)THEN
             FAC = STIF(I) / MAX(EM30,STIF(I))
             FF  = FAC * VISC * PENE(I)/GAP
-            STIF(I) = STIF(I) + DEUX * FF * DT1INV
+            STIF(I) = STIF(I) + TWO * FF * DT1INV
             FF = FF * VN(I)  
             ECONTDT = ECONTDT + FF * VN(I) * DT1   ! Damping Energy
             FNI(I)  = FNI(I) + FF
@@ -579,23 +579,23 @@ C---------------------------------
        DTMI0 = EP20  
        DO I=1,JLT                                 
          DTMI(I) = EP20                   
-         MAS2  = DEUX * MSI(I)   
+         MAS2  = TWO * MSI(I)   
          IF(MAS2.GT.ZERO.AND.STIF(I).GT.ZERO .AND. IRB(KINI(I)).EQ.0.AND.IRB2(KINI(I)).EQ.0)THEN
            DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/STIF(I)))
          ENDIF                                
-         MAS2  = DEUX* MS(IX1(I))       
+         MAS2  = TWO* MS(IX1(I))       
          IF(MAS2.GT.ZERO.AND.H1(I)*STIF(I).GT.ZERO .AND. IRB(KINET(IX1(I))).EQ.0.AND.IRB2(KINET(IX1(I))).EQ.0)THEN
            DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/(H1(I)*STIF(I))))
          ENDIF                                                       
-         MAS2  = DEUX * MS(IX2(I))                            
+         MAS2  = TWO * MS(IX2(I))                            
          IF(MAS2.GT.ZERO.AND.H2(I)*STIF(I).GT.ZERO .AND. IRB(KINET(IX2(I))).EQ.0.AND.IRB2(KINET(IX2(I))).EQ.0)THEN
            DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/(H2(I)*STIF(I))))
          ENDIF                     
-         MAS2  = DEUX* MS(IX3(I))                  
+         MAS2  = TWO* MS(IX3(I))                  
          IF(MAS2 > ZERO.AND.H3(I)*STIF(I) > ZERO .AND. IRB(KINET(IX3(I))) == 0.AND.IRB2(KINET(IX3(I))) == 0)THEN 
            DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/(H3(I)*STIF(I))))
          ENDIF                                
-         MAS2  = DEUX * MS(IX4(I))                     
+         MAS2  = TWO * MS(IX4(I))                     
          IF(MAS2 > ZERO.AND.H4(I)*STIF(I) > ZERO .AND. IRB(KINET(IX4(I))) == 0.AND.IRB2(KINET(IX4(I))) == 0)THEN 
            DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/(H4(I)*STIF(I))))
          ENDIF                                
@@ -837,22 +837,22 @@ C-----------------------------------------------------
                  DO K=1,JLT
                    ! attention aux signes pour le cumul des efforts
                    ! a rendre conforme avec CFORC3
-                   IF(SECFCUM(4,IX1(K),I) == UN)THEN
+                   IF(SECFCUM(4,IX1(K),I) == ONE)THEN
                     SECFCUM(1,IX1(K),I)=SECFCUM(1,IX1(K),I)-FX1(K)
                     SECFCUM(2,IX1(K),I)=SECFCUM(2,IX1(K),I)-FY1(K)
                     SECFCUM(3,IX1(K),I)=SECFCUM(3,IX1(K),I)-FZ1(K)
                    ENDIF
-                   IF(SECFCUM(4,IX2(K),I) == UN)THEN
+                   IF(SECFCUM(4,IX2(K),I) == ONE)THEN
                      SECFCUM(1,IX2(K),I)=SECFCUM(1,IX2(K),I)-FX2(K)
                      SECFCUM(2,IX2(K),I)=SECFCUM(2,IX2(K),I)-FY2(K)
                      SECFCUM(3,IX2(K),I)=SECFCUM(3,IX2(K),I)-FZ2(K)
                    ENDIF
-                   IF(SECFCUM(4,IX3(K),I) == UN)THEN
+                   IF(SECFCUM(4,IX3(K),I) == ONE)THEN
                      SECFCUM(1,IX3(K),I)=SECFCUM(1,IX3(K),I)-FX3(K)
                      SECFCUM(2,IX3(K),I)=SECFCUM(2,IX3(K),I)-FY3(K)
                      SECFCUM(3,IX3(K),I)=SECFCUM(3,IX3(K),I)-FZ3(K)
                    ENDIF
-                   IF(SECFCUM(4,IX4(K),I) == UN)THEN
+                   IF(SECFCUM(4,IX4(K),I) == ONE)THEN
                      SECFCUM(1,IX4(K),I)=SECFCUM(1,IX4(K),I)-FX4(K)
                      SECFCUM(2,IX4(K),I)=SECFCUM(2,IX4(K),I)-FY4(K)
                      SECFCUM(3,IX4(K),I)=SECFCUM(3,IX4(K),I)-FZ4(K)

@@ -108,7 +108,7 @@ C
         DO N=1,NLAY                              
           J = (N-1)*NEL*2
           DO I=JFT,JLT                          
-            DIR_A(J+I) = UN          
+            DIR_A(J+I) = ONE          
             DIR_A(J+I+NEL) = ZERO                    
           ENDDO                                 
         ENDDO                                   
@@ -152,7 +152,7 @@ C---        Axe I
             V3 = AA*E13(I) + BB*E23(I)
             VR = V1*E1X(I) + V2*E1Y(I) + V3*E1Z(I)
             VS = V1*E2X(I) + V2*E2Y(I) + V3*E2Z(I)
-            SUMA = UN / MAX( SQRT(VR*VR + VS*VS), EM20)
+            SUMA = ONE / MAX( SQRT(VR*VR + VS*VS), EM20)
             DIR_A(J+I) = VR*SUMA
             DIR_A(J+I+NEL) = VS*SUMA
 C---        Axe II
@@ -163,7 +163,7 @@ C---        Axe II
             V3 = AA*E13(I) + BB*E23(I)
             VR = V1*E1X(I) + V2*E1Y(I) + V3*E1Z(I)
             VS = V1*E2X(I) + V2*E2Y(I) + V3*E2Z(I)
-            SUMA = UN / MAX( SQRT(VR*VR + VS*VS), EM20)
+            SUMA = ONE / MAX( SQRT(VR*VR + VS*VS), EM20)
             DIR_B(J+I) = VR*SUMA
             DIR_B(J+I+NEL) = VS*SUMA
           ENDDO
@@ -185,7 +185,7 @@ C---        Axe I
               V3 = AA*E13(I) + BB*E23(I)
               VR = V1*E1X(I) + V2*E1Y(I) + V3*E1Z(I)
               VS = V1*E2X(I) + V2*E2Y(I) + V3*E2Z(I)
-              SUMA = UN / MAX( SQRT(VR*VR + VS*VS), EM20)
+              SUMA = ONE / MAX( SQRT(VR*VR + VS*VS), EM20)
               DIR_A(J+I) = VR*SUMA
               DIR_A(J+I+NEL) = VS*SUMA
 C---        Axe II
@@ -196,7 +196,7 @@ C---        Axe II
               V3 = AA*E13(I) + BB*E23(I)
               VR = V1*E1X(I) + V2*E1Y(I) + V3*E1Z(I)
               VS = V1*E2X(I) + V2*E2Y(I) + V3*E2Z(I)
-              SUMA = UN / MAX( SQRT(VR*VR + VS*VS), EM20)
+              SUMA = ONE / MAX( SQRT(VR*VR + VS*VS), EM20)
               DIR_B(J+I) = VR*SUMA
               DIR_B(J+I+NEL) = VS*SUMA
             ENDDO
@@ -225,7 +225,7 @@ C---        Axe I
               V3 = AA*E13(I) + BB*E23(I)
               VR = V1*E1X(I) + V2*E1Y(I) + V3*E1Z(I)
               VS = V1*E2X(I) + V2*E2Y(I) + V3*E2Z(I)
-              SUMA = UN / MAX( SQRT(VR*VR + VS*VS), EM20)
+              SUMA = ONE / MAX( SQRT(VR*VR + VS*VS), EM20)
               DIR_A(J+I) = VR*SUMA
               DIR_A(J+I+NEL) = VS*SUMA
 C---        Axe II
@@ -236,7 +236,7 @@ C---        Axe II
               V3 = AA*E13(I) + BB*E23(I)
               VR = V1*E1X(I) + V2*E1Y(I) + V3*E1Z(I)
               VS = V1*E2X(I) + V2*E2Y(I) + V3*E2Z(I)
-              SUMA = UN / MAX( SQRT(VR*VR + VS*VS), EM20)
+              SUMA = ONE / MAX( SQRT(VR*VR + VS*VS), EM20)
               DIR_B(J+I) = VR*SUMA
               DIR_B(J+I+NEL) = VS*SUMA
             ENDDO

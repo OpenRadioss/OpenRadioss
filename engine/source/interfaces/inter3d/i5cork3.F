@@ -74,7 +74,7 @@ C-----------------------------------------------
       YI(I)=X(2,IG)
       ZI(I)=X(3,IG)
       L=I_E(I)
-      XFACE(I)=UN
+      XFACE(I)=ONE
 C
       NN=MSR(IRECT(1,L))
       IX1(I)=NN

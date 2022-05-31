@@ -106,13 +106,13 @@ c
       BT   = PM(40)
       ROK0 = PM(29)
       RO0  = PM(30)
-      TOL  = (RT-RC)/VINGT
+      TOL  = (RT-RC)/TWENTY
       NINDEX = 0
       DO I = 1,NEL
-        SCLE1(I)=UN
+        SCLE1(I)=ONE
         SCLE2(I)=ZERO
-        SCLE3(I)=-UN
-        IF (OFF(I) >= UN) THEN
+        SCLE3(I)=-ONE
+        IF (OFF(I) >= ONE) THEN
           NINDEX = NINDEX + 1
           INDEX(NINDEX) = I      
           ROK(I)  = ROK0+ROB(I)-RO0
@@ -136,14 +136,14 @@ C
       DO N = 1, NINDEX
         I = INDEX(N)
         IF (FA(I) < ZERO) THEN
-          SCLE3(I)=-UN
+          SCLE3(I)=-ONE
         ELSEIF(ABS(FA(I)) < EM10) THEN
-          SCLE3(I)=UN
+          SCLE3(I)=ONE
         ELSE
-          SCLE3(I)=UN
+          SCLE3(I)=ONE
           NINDEX2 = NINDEX2 + 1
           INDEX(NINDEX2) = I
-          XN(I) = UN
+          XN(I) = ONE
         ENDIF
       ENDDO
 c--------------
@@ -177,13 +177,13 @@ c
           I = INDEX(N)
           IF (I > 0) THEN
             IF (NIT==1 .AND. FN(I) > -TOLF) THEN
-              SCLE2(I) = UN
+              SCLE2(I) = ONE
               INDEX(N) = 0
             ELSE
-             SCLE2(I)=XN(I)/(UN-FN(I)/FA(I))
+             SCLE2(I)=XN(I)/(ONE-FN(I)/FA(I))
              IF (ABS(FN(I)) < TOLF) THEN
                INDEX(N) = 0
-               SCLE2(I) = MIN(UN  ,SCLE2(I))
+               SCLE2(I) = MIN(ONE  ,SCLE2(I))
                SCLE2(I) = MAX(ZERO,SCLE2(I))
              ELSE
                XN(I) = SCLE2(I)
@@ -201,13 +201,13 @@ C verif convergence
       DO N = 1,NINDEX2
         I = INDEX(N)
         IF (I.NE.0) THEN
-          SCLE2(I) = MIN(UN,SCLE2(I))
+          SCLE2(I) = MIN(ONE,SCLE2(I))
           SCLE2(I) = MAX(ZERO,SCLE2(I))
         ENDIF
       ENDDO             
 
       DO I=1,NEL
-        SCLE1(I) = UN-SCLE2(I)
+        SCLE1(I) = ONE-SCLE2(I)
         S1(I) = S1(I) - SCLE2(I)*DS1(I)
         S2(I) = S2(I) - SCLE2(I)*DS2(I)
         S3(I) = S3(I) - SCLE2(I)*DS3(I)

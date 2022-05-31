@@ -117,10 +117,10 @@ C
         N3=IRECT(3,IS)
         N4=IRECT(4,IS)
         IF(N4.EQ.0 .OR. N4.EQ.N3) THEN
-          FAC=UNSIX*ORIENT
+          FAC=ONE_OVER_6*ORIENT
 	         N4=N3
         ELSE
-          FAC=UNHUIT*ORIENT
+          FAC=ONE_OVER_8*ORIENT
         ENDIF
 c
         NG1=LISTE(N1)
@@ -189,7 +189,7 @@ C Pression voisin
           II(I) = KLT*(I-1)
         ENDDO
       
-        P  =-(GBUF%SIG(II(1)+EAD)+GBUF%SIG(II(2)+EAD)+GBUF%SIG(II(3)+EAD))*TIERS
+        P  =-(GBUF%SIG(II(1)+EAD)+GBUF%SIG(II(2)+EAD)+GBUF%SIG(II(3)+EAD))*THIRD
 C
         P0(N1)=P0(N1)+P*(NX*LA(1,N1)+NY*LA(2,N1)+NZ*LA(3,N1))
         P0(N2)=P0(N2)+P*(NX*LA(1,N2)+NY*LA(2,N2)+NZ*LA(3,N2))
@@ -208,7 +208,7 @@ C
         VN=(V(1,N)*LA(1,I)+V(2,N)*LA(2,I)+V(3,N)*LA(3,I))/S
 c condition darret
         PN=P0(I)/S2+R1*VN+R2*VN*ABS(VN)
-        DPDV=ROC+R1+DEUX*R2*ABS(VN)
+        DPDV=ROC+R1+TWO*R2*ABS(VN)
 c frontiere silencieuse
         IF(TT.GT.0)THEN
           DU=ROC*(VN-VO(I))
@@ -224,9 +224,9 @@ c
         A(1,N)=A(1,N)-P*LA(1,I)
         A(2,N)=A(2,N)-P*LA(2,I)
         A(3,N)=A(3,N)-P*LA(3,I)
-        STIFN(N)=STIFN(N)+(DEUX*(S*DPDV)**2)/MS(N)
+        STIFN(N)=STIFN(N)+(TWO*(S*DPDV)**2)/MS(N)
 C
-        DEF=DEF-UNDEMI*(PO(I)+P)*DT1*VN*S
+        DEF=DEF-HALF*(PO(I)+P)*DT1*VN*S
 C
         VO(I)=VN
         PO(I)=P

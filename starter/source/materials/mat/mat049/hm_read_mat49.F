@@ -167,7 +167,7 @@ C-----------------------------------------------
             CALL ANCMSG(MSGID=1513,MSGTYPE=MSGERROR,ANMODE=ANINFO,
      .                  I1 = MAT_ID,C1 = TITR)
       ENDIF
-      IF(NU.LT.ZERO.OR.NU.GE.UNDEMI)THEN
+      IF(NU.LT.ZERO.OR.NU.GE.HALF)THEN
             CALL ANCMSG(MSGID=1514,MSGTYPE=MSGERROR,ANMODE=ANINFO,
      .                  I1 = MAT_ID,C1 = TITR)
       ENDIF
@@ -175,14 +175,14 @@ C-----------------------------------------------
       IF(SIGM.EQ.ZERO) SIGM  = EP20
       IF(TMELT.EQ.ZERO)TMELT = EP20
       IF(PMIN.EQ.ZERO) PMIN  =-EP20
-      IF(T0.EQ.ZERO)   T0    = TROIS100
-      G0 = YOUNG /DEUX / (UN+NU)
-      IF(.NOT.EOS_EMBEDDED)BULK=YOUNG/(TROIS*(UN - DEUX*NU))
+      IF(T0.EQ.ZERO)   T0    = THREE100
+      G0 = YOUNG /TWO / (ONE+NU)
+      IF(.NOT.EOS_EMBEDDED)BULK=YOUNG/(THREE*(ONE - TWO*NU))
 C
       PM(20) = YOUNG 
       PM(21) = NU
       PM(22) = G0
-      PM(24) = NU * YOUNG / (UN-NU*NU)
+      PM(24) = NU * YOUNG / (ONE-NU*NU)
       PM(32) = BULK
       PM(37) = PMIN
       PM(38) = SIG0
@@ -202,7 +202,7 @@ C
 C-----------
 C     Formulation for solid elements time step computation.
       IPM(252)= 2
-      PM(105) = DEUX*G0/(BULK+QTHIRD*G0) ! =(1-2*Nu)/(1-Nu)
+      PM(105) = TWO*G0/(BULK+FOUR_OVER_3*G0) ! =(1-2*Nu)/(1-Nu)
 C
       WRITE(IOUT,1000)          
       IF(IS_CRYPTED)THEN

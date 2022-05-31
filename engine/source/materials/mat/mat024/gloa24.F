@@ -57,9 +57,9 @@ c=======================================================================
       DEPS1(I)=D1(I)*DT1
       DEPS2(I)=D2(I)*DT1
       DEPS3(I)=D3(I)*DT1
-      DEPS4(I)=UNDEMI*D4(I)*DT1
-      DEPS5(I)=UNDEMI*D5(I)*DT1
-      DEPS6(I)=UNDEMI*D6(I)*DT1
+      DEPS4(I)=HALF*D4(I)*DT1
+      DEPS5(I)=HALF*D5(I)*DT1
+      DEPS6(I)=HALF*D6(I)*DT1
       A11(I)=DEPS1(I)*R11(I)+DEPS4(I)*R21(I)+DEPS6(I)*R31(I)
       A12(I)=DEPS1(I)*R12(I)+DEPS4(I)*R22(I)+DEPS6(I)*R32(I)
       A13(I)=DEPS1(I)*R13(I)+DEPS4(I)*R23(I)+DEPS6(I)*R33(I)
@@ -77,17 +77,17 @@ c=======================================================================
       DEPS4(I)=R11(I)*A12(I)+R21(I)*A22(I)+R31(I)*A32(I)
       DEPS5(I)=R12(I)*A13(I)+R22(I)*A23(I)+R32(I)*A33(I)
       DEPS6(I)=R11(I)*A13(I)+R21(I)*A23(I)+R31(I)*A33(I)
-      DEPS4(I)=DEUX*DEPS4(I)
-      DEPS5(I)=DEUX*DEPS5(I)
- 201  DEPS6(I)=DEUX*DEPS6(I)
+      DEPS4(I)=TWO*DEPS4(I)
+      DEPS5(I)=TWO*DEPS5(I)
+ 201  DEPS6(I)=TWO*DEPS6(I)
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
       DO 500 I=1,NEL
       H1(I)=STRAIN(I,1)
       H2(I)=STRAIN(I,2)
       H3(I)=STRAIN(I,3)
-      H4(I)=UNDEMI*STRAIN(I,4)
-      H5(I)=UNDEMI*STRAIN(I,5)
-      H6(I)=UNDEMI*STRAIN(I,6)
+      H4(I)=HALF*STRAIN(I,4)
+      H5(I)=HALF*STRAIN(I,5)
+      H6(I)=HALF*STRAIN(I,6)
       A11(I)=H1(I)*R11(I)+H4(I)*R21(I)+H6(I)*R31(I)
       A12(I)=H1(I)*R12(I)+H4(I)*R22(I)+H6(I)*R32(I)
       A13(I)=H1(I)*R13(I)+H4(I)*R23(I)+H6(I)*R33(I)

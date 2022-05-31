@@ -195,9 +195,9 @@ C
       VISCFLUID = ZERO
       SIGMAXADH = ZERO
       VISCADHFACT = ZERO
-      PADM =UN
+      PADM =ONE
       ANGLADM=ZERO
-      XFRICTH = UN
+      XFRICTH = ONE
       RSTH = EM30
       TINT = ZERO
       XTHE = ZERO
@@ -466,7 +466,7 @@ C
 
 
         IF(IGAP.GE.2)THEN
-          IF(GAPSCALE.EQ.ZERO)GAPSCALE=UN
+          IF(GAPSCALE.EQ.ZERO)GAPSCALE=ONE
           FRIGAP(13) = GAPSCALE
           FRIGAP(16) = GAPMAX
         END IF
@@ -506,7 +506,7 @@ C
         FRIGAP(41)=DTMIN
 C
         IF(IGAP.EQ.3)THEN
-          IF(PERCENT_SIZE==ZERO) PERCENT_SIZE = QUATRE*EM01
+          IF(PERCENT_SIZE==ZERO) PERCENT_SIZE = FOUR*EM01
         END IF
         FRIGAP(28) = PERCENT_SIZE
 C
@@ -543,7 +543,7 @@ C
 C
 C.....* Card5 *.....
 C
-        IF(STFAC== ZERO) STFAC=UN
+        IF(STFAC== ZERO) STFAC=ONE
         IF(IGSTI.EQ.1)STFAC=-STFAC
 
         IF (STOPT == ZERO) STOPT = EP30
@@ -567,12 +567,12 @@ c        IF (BCFLAGM(LFIELD  :LFIELD  ).EQ. '1') IBC3M = 1
 
         IPARI(11)=4*IBC1+2*IBC2+IBC3 + 8 *(4*IBC1M+2*IBC2M+IBC3M)
 
-        IF(FRIC.NE.ZERO.AND.VISCF.EQ.ZERO)VISCF=UN
+        IF(FRIC.NE.ZERO.AND.VISCF.EQ.ZERO)VISCF=ONE
         IF(VISC.EQ.ZERO)THEN
            IF(IVIS2.EQ.5)THEN
-             VISC=UN
+             VISC=ONE
            ELSE
-             VISC=CINQEM2
+             VISC=FIVEEM2
            ENDIF
         ENDIF
         FRIGAP(14)=VISC
@@ -594,9 +594,9 @@ C BUMULT is increased for big models
         IF(BUMULT.EQ.ZERO) THEN
           BUMULT = BMUL0
           IF(NUMNOD > 2500000) THEN
-             BUMULT = BMUL0*DEUX
+             BUMULT = BMUL0*TWO
            ELSEIF(NUMNOD > 1500000) THEN
-             BUMULT = BMUL0*TROIS/DEUX
+             BUMULT = BMUL0*THREE/TWO
            END IF
         END IF
         FRIGAP(4)=BUMULT
@@ -610,25 +610,25 @@ C
 C
         IF(FRIC == ZERO)THEN
              IF(IFRICTH /= 0)THEN
-              FRIC = UN
+              FRIC = ONE
              ENDIF
         ENDIF
         IPARI(50) =  IFRICTH
 
-        IF(XFRICTH == ZERO) XFRICTH=UN
+        IF(XFRICTH == ZERO) XFRICTH=ONE
         FRIGAP(34) =  XFRICTH
 
         IF (MODFR.EQ.0) MODFR = 1
         IF (MODFR.EQ.2.AND.IFQ.LT.10) IFQ = IFQ + 10
 
-        IF (MFROT.NE.0.AND.VISCF.EQ.0.0) VISCF=UN
+        IF (MFROT.NE.0.AND.VISCF.EQ.0.0) VISCF=ONE
         IF(MODFR.EQ.2)VISCF=ZERO
 
         IF (IFQ.GT.0) THEN
-           IF (IFQ.EQ.10) XFILTR = UN
+           IF (IFQ.EQ.10) XFILTR = ONE
            IF (MOD(IFQ,10).EQ.1) XFILTR = ALPHA
-           IF (MOD(IFQ,10).EQ.2) XFILTR=QUATRE*ATAN2(UN,ZERO) / ALPHA
-           IF (MOD(IFQ,10).EQ.3) XFILTR=QUATRE*ATAN2(UN,ZERO) * ALPHA
+           IF (MOD(IFQ,10).EQ.2) XFILTR=FOUR*ATAN2(ONE,ZERO) / ALPHA
+           IF (MOD(IFQ,10).EQ.3) XFILTR=FOUR*ATAN2(ONE,ZERO) * ALPHA
            IF (XFILTR.LT.ZERO) THEN
                CALL ANCMSG(MSGID=554,
      .                     MSGTYPE=MSGERROR,
@@ -672,15 +672,15 @@ C.....* Card 9 *.........
 C     
         IF(IADM.EQ.2)THEN
           IF(NRADM==0)   NRADM  =3
-          IF(PADM==ZERO) PADM   =UN
+          IF(PADM==ZERO) PADM   =ONE
         ELSE
           NRADM  =1
-          PADM   =UN
+          PADM   =ONE
           ANGLADM=ZERO
         END IF
 
 
-        CADM      =COS(ANGLADM*PI/CENT80)
+        CADM      =COS(ANGLADM*PI/HUNDRED80)
 
         IPARI(49) =NRADM
         FRIGAP(24)=PADM
@@ -692,14 +692,14 @@ C
 
         IF(RSTH == ZERO)THEN
            IF(IRSTH /= 0)THEN
-              RSTH = UN
+              RSTH = ONE
             ENDIF
         ENDIF
 C
         IF (XTHE == ZERO) THEN
         !units
           CALL HM_GET_FLOATV_DIM('Crx' ,XTHE_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XTHE = UN * XTHE_UNIT
+          XTHE = ONE * XTHE_UNIT
         ENDIF
 C
         IF(ITHERM_FE == 0 .AND. INTTH > 0 ) THEN
@@ -727,7 +727,7 @@ C
         IF(RSTH == ZERO)RSTH = EM30
 
 
-        FRIGAP(20)  = UN/RSTH
+        FRIGAP(20)  = ONE/RSTH
         FRIGAP(21 ) = FHEATS
         FRIGAP(22 ) = TINT
         FRIGAP(23 ) = FHEATM

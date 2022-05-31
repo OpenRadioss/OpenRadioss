@@ -524,8 +524,8 @@ C-----------
 !      MX = MXT(LFT)
 !       C1 =PM(32,MX)
 !       DO I=LFT,LLT
-!        NU(I)=MIN(UNDEMI,PM(21,MX))
-!        E0(I) =TROIS*(UN-DEUX*NU(I))*C1
+!        NU(I)=MIN(HALF,PM(21,MX))
+!        E0(I) =THREE*(ONE-TWO*NU(I))*C1
 !       ENDDO
 !       CALL S8ZSIGP3(LFT  ,LLT       ,GBUF%SIG,E0  ,GBUF%PLA,
 !     2               FAC  ,GBUF%G_PLA,NEL     )
@@ -868,7 +868,7 @@ C-------------------------------------------
       IF(JTHE < 0 ) THEN 
         DO I=LFT,LLT
            IF(GBUF%OFF(I) == ZERO) CYCLE
-           TEMPEL(I) = UNHUIT *(  TEMP(NC1(I)) + TEMP(NC2(I))  
+           TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
      .                          + TEMP(NC3(I)) + TEMP(NC4(I)) 
      .                          + TEMP(NC5(I)) + TEMP(NC6(I)) 
      .                          + TEMP(NC7(I)) + TEMP(NC8(I)))
@@ -938,7 +938,7 @@ C-----------Begin integrating points-----
 C-----avoid multi-print	  
           IF (IOFFS == 1)THEN
            DO I=LFT,LLT
-            IF (OFFS(I).LE.DEUX) LBUF%OFF(I)=OFFS(I)
+            IF (OFFS(I).LE.TWO) LBUF%OFF(I)=OFFS(I)
            ENDDO
           END IF
 C-----------
@@ -1146,7 +1146,7 @@ c--------------------------
        ENDIF
        DO I=LFT,LLT
         OFFG(I)=MIN(OFFG(I),OFF(I))
-        IF (LBUF%OFF(I).GT.UN .AND. GBUF%OFF(I) == UN) THEN
+        IF (LBUF%OFF(I).GT.ONE .AND. GBUF%OFF(I) == ONE) THEN
           OFFS(I)=MIN(LBUF%OFF(I),OFFS(I))
           IOFFS  =1
         END IF
@@ -1176,7 +1176,7 @@ C-----------End integrating points-----
 c
       IF (IOFFS == 1) THEN
        DO I=LFT,LLT
-          IF (OFFS(I).LE.DEUX) GBUF%OFF(I)=OFFS(I)
+          IF (OFFS(I).LE.TWO) GBUF%OFF(I)=OFFS(I)
        END DO
 c-------------------
        DO IR=1,NPTR
@@ -1185,7 +1185,7 @@ c-------------------
             LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
           IP = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR
           DO I=LFT,LLT
-              IF (GBUF%OFF(I) > UN) LBUF%OFF(I)=GBUF%OFF(I)
+              IF (GBUF%OFF(I) > ONE) LBUF%OFF(I)=GBUF%OFF(I)
           END DO
          END DO 
         END DO 

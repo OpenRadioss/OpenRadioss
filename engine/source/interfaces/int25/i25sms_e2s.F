@@ -108,10 +108,10 @@ C
          DTS = DTMINS_INT/DTFACS_INT
        END IF
 C
-       MAS1= UNDEMI * DTS * ( DTS * K1(I) + C1(I) )
-       MAS2= UNDEMI * DTS * ( DTS * K2(I) + C2(I) )
-       MAS3= UNDEMI * DTS * ( DTS * K3(I) + C3(I) )
-       MAS4= UNDEMI * DTS * ( DTS * K4(I) + C4(I) )
+       MAS1= HALF * DTS * ( DTS * K1(I) + C1(I) )
+       MAS2= HALF * DTS * ( DTS * K2(I) + C2(I) )
+       MAS3= HALF * DTS * ( DTS * K3(I) + C3(I) )
+       MAS4= HALF * DTS * ( DTS * K4(I) + C4(I) )
 C
        IF(CS_LOC(I).LE.NEDGE) THEN
         IF(HM1(I).NE.ZERO)THEN

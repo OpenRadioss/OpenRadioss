@@ -70,7 +70,7 @@ C====================================================================
        CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
   !!
        NSTART = 2
-       ERRTOL = CINQEM3   
+       ERRTOL = FIVEEM3   
        IFC = IFUNC(1)
        IC1 = NPC(IFC)
        IC2 = NPC(IFC+1)
@@ -93,7 +93,7 @@ c
 c
        DO II = IC1,IC2-2,2                                   
             JJ=JJ+1                                          
-            STRETCH(JJ) = PLD(II) + UN                       
+            STRETCH(JJ) = PLD(II) + ONE                       
             STRESS(JJ)  = SCALEFAC *  PLD(II+1)                          
             LAM_MAX = MAX(LAM_MAX, ABS(STRETCH(JJ)))         
        ENDDO                                                 
@@ -102,7 +102,7 @@ c
        MU_MAX = ZERO                                          
        MU_MIN = 1E20                                          
        DO K = 1, NDATA                                        
-        DX = STRETCH(K) - UN                                  
+        DX = STRETCH(K) - ONE                                  
 c       avolid dx to be too small                             
         IF (DX >= ZERO) THEN                                  
           DX = MAX(DX, EM6)                                   
@@ -113,10 +113,10 @@ c       avolid dx to be too small
         AVE_SLOPE = AVE_SLOPE + ABS(STRESS(K))  / DX          
        ENDDO                                                   
 c
-       AVE_SLOPE = AVE_SLOPE / (UN * NDATA)                  
+       AVE_SLOPE = AVE_SLOPE / (ONE * NDATA)                  
        MU= AVE_SLOPE                                           
 c      initial value  
-       LAM = MAX(SEPT,TROIS*LAM_MAX)         
+       LAM = MAX(SEVEN,THREE*LAM_MAX)         
 C                                            
        NMULA  = 2                            
        AMULA(1) = MAX(MU,MU_MAX)             
@@ -139,29 +139,29 @@ c------------------------------------------------------
         NU  = UPARAM(11)                                             
         MU  = AMULA(1)                                                       
         LAM = AMULA(2)                                                       
-        BETA = UN/LAM/LAM
-        GS = MU*(UN +  TROIS*BETA /CINQ + QUATREVINGT19*BETA*BETA/175. 
+        BETA = ONE/LAM/LAM
+        GS = MU*(ONE +  THREE*BETA /FIVE + EIGHTY19*BETA*BETA/175. 
      .         + 513.*BETA**3/875. + 42039.*BETA**4/67375.) 
-        RBULK=DEUX*GS*(UN+NU)                                               
-     .        /MAX(EM30,TROIS*(UN-DEUX*NU))                                  
-        D= DEUX/RBULK                                                        
+        RBULK=TWO*GS*(ONE+NU)                                               
+     .        /MAX(EM30,THREE*(ONE-TWO*NU))                                  
+        D= TWO/RBULK                                                        
         UPARAM(1)=MU                                                  
         UPARAM(2)=D                                                   
         UPARAM(3)=LAM 
         UPARAM(4)=GS                                                  
         UPARAM(5)=RBULK       
 c       parameters    
-        YOUNG  = DEUX*GS*(UN + NU)               
+        YOUNG  = TWO*GS*(ONE + NU)               
         PM(20) = YOUNG                      
         PM(21) = NU                         
         PM(22) = GS                         
-        PM(24) = YOUNG/(UN - NU**2)         
+        PM(24) = YOUNG/(ONE - NU**2)         
         PM(32) = RBULK                      
         PM(100) = RBULK  !PARMAT(1) 
 C-----------
 C     Formulation for solid elements time step computation.
         IPM(252)= 2
-        PM(105) = DEUX*GS/(RBULK + QTHIRD*GS)        
+        PM(105) = TWO*GS/(RBULK + FOUR_OVER_3*GS)        
 C                          
       IF(.NOT.IS_CRYPTED) WRITE(IOUT,1100)MU,D,LAM,GS,RBULK
 c----------------

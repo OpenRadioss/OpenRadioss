@@ -241,22 +241,22 @@ C     CALCUL DES GRADIENTS * SURFACES
 C---------------------------------
       DO I=LFT,LLT
 !! attention:  GRAD --> SIG within buffer
-      GRAD(I,1)= QUATRE*(D1X(I)*N1X(I)+D1Y(I)*N1Y(I)+D1Z(I)*N1Z(I)) /
+      GRAD(I,1)= FOUR*(D1X(I)*N1X(I)+D1Y(I)*N1Y(I)+D1Z(I)*N1Z(I)) /
      .              MAX(EM15,DD1(I))
 
-      GRAD(I,2)= QUATRE*(D2X(I)*N2X(I)+D2Y(I)*N2Y(I)+D2Z(I)*N2Z(I)) /
+      GRAD(I,2)= FOUR*(D2X(I)*N2X(I)+D2Y(I)*N2Y(I)+D2Z(I)*N2Z(I)) /
      .              MAX(EM15,DD2(I))
 
-      GRAD(I,3)= QUATRE*(D3X(I)*N3X(I)+D3Y(I)*N3Y(I)+D3Z(I)*N3Z(I)) /
+      GRAD(I,3)= FOUR*(D3X(I)*N3X(I)+D3Y(I)*N3Y(I)+D3Z(I)*N3Z(I)) /
      .              MAX(EM15,DD3(I))
 
-      GRAD(I,4)= QUATRE*(D4X(I)*N4X(I)+D4Y(I)*N4Y(I)+D4Z(I)*N4Z(I)) /
+      GRAD(I,4)= FOUR*(D4X(I)*N4X(I)+D4Y(I)*N4Y(I)+D4Z(I)*N4Z(I)) /
      .              MAX(EM15,DD4(I))
 
-      GRAD(I,5)= QUATRE*(D5X(I)*N5X(I)+D5Y(I)*N5Y(I)+D5Z(I)*N5Z(I)) /
+      GRAD(I,5)= FOUR*(D5X(I)*N5X(I)+D5Y(I)*N5Y(I)+D5Z(I)*N5Z(I)) /
      .              MAX(EM15,DD5(I))
 
-      GRAD(I,6)= QUATRE*(D6X(I)*N6X(I)+D6Y(I)*N6Y(I)+D6Z(I)*N6Z(I)) /
+      GRAD(I,6)= FOUR*(D6X(I)*N6X(I)+D6Y(I)*N6Y(I)+D6Z(I)*N6Z(I)) /
      .              MAX(EM15,DD6(I))
       END DO 
 

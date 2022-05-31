@@ -61,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       DO 20 I=LFT,LLT
       RHON(I)    =RHON(I)/VOLN(I)
-      DVOL(I) = DT1*UNDEMI*(FLU1(I)
+      DVOL(I) = DT1*HALF*(FLU1(I)
      .  +FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
    20 CONTINUE
 C

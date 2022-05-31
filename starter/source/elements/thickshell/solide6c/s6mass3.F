@@ -57,11 +57,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I, IP,I1,I2,I3,I4,I5,I6, J
       my_real
-     .   XX,YY,ZZ,XY,YZ,ZX,MASS(MVSIZ),MSS(8,*), MASSP,O6TH
+     .   XX,YY,ZZ,XY,YZ,ZX,MASS(MVSIZ),MSS(8,*), MASSP
 C-----------------------------------------------------------------------
-       O6TH = UNSIX 
        DO I=LFT,LLT
-        MASS(I)=FILL(I)*RHO(I)*VOLU(I)*O6TH
+        MASS(I)=FILL(I)*RHO(I)*VOLU(I)*ONE_OVER_6
         I1 = NC1(I)
         I2 = NC2(I)
         I3 = NC3(I)
@@ -128,7 +127,7 @@ C
         PARTSAV(13,IP)=PARTSAV(13,IP) + MASS(I)*
      .       (V(3,I1)+V(3,I2)+V(3,I3)+V(3,I4)
      .       +V(3,I5)+V(3,I6))
-        PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * MASS(I) *
+        PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * MASS(I) *
      .     (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
      .     +V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2)
      .     +V(1,I3)*V(1,I3)+V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3)
@@ -148,7 +147,7 @@ C  --- for FEM solid heat transfert
 C
         IF(JTHE < 0 ) THEN
           DO I=LFT,LLT
-           MASSP=FILL(I)*RHOCP(I)*VOLU(I)*O6TH
+           MASSP=FILL(I)*RHOCP(I)*VOLU(I)*ONE_OVER_6
            I1 = NC1(I)
            I2 = NC2(I)
            I3 = NC3(I)

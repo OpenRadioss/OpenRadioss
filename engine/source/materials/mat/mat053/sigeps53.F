@@ -209,7 +209,7 @@ C
         SIGNZX(I)=SIGOZX(I)+ G12(I) * DEPSZX(I)
 C
       SOUNDSP(I) = SQRT(MAX(E11(I),E22(I),G12(I),G23(I))/RHO0(I))
-         EVOL(I) =UN - EXP(PLA(I))
+         EVOL(I) =ONE - EXP(PLA(I))
         VISCMAX(I) = ZERO
         UVAR(I,1)= PLA(I)
        ENDDO
@@ -349,47 +349,47 @@ C
       ENDDO
 C--YEILD SURFACE COEFFICIENTS
         DO I=1,NEL         
-          F1(I) = -UN/S1C(I) + UN/S1T(I)
-          F2(I) = -UN/S2C(I) + UN/S2T(I)
-          F11(I)= UN/(S1C(I)*S1T(I))
-          F22(I)= UN/(S2C(I)*S2T(I))
-          F44(I)= UN/(S3C(I)*S3T(I))
-          F55(I)= UN/(S4C(I)*S4T(I))
-          F12(I)=(-UNDEMI)*SQRT(F11(I)*F22(I))
-          F23(I)=(-UNDEMI)*F22(I)     
+          F1(I) = -ONE/S1C(I) + ONE/S1T(I)
+          F2(I) = -ONE/S2C(I) + ONE/S2T(I)
+          F11(I)= ONE/(S1C(I)*S1T(I))
+          F22(I)= ONE/(S2C(I)*S2T(I))
+          F44(I)= ONE/(S3C(I)*S3T(I))
+          F55(I)= ONE/(S4C(I)*S4T(I))
+          F12(I)=(-HALF)*SQRT(F11(I)*F22(I))
+          F23(I)=(-HALF)*F22(I)     
 C... CORRECTION
            IF(IFUNC(I,5).GT.0)THEN
-           F12(I)= DEUX/(S45C(I)*S45C(I)) - 
-     .        (UNDEMI)*(F11(I)+ F22(I) + F44(I)) +
+           F12(I)= TWO/(S45C(I)*S45C(I)) - 
+     .        (HALF)*(F11(I)+ F22(I) + F44(I)) +
      .         (F1(I) + F2(I))/S45C(I)     
            ENDIF
 C... Chek the yeil condition according to Tsay Wu.
        F(I) = F1(I)*SIGNXX(I) + F2(I)* SIGNYY(I) + F2(I)*SIGNZZ(I)+
      . F11(I)*SIGNXX(I)**2 + F22(I)*SIGNYY(I)**2 + F22(I)*SIGNZZ(I)**2
      .+F44(I)*SIGNXY(I)**2 + F55(I)*SIGNYZ(I)**2 + F44(I)*SIGNZX(I)**2
-     .+DEUX*F12(I)*SIGNXX(I)*SIGNYY(I) + DEUX*F23(I)*SIGNYY(I)*SIGNZZ(I)
-     .+DEUX*F12(I)*SIGNZZ(I)*SIGNXX(I)
+     .+TWO*F12(I)*SIGNXX(I)*SIGNYY(I) + TWO*F23(I)*SIGNYY(I)*SIGNZZ(I)
+     .+TWO*F12(I)*SIGNZZ(I)*SIGNXX(I)
 C
 !!        SEQ_OUTPUT(I) = F(I)
 C             
-        IF(F(I).LE.UN) SCALE=UN
-        IF(F(I).GT.UN)THEN
+        IF(F(I).LE.ONE) SCALE=ONE
+        IF(F(I).GT.ONE)THEN
           BB= F1(I)*SIGNXX(I) + F2(I)*SIGNYY(I)+ F2(I)*SIGNZZ(I)
-          CC = -UN
+          CC = -ONE
           AA =
      . F11(I)*SIGNXX(I)**2 + F22(I)*SIGNYY(I)**2 + F22(I)*SIGNZZ(I)**2
      .+F44(I)*SIGNXY(I)**2 + F55(I)*SIGNYZ(I)**2 + F44(I)*SIGNZX(I)**2
-     .+DEUX*F12(I)*SIGNXX(I)*SIGNYY(I) + DEUX*F23(I)*SIGNYY(I)*SIGNZZ(I)
-     .+DEUX*F12(I)*SIGNZZ(I)*SIGNXX(I)
+     .+TWO*F12(I)*SIGNXX(I)*SIGNYY(I) + TWO*F23(I)*SIGNYY(I)*SIGNZZ(I)
+     .+TWO*F12(I)*SIGNZZ(I)*SIGNXX(I)
 C
-          DD= BB**2 - QUATRE*AA*CC
+          DD= BB**2 - FOUR*AA*CC
           IF(DD.LT.ZERO) THEN
             CALL ANCMSG(MSGID=136,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
 C...
-          SS1 = (-BB + SQRT(DD))/(DEUX*AA)
-          SS2 = (-BB - SQRT(DD))/(DEUX*AA)
+          SS1 = (-BB + SQRT(DD))/(TWO*AA)
+          SS2 = (-BB - SQRT(DD))/(TWO*AA)
 C
           IF(SS1.LE.ZERO) SCALE = SS2 
           IF(SS2.LE.ZERO) SCALE = SS1 

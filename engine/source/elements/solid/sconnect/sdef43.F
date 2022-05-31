@@ -54,9 +54,9 @@ C     REAL ou REAL*8
      .   PG,P1,P2,P3,DXINF,DYINF,DZINF,DXSUP,DYSUP,DZSUP
       DATA   PG/0.5773502691896257645091488/
 C=======================================================================
-      P1 = (UN + PG)*(UN - PG) * QUART
-      P2 = (UN + PG)*(UN + PG) * QUART
-      P3 = (UN - PG)*(UN - PG) * QUART
+      P1 = (ONE + PG)*(ONE - PG) * FOURTH
+      P2 = (ONE + PG)*(ONE + PG) * FOURTH
+      P3 = (ONE - PG)*(ONE - PG) * FOURTH
 C
       HH(1,1) = P2
       HH(2,1) = P1

@@ -106,11 +106,11 @@ C     Node grid velocities
 C     Face normal
 C     Face 1
          KFACE = 1
-         NORM(1, KFACE, II) = UNDEMI * ((X3(2) - X1(2)) * (X2(3) - X4(3)) - 
+         NORM(1, KFACE, II) = HALF * ((X3(2) - X1(2)) * (X2(3) - X4(3)) - 
      .        (X3(3) - X1(3)) * (X2(2) - X4(2)))
-         NORM(2, KFACE, II) = UNDEMI * ((X3(3) - X1(3)) * (X2(1) - X4(1)) - 
+         NORM(2, KFACE, II) = HALF * ((X3(3) - X1(3)) * (X2(1) - X4(1)) - 
      .        (X3(1) - X1(1)) * (X2(3) - X4(3)))
-         NORM(3, KFACE, II) = UNDEMI * ((X3(1) - X1(1)) * (X2(2) - X4(2)) - 
+         NORM(3, KFACE, II) = HALF * ((X3(1) - X1(1)) * (X2(2) - X4(2)) - 
      .        (X3(2) - X1(2)) * (X2(1) - X4(1)))
          NX => NORM(1, KFACE, II)
          NY => NORM(2, KFACE, II)
@@ -121,11 +121,11 @@ C     Face 1
          NZ = NZ / SURF(KFACE, II)
 C     Face 2
          KFACE = 2
-         NORM(1, KFACE, II) = UNDEMI * ((X7(2) - X4(2)) * (X3(3) - X8(3)) - 
+         NORM(1, KFACE, II) = HALF * ((X7(2) - X4(2)) * (X3(3) - X8(3)) - 
      .        (X7(3) - X4(3)) * (X3(2) - X8(2)))
-         NORM(2, KFACE, II) = UNDEMI * ((X7(3) - X4(3)) * (X3(1) - X8(1)) - 
+         NORM(2, KFACE, II) = HALF * ((X7(3) - X4(3)) * (X3(1) - X8(1)) - 
      .        (X7(1) - X4(1)) * (X3(3) - X8(3)))
-         NORM(3, KFACE, II) = UNDEMI * ((X7(1) - X4(1)) * (X3(2) - X8(2)) - 
+         NORM(3, KFACE, II) = HALF * ((X7(1) - X4(1)) * (X3(2) - X8(2)) - 
      .        (X7(2) - X4(2)) * (X3(1) - X8(1)))
          NX => NORM(1, KFACE, II)
          NY => NORM(2, KFACE, II)
@@ -136,11 +136,11 @@ C     Face 2
          NZ = NZ / SURF(KFACE, II) 
 C     Face 3
          KFACE = 3
-         NORM(1, KFACE, II) = UNDEMI * ((X6(2) - X8(2)) * (X7(3) - X5(3)) - 
+         NORM(1, KFACE, II) = HALF * ((X6(2) - X8(2)) * (X7(3) - X5(3)) - 
      .        (X6(3) - X8(3)) * (X7(2) - X5(2)))
-         NORM(2, KFACE, II) = UNDEMI * ((X6(3) - X8(3)) * (X7(1) - X5(1)) - 
+         NORM(2, KFACE, II) = HALF * ((X6(3) - X8(3)) * (X7(1) - X5(1)) - 
      .        (X6(1) - X8(1)) * (X7(3) - X5(3)))
-         NORM(3, KFACE, II) = UNDEMI * ((X6(1) - X8(1)) * (X7(2) - X5(2)) - 
+         NORM(3, KFACE, II) = HALF * ((X6(1) - X8(1)) * (X7(2) - X5(2)) - 
      .        (X6(2) - X8(2)) * (X7(1) - X5(1)))
          NX => NORM(1, KFACE, II)
          NY => NORM(2, KFACE, II)
@@ -151,11 +151,11 @@ C     Face 3
          NZ = NZ / SURF(KFACE, II)
 C     Face 4
          KFACE = 4
-         NORM(1, KFACE, II) = UNDEMI * ((X2(2) - X5(2)) * (X6(3) - X1(3)) - 
+         NORM(1, KFACE, II) = HALF * ((X2(2) - X5(2)) * (X6(3) - X1(3)) - 
      .        (X2(3) - X5(3)) * (X6(2) - X1(2)))
-         NORM(2, KFACE, II) = UNDEMI * ((X2(3) - X5(3)) * (X6(1) - X1(1)) - 
+         NORM(2, KFACE, II) = HALF * ((X2(3) - X5(3)) * (X6(1) - X1(1)) - 
      .        (X2(1) - X5(1)) * (X6(3) - X1(3)))
-         NORM(3, KFACE, II) = UNDEMI * ((X2(1) - X5(1)) * (X6(2) - X1(2)) - 
+         NORM(3, KFACE, II) = HALF * ((X2(1) - X5(1)) * (X6(2) - X1(2)) - 
      .        (X2(2) - X5(2)) * (X6(1) - X1(1)))
          NX => NORM(1, KFACE, II)
          NY => NORM(2, KFACE, II)
@@ -166,11 +166,11 @@ C     Face 4
          NZ = NZ / SURF(KFACE, II)
 C     Face 5
          KFACE = 5
-         NORM(1, KFACE, II) = UNDEMI * ((X7(2) - X2(2)) * (X6(3) - X3(3)) - 
+         NORM(1, KFACE, II) = HALF * ((X7(2) - X2(2)) * (X6(3) - X3(3)) - 
      .        (X7(3) - X2(3)) * (X6(2) - X3(2)))
-         NORM(2, KFACE, II) = UNDEMI * ((X7(3) - X2(3)) * (X6(1) - X3(1)) - 
+         NORM(2, KFACE, II) = HALF * ((X7(3) - X2(3)) * (X6(1) - X3(1)) - 
      .        (X7(1) - X2(1)) * (X6(3) - X3(3)))
-         NORM(3, KFACE, II) = UNDEMI * ((X7(1) - X2(1)) * (X6(2) - X3(2)) - 
+         NORM(3, KFACE, II) = HALF * ((X7(1) - X2(1)) * (X6(2) - X3(2)) - 
      .        (X7(2) - X2(2)) * (X6(1) - X3(1)))
          NX => NORM(1, KFACE, II)
          NY => NORM(2, KFACE, II)
@@ -181,11 +181,11 @@ C     Face 5
          NZ = NZ / SURF(KFACE, II)
 C     Face 6
          KFACE = 6
-         NORM(1, KFACE, II) = UNDEMI * ((X8(2) - X1(2)) * (X4(3) - X5(3)) - 
+         NORM(1, KFACE, II) = HALF * ((X8(2) - X1(2)) * (X4(3) - X5(3)) - 
      .        (X8(3) - X1(3)) * (X4(2) - X5(2)))
-         NORM(2, KFACE, II) = UNDEMI * ((X8(3) - X1(3)) * (X4(1) - X5(1)) - 
+         NORM(2, KFACE, II) = HALF * ((X8(3) - X1(3)) * (X4(1) - X5(1)) - 
      .        (X8(1) - X1(1)) * (X4(3) - X5(3)))
-         NORM(3, KFACE, II) = UNDEMI * ((X8(1) - X1(1)) * (X4(2) - X5(2)) - 
+         NORM(3, KFACE, II) = HALF * ((X8(1) - X1(1)) * (X4(2) - X5(2)) - 
      .        (X8(2) - X1(2)) * (X4(1) - X5(1)))
          NX => NORM(1, KFACE, II)
          NY => NORM(2, KFACE, II)
@@ -195,16 +195,16 @@ C     Face 6
          NY = NY / SURF(KFACE, II)
          NZ = NZ / SURF(KFACE, II)
 C     Face grid velocity 1
-         WFAC(1:3, 1, II) = QUART * (W1(1:3) + W2(1:3) + W3(1:3) + W4(1:3))
+         WFAC(1:3, 1, II) = FOURTH * (W1(1:3) + W2(1:3) + W3(1:3) + W4(1:3))
 C     Face grid velocity 2
-         WFAC(1:3, 2, II) = QUART * (W3(1:3) + W4(1:3) + W8(1:3) + W7(1:3))
+         WFAC(1:3, 2, II) = FOURTH * (W3(1:3) + W4(1:3) + W8(1:3) + W7(1:3))
 C     Face grid velocity 3
-         WFAC(1:3, 3, II) = QUART * (W5(1:3) + W6(1:3) + W7(1:3) + W8(1:3))
+         WFAC(1:3, 3, II) = FOURTH * (W5(1:3) + W6(1:3) + W7(1:3) + W8(1:3))
 C     Face grid velocity 4
-         WFAC(1:3, 4, II) = QUART * (W1(1:3) + W2(1:3) + W6(1:3) + W5(1:3))
+         WFAC(1:3, 4, II) = FOURTH * (W1(1:3) + W2(1:3) + W6(1:3) + W5(1:3))
 C     Face grid velocity 5
-         WFAC(1:3, 5, II) = QUART * (W2(1:3) + W3(1:3) + W7(1:3) + W6(1:3))
+         WFAC(1:3, 5, II) = FOURTH * (W2(1:3) + W3(1:3) + W7(1:3) + W6(1:3))
 C     Face grid velocity 6
-         WFAC(1:3, 6, II) = QUART * (W1(1:3) + W4(1:3) + W8(1:3) + W5(1:3))  
+         WFAC(1:3, 6, II) = FOURTH * (W1(1:3) + W4(1:3) + W8(1:3) + W5(1:3))  
       ENDDO
       END SUBROUTINE SNORM3

@@ -151,12 +151,12 @@ c--------------------------------------------------------------------
       ISRATE  = NINT(UPARAM(16))
       IDEB    = NINT(UPARAM(17))
 c
-      ALPHAI  = UN - ALPHA
-      EXP_M   = UN / (UN + EXP_N) 
+      ALPHAI  = ONE - ALPHA
+      EXP_M   = ONE / (ONE + EXP_N) 
 c---
 c      IF (IXEL == 0) THEN
         DO I = 1,NEL                                   
-          DADV(I)   = MIN(UN, GEORED / SQRT(ALDT(I)/REFLEN) ) ! reduction factor for advancement
+          DADV(I)   = MIN(ONE, GEORED / SQRT(ALDT(I)/REFLEN) ) ! reduction factor for advancement
           TPROPG(I) = CRKLEN(I) / MIN(VC,SSP(I))       
           TPROPG(I) = MAX(TPROPG(I), TIMESTEP)     
           UVAR(I,12)= DADV(I)
@@ -166,11 +166,11 @@ c--------------------------------------------------------------------
       IF (TIME == ZERO) then
 c       Crack depth modification and definition of Y (formfactor)
         DO I=1,NEL
-          IF (UVAR(I,10) == UN) THEN  ! edge-element
+          IF (UVAR(I,10) == ONE) THEN  ! edge-element
             AI(I) = CR_EDGE
             FORMF(I) = 1.12
           ELSE
-            FORMF(I) = UN
+            FORMF(I) = ONE
             IF (IPT == 1) THEN
               AI(I) = CR_FOIL  ! crack depth at foil side in mm (unit system: length)
             ELSEIF (IPT == NPT) THEN
@@ -179,9 +179,9 @@ c       Crack depth modification and definition of Y (formfactor)
               AI(I) = CR_CORE  ! crack depth inside glass
             ENDIF
           ENDIF
-          SIGP_AKT(I) = (DEUX*(EXP_N + UN)*K_IC**EXP_N) /
-     .              ((EXP_N - DEUX)*V0*(FORMF(I)*SQRT(PI))**EXP_N*
-     .               AI(I)**((EXP_N-DEUX)/DEUX))
+          SIGP_AKT(I) = (TWO*(EXP_N + ONE)*K_IC**EXP_N) /
+     .              ((EXP_N - TWO)*V0*(FORMF(I)*SQRT(PI))**EXP_N*
+     .               AI(I)**((EXP_N-TWO)/TWO))
           SIGP_AKT(I) = SIGP_AKT(I)**EXP_M
 c
           SIGP_MIN(I) = K_TH / (FORMF(I)*SQRT(PI*AI(I)))
@@ -203,8 +203,8 @@ c--------------------------------------------------------------------
 c     Principal stress
 c--------------------------------------------------------------------
       DO I = 1,NEL
-        AA = (SIGNXX(I) + SIGNYY(I))*UNDEMI
-        BB = (SIGNXX(I) - SIGNYY(I))*UNDEMI
+        AA = (SIGNXX(I) + SIGNYY(I))*HALF
+        BB = (SIGNXX(I) - SIGNYY(I))*HALF
         CC = SIGNXY(I)
         CR = SQRT(BB**2 + CC**2)
         S1 = AA + CR
@@ -215,7 +215,7 @@ c
 c        IF (S12 == ZERO .and. S2 >= ZERO) THEN
 c          MAJANG = ZERO
 c        ELSEIF (S12 == ZERO .and. S2 < ZERO) THEN
-c          MAJANG = UNDEMI*PI
+c          MAJANG = HALF*PI
 c        ELSE
 c          MAJANG = ATAN((SIGP1(I) - SIGNXX(I)) / S12)
 c        ENDIF
@@ -234,7 +234,7 @@ c       exponential moving average with smoohting coefficient = alpha
       ELSE
 c       arythmetic moving average over 50 cycles
         DO I = 1,NEL
-          IF (OFF(I) == UN) THEN
+          IF (OFF(I) == ONE) THEN
             SIGDT1(I)  = ABS(SIGP1(I) - UVAR(I,1)) / MAX(TIMESTEP, EM20)
             UVAR(I,21) = SIGDT1(I) 
             DO J = 1,49
@@ -274,7 +274,7 @@ c--------------------------------------------------------------------
         END DO
       ELSEIF (IPT < NPT) THEN   ! inner integration points
         DO I = 1,NEL
-          IF (UVAR(I,10) == UN) THEN   ! edge element => stress rate dependent
+          IF (UVAR(I,10) == ONE) THEN   ! edge element => stress rate dependent
             SIG_DTF1(I) = SIGP_AKT(I)*ABS(SIGDT1(I))**EXP_M
             SIG_DTF2(I) = SIGP_AKT(I)*ABS(SIGDT2(I))**EXP_M      
             SIG_DTF1(I) = MAX(SIG_DTF1(I),SIGP_MIN(I))
@@ -290,7 +290,7 @@ c--------------------------------------------------------------------
 c--------------------------
       IF (IXEL == 0) THEN    ! original element            
         DO I = 1,NEL                                                 
-          IF (OFF(I) == UN) THEN                              
+          IF (OFF(I) == ONE) THEN                              
             IF (ELCRKINI(ILAY,I) == 0) THEN   
               ! no cracks in the neibourhood => initialization
               IF (SIGP1(I) > SIG_DTF1(I) .and. TDEL(I) == ZERO .and. OFFLY(I) == 1) THEN
@@ -304,13 +304,13 @@ c--------------------------
               ENDIF
               IF (TDEL(I) > 0) THEN ! damage started already
                 TFACT = (TIME - TDEL(I)) / TPROPG(I)
-                TFACT = MIN(UN, TFACT)                                     
-                DMG_SCALE(I) = UN - TFACT
+                TFACT = MIN(ONE, TFACT)                                     
+                DMG_SCALE(I) = ONE - TFACT
                 NINDXD = NINDXD+1                                         
                 INDXD(NINDXD) = I                                   
-                IF (TFACT >= UN) THEN     ! end of damage in normal direction
+                IF (TFACT >= ONE) THEN     ! end of damage in normal direction
                   ELCRKINI(ILAY,I) = -1   ! failure completed (by initiation)
-                  OFF(I) = QCINQ                                           
+                  OFF(I) = FOUR_OVER_5                                           
                   IF (IORTH > 0) THEN
                     COSX = DIR_A(I,1)
                     SINX = DIR_A(I,2)
@@ -328,7 +328,7 @@ c--------------------------
 c
             ELSEIF (ELCRKINI(ILAY,I) == 2) THEN  
               ! neighbor element cut at common edge => advancement
-              UVAR(I,11)  = UN  ! reduction factor flag for output
+              UVAR(I,11)  = ONE  ! reduction factor flag for output
               SIG_DTF1(I) = SIG_DTF1(I)*DADV(I)  ! apply reduction factor to criteria
               SIG_DTF2(I) = SIG_DTF2(I)*DADV(I)            
               SIG_DTF1(I) = MAX(SIG_DTF1(I),SIGP_MIN(I)*DADV(I))
@@ -347,10 +347,10 @@ c
                 TFACT = (TIME - TDEL(I)) / TPROPG(I)
                 NINDXD = NINDXD+1                                         
                 INDXD(NINDXD) = I                                   
-                IF (TFACT >= UN) THEN
+                IF (TFACT >= ONE) THEN
                   ELCRKINI(ILAY,I) = 1      ! advance existing crack      
                   DMG_SCALE(I) = ZERO
-                  OFF(I) = QCINQ                                           
+                  OFF(I) = FOUR_OVER_5                                           
                   IF (IORTH > 0) THEN
                     COSX = DIR_A(I,1)
                     SINX = DIR_A(I,2)
@@ -363,7 +363,7 @@ c
                     DIR2_CRK(ILAY,I) = CRKDIR(I,2) 
                   ENDIF
                 ELSE
-                  DMG_SCALE(I) = UN - TFACT
+                  DMG_SCALE(I) = ONE - TFACT
                 ENDIF
               ENDIF                                                   
             ENDIF
@@ -383,9 +383,9 @@ c--------------------------
               CRKDIR(I,2) = S2 / CR            
             ELSEIF (S1 > S2) THEN              
               CRKDIR(I,1) = ZERO               
-              CRKDIR(I,2) = UN                 
+              CRKDIR(I,2) = ONE                 
             ELSE                               
-              CRKDIR(I,1) = UN                 
+              CRKDIR(I,1) = ONE                 
               CRKDIR(I,2) = ZERO               
             ENDIF                              
           ENDDO
@@ -423,18 +423,18 @@ c
             SIN2 = SINX * SINX
             COSI = COSX * SINX
 c           rotate stress to previously saved crack direction            
-            SP1 = COS2*S1 + SIN2*S2 + DEUX*COSI*S3
-            SP2 = SIN2*S1 + COS2*S2 - DEUX*COSI*S3
+            SP1 = COS2*S1 + SIN2*S2 + TWO*COSI*S3
+            SP2 = SIN2*S1 + COS2*S2 - TWO*COSI*S3
             SP3 = COSI*(S2 - S1) + (COS2 - SIN2)*S3
           
             DMG1 = DMG_SCALE(I)
-            DMG3 = MIN(UN, 0.6 + 0.4 * DMG1)
+            DMG3 = MIN(ONE, 0.6 + 0.4 * DMG1)
 c           stress reduction               
             SP1 = SP1 * DMG1
             SP3 = SP3 * DMG3
 c           rotate reduced stress back to current element coordinate system          
-            SIGNXX(I) = COS2*SP1 + SIN2*SP2 - DEUX*COSI*SP3  
-            SIGNYY(I) = SIN2*SP1 + COS2*SP2 + DEUX*COSI*SP3  
+            SIGNXX(I) = COS2*SP1 + SIN2*SP2 - TWO*COSI*SP3  
+            SIGNYY(I) = SIN2*SP1 + COS2*SP2 + TWO*COSI*SP3  
             SIGNXY(I) = COSI*(SP1 - SP2) + (COS2 - SIN2)*SP3
           ENDDO                                           
 c
@@ -449,12 +449,12 @@ c
 c
       ELSEIF (IXEL > 0) THEN       ! phantom element                                      
         DO I = 1,NEL                                                 
-          IF (OFF(I) == UN) THEN                                     
+          IF (OFF(I) == ONE) THEN                                     
             IF (ELCRKINI(ILAY,I) == 2) THEN  ! second crack arrived => delete phantom element 
               NINDX = NINDX+1                                          
               INDX(NINDX) = I                                          
               RFLAG(I) = 3
-              OFF(I) = QCINQ                                           
+              OFF(I) = FOUR_OVER_5                                           
             ELSE
               SIGP_MIN(I) = K_TH / (SQRT(PI*CR_FOIL))
               SIGP_MAX(I) = K_IC / (SQRT(PI*CR_FOIL))
@@ -465,7 +465,7 @@ c                delete phantom but should transfer information to remaining nei
                  NINDX = NINDX+1                                          
                  INDX(NINDX) = I                                          
                  RFLAG(I) = 3
-                 OFF(I) = QCINQ                                           
+                 OFF(I) = FOUR_OVER_5                                           
               ENDIF
             ENDIF
           ENDIF

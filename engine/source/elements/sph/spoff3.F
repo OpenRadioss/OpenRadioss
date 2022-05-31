@@ -66,8 +66,8 @@ C-----------------------------------------------
        NC1(I) =KXSP(3,I)
       ENDDO
       DO I=LFT,LLT
-C      OFF(I) = MIN(UN,OFFG(I))
-       OFF(I) = MIN(UN,ABS(OFFG(I)))
+C      OFF(I) = MIN(ONE,OFFG(I))
+       OFF(I) = MIN(ONE,ABS(OFFG(I)))
       ENDDO
 C     LAGRANGIAN ONLY.
 C     IF (JLAG.NE.0)THEN

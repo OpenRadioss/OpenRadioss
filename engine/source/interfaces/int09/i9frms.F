@@ -112,8 +112,8 @@ C
       IF(N2D.EQ.0)THEN
         CALL SHAPEH(H,SS,TT)
       ELSE
-        H(1) = UNDEMI*(UN - SS)
-        H(2) = UNDEMI*(UN + SS)
+        H(1) = HALF*(ONE - SS)
+        H(2) = HALF*(ONE + SS)
       ENDIF
       DO 50 JJ=1,NIR
       J3=3*IY(JJ)
@@ -161,7 +161,7 @@ C-------------------------------------
       FYT = FYI - FYN
       FZT = FZI - FZN
       FST = SQRT(FXT*FXT+FYT*FYT+FZT*FZT)
-      FAC = MIN(UN,FRIC*FSN/MAX(EM30,FST))
+      FAC = MIN(ONE,FRIC*FSN/MAX(EM30,FST))
 C-------------------------------------
 C     FORCE FRICTION main (CORRECTIF)
 C-------------------------------------

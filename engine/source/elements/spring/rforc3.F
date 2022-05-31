@@ -216,8 +216,8 @@ C=========================================================
      2               GBUF%LENGTH(II(1)),IGEO      ,MGN   )
 C
         DO I=JFT,JLT
-          IF (GBUF%OFF(I) /= -DIX) THEN
-            OFF(I)=MIN(UN,ABS(GBUF%OFF(I)))
+          IF (GBUF%OFF(I) /= -TEN) THEN
+            OFF(I)=MIN(ONE,ABS(GBUF%OFF(I)))
           ELSE
 C        spring may be activated by sensor and is actually inactive.
             OFF(I)=ZERO
@@ -233,7 +233,7 @@ C
      7              NC2                    ,NUVAR      ,GBUF%VAR     ,GBUF%DEFINI)
 C
         DO I=JFT,JLT
-          IF (GBUF%OFF(I) /= -DIX .AND. OFF(I) < UN) GBUF%OFF(I) = OFF(I)
+          IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
 C
         CALL R1LEN3(JFT       ,JLT    ,GBUF%OFF,DT2T ,NELTST ,
@@ -266,8 +266,8 @@ C=========================================================
      2               GBUF%LENGTH(II(1)),IGEO     ,MGN    )
 C
         DO I=JFT,JLT
-          IF (GBUF%OFF(I) /=  -DIX) THEN
-            OFF(I)=MIN(UN,ABS(GBUF%OFF(I)))
+          IF (GBUF%OFF(I) /=  -TEN) THEN
+            OFF(I)=MIN(ONE,ABS(GBUF%OFF(I)))
           ELSE
 C          spring may be activated by sensor and is actually inactive.
            OFF(I)=ZERO
@@ -282,7 +282,7 @@ C
      6               XM               ,XC                     ,AK                 )
 C
         DO I=JFT,JLT
-          IF (GBUF%OFF(I) /= -DIX .AND. OFF(I) < UN) GBUF%OFF(I) = OFF(I)
+          IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
 C
         CALL R1LEN3(JFT       ,JLT    ,GBUF%OFF,DT2T ,NELTST ,
@@ -314,8 +314,8 @@ C=========================================================
      2               GBUF%LENGTH(II(1)),IGEO      ,MGN   )
 C
         DO I=JFT,JLT
-          IF (GBUF%OFF(I) /= -DIX) THEN
-            OFF(I)=MIN(UN,ABS(GBUF%OFF(I)))
+          IF (GBUF%OFF(I) /= -TEN) THEN
+            OFF(I)=MIN(ONE,ABS(GBUF%OFF(I)))
           ELSE
 C        spring may be activated by sensor and is actually inactive.
             OFF(I)=ZERO
@@ -330,7 +330,7 @@ C
      6               XM               ,XC           ,AK                 )
 C
         DO I=JFT,JLT
-          IF (GBUF%OFF(I) /= -DIX .AND. OFF(I) < UN) GBUF%OFF(I) = OFF(I)
+          IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
 C
         CALL R1LEN3(JFT       ,JLT    ,GBUF%OFF,DT2T ,NELTST ,
@@ -366,8 +366,8 @@ C=========================================================
      3               GBUF%TOTROT(II(1)) ,GBUF%TOTROT(II(2)) ,GBUF%TOTROT(II(3)),IGEO              ,MGN                )
 C
         DO I=JFT,JLT
-          IF (GBUF%OFF(I) /= -DIX) THEN
-            OFF(I)=MIN(UN,ABS(GBUF%OFF(I)))
+          IF (GBUF%OFF(I) /= -TEN) THEN
+            OFF(I)=MIN(ONE,ABS(GBUF%OFF(I)))
           ELSE
 C        spring may be activated by sensor and is actually inactive.
             OFF(I)=ZERO
@@ -397,7 +397,7 @@ C
      K IEQUIL                 ,GBUF%SKEW_ID)
 C
         DO I=JFT,JLT
-          IF (GBUF%OFF(I) /= -DIX .AND. OFF(I) < UN) GBUF%OFF(I) = OFF(I)
+          IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
 C
         CALL R2LEN3(JFT     ,JLT    ,GBUF%OFF  ,DT2T   ,NELTST ,
@@ -442,8 +442,8 @@ C=========================================================
      2               GBUF%LENGTH(II(1)),IGEO     ,MGN    )
 C
         DO I=JFT,JLT
-          IF (GBUF%OFF(I) /= -DIX) THEN
-            OFF(I)=MIN(UN,ABS(GBUF%OFF(I)))
+          IF (GBUF%OFF(I) /= -TEN) THEN
+            OFF(I)=MIN(ONE,ABS(GBUF%OFF(I)))
           ELSE
 C        spring may be activated by sensor and is actually inactive.
             OFF(I)=ZERO
@@ -462,7 +462,7 @@ C
      9     NC3            ,NUVAR            ,GBUF%VAR          ,GBUF%DEFINI            )
 c
         DO I=JFT,JLT
-          IF (GBUF%OFF(I) /= -DIX .AND. OFF(I) < UN) GBUF%OFF(I) = OFF(I)
+          IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
         CALL R3LEN3(JFT       ,JLT    ,GBUF%OFF,DT2T ,NELTST ,
      2              ITYPTST   ,STI    ,MS      ,MSRT ,DMELRT ,
@@ -494,8 +494,8 @@ C=========================================================
      3              GBUF%TOTROT(II(1)) ,GBUF%TOTROT(II(2)) ,GBUF%TOTROT(II(3)),IGEO              ,MGN                )
 C
         DO I=JFT,JLT
-          IF (GBUF%OFF(I) /= -DIX) THEN
-            OFF(I)=MIN(UN,ABS(GBUF%OFF(I)))
+          IF (GBUF%OFF(I) /= -TEN) THEN
+            OFF(I)=MIN(ONE,ABS(GBUF%OFF(I)))
           ELSE
 C        spring may be activated by sensor and is actually inactive.
             OFF(I)=ZERO
@@ -537,7 +537,7 @@ C
      M GBUF%FORINI(II(4))     ,GBUF%FORINI(II(5))     ,GBUF%FORINI(II(6))     )
 C
         DO I=JFT,JLT
-          IF (GBUF%OFF(I) /= -DIX .AND. OFF(I) < UN) GBUF%OFF(I) = OFF(I)
+          IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
         CALL R2LEN3(JFT    ,JLT    ,GBUF%OFF  ,DT2T   ,NELTST ,
      2              ITYPTST,STI    ,STIR      ,MS     ,IN     ,
@@ -582,8 +582,8 @@ C=========================================================
      3               GBUF%TOTROT(II(1)) ,GBUF%TOTROT(II(2)) ,GBUF%TOTROT(II(3)),IGEO               ,MGN                )
 C
         DO I=JFT,JLT
-          IF (GBUF%OFF(I) /= -DIX) THEN
-            OFF(I) = MIN(UN,ABS(GBUF%OFF(I)))
+          IF (GBUF%OFF(I) /= -TEN) THEN
+            OFF(I) = MIN(ONE,ABS(GBUF%OFF(I)))
           ELSE
 c          spring may be activated by sensor and is actually inactive.
             OFF(I) = ZERO
@@ -623,7 +623,7 @@ C
      U GBUF%FORINI(II(6))     )
 C
         DO I=JFT,JLT
-          IF (GBUF%OFF(I) /= -DIX .AND. OFF(I) < UN) GBUF%OFF(I) = OFF(I)
+          IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
 C
         CALL R2LEN3(JFT    ,JLT    ,GBUF%OFF  ,DT2T   ,NELTST ,
@@ -682,7 +682,7 @@ C=========================================================
      9 NC1                  ,NC2                  )
 C
         DO I=JFT,JLT
-          OFF(I)=MIN(UN,ABS(GBUF%OFF(I)))
+          OFF(I)=MIN(ONE,ABS(GBUF%OFF(I)))
         ENDDO
 C
         CALL SET_SPRING_ELNUM(JFT,JLT,IXR)
@@ -795,7 +795,7 @@ C
         ENDIF
 C
         DO I=JFT,JLT
-          IF (OFF(I) < UN) GBUF%OFF(I) = OFF(I)
+          IF (OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
 C
         CALL R5LEN3(
@@ -863,7 +863,7 @@ C=========================================================
 C
         NUVAR =  NINT(GEO(25,I0))
         DO I=JFT,JLT
-          OFF(I)=MIN(UN,ABS(GBUF%OFF(I)))
+          OFF(I)=MIN(ONE,ABS(GBUF%OFF(I)))
         ENDDO
 C
         CALL RUSER32(
@@ -875,7 +875,7 @@ C
      6 GBUF%VR_REPCVT(II(2)),GBUF%VR_REPCVT(II(3)),FR_W_E              )
 C
         DO I=JFT,JLT
-         IF (OFF(I) < UN) GBUF%OFF(I) = OFF(I)
+         IF (OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
 C
         CALL R5LEN3(
@@ -962,7 +962,7 @@ C=========================================================
 C
         NUVAR = NINT(GEO(25,I0))
         DO I=JFT,JLT
-          OFF(I)=MIN(UN,ABS(GBUF%OFF(I)))
+          OFF(I)=MIN(ONE,ABS(GBUF%OFF(I)))
         ENDDO
 C
         IF (IGTYP == 35) THEN
@@ -984,7 +984,7 @@ C
         ENDIF
 C
         DO I=JFT,JLT
-          IF (OFF(I) < UN) GBUF%OFF(I) = OFF(I)
+          IF (OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
 C
         CALL R5LEN3(
@@ -1049,7 +1049,7 @@ C=========================================================
 C
         NUVAR = NINT(GEO(25,I0))
         DO I=JFT,JLT
-          OFF(I)=MIN(UN,ABS(GBUF%OFF(I)))
+          OFF(I)=MIN(ONE,ABS(GBUF%OFF(I)))
         ENDDO
 C
         CALL RUSER44(
@@ -1061,7 +1061,7 @@ C
      6 GBUF%VR_REPCVT(II(2)),GBUF%VR_REPCVT(II(3)),FR_W_E              )
 C
         DO I=JFT,JLT
-          IF (OFF(I) < UN) GBUF%OFF(I) = OFF(I)
+          IF (OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
 C
         CALL R5LEN3(
@@ -1126,7 +1126,7 @@ C=========================================================
 C
         NUVAR = NINT(GEO(25,I0))
         DO I=JFT,JLT
-          OFF(I)=MIN(UN,ABS(GBUF%OFF(I)))
+          OFF(I)=MIN(ONE,ABS(GBUF%OFF(I)))
         ENDDO
 C
         CALL RUSER46(                                         
@@ -1138,7 +1138,7 @@ C
      6 GBUF%VR_REPCVT(II(2)),GBUF%VR_REPCVT(II(3)),FR_W_E              )
 C
         DO I=JFT,JLT
-          IF (OFF(I) < UN) GBUF%OFF(I) = OFF(I)
+          IF (OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
 C
         CALL R5LEN3(
@@ -1297,11 +1297,11 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-        XMAS2(I)=UMAS(I)*UNDEMI
+        XMAS2(I)=UMAS(I)*HALF
         XM(I)= XMAS2(I)*VXA(I)
         YM(I)= XMAS2(I)*VYA(I)
         ZM(I)= XMAS2(I)*VZA(I)
-        EK(I)= XMAS2(I)*VA2(I)*UNDEMI
+        EK(I)= XMAS2(I)*VA2(I)*HALF
       ENDDO
 C
       IF (NPSAV >= 21) THEN
@@ -1309,7 +1309,7 @@ C
           XCG(I)= XMAS2(I)*XX(I)
           YCG(I)= XMAS2(I)*YY(I)
           ZCG(I)= XMAS2(I)*ZZ(I)
-          IN2 = UINER(I)*UNDEMI
+          IN2 = UINER(I)*HALF
           IXY(I) = -XMAS2(I)*XY(I)
           IYZ(I) = -XMAS2(I)*YZ(I)
           IZX(I) = -XMAS2(I)*ZX(I)
@@ -1329,12 +1329,12 @@ C
      .      (V1(I,2)*X1(I)-V1(I,1)*Y1(I)
      .      +V2(I,2)*X2(I)-V2(I,1)*Y2(I))
      .           +IN2*(VR1(I,3)+VR2(I,3))
-          REK(I)= IN2*VRA2(I)*UNDEMI
+          REK(I)= IN2*VRA2(I)*HALF
         ENDDO
 C
       IF (IGRE /= 0) THEN
           DO I=LFT,LLT
-            OFF(I)     = UN
+            OFF(I)     = ONE
           ENDDO
           CALL GRELEM_SAV(LFT   ,LLT   ,GRESAV,IGRTH ,GRTH  ,
      2                    OFF   ,EINT  ,EK    ,XM    ,YM    ,
@@ -1368,7 +1368,7 @@ C COQUE          PARTSAV(21,MX)=PARTSAV(21,MX) + REI(I)
           PARTSAV(22,MX)=PARTSAV(22,MX) + REK(I)
         ENDDO
       ENDIF
-      OFF(1:MVSIZ) = UN
+      OFF(1:MVSIZ) = ONE
       CALL SENSOR_ENERGY_BILAN(LFT,LLT,EINT,EK,OFF,IPARTR,ITASK)  
 C---
       RETURN
@@ -1443,8 +1443,8 @@ C--------------------------------------------
         VY2L   = EXY(I)*(VX2(I)-VX1(I))
      .         + EYY(I)*(VY2(I)-VY1(I))
      .         + EZY(I)*(VZ2(I)-VZ1(I))
-        XSIGN  = SIGN(UN, XL(I) - UNDEMI*VX2L(I)*DT1)
-        XLDEMI = XSIGN/MAX(EM15,ABS(XL(I) - UNDEMI*VX2L(I)*DT1))
+        XSIGN  = SIGN(ONE, XL(I) - HALF*VX2L(I)*DT1)
+        XLDEMI = XSIGN/MAX(EM15,ABS(XL(I) - HALF*VX2L(I)*DT1))
         THETA  = VY2L * XLDEMI
         RZ1L(I) = RZ1L(I) - THETA
         RZ2L(I) = RZ2L(I) - THETA
@@ -1455,29 +1455,29 @@ C--------------------------------------------
         RY1L(I) = RY1L(I) + THETA
         RY2L(I) = RY2L(I) + THETA
         VX2L(I) = VX2L(I)
-     .    - UNDEMI*DT1*XLDEMI*(VY2L*VY2L+VZ2L*VZ2L)
+     .    - HALF*DT1*XLDEMI*(VY2L*VY2L+VZ2L*VZ2L)
       ENDDO
 C--------------------------------------------
 C     Energy
 C--------------------------------------------
       DO I=LFT,LLT
         EINT(I) = EINT(I)
-     .+ UNDEMI*DT1 * (VX2L(I) * FX(I) + RX2L(I) * XMOM(I) 
+     .+ HALF*DT1 * (VX2L(I) * FX(I) + RX2L(I) * XMOM(I) 
      .          + (RY2L(I) - RY1L(I)) * YMOM(I) 
      .          + (RZ2L(I) - RZ1L(I)) * ZMOM(I)
-     .          + UNDEMI * (RY2L(I) + RY1L(I)) * FZ(I) * XL(I)
-     .          - UNDEMI * (RZ2L(I) + RZ1L(I)) * FY(I) * XL(I) )
+     .          + HALF * (RY2L(I) + RY1L(I)) * FZ(I) * XL(I)
+     .          - HALF * (RZ2L(I) + RZ1L(I)) * FY(I) * XL(I) )
       ENDDO
 C
       IF (NPSAV >= 21) THEN
         DO I=LFT,LLT
           MX = IPARTR(I)
           PARTSAV(23,MX)=PARTSAV(23,MX)
-     .          + UNDEMI*DT1 * (RX2L(I) * XMOM(I)
+     .          + HALF*DT1 * (RX2L(I) * XMOM(I)
      .          + (RY2L(I) - RY1L(I)) * YMOM(I) 
      .          + (RZ2L(I) - RZ1L(I)) * ZMOM(I)
-     .          + UNDEMI * (RY2L(I) + RY1L(I)) * FZ(I) * XL(I)
-     .          - UNDEMI * (RZ2L(I) + RZ1L(I)) * FY(I) * XL(I) )
+     .          + HALF * (RY2L(I) + RY1L(I)) * FZ(I) * XL(I)
+     .          - HALF * (RZ2L(I) + RZ1L(I)) * FY(I) * XL(I) )
         ENDDO
       ENDIF
 C--------------------------------------------
@@ -1567,21 +1567,21 @@ C     Energy
 C--------------------------------------------
       DO I=JFT,JLT
         EINT(I) = EINT(I)
-     .+ UNDEMI*DT1 * (VX(I) * FX(I) + RX(I) * XMOM(I)
+     .+ HALF*DT1 * (VX(I) * FX(I) + RX(I) * XMOM(I)
      .          + (RY2(I) - RY1(I)) * YMOM(I) 
      .          + (RZ2(I) - RZ1(I)) * ZMOM(I)
-     .          + UNDEMI * (RY2(I) + RY1(I)) * FZ(I) * XL(I)
-     .          - UNDEMI * (RZ2(I) + RZ1(I)) * FY(I) * XL(I) )
+     .          + HALF * (RY2(I) + RY1(I)) * FZ(I) * XL(I)
+     .          - HALF * (RZ2(I) + RZ1(I)) * FY(I) * XL(I) )
       ENDDO
       IF (NPSAV >= 21) THEN
         DO I=JFT,JLT
           MX = IPARTR(I)
           PARTSAV(23,MX)=PARTSAV(23,MX)
-     .          + UNDEMI*DT1 * (RX(I) * XMOM(I) 
+     .          + HALF*DT1 * (RX(I) * XMOM(I) 
      .          + (RY2(I) - RY1(I)) * YMOM(I) 
      .          + (RZ2(I) - RZ1(I)) * ZMOM(I)
-     .          + UNDEMI * (RY2(I) + RY1(I)) * FZ(I) * XL(I)
-     .          - UNDEMI * (RZ2(I) + RZ1(I)) * FY(I) * XL(I) )
+     .          + HALF * (RY2(I) + RY1(I)) * FZ(I) * XL(I)
+     .          - HALF * (RZ2(I) + RZ1(I)) * FY(I) * XL(I) )
         ENDDO
       ENDIF
 C--------------------------------------------
@@ -1607,20 +1607,20 @@ C--------------------------------------------
         ENDDO
         IF (DT1 == ZERO)THEN
           DO I=JFT,JLT
-            IF (VISIR(I) < EM15) UINER(I) =UN
+            IF (VISIR(I) < EM15) UINER(I) =ONE
             STI(1,I)  = USTI(I) 
             STIR(1,I) = USTIR(I) 
             IF (UMAS(I) > EM15)
-     .         STI(1,I) = STI(1,I) + QUATRE*VISI(I)**2 / UMAS(I)
+     .         STI(1,I) = STI(1,I) + FOUR*VISI(I)**2 / UMAS(I)
             IF (UINER(I) > EM15)
-     .         STIR(1,I) = STIR(1,I) + QUATRE*VISIR(I)**2 / UINER(I)
+     .         STIR(1,I) = STIR(1,I) + FOUR*VISIR(I)**2 / UINER(I)
             STI(2,I)  = STI(1,I)
             STIR(2,I) = STIR(1,I)
           ENDDO
         ELSE
           DO I=JFT,JLT
-            STI(1,I)  = USTI(I) + DEUX*VISI(I)/DT1
-            STIR(1,I) = USTIR(I)+ DEUX*VISIR(I)/DT1
+            STI(1,I)  = USTI(I) + TWO*VISI(I)/DT1
+            STIR(1,I) = USTIR(I)+ TWO*VISIR(I)/DT1
             STI(2,I)  = STI(1,I)
             STIR(2,I) = STIR(1,I)
           ENDDO
@@ -1635,9 +1635,9 @@ C
              IF (VISI(I)+USTI(I) >= EM15) THEN
                USTI(I)= MAX(EM15,USTI(I))
                DMELRT(I)=MAX(DMELRT(I),
-     .           VISI(I)*DTA+UNDEMI*USTI(I)*DTB-UNDEMI*MSRT(I))
+     .           VISI(I)*DTA+HALF*USTI(I)*DTB-HALF*MSRT(I))
 C                 MX2 = 2*(Mn+2*DeltaM)
-                 MX2 =MSRT(I)+DEUX*DMELRT(I)
+                 MX2 =MSRT(I)+TWO*DMELRT(I)
                  DT(I)=DTFACS*
      .               MX2 /MAX(EM15,SQRT(VISI(I)*VISI(I)+MX2*USTI(I))+VISI(I))
              ENDIF
@@ -1657,13 +1657,13 @@ C
       IF (NODADT /= 0 .OR. (IDTMINS == 2. AND. JSMS /= 0)) RETURN
 C
       DO I=JFT,JLT
-        IF (VISI(I)+USTI(I) < EM15) UMAS(I) =UN
+        IF (VISI(I)+USTI(I) < EM15) UMAS(I) =ONE
       ENDDO
 C
       DO I=JFT,JLT
         USTI(I)= MAX(EM15,USTI(I))
         DT(I)=(SQRT(VISI(I)*VISI(I)+UMAS(I)*USTI(I))-VISI(I))/USTI(I)
-        DTC(I)=UNDEMI*UMAS(I)/ MAX(EM15,VISI(I))
+        DTC(I)=HALF*UMAS(I)/ MAX(EM15,VISI(I))
         DT(I)= MIN(DT(I),DTC(I))
       ENDDO
 C
@@ -1681,7 +1681,7 @@ C
       ENDIF
 C
       DO I=JFT,JLT
-        IF (VISIR(I)+USTIR(I) < EM15) UINER(I)=UN
+        IF (VISIR(I)+USTIR(I) < EM15) UINER(I)=ONE
       ENDDO
 C
       DO I=JFT,JLT
@@ -1689,7 +1689,7 @@ C
         DTC(I)=(SQRT(VISIR(I)*VISIR(I)+UINER(I)*USTIR(I))-VISIR(I))
      .         /USTIR(I)
         DT(I)= MIN(DT(I),DTC(I))
-        DTC(I)=UNDEMI*UINER(I)/ MAX(EM15,VISIR(I))
+        DTC(I)=HALF*UINER(I)/ MAX(EM15,VISIR(I))
         DT(I)= MIN(DT(I),DTC(I))
       ENDDO
 C

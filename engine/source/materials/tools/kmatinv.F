@@ -47,7 +47,7 @@ C
      .         MAT(I,3,3)*MAT(I,1,2)*MAT(I,2,1) +MAT(I,1,2)*MAT(I,2,3)*MAT(I,3,1) +
      .         MAT(I,2,1)*MAT(I,3,2)*MAT(I,1,3) -MAT(I,2,2)*MAT(I,3,1)*MAT(I,1,3)
           IF(DETA == ZERO)DETA = EM20
-          FAC=UN/ DETA
+          FAC=ONE/ DETA
           !transpose(comatrice)/det
           AINV(I,1,1)=FAC*(MAT(I,2,2)*MAT(I,3,3)-MAT(I,2,3)*MAT(I,3,2))
           AINV(I,2,2)=FAC*(MAT(I,1,1)*MAT(I,3,3)-MAT(I,3,1)*MAT(I,1,3))

@@ -166,7 +166,7 @@ C---
        DIE(JFT:JLT)   = ZERO
       IF(JTHE > 0) THEN 
          DO I=JFT,JLT 
-           TEMPEL(I)    = UNDEMI *( TEMP(NC1(I)) + TEMP(NC2(I)))  
+           TEMPEL(I)    = HALF *( TEMP(NC1(I)) + TEMP(NC2(I)))  
            DIE(I) = GBUF%EINT(I) + GBUF%EINT(NEL + I)
          ENDDO
       ENDIF
@@ -181,7 +181,7 @@ c
              FSCAL_ALPHA = PM(191, MAT(I))
              ALPHA = FSCAL_ALPHA*FINTER(IFUNC_ALPHA,TEMPEL(I),NPF,TF,DF)
              ETH(I) = ALPHA*DTEMP(I)
-             DEINTTH = - UNDEMI*GBUF%FOR(I)*ETH(I)*AL(I)*OFF(I) 
+             DEINTTH = - HALF*GBUF%FOR(I)*ETH(I)*AL(I)*OFF(I) 
              GBUF%EINTTH(I) = GBUF%EINTTH(I)  + DEINTTH
 !!             GBUF%EINT(I) = GBUF%EINT(I) + DEINTTH
         ENDDO 
@@ -255,7 +255,7 @@ C
           ENDIF
 C          
           DO I=JFT,JLT
-             DEINTTH = - UNDEMI*GBUF%FOR(I)*ETH(I)*AL(I)*OFF(I) 
+             DEINTTH = - HALF*GBUF%FOR(I)*ETH(I)*AL(I)*OFF(I) 
              GBUF%EINT(I) = GBUF%EINT(I) + DEINTTH
           ENDDO
       ENDIF
@@ -301,8 +301,8 @@ C
 C
 C force thermique nodale
 C
-          FPHI(I,1) = UNDEMI * DIE(I) + PHIX ! 
-          FPHI(I,2) = UNDEMI * DIE(I) - PHIX
+          FPHI(I,1) = HALF * DIE(I) + PHIX ! 
+          FPHI(I,2) = HALF * DIE(I) - PHIX
          ENDDO
        ENDIF
 C-------------------------

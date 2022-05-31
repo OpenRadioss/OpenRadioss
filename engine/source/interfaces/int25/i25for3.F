@@ -215,14 +215,14 @@ C-----------------------------------------------
 #include "sync_dir.inc"
       DTMINI=ZERO
       IF (IRESP.EQ.1) THEN
-           PREC = CINQEM4
+           PREC = FIVEEM4
            TINY = EM15
       ELSE
            PREC = EM10
            TINY = EM30
       ENDIF
       IF(DT1.GT.ZERO)THEN
-        DT1INV = UN/DT1
+        DT1INV = ONE/DT1
       ELSE
         DT1INV =ZERO
       ENDIF
@@ -332,14 +332,14 @@ C-------------------------------------------
           DO I=1,JLT
             IF(PENE(I) == ZERO)CYCLE
             STIF(I) = STIF0(I)
-            IF(STIGLO.LE.ZERO) STIF(I) = UNDEMI*STIF(I) 
+            IF(STIGLO.LE.ZERO) STIF(I) = HALF*STIF(I) 
             FNI(I)= -STIF(I) * PENE(I) 
           ENDDO
         ELSEIF(IVIS2.NE.-1)THEN ! NO ADHESION CASE
           DO I=1,JLT
             IF(PENE(I) == ZERO)CYCLE
             IF(STIGLO.LE.ZERO)THEN
-              STIF(I) = UNDEMI*STIF(I) 
+              STIF(I) = HALF*STIF(I) 
             ELSEIF(STIF(I).NE.ZERO)THEN
               STIF(I) = STIGLO 
             ENDIF
@@ -352,7 +352,7 @@ C PENE     = measured from the outer boundary of adhesion zone (i.e. 2*(real_gap
           DO I=1,JLT
             IF(PENE(I) == ZERO) CYCLE
             IF(STIGLO.LE.ZERO)THEN
-              STIF(I) = UNDEMI*STIF(I) 
+              STIF(I) = HALF*STIF(I) 
             ELSEIF(STIF(I).NE.ZERO)THEN
               STIF(I) = STIGLO 
             ENDIF
@@ -369,7 +369,7 @@ C     Contact Energy (elastic)
 C---------------------------------
       DO I=1,JLT
         IF(PENE(I) == ZERO)CYCLE
-        ECONTT = ECONTT+UNDEMI*STIF(I)*PENE(I)**2
+        ECONTT = ECONTT+HALF*STIF(I)*PENE(I)**2
       END DO
 C---------------------------------
 C     DAMPING + FRIC
@@ -382,7 +382,7 @@ C---------------------------------
 C         VISC QUAD TYPE V227
 C---------------------------------
           DO I=1,JLT
-            VIS2(I) = DEUX * STIF(I) * MSI(I)
+            VIS2(I) = TWO * STIF(I) * MSI(I)
           ENDDO
 C---------------------------------
           IF(KDTINT.EQ.0.AND.(IDTMINS/=2.AND.IDTMINS_INT==0))THEN
@@ -420,7 +420,7 @@ C---------------------------------
      .           + MS(IX2(I))*H2(I)
      .           + MS(IX3(I))*H3(I)
      .           + MS(IX4(I))*H4(I)
-           VIS2(I) = DEUX* STIF(I) * MSI(I) * MAS2 / 
+           VIS2(I) = TWO* STIF(I) * MSI(I) * MAS2 / 
      .          MAX(EM30,MSI(I)+MAS2)
           ENDDO
 C---------------------------------
@@ -455,11 +455,11 @@ C         VISC QUAD TYPE V23f(bug aero amerrissage)
 C---------------------------------
           DO I=1,JLT
            IF(PENE(I) == ZERO)CYCLE
-           VIS2(I) = DEUX* STIF(I) * MSI(I)
+           VIS2(I) = TWO* STIF(I) * MSI(I)
            FAC = STIF(I) / MAX(EM30,STIF(I))
            VIS = SQRT(VIS2(I)) 
            FF(I)  = FAC * VISC * VIS 
-           STIF(I) = STIF0(I) + DEUX * FF(I) * DT1INV
+           STIF(I) = STIF0(I) + TWO * FF(I) * DT1INV
            STIF(I) = MAX(STIF(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
            FF(I)   = FF(I) * VN(I)  
            FNI(I)  = FNI(I) + FF(I)
@@ -470,11 +470,11 @@ C         VISC QUAD = 0
 C---------------------------------
           DO I=1,JLT
            IF(PENE(I) == ZERO)CYCLE
-           VIS2(I) = DEUX * STIF(I) * MSI(I)
+           VIS2(I) = TWO * STIF(I) * MSI(I)
            FAC = STIF(I) / MAX(EM30,STIF(I))
            VIS = SQRT(VIS2(I)) 
            FF(I)  = FAC *  VISC * VIS 
-           STIF(I) = STIF0(I) + DEUX* FF(I) * DT1INV
+           STIF(I) = STIF0(I) + TWO* FF(I) * DT1INV
            STIF(I) = MAX(STIF(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
            FF(I)   = FF(I) * VN(I)  
            FNI(I)  = FNI(I) + FF(I)
@@ -486,7 +486,7 @@ C---------------------------------
           DO I=1,JLT
            IF(PENE(I) == ZERO)CYCLE
            FAC = STIF(I) / MAX(EM30,STIF(I))
-           VIS2(I) = DEUX* STIF(I) * MSI(I)
+           VIS2(I) = TWO* STIF(I) * MSI(I)
            VIS = SQRT(VIS2(I)) 
            STIF(I) = MAX(STIF0(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
           ENDDO
@@ -502,7 +502,7 @@ C---------------------------------
      .           + MS(IX2(I))*H2(I)
      .           + MS(IX3(I))*H3(I)
      .           + MS(IX4(I))*H4(I)
-           VIS2(I) = DEUX* STIF(I) * MSI(I)
+           VIS2(I) = TWO* STIF(I) * MSI(I)
            VIS = 2. * VISC * DT1INV * MSI(I) * MAS2 / 
      .          MAX(EM30,MSI(I)+MAS2)
            STIF(I) = MAX(STIF0(I) ,FAC*SQRT(VISCFFRIC(I)*VIS2(I))*DT1INV)
@@ -519,7 +519,7 @@ C---------------------------------
      .           + MS(IX2(I))*H2(I)
      .           + MS(IX3(I))*H3(I)
      .           + MS(IX4(I))*H4(I)
-           VIS2(I) = DEUX* STIF(I) * MSI(I) * MAS2 / 
+           VIS2(I) = TWO* STIF(I) * MSI(I) * MAS2 / 
      .          MAX(EM30,MSI(I)+MAS2)
           ENDDO
 C---------------------------------
@@ -532,7 +532,7 @@ C---------------------------------
             FF(I)  = FAC * VISC * VIS
             STIF(I) = STIF0(I) + FF(I) * DT1INV
             STIF(I) = MAX(STIF(I), STIFADH + FF(I) * DT1INV)                                 ! NORMAL DIRECTION
-            STIF(I) = MAX(STIF(I),FAC*VISCADHFACT*VISCFLUID*DEUX/GAPV(I)*AREAS(I)*DT1INV) ! TANGENTIAL DIRECTION
+            STIF(I) = MAX(STIF(I),FAC*VISCADHFACT*VISCFLUID*TWO/GAPV(I)*AREAS(I)*DT1INV) ! TANGENTIAL DIRECTION
             FF(I)   = FF(I) * VN(I)  
             FNI(I)  = FNI(I) + FF(I)          
            ENDDO
@@ -547,7 +547,7 @@ C---------------------------------
             STIF(I) = STIF(I) + C(I) * DT1INV
             FF(I) = C(I) * VN(I)
             FNI(I)  = FNI(I) + FF(I)
-            CF(I)   = FAC*VISCADHFACT*VISCFLUID*DEUX/GAPV(I)*AREAS(I)                     ! TANGENTIAL DIRECTION
+            CF(I)   = FAC*VISCADHFACT*VISCFLUID*TWO/GAPV(I)*AREAS(I)                     ! TANGENTIAL DIRECTION
             STIF(I) = MAX(STIF(I), STIFADH + C(I) * DT1INV)                               ! NORMAL DIRECTION
             STIF(I) = MAX(STIF(I) ,CF(I)*DT1INV)                                          ! TANGENTIAL DIRECTION              
            ENDDO
@@ -563,7 +563,7 @@ C---------------------------------
 C---------------------------------
 C         VISC QUAD TYPE V227
 C---------------------------------
-            VIS2(I) = DEUX * STIF(I) * MSI(I)
+            VIS2(I) = TWO * STIF(I) * MSI(I)
 C---------------------------------
 C---------------------------------
            IF(KDTINT.EQ.0.AND.(IDTMINS/=2.AND.IDTMINS_INT==0))THEN
@@ -596,7 +596,7 @@ C---------------------------------
      .           + MS(IX2(I))*H2(I)
      .           + MS(IX3(I))*H3(I)
      .           + MS(IX4(I))*H4(I)
-            VIS2(I) = DEUX* STIF(I) * MSI(I) * MAS2 / 
+            VIS2(I) = TWO* STIF(I) * MSI(I) * MAS2 / 
      .          MAX(EM30,MSI(I)+MAS2)
 C---------------------------------
            IF(KDTINT.EQ.0.AND.(IDTMINS/=2.AND.IDTMINS_INT==0))THEN
@@ -625,11 +625,11 @@ C---------------------------------
 C         VISC QUAD TYPE V23f(bug aero amerrissage)
 C---------------------------------
             IF(PENE(I) == ZERO)CYCLE
-            VIS2(I) = DEUX* STIF(I) * MSI(I)
+            VIS2(I) = TWO* STIF(I) * MSI(I)
             FAC = STIF(I) / MAX(EM30,STIF(I))
             VIS = SQRT(VIS2(I)) 
             FF(I)  = FAC * VISC * VIS 
-            STIF(I) = STIF0(I) + DEUX * FF(I) * DT1INV
+            STIF(I) = STIF0(I) + TWO * FF(I) * DT1INV
             STIF(I) = MAX(STIF(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
             FF(I)   = FF(I) * VN(I)  
             FNI(I)  = FNI(I) + FF(I)
@@ -638,11 +638,11 @@ C---------------------------------
 C         VISC QUAD = 0
 C---------------------------------
             IF(PENE(I) == ZERO)CYCLE
-            VIS2(I) = DEUX * STIF(I) * MSI(I)
+            VIS2(I) = TWO * STIF(I) * MSI(I)
             FAC = STIF(I) / MAX(EM30,STIF(I))
             VIS = SQRT(VIS2(I)) 
             FF(I)  = FAC *  VISC * VIS 
-            STIF(I) = STIF0(I) + DEUX* FF(I) * DT1INV
+            STIF(I) = STIF0(I) + TWO* FF(I) * DT1INV
             STIF(I) = MAX(STIF(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
             FF(I)   = FF(I) * VN(I)  
             FNI(I)  = FNI(I) + FF(I)
@@ -652,7 +652,7 @@ C         VISC = 0
 C---------------------------------
             IF(PENE(I) == ZERO)CYCLE
             FAC = STIF(I) / MAX(EM30,STIF(I))
-            VIS2(I) = DEUX* STIF(I) * MSI(I)
+            VIS2(I) = TWO* STIF(I) * MSI(I)
             VIS = SQRT(VIS2(I)) 
             STIF(I) = MAX(STIF0(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
          ELSEIF(IVIS2.EQ.5)THEN
@@ -666,7 +666,7 @@ C---------------------------------
      .           + MS(IX2(I))*H2(I)
      .           + MS(IX3(I))*H3(I)
      .           + MS(IX4(I))*H4(I)
-            VIS2(I) = DEUX* STIF(I) * MSI(I)
+            VIS2(I) = TWO* STIF(I) * MSI(I)
             VIS = 2. * VISC * DT1INV * MSI(I) * MAS2 / 
      .          MAX(EM30,MSI(I)+MAS2)
             STIF(I) = MAX(STIF0(I) ,FAC*SQRT(VISCFFRIC(I)*VIS2(I))*DT1INV)
@@ -692,12 +692,12 @@ C---------------------------------
         IF(JG > 0)THEN
           N  = CAND_N_N(I)
           ECONTDT        = ECONTDT+PENE_OLD(3,N)*VN(I)*DT1
-          PENE_OLD(3,N) = UNDEMI*FF(I)
+          PENE_OLD(3,N) = HALF*FF(I)
           ECONTDT        = ECONTDT+PENE_OLD(3,N)*VN(I)*DT1
         ELSE
           JG = -JG
           ECONTDT                  = ECONTDT+PENE_OLDFI(NIN)%P(3,JG)*VN(I)*DT1
-          PENE_OLDFI(NIN)%P(3,JG) = UNDEMI*FF(I)
+          PENE_OLDFI(NIN)%P(3,JG) = HALF*FF(I)
           ECONTDT                  = ECONTDT+PENE_OLDFI(NIN)%P(3,JG)*VN(I)*DT1
         END IF         
       END DO
@@ -1247,7 +1247,7 @@ C---      Viscous friction
               AX  = AY1*AZ2 - AZ1*AY2
               AY  = AZ1*AX2 - AX1*AZ2
               AZ  = AX1*AY2 - AY1*AX2
-              AREA = UNDEMI*SQRT(AX*AX+AY*AY+AZ*AZ)
+              AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ)
               P = -FNI(I)/AREA
               XMU(I) = FRICC(I) + (FRIC_COEFS(I,1) + FRIC_COEFS(I,4)*P ) * P 
      .               +(FRIC_COEFS(I,2) + FRIC_COEFS(I,3)*P) * VV + FRIC_COEFS(I,5)*V2
@@ -1275,7 +1275,7 @@ C---        Loi Darmstad
               AX  = AY1*AZ2 - AZ1*AY2
               AY  = AZ1*AX2 - AX1*AZ2
               AZ  = AX1*AY2 - AY1*AX2
-              AREA = UNDEMI*SQRT(AX*AX+AY*AY+AZ*AZ)
+              AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ)
               P = -FNI(I)/AREA
               XMU(I) = FRICC(I) 
      .               + FRIC_COEFS(I,1)*EXP(FRIC_COEFS(I,2)*VV)*P*P
@@ -1298,15 +1298,15 @@ C---        Loi Renard
               IF(VV.GE.0.AND.VV.LE.FRIC_COEFS(I,5)) THEN
                 DMU = FRIC_COEFS(I,3)-FRIC_COEFS(I,1)
                 VV1 = VV / FRIC_COEFS(I,5)
-                XMU(I) = FRIC_COEFS(I,1)+ DMU*VV1*(DEUX-VV1)
+                XMU(I) = FRIC_COEFS(I,1)+ DMU*VV1*(TWO-VV1)
               ELSEIF(VV.GT.FRIC_COEFS(I,5).AND.VV.LT.FRIC_COEFS(I,6)) THEN
                 DMU = FRIC_COEFS(I,4)-FRIC_COEFS(I,3) 
                 VV1 = (VV - FRIC_COEFS(I,5))/(FRIC_COEFS(I,6)-FRIC_COEFS(I,5))
-                XMU(I) = FRIC_COEFS(I,3)+ DMU * (TROIS-DEUX*VV1)*VV1**2
+                XMU(I) = FRIC_COEFS(I,3)+ DMU * (THREE-TWO*VV1)*VV1**2
               ELSE
                 DMU = FRIC_COEFS(I,2)-FRIC_COEFS(I,4)
                 VV2 = (VV - FRIC_COEFS(I,6))**2
-                XMU(I) = FRIC_COEFS(I,2) - DMU / (UN + DMU*VV2)
+                XMU(I) = FRIC_COEFS(I,2) - DMU / (ONE + DMU*VV2)
               ENDIF
               XMU(I) = MAX(XMU(I),EM30)
             ENDDO
@@ -1333,7 +1333,7 @@ C---      Coulomb friction
                  AN(K) = ZERO
                ELSE
                  AN(K)=XMU(I)**2  
-                 AN(K)=UN/AN(K)  
+                 AN(K)=ONE/AN(K)  
                ENDIF
                IF(XMU2(I).LE.EM30) THEN
                   XMU2(I) = EM30
@@ -1341,7 +1341,7 @@ C---      Coulomb friction
                   BN(K) = ZERO
                ELSE
                   BN(K)=XMU2(I)**2   
-                  BN(K)=UN/BN(K)   
+                  BN(K)=ONE/BN(K)   
                ENDIF
             ENDDO
           ELSEIF (MFROT.EQ.1) THEN
@@ -1369,7 +1369,7 @@ C---      Viscous friction
               AX  = AY1*AZ2 - AZ1*AY2
               AY  = AZ1*AX2 - AX1*AZ2
               AZ  = AX1*AY2 - AY1*AX2
-              AREA = UNDEMI*SQRT(AX*AX+AY*AY+AZ*AZ)
+              AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ)
               P = -FNI(I)/AREA
               XMU(I) = FRICC(I) + (FRIC_COEFS(I,1) + FRIC_COEFS(I,4)*P ) * P 
      .               +(FRIC_COEFS(I,2) + FRIC_COEFS(I,3)*P) * VV + FRIC_COEFS(I,5)*V2
@@ -1398,7 +1398,7 @@ c
               AX  = AY1*AZ2 - AZ1*AY2
               AY  = AZ1*AX2 - AX1*AZ2
               AZ  = AX1*AY2 - AY1*AX2
-              AREA = UNDEMI*SQRT(AX*AX+AY*AY+AZ*AZ)
+              AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ)
               P = -FNI(I)/AREA
 c
               V2 = VX(I)*DIR1(K,1) +VY(I)*DIR1(K,2)+VZ(I)*DIR1(K,3)
@@ -1424,7 +1424,7 @@ c
                  AN(K) = ZERO
                ELSE
                  AN(K)=XMU(I)**2  
-                 AN(K)=UN/AN(K)  
+                 AN(K)=ONE/AN(K)  
                ENDIF
                IF(XMU2(I).LE.EM30) THEN
                   XMU2(I) = EM30
@@ -1432,7 +1432,7 @@ c
                   BN(K) = ZERO
                ELSE
                   BN(K)=XMU2(I)**2   
-                  BN(K)=UN/BN(K)   
+                  BN(K)=ONE/BN(K)   
                ENDIF
              ENDDO
 
@@ -1461,7 +1461,7 @@ C---        Loi Darmstad
               AX  = AY1*AZ2 - AZ1*AY2
               AY  = AZ1*AX2 - AX1*AZ2
               AZ  = AX1*AY2 - AY1*AX2
-              AREA = UNDEMI*SQRT(AX*AX+AY*AY+AZ*AZ)
+              AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ)
               P = -FNI(I)/AREA
               XMU(I) = FRICC(I) 
      .               + FRIC_COEFS(I,1)*EXP(FRIC_COEFS(I,2)*VV)*P*P
@@ -1490,7 +1490,7 @@ c
               AX  = AY1*AZ2 - AZ1*AY2
               AY  = AZ1*AX2 - AX1*AZ2
               AZ  = AX1*AY2 - AY1*AX2
-              AREA = UNDEMI*SQRT(AX*AX+AY*AY+AZ*AZ)
+              AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ)
               P = -FNI(I)/AREA
 c
               V2 = VX(I)*DIR1(K,1) +VY(I)*DIR1(K,2)+VZ(I)*DIR1(K,3)
@@ -1520,7 +1520,7 @@ c
                  AN(K) = ZERO
                ELSE
                  AN(K)=XMU(I)**2  
-                 AN(K)=UN/AN(K)  
+                 AN(K)=ONE/AN(K)  
                ENDIF
                IF(XMU2(I).LE.EM30) THEN
                   XMU2(I) = EM30
@@ -1528,7 +1528,7 @@ c
                   BN(K) = ZERO
                ELSE
                   BN(K)=XMU2(I)**2   
-                  BN(K)=UN/BN(K)   
+                  BN(K)=ONE/BN(K)   
                ENDIF
              ENDDO
 
@@ -1550,15 +1550,15 @@ C---        Loi Renard
               IF(VV.GE.0.AND.VV.LE.FRIC_COEFS(I,5)) THEN
                 DMU = FRIC_COEFS(I,3)-FRIC_COEFS(I,1)
                 VV1 = VV / FRIC_COEFS(I,5)
-                XMU(I) = FRIC_COEFS(I,1)+ DMU*VV1*(DEUX-VV1)
+                XMU(I) = FRIC_COEFS(I,1)+ DMU*VV1*(TWO-VV1)
               ELSEIF(VV.GT.FRIC_COEFS(I,5).AND.VV.LT.FRIC_COEFS(I,6)) THEN
                 DMU = FRIC_COEFS(I,4)-FRIC_COEFS(I,3) 
                 VV1 = (VV - FRIC_COEFS(I,5))/(FRIC_COEFS(I,6)-FRIC_COEFS(I,5))
-                XMU(I) = FRIC_COEFS(I,3)+ DMU * (TROIS-DEUX*VV1)*VV1**2
+                XMU(I) = FRIC_COEFS(I,3)+ DMU * (THREE-TWO*VV1)*VV1**2
               ELSE
                 DMU = FRIC_COEFS(I,2)-FRIC_COEFS(I,4)
                 VV2 = (VV - FRIC_COEFS(I,6))**2
-                XMU(I) = FRIC_COEFS(I,2) - DMU / (UN + DMU*VV2)
+                XMU(I) = FRIC_COEFS(I,2) - DMU / (ONE + DMU*VV2)
               ENDIF
               XMU(I) = MAX(XMU(I),EM30)
             ENDDO
@@ -1578,15 +1578,15 @@ c
               IF(VV.GE.0.AND.VV.LE.FRIC_COEFS(I,5)) THEN
                 DMU = FRIC_COEFS(I,3)-FRIC_COEFS(I,1)
                 VV1 = VV / FRIC_COEFS(I,5)
-                XMU(I) = FRIC_COEFS(I,1)+ DMU*VV1*(DEUX-VV1)
+                XMU(I) = FRIC_COEFS(I,1)+ DMU*VV1*(TWO-VV1)
               ELSEIF(VV.GT.FRIC_COEFS(I,5).AND.VV.LT.FRIC_COEFS(I,6)) THEN
                 DMU = FRIC_COEFS(I,4)-FRIC_COEFS(I,3) 
                 VV1 = (VV - FRIC_COEFS(I,5))/(FRIC_COEFS(I,6)-FRIC_COEFS(I,5))
-                XMU(I) = FRIC_COEFS(I,3)+ DMU * (TROIS-DEUX*VV1)*VV1**2
+                XMU(I) = FRIC_COEFS(I,3)+ DMU * (THREE-TWO*VV1)*VV1**2
               ELSE
                 DMU = FRIC_COEFS(I,2)-FRIC_COEFS(I,4)
                 VV2 = (VV - FRIC_COEFS(I,6))**2
-                XMU(I) = FRIC_COEFS(I,2) - DMU / (UN + DMU*VV2)
+                XMU(I) = FRIC_COEFS(I,2) - DMU / (ONE + DMU*VV2)
               ENDIF
 
               V2 = VX(I)*DIR2(K,1) +VY(I)*DIR2(K,2)+VZ(I)*DIR2(K,3)
@@ -1594,15 +1594,15 @@ c
               IF(VV.GE.0.AND.VV.LE.FRIC_COEFS2(I,5)) THEN
                 DMU = FRIC_COEFS2(I,3)-FRIC_COEFS2(I,1)
                 VV1 = VV / FRIC_COEFS2(I,5)
-                XMU2(I) = FRIC_COEFS2(I,1)+ DMU*VV1*(DEUX-VV1)
+                XMU2(I) = FRIC_COEFS2(I,1)+ DMU*VV1*(TWO-VV1)
               ELSEIF(VV.GT.FRIC_COEFS2(I,5).AND.VV.LT.FRIC_COEFS2(I,6)) THEN
                 DMU = FRIC_COEFS2(I,4)-FRIC_COEFS2(I,3) 
                 VV1 = (VV - FRIC_COEFS2(I,5))/(FRIC_COEFS2(I,6)-FRIC_COEFS2(I,5))
-                XMU2(I) = FRIC_COEFS2(I,3)+ DMU * (TROIS-DEUX*VV1)*VV1**2
+                XMU2(I) = FRIC_COEFS2(I,3)+ DMU * (THREE-TWO*VV1)*VV1**2
               ELSE
                 DMU = FRIC_COEFS2(I,2)-FRIC_COEFS2(I,4)
                 VV2 = (VV - FRIC_COEFS2(I,6))**2
-                XMU2(I) = FRIC_COEFS2(I,2) - DMU / (UN + DMU*VV2)
+                XMU2(I) = FRIC_COEFS2(I,2) - DMU / (ONE + DMU*VV2)
               ENDIF
 
               XMU(I) = MAX(XMU(I),EM30)
@@ -1619,7 +1619,7 @@ c
                  AN(K) = ZERO
                ELSE
                  AN(K)=XMU(I)**2  
-                 AN(K)=UN/AN(K)  
+                 AN(K)=ONE/AN(K)  
                ENDIF
                IF(XMU2(I).LE.EM30) THEN
                   XMU2(I) = EM30
@@ -1627,7 +1627,7 @@ c
                   BN(K) = ZERO
                ELSE
                   BN(K)=XMU2(I)**2   
-                  BN(K)=UN/BN(K)   
+                  BN(K)=ONE/BN(K)   
                ENDIF
              ENDDO
 
@@ -1652,7 +1652,7 @@ C
           VY(I) = VY(I) - VNY
           VZ(I) = VZ(I) - VNZ
 C         SHEAR STRESS = VISCOSITY * DU/DY - NEWTONIAN SHEAR LAW 
-          FACTOR = VISCADHFACT*VISCFLUID*DEUX/GAPV(I)*AREAS(I)    
+          FACTOR = VISCADHFACT*VISCFLUID*TWO/GAPV(I)*AREAS(I)    
           FXT(I) = FACTOR*VX(I)
           FYT(I) = FACTOR*VY(I)
           FZT(I) = FACTOR*VZ(I)
@@ -1668,7 +1668,7 @@ C---------------------------------
 C       INCREMENTAL (STIFFNESS) FORMULATION
 C---------------------------------
           IF (IFQ.EQ.13) THEN
-              ALPHA = MAX(UN,ALPHA0*DT12)
+              ALPHA = MAX(ONE,ALPHA0*DT12)
           ELSE
               ALPHA = ALPHA0
           ENDIF
@@ -1698,7 +1698,7 @@ c     .    print *,'slav_fr nat',itab(jg),SECND_FR(4:6,N),PENE_OLD(1:5,N),STIF_O
                   FT = FX*FX + FY*FY + FZ*FZ
                   FT = MAX(FT,TINY)
                   FN = FXI(I)**2+FYI(I)**2+FZI(I)**2
-                  BETA = MIN(UN,XMU(I)*SQRT(FN/FT))
+                  BETA = MIN(ONE,XMU(I)*SQRT(FN/FT))
 
                   FXT(I) = FX * BETA
                   FYT(I) = FY * BETA
@@ -1726,7 +1726,7 @@ c     .    print *,'slav_fr rem',itafi(nin)%p(jg),SECND_FRFI(NIN)%P(4:6,JG),PENE
                   FT = FX*FX + FY*FY + FZ*FZ
                   FT = MAX(FT,TINY)
                   FN = FXI(I)**2+FYI(I)**2+FZI(I)**2
-                  BETA = MIN(UN,XMU(I)*SQRT(FN/FT))
+                  BETA = MIN(ONE,XMU(I)*SQRT(FN/FT))
                   FXT(I) = FX * BETA
                   FYT(I) = FY * BETA
                   FZT(I) = FZ * BETA
@@ -1774,7 +1774,7 @@ c             SECND_FR(1:3,N) is the old friction force
                   FT = FX*FX + FY*FY + FZ*FZ
                   FT = MAX(FT,TINY)
                   FN = FXI(I)**2+FYI(I)**2+FZI(I)**2
-                  BETA = MIN(UN,XMU(I)*SQRT(FN/FT))
+                  BETA = MIN(ONE,XMU(I)*SQRT(FN/FT))
                   FXT(I) = FX * BETA
                   FYT(I) = FY * BETA
                   FZT(I) = FZ * BETA
@@ -1793,7 +1793,7 @@ c             SECND_FR(1:3,N) is the old friction force
                   FT = FX*FX + FY*FY + FZ*FZ
                   FT = MAX(FT,TINY)
                   FN = FXI(I)**2+FYI(I)**2+FZI(I)**2
-                  BETA = MIN(UN,XMU(I)*SQRT(FN/FT))
+                  BETA = MIN(ONE,XMU(I)*SQRT(FN/FT))
                   FXT(I) = FX * BETA
                   FYT(I) = FY * BETA
                   FZT(I) = FZ * BETA
@@ -1833,7 +1833,7 @@ c     .    print *,'slav_fr nat',itab(jg),SECND_FR(4:6,N),PENE_OLD(1:5,N),STIF_O
                   FT = FX*FX + FY*FY + FZ*FZ
                   FT = MAX(FT,TINY)
                   FN = FXI(I)**2+FYI(I)**2+FZI(I)**2
-                  BETA = MIN(UN,XMU(I)*SQRT(FN/FT))
+                  BETA = MIN(ONE,XMU(I)*SQRT(FN/FT))
                   FXT(I) = FX * BETA
                   FYT(I) = FY * BETA
                   FZT(I) = FZ * BETA
@@ -1859,7 +1859,7 @@ c     .    print *,'slav_fr rem',itafi(nin)%p(jg),SECND_FRFI(NIN)%P(4:6,JG),PENE
                   FT = FX*FX + FY*FY + FZ*FZ
                   FT = MAX(FT,TINY)
                   FN = FXI(I)**2+FYI(I)**2+FZI(I)**2
-                  BETA = MIN(UN,XMU(I)*SQRT(FN/FT))
+                  BETA = MIN(ONE,XMU(I)*SQRT(FN/FT))
                   FXT(I) = FX * BETA
                   FYT(I) = FY * BETA
                   FZT(I) = FZ * BETA
@@ -2075,7 +2075,7 @@ c             SECND_FR(1:3,N) is the old friction force
                   FT = FX*FX + FY*FY + FZ*FZ
                   FT = MAX(FT,TINY)
                   FN = FXI(I)**2+FYI(I)**2+FZI(I)**2
-                  BETA = MIN(UN,XMU(I)*SQRT(FN/FT))
+                  BETA = MIN(ONE,XMU(I)*SQRT(FN/FT))
                   FXT(I) = FX * BETA
                   FYT(I) = FY * BETA
                   FZT(I) = FZ * BETA
@@ -2094,7 +2094,7 @@ c             SECND_FR(1:3,N) is the old friction force
                   FT = FX*FX + FY*FY + FZ*FZ
                   FT = MAX(FT,TINY)
                   FN = FXI(I)**2+FYI(I)**2+FZI(I)**2
-                  BETA = MIN(UN,XMU(I)*SQRT(FN/FT))
+                  BETA = MIN(ONE,XMU(I)*SQRT(FN/FT))
                   FXT(I) = FX * BETA
                   FYT(I) = FY * BETA
                   FZT(I) = FZ * BETA
@@ -2807,11 +2807,11 @@ C
           CS(I) =ZERO
           STV(I)=ZERO
          ELSE
-          CX  = QUATRE*C(I)*C(I)
-          CY  = HUIT*MSI(I)*KT(I)
-          AUX   = SQRT(CX+CY)+DEUX*C(I)
+          CX  = FOUR*C(I)*C(I)
+          CY  = EIGHT*MSI(I)*KT(I)
+          AUX   = SQRT(CX+CY)+TWO*C(I)
           STV(I)= KT(I)*AUX*AUX/MAX(CY,EM30)
-          AUX   = DEUX*CF(I)*CF(I)/MAX(MSI(I),EM20)
+          AUX   = TWO*CF(I)*CF(I)/MAX(MSI(I),EM20)
           IF(AUX.GT.STV(I))THEN
            KS(I) =ZERO
            CS(I) =CF(I)
@@ -2830,12 +2830,12 @@ C
          ELSE
           K1(I)=KT(I)*ABS(H1(I))
           C1(I)=C(I)*ABS(H1(I))
-          CX   =QUATRE*C1(I)*C1(I)
-          CY   =HUIT*MS(J1)*K1(I)
-          AUX   = SQRT(CX+CY)+DEUX*C1(I)
+          CX   =FOUR*C1(I)*C1(I)
+          CY   =EIGHT*MS(J1)*K1(I)
+          AUX   = SQRT(CX+CY)+TWO*C1(I)
           ST1(I)= K1(I)*AUX*AUX/MAX(CY,EM30)
           CFI   = CF(I)*ABS(H1(I))
-          AUX   = DEUX*CFI*CFI/MAX(MS(J1),EM20)
+          AUX   = TWO*CFI*CFI/MAX(MS(J1),EM20)
           IF(AUX.GT.ST1(I))THEN
            K1(I) =ZERO
            C1(I) =CFI
@@ -2851,12 +2851,12 @@ C
          ELSE
           K2(I)=KT(I)*ABS(H2(I))
           C2(I)=C(I)*ABS(H2(I))
-          CX   =QUATRE*C2(I)*C2(I)
-          CY   =HUIT*MS(J1)*K2(I)
-          AUX   = SQRT(CX+CY)+DEUX*C2(I)
+          CX   =FOUR*C2(I)*C2(I)
+          CY   =EIGHT*MS(J1)*K2(I)
+          AUX   = SQRT(CX+CY)+TWO*C2(I)
           ST2(I)= K2(I)*AUX*AUX/MAX(CY,EM30)
           CFI   = CF(I)*ABS(H2(I))
-          AUX   = DEUX*CFI*CFI/MAX(MS(J1),EM20)
+          AUX   = TWO*CFI*CFI/MAX(MS(J1),EM20)
           IF(AUX.GT.ST2(I))THEN
            K2(I) =ZERO
            C2(I) =CFI
@@ -2872,12 +2872,12 @@ C
          ELSE
           K3(I)=KT(I)*ABS(H3(I))
           C3(I)=C(I)*ABS(H3(I))
-          CX   =QUATRE*C3(I)*C3(I)
-          CY   =HUIT*MS(J1)*K3(I)
-          AUX   = SQRT(CX+CY)+DEUX*C3(I)
+          CX   =FOUR*C3(I)*C3(I)
+          CY   =EIGHT*MS(J1)*K3(I)
+          AUX   = SQRT(CX+CY)+TWO*C3(I)
           ST3(I)= K3(I)*AUX*AUX/MAX(CY,EM30)
           CFI   = CF(I)*ABS(H3(I))
-          AUX   = DEUX*CFI*CFI/MAX(MS(J1),EM20)
+          AUX   = TWO*CFI*CFI/MAX(MS(J1),EM20)
           IF(AUX.GT.ST3(I))THEN
            K3(I) =ZERO
            C3(I) =CFI
@@ -2893,12 +2893,12 @@ C
          ELSE
           K4(I)=KT(I)*ABS(H4(I))
           C4(I)=C(I)*ABS(H4(I))
-          CX   =QUATRE*C4(I)*C4(I)
-          CY   =HUIT*MS(J1)*K4(I)
-          AUX   = SQRT(CX+CY)+DEUX*C4(I)
+          CX   =FOUR*C4(I)*C4(I)
+          CY   =EIGHT*MS(J1)*K4(I)
+          AUX   = SQRT(CX+CY)+TWO*C4(I)
           ST4(I)= K4(I)*AUX*AUX/MAX(CY,EM30)
           CFI   = CF(I)*ABS(H4(I))
-          AUX   = DEUX*CFI*CFI/MAX(MS(J1),EM20)
+          AUX   = TWO*CFI*CFI/MAX(MS(J1),EM20)
           IF(AUX.GT.ST4(I))THEN
            K4(I) =ZERO
            C4(I) =CFI
@@ -2918,11 +2918,11 @@ C
            CS(I) =ZERO
            STV(I)=ZERO
           ELSE
-           CX  = QUATRE*C(I)*C(I)
-           CY  = HUIT*MSI(I)*KT(I)
-           AUX   = SQRT(CX+CY)+DEUX*C(I)
+           CX  = FOUR*C(I)*C(I)
+           CY  = EIGHT*MSI(I)*KT(I)
+           AUX   = SQRT(CX+CY)+TWO*C(I)
            STV(I)= KT(I)*AUX*AUX/MAX(CY,EM30)
-           AUX   = DEUX*CF(I)*CF(I)/MAX(MSI(I),EM20)
+           AUX   = TWO*CF(I)*CF(I)/MAX(MSI(I),EM20)
            IF(AUX.GT.STV(I))THEN
             KS(I) =ZERO
             CS(I) =CF(I)
@@ -2941,12 +2941,12 @@ C
           ELSE
            K1(I)=KT(I)*ABS(H1(I))
            C1(I)=C(I)*ABS(H1(I))
-           CX   =QUATRE*C1(I)*C1(I)
-           CY   =HUIT*MS(J1)*K1(I)
-           AUX   = SQRT(CX+CY)+DEUX*C1(I)
+           CX   =FOUR*C1(I)*C1(I)
+           CY   =EIGHT*MS(J1)*K1(I)
+           AUX   = SQRT(CX+CY)+TWO*C1(I)
            ST1(I)= K1(I)*AUX*AUX/MAX(CY,EM30)
            CFI   = CF(I)*ABS(H1(I))
-           AUX   = DEUX*CFI*CFI/MAX(MS(J1),EM20)
+           AUX   = TWO*CFI*CFI/MAX(MS(J1),EM20)
            IF(AUX.GT.ST1(I))THEN
             K1(I) =ZERO
             C1(I) =CFI
@@ -2962,12 +2962,12 @@ C
           ELSE
            K2(I)=KT(I)*ABS(H2(I))
            C2(I)=C(I)*ABS(H2(I))
-           CX   =QUATRE*C2(I)*C2(I)
-           CY   =HUIT*MS(J1)*K2(I)
-           AUX   = SQRT(CX+CY)+DEUX*C2(I)
+           CX   =FOUR*C2(I)*C2(I)
+           CY   =EIGHT*MS(J1)*K2(I)
+           AUX   = SQRT(CX+CY)+TWO*C2(I)
            ST2(I)= K2(I)*AUX*AUX/MAX(CY,EM30)
            CFI   = CF(I)*ABS(H2(I))
-           AUX   = DEUX*CFI*CFI/MAX(MS(J1),EM20)
+           AUX   = TWO*CFI*CFI/MAX(MS(J1),EM20)
            IF(AUX.GT.ST2(I))THEN
             K2(I) =ZERO
             C2(I) =CFI
@@ -2983,12 +2983,12 @@ C
           ELSE
            K3(I)=KT(I)*ABS(H3(I))
            C3(I)=C(I)*ABS(H3(I))
-           CX   =QUATRE*C3(I)*C3(I)
-           CY   =HUIT*MS(J1)*K3(I)
-           AUX   = SQRT(CX+CY)+DEUX*C3(I)
+           CX   =FOUR*C3(I)*C3(I)
+           CY   =EIGHT*MS(J1)*K3(I)
+           AUX   = SQRT(CX+CY)+TWO*C3(I)
            ST3(I)= K3(I)*AUX*AUX/MAX(CY,EM30)
            CFI   = CF(I)*ABS(H3(I))
-           AUX   = DEUX*CFI*CFI/MAX(MS(J1),EM20)
+           AUX   = TWO*CFI*CFI/MAX(MS(J1),EM20)
            IF(AUX.GT.ST3(I))THEN
             K3(I) =ZERO
             C3(I) =CFI
@@ -3004,12 +3004,12 @@ C
           ELSE
            K4(I)=KT(I)*ABS(H4(I))
            C4(I)=C(I)*ABS(H4(I))
-           CX   =QUATRE*C4(I)*C4(I)
-           CY   =HUIT*MS(J1)*K4(I)
-           AUX   = SQRT(CX+CY)+DEUX*C4(I)
+           CX   =FOUR*C4(I)*C4(I)
+           CY   =EIGHT*MS(J1)*K4(I)
+           AUX   = SQRT(CX+CY)+TWO*C4(I)
            ST4(I)= K4(I)*AUX*AUX/MAX(CY,EM30)
            CFI   = CF(I)*ABS(H4(I))
-           AUX   = DEUX*CFI*CFI/MAX(MS(J1),EM20)
+           AUX   = TWO*CFI*CFI/MAX(MS(J1),EM20)
            IF(AUX.GT.ST4(I))THEN
             K4(I) =ZERO
             C4(I) =CFI
@@ -3330,7 +3330,7 @@ C
        END IF
 
        MAS= DTS * ( DTS * KT(I) + C(I) )
-       MAS = UNDEMI * MAX( MAS, DTS * CF(I) )
+       MAS = HALF * MAX( MAS, DTS * CF(I) )
 C
        IG =NSVG(I)
        IF(IG >  0)THEN

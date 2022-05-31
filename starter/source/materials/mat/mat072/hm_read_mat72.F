@@ -139,7 +139,7 @@ C
       !========== DEFAULT VALUES=============!              
 C           
       ! Poisson's ratio
-      IF (NU < ZERO .OR. NU >= UNDEMI) THEN
+      IF (NU < ZERO .OR. NU >= HALF) THEN
          CALL ANCMSG(MSGID=49,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
@@ -148,9 +148,9 @@ C
      .               C1=TITR)
       ENDIF
       ! Critical damage 
-      IF (DC == ZERO)  DC = UN
+      IF (DC == ZERO)  DC = ONE
       ! Error message, DC < 1
-      IF (DC < UN) THEN 
+      IF (DC < ONE) THEN 
          CALL ANCMSG(MSGID=1894,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
@@ -168,24 +168,24 @@ C
      .               C1=TITR)         
       ENDIF
       ! Hardening exponent 
-      IF (EXP == ZERO)  EXP  = UN
+      IF (EXP == ZERO)  EXP  = ONE
       ! Failure criterion exponent
-      IF (MEXP == ZERO) MEXP = UN
+      IF (MEXP == ZERO) MEXP = ONE
       ! Initial yield stress
       IF (SIGY == ZERO) SIGY = INFINITY
       IF (C2 == ZERO)   C2   = SIGY
 C
       ! Elastic parameters
       !  -> 3D isotropic elastic matrix components
-      A1      = E*(UN-NU) /((UN + NU)*(UN - DEUX*NU))
-      A2      = A1*NU/(UN - NU)
+      A1      = E*(ONE-NU) /((ONE + NU)*(ONE - TWO*NU))
+      A2      = A1*NU/(ONE - NU)
       !  -> Bulk modulus
-      C11     = E/TROIS/(UN - DEUX*NU)
+      C11     = E/THREE/(ONE - TWO*NU)
       !  -> Shear modulus
-      G       = UNDEMI*E/( UN + NU)
-      G2      = DEUX*G
+      G       = HALF*E/( ONE + NU)
+      G2      = TWO*G
       !  -> Hooke's lambda parameter
-      LAMHOOK = G2 * NU /(UN - DEUX*NU) 
+      LAMHOOK = G2 * NU /(ONE - TWO*NU) 
 C      
       ! PM table
       RHOR   = RHO0
@@ -199,7 +199,7 @@ C
       PARMAT(4)  = ZERO
       PARMAT(5)  = ZERO
       PARMAT(16) = 2
-      PARMAT(17) = DEUX*G/(C11+QTHIRD*G)
+      PARMAT(17) = TWO*G/(C11+FOUR_OVER_3*G)
 C
       ! MTAG variable activation
       MTAG%G_SEQ  = 1
@@ -233,7 +233,7 @@ c
       UPARAM(3)  = G  
       UPARAM(4)  = G2
       ! -> Plane stress isotropic elastic matrix components (for shells)
-      UPARAM(5)  = E/(UN - NU*NU)
+      UPARAM(5)  = E/(ONE - NU*NU)
       UPARAM(6)  = NU*UPARAM(4)
       ! -> 3D isotropic elastic matrix components (for solids)
       UPARAM(7)  = A1

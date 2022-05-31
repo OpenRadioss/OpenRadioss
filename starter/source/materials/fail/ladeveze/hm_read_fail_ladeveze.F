@@ -116,7 +116,7 @@ c--------------------------------------------------
       IF (K3 == ZERO) K3 = EP30
       IF (A == ZERO)A = EP30
       IF (Y0 == ZERO) Y0 = EP30
-      IF (YC == ZERO .OR. YC==Y0)YC=DEUX*Y0 
+      IF (YC == ZERO .OR. YC==Y0)YC=TWO*Y0 
       IF (A == ZERO)A = EP30  
       IF(TMAX <= ZERO) TMAX = EP20    
       IF(ISHELL == 0) ISHELL = 1 

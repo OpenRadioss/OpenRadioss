@@ -143,17 +143,17 @@ C     ([F]=[M_F]+[1]) -----
 c      IF(ISMSTR.EQ.10) THEN
 cC--------- [B]=[F][F]^t strain-----
 c      DO I=1,NEL
-c       EPSXX(I)=MFXX(I)*(DEUX+MFXX(I))+
+c       EPSXX(I)=MFXX(I)*(TWO+MFXX(I))+
 c     .          MFXY(I)*MFXY(I)+MFXZ(I)*MFXZ(I)
-c       EPSYY(I)=MFYY(I)*(DEUX+MFYY(I))+
+c       EPSYY(I)=MFYY(I)*(TWO+MFYY(I))+
 c     .          MFYX(I)*MFYX(I)+MFYZ(I)*MFYZ(I)
-c       EPSZZ(I)=MFZZ(I)*(DEUX+MFZZ(I))+
+c       EPSZZ(I)=MFZZ(I)*(TWO+MFZZ(I))+
 c     .          MFZX(I)*MFZX(I)+MFZY(I)*MFZY(I)
-c       EPSXY(I)=DEUX*(MFXY(I)+MFYX(I)+MFXX(I)*MFYX(I)+
+c       EPSXY(I)=TWO*(MFXY(I)+MFYX(I)+MFXX(I)*MFYX(I)+
 c     .               MFXY(I)*MFYY(I)+MFXZ(I)*MFYZ(I))
-c       EPSZX(I)=DEUX*(MFXZ(I)+MFZX(I)+MFXX(I)*MFZX(I)+
+c       EPSZX(I)=TWO*(MFXZ(I)+MFZX(I)+MFXX(I)*MFZX(I)+
 c     .               MFXY(I)*MFZY(I)+MFXZ(I)*MFZZ(I))
-c       EPSYZ(I)=DEUX*(MFZY(I)+MFYZ(I)+MFZX(I)*MFYX(I)+
+c       EPSYZ(I)=TWO*(MFZY(I)+MFYZ(I)+MFZX(I)*MFYX(I)+
 c     .               MFZY(I)*MFYY(I)+MFZZ(I)*MFYZ(I))
 c      ENDDO
 c      ENDIF
@@ -162,9 +162,9 @@ C
         AV(1,I)=EPSXX(I)
         AV(2,I)=EPSYY(I)
         AV(3,I)=EPSZZ(I)
-        AV(4,I)=EPSXY(I) * UNDEMI
-        AV(5,I)=EPSYZ(I) * UNDEMI
-        AV(6,I)=EPSZX(I) * UNDEMI
+        AV(4,I)=EPSXY(I) * HALF
+        AV(5,I)=EPSYZ(I) * HALF
+        AV(6,I)=EPSZX(I) * HALF
       ENDDO
 C         Eigenvalues needed to be calcultated in double precision
 C         for a simple precision executing
@@ -185,14 +185,14 @@ C         for a simple precision executing
           EV(2,I)=EXP(EVV(2,I))
           EV(3,I)=EXP(EVV(3,I))
         ELSEIF(ISMSTR.EQ.10.OR.ISMSTR.EQ.12) THEN
-          EV(1,I)=SQRT(EVV(1,I)+ UN)
-          EV(2,I)=SQRT(EVV(2,I)+ UN)
-          EV(3,I)=SQRT(EVV(3,I)+ UN)
+          EV(1,I)=SQRT(EVV(1,I)+ ONE)
+          EV(2,I)=SQRT(EVV(2,I)+ ONE)
+          EV(3,I)=SQRT(EVV(3,I)+ ONE)
         ELSE
 * ISMSTR = 1 OR 2 ( STRAIN IS ENGINEERING)
-          EV(1,I)=EVV(1,I)+ UN
-          EV(2,I)=EVV(2,I)+ UN
-          EV(3,I)=EVV(3,I)+ UN  
+          EV(1,I)=EVV(1,I)+ ONE
+          EV(2,I)=EVV(2,I)+ ONE
+          EV(3,I)=EVV(3,I)+ ONE  
         ENDIF
       ENDDO
 
@@ -293,7 +293,7 @@ C           IF(OFF(I).NE.ZERO) IDEL7NOK = 1
      .            + DIRPRV(3,1,I)*DIRPRV(1,1,I)*SIGPRV(1,I)
      .            + DIRPRV(3,2,I)*DIRPRV(1,2,I)*SIGPRV(2,I)
 * SET SOUND SPEED
-        SOUNDSP(I)=SQRT((DTHIRD*GMAX+P(I))/RHO(I))
+        SOUNDSP(I)=SQRT((TWO_THIRD*GMAX+P(I))/RHO(I))
 * SET VISCOSITY
         VISCMAX(I)=ZERO
       ENDDO

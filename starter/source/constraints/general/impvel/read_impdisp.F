@@ -207,9 +207,9 @@ c--------------------------------------------------
         CALL HM_GET_FLOATV_DIM('xscale'   ,FSCAL_T ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOATV_DIM('magnitude',FSCAL_L ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c
-        IF (XSCALE == ZERO) XSCALE  = UN * FSCAL_T
-        XSCALE = UN / XSCALE
-        IF (YSCALE == ZERO)  YSCALE = UN * FSCAL_L
+        IF (XSCALE == ZERO) XSCALE  = ONE * FSCAL_T
+        XSCALE = ONE / XSCALE
+        IF (YSCALE == ZERO)  YSCALE = ONE * FSCAL_L
 c        IF (LEN == 2) THEN  ! FSCALE = rad - to be checked in cfg file ! 
 c          YSCALE = YSCALE / FSCAL_L
 c        ENDIF 
@@ -277,7 +277,7 @@ c---------------
 c         OUTPUT
 c---------------
           WRITE (IOUT,2000) NODID,ISKN(4,NOSKEW),0,XYZ(1:LEN),FCT_ID,SENS_ID,
-     .       YSCALE,UN/XSCALE,TSTART,TSTOP
+     .       YSCALE,ONE/XSCALE,TSTART,TSTOP
 c-----------------------------------------------------------
 c
         ENDDO ! NN

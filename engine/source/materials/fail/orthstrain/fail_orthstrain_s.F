@@ -152,7 +152,7 @@ c--------------------------
       SELECT CASE (STRFLAG)
         CASE (1)  !  transform Grad def to engineering
           DO I=1,NEL
-            IF (OFF(I) == UN ) THEN
+            IF (OFF(I) == ONE ) THEN
               EPS11(I)  = MFXX(I)
               EPS22(I)  = MFYY(I)
               EPS33(I)  = MFZZ(I)
@@ -164,55 +164,55 @@ c--------------------------
 c
         CASE (2)  !  transform true strain to engineering
           DO I=1,NEL
-            IF (OFF(I) == UN ) THEN
-              EPS11(I)  = EXP(EPSXX(I)) - UN
-              EPS22(I)  = EXP(EPSYY(I)) - UN
-              EPS33(I)  = EXP(EPSZZ(I)) - UN
-              EPS12(I)  = EXP(EPSXY(I)) - UN
-              EPS23(I)  = EXP(EPSYZ(I)) - UN
-              EPS31(I)  = EXP(EPSZX(I)) - UN
-              EPSP11(I) = EXP(EPSPXX(I)) - UN
-              EPSP22(I) = EXP(EPSPYY(I)) - UN
-              EPSP33(I) = EXP(EPSPZZ(I)) - UN
-              EPSP12(I) = EXP(EPSPXY(I)) - UN
-              EPSP23(I) = EXP(EPSPYZ(I)) - UN
-              EPSP31(I) = EXP(EPSPZX(I)) - UN
+            IF (OFF(I) == ONE ) THEN
+              EPS11(I)  = EXP(EPSXX(I)) - ONE
+              EPS22(I)  = EXP(EPSYY(I)) - ONE
+              EPS33(I)  = EXP(EPSZZ(I)) - ONE
+              EPS12(I)  = EXP(EPSXY(I)) - ONE
+              EPS23(I)  = EXP(EPSYZ(I)) - ONE
+              EPS31(I)  = EXP(EPSZX(I)) - ONE
+              EPSP11(I) = EXP(EPSPXX(I)) - ONE
+              EPSP22(I) = EXP(EPSPYY(I)) - ONE
+              EPSP33(I) = EXP(EPSPZZ(I)) - ONE
+              EPSP12(I) = EXP(EPSPXY(I)) - ONE
+              EPSP23(I) = EXP(EPSPYZ(I)) - ONE
+              EPSP31(I) = EXP(EPSPZX(I)) - ONE
             END IF
           ENDDO
 c
         CASE (3)  !  transform engineering to true strain
           DO I=1,NEL
-            IF (OFF(I) == UN ) THEN
-              EPS11(I)  = LOG(EPSXX(I) + UN)
-              EPS22(I)  = LOG(EPSYY(I) + UN)
-              EPS33(I)  = LOG(EPSZZ(I) + UN)
-              EPS12(I)  = LOG(EPSXY(I) + UN)
-              EPS23(I)  = LOG(EPSYZ(I) + UN)
-              EPS31(I)  = LOG(EPSZX(I) + UN)
-              EPSP11(I) = LOG(EPSPXX(I) + UN)
-              EPSP22(I) = LOG(EPSPYY(I) + UN)
-              EPSP33(I) = LOG(EPSPZZ(I) + UN)
-              EPSP12(I) = LOG(EPSPXY(I) + UN)
-              EPSP23(I) = LOG(EPSPYZ(I) + UN)
-              EPSP31(I) = LOG(EPSPZX(I) + UN)
+            IF (OFF(I) == ONE ) THEN
+              EPS11(I)  = LOG(EPSXX(I) + ONE)
+              EPS22(I)  = LOG(EPSYY(I) + ONE)
+              EPS33(I)  = LOG(EPSZZ(I) + ONE)
+              EPS12(I)  = LOG(EPSXY(I) + ONE)
+              EPS23(I)  = LOG(EPSYZ(I) + ONE)
+              EPS31(I)  = LOG(EPSZX(I) + ONE)
+              EPSP11(I) = LOG(EPSPXX(I) + ONE)
+              EPSP22(I) = LOG(EPSPYY(I) + ONE)
+              EPSP33(I) = LOG(EPSPZZ(I) + ONE)
+              EPSP12(I) = LOG(EPSPXY(I) + ONE)
+              EPSP23(I) = LOG(EPSPYZ(I) + ONE)
+              EPSP31(I) = LOG(EPSPZX(I) + ONE)
             END IF
           ENDDO
 c
         CASE (4)  !  transform Cauchy-Green to true strain
           DO I=1,NEL
-            IF (OFF(I) == UN ) THEN
-              EPS11(I)  = LOG(MFXX(I) + UN)
-              EPS22(I)  = LOG(MFYY(I) + UN)
-              EPS33(I)  = LOG(MFZZ(I) + UN)
-              EPS12(I)  = LOG(MFXY(I) + MFYX(I) + UN)
-              EPS23(I)  = LOG(MFXZ(I) + MFZX(I) + UN)
-              EPS31(I)  = LOG(MFZY(I) + MFYZ(I) + UN)
-              EPSP11(I) = LOG(SQRT(EPSPXX(I)+UN))
-              EPSP22(I) = LOG(SQRT(EPSPYY(I)+UN))
-              EPSP33(I) = LOG(SQRT(EPSPZZ(I)+UN))
-              EPSP12(I) = LOG(SQRT(EPSPXY(I)+UN))
-              EPSP23(I) = LOG(SQRT(EPSPYZ(I)+UN))
-              EPSP31(I) = LOG(SQRT(EPSPZX(I)+UN))
+            IF (OFF(I) == ONE ) THEN
+              EPS11(I)  = LOG(MFXX(I) + ONE)
+              EPS22(I)  = LOG(MFYY(I) + ONE)
+              EPS33(I)  = LOG(MFZZ(I) + ONE)
+              EPS12(I)  = LOG(MFXY(I) + MFYX(I) + ONE)
+              EPS23(I)  = LOG(MFXZ(I) + MFZX(I) + ONE)
+              EPS31(I)  = LOG(MFZY(I) + MFYZ(I) + ONE)
+              EPSP11(I) = LOG(SQRT(EPSPXX(I)+ONE))
+              EPSP22(I) = LOG(SQRT(EPSPYY(I)+ONE))
+              EPSP33(I) = LOG(SQRT(EPSPZZ(I)+ONE))
+              EPSP12(I) = LOG(SQRT(EPSPXY(I)+ONE))
+              EPSP23(I) = LOG(SQRT(EPSPYZ(I)+ONE))
+              EPSP31(I) = LOG(SQRT(EPSPZX(I)+ONE))
             END IF
           ENDDO
 c
@@ -241,7 +241,7 @@ c     Element size scale factor
 c
         CALL VINTER2(TF,IADP,IPOSP,ILENP,NEL,ESCAL,DYDX,FSIZE)
       ELSE
-	       FSIZE(1:NEL) = UN
+	       FSIZE(1:NEL) = ONE
       ENDIF
 c------------------------------
 c
@@ -277,19 +277,19 @@ c     current variable initialisation
 c     
 c strain rate filtering
       DO I=1,NEL
-        EPSP(I,XX) = ALPHA * ABS(EPSP11(I)) + (UN-ALPHA)*EPSP(I,XX) 
-        EPSP(I,YY) = ALPHA * ABS(EPSP22(I)) + (UN-ALPHA)*EPSP(I,YY) 
-        EPSP(I,ZZ) = ALPHA * ABS(EPSP33(I)) + (UN-ALPHA)*EPSP(I,ZZ) 
-        EPSP(I,XY) = ALPHA * ABS(EPSP12(I)) + (UN-ALPHA)*EPSP(I,XY)
-        EPSP(I,YZ) = ALPHA * ABS(EPSP23(I)) + (UN-ALPHA)*EPSP(I,YZ)
-        EPSP(I,ZX) = ALPHA * ABS(EPSP31(I)) + (UN-ALPHA)*EPSP(I,ZX)
+        EPSP(I,XX) = ALPHA * ABS(EPSP11(I)) + (ONE-ALPHA)*EPSP(I,XX) 
+        EPSP(I,YY) = ALPHA * ABS(EPSP22(I)) + (ONE-ALPHA)*EPSP(I,YY) 
+        EPSP(I,ZZ) = ALPHA * ABS(EPSP33(I)) + (ONE-ALPHA)*EPSP(I,ZZ) 
+        EPSP(I,XY) = ALPHA * ABS(EPSP12(I)) + (ONE-ALPHA)*EPSP(I,XY)
+        EPSP(I,YZ) = ALPHA * ABS(EPSP23(I)) + (ONE-ALPHA)*EPSP(I,YZ)
+        EPSP(I,ZX) = ALPHA * ABS(EPSP31(I)) + (ONE-ALPHA)*EPSP(I,ZX)
       ENDDO 
 c
 c damage and failure calculation in each mode (dir)
 c
       NINDX = 0  
       DO I=1, NEL
-        IF (OFF(I) == UN) THEN
+        IF (OFF(I) == ONE) THEN
           ET1    = UPARAM(4)
           ET1M   = UPARAM(5)
           ET2    = UPARAM(6)
@@ -325,21 +325,21 @@ c
           IF (IFUNC(MODE) > 0) THEN
             FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
           ELSE
-            FRATE = UN
+            FRATE = ONE
           ENDIF
 		        FRATE = FRATE*FSIZE(I)
           ET1M = FRATE * ET1M
           ET1  = FRATE * ET1
           DEPS = MAX(EPS11(I) - ET1, ZERO)
-          IF (DEPS > ZERO .and. DAM(I,MODE) < UN) THEN
+          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = (ET1M - ET1)
             FACT  = ET1M / EPS11(I)
             DI = FACT*DEPS/DEPSM
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= UN) THEN
+            IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = UN
+              DAM(I,MODE) = ONE
             ENDIF
           ENDIF
 c
@@ -350,21 +350,21 @@ c
           IF (IFUNC(MODE) > 0) THEN
             FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
           ELSE
-            FRATE = UN
+            FRATE = ONE
           ENDIF
           FRATE = FRATE*FSIZE(I)
           ET2M = FRATE * ET2M
           ET2  = FRATE * ET2
           DEPS = MAX(EPS22(I) - ET2, ZERO)
-          IF (DEPS > ZERO .and. DAM(I,MODE) < UN) THEN
+          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = (ET2M - ET2)
             FACT  = ET2M / EPS22(I)
             DI    = FACT * DEPS / DEPSM 
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= UN) THEN
+            IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = UN
+              DAM(I,MODE) = ONE
             ENDIF
           ENDIF
 c		
@@ -375,21 +375,21 @@ c
           IF (IFUNC(MODE) > 0) THEN
             FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
           ELSE
-            FRATE = UN
+            FRATE = ONE
           ENDIF
           FRATE = FRATE*FSIZE(I)
           ET12M = FRATE * ET12M
           ET12  = FRATE * ET12
           DEPS  = MAX(EPS12(I) - ET12, ZERO)
-          IF (DEPS > ZERO .and. DAM(I,MODE) < UN) THEN
+          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = (ET12M - ET12)
             FACT  = ET12M / EPS12(I)
             DI    = FACT * DEPS / DEPSM
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= UN) THEN
+            IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = UN
+              DAM(I,MODE) = ONE
             ENDIF
           ENDIF
 c
@@ -400,21 +400,21 @@ c
           IF (IFUNC(MODE) > 0) THEN
             FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
           ELSE
-            FRATE = UN
+            FRATE = ONE
           ENDIF
           FRATE = FRATE*FSIZE(I)
           EC1M = FRATE * EC1M
           EC1  = FRATE * EC1
           DEPS = MAX(-EPS11(I) - EC1, ZERO)
-          IF (DEPS > ZERO .and. DAM(I,MODE) < UN) THEN
+          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = (EC1M - EC1)
             FACT = EC1M / ABS(EPS11(I))
             DI = FACT * DEPS / DEPSM
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= UN) THEN
+            IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = UN
+              DAM(I,MODE) = ONE
             ENDIF
           ENDIF
 c
@@ -425,21 +425,21 @@ c
           IF (IFUNC(MODE) > 0) THEN
             FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
           ELSE
-            FRATE = UN
+            FRATE = ONE
           ENDIF
           FRATE = FRATE*FSIZE(I)
           EC2M = FRATE * EC2M
           EC2  = FRATE * EC2
           DEPS = MAX(-EPS22(I) - EC2, ZERO)
-          IF (DEPS > ZERO .and. DAM(I,MODE) < UN) THEN
+          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = (EC2M - EC2)
             FACT  = EC2M / ABS(EPS22(I))
             DI = FACT * DEPS / DEPSM
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= UN) THEN
+            IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = UN
+              DAM(I,MODE) = ONE
             ENDIF
           ENDIF
 c		
@@ -450,21 +450,21 @@ c
           IF (IFUNC(MODE) > 0) THEN
             FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
           ELSE
-            FRATE = UN
+            FRATE = ONE
           ENDIF
           FRATE = FRATE*FSIZE(I)
           EC12M = FRATE * EC12M
           EC12  = FRATE * EC12
           DEPS  = MAX(-EPS12(I) - EC12, ZERO)
-          IF (DEPS > ZERO .and. DAM(I,MODE) < UN) THEN
+          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = (EC12M - EC12)
             FACT  = EC12M / ABS(EPS12(I))
             DI = FACT * DEPS / DEPSM
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= UN) THEN
+            IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = UN
+              DAM(I,MODE) = ONE
             ENDIF
           ENDIF
 c		
@@ -475,21 +475,21 @@ c
           IF (IFUNC(MODE) > 0) THEN
             FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
           ELSE
-            FRATE = UN
+            FRATE = ONE
           ENDIF
           FRATE = FRATE*FSIZE(I)
           ET3M = FRATE * ET3M
           ET3  = FRATE * ET3
           DEPS = MAX(EPS33(I) - ET3, ZERO)
-          IF (DEPS > ZERO .and. DAM(I,MODE) < UN) THEN
+          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = (ET3M - ET3)
             FACT = ET3M / EPS33(I)
             DI = FACT * DEPS / DEPSM
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= UN) THEN
+            IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = UN
+              DAM(I,MODE) = ONE
             ENDIF
           ENDIF
 c		
@@ -500,21 +500,21 @@ c
           IF (IFUNC(MODE) > 0) THEN
             FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
           ELSE
-            FRATE = UN
+            FRATE = ONE
           ENDIF
           FRATE = FRATE*FSIZE(I)
           EC3M = FRATE * EC3M
           EC3  = FRATE * EC3
           DEPS = MAX(-EPS33(I) - EC3, ZERO)
-          IF (DEPS > ZERO .and. DAM(I,MODE) < UN) THEN
+          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = (EC3M - EC3)
             FACT = EC3M / ABS(EPS33(I))
             DI = FACT * DEPS / DEPSM
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= UN) THEN
+            IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = UN
+              DAM(I,MODE) = ONE
             ENDIF
           ENDIF
 c		
@@ -525,21 +525,21 @@ c
           IF (IFUNC(MODE) > 0) THEN
             FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
           ELSE
-            FRATE = UN
+            FRATE = ONE
           ENDIF
           FRATE = FRATE*FSIZE(I)
           ET23M = FRATE * ET23M
           ET23  = FRATE * ET23
           DEPS  = MAX(EPS23(I) - ET23, ZERO)
-          IF (DEPS > ZERO .and. DAM(I,MODE) < UN) THEN
+          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = (ET23M - ET23)
             FACT = ET23M / EPS23(I)
             DI = FACT * DEPS / DEPSM
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= UN) THEN
+            IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = UN
+              DAM(I,MODE) = ONE
             ENDIF
           ENDIF
 c		
@@ -550,21 +550,21 @@ c
           IF (IFUNC(MODE) > 0) THEN
             FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
           ELSE
-            FRATE = UN
+            FRATE = ONE
           ENDIF
           FRATE = FRATE*FSIZE(I)
           EC23M = FRATE * EC23M
           EC23  = FRATE * EC23
           DEPS  = MAX(-EPS23(I) - EC23, ZERO)
-          IF (DEPS > ZERO .and. DAM(I,MODE) < UN) THEN
+          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = (EC23M - EC23)
             FACT  = EC23M / ABS(EPS23(I))
             DI = FACT * DEPS / DEPSM
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= UN) THEN
+            IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = UN
+              DAM(I,MODE) = ONE
             ENDIF
           ENDIF
 c		
@@ -575,21 +575,21 @@ c
           IF (IFUNC(MODE) > 0) THEN
             FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
           ELSE
-            FRATE = UN
+            FRATE = ONE
           ENDIF
           FRATE = FRATE*FSIZE(I)
           ET31M = FRATE * ET31M
           ET31  = FRATE * ET31
           DEPS  = MAX(EPS31(I) - ET31, ZERO)
-          IF (DEPS > ZERO .and. DAM(I,MODE) < UN) THEN
+          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = (ET31M - ET31)
             FACT  = ET31M / EPS31(I)
             DI = FACT * DEPS / DEPSM
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= UN) THEN
+            IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = UN
+              DAM(I,MODE) = ONE
             ENDIF
           ENDIF
 c		
@@ -600,21 +600,21 @@ c
           IF (IFUNC(MODE) > 0) THEN
             FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
           ELSE
-            FRATE = UN
+            FRATE = ONE
           ENDIF
           FRATE = FRATE*FSIZE(I)
           EC31M = FRATE * EC31M
           EC31  = FRATE * EC31
           DEPS  = MAX(-EPS31(I) - EC31, ZERO)
-          IF (DEPS > ZERO .and. DAM(I,MODE) < UN) THEN
+          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = (EC31M - EC31)
             FACT  = EC31M / ABS(EPS31(I))
             DI = FACT * DEPS / DEPSM
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= UN) THEN
+            IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = UN
+              DAM(I,MODE) = ONE
             ENDIF
           ENDIF
 c
@@ -625,9 +625,9 @@ c
             NINDX   = NINDX + 1  
             INDX(NINDX) = I
             IF (UELR(I) >= NPT) THEN
-		            UVAR(I,31) = UN
+		            UVAR(I,31) = ONE
               TDEL(I) = TIME 
-              OFF(I)  = QCINQ 
+              OFF(I)  = FOUR_OVER_5 
               P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
               SIGNXX(I) = P
               SIGNYY(I) = P
@@ -664,20 +664,20 @@ c
          DFMAX(I) = MAX(DAMYZ,DFMAX(I))
          DFMAX(I) = MAX(DAMZX,DFMAX(I))
 c Undamaged sign estimate
-         SIGNXX(I) = SIGO(I,XX)/(UN-ODAMXX) + (SIGNXX(I) - SIGO(I,XX))
-         SIGNYY(I) = SIGO(I,YY)/(UN-ODAMYY) + (SIGNYY(I) - SIGO(I,YY))
-         SIGNZZ(I) = SIGO(I,ZZ)/(UN-ODAMZZ) + (SIGNZZ(I) - SIGO(I,ZZ))
-         SIGNXY(I) = SIGO(I,XY)/(UN-ODAMXY) + (SIGNXY(I) - SIGO(I,XY))
-         SIGNYZ(I) = SIGO(I,YZ)/(UN-ODAMYZ) + (SIGNYZ(I) - SIGO(I,YZ))
-         SIGNZX(I) = SIGO(I,ZX)/(UN-ODAMZX) + (SIGNZX(I) - SIGO(I,ZX))
+         SIGNXX(I) = SIGO(I,XX)/(ONE-ODAMXX) + (SIGNXX(I) - SIGO(I,XX))
+         SIGNYY(I) = SIGO(I,YY)/(ONE-ODAMYY) + (SIGNYY(I) - SIGO(I,YY))
+         SIGNZZ(I) = SIGO(I,ZZ)/(ONE-ODAMZZ) + (SIGNZZ(I) - SIGO(I,ZZ))
+         SIGNXY(I) = SIGO(I,XY)/(ONE-ODAMXY) + (SIGNXY(I) - SIGO(I,XY))
+         SIGNYZ(I) = SIGO(I,YZ)/(ONE-ODAMYZ) + (SIGNYZ(I) - SIGO(I,YZ))
+         SIGNZX(I) = SIGO(I,ZX)/(ONE-ODAMZX) + (SIGNZX(I) - SIGO(I,ZX))
 c Damaged sign
-         SIGNXX(I) = SIGNXX(I) * (UN-DAMXX)*OFF(I)
-         SIGNYY(I) = SIGNYY(I) * (UN-DAMYY)*OFF(I)
-         SIGNZZ(I) = SIGNZZ(I) * (UN-DAMZZ)*OFF(I)
-         SIGNXY(I) = SIGNXY(I) * (UN-DAMXY)*(UN-DAMXX)*(UN-DAMYY)*OFF(I)
+         SIGNXX(I) = SIGNXX(I) * (ONE-DAMXX)*OFF(I)
+         SIGNYY(I) = SIGNYY(I) * (ONE-DAMYY)*OFF(I)
+         SIGNZZ(I) = SIGNZZ(I) * (ONE-DAMZZ)*OFF(I)
+         SIGNXY(I) = SIGNXY(I) * (ONE-DAMXY)*(ONE-DAMXX)*(ONE-DAMYY)*OFF(I)
 c transverse stress are also affected by OFF(I)
-         SIGNYZ(I) = SIGNYZ(I) * (UN-DAMYZ)*(UN-DAMXX)*(UN-DAMYY)*OFF(I)
-         SIGNZX(I) = SIGNZX(I) * (UN-DAMZX)*(UN-DAMXX)*(UN-DAMYY)*OFF(I)
+         SIGNYZ(I) = SIGNYZ(I) * (ONE-DAMYZ)*(ONE-DAMXX)*(ONE-DAMYY)*OFF(I)
+         SIGNZX(I) = SIGNZX(I) * (ONE-DAMZX)*(ONE-DAMXX)*(ONE-DAMYY)*OFF(I)
       ENDDO
 c------------------------
 c     Update UVAR
@@ -715,7 +715,7 @@ c------------------------
             ENDIF
           ENDDO
 #include  "lockon.inc"
-          IF (OFF(I) == QCINQ) WRITE(IOUT, 3000) NGL(I),TIME
+          IF (OFF(I) == FOUR_OVER_5) WRITE(IOUT, 3000) NGL(I),TIME
 #include  "lockoff.inc"
         END DO
       END IF              
@@ -723,7 +723,7 @@ c------------------------
       IF (NINDX > 0) THEN 
         DO J=1,NINDX    
           I = INDX(J)
-          IF (OFF(I) == QCINQ) OFF(I) = ZERO
+          IF (OFF(I) == FOUR_OVER_5) OFF(I) = ZERO
         END DO
       END IF              
 c-----------------------------------------------------------------------

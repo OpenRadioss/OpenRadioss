@@ -127,28 +127,28 @@ C--------------------------------------------------------------
 C-----------------------------------------------
       DO I=1,NEL
         IF(OFF(I).LT.EM01) OFF(I)=ZERO
-        IF(OFF(I).LT.UN) OFF(I)=OFF(I)*QCINQ
+        IF(OFF(I).LT.ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       END DO
 CC           
        NINDX=0  
        DO I=1,NEL
-        RFAC = UN
+        RFAC = ONE
         IF(IFUNC(1).NE.0)THEN
           RFAC=FINTER(IFUNC(1),EPSP(I)*XFAC,NPF,TF,DYDX)
           RFAC = MAX(RFAC,EM20)
         ENDIF  
-        IF(OFF(I).EQ.UN)THEN
+        IF(OFF(I).EQ.ONE)THEN
           IE_SP = EINT(I)/VOLUME(I)
           
           R1 = RIEF1*RFAC
           R2 = RIEF2*RFAC
          IF(IE_SP.GT.R1.AND.R1.LT.R2) THEN
           DAMAGE(I)= (IE_SP-R1)/(R2-R1)
-          DAMAGE(I)= MIN(UN,DAMAGE(I))
+          DAMAGE(I)= MIN(ONE,DAMAGE(I))
          ENDIF
          IF(IE_SP.GT.R2) THEN
-          DAMAGE(I)= UN
-          OFF(I)=QCINQ
+          DAMAGE(I)= ONE
+          OFF(I)=FOUR_OVER_5
           NINDX=NINDX+1
           INDX(NINDX)=I
           IDEL7NOK = 1
@@ -169,12 +169,12 @@ c
         R1 = RIEF1
         R2 = RIEF2
         IF(R1 < R2)THEN         
-          SIGNXX(I) = (UN - DAMAGE(I))*SIGNXX(I)
-          SIGNYY(I) = (UN - DAMAGE(I))*SIGNYY(I)
-          SIGNZZ(I) = (UN - DAMAGE(I))*SIGNZZ(I)
-          SIGNXY(I) = (UN - DAMAGE(I))*SIGNXY(I)
-          SIGNYZ(I) = (UN - DAMAGE(I))*SIGNYZ(I)
-          SIGNZX(I) = (UN - DAMAGE(I))*SIGNZX(I)
+          SIGNXX(I) = (ONE - DAMAGE(I))*SIGNXX(I)
+          SIGNYY(I) = (ONE - DAMAGE(I))*SIGNYY(I)
+          SIGNZZ(I) = (ONE - DAMAGE(I))*SIGNZZ(I)
+          SIGNXY(I) = (ONE - DAMAGE(I))*SIGNXY(I)
+          SIGNYZ(I) = (ONE - DAMAGE(I))*SIGNYZ(I)
+          SIGNZX(I) = (ONE - DAMAGE(I))*SIGNZX(I)
         END IF
 C-------------Maximum Damage storing for output : 0 < DFMAX < 1--------------
         DFMAX(I) = MAX(DFMAX(I),DAMAGE(I))

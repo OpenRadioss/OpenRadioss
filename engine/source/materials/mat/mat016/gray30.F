@@ -70,13 +70,13 @@ C-----------------------------------------------
       ENDDO !next I
 
       DO I=LFT,LLT
-        DEDE      = DVOL(I)*PE21(I)*UNDEMI
-        DQ        = DVOL(I)*(QNEW(I)-QOLD(I))*UNDEMI
+        DEDE      = DVOL(I)*PE21(I)*HALF
+        DQ        = DVOL(I)*(QNEW(I)-QOLD(I))*HALF
         QOLD(I)   = QNEW(I)
         EI3       =(E02(I)-DQ+E01(I)*DEDE)/(1.+DEDE)
         EI3       = MAX(ZERO,EI3)
         PNEW(I)   = P01(I)+(EI3-E01(I))*PE21(I)
-        EINT(I)   = EINT(I)-DVOL(I)*(PNEW(I)+QNEW(I))*UNDEMI
+        EINT(I)   = EINT(I)-DVOL(I)*(PNEW(I)+QNEW(I))*HALF
         EINT(I)   = EINT(I)/VOL(I)
       ENDDO !next I
 

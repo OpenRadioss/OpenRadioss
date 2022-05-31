@@ -86,7 +86,7 @@ C----------------------------
 C     LOCAL SYSTEM
 C----------------------------
       DO  I=JFT, JLT
-       R11(I)=UN
+       R11(I)=ONE
        R21(I)=ZERO
        R31(I)=ZERO
       ENDDO 
@@ -113,7 +113,7 @@ C----------------------------
 C
       DO I=JFT, JLT
        IF (AL(I).GT.EM14) THEN
-        NORM=UN/AL(I)
+        NORM=ONE/AL(I)
         R11(I)=R11(I)*NORM
         R21(I)=R21(I)*NORM
         R31(I)=R31(I)*NORM

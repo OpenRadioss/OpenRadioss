@@ -131,9 +131,9 @@ C----------------------------------------------------------------
       my_real
      .    COEFR,BETAF ,COEFM
 C----------------------------------------------------------------
-      COEFR = UN
+      COEFR = ONE
       BETAF = ZERO
-      COEFM = UN
+      COEFM = ONE
 
 c    material parameters
       C10  =  UPARAM(1)   
@@ -145,9 +145,9 @@ c    material parameters
       C21  =  UPARAM(7)   
       C12  =  UPARAM(8)   
       C03  =  UPARAM(9)   
-      D1   =  UPARAM(11)  !UN/D1
-      D2   =  UPARAM(12)  !UN/D2
-      D3   =  UPARAM(13)  !UN/D3
+      D1   =  UPARAM(11)  !ONE/D1
+      D2   =  UPARAM(12)  !ONE/D2
+      D3   =  UPARAM(13)  !ONE/D3
       SB   =  UPARAM(14)
       A10  =  UPARAM(15)  
       A1   =  A10*TIMESTEP
@@ -158,8 +158,8 @@ c    material parameters
       RBULK=  UPARAM(20) 
       TAUREF= UPARAM(22) 
       !
-      STIFF0 = QTHIRD*G + RBULK
-      MAXL = UN
+      STIFF0 = FOUR_OVER_3*G + RBULK
+      MAXL = ONE
 	  IAVIS =1
 	  IF (A10*SB==ZERO) IAVIS=0
 
@@ -172,9 +172,9 @@ c    material parameters
 
       IF(TIME == ZERO)THEN
         DO  I = 1, NEL
-         UVAR(I,1) = UN
-         UVAR(I,2) = UN
-         UVAR(I,3) = UN
+         UVAR(I,1) = ONE
+         UVAR(I,2) = ONE
+         UVAR(I,3) = ONE
          UVAR(I,4) = ZERO
          UVAR(I,5) = ZERO
          UVAR(I,6) = ZERO
@@ -224,9 +224,9 @@ C
       ENDIF !(IAVIS>0)
 
       DO I=1,NEL       
-       F(I,1,1)  = UN+MFXX(I)
-       F(I,2,2)  = UN+MFYY(I)
-       F(I,3,3)  = UN+MFZZ(I)
+       F(I,1,1)  = ONE+MFXX(I)
+       F(I,2,2)  = ONE+MFYY(I)
+       F(I,3,3)  = ONE+MFZZ(I)
        F(I,1,2)  = MFXY(I)
        F(I,2,3)  = MFYZ(I)
        F(I,3,1)  = MFZX(I)      
@@ -303,12 +303,12 @@ C
           SB6(I) =  SIGB(I,3,1) 
           !Nomr of stress B
           TBNORM(I)   = SQRT (MAX(EM20,SB1(I)**2+SB2(I)**2+SB3(I)**2  
-     .                 +     DEUX*(SB4(I)**2+SB5(I)**2+SB6(I)**2 ))  ) ! NORM!
+     .                 +     TWO*(SB4(I)**2+SB5(I)**2+SB6(I)**2 ))  ) ! NORM!
         ENDDO
         
         !COMPUTE EEFFECTIVE CREEP STRAIN RATE
         !------------------------------------        
-        !DGAMMA(I) = A1* ((LPCHAIN(I) - UN +KSI)**C) * (TBNORM(I)/TAUREF)**EXPM
+        !DGAMMA(I) = A1* ((LPCHAIN(I) - ONE +KSI)**C) * (TBNORM(I)/TAUREF)**EXPM
         CALL VISCBB ( NEL , FPO, TBNORM  , A1     , EXPC,
      .                EXPM, KSI, TAUREF  , DGAMMA ) 
 
@@ -338,15 +338,15 @@ C
         !CALL PRODMAT(DFP ,DFP, DFP2 , NEL) ! if order 2
         DO I=1,NEL               
          ! Fp_n+1 = exp(DFP) * Fp_old = (I+DFP) * Fp_old
-          SN(I,1,1) = UN + DFP(I,1,1) !+ UNDEMI * DFP2(I,1,1)
-          SN(I,2,2) = UN + DFP(I,2,2) !+ UNDEMI * DFP2(I,2,2)             
-          SN(I,3,3) = UN + DFP(I,3,3) !+ UNDEMI * DFP2(I,3,3)               
-          SN(I,1,2) = DFP(I,1,2)!+ UNDEMI * DFP2(I,1,2)    
-          SN(I,2,3) = DFP(I,2,3)!+ UNDEMI * DFP2(I,2,3)                 
-          SN(I,3,1) = DFP(I,3,1)!+ UNDEMI * DFP2(I,3,1)                 
-          SN(I,2,1) = DFP(I,2,1)!+ UNDEMI * DFP2(I,2,1)                                          
-          SN(I,3,2) = DFP(I,3,2)!+ UNDEMI * DFP2(I,3,2)                                           
-          SN(I,1,3) = DFP(I,1,3)!+ UNDEMI * DFP2(I,1,3)                                                        
+          SN(I,1,1) = ONE + DFP(I,1,1) !+ HALF * DFP2(I,1,1)
+          SN(I,2,2) = ONE + DFP(I,2,2) !+ HALF * DFP2(I,2,2)             
+          SN(I,3,3) = ONE + DFP(I,3,3) !+ HALF * DFP2(I,3,3)               
+          SN(I,1,2) = DFP(I,1,2)!+ HALF * DFP2(I,1,2)    
+          SN(I,2,3) = DFP(I,2,3)!+ HALF * DFP2(I,2,3)                 
+          SN(I,3,1) = DFP(I,3,1)!+ HALF * DFP2(I,3,1)                 
+          SN(I,2,1) = DFP(I,2,1)!+ HALF * DFP2(I,2,1)                                          
+          SN(I,3,2) = DFP(I,3,2)!+ HALF * DFP2(I,3,2)                                           
+          SN(I,1,3) = DFP(I,1,3)!+ HALF * DFP2(I,1,3)                                                        
         ENDDO
         CALL PRODMAT(SN ,FPO,  FP, NEL) ! Fp_N+1 = (I + dT *DFP)* Fp_N 
         CALL CALCMATB (NEL, F, FP, MATB) !FE ={F}{Fp}^(-1) then  MATB = FE FE^(T) 
@@ -414,11 +414,11 @@ C----- A10*SB=0 ->sigB=sigA
        DO I=1,NEL
 c        DSIG = SQRT((SIGNXX(I)-SIGOXX(I))**2+(SIGNYY(I)-SIGOYY(I))**2
 c     .            +(SIGNZZ(I)-SIGOZZ(I))**2
-c     .         + DEUX*((SIGNXY(I)-SIGOXY(I))**2
+c     .         + TWO*((SIGNXY(I)-SIGOXY(I))**2
 c     .                +(SIGNYZ(I)-SIGOYZ(I))**2+(SIGNZX(I)-SIGOZX(I))**2))
 c     
 c        DEPS = SQRT   (DEPSXX(I)**2 + DEPSYY(I)**2 + DEPSZZ(I)**2
-c     .         + DEUX*(DEPSXY(I)**2 + DEPSYZ(I)**2 + DEPSZX(I)**2))
+c     .         + TWO*(DEPSXY(I)**2 + DEPSYZ(I)**2 + DEPSZX(I)**2))
 c     
 c        IF(DEPS == ZERO)THEN
 c          STIFF(I)= STIFF0
@@ -431,7 +431,7 @@ C
        ENDDO
       IF (IMPL_S > 0 .OR. IHET > 1) THEN
        DO I=1,NEL
-         ET(I)= UN
+         ET(I)= ONE
        ENDDO
       ENDIF
       

@@ -145,28 +145,28 @@ C         OFF
 C-----------------------------------------------
           IF (ITY == 2) THEN
             DO I=LFT,LLT
-              IOFF(EL2FA(N_FA+I)) = NINT(MIN(GBUF%OFF(I),UN))
+              IOFF(EL2FA(N_FA+I)) = NINT(MIN(GBUF%OFF(I),ONE))
             ENDDO
           ELSEIF (NADMESH==0 .AND. (ITY==3 .OR. ITY==7)) THEN
             DO I=LFT,LLT
-              IOFF(EL2FA(N_FA+I)) = NINT(MIN(GBUF%OFF(I),UN))
+              IOFF(EL2FA(N_FA+I)) = NINT(MIN(GBUF%OFF(I),ONE))
             ENDDO
           ELSEIF (ITY == 3) THEN
             DO I=LFT,LLT
               IP=IPARTC(NFT+I)
               IF(IPART(10,IP)>0)THEN
-                IOFF(EL2FA(N_FA+I))=NINT(MAX(ZERO,MIN(GBUF%OFF(I),UN)))
+                IOFF(EL2FA(N_FA+I))=NINT(MAX(ZERO,MIN(GBUF%OFF(I),ONE)))
               ELSE
-                IOFF(EL2FA(N_FA+I))=NINT(MIN(GBUF%OFF(I),UN))
+                IOFF(EL2FA(N_FA+I))=NINT(MIN(GBUF%OFF(I),ONE))
               END IF
             ENDDO
           ELSEIF (ITY ==7 ) THEN
             DO I=LFT,LLT
               IP=IPARTTG(NFT+I)
               IF(IPART(10,IP)>0)THEN
-                IOFF(EL2FA(N_FA+I))=NINT(MAX(ZERO,MIN(GBUF%OFF(I),UN)))
+                IOFF(EL2FA(N_FA+I))=NINT(MAX(ZERO,MIN(GBUF%OFF(I),ONE)))
               ELSE
-                IOFF(EL2FA(N_FA+I))=NINT(MIN(GBUF%OFF(I),UN))
+                IOFF(EL2FA(N_FA+I))=NINT(MIN(GBUF%OFF(I),ONE))
               END IF
             ENDDO
           ENDIF

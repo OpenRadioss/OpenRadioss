@@ -181,13 +181,13 @@ c            ZZ(LLT,K)=X(3,I)+DT2*(V(3,I)+DT12*A(3,I))
 c            XX(LLT,K)=X(1,I)
 c            YY(LLT,K)=X(2,I)
 c            ZZ(LLT,K)=X(3,I)
-            XX(LLT,K)=X(1,I)+UNDEMI*DT2*(V(1,I)+DT12*A(1,I))
-            YY(LLT,K)=X(2,I)+UNDEMI*DT2*(V(2,I)+DT12*A(2,I))
-            ZZ(LLT,K)=X(3,I)+UNDEMI*DT2*(V(3,I)+DT12*A(3,I))
+            XX(LLT,K)=X(1,I)+HALF*DT2*(V(1,I)+DT12*A(1,I))
+            YY(LLT,K)=X(2,I)+HALF*DT2*(V(2,I)+DT12*A(2,I))
+            ZZ(LLT,K)=X(3,I)+HALF*DT2*(V(3,I)+DT12*A(3,I))
             I = IIIS(LLT,K)
-            XXS(LLT,K)=X(1,I)+UNDEMI*DT2*(V(1,I)+DT12*A(1,I))
-            YYS(LLT,K)=X(2,I)+UNDEMI*DT2*(V(2,I)+DT12*A(2,I))
-            ZZS(LLT,K)=X(3,I)+UNDEMI*DT2*(V(3,I)+DT12*A(3,I))
+            XXS(LLT,K)=X(1,I)+HALF*DT2*(V(1,I)+DT12*A(1,I))
+            YYS(LLT,K)=X(2,I)+HALF*DT2*(V(2,I)+DT12*A(2,I))
+            ZZS(LLT,K)=X(3,I)+HALF*DT2*(V(3,I)+DT12*A(3,I))
           ENDDO
 c
 c      print *, "XX(1,1),XX(1,9)",XX(1,1),XX(1,9)
@@ -293,12 +293,12 @@ C-----------------------------------------------
 C      noeud centrale face 1 2 3 4
 C-----------------------------------------------
       DO I=1,LLT
-        XX(I,17) = UNDEMI *(XXS(I,5) +XXS(I,6) +XXS(I,7) +XXS(I,8))
-     .           - QUART*(XXS(I,1) +XXS(I,2) +XXS(I,3) +XXS(I,4))
-        YY(I,17) = UNDEMI *(YYS(I,5) +YYS(I,6) +YYS(I,7) +YYS(I,8))
-     .           - QUART*(YYS(I,1) +YYS(I,2) +YYS(I,3) +YYS(I,4))
-        ZZ(I,17) = UNDEMI *(ZZS(I,5) +ZZS(I,6) +ZZS(I,7) +ZZS(I,8))
-     .           - QUART*(ZZS(I,1) +ZZS(I,2) +ZZS(I,3) +ZZS(I,4))     
+        XX(I,17) = HALF *(XXS(I,5) +XXS(I,6) +XXS(I,7) +XXS(I,8))
+     .           - FOURTH*(XXS(I,1) +XXS(I,2) +XXS(I,3) +XXS(I,4))
+        YY(I,17) = HALF *(YYS(I,5) +YYS(I,6) +YYS(I,7) +YYS(I,8))
+     .           - FOURTH*(YYS(I,1) +YYS(I,2) +YYS(I,3) +YYS(I,4))
+        ZZ(I,17) = HALF *(ZZS(I,5) +ZZS(I,6) +ZZS(I,7) +ZZS(I,8))
+     .           - FOURTH*(ZZS(I,1) +ZZS(I,2) +ZZS(I,3) +ZZS(I,4))     
       ENDDO
       CALL I17RST(LLT   ,RI_S(1,1),SI_S(1,1),TI_S(1,1),NI_M  ,
      2            XX    ,YY       ,ZZ       )
@@ -306,12 +306,12 @@ C-----------------------------------------------
 C      noeud centrale face 5 6 7 8
 C-----------------------------------------------
       DO I=1,LLT
-        XX(I,17) = UNDEMI *(XXS(I,13)+XXS(I,14)+XXS(I,15)+XXS(I,16))
-     .           - QUART*(XXS(I,9) +XXS(I,10)+XXS(I,11)+XXS(I,12))
-        YY(I,17) = UNDEMI *(YYS(I,13)+YYS(I,14)+YYS(I,15)+YYS(I,16))
-     .           - QUART*(YYS(I,9) +YYS(I,10)+YYS(I,11)+YYS(I,12))
-        ZZ(I,17) = UNDEMI *(ZZS(I,13)+ZZS(I,14)+ZZS(I,15)+ZZS(I,16))
-     .           - QUART*(ZZS(I,9) +ZZS(I,10)+ZZS(I,11)+ZZS(I,12))     
+        XX(I,17) = HALF *(XXS(I,13)+XXS(I,14)+XXS(I,15)+XXS(I,16))
+     .           - FOURTH*(XXS(I,9) +XXS(I,10)+XXS(I,11)+XXS(I,12))
+        YY(I,17) = HALF *(YYS(I,13)+YYS(I,14)+YYS(I,15)+YYS(I,16))
+     .           - FOURTH*(YYS(I,9) +YYS(I,10)+YYS(I,11)+YYS(I,12))
+        ZZ(I,17) = HALF *(ZZS(I,13)+ZZS(I,14)+ZZS(I,15)+ZZS(I,16))
+     .           - FOURTH*(ZZS(I,9) +ZZS(I,10)+ZZS(I,11)+ZZS(I,12))     
       ENDDO
       CALL I17RST(LLT   ,RI_S(1,2),SI_S(1,2),TI_S(1,2),NI_M  ,
      2            XX    ,YY       ,ZZ       )
@@ -321,10 +321,10 @@ C-----------------------------------------------
       DO I=1,LLT
         IF(ABS(SI_S(I,1)).LE.ABS(SI_S(I,2)))THEN
 C         face 1 2 3 4
-          S_CS(I) = -UN
+          S_CS(I) = -ONE
         ELSE
 C         face 5 6 7 8
-          S_CS(I) =  UN
+          S_CS(I) =  ONE
           IIIS(I,1) = IIIS(I,9)
           IIIS(I,2) = IIIS(I,10)
           IIIS(I,3) = IIIS(I,11)
@@ -1057,21 +1057,21 @@ C
         F6 = D * SI_S(I,6)
         F7 = D * SI_S(I,7)
         F8 = D * SI_S(I,8)
-        A0 = ( F1 + F2 + F3 + F4 )*UNDEMI
+        A0 = ( F1 + F2 + F3 + F4 )*HALF
         AB = F5 - F7
         BA = F6 - F8
 C
-        A1(I) = -AB * UNDEMI
+        A1(I) = -AB * HALF
         A2(I) = A0 - F6 - F8
-        A3(I) = ( F1 - F2 + F3 - F4 )*QUART
-        A4(I) = (-F1 + F2 + F3 - F4 )*UNDEMI  - BA
-        A5(I) = (-F1 - F2 + F3 + F4 )*QUART - A1(I)
+        A3(I) = ( F1 - F2 + F3 - F4 )*FOURTH
+        A4(I) = (-F1 + F2 + F3 - F4 )*HALF  - BA
+        A5(I) = (-F1 - F2 + F3 + F4 )*FOURTH - A1(I)
 C
-        B1(I) = BA*UNDEMI
+        B1(I) = BA*HALF
         B2(I) = A3(I)
         B3(I) = A0 - F5  - F7
-        B4(I) = (-F1 - F2 + F3 + F4 )*UNDEMI  + AB
-        B5(I) = (-F1 + F2 + F3 - F4 )*QUART - B1(I)
+        B4(I) = (-F1 - F2 + F3 + F4 )*HALF  + AB
+        B5(I) = (-F1 + F2 + F3 - F4 )*FOURTH - B1(I)
 c
         R_CS(I) = ZERO
         T_CS(I) = ZERO
@@ -1127,8 +1127,8 @@ c------------------------------------------------
           ENDIF
           R_CS(I) = (CC3 * DD1 - DD3 * CC1) / D
           T_CS(I) = (DD2 * CC1 - CC2 * DD1) / D
-          R_CS(I) = MAX(-UN,MIN(UN,R_CS(I)))
-          T_CS(I) = MAX(-UN,MIN(UN,T_CS(I)))
+          R_CS(I) = MAX(-ONE,MIN(ONE,R_CS(I)))
+          T_CS(I) = MAX(-ONE,MIN(ONE,T_CS(I)))
 c          dfdr = A1 + A2 * r + A3 * t + A4 * t * r + A5 * t * t 
 c          dfdt = B1 + B2 * r + B3 * t + B4 * r * t + B5 * r * r 
 c          print *,'it=',iter,' r=',r,' t=',t,' fr=',dfdr,' ft=',dfdt
@@ -1159,11 +1159,11 @@ C
 c
       DO I=1,LLT
           IF(S_CM(I).GT.ZERO)THEN
-            B1(I) = B1(I) - UN
-            C1(I) = C1(I) - UN
+            B1(I) = B1(I) - ONE
+            C1(I) = C1(I) - ONE
           ELSE
-            B1(I) = B1(I) + UN
-            C1(I) = C1(I) + UN
+            B1(I) = B1(I) + ONE
+            C1(I) = C1(I) + ONE
           ENDIF
       ENDDO
 c
@@ -1219,13 +1219,13 @@ c-----------------------------------------------------------------------
       EPS = EM3
       DO I=1,LLT
         D = B1(I) + (B2(I) + B3(I)*R_1S(I)) * R_1S(I)
-        IF(D.LT.-UN-EPS.OR.D.GT.UN+EPS) ICONT(I,1)=0
+        IF(D.LT.-ONE-EPS.OR.D.GT.ONE+EPS) ICONT(I,1)=0
         D = B1(I) + (B2(I) + B3(I)*R_2S(I)) * R_2S(I)
-        IF(D.LT.-UN-EPS.OR.D.GT.UN+EPS) ICONT(I,2)=0
+        IF(D.LT.-ONE-EPS.OR.D.GT.ONE+EPS) ICONT(I,2)=0
         D = C1(I) + (C2(I) + C3(I)*T_1S(I)) * T_1S(I)
-        IF(D.LT.-UN-EPS.OR.D.GT.UN+EPS) ICONT(I,3)=0
+        IF(D.LT.-ONE-EPS.OR.D.GT.ONE+EPS) ICONT(I,3)=0
         D = C1(I) + (C2(I) + C3(I)*T_2S(I)) * T_2S(I)
-        IF(D.LT.-UN-EPS.OR.D.GT.UN+EPS) ICONT(I,4)=0
+        IF(D.LT.-ONE-EPS.OR.D.GT.ONE+EPS) ICONT(I,4)=0
 c        R_CS(I) = ICONT(I,1)*R_1S(I) + ICONT(I,2)*R_2S(I) +  
 c     +            ICONT(I,3)*R_CS(I) + ICONT(I,4)*R_CS(I)
 c        T_CS(I) = ICONT(I,1)*T_CS(I) + ICONT(I,2)*T_CS(I) +  
@@ -1308,25 +1308,25 @@ C-----------------------------------------------------------------------
       DO I=1,LLT
 C
 C
-        R05 = UNDEMI*R(I)
-        T05 = UNDEMI*T(I)
+        R05 = HALF*R(I)
+        T05 = HALF*T(I)
 C
-        U_M_R = UNDEMI - R05
-        U_P_R = UNDEMI + R05
+        U_M_R = HALF - R05
+        U_P_R = HALF + R05
 C
-        U_M_T = UNDEMI - T05
-        U_P_T = UNDEMI + T05
+        U_M_T = HALF - T05
+        U_P_T = HALF + T05
 C
-        NI(I,1) = U_M_T * U_M_R * (-R(I)-T(I)-UN)
-        NI(I,2) = U_P_T * U_M_R * (-R(I)+T(I)-UN)
-        NI(I,3) = U_P_T * U_P_R * ( R(I)+T(I)-UN)
-        NI(I,4) = U_M_T * U_P_R * ( R(I)-T(I)-UN)	
+        NI(I,1) = U_M_T * U_M_R * (-R(I)-T(I)-ONE)
+        NI(I,2) = U_P_T * U_M_R * (-R(I)+T(I)-ONE)
+        NI(I,3) = U_P_T * U_P_R * ( R(I)+T(I)-ONE)
+        NI(I,4) = U_M_T * U_P_R * ( R(I)-T(I)-ONE)	
 C------------------------------------
-        A = (UN-R(I)*R(I))
+        A = (ONE-R(I)*R(I))
         NI(I,6) = A * U_P_T
         NI(I,8) = A * U_M_T
 C------------------------------------
-        A = (UN-T(I)*T(I))
+        A = (ONE-T(I)*T(I))
         NI(I,5) = A * U_M_R
         NI(I,7) = A * U_P_R
 C------------------------------------
@@ -1373,30 +1373,30 @@ C-----------------------------------------------
 c
 C
       DO I=1,LLT
-        D =  B(I)*B(I) - QUATRE*A(I)*C(I) 
+        D =  B(I)*B(I) - FOUR*A(I)*C(I) 
         IF(ABS(A(I)).LT.EM20)THEN
           IF(ABS(B(I)).LT.EM20)THEN
-            R1(I) = -UN
-            R2(I) =  UN
+            R1(I) = -ONE
+            R2(I) =  ONE
           ELSE
             R1(I) = -C(I) / B(I)
             R2(I) = B(I) / ABS(B(I))
           ENDIF
         ELSEIF(D.LT.ZERO)THEN
-            R1(I) = -UN
-            R2(I) =  UN	    
+            R1(I) = -ONE
+            R2(I) =  ONE	    
         ELSE
             D = SQRT( D )
-            R1(I) = (-B(I) - D) / (DEUX*A(I))
-            R2(I) = (-B(I) + D) / (DEUX*A(I))
+            R1(I) = (-B(I) - D) / (TWO*A(I))
+            R2(I) = (-B(I) + D) / (TWO*A(I))
         ENDIF
       ENDDO
 c-----------------------------------------------------------------------
 c      borne r (ou t) a +-1 sur l'second
 c-----------------------------------------------------------------------
       DO I=1,LLT
-          R1(I) = MAX(-UN,MIN(UN,R1(I)))
-          R2(I) = MAX(-UN,MIN(UN,R2(I)))
+          R1(I) = MAX(-ONE,MIN(ONE,R1(I)))
+          R2(I) = MAX(-ONE,MIN(ONE,R2(I)))
       ENDDO
 c
       RETURN
@@ -1437,12 +1437,12 @@ c  1.1: borne <r1,t> et <r,t1> a +-1 sur le main
 c-----------------------------------------------------------------------
         DO I=1,LLT
           RS(I) = C(I) + ( B(I) + A(I)*R_S(I) )*R_S(I)
-          IF(RS(I).GT.UN)THEN
-            CC(I) = C(I) - UN
-          ELSEIF(RS(I).LT.-UN)THEN
-            CC(I) = C(I) + UN
+          IF(RS(I).GT.ONE)THEN
+            CC(I) = C(I) - ONE
+          ELSEIF(RS(I).LT.-ONE)THEN
+            CC(I) = C(I) + ONE
           ELSE 
-            CC(I) = UN
+            CC(I) = ONE
           ENDIF
         ENDDO
 c
@@ -1451,11 +1451,11 @@ c
         CALL I17RACINE(LLT,A,B,CC,R1,R2)
 c
         DO I=1,LLT
-          IF(RS(I).GT.UN.OR.RS(I).LT.-UN)THEN
+          IF(RS(I).GT.ONE.OR.RS(I).LT.-ONE)THEN
             RS1 = C(I) + ( B(I) + A(I)*R1(I) )*R1(I)
             RS2 = C(I) + ( B(I) + A(I)*R2(I) )*R2(I)
-            IF(RS1.GE.-UN.AND.RS1.LE.UN.AND.
-     +         RS2.GE.-UN.AND.RS2.LE.UN)THEN
+            IF(RS1.GE.-ONE.AND.RS1.LE.ONE.AND.
+     +         RS2.GE.-ONE.AND.RS2.LE.ONE)THEN
               IF(ABS(RS(I)-R1(I)).LT.ABS(RS(I)-R2(I)))THEN
                 R_S(I) = R1(I)
                 RS(I)  = RS1
@@ -1463,10 +1463,10 @@ c
                 R_S(I) = R2(I)
                 RS(I)  = RS2
               ENDIF
-            ELSEIF(RS1.GE.-UN.AND.RS1.LE.UN)THEN
+            ELSEIF(RS1.GE.-ONE.AND.RS1.LE.ONE)THEN
                 R_S(I) = R1(I)
                 RS(I)  = RS1
-            ELSEIF(RS2.GE.-UN.AND.RS2.LE.UN)THEN
+            ELSEIF(RS2.GE.-ONE.AND.RS2.LE.ONE)THEN
                 R_S(I) = R2(I)
                 RS(I)  = RS2
             ELSE
@@ -1561,13 +1561,13 @@ c
         A8 = (-F(I,1)-F(I,2)+F(I,3)+F(I,4)+FF5    -FF7    )
 c
 c
-        B1(I) = ( A1 + ( A3 + A6 * T(I) ) *T(I) )*QUART
-        B2(I) = ( A2 + ( A4 + A8 * T(I) ) *T(I) )*QUART
-        B3(I) = ( A5 + A7 * T(I)                )*QUART
+        B1(I) = ( A1 + ( A3 + A6 * T(I) ) *T(I) )*FOURTH
+        B2(I) = ( A2 + ( A4 + A8 * T(I) ) *T(I) )*FOURTH
+        B3(I) = ( A5 + A7 * T(I)                )*FOURTH
 c
-        C1(I) = ( A1 + ( A2 + A5 * R(I) ) *R(I) )*QUART
-        C2(I) = ( A3 + ( A4 + A7 * R(I) ) *R(I) )*QUART
-        C3(I) = ( A6 + A8 * R(I)                )*QUART
+        C1(I) = ( A1 + ( A2 + A5 * R(I) ) *R(I) )*FOURTH
+        C2(I) = ( A3 + ( A4 + A7 * R(I) ) *R(I) )*FOURTH
+        C3(I) = ( A6 + A8 * R(I)                )*FOURTH
       ENDDO
 c
       RETURN
@@ -1622,18 +1622,18 @@ C-----------------------------------------------------------------------
 C     Ni; dNi/dr; dNi/ds; dNi/dt  s=+-1
 C-----------------------------------------------------------------------
       DO I=1,LLT
-        R05 = UNDEMI*RR(I)
-        S05 = UNDEMI*SS(I)
-        T05 = UNDEMI*TT(I)
+        R05 = HALF*RR(I)
+        S05 = HALF*SS(I)
+        T05 = HALF*TT(I)
 C
-        U_M_R = UNDEMI - R05
-        U_P_R = UNDEMI + R05
+        U_M_R = HALF - R05
+        U_P_R = HALF + R05
 C
-        U_M_S = UNDEMI - S05
-        U_P_S = UNDEMI + S05
+        U_M_S = HALF - S05
+        U_P_S = HALF + S05
 C
-        U_M_T = UNDEMI - T05
-        U_P_T = UNDEMI + T05
+        U_M_T = HALF - T05
+        U_P_T = HALF + T05
 C
         UMS_UMT = U_M_S * U_M_T
         UMS_UPT = U_M_S * U_P_T
@@ -1668,17 +1668,17 @@ C
         A = +R05 - TT(I)
         DNIDT(4) = (-UPR_UMS - UPR_UPS) * A
 C------------------------------------
-       A = UNDEMI*(UN-RR(I)*RR(I))
+       A = HALF*(ONE-RR(I)*RR(I))
         DNIDT(6) =  A * (U_M_S + U_P_S)
 C    
-        A = -DEUX*RR(I)
+        A = -TWO*RR(I)
         DNIDR(6) = A * (UMS_UPT + UPS_UPT)
         DNIDR(8) = A * (UMS_UMT + UPS_UMT)
 C------------------------------------
-        A = UNDEMI*(UN-TT(I)*TT(I))
+        A = HALF*(ONE-TT(I)*TT(I))
         DNIDR(5)  = -A * (U_M_S + U_P_S)
 C
-        A = -DEUX*TT(I)
+        A = -TWO*TT(I)
         DNIDT(5) = A * (UMR_UMS + UMR_UPS)
         DNIDT(7) = A * (UPR_UMS + UPR_UPS)
 C-----------------------------------------------------------------------
@@ -1724,7 +1724,7 @@ C-----------------------------------------------------------------------
         NY(I) = -DZDT(I)*DXDR(I) + DXDT(I)*DZDR(I)
         NZ(I) = -DXDT(I)*DYDR(I) + DYDT(I)*DXDR(I)
 C
-        AA = UN/SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
+        AA = ONE/SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
         NX(I) = NX(I)*AA
         NY(I) = NY(I)*AA
         NZ(I) = NZ(I)*AA

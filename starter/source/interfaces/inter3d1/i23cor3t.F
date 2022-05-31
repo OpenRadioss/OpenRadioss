@@ -87,7 +87,7 @@ C-----------------------------------------------
       END IF
 C
       DO I=LFT,LLT
-        GAPV(I)=SQRT(TROIS)*GAPV(I)
+        GAPV(I)=SQRT(THREE)*GAPV(I)
       END DO
 C
       DO I=LFT,LLT

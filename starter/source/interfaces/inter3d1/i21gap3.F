@@ -159,7 +159,7 @@ C------------------------------------
          ELSE
         DX      = THKNOD(NSV(I))*GAPSCALE
          ENDIF
-        GAPM    = UNDEMI*DX
+        GAPM    = HALF*DX
 
         GAPS2 = MAX(GAPS2,GAPM)
         GAP_S(I)= GAPM
@@ -189,7 +189,7 @@ C                                 =====
             DXM=DXM+DX
             NDX=NDX+1
            ENDDO
-           GAP = UNDEMI*DXM/NDX
+           GAP = HALF*DXM/NDX
            WRITE(IOUT,1000)GAP
          ENDIF
          GAPMIN = GAP
@@ -275,13 +275,13 @@ C------------------------------------
 C     STiff cote main (1: active ; 0: inactive)
 C------------------------------------
       DO I=1,NRTM
-        STF(I)=UN
+        STF(I)=ONE
       END DO
 C---------------------------------------------
-C     MISE A UN DU MULTIPLICATEUR NODALE DES RIGIDITES 
+C     MISE A ONE DU MULTIPLICATEUR NODALE DES RIGIDITES 
 C---------------------------------------------
       DO I=1,NSN
-        STFN(I) = UN
+        STFN(I) = ONE
       END DO
 C------------------------------------
       IF(IGAP.EQ.2)THEN
@@ -317,7 +317,7 @@ C
                NX(L)=Y13(L)*Z24(L)-Z13(L)*Y24(L)
                NY(L)=Z13(L)*X24(L)-X13(L)*Z24(L)
                NZ(L)=X13(L)*Y24(L)-Y13(L)*X24(L)
-               AA(L)=UNHUIT*SQRT(NX(L)*NX(L)+NY(L)*NY(L)+NZ(L)*NZ(L))
+               AA(L)=ONE_OVER_8*SQRT(NX(L)*NX(L)+NY(L)*NY(L)+NZ(L)*NZ(L))
                AREA_S0(ITMP(N1))=AREA_S0(ITMP(N1))+AA(L)
                AREA_S0(ITMP(N2))=AREA_S0(ITMP(N2))+AA(L)
                AREA_S0(ITMP(N3))=AREA_S0(ITMP(N3))+AA(L)
@@ -332,7 +332,7 @@ C
                NX(L)=Y12(L)*Z13(L)-Z12(L)*Y13(L)
                NY(L)=Z12(L)*X13(L)-X12(L)*Z13(L)
                NZ(L)=X12(L)*Y13(L)-Y12(L)*X13(L)
-               AA(L)=UNSIX*SQRT(NX(L)*NX(L)+NY(L)*NY(L)+NZ(L)*NZ(L))
+               AA(L)=ONE_OVER_6*SQRT(NX(L)*NX(L)+NY(L)*NY(L)+NZ(L)*NZ(L))
                AREA_S0(ITMP(N1))=AREA_S0(ITMP(N1))+AA(L)
                AREA_S0(ITMP(N2))=AREA_S0(ITMP(N2))+AA(L)
                AREA_S0(ITMP(N3))=AREA_S0(ITMP(N3))+AA(L)
@@ -369,7 +369,7 @@ C
                NX(L)=Y13(L)*Z24(L)-Z13(L)*Y24(L)
                NY(L)=Z13(L)*X24(L)-X13(L)*Z24(L)
                NZ(L)=X13(L)*Y24(L)-Y13(L)*X24(L)
-               AA(L)=UNHUIT*SQRT(NX(L)*NX(L)+NY(L)*NY(L)+NZ(L)*NZ(L))
+               AA(L)=ONE_OVER_8*SQRT(NX(L)*NX(L)+NY(L)*NY(L)+NZ(L)*NZ(L))
                AREA_S0(ITMP(N1))=AREA_S0(ITMP(N1))+AA(L)
                AREA_S0(ITMP(N2))=AREA_S0(ITMP(N2))+AA(L)
                AREA_S0(ITMP(N3))=AREA_S0(ITMP(N3))+AA(L)
@@ -384,7 +384,7 @@ C
                NX(L)=Y12(L)*Z13(L)-Z12(L)*Y13(L)
                NY(L)=Z12(L)*X13(L)-X12(L)*Z13(L)
                NZ(L)=X12(L)*Y13(L)-Y12(L)*X13(L)
-               AA(L)=UNSIX*SQRT(NX(L)*NX(L)+NY(L)*NY(L)+NZ(L)*NZ(L))
+               AA(L)=ONE_OVER_6*SQRT(NX(L)*NX(L)+NY(L)*NY(L)+NZ(L)*NZ(L))
                AREA_S0(ITMP(N1))=AREA_S0(ITMP(N1))+AA(L)
                AREA_S0(ITMP(N2))=AREA_S0(ITMP(N2))+AA(L)
                AREA_S0(ITMP(N3))=AREA_S0(ITMP(N3))+AA(L)

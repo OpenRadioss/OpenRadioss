@@ -93,8 +93,8 @@ C
           G3=GEO(26,IG)
         ELSEIF(DT1.GT.0)THEN
 C CORRECTION VITESSE
-          G2=UN/DT1
-          G3=UN/DT1
+          G2=ONE/DT1
+          G3=ONE/DT1
         ELSE
           G2=ZERO
           G3=ZERO

@@ -203,7 +203,7 @@ C
       NFUNC = 0 
 C used for interface (solid+shell) 
       STIFINT = DEREF*(1-DPOISS)/(1+DPOISS)/(1-2*DPOISS)
-      PARMAT(1) = STIFINT/trois !RBULK
+      PARMAT(1) = STIFINT/THREE !RBULK
       PARMAT(2) = STIFINT
       PARMAT(3) = DPOISS
 c

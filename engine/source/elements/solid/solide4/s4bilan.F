@@ -97,16 +97,16 @@ C-----------------------------------------------
       ENDDO
 C
       DO I=LFT,LLT
-        VXA(I) = VXA(I)*QUART
-        VYA(I) = VYA(I)*QUART
-        VZA(I) = VZA(I)*QUART
-        VA2(I) = VA2(I)*QUART
+        VXA(I) = VXA(I)*FOURTH
+        VYA(I) = VYA(I)*FOURTH
+        VZA(I) = VZA(I)*FOURTH
+        VA2(I) = VA2(I)*FOURTH
       ENDDO
 C
       DO I=LFT,LLT
         XMAS(I)= FILL(I)*RHO(I)*VNEW(I)
         EI(I)  = FILL(I)*EINT(I)*VOL(I)
-        EK(I)  = XMAS(I)*VA2(I)*UNDEMI
+        EK(I)  = XMAS(I)*VA2(I)*HALF
         XM(I)  = XMAS(I)*VXA(I)
         YM(I)  = XMAS(I)*VYA(I)
         ZM(I)  = XMAS(I)*VZA(I)
@@ -138,15 +138,15 @@ C-----------------------------------------------
         ENDDO
 C
         DO I=LFT,LLT
-          XX(I) = XX(I)*QUART
-          YY(I) = YY(I)*QUART
-          ZZ(I) = ZZ(I)*QUART
-          XY(I) = XY(I)*QUART
-          YZ(I) = YZ(I)*QUART
-          ZX(I) = ZX(I)*QUART
-          XX2(I)= XX2(I)*QUART
-          YY2(I)= YY2(I)*QUART
-          ZZ2(I)= ZZ2(I)*QUART
+          XX(I) = XX(I)*FOURTH
+          YY(I) = YY(I)*FOURTH
+          ZZ(I) = ZZ(I)*FOURTH
+          XY(I) = XY(I)*FOURTH
+          YZ(I) = YZ(I)*FOURTH
+          ZX(I) = ZX(I)*FOURTH
+          XX2(I)= XX2(I)*FOURTH
+          YY2(I)= YY2(I)*FOURTH
+          ZZ2(I)= ZZ2(I)*FOURTH
         ENDDO
 C
         DO I=LFT,LLT
@@ -188,7 +188,7 @@ C
 C-----------------------------------------------
       IF (IGRE /= 0) THEN
         DO I=LFT,LLT
-          OFF(I) = UN
+          OFF(I) = ONE
         ENDDO
         CALL GRELEM_SAV(LFT   ,LLT   ,GRESAV,IGRTH ,GRTH  ,
      2                  OFF   ,EI    ,EK    ,XM    ,YM    ,
@@ -213,7 +213,7 @@ C
         ENDDO
       ENDIF
 
-      OFF_L(LFT:LLT) = UN
+      OFF_L(LFT:LLT) = ONE
       CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK) 
 C
       RETURN

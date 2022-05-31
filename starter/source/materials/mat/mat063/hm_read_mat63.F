@@ -131,15 +131,15 @@ C
 c-----------------------------------------------------------------------
 c     Default values
 c-----------------------------------------------------------------------
-      IF(COEF <= ZERO .OR. COEF > UN) COEF = UN
-      IF(VM0 == ZERO  .OR. VM0 >= UN)  VM0=EM20
+      IF(COEF <= ZERO .OR. COEF > ONE) COEF = ONE
+      IF(VM0 == ZERO  .OR. VM0 >= ONE)  VM0=EM20
       IF (CP == ZERO) THEN
        CP = ZERO
       ELSE
-       CP = UN/CP
+       CP = ONE/CP
       ENDIF
 C     
-      IF (B == 0) B = -UN
+      IF (B == 0) B = -ONE
       IF ((B+1)/B>=P) THEN
         CALL ANCMSG(MSGID=301,
      .                MSGTYPE=MSGERROR,
@@ -149,11 +149,11 @@ C
      .               C1=TITR)
       END IF
 c-----------------------------------------------------------------------      
-      G  = UNDEMI*E/(UN+NU)
-      C1 = E/TROIS/(UN - DEUX*NU) 
+      G  = HALF*E/(ONE+NU)
+      C1 = E/THREE/(ONE - TWO*NU) 
 c-----------------------------------------------------------------------
       UPARAM(1)  = E
-      UPARAM(2)  = E/(UN - NU*NU)
+      UPARAM(2)  = E/(ONE - NU*NU)
       UPARAM(3)  = NU*UPARAM(2)
       UPARAM(4)  = G
       UPARAM(5)  = NU
@@ -185,7 +185,7 @@ c-----------------------------------------------------------------------
       PARMAT(3) = NU 
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) =  (UN - DEUX*NU)/(UN - NU) ! == DEUX*G/(C1+QTHIRD*G) 
+      PARMAT(17) =  (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G) 
 c-----------------------------------------------------------------------
       PM(1)  = RHOR
       PM(89) = RHO0
@@ -201,7 +201,7 @@ c--------------------------------------------------
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1200) RHO0
-        WRITE(IOUT,1300) E,NU,UN/CP
+        WRITE(IOUT,1300) E,NU,ONE/CP
         WRITE(IOUT,1400) A,B,Q,C,D     
         WRITE(IOUT,1500) P,AHS,BHS,M,N
         WRITE(IOUT,1600) K1,K2,DH,VM0,EPS0

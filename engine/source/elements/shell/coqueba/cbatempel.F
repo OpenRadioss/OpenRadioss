@@ -70,7 +70,7 @@ C --- Temperature in Gauss point NG
        SF4 = (1-KSI)*(1+ETA)
 
         DO I=JFT,JLT          
-          TEMPEL(I) = QUART * (SF1 *TEMP(IXC(2,I)) + SF2*TEMP(IXC(3,I)) + 
+          TEMPEL(I) = FOURTH * (SF1 *TEMP(IXC(2,I)) + SF2*TEMP(IXC(3,I)) + 
      .                          SF3*TEMP(IXC(4,I)) + SF4*TEMP(IXC(5,I)) )
        ENDDO
 C

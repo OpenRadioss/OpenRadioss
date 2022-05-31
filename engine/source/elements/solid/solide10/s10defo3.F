@@ -98,7 +98,7 @@ c          VOLN(I)=VOLP(I)
      .         +PY(I,6)*VZ(I,6)+PY(I,7)*VZ(I,7)+PY(I,8)*VZ(I,8)+PY(I,9)*VZ(I,9)+PY(I,10)*VZ(I,10)
       ENDDO
 C
-      DT1D2=UNDEMI*DT1
+      DT1D2=HALF*DT1
 C
       IF(JHBE.GE.2)THEN
         DO I=LFT,LLT

@@ -110,10 +110,10 @@ C
       END DO
 C
       DO I=LFT,LLT
-        PY1(I)=UNDEMI*(Z2(I)-Z4(I))
-        PY2(I)=UNDEMI*(Z3(I)-Z1(I))
-        PZ1(I)=UNDEMI*(Y4(I)-Y2(I))
-        PZ2(I)=UNDEMI*(Y1(I)-Y3(I))	 
+        PY1(I)=HALF*(Z2(I)-Z4(I))
+        PY2(I)=HALF*(Z3(I)-Z1(I))
+        PZ1(I)=HALF*(Y4(I)-Y2(I))
+        PZ2(I)=HALF*(Y1(I)-Y3(I))	 
       END DO
 C
       DO I=LFT,LLT
@@ -121,7 +121,7 @@ C
      &       Y4(I)*(Z2(I)-Z3(I))
         A2(I) =Y2(I)*(Z4(I)-Z1(I))+Y4(I)*(Z1(I)-Z2(I))+
      &       Y1(I)*(Z2(I)-Z4(I))
-        AIREM(I)=(A1(I)+A2(I))*UNDEMI
+        AIREM(I)=(A1(I)+A2(I))*HALF
 C AUTRE FORMULE AIREM(I)=2.*(PZ2(I)*PY1(I)-PZ1(I)*PY2(I))
       END DO
 C
@@ -187,7 +187,7 @@ C---------------------------------------
 C     REPERE LOCAL POUR MATERIAUX NON ISOTROPES
 C---------------------------------------
       DO 90 I=LFT,LLT
-      RX(I)=UN
+      RX(I)=ONE
       RY(I)=ZERO
       RZ(I)=ZERO
       SX(I)=ZERO    

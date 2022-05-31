@@ -138,13 +138,13 @@ C-----------------------------------------------
       NUVAR   = 9
 C-----------------------------------------------
 
-      ZEP495 = ZEP4 + NEUF*EM02 + CINQ*EM03
+      ZEP495 = ZEP4 + NINE*EM02 + FIVE*EM03
 
       IF (ICHECK == 0)     ICHECK = -3
       IF (NSTART == 0)     NSTART = 100
-      IF (ERRTOL == ZERO ) ERRTOL = CINQEM3
+      IF (ERRTOL == ZERO ) ERRTOL = FIVEEM3
       IF (NMUAL == 0)      NMUAL = 2
-      IF (FSCAL == ZERO)   FSCAL = UN*FSCAL_UNIT
+      IF (FSCAL == ZERO)   FSCAL = ONE*FSCAL_UNIT
       IF (NTABLE_ == 0) THEN
         CALL ANCMSG(MSGID=894,
      .              MSGTYPE=MSGERROR,
@@ -163,8 +163,8 @@ C-----------------------------------------------
 
       TENSCUT = EP20
       DO I=1,5
-        MU(I)=DIX*FSCAL_UNIT  !pressure
-        AL(I)=DIX*FSCAL_UNIT  !pressure
+        MU(I)=TEN*FSCAL_UNIT  !pressure
+        AL(I)=TEN*FSCAL_UNIT  !pressure
       ENDDO
       GS = ZERO
       IF (LAWID == 1) THEN
@@ -178,14 +178,14 @@ C-----------------------------------------------
       ENDIF
 C---
       IF (NU == ZERO ) NU = ZEP495
-      BULK     = GS*(UN+NU)/MAX(EM20,TROIS*(UN-DEUX*NU))
+      BULK     = GS*(ONE+NU)/MAX(EM20,THREE*(ONE-TWO*NU))
       IFUNC(1) = BULK_FNCT
       IFUNC(2) = NTABLE_
       PARMAT(1)= GS
-      PARMAT(2)= GS*(UN+NU)
+      PARMAT(2)= GS*(ONE+NU)
       PARMAT(3)= NU
       PARMAT(6)= BULK      
-      MU = GS/DEUX
+      MU = GS/TWO
 C---
       IF (RHOR == ZERO) RHOR=RHO0
       PM(1)  = RHOR

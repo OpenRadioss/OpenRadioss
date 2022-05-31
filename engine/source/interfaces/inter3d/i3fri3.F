@@ -155,10 +155,10 @@ C
         XC0=ZERO
         YC0=ZERO
         ZC0=ZERO
-        SP=UN+SS0
-        SM=UN-SS0
-        TP= QUART*(UN+TT0)
-        TM= QUART*(UN-TT0)
+        SP=ONE+SS0
+        SM=ONE-SS0
+        TP= FOURTH*(ONE+TT0)
+        TM= FOURTH*(ONE-TT0)
         H(1)=TM*SM
         H(2)=TM*SP
         H(3)=TP*SP
@@ -170,7 +170,7 @@ C
         ANSX= (XC-XC0)
         ANSY= (YC-YC0)
         ANSZ= (ZC-ZC0)
-        ECONVT = ECONVT + UNDEMI*(FXI(I)*ANSX+FYI(I)*ANSY+FZI(I)*ANSZ)
+        ECONVT = ECONVT + HALF*(FXI(I)*ANSX+FYI(I)*ANSY+FZI(I)*ANSZ)
 C
         FMAX= -MIN(FRIC*FNI(I),ZERO)
 C
@@ -197,7 +197,7 @@ C
           TN1=N2(I)/TN
          ELSE
           TN2=ZERO
-          TN1=UN
+          TN1=ONE
          ENDIF
         ENDIF
 C
@@ -222,7 +222,7 @@ C-------------------------------
          FYI(I)=TN2*FTI
          FZI(I)=TN3*FTI
         ENDIF
-        ECONVT = ECONVT + UNDEMI*(FXI(I)*ANSX+FYI(I)*ANSY+FZI(I)*ANSZ)
+        ECONVT = ECONVT + HALF*(FXI(I)*ANSX+FYI(I)*ANSY+FZI(I)*ANSZ)
        ENDIF
       ENDIF
 C
@@ -569,10 +569,10 @@ C
         XC0=ZERO
         YC0=ZERO
         ZC0=ZERO
-        SP=UN+SS0
-        SM=UN-SS0
-        TP=QUART*(UN + TT0)
-        TM=QUART*(UN - TT0)
+        SP=ONE+SS0
+        SM=ONE-SS0
+        TP=FOURTH*(ONE + TT0)
+        TM=FOURTH*(ONE - TT0)
         H(1)=TM*SM
         H(2)=TM*SP
         H(3)=TP*SP
@@ -584,7 +584,7 @@ C
         ANSX= (XC-XC0)
         ANSY= (YC-YC0)
         ANSZ= (ZC-ZC0)
-        ECONVT = ECONVT + UNDEMI*(FXI(I)*ANSX+FYI(I)*ANSY+FZI(I)*ANSZ)
+        ECONVT = ECONVT + HALF*(FXI(I)*ANSX+FYI(I)*ANSY+FZI(I)*ANSZ)
         STF=EM01*STIF(I)
         FXI(I)=FXI(I) + ANSX*STF
         FYI(I)=FYI(I) + ANSY*STF
@@ -593,9 +593,9 @@ C----        Filtrage du frottement
         IF (CODVERS.GE.44) THEN
           IFQ = IPARI(31)
           IF (IFQ.GT.0) THEN
-	      IF (IFQ.EQ.3) FREQ = MAX(UN,FREQ*DT12)
+	      IF (IFQ.EQ.3) FREQ = MAX(ONE,FREQ*DT12)
             ALPHA = FREQ
-            ALPHI = UN - ALPHA
+            ALPHI = ONE - ALPHA
             K = 3*(IL-1)
 	      IF (FNI(I).EQ.0) THEN
               FTSAV(K+1) = ZERO
@@ -632,7 +632,7 @@ C
             TN1= N2(I)/TN
           ELSE
             TN2=ZERO
-            TN1=UN
+            TN1=ONE
           ENDIF
         ENDIF
 C
@@ -673,15 +673,15 @@ C---         Loi Renard
             IF(VV.GE.0.AND.VV.LE.FROT_P(5)) THEN
 	          DMU = FROT_P(3)-FROT_P(1)
               VV1 = VV / FROT_P(5)
-              XMU = FROT_P(1)+ DMU*VV1*(DEUX-VV1)
+              XMU = FROT_P(1)+ DMU*VV1*(TWO-VV1)
             ELSEIF(VV.GT.FROT_P(5).AND.VV.LT.FROT_P(6)) THEN
 	          DMU  = FROT_P(4)-FROT_P(3) 
               VV1  = (VV - FROT_P(5))/(FROT_P(6)-FROT_P(5))
-              XMU = FROT_P(3)+ DMU * (TROIS-DEUX*VV1)*VV1**2
+              XMU = FROT_P(3)+ DMU * (THREE-TWO*VV1)*VV1**2
 	        ELSE
               DMU  = FROT_P(2)-FROT_P(4)
               VV2  = (VV - FROT_P(6))**2
-              XMU = FROT_P(2) - DMU / (UN + DMU*VV2)
+              XMU = FROT_P(2) - DMU / (ONE + DMU*VV2)
 	        ENDIF
 	      ENDIF
           FMAX = -MIN(XMU*FNI(I),ZERO)
@@ -739,7 +739,7 @@ C-------------------------------
             FZI(I)=TN3*FTI
           ENDIF
         ENDIF
-         ECONVT = ECONVT + UNDEMI*(FXI(I)*ANSX+FYI(I)*ANSY+FZI(I)*ANSZ)
+         ECONVT = ECONVT + HALF*(FXI(I)*ANSX+FYI(I)*ANSY+FZI(I)*ANSZ)
        ENDIF
       ENDIF
 C

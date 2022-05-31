@@ -138,7 +138,7 @@ C-----------------------------------------------
       ENDIF      
       IF (ICOMP /= 1) ICOMP = 0
       
-      IF (FCUT == ZERO) FCUT = UN * FCUT_UNIT
+      IF (FCUT == ZERO) FCUT = ONE * FCUT_UNIT
       
       NFUNC = NRATE*2          
       DO I=1,NRATE             
@@ -165,7 +165,7 @@ C---
      .                C1=TITR)
       ENDIF      
       DO I=1,NRATE     
-        IF (YFAC(I) == ZERO) YFAC(I) = UN * YFAC_UNIT(I)
+        IF (YFAC(I) == ZERO) YFAC(I) = ONE * YFAC_UNIT(I)
       ENDDO
       RATE0 = RATE(1)
       DO I=2,NRATE     
@@ -194,16 +194,16 @@ C----------------
       NUPARAM = 7 + NRATE*2
       NUVAR   = 0
 C----------------
-      PARMAT(1) = E/TROIS
+      PARMAT(1) = E/THREE
       PARMAT(2) = MAX(E,G)
       PARMAT(5) = FCUT
 C----------------
 C     Formulation for solid elements time step computation.
-!!      G= UNDEMI*E/(UN + NU)
-!!      RBULK = THIRD*E/(UN - DEUX*NU)
-      NU = UNDEMI*E/G  - UN
+!!      G= HALF*E/(ONE + NU)
+!!      RBULK = THIRD*E/(ONE - TWO*NU)
+      NU = HALF*E/G  - ONE
       PARMAT(16) = 2
-      PARMAT(17) =  (UN - DEUX*NU)/(UN - NU)
+      PARMAT(17) =  (ONE - TWO*NU)/(ONE - NU)
 C-----------
       ISRATE = 1
       MTAG%G_GAMA=9

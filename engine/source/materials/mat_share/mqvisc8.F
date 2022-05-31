@@ -94,7 +94,7 @@ C
    2  DD(I)=ZERO
       DO 5 IPT=1,8
       DO 5 I=LFT,LLT
-   5  DD(I)=DD(I)- UNHUIT*(D1(I,IPT)+D2(I,IPT)+D3(I,IPT))
+   5  DD(I)=DD(I)- ONE_OVER_8*(D1(I,IPT)+D2(I,IPT)+D3(I,IPT))
 C
       IF(IMPL.EQ.ZERO)THEN
        DO 10 I=LFT,LLT
@@ -120,7 +120,7 @@ C
 C
       DO 20 I=LFT,LLT
       AD(I)=ZERO
-      IF(OFF(I).LT.UN.OR.OFFG(I).LE.ZERO) GO TO 20
+      IF(OFF(I).LT.ONE.OR.OFFG(I).LE.ZERO) GO TO 20
       AL(I)=VOL(I)** THIRD
       IF(N2D.GT.0) AL(I)=SQRT(VOL(I))
       AD(I)= MAX(ZERO,DD(I))*AL(I)
@@ -133,7 +133,7 @@ C
           CNS1=GEO(16,PID(I))
           CNS2=GEO(17,PID(I))*SSP(I)*AL(I)*RHO(I)
           QX(I)=(QB+CNS1)*SSP(I)+QA*QA*DELTAX(I) * MAX(ZERO,DD(I))
-     .     + VISI*(DEUX*VIS(I)+CNS2)
+     .     + VISI*(TWO*VIS(I)+CNS2)
      .     / MAX(EM20,RHO(I)*DELTAX(I))
           QVIS(I)=RHO(I)*AD(I)*(QA*QA*AD(I)+QB*SSP(I))
         ENDDO
@@ -147,7 +147,7 @@ C
 C         PSH(I)=PM(88,MAT(I))
 C         PNEW(I)=0.
           QX(I)=(QB+CNS1)*SSP(I)+QA*QA*DELTAX(I) * MAX(ZERO,DD(I))
-     .     + VISI*(DEUX*VIS(I)+CNS2)
+     .     + VISI*(TWO*VIS(I)+CNS2)
      .     / MAX(EM20,RHO(I)*DELTAX(I))
           QVIS(I)=RHO(I)*AD(I)*(QA*QA*AD(I)+QB*SSP(I))
         ENDDO
@@ -178,7 +178,7 @@ C
           ATU=RPR*TMU*RK(I)**2/(MAX(EM15,RE(I)*VOL(I))*XMU)
           AKK=AKK*(1.+ATU)
          ENDIF
-         DTX(I) = MIN(DTX(I),UNDEMI*DELTAX(I)**2*SPH/AKK)
+         DTX(I) = MIN(DTX(I),HALF*DELTAX(I)**2*SPH/AKK)
    40   CONTINUE
       ENDIF
 C----
@@ -186,10 +186,10 @@ C IDTMINS/=2
 C----
       IF(.NOT.(IDTMINS==2.AND.JSMS/=0))THEN
        DO I=LFT,LLT
-        EINT(I)=EINT(I)+UNDEMI*OFF(I)*DVOL(I)*(-QOLD(I)-QVIS(I))
+        EINT(I)=EINT(I)+HALF*OFF(I)*DVOL(I)*(-QOLD(I)-QVIS(I))
         QOLD(I)=QVIS(I)
 Clm     STI will be changed to 2*STI/NNE in SxCUMU  
-C       [ STI(I) = QUART * OFF(I) * RHO(I) * VOL(I) / DTX(I)**2 for 8node bricks ]
+C       [ STI(I) = FOURTH * OFF(I) * RHO(I) * VOL(I) / DTX(I)**2 for 8node bricks ]
         STI(I) = OFF(I) * RHO(I) * VOL(I) / DTX(I)**2
         DTX(I)= DTFAC1(ITY)*DTX(I)
        ENDDO
@@ -255,19 +255,19 @@ C----
 C----
       IF(IDTMINS == 2 .AND. JSMS /= 0)THEN
        DO I=LFT,LLT
-        EINT(I)=EINT(I)+UNDEMI*OFF(I)*DVOL(I)*(-QOLD(I)-QVIS(I))
+        EINT(I)=EINT(I)+HALF*OFF(I)*DVOL(I)*(-QOLD(I)-QVIS(I))
         QOLD(I)=QVIS(I)
 Clm     STI will be changed to 2*STI/NNE in SxCUMU  
-C       [ STI(I) = QUART * OFF(I) * RHO(I) * VOL(I) / DTX(I)**2 for 8node bricks ]
+C       [ STI(I) = FOURTH * OFF(I) * RHO(I) * VOL(I) / DTX(I)**2 for 8node bricks ]
         STI(I) = OFF(I) * RHO(I) * VOL(I) / DTX(I)**2
 c
-c       DTX(I) = DTFACS*SQRT(UN+DMELS(I)/MSSA(I))*DTX(I)
+c       DTX(I) = DTFACS*SQRT(ONE+DMELS(I)/MSSA(I))*DTX(I)
 c       DMELS(I)=MAX(DMELS(I),
-c     .          MSSA(I)*((DTMINS/DTX(I))**2 - UN))
+c     .          MSSA(I)*((DTMINS/DTX(I))**2 - ONE))
 c       DTX(I)=MAX(DTX(I),DTMINS)
         DMELS(I)=MAX(DMELS(I),
-     .           DEUX*MSSA(I)*((DTMINS/(DTFACS*DTY(I)))**2 - UN))
-        DTX(I)=DTFACS*SQRT(UN+DMELS(I)/(DEUX*MSSA(I)))*DTY(I)
+     .           TWO*MSSA(I)*((DTMINS/(DTFACS*DTY(I)))**2 - ONE))
+        DTX(I)=DTFACS*SQRT(ONE+DMELS(I)/(TWO*MSSA(I)))*DTY(I)
        ENDDO
 C
        DO I = LFT,LLT

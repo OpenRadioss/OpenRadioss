@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
  
-c DEUX SOLUTIONS : 
+c TWO SOLUTIONS : 
 C - mettre l'user ID dans ITHBUF(J)
 C - rajouter CLUSTER(ILOC)%ID_GLOB dans le cluster (*)
 Chd|====================================================================
@@ -155,7 +155,7 @@ c
                   END DO
                 END IF ! cluster type
 c
-                NORM = UN / SQRT(VN(1)**2 + VN(2)**2 + VN(3)**2)        
+                NORM = ONE / SQRT(VN(1)**2 + VN(2)**2 + VN(3)**2)        
                 VN(1) = VN(1)*NORM                                               
                 VN(2) = VN(2)*NORM                                               
                 VN(3) = VN(3)*NORM                                               
@@ -170,14 +170,14 @@ c
                 VY(1) = VN(2)*VX(3) - VN(3)*VX(2)                                  
                 VY(2) = VN(3)*VX(1) - VN(1)*VX(3)                                  
                 VY(3) = VN(1)*VX(2) - VN(2)*VX(1)                                  
-                NORM = UN / SQRT(VY(1)**2 + VY(2)**2 + VY(3)**2)        
+                NORM = ONE / SQRT(VY(1)**2 + VY(2)**2 + VY(3)**2)        
                 VY(1) = VY(1)*NORM                                               
                 VY(2) = VY(2)*NORM                                               
                 VY(3) = VY(3)*NORM                                               
                 VX(1) = VY(2)*VN(3) - VY(3)*VN(2)                                
                 VX(2) = VY(3)*VN(1) - VY(1)*VN(3)                                
                 VX(3) = VY(1)*VN(2) - VY(2)*VN(1)                                
-                NORM = UN / SQRT(VX(1)**2 + VX(2)**2 + VX(3)**2)        
+                NORM = ONE / SQRT(VX(1)**2 + VX(2)**2 + VX(3)**2)        
                 VX(1) = VX(1)*NORM                                               
                 VX(2) = VX(2)*NORM                                               
                 VX(3) = VX(3)*NORM

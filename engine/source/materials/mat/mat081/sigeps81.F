@@ -189,7 +189,7 @@ C
       YLDINI   = UPARAM(15)
       CAPINI   = UPARAM(16)
 c
-      UNMSPOR0 = UN-POR0      
+      UNMSPOR0 = ONE-POR0      
 c------------------------------------------------
 c     ATTENTION INITIALISATIONS PROVISOIREMENT ICI
 c     A rendre compatible : IF(EPSPV(I) == ZERO) EPSPV(I)=UPARAM(8)! EPSVINI
@@ -216,11 +216,11 @@ c     A rendre compatible : IF(EPSPV(I) == ZERO) EPSPV(I)=UPARAM(8)! EPSVINI
             UVAR(I,3)=U0
             UVAR(I,4)=POR0
             UVAR(I,5)=SAT0
-            MUW(I)=SAT0-UN
+            MUW(I)=SAT0-ONE
             IF(MUW(I) >= TOLMU)THEN
                UVAR(I,6)=KWATER*MUW(I)
             ELSEIF(MUW(I) > -TOLMU)THEN
-               UVAR(I,6)=KWATER/QUATRE/TOLMU*(MUW(I)+TOLMU)**2
+               UVAR(I,6)=KWATER/FOUR/TOLMU*(MUW(I)+TOLMU)**2
             ELSE
                UVAR(I,6)=ZERO
             ENDIF
@@ -267,16 +267,16 @@ c---------------
         PA(I) = ALPHA*PB(I)
         PBMPA(I) = (PB(I)-PA(I))
         PBMPA2(I)= PBMPA(I)**2
-        DELTA = (PA(I)*TGB + C(I))**2 + HUIT*PBMPA2(I)*TGB**2
+        DELTA = (PA(I)*TGB + C(I))**2 + EIGHT*PBMPA2(I)*TGB**2
         IF (TGB > SMALL) THEN
-          P0(I)=PA(I)+(-(PA(I)*TGB+C(I))+SQRT(DELTA))/QUATRE/TGB
+          P0(I)=PA(I)+(-(PA(I)*TGB+C(I))+SQRT(DELTA))/FOUR/TGB
         ELSE
           P0(I)=PA(I)
         ENDIF
-        G2(I) = DEUX*G(I)
+        G2(I) = TWO*G(I)
 C
         DEPSVOL(I) = (DEPSXX(I) +DEPSYY(I) +DEPSZZ(I))
-        DAV(I) = DEPSVOL(I)*TIERS
+        DAV(I) = DEPSVOL(I)*THIRD
         D1(I)  = DEPSXX(I)-DAV(I)
         D2(I)  = DEPSYY(I)-DAV(I)
         D3(I)  = DEPSZZ(I)-DAV(I)
@@ -289,7 +289,7 @@ c       Increments elastiques pression et deviateur
         DS5(I)= G(I) * DEPSYZ(I)
         DS6(I)= G(I) * DEPSZX(I)
 c       Valeurs elastiques pression et deviateur   
-        PO(I)  =-(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*TIERS
+        PO(I)  =-(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*THIRD
         SO1(I) = SIGOXX(I) + PO(I)
         SO2(I) = SIGOYY(I) + PO(I)
         SO3(I) = SIGOZZ(I) + PO(I)
@@ -316,8 +316,8 @@ C
 c------------------------------------------
 c     old criterion
       DO I=1,NEL          
-        Q2(I) = TDEMI*(SO1(I)**2+SO2(I)**2+SO3(I)**2)
-     .        + TROIS*(SO4(I)**2+SO5(I)**2+SO6(I)**2)
+        Q2(I) = THREE_HALF*(SO1(I)**2+SO2(I)**2+SO3(I)**2)
+     .        + THREE*(SO4(I)**2+SO5(I)**2+SO6(I)**2)
         Q(I)  = SQRT(Q2(I))
         UO(I) = UVAR(I,6)
         FO(I) = FCRIT(PO(I),UO(I),TGB,C(I),PA(I),P0(I),PBMPA2(I),Q(I))
@@ -327,13 +327,13 @@ cfp_poro +18 Pore pressure is calculated at the end
 cfp_poro in the first part U is the non linear cap shift
       IF (SAT0 > ZERO) THEN
         DO I=1,NEL
-          POR(I)=UN-UNMSPOR0*EXP(EPSPV(I)-EPSPVOL0)
+          POR(I)=ONE-UNMSPOR0*EXP(EPSPV(I)-EPSPVOL0)
           FAC=MAX(EM03,POR(I)/POR0)
           MUW(I)=SAT0/FAC*AMU(I)
           IF (MUW(I) >= TOLMU) THEN
             U(I)=KWATER*MUW(I)
           ELSEIF (MUW(I) > -TOLMU) THEN
-            U(I)=KWATER/QUATRE/TOLMU*(MUW(I)+TOLMU)**2
+            U(I)=KWATER/FOUR/TOLMU*(MUW(I)+TOLMU)**2
           ELSE
             U(I)=ZERO
           ENDIF
@@ -343,7 +343,7 @@ cfp_poro in the first part U is the non linear cap shift
         ENDDO
       ELSE
         DO I=1,NEL
-          MUW(I)=-UN
+          MUW(I)=-ONE
           U(I)  = ZERO
           DU(I) = ZERO
           DUDMU(I)=ZERO
@@ -353,8 +353,8 @@ c------------------------------------------
 c     EVALUATION FONCTION CRITERE DE PLASTICITE
 c------------------------------------------
       DO I=1,NEL          
-        Q2(I) = TDEMI*(S1(I)**2+S2(I)**2+S3(I)**2)
-     .        + TROIS*(S4(I)**2+S5(I)**2+S6(I)**2)
+        Q2(I) = THREE_HALF*(S1(I)**2+S2(I)**2+S3(I)**2)
+     .        + THREE*(S4(I)**2+S5(I)**2+S6(I)**2)
         Q(I)= SQRT(Q2(I))
         F(I)= FCRIT(P(I),U(I),TGB,C(I),PA(I),P0(I),PBMPA2(I),Q(I))
       ENDDO
@@ -364,7 +364,7 @@ c------------------------------------------
       DO I=1,NEL
         IF (F(I) > TOL) THEN
           IF (FO(I) < ZERO) THEN
-            X1 = UN
+            X1 = ONE
             X2 = ZERO
             F1 = FO(I)
             F2 = F(I)
@@ -378,7 +378,7 @@ c------------------------------------------
               SY6 = S6(I) - X * DS6(I)
               PY  = P(I)  - X * DP(I) 
               UY  = U(I)  - X * DU(I)
-              QY  = TDEMI*(SY1**2+SY2**2+SY3**2) + TROIS*(SY4**2+SY5**2+SY6**2)
+              QY  = THREE_HALF*(SY1**2+SY2**2+SY3**2) + THREE*(SY4**2+SY5**2+SY6**2)
               QY  = SQRT(QY)
               FY  = FCRIT(PY,UY,TGB,C(I),PA(I),P0(I),PBMPA2(I),QY)
 c
@@ -439,7 +439,7 @@ c---------------------------------
       DO I=1,NEL
         IF (F(I) > ZERO) THEN
           IF (P(I) <= PA(I)) THEN
-            RC = UN     
+            RC = ONE     
             DFDP =-TGB  
             DGDP =-TGP  
             DFDPB= ZERO 
@@ -453,7 +453,7 @@ c---------------------------------
             ENDIF                                                  
             PMPA = PU - PA(I)                                      
             RP = PMPA / PBMPA(I)                                   
-            RC = UN - MIN(UN, PMPA**2/PBMPA2(I))                   
+            RC = ONE - MIN(ONE, PMPA**2/PBMPA2(I))                   
             RC = SQRT(RC)                                          
             AA = TGB*PU + C(I)                                     
             DRCDP = -PMPA/PBMPA2(I)/MAX(SMALL,RC)                  
@@ -474,13 +474,13 @@ c
 c
           DFDC = -RC
 c         MAX_DILAT est toujours negatif.
-          IF (RHO(I) <= (UN+MAX_DILAT)*RHO0(I)) THEN
+          IF (RHO(I) <= (ONE+MAX_DILAT)*RHO0(I)) THEN
             DGDP=MAX(ZERO,DGDP)
             DFDP=MAX(ZERO,DFDP)
           ENDIF
 
           IF (Q(I) > EM20) THEN
-            FAC   = TDEMI/Q(I)
+            FAC   = THREE_HALF/Q(I)
             DFDS1 = S1(I)*FAC
             DFDS2 = S2(I)*FAC
             DFDS3 = S3(I)*FAC
@@ -498,14 +498,14 @@ c         MAX_DILAT est toujours negatif.
 c
           IF (RC > EM05) THEN
 c           DENOMINATEUR         
-            HH = TROIS*G(I) - DFDC*DCDEPSP(I) + K(I)*DFDP*DGDP 
+            HH = THREE*G(I) - DFDC*DCDEPSP(I) + K(I)*DFDP*DGDP 
      .         - DGDP*DFDPB*DPBDEPSP(I)
 c
 c           INCREMENT DEFORMATIONS PASTIQUES
 c           il y a deux fois dfds4 c'est df/ds12 et non (df/ds12 + df/ds21)
 c
             DLAMBDA = DFDS1*DS1(I) + DFDS2*DS2(I) + DFDS3*DS3(I)+
-     .              +(DFDS4*DS4(I)+ DFDS5*DS5(I)+ DFDS6*DS6(I))*DEUX
+     .              +(DFDS4*DS4(I)+ DFDS5*DS5(I)+ DFDS6*DS6(I))*TWO
      .              + DFDP*(DP(I)-DU(I))
 C
             DLAMBDA = DLAMBDA/MAX(HH,EM20)
@@ -514,9 +514,9 @@ C
             DEPSP2 =   DLAMBDA*DFDS2 
             DEPSP3 =   DLAMBDA*DFDS3 
 c           le facteur 2 est du au fait que c'est des gamma
-            DEPSP4 = DEUX*DLAMBDA*DFDS4 
-            DEPSP5 = DEUX*DLAMBDA*DFDS5 
-            DEPSP6 = DEUX*DLAMBDA*DFDS6
+            DEPSP4 = TWO*DLAMBDA*DFDS4 
+            DEPSP5 = TWO*DLAMBDA*DFDS5 
+            DEPSP6 = TWO*DLAMBDA*DFDS6
             DEPSPV = DLAMBDA*DGDP
           ELSE
             DEPSP1 = DE1(I)
@@ -566,10 +566,10 @@ C
      .          + (S3N(I)+S3(I))*DEPSP3    
      .          + ((S4N(I)+S4(I))*DEPSP4  
      .          +  (S5N(I)+S5(I))*DEPSP5
-     .          +  (S6N(I)+S6(I))*DEPSP6 )*UNDEMI
+     .          +  (S6N(I)+S6(I))*DEPSP6 )*HALF
 C
-          Q2(I) = TDEMI*(S1N(I)**2+S2N(I)**2+S3N(I)**2)
-     .          + TROIS*(S4N(I)**2+S5N(I)**2+S6N(I)**2)
+          Q2(I) = THREE_HALF*(S1N(I)**2+S2N(I)**2+S3N(I)**2)
+     .          + THREE*(S4N(I)**2+S5N(I)**2+S6N(I)**2)
           QN(I) = SQRT(Q2(I))
           QX2   = Q(I) + QN(I)
 C
@@ -607,9 +607,9 @@ C
           PA(I) = ALPHA*PB(I)
           PBMPA2(I) = (PB(I)-PA(I))**2
 c         fp_poro +6
-          DELTA = (PA(I)*TGB+C(I))**2+HUIT*PBMPA2(I)*TGB**2
+          DELTA = (PA(I)*TGB+C(I))**2+EIGHT*PBMPA2(I)*TGB**2
           IF (TGB > SMALL) THEN
-            P0(I)=PA(I)+(-(PA(I)*TGB+C(I))+SQRT(DELTA))/QUATRE/TGB
+            P0(I)=PA(I)+(-(PA(I)*TGB+C(I))+SQRT(DELTA))/FOUR/TGB
           ELSE
             P0(I)=PA(I)
           ENDIF
@@ -617,13 +617,13 @@ C
 c         UPDATE CAP SHIFT for NEW EPSSO (porosity)
 C
           IF (SAT0 > ZERO) THEN
-            POR(I) = UN - UNMSPOR0*EXP(EPSPV(I)-EPSPVOL0)
+            POR(I) = ONE - UNMSPOR0*EXP(EPSPV(I)-EPSPVOL0)
             FAC = MAX(EM03,POR(I)/POR0)
             MUW(I) = SAT0/FAC*AMU(I)
             IF (MUW(I) >= TOLMU) THEN
               U(I) = KWATER*MUW(I)
             ELSEIF (MUW(I) > -TOLMU) THEN
-              U(I)=KWATER/QUATRE/TOLMU*(MUW(I)+TOLMU)**2
+              U(I)=KWATER/FOUR/TOLMU*(MUW(I)+TOLMU)**2
             ELSE
               U(I)=ZERO
             ENDIF
@@ -656,14 +656,14 @@ c******
                    PU = PN(I) - U(I)
                 ENDIF
                 IF (PN(I) > PA(I)) THEN
-                  RC = SQRT(MAX(ZERO,UN - ((PU-PA(I))**2/PBMPA2(I))))
+                  RC = SQRT(MAX(ZERO,ONE - ((PU-PA(I))**2/PBMPA2(I))))
                 ELSE
-                  RC = UN
+                  RC = ONE
                 ENDIF
                 IF (RC > TOL ) THEN        ! changed by Marian at 2017.12.06
                   IF (QN(I) > SMALL) THEN
                     X = RC*(PU*TGB+C(I))/QN(I)
-C                   IF (X < UN-EM02 .OR. X > UN) THEN
+C                   IF (X < ONE-EM02 .OR. X > ONE) THEN
 C                      WRITE(7,*)'REPROJ Q',X,FY,PN(I),PU,QN(I)
 C                      WRITE(6,*)'REPROJ Q',X,FY,PN(I),PU,QN(I)
 C                   ENDIF
@@ -703,7 +703,7 @@ c----------------------------------------------
         DO I=1,NEL
           UVAR(I,6) = U(I)   ! cap shift
           UVAR(I,4) = POR(I)
-          UVAR(I,5) = MUW(I) + UN
+          UVAR(I,5) = MUW(I) + ONE
 c         Pore pressure is calculated here
           IF (MUW(I) >  ZERO) THEN
             U(I) = KWATER*MUW(I)
@@ -716,7 +716,7 @@ C
           VISCMAX(I) = ZERO
 c         fp_poro adding viscosity close to saturation
           IF (MUW(I) > -TOLMU) THEN 
-            VISCMAX(I) = VISCFAC*(SQRT(KWATER*RHO(I))*VOLUME(I)**TIERS)
+            VISCMAX(I) = VISCFAC*(SQRT(KWATER*RHO(I))*VOLUME(I)**THIRD)
             U(I) = U(I) - VISCMAX(I)*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))
           ENDIF 
 c         fp_poro the pore pressure is stored in the viscous stress
@@ -729,7 +729,7 @@ c         for practical reasons including compatibility with ALE
       ENDIF
 c----------------------------------------------
       DO I=1,NEL
-        SOUNDSP(I) = SQRT((K(I) + QTIERS*G(I) + DUDMU(I))/RHO(I))
+        SOUNDSP(I) = SQRT((K(I) + FOUR_OVER_3*G(I) + DUDMU(I))/RHO(I))
       ENDDO
 c-----------
       RETURN
@@ -754,10 +754,10 @@ c=======================================================================
       ENDIF
       DP = PU - PA
       IF (DP > ZERO) THEN
-        RC = UN - MIN(UN, DP**2/PBMPA2)
+        RC = ONE - MIN(ONE, DP**2/PBMPA2)
         RC = SQRT(RC)
       ELSE
-        RC = UN
+        RC = ONE
       ENDIF
 c
       A = MAX(ZERO, PU*TGB + COH)

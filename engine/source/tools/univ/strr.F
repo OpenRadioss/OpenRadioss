@@ -60,19 +60,19 @@ C-----------------------------------------------
       X=MIN(X,BIG)
       X=MAX(X,-BIG)
       A=ABS(X)
-      IF(A.LT.UNP001EM32)THEN
+      IF(A.LT.ONEP001EM32)THEN
        STRR='10000000'
        RETURN
       ENDIF
 C
       IEXP=LOG10(A)
       ISE=MAX(0,-ISIGN(1,IEXP))
-      ISM=SIGN(UN,X)
+      ISM=SIGN(ONE,X)
       ISM=MAX(0,-ISM)
-      XMAN =A*DIX**(-IEXP)
+      XMAN =A*TEN**(-IEXP)
       XMAN =XMAN*EP9
       IF(XMAN.GE.EP9)THEN
-      XMAN=XMAN/DIX
+      XMAN=XMAN/TEN
        IEXP=IEXP+1
       ENDIF
       MANT =XMAN

@@ -365,8 +365,8 @@ C Condensation des forces portant sur les ddls internes
                IF (NDDL_I2.GT.0.AND.NSCM.GT.0) 
      .            CALL DGEMM(
      .           'N', 'N',                     NSCM,   NDDL_F, NDDL_I2,
-     .           UN,  BL,                      NSCM,   VS,     NDDL_I2,
-     .           UN,  GRAPHE(I)%DGRAPH(ISD)%B, NSBMAX)
+     .           ONE,  BL,                      NSCM,   VS,     NDDL_I2,
+     .           ONE,  GRAPHE(I)%DGRAPH(ISD)%B, NSBMAX)
                DEALLOCATE(VS, BL)
 C
  100           CONTINUE
@@ -477,11 +477,11 @@ C
 C
       IF (NDI.GT.0.AND.NDF.GT.0)
      .   CALL DGEMM('N', 'N', NDF, NDF, NDI,
-     .              UN,  KLC, NDF, VS,  NDI,
-     .              UN,  KPS, NDF) 
+     .              ONE,  KLC, NDF, VS,  NDI,
+     .              ONE,  KPS, NDF) 
 C
       DO I=1,NVD
-         KPI(I)=(DEUX*PI*FREQ(I))**2
+         KPI(I)=(TWO*PI*FREQ(I))**2
       ENDDO
 C
 C Ecriture sur fichier acces direct
@@ -578,8 +578,8 @@ C
          ENDDO
          IF (NDI.GT.0.AND.NDF.GT.0) 
      .      CALL DGEMM('T', 'N', NDF, NDF,  NDI,
-     .                 UN,  VS,  NDI, MTMP, NRT,
-     .                 UN,  MPS, NDF)
+     .                 ONE,  VS,  NDI, MTMP, NRT,
+     .                 ONE,  MPS, NDF)
 C
          DO I=1,NDI
             DO J=1,NVD
@@ -588,11 +588,11 @@ C
          ENDDO
          IF (NDI.GT.0.AND.NDF.GT.0) 
      .      CALL DGEMM('T',  'N', NDF, NVD,  NDI,
-     .                 UN,   VS,  NDI, MTMP, NRT,
+     .                 ONE,   VS,  NDI, MTMP, NRT,
      .                 ZERO, MPC, NDF)
 C
          DO I=1,NVD
-            MPII(I)=UN
+            MPII(I)=ONE
          ENDDO
 C
       ELSEIF (IMDIAG.EQ.0) THEN
@@ -605,15 +605,15 @@ C
          IF (NDI.GT.0.AND.NDF.GT.0) THEN
 *            CALL MY_ETIME(TMCOND(1))
             CALL DGEMM('N',  'N',  NDI, NDF, NDI,
-     .                 UN,   MLI,  NDI, VS,  NDI,
+     .                 ONE,   MLI,  NDI, VS,  NDI,
      .                 ZERO, MTMP, NRT)
 *            CALL MY_ETIME(TMCOND(3))
             CALL DGEMM('T', 'N', NDF, NDF,  NDI,
-     .                 UN,  VS,  NDI, MTMP, NRT,
-     .                 UN,  MPS, NDF)
+     .                 ONE,  VS,  NDI, MTMP, NRT,
+     .                 ONE,  MPS, NDF)
 *            CALL MY_ETIME(TMCOND(5))
             CALL DGEMM('N',  'N',  NDF, NDF, NDI,
-     .                 UN,   MLC,  NDF, VS,  NDI,
+     .                 ONE,   MLC,  NDF, VS,  NDI,
      .                 ZERO, MTMP, NRT)
             DO I=1,NDF
                DO J=1,NDF
@@ -624,16 +624,16 @@ C
 C
 *            CALL MY_ETIME(TMCOND(9))
             CALL DGEMM('N',  'N',  NDI, NVD, NDI,
-     .                 UN,   MLI,  NDI, VD,  NDI,
+     .                 ONE,   MLI,  NDI, VD,  NDI,
      .                 ZERO, MTMP, NRT)
 *            CALL MY_ETIME(TMCOND(11))
             CALL DGEMM('T',   'N', NDF, NVD,  NDI,
-     .                 UN,    VS,  NDI, MTMP, NRT,
+     .                 ONE,    VS,  NDI, MTMP, NRT,
      .                 ZERO,  MPC, NDF)
 *            CALL MY_ETIME(TMCOND(13))
             CALL DGEMM('N', 'N', NDF, NVD, NDI,
-     .                 UN,  MLC, NDF, VD,  NDI,
-     .                 UN,  MPC, NDF)
+     .                 ONE,  MLC, NDF, VD,  NDI,
+     .                 ONE,  MPC, NDF)
 *            CALL MY_ETIME(TMCOND(15))
          ENDIF
 *
@@ -658,7 +658,7 @@ C
 *         WRITE(IOUT,'(A)') '****** '
 C
          DO I=1,NVD
-            MPII(I)=UN
+            MPII(I)=ONE
          ENDDO
 C
       ENDIF

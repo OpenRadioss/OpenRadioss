@@ -207,7 +207,7 @@ C--------------------------------------------------
 C--------------------------------------------------
         IF(IDTMINS .NE. 0)THEN
           DO I=1,NUMNOD
-            VALUE(I)=MAX(ZERO,DIAG_SMS(I)/MAX(EM20,MS(I))-UN)	 
+            VALUE(I)=MAX(ZERO,DIAG_SMS(I)/MAX(EM20,MS(I))-ONE)	 
             IS_WRITTEN_VALUE(I) = 1
           ENDDO
         ENDIF

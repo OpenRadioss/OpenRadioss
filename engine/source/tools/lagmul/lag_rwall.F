@@ -193,7 +193,7 @@ C---       x
             LLL(IK) = N
             JLL(IK) = 1
             SLL(IK) = 0
-            XLL(IK) = UN
+            XLL(IK) = ONE
 C---       y
             NC=NC+1
             IF(NC.GT.N_MUL_MX)THEN
@@ -211,7 +211,7 @@ C---       y
             LLL(IK) = N
             JLL(IK) = 2
             SLL(IK) = 0
-            XLL(IK) = UN
+            XLL(IK) = ONE
 C---       z
             NC=NC+1
             IF(NC.GT.N_MUL_MX)THEN
@@ -229,7 +229,7 @@ C---       z
             LLL(IK) = N
             JLL(IK) = 3
             SLL(IK) = 0
-            XLL(IK) = UN
+            XLL(IK) = ONE
             COMNTAG(N) = COMNTAG(N) + 1
           ENDDO
         ELSE
@@ -310,12 +310,12 @@ C---       x
             LLL(IK) = N
             JLL(IK) = 1
             SLL(IK) = 0
-            XLL(IK) = UN
+            XLL(IK) = ONE
             IK = IK + 1
             LLL(IK) = MSR
             JLL(IK) = 1
             SLL(IK) = 0
-            XLL(IK) =-UN
+            XLL(IK) =-ONE
 C---       y
             NC=NC+1
             IF(NC.GT.N_MUL_MX)THEN
@@ -333,12 +333,12 @@ C---       y
             LLL(IK) = N
             JLL(IK) = 2
             SLL(IK) = 0
-            XLL(IK) = UN
+            XLL(IK) = ONE
             IK = IK + 1
             LLL(IK) = MSR
             JLL(IK) = 2
             SLL(IK) = 0
-            XLL(IK) =-UN
+            XLL(IK) =-ONE
 C---       z
             NC=NC+1
             IF(NC.GT.N_MUL_MX)THEN
@@ -356,12 +356,12 @@ C---       z
             LLL(IK) = N
             JLL(IK) = 3
             SLL(IK) = 0
-            XLL(IK) = UN
+            XLL(IK) = ONE
             IK = IK + 1
             LLL(IK) = MSR
             JLL(IK) = 3
             SLL(IK) = 0
-            XLL(IK) =-UN
+            XLL(IK) =-ONE
             COMNTAG(N)   = COMNTAG(N) + 1
             COMNTAG(MSR) = COMNTAG(MSR) + 1
           ENDDO

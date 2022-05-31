@@ -87,8 +87,8 @@ C
 C
         DT_R2R(1,1) = DT
         DT_R2R(2,1) = COST_R2R
-        IF (FLG_CHK.GT.0) DT_R2R(3,1) = UN
-        IF (FLG_CTL.GT.0) DT_R2R(4,1) = UN
+        IF (FLG_CHK.GT.0) DT_R2R(3,1) = ONE
+        IF (FLG_CTL.GT.0) DT_R2R(4,1) = ONE
 C
       ELSE
 C

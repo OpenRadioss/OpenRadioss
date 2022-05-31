@@ -428,7 +428,7 @@ C-----------------------------------------------
      .   MAX_E
 C-----------------------------------------------
       CALL L_DIR0(EJ ,J)
-      MAX_E = UN/EJ(J)
+      MAX_E = ONE/EJ(J)
       DO I = 1, 3
        EJ(I) = MAX_E*EJ(I)
       ENDDO
@@ -479,7 +479,7 @@ C------- will be same than L_DIR, just not to change so much lines--
       ELSE
        CALL L_DIR0(EJ ,J)
       ENDIF
-      MAX_E = UN/EJ(J)
+      MAX_E = ONE/EJ(J)
       DO I = 1, 3
        EJ(I) = MAX_E*EJ(I)
       ENDDO
@@ -551,8 +551,8 @@ C-----------------------------------------------
        KDD(J,I)=KDD(I,J)
       ENDDO
       ENDDO
-      KII(K1,K1)=-(DEUX*KDD(K1,J1)-KDD(J1,J1)*EJ(K))*EJ(K)
-      KII(L1,L1)=-(DEUX*KDD(L1,J1)-KDD(J1,J1)*EJ(L))*EJ(L)
+      KII(K1,K1)=-(TWO*KDD(K1,J1)-KDD(J1,J1)*EJ(K))*EJ(K)
+      KII(L1,L1)=-(TWO*KDD(L1,J1)-KDD(J1,J1)*EJ(L))*EJ(L)
       KII(L1,K1)=-KDD(L1,J1)*EJ(K)-KDD(K1,J1)*EJ(L)
      1           +KDD(J1,J1)*EJ(L)*EJ(K)
       KII(K1,L1)=KII(L1,K1)
@@ -792,7 +792,7 @@ C          CALL L_DIR2(EJ1,J1,2)
 c          IF (J1.EQ.J) THEN
 c           EJ1(J)=ZERO
 c           CALL L_DIR(EJ1,J1)
-c           MAX_E=UN/SKEW(J1+3,ISK)
+c           MAX_E=ONE/SKEW(J1+3,ISK)
 c           DO K = 1, 3
 c            EJ1(K) = MAX_E*SKEW(K+3,ISK)
 c           ENDDO
@@ -910,7 +910,7 @@ C-----------------------------------------------
        K = J + 2
        IF (K.GT.3) K = K - 3
       ENDIF
-      S =UN-EJ1(J)*EJ(J1)
+      S =ONE-EJ1(J)*EJ(J1)
       D(J1,N) = ( D(J1,N)-EJ1(J)*D(J,N)+
      .            (EJ1(J)*EJ(K)-EJ1(K))*D(K,N) )/S
       D(J,N) = D(J,N)- EJ(K)* D(K,N)-EJ(J1)* D(J1,N)
@@ -1401,8 +1401,8 @@ C-----------------------------------------------
        KDD(3,1) = KDD(1,3)
        KDD(3,2) = KDD(2,3)
 C
-       KII(K1,K1)=KDD(K1,K1)-(DEUX*KDD(K1,J1)-KDD(J1,J1)*EJ(K))*EJ(K)
-       KII(L1,L1)=KDD(L1,L1)-(DEUX*KDD(L1,J1)-KDD(J1,J1)*EJ(L))*EJ(L)
+       KII(K1,K1)=KDD(K1,K1)-(TWO*KDD(K1,J1)-KDD(J1,J1)*EJ(K))*EJ(K)
+       KII(L1,L1)=KDD(L1,L1)-(TWO*KDD(L1,J1)-KDD(J1,J1)*EJ(L))*EJ(L)
        KII(L1,K1)=KDD(L1,K1)-KDD(L1,J1)*EJ(K)-KDD(K1,J1)*EJ(L)
      1           +KDD(J1,J1)*EJ(L)*EJ(K)
        KII(K1,L1)=KII(L1,K1)
@@ -1584,10 +1584,6 @@ Chd|        CP_REAL                       source/implicit/produt_v.F
 Chd|        ZERO1                         source/system/zero.F          
 Chd|====================================================================
       SUBROUTINE CLCEIG(AMTX,EIGVAL,EIGVEC,SMALL,NMTX,IERR)
-c --- clceig.f --- Thu May 18 12:15:11 CDT 2000 ----
-c   Author: N.Pagaldipti --- Maintained by: N.Pagaldipti
-c   Copyright: Altair Engineering, Inc., 1996 - 2008
-C
 C     PURPOSE:
 C
 C        CALCULATE THE EIGENVALUES AND EIGEN VECTORS OF A SYMMETRIC
@@ -1641,7 +1637,7 @@ C     IF AMTX IS A 1 X 1 MATRIX
 C
       IF (NMTX .EQ. 1) THEN
          EIGVAL(1) = AMTX(1,1)
-         EIGVEC(1,1) = UN
+         EIGVEC(1,1) = ONE
          GOTO 999
       ENDIF
 C
@@ -1649,7 +1645,7 @@ C     INITIALIZE EIGEN VECTOR TO IDENTITY MATRIX
 C
       CALL ZERO1(EIGVEC,NMTX*NMTX)
       DO 10 I = 1, NMTX
-         EIGVEC(I,I) = UN
+         EIGVEC(I,I) = ONE
  10   CONTINUE
 C
 C     FIND LARGEST OFF-DIAGONAL TERM IN AMTX THAT NEEDS TO BE ZEROED OUT
@@ -1716,23 +1712,23 @@ C        CALCULATE TANGENT, COSINE AND SINE OF ROTATION ANGLE (THETA)
 C
          DEN = ABS(AMTX(IB,IB) - AMTX(JB,JB)) +
      *         SQRT( (AMTX(IB,IB) - AMTX(JB,JB))**2 +
-     *           QUATRE*AMTX(IB,JB)**2 )
+     *           FOUR*AMTX(IB,JB)**2 )
          IF (DEN .GT. ZERO) THEN
             IF (AMTX(IB,IB) .GE. AMTX(JB,JB)) THEN
-               TT = DEUX*AMTX(IB,JB)/DEN
+               TT = TWO*AMTX(IB,JB)/DEN
             ELSE
-               TT = -DEUX*AMTX(IB,JB)/DEN
+               TT = -TWO*AMTX(IB,JB)/DEN
             ENDIF
 C
-            CT = UN/SQRT(UN + TT**2)
+            CT = ONE/SQRT(ONE + TT**2)
             ST = CT*TT
          ELSE
             IF (AMTX(IB,IB) .GE. AMTX(JB,JB)) THEN
                CT = ZERO
-               ST = UN
+               ST = ONE
             ELSE
                CT = ZERO
-               ST = -UN
+               ST = -ONE
             ENDIF
          ENDIF
 C
@@ -1740,7 +1736,7 @@ C        CONSTRUCT ROTATION MATRIX
 C
          CALL ZERO1(ROTN,NMTX*NMTX)
          DO 90 I = 1, NMTX
-            ROTN(I,I) = UN
+            ROTN(I,I) = ONE
  90      CONTINUE
 C
          ROTN(IB,IB) = CT
@@ -1779,7 +1775,7 @@ C        TAKE CARE OF ROUND-OFF ERRORS IN CALCULATION
 C
          DO 170 I = 1, NMTX
             DO 160 J = (I+1), NMTX
-               AMTX(I,J) = UNDEMI*(AMTX(I,J) + AMTX(J,I))
+               AMTX(I,J) = HALF*(AMTX(I,J) + AMTX(J,I))
                AMTX(J,I) = AMTX(I,J)
  160        CONTINUE
  170     CONTINUE
@@ -1940,7 +1936,7 @@ C
             LAUSPC = LAUSPC + 1
             IND = 2*I-1
             HIGH = MAX(ABS(EIGVEC(IND)),EIGVEC(ABS(IND+1)))
-	    IF (ABS(HIGH-UN).LT.SMLEIG) THEN
+	    IF (ABS(HIGH-ONE).LT.SMLEIG) THEN
              IKC(ID(I)) = 14
 	    ELSE
              IKC(ID(I)) = 15
@@ -1992,7 +1988,7 @@ C
           ENDIF
 	 ENDDO
 C        STILL GLOBAL SYSTEM
-	 IF (ABS(HIGH-UN).LT.SMLEIG) THEN
+	 IF (ABS(HIGH-ONE).LT.SMLEIG) THEN
           DO I = 1, NMTX
            IF ( EIGVAL(I) .LT. SMLEIG ) IKC(I) = 14
 	  ENDDO
@@ -2015,7 +2011,7 @@ C        STILL GLOBAL SYSTEM
             LAUSPC = LAUSPC + 1
             IND = 3*I-2
             HIGH = MAX(EIGVEC(IND),EIGVEC(IND+1),EIGVEC(IND+2))
-	    IF (ABS(HIGH-UN).LT.SMLEIG) THEN
+	    IF (ABS(HIGH-ONE).LT.SMLEIG) THEN
              IKC(I) = 14
 	    ELSE
 	     NASPCC =NASPCC +1
@@ -2453,7 +2449,7 @@ c          CALL L_DIR(EJ,J)
           EJ1(3)=SKEW1(3)
          CALL BC_C2D(EJ,EJ1, J, J1  ,EA, EB  )
           CALL DIR_RBE2(J    ,J1    ,K     )
-c	  S=UN/(UN-EJ(J1)*EJ1(J))
+c	  S=ONE/(ONE-EJ(J1)*EJ1(J))
 C------------signe due to the subroutine BC_UPDK2
 c	  EA=-S*(EJ(J1)*EJ1(K)-EJ(K))
 c	  EB=-S*(EJ1(J)*EJ(K)-EJ1(K))
@@ -2504,7 +2500,7 @@ C          CALL L_DIR(EJ,J)
           EJ1(3)=SKEW1(3)
           CALL BC_C2D(EJ,EJ1, J, J1  ,EA, EB  )
           CALL DIR_RBE2(J    ,J1    ,K     )
-c          S=UN/(UN-EJ(J1)*EJ1(J))
+c          S=ONE/(ONE-EJ(J1)*EJ1(J))
 c          EA=S*(EJ(J1)*EJ1(K)-EJ(K))
 c          EB=S*(EJ1(J)*EJ(K)-EJ1(K))
 C          
@@ -2553,7 +2549,7 @@ c          CALL L_DIR(EJ,J)
           EJ1(3)=SKEW1(3)
           CALL BC_C2D(EJ,EJ1, J, J1  ,EA, EB  )
           CALL DIR_RBE2(J    ,J1    ,K     )
-c	  S=UN/(UN-EJ(J1)*EJ1(J))
+c	  S=ONE/(ONE-EJ(J1)*EJ1(J))
 c	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
 c	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
 C
@@ -2599,7 +2595,7 @@ c          CALL L_DIR(EJ,J)
           EJ1(1)=SKEW1(1)
           EJ1(2)=SKEW1(2)
           EJ1(3)=SKEW1(3)
-c	  S=UN/(UN-EJ(J1)*EJ1(J))
+c	  S=ONE/(ONE-EJ(J1)*EJ1(J))
 c	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
 c	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
           CALL BC_C2D(EJ,EJ1, J, J1  ,EA, EB  )
@@ -2607,8 +2603,8 @@ c	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
           EA = -EA
           EB = -EB
         DIAG_K(K)=DIAG_K(K)+
-     .           EA*(KDD(J,J)*EA+DEUX*EB*KDD(J,J1)-DEUX*KDD(J,K))
-     .          +EB*(KDD(J1,J1)*EB-DEUX*KDD(J1,K))
+     .           EA*(KDD(J,J)*EA+TWO*EB*KDD(J,J1)-TWO*KDD(J,K))
+     .          +EB*(KDD(J1,J1)*EB-TWO*KDD(J1,K))
 C
       RETURN
       END
@@ -2654,7 +2650,7 @@ c          CALL L_DIR(EJ,J)
           CALL DIR_RBE2(J    ,J1    ,K     )
           EA = -EA
           EB = -EB
-c	  S=UN/(UN-EJ(J1)*EJ1(J))
+c	  S=ONE/(ONE-EJ(J1)*EJ1(J))
 c	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
 c	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
 C
@@ -2710,7 +2706,7 @@ c          CALL L_DIR(EJ,J)
           CALL DIR_RBE2(J    ,J1    ,K     )
           EA = -EA
           EB = -EB
-c	  S=UN/(UN-EJ(J1)*EJ1(J))
+c	  S=ONE/(ONE-EJ(J1)*EJ1(J))
 c	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
 c	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
 C
@@ -2727,8 +2723,8 @@ C
        KDD(3,2) = KDD(2,3)
 C
        KDD(K,K)= KDD(K,K)
-     .          +EA*(KDD(J,J)*EA+DEUX*EB*KDD(J,J1)-DEUX*KDD(J,K))
-     .          +EB*(KDD(J1,J1)*EB-DEUX*KDD(J1,K))
+     .          +EA*(KDD(J,J)*EA+TWO*EB*KDD(J,J1)-TWO*KDD(J,K))
+     .          +EB*(KDD(J1,J1)*EB-TWO*KDD(J1,K))
        CALL PUT_KMII(IDLM ,IADK,DIAG_K,LT_K ,KDD,ND)
        ID = IDDL(N)
        IDM = IDDLM(N)
@@ -2736,8 +2732,8 @@ C
       ENDIF
 C
       IF (IFSM.GT.0) THEN
-       KSM(K,K)= EA*(KSM(J,J)*EA+DEUX*EB*KSM(J,J1)-DEUX*KSM(J,K))
-     .          +EB*(KSM(J1,J1)*EB-DEUX*KSM(J1,K))
+       KSM(K,K)= EA*(KSM(J,J)*EA+TWO*EB*KSM(J,J1)-TWO*KSM(J,K))
+     .          +EB*(KSM(J1,J1)*EB-TWO*KSM(J1,K))
       ENDIF
 C
       RETURN
@@ -2839,7 +2835,7 @@ C-----determine ind dir K
 	  IF (J >3) J= J-3
       J1  = K +2
 	  IF (J1 >3) J1= J1-3
-      DET = UN/(EJ(J)*EJ1(J1)-EJ(J1)*EJ1(J))
+      DET = ONE/(EJ(J)*EJ1(J1)-EJ(J1)*EJ1(J))
 	  EA = DET*(EJ1(J1)*EJ(K)-EJ(J1)*EJ1(K))
 	  EB = DET*(EJ(J)*EJ1(K)-EJ1(J)*EJ(K))
       RETURN

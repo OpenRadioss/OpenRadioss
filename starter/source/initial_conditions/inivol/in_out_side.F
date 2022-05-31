@@ -189,8 +189,8 @@ C dist of N to plane 3
           DIST_PL(3) = DOT
 C---
           DO r=1,3
-            XSIGN(r) = SIGN(UN,DIST_PL(r))
-            IF(DIST_PL(r) == ZERO)XSIGN(r) = UN !ZERO
+            XSIGN(r) = SIGN(ONE,DIST_PL(r))
+            IF(DIST_PL(r) == ZERO)XSIGN(r) = ONE !ZERO
             !IF(XSIGN(r) == ZERO)NULL_DIST = 1
           ENDDO
           FAC1 = 0
@@ -206,10 +206,10 @@ c              FAC2 = FAC2 + 1
             ENDIF
           ENDDO
           IF(FAC1 == 3)THEN
-            DIST = UN
+            DIST = ONE
             OK = OK + 1
 c          ELSE IF(FAC2 == 3)THEN
-c            DIST = -UN
+c            DIST = -ONE
 c            OK = OK + 1
           ENDIF
           IF(OK > 0)EXIT
@@ -217,7 +217,7 @@ C---
  60     CONTINUE
 C---
 c        IF(NULL_DIST == 1) DIST = ZERO
-        IF(OK == 0) DIST = -UN  ! external node
+        IF(OK == 0) DIST = -ONE  ! external node
         IF(NULL_DIST == 1) DIST = ZERO
 C-----------------------------------------------
       RETURN

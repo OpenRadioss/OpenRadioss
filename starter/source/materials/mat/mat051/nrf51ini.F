@@ -244,9 +244,9 @@ C=======================================================================
             GG1v    = BUFMAT(IADBUF-1+28)
             GG2v    = BUFMAT(IADBUF-1+29)
             GG3v    = BUFMAT(IADBUF-1+30)                                                          
-            IF(RHO01v .NE. ZERO) SSP1v  = SQRT( (DPDMU1v + DTIERS*GG1v) / RHO01v )   !achtung GG1v = 2*G1v   =>  DTIERS*GG = QTIERS*G
-            IF(RHO02v .NE. ZERO) SSP2v  = SQRT( (DPDMU2v + DTIERS*GG2v) / RHO02v )
-            IF(RHO03v .NE. ZERO) SSP3v  = SQRT( (DPDMU3v + DTIERS*GG3v) / RHO03v )
+            IF(RHO01v .NE. ZERO) SSP1v  = SQRT( (DPDMU1v + TWO_THIRD*GG1v) / RHO01v )   !achtung GG1v = 2*G1v   =>  TWO_THIRD*GG = FOUR_OVER_3*G
+            IF(RHO02v .NE. ZERO) SSP2v  = SQRT( (DPDMU2v + TWO_THIRD*GG2v) / RHO02v )
+            IF(RHO03v .NE. ZERO) SSP3v  = SQRT( (DPDMU3v + TWO_THIRD*GG3v) / RHO03v )
                                  SSP4v  = BUFMAT(IADBUF-1+42)  !VDETv            
             !-----------------------------------------!
             ! SET AUTOMATIC LAW51 PARAMETERS          !
@@ -560,7 +560,7 @@ C=======================================================================
        !-----------------------------!
        ! CALCUL ET AFFECTATION : Tcp !
        !-----------------------------!       
-       TCP_REF    = LC0MAX/DEUX/SSP0MAX/LOG(DEUX)       
+       TCP_REF    = LC0MAX/TWO/SSP0MAX/LOG(TWO)       
        !Si Tcp=0 alors calcul automatique
        IF(UPARAM(70).EQ.ZERO)THEN
          UPARAM(70) = TCP_REF

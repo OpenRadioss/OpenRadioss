@@ -147,7 +147,7 @@ C----
         IF(N2D.EQ.1)THEN
          AX=X(N2)
         ELSE
-         AX=UN
+         AX=ONE
         ENDIF   
 C
         XC0=X(N1)-XWL0
@@ -163,7 +163,7 @@ C
         ZC=ZC0+(VZ-VZW)*DT2
         DP=DP0+((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3))*DT2
 C
-        TOL=DEUX*DT1*MAX(
+        TOL=TWO*DT1*MAX(
      .   ABS( (VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3) ),
      .   ABS(VN-VNOLD) )
         IF(IRESP.EQ.1)THEN
@@ -218,7 +218,7 @@ C
         IF(N2D.EQ.1)THEN
          AX=X(N2)
         ELSE
-         AX=UN
+         AX=ONE
         ENDIF   
 C
         XC0=X(N1)-XWL0
@@ -234,7 +234,7 @@ C
         ZC=ZC0+(VZ-VZW)*DT2
         DP=DP0+((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3))*DT2
 C
-        TOL=DEUX*DT1*MAX(
+        TOL=TWO*DT1*MAX(
      .   ABS( (VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3) ),
      .   ABS(VN-VNOLD) )
         IF(IRESP.EQ.1)THEN
@@ -280,7 +280,7 @@ C
 !$OMP END DO
       END IF
 C----  
-      FACT=UN/DT12
+      FACT=ONE/DT12
       IF(ITIED.NE.0)THEN
        DO 40 J = 1, NINDEX
        I = INDEX(J)
@@ -410,8 +410,8 @@ C        POINT SECND SLIDING
       ENDIF
 C
       IF(IMCONV.EQ.1)THEN          
-          TFXT=TFXT+UNDEMI*DT1*TFXTN
-          TFXT2=TFXT2+UNDEMI*DT1*TFXTN2
+          TFXT=TFXT+HALF*DT1*TFXTN
+          TFXT2=TFXT2+HALF*DT1*TFXTN2
 #include "atomic.inc"
           TFEXT=TFEXT+TFXT
           TFEXT_MD=TFEXT_MD+TFXT2

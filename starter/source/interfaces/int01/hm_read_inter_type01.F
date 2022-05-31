@@ -139,7 +139,7 @@ C.......* Storage IPARI FRIGAP *........
       FRIGAP(3)=STARTT
       FRIGAP(11)=STOPT
 
-      IF (STFAC == ZERO) STFAC = UNCINQ
+      IF (STFAC == ZERO) STFAC = ONE_FIFTH
 
 C
 C------------------------------------------------------------

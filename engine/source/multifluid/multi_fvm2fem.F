@@ -194,62 +194,62 @@ C     Assemblage des forces nodales
                         NC7(II) = IXS(8, I)
                         NC8(II) = IXS(9, I)
 C     Pressure
-                        PRES(II) = TIERS * (GBUF%SIG(II) + GBUF%SIG(II + NEL) + GBUF%SIG(II + 2 * NEL))
+                        PRES(II) = THIRD * (GBUF%SIG(II) + GBUF%SIG(II + NEL) + GBUF%SIG(II + 2 * NEL))
 C     Node 1
-                        F11(II) = F11(II) - QUART * PRES(II) * 
+                        F11(II) = F11(II) - FOURTH * PRES(II) * 
      .                       (NORM(1, 1, II) * SURF(1, II) + NORM(1, 4, II) * SURF(4, II) + NORM(1, 6, II) * SURF(6, II))
-                        F21(II) = F21(II) - QUART * PRES(II) *  
+                        F21(II) = F21(II) - FOURTH * PRES(II) *  
      .                       (NORM(2, 1, II) * SURF(1, II) + NORM(2, 4, II) * SURF(4, II) + NORM(2, 6, II) * SURF(6, II))
-                        F31(II) = F31(II) - QUART * PRES(II) *  
+                        F31(II) = F31(II) - FOURTH * PRES(II) *  
      .                       (NORM(3, 1, II) * SURF(1, II) + NORM(3, 4, II) * SURF(4, II) + NORM(3, 6, II) * SURF(6, II))
 C     Node 2
-                        F12(II) = F12(II) - QUART * PRES(II) *  
+                        F12(II) = F12(II) - FOURTH * PRES(II) *  
      .                       (NORM(1, 1, II) * SURF(1, II) + NORM(1, 4, II) * SURF(4, II) + NORM(1, 5, II) * SURF(5, II))
-                        F22(II) = F22(II) - QUART * PRES(II) *  
+                        F22(II) = F22(II) - FOURTH * PRES(II) *  
      .                       (NORM(2, 1, II) * SURF(1, II) + NORM(2, 4, II) * SURF(4, II) + NORM(2, 5, II) * SURF(5, II))
-                        F32(II) = F32(II) - QUART * PRES(II) *  
+                        F32(II) = F32(II) - FOURTH * PRES(II) *  
      .                       (NORM(3, 1, II) * SURF(1, II) + NORM(3, 4, II) * SURF(4, II) + NORM(3, 5, II) * SURF(5, II))
 C     Node 3
-                        F13(II) = F13(II) - QUART * PRES(II) *  
+                        F13(II) = F13(II) - FOURTH * PRES(II) *  
      .                       (NORM(1, 1, II) * SURF(1, II) + NORM(1, 2, II) * SURF(2, II) + NORM(1, 5, II) * SURF(5, II))
-                        F23(II) = F23(II) - QUART * PRES(II) *  
+                        F23(II) = F23(II) - FOURTH * PRES(II) *  
      .                       (NORM(2, 1, II) * SURF(1, II) + NORM(2, 2, II) * SURF(2, II) + NORM(2, 5, II) * SURF(5, II))
-                        F33(II) = F33(II) - QUART * PRES(II) *  
+                        F33(II) = F33(II) - FOURTH * PRES(II) *  
      .                       (NORM(3, 1, II) * SURF(1, II) + NORM(3, 2, II) * SURF(2, II) + NORM(3, 5, II) * SURF(5, II))
 C     Node 4
-                        F14(II) = F14(II) - QUART * PRES(II) *  
+                        F14(II) = F14(II) - FOURTH * PRES(II) *  
      .                       (NORM(1, 1, II) * SURF(1, II) + NORM(1, 2, II) * SURF(2, II) + NORM(1, 6, II) * SURF(6, II))
-                        F24(II) = F24(II) - QUART * PRES(II) *  
+                        F24(II) = F24(II) - FOURTH * PRES(II) *  
      .                       (NORM(2, 1, II) * SURF(1, II) + NORM(2, 2, II) * SURF(2, II) + NORM(2, 6, II) * SURF(6, II))
-                        F34(II) = F34(II) - QUART * PRES(II) *  
+                        F34(II) = F34(II) - FOURTH * PRES(II) *  
      .                       (NORM(3, 1, II) * SURF(1, II) + NORM(3, 2, II) * SURF(2, II) + NORM(3, 6, II) * SURF(6, II))
 C     Node 5
-                        F15(II) = F15(II) - QUART * PRES(II) *  
+                        F15(II) = F15(II) - FOURTH * PRES(II) *  
      .                       (NORM(1, 3, II) * SURF(3, II) + NORM(1, 4, II) * SURF(4, II) + NORM(1, 6, II) * SURF(6, II))
-                        F25(II) = F25(II) - QUART * PRES(II) *  
+                        F25(II) = F25(II) - FOURTH * PRES(II) *  
      .                       (NORM(2, 3, II) * SURF(3, II) + NORM(2, 4, II) * SURF(4, II) + NORM(2, 6, II) * SURF(6, II))
-                        F35(II) = F35(II) - QUART * PRES(II) *  
+                        F35(II) = F35(II) - FOURTH * PRES(II) *  
      .                       (NORM(3, 3, II) * SURF(3, II) + NORM(3, 4, II) * SURF(4, II) + NORM(3, 6, II) * SURF(6, II))
 C     Node 6
-                        F16(II) = F16(II) - QUART * PRES(II) *  
+                        F16(II) = F16(II) - FOURTH * PRES(II) *  
      .                       (NORM(1, 3, II) * SURF(3, II) + NORM(1, 4, II) * SURF(4, II) + NORM(1, 5, II) * SURF(5, II))
-                        F26(II) = F26(II) - QUART * PRES(II) *  
+                        F26(II) = F26(II) - FOURTH * PRES(II) *  
      .                       (NORM(2, 3, II) * SURF(3, II) + NORM(2, 4, II) * SURF(4, II) + NORM(2, 5, II) * SURF(5, II))
-                        F36(II) = F36(II) - QUART * PRES(II) *  
+                        F36(II) = F36(II) - FOURTH * PRES(II) *  
      .                       (NORM(3, 3, II) * SURF(3, II) + NORM(3, 4, II) * SURF(4, II) + NORM(3, 5, II) * SURF(5, II))
 C     Node 7
-                        F17(II) = F17(II) - QUART * PRES(II) *  
+                        F17(II) = F17(II) - FOURTH * PRES(II) *  
      .                       (NORM(1, 2, II) * SURF(2, II) + NORM(1, 3, II) * SURF(3, II) + NORM(1, 5, II) * SURF(5, II))
-                        F27(II) = F27(II) - QUART * PRES(II) *  
+                        F27(II) = F27(II) - FOURTH * PRES(II) *  
      .                       (NORM(2, 2, II) * SURF(2, II) + NORM(2, 3, II) * SURF(3, II) + NORM(2, 5, II) * SURF(5, II))
-                        F37(II) = F37(II) - QUART * PRES(II) *  
+                        F37(II) = F37(II) - FOURTH * PRES(II) *  
      .                       (NORM(3, 2, II) * SURF(2, II) + NORM(3, 3, II) * SURF(3, II) + NORM(3, 5, II) * SURF(5, II))
 C     Node 8
-                        F18(II) = F18(II) - QUART * PRES(II) *  
+                        F18(II) = F18(II) - FOURTH * PRES(II) *  
      .                       (NORM(1, 2, II) * SURF(2, II) + NORM(1, 3, II) * SURF(3, II) + NORM(1, 6, II) * SURF(6, II))
-                        F28(II) = F28(II) - QUART * PRES(II) *  
+                        F28(II) = F28(II) - FOURTH * PRES(II) *  
      .                       (NORM(2, 2, II) * SURF(2, II) + NORM(2, 3, II) * SURF(3, II) + NORM(2, 6, II) * SURF(6, II))
-                        F38(II) = F38(II) - QUART * PRES(II) *  
+                        F38(II) = F38(II) - FOURTH * PRES(II) *  
      .                       (NORM(3, 2, II) * SURF(2, II) + NORM(3, 3, II) * SURF(3, II) + NORM(3, 6, II) * SURF(6, II))
                      ENDDO
                      
@@ -309,34 +309,34 @@ C     Assemblage des forces nodales
                            NC3(II) = IXS(7, I)
                            NC4(II) = IXS(6, I)
 C     Pressure
-                           PRES(II) = TIERS * (GBUF%SIG(II) + GBUF%SIG(II + NEL) + GBUF%SIG(II + 2 * NEL))
+                           PRES(II) = THIRD * (GBUF%SIG(II) + GBUF%SIG(II + NEL) + GBUF%SIG(II + 2 * NEL))
 C     Node 1
-                           F11(II) = F11(II) - TIERS * PRES(II) * 
+                           F11(II) = F11(II) - THIRD * PRES(II) * 
      .                          (NORM(1, 4, II) * SURF(4, II) + NORM(1, 5, II) * SURF(5, II) + NORM(1, 6, II) * SURF(6, II))
-                           F21(II) = F21(II) - TIERS * PRES(II) * 
+                           F21(II) = F21(II) - THIRD * PRES(II) * 
      .                          (NORM(2, 4, II) * SURF(4, II) + NORM(2, 5, II) * SURF(5, II) + NORM(2, 6, II) * SURF(6, II))
-                           F31(II) = F31(II) - TIERS * PRES(II) * 
+                           F31(II) = F31(II) - THIRD * PRES(II) * 
      .                          (NORM(3, 4, II) * SURF(4, II) + NORM(3, 5, II) * SURF(5, II) + NORM(3, 6, II) * SURF(6, II))
 C     Node 2
-                           F12(II) = F12(II) - TIERS * PRES(II) * 
+                           F12(II) = F12(II) - THIRD * PRES(II) * 
      .                          (NORM(1, 2, II) * SURF(2, II) + NORM(1, 5, II) * SURF(5, II) + NORM(1, 6, II) * SURF(6, II))
-                           F22(II) = F22(II) - TIERS * PRES(II) * 
+                           F22(II) = F22(II) - THIRD * PRES(II) * 
      .                          (NORM(2, 2, II) * SURF(2, II) + NORM(2, 5, II) * SURF(5, II) + NORM(2, 6, II) * SURF(6, II))
-                           F32(II) = F32(II) - TIERS * PRES(II) * 
+                           F32(II) = F32(II) - THIRD * PRES(II) * 
      .                          (NORM(3, 2, II) * SURF(2, II) + NORM(3, 5, II) * SURF(5, II) + NORM(3, 6, II) * SURF(6, II))
 C     Node 3
-                           F13(II) = F13(II) - TIERS * PRES(II) * 
+                           F13(II) = F13(II) - THIRD * PRES(II) * 
      .                          (NORM(1, 4, II) * SURF(4, II) + NORM(1, 5, II) * SURF(5, II) + NORM(1, 2, II) * SURF(2, II))
-                           F23(II) = F23(II) - TIERS * PRES(II) * 
+                           F23(II) = F23(II) - THIRD * PRES(II) * 
      .                          (NORM(2, 4, II) * SURF(4, II) + NORM(2, 5, II) * SURF(5, II) + NORM(2, 2, II) * SURF(2, II))
-                           F33(II) = F33(II) - TIERS * PRES(II) * 
+                           F33(II) = F33(II) - THIRD * PRES(II) * 
      .                          (NORM(3, 4, II) * SURF(4, II) + NORM(3, 5, II) * SURF(5, II) + NORM(3, 2, II) * SURF(2, II))
 C     Node 4
-                           F14(II) = F14(II) - TIERS * PRES(II) * 
+                           F14(II) = F14(II) - THIRD * PRES(II) * 
      .                          (NORM(1, 4, II) * SURF(4, II) + NORM(1, 2, II) * SURF(2, II) + NORM(1, 6, II) * SURF(6, II))
-                           F24(II) = F24(II) - TIERS * PRES(II) * 
+                           F24(II) = F24(II) - THIRD * PRES(II) * 
      .                          (NORM(2, 4, II) * SURF(4, II) + NORM(2, 2, II) * SURF(2, II) + NORM(2, 6, II) * SURF(6, II))
-                           F34(II) = F34(II) - TIERS * PRES(II) * 
+                           F34(II) = F34(II) - THIRD * PRES(II) * 
      .                          (NORM(3, 4, II) * SURF(4, II) + NORM(3, 2, II) * SURF(2, II) + NORM(3, 6, II) * SURF(6, II))
                      ENDDO
 C--------------------------

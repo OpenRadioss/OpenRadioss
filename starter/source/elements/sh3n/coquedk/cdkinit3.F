@@ -464,7 +464,7 @@ C
         ENDDO
 C
         DO I=JFT,JLT
-         AREAI = UNDEMI/AREA(I)
+         AREAI = HALF/AREA(I)
          PX2(I)=Y3(I)*AREAI
          PY2(I)=-X3(I)*AREAI
          PX3(I)=-Y2(I)*AREAI

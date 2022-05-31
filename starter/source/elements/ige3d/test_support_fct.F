@@ -32,10 +32,10 @@ Chd|====================================================================
      .                            TAB_COINKNOT,L_TAB_COINKNOT,
      .                            TAB_FCTCUT,L_TAB_FCTCUT,DECALGEO,FLAG)
 C----------------------------------------------------------------------
-C   ROUTINE QUI PERMET DE METTRE DE COTE TOUTES LES FONCTIONS D'UN 
+C   ROUTINE QUI PERMET DE METTRE DE COTE TOUTES LES FONCTIONS D'ONE 
 C   ENSEMBLE D'ELEMENTS DU PATCH QUI VONT POTENTIELLEMENT ETRE MODIFIEES 
 C   EN INSERANT LE KNOT DE LA MESHSURF
-C   CETTE ROUTINE UTILISE UN ALGORITHME DE DETECTION D'INCLUSION
+C   CETTE ROUTINE UTILISE ONE ALGORITHME DE DETECTION D'INCLUSION
 C   DE SEGMENTS DANS UNE SURFACE (LEGEREMENT MODIFIE)
 C----------------------------------------------------------------------
 C-----------------------------------------------

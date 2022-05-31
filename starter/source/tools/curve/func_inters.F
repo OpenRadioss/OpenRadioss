@@ -69,8 +69,8 @@ C=======================================================================
 ! Calculation intersection
           XINT = ZERO
           YINT = ZERO
-          NP1  = (NPC(FUNC+1)-NPC(FUNC))*UNDEMI  ! nb of points of the 1st curve
-          NP2  = (NPC(FUND+1)-NPC(FUND))*UNDEMI  ! nb of points of the 2nd curve 
+          NP1  = (NPC(FUNC+1)-NPC(FUNC))*HALF  ! nb of points of the 1st curve
+          NP2  = (NPC(FUND+1)-NPC(FUND))*HALF  ! nb of points of the 2nd curve 
           DO J=2,NP1+1
             J1=2*(J-2)
             S1=PLD(NPC(FUNC)+J1)
@@ -168,8 +168,8 @@ C=======================================================================
           YINT2 = ZERO
           SX = ZERO
           TY = ZERO
-          NP1  = (NPC(FUNC+1)-NPC(FUNC))*UNDEMI  
-          NP2  = (NPC(FUND+1)-NPC(FUND))*UNDEMI 
+          NP1  = (NPC(FUNC+1)-NPC(FUNC))*HALF  
+          NP2  = (NPC(FUND+1)-NPC(FUND))*HALF 
           DO J=2,NP1+1
             J1=2*(J-2)
             S1=PLD(NPC(FUNC)+J1)
@@ -315,8 +315,8 @@ C=======================================================================
 ! Calculation intersection
           XINC = ZERO
           YINC = ZERO
-          NP1  = (NPC(FUNC+1)-NPC(FUNC))*UNDEMI  
-          NP2  = (NPC(FUND+1)-NPC(FUND))*UNDEMI 
+          NP1  = (NPC(FUNC+1)-NPC(FUNC))*HALF  
+          NP2  = (NPC(FUND+1)-NPC(FUND))*HALF 
           DO J=2,NP1+1
             J1=2*(J-2)
             S1=PLD(NPC(FUNC)+J1)

@@ -302,7 +302,7 @@ C       E1=R, E3=R^S, E2=E3^E1
 C
       DO I=LFT,LLT                                      
         SUMA = SQRT(RX(I)**2+RY(I)**2+RZ(I)**2)          
-        IF (SUMA > ZERO) SUMA=UN/SUMA                      
+        IF (SUMA > ZERO) SUMA=ONE/SUMA                      
         E1X(I) = RX(I)*SUMA                              
         E1Y(I) = RY(I)*SUMA                              
         E1Z(I) = RZ(I)*SUMA                              
@@ -310,7 +310,7 @@ C
         E3Y(I) = E1Z(I)*SX(I) - E1X(I)*SZ(I)              
         E3Z(I) = E1X(I)*SY(I) - E1Y(I)*SX(I)              
         SUMA = SQRT(E3X(I)**2+E3Y(I)**2+E3Z(I)**2)       
-        IF (SUMA > ZERO) SUMA=UN/SUMA                      
+        IF (SUMA > ZERO) SUMA=ONE/SUMA                      
         E3X(I) = E3X(I)*SUMA                             
         E3Y(I) = E3Y(I)*SUMA                             
         E3Z(I) = E3Z(I)*SUMA                             
@@ -318,7 +318,7 @@ C
         E2Y(I) = E3Z(I)*E1X(I) - E3X(I)*E1Z(I)                 
         E2Z(I) = E3X(I)*E1Y(I) - E3Y(I)*E1X(I)                 
         SUMA = SQRT(E2X(I)**2+E2Y(I)**2+E2Z(I)**2)         
-        IF (SUMA > ZERO) SUMA=UN/SUMA                      
+        IF (SUMA > ZERO) SUMA=ONE/SUMA                      
         E2X(I) = E2X(I)*SUMA                             
         E2Y(I) = E2Y(I)*SUMA                             
         E2Z(I) = E2Z(I)*SUMA                             

@@ -94,9 +94,9 @@ C-----------------------------------------------
           YI =X(2,INOD)
           ZI =X(3,INOD)
           DD=(XI-OX)*NX+(YI-OY)*NY+(ZI-OZ)*NZ
-          XS=XI-DEUX*DD*NX
-          YS=YI-DEUX*DD*NY
-          ZS=ZI-DEUX*DD*NZ
+          XS=XI-TWO*DD*NX
+          YS=YI-TWO*DD*NY
+          ZS=ZI-TWO*DD*NZ
 C
           XSPSYM(1,JS)=XS
           XSPSYM(2,JS)=YS
@@ -113,9 +113,9 @@ C
           YI =XSPHR(4,NS)
           ZI =XSPHR(5,NS)
           DD=(XI-OX)*NX+(YI-OY)*NY+(ZI-OZ)*NZ
-          XS=XI-DEUX*DD*NX
-          YS=YI-DEUX*DD*NY
-          ZS=ZI-DEUX*DD*NZ
+          XS=XI-TWO*DD*NX
+          YS=YI-TWO*DD*NY
+          ZS=ZI-TWO*DD*NZ
 C
           XSPSYM(1,JS)=XS
           XSPSYM(2,JS)=YS
@@ -206,9 +206,9 @@ C
            VZS=-VZI
           ELSE
            VN=VXI*NX+VYI*NY+VZI*NZ
-           VXS=VXI-DEUX*VN*NX
-           VYS=VYI-DEUX*VN*NY
-           VZS=VZI-DEUX*VN*NZ
+           VXS=VXI-TWO*VN*NX
+           VYS=VYI-TWO*VN*NY
+           VZS=VZI-TWO*VN*NZ
           ENDIF
           VSPSYM(1,JS)=VXS
           VSPSYM(2,JS)=VYS
@@ -231,9 +231,9 @@ C
            VZS=-VZI
           ELSE
            VN=VXI*NX+VYI*NY+VZI*NZ
-           VXS=VXI-DEUX*VN*NX
-           VYS=VYI-DEUX*VN*NY
-           VZS=VZI-DEUX*VN*NZ
+           VXS=VXI-TWO*VN*NX
+           VYS=VYI-TWO*VN*NY
+           VZS=VZI-TWO*VN*NZ
           END IF
           VSPSYM(1,JS)=VXS
           VSPSYM(2,JS)=VYS

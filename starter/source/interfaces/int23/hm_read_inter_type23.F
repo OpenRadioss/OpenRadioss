@@ -240,9 +240,9 @@ C set MULTIMP default value = 12 for SPMD
       IPARI(23)=MULTIMP
 C
       FRIGAP(16) = GAPMAX
-      IF(GAPSCALE.EQ.ZERO.OR.IGAP.EQ.0)GAPSCALE=UN
+      IF(GAPSCALE.EQ.ZERO.OR.IGAP.EQ.0)GAPSCALE=ONE
       FRIGAP(19) = GAPSCALE
-      IF (FPENMAX == ZERO) FPENMAX = UN
+      IF (FPENMAX == ZERO) FPENMAX = ONE
       FRIGAP(27) = FPENMAX
 C
 
@@ -251,11 +251,11 @@ C
       FRIGAP(18) = STMAX
       IF(IGSTI==0)I7STIFS=1
       IPARI(48) =IFSTF    ! IFSTF is not read anymore 
-      SCAL_T=UN           ! SCAL_T is not read anymore 
+      SCAL_T=ONE           ! SCAL_T is not read anymore 
       FRIGAP(33)=SCAL_T
 C
       IF(STFAC.EQ.ZERO) THEN
-        STFAC=UN
+        STFAC=ONE
       ENDIF
       IF(IGSTI==1)STFAC=-STFAC
       IF (STOPT == ZERO) STOPT = EP30
@@ -265,7 +265,7 @@ C
       FRIGAP(3)=STARTT
       FRIGAP(11)=STOPT
 C
-      IF(VISC==ZERO) VISC=UN
+      IF(VISC==ZERO) VISC=ONE
 C
       IPARI(11)=4*IBC1+2*IBC2+IBC3 + 8 *(4*IBC1M+2*IBC2M+IBC3M)
       IPARI(22)=INACTI
@@ -282,10 +282,10 @@ C
       IFQ = IFQ + 10
 
       IF (IFQ.GT.0) THEN
-        IF (IFQ.EQ.10) XFILTR = UN
+        IF (IFQ.EQ.10) XFILTR = ONE
         IF (MOD(IFQ,10).EQ.1) XFILTR = ALPHA
-        IF (MOD(IFQ,10).EQ.2) XFILTR=QUATRE*ATAN2(UN,ZERO) / ALPHA
-        IF (MOD(IFQ,10).EQ.3) XFILTR=QUATRE*ATAN2(UN,ZERO) * ALPHA
+        IF (MOD(IFQ,10).EQ.2) XFILTR=FOUR*ATAN2(ONE,ZERO) / ALPHA
+        IF (MOD(IFQ,10).EQ.3) XFILTR=FOUR*ATAN2(ONE,ZERO) * ALPHA
         IF (XFILTR.LT.ZERO) THEN
           CALL ANCMSG(MSGID=554,
      .                MSGTYPE=MSGERROR,

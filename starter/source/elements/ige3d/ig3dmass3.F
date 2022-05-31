@@ -119,7 +119,7 @@ C
      .     VY(ITNCTRL,I)
       PARTSAV(13,IP)=PARTSAV(13,IP) + MASS(I)*
      .     VZ(ITNCTRL,I)
-      PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * MASS(I) *
+      PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * MASS(I) *
      .   (VX(ITNCTRL,I)*VX(ITNCTRL,I) +
      .    VY(ITNCTRL,I)*VY(ITNCTRL,I) +
      .    VZ(ITNCTRL,I)*VZ(ITNCTRL,I))
@@ -150,7 +150,7 @@ c        IF(IRODDL.EQ.0)THEN
 C prov gw
 c          STOP 1119
 c        ENDIF
-c         INER=(MASS(I)*VOLU(I)**DTIERS)/SIX
+c         INER=(MASS(I)*VOLU(I)**TWO_THIRD)/SIX
 c         DO ITNCTRL=1,NCTRL
 c           INS(ITNCTRL,I)=INER
 c         ENDDO
@@ -159,7 +159,7 @@ C
       IF(JALE > 0 .AND. NWALE == 4)THEN
          DO ITNCTRL=1,NCTRL
           INCTRL = IXIG3D(KXIG3D(4,I+NFT)+ITNCTRL-1)         
-          WMA(INCTRL)=WMA(INCTRL)+TDEMI
+          WMA(INCTRL)=WMA(INCTRL)+THREE_HALF
          ENDDO
       ENDIF
 C-----------

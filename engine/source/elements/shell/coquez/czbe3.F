@@ -100,9 +100,9 @@ C
         SHX(I,4) = SHX(I,1)
         SHY(I,3) = SHY(I,2)
         SHY(I,4) = SHY(I,1)
-        HXX(I)=CINQP333*(SY2(I)+RY2(I))
-        HYY(I)=CINQP333*(SX2(I)+RX2(I))
-        HXY(I)=-CINQP333*(SX(I)*SY(I)+RX(I)*RY(I))
+        HXX(I)=FIVEP333*(SY2(I)+RY2(I))
+        HYY(I)=FIVEP333*(SX2(I)+RX2(I))
+        HXY(I)=-FIVEP333*(SX(I)*SY(I)+RX(I)*RY(I))
        ENDDO
 C
       RETURN
@@ -178,10 +178,10 @@ C
        ENDDO 
 C       
        DO I=JFT,JLT
-        PHEX(I)= QUATRE*SY(I)
-        PHEY(I) =-QUATRE*SX(I)
-        PHKX(I)=-QUATRE*RY(I)  
-        PHKY(I)= QUATRE*RX(I)
+        PHEX(I)= FOUR*SY(I)
+        PHEY(I) =-FOUR*SX(I)
+        PHKX(I)=-FOUR*RY(I)  
+        PHKY(I)= FOUR*RX(I)
        ENDDO 
 C
       RETURN

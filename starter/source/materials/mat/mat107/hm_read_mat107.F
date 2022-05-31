@@ -181,60 +181,60 @@ card8 - Yield stress in tension in direction 1 (MD)
         CALL HM_GET_FLOATV('MAT_Xscale1' ,XSCALE1   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (XSCALE1 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Xscale1' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XSCALE1 = UN * XSCALE_UNIT
+          XSCALE1 = ONE * XSCALE_UNIT
         ENDIF
         CALL HM_GET_FLOATV('MAT_Yscale1' ,YSCALE1   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (YSCALE1 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Yscale1' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YSCALE1 = UN * YSCALE_UNIT
+          YSCALE1 = ONE * YSCALE_UNIT
         ENDIF 
 card9 - Yield stress in tension in direction 2 (CD)          
         CALL HM_GET_INTV  ('TAB_YLD2'    ,TAB_YLD2  ,IS_AVAILABLE, LSUBMODEL)
         CALL HM_GET_FLOATV('MAT_Xscale2' ,XSCALE2   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (XSCALE2 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Xscale2' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XSCALE2 = UN * XSCALE_UNIT
+          XSCALE2 = ONE * XSCALE_UNIT
         ENDIF
         CALL HM_GET_FLOATV('MAT_Yscale2' ,YSCALE2   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (YSCALE2 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Yscale2' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YSCALE2 = UN * YSCALE_UNIT
+          YSCALE2 = ONE * YSCALE_UNIT
         ENDIF 
 card10 - Yield stress in compression in direction 1 (MD)
         CALL HM_GET_INTV  ('TAB_YLD1C'   ,TAB_YLD1C ,IS_AVAILABLE, LSUBMODEL)
         CALL HM_GET_FLOATV('MAT_Xscale1C',XSCALE1C  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (XSCALE1C == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Xscale1C' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XSCALE1C = UN * XSCALE_UNIT
+          XSCALE1C = ONE * XSCALE_UNIT
         ENDIF
         CALL HM_GET_FLOATV('MAT_Yscale1C',YSCALE1C  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (YSCALE1C == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Yscale1C' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YSCALE1C = UN * YSCALE_UNIT
+          YSCALE1C = ONE * YSCALE_UNIT
         ENDIF 
 card11 - Yield stress in compression in direction 2 (CD)       
         CALL HM_GET_INTV  ('TAB_YLD2C'   ,TAB_YLD2C ,IS_AVAILABLE, LSUBMODEL)
         CALL HM_GET_FLOATV('MAT_Xscale2C',XSCALE2C  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (XSCALE2C == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Xscale2C' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XSCALE2C = UN * XSCALE_UNIT
+          XSCALE2C = ONE * XSCALE_UNIT
         ENDIF
         CALL HM_GET_FLOATV('MAT_Yscale2C',YSCALE2C  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (YSCALE2C == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Yscale2C' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YSCALE2C = UN * YSCALE_UNIT
+          YSCALE2C = ONE * YSCALE_UNIT
         ENDIF 
 card12 - Yield stress in shear       
         CALL HM_GET_INTV  ('TAB_YLDT'    ,TAB_YLDT  ,IS_AVAILABLE, LSUBMODEL)
         CALL HM_GET_FLOATV('MAT_XscaleT' ,XSCALET   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (XSCALET == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_XscaleT' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XSCALET = UN * XSCALE_UNIT
+          XSCALET = ONE * XSCALE_UNIT
         ENDIF
         CALL HM_GET_FLOATV('MAT_YscaleT' ,YSCALET   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (YSCALET == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_YscaleT' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YSCALET = UN * YSCALE_UNIT
+          YSCALET = ONE * YSCALE_UNIT
         ENDIF
       ENDIF
 c---------------------
@@ -243,7 +243,7 @@ c---------------------
       ! Default algorithm : Cutting plane
       IF (Ires == 0)  Ires = 2
       ! Poisson's ratio
-      IF (NU21 < ZERO .OR. NU21 >= UNDEMI) THEN
+      IF (NU21 < ZERO .OR. NU21 >= HALF) THEN
          CALL ANCMSG(MSGID=49,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
@@ -318,10 +318,10 @@ c
 c
       ! Elasticity parameter
       !  Plane stress elastic constant
-      A11 = YOUNG1/(UN - NU12*NU21)
-      A12 = NU12*YOUNG2/(UN - NU12*NU21)
-      A21 = NU21*YOUNG1/(UN - NU12*NU21)
-      A22 = YOUNG2/(UN - NU12*NU21)
+      A11 = YOUNG1/(ONE - NU12*NU21)
+      A12 = NU12*YOUNG2/(ONE - NU12*NU21)
+      A21 = NU21*YOUNG1/(ONE - NU12*NU21)
+      A22 = YOUNG2/(ONE - NU12*NU21)
 c
 c--------------------------
 c     Filling buffer tables
@@ -392,31 +392,31 @@ c
         UPARAM(40) = ST 
       ELSE
         IF (XSCALE1 /= ZERO) THEN
-          UPARAM(24) = UN/XSCALE1
+          UPARAM(24) = ONE/XSCALE1
         ELSE
           UPARAM(24) = ZERO
         ENDIF
         UPARAM(25) = YSCALE1
         IF (XSCALE2 /= ZERO) THEN
-          UPARAM(26) = UN/XSCALE2
+          UPARAM(26) = ONE/XSCALE2
         ELSE
           UPARAM(26) = ZERO
         ENDIF
         UPARAM(27) = YSCALE2      
         IF (XSCALE1C /= ZERO) THEN
-          UPARAM(28) = UN/XSCALE1C
+          UPARAM(28) = ONE/XSCALE1C
         ELSE
           UPARAM(28) = ZERO
         ENDIF
         UPARAM(29) = YSCALE1C
         IF (XSCALE2C /= ZERO) THEN
-          UPARAM(30) = UN/XSCALE2C
+          UPARAM(30) = ONE/XSCALE2C
         ELSE
           UPARAM(30) = ZERO
         ENDIF
         UPARAM(31) = YSCALE2C
         IF (XSCALET /= ZERO) THEN
-          UPARAM(32) = UN/XSCALET
+          UPARAM(32) = ONE/XSCALET
         ELSE
           UPARAM(32) = ZERO
         ENDIF

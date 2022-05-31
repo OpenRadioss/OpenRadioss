@@ -139,7 +139,7 @@ c-----
           Y1 = TY%VALUES(N)
           Y2 = TY%VALUES(N+1)
           R1 = (X2 - XX(I,1)) / (X2 - X1)
-          UNR1 = UN - R1
+          UNR1 = ONE - R1
           YY(I)   =  R1*Y1  + UNR1*Y2
           DYDX1(I)= (Y2 - Y1) / (X2 - X1)
          END DO
@@ -175,8 +175,8 @@ c
 c            
             R1   = (X1_2 - XX(I,1)) / (X1_2 - X1_1)
             R2   = (X2_2 - XX(I,2)) / (X2_2 - X2_1)
-            UNR1 = UN - R1                                                  
-            UNR2 = UN - R2                                                              
+            UNR1 = ONE - R1                                                  
+            UNR2 = ONE - R2                                                              
 c                                         
             Y1   = R1*YA1 + UNR1*YB1                                
             Y2   = R1*YA2 + UNR1*YB2                                
@@ -204,8 +204,8 @@ c
 c            
             R1   = (X1_2 - XX(I,1)) / (X1_2 - X1_1)
             R2   = (LOG10(X2_2) - LOG10(XX(I,2))) / (LOG10(X2_2) - LOG10(X2_1))
-            UNR1 = UN - R1                                                  
-            UNR2 = UN - R2                                                              
+            UNR1 = ONE - R1                                                  
+            UNR2 = ONE - R2                                                              
 c                                         
             Y1   = R1*YA1 + UNR1*YB1                                
             Y2   = R1*YA2 + UNR1*YB2                                
@@ -233,8 +233,8 @@ c
 c            
             R1   = (X1_2 - XX(I,1)) / (X1_2 - X1_1)
             R2   = (LOG(X2_2) - LOG(XX(I,2))) / (LOG(X2_2) - LOG(X2_1))
-            UNR1 = UN - R1                                                  
-            UNR2 = UN - R2                                                              
+            UNR1 = ONE - R1                                                  
+            UNR2 = ONE - R2                                                              
 c                                         
             Y1   = R1*YA1 + UNR1*YB1                                
             Y2   = R1*YA2 + UNR1*YB2                                

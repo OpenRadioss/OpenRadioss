@@ -62,35 +62,35 @@ C------------------------
       DVOL    = VOLUME - VOLD
       RHO     = MASA/VOLUME
       MUP1    = RHO/RHOA0
-      MU      = MUP1 - UN
+      MU      = MUP1 - ONE
 
-      DPDV    = (-(C1 + (C2 + C2 + TROIS*C3*MU)*MAX(ZERO,MU) + C5*RHO0E )*MUP1*MUP1 -(C4 + C5*MU)*(POLD+PEXT) )   /   V0
+      DPDV    = (-(C1 + (C2 + C2 + THREE*C3*MU)*MAX(ZERO,MU) + C5*RHO0E )*MUP1*MUP1 -(C4 + C5*MU)*(POLD+PEXT) )   /   V0
 !      IF(DPDV.GE.ZERO)THEN
-!        DPDV  = (-(C1 + (C2 + C2 + TROIS*C3*MU)*MAX(ZERO,MU) + C5*RHO0E )*MUP1) / V0
+!        DPDV  = (-(C1 + (C2 + C2 + THREE*C3*MU)*MAX(ZERO,MU) + C5*RHO0E )*MUP1) / V0
 !      ENDIF
 
       DPDMU   = -DPDV*VOLUME/MUP1
       DPDMU   = ABS(DPDMU)
-      SOUNDSP = SQRT((DPDMU + DTIERS*GG)/RHOA0)
+      SOUNDSP = SQRT((DPDMU + TWO_THIRD*GG)/RHOA0)
       QAL     = QA*XL
       QAL     = QAL*QAL
       QBL     = QB*XL
       VISCMAX = RHO*(QAL*MAX(ZERO,DD) + QBL*SOUNDSP)
       Q       = VISCMAX*MAX(ZERO,DD)
       AA      = (C4 + C5*MU)/V0
-      BB      = UNDEMI*(VOLUME-VOLD)
+      BB      = HALF*(VOLUME-VOLD)
 ! EINTA   = EINTA - (POLD+PEXT+PEXT)*BB
 
-      P       = ( C0 + C1*MU+ MAX(MU,ZERO)*(C2*MU + C3*MU*MU) + AA*EINTA )!  /  (UN+AA*BB)
+      P       = ( C0 + C1*MU+ MAX(MU,ZERO)*(C2*MU + C3*MU*MU) + AA*EINTA )!  /  (ONE+AA*BB)
       P       = MAX(P,PM)      
 ! EINTA   = EINTA - P*BB          
 ! EINTA   = MAX(EINTA, E_INF*V0)  
 
 
-      DPDV    = (-(C1 + (C2 + C2 + TROIS*C3*MU)*MAX(ZERO,MU) + C5*RHO0E )*MUP1*MUP1 -(C4 + C5*MU)*(P+PEXT) )   /   V0
+      DPDV    = (-(C1 + (C2 + C2 + THREE*C3*MU)*MAX(ZERO,MU) + C5*RHO0E )*MUP1*MUP1 -(C4 + C5*MU)*(P+PEXT) )   /   V0
       DPDMU   = -DPDV*VOLUME/MUP1
       DPDMU   = ABS(DPDMU)
-      SOUNDSP = SQRT((DPDMU + DTIERS*GG)/RHOA0)
+      SOUNDSP = SQRT((DPDMU + TWO_THIRD*GG)/RHOA0)
 
       RHOA    = RHO
       V       = VOLUME
@@ -142,7 +142,7 @@ C------------------------
 C------------------------
       RHO1=MAS1/V1
       MUP1=RHO1/RHO10
-      MU1 =MUP1 - UN
+      MU1 =MUP1 - ONE
 
       AA = (C41 + C51*MU1)/V10
 c pression sur ancien volume 
@@ -156,7 +156,7 @@ c pression sur ancien volume
       IF(ABS(DPDV1).LT.EM20)THEN
         DVDP1 = ZERO
       ELSE
-        DVDP1 = UN/DPDV1
+        DVDP1 = ONE/DPDV1
       ENDIF
 
       RETURN
@@ -210,12 +210,12 @@ C------------------------
       DVDP1I = DVDP1
       IF (FLAG .EQ. 1) RHO1   = MAS1/V1
       MUP1   = RHO1/RHO10
-      MU1    = MUP1 - UN
+      MU1    = MUP1 - ONE
       AA     = (C41 + C51*MU1)/V10
-      BB     = UNDEMI*(V1-V1OLD)
+      BB     = HALF*(V1-V1OLD)
       IF (FLAG .EQ. 1)  EINT1  = EINT1 - (P1I+PEXT+PEXT)*BB
       IF (FLAG .EQ. 1) THEN
-         P1 = ( C01 + C11*MU1 + MAX(MU1,ZERO)*(C21*MU1 + C31*MU1*MU1) + AA*EINT1 )  /  (UN+AA*BB)
+         P1 = ( C01 + C11*MU1 + MAX(MU1,ZERO)*(C21*MU1 + C31*MU1*MU1) + AA*EINT1 )  /  (ONE+AA*BB)
       ELSE
          P1 = ( C01 + C11*MU1 + MAX(MU1,ZERO)*(C21*MU1 + C31*MU1*MU1) + AA*EINT1 )
       ENDIF
@@ -223,8 +223,8 @@ C------------------------
       IF (FLAG .EQ. 1)  EINT1  = EINT1 - P1*BB
       IF (FLAG .EQ. 1)  EINT1  = MAX(EINT1, E_INF*V10) 
       
-      DPDV1  = (-(C11 + (C21 + C21 + TROIS*C31*MU1)*MAX(ZERO,MU1) + C51*EINT1/V10 )*MUP1*MUP1 -(C41 + C51*MU1)*(P1+PEXT) ) /  V10 
-      SSP1   = (-DPDV1*V1/MUP1 + DTIERS*GG1)/RHO10
+      DPDV1  = (-(C11 + (C21 + C21 + THREE*C31*MU1)*MAX(ZERO,MU1) + C51*EINT1/V10 )*MUP1*MUP1 -(C41 + C51*MU1)*(P1+PEXT) ) /  V10 
+      SSP1   = (-DPDV1*V1/MUP1 + TWO_THIRD*GG1)/RHO10
       SSP1   = SQRT(ABS(SSP1))
             
       GRUN = RHO10 / RHO1 * (C41 - C51) + C51
@@ -246,24 +246,24 @@ C------------------------
       IF(ABS(DPDV1).LT.EM20)THEN
         DVDP1 = ZERO
       ELSE
-        DVDP1 = UN/DPDV1
+        DVDP1 = ONE/DPDV1
       ENDIF
       
       !   |dV/dP| is adjust for stability
-      IF(DVDP1.LT.DEUX*DVDP1I)THEN
-!!!        DVDP1 = DEUX*DVDP1I
+      IF(DVDP1.LT.TWO*DVDP1I)THEN
+!!!        DVDP1 = TWO*DVDP1I
 
 Cts   In some case of slow and difficult convergency it could happen :
 Cts   |DVDP(k=NITER)| = 2^NITER |DVDP(k=0)|  => |P(k=NITER)| >> |P(k=0)|
 Cts   unstable      ELSEIF(DVDP1.GT.ZERO)THEN
-Cts   unstable        DVDP1 = DEUX*DVDP1I
+Cts   unstable        DVDP1 = TWO*DVDP1I
 
-      ELSEIF(DVDP1.GT.UNDEMI*DVDP1I)THEN
-!!        DVDP1 = UNDEMI*DVDP1I
+      ELSEIF(DVDP1.GT.HALF*DVDP1I)THEN
+!!        DVDP1 = HALF*DVDP1I
       ENDIF
       
 !      IF(DVDP1.NE.ZERO)THEN
-!         DPDV1 = UN / DVDP1
+!         DPDV1 = ONE / DVDP1
 !      ENDIF
 
       RETURN
@@ -303,7 +303,7 @@ C-----------------------------------------------
       my_real 
      .   AA
       MUP1   = RHO1/RHO10
-      MU1    = MUP1 - UN
+      MU1    = MUP1 - ONE
       GRUN = RHO10 / RHO1 * (C41 - C51) + C51
       IF (GRUN .EQ. ZERO) THEN
          RETURN
@@ -312,8 +312,8 @@ C-----------------------------------------------
          !P1 = ( C01 + C11*MU1 + MAX(MU1,ZERO)*(C21*MU1 + C31*MU1*MU1) + AA*EINT1 )
 
          EINT1 = (P1 - (C01 + C11*MU1 + MAX(MU1,ZERO)*(C21*MU1 + C31*MU1*MU1))) / AA
-         DPDV1  = (-(C11 + (C21 + C21 + TROIS*C31*MU1)*MAX(ZERO,MU1) + C51*EINT1/V10 )*MUP1*MUP1 -(C41 + C51*MU1)*(P1+PEXT) ) /  V10 
-         SSP1   = (-DPDV1*V1/MUP1 + DTIERS*GG1)/RHO10
+         DPDV1  = (-(C11 + (C21 + C21 + THREE*C31*MU1)*MAX(ZERO,MU1) + C51*EINT1/V10 )*MUP1*MUP1 -(C41 + C51*MU1)*(P1+PEXT) ) /  V10 
+         SSP1   = (-DPDV1*V1/MUP1 + TWO_THIRD*GG1)/RHO10
          SSP1   = SQRT(ABS(SSP1))
       ENDIF
 

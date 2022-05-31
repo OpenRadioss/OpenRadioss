@@ -155,7 +155,7 @@ C     ALE ON / OFF
         DO I=LFT,LLT 
           II     = I+NFT    
           ALPHA(II) = VOLP(I)/VOLG(I)
-          ALPHA(II) = MAX(ZERO,MIN(UN,ALPHA(II))) 
+          ALPHA(II) = MAX(ZERO,MIN(ONE,ALPHA(II))) 
         ENDDO   
         DO K=1,NV46
             DO II=NFT+LFT,NFT+LLT
@@ -218,7 +218,7 @@ C     ALE ON / OFF
               K0                                            = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)             ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}  
               K1                                            = K0 * LLT_                                                                                       
               Vfrac                                         = MBUF%VAR(K1+IDLOC)                                                                              
-              Vfrac                                         = MAX(ZERO,MIN(UN,Vfrac))                                                                         
+              Vfrac                                         = MAX(ZERO,MIN(ONE,Vfrac))                                                                         
               BRICK_LIST(NIN,IB)%POLY(ICELL)%VFRACm(ITRIMAT)= VFRAC
             ENDIF
           ENDDO!next ICELL

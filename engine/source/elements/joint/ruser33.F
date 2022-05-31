@@ -116,8 +116,8 @@ C
       FAC_LOC_L = GET_U_GEO(27,IPROP)
       FAC_LOC_T = GET_U_GEO(28,IPROP)
 C
-      FAC_X = UN / FAC_LOC_L
-      FAC_R = UN
+      FAC_X = ONE / FAC_LOC_L
+      FAC_R = ONE
       FAC_CTX = FAC_LOC_T / FAC_LOC_L
       FAC_CRX = FAC_LOC_T
 C
@@ -138,7 +138,7 @@ C
           SMI(I) = GET_U_GEO(K+1,IPROP)      
           SMA(I) = GET_U_GEO(K+2,IPROP)
           FCOMB(I) = GET_U_GEO(54+I,IPROP)
-          XCENT(I) = UNDEMI*(SMA(I)+SMI(I))
+          XCENT(I) = HALF*(SMA(I)+SMI(I))
 	  K = K+2
         END DO
 C
@@ -316,7 +316,7 @@ C--------      USER DAMPING
 C
 C----   Internal Energy 
       DO I=1,NEL
-        EINT(I) = EINT(I) + UNDEMI*(
+        EINT(I) = EINT(I) + HALF*(
      .         (DX(I)-DXOLD(I,1)) * (FX(I)+FOLD(I,1))
      .       + (DY(I)-DXOLD(I,2)) * (FY(I)+FOLD(I,2))
      .       + (DZ(I)-DXOLD(I,3)) * (FZ(I)+FOLD(I,3))
@@ -452,21 +452,21 @@ C
 	    KTMAX = KF  
 	  ENDIF	  
 C	  
-          BETA = MIN(UN,SQRT((FFM**2)/FT))
+          BETA = MIN(ONE,SQRT((FFM**2)/FT))
 C
           IF (ICOMB <= 1) THEN
 C-    stopping displacment/ angle
 	    IF ((DX(I).GT.0).AND.(DXMA.GT.0)) DELTAX = MAX(ZERO,DX(I)-DXMA)
             IF ((DX(I).LT.0).AND.(DXMI.LT.0)) DELTAX = MIN(ZERO,DX(I)-DXMI)
-	    IF (ABS(DELTAX).GT.EM20) BETA = UN
+	    IF (ABS(DELTAX).GT.EM20) BETA = ONE
           ELSE
 C-    combined stopping displacment/ angle
-            RADIUS = UNDEMI*(DXMA-DXMI)
+            RADIUS = HALF*(DXMA-DXMI)
             IF ((DEQ(I).GT.0).AND.(RADIUS.GT.0)) DELTAX = MAX(ZERO,DEQ(I)-RADIUS)
             FR = FRP(I)
 	    IF (ABS(DELTAX).GT.EM20) THEN
               DFR = DFR*FCOMB*ABS(DX(I)-XCENT)/DEQ(I)
-              BETA = UN
+              BETA = ONE
               FR = FRP(I) + DFR
             ENDIF
           ENDIF
@@ -508,7 +508,7 @@ C------Combined stopping Angles / displacements only----------------------------
         DO I=1,NEL
           DELTAX = ZERO
 	  KLOC = KNN(I)
-          RADIUS = UNDEMI*(DXMA-DXMI)
+          RADIUS = HALF*(DXMA-DXMI)
 	  IF (KF.GT.EM20) KLOC = KF
           IF ((DEQ(I).GT.0).AND.(RADIUS.GT.0)) DELTAX = MAX(ZERO,DEQ(I)-RADIUS)
 	  IF (ABS(DELTAX).GT.EM20) THEN

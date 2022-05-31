@@ -122,13 +122,13 @@ c
       ! Recovering internal variables
       DO I=1,NEL
         IF (OFF(I) < 0.1) OFF(I) = ZERO
-        IF (OFF(I) < UN)  OFF(I) = OFF(I)*QCINQ
+        IF (OFF(I) < ONE)  OFF(I) = OFF(I)*FOUR_OVER_5
         ! User inputs
         PHI0(I)  = UVAR(I,1) ! Previous yield function value
         ! Standard inputs
         DEFVP(I) = ZERO      ! Initialization of the volumic plastic strain increment
         DPLA(I)  = ZERO      ! Initialization of the plastic strain increment
-        ET(I)    = UN        ! Initialization of hourglass coefficient
+        ET(I)    = ONE        ! Initialization of hourglass coefficient
         HARDP(I) = ZERO      ! Initialization of hourglass coefficient
         IF (Istat == 0) THEN
           GAMMA(I)   = UPARAM(16) ! Yield stress parameter
@@ -140,8 +140,8 @@ c
           SIGP(I)    = UPARAM(17) + UPARAM(18)*((GRHO(I+NEL)/RHOF0)**UPARAM(19))
           ALPHA2(I)  = UPARAM(20) + UPARAM(21)*((GRHO(I+NEL)/RHOF0)**UPARAM(22))
           GAMMA(I)   = UPARAM(23) + UPARAM(24)*((GRHO(I+NEL)/RHOF0)**UPARAM(25))
-          BETA(I)    = UN/(UPARAM(26) + UPARAM(27)*((GRHO(I+NEL)/RHOF0)**UPARAM(28)))
-          EPSD(I)    = (-(NEUF + (ALPHA**2))/(TROIS*(ALPHA**2)))*LOG(GRHO(I+NEL)/RHOF0)
+          BETA(I)    = ONE/(UPARAM(26) + UPARAM(27)*((GRHO(I+NEL)/RHOF0)**UPARAM(28)))
+          EPSD(I)    = (-(NINE + (ALPHA**2))/(THREE*(ALPHA**2)))*LOG(GRHO(I+NEL)/RHOF0)
         ENDIF
       ENDDO    
 c      
@@ -149,7 +149,7 @@ c
       DO I = 1,NEL
         ! a) - Hardening law
         YLD(I) = SIGP(I) + GAMMA(I)*(PLA(I)/EPSD(I)) + 
-     .                ALPHA2(I)*LOG(UN/MAX((UN - (PLA(I)/EPSD(I))**BETA(I)),EM20))
+     .                ALPHA2(I)*LOG(ONE/MAX((ONE - (PLA(I)/EPSD(I))**BETA(I)),EM20))
         ! b) - Checking values
         YLD(I) = MAX(EM10,YLD(I))
       ENDDO     
@@ -177,11 +177,11 @@ c
         SYZ(I) = SIGNYZ(I)
         SZX(I) = SIGNZX(I)
         ! Second deviatoric invariant and Mises equivalent stress
-        J2(I) = UNDEMI*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 )
+        J2(I) = HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 )
      .          +       SXY(I)**2 + SYZ(I)**2 + SZX(I)**2
-        SIGVM(I) = SQRT(TROIS*J2(I))
+        SIGVM(I) = SQRT(THREE*J2(I))
         ! Deshpande - Fleck equivalent stress
-        SIGEQ(I) = SQRT((SIGVM(I)**2 + (ALPHA*SIGM(I))**2)/(UN + (ALPHA/TROIS)**2))
+        SIGEQ(I) = SQRT((SIGVM(I)**2 + (ALPHA*SIGM(I))**2)/(ONE + (ALPHA/THREE)**2))
       ENDDO
 c
       !========================================================================
@@ -192,7 +192,7 @@ c
       ! Checking plastic behavior for all elements
       NINDX = 0
       DO I=1,NEL         
-        IF ((PHI(I)>ZERO).AND.(OFF(I) == UN)) THEN
+        IF ((PHI(I)>ZERO).AND.(OFF(I) == ONE)) THEN
           NINDX=NINDX+1
           INDEX(NINDX)=I
         ENDIF
@@ -226,11 +226,11 @@ c
         SXY(I)    = SIGOXY(I)
         SYZ(I)    = SIGOYZ(I)
         SZX(I)    = SIGOZX(I)
-        J2(I)     = UNDEMI*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 )
+        J2(I)     = HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 )
      .            +         SXY(I)**2 + SYZ(I)**2 + SZX(I)**2
-        SIGVM(I)  = SQRT(TROIS*J2(I))
+        SIGVM(I)  = SQRT(THREE*J2(I))
         ! Deshpande - Fleck equivalent stress
-        SIGEQ(I)  = SQRT((SIGVM(I)**2 + (ALPHA*SIGM(I))**2)/(UN + (ALPHA/TROIS)**2))
+        SIGEQ(I)  = SQRT((SIGVM(I)**2 + (ALPHA*SIGM(I))**2)/(ONE + (ALPHA/THREE)**2))
 
 c        
         ! Note     : in this part, the purpose is to compute for each iteration
@@ -247,18 +247,18 @@ c
         !-------------------------------------------------------------     
 c
         ! Derivative with respect to the Von Mises equivalent stress
-        DPHI_DSIGVM = SIGVM(I)/MAX((SIGEQ(I)*(UN + (ALPHA/TROIS)**2)),EM20)
+        DPHI_DSIGVM = SIGVM(I)/MAX((SIGEQ(I)*(ONE + (ALPHA/THREE)**2)),EM20)
 c          
         ! Derivative with respect to the pressure stress
-        DPHI_DSIGM  = (ALPHA**2)*SIGM(I)/MAX((SIGEQ(I)*(UN + (ALPHA/TROIS)**2)),EM20)         
+        DPHI_DSIGM  = (ALPHA**2)*SIGM(I)/MAX((SIGEQ(I)*(ONE + (ALPHA/THREE)**2)),EM20)         
 c                  
         ! dPhi/dSig
-        NORMXX  = DPHI_DSIGVM*TDEMI*SXX(I)/(MAX(SIGVM(I),EM20)) + DPHI_DSIGM*TIERS
-        NORMYY  = DPHI_DSIGVM*TDEMI*SYY(I)/(MAX(SIGVM(I),EM20)) + DPHI_DSIGM*TIERS
-        NORMZZ  = DPHI_DSIGVM*TDEMI*SZZ(I)/(MAX(SIGVM(I),EM20)) + DPHI_DSIGM*TIERS
-        NORMXY  = DEUX*DPHI_DSIGVM*TDEMI*SXY(I)/(MAX(SIGVM(I),EM20))
-        NORMYZ  = DEUX*DPHI_DSIGVM*TDEMI*SYZ(I)/(MAX(SIGVM(I),EM20))
-        NORMZX  = DEUX*DPHI_DSIGVM*TDEMI*SZX(I)/(MAX(SIGVM(I),EM20)) 
+        NORMXX  = DPHI_DSIGVM*THREE_HALF*SXX(I)/(MAX(SIGVM(I),EM20)) + DPHI_DSIGM*THIRD
+        NORMYY  = DPHI_DSIGVM*THREE_HALF*SYY(I)/(MAX(SIGVM(I),EM20)) + DPHI_DSIGM*THIRD
+        NORMZZ  = DPHI_DSIGVM*THREE_HALF*SZZ(I)/(MAX(SIGVM(I),EM20)) + DPHI_DSIGM*THIRD
+        NORMXY  = TWO*DPHI_DSIGVM*THREE_HALF*SXY(I)/(MAX(SIGVM(I),EM20))
+        NORMYZ  = TWO*DPHI_DSIGVM*THREE_HALF*SYZ(I)/(MAX(SIGVM(I),EM20))
+        NORMZX  = TWO*DPHI_DSIGVM*THREE_HALF*SZX(I)/(MAX(SIGVM(I),EM20)) 
 c    
         ! Restoring previous value of the yield function
         PHI(I) = PHI0(I)
@@ -291,8 +291,8 @@ c
         !     i) Derivative of the yield stress with respect to plastic strain dYLD / dPLA
         !     ----------------------------------------------------------------------------
         HARDP(I)   = (GAMMA(I)/EPSD(I)) + 
-     .      ALPHA2(I)*((UN-(BETA(I)/EPSD(I))*(PLA(I)/EPSD(I))**(BETA(I)-1))/
-     .      MAX((UN - (PLA(I)/EPSD(I))**BETA(I)),EM20))    
+     .      ALPHA2(I)*((ONE-(BETA(I)/EPSD(I))*(PLA(I)/EPSD(I))**(BETA(I)-1))/
+     .      MAX((ONE - (PLA(I)/EPSD(I))**BETA(I)),EM20))    
         DPHI_DPLA  = HARDP(I)
 c        
         !     ii) Derivative of dPLA with respect to DLAM
@@ -350,15 +350,15 @@ c
         SXY(I)    = SIGNXY(I)
         SYZ(I)    = SIGNYZ(I)
         SZX(I)    = SIGNZX(I)
-        J2(I)     = UNDEMI*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 )
+        J2(I)     = HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 )
      .            +         SXY(I)**2 + SYZ(I)**2 + SZX(I)**2
-        SIGVM(I)  = SQRT(TROIS*J2(I))
+        SIGVM(I)  = SQRT(THREE*J2(I))
         ! Deshpande - Fleck equivalent stress
-        SIGEQ(I)  = SQRT((SIGVM(I)**2 + (ALPHA*SIGM(I))**2)/(UN + (ALPHA/TROIS)**2))
+        SIGEQ(I)  = SQRT((SIGVM(I)**2 + (ALPHA*SIGM(I))**2)/(ONE + (ALPHA/THREE)**2))
 c        
         ! Yield stress update
         YLD(I) = SIGP(I) + GAMMA(I)*(PLA(I)/EPSD(I)) + 
-     .                ALPHA2(I)*LOG(UN/MAX((UN - (PLA(I)/EPSD(I))**BETA(I)),EM20))
+     .                ALPHA2(I)*LOG(ONE/MAX((ONE - (PLA(I)/EPSD(I))**BETA(I)),EM20))
         YLD(I) = MAX(YLD(I),EM10)
 c
         ! Yield function value update
@@ -375,7 +375,7 @@ c
         IF (CFAIL > ZERO) THEN 
           UVAR(I,2) = UVAR(I,2) + DEFVP(I)
           IF (UVAR(I,2) >= CFAIL) THEN
-            IF (OFF(I) == UN) OFF(I) = QCINQ
+            IF (OFF(I) == ONE) OFF(I) = FOUR_OVER_5
           ENDIF
         ENDIF
         IF (PFAIL > ZERO) THEN 
@@ -385,25 +385,25 @@ c
      .         SIGNXY(I)*SIGNXY(I)-SIGNZX(I)*SIGNZX(I)-SIGNYZ(I)*SIGNYZ(I)
           I3 = SIGNXX(I)*SIGNYY(I)*SIGNZZ(I)-SIGNXX(I)*SIGNYZ(I)*SIGNYZ(I)-
      .         SIGNYY(I)*SIGNZX(I)*SIGNZX(I)-SIGNZZ(I)*SIGNXY(I)*SIGNXY(I)+
-     .         DEUX*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
-          Q  = (TROIS*I2 - I1*I1)/NEUF
-          R  = (DEUX*I1*I1*I1-NEUF*I1*I2+VINGT7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
-          R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),UN)
-          PSI = ACOS(MAX(R_INTER,-UN))
-          S11 = DEUX*SQRT(-Q)*COS(PSI/TROIS)+THIRD*I1
-          S22 = DEUX*SQRT(-Q)*COS((PSI+DEUX*PI)/TROIS)+THIRD*I1
-          S33 = DEUX*SQRT(-Q)*COS((PSI+QUATRE*PI)/TROIS)+THIRD*I1
+     .         TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
+          Q  = (THREE*I2 - I1*I1)/NINE
+          R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
+          R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
+          PSI = ACOS(MAX(R_INTER,-ONE))
+          S11 = TWO*SQRT(-Q)*COS(PSI/THREE)+THIRD*I1
+          S22 = TWO*SQRT(-Q)*COS((PSI+TWO*PI)/THREE)+THIRD*I1
+          S33 = TWO*SQRT(-Q)*COS((PSI+FOUR*PI)/THREE)+THIRD*I1
           S11 = MAX(S11,S22,S33)
           ! Failure criterion
           IF (S11 >= PFAIL) THEN 
-            IF (OFF(I) == UN) OFF(I) = QCINQ
+            IF (OFF(I) == ONE) OFF(I) = FOUR_OVER_5
           ENDIF
         ENDIF
         SEQ(I)     = SIGEQ(I) ! SIGEQ
         ! Coefficient for hourglass
         ET(I)      = HARDP(I) / (HARDP(I) + YOUNG)
         ! Computation of the sound speed
-        SOUNDSP(I) = SQRT((BULK + QTIERS*G)/GRHO(NEL+I))
+        SOUNDSP(I) = SQRT((BULK + FOUR_OVER_3*G)/GRHO(NEL+I))
         ! Storing the yield stress
         SIGY(I)    = YLD(I)
       ENDDO

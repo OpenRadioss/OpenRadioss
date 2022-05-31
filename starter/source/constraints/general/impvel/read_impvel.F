@@ -244,9 +244,9 @@ c--------------------------------------------------
         CALL HM_GET_FLOATV_DIM('xscale'   ,FSCAL_T ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOATV_DIM('magnitude',FSCAL_V ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c
-        IF (XSCALE == ZERO) XSCALE = UN * FSCAL_T
-        XSCALE = UN / XSCALE
-        IF (YSCALE == ZERO) YSCALE = UN * FSCAL_V
+        IF (XSCALE == ZERO) XSCALE = ONE * FSCAL_T
+        XSCALE = ONE / XSCALE
+        IF (YSCALE == ZERO) YSCALE = ONE * FSCAL_V
         IF (TSTOP == ZERO)  TSTOP  = INFINITY
 c
         IF (xyz(1:2) == XX .OR. xyz(1:2) == YY .OR. xyz(1:2) == ZZ) THEN
@@ -315,7 +315,7 @@ c
             ENDIF
 c
             WRITE (IOUT, 3000) NODID,NOSKEW,FRAME_ID,XYZ(1:LEN),FCT_ID,SENS_ID,
-     .                         YSCALE,UN/XSCALE,TSTART,TSTOP,ICOOR
+     .                         YSCALE,ONE/XSCALE,TSTART,TSTOP,ICOOR
 c
 c
           ELSE  ! SKEW
@@ -345,7 +345,7 @@ c
             ENDIF
 c
             WRITE (IOUT,4000) NODID,ISKN(4,NOSKEW),0,XYZ(1:LEN),FCT_ID,SENS_ID,
-     .         YSCALE,UN/XSCALE,TSTART,TSTOP,ICOOR
+     .         YSCALE,ONE/XSCALE,TSTART,TSTOP,ICOOR
 c
           ENDIF
 c-----------------------------------------------------------

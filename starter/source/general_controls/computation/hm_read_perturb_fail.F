@@ -385,9 +385,9 @@ c-------------------------------------------------------
 c         plot normal ditribution
 c-------------------------------------------------------
           IF (I_METHOD == 2) THEN
-            MAX_DISTRIB = UN /(STDEV*SQRT(DEUX * pi))
+            MAX_DISTRIB = ONE /(STDEV*SQRT(TWO * pi))
           ELSEIF(I_METHOD == 1) THEN
-            MAX_DISTRIB = UN /(MAX_VALUE-MIN_VALUE)
+            MAX_DISTRIB = ONE /(MAX_VALUE-MIN_VALUE)
           ENDIF
           IF(ITYP == 2)THEN
             WRITE (IOUT,5000)'C3',FAIL_ID

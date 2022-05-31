@@ -89,15 +89,15 @@ c      CDGZ = ZERO
       NBAG = 1
 c      PBAG = FSAVBAG(3,NBAG)-101325.
       DO I = 1, NRTM
-        SURF(1,I) = SURF(1,I)*UNDEMI
-        SURF(2,I) = SURF(2,I)*UNDEMI
-        SURF(3,I) = SURF(3,I)*UNDEMI
+        SURF(1,I) = SURF(1,I)*HALF
+        SURF(2,I) = SURF(2,I)*HALF
+        SURF(3,I) = SURF(3,I)*HALF
         SURFLOC = SQRT(SURF(1,I)*SURF(1,I)
      .                +SURF(2,I)*SURF(2,I)
      .                +SURF(3,I)*SURF(3,I))
         NN = 4
         IF(IRECT(3,I).EQ.IRECT(4,I))NN=3
-        BBB = UN/NN
+        BBB = ONE/NN
         AAA = SURFLOC*BBB
         CDGX = ZERO
         CDGY = ZERO
@@ -192,12 +192,12 @@ C
         CALL SPMD_EXCH_FR6(FR_I18,I18FB6,2*6)
       ENDIF
 C
-      VOLUME  = VOLUME / TROIS
-      PRESVOL = PRESVOL / TROIS
+      VOLUME  = VOLUME / THREE
+      PRESVOL = PRESVOL / THREE
 C
       PRESVOL = PRESVOL / VOLUME
 C
-      ALPHA = UN
+      ALPHA = ONE
 c      IF(IBAG==5)THEN
 c        IF(PRESVOL>ZERO.AND.PBAG>PRESVOL)THEN
 c          ALPHA = PBAG/PRESVOL
@@ -207,7 +207,7 @@ c          NN = 4
 c          IF(IRECT(3,I).EQ.IRECT(4,I))NN=3
 c          DO J=1,NN
 c              N = IRECT(J,I)
-c              AAA = (ALPHA-UN)*PRES(I)-PBAG
+c              AAA = (ALPHA-ONE)*PRES(I)-PBAG
 c              A(1,N) = A(1,N) + AAA*SURF(1,I)
 c              A(2,N) = A(2,N) + AAA*SURF(2,I)
 c              A(3,N) = A(3,N) + AAA*SURF(3,I)
@@ -245,7 +245,7 @@ c     ELSEIF(IBAG==4)THEN
 c         IF(PRESMED<ZERO)THEN
 c           PRESM = PBAG
 c         ELSEIF(PRESMED<PRESVOL)THEN
-c           PRESM = PBAG * (UN-PRESMED/PRESVOL) + PRESMED
+c           PRESM = PBAG * (ONE-PRESMED/PRESVOL) + PRESMED
 c         ELSE
 c           PRESM = PRESVOL
 c         ENDIF

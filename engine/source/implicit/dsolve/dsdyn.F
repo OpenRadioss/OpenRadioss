@@ -65,15 +65,15 @@ C-----------------------------------------------
 C
       IF (NDI.EQ.1) THEN
          NVD=1
-         FREQ2(1)=SQRT(KL(1,1)/ML(1,1))/DEUX/PI
+         FREQ2(1)=SQRT(KL(1,1)/ML(1,1))/TWO/PI
          IF (IPRI.GT.0) THEN
             WRITE(IOUT,*)
             WRITE(IOUT,'(A26,I8)') ' NUMBER OF DYNAMIC MODES: ',NVD
             WRITE(IOUT,'(A)') '         NUMBER  EIGENVALUE   FREQUENCY'
             WRITE(IOUT,'(5X,I10,1X,1PG11.4,1X,1PG11.4)')
-     .                    NVD,(DEUX*PI*FREQ2(1))**2,FREQ2(1)
+     .                    NVD,(TWO*PI*FREQ2(1))**2,FREQ2(1)
          ENDIF
-         VD(1,1)=UN/ML(1,1)
+         VD(1,1)=ONE/ML(1,1)
          RETURN
       ENDIF   
 C
@@ -85,7 +85,7 @@ C
 C
 C Suppression des modes rigides sur un superelement
 C      SHIFT=ZERO
-      SHIFT=(EM02/FAC_TIME*DEUX*PI)**2
+      SHIFT=(EM02/FAC_TIME*TWO*PI)**2
       TSHIFT=SHIFT
       ISTOP=0
       NVD=0
@@ -115,7 +115,7 @@ C
 C
          DO I=1,NUV
             PULS=MAX(ZERO,FREQ(I,1))
-            FRQ=SQRT(PULS)/DEUX/PI
+            FRQ=SQRT(PULS)/TWO/PI
             IF (FRQ.LE.CUTFRQ.AND.NVD.LT.NVMAX.AND.NVD.LT.NDI.AND.
      .          FREQ(I,1).GE.TSHIFT) THEN
                NVD=NVD+1
@@ -179,7 +179,7 @@ C
          WRITE(IOUT,'(A)') '         NUMBER  EIGENVALUE   FREQUENCY'
          DO I=1,NVD
             WRITE(IOUT,'(5X,I10,1X,1PG11.4,1X,1PG11.4)')
-     .                    I,(DEUX*PI*FREQ2(I))**2,FREQ2(I)
+     .                    I,(TWO*PI*FREQ2(I))**2,FREQ2(I)
          ENDDO
       ENDIF
 C

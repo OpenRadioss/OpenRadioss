@@ -112,7 +112,7 @@ C
 C--- Closest neighboor is stored for tensile instability treatment --
 C
          IF (NSPBUF.EQ.13) THEN
-           SPBUF(13,N)=DEUX*SQRT(DVOIS(1))
+           SPBUF(13,N)=TWO*SQRT(DVOIS(1))
          ENDIF
 C
         END DO
@@ -124,7 +124,7 @@ C       tri voisins / ne garder que LVOISPH voisins effectifs
 C
         DO NS=1,NSPHACT
          N=WASPACT(NS)
-         DWA(N)=UN
+         DWA(N)=ONE
          NVOIS1 =KXSP(4,N)
          IF(KREDUCE(N)/=0.OR.NVOIS1.GT.LVOISPH)THEN
 C
@@ -203,7 +203,7 @@ C
            DMS =DI+DJ
            DMS2=DMS*DMS
            DK=DD/DMS2
-           MYSPATRUE=MAX(ZERO,MIN(MYSPATRUE,DK-UN))
+           MYSPATRUE=MAX(ZERO,MIN(MYSPATRUE,DK-ONE))
          END IF
 C
        END DO

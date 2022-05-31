@@ -295,18 +295,18 @@ C
       ENDIF
 C igeo(31)  flag for default qa qb for law 70 can be used for other law
       IF(QA == ZERO .AND. QB == ZERO) IGEO(31) = 1
-      IF (QA == ZERO) QA = UNP1         
-      IF (QB == ZERO) QB = CINQEM2  
+      IF (QA == ZERO) QA = ONEP1         
+      IF (QB == ZERO) QB = FIVEEM2  
 C      
-      IF(ASHEAR==ZERO)ASHEAR=UN
+      IF(ASHEAR==ZERO)ASHEAR=ONE
       IF(NLY.EQ.1) ASHEAR= EM10
       AN=SQRT(VX*VX+VY*VY+VZ*VZ)
       IF(AN .LT. EM10)THEN
-        VX=UN
+        VX=ONE
         VY=ZERO
         VZ=ZERO
       ELSE
-        AN=UN/AN
+        AN=ONE/AN
         VX=VX*AN
         VY=VY*AN
         VZ=VZ*AN
@@ -394,13 +394,13 @@ C---  Position des couches-----------
         TMIN = EM20
         TMAX =-EM20
         DO K=1,NLY
-          DT = UNDEMI*GEO(IPTHK+K)
+          DT = HALF*GEO(IPTHK+K)
           TMIN = MIN(TMIN,GEO(IPPOS+K)-DT)
           TMAX = MAX(TMAX,GEO(IPPOS+K)+DT)
         ENDDO
 C------------[-0.5,0.5]----------
-        THK = ABS(TMAX-TMIN-UN)
-        IF ( TMIN<-UNDEMI.OR.TMAX.GT.UNDEMI.OR.THK.GT.EM10) THEN
+        THK = ABS(TMAX-TMIN-ONE)
+        IF ( TMIN<-HALF.OR.TMAX.GT.HALF.OR.THK.GT.EM10) THEN
          CALL ANCMSG(MSGID=674,
          
      .               MSGTYPE=MSGWARNING,
@@ -410,10 +410,10 @@ C------------[-0.5,0.5]----------
         ENDIF
        ELSE
 C---  calcul automatique de position des couches -->(-1,1)
-        GEO(IPPOS+1) = -UNDEMI +UNDEMI*GEO(IPTHK+1)
+        GEO(IPPOS+1) = -HALF +HALF*GEO(IPTHK+1)
         DO K=2,NLY
          GEO(IPPOS+K)=GEO(IPPOS+K-1)+
-     .                UNDEMI*(GEO(IPTHK+K)+GEO(IPTHK+K-1))
+     .                HALF*(GEO(IPTHK+K)+GEO(IPTHK+K-1))
         ENDDO
        ENDIF
 C      TEST MATERIAUX: NON incompability---------
@@ -468,8 +468,8 @@ C
           M2=IPTHK+K
           M3=IPPOS+K
           IF(.NOT.IS_CRYPTED) WRITE(IOUT,3000) K,GEO(M1),GEO(M2),GEO(M3),NUML(K)
-          GEO(M2)=DEUX*GEO(M2)
-          GEO(M3)=DEUX*GEO(M3)
+          GEO(M2)=TWO*GEO(M2)
+          GEO(M3)=TWO*GEO(M3)
       ENDDO
 C----Initialization in lecgeo:
        PROP_TAG(IGTYP)%G_SIG  = 6

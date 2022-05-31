@@ -197,12 +197,12 @@ C
 C-----------------------------------------------
 #include "sync_dir.inc"
       IF (IRESP.EQ.1) THEN
-           PREC = CINQEM4
+           PREC = FIVEEM4
       ELSE
            PREC = EM10
       ENDIF
       IF(DT1.GT.ZERO)THEN
-        DT1INV = UN/DT1
+        DT1INV = ONE/DT1
       ELSE
         DT1INV =ZERO
       ENDIF
@@ -275,19 +275,19 @@ C
         IF(IX3G(I).NE.IX4G(I))THEN
          PENE(I) = MAX(P1(I),P2(I),P3(I),P4(I))
 
-         LA1 = UN - LB1(I) - LC1(I)
-         LA2 = UN - LB2(I) - LC2(I)
-         LA3 = UN - LB3(I) - LC3(I)
-         LA4 = UN - LB4(I) - LC4(I) 
+         LA1 = ONE - LB1(I) - LC1(I)
+         LA2 = ONE - LB2(I) - LC2(I)
+         LA3 = ONE - LB3(I) - LC3(I)
+         LA4 = ONE - LB4(I) - LC4(I) 
 
-         H0    = QUART * 
+         H0    = FOURTH * 
      .         (P1(I)*LA1 + P2(I)*LA2 + P3(I)*LA3 + P4(I)*LA4)
          H1(I) = H0 + P1(I) * LB1(I) + P4(I) * LC4(I)
          H2(I) = H0 + P2(I) * LB2(I) + P1(I) * LC1(I)
          H3(I) = H0 + P3(I) * LB3(I) + P2(I) * LC2(I)
          H4(I) = H0 + P4(I) * LB4(I) + P3(I) * LC3(I)
 
-         H00    = UN/MAX(EM20,H1(I) + H2(I) + H3(I) + H4(I))
+         H00    = ONE/MAX(EM20,H1(I) + H2(I) + H3(I) + H4(I))
          H1(I) = H1(I) * H00
          H2(I) = H2(I) * H00
          H3(I) = H3(I) * H00
@@ -300,7 +300,7 @@ C
          N3(I) = NZ1(I)
          H1(I) = LB1(I)
          H2(I) = LC1(I)
-         H3(I) = UN - LB1(I) - LC1(I)
+         H3(I) = ONE - LB1(I) - LC1(I)
          H4(I) = ZERO
         ENDIF
        ENDDO
@@ -491,7 +491,7 @@ C --
       ENDIF
 
       DO I=1,JLT
-         S2 = UN/MAX(EM30,SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2))
+         S2 = ONE/MAX(EM30,SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2))
          N1(I) = N1(I)*S2
          N2(I) = N2(I)*S2
          N3(I) = N3(I)*S2
@@ -526,8 +526,8 @@ c         DO I=1,JLT
 cC REDUCTION DE LA PENE INITIALE
 cC           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),PENE(I))
 c           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
-c     .        ( (UN-CINQEM2)*CAND_P(INDEX(I))
-c     .          +CINQEM2*(PENE(I)+CINQEM2*(GAPV(I)-PENE(I))))  )
+c     .        ( (ONE-FIVEEM2)*CAND_P(INDEX(I))
+c     .          +FIVEEM2*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I))))  )
 cC SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
 c           PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
 c           IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
@@ -575,7 +575,7 @@ c            PENIS(2,CN_LOC(I)) = MAX(PENIS(2,CN_LOC(I)),AAA*PPLUS)
 c          ELSE
 c            PENFI(NIN)%P(2,-NN) = MAX(PENFI(NIN)%P(2,-NN),AAA*PPLUS)
 c          END IF
-c          PENIM(2,CE_LOC(I)) = MAX(PENIM(2,CE_LOC(I)),(UN-AAA)*PPLUS)
+c          PENIM(2,CE_LOC(I)) = MAX(PENIM(2,CE_LOC(I)),(ONE-AAA)*PPLUS)
 c        ENDDO
 C---
 #include "lockoff.inc"
@@ -600,7 +600,7 @@ C
 C
       DO 600 I=1,JLT
           DIST=GAPV(I)-PENE(I)
-          RDIST  = UNDEMI*DIST / MAX(EM30,-VN(I))
+          RDIST  = HALF*DIST / MAX(EM30,-VN(I))
           DTI = MIN(RDIST,DTI)
  600  CONTINUE
 C intermediate variable coming from starter input deck interface cards
@@ -611,7 +611,7 @@ C
         DTI = 1.E20
         DO I=1,JLT
             DIST=GAPV(I)-PENE(I)
-            DTI2   = UNDEMI*DIST / MAX(EM30,-VN(I))
+            DTI2   = HALF*DIST / MAX(EM30,-VN(I))
             IF(DTI2.LE.DTMIN1(10))THEN
 #include "lockon.inc"
              WRITE(IOUT,'(A,E12.4,A,I10)')
@@ -679,7 +679,7 @@ C-------------------------------------------
        IF(IMP_INT7.EQ.2)THEN
         DO I=1,JLT
          IF(STIGLO.LE.ZERO)THEN
-          STIF(I) = UNDEMI*STIF(I) 
+          STIF(I) = HALF*STIF(I) 
          ELSEIF(STIF(I).NE.ZERO)THEN
           STIF(I) = STIGLO 
          ENDIF
@@ -711,11 +711,11 @@ C-------------------------------------------
 #include "lockoff.inc"
          ENDIF
          IF(STIGLO.LE.ZERO)THEN
-          ECONTT = ECONTT + UNDEMI*STIF(I)*GAPV(I)**2 *( FACM1 -  
-     .        UN -LOG(FACM1) )
-          STIF(I) = UNDEMI*STIF(I) * FAC
+          ECONTT = ECONTT + HALF*STIF(I)*GAPV(I)**2 *( FACM1 -  
+     .        ONE -LOG(FACM1) )
+          STIF(I) = HALF*STIF(I) * FAC
          ELSEIF(STIF(I).NE.ZERO)THEN
-          ECONTT = ECONTT + STIGLO*GAPV(I)**2 *( FACM1 - UN - 
+          ECONTT = ECONTT + STIGLO*GAPV(I)**2 *( FACM1 - ONE - 
      .        LOG(FACM1) )
           STIF(I) = STIGLO * FAC
          ENDIF
@@ -748,11 +748,11 @@ C-------------------------------------------
 #include "lockoff.inc"
       ENDIF
       IF(STIGLO.LE.ZERO)THEN
-        ECONTT = ECONTT + UNDEMI*STIF(I)*GAPV(I)**2 *( FACM1 - UN - 
+        ECONTT = ECONTT + HALF*STIF(I)*GAPV(I)**2 *( FACM1 - ONE - 
      .        LOG(FACM1) )
-        STIF(I) = UNDEMI*STIF(I) * FAC
+        STIF(I) = HALF*STIF(I) * FAC
       ELSEIF(STIF(I).NE.ZERO)THEN
-          ECONTT = ECONTT + STIGLO*GAPV(I)**2 *(FACM1 - UN - LOG(FACM1))
+          ECONTT = ECONTT + STIGLO*GAPV(I)**2 *(FACM1 - ONE - LOG(FACM1))
         STIF(I) = STIGLO * FAC
       ENDIF
       FNI(I)= -STIF(I) * PENE(I) 
@@ -767,7 +767,7 @@ C---------------------------------
 C         VISC QUAD TYPE V227
 C---------------------------------
           DO I=1,JLT
-            VIS2(I) = DEUX * STIF(I) * MSI(I)
+            VIS2(I) = TWO * STIF(I) * MSI(I)
             IF(VN(I).LT.ZERO) VIS2(I) = VIS2(I) / 
      .         ( MAX(EM10,(GAPV(I)-PENE(I))/GAPV(I)) )
           ENDDO
@@ -779,7 +779,7 @@ C---------------------------------
             VIS = SQRT(VIS2(I)) 
             FF  = FAC * (
      .       VISC * VIS +
-     .       VISCA**2 * DEUX* MSI(I) * MAX(ZERO,-VN(I)) / 
+     .       VISCA**2 * TWO* MSI(I) * MAX(ZERO,-VN(I)) / 
      .               MAX((GAPV(I) - PENE(I)),EM10)    )
             STIF(I) = STIF(I) * GAPV(I) / MAX((GAPV(I) - PENE(I)),EM10) 
             STIF(I) = STIF(I) + FF * DT1INV
@@ -794,7 +794,7 @@ C---------------------------------
             VIS = SQRT(VIS2(I))
             C(I)= FAC * (
      .       VISC * VIS +
-     .       VISCA**2 * DEUX * MSI(I) * MAX(ZERO,-VN(I)) / 
+     .       VISCA**2 * TWO * MSI(I) * MAX(ZERO,-VN(I)) / 
      .               MAX((GAPV(I) - PENE(I)),EM10)    )
             STIF(I) = STIF(I) * GAPV(I) / MAX((GAPV(I) - PENE(I)),EM10)
             KT(I)= STIF(I)
@@ -815,7 +815,7 @@ C---------------------------------
      .              + MS(IX3G(I))*H3(I)
      .              + MS(IX4G(I))*H4(I)
             MASM(I) = MSI(I) * MASM(I) / MAX(EM30,MSI(I)+MASM(I))
-            VIS2(I) = DEUX * STIF(I) * MASM(I)
+            VIS2(I) = TWO * STIF(I) * MASM(I)
             IF(VN(I).LT.ZERO) VIS2(I) = VIS2(I) / 
      .         ( MAX(EM10,(GAPV(I)-PENE(I))/GAPV(I)) )
           ENDDO
@@ -827,7 +827,7 @@ C---------------------------------
             VIS = SQRT(VIS2(I)) 
             FF  = FAC * (
      .       VISC * VIS +
-     .       VISCA**2 * DEUX* MASM(I) * MAX(ZERO,-VN(I)) / 
+     .       VISCA**2 * TWO* MASM(I) * MAX(ZERO,-VN(I)) / 
      .               MAX((GAPV(I) - PENE(I)),EM10)    )
             STIF(I) = STIF(I) * GAPV(I) / MAX((GAPV(I) - PENE(I)),EM10) 
             STIF(I) = STIF(I) + FF * DT1INV
@@ -842,7 +842,7 @@ C---------------------------------
             VIS = SQRT(VIS2(I))
             C(I)= FAC * (
      .       VISC * VIS +
-     .       VISCA**2 * DEUX * MASM(I) * MAX(ZERO,-VN(I)) / 
+     .       VISCA**2 * TWO * MASM(I) * MAX(ZERO,-VN(I)) / 
      .               MAX((GAPV(I) - PENE(I)),EM10)    )
             STIF(I) = STIF(I) * GAPV(I) / MAX((GAPV(I) - PENE(I)),EM10)
             KT(I)= STIF(I)
@@ -858,20 +858,20 @@ C---------------------------------
 C         VISC QUAD TYPE V23f(bug aero amerrissage)
 C---------------------------------
           DO I=1,JLT
-            VIS2(I) = DEUX* STIF(I) * MSI(I)
+            VIS2(I) = TWO* STIF(I) * MSI(I)
             VIS2(I) = VIS2(I) / 
      .           ( MAX(EM10,(GAPV(I)-PENE(I))/GAPV(I)) )
           ENDDO
-          VISCA = UNDEMI
+          VISCA = HALF
           DO I=1,JLT
            FAC = STIF(I) / MAX(EM30,STIF(I))
            VIS = SQRT(VIS2(I)) 
            FF  = FAC * (
      .       VISC * VIS +
-     .       VISCA**2 * DEUX * MSI(I) * ABS(VN(I)) / 
+     .       VISCA**2 * TWO * MSI(I) * ABS(VN(I)) / 
      .               MAX((GAPV(I) - PENE(I)),EM10)    )
            STIF(I) = STIF(I) * GAPV(I) / MAX((GAPV(I) - PENE(I)),EM10) 
-           STIF(I) = STIF(I) + DEUX * FF * DT1INV
+           STIF(I) = STIF(I) + TWO * FF * DT1INV
            STIF(I) = MAX(STIF(I) ,FAC*SQRT(VISCF)*VIS*DT1INV)
            FF = FF * VN(I)  
            FNI(I)  = FNI(I) + FF
@@ -881,7 +881,7 @@ C---------------------------------
 C         VISC QUAD = 0
 C---------------------------------
           DO I=1,JLT
-            VIS2(I) = DEUX * STIF(I) * MSI(I)
+            VIS2(I) = TWO * STIF(I) * MSI(I)
           ENDDO
 C---------------------------------
           DO I=1,JLT
@@ -891,7 +891,7 @@ C---------------------------------
      .               MAX((GAPV(I) - PENE(I)),EM10)
            STIF(I) = STIF(I) * GAPV(I) / 
      .               MAX((GAPV(I) - PENE(I)),EM10) 
-           STIF(I) = STIF(I) + DEUX* FF * DT1INV
+           STIF(I) = STIF(I) + TWO* FF * DT1INV
            STIF(I) = MAX(STIF(I) ,FAC*SQRT(VISCF)*VIS*DT1INV)
            FF = FF * VN(I)  
            FNI(I)  = FNI(I) + FF
@@ -901,7 +901,7 @@ C---------------------------------
 C         VISC = 0 
 C---------------------------------
           DO I=1,JLT
-           VIS2(I) = DEUX* STIF(I) * MSI(I)
+           VIS2(I) = TWO* STIF(I) * MSI(I)
            VIS = SQRT(VIS2(I)) 
            STIF(I) = STIF(I) * GAPV(I) / 
      .          MAX((GAPV(I) - PENE(I)),EM10) 
@@ -918,7 +918,7 @@ C---------------------------------
      .           + MS(IX2G(I))*H2(I)
      .           + MS(IX3G(I))*H3(I)
      .           + MS(IX4G(I))*H4(I)
-           VIS2(I) = DEUX* STIF(I) * MSI(I)
+           VIS2(I) = TWO* STIF(I) * MSI(I)
            VIS = 2. * VISC * DT1INV * MSI(I) * MAS2 / 
      .          MAX(EM30,MSI(I)+MAS2)
            STIF(I) = STIF(I) * GAPV(I) / 
@@ -943,7 +943,7 @@ C---------------------------------
 #include "lockon.inc"
       DO I=1,JLT
         ISIGN=1
-        AAA = UN-PENE(I)/GAPV(I)
+        AAA = ONE-PENE(I)/GAPV(I)
         IL = IX1L(I)
         IF(PENE(I)>ZERO.OR.ALPHAK(2,IL)<ZERO)ISIGN=-1
         ALPHAK(2,IL)=ISIGN*MIN(ABS(ALPHAK(2,IL)),AAA)
@@ -1163,7 +1163,7 @@ C---      Viscous friction
             AX  = AY1*AZ2 - AZ1*AY2
             AY  = AZ1*AX2 - AX1*AZ2
             AZ  = AX1*AY2 - AY1*AX2
-            AREA = UNDEMI*SQRT(AX*AX+AY*AY+AZ*AZ)
+            AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ)
             P = -FNI(I)/AREA
             XMU(I) = FRIC + (FROT_P(1) + FROT_P(4)*P ) * P 
      .             +(FROT_P(2) + FROT_P(3)*P) * VV + FROT_P(5)*V2
@@ -1185,7 +1185,7 @@ C---        Loi Darmstad
             AX  = AY1*AZ2 - AZ1*AY2
             AY  = AZ1*AX2 - AX1*AZ2
             AZ  = AX1*AY2 - AY1*AX2
-                AREA = UNDEMI*SQRT(AX*AX+AY*AY+AZ*AZ)
+                AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ)
             P = -FNI(I)/AREA
             XMU(I) = FRIC
      .             + FROT_P(1)*EXP(FROT_P(2)*VV)*P*P
@@ -1203,15 +1203,15 @@ C---        Loi Renard
             IF(VV.GE.0.AND.VV.LE.FROT_P(5)) THEN
               DMU = FROT_P(3)-FROT_P(1)
               VV1 = VV / FROT_P(5)
-              XMU(I) = FROT_P(1)+ DMU*VV1*(DEUX-VV1)
+              XMU(I) = FROT_P(1)+ DMU*VV1*(TWO-VV1)
             ELSEIF(VV.GT.FROT_P(5).AND.VV.LT.FROT_P(6)) THEN
               DMU = FROT_P(4)-FROT_P(3) 
               VV1 = (VV - FROT_P(5))/(FROT_P(6)-FROT_P(5))
-              XMU(I) = FROT_P(3)+ DMU * (TROIS-DEUX*VV1)*VV1**2
+              XMU(I) = FROT_P(3)+ DMU * (THREE-TWO*VV1)*VV1**2
             ELSE
               DMU = FROT_P(2)-FROT_P(4)
               VV2 = (VV - FROT_P(6))**2
-              XMU(I) = FROT_P(2) - DMU / (UN + DMU*VV2)
+              XMU(I) = FROT_P(2) - DMU / (ONE + DMU*VV2)
             ENDIF
           ENDDO
         ENDIF
@@ -1232,7 +1232,7 @@ C---------------------------------
 C       INCREMENTAL (STIFFNESS) FORMULATION
 C---------------------------------
           IF (IFQ.EQ.13) THEN
-            ALPHA = MAX(UN,ALPHA0*DT12)
+            ALPHA = MAX(ONE,ALPHA0*DT12)
           ELSE
             ALPHA = ALPHA0
           ENDIF
@@ -1254,7 +1254,7 @@ C---------------------------------
 
             FN = FXI(I)**2+FYI(I)**2+FZI(I)**2
 
-            BETA = MIN(UN,XMU(I)*SQRT(FN/FT))
+            BETA = MIN(ONE,XMU(I)*SQRT(FN/FT))
 
             FXT(I) = FX * BETA
             FYT(I) = FY * BETA
@@ -1278,11 +1278,11 @@ C---------------------------------
         ELSEIF (IFQ.GT.0) THEN
 
           IF (IFQ.EQ.3) THEN
-            ALPHA = MAX(UN,ALPHA0*DT12)
+            ALPHA = MAX(ONE,ALPHA0*DT12)
           ELSE
             ALPHA = ALPHA0
           ENDIF
-          ALPHI = UN - ALPHA
+          ALPHI = ONE - ALPHA
           DO I=1,JLT
             VNX = N1(I)*VN(I)
             VNY = N2(I)*VN(I)
@@ -1530,11 +1530,11 @@ C        C(I)=2.*C(I)
           CS(I) =ZERO
           STV(I)=ZERO
          ELSE
-          CX  = QUATRE*C(I)*C(I)
-          CY  = HUIT*MSI(I)*KT(I)
-          AUX   = SQRT(CX+CY)+DEUX*C(I)
+          CX  = FOUR*C(I)*C(I)
+          CY  = EIGHT*MSI(I)*KT(I)
+          AUX   = SQRT(CX+CY)+TWO*C(I)
           STV(I)= KT(I)*AUX*AUX/MAX(CY,EM30)
-          AUX   = DEUX*CF(I)*CF(I)/MAX(MSI(I),EM20)
+          AUX   = TWO*CF(I)*CF(I)/MAX(MSI(I),EM20)
           IF(AUX.GT.STV(I))THEN
            KS(I) =ZERO
            CS(I) =CF(I)
@@ -1553,12 +1553,12 @@ C
          ELSE
           K1(I)=KT(I)*ABS(H1(I))
           C1(I)=C(I)*ABS(H1(I))
-          CX   =QUATRE*C1(I)*C1(I)
-          CY   =HUIT*MS(J1)*K1(I)
-          AUX   = SQRT(CX+CY)+DEUX*C1(I)
+          CX   =FOUR*C1(I)*C1(I)
+          CY   =EIGHT*MS(J1)*K1(I)
+          AUX   = SQRT(CX+CY)+TWO*C1(I)
           ST1(I)= K1(I)*AUX*AUX/MAX(CY,EM30)
           CFI   = CF(I)*ABS(H1(I))
-          AUX   = DEUX*CFI*CFI/MAX(MS(J1),EM20)
+          AUX   = TWO*CFI*CFI/MAX(MS(J1),EM20)
           IF(AUX.GT.ST1(I))THEN
            K1(I) =ZERO
            C1(I) =CFI
@@ -1574,12 +1574,12 @@ C
          ELSE
           K2(I)=KT(I)*ABS(H2(I))
           C2(I)=C(I)*ABS(H2(I))
-          CX   =QUATRE*C2(I)*C2(I)
-          CY   =HUIT*MS(J1)*K2(I)
-          AUX   = SQRT(CX+CY)+DEUX*C2(I)
+          CX   =FOUR*C2(I)*C2(I)
+          CY   =EIGHT*MS(J1)*K2(I)
+          AUX   = SQRT(CX+CY)+TWO*C2(I)
           ST2(I)= K2(I)*AUX*AUX/MAX(CY,EM30)
           CFI   = CF(I)*ABS(H2(I))
-          AUX   = DEUX*CFI*CFI/MAX(MS(J1),EM20)
+          AUX   = TWO*CFI*CFI/MAX(MS(J1),EM20)
           IF(AUX.GT.ST2(I))THEN
            K2(I) =ZERO
            C2(I) =CFI
@@ -1595,12 +1595,12 @@ C
          ELSE
           K3(I)=KT(I)*ABS(H3(I))
           C3(I)=C(I)*ABS(H3(I))
-          CX   =QUATRE*C3(I)*C3(I)
-          CY   =HUIT*MS(J1)*K3(I)
-          AUX   = SQRT(CX+CY)+DEUX*C3(I)
+          CX   =FOUR*C3(I)*C3(I)
+          CY   =EIGHT*MS(J1)*K3(I)
+          AUX   = SQRT(CX+CY)+TWO*C3(I)
           ST3(I)= K3(I)*AUX*AUX/MAX(CY,EM30)
           CFI   = CF(I)*ABS(H3(I))
-          AUX   = DEUX*CFI*CFI/MAX(MS(J1),EM20)
+          AUX   = TWO*CFI*CFI/MAX(MS(J1),EM20)
           IF(AUX.GT.ST3(I))THEN
            K3(I) =ZERO
            C3(I) =CFI
@@ -1616,12 +1616,12 @@ C
          ELSE
           K4(I)=KT(I)*ABS(H4(I))
           C4(I)=C(I)*ABS(H4(I))
-          CX   =QUATRE*C4(I)*C4(I)
-          CY   =HUIT*MS(J1)*K4(I)
-          AUX   = SQRT(CX+CY)+DEUX*C4(I)
+          CX   =FOUR*C4(I)*C4(I)
+          CY   =EIGHT*MS(J1)*K4(I)
+          AUX   = SQRT(CX+CY)+TWO*C4(I)
           ST4(I)= K4(I)*AUX*AUX/MAX(CY,EM30)
           CFI   = CF(I)*ABS(H4(I))
-          AUX   = DEUX*CFI*CFI/MAX(MS(J1),EM20)
+          AUX   = TWO*CFI*CFI/MAX(MS(J1),EM20)
           IF(AUX.GT.ST4(I))THEN
            K4(I) =ZERO
            C4(I) =CFI
@@ -1658,27 +1658,27 @@ C
        IF(KDTINT.EQ.0)THEN
         DO I=1,JLT
          DTMI(I) = EP20
-         MAS2  = DEUX * MSI(I)
+         MAS2  = TWO * MSI(I)
          IF(MAS2.GT.ZERO.AND.STIF(I).GT.ZERO.AND.
      .     IRB(KINI(I)).EQ.0.AND.IRB2(KINI(I)).EQ.0)THEN
            DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/STIF(I)))
          ENDIF
-         MAS2  = DEUX* MS(IX1G(I))
+         MAS2  = TWO* MS(IX1G(I))
          IF(MAS2.GT.ZERO.AND.H1(I)*STIF(I).GT.ZERO.AND.
      .     IRB(KINET(IX1G(I))).EQ.0.AND.IRB2(KINET(IX1G(I))).EQ.0)THEN
            DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/(H1(I)*STIF(I))))
          ENDIF
-         MAS2  = DEUX * MS(IX2G(I))
+         MAS2  = TWO * MS(IX2G(I))
          IF(MAS2.GT.ZERO.AND.H2(I)*STIF(I).GT.ZERO.AND.
      .     IRB(KINET(IX2G(I))).EQ.0.AND.IRB2(KINET(IX2G(I))).EQ.0)THEN
            DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/(H2(I)*STIF(I))))
          ENDIF
-         MAS2  = DEUX* MS(IX3G(I))
+         MAS2  = TWO* MS(IX3G(I))
          IF(MAS2.GT.ZERO.AND.H3(I)*STIF(I).GT.ZERO.AND.
      .     IRB(KINET(IX3G(I))).EQ.0.AND.IRB2(KINET(IX3G(I))).EQ.0)THEN
            DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/(H3(I)*STIF(I))))
          ENDIF
-         MAS2  = DEUX * MS(IX4G(I))
+         MAS2  = TWO * MS(IX4G(I))
          IF(MAS2.GT.ZERO.AND.H4(I)*STIF(I).GT.ZERO.AND.
      .     IRB(KINET(IX4G(I))).EQ.0.AND.IRB2(KINET(IX4G(I))).EQ.0)THEN
            DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/(H4(I)*STIF(I))))
@@ -1689,28 +1689,28 @@ C
        ELSE
         DO I=1,JLT
          DTMI(I) = EP20
-         MAS2  = DEUX * MSI(I)
-         MAS2  = DEUX * MSI(I)
+         MAS2  = TWO * MSI(I)
+         MAS2  = TWO * MSI(I)
          IF(MAS2.GT.ZERO.AND.STV(I).GT.ZERO.AND.
      .     IRB(KINI(I)).EQ.0.AND.IRB2(KINI(I)).EQ.0)THEN
           DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/STV(I)))
          ENDIF
-         MAS2  = DEUX * MS(IX1G(I))
+         MAS2  = TWO * MS(IX1G(I))
          IF(MAS2.GT.ZERO.AND.ST1(I).GT.ZERO.AND.
      .     IRB(KINET(IX1G(I))).EQ.0.AND.IRB2(KINET(IX1G(I))).EQ.0)THEN
           DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/(ST1(I))))
          ENDIF
-         MAS2  = DEUX * MS(IX2G(I))
+         MAS2  = TWO * MS(IX2G(I))
          IF(MAS2.GT.ZERO.AND.ST2(I).GT.ZERO.AND.
      .     IRB(KINET(IX2G(I))).EQ.0.AND.IRB2(KINET(IX2G(I))).EQ.0)THEN
           DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/(ST2(I))))
          ENDIF
-         MAS2  = DEUX * MS(IX3G(I))
+         MAS2  = TWO * MS(IX3G(I))
          IF(MAS2.GT.ZERO.AND.ST3(I).GT.ZERO.AND.
      .     IRB(KINET(IX3G(I))).EQ.0.AND.IRB2(KINET(IX3G(I))).EQ.0)THEN
           DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/(ST3(I))))
          ENDIF
-         MAS2  = DEUX * MS(IX4G(I))
+         MAS2  = TWO * MS(IX4G(I))
          IF(MAS2.GT.ZERO.AND.ST4(I).GT.ZERO.AND.
      .     IRB(KINET(IX4G(I))).EQ.0.AND.IRB2(KINET(IX4G(I))).EQ.0)THEN
           DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/(ST4(I))))
@@ -1977,7 +1977,7 @@ C
           AY  = AZ1*AX2 - AX1*AZ2
           AZ  = AX1*AY2 - AY1*AX2
 C          
-          AREA = UNHUIT*SQRT(AX*AX+AY*AY+AZ*AZ)          
+          AREA = ONE_OVER_8*SQRT(AX*AX+AY*AY+AZ*AZ)          
           PHI(I)  =  AREA* (TM - TS)*DT1 / RSTIF                       
           PHI1(I) = -PHI(I) *H1(I)
           PHI2(I) = -PHI(I) *H2(I)
@@ -2321,7 +2321,7 @@ C----------------------------------------------------------------------
           DY(I) = DXANC(2,I) - PENIA(2,I)*PENIA(4,I)
           DZ(I) = DXANC(3,I) - PENIA(3,I)*PENIA(4,I)
           DDX = DX(I)*PENIA(1,I) + DY(I)*PENIA(2,I) + DZ(I)*PENIA(3,I)
-          DDX = UNDEMI*MIN(DDX,ZERO)
+          DDX = HALF*MIN(DDX,ZERO)
           PENIA(5,I) = MAX(ZERO,PENIA(5,I),PENIA(4,I)+DDX)
 c a faire ici ou dans I20BUCE_CRIT IF(PENIA(5,I) /= ZERO)NACTI=NACTI+1
         ENDDO
@@ -2342,15 +2342,15 @@ C----------------------------------------------------------------------
       DO I = 1,NLN
         J = NLG(I)
           IF(STFAC > ZERO)THEN
-c            STFR = UNDEMI * STFAC * ABS(STFA(I)) 
-            STFR = UNDEMI * MAX(KMIN,STFAC*ABS(STFA(I))) * ALPHAK(1,I)
+c            STFR = HALF * STFAC * ABS(STFA(I)) 
+            STFR = HALF * MAX(KMIN,STFAC*ABS(STFA(I))) * ALPHAK(1,I)
           ELSE
-c            STFR = UNDEMI * ABS(STFAC) 
-            STFR = UNDEMI * ABS(STFAC) * ALPHAK(1,I)
+c            STFR = HALF * ABS(STFAC) 
+            STFR = HALF * ABS(STFAC) * ALPHAK(1,I)
           ENDIF 
 c essai viscosite critique 
-c          VISR = 0.1 * DEUX * SQRT(STFR * MS(J))
-          VISR = DEUX * SQRT(STFR * MS(J))
+c          VISR = 0.1 * TWO * SQRT(STFR * MS(J))
+          VISR = TWO * SQRT(STFR * MS(J))
 
           FX = STFR * DX(I) 
           FY = STFR * DY(I) 
@@ -2366,7 +2366,7 @@ c          VISR = 0.1 * DEUX * SQRT(STFR * MS(J))
           DAANC(3,I) = - FZR(I)
 
         IF(WEIGHT(J) == 1)THEN
-          ECONTT = ECONTT + UNDEMI*STFR*(DX(I)**2+DY(I)**2+DZ(I)**2)
+          ECONTT = ECONTT + HALF*STFR*(DX(I)**2+DY(I)**2+DZ(I)**2)
           ECONVT = ECONVT
      .           + VISR*(DVANC(1,I)**2+DVANC(2,I)**2+DVANC(3,I)**2)
         ENDIF
@@ -2503,12 +2503,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 #include "sync_dir.inc"
       IF (IRESP .EQ. 1) THEN
-         PREC = CINQEM4
+         PREC = FIVEEM4
       ELSE 
          PREC = EM10
       ENDIF
       IF(DT1.GT.ZERO)THEN
-        DT1INV = UN/DT1
+        DT1INV = ONE/DT1
       ELSE
         DT1INV =ZERO
       ENDIF
@@ -2518,7 +2518,7 @@ C
       DO I=1,JLT
          S2 = SQRT(NX(I)**2 + NY(I)**2 + NZ(I)**2)
          PENE(I) = GAPV(I) - S2
-         S2 = UN/MAX(EM30,S2)
+         S2 = ONE/MAX(EM30,S2)
          NX(I) = NX(I)*S2
          NY(I) = NY(I)*S2
          NZ(I) = NZ(I)*S2
@@ -2527,7 +2527,7 @@ C
       IF(INACTI==5.or.INACTI==6)THEN
 #include "lockon.inc"
         DO I=1,JLT
-         PPLUS=UNDEMI*(PENE(I)+CINQEM2*(GAPV(I)-PENE(I)))
+         PPLUS=HALF*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I)))
          IF(CS_LOC(I).LE.NLINSA) THEN
            PENISE(2,CS_LOC(I)) = MAX(PENISE(2,CS_LOC(I)),PPLUS)
          ELSE
@@ -2567,7 +2567,7 @@ C
 C-------------------------------------------
       DO I=1,JLT
        FAC = GAPV(I)/MAX( EM10,( GAPV(I)-PENE(I) ) )
-       FACM1 = UN/FAC
+       FACM1 = ONE/FAC
        IF(( (GAPV(I)-PENE(I))/GAPV(I) ).LT.PREC .AND. 
      .                                STIF(I).GT.ZERO ) THEN
          STIF(I) = ZERO
@@ -2600,9 +2600,9 @@ C-------------------------------------------
         ENDIF  
          PENE(I)= ZERO
        ENDIF
-       ECONTT = ECONTT + UNDEMI*STIF(I)*GAPV(I)**2 *( FACM1 - UN - 
+       ECONTT = ECONTT + HALF*STIF(I)*GAPV(I)**2 *( FACM1 - ONE - 
      .        LOG(FACM1) )
-       STIF(I) = UNDEMI*STIF(I) * FAC
+       STIF(I) = HALF*STIF(I) * FAC
        FNI(I)= -STIF(I) * PENE(I) 
       ENDDO
 
@@ -2610,14 +2610,14 @@ C-------------------------------------------
 C
       DO I=1,JLT
           DIST=GAPV(I)-PENE(I)
-          RDIST  = UNDEMI*DIST / MAX(EM30,-VN(I))
+          RDIST  = HALF*DIST / MAX(EM30,-VN(I))
           DTI = MIN(RDIST,DTI)
       ENDDO
 C
       IF(DTI.LE.DTMIN1(10))THEN
         DO I=1,JLT
             DIST=GAPV(I)-PENE(I)
-            DTI2   = UNDEMI*DIST / MAX(EM30,-VN(I))
+            DTI2   = HALF*DIST / MAX(EM30,-VN(I))
             IF(DTI2.LE.DTMIN1(10))THEN
 #include "lockon.inc"
              IF(CS_LOC(I).LE.NLINSA)THEN
@@ -2675,7 +2675,7 @@ C---------------------------------
            MASM  = MM1(I)*HM1(I)
      .           + MM2(I)*HM2(I)
            MASMIN(I) = MIN(MAS2,MASM)
-           VIS2(I) = DEUX * STIF(I) * MIN(MAS2,MASM)
+           VIS2(I) = TWO * STIF(I) * MIN(MAS2,MASM)
           ENDDO
       ENDIF
 C---------------------------------
@@ -2696,7 +2696,7 @@ C---------------------------------
             VIS = SQRT(VIS2(I)) 
             FF  = FAC * (
      .        VISC * VIS +
-     .        VISCA**2 * DEUX * MASMIN(I) * MAX(ZERO,-VN(I)) / 
+     .        VISCA**2 * TWO * MASMIN(I) * MAX(ZERO,-VN(I)) / 
      .                MAX((GAPV(I) - PENE(I)),EM10)    )
             STIF(I) = STIF(I) * GAPV(I)/MAX((GAPV(I)-PENE(I)),EM10) 
             STIF(I) = STIF(I) + FF * DT1INV
@@ -2713,7 +2713,7 @@ cc          ECONVT = ECONVT + FF * VN(I) * DT1
             VIS = SQRT(VIS2(I)) 
             C(I)= FAC * (
      .       VISC * VIS +
-     .       VISCA**2 * DEUX * MASMIN(I) * MAX(ZERO,-VN(I)) / 
+     .       VISCA**2 * TWO * MASMIN(I) * MAX(ZERO,-VN(I)) / 
      .               MAX((GAPV(I) - PENE(I)),EM10)    )
             STIF(I) = STIF(I) * GAPV(I) / MAX((GAPV(I) - PENE(I)),EM10)
             KT(I)   = STIF(I)
@@ -2735,16 +2735,16 @@ C---------------------------------
             VIS2(I) = VIS2(I)/( MAX(EM10,(GAPV(I)-PENE(I))/GAPV(I)))
           ENDDO
 C---------------------------------
-          VISCA = UNDEMI
+          VISCA = HALF
           DO I=1,JLT
            FAC = STIF(I) / MAX(EM30,STIF(I))
            VIS = SQRT(VIS2(I)) 
            FF  = FAC * (
      .       VISC * VIS +
-     .       VISCA**2 * DEUX * MASMIN(I) * ABS(VN(I)) / 
+     .       VISCA**2 * TWO * MASMIN(I) * ABS(VN(I)) / 
      .               MAX((GAPV(I) - PENE(I)),EM10)    )
            STIF(I) = STIF(I) * GAPV(I) / MAX((GAPV(I)-PENE(I)),EM10) 
-           STIF(I) = STIF(I) + DEUX * FF * DT1INV
+           STIF(I) = STIF(I) + TWO * FF * DT1INV
            STIF(I) = MAX(STIF(I) ,FAC*SQRT(VISCF)*VIS*DT1INV)
            FF = MIN(FF * VN(I),-FNI(I))  
            FNI(I)  = FNI(I) + FF
@@ -2759,7 +2759,7 @@ C---------------------------------
            FF  = FAC * ( VISC * VIS ) / 
      .               MAX((GAPV(I) - PENE(I)),EM10)
            STIF(I) = STIF(I) * GAPV(I) / MAX((GAPV(I)-PENE(I)),EM10) 
-           STIF(I) = STIF(I) + DEUX * FF * DT1INV
+           STIF(I) = STIF(I) + TWO * FF * DT1INV
            STIF(I) = MAX(STIF(I) ,FAC*SQRT(VISCF)*VIS*DT1INV)
            FF = MIN(FF * VN(I),-FNI(I))  
            FNI(I)  = FNI(I) + FF
@@ -2806,7 +2806,7 @@ C---------------------------------
       DO I=1,JLT
         ISIGN=1
         IF(PENE(I)>ZERO)ISIGN=-1
-        AAA = UN-PENE(I)/GAPV(I)
+        AAA = ONE-PENE(I)/GAPV(I)
         IL = M1L(I)
         IF(PENE(I)>ZERO.OR.ALPHAK(2,IL)<ZERO)ISIGN=-1
         ALPHAK(2,IL)=ISIGN*MIN(ABS(ALPHAK(2,IL)),AAA)
@@ -2951,7 +2951,7 @@ ctmp+1 mic only
       ENDIF
 C
       DO I=1,JLT
-           STIF(I) = DEUX*STIF(I)
+           STIF(I) = TWO*STIF(I)
       ENDDO
 C
 C---------------------------------
@@ -2967,12 +2967,12 @@ C
          ELSE
           K1(I)=KT(I)*ABS(HS1(I))
           C1(I)=C(I)*ABS(HS1(I))
-          CX   =QUATRE*C1(I)*C1(I)
-          CY   =HUIT*MS1(I)*K1(I)
-          AUX   = SQRT(CX+CY)+DEUX*C1(I)
+          CX   =FOUR*C1(I)*C1(I)
+          CY   =EIGHT*MS1(I)*K1(I)
+          AUX   = SQRT(CX+CY)+TWO*C1(I)
           ST1(I)= K1(I)*AUX*AUX/MAX(CY,EM30)
           CFI   = CF(I)*ABS(HS1(I))
-          AUX   = DEUX*CFI*CFI/MAX(MS1(I),EM20)
+          AUX   = TWO*CFI*CFI/MAX(MS1(I),EM20)
           IF(AUX.GT.ST1(I))THEN
            K1(I) =ZERO
            C1(I) =CFI
@@ -2985,12 +2985,12 @@ C
          ELSE
           K2(I)=KT(I)*ABS(HS2(I))
           C2(I)=C(I)*ABS(HS2(I))
-          CX   =QUATRE*C2(I)*C2(I)
-          CY   =HUIT*MS2(I)*K2(I)
-          AUX   = SQRT(CX+CY)+DEUX*C2(I)
+          CX   =FOUR*C2(I)*C2(I)
+          CY   =EIGHT*MS2(I)*K2(I)
+          AUX   = SQRT(CX+CY)+TWO*C2(I)
           ST2(I)= K2(I)*AUX*AUX/MAX(CY,EM30)
           CFI   = CF(I)*ABS(HS2(I))
-          AUX   = DEUX*CFI*CFI/MAX(MS2(I),EM20)
+          AUX   = TWO*CFI*CFI/MAX(MS2(I),EM20)
           IF(AUX.GT.ST2(I))THEN
            K2(I) =ZERO
            C2(I) =CFI
@@ -3003,12 +3003,12 @@ C
          ELSE
           K3(I)=KT(I)*ABS(HM1(I))
           C3(I)=C(I)*ABS(HM1(I))
-          CX   =QUATRE*C3(I)*C3(I)
-          CY   =HUIT*MM1(I)*K3(I)
-          AUX   = SQRT(CX+CY)+DEUX*C3(I)
+          CX   =FOUR*C3(I)*C3(I)
+          CY   =EIGHT*MM1(I)*K3(I)
+          AUX   = SQRT(CX+CY)+TWO*C3(I)
           ST3(I)= K3(I)*AUX*AUX/MAX(CY,EM30)
           CFI   = CF(I)*ABS(HM1(I))
-          AUX   = DEUX*CFI*CFI/MAX(MM1(I),EM20)
+          AUX   = TWO*CFI*CFI/MAX(MM1(I),EM20)
           IF(AUX.GT.ST3(I))THEN
            K3(I) =ZERO
            C3(I) =CFI
@@ -3021,12 +3021,12 @@ C
          ELSE
           K4(I)=KT(I)*ABS(HM2(I))
           C4(I)=C(I)*ABS(HM2(I))
-          CX   =QUATRE*C4(I)*C4(I)
-          CY   =HUIT*MM2(I)*K4(I)
-          AUX   = SQRT(CX+CY)+DEUX*C4(I)
+          CX   =FOUR*C4(I)*C4(I)
+          CY   =EIGHT*MM2(I)*K4(I)
+          AUX   = SQRT(CX+CY)+TWO*C4(I)
           ST4(I)= K4(I)*AUX*AUX/MAX(CY,EM30)
           CFI   = CF(I)*ABS(HM2(I))
-          AUX   = DEUX*CFI*CFI/MAX(MM2(I),EM20)
+          AUX   = TWO*CFI*CFI/MAX(MM2(I),EM20)
           IF(AUX.GT.ST4(I))THEN
            K4(I) =ZERO
            C4(I) =CFI
@@ -3191,7 +3191,7 @@ C
        DTMI0 = EP20
        DO I=1,JLT
         DTMI(I) = EP20
-        MAS2  = DEUX * MASMIN(I)
+        MAS2  = TWO * MASMIN(I)
         IF(MAS2.GT.ZERO.AND.STIF(I).GT.ZERO)THEN
           DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/STIF(I)))
         ENDIF

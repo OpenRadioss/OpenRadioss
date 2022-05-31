@@ -104,14 +104,14 @@ c
       IF (IFAIL_SH == 1) THEN
         PTHKF = EM06
       ELSEIF (IFAIL_SH == 2) THEN
-        PTHKF = UN
+        PTHKF = ONE
       ENDIF
       NINDX  = 0  
 C-----------------------------------------------
       DO I=1,NEL
         IF (FOFF(I) == 1) THEN                               
-          SS1 = UNDEMI*(SIGNXX(I) + SIGNYY(I))  
-          SS2 = UNDEMI*(SIGNXX(I) - SIGNYY(I))  
+          SS1 = HALF*(SIGNXX(I) + SIGNYY(I))  
+          SS2 = HALF*(SIGNXX(I) - SIGNYY(I))  
           SS0 = SQRT(SS2**2 + SIGNXY(I)**2)     
           SIG1 = SS1  + SS0                       
           SIG2 = SS1  - SS0                       
@@ -135,13 +135,13 @@ C-----------------------------------------------
             A1 = S3 / S1
             A2 = S3 / S2
           ELSE
-            A1 = UN
-            A2 = UN
+            A1 = ONE
+            A2 = ONE
           ENDIF
           A = MAX (A1,A2)
-          W1 = MAX(EM20,(DEUX - A))**BE
-          W2 = UN - P/PC
-          W2 = (MAX(EM20,UN/W2))**AL
+          W1 = MAX(EM20,(TWO - A))**BE
+          W2 = ONE - P/PC
+          W2 = (MAX(EM20,ONE/W2))**AL
           UVAR(I,1) = UVAR(I,1) + W1*W2*DPLA(I)             
           IF (UVAR(I,1) >= DC) THEN
             NINDX = NINDX + 1
@@ -154,7 +154,7 @@ C-----------------------------------------------
 c
 c---  Maximum Damage storing for output : 0 < DFMAX < 1
       DO I=1,NEL
-        DFMAX(I) = MIN(UN,MAX(DFMAX(I),UVAR(I,1)/DC))
+        DFMAX(I) = MIN(ONE,MAX(DFMAX(I),UVAR(I,1)/DC))
       ENDDO      
 c------------------------
       IF (NINDX > 0) THEN

@@ -105,7 +105,7 @@ C-----------------------------------------------------------------------
            D2= MIN(D2,(X1-X0)**2+(Y1-Y0)**2+(Z1-Z0)**2)
          END DO !JJ=LFT2,LLT2
         END DO !NG=1,NGROUP
-        XL=XL+UNHUIT*SQRT(D2)
+        XL=XL+ONE_OVER_8*SQRT(D2)
         XE=ZEP33*SQRT(XK)**3/XL
         RE(I)=RHO(I)*XE
        END DO !I=LFT,LLT

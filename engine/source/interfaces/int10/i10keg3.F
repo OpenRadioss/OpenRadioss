@@ -99,18 +99,18 @@ C-----------------------------------------------
      .   PREC,Q11,Q12,Q13,Q22,Q23,Q33,H00,VTX,VTY,VTZ,VT,
      .   KT1,KT2,KT3,KT4,Q1,Q2
 C-----------------------------------------------
-       FRIC =UN
-       FAC10 = DIX
+       FRIC =ONE
+       FAC10 = TEN
       IF (IMP_INT7.EQ.3) THEN
        DO I=1,JLT
         D1 = SQRT(P1(I))
-        P1(I) = QUART*GAPV(I) 
+        P1(I) = FOURTH*GAPV(I) 
         D2 = SQRT(P2(I))
-        P2(I) = QUART*GAPV(I)
+        P2(I) = FOURTH*GAPV(I)
         D3 = SQRT(P3(I))
-        P3(I) = QUART*GAPV(I)
+        P3(I) = FOURTH*GAPV(I)
         D4 = SQRT(P4(I))
-        P4(I) = QUART*GAPV(I)
+        P4(I) = FOURTH*GAPV(I)
        ENDDO
       ELSE
        DO I=1,JLT
@@ -133,18 +133,18 @@ C
         IF(IX3(I).NE.IX4(I))THEN
          PENE(I) = MAX(P1(I),P2(I),P3(I),P4(I))
 C
-         LA1 = UN - LB1(I) - LC1(I)
-         LA2 = UN - LB2(I) - LC2(I)
-         LA3 = UN - LB3(I) - LC3(I)
-         LA4 = UN - LB4(I) - LC4(I) 
+         LA1 = ONE - LB1(I) - LC1(I)
+         LA2 = ONE - LB2(I) - LC2(I)
+         LA3 = ONE - LB3(I) - LC3(I)
+         LA4 = ONE - LB4(I) - LC4(I) 
 C
-         H0    = QUART * 
+         H0    = FOURTH * 
      .         (P1(I)*LA1 + P2(I)*LA2 + P3(I)*LA3 + P4(I)*LA4)
          H1(I) = H0 + P1(I) * LB1(I) + P4(I) * LC4(I)
          H2(I) = H0 + P2(I) * LB2(I) + P1(I) * LC1(I)
          H3(I) = H0 + P3(I) * LB3(I) + P2(I) * LC2(I)
          H4(I) = H0 + P4(I) * LB4(I) + P3(I) * LC3(I)
-         H00    = UN/MAX(EM20,H1(I) + H2(I) + H3(I) + H4(I))
+         H00    = ONE/MAX(EM20,H1(I) + H2(I) + H3(I) + H4(I))
          H1(I) = H1(I) * H00
          H2(I) = H2(I) * H00
          H3(I) = H3(I) * H00
@@ -157,13 +157,13 @@ C
          N3(I) = NZ1(I)
          H1(I) = LB1(I)
          H2(I) = LC1(I)
-         H3(I) = UN - LB1(I) - LC1(I)
+         H3(I) = ONE - LB1(I) - LC1(I)
          H4(I) = ZERO
         ENDIF
        ENDDO
 C
 Cqz      DO I=1,JLT
-Cqz         S2 = UN/MAX(EM30,SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2))
+Cqz         S2 = ONE/MAX(EM30,SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2))
 Cqz         N1(I) = N1(I)*S2
 Cqz         N2(I) = N2(I)*S2
 Cqz         N3(I) = N3(I)*S2
@@ -172,7 +172,7 @@ C
       DO I=1,JLT
 C       correction hourglass
         IF(IX3(I).NE.IX4(I))THEN
-          H0 = -QUART*(H1(I) - H2(I) + H3(I) - H4(I))
+          H0 = -FOURTH*(H1(I) - H2(I) + H3(I) - H4(I))
           H0 = MIN(H0,H2(I),H4(I))
           H0 = MAX(H0,-H1(I),-H3(I))
           H1(I) = H1(I) + H0
@@ -198,7 +198,7 @@ C------------------------------------
         H1(I) = CAND_F(4,II)
         H2(I) = CAND_F(5,II)
         H3(I) = CAND_F(6,II)
-        H4(I) = UN - H1(I) - H2(I) - H3(I)
+        H4(I) = ONE - H1(I) - H2(I) - H3(I)
        ENDIF
       ENDDO 
 C
@@ -215,7 +215,7 @@ C
         T1X(I) = X3(I) - X1(I)
         T1Y(I) = Y3(I) - Y1(I)
         T1Z(I) = Z3(I) - Z1(I)
-        NORMINV = UN/SQRT(T1X(I)**2+T1Y(I)**2+T1Z(I)**2)
+        NORMINV = ONE/SQRT(T1X(I)**2+T1Y(I)**2+T1Z(I)**2)
         T1X(I) = T1X(I)*NORMINV
         T1Y(I) = T1Y(I)*NORMINV
         T1Z(I) = T1Z(I)*NORMINV
@@ -227,7 +227,7 @@ C
         NX(I) = T1Y(I)*T2Z(I) - T1Z(I)*T2Y(I)
         NY(I) = T1Z(I)*T2X(I) - T1X(I)*T2Z(I)
         NZ(I) = T1X(I)*T2Y(I) - T1Y(I)*T2X(I)
-        NORMINV = UN/SQRT(NX(I)**2+NY(I)**2+NZ(I)**2)
+        NORMINV = ONE/SQRT(NX(I)**2+NY(I)**2+NZ(I)**2)
         NX(I) = NX(I)*NORMINV
         NY(I) = NY(I)*NORMINV
         NZ(I) = NZ(I)*NORMINV
@@ -401,7 +401,7 @@ C
        ENDDO
 C
        DO I=1,JLT
-        OFF(I)=UN
+        OFF(I)=ONE
        ENDDO
        IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
        IF ((INTP_D).GT.0) THEN
@@ -507,7 +507,7 @@ C-----------------------------------------------
 
 C-----------------------------------------------
 C
-      FAC10 = DIX
+      FAC10 = TEN
       DO I=1,JLT
         VX(I) = VXI(I) - H1(I)*V(1,IX1(I)) - H2(I)*V(1,IX2(I))
      .                 - H3(I)*V(1,IX3(I)) - H4(I)*V(1,IX4(I))
@@ -723,18 +723,18 @@ C
         IF(IX3(I).NE.IX4(I))THEN
          PENE(I) = MAX(P1(I),P2(I),P3(I),P4(I))
 C
-         LA1 = UN - LB1(I) - LC1(I)
-         LA2 = UN - LB2(I) - LC2(I)
-         LA3 = UN - LB3(I) - LC3(I)
-         LA4 = UN - LB4(I) - LC4(I) 
+         LA1 = ONE - LB1(I) - LC1(I)
+         LA2 = ONE - LB2(I) - LC2(I)
+         LA3 = ONE - LB3(I) - LC3(I)
+         LA4 = ONE - LB4(I) - LC4(I) 
 C
-         H0    = QUART * 
+         H0    = FOURTH * 
      .         (P1(I)*LA1 + P2(I)*LA2 + P3(I)*LA3 + P4(I)*LA4)
          H1(I) = H0 + P1(I) * LB1(I) + P4(I) * LC4(I)
          H2(I) = H0 + P2(I) * LB2(I) + P1(I) * LC1(I)
          H3(I) = H0 + P3(I) * LB3(I) + P2(I) * LC2(I)
          H4(I) = H0 + P4(I) * LB4(I) + P3(I) * LC3(I)
-         H0    = UN/MAX(EM20,H1(I) + H2(I) + H3(I) + H4(I))
+         H0    = ONE/MAX(EM20,H1(I) + H2(I) + H3(I) + H4(I))
          H1(I) = H1(I) * H0
          H2(I) = H2(I) * H0
          H3(I) = H3(I) * H0
@@ -747,7 +747,7 @@ C
          N3(I) = NZ1(I)
          H1(I) = LB1(I)
          H2(I) = LC1(I)
-         H3(I) = UN - LB1(I) - LC1(I)
+         H3(I) = ONE - LB1(I) - LC1(I)
          H4(I) = ZERO
         ENDIF
        ENDDO
@@ -755,7 +755,7 @@ C
       DO I=1,JLT
 C       correction hourglass
         IF(IX3(I).NE.IX4(I))THEN
-          H0 = -QUART*(H1(I) - H2(I) + H3(I) - H4(I))
+          H0 = -FOURTH*(H1(I) - H2(I) + H3(I) - H4(I))
           H0 = MIN(H0,H2(I),H4(I))
           H0 = MAX(H0,-H1(I),-H3(I))
           H1(I) = H1(I) + H0
@@ -787,7 +787,7 @@ C------------------------------------
         H1(I) = CAND_F(4,II)
         H2(I) = CAND_F(5,II)
         H3(I) = CAND_F(6,II)
-        H4(I) = UN - H1(I) - H2(I) - H3(I)
+        H4(I) = ONE - H1(I) - H2(I) - H3(I)
        ENDIF
       ENDDO 
 C      
@@ -795,7 +795,7 @@ C
         T1X(I) = X3(I) - X1(I)
         T1Y(I) = Y3(I) - Y1(I)
         T1Z(I) = Z3(I) - Z1(I)
-        NORMINV = UN/SQRT(T1X(I)**2+T1Y(I)**2+T1Z(I)**2)
+        NORMINV = ONE/SQRT(T1X(I)**2+T1Y(I)**2+T1Z(I)**2)
         T1X(I) = T1X(I)*NORMINV
         T1Y(I) = T1Y(I)*NORMINV
         T1Z(I) = T1Z(I)*NORMINV
@@ -807,7 +807,7 @@ C
         NX(I) = T1Y(I)*T2Z(I) - T1Z(I)*T2Y(I)
         NY(I) = T1Z(I)*T2X(I) - T1X(I)*T2Z(I)
         NZ(I) = T1X(I)*T2Y(I) - T1Y(I)*T2X(I)
-        NORMINV = UN/SQRT(NX(I)**2+NY(I)**2+NZ(I)**2)
+        NORMINV = ONE/SQRT(NX(I)**2+NY(I)**2+NZ(I)**2)
         NX(I) = NX(I)*NORMINV
         NY(I) = NY(I)*NORMINV
         NZ(I) = NZ(I)*NORMINV

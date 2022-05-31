@@ -233,7 +233,7 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
           WRITE(IOUT,*)'       EXAPNDED'
 #include "lockoff.inc"
         ENDIF
-C        TZINF = TQUART*TZINF   !non sinon on perd les candidates voisines
+C        TZINF = THREE_OVER_4*TZINF   !non sinon on perd les candidates voisines
         ILD = 1
         ISKIP=1
       ELSEIF(I_MEM.EQ.3)THEN

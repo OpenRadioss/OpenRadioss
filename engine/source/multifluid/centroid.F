@@ -78,21 +78,21 @@ C     Node coordinates
          X7(1:3) = XGRID(1:3, NODE7)
          X8(1:3) = XGRID(1:3, NODE8)
 C     Centroid
-         ELEM_CENTROID(1:3, II) = UNHUIT * (X1(1:3) + X2(1:3) + X3(1:3) + X4(1:3) + 
+         ELEM_CENTROID(1:3, II) = ONE_OVER_8 * (X1(1:3) + X2(1:3) + X3(1:3) + X4(1:3) + 
      .        X5(1:3) + X6(1:3) + X7(1:3) + X8(1:3))
 C     Face centroid
 C     Face 1 
-         FACE_CENTROID(1:3, 1, II) = QUART * (X1(1:3) + X2(1:3) + X3(1:3) + X4(1:3))
+         FACE_CENTROID(1:3, 1, II) = FOURTH * (X1(1:3) + X2(1:3) + X3(1:3) + X4(1:3))
 C     Face 2 
-         FACE_CENTROID(1:3, 2, II) = QUART * (X3(1:3) + X4(1:3) + X8(1:3) + X7(1:3))
+         FACE_CENTROID(1:3, 2, II) = FOURTH * (X3(1:3) + X4(1:3) + X8(1:3) + X7(1:3))
 C     Face 3 
-         FACE_CENTROID(1:3, 3, II) = QUART * (X5(1:3) + X6(1:3) + X7(1:3) + X8(1:3))
+         FACE_CENTROID(1:3, 3, II) = FOURTH * (X5(1:3) + X6(1:3) + X7(1:3) + X8(1:3))
 C     Face 4 
-         FACE_CENTROID(1:3, 4, II) = QUART * (X1(1:3) + X2(1:3) + X6(1:3) + X5(1:3))
+         FACE_CENTROID(1:3, 4, II) = FOURTH * (X1(1:3) + X2(1:3) + X6(1:3) + X5(1:3))
 C     Face 5 
-         FACE_CENTROID(1:3, 5, II) = QUART * (X2(1:3) + X3(1:3) + X7(1:3) + X6(1:3))
+         FACE_CENTROID(1:3, 5, II) = FOURTH * (X2(1:3) + X3(1:3) + X7(1:3) + X6(1:3))
 C     Face 6 
-         FACE_CENTROID(1:3, 6, II) = QUART * (X1(1:3) + X4(1:3) + X8(1:3) + X5(1:3))
+         FACE_CENTROID(1:3, 6, II) = FOURTH * (X1(1:3) + X4(1:3) + X8(1:3) + X5(1:3))
       ENDDO
       END SUBROUTINE CENTROID3
 
@@ -174,16 +174,16 @@ C     Centroid
          VOL = VOL / 6.D0
          ELEM_CENTROID(1:3, II) = ELEM_CENTROID(1:3, II) / 12.D0 / VOL
 
-         !ELEM_CENTROID(1:3, II) = QUART * (X1(1:3) + X2(1:3) + X3(1:3) + X4(1:3))
+         !ELEM_CENTROID(1:3, II) = FOURTH * (X1(1:3) + X2(1:3) + X3(1:3) + X4(1:3))
 C     Face centroid
 C     Face 1 
-         FACE_CENTROID(1:3, 5, II) = TIERS * (X1(1:3) + X2(1:3) + X3(1:3))
+         FACE_CENTROID(1:3, 5, II) = THIRD * (X1(1:3) + X2(1:3) + X3(1:3))
 C     Face 2 
-         FACE_CENTROID(1:3, 6, II) = TIERS * (X1(1:3) + X2(1:3) + X4(1:3))
+         FACE_CENTROID(1:3, 6, II) = THIRD * (X1(1:3) + X2(1:3) + X4(1:3))
 C     Face 3 
-         FACE_CENTROID(1:3, 2, II) = TIERS * (X2(1:3) + X3(1:3) + X4(1:3))
+         FACE_CENTROID(1:3, 2, II) = THIRD * (X2(1:3) + X3(1:3) + X4(1:3))
 C     Face 4 
-         FACE_CENTROID(1:3, 4, II) = TIERS * (X1(1:3) + X3(1:3) + X4(1:3))
+         FACE_CENTROID(1:3, 4, II) = THIRD * (X1(1:3) + X3(1:3) + X4(1:3))
       ENDDO
       END SUBROUTINE CENTROID3T
 
@@ -237,16 +237,16 @@ C     Node coordinates
          X3(1:3) = XGRID(1:3, NODE3)
          X4(1:3) = XGRID(1:3, NODE4)
 C     Centroid
-         ELEM_CENTROID(1:3, II) = QUART * (X1(1:3) + X2(1:3) + X3(1:3) + X4(1:3))
+         ELEM_CENTROID(1:3, II) = FOURTH * (X1(1:3) + X2(1:3) + X3(1:3) + X4(1:3))
 C     Face centroid
 C     Face 1 
-         FACE_CENTROID(1:3, 1, II) = UNDEMI * (X1(1:3) + X2(1:3))
+         FACE_CENTROID(1:3, 1, II) = HALF * (X1(1:3) + X2(1:3))
 C     Face 2 
-         FACE_CENTROID(1:3, 2, II) = UNDEMI * (X2(1:3) + X3(1:3))
+         FACE_CENTROID(1:3, 2, II) = HALF * (X2(1:3) + X3(1:3))
 C     Face 3 
-         FACE_CENTROID(1:3, 3, II) = UNDEMI * (X3(1:3) + X4(1:3))
+         FACE_CENTROID(1:3, 3, II) = HALF * (X3(1:3) + X4(1:3))
 C     Face 4 
-         FACE_CENTROID(1:3, 4, II) = UNDEMI * (X1(1:3) + X4(1:3))
+         FACE_CENTROID(1:3, 4, II) = HALF * (X1(1:3) + X4(1:3))
 
       ENDDO
       END SUBROUTINE CENTROID2
@@ -298,14 +298,14 @@ C     Node coordinates
          X2(1:3) = XGRID(1:3, NODE2)
          X3(1:3) = XGRID(1:3, NODE3)
 C     Centroid
-         ELEM_CENTROID(1:3, II) = TIERS * (X1(1:3) + X2(1:3) + X3(1:3))
+         ELEM_CENTROID(1:3, II) = THIRD * (X1(1:3) + X2(1:3) + X3(1:3))
 C     Face centroid
 C     Face 1 
-         FACE_CENTROID(1:3, 1, II) = UNDEMI * (X1(1:3) + X2(1:3))
+         FACE_CENTROID(1:3, 1, II) = HALF * (X1(1:3) + X2(1:3))
 C     Face 2 
-         FACE_CENTROID(1:3, 2, II) = UNDEMI * (X2(1:3) + X3(1:3))
+         FACE_CENTROID(1:3, 2, II) = HALF * (X2(1:3) + X3(1:3))
 C     Face 3 
-         FACE_CENTROID(1:3, 3, II) = UNDEMI * (X3(1:3) + X1(1:3))
+         FACE_CENTROID(1:3, 3, II) = HALF * (X3(1:3) + X1(1:3))
 
       ENDDO
       END SUBROUTINE CENTROID2T

@@ -86,7 +86,7 @@ C     REAL ou REAL*8
      .   AJI1, AJI2, AJI3,
      .   AJI4, AJI5, AJI6,
      .   AJI7, AJI8, AJI9,
-     .   AJ5968(MVSIZ), AJ6749(MVSIZ), AJ4857(MVSIZ),
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
      .   AJ12, AJ45, AJ78,
      .   A17 , A28 ,
      .   B17 , B28 ,
@@ -133,12 +133,12 @@ C
 C     JACOBIAN
 C
       DO 100 I=LFT,LLT      
-      AJ5968(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-      AJ6749(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-  100 AJ4857(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+      JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+      JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+  100 JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
 C
       DO I=LFT,LLT    
-       VOLDP(I)=O64TH*(AJ1(I)*AJ5968(I)+AJ2(I)*AJ6749(I)+AJ3(I)*AJ4857(I))
+       VOLDP(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
        DET(I)=VOLDP(I)
       ENDDO
         
@@ -237,23 +237,23 @@ C
             AJ8(I)=B17-B28
             AJ9(I)=C17-C28
 C	    
-            AJ5968(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-            AJ6749(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-            AJ4857(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+            JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+            JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+            JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
 C
-           VOLDP(I)=O64TH*(AJ1(I)*AJ5968(I)+AJ2(I)*AJ6749(I)+AJ3(I)*AJ4857(I))
+           VOLDP(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
            DET(I)=VOLDP(I)
 c
-	   OFFG(I) = DEUX
+	   OFFG(I) = TWO
          ENDDO
       END IF
 C
       DO I=LFT,LLT
-        DETT=O64TH/DET(I)
+        DETT=ONE_OVER_64/DET(I)
 C       INVERSE DE LA MATRICE JACOBIENNE
-        AJI1=DETT*AJ5968(I)
-        AJI4=DETT*AJ6749(I)
-        AJI7=DETT*AJ4857(I)
+        AJI1=DETT*JAC_59_68(I)
+        AJI4=DETT*JAC_67_49(I)
+        AJI7=DETT*JAC_48_57(I)
         AJI2=DETT*(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
         AJI5=DETT*( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
         AJI8=DETT*(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
@@ -388,7 +388,7 @@ C-----------------------------------------------
           DO I=LFT,LLT
            IF(OFF(I).NE.ZERO)THEN
             IF(DET(I).LE.VOLMIN)THEN
-              DET(I)=UN
+              DET(I)=ONE
               OFF(I)=ZERO
 #include "lockon.inc"
                 WRITE(ISTDO,2000) NGL(I)
@@ -398,7 +398,7 @@ C-----------------------------------------------
             ELSEIF(DET(I).LE.ZERO)THEN
               CALL ANCMSG(MSGID=166,ANMODE=ANINFO,
      .                    I1=NGL(I))
-              DET(I)= UN
+              DET(I)= ONE
               MSTOP = 1
             ENDIF
            ENDIF
@@ -408,7 +408,7 @@ C-----------------------------------------------
         ICOR = 0
         DO I=LFT,LLT
           IF(OFF(I) .EQ.ZERO)THEN
-            DET(I)=UN
+            DET(I)=ONE
           ELSEIF((DET(I).LE.VOLMIN).OR.(DET(I).LE.ZERO))THEN
             ICOR=1
           ENDIF
@@ -417,7 +417,7 @@ C-----------------------------------------------
           DO I=LFT,LLT
             IF((OFF(I).NE.ZERO).AND.
      .         (DET(I).LE.VOLMIN.OR.DET(I).LE.ZERO))THEN
-              DET(I)=UN
+              DET(I)=ONE
               OFF(I)=ZERO
 #include "lockon.inc"
                 WRITE(ISTDO,2000) NGL(I)
@@ -431,7 +431,7 @@ C-----------------------------------------------
         ICOR = 0
         DO I=LFT,LLT
           IF(OFF(I) .EQ.ZERO)THEN
-            DET(I)=UN
+            DET(I)=ONE
           ELSEIF(DET(I).LE.ZERO)THEN
             ICOR=1
           ENDIF
@@ -442,7 +442,7 @@ C-----------------------------------------------
             IF(DET(I).LE.ZERO)THEN
               CALL ANCMSG(MSGID=166,ANMODE=ANINFO,
      .                    I1=NGL(I))
-              DET(I)= UN
+              DET(I)= ONE
               MSTOP = 1
             ENDIF
            ENDIF
@@ -521,7 +521,7 @@ C-----------------------------------------------
      .   X17 , X28 , X35 , X46,
      .   Y17 , Y28 , Y35 , Y46,
      .   Z17 , Z28 , Z35 , Z46,
-     .   AJ5968(MVSIZ), AJ6749(MVSIZ), AJ4857(MVSIZ),
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
      .   AJ12, AJ45, AJ78,
      .   A17 , A28 ,
      .   B17 , B28 ,
@@ -565,22 +565,22 @@ C
 C     JACOBIAN
 C
       DO 100 I=LFT,LLT      
-      AJ5968(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-      AJ6749(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)           
-  100 AJ4857(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+      JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+      JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)           
+  100 JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
 C
       DO 110 I=LFT,LLT    	          
-  110 DET(I)=O64TH*(AJ1(I)*AJ5968(I)+AJ2(I)*AJ6749(I)+AJ3(I)*AJ4857(I))   
+  110 DET(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))   
 C
 
       CALL SCHKJAB3(OFF,DET,NGL)
 C
       DO I=LFT,LLT
-        DETT=O64TH/DET(I)
+        DETT=ONE_OVER_64/DET(I)
 C     INVERSE DE LA MATRICE JACOBIENNE
-        AJI1=DETT*AJ5968(I)
-        AJI4=DETT*AJ6749(I)
-        AJI7=DETT*AJ4857(I)
+        AJI1=DETT*JAC_59_68(I)
+        AJI4=DETT*JAC_67_49(I)
+        AJI7=DETT*JAC_48_57(I)
         AJI2=DETT*(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
         AJI5=DETT*( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
         AJI8=DETT*(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))

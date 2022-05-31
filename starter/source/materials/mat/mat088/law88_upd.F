@@ -78,9 +78,9 @@ C----------------------------
          ICHECK = 0
          DO II = IC1,IC2-2,2                                 
               JJ=JJ+1                                        
-              STRETCH(JJ) = PLD(II) + UN                     
+              STRETCH(JJ) = PLD(II) + ONE                     
               STRESS(JJ)  = PLD(II + 1)   
-                IF(PLD(II) <=  - UN) THEN
+                IF(PLD(II) <=  - ONE) THEN
                   CALL ANCMSG(MSGID=1175,
      .                         MSGTYPE=MSGERROR,
      .                         ANMODE=ANINFO,

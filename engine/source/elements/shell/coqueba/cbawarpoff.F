@@ -84,7 +84,7 @@ c------|       |
 c ---- 1 ------2
 C--- recalculate r,s at 4 ipt, 4*g1=ksi_i*xi+(hi*xi)*eta; 4*g2=eta_i*xi+(hi*xi)*ksi
       DO I=1,NEL
-        IF (OFFG(I)<UN .OR. ZLLC2(I)<EM02) CYCLE         
+        IF (OFFG(I)<ONE .OR. ZLLC2(I)<EM02) CYCLE         
         XX(1:4) = X(1,IXC(2:5,I))
         YY(1:4) = X(2,IXC(2:5,I))
         ZZ(1:4) = X(3,IXC(2:5,I))
@@ -105,9 +105,9 @@ C----- only for npt=1
       DO IS = 1,NPTS
        DO IR = 1,NPTR
          NG = NPTR*(IS-1) + IR
-         PCOS(1:NEL,NG) =UN
+         PCOS(1:NEL,NG) =ONE
          DO I=1,NEL
-           IF (OFFG(I)<UN .OR. ZLLC2(I)<EM02) CYCLE         
+           IF (OFFG(I)<ONE .OR. ZLLC2(I)<EM02) CYCLE         
            RX(I)=RX0(I)+HIX(I)*VPG(2,NG)
            RY(I)=RY0(I)+HIY(I)*VPG(2,NG)
            RZ(I)=RZ0(I)+HIZ(I)*VPG(2,NG)
@@ -117,12 +117,12 @@ C----- only for npt=1
          ENDDO 
 C----------------------------
          DO I=1,NEL
-           IF (OFFG(I)<UN .OR. ZLLC2(I)<EM02) CYCLE         
+           IF (OFFG(I)<ONE .OR. ZLLC2(I)<EM02) CYCLE         
            R13(I) = RY(I) * SZ(I) - RZ(I) * SY(I) 
            R23(I) = RZ(I) * SX(I) - RX(I) * SZ(I) 
            R33(I) = RX(I) * SY(I) - RY(I) * SX(I) 
            DETA1(I) = SQRT(R13(I)*R13(I)+R23(I)*R23(I)+R33(I)*R33(I))
-           CC = UN/MAX(DETA1(I),EM20)
+           CC = ONE/MAX(DETA1(I),EM20)
            PCOS(I,NG) = CC*(E3X(I)*R13(I)+E3Y(I)*R23(I)+E3Z(I)*R33(I))
            PMAX(I) = MAX(PMAX(I),PCOS(I,NG))
          ENDDO 
@@ -136,8 +136,8 @@ C----------------------------
          UVAR  => ELBUF_STR%BUFLY(ILAY)%MAT(IR,IS,IT)%VAR
 C----------------------------
          DO I=1,NEL
-           IF (OFFG(I)<UN .OR. ZLLC2(I)<EM02) CYCLE         
-           CC =UN/(UN+SQRT(ZLLC2(I)))           
+           IF (OFFG(I)<ONE .OR. ZLLC2(I)<EM02) CYCLE         
+           CC =ONE/(ONE+SQRT(ZLLC2(I)))           
            IF (PCOS(I,NG)/=PMAX(I)) PCOS(I,NG) = MIN(PCOS(I,NG),CC)
          ENDDO 
          CALL SETUVARW(NEL,PCOS(1,NG),UVAR)
@@ -178,22 +178,22 @@ C-----------------------------------------------
 C=======================================================================
 C-----put cc and recovering more rapide
       DO I=1,NEL
-        IF (PCOS(I) >=0.64.AND.UVAR(I,40)==UN) CYCLE
+        IF (PCOS(I) >=0.64.AND.UVAR(I,40)==ONE) CYCLE
         IF (PCOS(I) <0.34) THEN
-          U_MAX = MIN(UN,1.5*UVAR(I,40))
+          U_MAX = MIN(ONE,1.5*UVAR(I,40))
           UVAR(I,40) =EM10
 C---------try EM10          
         ELSEIF (PCOS(I) <0.5) THEN
-          U_MAX = MIN(UN,1.05*UVAR(I,40))
+          U_MAX = MIN(ONE,1.05*UVAR(I,40))
           UVAR(I,40) =EM3*(PCOS(I)-0.34)/(0.5-0.34)
         ELSEIF (PCOS(I) <0.64) THEN
-          U_MAX = MIN(UN,1.02*UVAR(I,40))
+          U_MAX = MIN(ONE,1.02*UVAR(I,40))
           UVAR(I,40) =EM02*(PCOS(I)-0.5)/(0.64-0.5)
 c        ELSEIF (PCOS(I) <0.9) THEN
-c          U_MAX = MIN(UN,1.01*UVAR(I,40))
+c          U_MAX = MIN(ONE,1.01*UVAR(I,40))
 c          UVAR(I,40) =EM01*(PCOS(I)-0.64)/(0.9-0.64)
         ELSE
-          U_MAX = MIN(UN,1.01*UVAR(I,40))
+          U_MAX = MIN(ONE,1.01*UVAR(I,40))
           UVAR(I,40) = PCOS(I)
         END IF
         UVAR(I,40)=MIN(UVAR(I,40),U_MAX)

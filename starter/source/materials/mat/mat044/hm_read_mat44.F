@@ -126,7 +126,7 @@ c     default values
 c---------------------
       IF (RHOR == ZERO)  RHOR  = RHO0
 c
-      IF (NU < ZERO .OR. NU >= UNDEMI) THEN
+      IF (NU < ZERO .OR. NU >= HALF) THEN
          CALL ANCMSG(MSGID=49,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
@@ -137,7 +137,7 @@ c
       IF (EPSP_REF == ZERO) THEN
         CC = ZERO
       ELSE
-        CC = UN / EPSP_REF
+        CC = ONE / EPSP_REF
       END IF
       IF (CC > ZERO .AND. CP > ZERO .AND. 
      .   ISRAT == 0 .AND. ASRATE == ZERO .AND. Ivflag /= 1) THEN
@@ -148,12 +148,12 @@ c
      .                C1=TITR)
       ENDIF     
       IF (EPSR1 == ZERO) EPSR1 = INFINITY
-      IF (EPSR2 == ZERO) EPSR2 = DEUX*INFINITY
+      IF (EPSR2 == ZERO) EPSR2 = TWO*INFINITY
       IF (EPSM == ZERO)  EPSM  = INFINITY
       IF (SIGM == ZERO)  SIGM  = INFINITY   
       IF (ICC == 0)      ICC   = 1
-      IF (CP == ZERO)    CP    = UN
-      CP = UN / CP 
+      IF (CP == ZERO)    CP    = ONE
+      CP = ONE / CP 
       IF (Ivflag == 0) THEN
         Ivflag = 2
       ENDIF
@@ -185,7 +185,7 @@ c
       ENDIF
       !---------------------------------------------------------
       IF (CN /= ZERO .and. CB /= ZERO) THEN
-        EPSGM = ((SIGM - CA) / CB)**(UN/CN)
+        EPSGM = ((SIGM - CA) / CB)**(ONE/CN)
       ELSE
         EPSGM = INFINITY
       ENDIF
@@ -193,7 +193,7 @@ c
         YLD_SCALE = ZERO
       ELSEIF (YLD_SCALE == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('YLD_SCALE' ,YLD_SCALE_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        YLD_SCALE = UN * YLD_SCALE_UNIT
+        YLD_SCALE = ONE * YLD_SCALE_UNIT
       ENDIF
       ! If IFUNC > 0 and CA > 0 and Ivflag =/ 1
       IF (((IFUNC(1) > 0).AND.(CA /= ZERO)).AND.(Ivflag /= 1)) THEN
@@ -206,9 +206,9 @@ c
         ! IFUNC > 0 and CA > 0 can only be set with Ivflag = 1
       ENDIF
 c-----------------
-      BULK = E / TROIS / (UN - DEUX*NU)
-      A1   = E / (UN-NU*NU)
-      G    = E / DEUX  / (UN + NU)
+      BULK = E / THREE / (ONE - TWO*NU)
+      A1   = E / (ONE-NU*NU)
+      G    = E / TWO  / (ONE + NU)
 c-----------------
       NUPARAM = 24
       IF (IFUNC(1) > 0) THEN 
@@ -236,8 +236,8 @@ c-----------------
       UPARAM(14) = ASRATE
       UPARAM(15) = FISOKIN
       UPARAM(16) = G
-      UPARAM(17) = DEUX*G
-      UPARAM(18) = TROIS*G
+      UPARAM(17) = TWO*G
+      UPARAM(18) = THREE*G
       UPARAM(19) = BULK
       UPARAM(20) = A1
       UPARAM(21) = A1*NU
@@ -252,7 +252,7 @@ c-----------------
       PARMAT(5) = ASRATE
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) = DEUX*G/(BULK+QTHIRD*G) ! == (1-2*nu)/(1-nu)
+      PARMAT(17) = TWO*G/(BULK+FOUR_OVER_3*G) ! == (1-2*nu)/(1-nu)
 C     
 c-----------------
       PM(1)  = RHOR

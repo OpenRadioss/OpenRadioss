@@ -120,7 +120,7 @@ c=======================================================================
       VNL0 => NLOC_DMG%VNL_OLD(1:L_NLOC) ! Non-local variable velocities
       UNL  => NLOC_DMG%UNL(1:L_NLOC)     ! Non-local cumulated variable
       ! Constant for quad elements
-      NTN = QUATRE*QUATRE
+      NTN = FOUR*FOUR
 c         
       !-----------------------------------------------------------------------
       ! Computation of the element volume and the BtB matrix product
@@ -205,11 +205,11 @@ c
           DO I = 1,NEL
             ! Computation of B-matrix values
             IF ((NDDL==2).AND.(K==2)) THEN
-              BTH1 = (UN/(ZTH(K-1,NDDL)  - ZTH(K,NDDL)))*(UN/THK(I))
-              BTH2 = (UN/(ZTH(K,NDDL)    - ZTH(K-1,NDDL)))*(UN/THK(I))
+              BTH1 = (ONE/(ZTH(K-1,NDDL)  - ZTH(K,NDDL)))*(ONE/THK(I))
+              BTH2 = (ONE/(ZTH(K,NDDL)    - ZTH(K-1,NDDL)))*(ONE/THK(I))
             ELSE
-              BTH1 = (UN/(ZTH(K,NDDL)    - ZTH(K+1,NDDL)))*(UN/THK(I))
-              BTH2 = (UN/(ZTH(K+1,NDDL)  - ZTH(K,NDDL)))*(UN/THK(I))
+              BTH1 = (ONE/(ZTH(K,NDDL)    - ZTH(K+1,NDDL)))*(ONE/THK(I))
+              BTH2 = (ONE/(ZTH(K+1,NDDL)  - ZTH(K,NDDL)))*(ONE/THK(I))
             ENDIF        
 c         
             ! Computation of the non-local K matrix
@@ -259,7 +259,7 @@ C
           DTNOD = EP20
           DO K = 1,NDNOD
             DO I = 1,NEL
-              DTN(I,K) = DTFAC1(11)*CDAMP*SQRT(DEUX*MASSTH(I,K)/MAX(STIFNLTH(I,K),EM20)) 
+              DTN(I,K) = DTFAC1(11)*CDAMP*SQRT(TWO*MASSTH(I,K)/MAX(STIFNLTH(I,K),EM20)) 
               DTNOD    = MIN(DTN(I,K),DTNOD)
             ENDDO
           ENDDO
@@ -272,7 +272,7 @@ C
                 DO I = 1,NEL
                   IF (DTN(I,K) < DTMIN1(11)) THEN
                     DT2P        = DTMIN1(11)/(DTFAC1(11)*CDAMP)
-                    MASSTH(I,K) = MAX(MASSTH(I,K),CSTA*UNDEMI*STIFNLTH(I,K)*DT2P*DT2P*UNP00001)
+                    MASSTH(I,K) = MAX(MASSTH(I,K),CSTA*HALF*STIFNLTH(I,K)*DT2P*DT2P*ONEP00001)
                   ENDIF
                 ENDDO
               ENDDO
@@ -366,7 +366,7 @@ c
             NTN_VNL = NTN_VNL * XI * VOL(I) * WF(K,NDDL)
 c
             ! Introducing the internal variable to be regularized
-            NTVAR   = VAR_REG(I,K)*QUART*VOL(I)*WF(K,NDDL)
+            NTVAR   = VAR_REG(I,K)*FOURTH*VOL(I)*WF(K,NDDL)
 c
             ! Computing the elementary non-local forces
             A = NTN_UNL + NTN_VNL - NTVAR
@@ -377,22 +377,22 @@ c
 c
             ! Computing nodal equivalent stiffness
             IF (NODADT > 0) THEN 
-              STI1(I,K) = WF(K,NDDL)*(ABS((L2/VOL(I))*BTB11(I)  + UN/NTN*VOL(I)) + 
-     .                                ABS((L2/VOL(I))*BTB12(I)  + UN/NTN*VOL(I)) + 
-     .                                ABS(-(L2/VOL(I))*BTB11(I) + UN/NTN*VOL(I)) + 
-     .                                ABS(-(L2/VOL(I))*BTB12(I) + UN/NTN*VOL(I)))
-              STI2(I,K) = WF(K,NDDL)*(ABS((L2/VOL(I))*BTB12(I)  + UN/NTN*VOL(I)) + 
-     .                                ABS((L2/VOL(I))*BTB22(I)  + UN/NTN*VOL(I)) + 
-     .                                ABS(-(L2/VOL(I))*BTB12(I) + UN/NTN*VOL(I)) + 
-     .                                ABS(-(L2/VOL(I))*BTB22(I) + UN/NTN*VOL(I)))
-              STI3(I,K) = WF(K,NDDL)*(ABS(-(L2/VOL(I))*BTB11(I) + UN/NTN*VOL(I)) + 
-     .                                ABS(-(L2/VOL(I))*BTB12(I) + UN/NTN*VOL(I)) + 
-     .                                ABS((L2/VOL(I))*BTB11(I)  + UN/NTN*VOL(I)) + 
-     .                                ABS((L2/VOL(I))*BTB12(I)  + UN/NTN*VOL(I)))
-              STI4(I,K) = WF(K,NDDL)*(ABS(-(L2/VOL(I))*BTB12(I) + UN/NTN*VOL(I)) +
-     .                                ABS(-(L2/VOL(I))*BTB22(I) + UN/NTN*VOL(I)) + 
-     .                                ABS((L2/VOL(I))*BTB12(I)  + UN/NTN*VOL(I)) + 
-     .                                ABS((L2/VOL(I))*BTB22(I)  + UN/NTN*VOL(I)))
+              STI1(I,K) = WF(K,NDDL)*(ABS((L2/VOL(I))*BTB11(I)  + ONE/NTN*VOL(I)) + 
+     .                                ABS((L2/VOL(I))*BTB12(I)  + ONE/NTN*VOL(I)) + 
+     .                                ABS(-(L2/VOL(I))*BTB11(I) + ONE/NTN*VOL(I)) + 
+     .                                ABS(-(L2/VOL(I))*BTB12(I) + ONE/NTN*VOL(I)))
+              STI2(I,K) = WF(K,NDDL)*(ABS((L2/VOL(I))*BTB12(I)  + ONE/NTN*VOL(I)) + 
+     .                                ABS((L2/VOL(I))*BTB22(I)  + ONE/NTN*VOL(I)) + 
+     .                                ABS(-(L2/VOL(I))*BTB12(I) + ONE/NTN*VOL(I)) + 
+     .                                ABS(-(L2/VOL(I))*BTB22(I) + ONE/NTN*VOL(I)))
+              STI3(I,K) = WF(K,NDDL)*(ABS(-(L2/VOL(I))*BTB11(I) + ONE/NTN*VOL(I)) + 
+     .                                ABS(-(L2/VOL(I))*BTB12(I) + ONE/NTN*VOL(I)) + 
+     .                                ABS((L2/VOL(I))*BTB11(I)  + ONE/NTN*VOL(I)) + 
+     .                                ABS((L2/VOL(I))*BTB12(I)  + ONE/NTN*VOL(I)))
+              STI4(I,K) = WF(K,NDDL)*(ABS(-(L2/VOL(I))*BTB12(I) + ONE/NTN*VOL(I)) +
+     .                                ABS(-(L2/VOL(I))*BTB22(I) + ONE/NTN*VOL(I)) + 
+     .                                ABS((L2/VOL(I))*BTB12(I)  + ONE/NTN*VOL(I)) + 
+     .                                ABS((L2/VOL(I))*BTB22(I)  + ONE/NTN*VOL(I)))
             ENDIF
 c            
           ! If the element is broken, the non-local wave is absorbed
@@ -400,13 +400,13 @@ c
             IF (NODADT > 0) THEN 
               ! Non-local absorbing forces
               F1(I,K) = WF(K,NDDL)*SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1))*ZETA*SSPNL*
-     .                      UNDEMI*(VNL(POS1(I)+K-1)+VNL0(POS1(I)+K-1))*LE_MAX*THK(I)
+     .                      HALF*(VNL(POS1(I)+K-1)+VNL0(POS1(I)+K-1))*LE_MAX*THK(I)
               F2(I,K) = WF(K,NDDL)*SQRT(MASS(POS2(I)+K-1)/MASS0(POS2(I)+K-1))*ZETA*SSPNL*
-     .                      UNDEMI*(VNL(POS2(I)+K-1)+VNL0(POS2(I)+K-1))*LE_MAX*THK(I) 
+     .                      HALF*(VNL(POS2(I)+K-1)+VNL0(POS2(I)+K-1))*LE_MAX*THK(I) 
               F3(I,K) = WF(K,NDDL)*SQRT(MASS(POS3(I)+K-1)/MASS0(POS3(I)+K-1))*ZETA*SSPNL*
-     .                      UNDEMI*(VNL(POS3(I)+K-1)+VNL0(POS3(I)+K-1))*LE_MAX*THK(I)
+     .                      HALF*(VNL(POS3(I)+K-1)+VNL0(POS3(I)+K-1))*LE_MAX*THK(I)
               F4(I,K) = WF(K,NDDL)*SQRT(MASS(POS4(I)+K-1)/MASS0(POS4(I)+K-1))*ZETA*SSPNL*
-     .                      UNDEMI*(VNL(POS4(I)+K-1)+VNL0(POS4(I)+K-1))*LE_MAX*THK(I)
+     .                      HALF*(VNL(POS4(I)+K-1)+VNL0(POS4(I)+K-1))*LE_MAX*THK(I)
               ! Computing nodal equivalent stiffness
               STI1(I,K) = EM20
               STI2(I,K) = EM20
@@ -414,10 +414,10 @@ c
               STI4(I,K) = EM20
             ELSE
               ! Non-local absorbing forces
-              F1(I,K) = WF(K,NDDL)*ZETA*SSPNL*UNDEMI*(VNL(POS1(I)+K-1)+VNL0(POS1(I)+K-1))*LE_MAX*THK(I)
-              F2(I,K) = WF(K,NDDL)*ZETA*SSPNL*UNDEMI*(VNL(POS2(I)+K-1)+VNL0(POS2(I)+K-1))*LE_MAX*THK(I) 
-              F3(I,K) = WF(K,NDDL)*ZETA*SSPNL*UNDEMI*(VNL(POS3(I)+K-1)+VNL0(POS3(I)+K-1))*LE_MAX*THK(I)
-              F4(I,K) = WF(K,NDDL)*ZETA*SSPNL*UNDEMI*(VNL(POS4(I)+K-1)+VNL0(POS4(I)+K-1))*LE_MAX*THK(I)            
+              F1(I,K) = WF(K,NDDL)*ZETA*SSPNL*HALF*(VNL(POS1(I)+K-1)+VNL0(POS1(I)+K-1))*LE_MAX*THK(I)
+              F2(I,K) = WF(K,NDDL)*ZETA*SSPNL*HALF*(VNL(POS2(I)+K-1)+VNL0(POS2(I)+K-1))*LE_MAX*THK(I) 
+              F3(I,K) = WF(K,NDDL)*ZETA*SSPNL*HALF*(VNL(POS3(I)+K-1)+VNL0(POS3(I)+K-1))*LE_MAX*THK(I)
+              F4(I,K) = WF(K,NDDL)*ZETA*SSPNL*HALF*(VNL(POS4(I)+K-1)+VNL0(POS4(I)+K-1))*LE_MAX*THK(I)            
             ENDIF
           ENDIF
         ENDDO
@@ -498,16 +498,16 @@ c
           ! If the element is not broken, normal computation
           IF (OFF(I)/=ZERO) THEN
             ! Non-local critical time-step in the plane
-            DTNL = (DEUX*(MIN(LE(I),LE_MAX))*SQRT(TROIS*ZETA))/
-     .                  SQRT(DOUZE*L2 + (MIN(LE(I),LE_MAX))**2)
+            DTNL = (TWO*(MIN(LE(I),LE_MAX))*SQRT(THREE*ZETA))/
+     .                  SQRT(TWELVE*L2 + (MIN(LE(I),LE_MAX))**2)
             ! Non-local critical time-step in the thickness
             IF (NDDL>1) THEN
               IF (NDDL > 2) THEN
-                DTNL_TH = (DEUX*(MIN(THK(I)/NDDL,LE_MAX))*SQRT(TROIS*ZETA))/
-     .                       SQRT(DOUZE*L2 + (MIN(THK(I)/NDDL,LE_MAX))**2)
+                DTNL_TH = (TWO*(MIN(THK(I)/NDDL,LE_MAX))*SQRT(THREE*ZETA))/
+     .                       SQRT(TWELVE*L2 + (MIN(THK(I)/NDDL,LE_MAX))**2)
               ELSE
-                DTNL_TH = (DEUX*(MIN(THK(I),LE_MAX))*SQRT(TROIS*ZETA))/
-     .                       SQRT(DOUZE*L2 + (MIN(THK(I),LE_MAX))**2)
+                DTNL_TH = (TWO*(MIN(THK(I),LE_MAX))*SQRT(THREE*ZETA))/
+     .                       SQRT(TWELVE*L2 + (MIN(THK(I),LE_MAX))**2)
               ENDIF
             ELSE
               DTNL_TH = EP20

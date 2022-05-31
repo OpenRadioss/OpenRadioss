@@ -92,16 +92,16 @@ C-----------------------------------------------
          T0           = PM(79, MX)
          RHO0         = PM(1 , MX)
          DO I=LFT,LLT
-           UNPMU   =  UN+MU(I)
-           DENOM   = (UN-RHO0*b*UNPMU)
+           UNPMU   =  ONE+MU(I)
+           DENOM   = (ONE-RHO0*b*UNPMU)
            NUM     = (ESPE(I)-RHO0*q)
-           PP      = (GAMMA-UN)*UNPMU*NUM/DENOM - GAMMA*PSTAR
-           dPdE(I) = (GAMMA-UN)*UNPMU / DENOM                                         !partial derivative    
-           DPDM(I) = (GAMMA-UN)*NUM/DENOM/DENOM + DPDE(I)*(PP+PSH(I))/UNPMU/UNPMU     !total derivative
+           PP      = (GAMMA-ONE)*UNPMU*NUM/DENOM - GAMMA*PSTAR
+           dPdE(I) = (GAMMA-ONE)*UNPMU / DENOM                                         !partial derivative    
+           DPDM(I) = (GAMMA-ONE)*NUM/DENOM/DENOM + DPDE(I)*(PP+PSH(I))/UNPMU/UNPMU     !total derivative
          ENDDO
          DO I=LFT,LLT
-           ECOLD(I)=-TROIS100*SPH
-           IF(MU(I).GT.ZERO) ECOLD(I)=ECOLD(I)*(UN+(GAMMA-UN)*MU(I)*(UN-MU(I)))
+           ECOLD(I)=-THREE100*SPH
+           IF(MU(I).GT.ZERO) ECOLD(I)=ECOLD(I)*(ONE+(GAMMA-ONE)*MU(I)*(ONE-MU(I)))
          ENDDO
 
       !----------------------------------------
@@ -123,14 +123,14 @@ C-----------------------------------------------
          T0           = PM(79, MX)
          RHO0         = PM(1 , MX)
          DO I=LFT,LLT
-           EINT(I) = EINT(I) - UNDEMI*DVOL(I)*(PNEW(I)+PSH(I))
-           UNPMU   =  UN+MU(I)
+           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
+           UNPMU   =  ONE+MU(I)
            RHO     = UNPMU*RHO0
            V0      = VNEW(I)*RHO/RHO0
            DENOM   = (VNEW(I)/V0-RHO0*b)
-           AA      = (GAMMA-UN)*(-RHO0*q/DENOM)-GAMMA*PSTAR
-           BB      = (GAMMA-UN)/ DENOM     
-           PNEW(I) = (AA+BB*EINT(I)/V0)/(UN+BB*DVOL(I)/DEUX/V0)      
+           AA      = (GAMMA-ONE)*(-RHO0*q/DENOM)-GAMMA*PSTAR
+           BB      = (GAMMA-ONE)/ DENOM     
+           PNEW(I) = (AA+BB*EINT(I)/V0)/(ONE+BB*DVOL(I)/TWO/V0)      
            PNEW(I) = MAX(PNEW(I),-GAMMA*PSTAR)*OFF(I)         
            TFEXTT  = TFEXTT-DVOL(I)*PSH(I)
          ENDDO
@@ -138,10 +138,10 @@ C-----------------------------------------------
        TFEXT = TFEXT + TFEXTT
 #include "atomend.inc"
          DO I=LFT,LLT
-           IF(OFF(I).LT.UN.OR.SPH.LE.ZERO) CYCLE
-           UNPMU   =  UN+MU(I)
+           IF(OFF(I).LT.ONE.OR.SPH.LE.ZERO) CYCLE
+           UNPMU   =  ONE+MU(I)
            RHO     = UNPMU*RHO0
-           THETA(I) = (UN/RHO-B)*(PNEW(I)+PSTAR)/Cv/(GAMMA-UN)
+           THETA(I) = (ONE/RHO-B)*(PNEW(I)+PSTAR)/Cv/(GAMMA-ONE)
            THETA(I) = MAX(ZERO,THETA(I))
          ENDDO
          
@@ -165,13 +165,13 @@ C-----------------------------------------------
          PC           = PM(37, MX)
           DO I=1, NEL
              IF (VNEW(I) .GT. ZERO) THEN
-                UNPMU   =  UN+MU(I)
-                DENOM   = (UN-RHO0*b*UNPMU)
+                UNPMU   =  ONE+MU(I)
+                DENOM   = (ONE-RHO0*b*UNPMU)
                 NUM     = (ESPE(I)-RHO0*q)
-                PNEW(I) = -PSH(I) +  (GAMMA-UN)*UNPMU*NUM/DENOM - GAMMA*PSTAR
+                PNEW(I) = -PSH(I) +  (GAMMA-ONE)*UNPMU*NUM/DENOM - GAMMA*PSTAR
                 PNEW(I) = MAX(PNEW(I),MAX(PC, -GAMMA*PSTAR))*OFF(I)
-                dPdE(I) = (GAMMA-UN)*UNPMU / DENOM                                              !partial derivative    
-                DPDM(I) = (GAMMA-UN)*NUM/DENOM/DENOM + dPdE(I)*(PNEW(I)+PSH(I))/UNPMU/UNPMU     !total derivative
+                dPdE(I) = (GAMMA-ONE)*UNPMU / DENOM                                              !partial derivative    
+                DPDM(I) = (GAMMA-ONE)*NUM/DENOM/DENOM + dPdE(I)*(PNEW(I)+PSH(I))/UNPMU/UNPMU     !total derivative
              ENDIF
           ENDDO
       ENDIF

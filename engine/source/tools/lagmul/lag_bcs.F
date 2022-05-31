@@ -76,7 +76,7 @@ C        IK = IAD,IAD+1,IAD+2,...
 C        LLL(LAG_NKF)  : I = LLL(IK)
 C        JLL(LAG_NKF)  : J = JLL(IK)
 C======================================================================|
-      DTM2 = UN / (DT2*DT12)
+      DTM2 = ONE / (DT2*DT12)
       DO I=1,NBCSLAG
         IGR = IBCSLAG(1,I)
         CT  = IBCSLAG(2,I)
@@ -99,7 +99,7 @@ C--- dz
                 LLL(IK) = NN
                 JLL(IK) = 3
                 SLL(IK) = 0
-                XLL(IK) = UN
+                XLL(IK) = ONE
 c                RLL(NC) = -DX(3,NN) * DTM2
 c                print*,'RLL(',NC,') =',RLL(NC), DX(3,NN)
                 A(3,NN) = -V(3,NN)/DT12
@@ -145,7 +145,7 @@ C--- dy
                 LLL(IK) = NN
                 JLL(IK) = 2
                 SLL(IK) = 0
-                XLL(IK) = UN
+                XLL(IK) = ONE
 c                RLL(NC) = -DX(2,NN) * DTM2
 c                print*,'RLL(',NC,') =',RLL(NC), DX(2,NN)
                 A(2,NN) = -V(2,NN)/DT12
@@ -191,7 +191,7 @@ C--- dx
                 LLL(IK) = NN
                 JLL(IK) = 1
                 SLL(IK) = 0
-                XLL(IK) = UN
+                XLL(IK) = ONE
 c                RLL(NC) = -DX(1,NN) * DTM2
 c                print*,'RLL(',NC,') =',RLL(NC), DX(1,NN)
                 A(1,NN) = -V(1,NN)/DT12
@@ -240,7 +240,7 @@ C--- rz
                 LLL(IK) = NN
                 JLL(IK) = 6
                 SLL(IK) = 0
-                XLL(IK) = UN
+                XLL(IK) = ONE
 c                RLL(NC) = -DR(3,NN) * DTM2
 c                print*,'RLL(',NC,') =',RLL(NC), DR(3,NN)
                 AR(3,NN) = -VR(3,NN)/DT12
@@ -286,7 +286,7 @@ C--- ry
                 LLL(IK) = NN
                 JLL(IK) = 5
                 SLL(IK) = 0
-                XLL(IK) = UN
+                XLL(IK) = ONE
 c                RLL(NC) = -DR(2,NN) * DTM2
 c                print*,'RLL(',NC,') =',RLL(NC), DR(2,NN)
                 AR(2,NN) = -VR(2,NN)/DT12
@@ -332,7 +332,7 @@ C--- rx
                 LLL(IK) = NN
                 JLL(IK) = 4
                 SLL(IK) = 0
-                XLL(IK) = UN
+                XLL(IK) = ONE
 c                RLL(NC) = -DR(1,NN) * DTM2
 c                print*,'RLL(',NC,') =',RLL(NC), DR(1,NN)
                 AR(1,NN) = -VR(1,NN)/DT12

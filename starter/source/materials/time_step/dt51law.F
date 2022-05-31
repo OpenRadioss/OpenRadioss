@@ -116,9 +116,9 @@ C-----------------------------------------------
         C52(I)   = UPARAM(26) 
         C53(I)   = UPARAM(27) 
         C54(I)   = ZERO
-        G1(I)    = UPARAM(28)*DTIERS 
-        G2(I)    = UPARAM(29)*DTIERS 
-        G3(I)    = UPARAM(30)*DTIERS 
+        G1(I)    = UPARAM(28)*TWO_THIRD 
+        G2(I)    = UPARAM(29)*TWO_THIRD 
+        G3(I)    = UPARAM(30)*TWO_THIRD 
         G4(I)    = ZERO
         IFLG(I)  = UPARAM(31) 
         E01(I)   = UPARAM(32) 

@@ -67,7 +67,7 @@ C-----------------------------------------------
 C
 C---------------------------------------------------------------------
       DO I=LFT,LLT
-        XIOFF(I) = UN
+        XIOFF(I) = ONE
         AREAM(I) = ZERO
       ENDDO
 
@@ -94,7 +94,7 @@ C---------------------------------------------------------------------
       ENDDO
       
       DO I=LFT,LLT
-        DELTAX(I) = QUATRE*VOLN(I)*XIOFF(I)/SQRT(AREAM(I))
+        DELTAX(I) = FOUR*VOLN(I)*XIOFF(I)/SQRT(AREAM(I))
       ENDDO
 
       RETURN

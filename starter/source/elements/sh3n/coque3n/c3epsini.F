@@ -140,7 +140,7 @@ c
      .                                Z1  ,Z2  ,Z3  ,E1X ,E2X ,E3X ,
      .                                E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
 c
-      FAC = UN/FLOAT(NITRS)
+      FAC = ONE/FLOAT(NITRS)
       DO I=JFT,JLT
         VL(1,1,I) = ZERO
         VL(2,1,I) = ZERO
@@ -164,7 +164,7 @@ c-----------------------------------------------------------
 C
         DO NT=1,NITRS
 c          FAC =  FLOAT(NT) / FLOAT(NITRS)
-          FAC = FLOAT(NT) - UN
+          FAC = FLOAT(NT) - ONE
           DO I=JFT,JLT
             X1(I) = XREFTG(1,1,I) + FAC*VL(1,1,I)
             Y1(I) = XREFTG(1,2,I) + FAC*VL(2,1,I)
@@ -310,9 +310,9 @@ C
         ENDDO
 C
         DO I=JFT,JLT
-          PX1(I)=-UNDEMI * Y3L(I)
-          PY1(I)= UNDEMI *(X3L(I)-X2L(I))
-          PY2(I)=-UNDEMI * X3L(I)
+          PX1(I)=-HALF * Y3L(I)
+          PY1(I)= HALF *(X3L(I)-X2L(I))
+          PY2(I)=-HALF * X3L(I)
         ENDDO
 C
       ELSE
@@ -389,9 +389,9 @@ C
         VZ13(I)=VZ1(I) - VZ3(I)
         VZ23(I)=VZ2(I) - VZ3(I)
 C
-        TMP1 = QUART * VZ12(I) / (PY1(I)+PY2(I))
+        TMP1 = FOURTH * VZ12(I) / (PY1(I)+PY2(I))
         TMP2 = (PY1(I) * VZ1(I) + PY2(I) * VZ2(I)) / (PY1(I)+PY2(I))
-        TMP2 = QUART * (TMP2 - VZ3(I)) / PX1(I)
+        TMP2 = FOURTH * (TMP2 - VZ3(I)) / PX1(I)
 C
         VX1(I) = VX1(I) - VZ1(I) * TMP1
         VX2(I) = VX2(I) - VZ2(I) * TMP1
@@ -417,7 +417,7 @@ C
       ENDDO
 C
       DO I=JFT,JLT
-        FAC1  = UN/AREA(I)
+        FAC1  = ONE/AREA(I)
         EXX(I)=EXX(I)*FAC1
         EYY(I)=EYY(I)*FAC1
         EXY(I)=EXY(I)*FAC1
@@ -490,7 +490,7 @@ c
 c
       DO I=JFT,JLT        
         ECOS(I) = E1X(I)*E1X0(I)+E1Y(I)*E1Y0(I)+E1Z(I)*E1Z0(I)
-        AA = MAX(ZERO,UN-ECOS(I)*ECOS(I))
+        AA = MAX(ZERO,ONE-ECOS(I)*ECOS(I))
         ESIN(I) = SQRT(AA)
         BB = E1X(I)*E2X0(I)+E1Y(I)*E2Y0(I)+E1Z(I)*E2Z0(I)
         IF (BB >ZERO) ESIN(I) = -ESIN(I)
@@ -543,7 +543,7 @@ C-----------------------------------------------
        M2(I)= ECOS(I)*ECOS(I)
        N2(I)= ESIN(I)*ESIN(I)
        MN(I)= ECOS(I)*ESIN(I)
-       MN2(I)= DEUX*MN(I)
+       MN2(I)= TWO*MN(I)
       ENDDO
 C------Exy :2*exy 
        DO I=JFT,JLT

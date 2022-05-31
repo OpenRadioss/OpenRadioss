@@ -155,7 +155,7 @@ c  indx utilise localement contrairement aux coques 4n
      .   NU(MVSIZ) , SHF(MVSIZ), DT1C(MVSIZ),
      .   G(MVSIZ)   , YM(MVSIZ)  , A11(MVSIZ)   , A12(MVSIZ),
      .   VOL0(MVSIZ),THK02(MVSIZ),ZCFAC(MVSIZ,2), GS(MVSIZ),
-     .   VOL00(MVSIZ),ALPE(MVSIZ),A_HAMMER(3,2),O3TH,O2_3TH,
+     .   VOL00(MVSIZ),ALPE(MVSIZ),A_HAMMER(3,2),ONE_OVER_3,O2_3TH,
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),R21(MVSIZ),R22(MVSIZ),
      .   R23(MVSIZ),R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),ALDT(MVSIZ),
      .   VLX(MVSIZ,2),VLY(MVSIZ,2),VLZ(MVSIZ,2),RLX(MVSIZ,3),RLY(MVSIZ,3),
@@ -359,7 +359,7 @@ c-------------------------------------------
              IPOS(1) = NLOC_DMG%POSI(INOD(1))
              IPOS(2) = NLOC_DMG%POSI(INOD(2))
              IPOS(3) = NLOC_DMG%POSI(INOD(3))
-             VAR_REG(I,K) = (UN-ETA-KSI)*DNL(IPOS(1)+K-1) +
+             VAR_REG(I,K) = (ONE-ETA-KSI)*DNL(IPOS(1)+K-1) +
      .                               ETA*DNL(IPOS(2)+K-1) +
      .                               KSI*DNL(IPOS(3)+K-1)
            ENDDO
@@ -397,7 +397,7 @@ C     THICKNESS CORRECTION
 C----------------------------
       IF (ITHK > 0) THEN
         DO I=JFT,JLT
-          GBUF%THK(I) = GBUF%THK(I) - DTHIRD*(GBUF%THK(I)-THK0(I))  
+          GBUF%THK(I) = GBUF%THK(I) - TWO_THIRD*(GBUF%THK(I)-THK0(I))  
           THK0(I)     = GBUF%THK(I)                                 
         ENDDO
       ENDIF
@@ -475,7 +475,7 @@ C---
       PT3 = PT2 + LENF
       DO I=JFT,JLT
         DO J=1,5
-          GBUF%FOR(KK(J)+I) = TIERS*(GBUF%FORPG(PT1+KK(J)+I)
+          GBUF%FOR(KK(J)+I) = THIRD*(GBUF%FORPG(PT1+KK(J)+I)
      .                             + GBUF%FORPG(PT2+KK(J)+I)
      .                             + GBUF%FORPG(PT3+KK(J)+I))
         ENDDO 
@@ -484,7 +484,7 @@ C---
       PT3 = PT2 + LENM
       DO I=JFT,JLT
         DO J=1,3
-          GBUF%MOM(KK(J)+I) = TIERS*(GBUF%MOMPG(PT1+KK(J)+I)
+          GBUF%MOM(KK(J)+I) = THIRD*(GBUF%MOMPG(PT1+KK(J)+I)
      .                             + GBUF%MOMPG(PT2+KK(J)+I)
      .                             + GBUF%MOMPG(PT3+KK(J)+I))	
          ENDDO
@@ -498,7 +498,7 @@ C---
             BUFLY => ELBUF_STR%BUFLY(IPT)
             IF (BUFLY%L_PLA > 0) THEN
               DO I=JFT,JLT  
-                BUFLY%PLAPT(I) = TIERS*(PLAPT_LAY(IPT,1,I) + PLAPT_LAY(IPT,2,I) +
+                BUFLY%PLAPT(I) = THIRD*(PLAPT_LAY(IPT,1,I) + PLAPT_LAY(IPT,2,I) +
      .                                  PLAPT_LAY(IPT,3,I))
               ENDDO
             ENDIF
@@ -511,7 +511,7 @@ C---
               LBUF2 => ELBUF_STR%BUFLY(IPT)%LBUF(2,1,1)
               LBUF3 => ELBUF_STR%BUFLY(IPT)%LBUF(3,1,1)
               DO I=JFT,JLT  
-                BUFLY%PLAPT(I) = TIERS*(LBUF1%PLA(I) + LBUF2%PLA(I) +
+                BUFLY%PLAPT(I) = THIRD*(LBUF1%PLA(I) + LBUF2%PLA(I) +
      .                                  LBUF3%PLA(I))
               ENDDO
             ENDIF
@@ -526,7 +526,7 @@ C---
             LBUF3 => ELBUF_STR%BUFLY(1)%LBUF(3,1,IPT)
             II = (IPT-1)*NEL
             DO I=JFT,JLT                                                 
-              BUFLY%PLAPT(II+I) = TIERS*(LBUF1%PLA(I) + LBUF2%PLA(I) +
+              BUFLY%PLAPT(II+I) = THIRD*(LBUF1%PLA(I) + LBUF2%PLA(I) +
      .                                   LBUF3%PLA(I))
             ENDDO
           ENDIF
@@ -540,7 +540,7 @@ C---
           DO IPT = 1,NLAY
             BUFLY => ELBUF_STR%BUFLY(IPT)
             DO I=JFT,JLT*5  
-              BUFLY%SIGPT(I) = TIERS*(SIGPT_LAY(IPT,1,I) + SIGPT_LAY(IPT,2,I) +
+              BUFLY%SIGPT(I) = THIRD*(SIGPT_LAY(IPT,1,I) + SIGPT_LAY(IPT,2,I) +
      .                                SIGPT_LAY(IPT,3,I))
             ENDDO
           ENDDO
@@ -554,7 +554,7 @@ C---
               II = (I-1)*5
               DO J=1,5
                JJ = II+J
-               BUFLY%SIGPT(JJ) = TIERS*(LBUF1%SIG(KK(J)+I) + LBUF2%SIG(KK(J)+I) +
+               BUFLY%SIGPT(JJ) = THIRD*(LBUF1%SIG(KK(J)+I) + LBUF2%SIG(KK(J)+I) +
      .                                  LBUF3%SIG(KK(J)+I))
               ENDDO
             ENDDO
@@ -571,7 +571,7 @@ C---
             II = (I-1)*5
             DO J=1,5
               JJ = K+II+J
-              BUFLY%SIGPT(JJ) = TIERS*(LBUF1%SIG(KK(J)+I) + LBUF2%SIG(KK(J)+I)
+              BUFLY%SIGPT(JJ) = THIRD*(LBUF1%SIG(KK(J)+I) + LBUF2%SIG(KK(J)+I)
      .                               + LBUF3%SIG(KK(J)+I))
             ENDDO
           ENDDO

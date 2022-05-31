@@ -90,7 +90,7 @@ C
           ENDIF
         ENDIF
 
-        IF(BPRELD(I,3) .LT. UN)THEN
+        IF(BPRELD(I,3) .LT. ONE)THEN
           IF(TT .GE. TS )THEN
            SIG(I,1) = BPRELD(I,4) !SIG(I,1)+BPRELD(I,4)
            SIG(I,2) = BPRELD(I,5) !SIG(I,2)+BPRELD(I,5)
@@ -108,7 +108,7 @@ C
        ENDDO
       
 ! Added to compensate loss of stress when filling the gap
-       IF(BPRELD(LFT,3) == UN)THEN
+       IF(BPRELD(LFT,3) == ONE)THEN
          TS = BPRELD(LFT,1)
          TE = BPRELD(LFT,2)
 !         IF (TT <= (TE+EM01*(TE-TS))) THEN       ! sb : seems to be an error 
@@ -123,7 +123,7 @@ C
           ENDDO
          ELSE IF (TT >= TE) THEN
           DO I=LFT,LLT
-            BPRELD(I,3) = DEUX
+            BPRELD(I,3) = TWO
           ENDDO
          ENDIF
        ENDIF

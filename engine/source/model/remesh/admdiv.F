@@ -135,7 +135,7 @@ C
             NY=NODNORM(2,N)
             NZ=NODNORM(3,N)
 
-            AAA=UN/MAX(EM30,SQRT(NX*NX+NY*NY+NZ*NZ))
+            AAA=ONE/MAX(EM30,SQRT(NX*NX+NY*NY+NZ*NZ))
             NX = NX * AAA
             NY = NY * AAA
             NZ = NZ * AAA
@@ -247,13 +247,13 @@ C---
 
           PP=PCONTACT(NI)
           CC=ACONTACT(NI)
-          IF(PP > UN .AND. CC < ZEP9999)THEN
+          IF(PP > ONE .AND. CC < ZEP9999)THEN
             KDIV=1
             EXIT
           END IF
 
           RR=RCONTACT(NI)
-          IF(AL > UNDEMI*RR*RR)THEN
+          IF(AL > HALF*RR*RR)THEN
             KDIV=1
             EXIT
           END IF
@@ -280,7 +280,7 @@ C         Angle criteria
           NY = Z13*X24 - X13*Z24
           NZ = X13*Y24 - Y13*X24
 
-          AAA=UN/MAX(EM30,SQRT(NX*NX+NY*NY+NZ*NZ))
+          AAA=ONE/MAX(EM30,SQRT(NX*NX+NY*NY+NZ*NZ))
           NX = NX * AAA
           NY = NY * AAA
           NZ = NZ * AAA
@@ -512,13 +512,13 @@ C---
 
           PP=PCONTACT(NI)
           CC=ACONTACT(NI)
-          IF(PP > UN .AND. CC < ZEP9999)THEN
+          IF(PP > ONE .AND. CC < ZEP9999)THEN
             KDIV=1
             EXIT
           END IF
 
           RR=RCONTACT(NI)
-          IF(AL > UNDEMI*RR*RR)THEN
+          IF(AL > HALF*RR*RR)THEN
             KDIV=1
             EXIT
           END IF
@@ -543,7 +543,7 @@ C---
           NY = Z12*X13 - X12*Z13
           NZ = X12*Y13 - Y12*X13
 
-          AAA=UN/MAX(EM30,SQRT(NX*NX+NY*NY+NZ*NZ))
+          AAA=ONE/MAX(EM30,SQRT(NX*NX+NY*NY+NZ*NZ))
           NX = NX * AAA
           NY = NY * AAA
           NZ = NZ * AAA

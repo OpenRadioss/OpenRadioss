@@ -112,7 +112,7 @@ C
         ENDDO
       ENDIF
 C
-      DT05=UNDEMI*DT1
+      DT05=HALF*DT1
       IF (ISMDISP > 0) DT05=ZERO
 C
       DO I=LFT,LLT
@@ -132,11 +132,11 @@ C
 C
       DO I=LFT,LLT
         IF (ALDP(I) <= EM15) THEN
-          EXXDP(I)= UN
+          EXXDP(I)= ONE
           EYXDP(I)= ZERO
           EZXDP(I)= ZERO
           EXYDP(I)= ZERO
-          EYYDP(I)= UN
+          EYYDP(I)= ONE
           EZYDP(I)= ZERO	
         ELSE
           EXXDP(I)=EXXDP(I)/ALDP(I) 
@@ -147,11 +147,11 @@ C
 C
       DO I=LFT,LLT
         IF (AL2DP(I) <= EM15) THEN
-          EXX2DP(I)= UN
+          EXX2DP(I)= ONE
           EYX2DP(I)= ZERO
           EZX2DP(I)= ZERO
           EXY2DP(I)= ZERO
-          EYY2DP(I)= UN
+          EYY2DP(I)= ONE
           EZY2DP(I)= ZERO
         ELSE
           EXX2DP(I)=EXX2DP(I)/AL2DP(I)
@@ -185,7 +185,7 @@ C--------------------------------------------
       DO I=LFT,LLT
         RX1DP   = EXX2DP(I)*RX1(I)+EYX2DP(I)*RY1(I)+EZX2DP(I)*RZ1(I)
         RX2DP   = EXX2DP(I)*RX2(I)+EYX2DP(I)*RY2(I)+EZX2DP(I)*RZ2(I)
-        THETA(I) = (RX1DP+RX2DP)/DEUX*DT05
+        THETA(I) = (RX1DP+RX2DP)/TWO*DT05
         SUM2(I)  = MAX(EM15,SQRT(EXY2DP(I)**2+EYY2DP(I)**2+EZY2DP(I)**2))
         SUM3(I)  = MAX(EM15,SQRT(EXZ2DP(I)**2+EYZ2DP(I)**2+EZZ2DP(I)**2))
         CC = COS(THETA(I))  
@@ -194,8 +194,8 @@ C--------------------------------------------
         SINT2(I) = SS/SUM3(I)
         SUM2(I)  = MAX(EM15,SQRT(EXYDP(I)**2+EYYDP(I)**2+EZYDP(I)**2))
         SUM3(I)  = MAX(EM15,SQRT(EXZDP(I)**2+EYZDP(I)**2+EZZDP(I)**2))
-        COST(I)  = (DEUX*CC*CC-UN)/SUM2(I)
-        SINT(I)  = DEUX*CC*SS/SUM3(I)
+        COST(I)  = (TWO*CC*CC-ONE)/SUM2(I)
+        SINT(I)  = TWO*CC*SS/SUM3(I)
       ENDDO
 C
 C ... it is modified.

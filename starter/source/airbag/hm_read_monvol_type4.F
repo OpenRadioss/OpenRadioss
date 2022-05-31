@@ -286,23 +286,23 @@ C     Default values
 C     ==============
       IF (SCAL_T == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('Ascalet', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_T = UN * FAC_GEN
+         SCAL_T = ONE * FAC_GEN
       ENDIF
       IF (SCAL_P == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleP', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_P = UN * FAC_GEN
+         SCAL_P = ONE * FAC_GEN
       ENDIF
       IF (SCAL_S == ZERO) THEN 
          CALL HM_GET_FLOATV_DIM('AscaleS', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_S = UN * FAC_GEN
+         SCAL_S = ONE * FAC_GEN
       ENDIF
       IF (SCAL_A == ZERO) THEN 
          CALL HM_GET_FLOATV_DIM('AscaleA', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_A = UN * FAC_GEN
+         SCAL_A = ONE * FAC_GEN
       ENDIF
       IF (SCAL_D == ZERO) THEN 
          CALL HM_GET_FLOATV_DIM('AscaleD', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_D = UN * FAC_GEN
+         SCAL_D = ONE * FAC_GEN
       ENDIF
     
       IF (AMU == ZERO) AMU = EM02
@@ -310,30 +310,30 @@ C     ==============
          PEXT = 101325.D0 * (FAC_L_WORK * FAC_T_WORK * FAC_T_WORK) / FAC_M_WORK
       ENDIF
       PINI = PEXT
-      IF (TI == ZERO) TI = DEUXCENT95
+      IF (TI == ZERO) TI = TWOHUNDRED95
       DO II = 1, NJET
          IF (IMASS(II) /= 0 .AND. FMASS(II) == ZERO) THEN
             CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Fscalemas', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            FMASS(II) = UN * FAC_GEN
+            FMASS(II) = ONE * FAC_GEN
          ENDIF
          IF (ITEMP(II) /= 0 .AND. FTEMP(II) == ZERO) THEN
             CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('FscaleT', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            FTEMP(II) = UN * FAC_GEN
+            FTEMP(II) = ONE * FAC_GEN
          ENDIF
          IF (IFLU(II) /= 0) THEN
             FMASS(II) = FMASS(II) / FAC_T
          ENDIF
          IF (FPT(II) == ZERO) THEN 
             CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Fpt', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            FPT(II) = UN * FAC_GEN
+            FPT(II) = ONE * FAC_GEN
          ENDIF
          IF (FPA(II) == ZERO) THEN 
             CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Fptheta', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            FPA(II) = UN * FAC_GEN
+            FPA(II) = ONE * FAC_GEN
          ENDIF
          IF (FPZ(II) == ZERO) THEN 
             CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Fpdelta', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            FPZ(II) = UN * FAC_GEN
+            FPZ(II) = ONE * FAC_GEN
          ENDIF
       ENDDO
       DO II = 1, NVENT
@@ -341,12 +341,12 @@ C     ==============
          IF (IPVENT(II) == 0) THEN
             BVENT(II) = ZERO
          ENDIF
-         IF (FPORT(II)  == ZERO) FPORT(II) = UN
-         IF (FPORP(II)  == ZERO) FPORP(II) = UN
-         IF (FPORA(II)  == ZERO) FPORA(II) = UN
-         IF (FPORT1(II) == ZERO) FPORT1(II) = UN
-         IF (FPORP1(II) == ZERO) FPORP1(II) = UN
-         IF (FPORA1(II) == ZERO) FPORA1(II) = UN
+         IF (FPORT(II)  == ZERO) FPORT(II) = ONE
+         IF (FPORP(II)  == ZERO) FPORP(II) = ONE
+         IF (FPORA(II)  == ZERO) FPORA(II) = ONE
+         IF (FPORT1(II) == ZERO) FPORT1(II) = ONE
+         IF (FPORP1(II) == ZERO) FPORP1(II) = ONE
+         IF (FPORA1(II) == ZERO) FPORA1(II) = ONE
       ENDDO
       IF (GAMAI == ZERO) THEN
          IF (NJET > 0) THEN
@@ -358,7 +358,7 @@ C     ==============
       ENDIF
       CPI = CPAI + TI * (CPBI + CPCI * TI)
       CVI = CPI / GAMAI
-      RMWI = CVI * (GAMAI - UN)
+      RMWI = CVI * (GAMAI - ONE)
       MI = PINI * (VOL + VEPS) / (RMWI * TI)
       TTFIRE = INFINITY
       DO II = 1, NJET
@@ -385,11 +385,11 @@ C     ==============
 C     =====
 C     Store
 C     ===== 
-      T_MONVOLN%RVOLU(26) = UN / SCAL_T
-      T_MONVOLN%RVOLU(27) = UN / SCAL_P
-      T_MONVOLN%RVOLU(28) = UN / SCAL_S
-      T_MONVOLN%RVOLU(29) = UN / SCAL_A
-      T_MONVOLN%RVOLU(30) = UN / SCAL_D
+      T_MONVOLN%RVOLU(26) = ONE / SCAL_T
+      T_MONVOLN%RVOLU(27) = ONE / SCAL_P
+      T_MONVOLN%RVOLU(28) = ONE / SCAL_S
+      T_MONVOLN%RVOLU(29) = ONE / SCAL_A
+      T_MONVOLN%RVOLU(30) = ONE / SCAL_D
 C     
       IF (IEQUI > 0) IEQUI = 1
       T_MONVOLN%IVOLU(15) = IEQUI
@@ -417,7 +417,7 @@ C
       RHOI = PINI / (TI * RMWI)
       T_MONVOLN%RVOLU(62) = RHOI
       TI2 = TI * TI
-      ESPECI = TI * (CPAI + UNDEMI * CPBI * TI + THIRD * CPCI * TI2 - RMWI)
+      ESPECI = TI * (CPAI + HALF * CPBI * TI + THIRD * CPCI * TI2 - RMWI)
      
       T_MONVOLN%RVOLU(63) = ESPECI + RMWI * TI
       T_MONVOLN%RVOLU(64) = ZERO
@@ -531,7 +531,7 @@ C
             ENDIF
          ENDIF
          CPG = CPA(II) + TI * (CPB(II) + CPC(II) * TI)
-         RMWG = CPG * (GAMA(II) - UN) / GAMA(II)
+         RMWG = CPG * (GAMA(II) - ONE) / GAMA(II)
          T_MONVOLN%RBAGJET(1, II) = RMWG
          IF (NJ1(II) == 0) THEN
             IJET(II) = 0
@@ -574,7 +574,7 @@ C
                CALL ANCMSG(MSGID = 330, ANMODE = ANINFO, MSGTYPE = MSGERROR,
      .              I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE)
             ENDIF
-            IF (AVENT(II) == ZERO) AVENT(II) = UN
+            IF (AVENT(II) == ZERO) AVENT(II) = ONE
          ENDIF
          IF (AVENT(II) == ZERO) DPDEF(II) = INFINITY
          IF (AVENT(II) == ZERO) TVENT(II) = INFINITY
@@ -586,7 +586,7 @@ C
          T_MONVOLN%RBAGHOL(3, II) = TVENT(II)
          T_MONVOLN%RBAGHOL(4, II) = DTPDEF(II)
          T_MONVOLN%RBAGHOL(6, II) = BVENT(II)
-         IF (IVDP(II) /= 0 .AND. FVDP(II) == ZERO) FVDP(II) = UN
+         IF (IVDP(II) /= 0 .AND. FVDP(II) == ZERO) FVDP(II) = ONE
          T_MONVOLN%RBAGHOL(13, II) = FVDP(II)
          IF (TSTOPE(II) == ZERO) TSTOPE(II) = INFINITY
          T_MONVOLN%RBAGHOL(14, II) = TSTOPE(II)

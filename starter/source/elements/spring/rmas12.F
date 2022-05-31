@@ -83,10 +83,10 @@ C----------------------------------------------
         I2 = IXR(3,I+NFT)
         I3 = IXR(4,I+NFT)
 C
-        EMS = UNDEMI * GEO(1,IXR(1,I+NFT))*XL(I)
-        EMS2= UNDEMI * EMS
-        XI  = UNDEMI * GEO(9,IXR(1,I+NFT))
-        XI2 = UNDEMI * XI*XL(I)
+        EMS = HALF * GEO(1,IXR(1,I+NFT))*XL(I)
+        EMS2= HALF * EMS
+        XI  = HALF * GEO(9,IXR(1,I+NFT))
+        XI2 = HALF * XI*XL(I)
         MS(I1) = MS(I1) + EMS2
         MS(I2) = MS(I2) + EMS
         MS(I3) = MS(I3) + EMS2
@@ -96,22 +96,22 @@ C
 C
 C
         IP=IPART(I)
-        PARTSAV(1,IP)=PARTSAV(1,IP) + DEUX*EMS
+        PARTSAV(1,IP)=PARTSAV(1,IP) + TWO*EMS
         PARTSAV(2,IP)=PARTSAV(2,IP)
      .              + EMS2*(X(1,I1)+X(1,I3)) + EMS*X(1,I2)
         PARTSAV(3,IP)=PARTSAV(3,IP)
      .              + EMS2*(X(2,I1)+X(2,I3)) + EMS*X(2,I2)
         PARTSAV(4,IP)=PARTSAV(4,IP)
      .              + EMS2*(X(3,I1)+X(3,I3)) + EMS*X(3,I2)
-        XX = UNDEMI*(X(1,I1)*X(1,I1)+X(1,I3)*X(1,I3)) + X(1,I2)*X(1,I2)
-        XY = UNDEMI*(X(1,I1)*X(2,I1)+X(2,I3)*X(2,I3)) + X(1,I2)*X(2,I2)
-        YY = UNDEMI*(X(2,I1)*X(2,I1)+X(3,I3)*X(3,I3)) + X(2,I2)*X(2,I2)
-        YZ = UNDEMI*(X(2,I1)*X(3,I1)+X(1,I3)*X(1,I3)) + X(2,I2)*X(3,I2)
-        ZZ = UNDEMI*(X(3,I1)*X(3,I1)+X(2,I3)*X(2,I3)) + X(3,I2)*X(3,I2)
-        ZX = UNDEMI*(X(3,I1)*X(1,I1)+X(3,I3)*X(3,I3)) + X(3,I2)*X(1,I2)
-        PARTSAV(5,IP) =PARTSAV(5,IP) + DEUX*XI + EMS * (YY+ZZ)
-        PARTSAV(6,IP) =PARTSAV(6,IP) + DEUX*XI + EMS * (ZZ+XX)
-        PARTSAV(7,IP) =PARTSAV(7,IP) + DEUX*XI + EMS * (XX+YY)
+        XX = HALF*(X(1,I1)*X(1,I1)+X(1,I3)*X(1,I3)) + X(1,I2)*X(1,I2)
+        XY = HALF*(X(1,I1)*X(2,I1)+X(2,I3)*X(2,I3)) + X(1,I2)*X(2,I2)
+        YY = HALF*(X(2,I1)*X(2,I1)+X(3,I3)*X(3,I3)) + X(2,I2)*X(2,I2)
+        YZ = HALF*(X(2,I1)*X(3,I1)+X(1,I3)*X(1,I3)) + X(2,I2)*X(3,I2)
+        ZZ = HALF*(X(3,I1)*X(3,I1)+X(2,I3)*X(2,I3)) + X(3,I2)*X(3,I2)
+        ZX = HALF*(X(3,I1)*X(1,I1)+X(3,I3)*X(3,I3)) + X(3,I2)*X(1,I2)
+        PARTSAV(5,IP) =PARTSAV(5,IP) + TWO*XI + EMS * (YY+ZZ)
+        PARTSAV(6,IP) =PARTSAV(6,IP) + TWO*XI + EMS * (ZZ+XX)
+        PARTSAV(7,IP) =PARTSAV(7,IP) + TWO*XI + EMS * (XX+YY)
         PARTSAV(8,IP) =PARTSAV(8,IP)  - EMS * XY
         PARTSAV(9,IP) =PARTSAV(9,IP)  - EMS * YZ
         PARTSAV(10,IP)=PARTSAV(10,IP) - EMS * ZX
@@ -122,10 +122,10 @@ C
      .              + EMS2*(V(2,I1)+V(2,I3)) + EMS*V(2,I2)
         PARTSAV(13,IP)=PARTSAV(13,IP) 
      .              + EMS2*(V(3,I1)+V(3,I3)) + EMS*V(3,I2)
-        PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * EMS2 *
+        PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS2 *
      .     (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
      .     +V(1,I3)*V(1,I3)+V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3))
-     .                                + UNDEMI * EMS *
+     .                                + HALF * EMS *
      .     (V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2))
        ENDDO
       ELSE
@@ -134,11 +134,11 @@ C
         I2 = IXR(3,I+NFT)
         I3 = IXR(4,I+NFT)
 C
-        EMS = UNDEMI * GEO(1,IXR(1,I+NFT))*XL(I)
-        EMS2= UNDEMI * EMS
+        EMS = HALF * GEO(1,IXR(1,I+NFT))*XL(I)
+        EMS2= HALF * EMS
 
-        XI  = UNDEMI * GEO(9,IXR(1,I+NFT))
-        XI2 = UNDEMI * XI*XL(I)
+        XI  = HALF * GEO(9,IXR(1,I+NFT))
+        XI2 = HALF * XI*XL(I)
         MSR(1,I) = EMS2
         MSR(2,I) = EMS
         MSR(3,I) = EMS2
@@ -148,22 +148,22 @@ C
 C
 C
         IP=IPART(I)
-        PARTSAV(1,IP)=PARTSAV(1,IP) + DEUX*EMS
+        PARTSAV(1,IP)=PARTSAV(1,IP) + TWO*EMS
         PARTSAV(2,IP)=PARTSAV(2,IP)
      .              + EMS2*(X(1,I1)+X(1,I3)) + EMS*X(1,I2)
         PARTSAV(3,IP)=PARTSAV(3,IP)
      .              + EMS2*(X(2,I1)+X(2,I3)) + EMS*X(2,I2)
         PARTSAV(4,IP)=PARTSAV(4,IP)
      .              + EMS2*(X(3,I1)+X(3,I3)) + EMS*X(3,I2)
-        XX = UNDEMI*(X(1,I1)*X(1,I1)+X(1,I3)*X(1,I3)) + X(1,I2)*X(1,I2)
-        XY = UNDEMI*(X(1,I1)*X(2,I1)+X(2,I3)*X(2,I3)) + X(1,I2)*X(2,I2)
-        YY = UNDEMI*(X(2,I1)*X(2,I1)+X(3,I3)*X(3,I3)) + X(2,I2)*X(2,I2)
-        YZ = UNDEMI*(X(2,I1)*X(3,I1)+X(1,I3)*X(1,I3)) + X(2,I2)*X(3,I2)
-        ZZ = UNDEMI*(X(3,I1)*X(3,I1)+X(2,I3)*X(2,I3)) + X(3,I2)*X(3,I2)
-        ZX = UNDEMI*(X(3,I1)*X(1,I1)+X(3,I3)*X(3,I3)) + X(3,I2)*X(1,I2)
-        PARTSAV(5,IP) =PARTSAV(5,IP) + DEUX*XI + EMS * (YY+ZZ)
-        PARTSAV(6,IP) =PARTSAV(6,IP) + DEUX*XI + EMS * (ZZ+XX)
-        PARTSAV(7,IP) =PARTSAV(7,IP) + DEUX*XI + EMS * (XX+YY)	
+        XX = HALF*(X(1,I1)*X(1,I1)+X(1,I3)*X(1,I3)) + X(1,I2)*X(1,I2)
+        XY = HALF*(X(1,I1)*X(2,I1)+X(2,I3)*X(2,I3)) + X(1,I2)*X(2,I2)
+        YY = HALF*(X(2,I1)*X(2,I1)+X(3,I3)*X(3,I3)) + X(2,I2)*X(2,I2)
+        YZ = HALF*(X(2,I1)*X(3,I1)+X(1,I3)*X(1,I3)) + X(2,I2)*X(3,I2)
+        ZZ = HALF*(X(3,I1)*X(3,I1)+X(2,I3)*X(2,I3)) + X(3,I2)*X(3,I2)
+        ZX = HALF*(X(3,I1)*X(1,I1)+X(3,I3)*X(3,I3)) + X(3,I2)*X(1,I2)
+        PARTSAV(5,IP) =PARTSAV(5,IP) + TWO*XI + EMS * (YY+ZZ)
+        PARTSAV(6,IP) =PARTSAV(6,IP) + TWO*XI + EMS * (ZZ+XX)
+        PARTSAV(7,IP) =PARTSAV(7,IP) + TWO*XI + EMS * (XX+YY)	
         PARTSAV(8,IP) =PARTSAV(8,IP)  - EMS * XY
         PARTSAV(9,IP) =PARTSAV(9,IP)  - EMS * YZ
         PARTSAV(10,IP)=PARTSAV(10,IP) - EMS * ZX
@@ -174,10 +174,10 @@ C
      .              + EMS2*(V(2,I1)+V(2,I3)) + EMS*V(2,I2)
         PARTSAV(13,IP)=PARTSAV(13,IP) 
      .              + EMS2*(V(3,I1)+V(3,I3)) + EMS*V(3,I2)
-        PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * EMS2 *
+        PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS2 *
      .     (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
      .     +V(1,I3)*V(1,I3)+V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3))
-     .                                + UNDEMI * EMS *
+     .                                + HALF * EMS *
      .     (V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2))
        ENDDO
       ENDIF

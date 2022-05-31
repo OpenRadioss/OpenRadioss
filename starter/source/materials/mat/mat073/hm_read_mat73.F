@@ -154,12 +154,12 @@ C-----------------------------------------------
 C          
 C tab(1st entry = plastic strain, 2nd entry = strain rate, 3rd entry = temperature)
 C
-      IF(R0 == ZERO) R0    = UN
-      IF(R45 == ZERO) R45   = UN
-      IF(R90 == ZERO) R90   = UN
+      IF(R0 == ZERO) R0    = ONE
+      IF(R45 == ZERO) R45   = ONE
+      IF(R90 == ZERO) R90   = ONE
       IF(EPSR1 == ZERO)EPSR1=INFINITY
-      IF(EPSR2 == ZERO)EPSR2=DEUX*INFINITY
-      IF(T0 == ZERO) T0=DEUXCENT93
+      IF(EPSR2 == ZERO)EPSR2=TWO*INFINITY
+      IF(T0 == ZERO) T0=TWOHUNDRED93
 C
       IF(EPSR1 >= EPSR2)THEN
          CALL ANCMSG(MSGID=1044,
@@ -172,39 +172,39 @@ C
       NTABLE=1
       UPARAM(1)=FISOKIN
       UPARAM(2)=E
-      UPARAM(3)=E/(UN-NU*NU)
+      UPARAM(3)=E/(ONE-NU*NU)
       UPARAM(4)=NU*UPARAM(3)
-      G=UNDEMI*E/(1.+NU)
+      G=HALF*E/(1.+NU)
       UPARAM(5)=G
       UPARAM(6)=NU
-      R=(R0+R45+R45+R90)*QUART
-      H=R/(UN+R)
+      R=(R0+R45+R45+R90)*FOURTH
+      H=R/(ONE+R)
 C-----------A1,A2,A3,A12--------
-      UPARAM(7)=H*(UN+UN/R0)
-      UPARAM(8)=H*(UN+UN/R90)
-      UPARAM(9)=H*DEUX
-      UPARAM(10)=(R45*DEUX + UN)*(UPARAM(7)+UPARAM(8)-UPARAM(9))
+      UPARAM(7)=H*(ONE+ONE/R0)
+      UPARAM(8)=H*(ONE+ONE/R90)
+      UPARAM(9)=H*TWO
+      UPARAM(10)=(R45*TWO + ONE)*(UPARAM(7)+UPARAM(8)-UPARAM(9))
       IF (IR0 > 0) THEN
        UPARAM(8)=UPARAM(8)/UPARAM(7)
        UPARAM(9)=UPARAM(9)/UPARAM(7)
        UPARAM(10)=UPARAM(10)/UPARAM(7)
-       UPARAM(7)=UN
+       UPARAM(7)=ONE
       END IF
-      UPARAM(11)=UN/X2FAC
+      UPARAM(11)=ONE/X2FAC
       UPARAM(12)=YFAC
       UPARAM(13)=EPSMAX
       UPARAM(14)=EPSR1
       UPARAM(15)=EPSR2
-      UPARAM(16)=DEUX*G
-      UPARAM(17)=TROIS*G
-      C1=E/3./(UN - DEUX*NU)
+      UPARAM(16)=TWO*G
+      UPARAM(17)=THREE*G
+      C1=E/3./(ONE - TWO*NU)
       UPARAM(18)=C1
-      UPARAM(19)=C1+ QTHIRD*G
+      UPARAM(19)=C1+ FOUR_OVER_3*G
       UPARAM(20)=T0
       IF(RHOCP==ZERO)THEN
         UPARAM(21)=ZERO
       ELSE
-        UPARAM(21)=UN/RHOCP
+        UPARAM(21)=ONE/RHOCP
       END IF
 c--------------------------------
       OPTE = 0
@@ -224,7 +224,7 @@ C
       NUVAR = 7
 CC     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) =  (UN - DEUX*NU)/(UN - NU) ! == DEUX*G/(C1+QTHIRD*G)
+      PARMAT(17) =  (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G)
 C      
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,73
       WRITE(IOUT,1000)  

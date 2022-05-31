@@ -71,7 +71,7 @@ C------------------------------------
 C     VITESSE DU SON
 C------------------------------------
       DO I=LFT,LLT
-         SSP(I)=SQRT(C(I)**2 + UNP333*G(I)/RHO0(I))
+         SSP(I)=SQRT(C(I)**2 + ONEP333*G(I)/RHO0(I))
       END DO
 C------------------------------------
 C     CALCUL DES DT ELEM

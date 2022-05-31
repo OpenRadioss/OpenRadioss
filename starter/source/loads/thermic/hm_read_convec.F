@@ -167,11 +167,11 @@ C          true triangles (not segments built from 3 nodes).
             ENDIF
 C                                                  
             FAC(1,K) = FCY                                          
-            FAC(2,K) = UN/FCX 
+            FAC(2,K) = ONE/FCX 
             FAC(3,K) = H
             FAC(4,K) = TSTART
             FAC(5,K) = TSTOP                                       
-            FAC(6,K) = UN                                      
+            FAC(6,K) = ONE                                      
           ENDDO                                                  
         ENDIF                                                 
       ENDDO
@@ -184,7 +184,7 @@ C
        DO I=I1,I2
          WRITE (IOUT,'(5(1X,I10),1X,1G20.13,2(1X,I10),1X,4G20.13)') I,
      .         ITAB(IB(1,I)),ITAB(IB(2,I)),ITAB(IB(3,I)),ITAB(IB(4,I)),
-     .         FAC(3,I),IB(5,I),IB(6,I),FAC(4,I),FAC(5,I),UN/FAC(2,I),
+     .         FAC(3,I),IB(5,I),IB(6,I),FAC(4,I),FAC(5,I),ONE/FAC(2,I),
      .         FAC(1,I)
        ENDDO
        IF(I2 == NUMCONV)GOTO 200

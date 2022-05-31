@@ -87,7 +87,7 @@ C-----------------------------------------------
      .       XS, YS, ZS, ZSTAB,NUL,UNO
 C-----------------------------------------------
       NUL=ZERO
-      UNO=UN
+      UNO=ONE
       NSPACTF=1+ITASK*NSPHACT/NTHREAD
       NSPACTL=(ITASK+1)*NSPHACT/NTHREAD
       DO NS=NSPACTF,NSPACTL
@@ -133,7 +133,7 @@ C-- DD = DP/H
             IF (SPBUF(13,N).GT.EM30) THEN
               DD = SPBUF(13,N)
             ELSE
-              DD=DEUX/TROIS
+              DD=TWO/THREE
             ENDIF
             CALL WEIGHT0(NUL,NUL,NUL,DD,NUL,NUL,UNO,WGHT)
             STAB(7,N)=ZSTAB/MAX(EM30,WGHT*WGHT*WGHT*WGHT)
@@ -563,12 +563,12 @@ C     FTPI=(4/3)*PI, TTPI=(2/3)*PI
 C
 C     DEVIATEUR PRINCIPAL DE CONTRAINTE
 C . . . . . . . . . . . . . . . . . . .
-      MDEMI = -UNDEMI
+      MDEMI = -HALF
       TTPI = ACOS(MDEMI)
-      FTPI = DEUX*TTPI
+      FTPI = TWO*TTPI
 C precision minimum dependant du type REAL ou DOUBLE
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
-      FLM = DEUX*SQRT(FLMIN)
+      FLM = TWO*SQRT(FLMIN)
       NINDEX3=0  
       DO II = 1, NINDX
         NN=INDEX(II)
@@ -593,13 +593,13 @@ c        AA = MAX(AAA(NN),NORMINF(NN),EM20)
 C
         BB=CS(1)*CS(5)**2 + CS(2)*CS(6)**2
      &     + CS(3)*CS(4)**2 - CS(1)*CS(2)*CS(3)
-     &     - DEUX*CS(4)*CS(5)*CS(6)     
+     &     - TWO*CS(4)*CS(5)*CS(6)     
 C
-        CC=-SQRT(VINGT7/MAX(EM20,AA))*BB*UNDEMI/MAX(EM20,AA)
-        CC= MIN(CC,UN)
-        CC= MAX(CC,-UN)
+        CC=-SQRT(TWENTY7/MAX(EM20,AA))*BB*HALF/MAX(EM20,AA)
+        CC= MIN(CC,ONE)
+        CC= MAX(CC,-ONE)
         ANGP=ACOS(CC) * THIRD
-        DD=DEUX*SQRT(AA * THIRD)
+        DD=TWO*SQRT(AA * THIRD)
         STR(1,NN)=DD*COS(ANGP)
         STR(2,NN)=DD*COS(ANGP+FTPI)
         STR(3,NN)=DD*COS(ANGP+TTPI)
@@ -672,11 +672,11 @@ C
           VAL(1,NN) = SIG(1,NN)
           VAL(2,NN) = SIG(2,NN)
           VAL(3,NN) = SIG(3,NN)
-          V(1,1,NN) = UN
+          V(1,1,NN) = ONE
           V(2,1,NN) = ZERO
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
-          V(2,2,NN) = UN
+          V(2,2,NN) = ONE
           V(3,2,NN) = ZERO
 
         ELSEIF(XMAXV(NN).GT.TOL1(NN)) THEN
@@ -692,7 +692,7 @@ C
       DO N = 1, NINDEX1
         NN = INDEX1(N)
         LMAX = LMAXV(NN)
-        XMAXINV = UN/XMAXV(NN)
+        XMAXINV = ONE/XMAXV(NN)
         V(1,1,NN)=B(1,LMAX,NN)*XMAXINV
         V(2,1,NN)=B(2,LMAX,NN)*XMAXINV
         V(3,1,NN)=B(3,LMAX,NN)*XMAXINV
@@ -730,14 +730,14 @@ C
         VMAG=SQRT(V(1,1,NN)**2+V(2,1,NN)**2)
         LMAX = LMAXV(NN)
         IF(XMAXV(NN).GT.TOL2(NN))THEN
-          XMAXINV = UN/XMAXV(NN)
+          XMAXINV = ONE/XMAXV(NN)
           V(1,3,NN)=B(1,LMAX,NN)*XMAXINV
           V(2,3,NN)=B(2,LMAX,NN)*XMAXINV
           V(3,3,NN)=B(3,LMAX,NN)*XMAXINV
           V(1,2,NN)=V(2,3,NN)*V(3,1,NN)-V(2,1,NN)*V(3,3,NN)
           V(2,2,NN)=V(3,3,NN)*V(1,1,NN)-V(3,1,NN)*V(1,3,NN)
           V(3,2,NN)=V(1,3,NN)*V(2,1,NN)-V(1,1,NN)*V(2,3,NN)
-          VMAG=UN/SQRT(V(1,2,NN)**2+V(2,2,NN)**2+V(3,2,NN)**2)
+          VMAG=ONE/SQRT(V(1,2,NN)**2+V(2,2,NN)**2+V(3,2,NN)**2)
           V(1,2,NN)=V(1,2,NN)*VMAG
           V(2,2,NN)=V(2,2,NN)*VMAG
           V(3,2,NN)=V(3,2,NN)*VMAG
@@ -746,7 +746,7 @@ C
           V(2,2,NN)=V(1,1,NN)/VMAG
           V(3,2,NN)=ZERO
         ELSE
-          V(1,2,NN)=UN
+          V(1,2,NN)=ONE
           V(2,2,NN)=ZERO
           V(3,2,NN)=ZERO  
         ENDIF
@@ -777,32 +777,32 @@ C
         LMAX = LMAXV(NN)
         IF(MAX(ABS(A(3,1,NN)),ABS(A(3,2,NN)),ABS(A(3,3,NN)))
      &       .LT.TOL2(NN))THEN
-          XMAXINV = UN/XMAXV(NN)
+          XMAXINV = ONE/XMAXV(NN)
           V(1,1,NN)= ZERO
           V(2,1,NN)= ZERO
-          V(3,1,NN)= UN
+          V(3,1,NN)= ONE
           V(1,2,NN)=-A(2,LMAX,NN)*XMAXINV
           V(2,2,NN)= A(1,LMAX,NN)*XMAXINV
           V(3,2,NN)= ZERO
 C
         ELSEIF(XMAXV(NN).GT.TOL2(NN))THEN
-          XMAXINV = UN/XMAXV(NN)
+          XMAXINV = ONE/XMAXV(NN)
           V(1,1,NN)=-A(2,LMAX,NN)*XMAXINV
           V(2,1,NN)= A(1,LMAX,NN)*XMAXINV
           V(3,1,NN)= ZERO
           V(1,2,NN)=-A(3,LMAX,NN)*V(2,1,NN)
           V(2,2,NN)= A(3,LMAX,NN)*V(1,1,NN)
           V(3,2,NN)= A(1,LMAX,NN)*V(2,1,NN)-A(2,LMAX,NN)*V(1,1,NN)
-          VMAG=UN/SQRT(V(1,2,NN)**2+V(2,2,NN)**2+V(3,2,NN)**2)
+          VMAG=ONE/SQRT(V(1,2,NN)**2+V(2,2,NN)**2+V(3,2,NN)**2)
           V(1,2,NN)=V(1,2,NN)*VMAG
           V(2,2,NN)=V(2,2,NN)*VMAG
           V(3,2,NN)=V(3,2,NN)*VMAG
         ELSE
-          V(1,1,NN) = UN
+          V(1,1,NN) = ONE
           V(2,1,NN) = ZERO
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
-          V(2,2,NN) = UN
+          V(2,2,NN) = ONE
           V(3,2,NN) = ZERO	  
         ENDIF
       ENDDO

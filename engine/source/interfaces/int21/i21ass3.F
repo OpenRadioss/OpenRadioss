@@ -630,7 +630,7 @@ C---------------------------------
 C--------------------------------- 
       DO I=1,JLT
         IF(IX3(I).NE.IX4(I))THEN
-          H0   =QUART*(UN - LB(I) - LC(I))
+          H0   =FOURTH*(ONE - LB(I) - LC(I))
           IF(ABS(ITRIA(I))==1)THEN
             H1(I)= LB(I)+H0
             H2(I)= LC(I)+H0
@@ -655,7 +655,7 @@ C---------------------------------
         ELSE
           H1(I) = LB(I)
           H2(I) = LC(I)
-          H3(I) = UN - LB(I) - LC(I)
+          H3(I) = ONE - LB(I) - LC(I)
           H4(I) = ZERO
         END IF
       END DO

@@ -142,7 +142,7 @@ C-----------------------------------------------
           CALL HM_GET_INTV  ('Np'      ,NL       ,IS_AVAILABLE, LSUBMODEL)                
           CALL HM_GET_INTV  ('Nc'      ,NC       ,IS_AVAILABLE, LSUBMODEL)                
  
-          IF (TIMESCAL == ZERO) TIMESCAL = UN
+          IF (TIMESCAL == ZERO) TIMESCAL = ONE
           !---------------------------------!
           !        LISTING PRINTOUT         !
           !---------------------------------!
@@ -214,7 +214,7 @@ C-----------------------------------------------
           XLAS(K2+3)=XK0
           XLAS(K2+4)=HNUK
           XLAS(K2+5)=DAR/(HNUK**2)
-          XLAS(K2+6) = UN / TIMESCAL
+          XLAS(K2+6) = ONE / TIMESCAL
 
           CALL LECLAS1(NL,ILAS(K1+6),NC ,LSUBMODEL)         
           IFK = 6 + 2*(NL+1)

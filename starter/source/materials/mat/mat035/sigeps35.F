@@ -132,19 +132,15 @@ C----------------------------------------------------------------
      . SIGAIR(MVSIZ)
 
       my_real
-     . ONE,TWO,THREE,TWOTHIRD,SMALL,TINY , AUX1, AUX2, 
+     . SMALL,TINY , AUX1, AUX2, 
      . MIDSTEP
       LOGICAL TEST
 C----------------------------------------------------------------
       TIME    =ZERO
-      TIMESTEP=UN
+      TIMESTEP=ONE
 
-         SMALL = EM3
-         TINY  = EM30
-         ONE = UN
-         TWO = DEUX
-         THREE = TROIS
-         TWOTHIRD = DTHIRD
+      SMALL = EM3
+      TINY  = EM30
       TEST=.FALSE.
        
 
@@ -181,12 +177,12 @@ C SET INITIAL MATERIAL CONSTANTS
 
 C
       DO I=1,NEL
-        EPSXX(I)=EPSXX(I)-UNDEMI*DEPSXX(I)
-        EPSYY(I)=EPSYY(I)-UNDEMI*DEPSYY(I)
-        EPSZZ(I)=EPSZZ(I)-UNDEMI*DEPSZZ(I)
-        EPSXY(I)=EPSXY(I)-UNDEMI*DEPSXY(I)
-        EPSYZ(I)=EPSYZ(I)-UNDEMI*DEPSYZ(I)
-        EPSZX(I)=EPSZX(I)-UNDEMI*DEPSZX(I)
+        EPSXX(I)=EPSXX(I)-HALF*DEPSXX(I)
+        EPSYY(I)=EPSYY(I)-HALF*DEPSYY(I)
+        EPSZZ(I)=EPSZZ(I)-HALF*DEPSZZ(I)
+        EPSXY(I)=EPSXY(I)-HALF*DEPSXY(I)
+        EPSYZ(I)=EPSYZ(I)-HALF*DEPSYZ(I)
+        EPSZX(I)=EPSZX(I)-HALF*DEPSZX(I)
       END DO
 
       DO 200 I=1,NEL
@@ -211,25 +207,25 @@ C  COMPUTE DEVIATORIC STRAINS
         DEXX(I)=EPSXX(I)-EM(I)
         DEYY(I)=EPSYY(I)-EM(I)
         DEZZ(I)=EPSZZ(I)-EM(I)
-        DEXY(I)=EPSXY(I)* UNDEMI
-        DEYZ(I)=EPSYZ(I)* UNDEMI
-        DEZX(I)=EPSZX(I)* UNDEMI
+        DEXY(I)=EPSXY(I)* HALF
+        DEYZ(I)=EPSYZ(I)* HALF
+        DEZX(I)=EPSZX(I)* HALF
 
 C  COMPUTE DEVIATORIC STRAIN RATES
 c        DEDTXX(I)=EPSPXX(I)-DEDTM(I)
 c        DEDTYY(I)=EPSPYY(I)-DEDTM(I)
 c        DEDTZZ(I)=EPSPZZ(I)-DEDTM(I)
-c        DEDTXY(I)=EPSPXY(I)*UNDEMI
-c        DEDTYZ(I)=EPSPYZ(I)*UNDEMI
-c        DEDTZX(I)=EPSPZX(I)*UNDEMI
+c        DEDTXY(I)=EPSPXY(I)*HALF
+c        DEDTYZ(I)=EPSPYZ(I)*HALF
+c        DEDTZX(I)=EPSPZX(I)*HALF
 
 C  COMPUTE DEVIATORIC STRAIN INCREMENTS
         DEDXX(I)=DEPSXX(I)-DEDM(I)
         DEDYY(I)=DEPSYY(I)-DEDM(I)
         DEDZZ(I)=DEPSZZ(I)-DEDM(I)
-        DEDXY(I)=DEPSXY(I)*UNDEMI
-        DEDYZ(I)=DEPSYZ(I)*UNDEMI
-        DEDZX(I)=DEPSZX(I)*UNDEMI
+        DEDXY(I)=DEPSXY(I)*HALF
+        DEDYZ(I)=DEPSYZ(I)*HALF
+        DEDZX(I)=DEPSZX(I)*HALF
   210 CONTINUE
 
       DO I=1,NEL
@@ -266,7 +262,7 @@ C       delta_sigma * VMU2 = ...
      &           -(G2(I)+GT2)*DSZX(I)+G2(I)*GT2*DEZX(I)
 C
 C       delta_sigma  = ...
-        MIDSTEP =UN/(VMU2+UNDEMI*(G2(I)+GT2))
+        MIDSTEP =ONE/(VMU2+HALF*(G2(I)+GT2))
         DSDXX(I)=DSDXX(I)*MIDSTEP
         DSDYY(I)=DSDYY(I)*MIDSTEP
         DSDZZ(I)=DSDZZ(I)*MIDSTEP
@@ -286,7 +282,7 @@ C COMPUTE PRESSURE
             PDELT(I)=( C1*(BULK3(I)*DEDM(I))*(VLAMDA3+VMU2)+
      &               (-C2*((BULK3(I)+BULKT3)*SM(I))
      &                +C3*((BULK3(I)*BULKT3)*EM(I))))
-     &             / ((VLAMDA3+VMU2)+C2*(BULK3(I)+BULKT3)*UNDEMI)
+     &             / ((VLAMDA3+VMU2)+C2*(BULK3(I)+BULKT3)*HALF)
             P(I)=SM(I)+PDELT(I)
      &           -FAC*FINTER(KF,AMU(I),NPF,TF,DPDMU)
           ENDIF
@@ -294,7 +290,7 @@ C COMPUTE PRESSURE
           PDELT(I)=( C1*(BULK3(I)*DEDM(I))*(VLAMDA3+VMU2)+
      &               (-C2*((BULK3(I)+BULKT3)*SM(I))
      &                +C3*((BULK3(I)*BULKT3)*EM(I))))
-     &           / ((VLAMDA3+VMU2)+C2*(BULK3(I)+BULKT3)*UNDEMI)
+     &           / ((VLAMDA3+VMU2)+C2*(BULK3(I)+BULKT3)*HALF)
           P(I)=SM(I)+PDELT(I)
         ENDIF
         IF(P(I).LE.PMIN) P(I)=PMIN
@@ -302,7 +298,7 @@ C COMPUTE PRESSURE
 
 C COMPUTE SOUND SPEED 
       DO I=1,NEL
-        DPDRO(I)=TWOTHIRD*G2(I)+THIRD*(BULK3(I)
+        DPDRO(I)=TWO_THIRD*G2(I)+THIRD*(BULK3(I)
      &          +P0*(ONE-PHI)/(ONE+GAMA(I)-PHI)**TWO)
       ENDDO
 

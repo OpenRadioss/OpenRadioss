@@ -1924,10 +1924,10 @@ c                     M2 =INTBUF_TAB(NIN)%LEDGE((N-1)*NLEDGE+6)
 
 c                     IF(INTBUF_TAB(NIN)%IRECTM(JAM+(IAM-1)*4)==M1
 c    .                 .AND.INTBUF_TAB(NIN)%IRECTM(MOD(JAM,4)+1+(IAM-1)*4)==M2)THEN
-c                       BBUFS(L+15) = UN 
+c                       BBUFS(L+15) = ONE 
 c                     ELSEIF(INTBUF_TAB(NIN)%IRECTM(JAM+(IAM-1)*4)==M2
 c    .                  .AND.INTBUF_TAB(NIN)%IRECTM(MOD(JAM,4)+1+(IAM-1)*4)==M1)THEN
-c                       BBUFS(L+15) = - UN
+c                       BBUFS(L+15) = - ONE
 c                     ELSE
 c                       ASSERT(.FALSE.)
 c                     ENDIF
@@ -1939,10 +1939,10 @@ CC                       BBUFS(L+16) = 0
 CC                       BBUFS(L+17) = 0
 CC                       BBUFS(L+18) = 0
 CC                       BBUFS(L+19) = 0
-CC                       BBUFS(L+16) = TRANSFER(INTBUF_TAB(NIN)%LEDGE((N-1)*NLEDGE+1),UN)
-CC                       BBUFS(L+17) = TRANSFER(INTBUF_TAB(NIN)%LEDGE((N-1)*NLEDGE+2),UN)
-CC                       BBUFS(L+18) = TRANSFER(INTBUF_TAB(NIN)%LEDGE((N-1)*NLEDGE+3),UN)
-CC                       BBUFS(L+19) = TRANSFER(INTBUF_TAB(NIN)%LEDGE((N-1)*NLEDGE+4),UN)
+CC                       BBUFS(L+16) = TRANSFER(INTBUF_TAB(NIN)%LEDGE((N-1)*NLEDGE+1),ONE)
+CC                       BBUFS(L+17) = TRANSFER(INTBUF_TAB(NIN)%LEDGE((N-1)*NLEDGE+2),ONE)
+CC                       BBUFS(L+18) = TRANSFER(INTBUF_TAB(NIN)%LEDGE((N-1)*NLEDGE+3),ONE)
+CC                       BBUFS(L+19) = TRANSFER(INTBUF_TAB(NIN)%LEDGE((N-1)*NLEDGE+4),ONE)
 
 C                     WRITE(6,"(A,4I10)") "--",INTBUF_TAB(NIN)%LEDGE((N-1)*NLEDGE+1:(N-1)*NLEDGE+4)
 
@@ -2601,7 +2601,7 @@ C
 C
 C Recompute FROTS
 C
-                    AX = UN/MAX(EM20,FROTSFI(NIN)%P(4,NN))
+                    AX = ONE/MAX(EM20,FROTSFI(NIN)%P(4,NN))
                     FROTSFI(NIN)%P(5,NN)=AX*FROTSFI(NIN)%P(1,NN)
                     FROTSFI(NIN)%P(6,NN)=AX*FROTSFI(NIN)%P(2,NN)
                     FROTSFI(NIN)%P(7,NN)=AX*FROTSFI(NIN)%P(3,NN)
@@ -2629,17 +2629,17 @@ C DIR X
                     X11= XFI17(NIN)%P(1,11,NN)
                     X12= XFI17(NIN)%P(1,12,NN)
 C
-                    XC = UNDEMI*(X9+X10+X11+X12) - QUART*(X1+X2+X3+X4)
-                    D4 = QUART * ABS(X1-X2)
+                    XC = HALF*(X9+X10+X11+X12) - FOURTH*(X1+X2+X3+X4)
+                    D4 = FOURTH * ABS(X1-X2)
                     AN = MIN( X1 , X2 , X9-D4 )
                     AX = MAX( X1 , X2 , X9+D4 )
-                    D4 = QUART * ABS(X3-X4)
+                    D4 = FOURTH * ABS(X3-X4)
                     BN = MIN( X3 , X4 , X11-D4 )
                     BX = MAX( X3 , X4 , X11+D4 )
-                    D4 = QUART * ABS(X12-X10)
+                    D4 = FOURTH * ABS(X12-X10)
                     CN = MIN( X12 , X10 , XC-D4 )
                     CX = MAX( X12 , X10 , XC+D4 )
-                    D8 = UNHUIT * MAX( AX-BN , BX-AN )
+                    D8 = ONE_OVER_8 * MAX( AX-BN , BX-AN )
                     D4 = D8 + D8
                     DN = MAX(MIN(AN,BN,CN-D4),MIN(AN,BN,CN)-D8)
                     DX = MIN(MAX(AX,BX,CX+D4),MAX(AX,BX,CX)+D8)
@@ -2656,17 +2656,17 @@ C DIR Y
                     X11= XFI17(NIN)%P(2,11,NN)
                     X12= XFI17(NIN)%P(2,12,NN)
 C
-                    XC = UNDEMI*(X9+X10+X11+X12) - QUART*(X1+X2+X3+X4)
-                    D4 = QUART * ABS(X1-X2)
+                    XC = HALF*(X9+X10+X11+X12) - FOURTH*(X1+X2+X3+X4)
+                    D4 = FOURTH * ABS(X1-X2)
                     AN = MIN( X1 , X2 , X9-D4 )
                     AX = MAX( X1 , X2 , X9+D4 )
-                    D4 = QUART * ABS(X3-X4)
+                    D4 = FOURTH * ABS(X3-X4)
                     BN = MIN( X3 , X4 , X11-D4 )
                     BX = MAX( X3 , X4 , X11+D4 )
-                    D4 = QUART * ABS(X12-X10)
+                    D4 = FOURTH * ABS(X12-X10)
                     CN = MIN( X12 , X10 , XC-D4 )
                     CX = MAX( X12 , X10 , XC+D4 )
-                    D8 = UNHUIT * MAX( AX-BN , BX-AN )
+                    D8 = ONE_OVER_8 * MAX( AX-BN , BX-AN )
                     D4 = D8 + D8
                     DN = MAX(MIN(AN,BN,CN-D4),MIN(AN,BN,CN)-D8)
                     DX = MIN(MAX(AX,BX,CX+D4),MAX(AX,BX,CX)+D8)
@@ -2683,17 +2683,17 @@ C DIR Z
                     X11= XFI17(NIN)%P(3,11,NN)
                     X12= XFI17(NIN)%P(3,12,NN)
 C
-                    XC = UNDEMI*(X9+X10+X11+X12) - QUART*(X1+X2+X3+X4)
-                    D4 = QUART * ABS(X1-X2)
+                    XC = HALF*(X9+X10+X11+X12) - FOURTH*(X1+X2+X3+X4)
+                    D4 = FOURTH * ABS(X1-X2)
                     AN = MIN( X1 , X2 , X9-D4 )
                     AX = MAX( X1 , X2 , X9+D4 )
-                    D4 = QUART * ABS(X3-X4)
+                    D4 = FOURTH * ABS(X3-X4)
                     BN = MIN( X3 , X4 , X11-D4 )
                     BX = MAX( X3 , X4 , X11+D4 )
-                    D4 = QUART * ABS(X12-X10)
+                    D4 = FOURTH * ABS(X12-X10)
                     CN = MIN( X12 , X10 , XC-D4 )
                     CX = MAX( X12 , X10 , XC+D4 )
-                    D8 = UNHUIT * MAX( AX-BN , BX-AN )
+                    D8 = ONE_OVER_8 * MAX( AX-BN , BX-AN )
                     D4 = D8 + D8
                     DN = MAX(MIN(AN,BN,CN-D4),MIN(AN,BN,CN)-D8)
                     DX = MIN(MAX(AX,BX,CX+D4),MAX(AX,BX,CX)+D8)
@@ -2711,17 +2711,17 @@ C DIR X
                     X11= XFI17(NIN)%P(1,15,NN)
                     X12= XFI17(NIN)%P(1,16,NN)
 C
-                    XC = UNDEMI*(X9+X10+X11+X12) - QUART*(X1+X2+X3+X4)
-                    D4 = QUART * ABS(X1-X2)
+                    XC = HALF*(X9+X10+X11+X12) - FOURTH*(X1+X2+X3+X4)
+                    D4 = FOURTH * ABS(X1-X2)
                     AN = MIN( X1 , X2 , X9-D4 )
                     AX = MAX( X1 , X2 , X9+D4 )
-                    D4 = QUART * ABS(X3-X4)
+                    D4 = FOURTH * ABS(X3-X4)
                     BN = MIN( X3 , X4 , X11-D4 )
                     BX = MAX( X3 , X4 , X11+D4 )
-                    D4 = QUART * ABS(X12-X10)
+                    D4 = FOURTH * ABS(X12-X10)
                     CN = MIN( X12 , X10 , XC-D4 )
                     CX = MAX( X12 , X10 , XC+D4 )
-                    D8 = UNHUIT * MAX( AX-BN , BX-AN )
+                    D8 = ONE_OVER_8 * MAX( AX-BN , BX-AN )
                     D4 = D8 + D8
                     DN = MAX(MIN(AN,BN,CN-D4),MIN(AN,BN,CN)-D8)
                     DX = MIN(MAX(AX,BX,CX+D4),MAX(AX,BX,CX)+D8)
@@ -2738,17 +2738,17 @@ C DIR Y
                     X11= XFI17(NIN)%P(2,15,NN)
                     X12= XFI17(NIN)%P(2,16,NN)
 C
-                    XC = UNDEMI*(X9+X10+X11+X12) - QUART*(X1+X2+X3+X4)
-                    D4 = QUART * ABS(X1-X2)
+                    XC = HALF*(X9+X10+X11+X12) - FOURTH*(X1+X2+X3+X4)
+                    D4 = FOURTH * ABS(X1-X2)
                     AN = MIN( X1 , X2 , X9-D4 )
                     AX = MAX( X1 , X2 , X9+D4 )
-                    D4 = QUART * ABS(X3-X4)
+                    D4 = FOURTH * ABS(X3-X4)
                     BN = MIN( X3 , X4 , X11-D4 )
                     BX = MAX( X3 , X4 , X11+D4 )
-                    D4 = QUART * ABS(X12-X10)
+                    D4 = FOURTH * ABS(X12-X10)
                     CN = MIN( X12 , X10 , XC-D4 )
                     CX = MAX( X12 , X10 , XC+D4 )
-                    D8 = UNHUIT * MAX( AX-BN , BX-AN )
+                    D8 = ONE_OVER_8 * MAX( AX-BN , BX-AN )
                     D4 = D8 + D8
                     DN = MAX(MIN(AN,BN,CN-D4),MIN(AN,BN,CN)-D8)
                     DX = MIN(MAX(AX,BX,CX+D4),MAX(AX,BX,CX)+D8)
@@ -2765,17 +2765,17 @@ C DIR Z
                     X11= XFI17(NIN)%P(3,15,NN)
                     X12= XFI17(NIN)%P(3,16,NN)
 C
-                    XC = UNDEMI*(X9+X10+X11+X12) - QUART*(X1+X2+X3+X4)
-                    D4 = QUART * ABS(X1-X2)
+                    XC = HALF*(X9+X10+X11+X12) - FOURTH*(X1+X2+X3+X4)
+                    D4 = FOURTH * ABS(X1-X2)
                     AN = MIN( X1 , X2 , X9-D4 )
                     AX = MAX( X1 , X2 , X9+D4 )
-                    D4 = QUART * ABS(X3-X4)
+                    D4 = FOURTH * ABS(X3-X4)
                     BN = MIN( X3 , X4 , X11-D4 )
                     BX = MAX( X3 , X4 , X11+D4 )
-                    D4 = QUART * ABS(X12-X10)
+                    D4 = FOURTH * ABS(X12-X10)
                     CN = MIN( X12 , X10 , XC-D4 )
                     CX = MAX( X12 , X10 , XC+D4 )
-                    D8 = UNHUIT * MAX( AX-BN , BX-AN )
+                    D8 = ONE_OVER_8 * MAX( AX-BN , BX-AN )
                     D4 = D8 + D8
                     DN = MAX(MIN(AN,BN,CN-D4),MIN(AN,BN,CN)-D8)
                     DX = MIN(MAX(AX,BX,CX+D4),MAX(AX,BX,CX)+D8)

@@ -88,7 +88,7 @@ C     REAL ou REAL*8
      .   TM, DDCOND, DD, HCOND
 C-----------------------------------------------
       IF(IFUNCTK==0)THEN
-        RSTIF = UN/MAX(EM30,KTHE)
+        RSTIF = ONE/MAX(EM30,KTHE)
         DO I=1,JLT
           TS = TEMPI(I)   
           TM = TEMPM(I)
@@ -108,7 +108,7 @@ C
             AY  = AZ1*AX2 - AX1*AZ2
             AZ  = AX1*AY2 - AY1*AX2
 C                              
-            AREA = UNHUIT*SQRT(AX*AX+AY*AY+AZ*AZ) 
+            AREA = ONE_OVER_8*SQRT(AX*AX+AY*AY+AZ*AZ) 
 C
             AREAC =AREA
 C
@@ -204,7 +204,7 @@ C
             AY  = AZ1*AX2 - AX1*AZ2
             AZ  = AX1*AY2 - AY1*AX2
 C                              
-            AREA = UNHUIT*SQRT(AX*AX+AY*AY+AZ*AZ) 
+            AREA = ONE_OVER_8*SQRT(AX*AX+AY*AY+AZ*AZ) 
 C
             AREAC =AREA
 C
@@ -227,7 +227,7 @@ C---------------------------------
 C           CALCUL DE LA CONDUCTIBILITE
 C---------------------------------
             P      = XTHE * ABS(FNI(I)) / AREAS(I)
-            RSTIF  = UN / MAX(EM30,KTHE * FINTER(IFUNCTK,P,NPC,TF,DYDX))
+            RSTIF  = ONE / MAX(EM30,KTHE * FINTER(IFUNCTK,P,NPC,TF,DYDX))
             COND   = ASI(I)+BSI(I)*TS
             TSTIFM = MAX(DIST,ZERO) / COND
             TSTIFT = TSTIFM  + RSTIF
@@ -243,7 +243,7 @@ C---------------------------------
             DIST = GAPV(I)
             COND = ASI(I)+BSI(I)*TS
             P      = ZERO
-            RSTIF  = UN / MAX(EM30,KTHE * FINTER(IFUNCTK,P,NPC,TF,DYDX))
+            RSTIF  = ONE / MAX(EM30,KTHE * FINTER(IFUNCTK,P,NPC,TF,DYDX))
             TSTIFM =   MAX(DIST,ZERO) / COND
             TSTIFT = TSTIFM  + RSTIF
             DD = PENRAD(I) /DDCOND

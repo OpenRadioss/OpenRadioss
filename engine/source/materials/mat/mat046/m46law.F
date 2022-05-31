@@ -92,7 +92,7 @@ c=======================================================================
       MX = MAT(1)
       NPAR   = IPM(9,MX)
       IADBUF = IPM(7,MX)
-      FACQ0 = UN
+      FACQ0 = ONE
       
 C
       DO I=LFT,LLT
@@ -158,8 +158,8 @@ C-----------------------
 C
       DO I=LFT,LLT
         P2 = -(SOLD1(I)+SIG(I,1)+SOLD2(I)+
-     .         SIG(I,2)+SOLD3(I)+SIG(I,3))/TROIS
-        EINT(I)=EINT(I)-(Q(I)+QOLD(I)+P2)*DVOL(I)*UNDEMI
+     .         SIG(I,2)+SOLD3(I)+SIG(I,3))/THREE
+        EINT(I)=EINT(I)-(Q(I)+QOLD(I)+P2)*DVOL(I)*HALF
         QOLD(I)=Q(I)
       ENDDO
       IF(INCOMP.EQ.0 .OR. JLAG.EQ.1)THEN

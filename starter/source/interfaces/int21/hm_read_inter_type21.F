@@ -153,7 +153,7 @@ C Initializations
       IGAP = 0
       MULTIMP = 0
 C
-      PADM =UN
+      PADM =ONE
       ANGLADM=ZERO
       STOPT=EP30
       FRIC = ZERO
@@ -344,7 +344,7 @@ C------------------------------------------------------------
 C
 C.....* CHECKS *........
 C
-          IF(GAPSCALE.EQ.ZERO)GAPSCALE=UN
+          IF(GAPSCALE.EQ.ZERO)GAPSCALE=ONE
 
 ce flag dit sil faut calculer les epaisseurs nodales dans l'engine
           IF(IGAP.EQ.2) ITHKNOD=1
@@ -396,7 +396,7 @@ C
 C.....* CHECKS *........
 C
         IF(STFAC.EQ.ZERO) THEN
-           STFAC=UN
+           STFAC=ONE
         ENDIF
         IF(IGSTI==1)STFAC=-STFAC
 C
@@ -420,7 +420,7 @@ c        IF (BCFLAGM(LFIELD-2:LFIELD-2).EQ. '1') IBC1M = 1
 c        IF (BCFLAGM(LFIELD-1:LFIELD-1).EQ. '1') IBC2M = 1
 c        IF (BCFLAGM(LFIELD  :LFIELD  ).EQ. '1') IBC3M = 1
 
-        IF(VISC==ZERO) VISC=UN
+        IF(VISC==ZERO) VISC=ONE
 
 C.....* Storage IPARI FRIGAP *.........
 
@@ -432,9 +432,9 @@ C BUMULT is increased for big models
         IF(BUMULT.EQ.ZERO) THEN
           BUMULT = BMUL0
           IF(NUMNOD > 2500000) THEN
-            BUMULT = BMUL0*DEUX
+            BUMULT = BMUL0*TWO
           ELSEIF(NUMNOD > 1500000) THEN
-            BUMULT = BMUL0*TROIS/DEUX
+            BUMULT = BMUL0*THREE/TWO
           END IF
         END IF
         FRIGAP(4)=BUMULT
@@ -447,11 +447,11 @@ C.....* CHECKS *........
 C
         IF(FRIC == ZERO)THEN
           IF(IFRICTH /= 0)THEN
-             FRIC = UN
+             FRIC = ONE
           ENDIF
         ENDIF
 
-        IF(XFRICTH == ZERO) XFRICTH=UN
+        IF(XFRICTH == ZERO) XFRICTH=ONE
 C
         IF (ALPHA.EQ.ZERO) IFQ = 0
 c
@@ -459,10 +459,10 @@ c
         IFQ = IFQ + 10
 c
         IF (IFQ.GT.0) THEN
-            IF (IFQ.EQ.10) XFILTR = UN
+            IF (IFQ.EQ.10) XFILTR = ONE
             IF (MOD(IFQ,10).EQ.1) XFILTR = ALPHA
-            IF (MOD(IFQ,10).EQ.2) XFILTR=QUATRE*ATAN2(UN,ZERO) / ALPHA
-            IF (MOD(IFQ,10).EQ.3) XFILTR=QUATRE*ATAN2(UN,ZERO) * ALPHA
+            IF (MOD(IFQ,10).EQ.2) XFILTR=FOUR*ATAN2(ONE,ZERO) / ALPHA
+            IF (MOD(IFQ,10).EQ.3) XFILTR=FOUR*ATAN2(ONE,ZERO) * ALPHA
             IF (XFILTR.LT.ZERO) THEN
               CALL ANCMSG(MSGID=554,
      .                    MSGTYPE=MSGERROR,
@@ -503,15 +503,15 @@ C------------------------------------------------------------
 C
         IF(IADM.EQ.2)THEN
           IF(NRADM==0)   NRADM  =3
-          IF(PADM==ZERO) PADM   =UN     
+          IF(PADM==ZERO) PADM   =ONE     
         ELSE
           NRADM  =1
-          PADM   =UN
+          PADM   =ONE
           ANGLADM=ZERO
         END IF
 
 C.....* Storage IPARI FRIGAP *.........
-        CADM      =COS(ANGLADM*PI/CENT80)
+        CADM      =COS(ANGLADM*PI/HUNDRED80)
         KCONTACT =MAX(KCONTACT,IADM)
         IPARI(49) =NRADM
         FRIGAP(24)=PADM
@@ -527,16 +527,16 @@ C....* CHECKS *.............
 C
         IF(KTHE == ZERO)THEN
           IF(IKTHE /= 0)THEN
-            KTHE = UN
+            KTHE = ONE
             CALL HM_GET_FLOATV_DIM('Kthe' ,KTHE_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-             KTHE = UN * KTHE_UNIT
+             KTHE = ONE * KTHE_UNIT
           ENDIF
         ENDIF
 
         IF (XTHE == ZERO) THEN
         !units
           CALL HM_GET_FLOATV_DIM('A_scale_k' ,XTHE_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XTHE = UN * XTHE_UNIT
+          XTHE = ONE * XTHE_UNIT
         ENDIF
 
         IF(IFORM /= 0)THEN

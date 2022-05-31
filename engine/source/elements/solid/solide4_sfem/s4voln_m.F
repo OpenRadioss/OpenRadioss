@@ -84,43 +84,43 @@ C----------------------------
         IF (TT==ZERO) THEN
           DO I=LFT,LLT
            IF(OFFG(I)==ZERO) CYCLE
-           AMU0(I) = RHO(I)/RHO0-UN
+           AMU0(I) = RHO(I)/RHO0-ONE
           ENDDO
         ELSE
           DO I=LFT,LLT
            IF(OFFG(I)==ZERO) CYCLE
            SUM=VARNOD(NC1(I))+VARNOD(NC2(I))+VARNOD(NC3(I))+VARNOD(NC4(I))
-           AMU(I) = QUATRE/SUM -UN
+           AMU(I) = FOUR/SUM -ONE
            DIVDE(I) = AMU0(I)-AMU(I)
            DTR=DIVDE(I)/DT1             
-           DTREP_R = TIERS*(DTR-DXX(I)-DYY(I)-DZZ(I))
+           DTREP_R = THIRD*(DTR-DXX(I)-DYY(I)-DZZ(I))
            DXX(I) = DXX(I) + DTREP_R
            DYY(I) = DYY(I) + DTREP_R
            DZZ(I) = DZZ(I) + DTREP_R 
-           AMU0(I)= RHO(I)/RHO0-UN-DIVDE(I)
+           AMU0(I)= RHO(I)/RHO0-ONE-DIVDE(I)
           ENDDO
         END IF
       ELSE
 c-------------------------------------------------------------------------
         DO I=LFT,LLT
-         IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>UN) CYCLE
+         IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE) CYCLE
          SUM=VARNOD(NC1(I))+VARNOD(NC2(I))+VARNOD(NC3(I))+VARNOD(NC4(I))
-         VOLN(I)=QUART*SUM*VOL0(I)             
+         VOLN(I)=FOURTH*SUM*VOL0(I)             
         ENDDO
         IF (MATPARAM(MX)%STRAIN_FORMULATION==1) THEN 
 C------compute AMU(t+dt) for large strain   
           IF(IRESP==1)THEN
-            AMU(LFT:LLT) = VOL0DP(LFT:LLT)/VOLDP(LFT:LLT) - UN
+            AMU(LFT:LLT) = VOL0DP(LFT:LLT)/VOLDP(LFT:LLT) - ONE
           ELSE
-            AMU(LFT:LLT) = VOL0(LFT:LLT)/VOLN(LFT:LLT) - UN
+            AMU(LFT:LLT) = VOL0(LFT:LLT)/VOLN(LFT:LLT) - ONE
           END IF
           IF (TT==ZERO) THEN
             AMU0(LFT:LLT) = AMU(LFT:LLT)
           ELSE          
             DO I = LFT,LLT
-              IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>UN) CYCLE
+              IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE) CYCLE
               DTR   = (DXX(I) + DYY(I) + DZZ(I))*DT1
-              DTREP_R = TIERS*((AMU(I)-AMU0(I))+DTR)/DT1
+              DTREP_R = THIRD*((AMU(I)-AMU0(I))+DTR)/DT1
               DXX(I) = DXX(I) - DTREP_R
               DYY(I) = DYY(I) - DTREP_R
               DZZ(I) = DZZ(I) - DTREP_R  
@@ -138,28 +138,28 @@ C------compute AMU(t+dt) for large strain
           IF (TT==ZERO) THEN
             DO I=LFT,LLT
              IF(OFFG(I)==ZERO) CYCLE
-             AMU0(I) = RHO(I)/RHO0-UN
+             AMU0(I) = RHO(I)/RHO0-ONE
             ENDDO
           ELSE
             DO I=LFT,LLT
-             IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))<=UN) CYCLE
+             IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))<=ONE) CYCLE
              SUM=VARNOD(NC1(I))+VARNOD(NC2(I))+VARNOD(NC3(I))+VARNOD(NC4(I))
-             AMU(I) = QUATRE/SUM -UN
+             AMU(I) = FOUR/SUM -ONE
              DIVDE(I) = AMU0(I)-AMU(I)
              DTR=DIVDE(I)/DT1             
-             DTREP_R = TIERS*(DTR-DXX(I)-DYY(I)-DZZ(I))
+             DTREP_R = THIRD*(DTR-DXX(I)-DYY(I)-DZZ(I))
              DXX(I) = DXX(I) + DTREP_R
              DYY(I) = DYY(I) + DTREP_R
              DZZ(I) = DZZ(I) + DTREP_R  
              DVDP = DIVDE(I)*(VOL0(I)/VOLN(I))
-             AMU0(I)= RHO(I)/RHO0-UN-DVDP
+             AMU0(I)= RHO(I)/RHO0-ONE-DVDP
             ENDDO
 C for totale strain modif in the next         
             IF(IRESP==1.AND.ISMSTR==12)THEN
               DO I=LFT,LLT
-               IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))<=UN) CYCLE
+               IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))<=ONE) CYCLE
                DVDP = DIVDE(I)*(VOL0(I)/VOLN(I))
-               AMU0(I) = VOL0DP(I)/VOLDP(I)-UN-DVDP
+               AMU0(I) = VOL0DP(I)/VOLDP(I)-ONE-DVDP
               ENDDO
             END IF
           END IF !(TT==ZERO) THEN
@@ -169,15 +169,15 @@ C--------total strain modif
        IF (ISMSTR==11) THEN
 C---- modify Dii w/ rho/rho_0       
         DO I=LFT,LLT
-          DTREP_R = -TIERS*(AMU0(I)+FXX(I)+FYY(I)+FZZ(I))
+          DTREP_R = -THIRD*(AMU0(I)+FXX(I)+FYY(I)+FZZ(I))
           FXX(I) = FXX(I) + DTREP_R
           FYY(I) = FYY(I) + DTREP_R
           FZZ(I) = FZZ(I) + DTREP_R 
         ENDDO
        ELSEIF(ISMSTR>=10) THEN
         DO I=LFT,LLT
-          IF(ABS(OFFG(I))<=UN) CYCLE
-          DTREP_R = -TIERS*(AMU0(I)+FXX(I)+FYY(I)+FZZ(I))
+          IF(ABS(OFFG(I))<=ONE) CYCLE
+          DTREP_R = -THIRD*(AMU0(I)+FXX(I)+FYY(I)+FZZ(I))
           FXX(I) = FXX(I) + DTREP_R
           FYY(I) = FYY(I) + DTREP_R
           FZZ(I) = FZZ(I) + DTREP_R 
@@ -187,15 +187,15 @@ C---- modify Dii w/ rho/rho_0
      .                FYX, FYY, FYZ ,
      .                FZX, FZY, FZZ )
 C
-        FAC=TIERS
+        FAC=THIRD
         DO I=LFT,LLT
-         IF(ABS(OFFG(I))>UN) CYCLE
+         IF(ABS(OFFG(I))>ONE) CYCLE
          BASE = JAC_M(I)/MAX(EM20,JAC(I))
          JFAC =EXP(FAC*LOG(MAX(EM20,BASE)))
 C         
-         FXX(I) = JFAC*FXX(I)+JFAC-UN
-         FYY(I) = JFAC*FYY(I)+JFAC-UN
-         FZZ(I) = JFAC*FZZ(I)+JFAC-UN
+         FXX(I) = JFAC*FXX(I)+JFAC-ONE
+         FYY(I) = JFAC*FYY(I)+JFAC-ONE
+         FZZ(I) = JFAC*FZZ(I)+JFAC-ONE
          FXY(I) = JFAC*FXY(I)
          FYX(I) = JFAC*FYX(I)
          FZX(I) = JFAC*FZX(I)

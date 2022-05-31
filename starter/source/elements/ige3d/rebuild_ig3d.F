@@ -157,7 +157,7 @@ c
         ENDDO
 cc
 CC----------------------------------------------------------------------------------------------
-cc    TRAITEMENT SIMILAIRE DES FILS DE CES ELEMENTS (ON POURRAIT COMPACTER LES DEUX ENSEMBLES EN UN)
+cc    TRAITEMENT SIMILAIRE DES FILS DE CES ELEMENTS (ON POURRAIT COMPACTER LES TWO ENSEMBLES EN ONE)
 CC----------------------------------------------------------------------------------------------
 cc
         DO ITFILS=1,IDFILS(1,IEL)
@@ -204,7 +204,7 @@ CC------------------------------------------------------------------------------
 cc
       IF(FLAG_DEBUG.EQ.1) THEN
         DO I=1,SIXIG3D+ADDSIXIG3D
-          IF(IXIG3D(I).EQ.0) PRINT*,'IL Y A UN ZERO', IXIG3D(I), I
+          IF(IXIG3D(I).EQ.0) PRINT*,'IL Y A ONE ZERO', IXIG3D(I), I
         ENDDO
       ENDIF
 c

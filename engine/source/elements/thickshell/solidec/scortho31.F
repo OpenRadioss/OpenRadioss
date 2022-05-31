@@ -107,7 +107,7 @@ C
        E3Z = TX * RY - TY * RX 
 C
        DET = SQRT(E3X*E3X + E3Y*E3Y + E3Z*E3Z)
-       IF ( DET.NE.ZERO) DET = UN / DET
+       IF ( DET.NE.ZERO) DET = ONE / DET
        E3X = E3X * DET
        E3Y = E3Y * DET
        E3Z = E3Z * DET
@@ -118,7 +118,7 @@ C
        E1Y=TY*C2 +(RZ * E3X - RX * E3Z)*C1  
        E1Z=TZ*C2 +(RX * E3Y - RY * E3X)*C1
        DET = SQRT(E1X*E1X + E1Y*E1Y + E1Z*E1Z)
-       IF ( DET.NE.ZERO) DET = UN / DET
+       IF ( DET.NE.ZERO) DET = ONE / DET
        E1X = E1X*DET
        E1Y = E1Y*DET
        E1Z = E1Z*DET

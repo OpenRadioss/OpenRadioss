@@ -81,7 +81,7 @@ C----------------------------
      .     E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,SUM)
 C
       DO I=JFT,JLT
-        AREA(I) = UNDEMI*SUM(I)
+        AREA(I) = HALF*SUM(I)
       ENDDO
 c-----------
       RETURN

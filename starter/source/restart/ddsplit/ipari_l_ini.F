@@ -878,7 +878,7 @@ c INT 22
               !CEP contient les Brique en premiere section                  
               !CEP : id_elem |-> spmd_id ;  id_elem \in (|---brique---|---coque---|---...)              
             END DO 
-            I22LEN1  = MAX(100     ,NINT(82*NBRIC_L**UNDEMI))
+            I22LEN1  = MAX(100     ,NINT(82*NBRIC_L**HALF))
             I22LEN1  = MIN(I22LEN1 ,NBRIC_L                 )
             I22LEN1  = NINT(JMULT22*I22LEN1)  
             I22LEN_L = MAX(I22LEN_L,I22LEN1)  !local value to determine :    (ARGUMENT INTENT(INOUT))

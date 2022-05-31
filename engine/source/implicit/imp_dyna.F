@@ -131,8 +131,8 @@ C------gama,beta----
        DY_B = NM_B
        D_AL = ZERO
       ELSE
-       DY_G = UNDEMI-D_AL
-       DY_B = QUART*(UN-D_AL)*(UN-D_AL)
+       DY_G = HALF-D_AL
+       DY_B = FOURTH*(ONE-D_AL)*(ONE-D_AL)
       ENDIF
       DY_EDAMP = ZERO
 C
@@ -223,7 +223,7 @@ C------- integrateur ----------
        IF (IMCONV.LE.-2.AND..NOT.(NINVEL.GT.0.AND.NCYCLE.EQ.0)) THEN
 C------- ->a(t) --add something there for initial velocity at t=0--------
         DT3 = DT1_IMP
-        BDT = UN/(UNDEMI-DY_G+DY_B)/DT3
+        BDT = ONE/(HALF-DY_G+DY_B)/DT3
         BDTI = BDT/DT3
         DO I=NODFT,NODLT
          DY_A(1,I)=BDT*DY_V(1,I)-BDTI*DY_D(1,I)
@@ -238,7 +238,7 @@ C------- ->a(t) --add something there for initial velocity at t=0--------
          ENDDO
         ENDIF
        ELSE
-        BDTI = UN/DT2/DT2/DY_B
+        BDTI = ONE/DT2/DT2/DY_B
         DO I=NODFT,NODLT
          DY_A(1,I)=BDTI*(D(1,I)-DY_D(1,I))
          DY_A(2,I)=BDTI*(D(2,I)-DY_D(2,I))
@@ -258,8 +258,8 @@ C------- actualise V',D',(t) --V->v(t+dt)-------
 c         CALL IMP_DT2(DT3)
          DT1_IMP = DT_IMP
 	 DT3 = DT2
-         ADT = (UN-DY_G)*DT3
-         BDT = (UNDEMI-DY_B)*DT3*DT3
+         ADT = (ONE-DY_G)*DT3
+         BDT = (HALF-DY_B)*DT3*DT3
          DO I=NODFT,NODLT
           V(1,I)=DY_V(1,I)+ADT1*DY_A(1,I)
           V(2,I)=DY_V(2,I)+ADT1*DY_A(2,I)
@@ -340,15 +340,15 @@ C-----------------------------------------------
 C------- add to diag_[k] ----------
       IF (IQSTAT.GT.0) THEN
        D_AL = -ZEP05
-       DY_G = UNDEMI-D_AL
-       DY_B = QUART*(UN-D_AL)*(UN-D_AL)
+       DY_G = HALF-D_AL
+       DY_B = FOURTH*(ONE-D_AL)*(ONE-D_AL)
       ENDIF
       S0 = ZERO
       IF (IDY_DAMP.GT.0) THEN
-       S = (UN+D_AL)*DY_B*DT2
-       BDT = (UN/DT2+(UN+D_AL)*DAMPA_IMP*DY_G)/S
+       S = (ONE+D_AL)*DY_B*DT2
+       BDT = (ONE/DT2+(ONE+D_AL)*DAMPA_IMP*DY_G)/S
        ND = IADK(NDDL_L+1)-IADK(1)
-       S0 = (UN+D_AL)*DAMPB_IMP*DY_G/S
+       S0 = (ONE+D_AL)*DAMPB_IMP*DY_G/S
        IF (S0.NE.ZERO) THEN
         DO I = 1,NDDL_L
          DIAG_K(I)=DIAG_K(I)+S0*DIAG_K(I)
@@ -358,11 +358,11 @@ C------- add to diag_[k] ----------
         ENDDO
        ENDIF
       ELSE
-      S = (UN+D_AL)*DY_B*DT2*DT2
+      S = (ONE+D_AL)*DY_B*DT2*DT2
       IF (IQSTAT.GT.0.AND.(ILINTF.EQ.0.OR.ILINTF.EQ.NCYCLE)) THEN
        S = S *SCAL_DTQ*SCAL_DTQ
       ENDIF
-      BDT = UN/S
+      BDT = ONE/S
 Cq52d4+1
       ENDIF
 C
@@ -501,11 +501,11 @@ C-----------------------------------------------
       INTEGER I,J,K
       my_real
      .  A,B
-C-------LB() =((UN+HHT_A)LB(t+dt)-HHT_A*LB(t))/(UN+HHT_A)
-C--------/(UN+HHT_A) is due to the Jacobien [K]'=[K]/(UN+HHT_A) used to reduce [K] modifications
+C-------LB() =((ONE+HHT_A)LB(t+dt)-HHT_A*LB(t))/(ONE+HHT_A)
+C--------/(ONE+HHT_A) is due to the Jacobien [K]'=[K]/(ONE+HHT_A) used to reduce [K] modifications
 C----- store  db in  DY_R0; add  db in lb in IMP_FHHT; this is du to SPMD version---------
       IF (HHT_A.EQ.ZERO) RETURN
-      A = UN+HHT_A
+      A = ONE+HHT_A
       B = -HHT_A/A
       DO I=1,NDDL
        DY_R1(I) = LB(I)
@@ -603,7 +603,7 @@ C        RHO(I)=PM(1,MX)
 C        INE(I)=ZERO
 C      ENDDO
 C      IF (NNOD.EQ.4) THEN
-C       FAC = QUART
+C       FAC = FOURTH
 C      ELSEIF (NNOD.EQ.3) THEN
 C       FAC = THIRD
 C      ENDIF
@@ -620,15 +620,15 @@ C          MX  =MATLY(J2)
 C          DO I=JFT,JLT
 C           JJ = J2 - 1 + I
 C           EMS = PM(1,MX)*THKLY(JJ)*AREA(I)*FAC
-C           INE(I)=INE(I)+EMS*((AREA(I)+THKLY(JJ)*THKLY(JJ))*UNDOUZE+
+C           INE(I)=INE(I)+EMS*((AREA(I)+THKLY(JJ)*THKLY(JJ))*ONE_OVER_12+
 C     .                        POSLY(I,J)*POSLY(I,J))
 C          ENDDO
 C         ENDDO
 C      ELSE
 C        DO I=JFT,JLT
 C          EMS = RHO(I)*VOLG(I)*FAC
-C          INE(I)=EMS*(AREA(I)+THK02(I))*UNDOUZE
-C          INZ(I)=DEUX*INE(I)
+C          INE(I)=EMS*(AREA(I)+THK02(I))*ONE_OVER_12
+C          INZ(I)=TWO*INE(I)
 C        ENDDO
 C      ENDIF
 C
@@ -755,9 +755,9 @@ C
       DO I=1,NDDL
         QS_U(I)=ZERO
       ENDDO
-      B = QUART*(UN+ZEP05)*(UN+ZEP05)
-      S = (UN-ZEP05)*B*DT2*DT2
-      BDT = UN/S
+      B = FOURTH*(ONE+ZEP05)*(ONE+ZEP05)
+      S = (ONE-ZEP05)*B*DT2*DT2
+      BDT = ONE/S
       NKC = 0
       IF (IRODDL == 0) THEN
        DO N = 1,NUMNOD
@@ -974,9 +974,9 @@ C-----allocation supp----
        ENDIF
 C-----------divergence at first step--------
       ELSE
-         ADT = (UN-DY_G)
-         BDT = (UNDEMI-DY_B)*DT0_IMP
-	 BDTI =UN/(BDT-ADT*DT0_IMP)
+         ADT = (ONE-DY_G)
+         BDT = (HALF-DY_B)*DT0_IMP
+	 BDTI =ONE/(BDT-ADT*DT0_IMP)
          DO N=NODFT,NODLT
            DY_A(1,N) = ZERO
            DY_A(2,N) = ZERO
@@ -1042,7 +1042,7 @@ C---estimation a(t=0)----
         ENDIF
          DO N=NODFT,NODLT
           IF(MS(N).GT.0.) THEN
-            TMP = UN / MS(N)
+            TMP = ONE / MS(N)
             DY_A(1,N) = (DY_A(1,N) + A(1,N))* TMP
             DY_A(2,N) = (DY_A(2,N) + A(2,N))* TMP
             DY_A(3,N) = (DY_A(3,N) + A(3,N))* TMP
@@ -1051,7 +1051,7 @@ C---estimation a(t=0)----
         IF (IRODDL.NE.0) THEN
          DO N=NODFT,NODLT
           IF(IN(N).GT.0.) THEN
-            TMP = UN / IN(N)
+            TMP = ONE / IN(N)
             DY_AR(1,N) = (DY_AR(1,N) + AR(1,N))* TMP
             DY_AR(2,N) = (DY_AR(2,N) + AR(2,N))* TMP
             DY_AR(3,N) = (DY_AR(3,N) + AR(3,N))* TMP
@@ -1062,8 +1062,8 @@ C---estimation a(t=0)----
        ELSE     !restart
        ENDIF     ! (TT.EQ.0) THEN
 C
-         ADT = (UN-DY_G)*DT2
-         BDT = (UNDEMI-DY_B)*DT2*DT2
+         ADT = (ONE-DY_G)*DT2
+         BDT = (HALF-DY_B)*DT2*DT2
          DO N=NODFT,NODLT
           DY_V(1,N)=V(1,N)+ADT*DY_A(1,N)
           DY_V(2,N)=V(2,N)+ADT*DY_A(2,N)
@@ -1088,7 +1088,7 @@ C
 C----predictor for a(t+dt)-------
 c    keep continuity with GM validation: -initialize later-
         IF (NINVEL.GT.0) THEN
-         BDTI = UN/DT2/DT2/DY_B
+         BDTI = ONE/DT2/DT2/DY_B
          BDTI = ZERO
          DO N=NODFT,NODLT
             DY_A(1,N) = -BDTI*DY_D(1,N)
@@ -1103,7 +1103,7 @@ c    keep continuity with GM validation: -initialize later-
           ENDDO
          END IF
         ELSE
-         BDTI = UN/DT2/DY_B
+         BDTI = ONE/DT2/DY_B
          DO N=NODFT,NODLT
             DY_A(1,N) = -BDTI*V(1,N)
             DY_A(2,N) = -BDTI*V(2,N)
@@ -1216,7 +1216,7 @@ C----------DY_DAM has been already condensed---
 	  DO J=1,3
            ND = IDDL(I)+J
 	   IF (IKC(ND) == 0 )
-     .      TFEXC = TFEXC +D(J,I)*(DY_DAM(J,I)+DY_DAM0(J,I))*UNDEMI
+     .      TFEXC = TFEXC +D(J,I)*(DY_DAM(J,I)+DY_DAM0(J,I))*HALF
 	  END DO
          ENDDO
          DO I = 1 ,NUMNOD
@@ -1230,7 +1230,7 @@ C----------DY_DAM has been already condensed---
             ND = IDDL(I)+J
 	    J1=J-3
 	    IF (IKC(ND) == 0 )
-     .      TFEXC = TFEXC +DR(J,I)*(DY_DAMR(J,I)+DY_DAMR0(J,I))*UNDEMI
+     .      TFEXC = TFEXC +DR(J,I)*(DY_DAMR(J,I)+DY_DAMR0(J,I))*HALF
            ENDDO
           ENDDO
           DO I = 1 ,NUMNOD
@@ -1284,13 +1284,13 @@ C-----------------------------------------------
       my_real
      .  BDT, MKF,MKM,S,S0,D_AL,DY_G,DY_B,FAC,MM
 C------- IQSTAT >0 add to diag_[k] condens   e----------
-       IF (SCAL_DTQ.EQ.UN) RETURN
+       IF (SCAL_DTQ.EQ.ONE) RETURN
 C
        D_AL = -ZEP05
-       DY_B = QUART*(UN-D_AL)*(UN-D_AL)
-       S = (UN+D_AL)*DY_B*DT2*DT2
-       FAC = UN/SCAL_DTQ/SCAL_DTQ
-       BDT = -UN/S + FAC/S
+       DY_B = FOURTH*(ONE-D_AL)*(ONE-D_AL)
+       S = (ONE+D_AL)*DY_B*DT2*DT2
+       FAC = ONE/SCAL_DTQ/SCAL_DTQ
+       BDT = -ONE/S + FAC/S
       NKC=0
       IF (NSPMD.GT.1) THEN
        DO N = NODFT,NODLT
@@ -1455,14 +1455,14 @@ C           | Iyx Iyy | { gamay } = { My }
 C           et gamaz=0
 C------------------
         IF(LCOD.EQ.1)THEN
-          DET=UN/(RBY(17)*RBY(21)-RBY(18)*RBY(20))
+          DET=ONE/(RBY(17)*RBY(21)-RBY(18)*RBY(20))
           WA1=-DY_AR(1,M)
           WA2=-DY_AR(2,M)
           AM(1,M)=( RBY(21)*WA1-RBY(20)*WA2)*DET
           AM(2,M)=(-RBY(18)*WA1+RBY(17)*WA2)*DET
           AM(3,M)=ZERO
         ELSEIF(LCOD.EQ.2)THEN
-          DET=UN/(RBY(17)*RBY(25)-RBY(19)*RBY(23))
+          DET=ONE/(RBY(17)*RBY(25)-RBY(19)*RBY(23))
           WA1=-DY_AR(1,M)
           WA2=-DY_AR(3,M)
           AM(1,M)=( RBY(25)*WA1-RBY(23)*WA2)*DET
@@ -1473,7 +1473,7 @@ C------------------
           AM(2,M)=ZERO
           AM(3,M)=ZERO
         ELSEIF(LCOD.EQ.4)THEN
-          DET=UN/(RBY(21)*RBY(25)-RBY(22)*RBY(24))
+          DET=ONE/(RBY(21)*RBY(25)-RBY(22)*RBY(24))
           WA1=-DY_AR(2,M)
           WA2=-DY_AR(3,M)
           AM(1,M)=ZERO
@@ -1537,7 +1537,7 @@ C
          IL4=SKEW(4,ISK)*II1+SKEW(5,ISK)*II4+SKEW(6,ISK)*II7
          IL5=SKEW(4,ISK)*II2+SKEW(5,ISK)*II5+SKEW(6,ISK)*II8
 C
-         DET=UN/(IL1*IL5-IL2*IL4)
+         DET=ONE/(IL1*IL5-IL2*IL4)
          WA1=-DY_AR(1,M)
          WA2=-DY_AR(2,M)
          AM(1,M)=( IL5*WA1-IL4*WA2)*DET
@@ -1555,7 +1555,7 @@ C
          IL7=SKEW(7,ISK)*II1+SKEW(8,ISK)*II4+SKEW(9,ISK)*II7
          IL9=SKEW(7,ISK)*II3+SKEW(8,ISK)*II6+SKEW(9,ISK)*II9
 C
-         DET=UN/(IL1*IL9-IL3*IL7)
+         DET=ONE/(IL1*IL9-IL3*IL7)
          WA1=-DY_AR(1,M)
          WA2=-DY_AR(3,M)
          AM(1,M)=( IL9*WA1-IL7*WA2)*DET
@@ -1582,7 +1582,7 @@ C
          IL8=SKEW(7,ISK)*II2+SKEW(8,ISK)*II5+SKEW(9,ISK)*II8
          IL9=SKEW(7,ISK)*II3+SKEW(8,ISK)*II6+SKEW(9,ISK)*II9
 C
-         DET=UN/(IL5*IL9-IL6*IL8)
+         DET=ONE/(IL5*IL9-IL6*IL8)
          WA1=-DY_AR(2,M)
          WA2=-DY_AR(3,M)
          AM(1,M)=ZERO
@@ -1642,7 +1642,7 @@ C
        AM(2,M) = AM(2,M) - (RBY(12)-RBY(10))*VI(3)*VI(1)*WEIGHT(M)
        AM(3,M) = AM(3,M) - (RBY(10)-RBY(11))*VI(1)*VI(2)*WEIGHT(M)
 C
-C CALCUL D'UN PSEUDO MOMENT:
+C CALCUL D'ONE PSEUDO MOMENT:
 C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
 C--------
         WA1 = AM(1,M)*RBY(10)
@@ -1722,8 +1722,8 @@ C
            DR(3,I)=DY_DR(3,I)*EM3
           ENDDO
          ENDIF
-         ADT = (UN-DY_G)*DT2
-         BDT = (UNDEMI-DY_B)*DT2*DT2
+         ADT = (ONE-DY_G)*DT2
+         BDT = (HALF-DY_B)*DT2*DT2
          DO I=NODFT,NODLT
           IF(MS(I).GT.0.) THEN
            TMP = ADT / MS(I)
@@ -1808,7 +1808,7 @@ C---------------------
           VX = DY_V(1,I) - DT05*DY_A(1,I)
           VY = DY_V(2,I) - DT05*DY_A(2,I)
           VZ = DY_V(3,I) - DT05*DY_A(3,I)
-          EN_K= EN_K+ ( VX*VX + VY*VY + VZ*VZ)*UNDEMI*MAS
+          EN_K= EN_K+ ( VX*VX + VY*VY + VZ*VZ)*HALF*MAS
          ENDDO
         IF(IRODDL.NE.0)THEN
          DO I = NODFT ,NODLT
@@ -1816,7 +1816,7 @@ C---------------------
           VX = DY_VR(1,I) - DT05*DY_AR(1,I)
           VY = DY_VR(2,I) - DT05*DY_AR(2,I)
           VZ = DY_VR(3,I) - DT05*DY_AR(3,I)
-          EN_K=EN_K + (VX*VX + VY*VY + VZ*VZ)*UNDEMI*MAS
+          EN_K=EN_K + (VX*VX + VY*VY + VZ*VZ)*HALF*MAS
 
          ENDDO
         ENDIF
@@ -1831,7 +1831,7 @@ C----------------------
       CALL MY_BARRIER
 C---------------------
 	EFAC = R_N2/MAX(EM20,EN_I)
-	EFAC = MIN(UN,EFAC)
+	EFAC = MIN(ONE,EFAC)
 C--------------------------------------------
       RETURN
       END
@@ -2217,7 +2217,7 @@ C---- ------
       IF (IRODDL.EQ.0) THEN
        DO I = NODFT ,NODLT
         IF(MS(I).GT.0.) THEN
-         TMP = UN / MS(I)
+         TMP = ONE / MS(I)
          ND = IDDL(I)
          DO J =1,NDOF(I)
           ID = ND + J
@@ -2229,7 +2229,7 @@ C---- ------
        DO I = NODFT ,NODLT
         ND = IDDL(I)
         IF(MS(I).GT.0.) THEN
-         TMP = UN / MS(I)
+         TMP = ONE / MS(I)
          DO J =1,MIN(3,NDOF(I))
           ID = ND + J
           DY_A(J,I)=-TMP*W(ID)
@@ -2237,7 +2237,7 @@ C---- ------
         END IF !(MS(I).GT.0.) THEN
 C
         IF(IN(I).GT.0.) THEN
-         TMP = UN / IN(I)
+         TMP = ONE / IN(I)
          DO J =4,NDOF(I)
           ID = ND + J
           DY_AR(J-3,I)=-TMP*W(ID)

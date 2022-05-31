@@ -71,7 +71,7 @@ C---------------------------------------------
       IF (SFAC >ZERO) THEN
        S = SFAC
       ELSE
-       S = UN
+       S = ONE
       END IF
       DO I=1,NSN0
         J=INTBUF_TAB%NSV(I)

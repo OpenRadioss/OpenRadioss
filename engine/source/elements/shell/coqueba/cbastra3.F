@@ -68,7 +68,7 @@ C-----------------------------------------------
      .        EXXT(MVSIZ),EYYT(MVSIZ),EXYT(MVSIZ)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C
-      QUATRE1 = UN/NPG
+      QUATRE1 = ONE/NPG
       IF (IEPSDOT /= 0) THEN
        DO I=JFT,JLT
         J = I + NFT
@@ -119,8 +119,8 @@ C----- use ISTRAIN temporaly for KXX.. cumulated
         DO I=JFT,JLT
          F_DEF(I,6) = GSTRPG(I,6)
          F_DEF(I,7) = GSTRPG(I,7)
-         F_DEF(I,8) = (GSTRPG(I,8)+GSTRWPG(I))*UNDEMI
-         F_DEF(I,5) = (GSTRPG(I,8)-GSTRWPG(I))*UNDEMI
+         F_DEF(I,8) = (GSTRPG(I,8)+GSTRWPG(I))*HALF
+         F_DEF(I,5) = (GSTRPG(I,8)-GSTRWPG(I))*HALF
         ENDDO
        ELSEIF(ISMSTR /= 11)THEN
         DO I=JFT,JLT

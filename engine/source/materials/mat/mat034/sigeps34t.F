@@ -74,9 +74,9 @@ c=======================================================================
 c        
       GE(1:NEL)  = G_INF(1:NEL)                ! elastic part of shear modulus
       GV(1:NEL)  = G_INS(1:NEL)-G_INF(1:NEL)   ! viscous part of shear modulus
-      GE2(1:NEL) = GE(1:NEL) * DEUX
-      GV2(1:NEL) = GV(1:NEL) * DEUX 
-      C1(1:NEL)  = UN - EXP(-BETA(1:NEL)*DT1)
+      GE2(1:NEL) = GE(1:NEL) * TWO
+      GV2(1:NEL) = GV(1:NEL) * TWO 
+      C1(1:NEL)  = ONE - EXP(-BETA(1:NEL)*DT1)
       C2(1:NEL)  =-C1(1:NEL) / BETA(1:NEL)
 c      
       DEPS(1:NEL) = EPSP(1:NEL) * DT1   ! strain increment
@@ -84,22 +84,22 @@ c
       UVAR(1:NEL,2) = EPS(1:NEL) 
 c
       DO I=1,NEL
-        IF (GAP(I) > ZERO .AND. AL(I) <= (AL0(I)-GAP(I))) OFF(I)=UN
+        IF (GAP(I) > ZERO .AND. AL(I) <= (AL0(I)-GAP(I))) OFF(I)=ONE
       ENDDO
 c
       DO I=1,NEL
-        K3  = BULK(I)*TROIS
+        K3  = BULK(I)*THREE
         NU2 = (K3 - GE2(I)) / (K3 + GE(I))
-        NU2 = MAX(NU2, UN)
-        EINT(I) = EINT(I) + FOR(I)*DEPS(I)*AL(I)*UNDEMI
-        AREA(I) = AREA(I)*(UN - NU2*DEPS(I)*OFF(I))
+        NU2 = MAX(NU2, ONE)
+        EINT(I) = EINT(I) + FOR(I)*DEPS(I)*AL(I)*HALF
+        AREA(I) = AREA(I)*(ONE - NU2*DEPS(I)*OFF(I))
         STI(I)  = K3
       ENDDO
 c
       DO I=1,NEL
-        DDEXX = DEPS(I)*DTIERS   ! strain increment deviator    
-        DEPSDXX = DTIERS*EPSP(I)
-        DEXX = DTIERS*EPS(I)
+        DDEXX = DEPS(I)*TWO_THIRD   ! strain increment deviator    
+        DEPSDXX = TWO_THIRD*EPSP(I)
+        DEXX = TWO_THIRD*EPS(I)
         !
         DEPSVXX = C1(I)*(DEXX - UVAR(I,1))     + C2(I)*DEPSDXX
         DP  = BULK(I)*DEPS(I)
@@ -113,7 +113,7 @@ c
       END DO
 c
       DO I=1,NEL
-        EINT(I) = EINT(I) + FOR(I)*DEPS(I)*AL(I)*UNDEMI
+        EINT(I) = EINT(I) + FOR(I)*DEPS(I)*AL(I)*HALF
       ENDDO
 c-----------
       RETURN

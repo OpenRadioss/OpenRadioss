@@ -89,12 +89,12 @@ C-----------------------------------------------
 
        UPW_UPDATE = 1       
 
-       IF(UPWMG2==ZERO)UPWMG2=UN 
-       IF(UPWOG2==ZERO)UPWOG2=UN 
-       IF(UPWSM2==ZERO)UPWSM2=UN 
+       IF(UPWMG2==ZERO)UPWMG2=ONE 
+       IF(UPWOG2==ZERO)UPWOG2=ONE 
+       IF(UPWSM2==ZERO)UPWSM2=ONE 
 
        !Upwind coefficient for Momentum Advection
-       IF(UPWMG2.LE.ZERO.OR.UPWMG2.GT.UN)THEN
+       IF(UPWMG2.LE.ZERO.OR.UPWMG2.GT.ONE)THEN
          WRITE(ISTDO,*)
      .    ' ** ERROR IN CARD /UPWIND'
          WRITE(ISTDO,*)
@@ -103,7 +103,7 @@ C-----------------------------------------------
        ENDIF
 
        !Upwind coefficient for Mass and Energy Advection
-       IF(UPWOG2.LT.ZERO.OR.UPWOG2.GT.UN)THEN
+       IF(UPWOG2.LT.ZERO.OR.UPWOG2.GT.ONE)THEN
          WRITE(ISTDO,*)
      .    ' ** ERROR IN CARD /UPWIND'
          WRITE(ISTDO,*)
@@ -112,7 +112,7 @@ C-----------------------------------------------
        ENDIF
        
        !Upwind coefficient for Wet Surface (Mulimaterial specific advection)
-       IF(UPWSM2.LT.-UN.OR.UPWSM2.GT.UN)THEN
+       IF(UPWSM2.LT.-ONE.OR.UPWSM2.GT.ONE)THEN
          WRITE(ISTDO,*)
      .   ' ** ERROR IN CARD /UPWIND'
          WRITE(ISTDO,*)

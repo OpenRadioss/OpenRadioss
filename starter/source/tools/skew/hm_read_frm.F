@@ -111,15 +111,15 @@ C
       DO I=1,9
         XFRAME(I,1) =ZERO
       ENDDO 
-      XFRAME(1,1) =UN
-      XFRAME(5,1) =UN
-      XFRAME(9,1) =UN
+      XFRAME(1,1) =ONE
+      XFRAME(5,1) =ONE
+      XFRAME(9,1) =ONE
       DO I=1,9
         XFRAME(18+I,1) =ZERO
       ENDDO
-      XFRAME(18+1,1) =UN
-      XFRAME(18+5,1) =UN
-      XFRAME(18+9,1) =UN
+      XFRAME(18+1,1) =ONE
+      XFRAME(18+5,1) =ONE
+      XFRAME(18+9,1) =ONE
 C
       JJ=(NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+1+NSUBMOD
       ISKN(1,JJ)=0
@@ -304,7 +304,7 @@ C
             P(11)=X(2,N1)
             P(12)=X(3,N1)
           ELSE
-            P(1)=UN
+            P(1)=ONE
             P(2)=ZERO
             P(3)=ZERO
 C
@@ -335,7 +335,7 @@ C     CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
           IF (IDIR == 1) THEN
             PNOR2=SQRT(P(4)*P(4)+P(5)*P(5)+P(6)*P(6))
             IF(PNOR2.GT.EM20) THEN
-              PNORM1=UN/(PNOR1*PNOR2)
+              PNORM1=ONE/(PNOR1*PNOR2)
               DET1=ABS((P(1)*P(5)-P(2)*P(4))*PNORM1)
               DET2=ABS((P(1)*P(6)-P(3)*P(4))*PNORM1)
               DET3=ABS((P(2)*P(6)-P(3)*P(5))*PNORM1)
@@ -349,15 +349,15 @@ C     CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
      .                    ANMODE=ANINFO_BLIND_1,
      .                    I1=ID,C1=TITR)
               IF(ABS(P(2)).GT.EM5) THEN
-                P(4)=ABS(P(1))+DIX
+                P(4)=ABS(P(1))+TEN
               ELSE
-                P(5)=DIX
+                P(5)=TEN
               ENDIF
             ENDIF
           ELSEIF (IDIR == 2) THEN
             PNOR2=SQRT(P(7)*P(7)+P(8)*P(8)+P(9)*P(9))
             IF(PNOR2.GT.EM20) THEN
-              PNORM1=UN/(PNOR1*PNOR2)
+              PNORM1=ONE/(PNOR1*PNOR2)
               DET1=ABS((P(4)*P(8)-P(5)*P(7))*PNORM1)
               DET2=ABS((P(4)*P(9)-P(6)*P(7))*PNORM1)
               DET3=ABS((P(5)*P(9)-P(6)*P(8))*PNORM1)
@@ -371,15 +371,15 @@ C     CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
      .                    ANMODE=ANINFO_BLIND_1,
      .                    I1=ID,C1=TITR)
               IF(ABS(P(5)).GT.EM5) THEN
-                P(7)=ABS(P(4))+DIX
+                P(7)=ABS(P(4))+TEN
               ELSE
-                P(8)=DIX
+                P(8)=TEN
               ENDIF
             ENDIF
           ELSEIF (IDIR == 3) THEN
             PNOR2=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
             IF(PNOR2.GT.EM20) THEN
-              PNORM1=UN/(PNOR1*PNOR2)
+              PNORM1=ONE/(PNOR1*PNOR2)
               DET1=ABS((P(7)*P(2)-P(8)*P(1))*PNORM1)
               DET2=ABS((P(7)*P(3)-P(9)*P(1))*PNORM1)
               DET3=ABS((P(8)*P(3)-P(9)*P(2))*PNORM1)
@@ -393,9 +393,9 @@ C     CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
      .                    ANMODE=ANINFO_BLIND_1,
      .                    I1=ID,C1=TITR)
               IF(ABS(P(5)).GT.EM5) THEN
-                P(1)=ABS(P(7))+DIX
+                P(1)=ABS(P(7))+TEN
               ELSE
-                P(2)=DIX
+                P(2)=TEN
               ENDIF
             ENDIF
           ENDIF
@@ -487,7 +487,7 @@ C----------------
 C       CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
           PNOR2=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
           IF (PNOR2 > EM20) THEN
-            PNORM1=UN/(PNOR1*PNOR2)
+            PNORM1=ONE/(PNOR1*PNOR2)
             DET1=ABS((P(8)*P(3)-P(9)*P(2))*PNORM1)
             DET2=ABS((P(9)*P(1)-P(7)*P(3))*PNORM1)
             DET3=ABS((P(7)*P(2)-P(8)*P(1))*PNORM1)
@@ -501,9 +501,9 @@ C       CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
      .                  ANMODE=ANINFO_BLIND_1,
      .                  I1=ID,C1=TITR)
             IF(ABS(P(2)) < EM5) THEN
-              P(4)=ABS(P(1))+DIX
+              P(4)=ABS(P(1))+TEN
             ELSE
-              P(5)=DIX
+              P(5)=TEN
             ENDIF
           ENDIF
 C----------------
@@ -550,7 +550,7 @@ C---      CALCUL DE X' et Y0'
               P(11)=X(2,N1)
               P(12)=X(3,N1)
             ELSE
-              P(1)=UN
+              P(1)=ONE
               P(2)=ZERO
               P(3)=ZERO
               P(4)=X(1,N2)-X(1,N1)
@@ -588,9 +588,9 @@ C---      CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
      .                    ANMODE=ANINFO_BLIND_1,
      .                    I1=ID,C1=TITR)
               IF(ABS(P(2)).GT.EM5) THEN
-                P(4)=ABS(P(1))+DIX
+                P(4)=ABS(P(1))+TEN
               ELSE
-                P(5)=DIX
+                P(5)=TEN
               ENDIF
             ENDIF
 C---      CALCUL DE Z'

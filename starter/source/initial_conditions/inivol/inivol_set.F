@@ -84,24 +84,24 @@ C-----------------------------------------------
        IF(IPART(I+NFT) /= IDP)CYCLE
         PASSED = .TRUE.
         SUMVF = SUM(KVOL(1:NBSUBMAT,I))
-        IF(SUMVF.GT.UN+EM06)THEN
+        IF(SUMVF.GT.ONE+EM06)THEN
           !not expected, user input must be checked : error message
           SUMVF = SUM(KVOL(2:NBSUBMAT,I))
-          IF(SUMVF <= UN .AND. SUMVF > ZERO)THEN
-            KVOL(1,I)=UN-SUMVF
+          IF(SUMVF <= ONE .AND. SUMVF > ZERO)THEN
+            KVOL(1,I)=ONE-SUMVF
             PASSED = .TRUE.
           ELSE
             SUMVF = SUM(KVOL(1:NBSUBMAT,I))
-            RATIO=UN/SUMVF
+            RATIO=ONE/SUMVF
             KVOL(1:NBSUBMAT,I)=RATIO*KVOL(1:NBSUBMAT,I)          
             PASSED=.TRUE.
           ENDIF
-        ELSEIF(SUMVF.LT.UN-EM06)THEN
+        ELSEIF(SUMVF.LT.ONE-EM06)THEN
           !fill unoccupied subvolume with phase-1
-          KVOL(1,I) = KVOL(1,I) + UN-SUMVF
-        ELSEIF(SUMVF.GE.UN-EM06 .AND. SUMVF.LE.UN+EM06)THEN
+          KVOL(1,I) = KVOL(1,I) + ONE-SUMVF
+        ELSEIF(SUMVF.GE.ONE-EM06 .AND. SUMVF.LE.ONE+EM06)THEN
           !get rid of precision issue so that sumvf is exactly 1.000000
-          RATIO=UN/SUMVF
+          RATIO=ONE/SUMVF
           KVOL(1:NBSUBMAT,I)=RATIO*KVOL(1:NBSUBMAT,I)
         ENDIF
       ENDDO

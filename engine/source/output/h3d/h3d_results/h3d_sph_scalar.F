@@ -331,8 +331,8 @@ C--------------------------------------------------
                   S1=S11 + P
                   S2=S22 + P
                   S3=S33 + P
-                  VONM2= TROIS*(S4*S4 + S5*S5 + S6*S6 +
-     .            	 UNDEMI*(S1*S1+S2*S2+S3*S3) )
+                  VONM2= THREE*(S4*S4 + S5*S5 + S6*S6 +
+     .            	 HALF*(S1*S1+S2*S2+S3*S3) )
                   VONM= SQRT(VONM2)
                   VALUE(I) = VONM
                   IS_WRITTEN_VALUE(I) = 1 
@@ -507,10 +507,10 @@ C--------------------------------------------------
                     S1=GBUF%SIG(JJ(1) + I) + P  		
                     S2=GBUF%SIG(JJ(2) + I) + P  		
                     S3=GBUF%SIG(JJ(3) + I) + P  		
-                    VONM2= TROIS*(GBUF%SIG(JJ(4) + I)**2 +	
+                    VONM2= THREE*(GBUF%SIG(JJ(4) + I)**2 +	
      .              		  GBUF%SIG(JJ(5) + I)**2 +	
      .              		  GBUF%SIG(JJ(6) + I)**2 +	
-     .              	    UNDEMI*(S1*S1+S2*S2+S3*S3)) 	  
+     .              	    HALF*(S1*S1+S2*S2+S3*S3)) 	  
                     VONM= SQRT(VONM2) 
                     VALUE(I) = VONM
                     IS_WRITTEN_VALUE(I) = 1
@@ -559,12 +559,12 @@ C--------------------------------------------------
 C--------------------------------------------------                     
                 DO I=1,NEL
                   IF (GBUF%G_OFF > 0) THEN
-                    IF(GBUF%OFF(I) > UN) THEN
-                      VALUE(I) = GBUF%OFF(I) - UN
-                    ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= UN)) THEN
+                    IF(GBUF%OFF(I) > ONE) THEN
+                      VALUE(I) = GBUF%OFF(I) - ONE
+                    ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= ONE)) THEN
                       VALUE(I) = GBUF%OFF(I)
                     ELSE
-                      VALUE(I) = -UN
+                      VALUE(I) = -ONE
                     ENDIF
                   ENDIF
                   IS_WRITTEN_VALUE(I) = 1

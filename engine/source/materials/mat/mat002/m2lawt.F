@@ -83,15 +83,15 @@ C-----------------------------------------------
       ENDDO
 c
       DO I=LFT,LLT
-        IF (GAP(I) > ZERO .AND. AL(I) <= (AL0(I)-GAP(I))) OFF(I)=UN
+        IF (GAP(I) > ZERO .AND. AL(I) <= (AL0(I)-GAP(I))) OFF(I)=ONE
       ENDDO
 c
       DO I=LFT,LLT
-        EINT(I)=EINT(I)+FOR(I)*EPS(I)*AL(I)*DT1*UNDEMI
+        EINT(I)=EINT(I)+FOR(I)*EPS(I)*AL(I)*DT1*HALF
       ENDDO
 c
       DO I=LFT,LLT
-        AREA(I)=AREA(I)*(UN - DEUX*PR(I)*EPS(I)*DT1*OFF(I))
+        AREA(I)=AREA(I)*(ONE - TWO*PR(I)*EPS(I)*DT1*OFF(I))
       ENDDO
 c
       DO I=LFT,LLT
@@ -107,11 +107,11 @@ C-----------------------
 C     MODULE ECROUISSAGE
 C-----------------------
       DO I=LFT,LLT
-        IF (CN(I) == UN) THEN
+        IF (CN(I) == ONE) THEN
           HH(I)= CB(I)
         ELSE
           IF (PLA(I) /= ZERO) THEN
-            HH(I)= CB(I)*CN(I)/PLA(I)**(UN -CN(I))
+            HH(I)= CB(I)*CN(I)/PLA(I)**(ONE -CN(I))
           ELSE
             HH(I)=ZERO
           ENDIF
@@ -137,18 +137,18 @@ C     TEST DE RUPTURE DUCTILE
 C-------------------------------
       DO I=LFT,LLT
         IF (OFF(I) < EM01) OFF(I)=ZERO
-        IF (OFF(I) < UN) OFF(I)=OFF(I)*QCINQ
+        IF (OFF(I) < ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO 
 c
       DO I=LFT,LLT
-        IF (OFF(I) < UN)      CYCLE
+        IF (OFF(I) < ONE)      CYCLE
         IF (PLA(I) < EPMX(I)) CYCLE
-        OFF(I)=OFF(I)*QCINQ
+        OFF(I)=OFF(I)*FOUR_OVER_5
         IDEL7NOK = 1
       ENDDO
 c
       DO I=LFT,LLT
-        IF (OFF(I) /= QCINQ) CYCLE
+        IF (OFF(I) /= FOUR_OVER_5) CYCLE
 #include "lockon.inc"
         WRITE(IOUT,1000)  NGL(I)
         WRITE(ISTDO,1100) NGL(I),TT
@@ -161,7 +161,7 @@ c
       ENDDO
 c
       DO I=LFT,LLT
-        EINT(I)=EINT(I)+FOR(I)*EPS(I)*AL(I)*DT1*UNDEMI
+        EINT(I)=EINT(I)+FOR(I)*EPS(I)*AL(I)*DT1*HALF
       ENDDO
 C
  1000 FORMAT(1X,'-- RUPTURE OF TRUSS ELEMENT NUMBER ',I10)

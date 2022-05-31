@@ -460,18 +460,18 @@ C
          DF6(M)=HFOR(EP,2)*C1
         ENDDO
         DO M=JFT,JLT 
-         DM5_2(M)=DEUX*DM5(M)
-         DM6_2(M)=DEUX*DM6(M)
-         DF5_2(M)=DEUX*DF5(M)
-         DF6_2(M)=DEUX*DF6(M)
+         DM5_2(M)=TWO*DM5(M)
+         DM6_2(M)=TWO*DM6(M)
+         DF5_2(M)=TWO*DF5(M)
+         DF6_2(M)=TWO*DF6(M)
         ENDDO
         DO EP=JFT,NPLAT 
-         T12(1,2,EP)=UNDEMI*(T12(1,2,EP)+T12(2,1,EP))
-         T13(1,2,EP)=UNDEMI*(T13(1,2,EP)+T13(2,1,EP))
-         T14(1,2,EP)=UNDEMI*(T14(1,2,EP)+T14(2,1,EP))
-         T23(1,2,EP)=UNDEMI*(T23(1,2,EP)+T23(2,1,EP))
-         T24(1,2,EP)=UNDEMI*(T24(1,2,EP)+T24(2,1,EP))
-         T34(1,2,EP)=UNDEMI*(T34(1,2,EP)+T34(2,1,EP))
+         T12(1,2,EP)=HALF*(T12(1,2,EP)+T12(2,1,EP))
+         T13(1,2,EP)=HALF*(T13(1,2,EP)+T13(2,1,EP))
+         T14(1,2,EP)=HALF*(T14(1,2,EP)+T14(2,1,EP))
+         T23(1,2,EP)=HALF*(T23(1,2,EP)+T23(2,1,EP))
+         T24(1,2,EP)=HALF*(T24(1,2,EP)+T24(2,1,EP))
+         T34(1,2,EP)=HALF*(T34(1,2,EP)+T34(2,1,EP))
         ENDDO
        IF (IDRIL >0 ) THEN
         DO EP=JFT,NPLAT 
@@ -1551,7 +1551,7 @@ C
         DO M=JFT,JLT
          EP=IPLAT(M)
          FXY(M)=FOR(EP,3)*VOL(EP)
-         FXY2(M)=DEUX*FXY(M)
+         FXY2(M)=TWO*FXY(M)
         ENDDO
 C---------distinque plat and warped
         DO EP=JFT,NPLAT
@@ -1613,7 +1613,7 @@ C------ renforce positive  ----------
           C1 = MIN(T11(1,2,EP),T22(1,2,EP),T33(1,2,EP),T44(1,2,EP))
           IF (C1 < ZERO) THEN
            C2 =MIN(M11(3,3,EP),M22(3,3,EP),M33(3,3,EP),M44(3,3,EP))
-           C1 = MIN(-C1,CINQ*C2)
+           C1 = MIN(-C1,FIVE*C2)
            M11(3,3,EP)=M11(3,3,EP) + C1
            M22(3,3,EP)=M22(3,3,EP) + C1
            M33(3,3,EP)=M33(3,3,EP) + C1
@@ -1709,7 +1709,7 @@ C
         DO M=JFT,JLT 
          EP=IPLAT(M)
          FXY(M)=FOR(EP,3)*VOL(EP)
-         FXY2(M)=DEUX*FXY(M)
+         FXY2(M)=TWO*FXY(M)
         ENDDO
 C
         DO EP=JFT,JLT 
@@ -1738,7 +1738,7 @@ C------ renforce positive  ----------
           C1 = MIN(T11(1,2,EP),T22(1,2,EP))
           IF (C1 < ZERO) THEN
            C2 =MIN(M11(3,3,EP),M22(3,3,EP),M33(3,3,EP),M44(3,3,EP))
-           C1 = MIN(-C1,DEUX*C2)
+           C1 = MIN(-C1,TWO*C2)
            M11(3,3,EP)=M11(3,3,EP)+C1
            M22(3,3,EP)=M22(3,3,EP)+C1
            M33(3,3,EP)=M33(3,3,EP)+C1
@@ -1819,7 +1819,7 @@ C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
         DM(2,2,M)=HM(EP,2)*C2
         DM(1,2,M)=HM(EP,3)*C2
         DM(3,3,M)=HM(EP,4)*C2
-        DHZ(M)=HZ(EP)*QUART*C2
+        DHZ(M)=HZ(EP)*FOURTH*C2
         DM(1,3,M)=ZERO
         DM(2,3,M)=ZERO
        ENDDO

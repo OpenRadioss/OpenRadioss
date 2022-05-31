@@ -106,7 +106,7 @@ C
         DO I=JFT,JLT
 C z2 mis a zero pour non equilibre des foreces et moments d'hourglass
           Z2(I) = ZERO
-          DT1V4 = QUART*DT1C(I)
+          DT1V4 = FOURTH*DT1C(I)
           IF(IMPL_S.GT.0) DT1V4=ZERO
           TMP2A(I)=PY2(I)+PY1(I)
           TMP3A(I)=SIGN(MAX(ABS(TMP2A(I)),EM20),TMP2A(I))
@@ -134,7 +134,7 @@ C
       ELSEIF(IHBE.EQ.2.OR.IHBE.EQ.3)THEN
 C
         DO I=JFT,JLT
-          DT1V4 = UNDEMI*DT1C(I)
+          DT1V4 = HALF*DT1C(I)
           IF(IMPL_S.GT.0) DT1V4=ZERO
 C
           GZX(I)  = EXZ(I)/AREA(I)
@@ -175,10 +175,10 @@ C
       ELSEIF(IHBE.EQ.4)THEN
 C    old
         DO I=JFT,JLT
-          DT1V4 = UNDEMI*DT1C(I)
+          DT1V4 = HALF*DT1C(I)
           IF(IMPL_S.GT.0) DT1V4=ZERO
 c wraping z1=z3=0 z4=z2 => modif des vitesses pour l'hourglass membrane
-          ZZ2(I)=UNDEMI*Z2(I)
+          ZZ2(I)=HALF*Z2(I)
 C
           GZX(I)     = EXZ(I)/AREA(I)
           EXZZ2(I)   = GZX(I)*ZZ2(I)

@@ -318,7 +318,7 @@ c
                     ! Tag the material law id of the node
                     TAGNOD(INOD,3) = IMAT
                     ! Computation of the volume associated to the node
-                    VOLN_S(J,I+NFT) = QUART * VOL(I)
+                    VOLN_S(J,I+NFT) = FOURTH * VOL(I)
                   ENDDO      
                 ENDDO
               ! Brick element
@@ -344,7 +344,7 @@ c
                       ! Tag the material law id of the node
                       TAGNOD(INOD,3) = IMAT
                       ! Computation of the volume associated to the node
-                      VOLN_S(J,I+NFT) = UNHUIT * VOL(I)
+                      VOLN_S(J,I+NFT) = ONE_OVER_8 * VOL(I)
                     ENDDO      
                   ENDDO
                 ELSE
@@ -399,7 +399,7 @@ c
                   ! Tag the material law ID
                   TAGNOD(INOD,3)  = IMAT
                   ! Computation of the volume associated to the node
-                  VOLN_C(J,I+NFT) = QUART * AREA(NFT+I) * THCK(I)
+                  VOLN_C(J,I+NFT) = FOURTH * AREA(NFT+I) * THCK(I)
                 ENDDO      
               ENDDO  
             ! For 3-nodes shell elements
@@ -531,9 +531,9 @@ C
             ! Material number
             IMAT   = IXS(1,I)
             ! Soundspeed
-            SSP    = SQRT(((TIERS*PM(20,IMAT)/(UN - PM(21,IMAT)*DEUX)) + QTIERS*PM(22,IMAT))/PM(1,IMAT))
+            SSP    = SQRT(((THIRD*PM(20,IMAT)/(ONE - PM(21,IMAT)*TWO)) + FOUR_OVER_3*PM(22,IMAT))/PM(1,IMAT))
             ! Element caracteristic length
-            LE_MIN = (VOLU(I))**TIERS
+            LE_MIN = (VOLU(I))**THIRD
             IF (TAGTET(I)>0) THEN 
               ! Loop over element nodes
               DO K = 1,4
@@ -579,7 +579,7 @@ C
             ! Soundspeed
             SSP    = SQRT(PM(24,IMAT)/PM(1,IMAT))
             ! Element caracteristic length
-            LE_MIN = SQRT((QUATRE/SQRT(TROIS))*AREA(I))            
+            LE_MIN = SQRT((FOUR/SQRT(THREE))*AREA(I))            
           ENDIF
           ! Recovering the non-local internal length
           LEN    = NLOC_DMG%LEN(IMAT)
@@ -592,22 +592,22 @@ C
           ! Computation of the minimal timestep
           DTMIN = MAX(LE_MAX/SSP,DTMINI)
           ! Computation of the non-local density
-          DENS = CSTA*(((LEN/MAX(LE_MAX,EM20))**2 + (UN/DOUZE))*(DTMIN**2))
+          DENS = CSTA*(((LEN/MAX(LE_MAX,EM20))**2 + (ONE/TWELVE))*(DTMIN**2))
           IF (LE_MIN > LE_MAX) THEN 
-            WARN_LENGHT(IMAT,1) = UN
+            WARN_LENGHT(IMAT,1) = ONE
             WARN_LENGHT(IMAT,2) = LE_MAX
             WARN_LENGHT(IMAT,3) = LE_MIN
           ENDIF
           ! Computation of non-local damping
           IF ((DENS < NLOC_DMG%DENS(IMAT)).OR.(NLOC_DMG%DENS(IMAT) == ZERO)) THEN 
             ! Computation of the damping parameter (homogeneous to a time value)
-            DAMP  = DEUX*ZETA*SQRT((QUATRE*(LEN/MAX(LE_MAX,EM20))**2 + TIERS)*DENS)
+            DAMP  = TWO*ZETA*SQRT((FOUR*(LEN/MAX(LE_MAX,EM20))**2 + THIRD)*DENS)
             ! Saving non-local parameters (storing the maximal value)
             NLOC_DMG%DENS(IMAT) = MAX(DENS,ZERO)
             NLOC_DMG%DAMP(IMAT) = MAX(DAMP,ZERO)
           ENDIF
           ! Computation of the initial non-local sound-speed
-          SSPNL = (SQRT(DOUZE*(LEN**2) + (LE_MIN)**2))/(DEUX*SQRT(TROIS*DENS))
+          SSPNL = (SQRT(TWELVE*(LEN**2) + (LE_MIN)**2))/(TWO*SQRT(THREE*DENS))
           IF ((SSPNL < NLOC_DMG%SSPNL(IMAT)).OR.(NLOC_DMG%SSPNL(IMAT) == ZERO)) THEN
             NLOC_DMG%SSPNL(IMAT) = MAX(SSPNL,ZERO)
           ENDIF
@@ -736,7 +736,7 @@ c
             ! Number of integration points in the S direction
             NPTS = ELBUF_TAB(NG)%NPTS
             ! Weight of integration in the plane of the shell
-            WS   = UN/(NPTS*NPTR)
+            WS   = ONE/(NPTS*NPTR)
             ! Number of integration points in the shell thickness
             NPTT = IPARG(6,NG) 
             ! Thickness of the shells

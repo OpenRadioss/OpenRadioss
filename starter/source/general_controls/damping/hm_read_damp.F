@@ -215,7 +215,7 @@ C
 C
 C
         IF (.NOT. FULL_FORMAT) THEN
-          FACTB = UN
+          FACTB = ONE
           DAMPR(5,I)  = ALPHA
           DAMPR(6,I)  = BETA
           DAMPR(7,I)  = ALPHA
@@ -238,7 +238,7 @@ C
           WRITE (IOUT,1100) JGRN,ALPHA,BETA,FACTB,TSTART,TSTOP
         ELSE
           IF (FLINT.EQ.0) THEN
-            FACTB = UN
+            FACTB = ONE
             FLG_PRI = 1
             DAMPR(3,I) = ALPHA
             DAMPR(4,I) = BETA
@@ -258,7 +258,7 @@ C
      .              TSTART,TSTOP
 
           ELSEIF (FLINT.EQ.1) THEN
-            FACTB = UN
+            FACTB = ONE
             DAMPR(3,I)  = ZERO
             DAMPR(4,I)  = ZERO      
             DAMPR(5,I)  = ZERO

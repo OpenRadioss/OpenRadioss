@@ -89,19 +89,19 @@ C-----------------------------------------------
 C
           MC=IXC(4,SON)
           DO J=1,3
-            AC= QUART*A(J,MC)
+            AC= FOURTH*A(J,MC)
             A(J,N1)=A(J,N1)+AC
             A(J,N2)=A(J,N2)+AC
             A(J,N3)=A(J,N3)+AC
             A(J,N4)=A(J,N4)+AC
           END DO
-          AC=QUART*STIFN(MC)
+          AC=FOURTH*STIFN(MC)
           STIFN(N1)=STIFN(N1)+AC
           STIFN(N2)=STIFN(N2)+AC
           STIFN(N3)=STIFN(N3)+AC
           STIFN(N4)=STIFN(N4)+AC
           IF(ISTATCND/=0)THEN
-            AC=QUART*STCONT(MC)
+            AC=FOURTH*STCONT(MC)
             STCONT(N1)=STCONT(N1)+AC
             STCONT(N2)=STCONT(N2)+AC
             STCONT(N3)=STCONT(N3)+AC
@@ -109,20 +109,20 @@ C
           END IF
 
           DO J=1,3
-            AC= QUART*AR(J,MC)
+            AC= FOURTH*AR(J,MC)
             AR(J,N1)=AR(J,N1)+AC
             AR(J,N2)=AR(J,N2)+AC
             AR(J,N3)=AR(J,N3)+AC
             AR(J,N4)=AR(J,N4)+AC
           END DO	    
-          AC=QUART*STIFR(MC)
+          AC=FOURTH*STIFR(MC)
           STIFR(N1)=STIFR(N1)+AC
           STIFR(N2)=STIFR(N2)+AC
           STIFR(N3)=STIFR(N3)+AC
           STIFR(N4)=STIFR(N4)+AC
 
           IF(ITHERM_FE > 0)THEN
-            AC= QUART*FTHE(MC)
+            AC= FOURTH*FTHE(MC)
             FTHE(N1)=FTHE(N1)+AC
             FTHE(N2)=FTHE(N2)+AC
             FTHE(N3)=FTHE(N3)+AC
@@ -130,7 +130,7 @@ C
           END IF
 
           IF(NODADT_THERM > 0)THEN
-            AC= QUART*CONDN(MC)
+            AC= FOURTH*CONDN(MC)
             CONDN(N1)=CONDN(N1)+AC
             CONDN(N2)=CONDN(N2)+AC
             CONDN(N3)=CONDN(N3)+AC
@@ -145,37 +145,37 @@ C
           IF(LKINNOD(M1)==0)THEN
           LKINNOD(M1)=1
           DO J=1,3
-            A1=UNDEMI*A(J,M1)
+            A1=HALF*A(J,M1)
             A(J,N1)=A(J,N1)+A1
             A(J,N2)=A(J,N2)+A1
           END DO
-          A1=UNDEMI*STIFN(M1)
+          A1=HALF*STIFN(M1)
           STIFN(N1)=STIFN(N1)+A1
           STIFN(N2)=STIFN(N2)+A1
 
           IF(ISTATCND/=0)THEN
-            A1=UNDEMI*STCONT(M1)
+            A1=HALF*STCONT(M1)
             STCONT(N1)=STCONT(N1)+A1
             STCONT(N2)=STCONT(N2)+A1
           END IF
 
 	  DO J=1,3
-	    A1=UNDEMI*AR(J,M1)
+	    A1=HALF*AR(J,M1)
 	    AR(J,N1)=AR(J,N1)+A1
 	    AR(J,N2)=AR(J,N2)+A1
 	  END DO
-	  A1=UNDEMI*STIFR(M1)
+	  A1=HALF*STIFR(M1)
 	  STIFR(N1)=STIFR(N1)+A1
 	  STIFR(N2)=STIFR(N2)+A1
 
           IF(ITHERM_FE > 0)THEN
-            A1= UNDEMI*FTHE(M1)
+            A1= HALF*FTHE(M1)
             FTHE(N1)=FTHE(N1)+A1
             FTHE(N2)=FTHE(N2)+A1
           END IF
 
           IF(NODADT_THERM > 0)THEN
-            A1= UNDEMI*CONDN(M1)
+            A1= HALF*CONDN(M1)
             CONDN(N1)=CONDN(N1)+A1
             CONDN(N2)=CONDN(N2)+A1
           END IF
@@ -188,37 +188,37 @@ C
           IF(LKINNOD(M2)==0)THEN
           LKINNOD(M2)=1
           DO J=1,3
-            A2=UNDEMI*A(J,M2)
+            A2=HALF*A(J,M2)
             A(J,N2)=A(J,N2)+A2
             A(J,N3)=A(J,N3)+A2
           END DO
-          A2=UNDEMI*STIFN(M2)
+          A2=HALF*STIFN(M2)
           STIFN(N2)=STIFN(N2)+A2
           STIFN(N3)=STIFN(N3)+A2
 
           IF(ISTATCND/=0)THEN
-            A2=UNDEMI*STCONT(M2)
+            A2=HALF*STCONT(M2)
             STCONT(N2)=STCONT(N2)+A2
             STCONT(N3)=STCONT(N3)+A2
           END IF
 
 	  DO J=1,3
-	    A2=UNDEMI*AR(J,M2)
+	    A2=HALF*AR(J,M2)
             AR(J,N2)=AR(J,N2)+A2
             AR(J,N3)=AR(J,N3)+A2
 	  END DO
-	  A2=UNDEMI*STIFR(M2)
+	  A2=HALF*STIFR(M2)
 	  STIFR(N2)=STIFR(N2)+A2
 	  STIFR(N3)=STIFR(N3)+A2
 
           IF(ITHERM_FE > 0)THEN
-            A2= UNDEMI*FTHE(M2)
+            A2= HALF*FTHE(M2)
             FTHE(N2)=FTHE(N2)+A2
             FTHE(N3)=FTHE(N3)+A2
           END IF
 
           IF(NODADT_THERM > 0)THEN
-            A2= UNDEMI*CONDN(M2)
+            A2= HALF*CONDN(M2)
             CONDN(N2)=CONDN(N2)+A2
             CONDN(N3)=CONDN(N3)+A2
           END IF
@@ -231,37 +231,37 @@ C
           IF(LKINNOD(M3)==0)THEN
           LKINNOD(M3)=1
           DO J=1,3
-            A3=UNDEMI*A(J,M3)
+            A3=HALF*A(J,M3)
             A(J,N3)=A(J,N3)+A3
             A(J,N4)=A(J,N4)+A3
           END DO
-          A3=UNDEMI*STIFN(M3)
+          A3=HALF*STIFN(M3)
           STIFN(N3)=STIFN(N3)+A3
           STIFN(N4)=STIFN(N4)+A3
 
           IF(ISTATCND/=0)THEN
-            A3=UNDEMI*STCONT(M3)
+            A3=HALF*STCONT(M3)
             STCONT(N3)=STCONT(N3)+A3
             STCONT(N4)=STCONT(N4)+A3
           END IF
 
 	  DO J=1,3
-	    A3=UNDEMI*AR(J,M3)
+	    A3=HALF*AR(J,M3)
             AR(J,N3)=AR(J,N3)+A3
             AR(J,N4)=AR(J,N4)+A3
 	  END DO
-   	  A3=UNDEMI*STIFR(M3)
+   	  A3=HALF*STIFR(M3)
           STIFR(N3)=STIFR(N3)+A3
           STIFR(N4)=STIFR(N4)+A3
 
           IF(ITHERM_FE > 0)THEN
-              A3= UNDEMI*FTHE(M3)
+              A3= HALF*FTHE(M3)
               FTHE(N3)=FTHE(N3)+A3
               FTHE(N4)=FTHE(N4)+A3
           END IF
 
           IF(NODADT_THERM  > 0)THEN
-              A3= UNDEMI*CONDN(M3)
+              A3= HALF*CONDN(M3)
               CONDN(N3)=CONDN(N3)+A3
               CONDN(N4)=CONDN(N4)+A3
           END IF
@@ -274,37 +274,37 @@ C
           IF(LKINNOD(M4)==0)THEN
           LKINNOD(M4)=1
           DO J=1,3
-            A4=UNDEMI*A(J,M4)
+            A4=HALF*A(J,M4)
             A(J,N1)=A(J,N1)+A4
             A(J,N4)=A(J,N4)+A4
           END DO
-          A4=UNDEMI*STIFN(M4)
+          A4=HALF*STIFN(M4)
           STIFN(N1)=STIFN(N1)+A4
           STIFN(N4)=STIFN(N4)+A4
 
           IF(ISTATCND/=0)THEN
-            A4=UNDEMI*STCONT(M4)
+            A4=HALF*STCONT(M4)
             STCONT(N1)=STCONT(N1)+A4
             STCONT(N4)=STCONT(N4)+A4
           END IF
 
 	  DO J=1,3
-	    A4=UNDEMI*AR(J,M4)
+	    A4=HALF*AR(J,M4)
             AR(J,N1)=AR(J,N1)+A4
             AR(J,N4)=AR(J,N4)+A4
 	  END DO
- 	  A4=UNDEMI*STIFR(M4)
+ 	  A4=HALF*STIFR(M4)
           STIFR(N1)=STIFR(N1)+A4
           STIFR(N4)=STIFR(N4)+A4
 
           IF(ITHERM_FE > 0)THEN
-            A4= UNDEMI*FTHE(M4)
+            A4= HALF*FTHE(M4)
             FTHE(N1)=FTHE(N1)+A4
             FTHE(N4)=FTHE(N4)+A4
           END IF
 
           IF(NODADT_THERM > 0)THEN
-            A4= UNDEMI*CONDN(M4)
+            A4= HALF*CONDN(M4)
             CONDN(N1)=CONDN(N1)+A4
             CONDN(N4)=CONDN(N4)+A4
           END IF
@@ -329,37 +329,37 @@ C
           IF(LKINNOD(M1)==0)THEN
           LKINNOD(M1)=1
           DO J=1,3
-            A1=UNDEMI*A(J,M1)
+            A1=HALF*A(J,M1)
             A(J,N1)=A(J,N1)+A1
             A(J,N2)=A(J,N2)+A1
           END DO
-          A1=UNDEMI*STIFN(M1)
+          A1=HALF*STIFN(M1)
           STIFN(N1)=STIFN(N1)+A1
           STIFN(N2)=STIFN(N2)+A1
 
           IF(ISTATCND/=0)THEN
-            A1=UNDEMI*STCONT(M1)
+            A1=HALF*STCONT(M1)
             STCONT(N1)=STCONT(N1)+A1
             STCONT(N2)=STCONT(N2)+A1
           END IF
 
 	  DO J=1,3
-	    A1=UNDEMI*AR(J,M1)
+	    A1=HALF*AR(J,M1)
 	    AR(J,N1)=AR(J,N1)+A1
 	    AR(J,N2)=AR(J,N2)+A1
 	  END DO
-	  A1=UNDEMI*STIFR(M1)
+	  A1=HALF*STIFR(M1)
 	  STIFR(N1)=STIFR(N1)+A1
 	  STIFR(N2)=STIFR(N2)+A1
 
           IF(ITHERM_FE > 0)THEN
-            A1= UNDEMI*FTHE(M1)
+            A1= HALF*FTHE(M1)
             FTHE(N1)=FTHE(N1)+A1
             FTHE(N2)=FTHE(N2)+A1
           END IF
 
           IF(NODADT_THERM > 0)THEN
-            A1= UNDEMI*CONDN(M1)
+            A1= HALF*CONDN(M1)
             CONDN(N1)=CONDN(N1)+A1
             CONDN(N2)=CONDN(N2)+A1
           END IF
@@ -372,37 +372,37 @@ C
           IF(LKINNOD(M2)==0)THEN
           LKINNOD(M2)=1
           DO J=1,3
-            A2=UNDEMI*A(J,M2)
+            A2=HALF*A(J,M2)
             A(J,N2)=A(J,N2)+A2
             A(J,N3)=A(J,N3)+A2
           END DO
-          A2=UNDEMI*STIFN(M2)
+          A2=HALF*STIFN(M2)
           STIFN(N2)=STIFN(N2)+A2
           STIFN(N3)=STIFN(N3)+A2
 
           IF(ISTATCND/=0)THEN
-            A2=UNDEMI*STCONT(M2)
+            A2=HALF*STCONT(M2)
             STCONT(N2)=STCONT(N2)+A2
             STCONT(N3)=STCONT(N3)+A2
           END IF
 
 	  DO J=1,3
-	    A2=UNDEMI*AR(J,M2)
+	    A2=HALF*AR(J,M2)
             AR(J,N2)=AR(J,N2)+A2
             AR(J,N3)=AR(J,N3)+A2
 	  END DO
-	  A2=UNDEMI*STIFR(M2)
+	  A2=HALF*STIFR(M2)
 	  STIFR(N2)=STIFR(N2)+A2
 	  STIFR(N3)=STIFR(N3)+A2
 
           IF(ITHERM_FE > 0)THEN
-            A2= UNDEMI*FTHE(M2)
+            A2= HALF*FTHE(M2)
             FTHE(N2)=FTHE(N2)+A2
             FTHE(N3)=FTHE(N3)+A2
           END IF
 
           IF(NODADT_THERM > 0)THEN
-            A2= UNDEMI*CONDN(M2)
+            A2= HALF*CONDN(M2)
             CONDN(N2)=CONDN(N2)+A2
             CONDN(N3)=CONDN(N3)+A2
           END IF
@@ -415,37 +415,37 @@ C
           IF(LKINNOD(M3)==0)THEN
           LKINNOD(M3)=1
           DO J=1,3
-            A3=UNDEMI*A(J,M3)
+            A3=HALF*A(J,M3)
             A(J,N3)=A(J,N3)+A3
             A(J,N1)=A(J,N1)+A3
           END DO
-          A3=UNDEMI*STIFN(M3)
+          A3=HALF*STIFN(M3)
           STIFN(N3)=STIFN(N3)+A3
           STIFN(N1)=STIFN(N1)+A3
 
           IF(ISTATCND/=0)THEN
-            A3=UNDEMI*STCONT(M3)
+            A3=HALF*STCONT(M3)
             STCONT(N3)=STCONT(N3)+A3
             STCONT(N1)=STCONT(N1)+A3
           END IF
 
 	  DO J=1,3
-	    A3=UNDEMI*AR(J,M3)
+	    A3=HALF*AR(J,M3)
             AR(J,N3)=AR(J,N3)+A3
             AR(J,N1)=AR(J,N1)+A3
 	  END DO
-   	  A3=UNDEMI*STIFR(M3)
+   	  A3=HALF*STIFR(M3)
           STIFR(N3)=STIFR(N3)+A3
           STIFR(N1)=STIFR(N1)+A3
 
           IF(ITHERM_FE > 0)THEN
-            A3= UNDEMI*FTHE(M3)
+            A3= HALF*FTHE(M3)
             FTHE(N3)=FTHE(N3)+A3
             FTHE(N1)=FTHE(N1)+A3
           END IF
 
           IF(NODADT_THERM > 0)THEN
-            A3= UNDEMI*CONDN(M3)
+            A3= HALF*CONDN(M3)
             CONDN(N3)=CONDN(N3)+A3
             CONDN(N1)=CONDN(N1)+A3
           END IF
@@ -475,14 +475,14 @@ C
         N4=IXC(5,N)
 C
 C-------
-        RNOD(N1)=-UN
-        SNOD(N1)=-UN
-        RNOD(N2)= UN
-        SNOD(N2)=-UN
-        RNOD(N3)= UN
-        SNOD(N3)= UN
-        RNOD(N4)=-UN
-        SNOD(N4)= UN
+        RNOD(N1)=-ONE
+        SNOD(N1)=-ONE
+        RNOD(N2)= ONE
+        SNOD(N2)=-ONE
+        RNOD(N3)= ONE
+        SNOD(N3)= ONE
+        RNOD(N4)=-ONE
+        SNOD(N4)= ONE
 C
 C-------
         LELT   =1
@@ -527,8 +527,8 @@ C             nodes w/kinematic condition are not condensed
               LLNOD=LLNOD+1
               LNOD(LLNOD)=NI
             END IF
-            RNOD(NI)=UNDEMI*(RNOD(M1)+RNOD(M2))
-            SNOD(NI)=UNDEMI*(SNOD(M1)+SNOD(M2))
+            RNOD(NI)=HALF*(RNOD(M1)+RNOD(M2))
+            SNOD(NI)=HALF*(SNOD(M1)+SNOD(M2))
 
             NI=IXC(4,SON+1)
             IF(LKINNOD(NI)==0.AND.TAGNOD(NI)==0)THEN
@@ -536,8 +536,8 @@ C             nodes w/kinematic condition are not condensed
               LLNOD=LLNOD+1
               LNOD(LLNOD)=NI
             END IF
-            RNOD(NI)=UNDEMI*(RNOD(M2)+RNOD(M3))
-            SNOD(NI)=UNDEMI*(SNOD(M2)+SNOD(M3))
+            RNOD(NI)=HALF*(RNOD(M2)+RNOD(M3))
+            SNOD(NI)=HALF*(SNOD(M2)+SNOD(M3))
 
             NI=IXC(5,SON+2)
             IF(LKINNOD(NI)==0.AND.TAGNOD(NI)==0)THEN
@@ -545,8 +545,8 @@ C             nodes w/kinematic condition are not condensed
               LLNOD=LLNOD+1
               LNOD(LLNOD)=NI
             END IF
-            RNOD(NI)=UNDEMI*(RNOD(M3)+RNOD(M4))
-            SNOD(NI)=UNDEMI*(SNOD(M3)+SNOD(M4))
+            RNOD(NI)=HALF*(RNOD(M3)+RNOD(M4))
+            SNOD(NI)=HALF*(SNOD(M3)+SNOD(M4))
 
             NI=IXC(2,SON+3)
             IF(LKINNOD(NI)==0.AND.TAGNOD(NI)==0)THEN
@@ -554,8 +554,8 @@ C             nodes w/kinematic condition are not condensed
               LLNOD=LLNOD+1
               LNOD(LLNOD)=NI
             END IF
-            RNOD(NI)=UNDEMI*(RNOD(M4)+RNOD(M1))
-            SNOD(NI)=UNDEMI*(SNOD(M4)+SNOD(M1))
+            RNOD(NI)=HALF*(RNOD(M4)+RNOD(M1))
+            SNOD(NI)=HALF*(SNOD(M4)+SNOD(M1))
 
             NI=IXC(4,SON)
             IF(LKINNOD(NI)==0)THEN
@@ -563,8 +563,8 @@ C             nodes w/kinematic condition are not condensed
               LLNOD=LLNOD+1
               LNOD(LLNOD)=NI
             END IF
-            RNOD(NI)=QUART*(RNOD(M1)+RNOD(M2)+RNOD(M3)+RNOD(M4))
-            SNOD(NI)=QUART*(SNOD(M1)+SNOD(M2)+SNOD(M3)+SNOD(M4))
+            RNOD(NI)=FOURTH*(RNOD(M1)+RNOD(M2)+RNOD(M3)+RNOD(M4))
+            SNOD(NI)=FOURTH*(SNOD(M1)+SNOD(M2)+SNOD(M3)+SNOD(M4))
 
           END DO
 
@@ -579,7 +579,7 @@ C-------
           NI=LNOD(I)
           R =RNOD(NI)
           S =SNOD(NI)
-          PHI =QUART*(UN-R)*(UN-S)
+          PHI =FOURTH*(ONE-R)*(ONE-S)
           DO J=1,3
             AC= PHI*A(J,NI)
             A(J,N1)=A(J,N1)+AC
@@ -589,7 +589,7 @@ C-------
             AC= PHI*AR(J,NI)
             AR(J,N1)=AR(J,N1)+AC
           END DO
-          PHI=QUART*(UN+R)*(UN-S)
+          PHI=FOURTH*(ONE+R)*(ONE-S)
           DO J=1,3
             AC= PHI*A(J,NI)
             A(J,N2)=A(J,N2)+AC
@@ -599,7 +599,7 @@ C-------
             AC= PHI*AR(J,NI)
             AR(J,N2)=AR(J,N2)+AC
           END DO
-          PHI=QUART*(UN+R)*(UN+S)
+          PHI=FOURTH*(ONE+R)*(ONE+S)
           DO J=1,3
             AC= PHI*A(J,NI)
             A(J,N3)=A(J,N3)+AC
@@ -609,7 +609,7 @@ C-------
             AC= PHI*AR(J,NI)
             AR(J,N3)=AR(J,N3)+AC
           END DO
-          PHI=QUART*(UN-R)*(UN+S)
+          PHI=FOURTH*(ONE-R)*(ONE+S)
           DO J=1,3
             AC= PHI*A(J,NI)
             A(J,N4)=A(J,N4)+AC
@@ -637,10 +637,10 @@ C
 C-------
         RNOD(N1)= ZERO
         SNOD(N1)= ZERO
-        RNOD(N2)= UN
+        RNOD(N2)= ONE
         SNOD(N2)= ZERO
         RNOD(N3)= ZERO
-        SNOD(N3)= UN
+        SNOD(N3)= ONE
 C
 C-------
         LELT   =1
@@ -682,8 +682,8 @@ C-------
               LLNOD=LLNOD+1
               LNOD(LLNOD)=NI
             END IF
-            RNOD(NI)=UNDEMI*(RNOD(M1)+RNOD(M2))
-            SNOD(NI)=UNDEMI*(SNOD(M1)+SNOD(M2))
+            RNOD(NI)=HALF*(RNOD(M1)+RNOD(M2))
+            SNOD(NI)=HALF*(SNOD(M1)+SNOD(M2))
 
             NI=IXTG(2,SON+3)
             IF(LKINNOD(NI)==0.AND.TAGNOD(NI)==0)THEN
@@ -691,8 +691,8 @@ C-------
               LLNOD=LLNOD+1
               LNOD(LLNOD)=NI
             END IF
-            RNOD(NI)=UNDEMI*(RNOD(M2)+RNOD(M3))
-            SNOD(NI)=UNDEMI*(SNOD(M2)+SNOD(M3))
+            RNOD(NI)=HALF*(RNOD(M2)+RNOD(M3))
+            SNOD(NI)=HALF*(SNOD(M2)+SNOD(M3))
 
             NI=IXTG(3,SON+3)
             IF(LKINNOD(NI)==0.AND.TAGNOD(NI)==0)THEN
@@ -700,8 +700,8 @@ C-------
               LLNOD=LLNOD+1
               LNOD(LLNOD)=NI
             END IF
-            RNOD(NI)=UNDEMI*(RNOD(M3)+RNOD(M1))
-            SNOD(NI)=UNDEMI*(SNOD(M3)+SNOD(M1))
+            RNOD(NI)=HALF*(RNOD(M3)+RNOD(M1))
+            SNOD(NI)=HALF*(SNOD(M3)+SNOD(M1))
 
           END DO
 
@@ -716,7 +716,7 @@ C-------
           NI=LNOD(I)
           R =RNOD(NI)
           S =SNOD(NI)
-          PHI =UN-R-S
+          PHI =ONE-R-S
           DO J=1,3
             AC= PHI*A(J,NI)
             A(J,N1)=A(J,N1)+AC

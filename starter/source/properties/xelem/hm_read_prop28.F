@@ -167,8 +167,8 @@ C
 C
       IF (DMN == ZERO) DMN=-EP30
       IF (DMX == ZERO) DMX= EP30
-      IF (Y_SCAL == ZERO) Y_SCAL = UN * FAC_M * FAC_L / ( FAC_T * FAC_T )
-      IF (X_SCAL == ZERO) X_SCAL = UN / FAC_T 
+      IF (Y_SCAL == ZERO) Y_SCAL = ONE * FAC_M * FAC_L / ( FAC_T * FAC_T )
+      IF (X_SCAL == ZERO) X_SCAL = ONE / FAC_T 
 C      
         IERROR = SET_U_GEO(10,MU1)
         IF (IERROR.GT.0) THEN
@@ -279,7 +279,7 @@ C
      .                 C1=TITR,
      .                 C2='SET_U_GEO(12,Y_SCAL)')
         ENDIF
-        IERROR = SET_U_GEO(13,UN/X_SCAL)
+        IERROR = SET_U_GEO(13,ONE/X_SCAL)
         IF (IERROR > 0) THEN
            CALL ANCMSG(MSGID=378,
      .                 MSGTYPE=MSGERROR,

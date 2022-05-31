@@ -137,10 +137,10 @@ c
       ! Recovering internal variables
       DO I=1,NEL
         ! Checking deletion flag value
-        IF (OFF(I) < UN)   OFF(I) = QCINQ*OFF(I)
+        IF (OFF(I) < ONE)   OFF(I) = FOUR_OVER_5*OFF(I)
         IF (OFF(I) < EM01) OFF(I) = ZERO
         ! Hourglass coefficient
-        ETSE(I) = UN
+        ETSE(I) = ONE
         H(I)    = ZERO
         ! Plastic strain increment
         DPLA(I) = ZERO
@@ -157,10 +157,10 @@ c
       ! Computing yield stress and checking damage criteria
       DO I = 1,NEL
         ! Computation of the BETA factor
-        BETA(I) = UN
-        IF (OFF(I) == UN) THEN
-          IF ((DAM(I) <= DC) .AND. (DAM(I) >= UN)) THEN
-            BETA(I) = UN/(MAX(DC - UN,EM20))
+        BETA(I) = ONE
+        IF (OFF(I) == ONE) THEN
+          IF ((DAM(I) <= DC) .AND. (DAM(I) >= ONE)) THEN
+            BETA(I) = ONE/(MAX(DC - ONE,EM20))
             BETA(I) = (DC - DAM(I))*BETA(I)
             BETA(I) = BETA(I)**MEXP
           ENDIF
@@ -187,8 +187,8 @@ c
 C
         ! Hill yield stress
         SIGHL(I) = FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2 +
-     .             HH*(SIGNXX(I) - SIGNYY(I))**2 + DEUX*LL*SIGNYZ(I)**2 +
-     .             DEUX*MM*SIGNZX(I)**2 + DEUX*NN*SIGNXY(I)**2
+     .             HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2 +
+     .             TWO*MM*SIGNZX(I)**2 + TWO*NN*SIGNXY(I)**2
         SIGHL(I) = SQRT(MAX(ZERO,SIGHL(I)))
 C        
       ENDDO  
@@ -201,7 +201,7 @@ c
       NINDX = 0
       INDX  = 0
       DO I=1,NEL         
-        IF ((PHI(I)>ZERO).AND.(OFF(I) == UN)) THEN
+        IF ((PHI(I)>ZERO).AND.(OFF(I) == ONE)) THEN
           NINDX = NINDX+1
           INDX(NINDX) = I
         ENDIF
@@ -237,9 +237,9 @@ c
           NORMXX = (GG*(SIGNXX(I)-SIGNZZ(I)) + HH*(SIGNXX(I)-SIGNYY(I)))/(MAX(SIGHL(I),EM20))
           NORMYY = (FF*(SIGNYY(I)-SIGNZZ(I)) + HH*(SIGNYY(I)-SIGNXX(I)))/(MAX(SIGHL(I),EM20))
           NORMZZ = (FF*(SIGNZZ(I)-SIGNYY(I)) + GG*(SIGNZZ(I)-SIGNXX(I)))/(MAX(SIGHL(I),EM20))
-          NORMXY = DEUX*NN*SIGNXY(I)/(MAX(SIGHL(I),EM20))
-          NORMYZ = DEUX*LL*SIGNYZ(I)/(MAX(SIGHL(I),EM20))
-          NORMZX = DEUX*MM*SIGNZX(I)/(MAX(SIGHL(I),EM20))
+          NORMXY = TWO*NN*SIGNXY(I)/(MAX(SIGHL(I),EM20))
+          NORMYZ = TWO*LL*SIGNYZ(I)/(MAX(SIGHL(I),EM20))
+          NORMZX = TWO*MM*SIGNZX(I)/(MAX(SIGHL(I),EM20))
 c          
           ! 2 - Computation of DPHI_DLAMBDA
           !---------------------------------------------------------
@@ -308,8 +308,8 @@ c
 c
           ! Update Hill equivalent stress
           SIGHL(I) = FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2 +
-     .               HH*(SIGNXX(I) - SIGNYY(I))**2 + DEUX*LL*SIGNYZ(I)**2 +
-     .               DEUX*MM*SIGNZX(I)**2 + DEUX*NN*SIGNXY(I)**2
+     .               HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2 +
+     .               TWO*MM*SIGNZX(I)**2 + TWO*NN*SIGNXY(I)**2
           SIGHL(I) = SQRT(MAX(SIGHL(I),ZERO))
 c
           ! Update yield function value
@@ -328,37 +328,37 @@ C
       INDX  = 0
       DO I=1,NEL
         ! Modified Mohr Criteria Failure Model
-        IF ((OFF(I) == UN).AND.(DPLA(I) > ZERO)) THEN
+        IF ((OFF(I) == ONE).AND.(DPLA(I) > ZERO)) THEN
           ! Pressure
           P    = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
           ! Von Mises equivalent stress
           SD11 = SIGNXX(I) - P
           SD22 = SIGNYY(I) - P
           SD33 = SIGNZZ(I) - P
-          SVM  = UNDEMI*(SD11**2 + SD22**2 + SD33**2) + 
+          SVM  = HALF*(SD11**2 + SD22**2 + SD33**2) + 
      +                   SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
-          SVM  = SQRT(MAX(TROIS*SVM,ZERO))
+          SVM  = SQRT(MAX(THREE*SVM,ZERO))
           ! Determinant of the deviatoric stress tensor
-          DET  = SD11*SD22*SD33 + DEUX*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
+          DET  = SD11*SD22*SD33 + TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
      .         - SD11*SIGNYZ(I)**2-SD33*SIGNXY(I)**2 - SD22*SIGNZX(I)**2
           ! Computation of triaxiality
           ETA = P/MAX(SVM,EM20)
-          IF (ETA < -UN) ETA = -UN
-          IF (ETA > UN ) ETA = UN
+          IF (ETA < -ONE) ETA = -ONE
+          IF (ETA > ONE ) ETA = ONE
           ! Computation of Lode angle and Lode parameter
-          COS3THETA = UNDEMI*VINGT7*DET/MAX(EM20,SVM**3)
-          IF (COS3THETA < -UN) COS3THETA = -UN
-          IF (COS3THETA > UN)  COS3THETA = UN
-          THETA = UN - DEUX*ACOS(COS3THETA)/PI
+          COS3THETA = HALF*TWENTY7*DET/MAX(EM20,SVM**3)
+          IF (COS3THETA < -ONE) COS3THETA = -ONE
+          IF (COS3THETA > ONE)  COS3THETA = ONE
+          THETA = ONE - TWO*ACOS(COS3THETA)/PI
 C 
           ! Computation of failure coefficient
           F1 = COS(THETA*PI/SIX)
           F2 = SIN(THETA*PI/SIX) 
-          F3 = C3 + (SQRT(TROIS)/(DEUX - SQRT(TROIS)))*(UN - C3)*(UN/MAX(F1,EM20) - UN)
+          F3 = C3 + (SQRT(THREE)/(TWO - SQRT(THREE)))*(ONE - C3)*(ONE/MAX(F1,EM20) - ONE)
 C
           ! Computation of the failure plastic strain
-          EPSF = (SIGY/MAX(C2,EM20))*F3*(F1*SQRT(THIRD*(UN + C1**2)) + C1*(ETA + F2*THIRD))
-          EPSF = MAX(EPSF,EM20)**(-UN/NEXPO)
+          EPSF = (SIGY/MAX(C2,EM20))*F3*(F1*SQRT(THIRD*(ONE + C1**2)) + C1*(ETA + F2*THIRD))
+          EPSF = MAX(EPSF,EM20)**(-ONE/NEXPO)
 C           
           ! Computation of the damage variable
           IF (INLOC > 0) THEN 
@@ -368,7 +368,7 @@ C
           ENDIF
           IF (DAM(I) >= DC) THEN
             DAM(I) = DC
-            OFF(I) = QCINQ
+            OFF(I) = FOUR_OVER_5
             IDEL7NOK = 1
             NINDX = NINDX+1
             INDX(NINDX)=I
@@ -382,7 +382,7 @@ C
         ! Normalized damage
         DMG(I)     = DAM(I)/DC
         ! Sound-speed
-        SOUNDSP(I) = SQRT((BULK + QTIERS*G)/RHO0(I)) 
+        SOUNDSP(I) = SQRT((BULK + FOUR_OVER_3*G)/RHO0(I)) 
         ! Coefficient for hourglass
         ETSE(I)    = H(I) / (H(I) + E)
       ENDDO 

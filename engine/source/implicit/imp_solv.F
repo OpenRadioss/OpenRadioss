@@ -1498,7 +1498,7 @@ C           TMP2 = TSTOP-TT+TMP1-DT2
 C           BFAC =TMP1/MAX(DT2,TMP2)
 C------strickly proportional
            BFAC= (TT-R_IMP(19))/(TSTOP-R_IMP(19))
-           R_IMP(10)=BFAC-UN
+           R_IMP(10)=BFAC-ONE
            IF (R_IMP(10)<ZERO)CALL VAXPY_HP(NDDL ,LB  ,LB0  ,R_IMP(10))
           ENDIF
 C
@@ -1536,7 +1536,7 @@ C
            TMP1 = DT2*NCYCLE
            TMP2 = TSTOP-TT+TMP1-DT2
            BFAC =TMP1/MAX(DT2,TMP2)
-           R_IMP(10)=BFAC-UN
+           R_IMP(10)=BFAC-ONE
            R_IMP(2)=R2*BFAC*BFAC
            IF (NCYCLE.EQ.1) THEN
             R_IMP(12)=EM01
@@ -1544,13 +1544,13 @@ C
             IF (ICONTA.GT.0) R_IMP(12)=ZEP9
            ELSE
             TMP = DT12/MAX(DT12,TSTOP-TT)+N_TOL/SQRT(R2/R_IMP(1))
-            TMP = MIN(UNDEMI*TMP,UN)
-            R_IMP(12)=R_IMP(12)*(UN-TMP)+TMP
+            TMP = MIN(HALF*TMP,ONE)
+            R_IMP(12)=R_IMP(12)*(ONE-TMP)+TMP
            ENDIF
           ELSE
            R_IMP(2)=R2
           ENDIF
-          R_IMP(3)=UN
+          R_IMP(3)=ONE
           R_IMP(4)=R_IMP(6)
 C
 citask0          END IF !(ITASK == 0) THEN
@@ -1558,7 +1558,7 @@ C----------------------
 c      CALL MY_BARRIER
 C---------------------
           IF (ISPRB.EQ.1) THEN
-           TMP = R_IMP(10)+UN
+           TMP = R_IMP(10)+ONE
            CALL VSCALY_HP(NDDL ,LB  ,LB0  ,TMP )
           END IF
          ELSEIF (IMCONV.EQ.-1) THEN
@@ -1585,7 +1585,7 @@ C---------------------
 citask0        IF (ITASK == 0) THEN
 C-----------------------------
          IF (ISPRB.EQ.1) THEN
-          FACI=MIN(UN,R_IMP(12))
+          FACI=MIN(ONE,R_IMP(12))
           R02=FACI*FACI*R_IMP(1)
          ELSE
           R02=R_IMP(1)
@@ -1745,7 +1745,7 @@ c
      3       INTLIST,ITASK  ,NEWFRONT,ISENDTO ,IRECVFROM,
      4       IDDL  ,NDOF   ,IKC     ,TMP     ,MS      ,
      5       SENSOR,MAXDGAP)
-          IF(NFXV_G.NE.0.AND.TMP.LT.UN)
+          IF(NFXV_G.NE.0.AND.TMP.LT.ONE)
      .    CALL FV_IMP(IBFV  ,NPC    ,TF     ,VEL   ,SENSOR,
      1               LSENSOR,D_IMP  ,DR_IMP ,IKC   ,IDDL  ,
      2                SKEW  ,IFRAME ,XFRAME ,V     ,VR    ,
@@ -1852,9 +1852,9 @@ C
           IF (IT.EQ.1.AND.ICONTA.GT.I_IMP(6)) THEN
            R02 =R_IMP(17)
                IF (IREFI.EQ.1) THEN
-            R02 = MIN(R02,DIX*R_IMP(1))
+            R02 = MIN(R02,TEN*R_IMP(1))
                ELSEIF (IREFI.EQ.2) THEN
-            R02 = MIN(R02,UNP2*R_IMP(1))
+            R02 = MIN(R02,ONEP2*R_IMP(1))
                ELSEIF (IREFI.EQ.3.OR.IREFI.EQ.4.OR.IREFI.EQ.5) THEN
              R02 = MIN(R02,R_IMP(1))
                ELSEIF (IREFI.EQ.-4) THEN
@@ -3554,7 +3554,7 @@ C------ 1er VP: for dt check
          IF (IMPDEB>0.AND.NDDL<1000) THEN
           CALL PVP_K(NDDL,IADK,JDIK,IDDL ,INLOC,
      .               NDOF,ITAB,DIAG_K,LT_K ,LAMDA, J , MS  )
-          tmp = deux*sqrt(UN/LAMDA)
+          tmp = deux*sqrt(ONE/LAMDA)
           write(iout,*) 'critical DT =',tmp
          END IF
           IF (IDYNA.GT.0.OR.IQSTAT.GT.0)
@@ -5153,11 +5153,11 @@ C--------take into account to parallel capacities of PCG---
         NNZK_G = NNZK
        END IF
        NP=NSPMD/2
-       PFAC= DTHIRD*NTHREAD*MAX(1,NP)
-       PFAC=MAX(UN,PFAC)
-       S1=NDDL_G*CINQ*EM03
-       S2=NNZK_G*DEUXP8*EM04
-       CRITL=UNDEMI*(S1+S2)
+       PFAC= TWO_THIRD*NTHREAD*MAX(1,NP)
+       PFAC=MAX(ONE,PFAC)
+       S1=NDDL_G*FIVE*EM03
+       S2=NNZK_G*TWOP8*EM04
+       CRITL=HALF*(S1+S2)
        L_LIM=CRITL*PFAC
 C------------------------------------------
       RETURN
@@ -5653,7 +5653,7 @@ C
           END IF
          END IF
         ELSE
-         BDT = UNDEMI*DT0_IMP*DT0_IMP*(UN-DEUX*DY_B)
+         BDT = HALF*DT0_IMP*DT0_IMP*(ONE-TWO*DY_B)
          BDT = ZERO
          DO I = NODFT ,NODLT
           DD(1,I) = BFAC*DN(1,I)+BDT*DY_A(1,I)
@@ -6411,7 +6411,7 @@ c         Converged step
      .        ZERO,ZERO,TT,R_IMP(9),TT,R_IMP(24)
          WRITE(ISOLHIST,1668)CUMUL_IT+1,NCYCLE,IT,R_IMP(20),
      .        R_IMP(21),R_IMP(22),TOLE,TOLF,TOLU,
-     .        UN,ZERO,TT,R_IMP(9),TT,R_IMP(24)
+     .        ONE,ZERO,TT,R_IMP(9),TT,R_IMP(24)
          WRITE(ISOLHIST,1668)CUMUL_IT+1,NCYCLE,IT,R_IMP(20),
      .        R_IMP(21),R_IMP(22),TOLE,TOLF,TOLU,
      .        ZERO,ZERO,TT,R_IMP(9),TT,R_IMP(24)  
@@ -6421,7 +6421,7 @@ c         Converged step
      .        ZERO,ZERO,TT,R_IMP(9)
          WRITE(ISOLHIST,1666)CUMUL_IT+1,NCYCLE,IT,R_IMP(20),
      .        R_IMP(21),R_IMP(22),TOLE,TOLF,TOLU,
-     .        UN,ZERO,TT,R_IMP(9)
+     .        ONE,ZERO,TT,R_IMP(9)
          WRITE(ISOLHIST,1666)CUMUL_IT+1,NCYCLE,IT,R_IMP(20),
      .        R_IMP(21),R_IMP(22),TOLE,TOLF,TOLU,
      .        ZERO,ZERO,TT,R_IMP(9)   
@@ -6430,7 +6430,7 @@ c         Write .progress file
           REWIND(ISOLPGRS)
           WRITE(ISOLPGRS,'(I4)') CUMUL_IT          
           WRITE(ISOLPGRS,'(E11.4)') TT
-          WRITE(ISOLPGRS,'(I4)') nint(TT/TSTOP*CENT)
+          WRITE(ISOLPGRS,'(I4)') nint(TT/TSTOP*HUNDRED)
           WRITE(ISOLPGRS,'(I4)') 0
           WRITE(ISOLPGRS,'(I4)') 0
           CALL FLUSH(ISOLPGRS)       
@@ -6441,7 +6441,7 @@ c         Diverged step
      .        ZERO,ZERO,TT,R_IMP(9)
          WRITE(ISOLHIST,1666)CUMUL_IT+1,NCYCLE,IT,R_IMP(20),
      .        R_IMP(21),R_IMP(22),TOLE,TOLF,TOLU,
-     .        ZERO,UN,TT,R_IMP(9)
+     .        ZERO,ONE,TT,R_IMP(9)
          WRITE(ISOLHIST,1666)CUMUL_IT+1,NCYCLE,IT,R_IMP(20),
      .        R_IMP(21),R_IMP(22),TOLE,TOLF,TOLU,
      .        ZERO,ZERO,TT,R_IMP(9)         
@@ -7174,7 +7174,7 @@ C
           END IF
          END IF
             ELSE
-         BDT = UNDEMI*DT0_IMP*DT0_IMP*(UN-DEUX*DY_B)
+         BDT = HALF*DT0_IMP*DT0_IMP*(ONE-TWO*DY_B)
              BDT = ZERO
          DO I = NODFT ,NODLT
               DD(1,I) = BFAC*DN(1,I)+BDT*DY_A(1,I)
@@ -8012,9 +8012,9 @@ C---- E_id : nearest the gravity center----
           YM=YM+X(2,N)
           ZM=ZM+X(3,N)
          END DO
-         XM = QUART*XM- XC
-         YM = QUART*YM- YC
-         ZM = QUART*ZM- ZC
+         XM = FOURTH*XM- XC
+         YM = FOURTH*YM- YC
+         ZM = FOURTH*ZM- ZC
           XMINL=ABS(XM)
           YMINL=ABS(YM)
           ZMINL=ABS(ZM)
@@ -8122,9 +8122,9 @@ C---- E_id : nearest the gravity center----
           YM=YM+X(2,N)
           ZM=ZM+X(3,N)
          END DO
-         XM = TIERS*XM - XC
-         YM = TIERS*YM - YC
-         ZM = TIERS*ZM - ZC
+         XM = THIRD*XM - XC
+         YM = THIRD*YM - YC
+         ZM = THIRD*ZM - ZC
           XMINL=ABS(XM)
           YMINL=ABS(YM)
           ZMINL=ABS(ZM)
@@ -8571,7 +8571,7 @@ C        NJ=IRECT(J)
         YM(4)=ZERO
         ZM(4)=ZERO
        ENDIF
-       FACM = UN / NIR
+       FACM = ONE / NIR
 C----------------------------------------------------
 C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
 C----------------------------------------------------
@@ -8604,8 +8604,8 @@ C-------
         XY2=XY*XY
         YZ2=YZ*YZ
         ZX2=ZX*ZX
-        DET= XXX*YYY*ZZZ -XXX*YZ2 -YYY*ZX2 -ZZZ*XY2 -DEUX*XY*YZ*ZX
-        DET=UN/DET
+        DET= XXX*YYY*ZZZ -XXX*YZ2 -YYY*ZX2 -ZZZ*XY2 -TWO*XY*YZ*ZX
+        DET=ONE/DET
         B1=(ZZZ*YYY-YZ2)*DET
         B2=(XXX*ZZZ-ZX2)*DET
         B3=(YYY*XXX-XY2)*DET
@@ -8956,14 +8956,14 @@ C-----taking into account to M-1
          IK = IDDL(I)+J
          MSD(IK)=MS(I)
 C----free node         
-         IF (MSD(IK)<EM20) MSD(IK)=UN
+         IF (MSD(IK)<EM20) MSD(IK)=ONE
         ENDDO
        ENDDO
         DO K=1,ND
          KE(K,K) = K_DIAG(K)/MSD(K)
          DO J = IADK(K),IADK(K+1)-1
           JD = JDIK(J)
-          MSIJ=UN/SQRT(MSD(K))/SQRT(MSD(JD))  
+          MSIJ=ONE/SQRT(MSD(K))/SQRT(MSD(JD))  
           KE(K,JD) = K_LT(J)*MSIJ
           KE(JD,K) = KE(K,JD)
          ENDDO
@@ -9056,19 +9056,19 @@ C----6----------------------------------
          ME(IK,IK)=ME(IK,IK)+MSND
         END DO
         II=INLOC(N1)
-        MSII = THIRD*MS(II) + QUART*MSND
+        MSII = THIRD*MS(II) + FOURTH*MSND
         DO J=1,NDOF(II)
          IK = IDDL(II)+J
          ME(IK,IK)=ME(IK,IK)+MSII
         END DO
         JJ=INLOC(N2)
-        MSII = THIRD*MS(JJ) + QUART*MSND
+        MSII = THIRD*MS(JJ) + FOURTH*MSND
         DO J=1,NDOF(JJ)
          IK = IDDL(JJ)+J
          ME(IK,IK)=ME(IK,IK)+MSII
         END DO
 C--------- m12
-        MSII = QUART*MSND
+        MSII = FOURTH*MSND
 C--------suppose NDOF(II)= NDOF(JJ) = NDOF(ID)     
         DO J=1,NDOF(II)
          IK = IDDL(II)+J
@@ -9077,7 +9077,7 @@ C--------suppose NDOF(II)= NDOF(JJ) = NDOF(ID)
          ME(JK,IK)=ME(JK,IK)+MSII
         END DO
 C--------- m13,m23
-        MSII = -UNDEMI*MSND
+        MSII = -HALF*MSND
         DO J=1,NDOF(II)
          IK = IDDL(II)+J
          JK = IDDL(ID)+J
@@ -9100,7 +9100,7 @@ C--------- m13,m23
 C-------[EV]'-> [EV]*EW^-1/2       
        DO I =1,ND
 c        print *,'M, ME(I,I),I=',ME(I,I),I
-         EW(I)=UN/SQRT(EW(I))
+         EW(I)=ONE/SQRT(EW(I))
        END DO 
        DO I =1,ND
         DO J =1,ND

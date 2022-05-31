@@ -106,11 +106,11 @@ C
           GO TO 211
         END IF
         DO I=1,NODCUT
-          R4 =AL(I)*V(1,IVOIS(2,I))+(UN-AL(I))*V(1,IVOIS(1,I))
+          R4 =AL(I)*V(1,IVOIS(2,I))+(ONE-AL(I))*V(1,IVOIS(1,I))
           CALL WRITE_R_C(R4,1)
-          R4 =AL(I)*V(2,IVOIS(2,I))+(UN -AL(I))*V(2,IVOIS(1,I))
+          R4 =AL(I)*V(2,IVOIS(2,I))+(ONE -AL(I))*V(2,IVOIS(1,I))
           CALL WRITE_R_C(R4,1)
-          R4 =AL(I)*V(3,IVOIS(2,I))+(UN-AL(I))*V(3,IVOIS(1,I))
+          R4 =AL(I)*V(3,IVOIS(2,I))+(ONE-AL(I))*V(3,IVOIS(1,I))
           CALL WRITE_R_C(R4,1)
         ENDDO !next I
  211    CONTINUE
@@ -357,11 +357,11 @@ C nodcut non parallelises
           GOTO 211
         END IF
         DO 210 I=1,NODCUT
-         R4 =AL(I)*V(1,IVOIS(2,I))+(UN -AL(I))*V(1,IVOIS(1,I))
+         R4 =AL(I)*V(1,IVOIS(2,I))+(ONE -AL(I))*V(1,IVOIS(1,I))
          CALL WRITE_R_C(R4,1)
-         R4 =AL(I)*V(2,IVOIS(2,I))+(UN -AL(I))*V(2,IVOIS(1,I))
+         R4 =AL(I)*V(2,IVOIS(2,I))+(ONE -AL(I))*V(2,IVOIS(1,I))
          CALL WRITE_R_C(R4,1)
-         R4 =AL(I)*V(3,IVOIS(2,I))+(UN -AL(I))*V(3,IVOIS(1,I))
+         R4 =AL(I)*V(3,IVOIS(2,I))+(ONE -AL(I))*V(3,IVOIS(1,I))
          CALL WRITE_R_C(R4,1)
  210    CONTINUE
  211    CONTINUE
@@ -576,11 +576,11 @@ C option non parallelisee !
           GO TO 211
         END IF
         DO 210 I=1,NODCUT
-         R4 =AL(I)*V(1,IVOIS(2,I))+(UN-AL(I))*V(1,IVOIS(1,I))
+         R4 =AL(I)*V(1,IVOIS(2,I))+(ONE-AL(I))*V(1,IVOIS(1,I))
          CALL WRITE_R_C(R4,1)
-         R4 =AL(I)*V(2,IVOIS(2,I))+(UN -AL(I))*V(2,IVOIS(1,I))
+         R4 =AL(I)*V(2,IVOIS(2,I))+(ONE -AL(I))*V(2,IVOIS(1,I))
          CALL WRITE_R_C(R4,1)
-         R4 =AL(I)*V(3,IVOIS(2,I))+(UN-AL(I))*V(3,IVOIS(1,I))
+         R4 =AL(I)*V(3,IVOIS(2,I))+(ONE-AL(I))*V(3,IVOIS(1,I))
          CALL WRITE_R_C(R4,1)
  210    CONTINUE
  211    CONTINUE
@@ -735,11 +735,11 @@ C option non parallelisee !
           GO TO 211
         END IF
         DO 210 I=1,NODCUT
-         R4 =AL(I)*V(1,IVOIS(2,I))+(UN-AL(I))*V(1,IVOIS(1,I))
+         R4 =AL(I)*V(1,IVOIS(2,I))+(ONE-AL(I))*V(1,IVOIS(1,I))
          CALL WRITE_R_C(R4,1)
-         R4 =AL(I)*V(2,IVOIS(2,I))+(UN -AL(I))*V(2,IVOIS(1,I))
+         R4 =AL(I)*V(2,IVOIS(2,I))+(ONE -AL(I))*V(2,IVOIS(1,I))
          CALL WRITE_R_C(R4,1)
-         R4 =AL(I)*V(3,IVOIS(2,I))+(UN-AL(I))*V(3,IVOIS(1,I))
+         R4 =AL(I)*V(3,IVOIS(2,I))+(ONE-AL(I))*V(3,IVOIS(1,I))
          CALL WRITE_R_C(R4,1)
  210    CONTINUE
  211    CONTINUE

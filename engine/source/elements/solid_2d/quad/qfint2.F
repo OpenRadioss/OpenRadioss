@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF (N2D.EQ.1) THEN
       DO I=LFT,LLT
-        FAC(I)=AREA(I)*AREA(I)/ MAX(EM15,VOL(I))/QUATRE
+        FAC(I)=AREA(I)*AREA(I)/ MAX(EM15,VOL(I))/FOUR
       ENDDO
       ELSE
       DO I=LFT,LLT

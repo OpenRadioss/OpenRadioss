@@ -63,7 +63,7 @@ C--------------------------------------------------
          NN3=IBUF(N3)
          CALL FVNORMAL(X,NN1,NN2,NN3,0,NRX,NRY,NRZ)
          AREA2=SQRT(NRX**2+NRY**2+NRZ**2)
-         ELAREA(IEL)=UNDEMI*AREA2
+         ELAREA(IEL)=HALF*AREA2
       ENDDO
 C     
       RETURN

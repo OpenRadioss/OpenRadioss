@@ -142,7 +142,7 @@ C-----------------------------------------------
         S6(I)=(SIG(I,6)+SVIS(I,6))*FVOL
        ENDDO
       ELSEIF (ICP.EQ.1) THEN
-       COEF=TIERS
+       COEF=THIRD
 C------due to degratation of rubber test, will definitively fix w/ real Kt       
        IF (MTN.EQ.42.OR.MTN.EQ.62.OR.MTN.EQ.82)COEF=ZEP3
        DO I=LFT,LLT

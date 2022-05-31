@@ -85,7 +85,7 @@ c    UVAR  2= FS0
 c    UVAR  3= FS0 
 c    UVAR 11=  TEMP
 c=======================================================================
-      SHFACT = CSIX       
+      SHFACT = FIVE_OVER_6       
 
       DO I=1,NEL                                 
         IADBUF       = IPM(7,MAT(I))-1               
@@ -102,7 +102,7 @@ c=======================================================================
         EFLAG(I)     = INT(UPARAM(IADBUF+15))        
         GM(I)        = UPARAM(IADBUF+16)             
         KM(I)        = UPARAM(IADBUF+17)             
-        G2(I)        = DEUX*G(I)                      
+        G2(I)        = TWO*G(I)                      
         CAS(I)       = UPARAM(IADBUF+18)             
         CSA(I)       = UPARAM(IADBUF+19)             
         TSAS(I)      = UPARAM(IADBUF+20)             
@@ -135,13 +135,13 @@ c==============================================================
           ET(I) = E(I) + FM(I) * (EMART(I) - E(I)) !E_n
           GS = SHFACT*GT(I)      
           !trial stress (sigma_tr_n+1)
-          SIGNXX(I) =   ET(I)*(EPSXX(I) - EPSL(I)*FM(I)* SIGN(UN,EPSXX(I)) )
+          SIGNXX(I) =   ET(I)*(EPSXX(I) - EPSL(I)*FM(I)* SIGN(ONE,EPSXX(I)) )
           SIGNXY(I) =   GS   * EPSXY(I)
           SIGNXZ(I) =   GS   * EPSXZ(I)
-          ETSE(I)   =   UN                        
+          ETSE(I)   =   ONE                        
 
-          BETA      =   ET(I)*EPSL(I)* SIGN(UN,EPSXX(I))-(EMART(I)- E(I))*EPSXX(I) 
-     .                                        + (EMART(I) - E(I)) *EPSL(I)* SIGN(UN,EPSXX(I)) *FM(I)  
+          BETA      =   ET(I)*EPSL(I)* SIGN(ONE,EPSXX(I))-(EMART(I)- E(I))*EPSXX(I) 
+     .                                        + (EMART(I) - E(I)) *EPSL(I)* SIGN(ONE,EPSXX(I)) *FM(I)  
           DFMSA = ZERO
           DFMAS = ZERO 
           !---------------
@@ -151,17 +151,17 @@ c==============================================================
           FASS = FS(I) -  RSAS
           FASF = FS(I) -  RFAS
           FS0  = UVAR(I,2)
-          IF((FS(I) - FS0) > ZERO .AND. FASS > ZERO.AND. FASF < ZERO .AND. FM(I) < UN )THEN
-            AA = (UN - FM(I))*(EMART(I) - E(I))*EPSL(I)
-            BB = -(FS0 - RFAS - (UN - FM(I))*BETA* SIGN(UN,EPSXX(I)))
-            CC = -(UN - FM(I)) * (FS(I) - FS0)
-            DFMAS =  MIN(UN , - (UN - FM(I))*(FS(I) - FS0 ) / (FS0-RFAS - (UN - FM(I))*E(I)*EPSL(I)  )  ) 
+          IF((FS(I) - FS0) > ZERO .AND. FASS > ZERO.AND. FASF < ZERO .AND. FM(I) < ONE )THEN
+            AA = (ONE - FM(I))*(EMART(I) - E(I))*EPSL(I)
+            BB = -(FS0 - RFAS - (ONE - FM(I))*BETA* SIGN(ONE,EPSXX(I)))
+            CC = -(ONE - FM(I)) * (FS(I) - FS0)
+            DFMAS =  MIN(ONE , - (ONE - FM(I))*(FS(I) - FS0 ) / (FS0-RFAS - (ONE - FM(I))*E(I)*EPSL(I)  )  ) 
             DO KK = 1,3
              FCT   = DFMAS*DFMAS *AA+ DFMAS*   BB  + CC
-             FCTP  = DEUX*DFMAS *AA+ BB
+             FCTP  = TWO*DFMAS *AA+ BB
              DFMAS = DFMAS - FCT / FCTP     
             ENDDO
-            DFMAS = MIN(UN,DFMAS  )  
+            DFMAS = MIN(ONE,DFMAS  )  
           ENDIF
           !---------------
           !Check marteniste -----> austenite
@@ -172,15 +172,15 @@ c==============================================================
           FS0  = UVAR(I,3)
           IF((FS(I) - FS0) < ZERO .AND. FSAS < ZERO.AND. FSAF > ZERO .AND. FM(I) >ZERO)THEN
             AA =  FM(I)*(EMART(I) - E(I))*EPSL(I)
-            BB =  FS0-RFSA   +  FM(I)*BETA* SIGN(UN,EPSXX(I))
+            BB =  FS0-RFSA   +  FM(I)*BETA* SIGN(ONE,EPSXX(I))
             CC =  -FM(I) * (FS(I)-FS0 )
-            DFMSA =  MAX(-UN , FM(I) * ( FS(I) - FS0 ) / (FS0 - RFSA + FM (I)* E(I)*EPSL(I) ))
+            DFMSA =  MAX(-ONE , FM(I) * ( FS(I) - FS0 ) / (FS0 - RFSA + FM (I)* E(I)*EPSL(I) ))
             DO KK = 1,3
              FCT  = DFMSA*DFMSA *AA+ DFMSA*   BB  +CC
-             FCTP = DEUX*DFMSA *AA+ BB
+             FCTP = TWO*DFMSA *AA+ BB
              DFMSA = DFMSA - FCT / FCTP
             ENDDO
-            DFMSA =  MAX(-UN , DFMSA )
+            DFMSA =  MAX(-ONE , DFMSA )
           ENDIF
          !--------------------------
          !new martensite fraction increment        
@@ -192,14 +192,14 @@ c==============================================================
          ! --------------------------
           DGT = DFM * (GM (I)   - G(I))
           DET = DFM * (EMART(I) - E(I))
-          SIGNXX(I) = SIGNXX(I) + DET * ( EPSXX(I) - EPSL(I) * (FM(I) + DFM)* SIGN(UN,EPSXX(I))   ) 
-     .                                           - ET(I) * EPSL(I) * DFM* SIGN(UN,EPSXX(I))
+          SIGNXX(I) = SIGNXX(I) + DET * ( EPSXX(I) - EPSL(I) * (FM(I) + DFM)* SIGN(ONE,EPSXX(I))   ) 
+     .                                           - ET(I) * EPSL(I) * DFM* SIGN(ONE,EPSXX(I))
 
           FS(I) =  ABS (SIGNXX(I) )   
           FM(I) = FM(I) + DFM
           FM(I) = MAX(ZERO,FM(I))  
-          FM(I) = MIN(UN  ,FM(I))  
-          TREPS(I) =  FM(I) * SIGN(UN,EPSXX(I)) * EPSL(I)  !transformation strain for output  
+          FM(I) = MIN(ONE  ,FM(I))  
+          TREPS(I) =  FM(I) * SIGN(ONE,EPSXX(I)) * EPSL(I)  !transformation strain for output  
           UVAR(I,2) = FS(I) - CAS(I)*TEMP(I)
           UVAR(I,3) = FS(I) - CSA(I)*TEMP(I) 
           UVAR(I,11) = TEMP(I)
@@ -208,11 +208,11 @@ c==============================================================
         ELSE ! constant young modulus    
           GS   = SHFACT*G(I)                             
           !trial stress(sigma_tr_n+1)
-          SIGNXX(I) =   E(I)*(EPSXX(I) - EPSL(I)*FM(I)* SIGN(UN,EPSXX(I)))
+          SIGNXX(I) =   E(I)*(EPSXX(I) - EPSL(I)*FM(I)* SIGN(ONE,EPSXX(I)))
           SIGNXY(I) =   GS  * EPSXY(I)
           SIGNXZ(I) =   GS  * EPSXZ(I)
 
-          ETSE(I)   =   UN                        
+          ETSE(I)   =   ONE                        
 	     FS(I)     =   ABS (SIGNXX(I) ) - CAS(I)*TEMP(I)! trial
           !---------------
           !Check Austenite -----> martensite  
@@ -222,10 +222,10 @@ c==============================================================
           FS0 = UVAR(I,2)
           DFMSA = ZERO
           DFMAS = ZERO 
-          IF((FS(I) - FS0) > ZERO .AND. FASS > ZERO.AND. FASF < ZERO .AND. FM(I) < UN )THEN
+          IF((FS(I) - FS0) > ZERO .AND. FASS > ZERO.AND. FASF < ZERO .AND. FM(I) < ONE )THEN
             ! transformation to martensite 
             ! compute martensite phase fraction increment
-             DFMAS =  MIN(UN , - (FS(I) - FS0 )*(UN - FM(I)) / (FS0-RFAS - (UN - FM(I))*E(I)*EPSL(I)  )  ) 
+             DFMAS =  MIN(ONE , - (FS(I) - FS0 )*(ONE - FM(I)) / (FS0-RFAS - (ONE - FM(I))*E(I)*EPSL(I)  )  ) 
           ENDIF
          !---------------
          !Check marteniste -----> austenite  
@@ -237,7 +237,7 @@ c==============================================================
          IF((FS(I) - FS0) < ZERO .AND. FSAS < ZERO.AND. FSAF > ZERO  )THEN 
             ! transformation to austenite 
             ! compute martensite phase fraction increment
-           DFMSA =  MAX(-UN , FM(I) * ( FS(I) - FS0 ) / (FS0 - RFSA + FM(I) * E(I)*EPSL(I) ))
+           DFMSA =  MAX(-ONE , FM(I) * ( FS(I) - FS0 ) / (FS0 - RFSA + FM(I) * E(I)*EPSL(I) ))
          ENDIF
          !--------------------------
          !new martensite fraction increment        
@@ -247,16 +247,16 @@ c==============================================================
          !--------------------------
          !UPDATE
          !--------------------------
-         SIGNXX(I) = SIGNXX(I) - E(I) * DFM * EPSL(I) *  SIGN(UN,EPSXX(I))
+         SIGNXX(I) = SIGNXX(I) - E(I) * DFM * EPSL(I) *  SIGN(ONE,EPSXX(I))
          FS(I) =  ABS (SIGNXX(I) )   
 c
          FM(I) = FM(I) + DFM
          FM(I) = MAX(ZERO,FM(I))  
-         FM(I) = MIN(UN  ,FM(I))  
+         FM(I) = MIN(ONE  ,FM(I))  
 
          UVAR(I,2) = FS(I) - CAS(I)*TEMP(I)
          UVAR(I,3) = FS(I) - CSA(I)*TEMP(I) 
-         TREPS(I) = FM(I) * EPSL(I) *  SIGN(UN,EPSXX(I)) !transformation strain for output
+         TREPS(I) = FM(I) * EPSL(I) *  SIGN(ONE,EPSXX(I)) !transformation strain for output
 
          UVAR(I,11) = TEMP(I)
         ENDIF ! EFLAG        

@@ -186,7 +186,7 @@ C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
 
       DO I=1,NEL
-        ETSE(I) = UN
+        ETSE(I) = ONE
       ENDDO
 C
       ITABLE = IPM(227,MAT(1))
@@ -222,21 +222,21 @@ C
              IFUNCE  =  UPARAM(IADBUF+24)                                                    
              ESCALE(I) = FINTER(KFUNC(IFUNCE),PLA(I),NPF,TF,DYDXE(I))     
              E0(I) =  ESCALE(I)* E0(I)   
-             G1(I) =  UNDEMI*E0(I)/(UN+NU) 
-             G21(I) = DEUX*G1(I)                                  
-             G31(I) = TROIS*G1(I) 
-             C11(I) =E0(I)/TROIS/(UN - DEUX*NU)                          
+             G1(I) =  HALF*E0(I)/(ONE+NU) 
+             G21(I) = TWO*G1(I)                                  
+             G31(I) = THREE*G1(I) 
+             C11(I) =E0(I)/THREE/(ONE - TWO*NU)                          
            ENDIF 
          ENDDO                                               
        ELSEIF ( CE /= ZERO) THEN   
          DO I=1,NEL       
            PLA(I) = UVAR(I,1)                                   
            IF(PLA(I) > ZERO)THEN                                                        
-             E0(I) = E0(I)-(E0(I)-EINF)*(UN-EXP(-CE*PLA(I)))              
-             G1(I) =  UNDEMI*E0(I)/(UN+NU)   
-             G21(I) = DEUX*G1(I)                                  
-             G31(I) = TROIS*G1(I)                                               
-             C11(I) = E0(I)/TROIS/(UN - DEUX*NU)               
+             E0(I) = E0(I)-(E0(I)-EINF)*(ONE-EXP(-CE*PLA(I)))              
+             G1(I) =  HALF*E0(I)/(ONE+NU)   
+             G21(I) = TWO*G1(I)                                  
+             G31(I) = THREE*G1(I)                                               
+             C11(I) = E0(I)/THREE/(ONE - TWO*NU)               
            ENDIF 
           ENDDO                                                                   
        ENDIF
@@ -246,7 +246,7 @@ C
        EPSR1 =UPARAM(IADBUF+16)
        IF(EPSR1.EQ.ZERO)EPSR1=EP30
        EPSR2 =UPARAM(IADBUF+17)
-       IF(EPSR2.EQ.ZERO)EPSR2=DEUXEP30
+       IF(EPSR2.EQ.ZERO)EPSR2=TWOEP30
 C
       FF        = UPARAM(IADBUF+7)
       GG        = UPARAM(IADBUF+8)
@@ -300,7 +300,7 @@ C
         SIGEXY(I) = SIGNXY(I)
         SIGEYZ(I) = SIGNYZ(I)
         SIGEZX(I) = SIGNZX(I)
-        SOUNDSP(I) = SQRT((C11(I)+QUATRE*G1(I)/TROIS)/RHO0(I))
+        SOUNDSP(I) = SQRT((C11(I)+FOUR*G1(I)/THREE)/RHO0(I))
         VISCMAX(I) = ZERO
         DPLA(I) =ZERO
                 
@@ -316,9 +316,9 @@ C-------------------
         E1 = EPSXX(I) - DAV
         E2 = EPSYY(I) - DAV
         E3 = EPSZZ(I) - DAV
-        E4 = UNDEMI*EPSXY(I)
-        E5 = UNDEMI*EPSYZ(I)
-        E6 = UNDEMI*EPSZX(I)
+        E4 = HALF*EPSXY(I)
+        E5 = HALF*EPSYZ(I)
+        E6 = HALF*EPSZX(I)
 C        -y = (e1-x)(e2-x)(e3-x)
 C           - e5^2(e1-x) - e6^2(e2-x) - e4^2(e3-x)
 C           + 2e4 e5 e6
@@ -328,37 +328,37 @@ c         yp= 3 x^2 + c
         E42 = E4*E4
         E52 = E5*E5
         E62 = E6*E6
-        C = - UNDEMI *(E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
+        C = - HALF *(E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
         D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
-     &      - DEUX*E4*E5*E6 
+     &      - TWO*E4*E5*E6 
         CC = C*THIRD
         EPST = SQRT(-CC)
         EPST2 = EPST * EPST
         Y = (EPST2 + C)* EPST + D
         IF(ABS(Y).GT.EM8)THEN
-          EPST = UNP75 * EPST
+          EPST = ONEP75 * EPST
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
         ENDIF
         EPST = EPST + DAV
 C-------------------
 C     tension failure 
 C-------------------
-        FAIL(I) = MAX(ZERO,MIN(UN,
+        FAIL(I) = MAX(ZERO,MIN(ONE,
      .            (EPSR2-EPST)/(EPSR2-EPSR1) ))
       ENDDO
 C-------------------
@@ -394,7 +394,7 @@ C
 
          DO I=1,NEL
 C          ECROUISSAGE CINEMATIQUE
-           YLD(I) = (UN-FISOKIN) * YLD(I) + 
+           YLD(I) = (ONE-FISOKIN) * YLD(I) + 
      .         FISOKIN * FAIL(I) * YFAC * YK(I)
            YLD(I) = MAX(YLD(I),EM20)
          ENDDO
@@ -404,7 +404,7 @@ C-----------------------------------------------
 C  Calcul de la tempurature. (conduction ou adiabatique)
 C--------------------    
         DO I=1,NEL    
-          COEF(I) = UN
+          COEF(I) = ONE
         END DO
 C
         IF(JTHE < 0 ) THEN
@@ -453,7 +453,7 @@ C
 
          DO I=1,NEL
 C          ECROUISSAGE CINEMATIQUE
-           YLD(I) = (UN-FISOKIN) * YLD(I) + 
+           YLD(I) = (ONE-FISOKIN) * YLD(I) + 
      .        FISOKIN * FAIL(I) * YFAC * YK(I)
            YLD(I) = MAX(YLD(I),EM20)
          ENDDO
@@ -466,11 +466,11 @@ C-------------------
        DO I=1,NEL
         CRI(I) = 
      .    FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2
-     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + DEUX*LL*SIGNYZ(I)**2 
-     .  + DEUX*MM*SIGNZX(I)**2 + DEUX*NN*SIGNXY(I)**2
+     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2 
+     .  + TWO*MM*SIGNZX(I)**2 + TWO*NN*SIGNXY(I)**2
         CRI(I) = SQRT(CRI(I))
-        R = MIN(UN,YLD(I)/ MAX(CRI(I),EM20))
-c        P = C11(I) * (RHO(I)/RHO0(I)- UN)
+        R = MIN(ONE,YLD(I)/ MAX(CRI(I),EM20))
+c        P = C11(I) * (RHO(I)/RHO0(I)- ONE)
         P = C11(I) * AMU(I)
         SIGNXX(I)=SIGNXX(I)*R-P
         SIGNYY(I)=SIGNYY(I)*R-P
@@ -478,19 +478,19 @@ c        P = C11(I) * (RHO(I)/RHO0(I)- UN)
         SIGNXY(I)=SIGNXY(I)*R
         SIGNYZ(I)=SIGNYZ(I)*R
         SIGNZX(I)=SIGNZX(I)*R
-        PLA(I)=PLA(I) + (UN - R)*CRI(I)/MAX(G31(I)+H(I),EM20)
+        PLA(I)=PLA(I) + (ONE - R)*CRI(I)/MAX(G31(I)+H(I),EM20)
         UVAR(I,1)=PLA(I)
-        DPLA(I) = (UN - R)*CRI(I)/MAX(G31(I)+H(I),EM20)         
+        DPLA(I) = (ONE - R)*CRI(I)/MAX(G31(I)+H(I),EM20)         
        ENDDO
       ELSEIF(IPLA.EQ.2)THEN
        DO I=1,NEL
         CRI(I) = 
      .    FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2
-     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + DEUX*LL*SIGNYZ(I)**2 
-     .  + DEUX*MM*SIGNZX(I)**2 + DEUX*NN*SIGNXY(I)**2
+     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2 
+     .  + TWO*MM*SIGNZX(I)**2 + TWO*NN*SIGNXY(I)**2
         CRI(I) = SQRT(CRI(I))
-        R = MIN(UN,YLD(I)/ MAX(CRI(I),EM20))
-c        P = C11(I) * (RHO(I)/RHO0(I)-UN)
+        R = MIN(ONE,YLD(I)/ MAX(CRI(I),EM20))
+c        P = C11(I) * (RHO(I)/RHO0(I)-ONE)
         P = C11(I) * AMU(I)
         SIGNXX(I)=SIGNXX(I)*R-P
         SIGNYY(I)=SIGNYY(I)*R-P
@@ -498,25 +498,25 @@ c        P = C11(I) * (RHO(I)/RHO0(I)-UN)
         SIGNXY(I)=SIGNXY(I)*R
         SIGNYZ(I)=SIGNYZ(I)*R
         SIGNZX(I)=SIGNZX(I)*R
-        PLA(I)=PLA(I) + (UN-R)*CRI(I)/MAX(G31(I),EM20)
+        PLA(I)=PLA(I) + (ONE-R)*CRI(I)/MAX(G31(I),EM20)
         UVAR(I,1)=PLA(I)
-        DPLA(I) =  (UN-R)*CRI(I)/MAX(G31(I),EM20)       
+        DPLA(I) =  (ONE-R)*CRI(I)/MAX(G31(I),EM20)       
        ENDDO
       ELSEIF(IPLA.EQ.1)THEN
        DO I=1,NEL
         CRI(I) = 
      .    FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2
-     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + DEUX*LL*SIGNYZ(I)**2 
-     .  + DEUX*MM*SIGNZX(I)**2 + DEUX*NN*SIGNXY(I)**2
+     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2 
+     .  + TWO*MM*SIGNZX(I)**2 + TWO*NN*SIGNXY(I)**2
         CRI(I) = SQRT(CRI(I))
-        R = MIN(UN,YLD(I)/ MAX(CRI(I),EM20))
+        R = MIN(ONE,YLD(I)/ MAX(CRI(I),EM20))
 C       plastic strain increment.
-        DPLA(I)=(UN - R)*CRI(I)/MAX(G31(I)+H(I),EM20)
+        DPLA(I)=(ONE - R)*CRI(I)/MAX(G31(I)+H(I),EM20)
 C       actual yeld stress.
-        YLD(I)=MAX(YLD(I)+(UN - FISOKIN)*DPLA(I)*H(I),ZERO)
-        R = MIN(UN,YLD(I)/ MAX(CRI(I),EM20))
+        YLD(I)=MAX(YLD(I)+(ONE - FISOKIN)*DPLA(I)*H(I),ZERO)
+        R = MIN(ONE,YLD(I)/ MAX(CRI(I),EM20))
 C
-c        P = C11(I) * (RHO(I)/RHO0(I)-UN)
+c        P = C11(I) * (RHO(I)/RHO0(I)-ONE)
         P = C11(I) * AMU(I)
         SIGNXX(I)=SIGNXX(I)*R-P
         SIGNYY(I)=SIGNYY(I)*R-P
@@ -533,7 +533,7 @@ C     ECROUISSAGE CINE
 C------------------------------------------
       IF (FISOKIN.NE.ZERO) THEN
         DO I=1,NEL
-c         P = C11(I) * (RHO(I)/RHO0(I)-UN)
+c         P = C11(I) * (RHO(I)/RHO0(I)-ONE)
          P = C11(I) * AMU(I)
          DSXX = SIGEXX(I) - SIGNXX(I) - P 
          DSYY = SIGEYY(I) - SIGNYY(I) - P
@@ -542,7 +542,7 @@ c         P = C11(I) * (RHO(I)/RHO0(I)-UN)
          DSYZ = SIGEYZ(I) - SIGNYZ(I)
          DSZX = SIGEZX(I) - SIGNZX(I)
 C        
-         HKIN = DTIERS*FISOKIN*H(I)
+         HKIN = TWO_THIRD*FISOKIN*H(I)
          ALPHA = HKIN/(G21(I)+HKIN)  
          SIGPXX = ALPHA*DSXX 
          SIGPYY = ALPHA*DSYY
@@ -602,7 +602,7 @@ C
       EPSR1 =UPARAM(IADBUF+16)
       IF(EPSR1.EQ.ZERO)EPSR1=EP30
       EPSR2 =UPARAM(IADBUF+17)
-      IF(EPSR2.EQ.ZERO)EPSR2=DEUXEP30
+      IF(EPSR2.EQ.ZERO)EPSR2=TWOEP30
 C
       FF        = UPARAM(IADBUF+7)
       GG        = UPARAM(IADBUF+8)
@@ -656,7 +656,7 @@ C
         SIGEXY(I) = SIGNXY(I)
         SIGEYZ(I) = SIGNYZ(I)
         SIGEZX(I) = SIGNZX(I)
-        SOUNDSP(I) = SQRT((C1+QUATRE*G/TROIS)/RHO0(I))
+        SOUNDSP(I) = SQRT((C1+FOUR*G/THREE)/RHO0(I))
         VISCMAX(I) = ZERO
         DPLA(I) =ZERO
                 
@@ -672,9 +672,9 @@ C-------------------
         E1 = EPSXX(I) - DAV
         E2 = EPSYY(I) - DAV
         E3 = EPSZZ(I) - DAV
-        E4 = UNDEMI*EPSXY(I)
-        E5 = UNDEMI*EPSYZ(I)
-        E6 = UNDEMI*EPSZX(I)
+        E4 = HALF*EPSXY(I)
+        E5 = HALF*EPSYZ(I)
+        E6 = HALF*EPSZX(I)
 C        -y = (e1-x)(e2-x)(e3-x)
 C           - e5^2(e1-x) - e6^2(e2-x) - e4^2(e3-x)
 C           + 2e4 e5 e6
@@ -684,37 +684,37 @@ c         yp= 3 x^2 + c
         E42 = E4*E4
         E52 = E5*E5
         E62 = E6*E6
-        C = - UNDEMI *(E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
+        C = - HALF *(E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
         D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
-     &      - DEUX*E4*E5*E6 
+     &      - TWO*E4*E5*E6 
         CC = C*THIRD
         EPST = SQRT(-CC)
         EPST2 = EPST * EPST
         Y = (EPST2 + C)* EPST + D
         IF(ABS(Y).GT.EM8)THEN
-          EPST = UNP75 * EPST
+          EPST = ONEP75 * EPST
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
         ENDIF
         EPST = EPST + DAV
 C-------------------
 C     tension failure 
 C-------------------
-        FAIL(I) = MAX(ZERO,MIN(UN,
+        FAIL(I) = MAX(ZERO,MIN(ONE,
      .            (EPSR2-EPST)/(EPSR2-EPSR1) ))
       ENDDO
 C-------------------
@@ -750,7 +750,7 @@ C
 
          DO I=1,NEL
 C          ECROUISSAGE CINEMATIQUE
-           YLD(I) = (UN-FISOKIN) * YLD(I) + 
+           YLD(I) = (ONE-FISOKIN) * YLD(I) + 
      .         FISOKIN * FAIL(I) * YFAC * YK(I)
            YLD(I) = MAX(YLD(I),EM20)
          ENDDO
@@ -760,7 +760,7 @@ C-----------------------------------------------
 C  Calcul de la tempurature. (conduction ou adiabatique)
 C--------------------    
         DO I=1,NEL    
-          COEF(I) = UN
+          COEF(I) = ONE
         END DO
 C
         IF(JTHE < 0 ) THEN
@@ -809,7 +809,7 @@ C
 
          DO I=1,NEL
 C          ECROUISSAGE CINEMATIQUE
-           YLD(I) = (UN-FISOKIN) * YLD(I) + 
+           YLD(I) = (ONE-FISOKIN) * YLD(I) + 
      .        FISOKIN * FAIL(I) * YFAC * YK(I)
            YLD(I) = MAX(YLD(I),EM20)
          ENDDO
@@ -822,11 +822,11 @@ C-------------------
        DO I=1,NEL
         CRI(I) = 
      .    FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2
-     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + DEUX*LL*SIGNYZ(I)**2 
-     .  + DEUX*MM*SIGNZX(I)**2 + DEUX*NN*SIGNXY(I)**2
+     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2 
+     .  + TWO*MM*SIGNZX(I)**2 + TWO*NN*SIGNXY(I)**2
         CRI(I) = SQRT(CRI(I))
-        R = MIN(UN,YLD(I)/ MAX(CRI(I),EM20))
-c        P = C1 * (RHO(I)/RHO0(I)- UN)
+        R = MIN(ONE,YLD(I)/ MAX(CRI(I),EM20))
+c        P = C1 * (RHO(I)/RHO0(I)- ONE)
         P = C1 * AMU(I)
         SIGNXX(I)=SIGNXX(I)*R-P
         SIGNYY(I)=SIGNYY(I)*R-P
@@ -834,19 +834,19 @@ c        P = C1 * (RHO(I)/RHO0(I)- UN)
         SIGNXY(I)=SIGNXY(I)*R
         SIGNYZ(I)=SIGNYZ(I)*R
         SIGNZX(I)=SIGNZX(I)*R
-        PLA(I)=PLA(I) + (UN - R)*CRI(I)/MAX(G3+H(I),EM20)
+        PLA(I)=PLA(I) + (ONE - R)*CRI(I)/MAX(G3+H(I),EM20)
         UVAR(I,1)=PLA(I)
-        DPLA(I) = (UN - R)*CRI(I)/MAX(G3+H(I),EM20)         
+        DPLA(I) = (ONE - R)*CRI(I)/MAX(G3+H(I),EM20)         
        ENDDO
       ELSEIF(IPLA.EQ.2)THEN
        DO I=1,NEL
         CRI(I) = 
      .    FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2
-     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + DEUX*LL*SIGNYZ(I)**2 
-     .  + DEUX*MM*SIGNZX(I)**2 + DEUX*NN*SIGNXY(I)**2
+     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2 
+     .  + TWO*MM*SIGNZX(I)**2 + TWO*NN*SIGNXY(I)**2
         CRI(I) = SQRT(CRI(I))
-        R = MIN(UN,YLD(I)/ MAX(CRI(I),EM20))
-c        P = C1 * (RHO(I)/RHO0(I)-UN)
+        R = MIN(ONE,YLD(I)/ MAX(CRI(I),EM20))
+c        P = C1 * (RHO(I)/RHO0(I)-ONE)
         P = C1 * AMU(I)
         SIGNXX(I)=SIGNXX(I)*R-P
         SIGNYY(I)=SIGNYY(I)*R-P
@@ -854,25 +854,25 @@ c        P = C1 * (RHO(I)/RHO0(I)-UN)
         SIGNXY(I)=SIGNXY(I)*R
         SIGNYZ(I)=SIGNYZ(I)*R
         SIGNZX(I)=SIGNZX(I)*R
-        PLA(I)=PLA(I) + (UN-R)*CRI(I)/MAX(G3,EM20)
+        PLA(I)=PLA(I) + (ONE-R)*CRI(I)/MAX(G3,EM20)
         UVAR(I,1)=PLA(I)
-        DPLA(I) =  (UN-R)*CRI(I)/MAX(G3,EM20)       
+        DPLA(I) =  (ONE-R)*CRI(I)/MAX(G3,EM20)       
        ENDDO
       ELSEIF(IPLA.EQ.1)THEN
        DO I=1,NEL
         CRI(I) = 
      .    FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2
-     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + DEUX*LL*SIGNYZ(I)**2 
-     .  + DEUX*MM*SIGNZX(I)**2 + DEUX*NN*SIGNXY(I)**2
+     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2 
+     .  + TWO*MM*SIGNZX(I)**2 + TWO*NN*SIGNXY(I)**2
         CRI(I) = SQRT(CRI(I))
-        R = MIN(UN,YLD(I)/ MAX(CRI(I),EM20))
+        R = MIN(ONE,YLD(I)/ MAX(CRI(I),EM20))
 C       plastic strain increment.
-        DPLA(I)=(UN - R)*CRI(I)/MAX(G3+H(I),EM20)
+        DPLA(I)=(ONE - R)*CRI(I)/MAX(G3+H(I),EM20)
 C       actual yeld stress.
-        YLD(I)=MAX(YLD(I)+(UN - FISOKIN)*DPLA(I)*H(I),ZERO)
-        R = MIN(UN,YLD(I)/ MAX(CRI(I),EM20))
+        YLD(I)=MAX(YLD(I)+(ONE - FISOKIN)*DPLA(I)*H(I),ZERO)
+        R = MIN(ONE,YLD(I)/ MAX(CRI(I),EM20))
 C
-c        P = C1 * (RHO(I)/RHO0(I)-UN)
+c        P = C1 * (RHO(I)/RHO0(I)-ONE)
         P = C1 * AMU(I)
         SIGNXX(I)=SIGNXX(I)*R-P
         SIGNYY(I)=SIGNYY(I)*R-P
@@ -889,7 +889,7 @@ C     ECROUISSAGE CINE
 C------------------------------------------
       IF (FISOKIN.NE.ZERO) THEN
         DO I=1,NEL
-         P = C1 * (RHO(I)/RHO0(I)-UN)
+         P = C1 * (RHO(I)/RHO0(I)-ONE)
          DSXX = SIGEXX(I) - SIGNXX(I) - P 
          DSYY = SIGEYY(I) - SIGNYY(I) - P
          DSZZ = SIGEZZ(I) - SIGNZZ(I) - P
@@ -897,7 +897,7 @@ C------------------------------------------
          DSYZ = SIGEYZ(I) - SIGNYZ(I)
          DSZX = SIGEZX(I) - SIGNZX(I)
 C        
-         HKIN = DTIERS*FISOKIN*H(I)
+         HKIN = TWO_THIRD*FISOKIN*H(I)
          ALPHA = HKIN/(G2+HKIN)  
          SIGPXX = ALPHA*DSXX 
          SIGPYY = ALPHA*DSYY
@@ -935,13 +935,13 @@ c
 C-------------------
       DO I=1,NEL
         IF(OFF(I).LT.EM01) OFF(I)=ZERO
-        IF(OFF(I).LT.UN) OFF(I)=OFF(I)*QCINQ
+        IF(OFF(I).LT.ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 C
       NINDX=0
       DO I=1,NEL
-        IF(PLA(I).GT.EPSMAX.AND.OFF(I).EQ.UN) THEN
-          OFF(I)=QCINQ
+        IF(PLA(I).GT.EPSMAX.AND.OFF(I).EQ.ONE) THEN
+          OFF(I)=FOUR_OVER_5
           NINDX=NINDX+1
           INDX(NINDX)=I
           IDEL7NOK = 1
@@ -967,8 +967,8 @@ C
 !!        DO I=1,NEL
 !!          CRI(I) = 
 !!     .       FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2
-!!     .    +  HH*(SIGNXX(I) - SIGNYY(I))**2 + DEUX*LL*SIGNYZ(I)**2 
-!!     .    +  DEUX*MM*SIGNZX(I)**2 + DEUX*NN*SIGNXY(I)**2
+!!     .    +  HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2 
+!!     .    +  TWO*MM*SIGNZX(I)**2 + TWO*NN*SIGNXY(I)**2
 !!          SEQ_OUTPUT(I) = SQRT(CRI(I))
 !!        ENDDO
 !!      ENDIF

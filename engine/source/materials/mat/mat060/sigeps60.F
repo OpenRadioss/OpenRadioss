@@ -222,13 +222,13 @@ c ---
       EPSR1 =UPARAM(IADBUFV+6+2*NRATE+2)
       IF(EPSR1.EQ.ZERO)EPSR1= EP30
       EPSR2 =UPARAM(IADBUFV+6+2*NRATE+3)
-      IF(EPSR2.EQ.ZERO)EPSR2= DEUXEP30
+      IF(EPSR2.EQ.ZERO)EPSR2= TWOEP30
       DO I=1,NEL
         E(I)   = UPARAM(IADBUFV+2)
         G(I)   = UPARAM(IADBUFV+5)
-        G2(I)  = DEUX*G(I)
-        G3(I)  = TROIS*G(I)
-        C1(I)  = E(I)/TROIS/(UN - DEUX*NU)
+        G2(I)  = TWO*G(I)
+        G3(I)  = THREE*G(I)
+        C1(I)  = E(I)/THREE/(ONE - TWO*NU)
         PSCALE(I)= UPARAM(IADBUFV+16+2*NRATE)
 c ---
         PLA(I) = UVAR(I,1)
@@ -239,29 +239,29 @@ c ---
              IFUNCE = UPARAM(IADBUFV+2*NRATE+17)                                 
              ESCALE(I) = FINTER(KFUNC(IFUNCE),PLA(I),NPF,TF,DYDXE(I))          
              E(I) =  ESCALE(I)* E(I)                                       
-             G(I) =  UNDEMI*E(I)/(UN+NU) 
-             G2(I) = DEUX*G(I)                                  
-             G3(I) = TROIS*G(I) 
-             C1(I) =E(I)/TROIS/(UN - DEUX*NU)                                              
-             SOUNDSP(I) = SQRT((C1(I) + QTHIRD*G(I))/RHO0(I))                
+             G(I) =  HALF*E(I)/(ONE+NU) 
+             G2(I) = TWO*G(I)                                  
+             G3(I) = THREE*G(I) 
+             C1(I) =E(I)/THREE/(ONE - TWO*NU)                                              
+             SOUNDSP(I) = SQRT((C1(I) + FOUR_OVER_3*G(I))/RHO0(I))                
            ENDIF
          ENDDO           
        ELSEIF ( CE /= ZERO) THEN
         DO I=1,NEL       
            IF(PLA(I) > ZERO)THEN                                                        
-             E(I) = E(I)-(E(I)-EINF)*(UN-EXP(-CE*PLA(I)))                      
-             G(I) =  UNDEMI*E(I)/(UN+NU)   
-             G2(I) = DEUX*G(I)                                  
-             G3(I) = TROIS*G(I)                                               
-             C1(I) =E(I)/TROIS/(UN - DEUX*NU)                                              
-             SOUNDSP(I) = SQRT((C1(I) + QTHIRD*G(I))/RHO0(I))                               
+             E(I) = E(I)-(E(I)-EINF)*(ONE-EXP(-CE*PLA(I)))                      
+             G(I) =  HALF*E(I)/(ONE+NU)   
+             G2(I) = TWO*G(I)                                  
+             G3(I) = THREE*G(I)                                               
+             C1(I) =E(I)/THREE/(ONE - TWO*NU)                                              
+             SOUNDSP(I) = SQRT((C1(I) + FOUR_OVER_3*G(I))/RHO0(I))                               
            ENDIF    
         ENDDO           
       ENDIF
 C +++
       IPFLAG = 0
       DO I=1,NEL
-        PFAC(I) = UN
+        PFAC(I) = ONE
           IF (PFUN.GT.0) IPFLAG = IPFLAG + 1
       ENDDO
 C ---
@@ -293,7 +293,7 @@ C
         SIGNYZ(I)=SIGOYZ(I)+G(I) *DEPSYZ(I)
         SIGNZX(I)=SIGOZX(I)+G(I) *DEPSZX(I)
         PSCALE(I) = PSCALE(I)*P0(I)
-        SOUNDSP(I) = SQRT((C1(I)+QTHIRD*G(I))/RHO0(I))
+        SOUNDSP(I) = SQRT((C1(I)+FOUR_OVER_3*G(I))/RHO0(I))
         VISCMAX(I) = ZERO
       ENDDO
 C-------------------
@@ -321,35 +321,35 @@ c         yp= 3 x^2 + c
         E62 = E6*E6
         C = - E1*E1 - E2*E2 - E3*E3 - E42 - E52 - E62
         D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
-     &      - DEUX*E4*E5*E6 
+     &      - TWO*E4*E5*E6 
         CC = C*THIRD
         EPST = SQRT(-CC)
         EPST2 = EPST * EPST
         Y = (EPST2 + C)* EPST + D
         IF(ABS(Y).GT.EM08)THEN
-          EPST = UNP75 * EPST
+          EPST = ONEP75 * EPST
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
         ENDIF
           EPST = EPST + DAV
 C-------------------
 C     tension failure 
 C-------------------
-        FAIL(I) = MAX(ZERO,MIN(UN,
+        FAIL(I) = MAX(ZERO,MIN(ONE,
      .            (EPSR2-EPST)/(EPSR2-EPSR1) ))
       ENDDO
 C-------------------
@@ -529,11 +529,11 @@ C     PROJECTION
 C-------------------
       IF(IPLA.EQ.0)THEN
        DO I=1,NEL
-        VM =UNDEMI*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
+        VM =HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      1          +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
-        VM =SQRT(TROIS*VM)
-        R = MIN(UN,YLD(I)/ MAX(VM,EM20))
-c        P = C1(I) * (RHO(I)/RHO0(I) - UN)
+        VM =SQRT(THREE*VM)
+        R = MIN(ONE,YLD(I)/ MAX(VM,EM20))
+c        P = C1(I) * (RHO(I)/RHO0(I) - ONE)
         P = C1(I) * AMU(I)
         SIGNXX(I)=SIGNXX(I)*R-P
         SIGNYY(I)=SIGNYY(I)*R-P
@@ -541,17 +541,17 @@ c        P = C1(I) * (RHO(I)/RHO0(I) - UN)
         SIGNXY(I)=SIGNXY(I)*R
         SIGNYZ(I)=SIGNYZ(I)*R
         SIGNZX(I)=SIGNZX(I)*R
-        PLA(I)=PLA(I) + (UN - R)*VM/MAX(G3(I)+H(I),EM20)
+        PLA(I)=PLA(I) + (ONE - R)*VM/MAX(G3(I)+H(I),EM20)
         UVAR(I,1)=PLA(I)
-        DPLA(I) =   (UN - R)*VM/MAX(G3(I)+H(I),EM20)       
+        DPLA(I) =   (ONE - R)*VM/MAX(G3(I)+H(I),EM20)       
        ENDDO
       ELSEIF(IPLA.EQ.2)THEN
        DO I=1,NEL
-        VM =UNDEMI*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
+        VM =HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      1          +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
-        VM =SQRT(TROIS*VM)
-        R = MIN(UN,YLD(I)/ MAX(VM,EM20))
-c        P = C1(I) * (RHO(I)/RHO0(I)- UN)
+        VM =SQRT(THREE*VM)
+        R = MIN(ONE,YLD(I)/ MAX(VM,EM20))
+c        P = C1(I) * (RHO(I)/RHO0(I)- ONE)
         P = C1(I) * AMU(I)
         SIGNXX(I)=SIGNXX(I)*R-P
         SIGNYY(I)=SIGNYY(I)*R-P
@@ -559,23 +559,23 @@ c        P = C1(I) * (RHO(I)/RHO0(I)- UN)
         SIGNXY(I)=SIGNXY(I)*R
         SIGNYZ(I)=SIGNYZ(I)*R
         SIGNZX(I)=SIGNZX(I)*R
-        PLA(I)=PLA(I) + (UN - R)*VM/MAX(G3(I),EM20)
+        PLA(I)=PLA(I) + (ONE - R)*VM/MAX(G3(I),EM20)
         UVAR(I,1)=PLA(I)
-        DPLA(I) = (UN - R)*VM/MAX(G3(I),EM20)        
+        DPLA(I) = (ONE - R)*VM/MAX(G3(I),EM20)        
        ENDDO
       ELSEIF(IPLA.EQ.1)THEN
        DO I=1,NEL
-        VM =UNDEMI*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
+        VM =HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      1          +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
-        VM =SQRT(TROIS*VM)
-        R = MIN(UN,YLD(I)/ MAX(VM,EM20))
+        VM =SQRT(THREE*VM)
+        R = MIN(ONE,YLD(I)/ MAX(VM,EM20))
 C     plastic strain increment.
-       DPLA(I) = (UN - R)*VM/MAX(G3(I)+H(I),EM20)
+       DPLA(I) = (ONE - R)*VM/MAX(G3(I)+H(I),EM20)
 C     actual yeld stress.
          YLD(I)= MAX(YLD(I)+DPLA(I)*H(I),ZERO)
-        R = MIN(UN,YLD(I)/ MAX(VM,EM20))
+        R = MIN(ONE,YLD(I)/ MAX(VM,EM20))
 C
-c        P = C1(I) * (RHO(I)/RHO0(I) - UN)
+c        P = C1(I) * (RHO(I)/RHO0(I) - ONE)
         P = C1(I) * AMU(I)
         SIGNXX(I)=SIGNXX(I)*R-P
         SIGNYY(I)=SIGNYY(I)*R-P
@@ -592,15 +592,15 @@ C-------------------
 
       DO I=1,NEL
         IF(OFF(I).LT.EM01) OFF(I)=ZERO
-        IF(OFF(I).LT.UN) OFF(I)=OFF(I)*QCINQ
+        IF(OFF(I).LT.ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 C
 C
 C
       NINDX=0
       DO I=1,NEL
-        IF(PLA(I).GT.EPSMAX.AND.OFF(I).EQ.UN) THEN
-          OFF(I)= QCINQ
+        IF(PLA(I).GT.EPSMAX.AND.OFF(I).EQ.ONE) THEN
+          OFF(I)= FOUR_OVER_5
           NINDX=NINDX+1
           INDX(NINDX)=I
           IDEL7NOK = 1

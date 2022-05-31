@@ -320,7 +320,7 @@ C
            ILAW=IPM(2,MAT)
            LEAK=IPM(4,MAT)
            IF (ILAW == 0) THEN
-             POROSITY(I)=UN
+             POROSITY(I)=ONE
            ELSEIF(ILAW == 19 .AND. LEAK == 0) THEN
              POROSITY(I)=PM(56,MAT)
            ELSE

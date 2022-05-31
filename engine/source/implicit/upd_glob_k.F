@@ -1335,7 +1335,7 @@ C     REAL ou REAL*8
      .   B34, B41, AB1, AB2, TP, TM, SP, SM, X1,X2,X3,X4,
      .   Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,XI,YI,ZI,NX,NY,NZ,ALP,SSC,TTC
 C-----------------------------------------------
-      ALP = DEUXEM2
+      ALP = TWOEM2
       H(1) = ZERO
       H(2) = ZERO
       H(3) = ZERO
@@ -1360,9 +1360,9 @@ C-----------------------------------------------
       YI=X(2,NS)
       ZI=X(3,NS)
 C
-      X0 = QUART*(X1+X2+X3+X4)
-      Y0 = QUART*(Y1+Y2+Y3+Y4)
-      Z0 = QUART*(Z1+Z2+Z3+Z4)
+      X0 = FOURTH*(X1+X2+X3+X4)
+      Y0 = FOURTH*(Y1+Y2+Y3+Y4)
+      Z0 = FOURTH*(Z1+Z2+Z3+Z4)
 C
       XL1 = X1-X0
       XL2 = X2-X0
@@ -1423,7 +1423,7 @@ C
       NX=NX/AN
       NY=NY/AN
       NZ=NZ/AN
-      AREA=UNDEMI*AN
+      AREA=HALF*AN
 C
       A12=(NX*XN1+NY*YN1+NZ*ZN1)
       A23=(NX*XN2+NY*YN2+NZ*ZN2)
@@ -1467,21 +1467,21 @@ C
        IF(B23.LE.ZERO.AND.B41.LE.ZERO)THEN
          IF(-B23/A12.LE.ALP.AND.-B41/A12.LE.ALP)SSC=ZERO
        ELSEIF(B23.LE.ZERO)THEN
-         IF(-B23/A12.LE.ALP)SSC=UN
+         IF(-B23/A12.LE.ALP)SSC=ONE
        ELSEIF(B41.EQ.ZERO)THEN
-         IF(B41.LT.ZERO.AND.-B41/A12.LE.ALP)SSC=-UN
+         IF(B41.LT.ZERO.AND.-B41/A12.LE.ALP)SSC=-ONE
        ENDIF
       ENDIF
 C
-      IF(ABS(SSC).GT.UN+ALP.OR.ABS(TTC).GT.UN+ALP) RETURN
-      IF(ABS(SSC).GT.UN)SSC=SSC/ABS(SSC)
-      IF(ABS(TTC).GT.UN)TTC=TTC/ABS(TTC)
+      IF(ABS(SSC).GT.ONE+ALP.OR.ABS(TTC).GT.ONE+ALP) RETURN
+      IF(ABS(SSC).GT.ONE)SSC=SSC/ABS(SSC)
+      IF(ABS(TTC).GT.ONE)TTC=TTC/ABS(TTC)
 C
-      TP=QUART*(UN+TTC)
-      TM=QUART*(UN-TTC)
+      TP=FOURTH*(ONE+TTC)
+      TM=FOURTH*(ONE-TTC)
 C
-      SP=UN+SSC
-      SM=UN-SSC
+      SP=ONE+SSC
+      SM=ONE-SSC
       H(1)=TM*SM
       H(2)=TM*SP
       H(3)=TP*SP
@@ -1550,24 +1550,24 @@ C
        IF(HM(1).LT.ZERO)THEN
          HM(1) = ZERO
          HS(1) = -XA / XS2
-       ELSEIF(HM(1).GT.UN)THEN
-         HM(1) = UN
+       ELSEIF(HM(1).GT.ONE)THEN
+         HM(1) = ONE
          HS(1) = -(XA + XSM) / XS2
        ENDIF
 C
        IF(HS(1).LT.ZERO)THEN
          HS(1) = ZERO
          HM(1) = -XB / XM2
-       ELSEIF(HS(1).GT.UN)THEN
-         HS(1) = UN
+       ELSEIF(HS(1).GT.ONE)THEN
+         HS(1) = ONE
          HM(1) = -(XB + XSM) / XM2
        ENDIF
 C
-       HM(1) = MIN(UN,HM(1))
+       HM(1) = MIN(ONE,HM(1))
        HM(1) = MAX(ZERO,HM(1))
 C
-       HS(2) = UN -HS(1)
-       HM(2) = UN -HM(1)
+       HS(2) = ONE -HS(1)
+       HM(2) = ONE -HM(1)
 C
       RETURN
       END

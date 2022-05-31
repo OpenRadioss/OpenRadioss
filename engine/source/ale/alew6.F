@@ -127,7 +127,7 @@ C     Volume stored in XFACE for SMP reasons
                   Z4 = X(3, IXQ(5, I + NFT))
                   A1 =Y2*(Z3-Z4)+Y3*(Z4-Z2)+Y4*(Z2-Z3)
                   A2 =Y2*(Z4-Z1)+Y4*(Z1-Z2)+Y1*(Z2-Z4)
-                  XFACE(1,1,I + NFT) = (A1+A2)*UNDEMI
+                  XFACE(1,1,I + NFT) = (A1+A2)*HALF
                ENDDO
             ENDIF
          ENDIF

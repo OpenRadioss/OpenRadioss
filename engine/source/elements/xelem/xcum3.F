@@ -66,13 +66,13 @@ C          were returned by user routine.
        IF (MS(I1).NE.ZERO.AND.XK.NE.ZERO) THEN
         XM= MS(I1)
         XC= UVISCM(K)
-        A = XC/SQRT(QUATRE*XK*XM)
-        XK= XK/(SQRT(A**2+ UN)-A)**2  
+        A = XC/SQRT(FOUR*XK*XM)
+        XK= XK/(SQRT(A**2+ ONE)-A)**2  
        ELSEIF (XK.NE.ZERO) THEN
        ELSE
         XC= UVISCM(K)
 C       XK= 0.5 *XC**2/(2.*MS(I1))
-        XK= QUART*XC**2/MAX(EM15,MS(I1))
+        XK= FOURTH*XC**2/MAX(EM15,MS(I1))
        ENDIF
        USTIFM(K)=XK
       ENDDO
@@ -137,13 +137,13 @@ C          were returned by user routine.
        IF (MS(I1).NE.ZERO.AND.XK.NE.ZERO) THEN
         XM= MS(I1)
         XC= UVISCM(K)
-        A = XC/SQRT(QUATRE*XK*XM)
-        XK= XK/(SQRT(A**2+ UN)-A)**2  
+        A = XC/SQRT(FOUR*XK*XM)
+        XK= XK/(SQRT(A**2+ ONE)-A)**2  
        ELSEIF (XK.NE.ZERO) THEN
        ELSE
         XC= UVISCM(K)
 C       XK= 0.5 *XC**2/(2.*MS(I1))
-        XK= QUART*XC**2/MAX(EM15,MS(I1))
+        XK= FOURTH*XC**2/MAX(EM15,MS(I1))
        ENDIF
        USTIFM(K)=XK
       ENDDO
@@ -172,7 +172,7 @@ Clm   vecteur skyline necessaire pour rotations.
 Clm    A = XC/SQRT(2.*XK*XM), XK= XK/(SQRT(A**2+1)-A)**2  
 C                          ou XK= 0.5*XC**2/MS(I1)
        FSKYI(NISKYL,4)=USTIFM(K)
-       FSKYI(NISKYL,5)=DEUX*UVISCM(K)
+       FSKYI(NISKYL,5)=TWO*UVISCM(K)
        ISKY(NISKYL)   =I1
       ENDDO
       ENDIF

@@ -452,22 +452,22 @@ c
         ELSE
           IF (NODADT > 0) THEN           
             ! Non-local absorbing forces
-            F1(I) = SQRT(MASS(POS1(I))/MASS0(POS1(I)))*H(1)*ZETA*SSPNL*UNDEMI*
-     .                                (VNL(POS1(I))+VNL0(POS1(I)))*(TROIS/QUATRE)*(LE_MAX**2)
-            F2(I) = SQRT(MASS(POS2(I))/MASS0(POS2(I)))*H(2)*ZETA*SSPNL*UNDEMI*
-     .                                (VNL(POS2(I))+VNL0(POS2(I)))*(TROIS/QUATRE)*(LE_MAX**2)
-            F3(I) = SQRT(MASS(POS3(I))/MASS0(POS3(I)))*H(3)*ZETA*SSPNL*UNDEMI*
-     .                                (VNL(POS3(I))+VNL0(POS3(I)))*(TROIS/QUATRE)*(LE_MAX**2)
-            F4(I) = SQRT(MASS(POS4(I))/MASS0(POS4(I)))*H(4)*ZETA*SSPNL*UNDEMI*
-     .                                (VNL(POS4(I))+VNL0(POS4(I)))*(TROIS/QUATRE)*(LE_MAX**2)
-            F5(I) = SQRT(MASS(POS5(I))/MASS0(POS5(I)))*H(5)*ZETA*SSPNL*UNDEMI*
-     .                                (VNL(POS5(I))+VNL0(POS5(I)))*(TROIS/QUATRE)*(LE_MAX**2)
-            F6(I) = SQRT(MASS(POS6(I))/MASS0(POS6(I)))*H(6)*ZETA*SSPNL*UNDEMI*
-     .                                (VNL(POS6(I))+VNL0(POS6(I)))*(TROIS/QUATRE)*(LE_MAX**2)
-            F7(I) = SQRT(MASS(POS7(I))/MASS0(POS7(I)))*H(7)*ZETA*SSPNL*UNDEMI*
-     .                                (VNL(POS7(I))+VNL0(POS7(I)))*(TROIS/QUATRE)*(LE_MAX**2)
-            F8(I) = SQRT(MASS(POS8(I))/MASS0(POS8(I)))*H(8)*ZETA*SSPNL*UNDEMI*
-     .                                (VNL(POS7(I))+VNL0(POS7(I)))*(TROIS/QUATRE)*(LE_MAX**2)
+            F1(I) = SQRT(MASS(POS1(I))/MASS0(POS1(I)))*H(1)*ZETA*SSPNL*HALF*
+     .                                (VNL(POS1(I))+VNL0(POS1(I)))*(THREE/FOUR)*(LE_MAX**2)
+            F2(I) = SQRT(MASS(POS2(I))/MASS0(POS2(I)))*H(2)*ZETA*SSPNL*HALF*
+     .                                (VNL(POS2(I))+VNL0(POS2(I)))*(THREE/FOUR)*(LE_MAX**2)
+            F3(I) = SQRT(MASS(POS3(I))/MASS0(POS3(I)))*H(3)*ZETA*SSPNL*HALF*
+     .                                (VNL(POS3(I))+VNL0(POS3(I)))*(THREE/FOUR)*(LE_MAX**2)
+            F4(I) = SQRT(MASS(POS4(I))/MASS0(POS4(I)))*H(4)*ZETA*SSPNL*HALF*
+     .                                (VNL(POS4(I))+VNL0(POS4(I)))*(THREE/FOUR)*(LE_MAX**2)
+            F5(I) = SQRT(MASS(POS5(I))/MASS0(POS5(I)))*H(5)*ZETA*SSPNL*HALF*
+     .                                (VNL(POS5(I))+VNL0(POS5(I)))*(THREE/FOUR)*(LE_MAX**2)
+            F6(I) = SQRT(MASS(POS6(I))/MASS0(POS6(I)))*H(6)*ZETA*SSPNL*HALF*
+     .                                (VNL(POS6(I))+VNL0(POS6(I)))*(THREE/FOUR)*(LE_MAX**2)
+            F7(I) = SQRT(MASS(POS7(I))/MASS0(POS7(I)))*H(7)*ZETA*SSPNL*HALF*
+     .                                (VNL(POS7(I))+VNL0(POS7(I)))*(THREE/FOUR)*(LE_MAX**2)
+            F8(I) = SQRT(MASS(POS8(I))/MASS0(POS8(I)))*H(8)*ZETA*SSPNL*HALF*
+     .                                (VNL(POS7(I))+VNL0(POS7(I)))*(THREE/FOUR)*(LE_MAX**2)
             ! Computing nodal equivalent stiffness
             STI1(I) = EM20
             STI2(I) = EM20
@@ -479,14 +479,14 @@ c
             STI8(I) = EM20
           ELSE
             ! Non-local absorbing forces
-            F1(I) = H(1)*ZETA*SSPNL*UNDEMI*(VNL(POS1(I))+VNL0(POS1(I)))*(TROIS/QUATRE)*(LE_MAX**2)
-            F2(I) = H(2)*ZETA*SSPNL*UNDEMI*(VNL(POS2(I))+VNL0(POS2(I)))*(TROIS/QUATRE)*(LE_MAX**2)
-            F3(I) = H(3)*ZETA*SSPNL*UNDEMI*(VNL(POS3(I))+VNL0(POS3(I)))*(TROIS/QUATRE)*(LE_MAX**2)
-            F4(I) = H(4)*ZETA*SSPNL*UNDEMI*(VNL(POS4(I))+VNL0(POS4(I)))*(TROIS/QUATRE)*(LE_MAX**2)
-            F5(I) = H(5)*ZETA*SSPNL*UNDEMI*(VNL(POS5(I))+VNL0(POS5(I)))*(TROIS/QUATRE)*(LE_MAX**2)
-            F6(I) = H(6)*ZETA*SSPNL*UNDEMI*(VNL(POS6(I))+VNL0(POS6(I)))*(TROIS/QUATRE)*(LE_MAX**2)
-            F7(I) = H(7)*ZETA*SSPNL*UNDEMI*(VNL(POS7(I))+VNL0(POS7(I)))*(TROIS/QUATRE)*(LE_MAX**2)
-            F8(I) = H(8)*ZETA*SSPNL*UNDEMI*(VNL(POS8(I))+VNL0(POS8(I)))*(TROIS/QUATRE)*(LE_MAX**2)
+            F1(I) = H(1)*ZETA*SSPNL*HALF*(VNL(POS1(I))+VNL0(POS1(I)))*(THREE/FOUR)*(LE_MAX**2)
+            F2(I) = H(2)*ZETA*SSPNL*HALF*(VNL(POS2(I))+VNL0(POS2(I)))*(THREE/FOUR)*(LE_MAX**2)
+            F3(I) = H(3)*ZETA*SSPNL*HALF*(VNL(POS3(I))+VNL0(POS3(I)))*(THREE/FOUR)*(LE_MAX**2)
+            F4(I) = H(4)*ZETA*SSPNL*HALF*(VNL(POS4(I))+VNL0(POS4(I)))*(THREE/FOUR)*(LE_MAX**2)
+            F5(I) = H(5)*ZETA*SSPNL*HALF*(VNL(POS5(I))+VNL0(POS5(I)))*(THREE/FOUR)*(LE_MAX**2)
+            F6(I) = H(6)*ZETA*SSPNL*HALF*(VNL(POS6(I))+VNL0(POS6(I)))*(THREE/FOUR)*(LE_MAX**2)
+            F7(I) = H(7)*ZETA*SSPNL*HALF*(VNL(POS7(I))+VNL0(POS7(I)))*(THREE/FOUR)*(LE_MAX**2)
+            F8(I) = H(8)*ZETA*SSPNL*HALF*(VNL(POS8(I))+VNL0(POS8(I)))*(THREE/FOUR)*(LE_MAX**2)
           ENDIF
         ENDIF
       ENDDO
@@ -616,8 +616,8 @@ c
           ! If the element is not broken, normal computation
           IF (OFFG(I)/=ZERO) THEN
             ! Non-local critical time-step in the plane
-            DTNL = (DEUX*(MIN(VOL(I)**TIERS,LE_MAX))*SQRT(TROIS*ZETA))/
-     .                  SQRT(DOUZE*L2 + (MIN(VOL(I)**TIERS,LE_MAX))**2)
+            DTNL = (TWO*(MIN(VOL(I)**THIRD,LE_MAX))*SQRT(THREE*ZETA))/
+     .                  SQRT(TWELVE*L2 + (MIN(VOL(I)**THIRD,LE_MAX))**2)
             ! Retaining the minimal value
             DT2T = MIN(DT2T,DTFAC1(1)*CDAMP*DTNL)
           ENDIF

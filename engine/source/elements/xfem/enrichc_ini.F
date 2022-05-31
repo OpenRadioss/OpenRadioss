@@ -126,9 +126,9 @@ C--------------------------
 C     GLOBAL-->LOCAL TRANSFORMATION
 C--------------------------
       DO I=JFT,JLT
-        LXYZ0(1)=QUART*(X3G(I)+X4G(I)+X1G(I)+X2G(I))
-        LXYZ0(2)=QUART*(Y3G(I)+Y4G(I)+Y1G(I)+Y2G(I))
-        LXYZ0(3)=QUART*(Z3G(I)+Z4G(I)+Z1G(I)+Z2G(I))
+        LXYZ0(1)=FOURTH*(X3G(I)+X4G(I)+X1G(I)+X2G(I))
+        LXYZ0(2)=FOURTH*(Y3G(I)+Y4G(I)+Y1G(I)+Y2G(I))
+        LXYZ0(3)=FOURTH*(Z3G(I)+Z4G(I)+Z1G(I)+Z2G(I))
         XXX = X1G(I)-LXYZ0(1)
         YYY = Y1G(I)-LXYZ0(2)
         ZZZ = Z1G(I)-LXYZ0(3)
@@ -149,7 +149,7 @@ C--------------------------
         ZZZ = Z4G(I)-LXYZ0(3)
         XL4(I)=R11(I)*XXX+R21(I)*YYY+R31(I)*ZZZ
         YL4(I)=R12(I)*XXX+R22(I)*YYY+R32(I)*ZZZ
-        AREA(I) = QUART*AREA(I)
+        AREA(I) = FOURTH*AREA(I)
       ENDDO
 c-----------------------------------------------------
 c     Loop over layers
@@ -205,8 +205,8 @@ C
                 ENDIF
                 XIN(IED,I) = XN(P1) + BETA*(XN(P2) - XN(P1))
                 YIN(IED,I) = YN(P1) + BETA*(YN(P2) - YN(P1)) 
-                XM(IED) = UNDEMI*(XN(p1)+XN(p2))
-                YM(IED) = UNDEMI*(YN(p1)+YN(p2))
+                XM(IED) = HALF*(XN(p1)+XN(p2))
+                YM(IED) = HALF*(YN(p1)+YN(p2))
               ENDIF
             ENDDO
 C
@@ -303,10 +303,10 @@ C
             ENDIF
           ENDDO
 C
-          ISIGN1 = INT(SIGN(UN,FIT(1,I)))
-          ISIGN2 = INT(SIGN(UN,FIT(2,I)))
-          ISIGN3 = INT(SIGN(UN,FIT(3,I)))
-          ISIGN4 = INT(SIGN(UN,FIT(4,I)))
+          ISIGN1 = INT(SIGN(ONE,FIT(1,I)))
+          ISIGN2 = INT(SIGN(ONE,FIT(2,I)))
+          ISIGN3 = INT(SIGN(ONE,FIT(3,I)))
+          ISIGN4 = INT(SIGN(ONE,FIT(4,I)))
 C
           IF (FIT(1,I) == ZERO) ISIGN1 = 0
           IF (FIT(2,I) == ZERO) ISIGN2 = 0
@@ -392,17 +392,17 @@ c
           Y2  = YYL(NX3,I)                                           
           X3  = XXL(NX4,I)                                           
           Y3  = YYL(NX4,I)                                           
-          AREA2 = UNDEMI*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
+          AREA2 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
 c--       IXEL=1 AREA factor                                           
           IED = CRKEDGE(ILAY)%IEDGEC(NX1,ELCRK)                        
           X2  = XIN(IED,I)                                             
           Y2  = YIN(IED,I)                                             
           X3  = XXL(NX1,I)                                             
           Y3  = YYL(NX1,I)                                             
-          AREA1 = UNDEMI*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))        
+          AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))        
           AREA1 = AREA1 / AREA(I)                                    
           AREA2 = AREA2 / AREA(I)                                    
-          AREA3 = UN - AREA1 - AREA2                                 
+          AREA3 = ONE - AREA1 - AREA2                                 
         ELSEIF (ITRI > 0) THEN                                     
 c--       IXEL=1                                     
           IED = CRKEDGE(ILAY)%IEDGEC(NX1,ELCRK)                        
@@ -413,18 +413,18 @@ c
           Y2  = YYL(NX2,I)                                           
           X3  = XXL(NX3,I)                                           
           Y3  = YYL(NX3,I)                                           
-          AREA1 = UNDEMI*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))      
+          AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))      
 c--       IXEL=2                                       
           IED = CRKEDGE(ILAY)%IEDGEC(NX4,ELCRK)                        
           X2  = XIN(IED,I)                                           
           Y2  = YIN(IED,I)                                           
           X3  = XXL(NX1,I)                                           
           Y3  = YYL(NX1,I)                                           
-          AREA2 = UNDEMI*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))      
+          AREA2 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))      
 c
           AREA1 = AREA1 / AREA(I)                                    
           AREA2 = AREA2 / AREA(I)                                    
-          AREA3 = UN - AREA1 - AREA2                                 
+          AREA3 = ONE - AREA1 - AREA2                                 
           CRKLVSET(PP1)%AREA(ELCRK) = AREA1                          
           CRKLVSET(PP2)%AREA(ELCRK) = AREA2                          
           CRKLVSET(PP3)%AREA(ELCRK) = AREA3                          
@@ -447,10 +447,10 @@ c
           ELSE
             ! print*,' ERROR: K,IED=',NX4,IED
           ENDIF
-          AREA1 = UNDEMI*ABS(X1*Y2 - X2*Y1 + X2*Y3 - X3*Y2 +  
+          AREA1 = HALF*ABS(X1*Y2 - X2*Y1 + X2*Y3 - X3*Y2 +  
      .                       X3*Y4 - X4*Y3 + X4*Y1 - X1*Y4)     
           AREA1 = AREA1 / AREA(I)
-          AREA2 = UN - AREA1
+          AREA2 = ONE - AREA1
           AREA3 = ZERO
         ENDIF
 c

@@ -69,7 +69,7 @@ C-----------------------------------------------
 C
       DO 20 I=LFT,LLT
       RHON(I)    =RHON(I)/VOLN(I)
-      DVOL(I) = VOLN(I)-VOLO(I)+DT1*UNDEMI*(FLU1(I)
+      DVOL(I) = VOLN(I)-VOLO(I)+DT1*HALF*(FLU1(I)
      .  +FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
       VOLO(I)=VOLN(I)
    20 CONTINUE
@@ -79,7 +79,7 @@ C
      . -(W(2,NC1(I))+W(2,NC2(I))+W(2,NC3(I))+W(2,NC4(I)))
       VZ=VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I)
      . -(W(3,NC1(I))+W(3,NC2(I))+W(3,NC3(I))+W(3,NC4(I)))
-      VD2(I)=(VY**2+VZ**2)/SEIZE
+      VD2(I)=(VY**2+VZ**2)/SIXTEEN
    30 CONTINUE
 C
       DO 40 I=LFT,LLT

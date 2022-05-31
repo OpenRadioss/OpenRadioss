@@ -165,7 +165,7 @@ C       dbeta_y/dy at this gp
         DBETADXY(EP,2) =  DN1DY*VPINCHT2(EP,1)+DN2DY*VPINCHT2(EP,2)
      -                     +DN3DY*VPINCHT2(EP,3)+DN4DY*VPINCHT2(EP,4)
 C       0.5*(dbeta_x/dy +dbeta_y/dx) at this gp
-        DBETADXY(EP,3) =  UNDEMI*(DN1DY*VPINCHT1(EP,1)+DN2DY*VPINCHT1(EP,2)
+        DBETADXY(EP,3) =  HALF*(DN1DY*VPINCHT1(EP,1)+DN2DY*VPINCHT1(EP,2)
      -                     +DN3DY*VPINCHT1(EP,3)+DN4DY*VPINCHT1(EP,4)
      -                     +DN1DX*VPINCHT2(EP,1)+DN2DX*VPINCHT2(EP,2)
      -                     +DN3DX*VPINCHT2(EP,3)+DN4DX*VPINCHT2(EP,4))

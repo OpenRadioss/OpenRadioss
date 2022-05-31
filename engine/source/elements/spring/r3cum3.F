@@ -78,7 +78,7 @@ C
         F(1,NC2(I))=F(1,NC2(I))-F11(I)
         F(2,NC2(I))=F(2,NC2(I))-F21(I)
         F(3,NC2(I))=F(3,NC2(I))-F31(I)
-        STIFN(NC2(I))=STIFN(NC2(I))+DEUX*STI(2,I)
+        STIFN(NC2(I))=STIFN(NC2(I))+TWO*STI(2,I)
       ENDDO
 C
       DO I=LFT,LLT
@@ -162,7 +162,7 @@ C
           FSKYV(N,1)=-F11(I)
           FSKYV(N,2)=-F21(I)
           FSKYV(N,3)=-F31(I)
-          FSKYV(N,7)=DEUX*STI(2,I)
+          FSKYV(N,7)=TWO*STI(2,I)
         ENDDO
       ELSE
         DO I=LFT,LLT
@@ -176,7 +176,7 @@ C
           FSKY(1,N)=-F11(I)
           FSKY(2,N)=-F21(I)
           FSKY(3,N)=-F31(I)
-          FSKY(7,N)=DEUX*STI(2,I)
+          FSKY(7,N)=TWO*STI(2,I)
         ENDDO
       ENDIF
 C

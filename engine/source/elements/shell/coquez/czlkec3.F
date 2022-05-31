@@ -158,10 +158,10 @@ C
          DF6(M)=HFOR(EP,2)*C1
         ENDDO
         DO M=JFT,JLT 
-         DM5_2(M)=DEUX*DM5(M)
-         DM6_2(M)=DEUX*DM6(M)
-         DF5_2(M)=DEUX*DF5(M)
-         DF6_2(M)=DEUX*DF6(M)
+         DM5_2(M)=TWO*DM5(M)
+         DM6_2(M)=TWO*DM6(M)
+         DF5_2(M)=TWO*DF5(M)
+         DF6_2(M)=TWO*DF6(M)
         ENDDO
         DO EP=JFT,JLT 
          K11(1,1,EP)=K11(1,1,EP)+PX1PY1(EP)*DM5_2(EP)
@@ -304,7 +304,7 @@ C---+----1----+----2----+warped elements----+----5----+----6----+----7----+----8
 #include "vectorize.inc"
        DO M=NF,JLT
         EP=IPLAT(M)
-        FACZ(M) = QUATRE*Z1(EP)*A_I(EP)
+        FACZ(M) = FOUR*Z1(EP)*A_I(EP)
         FACZ2(M) = FACZ(M)*FACZ(M)
         DG(M)=GF(M)*FACZ2(M)
        ENDDO
@@ -357,7 +357,7 @@ C--------px1px1'=px1'px1=px1py2;px1px2'=px1py1;px1'px2=px2py2;px2px2'=px2'px2=px
 C--------py1py1'=py1'py1=-px2py1;py1py2'=-px1py1;py1'py2=-px2py2;py2py2'=py2'py2=-px1py2;-------------
 C--------px1py1'=-px2px1;px1'py1=py1py2;px2py1'=-px2px2;px2'py1=py1py1;px2py2'=-px1px2;px2'py2=py1py2;px1py2'=-px1px1;px1'py2=py2py2;-------------
         DO EP=NF,JLT
-         FAC2Z=DEUX*FACZ(EP)
+         FAC2Z=TWO*FACZ(EP)
          BXIBXJ(1,1,EP)=FAC2Z*PX1PY2(EP)
          BXIBXJ(1,2,EP)=FACZ(EP)*(PX1PY1(EP)+PX2PY2(EP))
          BXIBXJ(2,1,EP)=BXIBXJ(1,2,EP)
@@ -697,7 +697,7 @@ C--------Constante parts---------------
         DM(2,2,M)=HM(EP,2)*C2
         DM(1,2,M)=HM(EP,3)*C2
         DM(3,3,M)=HM(EP,4)*C2
-        DHZ(M)=HZ(EP)*QUART*C2
+        DHZ(M)=HZ(EP)*FOURTH*C2
         DM(1,3,M)=ZERO
         DM(2,3,M)=ZERO
        ENDDO
@@ -945,7 +945,7 @@ C-------[C][BRm];----
 C        
         DO M=NF,JLT
          EP=IPLAT(M)
-         FACZ(M) = QUATRE*Z1(EP)*A_I(EP)
+         FACZ(M) = FOUR*Z1(EP)*A_I(EP)
         ENDDO
 C--------BMF : px1'=py2;px2'=py1;py1'=-px2;py2'=-px1;-------------
         DO EP=NF,JLT

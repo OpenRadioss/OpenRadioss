@@ -100,16 +100,16 @@ C-----------------------------------------------
       ENDDO
 
       DO I=LFT,LLT
-        IF(BFRAC(I) < UN) THEN
+        IF(BFRAC(I) < ONE) THEN
           TB=-TBURN(I)
           BFRAC1 = ZERO
 	  BFRAC2 = ZERO
-          IF(IBFRAC_1/=1 .AND. TT.GT.TB) BFRAC1=VDET(I)*(TT-TB)/TDEMI/DELTAX(I)   !time control
-          IF(IBFRAC_1/=2)BFRAC2=BHE(I)*(UN-DF(I))                                 !volumetric control
+          IF(IBFRAC_1/=1 .AND. TT.GT.TB) BFRAC1=VDET(I)*(TT-TB)/THREE_HALF/DELTAX(I)   !time control
+          IF(IBFRAC_1/=2)BFRAC2=BHE(I)*(ONE-DF(I))                                 !volumetric control
           BFRAC(I) = MAX(BFRAC1,BFRAC2)
           IF(BFRAC(I).LT.EM04) BFRAC(I)=ZERO
-          IF(BFRAC(I).GT.UN   ) THEN
-            BFRAC(I) = UN
+          IF(BFRAC(I).GT.ONE   ) THEN
+            BFRAC(I) = ONE
           ENDIF
         ENDIF
       ENDDO
@@ -132,7 +132,7 @@ C-----------------------------------------------
          ENDDO
       ELSE
          DO I=LFT,LLT
-            P(I)     =  - PSH(I) + (UN - BFRAC(I)) * (P0(I) + BULK * AMU(I)) + 
+            P(I)     =  - PSH(I) + (ONE - BFRAC(I)) * (P0(I) + BULK * AMU(I)) + 
      .           BFRAC(I) * (WDR1V(I)*ER1V(I)+WDR2V(I)*ER2V(I)+DR1V(I))
 !!! Taking -PSH(I) as minimum value for pressure
             P(I)     = MAX(ZERO - PSH(I), P(I))
@@ -149,12 +149,12 @@ C-----------------------------------------------
       IF (BULK .EQ. ZERO) THEN
          DO I=LFT,LLT
             SSP(I)   = SQRT(ABS(SSP(I))/RHO0(I))
-            SSP(I)   = MAX(SSP(I),VDET(I)*(UN-BFRAC(I)))
+            SSP(I)   = MAX(SSP(I),VDET(I)*(ONE-BFRAC(I)))
          ENDDO
       ELSE
          DO I=LFT,LLT
             SSP(I)   =  BFRAC(I) * (SSP(I) / RHO0(I)) + 
-     .           (UN - BFRAC(I)) * (BULK / RHO0(I))
+     .           (ONE - BFRAC(I)) * (BULK / RHO0(I))
             SSP(I)   = SQRT(ABS(SSP(I)))
          ENDDO
       ENDIF

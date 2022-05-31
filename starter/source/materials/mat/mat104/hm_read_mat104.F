@@ -117,10 +117,10 @@ c---------------------------------------------------
       IF (YLD0 == ZERO) YLD0 = INFINITY
       ! Cutting frequency
       FCUT   = 10000.0D0*FAC_T_WORK
-      ASRATE = DEUX*PI*FCUT
+      ASRATE = TWO*PI*FCUT
       ! If the inviscid plastic strain-rate is zero, no Johnson-Cook model
       IF(EPSP0 == ZERO) THEN 
-        EPSP0 = UN
+        EPSP0 = ONE
         JCC   = ZERO
         ! Info message
         CALL ANCMSG(MSGID=1654,MSGTYPE=MSGINFO,
@@ -128,7 +128,7 @@ c---------------------------------------------------
       ENDIF
       ! Self - heating
       IF (DPIS == ZERO) DPIS = INFINITY
-      IF (DPAD == ZERO) DPAD = DEUX*INFINITY
+      IF (DPAD == ZERO) DPAD = TWO*INFINITY
       IF (DPIS > DPAD) THEN
         ! Error message
         CALL ANCMSG(MSGID=1655,MSGTYPE=MSGERROR,
@@ -145,15 +145,15 @@ c     FLAGNICE = 1 => Nice method (default)
 c     FLAGNICE = 2 => Newton method
 c--------------------------
       ! Elastic parameters
-      G2 = YOUNG / (UN + NU)
-      G  = UNDEMI * G2
-      LAM  = G2 * NU /(UN - DEUX*NU)  
-      BULK = TIERS * YOUNG / (UN - NU*DEUX)
-      NNU  = NU  / (UN - NU)
-      NNU1 = UN - NNU
-      A1   = YOUNG / (UN - NU*NU)
+      G2 = YOUNG / (ONE + NU)
+      G  = HALF * G2
+      LAM  = G2 * NU /(ONE - TWO*NU)  
+      BULK = THIRD * YOUNG / (ONE - NU*TWO)
+      NNU  = NU  / (ONE - NU)
+      NNU1 = ONE - NNU
+      A1   = YOUNG / (ONE - NU*NU)
       A2   = A1 * NU
-      C1   = YOUNG / TROIS/(UN - DEUX*NU)
+      C1   = YOUNG / THREE/(ONE - TWO*NU)
 c
       ! Checking value of Drucker coeff to ensure the yield surface convexity
       IF (CDR > 2.25D0) THEN 
@@ -161,17 +161,17 @@ c
         ! Warning message
         CALL ANCMSG(MSGID=1651,MSGTYPE=MSGWARNING,
      .    ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITR)
-      ELSEIF (CDR < -VINGT7/HUIT) THEN
-        CDR = -VINGT7/HUIT   
+      ELSEIF (CDR < -TWENTY7/EIGHT) THEN
+        CDR = -TWENTY7/EIGHT   
         ! Warning message
         CALL ANCMSG(MSGID=1652,MSGTYPE=MSGWARNING,
      .    ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITR)
       ENDIF
 c
       ! Value of the constant of Drucker criterion
-      KDR = (UN/VINGT7) - CDR*(QUATRE/VINGT7/VINGT7)
-      KDR = KDR**(UN/SIX)
-      KDR = UN/KDR
+      KDR = (ONE/TWENTY7) - CDR*(FOUR/TWENTY7/TWENTY7)
+      KDR = KDR**(ONE/SIX)
+      KDR = ONE/KDR
 c--------------------------
       ! Storing parameters
       UPARAM(1)  = YOUNG    ! Young modulus
@@ -192,7 +192,7 @@ c--------------------------
       UPARAM(16) = YLD0     ! Initial yield stress
       UPARAM(17) = QVOCE    ! Voce parameter
       UPARAM(18) = BVOCE    ! Voce parameter
-      UPARAM(19) = UN       ! ALPHA    ! Swift / Voce interpolation coef
+      UPARAM(19) = ONE       ! ALPHA    ! Swift / Voce interpolation coef
       UPARAM(20) = JCC      ! Johnson-Cook parameter
       UPARAM(21) = EPSP0    ! Johnson-Cook inviscid limit strain-rate
       UPARAM(22) = MTEMP    ! Thermal softening
@@ -248,7 +248,7 @@ c---------------------------
       PARMAT(5) = ZERO ! FCUT
 c     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) = (UN - DEUX*NU)/(UN - NU)
+      PARMAT(17) = (ONE - TWO*NU)/(ONE - NU)
 c
       ! PM table
       PM(1)  = RHO0

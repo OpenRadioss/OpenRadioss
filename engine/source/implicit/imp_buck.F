@@ -895,7 +895,7 @@ C
                   DMAX=MAX(DMAX,DMAXP)
                ENDDO
                SCALE=ZERO
-               IF (DMAX.GT.ZERO) SCALE=UN/DMAX
+               IF (DMAX.GT.ZERO) SCALE=ONE/DMAX
             ELSE
                IRQTAG=MSGOFF + NSPMD + ISPMD
                CALL SPMD_DS_RSEND(DMAX, 1, IRQTAG, 1)
@@ -903,7 +903,7 @@ C
               CALL SPMD_RBCAST(SCALE, SCALE, 1, 1, 0, 2)
          ELSE
             SCALE=ZERO
-            IF (DMAX.GT.ZERO) SCALE=UN/DMAX
+            IF (DMAX.GT.ZERO) SCALE=ONE/DMAX
          ENDIF
 C
          DO J=1,NUMNOD

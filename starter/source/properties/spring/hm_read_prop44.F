@@ -355,12 +355,12 @@ C--------------------------------------------------
 !
       ENDIF ! IF (IDAMP > 0)
 !-----------------------------------------------------------------------
-      IF (FSCAL_X   == ZERO) FSCAL_X   = UN * FSCAL_X_DIM
-      IF (FSCAL_RX  == ZERO) FSCAL_RX  = UN * FSCAL_RX_DIM
-      IF (FSCAL_RY1 == ZERO) FSCAL_RY1 = UN * FSCAL_RY1_DIM
-      IF (FSCAL_RY2 == ZERO) FSCAL_RY2 = UN * FSCAL_RY2_DIM
-      IF (FSCAL_RZ1 == ZERO) FSCAL_RZ1 = UN * FSCAL_RZ1_DIM
-      IF (FSCAL_RZ2 == ZERO) FSCAL_RZ2 = UN * FSCAL_RZ2_DIM
+      IF (FSCAL_X   == ZERO) FSCAL_X   = ONE * FSCAL_X_DIM
+      IF (FSCAL_RX  == ZERO) FSCAL_RX  = ONE * FSCAL_RX_DIM
+      IF (FSCAL_RY1 == ZERO) FSCAL_RY1 = ONE * FSCAL_RY1_DIM
+      IF (FSCAL_RY2 == ZERO) FSCAL_RY2 = ONE * FSCAL_RY2_DIM
+      IF (FSCAL_RZ1 == ZERO) FSCAL_RZ1 = ONE * FSCAL_RZ1_DIM
+      IF (FSCAL_RZ2 == ZERO) FSCAL_RZ2 = ONE * FSCAL_RZ2_DIM
 !
       IF(INER < EM20) THEN                   
          INER = EM20 * INER_DIM                        
@@ -494,19 +494,19 @@ C
         IERROR = SET_U_PNU(28,IFUN_DAMP_YY,KFUNC)
         IERROR = SET_U_PNU(29,IFUN_DAMP_ZZ,KFUNC)
 ! damping
-        IF (F_X  == ZERO)  F_X  = UN * F_X_DIM
-        IF (F_Y  == ZERO)  F_Y  = UN * F_Y_DIM
-        IF (F_Z  == ZERO)  F_Z  = UN * F_Z_DIM
-        IF (F_XX == ZERO)  F_XX = UN * F_XX_DIM
-        IF (F_YY == ZERO)  F_YY = UN * F_YY_DIM
-        IF (F_ZZ == ZERO)  F_ZZ = UN * F_ZZ_DIM
+        IF (F_X  == ZERO)  F_X  = ONE * F_X_DIM
+        IF (F_Y  == ZERO)  F_Y  = ONE * F_Y_DIM
+        IF (F_Z  == ZERO)  F_Z  = ONE * F_Z_DIM
+        IF (F_XX == ZERO)  F_XX = ONE * F_XX_DIM
+        IF (F_YY == ZERO)  F_YY = ONE * F_YY_DIM
+        IF (F_ZZ == ZERO)  F_ZZ = ONE * F_ZZ_DIM
 !
-        IF (FSCAL_DAMP_X  == ZERO)  FSCAL_DAMP_X  = UN * FSCAL_DAMP_X_DIM
-        IF (FSCAL_DAMP_Y  == ZERO)  FSCAL_DAMP_Y  = UN * FSCAL_DAMP_Y_DIM
-        IF (FSCAL_DAMP_Z  == ZERO)  FSCAL_DAMP_Z  = UN * FSCAL_DAMP_Z_DIM
-        IF (FSCAL_DAMP_XX == ZERO)  FSCAL_DAMP_XX = UN * FSCAL_DAMP_XX_DIM
-        IF (FSCAL_DAMP_YY == ZERO)  FSCAL_DAMP_YY = UN * FSCAL_DAMP_YY_DIM
-        IF (FSCAL_DAMP_ZZ == ZERO)  FSCAL_DAMP_ZZ = UN * FSCAL_DAMP_ZZ_DIM
+        IF (FSCAL_DAMP_X  == ZERO)  FSCAL_DAMP_X  = ONE * FSCAL_DAMP_X_DIM
+        IF (FSCAL_DAMP_Y  == ZERO)  FSCAL_DAMP_Y  = ONE * FSCAL_DAMP_Y_DIM
+        IF (FSCAL_DAMP_Z  == ZERO)  FSCAL_DAMP_Z  = ONE * FSCAL_DAMP_Z_DIM
+        IF (FSCAL_DAMP_XX == ZERO)  FSCAL_DAMP_XX = ONE * FSCAL_DAMP_XX_DIM
+        IF (FSCAL_DAMP_YY == ZERO)  FSCAL_DAMP_YY = ONE * FSCAL_DAMP_YY_DIM
+        IF (FSCAL_DAMP_ZZ == ZERO)  FSCAL_DAMP_ZZ = ONE * FSCAL_DAMP_ZZ_DIM
 !
         IERROR = SET_U_GEO(23,FSCAL_DAMP_X)
         IERROR = SET_U_GEO(24,FSCAL_DAMP_Y)

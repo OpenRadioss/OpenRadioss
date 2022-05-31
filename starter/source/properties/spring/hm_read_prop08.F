@@ -251,7 +251,7 @@ C
       ENDIF
 C
       A_WITHOUT_UNIT = A / (FAC_M * FAC_L / (FAC_T **2))
-      IF (IFUNC == 0 .AND. A /= ZERO .AND. A_WITHOUT_UNIT /= UN) THEN
+      IF (IFUNC == 0 .AND. A /= ZERO .AND. A_WITHOUT_UNIT /= ONE) THEN
         CALL ANCMSG(MSGID=663,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
@@ -259,14 +259,14 @@ C
      .              C1=IDTITL)
       ENDIF
 C----
-      IF (A == ZERO) A = UN * (FAC_M * FAC_L / (FAC_T **2))
-      IF (D == ZERO) D = UN * (FAC_L / FAC_T)
-      IF (E == ZERO) E = UN * (FAC_M * FAC_L / (FAC_T **2))
-      IF (F == ZERO) F = UN * (FAC_L / FAC_T)
-      IF (GF3 == ZERO) GF3 = UN * (FAC_M * FAC_L / (FAC_T **2))
-      IF (LSCALE == ZERO) LSCALE = UN * FAC_L
+      IF (A == ZERO) A = ONE * (FAC_M * FAC_L / (FAC_T **2))
+      IF (D == ZERO) D = ONE * (FAC_L / FAC_T)
+      IF (E == ZERO) E = ONE * (FAC_M * FAC_L / (FAC_T **2))
+      IF (F == ZERO) F = ONE * (FAC_L / FAC_T)
+      IF (GF3 == ZERO) GF3 = ONE * (FAC_M * FAC_L / (FAC_T **2))
+      IF (LSCALE == ZERO) LSCALE = ONE * FAC_L
       IF (IFUNC == 0) THEN
-        A = UN
+        A = ONE
         B = ZERO
         E = ZERO
       ENDIF
@@ -283,8 +283,8 @@ C----
       GEO(43) = D
       GEO(40) = E
       GEO(132)= GF3                       
-      GEO(44) = UN / F
-      GEO(39) = UN / LSCALE
+      GEO(44) = ONE / F
+      GEO(39) = ONE / LSCALE
       GEO(65) = DN
       GEO(66) = DX
       GEO(3)  = XK / A
@@ -379,7 +379,7 @@ C
       ENDIF
 C
       A_WITHOUT_UNIT = A / (FAC_M * FAC_L / (FAC_T **2))
-      IF (IFUNC == 0 .AND. A /= ZERO .AND. A_WITHOUT_UNIT /= UN) THEN
+      IF (IFUNC == 0 .AND. A /= ZERO .AND. A_WITHOUT_UNIT /= ONE) THEN
         CALL ANCMSG(MSGID=663,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
@@ -387,14 +387,14 @@ C
      .              C1=IDTITL)
       ENDIF
 C----
-      IF (A == ZERO) A = UN * (FAC_M * FAC_L / (FAC_T **2))
-      IF (D == ZERO) D = UN * (FAC_L / FAC_T)
-      IF (E == ZERO) E = UN * (FAC_M * FAC_L / (FAC_T **2))
-      IF (F == ZERO) F = UN * (FAC_L / FAC_T)
-      IF (GF3 == ZERO) GF3 = UN * (FAC_M * FAC_L / (FAC_T **2))
-      IF (LSCALE == ZERO) LSCALE = UN * FAC_L
+      IF (A == ZERO) A = ONE * (FAC_M * FAC_L / (FAC_T **2))
+      IF (D == ZERO) D = ONE * (FAC_L / FAC_T)
+      IF (E == ZERO) E = ONE * (FAC_M * FAC_L / (FAC_T **2))
+      IF (F == ZERO) F = ONE * (FAC_L / FAC_T)
+      IF (GF3 == ZERO) GF3 = ONE * (FAC_M * FAC_L / (FAC_T **2))
+      IF (LSCALE == ZERO) LSCALE = ONE * FAC_L
       IF (IFUNC == 0) THEN
-        A = UN
+        A = ONE
         B = ZERO
         E = ZERO
       ENDIF
@@ -411,8 +411,8 @@ C----
       GEO(47) = D
       GEO(180)= E
       GEO(133)= GF3                       
-      GEO(48) = UN / F
-      GEO(174)= UN / LSCALE
+      GEO(48) = ONE / F
+      GEO(174)= ONE / LSCALE
       GEO(67 )= DN
       GEO(68) = DX
       GEO(10) = XK / A
@@ -506,7 +506,7 @@ C
       ENDIF
 C
       A_WITHOUT_UNIT = A / (FAC_M * FAC_L / (FAC_T **2))
-      IF (IFUNC == 0 .AND. A /= ZERO .AND. A_WITHOUT_UNIT /= UN) THEN
+      IF (IFUNC == 0 .AND. A /= ZERO .AND. A_WITHOUT_UNIT /= ONE) THEN
         CALL ANCMSG(MSGID=663,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
@@ -514,14 +514,14 @@ C
      .              C1=IDTITL)
       ENDIF
 C----
-      IF (A == ZERO) A = UN * (FAC_M * FAC_L / (FAC_T **2))
-      IF (D == ZERO) D = UN * (FAC_L / FAC_T)
-      IF (E == ZERO) E = UN * (FAC_M * FAC_L / (FAC_T **2))
-      IF (F == ZERO) F = UN * (FAC_L / FAC_T)
-      IF (GF3 == ZERO) GF3 = UN * (FAC_M * FAC_L / (FAC_T **2))
-      IF (LSCALE == ZERO) LSCALE = UN * FAC_L
+      IF (A == ZERO) A = ONE * (FAC_M * FAC_L / (FAC_T **2))
+      IF (D == ZERO) D = ONE * (FAC_L / FAC_T)
+      IF (E == ZERO) E = ONE * (FAC_M * FAC_L / (FAC_T **2))
+      IF (F == ZERO) F = ONE * (FAC_L / FAC_T)
+      IF (GF3 == ZERO) GF3 = ONE * (FAC_M * FAC_L / (FAC_T **2))
+      IF (LSCALE == ZERO) LSCALE = ONE * FAC_L
       IF (IFUNC == 0) THEN
-        A = UN
+        A = ONE
         B = ZERO
         E = ZERO
       ENDIF
@@ -538,8 +538,8 @@ C----
       GEO(51) = D
       GEO(181)= E
       GEO(134)= GF3                       
-      GEO(52) = UN / F
-      GEO(175)= UN / LSCALE
+      GEO(52) = ONE / F
+      GEO(175)= ONE / LSCALE
       GEO(69) = DN
       GEO(77) = DX
       GEO(15) = XK / A
@@ -636,7 +636,7 @@ C
       ENDIF
 C
       A_WITHOUT_UNIT = A / (FAC_M * FAC_L**2 / FAC_T**2)
-      IF (IFUNC == 0 .AND. A /= ZERO .AND. A_WITHOUT_UNIT /= UN) THEN
+      IF (IFUNC == 0 .AND. A /= ZERO .AND. A_WITHOUT_UNIT /= ONE) THEN
         CALL ANCMSG(MSGID=663,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
@@ -644,14 +644,14 @@ C
      .              C1=IDTITL)
       ENDIF
 C----
-      IF (A == ZERO) A = UN * (FAC_M * FAC_L**2 / (FAC_T **2))
-      IF (D == ZERO) D = UN / FAC_T
-      IF (E == ZERO) E = UN * (FAC_M * FAC_L**2 / (FAC_T **2))
-      IF (F == ZERO) F = UN / FAC_T
-      IF (GF3 == ZERO) GF3 = UN * (FAC_M * FAC_L**2 / (FAC_T **2))
-      IF (LSCALE == ZERO) LSCALE = UN
+      IF (A == ZERO) A = ONE * (FAC_M * FAC_L**2 / (FAC_T **2))
+      IF (D == ZERO) D = ONE / FAC_T
+      IF (E == ZERO) E = ONE * (FAC_M * FAC_L**2 / (FAC_T **2))
+      IF (F == ZERO) F = ONE / FAC_T
+      IF (GF3 == ZERO) GF3 = ONE * (FAC_M * FAC_L**2 / (FAC_T **2))
+      IF (LSCALE == ZERO) LSCALE = ONE
       IF (IFUNC == 0) THEN
-        A = UN
+        A = ONE
         B = ZERO
         E = ZERO
       ENDIF
@@ -668,8 +668,8 @@ C----
       GEO(55)  = D
       GEO(182) = E
       GEO(135) = GF3                       
-      GEO(56)  = UN / F
-      GEO(176) = UN / LSCALE
+      GEO(56)  = ONE / F
+      GEO(176) = ONE / LSCALE
       GEO(71)  = DN
       GEO(72)  = DX
       GEO(19)  = XK / A
@@ -763,7 +763,7 @@ C
       ENDIF
 C
       A_WITHOUT_UNIT = A / (FAC_M * FAC_L**2 / FAC_T**2)
-      IF (IFUNC == 0 .AND. A /= ZERO .AND. A_WITHOUT_UNIT /= UN) THEN
+      IF (IFUNC == 0 .AND. A /= ZERO .AND. A_WITHOUT_UNIT /= ONE) THEN
         CALL ANCMSG(MSGID=663,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
@@ -771,14 +771,14 @@ C
      .              C1=IDTITL)
       ENDIF
 C----
-      IF (A == ZERO) A = UN * (FAC_M * FAC_L**2 / (FAC_T **2))
-      IF (D == ZERO) D = UN / FAC_T
-      IF (E == ZERO) E = UN * (FAC_M * FAC_L**2 / (FAC_T **2))
-      IF (F == ZERO) F = UN / FAC_T
-      IF (GF3 == ZERO) GF3 = UN * (FAC_M * FAC_L**2 / (FAC_T **2))
-      IF (LSCALE == ZERO) LSCALE = UN
+      IF (A == ZERO) A = ONE * (FAC_M * FAC_L**2 / (FAC_T **2))
+      IF (D == ZERO) D = ONE / FAC_T
+      IF (E == ZERO) E = ONE * (FAC_M * FAC_L**2 / (FAC_T **2))
+      IF (F == ZERO) F = ONE / FAC_T
+      IF (GF3 == ZERO) GF3 = ONE * (FAC_M * FAC_L**2 / (FAC_T **2))
+      IF (LSCALE == ZERO) LSCALE = ONE
       IF (IFUNC == 0) THEN
-        A = UN
+        A = ONE
         B = ZERO
         E = ZERO
       ENDIF
@@ -795,8 +795,8 @@ C----
       GEO(59)  = D
       GEO(183) = E
       GEO(136) = GF3                       
-      GEO(60)  = UN / F
-      GEO(177) = UN / LSCALE
+      GEO(60)  = ONE / F
+      GEO(177) = ONE / LSCALE
       GEO(73)  = DN
       GEO(74)  = DX
       GEO(23)  = XK / A
@@ -891,7 +891,7 @@ C
       ENDIF
 C
       A_WITHOUT_UNIT = A / (FAC_M * FAC_L**2 / FAC_T**2)
-      IF (IFUNC == 0 .AND. A /= ZERO .AND. A_WITHOUT_UNIT /= UN) THEN
+      IF (IFUNC == 0 .AND. A /= ZERO .AND. A_WITHOUT_UNIT /= ONE) THEN
         CALL ANCMSG(MSGID=663,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
@@ -899,14 +899,14 @@ C
      .              C1=IDTITL)
       ENDIF
 C----
-      IF (A == ZERO) A = UN * (FAC_M * FAC_L**2 / (FAC_T **2))
-      IF (D == ZERO) D = UN / FAC_T
-      IF (E == ZERO) E = UN * (FAC_M * FAC_L**2 / (FAC_T **2))
-      IF (F == ZERO) F = UN / FAC_T
-      IF (GF3 == ZERO) GF3 = UN * (FAC_M * FAC_L**2 / (FAC_T **2))
-      IF (LSCALE == ZERO) LSCALE = UN
+      IF (A == ZERO) A = ONE * (FAC_M * FAC_L**2 / (FAC_T **2))
+      IF (D == ZERO) D = ONE / FAC_T
+      IF (E == ZERO) E = ONE * (FAC_M * FAC_L**2 / (FAC_T **2))
+      IF (F == ZERO) F = ONE / FAC_T
+      IF (GF3 == ZERO) GF3 = ONE * (FAC_M * FAC_L**2 / (FAC_T **2))
+      IF (LSCALE == ZERO) LSCALE = ONE
       IF (IFUNC == 0) THEN
-        A = UN
+        A = ONE
         B = ZERO
         E = ZERO
       ENDIF
@@ -923,8 +923,8 @@ C----
       GEO(63)  = D
       GEO(184) = E
       GEO(137) = GF3                       
-      GEO(64)  = UN / F
-      GEO(178) = UN / LSCALE
+      GEO(64)  = ONE / F
+      GEO(178) = ONE / LSCALE
       GEO(75)  = DN
       GEO(76)  = DX
       GEO(27)  = XK / A
@@ -1019,7 +1019,7 @@ C------------------------
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC 2:UNCOUPLED',/,
-     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,
@@ -1043,7 +1043,7 @@ C------------------------
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC 2:UNCOUPLED',/,
-     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,
@@ -1068,7 +1068,7 @@ C------------------------
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC 2:UNCOUPLED',/,
-     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,
@@ -1092,7 +1092,7 @@ C------------------------
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC 2:UNCOUPLED',/,
-     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,

@@ -94,7 +94,7 @@ Cf small3b        IF(OFF(I).LT.1.)OFFG(I) = OFF(I)
 C
 C     because 2*Mnodal = 2*Melement/6
       DO I=LFT,LLT
-        STI(I)=TIERS*STI(I)
+        STI(I)=THIRD*STI(I)
       END DO
 C
       DO 100 I=LFT,LLT
@@ -207,7 +207,7 @@ C-----------------------------------------------
 C
 C     because 2*Mnodal = 2*Melement/6
       DO I=LFT,LLT
-        STI(I)=TIERS*STI(I)
+        STI(I)=THIRD*STI(I)
       END DO
 C
       IF(IVECTOR.EQ.1) THEN

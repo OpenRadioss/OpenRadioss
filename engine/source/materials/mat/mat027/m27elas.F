@@ -83,10 +83,10 @@ C        SIG<0  => DE =1
 C--------------------------------------
 #include "vectorize.inc" 
       DO I=JFT,JLT
-        DE1(I)  = UN - MAX(ZERO,SIGN(DAMT(I,1),SIG(I,1)))
-        DE2(I)  = UN - MAX(ZERO,SIGN(DAMT(I,2),SIG(I,2)))
-        SCALE1  =(UNDEMI
-     .  +SIGN(UNDEMI,DE1(I)-UN))*(UNDEMI+SIGN(UNDEMI,DE2(I)-UN))
+        DE1(I)  = ONE - MAX(ZERO,SIGN(DAMT(I,1),SIG(I,1)))
+        DE2(I)  = ONE - MAX(ZERO,SIGN(DAMT(I,2),SIG(I,2)))
+        SCALE1  =(HALF
+     .  +SIGN(HALF,DE1(I)-ONE))*(HALF+SIGN(HALF,DE2(I)-ONE))
         EEL1(I) = (SIG(I,1)/DE1(I)-NU(I)*SIG(I,2)*SCALE1)/E(I)
         EEL2(I) = (SIG(I,2)/DE2(I)-NU(I)*SIG(I,1)*SCALE1)/E(I)
         EEL3(I) =  SIG(I,3)/DE1(I)/DE2(I)/G(I)
@@ -125,11 +125,11 @@ C-----------------------------
 C     CONTRAINTES "ELASTIQUES"
 C-----------------------------
       DO I=JFT,JLT
-        DE1(I) = UN - MAX(ZERO,SIGN(DAMT(I,1),SIG(I,1)))
-        DE2(I) = UN - MAX(ZERO,SIGN(DAMT(I,2),SIG(I,2)))
-        SCALE1 =(UNDEMI
-     .     +SIGN(UNDEMI,DE1(I)-UN))*(UNDEMI+SIGN(UNDEMI,DE2(I)-UN))
-        SCALE2 = UN-NU(I)*NU(I)*SCALE1
+        DE1(I) = ONE - MAX(ZERO,SIGN(DAMT(I,1),SIG(I,1)))
+        DE2(I) = ONE - MAX(ZERO,SIGN(DAMT(I,2),SIG(I,2)))
+        SCALE1 =(HALF
+     .     +SIGN(HALF,DE1(I)-ONE))*(HALF+SIGN(HALF,DE2(I)-ONE))
+        SCALE2 = ONE-NU(I)*NU(I)*SCALE1
         A11(I) = E(I)*DE1(I)/SCALE2
         A22(I) = E(I)*DE2(I)/SCALE2
         A12(I) = NU(I)*A11(I)*SCALE1

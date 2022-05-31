@@ -85,30 +85,30 @@ C-----------------------------------------------
 !---
       IF (ISMSTR == 10) THEN
         DO I=JFT,JLT
-          EPSXX(I) = EPSXX(I) + UN
-          EPSYY(I) = EPSYY(I) + UN
-          EPSXY(I) = UNDEMI * EPSXY(I)
+          EPSXX(I) = EPSXX(I) + ONE
+          EPSYY(I) = EPSYY(I) + ONE
+          EPSXY(I) = HALF * EPSXY(I)
         ENDDO
 C     principal stretch (def gradient eigenvalues)
         DO I=JFT,JLT
           TRAV(I)  = EPSXX(I)+EPSYY(I)
           ROOTV(I) = SQRT((EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
-     .               + EPSXY(I)*EPSXY(I)*QUATRE)
-          EB1(I) = UNDEMI*(TRAV(I)+ROOTV(I)) 
-          EB2(I) = UNDEMI*(TRAV(I)-ROOTV(I)) 
-          EH1(I) = UNDEMI*LOG(EB1(I))
-          EH2(I) = UNDEMI*LOG(EB2(I))
+     .               + EPSXY(I)*EPSXY(I)*FOUR)
+          EB1(I) = HALF*(TRAV(I)+ROOTV(I)) 
+          EB2(I) = HALF*(TRAV(I)-ROOTV(I)) 
+          EH1(I) = HALF*LOG(EB1(I))
+          EH2(I) = HALF*LOG(EB2(I))
           FOR1(I)= A1*EH1(I)+A2*EH2(I)
           FOR2(I)= A1*EH2(I)+A2*EH1(I)
         ENDDO
 C     rot matrix (eigenvectors), ROOTV= 2R
         DO I=JFT,JLT
           IF (ABS(EB2(I)-EB1(I)) < EM15) THEN
-            EIGV(I,1,1)=UN
+            EIGV(I,1,1)=ONE
             EIGV(I,2,1)=ZERO
             EIGV(I,3,1)=ZERO
             EIGV(I,1,2)=ZERO
-            EIGV(I,2,2)=UN
+            EIGV(I,2,2)=ONE
             EIGV(I,3,2)=ZERO
           ELSE                                             
             EIGV(I,1,1) = (EPSXX(I)-EB2(I)) / ROOTV(I)
@@ -143,7 +143,7 @@ C     rot matrix (eigenvectors), ROOTV= 2R
       ENDIF ! IF (ISMSTR /= 10)
 !---
       DO I=JFT,JLT
-        EZZ(I) = -NU * (DEPSXX(I) + DEPSYY(I)) / (UN-NU)
+        EZZ(I) = -NU * (DEPSXX(I) + DEPSYY(I)) / (ONE-NU)
         THK(I) = THK(I) + EZZ(I) * THKLYL(I)*OFF(I)
       ENDDO
 !---

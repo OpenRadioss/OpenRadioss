@@ -94,12 +94,12 @@ C
         DEPSL   = MAX(ZERO,EPSEQ(I)-EPSL(I))
         YLD(I)  = MIN(YLD(I),YLDL(I)+HL(I)*DEPSL)
         YLD(I)  = MAX(YLD(I),EM30)
-        ALPEI   = MIN(UN,YLD(I)/(YLD(I)+YM(I)*DEPSL))
+        ALPEI   = MIN(ONE,YLD(I)/(YLD(I)+YM(I)*DEPSL))
         ALPEI   = MAX(EM30,ALPEI)
         YOUNG(I)= ALPEI*YM(I)
-        GI      = UNDEMI*YOUNG(I)/(UN +NU(I))
+        GI      = HALF*YOUNG(I)/(ONE +NU(I))
         G(I)    = GI
-        A1I     = YOUNG(I)/(UN -NU(I)**2)
+        A1I     = YOUNG(I)/(ONE -NU(I)**2)
         ALPE(I) = MAX(ALPE(I),A1I/A1(I))
         A2I     = NU(I)*A1I
         SIGNXX(I)= SIGNXX(I)+A1I*DEPSXX(I)+A2I*DEPSYY(I)
@@ -116,15 +116,15 @@ C-------------------
         SVM(I) = SQRT(SIGNXX(I)*SIGNXX(I)
      .               +SIGNYY(I)*SIGNYY(I)
      .               -SIGNXX(I)*SIGNYY(I)
-     .        + TROIS*SIGNXY(I)*SIGNXY(I))
+     .        + THREE*SIGNXY(I)*SIGNXY(I))
       ENDDO
 C----------------------------
 C     VITESSE DE DEFORMATION
 C----------------------------
       DO I=JFT,JLT
-        EPSP  = MAX( ABS(DEPSXX(I)), ABS(DEPSYY(I)), UNDEMI*ABS(DEPSXY(I)))
+        EPSP  = MAX( ABS(DEPSXX(I)), ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
         EPSP  = MAX(EPSP,EPDR(I))
-        YLD(I)= YLD(I)*(UN +CC(I) * LOG(EPSP/EPDR(I)))
+        YLD(I)= YLD(I)*(ONE +CC(I) * LOG(EPSP/EPDR(I)))
         IF (ICC(I) == 2) YLD(I) = MIN(YLD(I),YMAX(I))
       ENDDO
 C------------------------------------------
@@ -134,12 +134,12 @@ C------------------------------------------
 C projection radiale
 #include "vectorize.inc"
         DO I=JFT,JLT
-          DK(I) = MIN(UN,YLD(I)/MAX(SVM(I),EM30))
+          DK(I) = MIN(ONE,YLD(I)/MAX(SVM(I),EM30))
           SIGNXX(I) = SIGNXX(I)*DK(I)
           SIGNYY(I) = SIGNYY(I)*DK(I)
           SIGNXY(I) = SIGNXY(I)*DK(I)
           DPLA(I)  = OFF(I) * MAX(ZERO,(SVM(I)-YLD(I))/YOUNG(I))
-          S1 = UNDEMI*(SIGNXX(I)+SIGNYY(I))
+          S1 = HALF*(SIGNXX(I)+SIGNYY(I))
           EZZ(I) = DPLA(I) * S1 /YLD(I)
           EPSEQ(I) = EPSEQ(I) + DPLA(I)
           EPCHK(I) = MAX(EPSEQ(I),EPCHK(I))
@@ -154,8 +154,8 @@ C-------------------------
           S1 = SIGNXX(I) + SIGNYY(I)
           S2 = SIGNXX(I) - SIGNYY(I)
           S3 = SIGNXY(I)
-          A(I) = QUART*S1*S1
-          B(I) = TQUART*S2*S2 + TROIS*S3*S3
+          A(I) = FOURTH*S1*S1
+          B(I) = THREE_OVER_4*S2*S2 + THREE*S3*S3
           SVM(I) = SQRT(A(I) + B(I))  
         ENDDO
 C-------------------------
@@ -165,7 +165,7 @@ C-------------------------
 C
       DO I=JFT,JLT
         DPLA(I) = ZERO
-        IF (SVM(I) > YLD(I) .AND. OFF(I) == UN) THEN
+        IF (SVM(I) > YLD(I) .AND. OFF(I) == ONE) THEN
           NINDX = NINDX + 1
           INDEX(NINDX) = I
         ENDIF
@@ -178,11 +178,11 @@ C---------------------------
 #include "vectorize.inc"
       DO J=1,NINDX
         I = INDEX(J)
-        NU1(I) = UN/(UN-NU(I))
-        NU2(I) = UN/(UN+NU(I))
-        H(I) = CN(I)*CB(I)*EXP((CN(I)-UN)*LOG(EPSEQ(I)+SMALL))
+        NU1(I) = ONE/(ONE-NU(I))
+        NU2(I) = ONE/(ONE+NU(I))
+        H(I) = CN(I)*CB(I)*EXP((CN(I)-ONE)*LOG(EPSEQ(I)+SMALL))
         IF (YLD(I) >= YMAX(I)) H(I) = ZERO
-        DPLA_J(I) = (SVM(I)-YLD(I))/(TROIS*G(I)+H(I))
+        DPLA_J(I) = (SVM(I)-YLD(I))/(THREE*G(I)+H(I))
       ENDDO
 C            
       DO N=1,NMAX
@@ -193,15 +193,15 @@ C
           DPLA(I)   = DPLA_J(I)        
           PLA_I = EPSEQ(I)+DPLA_I(I)
           YLD_I = MIN(YMAX(I),CA(I)+CB(I)*PLA_I**CN(I))
-          DR(I) = UNDEMI*YOUNG(I)*DPLA_I(I)/YLD_I
-          P(I)  = UN/(UN+DR(I)*NU1(I))
-          Q(I)  = UN/(UN+TROIS*DR(I)*NU2(I))
+          DR(I) = HALF*YOUNG(I)*DPLA_I(I)/YLD_I
+          P(I)  = ONE/(ONE+DR(I)*NU1(I))
+          Q(I)  = ONE/(ONE+THREE*DR(I)*NU2(I))
           P2    = P(I)*P(I)
           Q2    = Q(I)*Q(I)
           F     = A(I)*P2+B(I)*Q2-YLD_I*YLD_I
-          DF    = -(A(I)*NU1(I)*P2*P(I)+TROIS*B(I)*NU2(I)*Q2*Q(I))
-     .            *(YOUNG(I)-DEUX*DR(I)*H(I))/YLD_I
-     .            -DEUX*H(I)*YLD_I
+          DF    = -(A(I)*NU1(I)*P2*P(I)+THREE*B(I)*NU2(I)*Q2*Q(I))
+     .            *(YOUNG(I)-TWO*DR(I)*H(I))/YLD_I
+     .            -TWO*H(I)*YLD_I
           IF (DPLA_I(I) > ZERO) THEN
             DPLA_J(I) = MAX(ZERO,DPLA_I(I)-F/DF)
           ELSE
@@ -220,8 +220,8 @@ C------------------------------------------
         EPCHK(I)= MAX(EPSEQ(I),EPCHK(I))
         S1 = (SIGNXX(I)+SIGNYY(I))*P(I)
         S2 = (SIGNXX(I)-SIGNYY(I))*Q(I)
-        SIGNXX(I) = UNDEMI*(S1+S2)
-        SIGNYY(I) = UNDEMI*(S1-S2)
+        SIGNXX(I) = HALF*(S1+S2)
+        SIGNYY(I) = HALF*(S1-S2)
         SIGNXY(I) = SIGNXY(I)*Q(I)
         EZZ(I) = DR(I)*S1/YOUNG(I)
       ENDDO
@@ -242,24 +242,24 @@ C         s33 = p = -(S11 + S22)
           P2  = PP*PP
           S1S2 = S11*S22
           S122 = S12*S12
-          NNU1 = NU(I) / (UN - NU(I))
+          NNU1 = NU(I) / (ONE - NU(I))
           NNU2 = NNU1*NNU1
-          NU4 = UN + NNU2 + NNU1
-          NU6 = UNDEMI  - NNU2 + UNDEMI*NNU1
-          QQ  = (UN - NNU1)*PP
-          AA = P2*NU4 + TROIS*(S122 - S1S2)
+          NU4 = ONE + NNU2 + NNU1
+          NU6 = HALF  - NNU2 + HALF*NNU1
+          QQ  = (ONE - NNU1)*PP
+          AA = P2*NU4 + THREE*(S122 - S1S2)
           BB = P2*NU6
           C  = QQ*QQ
           VM2= AA+BB+BB+C
           C  = C - YLD(I)*YLD(I)
-          R  = MIN(UN,(-BB+ SQRT(MAX(ZERO,BB*BB-AA*C)))/MAX(AA ,EM20))
-          UMR = UN - R
+          R  = MIN(ONE,(-BB+ SQRT(MAX(ZERO,BB*BB-AA*C)))/MAX(AA ,EM20))
+          UMR = ONE - R
           QQ = QQ*UMR
           SIGNXX(I) = SIGNXX(I)*R - QQ
           SIGNYY(I) = SIGNYY(I)*R - QQ
           SIGNXY(I) = S12*R
-          DPLA(I) = OFF(I)*SQRT(VM2)*UMR/(TROIS*G(I))
-          S1 = UNDEMI*(SIGNXX(I)+SIGNYY(I))
+          DPLA(I) = OFF(I)*SQRT(VM2)*UMR/(THREE*G(I))
+          S1 = HALF*(SIGNXX(I)+SIGNYY(I))
           EZZ(I) = DPLA(I) * S1 / YLD(I)
           EPSEQ(I) = EPSEQ(I) + DPLA(I)
           EPCHK(I) = MAX(EPSEQ(I),EPCHK(I))
@@ -270,7 +270,7 @@ C
 C
       DO I=JFT,JLT
         IF (ALPE(I) < ZEP999) THEN
-          R = UN - YOUNG(I)*DPLA(I)/MAX(EM20,YLD(I))
+          R = ONE - YOUNG(I)*DPLA(I)/MAX(EM20,YLD(I))
           R = MAX(ZERO,R)
           SIGNYZ(I) = SIGNYZ(I)*R
           SIGNZX(I) = SIGNZX(I)*R

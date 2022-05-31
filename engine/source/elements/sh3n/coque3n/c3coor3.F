@@ -145,7 +145,7 @@ C
       OFF_L = ZERO
       DO I=JFT,JLT
         DT1C(I) = DT1
-        OFF(I) = MIN(UN,ABS(OFFG(I)))
+        OFF(I) = MIN(ONE,ABS(OFFG(I)))
         OFF_L  = MIN(OFF_L,OFFG(I))
         SIGY(I) = EP30
       ENDDO
@@ -237,7 +237,7 @@ c=======================================================================
       ENDDO
 C
        DO I=JFT,JLT
-          IF(ABS(OFFG(I))==UN)OFFG(I)=SIGN(DEUX,OFFG(I))
+          IF(ABS(OFFG(I))==ONE)OFFG(I)=SIGN(TWO,OFFG(I))
           AXYZ(I,1:3,1:3)= ZERO
 C            
            IF (ISROT > 0  ) THEN
@@ -284,7 +284,7 @@ C
         E03X(I)=E03X(I)/SUM(I)
         E03Y(I)=E03Y(I)/SUM(I)
         E03Z(I)=E03Z(I)/SUM(I)
-        AREA(I) = UNDEMI * SUM(I)
+        AREA(I) = HALF * SUM(I)
       ENDDO
 C
       DO I=JFT,JLT
@@ -302,8 +302,8 @@ C----------------------------
       DO I=JFT,JLT
        VR1_12=E01X(I)*E2X(I)+E01Y(I)*E2Y(I)+E01Z(I)*E2Z(I)
        VR1_21=E02X(I)*E1X(I)+E02Y(I)*E1Y(I)+E02Z(I)*E1Z(I)
-       DIRZ(I,2) = UNDEMI*(VR1_12-VR1_21)
-       NORM = UN-DIRZ(I,2)*DIRZ(I,2)
+       DIRZ(I,2) = HALF*(VR1_12-VR1_21)
+       NORM = ONE-DIRZ(I,2)*DIRZ(I,2)
        DIRZ(I,1) = SQRT(MAX(ZERO,NORM))
       ENDDO 
       DO I=JFT,JLT
@@ -341,7 +341,7 @@ C------U21,U31 in actual local system
       IF (ISROT>0) THEN
 C------RZ13,RZ23 in actual local system	  
        DO I=JFT,JLT
-        AREAI=UNDEMI/MAX(EM20,AREA(I))
+        AREAI=HALF/MAX(EM20,AREA(I))
         RLZ1 =E3X(I)*AXYZ(I,1,1)+E3Y(I)*AXYZ(I,2,1)+E3Z(I)*AXYZ(I,3,1)
         RLZ2 =E3X(I)*AXYZ(I,1,2)+E3Y(I)*AXYZ(I,2,2)+E3Z(I)*AXYZ(I,3,2)
         RLZ3 =E3X(I)*AXYZ(I,1,3)+E3Y(I)*AXYZ(I,2,3)+E3Z(I)*AXYZ(I,3,3)

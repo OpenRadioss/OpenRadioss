@@ -150,15 +150,15 @@ C-----------------------------------------------
      .                C1=TITR,
      .                I2=IFUNC(I))
         ENDIF
-        IF(YFAC(I) .EQ. ZERO) YFAC(I) = YFAC_DIM(I) * UN
+        IF(YFAC(I) .EQ. ZERO) YFAC(I) = YFAC_DIM(I) * ONE
       ENDDO
 
       IF (NFUNC > 0  .AND. HYS == ZERO) IFLAG = 1     
       IF (NFUNC > 0  .AND. HYS > ZERO)  IFLAG  = 2   ! strain rate dependency in unloading 
       IF (NFUNC > 0  .AND. HYS < ZERO)  IFLAG  = -2  ! unloading is quasi-static
       HYS = ABS(HYS)
-      IF (SHAPE == ZERO) SHAPE = UN
-      IF (HYS  == ZERO) HYS = UN
+      IF (SHAPE == ZERO) SHAPE = ONE
+      IF (HYS  == ZERO) HYS = ONE
       IF (RHOR.EQ.ZERO) RHOR=RHO0
       IF (FCUT == ZERO ) THEN
         CALL HM_GET_FLOATV_DIM('Fcut'      , FCUT_UNIT   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -167,7 +167,7 @@ C-----------------------------------------------
       PM(1) = RHOR
       PM(89)= RHO0
         
-      G = UNDEMI*E0/(UN + NU)
+      G = HALF*E0/(ONE + NU)
       UPARAM(1) = E0
       UPARAM(4) = G
       UPARAM(5) = NU 
@@ -180,7 +180,7 @@ C-----------------------------------------------
          UPARAM(I + 10 + NFUNC) = YFAC(I)
       END DO
 
-      C1=E0/TROIS/(UN - DEUX*NU)
+      C1=E0/THREE/(ONE - TWO*NU)
       NUPARAM =12 + 2*NFUNC  
       PARMAT(1) = C1
       PARMAT(2) = E0

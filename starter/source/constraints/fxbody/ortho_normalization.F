@@ -59,14 +59,14 @@ C
             VT(I)=ZERO
          ENDDO
          DO I=1,NB_MODES
-            CALL WSUM(VT, VECT(1,I), ZERO, UN, NDDL)
+            CALL WSUM(VT, VECT(1,I), ZERO, ONE, NDDL)
             DO II=1,I-1
                S=PRSCAL(VT, VECT(1,II), NDDL, MAS)
                MS=-S
-               CALL WSUM(VECT(1,I), VECT(1,II), UN, MS, NDDL)
+               CALL WSUM(VECT(1,I), VECT(1,II), ONE, MS, NDDL)
             ENDDO
             S=PRSCAL(VECT(1,I), VECT(1,I), NDDL, MAS)
-            UNS=UN/SQRT(S)
+            UNS=ONE/SQRT(S)
             CALL WSUM(VECT(1,I), VT, UNS, ZERO, NDDL)
          ENDDO
 C
@@ -112,11 +112,11 @@ C
             VT(I)=ZERO
          ENDDO
          DO I=1,NMS
-            CALL WSUM(VT, VECTS(1,I), ZERO, UN, NDDL)
+            CALL WSUM(VT, VECTS(1,I), ZERO, ONE, NDDL)
             DO II=1,NMR
                S=PRSCAL(VT, VECTR(1,II), NDDL, MAS)
                MS=-S
-               CALL WSUM(VECTS(1,I), VECTR(1,II), UN, MS, NDDL)
+               CALL WSUM(VECTS(1,I), VECTR(1,II), ONE, MS, NDDL)
             ENDDO
          ENDDO
 C      
@@ -167,16 +167,16 @@ C
 C
          DO I=1,NMS
 C
-            CALL WSUM(VT, VECTS(1,I), ZERO, UN, NDDL)
+            CALL WSUM(VT, VECTS(1,I), ZERO, ONE, NDDL)
             DO II=1,NMSF
                S=PRSCAL(VT, VECTS(1,II), NDDL, MAS)
                MS=-S
-               CALL WSUM(VECTS(1,I), VECTS(1,II), UN, MS, NDDL)
+               CALL WSUM(VECTS(1,I), VECTS(1,II), ONE, MS, NDDL)
             ENDDO
             NORM=PRSCAL(VECTS(1,I), VECTS(1,I), NDDL, MAS)
             IF (SQRT(NORM).GT.TOLE*REF) THEN
                NMSF=NMSF+1
-               UNSN=UN/SQRT(NORM)
+               UNSN=ONE/SQRT(NORM)
                CALL WSUM(VECTS(1,NMSF), VECTS(1,I), ZERO, UNSN, NDDL)
             ENDIF
          ENDDO

@@ -110,7 +110,7 @@ C------------
             ELSE
               TEMP=FTEMP
             ENDIF
-            EFAC= TEMP*(CPA+UNDEMI*CPB*TEMP+THIRD*CPC*TEMP*TEMP)
+            EFAC= TEMP*(CPA+HALF*CPB*TEMP+THIRD*CPC*TEMP*TEMP)
          ENDIF
 C 
          IF (IBAGJET(12,IINJ).EQ.2) EFAC=EFAC-RMWG*TEMP

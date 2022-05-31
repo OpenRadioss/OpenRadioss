@@ -414,7 +414,7 @@ C---determine iteration num.
 	LSM(I) = XS*XS+YS*YS+ZS*ZS
         LMAX = MAX(LMAX,LSM(I))
        ENDDO
-       NP = RMAX*SQRT(LMAX)*CINQUANTE
+       NP = RMAX*SQRT(LMAX)*FIVEUANTE
        NP = MIN(ITRMAX,NP)
       IF (NP.LE.1) THEN
        DO I=1,NSN
@@ -475,7 +475,7 @@ C
          YS=X(2,N)-X(2,M)+D(2,N)-D(2,M)
          ZS=X(3,N)-X(3,M)+D(3,N)-D(3,M)
 	 LSM1 =XS*XS+YS*YS+ZS*ZS
-	 A = SQRT(LSM(I)/LSM1)-UN
+	 A = SQRT(LSM(I)/LSM1)-ONE
          D(1,N)=D(1,N)+A*XS
          D(2,N)=D(2,N)+A*YS
          D(3,N)=D(3,N)+A*ZS

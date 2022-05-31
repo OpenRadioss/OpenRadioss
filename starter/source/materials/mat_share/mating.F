@@ -63,7 +63,7 @@ C=======================================================================
       DO I=LFT,LLT
        IFLAGINI = 0
        MA=MAT(I)
-       OFF(I) =UN
+       OFF(I) =ONE
        IF(MA == 0)CYCLE
        EINT(I)=PM(23,MA)
        RHO(I) =PM(89,MA)
@@ -82,7 +82,7 @@ C
           EINT(I) = EINT(I) * RHO(I) / PM(1,MA)
         ENDIF
 C 
-        FILL(I)=UN
+        FILL(I)=ONE
 C-----------------------------
        ELSE ! CONTRAINTES INITIALES
 C-----------------------------

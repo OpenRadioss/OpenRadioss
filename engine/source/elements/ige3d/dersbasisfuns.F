@@ -72,7 +72,7 @@ C-------------------------------------------------------------------------------
      .  DIMENSION(PXI+1,PXI+1) :: ANDU
 
       NDERS=1
-      ANDU(1,1)=UN
+      ANDU(1,1)=ONE
 
       DO J = 1,PXI   
         ALEFT(J+1) = XI - KXI(IDXI+1-J)
@@ -96,7 +96,7 @@ C COMPUTE DERIVATES
       DO L = 0,PXI
         LS1 = 0
         LS2 = 1
-        A(1,1) = UN
+        A(1,1) = ONE
 	
         DO K = 1,NDERS
           D = ZERO
@@ -196,7 +196,7 @@ C-------------------------------------------------------------------------------
       my_real, 
      .  DIMENSION(PXI+1,PXI+1) :: ANDU
 
-      ANDU(1,1)=UN
+      ANDU(1,1)=ONE
 
       DO J = 1,PXI   
         ALEFT(J+1) = XI - KXI(IDXI+1-J)

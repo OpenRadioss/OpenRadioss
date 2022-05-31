@@ -62,7 +62,7 @@ C---  Node 1 skew
       XT1(1) = SK(1)*L1(1)+SK(4)*L1(2)+SK(7)*L1(3)
       XT1(2) = SK(2)*L1(1)+SK(5)*L1(2)+SK(8)*L1(3)
       XT1(3) = SK(3)*L1(1)+SK(6)*L1(2)+SK(9)*L1(3)
-      NORM = UN/SQRT(XT1(1)*XT1(1)+XT1(2)*XT1(2)+XT1(3)*XT1(3))
+      NORM = ONE/SQRT(XT1(1)*XT1(1)+XT1(2)*XT1(2)+XT1(3)*XT1(3))
       XT1(1) = XT1(1)*NORM
       XT1(2) = XT1(2)*NORM
       XT1(3) = XT1(3)*NORM
@@ -75,7 +75,7 @@ C---  Node 1 skew
         ZT1(2) =-XT1(3)
         ZT1(3) = XT1(2)
       ENDIF
-      NORM = UN/SQRT(ZT1(1)*ZT1(1)+ZT1(2)*ZT1(2)+ZT1(3)*ZT1(3))
+      NORM = ONE/SQRT(ZT1(1)*ZT1(1)+ZT1(2)*ZT1(2)+ZT1(3)*ZT1(3))
       ZT1(1) = ZT1(1)*NORM
       ZT1(2) = ZT1(2)*NORM
       ZT1(3) = ZT1(3)*NORM
@@ -86,7 +86,7 @@ C---  Node 2 skew
       XT2(1) = SK(1)*L2(1)+SK(4)*L2(2)+SK(7)*L2(3)
       XT2(2) = SK(2)*L2(1)+SK(5)*L2(2)+SK(8)*L2(3)
       XT2(3) = SK(3)*L2(1)+SK(6)*L2(2)+SK(9)*L2(3)
-      NORM = UN/SQRT(XT2(1)*XT2(1)+XT2(2)*XT2(2)+XT2(3)*XT2(3))
+      NORM = ONE/SQRT(XT2(1)*XT2(1)+XT2(2)*XT2(2)+XT2(3)*XT2(3))
       XT2(1) = XT2(1)*NORM
       XT2(2) = XT2(2)*NORM
       XT2(3) = XT2(3)*NORM
@@ -99,7 +99,7 @@ C---  Node 2 skew
         ZT2(2) =-XT2(3)
         ZT2(3) = XT2(2)
       ENDIF
-      NORM = UN/SQRT(ZT1(1)*ZT1(1)+ZT1(2)*ZT1(2)+ZT1(3)*ZT1(3))
+      NORM = ONE/SQRT(ZT1(1)*ZT1(1)+ZT1(2)*ZT1(2)+ZT1(3)*ZT1(3))
       ZT1(1) = ZT1(1)*NORM
       ZT1(2) = ZT1(2)*NORM
       ZT1(3) = ZT1(3)*NORM
@@ -124,12 +124,12 @@ C --- V_x
       LLL(IK) = N1
       JLL(IK) = 1
       SLL(IK) = 0
-      XLL(IK) =-UN
+      XLL(IK) =-ONE
       IK = IK+1
       LLL(IK) = N0
       JLL(IK) = 1
       SLL(IK) = 0
-      XLL(IK) = UN
+      XLL(IK) = ONE
       IK = IK+1
       LLL(IK) = N0
       JLL(IK) = 5
@@ -148,12 +148,12 @@ C --- V_y
       LLL(IK) = N1
       JLL(IK) = 2
       SLL(IK) = 0
-      XLL(IK) =-UN
+      XLL(IK) =-ONE
       IK = IK+1
       LLL(IK) = N0
       JLL(IK) = 2
       SLL(IK) = 0
-      XLL(IK) = UN
+      XLL(IK) = ONE
       IK = IK+1
       LLL(IK) = N0
       JLL(IK) = 6
@@ -172,12 +172,12 @@ C --- V_z
       LLL(IK) = N1
       JLL(IK) = 3
       SLL(IK) = 0
-      XLL(IK) =-UN
+      XLL(IK) =-ONE
       IK = IK+1
       LLL(IK) = N0
       JLL(IK) = 3
       SLL(IK) = 0
-      XLL(IK) = UN
+      XLL(IK) = ONE
       IK = IK+1
       LLL(IK) = N0
       JLL(IK) = 4
@@ -198,12 +198,12 @@ C --- VR_x
       LLL(IK) = N2
       JLL(IK) = 4
       SLL(IK) = 0
-      XLL(IK) = UN
+      XLL(IK) = ONE
       IK = IK+1
       LLL(IK) = N0
       JLL(IK) = 4
       SLL(IK) = 0
-      XLL(IK) =-UN
+      XLL(IK) =-ONE
 C
 C --- VR_y
       NC = NC + 1
@@ -212,12 +212,12 @@ C --- VR_y
       LLL(IK) = N2
       JLL(IK) = 5
       SLL(IK) = 0
-      XLL(IK) = UN
+      XLL(IK) = ONE
       IK = IK+1
       LLL(IK) = N0
       JLL(IK) = 5
       SLL(IK) = 0
-      XLL(IK) =-UN
+      XLL(IK) =-ONE
 C
 C --- VR_z
       NC = NC + 1
@@ -226,12 +226,12 @@ C --- VR_z
       LLL(IK) = N2
       JLL(IK) = 6
       SLL(IK) = 0
-      XLL(IK) = UN
+      XLL(IK) = ONE
       IK = IK+1
       LLL(IK) = N0
       JLL(IK) = 6
       SLL(IK) = 0
-      XLL(IK) =-UN
+      XLL(IK) =-ONE
 C
 C
 C --- Constraints

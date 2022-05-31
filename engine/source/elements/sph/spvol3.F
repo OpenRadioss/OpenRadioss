@@ -104,7 +104,7 @@ C        ENDIF
 C  130   CONTINUE
 C      ELSE
         DO I=LFT,LLT
-          IF(OFF(I) .EQ.ZERO)VOLN(I)=UN
+          IF(OFF(I) .EQ.ZERO)VOLN(I)=ONE
         ENDDO
 C      ENDIF
 C

@@ -195,9 +195,9 @@ c       Default scale factors
 c--------------------------------------------------
         CALL HM_GET_FLOATV_DIM('xscale'   ,FSCAL_T ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOATV_DIM('magnitude',FSCAL_A ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        IF (FACX == ZERO) FACX = UN * FSCAL_T
-        FACX = UN / FACX
-        IF (FAC1 == ZERO) FAC1 = UN * FSCAL_A
+        IF (FACX == ZERO) FACX = ONE * FSCAL_T
+        FACX = ONE / FACX
+        IF (FAC1 == ZERO) FAC1 = ONE * FSCAL_A
         IF (FAC3 == ZERO) FAC3 = EP20
 c--------------------------------------------------
         IF (XYZ(1:2) == XX .OR. XYZ(1:2) == YY .OR. XYZ(1:2) == ZZ) THEN
@@ -248,7 +248,7 @@ c--------------------------------------------------
           WRITE (IOUT,'(3X,I10,3X,I10,3X,I10,9X,A2,3X,I10,3X,I10,2X,
      .       1PG20.13,2X,1PG20.13,2X,G20.13,2X,G20.13,16X,I10)')
      .       NODID,ISKN(4,NOSKEW),0,XYZ(1:L_XYZ),IBFV(3,I_VDA),SENS_ID,
-     .       FAC(1,I_VDA),UN/FACX,FAC(2,I_VDA),FAC(3,I_VDA),IBFV(10,I_VDA)
+     .       FAC(1,I_VDA),ONE/FACX,FAC(2,I_VDA),FAC(3,I_VDA),IBFV(10,I_VDA)
 !
           IF (XYZ(1:2) == XX) THEN
             IBFV(2,I_VDA) = 4 + NOSKEW*10

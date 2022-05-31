@@ -183,7 +183,7 @@ C
           VYJ=V(2,JNOD)
           VZJ=V(3,JNOD)
           DJ   =SPBUF(1,M)
-          DIJ=UNDEMI*(DI+DJ)
+          DIJ=HALF*(DI+DJ)
           RHOJ =SPBUF(2,M)
           TXX=WA(1,M)
           TYY=WA(2,M)
@@ -230,7 +230,7 @@ C         noyau conjugue Grad[Wa(b)]
           BETAYZJ=WACOMP(15,M)
           BETAZZJ=WACOMP(16,M)
 C
-          BETAX=UN +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
+          BETAX=ONE +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
           WGRD(1)=
      .     -WGRDX*ALPHAJ*BETAX
      .     +WGHT*
@@ -275,7 +275,7 @@ C--------
             DZ=-(STAB(6,M)*WGRD(1)+STAB(5,M)*WGRD(2)+STAB(3,M)*WGRD(3))
 C           CALL WEIGHT0(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT)
             WW=WGHT*DIJ*DIJ*DIJ
-            WR=UNDEMI*(STAB(7,N)+STAB(7,M))
+            WR=HALF*(STAB(7,N)+STAB(7,M))
             WI=WW*WW*WW*WW*WR
             TX=VIJ*WI*(CX+DX)
             TY=VIJ*WI*(CY+DY)
@@ -297,16 +297,16 @@ C         artitifial viscosity.
           DIVVJ=ABS(WA(13,M))
           ROTVJ=WA(14,M)
           FJ   =DIVVJ/MAX(EM20,DIVVJ+ROTVJ)
-          MUIJ=MUIJ*(FI+FJ)*UNDEMI
-          SSP=(WA(8,N)+WA(8,M))*UNDEMI
+          MUIJ=MUIJ*(FI+FJ)*HALF
+          SSP=(WA(8,N)+WA(8,M))*HALF
           MUIJ2=MIN(MUIJ,ZERO)*MIN(MUIJ,ZERO)
-          PIJ =(QA*MUIJ2-QB*SSP*MUIJ)*DEUX/MAX(EM20,RHOI+RHOJ)
+          PIJ =(QA*MUIJ2-QB*SSP*MUIJ)*TWO/MAX(EM20,RHOI+RHOJ)
           FACT=MM*PIJ
 C---------
 C         FV(j,i)=-FV(i,j)
-          WGRDX=(WGRAD(1)-WGRD(1))*UNDEMI
-          WGRDY=(WGRAD(2)-WGRD(2))*UNDEMI
-          WGRDZ=(WGRAD(3)-WGRD(3))*UNDEMI 
+          WGRDX=(WGRAD(1)-WGRD(1))*HALF
+          WGRDY=(WGRAD(2)-WGRD(2))*HALF
+          WGRDZ=(WGRAD(3)-WGRD(3))*HALF 
           FVX=-FACT*WGRDX
           FVY=-FACT*WGRDY
           FVZ=-FACT*WGRDZ
@@ -329,15 +329,15 @@ C
             SSP2J=WA(9,M)*WA(9,M)
             STIJ = VOLI*SPBUF(12,M)*SSP2J*DRHOJDR
 C
-            STIJ=DEUX*(STII+STIJ)
+            STIJ=TWO*(STII+STIJ)
 C
 C           K*=FV divise par DL (C=FV divise par V)
             WNORM=SQRT(WGRDX*WGRDX+WGRDY*WGRDY+WGRDZ*WGRDZ)
             CIJ  =MM*ABS(PIJ)*WNORM/DLDT
-            DZETA=CIJ/MAX(EM20,SQRT(DEUX*STIJ*SPBUF(12,N)))
+            DZETA=CIJ/MAX(EM20,SQRT(TWO*STIJ*SPBUF(12,N)))
             SFAC =SQRT(1.+DZETA*DZETA)-DZETA
             STIJ =STIJ/MAX(EM20,SFAC*SFAC)
-            WA(7,N)=WA(7,N)+STIJ*(UN+WI)
+            WA(7,N)=WA(7,N)+STIJ*(ONE+WI)
           ENDIF
          ELSE                           ! cellule remote
           NN = -JNOD
@@ -351,7 +351,7 @@ C Solids to SPH, no interaction if both particles are inactive
           VYJ=XSPHR(10,NN)
           VZJ=XSPHR(11,NN)
           DJ =XSPHR(2,NN)
-          DIJ=UNDEMI*(DI+DJ)
+          DIJ=HALF*(DI+DJ)
           RHOJ =XSPHR(7,NN)
           TXX=WAR(1,NN)
           TYY=WAR(2,NN)
@@ -398,7 +398,7 @@ C         noyau conjugue Grad[Wa(b)]
           BETAYZJ=WACOMPR(15,NN)
           BETAZZJ=WACOMPR(16,NN)
 C
-          BETAX=UN +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
+          BETAX=ONE +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
           WGRD(1)=
      .     -WGRDX*ALPHAJ*BETAX
      .     +WGHT*
@@ -444,7 +444,7 @@ C--------
             DZ=-(STAB(6,NR)*WGRD(1)+STAB(5,NR)*WGRD(2)+STAB(3,NR)*WGRD(3))
 C           CALL WEIGHT0(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT)
             WW=WGHT*DIJ*DIJ*DIJ
-            WR=UNDEMI*(STAB(7,N)+STAB(7,NUMSPH+NN))
+            WR=HALF*(STAB(7,N)+STAB(7,NUMSPH+NN))
             WI=WW*WW*WW*WW*WR
             TX=VIJ*WI*(CX+DX)
             TY=VIJ*WI*(CY+DY)
@@ -467,17 +467,17 @@ C WA(13) <=> WAR(9) ; WA(14) <=> WAR(10)
           DIVVJ=ABS(WAR(9,NN))
           ROTVJ=WAR(10,NN)
           FJ   =DIVVJ/MAX(EM20,DIVVJ+ROTVJ)
-          MUIJ=MUIJ*(FI+FJ)*UNDEMI
+          MUIJ=MUIJ*(FI+FJ)*HALF
 C WA(8) <=> WAR(7)
-          SSP=(WA(8,N)+WAR(7,NN))*UNDEMI
+          SSP=(WA(8,N)+WAR(7,NN))*HALF
           MUIJ2=MIN(MUIJ,ZERO)*MIN(MUIJ,ZERO)
-          PIJ =(QA*MUIJ2-QB*SSP*MUIJ)*DEUX/MAX(EM20,RHOI+RHOJ)
+          PIJ =(QA*MUIJ2-QB*SSP*MUIJ)*TWO/MAX(EM20,RHOI+RHOJ)
           FACT=MM*PIJ
 C---------
 C         FV(j,i)=-FV(i,j)
-          WGRDX=(WGRAD(1)-WGRD(1))*UNDEMI
-          WGRDY=(WGRAD(2)-WGRD(2))*UNDEMI
-          WGRDZ=(WGRAD(3)-WGRD(3))*UNDEMI 
+          WGRDX=(WGRAD(1)-WGRD(1))*HALF
+          WGRDY=(WGRAD(2)-WGRD(2))*HALF
+          WGRDZ=(WGRAD(3)-WGRD(3))*HALF 
           FVX=-FACT*WGRDX
           FVY=-FACT*WGRDY
           FVZ=-FACT*WGRDZ
@@ -501,15 +501,15 @@ C WA(9) <=> WAR(8)
             SSP2J=WAR(8,NN)*WAR(8,NN)
             STIJ = VOLI*XSPHR(8,NN)*SSP2J*DRHOJDR
 C
-            STIJ=DEUX*(STII+STIJ)
+            STIJ=TWO*(STII+STIJ)
 C
 C           K*=FV divise par DL (C=FV divise par V)
             WNORM=SQRT(WGRDX*WGRDX+WGRDY*WGRDY+WGRDZ*WGRDZ)
             CIJ  =MM*ABS(PIJ)*WNORM/DLDT
-            DZETA=CIJ/MAX(EM20,SQRT(DEUX*STIJ*SPBUF(12,N)))
+            DZETA=CIJ/MAX(EM20,SQRT(TWO*STIJ*SPBUF(12,N)))
             SFAC =SQRT(1.+DZETA*DZETA)-DZETA
             STIJ =STIJ/MAX(EM20,SFAC*SFAC)
-            WA(7,N)=WA(7,N)+STIJ*(UN+WI)
+            WA(7,N)=WA(7,N)+STIJ*(ONE+WI)
           ENDIF
          END IF
 C
@@ -522,7 +522,7 @@ C
 C
 C         pour travail des forces de visc. artificielle (par cellule).
          WVIS = MIN(ZERO,
-     .          UNDEMI*(FVX*(VXI-VXJ)+FVY*(VYI-VYJ)+FVZ*(VZI-VZJ)))
+     .          HALF*(FVX*(VXI-VXJ)+FVY*(VYI-VYJ)+FVZ*(VZI-VZJ)))
          SPBUF(11,N)=SPBUF(11,N)+WVIS
         ENDDO
 C----------------------------------
@@ -544,7 +544,7 @@ C
            VYJ=VSPSYM(2,JS)
            VZJ=VSPSYM(3,JS)
            DJ  =SPBUF(1,SM)
-           DIJ =UNDEMI*(DI+DJ)
+           DIJ =HALF*(DI+DJ)
            RHOJ=SPBUF(2,SM)
            JNOD=KXSP(3,SM)
 C
@@ -558,7 +558,7 @@ C
            WGRDX=WGRAD(1)
            WGRDY=WGRAD(2)
            WGRDZ=WGRAD(3)
-           BETAX=UN +BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
+           BETAX=ONE +BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
            WGRAD(1)=
      .      WGRDX*ALPHAI*BETAX
      .      +WGHT*
@@ -598,7 +598,7 @@ C          ALPHAZJ=WACOMP( 7,SM)
            BETAXZJ=WACOMP(14,SM)
            BETAYZJ=WACOMP(15,SM)
            BETAZZJ=WACOMP(16,SM)
-           BETAX=UN +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
+           BETAX=ONE +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
            WGRD(1)=
      .      -WGRDX*ALPHAJ*BETAX
      .      +WGHT*
@@ -639,7 +639,7 @@ C--------
              DZ=-(STAB(6,KS)*WGRD(1)+STAB(5,KS)*WGRD(2)+STAB(3,KS)*WGRD(3))
 C            CALL WEIGHT0(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT)
              WW=WGHT*DIJ*DIJ*DIJ
-             WR=UNDEMI*(STAB(7,N)+STAB(7,SM))
+             WR=HALF*(STAB(7,N)+STAB(7,SM))
              WI=WW*WW*WW*WW*WR
              TX=VIJ*WI*(CX+DX)
              TY=VIJ*WI*(CY+DY)
@@ -661,15 +661,15 @@ C          artitifial viscosity.
            DIVVJ=ABS(WA(13,SM))
            ROTVJ=WA(14,SM)
            FJ=DIVVJ/MAX(EM20,DIVVJ+ROTVJ)
-           MUIJ=MUIJ*(FI+FJ)*UNDEMI
-           SSP=(WA(8,N)+WA(8,SM))*UNDEMI
+           MUIJ=MUIJ*(FI+FJ)*HALF
+           SSP=(WA(8,N)+WA(8,SM))*HALF
            MUIJ2=MIN(MUIJ,ZERO)*MIN(MUIJ,ZERO)
-           PIJ =(QA*MUIJ2-QB*SSP*MUIJ)*DEUX/MAX(EM20,RHOI+RHOJ)
+           PIJ =(QA*MUIJ2-QB*SSP*MUIJ)*TWO/MAX(EM20,RHOI+RHOJ)
            FACT=MM*PIJ
 C---------
-           WGRDX=(WGRAD(1)-WGRD(1))*UNDEMI
-           WGRDY=(WGRAD(2)-WGRD(2))*UNDEMI
-           WGRDZ=(WGRAD(3)-WGRD(3))*UNDEMI 
+           WGRDX=(WGRAD(1)-WGRD(1))*HALF
+           WGRDY=(WGRAD(2)-WGRD(2))*HALF
+           WGRDZ=(WGRAD(3)-WGRD(3))*HALF 
            FVX=-FACT*WGRDX
            FVY=-FACT*WGRDY
            FVZ=-FACT*WGRDZ
@@ -691,15 +691,15 @@ C
              SSP2J=WA(9,SM)*WA(9,SM)
              STIJ = VOLI*SPBUF(12,SM)*SSP2J*DRHOJDR
 C   
-             STIJ=DEUX*(STII+STIJ)
+             STIJ=TWO*(STII+STIJ)
 C   
 C            K*=FV divise par DL (C=FV divise par V)
              WNORM=SQRT(WGRDX*WGRDX+WGRDY*WGRDY+WGRDZ*WGRDZ)
              CIJ  =MM*ABS(PIJ)*WNORM/DLDT
-             DZETA=CIJ/MAX(EM20,SQRT(DEUX*STIJ*SPBUF(12,N)))
-             SFAC =SQRT(UN +DZETA*DZETA)-DZETA
+             DZETA=CIJ/MAX(EM20,SQRT(TWO*STIJ*SPBUF(12,N)))
+             SFAC =SQRT(ONE +DZETA*DZETA)-DZETA
              STIJ =STIJ/MAX(EM20,SFAC*SFAC)
-             WA(7,N)=WA(7,N)+STIJ*(UN+WI)
+             WA(7,N)=WA(7,N)+STIJ*(ONE+WI)
            ENDIF
            FX=FX+FVX
            FY=FY+FVY
@@ -710,7 +710,7 @@ C            K*=FV divise par DL (C=FV divise par V)
 C 
 C          pour travail des forces de visc. artificielle (par cellule).
            WVIS = MIN(ZERO,
-     .            UNDEMI*(FVX*(VXI-VXJ)+FVY*(VYI-VYJ)+FVZ*(VZI-VZJ)))
+     .            HALF*(FVX*(VXI-VXJ)+FVY*(VYI-VYJ)+FVZ*(VZI-VZJ)))
            SPBUF(11,N)=SPBUF(11,N)+WVIS
           ELSE                      ! particule symetrique de particule remote
            SM=-JS/(NSPCOND+1)
@@ -726,7 +726,7 @@ C Solids to SPH, no interaction if both particles are inactive
            VYJ=VSPSYM(2,JS)
            VZJ=VSPSYM(3,JS)
            DJ  =XSPHR(2,SM)
-           DIJ =UNDEMI*(DI+DJ)
+           DIJ =HALF*(DI+DJ)
            RHOJ=XSPHR(7,SM)
 C
            TXX=WASIGSM(1,JS)
@@ -739,7 +739,7 @@ C
            WGRDX=WGRAD(1)
            WGRDY=WGRAD(2)
            WGRDZ=WGRAD(3)
-           BETAX=UN +BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
+           BETAX=ONE +BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
            WGRAD(1)=
      .      WGRDX*ALPHAI*BETAX
      .      +WGHT*
@@ -780,7 +780,7 @@ C          ALPHAZJ=WACOMPR( 7,SM)
            BETAYZJ=WACOMPR(15,SM)
            BETAZZJ=WACOMPR(16,SM)
 C  
-           BETAX=UN +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
+           BETAX=ONE +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
            WGRD(1)=
      .      -WGRDX*ALPHAJ*BETAX
      .      +WGHT*
@@ -821,7 +821,7 @@ C--------
              DZ=-(STAB(6,KS)*WGRD(1)+STAB(5,KS)*WGRD(2)+STAB(3,KS)*WGRD(3))
 C            CALL WEIGHT0(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT)
              WW=WGHT*DIJ*DIJ*DIJ
-             WR=UNDEMI*(STAB(7,N)+STAB(7,NUMSPH+SM))
+             WR=HALF*(STAB(7,N)+STAB(7,NUMSPH+SM))
              WI=WW*WW*WW*WW*WR
              TX=VIJ*WI*(CX+DX)
              TY=VIJ*WI*(CY+DY)
@@ -844,16 +844,16 @@ C WA(13) <=> WAR(9) ; WA(14) <=> WAR(10)
            DIVVJ=ABS(WAR(9,SM))
            ROTVJ=WAR(10,SM)
            FJ=DIVVJ/MAX(EM20,DIVVJ+ROTVJ)
-           MUIJ=MUIJ*(FI+FJ)*UNDEMI
+           MUIJ=MUIJ*(FI+FJ)*HALF
 C WA(8) <=> WAR(7)
-           SSP=(WA(8,N)+WAR(7,SM))*UNDEMI
+           SSP=(WA(8,N)+WAR(7,SM))*HALF
            MUIJ2=MIN(MUIJ,ZERO)*MIN(MUIJ,ZERO)
-           PIJ =(QA*MUIJ2-QB*SSP*MUIJ)*DEUX/MAX(EM20,RHOI+RHOJ)
+           PIJ =(QA*MUIJ2-QB*SSP*MUIJ)*TWO/MAX(EM20,RHOI+RHOJ)
            FACT=MM*PIJ
 C---------
-           WGRDX=(WGRAD(1)-WGRD(1))*UNDEMI
-           WGRDY=(WGRAD(2)-WGRD(2))*UNDEMI
-           WGRDZ=(WGRAD(3)-WGRD(3))*UNDEMI 
+           WGRDX=(WGRAD(1)-WGRD(1))*HALF
+           WGRDY=(WGRAD(2)-WGRD(2))*HALF
+           WGRDZ=(WGRAD(3)-WGRD(3))*HALF 
            FVX=-FACT*WGRDX
            FVY=-FACT*WGRDY
            FVZ=-FACT*WGRDZ
@@ -876,15 +876,15 @@ C WA(9) <=> WAR(8)
              SSP2J=WAR(8,SM)*WAR(8,SM)
              STIJ = VOLI*XSPHR(8,SM)*SSP2J*DRHOJDR
 C   
-             STIJ=DEUX*(STII+STIJ)
+             STIJ=TWO*(STII+STIJ)
 C   
 C            K*=FV divise par DL (C=FV divise par V)
              WNORM=SQRT(WGRDX*WGRDX+WGRDY*WGRDY+WGRDZ*WGRDZ)
              CIJ  =MM*ABS(PIJ)*WNORM/DLDT
-             DZETA=CIJ/MAX(EM20,SQRT(DEUX*STIJ*SPBUF(12,N)))
-             SFAC =SQRT(UN +DZETA*DZETA)-DZETA
+             DZETA=CIJ/MAX(EM20,SQRT(TWO*STIJ*SPBUF(12,N)))
+             SFAC =SQRT(ONE +DZETA*DZETA)-DZETA
              STIJ =STIJ/MAX(EM20,SFAC*SFAC)
-             WA(7,N)=WA(7,N)+STIJ*(UN+WI)
+             WA(7,N)=WA(7,N)+STIJ*(ONE+WI)
            ENDIF
            FX=FX+FVX
            FY=FY+FVY
@@ -895,7 +895,7 @@ C            K*=FV divise par DL (C=FV divise par V)
 C 
 C          pour travail des forces de visc. artificielle (par cellule).
            WVIS = MIN(ZERO,
-     .            UNDEMI*(FVX*(VXI-VXJ)+FVY*(VYI-VYJ)+FVZ*(VZI-VZJ)))
+     .            HALF*(FVX*(VXI-VXJ)+FVY*(VYI-VYJ)+FVZ*(VZI-VZJ)))
            SPBUF(11,N)=SPBUF(11,N)+WVIS
           END IF
  200    CONTINUE

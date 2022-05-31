@@ -64,9 +64,9 @@ C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE
 
       JUPW = 0
-      ETA1 = UN
-      ETA2 = UN
-      ETA3 = UN
+      ETA1 = ONE
+      ETA2 = ONE
+      ETA3 = ONE
       
       CALL HM_OPTION_COUNT('/UPWIND', NUPWIND)
       
@@ -77,11 +77,11 @@ C-----------------------------------------------
          CALL HM_GET_FLOATV('ENG_UPWIND_eta1', ETA1, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('ENG_UPWIND_eta2', ETA2, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('ENG_UPWIND_eta3', ETA3, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         IF (ETA1 == ZERO) ETA1 = UN
-         IF (ETA2 == ZERO) ETA2 = UN
-         IF (ETA3 == ZERO) ETA3 = UN
+         IF (ETA1 == ZERO) ETA1 = ONE
+         IF (ETA2 == ZERO) ETA2 = ONE
+         IF (ETA3 == ZERO) ETA3 = ONE
          
-         IF (ETA3 /= UN) THEN
+         IF (ETA3 /= ONE) THEN
             CALL ANCMSG(MSGID = 1628, MSGTYPE = MSGWARNING, ANMODE = ANINFO)
          ENDIF
       ENDIF

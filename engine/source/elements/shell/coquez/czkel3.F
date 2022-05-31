@@ -289,7 +289,7 @@ c     1            -PX1(EP)*UI(2,3,EP)-PX2(EP)*UI(2,4,EP)
 c     1            +PY1(EP)*UI(1,1,EP)+PY2(EP)*UI(1,2,EP)
 c     1            -PY1(EP)*UI(1,3,EP)-PY2(EP)*UI(1,4,EP)
 C--------px1'=py2;px2'=py1;py1'=-px2;py2'=-px1;-------------
-         TMP=Z1(EP)*QUATRE*A_I(EP)
+         TMP=Z1(EP)*FOUR*A_I(EP)
          KXX(EP)=PX1(EP)*RI(2,1,EP)+PX2(EP)*RI(2,2,EP)
      1                  -PX1(EP)*RI(2,3,EP)-PX2(EP)*RI(2,4,EP)
          KYY(EP)=-PY1(EP)*RI(1,1,EP)-PY2(EP)*RI(1,2,EP)

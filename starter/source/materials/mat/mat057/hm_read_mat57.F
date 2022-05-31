@@ -146,7 +146,7 @@ Card5 - 15
         CALL HM_GET_FLOAT_ARRAY_INDEX      ('ABG_cpa'    ,YFAC(J)     ,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
         IF(YFAC(J) == ZERO) THEN
           CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('ABG_cpa'    ,YFAC_UNIT(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB) 
-          YFAC(J)=UN * YFAC_UNIT(J)
+          YFAC(J)=ONE * YFAC_UNIT(J)
         ENDIF
         CALL HM_GET_FLOAT_ARRAY_INDEX      ('ABG_cpb'    ,RATE(J)     ,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
         IF(IFUNC(J) /= 0) NRATE = J                          
@@ -160,12 +160,12 @@ c
      .               C1=TITR)
       ENDIF
 C
-      IF(R0 ==ZERO) R0    = UN
-      IF(R45==ZERO) R45   = UN
-      IF(R90==ZERO) R90   = UN
+      IF(R0 ==ZERO) R0    = ONE
+      IF(R45==ZERO) R45   = ONE
+      IF(R90==ZERO) R90   = ONE
       IF(M==ZERO)   M     = SIX
       IF(EPSR1==ZERO)EPSR1=INFINITY
-      IF(EPSR2==ZERO)EPSR2=DEUX*INFINITY
+      IF(EPSR2==ZERO)EPSR2=TWO*INFINITY
 C
       !----------------------------------------------------------
       ! Filtering frequency
@@ -187,7 +187,7 @@ C
         NFUNC=2
         IFUNC(2)=IFUNC(1)
         RATE(1)=ZERO
-        RATE(2)=UN
+        RATE(2)=ONE
         YFAC(2)=YFAC(1)
       ELSEIF (RATE(1) == ZERO) THEN
         NFUNC=NRATE
@@ -208,17 +208,17 @@ C------------------------------
       UPARAM(2)=E
       UPARAM(3)=E/(1.-NU*NU)
       UPARAM(4)=NU*UPARAM(3)
-      G=UNDEMI*E/(UN+NU)
+      G=HALF*E/(ONE+NU)
       UPARAM(5)=G
       UPARAM(6)=NU
-      R=R0/(UN+R0)
-      H=R90/(UN+R90)
+      R=R0/(ONE+R0)
+      H=R90/(ONE+R90)
 C-----------A,C,H,P--------
-      UPARAM(8)=DEUX*SQRT(R*H)
-      UPARAM(7)=DEUX-UPARAM(8)
+      UPARAM(8)=TWO*SQRT(R*H)
+      UPARAM(7)=TWO-UPARAM(8)
       UPARAM(9)=SQRT(R/H)
 C-----------P is identified by iteration--------
-      UPARAM(10)=UN
+      UPARAM(10)=ONE
       CALL CALCULP2(UPARAM(7),UPARAM(8),UPARAM(9),UPARAM(10),M,R45)
       NPS=10
       DO J=1,NFUNC
@@ -231,10 +231,10 @@ C-----------P is identified by iteration--------
       UPARAM(NPS+2*NFUNC+2)=EPSR1
       UPARAM(NPS+2*NFUNC+3)=EPSR2
       UPARAM(NPS+2*NFUNC+4)=M
-      UPARAM(NPS+2*NFUNC+5)=TROIS*G
-      C1=THIRD*E/(UN-DEUX*NU)
+      UPARAM(NPS+2*NFUNC+5)=THREE*G
+      C1=THIRD*E/(ONE-TWO*NU)
       UPARAM(NPS+2*NFUNC+6)=C1
-      UPARAM(NPS+2*NFUNC+7)=C1+QTHIRD*G
+      UPARAM(NPS+2*NFUNC+7)=C1+FOUR_OVER_3*G
       UPARAM(NPS+2*NFUNC+8)=FISOKIN
 c---------------------------------
       OPTE = 0
@@ -262,7 +262,7 @@ C---------------------------------
 
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) = DEUX*G/(C1+QTHIRD*G) ! == (1-2*nu)/(1-nu)
+      PARMAT(17) = TWO*G/(C1+FOUR_OVER_3*G) ! == (1-2*nu)/(1-nu)
 C---------------------------------
       MTAG%G_PLA  = 1
       MTAG%G_SEQ  = 1
@@ -284,7 +284,7 @@ C---------------------------------
         WRITE(IOUT,*)' '
       ENDIF
 c---------------------------------
-      UPARAM(8)=UPARAM(8)*DEUX**M
+      UPARAM(8)=UPARAM(8)*TWO**M
 C
       RETURN
  1000 FORMAT(
@@ -351,29 +351,29 @@ C-----------------------------------------------
      .        ABA2,ABB2,ABG1,CA,CB,CA1,CB1
       DATA NMAX/10/
 C--------------------------------------------------------------
-      M2= M-DEUX
-      C1=DEUX**M*C
-      C2=QUART*(1-H)
+      M2= M-TWO
+      C1=TWO**M*C
+      C2=FOURTH*(1-H)
       C2=C2*C2
-      C3=QUART*(1+H)
-      C4=UNDEMI*(1+H)
+      C3=FOURTH*(1+H)
+      C4=HALF*(1+H)
       PP=P
       DO I=1,NMAX
-       GAMA=SQRT(C2+QUART*PP*PP)
+       GAMA=SQRT(C2+FOURTH*PP*PP)
        ALPHA=C3-GAMA
        BETA =C3+GAMA
-       C5=DEUX*C2/GAMA
+       C5=TWO*C2/GAMA
        ABA2=ABS(ALPHA)**M2
        ABB2=ABS(BETA)**M2
-       CA= ABA2*(C4-C5)*(UN+R45)
-       CB= ABB2*(C4+C5)*(UN+R45)
+       CA= ABA2*(C4-C5)*(ONE+R45)
+       CB= ABB2*(C4+C5)*(ONE+R45)
        CA1= ABA2*ALPHA
        CB1= ABB2*BETA
-       ABG1=C1*GAMA**(M-UN)
+       ABG1=C1*GAMA**(M-ONE)
        F = A*(ALPHA*(CA1-CA)+BETA*(CB1-CB))+GAMA*ABG1
-       DF =A*((M-UN)*(CA-CB)-(CA1-CB1)*(M+(UN+R45)*C5/GAMA))
+       DF =A*((M-ONE)*(CA-CB)-(CA1-CB1)*(M+(ONE+R45)*C5/GAMA))
      .     +M*ABG1
-       DF =UNDEMI*DF*PP/GAMA
+       DF =HALF*DF*PP/GAMA
        PP=PP-F/DF
       ENDDO
       P=PP

@@ -94,7 +94,7 @@ C-----------------------------------------------
       END IF
 C
       DO I=1,JLT
-        GAPV(I)=SQRT(TROIS)*GAPV(I)
+        GAPV(I)=SQRT(THREE)*GAPV(I)
       END DO
 C
       DO I=1,JLT

@@ -108,7 +108,7 @@ C-----------------------------------------------
       my_real
      .  TMP,FACL,LU,FACT,TREST
 C-----------------------------------
-      FAC=UN
+      FAC=ONE
       IF (IT.EQ.0.AND.IMCONV.GT.0) RETURN
       IF (IMCONV.LT.0)  THEN
        IF (DT_IMP.GT.DT_MIN)  THEN
@@ -120,7 +120,7 @@ C-----------------------------------
         IF (IDTC.EQ.2.AND.ALEN0.NE.ZERO)ALEN=ALEN*SCAL_DTN
         IF (IDTC.EQ.3) THEN
 	 ALEN=ALEN*SCAL_DTN
-         FACT = UN
+         FACT = ONE
 	END IF
        ENDIF
       ELSEIF (IMCONV.EQ.1)  THEN
@@ -143,36 +143,36 @@ C--------increase----------------------
         ELSE
          IF (ALEN.LE.EM20) ALEN=LU
          IF (ALEN0.GT.ZERO) ALEN=ALEN0
-         TMP=UN*NL_DTP/IT
-         IF (IT.GT.NL_DTP.AND.SCAL_DTN.NE.UN) THEN
+         TMP=ONE*NL_DTP/IT
+         IF (IT.GT.NL_DTP.AND.SCAL_DTN.NE.ONE) THEN
           IF (ALEN0.EQ.ZERO) THEN
-           TMP=(NL_DTN-NL_DTP)/(UN-SCAL_DTN)
+           TMP=(NL_DTN-NL_DTP)/(ONE-SCAL_DTN)
            FACL=(TMP-IT+NL_DTP)/TMP
            ALEN=ALEN*FACL
            ALEN=MAX(ALEN,EM01*LU)
            ALEN=MIN(ALEN,LU)
           ENDIF
           FAC=ALEN/MAX(EM20,LU)
-          FAC=MIN(UN,FAC)
+          FAC=MIN(ONE,FAC)
          ELSEIF (IT.LT.NL_DTP.AND.NL_DTP.NE.1) THEN
           IF (ALEN0.EQ.ZERO) THEN
-           FACL=UN+(NL_DTP-IT)/(NL_DTP-UN)
+           FACL=ONE+(NL_DTP-IT)/(NL_DTP-ONE)
            ALEN=ALEN*FACL
-           ALEN=MIN(ALEN,LU*DEUX)
+           ALEN=MIN(ALEN,LU*TWO)
           ENDIF
           FAC=ALEN/MAX(EM20,LU)
-          FAC=MAX(UN,FAC)
+          FAC=MAX(ONE,FAC)
          ELSEIF (IT.EQ.NL_DTP.AND.ALEN0.EQ.ZERO) THEN
           ALEN=LU
          ENDIF
         ENDIF 
         TMP=DT_IMP
-        IF (FAC.GT.UN) THEN
+        IF (FAC.GT.ONE) THEN
          FAC=MIN(SCAL_DTP,FAC)
          DT_IMP=DT_IMP*FAC
          DT_IMP=MIN(DT_IMP,DT_MAX)
          FAC=DT_IMP/TMP
-        ELSEIF (FAC.LT.UN) THEN
+        ELSEIF (FAC.LT.ONE) THEN
          FAC=MAX(SCAL_DTN,FAC)
          DT_IMP=DT_IMP*FAC
          DT_IMP=MAX(DT_IMP,DT_MIN)
@@ -188,11 +188,11 @@ C--------increase----------------------
          ELSE
           ALEN=SQRT(UL2)
          ENDIF
-         FACT = UN
+         FACT = ONE
 	ELSE !(NCYCLE.GT.1)
 C----------time correction ------
          TT = TT + DLA_RIKS
-         FACT = UN+DLA_RIKS/DT2
+         FACT = ONE+DLA_RIKS/DT2
 C------last step-------	 
 	 IF (TT.GT.TSTOP) THEN
           ILAST=1
@@ -204,18 +204,18 @@ C------last step-------
           TREST=TSTOP-TT
           IF (ALEN0.GT.ZERO) THEN
            ALEN=ALEN0
-           FAC = UN
+           FAC = ONE
           ELSE         
-           FACL=SQRT(UN*NL_DTP/IT)
+           FACL=SQRT(ONE*NL_DTP/IT)
            TMP=DT_IMP
-           IF (FACL.GT.UN) THEN
+           IF (FACL.GT.ONE) THEN
             FACL=MIN(SCAL_DTP,FACL)
             DT_IMP=DT_IMP*FACL
             DT_IMP=MIN(DT_IMP,DT_MAX)
             FACL=MIN(DT_IMP/TMP,FACL)
             DT_IMP=MIN(DT_IMP,TREST)
             FAC=DT_IMP/TMP
-           ELSEIF (FACL.LT.UN) THEN
+           ELSEIF (FACL.LT.ONE) THEN
             FACL=MAX(SCAL_DTN,FACL)
             DT_IMP=DT_IMP*FACL
             DT_IMP=MAX(DT_IMP,DT_MIN)
@@ -241,7 +241,7 @@ C----------reput old dt du to fix_p ------
        WRITE(IOUT,*)
        IF(NPRINT.LT.0)WRITE(ISTDO,*)
        IF (IDTC.EQ.3)  THEN
-        IF (FACT.NE.UN) THEN
+        IF (FACT.NE.ONE) THEN
 	 WRITE(IOUT,1005) DLA_RIKS
          IF (NPRINT.LT.0)WRITE(ISTDO,1005) DLA_RIKS
         END IF 
@@ -254,10 +254,10 @@ C----------reput old dt du to fix_p ------
          WRITE(IOUT,1003) 
          IF(NPRINT.LT.0)WRITE(ISTDO,1003) 
         ENDIF
-        IF (FAC.GT.UN)  THEN
+        IF (FAC.GT.ONE)  THEN
          WRITE(IOUT,1001) FAC
          IF(NPRINT.LT.0)WRITE(ISTDO,1001) FAC
-        ELSEIF (FAC.LT.UN)  THEN
+        ELSEIF (FAC.LT.ONE)  THEN
          WRITE(IOUT,1002) FAC
          IF(NPRINT.LT.0)WRITE(ISTDO,1002) FAC
         ENDIF
@@ -265,7 +265,7 @@ C----------reput old dt du to fix_p ------
       ENDIF
       ENDIF
       IF (IDTC.EQ.3.AND.ILAST.GT.0) DLA_RIKS=FAC
-      IF (IMCONV.LT.0) FAC=UN 
+      IF (IMCONV.LT.0) FAC=ONE 
       CUMUL_ALEN = CUMUL_ALEN + ALEN
 C---------------------------
  1001 FORMAT(5X,'--NEXT TIMESTEP IS INCREASED BY--',E11.4/)

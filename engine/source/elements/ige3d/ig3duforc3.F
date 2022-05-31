@@ -287,7 +287,7 @@ C=======================================================================
       KNOTLOCELY = ZERO
       KNOTLOCELZ = ZERO
 c a modifier
-      OFF = UN
+      OFF = ONE
       DO I=LFT,LLT
         IMAT = KXIG3D(1,I+NFT)
         NGEO(I)=KXIG3D(2,I+NFT)
@@ -602,7 +602,7 @@ C------------------------------------------------------
          N=N+1
          ZR = A_GAUSS(I,PX)
          ZS = A_GAUSS(J,PY)
-         ZT = -UN
+         ZT = -ONE
          PGAUSS = W_GAUSS(I,PX)*W_GAUSS(J,PY) 
 
          DO ITEL=LFT,LLT
@@ -617,7 +617,7 @@ C------------------------------------------------------
          
          ENDDO
 
-         ZT = UN
+         ZT = ONE
 
          DO ITEL=LFT,LLT
           CALL IGE3DAIRE(
@@ -635,7 +635,7 @@ C------------------------------------------------------
        DO I=1,PX
         DO K=1,PZ 
          N=N+1
-         ZS = -UN
+         ZS = -ONE
          ZR = A_GAUSS(I,PX)
          ZT = A_GAUSS(K,PZ)
          PGAUSS = W_GAUSS(I,PX)*W_GAUSS(K,PZ)
@@ -650,7 +650,7 @@ C------------------------------------------------------
           AFACE(3,ITEL) = AFACE(3,ITEL) + AIRENURBS(2)*PGAUSS
          ENDDO
 
-         ZS = UN 
+         ZS = ONE 
 
          DO ITEL=LFT,LLT
           CALL IGE3DAIRE(
@@ -668,7 +668,7 @@ C------------------------------------------------------
        DO J=1,PY
         DO K=1,PZ 
          N=N+1
-         ZR = -UN
+         ZR = -ONE
          ZS = A_GAUSS(J,PY)
          ZT = A_GAUSS(K,PZ)
          PGAUSS = W_GAUSS(J,PY)*W_GAUSS(K,PZ)
@@ -683,7 +683,7 @@ C------------------------------------------------------
           AFACE(5,ITEL) = AFACE(5,ITEL) + AIRENURBS(3)*PGAUSS
          ENDDO
 
-         ZR = UN 
+         ZR = ONE 
 
          DO ITEL=LFT,LLT
           CALL IGE3DAIRE(

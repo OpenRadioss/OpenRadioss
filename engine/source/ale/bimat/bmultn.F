@@ -64,8 +64,8 @@ C-----------------------------------------------
           IF(IMS(N,M).NE.0)THEN
             IMS(N,M) = 0
             FILL(N,M)= FILL(N,M)+DFILL(N,M)
-            FILL(N,M)= MIN(UN,FILL(N,M))
-            FILL(N,M)= MAX(-UN,FILL(N,M))
+            FILL(N,M)= MIN(ONE,FILL(N,M))
+            FILL(N,M)= MAX(-ONE,FILL(N,M))
           ENDIF
         ENDDO !next N
       ENDDO !next M

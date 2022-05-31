@@ -159,15 +159,15 @@ c--------------------------------------------------
           CALL ANCMSG(MSGID=1074, MSGTYPE=MSGERROR, ANMODE=ANINFO,
      .                I1=OPTID, C1=TITR, R1=T0)
           CALL HM_GET_FLOATV_DIM('rad_t0'   ,FSCAL_T ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          T0 = UN * FSCAL_T 
+          T0 = ONE * FSCAL_T 
         ENDIF
         IF (XSCALE == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('xscale'    ,FSCAL_T ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          XSCALE = UN * FSCAL_T
+          XSCALE = ONE * FSCAL_T
         ENDIF
         IF (YSCALE == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('magnitude' ,FSCAL_V ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          YSCALE = UN * FSCAL_V
+          YSCALE = ONE * FSCAL_V
         ENDIF
 c
         WRITE (IOUT,1000)
@@ -215,7 +215,7 @@ c
             FBFVEL(8,INUM)  = YSCALE
 c
             WRITE (IOUT,2000) ITAB(N1),ITAB(N2),FCT1_ID,SENS_ID,FCT2_ID,
-     .                        DIST/T0,UN/XSCALE,TSTART,DMIN,YSCALE
+     .                        DIST/T0,ONE/XSCALE,TSTART,DMIN,YSCALE
           END IF
         END DO
 c--------------------------------------------------
@@ -266,12 +266,12 @@ c
               FBFVEL(8,INUM)  = YSCALE
 c
               WRITE (IOUT,2000) ITAB(N1),ITAB(N2),FCT1_ID,SENS_ID,FCT2_ID,
-     .                          DIST/T0,UN/XSCALE,TSTART,DMIN,YSCALE
+     .                          DIST/T0,ONE/XSCALE,TSTART,DMIN,YSCALE
             END IF
           END DO
         END IF  ! PART_ID > 0
 c----------------------------------------------------------------------	  
-c       /IMPVEL/FGEO CALCULE LE NOMBRE D'OCCURENCES D'UN NOEUD DE DESTINATION
+c       /IMPVEL/FGEO CALCULE LE NOMBRE D'OCCURENCES D'ONE NOEUD DE DESTINATION
 c--------------------------------------------------
         DO N = 1,INUM
           IF (IBFVEL(13,N) /= 2) CYCLE

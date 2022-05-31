@@ -183,13 +183,13 @@ C     Getting rid of the equivalences
               JJ(I)=NDET3D ! will be removed -1 for each detonator associated to this elem
           IF(JSPH.EQ.0)THEN
             IF(IPARG(28) == 4) THEN
-              XC(I)=QUART*(X1(I)+X2(I)+X3(I)+X4(I))
-              YC(I)=QUART*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-              ZC(I)=QUART*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
+              XC(I)=FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
+              YC(I)=FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
+              ZC(I)=FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
             ELSE
-              XC(I)=UNHUIT*(X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I)+X7(I)+X8(I))
-              YC(I)=UNHUIT*(Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I)+Y7(I)+Y8(I))
-              ZC(I)=UNHUIT*(Z1(I)+Z2(I)+Z3(I)+Z4(I)+Z5(I)+Z6(I)+Z7(I)+Z8(I))
+              XC(I)=ONE_OVER_8*(X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I)+X7(I)+X8(I))
+              YC(I)=ONE_OVER_8*(Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I)+Y7(I)+Y8(I))
+              ZC(I)=ONE_OVER_8*(Z1(I)+Z2(I)+Z3(I)+Z4(I)+Z5(I)+Z6(I)+Z7(I)+Z8(I))
             ENDIF
           ELSE
             XC(I)=X1(I)

@@ -159,11 +159,11 @@ C
             Y4 = X(2,N4)
             Z4 = X(3,N4)
 C
-            SFX = UNDEMI*((Y3-Y1)*(Z4-Z2)-
+            SFX = HALF*((Y3-Y1)*(Z4-Z2)-
      1                   (Z3-Z1)*(Y4-Y2))
-            SFY = UNDEMI*((Z3-Z1)*(X4-X2)-
+            SFY = HALF*((Z3-Z1)*(X4-X2)-
      1                   (X3-X1)*(Z4-Z2))
-            SFZ = UNDEMI*((X3-X1)*(Y4-Y2)-
+            SFZ = HALF*((X3-X1)*(Y4-Y2)-
      1                   (Y3-Y1)*(X4-X2))
             SFM = SQRT(SFX*SFX+SFY*SFY+SFZ*SFZ)
 C

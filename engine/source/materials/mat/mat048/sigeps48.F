@@ -191,7 +191,7 @@ C
         SIGNYZ(I)=SIGOYZ(I) + G(I)*DEPSYZ(I)
         SIGNZX(I)=SIGOZX(I) + G(I)*DEPSZX(I)
 C
-        SOUNDSP(I) = SQRT((C1(I)+QUATRE*G(I)/TROIS)/RHO0(I))
+        SOUNDSP(I) = SQRT((C1(I)+FOUR*G(I)/THREE)/RHO0(I))
         VISCMAX(I) = ZERO
          DPLA1(I) = ZERO                
       ENDDO
@@ -205,9 +205,9 @@ C
         E1 = EPSXX(I) - DAV
         E2 = EPSYY(I) - DAV
         E3 = EPSZZ(I) - DAV
-        E4 = UNDEMI*EPSXY(I)
-        E5 = UNDEMI*EPSYZ(I)
-        E6 = UNDEMI*EPSZX(I)
+        E4 = HALF*EPSXY(I)
+        E5 = HALF*EPSYZ(I)
+        E6 = HALF*EPSZX(I)
 C        -y = (e1-x)(e2-x)(e3-x)
 C           - e5^2(e1-x) - e6^2(e2-x) - e4^2(e3-x)
 C           + 2e4 e5 e6
@@ -219,24 +219,24 @@ c         yp= 3 x^2 + c
         E62 = E6*E6
         C = - E1*E1 - E2*E2 - E3*E3 - E42 - E52 - E62
         D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
-     &      - DEUX*E4*E5*E6 
+     &      - TWO*E4*E5*E6 
         CD = C*THIRD
         EPST = SQRT(-CD)
         EPST2 = EPST * EPST
         Y = (EPST2 + C)* EPST + D
         IF(ABS(Y).GT.EM8)THEN
-          EPST = UNP75 * EPST
+          EPST = ONEP75 * EPST
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
@@ -247,7 +247,7 @@ c         yp= 3 x^2 + c
 C
 C---    tension failure 
 C
-        FAIL(I) = MAX(ZERO,MIN(UN,
+        FAIL(I) = MAX(ZERO,MIN(ONE,
      .            (EPSR2(I)-EPST)/(EPSR2(I)-EPSR1(I)) ))
 C
       ENDDO
@@ -278,19 +278,19 @@ C---------------------
          PC=CE(I)*EPSP(I)**CK(I)
         ENDIF
 C-----
-        IF(PLA(I).GT.ZERO. AND .CN(I).GE.UN) THEN
-         PDA = CB(I)*CN(I)*PLA(I)**(CN(I)- UN)
-        ELSEIF(PLA(I).GT.ZERO. AND .CN(I).LT.UN)THEN
-         PDA = CB(I)*CN(I)*PLA(I)**(UN-CN(I))
+        IF(PLA(I).GT.ZERO. AND .CN(I).GE.ONE) THEN
+         PDA = CB(I)*CN(I)*PLA(I)**(CN(I)- ONE)
+        ELSEIF(PLA(I).GT.ZERO. AND .CN(I).LT.ONE)THEN
+         PDA = CB(I)*CN(I)*PLA(I)**(ONE-CN(I))
         ELSE
          PDA = E
         ENDIF
         IF(PLA(I).LE.ZERO. OR .EPSP(I).LE.EPS0(I)) THEN
          PDB = ZERO
-        ELSEIF(CM(I).GE.UN) THEN
-         PDB = CO(I)*CM(I)*PLA(I)**(CM(I)- UN)*LOG(EPSP(I)/EPS0(I))
+        ELSEIF(CM(I).GE.ONE) THEN
+         PDB = CO(I)*CM(I)*PLA(I)**(CM(I)- ONE)*LOG(EPSP(I)/EPS0(I))
         ELSE
-         PDB = CO(I)*CM(I)*PLA(I)**(UN - CM(I))*LOG(EPSP(I)/EPS0(I))
+         PDB = CO(I)*CM(I)*PLA(I)**(ONE - CM(I))*LOG(EPSP(I)/EPS0(I))
         ENDIF
 C-----
         YY    = PA + PB + PC
@@ -307,18 +307,18 @@ C-------------------
 C     VON MISES & RADIAL RETURN
 C-------------------
       DO I=1,NEL
-        VM =UNDEMI*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
+        VM =HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      1          +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
-        VM =SQRT(TROIS*VM)
-        R = MIN(UN,YLD(I)/ MAX(VM,EM20))
+        VM =SQRT(THREE*VM)
+        R = MIN(ONE,YLD(I)/ MAX(VM,EM20))
 Clm     plastic strain increment.
-        DPLA=(UN -R)*VM/MAX(G3(I)+H(I),EM20)
+        DPLA=(ONE -R)*VM/MAX(G3(I)+H(I),EM20)
 Clm     actual yeld stress.
         YLD(I)=YLD(I)+DPLA*H(I)
         IF(PLA(I).GT.EPMAX(I)) YLD(I)=ZERO
-        R = MIN(UN,YLD(I)/ MAX(VM,EM20))
+        R = MIN(ONE,YLD(I)/ MAX(VM,EM20))
 C
-c        P = C1(I) * (RHO(I)/RHO0(I)- UN)
+c        P = C1(I) * (RHO(I)/RHO0(I)- ONE)
         P = C1(I) * AMU(I)
         SIGNXX(I)=SIGNXX(I)*R-P
         SIGNYY(I)=SIGNYY(I)*R-P
@@ -332,7 +332,7 @@ c        P = C1(I) * (RHO(I)/RHO0(I)- UN)
       ENDDO
 C
       DO I=1,NEL
-        IF(OFF(I).LT.UN) IDEL7NOK = 1
+        IF(OFF(I).LT.ONE) IDEL7NOK = 1
       ENDDO
       DO I=1,NEL
         SIGY(I)=MAX(SIGY(I),YLD(I))

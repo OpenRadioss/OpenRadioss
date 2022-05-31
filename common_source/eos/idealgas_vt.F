@@ -94,15 +94,15 @@ C-----------------------------------------------
          !SOLVE TEMPERATURE
          DO I=LFT,LLT
            ! Init newton
-           RHO = RHO0 * (UN + MU(I))           
+           RHO = RHO0 * (ONE + MU(I))           
            TEMP = POLD(I)/RHO/r_GAS
            ITER = 0
            ERROR = HUGE(ZERO)
            DO WHILE(ERROR > TOL .AND. ITER < MAX_ITER)
               ! f(x) = 0 <=> int(cv(T), T) - eint = 0
               ! <=> int(cp(T) - r_gas, T) - eint = 0
-              FUN = A0 * TEMP + UNDEMI * A1 * TEMP**2 + TIERS * A2 * TEMP**3 + 
-     .             QUART * A3 * TEMP**4 + UNCINQ * A4 * TEMP**5 - r_GAS * TEMP - ESPE(I) / RHO0
+              FUN = A0 * TEMP + HALF * A1 * TEMP**2 + THIRD * A2 * TEMP**3 + 
+     .             FOURTH * A3 * TEMP**4 + ONE_FIFTH * A4 * TEMP**5 - r_GAS * TEMP - ESPE(I) / RHO0
               IF (ABS(FUN) < TOL) EXIT
               DFUN = A0 +  A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4 - r_GAS
               INCR = - FUN / DFUN
@@ -142,15 +142,15 @@ C-----------------------------------------------
          !SOLVE TEMPERATURE
          DO I=LFT,LLT
            ! Init newton
-           RHO = RHO0 * (UN + MU(I))           
+           RHO = RHO0 * (ONE + MU(I))           
            TEMP = POLD(I)/RHO/r_GAS
            ITER = 0
            ERROR = HUGE(ZERO)
            DO WHILE(ERROR > TOL .AND. ITER < MAX_ITER)
               ! f(x) = 0 <=> int(cv(T), T) - eint = 0
               ! <=> int(cp(T) - r_gas, T) - eint = 0
-              FUN = A0 * TEMP + UNDEMI * A1 * TEMP**2 + TIERS * A2 * TEMP**3 + 
-     .             QUART * A3 * TEMP**4 + UNCINQ * A4 * TEMP**5 - r_GAS * TEMP - ESPE(I) / RHO0
+              FUN = A0 * TEMP + HALF * A1 * TEMP**2 + THIRD * A2 * TEMP**3 + 
+     .             FOURTH * A3 * TEMP**4 + ONE_FIFTH * A4 * TEMP**5 - r_GAS * TEMP - ESPE(I) / RHO0
               IF (ABS(FUN) < TOL) EXIT
               DFUN = A0 +  A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4 - r_GAS
               INCR = - FUN / DFUN
@@ -164,8 +164,8 @@ C-----------------------------------------------
          ENDDO
 
          DO I=LFT,LLT
-           PNEW(I) = RHO0*(UN+MU(I))*r_GAS*THETA(I)    
-           EINT(I) = EINT(I) - UNDEMI*DVOL(I)*PNEW(I)
+           PNEW(I) = RHO0*(ONE+MU(I))*r_GAS*THETA(I)    
+           EINT(I) = EINT(I) - HALF*DVOL(I)*PNEW(I)
            TFEXTT  = TFEXTT-DVOL(I)*PSH(I)
            PNEW(I) = PNEW(I)-PSH(I)
          ENDDO       
@@ -191,15 +191,15 @@ C-----------------------------------------------
          !SOLVE TEMPERATURE
          DO I=1,NEL
            ! Init newton
-           RHO = RHO0 * (UN + MU(I))           
+           RHO = RHO0 * (ONE + MU(I))           
            TEMP = POLD(I)/RHO/r_GAS
            ITER = 0
            ERROR = HUGE(ZERO)
            DO WHILE(ERROR > TOL .AND. ITER < MAX_ITER)
               ! f(x) = 0 <=> int(cv(T), T) - eint = 0
               ! <=> int(cp(T) - r_gas, T) - eint = 0
-              FUN = A0 * TEMP + UNDEMI * A1 * TEMP**2 + TIERS * A2 * TEMP**3 + 
-     .             QUART * A3 * TEMP**4 + UNCINQ * A4 * TEMP**5 - r_GAS * TEMP - ESPE(I) / RHO0
+              FUN = A0 * TEMP + HALF * A1 * TEMP**2 + THIRD * A2 * TEMP**3 + 
+     .             FOURTH * A3 * TEMP**4 + ONE_FIFTH * A4 * TEMP**5 - r_GAS * TEMP - ESPE(I) / RHO0
               IF (ABS(FUN) < TOL) EXIT
               DFUN = A0 +  A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4 - r_GAS
               INCR = - FUN / DFUN
@@ -218,7 +218,7 @@ C-----------------------------------------------
                 GAMMA = CP(I)/CV
                 DPDM(I) = RHO0*GAMMA*r_GAS*THETA(I) !total derivative
                 DPDE(I) = GAMMA*(1+MU(I)) !partial derivative
-                PNEW(I) = RHO0*(UN+MU(I))*r_GAS*THETA(I) 
+                PNEW(I) = RHO0*(ONE+MU(I))*r_GAS*THETA(I) 
              ENDIF
           ENDDO
       ENDIF

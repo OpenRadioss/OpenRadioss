@@ -128,7 +128,7 @@ c=======================================================================
       VNL0 => NLOC_DMG%VNL_OLD(1:L_NLOC) ! Non-local variable velocities
       UNL  => NLOC_DMG%UNL(1:L_NLOC)     ! Non-local cumulated variable
       ! Constant for quad elements
-      NTN  = QUATRE*QUATRE
+      NTN  = FOUR*FOUR
 c         
       !-----------------------------------------------------------------------
       ! Computation of the element volume and the BtB matrix product
@@ -150,7 +150,7 @@ c
         POS4(I) = NLOC_DMG%POSI(N4)        
 c
         ! Computation of the element volume
-        VOL(I)  = QUART*THK(I)*AREA(I)
+        VOL(I)  = FOURTH*THK(I)*AREA(I)
 c 
         ! Computation of the product BtxB
         BTB11(I) = Y24(I)**2 + (-X24(I))**2
@@ -213,11 +213,11 @@ c
           DO I = 1,NEL
             ! Computation of B-matrix values
             IF ((NDDL==2).AND.(K==2)) THEN
-              BTH1 = (UN/(ZTH(K-1,NDDL)  - ZTH(K,NDDL)))*(UN/THK(I))
-              BTH2 = (UN/(ZTH(K,NDDL)    - ZTH(K-1,NDDL)))*(UN/THK(I))
+              BTH1 = (ONE/(ZTH(K-1,NDDL)  - ZTH(K,NDDL)))*(ONE/THK(I))
+              BTH2 = (ONE/(ZTH(K,NDDL)    - ZTH(K-1,NDDL)))*(ONE/THK(I))
             ELSE
-              BTH1 = (UN/(ZTH(K,NDDL)    - ZTH(K+1,NDDL)))*(UN/THK(I))
-              BTH2 = (UN/(ZTH(K+1,NDDL)  - ZTH(K,NDDL)))*(UN/THK(I))
+              BTH1 = (ONE/(ZTH(K,NDDL)    - ZTH(K+1,NDDL)))*(ONE/THK(I))
+              BTH2 = (ONE/(ZTH(K+1,NDDL)  - ZTH(K,NDDL)))*(ONE/THK(I))
             ENDIF               
 c         
             ! Computation of the non-local K matrix
@@ -267,7 +267,7 @@ C
           DTNOD = EP20
           DO K = 1,NDNOD
             DO I = 1,NEL
-              DTN(I,K) = DTFAC1(11)*CDAMP*SQRT(DEUX*MASSTH(I,K)/MAX(STIFNLTH(I,K),EM20)) 
+              DTN(I,K) = DTFAC1(11)*CDAMP*SQRT(TWO*MASSTH(I,K)/MAX(STIFNLTH(I,K),EM20)) 
               DTNOD    = MIN(DTN(I,K),DTNOD)
             ENDDO
           ENDDO
@@ -280,7 +280,7 @@ C
                 DO I = 1,NEL
                   IF (DTN(I,K) < DTMIN1(11)) THEN
                     DT2P        = DTMIN1(11)/(DTFAC1(11)*CDAMP)
-                    MASSTH(I,K) = MAX(MASSTH(I,K),CSTA*UNDEMI*STIFNLTH(I,K)*DT2P*DT2P*UNP00001)
+                    MASSTH(I,K) = MAX(MASSTH(I,K),CSTA*HALF*STIFNLTH(I,K)*DT2P*DT2P*ONEP00001)
                   ENDIF
                 ENDDO
               ENDDO
@@ -337,10 +337,10 @@ c
       ! Computation of shape functions value at the Gauss point
       KSI = VPG(1,NG)
       ETA = VPG(2,NG)
-      SF1 = QUART*(1-KSI)*(1-ETA)
-      SF2 = QUART*(1+KSI)*(1-ETA)
-      SF3 = QUART*(1+KSI)*(1+ETA)
-      SF4 = QUART*(1-KSI)*(1+ETA)
+      SF1 = FOURTH*(1-KSI)*(1-ETA)
+      SF2 = FOURTH*(1+KSI)*(1-ETA)
+      SF3 = FOURTH*(1+KSI)*(1+ETA)
+      SF4 = FOURTH*(1-KSI)*(1+ETA)
 c
       ! Loop over additional d.o.fs
       DO K = 1, NDDL      
@@ -431,13 +431,13 @@ c
             IF (NODADT > 0) THEN 
               ! Non-local absorbing forces
               F1(I,K) = SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1))*SF1*WF(K,NDDL)*ZETA*SSPNL*
-     .                        UNDEMI*(VNL(POS1(I)+K-1)+VNL0(POS1(I)+K-1))*LE_MAX*THK(I)
+     .                        HALF*(VNL(POS1(I)+K-1)+VNL0(POS1(I)+K-1))*LE_MAX*THK(I)
               F2(I,K) = SQRT(MASS(POS2(I)+K-1)/MASS0(POS2(I)+K-1))*SF2*WF(K,NDDL)*ZETA*SSPNL*
-     .                        UNDEMI*(VNL(POS2(I)+K-1)+VNL0(POS2(I)+K-1))*LE_MAX*THK(I)
+     .                        HALF*(VNL(POS2(I)+K-1)+VNL0(POS2(I)+K-1))*LE_MAX*THK(I)
               F3(I,K) = SQRT(MASS(POS3(I)+K-1)/MASS0(POS3(I)+K-1))*SF3*WF(K,NDDL)*ZETA*SSPNL*
-     .                        UNDEMI*(VNL(POS3(I)+K-1)+VNL0(POS3(I)+K-1))*LE_MAX*THK(I)
+     .                        HALF*(VNL(POS3(I)+K-1)+VNL0(POS3(I)+K-1))*LE_MAX*THK(I)
               F4(I,K) = SQRT(MASS(POS4(I)+K-1)/MASS0(POS4(I)+K-1))*SF4*WF(K,NDDL)*ZETA*SSPNL*
-     .                        UNDEMI*(VNL(POS4(I)+K-1)+VNL0(POS4(I)+K-1))*LE_MAX*THK(I)
+     .                        HALF*(VNL(POS4(I)+K-1)+VNL0(POS4(I)+K-1))*LE_MAX*THK(I)
               ! Computing nodal equivalent stiffness
               STI1(I,K) = EM20
               STI2(I,K) = EM20
@@ -445,10 +445,10 @@ c
               STI4(I,K) = EM20 
             ELSE
               ! Non-local absorbing forces
-              F1(I,K) = SF1*WF(K,NDDL)*ZETA*SSPNL*UNDEMI*(VNL(POS1(I)+K-1)+VNL0(POS1(I)+K-1))*LE_MAX*THK(I)
-              F2(I,K) = SF2*WF(K,NDDL)*ZETA*SSPNL*UNDEMI*(VNL(POS2(I)+K-1)+VNL0(POS2(I)+K-1))*LE_MAX*THK(I)
-              F3(I,K) = SF3*WF(K,NDDL)*ZETA*SSPNL*UNDEMI*(VNL(POS3(I)+K-1)+VNL0(POS3(I)+K-1))*LE_MAX*THK(I)
-              F4(I,K) = SF4*WF(K,NDDL)*ZETA*SSPNL*UNDEMI*(VNL(POS4(I)+K-1)+VNL0(POS4(I)+K-1))*LE_MAX*THK(I)
+              F1(I,K) = SF1*WF(K,NDDL)*ZETA*SSPNL*HALF*(VNL(POS1(I)+K-1)+VNL0(POS1(I)+K-1))*LE_MAX*THK(I)
+              F2(I,K) = SF2*WF(K,NDDL)*ZETA*SSPNL*HALF*(VNL(POS2(I)+K-1)+VNL0(POS2(I)+K-1))*LE_MAX*THK(I)
+              F3(I,K) = SF3*WF(K,NDDL)*ZETA*SSPNL*HALF*(VNL(POS3(I)+K-1)+VNL0(POS3(I)+K-1))*LE_MAX*THK(I)
+              F4(I,K) = SF4*WF(K,NDDL)*ZETA*SSPNL*HALF*(VNL(POS4(I)+K-1)+VNL0(POS4(I)+K-1))*LE_MAX*THK(I)
             ENDIF
           ENDIF
         ENDDO

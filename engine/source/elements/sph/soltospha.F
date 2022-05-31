@@ -167,8 +167,8 @@ C-----------------------------------------------
 C
       CALL MY_BARRIER
 C
-      USDT=UN/DT12
-      DT05=UNDEMI*DT1
+      USDT=ONE/DT12
+      DT05=HALF*DT1
       XMASS_T=ZERO
       XMOMT_T=ZERO
       YMOMT_T=ZERO
@@ -298,7 +298,7 @@ C             SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
               VZ8=V(3,N8)+DT12*A(3,N8)
 C
 C
-              NSPHDIR=NINT((SOL2SPH(2,N)-SOL2SPH(1,N))**TIERS)
+              NSPHDIR=NINT((SOL2SPH(2,N)-SOL2SPH(1,N))**THIRD)
 C-----------------------------------------------
               DO KP=1,SOL2SPH(2,N)-SOL2SPH(1,N)
                 NP  =SOL2SPH(1,N)+KP
@@ -309,19 +309,19 @@ C-----------------------------------------------
                 ETA  = A_GAUSS(IS,NSPHDIR)
                 ZETA = A_GAUSS(IT,NSPHDIR)
 C
-                PHI1=(UN-KSI)*(UN-ETA)*(UN-ZETA)
-                PHI2=(UN-KSI)*(UN-ETA)*(UN+ZETA)
-                PHI3=(UN+KSI)*(UN-ETA)*(UN+ZETA)
-                PHI4=(UN+KSI)*(UN-ETA)*(UN-ZETA)
-                PHI5=(UN-KSI)*(UN+ETA)*(UN-ZETA)
-                PHI6=(UN-KSI)*(UN+ETA)*(UN+ZETA)
-                PHI7=(UN+KSI)*(UN+ETA)*(UN+ZETA)
-                PHI8=(UN+KSI)*(UN+ETA)*(UN-ZETA)
-                VXI=UNHUIT*(PHI1*VX1+PHI2*VX2+PHI3*VX3+PHI4*VX4+
+                PHI1=(ONE-KSI)*(ONE-ETA)*(ONE-ZETA)
+                PHI2=(ONE-KSI)*(ONE-ETA)*(ONE+ZETA)
+                PHI3=(ONE+KSI)*(ONE-ETA)*(ONE+ZETA)
+                PHI4=(ONE+KSI)*(ONE-ETA)*(ONE-ZETA)
+                PHI5=(ONE-KSI)*(ONE+ETA)*(ONE-ZETA)
+                PHI6=(ONE-KSI)*(ONE+ETA)*(ONE+ZETA)
+                PHI7=(ONE+KSI)*(ONE+ETA)*(ONE+ZETA)
+                PHI8=(ONE+KSI)*(ONE+ETA)*(ONE-ZETA)
+                VXI=ONE_OVER_8*(PHI1*VX1+PHI2*VX2+PHI3*VX3+PHI4*VX4+
      .                      PHI5*VX5+PHI6*VX6+PHI7*VX7+PHI8*VX8)
-                VYI=UNHUIT*(PHI1*VY1+PHI2*VY2+PHI3*VY3+PHI4*VY4+
+                VYI=ONE_OVER_8*(PHI1*VY1+PHI2*VY2+PHI3*VY3+PHI4*VY4+
      .                      PHI5*VY5+PHI6*VY6+PHI7*VY7+PHI8*VY8)
-                VZI=UNHUIT*(PHI1*VZ1+PHI2*VZ2+PHI3*VZ3+PHI4*VZ4+
+                VZI=ONE_OVER_8*(PHI1*VZ1+PHI2*VZ2+PHI3*VZ3+PHI4*VZ4+
      .                      PHI5*VZ5+PHI6*VZ6+PHI7*VZ7+PHI8*VZ8)
 C
                 INOD=KXSP(3,NP)
@@ -381,7 +381,7 @@ C
                   YMOMT_T=YMOMT_T-MS(INOD)*VYI
                   ZMOMT_T=ZMOMT_T-MS(INOD)*VZI
                   ENCIN_T=ENCIN_T
-     .                   -UNDEMI*MS(INOD)*(VXI*VXI+VYI*VYI+VZI*VZI)
+     .                   -HALF*MS(INOD)*(VXI*VXI+VYI*VYI+VZI*VZI)
 C
 C                 IPARG(8,MG).EQ.1 <=> group was not computed 
 C                 (there is no cloud active particle within the group)
@@ -393,7 +393,7 @@ C
                   WPARTSAV(ITASK+1,1,IPRT)=WPARTSAV(ITASK+1,1,IPRT)
      .              -GBUFSP%VOL(NP-KFT)*GBUFSP%EINT(NP-KFT)
                   WPARTSAV(ITASK+1,2,IPRT)=WPARTSAV(ITASK+1,2,IPRT)
-     .              -UNDEMI*MS(INOD)*(VXI*VXI+VYI*VYI+VZI*VZI)
+     .              -HALF*MS(INOD)*(VXI*VXI+VYI*VYI+VZI*VZI)
                   WPARTSAV(ITASK+1,3,IPRT)=WPARTSAV(ITASK+1,3,IPRT)
      .              -MS(INOD)*VXI
                   WPARTSAV(ITASK+1,4,IPRT)=WPARTSAV(ITASK+1,4,IPRT)

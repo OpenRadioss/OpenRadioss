@@ -82,7 +82,7 @@ C----------------------------------------------------------------
      .   I2(NEL),JTHIRD(NEL),J4THIRD(NEL),ETA(NEL),WW(NEL) ,
      .   DPHIDI1(NEL) ,DPHIDI2(NEL) , DPHIDJ(NEL) ,INV2J(NEL) 
 C----------------------------------------------------------------
-      ETA(1:NEL) = UN !MULLINS DAMAGE FACTOR
+      ETA(1:NEL) = ONE !MULLINS DAMAGE FACTOR
  
       DO I = 1,NEL
          !J = RHO0/RHO = RELATIVE VOLUME = DET F (F = GRADIENT OF DEFORMATION)
@@ -95,9 +95,9 @@ C----------------------------------------------------------------
 
          TRB2 =  I1(I)**2
          TRB22= MATB(I,1,1)**2+MATB(I,2,2)**2+MATB(I,3,3)**2
-     .      +  DEUX*( MATB(I,1,2)**2+MATB(I,1,3)**2+MATB(I,2,3)**2) 
+     .      +  TWO*( MATB(I,1,2)**2+MATB(I,1,3)**2+MATB(I,2,3)**2) 
          !I2 = ((TrB)**2 - Tr (B**2) )/2
-         I2(I)= (TRB2 - TRB22)/DEUX
+         I2(I)= (TRB2 - TRB22)/TWO
 
          IF(JDET(I)>ZERO) THEN
           JTHIRD(I)  = EXP((-THIRD )*LOG(JDET(I)))
@@ -119,11 +119,11 @@ C----------------------------------------------------------------
       Wmax = zero
 
        DO I = 1,NEL ! helmotz free energy for polynomial
-         WW(I) =  C10 *(BI1(I)-TROIS) + C20 *(BI1(I)-TROIS)**2 + C30 *(BI1(I)-TROIS)**3
-     .   +        C01 *(BI2(I)-TROIS) + C02 *(BI2(I)-TROIS)**2 + C03 *(BI2(I)-TROIS)**3
-     .   +        C11 *(BI1(I)-TROIS)*(BI2(I)-TROIS) 
-     .   +        C12 *(BI1(I)-TROIS)*(BI2(I)-TROIS)**2 
-     .   +        C21 *(BI2(I)-TROIS)*(BI1(I)-TROIS)**2   
+         WW(I) =  C10 *(BI1(I)-THREE) + C20 *(BI1(I)-THREE)**2 + C30 *(BI1(I)-THREE)**3
+     .   +        C01 *(BI2(I)-THREE) + C02 *(BI2(I)-THREE)**2 + C03 *(BI2(I)-THREE)**3
+     .   +        C11 *(BI1(I)-THREE)*(BI2(I)-THREE) 
+     .   +        C12 *(BI1(I)-THREE)*(BI2(I)-THREE)**2 
+     .   +        C21 *(BI2(I)-THREE)*(BI1(I)-THREE)**2   
          Wmax = max (wmax, ww(i)) ! need deviatoric part for Mullins
        ENDDO
        !print*, '******* WMAX********** ' , WMAX
@@ -138,26 +138,26 @@ C----------------------------------------------------------------
       !====================================
 
       DO I = 1,NEL
-        ETA(I) = MAX(MIN(ETA(I),UN),EM20)
+        ETA(I) = MAX(MIN(ETA(I),ONE),EM20)
         ! derivatives of energy function 
-        DPHIDI1(I) = ETA(I)*(C10 + DEUX *C20 *(BI1(I)-TROIS)+ TROIS*C30 *(BI1(I)-TROIS)**2
-     .   +                               C11 *(BI2(I)-TROIS)+      C12 *(BI2(I)-TROIS)**2 
-     .   +                         DEUX *C21 *(BI1(I)-TROIS)*(BI2(I)-TROIS))
+        DPHIDI1(I) = ETA(I)*(C10 + TWO *C20 *(BI1(I)-THREE)+ THREE*C30 *(BI1(I)-THREE)**2
+     .   +                               C11 *(BI2(I)-THREE)+      C12 *(BI2(I)-THREE)**2 
+     .   +                         TWO *C21 *(BI1(I)-THREE)*(BI2(I)-THREE))
 
-        DPHIDI2(I) = ETA(I)*(C01  + DEUX*C02*(BI2(I)-TROIS) +TROIS*C03*(BI2(I)-TROIS)**2
-     .   +                               C11*(BI1(I)-TROIS) +      C21*(BI1(I)-TROIS)**2        
-     .   +                          DEUX*C12*(BI1(I)-TROIS)*(BI2(I)-TROIS))
-        DPHIDJ(I)  = DEUX*D1* (JDET(I)-UN) + QUATRE * D2 * (JDET(I)-UN)**3 + SIX*D3*(JDET(I)-UN)**5
+        DPHIDI2(I) = ETA(I)*(C01  + TWO*C02*(BI2(I)-THREE) +THREE*C03*(BI2(I)-THREE)**2
+     .   +                               C11*(BI1(I)-THREE) +      C21*(BI1(I)-THREE)**2        
+     .   +                          TWO*C12*(BI1(I)-THREE)*(BI2(I)-THREE))
+        DPHIDJ(I)  = TWO*D1* (JDET(I)-ONE) + FOUR * D2 * (JDET(I)-ONE)**3 + SIX*D3*(JDET(I)-ONE)**5
 
 
-        INV2J(I)=DEUX/MAX(EM20,JDET(I))
+        INV2J(I)=TWO/MAX(EM20,JDET(I))
       ENDDO
 
       DO I=1,NEL   
          !CAUCHY STRESS
          AA =  (DPHIDI1(I) +  DPHIDI2(I) * BI1(I))*INV2J(I)*J2THIRD(I)
          BB =  DPHIDI2(I) *INV2J(I)*J4THIRD(I)
-         CC =  THIRD* INV2J(I)* ( BI1(I)* DPHIDI1(I)+DEUX* BI2(I)*DPHIDI2(I))  
+         CC =  THIRD* INV2J(I)* ( BI1(I)* DPHIDI1(I)+TWO* BI2(I)*DPHIDI2(I))  
 
          SIG(I,1,1) =  AA*MATB(I,1,1)
      .       -   BB*MATB(I,1,1)**2  
@@ -246,10 +246,10 @@ C----------------------------------------------------------------
       C21  =  UPARAM(7)   
       C12  =  UPARAM(8)   
       C03  =  UPARAM(9)   
-      D1   =  UPARAM(11)  !UN/D1
-      !IF(D1 /= ZERO) D1 = UN/D1
-      D2   =  UPARAM(12)  !UN/D2
-      D3   =  UPARAM(13)  !UN/D3
+      D1   =  UPARAM(11)  !ONE/D1
+      !IF(D1 /= ZERO) D1 = ONE/D1
+      D2   =  UPARAM(12)  !ONE/D2
+      D3   =  UPARAM(13)  !ONE/D3
 
       DO I = 1,NEL
          !J = RHO0/RHO = RELATIVE VOLUME = DET F (F = GRADIENT OF DEFORMATION)
@@ -260,7 +260,7 @@ C----------------------------------------------------------------
      .        +EV(I,3)*EV(I,3)*EV(I,1)*EV(I,1)
          IF(JDET(I)>ZERO) THEN
           JTHIRD(I)  = EXP((-THIRD )*LOG(JDET(I)))
-          J4THIRD(I) = EXP((-QTHIRD)*LOG(JDET(I)))
+          J4THIRD(I) = EXP((-FOUR_OVER_3)*LOG(JDET(I)))
          ELSE
           JTHIRD(I) = ZERO
           J4THIRD(I)= ZERO  
@@ -283,23 +283,23 @@ C----------------------------------------------------------------
       ENDDO
       DO I = 1,NEL
 
-        DPHIDI1(I) = C10 + DEUX *C20 *(BI1(I)-TROIS)+ TROIS*C30 *(BI1(I)-TROIS)**2
-     .   +                       C11 *(BI2(I)-TROIS)+      C12 *(BI2(I)-TROIS)**2 
-     .   +                 DEUX *C21 *(BI1(I)-TROIS)*(BI2(I)-TROIS)
+        DPHIDI1(I) = C10 + TWO *C20 *(BI1(I)-THREE)+ THREE*C30 *(BI1(I)-THREE)**2
+     .   +                       C11 *(BI2(I)-THREE)+      C12 *(BI2(I)-THREE)**2 
+     .   +                 TWO *C21 *(BI1(I)-THREE)*(BI2(I)-THREE)
 
-        DPHIDI2(I) = C01  + DEUX*C02*(BI2(I)-TROIS) +TROIS*C03*(BI2(I)-TROIS)**2
-     .   +                       C11*(BI1(I)-TROIS) +      C21*(BI1(I)-TROIS)**2        
-     .   +                  DEUX*C12*(BI1(I)-TROIS)*(BI2(I)-TROIS)
-        DPHIDJ(I)  = DEUX*D1* (JDET(I)-UN) + QUATRE * D2 * (JDET(I)-UN)**3 + SIX*D3*(JDET(I)-UN)**5
+        DPHIDI2(I) = C01  + TWO*C02*(BI2(I)-THREE) +THREE*C03*(BI2(I)-THREE)**2
+     .   +                       C11*(BI1(I)-THREE) +      C21*(BI1(I)-THREE)**2        
+     .   +                  TWO*C12*(BI1(I)-THREE)*(BI2(I)-THREE)
+        DPHIDJ(I)  = TWO*D1* (JDET(I)-ONE) + FOUR * D2 * (JDET(I)-ONE)**3 + SIX*D3*(JDET(I)-ONE)**5
 
-        INV2J(I)=DEUX/MAX(EM20,JDET(I))
+        INV2J(I)=TWO/MAX(EM20,JDET(I))
       ENDDO
 
       DO I=1,NEL   
          !CAUCHY STRESS
          AA =  (DPHIDI1(I) +  DPHIDI2(I) * BI1(I))*INV2J(I)
          BB =  DPHIDI2(I) *INV2J(I)
-         CC =  THIRD* INV2J(I)* ( BI1(I)* DPHIDI1(I)+DEUX* BI2(I)*DPHIDI2(I))  
+         CC =  THIRD* INV2J(I)* ( BI1(I)* DPHIDI1(I)+TWO* BI2(I)*DPHIDI2(I))  
          T1(I) =  AA*EVB(I,1)*EVB(I,1)
      .       -   BB*EVB(I,1)**4   
      .       -   CC               
@@ -313,11 +313,11 @@ C----------------------------------------------------------------
      .        -   CC               
      .        +   DPHIDJ(I)        
 
-!         STIFF(I) =( DEUX *C20  + TROIS*C30 *(BI1(I)-TROIS) ) !IF YEOH
-!     .           * ((DEUX * EVB(I,1)**2 - EVB(I,2)**2 -  EVB(I,3)**2)**2         )*DEUX/NEUF
-!     .           + (C10 + DEUX *C20 *(BI1(I)-TROIS)+ TROIS*C30 *(BI1(I)-TROIS)**2)
-!     .           * (QUATRE * EVB(I,1)**2 + EVB(I,2)**2 +  EVB(I,3)**2            )*QUATRE/NEUF
-!     .           + DEUX*D1*(  JDET(I)*(JDET(I)-UN) + JDET(I)**2  )
+!         STIFF(I) =( TWO *C20  + THREE*C30 *(BI1(I)-THREE) ) !IF YEOH
+!     .           * ((TWO * EVB(I,1)**2 - EVB(I,2)**2 -  EVB(I,3)**2)**2         )*TWO/NINE
+!     .           + (C10 + TWO *C20 *(BI1(I)-THREE)+ THREE*C30 *(BI1(I)-THREE)**2)
+!     .           * (FOUR * EVB(I,1)**2 + EVB(I,2)**2 +  EVB(I,3)**2            )*FOUR/NINE
+!     .           + TWO*D1*(  JDET(I)*(JDET(I)-ONE) + JDET(I)**2  )
 
       ENDDO
 C   
@@ -387,7 +387,7 @@ C----------------------------------------------------------------
      .   DPHI2DI1(NEL) ,DPHI2DI2(NEL) , DPHI2DJ(NEL),LAM_B(3),LAM_B_1(3),
      .   BI1_3,BI2_3	 
 C----------------------------------------------------------------
-      ETA(1:NEL) = UN !MULLINS DAMAGE FACTOR
+      ETA(1:NEL) = ONE !MULLINS DAMAGE FACTOR
  
       DO I = 1,NEL
          !J = RHO0/RHO = RELATIVE VOLUME = DET F (F = GRADIENT OF DEFORMATION)
@@ -400,9 +400,9 @@ C----------------------------------------------------------------
 
          TRB2 =  I1(I)**2
          TRB22= MATB(I,1,1)**2+MATB(I,2,2)**2+MATB(I,3,3)**2
-     .      +  DEUX*( MATB(I,1,2)**2+MATB(I,1,3)**2+MATB(I,2,3)**2) 
+     .      +  TWO*( MATB(I,1,2)**2+MATB(I,1,3)**2+MATB(I,2,3)**2) 
          !I2 = ((TrB)**2 - Tr (B**2) )/2
-         I2(I)= (TRB2 - TRB22)/DEUX
+         I2(I)= (TRB2 - TRB22)/TWO
 
          IF(JDET(I)>ZERO) THEN
           JTHIRD(I)  = EXP((-THIRD )*LOG(JDET(I)))
@@ -424,11 +424,11 @@ C----------------------------------------------------------------
       Wmax = zero
 
        DO I = 1,NEL ! helmotz free energy for polynomial
-         WW(I) =  C10 *(BI1(I)-TROIS) + C20 *(BI1(I)-TROIS)**2 + C30 *(BI1(I)-TROIS)**3
-     .   +        C01 *(BI2(I)-TROIS) + C02 *(BI2(I)-TROIS)**2 + C03 *(BI2(I)-TROIS)**3
-     .   +        C11 *(BI1(I)-TROIS)*(BI2(I)-TROIS) 
-     .   +        C12 *(BI1(I)-TROIS)*(BI2(I)-TROIS)**2 
-     .   +        C21 *(BI2(I)-TROIS)*(BI1(I)-TROIS)**2   
+         WW(I) =  C10 *(BI1(I)-THREE) + C20 *(BI1(I)-THREE)**2 + C30 *(BI1(I)-THREE)**3
+     .   +        C01 *(BI2(I)-THREE) + C02 *(BI2(I)-THREE)**2 + C03 *(BI2(I)-THREE)**3
+     .   +        C11 *(BI1(I)-THREE)*(BI2(I)-THREE) 
+     .   +        C12 *(BI1(I)-THREE)*(BI2(I)-THREE)**2 
+     .   +        C21 *(BI2(I)-THREE)*(BI1(I)-THREE)**2   
          Wmax = max (wmax, ww(i)) ! need deviatoric part for Mullins
        ENDDO
        !print*, '******* WMAX********** ' , WMAX
@@ -443,26 +443,26 @@ C----------------------------------------------------------------
       !====================================
 
       DO I = 1,NEL
-        ETA(I) = MAX(MIN(ETA(I),UN),EM20)
+        ETA(I) = MAX(MIN(ETA(I),ONE),EM20)
         ! derivatives of energy function 
-        DPHIDI1(I) = ETA(I)*(C10 + DEUX *C20 *(BI1(I)-TROIS)+ TROIS*C30 *(BI1(I)-TROIS)**2
-     .   +                               C11 *(BI2(I)-TROIS)+      C12 *(BI2(I)-TROIS)**2 
-     .   +                         DEUX *C21 *(BI1(I)-TROIS)*(BI2(I)-TROIS))
+        DPHIDI1(I) = ETA(I)*(C10 + TWO *C20 *(BI1(I)-THREE)+ THREE*C30 *(BI1(I)-THREE)**2
+     .   +                               C11 *(BI2(I)-THREE)+      C12 *(BI2(I)-THREE)**2 
+     .   +                         TWO *C21 *(BI1(I)-THREE)*(BI2(I)-THREE))
 
-        DPHIDI2(I) = ETA(I)*(C01  + DEUX*C02*(BI2(I)-TROIS) +TROIS*C03*(BI2(I)-TROIS)**2
-     .   +                               C11*(BI1(I)-TROIS) +      C21*(BI1(I)-TROIS)**2        
-     .   +                          DEUX*C12*(BI1(I)-TROIS)*(BI2(I)-TROIS))
-        DPHIDJ(I)  = DEUX*D1* (JDET(I)-UN) + QUATRE * D2 * (JDET(I)-UN)**3 + SIX*D3*(JDET(I)-UN)**5
+        DPHIDI2(I) = ETA(I)*(C01  + TWO*C02*(BI2(I)-THREE) +THREE*C03*(BI2(I)-THREE)**2
+     .   +                               C11*(BI1(I)-THREE) +      C21*(BI1(I)-THREE)**2        
+     .   +                          TWO*C12*(BI1(I)-THREE)*(BI2(I)-THREE))
+        DPHIDJ(I)  = TWO*D1* (JDET(I)-ONE) + FOUR * D2 * (JDET(I)-ONE)**3 + SIX*D3*(JDET(I)-ONE)**5
 
 
-        INV2J(I)=DEUX/MAX(EM20,JDET(I))
+        INV2J(I)=TWO/MAX(EM20,JDET(I))
       ENDDO
 
       DO I=1,NEL   
          !CAUCHY STRESS
          AA =  (DPHIDI1(I) +  DPHIDI2(I) * BI1(I))*INV2J(I)*J2THIRD(I)
          BB =  DPHIDI2(I) *INV2J(I)*J4THIRD(I)
-         CC =  THIRD* INV2J(I)* ( BI1(I)* DPHIDI1(I)+DEUX* BI2(I)*DPHIDI2(I))  
+         CC =  THIRD* INV2J(I)* ( BI1(I)* DPHIDI1(I)+TWO* BI2(I)*DPHIDI2(I))  
 
          SIG(I,1,1) =  AA*MATB(I,1,1)
      .       -   BB*MATB(I,1,1)**2  
@@ -488,18 +488,18 @@ C----------------------------------------------------------------
       ENDDO
 	  
       DO I = 1,NEL
-        DPHI2DI1(I) = DEUX*ETA(I)*(C20 + TROIS*C30*(BI1(I)-TROIS)+ C21*(BI2(I)-TROIS)) 
+        DPHI2DI1(I) = TWO*ETA(I)*(C20 + THREE*C30*(BI1(I)-THREE)+ C21*(BI2(I)-THREE)) 
 
-        DPHI2DI2(I) = DEUX*ETA(I)*(C02 +TROIS*C03*(BI2(I)-TROIS) + C12*(BI1(I)-TROIS))        
-        DPHI2DJ(I)  = DEUX*D1 + DOUZE * D2 * (JDET(I)-UN)**2 + TRENTE*D3*(JDET(I)-UN)**4
+        DPHI2DI2(I) = TWO*ETA(I)*(C02 +THREE*C03*(BI2(I)-THREE) + C12*(BI1(I)-THREE))        
+        DPHI2DJ(I)  = TWO*D1 + TWELVE * D2 * (JDET(I)-ONE)**2 + THIRTY*D3*(JDET(I)-ONE)**4
         LAM_B(1) = MATB(I,1,1)*J2THIRD(I)
         LAM_B(2) = MATB(I,2,2)*J2THIRD(I)
         LAM_B(3) = MATB(I,3,3)*J2THIRD(I)
-        LAM_B_1(1:3) = UN/LAM_B(1:3)
+        LAM_B_1(1:3) = ONE/LAM_B(1:3)
 		BI1_3 = THIRD*BI1(I)
 		BI2_3 = THIRD*BI2(I)
-        CII(I,1:3) = DEUX*(DTHIRD*DPHIDI1(I)*(LAM_B(1:3)+BI1_3)+DPHI2DI1(I)*(LAM_B(1:3)-BI1_3)+
-     .                     DTHIRD*DPHIDI2(I)*(LAM_B_1(1:3)+BI2_3)+DPHI2DI2(I)*(LAM_B_1(1:3)-BI2_3))  
+        CII(I,1:3) = TWO*(TWO_THIRD*DPHIDI1(I)*(LAM_B(1:3)+BI1_3)+DPHI2DI1(I)*(LAM_B(1:3)-BI1_3)+
+     .                     TWO_THIRD*DPHIDI2(I)*(LAM_B_1(1:3)+BI2_3)+DPHI2DI2(I)*(LAM_B_1(1:3)-BI2_3))  
      .               + DPHI2DJ(I)  
       ENDDO
 C   

@@ -68,7 +68,7 @@ C====================================================================
 !====================================================================
        NDATA = 10000  ! La=0.1,10, EM3!!
        LAM_MIN = EM3                                         
-       LAM_MAX = DIX 
+       LAM_MAX = TEN 
 C       
        DO I=1,5
          MU(I) = UPARAM(I)
@@ -94,7 +94,7 @@ C  Tension/compression
           D22= ZERO                                   
           D12= ZERO 
           LAM1 =STRETCH(I)
-          LAM2 = UN/SQRT(LAM1)
+          LAM2 = ONE/SQRT(LAM1)
           LAM3 = LAM2
 C            
           DO K=1,5 
@@ -116,12 +116,12 @@ C
          WRITE(IOUT,1010)
          I = INDEX(1) - 1
          IF(I > 1) THEN
-          STRAIN_MIN = STRETCH(I) - UN 
+          STRAIN_MIN = STRETCH(I) - ONE 
           WRITE(IOUT,1100)STRAIN_MIN 
          ENDIF
          I = INDEX(INDX) + 1
          IF(I <= NDATA)THEN
-           STRAIN_MAX = STRETCH(I) - UN
+           STRAIN_MAX = STRETCH(I) - ONE
            WRITE(IOUT,1200)STRAIN_MAX
          ENDIF  
        ENDIF
@@ -133,7 +133,7 @@ C  Biaxial
           D12= ZERO 
           LAM1 =STRETCH(I)
           LAM2 = LAM1
-          LAM3 = UN/LAM1/LAM1
+          LAM3 = ONE/LAM1/LAM1
 C            
           DO K=1,5 
              LAM12 = (lAM1*LAM2)**(-AL(K))
@@ -154,12 +154,12 @@ C
          WRITE(IOUT,1020)
          I = INDEX(1) - 1
          IF(I > 1) THEN
-          STRAIN_MIN = STRETCH(I) - UN 
+          STRAIN_MIN = STRETCH(I) - ONE 
           WRITE(IOUT,1100)STRAIN_MIN 
          ENDIF 
          I = INDEX(INDX) + 1
          IF(I <= NDATA)THEN
-           STRAIN_MAX = STRETCH(I) - UN
+           STRAIN_MAX = STRETCH(I) - ONE
            WRITE(IOUT,1200)STRAIN_MAX
          ENDIF 
        ENDIF
@@ -170,8 +170,8 @@ C shear test
           D22= ZERO                                   
           D12= ZERO 
           LAM1 =STRETCH(I)
-          LAM2 = UN
-          LAM3 = UN/LAM1
+          LAM2 = ONE
+          LAM3 = ONE/LAM1
 C            
           DO K=1,5 
              LAM12 = (lAM1*LAM2)**(-AL(K))
@@ -192,12 +192,12 @@ C
          WRITE(IOUT,1030)
          I = INDEX(1) - 1
          IF(I > 1) THEN
-          STRAIN_MIN = STRETCH(I) - UN 
+          STRAIN_MIN = STRETCH(I) - ONE 
           WRITE(IOUT,1100)STRAIN_MIN 
          ENDIF
          I = INDEX(INDX) + 1
          IF(I <= NDATA)THEN
-           STRAIN_MAX = STRETCH(I) - UN
+           STRAIN_MAX = STRETCH(I) - ONE
            WRITE(IOUT,1200)STRAIN_MAX
          ENDIF
        ENDIF 

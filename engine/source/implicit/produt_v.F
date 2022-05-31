@@ -2897,7 +2897,7 @@ C----------------------
 C---------------------
         END DO
          CALL PRODUT_H(F_DDL ,L_DDL ,A(1,J) ,A(1,J) ,WDDL, SJJ ,ITASK)
-         S= UN/MAX(EM20,SQRT(SJJ))
+         S= ONE/MAX(EM20,SQRT(SJJ))
          CALL VSCAL_H(F_DDL ,L_DDL ,A(1,J) ,S  ,ITASK )
 C----------------------
       CALL MY_BARRIER

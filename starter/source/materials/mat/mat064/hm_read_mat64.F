@@ -138,21 +138,21 @@ C-----------------------------------------------
       IF(RHOR == ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0
-      IF(V0 == ZERO.OR.V0 >= UN)V0=EM20
+      IF(V0 == ZERO.OR.V0 >= ONE)V0=EM20
       IF(CP == ZERO)THEN
        CP = ZERO
       ELSE
-       CP = UN/CP
+       CP = ONE/CP
       ENDIF
-      IF(YFAC(1) == ZERO) YFAC(1)= UN*YFAC_UNIT
-      IF(YFAC(2) == ZERO) YFAC(2)= UN*YFAC_UNIT
-      IF(VMC == ZERO.OR.VMC > UN) VMC = UN
+      IF(YFAC(1) == ZERO) YFAC(1)= ONE*YFAC_UNIT
+      IF(YFAC(2) == ZERO) YFAC(2)= ONE*YFAC_UNIT
+      IF(VMC == ZERO.OR.VMC > ONE) VMC = ONE
 
       !---STORAGE---!
-      G = UNDEMI*E/(UN + NU)
-      C1=E/TROIS/(UN - DEUX*NU)
+      G = HALF*E/(ONE + NU)
+      C1=E/THREE/(ONE - TWO*NU)
       UPARAM(1)  = E
-      UPARAM(2)  = E/(UN - NU*NU)
+      UPARAM(2)  = E/(ONE - NU*NU)
       UPARAM(3)  = NU*UPARAM(2)
       UPARAM(4)  = G
       UPARAM(5)  = NU
@@ -172,7 +172,7 @@ C-----------------------------------------------
       PARMAT(3) = NU 
       !Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) =  (UN - DEUX*NU)/(UN - NU) ! == DEUX*G/(C1+QTHIRD*G)
+      PARMAT(17) =  (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G)
 
        !---LISTING OUTPUT---!      
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,64

@@ -93,14 +93,14 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL) :: R11,R12,R13,R21,R22,R23,R31,R32,R33
 C=======================================================================
       ISVIS = 0
-      FACQ0 = UN
+      FACQ0 = ONE
       IMAT  = MAT(LFT)
 c
 c     strain rate calculation (for output only)
 c      
        DO I=LFT,LLT                                                                                                    
          EPSD(I) = MAX( ABS(D1(I)), ABS(D2(I)), ABS(D3(I)), 
-     .   UNDEMI*ABS(D4(I)),UNDEMI*ABS(D5(I)),UNDEMI*ABS(D6(I)))   
+     .   HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))   
        ENDDO                                                        
 c
       CALL CONC24(PM(1,IMAT),OFF     ,SIG      ,EINT     ,LBUF%SIGA,
@@ -115,7 +115,7 @@ c
 C----------------------------------------
 C     CRACKS DANS REPERE GLOBAL POUR ANIM
 C----------------------------------------
-      IF (PM(56,MAT(1)) == UN) 
+      IF (PM(56,MAT(1)) == ONE) 
      .  CALL M24ANIM(LBUF%DAM,LBUF%ANG,LBUF%DGLO,NEL,
      .               R11,R12,R13,R21,R22,
      .               R23,R31,R32,R33)
@@ -151,8 +151,8 @@ C . . . . . . . . . . . . . . . . . . . . . . . . . .
        E5=D5(I)*(SOLD5(I)+SIG(I,5)+SVIS(I,5))
        E6=D6(I)*(SOLD6(I)+SIG(I,6)+SVIS(I,6))
        EINT(I)=EINT(I)
-     .       -(Q(I)+QOLD(I))*DVOL(I)*UNDEMI
-     .       +(E1+E2+E3+E4+E5+E6)*VOL_AVG(I)*DT1*UNDEMI
+     .       -(Q(I)+QOLD(I))*DVOL(I)*HALF
+     .       +(E1+E2+E3+E4+E5+E6)*VOL_AVG(I)*DT1*HALF
 C
        EINT(I)=EINT(I)/VOL(I)
        QOLD(I)=Q(I)
@@ -179,7 +179,7 @@ C . . . . . . . . . . . . . . . . . . . . . . . . . .
        E4=D4(I)*(SOLD4(I)+SIG(I,4)+SVIS(I,4))
        E5=D5(I)*(SOLD5(I)+SIG(I,5)+SVIS(I,5))
        E6=D6(I)*(SOLD6(I)+SIG(I,6)+SVIS(I,6))
-       EINT(I)=EINT(I)+(E1+E2+E3+E4+E5+E6)*VOL_AVG(I)*DT1*UNDEMI
+       EINT(I)=EINT(I)+(E1+E2+E3+E4+E5+E6)*VOL_AVG(I)*DT1*HALF
        EINT(I)=EINT(I)/VOL(I)
   510  CONTINUE
       ENDIF

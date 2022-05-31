@@ -185,13 +185,13 @@ C
         CALL HM_GET_FLOATV('Filteringfactor',FREQ       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_INTV('Filteringflag'    ,IFQ        ,IS_AVAILABLE, LSUBMODEL)  
         IF (FREQ == 0 .AND. IFQ /= 0) IFQ = 0
-        IF (IFQ == 0) FREQ = UN
+        IF (IFQ == 0) FREQ = ONE
         IF (IFQ >= 0) THEN
           IF (IFQ <= 1) ALPHA = FREQ                         
-          IF (IFQ == 2) ALPHA = QUATRE*ATAN2(UN,ZERO) / FREQ 
-          IF (IFQ == 3) ALPHA = QUATRE*ATAN2(UN,ZERO) * FREQ
+          IF (IFQ == 2) ALPHA = FOUR*ATAN2(ONE,ZERO) / FREQ 
+          IF (IFQ == 3) ALPHA = FOUR*ATAN2(ONE,ZERO) * FREQ
         ENDIF
-        IF ((ALPHA < ZERO) .OR. ((ALPHA > UN .AND. IFQ <= 2))) THEN
+        IF ((ALPHA < ZERO) .OR. ((ALPHA > ONE .AND. IFQ <= 2))) THEN
           CALL ANCMSG(MSGID=350,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I1=NUSER,
      .                C1=TITR,
@@ -220,9 +220,9 @@ C
           CALL HM_GET_FLOATV('motiony'   ,VY         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('motionz'   ,VZ         ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
           ! Multidomains : masse of the rwall splitted between 2 domains
-          FAC_M_R2R = UN            
+          FAC_M_R2R = ONE            
           IF (NSUBDOM > 0) THEN
-            IF(TAGNO(NPART+MSR) == 4) FAC_M_R2R = UNDEMI
+            IF(TAGNO(NPART+MSR) == 4) FAC_M_R2R = HALF
           ENDIF
           IF(SUB_ID /= 0) CALL SUBROTVECT(VX,VY,VZ,RTRANS,SUB_ID,LSUBMODEL)
           RWL(4,N) = X(1,MSR)
@@ -274,7 +274,7 @@ C
             Y2 = (X(2,I)-RWL(5,N))**2
             Z2 = (X(3,I)-RWL(6,N))**2
             D2 = (X2+Y2+Z2)
-            DISN = SQRT(D2-D1**2) - UNDEMI*DIAM
+            DISN = SQRT(D2-D1**2) - HALF*DIAM
             IF (DISN >= ZERO .AND. DISN <= DIST .AND. I /= MSR) LPRW(K+I)=1
           ENDDO
         ENDIF

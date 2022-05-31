@@ -112,8 +112,8 @@ C     ROTATION DU 1/2 CISAILLEMENT
 C-----------------------------------------------------------
       IF (ISHFRAM==1 .AND. JHBE>=2) THEN
         DO I=JFT,JLT
-          R1 = DIR(I,2)*EXY(I)*UNDEMI
-          DIR(I,2)=DIR(I,2)-DIR(I,1)*EXY(I)*UNDEMI
+          R1 = DIR(I,2)*EXY(I)*HALF
+          DIR(I,2)=DIR(I,2)-DIR(I,1)*EXY(I)*HALF
           DIR(I,1)=DIR(I,1)+R1
           R1 = SQRT(DIR(I,1)*DIR(I,1)+DIR(I,2)*DIR(I,2))
           DIR(I,1)=DIR(I,1)/R1
@@ -128,9 +128,9 @@ C
          ZT = ZZ(I)*THK(I)
          EPST(I,1)= GSTR(I,1)+ZT*GSTR(I,6)
          EPST(I,2)= GSTR(I,2)+ZT*GSTR(I,7)
-         EPST(I,3)=(GSTR(I,3)+ZT*GSTR(I,8))*UNDEMI
-         EPST(I,4)= GSTR(I,4)*UNDEMI
-         EPST(I,5)= GSTR(I,5)*UNDEMI
+         EPST(I,3)=(GSTR(I,3)+ZT*GSTR(I,8))*HALF
+         EPST(I,4)= GSTR(I,4)*HALF
+         EPST(I,5)= GSTR(I,5)*HALF
        ENDDO
 C-----------------------------------------------------------
 c      CONTRAINTES

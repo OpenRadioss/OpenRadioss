@@ -227,7 +227,7 @@ C-----------------------------------------------
          alpha_zc = alpha_zc - curve_id1
 
          IERR1          = 0
-         W13            = (WTNT*FAC_M_bb)**TIERS   ! '*FAC_M'  g->work unit    '/FAC_M' : WORK_UNIT -> g
+         W13            = (WTNT*FAC_M_bb)**THIRD   ! '*FAC_M'  g->work unit    '/FAC_M' : WORK_UNIT -> g
          Z              = ZERO
          NORM2_NN=NNX*NNx+NNy*NNy+NNz*NNz           
          NORM_NN =SQRT(NORM2_NN)
@@ -253,28 +253,28 @@ C-----------------------------------------------
            
            IF(N4.EQ.0 .OR. N3.EQ.N4 )THEN
              !3 NODE SEGEMENT 
-             NPt(I)   = TROIS 
+             NPt(I)   = THREE 
              !Segment Zentrum
              Zx = X(1,N1)+X(1,N2)+X(1,N3)
              Zy = X(2,N1)+X(2,N2)+X(2,N3)
              Zz = X(3,N1)+X(3,N2)+X(3,N3)
-             Zx = Zx*TIERS                          
-             Zy = Zy*TIERS
-             Zz = Zz*TIERS 
+             Zx = Zx*THIRD                          
+             Zy = Zy*THIRD
+             Zz = Zz*THIRD 
              NX = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))
              NY = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))
              NZ = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
              NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
            ELSE
              !4 NODE SEGEMENT
-             NPt(I)   = QUATRE
+             NPt(I)   = FOUR
              !Segment Zentrum
              Zx = X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4)
              Zy = X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4)
              Zz = X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4)
-             Zx = Zx*QUART                          
-             Zy = Zy*QUART
-             Zz = Zz*QUART                          
+             Zx = Zx*FOURTH                          
+             Zy = Zy*FOURTH
+             Zz = Zz*FOURTH                          
              !Normal
              NX = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
              NY = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
@@ -337,7 +337,7 @@ C-----------------------------------------------
              tmp(3)=Zdet-ProjZ(3)                                                                                  
              tmp_var=SQRT( tmp(1)*tmp(1) + tmp(2)*tmp(2) + tmp(3)*tmp(3) )                                         
              ANGLE_g = ( NNx*tmp(1) + NNy*tmp(2) + NNz*tmp(2) ) /Hc/tmp_var  !must be between [-PI_,PI_]             
-             ANGLE_g = min(UN,max(-UN,ANGLE_g)) ! bound it to expected range (epsilon) 
+             ANGLE_g = min(ONE,max(-ONE,ANGLE_g)) ! bound it to expected range (epsilon) 
              ANGLE_g = acos(ANGLE_g)                                                                                   
              ANGLE_g = cst_180/PI_*ANGLE_g !debug purpose  
              IF(ANGLE_g < ZERO)THEN
@@ -367,7 +367,7 @@ C-----------------------------------------------
              alpha_zc = zero 
              ZC = ZC/FAC_UNIT
              IF(ZC < 4)THEN                                                                                        
-               itmp = INT( DEUX*(ZC)-UN )                                                                            
+               itmp = INT( TWO*(ZC)-ONE )                                                                            
                curve_id1 =  max(1,itmp)                                                                       
                curve_id2 = curve_id1+1                                                                             
                if(itmp < 1)then                                                                                    
@@ -383,7 +383,7 @@ C-----------------------------------------------
                  alpha_zc = alpha_zc/  ( PBLAST_DATA%Curve_val_2_13(curve_id2) - PBLAST_DATA%Curve_val_2_13(curve_id1) )
                endif                                                                                               
              ELSE                                                                                                  
-               itmp = INT( ZC+TROIS )                                                                                 
+               itmp = INT( ZC+THREE )                                                                                 
                curve_id1 = INT( min(10,itmp) )                                                                     
                curve_id2 = curve_id1+1                                                                             
                if(curve_id1 == 10)then                                                                             
@@ -429,13 +429,13 @@ C-----------------------------------------------
              !tmp(1) : angle interpolation on curve_id1 Figure 2_13                                                
              tmp(1)=PBLAST_DATA%SHTP(curve_id1,idx_zg1)
              tmp(2)=PBLAST_DATA%SHTP(curve_id1,idx_zg2)
-             tmp(1) = (UN-alpha_zg)*tmp(1) + alpha_zg*tmp(2)
+             tmp(1) = (ONE-alpha_zg)*tmp(1) + alpha_zg*tmp(2)
              !tmp(2) : interpolation on curve_id2 Figure 2_13                                                       
              tmp(2)=PBLAST_DATA%SHTP(curve_id2,idx_zg1)
              tmp(3)=PBLAST_DATA%SHTP(curve_id2,idx_zg2)
-             tmp(2) = (UN-alpha_zg)*tmp(2) + alpha_zg*tmp(3)
+             tmp(2) = (ONE-alpha_zg)*tmp(2) + alpha_zg*tmp(3)
              !interpolate now with scaled height of charge 
-             SHTP = (un-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
+             SHTP = (ONE-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
              HTP = SHTP*W13            
  
              
@@ -489,26 +489,26 @@ C-----------------------------------------------
              !tmp(1) : angle interpolation on curve_id1 Figure 2_9                                                 
              tmp(1)=PBLAST_DATA%Pra(curve_id1,idx1_angle)                                                          
              tmp(2)=PBLAST_DATA%Pra(curve_id1,idx2_angle)                                                          
-             tmp(1)=(UN-alpha_angle)*LOG10(tmp(1))+alpha_angle*LOG10(tmp(2))                                                          
+             tmp(1)=(ONE-alpha_angle)*LOG10(tmp(1))+alpha_angle*LOG10(tmp(2))                                                          
              !tmp(2) : interpolation on curve_id2 Figure 2_9                                                       
              tmp(2)=PBLAST_DATA%Pra(curve_id2,idx1_angle)                                                          
              tmp(3)=PBLAST_DATA%Pra(curve_id2,idx2_angle)                                                          
-             tmp(2)=(UN-alpha_angle)*LOG10(tmp(2))+alpha_angle*LOG10(tmp(3))  
+             tmp(2)=(ONE-alpha_angle)*LOG10(tmp(2))+alpha_angle*LOG10(tmp(3))  
              !interpolate now with scaled height of charge                                                         
-             Pra = (un-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
+             Pra = (ONE-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
              Pra = exp(Pra*log10_)
                                                                                                                    
              !deduce Ira from table                                                                                
              !tmp(1) : angle interpolation on curve_id1 Figure 2_10                                                 
              tmp(1)=PBLAST_DATA%SRI(curve_id1,idx1_angle)                                                          
              tmp(2)=PBLAST_DATA%SRI(curve_id1,idx2_angle)                                                          
-             tmp(1)=(UN-alpha_angle)*LOG10(tmp(1))+alpha_angle*LOG10(tmp(2))                                                          
+             tmp(1)=(ONE-alpha_angle)*LOG10(tmp(1))+alpha_angle*LOG10(tmp(2))                                                          
              !tmp(2) : interpolation on curve_id2 Figure 2_10                                                      
              tmp(2)=PBLAST_DATA%SRI(curve_id2,idx1_angle)                                                          
              tmp(3)=PBLAST_DATA%SRI(curve_id2,idx2_angle)                                                          
-             tmp(2)=(UN-alpha_angle)*LOG10(tmp(2))+alpha_angle*LOG10(tmp(3))  
+             tmp(2)=(ONE-alpha_angle)*LOG10(tmp(2))+alpha_angle*LOG10(tmp(3))  
              !interpolate now with scaled height of charge                                                         
-             Ira = (un-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
+             Ira = (ONE-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
              Ira = exp(Ira*log10_)                                                             
            
 
@@ -524,7 +524,7 @@ C-----------------------------------------------
              !deduce Z
               bound1 = LOG10(PBLAST_DATA%RW3(idx1))
               bound2 = LOG10(PBLAST_DATA%RW3(idx2))
-              LogRes =  (un-lambda)*bound1+lambda*bound2                                                             
+              LogRes =  (ONE-lambda)*bound1+lambda*bound2                                                             
               Z = exp(LogRes*log10_)
               !deduce Pra_refl (=Pr(Z) where Z=Z(Pra) )
               Phi_DB =  INT(LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN)        
@@ -551,7 +551,7 @@ C-----------------------------------------------
               !deduce Z
               bound1 = LOG10(PBLAST_DATA%RW3(idx1))
               bound2 = LOG10(PBLAST_DATA%RW3(idx2))
-              LogRes =  (un-lambda)*bound1+lambda*bound2                                                             
+              LogRes =  (ONE-lambda)*bound1+lambda*bound2                                                             
               Z = exp(LogRes*log10_)
               !deduce Ira_refl (=Pr(Z) where Z=Z(Pra) )
               Phi_DB =  INT(LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN)        
@@ -581,36 +581,36 @@ C-----------------------------------------------
            
                 IF(IMODEL == 1)THEN
                   !-Friedlander
-                  DECAY_inci = UN
-                  DECAY_refl = UN
+                  DECAY_inci = ONE
+                  DECAY_refl = ONE
                   
                 ELSEIF(IMODEL == 2) THEN
-                  !SOLVE DECAY (b):    I_inci = P_inci*DT_0/b*(UN-(1-exp(-b))/b)
-                  !     g: b-> I_inci - P_inci*DT_0/b*(UN-(1-exp(-b))/b)
+                  !SOLVE DECAY (b):    I_inci = P_inci*DT_0/b*(ONE-(1-exp(-b))/b)
+                  !     g: b-> I_inci - P_inci*DT_0/b*(ONE-(1-exp(-b))/b)
                   ! find b such as g(b)=0
                   ! NEWTON ITERATIONS
                   NITER=20
                   TOL=EM06
                   ITER=0
-                  ZETA=UN
+                  ZETA=ONE
                   RES=EP20
                   TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA
                   !--initialize first iteration
                   kk=P_inci*DT_0
-                  FUNCT = UNDEMI*kk -I_inci !-UNSIX*kk*ZETA
+                  FUNCT = HALF*kk -I_inci !-ONE_OVER_6*kk*ZETA
                   !--iterative solving
                   DO WHILE (ITER<=NITER .AND. RES>TOL)
                     ITER=ITER+1
                     IF(ABS(ZETA) < EM06)THEN
                       !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )
-                      DIFF = kk*(-UNSIX + UNDOUZE*ZETA)
+                      DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)
                       ZETA = ZETA - FUNCT/DIFF
-                      FUNCT = UNDEMI*kk-UNSIX*kk*ZETA - I_inci
+                      FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_inci
                     ELSE
-                      DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_inci)*(UN + DEUX/ZETA)
+                      DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_inci)*(ONE + TWO/ZETA)
                       ZETA = ZETA - FUNCT/DIFF
                       TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA
-                      TMP3 = EXP(ZETA)*(ZETA-UN)+UN 
+                      TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE 
                       FUNCT = TMP2 * TMP3 -I_inci            
                     ENDIF
                     RES = ABS(FUNCT)   !g(x_new)
@@ -618,25 +618,25 @@ C-----------------------------------------------
                   DECAY_inci=MAX(EM06,ZETA)
 
                   ITER=0
-                  ZETA=UN
+                  ZETA=ONE
                   RES=EP20
                   TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA
                   !--initialize first iteration
                   kk=P_refl*DT_0
-                  FUNCT = UNDEMI*kk -I_refl !-UNSIX*kk*ZETA
+                  FUNCT = HALF*kk -I_refl !-ONE_OVER_6*kk*ZETA
                   !--iterative solving
                   DO WHILE (ITER<=NITER .AND. RES>TOL)
                     ITER=ITER+1
                     IF(ABS(ZETA) < EM06)THEN
                       !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )
-                      DIFF = kk*(-UNSIX + UNDOUZE*ZETA)
+                      DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)
                       ZETA = ZETA - FUNCT/DIFF
-                      FUNCT = UNDEMI*kk-UNSIX*kk*ZETA - I_refl
+                      FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_refl
                     ELSE
-                      DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_refl)*(UN + DEUX/ZETA)
+                      DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_refl)*(ONE + TWO/ZETA)
                       ZETA = ZETA - FUNCT/DIFF
                       TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA
-                      TMP3 = EXP(ZETA)*(ZETA-UN)+UN 
+                      TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE 
                       FUNCT = TMP2 * TMP3 -I_refl            
                     ENDIF
                     RES = ABS(FUNCT)   !g(x_new)
@@ -646,8 +646,8 @@ C-----------------------------------------------
                 
               ELSE
            
-                DECAY_inci = UN
-                DECAY_refl = UN
+                DECAY_inci = ONE
+                DECAY_refl = ONE
                     
               ENDIF      
            
@@ -694,20 +694,20 @@ C-----------------------------------------------
            IF(cos_theta.LE.ZERO)THEN                                                                                      
              !Surface not facing the point of explosion                                                                   
              alpha_refl = ZERO                                                                                            
-             alpha_inci = UN                                                                                              
+             alpha_inci = ONE                                                                                              
            ELSE                                                                                                           
              alpha_refl = cos_theta**2                           !     cos**2 X                                        
-             alpha_inci = UN + alpha_refl - DEUX * cos_theta        ! 1 + cos**2 X -2 cosX                                
+             alpha_inci = ONE + alpha_refl - TWO * cos_theta        ! 1 + cos**2 X -2 cosX                                
            ENDIF 
                                                                                                                                                
            !Building pressure waves from Friedlander model. (Modified model can bu introduced later if needed)                                                                                        
            WAVE_INCI = ZERO
            WAVE_REFL = ZERO                                                                                           
            IF(TT_STAR>=T_A)THEN                                                                                                
-             WAVE_INCI =  P_inci*(UN-(TT_STAR-T_A)/DT_0)*exp(-DECAY_inci*(TT_STAR-T_A)/DT_0)                                          
-             WAVE_REFL =  P_refl*(UN-(TT_STAR-T_A)/DT_0)*exp(-DECAY_refl*(TT_STAR-T_A)/DT_0)                                          
+             WAVE_INCI =  P_inci*(ONE-(TT_STAR-T_A)/DT_0)*exp(-DECAY_inci*(TT_STAR-T_A)/DT_0)                                          
+             WAVE_REFL =  P_refl*(ONE-(TT_STAR-T_A)/DT_0)*exp(-DECAY_refl*(TT_STAR-T_A)/DT_0)                                          
 !             write(*,FMT='(A,5e30.16)') "TT_STAR,TA,P_refl,I_refl,WAVE_refl=", TT_STAR,T_A,P_refl,I_refl,WAVE_refl                 
-!             write(*,FMT='(A,5e30.16)') "(UN-(TT_STAR-T_A)/I_refl), exp    =", (UN-(TT_STAR-T_A)/I_refl),  exp(-(TT_STAR-T_A)/I_refl)   
+!             write(*,FMT='(A,5e30.16)') "(ONE-(TT_STAR-T_A)/I_refl), exp    =", (ONE-(TT_STAR-T_A)/I_refl),  exp(-(TT_STAR-T_A)/I_refl)   
            ELSE
             !TO-DO METTRE UNE OPTION POUR ARRETER LE CHARGEMENT QUAND TT_STAR>=T0                                                                                                           
              WAVE_INCI = ZERO                                                                                             
@@ -720,9 +720,9 @@ C-----------------------------------------------
            !Send Pressure load to nodes
            !compiler should optimize P/norm with -O3
            !directly used in A(:,inod) so it is divided by /Npt
-           FX(I)= -P * UNDEMI*NX / NPT(I)                                                                              
-           FY(I)= -P * UNDEMI*NY / NPT(I)                                                                           
-           FZ(I)= -P * UNDEMI*NZ / NPT(I)
+           FX(I)= -P * HALF*NX / NPT(I)                                                                              
+           FY(I)= -P * HALF*NY / NPT(I)                                                                           
+           FZ(I)= -P * HALF*NZ / NPT(I)
 
 
            TFEXTT=TFEXTT+DT1*(   FX(I) * SUM(  V( 1, N(1:NINT(NPt(I)),I)  )  ) 
@@ -752,7 +752,7 @@ C-----------------------------------------------
             A(1,N3)=A(1,N3)+FX(I)                              
             A(2,N3)=A(2,N3)+FY(I)                              
             A(3,N3)=A(3,N3)+FZ(I)                              
-            IF(NPt(I) == QUATRE)THEN                                 
+            IF(NPt(I) == FOUR)THEN                                 
               A(1,N4)=A(1,N4)+FX(I)                              
               A(2,N4)=A(2,N4)+FY(I)                              
               A(3,N4)=A(3,N4)+FZ(I)                              
@@ -772,7 +772,7 @@ C-----------------------------------------------
             FSKY(1,IAD) =FX(I)                             
             FSKY(2,IAD) =FY(I)                             
             FSKY(3,IAD) =FZ(I)                                   
-            IF(NPt(I) == QUATRE)THEN                               
+            IF(NPt(I) == FOUR)THEN                               
               IAD         =IADC(ILOADP(4,NL)+4*(I-1)+3)                         
               FSKY(1,IAD) =FX(I)                             
               FSKY(2,IAD) =FY(I)                             
@@ -801,7 +801,7 @@ C-----------------------------------------------
               FEXT(1,N3) = FEXT(1,N3)+FX(I)                 
               FEXT(2,N3) = FEXT(2,N3)+FY(I)                 
               FEXT(3,N3) = FEXT(3,N3)+FZ(I)                 
-              IF(NPt(I)==QUATRE)THEN                           
+              IF(NPt(I)==FOUR)THEN                           
                 FEXT(1,N4) = FEXT(1,N4)+FX(I)                 
                 FEXT(2,N4) = FEXT(2,N4)+FY(I)                 
                 FEXT(3,N4) = FEXT(3,N4)+FZ(I)                 

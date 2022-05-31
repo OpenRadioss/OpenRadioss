@@ -121,9 +121,9 @@ c       material parameters
         ONLY_TENSION_DATA = NINT(UPARAM(7))  ! == 1 existing only tension data
 C           
        DO I=1,NEL       
-        F(I,1,1)  = UN + MFXX(I)
-        F(I,2,2)  = UN + MFYY(I)
-        F(I,3,3)  = UN + MFZZ(I)
+        F(I,1,1)  = ONE + MFXX(I)
+        F(I,2,2)  = ONE + MFYY(I)
+        F(I,3,3)  = ONE + MFZZ(I)
         F(I,1,2)  = MFXY(I)
         F(I,2,3)  = MFYZ(I)
         F(I,3,1)  = MFZX(I)     
@@ -152,7 +152,7 @@ C
          I1B(I) = FFT(I,1,1) + FFT(I,2,2) + FFT(I,3,3)
 C
          IF (JDETF(I) > ZERO) THEN
-            J2THIRD(I) = EXP((-DTIERS )*LOG(JDETF(I)))
+            J2THIRD(I) = EXP((-TWO_THIRD )*LOG(JDETF(I)))
          ELSE
             J2THIRD(I) = ZERO
          ENDIF
@@ -167,7 +167,7 @@ C
        
        IF(ONLY_TENSION_DATA == 0) THEN
          DO I = 1,NEL
-           DIFF = JDETF(I) - UN
+           DIFF = JDETF(I) - ONE
            IF(DIFF < ZERO) ICOMP(I) = 1
         ENDDO
        ENDIF
@@ -182,26 +182,26 @@ C
               CALL CARDAN_METHOD(ITEST,NEL,I1,ICOMP,LAMT)
               
               DO I=1,NEL
-                INVJDETF = UN/MAX(EM20, JDETF(I))
-                EPST = LAMT(I) - UN
+                INVJDETF = ONE/MAX(EM20, JDETF(I))
+                EPST = LAMT(I) - ONE
                 T = SCALE*FINTER(IFUNC(1),EPST,NPF,TF,DF)
                 L2 = LAMT(I)**2
                 DW_DI = ZERO
-                IF (I1B(I) == TROIS .OR. LAMT(I) == UN) THEN
+                IF (I1B(I) == THREE .OR. LAMT(I) == ONE) THEN
                   DW_DI = ZERO
-                ELSEIF((LAMT(I)*L2 - UN) /= ZERO)THEN
-                  DW_DI = T*L2 / (LAMT(I)*L2 - UN)
+                ELSEIF((LAMT(I)*L2 - ONE) /= ZERO)THEN
+                  DW_DI = T*L2 / (LAMT(I)*L2 - ONE)
                 ENDIF
                 GS(I)= MAX(GINI,DF*SCALE)
-                K(I) = DEUX*GS(I)*(UN+NU) / MAX(EM20,TROIS*(UN-DEUX*NU))
-                P = RBULK*(JDETF(I) - UN) 
+                K(I) = TWO*GS(I)*(ONE+NU) / MAX(EM20,THREE*(ONE-TWO*NU))
+                P = RBULK*(JDETF(I) - ONE) 
                 SIGNXX(I) = INVJDETF*DW_DI * BD(I,1) + P
                 SIGNYY(I) = INVJDETF*DW_DI * BD(I,2) + P
                 SIGNZZ(I) = INVJDETF*DW_DI * BD(I,3) + P
                 SIGNXY(I) = INVJDETF*DW_DI * BD(I,4)
                 SIGNYZ(I) = INVJDETF*DW_DI * BD(I,5)
                 SIGNZX(I) = INVJDETF*DW_DI * BD(I,6)
-                UVAR(I,1) = LAMT(I) - UN
+                UVAR(I,1) = LAMT(I) - ONE
                 UVAR(I,2) = JDETF(I)*SIGNZZ(I) / LAMT(I) ! only for testing
               ENDDO
           CASE(2)  ! equibiaxail traction test 
@@ -214,28 +214,28 @@ C
               CALL CARDAN_METHOD(ITEST,NEL,I1,ICOMP,LAMT)
 !!              
               DO I=1,NEL
-                INVJDETF = UN/MAX(EM20, JDETF(I))
-                LAMT(I) = UN/MAX(EM20,LAMT(I))
+                INVJDETF = ONE/MAX(EM20, JDETF(I))
+                LAMT(I) = ONE/MAX(EM20,LAMT(I))
                 LAMT(I) = SQRT(LAMT(I))
-                EPST = LAMT(I) - UN
+                EPST = LAMT(I) - ONE
                 T = SCALE*FINTER(IFUNC(1),EPST,NPF,TF,DF)
                 L5 = LAMT(I)**(-5)
                 DW_DI =  ZERO
-               IF (I1B(I) == TROIS .OR. LAMT(I) == UN) THEN
+               IF (I1B(I) == THREE .OR. LAMT(I) == ONE) THEN
                   DW_DI = ZERO
                 ELSEIF((LAMT(I)  - L5) /= ZERO) THEN
                   DW_DI = T / (LAMT(I)  - L5)
                 ENDIF
                 GS(I)= MAX(GINI,DF*SCALE)
-                K(I) = DEUX*GS(I)*(UN+NU) / MAX(EM20,TROIS*(UN-DEUX*NU))
-                P = RBULK*(JDETF(I) - UN) 
+                K(I) = TWO*GS(I)*(ONE+NU) / MAX(EM20,THREE*(ONE-TWO*NU))
+                P = RBULK*(JDETF(I) - ONE) 
                 SIGNXX(I) = INVJDETF*DW_DI * BD(I,1) + P  
                 SIGNYY(I) = INVJDETF*DW_DI * BD(I,2) + P  
                 SIGNZZ(I) = INVJDETF*DW_DI * BD(I,3) + P  
                 SIGNXY(I) = INVJDETF*DW_DI * BD(I,4)      
                 SIGNYZ(I) = INVJDETF*DW_DI * BD(I,5)      
                 SIGNZX(I) = INVJDETF*DW_DI * BD(I,6)
-                 UVAR(I,1) = LAMT(I) - UN
+                 UVAR(I,1) = LAMT(I) - ONE
                  UVAR(I,2) = JDETF(I)*SIGNZZ(I) /  LAMT(I) 
               ENDDO   
           CASE(3) ! planar traction test
@@ -246,49 +246,49 @@ C
         !       lt = sqrt(X) 
 !!             
               DO I=1,NEL
-                 DELTA = (UN - I1(I)) ** 2 - QUATRE
-                 LAMT(I) = UN
+                 DELTA = (ONE - I1(I)) ** 2 - FOUR
+                 LAMT(I) = ONE
                  IF(DELTA > 0) THEN
-                   LAMT(I) = UNDEMI*MAX(I1(I)+ SQRT(DELTA) - UN ,I1(I) - SQRT(DELTA) - UN)
+                   LAMT(I) = HALF*MAX(I1(I)+ SQRT(DELTA) - ONE ,I1(I) - SQRT(DELTA) - ONE)
                  ELSEIF(DELTA == ZERO) THEN
-                   LAMT(I) = UNDEMI*(I1(I) - UN)
+                   LAMT(I) = HALF*(I1(I) - ONE)
                  ENDIF
               ENDDO
 !!              
               DO I=1,NEL
-                INVJDETF= UN/MAX(EM20, JDETF(I))
+                INVJDETF= ONE/MAX(EM20, JDETF(I))
                 LAMT(I) = SQRT(MAX(ZERO,LAMT(I)))
-                EPST = LAMT(I) - UN
+                EPST = LAMT(I) - ONE
                 T = SCALE*FINTER(IFUNC(1),EPST,NPF,TF,DF)
                 L3 = LAMT(I)**(-3)
                 DW_DI = ZERO
-                IF (I1B(I) == TROIS .OR. LAMT(I) == UN) THEN
+                IF (I1B(I) == THREE .OR. LAMT(I) == ONE) THEN
                   DW_DI = ZERO
                 ELSEIF((LAMT(I)  - L3) /= ZERO) THEN
                   DW_DI = T / (LAMT(I)  - L3)
                 ENDIF
                 GS(I)= MAX(GINI,DF*SCALE)
-                K(I) = DEUX*GS(I)*(UN+NU) / MAX(EM20,TROIS*(UN-DEUX*NU))
-                P = RBULK*(JDETF(I) - UN) 
+                K(I) = TWO*GS(I)*(ONE+NU) / MAX(EM20,THREE*(ONE-TWO*NU))
+                P = RBULK*(JDETF(I) - ONE) 
                 SIGNXX(I) = INVJDETF*DW_DI * BD(I,1) + P
                 SIGNYY(I) = INVJDETF*DW_DI * BD(I,2) + P
                 SIGNZZ(I) = INVJDETF*DW_DI * BD(I,3) + P
                 SIGNXY(I) = INVJDETF*DW_DI * BD(I,4)
                 SIGNYZ(I) = INVJDETF*DW_DI * BD(I,5)
                 SIGNZX(I) = INVJDETF*DW_DI * BD(I,6)
-                UVAR(I,1) = LAMT(I) - UN
+                UVAR(I,1) = LAMT(I) - ONE
                 UVAR(I,2) = -JDETF(I)*SIGNZX(I) / LAMT(I) ! only for testing
               ENDDO
       END SELECT    
 C 
       IF (IHET > 1) THEN
        DO I=1,NEL
-         ET(I) = MAX(UN, GS(I)/GINI) 
+         ET(I) = MAX(ONE, GS(I)/GINI) 
        ENDDO
       ENDIF
 C---------------- 
       DO I=1,NEL
-        SOUNDSP(I) = SQRT((QTHIRD*G + RBULK)/RHO(I))
+        SOUNDSP(I) = SQRT((FOUR_OVER_3*G + RBULK)/RHO(I))
         VISCMAX(I) = ZERO
       ENDDO
 c-----------   
@@ -324,21 +324,21 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: I
         my_real
-     .    X0,X1,X2,DELTA,AA,BB,CENT8,HUIT1,ROOT,FACT
+     .    X0,X1,X2,DELTA,AA,BB,HUNDRED8,HUIT1,ROOT,FACT
 C
-        CENT8   = CENT + HUIT
+        HUNDRED8   = HUNDRED + EIGHT
         HUIT1   = 81
         IF(ITEST == 1) THEN
             DO I=1,NEL
-               DELTA = QUATRE*I1(I)**3 - CENT8
+               DELTA = FOUR*I1(I)**3 - HUNDRED8
                IF(DELTA > ZERO) THEN
-                  AA = TROIS/I1(I)
+                  AA = THREE/I1(I)
                   BB = THIRD*I1(I)
                   AA = -AA*SQRT(AA)
-                  X0 = DEUX*SQRT(BB)*COS(THIRD*ACOS(AA))
-                  X1 = DEUX*SQRT(BB)*COS(THIRD*ACOS(AA) + DTHIRD*PI)
-                  X2 = DEUX*SQRT(BB)*COS(THIRD*ACOS(AA) + QTHIRD*PI)
-                  LAMT(I) = MAX(UN,X0,X1,X2)! tension
+                  X0 = TWO*SQRT(BB)*COS(THIRD*ACOS(AA))
+                  X1 = TWO*SQRT(BB)*COS(THIRD*ACOS(AA) + TWO_THIRD*PI)
+                  X2 = TWO*SQRT(BB)*COS(THIRD*ACOS(AA) + FOUR_OVER_3*PI)
+                  LAMT(I) = MAX(ONE,X0,X1,X2)! tension
                   IF(ICOMP(I) == 0) CYCLE 
                   ! in compression
                   IF(X0*X1 < ZERO) THEN
@@ -354,19 +354,19 @@ C
                     ENDIF
                   ENDIF
                ELSE
-                 LAMT(I) = MAX(UN,TROIS/I1(I),-SIX/I1(I))
+                 LAMT(I) = MAX(ONE,THREE/I1(I),-SIX/I1(I))
                ENDIF 
             ENDDO 
           ELSEIF(ITEST == 2) THEN
             DO I=1,NEL
-               DELTA = QUATRE*I1(I)**3 - CENT8
+               DELTA = FOUR*I1(I)**3 - HUNDRED8
                IF(DELTA > ZERO) THEN
-                  AA = TROIS/I1(I)
+                  AA = THREE/I1(I)
                   BB = THIRD*I1(I)
                   AA = -AA*SQRT(AA)
-                  X0 = DEUX*SQRT(BB)*COS(THIRD*ACOS(AA))
-                  X1 = DEUX*SQRT(BB)*COS(THIRD*ACOS(AA) + DTHIRD*PI)
-                  X2 = DEUX*SQRT(BB)*COS(THIRD*ACOS(AA) + QTHIRD*PI)
+                  X0 = TWO*SQRT(BB)*COS(THIRD*ACOS(AA))
+                  X1 = TWO*SQRT(BB)*COS(THIRD*ACOS(AA) + TWO_THIRD*PI)
+                  X2 = TWO*SQRT(BB)*COS(THIRD*ACOS(AA) + FOUR_OVER_3*PI)
                   LAMT(I) = MAX(X0,X1,X2)   ! COMPRESSION
                   IF(ICOMP(I) == 1) CYCLE
                   ! In tension
@@ -383,7 +383,7 @@ C
                     ENDIF
                   ENDIF  
                ELSE
-                 LAMT(I) = MAX(TROIS/I1(I),-SIX/I1(I))
+                 LAMT(I) = MAX(THREE/I1(I),-SIX/I1(I))
                ENDIF 
 c              
             ENDDO           

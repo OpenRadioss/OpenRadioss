@@ -78,7 +78,7 @@ C=======================================================================
       END DO
 
       DO I=LFT,LLT
-      DTX(I)=UNDEMI*DELTAX(I)**2*SPH(I)/(A(I)+B(I)*THETA(I))
+      DTX(I)=HALF*DELTAX(I)**2*SPH(I)/(A(I)+B(I)*THETA(I))
       ENDDO
 C-----------
       RETURN

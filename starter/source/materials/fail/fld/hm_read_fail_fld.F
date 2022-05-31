@@ -131,12 +131,12 @@ C --- check
 C--------------------------------------------------
       IF (ISHELL == 0)  ISHELL  = 1
       IF (IENG   /= 1)  IENG   = 0
-      IF (RANI   == 0)  RANI   = UN
+      IF (RANI   == 0)  RANI   = ONE
       IF (DADV ==ZERO) THEN
         IF (IFUNC(2) == 0) THEN
-          DADV = UNDEMI
+          DADV = HALF
         ELSE
-          DADV = UN
+          DADV = ONE
         ENDIF
       ENDIF
       IF (IXFEM /= 1 .AND. IXFEM /= 2) IXFEM = 0

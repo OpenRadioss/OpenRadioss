@@ -110,8 +110,8 @@ C----------------------------------------------------------------
       ETA     = UPARAM(12) 
       T0K     = UPARAM(13) 
       EPS0    = UPARAM(14)
-      G2      = DEUX*G
-      G3      = TROIS*G
+      G2      = TWO*G
+      G3      = THREE*G
 
       IF(DT1 == ZERO)THEN
         DO I=1,NEL
@@ -139,15 +139,15 @@ C--------------------------------------------------------
 C  Sound speed                                                   !
 C--------------------------------------------------------
       DO I=1,NEL
-         DPDM(I)    = DPDM(I) + QTHIRD*G
+         DPDM(I)    = DPDM(I) + FOUR_OVER_3*G
          SOUNDSP(I) = SQRT(ABS(DPDM(I))/RHO0(I))
       ENDDO
 C--------------------------------------------------------
 C  Von Mises equivalent stress
 C--------------------------------------------------------
       DO I=1,NEL
-         J2 =UNDEMI*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)+SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
-         SVM(I) =SQRT(TROIS*J2)
+         J2 =HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)+SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
+         SVM(I) =SQRT(THREE*J2)
       ENDDO
 C--------------------------------------------------------
 C  Temperature
@@ -166,7 +166,7 @@ C  Yield Stress
 C--------------------------------------------------------
 C Hardening scale factor
       DO I=1,NEL
-         YLD_H(I) = UN
+         YLD_H(I) = ONE
       ENDDO
       IF(M2 /= ZERO) THEN
 	    DO I=1,NEL
@@ -190,13 +190,13 @@ C Strain rate scale factor; convert strain rate in second-1
         ENDDO
       ELSE
         DO I=1,NEL
-           YLD_SR(I) = UN
+           YLD_SR(I) = ONE
         ENDDO
       ENDIF
 C Temperature scale factor
       IF(M1 /= ZERO .AND. M5 /= ZERO) THEN
 	    DO I=1,NEL
-           YLD_T(I) = EXP(THETA(I)*M1) * (UN+EPS(I))**(THETA(I)*M5)
+           YLD_T(I) = EXP(THETA(I)*M1) * (ONE+EPS(I))**(THETA(I)*M5)
         ENDDO
       ELSEIF(M1 /= ZERO) THEN
 	    DO I=1,NEL
@@ -204,11 +204,11 @@ C Temperature scale factor
         ENDDO
       ELSEIF(M5 /= ZERO) THEN
 	    DO I=1,NEL
-           YLD_T(I) = (UN+EPS(I))**(THETA(I)*M5)
+           YLD_T(I) = (ONE+EPS(I))**(THETA(I)*M5)
         ENDDO
       ELSE
         DO I=1,NEL
-           YLD_T(I) = UN
+           YLD_T(I) = ONE
         ENDDO
       ENDIF
 C Yield Stress
@@ -228,12 +228,12 @@ C----------------------------------------------------------------
 C  Update deviatoric stress tensor                   
 C----------------------------------------------------------------     
       DO I=1,NEL
-         RATIO = MIN(UN,YLD(I)/ MAX(SVM(I),EM20))
+         RATIO = MIN(ONE,YLD(I)/ MAX(SVM(I),EM20))
 C     plastic strain increment.
-         DPLA = (UN-RATIO)*SVM(I)/MAX(G3+HM(I),EM20)
+         DPLA = (ONE-RATIO)*SVM(I)/MAX(G3+HM(I),EM20)
 C     actual yield stress
          YLD(I) = MAX(YLD(I)+DPLA*HM(I),ZERO)
-         RATIO  = MIN(UN,YLD(I)/ MAX(SVM(I),EM20))
+         RATIO  = MIN(ONE,YLD(I)/ MAX(SVM(I),EM20))
          SIGNXX(I) = SIGNXX(I)*RATIO
          SIGNYY(I) = SIGNYY(I)*RATIO
          SIGNZZ(I) = SIGNZZ(I)*RATIO

@@ -459,7 +459,7 @@ C--------default zero
 		   IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
          END IF
          ISENS   = 0
-         XSENS   = UN
+         XSENS   = ONE
          DO K=1,NSENSOR
            IF(IB(6,NL).EQ.LSENSOR(1,K))ISENS=K
          ENDDO
@@ -534,7 +534,7 @@ C----------------
              TAGN2 = 0
              TAGN3 = 0
              TAGN4 = 0
-             FP = UN
+             FP = ONE
              IF(NINTERP > 0 ) THEN           
                 NPL = LOADP_HYD_INTER(NP)
                 IF(N4/=0) THEN
@@ -559,7 +559,7 @@ C----------------
 					  FP = (TAGN1+TAGN2+TAGN3)/3
                    ENDIF
                 ENDIF    
-                IF (FP==ZERO) FP = UN
+                IF (FP==ZERO) FP = ONE
              ENDIF
 			 IF (SEGCONT==1) AA = ZERO
 			NSKIN = NSKIN +1
@@ -598,7 +598,7 @@ C--------default zero
          DIR_VEL=MAX(ILOADP(12,NL),1)
          IFRA2=ILOADP(13,NL)
          ISENS=0
-         XSENS = UN
+         XSENS = ONE
          DO K=1,NSENSOR
            IF(ILOADP(6,NL).EQ.LSENSOR(1,K))ISENS=K
          ENDDO
@@ -631,16 +631,16 @@ C
              K3=3*DIR_HSP
              ! hydrostatic pressure
              IF(FUN_HSP .NE.0)THEN
-                COORMEAN = (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))/QUATRE)+
-     .                     (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))/QUATRE)+
-     .                     (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))/QUATRE)
+                COORMEAN = (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))/FOUR)+
+     .                     (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))/FOUR)+
+     .                     (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))/FOUR)
                 AA       = FCY*FINTER(FUN_HSP,(COORMEAN-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
              ENDIF
              NX= (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
              NY= (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
              NZ= (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
              NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
-             AA = AA * UNDEMI * NORM
+             AA = AA * HALF * NORM
 C vel pressure
              K1=3*DIR_VEL-2
              K2=3*DIR_VEL-1
@@ -649,14 +649,14 @@ c
              NSIGN = (NX * XFRAME(K1,IFRA2) + 
      .                NY * XFRAME(K2,IFRA2) + 
      .                NZ * XFRAME(K3,IFRA2)) 
-             IF(NSIGN.NE.ZERO) NSIGN = SIGN(UN,NSIGN)
+             IF(NSIGN.NE.ZERO) NSIGN = SIGN(ONE,NSIGN)
 C         
              VSEG= (XFRAME(K1,IFRA2)*
-     .               (V(1,N1) + V(1,N2) + V(1,N3) + V(1,N4)) /QUATRE)+
+     .               (V(1,N1) + V(1,N2) + V(1,N3) + V(1,N4)) /FOUR)+
      .              (XFRAME(K2,IFRA2)*
-     .               (V(2,N1) + V(2,N2) + V(2,N3) + V(2,N4)) /QUATRE)+
+     .               (V(2,N1) + V(2,N2) + V(2,N3) + V(2,N4)) /FOUR)+
      .              (XFRAME(K3,IFRA2)*
-     .               (V(3,N1) + V(3,N2) + V(3,N3) + V(3,N4)) /QUATRE)
+     .               (V(3,N1) + V(3,N2) + V(3,N3) + V(3,N4)) /FOUR)
              
              IF(FUN_VEL .NE.0)THEN
                 VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX)- VSEG
@@ -667,7 +667,7 @@ C
      .         PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2)-
      .                 (NY/NORM)*VEL*XFRAME(K2,IFRA2)-
      .                 (NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )* FCY1*
-     .              FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/DEUX
+     .              FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
 C         
            ELSE
             IF(N1 == N2)THEN
@@ -695,16 +695,16 @@ Csv         true triangles.
                K2=3*DIR_HSP-1
                K3=3*DIR_HSP
                ! hydrostatic pressure
-               COORMEAN = (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3))/TROIS)+
-     .                    (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3))/TROIS)+
-     .                    (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3))/TROIS)
+               COORMEAN = (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3))/THREE)+
+     .                    (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3))/THREE)+
+     .                    (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3))/THREE)
                AA       =  FCY*FINTER(FUN_HSP,(COORMEAN-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
             ENDIF
             NX= (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
             NY= (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
             NZ= (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
             NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
-            AA = AA * UNDEMI * NORM
+            AA = AA * HALF * NORM
 C vel pressure
              K1=3*DIR_VEL-2
              K2=3*DIR_VEL-1
@@ -713,14 +713,14 @@ c
              NSIGN = (NX * XFRAME(K1,IFRA2) + 
      .                NY * XFRAME(K2,IFRA2) + 
      .                NZ * XFRAME(K3,IFRA2)) 
-             IF(NSIGN.NE.ZERO) NSIGN = SIGN(UN,NSIGN)
+             IF(NSIGN.NE.ZERO) NSIGN = SIGN(ONE,NSIGN)
 C           
              VSEG= (XFRAME(K1,IFRA2)*
-     .               (V(1,N1) + V(1,N2) + V(1,N3)) /TROIS)+
+     .               (V(1,N1) + V(1,N2) + V(1,N3)) /THREE)+
      .              (XFRAME(K2,IFRA2)*
-     .               (V(2,N1) + V(2,N2) + V(2,N3)) /TROIS)+
+     .               (V(2,N1) + V(2,N2) + V(2,N3)) /THREE)+
      .              (XFRAME(K3,IFRA2)*
-     .               (V(3,N1) + V(3,N2) + V(3,N3)) /TROIS)
+     .               (V(3,N1) + V(3,N2) + V(3,N3)) /THREE)
              
              IF(FUN_VEL .NE.0)THEN
                 VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX)- VSEG
@@ -731,7 +731,7 @@ C
      .         PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2)-
      .                 (NY/NORM)*VEL*XFRAME(K2,IFRA2)-
      .                 (NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )* FCY1*
-     .              FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/DEUX
+     .              FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
            ENDIF
 		  	NSKIN = NSKIN +1
 		    SKIN_SCALAR(NSKIN)=-AA+PVEL*NSIGN

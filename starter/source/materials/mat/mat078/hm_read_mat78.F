@@ -129,11 +129,11 @@ C
 C       
       OPTE = 0
       IF (FUNCID > 0 ) OPTE  = 1
-      IF (R00 == ZERO) R00   = UN
-      IF (R45 == ZERO) R45   = UN
-      IF (R90 == ZERO) R90   = UN
+      IF (R00 == ZERO) R00   = ONE
+      IF (R45 == ZERO) R45   = ONE
+      IF (R90 == ZERO) R90   = ONE
       IF (Iplas == 0)  Iplas = 1
-      IF (NU < ZERO .OR. NU >= UNDEMI) THEN
+      IF (NU < ZERO .OR. NU >= HALF) THEN
          CALL ANCMSG(MSGID=49,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
@@ -141,7 +141,7 @@ C
      .               I1=MAT_ID,
      .               C1=TITR)
       ENDIF
-      IF ((HYU < ZERO).OR.(HYU > UN)) THEN 
+      IF ((HYU < ZERO).OR.(HYU > ONE)) THEN 
          CALL ANCMSG(MSGID=1886,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
@@ -153,15 +153,15 @@ C
       ! Hill 48
       IF (Iplas == 1) THEN 
         MEXP = ZERO
-        P1   = R00*(UN+R90)/R90/(UN+R00)
-        P2   = R00/(R00+UN)
-        P3   = (R00+R90)*(DEUX*R45+UN)/R90/(UN+R00)
-        P4   = R00/R90/(UN+R00)
-        N3   = P1/(UN+R90)
+        P1   = R00*(ONE+R90)/R90/(ONE+R00)
+        P2   = R00/(R00+ONE)
+        P3   = (R00+R90)*(TWO*R45+ONE)/R90/(ONE+R00)
+        P4   = R00/R90/(ONE+R00)
+        N3   = P1/(ONE+R90)
       ! Barlat 89
       ELSEIF (Iplas == 2) THEN
         ! Wrong value of M exponent
-        IF ((MEXP > ZERO).AND.(MEXP < DEUX)) THEN
+        IF ((MEXP > ZERO).AND.(MEXP < TWO)) THEN
           CALL ANCMSG(MSGID=1735,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -170,10 +170,10 @@ C
         ENDIF
         ! Default value of M exponent
         IF (MEXP == ZERO) MEXP = SIX
-        P1   = DEUX - DEUX*SQRT((R00/(UN+R00))*(R90/(UN+R90))) ! A
-        P2   = DEUX - P1                                       ! C
-        P3   = SQRT((R00/(UN+R00))*((UN+R90)/R90))             ! H
-        P4   = UN                                              ! P
+        P1   = TWO - TWO*SQRT((R00/(ONE+R00))*(R90/(ONE+R90))) ! A
+        P2   = TWO - P1                                       ! C
+        P3   = SQRT((R00/(ONE+R00))*((ONE+R90)/R90))             ! H
+        P4   = ONE                                              ! P
         CALL CALCULP2(P1,P2,P3,P4,MEXP,R45)                    ! USE ROUTINE OF HM_READ_MAT57
         N3   = MEXP                                            ! M
       ENDIF
@@ -220,12 +220,12 @@ c----------------------
       UPARAM(21) = Iplas
       UPARAM(22) = C1_KH
 c---------------------
-      PARMAT(1)  = YOUNG/TROIS/(UN - DEUX*NU)
+      PARMAT(1)  = YOUNG/THREE/(ONE - TWO*NU)
       PARMAT(2)  = YOUNG
       PARMAT(3)  = NU
 c     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) = (UN - DEUX*NU)/(UN - NU) ! == DEUX*G/(C1+QTHIRD*G)
+      PARMAT(17) = (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G)
 c------------------------------             
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1

@@ -83,7 +83,7 @@ C-----------------------------------------------
        IF(NODADT.NE.0.AND.IDTMIN(4).EQ.0)RETURN
 
        DO I=JFT,JLT
-         IF(OFF(I).LT.UN.OR.OFFG(I).LT.ZERO) CYCLE
+         IF(OFF(I).LT.ONE.OR.OFFG(I).LT.ZERO) CYCLE
          IF(IDTMIN(4).EQ.1.AND.DT(I).LT.DTMIN1(4))THEN
            TSTOP = TT
 #include "lockon.inc"
@@ -115,12 +115,12 @@ C----
          DT(I)=AL(I)/SSP(I)
        END DO
        DO I=JFT,JLT
-         IF(OFF(I).LT.UN.OR.OFFG(I).LT.ZERO) CYCLE
-          DMELTR(I) = MAX(DMELTR(I) , MSTR(I)*((DTMINS/(DTFACS*DT(I)))**2 - UN))
-          DT(I)     = DTFACS*SQRT(UN+DMELTR(I)/MSTR(I))*DT(I)
+         IF(OFF(I).LT.ONE.OR.OFFG(I).LT.ZERO) CYCLE
+          DMELTR(I) = MAX(DMELTR(I) , MSTR(I)*((DTMINS/(DTFACS*DT(I)))**2 - ONE))
+          DT(I)     = DTFACS*SQRT(ONE+DMELTR(I)/MSTR(I))*DT(I)
        END DO
        DO I=JFT,JLT
-         IF(OFF(I).LT.UN.OR.OFFG(I).LT.ZERO) CYCLE
+         IF(OFF(I).LT.ONE.OR.OFFG(I).LT.ZERO) CYCLE
           IF(DT(I).LT.DT2T)THEN
             DT2T    = DT(I)
             NELTST  = NGL(I)

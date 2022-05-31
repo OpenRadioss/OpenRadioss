@@ -169,7 +169,7 @@ C-----------------------------------------------
          IMODEL         = ILOADP(11,NL)
          ISIZ_SEG       = ILOADP(01,NL)/4 
          IERR1          = 0
-         W13            = (WTNT*FAC_M_bb)**TIERS   ! '*FAC_M'  g->work unit    '/FAC_M' : WORK_UNIT -> g
+         W13            = (WTNT*FAC_M_bb)**THIRD   ! '*FAC_M'  g->work unit    '/FAC_M' : WORK_UNIT -> g
          Z              = ZERO
          TT_STAR = TT
          IF(ITA_SHIFT==2)TT_STAR = TT + TA_SHIFT  !working unit         
@@ -193,28 +193,28 @@ C-----------------------------------------------
            
            IF(N4.EQ.0 .OR. N3.EQ.N4 )THEN
              !3 NODE SEGEMENT 
-             NPt(I)   = TROIS 
+             NPt(I)   = THREE 
              !Segment Zentrum
              Zx = X(1,N1)+X(1,N2)+X(1,N3)
              Zy = X(2,N1)+X(2,N2)+X(2,N3)
              Zz = X(3,N1)+X(3,N2)+X(3,N3)
-             Zx = Zx*TIERS                          
-             Zy = Zy*TIERS
-             Zz = Zz*TIERS 
+             Zx = Zx*THIRD                          
+             Zy = Zy*THIRD
+             Zz = Zz*THIRD 
              NX = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))
              NY = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))
              NZ = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
              NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
            ELSE
              !4 NODE SEGEMENT
-             NPt(I)   = QUATRE
+             NPt(I)   = FOUR
              !Segment Zentrum
              Zx = X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4)
              Zy = X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4)
              Zz = X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4)
-             Zx = Zx*QUART                          
-             Zy = Zy*QUART
-             Zz = Zz*QUART                          
+             Zx = Zx*FOURTH                          
+             Zy = Zy*FOURTH
+             Zz = Zz*FOURTH                          
              !Normal
              NX = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
              NY = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
@@ -249,7 +249,7 @@ C-----------------------------------------------
            
              !DO KK=1,400
              !  Z=KK
-             !  W13=750000.d00**(TIERS)
+             !  W13=750000.d00**(THIRD)
            
              !finding index for TM5-1300 abacuses from bijection.
              IF(Z>0.5 .and. Z<400.) then  
@@ -276,7 +276,7 @@ C-----------------------------------------------
                  write(*,FMT='(A,4I11)')
      .            "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
                endif   
-               LAMBDA = UN                                                                                                  
+               LAMBDA = ONE                                                                                                  
                Phi_I  = 255                                                                                                 
              ENDIF   
 
@@ -402,36 +402,36 @@ C-----------------------------------------------
            
                IF(IMODEL == 1)THEN
                  !-Friedlander
-                 DECAY_inci = UN
-                 DECAY_refl = UN
+                 DECAY_inci = ONE
+                 DECAY_refl = ONE
                  
                ELSEIF(IMODEL == 2) THEN
-                 !SOLVE DECAY (b):    I_inci = P_inci*DT_0/b*(UN-(1-exp(-b))/b)
-                 !     g: b-> I_inci - P_inci*DT_0/b*(UN-(1-exp(-b))/b)
+                 !SOLVE DECAY (b):    I_inci = P_inci*DT_0/b*(ONE-(1-exp(-b))/b)
+                 !     g: b-> I_inci - P_inci*DT_0/b*(ONE-(1-exp(-b))/b)
                  ! find b such as g(b)=0
                  ! NEWTON ITERATIONS
                  NITER=20
                  TOL=EM06
                  ITER=0
-                 ZETA=UN
+                 ZETA=ONE
                  RES=EP20
                  TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA
                  !--initialize first iteration
                  kk=P_inci*DT_0
-                 FUNCT = UNDEMI*kk -I_inci !-UNSIX*kk*ZETA
+                 FUNCT = HALF*kk -I_inci !-ONE_OVER_6*kk*ZETA
                  !--iterative solving
                  DO WHILE (ITER<=NITER .AND. RES>TOL)
                    ITER=ITER+1
                    IF(ABS(ZETA) < EM06)THEN
                      !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )
-                     DIFF = kk*(-UNSIX + UNDOUZE*ZETA)
+                     DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)
                      ZETA = ZETA - FUNCT/DIFF
-                     FUNCT = UNDEMI*kk-UNSIX*kk*ZETA - I_inci
+                     FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_inci
                    ELSE
-                     DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_inci)*(UN + DEUX/ZETA)
+                     DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_inci)*(ONE + TWO/ZETA)
                      ZETA = ZETA - FUNCT/DIFF
                      TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA
-                     TMP3 = EXP(ZETA)*(ZETA-UN)+UN 
+                     TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE 
                      FUNCT = TMP2 * TMP3 -I_inci            
                    ENDIF
                    RES = ABS(FUNCT)   !g(x_new)
@@ -439,25 +439,25 @@ C-----------------------------------------------
                  DECAY_inci=MAX(EM06,ZETA)
 
                  ITER=0
-                 ZETA=UN
+                 ZETA=ONE
                  RES=EP20
                  TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA
                  !--initialize first iteration
                  kk=P_refl*DT_0
-                 FUNCT = UNDEMI*kk -I_refl !-UNSIX*kk*ZETA
+                 FUNCT = HALF*kk -I_refl !-ONE_OVER_6*kk*ZETA
                  !--iterative solving
                  DO WHILE (ITER<=NITER .AND. RES>TOL)
                    ITER=ITER+1
                    IF(ABS(ZETA) < EM06)THEN
                      !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )
-                     DIFF = kk*(-UNSIX + UNDOUZE*ZETA)
+                     DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)
                      ZETA = ZETA - FUNCT/DIFF
-                     FUNCT = UNDEMI*kk-UNSIX*kk*ZETA - I_refl
+                     FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_refl
                    ELSE
-                     DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_refl)*(UN + DEUX/ZETA)
+                     DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_refl)*(ONE + TWO/ZETA)
                      ZETA = ZETA - FUNCT/DIFF
                      TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA
-                     TMP3 = EXP(ZETA)*(ZETA-UN)+UN 
+                     TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE 
                      FUNCT = TMP2 * TMP3 -I_refl            
                    ENDIF
                    RES = ABS(FUNCT)   !g(x_new)
@@ -467,8 +467,8 @@ C-----------------------------------------------
                
              ELSE
            
-               DECAY_inci = UN
-               DECAY_refl = UN
+               DECAY_inci = ONE
+               DECAY_refl = ONE
                    
              ENDIF
 
@@ -519,20 +519,20 @@ C-----------------------------------------------
            IF(cos_theta.LE.ZERO)THEN                                                                                      
              !Surface not facing the point of explosion                                                                   
              alpha_refl = ZERO                                                                                            
-             alpha_inci = UN                                                                                              
+             alpha_inci = ONE                                                                                              
            ELSE                                                                                                           
              alpha_refl = cos_theta**2                           !     cos**2 X                                        
-             alpha_inci = UN + alpha_refl - DEUX * cos_theta        ! 1 + cos**2 X -2 cosX                                
+             alpha_inci = ONE + alpha_refl - TWO * cos_theta        ! 1 + cos**2 X -2 cosX                                
            ENDIF 
                                                                                                                                                
            !Building pressure waves from Friedlander model. (Modified model can bu introduced later if needed)                                                                                        
            WAVE_INCI = ZERO
            WAVE_REFL = ZERO                                                                                           
            IF(TT_STAR>=T_A)THEN                                                                                                
-             WAVE_INCI =  P_inci*(UN-(TT_STAR-T_A)/DT_0)*exp(-DECAY_inci*(TT_STAR-T_A)/DT_0)                                          
-             WAVE_REFL =  P_refl*(UN-(TT_STAR-T_A)/DT_0)*exp(-DECAY_refl*(TT_STAR-T_A)/DT_0)                                          
+             WAVE_INCI =  P_inci*(ONE-(TT_STAR-T_A)/DT_0)*exp(-DECAY_inci*(TT_STAR-T_A)/DT_0)                                          
+             WAVE_REFL =  P_refl*(ONE-(TT_STAR-T_A)/DT_0)*exp(-DECAY_refl*(TT_STAR-T_A)/DT_0)                                          
 !             write(*,FMT='(A,5e30.16)') "TT_STAR,TA,P_refl,I_refl,WAVE_refl=", TT_STAR,T_A,P_refl,I_refl,WAVE_refl                 
-!             write(*,FMT='(A,5e30.16)') "(UN-(TT_STAR-T_A)/I_refl), exp    =", (UN-(TT_STAR-T_A)/I_refl),  exp(-(TT_STAR-T_A)/I_refl)   
+!             write(*,FMT='(A,5e30.16)') "(ONE-(TT_STAR-T_A)/I_refl), exp    =", (ONE-(TT_STAR-T_A)/I_refl),  exp(-(TT_STAR-T_A)/I_refl)   
            ELSE
             !TO-DO METTRE UNE OPTION POUR ARRETER LE CHARGEMENT QUAND TT_STAR>=T0                                                                                                           
              WAVE_INCI = ZERO                                                                                             
@@ -545,9 +545,9 @@ C-----------------------------------------------
            !Send Pressure load to nodes
            !compiler should optimize P/norm with -O3
            !directly used in A(:,inod) so it is divided by /Npt
-           FX(I)= -P * UNDEMI*NX / NPT(I)                                                                              
-           FY(I)= -P * UNDEMI*NY / NPT(I)                                                                           
-           FZ(I)= -P * UNDEMI*NZ / NPT(I)
+           FX(I)= -P * HALF*NX / NPT(I)                                                                              
+           FY(I)= -P * HALF*NY / NPT(I)                                                                           
+           FZ(I)= -P * HALF*NZ / NPT(I)
 
 
            TFEXTT=TFEXTT+DT1*(   FX(I) * SUM(  V( 1, N(1:NINT(NPt(I)),I)  )  ) 
@@ -577,7 +577,7 @@ C-----------------------------------------------
             A(1,N3)=A(1,N3)+FX(I)                              
             A(2,N3)=A(2,N3)+FY(I)                              
             A(3,N3)=A(3,N3)+FZ(I)                              
-            IF(NPt(I) == QUATRE)THEN                                 
+            IF(NPt(I) == FOUR)THEN                                 
               A(1,N4)=A(1,N4)+FX(I)                              
               A(2,N4)=A(2,N4)+FY(I)                              
               A(3,N4)=A(3,N4)+FZ(I)                              
@@ -597,7 +597,7 @@ C-----------------------------------------------
             FSKY(1,IAD) =FX(I)                             
             FSKY(2,IAD) =FY(I)                             
             FSKY(3,IAD) =FZ(I)                                   
-            IF(NPt(I) == QUATRE)THEN                               
+            IF(NPt(I) == FOUR)THEN                               
               IAD         =IADC(ILOADP(4,NL)+4*(I-1)+3)                         
               FSKY(1,IAD) =FX(I)                             
               FSKY(2,IAD) =FY(I)                             
@@ -626,7 +626,7 @@ C-----------------------------------------------
               FEXT(1,N3) = FEXT(1,N3)+FX(I)                 
               FEXT(2,N3) = FEXT(2,N3)+FY(I)                 
               FEXT(3,N3) = FEXT(3,N3)+FZ(I)                 
-              IF(NPt(I)==QUATRE)THEN                           
+              IF(NPt(I)==FOUR)THEN                           
                 FEXT(1,N4) = FEXT(1,N4)+FX(I)                 
                 FEXT(2,N4) = FEXT(2,N4)+FY(I)                 
                 FEXT(3,N4) = FEXT(3,N4)+FZ(I)                 

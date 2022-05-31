@@ -74,9 +74,9 @@ C=======================================================================
       ENDIF                                                           
       DO JJ=1,NIR                                                     
         J=INOD(JJ)  
-        XM(JJ)=X(1,J)+ V(1,J)*DT12*UNDEMI                                                
-        YM(JJ)=X(2,J)+ V(2,J)*DT12*UNDEMI                                                
-        ZM(JJ)=X(3,J)+ V(3,J)*DT12*UNDEMI                                                
+        XM(JJ)=X(1,J)+ V(1,J)*DT12*HALF                                                
+        YM(JJ)=X(2,J)+ V(2,J)*DT12*HALF                                                
+        ZM(JJ)=X(3,J)+ V(3,J)*DT12*HALF                                                
       ENDDO                                                           
 C-----repere local main                                             
       X21 = XM(2) - XM(1)                                             
@@ -105,7 +105,7 @@ C-----repere local main
       E3Z = E1X*E2Y-E1Y*E2X                                           
 C
       SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z                                
-      SUMA   = UN / MAX(SQRT(SUMA),EM20)                              
+      SUMA   = ONE / MAX(SQRT(SUMA),EM20)                              
       E3X = E3X * SUMA                                                
       E3Y = E3Y * SUMA                                                
       E3Z = E3Z * SUMA                                                
@@ -118,7 +118,7 @@ C
       E1Z = E1Z + (E2X*E3Y-E2Y*E3X)*SUMA                              
 C
       SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z                                
-      SUMA   = UN / MAX(SQRT(SUMA),EM20)                              
+      SUMA   = ONE / MAX(SQRT(SUMA),EM20)                              
       E1X = E1X * SUMA                                                
       E1Y = E1Y * SUMA                                                
       E1Z = E1Z * SUMA                                                

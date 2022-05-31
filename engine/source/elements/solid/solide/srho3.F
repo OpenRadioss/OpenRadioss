@@ -99,7 +99,7 @@ C-----------------------------------------------
         DO I=LFT,LLT
           DVV         = DIVDE(I)
           RHON(I)     = RHON(I)-DVV*RHO0
-          VAVG        = UNDEMI*(VOLN(I)+VOLO(I))
+          VAVG        = HALF*(VOLN(I)+VOLO(I))
           DVOL(I)     = VAVG*DVV
           EINT(I)     = EINT(I)*VOLO(I)-E0*DVV*VAVG
         ENDDO
@@ -113,7 +113,7 @@ C--- due to /INIBRI/EREF
             VOLO(LFT:LLT)=VOLN(LFT:LLT)
            ELSEIF(ISMSTR==1) THEN
             DO I=LFT,LLT
-              IF(OFFG(I).GT.UN) VOLO(I)=VOLN(I)
+              IF(OFFG(I).GT.ONE) VOLO(I)=VOLN(I)
             ENDDO
            END IF
           END IF
@@ -140,13 +140,13 @@ C--- due to /INIBRI/EREF
         ELSEIF(JALE.NE.0)THEN                                                                                              
           DO I=LFT,LLT                                                                                                     
            RHON(I)    = RHON(I)/VOLN(I)                                                                                    
-           DVOL(I)    = VOLN(I)-VOLO(I)+UNDEMI*DT1*(FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))   
+           DVOL(I)    = VOLN(I)-VOLO(I)+HALF*DT1*(FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))   
            VOLO(I)    = VOLN(I)                                                                                            
          ENDDO                                                                                                             
         ELSEIF(JEUL.NE.0)THEN                                                                                              
          DO I=LFT,LLT                                                                                                      
           RHON(I)     = RHON(I)/VOLN(I)                                                                                    
-          DVOL(I)     = UNDEMI*DT1*(FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))                   
+          DVOL(I)     = HALF*DT1*(FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))                   
          ENDDO                                                                                                             
         ENDIF!(JLAG.NE.0) 
         
@@ -206,13 +206,13 @@ C---------VOLN(I)=VOLO(I) for small strain excepting initial stat case
        ENDDO
       ELSEIF ((ISMSTR<=4.OR.ISMSTR==12).AND.JLAG>0) THEN
        DO I=LFT,LLT
-        IF(OFFG(I).GT.UN) THEN
+        IF(OFFG(I).GT.ONE) THEN
          DVDP  = DIVDE(I)
          RHOREF = RHON(I)
          RHON(I) = RHON_OLD(I) - RHOREF*DVDP
          RHON(I) = MAX(RHON(I),EM30)
          DVOL(I)=VOLN(I)*DVDP
-         IF (ISMSTR==12) AMU(I) =RHON(I)/RHOREF - UN
+         IF (ISMSTR==12) AMU(I) =RHON(I)/RHOREF - ONE
         END IF
        ENDDO
       ENDIF
@@ -222,18 +222,18 @@ C
        IF(IRESP==1)THEN
 C------VOLDP doesn't change after switching to small strain,modifying VOL0DP to      
         DO I=LFT,LLT
-         IF(OFFG(I).GT.UN) THEN
+         IF(OFFG(I).GT.ONE) THEN
           DVDP = DIVDE(I)*(VOLO(I)/VOLN(I))
           VOL0DP(I)=VOL0DP(I)-DVDP*VOLDP(I)
          ELSEIF(OFFG(I)==ZERO) THEN
-          VOLDP(I)=UN
+          VOLDP(I)=ONE
          ELSE
           DVDP = VOLDP(I)-(RHO0/RHON_OLD(I))*VOL0DP(I)
           DVOL(I) = DVDP
           RHON(I) = RHO0*(VOL0DP(I)/VOLDP(I))
          END IF
         ENDDO
-        AMU(LFT:LLT) = VOL0DP(LFT:LLT)/VOLDP(LFT:LLT) - UN
+        AMU(LFT:LLT) = VOL0DP(LFT:LLT)/VOLDP(LFT:LLT) - ONE
        END IF
       ENDIF
 C-----AMU compute for DP in MMAIN: AMU() = RHON()/RHO0 - 1, because RHON*VOLDP=RHO0*VOL0DP     

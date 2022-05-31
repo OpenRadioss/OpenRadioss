@@ -158,7 +158,7 @@ C-----------------------------------------------
        IF(SSP0MAX == ZERO)THEN
          TCP_REF = EP20
        ELSE     
-         TCP_REF    = LC0MAX/DEUX/SSP0MAX/LOG(DEUX)
+         TCP_REF    = LC0MAX/TWO/SSP0MAX/LOG(TWO)
        ENDIF
        DO KK=1,EBCS_TAB%NEBCS
           select type (twf => EBCS_TAB%tab(KK)%poly)

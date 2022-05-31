@@ -94,9 +94,9 @@ C     Face 1
          NY = NY / SURF(KFACE, II)
          NZ = NZ / SURF(KFACE, II)
          IF (SYM .EQ. 1) THEN
-            SURF(KFACE, II) = SURF(KFACE, II) * UNDEMI * (X1(2) + X2(2))
+            SURF(KFACE, II) = SURF(KFACE, II) * HALF * (X1(2) + X2(2))
          ENDIF
-         XF(1:3) = UNDEMI * (X1(1:3) + X2(1:3))
+         XF(1:3) = HALF * (X1(1:3) + X2(1:3))
          IF (NX * (XF(1) - XK(1)) + NY * (XF(2) - XK(2)) + NZ * (XF(3) - XK(3)) .LE. ZERO) THEN
             CALL ARRET(2)
          ENDIF
@@ -112,9 +112,9 @@ C     Face 2
          NY = NY / SURF(KFACE, II)
          NZ = NZ / SURF(KFACE, II)
          IF (SYM .EQ. 1) THEN
-            SURF(KFACE, II) = SURF(KFACE, II) * UNDEMI * (X2(2) + X3(2))
+            SURF(KFACE, II) = SURF(KFACE, II) * HALF * (X2(2) + X3(2))
          ENDIF
-         XF(1:3) = UNDEMI * (X2(1:3) + X3(1:3))
+         XF(1:3) = HALF * (X2(1:3) + X3(1:3))
          IF (NX * (XF(1) - XK(1)) + NY * (XF(2) - XK(2)) + NZ * (XF(3) - XK(3)) .LE. ZERO) THEN
             CALL ARRET(2)
          ENDIF
@@ -130,17 +130,17 @@ C     Face 3
          NY = NY / SURF(KFACE, II)
          NZ = NZ / SURF(KFACE, II)
          IF (SYM .EQ. 1) THEN
-            SURF(KFACE, II) = SURF(KFACE, II) * UNDEMI * (X3(2) + X1(2))
+            SURF(KFACE, II) = SURF(KFACE, II) * HALF * (X3(2) + X1(2))
          ENDIF
-         XF(1:3) = UNDEMI * (X3(1:3) + X1(1:3))
+         XF(1:3) = HALF * (X3(1:3) + X1(1:3))
          IF (NX * (XF(1) - XK(1)) + NY * (XF(2) - XK(2)) + NZ * (XF(3) - XK(3)) .LE. ZERO) THEN
             CALL ARRET(2)
          ENDIF
 C     Face grid velocity 1
-         WFAC(1:3, 1, II) = UNDEMI * (W1(1:3) + W2(1:3))
+         WFAC(1:3, 1, II) = HALF * (W1(1:3) + W2(1:3))
 C     Face grid velocity 2
-         WFAC(1:3, 2, II) = UNDEMI * (W2(1:3) + W3(1:3))
+         WFAC(1:3, 2, II) = HALF * (W2(1:3) + W3(1:3))
 C     Face grid velocity 3
-         WFAC(1:3, 3, II) = UNDEMI * (W3(1:3) + W1(1:3))
+         WFAC(1:3, 3, II) = HALF * (W3(1:3) + W1(1:3))
       ENDDO
       END SUBROUTINE QNORM2T

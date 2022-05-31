@@ -123,7 +123,7 @@ C
        D3(I) =  X42*Y41 - X41*Y42
        D4(I) =  -(D1(I) + D2(I) + D3(I))
 C
-       VOLDP(I) = (X41*B1DP + Y41*C1DP + Z41*D1DP)*UNSIX
+       VOLDP(I) = (X41*B1DP + Y41*C1DP + Z41*D1DP)*ONE_OVER_6
        DET(I) = VOLDP(I)
 C
       ENDDO
@@ -208,14 +208,14 @@ C
           D3(I) =  X42*Y41 - X41*Y42
           D4(I) =  -(D1(I) + D2(I) + D3(I))
 C
-          VOLDP(I) = (X41*B1DP + Y41*C1DP + Z41*D1DP)*UNSIX
+          VOLDP(I) = (X41*B1DP + Y41*C1DP + Z41*D1DP)*ONE_OVER_6
           DET(I) = VOLDP(I)
-          OFFG(I) = DEUX
+          OFFG(I) = TWO
          ENDDO
        END IF
 C
       DO I=LFT,LLT
-        D = UN/DET(I)/SIX
+        D = ONE/DET(I)/SIX
         PX1(I)=-B1(I)*D
         PY1(I)=-C1(I)*D
         PZ1(I)=-D1(I)*D
@@ -242,7 +242,7 @@ C          DELTAX(I) = 6.*DET(I) / AREAMX2
      .    	   PX2(I)*PX2(I)+PY2(I)*PY2(I)+PZ2(I)*PZ2(I),
      .  	   PX3(I)*PX3(I)+PY3(I)*PY3(I)+PZ3(I)*PZ3(I),
      .  	   PX4(I)*PX4(I)+PY4(I)*PY4(I)+PZ4(I)*PZ4(I))
-           DELTAX(I) = UN / SQRT(D)
+           DELTAX(I) = ONE / SQRT(D)
          END DO
 
        ELSEIF(IFORMDT==0)THEN
@@ -251,13 +251,13 @@ C          DELTAX(I) = 6.*DET(I) / AREAMX2
      .       + PX2(I)*PX2(I)+PY2(I)*PY2(I)+PZ2(I)*PZ2(I)
      .       + PX3(I)*PX3(I)+PY3(I)*PY3(I)+PZ3(I)*PZ3(I)
      .       + PX4(I)*PX4(I)+PY4(I)*PY4(I)+PZ4(I)*PZ4(I)
-           DELTAX(I) = UN / SQRT(D)
+           DELTAX(I) = ONE / SQRT(D)
          END DO
 
        ELSEIF(IFORMDT==1)THEN
 
          GFAC=PM(105,MXT(1))
-         LD  =DEUX*SQRT(MAX(UN-GFAC,ZERO))+UN
+         LD  =TWO*SQRT(MAX(ONE-GFAC,ZERO))+ONE
          DO I=LFT,LLT
            PXX=PX1(I)*PX1(I)+PX2(I)*PX2(I)+PX3(I)*PX3(I)+PX4(I)*PX4(I)
            PYY=PY1(I)*PY1(I)+PY2(I)*PY2(I)+PY3(I)*PY3(I)+PY4(I)*PY4(I)
@@ -269,11 +269,11 @@ C
            AA = -(PXX+PYY+PZZ)
            BB =  (PXX*PYY+PXX*PZZ+PYY*PZZ-PXY**2-PXZ**2-PYZ**2) 
            P  = BB-THIRD*AA*AA
-           D  = DEUX*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
+           D  = TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
 C
  	   D=LD*D
 C
-           DELTAX(I) = UN / SQRT(D)
+           DELTAX(I) = ONE / SQRT(D)
          END DO
 
        ELSEIF(IFORMDT==2)THEN
@@ -290,9 +290,9 @@ C
            AA = -(PXX+PYY+PZZ)
            BB =  GFAC*(PXX*PYY+PXX*PZZ+PYY*PZZ-PXY**2-PXZ**2-PYZ**2) 
            P  = BB-THIRD*AA*AA
-           D  = DEUX*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
+           D  = TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
 C
-           DELTAX(I) = UN / SQRT(D)
+           DELTAX(I) = ONE / SQRT(D)
          END DO
 
        END IF
@@ -406,7 +406,7 @@ C
        D3(I) =  X42*Y41 - X41*Y42
        D4(I) =  -(D1(I) + D2(I) + D3(I))
 C
-       VOLDP(I) = (X41*B1DP + Y41*C1DP + Z41*D1DP)*UNSIX
+       VOLDP(I) = (X41*B1DP + Y41*C1DP + Z41*D1DP)*ONE_OVER_6
        DET(I) = VOLDP(I)
 C
       ENDDO
@@ -414,7 +414,7 @@ C
       CALL SCHKJAB3(OFF,DET,NGL)
 C
       DO I=LFT,LLT
-        D = UN/DET(I)/SIX
+        D = ONE/DET(I)/SIX
         PX1(I)=-B1(I)*D
         PY1(I)=-C1(I)*D
         PZ1(I)=-D1(I)*D
@@ -441,14 +441,14 @@ C         DELTAX(I) = 6.*DET(I) / AREAMX2
      .  	  PX2(I)*PX2(I)+PY2(I)*PY2(I)+PZ2(I)*PZ2(I),
      .  	  PX3(I)*PX3(I)+PY3(I)*PY3(I)+PZ3(I)*PZ3(I),
      .  	  PX4(I)*PX4(I)+PY4(I)*PY4(I)+PZ4(I)*PZ4(I))
-          DELTAX(I) = UN / SQRT(D)
+          DELTAX(I) = ONE / SQRT(D)
         END DO
 
 
        ELSEIF(IFORMDT==1)THEN
 
          GFAC=PM(105,MXT(1))
-         LD  =DEUX*SQRT(MAX(UN-GFAC,ZERO))+UN
+         LD  =TWO*SQRT(MAX(ONE-GFAC,ZERO))+ONE
          DO I=LFT,LLT
            PXX=PX1(I)*PX1(I)+PX2(I)*PX2(I)+PX3(I)*PX3(I)+PX4(I)*PX4(I)
            PYY=PY1(I)*PY1(I)+PY2(I)*PY2(I)+PY3(I)*PY3(I)+PY4(I)*PY4(I)
@@ -460,11 +460,11 @@ C
            AA = -(PXX+PYY+PZZ)
            BB =  (PXX*PYY+PXX*PZZ+PYY*PZZ-PXY**2-PXZ**2-PYZ**2) 
            P  = BB-THIRD*AA*AA
-           D=DEUX*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
+           D=TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
 C
  	   D=LD*D
 C
-           DELTAX(I) = UN / SQRT(D)
+           DELTAX(I) = ONE / SQRT(D)
          END DO
 
        ELSEIF(IFORMDT==2)THEN
@@ -481,9 +481,9 @@ C
            AA = -(PXX+PYY+PZZ)
            BB =  GFAC*(PXX*PYY+PXX*PZZ+PYY*PZZ-PXY**2-PXZ**2-PYZ**2) 
            P  = BB-THIRD*AA*AA
-           D  = DEUX*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
+           D  = TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
 C
-           DELTAX(I) = UN / SQRT(D)
+           DELTAX(I) = ONE / SQRT(D)
          END DO
 
       END IF
@@ -549,7 +549,7 @@ C-----------------------------------------------
 C--- case total strain switched to small due to nega_v before      
         IF(ISMSTR==10.OR.(ISMSTR==12.AND.IDTMIN(1)/=3)) THEN
          DO I=LFT,LLT
-          IF(OFFG(I) > UN)THEN
+          IF(OFFG(I) > ONE)THEN
            NNEGA=NNEGA+1
            INDEX(NNEGA)=I
           END IF
@@ -558,8 +558,8 @@ C--- case total strain switched to small due to nega_v before
         ICOR = 0
         DO I=LFT,LLT
           IF(OFF(I) .EQ.ZERO)THEN
-            DET(I)=UN
-          ELSEIF(OFFG(I) > UN)THEN
+            DET(I)=ONE
+          ELSEIF(OFFG(I) > ONE)THEN
 C
           ELSEIF((DET(I).LE.VOLMIN).OR.(DET(I).LE.ZERO))THEN
             ICOR = 1
@@ -567,7 +567,7 @@ C
         ENDDO
         IF (ICOR.GT.0.AND.INCONV.EQ.1) THEN
          DO I=LFT,LLT
-          IF(DET(I)<=ZERO.AND.OFFG(I) <= UN.AND.OFFG(I) /= ZERO)THEN
+          IF(DET(I)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
             NNEGA=NNEGA+1
             INDEX(NNEGA)=I
 #include "lockon.inc"
@@ -600,7 +600,7 @@ C
           DO I=LFT,LLT
            IF(OFF(I).NE.ZERO)THEN
             IF(DET(I).LE.VOLMIN)THEN
-              DET(I)=UN
+              DET(I)=ONE
               OFF(I)=ZERO
 #include "lockon.inc"
                 WRITE(ISTDO,2000) NGL(I)
@@ -619,7 +619,7 @@ C
         ICOR = 0
         DO I=LFT,LLT
           IF(OFF(I) .EQ.ZERO)THEN
-            DET(I)=UN
+            DET(I)=ONE
           ELSEIF((DET(I).LE.VOLMIN).OR.(DET(I).LE.ZERO))THEN
             ICOR=1
           ENDIF
@@ -628,7 +628,7 @@ C
           DO I=LFT,LLT
             IF((OFF(I).NE.ZERO).AND.
      .         (DET(I).LE.VOLMIN.OR.DET(I).LE.ZERO))THEN
-              DET(I)=UN
+              DET(I)=ONE
               OFF(I)=ZERO
 #include "lockon.inc"
                 WRITE(ISTDO,2000) NGL(I)
@@ -642,7 +642,7 @@ C
         ICOR = 0
         DO I=LFT,LLT
           IF(OFF(I) .EQ.ZERO)THEN
-            DET(I)=UN
+            DET(I)=ONE
           ELSEIF(DET(I).LE.ZERO)THEN
             ICOR=1
           ENDIF

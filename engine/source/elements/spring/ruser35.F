@@ -164,19 +164,19 @@ c
           FMN = UVAR(2,I)*FSCAL*GET_U_FUNC(IFUNC4,X,DXDY)            
         ENDIF
 c
-        IF (UVAR(3,I) >= UN) THEN
-          FR_WAVE(I)=UN
+        IF (UVAR(3,I) >= ONE) THEN
+          FR_WAVE(I)=ONE
 c  UVAR(2,I) = endommagement sur fonction yield et stiffness 
 c              par facteur 0 <= D1 < 1.              
-          IF (ILOAD == 0 .OR. DX > ZERO) UVAR(2,I)=UVAR(2,I)*(UN-D1)
-        ELSEIF (FR_WAVE(I) == UN) THEN
+          IF (ILOAD == 0 .OR. DX > ZERO) UVAR(2,I)=UVAR(2,I)*(ONE-D1)
+        ELSEIF (FR_WAVE(I) == ONE) THEN
           IF (ILOAD == 0 .OR. DX > ZERO) UVAR(3,I)=UVAR(3,I)+D2    
 c FR_WAVE est laisse a 1.
         ENDIF
 C
         IF (X >= XLIM1) THEN
-          FR_WAVE(I)=UN
-          IF (UVAR(3,I) >= UN .AND. OFF(I) == UN) THEN
+          FR_WAVE(I)=ONE
+          IF (UVAR(3,I) >= ONE .AND. OFF(I) == ONE) THEN
 Cqz  change I to global indice
             WRITE(iout,*)'SPRING',I, 'REACHES LIMIT IN X : ',X
             OFF(I)=ZERO

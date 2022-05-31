@@ -54,12 +54,12 @@ C-----
         RH  =R/H
         RH2 =RH*RH
         RH3 =RH2*RH
-        W   =(UN - TDEMI*RH2+TQUART*RH3)*INVPI/(H*H*H)
-      ELSEIF (R.LE.DEUX*H) THEN
-        RHM =DEUX-R/H
+        W   =(ONE - THREE_HALF*RH2+THREE_OVER_4*RH3)*INVPI/(H*H*H)
+      ELSEIF (R.LE.TWO*H) THEN
+        RHM =TWO-R/H
         RHM =RHM/H
         RHM3=RHM*RHM*RHM
-        W   =QUART*RHM3*INVPI
+        W   =FOURTH*RHM3*INVPI
       ELSE
         W   =ZERO
       ENDIF
@@ -101,15 +101,15 @@ C-----
         RH2 =RH*RH
         RH3 =RH2*RH
         IH3 =INVPI/(H*H*H)
-        W      =(UN - TDEMI*RH2+TQUART*RH3)*IH3
-        WPRIMR =(-TROIS+DEUXP25*RH)*IH3/(H*H)
-      ELSEIF (R.LE.DEUX*H) THEN
-        RHM =DEUX - R/H
+        W      =(ONE - THREE_HALF*RH2+THREE_OVER_4*RH3)*IH3
+        WPRIMR =(-THREE+TWOP25*RH)*IH3/(H*H)
+      ELSEIF (R.LE.TWO*H) THEN
+        RHM =TWO - R/H
         RHM =RHM/H
         RHM2=RHM*RHM*INVPI
         RHM3=RHM2*RHM
-        W      = QUART*RHM3
-        WPRIMR =-TQUART*RHM2/(H*H*R)
+        W      = FOURTH*RHM3
+        WPRIMR =-THREE_OVER_4*RHM2/(H*H*R)
       ELSE
         W      =ZERO
         WPRIMR =ZERO	

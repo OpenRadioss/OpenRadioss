@@ -71,12 +71,12 @@ C-----------------------------------------------
      .   DTA, TFEXTT   
 C-----------------------------------------------
 C
-      DTA =UNDEMI*DT1
+      DTA =HALF*DT1
 C
       IF(INCOMP.EQ.1.AND. JLAG.EQ.0)THEN
         DO I=LFT,LLT
           POLD(I)=(SOLD1(I)+SOLD2(I)+SOLD3(I))*THIRD
-          EINT(I)=EINT(I)+(UNDEMI*DVOL(I)*(POLD(I)-PSH(I)))*OFF(I)
+          EINT(I)=EINT(I)+(HALF*DVOL(I)*(POLD(I)-PSH(I)))*OFF(I)
           ESPE(I)=EINT(I)*DF(I) / MAX(EM15,VNEW(I))
           QOLD(I)=QNEW(I)
         ENDDO
@@ -101,11 +101,11 @@ C
 C
       IF(JTUR.EQ.0 .OR. JPOR.EQ.2)THEN
        DO I=LFT,LLT
-         EINT(I)=EINT(I)+(EINC(I)+UNDEMI*DVOL(I)*(POLD(I)-PSH(I)-QOLD(I)-QNEW(I)))*OFF(I)
+         EINT(I)=EINT(I)+(EINC(I)+HALF*DVOL(I)*(POLD(I)-PSH(I)-QOLD(I)-QNEW(I)))*OFF(I)
        ENDDO
       ELSE
        DO I=LFT,LLT
-         EINT(I)=EINT(I)  +  (EINC(I)*(VIS(I)-TMU(I))/VIS(I)  +  UNDEMI*DVOL(I)*(POLD(I)-PSH(I)-QOLD(I)-QNEW(I)))*OFF(I)
+         EINT(I)=EINT(I)  +  (EINC(I)*(VIS(I)-TMU(I))/VIS(I)  +  HALF*DVOL(I)*(POLD(I)-PSH(I)-QOLD(I)-QNEW(I)))*OFF(I)
        ENDDO
       ENDIF
 C
@@ -118,7 +118,7 @@ C
       IF(MLN==21)THEN
         TFEXTT = ZERO
         DO I=LFT,LLT
-          EINT(I) = EINT(I) - UNDEMI*DVOL(I)*(PNEW(I)+PSH(I))  
+          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))  
           TFEXTT=TFEXTT-DVOL(I)*PSH(I)                                
         ENDDO
 #include "atomic.inc"

@@ -97,7 +97,7 @@ C       /---------------/
 C
         DO NS=ITASK+1,NSP2SORT,NTHREAD
          N=WSP2SORT(NS)
-         DWA(N)=UN
+         DWA(N)=ONE
          NVOIS1 =KXSP(4,N)
          NVOISS1=KXSP(6,N)
          IF(KREDUCE(N)/=0.OR.NVOIS1+NVOISS1.GT.LVOISPH)THEN
@@ -257,7 +257,7 @@ C          on est forcement plus proche de la particule vraie que de la particul
            DMS =DI+DJ
            DMS2=DMS*DMS
            DK=DD/DMS2
-           MYSPATRUE=MAX(ZERO,MIN(MYSPATRUE,DK-UN))
+           MYSPATRUE=MAX(ZERO,MIN(MYSPATRUE,DK-ONE))
          END IF
 C
        END DO
@@ -625,7 +625,7 @@ C-----------------------------------------------
              YJ=X(2,JNOD)
              ZJ=X(3,JNOD)
              DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-             DMS =DEUX*SPBUF(1,M)
+             DMS =TWO*SPBUF(1,M)
              DMS2=DMS*DMS
              IF (KXSP(2,M).NE.0.AND.DD.LT.DMS2) THEN
                NVOIS1=NVOIS1+1
@@ -640,7 +640,7 @@ C-----------------------------------------------
              YJ=XSPHR(4,NN)
              ZJ=XSPHR(5,NN)
              DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-             DMS =DEUX*XSPHR(2,NN)
+             DMS =TWO*XSPHR(2,NN)
              DMS2=DMS*DMS
              IF (NINT(XSPHR(13,NN)).NE.0.AND.DD.LT.DMS2) THEN
                NVOIS1=NVOIS1+1
@@ -676,7 +676,7 @@ C        Re-ordonne les particules fantomes.
             XJ =XSPSYM(1,JS)
             YJ =XSPSYM(2,JS)
             ZJ =XSPSYM(3,JS)
-            DMS =DEUX*DJ
+            DMS =TWO*DJ
             DMS2=DMS*DMS
             DD=(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
             IF (KXSP(2,M).NE.0.AND.DD.LT.DMS2) THEN
@@ -694,7 +694,7 @@ C        Re-ordonne les particules fantomes.
             XJ =XSPSYM(1,JS)
             YJ =XSPSYM(2,JS)
             ZJ =XSPSYM(3,JS)
-            DMS =DEUX*DJ
+            DMS =TWO*DJ
             DMS2=DMS*DMS
             DD=(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
             IF (NINT(XSPHR(13,M)).NE.0.AND.DD.LT.DMS2) THEN

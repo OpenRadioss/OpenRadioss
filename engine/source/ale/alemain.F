@@ -559,7 +559,7 @@ C     Half time step evolution
 C     --------------------------------------------------     
                   PRED = .TRUE.
 
-                  CALL MULTI_TIMEEVOLUTION(UNDEMI * DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG, 
+                  CALL MULTI_TIMEEVOLUTION(HALF * DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG, 
      .                 PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, V, A, W, X, D, ALE_CONNECTIVITY%NALE,
      .                 PARTSAV, IPARTS, GRESAV, IGRTH, GRTH, 
      .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 

@@ -61,9 +61,9 @@ C======================================================================|
            ND  = ICNDS10(1,I)
            N1  = ICNDS10(2,I)
            N2  = ICNDS10(3,I)
-	   VX = UNDEMI*(V(1,N1) + V(1,N2))
-	   VY = UNDEMI*(V(2,N1) + V(2,N2))
-	   VZ = UNDEMI*(V(3,N1) + V(3,N2))
+	   VX = HALF*(V(1,N1) + V(1,N2))
+	   VY = HALF*(V(2,N1) + V(2,N2))
+	   VZ = HALF*(V(3,N1) + V(3,N2))
 	   IF (ND<0) THEN
 	    ND = -ND
             V(1,ND) =  VX 
@@ -228,9 +228,9 @@ C----for Nd as main of int2 only; Ad-> acce absolu
 	  IF (IABS(ITAGND(IABS(ND)))>NS10E) THEN
            N1  = ICNDS10(2,I)
            N2  = ICNDS10(3,I)
-	   AX = UNDEMI*(A(1,N1) + A(1,N2))
-	   AY = UNDEMI*(A(2,N1) + A(2,N2))
-	   AZ = UNDEMI*(A(3,N1) + A(3,N2))
+	   AX = HALF*(A(1,N1) + A(1,N2))
+	   AY = HALF*(A(2,N1) + A(2,N2))
+	   AZ = HALF*(A(3,N1) + A(3,N2))
 	   IF (ND<0) THEN
 	    ND = -ND
             A(1,ND) =  AX 
@@ -289,9 +289,9 @@ C----for Nd as main of int2 only; Ad-> acce relative
 	  IF (ND>0.AND.IABS(ITAGND(IABS(ND)))>NS10E) THEN
            N1  = ICNDS10(2,I)
            N2  = ICNDS10(3,I)
-	   AX = UNDEMI*(A(1,N1) + A(1,N2))
-	   AY = UNDEMI*(A(2,N1) + A(2,N2))
-	   AZ = UNDEMI*(A(3,N1) + A(3,N2))
+	   AX = HALF*(A(1,N1) + A(1,N2))
+	   AY = HALF*(A(2,N1) + A(2,N2))
+	   AZ = HALF*(A(3,N1) + A(3,N2))
            A(1,ND) = A(1,ND) - AX 
            A(2,ND) = A(2,ND) - AY 
            A(3,ND) = A(3,ND) - AZ 

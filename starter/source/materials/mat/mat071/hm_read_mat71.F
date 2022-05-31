@@ -156,7 +156,7 @@ C======================================
      .                I1=ID,
      .                C1=TITR)
 
-      IF (ALPHA > SQRT(DEUX/TROIS) ) 
+      IF (ALPHA > SQRT(TWO/THREE) ) 
      .         CALL ANCMSG(MSGID=1124,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -181,15 +181,15 @@ C======================================
       IF(EMART ==    E) EFLAG = 0
       !IF(EPSL == ZERO) EPSL = un 
 c HOOK 3D
-      G     = UNDEMI*E/(UN + NU)
-      LAMDA = E*(UN-NU)/(UN + NU)/(UN - DEUX*NU)
-      C1    = E/TROIS/(UN - DEUX*NU)
+      G     = HALF*E/(ONE + NU)
+      LAMDA = E*(ONE-NU)/(ONE + NU)/(ONE - TWO*NU)
+      C1    = E/THREE/(ONE - TWO*NU)
 c
       GM = G
       KM = C1
       IF (EFLAG == 1 ) THEN 
-       GM = UNDEMI*EMART/(UN + NU)
-       KM = EMART/TROIS/(UN - DEUX*NU)
+       GM = HALF*EMART/(ONE + NU)
+       KM = EMART/THREE/(ONE - TWO*NU)
       ENDIF
 c-----------------------------------
 c    UPARAM
@@ -206,8 +206,8 @@ c-----------------------------------
       UPARAM(10) = ALPHA
       UPARAM(11) = EPSL
 C HOOk 2D
-      UPARAM(12 ) = E/(UN - NU**2)
-      UPARAM(13)  = NU*E/(UN - NU**2)
+      UPARAM(12 ) = E/(ONE - NU**2)
+      UPARAM(13)  = NU*E/(ONE - NU**2)
       UPARAM(14)  = EMART
       UPARAM(15)  = EFLAG
       UPARAM(16)  = GM
@@ -233,7 +233,7 @@ c-----------------------------------
       PARMAT(2) = E
       PARMAT(3) = NU  
       PARMAT(16) = 2 !Formulation for solid elements time step computation.
-      PARMAT(17) = (UN - DEUX*NU)/(UN - NU) ! ==DEUX*G/(C1+sQTHIRD*G)
+      PARMAT(17) = (ONE - TWO*NU)/(ONE - NU) ! ==TWO*G/(C1+sFOUR_OVER_3*G)
 c--------------------------
       IF (RHOR == ZERO) RHOR=RHO0
       PM(1)  = RHOR

@@ -125,14 +125,14 @@ c
       ICONV = NINT(UPARAM(15))
       ICAS  = UPARAM(17)
       XFAC  = UPARAM(18)
-      ALFA  = MIN(UN, UPARAM(16)*TIMESTEP)! filtering coefficient for plastic strain rate
+      ALFA  = MIN(ONE, UPARAM(16)*TIMESTEP)! filtering coefficient for plastic strain rate
       EPDT_MIN = UPARAM(19)
       EPDT_MAX = UPARAM(20)
       EPDC_MIN = UPARAM(21)
       EPDC_MAX = UPARAM(22)
       EPDS_MIN = UPARAM(23)
       EPDS_MAX = UPARAM(24)
-      A11_2D(1:NEL) = UPARAM(2)    ! E / (UN - NU*NU)
+      A11_2D(1:NEL) = UPARAM(2)    ! E / (ONE - NU*NU)
       A12_2D(1:NEL) = UPARAM(3)    ! AA2 * NU
       G(1:NEL)      = UPARAM(4)  
       EPSPT(1:NEL)  = UVAR(1:NEL,1)    
@@ -141,13 +141,13 @@ c
       EPDT_F(1:NEL) = UVAR(1:NEL,4)
       EPDC_F(1:NEL) = UVAR(1:NEL,5)
       EPDS_F(1:NEL) = UVAR(1:NEL,6)
-      DAM(1:NEL)    = UN - UVAR(1:NEL,7)
+      DAM(1:NEL)    = ONE - UVAR(1:NEL,7)
       DPLAT(1:NEL)  = ZERO 
       DPLAC(1:NEL)  = ZERO 
       DPLAS(1:NEL)  = ZERO 
-      NU1    = NU/(UN - NU) ! aa1/aa2     
-      ALFI  = UN-ALFA
-      DTINV  = UN / MAX(EM20, TIMESTEP)
+      NU1    = NU/(ONE - NU) ! aa1/aa2     
+      ALFI  = ONE-ALFA
+      DTINV  = ONE / MAX(EM20, TIMESTEP)
 c
       TFAC(1) = UPARAM(25)
       TFAC(2) = UPARAM(26)
@@ -206,8 +206,8 @@ c-----------------------------------------------
            SIGS(1:NEL) = SIGT(1:NEL)/SQR3                                       
         CASE(1)
           DO I=1,NEL 
-            SIGS(I) = UN /(SIGT(I) + SIGC(I))/SQR3
-            SIGS(I) = DEUX*SIGT(I)*SIGC(I)*SIGS(I)
+            SIGS(I) = ONE /(SIGT(I) + SIGC(I))/SQR3
+            SIGS(I) = TWO*SIGT(I)*SIGC(I)*SIGS(I)
           END DO     
       END SELECT
 c-----------------------------------------------
@@ -215,18 +215,18 @@ c-----------------------------------------------
         ! Ensured convexity  
         DO I=1,NEL 
           CONV(I) = .FALSE.
-          AA = UN /(SIGT(I) + SIGC(I))/SQR3
-          IF (SIGS(I) < SFAC*DEUX*SIGT(I)*SIGC(I)*AA) THEN 
-            SIGS(I) = SFAC*DEUX*SIGT(I)*SIGC(I)*AA
+          AA = ONE /(SIGT(I) + SIGC(I))/SQR3
+          IF (SIGS(I) < SFAC*TWO*SIGT(I)*SIGC(I)*AA) THEN 
+            SIGS(I) = SFAC*TWO*SIGT(I)*SIGC(I)*AA
             CONV(I) = .TRUE.
           ENDIF
         END DO
       END IF
       DO I=1,NEL 
         A0(I) = SIGS(I)*SQR3
-        A1(I) = TROIS*(((SIGT(I)-SIGC(I))/(SIGT(I)+SIGC(I))) - 
+        A1(I) = THREE*(((SIGT(I)-SIGC(I))/(SIGT(I)+SIGC(I))) - 
      .          A0(I)*((SIGT(I)-SIGC(I))/(SIGT(I)*SIGC(I))))
-        A2(I) = DIXHUIT*((UN/(SIGT(I)+SIGC(I)))-A0(I)/(DEUX*SIGT(I)*SIGC(I)))       
+        A2(I) = DIXHUIT*((ONE/(SIGT(I)+SIGC(I)))-A0(I)/(TWO*SIGT(I)*SIGC(I)))       
       END DO
 c-----------------------------------------------
 c     Trial stress
@@ -249,16 +249,16 @@ c-----------------------------------------------
 c-----------------------------------------------
       ! Alpha coefficient for non associated function
       DO I = 1,NEL
-        ALPHA(I) = (NEUF/DEUX)*((UN-DEUX*NUP(I))/(UN+NUP(I)))
+        ALPHA(I) = (NINE/TWO)*((ONE-TWO*NUP(I))/(ONE+NUP(I)))
       ENDDO
 c-----------------------------------------------
 c     Check plasticity 
 c-----------------------------------------------
       DO I=1,NEL
-        SVM2(I) = TDEMI*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2) + TROIS*SIGNXY(I)**2
+        SVM2(I) = THREE_HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2) + THREE*SIGNXY(I)**2
         SVM(I)  = SQRT(MAX(EM20,SVM2(I)))
         YLDS(I) = SVM(I) - A0(I) - A1(I)*P(I) - A2(I)*P(I)*P(I)
-        IF (YLDS(I) > 0 .AND. OFF(I) == UN) THEN
+        IF (YLDS(I) > 0 .AND. OFF(I) == ONE) THEN
           NINDX = NINDX + 1
           INDX(NINDX) = I
         ENDIF
@@ -274,17 +274,17 @@ c
             GF(I)   = SQRT(MAX(EM20,(SVM(I)**2)+ALPHA(I)*P(I)**2))
 
             ! dgf/dsig for non-associated plastic flow
-            NORMGXX = (TDEMI*SXX(I) - THIRD*ALPHA(I)*P(I) ) /GF(I)
-            NORMGYY = (TDEMI*SYY(I) - THIRD*ALPHA(I)*P(I) ) /GF(I)
-            NORMGZZ = (TDEMI*SZZ(I) - THIRD*ALPHA(I)*P(I) ) /GF(I)
-            NORMGXY = TROIS*SIGNXY(I)/GF(I)
+            NORMGXX = (THREE_HALF*SXX(I) - THIRD*ALPHA(I)*P(I) ) /GF(I)
+            NORMGYY = (THREE_HALF*SYY(I) - THIRD*ALPHA(I)*P(I) ) /GF(I)
+            NORMGZZ = (THREE_HALF*SZZ(I) - THIRD*ALPHA(I)*P(I) ) /GF(I)
+            NORMGXY = THREE*SIGNXY(I)/GF(I)
 
-            CB = A1(I) + DEUX*A2(I)*P(I)                                                          
+            CB = A1(I) + TWO*A2(I)*P(I)                                                          
             ! df/dsig
-            NORMXX  = TDEMI * SXX(I)/SVM(I) + CB /TROIS ! DF/DSIG
-            NORMYY  = TDEMI * SYY(I)/SVM(I) + CB /TROIS 
-            NORMZZ  = TDEMI * SZZ(I)/SVM(I) + CB /TROIS  
-            NORMXY  = TROIS * SIGNXY(I)/SVM(I) 
+            NORMXX  = THREE_HALF * SXX(I)/SVM(I) + CB /THREE ! DF/DSIG
+            NORMYY  = THREE_HALF * SYY(I)/SVM(I) + CB /THREE 
+            NORMZZ  = THREE_HALF * SZZ(I)/SVM(I) + CB /THREE  
+            NORMXY  = THREE * SIGNXY(I)/SVM(I) 
 
             ! DF/DSIG * DSIG/DDLAM
             DFDSIGDLAM = NORMXX * (A11_2D(I)*NORMGXX + A12_2D(I)*NORMGYY) 
@@ -292,42 +292,42 @@ c
      .                 + NORMXY * NORMGXY * G(I) 
 c
             YLD_NORM = SVM(I)/GF(I)                                                              
-            BB = TDEMI/(UN + NUP(I))                                                                    
+            BB = THREE_HALF/(ONE + NUP(I))                                                                    
             DFT(I) = DFT(I) * YLD_NORM * BB                                          
             IF (FUNC_COMP%NOTABLE  > 0) DFC(I) = DFC(I) * YLD_NORM * BB
-            IF (FUNC_SHEAR%NOTABLE > 0) DFS(I) = DFS(I) * YLD_NORM * SQR3/DEUX 
+            IF (FUNC_SHEAR%NOTABLE > 0) DFS(I) = DFS(I) * YLD_NORM * SQR3/TWO 
             SELECT CASE(ICAS)
               CASE(0)
                 DFC(I) = DFT(I) 
-                DFS(I) = (UN/SQR3)*DFT(I)
+                DFS(I) = (ONE/SQR3)*DFT(I)
               CASE(1)
-                AA = UN /(SIGT(I) + SIGC(I))/SQR3                                                
-                DFS(I) = DEUX*(DFT(I)*SIGC(I) + DFC(I)*SIGT(I))*AA                 
-     .                 - DEUX*SQR3*SIGC(I)*SIGT(I)*(DFT(I) + DFC(I))*AA*AA
+                AA = ONE /(SIGT(I) + SIGC(I))/SQR3                                                
+                DFS(I) = TWO*(DFT(I)*SIGC(I) + DFC(I)*SIGT(I))*AA                 
+     .                 - TWO*SQR3*SIGC(I)*SIGT(I)*(DFT(I) + DFC(I))*AA*AA
 
             END SELECT 
             IF (ICONV == 1) THEN                                         
               IF (CONV(I)) THEN 
-                AA = UN /(SIGT(I) + SIGC(I))/SQR3                                                
-                DFS(I) = SFAC*(DEUX*(DFT(I)*SIGC(I) + DFC(I)*SIGT(I))*AA                 
-     .                 - DEUX*SQR3*SIGC(I)*SIGT(I)*(DFT(I) + DFC(I))*AA*AA)
+                AA = ONE /(SIGT(I) + SIGC(I))/SQR3                                                
+                DFS(I) = SFAC*(TWO*(DFT(I)*SIGC(I) + DFC(I)*SIGT(I))*AA                 
+     .                 - TWO*SQR3*SIGC(I)*SIGT(I)*(DFT(I) + DFC(I))*AA*AA)
               ENDIF 
             ENDIF
 c                                     
 c           derivatives dAi/dlam                
             CC = SIGS(I)/SIGC(I)/SIGT(I)
 C
-            A1S =  -TROIS*SQR3*(SIGT(I)-SIGC(I))/(SIGT(I)*SIGC(I))
-            A1C =  TROIS*(   (SIGS(I)*SQR3/(             SIGC(I)**2)) -
-     .                       (DEUX*SIGT(I)/( (SIGT(I) + SIGC(I))**2))   )
-            A1T = TROIS*(DEUX*SIGC(I)/((SIGT(I) + SIGC(I))**2) - 
+            A1S =  -THREE*SQR3*(SIGT(I)-SIGC(I))/(SIGT(I)*SIGC(I))
+            A1C =  THREE*(   (SIGS(I)*SQR3/(             SIGC(I)**2)) -
+     .                       (TWO*SIGT(I)/( (SIGT(I) + SIGC(I))**2))   )
+            A1T = THREE*(TWO*SIGC(I)/((SIGT(I) + SIGC(I))**2) - 
      .                             (SIGS(I)*SQR3/(SIGT(I)**2)))
 C
-            A2S = -NEUF*SQR3/(SIGT(I)*SIGC(I))                                           
-            A2C = DIXHUIT*((SIGS(I)*SQR3/(DEUX*SIGT(I)*(SIGC(I)**2))) -
-     .                              UN/((SIGT(I)+SIGC(I))**2))                      
-            A2T = DIXHUIT*((SIGS(I)*SQR3/(DEUX*SIGC(I)*(SIGT(I)**2))) -
-     .                              UN/((SIGT(I)+SIGC(I))**2))                    
+            A2S = -NINE*SQR3/(SIGT(I)*SIGC(I))                                           
+            A2C = DIXHUIT*((SIGS(I)*SQR3/(TWO*SIGT(I)*(SIGC(I)**2))) -
+     .                              ONE/((SIGT(I)+SIGC(I))**2))                      
+            A2T = DIXHUIT*((SIGS(I)*SQR3/(TWO*SIGC(I)*(SIGT(I)**2))) -
+     .                              ONE/((SIGT(I)+SIGC(I))**2))                    
 c                                                                   
             DA0 = SQR3*DFS(I)                                  
             DA1 = A1S*DFS(I) + A1T*DFT(I)  + A1C*DFC(I)                     
@@ -351,13 +351,13 @@ c
 c           compute EPSPC(I), EPSPT(I), EPSPS(I)
             EPSPT(I) = EPSPT(I) + DLAM* YLD_NORM * BB 
             EPSPC(I) = EPSPT(I)                 
-            EPSPS(I) = EPSPS(I) + DLAM* YLD_NORM*SQR3/DEUX
+            EPSPS(I) = EPSPS(I) + DLAM* YLD_NORM*SQR3/TWO
 c
             PLA(I)  = PLA(I)  + DLAM*YLD_NORM*OFF(I)
             DPLA(I) = DPLA(I) + DLAM *YLD_NORM
             DPLAT(I) = DPLAT(I) + DLAM* YLD_NORM*BB 
             DPLAC(I) = DPLAT(I)
-            DPLAS(I) = DPLAS(I) + DLAM* YLD_NORM*SQR3/DEUX
+            DPLAS(I) = DPLAS(I) + DLAM* YLD_NORM*SQR3/TWO
 c
           ENDDO
 c            
@@ -400,8 +400,8 @@ c--------------------------------------------------
             CASE(1)
               DO II = 1,NINDX         
                 I = INDX(II)          
-                SIGS(I) = UN /(SIGT(I) + SIGC(I))/SQR3
-                SIGS(I) = DEUX*SIGT(I)*SIGC(I)*SIGS(I)
+                SIGS(I) = ONE /(SIGT(I) + SIGC(I))/SQR3
+                SIGS(I) = TWO*SIGT(I)*SIGC(I)*SIGS(I)
               END DO     
           END SELECT  
 c--------------------------------------------------
@@ -409,9 +409,9 @@ c--------------------------------------------------
             DO II = 1,NINDX         
               I = INDX(II) 
               CONV(I) = .FALSE.         
-              AA = UN /(SIGT(I) + SIGC(I))/SQR3
-              IF (SIGS(I) < SFAC*DEUX*SIGT(I)*SIGC(I)*AA) THEN 
-                SIGS(I) = SFAC*DEUX*SIGT(I)*SIGC(I)*AA
+              AA = ONE /(SIGT(I) + SIGC(I))/SQR3
+              IF (SIGS(I) < SFAC*TWO*SIGT(I)*SIGC(I)*AA) THEN 
+                SIGS(I) = SFAC*TWO*SIGT(I)*SIGC(I)*AA
                 CONV(I) = .TRUE.
               ENDIF
             END DO
@@ -419,9 +419,9 @@ c--------------------------------------------------
           DO II = 1,NINDX         
             I = INDX(II)          
             A0(I) = SIGS(I)*SQR3
-            A1(I) = TROIS*(((SIGT(I)-SIGC(I))/(SIGT(I)+SIGC(I))) - 
+            A1(I) = THREE*(((SIGT(I)-SIGC(I))/(SIGT(I)+SIGC(I))) - 
      .             A0(I)*((SIGT(I)-SIGC(I))/(SIGT(I)*SIGC(I))))
-            A2(I) = DIXHUIT*((UN/(SIGT(I)+SIGC(I)))-A0(I)/(DEUX*SIGT(I)*SIGC(I)))       
+            A2(I) = DIXHUIT*((ONE/(SIGT(I)+SIGC(I)))-A0(I)/(TWO*SIGT(I)*SIGC(I)))       
           END DO
 c
           ! Stress and yield surface update       
@@ -432,7 +432,7 @@ c
             SXX(I) = SIGNXX(I) + P(I)                              
             SYY(I) = SIGNYY(I) + P(I)                              
             SZZ(I) = P(I)
-            SVM2(I)= TDEMI*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2) + TROIS*SIGNXY(I)**2
+            SVM2(I)= THREE_HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2) + THREE*SIGNXY(I)**2
             SVM(I) = SQRT(SVM2(I))
             ! residual YLDS
             YLDS(I) = SVM(I) - A0(I) - A1(I)*P(I) - A2(I)*P(I)*P(I)
@@ -449,7 +449,7 @@ c-----------------------------------------------
       IF (IFUNC(1) > 0) THEN
         DO I=1,NEL
           NUP(I)    = FINTER(IFUNC(1),PLA(I),NPF,TF,DYDX) * YFAC(1)
-          UVAR(I,9) = MAX(ZERO, MIN(NUP(I), UNDEMI))
+          UVAR(I,9) = MAX(ZERO, MIN(NUP(I), HALF))
         ENDDO
       END IF
 C--------------------------------
@@ -457,14 +457,14 @@ C     NON-LOCAL THICKNESS VARIATION
 C--------------------------------
       IF (INLOC > 0) THEN 
         DO I = 1,NEL   
-          ALPHA(I)= (NEUF/DEUX)*((UN-DEUX*NUP(I))/(UN+NUP(I)))
+          ALPHA(I)= (NINE/TWO)*((ONE-TWO*NUP(I))/(ONE+NUP(I)))
           GF(I)   = SQRT(MAX(EM20,(SVM(I)**2)+ALPHA(I)*P(I)**2))
-          NORMGXX = (TDEMI*SXX(I) - THIRD*ALPHA(I)*P(I))/GF(I)
-          NORMGYY = (TDEMI*SYY(I) - THIRD*ALPHA(I)*P(I))/GF(I)
-          NORMGZZ = (TDEMI*SZZ(I) - THIRD*ALPHA(I)*P(I))/GF(I)
+          NORMGXX = (THREE_HALF*SXX(I) - THIRD*ALPHA(I)*P(I))/GF(I)
+          NORMGYY = (THREE_HALF*SYY(I) - THIRD*ALPHA(I)*P(I))/GF(I)
+          NORMGZZ = (THREE_HALF*SZZ(I) - THIRD*ALPHA(I)*P(I))/GF(I)
           YLD_NORM = SVM(I)/GF(I)
           IF (YLD_NORM /= ZERO) THEN 
-            DLAM_NL(I) = (UN/YLD_NORM)*MAX(DPLANL(I),ZERO)
+            DLAM_NL(I) = (ONE/YLD_NORM)*MAX(DPLANL(I),ZERO)
             DEZZ(I) = DEZZ(I) + NU1*(DLAM_NL(I)*NORMGXX)
      .                        + NU1*(DLAM_NL(I)*NORMGYY)
      .                        + DLAM_NL(I)*NORMGZZ

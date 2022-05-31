@@ -337,7 +337,7 @@ C-----
       DX=DY2*DZ3-DZ2*DY3
       DY=DX3*DZ2-DZ3*DX2
       DZ=DX2*DY3-DY2*DX3
-      S1=UNDEMI*SQRT(DX*DX+DY*DY+DZ*DZ)
+      S1=HALF*SQRT(DX*DX+DY*DY+DZ*DZ)
 C-----
       DX1=XP1(1,I) -XTK(I)
       DY1=XP1(2,I) -YTK(I)
@@ -345,14 +345,14 @@ C-----
       DX=DY1*DZ3-DZ1*DY3
       DY=DX3*DZ1-DZ3*DX1
       DZ=DX1*DY3-DY1*DX3
-      S2=UNDEMI*SQRT(DX*DX+DY*DY+DZ*DZ)
+      S2=HALF*SQRT(DX*DX+DY*DY+DZ*DZ)
 C-----
       DX=DY1*DZ2-DZ1*DY2
       DY=DX2*DZ1-DZ2*DX1
       DZ=DX1*DY2-DY1*DX2
-      S3=UNDEMI*SQRT(DX*DX+DY*DY+DZ*DZ)
+      S3=HALF*SQRT(DX*DX+DY*DY+DZ*DZ)
 C-----
-      S=UN/(S1+S2+S3)
+      S=ONE/(S1+S2+S3)
 C-----
       IOLD(1,4*(IL-1)+1)=S1*S
       IOLD(2,4*(IL-1)+1)=S2*S
@@ -485,7 +485,7 @@ C------------------------------------------------------------
       PN=DVX*NXI(I)+DVY*NYI(I)+DVZ*NZI(I)
       IF (PN.LT.ZERO) THEN
         H  =XP1(1,I)*NXI(I)+XP1(2,I)*NYI(I)+XP1(3,I)*NZI(I)
-        DTI=MIN(DTI,UNDEMI*H/MAX(EM20,-PN))
+        DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
       ENDIF
       DVX=VX2(I)-VXH(I)
       DVY=VY2(I)-VYH(I)
@@ -493,7 +493,7 @@ C------------------------------------------------------------
       PN=DVX*NXI(I)+DVY*NYI(I)+DVZ*NZI(I)
       IF (PN.LT.ZERO) THEN
         H  =XP2(1,I)*NXI(I)+XP2(2,I)*NYI(I)+XP2(3,I)*NZI(I)
-        DTI=MIN(DTI,UNDEMI*H/MAX(EM20,-PN))
+        DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
       ENDIF
       DVX=VX3(I)-VXH(I)
       DVY=VY3(I)-VYH(I)
@@ -501,7 +501,7 @@ C------------------------------------------------------------
       PN=DVX*NXI(I)+DVY*NYI(I)+DVZ*NZI(I)
       IF (PN.LT.ZERO) THEN
         H  =XP3(1,I)*NXI(I)+XP3(2,I)*NYI(I)+XP3(3,I)*NZI(I)
-        DTI=MIN(DTI,UNDEMI*H/MAX(EM20,-PN))
+        DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
       ENDIF
       IF(DTI.LT.DT2T)THEN
         DT2T    = DTI
@@ -523,7 +523,7 @@ C----------------------------------
       PN=DVX*NXI(I)+DVY*NYI(I)+DVZ*NZI(I)
       IF (PN.LT.ZERO) THEN
         H  =XP1(1,I)*NXI(I)+XP1(2,I)*NYI(I)+XP1(3,I)*NZI(I)
-        DTI=MIN(DTI,UNDEMI*H/MAX(EM20,-PN))
+        DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
       ENDIF
       DVX=VX2(I)-VXH(I)
       DVY=VY2(I)-VYH(I)
@@ -531,7 +531,7 @@ C----------------------------------
       PN=DVX*NXI(I)+DVY*NYI(I)+DVZ*NZI(I)
       IF (PN.LT.ZERO) THEN
         H  =XP2(1,I)*NXI(I)+XP2(2,I)*NYI(I)+XP2(3,I)*NZI(I)
-        DTI=MIN(DTI,UNDEMI*H/MAX(EM20,-PN))
+        DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
       ENDIF
       DVX=VX3(I)-VXH(I)
       DVY=VY3(I)-VYH(I)
@@ -539,7 +539,7 @@ C----------------------------------
       PN=DVX*NXI(I)+DVY*NYI(I)+DVZ*NZI(I)
       IF (PN.LT.ZERO) THEN
         H  =XP3(1,I)*NXI(I)+XP3(2,I)*NYI(I)+XP3(3,I)*NZI(I)
-        DTI=MIN(DTI,UNDEMI*H/MAX(EM20,-PN))
+        DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
       ENDIF
       IF(DTI.LE.ZERO)THEN
          IN1=KSI(1,IL)

@@ -88,7 +88,7 @@ C                                                                     12
      .   AJI1, AJI2, AJI3,
      .   AJI4, AJI5, AJI6,
      .   AJI7, AJI8, AJI9,
-     .   AJ5968(MVSIZ), AJ6749(MVSIZ), AJ4857(MVSIZ),
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
      .   AJ12, AJ45, AJ78,
      .   A17 , A28 ,
      .   B17 , B28 ,
@@ -135,12 +135,12 @@ C
 C     JACOBIAN
 C
       DO 100 I=LFT,LLT
-      AJ5968(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-      AJ6749(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-  100 AJ4857(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+      JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+      JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+  100 JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
 C
       DO 110 I=LFT,LLT
-      VOLDP(I)=O64TH*(AJ1(I)*AJ5968(I)+AJ2(I)*AJ6749(I)+AJ3(I)*AJ4857(I))
+      VOLDP(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
   110 DET(I)=VOLDP(I)
 C
       CALL SCHKJABT3(OFF,DET,NGL,OFFG,NNEGA,INDEX)
@@ -236,23 +236,23 @@ C
             AJ2(I)=B17-B28
             AJ3(I)=C17-C28
 C	    
-            AJ5968(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-            AJ6749(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-            AJ4857(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+            JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+            JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+            JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
 C
-           VOLDP(I)=O64TH*(AJ1(I)*AJ5968(I)+AJ2(I)*AJ6749(I)+AJ3(I)*AJ4857(I))
+           VOLDP(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
            DET(I)=VOLDP(I)
-           OFFG(I) = DEUX
+           OFFG(I) = TWO
          ENDDO
       END IF
 C
 C     INVERSE DE LA MATRICE JACOBIENNE
 C
       DO I=LFT,LLT
-         DETT=O64TH/DET(I)
-         AJI1=DETT*AJ5968(I)
-         AJI4=DETT*AJ6749(I)
-         AJI7=DETT*AJ4857(I)
+         DETT=ONE_OVER_64/DET(I)
+         AJI1=DETT*JAC_59_68(I)
+         AJI4=DETT*JAC_67_49(I)
+         AJI7=DETT*JAC_48_57(I)
          AJI2=DETT*(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
          AJI5=DETT*( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
          AJI8=DETT*(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
@@ -283,9 +283,9 @@ C
 C
        DO 200 I=LFT,LLT
 C 1 -1 1 -1 1 -1 1 -1  -->mode3
-         HX=UNHUIT*(X1(I)-X2(I)+X3(I)-X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
-         HY=UNHUIT*(Y1(I)-Y2(I)+Y3(I)-Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
-         HZ=UNHUIT*(Z1(I)-Z2(I)+Z3(I)-Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))	 
+         HX=ONE_OVER_8*(X1(I)-X2(I)+X3(I)-X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
+         HY=ONE_OVER_8*(Y1(I)-Y2(I)+Y3(I)-Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
+         HZ=ONE_OVER_8*(Z1(I)-Z2(I)+Z3(I)-Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))	 
          PX1H3(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H3(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H3(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
@@ -293,9 +293,9 @@ C 1 -1 1 -1 1 -1 1 -1  -->mode3
   200  CONTINUE
 C 1 1 -1 -1 -1 -1 1 1
        DO 201 I=LFT,LLT
-         HX=UNHUIT*(X1(I)+X2(I)-X3(I)-X4(I)-X5(I)-X6(I)+X7(I)+X8(I))
-         HY=UNHUIT*(Y1(I)+Y2(I)-Y3(I)-Y4(I)-Y5(I)-Y6(I)+Y7(I)+Y8(I))
-         HZ=UNHUIT*(Z1(I)+Z2(I)-Z3(I)-Z4(I)-Z5(I)-Z6(I)+Z7(I)+Z8(I))	 
+         HX=ONE_OVER_8*(X1(I)+X2(I)-X3(I)-X4(I)-X5(I)-X6(I)+X7(I)+X8(I))
+         HY=ONE_OVER_8*(Y1(I)+Y2(I)-Y3(I)-Y4(I)-Y5(I)-Y6(I)+Y7(I)+Y8(I))
+         HZ=ONE_OVER_8*(Z1(I)+Z2(I)-Z3(I)-Z4(I)-Z5(I)-Z6(I)+Z7(I)+Z8(I))	 
          PX1H1(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H1(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H1(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
@@ -303,9 +303,9 @@ C 1 1 -1 -1 -1 -1 1 1
   201  CONTINUE
 C 1 -1 -1 1 -1 1 1 -1
        DO 202 I=LFT,LLT
-         HX=UNHUIT*(X1(I)-X2(I)-X3(I)+X4(I)-X5(I)+X6(I)+X7(I)-X8(I))
-         HY=UNHUIT*(Y1(I)-Y2(I)-Y3(I)+Y4(I)-Y5(I)+Y6(I)+Y7(I)-Y8(I))
-         HZ=UNHUIT*(Z1(I)-Z2(I)-Z3(I)+Z4(I)-Z5(I)+Z6(I)+Z7(I)-Z8(I))	 
+         HX=ONE_OVER_8*(X1(I)-X2(I)-X3(I)+X4(I)-X5(I)+X6(I)+X7(I)-X8(I))
+         HY=ONE_OVER_8*(Y1(I)-Y2(I)-Y3(I)+Y4(I)-Y5(I)+Y6(I)+Y7(I)-Y8(I))
+         HZ=ONE_OVER_8*(Z1(I)-Z2(I)-Z3(I)+Z4(I)-Z5(I)+Z6(I)+Z7(I)-Z8(I))	 
          PX1H2(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H2(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H2(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
@@ -313,9 +313,9 @@ C 1 -1 -1 1 -1 1 1 -1
   202  CONTINUE
 C -1 1 -1 1 1 -1 1 -1
        DO 203 I=LFT,LLT
-         HX=UNHUIT*(-X1(I)+X2(I)-X3(I)+X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
-         HY=UNHUIT*(-Y1(I)+Y2(I)-Y3(I)+Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
-         HZ=UNHUIT*(-Z1(I)+Z2(I)-Z3(I)+Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))	 
+         HX=ONE_OVER_8*(-X1(I)+X2(I)-X3(I)+X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
+         HY=ONE_OVER_8*(-Y1(I)+Y2(I)-Y3(I)+Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
+         HZ=ONE_OVER_8*(-Z1(I)+Z2(I)-Z3(I)+Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))	 
          PX1H4(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H4(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H4(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
@@ -393,7 +393,7 @@ C                                                                     12
      .   X17 , X28 , X35 , X46,
      .   Y17 , Y28 , Y35 , Y46,
      .   Z17 , Z28 , Z35 , Z46,
-     .   AJ5968(MVSIZ), AJ6749(MVSIZ), AJ4857(MVSIZ),
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
      .   AJ12, AJ45, AJ78,
      .   A17 , A28 ,
      .   B17 , B28 ,
@@ -437,22 +437,22 @@ C
 C     JACOBIAN
 C
       DO 100 I=LFT,LLT
-      AJ5968(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-      AJ6749(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-  100 AJ4857(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+      JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+      JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+  100 JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
 C
       DO 110 I=LFT,LLT
-  110 DET(I)=O64TH*(AJ1(I)*AJ5968(I)+AJ2(I)*AJ6749(I)+AJ3(I)*AJ4857(I))
+  110 DET(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
 C
       CALL SCHKJAB3(OFF,DET,NGL)
 C
 C     INVERSE DE LA MATRICE JACOBIENNE
 C
       DO I=LFT,LLT
-        DETT=O64TH/DET(I)
-        AJI1=DETT*AJ5968(I)
-        AJI4=DETT*AJ6749(I)
-        AJI7=DETT*AJ4857(I)
+        DETT=ONE_OVER_64/DET(I)
+        AJI1=DETT*JAC_59_68(I)
+        AJI4=DETT*JAC_67_49(I)
+        AJI7=DETT*JAC_48_57(I)
         AJI2=DETT*(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
         AJI5=DETT*( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
         AJI8=DETT*(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
@@ -485,9 +485,9 @@ C
 C
        DO 200 I=LFT,LLT
 C 1 -1 1 -1 1 -1 1 -1  -->mode3
-         HX=UNHUIT*(X1(I)-X2(I)+X3(I)-X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
-         HY=UNHUIT*(Y1(I)-Y2(I)+Y3(I)-Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
-         HZ=UNHUIT*(Z1(I)-Z2(I)+Z3(I)-Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))	 
+         HX=ONE_OVER_8*(X1(I)-X2(I)+X3(I)-X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
+         HY=ONE_OVER_8*(Y1(I)-Y2(I)+Y3(I)-Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
+         HZ=ONE_OVER_8*(Z1(I)-Z2(I)+Z3(I)-Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))	 
          PX1H3(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H3(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H3(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
@@ -495,9 +495,9 @@ C 1 -1 1 -1 1 -1 1 -1  -->mode3
   200  CONTINUE
 C 1 1 -1 -1 -1 -1 1 1
        DO 201 I=LFT,LLT
-         HX=UNHUIT*(X1(I)+X2(I)-X3(I)-X4(I)-X5(I)-X6(I)+X7(I)+X8(I))
-         HY=UNHUIT*(Y1(I)+Y2(I)-Y3(I)-Y4(I)-Y5(I)-Y6(I)+Y7(I)+Y8(I))
-         HZ=UNHUIT*(Z1(I)+Z2(I)-Z3(I)-Z4(I)-Z5(I)-Z6(I)+Z7(I)+Z8(I))	 
+         HX=ONE_OVER_8*(X1(I)+X2(I)-X3(I)-X4(I)-X5(I)-X6(I)+X7(I)+X8(I))
+         HY=ONE_OVER_8*(Y1(I)+Y2(I)-Y3(I)-Y4(I)-Y5(I)-Y6(I)+Y7(I)+Y8(I))
+         HZ=ONE_OVER_8*(Z1(I)+Z2(I)-Z3(I)-Z4(I)-Z5(I)-Z6(I)+Z7(I)+Z8(I))	 
          PX1H1(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H1(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H1(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
@@ -505,9 +505,9 @@ C 1 1 -1 -1 -1 -1 1 1
   201  CONTINUE
 C 1 -1 -1 1 -1 1 1 -1
        DO 202 I=LFT,LLT
-         HX=UNHUIT*(X1(I)-X2(I)-X3(I)+X4(I)-X5(I)+X6(I)+X7(I)-X8(I))
-         HY=UNHUIT*(Y1(I)-Y2(I)-Y3(I)+Y4(I)-Y5(I)+Y6(I)+Y7(I)-Y8(I))
-         HZ=UNHUIT*(Z1(I)-Z2(I)-Z3(I)+Z4(I)-Z5(I)+Z6(I)+Z7(I)-Z8(I))	 
+         HX=ONE_OVER_8*(X1(I)-X2(I)-X3(I)+X4(I)-X5(I)+X6(I)+X7(I)-X8(I))
+         HY=ONE_OVER_8*(Y1(I)-Y2(I)-Y3(I)+Y4(I)-Y5(I)+Y6(I)+Y7(I)-Y8(I))
+         HZ=ONE_OVER_8*(Z1(I)-Z2(I)-Z3(I)+Z4(I)-Z5(I)+Z6(I)+Z7(I)-Z8(I))	 
          PX1H2(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H2(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H2(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
@@ -515,9 +515,9 @@ C 1 -1 -1 1 -1 1 1 -1
   202  CONTINUE
 C -1 1 -1 1 1 -1 1 -1
        DO 203 I=LFT,LLT
-         HX=UNHUIT*(-X1(I)+X2(I)-X3(I)+X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
-         HY=UNHUIT*(-Y1(I)+Y2(I)-Y3(I)+Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
-         HZ=UNHUIT*(-Z1(I)+Z2(I)-Z3(I)+Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))	 
+         HX=ONE_OVER_8*(-X1(I)+X2(I)-X3(I)+X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
+         HY=ONE_OVER_8*(-Y1(I)+Y2(I)-Y3(I)+Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
+         HZ=ONE_OVER_8*(-Z1(I)+Z2(I)-Z3(I)+Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))	 
          PX1H4(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H4(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H4(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ

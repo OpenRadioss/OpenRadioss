@@ -360,7 +360,7 @@ C           (MPT >0 ):
                           WA(JJ) = ZERO
                         ENDIF
                         JJ    = JJ + 1
-                        WA(JJ) = POSLY(I,IPT)*DEUX
+                        WA(JJ) = POSLY(I,IPT)*TWO
                       ENDDO
                     ENDDO	    
                   ENDDO	    
@@ -478,7 +478,7 @@ c
                         WA(JJ) = ZERO              
                       ENDIF                        
                       JJ    = JJ + 1
-                      WA(JJ) = POSLY(I,IPT)*DEUX
+                      WA(JJ) = POSLY(I,IPT)*TWO
                     ENDDO  !  DO IPG=1,NPG      
                   ENDDO  !  DO IT=1,NPTT
                   IPT_ALL = IPT_ALL + NPTT
@@ -860,7 +860,7 @@ c
                         WA(JJ) = ZERO
                       ENDIF
                       JJ    = JJ + 1
-                      WA(JJ) = POSLY(I,IPT)*DEUX
+                      WA(JJ) = POSLY(I,IPT)*TWO
                     ENDDO !IPG=1,NPG	    
                   ENDDO	    
                   IPT_ALL = IPT_ALL + NPTT
@@ -1074,10 +1074,10 @@ c                II = JDIR + I-1
                 S22B = S2*S2                                                       
 
                 RS3 = S1*S2-R1*R2                                                  
-                R3R3= UN+S1*R2+R1*S2                                               
-                R3R3= UNDEMI*R3R3                                                  
-                S3S3= UN-S1*R2-R1*S2                                               
-                S3S3= UNDEMI*S3S3                                                  
+                R3R3= ONE+S1*R2+R1*S2                                               
+                R3R3= HALF*R3R3                                                  
+                S3S3= ONE-S1*R2-R1*S2                                               
+                S3S3= HALF*S3S3                                                  
                 T1 = TENS(1)                                                     
                 T2 = TENS(2)                                                     
                 T3 = TENS(3)                                                     
@@ -1099,10 +1099,10 @@ c
                 S12B = S1*S1                                                       
                 S22B = S2*S2                                                       
                 RS3 = S1*S2-R1*R2                                                  
-                R3R3= UN+S1*R2+R1*S2                                               
-                R3R3= UNDEMI*R3R3                                                  
-                S3S3= UN-S1*R2-R1*S2                                               
-                S3S3= UNDEMI*S3S3                                                  
+                R3R3= ONE+S1*R2+R1*S2                                               
+                R3R3= HALF*R3R3                                                  
+                S3S3= ONE-S1*R2-R1*S2                                               
+                S3S3= HALF*S3S3                                                  
                 T1 = TENS(1)                                                     
                 T2 = TENS(2)                                                     
                 T3 = TENS(3)                                                     
@@ -1150,9 +1150,9 @@ C     REAL ou REAL*8
      .   S1, S2, S3, S4, S5
 C-----------------------------------------------
        S1 = DIR1*DIR1*SIG(1)
-     .    + DIR2*DIR2*SIG(2)-DEUX*DIR1*DIR2*SIG(3)
+     .    + DIR2*DIR2*SIG(2)-TWO*DIR1*DIR2*SIG(3)
        S2 = DIR2*DIR2*SIG(1)
-     .    + DIR1*DIR1*SIG(2)+DEUX*DIR2*DIR1*SIG(3)
+     .    + DIR1*DIR1*SIG(2)+TWO*DIR2*DIR1*SIG(3)
        S3 = DIR1*DIR2*SIG(1)
      .    - DIR2*DIR1*SIG(2)
      .    +(DIR1*DIR1-DIR2*DIR2)*SIG(3)

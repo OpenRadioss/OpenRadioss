@@ -290,19 +290,19 @@ C
 c VMAXDT can be optimize : VMAXDT is a local overestimate of relative 
 c velocity between local main nodes and ALL secnd nodes
 c (no need to communicate VMAXDT in SPMD)
-         VMAXDT = UNP01*VV*DT1
+         VMAXDT = ONEP01*VV*DT1
          INTBUF_TAB(I)%VARIABLES(24) = VMAXDT
          MARGE0 = INTBUF_TAB(I)%VARIABLES(25)
 
          PMAX_GAP = INTBUF_TAB(I)%VARIABLES(23)
 
-         DIST0 = MARGE0 - UNP01*(D0 + VMAXDT + DELTA_PMAX_GAP(I))
+         DIST0 = MARGE0 - ONEP01*(D0 + VMAXDT + DELTA_PMAX_GAP(I))
 
          INTBUF_TAB(I)%VARIABLES(5) = DIST0
 
          IF(DIST0.LE.ZERO.OR.KFORSMS/=0) THEN
 C DIST = -1
-           INTBUF_TAB(I)%VARIABLES(5) = -UN
+           INTBUF_TAB(I)%VARIABLES(5) = -ONE
 c
 
            IF(DEBUG(3).GE.1) THEN
@@ -379,17 +379,17 @@ C
 c VMAXDT can be optimize : VMAXDT is a local overestimate of relative 
 c velocity between local main nodes and ALL secnd nodes
 c (no need to communicate VMAXDT in SPMD)
-         VMAXDT = UNP01*VV*DT1
+         VMAXDT = ONEP01*VV*DT1
          INTBUF_TAB(I)%VARIABLES(24) = VMAXDT
          MARGE0 = INTBUF_TAB(I)%VARIABLES(25)
 
-         DIST0 = MARGE0 - UNP01*(D0 + VMAXDT + MAXDGAP(I))
+         DIST0 = MARGE0 - ONEP01*(D0 + VMAXDT + MAXDGAP(I))
 
          INTBUF_TAB(I)%VARIABLES(5) = DIST0
 
          IF(DIST0.LE.ZERO.OR.KFORSMS/=0) THEN
 C DIST = -1
-           INTBUF_TAB(I)%VARIABLES(5) = -UN
+           INTBUF_TAB(I)%VARIABLES(5) = -ONE
 c
            IF(DEBUG(3).GE.1) THEN
 
@@ -429,7 +429,7 @@ C maj dist = tzinf - gap (recalculee en fct de tzinf modifie en SPMD)
 C
          TZINFL = INTBUF_TAB(I)%VARIABLES(8)
          IF(NTY==23)THEN
-           INTBUF_TAB(I)%VARIABLES(5) = TZINFL-SQRT(TROIS)*GAPSUP
+           INTBUF_TAB(I)%VARIABLES(5) = TZINFL-SQRT(THREE)*GAPSUP
          ELSE
            INTBUF_TAB(I)%VARIABLES(5) = TZINFL-GAPSUP
          END IF
@@ -452,7 +452,7 @@ C--------
 
          IF(DIST0.LE.ZERO.OR.KFORSMS/=0) THEN
 C DIST = -1
-           INTBUF_TAB(I)%VARIABLES(5) = -UN
+           INTBUF_TAB(I)%VARIABLES(5) = -ONE
             IF(DEBUG(3).GE.1.AND.NCYCLE.NE.0) THEN
               WRITE(ISTDO,'(A,I10,A,I4,A,I8,A,I4,A,I4,A,F20.10,A,F20.10,A,F20.10)') 
      .          '** NEW SORT FOR INTERFACE NUMBER ',

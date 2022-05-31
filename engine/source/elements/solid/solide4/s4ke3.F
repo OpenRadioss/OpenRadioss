@@ -139,11 +139,11 @@ C-----------
      .     E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  )   
       IF (ISORTH == 0) THEN            
         DO I=LFT,LLT                                            
-          GAMA(I,1) = UN                               
+          GAMA(I,1) = ONE                               
           GAMA(I,2) = ZERO                                
           GAMA(I,3) = ZERO             
           GAMA(I,4) = ZERO                                
-          GAMA(I,5) = UN                                
+          GAMA(I,5) = ONE                                
           GAMA(I,6) = ZERO             
         ENDDO                          
       ELSE                             

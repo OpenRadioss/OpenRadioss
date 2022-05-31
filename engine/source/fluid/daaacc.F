@@ -90,20 +90,20 @@ C Accelerations locales SPMD
           N1 = ELEM(1,I)
           N2 = ELEM(2,I)
           N3 = ELEM(3,I)
-          AX = TIERS * (AL(1,N1) + AL(1,N2) + AL(1,N3))
-          AY = TIERS * (AL(2,N1) + AL(2,N2) + AL(2,N3))
-          AZ = TIERS * (AL(3,N1) + AL(3,N2) + AL(3,N3))
+          AX = THIRD * (AL(1,N1) + AL(1,N2) + AL(1,N3))
+          AY = THIRD * (AL(2,N1) + AL(2,N2) + AL(2,N3))
+          AZ = THIRD * (AL(3,N1) + AL(3,N2) + AL(3,N3))
           ACCF(I) = AX*NORMAL(1,I)+AY*NORMAL(2,I)+AZ*NORMAL(3,I)
         ENDDO
       ELSEIF(JFORM == 2) THEN
-        WI(1,1)=QUART
-        WI(2,1)=QUART
-        WI(3,1)=QUART
-        WI(4,1)=QUART
-        WI(1,2)=TIERS
-        WI(2,2)=TIERS
-        WI(3,2)=UNSIX
-        WI(4,2)=UNSIX	  
+        WI(1,1)=FOURTH
+        WI(2,1)=FOURTH
+        WI(3,1)=FOURTH
+        WI(4,1)=FOURTH
+        WI(1,2)=THIRD
+        WI(2,2)=THIRD
+        WI(3,2)=ONE_OVER_6
+        WI(4,2)=ONE_OVER_6	  
         DO I = 1,NEL
           N1 = ELEM(1,I)
           N2 = ELEM(2,I)

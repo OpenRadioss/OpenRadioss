@@ -200,20 +200,20 @@ C
          CP  = UPARAM(11)
          YFAC(1) = UPARAM(13)
          YFAC(2) = UPARAM(14) 
-         G3  = TROIS*G
-         NNU1 = NU / (UN - NU)
+         G3  = THREE*G
+         NNU1 = NU / (ONE - NU)
          NNU2    = NNU1*NNU1
-         NU1 = UN/(UN - NU)
-         NU2 = UN/(UN + NU)
-         NU3 = UN -NNU1
-         NU4 = UN + NNU2 + NNU1
-         NU5 = UN + NNU2 - DEUX*NNU1
-         NU6 = UNDEMI - NNU2 + UNDEMI*NNU1
+         NU1 = ONE/(ONE - NU)
+         NU2 = ONE/(ONE + NU)
+         NU3 = ONE -NNU1
+         NU4 = ONE + NNU2 + NNU1
+         NU5 = ONE + NNU2 - TWO*NNU1
+         NU6 = HALF - NNU2 + HALF*NNU1
          DO I=1,NEL0
            TEMP(I)  = UPARAM(12)
 C latent heat            
            HL  = UPARAM(15)
-           COEF(I)  = UN
+           COEF(I)  = ONE
 C
          ENDDO
 C
@@ -259,7 +259,7 @@ C ...
     
          SOUNDSP(I) = SQRT(A1/RHO0(I))
          VISCMAX(I) = ZERO
-         ETSE(I) = UN
+         ETSE(I) = ONE
 C         
        ENDDO
 C compute YLD stress
@@ -297,22 +297,22 @@ C projection radiale
            SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
      .             +SIGNYY(I)*SIGNYY(I)
      .             -SIGNXX(I)*SIGNYY(I)
-     .          +TROIS*SIGNXY(I)*SIGNXY(I))
-           R  = MIN(UN,YLD(I)/MAX(EM20,SVM(I)))
+     .          +THREE*SIGNXY(I)*SIGNXY(I))
+           R  = MIN(ONE,YLD(I)/MAX(EM20,SVM(I)))
            SIGNXX(I)=SIGNXX(I)*R
            SIGNYY(I)=SIGNYY(I)*R
            SIGNXY(I)=SIGNXY(I)*R
-           UMR = UN - R
+           UMR = ONE - R
 cc           DPLA(I) = OFF(I)*SVM(I)*UMR/(G3(I)+H(I))
            DPLA(I) = OFF(I)*SVM(I)*UMR/E
            PLA(I) = PLA(I) + DPLA(I)
-           S1=UNDEMI*(SIGNXX(I)+SIGNYY(I))
+           S1=HALF*(SIGNXX(I)+SIGNYY(I))
            IF (INLOC == 0) THEN
-             DEZZ = DPLA(I) * UNDEMI*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
+             DEZZ = DPLA(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
              DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU1-NU3*DEZZ
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
            ENDIF
-           IF(R.LT.UN) ETSE(I)= H(I)/(H(I)+E) 
+           IF(R.LT.ONE) ETSE(I)= H(I)/(H(I)+E) 
          ENDDO
        ELSEIF(IFLAG(1).EQ.1)THEN
 C-------------------------
@@ -323,8 +323,8 @@ C-------------------------
            S1=SIGNXX(I)+SIGNYY(I)
            S2=SIGNXX(I)-SIGNYY(I)
            S3=SIGNXY(I)
-           AA(I)=QUART*S1*S1
-           BB(I)=TQUART*S2*S2+TROIS*S3*S3
+           AA(I)=FOURTH*S1*S1
+           BB(I)=THREE_OVER_4*S2*S2+THREE*S3*S3
            SVM(I)=SQRT(AA(I)+BB(I))  
            IF (INLOC == 0) THEN 
              DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU1
@@ -336,7 +336,7 @@ C     GATHER PLASTIC FLOW
 C-------------------------
          NINDX=0
          DO I=1,NEL0
-           IF(SVM(I).GT.YLD(I).AND.OFF(I).EQ.UN) THEN
+           IF(SVM(I).GT.YLD(I).AND.OFF(I).EQ.ONE) THEN
              NINDX=NINDX+1
              INDEX(NINDX)=I
            ENDIF
@@ -360,15 +360,15 @@ C
 cc             PLA_I = PLA(I) + DPLA(I)
              YLD_I = YLD(I) + H(I)*DPLA(I)       
 C             
-             DR(I) =UNDEMI*E*DPLA(I)/YLD_I
-             PP(I)  =UN/(UN+DR(I)*NU1)
-             QQ(I)  =UN/(UN + TROIS*DR(I)*NU2)
+             DR(I) =HALF*E*DPLA(I)/YLD_I
+             PP(I)  =ONE/(ONE+DR(I)*NU1)
+             QQ(I)  =ONE/(ONE + THREE*DR(I)*NU2)
              P2    =PP(I)*PP(I)
              Q2    =QQ(I)*QQ(I)
              F     =AA(I)*P2+BB(I)*Q2-YLD_I*YLD_I
-             DF    =-(AA(I)*NU1*P2*PP(I)+TROIS*BB(I)*NU2*Q2*QQ(I))
-     .         *(E-DEUX*DR(I)*H(I))/YLD_I
-     .         -DEUX*H(I)*YLD_I
+             DF    =-(AA(I)*NU1*P2*PP(I)+THREE*BB(I)*NU2*Q2*QQ(I))
+     .         *(E-TWO*DR(I)*H(I))/YLD_I
+     .         -TWO*H(I)*YLD_I
              DF = SIGN(MAX(ABS(DF),EM20),DF)
              IF(DPLA(I).GT.ZERO) THEN
                DPLA_J(I)=MAX(ZERO,DPLA(I)-F/DF)
@@ -386,8 +386,8 @@ C------------------------------------------
            PLA(I) = PLA(I) + DPLA(I)
            S1=(SIGNXX(I)+SIGNYY(I))*PP(I)
            S2=(SIGNXX(I)-SIGNYY(I))*QQ(I)
-           SIGNXX(I)=UNDEMI*(S1+S2)
-           SIGNYY(I)=UNDEMI*(S1-S2)
+           SIGNXX(I)=HALF*(S1+S2)
+           SIGNYY(I)=HALF*(S1-S2)
            SIGNXY(I)=SIGNXY(I)*QQ(I)
            IF (INLOC == 0) THEN
              DEZZ = - NU3*DR(I)*S1/E
@@ -409,18 +409,18 @@ C          s33 = p = -(S11 + S22)
            S12 = SIGNXY(I)
 C
            P2 = P*P
-           VM2= TROIS*(S12*S12 - S11*S22)
+           VM2= THREE*(S12*S12 - S11*S22)
            A  = P2*NU4 + VM2
-           VM2= TROIS*P2  + VM2
+           VM2= THREE*P2  + VM2
            B  = P2*NU6
            C  = P2*NU5 - YLD(I)*YLD(I)
-           R  = MIN(UN,(-B + SQRT(MAX(ZERO,B*B-A*C)))/MAX(A ,EM20))
+           R  = MIN(ONE,(-B + SQRT(MAX(ZERO,B*B-A*C)))/MAX(A ,EM20))
            SIGNXX(I) = S11*R - P
            SIGNYY(I) = S22*R - P
            SIGNXY(I) = S12*R
 C         signzz    = p*r - p
 C proj.   signzz    = 0.
-           UMR = UN - R
+           UMR = ONE - R
            SIGZ      = NNU1*P*UMR
            SIGNXX(I) = SIGNXX(I) + SIGZ
            SIGNYY(I) = SIGNYY(I) + SIGZ
@@ -429,24 +429,24 @@ C proj.   signzz    = 0.
 cc           DPLA(I) = OFF(I)*SVM(I)*UMR/(G3(I)+H(I))
            PLA(I) = PLA(I) + DPLA(I)
            IF (INLOC == 0) THEN
-             DEZZ = DPLA(I) * UNDEMI*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
+             DEZZ = DPLA(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
              DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU1-NU3*DEZZ
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
            ENDIF
-           IF(R.LT.UN) ETSE(I)= H(I)/(H(I)+E)
+           IF(R.LT.ONE) ETSE(I)= H(I)/(H(I)+E)
          ENDDO
        ENDIF
 C calcul de l'effet martensite ----
        DO I=1,NEL0
          DVM = ZERO
          IF(TEMP(I).LT.MD) THEN
-          DVM = CN*CD*EXP((CN-UN)*LOG(MAX(CD*PLA(I),EM20)))
+          DVM = CN*CD*EXP((CN-ONE)*LOG(MAX(CD*PLA(I),EM20)))
           DVM = DVM*EXP(-(CD*PLA(I))**CN)
-          DVM = DVM*V0*LOG(MD - TEMP(I) + UN)
+          DVM = DVM*V0*LOG(MD - TEMP(I) + ONE)
          ENDIF 
          
          VM(I) = VM(I) + MAX(DVM*DPLA(I),ZERO)
-         VM(I) = MIN(VM(I), UN)
+         VM(I) = MIN(VM(I), ONE)
 C la chaleur latente dans le terme source.
          IF(JTHE > 0 ) DIE(I) = (VM(I) - UVAR(I,2))*HL       
          UVAR(I,2) = VM(I)
@@ -460,8 +460,8 @@ C--------------------------------
       IF (INLOC > 0) THEN
         DO I = 1,NEL0 
           SVM(I) = SQRT(SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)
-     .           - SIGNXX(I)*SIGNYY(I) + TROIS*SIGNXY(I)*SIGNXY(I))
-          DEZZ   = MAX(DPLANL(I),ZERO)*UNDEMI*(SIGNXX(I)+SIGNYY(I))/MAX(SVM(I),EM20)
+     .           - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))
+          DEZZ   = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(SVM(I),EM20)
           DEZZ   = -NU*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E) - DEZZ
           THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)     
         ENDDO  

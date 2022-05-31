@@ -65,8 +65,8 @@ C-----------------------------------------------
       IF(NEL.EQ.0) RETURN
       N2= ZM2-ZM1
       N3= YM1-YM2
-      YM= QUART*(YE(1)+YE(2)+YE(3)+YE(4))
-      ZM= QUART*(ZE(1)+ZE(2)+ZE(3)+ZE(4))
+      YM= FOURTH*(YE(1)+YE(2)+YE(3)+YE(4))
+      ZM= FOURTH*(ZE(1)+ZE(2)+ZE(3)+ZE(4))
       DDS=N2*(YM-YM1)+ N3*(ZM-ZM1)
       IF(DDS.LT.0) RETURN
        IR=IRECT(1,ISG)

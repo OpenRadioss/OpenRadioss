@@ -133,10 +133,10 @@ C
           ELSE
             TEMP=FTEMP
           ENDIF
-          EFAC= TEMP*(CPA+UNDEMI*CPB*TEMP+TIERS*CPC*TEMP*TEMP
-     .                +QUART*CPD*TEMP*TEMP*TEMP
+          EFAC= TEMP*(CPA+HALF*CPB*TEMP+THIRD*CPC*TEMP*TEMP
+     .                +FOURTH*CPD*TEMP*TEMP*TEMP
      .                -CPE/(TEMP*TEMP)
-     .                +UNCINQ*CPF*TEMP*TEMP*TEMP*TEMP)
+     .                +ONE_FIFTH*CPF*TEMP*TEMP*TEMP*TEMP)
          ELSE
           EFAC=ZERO
          ENDIF

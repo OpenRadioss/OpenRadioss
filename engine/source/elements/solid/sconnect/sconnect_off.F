@@ -63,7 +63,7 @@ C-----------------------------------------------
 C=======================================================================
       DO IEL=1,NEL
         IF (OFFG(IEL) < EM01) OFFG(IEL) = ZERO  
-        IF (OFFG(IEL) < UN)   OFFG(IEL) = OFFG(IEL)*QCINQ
+        IF (OFFG(IEL) < ONE)   OFFG(IEL) = OFFG(IEL)*FOUR_OVER_5
       ENDDO
 c
       COUNTPG(1:NEL) = ZERO
@@ -76,12 +76,12 @@ c
 c
       NINDX = 0
       DO IEL=1,NEL
-        IF (OFFG(IEL) == UN) THEN
+        IF (OFFG(IEL) == ONE) THEN
           NDEL = NPG - COUNTPG(IEL)
           IF (NDEL >= ISOLID) THEN
           NINDX = NINDX+1
           INDX(NINDX) = IEL
-          OFFG(IEL) = QCINQ
+          OFFG(IEL) = FOUR_OVER_5
           IDEL7NOK  = 1
           ENDIF
         ENDIF

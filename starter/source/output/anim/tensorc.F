@@ -131,30 +131,30 @@ c
             A1 = ZERO
             A2 = ZERO
             IF (ISTRAIN == 1) THEN                       
-              A1 = UN
+              A1 = ONE
             ENDIF                                        
           ELSEIF (ITENS == 6) THEN                       
             ISTRE = 0
             A1 = ZERO
             A2 = ZERO
             IF (ISTRAIN == 1) THEN                       
-              A2 = UN
+              A2 = ONE
             ENDIF                                        
           ELSEIF (ITENS == 7) THEN                       
             ISTRE = 0
             A1 = ZERO
             A2 = ZERO
             IF (ISTRAIN == 1) THEN                       
-              A1 = UN
-              A2 = UNDEMI
+              A1 = ONE
+              A2 = HALF
             ENDIF                                        
           ELSEIF (ITENS == 8) THEN                       
             ISTRE = 0
             A1 = ZERO
             A2 = ZERO
             IF (ISTRAIN == 1) THEN                       
-              A1 = UN
-              A2 = -UNDEMI
+              A1 = ONE
+              A2 = -HALF
             ENDIF                                        
           ELSEIF (ITENS >=  201 .AND. ITENS <= 300) THEN 
             ISTRE = 0
@@ -162,8 +162,8 @@ c
             A2 = ZERO
             IF (ISTRAIN == 1 .AND. NPT /= 0) THEN        
               IPT = MIN(NPT,ITENS - 200)                 
-              A1 = UN
-              A2 = UNDEMI*(((2*IPT-UN)/NPT)-UN)
+              A1 = ONE
+              A2 = HALF*(((2*IPT-ONE)/NPT)-ONE)
             ENDIF                                        
           ENDIF ! IF (ITENS == 5)
         ENDIF ! IF(ITY == 2)
@@ -363,7 +363,7 @@ C------------------------
                 R4(J) = GBUF%STRA(II(J)+I)                                 
               ENDDO                                                     
            ENDIF                                                       
-            R4(3) = R4(3) * INVERT(EL2FA(NNI+N)) * UNDEMI               
+            R4(3) = R4(3) * INVERT(EL2FA(NNI+N)) * HALF               
             TENS(1,EL2FA(NNI+N)) = R4(1)                                
             TENS(2,EL2FA(NNI+N)) = R4(2)                                
             TENS(3,EL2FA(NNI+N)) = R4(3)                                

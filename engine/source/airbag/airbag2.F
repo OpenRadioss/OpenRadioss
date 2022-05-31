@@ -111,21 +111,21 @@ C-----------------------------------------------
        SCALS  =RVOLU(28)   
 C
        RO    = AMTOT/VOL
-       PCRIT = P*(DEUX/(GAMA+UN))**(GAMA/(GAMA-UN))
+       PCRIT = P*(TWO/(GAMA+ONE))**(GAMA/(GAMA-ONE))
 C
 C      contribution du gaz a l'initial.
        CPAI=RVOLU(7)
        CPBI=RVOLU(8)
        CPCI=RVOLU(9)
        GMI =RVOLU(11)
-       HSPEC=GMI*TBAG*(CPAI+UNDEMI*CPBI*TBAG+THIRD*CPCI*TBAG*TBAG)
+       HSPEC=GMI*TBAG*(CPAI+HALF*CPBI*TBAG+THIRD*CPCI*TBAG*TBAG)
 C
        DO IJ=1,NJET
         CPA  = RBAGJET(2,IJ)
         CPB  = RBAGJET(3,IJ)
         CPC  = RBAGJET(4,IJ)
         GMTOT= RBAGJET(8,IJ)
-       HSPEC=HSPEC+GMTOT*TBAG*(CPA+UNDEMI*CPB*TBAG+ THIRD*CPC*TBAG*TBAG)
+       HSPEC=HSPEC+GMTOT*TBAG*(CPA+HALF*CPB*TBAG+ THIRD*CPC*TBAG*TBAG)
        ENDDO
        HSPEC=HSPEC/MAX(EM20,AMTOT)
 C--------------------------------
@@ -155,7 +155,7 @@ C
         IF(ITTF.EQ.11.OR.ITTF.EQ.12.OR.ITTF.EQ.13) THEN
         IF(IDEF.EQ.0.AND.P.GT.PDEF+PEXT.
      .               AND.DTPDEFC.GT.DTPDEFI.
-     .               AND.VOL.GT.EM3*AREA**TDEMI.
+     .               AND.VOL.GT.EM3*AREA**THREE_HALF.
      .               AND.TT.LT.TSTOPE+TTF
      .              .AND.IDTPDEF.EQ.0) THEN
          IDEF=1
@@ -197,7 +197,7 @@ C
         ELSE IF(ITTF.EQ.0) THEN
         IF(IDEF.EQ.0.AND.P.GT.PDEF+PEXT.
      .               AND.DTPDEFC.GT.DTPDEFI.
-     .               AND.VOL.GT.EM3*AREA**TDEMI.
+     .               AND.VOL.GT.EM3*AREA**THREE_HALF.
      .               AND.TT.LT.TSTOPE
      .              .AND.IDTPDEF.EQ.0) THEN
          IDEF=1
@@ -263,7 +263,7 @@ C
                  K=IGRSURF(IPVENT)%ELEM(KK) + NUMELC + NUMELTG
                ENDIF
                AA   = SQRT( N(1,K)**2+N(2,K)**2+N(3,K)**2 )
-               F1(KK) = (UN - PORO(K))*AA
+               F1(KK) = (ONE - PORO(K))*AA
                F2(KK) =  PORO(K)*AA
              ENDDO
            ENDIF
@@ -287,12 +287,12 @@ C
      .             FRMV6(2,4)+FRMV6(2,5)+FRMV6(2,6)
         ELSE
            AOUT =AVENT
-           AVENT=UN 
+           AVENT=ONE 
            AOUT1=ZERO
         ENDIF
 C
         IF(IDEF.EQ.1 .AND. P.GT.PEXT.
-     .               AND.VOL.GT.EM3*AREA**TDEMI)THEN
+     .               AND.VOL.GT.EM3*AREA**THREE_HALF)THEN
          IPORT =IBAGHOL(3,IV)
          IPORP =IBAGHOL(4,IV)
          IPORA =IBAGHOL(5,IV)
@@ -350,15 +350,15 @@ C-------
        FLOUT =ZERO
        DMOUT =ZERO
        IF(AOUTOT.GT.ZERO)THEN
-        ROEX =RO*(PEXT/P)**(UN/GAMA)
-        VMAX  =UNDEMI*(P-PEXT)*VOL/(GAMA-UN)
+        ROEX =RO*(PEXT/P)**(ONE/GAMA)
+        VMAX  =HALF*(P-PEXT)*VOL/(GAMA-ONE)
      .  /MAX(EM20,HSPEC*(ROEX*AISENT+RO*ACHEMK)*DT1)
-        VMAX  =MIN(VMAX,UNDEMI*VOL/MAX(EM20,AOUTOT*DT1))
+        VMAX  =MIN(VMAX,HALF*VOL/MAX(EM20,AOUTOT*DT1))
 C
         IF(AISENT.GT.ZERO)THEN
          PEXT = MAX(PEXT,PCRIT)
-         ROEX =RO*(PEXT/P)**(UN/GAMA)
-         UISENT=DEUX*GAMA/(GAMA-UN)*P/RO*(UN-(PEXT/P)**((GAMA-UN)/GAMA))
+         ROEX =RO*(PEXT/P)**(ONE/GAMA)
+         UISENT=TWO*GAMA/(GAMA-ONE)*P/RO*(ONE-(PEXT/P)**((GAMA-ONE)/GAMA))
          UISENT=MAX(UISENT,ZERO)
          UISENT=SQRT(UISENT)
          UISENT=MIN(UISENT,VMAX)
@@ -393,7 +393,7 @@ C
        ENDIF
 C---------------------------------------------
        RNM  =RVOLU(14)
-       CV   =RNM/AMTOT/(GAMA-UN)
+       CV   =RNM/AMTOT/(GAMA-ONE)
        CP   =GAMA*CV
        IF(ISPMD+1.EQ.PMAIN) THEN
          FSAV(1) =AMTOT
@@ -420,7 +420,7 @@ C---------------------------------------------
        RNMI=GMI*RMWI
 C      VOLG/VOL=fraction molaire=RNMG/RNM
        DGMOUT=RNMI/MAX(EM20,RNM)*DMOUT
-       DGEOUT=DGMOUT*TBAG*(CPAI+UNDEMI*CPBI*TBAG+THIRD*CPCI*TBAG*TBAG)
+       DGEOUT=DGMOUT*TBAG*(CPAI+HALF*CPBI*TBAG+THIRD*CPCI*TBAG*TBAG)
        RVOLU(22)=RVOLU(22) + DGEOUT
        RVOLU(24)=RVOLU(24) + DGMOUT
 C------
@@ -432,7 +432,7 @@ C------
          RMWG  =RBAGJET(1,IJ)
          RNMG  =GMTOT*RMWG
          DGMOUT=RNMG/MAX(EM20,RNM)*DMOUT
-         DGEOUT=DGMOUT*TBAG*(CPA+UNDEMI*CPB*TBAG+THIRD*CPC*TBAG*TBAG)
+         DGEOUT=DGMOUT*TBAG*(CPA+HALF*CPB*TBAG+THIRD*CPC*TBAG*TBAG)
          RBAGJET( 9,IJ)=RBAGJET( 9,IJ)+DGMOUT
          RBAGJET(10,IJ)=RBAGJET(10,IJ)+DGEOUT
        ENDDO
@@ -457,7 +457,7 @@ C---------------------------------------------
          IF(ITTF==0.OR.ITTF==11.OR.ITTF==12.OR.ITTF==13)THEN
            IF(IDEF.EQ.0.AND.P.GT.PDEF+PVOIS
      .               .AND.DTPDEFC.GT.DTPDEFI
-     .               .AND.VOL.GT.EM3*AREA**TDEMI)THEN
+     .               .AND.VOL.GT.EM3*AREA**THREE_HALF)THEN
              IDEF=1
              IF(ISPMD+1.EQ.PMAIN) THEN
                WRITE(IOUT,*) 
@@ -504,22 +504,22 @@ C comm si necessaire
              APVENT = FRMV6B(1)+FRMV6B(2)+FRMV6B(3)+
      .                FRMV6B(4)+FRMV6B(5)+FRMV6B(6)             
          ELSE
-             APVENT = UN
+             APVENT = ONE
          ENDIF
 C
          AOUT=AVENT*APVENT
 C
          IF(IDEF.EQ.1 .AND. P.GT.PVOIS.
-     .                 AND.VOL.GT.EM3*AREA**TDEMI)THEN
+     .                 AND.VOL.GT.EM3*AREA**THREE_HALF)THEN
            PVOIS = MAX(PVOIS,PCRIT)
-           U=DEUX*GAMA/(GAMA-UN)*P/RO*(UN-(PVOIS/P)**((GAMA-UN)/GAMA))
+           U=TWO*GAMA/(GAMA-ONE)*P/RO*(ONE-(PVOIS/P)**((GAMA-ONE)/GAMA))
            U=SQRT(U)
-           U=MIN(U,UNDEMI*VOL/MAX(EM20,AOUT*DT1))
-           DE=RO*(PVOIS/P)**(UN/GAMA)*HSPEC
-           U=MIN(U,(P-PVOIS)*UNDEMI*MIN(VOL,VVOIS)
-     .      /(GAMA-UN)/DE/MAX(EM20,AOUT*DT1))
+           U=MIN(U,HALF*VOL/MAX(EM20,AOUT*DT1))
+           DE=RO*(PVOIS/P)**(ONE/GAMA)*HSPEC
+           U=MIN(U,(P-PVOIS)*HALF*MIN(VOL,VVOIS)
+     .      /(GAMA-ONE)/DE/MAX(EM20,AOUT*DT1))
            FLOUT=AOUT*U
-           DMOUT=FLOUT*RO*(PVOIS/P)**(UN/GAMA)
+           DMOUT=FLOUT*RO*(PVOIS/P)**(ONE/GAMA)
          ELSE
            DMOUT=ZERO
            FLOUT=ZERO
@@ -530,7 +530,7 @@ C        MASSE et TRAVAIL par GAZ
 C---------------------------------------------
 C        VOLG/VOL=fraction molaire=RNMG/RNM
          DGMOUT=RNMI/MAX(EM20,RNM)*DMOUT
-         DGEOUT=DGMOUT*TBAG*(CPAI+UNDEMI*CPBI*TBAG+THIRD*CPCI*TBAG*TBAG)
+         DGEOUT=DGMOUT*TBAG*(CPAI+HALF*CPBI*TBAG+THIRD*CPCI*TBAG*TBAG)
 C OUT
          RVOLU(22)=RVOLU(22) + DGEOUT
          RVOLU(24)=RVOLU(24) + DGMOUT
@@ -547,7 +547,7 @@ C------
            CPA  = RBAGJET(2,IJ)
            CPB  = RBAGJET(3,IJ)
            CPC  = RBAGJET(4,IJ)
-           DGEOUT=DGMOUT*TBAG*(CPA+UNDEMI*CPB*TBAG+THIRD*CPC*TBAG*TBAG)
+           DGEOUT=DGMOUT*TBAG*(CPA+HALF*CPB*TBAG+THIRD*CPC*TBAG*TBAG)
 C OUT
            RBAGJET(9,IJ)=
      .         RBAGJET(9,IJ)+DGMOUT

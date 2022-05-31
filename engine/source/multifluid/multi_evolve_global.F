@@ -133,7 +133,7 @@ C     Velocity components
          VII(2) = VII(1) * VX
          VII(3) = VII(1) * VY
          VII(4) = VII(1) * VZ
-         VII(5) = GBUF%EINT(II) + UNDEMI * VII(1) * VEL2
+         VII(5) = GBUF%EINT(II) + HALF * VII(1) * VEL2
          
 ! Volume 
          VOL = GBUF%VOL(II)

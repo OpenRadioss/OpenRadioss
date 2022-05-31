@@ -254,7 +254,7 @@ C
       STOPT =INTBUF_TAB%VARIABLES(11)
       IF(STARTT.GT.TT) RETURN
       IF(TT.GT.STOPT)  RETURN
-      FRIC = UN
+      FRIC = ONE
 C
 C
         I_STOK = NUM_IMP

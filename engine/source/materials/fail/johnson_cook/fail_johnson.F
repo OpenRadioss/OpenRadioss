@@ -122,24 +122,24 @@ C
       IF(IDEL.EQ.1)THEN
        NINDX=0  
        DO I=1,NEL
-        IF(IFLAG.EQ.1.AND.OFF(I).EQ.UN)THEN
+        IF(IFLAG.EQ.1.AND.OFF(I).EQ.ONE)THEN
          IF(DPLA(I)/=ZERO)THEN
            P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
            SXX = SIGNXX(I) - P
            SYY = SIGNYY(I) - P
            SZZ = SIGNZZ(I) - P
-           SVM =UNDEMI*(SXX**2 + SYY**2 + SZZ**2)
+           SVM =HALF*(SXX**2 + SYY**2 + SZZ**2)
      .            +SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
-           SVM=SQRT(TROIS*SVM)
+           SVM=SQRT(THREE*SVM)
            EPSF = D3*P/MAX(EM20,SVM)
            EPSF = (D1 + 
-     .             D2*EXP(EPSF))*(UN 
-     .                    + D4*LOG(MAX(UN,EPSP(I)/EPSP0)))
-     .                      *(UN + D5*TSTAR(I))
+     .             D2*EXP(EPSF))*(ONE 
+     .                    + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
+     .                      *(ONE + D5*TSTAR(I))
            IF(EPSF.GT.ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
          ENDIF
-         IF(DFMAX(I).GE.UN.AND.OFF(I).EQ.UN) THEN
-          OFF(I)=QCINQ
+         IF(DFMAX(I).GE.ONE.AND.OFF(I).EQ.ONE) THEN
+          OFF(I)=FOUR_OVER_5
           NINDX=NINDX+1
           INDX(NINDX)=I
           IDEL7NOK = 1   
@@ -161,22 +161,22 @@ Cc deviatoric will be vanished
        NINDX=0 
        NINDEX = 0 
        DO I=1,NEL 
-        IF(IFLAG.EQ.2.AND.OFF(I).EQ.UN)THEN 
-         IF(DFMAX(I).LT.UN.AND.DPLA(I)/=ZERO)THEN
+        IF(IFLAG.EQ.2.AND.OFF(I).EQ.ONE)THEN 
+         IF(DFMAX(I).LT.ONE.AND.DPLA(I)/=ZERO)THEN
           P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
           SXX = SIGNXX(I) - P
           SYY = SIGNYY(I) - P
           SZZ = SIGNZZ(I) - P
-          SVM =UNDEMI*(SXX**2+ SYY**2 + SZZ**2)
+          SVM =HALF*(SXX**2+ SYY**2 + SZZ**2)
      .          +SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
-          SVM=SQRT(TROIS*SVM)
+          SVM=SQRT(THREE*SVM)
           EPSF = D3*P/MAX(EM20,SVM)
           EPSF = (D1 + 
-     .           D2*EXP(EPSF))*(UN 
-     .                  + D4*LOG(MAX(UN,EPSP(I)/EPSP0)))
-     .                    *(UN + D5*TSTAR(I))
+     .           D2*EXP(EPSF))*(ONE 
+     .                  + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
+     .                    *(ONE + D5*TSTAR(I))
           IF(EPSF.GT.ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
-          IF(DFMAX(I).GE.UN.AND.OFF(I).EQ.UN) THEN
+          IF(DFMAX(I).GE.ONE.AND.OFF(I).EQ.ONE) THEN
            NINDX=NINDX+1
            INDX(NINDX)=I
            SIGNXX(I) =   P
@@ -187,7 +187,7 @@ Cc deviatoric will be vanished
            SIGNZX(I) = ZERO                 
           ENDIF
 c       
-         ELSEIF(DFMAX(I).GE.UN)THEN
+         ELSEIF(DFMAX(I).GE.ONE)THEN
           P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
           SIGNXX(I) =   P
           SIGNYY(I) =   P
@@ -211,7 +211,7 @@ c
 C---------Damage for output  0 < DFMAX < 1 --------------------
 c       DO J=1,IR
 c          I=JST(J)
-c          DFMAX(I)= MIN(UN,DFMAX(I))
+c          DFMAX(I)= MIN(ONE,DFMAX(I))
 c       ENDDO
 C------------------
 C-----------------------------------------------

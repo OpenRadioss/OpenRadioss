@@ -481,7 +481,7 @@ C-----------------------
          ENDIF
         ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
         IGOF = 1
         DO I = 1,NEL
@@ -509,7 +509,7 @@ C-----------------------
          ENDIF
         ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
         IGOF = 1
         DO I = 1,NEL
@@ -550,7 +550,7 @@ C-----------------------
           ENDIF
          ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
         IGOF = 1
         DO I = 1,NEL
@@ -576,7 +576,7 @@ C-----------------------
          ENDIF
         ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
 C Imcompatible avec option de gap dans propriete de truss
 C        IGOF = 1
@@ -603,7 +603,7 @@ C-----------------------
          ENDIF
         ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
         IGOF = 1
         DO I = 1,NEL
@@ -621,12 +621,12 @@ C-----------------------
          NALL = ITAG(IXR(2,II)) * ITAG(IXR(3,II))
          IF(NALL /= 0)THEN
            IF(ONFELT == 1)THEN
-             IF (OFFG(I) /= -DIX)
+             IF (OFFG(I) /= -TEN)
 Clm             spring is active
      .          OFFG(I)= ABS(OFFG(I))
              WRITE(IOUT,*)' SPRING ACTIVATION:',IXR(NIXR,II)
            ELSEIF(ONFELT == 0)THEN
-             IF (OFFG(I) /= -DIX)
+             IF (OFFG(I) /= -TEN)
 Clm             spring is active
      .          OFFG(I) = -ABS(OFFG(I))
              WRITE(IOUT,*)' SPRING DEACTIVATION:',IXR(NIXR,II)
@@ -634,7 +634,7 @@ Clm             spring is active
          ENDIF
         ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
         IGOF = 1
         DO I = 1,NEL
@@ -663,7 +663,7 @@ C-----------------------
           ENDIF
          ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
         IGOF = 1
         DO I = 1,NEL

@@ -105,9 +105,9 @@ C
          YC=YC+X(2,KK)
          ZC=ZC+X(3,KK)
  110   CONTINUE
-       XC=XC*UNHUIT
-       YC=YC*UNHUIT
-       ZC=ZC*UNHUIT
+       XC=XC*ONE_OVER_8
+       YC=YC*ONE_OVER_8
+       ZC=ZC*ONE_OVER_8
        IF(IR.NE.0) RETURN
        IF(IC.GE.2)RETURN
        DDS=N1*(XC-XS1)+N2*(YC-YS1)+N3*(ZC-ZS1)
@@ -256,9 +256,9 @@ C
          YC=YC+X(2,KK)
          ZC=ZC+X(3,KK)
  110   CONTINUE
-       XC=XC*UNHUIT
-       YC=YC*UNHUIT
-       ZC=ZC*UNHUIT
+       XC=XC*ONE_OVER_8
+       YC=YC*ONE_OVER_8
+       ZC=ZC*ONE_OVER_8
        IF(IR.NE.0) RETURN
        IF(IC.GE.2)RETURN
        DDS=N1*(XC-XS1)+N2*(YC-YS1)+N3*(ZC-ZS1)
@@ -375,9 +375,9 @@ C
          YC=YC+XE(2,IXIG3D(KXIG3D(4,NELIG3D)+COIN_IGE(K)-1))
          ZC=ZC+XE(3,IXIG3D(KXIG3D(4,NELIG3D)+COIN_IGE(K)-1))
        ENDDO
-       XC=XC*UNHUIT
-       YC=YC*UNHUIT
-       ZC=ZC*UNHUIT
+       XC=XC*ONE_OVER_8
+       YC=YC*ONE_OVER_8
+       ZC=ZC*ONE_OVER_8
        IF(IR.NE.0) RETURN
        IF(IC.GE.2)RETURN
        DDS=N1*(XC-XS1)+N2*(YC-YS1)+N3*(ZC-ZS1)

@@ -96,7 +96,7 @@ c
          ENDDO
        ELSEIF(IFLAG==2)THEN
          DO I=1,NUMNOD
-           V(I)=UNDEMI*MS(I)*(X(1,I)**2+X(2,I)**2+X(3,I)**2)
+           V(I)=HALF*MS(I)*(X(1,I)**2+X(2,I)**2+X(3,I)**2)
          ENDDO
        ELSEIF(IFLAG==3)THEN
          DO I=1,NUMNOD
@@ -244,7 +244,7 @@ Csv Reception
             DO I=1,NUM
               IF(MAXV_RES0(I) .NE. ZERO)THEN
                 WRITE(IOUT,1100) ITABG(IDNOD_RES(I)),MAXV_RES0(I),
-     .               UNDEMI*(MAXV_RES1(I))*MAXV_RES0(I)**2,
+     .               HALF*(MAXV_RES1(I))*MAXV_RES0(I)**2,
      .               MAXV_RES1(I),MAXV_RES2(I),
      .               (MAXV_RES1(I)-MAXV_RES2(I))/MAX(EM20,MAXV_RES2(I))
               ENDIF

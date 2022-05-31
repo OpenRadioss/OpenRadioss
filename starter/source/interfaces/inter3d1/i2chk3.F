@@ -114,8 +114,8 @@ C
 C
       DO I=1,NSN
         IRTL(I)=0
-        ST(1,I)=NEUF
-        ST(2,I)=NEUF
+        ST(1,I)=NINE
+        ST(2,I)=NINE
         DMIN(I)=EP20
       ENDDO
 C

@@ -58,17 +58,17 @@ C-----------------------------------------------
       !--------------------------------!
       ! Calculation of BFRAC in [0,1]  !
       !--------------------------------!
-      IF(BFRAC < UN) THEN
+      IF(BFRAC < ONE) THEN
         BFRAC = ZERO
         IF(IBFRAC/=1 .AND. TIME > -TBURN)THEN
           XL = V1**THIRD
-          BFRAC = VDET*(TIME+TBURN)*DTIERS/XL 
+          BFRAC = VDET*(TIME+TBURN)*TWO_THIRD/XL 
         ENDIF
-        IF(IBFRAC/=2) BFRAC  = MAX( BFRAC , BHE * (UN - RHO10/RHO1) )
+        IF(IBFRAC/=2) BFRAC  = MAX( BFRAC , BHE * (ONE - RHO10/RHO1) )
         IF(BFRAC < EM03) THEN
           BFRAC = ZERO
-        ELSEIF(BFRAC > UN) THEN
-          BFRAC = UN
+        ELSEIF(BFRAC > ONE) THEN
+          BFRAC = ONE
         ENDIF
       ENDIF
       RETURN

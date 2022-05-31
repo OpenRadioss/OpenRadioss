@@ -135,7 +135,7 @@ C-----------------------------------------------
               KK(K) = KLT*(K-1)
             ENDDO
 !
-            PV(I)    = -TIERS*(GBUF%SIG(KK(1)+IS+1)+
+            PV(I)    = -THIRD*(GBUF%SIG(KK(1)+IS+1)+
      .                         GBUF%SIG(KK(2)+IS+1)+
      .                         GBUF%SIG(KK(3)+IS+1))
             !ENERGY            
@@ -195,7 +195,7 @@ C-----------------------------------------------
           XN=-Y13*Z24+Z13*Y24             
           YN=-Z13*X24+X13*Z24             
           ZN=-X13*Y24+Y13*X24             
-          FAC=UN/SQRT(XN**2+YN**2+ZN**2)  
+          FAC=ONE/SQRT(XN**2+YN**2+ZN**2)  
           XN = XN*FAC                     
           YN = YN*FAC                     
           ZN = ZN*FAC                     
@@ -207,13 +207,13 @@ C-----------------------------------------------
             !
             !      SUPG&ITG
             !
-            VDX(I)=QUART*(V(1,IX1)+V(1,IX2)+V(1,IX3)+V(1,IX4))                    
-            VDY(I)=QUART*(V(2,IX1)+V(2,IX2)+V(2,IX3)+V(2,IX4))                    
-            VDZ(I)=QUART*(V(3,IX1)+V(3,IX2)+V(3,IX3)+V(3,IX4))                    
+            VDX(I)=FOURTH*(V(1,IX1)+V(1,IX2)+V(1,IX3)+V(1,IX4))                    
+            VDY(I)=FOURTH*(V(2,IX1)+V(2,IX2)+V(2,IX3)+V(2,IX4))                    
+            VDZ(I)=FOURTH*(V(3,IX1)+V(3,IX2)+V(3,IX3)+V(3,IX4))                    
             IF(JALE>0)THEN                                                        
-              VDX(I)=VDX(I)-QUART*(W(1,IX1)+W(1,IX2)+W(1,IX3)+W(1,IX4))           
-              VDY(I)=VDY(I)-QUART*(W(2,IX1)+W(2,IX2)+W(2,IX3)+W(2,IX4))           
-              VDZ(I)=VDZ(I)-QUART*(W(3,IX1)+W(3,IX2)+W(3,IX3)+W(3,IX4))           
+              VDX(I)=VDX(I)-FOURTH*(W(1,IX1)+W(1,IX2)+W(1,IX3)+W(1,IX4))           
+              VDY(I)=VDY(I)-FOURTH*(W(2,IX1)+W(2,IX2)+W(2,IX3)+W(2,IX4))           
+              VDZ(I)=VDZ(I)-FOURTH*(W(3,IX1)+W(3,IX2)+W(3,IX3)+W(3,IX4))           
             ENDIF                                                                 
             VD2(I)=VDX(I)**2+VDY(I)**2+VDZ(I)**2                                  
             IF(VDX(I)*XN+VDY(I)*YN+VDZ(I)*ZN .LE.ZERO)THEN                        
@@ -234,7 +234,7 @@ C-----------------------------------------------
               VN3=V(1,IX3)*XN+V(2,IX3)*YN+V(3,IX3)*ZN
               VN4=V(1,IX4)*XN+V(2,IX4)*YN+V(3,IX4)*ZN
               VEL(I)=(MIN(VN1,VN2,VN3,VN4))**2
-              VN(I)=QUART*(VN1+VN2+VN3+VN4)
+              VN(I)=FOURTH*(VN1+VN2+VN3+VN4)
               IF(VN(I).GE.ZERO)VEL(I)=ZERO
               VX1=V(1,IX1)-VN1*XN
               VY1=V(2,IX1)-VN1*YN
@@ -257,16 +257,16 @@ C-----------------------------------------------
               XN=-Y13*Z24+Z13*Y24
               YN=-Z13*X24+X13*Z24
               ZN=-X13*Y24+Y13*X24
-              DVP(I)=FAC*SQRT(XN**2+YN**2+ZN**2)-UN
+              DVP(I)=FAC*SQRT(XN**2+YN**2+ZN**2)-ONE
             ENDIF
           !
           !      SWITCH TO FVM FOR MOMENTUM (VELOCITY ON CELL CENTROID)
           !              
           ELSE ! => (IALEFVM_FLG .GE. 2)
         
-            VDX(I)   = UNDEMI * (Vx(I) + VxV(I))
-            VDY(I)   = UNDEMI * (Vy(I) + VyV(I))
-            VDZ(I)   = UNDEMI * (Vz(I) + VzV(I)) 
+            VDX(I)   = HALF * (Vx(I) + VxV(I))
+            VDY(I)   = HALF * (Vy(I) + VyV(I))
+            VDZ(I)   = HALF * (Vz(I) + VzV(I)) 
             VD2(I)   = VDX(I)**2 + VDY(I)**2 + VDZ(I)**2                                  
             IF(VDX(I)*XN + VDY(I)*YN + VDZ(I)*ZN .LE. ZERO)THEN                        
               VDX(I) = ZERO                                                         

@@ -203,7 +203,7 @@ c--------------------------------------------------------
         IFX = NPC(IFUN_NUP)
         IFY = NPC(IFUN_NUP + 1)
         NUP = PLD(IFY)
-        NUP = MAX(ZERO, MIN(UNDEMI, NUP))
+        NUP = MAX(ZERO, MIN(HALF, NUP))
         UPARAM(9) =  NUP
       END IF
 c--------------------------------------------------------
@@ -291,7 +291,7 @@ C=======================================================================
       FUNC_SHEAR = 3
       NT = TABLE(FUNC_TRAC)%NDIM
       NS = TABLE(FUNC_SHEAR)%NDIM
-      SCALE_X_S = SQRT(TROIS)/(UN+NUP)
+      SCALE_X_S = SQRT(THREE)/(ONE+NUP)
       DO I = 1, NPT_SHEAR
          X_T_SHEAR(I) = SCALE_X_S* TABLE(FUNC_SHEAR)%X(1)%VALUES(I) 
       ENDDO
@@ -370,18 +370,18 @@ C=======================================================================
       END DO   
       NPT_COMP = K - 1
 
-      ALPHAMAX = UN
+      ALPHAMAX = ONE
       DO K= 2, NPT_COMP
          SLOPE_TRAC(K) = (Y_T(K)-Y_T(K-1)) / (X_COMP(K)-X_COMP(K-1))
          SLOPE_SHEA(K) = (Y_S(K)-Y_S(K-1)) / (X_COMP(K)-X_COMP(K-1)) 
          IF( SLOPE_TRAC(K)>ZERO .AND. SLOPE_SHEA(K)>ZERO)THEN
-           ALPHA (K)   = SQRT(TROIS)*UNDEMI *(SLOPE_TRAC(K)/SLOPE_SHEA(K)) * (Y_S(K)/Y_T(K))**2
+           ALPHA (K)   = SQRT(THREE)*HALF *(SLOPE_TRAC(K)/SLOPE_SHEA(K)) * (Y_S(K)/Y_T(K))**2
            ALPHAMAX = MAX (ALPHAMAX,ALPHA(K))
          ENDIF
       END DO 
       DO K= 1, NPT_COMP
-         NUM = SQRT(TROIS) *ALPHAMAX *Y_T(K)*Y_S(K)
-         DEN = DEUX * ALPHAMAX * Y_T(K) - SQRT(TROIS) * Y_S(K)
+         NUM = SQRT(THREE) *ALPHAMAX *Y_T(K)*Y_S(K)
+         DEN = TWO * ALPHAMAX * Y_T(K) - SQRT(THREE) * Y_S(K)
          Y_COMP(K) = NUM / MAX(EM20, DEN)
       END DO 
 c-----------

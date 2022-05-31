@@ -102,10 +102,10 @@ C
         N3=IRECT(3,IS)
         N4=IRECT(4,IS)
         IF(N4 == 0 .OR. N4 == N3) THEN
-          FAC=UNSIX*ORIENT
+          FAC=ONE_OVER_6*ORIENT
 	         N4=N3
         ELSE
-          FAC=UNHUIT*ORIENT
+          FAC=ONE_OVER_8*ORIENT
         ENDIF
 c
         NG1=LISTE(N1)
@@ -173,7 +173,7 @@ C
           VN=(V(1,N)*LA(1,I)+V(2,N)*LA(2,I)+V(3,N)*LA(3,I))/SQRT(S)
 c on memorise la pression d'arret
           P0(I)=P0(I)/S
-          IF(VN.LT.ZERO)P0(I)=P0(I)+UNDEMI*RHO*VN**2
+          IF(VN.LT.ZERO)P0(I)=P0(I)+HALF*RHO*VN**2
 c          write(6,*)'P nodale', P0(I) 
           VO(I)=VN
           PO(I)=P0(I)
@@ -188,7 +188,7 @@ C
 c condition darret
         PN=P0(I)
         IF(VN.LT.0)THEN
-          PN=P0(I)-UNDEMI*RHO*VN**2
+          PN=P0(I)-HALF*RHO*VN**2
           DPDV=DPDV-RHO*VN
         ENDIF
 c frontiere silencieuse
@@ -200,9 +200,9 @@ c
         A(1,N)=A(1,N)-P*LA(1,I)
         A(2,N)=A(2,N)-P*LA(2,I)
         A(3,N)=A(3,N)-P*LA(3,I)
-        STIFN(N)=STIFN(N)+(DEUX*(S*DPDV)**2)/MS(N)
+        STIFN(N)=STIFN(N)+(TWO*(S*DPDV)**2)/MS(N)
 C
-        DEF=DEF-UNDEMI*(PO(I)+P)*DT1*VN*S
+        DEF=DEF-HALF*(PO(I)+P)*DT1*VN*S
 C
         VO(I)=VN
         PO(I)=P

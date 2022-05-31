@@ -213,7 +213,7 @@ C---------------------
         ENDDO
       ENDIF
 C
-      DT05=UNDEMI*DT1
+      DT05=HALF*DT1
       IF (ISMDISP > 0) THEN
        DO I=LFT,LLT
         VX21  = VX2(I)-VX1(I)
@@ -256,10 +256,10 @@ C
 C
          AT=EPXZ/MAX(AL2DP(I),EM30)
          AT=ATAN(AT)
-         RYAV  = DT05 * (RYAV1) + DEUX * AT
+         RYAV  = DT05 * (RYAV1) + TWO * AT
          AT=EPXY/MAX(AL2DP(I),EM30)
          AT=ATAN(AT)
-         RZAV  = DT05 * (RZAV1) - DEUX * AT
+         RZAV  = DT05 * (RZAV1) - TWO * AT
 C
          DX(I) = ALDP(I) - X0DP(I)
          DY(I) = DYOLD(I) - RZAV * AL2DP(I)
@@ -274,7 +274,7 @@ C
         IF (ILENG /= 0) THEN
           XL0(I)=X0DP(I)
         ELSE
-          XL0(I)=UN
+          XL0(I)=ONE
         ENDIF
       ENDDO
 C-------------------------------
@@ -309,10 +309,10 @@ C
         CN = GEO(109,MGN(I))
         XA = GEO(115,MGN(I))
         XB = GEO(121,MGN(I))
-        IF (OFF(I)  == UN .AND. DMX(I) /= ZERO .AND. DMN(I)/= ZERO) THEN
+        IF (OFF(I)  == ONE .AND. DMX(I) /= ZERO .AND. DMN(I)/= ZERO) THEN
           IF (IFAIL2(I) == 0) THEN
-            XA = UN
-            XB = DEUX
+            XA = ONE
+            XB = TWO
             IF (DX(I) > ZERO) THEN
               DLIM = DX(I) / DMX(I)
             ELSE
@@ -338,7 +338,7 @@ C
           ENDIF
           IF (IFAIL(I) == 0) THEN
 !         Rupture uniaxiale
-            IF ((XA*DLIM) > UN) THEN
+            IF ((XA*DLIM) > ONE) THEN
               OFF(I) = ZERO
               NINDX = NINDX + 1
               INDX(NINDX) = I
@@ -383,10 +383,10 @@ C
         CN  = GEO(110,MGN(I))
         XA  = GEO(116,MGN(I))
         XB  = GEO(122,MGN(I))
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL2(I) == 0) THEN
-            XA = UN
-            XB = DEUX
+            XA = ONE
+            XB = TWO
             IF (DY(I) > ZERO) THEN
               DLIM = DY(I) / DMX(I)
             ELSE
@@ -412,7 +412,7 @@ C
           ENDIF
           IF (IFAIL(I) == 0) THEN
 !         Rupture uniaxiale
-            IF ((XA*DLIM) > UN) THEN
+            IF ((XA*DLIM) > ONE) THEN
               OFF(I) = ZERO
               NINDX = NINDX + 1
               INDX(NINDX) = I
@@ -457,10 +457,10 @@ C
         CN  = GEO(111,MGN(I))
         XA  = GEO(117,MGN(I))
         XB  = GEO(123,MGN(I))
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL2(I) == 0) THEN
-            XA = UN
-            XB = DEUX
+            XA = ONE
+            XB = TWO
             IF (DZ(I) > ZERO)THEN
               DLIM = DZ(I) / DMX(I)
             ELSE
@@ -486,7 +486,7 @@ C
           ENDIF
           IF (IFAIL(I) == 0) THEN
 !         Rupture uniaxiale
-            IF ((XA*DLIM) > UN) THEN
+            IF ((XA*DLIM) > ONE) THEN
               OFF(I) = ZERO
               NINDX = NINDX + 1
               INDX(NINDX) = I
@@ -574,10 +574,10 @@ C
         CN  = GEO(112,MGN(I))
         XA  = GEO(118,MGN(I))
         XB  = GEO(124,MGN(I))
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL2(I) == 0) THEN
-            XA = UN
-            XB = DEUX
+            XA = ONE
+            XB = TWO
             IF (RX(I) > ZERO) THEN
               DLIM = RX(I) / DMX(I)
             ELSE
@@ -603,7 +603,7 @@ C
           ENDIF
           IF (IFAIL(I) == 0) THEN
 !         Rupture uniaxiale
-            IF ((XA*DLIM) > UN) THEN
+            IF ((XA*DLIM) > ONE) THEN
               OFF(I)= ZERO
               NINDX = NINDX + 1
               INDX(NINDX) = I
@@ -646,10 +646,10 @@ C
         CN  = GEO(113,MGN(I))
         XA  = GEO(119,MGN(I))
         XB  = GEO(125,MGN(I))
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL2(I) == 0) THEN
-            XA = UN
-            XB = DEUX
+            XA = ONE
+            XB = TWO
             IF (RY(I) > ZERO) THEN
               DLIM = RY(I) / DMX(I)
             ELSE
@@ -718,10 +718,10 @@ C
         CN  = GEO(114,MGN(I))
         XA  = GEO(120,MGN(I))
         XB  = GEO(126,MGN(I))
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL2(I) == 0) THEN
-            XA = UN
-            XB = DEUX
+            XA = ONE
+            XB = TWO
             IF (RZ(I) > ZERO) THEN
               DLIM = RZ(I) / DMX(I)
             ELSE
@@ -769,13 +769,13 @@ C-------------------------------
       DO I=LFT,LLT
         ISRATE = INT (GEO(127,MGN(I)))
 C---- smoothing factor alpha = 2PI*fc*dt/(2PI*fc*dt+1) ---
-        ASRATE = (2*PI*GEO(128,MGN(I))*DT1)/(UN+2*PI*GEO(128,MGN(I))*DT1)
+        ASRATE = (2*PI*GEO(128,MGN(I))*DT1)/(ONE+2*PI*GEO(128,MGN(I))*DT1)
         IF (ISRATE /= 0) THEN
-          CRIT(I) = ASRATE*CRIT(I) + (UN - ASRATE)*CRIT_NEW(I)
+          CRIT(I) = ASRATE*CRIT(I) + (ONE - ASRATE)*CRIT_NEW(I)
           CRIT_NEW(I) = CRIT(I)
         ENDIF
-        IF (OFF(I) == UN .AND. IFAIL(I) == 1) THEN
-           IF (CRIT(I) > UN) THEN
+        IF (OFF(I) == ONE .AND. IFAIL(I) == 1) THEN
+           IF (CRIT(I) > ONE) THEN
             OFF(I)=ZERO
             NINDX = NINDX + 1
             INDX(NINDX) = I

@@ -231,9 +231,9 @@ C-----------------------------------------------
                     X_APPEND(3, NUMNOD + IBRIC) = ZERO
                     DO JJ = 2, 9
                         NODE_ID = IXS(JJ, IBRIC) ! id of node of the phantom element
-                        X_APPEND(1, NUMNOD + IBRIC) = X_APPEND(1, NUMNOD + IBRIC) + UNHUIT * X(1, NODE_ID)
-                        X_APPEND(2, NUMNOD + IBRIC) = X_APPEND(2, NUMNOD + IBRIC) + UNHUIT * X(2, NODE_ID) 
-                        X_APPEND(3, NUMNOD + IBRIC) = X_APPEND(3, NUMNOD + IBRIC) + UNHUIT * X(3, NODE_ID)
+                        X_APPEND(1, NUMNOD + IBRIC) = X_APPEND(1, NUMNOD + IBRIC) + ONE_OVER_8 * X(1, NODE_ID)
+                        X_APPEND(2, NUMNOD + IBRIC) = X_APPEND(2, NUMNOD + IBRIC) + ONE_OVER_8 * X(2, NODE_ID) 
+                        X_APPEND(3, NUMNOD + IBRIC) = X_APPEND(3, NUMNOD + IBRIC) + ONE_OVER_8 * X(3, NODE_ID)
                     ENDDO
                 ENDIF
                 ! --------------------------

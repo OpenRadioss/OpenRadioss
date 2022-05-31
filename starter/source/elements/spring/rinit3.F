@@ -159,7 +159,7 @@ C
       ENDDO
 C
       IUN = 1
-      NOISE = DEUX*SQRT(TROIS)*XALEA
+      NOISE = TWO*SQRT(THREE)*XALEA
 C
       DO I=1,NUMGEO
         IGTYP=IGEO(11,I)
@@ -195,13 +195,13 @@ C
           NFUND = IGEO(21,I)
           IADFUN = 100
           DO J = 1,NFUNC
-            CALL RKINI3(IGEO(IADFUN+J,I),NPC,PLD,GEO(2,I),UN, IGEO(1,I),
-     .                  UN       ,UN    ,ID,TITR,NOM_OPT)
+            CALL RKINI3(IGEO(IADFUN+J,I),NPC,PLD,GEO(2,I),ONE, IGEO(1,I),
+     .                  ONE       ,ONE    ,ID,TITR,NOM_OPT)
           ENDDO
           IADFUN = NFUND+100
           DO J = 1,NFUND
-            CALL RKINI3(IGEO(IADFUN+J,I),NPC,PLD,GEO(2,I),UN, IGEO(1,I),
-     .                  UN       ,UN    ,ID,TITR,NOM_OPT)
+            CALL RKINI3(IGEO(IADFUN+J,I),NPC,PLD,GEO(2,I),ONE, IGEO(1,I),
+     .                  ONE       ,ONE    ,ID,TITR,NOM_OPT)
           ENDDO
         ELSEIF (IGTYP == 23) THEN
           GEO(4,I) = EP30 ! 
@@ -358,7 +358,7 @@ c      CALL ANCNTS(IDS, CNT2)
      .                   I2=IXR(NIXR,I))
           ENDIF
         ELSE
-          XL(I)=UN
+          XL(I)=ONE
         ENDIF
       ENDDO
 C
@@ -454,7 +454,7 @@ C---- For mat law114 lmin is used for mass setting of element with null length
               IYY = UPARAM(IADBUF + 123)
               LENGTH = MAX(LENGTH,LMIN)
 C-            inertia of element is automaically computed acording to moment of inertia area if Young modulus > 0
-              UINER(I) = MAX(EM20,RFAC*MAX((RHO*GEO(1,I0)*LENGTH*LENGTH*LENGTH)/DOUZE + RHO*IYY*LENGTH,RHO*IXX*LENGTH))     
+              UINER(I) = MAX(EM20,RFAC*MAX((RHO*GEO(1,I0)*LENGTH*LENGTH*LENGTH)/TWELVE + RHO*IYY*LENGTH,RHO*IXX*LENGTH))     
             ENDIF
             IF(IMASS == 1) THEN
              GBUF%MASS(I) = GEO(1,I0)*LENGTH*RHO
@@ -812,16 +812,16 @@ C
           STIFR(I1)=STIFR(I1)+XKR
           STIFR(I2)=STIFR(I2)+XKR
           STRR(J)=XKR
-          IF (XCM+XKM.LT.EM15) XM =UN
-          IF (XCR+XKR.LT.EM15) XINE=UN
+          IF (XCM+XKM.LT.EM15) XM =ONE
+          IF (XCR+XKR.LT.EM15) XINE=ONE
           XKM= MAX(EM15,XKM)
           XKR= MAX(EM15,XKR)
           DT=(SQRT(XCM*XCM+XM*XKM)-XCM)/XKM
-          DTC=UNDEMI*XM / MAX(EM15,XCM)
+          DTC=HALF*XM / MAX(EM15,XCM)
           DT = MIN(DT,DTC)
           DTC=(SQRT(XCR*XCR+XINE*XKR)-XCR)/XKR
           DT = MIN(DT,DTC)
-          DTC=UNDEMI*XINE / MAX( EM15,XCR)
+          DTC=HALF*XINE / MAX( EM15,XCR)
           DT = MIN(DT,DTC)
           DTELEM(NDEPAR+I)= DT
         ENDDO
@@ -875,16 +875,16 @@ C---
           STIFR(I1)=STIFR(I1)+XKR
           STIFR(I2)=STIFR(I2)+XKR
           STRR(J)=XKR
-          IF (XCM+XKM.LT.EM15) XM =UN
-          IF (XCR+XKR.LT.EM15) XINE=UN
+          IF (XCM+XKM.LT.EM15) XM =ONE
+          IF (XCR+XKR.LT.EM15) XINE=ONE
           XKM= MAX(EM15,XKM)
           XKR= MAX(EM15,XKR)
           DT=(SQRT(XCM*XCM+XM*XKM)-XCM)/XKM
-          DTC=UNDEMI*XM / MAX(EM15,XCM)
+          DTC=HALF*XM / MAX(EM15,XCM)
           DT = MIN(DT,DTC)
           DTC=(SQRT(XCR*XCR+XINE*XKR)-XCR)/XKR
           DT = MIN(DT,DTC)
-          DTC=UNDEMI*XINE / MAX( EM15,XCR)
+          DTC=HALF*XINE / MAX( EM15,XCR)
           DT = MIN(DT,DTC)
           DTELEM(NDEPAR+I)= DT
         ENDDO
@@ -1054,16 +1054,16 @@ C
           STIFR(I1)=STIFR(I1)+XKR
           STIFR(I2)=STIFR(I2)+XKR
           STRR(J)=XKR
-          IF (XCM+XKM.LT.EM15) XM =UN
-          IF (XCR+XKR.LT.EM15) XINE=UN
+          IF (XCM+XKM.LT.EM15) XM =ONE
+          IF (XCR+XKR.LT.EM15) XINE=ONE
           XKM= MAX(EM15,XKM)
           XKR= MAX(EM15,XKR)
           DT=(SQRT(XCM*XCM+XM*XKM)-XCM)/XKM
-          DTC=UNDEMI*XM / MAX(EM15,XCM)
+          DTC=HALF*XM / MAX(EM15,XCM)
           DT = MIN(DT,DTC)
           DTC=(SQRT(XCR*XCR+XINE*XKR)-XCR)/XKR
           DT = MIN(DT,DTC)
-          DTC=UNDEMI*XINE / MAX( EM15,XCR)
+          DTC=HALF*XINE / MAX( EM15,XCR)
           DT = MIN(DT,DTC)
           DTELEM(NDEPAR+I)= DT
         ENDDO
@@ -1109,16 +1109,16 @@ C
           STIFR(I1)=STIFR(I1)+XKR
           STIFR(I2)=STIFR(I2)+XKR
           STRR(J)=XKR
-          IF(XCM+XKM.LT.EM15)XM =UN
-          IF(XCR+XKR.LT.EM15)XINE=UN
+          IF(XCM+XKM.LT.EM15)XM =ONE
+          IF(XCR+XKR.LT.EM15)XINE=ONE
           XKM= MAX(EM15,XKM)
           XKR= MAX(EM15,XKR)
           DT=(SQRT(XCM*XCM+XM*XKM)-XCM)/XKM
-          DTC=UNDEMI*XM / MAX(EM15,XCM)
+          DTC=HALF*XM / MAX(EM15,XCM)
           DT = MIN(DT,DTC)
           DTC=(SQRT(XCR*XCR+XINE*XKR)-XCR)/XKR
           DT = MIN(DT,DTC)
-          DTC=UNDEMI*XINE / MAX( EM15,XCR)
+          DTC=HALF*XINE / MAX( EM15,XCR)
           DT = MIN(DT,DTC)
           DTELEM(NDEPAR+I)= DT
         ENDDO
@@ -1163,16 +1163,16 @@ C
           STIFR(I1)=STIFR(I1)+XKR
           STIFR(I2)=STIFR(I2)+XKR
           STRR(J)=XKR
-          IF (XCM+XKM.LT.EM15) XM =UN
-          IF (XCR+XKR.LT.EM15) XINE=UN
+          IF (XCM+XKM.LT.EM15) XM =ONE
+          IF (XCR+XKR.LT.EM15) XINE=ONE
           XKM= MAX(EM15,XKM)
           XKR= MAX(EM15,XKR)
           DT=(SQRT(XCM*XCM+XM*XKM)-XCM)/XKM
-          DTC=UNDEMI*XM / MAX(EM15,XCM)
+          DTC=HALF*XM / MAX(EM15,XCM)
           DT = MIN(DT,DTC)
           DTC=(SQRT(XCR*XCR+XINE*XKR)-XCR)/XKR
           DT = MIN(DT,DTC)
-          DTC=UNDEMI*XINE / MAX( EM15,XCR)
+          DTC=HALF*XINE / MAX( EM15,XCR)
           DT = MIN(DT,DTC)
           DTELEM(NDEPAR+I)= DT
         ENDDO
@@ -1222,9 +1222,9 @@ C
           ELSE
             DT=EP20
           ENDIF
-          DTC=UNDEMI*XM / MAX(EM15,XCM)
+          DTC=HALF*XM / MAX(EM15,XCM)
           DTELEM(NDEPAR+I)=MIN(DT,DTC)
-          MAS2 = DEUX*MSR(1,J)
+          MAS2 = TWO*MSR(1,J)
           IF (MAS2>ZERO) THEN
            STI = (SQRT(XCM**2+XKM*MAS2)+XCM)**2/MAS2
           ELSE
@@ -1241,7 +1241,7 @@ C
           ELSE
             DT=EP20
           ENDIF
-          DTC=UNDEMI*XM / MAX(EM15,XCM)
+          DTC=HALF*XM / MAX(EM15,XCM)
           DTELEM(NDEPAR+I)=MIN(DT,DTC)
           STIFN(I1)=STIFN(I1)+XKM
           STIFN(I2)=STIFN(I2)+XKM
@@ -1258,14 +1258,14 @@ C
      .        + MAX(GEO(144,I0),GEO(145,I0),GEO(146,I0)))/XL(I)
           XM=GEO(1,I0)*XL(I)
           XINE=GEO(9,I0)*XL(I)
-          IF (XCM+XKM.LT.EM15) XM =UN
-          IF (XCR+XKR.LT.EM15) XINE=UN
+          IF (XCM+XKM.LT.EM15) XM =ONE
+          IF (XCR+XKR.LT.EM15) XINE=ONE
           XKM= MAX(EM15,XKM)
           XKR= MAX(EM15,XKR)
           DT=XM/MAX(EM15,SQRT(XCM*XCM+XKM*XM)+XCM)
           DTC=XINE/MAX(EM15,SQRT(XCR*XCR+XINE*XKR)+XCR)
           DTELEM(NDEPAR+I)=MIN(DT,DTC)
-          MAS2 = DEUX*MSR(1,J)
+          MAS2 = TWO*MSR(1,J)
           IF (MAS2>ZERO) THEN
            STI = (SQRT(XCM**2+XKM*MAS2)+XCM)**2/MAS2
           ELSE
@@ -1287,7 +1287,7 @@ C
           XKM= GEO(2,I0)/XL(I)
           XCM= (GEO(3,I0)+GEO(141,I0))/XL(I)
           IF (XCM /= ZERO .AND. XKM /= ZERO) THEN
-            DT=XM/(DEUX*SQRT(XCM*XCM+XKM*XM)+XCM)
+            DT=XM/(TWO*SQRT(XCM*XCM+XKM*XM)+XCM)
           ELSEIF (XKM /= ZERO) THEN
             DT=SQRT(XM/XKM)
           ELSEIF (XCM /= ZERO) THEN
@@ -1295,16 +1295,16 @@ C
           ELSE
             DT=EP20
           ENDIF
-          DTC=UNDEMI*XM / MAX(EM15,XCM)
+          DTC=HALF*XM / MAX(EM15,XCM)
           DTELEM(NDEPAR+I)=MIN(DT,DTC)
-          MAS2 = DEUX*MSR(2,J)
+          MAS2 = TWO*MSR(2,J)
           IF (MAS2>ZERO) THEN
            STI = (SQRT(XCM**2+XKM*MAS2)+XCM)**2/MAS2
           ELSE
            STI = XKM
           END IF
           STIFN(I2)=STIFN(I2)+STI
-          MAS2 = DEUX*MSR(1,J)
+          MAS2 = TWO*MSR(1,J)
           STI = (SQRT(XCM**2+XKM*MAS2)+XCM)**2/MAS2
           STIFN(I1)=STIFN(I1)+STI
           STIFN(I3)=STIFN(I3)+STI
@@ -1329,15 +1329,15 @@ C
      .        +   MAX(GEO(144,I0),GEO(145,I0),GEO(146,I0)) )/XL(I)
           XM=GEO(1,I0)*XL(I)
           XINE=GEO(9,I0)*XL(I)
-          IF (XCM+XKM.LT.EM15) XM =UN
-          IF (XCR+XKR.LT.EM15) XINE=UN
+          IF (XCM+XKM.LT.EM15) XM =ONE
+          IF (XCR+XKR.LT.EM15) XINE=ONE
           XKM= MAX(EM15,XKM)
           XKR= MAX(EM15,XKR)
           DT=XM/MAX(EM15,SQRT(XCM*XCM+XKM*XM)+XCM)
           DTC=XINE/MAX(EM15,SQRT(XCR*XCR+XINE*XKR)+XCR)
           DT = MIN(DT,DTC)
           DTELEM(NDEPAR+I)= DT
-          MAS2 = DEUX*MSR(1,J)
+          MAS2 = TWO*MSR(1,J)
           IF (MAS2>ZERO) THEN
            STI = (SQRT(XCM**2+XKM*MAS2)+XCM)**2/MAS2
           ELSE
@@ -1345,7 +1345,7 @@ C
           END IF
           STIFN(I1)=STIFN(I1)+STI
           STIFN(I2)=STIFN(I2)+STI
-          MAS2 = DEUX*INR(1,J)
+          MAS2 = TWO*INR(1,J)
           IF (MAS2>ZERO) THEN
             STI = (SQRT(XCR**2+XKR*MAS2)+XCR)**2/MAS2
           ELSE
@@ -1372,8 +1372,8 @@ C
               ! old Geo 144,145,146 not used.
               XM  = GBUF%MASS(I)*XL(I)
               XINE= GEO(2,I0)*XL(I)
-              IF (XCM+XKM.LT.EM15) XM  =UN
-              IF (XCR+XKR.LT.EM15) XINE=UN
+              IF (XCM+XKM.LT.EM15) XM  =ONE
+              IF (XCR+XKR.LT.EM15) XINE=ONE
               XKM= MAX(EM15,XKM)
               XKR= MAX(EM15,XKR)
               DT =XM/MAX(EM15,SQRT(XCM*XCM+XKM*XM)+XCM)
@@ -1402,8 +1402,8 @@ C
      .            +     MAX(UPARAM(IAD + K14 + 4),UPARAM(IADBUF + K14 + 5),UPARAM(IADBUF + K14 + 6)) )/XL(I)
               XM  =GBUF%MASS(I)
               XINE=GEO(2,I0)*XL(I)
-              IF (XCM+XKM.LT.EM15) XM  =UN
-              IF (XCR+XKR.LT.EM15) XINE=UN
+              IF (XCM+XKM.LT.EM15) XM  =ONE
+              IF (XCR+XKR.LT.EM15) XINE=ONE
               XKM= MAX(EM15,XKM)
               XKR= MAX(EM15,XKR)
               DT =XM/MAX(EM15,SQRT(XCM*XCM+XKM*XM)+XCM)
@@ -1438,10 +1438,10 @@ C
               XM  =GBUF%MASS(I)
               XINE=UINER(I)
               GBUF%INTVAR(I) = XINE
-              GBUF%FRAM_FACTOR(I) = UN
+              GBUF%FRAM_FACTOR(I) = ONE
 C
-              IF (XCM+XKM.LT.EM15) XM  =UN
-              IF (XCR+XKR.LT.EM15) XINE=UN
+              IF (XCM+XKM.LT.EM15) XM  =ONE
+              IF (XCR+XKR.LT.EM15) XINE=ONE
               XKM= MAX(EM15,XKM)
               XKR= MAX(EM15,XKR)
               DT =XM/MAX(EM15,SQRT(XCM*XCM+XKM*XM)+XCM)
@@ -1450,7 +1450,7 @@ C
               GEO(4,I0)= MIN(GEO(4,I0),DT)
               DTELEM(NDEPAR+I)= DT
            ENDIF   
-           MAS2 = DEUX*MSR(1,J)
+           MAS2 = TWO*MSR(1,J)
            IF (MAS2>ZERO) THEN
             STI = (SQRT(XCM**2+XKM*MAS2)+XCM)**2/MAS2
            ELSE
@@ -1458,7 +1458,7 @@ C
            END IF
            STIFN(I1)=STIFN(I1)+STI
            STIFN(I2)=STIFN(I2)+STI
-           MAS2 = DEUX *INR(1,J)
+           MAS2 = TWO *INR(1,J)
            IF (MAS2>ZERO) THEN
             STI = (SQRT(XCR**2+XKR*MAS2)+XCR)**2/MAS2
            ELSE
@@ -1480,9 +1480,9 @@ C
           ELSE
             DT=EP20
           ENDIF
-          DTC=UNDEMI*XM / MAX(EM15,XCM)
+          DTC=HALF*XM / MAX(EM15,XCM)
           DTELEM(NDEPAR+I)=MIN(DT,DTC)
-          MAS2 = DEUX*MSR(1,J)
+          MAS2 = TWO*MSR(1,J)
           IF (MAS2>ZERO) THEN
            STI = (SQRT(XCM**2+XKM*MAS2)+XCM)**2/MAS2
           ELSE
@@ -1545,7 +1545,7 @@ C     REAL ou REAL*8
      .   X1, Y1, Z1, IDIR
 C-----------------------------------------------
       DO I=LFT,LLT
-        OFF(I) = UN
+        OFF(I) = ONE
       ENDDO
 C
       DO I=LFT,LLT
@@ -1560,11 +1560,11 @@ C
         Z1=X(3,I2)-X(3,I1)
         X0(I)=SQRT(X1**2+Y1**2+Z1**2)
         IF (X0(I) < EM15) THEN
-          RLOC(1,I)= UN
+          RLOC(1,I)= ONE
           RLOC(2,I)= ZERO
           RLOC(3,I)= ZERO
           RLOC(4,I)= ZERO
-          RLOC(5,I)= UN
+          RLOC(5,I)= ONE
           RLOC(6,I)= ZERO
         ELSEIF (I3 /= 0) THEN
           RLOC(1,I)=X1
@@ -1584,12 +1584,12 @@ C
           RLOC(1,I)=X1
           RLOC(2,I)=Y1
           RLOC(3,I)=Z1
-          IF (ABS(Y1) < UNDEMI*X0(I)) THEN
+          IF (ABS(Y1) < HALF*X0(I)) THEN
             RLOC(4,I)=ZERO
-            RLOC(5,I)=UN
+            RLOC(5,I)=ONE
             RLOC(6,I)=ZERO
           ELSE
-            RLOC(4,I)=UN
+            RLOC(4,I)=ONE
             RLOC(5,I)=ZERO
             RLOC(6,I)=ZERO
           ENDIF
@@ -1646,7 +1646,7 @@ C     REAL ou REAL*8
      .   X1, Y1, Z1
 C-----------------------------------------------
       DO I=LFT,LLT
-        OFF(I) = UN
+        OFF(I) = ONE
       ENDDO
 C
       DO I=LFT,LLT
@@ -1661,7 +1661,7 @@ C
         Z1=X(3,I2)-X(3,I1)
         X0(I)=SQRT(X1**2+Y1**2+Z1**2)
         IF (X0(I) < EM15) THEN
-           RLOC(1,I)= UN
+           RLOC(1,I)= ONE
            RLOC(2,I)= ZERO
            RLOC(3,I)= ZERO
         ELSEIF (I3 /= 0) THEN
@@ -1673,12 +1673,12 @@ C
           RLOC(2,I)=SKEW(5,ISK)
           RLOC(3,I)=SKEW(6,ISK)
         ELSE
-          IF (ABS(Y1) < UNDEMI*X0(I)) THEN
+          IF (ABS(Y1) < HALF*X0(I)) THEN
             RLOC(1,I)=ZERO
-            RLOC(2,I)=UN
+            RLOC(2,I)=ONE
             RLOC(3,I)=ZERO
           ELSE
-            RLOC(1,I)=UN
+            RLOC(1,I)=ONE
             RLOC(2,I)=ZERO
             RLOC(3,I)=ZERO
           ENDIF
@@ -1739,7 +1739,7 @@ C----------------------------------------------
 C     MASSE ELEMENT /2
 C----------------------------------------------
       DO I=LFT,LLT
-        EMS(I)=UNDEMI*UMASS(I)
+        EMS(I)=HALF*UMASS(I)
       ENDDO
 C----------------------------------------------
 C     INITIALISATION DES MASSES NODALES
@@ -1750,14 +1750,14 @@ C     traitement specifique spmd pour mass et iner parith/on
           I1 = IXR(2,I+NFT)
           I2 = IXR(3,I+NFT)
 C
-          XI=UNDEMI*UINER(I)
+          XI=HALF*UINER(I)
           MS(I1)=MS(I1)+EMS(I)
           MS(I2)=MS(I2)+EMS(I)
           XIN(I1)=XIN(I1)+XI
           XIN(I2)=XIN(I2)+XI
 C
           IP=IPART(I)
-          PARTSAV(1,IP)=PARTSAV(1,IP) + DEUX*EMS(I)
+          PARTSAV(1,IP)=PARTSAV(1,IP) + TWO*EMS(I)
           PARTSAV(2,IP)=PARTSAV(2,IP) + EMS(I)*(X(1,I1)+X(1,I2))
           PARTSAV(3,IP)=PARTSAV(3,IP) + EMS(I)*(X(2,I1)+X(2,I2))
           PARTSAV(4,IP)=PARTSAV(4,IP) + EMS(I)*(X(3,I1)+X(3,I2))
@@ -1767,9 +1767,9 @@ C
           YZ = (X(2,I1)*X(3,I1)+X(2,I2)*X(3,I2))
           ZZ = (X(3,I1)*X(3,I1)+X(3,I2)*X(3,I2))
           ZX = (X(3,I1)*X(1,I1)+X(3,I2)*X(1,I2))
-          PARTSAV(5,IP) =PARTSAV(5,IP) + DEUX*XI + EMS(I) * (YY+ZZ)
-          PARTSAV(6,IP) =PARTSAV(6,IP) + DEUX*XI + EMS(I) * (ZZ+XX)
-          PARTSAV(7,IP) =PARTSAV(7,IP) + DEUX*XI + EMS(I) * (XX+YY)
+          PARTSAV(5,IP) =PARTSAV(5,IP) + TWO*XI + EMS(I) * (YY+ZZ)
+          PARTSAV(6,IP) =PARTSAV(6,IP) + TWO*XI + EMS(I) * (ZZ+XX)
+          PARTSAV(7,IP) =PARTSAV(7,IP) + TWO*XI + EMS(I) * (XX+YY)
           PARTSAV(8,IP) =PARTSAV(8,IP)  - EMS(I) * XY
           PARTSAV(9,IP) =PARTSAV(9,IP)  - EMS(I) * YZ
           PARTSAV(10,IP)=PARTSAV(10,IP) - EMS(I) * ZX
@@ -1777,7 +1777,7 @@ C
           PARTSAV(11,IP)=PARTSAV(11,IP) + EMS(I)*(V(1,I1)+V(1,I2))
           PARTSAV(12,IP)=PARTSAV(12,IP) + EMS(I)*(V(2,I1)+V(2,I2))
           PARTSAV(13,IP)=PARTSAV(13,IP) + EMS(I)*(V(3,I1)+V(3,I2))
-          PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * EMS(I) *
+          PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS(I) *
      .       (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
      .       +V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2))
         ENDDO
@@ -1786,7 +1786,7 @@ C
           I1 = IXR(2,I+NFT)
           I2 = IXR(3,I+NFT)
 C
-          XI=UNDEMI*UINER(I)
+          XI=HALF*UINER(I)
           MSR(1,I)=EMS(I)
           MSR(2,I)=EMS(I)
           MSR(3,I)=EMS(I)
@@ -1795,7 +1795,7 @@ C
           INR(3,I)=XI
 C
           IP=IPART(I)
-          PARTSAV(1,IP)=PARTSAV(1,IP) + DEUX*EMS(I)
+          PARTSAV(1,IP)=PARTSAV(1,IP) + TWO*EMS(I)
           PARTSAV(2,IP)=PARTSAV(2,IP) + EMS(I)*(X(1,I1)+X(1,I2))
           PARTSAV(3,IP)=PARTSAV(3,IP) + EMS(I)*(X(2,I1)+X(2,I2))
           PARTSAV(4,IP)=PARTSAV(4,IP) + EMS(I)*(X(3,I1)+X(3,I2))
@@ -1805,9 +1805,9 @@ C
           YZ = (X(2,I1)*X(3,I1)+X(2,I2)*X(3,I2))
           ZZ = (X(3,I1)*X(3,I1)+X(3,I2)*X(3,I2))
           ZX = (X(3,I1)*X(1,I1)+X(3,I2)*X(1,I2))
-          PARTSAV(5,IP) =PARTSAV(5,IP) + DEUX*XI + EMS(I) * (YY+ZZ)
-          PARTSAV(6,IP) =PARTSAV(6,IP) + DEUX*XI + EMS(I) * (ZZ+XX)
-          PARTSAV(7,IP) =PARTSAV(7,IP) + DEUX*XI + EMS(I) * (XX+YY)
+          PARTSAV(5,IP) =PARTSAV(5,IP) + TWO*XI + EMS(I) * (YY+ZZ)
+          PARTSAV(6,IP) =PARTSAV(6,IP) + TWO*XI + EMS(I) * (ZZ+XX)
+          PARTSAV(7,IP) =PARTSAV(7,IP) + TWO*XI + EMS(I) * (XX+YY)
           PARTSAV(8,IP) =PARTSAV(8,IP)  - EMS(I) * XY
           PARTSAV(9,IP) =PARTSAV(9,IP)  - EMS(I) * YZ
           PARTSAV(10,IP)=PARTSAV(10,IP) - EMS(I) * ZX
@@ -1815,7 +1815,7 @@ C
           PARTSAV(11,IP)=PARTSAV(11,IP) + EMS(I)*(V(1,I1)+V(1,I2))
           PARTSAV(12,IP)=PARTSAV(12,IP) + EMS(I)*(V(2,I1)+V(2,I2))
           PARTSAV(13,IP)=PARTSAV(13,IP) + EMS(I)*(V(3,I1)+V(3,I2))
-          PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * EMS(I) *
+          PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS(I) *
      .       (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
      .       +V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2))
         ENDDO

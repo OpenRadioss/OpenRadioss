@@ -115,9 +115,9 @@ C--------+---------+---------+---------+---------+---------+---------+--
 C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE 
 C-------------------------------------------------------------
          IF(IX3(I)/=IX4(I))THEN
-           SX2 = QUART*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)    
-           SY2 = QUART*(Y1(I) + Y2(I) + Y3(I) + Y4(I)) - YI(I)    
-           SZ2 = QUART*(Z1(I) + Z2(I) + Z3(I) + Z4(I)) - ZI(I)  
+           SX2 = FOURTH*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)    
+           SY2 = FOURTH*(Y1(I) + Y2(I) + Y3(I) + Y4(I)) - YI(I)    
+           SZ2 = FOURTH*(Z1(I) + Z2(I) + Z3(I) + Z4(I)) - ZI(I)  
          ELSE
            SX2 = THIRD*(X1(I) + X2(I) + X3(I)) - XI(I)    
            SY2 = THIRD*(Y1(I) + Y2(I) + Y3(I)) - YI(I)    
@@ -183,7 +183,7 @@ C
             AY  = AZ1*AX2 - AX1*AZ2
             AZ  = AX1*AY2 - AY1*AX2
 C                              
-            AREA = UNHUIT*SQRT(AX*AX+AY*AY+AZ*AZ) 
+            AREA = ONE_OVER_8*SQRT(AX*AX+AY*AY+AZ*AZ) 
 C
             IF (AREAS(I).GT.ZERO) THEN
               AREAC = MIN(AREA,AREAS(I))
@@ -241,9 +241,9 @@ C--------+---------+---------+---------+---------+---------+---------+--
 C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE 
 C-------------------------------------------------------------
          IF(IX3(I)/=IX4(I))THEN
-           SX2 = QUART*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)    
-           SY2 = QUART*(Y1(I) + Y2(I) + Y3(I) + Y4(I)) - YI(I)    
-           SZ2 = QUART*(Z1(I) + Z2(I) + Z3(I) + Z4(I)) - ZI(I)  
+           SX2 = FOURTH*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)    
+           SY2 = FOURTH*(Y1(I) + Y2(I) + Y3(I) + Y4(I)) - YI(I)    
+           SZ2 = FOURTH*(Z1(I) + Z2(I) + Z3(I) + Z4(I)) - ZI(I)  
          ELSE
            SX2 = THIRD*(X1(I) + X2(I) + X3(I)) - XI(I)    
            SY2 = THIRD*(Y1(I) + Y2(I) + Y3(I)) - YI(I)    
@@ -311,7 +311,7 @@ C
             AY  = AZ1*AX2 - AX1*AZ2
             AZ  = AX1*AY2 - AY1*AX2
 C                              
-            AREA = UNHUIT*SQRT(AX*AX+AY*AY+AZ*AZ) 
+            AREA = ONE_OVER_8*SQRT(AX*AX+AY*AY+AZ*AZ) 
 C
             AREAC = MIN(AREA,AREAS(I))
 C

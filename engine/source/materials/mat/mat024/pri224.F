@@ -47,8 +47,8 @@ C-----------------------------------------------
       SIG(1)=SIG3D(2)
       SIG(2)=SIG3D(3)
       SIG(4)=SIG3D(5)
-      CC=(SIG(1)+SIG(2))*UNDEMI
-      BB=(SIG(1)-SIG(2))*UNDEMI
+      CC=(SIG(1)+SIG(2))*HALF
+      BB=(SIG(1)-SIG(2))*HALF
       CR=SQRT(BB**2+SIG(4)**2)
       SS1=CC+CR
       SS2=CC-CR
@@ -58,7 +58,7 @@ C
       ORM=DIR(1)*DIR(1)+DIR(2)*DIR(2)
       ORM=SQRT(ORM)
       IF(ORM.LT.EM8)THEN
-      DIR(1)=UN
+      DIR(1)=ONE
       DIR(2)=ZERO
       ELSE
       DIR(1)=DIR(1)/ORM
@@ -67,7 +67,7 @@ C
 C . . . . . . . . . . . .
 C     ROTATION EPS EPSTOT
 C . . . . . . . . . . . .
-      S11=UN
+      S11=ONE
       S21=ZERO
       S31=ZERO
       S12=ZERO    
@@ -93,9 +93,9 @@ C      SIG3D(3)=S13*A13+S23*A23+S33*A33
       SIG3D(5)=S12*A13+S22*A23+S32*A33
       SIG3D(6)=S11*A13+S21*A23+S31*A33
 C
-      EPS(4)=UNDEMI*EPS(4)
-      EPS(5)=UNDEMI*EPS(5)
-      EPS(6)=UNDEMI*EPS(6)      
+      EPS(4)=HALF*EPS(4)
+      EPS(5)=HALF*EPS(5)
+      EPS(6)=HALF*EPS(6)      
       A11=EPS(1)*S11+EPS(4)*S21+EPS(6)*S31
       A12=EPS(1)*S12+EPS(4)*S22+EPS(6)*S32
       A13=EPS(1)*S13+EPS(4)*S23+EPS(6)*S33
@@ -115,9 +115,9 @@ C      EPS(4)=2.*EPS(4)
 C      EPS(5)=2.*EPS(5)
 C      EPS(6)=2.*EPS(6)
 C
-      EPSTOT(4)=UNDEMI*EPSTOT(4)
-      EPSTOT(5)=UNDEMI*EPSTOT(5)
-      EPSTOT(6)=UNDEMI*EPSTOT(6)      
+      EPSTOT(4)=HALF*EPSTOT(4)
+      EPSTOT(5)=HALF*EPSTOT(5)
+      EPSTOT(6)=HALF*EPSTOT(6)      
       A11=EPSTOT(1)*S11+EPSTOT(4)*S21+EPSTOT(6)*S31
       A12=EPSTOT(1)*S12+EPSTOT(4)*S22+EPSTOT(6)*S32
       A13=EPSTOT(1)*S13+EPSTOT(4)*S23+EPSTOT(6)*S33

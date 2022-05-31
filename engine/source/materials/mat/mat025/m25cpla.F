@@ -189,12 +189,12 @@ C-----------------------------
       DO I=JFT,JLT
         IF((FAIL_OLD(I) >= 4.AND.IOFF(I) >= 0).OR.
      .      FAIL_OLD(I) >= 8)THEN
-         S1(I)=QCINQ*S1(I)
-         S2(I)=QCINQ*S2(I)
-         S3(I)=QCINQ*S3(I)
-         S4(I)=QCINQ*S4(I)
-         S5(I)=QCINQ*S5(I)
-         S6(I)=QCINQ*S6(I)         
+         S1(I)=FOUR_OVER_5*S1(I)
+         S2(I)=FOUR_OVER_5*S2(I)
+         S3(I)=FOUR_OVER_5*S3(I)
+         S4(I)=FOUR_OVER_5*S4(I)
+         S5(I)=FOUR_OVER_5*S5(I)
+         S6(I)=FOUR_OVER_5*S6(I)         
 C
          IF(ABS(S1(I)) < EM20) S1(I)=ZERO
          IF(ABS(S2(I)) < EM20) S2(I)=ZERO
@@ -243,11 +243,11 @@ C-----------------------------------------------
 C-------------------------------------------------------------------
 C     DEFORMATIONS ELASTIQUES
 C-----------------------------
-      DE1(JFT:JLT)  =UN-MAX( ZERO , SIGN(DAMT(JFT:JLT,1),S1(JFT:JLT)) )
-      DE2(JFT:JLT)  =UN-MAX( ZERO , SIGN(DAMT(JFT:JLT,2),S2(JFT:JLT)) )
+      DE1(JFT:JLT)  =ONE-MAX( ZERO , SIGN(DAMT(JFT:JLT,1),S1(JFT:JLT)) )
+      DE2(JFT:JLT)  =ONE-MAX( ZERO , SIGN(DAMT(JFT:JLT,2),S2(JFT:JLT)) )
       DO  I=JFT,JLT
-         SCALE   =(UNDEMI
-     .        +SIGN(UNDEMI,DE1(I)-UN))*(UNDEMI+SIGN(UNDEMI,DE2(I)-UN))
+         SCALE   =(HALF
+     .        +SIGN(HALF,DE1(I)-ONE))*(HALF+SIGN(HALF,DE2(I)-ONE))
          E1 = S1(I)/DE1(I)/E11(I)  - NU21(I)*S2(I)*SCALE/E22(I)
          E2 = S2(I)/DE2(I)/E22(I)  - NU12(I)*S1(I)*SCALE/E11(I)
          E3 = S3(I)/ E33(I)
@@ -295,11 +295,11 @@ C
       ENDDO 
 C
       DO I=JFT,JLT
-         DE1(I)=UN- MAX( ZERO , SIGN(DAMT(I,1),S1(I)) )
-         DE2(I)=UN- MAX( ZERO , SIGN(DAMT(I,2),S2(I)) )
-         SCALE1 =(UNDEMI
-     .       +SIGN(UNDEMI,DE1(I)-UN))*(UNDEMI+SIGN(UNDEMI,DE2(I)-UN))
-         SCALE2 =UN-NU12(I)*NU21(I)*SCALE1
+         DE1(I)=ONE- MAX( ZERO , SIGN(DAMT(I,1),S1(I)) )
+         DE2(I)=ONE- MAX( ZERO , SIGN(DAMT(I,2),S2(I)) )
+         SCALE1 =(HALF
+     .       +SIGN(HALF,DE1(I)-ONE))*(HALF+SIGN(HALF,DE2(I)-ONE))
+         SCALE2 =ONE-NU12(I)*NU21(I)*SCALE1
          A11(I)= E11(I)*DE1(I)/SCALE2
          A22(I)= E22(I)*DE2(I)/SCALE2
          A12(I)=NU21(I)*A11(I)*SCALE1
@@ -352,15 +352,15 @@ C-------------------------------------------------------------------
          IMATLY=MATLY(I)
          IF(WPLA(I).NE.ZERO) THEN
            SIGYT1 = PM(141,IMATLY)*
-     .           (UN+PM(142,IMATLY)*EXP(PM(143,IMATLY)*LOG(WPLA(I))))
+     .           (ONE+PM(142,IMATLY)*EXP(PM(143,IMATLY)*LOG(WPLA(I))))
            SIGYT2 =PM(146,IMATLY)*
-     .           (UN+PM(147,IMATLY)*EXP(PM(148,IMATLY)*LOG(WPLA(I))))
+     .           (ONE+PM(147,IMATLY)*EXP(PM(148,IMATLY)*LOG(WPLA(I))))
            SIGYC1 =PM(151,IMATLY)*
-     .           (UN+PM(152,IMATLY)*EXP(PM(153,IMATLY)*LOG(WPLA(I))))
+     .           (ONE+PM(152,IMATLY)*EXP(PM(153,IMATLY)*LOG(WPLA(I))))
            SIGYC2 =PM(156,IMATLY)*
-     .           (UN+PM(157,IMATLY)*EXP(PM(158,IMATLY)*LOG(WPLA(I))))
+     .           (ONE+PM(157,IMATLY)*EXP(PM(158,IMATLY)*LOG(WPLA(I))))
            SIGYT12=PM(161,IMATLY)*
-     .           (UN+PM(162,IMATLY)*EXP(PM(163,IMATLY)*LOG(WPLA(I))))
+     .           (ONE+PM(162,IMATLY)*EXP(PM(163,IMATLY)*LOG(WPLA(I))))
          ELSE
            SIGYT1 = PM(141,IMATLY)
            SIGYT2 = PM(146,IMATLY)
@@ -379,13 +379,13 @@ C-------------------------------------------------------------------
            SIGYT2=SIGYT2*(1.+PM(150,IMATLY)*EPSP(I))
            SIGYC1=SIGYC1*(1.+PM(155,IMATLY)*EPSP(I))
            SIGYC2=SIGYC2*(1.+PM(160,IMATLY)*EPSP(I))
-           SIGYT12=SIGYT12*(UN +PM(165,IMATLY)*EPSP(I))
+           SIGYT12=SIGYT12*(ONE +PM(165,IMATLY)*EPSP(I))
          ELSE
            SIGYT1=SIGYT1*(1.+PM(145,IMATLY)*EPSP(I))
            SIGYT2=SIGYT2*(1.+PM(150,IMATLY)*EPSP(I))
            SIGYC1=SIGYC1*(1.+PM(155,IMATLY)*EPSP(I))
            SIGYC2=SIGYC2*(1.+PM(160,IMATLY)*EPSP(I))
-           SIGYT12=SIGYT12*(UN +PM(165,IMATLY)*EPSP(I))
+           SIGYT12=SIGYT12*(ONE +PM(165,IMATLY)*EPSP(I))
            SIGYT1=MIN(SIGYT1,PM(144,IMATLY))
            SIGYT2=MIN(SIGYT2,PM(149,IMATLY))
            SIGYC1=MIN(SIGYC1,PM(154,IMATLY))
@@ -401,69 +401,69 @@ C-------------------------------------------------------------------
          ISOFT(I) = 0 
 C Direction 1
          IF(EPST(I,1) <= -EPS1C1(I)) THEN
-          SOFT(1)=MIN(UN,(EPST(I,1)+EPS1C1(I))/(EPS1C1(I)-EPS2C1(I)))
+          SOFT(1)=MIN(ONE,(EPST(I,1)+EPS1C1(I))/(EPS1C1(I)-EPS2C1(I)))
          ELSEIF(EPS(I,1) >= EPS1T1(I)) THEN
-          SOFT(1)=MIN(UN,(EPST(I,1)-EPS1T1(I))/(EPS2T1(I)-EPS1T1(I)))         
+          SOFT(1)=MIN(ONE,(EPST(I,1)-EPS1T1(I))/(EPS2T1(I)-EPS1T1(I)))         
          ENDIF
-         SIGYT1=MIN(SIGYT1,(UN -SOFT(1))*SIGYT1+SOFT(1)*SIGRST1(I))
-         SIGYC1=MIN(SIGYC1,(UN -SOFT(1))*SIGYC1+SOFT(1)*SIGRSC1(I))
+         SIGYT1=MIN(SIGYT1,(ONE -SOFT(1))*SIGYT1+SOFT(1)*SIGRST1(I))
+         SIGYC1=MIN(SIGYC1,(ONE -SOFT(1))*SIGYC1+SOFT(1)*SIGRSC1(I))
 C Direction 2        
          IF(EPST(I,2) <= -EPS1C2(I)) THEN
-          SOFT(2)=MIN(UN,(EPST(I,2)+EPS1C2(I))/(EPS1C2(I)-EPS2C2(I)))
+          SOFT(2)=MIN(ONE,(EPST(I,2)+EPS1C2(I))/(EPS1C2(I)-EPS2C2(I)))
          ELSEIF(EPST(I,2) >= EPS1T2(I)) THEN
-          SOFT(2)=MIN(UN,(EPST(I,2)-EPS1T2(I))/(EPS2T2(I)-EPS1T2(I)))
+          SOFT(2)=MIN(ONE,(EPST(I,2)-EPS1T2(I))/(EPS2T2(I)-EPS1T2(I)))
          ENDIF
-         SIGYT2=MIN(SIGYT2,(UN -SOFT(2))*SIGYT2+SOFT(2)*SIGRST2(I))
-         SIGYC2=MIN(SIGYC2,(UN -SOFT(2))*SIGYC2+SOFT(2)*SIGRSC2(I))
+         SIGYT2=MIN(SIGYT2,(ONE -SOFT(2))*SIGYT2+SOFT(2)*SIGRST2(I))
+         SIGYC2=MIN(SIGYC2,(ONE -SOFT(2))*SIGYC2+SOFT(2)*SIGRSC2(I))
 C Direction 12
-         STRP12 = UNDEMI*EPST(I,4)
+         STRP12 = HALF*EPST(I,4)
          IF(STRP12 <= - EPS1T12(I)) THEN
-         SOFT(3) = MIN(UN,(STRP12 + EPS1T12(I))/(EPS1T12(I)-EPS2T12(I)))
+         SOFT(3) = MIN(ONE,(STRP12 + EPS1T12(I))/(EPS1T12(I)-EPS2T12(I)))
          ELSEIF(STRP12 >= EPS1T12(I)) THEN
-          SOFT(3)=MIN(UN,( STRP12 - EPS1T12(I))/(EPS2T12(I)-EPS1T12(I)))
+          SOFT(3)=MIN(ONE,( STRP12 - EPS1T12(I))/(EPS2T12(I)-EPS1T12(I)))
          ENDIF
-         SIGYT12=MIN(SIGYT12,(UN -SOFT(3))*SIGYT12+SOFT(3)*SIGRST12(I))         
+         SIGYT12=MIN(SIGYT12,(ONE -SOFT(3))*SIGYT12+SOFT(3)*SIGRST12(I))         
 C         
          IF(SOFT(1) /= ZERO .OR. SOFT(2) /= ZERO .OR. SOFT(3) /= ZERO) 
      .         ISOFT(I) =1
 C
-         F1(I)  = UN/SIGYT1-UN/SIGYC1
-         F2(I)  = UN/SIGYT2-UN/SIGYC2
-         F11(I) = UN/(SIGYT1*SIGYC1)
-         F22(I) = UN/(SIGYT2*SIGYC2)
-         F33(I) = UN/(SIGYT12*SIGYT12)	 
+         F1(I)  = ONE/SIGYT1-ONE/SIGYC1
+         F2(I)  = ONE/SIGYT2-ONE/SIGYC2
+         F11(I) = ONE/(SIGYT1*SIGYC1)
+         F22(I) = ONE/(SIGYT2*SIGYC2)
+         F33(I) = ONE/(SIGYT12*SIGYT12)	 
          ALPHA=F12(I)
-         F12(I) = -ALPHA/(DEUX*SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2))
+         F12(I) = -ALPHA/(TWO*SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2))
 C         
          IF(IYEILD(I) > 0) THEN
            IF(ICAS(I) == 1)THEN
-             F11(I)= UN/(SIGYT1*SIGYT1)
-             F22(I)= UN/(SIGYT2*SIGYT2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYT1*SIGYT1)
+             F22(I)= ONE/(SIGYT2*SIGYT2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) =  -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ELSEIF(ICAS(I) ==2)THEN
-             F11(I)= UN/(SIGYC1*SIGYC1)
-             F22(I)= UN/(SIGYT2*SIGYT2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYC1*SIGYC1)
+             F22(I)= ONE/(SIGYT2*SIGYT2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) =  -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ELSEIF(ICAS(I) ==3) THEN
-             F11(I)= UN/(SIGYC1*SIGYC1)
-             F22(I)= UN/(SIGYC2*SIGYC2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYC1*SIGYC1)
+             F22(I)= ONE/(SIGYC2*SIGYC2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) =  -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ELSEIF(ICAS(I) == 4) THEN
-             F11(I)= UN/(SIGYT1*SIGYT1)
-             F22(I)= UN/(SIGYC2*SIGYC2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYT1*SIGYT1)
+             F22(I)= ONE/(SIGYC2*SIGYC2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) =  -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ENDIF
          ENDIF
-         EPSP(I)=UN + CC(I) * EPSP(I)
+         EPSP(I)=ONE + CC(I) * EPSP(I)
          IF(ICC(I) == 3.OR.ICC(I) == 4)THEN
            WPLAMX(I) = WPLAMX(I)*EPSP(I)
          ENDIF
-         FYLD(I)= UN
-         FMAX(I)= UN	 
+         FYLD(I)= ONE
+         FMAX(I)= ONE	 
         ENDDO
       ELSEIF(JFLAG > 0)THEN
 C-------------------------------------------------------------------
@@ -475,15 +475,15 @@ C-------------------------------------------------------------------
          IMATLY=MATLY(I)
          IF(WPLA(I) /= ZERO)THEN
            SIGYT1 =PM(141,IMATLY)*
-     .        (UN+PM(142,IMATLY)*EXP(PM(143,IMATLY)*LOG(WPLA(I))))
+     .        (ONE+PM(142,IMATLY)*EXP(PM(143,IMATLY)*LOG(WPLA(I))))
            SIGYT2 =PM(146,IMATLY)*
-     .        (UN+PM(147,IMATLY)*EXP(PM(148,IMATLY)*LOG(WPLA(I))))
+     .        (ONE+PM(147,IMATLY)*EXP(PM(148,IMATLY)*LOG(WPLA(I))))
            SIGYC1 =PM(151,IMATLY)*
-     .        (UN+PM(152,IMATLY)*EXP(PM(153,IMATLY)*LOG(WPLA(I))))
+     .        (ONE+PM(152,IMATLY)*EXP(PM(153,IMATLY)*LOG(WPLA(I))))
            SIGYC2 =PM(156,IMATLY)*
-     .        (UN+PM(157,IMATLY)*EXP(PM(158,IMATLY)*LOG(WPLA(I))))
+     .        (ONE+PM(157,IMATLY)*EXP(PM(158,IMATLY)*LOG(WPLA(I))))
            SIGYT12=PM(161,IMATLY)*
-     .        (UN+PM(162,IMATLY)*EXP(PM(163,IMATLY)*LOG(WPLA(I))))
+     .        (ONE+PM(162,IMATLY)*EXP(PM(163,IMATLY)*LOG(WPLA(I))))
          ELSE
            SIGYT1 =PM(141,IMATLY)
            SIGYT2 =PM(146,IMATLY)
@@ -498,17 +498,17 @@ C-------------------------------------------------------------------
            SIGYC1=MIN(SIGYC1,PM(154,IMATLY))
            SIGYC2=MIN(SIGYC2,PM(159,IMATLY))
            SIGYT12=MIN(SIGYT12,PM(164,IMATLY))
-           SIGYT1=SIGYT1*(UN +PM(145,IMATLY)*EPSP(I))
-           SIGYT2=SIGYT2*(UN +PM(150,IMATLY)*EPSP(I))
-           SIGYC1=SIGYC1*(UN +PM(155,IMATLY)*EPSP(I))
-           SIGYC2=SIGYC2*(UN +PM(160,IMATLY)*EPSP(I))
-           SIGYT12=SIGYT12*(UN+PM(165,IMATLY)*EPSP(I))	   
+           SIGYT1=SIGYT1*(ONE +PM(145,IMATLY)*EPSP(I))
+           SIGYT2=SIGYT2*(ONE +PM(150,IMATLY)*EPSP(I))
+           SIGYC1=SIGYC1*(ONE +PM(155,IMATLY)*EPSP(I))
+           SIGYC2=SIGYC2*(ONE +PM(160,IMATLY)*EPSP(I))
+           SIGYT12=SIGYT12*(ONE+PM(165,IMATLY)*EPSP(I))	   
          ELSE
-           SIGYT1=SIGYT1*(UN +PM(145,IMATLY)*EPSP(I))
-           SIGYT2=SIGYT2*(UN +PM(150,IMATLY)*EPSP(I))
-           SIGYC1=SIGYC1*(UN +PM(155,IMATLY)*EPSP(I))
-           SIGYC2=SIGYC2*(UN +PM(160,IMATLY)*EPSP(I))
-           SIGYT12=SIGYT12*(UN +PM(165,IMATLY)*EPSP(I))	   
+           SIGYT1=SIGYT1*(ONE +PM(145,IMATLY)*EPSP(I))
+           SIGYT2=SIGYT2*(ONE +PM(150,IMATLY)*EPSP(I))
+           SIGYC1=SIGYC1*(ONE +PM(155,IMATLY)*EPSP(I))
+           SIGYC2=SIGYC2*(ONE +PM(160,IMATLY)*EPSP(I))
+           SIGYT12=SIGYT12*(ONE +PM(165,IMATLY)*EPSP(I))	   
            SIGYT1=MIN(SIGYT1,PM(144,IMATLY))
            SIGYT2=MIN(SIGYT2,PM(149,IMATLY))
            SIGYC1=MIN(SIGYC1,PM(154,IMATLY))
@@ -521,69 +521,69 @@ C
          SOFT(3)=ZERO	 
 C Direction 1
          IF(EPST(I,1) <= -EPS1C1(I)) THEN
-          SOFT(1)=MIN(UN,(EPST(I,1)+EPS1C1(I))/(EPS1C1(I)-EPS2C1(I)))
+          SOFT(1)=MIN(ONE,(EPST(I,1)+EPS1C1(I))/(EPS1C1(I)-EPS2C1(I)))
          ELSEIF(EPST(I,1) >= EPS1T1(I)) THEN
-          SOFT(1)=MIN(UN,(EPST(I,1)-EPS1T1(I))/(EPS2T1(I)-EPS1T1(I)))         
+          SOFT(1)=MIN(ONE,(EPST(I,1)-EPS1T1(I))/(EPS2T1(I)-EPS1T1(I)))         
          ENDIF
-         SIGYT1=MIN(SIGYT1,(UN-SOFT(1))*SIGYT1+SOFT(1)*SIGRST1(I))
-         SIGYC1=MIN(SIGYC1,(UN-SOFT(1))*SIGYC1+SOFT(1)*SIGRSC1(I))
+         SIGYT1=MIN(SIGYT1,(ONE-SOFT(1))*SIGYT1+SOFT(1)*SIGRST1(I))
+         SIGYC1=MIN(SIGYC1,(ONE-SOFT(1))*SIGYC1+SOFT(1)*SIGRSC1(I))
 C Direction 2        
          IF(EPST(I,2) <= -EPS1C2(I)) THEN
-          SOFT(2)=MIN(UN,(EPST(I,2)+EPS1C2(I))/(EPS1C2(I)-EPS2C2(I)))
+          SOFT(2)=MIN(ONE,(EPST(I,2)+EPS1C2(I))/(EPS1C2(I)-EPS2C2(I)))
          ELSEIF(EPST(I,2) >= EPS1T2(I)) THEN
-          SOFT(2)=MIN(UN,(EPST(I,2)-EPS1T2(I))/(EPS2T2(I)-EPS1T2(I)))
+          SOFT(2)=MIN(ONE,(EPST(I,2)-EPS1T2(I))/(EPS2T2(I)-EPS1T2(I)))
          ENDIF
-         SIGYT2=MIN(SIGYT2,(UN-SOFT(2))*SIGYT2+SOFT(2)*SIGRST2(I))
-         SIGYC2=MIN(SIGYC2,(UN-SOFT(2))*SIGYC2+SOFT(2)*SIGRSC2(I))
+         SIGYT2=MIN(SIGYT2,(ONE-SOFT(2))*SIGYT2+SOFT(2)*SIGRST2(I))
+         SIGYC2=MIN(SIGYC2,(ONE-SOFT(2))*SIGYC2+SOFT(2)*SIGRSC2(I))
 C Direction 12
-         STRP12 = UNDEMI*EPST(I,4)
+         STRP12 = HALF*EPST(I,4)
          IF(STRP12 <= -EPS1T12(I)) THEN
-          SOFT(3)=MIN(UN,(STRP12 + EPS1T12(I))/(EPS1T12(I)-EPS2T12(I)))
+          SOFT(3)=MIN(ONE,(STRP12 + EPS1T12(I))/(EPS1T12(I)-EPS2T12(I)))
          ELSEIF(STRP12 >= EPS1T12(I)) THEN
-          SOFT(3)=MIN(UN,(STRP12 - EPS1T12(I))/(EPS2T12(I)-EPS1T12(I)))
+          SOFT(3)=MIN(ONE,(STRP12 - EPS1T12(I))/(EPS2T12(I)-EPS1T12(I)))
          ENDIF
-         SIGYT12=MIN(SIGYT12,(UN -SOFT(3))*SIGYT12+SOFT(3)*SIGRST12(I))
-         F1(I)  = UN/SIGYT1-UN/SIGYC1
-         F2(I)  = UN/SIGYT2-UN/SIGYC2
-         F11(I) = UN/(SIGYT1*SIGYC1)
-         F22(I) = UN/(SIGYT2*SIGYC2)
-         F33(I) = UN/(SIGYT12*SIGYT12)	 
+         SIGYT12=MIN(SIGYT12,(ONE -SOFT(3))*SIGYT12+SOFT(3)*SIGRST12(I))
+         F1(I)  = ONE/SIGYT1-ONE/SIGYC1
+         F2(I)  = ONE/SIGYT2-ONE/SIGYC2
+         F11(I) = ONE/(SIGYT1*SIGYC1)
+         F22(I) = ONE/(SIGYT2*SIGYC2)
+         F33(I) = ONE/(SIGYT12*SIGYT12)	 
          ALPHA=F12(I)
-         F12(I) = -ALPHA/(DEUX*SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2))
+         F12(I) = -ALPHA/(TWO*SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2))
 C
          IF(IYEILD(I) > 0) THEN
            IF(ICAS(I) == 1)THEN
-             F11(I)= UN/(SIGYT1*SIGYT1)
-             F22(I)= UN/(SIGYT2*SIGYT2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYT1*SIGYT1)
+             F22(I)= ONE/(SIGYT2*SIGYT2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) =  -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ELSEIF(ICAS(I) ==2)THEN
-             F11(I)= UN/(SIGYC1*SIGYC1)
-             F22(I)= UN/(SIGYT2*SIGYT2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYC1*SIGYC1)
+             F22(I)= ONE/(SIGYT2*SIGYT2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) =  -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ELSEIF(ICAS(I) ==3) THEN
-             F11(I)= UN/(SIGYC1*SIGYC1)
-             F22(I)= UN/(SIGYC2*SIGYC2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYC1*SIGYC1)
+             F22(I)= ONE/(SIGYC2*SIGYC2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) =  -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ELSEIF(ICAS(I) == 4) THEN
-             F11(I)= UN/(SIGYT1*SIGYT1)
-             F22(I)= UN/(SIGYC2*SIGYC2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYT1*SIGYT1)
+             F22(I)= ONE/(SIGYC2*SIGYC2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) =  -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ENDIF
          ENDIF
-         EPSP(I)=UN + CC(I) * EPSP(I)
+         EPSP(I)=ONE + CC(I) * EPSP(I)
          IF(ICC(I) == 3.OR.ICC(I) == 4)THEN
            WPLAMX(I) = WPLAMX(I)*EPSP(I)
          ENDIF
-         FYLD(I)= UN
-         FMAX(I)= UN
+         FYLD(I)= ONE
+         FMAX(I)= ONE
         ELSE
-         EPSP(I)=UN + CC(I) * EPSP(I)
+         EPSP(I)=ONE + CC(I) * EPSP(I)
          IF (WPLA(I).NE.ZERO) THEN
-            FYLD(I)=(UN +CB(I)*EXP(CN(I)*LOG(WPLA(I))))*EPSP(I)
+            FYLD(I)=(ONE +CB(I)*EXP(CN(I)*LOG(WPLA(I))))*EPSP(I)
          ELSE
             FYLD(I)=EPSP(I)
          ENDIF
@@ -604,24 +604,24 @@ C
            SIGYT12=PM(161,IMATLY)
 c            ALPHA(I) =  
            IF(ICAS(I) == 1)THEN
-             F11(I)= UN/(SIGYT1*SIGYT1)
-             F22(I)= UN/(SIGYT2*SIGYT2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYT1*SIGYT1)
+             F22(I)= ONE/(SIGYT2*SIGYT2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) = -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ELSEIF(ICAS(I) ==2)THEN
-             F11(I)= UN/(SIGYC1*SIGYC1)
-             F22(I)= UN/(SIGYT2*SIGYT2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYC1*SIGYC1)
+             F22(I)= ONE/(SIGYT2*SIGYT2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) = -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ELSEIF(ICAS(I) ==3) THEN
-             F11(I)= UN/(SIGYC1*SIGYC1)
-             F22(I)= UN/(SIGYC2*SIGYC2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYC1*SIGYC1)
+             F22(I)= ONE/(SIGYC2*SIGYC2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) = -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ELSEIF(ICAS(I) == 4) THEN
-             F11(I)= UN/(SIGYT1*SIGYT1)
-             F22(I)= UN/(SIGYC2*SIGYC2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYT1*SIGYT1)
+             F22(I)= ONE/(SIGYC2*SIGYC2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) = -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ENDIF
          ENDIF        
@@ -631,9 +631,9 @@ C-------------------------------------------------------------------
 C     IFLAG = 0
 C-------------------------------------------------------------------
        DO I=JFT,JLT
-        EPSP(I)=UN + CC(I) * EPSP(I)
+        EPSP(I)=ONE + CC(I) * EPSP(I)
         IF (WPLA(I) /= ZERO) THEN
-           FYLD(I)=(UN+CB(I)*EXP(CN(I)*LOG(WPLA(I))))*EPSP(I)
+           FYLD(I)=(ONE+CB(I)*EXP(CN(I)*LOG(WPLA(I))))*EPSP(I)
         ELSE
            FYLD(I)=EPSP(I)
         ENDIF
@@ -654,24 +654,24 @@ C
            SIGYT12=PM(161,IMATLY)
 c            ALPHA(I) =  
            IF(ICAS(I) == 1)THEN
-             F11(I)= UN/(SIGYT1*SIGYT1)
-             F22(I)= UN/(SIGYT2*SIGYT2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYT1*SIGYT1)
+             F22(I)= ONE/(SIGYT2*SIGYT2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) = -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ELSEIF(ICAS(I) ==2)THEN
-             F11(I)= UN/(SIGYC1*SIGYC1)
-             F22(I)= UN/(SIGYT2*SIGYT2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYC1*SIGYC1)
+             F22(I)= ONE/(SIGYT2*SIGYT2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) = -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ELSEIF(ICAS(I) ==3) THEN
-             F11(I)= UN/(SIGYC1*SIGYC1)
-             F22(I)= UN/(SIGYC2*SIGYC2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYC1*SIGYC1)
+             F22(I)= ONE/(SIGYC2*SIGYC2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) = -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ELSEIF(ICAS(I) == 4) THEN
-             F11(I)= UN/(SIGYT1*SIGYT1)
-             F22(I)= UN/(SIGYC2*SIGYC2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYT1*SIGYT1)
+             F22(I)= ONE/(SIGYC2*SIGYC2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) = -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ENDIF
          ENDIF        
@@ -684,26 +684,26 @@ C-------------------------------------------------------------------
          DO  I=JFT,JLT
            WVEC(I)=  F1(I) *T1(I)      + F2(I) *T2(I) +
      .               F11(I)*T1(I)*T1(I)+ F22(I)*T2(I)*T2(I) +
-     .               F33(I)*T3(I)*T3(I)+ DEUX*F12(I)*T1(I)*T2(I)
+     .               F33(I)*T3(I)*T3(I)+ TWO*F12(I)*T1(I)*T2(I)
 !!c    equiv crit for output
 !!            SEQ_OUTPUT(I) = WVEC(I)
          ENDDO
 C
         DO I=JFT,JLT
-          IF (WVEC(I) > FYLD(I).AND.OFF(I)  ==  UN) COEF(I)=UN    
-          CNN=CN(I)-UN
+          IF (WVEC(I) > FYLD(I).AND.OFF(I)  ==  ONE) COEF(I)=ONE    
+          CNN=CN(I)-ONE
           WVEC(I)=ZERO
           IF(WPLA(I) > ZERO.AND.FYLD(I) < FMAX(I)) 
      .           WVEC(I)=EPSP(I)*EXP(CNN*LOG(WPLA(I)))
         ENDDO
 C
           DO 110 I=JFT,JLT
-            BETA(I)= UN
+            BETA(I)= ONE
             IF(COEF(I) == ZERO .OR. IFLAG(I) == 0) GO TO 110
             COEFA=F11(I)*S1(I)*S1(I) + F22(I)*S2(I)*S2(I) +
-     .            F33(I)*S4(I)*S4(I) + DEUX*F12(I)*S1(I)*S2(I)
+     .            F33(I)*S4(I)*S4(I) + TWO*F12(I)*S1(I)*S2(I)
             COEFB=F1(I)*S1(I)+F2(I)*S2(I)
-            DELTA=COEFB*COEFB + QUATRE*COEFA*FYLD(I) 
+            DELTA=COEFB*COEFB + FOUR*COEFA*FYLD(I) 
             IF(DELTA.LT.ZERO)THEN
              IF(IMCONV == 1)THEN
 #include "lockon.inc"
@@ -726,17 +726,17 @@ C
                  BETA(I)=FYLD(I)/COEFB
               ENDIF
             ENDIF
-            IF(ABS(UN+(COEFB-DELTA)/DEUX/COEFA) <= 
-     .         ABS(UN+(COEFB+DELTA)/DEUX/COEFA)) THEN
-             BETA(I)=(-COEFB+DELTA)/DEUX/COEFA
+            IF(ABS(ONE+(COEFB-DELTA)/TWO/COEFA) <= 
+     .         ABS(ONE+(COEFB+DELTA)/TWO/COEFA)) THEN
+             BETA(I)=(-COEFB+DELTA)/TWO/COEFA
             ELSE
-             BETA(I)=(-COEFB-DELTA)/DEUX/COEFA
+             BETA(I)=(-COEFB-DELTA)/TWO/COEFA
             ENDIF
             DELTA=F1(I) *BETA(I)*S1(I) +F2(I) *BETA(I)*S2(I) +
      .            F11(I)*BETA(I)*S1(I)*BETA(I)*S1(I) +
      .            F22(I)*BETA(I)*S2(I)*BETA(I)*S2(I) +
      .            F33(I)*BETA(I)*S4(I)*BETA(I)*S4(I) +
-     .            DEUX*F12(I)*BETA(I)*S1(I)*BETA(I)*S2(I)
+     .            TWO*F12(I)*BETA(I)*S1(I)*BETA(I)*S2(I)
 C--1-----|-|---2---|---3---|---4---|---5---|---6---|---7---|---8---|---9--10---|
  3000       FORMAT('No real solution for DELTA =',F11.4)
  3010       FORMAT('Cannot project stresses on criteria, COEFB =',F11.4)
@@ -750,9 +750,9 @@ C        BETA(I)=1.
         ENDDO
 C
         DO  I=JFT,JLT
-          DP1(I)=F1(I)+DEUX*F11(I)*SO1(I)+DEUX*F12(I)*SO2(I)
-          DP2(I)=F2(I)+DEUX*F22(I)*SO2(I)+DEUX*F12(I)*SO1(I)
-          DP3(I)=DEUX*F33(I)*SO3(I)
+          DP1(I)=F1(I)+TWO*F11(I)*SO1(I)+TWO*F12(I)*SO2(I)
+          DP2(I)=F2(I)+TWO*F22(I)*SO2(I)+TWO*F12(I)*SO1(I)
+          DP3(I)=TWO*F33(I)*SO3(I)
         ENDDO
 CCCC        
       ELSEIF(JYEILD == JLT) THEN
@@ -767,8 +767,8 @@ C ----------------------------------------------------------
         ENDDO
 C
         DO I=JFT,JLT
-          IF (WVEC(I).GT.FYLD(I).AND.OFF(I).EQ.UN) COEF(I)=UN    
-          CNN=CN(I)-UN
+          IF (WVEC(I).GT.FYLD(I).AND.OFF(I).EQ.ONE) COEF(I)=ONE    
+          CNN=CN(I)-ONE
           WVEC(I)=ZERO
           IF(WPLA(I).GT.ZERO.AND.FYLD(I).LT.FMAX(I)) 
      .           WVEC(I)=EPSP(I)*EXP(CNN*LOG(WPLA(I)))
@@ -776,7 +776,7 @@ C
 C
 Cst CRASURV +++
         DO  111 I=JFT,JLT                                                       
-          BETA(I)=UN                                                           
+          BETA(I)=ONE                                                           
           IF(COEF(I).EQ.ZERO.OR.IFLAG(I).EQ.0) GO TO 111                       
            COEFA= F11(I)*S1(I)*S1(I) + F22(I)*S2(I)*S2(I) + 
      .            F33(I)*S4(I)*S4(I) + F12(I)*S1(I)*S2(I)
@@ -800,8 +800,8 @@ CC
                 GO TO 111                            
             ENDIF                                                              
           ENDIF                                                                
-          IF(ABS(UN-DELTA).LE.                              
-     .       ABS(UN+DELTA)) THEN                            
+          IF(ABS(ONE-DELTA).LE.                              
+     .       ABS(ONE+DELTA)) THEN                            
            BETA(I)= DELTA                             
           ELSE                                                                 
            BETA(I)=-DELTA                                  
@@ -816,9 +816,9 @@ C        BETA(I)=1.
 Cst CRASURV ---
 C
         DO  I=JFT,JLT
-          DP1(I)=DEUX*F11(I)*SO1(I) +  F12(I)*SO2(I)
-          DP2(I)=DEUX*F22(I)*SO2(I) +  F12(I)*SO1(I)
-          DP3(I)=DEUX*F33(I)*SO3(I)
+          DP1(I)=TWO*F11(I)*SO1(I) +  F12(I)*SO2(I)
+          DP2(I)=TWO*F22(I)*SO2(I) +  F12(I)*SO1(I)
+          DP3(I)=TWO*F33(I)*SO3(I)
         ENDDO      
       
       ELSE
@@ -832,22 +832,22 @@ C ----------------------------------------------------------
            ELSE
              WVEC(I)=  F1(I) *T1(I)       + F2(I) *T2(I) +
      .                 F11(I)*T1(I)*T1(I) + F22(I)*T2(I)*T2(I) +
-     .                 F33(I)*T3(I)*T3(I) + DEUX*F12(I)*T1(I)*T2(I)
+     .                 F33(I)*T3(I)*T3(I) + TWO*F12(I)*T1(I)*T2(I)
            ENDIF
 !!c    equiv crit for output
 !!           SEQ_OUTPUT(I) = WVEC(I)
         ENDDO      
 C
         DO I=JFT,JLT
-          IF (WVEC(I).GT.FYLD(I).AND.OFF(I).EQ.UN) COEF(I)=UN    
-          CNN=CN(I)-UN
+          IF (WVEC(I).GT.FYLD(I).AND.OFF(I).EQ.ONE) COEF(I)=ONE    
+          CNN=CN(I)-ONE
           WVEC(I)=ZERO
           IF(WPLA(I).GT.ZERO.AND.FYLD(I).LT.FMAX(I)) 
      .           WVEC(I)=EPSP(I)*EXP(CNN*LOG(WPLA(I)))
         ENDDO
 CC
         DO  112 I=JFT,JLT                                                       
-          BETA(I)=UN                                                           
+          BETA(I)=ONE                                                           
           IF(COEF(I).EQ.ZERO.OR.IFLAG(I).EQ.0) GO TO 112 
            IF(IYEILD(I) > 0) THEN     
 C--------------------------------------------------------------
@@ -875,7 +875,7 @@ C
                  GO TO 112                           
                ENDIF 
              ENDIF 
-             IF(ABS(UN-DELTA).LE. ABS(UN+DELTA)) THEN
+             IF(ABS(ONE-DELTA).LE. ABS(ONE+DELTA)) THEN
                 BETA(I)= DELTA                             
               ELSE 
                  BETA(I)=-DELTA                                  
@@ -885,17 +885,17 @@ C
              SO2(I)=BETA(I)*S2(I)
              SO3(I)=BETA(I)*S4(I)
 C             
-             DP1(I)= DEUX*F11(I)*SO1(I) +  F12(I)*SO2(I)
-             DP2(I)= DEUX*F22(I)*SO2(I) +  F12(I)*SO1(I)
-             DP3(I)= DEUX*F33(I)*SO3(I)
+             DP1(I)= TWO*F11(I)*SO1(I) +  F12(I)*SO2(I)
+             DP2(I)= TWO*F22(I)*SO2(I) +  F12(I)*SO1(I)
+             DP3(I)= TWO*F33(I)*SO3(I)
           ELSE
 C--------------------------------------------------------------------
 C TSAI WU
 C --------------------------------------------------------------------         
             COEFA=F11(I)*S1(I)*S1(I) + F22(I)*S2(I)*S2(I) +
-     .            F33(I)*S4(I)*S4(I) + DEUX*F12(I)*S1(I)*S2(I)
+     .            F33(I)*S4(I)*S4(I) + TWO*F12(I)*S1(I)*S2(I)
             COEFB=F1(I)*S1(I)+F2(I)*S2(I)
-            DELTA=COEFB*COEFB + QUATRE*COEFA*FYLD(I)                         
+            DELTA=COEFB*COEFB + FOUR*COEFA*FYLD(I)                         
             IF(DELTA.LT.ZERO)THEN 
               IF(IMCONV.EQ.1)THEN 
 #include "lockon.inc"                                                        
@@ -918,20 +918,20 @@ C --------------------------------------------------------------------
                BETA(I)=FYLD(I)/COEFB                                           
             ENDIF                                                              
           ENDIF                                                                
-          IF(ABS(UN+(COEFB-DELTA)/DEUX/COEFA).LE.                              
-     .       ABS(UN+(COEFB+DELTA)/DEUX/COEFA)) THEN                            
-           BETA(I)=(-COEFB+DELTA)/DEUX/COEFA                                   
+          IF(ABS(ONE+(COEFB-DELTA)/TWO/COEFA).LE.                              
+     .       ABS(ONE+(COEFB+DELTA)/TWO/COEFA)) THEN                            
+           BETA(I)=(-COEFB+DELTA)/TWO/COEFA                                   
           ELSE                                                                 
-           BETA(I)=(-COEFB-DELTA)/DEUX/COEFA                                   
+           BETA(I)=(-COEFB-DELTA)/TWO/COEFA                                   
           ENDIF
 C
            SO1(I)=BETA(I)*S1(I)
            SO2(I)=BETA(I)*S2(I)
            SO3(I)=BETA(I)*S4(I)         
 C
-           DP1(I)=F1(I)+DEUX*F11(I)*SO1(I)+DEUX*F12(I)*SO2(I)
-           DP2(I)=F2(I)+DEUX*F22(I)*SO2(I)+DEUX*F12(I)*SO1(I)
-           DP3(I)=DEUX*F33(I)*SO3(I)
+           DP1(I)=F1(I)+TWO*F11(I)*SO1(I)+TWO*F12(I)*SO2(I)
+           DP2(I)=F2(I)+TWO*F22(I)*SO2(I)+TWO*F12(I)*SO1(I)
+           DP3(I)=TWO*F33(I)*SO3(I)
 C                     
          ENDIF   
 CC
@@ -951,8 +951,8 @@ C
            LAMDA(I)=LAMDA(I)*COEF(I)/ 
      .        (DP1(I)*(A11(I)*DP1(I)+A12(I)*DP2(I))+
      .         DP2(I)*(A12(I)*DP1(I)+A22(I)*DP2(I))+
-     .      DEUX*DP3(I)*G12(I)*DE1(I)*DE2(I)*DP3(I)+
-     .        (SO1(I)*DP1(I)+SO2(I)*DP2(I)+DEUX*SO3(I)*DP3(I))
+     .      TWO*DP3(I)*G12(I)*DE1(I)*DE2(I)*DP3(I)+
+     .        (SO1(I)*DP1(I)+SO2(I)*DP2(I)+TWO*SO3(I)*DP3(I))
      .         *CN(I)*CB(I)*WVEC(I) )
          ENDIF
       ENDDO
@@ -966,14 +966,14 @@ C
       DO  I=JFT,JLT
          T1(I)=T1(I)-A11(I)*DP1(I)-A12(I)*DP2(I)
          T2(I)=T2(I)-A12(I)*DP1(I)-A22(I)*DP2(I)
-         T3(I)=T3(I)-G12(I)*DE1(I)*DE2(I)*DP3(I)*DEUX
+         T3(I)=T3(I)-G12(I)*DE1(I)*DE2(I)*DP3(I)*TWO
       ENDDO
 C
 	DO  I=JFT,JLT                  
-          DWPLA = UNDEMI*
+          DWPLA = HALF*
      .      (DP1(I)*(T1(I)+SO1(I))+
      .       DP2(I)*(T2(I)+SO2(I))+
-     .       DEUX*DP3(I)*(T3(I)+SO3(I)))
+     .       TWO*DP3(I)*(T3(I)+SO3(I)))
           DWPLA = MAX(DWPLA ,ZERO) / WPLAREF(I)
           WPLA(I)=WPLA(I)+ DWPLA
         ENDDO
@@ -1036,14 +1036,14 @@ C shear
                ENDIF
                SELECT CASE(ID)
                  CASE(1)
-                  ICAS(I) = SIGN(UN,T1(I)) 
+                  ICAS(I) = SIGN(ONE,T1(I)) 
                   IF(ICAS(I) > 0 ) THEN
                      WPLAMX(I) = MIN(WPLAMX(I),WPLAMXT1(I))
                   ELSE
                      WPLAMX(I)  = MIN(WPLAMX(I),WPLAMXC1(I))
                   ENDIF 
                  CASE(2)
-                  ICAS(I) = SIGN(DEUX,T2(I)) 
+                  ICAS(I) = SIGN(TWO,T2(I)) 
                   IF(ICAS(I) > 0 ) THEN
                     WPLAMX(I) = MIN(WPLAMX(I),WPLAMXT2(I))
                   ELSE
@@ -1057,7 +1057,7 @@ C shear
         ENDDO 
       ENDIF 
       DO I=JFT,JLT
-        IF(WPLA(I) >= WPLAMX(I)) WPLAR(I) = WPLAR(I)+UN
+        IF(WPLA(I) >= WPLAMX(I)) WPLAR(I) = WPLAR(I)+ONE
         IF(WPLA(I) >= WPLAMX(I).OR.
      .     DAMT(I,1) >= DMAX(I).OR.
      .     EPST(I,1) >= EPSF1(I)) NFIS1(I)=NFIS1(I)+1
@@ -1081,7 +1081,7 @@ C-----------------------------
         IF(WPLA(I) >= WPLAMX(I))FAIL = FAIL + 4
         IF(EPST(I,1) >= EPSF1(I))FAIL=FAIL+8
         IF(EPST(I,2) >= EPSF2(I))FAIL=FAIL+16
-        IF(FAIL /= FAIL_OLD(I).AND.OFF(I) == UN) THEN
+        IF(FAIL /= FAIL_OLD(I).AND.OFF(I) == ONE) THEN
           FAIL = FAIL - FAIL_OLD(I)
          IF(IMCONV == 1)THEN
 #include "lockon.inc"
@@ -1090,17 +1090,17 @@ C-----------------------------
      +         ' FAILURE-1 ELEMENT #',NGL(I),
      +         ', LAYER #',ILAY,', INTEGRATION POINT #',IPG,
      +         ', TIME=',TT 
-               FLAY(I) =  UN
+               FLAY(I) =  ONE
           ENDIF
           IF(FAIL == 2.OR.FAIL == 3.OR.FAIL == 6) THEN
                WRITE(IOUT, '(A,I10,A,I3,A,I3,X,A,1PE11.4)')
      +         ' FAILURE-2 ELEMENT #',NGL(I),
      +         ', LAYER #',ILAY,', INTEGRATION POINT #',IPG,
      +         ', TIME=',TT 
-               FLAY(I) =  UN
+               FLAY(I) =  ONE
           ENDIF   
           IF(FAIL == 4.OR.FAIL == 5.OR.FAIL == 6) THEN
-               FLAY(I) =  UN
+               FLAY(I) =  ONE
              IF(ICAS(I) == 0)THEN
                WRITE(IOUT, '(A,I10,A,I3,A,I3,X,A,1PE11.4)')
      +         ' FAILURE-P ELEMENT #',NGL(I),
@@ -1138,13 +1138,13 @@ C-----------------------------
      +        ' TOTAL FAILURE-2 ELEMENT #',NGL(I),
      +        ', LAYER #',ILAY,', INTEGRATION POINT #',IPG,
      +        ', TIME=',TT 
-            FLAY(I) =  UN    
+            FLAY(I) =  ONE    
           ELSEIF(FAIL >= 8)THEN
             WRITE(IOUT, '(A,I10,A,I3,A,I3,A,1PE11.4)')
      +        ' TOTAL FAILURE-1 ELEMENT #',NGL(I),
      +        ', LAYER #',ILAY,', INTEGRATION POINT #',IPG,
      +        ', TIME=',TT 
-            FLAY(I) =  UN    
+            FLAY(I) =  ONE    
           END IF
 #include "lockoff.inc"
          ENDIF

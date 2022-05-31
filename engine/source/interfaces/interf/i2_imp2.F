@@ -139,30 +139,30 @@ C------------------------------------
 C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
 C-------pour simplement etre coherent avec INTTI2, on ne distinque pas 3n,4n
-      NUN=-UN
+      NUN=-ONE
       DO II=1,NSN
         I=NSV(II)
         L=IRTL(II)
 C
        SS=CRST(1,II)
        TT=CRST(2,II)
-        SS = MIN(UN,SS)
-        TT = MIN(UN,TT)
+        SS = MIN(ONE,SS)
+        TT = MIN(ONE,TT)
         SS = MAX(NUN,SS)
         TT = MAX(NUN,TT)
-       SP=UN + SS
-       SM=UN - SS
+       SP=ONE + SS
+       SM=ONE - SS
        IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
          NIR=3
-         TP=TIERS*(UN + TT)
-         TM=TIERS*(UN - TT)
+         TP=THIRD*(ONE + TT)
+         TM=THIRD*(ONE - TT)
          H(1)=TM*SM
          H(2)=TM*SP
-         H(3)=UN-H(1)-H(2)
+         H(3)=ONE-H(1)-H(2)
        ELSE
          NIR=4
-        TP=QUART*(UN + TT)
-        TM=QUART*(UN - TT)
+        TP=FOURTH*(ONE + TT)
+        TM=FOURTH*(ONE - TT)
         H(1)=TM*SM
         H(2)=TM*SP
         H(3)=TP*SP
@@ -349,7 +349,7 @@ C------------------------------------
         YM(4)=ZERO
         ZM(4)=ZERO
        ENDIF
-       FACM = UN / NIRI
+       FACM = ONE / NIRI
 C----------------------------------------------------
 C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
 C----------------------------------------------------
@@ -447,9 +447,9 @@ C-----------------------------------------------
         X4=X(1,J4)
         Y4=X(2,J4)
         Z4=X(3,J4)
-        X0=QUART*(X1+X2+X3+X4)
-        Y0=QUART*(Y1+Y2+Y3+Y4)
-        Z0=QUART*(Z1+Z2+Z3+Z4)
+        X0=FOURTH*(X1+X2+X3+X4)
+        Y0=FOURTH*(Y1+Y2+Y3+Y4)
+        Z0=FOURTH*(Z1+Z2+Z3+Z4)
         X1=X1-X0
         Y1=Y1-Y0
         Z1=Z1-Z0
@@ -474,9 +474,9 @@ C
         C2=DPARA(6,II)
         C3=DPARA(7,II)
 C
-        VMX=QUART*(D(1,J1)+D(1,J2)+D(1,J3)+D(1,J4))
-        VMY=QUART*(D(2,J1)+D(2,J2)+D(2,J3)+D(2,J4))
-        VMZ=QUART*(D(3,J1)+D(3,J2)+D(3,J3)+D(3,J4))
+        VMX=FOURTH*(D(1,J1)+D(1,J2)+D(1,J3)+D(1,J4))
+        VMY=FOURTH*(D(2,J1)+D(2,J2)+D(2,J3)+D(2,J4))
+        VMZ=FOURTH*(D(3,J1)+D(3,J2)+D(3,J3)+D(3,J4))
 C
         MGX = Y1*D(3,J1) + Y2*D(3,J2) + Y3*D(3,J3) + Y4*D(3,J4) 
      .      - Z1*D(2,J1) - Z2*D(2,J2) - Z3*D(2,J3) - Z4*D(2,J4)
@@ -533,10 +533,10 @@ C-----------------------------------------------
 C
        SS=CRST(1,II)
        TT=CRST(2,II)
-       SP=UN + SS
-       SM=UN - SS
-       TP=QUART*(UN + TT)
-       TM=QUART*(UN - TT)
+       SP=ONE + SS
+       SM=ONE - SS
+       TP=FOURTH*(ONE + TT)
+       TM=FOURTH*(ONE - TT)
        H(1)=TM*SM
        H(2)=TM*SP
        H(3)=TP*SP

@@ -67,7 +67,7 @@ c---
         NCT_CRK = ADDCNE_CRK(NN)-1                                      
         NC_CRK  = ADDCNE_CRK(NN+1)-ADDCNE_CRK(NN)                       
         FAC     = 0                                                     
-        RTMP0   = UN                                                    
+        RTMP0   = ONE                                                    
 c
         NLEV = NODLEVXF(NN)                                             
         DO ILEV=1,NLEV                                                  

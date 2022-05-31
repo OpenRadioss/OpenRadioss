@@ -239,7 +239,7 @@ C
         IF (ILENG /= 0) THEN
           XL0(I)=AL0DP(I)
         ELSE
-          XL0(I) = UN
+          XL0(I) = ONE
         ENDIF
       ENDDO
 C
@@ -253,7 +253,7 @@ C
      .            UVAR(1,1),NOT_USED,NOT_USED,NOT_USED)
       NINDX = 0
       DO I=LFT,LLT
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (DL(I) > DMX(I) .OR. DL(I) < DMN(I)) THEN
             OFF(I)=ZERO
             NINDX = NINDX + 1
@@ -293,7 +293,7 @@ C
             XX(1) = ABS(DFS(I)*XSCALF(I))
             CALL TABLE_INTERP(TABLE(ITABF(I)),XX,MU)
             MU = MU*YSCALF(I)
-            FMAX  = MAX(ZERO,F(I) * TANH(UNDEMI*MU*BETA))
+            FMAX  = MAX(ZERO,F(I) * TANH(HALF*MU*BETA))
             FMAX  = MIN(FMAX,ABS(DFS(I)))
             DFS(I)= SIGN(FMAX,DFS(I))
             DF(I) = DFS(I)
@@ -307,7 +307,7 @@ C
             DFS(I)= DFS(I) + DDX * DT1 * XK(I)
             BETA  = PI - ACOS(EXDP(I)*EX2DP(I)+EYDP(I)*EY2DP(I)+
      .                                         EZDP(I)*EZ2DP(I))
-            FMAX  = MAX(ZERO,F(I) * TANH(UNDEMI*FRIC(I)*BETA))
+            FMAX  = MAX(ZERO,F(I) * TANH(HALF*FRIC(I)*BETA))
             FMAX  = MIN(FMAX,ABS(DFS(I)))
             DFS(I)= SIGN(FMAX,DFS(I))
             DF(I) = DFS(I)
@@ -338,10 +338,10 @@ cc            IF (F_MIN(I) /= ZERO .OR. F_MAX(I) /= 0) THEN
 cc              IF (DFS(I) <= F_MIN(I) .OR. DFS(I) >= F_MAX(I)) MU = FRIC(I)
 cc            ELSE  ! no limit force defined
 cc            ENDIF
-            IF (DFS(I) <= F_MIN(I) .OR. DFS(I) >= F_MAX(I)) INIFRIC(I) = UN
-            IF (INIFRIC(I) == UN) MU = FRIC(I) ! reset friction to initial
+            IF (DFS(I) <= F_MIN(I) .OR. DFS(I) >= F_MAX(I)) INIFRIC(I) = ONE
+            IF (INIFRIC(I) == ONE) MU = FRIC(I) ! reset friction to initial
 C---
-            FMAX  = MAX(ZERO,F(I) * TANH(UNDEMI*MU*BETA))
+            FMAX  = MAX(ZERO,F(I) * TANH(HALF*MU*BETA))
             FMAX  = MIN(FMAX,ABS(DFS(I)))
             DFS(I)= SIGN(FMAX,DFS(I))
             DF(I) = DFS(I)
@@ -355,7 +355,7 @@ C---
             DFS(I)= DFS(I) + DDX * DT1 * XK(I)
             BETA  = PI - ACOS(EXDP(I)*EX2DP(I)+EYDP(I)*EY2DP(I)+
      .                                         EZDP(I)*EZ2DP(I))
-            FMAX  = MAX(ZERO,F(I) * TANH(UNDEMI*FRIC(I)*BETA))
+            FMAX  = MAX(ZERO,F(I) * TANH(HALF*FRIC(I)*BETA))
             FMAX  = MIN(FMAX,ABS(DFS(I)))
             DFS(I)= SIGN(FMAX,DFS(I))
             DF(I) = DFS(I)

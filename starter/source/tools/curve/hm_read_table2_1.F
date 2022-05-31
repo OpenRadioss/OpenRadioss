@@ -284,7 +284,7 @@ C
          CALL HM_GET_FLOAT_ARRAY_INDEX ('C'              ,X234(3),J,IS_AVAILABLE,LSUBMODEL,UNITAB)    
          CALL HM_GET_FLOAT_ARRAY_INDEX ('Fscale_array'   ,SCALEY ,J,IS_AVAILABLE,LSUBMODEL,UNITAB)    
 C dicho
-          IF(SCALEY == ZERO) SCALEY = UN 
+          IF(SCALEY == ZERO) SCALEY = ONE 
           NOK=0                                                   
           DO N=2,NDIM                                             
             IDEB=1                                                
@@ -361,7 +361,7 @@ c error (fonction 1 seul pt)
            IF(N1/=N11) THEN                 
              XX=TABLE(L)%X(1)%VALUES(N1)    
              R=(X2-XX)/(X2-X1)              
-             YY=R*Y1+(UN-R)*Y2              
+             YY=R*Y1+(ONE-R)*Y2              
              KK1=NX(1)*(KK-1)+N1            
              TABLE(L)%Y%VALUES(KK1)=YY      
              ITAG(N1,KK)=1                  
@@ -390,7 +390,7 @@ c         END DO !pmo mw
             DO N1=N12+1,NX(1)               
               XX=TABLE(L)%X(1)%VALUES(N1)   
               R=(X2-XX)/(X2-X1)             
-              YY=R*Y1+(UN-R)*Y2             
+              YY=R*Y1+(ONE-R)*Y2             
               KK1=NX(1)*(KK-1)+N1           
               TABLE(L)%Y%VALUES(KK1)=YY     
               ITAG(N1,KK)=1                 
@@ -408,7 +408,7 @@ c         END DO !pmo mw
                DO N1=N11+1,N12-1               
                  XX=TABLE(L)%X(1)%VALUES(N1)   
                  R=(X2-XX)/(X2-X1)             
-                 YY=R*Y1+(UN-R)*Y2             
+                 YY=R*Y1+(ONE-R)*Y2             
                  KK1=NX(1)*(KK-1)+N1           
                  TABLE(L)%Y%VALUES(KK1)=YY     
                  ITAG(N1,KK)=1                 

@@ -108,10 +108,10 @@ C-----------------------------------------------
       PM( 35)=ZERO
       PM( 36)=ZERO
       PM( 88)=PSH
-      IF(PM(79)==ZERO)PM(79)=TROIS100
+      IF(PM(79)==ZERO)PM(79)=THREE100
   
       !initial pressure for stress tensor
-      MU0 = RHOI/RHOR-UN 
+      MU0 = RHOI/RHOR-ONE 
       PM(31)=C0-PSH+C1*MU0
       
       !SSP0
@@ -121,7 +121,7 @@ C-----------------------------------------------
       DPDMU = C1
 
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + DTIERS*G0)/RHOR) 
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0
 
       WRITE(IOUT,1000)

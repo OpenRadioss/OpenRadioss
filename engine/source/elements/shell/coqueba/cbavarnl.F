@@ -104,7 +104,7 @@ C --- Loop over
            IPOS(3) = NLOC_DMG%POSI(INOD(3)) 
            IPOS(4) = NLOC_DMG%POSI(INOD(4)) 
            VARNL(I,K) = ZERO
-           VARNL(I,K) = QUART*(SF1*DNL(IPOS(1)+K-1) + SF2*DNL(IPOS(2)+K-1) 
+           VARNL(I,K) = FOURTH*(SF1*DNL(IPOS(1)+K-1) + SF2*DNL(IPOS(2)+K-1) 
      .                       + SF3*DNL(IPOS(3)+K-1) + SF4*DNL(IPOS(4)+K-1))
          ENDDO
        ENDDO

@@ -68,7 +68,7 @@ C-----------------------------------------------
 C
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------------------------------
-      S3000 = TROIS1000
+      S3000 = THREE1000
 C-----------------------------------------------
 C      SKEW
 C-----------------------------------------------
@@ -117,12 +117,12 @@ C-----------------------------------------------
               Y1=Y1*S
               Z1=Z1*S
 
-              IF(ABS(Z1).LT.UNDEMI)THEN
+              IF(ABS(Z1).LT.HALF)THEN
                 X2 =    -Z1*X1
                 Y2 =    -Z1*Y1
-                Z2 = UN -Z1*Z1
+                Z2 = ONE -Z1*Z1
               ELSE
-                X2 = UN -X1*X1
+                X2 = ONE -X1*X1
                 Y2 =    -X1*Y1
                 Z2 =    -X1*Z1
               ENDIF
@@ -194,21 +194,21 @@ C-----------------------------------------------
               Z1=X(3,IXR(3,N))-X(3,IXR(2,N))
               S=X1*X1+Y1*Y1+Z1*Z1
               IF(S.LT.EM30)THEN
-                X1=UN
+                X1=ONE
                 Y1=ZERO
                 Z1=ZERO
               ELSE
-                S=UN/SQRT(S)
+                S=ONE/SQRT(S)
                 X1=X1*S
                 Y1=Y1*S
                 Z1=Z1*S
               ENDIF
-              IF(ABS(Z1).LT.UNDEMI)THEN
+              IF(ABS(Z1).LT.HALF)THEN
                 X2 =    -Z1*X1
                 Y2 =    -Z1*Y1
-                Z2 = UN -Z1*Z1
+                Z2 = ONE -Z1*Z1
               ELSE
-                X2 = UN -X1*X1
+                X2 = ONE -X1*X1
                 Y2 =    -X1*Y1
                 Z2 =    -X1*Z1
               ENDIF
@@ -243,12 +243,12 @@ c              ENDIF
               X1=X1*S
               Y1=Y1*S
               Z1=Z1*S
-              IF(ABS(Z1).LT.UNDEMI)THEN
+              IF(ABS(Z1).LT.HALF)THEN
                 X2 =    -Z1*X1
                 Y2 =    -Z1*Y1
-                Z2 = UN -Z1*Z1
+                Z2 = ONE -Z1*Z1
               ELSE
-                X2 =UN -X1*X1
+                X2 =ONE -X1*X1
                 Y2 =    -X1*Y1
                 Z2 =    -X1*Z1
               ENDIF
@@ -273,16 +273,16 @@ c              ENDIF
               X1=X(1,IXR(4,N))-X(1,IXR(3,N))
               Y1=X(2,IXR(4,N))-X(2,IXR(3,N))
               Z1=X(3,IXR(4,N))-X(3,IXR(3,N))
-              S=UN/MAX(EM20,SQRT(X1*X1+Y1*Y1+Z1*Z1))
+              S=ONE/MAX(EM20,SQRT(X1*X1+Y1*Y1+Z1*Z1))
               X1=X1*S
               Y1=Y1*S
               Z1=Z1*S
-              IF(Z1.LT.UNDEMI)THEN
+              IF(Z1.LT.HALF)THEN
                 X2 =    -Z1*X1
                 Y2 =    -Z1*Y1
-                Z2 = UN -Z1*Z1
+                Z2 = ONE -Z1*Z1
               ELSE
-                X2 = UN -X1*X1
+                X2 = ONE -X1*X1
                 Y2 =    -X1*Y1
                 Z2 =    -X1*Z1
               ENDIF

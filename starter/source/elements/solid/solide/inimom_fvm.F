@@ -185,9 +185,9 @@ c          IF(IALEFVM_FLG.EQ.0)CYCLE
           VY8(I)      = V(2,IXS(9,II))    
           VZ8(I)      = V(3,IXS(9,II))
           !---cell_velocity---!
-          Vcell(1)    = UNHUIT * (VX1(I)+VX2(I)+VX3(I)+VX4(I)+VX5(I)+VX6(I)+VX7(I)+VX8(I))
-          Vcell(2)    = UNHUIT * (VY1(I)+VY2(I)+VY3(I)+VY4(I)+VY5(I)+VY6(I)+VY7(I)+VY8(I))
-          Vcell(3)    = UNHUIT * (VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I)+VZ5(I)+VZ6(I)+VZ7(I)+VZ8(I))               
+          Vcell(1)    = ONE_OVER_8 * (VX1(I)+VX2(I)+VX3(I)+VX4(I)+VX5(I)+VX6(I)+VX7(I)+VX8(I))
+          Vcell(2)    = ONE_OVER_8 * (VY1(I)+VY2(I)+VY3(I)+VY4(I)+VY5(I)+VY6(I)+VY7(I)+VY8(I))
+          Vcell(3)    = ONE_OVER_8 * (VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I)+VZ5(I)+VZ6(I)+VZ7(I)+VZ8(I))               
           !---momentum---!
           !MOM(I,1:3)  = RHO(I) * Vcell(1:3)
           !rho*VOL* VEL in aconve. VEL is needed before for FLUXES
@@ -204,7 +204,7 @@ c          IF(IALEFVM_FLG.EQ.0)CYCLE
           FCELL(3,II) = MOM(I,3)  
           FCELL(4,II) = RHO(I) 
           FCELL(5,II) = SSP(I)
-          FCELL(6,II) = -TIERS*(SIG(I,1)+SIG(I,2)+SIG(I,3)) 
+          FCELL(6,II) = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3)) 
         ENDDO
         
       !-----------------------------------------
@@ -253,7 +253,7 @@ c          IF(IALEFVM_FLG.EQ.0)CYCLE
             FCELL(3,II) = MOM(I,3)  
             FCELL(4,II) = RHO(I)
             FCELL(5,II) = SSP(I)
-            FCELL(6,II) = -TIERS*(SIG(I,1)+SIG(I,2)+SIG(I,3))
+            FCELL(6,II) = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
           ENDDO                              
         ELSEIF(ITYP == 3)THEN
           T0 = ZERO
@@ -270,7 +270,7 @@ c          IF(IALEFVM_FLG.EQ.0)CYCLE
             FCELL(3,II) = MOM(I,3)  
             FCELL(4,II) = RHO(I)
             FCELL(5,II) = SSP(I)
-            FCELL(6,II) = -TIERS*(SIG(I,1)+SIG(I,2)+SIG(I,3))
+            FCELL(6,II) = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
           ENDDO                              
         ENDIF
         

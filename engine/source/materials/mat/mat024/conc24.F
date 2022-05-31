@@ -250,16 +250,16 @@ C     CALCUL DU OFF
 C . . . . . . . . . . . . .
       DO I=LFT,LLT
         IF(OFF(I) < EM01) OFF(I)=ZERO
-        IF(OFF(I) < UN)   OFF(I)=OFF(I)*QCINQ
+        IF(OFF(I) < ONE)   OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 C
       I1 = 0
       IF(N2D.NE.1) THEN
         DO I=LFT,LLT
-          IF (OFF(I).GE.UN) THEN
+          IF (OFF(I).GE.ONE) THEN
             ETEST= MAX(CRAK(I,1),CRAK(I,2),CRAK(I,3))
             IF(ETEST.GE.EPSMAX)THEN
-              OFF(I)=OFF(I)*QCINQ
+              OFF(I)=OFF(I)*FOUR_OVER_5
               I1 = I1 + 1
               INDEX1(I1) = I
             ENDIF
@@ -267,12 +267,12 @@ C
         ENDDO
       ELSE
         DO I=LFT,LLT
-          IF(OFF(I).GE.UN) THEN
+          IF(OFF(I).GE.ONE) THEN
             PLUS=STRAIN(I,1)+STRAIN(I,2)
             DIFF=STRAIN(I,1)-STRAIN(I,2)
-            ETEST=UNDEMI*(PLUS+SQRT(DIFF**2+STRAIN(I,4)**2))
+            ETEST=HALF*(PLUS+SQRT(DIFF**2+STRAIN(I,4)**2))
             IF (ETEST.GE.EPSMAX)THEN
-              OFF(I) = OFF(I)*QCINQ
+              OFF(I) = OFF(I)*FOUR_OVER_5
               I1 = I1 + 1
               INDEX1(I1) = I
             ENDIF
@@ -306,9 +306,9 @@ c
 c     ADDITION DES FORCES ARMATURES ET RETOUR REPERE GLOBAL
       IF (ARMA > ZERO) THEN
         DO I=LFT,LLT
-          SIG(I,1) = SIG(I,1) * (UN - ARM1(I)) + ARM1(I)*SIGA(I,1)
-          SIG(I,2) = SIG(I,2) * (UN - ARM2(I)) + ARM2(I)*SIGA(I,2)
-          SIG(I,3) = SIG(I,3) * (UN - ARM3(I)) + ARM3(I)*SIGA(I,3)
+          SIG(I,1) = SIG(I,1) * (ONE - ARM1(I)) + ARM1(I)*SIGA(I,1)
+          SIG(I,2) = SIG(I,2) * (ONE - ARM2(I)) + ARM2(I)*SIGA(I,2)
+          SIG(I,3) = SIG(I,3) * (ONE - ARM3(I)) + ARM3(I)*SIGA(I,3)
         ENDDO
       ENDIF
 c-------------------------

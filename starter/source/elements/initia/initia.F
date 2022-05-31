@@ -3163,7 +3163,7 @@ C
               SAV(I,N2+1) = YL(N)-YL(NPE)
               SAV(I,N2+2) = ZL(N)-ZL(NPE)
             END DO
-            OFFG(I) =DEUX
+            OFFG(I) =TWO
           ELSE            
             DO N=1,NPE1
               SAV(I,N)        = XL(N)-XL(NPE)
@@ -3224,7 +3224,7 @@ C-----------------------------------------------
             SAV(I,N+NPE)   = SIGSP(IIS+2,JJ)			       
             SAV(I,N+2*NPE) = SIGSP(IIS+3,JJ)
           END DO
-         IF (ISMSTR==1) OFFG(I) =DEUX 
+         IF (ISMSTR==1) OFFG(I) =TWO 
         ENDIF          
        ENDDO
 C

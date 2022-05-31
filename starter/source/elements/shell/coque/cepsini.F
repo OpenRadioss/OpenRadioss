@@ -150,7 +150,7 @@ c
      .            Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,                
      .            E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z )
 c
-      FAC = UN / FLOAT(NITRS)
+      FAC = ONE / FLOAT(NITRS)
       DO I= JFT,JLT
         VL(1,1,I) = ZERO
         VL(2,1,I) = ZERO
@@ -179,7 +179,7 @@ c--------------------------------------------------------
       IF (ISMSTR /= 1 .AND. ISMSTR /= 11)THEN
 c-----------------
         DO NT = 1,NITRS
-          FAC = FLOAT(NT) - UN
+          FAC = FLOAT(NT) - ONE
           DO I=JFT,JLT
             X1(I) = XREFC(1,1,I) + FAC*VL(1,1,I)
             Y1(I) = XREFC(1,2,I) + FAC*VL(2,1,I)
@@ -412,10 +412,10 @@ C
         ENDDO
 C
         DO I=JFT,JLT
-          PX1(I)= UNDEMI*(Y2L(I)-Y4L(I))
-          PY1(I)= UNDEMI*(X4L(I)-X2L(I))
-          PX2(I)= UNDEMI*Y3L(I)
-          PY2(I)=-UNDEMI*X3L(I)
+          PX1(I)= HALF*(Y2L(I)-Y4L(I))
+          PY1(I)= HALF*(X4L(I)-X2L(I))
+          PX2(I)= HALF*Y3L(I)
+          PY2(I)=-HALF*X3L(I)
         ENDDO
 C
       ELSE
@@ -430,7 +430,7 @@ C
       ENDIF
 C
        DO I=JFT,JLT
-          AREA(I)=DEUX*(PY2(I)*PX1(I)-PY1(I)*PX2(I))
+          AREA(I)=TWO*(PY2(I)*PX1(I)-PY1(I)*PX2(I))
        ENDDO
 C
       RETURN
@@ -505,7 +505,7 @@ C
         VZ24(I) = VZ2(I)-VZ4(I)
         TMP2 = PY2(I)+PY1(I)
         TMP3 = SIGN(MAX(ABS(TMP2),EM20),TMP2)
-        TMP1 = QUART*(VZ13(I)-VZ24(I))**2/TMP3
+        TMP1 = FOURTH*(VZ13(I)-VZ24(I))**2/TMP3
         VX13(I) = VX1(I)-VX3(I)
         VX24(I) = VX2(I)-VX4(I)
         VX13(I) = VX13(I)-TMP1
@@ -516,7 +516,7 @@ C
 C
         TMP1=PX2(I)-PX1(I)
         TMP3=SIGN(MAX(ABS(TMP1),EM20),TMP1)
-        TMP2=QUART*(VZ13(I)+VZ24(I))**2/TMP3
+        TMP2=FOURTH*(VZ13(I)+VZ24(I))**2/TMP3
         VY13(I)=VY1(I)-VY3(I)
         VY24(I)=VY2(I)-VY4(I)
         VY13(I)=VY13(I)+TMP2
@@ -529,7 +529,7 @@ C
       ENDDO
 C
       DO I=JFT,JLT
-        FAC1  = UN/AREA(I)
+        FAC1  = ONE/AREA(I)
         EXX(I)= EXX(I)*FAC1
         EYY(I)= EYY(I)*FAC1
         EXY(I)= EXY(I)*FAC1
@@ -595,12 +595,12 @@ C-------------------------------------------------------------
       DO I=JFT,JLT
         DEGMB(I) = DEGMB(I)+
      +             FOR(I,1)*EXX(I)+FOR(I,2)*EYY(I)+FOR(I,3)*EXY(I)
-        EINT(I,1) = EINT(I,1) + DEGMB(I)*UNDEMI*THK(I)*AREA(I)
+        EINT(I,1) = EINT(I,1) + DEGMB(I)*HALF*THK(I)*AREA(I)
       ENDDO
       IF(ITHK == 1) THEN
         DO I=JFT,JLT
-          EZZ = -NU(I) * (EXX(I) + EYY(I)) / (UN-NU(I))
-          THK(I) = THK(I) * (UN + EZZ)
+          EZZ = -NU(I) * (EXX(I) + EYY(I)) / (ONE-NU(I))
+          THK(I) = THK(I) * (ONE + EZZ)
         ENDDO
       ENDIF
 c-----------
@@ -666,9 +666,9 @@ C
       DO  I=JFT,JLT
         EPST(1,I)= GSTR(I,1)
         EPST(2,I)= GSTR(I,2)
-        EPST(3,I)= GSTR(I,3)*UNDEMI
-        EPST(4,I)= GSTR(I,4)*UNDEMI
-        EPST(5,I)= GSTR(I,5)*UNDEMI
+        EPST(3,I)= GSTR(I,3)*HALF
+        EPST(4,I)= GSTR(I,4)*HALF
+        EPST(5,I)= GSTR(I,5)*HALF
       ENDDO
 C-------------------------------------------------
 C     ROTATIONS DANS LE REPERE D ORTHOTROPIE EPST
@@ -676,7 +676,7 @@ C-------------------------------------------------
       CALL ROTO(JFT,JLT,EPST,5,DIR,NEL)
 C-------------------------------------------------
       DO  I=JFT,JLT
-       A12(I)=UN-N12(I)*N21(I)
+       A12(I)=ONE-N12(I)*N21(I)
        A11(I)=E11(I)/A12(I)
        A22(I)=E22(I)/A12(I)
        A12(I)=N21(I)*A11(I)
@@ -685,18 +685,18 @@ C     FORCES ELASTIQUES
 C-----------------------------
        FOR(I,1)=A11(I)*EPST(1,I)+A12(I)*EPST(2,I)
        FOR(I,2)=A12(I)*EPST(1,I)+A22(I)*EPST(2,I)
-       FOR(I,3)=G12(I)*EPST(3,I)*DEUX
+       FOR(I,3)=G12(I)*EPST(3,I)*TWO
 C-----------------------------
 C     CONTRAINTES reduites en compression
 C-----------------------------
-       S  = UNDEMI*(FOR(I,1)+FOR(I,2))
-       D  = UNDEMI*(FOR(I,1)-FOR(I,2))
+       S  = HALF*(FOR(I,1)+FOR(I,2))
+       D  = HALF*(FOR(I,1)-FOR(I,2))
        R  = SQRT(FOR(I,3)*FOR(I,3) + D*D)
        P1 = S - R
        IF(P1.LT.ZERO)THEN
          P2 = S + R
          IF(P2.GT.ZERO)THEN
-           BETA = UNDEMI*((UN-DE(I))*S/R + UN+DE(I))
+           BETA = HALF*((ONE-DE(I))*S/R + ONE+DE(I))
            FOR(I,1)=BETA*(FOR(I,1)-P2) + P2
            FOR(I,2)=BETA*(FOR(I,2)-P2) + P2
            FOR(I,3)=BETA*FOR(I,3)
@@ -727,12 +727,12 @@ C
       DO I=JFT,JLT
         DEGMB(I) = DEGMB(I)+
      +             FOR(I,1)*EXX(I)+FOR(I,2)*EYY(I)+FOR(I,3)*EXY(I)
-        EINT(I,1) = EINT(I,1) + DEGMB(I)*UNDEMI*THK(I)*AREA(I)
+        EINT(I,1) = EINT(I,1) + DEGMB(I)*HALF*THK(I)*AREA(I)
       ENDDO
 C      IF(ITHK == 1) THEN
 C        DO I=JFT,JLT
-C         EZZ = -NU(I) * (EXX(I) + EYY(I)) / (UN-NU(I))
-C         THK(I) = THK(I) * (UN + EZZ)
+C         EZZ = -NU(I) * (EXX(I) + EYY(I)) / (ONE-NU(I))
+C         THK(I) = THK(I) * (ONE + EZZ)
 C        ENDDO
 C      ENDIF
       RETURN
@@ -767,10 +767,10 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       DO I=JFT,JLT
         S1(I) = DIR(I,1)*DIR(I,1)*TAB(1,I)
      .         +DIR(I,2)*DIR(I,2)*TAB(2,I)
-     .    +DEUX*DIR(I,1)*DIR(I,2)*TAB(3,I)
+     .    +TWO*DIR(I,1)*DIR(I,2)*TAB(3,I)
         S2(I) = DIR(I,2)*DIR(I,2)*TAB(1,I)
      .         +DIR(I,1)*DIR(I,1)*TAB(2,I)
-     .    -DEUX*DIR(I,2)*DIR(I,1)*TAB(3,I)
+     .    -TWO*DIR(I,2)*DIR(I,1)*TAB(3,I)
         S3(I) =-DIR(I,1)*DIR(I,2)*TAB(1,I)
      .         +DIR(I,2)*DIR(I,1)*TAB(2,I)
      .        +(DIR(I,1)*DIR(I,1)-DIR(I,2)*DIR(I,2))*TAB(3,I)
@@ -818,10 +818,10 @@ C-------------------------------------------------------------
       DO I=JFT,JLT
         S1(I) = DIR(I,1)*DIR(I,1)*TAB(I,1)
      .         +DIR(I,2)*DIR(I,2)*TAB(I,2)
-     .    -DEUX*DIR(I,1)*DIR(I,2)*TAB(I,3)
+     .    -TWO*DIR(I,1)*DIR(I,2)*TAB(I,3)
         S2(I) = DIR(I,2)*DIR(I,2)*TAB(I,1)
      .         +DIR(I,1)*DIR(I,1)*TAB(I,2)
-     .    +DEUX*DIR(I,2)*DIR(I,1)*TAB(I,3)
+     .    +TWO*DIR(I,2)*DIR(I,1)*TAB(I,3)
         S3(I) =+DIR(I,1)*DIR(I,2)*TAB(I,1)
      .         -DIR(I,2)*DIR(I,1)*TAB(I,2)
      .        +(DIR(I,1)*DIR(I,1)-DIR(I,2)*DIR(I,2))*TAB(I,3)
@@ -877,11 +877,11 @@ C------------------------------------------------------
      .  DELT(MVSIZ),X1(MVSIZ),X2(MVSIZ)
 C-------------------------------------------------------------
       DO I=JFT,JLT
-        DELT(I)=((GSTR(I,1)+GSTR(I,2))*(GSTR(I,1)+GSTR(I,2)))-QUATRE*
-     .   (GSTR(I,1)*GSTR(I,2)-QUART*GSTR(I,3)*GSTR(I,3))
+        DELT(I)=((GSTR(I,1)+GSTR(I,2))*(GSTR(I,1)+GSTR(I,2)))-FOUR*
+     .   (GSTR(I,1)*GSTR(I,2)-FOURTH*GSTR(I,3)*GSTR(I,3))
        IF(DELT(I).GE.ZERO)THEN
-         X1(I) = (GSTR(I,1)+GSTR(I,2)-SQRT(DELT(I)))/DEUX
-         X2(I) = (GSTR(I,1)+GSTR(I,2)+SQRT(DELT(I)))/DEUX
+         X1(I) = (GSTR(I,1)+GSTR(I,2)-SQRT(DELT(I)))/TWO
+         X2(I) = (GSTR(I,1)+GSTR(I,2)+SQRT(DELT(I)))/TWO
          IF((X1(I).GT.ZERO.AND.(X1(I).GT.EM10)).OR.(X2(I).GT.ZERO
      .    .AND.(X2(I).GT.EM10)))THEN
            IF(IPRI == 5) THEN

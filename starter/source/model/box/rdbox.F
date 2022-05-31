@@ -652,7 +652,7 @@ C  Otherwise, determine the distance from P to the axis.
 C
       P_LENGTH = VEC_LENGTH(3, P(1:3) - P1(1:3))
       OFF_AXIX_COMPONENT = SQRT(P_LENGTH**2 - P_DOT_AXIS**2)
-      IF(OFF_AXIX_COMPONENT <= UNDEMI*D)OK = 1
+      IF(OFF_AXIX_COMPONENT <= HALF*D)OK = 1
 C
       RETURN
       END
@@ -738,7 +738,7 @@ C-----------------------------------------------
      .    P1(3),P2(3),SUMA
 C-----------------------------------------------
       SUMA = SUM((P(1:3) - PC(1:3))**2)
-      SUMA = QUATRE*SUMA
+      SUMA = FOUR*SUMA
       IF(SUMA <= D**2) OK = 1
 C
       RETURN

@@ -135,7 +135,7 @@ C----------------------------
 C     CHANGE TO LOCAL SYSTEM
 C----------------------------
       DO I=JFT,JLT
-       AREA(I)=UNDEMI*DETA1(I)
+       AREA(I)=HALF*DETA1(I)
        XL2(I)=R11(I)*RX(I)+R21(I)*RY(I)+R31(I)*RZ(I)
        XL3(I)=R11(I)*SX(I)+R21(I)*SY(I)+R31(I)*SZ(I)
        YL3(I)=R12(I)*SX(I)+R22(I)*SY(I)+R32(I)*SZ(I)
@@ -158,7 +158,7 @@ C----------------------------
       ENDIF
       IF(ISMSTR.EQ.1)THEN
         DO I=JFT,JLT
-          IF(OFFG(I) == UN) OFFG(I)=DEUX
+          IF(OFFG(I) == ONE) OFFG(I)=TWO
         ENDDO
       ENDIF
 C----------------------------

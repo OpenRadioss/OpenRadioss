@@ -94,7 +94,7 @@ C
             LC=SQRT((XC2-XC1)**2+(YC2-YC1)**2+(ZC2-ZC1)**2)
 C
             FXBSIG(NFS+2*(I-1)+1)=E*AREA*(LC-L0)
-            FXBSIG(NFS+2*(I-1)+2)=UNDEMI*E*AREA*(LC-L0)**2
+            FXBSIG(NFS+2*(I-1)+2)=HALF*E*AREA*(LC-L0)**2
          ENDDO
       ENDDO
 C

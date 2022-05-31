@@ -172,7 +172,7 @@ c=======================================================================
          ! Number of the material law
          IMAT   = IXTG(1,1+NFT)
          ! Minimal length
-         LE_MIN = SQRT((QUATRE/SQRT(TROIS))*MINVAL(AREA(NUMELC+NFT+1:NUMELC+NFT+NEL)))
+         LE_MIN = SQRT((FOUR/SQRT(THREE))*MINVAL(AREA(NUMELC+NFT+1:NUMELC+NFT+NEL)))
          ! Number of integration points
          NDOF   = ELBUF_TAB(NG)%BUFLY(1)%NPTT
          ! Thickness of the shell
@@ -192,8 +192,8 @@ c=======================================================================
          ! Non-local sound speed
          SSPNL  = NLOC_DMG%SSPNL(IMAT)
          ! Non-local timestep
-         DT_NL  = MIN(DT_NL,0.5D0*((DEUX*MIN(LE_MIN,LE_MAX)*SQRT(TROIS*DENS))/
-     .                             (SQRT(DOUZE*(LEN**2)+(MIN(LE_MIN,LE_MAX)**2)))))
+         DT_NL  = MIN(DT_NL,0.5D0*((TWO*MIN(LE_MIN,LE_MAX)*SQRT(THREE*DENS))/
+     .                             (SQRT(TWELVE*(LEN**2)+(MIN(LE_MIN,LE_MAX)**2)))))
          ! Allocation of the velocities predictor
          IF (NDOF>1) THEN
            IF (NDOF > 2) THEN 
@@ -282,10 +282,10 @@ c
            X3L(I) = E1X(I)*(X3(I)-X1(I))+E1Y(I)*(Y3(I)-Y1(I))+E1Z(I)*(Z3(I)-Z1(I))
 c
            ! Computation of the shape functions derivatives
-           PX1(I) = (Y2L(I)-Y3L(I))*(UNDEMI/SURF(I))
-           PY1(I) = (X3L(I)-X2L(I))*(UNDEMI/SURF(I))
-           PX2(I) =  Y3L(I)*(UNDEMI/SURF(I))
-           PY2(I) = -X3L(I)*(UNDEMI/SURF(I))
+           PX1(I) = (Y2L(I)-Y3L(I))*(HALF/SURF(I))
+           PY1(I) = (X3L(I)-X2L(I))*(HALF/SURF(I))
+           PX2(I) =  Y3L(I)*(HALF/SURF(I))
+           PY2(I) = -X3L(I)*(HALF/SURF(I))
 c
            ! Computation of the product BtxB
            BTB11(I) = PX1(I)**2 + PY1(I)**2
@@ -320,7 +320,7 @@ c
            DO K = 1,NDNOD
              DO I = 1,NEL
                ! Prediction of the velocities
-               VPRED(I,K) = VNLTH(I,K) - (FNLTH(I,K)/MASSTH(I,K))*(DT_NL/DEUX)
+               VPRED(I,K) = VNLTH(I,K) - (FNLTH(I,K)/MASSTH(I,K))*(DT_NL/TWO)
              ENDDO
            ENDDO
            DO K = 1,NDNOD
@@ -346,11 +346,11 @@ c
              DO I = 1,NEL
                ! Computation of B-matrix values
                IF ((NDOF==2).AND.(K==2)) THEN
-                 BTH1 = (UN/(ZN1(K-1,NDOF)  - ZN1(K,NDOF)))*(UN/THCK(I))
-                 BTH2 = (UN/(ZN1(K,NDOF)    - ZN1(K-1,NDOF)))*(UN/THCK(I))
+                 BTH1 = (ONE/(ZN1(K-1,NDOF)  - ZN1(K,NDOF)))*(ONE/THCK(I))
+                 BTH2 = (ONE/(ZN1(K,NDOF)    - ZN1(K-1,NDOF)))*(ONE/THCK(I))
                ELSE
-                 BTH1 = (UN/(ZN1(K,NDOF)    - ZN1(K+1,NDOF)))*(UN/THCK(I))
-                 BTH2 = (UN/(ZN1(K+1,NDOF)  - ZN1(K,NDOF)))*(UN/THCK(I))
+                 BTH1 = (ONE/(ZN1(K,NDOF)    - ZN1(K+1,NDOF)))*(ONE/THCK(I))
+                 BTH2 = (ONE/(ZN1(K+1,NDOF)  - ZN1(K,NDOF)))*(ONE/THCK(I))
                ENDIF
 c            
                ! Computation of the non-local K matrix
@@ -448,11 +448,11 @@ c
                B3 = ((LEN**2)*VOLS(I))*WF1(K,NDOF)*(BTB13(I)*UNL(POS1(I)+K-1) + BTB23(I)*UNL(POS2(I)+K-1) 
      .                                         + BTB33(I)*UNL(POS3(I)+K-1))    
                ! Computing the product NtN*UNL
-               NTN_UNL = ((UNL(POS1(I)+K-1) + UNL(POS2(I)+K-1) + UNL(POS3(I)+K-1))*TIERS*TIERS)*VOLS(I)*WF1(K,NDOF)
+               NTN_UNL = ((UNL(POS1(I)+K-1) + UNL(POS2(I)+K-1) + UNL(POS3(I)+K-1))*THIRD*THIRD)*VOLS(I)*WF1(K,NDOF)
                ! Computing the product DAMP*NtN*VNL!
-               NTN_VNL = ((VNL(POS1(I)+K-1) + VNL(POS2(I)+K-1) + VNL(POS3(I)+K-1))*TIERS*TIERS)*DAMP*VOLS(I)*WF1(K,NDOF)
+               NTN_VNL = ((VNL(POS1(I)+K-1) + VNL(POS2(I)+K-1) + VNL(POS3(I)+K-1))*THIRD*THIRD)*DAMP*VOLS(I)*WF1(K,NDOF)
                ! Introducing the internal variable to be regularized
-               NTVAR   = VAR_REG(I,K)*TIERS*VOLS(I)*WF1(K,NDOF)
+               NTVAR   = VAR_REG(I,K)*THIRD*VOLS(I)*WF1(K,NDOF)
                !Computing the elementary non-local forces
                FNL(POS1(I)+K-1) = FNL(POS1(I)+K-1) - (NTN_UNL + NTN_VNL - NTVAR + B1)
                FNL(POS2(I)+K-1) = FNL(POS2(I)+K-1) - (NTN_UNL + NTN_VNL - NTVAR + B2)
@@ -460,11 +460,11 @@ c
              ELSE
                ! Non-local absorbing forces               
                FNL(POS1(I)+K-1) = FNL(POS1(I)+K-1) - 
-     .                         WF1(K,NDOF)*DENS*SSPNL*VNL(POS1(I)+K-1)*SQRT((QUATRE/SQRT(TROIS))*(LE_MAX**2))*THCK(I)
+     .                         WF1(K,NDOF)*DENS*SSPNL*VNL(POS1(I)+K-1)*SQRT((FOUR/SQRT(THREE))*(LE_MAX**2))*THCK(I)
                FNL(POS2(I)+K-1) = FNL(POS2(I)+K-1) - 
-     .                         WF1(K,NDOF)*DENS*SSPNL*VNL(POS2(I)+K-1)*SQRT((QUATRE/SQRT(TROIS))*(LE_MAX**2))*THCK(I)
+     .                         WF1(K,NDOF)*DENS*SSPNL*VNL(POS2(I)+K-1)*SQRT((FOUR/SQRT(THREE))*(LE_MAX**2))*THCK(I)
                FNL(POS3(I)+K-1) = FNL(POS3(I)+K-1) - 
-     .                         WF1(K,NDOF)*DENS*SSPNL*VNL(POS3(I)+K-1)*SQRT((QUATRE/SQRT(TROIS))*(LE_MAX**2))*THCK(I)
+     .                         WF1(K,NDOF)*DENS*SSPNL*VNL(POS3(I)+K-1)*SQRT((FOUR/SQRT(THREE))*(LE_MAX**2))*THCK(I)
              ENDIF
            ENDDO
          ENDDO

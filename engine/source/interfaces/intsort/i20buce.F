@@ -147,7 +147,7 @@ C
 C
 C-----DEBUT DE LA PHASE DE TRI 
 C
-C       SEPARER B ET N EN DEUX
+C       SEPARER B ET N EN TWO
 C
       MARGE = TZINF-GAP  ! il s agit bien de la marge
       CALL I20TRI(
@@ -184,10 +184,10 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
           WRITE(IOUT,*)'       MULTIPLIED BY 0.75'
 #include "lockoff.inc"
         ENDIF
-        TZINF = TQUART*TZINF
+        TZINF = THREE_OVER_4*TZINF
 C ne pas dimunuer la taille des boite
-C        MINBOX= TQUART*MINBOX
-C        MAXBOX= TQUART*MAXBOX
+C        MINBOX= THREE_OVER_4*MINBOX
+C        MAXBOX= THREE_OVER_4*MAXBOX
         IF( TZINF.LE.GAP ) THEN
           CALL ANCMSG(MSGID=98,ANMODE=ANINFO,
      .            I1=NOINT,C1='(I20BUCE)')
@@ -320,7 +320,7 @@ C
 C
 C-----DEBUT DE LA PHASE DE TRI 
 C 
-C       SEPARER B ET N EN DEUX
+C       SEPARER B ET N EN TWO
       CALL I20TRI_EDGE(
      1   ADD     ,XA      ,NLG      ,
      2   IXLINS  ,IXLINM  ,NLINMA   ,NLINSR   ,
@@ -354,10 +354,10 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
 #include "lockoff.inc"
         ENDIF
 
-        TZINF = TQUART*TZINF
+        TZINF = THREE_OVER_4*TZINF
 C ne pas dimunuer la taille des boite
-C        MINBOX= TQUART*MINBOX
-C        MAXBOX= TQUART*MAXBOX
+C        MINBOX= THREE_OVER_4*MINBOX
+C        MAXBOX= THREE_OVER_4*MAXBOX
         IF( TZINF.LE.GAP ) THEN
           CALL ANCMSG(MSGID=98,ANMODE=ANINFO,
      .            I1=NOINT,C1='(I20BUCE)')

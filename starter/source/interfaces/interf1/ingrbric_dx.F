@@ -112,12 +112,12 @@ C-----------------------------------------------
           DY = MIN_Y-MAX_Y
           DZ = MIN_Z-MAX_Z                    
           DIAG = SQRT(DX*DX+DY*DY+DZ*DZ)  
-          DIAG = SQRT(TROIS)*DIAG
-          DIAG = UNDEMI*DIAG            !   sqrt(3)/2 * DIAG = ~ 1.5*MESH_SIZE
+          DIAG = SQRT(THREE)*DIAG
+          DIAG = HALF*DIAG            !   sqrt(3)/2 * DIAG = ~ 1.5*MESH_SIZE
           IF(DIAG > DIAG_MAX)DIAG_MAX=DIAG
         END DO
         GLOBAL_GAP = DIAG_MAX
-        AUTO_LENGTH = SQRT(TROIS)*TIERS*DIAG_MAX
+        AUTO_LENGTH = SQRT(THREE)*THIRD*DIAG_MAX
         IS_GAP_COMPUTED = .TRUE.
        ENDIF
        
@@ -165,7 +165,7 @@ C-----------------------------------------------
           LMIN=MINVAL(LEN_EDGE)
           LMAX=MAXVAL(LEN_EDGE)
           RATIO = LMAX/LMIN
-          IF(RATIO > DEUX .AND. ENUM < 10)THEN
+          IF(RATIO > TWO .AND. ENUM < 10)THEN
             CHAR_ID=' '
             WRITE(CHAR_ID,FMT='(I0)')IXS(11,IBUFSSG(I))
             MSGTITL='CHECK ASPECT RATIO CELL ID ='//CHAR_ID 

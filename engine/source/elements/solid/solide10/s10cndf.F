@@ -117,7 +117,7 @@ C------------------------
            N1  = ICNDS10(2,I)
            N2  = ICNDS10(3,I)
           IF (ITAGND(N1)==0.AND.ITAGND(N2)==0) CYCLE
-           FAC = UNDEMI*WEIGHT(ND)
+           FAC = HALF*WEIGHT(ND)
            FX = FAC*A(1,ND)
            FY = FAC*A(2,ND)
            FZ = FAC*A(3,ND)
@@ -170,7 +170,7 @@ C------------------------
            N1  = ICNDS10(2,I)
            N2  = ICNDS10(3,I)
            IF (ITAGND(N1)==0.AND.ITAGND(N2)==0) CYCLE
-           FAC = UNDEMI*WEIGHT(ND)
+           FAC = HALF*WEIGHT(ND)
            FX = FAC*A(1,ND)
            FY = FAC*A(2,ND)
            FZ = FAC*A(3,ND)
@@ -303,7 +303,7 @@ C------------------------
            ND  = IABS(ICNDS10(1,I))
            N1  = ICNDS10(2,I)
            N2  = ICNDS10(3,I)
-	   FAC = UNDEMI*WEIGHT(ND)
+	   FAC = HALF*WEIGHT(ND)
            FX = FAC*A(1,ND)
            FY = FAC*A(2,ND)
            FZ = FAC*A(3,ND)
@@ -356,7 +356,7 @@ C------------------------
            ND  = IABS(ICNDS10(1,I))
            N1  = ICNDS10(2,I)
            N2  = ICNDS10(3,I)
-           FAC = UNDEMI*WEIGHT(ND)
+           FAC = HALF*WEIGHT(ND)
            FX = FAC*A(1,ND)
            FY = FAC*A(2,ND)
            FZ = FAC*A(3,ND)
@@ -452,9 +452,9 @@ C-----------------------------------------------
        DO I = 1, NS10E
         N1 = ICNDS10(2,I)
         N2 = ICNDS10(3,I)
-        VND(1,I) = UNDEMI*(V(1,N1) + V(1,N2))
-        VND(2,I) = UNDEMI*(V(2,N1) + V(2,N2))
-        VND(3,I) = UNDEMI*(V(3,N1) + V(3,N2))
+        VND(1,I) = HALF*(V(1,N1) + V(1,N2))
+        VND(2,I) = HALF*(V(2,N1) + V(2,N2))
+        VND(3,I) = HALF*(V(3,N1) + V(3,N2))
        END DO
 C       
        IF (IPARIT/=0) THEN
@@ -1266,7 +1266,7 @@ C-----------------------------------------------
      .   DMAS,VX,VY,VZ,DT05
 C=======================================================================
         KEND = ZERO
-        DT05 = UNDEMI*DT1
+        DT05 = HALF*DT1
         DMAS = ZERO
          DO I = 1, NKEND
            N = IMAP2ND(I)
@@ -1275,7 +1275,7 @@ c           DMAS=MS(NS)-MASI2ND0(I)
            VX = V(1,NS) + DT05*A(1,NS)
            VY = V(2,NS) + DT05*A(2,NS)
            VZ = V(3,NS) + DT05*A(3,NS)
-           KEND = KEND + ( VX*VX + VY*VY + VZ*VZ)*UNDEMI*MASI2ND0(I)
+           KEND = KEND + ( VX*VX + VY*VY + VZ*VZ)*HALF*MASI2ND0(I)
            DMAS = DMAS + MASI2ND0(I)
          ENDDO
          DMAS = DMAS + DMSI2
@@ -1693,8 +1693,8 @@ C-----------------------------------------------
 C======================================================================|
        IF (ISTAT/=1.AND.ISTAT/=3) RETURN
 C-------0.5*alpha	   
-       DAMPC=BETATE/(UN + BETATE * DT12)
-c       DT05 = UNDEMI*DT1	 
+       DAMPC=BETATE/(ONE + BETATE * DT12)
+c       DT05 = HALF*DT1	 
        IF (IPARIT/=0) FSKYCND(1:3,1:LCNCND)=ZERO
        IF (ISTATG/=0) THEN      
         IF(ISTATG.LT.0) ISTATG=NGR2USR(-ISTATG,IGRNOD,NGRNOD)
@@ -1708,7 +1708,7 @@ c       DT05 = UNDEMI*DT1
        ENDIF
        ISIZE = 4
 C------correction for nd due to V_nd=V_nd-0.5*(V1+V2)        
-       DOMEGA = DEUX*BETATE
+       DOMEGA = TWO*BETATE
        IF(ISTATG==0)THEN
 #include "vectorize.inc"
          DO I=1,NS10E

@@ -109,7 +109,7 @@ C---- tag elm /w /INIBRI/ORTHO
         CALL FRETITL2(TITR,
      .                IGEO(NPROPGI-LTITR+1,IG),LTITR)
         IPNUM = IGEO(2,IG)
-        PHI = GEO(1,IG) * PI/CENT80
+        PHI = GEO(1,IG) * PI/HUNDRED80
         VX  = GEO(7,IG)
         VY  = GEO(8,IG)
         VZ  = GEO(9,IG)
@@ -140,7 +140,7 @@ C         DIR3 =  orthogonal to bottom face
           F3X = F1Y(I)*F2Z(I) - F1Z(I)*F2Y(I)
           F3Y = F1Z(I)*F2X(I) - F1X(I)*F2Z(I)
           F3Z = F1X(I)*F2Y(I) - F1Y(I)*F2X(I)
-          SUM = UN / MAX(SQRT(F3X*F3X+F3Y*F3Y+F3Z*F3Z),EM20)
+          SUM = ONE / MAX(SQRT(F3X*F3X+F3Y*F3Y+F3Z*F3Z),EM20)
           F3X = F3X * SUM
           F3Y = F3Y * SUM
           F3Z = F3Z * SUM
@@ -157,9 +157,9 @@ C
             VX  = F1X(I)
             VY  = F1Y(I)
             VZ  = F1Z(I)
-            SUM = UN
+            SUM = ONE
           ELSE
-            SUM = UN / MAX(SQRT(VX*VX+VY*VY+VZ*VZ),EM20)
+            SUM = ONE / MAX(SQRT(VX*VX+VY*VY+VZ*VZ),EM20)
           ENDIF
 C         repere orthogononalise facette
 C         E3 = E1 x E2, E1' = V, E2' = E3 x E1'
@@ -191,7 +191,7 @@ C         DIR2 =  projection vect V on bottom face
           F3X = F1Y(I)*F2Z(I) - F1Z(I)*F2Y(I)
           F3Y = F1Z(I)*F2X(I) - F1X(I)*F2Z(I)
           F3Z = F1X(I)*F2Y(I) - F1Y(I)*F2X(I)
-          SUM = UN / MAX(SQRT(F3X*F3X+F3Y*F3Y+F3Z*F3Z),EM20)
+          SUM = ONE / MAX(SQRT(F3X*F3X+F3Y*F3Y+F3Z*F3Z),EM20)
           F3X = F3X * SUM
           F3Y = F3Y * SUM
           F3Z = F3Z * SUM
@@ -208,9 +208,9 @@ C
             VX  = F1X(I)
             VY  = F1Y(I)
             VZ  = F1Z(I)
-            SUM = UN
+            SUM = ONE
           ELSE
-            SUM= UN / MAX(SQRT(VX*VX+VY*VY+VZ*VZ),EM20)
+            SUM= ONE / MAX(SQRT(VX*VX+VY*VY+VZ*VZ),EM20)
           ENDIF
 C         repere orthogononalise facette
 C         E3 = E1 x E2, E1' = V, E2' = E3 x E1'
@@ -257,7 +257,7 @@ C --   g1: 12 (SK(1:3)); g2: 14(SK(4:6))
               SK(5) = X(2,N4)-X(2,N1)
               SK(6) = X(3,N4)-X(3,N1)
             END IF
-            SUM = UN / MAX(SQRT(SK(1)*SK(1)+SK(2)*SK(2)+SK(3)*SK(3)),EM20)
+            SUM = ONE / MAX(SQRT(SK(1)*SK(1)+SK(2)*SK(2)+SK(3)*SK(3)),EM20)
             SK(1) = SK(1) * SUM
             SK(2) = SK(2) * SUM
             SK(3) = SK(3) * SUM
@@ -265,7 +265,7 @@ C --   g1: 12 (SK(1:3)); g2: 14(SK(4:6))
             SK(4) = SK(4) - SUM*SK(1)
             SK(5) = SK(5) - SUM*SK(2)
             SK(6) = SK(6) - SUM*SK(3)
-            SUM = UN / MAX(SQRT(SK(4)*SK(4)+SK(5)*SK(5)+SK(6)*SK(6)),EM20)
+            SUM = ONE / MAX(SQRT(SK(4)*SK(4)+SK(5)*SK(5)+SK(6)*SK(6)),EM20)
             SK(4) = SK(4) * SUM
             SK(5) = SK(5) * SUM
             SK(6) = SK(6) * SUM
@@ -330,7 +330,7 @@ C           dir ortho v.s. local elem
           END IF
         ELSEIF (IPNUM == 23) THEN
 C --   Vj+phi       
-            SUM = UN / MAX(SQRT(SX(I)*SX(I)+SY(I)*SY(I)+SZ(I)*SZ(I)),EM20)
+            SUM = ONE / MAX(SQRT(SX(I)*SX(I)+SY(I)*SY(I)+SZ(I)*SZ(I)),EM20)
             F3X = SX(I) * SUM
             F3Y = SY(I) * SUM
             F3Z = SZ(I) * SUM
@@ -399,7 +399,7 @@ C --   Vj+Pt
             VX = GEO(7,IG)
             VY = GEO(8,IG)
             VZ = GEO(9,IG)
-            SUM = UN / MAX(SQRT(VX*VX+VY*VY+VZ*VZ),EM20)
+            SUM = ONE / MAX(SQRT(VX*VX+VY*VY+VZ*VZ),EM20)
             VX  = VX*SUM
             VY  = VY*SUM
             VZ  = VZ*SUM
@@ -480,7 +480,7 @@ C           dir ortho v.s. local elem
               SK(2) = E1Y(I)
               SK(3) = E1Z(I)
             ELSE
-              SUM = UN / SUM
+              SUM = ONE / SUM
               SK(1) = VX * SUM
               SK(2) = VY * SUM
               SK(3) = VZ * SUM
@@ -510,7 +510,7 @@ C           dir ortho v.s. local elem
               SK(2) = E2Y(I)
               SK(3) = E2Z(I)
             ELSE
-              SUM = UN / SUM
+              SUM = ONE / SUM
               SK(1) = VX * SUM
               SK(2) = VY * SUM
               SK(3) = VZ * SUM
@@ -540,7 +540,7 @@ C           dir ortho v.s. local elem
               SK(2) = E3Y(I)
               SK(3) = E3Z(I)
             ELSE
-              SUM= UN / SUM
+              SUM= ONE / SUM
               SK(1) = VX * SUM
               SK(2) = VY * SUM
               SK(3) = VZ * SUM
@@ -558,7 +558,7 @@ C           dir ortho v.s. local elem
         ELSEIF (JCVT > 0) THEN
 C         R'=R, T'=R^S, S'=T'^R
           SUM=SQRT(RX(I)**2+RY(I)**2+RZ(I)**2)
-          IF (SUM > ZERO) SUM=UN/SUM
+          IF (SUM > ZERO) SUM=ONE/SUM
           HX=RX(I)*SUM
           HY=RY(I)*SUM
           HZ=RZ(I)*SUM
@@ -566,7 +566,7 @@ C         R'=R, T'=R^S, S'=T'^R
           LY=HZ*SX(I)-HX*SZ(I)
           LZ=HX*SY(I)-HY*SX(I)
           SUM = SQRT(LX**2+LY**2+LZ**2)
-          IF (SUM > ZERO) SUM=UN/SUM
+          IF (SUM > ZERO) SUM=ONE/SUM
           LX=LX*SUM
           LY=LY*SUM
           LZ=LZ*SUM
@@ -574,7 +574,7 @@ C         R'=R, T'=R^S, S'=T'^R
           KY=LZ*HX-LX*HZ
           KZ=LX*HY-LY*HX
           SUM = SQRT(KX**2+KY**2+KZ**2)
-          IF (SUM > ZERO) SUM=UN/SUM
+          IF (SUM > ZERO) SUM=ONE/SUM
           KX=KX*SUM
           KY=KY*SUM
           KZ=KZ*SUM
@@ -616,7 +616,7 @@ C         R'=R, T'=R^S, S'=T'^R
               SK(2) = HY
               SK(3) = HZ
             ELSE
-              SUM = UN / SUM
+              SUM = ONE / SUM
               SK(1) = VX * SUM
               SK(2) = VY * SUM
               SK(3) = VZ * SUM
@@ -640,7 +640,7 @@ C         R'=R, T'=R^S, S'=T'^R
               SK(2) = KY
               SK(3) = KZ
             ELSE
-              SUM = UN / SUM
+              SUM = ONE / SUM
               SK(1) = VX * SUM
               SK(2) = VY * SUM
               SK(3) = VZ * SUM
@@ -664,7 +664,7 @@ C         R'=R, T'=R^S, S'=T'^R
               SK(2) = LY
               SK(3) = LZ
             ELSE
-              SUM = UN / SUM
+              SUM = ONE / SUM
               SK(1) = VX * SUM
               SK(2) = VY * SUM
               SK(3) = VZ * SUM
@@ -705,7 +705,7 @@ C
           GAMA(I,1) = B(1)*A(1) + B(4)*A(2) + B(7)*A(3)
           GAMA(I,2) = B(2)*A(1) + B(5)*A(2) + B(8)*A(3)
           GAMA(I,3) = B(3)*A(1) + B(6)*A(2) + B(9)*A(3)
-          SUM = UN / MAX(EM20,SQRT(GAMA(I,1)**2 + GAMA(I,2)**2 + GAMA(I,3)**2))
+          SUM = ONE / MAX(EM20,SQRT(GAMA(I,1)**2 + GAMA(I,2)**2 + GAMA(I,3)**2))
           GAMA(I,1) = GAMA(I,1) * SUM
           GAMA(I,2) = GAMA(I,2) * SUM
           GAMA(I,3) = GAMA(I,3) * SUM
@@ -713,7 +713,7 @@ C
           GAMA(I,4) = B(1)*A(4) + B(4)*A(5) + B(7)*A(6)
           GAMA(I,5) = B(2)*A(4) + B(5)*A(5) + B(8)*A(6)
           GAMA(I,6) = B(3)*A(4) + B(6)*A(5) + B(9)*A(6)
-          SUM = UN / MAX(EM20,SQRT(GAMA(I,4)**2 + GAMA(I,5)**2 + GAMA(I,6)**2))
+          SUM = ONE / MAX(EM20,SQRT(GAMA(I,4)**2 + GAMA(I,5)**2 + GAMA(I,6)**2))
           GAMA(I,4) = GAMA(I,4) * SUM
           GAMA(I,5) = GAMA(I,5) * SUM
           GAMA(I,6) = GAMA(I,6) * SUM

@@ -179,7 +179,7 @@ C     mean normmal to nodes
 C------------------------------------
         DO N=1,NUMNOD
           IF (TAGN(N) == 1 .AND. IPASSN(N) == 0) THEN
-            AA=UN/MAX(EM30,SQRT(NOD_NORMAL(1,N)*NOD_NORMAL(1,N)+
+            AA=ONE/MAX(EM30,SQRT(NOD_NORMAL(1,N)*NOD_NORMAL(1,N)+
      .                          NOD_NORMAL(2,N)*NOD_NORMAL(2,N)+
      .                          NOD_NORMAL(3,N)*NOD_NORMAL(3,N)))
             NOD_NORMAL(1,N)=NOD_NORMAL(1,N)*AA
@@ -231,7 +231,7 @@ C---
           DIST = ZERO
           DIST = AA*(X(1,N)-XP1)+BB*(X(2,N)-YP1)+CC*(X(3,N)-ZP1)
           SUM = SQRT(AA*AA+BB*BB+CC*CC)
-          SUM = UN/MAX(EM30,SUM)
+          SUM = ONE/MAX(EM30,SUM)
           DIST = DIST*SUM
           DIS(IVOLSURF(IDSURF),N) = DIST
         ENDDO 
@@ -281,7 +281,7 @@ C---
           IF(TMP(2)/=ZERO)TMP(2)= EXP(DGR*LOG(TMP(2)))
           IF(TMP(3)/=ZERO)TMP(3)= EXP(DGR*LOG(TMP(3)))
           DIST = (TMP(1)+TMP(2)+TMP(3))          
-          DIS(IVOLSURF(IDSURF),N) = UN-DIST
+          DIS(IVOLSURF(IDSURF),N) = ONE-DIST
         ENDDO
 C---
  960    CONTINUE

@@ -102,12 +102,12 @@ C
         EM22 =ZERO
         EMC2 =ZERO     
 !---
-        IF (DAMT(I,1) < UN) THEN       
+        IF (DAMT(I,1) < ONE) THEN       
 !---
           DAMT(I,1)=EXP(-(TT-SIGR(I,6))/TMAX(I))   
           IF (DAMT(I,1) < EM02) DAMT(I,1)=ZERO  
 !---
-        ELSEIF (DAMT(I,2) < UN) THEN
+        ELSEIF (DAMT(I,2) < ONE) THEN
 !---
           DAMT(I,2)=EXP(-(TT-SIGR(I,6))/TMAX(I))        
           IF (DAMT(I,2) < EM02) DAMT(I,2)=ZERO          
@@ -117,12 +117,12 @@ C
           SIG(I,5) = SIGR(I,5)*DAMT(I,2)
           IF (SIG(I,1)> ZERO) THEN             
             EF2=(SIG(I,1)/SIGT1(I))**2 + BETA(I)*(SIG(I,3)/SIGR12(I))**2
-            DAMT(I,1)=UN
+            DAMT(I,1)=ONE
           ELSE 
             EFC2 = (SIG(I,1)/SIGC1(I))**2
-            DAMT(I,1)=UN
+            DAMT(I,1)=ONE
           ENDIF 
-          IF (EF2 >= UN .OR. EFC2 >= UN) THEN
+          IF (EF2 >= ONE .OR. EFC2 >= ONE) THEN
             SIGR(I,6) = TT
             DAMT(I,1) = ZEP9        
             SCH1(I,1) = SIG(I,1)
@@ -140,13 +140,13 @@ C
           IF (SIG(I,1) > ZERO) THEN
 !   tensile fiber mode
             EF2=(SIG(I,1)/SIGT1(I))**2 + BETA(I)*(SIG(I,3)/SIGR12(I))**2
-            DAMT(I,1)=UN ! obsolette (already initialized to 1)
+            DAMT(I,1)=ONE ! obsolette (already initialized to 1)
           ELSE
 !   compressive fiber mode
             EFC2 = (SIG(I,1)/SIGC1(I))**2
-            DAMT(I,1)=UN ! obsolette (already initialized to 1)
+            DAMT(I,1)=ONE ! obsolette (already initialized to 1)
           ENDIF 
-          IF (EF2 >= UN .OR. EFC2 >= UN) THEN
+          IF (EF2 >= ONE .OR. EFC2 >= ONE) THEN
             DAMT(I,1) = ZEP9
             SIGR(I,6) = TT
 !            IDIR = 1 
@@ -159,7 +159,7 @@ C
 !            WRITE(IOUT, '(A,I1,A,I10,5X,A,I3,A,1PE11.4)')
 !     +     ' FAILURE-',1,' ELEMENT #',NGL(I),
 !     +     ' LAYER #',ILAYER,' TIME=',TT
-!!          ENDIF ! IF (EF2 >= UN .OR. EFC2 >= UN)
+!!          ENDIF ! IF (EF2 >= ONE .OR. EFC2 >= ONE)
 !
 ! matrix cracking failure criteria
 !
@@ -167,15 +167,15 @@ C
             IF (SIG(I,2) >= ZERO) THEN
 !   tensile matrix mode
               EM22=(SIG(I,2)/SIGC2(I))**2 + (SIG(I,3)/SIGR12(I))**2 
-              DAMT(I,2)=UN ! obsolette (already initialized to 1)
+              DAMT(I,2)=ONE ! obsolette (already initialized to 1)
             ELSE
 ! compressive matrix mode
-              EMC2=(SIG(I,2)/(DEUX*SIGR12(I)))**2 
+              EMC2=(SIG(I,2)/(TWO*SIGR12(I)))**2 
      +            +(SIG(I,3)/SIGR12(I))**2 
-     +            +SIG(I,2)*((SIGC2(I)/(DEUX*SIGR12(I)))**2-UN)/SIGC2(I)
-              DAMT(I,2)=UN ! obsolette (already initialized to 1)
+     +            +SIG(I,2)*((SIGC2(I)/(TWO*SIGR12(I)))**2-ONE)/SIGC2(I)
+              DAMT(I,2)=ONE ! obsolette (already initialized to 1)
             ENDIF
-            IF (EM22 >= UN .OR. EMC2 >= UN) THEN
+            IF (EM22 >= ONE .OR. EMC2 >= ONE) THEN
               DAMT(I,2) = ZEP9
               SIGR(I,6) = TT
               SIGR(I,1) = SIG(I,1)

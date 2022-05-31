@@ -119,36 +119,36 @@ C-----------------------------------------------
       PM(160) = ES
       PM(161) = G0
       PM(162) = HH
-      IF(PM(79)==ZERO)PM(79)=TROIS100
+      IF(PM(79)==ZERO)PM(79)=THREE100
 
       !COMPUTING INITIAL PRESSURE
-      MU=RHOI/RHOR-UN
+      MU=RHOI/RHOR-ONE
       MU2=MU*MU
-      XX =MU/(UN+MU)                                              
+      XX =MU/(ONE+MU)                                              
       IF(MU>=ZERO) THEN                                              
         AA=(C1+C3*MU2)*MU+C2*MU2                      
-        GX=UN-G0*UNDEMI*XX                                           
+        GX=ONE-G0*HALF*XX                                           
         BB=G0                                                        
         PRES=MAX(AA*GX+BB*E0,PM(37))                                                                              
       ELSEIF(E0<ES)THEN                                      
         AA=(T1+T2*MU)*MU                                    
-        GX=UN-G0*UNDEMI*XX                                           
+        GX=ONE-G0*HALF*XX                                           
         BB=G0                                                        
         PRES=MAX(AA*GX+BB*E0,PM(37))                                                                          
       ELSE                                                              
-        ETA=UN+MU                                                    
+        ETA=ONE+MU                                                    
         EE=SQRT(ETA)                                                    
         BB=(HH+(G0-HH)*EE)*ETA                                 
         CC= C1/(G0*ES)                                      
         EXPA=EXP(CC*XX)                                                 
-        AA= BB*ES*(EXPA-UN)                                       
+        AA= BB*ES*(EXPA-ONE)                                       
         PRES=MAX(AA+BB*E0,PM(37))                                                                           
       ENDIF
       PM(31) = PRES 
       PC = PM(37)   
       
       !SSP0
-      MU0 = RHOI/RHOR-UN
+      MU0 = RHOI/RHOR-ONE
       MU2 = MU0*MU0
       DF = RHOR/RHOI
       PP = PM(31)
@@ -156,20 +156,20 @@ C-----------------------------------------------
       G0 = PM(22)
       RHOI = PM(89)
 
-      XX =MU0/(UN+MU0)                                              
+      XX =MU0/(ONE+MU0)                                              
       IF(MU0>=ZERO) THEN                                                              
-        DPDMU=(C1+DEUX*C2*MU0+TROIS*C3*MU2)*GX          
-     .          +G0*DF*DF*(PRES-UNDEMI*AA)                     
+        DPDMU=(C1+TWO*C2*MU0+THREE*C3*MU2)*GX          
+     .          +G0*DF*DF*(PRES-HALF*AA)                     
       ELSEIF(E0<ES)THEN                                                         
-        DPDMU=(T1+DEUX*T2*MU0)*GX +                           
-     .          G0*DF*DF*(PRES-UNDEMI*AA)                                                                          
+        DPDMU=(T1+TWO*T2*MU0)*GX +                           
+     .          G0*DF*DF*(PRES-HALF*AA)                                                                          
       ELSE                                                                                   
         DPDMU=BB*DF*DF*(PRES+ES*EXPA*CC) +                
-     .     (E0+ES*(EXPA-UN))*(HH+TDEMI*EE*(G0-HH))                                                     
+     .     (E0+ES*(EXPA-ONE))*(HH+THREE_HALF*EE*(G0-HH))                                                     
       ENDIF                                                             
         
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + DTIERS*G0)/RHOR) 
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0      
       
 

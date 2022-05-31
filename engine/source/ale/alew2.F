@@ -96,10 +96,10 @@ C-----------------------------------------------
       DATA NTR/24/
 C---------------------------------------------------------------------
       DLMIN = EM01
-      GAM1=UNDEMI*(GAMMA-UN)
+      GAM1=HALF*(GAMMA-ONE)
       DO 20 I=13,24
  20   FAC(I)=VGY
-      BETA=SIX*(UN + DEUX*VGY)
+      BETA=SIX*(ONE + TWO*VGY)
 C-----------------------------------------------
 C CODE SPMD differentie entre Parith/ON et OFF
 C-----------------------------------------------
@@ -198,8 +198,8 @@ C
          DDL(I)=(XX(I)*DDX(I)+XY(I)*DDY(I)+XZ(I)*DDZ(I))/XL(I)
 C
 C         DLM= MIN(DLM,DL(I)/XL(I))
-C         DL1(I)= MAX(EM10,UN+GAMMA*VGZ)
-C     *          /MAX(EM10,UN+GAMMA*DL(I)/XL(I))
+C         DL1(I)= MAX(EM10,ONE+GAMMA*VGZ)
+C     *          /MAX(EM10,ONE+GAMMA*DL(I)/XL(I))
 C
 C         DL(I) = FAC(ITR)/XL(I) /ALPHA/ALPHA *DDL(I)*DL1(I)**2
 C         DDL(I)= FAC(ITR)/XL(I) *2.*VGX/ALPHA*DDL(I)

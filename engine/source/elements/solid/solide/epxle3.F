@@ -171,18 +171,18 @@ C-----------------------------------------------
         ENDDO
        ELSE 
         DO I=LFT,LLT
-         PMX1(I)=UNDEMI*(PX1(I)-PX7(I))
-         PMY1(I)=UNDEMI*(PY1(I)-PY7(I))
-         PMZ1(I)=UNDEMI*(PZ1(I)-PZ7(I))
-         PMX2(I)=UNDEMI*(PX2(I)-PX8(I))
-         PMY2(I)=UNDEMI*(PY2(I)-PY8(I))
-         PMZ2(I)=UNDEMI*(PZ2(I)-PZ8(I))
-         PMX3(I)=UNDEMI*(PX3(I)-PX5(I))
-         PMY3(I)=UNDEMI*(PY3(I)-PY5(I))
-         PMZ3(I)=UNDEMI*(PZ3(I)-PZ5(I))
-         PMX4(I)=UNDEMI*(PX4(I)-PX6(I))
-         PMY4(I)=UNDEMI*(PY4(I)-PY6(I))
-         PMZ4(I)=UNDEMI*(PZ4(I)-PZ6(I))	 
+         PMX1(I)=HALF*(PX1(I)-PX7(I))
+         PMY1(I)=HALF*(PY1(I)-PY7(I))
+         PMZ1(I)=HALF*(PZ1(I)-PZ7(I))
+         PMX2(I)=HALF*(PX2(I)-PX8(I))
+         PMY2(I)=HALF*(PY2(I)-PY8(I))
+         PMZ2(I)=HALF*(PZ2(I)-PZ8(I))
+         PMX3(I)=HALF*(PX3(I)-PX5(I))
+         PMY3(I)=HALF*(PY3(I)-PY5(I))
+         PMZ3(I)=HALF*(PZ3(I)-PZ5(I))
+         PMX4(I)=HALF*(PX4(I)-PX6(I))
+         PMY4(I)=HALF*(PY4(I)-PY6(I))
+         PMZ4(I)=HALF*(PZ4(I)-PZ6(I))	 
         ENDDO
        ENDIF
         DO I=LFT,LLT

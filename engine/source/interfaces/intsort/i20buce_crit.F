@@ -154,9 +154,9 @@ C===================================================================
 C     NOUVELLE FORMULATION
 C===================================================================
       IF(STFAC > ZERO)THEN
-        AMASS = MAX(DEUX,STFAC+SQRT(DEUX*STFAC))
+        AMASS = MAX(TWO,STFAC+SQRT(TWO*STFAC))
       ELSE
-        AMASS = DEUX
+        AMASS = TWO
       ENDIF
       IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
         DO I=NLNF,NLNL
@@ -165,7 +165,7 @@ C===================================================================
           IF(MS(IG) > ZERO .and. IRBY /= 1)THEN
 
 c essai viscosite critique
-c            AAA = DT12/(DEUX*MS(IG))
+c            AAA = DT12/(TWO*MS(IG))
             AAA = DT12/(AMASS*MS(IG))
 c           delta A parith on
             DA(1) = DAANC(1,I)
@@ -538,12 +538,12 @@ C===================================================================
 C     maj pene edges  fin !!!!!  deplace
 C===================================================================
 C
-C sur les noeuds frontieres en SPMD, suffit d'initialiser ALPHAKFI a UN ds i20main_tri/i20xsinir
+C sur les noeuds frontieres en SPMD, suffit d'initialiser ALPHAKFI a ONE ds i20main_tri/i20xsinir
       DO I=NLNF,NLNL
         ALPHAK(1,I)=MAX(ALPHAK(1,I),ALPHAK(3,I))
         ALPHAK(1,I)=MIN(ALPHAK(1,I),ABS(ALPHAK(2,I)))
-        ALPHAK(2,I)=UN
-        ALPHAK(3,I)=UN
+        ALPHAK(2,I)=ONE
+        ALPHAK(3,I)=ONE
       ENDDO
 C
       RETURN

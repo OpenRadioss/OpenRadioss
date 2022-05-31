@@ -115,7 +115,7 @@ C-----------------------------------------------
       ISTIF = 0
       IPM(3) = 1 ! 
       IMATVIS = 1 !
-      ZEP495 = ZEP4 + NEUF*EM02 + CINQ*EM03
+      ZEP495 = ZEP4 + NINE*EM02 + FIVE*EM03
       IADD = 0
       ILAW = 88
 
@@ -219,11 +219,11 @@ C
        ENDIF 
       ENDIF
 C       
-      IF(SHAPE == ZERO) SHAPE = UN
-      IF(HYS == ZERO) HYS = UN
+      IF(SHAPE == ZERO) SHAPE = ONE
+      IF(HYS == ZERO) HYS = ONE
       IF(NU == ZERO) NU = ZEP495
-      GS =  TDEMI*BULK*(UN - DEUX*NU)/(UN + NU)
-      E = DEUX*GS*(UN + NU)
+      GS =  THREE_HALF*BULK*(ONE - TWO*NU)/(ONE + NU)
+      E = TWO*GS*(ONE + NU)
       IF (GS.LE.0) THEN
         CALL ANCMSG(MSGID=828,
      .              MSGTYPE=MSGERROR,
@@ -251,14 +251,14 @@ C
 C    
       NUVAR   =  32 
 C
-      PARMAT(1) = DEUX*GS 
+      PARMAT(1) = TWO*GS 
       PARMAT(2) = E
       PARMAT(3) = NU
       PARMAT(4) = ISRATE
       PARMAT(5) = FCUT
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) = DEUX*GS/(BULK + QTHIRD*GS)
+      PARMAT(17) = TWO*GS/(BULK + FOUR_OVER_3*GS)
 
       ! MTAG variable activation
       MTAG%L_EPSD = 1

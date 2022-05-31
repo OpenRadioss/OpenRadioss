@@ -614,8 +614,8 @@ C INITIALISE INFORMATIQUEMENT LES NTHREAD(=NPROC)   TACHES
 C Hardcode KMP_STACKSIZE Environment variable
       CALL SET_STACK_VALUES()
 C--------------------------------------------------
-      HELAS=UNDEMI
-      HVISC=UNDEMI
+      HELAS=HALF
+      HVISC=HALF
       HVLIN=ZERO
 C--------------------------------------------------
       OPEN(UNIT=IIN,FORM='FORMATTED',STATUS='SCRATCH')

@@ -103,9 +103,9 @@ C--------> Calcul pas de temps nodal RB1 -------
               ELSE
                 M1 = IXR(2,J)
               ENDIF 
-	      DTRB1 = DTFAC1(11)*SQRT(DEUX*MS(M1)/MAX(EM20,STIFN(M1)))
+	      DTRB1 = DTFAC1(11)*SQRT(TWO*MS(M1)/MAX(EM20,STIFN(M1)))
               IF (IN(M1) > 0) THEN
-	        DTRB1 = MIN(DTRB1,DTFAC1(11)*SQRT(DEUX*IN(M1)/MAX(EM20,STIFR(M1))))
+	        DTRB1 = MIN(DTRB1,DTFAC1(11)*SQRT(TWO*IN(M1)/MAX(EM20,STIFR(M1))))
               ENDIF     	      	    	    	    
 C
 C--------> Calcul pas de temps nodal RB2 ------- 
@@ -115,9 +115,9 @@ C--------> Calcul pas de temps nodal RB2 -------
               ELSE
                 M2 = IXR(3,J)
               ENDIF	    	    
-	      DTRB2 = DTFAC1(11)*SQRT(DEUX*MS(M2)/MAX(EM20,STIFN(M2)))
+	      DTRB2 = DTFAC1(11)*SQRT(TWO*MS(M2)/MAX(EM20,STIFN(M2)))
               IF (IN(M2) > 0) THEN
-	        DTRB2 = MIN(DTRB2,DTFAC1(11)*SQRT(DEUX*IN(M2)/MAX(EM20,STIFR(M2))))
+	        DTRB2 = MIN(DTRB2,DTFAC1(11)*SQRT(TWO*IN(M2)/MAX(EM20,STIFR(M2))))
               ENDIF
 C
 C--------> Calcul pas de temps du Joint ------- 

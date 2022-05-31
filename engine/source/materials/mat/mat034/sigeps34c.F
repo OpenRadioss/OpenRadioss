@@ -96,11 +96,11 @@ c=======================================================================
 c            
             GE  = G_INF              ! elastic part of shear modulus
             GV  = G_INS-G_INF        ! viscous part of shear modulus
-            GE2 = GE * DEUX
-            GV2 = GV * DEUX
-            C1  = UN - EXP(-BETA*TIMESTEP)
+            GE2 = GE * TWO
+            GV2 = GV * TWO
+            C1  = ONE - EXP(-BETA*TIMESTEP)
             C2  =-C1 / BETA
-            BULK3 = BULK*TROIS
+            BULK3 = BULK*THREE
             CC2 = GV2*(C1 + C2/MAX(EM20,TIMESTEP))
 c
             DO I=1,NEL
@@ -110,11 +110,11 @@ c
                DEZZ(I) = UVAR(I,7)
                H(3)   = UVAR(I,3)
                AA = GV2*C1*(DEZZ(I) - H(3)) + THIRD*(GE2 - CC2 - BULK3)*(DEPSXX(I) + DEPSYY(I)) 
-               BB = DTHIRD*GE2 + BULK - DTHIRD*CC2
+               BB = TWO_THIRD*GE2 + BULK - TWO_THIRD*CC2
                DEPSZZ(I) = AA/BB  
-               DDEZZ(I) = DTHIRD*DEPSZZ(I) - THIRD*(DEPSXX(I) + DEPSYY(I))
+               DDEZZ(I) = TWO_THIRD*DEPSZZ(I) - THIRD*(DEPSXX(I) + DEPSYY(I))
                DEZZ(I)  = UVAR(I,7) + DDEZZ(I)
-               EPSZZ(I) = TDEMI*DEZZ(I) + UNDEMI*(EPSXX(I)+ EPSYY(I))
+               EPSZZ(I) = THREE_HALF*DEZZ(I) + HALF*(EPSXX(I)+ EPSYY(I))
                EPSPZZ(I) = DEPSZZ(I)/MAX(EM20,TIMESTEP)
                !!
                DEPSM(I) = THIRD *(DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))
@@ -170,7 +170,7 @@ c
               SIGNZX(I) = SIGOZX(I) + GE *DDEZX(I) - GV *DEPSVZX(I)
             END DO        
 c
-            DP_DRHO = QTHIRD*G_INS + BULK
+            DP_DRHO = FOUR_OVER_3*G_INS + BULK
             SOUNDSP(1:NEL) = SQRT(DP_DRHO / RHO0(1:NEL))
 c
             DO I=1,NEL

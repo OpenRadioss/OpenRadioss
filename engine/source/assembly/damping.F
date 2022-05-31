@@ -97,7 +97,7 @@ C-------------------------------------------------
           DAMPA = DAMPR(3,ND)
           DAMPB = DAMPR(4,ND)
           BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-          OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+          OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
           DO N=1,IGRNOD(IGR)%NENTITY
            I=IGRNOD(IGR)%ENTITY(N)
@@ -106,12 +106,12 @@ C-------------------------------------------------
            DA = DA * OMEGA - A(1,I)
            DAMP(1,I) = A(1,I)
            A(1,I)    = A(1,I) + DA
-           DW =DW+MS(I)*DA*(V(1,I)+UNDEMI*A(1,I)*DT1)*DT12*WEIGHT(I)
+           DW =DW+MS(I)*DA*(V(1,I)+HALF*A(1,I)*DT1)*DT12*WEIGHT(I)
           ENDDO
           DAMPA = DAMPR(5,ND)
           DAMPB = DAMPR(6,ND)
           BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-          OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+          OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
           DO N=1,IGRNOD(IGR)%NENTITY
            I=IGRNOD(IGR)%ENTITY(N)
@@ -120,12 +120,12 @@ C-------------------------------------------------
            DA = DA * OMEGA - A(2,I)
            DAMP(2,I) = A(2,I)
            A(2,I)    = A(2,I) + DA
-           DW =DW+MS(I)*DA*(V(2,I)+UNDEMI*A(2,I)*DT1)*DT12*WEIGHT(I)
+           DW =DW+MS(I)*DA*(V(2,I)+HALF*A(2,I)*DT1)*DT12*WEIGHT(I)
           ENDDO
           DAMPA = DAMPR(7,ND)
           DAMPB = DAMPR(8,ND)
           BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-          OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+          OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
           DO N=1,IGRNOD(IGR)%NENTITY
            I=IGRNOD(IGR)%ENTITY(N)
@@ -134,14 +134,14 @@ C-------------------------------------------------
            DA = DA * OMEGA - A(3,I)
            DAMP(3,I) = A(3,I)
            A(3,I)    = A(3,I) + DA
-           DW =DW+MS(I)*DA*(V(3,I)+UNDEMI*A(3,I)*DT1)*DT12*WEIGHT(I)
+           DW =DW+MS(I)*DA*(V(3,I)+HALF*A(3,I)*DT1)*DT12*WEIGHT(I)
           ENDDO
 250       CONTINUE
           IF(IRODDL.NE.0)THEN
            DAMPA = DAMPR(9,ND)
            DAMPB = DAMPR(10,ND)
            BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-           OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+           OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
@@ -157,13 +157,13 @@ C--------------------------------------------------------
             DA = DA * OMEGA - AR(1,I)
             DAMP(4,I) = AR(1,I)
             AR(1,I)	= AR(1,I) + DA
-            DW = DW+IN(I)*DA*(VR(1,I)+UNDEMI*AR(1,I)*DT1)*DT12*WEIGHT(I)
+            DW = DW+IN(I)*DA*(VR(1,I)+HALF*AR(1,I)*DT1)*DT12*WEIGHT(I)
 350         CONTINUE
            ENDDO
            DAMPA = DAMPR(11,ND)
            DAMPB = DAMPR(12,ND)
            BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-           OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+           OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
@@ -178,13 +178,13 @@ C--------------------------------------------------------
             DA = DA * OMEGA - AR(2,I)
             DAMP(5,I) = AR(2,I)
             AR(2,I)	= AR(2,I) + DA
-            DW = DW+IN(I)*DA*(VR(2,I)+UNDEMI*AR(2,I)*DT1)*DT12*WEIGHT(I)
+            DW = DW+IN(I)*DA*(VR(2,I)+HALF*AR(2,I)*DT1)*DT12*WEIGHT(I)
 450         CONTINUE
            ENDDO
            DAMPA = DAMPR(13,ND)
            DAMPB = DAMPR(14,ND)
            BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-           OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+           OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
@@ -200,7 +200,7 @@ C--------------------------------------------------------
             DA = DA * OMEGA - AR(3,I)
             DAMP(6,I) = AR(3,I)
             AR(3,I)	= AR(3,I) + DA
-            DW = DW+IN(I)*DA*(VR(3,I)+UNDEMI*AR(3,I)*DT1)*DT12*WEIGHT(I)
+            DW = DW+IN(I)*DA*(VR(3,I)+HALF*AR(3,I)*DT1)*DT12*WEIGHT(I)
 550         CONTINUE
            ENDDO
           END IF
@@ -242,7 +242,7 @@ C-------------------------------------------------
           DAMPA = DAMPR(3,ND)
           DAMPB = DAMPR(4,ND)
           BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-          OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+          OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
           DO N=1,IGRNOD(IGR)%NENTITY
            I=IGRNOD(IGR)%ENTITY(N)
@@ -253,12 +253,12 @@ C-------------------------------------------------
            DAMPSKW(1,I) = ASKW(1,I)
            ASKW(1,I)    = ASKW(1,I) + DA
            DW =DW
-     .        +MS(I)*DA*(VSKW(1,I)+UNDEMI*ASKW(1,I)*DT1)*DT12*WEIGHT(I)
+     .        +MS(I)*DA*(VSKW(1,I)+HALF*ASKW(1,I)*DT1)*DT12*WEIGHT(I)
           ENDDO
           DAMPA = DAMPR(5,ND)
           DAMPB = DAMPR(6,ND)
           BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-          OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+          OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
          DO N=1,IGRNOD(IGR)%NENTITY
            I=IGRNOD(IGR)%ENTITY(N)
@@ -269,12 +269,12 @@ C-------------------------------------------------
            DAMPSKW(2,I) = ASKW(2,I)
            ASKW(2,I)    = ASKW(2,I) + DA
            DW =DW
-     .        +MS(I)*DA*(VSKW(2,I)+UNDEMI*ASKW(2,I)*DT1)*DT12*WEIGHT(I)
+     .        +MS(I)*DA*(VSKW(2,I)+HALF*ASKW(2,I)*DT1)*DT12*WEIGHT(I)
           ENDDO
           DAMPA = DAMPR(7,ND)
           DAMPB = DAMPR(8,ND)
           BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-          OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+          OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
           DO N=1,IGRNOD(IGR)%NENTITY
            I=IGRNOD(IGR)%ENTITY(N)
@@ -285,7 +285,7 @@ C-------------------------------------------------
            DAMPSKW(3,I) = ASKW(3,I)
            ASKW(3,I)    = ASKW(3,I) + DA
            DW =DW
-     .        +MS(I)*DA*(VSKW(3,I)+UNDEMI*ASKW(3,I)*DT1)*DT12*WEIGHT(I)
+     .        +MS(I)*DA*(VSKW(3,I)+HALF*ASKW(3,I)*DT1)*DT12*WEIGHT(I)
           ENDDO
 #include "vectorize.inc"
           DO N=1,IGRNOD(IGR)%NENTITY
@@ -345,7 +345,7 @@ C-------------------------------------------------
            DAMPA = DAMPR(9,ND)
            DAMPB = DAMPR(10,ND)
            BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-           OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+           OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
@@ -362,13 +362,13 @@ C--------------------------------------------------------
             DAMPSKW(1,I) = ASKW(1,I)
             ASKW(1,I)    = ASKW(1,I) + DA
             DW =DW
-     .        +IN(I)*DA*(VSKW(1,I)+UNDEMI*ASKW(1,I)*DT1)*DT12*WEIGHT(I)
+     .        +IN(I)*DA*(VSKW(1,I)+HALF*ASKW(1,I)*DT1)*DT12*WEIGHT(I)
 750         CONTINUE     
            ENDDO
            DAMPA = DAMPR(11,ND)
            DAMPB = DAMPR(12,ND)
            BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-           OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+           OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
@@ -384,13 +384,13 @@ C--------------------------------------------------------
             DAMPSKW(2,I) = ASKW(2,I)
             ASKW(2,I)    = ASKW(2,I) + DA
             DW =DW
-     .        +IN(I)*DA*(VSKW(2,I)+UNDEMI*ASKW(2,I)*DT1)*DT12*WEIGHT(I)
+     .        +IN(I)*DA*(VSKW(2,I)+HALF*ASKW(2,I)*DT1)*DT12*WEIGHT(I)
 850         CONTINUE     
            ENDDO
            DAMPA = DAMPR(13,ND)
            DAMPB = DAMPR(14,ND)
            BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-           OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+           OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
@@ -407,7 +407,7 @@ C--------------------------------------------------------
             DAMPSKW(3,I) = ASKW(3,I)
             ASKW(3,I)    = ASKW(3,I) + DA
             DW =DW
-     .        +IN(I)*DA*(VSKW(3,I)+UNDEMI*ASKW(3,I)*DT1)*DT12*WEIGHT(I)
+     .        +IN(I)*DA*(VSKW(3,I)+HALF*ASKW(3,I)*DT1)*DT12*WEIGHT(I)
 950         CONTINUE     
            ENDDO
 #include "vectorize.inc"
@@ -460,7 +460,7 @@ C-------------------------------------------------
            DAMPA = DAMPR(9,ND)
            DAMPB = DAMPR(10,ND)
            BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-           OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+           OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
@@ -476,13 +476,13 @@ C--------------------------------------------------------
             DA = DA * OMEGA - AR(1,I)
             DAMP(4,I) = AR(1,I)
             AR(1,I)	= AR(1,I) + DA
-            DW = DW+IN(I)*DA*(VR(1,I)+UNDEMI*AR(1,I)*DT1)*DT12*WEIGHT(I)
+            DW = DW+IN(I)*DA*(VR(1,I)+HALF*AR(1,I)*DT1)*DT12*WEIGHT(I)
 351         CONTINUE
            ENDDO
            DAMPA = DAMPR(11,ND)
            DAMPB = DAMPR(12,ND)
            BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-           OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+           OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
@@ -497,13 +497,13 @@ C--------------------------------------------------------
             DA = DA * OMEGA - AR(2,I)
             DAMP(5,I) = AR(2,I)
             AR(2,I)	= AR(2,I) + DA
-            DW = DW+IN(I)*DA*(VR(2,I)+UNDEMI*AR(2,I)*DT1)*DT12*WEIGHT(I)
+            DW = DW+IN(I)*DA*(VR(2,I)+HALF*AR(2,I)*DT1)*DT12*WEIGHT(I)
 451         CONTINUE
            ENDDO
            DAMPA = DAMPR(13,ND)
            DAMPB = DAMPR(14,ND)
            BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-           OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+           OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
@@ -519,7 +519,7 @@ C--------------------------------------------------------
             DA = DA * OMEGA - AR(3,I)
             DAMP(6,I) = AR(3,I)
             AR(3,I)	= AR(3,I) + DA
-            DW = DW+IN(I)*DA*(VR(3,I)+UNDEMI*AR(3,I)*DT1)*DT12*WEIGHT(I)
+            DW = DW+IN(I)*DA*(VR(3,I)+HALF*AR(3,I)*DT1)*DT12*WEIGHT(I)
 551         CONTINUE
            ENDDO
           END IF
@@ -559,7 +559,7 @@ C--------------------------------------------------------
            DAMPA = DAMPR(9,ND)
            DAMPB = DAMPR(10,ND)
            BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-           OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+           OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
@@ -576,13 +576,13 @@ C--------------------------------------------------------
             DAMPSKW(1,I) = ASKW(1,I)
             ASKW(1,I)    = ASKW(1,I) + DA
             DW =DW
-     .        +IN(I)*DA*(VSKW(1,I)+UNDEMI*ASKW(1,I)*DT1)*DT12*WEIGHT(I)
+     .        +IN(I)*DA*(VSKW(1,I)+HALF*ASKW(1,I)*DT1)*DT12*WEIGHT(I)
 751         CONTINUE     
            ENDDO
            DAMPA = DAMPR(11,ND)
            DAMPB = DAMPR(12,ND)
            BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-           OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+           OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
@@ -598,13 +598,13 @@ C--------------------------------------------------------
             DAMPSKW(2,I) = ASKW(2,I)
             ASKW(2,I)    = ASKW(2,I) + DA
             DW =DW
-     .        +IN(I)*DA*(VSKW(2,I)+UNDEMI*ASKW(2,I)*DT1)*DT12*WEIGHT(I)
+     .        +IN(I)*DA*(VSKW(2,I)+HALF*ASKW(2,I)*DT1)*DT12*WEIGHT(I)
 851         CONTINUE     
            ENDDO
            DAMPA = DAMPR(13,ND)
            DAMPB = DAMPR(14,ND)
            BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-           OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+           OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
@@ -621,7 +621,7 @@ C--------------------------------------------------------
             DAMPSKW(3,I) = ASKW(3,I)
             ASKW(3,I)    = ASKW(3,I) + DA
             DW =DW
-     .        +IN(I)*DA*(VSKW(3,I)+UNDEMI*ASKW(3,I)*DT1)*DT12*WEIGHT(I)
+     .        +IN(I)*DA*(VSKW(3,I)+HALF*ASKW(3,I)*DT1)*DT12*WEIGHT(I)
 951         CONTINUE     
            ENDDO
 #include "vectorize.inc"
@@ -717,7 +717,7 @@ C======================================================================|
         DAMPA = DAMPR(3,ND)
         DAMPB = DAMPR(4,ND)
         BETASDT= -MIN(DAMPB,DT1,DT2)*DT1/MAX(DT1*DT1,EM30)
-        OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+        OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
         DO J=1,3
           IF(IRODDL.EQ.0)THEN
 #include "vectorize.inc"
@@ -728,7 +728,7 @@ C======================================================================|
               DA = DA * OMEGA - A(J,I)
               DAMP(J,I) = A(J,I)
               A(J,I)    = A(J,I) + DA
-              DW =DW+MS(I)*DA*(V(J,I)+UNDEMI*A(J,I)*DT1)*DT12*WEIGHT(I)
+              DW =DW+MS(I)*DA*(V(J,I)+HALF*A(J,I)*DT1)*DT12*WEIGHT(I)
             ENDDO
           ELSE
 #include "vectorize.inc"
@@ -739,13 +739,13 @@ C======================================================================|
               DA = DA * OMEGA - A(J,I)
               DAMP(J,I) = A(J,I)
               A(J,I)    = A(J,I) + DA
-              DW =DW+MS(I)*DA*(V(J,I)+UNDEMI*A(J,I)*DT1)*DT12*WEIGHT(I)
+              DW =DW+MS(I)*DA*(V(J,I)+HALF*A(J,I)*DT1)*DT12*WEIGHT(I)
               DA = AR(J,I) - DAMPA*VR(J,I)
      .           - BETASDT *(AR(J,I)-DAMP(J+3,I))
               DA = DA * OMEGA - AR(J,I)
               DAMP(J+3,I) = AR(J,I)
               AR(J,I)     = AR(J,I) + DA
-              DW = DW+IN(I)*DA*(VR(J,I)+UNDEMI*AR(J,I)*DT1)*DT12*WEIGHT(I)
+              DW = DW+IN(I)*DA*(VR(J,I)+HALF*AR(J,I)*DT1)*DT12*WEIGHT(I)
             ENDDO
           ENDIF
         ENDDO
@@ -845,7 +845,7 @@ C
       ELSE
        BETASDT= DAMPB
       ENDIF
-      OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+      OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 C
       IF(IDAMPG.EQ.0)THEN
        DO J=1,3
@@ -857,7 +857,7 @@ C
           DA = DA * OMEGA - A(J,I)
           DAMP(J,I) = A(J,I)
           A(J,I)    = A(J,I) + DA
-          DW=DW+WEIGHT(I)*(MS(I)*DA*(V(J,I)+UNDEMI*A(J,I)*DT1)*DT12)
+          DW=DW+WEIGHT(I)*(MS(I)*DA*(V(J,I)+HALF*A(J,I)*DT1)*DT12)
          ENDDO
         ELSE
 #include "vectorize.inc"
@@ -867,12 +867,12 @@ C
           DA = DA * OMEGA - A(J,I)
           DAMP(J,I) = A(J,I)
           A(J,I)    = A(J,I) + DA
-          DW = DW+MS(I)*DA*(V(J,I)+UNDEMI*A(J,I)*DT1)*DT12*WEIGHT(I)
+          DW = DW+MS(I)*DA*(V(J,I)+HALF*A(J,I)*DT1)*DT12*WEIGHT(I)
           DA = AR(J,I) - DAMPA*VR(J,I) - BETASDT *(AR(J,I)-DAMP(J+3,I))
           DA = DA * OMEGA - AR(J,I)
           DAMP(J+3,I) = AR(J,I)
           AR(J,I)     = AR(J,I) + DA
-          DW =DW+WEIGHT(I)*IN(I)*DA*(VR(J,I)+UNDEMI*AR(J,I)*DT1)*DT12
+          DW =DW+WEIGHT(I)*IN(I)*DA*(VR(J,I)+HALF*AR(J,I)*DT1)*DT12
          ENDDO
         ENDIF
        ENDDO
@@ -887,7 +887,7 @@ C
           DA = DA * OMEGA - A(J,I)
           DAMP(J,I) = A(J,I)
           A(J,I)    = A(J,I) + DA
-          DW =DW+WEIGHT(I)*MS(I)*DA*(V(J,I)+UNDEMI*A(J,I)*DT1)*DT12
+          DW =DW+WEIGHT(I)*MS(I)*DA*(V(J,I)+HALF*A(J,I)*DT1)*DT12
          ENDDO
         ELSE
 #include "vectorize.inc"
@@ -898,12 +898,12 @@ C
           DA = DA * OMEGA - A(J,I)
           DAMP(J,I) = A(J,I)
           A(J,I)    = A(J,I) + DA
-          DW = DW+MS(I)*DA*(V(J,I)+UNDEMI*A(J,I)*DT1)*DT12*WEIGHT(I)
+          DW = DW+MS(I)*DA*(V(J,I)+HALF*A(J,I)*DT1)*DT12*WEIGHT(I)
           DA = AR(J,I) - DAMPA*VR(J,I) - BETASDT *(AR(J,I)-DAMP(J+3,I))
           DA = DA * OMEGA - AR(J,I)
           DAMP(J+3,I) = AR(J,I)
           AR(J,I)     = AR(J,I) + DA
-          DW =DW+WEIGHT(I)*IN(I)*DA*(VR(J,I)+UNDEMI*AR(J,I)*DT1)*DT12
+          DW =DW+WEIGHT(I)*IN(I)*DA*(VR(J,I)+HALF*AR(J,I)*DT1)*DT12
          ENDDO
         ENDIF
        ENDDO

@@ -118,7 +118,7 @@ C     REAL ou REAL*8
 C=======================================================================
       IF(TT == ZERO) THEN
         DO I=JFT,JLT
-            OFFPLY(I) = UN
+            OFFPLY(I) = ONE
         ENDDO  
       ENDIF      
 !     JFLAG can be set to :
@@ -162,8 +162,8 @@ C=======================================================================
         IYEILD(I)=NINT(PM(187,IMATLY))
         IMODWP(I) =  NINT(PM(189,IMATLY))
         JYEILD = JYEILD + IYEILD(I)
-        ETSE(I)=UN
-        IF(IFLAG(I)==0)SIGY(I)=UN/SQRT(MAX(EM20,F33(I)))
+        ETSE(I)=ONE
+        IF(IFLAG(I)==0)SIGY(I)=ONE/SQRT(MAX(EM20,F33(I)))
         ISOFT(I) = 0
  10   CONTINUE
 C-------------------------------------------------------------------
@@ -202,11 +202,11 @@ C-----------------------------
       DO I=JFT,JLT
         IF((FAIL_OLD(I).GE.4.AND.IOFF(I).GE.0).OR.
      .      FAIL_OLD(I).GE.8)THEN
-         SIG(I,1)=QCINQ*SIG(I,1)
-         SIG(I,2)=QCINQ*SIG(I,2)
-         SIG(I,3)=QCINQ*SIG(I,3)
-         SIG(I,4)=QCINQ*SIG(I,4)
-         SIG(I,5)=QCINQ*SIG(I,5)
+         SIG(I,1)=FOUR_OVER_5*SIG(I,1)
+         SIG(I,2)=FOUR_OVER_5*SIG(I,2)
+         SIG(I,3)=FOUR_OVER_5*SIG(I,3)
+         SIG(I,4)=FOUR_OVER_5*SIG(I,4)
+         SIG(I,5)=FOUR_OVER_5*SIG(I,5)
 C
          IF(ABS(SIG(I,1)).LT.EM20) SIG(I,1)=ZERO
          IF(ABS(SIG(I,2)).LT.EM20) SIG(I,2)=ZERO
@@ -226,22 +226,22 @@ C
         DO I=JFT,JLT
           EPSPLY(I,1)=LY_EXX(I)
           EPSPLY(I,2)=LY_EYY(I)
-          EPSPLY(I,3)=UNDEMI*LY_EXY(I)
+          EPSPLY(I,3)=HALF*LY_EXY(I)
           EPSPLY(I,4)=ZERO
           EPSPLY(I,5)=ZERO
         ENDDO
         CALL ROTOV(JFT,JLT,EPSPLY,DIR,NEL)
         DO I=JFT,JLT
-          EPSPLY(I,3)=DEUX*EPSPLY(I,3)
-c         EPSPLY(I,4)=DEUX*EPSPLY(I,4)
-c         EPSPLY(I,5)=DEUX*EPSPLY(I,5)
+          EPSPLY(I,3)=TWO*EPSPLY(I,3)
+c         EPSPLY(I,4)=TWO*EPSPLY(I,4)
+c         EPSPLY(I,5)=TWO*EPSPLY(I,5)
         ENDDO
         DO I=JFT,JLT
           IF((FAIL_OLD(I).GE.4.AND.IOFF(I).GE.0).OR.
      .      FAIL_OLD(I).GE.8)THEN
-            SIGPLY(I,1)=QCINQ*SIGPLY(I,1)
-            SIGPLY(I,2)=QCINQ*SIGPLY(I,2)
-            SIGPLY(I,3)=QCINQ*SIGPLY(I,3)
+            SIGPLY(I,1)=FOUR_OVER_5*SIGPLY(I,1)
+            SIGPLY(I,2)=FOUR_OVER_5*SIGPLY(I,2)
+            SIGPLY(I,3)=FOUR_OVER_5*SIGPLY(I,3)
             IF(ABS(SIGPLY(I,1)).LT.EM20) SIGPLY(I,1)=ZERO
             IF(ABS(SIGPLY(I,2)).LT.EM20) SIGPLY(I,2)=ZERO
             IF(ABS(SIGPLY(I,3)).LT.EM20) SIGPLY(I,3)=ZERO
@@ -282,25 +282,25 @@ C-------------------------------------------------------------------
 C     ROTATIONS DANS LE REPERE D ORTHOTROPIE SIG, EPS
 C-----------------------------
       DO I=JFT,JLT
-        EPS(I,3)=UNDEMI*EPS(I,3)
-        EPS(I,4)=UNDEMI*EPS(I,4)
-        EPS(I,5)=UNDEMI*EPS(I,5)
+        EPS(I,3)=HALF*EPS(I,3)
+        EPS(I,4)=HALF*EPS(I,4)
+        EPS(I,5)=HALF*EPS(I,5)
       ENDDO
       CALL ROTOV(JFT,JLT,EPS,DIR,NEL)
       DO I=JFT,JLT
-        EPS(I,3)=DEUX*EPS(I,3)
-        EPS(I,4)=DEUX*EPS(I,4)
-        EPS(I,5)=DEUX*EPS(I,5)
+        EPS(I,3)=TWO*EPS(I,3)
+        EPS(I,4)=TWO*EPS(I,4)
+        EPS(I,5)=TWO*EPS(I,5)
       ENDDO
 Cst CRASURV +++
 C.....STRAINS IN ORTHOTROPIC DIRECTIONS
       DO 30 I=JFT,JLT
       STRP1(I) = DIR(I,1)*DIR(I,1)*STRN1(I)
      .          +DIR(I,2)*DIR(I,2)*STRN2(I)
-     .     +DEUX*DIR(I,1)*DIR(I,2)*STRN3(I)
+     .     +TWO*DIR(I,1)*DIR(I,2)*STRN3(I)
       STRP2(I) = DIR(I,2)*DIR(I,2)*STRN1(I)
      .          +DIR(I,1)*DIR(I,1)*STRN2(I)
-     .     -DEUX*DIR(I,2)*DIR(I,1)*STRN3(I)
+     .     -TWO*DIR(I,2)*DIR(I,1)*STRN3(I)
    30 CONTINUE
 Cst CRASURV ---
 C-------------------------------------------------------------------
@@ -308,10 +308,10 @@ C     DEFORMATIONS ELASTIQUES
 C-----------------------------
       IF(ISHPLYXFEM /= 0 .AND. IPLYXFEM==2)THEN 
          DO  I=JFT,JLT
-           DE1(I)  =UN-MAX( ZERO , SIGN(DAMT(I,1),SIG(I,1)) )
-           DE2(I)  =UN-MAX( ZERO , SIGN(DAMT(I,2),SIG(I,2)) )
-           SCALE   =(UNDEMI
-     .        +SIGN(UNDEMI,DE1(I)-UN))*(UNDEMI+SIGN(UNDEMI,DE2(I)-UN))
+           DE1(I)  =ONE-MAX( ZERO , SIGN(DAMT(I,1),SIG(I,1)) )
+           DE2(I)  =ONE-MAX( ZERO , SIGN(DAMT(I,2),SIG(I,2)) )
+           SCALE   =(HALF
+     .        +SIGN(HALF,DE1(I)-ONE))*(HALF+SIGN(HALF,DE2(I)-ONE))
            S1(I) = SIG(I,1)/DE1(I)-NU12(I)*SIG(I,2)*SCALE
            S2(I) = SIG(I,2)/DE2(I)-NU21(I)*SIG(I,1)*SCALE
            S1(I)=S1(I)/E11(I)
@@ -340,10 +340,10 @@ CC relatif displacement
         ENDDO  
        ELSE
           DO 40 I=JFT,JLT
-           DE1(I)  =UN-MAX( ZERO , SIGN(DAMT(I,1),SIG(I,1)) )
-           DE2(I)  =UN-MAX( ZERO , SIGN(DAMT(I,2),SIG(I,2)) )
-           SCALE   =(UNDEMI
-     .        +SIGN(UNDEMI,DE1(I)-UN))*(UNDEMI+SIGN(UNDEMI,DE2(I)-UN))
+           DE1(I)  =ONE-MAX( ZERO , SIGN(DAMT(I,1),SIG(I,1)) )
+           DE2(I)  =ONE-MAX( ZERO , SIGN(DAMT(I,2),SIG(I,2)) )
+           SCALE   =(HALF
+     .        +SIGN(HALF,DE1(I)-ONE))*(HALF+SIGN(HALF,DE2(I)-ONE))
            S1(I) = SIG(I,1)/DE1(I)-NU12(I)*SIG(I,2)*SCALE
            S2(I) = SIG(I,2)/DE2(I)-NU21(I)*SIG(I,1)*SCALE
            S1(I)=S1(I)/E11(I)
@@ -416,11 +416,11 @@ C
       ENDIF
 C
       DO 68 I=JFT,JLT
-      DE1(I)=UN- MAX( ZERO , SIGN(DAMT(I,1),SIG(I,1)) )
-      DE2(I)=UN- MAX( ZERO , SIGN(DAMT(I,2),SIG(I,2)) )
-      SCALE1 =(UNDEMI
-     .        +SIGN(UNDEMI,DE1(I)-UN))*(UNDEMI+SIGN(UNDEMI,DE2(I)-UN))
-      SCALE2 =UN-NU12(I)*NU21(I)*SCALE1
+      DE1(I)=ONE- MAX( ZERO , SIGN(DAMT(I,1),SIG(I,1)) )
+      DE2(I)=ONE- MAX( ZERO , SIGN(DAMT(I,2),SIG(I,2)) )
+      SCALE1 =(HALF
+     .        +SIGN(HALF,DE1(I)-ONE))*(HALF+SIGN(HALF,DE2(I)-ONE))
+      SCALE2 =ONE-NU12(I)*NU21(I)*SCALE1
       A11(I)= E11(I)*DE1(I)/SCALE2
       A22(I)= E22(I)*DE2(I)/SCALE2
    68 A12(I)=NU21(I)*A11(I)*SCALE1
@@ -481,15 +481,15 @@ C-------------------------------------------------------------------
         DO I=JFT,JLT
          IF(WPLA(I).NE.ZERO) THEN
            SIGYT1 = PM(141,IMATLY)*
-     .           (UN+PM(142,IMATLY)*EXP(PM(143,IMATLY)*LOG(WPLA(I))))
+     .           (ONE+PM(142,IMATLY)*EXP(PM(143,IMATLY)*LOG(WPLA(I))))
            SIGYT2 =PM(146,IMATLY)*
-     .           (UN+PM(147,IMATLY)*EXP(PM(148,IMATLY)*LOG(WPLA(I))))
+     .           (ONE+PM(147,IMATLY)*EXP(PM(148,IMATLY)*LOG(WPLA(I))))
            SIGYC1 =PM(151,IMATLY)*
-     .           (UN+PM(152,IMATLY)*EXP(PM(153,IMATLY)*LOG(WPLA(I))))
+     .           (ONE+PM(152,IMATLY)*EXP(PM(153,IMATLY)*LOG(WPLA(I))))
            SIGYC2 =PM(156,IMATLY)*
-     .           (UN+PM(157,IMATLY)*EXP(PM(158,IMATLY)*LOG(WPLA(I))))
+     .           (ONE+PM(157,IMATLY)*EXP(PM(158,IMATLY)*LOG(WPLA(I))))
            SIGYT12=PM(161,IMATLY)*
-     .           (UN+PM(162,IMATLY)*EXP(PM(163,IMATLY)*LOG(WPLA(I))))
+     .           (ONE+PM(162,IMATLY)*EXP(PM(163,IMATLY)*LOG(WPLA(I))))
          ELSE
            SIGYT1 = PM(141,IMATLY)
            SIGYT2 = PM(146,IMATLY)
@@ -507,13 +507,13 @@ C-------------------------------------------------------------------
            SIGYT2=SIGYT2*(1.+PM(150,IMATLY)*EPSP(I))
            SIGYC1=SIGYC1*(1.+PM(155,IMATLY)*EPSP(I))
            SIGYC2=SIGYC2*(1.+PM(160,IMATLY)*EPSP(I))
-           SIGYT12=SIGYT12*(UN +PM(165,IMATLY)*EPSP(I))
+           SIGYT12=SIGYT12*(ONE +PM(165,IMATLY)*EPSP(I))
          ELSE
            SIGYT1=SIGYT1*(1.+PM(145,IMATLY)*EPSP(I))
            SIGYT2=SIGYT2*(1.+PM(150,IMATLY)*EPSP(I))
            SIGYC1=SIGYC1*(1.+PM(155,IMATLY)*EPSP(I))
            SIGYC2=SIGYC2*(1.+PM(160,IMATLY)*EPSP(I))
-           SIGYT12=SIGYT12*(UN +PM(165,IMATLY)*EPSP(I))
+           SIGYT12=SIGYT12*(ONE +PM(165,IMATLY)*EPSP(I))
            SIGYT1=MIN(SIGYT1,PM(144,IMATLY))
            SIGYT2=MIN(SIGYT2,PM(149,IMATLY))
            SIGYC1=MIN(SIGYC1,PM(154,IMATLY))
@@ -530,67 +530,67 @@ C-------------------------------------------------------------------
          ISOFT(I) = 0 
 C Direction 1
          IF(STRP1(I).LE.-EPS1C1(I)) THEN
-          SOFT(1)=MIN(UN,(STRP1(I)+EPS1C1(I))/(EPS1C1(I)-EPS2C1(I)))
+          SOFT(1)=MIN(ONE,(STRP1(I)+EPS1C1(I))/(EPS1C1(I)-EPS2C1(I)))
          ELSEIF(STRP1(I).GE.EPS1T1(I)) THEN
-          SOFT(1)=MIN(UN,(STRP1(I)-EPS1T1(I))/(EPS2T1(I)-EPS1T1(I)))         
+          SOFT(1)=MIN(ONE,(STRP1(I)-EPS1T1(I))/(EPS2T1(I)-EPS1T1(I)))         
          ENDIF
-         SIGYT1=MIN(SIGYT1,(UN -SOFT(1))*SIGYT1+SOFT(1)*SIGRST1(I))
-         SIGYC1=MIN(SIGYC1,(UN -SOFT(1))*SIGYC1+SOFT(1)*SIGRSC1(I))
+         SIGYT1=MIN(SIGYT1,(ONE -SOFT(1))*SIGYT1+SOFT(1)*SIGRST1(I))
+         SIGYC1=MIN(SIGYC1,(ONE -SOFT(1))*SIGYC1+SOFT(1)*SIGRSC1(I))
 C Direction 2        
          IF(STRP2(I).LE.-EPS1C2(I)) THEN
-          SOFT(2)=MIN(UN,(STRP2(I)+EPS1C2(I))/(EPS1C2(I)-EPS2C2(I)))
+          SOFT(2)=MIN(ONE,(STRP2(I)+EPS1C2(I))/(EPS1C2(I)-EPS2C2(I)))
          ELSEIF(STRP2(I).GE.EPS1T2(I)) THEN
-          SOFT(2)=MIN(UN,(STRP2(I)-EPS1T2(I))/(EPS2T2(I)-EPS1T2(I)))
+          SOFT(2)=MIN(ONE,(STRP2(I)-EPS1T2(I))/(EPS2T2(I)-EPS1T2(I)))
          ENDIF
-         SIGYT2=MIN(SIGYT2,(UN -SOFT(2))*SIGYT2+SOFT(2)*SIGRST2(I))
-         SIGYC2=MIN(SIGYC2,(UN -SOFT(2))*SIGYC2+SOFT(2)*SIGRSC2(I))
+         SIGYT2=MIN(SIGYT2,(ONE -SOFT(2))*SIGYT2+SOFT(2)*SIGRST2(I))
+         SIGYC2=MIN(SIGYC2,(ONE -SOFT(2))*SIGYC2+SOFT(2)*SIGRSC2(I))
 C Direction 12
          STRP12=-DIR(I,1)*DIR(I,2)*STRN1(I)
      .          +DIR(I,2)*DIR(I,1)*STRN2(I)
      .         +(DIR(I,1)*DIR(I,1)-DIR(I,2)*DIR(I,2))*STRN3(I)
          IF(STRP12.LE.-EPS1T12(I)) THEN
-          SOFT(3)=MIN(UN,(STRP12+EPS1T12(I))/(EPS1T12(I)-EPS2T12(I)))
+          SOFT(3)=MIN(ONE,(STRP12+EPS1T12(I))/(EPS1T12(I)-EPS2T12(I)))
          ELSEIF(STRP12.GE.EPS1T12(I)) THEN
-          SOFT(3)=MIN(UN,(STRP12-EPS1T12(I))/(EPS2T12(I)-EPS1T12(I)))
+          SOFT(3)=MIN(ONE,(STRP12-EPS1T12(I))/(EPS2T12(I)-EPS1T12(I)))
          ENDIF
-         SIGYT12=MIN(SIGYT12,(UN - SOFT(3))*SIGYT12 + SOFT(3)*SIGRST12(I))
+         SIGYT12=MIN(SIGYT12,(ONE - SOFT(3))*SIGYT12 + SOFT(3)*SIGRST12(I))
          IF(SOFT(1) /= ZERO .OR. SOFT(2) /= ZERO .OR. SOFT(3) /= ZERO) 
      .         ISOFT(I) =1
 Cst CRASURV ---
 C
-         F1(I)  = UN/SIGYT1-UN/SIGYC1
-         F2(I)  = UN/SIGYT2-UN/SIGYC2
-         F11(I) = UN/(SIGYT1*SIGYC1)
-         F22(I) = UN/(SIGYT2*SIGYC2)
-         F33(I) = UN/(SIGYT12*SIGYT12)	 
+         F1(I)  = ONE/SIGYT1-ONE/SIGYC1
+         F2(I)  = ONE/SIGYT2-ONE/SIGYC2
+         F11(I) = ONE/(SIGYT1*SIGYC1)
+         F22(I) = ONE/(SIGYT2*SIGYC2)
+         F33(I) = ONE/(SIGYT12*SIGYT12)	 
          ALPHA = F12(I)
-         F12(I) = -ALPHA/(DEUX*SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2))
+         F12(I) = -ALPHA/(TWO*SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2))
          SIGY(I)=MIN(SIGYT1,SIGYC1,SIGYT2,SIGYC2,SIGYT12)
 C
          IF(IYEILD(I) > 0) THEN
            IF(ICAS(I) == 1)THEN
-             F11(I)= UN/(SIGYT1*SIGYT1)
-             F22(I)= UN/(SIGYT2*SIGYT2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYT1*SIGYT1)
+             F22(I)= ONE/(SIGYT2*SIGYT2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) =  -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ELSEIF(ICAS(I) ==2)THEN
-             F11(I)= UN/(SIGYC1*SIGYC1)
-             F22(I)= UN/(SIGYT2*SIGYT2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYC1*SIGYC1)
+             F22(I)= ONE/(SIGYT2*SIGYT2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) =  -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ELSEIF(ICAS(I) ==3) THEN
-             F11(I)= UN/(SIGYC1*SIGYC1)
-             F22(I)= UN/(SIGYC2*SIGYC2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYC1*SIGYC1)
+             F22(I)= ONE/(SIGYC2*SIGYC2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) =  -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ELSEIF(ICAS(I) == 4) THEN
-             F11(I)= UN/(SIGYT1*SIGYT1)
-             F22(I)= UN/(SIGYC2*SIGYC2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYT1*SIGYT1)
+             F22(I)= ONE/(SIGYC2*SIGYC2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) =  -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ENDIF
          ENDIF
-         EPSP(I)=UN + CC(I) * EPSP(I)
+         EPSP(I)=ONE + CC(I) * EPSP(I)
          IF(ICC(I).EQ.3.OR.ICC(I).EQ.4)THEN
            WPLAMX(I)    = WPLAMX(I)*EPSP(I)
            WPLAMXT1(I)  = WPLAMXT1(I)*EPSP(I)
@@ -599,17 +599,17 @@ C
            WPLAMXC2(I)  = WPLAMXC2(I)*EPSP(I)
            WPLAMXT12(I) = WPLAMXT12(I)*EPSP(I)
          ENDIF
-         FYLD(I)= UN
-         FMAX(I)= UN
+         FYLD(I)= ONE
+         FMAX(I)= ONE
         ENDDO
       ELSE
 C-------------------------------------------------------------------
 C     IFLAG = 0
 C-------------------------------------------------------------------
        DO I=JFT,JLT
-        EPSP(I)=UN + CC(I) * EPSP(I)
+        EPSP(I)=ONE + CC(I) * EPSP(I)
         IF (WPLA(I).NE.ZERO) THEN
-           FYLD(I)=(UN+CB(I)*EXP(CN(I)*LOG(WPLA(I))))*EPSP(I)
+           FYLD(I)=(ONE+CB(I)*EXP(CN(I)*LOG(WPLA(I))))*EPSP(I)
         ELSE
            FYLD(I)=EPSP(I)
         ENDIF
@@ -629,24 +629,24 @@ C-------------------------------------------------------------------
            SIGYT12=PM(161,IMATLY)
 c            ALPHA(I) =  
            IF(ICAS(I) == 1)THEN
-             F11(I)= UN/(SIGYT1*SIGYT1)
-             F22(I)= UN/(SIGYT2*SIGYT2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYT1*SIGYT1)
+             F22(I)= ONE/(SIGYT2*SIGYT2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) = -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ELSEIF(ICAS(I) ==2)THEN
-             F11(I)= UN/(SIGYC1*SIGYC1)
-             F22(I)= UN/(SIGYT2*SIGYT2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYC1*SIGYC1)
+             F22(I)= ONE/(SIGYT2*SIGYT2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) = -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ELSEIF(ICAS(I) ==3) THEN
-             F11(I)= UN/(SIGYC1*SIGYC1)
-             F22(I)= UN/(SIGYC2*SIGYC2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYC1*SIGYC1)
+             F22(I)= ONE/(SIGYC2*SIGYC2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) = -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ELSEIF(ICAS(I) == 4) THEN
-             F11(I)= UN/(SIGYT1*SIGYT1)
-             F22(I)= UN/(SIGYC2*SIGYC2)
-             F33(I)= UN/(SIGYT12*SIGYT12)
+             F11(I)= ONE/(SIGYT1*SIGYT1)
+             F22(I)= ONE/(SIGYC2*SIGYC2)
+             F33(I)= ONE/(SIGYT12*SIGYT12)
              F12(I) = -ALPHA/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
            ENDIF
           SIGY(I)=MIN(SIGYT1,SIGYC1,SIGYT2,SIGYC2,SIGYT12)
@@ -663,14 +663,14 @@ C---------------------------------------------------------------
          DO 100 I=JFT,JLT
            WVEC(I)=F1(I) *T1(I)       + F2(I) *T2(I) +
      .             F11(I)*T1(I)*T1(I) + F22(I)*T2(I)*T2(I) +
-     .             F33(I)*T3(I)*T3(I) + DEUX*F12(I)*T1(I)*T2(I)
+     .             F33(I)*T3(I)*T3(I) + TWO*F12(I)*T1(I)*T2(I)
 !!c    equiv crit for output
 !!           SEQ_OUTP(I) = WVEC(I)
  100     CONTINUE
 C
         DO I=JFT,JLT
-          IF (WVEC(I).GT.FYLD(I).AND.OFF(I).EQ.UN) COEF(I)=UN    
-          CNN=CN(I)-UN
+          IF (WVEC(I).GT.FYLD(I).AND.OFF(I).EQ.ONE) COEF(I)=ONE    
+          CNN=CN(I)-ONE
           WVEC(I)=ZERO
           IF(WPLA(I).GT.ZERO.AND.FYLD(I).LT.FMAX(I)) 
      .           WVEC(I)=EPSP(I)*EXP(CNN*LOG(WPLA(I)))
@@ -678,13 +678,13 @@ C
 C
 Cst CRASURV +++
         DO 110 I=JFT,JLT                                                       
-          BETA(I)= UN                                                          
+          BETA(I)= ONE                                                          
           IF(COEF(I).EQ.ZERO.OR.IFLAG(I).EQ.0) GO TO 110                       
           COEFA=F11(I)*SIG(I,1)*SIG(I,1)+F22(I)*SIG(I,2)*SIG(I,2) +            
      .          F33(I)*SIG(I,3)*SIG(I,3)+                                      
-     .       DEUX*F12(I)*SIG(I,1)*SIG(I,2)                                     
+     .       TWO*F12(I)*SIG(I,1)*SIG(I,2)                                     
           COEFB=F1(I)*SIG(I,1)+F2(I)*SIG(I,2)                                  
-              DELTA=COEFB*COEFB + QUATRE*COEFA*FYLD(I)                         
+              DELTA=COEFB*COEFB + FOUR*COEFA*FYLD(I)                         
           IF(DELTA.LT.ZERO)THEN                                                
            IF(IMCONV.EQ.1 .AND. OUTV(I) == 0)THEN 
 #include "lockon.inc"                                                        
@@ -711,17 +711,17 @@ Cst CRASURV +++
                BETA(I)=FYLD(I)/COEFB                                           
              ENDIF                                                              
           ENDIF                                                                
-          IF(ABS(UN+(COEFB-DELTA)/DEUX/COEFA).LE.                              
-     .       ABS(UN+(COEFB+DELTA)/DEUX/COEFA)) THEN                            
-           BETA(I)=(-COEFB+DELTA)/DEUX/COEFA                                   
+          IF(ABS(ONE+(COEFB-DELTA)/TWO/COEFA).LE.                              
+     .       ABS(ONE+(COEFB+DELTA)/TWO/COEFA)) THEN                            
+           BETA(I)=(-COEFB+DELTA)/TWO/COEFA                                   
           ELSE                                                                 
-           BETA(I)=(-COEFB-DELTA)/DEUX/COEFA                                   
+           BETA(I)=(-COEFB-DELTA)/TWO/COEFA                                   
           ENDIF                                                                
           DELTA=F1(I) *BETA(I)*SIG(I,1) +F2(I) *BETA(I)*SIG(I,2) +             
      .          F11(I)*BETA(I)*SIG(I,1)*BETA(I)*SIG(I,1) +                     
      .          F22(I)*BETA(I)*SIG(I,2)*BETA(I)*SIG(I,2) +                     
      .          F33(I)*BETA(I)*SIG(I,3)*BETA(I)*SIG(I,3) +                     
-     .          DEUX*F12(I)*BETA(I)*SIG(I,1)*BETA(I)*SIG(I,2)                  
+     .          TWO*F12(I)*BETA(I)*SIG(I,1)*BETA(I)*SIG(I,2)                  
 C--1-----|---2---|---3---|---4---|---5---|---6---|---7---|---8---|---9---|--10-|
  3000     FORMAT('No real solution for DELTA =',F11.4)                         
  3010     FORMAT('Cannot project stresses on criteria, COEFB =',F11.4)         
@@ -736,9 +736,9 @@ C        BETA(I)=1.
 Cst CRASURV ---
 C
         DO 120 I=JFT,JLT
-          DP1(I)=F1(I)+DEUX*F11(I)*SO1(I)+DEUX*F12(I)*SO2(I)
-          DP2(I)=F2(I)+DEUX*F22(I)*SO2(I)+DEUX*F12(I)*SO1(I)
-          DP3(I)=DEUX*F33(I)*SO3(I)
+          DP1(I)=F1(I)+TWO*F11(I)*SO1(I)+TWO*F12(I)*SO2(I)
+          DP2(I)=F2(I)+TWO*F22(I)*SO2(I)+TWO*F12(I)*SO1(I)
+          DP3(I)=TWO*F33(I)*SO3(I)
  120    CONTINUE
       ELSEIF(JYEILD == JLT) THEN
 C------------------------------------------------------------
@@ -752,8 +752,8 @@ C ----------------------------------------------------------
         ENDDO
 C
         DO I=JFT,JLT
-          IF (WVEC(I).GT.FYLD(I).AND.OFF(I).EQ.UN) COEF(I)=UN    
-          CNN=CN(I)-UN
+          IF (WVEC(I).GT.FYLD(I).AND.OFF(I).EQ.ONE) COEF(I)=ONE    
+          CNN=CN(I)-ONE
           WVEC(I)=ZERO
           IF(WPLA(I).GT.ZERO.AND.FYLD(I).LT.FMAX(I)) 
      .           WVEC(I)=EPSP(I)*EXP(CNN*LOG(WPLA(I)))
@@ -761,7 +761,7 @@ C
 C
 Cst CRASURV +++
         DO  111 I=JFT,JLT                                                       
-          BETA(I)=UN                                                           
+          BETA(I)=ONE                                                           
           IF(COEF(I).EQ.ZERO.OR.IFLAG(I).EQ.0) GO TO 111                       
            COEFA= F11(I)*SIG(I,1)*SIG(I,1) + F22(I)*SIG(I,2)*SIG(I,2) + 
      .            F33(I)*SIG(I,3)*SIG(I,3) + F12(I)*SIG(I,1)*SIG(I,2)
@@ -789,8 +789,8 @@ CC
                 GO TO 111                            
             ENDIF                                                              
           ENDIF                                                                
-          IF(ABS(UN-DELTA).LE.                              
-     .       ABS(UN+DELTA)) THEN                            
+          IF(ABS(ONE-DELTA).LE.                              
+     .       ABS(ONE+DELTA)) THEN                            
            BETA(I)= DELTA                             
           ELSE                                                                 
            BETA(I)=-DELTA                                  
@@ -805,9 +805,9 @@ C        BETA(I)=1.
 C
 C
         DO  I=JFT,JLT
-          DP1(I)=DEUX*F11(I)*SO1(I) +  F12(I)*SO2(I)
-          DP2(I)=DEUX*F22(I)*SO2(I) +  F12(I)*SO1(I)
-          DP3(I)=DEUX*F33(I)*SO3(I)
+          DP1(I)=TWO*F11(I)*SO1(I) +  F12(I)*SO2(I)
+          DP2(I)=TWO*F22(I)*SO2(I) +  F12(I)*SO1(I)
+          DP3(I)=TWO*F33(I)*SO3(I)
         ENDDO      
       
       ELSE
@@ -821,22 +821,22 @@ C ----------------------------------------------------------
            ELSE
              WVEC(I)=  F1(I) *T1(I)       + F2(I) *T2(I) +
      .                 F11(I)*T1(I)*T1(I) + F22(I)*T2(I)*T2(I) +
-     .                 F33(I)*T3(I)*T3(I) + DEUX*F12(I)*T1(I)*T2(I)
+     .                 F33(I)*T3(I)*T3(I) + TWO*F12(I)*T1(I)*T2(I)
            ENDIF
 !!c    equiv crit for output
 !!           SEQ_OUTP(I) = WVEC(I)
         ENDDO      
 C
         DO I=JFT,JLT
-          IF (WVEC(I).GT.FYLD(I).AND.OFF(I).EQ.UN) COEF(I)=UN    
-          CNN=CN(I)-UN
+          IF (WVEC(I).GT.FYLD(I).AND.OFF(I).EQ.ONE) COEF(I)=ONE    
+          CNN=CN(I)-ONE
           WVEC(I)=ZERO
           IF(WPLA(I).GT.ZERO.AND.FYLD(I).LT.FMAX(I)) 
      .           WVEC(I)=EPSP(I)*EXP(CNN*LOG(WPLA(I)))
         ENDDO
 CC
         DO  112 I=JFT,JLT                                                       
-          BETA(I)=UN                                                           
+          BETA(I)=ONE                                                           
           IF(COEF(I).EQ.ZERO.OR.IFLAG(I).EQ.0) GO TO 112 
            IF(IYEILD(I) > 0) THEN     
 C--------------------------------------------------------------
@@ -868,7 +868,7 @@ C
                  GO TO 112                           
                ENDIF 
              ENDIF 
-             IF(ABS(UN-DELTA).LE. ABS(UN+DELTA)) THEN
+             IF(ABS(ONE-DELTA).LE. ABS(ONE+DELTA)) THEN
                 BETA(I)= DELTA                             
               ELSE 
                  BETA(I)=-DELTA                                  
@@ -878,17 +878,17 @@ C
              SO2(I)=BETA(I)*SIG(I,2)
              SO3(I)=BETA(I)*SIG(I,3)
 C             
-             DP1(I)= DEUX*F11(I)*SO1(I) +  F12(I)*SO2(I)
-             DP2(I)= DEUX*F22(I)*SO2(I) +  F12(I)*SO1(I)
-             DP3(I)= DEUX*F33(I)*SO3(I)
+             DP1(I)= TWO*F11(I)*SO1(I) +  F12(I)*SO2(I)
+             DP2(I)= TWO*F22(I)*SO2(I) +  F12(I)*SO1(I)
+             DP3(I)= TWO*F33(I)*SO3(I)
           ELSE
 C--------------------------------------------------------------------
 C TSAI WU
 C --------------------------------------------------------------------         
              COEFA=F11(I)*SIG(I,1)*SIG(I,1)+F22(I)*SIG(I,2)*SIG(I,2) + 
-     .            F33(I)*SIG(I,3)*SIG(I,3)+DEUX*F12(I)*SIG(I,1)*SIG(I,2) 
+     .            F33(I)*SIG(I,3)*SIG(I,3)+TWO*F12(I)*SIG(I,1)*SIG(I,2) 
              COEFB=F1(I)*SIG(I,1)+F2(I)*SIG(I,2)
-             DELTA=COEFB*COEFB + QUATRE*COEFA*FYLD(I)                         
+             DELTA=COEFB*COEFB + FOUR*COEFA*FYLD(I)                         
             IF(DELTA.LT.ZERO)THEN 
               IF(IMCONV.EQ.1 .AND. OUTV(I) == 0)THEN 
 #include "lockon.inc"                                                        
@@ -915,20 +915,20 @@ C --------------------------------------------------------------------
                BETA(I)=FYLD(I)/COEFB                                           
             ENDIF                                                              
           ENDIF                                                                
-          IF(ABS(UN+(COEFB-DELTA)/DEUX/COEFA).LE.                              
-     .       ABS(UN+(COEFB+DELTA)/DEUX/COEFA)) THEN                            
-           BETA(I)=(-COEFB+DELTA)/DEUX/COEFA                                   
+          IF(ABS(ONE+(COEFB-DELTA)/TWO/COEFA).LE.                              
+     .       ABS(ONE+(COEFB+DELTA)/TWO/COEFA)) THEN                            
+           BETA(I)=(-COEFB+DELTA)/TWO/COEFA                                   
           ELSE                                                                 
-           BETA(I)=(-COEFB-DELTA)/DEUX/COEFA                                   
+           BETA(I)=(-COEFB-DELTA)/TWO/COEFA                                   
           ENDIF
 C
            SO1(I)=BETA(I)*SIG(I,1)
            SO2(I)=BETA(I)*SIG(I,2)
            SO3(I)=BETA(I)*SIG(I,3)           
 C
-           DP1(I)=F1(I)+DEUX*F11(I)*SO1(I)+DEUX*F12(I)*SO2(I)
-           DP2(I)=F2(I)+DEUX*F22(I)*SO2(I)+DEUX*F12(I)*SO1(I)
-           DP3(I)=DEUX*F33(I)*SO3(I)
+           DP1(I)=F1(I)+TWO*F11(I)*SO1(I)+TWO*F12(I)*SO2(I)
+           DP2(I)=F2(I)+TWO*F22(I)*SO2(I)+TWO*F12(I)*SO1(I)
+           DP3(I)=TWO*F33(I)*SO3(I)
 C                     
          ENDIF   
 CC
@@ -948,8 +948,8 @@ C
           LAMDA(I)=LAMDA(I)*COEF(I)/
      .         (DP1(I)*(A11(I)*DP1(I)+A12(I)*DP2(I))+
      .          DP2(I)*(A12(I)*DP1(I)+A22(I)*DP2(I))+
-     .       DEUX*DP3(I)*G12(I)*DE1(I)*DE2(I)*DP3(I)+
-     .         (SO1(I)*DP1(I)+SO2(I)*DP2(I)+DEUX*SO3(I)*DP3(I))
+     .       TWO*DP3(I)*G12(I)*DE1(I)*DE2(I)*DP3(I)+
+     .         (SO1(I)*DP1(I)+SO2(I)*DP2(I)+TWO*SO3(I)*DP3(I))
      .          *CN(I)*CB(I)*WVEC(I) )
  160  CONTINUE
 C
@@ -962,14 +962,14 @@ C
       DO 180 I=JFT,JLT
         T1(I)=T1(I)-A11(I)*DP1(I)-A12(I)*DP2(I)
         T2(I)=T2(I)-A12(I)*DP1(I)-A22(I)*DP2(I)
-        T3(I)=T3(I)-G12(I)*DE1(I)*DE2(I)*DP3(I)*DEUX
+        T3(I)=T3(I)-G12(I)*DE1(I)*DE2(I)*DP3(I)*TWO
  180  CONTINUE
 C
       DO 190 I=JFT,JLT                  
-        DWPLA = UNDEMI*
+        DWPLA = HALF*
      .      (DP1(I)*(T1(I)+SO1(I))+
      .       DP2(I)*(T2(I)+SO2(I))+
-     .       DEUX*DP3(I)*(T3(I)+SO3(I)))
+     .       TWO*DP3(I)*(T3(I)+SO3(I)))
          DWPLA = MAX(DWPLA ,ZERO) / WPLAREF(I)
          WPLA(I)=WPLA(I)+ DWPLA
 C needed for print         
@@ -1035,14 +1035,14 @@ C shear
              ENDIF
              SELECT CASE(ID)
                CASE(1)
-                ICAS(I) = SIGN(UN,T1(I)) 
+                ICAS(I) = SIGN(ONE,T1(I)) 
                 IF(ICAS(I) > 0 ) THEN
                    WPLAMX(I) = MIN(WPLAMX(I),WPLAMXT1(I))
                 ELSE
                    WPLAMX(I)  = MIN(WPLAMX(I),WPLAMXC1(I))
                 ENDIF 
                CASE(2)
-                ICAS(I) = SIGN(DEUX,T2(I)) 
+                ICAS(I) = SIGN(TWO,T2(I)) 
                 IF(ICAS(I) > 0 ) THEN
                   WPLAMX(I) = MIN(WPLAMX(I),WPLAMXT2(I))
                 ELSE
@@ -1059,7 +1059,7 @@ C
       DO I=JFT,JLT
 C       
         IFAIL0  =  MOD(FAIL_OLD(I),8)
-        IF(WPLA(I).GE.WPLAMX(I) .OR.IFAIL0 >= 4 )WPLAR(I)= WPLAR(I)+UN
+        IF(WPLA(I).GE.WPLAMX(I) .OR.IFAIL0 >= 4 )WPLAR(I)= WPLAR(I)+ONE
         IF(WPLA(I).GE.WPLAMX(I).OR.IFAIL0 >= 4 .OR. 
      .     DAMT(I,1).GE.DMAX(I).OR.
      .     CRAK(I,1).GE.EPSF1(I)-EPST1(I)) NFIS1(I)=NFIS1(I)+1
@@ -1085,7 +1085,7 @@ C-----------------------------
         IF(CRAK(I,2).GE.EPSF2(I)-EPST2(I))FAIL=FAIL+16
         IF(FAIL > 0 ) OFFPLY(I) = ZERO
          
-        IF(FAIL.NE.FAIL_OLD(I).AND.OFF(I).EQ.UN) THEN
+        IF(FAIL.NE.FAIL_OLD(I).AND.OFF(I).EQ.ONE) THEN
           FAIL = FAIL - FAIL_OLD(I)
          IF(IMCONV.EQ.1)THEN
 #include "lockon.inc"
@@ -1201,9 +1201,9 @@ c
 C------for QEPH      
       DO I=JFT,JLT
           SIGY(I)=FYLD(I)*SIGY(I)
-          IF (ABS(BETA(I)) < UN) THEN
+          IF (ABS(BETA(I)) < ONE) THEN
            IF(WPLA(I).GT.ZERO.AND.FYLD(I).LT.FMAX(I))THEN
-             HT=CN(I)*CB(I)*EXP((CN(I)-UN)*LOG(WPLA(I)))
+             HT=CN(I)*CB(I)*EXP((CN(I)-ONE)*LOG(WPLA(I)))
            ELSE
              HT=EM10
            END IF
@@ -1242,13 +1242,13 @@ C---------------------------------------------------------------
            T3(I) = SIGPLY(I,3)
            WVEC(I)=F1(I) *T1(I)       + F2(I) *T2(I) +
      .             F11(I)*T1(I)*T1(I) + F22(I)*T2(I)*T2(I) +
-     .             F33(I)*T3(I)*T3(I) + DEUX*F12(I)*T1(I)*T2(I)
+     .             F33(I)*T3(I)*T3(I) + TWO*F12(I)*T1(I)*T2(I)
          ENDDO
 C
         DO I=JFT,JLT
           COEF(I) = ZERO
-          IF (WVEC(I).GT.FYLD(I).AND.OFF(I).EQ.UN) COEF(I)=UN    
-          CNN=CN(I)-UN
+          IF (WVEC(I).GT.FYLD(I).AND.OFF(I).EQ.ONE) COEF(I)=ONE    
+          CNN=CN(I)-ONE
           WVEC(I)=ZERO
           IF(WPLA(I).GT.ZERO.AND.FYLD(I).LT.FMAX(I)) 
      .           WVEC(I)=EPSP(I)*EXP(CNN*LOG(WPLA(I)))
@@ -1256,13 +1256,13 @@ C
 C
 Cst CRASURV +++
         DO 222 I=JFT,JLT                                                       
-          BETA(I)= UN                                                          
+          BETA(I)= ONE                                                          
           IF(COEF(I).EQ.ZERO.OR.IFLAG(I).EQ.0) GO TO 222                       
            COEFA=F11(I)*T1(I)*T1(I)+F22(I)*T2(I)*T2(I) +            
      .          F33(I)*T3(I)*T3(I)+                                      
-     .         DEUX*F12(I)*T1(I)*T2(I)                                     
+     .         TWO*F12(I)*T1(I)*T2(I)                                     
               COEFB=F1(I)*T1(I)+F2(I)*T2(I)                                  
-              DELTA=COEFB*COEFB + QUATRE*COEFA*FYLD(I)                         
+              DELTA=COEFB*COEFB + FOUR*COEFA*FYLD(I)                         
           IF(DELTA.LT.ZERO)THEN                                                
            IF(IMCONV.EQ.1 .AND. OUTV(I) == 0)THEN 
 #include "lockon.inc"                                                        
@@ -1289,11 +1289,11 @@ Cst CRASURV +++
                BETA(I)=FYLD(I)/COEFB                                           
              ENDIF                                                              
           ENDIF                                                                
-          IF(ABS(UN+(COEFB-DELTA)/DEUX/COEFA).LE.                              
-     .       ABS(UN+(COEFB+DELTA)/DEUX/COEFA)) THEN                            
-           BETA(I)=(-COEFB+DELTA)/DEUX/COEFA                                   
+          IF(ABS(ONE+(COEFB-DELTA)/TWO/COEFA).LE.                              
+     .       ABS(ONE+(COEFB+DELTA)/TWO/COEFA)) THEN                            
+           BETA(I)=(-COEFB+DELTA)/TWO/COEFA                                   
           ELSE                                                                 
-           BETA(I)=(-COEFB-DELTA)/DEUX/COEFA                                   
+           BETA(I)=(-COEFB-DELTA)/TWO/COEFA                                   
           ENDIF                                                                               
 C--1-----|---2---|---3---|---4---|---5---|---6---|---7---|---8---|---9---|--10-  
 
@@ -1305,9 +1305,9 @@ C--1-----|---2---|---3---|---4---|---5---|---6---|---7---|---8---|---9---|--10-
         ENDDO
 Cst CRASURV ---
       DO  I=JFT,JLT
-          DP1(I)=F1(I)+DEUX*F11(I)*SO1(I)+DEUX*F12(I)*SO2(I)
-          DP2(I)=F2(I)+DEUX*F22(I)*SO2(I)+DEUX*F12(I)*SO1(I)
-          DP3(I)=DEUX*F33(I)*SO3(I)
+          DP1(I)=F1(I)+TWO*F11(I)*SO1(I)+TWO*F12(I)*SO2(I)
+          DP2(I)=F2(I)+TWO*F22(I)*SO2(I)+TWO*F12(I)*SO1(I)
+          DP3(I)=TWO*F33(I)*SO3(I)
       ENDDO
       DO  I=JFT,JLT
           DS1(I)=T1(I)-SO1(I)
@@ -1321,8 +1321,8 @@ C
            LAMDA(I)=LAMDA(I)*COEF(I)/
      .         (DP1(I)*(A11(I)*DP1(I)+A12(I)*DP2(I))+
      .          DP2(I)*(A12(I)*DP1(I)+A22(I)*DP2(I))+
-     .       DEUX*DP3(I)*G12(I)*DE1(I)*DE2(I)*DP3(I)+
-     .         (SO1(I)*DP1(I)+SO2(I)*DP2(I)+DEUX*SO3(I)*DP3(I))
+     .       TWO*DP3(I)*G12(I)*DE1(I)*DE2(I)*DP3(I)+
+     .         (SO1(I)*DP1(I)+SO2(I)*DP2(I)+TWO*SO3(I)*DP3(I))
      .          *CN(I)*CB(I)*WVEC(I) )
          ENDIF 
       ENDDO
@@ -1336,7 +1336,7 @@ C
       DO  I=JFT,JLT
         SIGPLY(I,1)=T1(I)-A11(I)*DP1(I)-A12(I)*DP2(I)
         SIGPLY(I,2)=T2(I)-A12(I)*DP1(I)-A22(I)*DP2(I)
-        SIGPLY(I,3)=T3(I)-G12(I)*DE1(I)*DE2(I)*DP3(I)*DEUX
+        SIGPLY(I,3)=T3(I)-G12(I)*DE1(I)*DE2(I)*DP3(I)*TWO
       ENDDO
 C            
        DO I=JFT,JLT

@@ -97,7 +97,7 @@ C=======================================================================
       IS_AVAILABLE = .FALSE.
 c
       ILAW    = 48
-      CN      = UN
+      CN      = ONE
       FISOKIN = ZERO
 c------------------------------------------
       CALL HM_OPTION_IS_CRYPTED(IS_ENCRYPTED)
@@ -131,7 +131,7 @@ C
 c-----------------------------------------------------------------------
 c     Default values
 c-----------------------------------------------------------------------
-      IF (NU < ZERO .OR. NU >= UNDEMI) THEN
+      IF (NU < ZERO .OR. NU >= HALF) THEN
 C        WRITE(IOUT,*)' ** ERROR : WRONG NU VALUE'
          CALL ANCMSG(MSGID=49,
      .               MSGTYPE=MSGERROR,
@@ -148,14 +148,14 @@ C        WRITE(IOUT,*)' ** ERROR : WRONG NU VALUE'
      .                C1=TITR)
       ENDIF
       
-      IF (CN == ZERO .OR. CN == UN)  CN = UNP0001
-      IF (CM == ZERO .OR. CM == UN)  CM = UNP0001
-      IF (CK == ZERO)                CK = UN
+      IF (CN == ZERO .OR. CN == ONE)  CN = ONEP0001
+      IF (CM == ZERO .OR. CM == ONE)  CM = ONEP0001
+      IF (CK == ZERO)                CK = ONE
       IF (EPSR1 == ZERO) EPSR1 = INFINITY
-      IF (EPSR2 == ZERO) EPSR2 = DEUX*INFINITY
+      IF (EPSR2 == ZERO) EPSR2 = TWO*INFINITY
       IF (EPSM == ZERO)  EPSM  = INFINITY
       IF (SIGM == ZERO)  SIGM  = INFINITY
-      IF (CC == ZERO)    EPS0  = UN
+      IF (CC == ZERO)    EPS0  = ONE
       IF (FCUT <= ZERO)THEN
         FCUT = INFINITY
       ENDIF
@@ -186,8 +186,8 @@ C     .                ' MAXUPARAM =',MAXUPARAM
      .               I2=NUPARAM,
      .               I3=MAXUPARAM)
       ELSE
-        C1 = E / TROIS / (UN - DEUX*NU)
-        G  = E / DEUX / (UN + NU)
+        C1 = E / THREE / (ONE - TWO*NU)
+        G  = E / TWO / (ONE + NU)
         UPARAM(1)  = E 
         UPARAM(2)  = NU
         UPARAM(3)  = CA
@@ -204,10 +204,10 @@ C     .                ' MAXUPARAM =',MAXUPARAM
         UPARAM(14) = FCUT
         UPARAM(15) = FISOKIN
         UPARAM(16) = G
-        UPARAM(17) = DEUX*G
-        UPARAM(18) = TROIS*G
+        UPARAM(17) = TWO*G
+        UPARAM(18) = THREE*G
         UPARAM(19) = C1
-        UPARAM(20) = E/(UN - NU*NU)
+        UPARAM(20) = E/(ONE - NU*NU)
         UPARAM(21) = NU*UPARAM(20)
         UPARAM(22) = EPSM
         UPARAM(23) = EPS0
@@ -223,7 +223,7 @@ c-----------------------------------------------------------------------
 c------------------------------------
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) = DEUX*G/(C1+QTHIRD*G) ! == (1-2*nu)/(1-nu)
+      PARMAT(17) = TWO*G/(C1+FOUR_OVER_3*G) ! == (1-2*nu)/(1-nu)
 c-----------------------------------------------------------------------
       IF (RHOR == ZERO) RHOR = RHO0
       PM(1)  = RHOR

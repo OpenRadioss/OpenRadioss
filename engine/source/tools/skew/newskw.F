@@ -148,7 +148,7 @@ C-----------------
                   P(3)=X(3,N3)-X(3,N1)
                 ENDIF
               ELSE
-                P(1)=UN
+                P(1)=ONE
                 P(2)=ZERO
                 P(3)=ZERO
                 P(4)=X(1,N2)-X(1,N1)
@@ -166,26 +166,26 @@ C------------------
               IF (IDIR == 1) THEN
                 PP1=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
                 IF(PP1.EQ.ZERO)THEN
-                  P(1)=UN
+                  P(1)=ONE
                   P(2)=ZERO
                   P(3)=ZERO
-                  PP1 =UN
+                  PP1 =ONE
                 ENDIF
               ELSE IF (IDIR == 2)THEN 
                 PP2=SQRT(P(4)*P(4)+P(5)*P(5)+P(6)*P(6))
                 IF(PP2.EQ.ZERO)THEN
                   P(4)=ZERO
-                  P(5)=UN
+                  P(5)=ONE
                   P(6)=ZERO
-                  PP2 =UN
+                  PP2 =ONE
                 ENDIF
               ELSE IF (IDIR == 3)THEN
                 PP3=SQRT(P(7)*P(7)+P(8)*P(8)+P(9)*P(9))
                 IF(PP3.EQ.ZERO)THEN
                   P(7)=ZERO
                   P(8)=ZERO
-                  P(9)=UN
-                  PP3 =UN
+                  P(9)=ONE
+                  PP3 =ONE
                 ENDIF
               ENDIF
 C-----------------
@@ -302,8 +302,8 @@ C------------------
               IF(PP3.EQ.ZERO)THEN
                 P(7)=ZERO
                 P(8)=ZERO
-                P(9)=UN
-                PP3 =UN
+                P(9)=ONE
+                PP3 =ONE
               ENDIF
 C-----------------
 C       CALCUL DE Y' = Z' x X0'

@@ -220,7 +220,7 @@ C------------------------------------------------
             IF (ICUT == 1) THEN
               BETA = CRKEDGE(ILAY)%RATIO(IEDGE)
 C
-              IF (BETA > UN .or. BETA == ZERO) THEN
+              IF (BETA > ONE .or. BETA == ZERO) THEN
                 WRITE(*,*) 'ERROR NEGATIV BETA, NO INTERSECTION!'
                 CALL ARRET(2)
               ENDIF
@@ -437,8 +437,8 @@ c
           p2 = dd(K)
           IED = EDGEL(K,I)
           IF (IED > 0) THEN
-            XMI(IED) = UNDEMI*(XN(p1)+XN(p2))
-            YMI(IED) = UNDEMI*(YN(p1)+YN(p2))
+            XMI(IED) = HALF*(XN(p1)+XN(p2))
+            YMI(IED) = HALF*(YN(p1)+YN(p2))
           ENDIF
         ENDDO
         DO K=1,3
@@ -492,9 +492,9 @@ C
         ELCUTC(1,I) = 2
         NUMELCRK    = NUMELCRK + 1
 C
-        ISIGN(1) = INT(SIGN(UN,FIT(1,I)))
-        ISIGN(2) = INT(SIGN(UN,FIT(2,I)))
-        ISIGN(3) = INT(SIGN(UN,FIT(3,I)))
+        ISIGN(1) = INT(SIGN(ONE,FIT(1,I)))
+        ISIGN(2) = INT(SIGN(ONE,FIT(2,I)))
+        ISIGN(3) = INT(SIGN(ONE,FIT(3,I)))
 C
         IF (FIT(1,I) == ZERO) ISIGN(1) = 0
         IF (FIT(2,I) == ZERO) ISIGN(2) = 0
@@ -625,15 +625,15 @@ c--         AREA factors for each phantom
             IED = CRKEDGE(ILAY)%IEDGETG(NX3,ELCRKTG)         
             X3  = XIN(IED,I)                            
             Y3  = YIN(IED,I)                            
-            AREA1 = UNDEMI*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
+            AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
             AREA1 = AREA1 / AREA(I)
             X1  = XXL(NX2,I)    
             Y1  = YYL(NX2,I)                   
             X2  = XXL(NX3,I)    
             Y2  = YYL(NX3,I)                   
-            AREA2 = UNDEMI*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
+            AREA2 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
             AREA2 = AREA2 / AREA(I)
-            AREA3 = UN - AREA1 - AREA2
+            AREA3 = ONE - AREA1 - AREA2
 c
           ELSE                                                                                      
 c             print*,' IMPOSSIBLE CASE'                                                               
@@ -660,7 +660,7 @@ c--         AREA factors for each phantom
             Y2  = YYL(NX2,I)                
             X3  = XXL(NX3,I)                           
             Y3  = YYL(NX3,I)                           
-            AREA1 = UNDEMI*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
+            AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
             AREA1 = AREA1 / AREA(I)
             X1  = XXL(NX1,I) 
             Y1  = YYL(NX1,I)                
@@ -668,9 +668,9 @@ c--         AREA factors for each phantom
             Y2  = YIN(IED1,I)                            
             X3  = XIN(IED2,I)                            
             Y3  = YIN(IED2,I)                            
-            AREA2 = UNDEMI*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
+            AREA2 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
             AREA2 = AREA2 / AREA(I)
-            AREA3 = UN - AREA1 - AREA2
+            AREA3 = ONE - AREA1 - AREA2
           ELSE                                                                                      
 c             print*,' IMPOSSIBLE CASE'                                                               
           ENDIF                                                                                     
@@ -680,7 +680,7 @@ c----
         CRKLVSET(PP2)%AREA(ELCRK) = AREA2                                                           
         CRKLVSET(PP3)%AREA(ELCRK) = AREA3                                                          
 c
-          IF (AREA3 < ZERO .or. AREA1 > UN .or. AREA2 > UN .or. AREA3 > UN ) THEN
+          IF (AREA3 < ZERO .or. AREA1 > ONE .or. AREA2 > ONE .or. AREA3 > ONE ) THEN
             print*,'ERROR : XFEM PHANTOM ELEMENT AREA: ELCRK=',ELCRK
           ENDIF
 c

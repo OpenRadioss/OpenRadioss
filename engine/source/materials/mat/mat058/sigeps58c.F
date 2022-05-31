@@ -275,11 +275,11 @@ C     DESACTIVATION FOR VERY WARPED ELEMENT (QBAT)
 C-----------------------------------------------------------
       IF (NPT0 ==1) THEN
         DO I=1,NEL0
-          IF (UVAR(I,40)==UN) CYCLE
+          IF (UVAR(I,40)==ONE) CYCLE
           DEPSXX(I) = DEPSXX(I)*UVAR(I,40)
           DEPSYY(I) = DEPSYY(I)*UVAR(I,40)
           AA =UVAR(I,10)/G0
-          DEPSXY(I) = AA*(UN-UVAR(I,40))+DEPSXY(I)*UVAR(I,40)
+          DEPSXY(I) = AA*(ONE-UVAR(I,40))+DEPSXY(I)*UVAR(I,40)
         ENDDO
       ENDIF
 C
@@ -313,10 +313,10 @@ c
           YC(I)    = UVAR(I,7) 
           YT(I)    = UVAR(I,8) 
           TFOLD(I) = UVAR(I,9)
-          MASS     = RHO0(I)*AREA(I)*THKLY(I)*QUART  ! 2m = rho*V/4
+          MASS     = RHO0(I)*AREA(I)*THKLY(I)*FOURTH  ! 2m = rho*V/4
           DTINV    = TIMESTEP(I)/MAX(TIMESTEP(I)*TIMESTEP(I),EM20)
-          CVISC(I) = SQRT(MASS*KFC0)*DTINV*TIERS
-          CVIST(I) = SQRT(MASS*KFT0)*DTINV*TIERS
+          CVISC(I) = SQRT(MASS*KFC0)*DTINV*THIRD
+          CVIST(I) = SQRT(MASS*KFT0)*DTINV*THIRD
         ENDDO
 
 C---  integration des deformations
@@ -327,14 +327,14 @@ C---  integration des deformations
           ETT =UVAR(I,5)+DEPSYY(I)     
           UVAR(I,4) = ETC
           UVAR(I,5) = ETT
-          EC(I) = EXP(ETC) - UN ! eng strain
-          ET(I) = EXP(ETT) - UN
+          EC(I) = EXP(ETC) - ONE ! eng strain
+          ET(I) = EXP(ETT) - ONE
         ENDDO
 #include "vectorize.inc"
         DO  J=1,NINDX
           I=INDEX(J)                                   
-          LC(I) = LC0 * (UN + EC(I)) 
-          LT(I) = LT0 * (UN + ET(I)) 
+          LC(I) = LC0 * (ONE + EC(I)) 
+          LT(I) = LT0 * (ONE + ET(I)) 
         ENDDO
 c                    
 c---    Calcul YC, YT
@@ -354,8 +354,8 @@ c---      uncoupled model  (compression of fiber)
             HT  = HT0 + YT(I)     
             DC  = SQRT(LC(I)*LC(I) + HC*HC) ! long fibre  
             DT  = SQRT(LT(I)*LT(I) + HT*HT)   
-            UDC = UN / DC                     
-            UDT = UN / DT                     
+            UDC = ONE / DC                     
+            UDT = ONE / DT                     
             HDC = HC * UDC      !sinus(alpha)              
             HDT = HT * UDT                    
             DCC = DC - DC0                    
@@ -368,10 +368,10 @@ c---      uncoupled model  (compression of fiber)
               IF(KFC == ZERO)KFC=KFC0
               FPC = FPC*HDC
             ELSEIF (DCC >= CCL ) THEN 
-              FC  = UNDEMI * KC*CCL
+              FC  = HALF * KC*CCL
               FPC = ZERO
             ELSE    
-              FC  = (KC - UNDEMI*KBC * DCC) * DCC        
+              FC  = (KC - HALF*KBC * DCC) * DCC        
               FPC = (KC - KBC*DCC) * HDC! derivee % yc
             ENDIF 
             IF (KFUNC(2) /= 0) THEN
@@ -382,16 +382,16 @@ c---      uncoupled model  (compression of fiber)
               IF(KFT == ZERO)KFT=KFT0
               FPT = FPT*HDT
             ELSEIF (DTT >= TTL ) THEN
-              FT  = UNDEMI * KT*TTL
+              FT  = HALF * KT*TTL
               FPT = ZERO       
             ELSE           
-              FT  = (KT - UNDEMI*KBT * DTT) * DTT        
+              FT  = (KT - HALF*KBT * DTT) * DTT        
               FPT = (KT - KBT*DTT) * HDT   
             ENDIF
             FUNC = KFC*YC(I) + FC*HC/DC + CVISC(I)*DYC
             FUNT = KFT*YT(I) + FT*HT/DT + CVIST(I)*DYT          
-            DERIC= KFC + FPC*HDC + FC*UDC*(UN - HDC*HDC) + CVISC(I)
-            DERIT= KFT + FPT*HDT + FT*UDT*(UN - HDT*HDT) + CVIST(I)
+            DERIC= KFC + FPC*HDC + FC*UDC*(ONE - HDC*HDC) + CVISC(I)
+            DERIT= KFT + FPT*HDT + FT*UDT*(ONE - HDT*HDT) + CVIST(I)
 C
             YC(I) = YC(I) - FUNC / DERIC
             YT(I) = YT(I) - FUNT / DERIT
@@ -403,7 +403,7 @@ C---      Coupled model (traction fibre)
           DYC = ZERO
           DYT = ZERO
           IF ((YC(I) + YT(I)) < ZERO) THEN !eps
-            Y = UNDEMI * (UVAR(I,7) - UVAR(I,8))
+            Y = HALF * (UVAR(I,7) - UVAR(I,8))
             DO ITER = 1, NITER
               HC = HC0 + Y 
               HT = HT0 - Y 
@@ -411,8 +411,8 @@ C---      Coupled model (traction fibre)
               DT = SQRT(LT(I)*LT(I) + HT*HT)
               DCC = DC - DC0
               DTT = DT - DT0
-              UDC= UN / DC
-              UDT= UN / DT
+              UDC= ONE / DC
+              UDT= ONE / DT
               HDC= HC * UDC
               HDT= HT * UDT
              IF (KFUNC(1) /= 0) THEN            
@@ -423,10 +423,10 @@ C---      Coupled model (traction fibre)
                IF(KFC == ZERO)KFC=KFC0
                FPC = FPC*HDC
               ELSEIF (DCC >= CCL ) THEN
-                FC  = UNDEMI * KC*CCL
+                FC  = HALF * KC*CCL
                 FPC = ZERO
               ELSE 
-                FC  = (KC - UNDEMI*KBC * DCC) * DCC      
+                FC  = (KC - HALF*KBC * DCC) * DCC      
                 FPC = (KC - KBC*DCC) * HDC
               ENDIF 
               IF (KFUNC(2) /= 0) THEN
@@ -437,21 +437,21 @@ C---      Coupled model (traction fibre)
                 IF(KFT == ZERO)KFT=KFT0
                 FPT = FPT*HDT
              ELSEIF (DTT >= TTL ) THEN
-                FT  = UNDEMI * KT*TTL
+                FT  = HALF * KT*TTL
                 FPT = ZERO  
               ELSE     
-                FT  = (KT - UNDEMI*KBT * DTT) * DTT      
+                FT  = (KT - HALF*KBT * DTT) * DTT      
                 FPT = (KT - KBT*DTT) * HDT 
               ENDIF
 C
               KF = KFC + KFT
               FUNC  = KF*Y + FC * HDC - FT * HDT
      .              + (CVISC(I) + CVIST(I))*DYC
-              DERIC = KF + FPC*HDC + FC*UDC*(UN - HDC*HDC)
-     .                   + FPT*HDT + FT*UDT*(UN - HDT*HDT) 
+              DERIC = KF + FPC*HDC + FC*UDC*(ONE - HDC*HDC)
+     .                   + FPT*HDT + FT*UDT*(ONE - HDT*HDT) 
      .                   + CVISC(I) + CVIST(I)
               Y = Y - FUNC / DERIC
-              DYC = Y - UNDEMI * (UVAR(I,7) - UVAR(I,8))
+              DYC = Y - HALF * (UVAR(I,7) - UVAR(I,8))
 C
               IF (Y > 0) THEN
                 Y = MIN(Y, HT0)
@@ -484,18 +484,18 @@ C-------------------------------------
             FPC = FPC *YFAC(1)
             KC = FPC
           ELSEIF (DCC >= CCL ) THEN            
-            FC  = UNDEMI * KC*CCL           
+            FC  = HALF * KC*CCL           
           ELSE                              
-            FC  = (KC - UNDEMI*KBC * DCC) * DCC          
+            FC  = (KC - HALF*KBC * DCC) * DCC          
           ENDIF                             
           IF(KFUNC(2) /= 0)THEN
             FT = YFAC(2)*FINTER(KFUNC(2),DTT,NPF,TF,FPT)
             FPT = FPT * YFAC(2)
             KT = FPT
           ELSEIF (DTT >= TTL ) THEN            
-            FT  = UNDEMI * KT*TTL           
+            FT  = HALF * KT*TTL           
           ELSE                              
-            FT  = (KT - UNDEMI*KBT * DTT) * DTT          
+            FT  = (KT - HALF*KBT * DTT) * DTT          
           ENDIF                             
 C------------------------------------------------------------------
 C         Trace = Eps1 + Eps2  (Trace of true principal strain tensor)
@@ -505,8 +505,8 @@ C         rfac =  2*Nc / (ec2_eng+1)
 C         ec2_eng+1 > 0
 C------------------------------------------------------------------
           TRACE = EXP(EPSXX(I) + EPSYY(I))! =exp(tr)
-          EC2 = MAX(TRACE / (EC(I) + UN), EM6)
-          ET2 = MAX(TRACE / (ET(I) + UN), EM6)
+          EC2 = MAX(TRACE / (EC(I) + ONE), EM6)
+          ET2 = MAX(TRACE / (ET(I) + ONE), EM6)
           RFAC = NC / EC2
           RFAT = NT / ET2
 C---      contraintes membrane       
@@ -520,7 +520,7 @@ C---      contraintes cisaillement
 C------------------------------------------------------------------
 C------------------------------------------------------------------
 c++++++++++
-c         G0 = GT / (UN + TAN_LOCK*TAN_LOCK)
+c         G0 = GT / (ONE + TAN_LOCK*TAN_LOCK)
 c         SIGG = G0*TAN_PHI - SIGG0
 c         KG   = G0*TAN_PHI*TAN_PHI
 c++++++++++
@@ -528,7 +528,7 @@ c++++++++++
           TAN_PHI(I)= DEPSXY(I)
           TAN2      = TAN_PHI(I)*TAN_PHI(I)
           IF (KFUNC(3) /= 0)THEN
-            PHI = atan (TAN_PHI(I))*CENT80/PI
+            PHI = atan (TAN_PHI(I))*HUNDRED80/PI
             SIGNXY(I)  = YFAC(3)* FINTER(KFUNC(3),PHI,NPF,TF,GXY)
             KG         = GXY*YFAC(3)*TAN2
           ELSEIF (TAN_PHI(I) > TAN_LOCK) THEN
@@ -543,14 +543,14 @@ c++++++++++
           ENDIF
 C---      contraintes visc fibres   
           DTINV = TIMESTEP(I)/MAX(TIMESTEP(I)*TIMESTEP(I),EM20)
-          DAMP  = SQRT(RHO0(I)*AREA(I)*THKLY(I)*UNDEMI)
+          DAMP  = SQRT(RHO0(I)*AREA(I)*THKLY(I)*HALF)
           V1 = VISCE*DAMP*SQRT(NC*KC)
           V2 = VISCE*DAMP*SQRT(NT*KT)
           SIGVXX(I) = DTINV*(DEPSXX(I))*V1
           SIGVYY(I) = DTINV*(DEPSYY(I))*V2
 C---      contraintes frottement cisaillement  
           IF (FN(I) > ZERO) THEN
-            TFROT = DTHIRD*VISCG*FN(I)*(HC0+HT0)/(LC(I)+LT(I))
+            TFROT = TWO_THIRD*VISCG*FN(I)*(HC0+HT0)/(LC(I)+LT(I))
             DTANG(I) = DEPSXY(I) - TAN_PHI(I)
             SIGG =  TFOLD(I) + GFROT*DTANG(I)
             IF (ABS(SIGG) > TFROT) THEN
@@ -560,13 +560,13 @@ C---      contraintes frottement cisaillement
             ENDIF
           ENDIF  
 C---
-          SINN = TAN_PHI(I) / SQRT(UN + TAN2)
-          KMAX = MAX(KC0*RFAC,KT0*RFAT)*(UN+SINN) + KG
+          SINN = TAN_PHI(I) / SQRT(ONE + TAN2)
+          KMAX = MAX(KC0*RFAC,KT0*RFAT)*(ONE+SINN) + KG
           LMIN = MIN(DC/DC0,DT/DT0)*UVAR(I,14)
           if (RHO0(I)==ZERO.OR.LMIN==ZERO) print *,'RHO0(I),DC,DT,UVAR(I,14)=',RHO0(I),DC,DT,UVAR(I,14)
           SOUNDSP(I) = SQRT(KMAX/(RHO0(I)))*ALDT(I)/LMIN
           VISCMAX(I) = MAX(V1,V2)
-          ETSE(I)    = UN
+          ETSE(I)    = ONE
         ENDDO
 C---
 #include "vectorize.inc"
@@ -630,14 +630,14 @@ C---  integration des deformations
         ETT =UVAR(I,5)+DEPSYY(I)     
         UVAR(I,4) = ETC
         UVAR(I,5) = ETT
-        EC(I) = EXP(ETC) - UN ! eng strain
-        ET(I) = EXP(ETT) - UN
+        EC(I) = EXP(ETC) - ONE ! eng strain
+        ET(I) = EXP(ETT) - ONE
       ENDDO
 #include "vectorize.inc"
       DO  J=1,NINDX
         I=INDEX(J)                                     
-        LC(I) = UN + EC(I) 
-        LT(I) = UN + ET(I)
+        LC(I) = ONE + EC(I) 
+        LT(I) = ONE + ET(I)
         EPSMAXC(I) = UVAR(I,17)
         EMINRLC(I) = UVAR(I,18)
         EMAXRLC(I) = UVAR(I,19)
@@ -674,7 +674,7 @@ c---    uncoupled model  (compression of fiber)
             DCC = DC - DC0 
             DCC = MAX (UVAR(I,18),DCC)           
             DC  = DCC +  DC0     
-            UDC = UN / DC                                         
+            UDC = ONE / DC                                         
             HDC = HC * UDC      !sinus(alpha)                                
             IF (KFUNC(1) == 0) THEN      
               FC  = KC0 * DCC            
@@ -690,7 +690,7 @@ c---    uncoupled model  (compression of fiber)
             SMAXRLC(I)  = SIGMAXC(I)
             EMAXRLC(I)  = EPSMAXC(I)! UVAR(I,19))
             FUNC = KFC*YC(I) + FC*HC/DC
-            DERIC= KFC + FPC*HDC + FC*UDC*(UN - HDC*HDC)
+            DERIC= KFC + FPC*HDC + FC*UDC*(ONE - HDC*HDC)
             YC(I) = YC(I) - FUNC / DERIC
             EMINRLC(I) = DCC                                                           
             SMINRLC(I) = FC                                                           
@@ -704,7 +704,7 @@ c---    uncoupled model  (compression of fiber)
             DCC = DC - DC0    
             DCC = MAX (UVAR(I,18),DCC)                             
             DC  = DCC +  DC0     
-            UDC = UN / DC                                         
+            UDC = ONE / DC                                         
             HDC = HC * UDC      !sinus(alpha)                                
             EPSNRLC(I) = UVAR(I,17)*(DCC - UVAR(I,18)) /(UVAR(I,17)-UVAR(I,18))
             IF (KFUNC(1) == 0) THEN      
@@ -723,7 +723,7 @@ c---    uncoupled model  (compression of fiber)
             EMAXRLC(I)= DCC   ! UVAR(I,19))            
             SMAXRLC(I) = FC                             
             FUNC = KFC*YC(I) + FC*HC/DC                  
-            DERIC= KFC + FPC*HDC + FC*UDC*(UN - HDC*HDC) 
+            DERIC= KFC + FPC*HDC + FC*UDC*(ONE - HDC*HDC) 
             YC(I) = YC(I) - FUNC / DERIC        
            ENDDO !iter
            IF(DCC>UVAR(I,17))THEN!emax
@@ -740,7 +740,7 @@ c
             DCC = DC - DC0                    
             DCC = MAX (ZERO,DCC)                  
             DC  = DCC +   DC0         
-            UDC = UN / DC                                         
+            UDC = ONE / DC                                         
             HDC = HC * UDC      !sinus(alpha)                               
             EPSNC(I) = DCC*EPSI1/UVAR(I,19)  
             IF (KFUNC(1) == 0) THEN      
@@ -758,21 +758,21 @@ c
             EMINRLC(I)= DCC 
             SMINRLC(I) = FC
             FUNC = KFC*YC(I) + FC*HC/DC
-            DERIC= KFC + FPC*HDC + FC*UDC*(UN - HDC*HDC)
+            DERIC= KFC + FPC*HDC + FC*UDC*(ONE - HDC*HDC)
             YC(I) = YC(I) - FUNC / DERIC
            ENDDO !iter
           ELSE!(UVAR(I,19) >ZERO
            DO ITER = 1, NITER
             HC  = HC0 + YC(I)  !longueur ressort
             DC  = SQRT(LC(I)*LC(I) + HC*HC) ! long fibre  
-            UDC = UN / DC                                        
+            UDC = ONE / DC                                        
             HDC = HC * UDC      !sinus(alpha)                                
             DCC = DC - DC0   
             FC  = KKC  * DCC        
             FPC = KKC  * HDC! derivee % yc
             KC  = KKC             
             FUNC = KFC*YC(I) + FC*HC/DC
-            DERIC= KFC + FPC*HDC + FC*UDC*(UN - HDC*HDC)
+            DERIC= KFC + FPC*HDC + FC*UDC*(ONE - HDC*HDC)
             YC(I) = YC(I) - FUNC / DERIC
             FN(I) = ZERO
            ENDDO !iter           
@@ -789,7 +789,7 @@ c
           DO ITER = 1, NITER
            HC  = HC0 + YC(I)  !longueur ressort
            DC  = SQRT(LC(I)*LC(I) + HC*HC) ! long fibre  
-           UDC = UN / DC                                        
+           UDC = ONE / DC                                        
            HDC = HC * UDC      !sinus(alpha)                                
            DCC = DC - DC0   
            ! compression  fibre 
@@ -797,7 +797,7 @@ c
            KC  = KKC             
            FPC = KKC  * HDC! derivee % yc
            FUNC = KFC*YC(I) + FC*HC/DC
-           DERIC= KFC + FPC*HDC + FC*UDC*(UN - HDC*HDC)
+           DERIC= KFC + FPC*HDC + FC*UDC*(ONE - HDC*HDC)
            YC(I) = YC(I) - FUNC / DERIC
            FN(I) = ZERO
           ENDDO !iter    
@@ -821,7 +821,7 @@ c----------------------------------
             DTT = DT - DT0     
             DTT = MAX (UVAR(I,22),DTT)     
             DT  = DTT +  DT0           
-            UDT = UN / DT                                         
+            UDT = ONE / DT                                         
             HDT = HT * UDT      !sinus(alpha)                               
             IF (KFUNC(2) == 0) THEN
               FT  = KT0 * DTT
@@ -839,7 +839,7 @@ c----------------------------------
             EMINRLT(I)= ZERO 
             SMINRLT(I) = ZERO  
             FUNT = KFT*YT(I) + FT*HT/DT          
-            DERIT= KFT + FPT*HDT + FT*UDT*(UN - HDT*HDT)
+            DERIT= KFT + FPT*HDT + FT*UDT*(ONE - HDT*HDT)
             YT(I) = YT(I) - FUNT / DERIT
             EMINRLT(I)= DTT 
             SMINRLT(I) = FT  
@@ -853,7 +853,7 @@ c----------------------------------
             DTT = DT - DT0                    
             DTT = MAX (UVAR(I,22),DTT)                  
             DT  = DTT +  DT0           
-            UDT = UN / DT                                         
+            UDT = ONE / DT                                         
             HDT = HT * UDT      !sinus(alpha)                               
             EPSNRLT(I) = UVAR(I,21)*(DTT - UVAR(I,22)) /(UVAR(I,21)-UVAR(I,22))                
             IF (KFUNC(2) == 0) THEN
@@ -871,7 +871,7 @@ c----------------------------------
               FPT = FPT * HDT
             ENDIF
             FUNT = KFT*YT(I) + FT*HT/DT          
-            DERIT= KFT + FPT*HDT + FT*UDT*(UN - HDT*HDT)
+            DERIT= KFT + FPT*HDT + FT*UDT*(ONE - HDT*HDT)
             YT(I) = YT(I) - FUNT / DERIT           
            ENDDO !iter
            EMAXRLT(I) = DTT
@@ -892,7 +892,7 @@ c----------------------------------
                DTT = DT - DT0                    
                DTT = MAX (zero,DTT)                  
                DT  = DTT +  DT0           
-               UDT = UN / DT                                         
+               UDT = ONE / DT                                         
                HDT = HT * UDT      !sinus(alpha)                               
                EPSNT(I)   = EPSI2*DTT/UVAR(I,23)
                IF (KFUNC(2) == 0) THEN
@@ -910,21 +910,21 @@ c----------------------------------
                EMINRLT(I)= DTT 
                SMINRLT(I) = FT  
                FUNT = KFT*YT(I) + FT*HT/DT          
-               DERIT= KFT + FPT*HDT + FT*UDT*(UN - HDT*HDT)
+               DERIT= KFT + FPT*HDT + FT*UDT*(ONE - HDT*HDT)
                YT(I) = YT(I) - FUNT / DERIT
               ENDDO !iter
            ELSE !(UVAR(I,23)>ZERO)
             DO ITER = 1, NITER
              HT  = HT0 + YT(I)  !longueur ressort   
              DT  = SQRT(LT(I)*LT(I) + HT*HT) ! long fibre    
-             UDT = UN / DT                                         
+             UDT = ONE / DT                                         
              HDT = HT * UDT      !sinus(alpha)                                
              DTT = DT - DT0                                 
              FT  = KKT  * DTT        
              FPT = KKT  * HDT! derivee % yT
              KT  = KKT     
              FUNT = KFT*YT(I) + FT*HT/DT          
-             DERIT= KFT + FPT*HDT + FT*UDT*(UN - HDT*HDT)
+             DERIT= KFT + FPT*HDT + FT*UDT*(ONE - HDT*HDT)
              YT(I) = YT(I) - FUNT / DERIT
             ENDDO !iter            
             EPSMAXT(I)  = ZERO
@@ -940,14 +940,14 @@ c----------------------------------
           DO ITER = 1, NITER
            HT  = HT0 + YT(I)  !longueur ressort   
            DT  = SQRT(LT(I)*LT(I) + HT*HT) ! long fibre    
-           UDT = UN / DT                                         
+           UDT = ONE / DT                                         
            HDT = HT * UDT      !sinus(alpha)                                
            DTT = DT - DT0                     
            FT  = KKT  * DTT        
            FPT = KKT  * HDT! derivee % yT
            KT  = KKT     
            FUNT = KFT*YT(I) + FT*HT/DT          
-           DERIT= KFT + FPT*HDT + FT*UDT*(UN - HDT*HDT)
+           DERIT= KFT + FPT*HDT + FT*UDT*(ONE - HDT*HDT)
            YT(I) = YT(I) - FUNT / DERIT
           ENDDO !iter            
           !TAGOLDT = 5
@@ -985,7 +985,7 @@ C  ========================================================
           DDEC  = DC - UVAR(I,15)
           DDET  = DT - UVAR(I,16)
 
-          Y = UNDEMI * (UVAR(I,7) - UVAR(I,8))
+          Y = HALF * (UVAR(I,7) - UVAR(I,8))
           HC = HC0 + Y                    
           HT = HT0 - Y                    
           DC = SQRT(LC(I)*LC(I) + HC*HC)  
@@ -1010,8 +1010,8 @@ c----------------------------------LOAD
               FACC    = YFAC(1)   
               EMINC = ZERO                                    
               SMINC = ZERO    
-              FACE = UN
-              FACF = UN 
+              FACE = ONE
+              FACF = ONE 
 c----------------------------------RELOAD
             ELSEIF(DDEC >=ZERO)THEN !RELOAD
               TAGC(IDX1) = 2             
@@ -1063,8 +1063,8 @@ c----------------------------------LOAD
                FACT    = YFAC(2)              
                EMINT = ZERO                                   
                SMINT = ZERO                 
-               FATE = UN                    
-               FATF = UN                    
+               FATE = ONE                    
+               FATF = ONE                    
              ELSEIF(DDET >=ZERO)THEN         
 c--------------------------------RELOAD
                TAGT(IDX1) = 2             
@@ -1123,7 +1123,7 @@ c
                 CASE(1)  ! tension load or reload
                   DCC = MAX (UVAR(I,18),DCC)                  
                   DC  = DCC + DC0         
-                  UDC = UN / DC                                         
+                  UDC = ONE / DC                                         
                   HDC = HC * UDC                       
                   EPSNRLC(I) = (DCC -EMINC) *FACE                                                 
                   IF (IFUNCC == 0) THEN
@@ -1154,7 +1154,7 @@ c
                 CASE(2)  ! tension load or reload
                   DCC = MAX (UVAR(I,18),DCC)                  
                   DC  = DCC + DC0         
-                  UDC = UN / DC                                         
+                  UDC = ONE / DC                                         
                   HDC = HC * UDC                       
                   EPSNRLC(I) = (DCC -EMINC) *FACE                                                 
                   IF (IFUNCC == 0) THEN
@@ -1181,7 +1181,7 @@ c
                 CASE(3)  ! tension unload
                   DCC = MAX (ZERO,DCC)                  
                   DC  = DCC + DC0         
-                  UDC = UN / DC                                         
+                  UDC = ONE / DC                                         
                   HDC = HC * UDC                       
                   EPSNRLC(I) = (DCC -EMINC) *FACE                                                 
                   IF (IFUNCC == 0) THEN
@@ -1200,7 +1200,7 @@ c
                     SMINRLC(I) = FC                                                           
                   ENDIF 
                 CASE(5)  ! compression
-                  UDC= UN / DC                         
+                  UDC= ONE / DC                         
                   HDC= HC * UDC                        
                   FC  = KKC  * DCC                     
                   FPC = KKC  * HDC! derivee % yc       
@@ -1218,7 +1218,7 @@ c -----------------------direction trame
                 CASE(1)  ! tension load or reload
                   DTT = MAX (UVAR(I,22),DTT)                  
                   DT  = DTT +   DT0         
-                  UDT = UN / DT                                         
+                  UDT = ONE / DT                                         
                   HDT = HT * UDT      !sinus(alpha)                               
                   EPSNRLT(I) = (DTT - EMINT)*FATE  
                   IF (IFUNCT == 0) THEN
@@ -1250,7 +1250,7 @@ c -----------------------direction trame
                 CASE(2)  ! tension load or reload
                   DTT = MAX (UVAR(I,22),DTT)                  
                   DT  = DTT +   DT0         
-                  UDT = UN / DT                                         
+                  UDT = ONE / DT                                         
                   HDT = HT * UDT      !sinus(alpha)                               
                   EPSNRLT(I) = (DTT - EMINT)*FATE  
                   IF (IFUNCT == 0) THEN
@@ -1278,7 +1278,7 @@ c -----------------------direction trame
                 CASE(3)  ! tension unload
                   DTT = MAX (ZERO,DTT)                  
                   DT  = DTT +   DT0         
-                  UDT = UN / DT                                         
+                  UDT = ONE / DT                                         
                   HDT = HT * UDT      !sinus(alpha)                               
                   EPSNRLT(I) = (DTT - EMINT)*FATE  
                   IF (IFUNCT == 0) THEN
@@ -1297,7 +1297,7 @@ c -----------------------direction trame
                     SMINRLT(I) = FT                      
                   ENDIF                                     
                 CASE(5)  ! compression
-                  UDT= UN / DT                    
+                  UDT= ONE / DT                    
                   HDT= HT * UDT                   
                   FT  = KKT  * DTT        
                   FPT = KKT  * HDT! derivee % yT
@@ -1311,8 +1311,8 @@ c -----------------------direction trame
               END SELECT
 c----
               FUNC  = KF*Y + FC * HDC - FT * HDT
-              DERIC = KF + FPC*HDC + FC*UDC*(UN - HDC*HDC) 
-     .                     + FPT*HDT + FT*UDT*(UN - HDT*HDT)
+              DERIC = KF + FPC*HDC + FC*UDC*(ONE - HDC*HDC) 
+     .                     + FPT*HDT + FT*UDT*(ONE - HDT*HDT)
               Y = Y - FUNC / DERIC
 
               IF (Y > 0) THEN
@@ -1343,15 +1343,15 @@ C------------------------------------------------------------------
               EMINRLC(I)= UVAR(I,18)
               SMINRLC(I) = UVAR(I,25)
               DC = UVAR(I,15)
-              Y = UNDEMI * (UVAR(I,7) - UVAR(I,8))
+              Y = HALF * (UVAR(I,7) - UVAR(I,8))
               IFUNCC = KFUNC(1)
               FACC   = YFAC(1)
               IF (UVAR(I,18)==ZERO .OR. UVAR(I,17)==UVAR(I,18))THEN 
                TAGC(IDX2) = 1
                EMINC = ZERO                                    
                SMINC = ZERO    
-               FACE  = UN
-               FACF  = UN                      
+               FACE  = ONE
+               FACF  = ONE                      
               ELSE
                TAGC(IDX2) = 2
                EMINC = UVAR(I,18)                                     
@@ -1379,7 +1379,7 @@ c                     !print*,'   SMAXC,SMINRLC=',UVAR(I,20),UVAR(I,25)
               SMINRLC(I) = UVAR(I,25)
               SMAXRLC(I) = UVAR(I,27)
               DC         = UVAR(I,15)
-              Y = UNDEMI * (UVAR(I,7) - UVAR(I,8))
+              Y = HALF * (UVAR(I,7) - UVAR(I,8))
               TAGC(IDX2) = 3
               IFUNCC= KFUNC(4)                                                   
               FACC  = YFAC(4)
@@ -1396,15 +1396,15 @@ C---------------------------TRAME------------------------------------
               EMINRLT(I)= UVAR(I,22)
               SMINRLT(I) = UVAR(I,26)
               DT = UVAR(I,16)
-              Y = UNDEMI * (UVAR(I,7) - UVAR(I,8))
+              Y = HALF * (UVAR(I,7) - UVAR(I,8))
               IFUNCT = KFUNC(2)
               FACT   = YFAC(2)
               IF(UVAR(I,22)==ZERO.OR.UVAR(I,21)==UVAR(I,22))THEN 
                TAGT(IDX2) = 1
                EMINT = ZERO                                    
                SMINT = ZERO    
-               FATE = UN
-               FATF = UN                      
+               FATE = ONE
+               FATF = ONE                      
               ELSE
                TAGT(IDX2) = 2
                EMINT = UVAR(I,22)                                     
@@ -1433,7 +1433,7 @@ c                     !print*,'   SMAXT,SMINRLT=',UVAR(I,24),UVAR(I,26)
               SMINRLT(I) = UVAR(I,26)
               SMAXRLT(I) = UVAR(I,28)
               DT         = UVAR(I,16)
-              Y = UNDEMI * (UVAR(I,7) - UVAR(I,8))
+              Y = HALF * (UVAR(I,7) - UVAR(I,8))
               TAGT(IDX2) = 3
               IFUNCT= KFUNC(5)                                                   
               FACT  = YFAC(5)
@@ -1505,11 +1505,11 @@ c===================================================
 c       SHEAR
 c===================================================
         TRACE = EXP(EPSXX(I) + EPSYY(I))! =exp(tr)
-        EC2 = MAX(TRACE / (EC(I) + UN), EM6)
-        ET2 = MAX(TRACE / (ET(I) + UN), EM6)
+        EC2 = MAX(TRACE / (EC(I) + ONE), EM6)
+        ET2 = MAX(TRACE / (ET(I) + ONE), EM6)
 c
-        RFAC = UN / EC2
-        RFAT = UN / ET2
+        RFAC = ONE / EC2
+        RFAT = ONE / ET2
 C---    contraintes membrane       
         SIGC = RFAC * FC * LC(I) / DC
         SIGT = RFAT * FT * LT(I) / DT
@@ -1525,7 +1525,7 @@ C------------------------------------------------------------------
         UVAR(I,6)= DEPSXY(I)
         TAN2    = TAN_PHI(I)*TAN_PHI(I)
         PHIO    = UVAR(I,29)
-        PHI     = ATAN(TAN_PHI(I))*CENT80/PI
+        PHI     = ATAN(TAN_PHI(I))*HUNDRED80/PI
         DPHI    = PHI - PHIO
         UVAR(I,29) =    PHI 
 
@@ -1620,12 +1620,12 @@ c---------------------------------------------------------------------
 C---    contraintes visc fibres   
 c
         DTINV = TIMESTEP(I)/MAX(TIMESTEP(I)*TIMESTEP(I),EM20)
-        DAMP  = SQRT(RHO0(I)*AREA(I)*THKLY(I)*UNDEMI)        
+        DAMP  = SQRT(RHO0(I)*AREA(I)*THKLY(I)*HALF)        
         IF (KC < ZERO) THEN
-          KC = UN
+          KC = ONE
         ENDIF
         IF (KT < ZERO) THEN
-          KT = UN
+          KT = ONE
         ENDIF
         V1 = VISCE*DAMP*SQRT(KC)
         V2 = VISCE*DAMP*SQRT(KT)
@@ -1633,7 +1633,7 @@ c
         SIGVYY(I) = DTINV*(DEPSYY(I))*V2
 C---    contraintes frottement cisaillement  
         IF (FN(I) > ZERO) THEN
-          TFROT = DTHIRD*VISCG*FN(I)*(HC0+HT0)/(LC(I)+LT(I))
+          TFROT = TWO_THIRD*VISCG*FN(I)*(HC0+HT0)/(LC(I)+LT(I))
           DTANG(I) = DEPSXY(I) - TAN_PHI(I)
           SIGG =  TFOLD(I) + GFROT*DTANG(I)
           IF (ABS(SIGG) > TFROT) THEN
@@ -1643,12 +1643,12 @@ C---    contraintes frottement cisaillement
           ENDIF
         ENDIF  
 C---
-        SINN = TAN_PHI(I) / SQRT(UN + TAN2)
-        KMAX = MAX(KC0*RFAC,KT0*RFAT)*(UN+SINN) + KG
+        SINN = TAN_PHI(I) / SQRT(ONE + TAN2)
+        KMAX = MAX(KC0*RFAC,KT0*RFAT)*(ONE+SINN) + KG
         LMIN = MIN(DC/DC0,DT/DT0)*UVAR(I,14)
         SOUNDSP(I) = SQRT(KMAX/(RHO0(I)))*ALDT(I)/LMIN
         VISCMAX(I) = MAX(V1,V2)
-        ETSE(I)    = UN
+        ETSE(I)    = ONE
       ENDDO
 C---
 #include "vectorize.inc"
@@ -1733,7 +1733,7 @@ C-----------------------------------------------------------
 c     
       DO J=1,NUMOFF
         I = INDXOFF(J)
-        KMAX = MAX(KC0,KT0)*DEUX
+        KMAX = MAX(KC0,KT0)*TWO
         SOUNDSP(I) = SQRT(KMAX/(RHO0(I)))
       ENDDO
 C-----------------------------------------------------------
@@ -1743,8 +1743,8 @@ C-----------------------------------------------------------
 #include "vectorize.inc"
        DO  J=1,NINDX
           I=INDEX(J)
-          AA = (UN+EC(I)+ET(I) - AREAMIN) * DAREAMIN
-          AA = MIN(MAX(AA,ZERO),UN)
+          AA = (ONE+EC(I)+ET(I) - AREAMIN) * DAREAMIN
+          AA = MIN(MAX(AA,ZERO),ONE)
           SIGNXX(I) = SIGNXX(I)*AA
           SIGNYY(I) = SIGNYY(I)*AA
           SIGNXY(I) = SIGNXY(I)*AA
@@ -1760,13 +1760,13 @@ C-----------------------------------------------------------
 #include "vectorize.inc"
         DO  J=1,NINDX
           I=INDEX(J)
-          IF (UVAR(I,40)==UN) CYCLE
+          IF (UVAR(I,40)==ONE) CYCLE
           AA =UVAR(I,40)
           SIGNXX(I) = SIGNXX(I)*AA
           SIGNYY(I) = SIGNYY(I)*AA
           SIGNXY(I) = SIGNXY(I)*AA
           IF (UVAR(I,40)<EM02) THEN
-           KMAX = MAX(KC0,KT0)*DEUX
+           KMAX = MAX(KC0,KT0)*TWO
            SOUNDSP(I) = SQRT(KMAX/(RHO0(I)))
           END IF
         ENDDO

@@ -135,11 +135,11 @@ C
            NZ= (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2))
      +        -(X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
 C
-           TE = QUART*(TEMP(N1) + TEMP(N2) + TEMP(N3) + TEMP(N4))      
-           AREA = UNDEMI*SQRT( NX*NX + NY*NY + NZ*NZ)
+           TE = FOURTH*(TEMP(N1) + TEMP(N2) + TEMP(N3) + TEMP(N4))      
+           AREA = HALF*SQRT( NX*NX + NY*NY + NZ*NZ)
            FLUX = AREA*H*(T_INF - TE)*DT1*THEACCFACT 
            HEAT_CONV_L = HEAT_CONV_L + FLUX
-           FLUX = QUART*FLUX
+           FLUX = FOURTH*FLUX
 C
            FTHE(S1*ITSK+N1) = FTHE(S1*ITSK+N1) + FLUX
            FTHE(S1*ITSK+N2) = FTHE(S1*ITSK+N2) + FLUX
@@ -156,7 +156,7 @@ C
      +       -(X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
 C
           TE = THIRD*(TEMP(N1) + TEMP(N2) + TEMP(N3) )      
-          AREA = UNDEMI*SQRT( NX*NX + NY*NY + NZ*NZ)
+          AREA = HALF*SQRT( NX*NX + NY*NY + NZ*NZ)
           FLUX = AREA*H*(T_INF - TE)*DT1*THEACCFACT
           HEAT_CONV_L = HEAT_CONV_L + FLUX
           FLUX = THIRD*FLUX
@@ -169,11 +169,11 @@ C
          NY=  -X(3,N2)+X(3,N1)
          NZ=   X(2,N2)-X(2,N1)
 C     
-         TE = UNDEMI*(TEMP(N1) + TEMP(N2) )      
+         TE = HALF*(TEMP(N1) + TEMP(N2) )      
          AREA = SQRT( NY*NY + NZ*NZ)
          FLUX = AREA*H*(T_INF - TE)*DT1*THEACCFACT
          HEAT_CONV_L = HEAT_CONV_L + FLUX
-         FLUX = UNDEMI*FLUX
+         FLUX = HALF*FLUX
 C
          FTHE(S1*ITSK+N1)=FTHE(S1*ITSK+N1) + FLUX
          FTHE(S1*ITSK+N2)=FTHE(S1*ITSK+N2) + FLUX
@@ -234,11 +234,11 @@ C          ANALYSE 3D
                NZ= (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2))
      +            -(X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
 C
-               TE = QUART*(TEMP(N1) + TEMP(N2) + TEMP(N3) + TEMP(N4))      
-               AREA = UNDEMI*SQRT( NX*NX + NY*NY + NZ*NZ)
+               TE = FOURTH*(TEMP(N1) + TEMP(N2) + TEMP(N3) + TEMP(N4))      
+               AREA = HALF*SQRT( NX*NX + NY*NY + NZ*NZ)
                FLUX = AREA*H*(T_INF - TE)*DT1*THEACCFACT
                HEAT_CONV_L = HEAT_CONV_L + FLUX
-               FLUX = QUART*FLUX
+               FLUX = FOURTH*FLUX
 C
                IAD1 = IAD(1,NL)
                FTHESKY(IAD1) = FLUX
@@ -258,7 +258,7 @@ C
      +            -(X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
 C
                TE = THIRD*(TEMP(N1) + TEMP(N2) + TEMP(N3) )      
-               AREA = UNDEMI*SQRT( NX*NX + NY*NY + NZ*NZ)
+               AREA = HALF*SQRT( NX*NX + NY*NY + NZ*NZ)
                FLUX = AREA*H*(T_INF - TE)*DT1*THEACCFACT 
                HEAT_CONV_L = HEAT_CONV_L + FLUX
                FLUX = THIRD*FLUX
@@ -276,11 +276,11 @@ C
                NY=  -X(3,N2)+X(3,N1)
                NZ=   X(2,N2)-X(2,N1) 
 C 
-               TE = UNDEMI*(TEMP(N1) + TEMP(N2) )      
+               TE = HALF*(TEMP(N1) + TEMP(N2) )      
                AREA = SQRT( NY*NY + NZ*NZ)
                FLUX = AREA*H*(T_INF - TE)*DT1*THEACCFACT
                HEAT_CONV_L = HEAT_CONV_L + FLUX
-               FLUX = UNDEMI*FLUX
+               FLUX = HALF*FLUX
 C
                IAD1 = IAD(1,NL)
                FTHESKY(IAD1) = FLUX

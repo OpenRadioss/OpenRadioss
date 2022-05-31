@@ -250,16 +250,16 @@ C------------------------------------------------------------
            IF (LINE(1:1) == '/') THEN
               IREC=IREC-1
               I7STIFS=1
-              STFAC = UN
-              VISC = CINQEM2
+              STFAC = ONE
+              VISC = FIVEEM2
               IGSTI = 0
               PENFLAG = 0
               IROT = 0
            ELSE
               I7STIFS=1
               READ(LINE,ERR=999,FMT=FMT_2F_3I) STFAC,VISC,PENFLAG,IROT,IGSTI
-              IF (STFAC == ZERO) STFAC=UN
-              IF (VISC  == ZERO) VISC=CINQEM2
+              IF (STFAC == ZERO) STFAC=ONE
+              IF (VISC  == ZERO) VISC=FIVEEM2
            ENDIF
 C.....* Default values definition *........
 C
@@ -296,9 +296,9 @@ Card4
 C.....* CHECK AND Storage IPARI FRIGAP *.........
 
             IF (IMOD == 0) IMOD = 2   ! default value
-            IF (SCAL_F  == ZERO) SCAL_F  = UN
-            IF (SCAL_SR  == ZERO) SCAL_SR  = UN
-            IF (SCAL_D == ZERO) SCAL_D = UN
+            IF (SCAL_F  == ZERO) SCAL_F  = ONE
+            IF (SCAL_SR  == ZERO) SCAL_SR  = ONE
+            IF (SCAL_D == ZERO) SCAL_D = ONE
 C
 	    DNMAX = DNMAX*FAC_L
 	    DTMAX = DTMAX*FAC_L
@@ -311,8 +311,8 @@ C
             IF (DTMAX   == ZERO) DTMAX = EP20
 C
             IF (IFILTR  == 1) THEN
-              IF (ALPHA  == ZERO) ALPHA  = UN
-              ALPHA = MIN(ALPHA,UN)
+              IF (ALPHA  == ZERO) ALPHA  = ONE
+              ALPHA = MIN(ALPHA,ONE)
               ALPHA = MAX(ALPHA,ZERO)
             ENDIF
             IF (IFUNN == 0) THEN
@@ -373,7 +373,7 @@ C
         FRIGAP(15)  = KTHE
         IPARI(57) = IPROJ
 C-----
-        IF (STFAC == ZERO )STFAC = UNCINQ
+        IF (STFAC == ZERO )STFAC = ONE_FIFTH
 
          FRIGAP(3)=STARTT
          IF (STOPT == ZERO) STOPT = EP30

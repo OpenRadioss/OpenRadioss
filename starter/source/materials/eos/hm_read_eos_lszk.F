@@ -118,13 +118,13 @@ C-----------------------------------------------
       PM(88) = PSH
       PM(35) = A
       PM(36) = B
-      IF(PM(79)==ZERO)PM(79)=TROIS100
+      IF(PM(79)==ZERO)PM(79)=THREE100
 
-      MU0 = RHOI/RHOR-UN
-      IF(MU0 <= -UN)MU0=-UN+EP12
+      MU0 = RHOI/RHOR-ONE
+      IF(MU0 <= -ONE)MU0=-ONE+EP12
       DF = RHOR/RHOI     
       
-      E0 = (P0-A*EXP(B*LOG(UN+MU0)))/(GAMMA-UN)/(UN+MU0)
+      E0 = (P0-A*EXP(B*LOG(ONE+MU0)))/(GAMMA-ONE)/(ONE+MU0)
       
       IF(E0 < ZERO)THEN
          CALL ANCMSG(MSGID=67,
@@ -142,11 +142,11 @@ C-----------------------------------------------
       !SSP0
       SSP0 = ZERO 
       G0 = PM(22)
-      PP = (GAMMA-UN)*(UN+MU0)*E0 + A*EXP(B*LOG(UN+MU0))
+      PP = (GAMMA-ONE)*(ONE+MU0)*E0 + A*EXP(B*LOG(ONE+MU0))
       RHOI = PM(89)      
-         DPDMU = (GAMMA-UN)*E0+A*B/(UN+MU0)*EXP((B-UN)*LOG(UN+MU0))+(GAMMA-UN)*DF*PP   !total derivative
+         DPDMU = (GAMMA-ONE)*E0+A*B/(ONE+MU0)*EXP((B-ONE)*LOG(ONE+MU0))+(GAMMA-ONE)*DF*PP   !total derivative
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + DTIERS*G0)/RHOR) 
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0
       
       WRITE(IOUT,1000)

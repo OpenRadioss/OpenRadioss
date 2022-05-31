@@ -80,10 +80,10 @@ C
             N4=IRECT(4,IS)
 
             IF(N4.EQ.0 .OR. N4.EQ.N3) THEN
-              FAC=UNSIX*ORIENT
+              FAC=ONE_OVER_6*ORIENT
               N4=N3
             ELSE
-              FAC=UNHUIT*ORIENT
+              FAC=ONE_OVER_8*ORIENT
             ENDIF
 Cow 
             NG1=LISTE(N1)
@@ -143,7 +143,7 @@ c         pression voisin
           ENDDO
 !
           EAD = ESEG-MFT
-          P = -(GBUF%SIG(II(1)+EAD)+GBUF%SIG(II(2)+EAD)+GBUF%SIG(II(3)+EAD))*TIERS
+          P = -(GBUF%SIG(II(1)+EAD)+GBUF%SIG(II(2)+EAD)+GBUF%SIG(II(3)+EAD))*THIRD
 
 c          write(6,*)'NG',N,KTY,KLT,MFT,IPARG(4,N)
 c          write (6,*)'voisin',IS,KSEG,ESEG,P
@@ -154,10 +154,10 @@ c
           N3=IRECT(3,IS)
           N4=IRECT(4,IS)
           IF(N4.EQ.0 .OR. N4.EQ.N3) THEN
-            FAC=UNSIX*ORIENT
+            FAC=ONE_OVER_6*ORIENT
             N4=N3
           ELSE
-            FAC=UNHUIT*ORIENT
+            FAC=ONE_OVER_8*ORIENT
           ENDIF
 c
           NG1=LISTE(N1)

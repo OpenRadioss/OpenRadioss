@@ -152,7 +152,7 @@ c
 C-------     activation for GBUF%OFF + save the strain in buffer
       DO I=LFT,LLT
        IF (GEO(2,PID(I))>ZERO) THEN
-         IF (GBUF%OFF(I)==ZERO.AND.OFF(I)==UN) GBUF%OFF(I)=UN
+         IF (GBUF%OFF(I)==ZERO.AND.OFF(I)==ONE) GBUF%OFF(I)=ONE
        END IF
        GBUF%STRA(I) = GBUF%STRA(I) + EPS(I)*DT1
       ENDDO

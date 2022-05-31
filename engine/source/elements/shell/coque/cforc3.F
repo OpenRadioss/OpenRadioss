@@ -454,7 +454,7 @@ c-------------------------------------------
             IPOS(2) = NLOC_DMG%POSI(INOD(2)) 
             IPOS(3) = NLOC_DMG%POSI(INOD(3)) 
             IPOS(4) = NLOC_DMG%POSI(INOD(4))
-            VAR_REG(I,K) = QUART*(DNL(IPOS(1)+K-1) + DNL(IPOS(2)+K-1) 
+            VAR_REG(I,K) = FOURTH*(DNL(IPOS(1)+K-1) + DNL(IPOS(2)+K-1) 
      .                          + DNL(IPOS(3)+K-1) + DNL(IPOS(4)+K-1))
           ENDDO
         ENDDO
@@ -494,7 +494,7 @@ C-----------------------------
 C     FORCES ANTI-SABLIER
 C-----------------------------
       DO I=JFT,JLT
-        VISCMX(I) = SQRT(UN + VISCMX(I)*VISCMX(I)) - VISCMX(I)
+        VISCMX(I) = SQRT(ONE + VISCMX(I)*VISCMX(I)) - VISCMX(I)
       ENDDO
 c---------------------------------------------------
       IF (IABS(NPTTOT) == 1) THEN

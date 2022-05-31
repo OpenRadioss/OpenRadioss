@@ -114,13 +114,13 @@ C
      .                C1=TITR,
      .                C2='YOUNG''S MODULUS')
       ENDIF
-      IF(ANU.EQ.UNDEMI)ANU=ZEP499                  
+      IF(ANU.EQ.HALF)ANU=ZEP499                  
 C
-      G=YOUNG/(DEUX*(UN+ANU))
+      G=YOUNG/(TWO*(ONE+ANU))
       C0=ZERO
-      C1=YOUNG/(TROIS*(UN-DEUX*ANU))
+      C1=YOUNG/(THREE*(ONE-TWO*ANU))
       E0=ZERO
-      E1MN2=YOUNG/(UN-ANU**2)
+      E1MN2=YOUNG/(ONE-ANU**2)
       EN1N2=ANU*E1MN2
       SDSP =SQRT(YOUNG/MAX(RHOR,EM20))
       ISRATE = 0 
@@ -132,7 +132,7 @@ C
       PM(23)=E0
       PM(24)=E1MN2
       PM(25)=EN1N2
-      PM(26)=CSIX
+      PM(26)=FIVE_OVER_6
       PM(27)=SDSP
       PM(31)=C0
       PM(32)=C1
@@ -155,7 +155,7 @@ c-----------------
       ENDIF
 C
       IPM(252)= 2
-      PM(105) = DEUX*G/(C1+QTHIRD*G)
+      PM(105) = TWO*G/(C1+FOUR_OVER_3*G)
 C-----------
       RETURN
  1000 FORMAT(

@@ -81,7 +81,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      IF (IRESP==1.AND.PENMIN<=EM06) PENMIN = DEUX*EM06
+      IF (IRESP==1.AND.PENMIN<=EM06) PENMIN = TWO*EM06
       TOL = PENMIN
 C      
        DO I=1,I_STOK

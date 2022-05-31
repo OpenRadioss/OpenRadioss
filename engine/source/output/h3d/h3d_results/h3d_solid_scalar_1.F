@@ -254,7 +254,7 @@ C-----------------------------------------------
                   MT=IXS(1,N)
                   MASS(I)=PM(89,MT)*GBUF%VOL(I)
                 ELSE
-                  OFF = MIN(GBUF%OFF(I),UN)
+                  OFF = MIN(GBUF%OFF(I),ONE)
                   MASS(I)=GBUF%RHO(I)*GBUF%VOL(I)*OFF
                 ENDIF
                 IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) 
@@ -405,8 +405,8 @@ C--------------------------------------------------
                     S1= S11 + P
                     S2= S22 + P
                     S3= S33 + P
-                    VONM2= TROIS*(S4*S4  +  S5*S5 + S6*S6 +
-     .              	   UNDEMI*(S1*S1 + S2*S2  + S3*S3) )
+                    VONM2= THREE*(S4*S4  +  S5*S5 + S6*S6 +
+     .              	   HALF*(S1*S1 + S2*S2  + S3*S3) )
                     VONM= SQRT(VONM2)
                     VALUE(I) = VONM
                     IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) 
@@ -464,9 +464,9 @@ C               VORTICITE-X
                       VY = MULTI_FVM%VEL(2, II)                            
                       VZ = MULTI_FVM%VEL(3, II)                            
                       IF(IV /=0)THEN
-                        VX = ZERO ! UNDEMI(VX + MULTI_FVM%VEL(1, IV))      
-                        VY = UNDEMI*(VY + MULTI_FVM%VEL(2, IV))            
-                        VZ = UNDEMI*(VZ + MULTI_FVM%VEL(3, IV))            
+                        VX = ZERO ! HALF(VX + MULTI_FVM%VEL(1, IV))      
+                        VY = HALF*(VY + MULTI_FVM%VEL(2, IV))            
+                        VZ = HALF*(VZ + MULTI_FVM%VEL(3, IV))            
                       ENDIF         
                       CUMUL(1)=CUMUL(1)+SURF*(NY*VZ-NZ*VY)                 
                       !CUMUL(2)=CUMUL(2)+NZ*VX-NX*VZ                       
@@ -506,9 +506,9 @@ C               VORTICITE-Y
                       VY = ZERO !MULTI_FVM%VEL(2, II)  
                       VZ = MULTI_FVM%VEL(3, II)        
                       IF(IV /=0)THEN                   
-                        VX = UNDEMI*(VX + MULTI_FVM%VEL(1, IV))                               
-                        VY = ZERO !UNDEMI(VY + MULTI_FVM%VEL(2, IV))                          
-                        VZ = UNDEMI*(VZ + MULTI_FVM%VEL(3, IV))                               
+                        VX = HALF*(VX + MULTI_FVM%VEL(1, IV))                               
+                        VY = ZERO !HALF(VY + MULTI_FVM%VEL(2, IV))                          
+                        VZ = HALF*(VZ + MULTI_FVM%VEL(3, IV))                               
                       ENDIF                            
                       !CUMUL(1)=CUMUL(1)+NY*VZ-NZ*VY   
                       CUMUL(2)=CUMUL(2)+SURF*(NZ*VX-NX*VZ)                                    
@@ -547,9 +547,9 @@ C               VORTICITE-Z
                       VY = MULTI_FVM%VEL(2, II)                                   
                       VZ = ZERO !MULTI_FVM%VEL(3, II)                             
                       IF(IV /=0)THEN       
-                        VX = UNDEMI*(VX + MULTI_FVM%VEL(1, IV))                   
-                        VY = UNDEMI*(VY + MULTI_FVM%VEL(2, IV))                   
-                        VZ = ZERO !UNDEMI(VZ + MULTI_FVM%VEL(3, IV))              
+                        VX = HALF*(VX + MULTI_FVM%VEL(1, IV))                   
+                        VY = HALF*(VY + MULTI_FVM%VEL(2, IV))                   
+                        VZ = ZERO !HALF(VZ + MULTI_FVM%VEL(3, IV))              
                       ENDIF                
                       !CUMUL(1)=CUMUL(1)+NY*VZ-NZ*VY                              
                       !CUMUL(2)=CUMUL(2)+NZ*VX-NX*VZ                              
@@ -784,8 +784,8 @@ c
                    	DO K=1,NPTS
                    	 DO L=1,NPTT
                    	   LBUF=>ELBUF_TAB(NG)%BUFLY(IL)%LBUF(J,K,L)
-                           IF (LBUF%OFF(I) == 0) VALUE(I) = VALUE(I) + UN
-                   	   IF(INT(VALUE(I))>=NPG_PLANE) EVAR(I)=EVAR(I)+UN
+                           IF (LBUF%OFF(I) == 0) VALUE(I) = VALUE(I) + ONE
+                   	   IF(INT(VALUE(I))>=NPG_PLANE) EVAR(I)=EVAR(I)+ONE
                            IS_WRITTEN_VALUE(I) = 1           
                    	 ENDDO
                    	ENDDO
@@ -998,16 +998,16 @@ C--------
                    	T13=T21*T32-T31*T22
                    	T23=T31*T12-T11*T32
                    	T33=T11*T22-T21*T12
-                   	IF (ABS(T31) - UN  .LT. EM20)THEN
+                   	IF (ABS(T31) - ONE  .LT. EM20)THEN
                    	  PSI  = ATAN2(T32/COS(THETA),T33/COS(THETA))
                    	ELSE
-                   	  IF(T31 == -UN)THEN
+                   	  IF(T31 == -ONE)THEN
                    	    PSI = ATAN2(T12,T13)
                    	  ELSE
                    	    PSI = ATAN2(-T12,-T13)
                    	  ENDIF
                    	ENDIF
-                   	VALUE(I) = PSI*CENT80/PI
+                   	VALUE(I) = PSI*HUNDRED80/PI
                         IS_WRITTEN_VALUE(I) = 1 
                       ENDIF
                     ENDDO
@@ -1053,16 +1053,16 @@ C--------
                    	T13=T21*T32-T31*T22
                    	T23=T31*T12-T11*T32
                    	T33=T11*T22-T21*T12
-                   	IF (ABS(T31) - UN  .LT. EM20)THEN
+                   	IF (ABS(T31) - ONE  .LT. EM20)THEN
                    	  THETA = -ASIN(T31)
                    	ELSE
-                   	  IF(T31 == -UN)THEN
-                   	    THETA = PI / DEUX
+                   	  IF(T31 == -ONE)THEN
+                   	    THETA = PI / TWO
                    	  ELSE
-                   	    THETA = - PI / DEUX
+                   	    THETA = - PI / TWO
                    	  ENDIF
                    	ENDIF
-                   	VALUE(I) = THETA*CENT80/PI
+                   	VALUE(I) = THETA*HUNDRED80/PI
                         IS_WRITTEN_VALUE(I) = 1 
                       ENDIF
                     ENDDO
@@ -1108,12 +1108,12 @@ C--------
                    	T13=T21*T32-T31*T22
                    	T23=T31*T12-T11*T32
                    	T33=T11*T22-T21*T12
-                   	IF (ABS(T31) - UN  .LT. EM20)THEN
+                   	IF (ABS(T31) - ONE  .LT. EM20)THEN
                    	  PHI  = ATAN2(T21/COS(THETA),T11/COS(THETA))
                    	ELSE
                    	  PHI = ZERO
                    	ENDIF
-                   	VALUE(I) = PHI*CENT80/PI
+                   	VALUE(I) = PHI*HUNDRED80/PI
                         IS_WRITTEN_VALUE(I) = 1 
                       ENDIF
                     ENDDO
@@ -1511,8 +1511,8 @@ C--------------------------------------------------
                               S1 = S11 + P
                               S2 = S22 + P
                               S3 = S33 + P
-                              VONM2 =  TROIS*(S4*S4 + S5*S5 + S6*S6 +
-     .                                UNDEMI*(S1*S1 + S2*S2 + S3*S3))
+                              VONM2 =  THREE*(S4*S4 + S5*S5 + S6*S6 +
+     .                                HALF*(S1*S1 + S2*S2 + S3*S3))
                               VONM = SQRT(VONM2)
                               VALUE(I) = VALUE(I) + VONM/NPTG
                               IS_WRITTEN_VALUE(I) = 1	
@@ -1542,8 +1542,8 @@ C--------------------------------------------------
                     S1 = S11 + P
                     S2 = S22 + P
                     S3 = S33 + P
-                    VONM2 = TROIS*(S4*S4 + S5*S5 + S6*S6 +
-     .                     UNDEMI*(S1*S1 + S2*S2 + S3*S3))
+                    VONM2 = THREE*(S4*S4 + S5*S5 + S6*S6 +
+     .                     HALF*(S1*S1 + S2*S2 + S3*S3))
                     VONM = SQRT(VONM2)
                     VALUE(I) = VONM
                     IS_WRITTEN_VALUE(I) = 1	
@@ -1927,12 +1927,12 @@ C--------------------------------------------------
 C--------------------------------------------------                     
                 DO I=1,NEL
                   IF (GBUF%G_OFF > 0) THEN
-                    IF(GBUF%OFF(I) > UN) THEN
-                      VALUE(I) = GBUF%OFF(I) - UN
-                    ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= UN)) THEN
+                    IF(GBUF%OFF(I) > ONE) THEN
+                      VALUE(I) = GBUF%OFF(I) - ONE
+                    ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= ONE)) THEN
                       VALUE(I) = GBUF%OFF(I)
                     ELSE
-                      VALUE(I) = -UN
+                      VALUE(I) = -ONE
                     ENDIF
                   ENDIF
                   IS_WRITTEN_VALUE(I) = 1
@@ -1977,9 +1977,9 @@ C--------------------------------------------------
                        ENDDO
                       ENDDO
                       DO  I=1,NEL
-                        VEL(1) = TMP_2(I,1)*UNHUIT!SUM(TMP_2(1,1:8))*UNHUIT
-                        VEL(2) = TMP_2(I,2)*UNHUIT!SUM(TMP_2(2,1:8))*UNHUIT
-                        VEL(3) = TMP_2(I,3)*UNHUIT!SUM(TMP_2(3,1:8))*UNHUIT 
+                        VEL(1) = TMP_2(I,1)*ONE_OVER_8!SUM(TMP_2(1,1:8))*ONE_OVER_8
+                        VEL(2) = TMP_2(I,2)*ONE_OVER_8!SUM(TMP_2(2,1:8))*ONE_OVER_8
+                        VEL(3) = TMP_2(I,3)*ONE_OVER_8!SUM(TMP_2(3,1:8))*ONE_OVER_8 
                         VALUE(I) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)   
                         IS_WRITTEN_VALUE(I) = 1                                  
                       ENDDO
@@ -1994,9 +1994,9 @@ C--------------------------------------------------
                        ENDDO
                       ENDDO 
                       DO  I=1,NEL             
-                        VEL(1) = TMP_2(I,1)*UNHUIT!SUM(TMP(1,1:8))*UNHUIT              
-                        VEL(2) = TMP_2(I,2)*UNHUIT!SUM(TMP(2,1:8))*UNHUIT              
-                        VEL(3) = TMP_2(I,3)*UNHUIT!SUM(TMP(3,1:8))*UNHUIT              
+                        VEL(1) = TMP_2(I,1)*ONE_OVER_8!SUM(TMP(1,1:8))*ONE_OVER_8              
+                        VEL(2) = TMP_2(I,2)*ONE_OVER_8!SUM(TMP(2,1:8))*ONE_OVER_8              
+                        VEL(3) = TMP_2(I,3)*ONE_OVER_8!SUM(TMP(3,1:8))*ONE_OVER_8              
                         VALUE(I) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)
                         IS_WRITTEN_VALUE(I) = 1  
                       ENDDO      
@@ -2042,7 +2042,7 @@ C-- 2g1=2-1+5-4; 2g2 = 3-1+6-4
                   CALL THS_MAREA(G1(1,1),G1(1,2),G1(1,3),G2(1,1),G2(1,2),G2(1,3),DET,NEL)                 
                   DO I=1,NEL
                     VOLN(I)=GBUF%VOL(I)*RHO0/GBUF%RHO(I)
-                    AREAM(I) =UNHUIT*DET(I) 
+                    AREAM(I) =ONE_OVER_8*DET(I) 
                     VALUE(I) = VOLN(I)/AREAM(I)
                     IS_WRITTEN_VALUE(I) = 1                       
                   ENDDO    
@@ -2060,7 +2060,7 @@ C-- 4g1=2+3+6+7-1-4-5-8; 4g2 = 3+4+7+8-1-2-5-6; 4g3 = 5+6+7+8-1-2-3-4;
                     CALL THS_MAREA(G1(1,1),G1(1,2),G1(1,3),G2(1,1),G2(1,2),G2(1,3),DET,NEL)                 
                     DO I=1,NEL
                       VOLN(I)=GBUF%VOL(I)*RHO0/GBUF%RHO(I) 
-                      AREAM(I) =UNSEIZE*DET(I) 
+                      AREAM(I) =ONE_OVER_16*DET(I) 
                       VALUE(I) = VOLN(I)/AREAM(I)
                       IS_WRITTEN_VALUE(I) = 1                       
                     ENDDO    
@@ -2093,7 +2093,7 @@ C------RHO0 isn't right w/ composite
                        CALL THS_MAREA(G3(1,1),G3(1,2),G3(1,3),G1(1,1),G1(1,2),G1(1,3),DET,NEL)                 
             	    END SELECT
                     DO I=1,NEL
-                      AREAM(I) =UNSEIZE*DET(I) 
+                      AREAM(I) =ONE_OVER_16*DET(I) 
                       VALUE(I) = VOLN(I)/AREAM(I)
                       IS_WRITTEN_VALUE(I) = 1                       
                     ENDDO
@@ -2111,13 +2111,13 @@ C---- approximated by S8
                     CALL THS_MAREA(G1(1,1),G1(1,2),G1(1,3),G2(1,1),G2(1,2),G2(1,3),DET,NEL)                 
                     DO I=1,NEL
                       VOLN(I)=GBUF%VOL(I)*RHO0/GBUF%RHO(I) 
-                      AREAM(I) =UNSEIZE*DET(I) 
+                      AREAM(I) =ONE_OVER_16*DET(I) 
                       VALUE(I) = VOLN(I)/AREAM(I)
                       IS_WRITTEN_VALUE(I) = 1                       
                     ENDDO    
                 END IF 
               ELSEIF(KEYWORD == 'THIN'.AND.TSHELL == 1)THEN
-                  FAC = UN/NLAY
+                  FAC = ONE/NLAY
                   EZZ(1:NEL) = ZERO
                   IF (JHBE==15 ) THEN
                     DO ILAY=1,NLAY
@@ -2126,7 +2126,7 @@ C---- approximated by S8
                         EZZ(I) = EZZ(I)+FAC*LBUF%STRA(JJ(3)+I)  
                       ENDDO 
                     END DO    
-                    VALUE(1:NEL) = CENT*EZZ(1:NEL)
+                    VALUE(1:NEL) = HUNDRED*EZZ(1:NEL)
                     IS_WRITTEN_VALUE(1:NEL) = 1                       
                   ELSEIF (JHBE==14 ) THEN
                     DO IR=1,NPTR
@@ -2139,7 +2139,7 @@ C---- approximated by S8
                       ENDDO  ! IL=1,NLAY
                      ENDDO   ! IS=1,NPTS
                     ENDDO    ! IR=1,NPTR
-                    VALUE(1:NEL) = CENT*EZZ(1:NEL)
+                    VALUE(1:NEL) = HUNDRED*EZZ(1:NEL)
                     IS_WRITTEN_VALUE(1:NEL) = 1                       
                   ELSEIF (JHBE==16 ) THEN
                     DO IT=1,NPTT
@@ -2153,7 +2153,7 @@ c                            EZZ(I) = EZZ(I)+FAC*LBUF%STRA(JJ(2)+I)
                         ENDDO!IL=1,NLAY
                      ENDDO!IR=1,NPTR
                     ENDDO!IT=1,NPTT
-c                    VALUE(1:NEL) = CENT*EZZ(1:NEL)
+c                    VALUE(1:NEL) = HUNDRED*EZZ(1:NEL)
 c                    IS_WRITTEN_VALUE(1:NEL) = 1                       
                   END IF 
 C--------------------------------------------------  

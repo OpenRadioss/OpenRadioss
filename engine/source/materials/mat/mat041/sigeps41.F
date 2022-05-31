@@ -155,10 +155,10 @@ C   I n i t i a l i s a t i o n s
         do i=1,nel
           uvar(i,1) = ZERO
           uvar(i,3) = uparam(14)
-          uvar(i,4) = UN
+          uvar(i,4) = ONE
           uvar(i,5) = ZERO
           uvar(i,6) = ZERO
-          uvar(i,7) = UN
+          uvar(i,7) = ONE
         enddo
 ccc        return
       endif
@@ -213,7 +213,7 @@ c
         mt=RHO(I)*VOLUME(I)
         IF (TIME .GT. ZERO .AND. IALE + IEULER .GT. 0) THEN
            UVAR(I, 1) = UVAR(I, 1) / MT
-           UVAR(I, 1) = MAX(ZERO, MIN(UVAR(I, 1), UN))
+           UVAR(I, 1) = MAX(ZERO, MIN(UVAR(I, 1), ONE))
         ENDIF
         fc   = uvar(i,1)
         cv   = uvar(i,3)
@@ -244,7 +244,7 @@ c
 c  deuxieme calcul hydro
       tem2 = (pres+dedv+artvisc) / cv
 c gw bug possible: tmp = tmp_old - .5*(tem2-tem1)*dvol      
-      tmp = tmp - UNDEMI*(tem2-tem1)*dvol
+      tmp = tmp - HALF*(tem2-tem1)*dvol
       call mix(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .         ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
      .         dpdmu,dpde,epsil,check,itrmax,enq,
@@ -260,9 +260,9 @@ c  reaction chimique
       tmp = tmp + (fc - oldfc) * heat/cv
 c  vitesse du son et controle du pas de temps
       chydro2 = dpdmu + abs(pres)*(vol**2)*dpde
-     +              + UNP33*shr
+     +              + ONEP33*shr
       chydro2=max(chydro2,
-     .            max(wr+UN,wp+UN)*abs(pres)/max(em30,RHO(I)))
+     .            max(wr+ONE,wp+ONE)*abs(pres)/max(em30,RHO(I)))
       chydro = sqrt(chydro2)
 c
 c==============================================================
@@ -280,7 +280,7 @@ c        contraintes
         sigvzz(i) = ZERO
         sigvxy(i) = ZERO
         sigvyz(i) = ZERO
-        sigvzx(i) = ZERO	
+        sigvzx(i) = ZERO        
 c        mise   jour
         uvar(i,1) = fc
         uvar(i,2) = tmp
@@ -290,11 +290,11 @@ c        mise   jour
         uvar(i,6) = etap
         uvar(i,7) = etar
 C     Burnt fraction
-        uvar(i,8) = UN - beta
+        uvar(i,8) = ONE - beta
 C       energie degagee par la reaction = D(energie totale) - (-P.DV)
-        er=mt*cv*tmp + UNDEMI*(pres+pold)*DELTVOL(I)
+        er=mt*cv*tmp + HALF*(pres+pold)*DELTVOL(I)
         TFEXTT=TFEXTT+er-EINT(I)
-        EINT(I)=mt*cv*tmp + UNDEMI*(pres+pold)*DELTVOL(I)
+        EINT(I)=mt*cv*tmp + HALF*(pres+pold)*DELTVOL(I)
 C       EINT(I)=EINT(I)-0.5*(pres+pold)*DELTVOL(I) dans mulaw.
       enddo
 c      
@@ -344,16 +344,16 @@ c   controle du pas de temps (  faire)
 c   short cuts
       if (pres.le.ZERO) return
       if (artvisc.ge.(cappa*pres)) return
-      if (fc.eq.UN) return
+      if (fc.eq.ONE) return
 c
 c   ignition & growth
-      ratei = rki * (UN -fc)**ex * (etar-UN)**ri
-      if ((etar - UN).le.ZERO) ratei=ZERO
+      ratei = rki * (ONE -fc)**ex * (etar-ONE)**ri
+      if ((etar - ONE).le.ZERO) ratei=ZERO
       dfci = ratei * dt
-      rateg =  rkg * (UN - fc)**ex * fc**yg * pres**zg
+      rateg =  rkg * (ONE - fc)**ex * fc**yg * pres**zg
       dfcg = rateg * dt
       fc = oldfc + max(dfci,zero) + max(dfcg,zero)
-      if (fc.ge.UN) fc = UN
+      if (fc.ge.ONE) fc = ONE
 c
       return
       end
@@ -412,21 +412,21 @@ c   initialisations et short cuts
 c
 c       ignition & growth
 c
-        ratei = rki * (UN-fc+tol)**ex * abs(etar-UN-ccrit)**ri
-        if ((etar- UN -ccrit).le.ZERO) ratei = ZERO
+        ratei = rki * (ONE-fc+tol)**ex * abs(etar-ONE-ccrit)**ri
+        if ((etar- ONE -ccrit).le.ZERO) ratei = ZERO
         dfci = ratei * dt
         fc = oldfc + max(dfci,zero)
         if (fc.gt.fmxig) fc = fmxig
       endif
-      rateg1 = grow1 * (UN -fc+tol)**ex1 * (fc+tol)**yg1 * pres**zg1
+      rateg1 = grow1 * (ONE -fc+tol)**ex1 * (fc+tol)**yg1 * pres**zg1
       if (fc.gt.fmxgr) rateg1 = ZERO
-      rateg2 = grow2 * (UN -fc+tol)**ex2 * (fc+tol)**yg2 * pres**zg2
+      rateg2 = grow2 * (ONE -fc+tol)**ex2 * (fc+tol)**yg2 * pres**zg2
       if (fc.lt.fmngr) rateg2 = ZERO
       rateg = rateg1 + rateg2
       dfcg = rateg * dt
       fc = fc + max(dfcg,zero)
       if ((fc-oldfc).gt.chi) fc = oldfc + chi
-      if (fc.ge.UN) fc = UN
+      if (fc.ge.ONE) fc = ONE
 c
       return
       end
@@ -475,14 +475,14 @@ C-----------------------------------------------
      .   enp,enr
 c
 c   initialisations
-      etac = UN/vol
-      fc1 = UN -fc
+      etac = ONE/vol
+      fc1 = ONE -fc
       if (fc.lt.check) then
 c   que des reactifs, avant reaction
         etar = fc1 * etac
         call react(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .           tmp,dedvr,pres,bthr,dpdtr,enr )
-        beta = UN
+        beta = ONE
         cv = cvr
         dedv = dedvr
         dpde = dpdtr / cv
@@ -493,7 +493,7 @@ c   que des reactifs, avant reaction
         heat = enq-enp+enr
         return
 c
-      elseif (fc.gt.(UN -check)) then
+      elseif (fc.gt.(ONE -check)) then
 c   que des produits, apres reaction
         etap = fc * etac
         call react(ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
@@ -509,7 +509,7 @@ c
       endif
       guess = fc1 * etap/(fc1*etap+fc*etar)
       beta = guess
-      if (beta.eq.UN) beta = fc1
+      if (beta.eq.ONE) beta = fc1
 c
 c   debut iterations
 c=========================================================
@@ -517,7 +517,7 @@ c=========================================================
         etar = fc1 * etac/beta
         call react(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .           tmp,dedvr,preac,bthr,dpdtr,enr )
-        etap = fc * etac/(UN -beta)
+        etap = fc * etac/(ONE -beta)
         call react(ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
      .           tmp,dedvp,pprod,bthp,dpdtp,enp )
         pmax = max(preac,pprod)
@@ -525,14 +525,14 @@ c=========================================================
         if (abs(delta/pmax).le.epsil) goto 800
 c   Newton
         trans1 = bthr * etar/beta
-        trans2 = bthp * etap/(UN - beta)
+        trans2 = bthp * etap/(ONE - beta)
         slope = -(trans1+trans2)
         beta = beta - delta/slope
 c       dans dyna2d :
 c       if ((beta.le.0.).or.(beta.ge.1.)) beta = fc1
 c       mais pb si beta=fc1 redonne un beta > 1 ...
         if (beta.le.ZERO) beta = - beta
-        if (beta.ge.UN) beta = UN/beta
+        if (beta.ge.ONE) beta = ONE/beta
       enddo
 c=========================================================
       iter = 2
@@ -544,8 +544,8 @@ c=========================================================
      .           ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
      .           dedvp,pprod,bthp,dpdtp,enp, 
      .           beta,delta,fc1,etac,fc,epsil)
-      b=sign(un,delta)
-      beta=beta+ UNCINQ
+      b=sign(ONE,delta)
+      beta=beta+ ONE_FIFTH
       beta=min(beta,ZEP9999)
       tu=beta
       call ftnch(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
@@ -553,7 +553,7 @@ c=========================================================
      .           ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
      .           dedvp,pprod,bthp,dpdtp,enp, 
      .           beta,delta,fc1,etac,fc,epsil)
-      a=sign(un,delta)
+      a=sign(ONE,delta)
       if(a.ne.b) go to 300
       beta=ZEP9999
       tu=beta
@@ -562,7 +562,7 @@ c=========================================================
      .           ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
      .           dedvp,pprod,bthp,dpdtp,enp, 
      .           beta,delta,fc1,etac,fc,epsil)
-      a=sign(un,delta)
+      a=sign(ONE,delta)
       if (delta.gt.ZERO) then
 cc        write(*,*)'  delta (beta=0.9999999) > 0.'
 cc        write(*,*)'  il faut augmenter check...'
@@ -570,7 +570,7 @@ cc        write(*,*)'  il faut augmenter check...'
       endif
 c=========================================================
       do iter = 4,itrmax+1
-       beta=beta - CINQEM2
+       beta=beta - FIVEEM2
        beta=max(beta,em6)
        tl=beta
        call ftnch(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
@@ -578,7 +578,7 @@ c=========================================================
      .           ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
      .           dedvp,pprod,bthp,dpdtp,enp, 
      .           beta,delta,fc1,etac,fc,epsil)
-       b=sign(un,delta)
+       b=sign(ONE,delta)
        if(a.ne.b) goto 300
        tu=tl
       enddo
@@ -586,14 +586,14 @@ c=========================================================
 c=========================================================
  300  i1 = iter+1 
       do iter=i1,itrmax+1
-       beta=UNDEMI*(tl+tu)
+       beta=HALF*(tl+tu)
        call ftnch(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .           tmp,dedvr,preac ,bthr,dpdtr,enr,
      .           ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
      .           dedvp,pprod,bthp,dpdtp,enp ,
      .           beta,delta,fc1,etac,fc,epsil)
        if(delta.eq.ZERO) go to 800
-       c=sign(un,delta)
+       c=sign(ONE,delta)
        if(c.eq.b) tl=beta
        if(c.eq.a) tu=beta
       enddo
@@ -604,27 +604,27 @@ c   fin iterations
 c
 c=========================================================
 c   pression
- 800  pres = (preac+pprod)*UNDEMI
+ 800  pres = (preac+pprod)*HALF
 c
 c   derivees internes
       transr = bthr / beta
-      transp = bthp / (UN - beta)
+      transp = bthp / (ONE - beta)
       trans = transr*etar + transp*etap
 c    dbdeta = d(beta)/d(eta) a l'equil.
       dbdeta = (transr*fc1 - transp*fc) / trans
 c    detar = d(etar)/d(eta) a l'equil.
       detar = (fc1 - etar*dbdeta) / beta
-      detap = (fc + etap*dbdeta) / (UN - beta)
+      detap = (fc + etap*dbdeta) / (ONE - beta)
 c    dedr = d(er)/d(etar)
       dedr = -dedvr / etar**2
       dedp = -dedvp / etap**2
 c    bth = d(p)/d(eta) a tmp cte
-      bth = (bthr*detar + bthp*detap)*UNDEMI
+      bth = (bthr*detar + bthp*detap)*HALF
 c    dbdt = d(beta)/d(tmp) a l'equil.
       dbdt = (dpdtr-dpdtp) / trans
       detrdt = -etar*dbdt/beta
       detpdt = etap*dbdt/(1.-beta)
-      dpdt = (dpdtr+dpdtp+dbdt*(transp*etap-transr*etar))*UNDEMI
+      dpdt = (dpdtr+dpdtp+dbdt*(transp*etap-transr*etar))*HALF
 c    dbdf = d(beta)/d(fc) a l'equil.
       dbdf = -(transr+transp)*etac/trans
 c    detrdf = d(etar)/d(fc) a l'equil.

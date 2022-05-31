@@ -302,45 +302,45 @@ C     Default values
 C     ==============
       IF (SCAL_T == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('Ascalet', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_T = UN * FAC_GEN
+         SCAL_T = ONE * FAC_GEN
       ENDIF
       IF (SCAL_P == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleP', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_P = UN * FAC_GEN
+         SCAL_P = ONE * FAC_GEN
       ENDIF
       IF (SCAL_S == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleS', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_S = UN * FAC_GEN
+         SCAL_S = ONE * FAC_GEN
       ENDIF
       IF (SCAL_A == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleA', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_A = UN * FAC_GEN
+         SCAL_A = ONE * FAC_GEN
       ENDIF
       IF (SCAL_D == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleD', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_D = UN * FAC_GEN
+         SCAL_D = ONE * FAC_GEN
       ENDIF
       
       AMU = EM02
       IF(PEXT == ZERO) THEN
          PEXT = 101325.D0 * (FAC_L_WORK * FAC_T_WORK * FAC_T_WORK) / FAC_M_WORK
       ENDIF
-      IF (TI == ZERO) TI = DEUXCENT95
+      IF (TI == ZERO) TI = TWOHUNDRED95
       PINI = PEXT
       
       DO II = 1, NJET
          IF (IMASS(II) /=0 .AND. FMASS(II) == ZERO) THEN 
             CALL HM_GET_FLOATV_DIM('Fscalemas', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            FMASS(II) = UN * FAC_GEN
+            FMASS(II) = ONE * FAC_GEN
          ENDIF
          IF (ITEMP(II) /=0 .AND. FTEMP(II) == ZERO) THEN 
             CALL HM_GET_FLOATV_DIM('FscaleT', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            FTEMP(II) = UN * FAC_GEN
+            FTEMP(II) = ONE * FAC_GEN
          ENDIF
          
          IF (FVEL(II) == ZERO) THEN
             CALL HM_GET_FLOATV_DIM('Fscalevel', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            FVEL(II) = UN * FAC_GEN
+            FVEL(II) = ONE * FAC_GEN
          ENDIF
       ENDDO
       DO II = 1, NVENT
@@ -349,12 +349,12 @@ C     ==============
             AVENT(II) = ZERO
             BVENT(II) = ZERO
          ENDIF
-         IF (FPORT(II)  == ZERO) FPORT(II) = UN
-         IF (FPORP(II)  == ZERO) FPORP(II) = UN
-         IF (FPORA(II)  == ZERO) FPORA(II) = UN
-         IF (FPORT1(II) == ZERO) FPORT1(II) = UN
-         IF (FPORP1(II) == ZERO) FPORP1(II) = UN
-         IF (FPORA1(II) == ZERO) FPORA1(II) = UN
+         IF (FPORT(II)  == ZERO) FPORT(II) = ONE
+         IF (FPORP(II)  == ZERO) FPORP(II) = ONE
+         IF (FPORA(II)  == ZERO) FPORA(II) = ONE
+         IF (FPORT1(II) == ZERO) FPORT1(II) = ONE
+         IF (FPORP1(II) == ZERO) FPORP1(II) = ONE
+         IF (FPORA1(II) == ZERO) FPORA1(II) = ONE
       ENDDO
       IF (NBX == 0) NBX = 1
       IF (NBY == 0) NBY = 1
@@ -367,16 +367,16 @@ C     ==============
       IF (NPPMAX == 0) NPPMAX = 20
       CPI = CPAI + TI * (CPBI + CPCI * TI)
       CVI = CPI / GAMAI
-      RMWI = CVI * (GAMAI - UN)
+      RMWI = CVI * (GAMAI - ONE)
       MI = PINI * (VOL + VEPS) / (RMWI * TI)
 C     =====
 C     Store
 C     ===== 
-      T_MONVOLN%RVOLU(26) = UN / SCAL_T
-      T_MONVOLN%RVOLU(27) = UN / SCAL_P
-      T_MONVOLN%RVOLU(28) = UN / SCAL_S
-      T_MONVOLN%RVOLU(29) = UN / SCAL_A
-      T_MONVOLN%RVOLU(30) = UN / SCAL_D
+      T_MONVOLN%RVOLU(26) = ONE / SCAL_T
+      T_MONVOLN%RVOLU(27) = ONE / SCAL_P
+      T_MONVOLN%RVOLU(28) = ONE / SCAL_S
+      T_MONVOLN%RVOLU(29) = ONE / SCAL_A
+      T_MONVOLN%RVOLU(30) = ONE / SCAL_D
       
       T_MONVOLN%IVOLU(17) = ITTF
       T_MONVOLN%IVOLU(8) = NJET
@@ -415,9 +415,9 @@ C     =====
          T_MONVOLN%RBAGJET(4, II) = CPC(II)
          T_MONVOLN%RBAGJET(5, II) = FMASS(II)
          T_MONVOLN%RBAGJET(6, II) = FTEMP(II)
-         T_MONVOLN%RBAGJET(12, II) = UN
-         T_MONVOLN%RBAGJET(13, II) = UN
-         T_MONVOLN%RBAGJET(14, II) = UN
+         T_MONVOLN%RBAGJET(12, II) = ONE
+         T_MONVOLN%RBAGJET(13, II) = ONE
+         T_MONVOLN%RBAGJET(14, II) = ONE
          IF (IMASS(II) == 0)THEN
             T_MONVOLN%IBAGJET(1, II) = 0
          ELSE
@@ -485,7 +485,7 @@ C     =====
             ENDIF
          ENDIF
          CPG = CPA(II) + TI * (CPB(II) + CPC(II) * TI)
-         RMWG = CPG * (GAMA(II) - UN) / GAMA(II)
+         RMWG = CPG * (GAMA(II) - ONE) / GAMA(II)
          T_MONVOLN%RBAGJET(1, II) = RMWG
       ENDDO
       DO II = 1, NVENT
@@ -518,7 +518,7 @@ C     =====
                CALL ANCMSG(MSGID = 330, ANMODE = ANINFO, MSGTYPE = MSGERROR,
      .              I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE)
             ENDIF
-            IF (AVENT(II) == ZERO) AVENT(II) = UN
+            IF (AVENT(II) == ZERO) AVENT(II) = ONE
          ENDIF
          IF (AVENT(II) == ZERO) DPDEF(II) = INFINITY
          IF (AVENT(II) == ZERO) TVENT(II) = INFINITY
@@ -530,7 +530,7 @@ C     =====
          T_MONVOLN%RBAGHOL(3, II) = TVENT(II)
          T_MONVOLN%RBAGHOL(4, II) = DTPDEF(II)
          T_MONVOLN%RBAGHOL(6, II) = BVENT(II)
-         IF (IVDP(II) /= 0 .AND. FVDP(II) == ZERO) FVDP(II) = UN
+         IF (IVDP(II) /= 0 .AND. FVDP(II) == ZERO) FVDP(II) = ONE
          T_MONVOLN%RBAGHOL(13, II) = FVDP(II)
          TSTOPE(II) = INFINITY
          T_MONVOLN%RBAGHOL(14, II) = TSTOPE(II)
@@ -660,7 +660,7 @@ C
       RHOI = PINI / (TI * RMWI)
       T_MONVOLN%RVOLU(62) = RHOI
       TI2 = TI * TI
-      ESPECI = TI * (CPAI + UNDEMI * CPBI * TI + THIRD * CPCI * TI2 - RMWI)
+      ESPECI = TI * (CPAI + HALF * CPBI * TI + THIRD * CPCI * TI2 - RMWI)
       T_MONVOLN%RVOLU(63) = ESPECI + RMWI * TI
       T_MONVOLN%RVOLU(64) = ZERO
       T_MONVOLN%RVOLU(65) = ZERO
@@ -724,16 +724,16 @@ C     =========
             ELSE
                NN =IGRSURF(ISUR)%NSEG
                DO JJ = 1, NN
-                  DIR = UNDEMI
+                  DIR = HALF
                   I1 = IGRSURF(ISUR)%NODES(JJ, 1)
                   I2 = IGRSURF(ISUR)%NODES(JJ, 2)
                   I3 = IGRSURF(ISUR)%NODES(JJ, 3)
                   I4 = IGRSURF(ISUR)%NODES(JJ, 4)
                   ISH34 = IGRSURF(ISUR)%ELTYP(JJ)
                   IF (ISH34 == 7) I4 = I3
-                  XX = UNDEMI * (X(1, I1) + X(1, I2))
-                  YY = UNDEMI * (X(2, I1) + X(2, I2))
-                  ZZ = UNDEMI * (X(3, I1) + X(3, I2))
+                  XX = HALF * (X(1, I1) + X(1, I2))
+                  YY = HALF * (X(2, I1) + X(2, I2))
+                  ZZ = HALF * (X(3, I1) + X(3, I2))
                   X13 = X(1, I3) - X(1, I1)
                   Y13 = X(2, I3) - X(2, I1)
                   Z13 = X(3, I3) - X(3, I1)

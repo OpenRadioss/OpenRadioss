@@ -110,8 +110,8 @@ Card2
       CALL HM_GET_FLOATV    ('Gamma'        ,GAMA   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV    ('Epsilon_Dot_0',DEPS0  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c-----------------------------------------------------------------------
-      IF (AFRAC == ZERO) AFRAC = UN
-      IF (BFRAC == ZERO) BFRAC = UN
+      IF (AFRAC == ZERO) AFRAC = ONE
+      IF (BFRAC == ZERO) BFRAC = ONE
       IF (DEPS0 == ZERO) DEPS0 = EM30
 c-----------------------------------------------------------------------
       UPARAM(1)  = AFRAC

@@ -331,7 +331,7 @@ C     Reverse all normals to ensure positive volume
      .        I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE)
       END IF
       IF (TI == ZERO) THEN
-         TI = DEUXCENT95
+         TI = TWOHUNDRED95
       ENDIF
 !     Find material 
       T_MONVOLN%IVOLU(66) = 0
@@ -393,23 +393,23 @@ C     Default values
 C     ==============
       IF (SCAL_T == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('scale_t', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_T = UN * FAC_GEN
+         SCAL_T = ONE * FAC_GEN
       ENDIF
       IF (SCAL_P == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('scale_p', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_P = UN * FAC_GEN
+         SCAL_P = ONE * FAC_GEN
       ENDIF
       IF (SCAL_S == ZERO) THEN 
          CALL HM_GET_FLOATV_DIM('scale_s', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_S = UN * FAC_GEN
+         SCAL_S = ONE * FAC_GEN
       ENDIF
       IF (SCAL_A == ZERO) THEN 
          CALL HM_GET_FLOATV_DIM('scale_a', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_A = UN * FAC_GEN
+         SCAL_A = ONE * FAC_GEN
       ENDIF
       IF (SCAL_D == ZERO) THEN 
          CALL HM_GET_FLOATV_DIM('scale_d', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_D = UN * FAC_GEN
+         SCAL_D = ONE * FAC_GEN
       ENDIF
 
       IF (AMU == ZERO) AMU = EM02
@@ -424,23 +424,23 @@ C     ==============
             IF (IJET(II) > 0) THEN
                IF (FPT(II) == ZERO) THEN
                   CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('fscale_pt', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-                  FPT(II) = UN * FAC_GEN
+                  FPT(II) = ONE * FAC_GEN
                ENDIF
                IF (FPA(II) == ZERO) THEN
                   CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('fscale_ptheta', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-                  FPA(II) = UN * FAC_GEN
+                  FPA(II) = ONE * FAC_GEN
                ENDIF
                IF (FPZ(II) == ZERO) THEN
                   CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('fscale_pdelta', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-                  FPZ(II) = UN
+                  FPZ(II) = ONE
                ENDIF
             ELSE
                CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('fscale_pt', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-               FPT(II) = UN * FAC_GEN
+               FPT(II) = ONE * FAC_GEN
                CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('fscale_ptheta', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-               FPA(II) = UN * FAC_GEN
+               FPA(II) = ONE * FAC_GEN
                CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('fscale_pdelta', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-               FPZ(II) = UN * FAC_GEN
+               FPZ(II) = ONE * FAC_GEN
             ENDIF
          ENDDO
       ENDIF
@@ -453,27 +453,27 @@ C     ==============
             ENDIF
             IF (FPORT(II)  == ZERO) THEN
                CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Fscalet', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-               FPORT(II) = UN * FAC_GEN
+               FPORT(II) = ONE * FAC_GEN
             ENDIF
             IF (FPORP(II)  == ZERO) THEN
                CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('FscaleP', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-               FPORP(II) = UN * FAC_GEN
+               FPORP(II) = ONE * FAC_GEN
             ENDIF
             IF (FPORA(II)  == ZERO) THEN
                CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('fscale_aps', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-               FPORA(II) = UN * FAC_GEN
+               FPORA(II) = ONE * FAC_GEN
             ENDIF
             IF (FPORT1(II) == ZERO) THEN
                CALL HM_GET_FLOAT_ARRAY_INDEX_DIM("Fscalet'", FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-               FPORT1(II) = UN * FAC_GEN
+               FPORT1(II) = ONE * FAC_GEN
             ENDIF
             IF (FPORP1(II) == ZERO) THEN
                CALL HM_GET_FLOAT_ARRAY_INDEX_DIM("FscaleP'", FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-               FPORP1(II) = UN * FAC_GEN
+               FPORP1(II) = ONE * FAC_GEN
             ENDIF
             IF (FPORA1(II) == ZERO) THEN
                CALL HM_GET_FLOAT_ARRAY_INDEX_DIM("FscaleA'", FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-               FPORA1(II) = UN * FAC_GEN
+               FPORA1(II) = ONE * FAC_GEN
             ENDIF
          ENDDO
       ENDIF
@@ -486,11 +486,11 @@ C     =====
       T_MONVOLN%IVOLU(17) = ITTF
 
       T_MONVOLN%RVOLU(19) = HCONV
-      T_MONVOLN%RVOLU(26) = UN / SCAL_T
-      T_MONVOLN%RVOLU(27) = UN / SCAL_P
-      T_MONVOLN%RVOLU(28) = UN / SCAL_S
-      T_MONVOLN%RVOLU(29) = UN / SCAL_A
-      T_MONVOLN%RVOLU(30) = UN / SCAL_D
+      T_MONVOLN%RVOLU(26) = ONE / SCAL_T
+      T_MONVOLN%RVOLU(27) = ONE / SCAL_P
+      T_MONVOLN%RVOLU(28) = ONE / SCAL_S
+      T_MONVOLN%RVOLU(29) = ONE / SCAL_A
+      T_MONVOLN%RVOLU(30) = ONE / SCAL_D
 
       T_MONVOLN%RVOLU(31) = PINI
       
@@ -548,8 +548,8 @@ C     =====
       T_MONVOLN%RVOLU(62) = RHOI
       T_MONVOLN%RVOLU(10) = RMWI
       TI2=TI*TI
-      ESPECI=TI*(CPAI+UNDEMI*CPBI*TI+THIRD*CPCI*TI2-RMWI)
-      ESPECI=ESPECI+QUART*CPDI*TI2*TI2-CPEI/TI+UNCINQ*CPFI*TI2*TI2*TI
+      ESPECI=TI*(CPAI+HALF*CPBI*TI+THIRD*CPCI*TI2-RMWI)
+      ESPECI=ESPECI+FOURTH*CPDI*TI2*TI2-CPEI/TI+ONE_FIFTH*CPFI*TI2*TI2*TI
       T_MONVOLN%RVOLU(63)= ESPECI+RMWI*TI
       T_MONVOLN%RVOLU(64)= ZERO
       T_MONVOLN%RVOLU(65)= ZERO
@@ -685,7 +685,7 @@ C     =====
             ENDIF
             IF (AVENT(II) == ZERO) THEN
                CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('avent', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-               AVENT(II) = UN * FAC_GEN
+               AVENT(II) = ONE * FAC_GEN
             ENDIF
          ENDIF
          IF (AVENT(II) == ZERO) DPDEF(II) = INFINITY
@@ -700,7 +700,7 @@ C     =====
          T_MONVOLN%RBAGHOL(6, II) = BVENT(II)
          IF (IVDP(II) /= 0 .AND. FVDP(II) == ZERO) THEN
             CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('fscale_v', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            FVDP(II) = UN * FAC_GEN
+            FVDP(II) = ONE * FAC_GEN
          ENDIF
          T_MONVOLN%RBAGHOL(13, II) = FVDP(II)
          IF (TSTOPE(II) == ZERO) TSTOPE(II) = INFINITY
@@ -776,11 +776,11 @@ C
          ENDIF
          IF (FPORT(NVENTHOLES + II)  == ZERO) THEN
             CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('fscale_cps', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            FPORT(NVENTHOLES + II) = UN * FAC_GEN
+            FPORT(NVENTHOLES + II) = ONE * FAC_GEN
          ENDIF
          IF (FPORA(NVENTHOLES + II)  == ZERO) THEN
             CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('fscale_aps', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            FPORA(NVENTHOLES + II) = UN * FAC_GEN
+            FPORA(NVENTHOLES + II) = ONE * FAC_GEN
          ENDIF
          T_MONVOLN%RBAGHOL(7, NVENTHOLES + II) = FPORT(NVENTHOLES + II)
          T_MONVOLN%RBAGHOL(9, NVENTHOLES + II) = FPORA(NVENTHOLES + II)
@@ -820,7 +820,7 @@ C
          T_MONVOLN%RBAGHOL(6, NVENTHOLES + II) = CLEAK(NVENTHOLES + II)
          IF (IVDP(NVENTHOLES + II) /= 0 .AND. FVDP(NVENTHOLES + II) == ZERO) THEN
             CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('fscale_v', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            FVDP = UN * FAC_GEN
+            FVDP = ONE * FAC_GEN
          ENDIF
          T_MONVOLN%RBAGHOL(13, NVENTHOLES + II)=FVDP(NVENTHOLES + II)
          IF (TSTOPE(NVENTHOLES + II) == ZERO) TSTOPE(NVENTHOLES + II) = INFINITY

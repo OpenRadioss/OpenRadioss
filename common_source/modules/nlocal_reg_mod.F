@@ -170,7 +170,7 @@ Chd|====================================================================
 #include      "implicit_f.inc"
           my_real, INTENT(IN)  :: NLOC_LENGTH
           my_real, INTENT(OUT) :: LE_MAX
-          LE_MAX = SQRT(PI)*NLOC_LENGTH/TROIS
+          LE_MAX = SQRT(PI)*NLOC_LENGTH/THREE
         END SUBROUTINE GET_LEMAX
 c=======================================================================      
 c define routine GET_LENGTH to automatically determine the maximal element length
@@ -186,7 +186,7 @@ Chd|====================================================================
 #include      "implicit_f.inc"
           my_real, INTENT(IN)  :: LE_MAX
           my_real, INTENT(OUT) :: NLOC_LENGTH
-          NLOC_LENGTH = TROIS*LE_MAX/SQRT(PI)
+          NLOC_LENGTH = THREE*LE_MAX/SQRT(PI)
       END SUBROUTINE GET_LENGTH
 c=======================================================================       
       END MODULE NLOCAL_REG_MOD

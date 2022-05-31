@@ -124,7 +124,7 @@ C-----
                   IF(ICONTACT(INOD)/=0)THEN
 C
 C Solid will be deleted at next cycle
-                    GBUF%OFF(I)=QCINQ
+                    GBUF%OFF(I)=FOUR_OVER_5
                     IDEL7NOK=1
 #include "lockon.inc"
           WRITE(IOUT,*)
@@ -188,14 +188,14 @@ C                 Solid must have passed to deleted within THIS cycle !
                     KFT=IPARG(3,MG)
                     GBUFSP => ELBUF_TAB(MG)%GBUF
                     KXSP(2,NP)        =ABS(KXSP(2,NP))
-                    GBUFSP%OFF(NP-KFT)=UN
+                    GBUFSP%OFF(NP-KFT)=ONE
                     SPH2SOL(NP)       =0
 C
                     INOD=KXSP(3,NP)
                     VI2= V(1,INOD)*V(1,INOD)
      .                  +V(2,INOD)*V(2,INOD)
      .                  +V(3,INOD)*V(3,INOD)
-                    EK=EK+UNDEMI*MS(INOD)*VI2
+                    EK=EK+HALF*MS(INOD)*VI2
                   ENDDO
                   N1=IXS(2,N)
                   N2=IXS(3,N)
@@ -207,7 +207,7 @@ C
                   N8=IXS(9,N)
                   IMAT=IXS(1,N)
                   RHO0=PM(1,IMAT)
-                  DM=UNHUIT*GBUF%VOL(I)*RHO0
+                  DM=ONE_OVER_8*GBUF%VOL(I)*RHO0
 C lockon.. & echange spmd
                   DMSPH(N1)=DMSPH(N1)+DM
                   DMSPH(N2)=DMSPH(N2)+DM
@@ -261,7 +261,7 @@ C----
      5               +VZ5*VZ5+VZ6*VZ6+VZ7*VZ7+VZ8*VZ8
 C
 C absorbed energy due to remeshing
-                  EHOURT=EHOURT+UNDEMI*DM*VI2-EK
+                  EHOURT=EHOURT+HALF*DM*VI2-EK
                 END IF
               END IF
             ENDDO
@@ -320,18 +320,18 @@ C                 Solid must have passed to deleted within THIS cycle !
                     KFT=IPARG(3,MG)
                     GBUFSP => ELBUF_TAB(MG)%GBUF
                     KXSP(2,NP)        =ABS(KXSP(2,NP))
-                    GBUFSP%OFF(NP-KFT)=UN
+                    GBUFSP%OFF(NP-KFT)=ONE
                     SPH2SOL(NP)       =0
 C
                     INOD=KXSP(3,NP)
                     VI2= V(1,INOD)*V(1,INOD)
      .                  +V(2,INOD)*V(2,INOD)
      .                  +V(3,INOD)*V(3,INOD)
-                    EK=EK+UNDEMI*MS(INOD)*VI2
+                    EK=EK+HALF*MS(INOD)*VI2
                   ENDDO
                   IMAT=IXS(1,N)
                   RHO0=PM(1,IMAT)
-                  DM=UNHUIT*GBUF%VOL(I)*RHO0
+                  DM=ONE_OVER_8*GBUF%VOL(I)*RHO0
 C lockon.. & echange spmd
                   K1=IADS(1,N)
                   FSKYD(K1)=DM
@@ -393,7 +393,7 @@ C----
      5               +VZ5*VZ5+VZ6*VZ6+VZ7*VZ7+VZ8*VZ8
 C
 C absorbed energy due to remeshing
-                  EHOURT=EHOURT+UNDEMI*DM*VI2-EK
+                  EHOURT=EHOURT+HALF*DM*VI2-EK
                 END IF
               END IF
             ENDDO
@@ -516,7 +516,7 @@ C-----
                       IF(IPARTSP(M)/=IPARTSP(NP))THEN
 C
 C Solid will be deleted at next cycle
-                          GBUF%OFF(I)=QCINQ
+                          GBUF%OFF(I)=FOUR_OVER_5
                           IDEL7NOK=1
 #include "lockon.inc"
                           WRITE(IOUT,5000) IXS(NIXS,N)
@@ -529,7 +529,7 @@ C Solid will be deleted at next cycle
                       IF(NINT(XSPHR(14,NN))/=IPARTSP(NP))THEN
 C
 C Solid will be deleted at next cycle
-                          GBUF%OFF(I)=QCINQ
+                          GBUF%OFF(I)=FOUR_OVER_5
                           IDEL7NOK=1
 #include "lockon.inc"
                           WRITE(IOUT,5000) IXS(NIXS,N)
@@ -563,7 +563,7 @@ C-----
      .                  AND.(IPARTSP(M)/=IPARTSP(NP)))) THEN
 C
 C Solid will be deleted at next cycle
-                          GBUF%OFF(I)=QCINQ
+                          GBUF%OFF(I)=FOUR_OVER_5
                           IDEL7NOK=1
 #include "lockon.inc"
                           WRITE(IOUT,6000) IXS(NIXS,N)
@@ -578,7 +578,7 @@ C Solid will be deleted at next cycle
      .                  AND.(NINT(XSPHR(14,NN))/=IPARTSP(NP))))) THEN
 C
 C Solid will be deleted at next cycle
-                          GBUF%OFF(I)=QCINQ
+                          GBUF%OFF(I)=FOUR_OVER_5
                           IDEL7NOK=1
 #include "lockon.inc"
                           WRITE(IOUT,6000) IXS(NIXS,N)

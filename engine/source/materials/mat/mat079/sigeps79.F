@@ -196,7 +196,7 @@ C
          DELTAP(I) = UVAR(I,4)
          SIGYOLD(I)= UVAR(I,5)/SHEL
          POLD(I)   =-(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*THIRD
-c         MU(I)     = RHO(I)/RHO0(I)-UN
+c         MU(I)     = RHO(I)/RHO0(I)-ONE
          MU(I)     = AMU(I)
          MU2(I)    = MU(I)*MU(I)
       ENDDO
@@ -216,9 +216,9 @@ C-------------------------------
 C     EQUIVALENT STRESS
 C-------------------------------
       DO I=1,NEL
-         J2   =UNDEMI*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
+         J2   =HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      .                +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
-         VM(I)=SQRT(TROIS*J2)
+         VM(I)=SQRT(THREE*J2)
       ENDDO
 C-------------------------------
 C     PRESSURE
@@ -228,7 +228,7 @@ C-------------------------------
          IF(MU(I).GT.ZERO) THEN
            PNEW(I)=PNEW(I)+K2*MU2(I)+K3*MU2(I)*MU(I)
          ELSE
-           PMIN=-TSTAR*PHEL*(UN-DAMAGE(I))
+           PMIN=-TSTAR*PHEL*(ONE-DAMAGE(I))
            PNEW(I)=MAX(PNEW(I),PMIN)
          ENDIF
          PSTAR(I)=PNEW(I)/PHEL
@@ -254,14 +254,14 @@ C
          ENDIF
 C
          IF(EPSD(I).LE.EPS0) THEN
-           CE = UN
+           CE = ONE
          ELSE
-           CE = UN + CC*LOG(EPSD(I)/EPS0)
+           CE = ONE + CC*LOG(EPSD(I)/EPS0)
          ENDIF
 C
          SIGYI(I)  = CE*SIGYI(I)
          SIGYF(I)  = MIN(CE*SIGYF(I),SIGFMAX)
-         SIGY(I)   =(UN-DAMAGE(I))*SIGYI(I)+DAMAGE(I)*SIGYF(I)
+         SIGY(I)   =(ONE-DAMAGE(I))*SIGYI(I)+DAMAGE(I)*SIGYF(I)
       ENDDO
 C-------------------------------
 C     PROJECTION
@@ -269,7 +269,7 @@ C-------------------------------
       DO I=1,NEL
          SIGSTAR=VM(I)/SHEL
          IF(SIGSTAR < SIGY(I)) THEN
-           SCALE(I)=UN
+           SCALE(I)=ONE
          ELSEIF(VM(I) > ZERO) THEN
            SCALE(I)=SIGY(I)/SIGSTAR
          ELSE
@@ -298,11 +298,11 @@ C-----------------------------
          ENDIF
 C
          IF(EPFAIL > ZERO) THEN
-           DPLA(I) = (UN -SCALE(I))*VM(I)/(TROIS*SQRT(TROIS)*G)
+           DPLA(I) = (ONE -SCALE(I))*VM(I)/(THREE*SQRT(THREE)*G)
            DEFP(I) = DEFP(I)+DPLA(I)   
-           DAMAGE(I) = MIN(UN,DAMAGE(I)+DPLA(I)/EPFAIL)
-         ELSEIF(SCALE(I) < UN) THEN
-           DAMAGE(I) = UN
+           DAMAGE(I) = MIN(ONE,DAMAGE(I)+DPLA(I)/EPFAIL)
+         ELSEIF(SCALE(I) < ONE) THEN
+           DAMAGE(I) = ONE
          ENDIF
       ENDDO      
 C------------
@@ -312,12 +312,12 @@ C------------
         IF(MU(I) <= ZERO) CYCLE
         IF(DAMAGE(I) > UVAR(I,3)) THEN
          P1=K1*MU(I)
-         YIELD  =(UN-DAMAGE(I))*SIGYI(I)+DAMAGE(I)*SIGYF(I)
+         YIELD  =(ONE-DAMAGE(I))*SIGYI(I)+DAMAGE(I)*SIGYF(I)
          DELTAU =(SIGYOLD(I)*SIGYOLD(I)-YIELD*YIELD)/(SIX*G)
          IF(DELTAU > ZERO) THEN
            DELTAU=DELTAU*SHEL*SHEL
            DELTAP(I)=-P1+
-     .               SQRT((DELTAP(I)+P1)**2+DEUX*BETA*K1*DELTAU)
+     .               SQRT((DELTAP(I)+P1)**2+TWO*BETA*K1*DELTAU)
          ENDIF
         ENDIF
       ENDDO
@@ -334,8 +334,8 @@ C
 C----------------
 C SET SOUND SPEED
 C----------------
-         DPDMU=K1+DEUX*K2*MAX(ZERO,MU(I))+TROIS*K3*MU2(I)
-         SOUNDSP(I)=SQRT((DPDMU+QTIERS*G)/RHO0(I))
+         DPDMU=K1+TWO*K2*MAX(ZERO,MU(I))+THREE*K3*MU2(I)
+         SOUNDSP(I)=SQRT((DPDMU+FOUR_OVER_3*G)/RHO0(I))
 C----------------------
 C SET MAXIMUM VISCOSITY
 C----------------------

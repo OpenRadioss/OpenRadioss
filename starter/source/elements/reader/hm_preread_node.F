@@ -88,7 +88,7 @@ C     REAL ou REAL*8
       CHARACTER KEY*ncharfield
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------      
-      FAC_L = UN
+      FAC_L = ONE
 C-----------------------------------------------
 C      HM OFFSETS IDs
 C--------------------------------------------------

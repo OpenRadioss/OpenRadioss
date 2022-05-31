@@ -189,29 +189,29 @@ C-----------------------------------------------
         ENDDO
   
         DO I=LFT,LLT
-          Wface(1,1,I) = QUART*(W(1,NC1(I))+W(1,NC2(I))+W(1,NC3(I))+W(1,NC4(I)))
-          Wface(2,1,I) = QUART*(W(2,NC1(I))+W(2,NC2(I))+W(2,NC3(I))+W(2,NC4(I)))
-          Wface(3,1,I) = QUART*(W(3,NC1(I))+W(3,NC2(I))+W(3,NC3(I))+W(3,NC4(I)))
+          Wface(1,1,I) = FOURTH*(W(1,NC1(I))+W(1,NC2(I))+W(1,NC3(I))+W(1,NC4(I)))
+          Wface(2,1,I) = FOURTH*(W(2,NC1(I))+W(2,NC2(I))+W(2,NC3(I))+W(2,NC4(I)))
+          Wface(3,1,I) = FOURTH*(W(3,NC1(I))+W(3,NC2(I))+W(3,NC3(I))+W(3,NC4(I)))
 
-          Wface(1,2,I) = QUART*(W(1,NC3(I))+W(1,NC4(I))+W(1,NC7(I))+W(1,NC8(I)))
-          Wface(2,2,I) = QUART*(W(2,NC3(I))+W(2,NC4(I))+W(2,NC7(I))+W(2,NC8(I)))
-          Wface(3,2,I) = QUART*(W(3,NC3(I))+W(3,NC4(I))+W(3,NC7(I))+W(3,NC8(I)))
+          Wface(1,2,I) = FOURTH*(W(1,NC3(I))+W(1,NC4(I))+W(1,NC7(I))+W(1,NC8(I)))
+          Wface(2,2,I) = FOURTH*(W(2,NC3(I))+W(2,NC4(I))+W(2,NC7(I))+W(2,NC8(I)))
+          Wface(3,2,I) = FOURTH*(W(3,NC3(I))+W(3,NC4(I))+W(3,NC7(I))+W(3,NC8(I)))
 
-          Wface(1,3,I) = QUART*(W(1,NC5(I))+W(1,NC6(I))+W(1,NC7(I))+W(1,NC8(I)))
-          Wface(2,3,I) = QUART*(W(2,NC5(I))+W(2,NC6(I))+W(2,NC7(I))+W(2,NC8(I)))
-          Wface(3,3,I) = QUART*(W(3,NC5(I))+W(3,NC6(I))+W(3,NC7(I))+W(3,NC8(I)))
+          Wface(1,3,I) = FOURTH*(W(1,NC5(I))+W(1,NC6(I))+W(1,NC7(I))+W(1,NC8(I)))
+          Wface(2,3,I) = FOURTH*(W(2,NC5(I))+W(2,NC6(I))+W(2,NC7(I))+W(2,NC8(I)))
+          Wface(3,3,I) = FOURTH*(W(3,NC5(I))+W(3,NC6(I))+W(3,NC7(I))+W(3,NC8(I)))
 
-          Wface(1,4,I) = QUART*(W(1,NC1(I))+W(1,NC2(I))+W(1,NC5(I))+W(1,NC6(I)))
-          Wface(2,4,I) = QUART*(W(2,NC1(I))+W(2,NC2(I))+W(2,NC5(I))+W(2,NC6(I)))
-          Wface(3,4,I) = QUART*(W(3,NC1(I))+W(3,NC2(I))+W(3,NC5(I))+W(3,NC6(I)))
+          Wface(1,4,I) = FOURTH*(W(1,NC1(I))+W(1,NC2(I))+W(1,NC5(I))+W(1,NC6(I)))
+          Wface(2,4,I) = FOURTH*(W(2,NC1(I))+W(2,NC2(I))+W(2,NC5(I))+W(2,NC6(I)))
+          Wface(3,4,I) = FOURTH*(W(3,NC1(I))+W(3,NC2(I))+W(3,NC5(I))+W(3,NC6(I)))
 
-          Wface(1,5,I) = QUART*(W(1,NC2(I))+W(1,NC3(I))+W(1,NC6(I))+W(1,NC7(I)))
-          Wface(2,5,I) = QUART*(W(2,NC2(I))+W(2,NC3(I))+W(2,NC6(I))+W(2,NC7(I)))
-          Wface(3,5,I) = QUART*(W(3,NC2(I))+W(3,NC3(I))+W(3,NC6(I))+W(3,NC7(I)))
+          Wface(1,5,I) = FOURTH*(W(1,NC2(I))+W(1,NC3(I))+W(1,NC6(I))+W(1,NC7(I)))
+          Wface(2,5,I) = FOURTH*(W(2,NC2(I))+W(2,NC3(I))+W(2,NC6(I))+W(2,NC7(I)))
+          Wface(3,5,I) = FOURTH*(W(3,NC2(I))+W(3,NC3(I))+W(3,NC6(I))+W(3,NC7(I)))
 
-          Wface(1,6,I) = QUART*(W(1,NC1(I))+W(1,NC4(I))+W(1,NC5(I))+W(1,NC8(I)))                                       
-          Wface(2,6,I) = QUART*(W(2,NC1(I))+W(2,NC4(I))+W(2,NC5(I))+W(2,NC8(I)))                                        
-          Wface(3,6,I) = QUART*(W(3,NC1(I))+W(3,NC4(I))+W(3,NC5(I))+W(3,NC8(I)))                    
+          Wface(1,6,I) = FOURTH*(W(1,NC1(I))+W(1,NC4(I))+W(1,NC5(I))+W(1,NC8(I)))                                       
+          Wface(2,6,I) = FOURTH*(W(2,NC1(I))+W(2,NC4(I))+W(2,NC5(I))+W(2,NC8(I)))                                        
+          Wface(3,6,I) = FOURTH*(W(3,NC1(I))+W(3,NC4(I))+W(3,NC5(I))+W(3,NC8(I)))                    
         ENDDO
         
       !-------------------------------------------------------------!
@@ -270,7 +270,7 @@ C-----------------------------------------------
           IX(4)                   = IXS(ICF(4,J)+1,II)                                       
           IF(SUM(IABS(NALE(IX(1:4))))==4)CYCLE          !4 lagrangian nodes only    
           !dt * P*S*wn          
-          WFEXT_ADD               = WFEXT_ADD  - DT1*TIERS*(SIG(I,1)+SIG(I,2)+SIG(I,3))*SWn(J)*UNDEMI  !Swn=2S.w.n
+          WFEXT_ADD               = WFEXT_ADD  - DT1*THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))*SWn(J)*HALF  !Swn=2S.w.n
         ENDDO
         WFEXT_CELL(II)            = WFEXT_ADD                             
         TFEXTT                    = TFEXTT + WFEXT_ADD                    

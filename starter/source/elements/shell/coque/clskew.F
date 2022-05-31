@@ -69,7 +69,7 @@ C---------E3------------
        E3Z(I) = RX(I) * SY(I) - RY(I) * SX(I) 
        DET(I) = SQRT(E3X(I)*E3X(I) + E3Y(I)*E3Y(I) + E3Z(I)*E3Z(I))
        DET(I) = MAX(EM20,DET(I))
-       CC = UN / DET(I)
+       CC = ONE / DET(I)
        E3X(I) = E3X(I) * CC 
        E3Y(I) = E3Y(I) * CC 
        E3Z(I) = E3Z(I) * CC 
@@ -100,7 +100,7 @@ C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
        DO I=JFT,JLT
         C1 = SQRT(E1X(I)*E1X(I) + E1Y(I)*E1Y(I) + E1Z(I)*E1Z(I))
-        IF (C1.NE.ZERO) C1 = UN / C1
+        IF (C1.NE.ZERO) C1 = ONE / C1
         E1X(I) = E1X(I)*C1
         E1Y(I) = E1Y(I)*C1
         E1Z(I) = E1Z(I)*C1

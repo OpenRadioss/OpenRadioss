@@ -88,16 +88,16 @@ C
 C
         RYAVT  = PX1(I) * (
      .              PX1(I) * (-RX1(I)+RX2(I)) 
-     .            + (DEUX*PY1(I)+TROIS*PY2(I)) * RY1(I)
-     .            + (TROIS*PY1(I)+DEUX*PY2(I)) * RY2(I)
+     .            + (TWO*PY1(I)+THREE*PY2(I)) * RY1(I)
+     .            + (THREE*PY1(I)+TWO*PY2(I)) * RY2(I)
 
      .            + ( PY1(I) + PY2(I) )   * RY3(I) )
         RXAVT  = -PX1(I) * (   
-     .           + (DEUX*PY1(I)+PY2(I)) * RX1(I)
-     .           + (PY1(I)+DEUX*PY2(I)) * RX2(I)
-     .           + TROIS*(PY1(I)+PY2(I)) * RX3(I) )
-     .           + PY1(I) * (PY1(I)+DEUX*PY2(I)) * RY1(I)
-     .           - PY2(I) * (DEUX*PY1(I)+PY2(I)) * RY2(I)
+     .           + (TWO*PY1(I)+PY2(I)) * RX1(I)
+     .           + (PY1(I)+TWO*PY2(I)) * RX2(I)
+     .           + THREE*(PY1(I)+PY2(I)) * RX3(I) )
+     .           + PY1(I) * (PY1(I)+TWO*PY2(I)) * RY1(I)
+     .           - PY2(I) * (TWO*PY1(I)+PY2(I)) * RY2(I)
      .           + ( PY2(I)**2 - PY1(I)**2 )   * RY3(I)
 C
         EZX(I) = EZX(I) + RYAVT * THIRD

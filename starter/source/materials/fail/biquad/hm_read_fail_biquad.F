@@ -124,7 +124,7 @@ c---------------------------------------------------
       CALL HM_GET_FLOATV ('R4'          ,E3          ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
       CALL HM_GET_FLOATV ('R5'          ,E4          ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
 c---------------------------------------------------
-      PTHK = MIN(PTHK,UN)
+      PTHK = MIN(PTHK,ONE)
       PTHK = MAX(ZERO,PTHK)
       IF (SFLAG == 0)    SFLAG = 1
 c---------------------------------------------------

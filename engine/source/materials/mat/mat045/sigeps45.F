@@ -195,13 +195,13 @@ c jbm035
       ENDIF
 C-----------------------------------------------
         DT = TIMESTEP 
-        DTG2 = DEUX*DT*G
+        DTG2 = TWO*DT*G
 c jbm035
-        BETA = TIMESTEP*DEUX*PI*CUTFRE
-        BETA = MIN(UN,BETA)
+        BETA = TIMESTEP*TWO*PI*CUTFRE
+        BETA = MIN(ONE,BETA)
 c jbm035 (fin)
 C
-        G3 = TROIS * G
+        G3 = THREE * G
 C-----------------------------------------------
 C     ELASTIC SOLUTION (DTG2 OK)
 C-----------------------------------------------
@@ -220,9 +220,9 @@ C
          EDRNXX = EPRNXX + EVR
          EDRNYY = EPRNYY + EVR
          EDRNZZ = EPRNZZ + EVR
-         EDRNXY = EPRNXY*UNDEMI
-         EDRNYZ = EPRNYZ*UNDEMI
-         EDRNZX = EPRNZX*UNDEMI
+         EDRNXY = EPRNXY*HALF
+         EDRNYZ = EPRNYZ*HALF
+         EDRNZX = EPRNZX*HALF
 C
          SIGNXX(I)=SIGOXX(I) + PRESS + DTG2*EDRNXX
          SIGNYY(I)=SIGOYY(I) + PRESS + DTG2*EDRNYY
@@ -240,11 +240,11 @@ C
 C         UVAR(I,2) = OFF(I)*MAX( ABS(EPRNXX), ABS(EPRNYY), 
 C     .                           ABS(EPRNZZ), ABS(EDRNXY),
 C     .                           ABS(EDRNYZ), ABS(EDRNZX))
-        UVAR(I,2) = UNDEMI*(EDRNXX*EDRNXX+EDRNYY*EDRNYY+EDRNZZ*EDRNZZ)
+        UVAR(I,2) = HALF*(EDRNXX*EDRNXX+EDRNYY*EDRNYY+EDRNZZ*EDRNZZ)
      .             +EDRNXY*EDRNXY+EDRNYZ*EDRNYZ+EDRNZX*EDRNZX
-         UVAR(I,2) = OFF(I) * SQRT(TROIS*UVAR(I,2)) / TDEMI
+         UVAR(I,2) = OFF(I) * SQRT(THREE*UVAR(I,2)) / THREE_HALF
 c jbm035
-         UVAR(I,2) = BETA*UVAR(I,2) + (UN - BETA)*UVAR(I,5)
+         UVAR(I,2) = BETA*UVAR(I,2) + (ONE - BETA)*UVAR(I,5)
          UVAR(I,5) = UVAR(I,2)
 c jbm035 (fin)
        ENDDO
@@ -280,19 +280,19 @@ C------------------------
 C     HARDENING MODULUS
 C------------------------
        DO I=1,NEL0
-        IF(UVAR(I,1).GT.ZERO. AND .CN.GE.UN) THEN
-         QH1= CB*CN*UVAR(I,1)**(CN- UN)
-        ELSEIF(UVAR(I,1).GT.ZERO. AND .CN.LT.UN)THEN
-         QH1= CB*CN*UVAR(I,1)**(UN - CN)
+        IF(UVAR(I,1).GT.ZERO. AND .CN.GE.ONE) THEN
+         QH1= CB*CN*UVAR(I,1)**(CN- ONE)
+        ELSEIF(UVAR(I,1).GT.ZERO. AND .CN.LT.ONE)THEN
+         QH1= CB*CN*UVAR(I,1)**(ONE - CN)
         ELSE
          QH1=ZERO
         ENDIF
         IF(UVAR(I,1).LE.ZERO. OR .UVAR(I,2).LE.EPS0) THEN
          QH2=ZERO
-        ELSEIF(CM.GE.UN) THEN
-         QH2=CD*CM*UVAR(I,1)**(CM- UN)*LOG(UVAR(I,2)/EPS0)
+        ELSEIF(CM.GE.ONE) THEN
+         QH2=CD*CM*UVAR(I,1)**(CM- ONE)*LOG(UVAR(I,2)/EPS0)
         ELSE
-         QH2=CD*CM*UVAR(I,1)**(UN - CM)*LOG(UVAR(I,2)/EPS0)
+         QH2=CD*CM*UVAR(I,1)**(ONE - CM)*LOG(UVAR(I,2)/EPS0)
         ENDIF
         UVAR(I,4)=QH1+QH2
        ENDDO
@@ -300,21 +300,21 @@ C-----------------------------
 C     PROJECTION RADIAL RETURN
 C-----------------------------
          DO I=1,NEL0
-           SVM = UNDEMI*(SIGNXX(I)*SIGNXX(I)
+           SVM = HALF*(SIGNXX(I)*SIGNXX(I)
      .              +SIGNYY(I)*SIGNYY(I)
      .              +SIGNZZ(I)*SIGNZZ(I)
      .              +SIGNXY(I)*SIGNXY(I)
      .              +SIGNYZ(I)*SIGNYZ(I)
      .              +SIGNZX(I)*SIGNZX(I))
-           SVM = SQRT(TROIS * SVM)
-           R  = MIN(UN,UVAR(I,3)/MAX(EM20,SVM))
+           SVM = SQRT(THREE * SVM)
+           R  = MIN(ONE,UVAR(I,3)/MAX(EM20,SVM))
            SIGNXX(I)=SIGNXX(I)*R
            SIGNYY(I)=SIGNYY(I)*R
            SIGNZZ(I)=SIGNZZ(I)*R
            SIGNXY(I)=SIGNXY(I)*R
            SIGNYZ(I)=SIGNYZ(I)*R
            SIGNZX(I)=SIGNZX(I)*R
-           UMR = UN - R
+           UMR = ONE - R
            DPLA_I = OFF(I)*SVM*UMR/(G3+UVAR(I,4))
            UVAR(I,1) = UVAR(I,1) + DPLA_I
          ENDDO
@@ -323,7 +323,7 @@ C   NEW PRESSURE AND STRESS TENSOR EVALUATION
 C--------------------------------------------
        DO I=1,NEL0
          DF = RHO0(I)/RHO(I)
-c         AMU = UN /DF - UN
+c         AMU = ONE /DF - ONE
          PRESS = C1*AMU(I)
          SIGNXX(I) = (SIGNXX(I) - PRESS) * OFF(I)
          SIGNYY(I) = (SIGNYY(I) - PRESS) * OFF(I)
@@ -335,7 +335,7 @@ c         AMU = UN /DF - UN
 C-----------------------------
 C  A VOIR .....
       DO I=1,NEL0
-        IF(OFF(I).LT.UN) IDEL7NOK = 1
+        IF(OFF(I).LT.ONE) IDEL7NOK = 1
       ENDDO
       DO I=1,NEL0
         DEFP(I)=UVAR(I,1)

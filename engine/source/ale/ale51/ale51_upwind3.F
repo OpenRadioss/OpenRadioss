@@ -191,7 +191,7 @@ C-----------------------------------------------
         ENDDO           
         IF(ITRIMAT.GT.0)THEN
           DO I=LFT,LLT
-            DDVOL(I)=UNDEMI*( FLU1(I)+ FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I) )
+            DDVOL(I)=HALF*( FLU1(I)+ FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I) )
           ENDDO
         ENDIF                
       ELSE
@@ -204,7 +204,7 @@ C-----------------------------------------------
         ENDDO        
         IF(ITRIMAT.GT.0)THEN
           DO I=LFT,LLT
-            DDVOL(I)=UNDEMI*( FLU1(I)+ FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I) )
+            DDVOL(I)=HALF*( FLU1(I)+ FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I) )
           ENDDO
         ENDIF        
       ENDIF

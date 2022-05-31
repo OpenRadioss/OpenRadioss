@@ -236,10 +236,10 @@ C
       DO I=1,JLT
         IF(IX3(I).NE.IX4(I))THEN
           NP_RECT(I) = 4  
-          W(1:4,I) = QUART
+          W(1:4,I) = FOURTH
          ELSE
           NP_RECT(I) = 3
-          W(1:4,I) = TIERS
+          W(1:4,I) = THIRD
          ENDIF
       ENDDO
 
@@ -366,22 +366,22 @@ c        IF(NBCUT==0) print *, "     C Y C L E"
           GBUF2  => ELBUF_TAB(NG2)%GBUF
           LLT1   =  IPARG(2,NG1)
           LLT2   =  IPARG(2,NG2)
-          P1(I)  =  -TIERS * (GBUF1%SIG(IDLOC1        )+
+          P1(I)  =  -THIRD * (GBUF1%SIG(IDLOC1        )+
      .                        GBUF1%SIG(IDLOC1 +LLT1  )+
      .                        GBUF1%SIG(IDLOC1 +LLT1*2) ) 
           M1     = BRICK_LIST(NIN,IBM1)%MACH  
           UN1    = BRICK_LIST(NIN,IB  )%POLY(ICELL1)%FACE0%U_N(1)  !for poly_id=ICELL1 in [1,NBCUT], there is a single cut section
           ZC1    = BRICK_LIST(NIN,IBM1)%RHOC
           
-          P2(I)  =  -TIERS * (GBUF2%SIG(IDLOC2        )+
+          P2(I)  =  -THIRD * (GBUF2%SIG(IDLOC2        )+
      .                        GBUF2%SIG(IDLOC2 +LLT2  )+
      .                        GBUF2%SIG(IDLOC2 +LLT2*2) )
           UN2    = BRICK_LIST(NIN,IB  )%POLY(ICELL2)%FACE0%U_N(ICELL1)   !icell2=9 => cut surface sharing icell1=icut and icell2=9, is Scut_id=icut=icell1
           ZC2    = BRICK_LIST(NIN,IBM2)%RHOC
           M2     = BRICK_LIST(NIN,IBM2)%MACH
           
-          MF     = UNDEMI*(M1+M2) ! avec vitesse de grille, Mi doit etre calcule en consequence dans alefvm_stress*
-          THETA  = MIN(UN,MF)
+          MF     = HALF*(M1+M2) ! avec vitesse de grille, Mi doit etre calcule en consequence dans alefvm_stress*
+          THETA  = MIN(ONE,MF)
           
           P1(I)  = P1(I) + ZC1*UN1*THETA
           P2(I)  = P2(I) + ZC2*UN2*THETA
@@ -521,10 +521,10 @@ C              endif
           GBUF2        => ELBUF_TAB(NG2)%GBUF
           LLT1         =  IPARG(2,NG1)
           LLT2         =  IPARG(2,NG2)
-          P1(I)        =  -TIERS * (GBUF1%SIG(IDLOC1        )+
+          P1(I)        =  -THIRD * (GBUF1%SIG(IDLOC1        )+
      .                              GBUF1%SIG(IDLOC1 +LLT1  )+
      .                              GBUF1%SIG(IDLOC1 +LLT1*2) )
-          P2(I)        =  -TIERS * (GBUF2%SIG(IDLOC2        )+
+          P2(I)        =  -THIRD * (GBUF2%SIG(IDLOC2        )+
      .                              GBUF2%SIG(IDLOC2 +LLT2  )+
      .                              GBUF2%SIG(IDLOC2 +LLT2*2) )
 
@@ -534,8 +534,8 @@ C              endif
           ZC1          = BRICK_LIST(NIN,IBM1)%RHOC
           ZC2          = BRICK_LIST(NIN,IBM1)%RHOC
 
-          MF           = UNDEMI*(M1+M2)
-          THETA        = MIN(UN,MF)
+          MF           = HALF*(M1+M2)
+          THETA        = MIN(ONE,MF)
                     
           P1(I)        = P1(I) + ZC1*UN1*THETA
           P2(I)        = P2(I) + ZC2*UN2*THETA

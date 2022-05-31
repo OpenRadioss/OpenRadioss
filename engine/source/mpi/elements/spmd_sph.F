@@ -2268,7 +2268,7 @@ c traitement
                   XJ  =X(1,JNOD)
                   YJ  =X(2,JNOD)
                   ZJ  =X(3,JNOD)
-                  DIJ =(DJ+DI)*UNDEMI
+                  DIJ =(DJ+DI)*HALF
                   RHOJ=SPBUF(2,M)
                   CALL WEIGHT1(XP,YP,ZP,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
                   VJ=SPBUF(12,M)/MAX(EM20,RHOJ)
@@ -2290,7 +2290,7 @@ c traitement
                   XJ  =XSPHR(3,NN)
                   YJ  =XSPHR(4,NN)
                   ZJ  =XSPHR(5,NN)
-                  DIJ =(DJ+DI)*UNDEMI
+                  DIJ =(DJ+DI)*HALF
                   RHOJ=XSPHR(7,NN)
                   CALL WEIGHT1(XP,YP,ZP,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
                   VJ=XSPHR(8,NN)/MAX(EM20,RHOJ)
@@ -2302,7 +2302,7 @@ c traitement
               ENDIF
             ENDDO ! J=1,KXSP(4,NP)
 C------
-            ALPHAI =UN/MAX(EM20,ALPHAI)
+            ALPHAI =ONE/MAX(EM20,ALPHAI)
             ALPHAI2=ALPHAI*ALPHAI
             ALPHAXI=-ALPHAXI*ALPHAI2
             ALPHAYI=-ALPHAYI*ALPHAI2
@@ -2335,7 +2335,7 @@ C------
                   XJ  =X(1,JNOD)
                   YJ  =X(2,JNOD)
                   ZJ  =X(3,JNOD)
-                  DIJ =(DJ+DI)*UNDEMI
+                  DIJ =(DJ+DI)*HALF
                   RHOJ=SPBUF(2,M)
                   CALL WEIGHT1(XP,YP,ZP,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
                   WGRDX=WGRAD(1)*ALPHAI+WGHT*ALPHAXI
@@ -2371,7 +2371,7 @@ C------
                  XJ  =XSPHR(3,NN)
                  YJ  =XSPHR(4,NN)
                  ZJ  =XSPHR(5,NN)
-                 DIJ =(DJ+DI)*UNDEMI
+                 DIJ =(DJ+DI)*HALF
                  RHOJ=XSPHR(7,NN)
                  CALL WEIGHT1(XP,YP,ZP,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
                  WGRDX=WGRAD(1)*ALPHAI+WGHT*ALPHAXI
@@ -2520,7 +2520,7 @@ C     tag des boites contenant des facettes
 C     et creation des candidats
 C================================================================
 
-      ALPHA_MARGE = SQRT(UN +SPASORT)
+      ALPHA_MARGE = SQRT(ONE +SPASORT)
       LOC_PROC = ISPMD + 1
 c      MARGE = TZINF-GAP
 

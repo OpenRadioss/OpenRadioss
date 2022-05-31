@@ -129,9 +129,9 @@ C-------------------------------------------------------------------
         
         DAM = UVAR(I,2)
         IF (OFF(I) < 0.1) OFF(I)=ZERO
-        IF (OFF(I) < UN)  OFF(I)=OFF(I)*QCINQ
+        IF (OFF(I) < ONE)  OFF(I)=OFF(I)*FOUR_OVER_5
 
-        IF (PLAS(I) > ZERO .and. OFF(I) == UN) THEN
+        IF (PLAS(I) > ZERO .and. OFF(I) == ONE) THEN
 C---      failure strain interpolation
 
           PLAP = DPLA(I)/TIMESTEP
@@ -140,16 +140,16 @@ C---      failure strain interpolation
           DEVXX = SIGNXX(I) - SIGM
           DEVYY = SIGNYY(I) - SIGM
           DEVZZ = SIGNZZ(I) - SIGM
-          SEQ   = SQRT(TDEMI*(DEVXX*DEVXX 
+          SEQ   = SQRT(THREE_HALF*(DEVXX*DEVXX 
      .                       +DEVYY*DEVYY
      .                       +DEVZZ*DEVZZ
-     .                + DEUX*(SIGNXY(I)*SIGNXY(I)
+     .                + TWO*(SIGNXY(I)*SIGNXY(I)
      .                       +SIGNYZ(I)*SIGNYZ(I)
      .                       +SIGNZX(I)*SIGNZX(I))))
 
           	  ! determinant du deviateur des contraintes
           INV2 = DEVXX * DEVYY * DEVZZ 
-     .         + DEUX*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
+     .         + TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
      .         - DEVXX*SIGNYZ(I)**2 - DEVYY*SIGNZX(I)**2
      .         - DEVZZ*SIGNXY(I)**2
 
@@ -158,20 +158,20 @@ C---      failure strain interpolation
             XI  = ZERO
           ELSE    
             ETA = SIGM/SEQ
-            XI  = UN/SEQ**3
-            XI  = UNDEMI*VINGT7*INV2*XI
+            XI  = ONE/SEQ**3
+            XI  = HALF*TWENTY7*INV2*XI
           ENDIF
           
-          IF (XI < -UN) XI =-UN
-          IF (XI >  UN) XI = UN
+          IF (XI < -ONE) XI =-ONE
+          IF (XI >  ONE) XI = ONE
 
-          LODE = UN - DEUX*ACOS(XI)/PI
+          LODE = ONE - TWO*ACOS(XI)/PI
           
-          F1 = DTIERS*COS((UN   -LODE)*PI/SIX)
-          F2 = DTIERS*COS((TROIS+LODE)*PI/SIX)
-          F3 =-DTIERS*COS((UN   +LODE)*PI/SIX)
+          F1 = TWO_THIRD*COS((ONE   -LODE)*PI/SIX)
+          F2 = TWO_THIRD*COS((THREE+LODE)*PI/SIX)
+          F3 =-TWO_THIRD*COS((ONE   +LODE)*PI/SIX)
           PLAP  = MAX (PLAP,DEPS0)
-          BCOEF = BFRAC*(UN+GAMA*LOG(PLAP/DEPS0))
+          BCOEF = BFRAC*(ONE+GAMA*LOG(PLAP/DEPS0))
 
           IF (ETA < -THIRD) THEN
             EPSF = EP02
@@ -179,11 +179,11 @@ C---      failure strain interpolation
             DF12 = MAX(EM20,F1-F2)
             DF23 = MAX(EM20,F2-F3)
             DF13 = MAX(EM20,F1-F3)
-            EPSF = BCOEF*(UN+CFRAC)**(UN/NFRAC)
-     .           * ((UNDEMI*(DF12**AFRAC  
+            EPSF = BCOEF*(ONE+CFRAC)**(ONE/NFRAC)
+     .           * ((HALF*(DF12**AFRAC  
      .                      +DF23**AFRAC
-     .                      +DF13**AFRAC))**(UN/AFRAC)
-     .           +   CFRAC*(DEUX*ETA+F1+F3))**(-UN/NFRAC)
+     .                      +DF13**AFRAC))**(ONE/AFRAC)
+     .           +   CFRAC*(TWO*ETA+F1+F3))**(-ONE/NFRAC)
 
           ENDIF
 
@@ -191,10 +191,10 @@ C---      failure strain interpolation
 
           UVAR(I,1) = PLAS(I)
           UVAR(I,2) = DAM  
-          DFMAX(I)  = MIN(UN,MAX(DFMAX(I),DAM ))        
+          DFMAX(I)  = MIN(ONE,MAX(DFMAX(I),DAM ))        
 c
-          IF (DAM >= UN) THEN
-            OFF(I) = QCINQ
+          IF (DAM >= ONE) THEN
+            OFF(I) = FOUR_OVER_5
             NINDX  = NINDX+1
             INDX(NINDX)=I
             IDEL7NOK  = 1  

@@ -84,7 +84,7 @@ C-----------------------------------------------
      .   X17(MVSIZ), X28(MVSIZ), X35(MVSIZ), X46(MVSIZ),
      .   Y17(MVSIZ), Y28(MVSIZ), Y35(MVSIZ), Y46(MVSIZ), 
      .   Z17(MVSIZ), Z28(MVSIZ), Z35(MVSIZ), Z46(MVSIZ),
-     .   AJ5968(MVSIZ), AJ6749(MVSIZ), AJ4857(MVSIZ), 
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ), 
      .   AJ12(MVSIZ),   AJ45(MVSIZ),   AJ78(MVSIZ),
      .   A17(MVSIZ),    A28(MVSIZ), 
      .   B17(MVSIZ),    B28(MVSIZ),    C17(MVSIZ),   C28(MVSIZ)
@@ -133,13 +133,13 @@ C
 C     JACOBIAN
 C
       DO I=LFT,LLT
-        AJ5968(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-        AJ6749(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-        AJ4857(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+        JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+        JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+        JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
       ENDDO
 C
       DO I=LFT,LLT
-        DET(I)=O64TH*(AJ1(I)*AJ5968(I)+AJ2(I)*AJ6749(I)+AJ3(I)*AJ4857(I))
+        DET(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
         VOL(I)=DET(I)
       ENDDO
 C
@@ -158,24 +158,24 @@ C
         H2X = X1(I)-X2(I)-X3(I)+X4(I)-X5(I)+X6(I)+X7(I)-X8(I)
         H2Y = Y1(I)-Y2(I)-Y3(I)+Y4(I)-Y5(I)+Y6(I)+Y7(I)-Y8(I)
         H2Z = Z1(I)-Z2(I)-Z3(I)+Z4(I)-Z5(I)+Z6(I)+Z7(I)-Z8(I)
-        VZL(I) =  O64TH*AJ5(I)*(AJ9(I)*H1Y+AJ1(I)*H2X-AJ3(I)*H2Y-AJ7(I)*H1X)
-     .          + O64TH*AJ4(I)*(AJ3(I)*H2Z+AJ8(I)*H1X-AJ9(I)*H1Z-AJ2(I)*H2X)
-     .          + O64TH*AJ6(I)*(AJ7(I)*H1Z+AJ2(I)*H2Y-AJ1(I)*H2Z-AJ8(I)*H1Y)
-        VZQ(I) = O64TH*AJ5(I)*(H1Y*H2X-H2Y*H1X)
+        VZL(I) =  ONE_OVER_64*AJ5(I)*(AJ9(I)*H1Y+AJ1(I)*H2X-AJ3(I)*H2Y-AJ7(I)*H1X)
+     .          + ONE_OVER_64*AJ4(I)*(AJ3(I)*H2Z+AJ8(I)*H1X-AJ9(I)*H1Z-AJ2(I)*H2X)
+     .          + ONE_OVER_64*AJ6(I)*(AJ7(I)*H1Z+AJ2(I)*H2Y-AJ1(I)*H2Z-AJ8(I)*H1Y)
+        VZQ(I) = ONE_OVER_64*AJ5(I)*(H1Y*H2X-H2Y*H1X)
        ENDDO
 c--------------------------
       IF (JEUL == 0) RETURN
 C
       DO I=LFT,LLT
-        DETT(I)=O64TH/DET(I)
+        DETT(I)=ONE_OVER_64/DET(I)
       ENDDO
 C
 C     INVERSE DE LA MATRICE JACOBIENNE
 C
       DO I=LFT,LLT
-        AJI1(I)=DETT(I)*AJ5968(I)
-        AJI4(I)=DETT(I)*AJ6749(I)
-        AJI7(I)=DETT(I)*AJ4857(I)
+        AJI1(I)=DETT(I)*JAC_59_68(I)
+        AJI4(I)=DETT(I)*JAC_67_49(I)
+        AJI7(I)=DETT(I)*JAC_48_57(I)
         AJI2(I)=DETT(I)*(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
         AJI5(I)=DETT(I)*( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
         AJI8(I)=DETT(I)*(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))

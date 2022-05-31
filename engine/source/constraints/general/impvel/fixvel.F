@@ -109,7 +109,7 @@ c=======================================================================
 #endif
       DT2_DOUBLE = DT2
       IF(N2D == 1)THEN
-       AX=UN
+       AX=ONE
       ELSE
        AX=ZERO
       ENDIF
@@ -148,7 +148,7 @@ C
             ISENS(IC) = ID_SENS
             TS(IC) = TSTMP
             IF (IBFV(7,N) == 1) THEN
-              TSC(IC) = (TS(IC)+UNDEMI*DT2_DOUBLE)*FACX
+              TSC(IC) = (TS(IC)+HALF*DT2_DOUBLE)*FACX
             ELSEIF (IBFV(7,N) == 2) THEN
               TSC0(IC) = TS(IC)*FACX
               TSC(IC)  = (TS(IC)+DT2_DOUBLE)*FACX
@@ -156,7 +156,7 @@ C
               TSC(IC)  = (TS(IC)+DT2_DOUBLE)*FACX
             ENDIF
             IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
-              RW_SMS(IC)=UN
+              RW_SMS(IC)=ONE
             ELSE
               ISK   = IBFV(2,N)/10
               IFM   = IBFV(9,N)
@@ -164,7 +164,7 @@ C
               J     = IBFV(2,N)
               IF (IFM.LE.1) J=J-10*ISK
               IF(NODNX_SMS(I)==0)THEN
-                RW_SMS(IC)=UN
+                RW_SMS(IC)=ONE
               ELSE
                 RW_SMS(IC)=ZERO
               END IF
@@ -185,12 +185,12 @@ C         sans sensor
             IC = IC + 1
             INDEX(IC) = N
             IF(IBFV(7,N) == 1) THEN
-              TSC(IC) = (TT_DOUBLE + UNDEMI*DT2_DOUBLE)*FACX
+              TSC(IC) = (TT_DOUBLE + HALF*DT2_DOUBLE)*FACX
             ELSE
               TSC(IC) = (TT_DOUBLE+DT2_DOUBLE)*FACX
             ENDIF
             IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
-              RW_SMS(IC)=UN
+              RW_SMS(IC)=ONE
             ELSE
               ISK=IBFV(2,N)/10
               IFM = IBFV(9,N)
@@ -198,7 +198,7 @@ C         sans sensor
               J=IBFV(2,N)
               IF (IFM.LE.1) J=J-10*ISK
               IF(NODNX_SMS(I)==0)THEN
-                RW_SMS(IC)=UN
+                RW_SMS(IC)=ONE
               ELSE
                 RW_SMS(IC)=ZERO
               END IF
@@ -318,7 +318,7 @@ C IF sms on the degree of freedom,
 C dw was already counted in TFEXT, in sms_fixvel...
             DW       = VEL(4,N)
             TFEXT    = TFEXT + RW_SMS(II)*DW
-            VEL(4,N) = (UN-RW_SMS(II))*VEL(4,N)
+            VEL(4,N) = (ONE-RW_SMS(II))*VEL(4,N)
             IF (ISENS(II) > 0 .and. TS(II) > ZERO .and. IBFV(7,N) == 2) YC0(II)   = YC0(II) * FAC
             YC(II)   = YC(II) * FAC
             YIMP     = YIMP * FAC
@@ -326,21 +326,21 @@ C dw was already counted in TFEXT, in sms_fixvel...
             ISK      = IBFV(2,N)/10
             SKEWGLOB = 0
             IF(ISK.NE.0)THEN
-              IF (SKEW(1,ISK) == UN   .AND. SKEW(2,ISK) == ZERO .AND.
+              IF (SKEW(1,ISK) == ONE   .AND. SKEW(2,ISK) == ZERO .AND.
      .            SKEW(3,ISK) == ZERO .AND. SKEW(4,ISK) == ZERO .AND.
-     .            SKEW(5,ISK) == UN   .AND. SKEW(6,ISK) == ZERO .AND.
+     .            SKEW(5,ISK) == ONE   .AND. SKEW(6,ISK) == ZERO .AND.
      .            SKEW(7,ISK) == ZERO .AND. SKEW(8,ISK) == ZERO .AND.
-     .            SKEW(9,ISK) == UN )  SKEWGLOB = 1
+     .            SKEW(9,ISK) == ONE )  SKEWGLOB = 1
             ENDIF
             IFM   = IBFV(9,N)
             J     = IBFV(2,N)
             ICOOR = IBFV(10,N)
             SKDIR = ZERO
             FMDIR = ZERO
-            R     = UN
+            R     = ONE
             IF (IFM.LE.1) J=J-10*ISK
            IF (J.LE.3) THEN
-            AXI=UN-AX+AX*X(2,I)
+            AXI=ONE-AX+AX*X(2,I)
             IF (ISK.LE.1.AND.IFM.LE.1.AND.ICOOR == 0) THEN
               IF (IBFV(7,N) == 2) THEN
                 IF (ISENS(II) > 0 .and. TS(II) > ZERO) THEN
@@ -352,8 +352,8 @@ C dw was already counted in TFEXT, in sms_fixvel...
               IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-V(J,I))/DT12
               AOLD=A(J,I)
               A(J,I)=YC(II)
-              DW = QUART*MS(I)*AXI*WEIGHT(I)
-     .           * (A(J,I)*DT12 + DEUX*V(J,I))*(A(J,I)-AOLD)
+              DW = FOURTH*MS(I)*AXI*WEIGHT(I)
+     .           * (A(J,I)*DT12 + TWO*V(J,I))*(A(J,I)-AOLD)
 
             ELSEIF(ISK > 1.AND.IFM.LE.1.AND.ICOOR == 0.AND.
      .             SKEWGLOB == 1)THEN
@@ -367,8 +367,8 @@ C dw was already counted in TFEXT, in sms_fixvel...
               IF (IBFV(7,N).GE.1) YC(II)=(YC(II)-V(J,I))/DT12
               AOLD=A(J,I)
               A(J,I)=YC(II)
-              DW = QUART*MS(I)*AXI*WEIGHT(I)
-     .           * (A(J,I)*DT12 + DEUX*V(J,I))*(A(J,I)-AOLD)
+              DW = FOURTH*MS(I)*AXI*WEIGHT(I)
+     .           * (A(J,I)*DT12 + TWO*V(J,I))*(A(J,I)-AOLD)
             ELSEIF (ISK > 1 .AND. ICOOR == 0) THEN
               K1=3*J-2
               K2=3*J-1
@@ -397,7 +397,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
               A(1,I)=A(1,I)+SKEW(K1,ISK)*AA
               A(2,I)=A(2,I)+SKEW(K2,ISK)*AA
               A(3,I)=A(3,I)+SKEW(K3,ISK)*AA
-              DW = QUART*MS(I)*(YC(II)*DT12+DEUX*VV)*AA*AXI*WEIGHT(I)
+              DW = FOURTH*MS(I)*(YC(II)*DT12+TWO*VV)*AA*AXI*WEIGHT(I)
             ELSEIF ((ISK.LE.1.AND.IFM.LE.1.AND.ICOOR == 1) .OR.
      &               (ISK > 1 .AND. ICOOR == 1)) THEN
               COEF = (SKEW(10,ISK)-X(1,I))*SKEW(7,ISK) +
@@ -431,9 +431,9 @@ C dw was already counted in TFEXT, in sms_fixvel...
                 NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                 ET=ET/MAX(NOR2,EM20)
 c-----------------vitesse angulaire imposee---------
-                ALPHA=-YC(II)*DT2_DOUBLE/DEUX
+                ALPHA=-YC(II)*DT2_DOUBLE/TWO
 c-----------------sinon-----------------------------
-c                ALPHA=-YC(II)*DT2_DOUBLE/(DEUX*R)
+c                ALPHA=-YC(II)*DT2_DOUBLE/(TWO*R)
                 SKDIR=ALPHA*ER+ET
               ELSEIF(J == 3) THEN
                 SKDIR(1)=SKEW(7,ISK)
@@ -465,7 +465,7 @@ c----------------------------------------------------
               A(1,I)=A(1,I)+SKDIR(1)*AA
               A(2,I)=A(2,I)+SKDIR(2)*AA
               A(3,I)=A(3,I)+SKDIR(3)*AA
-              DW = QUART*MS(I)*(YC(II)*DT12+DEUX*VV)*AA*AXI*WEIGHT(I)
+              DW = FOURTH*MS(I)*(YC(II)*DT12+TWO*VV)*AA*AXI*WEIGHT(I)
             ELSEIF (IFM > 1.AND.ICOOR == 0) THEN
 C             Fixed velocity in moving frame (transl)
               K1=3*J-2
@@ -491,7 +491,7 @@ C             Fixed velocity in moving frame (transl)
               A(1,I)=A(1,I)+XFRAME(K1,IFM)*AA
               A(2,I)=A(2,I)+XFRAME(K2,IFM)*AA
               A(3,I)=A(3,I)+XFRAME(K3,IFM)*AA
-              DW = QUART*MS(I)*(YC(II)*DT12+DEUX*VV)*AA*AXI*WEIGHT(I)
+              DW = FOURTH*MS(I)*(YC(II)*DT12+TWO*VV)*AA*AXI*WEIGHT(I)
             ELSEIF (IFM > 1.AND.ICOOR == 1) THEN
               COEF = (XFRAME(10,IFM)-X(1,I))*XFRAME(7,IFM) +
      &               (XFRAME(11,IFM)-X(2,I))*XFRAME(8,IFM) +
@@ -527,9 +527,9 @@ C             Fixed velocity in moving frame (transl)
                 NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                 ET=ET/MAX(NOR2,EM20)
 c---------------vitesse angulaire imposee--------
-                ALPHA=-YC(II)*DT2_DOUBLE/DEUX
+                ALPHA=-YC(II)*DT2_DOUBLE/TWO
 c-----------------------------------------------
-c                ALPHA=-YC(II)*DT2_DOUBLE/(DEUX*R)
+c                ALPHA=-YC(II)*DT2_DOUBLE/(TWO*R)
                 FMDIR=ALPHA*ER+ET
               ELSEIF (J == 3) THEN
                 FMDIR(1)=XFRAME(7,IFM)
@@ -562,7 +562,7 @@ c-------------------------------------------------
               A(1,I)=A(1,I)+FMDIR(1)*AA
               A(2,I)=A(2,I)+FMDIR(2)*AA
               A(3,I)=A(3,I)+FMDIR(3)*AA
-              DW = QUART*MS(I)*(YC(II)*DT12+DEUX*VV)*AA*AXI*WEIGHT(I)
+              DW = FOURTH*MS(I)*(YC(II)*DT12+TWO*VV)*AA*AXI*WEIGHT(I)
             ENDIF
           ELSEIF(J.LE.6)THEN
             J = J - 3
@@ -578,13 +578,13 @@ c-------------------------------------------------
               AOLD   = AR(J,I)
               AR(J,I)= YC(II)
               IF(IBFV(6,N) == 0)THEN
-                DW=QUART *
-     .           (AR(J,I)*DT12 + DEUX*VR(J,I))*IN(I)*(AR(J,I)-AOLD) *
+                DW=FOURTH *
+     .           (AR(J,I)*DT12 + TWO*VR(J,I))*IN(I)*(AR(J,I)-AOLD) *
      .           WEIGHT(I)
               ELSE
                 NR = IBFV(6,N)
-                DW= QUART *
-     .          (AR(J,I)*DT12 + DEUX*VR(J,I))*WEIGHT(I)*(AR(J,I)-AOLD)*
+                DW= FOURTH *
+     .          (AR(J,I)*DT12 + TWO*VR(J,I))*WEIGHT(I)*(AR(J,I)-AOLD)*
      .          (RBY(16+J,NR) + RBY(19+J,NR) + RBY(22+J,NR))
               ENDIF
             ELSEIF (ISK > 1.AND.ICOOR == 0) THEN
@@ -609,10 +609,10 @@ c-------------------------------------------------
               AR(2,I)=AR(2,I)+SKEW(K2,ISK)*AA
               AR(3,I)=AR(3,I)+SKEW(K3,ISK)*AA
               IF(IBFV(6,N) == 0)THEN
-                DW= QUART*(YC(II)*DT12+DEUX*VV)*IN(I)*AA*WEIGHT(I)
+                DW= FOURTH*(YC(II)*DT12+TWO*VV)*IN(I)*AA*WEIGHT(I)
               ELSE
                 NR = IBFV(6,N)
-                DW= QUART*(YC(II)*DT12+DEUX*VV)*WEIGHT(I)*AA*
+                DW= FOURTH*(YC(II)*DT12+TWO*VV)*WEIGHT(I)*AA*
      .             ((RBY(17,NR)*SKEW(K1,ISK)
      .              +RBY(18,NR)*SKEW(K2,ISK)
      .              +RBY(19,NR)*SKEW(K3,ISK))*SKEW(K1,ISK) +
@@ -669,10 +669,10 @@ c-------------------------------------------------
               AR(2,I)=AR(2,I)+SKDIR(2)*AA
               AR(3,I)=AR(3,I)+SKDIR(3)*AA
               IF(IBFV(6,N) == 0)THEN
-                DW= QUART*(YC(II)*DT12+DEUX*VV)*IN(I)*AA*WEIGHT(I)
+                DW= FOURTH*(YC(II)*DT12+TWO*VV)*IN(I)*AA*WEIGHT(I)
               ELSE
                 NR = IBFV(6,N)
-                DW= QUART*(YC(II)*DT12+DEUX*VV)*WEIGHT(I)*AA*
+                DW= FOURTH*(YC(II)*DT12+TWO*VV)*WEIGHT(I)*AA*
      &              ((RBY(17,NR)*SKDIR(1)
      &               +RBY(18,NR)*SKDIR(2)
      &               +RBY(19,NR)*SKDIR(3))*SKDIR(1) +
@@ -702,10 +702,10 @@ C             Fixed velocity in moving frame (rota)
               AR(2,I)=AR(2,I)+XFRAME(K2,IFM)*AA
               AR(3,I)=AR(3,I)+XFRAME(K3,IFM)*AA
               IF(IBFV(6,N) == 0)THEN
-                DW= QUART*(YC(II)+VV)*IN(I)*AA*WEIGHT(I)
+                DW= FOURTH*(YC(II)+VV)*IN(I)*AA*WEIGHT(I)
               ELSE
                 NR = IBFV(6,N)
-                DW= QUART*(YC(II)+VV)*WEIGHT(I)*AA*
+                DW= FOURTH*(YC(II)+VV)*WEIGHT(I)*AA*
      .             ((RBY(17,NR)*XFRAME(K1,IFM)
      .              +RBY(18,NR)*XFRAME(K2,IFM)
      .              +RBY(19,NR)*XFRAME(K3,IFM))*XFRAME(K1,IFM) +
@@ -767,10 +767,10 @@ C             Fixed velocity in moving frame (rota)
               AR(2,I)=AR(2,I)+FMDIR(2)*AA
               AR(3,I)=AR(3,I)+FMDIR(3)*AA
               IF(IBFV(6,N) == 0)THEN
-                DW= QUART*(YC(II)+VV)*IN(I)*AA*WEIGHT(I)
+                DW= FOURTH*(YC(II)+VV)*IN(I)*AA*WEIGHT(I)
               ELSE
                 NR = IBFV(6,N)
-                DW= QUART*(YC(II)+VV)*WEIGHT(I)*AA*
+                DW= FOURTH*(YC(II)+VV)*WEIGHT(I)*AA*
      &              ((RBY(17,NR)*FMDIR(1)
      &               +RBY(18,NR)*FMDIR(2)
      &               +RBY(19,NR)*FMDIR(3))*FMDIR(1) +
@@ -815,13 +815,13 @@ C if sms on the degree of freedom,
 C dw was already counted in TFEXT, in sms_fixvel...
              DW      = VEL(4,N)
              TFEXT   = TFEXT + RW_SMS(II)*DW
-             VEL(4,N)= (UN-RW_SMS(II))*VEL(4,N)
+             VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
              YC(II) = YC(II) * FAC
              I=IABS(IBFV(1,N))
              ISK=IBFV(2,N)/10
              J=IBFV(2,N)-10*ISK
              IF(J.LE.3)THEN
-               AXI=UN-AX+AX*X(2,I)
+               AXI=ONE-AX+AX*X(2,I)
                IF (IBFV(7,N) == 2) THEN
                  IF (ISENS(II) > 0 .and. TS(II) > ZERO) THEN
                    YC(II) = (YC(II)-YC0(II))/DT2_DOUBLE
@@ -832,8 +832,8 @@ C dw was already counted in TFEXT, in sms_fixvel...
                IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-V(J,I))/DT12
                AOLD=A(J,I)
                A(J,I)=YC(II)
-               DW = QUART*MS(I)*AXI*WEIGHT(I)
-     .           * (A(J,I)*DT12+DEUX*V(J,I))*(A(J,I)-AOLD)
+               DW = FOURTH*MS(I)*AXI*WEIGHT(I)
+     .           * (A(J,I)*DT12+TWO*V(J,I))*(A(J,I)-AOLD)
              ELSEIF(J.LE.6)THEN
                J = J - 3
                IF (IBFV(7,N) == 2) THEN
@@ -847,13 +847,13 @@ C dw was already counted in TFEXT, in sms_fixvel...
                AOLD=AR(J,I)
                AR(J,I)= YC(II)
                IF(IBFV(6,N) == 0)THEN
-                 DW=QUART *
-     .           (AR(J,I)*DT12+DEUX*VR(J,I))*IN(I)*(AR(J,I)-AOLD) *
+                 DW=FOURTH *
+     .           (AR(J,I)*DT12+TWO*VR(J,I))*IN(I)*(AR(J,I)-AOLD) *
      .            WEIGHT(I)
                ELSE
                  NR = IBFV(6,N)
-                 DW= QUART *
-     .            (AR(J,I)*DT12+DEUX*VR(J,I))*WEIGHT(I)*(AR(J,I)-AOLD)*
+                 DW= FOURTH *
+     .            (AR(J,I)*DT12+TWO*VR(J,I))*WEIGHT(I)*(AR(J,I)-AOLD)*
      .            (RBY(16+J,NR) + RBY(19+J,NR) + RBY(22+J,NR))
                ENDIF
              ENDIF
@@ -876,10 +876,10 @@ C if sms on the degree of freedom,
 C dw was already counted in TFEXT, in sms_fixvel...
                  DW      = VEL(4,N)
                  TFEXT   = TFEXT + RW_SMS(II)*DW
-                 VEL(4,N)= (UN-RW_SMS(II))*VEL(4,N)
+                 VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
                  YC(II) = YC(II) * FAC
                  I=IABS(IBFV(1,N))
-                 AXI=UN-AX+AX*X(2,I)
+                 AXI=ONE-AX+AX*X(2,I)
                  K1=3*J-2
                  K2=3*J-1
                  K3=3*J
@@ -898,7 +898,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
                  A(1,I)=A(1,I)+SKEW(K1,ISK)*AA
                  A(2,I)=A(2,I)+SKEW(K2,ISK)*AA
                  A(3,I)=A(3,I)+SKEW(K3,ISK)*AA
-                 DW = QUART*MS(I)*(YC(II)*DT12+DEUX*VV)*AA*AXI*WEIGHT(I)
+                 DW = FOURTH*MS(I)*(YC(II)*DT12+TWO*VV)*AA*AXI*WEIGHT(I)
 C DT2_DOUBLE*dw into memory ; if sms on the degree of freedom,
 C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                  TFEXT=TFEXT + DT1*DW
@@ -942,10 +942,10 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                    AR(2,I)=AR(2,I)+SKEW(K2,ISK)*AA
                    AR(3,I)=AR(3,I)+SKEW(K3,ISK)*AA
                    IF(IBFV(6,N) == 0)THEN
-                     DW= QUART*(YC(II)*DT12+DEUX*VV)*IN(I)*AA*WEIGHT(I)
+                     DW= FOURTH*(YC(II)*DT12+TWO*VV)*IN(I)*AA*WEIGHT(I)
                    ELSE
                      NR = IBFV(6,N)
-                     DW= QUART*(YC(II)*DT12+DEUX*VV)*WEIGHT(I)*AA*
+                     DW= FOURTH*(YC(II)*DT12+TWO*VV)*WEIGHT(I)*AA*
      .                   ((RBY(17,NR)*SKEW(K1,ISK)
      .                    +RBY(18,NR)*SKEW(K2,ISK)
      .                    +RBY(19,NR)*SKEW(K3,ISK))*SKEW(K1,ISK) +
@@ -971,7 +971,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                ISK=IBFV(2,N)/10
                J=IBFV(2,N)-10*ISK
                SKDIR=ZERO
-               R=UN
+               R=ONE
                IF(J == K)THEN
                  IBFV(5,N) = IPOSC(II)
                  FAC  = VEL(1,N)
@@ -981,11 +981,11 @@ C if sms on the degree of freedom,
 C dw was already counted in TFEXT, in sms_fixvel...
                  DW      = VEL(4,N)
                  TFEXT   = TFEXT + RW_SMS(II)*DW
-                 VEL(4,N)= (UN-RW_SMS(II))*VEL(4,N)
+                 VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
                  YC(II) = YC(II) * FAC
                  YIMP = YIMP * FAC
                  I=IABS(IBFV(1,N))
-                 AXI=UN-AX+AX*X(2,I)
+                 AXI=ONE-AX+AX*X(2,I)
                  COEF = (SKEW(10,ISK)-X(1,I))*SKEW(7,ISK) +
      &                  (SKEW(11,ISK)-X(2,I))*SKEW(8,ISK) +
      &                  (SKEW(12,ISK)-X(3,I))*SKEW(9,ISK)
@@ -1020,9 +1020,9 @@ C dw was already counted in TFEXT, in sms_fixvel...
                    NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                    IF (NOR2 > EM20) ET=ET/NOR2
 c-----------------vitesse angulaire imposee---------
-                   ALPHA=-YC(II)*DT2_DOUBLE/DEUX
+                   ALPHA=-YC(II)*DT2_DOUBLE/TWO
 c-----------------sinon-----------------------------
-c                  ALPHA=-YC(II)*DT2_DOUBLE/(DEUX*R)
+c                  ALPHA=-YC(II)*DT2_DOUBLE/(TWO*R)
                    SKDIR=ALPHA*ER+ET
                  ELSEIF(J == 3) THEN
                    SKDIR(1)=SKEW(7,ISK)
@@ -1060,7 +1060,7 @@ c----------------------------------------------------
                  A(1,I)=A(1,I)+SKDIR(1)*AA
                  A(2,I)=A(2,I)+SKDIR(2)*AA
                  A(3,I)=A(3,I)+SKDIR(3)*AA
-                 DW = QUART*MS(I)*(YC(II)*DT12+DEUX*VV)*AA*AXI*WEIGHT(I)
+                 DW = FOURTH*MS(I)*(YC(II)*DT12+TWO*VV)*AA*AXI*WEIGHT(I)
 C DT2_DOUBLE*dw into memory ; if sms on the degree of freedom,
 C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                  TFEXT=TFEXT + DT1*DW
@@ -1076,7 +1076,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                  ISK=IBFV(2,N)/10
                  J=IBFV(2,N)-10*ISK
                  SKDIR=ZERO
-                 R=UN
+                 R=ONE
                  IF(J == K)THEN
                    IBFV(5,N) = IPOSC(II)
                    FAC  = VEL(1,N)
@@ -1140,10 +1140,10 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                     AR(2,I)=AR(2,I)+SKDIR(2)*AA
                     AR(3,I)=AR(3,I)+SKDIR(3)*AA
                     IF(IBFV(6,N) == 0)THEN
-                      DW= QUART*(YC(II)*DT12+DEUX*VV)*IN(I)*AA*WEIGHT(I)
+                      DW= FOURTH*(YC(II)*DT12+TWO*VV)*IN(I)*AA*WEIGHT(I)
                     ELSE
                       NR = IBFV(6,N)
-                      DW= QUART*(YC(II)*DT12+DEUX*VV)*WEIGHT(I)*AA*
+                      DW= FOURTH*(YC(II)*DT12+TWO*VV)*WEIGHT(I)*AA*
      &                    ((RBY(17,NR)*SKDIR(1)
      &                    +RBY(18,NR)*SKDIR(2)
      &                    +RBY(19,NR)*SKDIR(3))*SKDIR(1) +
@@ -1175,7 +1175,7 @@ C if sms on the degree of freedom,
 C dw was already counted in TFEXT, in sms_fixvel...
                    DW      = VEL(4,N)
                    TFEXT   = TFEXT + RW_SMS(II)*DW
-                   VEL(4,N)= (UN-RW_SMS(II))*VEL(4,N)
+                   VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
                    YC(II) = YC(II) * FAC
                    I=IABS(IBFV(1,N))
                    AXI=1.-AX+AX*X(2,I)
@@ -1205,7 +1205,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
                    A(1,I)=A(1,I)+XFRAME(K1,IFM)*AA
                    A(2,I)=A(2,I)+XFRAME(K2,IFM)*AA
                    A(3,I)=A(3,I)+XFRAME(K3,IFM)*AA
-                   DW=QUART*MS(I)*(YC(II)*DT12+DEUX*VV)*AA*AXI*WEIGHT(I)
+                   DW=FOURTH*MS(I)*(YC(II)*DT12+TWO*VV)*AA*AXI*WEIGHT(I)
 C DT2_DOUBLE*dw into memory ; if sms on the degree of freedom,
 C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                    TFEXT=TFEXT + DT1*DW
@@ -1221,7 +1221,7 @@ C if sms on the degree of freedom,
 C dw was already counted in TFEXT, in sms_fixvel...
                    DW      = VEL(4,N)
                    TFEXT   = TFEXT + RW_SMS(II)*DW
-                   VEL(4,N)= (UN-RW_SMS(II))*VEL(4,N)
+                   VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
                    YC(II) = YC(II) * FAC
                    I=IABS(IBFV(1,N))
                    AXI=1.-AX+AX*X(2,I)
@@ -1243,7 +1243,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
                    A(1,I)=A(1,I)+SKEW(K1,ISK)*AA
                    A(2,I)=A(2,I)+SKEW(K2,ISK)*AA
                    A(3,I)=A(3,I)+SKEW(K3,ISK)*AA
-                   DW=QUART*MS(I)*(YC(II)*DT12+DEUX*VV)*AA*AXI*WEIGHT(I)
+                   DW=FOURTH*MS(I)*(YC(II)*DT12+TWO*VV)*AA*AXI*WEIGHT(I)
 C DT2_DOUBLE*dw into memory ; if sms on the degree of freedom,
 C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                    TFEXT=TFEXT + DT1*DW
@@ -1265,7 +1265,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                      FAC  = VEL(1,N)
                      DW   = VEL(4,N)
                      TFEXT   = TFEXT + RW_SMS(II)*DW
-                     VEL(4,N)= (UN-RW_SMS(II))*VEL(4,N)
+                     VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
                      YC(II) = YC(II) * FAC
                      I=IABS(IBFV(1,N))
                      J = J - 3
@@ -1286,10 +1286,10 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                      AR(2,I)=AR(2,I)+XFRAME(K2,IFM)*AA
                      AR(3,I)=AR(3,I)+XFRAME(K3,IFM)*AA
                      IF(IBFV(6,N) == 0)THEN
-                       DW= QUART*(YC(II)+VV)*IN(I)*AA*WEIGHT(I)
+                       DW= FOURTH*(YC(II)+VV)*IN(I)*AA*WEIGHT(I)
                      ELSE
                        NR = IBFV(6,N)
-                       DW= QUART*(YC(II)+VV)*WEIGHT(I)*AA*
+                       DW= FOURTH*(YC(II)+VV)*WEIGHT(I)*AA*
      .                    ((RBY(17,NR)*XFRAME(K1,IFM)
      .                     +RBY(18,NR)*XFRAME(K2,IFM)
      .                     +RBY(19,NR)*XFRAME(K3,IFM))*XFRAME(K1,IFM) +
@@ -1311,7 +1311,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                      FAC  = VEL(1,N)
                      DW   = VEL(4,N)
                      TFEXT   = TFEXT + RW_SMS(II)*DW
-                     VEL(4,N)= (UN-RW_SMS(II))*VEL(4,N)
+                     VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
                      YC(II) = YC(II) * FAC
                      I=IABS(IBFV(1,N))
                      J = J - 3
@@ -1336,10 +1336,10 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                      AR(2,I)=AR(2,I)+SKEW(K2,ISK)*AA
                      AR(3,I)=AR(3,I)+SKEW(K3,ISK)*AA
                      IF(IBFV(6,N) == 0)THEN
-                       DW=QUART*(YC(II)*DT12+DEUX*VV)*IN(I)*AA*WEIGHT(I)
+                       DW=FOURTH*(YC(II)*DT12+TWO*VV)*IN(I)*AA*WEIGHT(I)
                      ELSE
                        NR = IBFV(6,N)
-                       DW= QUART*(YC(II)*DT12+DEUX*VV)*WEIGHT(I)*AA*
+                       DW= FOURTH*(YC(II)*DT12+TWO*VV)*WEIGHT(I)*AA*
      .                    ((RBY(17,NR)*SKEW(K1,ISK)
      .                     +RBY(18,NR)*SKEW(K2,ISK)
      .                     +RBY(19,NR)*SKEW(K3,ISK))*SKEW(K1,ISK) +
@@ -1366,7 +1366,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                IF (IFM > 1) THEN
                  J = IBFV(2,N)
                  FMDIR=ZERO
-                 R=UN
+                 R=ONE
                  IF(J == K)THEN
                    IBFV(5,N) = IPOSC(II)
                    FAC  = VEL(1,N)
@@ -1374,7 +1374,7 @@ C if sms on the degree of freedom,
 C dw was already counted in TFEXT, in sms_fixvel...
                    DW      = VEL(4,N)
                    TFEXT   = TFEXT + RW_SMS(II)*DW
-                   VEL(4,N)= (UN-RW_SMS(II))*VEL(4,N)
+                   VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
                    YC(II) = YC(II) * FAC
                    I=IABS(IBFV(1,N))
                    AXI=1.-AX+AX*X(2,I)
@@ -1412,9 +1412,9 @@ C dw was already counted in TFEXT, in sms_fixvel...
                      NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                      ET=ET/MAX(NOR2,EM20)
 c--------------------vitesse angulaire imposee--------
-                     ALPHA=-YC(II)*DT2_DOUBLE/DEUX
+                     ALPHA=-YC(II)*DT2_DOUBLE/TWO
 c-----------------------------------------------
-c                    ALPHA=-YC(II)*DT2_DOUBLE/(DEUX*R)
+c                    ALPHA=-YC(II)*DT2_DOUBLE/(TWO*R)
                      FMDIR=ALPHA*ER+ET
                    ELSEIF (J == 3) THEN
                      FMDIR(1)=XFRAME(7,IFM)
@@ -1454,7 +1454,7 @@ c-------------------------------------------------
                    A(1,I)=A(1,I)+FMDIR(1)*AA
                    A(2,I)=A(2,I)+FMDIR(2)*AA
                    A(3,I)=A(3,I)+FMDIR(3)*AA
-                   DW=QUART*MS(I)*(YC(II)*DT12+DEUX*VV)*AA*AXI*WEIGHT(I)
+                   DW=FOURTH*MS(I)*(YC(II)*DT12+TWO*VV)*AA*AXI*WEIGHT(I)
 C DT2_DOUBLE*dw into memory ; if sms on the degree of freedom,
 C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                    TFEXT=TFEXT + DT1*DW
@@ -1464,7 +1464,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                  ISK=IBFV(2,N)/10
                  J=IBFV(2,N)-10*ISK
                  SKDIR=ZERO
-                 R=UN
+                 R=ONE
                  IF(J == K)THEN
                    IBFV(5,N) = IPOSC(II)
                    FAC  = VEL(1,N)
@@ -1474,7 +1474,7 @@ C if sms on the degree of freedom,
 C dw was already counted in TFEXT, in sms_fixvel...
                    DW      = VEL(4,N)
                    TFEXT   = TFEXT + RW_SMS(II)*DW
-                   VEL(4,N)= (UN-RW_SMS(II))*VEL(4,N)
+                   VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
                    YC(II) = YC(II) * FAC
                    YIMP = YIMP * FAC
                    I=IABS(IBFV(1,N))
@@ -1513,9 +1513,9 @@ C dw was already counted in TFEXT, in sms_fixvel...
                      NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                      ET=ET/MAX(NOR2,EM20)
 c-------------------vitesse angulaire imposee---------
-                     ALPHA=-YC(II)*DT2_DOUBLE/DEUX
+                     ALPHA=-YC(II)*DT2_DOUBLE/TWO
 c-------------------sinon-----------------------------
-c                    ALPHA=-YC(II)*DT2_DOUBLE/(DEUX*R)
+c                    ALPHA=-YC(II)*DT2_DOUBLE/(TWO*R)
                      SKDIR=ALPHA*ER+ET
                    ELSEIF(J == 3) THEN
                      SKDIR(1)=SKEW(7,ISK)
@@ -1551,7 +1551,7 @@ c------------------------------------------------------
                    A(1,I)=A(1,I)+SKDIR(1)*AA
                    A(2,I)=A(2,I)+SKDIR(2)*AA
                    A(3,I)=A(3,I)+SKDIR(3)*AA
-                   DW = QUART*MS(I)*(YC(II)*DT12+DEUX*VV)
+                   DW = FOURTH*MS(I)*(YC(II)*DT12+TWO*VV)
      &                  *AA*AXI*WEIGHT(I)
 C DT2_DOUBLE*dw into memory ; if sms on the degree of freedom,
 C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
@@ -1570,13 +1570,13 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                  IF (IFM > 1) THEN
                    J=IBFV(2,N)
                    FMDIR=ZERO
-                   R=UN
+                   R=ONE
                    IF(J == K)THEN
                      IBFV(5,N) = IPOSC(II)
                      FAC  = VEL(1,N)
                      DW   = VEL(4,N)
                      TFEXT   = TFEXT + RW_SMS(II)*DW
-                     VEL(4,N)= (UN-RW_SMS(II))*VEL(4,N)
+                     VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
                      YC(II) = YC(II) * FAC
                      I=IABS(IBFV(1,N))
                      J = J - 3
@@ -1630,10 +1630,10 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                      AR(2,I)=AR(2,I)+FMDIR(2)*AA
                      AR(3,I)=AR(3,I)+FMDIR(3)*AA
                      IF(IBFV(6,N) == 0)THEN
-                       DW= QUART*(YC(II)+VV)*IN(I)*AA*WEIGHT(I)
+                       DW= FOURTH*(YC(II)+VV)*IN(I)*AA*WEIGHT(I)
                      ELSE
                        NR = IBFV(6,N)
-                       DW= QUART*(YC(II)+VV)*WEIGHT(I)*AA*
+                       DW= FOURTH*(YC(II)+VV)*WEIGHT(I)*AA*
      &                     ((RBY(17,NR)*FMDIR(1)
      &                     +RBY(18,NR)*FMDIR(2)
      &                     +RBY(19,NR)*FMDIR(3))*FMDIR(1) +
@@ -1651,7 +1651,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                    ISK=IBFV(2,N)/10
                    J=IBFV(2,N)-10*ISK
                    SKDIR=ZERO
-                   R=UN
+                   R=ONE
                    IF(J == K)THEN
                      IBFV(5,N) = IPOSC(II)
                      FAC  = VEL(1,N)
@@ -1659,7 +1659,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                      VEL(6,N) = YC(II)
                      DW   = VEL(4,N)
                      TFEXT   = TFEXT + RW_SMS(II)*DW
-                     VEL(4,N)= (UN-RW_SMS(II))*VEL(4,N)
+                     VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
                      YC(II) = YC(II) * FAC
                      YIMP = YIMP * FAC
                      I=IABS(IBFV(1,N))
@@ -1717,11 +1717,11 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                       AR(2,I)=AR(2,I)+SKDIR(2)*AA
                       AR(3,I)=AR(3,I)+SKDIR(3)*AA
                       IF(IBFV(6,N) == 0)THEN
-                        DW= QUART*(YC(II)*DT12+DEUX*VV)*IN(I)*
+                        DW= FOURTH*(YC(II)*DT12+TWO*VV)*IN(I)*
      &                      AA*WEIGHT(I)
                       ELSE
                         NR = IBFV(6,N)
-                        DW= QUART*(YC(II)*DT12+DEUX*VV)*WEIGHT(I)*AA*
+                        DW= FOURTH*(YC(II)*DT12+TWO*VV)*WEIGHT(I)*AA*
      &                      ((RBY(17,NR)*SKDIR(1)
      &                      +RBY(18,NR)*SKDIR(2)
      &                      +RBY(19,NR)*SKDIR(3))*SKDIR(1) +

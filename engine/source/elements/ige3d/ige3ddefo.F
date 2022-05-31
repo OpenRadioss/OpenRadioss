@@ -110,7 +110,7 @@ C         [  ..      ..    ..  ] /  L
         ENDDO
       ENDDO
 
-          DT1D2=UNDEMI*DT1 
+          DT1D2=HALF*DT1 
 
       DO I=LFT,LLT
           DXX(I)  = DXX(I)

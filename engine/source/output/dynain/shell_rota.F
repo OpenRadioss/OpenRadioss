@@ -105,10 +105,10 @@ C------------------------------------
             S22B = S2*S2                                                       
 
             RS3 = S1*S2-R1*R2                                                  
-            R3R3= UN+S1*R2+R1*S2                                               
-            R3R3= UNDEMI*R3R3                                                  
-            S3S3= UN-S1*R2-R1*S2                                               
-            S3S3= UNDEMI*S3S3                                                  
+            R3R3= ONE+S1*R2+R1*S2                                               
+            R3R3= HALF*R3R3                                                  
+            S3S3= ONE-S1*R2-R1*S2                                               
+            S3S3= HALF*S3S3                                                  
             T1 = SIG(1)                                                     
             T2 = SIG(2)                                                     
             T3 = SIG(3)                                                     
@@ -130,10 +130,10 @@ c
             S12B = S1*S1                                                       
             S22B = S2*S2                                                       
             RS3 = S1*S2-R1*R2                                                  
-            R3R3= UN+S1*R2+R1*S2                                               
-            R3R3= UNDEMI*R3R3                                                  
-            S3S3= UN-S1*R2-R1*S2                                               
-            S3S3= UNDEMI*S3S3                                                  
+            R3R3= ONE+S1*R2+R1*S2                                               
+            R3R3= HALF*R3R3                                                  
+            S3S3= ONE-S1*R2-R1*S2                                               
+            S3S3= HALF*S3S3                                                  
             T1 = SIG(1)                                                     
             T2 = SIG(2)                                                     
             T3 = SIG(3)                                                     
@@ -148,10 +148,10 @@ c
                 DIR(2) = DIR_A(II+NEL)
                 S1 = DIR(1)*DIR(1)*SIG(1)
      .             + DIR(2)*DIR(2)*SIG(2)
-     .             -DEUX*DIR(1)*DIR(2)*SIG(3)
+     .             -TWO*DIR(1)*DIR(2)*SIG(3)
                 S2 = DIR(2)*DIR(2)*SIG(1)
      .             + DIR(1)*DIR(1)*SIG(2)
-     .             +DEUX*DIR(2)*DIR(1)*SIG(3)
+     .             +TWO*DIR(2)*DIR(1)*SIG(3)
                 S3 = DIR(1)*DIR(2)*SIG(1)
      .             - DIR(2)*DIR(1)*SIG(2)
      .             +(DIR(1)*DIR(1)-DIR(2)*DIR(2))*SIG(3)

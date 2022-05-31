@@ -132,7 +132,7 @@ C
        DO J=1,NPRONY
          DO I=  1,NEL
           AA(I,J)=  EXP(-BETA(J)*TIMESTEP(I)) 
-          BB(I,J)=TIMESTEP(I)*GV(J)*EXP(-UNDEMI*BETA(J)*TIMESTEP(I))
+          BB(I,J)=TIMESTEP(I)*GV(J)*EXP(-HALF*BETA(J)*TIMESTEP(I))
 C
 C  for computing epszz_dot (sigzz=0)
 C
@@ -145,7 +145,7 @@ C
 C  compute epszz_dot  sig33= 0
 C            
        DO I=  1,NEL
-         FAC = UN/MAX(EM20,DTHIRD*A2(I) + KV(I))
+         FAC = ONE/MAX(EM20,TWO_THIRD*A2(I) + KV(I))
          EPSPZZ(I) = -A1(I)+(THIRD*A2(I)-KV(I))*(EPSPXX(I)+EPSPYY(I))
          EPSPZZ(I)= FAC*EPSPZZ(I)
        ENDDO
@@ -153,7 +153,7 @@ C
        DO I=  1,NEL
 C spherique part
           DAV = THIRD*(EPSPXX(I) + EPSPYY(I) + EPSPZZ(I))
-          P(I) = -TROIS*KV(I)*DAV
+          P(I) = -THREE*KV(I)*DAV
 c deviatorique part           
           EPXX(I) = EPSPXX(I) - DAV
           EPYY(I) = EPSPYY(I) - DAV
@@ -174,9 +174,9 @@ C
            H(I,1,J) =    AA(I,J)*H01 + BB(I,J)*EPXX(I)
            H(I,2,J) =    AA(I,J)*H02 + BB(I,J)*EPYY(I)          
            H(I,3,J) =    AA(I,J)*H03 + BB(I,J)*EPZZ(I)
-           H(I,4,J) =    AA(I,J)*H04 + UNDEMI*BB(I,J)*EPSPXY(I)          
-           H(I,5,J) =    AA(I,J)*H05 + UNDEMI*BB(I,J)*EPSPYZ(I)
-           H(I,6,J) =    AA(I,J)*H06 + UNDEMI*BB(I,J)*EPSPZX(I)
+           H(I,4,J) =    AA(I,J)*H04 + HALF*BB(I,J)*EPSPXY(I)          
+           H(I,5,J) =    AA(I,J)*H05 + HALF*BB(I,J)*EPSPYZ(I)
+           H(I,6,J) =    AA(I,J)*H06 + HALF*BB(I,J)*EPSPZX(I)
 C
 
            VARI(I, (J - 1)*6 + 1) = H(I,1,J)

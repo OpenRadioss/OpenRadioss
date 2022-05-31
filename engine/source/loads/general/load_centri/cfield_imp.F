@@ -178,7 +178,7 @@ C
              A(3,N1)=A(3,N1)+AREL(3)*MS(N1)
             IF(IB(J).GT.0)
      .        TFEXTT=TFEXTT 
-     .            +UNDEMI*MS(N1)*X1*X1*(VROT-VROTM1)*(VROT-VROTM1)
+     .            +HALF*MS(N1)*X1*X1*(VROT-VROTM1)*(VROT-VROTM1)
          ENDDO
 C
       ENDDO

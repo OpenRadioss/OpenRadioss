@@ -71,7 +71,7 @@ C-----------------------------------------------
       my_real
      .        VV, USDT
 C-----------------------------------------------
-      USDT=UN/DT12
+      USDT=ONE/DT12
 C
 C     allocation tag
       IF(ITASK.EQ.0)THEN
@@ -102,17 +102,17 @@ C
           IF(TAGNOD(MC).EQ.0)THEN
             TAGNOD(MC)=1
             DO J=1,3
-              VV= QUART*(V(J,N1)+V(J,N2)+V(J,N3)+V(J,N4)
+              VV= FOURTH*(V(J,N1)+V(J,N2)+V(J,N3)+V(J,N4)
      .    	       +DT12*(A(J,N1)+A(J,N2)+A(J,N3)+A(J,N4)))
               A(J,MC)=USDT*(VV-V(J,MC))
             END DO
             DO J=1,3
-              VV= QUART*(VR(J,N1)+VR(J,N2)+VR(J,N3)+VR(J,N4)
+              VV= FOURTH*(VR(J,N1)+VR(J,N2)+VR(J,N3)+VR(J,N4)
      .    	       +DT12*(AR(J,N1)+AR(J,N2)+AR(J,N3)+AR(J,N4)))
               AR(J,MC)=USDT*(VV-VR(J,MC))
             END DO
             IF(ITHERM_FE > 0)
-     .        TEMP(MC)=QUART*(TEMP(N1)+TEMP(N2)+TEMP(N3)+TEMP(N4))
+     .        TEMP(MC)=FOURTH*(TEMP(N1)+TEMP(N2)+TEMP(N3)+TEMP(N4))
           END IF
 C
           M(1)=IXC(3,SON  )
@@ -125,15 +125,15 @@ C
             NA=MIN(N1,N2)
             NB=MAX(N1,N2)
             DO J=1,3
-              VV= UNDEMI*(V(J,NA)+V(J,NB)+DT12*(A(J,NA)+A(J,NB)))
+              VV= HALF*(V(J,NA)+V(J,NB)+DT12*(A(J,NA)+A(J,NB)))
               A(J,M(1))=USDT*(VV-V(J,M(1)))
             END DO
             DO J=1,3
-              VV= UNDEMI*(VR(J,NA)+VR(J,NB)+DT12*(AR(J,NA)+AR(J,NB)))
+              VV= HALF*(VR(J,NA)+VR(J,NB)+DT12*(AR(J,NA)+AR(J,NB)))
               AR(J,M(1))=USDT*(VV-VR(J,M(1)))
             END DO
             IF(ITHERM_FE > 0)
-     .        TEMP(M(1))=UNDEMI*(TEMP(NA)+TEMP(NB))
+     .        TEMP(M(1))=HALF*(TEMP(NA)+TEMP(NB))
           END IF
 
           IF(TAGNOD(M(2)).EQ.0)THEN
@@ -141,15 +141,15 @@ C
             NA=MIN(N2,N3)
             NB=MAX(N2,N3)
             DO J=1,3
-              VV= UNDEMI*(V(J,NA)+V(J,NB)+DT12*(A(J,NA)+A(J,NB)))
+              VV= HALF*(V(J,NA)+V(J,NB)+DT12*(A(J,NA)+A(J,NB)))
               A(J,M(2))=USDT*(VV-V(J,M(2)))
             END DO
             DO J=1,3
-              VV= UNDEMI*(VR(J,NA)+VR(J,NB)+DT12*(AR(J,NA)+AR(J,NB)))
+              VV= HALF*(VR(J,NA)+VR(J,NB)+DT12*(AR(J,NA)+AR(J,NB)))
               AR(J,M(2))=USDT*(VV-VR(J,M(2)))
             END DO
             IF(ITHERM_FE > 0)
-     .        TEMP(M(2))=UNDEMI*(TEMP(NA)+TEMP(NB))
+     .        TEMP(M(2))=HALF*(TEMP(NA)+TEMP(NB))
           END IF
 
           IF(TAGNOD(M(3)).EQ.0)THEN
@@ -157,15 +157,15 @@ C
             NA=MIN(N3,N4)
             NB=MAX(N3,N4)
             DO J=1,3
-              VV= UNDEMI*(V(J,NA)+V(J,NB)+DT12*(A(J,NA)+A(J,NB)))
+              VV= HALF*(V(J,NA)+V(J,NB)+DT12*(A(J,NA)+A(J,NB)))
               A(J,M(3))=USDT*(VV-V(J,M(3)))
             END DO
             DO J=1,3
-              VV= UNDEMI*(VR(J,NA)+VR(J,NB)+DT12*(AR(J,NA)+AR(J,NB)))
+              VV= HALF*(VR(J,NA)+VR(J,NB)+DT12*(AR(J,NA)+AR(J,NB)))
               AR(J,M(3))=USDT*(VV-VR(J,M(3)))
             END DO
             IF(ITHERM_FE > 0)
-     .        TEMP(M(3))=UNDEMI*(TEMP(NA)+TEMP(NB))
+     .        TEMP(M(3))=HALF*(TEMP(NA)+TEMP(NB))
           END IF
 
           IF(TAGNOD(M(4)).EQ.0)THEN
@@ -173,15 +173,15 @@ C
             NA=MIN(N4,N1)
             NB=MAX(N4,N1)
             DO J=1,3
-              VV= UNDEMI*(V(J,NA)+V(J,NB)+DT12*(A(J,NA)+A(J,NB)))
+              VV= HALF*(V(J,NA)+V(J,NB)+DT12*(A(J,NA)+A(J,NB)))
               A(J,M(4))=USDT*(VV-V(J,M(4)))
             END DO
             DO J=1,3
-              VV= UNDEMI*(VR(J,NA)+VR(J,NB)+DT12*(AR(J,NA)+AR(J,NB)))
+              VV= HALF*(VR(J,NA)+VR(J,NB)+DT12*(AR(J,NA)+AR(J,NB)))
               AR(J,M(4))=USDT*(VV-VR(J,M(4)))
             END DO
             IF(ITHERM_FE > 0)
-     .        TEMP(M(4))=UNDEMI*(TEMP(NA)+TEMP(NB))
+     .        TEMP(M(4))=HALF*(TEMP(NA)+TEMP(NB))
           END IF
         END DO
 
@@ -207,15 +207,15 @@ C
             NA=MIN(N1,N2)
             NB=MAX(N1,N2)
             DO J=1,3
-              VV= UNDEMI*(V(J,NA)+V(J,NB)+DT12*(A(J,NA)+A(J,NB)))
+              VV= HALF*(V(J,NA)+V(J,NB)+DT12*(A(J,NA)+A(J,NB)))
               A(J,M(1))=USDT*(VV-V(J,M(1)))
             END DO
             DO J=1,3
-              VV= UNDEMI*(VR(J,NA)+VR(J,NB)+DT12*(AR(J,NA)+AR(J,NB)))
+              VV= HALF*(VR(J,NA)+VR(J,NB)+DT12*(AR(J,NA)+AR(J,NB)))
               AR(J,M(1))=USDT*(VV-VR(J,M(1)))
             END DO
             IF(ITHERM_FE > 0)
-     .        TEMP(M(1))=UNDEMI*(TEMP(NA)+TEMP(NB))
+     .        TEMP(M(1))=HALF*(TEMP(NA)+TEMP(NB))
           END IF
 
           IF(TAGNOD(M(2)).EQ.0)THEN
@@ -223,15 +223,15 @@ C
             NA=MIN(N2,N3)
             NB=MAX(N2,N3)
             DO J=1,3
-              VV= UNDEMI*(V(J,NA)+V(J,NB)+DT12*(A(J,NA)+A(J,NB)))
+              VV= HALF*(V(J,NA)+V(J,NB)+DT12*(A(J,NA)+A(J,NB)))
               A(J,M(2))=USDT*(VV-V(J,M(2)))
             END DO
             DO J=1,3
-              VV= UNDEMI*(VR(J,NA)+VR(J,NB)+DT12*(AR(J,NA)+AR(J,NB)))
+              VV= HALF*(VR(J,NA)+VR(J,NB)+DT12*(AR(J,NA)+AR(J,NB)))
               AR(J,M(2))=USDT*(VV-VR(J,M(2)))
             END DO
             IF(ITHERM_FE > 0)
-     .        TEMP(M(2))=UNDEMI*(TEMP(NA)+TEMP(NB))
+     .        TEMP(M(2))=HALF*(TEMP(NA)+TEMP(NB))
           END IF
 
           IF(TAGNOD(M(3)).EQ.0)THEN
@@ -239,15 +239,15 @@ C
             NA=MIN(N3,N1)
             NB=MAX(N3,N1)
             DO J=1,3
-              VV= UNDEMI*(V(J,NA)+V(J,NB)+DT12*(A(J,NA)+A(J,NB)))
+              VV= HALF*(V(J,NA)+V(J,NB)+DT12*(A(J,NA)+A(J,NB)))
               A(J,M(3))=USDT*(VV-V(J,M(3)))
             END DO
             DO J=1,3
-              VV= UNDEMI*(VR(J,NA)+VR(J,NB)+DT12*(AR(J,NA)+AR(J,NB)))
+              VV= HALF*(VR(J,NA)+VR(J,NB)+DT12*(AR(J,NA)+AR(J,NB)))
               AR(J,M(3))=USDT*(VV-VR(J,M(3)))
             END DO
             IF(ITHERM_FE > 0)
-     .        TEMP(M(3))=UNDEMI*(TEMP(NA)+TEMP(NB))
+     .        TEMP(M(3))=HALF*(TEMP(NA)+TEMP(NB))
           END IF
         END DO
 C

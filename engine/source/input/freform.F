@@ -602,7 +602,7 @@ c------- add T_START,T_STOP
        READ(IUSC2,*)BETA,PERIOD
       ENDIF
       ISTATG = -IABS(ISTATG)
-      IF (BETA.EQ.ZERO) BETA=UN
+      IF (BETA.EQ.ZERO) BETA=ONE
       IF(PERIOD.NE.ZERO)THEN
        BETATE = BETA / PERIOD
       ELSE
@@ -634,7 +634,7 @@ C
         GOTO 520
  510    READ(IUSC2,*,ERR=520,END=520)TST_START
  520    CONTINUE
-       BETA=UN
+       BETA=ONE
        PERIOD = ZERO
        BETATE = ZERO
        ISTAT=3
@@ -1578,9 +1578,9 @@ C--------------------
        ELSEIF(StrIAL(1:5).EQ.'LAPLA'.OR.StrIAL(1:1).EQ.'5')THEN
         IAL=1
         READ(IUSC2,*,ERR=9990,END=9990)ALP,A1,A2
-        IF(ALP.EQ.ZERO)ALP=UN
-        IF(NINT(A1).LE.ZERO)A1=UN
-        IF(A2.NE.UN .AND. A2.NE.DEUX)A2=UN
+        IF(ALP.EQ.ZERO)ALP=ONE
+        IF(NINT(A1).LE.ZERO)A1=ONE
+        IF(A2.NE.ONE .AND. A2.NE.TWO)A2=ONE
        ENDIF
        !defining new grid formulation
        IF(IAL.GE.0)NWALE_ENGINE=IAL
@@ -1736,7 +1736,7 @@ C-----------------------
       UPWMG2        = ZERO
       UPWOG2        = ZERO
       UPWSM2        = ZERO
-      CUPWM         = UN     !SUPG enabled
+      CUPWM         = ONE     !SUPG enabled
       I_SUPG_ON_OFF = 0      !test if card is present to check user input in case of both /ALE/SUPG & /UPWM/SUPG
                              !  1 : ON
                              !  2 : OFF
@@ -1789,7 +1789,7 @@ C-----------------------
           ELSEIF(KEY3(1:2)=='ON')THEN
               I_MUSCL_OFF = 0
               IALEMUSCL = 1
-              I_BETA = DEUX
+              I_BETA = TWO
           ELSE
             GOTO 9990
           ENDIF

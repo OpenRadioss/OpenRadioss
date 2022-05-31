@@ -193,8 +193,8 @@ c=======================================================================
          ! Non-local soundspeed
          SSPNL  = NLOC_DMG%SSPNL(IMAT)
          ! Non-local timestep
-         DT_NL  = MIN(DT_NL,0.5D0*((DEUX*MIN(LE_MIN,LE_MAX)*SQRT(TROIS*DENS))/
-     .                              (SQRT(DOUZE*(LEN**2)+(MIN(LE_MIN,LE_MAX)**2)))))
+         DT_NL  = MIN(DT_NL,0.5D0*((TWO*MIN(LE_MIN,LE_MAX)*SQRT(THREE*DENS))/
+     .                              (SQRT(TWELVE*(LEN**2)+(MIN(LE_MIN,LE_MAX)**2)))))
          ! Allocation of the velocities predictor
          IF (NDOF>1) THEN
            IF (NDOF > 2) THEN 
@@ -261,7 +261,7 @@ c
            ! Loop over element
 # include "vectorize.inc"
            DO I = 1,NEL
-             VAR_REG(I,K) = QUART*(DNL(POS1(I)+K-1) + DNL(POS2(I)+K-1)
+             VAR_REG(I,K) = FOURTH*(DNL(POS1(I)+K-1) + DNL(POS2(I)+K-1)
      .                           + DNL(POS3(I)+K-1) + DNL(POS4(I)+K-1))
            ENDDO
          ENDDO
@@ -293,10 +293,10 @@ c
            X4L(I)=E1X(I)*(X4(I)-X1(I))+E1Y(I)*(Y4(I)-Y1(I))+E1Z(I)*(Z4(I)-Z1(I))
            Y4L(I)=E2X(I)*(X4(I)-X1(I))+E2Y(I)*(Y4(I)-Y1(I))+E2Z(I)*(Z4(I)-Z1(I))
 c
-           PX1(I) =  UNDEMI *(Y2L(I)-Y4L(I))
-           PX2(I) =  UNDEMI * Y3L(I)
-           PY1(I) = -UNDEMI *(X2L(I)-X4L(I))
-           PY2(I) = -UNDEMI * X3L(I)
+           PX1(I) =  HALF *(Y2L(I)-Y4L(I))
+           PX2(I) =  HALF * Y3L(I)
+           PY1(I) = -HALF *(X2L(I)-X4L(I))
+           PY2(I) = -HALF * X3L(I)
 c
            ! Computation of the product BtxB
            BTB11(I) = PX1(I)**2 + PY1(I)**2
@@ -329,7 +329,7 @@ c
            DO K = 1,NDNOD
              DO I = 1,NEL
                ! Prediction of the velocities
-               VPRED(I,K) = VNLTH(I,K) - (FNLTH(I,K)/MASSTH(I,K))*(DT_NL/DEUX)
+               VPRED(I,K) = VNLTH(I,K) - (FNLTH(I,K)/MASSTH(I,K))*(DT_NL/TWO)
              ENDDO
            ENDDO
            DO K = 1,NDNOD
@@ -355,11 +355,11 @@ c
              DO I = 1,NEL
                ! Computation of B-matrix values
                IF ((NDOF==2).AND.(K==2)) THEN
-                 BTH1 = (UN/(ZN1(K-1,NDOF)  - ZN1(K,NDOF)))*(UN/THCK(I))
-                 BTH2 = (UN/(ZN1(K,NDOF)    - ZN1(K-1,NDOF)))*(UN/THCK(I))
+                 BTH1 = (ONE/(ZN1(K-1,NDOF)  - ZN1(K,NDOF)))*(ONE/THCK(I))
+                 BTH2 = (ONE/(ZN1(K,NDOF)    - ZN1(K-1,NDOF)))*(ONE/THCK(I))
                ELSE
-                 BTH1 = (UN/(ZN1(K,NDOF)    - ZN1(K+1,NDOF)))*(UN/THCK(I))
-                 BTH2 = (UN/(ZN1(K+1,NDOF)  - ZN1(K,NDOF)))*(UN/THCK(I))
+                 BTH1 = (ONE/(ZN1(K,NDOF)    - ZN1(K+1,NDOF)))*(ONE/THCK(I))
+                 BTH2 = (ONE/(ZN1(K+1,NDOF)  - ZN1(K,NDOF)))*(ONE/THCK(I))
                ENDIF
 c            
                ! Computation of the non-local K matrix
@@ -461,12 +461,12 @@ c
      .                                             + BTB12(I)*UNL(POS3(I)+K-1) + BTB22(I)*UNL(POS4(I)+K-1)) 
                ! Computing the product NtN*UNL
                NTN_UNL = ((UNL(POS1(I)+K-1) + UNL(POS2(I)+K-1) + UNL(POS3(I)+K-1) + 
-     .                     UNL(POS4(I)+K-1))*QUART*QUART)*VOLS(I)*WF1(K,NDOF)
+     .                     UNL(POS4(I)+K-1))*FOURTH*FOURTH)*VOLS(I)*WF1(K,NDOF)
                ! Computing the product DAMP*NtN*VNL!
                NTN_VNL = ((VNL(POS1(I)+K-1) + VNL(POS2(I)+K-1) + VNL(POS3(I)+K-1) + 
-     .                     VNL(POS4(I)+K-1))*QUART*QUART)*DAMP*VOLS(I)*WF1(K,NDOF)
+     .                     VNL(POS4(I)+K-1))*FOURTH*FOURTH)*DAMP*VOLS(I)*WF1(K,NDOF)
                ! Introducing the internal variable to be regularized
-               NTVAR   = VAR_REG(I,K)*QUART*VOLS(I)*WF1(K,NDOF)
+               NTVAR   = VAR_REG(I,K)*FOURTH*VOLS(I)*WF1(K,NDOF)
                !Computing the elementary non-local forces
                FNL(POS1(I)+K-1) = FNL(POS1(I)+K-1) - (NTN_UNL + NTN_VNL - NTVAR + B1)
                FNL(POS2(I)+K-1) = FNL(POS2(I)+K-1) - (NTN_UNL + NTN_VNL - NTVAR + B2)

@@ -175,14 +175,14 @@ C
 C---------------------
 C damping
 C---------------------
-      DT05=UNDEMI*DT1
+      DT05=HALF*DT1
       DO NN=1,NINTSTAMP
         MSR=INTSTAMP(NN)%MSR
         INTDAMP=INTSTAMP(NN)%INTDAMP
         ALPHA  =INTSTAMP(NN)%DAMP
         MASS   =MS(MSR)
         STF =INTSTAMP(NN)%STF
-        VIS =ALPHA*SQRT(QUATRE*MASS*STF)
+        VIS =ALPHA*SQRT(FOUR*MASS*STF)
         TFEXT=TFEXT + DT05*INTSTAMP(NN)%DW
         IF(INTDAMP==0)THEN
           A(1,MSR)=A(1,MSR)-VIS*INTSTAMP(NN)%V(1)
@@ -209,7 +209,7 @@ C---------------------
           A(2,MSRR)=A(2,MSRR)+FVY
           A(3,MSRR)=A(3,MSRR)+FVZ
           IF(ISPMD==0)THEN
-            DW=-DEUX*(FVX*VX+FVY*VY+FVZ*VZ)
+            DW=-TWO*(FVX*VX+FVY*VY+FVZ*VZ)
             TFEXT=TFEXT + DT05 * DW
           END IF
         END IF
@@ -218,7 +218,7 @@ C---------------------
           ALPHA=INTSTAMP(NN)%DAMPR
           INM=IN(MSR)
           STR =INTSTAMP(NN)%STR
-          VIS =ALPHA*SQRT(QUATRE*INM*STR)
+          VIS =ALPHA*SQRT(FOUR*INM*STR)
           IF(INTDAMP==0)THEN
             AR(1,MSR)=AR(1,MSR)-VIS*INTSTAMP(NN)%VR(1)
             AR(2,MSR)=AR(2,MSR)-VIS*INTSTAMP(NN)%VR(2)
@@ -244,7 +244,7 @@ C---------------------
             AR(2,MSRR)=AR(2,MSRR)+FVY
             AR(3,MSRR)=AR(3,MSRR)+FVZ
             IF(ISPMD==0)THEN
-              DW=-DEUX*(FVX*VX+FVY*VY+FVZ*VZ)
+              DW=-TWO*(FVX*VX+FVY*VY+FVZ*VZ)
               TFEXT=TFEXT + DT05 * DW
             END IF
           END IF

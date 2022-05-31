@@ -121,7 +121,7 @@ C-----------------------
          ENDIF
         ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
         IGOF = 1
         DO I = 1,NEL
@@ -148,7 +148,7 @@ C-----------------------
           ENDIF
          ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
         IGOF = 1
         DO I = 1,NEL
@@ -165,7 +165,7 @@ C-----------------------
          NALL = ITAG(IXT(2,II)) * ITAG(IXT(3,II)) 
          IF(NALL /= 0)THEN
            IF(ONFELT == 1)THEN
-             OFFG(I) = UN
+             OFFG(I) = ONE
              WRITE(IOUT,*)' TRUSS ACTIVATION:',IXT(5,II)
            ELSEIF(ONFELT == 0)THEN
              OFFG(I) = ZERO
@@ -174,7 +174,7 @@ C-----------------------
          ENDIF
         ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
         IGOF = 1
         DO I = 1,NEL
@@ -200,7 +200,7 @@ C-----------------------
          ENDIF
         ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
         IGOF = 1
         DO I = 1,NEL
@@ -217,7 +217,7 @@ C-----------------------
          NALL = ITAG(IXR(2,II)) * ITAG(IXR(3,II)) 
          IF(NALL /= 0)THEN
            IF(ONFELT == 1)THEN
-             OFFG(I)= UN
+             OFFG(I)= ONE
              WRITE(IOUT,*)' SPRING ACTIVATION:',IXR(NIXR,II)
            ELSEIF(ONFELT == 0)THEN
              OFFG(I)= ZERO
@@ -226,7 +226,7 @@ C-----------------------
          ENDIF
         ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
         IGOF = 1
         DO I = 1,NEL
@@ -253,7 +253,7 @@ C-----------------------
           ENDIF
          ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
         IGOF = 1
         DO I = 1,NEL

@@ -149,7 +149,7 @@ C | BXZ BYZ PZ |
 C ----------BXYI,BYXI...-------------------------------------
       DO I=LFT,LLT
        ZNU = ZI*NU(I)
-       ZNU1 = ZNU/(UN - NU(I))
+       ZNU1 = ZNU/(ONE - NU(I))
        BXY1(I) = -ZNU*PX1H(I)
        BYX1(I) =  ZNU*PYC1(I)
        BXY2(I) = -ZNU*PX2H(I)
@@ -194,8 +194,8 @@ C | PY  PX   0 |
 C | PXY PYZ PZY|
 C | PXZ PYX PZX|
       DO I=LFT,LLT
-       J2 = DEUX*JI33(I)
-       J3 = TROIS*JI33(I)
+       J2 = TWO*JI33(I)
+       J3 = THREE*JI33(I)
        PXZ1(I) = -J2-B1X(I,1)+B1X(I,2)+ ZI*(-B1XH(I,1)+B1XH(I,2))  
        PXZ2(I) = -J3-B1221(I)-B1X(I,2)+ ZI*(-B1221H(I)-B1XH(I,2)) 
        PXZ3(I) = -J3+B1122(I)+B1X(I,1)+ ZI*(B1122H(I)+B1XH(I,1))
@@ -228,19 +228,19 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-       PZX1(I)= UNDEMI*(PXC1(I) + ZI*PX1H(I))  
-       PZX2(I)= UNDEMI*(PXC2(I) + ZI*PX2H(I))   
-       PZX3(I)= UNDEMI*(PXC3(I) + ZI*PX3H(I))   
-       PZX4(I)= UNDEMI*(PXC1(I) + ZI*PX1H(I))   
-       PZX5(I)= UNDEMI*(PXC2(I) + ZI*PX2H(I))  
-       PZX6(I)= UNDEMI*(PXC3(I) + ZI*PX3H(I))  
+       PZX1(I)= HALF*(PXC1(I) + ZI*PX1H(I))  
+       PZX2(I)= HALF*(PXC2(I) + ZI*PX2H(I))   
+       PZX3(I)= HALF*(PXC3(I) + ZI*PX3H(I))   
+       PZX4(I)= HALF*(PXC1(I) + ZI*PX1H(I))   
+       PZX5(I)= HALF*(PXC2(I) + ZI*PX2H(I))  
+       PZX6(I)= HALF*(PXC3(I) + ZI*PX3H(I))  
 C
-       PZY1(I)= UNDEMI*(PYC1(I) + ZI*PY1H(I))   
-       PZY2(I)= UNDEMI*(PYC2(I) + ZI*PY2H(I)) 
-       PZY3(I)= UNDEMI*(PYC3(I) + ZI*PY3H(I))  
-       PZY4(I)= UNDEMI*(PYC1(I) + ZI*PY1H(I))  
-       PZY5(I)= UNDEMI*(PYC2(I) + ZI*PY2H(I)) 
-       PZY6(I)= UNDEMI*(PYC3(I) + ZI*PY3H(I)) 
+       PZY1(I)= HALF*(PYC1(I) + ZI*PY1H(I))   
+       PZY2(I)= HALF*(PYC2(I) + ZI*PY2H(I)) 
+       PZY3(I)= HALF*(PYC3(I) + ZI*PY3H(I))  
+       PZY4(I)= HALF*(PYC1(I) + ZI*PY1H(I))  
+       PZY5(I)= HALF*(PYC2(I) + ZI*PY2H(I)) 
+       PZY6(I)= HALF*(PYC3(I) + ZI*PY3H(I)) 
       ENDDO
 Cqz-------symm(diag)------
       IS =1

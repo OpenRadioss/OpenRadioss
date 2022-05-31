@@ -128,7 +128,7 @@ C===============================================================================
       CALL HM_GET_FLOATV ('EL_REF'         ,EL_REF          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF ((EL_REF == ZERO).AND.(IFUNC(2) > 0)) THEN 
         CALL HM_GET_FLOATV_DIM('EL_REF' ,EL_REF_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        EL_REF = UN*EL_REF_UNIT
+        EL_REF = ONE*EL_REF_UNIT
       ENDIF 
 C===================================================================================
 C READING CARD 2 
@@ -138,7 +138,7 @@ C===============================================================================
       CALL HM_GET_FLOATV ('Max_Comp_Strain',MAX_COMP_STRAIN ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF (MAX_COMP_STRAIN == ZERO) MAX_COMP_STRAIN = INFINITY
       CALL HM_GET_FLOATV ('Ratio'          ,RATIO           ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (RATIO == ZERO) RATIO = UN
+      IF (RATIO == ZERO) RATIO = ONE
 C===================================================================================
 C NUMBER OF PARAMETERS,FUNCTIONS, AND USER VARIABLE
 C===================================================================================

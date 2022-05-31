@@ -83,11 +83,11 @@ C-----------------------------------------------
 C=======================================================================
       DO I=LFT,LLT
         IF (XFACE(I) == ZERO) CYCLE
-        IF (ABS(SSC(I))>UN+ALP(I) .OR. ABS(TTC(I))>UN+ALP(I)) THEN
+        IF (ABS(SSC(I))>ONE+ALP(I) .OR. ABS(TTC(I))>ONE+ALP(I)) THEN
           XFACE(I)=ZERO
         ELSE
-          IF(ABS(SSC(I)) > UN) SSC(I)=SSC(I)/ABS(SSC(I))
-          IF(ABS(TTC(I)) > UN) TTC(I)=TTC(I)/ABS(TTC(I))
+          IF(ABS(SSC(I)) > ONE) SSC(I)=SSC(I)/ABS(SSC(I))
+          IF(ABS(TTC(I)) > ONE) TTC(I)=TTC(I)/ABS(TTC(I))
         ENDIF
       END DO
 C
@@ -98,10 +98,10 @@ C
       IF (IGIMP == 0) RETURN
 C
       DO I=LFT,LLT
-        H1(I) = QUART*(UN-TTC(I))*(UN-SSC(I))
-        H2(I) = QUART*(UN-TTC(I))*(UN+SSC(I))
-        H3(I) = QUART*(UN+TTC(I))*(UN+SSC(I))
-        H4(I) = QUART*(UN+TTC(I))*(UN-SSC(I))
+        H1(I) = FOURTH*(ONE-TTC(I))*(ONE-SSC(I))
+        H2(I) = FOURTH*(ONE-TTC(I))*(ONE+SSC(I))
+        H3(I) = FOURTH*(ONE+TTC(I))*(ONE+SSC(I))
+        H4(I) = FOURTH*(ONE+TTC(I))*(ONE-SSC(I))
       END DO
 C
       DO I=LFT,LLT

@@ -91,7 +91,7 @@ C - --> LIST1 / NN1 : list of nodes candiate for merging
 C - --> LIST2 / NN2 : list of destinations
 C=======================================================================
 C 
-      DBUC = DEUX*DBUC
+      DBUC = TWO*DBUC
       EPS=EM3*DBUC 
       XMIN=EP30
       XMAX=-EP30

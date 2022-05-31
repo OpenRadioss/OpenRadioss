@@ -545,7 +545,7 @@ C-----
         END DO
 C
         DO K=1,4
-          UNR(K)=UN-R(K)
+          UNR(K)=ONE-R(K)
         END DO
 C
         YY=  R(4)*(   R(3)*(  R(2)*(   R(1)*TY%VALUES(IB(1,1,1,1))
@@ -581,7 +581,7 @@ C-----
         END DO
 C
         DO K=1,3
-          UNR(K)=UN-R(K)
+          UNR(K)=ONE-R(K)
         END DO
 C
         YY=R(3)  *(   R(2)*(   R(1)*TY%VALUES(IB(1,1,1,1))
@@ -605,7 +605,7 @@ C-----
         END DO
 C
         DO K=1,2
-          UNR(K)=UN-R(K)
+          UNR(K)=ONE-R(K)
         END DO
 C
         YY=(   R(2)*(   R(1)*TY%VALUES(IB(1,1,1,1))
@@ -617,7 +617,7 @@ C-----
        CASE(1)
 
         DO K=1,2
-          UNR(K)=UN-R(K)
+          UNR(K)=ONE-R(K)
         END DO
 C
         YY=R(1)*TY%VALUES(IPOS(1))
@@ -756,7 +756,7 @@ C
 C
        DO I=1,NEL0
          DO K=1,4
-           UNR(K,I)=UN-R(K,I)
+           UNR(K,I)=ONE-R(K,I)
          END DO
 C
          YY(I)=
@@ -817,7 +817,7 @@ C
 C
       DO I=1,NEL0
         DO K=1,3
-          UNR(K,I)=UN-R(K,I)
+          UNR(K,I)=ONE-R(K,I)
         END DO
 C
         YY(I)=
@@ -867,7 +867,7 @@ C
 C
        DO I=1,NEL0
         DO K=1,2
-          UNR(K,I)=UN-R(K,I)
+          UNR(K,I)=ONE-R(K,I)
         END DO
 C
         YY(I)=
@@ -887,7 +887,7 @@ C-----
 
        DO I=1,NEL0
         DO K=1,1
-          UNR(K,I)=UN-R(K,I)
+          UNR(K,I)=ONE-R(K,I)
         END DO
 C
         YY(I)=  R(1,I)*TY%VALUES(IPOS(I,1))
@@ -979,7 +979,7 @@ C-----
         END DO
 C
         DO K=1,2
-          UNR(K)=UN-R(K)
+          UNR(K)=ONE-R(K)
         END DO
 C
         YY=(   R(2)*(   R(1)*TY%VALUES(IB(1,1,1,1))
@@ -997,7 +997,7 @@ C-----
        CASE(1)
 
         DO K=1,2
-          UNR(K)=UN-R(K)
+          UNR(K)=ONE-R(K)
         END DO
 C
         YY=R(1)*TY%VALUES(IPOS)

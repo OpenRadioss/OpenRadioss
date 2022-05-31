@@ -636,20 +636,20 @@ C
      .         (FXBRPM(ADRRPM+I-1),I=1,2)
           BETA=FXBRPM(ADRRPM+1)
           IF (BETA > ZERO) THEN
-            OMEGA = DEUX*PI*FREQ
+            OMEGA = TWO*PI*FREQ
             DTC1  = (-BETA*OMEGA+
-     .              SQRT(BETA*BETA*OMEGA*OMEGA+QUATRE))/OMEGA
-            DTC2  = DEUX/(BETA*OMEGA*OMEGA)
+     .              SQRT(BETA*BETA*OMEGA*OMEGA+FOUR))/OMEGA
+            DTC2  = TWO/(BETA*OMEGA*OMEGA)
             FXBRPM(ADRRPM-12)=MIN(DTC1,DTC2)
           ELSE
-            OMEGA = DEUX*PI*FREQ
-            FXBRPM(ADRRPM-12) = DEUX/OMEGA
+            OMEGA = TWO*PI*FREQ
+            FXBRPM(ADRRPM-12) = TWO/OMEGA
           ENDIF
           ADRRPM = ADRRPM+2
          ELSE
           FXBRPM(ADRRPM)    = ZERO
           FXBRPM(ADRRPM+1)  = ZERO
-          FXBRPM(ADRRPM-12) = UN/(PI*FREQ)
+          FXBRPM(ADRRPM-12) = ONE/(PI*FREQ)
           ADRRPM = ADRRPM+2
          ENDIF
          FXBRPM(ADRRPM)   = ZERO

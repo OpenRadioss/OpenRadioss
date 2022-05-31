@@ -73,20 +73,20 @@ Clm     Integration en rectangle ..
      .   -DT1*(V(1,I1)*FORC(1,K)+V(2,I1)*FORC(2,K)+V(3,I1)*FORC(3,K)
      .     +VR(1,I1)*TORQ(1,K)+VR(2,I1)*TORQ(2,K)+VR(3,I1)*TORQ(3,K))
         IP=IPART
-        PARTSAV(2,IP)=PARTSAV(2,IP) + UNDEMI * EMS *
+        PARTSAV(2,IP)=PARTSAV(2,IP) + HALF * EMS *
      .     (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1))
         PARTSAV(3,IP)=PARTSAV(3,IP) + EMS*V(1,I1)
         PARTSAV(4,IP)=PARTSAV(4,IP) + EMS*V(2,I1)
         PARTSAV(5,IP)=PARTSAV(5,IP) + EMS*V(3,I1)
         PARTSAV(6,IP)=PARTSAV(6,IP) + EMS
-        PARTSAV(7,IP)=PARTSAV(7,IP) + UNDEMI * XI *
+        PARTSAV(7,IP)=PARTSAV(7,IP) + HALF * XI *
      .     (VR(1,I1)*VR(1,I1)+VR(2,I1)*VR(2,I1)+VR(3,I1)*VR(3,I1))
        ENDDO
        IF (IGRE /= 0) THEN
          IF (IGRTH(1) /= IGRTH(2)) THEN
            DO J = IGRTH(1),IGRTH(2)-1
              GRESAV(1,GRTH(J)) = GRESAV(1,GRTH(J)) + EINT
-             GRESAV(2,GRTH(J)) = GRESAV(2,GRTH(J)) + UNDEMI * EMS *
+             GRESAV(2,GRTH(J)) = GRESAV(2,GRTH(J)) + HALF * EMS *
      .     (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1))
              GRESAV(3,GRTH(J)) = GRESAV(3,GRTH(J)) + EMS*V(1,I1)
              GRESAV(4,GRTH(J)) = GRESAV(4,GRTH(J)) + EMS*V(2,I1)
@@ -101,20 +101,20 @@ Clm     Integration en rectangle ..
         EMS=UMASS(K)
         XI =UINER(K)
         IP=IPART
-        PARTSAV(2,IP)=PARTSAV(2,IP) + UNDEMI * EMS *
+        PARTSAV(2,IP)=PARTSAV(2,IP) + HALF * EMS *
      .     (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1))
         PARTSAV(3,IP)=PARTSAV(3,IP) + EMS*V(1,I1)
         PARTSAV(4,IP)=PARTSAV(4,IP) + EMS*V(2,I1)
         PARTSAV(5,IP)=PARTSAV(5,IP) + EMS*V(3,I1)
         PARTSAV(6,IP)=PARTSAV(6,IP) + EMS
-        PARTSAV(7,IP)=PARTSAV(7,IP) + UNDEMI * XI *
+        PARTSAV(7,IP)=PARTSAV(7,IP) + HALF * XI *
      .     (VR(1,I1)*VR(1,I1)+VR(2,I1)*VR(2,I1)+VR(3,I1)*VR(3,I1))
        ENDDO
        IF (IGRE /= 0) THEN
          IF (IGRTH(1) /= IGRTH(2)) THEN
            DO J = IGRTH(1),IGRTH(2)-1
              GRESAV(1,GRTH(J)) = GRESAV(1,GRTH(J)) + EINT
-             GRESAV(2,GRTH(J)) = GRESAV(2,GRTH(J)) + UNDEMI * EMS *
+             GRESAV(2,GRTH(J)) = GRESAV(2,GRTH(J)) + HALF * EMS *
      .     (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1))
              GRESAV(3,GRTH(J)) = GRESAV(3,GRTH(J)) + EMS*V(1,I1)
              GRESAV(4,GRTH(J)) = GRESAV(4,GRTH(J)) + EMS*V(2,I1)

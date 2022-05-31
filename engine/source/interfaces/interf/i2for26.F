@@ -123,16 +123,16 @@ C
           IF (IX3(K) == IX4(K)) THEN
             NIR = 3
             STF(4,K) = ZERO
-            H(1) = UN
-            H(2) = UN
-            H(3) = UN
+            H(1) = ONE
+            H(2) = ONE
+            H(3) = ONE
             H(4) = ZERO
           ELSE
             NIR= 4
-            H(1) = UN
-            H(2) = UN
-            H(3) = UN
-            H(4) = UN
+            H(1) = ONE
+            H(2) = ONE
+            H(3) = ONE
+            H(4) = ONE
 C
           ENDIF
 C------------------------------------------------
@@ -258,9 +258,9 @@ c----------------------------------------------------------
 c          velocities in global coords
 
            IF (IRODDL == 1 .and. MINER(I) > EM20) THEN
-             WX  = (VR(1,I) + VR(1,NM)) * UNDEMI
-             WY  = (VR(2,I) + VR(2,NM)) * UNDEMI
-             WZ  = (VR(3,I) + VR(3,NM)) * UNDEMI
+             WX  = (VR(1,I) + VR(1,NM)) * HALF
+             WY  = (VR(2,I) + VR(2,NM)) * HALF
+             WZ  = (VR(3,I) + VR(3,NM)) * HALF
              WLX = WX*E1X + WY*E1Y + WZ*E1Z 
              WLY = WX*E2X + WY*E2Y + WZ*E2Z
              WLZ = WX*E3X + WY*E3Y + WZ*E3Z
@@ -318,18 +318,18 @@ c          Stiffness
 C----------------------------------------------------
           IF (VISC /= ZERO) THEN
             MS_HARM = (MS_PENA(I)*MS_PENA(NM))/(MS_PENA(I)+MS_PENA(NM))
-            DKM    = DEUX*STFN(II)*MS_HARM
+            DKM    = TWO*STFN(II)*MS_HARM
             VIS(IR,K) = VISC*SQRT(DKM)
-            STF(IR,K) = (VIS(IR,K) + SQRT(VIS(IR,K)**2 + (UN+STBRK)*DKM))**2/(DEUX*MS_HARM)
+            STF(IR,K) = (VIS(IR,K) + SQRT(VIS(IR,K)**2 + (ONE+STBRK)*DKM))**2/(TWO*MS_HARM)
           ELSE
-            STF(IR,K) = (UN+STBRK)*STFN(II)
+            STF(IR,K) = (ONE+STBRK)*STFN(II)
           ENDIF
           IF (IRODDL == 1 .and. MINER(I) > EM20) THEN
             IN_HARM   = (IN(I)*IN(NM))/(IN(I)+IN(NM))
             STFR(II)  = STFN(II)*LEN2
-            DKM       = DEUX*STFR(II)*IN_HARM
+            DKM       = TWO*STFR(II)*IN_HARM
             VISR(IR,K)= VISC*SQRT(DKM)
-            STR(IR,K) = (VISR(IR,K) + SQRT(VISR(IR,K)**2 + DKM))**2/(DEUX*IN_HARM)
+            STR(IR,K) = (VISR(IR,K) + SQRT(VISR(IR,K)**2 + DKM))**2/(TWO*IN_HARM)
           ELSE
             VISR(IR,K)  = ZERO
             STFR(II)   = ZERO
@@ -347,7 +347,7 @@ c
            FLOCZV(IR) = VIS(IR,K) * VLZ
 c---
            DXT = DL(1,IR,II)**2 + DL(2,IR,II)**2+ DL(3,IR,II)**2
-           ECONTT = ECONTT + UNDEMI*STFN(II)*DXT
+           ECONTT = ECONTT + HALF*STFN(II)*DXT
 
            ECONVT = ECONVT + (FLOCXV(IR)*VLX 
      .                     +  FLOCYV(IR)*VLY 
@@ -368,7 +368,7 @@ c
            IF (IRODDL == 1 .and. MINER(I) > EM20) THEN 
     
              DXT = DR(1,IR,II)**2  + DR(2,IR,II)**2 + DR(3,IR,II)**2
-             ECONTT = ECONTT + UNDEMI*STFR(II)*DXT
+             ECONTT = ECONTT + HALF*STFR(II)*DXT
 
              ECONVT = ECONVT + (MLOCXV(IR)*VRX 
      .                       +  MLOCYV(IR)*VRY 
@@ -409,9 +409,9 @@ C----------------------------------------------------
            MY(IR) = E1Y*MLOCX(IR) + E2Y*MLOCY(IR) + E3Y*MLOCZ(IR)
            MZ(IR) = E1Z*MLOCX(IR) + E2Z*MLOCY(IR) + E3Z*MLOCZ(IR)
            
-           MRX(IR) = UNDEMI*(YSM*FZ(IR) - ZSM*FY(IR))
-           MRY(IR) = UNDEMI*(ZSM*FX(IR) - XSM*FZ(IR))
-           MRZ(IR) = UNDEMI*(XSM*FY(IR) - YSM*FX(IR)) 
+           MRX(IR) = HALF*(YSM*FZ(IR) - ZSM*FY(IR))
+           MRY(IR) = HALF*(ZSM*FX(IR) - XSM*FZ(IR))
+           MRZ(IR) = HALF*(XSM*FY(IR) - YSM*FX(IR)) 
 c
 c          secnd node
 c
@@ -427,9 +427,9 @@ c
              SAV_FOR_PENA(8,I) = SAV_FOR_PENA(8,I) + STR(IR,K)
            ENDIF
 c--------------------------------------------
-c           MLX = (MRX(IR)*E1X + MRY(IR)*E1Y + MRZ(IR)*E1Z)*DEUX
-c           MLY = (MRX(IR)*E2X + MRY(IR)*E2Y + MRZ(IR)*E2Z)*DEUX
-c           MLZ = (MRX(IR)*E3X + MRY(IR)*E3Y + MRZ(IR)*E3Z)*DEUX
+c           MLX = (MRX(IR)*E1X + MRY(IR)*E1Y + MRZ(IR)*E1Z)*TWO
+c           MLY = (MRX(IR)*E2X + MRY(IR)*E2Y + MRZ(IR)*E2Z)*TWO
+c           MLZ = (MRX(IR)*E3X + MRY(IR)*E3Y + MRZ(IR)*E3Z)*TWO
 c--------------------------------------------
 
            FINI(1,IR,II) = FLOCX(IR)

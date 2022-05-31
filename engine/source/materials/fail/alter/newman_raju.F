@@ -43,12 +43,12 @@ C-----------------------------------------------
 c--------------------------------------------------------------------------
 c     Calculate the Geometry-correction-factor according to NewmanRaju 1981
 c==========================================================================
-      IF (FPI == UNDEMI) THEN
-        SINP = UN
+      IF (FPI == HALF) THEN
+        SINP = ONE
         COSP = ZERO
       ELSE IF (FPI == ZERO) THEN
         SINP = ZERO
-        COSP = UN
+        COSP = ONE
       ELSE
         SINP = SIN(FPI*PI)
         COSP = COS(FPI*PI)
@@ -56,20 +56,20 @@ c==========================================================================
 
       AC   = A / C
       AT   = A / T
-      Q    = UN + 1.464*AC**1.65
+      Q    = ONE + 1.464*AC**1.65
 
       M1   = 1.13-0.09*AC
       M2   = -0.54+0.89/(0.2 + AC)
-      M3   = UNDEMI - UN/(0.65 +AC) + 14.*(UN-AC)**24
-      G    = UN +(0.1+ 0.35*(AT)**2)*(UN-SINP)**2
+      M3   = HALF - ONE/(0.65 +AC) + 14.*(ONE-AC)**24
+      G    = ONE +(0.1+ 0.35*(AT)**2)*(ONE-SINP)**2
      
       FPHI = (AC**2 * COSP**2 + SINP**2 )**0.25
       FB   = PI*C*SQRT(AT) 
 
-      FW   = COS(PI*C/(DEUX*B)*SQRT(AT))
+      FW   = COS(PI*C/(TWO*B)*SQRT(AT))
       
       F    = (M1+M2*(AT)**2 + M3*(AT)**4)*FPHI*G / SQRT(ABS(FW))
-      Y    = SQRT(UN/Q)*F
+      Y    = SQRT(ONE/Q)*F
 c-----------
       RETURN
       END

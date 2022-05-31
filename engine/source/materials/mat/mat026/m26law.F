@@ -108,7 +108,7 @@ C
       P(I)  =-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
       DAV(I)=-THIRD*(D1(I)+D2(I)+D3(I))
       G1(I)=DT1*G(I)
-      G2(I)=DEUX*G1(I)
+      G2(I)=TWO*G1(I)
       DMU(I)=-DVOL(I)/VOLN(I)
    30 CONTINUE
 C-------------------------------
@@ -123,7 +123,7 @@ C-------------------------------
    40 SIG(I,6)=SIG(I,6)+G1(I)*D6(I)
 C
       DO 50 I=LFT,LLT
-      AJ2(I)=UNDEMI*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)
+      AJ2(I)=HALF*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)
      1              +SIG(I,4)**2+SIG(I,5)**2+SIG(I,6)**2
    50 AJ2(I)=SQRT(3.*AJ2(I))
 C
@@ -132,18 +132,18 @@ C
 C
       TSTAR=0.
       CT=1.
-      IF(THETA(I).LE.TROIS100) GOTO 60
-      TSTAR=(THETA(I)-TROIS100)/(TMELT(I)-TROIS100)
-      IF(THETA(I).GT.THETL(I)) CMX(I)=UN
-      CT=UN -TSTAR**CMX(I)
+      IF(THETA(I).LE.THREE100) GOTO 60
+      TSTAR=(THETA(I)-THREE100)/(TMELT(I)-THREE100)
+      IF(THETA(I).GT.THETL(I)) CMX(I)=ONE
+      CT=ONE -TSTAR**CMX(I)
 C
-   60 CE=UN
+   60 CE=ONE
 C
       EPD(I)=OFF(I)* MAX(   ABS(D1(I)),   ABS(D2(I)),   ABS(D3(I)),
-     .             UNDEMI*ABS(D4(I)),.5*ABS(D5(I)),.5*ABS(D6(I)))
+     .             HALF*ABS(D4(I)),.5*ABS(D5(I)),.5*ABS(D6(I)))
 C----------------------------------------------------------
       IF(EPD(I).LE.EPDR(I)) GOTO 70
-      CE=UN + CC(I) * LOG(EPD(I)/EPDR(I))
+      CE=ONE + CC(I) * LOG(EPD(I)/EPDR(I))
 C
    70 CH=CA(I)
       IF(EPXE(I).LE.ZERO) GOTO 80
@@ -155,10 +155,10 @@ C-----------------------
 C     MODULE ECROUISSAGE
 C-----------------------
       IF(CN(I).GE.1) THEN
-       QH(I)= (CB(I)*CN(I)*EPXE(I)**(CN(I)-UN))*CE*CT
+       QH(I)= (CB(I)*CN(I)*EPXE(I)**(CN(I)-ONE))*CE*CT
       ELSE
        IF(EPXE(I).NE.ZERO)THEN
-        QH(I)= (CB(I)*CN(I)/EPXE(I)**(UN-CN(I)))*CE*CT
+        QH(I)= (CB(I)*CN(I)/EPXE(I)**(ONE-CN(I)))*CE*CT
        ELSE
        QH(I)=ZERO
        ENDIF
@@ -177,7 +177,7 @@ C
       SIG(I,4)=SCALE*SIG(I,4)
       SIG(I,5)=SCALE*SIG(I,5)
       SIG(I,6)=SCALE*SIG(I,6)
-      EPXE(I)=EPXE(I)+(UN-SCALE)*AJ2(I)/(TROIS*G(I)+QH(I))
+      EPXE(I)=EPXE(I)+(ONE-SCALE)*AJ2(I)/(THREE*G(I)+QH(I))
       GOTO 110
 C
   100 AK(I)=ZERO

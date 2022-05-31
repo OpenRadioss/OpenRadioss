@@ -468,13 +468,13 @@ C------------------------------------
          IGTYP = IGEO(11,MG)
          IP = IPARTC(I)
          IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-           DX=UNDEMI*THK_PART(IP)
+           DX=HALF*THK_PART(IP)
          ELSEIF ( THK(I) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-           DX=UNDEMI*THK(I)
+           DX=HALF*THK(I)
          ELSEIF(IGTYP == 17) THEN
-           DX=UNDEMI*THK(I)
+           DX=HALF*THK(I)
          ELSE
-           DX=UNDEMI*GEO(1,MG)
+           DX=HALF*GEO(1,MG)
          ENDIF
          WA(IXC(2,I))=MAX(WA(IXC(2,I)),DX)
          WA(IXC(3,I))=MAX(WA(IXC(3,I)),DX)
@@ -487,13 +487,13 @@ C
          IGTYP = IGEO(11,MG)
          IP = IPARTTG(I)
          IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-           DX=UNDEMI*THK_PART(IP)
+           DX=HALF*THK_PART(IP)
          ELSEIF ( THK(NUMELC+I) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-           DX=UNDEMI*THK(NUMELC+I)
+           DX=HALF*THK(NUMELC+I)
          ELSEIF(IGTYP == 17) THEN
-           DX=UNDEMI*THK(NUMELC+I)
+           DX=HALF*THK(NUMELC+I)
          ELSE
-           DX=UNDEMI*GEO(1,MG)
+           DX=HALF*GEO(1,MG)
          ENDIF
          WA(IXTG(2,I))=MAX(WA(IXTG(2,I)),DX)
          WA(IXTG(3,I))=MAX(WA(IXTG(3,I)),DX)
@@ -502,14 +502,14 @@ C
 C--------exclude lines in main surfaces
 C       DO I=1,NUMELT
 C        MG=IXT(4,I)
-C        DX=UNDEMI*SQRT(GEO(1,MG))
+C        DX=HALF*SQRT(GEO(1,MG))
 C        WA(IXT(2,I))=MAX(WA(IXT(2,I)),DX)
 C        WA(IXT(3,I))=MAX(WA(IXT(3,I)),DX)
 C       ENDDO
 C
 C       DO I=1,NUMELP
 C        MG=IXP(5,I)
-C        DX=UNDEMI*SQRT(GEO(1,MG))
+C        DX=HALF*SQRT(GEO(1,MG))
 C        WA(IXP(2,I))=MAX(WA(IXP(2,I)),DX)
 C        WA(IXP(3,I))=MAX(WA(IXP(3,I)),DX)
 C       ENDDO

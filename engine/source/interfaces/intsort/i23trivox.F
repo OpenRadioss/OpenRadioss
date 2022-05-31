@@ -268,9 +268,9 @@ C on ne retient pas les facettes detruites
         IF(STF(NE) == ZERO)CYCLE
 
          IF(IGAP == 0)THEN
-           AAA = TZINF+SQRT(TROIS)*CURV_MAX(NE)
+           AAA = TZINF+SQRT(THREE)*CURV_MAX(NE)
          ELSE
-           AAA = MARGE+SQRT(TROIS)*(CURV_MAX(NE)+
+           AAA = MARGE+SQRT(THREE)*(CURV_MAX(NE)+
      .       MIN(GAPMAX,MAX(GAPMIN,BGAPSMX+GAP_M(NE))))
          ENDIF
 
@@ -357,7 +357,7 @@ cc             nnpelem = nnpelem + 1
                  ZS = X(3,NN)
                  IF(IGAP /= 0)THEN
                    AAA = MARGE+
-     .               SQRT(TROIS)*(CURV_MAX(NE)+MIN(GAPMAX,MAX(GAPMIN,
+     .               SQRT(THREE)*(CURV_MAX(NE)+MIN(GAPMAX,MAX(GAPMIN,
      .               GAP_S(JJ)+GAP_M(NE))))
                  ENDIF
                ELSE
@@ -367,7 +367,7 @@ cc             nnpelem = nnpelem + 1
                  ZS = XREM(3,J)
                  IF(IGAP /= 0)THEN
                    AAA = MARGE+
-     .               SQRT(TROIS)*(CURV_MAX(NE)+MIN(GAPMAX,MAX(GAPMIN,
+     .               SQRT(THREE)*(CURV_MAX(NE)+MIN(GAPMAX,MAX(GAPMIN,
      .               XREM(9,J)+GAP_M(NE))))
                  ENDIF
                ENDIF

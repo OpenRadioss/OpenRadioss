@@ -78,7 +78,7 @@ C       (COEF DE SECURITE CROISSANT).
 
 C-----------------
             NVOIS=KXSP(5,IL)
-            TAB_DK(IL) = -UN
+            TAB_DK(IL) = -ONE
             IF(NVOIS.GT.KVOISPH)THEN
 
                 IREDUCE    =1 
@@ -218,7 +218,7 @@ C-----------------
                     XSPHR(1,-JG) = -ABS(XSPHR(1,-JG)) ! reperage cell remote utile
                 END IF
 
-                IF(DK.LT.UN)THEN
+                IF(DK.LT.ONE)THEN
                     NVOIS1=NVOIS1+1
                     IXSP(NVOIS1,IL)=JG
                 ELSE

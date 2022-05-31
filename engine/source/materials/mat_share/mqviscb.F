@@ -138,7 +138,7 @@ C=======================================================================
               VISI=ZERO
               FACQ=ZERO
           ELSE
-             VISI=UN
+             VISI=ONE
              FACQ=FACQ0
           ENDIF
           IF(IMCONV.LT.0) THEN
@@ -159,14 +159,14 @@ C=======================================================================
 C
       IF(N2D.GT.0) THEN
         DO I=LFT,LLT
-         IF(OFF(I).EQ.UN)THEN
+         IF(OFF(I).EQ.ONE)THEN
            AL(I)=SQRT(AIRE(I))
            AD(I)= MAX(ZERO,DD(I))
          ENDIF
         ENDDO
       ELSE
         DO I=LFT,LLT
-         IF(OFF(I).EQ.UN)THEN
+         IF(OFF(I).EQ.ONE)THEN
            IF(VOL(I) > ZERO)THEN
               AL(I) = VOL(i)**(REAL_ONE/REAL_THREE)
            ELSE
@@ -198,7 +198,7 @@ C           RHO(I)*AL(I)*(QAA*AL(I)+QB*SSP(I)) / MAX(EM20,RHOREF(I)*DELTAX(I))
 C           Same for VIS(I) since SOUNDSPEED is generally computed wrt RHO0, not RHO ../..
           QAA = QA*QA*AD(I)
           QX(I)=QB*SSP(I)+DELTAX(I) * QAA
-     .     + VISI*DEUX*VIS(I)   / MAX(EM20,RHO(I)*DELTAX(I))
+     .     + VISI*TWO*VIS(I)   / MAX(EM20,RHO(I)*DELTAX(I))
      .     + (CNS1+VISI*CNS2) / MAX(EM20,RHOREF(I)*DELTAX(I))
           QVIS(I)=RHO(I)*AD(I)*AL(I)*(QAA*AL(I)+QB*SSP(I))
           DTMIN(I) = GEO(172,PID(LFT))      
@@ -220,7 +220,7 @@ C           Same for VIS(I) since SOUNDSPEED is generally computed wrt RHO0, not
             QAA = QA*QA*AD(I)
             NUI    =RHO(I)*AL(I)*(QAA*AL(I)+QB*SSP(I))
             QVIS(I)=NUI*AD(I)
-            QX(I)  =(NUI + CNS1+VISI*(DEUX*VIS(I)+CNS2))/MAX(EM20,RHOREF(I)*DELTAX(I))
+            QX(I)  =(NUI + CNS1+VISI*(TWO*VIS(I)+CNS2))/MAX(EM20,RHOREF(I)*DELTAX(I))
             DTMIN(I) = GEO(172,PID(LFT))      
           ENDDO
        ELSE
@@ -234,7 +234,7 @@ C           Same for VIS(I) since SOUNDSPEED is generally computed wrt RHO0, not
             QAA = QA*QA*AD(I)
             NUI    =RHO(I)*AL(I)*(QAA*AL(I)+QB*SSP(I))
             QVIS(I)=NUI*AD(I)
-            QX(I)  =(NUI + CNS1+VISI*(DEUX*VIS(I)+CNS2))/MAX(EM20,RHOREF(I)*DELTAX(I))
+            QX(I)  =(NUI + CNS1+VISI*(TWO*VIS(I)+CNS2))/MAX(EM20,RHOREF(I)*DELTAX(I))
             DTMIN(I) = GEO(172,PID(LFT))      
           ENDDO
        END IF
@@ -285,7 +285,7 @@ C
          ATU=RPR*TMU*RK(I)*RK(I)/(MAX(EM15,RE(I)*VOL(I))*XMU)
          AKK=AKK*(1.+ATU)
         ENDIF
-        DTX(I) = MIN(DTX(I),UNDEMI*DELTAX(I)*DELTAX(I)*SPH/MAX(AKK,EM20))
+        DTX(I) = MIN(DTX(I),HALF*DELTAX(I)*DELTAX(I)*SPH/MAX(AKK,EM20))
        ENDDO     
       ENDIF
 C
@@ -302,8 +302,8 @@ C
           IF(OFF(I).EQ.ZERO.OR.OFFG(I).LT.ZERO) GO TO 50
 	  IF(IPM(251,MT).NE.0) GO TO 50
           IF(N2D.EQ.0) THEN 
-            TIDT = UN/DTX(I)
-            IF(OFFG(I).GT.UN)THEN
+            TIDT = ONE/DTX(I)
+            IF(OFFG(I).GT.ONE)THEN
               TRHO = RHO0(I) * TIDT
               TVOL = VOL0(I) * TIDT
             ELSE
@@ -311,14 +311,14 @@ C
               TVOL = VOL(I) * TIDT
             END IF
             ! STI will be changed to 2*STI/NNE in SxCUMU  
-            ! [ STI(I) = QUART * TRHO * TVOL for 8node bricks ]
+            ! [ STI(I) = FOURTH * TRHO * TVOL for 8node bricks ]
             STI(I) = TRHO * TVOL
           ELSE
             ! small strain is not available in 2D analysis
-            TIDT = UN/DTX(I)
+            TIDT = ONE/DTX(I)
             TRHO = RHO(I) * TIDT
             TAIRE = AIRE(I) * TIDT
-            STI(I) = UNDEMI * TRHO * TAIRE
+            STI(I) = HALF * TRHO * TAIRE
           ENDIF
 C         dt2 remplace par dt2t
   50    CONTINUE
@@ -345,7 +345,7 @@ C         dt2 remplace par dt2t
               STI(I) = ZERO
               IF(OFF(I).EQ.ZERO.OR.OFFG(I).LT.ZERO) CYCLE
               IF(IPM(251,MT).NE.0) CYCLE
-                TIDT = UN/DTX(I)
+                TIDT = ONE/DTX(I)
                 TRHO = RHO0(I) * TIDT
                 TVOL = VOL0(I) * TIDT
                 STI(I) = TRHO * TVOL
@@ -355,10 +355,10 @@ C         dt2 remplace par dt2t
               STI(I) = ZERO
               IF(OFF(I).EQ.ZERO.OR.OFFG(I).LT.ZERO) CYCLE
               IF(IPM(251,MT).NE.0) CYCLE
-              TIDT = UN/DTX(I)
+              TIDT = ONE/DTX(I)
               TRHO = RHO(I) * TIDT
               TAIRE = AIRE(I) * TIDT
-              STI(I) = UNDEMI * TRHO * TAIRE
+              STI(I) = HALF * TRHO * TAIRE
             ENDDO 
           ENDIF  ! N2D
         ELSE
@@ -367,17 +367,17 @@ C         dt2 remplace par dt2t
              IF(OFF(I).EQ.ZERO.OR.OFFG(I).LT.ZERO) GO TO 60
              IF(IPM(251,MT).NE.0) GO TO 60
              IF(N2D.EQ.0) THEN
-               TIDT = UN/DTX(I)
+               TIDT = ONE/DTX(I)
                TRHO = RHO(I) * TIDT
                TVOL = VOL(I) * TIDT
                STI(I) = TRHO * TVOL
 Clm            STI will be changed to 2*STI/NNE in SxCUMU  
-C              [ STI(I) = QUART * TRHO * TVOL for 8node bricks ]
+C              [ STI(I) = FOURTH * TRHO * TVOL for 8node bricks ]
              ELSE
-               TIDT = UN/DTX(I)
+               TIDT = ONE/DTX(I)
                TRHO = RHO(I) * TIDT
                TAIRE = AIRE(I) * TIDT
-               STI(I) = UNDEMI * TRHO * TAIRE
+               STI(I) = HALF * TRHO * TAIRE
              ENDIF
 C            dt2 remplace par dt2t
   60       CONTINUE
@@ -461,12 +461,12 @@ C----
         DO 76 I=LFT,LLT
            IF(DTMIN(I).NE.ZERO) THEN
              IF(DTX(I).GT.DTMIN(I).OR.
-     .      OFF(I).LT.UN.OR.OFFG(I).LE.ZERO.OR.OFFG(I).EQ.DEUX) GO TO 76
+     .      OFF(I).LT.ONE.OR.OFFG(I).LE.ZERO.OR.OFFG(I).EQ.TWO) GO TO 76
            ELSE
               IF(DTX(I).GT.DTMIN1(ITY).OR.
-     .      OFF(I).LT.UN.OR.OFFG(I).LE.ZERO.OR.OFFG(I).EQ.DEUX) GO TO 76
+     .      OFF(I).LT.ONE.OR.OFFG(I).LE.ZERO.OR.OFFG(I).EQ.TWO) GO TO 76
            ENDIF
-          OFFG(I) = DEUX
+          OFFG(I) = TWO
           ICOUNT=ICOUNT+1
           LIST(ICOUNT)=I
    76   CONTINUE
@@ -519,8 +519,8 @@ C
           IF(IPM(251,MT).NE.0) CYCLE
 C 1st compute stiffness
           IF(N2D.EQ.0) THEN
-            TIDT = UN/DTY(I)
-            IF(OFFG(I).GT.UN)THEN
+            TIDT = ONE/DTY(I)
+            IF(OFFG(I).GT.ONE)THEN
               TRHO = RHO0(I) * TIDT
               TVOL = VOL0(I) * TIDT
             ELSE
@@ -529,20 +529,20 @@ C 1st compute stiffness
             END IF
             STI(I) = TRHO * TVOL
 Clm         STI will be changed to 2*STI/NNE in SxCUMU  
-C           [ STI(I) = QUART * TRHO * TVOL for 8node bricks ]
+C           [ STI(I) = FOURTH * TRHO * TVOL for 8node bricks ]
           ELSE
-            TIDT = UN/DTY(I)
+            TIDT = ONE/DTY(I)
             TRHO = RHO(I) * TIDT
             TAIRE = AIRE(I) * TIDT
-            STI(I) = UNDEMI * TRHO * TAIRE
+            STI(I) = HALF * TRHO * TAIRE
           ENDIF
 c
 c dmels = 2*dmels !!   
 c w^2 < 2k / (m+dmels+dmels/...) < 2k / (m+dmels)
 c dt = 2/w = sqrt( 2*(m+dmels)/k), k=2m/dty^2
           DMELS(I)=MAX(DMELS(I),
-     .             DEUX*MSSA(I)*((DTMINS/(DTFACS*DTY(I)))**2 - UN))
-          DTX(I)=DTFACS*SQRT(UN+DMELS(I)/(DEUX*MSSA(I)))*DTY(I)
+     .             TWO*MSSA(I)*((DTMINS/(DTFACS*DTY(I)))**2 - ONE))
+          DTX(I)=DTFACS*SQRT(ONE+DMELS(I)/(TWO*MSSA(I)))*DTY(I)
 
         END DO
        ELSE
@@ -552,25 +552,25 @@ c dt = 2/w = sqrt( 2*(m+dmels)/k), k=2m/dty^2
           IF(IPM(251,MT).NE.0) CYCLE
 C 1st compute stiffness
           IF(N2D.EQ.0) THEN
-            TIDT = UN/DTY(I)
+            TIDT = ONE/DTY(I)
             TRHO = RHO(I) * TIDT
             TVOL = VOL(I) * TIDT
             STI(I) = TRHO * TVOL
 Clm         STI will be changed to 2*STI/NNE in SxCUMU  
-C           [ STI(I) = QUART * TRHO * TVOL for 8node bricks ]
+C           [ STI(I) = FOURTH * TRHO * TVOL for 8node bricks ]
           ELSE
-            TIDT = UN/DTY(I)
+            TIDT = ONE/DTY(I)
             TRHO = RHO(I) * TIDT
             TAIRE = AIRE(I) * TIDT
-            STI(I) = UNDEMI * TRHO * TAIRE
+            STI(I) = HALF * TRHO * TAIRE
           ENDIF
 c
 c dmels = 2*dmels !!   
 c w^2 < 2k / (m+dmels+dmels/...) < 2k / (m+dmels)
 c dt = 2/w = sqrt( 2*(m+dmels)/k), k=2m/dty^2
           DMELS(I)=MAX(DMELS(I),
-     .             DEUX*MSSA(I)*((DTMINS/(DTFACS*DTY(I)))**2 - UN))
-          DTX(I)=DTFACS*SQRT(UN+DMELS(I)/(DEUX*MSSA(I)))*DTY(I)
+     .             TWO*MSSA(I)*((DTMINS/(DTFACS*DTY(I)))**2 - ONE))
+          DTX(I)=DTFACS*SQRT(ONE+DMELS(I)/(TWO*MSSA(I)))*DTY(I)
         END DO
        END IF
 C
@@ -596,7 +596,7 @@ C
            ATU=RPR*TMU*RK(I)*RK(I)/(MAX(EM15,RE(I)*VOL(I))*XMU)
            AKK=AKK*(1.+ATU)
           ENDIF
-          DTX(I) = MIN(DTX(I),DTFACS*UNDEMI*DELTAX(I)*DELTAX(I)*
+          DTX(I) = MIN(DTX(I),DTFACS*HALF*DELTAX(I)*DELTAX(I)*
      .  				    SPH/MAX(AKK,EM20))
          ENDDO
        END IF
@@ -648,9 +648,9 @@ C--------------------------
          AKK = AKK*(1.+ATU)
         ENDIF
         AKK = AKK * THEACCFACT
-        DT  = DTFACTHERM*UNDEMI*DELTAX(I)*DELTAX(I)*SPH/MAX(AKK,EM20)
+        DT  = DTFACTHERM*HALF*DELTAX(I)*DELTAX(I)*SPH/MAX(AKK,EM20)
         IF(DT.LT.DT_THERM.AND.OFF(I).GT.ZERO.AND.OFFG(I).GT.ZERO) DT_THERM = DT
-        CONDE(I) = QUATRE*VOL(I)*AKK/(DELTAX(I)*DELTAX(I))
+        CONDE(I) = FOUR*VOL(I)*AKK/(DELTAX(I)*DELTAX(I))
         CONDE(I) = CONDE(I)*OFF(I) 
        ENDDO
       ENDIF  
@@ -746,13 +746,13 @@ C=======================================================================
         ENDDO
       ENDIF
 
-       VISI=UN
-       FACQ=UN
+       VISI=ONE
+       FACQ=ONE
       
       IF(N2D.GT.0) THEN
         MT = MAT(LFT)
         DO I=LFT,LLT
-         IF(OFF(I).EQ.UN)THEN
+         IF(OFF(I).EQ.ONE)THEN
            AL(I)=SQRT(AIRE(I))
            RHO0(I)=PM(192,MT)
 C qvis  ... entre volumique stra
@@ -763,7 +763,7 @@ C qvis  ... entre volumique stra
       ELSE
         MT = MAT(LFT)
         DO I=LFT,LLT
-         IF(OFF(I).EQ.UN)THEN
+         IF(OFF(I).EQ.ONE)THEN
            AL(I)=UVAR(I,3)**THIRD
            RHO0(I)=PM(192,MT)
             DD = QVIS(I)  ! volumic strain
@@ -779,7 +779,7 @@ C
           CNS2=GEO(17,PID(I))*SSP(I)*AL(I)*UVAR(I,1)
           QAA = QA*QA*AD(I)
           QX(I)=(QB+CNS1)*SSP(I)+DELTAX(I) * QAA
-     .     + VISI*(DEUX*VIS(I)+CNS2) / MAX(EM20,UVAR(I,1)*DELTAX(I))
+     .     + VISI*(TWO*VIS(I)+CNS2) / MAX(EM20,UVAR(I,1)*DELTAX(I))
           QVIS(I)=UVAR(I,1)*AD(I)*AL(I)*(QAA*AL(I)+QB*SSP(I))  
            DTMIN(I) = GEO(172,PID(I)) 
       ENDDO
@@ -796,8 +796,8 @@ C
         DO 50 I=LFT,LLT
           IF(OFF(I).EQ.ZERO.OR.OFFG(I).LT.ZERO) GO TO 50
           IF(N2D.EQ.0) THEN 
-            TIDT = UN/DTX(I)
-            IF(OFFG(I).GT.UN)THEN
+            TIDT = ONE/DTX(I)
+            IF(OFFG(I).GT.ONE)THEN
               TRHO = RHO0(I) * TIDT
 c              TVOL = VOL0(I) * TIDT
             ELSE
@@ -807,10 +807,10 @@ c              TVOL = VOL0(I) * TIDT
             !STI will be changed to 2*STI/NNE in SxCUMU  
           ELSE
             !small strain is not available in 2D analysis
-            TIDT = UN/DTX(I)
+            TIDT = ONE/DTX(I)
             TRHO = UVAR(I,1) * TIDT
             TAIRE = AIRE(I) * TIDT
-cc            STI(I) = UNDEMI * TRHO * TAIRE
+cc            STI(I) = HALF * TRHO * TAIRE
           ENDIF
 C         dt2 remplace par dt2t                 
   50    CONTINUE
@@ -833,12 +833,12 @@ C         dt2 remplace par dt2t
         DO 60 I=LFT,LLT
           IF(OFF(I).EQ.ZERO.OR.OFFG(I).LT.ZERO) GO TO 60
           IF(N2D.EQ.0) THEN
-            TIDT = UN/DTX(I)
+            TIDT = ONE/DTX(I)
             TRHO = UVAR(I,1) * TIDT
             TVOL = UVAR(I,3) * TIDT
             !STI will be changed to 2*STI/NNE in SxCUMU  
           ELSE
-            TIDT = UN/DTX(I)
+            TIDT = ONE/DTX(I)
             TRHO = UVAR(I,1) * TIDT
             TAIRE = AIRE(I) * TIDT
           ENDIF
@@ -903,12 +903,12 @@ C
         DO 76 I=LFT,LLT
            IF(DTMIN(I).NE.0) THEN
              IF(DTX(I).GT.DTMIN(I).OR.
-     .      OFF(I).LT.UN.OR.OFFG(I).LE.ZERO.OR.OFFG(I).EQ.DEUX) GO TO 76
+     .      OFF(I).LT.ONE.OR.OFFG(I).LE.ZERO.OR.OFFG(I).EQ.TWO) GO TO 76
             ELSE
               IF(DTX(I).GT.DTMIN1(ITY).OR.
-     .      OFF(I).LT.UN.OR.OFFG(I).LE.ZERO.OR.OFFG(I).EQ.DEUX) GO TO 76
+     .      OFF(I).LT.ONE.OR.OFFG(I).LE.ZERO.OR.OFFG(I).EQ.TWO) GO TO 76
            ENDIF
-          OFFG(I) = DEUX
+          OFFG(I) = TWO
           ICOUNT=ICOUNT+1
           LIST(ICOUNT)=I
    76   CONTINUE

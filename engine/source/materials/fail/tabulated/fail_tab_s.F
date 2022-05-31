@@ -164,19 +164,19 @@ C---    failure strain interpolation
         SXX = SIGNXX(I) - P                                 
         SYY = SIGNYY(I) - P                                 
         SZZ = SIGNZZ(I) - P                                 
-        SVM = UNDEMI*(SXX**2 + SYY**2 + SZZ**2)             
+        SVM = HALF*(SXX**2 + SYY**2 + SZZ**2)             
      .      + SIGNXY(I)**2+ SIGNZX(I)**2 + SIGNYZ(I)**2    
-        SVM = SQRT(TROIS*SVM)                               
+        SVM = SQRT(THREE*SVM)                               
         SIGM = P / MAX(EM20,SVM)                            
 C----
-         DET = SXX*SYY*SZZ + DEUX*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)- 
+         DET = SXX*SYY*SZZ + TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)- 
      .     SXX*SIGNYZ(I)**2-SZZ*SIGNXY(I)**2-SYY*SIGNZX(I)**2
 
-         XI = UN/MAX(EM20,SVM**3)
-         XI = UNDEMI*VINGT7*DET*XI         
-         IF(XI < -UN) XI = -UN
-         IF(XI > UN) XI = UN
-         THETA = UN - DEUX*ACOS(XI)/PI
+         XI = ONE/MAX(EM20,SVM**3)
+         XI = HALF*TWENTY7*DET*XI         
+         IF(XI < -ONE) XI = -ONE
+         IF(XI > ONE) XI = ONE
+         THETA = ONE - TWO*ACOS(XI)/PI
          XX0(1)=SIGM 
          XX0(2)=EPSP(I) *X1SCALE
          XX0(3)=THETA
@@ -206,23 +206,23 @@ c---- element will be deleted
       IF (IDEL == 1) THEN
        DO I=1,NEL
           IF (OFF(I) < 0.1) OFF(I)=ZERO
-          IF (OFF(I) < UN)  OFF(I)=OFF(I)*QCINQ
+          IF (OFF(I) < ONE)  OFF(I)=OFF(I)*FOUR_OVER_5
         ENDDO
       ENDIF
 C      
       IF (IDEL == 1)THEN
         NINDX  = 0  
         DO I=1,NEL
-          IF (SFLAG==1 .AND. OFF(I)==UN) THEN
+          IF (SFLAG==1 .AND. OFF(I)==ONE) THEN
             ID_DD = IFUNC(NFUNC)
             IF(ID_DD /= 0 )THEN
              DP = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
             ELSE
-             DP = DN*DD**(UN-UN/DN)
+             DP = DN*DD**(ONE-ONE/DN)
             ENDIF
             IF (EPSF(I) > ZERO) UVAR(I,1)=UVAR(I,1)+DP*DPLA(I)/EPSF(I)      
             IF (UVAR(I,1) >= DCRIT) THEN
-              OFF(I)=QCINQ
+              OFF(I)=FOUR_OVER_5
               NINDX=NINDX+1
               INDX(NINDX)=I
               IDEL7NOK = 1 
@@ -244,13 +244,13 @@ C----
         NINDX  = 0 
         DO I=1,NEL
 c---           
-          IF (OFF(I) == UN .AND. (SFLAG==2 .OR. SFLAG==3)) THEN
+          IF (OFF(I) == ONE .AND. (SFLAG==2 .OR. SFLAG==3)) THEN
             IF (UVAR(I,1) < DCRIT)THEN
              ID_DD = IFUNC(NFUNC)
              IF(ID_DD /= 0 )THEN
                DP = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
               ELSE
-               DP = DN*DD**(UN-UN/DN)
+               DP = DN*DD**(ONE-ONE/DN)
               ENDIF
               IF (EPSF(I) > ZERO) UVAR(I,1)=UVAR(I,1)+DP*DPLA(I)/EPSF(I)      
               IF (UVAR(I,1) >= DCRIT) THEN
@@ -284,7 +284,7 @@ c---
       ENDIF   
 C-------------Maximum Damage storing for output : 0 < DFMAX < 1--------------    
        DO I=1,NEL
-          DFMAX(I)= MIN(UN,MAX(DFMAX(I),UVAR(I,1)/DCRIT))
+          DFMAX(I)= MIN(ONE,MAX(DFMAX(I),UVAR(I,1)/DCRIT))
        ENDDO
 C-----------------------------------------------
  1000 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER ',I10)

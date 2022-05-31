@@ -294,10 +294,10 @@ C
              WA(JJ+9) = GBUF%SIG(II(6)+I)
              IF (GBUF%G_PLA > 0) THEN
               WA(JJ+10) = GBUF%PLA(I)
-              WA(JJ+11) = UN
+              WA(JJ+11) = ONE
              ELSE
               WA(JJ+10) = ZERO
-              WA(JJ+11) = - UN
+              WA(JJ+11) = - ONE
              ENDIF
              JJ=JJ+11
           ENDDO     

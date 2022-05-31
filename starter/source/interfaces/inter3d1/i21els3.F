@@ -316,7 +316,7 @@ C
                SX3  = SY1*SZ2 - SZ1*SY2
                SY3  = SZ1*SX2 - SX1*SZ2
                SZ3  = SX1*SY2 - SY1*SX2
-               AREA = UNHUIT*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+               AREA = ONE_OVER_8*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
                AREAS(I) = AREAS(I) + AREA
 C overwrite
                MAT  = IXC(1,IE)
@@ -335,7 +335,7 @@ C
                SX3  = SY1*SZ2 - SZ1*SY2
                SY3  = SZ1*SX2 - SX1*SZ2
                SZ3  = SX1*SY2 - SY1*SX2
-               AREA = UNSIX*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+               AREA = ONE_OVER_6*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
                AREAS(I) = AREAS(I)+AREA
 C overwrite
                MAT  = IXTG(1,IE)
@@ -366,7 +366,7 @@ C overwrite
                  SX3  = SY1*SZ2 - SZ1*SY2
                  SY3  = SZ1*SX2 - SX1*SZ2
                  SZ3  = SX1*SY2 - SY1*SX2
-                 AREA = UNHUIT*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+                 AREA = ONE_OVER_8*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
                  AREAS(I) = AREAS(I) + AREA
 C overwrite
 C
@@ -394,7 +394,7 @@ C
                  SX3  = SY1*SZ2 - SZ1*SY2
                  SY3  = SZ1*SX2 - SX1*SZ2
                  SZ3  = SX1*SY2 - SY1*SX2
-                 AREA = UNSIX*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+                 AREA = ONE_OVER_6*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
                  AREAS(I) = AREAS(I)+AREA
 C overwrite
 C
@@ -432,7 +432,7 @@ C
                  SX3  = SY1*SZ2 - SZ1*SY2
                  SY3  = SZ1*SX2 - SX1*SZ2
                  SZ3  = SX1*SY2 - SY1*SX2
-                 AREA = UNHUIT*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+                 AREA = ONE_OVER_8*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
                  AREAS(I) = AREAS(I) + AREA
 C overwrite
                  MAT  = IXS(1,IE)

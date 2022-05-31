@@ -272,7 +272,7 @@ C---------------------
         ENDDO
       ENDIF
 C
-      DT05=UNDEMI*DT1
+      DT05=HALF*DT1
       IF (ISMDISP > 0) THEN
        DO I=LFT,LLT
         VX21  = VX2(I)-VX1(I)
@@ -315,10 +315,10 @@ C
 C
          AT=EPXZ/MAX(AL2DP(I),EM30)
          AT=ATAN(AT)
-         RYAV  = DT05 * (RYAV1) + DEUX * AT
+         RYAV  = DT05 * (RYAV1) + TWO * AT
          AT=EPXY/MAX(AL2DP(I),EM30)
          AT=ATAN(AT)
-         RZAV  = DT05 * (RZAV1) - DEUX * AT
+         RZAV  = DT05 * (RZAV1) - TWO * AT
 C
          DX(I) = ALDP(I) - X0DP(I)
          DY(I) = DYOLD(I) - RZAV * AL2DP(I)
@@ -334,7 +334,7 @@ C
         IF (ILENG /= 0) THEN
           XL0(I)=MAX(X0DP(I),LMIN(I))
         ELSE
-          XL0(I)=UN
+          XL0(I)=ONE
         ENDIF
       ENDDO
 C-------------------------------
@@ -432,7 +432,7 @@ C
                 RETRACTOR_ID(I) = RET
                 SLIPRING_STRAND(I) = -1
                 UPDATE_FLAG(I) = -1
-                OFF(I) = UN
+                OFF(I) = ONE
                 IF (NC1(I)==NN1) THEN
                   RETRACTOR(RET)%STRAND_DIRECTION = 1
                 ELSE
@@ -520,12 +520,12 @@ C
           IF (SLIPRING_STRAND(I) == 1) THEN      
             IF (ADHER(I) == 1) FX(I) = FX(I) + DFS(I) - DFS_OLD(I)
             XL02(I)=MAX(X02(I),LMIN(I))
-            XKM(I) = MAX(XKM(I),FRAM_FACTOR(I)*XK(I)*(UN + XL0(I)/XL02(I)))
+            XKM(I) = MAX(XKM(I),FRAM_FACTOR(I)*XK(I)*(ONE + XL0(I)/XL02(I)))
             SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%SLIP_FORCE(1) = FX(I)
           ELSEIF (SLIPRING_STRAND(I) == 2) THEN
             IF (ADHER(I) == 1) FX(I) = FX(I) - DFS(I) + DFS_OLD(I)
             XL02(I)=MAX(X02(I),LMIN(I))
-            XKM(I) = MAX(XKM(I),FRAM_FACTOR(I)*XK(I)*(UN + XL0(I)/XL02(I)))
+            XKM(I) = MAX(XKM(I),FRAM_FACTOR(I)*XK(I)*(ONE + XL0(I)/XL02(I)))
             SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%SLIP_FORCE(2) = FX(I)
           ELSEIF (SLIPRING_STRAND(I) < 0) THEN
             RETRACTOR(RETRACTOR_ID(I))%RET_FORCE = FX(I)
@@ -541,10 +541,10 @@ C
         CN = UPARAM(IADBUF + NUPAR + 9)
         XA = UPARAM(IADBUF + NUPAR + 15)
         XB = UPARAM(IADBUF + NUPAR + 21)
-        IF (OFF(I)  == UN .AND. DMX(I) /= ZERO .AND. DMN(I)/= ZERO) THEN
+        IF (OFF(I)  == ONE .AND. DMX(I) /= ZERO .AND. DMN(I)/= ZERO) THEN
           IF (IFAIL2(I) == 0) THEN
-            XA = UN
-            XB = DEUX
+            XA = ONE
+            XB = TWO
             IF (DX(I) > ZERO) THEN
               DLIM = DX(I) / DMX(I)
             ELSE
@@ -570,7 +570,7 @@ C
           ENDIF
           IF (IFAIL(I) == 0) THEN
 !         Rupture uniaxiale
-            IF ((XA*DLIM) > UN) THEN
+            IF ((XA*DLIM) > ONE) THEN
               OFF(I) = ZERO
               NINDX = NINDX + 1
               INDX(NINDX) = I
@@ -619,10 +619,10 @@ C
         CN  = UPARAM(IADBUF + NUPAR + 10)
         XA  = UPARAM(IADBUF + NUPAR + 16)
         XB  = UPARAM(IADBUF + NUPAR + 22)
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL2(I) == 0) THEN
-            XA = UN
-            XB = DEUX
+            XA = ONE
+            XB = TWO
             IF (DY(I) > ZERO) THEN
               DLIM = DY(I) / DMX(I)
             ELSE
@@ -648,7 +648,7 @@ C
           ENDIF
           IF (IFAIL(I) == 0) THEN
 !         Rupture uniaxiale
-            IF ((XA*DLIM) > UN) THEN
+            IF ((XA*DLIM) > ONE) THEN
               OFF(I) = ZERO
               NINDX = NINDX + 1
               INDX(NINDX) = I
@@ -697,10 +697,10 @@ C
         CN  = UPARAM(IADBUF + NUPAR + 11)
         XA  = UPARAM(IADBUF + NUPAR + 17)
         XB  = UPARAM(IADBUF + NUPAR + 23)
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL2(I) == 0) THEN
-            XA = UN
-            XB = DEUX
+            XA = ONE
+            XB = TWO
             IF (DZ(I) > ZERO)THEN
               DLIM = DZ(I) / DMX(I)
             ELSE
@@ -726,7 +726,7 @@ C
           ENDIF
           IF (IFAIL(I) == 0) THEN
 !         Rupture uniaxiale
-            IF ((XA*DLIM) > UN) THEN
+            IF ((XA*DLIM) > ONE) THEN
               OFF(I) = ZERO
               NINDX = NINDX + 1
               INDX(NINDX) = I
@@ -819,10 +819,10 @@ C
         CN  = UPARAM(IADBUF + NUPAR + 12)
         XA  = UPARAM(IADBUF + NUPAR + 18)
         XB  = UPARAM(IADBUF + NUPAR + 24)
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL2(I) == 0) THEN
-            XA = UN
-            XB = DEUX
+            XA = ONE
+            XB = TWO
             IF (RX(I) > ZERO) THEN
               DLIM = RX(I) / DMX(I)
             ELSE
@@ -848,7 +848,7 @@ C
           ENDIF
           IF (IFAIL(I) == 0) THEN
 !         Rupture uniaxiale
-            IF ((XA*DLIM) > UN) THEN
+            IF ((XA*DLIM) > ONE) THEN
               OFF(I)= ZERO
               NINDX = NINDX + 1
               INDX(NINDX) = I
@@ -895,10 +895,10 @@ C
         CN  =  UPARAM(IADBUF + NUPAR + 13)
         XA  =  UPARAM(IADBUF + NUPAR + 19)
         XB  =  UPARAM(IADBUF + NUPAR + 25)
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL2(I) == 0) THEN
-            XA = UN
-            XB = DEUX
+            XA = ONE
+            XB = TWO
             IF (RY(I) > ZERO) THEN
               DLIM = RY(I) / DMX(I)
             ELSE
@@ -971,10 +971,10 @@ C
         CN  = UPARAM(IADBUF + NUPAR + 14)
         XA  = UPARAM(IADBUF + NUPAR + 20)
         XB  = UPARAM(IADBUF + NUPAR + 26)
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (IFAIL2(I) == 0) THEN
-            XA = UN
-            XB = DEUX
+            XA = ONE
+            XB = TWO
             IF (RZ(I) > ZERO) THEN
               DLIM = RZ(I) / DMX(I)
             ELSE
@@ -1023,13 +1023,13 @@ C-------------------------------
         IADBUF   = IPM(7,MID(I)) - 1
         ISRATE = NINT(UPARAM(IADBUF + NUPAR + 27))
 C---- smoothing factor alpha = 2PI*fc*dt/(2PI*fc*dt+1) ---
-        ASRATE = (2*PI*UPARAM(IADBUF + NUPAR + 28)*DT1)/(UN+2*PI*UPARAM(IADBUF + NUPAR + 28)*DT1)
+        ASRATE = (2*PI*UPARAM(IADBUF + NUPAR + 28)*DT1)/(ONE+2*PI*UPARAM(IADBUF + NUPAR + 28)*DT1)
         IF (ISRATE /= 0) THEN
-          CRIT(I) = ASRATE*CRIT(I) + (UN - ASRATE)*CRIT_NEW(I)
+          CRIT(I) = ASRATE*CRIT(I) + (ONE - ASRATE)*CRIT_NEW(I)
           CRIT_NEW(I) = CRIT(I)
         ENDIF
-        IF (OFF(I) == UN .AND. IFAIL(I) == 1) THEN
-           IF (CRIT(I) > UN) THEN
+        IF (OFF(I) == ONE .AND. IFAIL(I) == 1) THEN
+           IF (CRIT(I) > ONE) THEN
             OFF(I)=ZERO
             NINDX = NINDX + 1
             INDX(NINDX) = I

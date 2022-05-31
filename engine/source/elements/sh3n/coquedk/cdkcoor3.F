@@ -179,7 +179,7 @@ C
         YL2(I)=R12(I)*RX(I)+R22(I)*RY(I)+R32(I)*RZ(I)
         XL3(I)=R11(I)*SX(I)+R21(I)*SY(I)+R31(I)*SZ(I)
         YL3(I)=R12(I)*SX(I)+R22(I)*SY(I)+R32(I)*SZ(I)
-        AREA(I)=UNDEMI*AREA2(I)
+        AREA(I)=HALF*AREA2(I)
         CDET(I)=THIRD*AREA(I)
       ENDDO
       DO I=JFT,JLT
@@ -201,13 +201,13 @@ C     SMALL STRAIN
 C----------------------------
       IF (ISMSTR == 1 .OR. ISMSTR == 2) THEN
         DO I=JFT,JLT
-          IF (ABS(OFFG(I)) == DEUX) THEN
+          IF (ABS(OFFG(I)) == TWO) THEN
             XL2(I)=SMSTR(II(1)+I)
             YL2(I)=SMSTR(II(2)+I)
             XL3(I)=SMSTR(II(3)+I)
             YL3(I)=SMSTR(II(4)+I)
             AREA2(I)=XL2(I)*YL3(I)-XL3(I)*YL2(I)
-            AREA(I)=UNDEMI*AREA2(I)
+            AREA(I)=HALF*AREA2(I)
          ELSE
             SMSTR(II(1)+I)=XL2(I)
             SMSTR(II(2)+I)=YL2(I)
@@ -218,7 +218,7 @@ C----------------------------
       ENDIF
       IF (ISMSTR ==1) THEN
         DO I=JFT,JLT
-          IF (OFFG(I) == UN) OFFG(I)=DEUX
+          IF (OFFG(I) == ONE) OFFG(I)=TWO
         ENDDO
       ENDIF
 C----------------------------
@@ -232,7 +232,7 @@ C--------------------------
 C-------Correction 2nd order rigid rotation due a V(t+dt/2),X(t+dt)----
 C--------------------------
        IF (ISHV51 > 51) THEN
-        DT05 = UNDEMI*DT1
+        DT05 = HALF*DT1
         DO I=JFT,JLT
          EXZ =  YL3(I)*VLZ(I,1)-YL2(I)*VLZ(I,2)
          EYZ = -XL3(I)*VLZ(I,1)+XL2(I)*VLZ(I,2)
@@ -253,7 +253,7 @@ C     OFF
 C----------------------------
       OFF_L = ZERO
       DO I=JFT,JLT
-        OFF(I) = MIN(UN,ABS(OFFG(I)))
+        OFF(I) = MIN(ONE,ABS(OFFG(I)))
         OFF_L  = MIN(OFF_L,OFFG(I))
       ENDDO
        IF(OFF_L < ZERO)THEN
@@ -353,7 +353,7 @@ C---------E3------------
          IDEL7NOK = 1
        ENDIF
        OFF_LOC = ZERO
-       IF(ABS(OFF(I))/=ZERO) OFF_LOC = UN
+       IF(ABS(OFF(I))/=ZERO) OFF_LOC = ONE
        DET(I)=MAX(EM20,DET(I))
        CC = OFF_LOC/DET(I)
        CC = MAX(CC,EM20)
@@ -381,9 +381,9 @@ C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         C2C2 = SX(I)*SX(I) + SY(I)*SY(I) + SZ(I)*SZ(I)
         IF(C1C1 /= ZERO) THEN
           C2_1(I) = SQRT(C2C2/MAX(EM20,C1C1))
-          C1_1(I) = UN
+          C1_1(I) = ONE
         ELSEIF(C2C2 /= ZERO)THEN
-          C2_1(I) = UN
+          C2_1(I) = ONE
           C1_1(I) = SQRT(C1C1/MAX(EM20,C2C2))
         END IF 
        ENDDO
@@ -396,7 +396,7 @@ C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
        DO I=JFT,JLT
         C1 = SQRT(E1X(I)*E1X(I) + E1Y(I)*E1Y(I) + E1Z(I)*E1Z(I))
-        IF ( C1 /= ZERO) C1 = UN / MAX(EM20,C1)
+        IF ( C1 /= ZERO) C1 = ONE / MAX(EM20,C1)
         E1X(I) = E1X(I)*C1
         E1Y(I) = E1Y(I)*C1
         E1Z(I) = E1Z(I)*C1

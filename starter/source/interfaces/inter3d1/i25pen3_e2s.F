@@ -248,7 +248,7 @@ C
 #include      "vectorize.inc"
       DO K=1,NLT
         I=LIST(K)
-        PENE(I)=UN
+        PENE(I)=ONE
       ENDDO                                               
 C
       RETURN

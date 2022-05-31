@@ -101,14 +101,14 @@ C=======================================================================
       IF (IFAIL_SH == 1) THEN
         PTHKF = EM06
       ELSEIF (IFAIL_SH == 2) THEN
-        PTHKF = UN
+        PTHKF = ONE
       ENDIF
       NINDX  = 0  
 C-----------------------------------------------
       DO I=1,NEL                                             
-        IF (OFF(I) == UN .and. FOFF(I) == 1) THEN                               
-          S1 = UNDEMI*(SIGNXX(I) + SIGNYY(I))                
-          S2 = UNDEMI*(SIGNXX(I) - SIGNYY(I))                
+        IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN                               
+          S1 = HALF*(SIGNXX(I) + SIGNYY(I))                
+          S2 = HALF*(SIGNXX(I) - SIGNYY(I))                
           SIG1 = S1 + SQRT(S2**2 + SIGNXY(I)**2)            
           SIG2 = S1 - SQRT(S2**2 + SIGNXY(I)**2)            
           SIGMAX = MAX(SIG1,SIG2)                            
@@ -125,7 +125,7 @@ C-----------------------------------------------
 c
 c---  Maximum Damage storing for output : 0 < DFMAX < 1
       DO I=1,NEL
-        DFMAX(I) = MIN(UN, MAX(DFMAX(I),UVAR(I,1)/TBK))
+        DFMAX(I) = MIN(ONE, MAX(DFMAX(I),UVAR(I,1)/TBK))
       ENDDO
 c------------------------
       IF (NINDX > 0) THEN

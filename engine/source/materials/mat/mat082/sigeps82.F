@@ -126,8 +126,8 @@ cc      NU      = UPARAM(1)
        
       ENDDO
 
-cc      RBULK   = DEUX/D(1) + DEUX*GMAX*THIRD
-      RBULK   = DEUX/D(1)
+cc      RBULK   = TWO/D(1) + TWO*GMAX*THIRD
+      RBULK   = TWO/D(1)
 C iniialisation des variabesl users 
       IF(TIME.EQ.ZERO)THEN
        DO J = 1,NUVAR
@@ -166,22 +166,22 @@ C ---- (STRAIN IS LOGARITHMIC)
         ENDDO 
       ELSEIF(ISMSTR==10.OR.ISMSTR==12) THEN
         DO I =1,NEL
-        IF(OFFG(I)<=UN) THEN
-          EV(I,1)=SQRT(EVV(I,1)+ UN)
-          EV(I,2)=SQRT(EVV(I,2)+ UN)
-          EV(I,3)=SQRT(EVV(I,3)+ UN)
+        IF(OFFG(I)<=ONE) THEN
+          EV(I,1)=SQRT(EVV(I,1)+ ONE)
+          EV(I,2)=SQRT(EVV(I,2)+ ONE)
+          EV(I,3)=SQRT(EVV(I,3)+ ONE)
         ELSE
-         EV(I,1)=EVV(I,1)+ UN
-         EV(I,2)=EVV(I,2)+ UN
-         EV(I,3)=EVV(I,3)+ UN
+         EV(I,1)=EVV(I,1)+ ONE
+         EV(I,2)=EVV(I,2)+ ONE
+         EV(I,3)=EVV(I,3)+ ONE
         END IF
         ENDDO 
       ELSE
 C ----  STRAIN IS ENGINEERING)
         DO I=1,NEL
-         EV(I,1)=EVV(I,1)+ UN
-         EV(I,2)=EVV(I,2)+ UN
-         EV(I,3)=EVV(I,3)+ UN
+         EV(I,1)=EVV(I,1)+ ONE
+         EV(I,2)=EVV(I,2)+ ONE
+         EV(I,3)=EVV(I,3)+ ONE
         ENDDO 
       ENDIF
 
@@ -192,15 +192,15 @@ C ----  STRAIN IS ENGINEERING)
          ETI=ZERO
         IF(AMAX/=ZERO) THEN
          DO K= 1,NORDRE
-          ETI  = ETI + MU(K)*AMAX**(AL(K)-UN) !MU(K)*EXP((AL(K)-UN)*LOG(AMAX))
+          ETI  = ETI + MU(K)*AMAX**(AL(K)-ONE) !MU(K)*EXP((AL(K)-ONE)*LOG(AMAX))
          ENDDO
         ENDIF         
         ET(I)= MAX(ETI,ET(I))
        ENDDO
        ENDDO
-C       EFAC=DEUXP5
+C       EFAC=TWOP5
        DO I=1,NEL
-         ET(I)= MAX(UN,ET(I)/GMAX)
+         ET(I)= MAX(ONE,ET(I)/GMAX)
        ENDDO
       ENDIF
 C----------------
@@ -233,7 +233,7 @@ C----------------
         S(I,3) = ZERO
         P = ZERO
         DO J=1,NORDRE
-           DD = DEUX*MU(J)/AL(J)
+           DD = TWO*MU(J)/AL(J)
            DD = DD /RV(I)
            PP = ZERO
            IF(AL(J)/=ZERO) THEN
@@ -247,7 +247,7 @@ C----------------
            ELSE
             DO II=1,3
              IF(EVD(I,II)/=ZERO) THEN 
-              PUI_TAB(II) = UN
+              PUI_TAB(II) = ONE
              ELSE
               PUI_TAB(II) = ZERO
              ENDIF
@@ -255,17 +255,17 @@ C----------------
            ENDIF         
 
 
-           IF(D(J) /= ZERO)PP = UN/D(J)
-           S(I,1) =  S(I,1) + DD*(DTHIRD*PUI_TAB(1) 
+           IF(D(J) /= ZERO)PP = ONE/D(J)
+           S(I,1) =  S(I,1) + DD*(TWO_THIRD*PUI_TAB(1) 
      .                      - THIRD*(PUI_TAB(2) + PUI_TAB(3)))
 C
-           S(I,2) =  S(I,2) + DD*(DTHIRD*PUI_TAB(2) 
+           S(I,2) =  S(I,2) + DD*(TWO_THIRD*PUI_TAB(2) 
      .                      - THIRD*(PUI_TAB(1) + PUI_TAB(3)))
 C  
-           S(I,3) =  S(I,3) + DD*(DTHIRD*PUI_TAB(3) 
+           S(I,3) =  S(I,3) + DD*(TWO_THIRD*PUI_TAB(3) 
      .                      - THIRD*(PUI_TAB(2) + PUI_TAB(1)))
 C  (-) pression
-            P = P + 2*J*PP*(RV(I) - UN)**(2*J - 1)
+            P = P + 2*J*PP*(RV(I) - ONE)**(2*J - 1)
         ENDDO 
 
         S(I,1) = S(I,1) + P
@@ -292,19 +292,19 @@ C------max of Cii :
 		   PP = 2*II*(2*II-1)/D(II)
 		   JJ = 2*II - 2
            DO I=1,NEL
-		    IF (ABS(RV(I)- UN)<EM20) CYCLE
-            RKMAX(I) = RKMAX(I) + PP * (RV(I)- UN)**JJ
+		    IF (ABS(RV(I)- ONE)<EM20) CYCLE
+            RKMAX(I) = RKMAX(I) + PP * (RV(I)- ONE)**JJ
            ENDDO
          ENDDO
 C------GT=3/4 Cii (factor 1/2*1/3 already inside CII)		  
          DO I=1,NEL
-           AMAX= UNDEMI*MAX(CII(I,1),CII(I,2),CII(I,3))/GMAX
+           AMAX= HALF*MAX(CII(I,1),CII(I,2),CII(I,3))/GMAX
 C---------reduce old result change		   
-           ETI = MAX(UN,AMAX*0.81) 
+           ETI = MAX(ONE,AMAX*0.81) 
            GTMAX(I) = GMAX*ETI 
            RKMAX(I) = MAX(RBULK,RKMAX(I))
 C---- 		   
-           ET(I)= MAX(UN,AMAX)
+           ET(I)= MAX(ONE,AMAX)
          ENDDO
 C cauchy to glabale
       DO I=1,NEL
@@ -333,7 +333,7 @@ C cauchy to glabale
      .            + DIRPRV(I,3,2)*DIRPRV(I,1,2)*S(I,2)
 C
 * SET SOUND SPEED
-         SOUNDSP(I)=SQRT((QTHIRD*GTMAX(I) + RKMAX(I))/RHO(I))
+         SOUNDSP(I)=SQRT((FOUR_OVER_3*GTMAX(I) + RKMAX(I))/RHO(I))
 * SET VISCOSITY
          VISCMAX(I) = ZERO
        ENDDO

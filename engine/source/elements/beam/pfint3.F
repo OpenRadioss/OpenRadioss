@@ -80,12 +80,12 @@ C     CONTRIBUTION AU MOMENT DU CISAILLEMENT
 C
       DO I=LFT,LLT
         M11(I)=-M1(I)
-        M21(I)=-M2(I)+UNDEMI*AL(I)*F3(I)
-        M31(I)=-M3(I)-UNDEMI*AL(I)*F2(I)
+        M21(I)=-M2(I)+HALF*AL(I)*F3(I)
+        M31(I)=-M3(I)-HALF*AL(I)*F2(I)
 C
         M12(I)=-M11(I)
-        M22(I)=M2(I)+UNDEMI*AL(I)*F3(I)
-        M32(I)=M3(I)-UNDEMI*AL(I)*F2(I)
+        M22(I)=M2(I)+HALF*AL(I)*F3(I)
+        M32(I)=M3(I)-HALF*AL(I)*F2(I)
       ENDDO
 C---------------------------------------------------
 C     LIBERATION DES ROTATIONS
@@ -105,7 +105,7 @@ C ... this looks suspicious - DWS
 C
       OFF_L = ZERO
       DO I=LFT,LLT
-        IF (OFF(I) < UN) OFFG(I) = OFF(I)
+        IF (OFF(I) < ONE) OFFG(I) = OFF(I)
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
       IF (OFF_L < ZERO) THEN

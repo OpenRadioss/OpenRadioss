@@ -124,23 +124,23 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-        XX(I)= UNDEMI*(X1(I)+X3(I))+X2(I)
-        YY(I)= UNDEMI*(Y1(I)+Y3(I))+Y2(I)
-        ZZ(I)= UNDEMI*(Z1(I)+Z3(I))+Z2(I)
-        XX2(I) = UNDEMI*(X1(I)*X1(I)+X3(I)*X3(I))+X2(I)*X2(I)
-        YY2(I) = UNDEMI*(Y1(I)*Y1(I)+Y3(I)*Y3(I))+Y2(I)*Y2(I)
-        ZZ2(I) = UNDEMI*(Z1(I)*Z1(I)+Z3(I)*Z3(I))+Z2(I)*Z2(I)
-        XY(I)  = UNDEMI*(X1(I)*Y1(I)+X3(I)*Y3(I))+X2(I)*Y2(I)
-        YZ(I)  = UNDEMI*(Y1(I)*Z1(I)+Y3(I)*Z3(I))+Y2(I)*Z2(I)
-        ZX(I)  = UNDEMI*(Z1(I)*X1(I)+Z3(I)*X3(I))+Z2(I)*X2(I)
-        VXA(I)=UNDEMI*(V1(I,1)+V3(I,1))+V2(I,1)
-        VYA(I)=UNDEMI*(V1(I,2)+V3(I,2))+V2(I,2)
-        VZA(I)=UNDEMI*(V1(I,3)+V3(I,3))+V2(I,3)
-        VA2(I)=UNDEMI*(V1(I,1)*V1(I,1)+V3(I,1)*V3(I,1)
+        XX(I)= HALF*(X1(I)+X3(I))+X2(I)
+        YY(I)= HALF*(Y1(I)+Y3(I))+Y2(I)
+        ZZ(I)= HALF*(Z1(I)+Z3(I))+Z2(I)
+        XX2(I) = HALF*(X1(I)*X1(I)+X3(I)*X3(I))+X2(I)*X2(I)
+        YY2(I) = HALF*(Y1(I)*Y1(I)+Y3(I)*Y3(I))+Y2(I)*Y2(I)
+        ZZ2(I) = HALF*(Z1(I)*Z1(I)+Z3(I)*Z3(I))+Z2(I)*Z2(I)
+        XY(I)  = HALF*(X1(I)*Y1(I)+X3(I)*Y3(I))+X2(I)*Y2(I)
+        YZ(I)  = HALF*(Y1(I)*Z1(I)+Y3(I)*Z3(I))+Y2(I)*Z2(I)
+        ZX(I)  = HALF*(Z1(I)*X1(I)+Z3(I)*X3(I))+Z2(I)*X2(I)
+        VXA(I)=HALF*(V1(I,1)+V3(I,1))+V2(I,1)
+        VYA(I)=HALF*(V1(I,2)+V3(I,2))+V2(I,2)
+        VZA(I)=HALF*(V1(I,3)+V3(I,3))+V2(I,3)
+        VA2(I)=HALF*(V1(I,1)*V1(I,1)+V3(I,1)*V3(I,1)
      .                +V1(I,2)*V1(I,2)+V3(I,2)*V3(I,2)
      .                +V1(I,3)*V1(I,3)+V3(I,3)*V3(I,3))
      .                +V2(I,1)*V2(I,1)+V2(I,2)*V2(I,2)+V2(I,3)*V2(I,3)
-        VRA2(I) = UNDEMI*(VR1(I,1)*VR1(I,1)+VR3(I,1)*VR3(I,1)
+        VRA2(I) = HALF*(VR1(I,1)*VR1(I,1)+VR3(I,1)*VR3(I,1)
      .                   +VR1(I,2)*VR1(I,2)+VR3(I,2)*VR3(I,2)
      .                   +VR1(I,3)*VR1(I,3)+VR3(I,3)*VR3(I,3))
      .                   +VR2(I,1)*VR2(I,1)+VR2(I,2)*VR2(I,2)
@@ -154,11 +154,11 @@ C
         ELSE
           XMAS(I)=GEO(1,IXR(1,I))
         ENDIF
-        XMAS2(I)=XMAS(I)*UNDEMI
+        XMAS2(I)=XMAS(I)*HALF
         XM(I)= XMAS2(I)*VXA(I)
         YM(I)= XMAS2(I)*VYA(I)
         ZM(I)= XMAS2(I)*VZA(I)
-        EK(I)= XMAS2(I)*VA2(I)*UNDEMI
+        EK(I)= XMAS2(I)*VA2(I)*HALF
       ENDDO
 C
       DO I=LFT,LLT
@@ -171,7 +171,7 @@ C
         ELSE
           INEL=GEO(9,IXR(1,I))
         ENDIF
-        IN2 = INEL*UNDEMI
+        IN2 = INEL*HALF
         IXY(I) = -XMAS2(I)*XY(I)
         IYZ(I) = -XMAS2(I)*YZ(I)
         IZX(I) = -XMAS2(I)*ZX(I)
@@ -180,26 +180,26 @@ C
         IZZ(I)= INEL + XMAS2(I)*(XX2(I) + YY2(I))
 C
         XXM(I)= XMAS2(I)*
-     .    (UNDEMI*(V1(I,3)*Y1(I)-V1(I,2)*Z1(I)
+     .    (HALF*(V1(I,3)*Y1(I)-V1(I,2)*Z1(I)
      .            +V3(I,3)*Y3(I)-V3(I,2)*Z3(I))
      .            +V2(I,3)*Y2(I)-V2(I,2)*Z2(I))
-     .    +IN2*(UNDEMI*(VR1(I,1)+VR3(I,1))+VR2(I,1))
+     .    +IN2*(HALF*(VR1(I,1)+VR3(I,1))+VR2(I,1))
         YYM(I)= XMAS2(I)*
-     .    (UNDEMI*(V1(I,1)*Z1(I)-V1(I,3)*X1(I)
+     .    (HALF*(V1(I,1)*Z1(I)-V1(I,3)*X1(I)
      .            +V3(I,1)*Z3(I)-V3(I,3)*X3(I))
      .            +V2(I,1)*Z2(I)-V2(I,3)*X2(I))
-     .    +IN2*(UNDEMI*(VR1(I,2)+VR3(I,2))+VR2(I,2))
+     .    +IN2*(HALF*(VR1(I,2)+VR3(I,2))+VR2(I,2))
         ZZM(I)= XMAS2(I)*
-     .    (UNDEMI*(V1(I,2)*X1(I)-V1(I,1)*Y1(I)
+     .    (HALF*(V1(I,2)*X1(I)-V1(I,1)*Y1(I)
      .            +V3(I,2)*X3(I)-V3(I,1)*Y3(I))
      .            +V2(I,2)*X2(I)-V2(I,1)*Y2(I))
-     .    +IN2*(UNDEMI*(VR1(I,3)+VR3(I,3))+VR2(I,3))
-        REK(I)= IN2*VA2(I)*UNDEMI
+     .    +IN2*(HALF*(VR1(I,3)+VR3(I,3))+VR2(I,3))
+        REK(I)= IN2*VA2(I)*HALF
       ENDDO
 C
       IF (IGRE /= 0) THEN
         DO I=LFT,LLT
-          OFF(I) = UN
+          OFF(I) = ONE
         ENDDO
         CALL GRELEM_SAV(LFT   ,LLT   ,GRESAV,IGRTH ,GRTH  ,
      2                  OFF   ,EINT  ,EK    ,XM    ,YM    ,
@@ -232,7 +232,7 @@ C
         PARTSAV(22,MX)=PARTSAV(22,MX) + REK(I)
       ENDDO
 
-      OFF(1:MVSIZ) = UN
+      OFF(1:MVSIZ) = ONE
       CALL SENSOR_ENERGY_BILAN(LFT,LLT,EINT,EK,OFF,IPARTR,ITASK) 
 C---
       RETURN

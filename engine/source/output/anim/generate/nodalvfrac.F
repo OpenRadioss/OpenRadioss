@@ -128,8 +128,8 @@ C-----------------------------------------------
                  V               = GBUF%VOL(I)                             
                  DO J=2,NNOD+1
                    JJ            = IX(J,NFT+I)
-                   WA4(JJ)       = WA4(JJ)+VF*V*UNHUIT 
-                   COUNT_VOL(JJ) = COUNT_VOL(JJ) + V * UNHUIT            
+                   WA4(JJ)       = WA4(JJ)+VF*V*ONE_OVER_8 
+                   COUNT_VOL(JJ) = COUNT_VOL(JJ) + V * ONE_OVER_8            
                  ENDDO !next J          
                ENDDO! next I
              ELSEIF(MLW==51)THEN
@@ -141,8 +141,8 @@ C-----------------------------------------------
                  V                = GBUF%VOL(I)                                                                                                                         
                  DO J=2,NNOD+1
                    JJ            = IX(J,NFT+I)
-                   WA4(JJ)       = WA4(JJ)+VF*V*UNHUIT     
-                   COUNT_VOL(JJ) = COUNT_VOL(JJ) + V * UNHUIT          
+                   WA4(JJ)       = WA4(JJ)+VF*V*ONE_OVER_8     
+                   COUNT_VOL(JJ) = COUNT_VOL(JJ) + V * ONE_OVER_8          
                  ENDDO !next J          
                ENDDO! next I              
              ENDIF              
@@ -193,8 +193,8 @@ C-----------------------------------------------
                     V               = GBUF%VOL(I)                            
                     DO J=2,NNOD+1
                       JJ            = IX(J,NFT+I)                 
-                      WA4(JJ)       = WA4(JJ)+VF*V*UNHUIT  
-                      COUNT_VOL(JJ) = COUNT_VOL(JJ) + V * UNHUIT !cumulated volume             
+                      WA4(JJ)       = WA4(JJ)+VF*V*ONE_OVER_8  
+                      COUNT_VOL(JJ) = COUNT_VOL(JJ) + V * ONE_OVER_8 !cumulated volume             
                     ENDDO !next J          
                   ELSEIF(MLW==51)THEN
                     IPOS             = 1
@@ -204,8 +204,8 @@ C-----------------------------------------------
                     V                = GBUF%VOL(I)                                                                                                                        
                     DO J=2,NNOD+1
                       JJ            = IX(J,NFT+I)
-                      WA4(JJ)       = WA4(JJ)+VF*V*UNHUIT 
-                      COUNT_VOL(JJ) = COUNT_VOL(JJ) + V * UNHUIT              
+                      WA4(JJ)       = WA4(JJ)+VF*V*ONE_OVER_8 
+                      COUNT_VOL(JJ) = COUNT_VOL(JJ) + V * ONE_OVER_8              
                     ENDDO !next J                      
                   ENDIF                         
                 !---------------------------!

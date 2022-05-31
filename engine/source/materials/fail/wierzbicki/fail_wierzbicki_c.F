@@ -105,25 +105,25 @@ c
       IF (IFAIL_SH == 1) THEN
         PTHKF = EM06
       ELSEIF (IFAIL_SH == 2) THEN
-        PTHKF = UN
+        PTHKF = ONE
       ENDIF
       NINDX  = 0  
 C-----------------------------------------------
       DO I=1,NEL
-        IF (OFF(I) == UN .and. FOFF(I) == 1) THEN                               
+        IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN                               
           P = THIRD*(SIGNXX(I) + SIGNYY(I))
           SVM = SQRT(SIGNXX(I)*SIGNXX(I)
      .        + SIGNYY(I)*SIGNYY(I) - SIGNXX(I)*SIGNYY(I)
-     .        + TROIS*SIGNXY(I)*SIGNXY(I))
+     .        + THREE*SIGNXY(I)*SIGNXY(I))
 C 
           ETA = P / MAX(EM20,SVM)                          
-          XI = -UNDEMI*(VINGT + SEPT)*ETA*(ETA**2 - THIRD) 
+          XI = -HALF*(TWENTY + SEVEN)*ETA*(ETA**2 - THIRD) 
           EPSF = (C1*EXP(-C2*ETA))**CN                     
      .         - (C3*EXP(-C4*ETA))**CN                     
-          EPSF = EPSF * MAX(ZERO,(UN - XI**CM))**(UN/CM)   
-          EPSF = ((C1*EXP(-C2*ETA))**CN - EPSF)**(UN/CN)   
-          IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)*(UN/EPSF)       
-          IF (DFMAX(I) >= UN) THEN         
+          EPSF = EPSF * MAX(ZERO,(ONE - XI**CM))**(ONE/CM)   
+          EPSF = ((C1*EXP(-C2*ETA))**CN - EPSF)**(ONE/CN)   
+          IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)*(ONE/EPSF)       
+          IF (DFMAX(I) >= ONE) THEN         
             NINDX = NINDX + 1
             INDX(NINDX) = I
             FOFF(I) = 0
@@ -134,7 +134,7 @@ C
 c
 c---  Maximum Damage storing for output : 0 < DFMAX < 1
       DO I=1,NEL
-        DFMAX(I) = MIN(UN,DFMAX(I))
+        DFMAX(I) = MIN(ONE,DFMAX(I))
       ENDDO      
 c------------------------
       IF (NINDX > 0) THEN

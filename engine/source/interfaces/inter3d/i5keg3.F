@@ -168,7 +168,7 @@ C
        ENDDO
 C
        DO I=LFT,LLT
-        OFF(I)=UN
+        OFF(I)=ONE
        ENDDO
 C
        RETURN
@@ -250,7 +250,7 @@ C
 C
       DO I=LFT,LLT
        L=I_E(I)
-       STIF(I)=UNDEMI*STFM(L)
+       STIF(I)=HALF*STFM(L)
       ENDDO
 C      
       IF (FRIC.EQ.ZERO) RETURN
@@ -272,7 +272,7 @@ c        TN3=ZERO
           TN1=N2(I)/TN
          ELSE
           TN2=ZERO
-          TN1=UN
+          TN1=ONE
          ENDIF
        ELSE
 C-------------------------------
@@ -296,10 +296,10 @@ C
         XC0=ZERO
         YC0=ZERO
         ZC0=ZERO
-        SP=UN+SS0
-        SM=UN-SS0
-        TP= QUART*(UN+TT0)
-        TM= QUART*(UN-TT0)
+        SP=ONE+SS0
+        SM=ONE-SS0
+        TP= FOURTH*(ONE+TT0)
+        TM= FOURTH*(ONE-TT0)
         H(1)=TM*SM
         H(2)=TM*SP
         H(3)=TP*SP
@@ -320,9 +320,9 @@ C
         FZI(I)=FZI(I) + ANSZ*STF
           IFQ = IPARI(31)
           IF (IFQ.GT.0) THEN
-	    IF (IFQ.EQ.3) FREQ = MAX(UN,FREQ*DT12)
+	    IF (IFQ.EQ.3) FREQ = MAX(ONE,FREQ*DT12)
             ALPHA = FREQ
-            ALPHI = UN - ALPHA
+            ALPHI = ONE - ALPHA
             K = 3*(IL-1)
 	    IF (FNI(I).NE.ZERO) THEN
               FXI(I)= ALPHA*FXI(I) + ALPHI*FTSAV(K+1)
@@ -349,7 +349,7 @@ C
           TN1=N2(I)/TN
          ELSE
           TN2=ZERO
-          TN1=UN
+          TN1=ONE
          ENDIF
         ENDIF
 C

@@ -165,13 +165,13 @@ c
 !
         !units 
       CALL HM_GET_FLOATV_DIM('Epsilon_Dot_ref'      ,EPSPREF_UNIT  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      IF (EPSPREF == ZERO) EPSPREF = UN*EPSPREF_UNIT
+      IF (EPSPREF == ZERO) EPSPREF = ONE*EPSPREF_UNIT
 !
       CALL HM_GET_FLOATV_DIM('Fscale_el'            ,FSCAL_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      IF (FSCALE_SIZ == ZERO) FSCALE_SIZ = UN*FSCAL_UNIT
+      IF (FSCALE_SIZ == ZERO) FSCALE_SIZ = ONE*FSCAL_UNIT
 !
       CALL HM_GET_FLOATV_DIM('EI_ref'               ,REF_SIZ_UNIT  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      IF (REF_SIZ == ZERO) REF_SIZ = UN *REF_SIZ_UNIT
+      IF (REF_SIZ == ZERO) REF_SIZ = ONE *REF_SIZ_UNIT
 c-----------------------------------------------------
 c     default values
 c-----------------------------------------------------
@@ -193,9 +193,9 @@ c-----------------------------------------------------
       IF (EC31M == ZERO) EC31M = 1.2*EC31
       IF (EC3   == ZERO) EC3 = ET3
       IF (EC3M  == ZERO) EC3M = 1.2*EC3
-      IF (PTHK  == ZERO) PTHK = UN
+      IF (PTHK  == ZERO) PTHK = ONE
       IF (NCYCLE == 0)   NCYCLE = 12
-      ALPHA = UN / (NCYCLE + 1)
+      ALPHA = ONE / (NCYCLE + 1)
 !
       IDAM = 0
       ISOLID = 0

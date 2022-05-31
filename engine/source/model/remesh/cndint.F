@@ -216,13 +216,13 @@ C
              TAGNOD(MC)=1
              DO J=1,3
               VV = 
-     .           QUART*(ACND(J,N1)+ACND(J,N2)+ACND(J,N3)+ACND(J,N4))
+     .           FOURTH*(ACND(J,N1)+ACND(J,N2)+ACND(J,N3)+ACND(J,N4))
               ACND(J,MC) =VV
             END DO
 
             DO J=1,3
               VV = 
-     .           QUART*(ARCND(J,N1)+ARCND(J,N2)+ARCND(J,N3)+ARCND(J,N4))
+     .           FOURTH*(ARCND(J,N1)+ARCND(J,N2)+ARCND(J,N3)+ARCND(J,N4))
               ARCND(J,MC)=VV
             END DO
 
@@ -239,12 +239,12 @@ C
              NB=MAX(N1,N2)
 
              DO J=1,3
-              VV     = UNDEMI*(ACND(J,NA)+ACND(J,NB))
+              VV     = HALF*(ACND(J,NA)+ACND(J,NB))
               ACND(J,M1) =VV
              END DO
 
             DO J=1,3
-              VV     = UNDEMI*(ARCND(J,NA)+ARCND(J,NB))
+              VV     = HALF*(ARCND(J,NA)+ARCND(J,NB))
               ARCND(J,M1)=VV
             END DO
 
@@ -256,12 +256,12 @@ C
              NB=MAX(N2,N3)
 
              DO J=1,3
-              VV     = UNDEMI*(ACND(J,NA)+ACND(J,NB))
+              VV     = HALF*(ACND(J,NA)+ACND(J,NB))
               ACND(J,M2) =VV
             END DO
 
             DO J=1,3
-              VV     = UNDEMI*(ARCND(J,NA)+ARCND(J,NB))
+              VV     = HALF*(ARCND(J,NA)+ARCND(J,NB))
               ARCND(J,M2)=VV
             END DO
 
@@ -273,12 +273,12 @@ C
              NB=MAX(N3,N4)
 
              DO J=1,3
-              VV     = UNDEMI*(ACND(J,NA)+ACND(J,NB))
+              VV     = HALF*(ACND(J,NA)+ACND(J,NB))
               ACND(J,M3) =VV
             END DO
 
             DO J=1,3
-              VV     = UNDEMI*(ARCND(J,NA)+ARCND(J,NB))
+              VV     = HALF*(ARCND(J,NA)+ARCND(J,NB))
               ARCND(J,M3)=VV
             END DO
 
@@ -290,12 +290,12 @@ C
              NB=MAX(N4,N1)
 
              DO J=1,3
-              VV     = UNDEMI*(ACND(J,NA)+ACND(J,NB))
+              VV     = HALF*(ACND(J,NA)+ACND(J,NB))
               ACND(J,M4) =VV
             END DO
 
             DO J=1,3
-              VV     = UNDEMI*(ARCND(J,NA)+ARCND(J,NB))
+              VV     = HALF*(ARCND(J,NA)+ARCND(J,NB))
               ARCND(J,M4)=VV
             END DO
 
@@ -326,11 +326,11 @@ C
             NB=MAX(N1,N2)
 
              DO J=1,3
-              VV     = UNDEMI*(ACND(J,NA)+ACND(J,NB))
+              VV     = HALF*(ACND(J,NA)+ACND(J,NB))
               ACND(J,M1) =VV
             END DO
             DO J=1,3
-              VV     = UNDEMI*(ARCND(J,NA)+ARCND(J,NB))
+              VV     = HALF*(ARCND(J,NA)+ARCND(J,NB))
               ARCND(J,M1)=VV
             END DO
 
@@ -341,11 +341,11 @@ C
             NA=MIN(N2,N3)
             NB=MAX(N2,N3)
              DO J=1,3
-              VV     = UNDEMI*(ACND(J,NA)+ACND(J,NB))
+              VV     = HALF*(ACND(J,NA)+ACND(J,NB))
               ACND(J,M2) =VV
             END DO
             DO J=1,3
-              VV     = UNDEMI*(ARCND(J,NA)+ARCND(J,NB))
+              VV     = HALF*(ARCND(J,NA)+ARCND(J,NB))
               ARCND(J,M2)=VV
             END DO
 
@@ -356,11 +356,11 @@ C
             NA=MIN(N3,N1)
             NB=MAX(N3,N1)
              DO J=1,3
-              VV     = UNDEMI*(ACND(J,NA)+ACND(J,NB))
+              VV     = HALF*(ACND(J,NA)+ACND(J,NB))
               ACND(J,M3) =VV
             END DO
             DO J=1,3
-              VV     = UNDEMI*(ARCND(J,NA)+ARCND(J,NB))
+              VV     = HALF*(ARCND(J,NA)+ARCND(J,NB))
               ARCND(J,M3)=VV
             END DO
 
@@ -378,7 +378,7 @@ C-------
         DT2P = DTMIN1(11)/DTFAC1(11)
         DO N=NODFT,NODLT
           IF(TAGNOD(N)/=0)THEN
-            MAS     = UNDEMI * STIFN(N) * DT2P * DT2P * UNP00001
+            MAS     = HALF * STIFN(N) * DT2P * DT2P * ONEP00001
             MSCND(N)=MAX(MSCND(N),MAS)
           END IF
         END DO
@@ -387,7 +387,7 @@ C-------
         DT2P = DTMIN1(11)/DTFAC1(11)
         DO N=NODFT,NODLT
           IF(TAGNOD(N)/=0)THEN
-            INER = UNDEMI * STIFR(N) * DT2P * DT2P * UNP00001
+            INER = HALF * STIFR(N) * DT2P * DT2P * ONEP00001
             INCND(N)=MAX(INCND(N),INER)
           END IF
         END DO
@@ -426,12 +426,12 @@ C-------
       DO N=NODFT,NODLT
         IF(TAGNOD(N)/=0)THEN
 
-          FAC=UN/MAX(MSCND(N),EM20)
+          FAC=ONE/MAX(MSCND(N),EM20)
           A(1,N) = AX(1,N)*FAC+ACND(1,N)
           A(2,N) = AX(2,N)*FAC+ACND(2,N)
           A(3,N) = AX(3,N)*FAC+ACND(3,N)
 
-          FAC=UN/MAX(INCND(N),EM20)
+          FAC=ONE/MAX(INCND(N),EM20)
           AR(1,N) = ARX(1,N)*FAC+ARCND(1,N)
           AR(2,N) = ARX(2,N)*FAC+ARCND(2,N)
           AR(3,N) = ARX(3,N)*FAC+ARCND(3,N)

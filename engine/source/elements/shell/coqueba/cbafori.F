@@ -380,7 +380,7 @@ C    -------- sig_rz added here----a verifier EINT(QEPH sans A)-----
         EP =IPLAT(I)
         C2=VOL(EP)
         ERZ= VRLZ(I)*DT1C
-        DEV = ERZ*C2*UNDEMI*OFF(EP)
+        DEV = ERZ*C2*HALF*OFF(EP)
         EINT(EP,1) = EINT(EP,1)+ VSRZ(EP,NG)*DEV
         VSRZ(EP,NG)= VSRZ(EP,NG)+KRZ(EP)*ERZ*OFF(EP)
         EINT(EP,1) = EINT(EP,1)+ VSRZ(EP,NG)*DEV
@@ -393,7 +393,7 @@ C
 #include "vectorize.inc"
         DO I=JFT,JLT
          EP =IPLAT(I)
-         C2=VOL(EP)*VSRZ(EP,NG)*UNDEMI
+         C2=VOL(EP)*VSRZ(EP,NG)*HALF
          DO J=1,4
           VMZ(I,J)= VMZ(I,J)+BRZ(I,4,J)*C2
          ENDDO
@@ -403,7 +403,7 @@ C
          EP=IPLAT(I)
          C2=VOL(EP)
          C3=C2*FF(EP,3)
-         CSRZ=C2*VSRZ(EP,NG)*UNDEMI
+         CSRZ=C2*VSRZ(EP,NG)*HALF
 C-------------------------------------------------
 C        PARTIE ANTISYM STOCKEE DANS NOEUDS 1,2
 C        PARTIE SYM NOEUDS STOCKEE DANS NOEUDS 3,4
@@ -428,7 +428,7 @@ C
         EP=IPLAT(I)
           C2=VOL(EP)
           C3=C2*FF(EP,3)
-          CSRZ=C2*VSRZ(EP,NG)*UNDEMI
+          CSRZ=C2*VSRZ(EP,NG)*HALF
            VF(EP,1,1)=VF(EP,1,1)+C3*BM(EP,3)+CSRZ*BRZ(I,1,1)
            VF(EP,2,1)=VF(EP,2,1)+C3*BM(EP,6)+CSRZ*BRZ(I,2,1)
            VF(EP,3,1)=VF(EP,3,1)+C3*BM(EP,9)+CSRZ*BRZ(I,3,1)

@@ -87,7 +87,7 @@ C GAP_M = for each main segment, max of gap of its connected nodes [NRTM]
 #include "vectorize.inc"
       DO I=NMNF,NMNL
         M = MSR(I)
-        WA(M)=UNDEMI*GAPSCALE*THKNOD(M)
+        WA(M)=HALF*GAPSCALE*THKNOD(M)
       END DO
 C
       CALL MY_BARRIER

@@ -205,7 +205,7 @@ C-----------------------------------------------
       
       DO I=1,5
        IF (A(I)==ZERO)THEN
-         R(I)=UN
+         R(I)=ONE
        ENDIF
        IF(R(I)==ZERO)THEN
           CALL ANCMSG(
@@ -232,7 +232,7 @@ C-----------------------------------------------
       UPARAM(24:28) = BL(1:5)
       UPARAM(29:33) = RL(1:5)      
       UPARAM(34)    = RHO0*D**2/PCJ
-      VCJ           = UN-UN/UPARAM(34)
+      VCJ           = ONE-ONE/UPARAM(34)
       UPARAM(35)    = VCJ
       NUPARAM       = 35
       NFUNC         = 0

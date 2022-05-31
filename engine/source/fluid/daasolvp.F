@@ -166,12 +166,12 @@ C Coordonnees et vitesses locales SPMD
            NORMAL(1,I) = NRX/AREA2
            NORMAL(2,I) = NRY/AREA2
            NORMAL(3,I) = NRZ/AREA2
-           AREAF(I) = UNDEMI*AREA2
+           AREAF(I) = HALF*AREA2
            IF(IWAVE == 1)THEN
 C Spherical wave
-             X0=TIERS*X1+TIERS*X2+TIERS*X3
-             Y0=TIERS*Y1+TIERS*Y2+TIERS*Y3
-             Z0=TIERS*Z1+TIERS*Z2+TIERS*Z3
+             X0=THIRD*X1+THIRD*X2+THIRD*X3
+             Y0=THIRD*Y1+THIRD*Y2+THIRD*Y3
+             Z0=THIRD*Z1+THIRD*Z2+THIRD*Z3
              DIRWIX=X0-RFLOW(9)
              DIRWIY=Y0-RFLOW(10)
              DIRWIZ=Z0-RFLOW(11)
@@ -204,20 +204,20 @@ C hydrostatic pressure
            ENDIF
 	       COSG(I)=NORMAL(1,I)*DIRWIX+NORMAL(2,I)*DIRWIY+NORMAL(3,I)*DIRWIZ
 C vitesse N-1/2
-           VX0 = TIERS*VL(1,I1)+TIERS*VL(1,I2)+TIERS*VL(1,I3)
-           VY0 = TIERS*VL(2,I1)+TIERS*VL(2,I2)+TIERS*VL(2,I3)
-           VZ0 = TIERS*VL(3,I1)+TIERS*VL(3,I2)+TIERS*VL(3,I3)
+           VX0 = THIRD*VL(1,I1)+THIRD*VL(1,I2)+THIRD*VL(1,I3)
+           VY0 = THIRD*VL(2,I1)+THIRD*VL(2,I2)+THIRD*VL(2,I3)
+           VZ0 = THIRD*VL(3,I1)+THIRD*VL(3,I2)+THIRD*VL(3,I3)
            VEL(I) = VX0*NORMAL(1,I)+VY0*NORMAL(2,I)+VZ0*NORMAL(3,I)
         ENDDO
       ELSEIF(JFORM == 2) THEN
-        WI(1,1)=QUART
-        WI(2,1)=QUART
-        WI(3,1)=QUART
-        WI(4,1)=QUART
-        WI(1,2)=TIERS
-        WI(2,2)=TIERS
-        WI(3,2)=UNSIX
-        WI(4,2)=UNSIX
+        WI(1,1)=FOURTH
+        WI(2,1)=FOURTH
+        WI(3,1)=FOURTH
+        WI(4,1)=FOURTH
+        WI(1,2)=THIRD
+        WI(2,2)=THIRD
+        WI(3,2)=ONE_OVER_6
+        WI(4,2)=ONE_OVER_6
         DO I = 1,NEL
            I1 = ELEM(1,I)
            I2 = ELEM(2,I)
@@ -249,7 +249,7 @@ C vitesse N-1/2
            NORMAL(1,I) = NRX/AREA2
            NORMAL(2,I) = NRY/AREA2
            NORMAL(3,I) = NRZ/AREA2
-           AREAF(I) = UNDEMI*AREA2
+           AREAF(I) = HALF*AREA2
            IF(IWAVE == 1)THEN
 C Spherical wave
              X0=WI(1,I5)*X1+WI(2,I5)*X2+WI(3,I5)*X3+WI(4,I5)*X4
@@ -300,7 +300,7 @@ C-----------------------------------------------
       DO I=1,NEL
          OFF(I) = ZERO
          TTA = TT-TA(I)
-         IF(TTA .GT. ZERO) OFF(I) = UN
+         IF(TTA .GT. ZERO) OFF(I) = ONE
       ENDDO
       IF(IPRES == 1) THEN
         IF(IWAVE == 1)THEN
@@ -392,7 +392,7 @@ C-----------------------------------------------
         DO I=1,NEL
            OFF(I) = ZERO
            TTA = TT-TA(I+NEL)
-           IF(TTA .GT. ZERO) OFF(I) = UN
+           IF(TTA .GT. ZERO) OFF(I) = ONE
         ENDDO
         IF(IPRES == 1) THEN
           DO I=1,NEL
@@ -460,7 +460,7 @@ C DAA-1
           ELSEIF(INTEGR == 2) THEN
 C Prediction
             DO I=1,NEL
-               PS(I) = PM(I) + DPMDT(I)*DT1*UNDEMI - RHOC*(VI(I)+VR(I))
+               PS(I) = PM(I) + DPMDT(I)*DT1*HALF - RHOC*(VI(I)+VR(I))
             ENDDO
 C Correction
             DO I=1,NEL
@@ -504,9 +504,9 @@ C  L U decomposition
           ENDIF
 
           DO I=1,NEL
-           VECT(I) = DEUX*SSP*(RHOC*(VI(I)+VR(I))-PM(I))
+           VECT(I) = TWO*SSP*(RHOC*(VI(I)+VR(I))-PM(I))
           ENDDO
-          CALL DGEMV('T',NEL, NEL, UN, CBEM, NEL, VECT, 1, ZERO, VECT1, 1)
+          CALL DGEMV('T',NEL, NEL, ONE, CBEM, NEL, VECT, 1, ZERO, VECT1, 1)
 
           VECT(1:NEL)=ZERO
           IF(IBUFELC(1) > 0) THEN
@@ -557,13 +557,13 @@ C Echange
           ELSEIF(INTEGR == 2) THEN
 C Prediction
              DO I=1,NEL
-                PS(I) = PM(I) + DPMDT(I)*DT1*UNDEMI - RHOC*(VI(I)+VR(I))
+                PS(I) = PM(I) + DPMDT(I)*DT1*HALF - RHOC*(VI(I)+VR(I))
              ENDDO
 C Correction
              DO I=1,NEL
-              VECT(I) = -DEUX*SSP*PS(I)
+              VECT(I) = -TWO*SSP*PS(I)
              ENDDO
-             CALL DGEMV('T',NEL, NEL, UN, CBEM, NEL, VECT, 1, ZERO, VECT1, 1)
+             CALL DGEMV('T',NEL, NEL, ONE, CBEM, NEL, VECT, 1, ZERO, VECT1, 1)
              VECT(1:NEL)=ZERO
              IF(IBUFELC(1) > 0) THEN
                K=0
@@ -689,7 +689,7 @@ C
            NRX= NORMAL(1,I)
            NRY= NORMAL(2,I)
            NRZ= NORMAL(3,I)
-           FF = FAC1*TIERS*FEL(I)
+           FF = FAC1*THIRD*FEL(I)
            IF(N1.NE.0) THEN
               A(1,N1) = A(1,N1) + FF*NRX
               A(2,N1) = A(2,N1) + FF*NRY
@@ -725,8 +725,8 @@ C
               NEBUF(NEL_L) = I
            ENDIF
         ENDDO
-        WF(1)=FAC1*QUART
-        WF(2)=FAC1*TIERS
+        WF(1)=FAC1*FOURTH
+        WF(2)=FAC1*THIRD
         DO K=1,NEL_L
            I  = NEBUF(K)
            I1 = ELEM(1,I)

@@ -98,15 +98,15 @@ c
       ENDDO
 c
       DO I=1,NEL
-        IF (GAP(I) > ZERO .AND. AL(I) <= (AL0(I)-GAP(I))) OFF(I) = UN
+        IF (GAP(I) > ZERO .AND. AL(I) <= (AL0(I)-GAP(I))) OFF(I) = ONE
       ENDDO
 c
       DO I=1,NEL
-        EINT(I) = EINT(I) + FOR(I)*EPSP(I)*AL(I)*DT1*UNDEMI
+        EINT(I) = EINT(I) + FOR(I)*EPSP(I)*AL(I)*DT1*HALF
       ENDDO
 c
       DO I=1,NEL
-        AREA(I) = AREA(I)*(UN - DEUX*NU(I)*EPSP(I)*DT1*OFF(I))
+        AREA(I) = AREA(I)*(ONE - TWO*NU(I)*EPSP(I)*DT1*OFF(I))
       ENDDO
 c
       DO I=1,NEL
@@ -122,11 +122,11 @@ c
           HH(I)  = YSCALE(I)*HH(I)
         ELSE
           YLD(I) = CA(I) + CB(I)*(PLA(I)**CN(I))
-          IF (CN(I) == UN) THEN
+          IF (CN(I) == ONE) THEN
             HH(I) = CB(I)
           ELSE
             IF (PLA(I) > ZERO) THEN
-              HH(I) = CB(I)*CN(I)/PLA(I)**(UN-CN(I))
+              HH(I) = CB(I)*CN(I)/PLA(I)**(ONE-CN(I))
             ELSE
               HH(I) = ZERO
             ENDIF
@@ -141,8 +141,8 @@ C-------------
           IF (EPDR(I) > ZERO) THEN
             IF (VFLAG(I) /= 1) THEN
               IF (ISRATE(I) == 1) THEN
-                ALPHA  = MIN(UN, ASRATE(I)*DT1)
-                EPSDOT = ALPHA*ABS(EPSP(I)) + (UN-ALPHA)*UVAR(I,1)
+                ALPHA  = MIN(ONE, ASRATE(I)*DT1)
+                EPSDOT = ALPHA*ABS(EPSP(I)) + (ONE-ALPHA)*UVAR(I,1)
                 UVAR(I,1) = EPSDOT
               ELSE
                 EPSDOT = ABS(EPSP(I))
@@ -150,15 +150,15 @@ C-------------
             ELSE
               EPSDOT = UVAR(I,1)
             ENDIF
-            FRATE = UN + (EPSDOT*EPDR(I))**CP(I)
+            FRATE = ONE + (EPSDOT*EPDR(I))**CP(I)
             IF (ICC(I)== 1) YLDMAX(I) = YLDMAX(I) * FRATE
             IF ((NFUNC > 0) .AND. (CA(I) /= ZERO)) THEN
-              YLD(I) = YLD(I) + (CA(I) + CB(I)*(PLA(I)**CN(I)))*(FRATE-UN)
-              IF (CN(I) == UN) THEN
-                HH(I) = HH(I) + CB(I)*(FRATE-UN)
+              YLD(I) = YLD(I) + (CA(I) + CB(I)*(PLA(I)**CN(I)))*(FRATE-ONE)
+              IF (CN(I) == ONE) THEN
+                HH(I) = HH(I) + CB(I)*(FRATE-ONE)
               ELSE
                 IF (PLA(I) > ZERO) THEN
-                  HH(I) = HH(I) + CB(I)*CN(I)/PLA(I)**(UN-CN(I))*(FRATE-UN)
+                  HH(I) = HH(I) + CB(I)*CN(I)/PLA(I)**(ONE-CN(I))*(FRATE-ONE)
                 ENDIF
               ENDIF
             ELSE           
@@ -189,15 +189,15 @@ C     TEST DE RUPTURE DUCTILE
 C-------------------------------
       DO I=1,NEL
         IF (OFF(I) < EM01) OFF(I) = ZERO
-        IF (OFF(I) < UN)   OFF(I) = OFF(I)*QCINQ
+        IF (OFF(I) < ONE)   OFF(I) = OFF(I)*FOUR_OVER_5
       ENDDO
 c--------------------------------
 c     AXIAL TENSION OR PLASTIC STRAIN FAILURE 
 c--------------------------------
       NINDX = 0
       DO I = 1,NEL
-        IF (OFF(I) == UN) THEN
-          DMG = UN
+        IF (OFF(I) == ONE) THEN
+          DMG = ONE
           IF (EPST(I) > EPSR1(I)) THEN
             DMG = (EPSR2(I) - EPST(I)) / (EPSR2(I) - EPSR1(I))
             DMG = MAX(DMG, ZERO)
@@ -205,16 +205,16 @@ c--------------------------------
           ENDIF
 c         test strain failure
           IF (DMG == ZERO .or. PLA(I) >= EPMAX(I)) THEN
-            OFF(I)   = QCINQ
+            OFF(I)   = FOUR_OVER_5
             IDEL7NOK = 1
             NINDX = NINDX+1
             INDX(NINDX) = I
           ENDIF          
 c
           IF (VFLAG(I)==1) THEN
-            ALPHA  = MIN(UN, ASRATE(I)*DT1)
+            ALPHA  = MIN(ONE, ASRATE(I)*DT1)
             EPSDOT = DPLA(I)/MAX(EM20,DT1)
-            UVAR(I,1) = ALPHA*EPSDOT + (UN - ALPHA)*UVAR(I,1)
+            UVAR(I,1) = ALPHA*EPSDOT + (ONE - ALPHA)*UVAR(I,1)
           ENDIF
         ENDIF
       ENDDO                                          
@@ -235,7 +235,7 @@ c
       ENDDO
 c
       DO I=1,NEL
-        EINT(I) = EINT(I) + FOR(I)*EPSP(I)*AL(I)*DT1*UNDEMI
+        EINT(I) = EINT(I) + FOR(I)*EPSP(I)*AL(I)*DT1*HALF
       ENDDO
 c-----------------------------------------------
  1000 FORMAT(1X,'-- RUPTURE OF TRUSS ELEMENT NUMBER ',I10)

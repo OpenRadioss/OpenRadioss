@@ -1014,7 +1014,7 @@ C-----------reprend vol,gama------
          NMV = NMV+1
 C-----------VOL-VINC---------
          VOL(NMV) = VOLMON(KK1+16)- VOLMON(KK1+5)
-         GAMAV(NMV) = (VOLMON(KK1+1)-UN)*VOLMON(KK1+13) /VOL(NMV)
+         GAMAV(NMV) = (VOLMON(KK1+1)-ONE)*VOLMON(KK1+13) /VOL(NMV)
        ENDIF
         K1 = K1 + NIMV
         KK1 = KK1 + NRVOLU
@@ -1038,18 +1038,18 @@ C-----------DIAG_K------
           X24=X(1,N4)-X(1,N2)
           Y24=X(2,N4)-X(2,N2)
           Z24=X(3,N4)-X(3,N2)
-          NOR(1,J)=UNDEMI*(Y13*Z24-Y24*Z13)
-          NOR(2,J)=UNDEMI*(Z13*X24-Z24*X13)
-          NOR(3,J)=UNDEMI*(X13*Y24-X24*Y13)
+          NOR(1,J)=HALF*(Y13*Z24-Y24*Z13)
+          NOR(2,J)=HALF*(Z13*X24-Z24*X13)
+          NOR(3,J)=HALF*(X13*Y24-X24*Y13)
          ENDDO
          DO J=1,NN
           N1 = IGRSURF(IS)%NODES(J,1)
           N2 = IGRSURF(IS)%NODES(J,2)
           N3 = IGRSURF(IS)%NODES(J,3)
           N4 = IGRSURF(IS)%NODES(J,4)
-          XX=UNDEMI*(X(1,N1)+X(1,N2))
-          YY=UNDEMI*(X(2,N1)+X(2,N2))
-          ZZ=UNDEMI*(X(3,N1)+X(3,N2))
+          XX=HALF*(X(1,N1)+X(1,N2))
+          YY=HALF*(X(2,N1)+X(2,N2))
+          ZZ=HALF*(X(3,N1)+X(3,N2))
           X13=X(1,N3)-X(1,N1)
           Y13=X(2,N3)-X(2,N1)
           Z13=X(3,N3)-X(3,N1)
@@ -1555,7 +1555,7 @@ C
               EJ(2)=XFRAME(K2,IFM)
               EJ(3)=XFRAME(K3,IFM)
             ENDIF
-          S = UN/EJ(J1)
+          S = ONE/EJ(J1)
           DO NN =1,3
            EJ(NN) = EJ(NN)*S
           ENDDO
@@ -1863,18 +1863,18 @@ C-----------calcul VOL,PRESS------
           N2 = IGRSURF(IS)%NODES(J,2)
           N3 = IGRSURF(IS)%NODES(J,3)
           N4 = IGRSURF(IS)%NODES(J,4)
-          XX=UNDEMI*(X_IMP(1,N1)+X_IMP(1,N2))
-          YY=UNDEMI*(X_IMP(2,N1)+X_IMP(2,N2))
-          ZZ=UNDEMI*(X_IMP(3,N1)+X_IMP(3,N2))
+          XX=HALF*(X_IMP(1,N1)+X_IMP(1,N2))
+          YY=HALF*(X_IMP(2,N1)+X_IMP(2,N2))
+          ZZ=HALF*(X_IMP(3,N1)+X_IMP(3,N2))
           X13=X_IMP(1,N3)-X_IMP(1,N1)
           Y13=X_IMP(2,N3)-X_IMP(2,N1)
           Z13=X_IMP(3,N3)-X_IMP(3,N1)
           X24=X_IMP(1,N4)-X_IMP(1,N2)
           Y24=X_IMP(2,N4)-X_IMP(2,N2)
           Z24=X_IMP(3,N4)-X_IMP(3,N2)
-          NOR(1,J)=UNDEMI*(Y13*Z24-Y24*Z13)
-          NOR(2,J)=UNDEMI*(Z13*X24-Z24*X13)
-          NOR(3,J)=UNDEMI*(X13*Y24-X24*Y13)
+          NOR(1,J)=HALF*(Y13*Z24-Y24*Z13)
+          NOR(2,J)=HALF*(Z13*X24-Z24*X13)
+          NOR(3,J)=HALF*(X13*Y24-X24*Y13)
           VOL= VOL+THIRD*(NOR(1,J)*XX+NOR(2,J)*YY+NOR(3,J)*ZZ)
          ENDDO
           IF(IMACH.EQ.3) THEN
@@ -1906,7 +1906,7 @@ C-----------noeud independant -> W------
             A(K,N3) = A(K,N3)+FNI(K)
            ENDDO
           ELSE
-           DPI = DPRES*QUART
+           DPI = DPRES*FOURTH
            DO K = 1,3
             FNI(K)=DPI*NOR(K,J)
            ENDDO
@@ -2320,12 +2320,12 @@ C
         PRES  = PEXT
       ELSE
 C       CALCUL DE L ENERGIE PUIS DE LA PRESSION
-        FAC  = UNDEMI*(GAMA-UN)*DV
-        ENERGY= ((UN-FAC/(VOLD-VINC))*ENERG_OLD-DEOUT*DT1 ) /
-     .                             (UN+FAC/(VOL-VINC))
+        FAC  = HALF*(GAMA-ONE)*DV
+        ENERGY= ((ONE-FAC/(VOLD-VINC))*ENERG_OLD-DEOUT*DT1 ) /
+     .                             (ONE+FAC/(VOL-VINC))
         ENERGY = MAX(ENERGY,ZERO)
 C
-        PRES=(GAMA-UN)*ENERGY/(VOL-VINC)
+        PRES=(GAMA-ONE)*ENERGY/(VOL-VINC)
 C
         IF(PRES.GT.PMAX)THEN
           IDEF=1

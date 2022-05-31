@@ -175,7 +175,7 @@ C-----------------------------------------------
           VALEL = BRICK_LIST(NIN,IB)%POLY(ICELL)%PHI
 !          dPHI = dPHI + VALEL* BRICK_LIST(NIN,IB)%upwFLU1(ICELL)
           dPHI = dPHI + VALEL* BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1
-          dPHI = -UNDEMI * DT1 * dPHI
+          dPHI = -HALF * DT1 * dPHI
           BRICK_LIST(NIN,IB)%POLY(ICELL)%dPHI = dPHI 
           dPHI = ZERO             
         ENDDO!next ICELL

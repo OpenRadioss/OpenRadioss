@@ -133,9 +133,9 @@ C
 C
       DO I=1,LAST-FIRST+1
         IF(IX3(I).NE.IX4(I))THEN
-         X0(I) = QUART*(X1(I)+X2(I)+X3(I)+X4(I))
-         Y0(I) = QUART*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-         Z0(I) = QUART*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
+         X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
+         Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
+         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
         ELSE
          X0(I) = X3(I)
          Y0(I) = Y3(I)
@@ -306,16 +306,16 @@ C
 C
            XAD=ADMSR(1,IRM)
            S1=SIGN(RUN,XAD)
-c        s1=UN
+c        s1=ONE
            XAD=ADMSR(2,IRM)
            S2=SIGN(RUN,XAD)
-c        s2=UN
+c        s2=ONE
            XAD=ADMSR(3,IRM)
            S3=SIGN(RUN,XAD)
-c        s3=UN
+c        s3=ONE
            XAD=ADMSR(4,IRM)
            S4=SIGN(RUN,XAD)
-c        s4=UN
+c        s4=ONE
 C
           IF(I4/=I3)THEN
 C

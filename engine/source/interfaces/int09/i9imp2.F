@@ -86,12 +86,12 @@ C
       ELSE
         H(2)=T2*(YS-YM1)+T3*(ZS-ZM1)
         H(2)=H(2)/XL
-        H(1)=UN - H(2)
+        H(1)=ONE - H(2)
         SS=H(2)-H(1)
-        IF(SS.GT. UNP05)ILOC(II)=-ILOC(II)
-        IF(SS.LT.-UNP05)ILOC(II)=-ILOC(II)
-        SS= MAX(-UN,SS)
-        SS= MIN( UN,SS)
+        IF(SS.GT. ONEP05)ILOC(II)=-ILOC(II)
+        IF(SS.LT.-ONEP05)ILOC(II)=-ILOC(II)
+        SS= MAX(-ONE,SS)
+        SS= MIN( ONE,SS)
         NOR(2,II)=N2
         NOR(3,II)=N3
         CST(1,II)=SS

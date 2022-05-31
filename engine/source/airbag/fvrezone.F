@@ -244,7 +244,7 @@ c         ENDDO
          IF (ISPMD.NE.FVSPMD(IFV)%PMAIN-1) RETURN
       ENDIF
 C Critere pour test d'interiorite
-      CRIT=DIX
+      CRIT=TEN
 C---------------------------------------------------
 C Preliminaires
 C---------------------------------------------------
@@ -267,9 +267,9 @@ C
             Z1=XXX(3,N1)
             Z2=XXX(3,N2)
             Z3=XXX(3,N3)
-            PX0(1,I)=(UN-KSI-ETA)*X1+KSI*X2+ETA*X3
-            PX0(2,I)=(UN-KSI-ETA)*Y1+KSI*Y2+ETA*Y3
-            PX0(3,I)=(UN-KSI-ETA)*Z1+KSI*Z2+ETA*Z3
+            PX0(1,I)=(ONE-KSI-ETA)*X1+KSI*X2+ETA*X3
+            PX0(2,I)=(ONE-KSI-ETA)*Y1+KSI*Y2+ETA*Y3
+            PX0(3,I)=(ONE-KSI-ETA)*Z1+KSI*Z2+ETA*Z3
          ELSEIF (IFVNOD0(1,I).EQ.2) THEN
             II=IFVNOD0(2,I)
 c            IF (NSPMD == 1) THEN
@@ -288,9 +288,9 @@ c            ENDIF
             I1=IFVNOD0(2,I)
             I2=IFVNOD0(3,I)
             FAC=RFVNOD0(1,I)
-            PX0(1,I)=FAC*PX0(1,I1)+(UN-FAC)*PX0(1,I2)
-            PX0(2,I)=FAC*PX0(2,I1)+(UN-FAC)*PX0(2,I2)
-            PX0(3,I)=FAC*PX0(3,I1)+(UN-FAC)*PX0(3,I2)
+            PX0(1,I)=FAC*PX0(1,I1)+(ONE-FAC)*PX0(1,I2)
+            PX0(2,I)=FAC*PX0(2,I1)+(ONE-FAC)*PX0(2,I2)
+            PX0(3,I)=FAC*PX0(3,I1)+(ONE-FAC)*PX0(3,I2)
          ENDIF
       ENDDO
 C
@@ -312,9 +312,9 @@ C
             Z1=XXX(3,N1)
             Z2=XXX(3,N2)
             Z3=XXX(3,N3)
-            PX1(1,I)=(UN-KSI-ETA)*X1+KSI*X2+ETA*X3
-            PX1(2,I)=(UN-KSI-ETA)*Y1+KSI*Y2+ETA*Y3
-            PX1(3,I)=(UN-KSI-ETA)*Z1+KSI*Z2+ETA*Z3
+            PX1(1,I)=(ONE-KSI-ETA)*X1+KSI*X2+ETA*X3
+            PX1(2,I)=(ONE-KSI-ETA)*Y1+KSI*Y2+ETA*Y3
+            PX1(3,I)=(ONE-KSI-ETA)*Z1+KSI*Z2+ETA*Z3
          ELSEIF (IFVNOD1(1,I).EQ.2) THEN
             II=IFVNOD1(2,I)
 c            IF (NSPMD == 1) THEN
@@ -333,9 +333,9 @@ c            ENDIF
             I1=IFVNOD1(2,I)
             I2=IFVNOD1(3,I)
             FAC=RFVNOD1(1,I)
-            PX1(1,I)=FAC*PX1(1,I1)+(UN-FAC)*PX1(1,I2)
-            PX1(2,I)=FAC*PX1(2,I1)+(UN-FAC)*PX1(2,I2)
-            PX1(3,I)=FAC*PX1(3,I1)+(UN-FAC)*PX1(3,I2)
+            PX1(1,I)=FAC*PX1(1,I1)+(ONE-FAC)*PX1(1,I2)
+            PX1(2,I)=FAC*PX1(2,I1)+(ONE-FAC)*PX1(2,I2)
+            PX1(3,I)=FAC*PX1(3,I1)+(ONE-FAC)*PX1(3,I2)
          ENDIF
       ENDDO
       DEALLOCATE(XXXSA)
@@ -363,7 +363,7 @@ C Normale et aire des triangles
          NRY=Z12*X13-X12*Z13
          NRZ=X12*Y13-Y12*X13
          AREA2=SQRT(NRX**2+NRY**2+NRZ**2)
-         TAREA0(I)=UNDEMI*AREA2
+         TAREA0(I)=HALF*AREA2
          IF (AREA2.GT.0) THEN
             NORM0(1,I)=NRX/AREA2
             NORM0(2,I)=NRY/AREA2
@@ -398,7 +398,7 @@ C
          NRY=Z12*X13-X12*Z13
          NRZ=X12*Y13-Y12*X13
          AREA2=SQRT(NRX**2+NRY**2+NRZ**2)
-         TAREA1(I)=UNDEMI*AREA2
+         TAREA1(I)=HALF*AREA2
          IF (AREA2.GT.1) THEN
             NORM1(1,I)=NRX/AREA2
             NORM1(2,I)=NRY/AREA2
@@ -439,7 +439,7 @@ C Boucle sur les triangles du polygone
                X1=PX0(1,N1)
                Y1=PX0(2,N1)
                Z1=PX0(3,N1)
-               VOLU0(I)=VOLU0(I)+TIERS*AREA*(X1*NX+Y1*NY+Z1*NZ)
+               VOLU0(I)=VOLU0(I)+THIRD*AREA*(X1*NX+Y1*NY+Z1*NZ)
             ENDDO
          ENDDO
       ENDDO 
@@ -473,7 +473,7 @@ C Boucle sur les triangles du polygone
                X1=PX1(1,N1)
                Y1=PX1(2,N1)
                Z1=PX1(3,N1)
-               VOLU1(I)=VOLU1(I)+TIERS*AREA*(X1*NX+Y1*NY+Z1*NZ)
+               VOLU1(I)=VOLU1(I)+THIRD*AREA*(X1*NX+Y1*NY+Z1*NZ)
             ENDDO
          ENDDO
       ENDDO   
@@ -698,7 +698,7 @@ C
                   NBI=NBI+1
                   LISTB(NBI)=K
                ENDIF
-               VOL=VOL+NN*VOLB/HUIT
+               VOL=VOL+NN*VOLB/EIGHT
             ENDDO
 C
             RR=VOL/VOLU0(J)
@@ -751,41 +751,41 @@ C
       
       WRITE(ISTDO,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)') 
      .   '    INITIAL MASS: ',MASS0,' REZONED MASS: ',MASS1,
-     .     ' ERR: ',MIN(ABS((MASS1-MASS0)/MASS0*CENT),99.99D0),'%'
+     .     ' ERR: ',MIN(ABS((MASS1-MASS0)/MASS0*HUNDRED),99.99D0),'%'
       WRITE(ISTDO,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)') 
      .   '    INITIAL QX  : ',QX0,' REZONED QX  : ',QX1,
-     .     ' ERR: ',MIN(ABS((QX1-QX0)/QX0*CENT),99.99D0),'%'
+     .     ' ERR: ',MIN(ABS((QX1-QX0)/QX0*HUNDRED),99.99D0),'%'
       WRITE(ISTDO,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)') 
      .   '    INITIAL QY  : ',QY0,' REZONED QY  : ',QY1,
-     .     ' ERR: ',MIN(ABS((QY1-QY0)/QY0*CENT),99.99D0),'%'
+     .     ' ERR: ',MIN(ABS((QY1-QY0)/QY0*HUNDRED),99.99D0),'%'
       WRITE(ISTDO,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)') 
      .   '    INITIAL QZ  : ',QZ0,' REZONED QZ  : ',QZ1,
-     .     ' ERR: ',MIN(ABS((QZ1-QZ0)/QZ0*CENT),99.99D0),'%'
+     .     ' ERR: ',MIN(ABS((QZ1-QZ0)/QZ0*HUNDRED),99.99D0),'%'
       WRITE(ISTDO,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)') 
      .   '    INITIAL ENER: ',ENER0,' REZONED ENER: ',ENER1,
-     .     ' ERR: ',MIN(ABS((ENER1-ENER0)/ENER0*CENT),99.99D0),'%'
+     .     ' ERR: ',MIN(ABS((ENER1-ENER0)/ENER0*HUNDRED),99.99D0),'%'
       WRITE(ISTDO,*)
       WRITE(IOUT,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)') 
      .   '    INITIAL MASS: ',MASS0,' REZONED MASS: ',MASS1,
-     .     ' ERR: ',MIN(ABS((MASS1-MASS0)/MASS0*CENT),99.99D0),'%'
+     .     ' ERR: ',MIN(ABS((MASS1-MASS0)/MASS0*HUNDRED),99.99D0),'%'
       WRITE(IOUT,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)') 
      .   '    INITIAL QX  : ',QX0,' REZONED QX  : ',QX1,
-     .     ' ERR: ',MIN(ABS((QX1-QX0)/QX0*CENT),99.99D0),'%'
+     .     ' ERR: ',MIN(ABS((QX1-QX0)/QX0*HUNDRED),99.99D0),'%'
       WRITE(IOUT,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)') 
      .   '    INITIAL QY  : ',QY0,' REZONED QY  : ',QY1,
-     .     ' ERR: ',MIN(ABS((QY1-QY0)/QY0*CENT),99.99D0),'%'
+     .     ' ERR: ',MIN(ABS((QY1-QY0)/QY0*HUNDRED),99.99D0),'%'
       WRITE(IOUT,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)') 
      .   '    INITIAL QZ  : ',QZ0,' REZONED QZ  : ',QZ1,
-     .     ' ERR: ',MIN(ABS((QZ1-QZ0)/QZ0*CENT),99.99D0),'%'
+     .     ' ERR: ',MIN(ABS((QZ1-QZ0)/QZ0*HUNDRED),99.99D0),'%'
       WRITE(IOUT,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)') 
      .   '    INITIAL ENER: ',ENER0,' REZONED ENER: ',ENER1,
-     .     ' ERR: ',MIN(ABS((ENER1-ENER0)/ENER0*CENT),99.99D0),'%'
+     .     ' ERR: ',MIN(ABS((ENER1-ENER0)/ENER0*HUNDRED),99.99D0),'%'
       WRITE(IOUT,*)
 C
       DO I=1,NPOLH1
          GAMA=GPOLH1(I)
          RPOLH1(I)=MPOLH1(I)/VOLU1(I)
-         PPOLH1(I)=(GAMA-UN)*EPOLH1(I)/VOLU1(I)
+         PPOLH1(I)=(GAMA-ONE)*EPOLH1(I)/VOLU1(I)
       ENDDO
 C
       RETURN
@@ -873,12 +873,12 @@ C
             SS1=-(NX1*NX2+NY1*NY2+NZ1*NZ2)/RR1/RR2
             SS2=-(NX2*NX3+NY2*NY3+NZ2*NZ3)/RR2/RR3
             SS3=-(NX3*NX1+NY3*NY1+NZ3*NZ1)/RR3/RR1
-            IF (SS1.GT.UN) SS1=UN
-            IF (SS1.LT.-UN) SS1=-UN
-            IF (SS2.GT.UN) SS2=UN
-            IF (SS2.LT.-UN) SS2=-UN
-            IF (SS3.GT.UN) SS3=UN
-            IF (SS3.LT.-UN) SS3=-UN
+            IF (SS1.GT.ONE) SS1=ONE
+            IF (SS1.LT.-ONE) SS1=-ONE
+            IF (SS2.GT.ONE) SS2=ONE
+            IF (SS2.LT.-ONE) SS2=-ONE
+            IF (SS3.GT.ONE) SS3=ONE
+            IF (SS3.LT.-ONE) SS3=-ONE
             SAREA=ACOS(SS1)+ACOS(SS2)+ACOS(SS3)-PI
 C
             VX1=X2-X1
@@ -890,9 +890,9 @@ C
             NX=VY1*VZ2-VZ1*VY2
             NY=VZ1*VX2-VX1*VZ2
             NZ=VX1*VY2-VY1*VX2
-            XC=TIERS*(X1+X2+X3)
-            YC=TIERS*(Y1+Y2+Y3)
-            ZC=TIERS*(Z1+Z2+Z3)
+            XC=THIRD*(X1+X2+X3)
+            YC=THIRD*(Y1+Y2+Y3)
+            ZC=THIRD*(Z1+Z2+Z3)
             SS=NX*(XC-XX)+NY*(YC-YY)+NZ*(ZC-ZZ)
             IF (SS.LT.ZERO) SAREA=-SAREA
             ST=ST+SAREA

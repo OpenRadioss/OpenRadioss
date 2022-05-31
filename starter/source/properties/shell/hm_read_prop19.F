@@ -108,7 +108,7 @@ C-------------------------------------------------
       IF (IGEO(4) <= 0) IGEO(4) = 1   ! default value
       IF (GEO(212) == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('orientangle2',FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         GEO(212) = QUATREVINGTDIX * FAC_GEN ! default value   
+         GEO(212) = NINTY * FAC_GEN ! default value   
       ENDIF
 
       IF (IS_ENCRYPTED) THEN
@@ -118,8 +118,8 @@ C-------------------------------------------------
      .        GEO(212), DRAPE_ID, IGEO(49)
       ENDIF
      
-      GEO(2) = GEO(2) * PI / CENT80
-      GEO(212) = GEO(212) * PI / CENT80
+      GEO(2) = GEO(2) * PI / HUNDRED80
+      GEO(212) = GEO(212) * PI / HUNDRED80
       IGEO(48) = 0 
 
 !     *********************************************************    !

@@ -353,17 +353,17 @@ C
         IF(CV3 /= ZERO) VGZ  =CV3
         IF(NWALE_ENGINE == 2)THEN
           IF(ALP /= ZERO) THEN
-            ALPHA    = ALP/(-VGX+SQRT(VGX**2+ UN))
+            ALPHA    = ALP/(-VGX+SQRT(VGX**2+ ONE))
             DT_INPUT = ALP
           ELSE
-            DT_INPUT = ALPHA*(-VGX+SQRT(VGX**2+ UN))
+            DT_INPUT = ALPHA*(-VGX+SQRT(VGX**2+ ONE))
           ENDIF
         ENDIF
         IF(NWALE_ENGINE == 1.AND.ALP == ZERO) ALPHA=EP30
         IF(VOLM /= ZERO)VOLMIN=VOLM
         IF(INT22>0)THEN
-          DTFAC22 = UN
-          IF(DTFAC.GT.UNDEMI)DTFAC22 = UNDEMI / DTFAC
+          DTFAC22 = ONE
+          IF(DTFAC.GT.HALF)DTFAC22 = HALF / DTFAC      
         ENDIF
       ENDIF
 C
@@ -403,7 +403,7 @@ C         END IF
         DTFACS_INT =DTFACS_INT_OLD
       END IF
 C
-      DTFACX = UN
+      DTFACX = ONE
       DO I=1,51
         IF(DTMIN1(I) == ZERO)DTMIN1(I) = DTMIN
         IF(DTFAC1(I) == ZERO)DTFAC1(I) = DTFAC
@@ -474,7 +474,7 @@ C     Min timestep pour le FVMBAG
           IF(DTFAC1(I) == ZERO)DTFAC1(I) = DTFAC
         ELSE
           IF(DTMIN1(I) == ZERO)DTMIN1(I) = ZERO
-          IF(DTFAC1(I) == ZERO)DTFAC1(I) = UNDEMI
+          IF(DTFAC1(I) == ZERO)DTFAC1(I) = HALF         
         ENDIF
 C
       IF(NODADT == 0)THEN
@@ -856,7 +856,7 @@ C---------------------
             WRITE(IOUT,'(A,1X,G14.7)')
      .     ' THERMAL TIME STEP SCALE FACTOR . . . . . . . . .', DTFACTHERM
          ENDIF
-         IF(THEACCFACT > UN ) THEN
+         IF(THEACCFACT > ONE ) THEN
            WRITE(IOUT,'(A,1X,G14.7/)')
      .     ' FACTOR TO SPEED-UP THERMAL ANALYSIS. . . . . . .', THEACCFACT
          ENDIF
@@ -1096,9 +1096,9 @@ C----------------------------------------
            ENDIF
          !if /UPWIND is not defined then catch parameter from previous run
          ELSEIF(UPW_UPDATE==0)THEN
-           UPWMG2=UN
-           UPWOG2=UN
-           UPWSM2=UN
+           UPWMG2=ONE
+           UPWOG2=ONE
+           UPWSM2=ONE
            DO K=1,NUMMAT-1
              !ILAW=PM(19,K)
              JALE=PM(72,K)
@@ -1978,7 +1978,7 @@ C-----------------------
   780   CONTINUE
        ENDIF
 C----------------------------------------
-C     TEST POUR L'ELIMINATION D'UN GROUPE
+C     TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
        IPARG(8,NG)=MAX0(IPARG(8,NG),IGOF)
   790  CONTINUE
@@ -3303,7 +3303,7 @@ C----fix mono w/ BCS solver
 C--------solvers----
 C machine  precision minimum -simple
        CALL FLOATMIN(CS1(1),CS1(2),FLMIN)
-       P_MACH = DEUX*SQRT(FLMIN)
+       P_MACH = TWO*SQRT(FLMIN)
        IF (NSPMD > 1)CALL SPMD_MAX_S(P_MACH)
 C  AUTO SELECT SOLVER
        IF (ISOLV == 7 ) THEN
@@ -3448,7 +3448,7 @@ C--------MIX-----
          ENDIF
        ENDIF
 
-       P_MACH = DEUX*FLMIN
+       P_MACH = TWO*FLMIN
        IF (NVOLU>0 .AND. IMPMV > 0 .AND. ISOLV/=1) THEN
         IF(IPRINT==1) THEN
          WRITE(IOUT,*) ' ** WARNING ** : DIRECT SOLVER IS NOT ',
@@ -3511,14 +3511,14 @@ C--------nonlinear parametres-----
           IQSTAT=0
          END IF
          IF (IDYNA == 2) THEN
-          IF (NEWM_A < UNDEMI) NEWM_A = UNDEMI
-          IF (NEWM_B < UNDEMI*NEWM_A) NEWM_B = UNDEMI*NEWM_A
+          IF (NEWM_A < HALF) NEWM_A = HALF
+          IF (NEWM_B < HALF*NEWM_A) NEWM_B = HALF*NEWM_A
          ELSE
           IF (HHT_A == ZERO) THEN
            HHT_A=-ZEP05
           ELSE
            HHT_A=MIN(ZERO,HHT_A)
-           HHT_A=MAX(-TIERS,HHT_A)
+           HHT_A=MAX(-THIRD,HHT_A)
           ENDIF
          ENDIF
          NEXP = 1
@@ -3554,7 +3554,7 @@ C--------stop criteria-------
          IF (NITOL == 1) THEN
            IF (N_TOL == ZERO) N_TOL=EM3
          ELSEIF (NITOL == 2) THEN
-           IF (N_TOL == ZERO) N_TOL=CINQ*EM3
+           IF (N_TOL == ZERO) N_TOL=FIVE*EM3
          ELSEIF (NITOL == 3) THEN
            IF (N_TOL == ZERO) N_TOL=EM3
          ENDIF
@@ -3581,25 +3581,25 @@ C
         IF (IDTC == 1) THEN
          IF (NL_DTP == 0) NL_DTP=4
          IF (NL_DTN == 0) NL_DTN=15
-         IF (SCAL_DTN == ZERO) SCAL_DTN=DTIERS
-         IF (SCAL_DTP == ZERO) SCAL_DTP=UNP01
+         IF (SCAL_DTN == ZERO) SCAL_DTN=TWO_THIRD
+         IF (SCAL_DTP == ZERO) SCAL_DTP=ONEP01
         ELSEIF (IDTC == 2) THEN
          IF (NL_DTP == 0) NL_DTP=6
          IF (NL_DTN == 0) NL_DTN=20
          IF (IDYNA == 0) THEN
-          IF (SCAL_DTN == ZERO) SCAL_DTN=DTIERS
-          IF (SCAL_DTP == ZERO) SCAL_DTP=UNP1
+          IF (SCAL_DTN == ZERO) SCAL_DTN=TWO_THIRD
+          IF (SCAL_DTP == ZERO) SCAL_DTP=ONEP1
          ELSE
-          IF (SCAL_DTN == ZERO) SCAL_DTN=DTIERS
-          IF (SCAL_DTP == ZERO) SCAL_DTP=UNP1
+          IF (SCAL_DTN == ZERO) SCAL_DTN=TWO_THIRD
+          IF (SCAL_DTP == ZERO) SCAL_DTP=ONEP1
          ENDIF
 C-------ALEN=ALEN0 IF ALEN0=0 sinon ALEN est calcule auto
 C-------RIKS ARC LENGTH METHOD ------
         ELSEIF (IDTC == 3) THEN
          IF (NL_DTP == 0) NL_DTP=12
          IF (NL_DTN == 0) NL_DTN=25
-         IF (SCAL_DTN == ZERO) SCAL_DTN=DTIERS
-         IF (SCAL_DTP == ZERO) SCAL_DTP=UNP2
+         IF (SCAL_DTN == ZERO) SCAL_DTN=TWO_THIRD
+         IF (SCAL_DTP == ZERO) SCAL_DTP=ONEP2
          IF (IAL_M == 0) IAL_M = 2
          IF (NDTFIX > 0) THEN
           IF(IPRINT==1) THEN
@@ -3628,7 +3628,7 @@ C-------RIKS ARC LENGTH METHOD ------
      .   ' ** POTENTIAL INFINITE LOOP IF NO CONVERGENCE IS ACHIEVED **'
          ENDIF
          END IF !(.NOT.(ISMDISP > 0.AND.ISOLV < 4)) THEN
-         IF (SCAL_DTN == ZERO) SCAL_DTN=UNDEMI
+         IF (SCAL_DTN == ZERO) SCAL_DTN=HALF
         END IF !(IDTC == 1)
 C
         IF (DT_MAX == ZERO) DT_MAX=EP10
@@ -3651,14 +3651,14 @@ C
          IF (IKPROJ == 0 ) IKPROJ =-1
 C
          IF (IDYNA > 0.AND.IDTC > 0.AND.ISOLV < 4
-     .       .AND.SCAL_DTP /= UN) THEN
+     .       .AND.SCAL_DTP /= ONE) THEN
           IF(IPRINT==1) THEN
            WRITE(ISTDO,*)
      . ' ** WARNING: CONST. TIME-STEP WILL BE USED WITH SMALL DISP. **'
            WRITE(IOUT,*)
      . ' ** WARNING: CONST. TIME-STEP WILL BE USED WITH SMALL DISP. **'
           ENDIF
-          SCAL_DTP = UN
+          SCAL_DTP = ONE
          ENDIF
         END IF
 C
@@ -3766,7 +3766,7 @@ C
           WRITE(IOUT,6300)NEWM_A,NEWM_B
         ELSEIF (IDYNA > 0) THEN
           WRITE(IOUT,5400)HHT_A
-        ELSEIF (IQSTAT > 0.AND.SCAL_DTQ /= UN) THEN
+        ELSEIF (IQSTAT > 0.AND.SCAL_DTQ /= ONE) THEN
           WRITE(IOUT,6400)SCAL_DTQ
         ENDIF
         IF (IDY_DAMP > 0) WRITE(IOUT,6200)DAMPA_IMP,DAMPB_IMP
@@ -3795,12 +3795,12 @@ C
      .    WRITE(IOUT,6900)ILINE_S,NLS_LIM,LS_TOL
           IF (ILINE_S == 3) THEN
            IF (NITOL /= 2.AND.NITOL /= 4) THEN
-             LS_TOL=CINQ*LS_TOL
+             LS_TOL=FIVE*LS_TOL
            ELSE
-             LS_TOL=UNDEMI*LS_TOL
+             LS_TOL=HALF*LS_TOL
            ENDIF
           ELSEIF (ILINE_S == 2) THEN
-            LS_TOL=UNDEMI*LS_TOL
+            LS_TOL=HALF*LS_TOL
           ENDIF
        ENDIF
 

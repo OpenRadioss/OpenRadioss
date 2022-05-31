@@ -140,13 +140,13 @@ C-----------------------------------------------
       UPARAM(6)=PHI
       UPARAM(7)=GAMA0
       
-      YOUNG = (NEUF*BULK*G0)/(TROIS*BULK + G0)
+      YOUNG = (NINE*BULK*G0)/(THREE*BULK + G0)
 
-      PARMAT(1) = DEUX*GI
+      PARMAT(1) = TWO*GI
       PARMAT(2) = YOUNG
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) = DEUX*G0/(BULK + QTHIRD*G0) 
+      PARMAT(17) = TWO*G0/(BULK + FOUR_OVER_3*G0) 
       
       PM(1)  = RHOR
       PM(89) = RHO0

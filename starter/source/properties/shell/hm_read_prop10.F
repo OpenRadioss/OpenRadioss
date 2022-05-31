@@ -124,7 +124,7 @@ C HIDDEN FLAGS
 C----------------------
         ISHEAR = 0
 C CVIS USED in coquez routines
-        CVIS = UN
+        CVIS = ONE
 
 
 C--------------------------------------------------
@@ -171,7 +171,7 @@ C        Double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
          IGEO(11)=IGTYP
          GEO(12) =IGTYP+PUN
 
-         PTHK = MIN(PTHK, UN-EM06)
+         PTHK = MIN(PTHK, ONE-EM06)
          GEO(42) = PTHK
 C fixing flag and removed from input
         ISTRAIN=1
@@ -264,18 +264,18 @@ C------lecgeo10 :
       IPTHK = 300  
       IPPOS = 400  
       IPWEIGHT = 900
-      IF(GEO(38) == ZERO) GEO(38)=CSIX
+      IF(GEO(38) == ZERO) GEO(38)=FIVE_OVER_6
       IF(NLY == -1)NLY=NPTS_D
       IF(NLY == 0) NLY = 1
       IF(NLY == 1) GEO(38)= ZERO
       AN=SQRT(VX*VX+VY*VY+VZ*VZ)
 c
       DO I=1,NLY
-        GEO(IPWEIGHT+I) = UN
+        GEO(IPWEIGHT+I) = ONE
       ENDDO
 c
       IF(AN .LT.EM10)THEN
-        VX=UN
+        VX=ONE
         VY=ZERO
         VZ=ZERO
         IF (IRP==23) THEN
@@ -370,16 +370,16 @@ C---+#---1----+----2----+----3----+----4----+----5----+----6----+----7-#
       N1=MIN0(NLY,NLYMAX)
       GEO(6)  = N1+EM01
       IGEO(4) = N1
-      THK10 = UN/N1
+      THK10 = ONE/N1
       DO K=1,N1
        CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_phi',PHI_I,K,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C----------------------
        M1 = IPANG+K
        GEO(M1) = PHI_I
        GEO(IPTHK+K) = THK10 
-       GEO(IPPOS+K) = -UNDEMI*(UN+THK10)+K*THK10
+       GEO(IPPOS+K) = -HALF*(ONE+THK10)+K*THK10
        IF(.NOT.IS_CRYPTED)WRITE(IOUT,2020)  K,GEO(M1)
-       GEO(M1)=GEO(M1)*PI/CENT80
+       GEO(M1)=GEO(M1)*PI/HUNDRED80
       ENDDO
       GEO(200)=GEO(1)  
 

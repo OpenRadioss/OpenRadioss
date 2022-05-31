@@ -447,14 +447,14 @@ C-----------
             ! SOUS INTEGRATION DE SIGS
             !-------------------------
             DO I=LFT,LLT
-              AA         = UN / SQRT(SX(I,IP)*SX(I,IP) + SY(I,IP)*SY(I,IP) +SZ(I,IP)*SZ(I,IP))
+              AA         = ONE / SQRT(SX(I,IP)*SX(I,IP) + SY(I,IP)*SY(I,IP) +SZ(I,IP)*SZ(I,IP))
               SX(I,IP)   = SX(I,IP) * AA
               SY(I,IP)   = SY(I,IP) * AA
               SZ(I,IP)   = SZ(I,IP) * AA
               RX(I,IP)   = SY(I,IP) * TZ(I,IP) - SZ(I,IP) * TY(I,IP)
               RY(I,IP)   = SZ(I,IP) * TX(I,IP) - SX(I,IP) * TZ(I,IP)
               RZ(I,IP)   = SX(I,IP) * TY(I,IP) - SY(I,IP) * TX(I,IP)
-              AA         = UN / SQRT(RX(I,IP)*RX(I,IP)+RY(I,IP)*RY(I,IP)+RZ(I,IP)*RZ(I,IP))
+              AA         = ONE / SQRT(RX(I,IP)*RX(I,IP)+RY(I,IP)*RY(I,IP)+RZ(I,IP)*RZ(I,IP))
               RX(I,IP)   = RX(I,IP) * AA
               RY(I,IP)   = RY(I,IP) * AA
               RZ(I,IP)   = RZ(I,IP) * AA
@@ -464,9 +464,9 @@ C-----------
               SIGS(I,IP) = SX(I,IP)*SX(I,IP)*LBUF%SIG(II(1)+I)
      .                    +SY(I,IP)*SY(I,IP)*LBUF%SIG(II(2)+I)
      .                    +SZ(I,IP)*SZ(I,IP)*LBUF%SIG(II(3)+I)
-     .                    +SX(I,IP)*SY(I,IP)*LBUF%SIG(II(4)+I)*DEUX
-     .                    +SY(I,IP)*SZ(I,IP)*LBUF%SIG(II(5)+I)*DEUX
-     .                    +SZ(I,IP)*SX(I,IP)*LBUF%SIG(II(6)+I)*DEUX
+     .                    +SX(I,IP)*SY(I,IP)*LBUF%SIG(II(4)+I)*TWO
+     .                    +SY(I,IP)*SZ(I,IP)*LBUF%SIG(II(5)+I)*TWO
+     .                    +SZ(I,IP)*SX(I,IP)*LBUF%SIG(II(6)+I)*TWO
              SIGSM(I)    = SIGSM(I) + SIGS(I,IP)*LBUF%VOL(I)
              VOLSM(I)    = VOLSM(I) + LBUF%VOL(I)
             ENDDO!next I
@@ -488,9 +488,9 @@ C-------------------------
      .           UL(I,5),UL(I,6),UL(I,7),UL(I,8))
         BB = MAX(UL(I,9) ,UL(I,10),UL(I,11),UL(I,12),UL(I,13),UL(I,14),
      .           UL(I,15),UL(I,16))
-        AA = AA*TRENTE2
-        BB = BB*TRENTE2*THIRD
-        DELTAX(I) = SQRT(DEUX*VOLG(I)/MAX(AA,BB))
+        AA = AA*THIRTY2
+        BB = BB*THIRTY2*THIRD
+        DELTAX(I) = SQRT(TWO*VOLG(I)/MAX(AA,BB))
       ENDDO
       IF (ICP == 1 .OR. ICP == 2) THEN
         CALL S16SIGP3(LFT,LLT,NEL,NPTR,NLAY,

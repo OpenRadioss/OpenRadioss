@@ -88,7 +88,7 @@ C     REAL ou REAL*8
      .  DIMENSION(:), POINTER :: SIGP
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C=======================================================================
-      DTA = UNDEMI*DT1
+      DTA = HALF*DT1
       MX=MAT(LFT)
       C1 = PM(32,MX)
       DO I=LFT,LLT
@@ -108,8 +108,8 @@ C-----------------------
       DO I=LFT,LLT
         P(I) = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
         G1(I)=DT1*G(I)
-        G2(I)=DEUX*G1(I)
-        AMU(I)=UN/DF(I)-UN
+        G2(I)=TWO*G1(I)
+        AMU(I)=ONE/DF(I)-ONE
         SIG(I,1)=ZERO
         SIG(I,2)=ZERO
         SIG(I,3)=ZERO
@@ -122,7 +122,7 @@ C------------------------------
 C     DP/DRHO ET VITESSE DU SON
 C------------------------------
       DO I=LFT,LLT
-        DPDM(I)=UNP333*G(I)+C1
+        DPDM(I)=ONEP333*G(I)+C1
         SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       ENDDO
 C--------------------------------------------------
@@ -148,7 +148,7 @@ C--------------------------------------------------
         SIGP => BUFLY%LBUF(1,1,IPT)%SIG(1:NEL*6)
 C
         DO I=LFT,LLT
-          DAV=UN - DVOL(I)/VNEW(I)
+          DAV=ONE - DVOL(I)/VNEW(I)
           SOLD1(I)=SIGP(JJ(1)+I)*DAV
           SOLD2(I)=SIGP(JJ(2)+I)*DAV
           SOLD3(I)=SIGP(JJ(3)+I)*DAV
@@ -195,12 +195,12 @@ C--------------------------------------------------
 C     CONTRAINTE MOYENNE (OUTPUT)
 C--------------------------------------------------
         DO I=LFT,LLT
-          SIG(I,1)=SIG(I,1)+UNHUIT*SIGP(JJ(1)+I)
-          SIG(I,2)=SIG(I,2)+UNHUIT*SIGP(JJ(2)+I)
-          SIG(I,3)=SIG(I,3)+UNHUIT*SIGP(JJ(3)+I)
-          SIG(I,4)=SIG(I,4)+UNHUIT*SIGP(JJ(4)+I)
-          SIG(I,5)=SIG(I,5)+UNHUIT*SIGP(JJ(5)+I)
-          SIG(I,6)=SIG(I,6)+UNHUIT*SIGP(JJ(6)+I)     
+          SIG(I,1)=SIG(I,1)+ONE_OVER_8*SIGP(JJ(1)+I)
+          SIG(I,2)=SIG(I,2)+ONE_OVER_8*SIGP(JJ(2)+I)
+          SIG(I,3)=SIG(I,3)+ONE_OVER_8*SIGP(JJ(3)+I)
+          SIG(I,4)=SIG(I,4)+ONE_OVER_8*SIGP(JJ(4)+I)
+          SIG(I,5)=SIG(I,5)+ONE_OVER_8*SIGP(JJ(5)+I)
+          SIG(I,6)=SIG(I,6)+ONE_OVER_8*SIGP(JJ(6)+I)     
         ENDDO
 C
       ENDDO

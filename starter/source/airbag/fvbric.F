@@ -113,8 +113,8 @@ C
 C
       LX=RVOLU(44)
       LY=RVOLU(45)
-      DX=DEUX*LX/NBX
-      DY=DEUX*LY/NBY
+      DX=TWO*LX/NBX
+      DY=TWO*LY/NBY
       ZLC1=ZLMIN-MAX(LX,LY)
       ZLC2=ZLMAX+MAX(LX,LY)
       NNB=0
@@ -234,15 +234,15 @@ C
          N6=FVDATA(IFV)%BRIC(6,I)
          N7=FVDATA(IFV)%BRIC(7,I)
          N8=FVDATA(IFV)%BRIC(8,I)
-         XC=UNHUIT*(FVDATA(IFV)%XB(1,N1)+FVDATA(IFV)%XB(1,N2)+
+         XC=ONE_OVER_8*(FVDATA(IFV)%XB(1,N1)+FVDATA(IFV)%XB(1,N2)+
      .              FVDATA(IFV)%XB(1,N3)+FVDATA(IFV)%XB(1,N4)+
      .              FVDATA(IFV)%XB(1,N5)+FVDATA(IFV)%XB(1,N6)+
      .              FVDATA(IFV)%XB(1,N7)+FVDATA(IFV)%XB(1,N8))
-         YC=UNHUIT*(FVDATA(IFV)%XB(2,N1)+FVDATA(IFV)%XB(2,N2)+
+         YC=ONE_OVER_8*(FVDATA(IFV)%XB(2,N1)+FVDATA(IFV)%XB(2,N2)+
      .              FVDATA(IFV)%XB(2,N3)+FVDATA(IFV)%XB(2,N4)+
      .              FVDATA(IFV)%XB(2,N5)+FVDATA(IFV)%XB(2,N6)+
      .              FVDATA(IFV)%XB(2,N7)+FVDATA(IFV)%XB(2,N8))
-         ZC=UNHUIT*(FVDATA(IFV)%XB(3,N1)+FVDATA(IFV)%XB(3,N2)+
+         ZC=ONE_OVER_8*(FVDATA(IFV)%XB(3,N1)+FVDATA(IFV)%XB(3,N2)+
      .              FVDATA(IFV)%XB(3,N3)+FVDATA(IFV)%XB(3,N4)+
      .              FVDATA(IFV)%XB(3,N5)+FVDATA(IFV)%XB(3,N6)+
      .              FVDATA(IFV)%XB(3,N7)+FVDATA(IFV)%XB(3,N8))
@@ -296,17 +296,17 @@ C
             NX2=VY2*VZ3-VZ2*VY3
             NY2=VZ2*VX3-VX2*VZ3
             NZ2=VX2*VY3-VY2*VX3
-            AREA1=UNDEMI*SQRT(NX1**2+NY1**2+NZ1**2)
-            AREA2=UNDEMI*SQRT(NX2**2+NY2**2+NZ2**2)
+            AREA1=HALF*SQRT(NX1**2+NY1**2+NZ1**2)
+            AREA2=HALF*SQRT(NX2**2+NY2**2+NZ2**2)
             FVDATA(IFV)%SFAC(J,1,I)=AREA1+AREA2
 C
-            NX=UNDEMI*(NX1+NX2)
-            NY=UNDEMI*(NY1+NY2)
-            NZ=UNDEMI*(NZ1+NZ2)
+            NX=HALF*(NX1+NX2)
+            NY=HALF*(NY1+NY2)
+            NZ=HALF*(NZ1+NZ2)
             RR=SQRT(NX**2+NY**2+NZ**2)
-            XCF=QUART*(X1+X2+X3+X4)
-            YCF=QUART*(Y1+Y2+Y3+Y4)
-            ZCF=QUART*(Z1+Z2+Z3+Z4)
+            XCF=FOURTH*(X1+X2+X3+X4)
+            YCF=FOURTH*(Y1+Y2+Y3+Y4)
+            ZCF=FOURTH*(Z1+Z2+Z3+Z4)
             VX=XC-XCF
             VY=YC-YCF
             VZ=ZC-ZCF

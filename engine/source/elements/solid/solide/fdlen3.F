@@ -70,7 +70,7 @@ C     REAL ou REAL*8
      .   XIOFF(MVSIZ), AREAM(MVSIZ), ATEST(MVSIZ), AREA(6,MVSIZ)
 C-----------------------------------------------
       DO 10 I=LFT,LLT
-      XIOFF(I)=UN
+      XIOFF(I)=ONE
    10 AREAM(I)=EM20
 C
       IF(ICAA.EQ.0)THEN
@@ -82,7 +82,7 @@ C
         CALL SLEN(X4,X1,X5,X8,Y4,Y1,Y5,Y8,Z4,Z1,Z5,Z8,6,AREA,AREAM)
 C
         DO 50 I=LFT,LLT
-   50   DELTAX(I)=QUATRE*VOLN(I)*XIOFF(I)/SQRT(AREAM(I))
+   50   DELTAX(I)=FOUR*VOLN(I)*XIOFF(I)/SQRT(AREAM(I))
 C
       ELSE
         CALL SLENA(
@@ -93,7 +93,7 @@ C
      .     Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .     Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,AREAM)
         DO I=LFT,LLT
-          DELTAX(I)=DEUX*VOLN(I)*XIOFF(I)/SQRT(AREAM(I))
+          DELTAX(I)=TWO*VOLN(I)*XIOFF(I)/SQRT(AREAM(I))
         ENDDO
       ENDIF
       RETURN

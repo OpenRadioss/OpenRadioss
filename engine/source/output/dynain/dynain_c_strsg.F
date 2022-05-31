@@ -292,7 +292,7 @@ C-------------------------------------------------------
             JJ = JJ + 1
             WA(JJ) = NPG  ! Gauss points
             JJ = JJ + 1
-            WA(JJ) = UN  ! LARGE
+            WA(JJ) = ONE  ! LARGE
 
 c---------
 
@@ -309,7 +309,7 @@ c---------
                ELSEIF (NPG == 1) THEN
 
 ! LOWER
-                  A1 = UN
+                  A1 = ONE
                   A2  = -SIX
 
                   SIG(1) = A1*GBUF%FOR(KK(1)+I) + A2* GBUF%MOM(KK(1)+I)
@@ -332,7 +332,7 @@ c---------
      6                      DIR_A    ,DIR_B    )
 
                   JJ = JJ + 1
-                  WA(JJ) = -UN
+                  WA(JJ) = -ONE
                   JJ = JJ + 1                                      
                   WA(JJ) = SIG(1)         
                   JJ = JJ + 1                                
@@ -353,7 +353,7 @@ c
                     WA(JJ) = ZERO              
                   ENDIF    
 ! Membrane
-                  A1 = UN
+                  A1 = ONE
                   A2  = ZERO
 
                   SIG(1) = A1*GBUF%FOR(KK(1)+I) + A2* GBUF%MOM(KK(1)+I)
@@ -398,7 +398,7 @@ c
                   ENDIF   
 ! Upper
 
-                  A1 = UN
+                  A1 = ONE
                   A2  = SIX
 
                   SIG(1) = A1*GBUF%FOR(KK(1)+I) + A2* GBUF%MOM(KK(1)+I)
@@ -421,7 +421,7 @@ c
      6                      DIR_A    ,DIR_B    )
 
                   JJ = JJ + 1
-                  WA(JJ) = -UN
+                  WA(JJ) = -ONE
                   JJ = JJ + 1                                      
                   WA(JJ) = SIG(1)            
                   JJ = JJ + 1                                
@@ -460,7 +460,7 @@ c
                     SHK(2)= GBUF%HOURG(KK(12)+I)
 
 ! LOWER
-                   A1 = UN
+                   A1 = ONE
                    A2  = -SIX
 
                    DO IPG=1,NPG
@@ -498,7 +498,7 @@ c
      6                        DIR_A    ,DIR_B    )
 
                        JJ = JJ + 1
-                       WA(JJ) = -UN
+                       WA(JJ) = -ONE
                        JJ = JJ + 1                                      
                        WA(JJ) = SIG(1)            
                        JJ = JJ + 1                                
@@ -522,7 +522,7 @@ c
                    ENDDO
 
 ! MEMBRANE
-                   A1 = UN
+                   A1 = ONE
                    A2  = ZERO
 
                    DO IPG=1,NPG
@@ -583,7 +583,7 @@ c
 
                    ENDDO  
 ! Upper
-                   A1 = UN
+                   A1 = ONE
                    A2  = SIX
 
                    DO IPG=1,NPG
@@ -621,7 +621,7 @@ c
      6                        DIR_A    ,DIR_B    )
 
                        JJ = JJ + 1
-                       WA(JJ) = UN
+                       WA(JJ) = ONE
                        JJ = JJ + 1                                      
                        WA(JJ) = SIG(1)            
                        JJ = JJ + 1                                
@@ -646,7 +646,7 @@ c
 
                  ELSE ! IHBE = 23
 ! LOWER
-                    A1 = UN
+                    A1 = ONE
                     A2  = -SIX
 
                     DO IR=1,NPTR                                                         
@@ -675,7 +675,7 @@ c
      6                        DIR_A    ,DIR_B    )
 
                          JJ = JJ + 1
-                         WA(JJ) = -UN
+                         WA(JJ) = -ONE
                          JJ = JJ + 1                                      
                          WA(JJ) = SIG(1)            
                          JJ = JJ + 1                                
@@ -699,7 +699,7 @@ c
                     ENDDO    
 
 ! MEMBRANE
-                    A1 = UN
+                    A1 = ONE
                     A2  = ZERO
 
                     DO IR=1,NPTR                                                         
@@ -751,7 +751,7 @@ c
                        ENDDO
                     ENDDO    
 ! Upper
-                    A1 = UN
+                    A1 = ONE
                     A2  = SIX
 
                     DO IR=1,NPTR                                                         
@@ -780,7 +780,7 @@ c
      6                        DIR_A    ,DIR_B    )
 
                          JJ = JJ + 1
-                         WA(JJ) = UN
+                         WA(JJ) = ONE
                          JJ = JJ + 1                                      
                          WA(JJ) = SIG(1)            
                          JJ = JJ + 1                                
@@ -871,7 +871,7 @@ C-------------------------
      6                      DIR_A    ,DIR_B    )
 
                       JJ = JJ + 1
-                      WA(JJ) = DEUX * POSLY(I,IPT)
+                      WA(JJ) = TWO * POSLY(I,IPT)
 
                       JJ = JJ + 1
                       WA(JJ) = SIG(1)
@@ -942,7 +942,7 @@ C
 					
 
                      JJ = JJ + 1
-                     WA(JJ) = DEUX * POSLY(I,IT)
+                     WA(JJ) = TWO * POSLY(I,IT)
 
                      JJ = JJ + 1
                      WA(JJ) = SIG(1)
@@ -1009,7 +1009,7 @@ C
      6                      DIR_A    ,DIR_B    )	
 		
                         JJ = JJ + 1
-                        WA(JJ) = DEUX * POSLY(I,IPT)
+                        WA(JJ) = TWO * POSLY(I,IPT)
 
                         JJ = JJ + 1
                         WA(JJ) = SIG(1)
@@ -1277,7 +1277,7 @@ C-------------------------------------------------------
             JJ = JJ + 1
             WA(JJ) = NPG
             JJ = JJ + 1
-            WA(JJ) = UN  ! LARGE
+            WA(JJ) = ONE  ! LARGE
 c----          
             IF (MPT == 0) THEN  ! global integration
               IF (MLW == 0 .or. MLW == 13) THEN
@@ -1290,7 +1290,7 @@ c----
               ELSEIF (NPG == 1) THEN
 
 ! LOWER
-                 A1 = UN
+                 A1 = ONE
                  A2  = -SIX
 
                   SIG(1) = A1*GBUF%FOR(KK(1)+I) + A2* GBUF%MOM(KK(1)+I)
@@ -1313,7 +1313,7 @@ c----
      6                      DIR_A    ,DIR_B    )
 
                   JJ = JJ + 1
-                  WA(JJ) = -UN
+                  WA(JJ) = -ONE
                   JJ = JJ + 1                                      
                   WA(JJ) = SIG(1)         
                   JJ = JJ + 1                                
@@ -1334,7 +1334,7 @@ c
                     WA(JJ) = ZERO              
                   ENDIF    
 ! Membrane
-                  A1 = UN
+                  A1 = ONE
                   A2  = ZERO
 
                   SIG(1) = A1*GBUF%FOR(KK(1)+I) + A2* GBUF%MOM(KK(1)+I)
@@ -1379,7 +1379,7 @@ c
                   ENDIF   
 ! Upper
 
-                  A1 = UN
+                  A1 = ONE
                   A2  = SIX
 
                   SIG(1) = A1*GBUF%FOR(KK(1)+I) + A2* GBUF%MOM(KK(1)+I)
@@ -1402,7 +1402,7 @@ c
      6                      DIR_A    ,DIR_B    )
 
                   JJ = JJ + 1
-                  WA(JJ) = UN
+                  WA(JJ) = ONE
                   JJ = JJ + 1                                      
                   WA(JJ) = SIG(1)            
                   JJ = JJ + 1                                
@@ -1424,7 +1424,7 @@ c
                   ENDIF                 
               ELSE                                              
 ! LOWER
-                  A1 = UN
+                  A1 = ONE
                   A2  = -SIX
 
                   DO IR=1,NPTR                                                         
@@ -1453,7 +1453,7 @@ c
      6                      DIR_A    ,DIR_B    )		
 
                       JJ = JJ + 1
-                      WA(JJ) = -UN
+                      WA(JJ) = -ONE
                       JJ = JJ + 1                                      
                       WA(JJ) = SIG(1)            
                       JJ = JJ + 1                                
@@ -1477,7 +1477,7 @@ c
                   ENDDO    
 
 ! MEMBRANE
-                  A1 = UN
+                  A1 = ONE
                   A2  = ZERO
 
                   DO IR=1,NPTR                                                         
@@ -1529,7 +1529,7 @@ c
                   ENDDO  
 
 ! Upper
-                  A1 = UN
+                  A1 = ONE
                   A2  = SIX
                   DO IR=1,NPTR                                                         
                     DO IS=1,NPTS 
@@ -1557,7 +1557,7 @@ c
      6                      DIR_A    ,DIR_B    )		
 
                       JJ = JJ + 1
-                      WA(JJ) = UN
+                      WA(JJ) = ONE
                       JJ = JJ + 1                                      
                       WA(JJ) = SIG(1)            
                       JJ = JJ + 1                                
@@ -1630,7 +1630,7 @@ C
      6                      DIR_A    ,DIR_B    )			
 
                       JJ = JJ + 1
-                      WA(JJ) = DEUX * POSLY(I,IT)
+                      WA(JJ) = TWO * POSLY(I,IT)
                       JJ = JJ + 1
                       WA(JJ) = SIG(1)
                       JJ = JJ + 1
@@ -1693,7 +1693,7 @@ C
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                      DIR_A    ,DIR_B    )				
                       JJ = JJ + 1
-                      WA(JJ) = DEUX * POSLY(I,IPTT)
+                      WA(JJ) = TWO * POSLY(I,IPTT)
                       JJ = JJ + 1
                       WA(JJ) = SIG(1)
                       JJ = JJ + 1

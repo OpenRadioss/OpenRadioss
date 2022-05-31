@@ -165,7 +165,7 @@ c
             CALL HM_GET_FLOAT_ARRAY_2INDEXES('P_thick_fail_lam',PTHKLY,IS,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
             CALL HM_GET_FLOAT_ARRAY_2INDEXES('F_weight_i',WEIGHT,IS,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
             IF (PTHKLY == ZERO) PTHKLY = EM03
-            IF (WEIGHT == ZERO) WEIGHT = UN
+            IF (WEIGHT == ZERO) WEIGHT = ONE
             STACK_INFO%PID(NPLY) = PLY_ID
             STACK_INFO%ANG(NPLY) = ANG
             STACK_INFO%POS(NPLY) = POS
@@ -192,7 +192,7 @@ c
           CALL HM_GET_FLOAT_ARRAY_INDEX('F_weight_i' ,WEIGHT,I,IS_AVAILABLE,LSUBMODEL,UNITAB)   
 c
           IF (PTHKLY == ZERO) PTHKLY = EM03
-          IF (WEIGHT == ZERO) WEIGHT = UN
+          IF (WEIGHT == ZERO) WEIGHT = ONE
           STACK_INFO%PID(I) = PLY_ID
           STACK_INFO%ANG(I) = ANG
           STACK_INFO%POS(I) = POS
@@ -204,7 +204,7 @@ c
 c--------------------------------------------
 c     Default values
 c--------------------------------------------
-!!      PTHK = MIN(PTHK, UN-EM06)
+!!      PTHK = MIN(PTHK, ONE-EM06)
       IF (ISHELL == 0) ISHELL = IHBE_D
 c      IHBEOUTP = ISHELL
       IF (ISH3N  == 0) ISH3N = ISH3N_D
@@ -231,7 +231,7 @@ c
       ENDIF
       IF (IINT /= 1 .AND. IINT /= 2) IINT = 1  ! by default - uniform distribution (integration)
 C                                    IINT = 2  ! Gauss distribution (integration)
-      IF (ASHEAR == ZERO) ASHEAR = CSIX
+      IF (ASHEAR == ZERO) ASHEAR = FIVE_OVER_6
 c--------------------------------------------
       IF (ISHELL == 4 .AND. ISH3N==0 .AND. ISH3N_D == 1) THEN
         CALL ANCMSG(MSGID=680, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
@@ -244,7 +244,7 @@ c--------------------------------------------
       ENDIF         
 c
       IF (ISHELL == 24) THEN
-        IF (CVIS==ZERO) CVIS = UN
+        IF (CVIS==ZERO) CVIS = ONE
         IF (DN == ZERO) DN = ZEP015
       ENDIF
 c
@@ -264,7 +264,7 @@ c
 c
       NORM = SQRT(VX*VX+VY*VY+VZ*VZ)
       IF (NORM < EM10) THEN
-        VX=UN
+        VX=ONE
         VY=ZERO
         VZ=ZERO
         IF (IRP==23) THEN
@@ -386,9 +386,9 @@ c
       GEO(39) = IPLAST
       GEO(38) = ASHEAR
       GEO(42) = ZERO
-      GEO(43) = UN
+      GEO(43) = ONE
       GEO(199)= ZSHIFT
-      GEO(212) = GEO(212) * PI / CENT80
+      GEO(212) = GEO(212) * PI / HUNDRED80
       IF (ISHELL==0) THEN
         GEO(171) = 0
       ELSEIF (ISHELL == 1) THEN
@@ -437,7 +437,7 @@ c---
               M1 =  KK + K 
               WRITE(IOUT,2800)K,STACK_INFO%PID(M1),STACK_INFO%ANG(M1),!STACK_INFO%POS(M1),
      .                        STACK_INFO%THKLY(M1),STACK_INFO%WEIGHT(M1)
-              STACK_INFO%ANG(M1)=STACK_INFO%ANG(M1)*PI/CENT80
+              STACK_INFO%ANG(M1)=STACK_INFO%ANG(M1)*PI/HUNDRED80
             ENDDO
             KK = KK + NPT_SUB
           ENDDO
@@ -454,7 +454,7 @@ c
           DO I=1,NPLY
             WRITE(IOUT,2800)I,STACK_INFO%PID(I),STACK_INFO%ANG(I),
      .                      STACK_INFO%THKLY(I),STACK_INFO%WEIGHT(I)
-            STACK_INFO%ANG(I) = STACK_INFO%ANG(I)*PI/CENT80
+            STACK_INFO%ANG(I) = STACK_INFO%ANG(I)*PI/HUNDRED80
           ENDDO
         END IF  ! NSUB      
 c

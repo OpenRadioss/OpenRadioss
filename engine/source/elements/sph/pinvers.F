@@ -172,7 +172,7 @@ C         v = w^u
           NV=1./SQRT(AIK2+AIJ2*AIK2+(1.+AIJ2)*(1.+AIJ2))
           P(1,2)=        -AIK*NV
           P(2,2)=    -AIJ*AIK*NV
-          P(3,2)=(UN +AIJ*AIJ)*NV
+          P(3,2)=(ONE +AIJ*AIJ)*NV
 C         
           NW=1./SQRT(1.+AIJ2+AIK2)
           P(1,3)=    NW
@@ -264,37 +264,37 @@ C---------
 C         Decomposition Ak=AIK*Ai+AJK*Aj
           IF(ABS(U3).GE.EM10)THEN
 C          U3 determinant mineur non nul
-           U3=UN/U3
+           U3=ONE/U3
            AIK=(A(1,3)*A(2,2)-A(2,3)*A(1,2))*U3
            AJK=(A(1,1)*A(2,3)-A(2,1)*A(1,3))*U3
           ELSEIF(ABS(U2).GE.EM10)THEN
 C          U2 determinant mineur non nul
-           U2=UN/U2
+           U2=ONE/U2
            AIK=(A(1,3)*A(3,2)-A(3,3)*A(1,2))*U2
            AJK=(A(1,1)*A(3,3)-A(3,1)*A(1,3))*U2
           ELSE
 C                ABS(U1).GE.EM10
 C          U1 determinant mineur non nul
-           U1=UN/U1
+           U1=ONE/U1
            AIK=(A(2,3)*A(3,2)-A(3,3)*A(2,2))*U1
            AJK=(A(2,1)*A(3,3)-A(3,1)*A(2,3))*U1
           ENDIF
 C---------
 C          u = k-AIK*i-AJK*j (noyau de A)
-           NU=UN/SQRT(AIK*AIK+AJK*AJK+UN)
+           NU=ONE/SQRT(AIK*AIK+AJK*AJK+ONE)
            P(1,1)=-AIK*NU
            P(2,1)=-AJK*NU
            P(3,1)=     NU
 C          (v,w) orthogonal a u.
 C          v = u^i = j+AJK*k
-           NV=UN/SQRT(UN + AJK*AJK)
+           NV=ONE/SQRT(ONE + AJK*AJK)
            P(1,2)=     ZERO
            P(2,2)=     NV
            P(3,2)= AJK*NV
 C          w= u^v = -(1+AJK**2)*i+AIK*AJK*j-AIK*k
            AJK2=AJK*AJK
-           NW=UN/SQRT((UN +AJK2)*(UN +AJK2)+AIK*AIK*AJK2+AIK*AIK)
-           P(1,3)=-(UN+AJK2)*NW
+           NW=ONE/SQRT((ONE +AJK2)*(ONE +AJK2)+AIK*AIK*AJK2+AIK*AIK)
+           P(1,3)=-(ONE+AJK2)*NW
            P(2,3)=   AIK*AJK*NW
            P(3,3)=      -AIK*NW
 C---------

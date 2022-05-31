@@ -82,7 +82,7 @@ C-----------------------------------------------
 C
           DO II=1,NSN        
             J = INTBUF_TAB(N)%NSV(II)
-            IF (ILEV /=25 .and. ILEV/=26 .and. ILEV/=27 .and. ILEV/=28) TAGHIER(J) = UN
+            IF (ILEV /=25 .and. ILEV/=26 .and. ILEV/=27 .and. ILEV/=28) TAGHIER(J) = ONE
           ENDDO
          ENDIF
       ENDDO
@@ -96,7 +96,7 @@ C
             NMN  = IPARI(6,N)
             DO II=1,NMN        
               J=INTBUF_TAB(N)%MSR(II)
-              IF (TAGHIER(J) == UN) THEN
+              IF (TAGHIER(J) == ONE) THEN
                 CALL ANCMSG(MSGID=556,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_1,
@@ -123,7 +123,7 @@ C
             DO II=1,NSN        
               J = INTBUF_TAB(N)%NSV(II)
 C-- Only secnds nodes with AMS are checked
-              IF (NATIV_SMS(J).NE.0) TAGHIER(J) = UN
+              IF (NATIV_SMS(J).NE.0) TAGHIER(J) = ONE
             ENDDO
           ENDIF
         ENDDO
@@ -141,7 +141,7 @@ C
            IF(NTY == 7 .OR. NTY == 10 .OR. NTY == 20 .OR. NTY == 22)THEN
              DO II=1,NSN
                J=INTBUF_TAB(N)%NSV(II)
-               IF(TAGHIER(J) == UN) THEN
+               IF(TAGHIER(J) == ONE) THEN
                  IF(IWOUT==0)THEN
                    CALL ANCMSG(MSGID=852,
      .                         MSGTYPE=MSGWARNING,
@@ -160,7 +160,7 @@ C
              END DO
              DO II=1,NRTM
                J=INTBUF_TAB(N)%IRECTM(1+4*(II-1))
-               IF(TAGHIER(J) == UN)THEN
+               IF(TAGHIER(J) == ONE)THEN
                  IF(IWOUT==0)THEN
                    CALL ANCMSG(MSGID=852,
      .                         MSGTYPE=MSGWARNING,
@@ -177,7 +177,7 @@ C
      .                       I2=ITAB(J))
                END IF
                J=INTBUF_TAB(N)%IRECTM(4*(II-1)+2)
-               IF(TAGHIER(J) == UN)THEN
+               IF(TAGHIER(J) == ONE)THEN
                  IF(IWOUT==0)THEN
                    CALL ANCMSG(MSGID=852,
      .                         MSGTYPE=MSGWARNING,
@@ -194,7 +194,7 @@ C
      .                       I2=ITAB(J))
                END IF
                J=INTBUF_TAB(N)%IRECTM(4*(II-1)+3)
-               IF(TAGHIER(J) == UN)THEN
+               IF(TAGHIER(J) == ONE)THEN
                  IF(IWOUT==0)THEN
                    CALL ANCMSG(MSGID=852,
      .                         MSGTYPE=MSGWARNING,
@@ -211,7 +211,7 @@ C
      .                       I2=ITAB(J))
                END IF
                J=INTBUF_TAB(N)%IRECTM(4*(II-1)+4)
-               IF(TAGHIER(J) == UN)THEN
+               IF(TAGHIER(J) == ONE)THEN
                  IF(IWOUT==0)THEN
                    CALL ANCMSG(MSGID=852,
      .                         MSGTYPE=MSGWARNING,
@@ -234,7 +234,7 @@ C
                IF(NLINS+NLINM /= 0)THEN
                  DO II=1,NLINS
                    J=INTBUF_TAB(N)%IXLINS(2*(II-1)+1)
-                   IF(TAGHIER(J) == UN)THEN
+                   IF(TAGHIER(J) == ONE)THEN
                      IF(IWOUT==0)THEN
                        CALL ANCMSG(MSGID=852,
      .                             MSGTYPE=MSGWARNING,
@@ -251,7 +251,7 @@ C
      .                           I2=ITAB(J))
                    END IF
                    J=INTBUF_TAB(N)%IXLINS(2*(II-1)+2)
-                   IF(TAGHIER(J) == UN)THEN
+                   IF(TAGHIER(J) == ONE)THEN
                      IF(IWOUT==0)THEN
                        CALL ANCMSG(MSGID=852,
      .                             MSGTYPE=MSGWARNING,
@@ -270,7 +270,7 @@ C
                  END DO
                  DO II=1,NLINM
                    J=INTBUF_TAB(N)%IXLINM(2*(II-1)+1)
-                   IF(TAGHIER(J) == UN)THEN
+                   IF(TAGHIER(J) == ONE)THEN
                      IF(IWOUT==0)THEN
                        CALL ANCMSG(MSGID=852,
      .                             MSGTYPE=MSGWARNING,
@@ -287,7 +287,7 @@ C
      .                           I2=ITAB(J))
                    END IF
                    J=INTBUF_TAB(N)%IXLINM(2*(II-1)+2)
-                   IF(TAGHIER(J) == UN)THEN
+                   IF(TAGHIER(J) == ONE)THEN
                      IF(IWOUT==0)THEN
                        CALL ANCMSG(MSGID=852,
      .                             MSGTYPE=MSGWARNING,
@@ -309,7 +309,7 @@ C
            ELSEIF(NTY == 11)THEN
              DO II=1,NRTS
                J=INTBUF_TAB(N)%IRECTS(2*(II-1)+1)
-               IF(TAGHIER(J) == UN)THEN
+               IF(TAGHIER(J) == ONE)THEN
                  IF(IWOUT==0)THEN
                    CALL ANCMSG(MSGID=852,
      .                         MSGTYPE=MSGWARNING,
@@ -326,7 +326,7 @@ C
      .                       I2=ITAB(J))
                END IF
                J=INTBUF_TAB(N)%IRECTS(2*(II-1)+2)
-               IF(TAGHIER(J) == UN)THEN
+               IF(TAGHIER(J) == ONE)THEN
                  IF(IWOUT==0)THEN
                    CALL ANCMSG(MSGID=852,
      .                         MSGTYPE=MSGWARNING,
@@ -345,7 +345,7 @@ C
              END DO
              DO II=1,NRTM
                J=INTBUF_TAB(N)%IRECTM(2*(II-1)+1)
-               IF(TAGHIER(J) == UN)THEN
+               IF(TAGHIER(J) == ONE)THEN
                  IF(IWOUT==0)THEN
                    CALL ANCMSG(MSGID=852,
      .                         MSGTYPE=MSGWARNING,
@@ -362,7 +362,7 @@ C
      .                       I2=ITAB(J))
                END IF
                J=INTBUF_TAB(N)%IRECTM(2*(II-1)+2)
-               IF(TAGHIER(J) == UN)THEN
+               IF(TAGHIER(J) == ONE)THEN
                  IF(IWOUT==0)THEN
                    CALL ANCMSG(MSGID=852,
      .                         MSGTYPE=MSGWARNING,
@@ -382,7 +382,7 @@ C
            ELSEIF(NTY == 21)THEN
              DO II=1,NSN
                J=INTBUF_TAB(N)%NSV(II)
-               IF(TAGHIER(J) == UN) THEN
+               IF(TAGHIER(J) == ONE) THEN
                  IF(IWOUT==0)THEN
                    CALL ANCMSG(MSGID=852,
      .                         MSGTYPE=MSGWARNING,

@@ -80,14 +80,14 @@ C-----------------------------------------------
      . VX17,VX28,VX35,VX46,VY17,VY28,VY35,VY46,VZ17,VZ28,VZ35,VZ46,
      . AJ1,AJ2,AJ3,AJ4,AJ5,AJ6,AJ7,AJ8,AJ9,
      . AJI1,AJI2,AJI3,AJI4,AJI5,AJI6,AJI7,AJI8,AJI9,
-     . AJ5968,AJ6749,AJ4857,AJ12,AJ45,AJ78,
+     . JAC_59_68,JAC_67_49,JAC_48_57,AJ12,AJ45,AJ78,
      . PX1, PX2, PX3, PX4,
      . PY1, PY2, PY3, PY4,
      . PZ1, PZ2, PZ3, PZ4, 
      . A17,A28,B17,B28,C17,C28,DT1D2,
      . DETT
 C-----------------------------------------------
-      DT1D2=UNDEMI*DT1
+      DT1D2=HALF*DT1
       DO I=LFT,LLT
        II=I+NFT
 c
@@ -205,13 +205,13 @@ c
          AJ7=A17-A28
          AJ8=B17-B28
          AJ9=C17-C28
-         AJ5968=AJ5*AJ9-AJ6*AJ8
-         AJ6749=AJ6*AJ7-AJ4*AJ9
-         AJ4857=AJ4*AJ8-AJ5*AJ7
-         DETT=UN/(AJ1*AJ5968+AJ2*AJ6749+AJ3*AJ4857)
-         AJI1=DETT*AJ5968
-         AJI4=DETT*AJ6749
-         AJI7=DETT*AJ4857
+         JAC_59_68=AJ5*AJ9-AJ6*AJ8
+         JAC_67_49=AJ6*AJ7-AJ4*AJ9
+         JAC_48_57=AJ4*AJ8-AJ5*AJ7
+         DETT=ONE/(AJ1*JAC_59_68+AJ2*JAC_67_49+AJ3*JAC_48_57)
+         AJI1=DETT*JAC_59_68
+         AJI4=DETT*JAC_67_49
+         AJI7=DETT*JAC_48_57
          AJI2=DETT*(-AJ2*AJ9+AJ3*AJ8)
          AJI5=DETT*( AJ1*AJ9-AJ3*AJ7)
          AJI8=DETT*(-AJ1*AJ8+AJ2*AJ7)

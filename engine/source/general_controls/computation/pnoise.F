@@ -75,7 +75,7 @@ C
       IF(IMACH.NE.3.OR.NSPMD.EQ.1) THEN
         DO I=1,NNOISE
           K=NOIADD(I+1)-NOIADD(I)
-          IF(K.GT.0)WA(I)=WA(I)/TROIS/FLOAT(K)
+          IF(K.GT.0)WA(I)=WA(I)/THREE/FLOAT(K)
         ENDDO
       ELSE
         CALL SPMD_GLOB_DSUM9(WA,NNOISE)
@@ -85,7 +85,7 @@ C
         CALL SPMD_GLOB_ISUM9(IWA,NNOISE)
         IF(ISPMD.EQ.0) THEN
           DO I=1,NNOISE
-            IF(IWA(I).GT.0)WA(I)=WA(I)/TROIS/FLOAT(IWA(I))
+            IF(IWA(I).GT.0)WA(I)=WA(I)/THREE/FLOAT(IWA(I))
           ENDDO
         ENDIF
       ENDIF

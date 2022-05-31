@@ -87,9 +87,9 @@ C
       IF((ISTAT==1.OR.ISTAT3==1).AND.ISTATG==0)THEN
 C
        OMEGA  = BETATE * DT12
-       UOMEGA = UN - OMEGA
-       DOMEGA = DEUX*BETATE
-       OMEGA2 = (UN-DEUX*OMEGA)**2
+       UOMEGA = ONE - OMEGA
+       DOMEGA = TWO*BETATE
+       OMEGA2 = (ONE-TWO*OMEGA)**2
        ENCINT = ENCIN
 C       ENCINT = ENCIN+ENROT
        ENCINN = ENCINT * OMEGA2
@@ -140,9 +140,9 @@ C
       ELSEIF((ISTAT==1.OR.ISTAT3==1).AND.ISTATG/=0)THEN
 C
        OMEGA  = BETATE * DT12
-       UOMEGA = UN - OMEGA
-       DOMEGA = DEUX*BETATE
-       OMEGA2 = (UN-DEUX*OMEGA)**2
+       UOMEGA = ONE - OMEGA
+       DOMEGA = TWO*BETATE
+       OMEGA2 = (ONE-TWO*OMEGA)**2
        ENCINT = ENCIN+ENROT
        ENCINN = ENCINT * OMEGA2
        ENCGRP = ZERO
@@ -172,8 +172,8 @@ C
          ENDDO
         ENDIF
 C
-       ENCGRP = UNDEMI*ENCGRP
-       ENCGRPR = UNDEMI*ENCGRPR
+       ENCGRP = HALF*ENCGRP
+       ENCGRPR = HALF*ENCGRPR
        ENCGRPN = ENCGRP * OMEGA2
        ENCGRPRN = ENCGRPR * OMEGA2
        IF (IMACH.NE.3.OR.(IMACH.EQ.3.AND.ISPMD.EQ.0))
@@ -391,7 +391,7 @@ C-----0.5%w_max 5*0.5 for AMS
       F_0=EM02*F_MAX
       BETATE_N = F_MAX
       IF (IPI==1) THEN
-       FI = UN/PIMAX
+       FI = ONE/PIMAX
        BETATE_N = MIN(F_MAX,FI)
        IF (BETATE==ZERO.AND.EINT_0>EI_TOL) THEN
         IF (NCYCLE>=NC_ACT) THEN
@@ -408,7 +408,7 @@ C------exception for increasing----
         IF (IDF>0) write(IDF,1000)-NCYCLE,BETATE,IFIRST,FI,PIMAX ,PCMAX
       END IF
       IF (IPC==1) THEN
-       FC = UN/PCMAX
+       FC = ONE/PCMAX
        BETATE_N = MIN(F_MAX,FC)
        IF (BETATE==ZERO.AND.EINT_0>EI_TOL) THEN
         IF (NCYCLE>=NC_ACT) THEN
@@ -420,8 +420,8 @@ C------exception for increasing----
         IFIRST = IFIRST+1
        ELSE
 C----limiting the using of PCMAX not take it if Ke/Eint is very small       
-        IF (ENCIN_0/MAX(EM20,EINT_0)>EM03.AND.BETATE<BETATE_N*TDEMI) THEN
-         BETATE_M = UNDEMI*BETATE
+        IF (ENCIN_0/MAX(EM20,EINT_0)>EM03.AND.BETATE<BETATE_N*THREE_HALF) THEN
+         BETATE_M = HALF*BETATE
          BETATE = MIN(BETATE,BETATE_N)
          BETATE = MAX(BETATE,BETATE_M)
         END IF
@@ -432,13 +432,13 @@ C--Case high periods for both Eint and Ke
       IF (BETATE==ZERO.AND.EINT_0>EI_TOL.AND.NCYCLE>=NC_ACT) THEN
 C------initial frequency is 1% of F_MAX otherwise damping too high especially w/ gravity    
        BETATE=F_0
-       FI = UN/PIMAX
+       FI = ONE/PIMAX
        IFIRST = 1
        IF (IDF>0) write(IDF,1000)NCYCLE,BETATE,IFIRST,FI,PIMAX ,PCMAX
       END IF
 C--Case BETATE too high w/ large periods for both Eint and Ke    
       IF (IFIRST>=1.AND.(IPC+IPI)==0) THEN 
-       FI = UN/MAX(PIMAX,PCMAX)
+       FI = ONE/MAX(PIMAX,PCMAX)
        IF (BETATE>1.1*FI) THEN
         BETATE=FI
         IF (IDF>0) write(IDF,1000)NCYCLE,BETATE,-IFIRST,FI,PIMAX ,PCMAX

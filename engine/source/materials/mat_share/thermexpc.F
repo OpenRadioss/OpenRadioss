@@ -179,7 +179,7 @@ C
                 ALPHA = ALPHA * FSCAL_ALPHA
                 ETH(I) = ALPHA*DTEMP(I)
 C                  
-                A12(I) = (UN - ANU12*ANU21)
+                A12(I) = (ONE - ANU12*ANU21)
                 A1(I)  = E11(I)/A12(I)
                 A2(I)  = E22(I)/A12(I)
                 A12(I) =   ANU21*A1(I)
@@ -223,7 +223,7 @@ C
                 NU(I) = PM(21,MX)
                 A1(I) = PM(24,MX)
                 A2(I) = PM(25,MX)
-                A1(I) = E(I)/ (UN - NU(I)*NU(I))
+                A1(I) = E(I)/ (ONE - NU(I)*NU(I))
                 A2(I) = NU(I)*A1(I)
 C                    
                 IFUNC_ALPHA = IPM(219, MX) 
@@ -258,8 +258,8 @@ C
 C-------- 3rd Step : Energies computation -----------------------
 !!             KXX = SUMALZ(I)/ ZI2(I)
 !!             KYY = KXX  
-!!    DEGFXTH(I) = -( MOM(I,1)*KXX + MOM(I,2)*KYY)*UNDEMI*THK0(I)*THK0(I)*AREA(I) ! depending to kxx et kyy
-             DEGMBTH(I) = -(FOR(I,1)+FOR(I,2))*ETHKE(I)*UNDEMI*AREA(I)
+!!    DEGFXTH(I) = -( MOM(I,1)*KXX + MOM(I,2)*KYY)*HALF*THK0(I)*THK0(I)*AREA(I) ! depending to kxx et kyy
+             DEGMBTH(I) = -(FOR(I,1)+FOR(I,2))*ETHKE(I)*HALF*AREA(I)
              EINTTH(I) = EINTTH(I) + DEGMBTH(I)
              EINT(I,1) = EINT(I,1) + DEGMBTH(I)
 !!             EINT(I,2) = EINT(I,2) + DEGFXTH(I)
@@ -300,7 +300,7 @@ C------Thickness change due to thermal expansion-------
 C
 C-------- 3rd Step : Energies computation -----------------------
          DO I=JFT,JLT
-           DEGMBTH(I) = -(FOR(I,1)+FOR(I,2))*ETH(I)*UNDEMI*THK0(I)*AREA(I)
+           DEGMBTH(I) = -(FOR(I,1)+FOR(I,2))*ETH(I)*HALF*THK0(I)*AREA(I)
          END DO
 
          DO I=JFT,JLT

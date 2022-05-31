@@ -76,9 +76,9 @@ C     REAL ou REAL*8
      .   SUM,FX,FY,FZ,FNORM,VNX,VNY,VNZ,VX,VY,VZ,DT12M,FN(3),FT(3)
 C=======================================================================
       IF (TT == ZERO) THEN   
-        DT12M = UN/DT2
+        DT12M = ONE/DT2
       ELSE
-        DT12M = UN/DT12
+        DT12M = ONE/DT12
       ENDIF
 C
       N1  = IRECT(1)
@@ -116,7 +116,7 @@ C------------------------------------------------
       VNX = SY * TZ - SZ * TY
       VNY = SZ * TX - SX * TZ
       VNZ = SX * TY - SY * TX
-      SUM = UN / SQRT(VNX*VNX + VNY*VNY + VNZ*VNZ)
+      SUM = ONE / SQRT(VNX*VNX + VNY*VNY + VNZ*VNZ)
       VNX = VNX * SUM
       VNY = VNY * SUM
       VNZ = VNZ * SUM

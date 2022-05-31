@@ -101,7 +101,7 @@ C-----------------------------------------------
      .   EPMX_1,SIGMX_1,CC_1,EPDR_1,EPSL_1,
      .   YLDL_1,QL_1
      
-      FACQ0 = UN
+      FACQ0 = ONE
       IF(IPLA.EQ.0)THEN
        MX = MAT(LFT)
        RHO0_1 =PM( 1,MX)
@@ -168,23 +168,23 @@ C-----------------------------------------------
       ENDIF
 
       DO 15 I=LFT,LLT
-      EPD(I)=OFF(I) * MAX(   ABS(D1(I)), ABS(D2(I)), ABS(D3(I)), UNDEMI*ABS(D4(I)),UNDEMI*ABS(D5(I)),UNDEMI*ABS(D6(I)))
+      EPD(I)=OFF(I) * MAX(   ABS(D1(I)), ABS(D2(I)), ABS(D3(I)), HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))
       EPSP = MAX(EPD(I),EPDR(I))
-      CE(I) = UN +CC(I) * LOG(EPSP/EPDR(I))
+      CE(I) = ONE +CC(I) * LOG(EPSP/EPDR(I))
  15   CONTINUE
 
       IF(IPLA.NE.2)THEN
        DO 20 I=LFT,LLT
-       IF(CN(I).EQ.UN) THEN
+       IF(CN(I).EQ.ONE) THEN
         AK(I)= CA(I)+CB(I)*EPXE(I)
         QH(I)= CB(I)*CE(I)
        ELSE
         IF(EPXE(I).GT.ZERO) THEN
          AK(I)=CA(I)+CB(I)*EPXE(I)**CN(I)
-         IF(CN(I).GT.UN) THEN
-          QH(I)= (CB(I)*CN(I)*EPXE(I)**(CN(I)-UN))*CE(I)
+         IF(CN(I).GT.ONE) THEN
+          QH(I)= (CB(I)*CN(I)*EPXE(I)**(CN(I)-ONE))*CE(I)
          ELSE
-          QH(I)= (CB(I)*CN(I)/EPXE(I)**(UN - CN(I)))*CE(I)
+          QH(I)= (CB(I)*CN(I)/EPXE(I)**(ONE - CN(I)))*CE(I)
          ENDIF
         ELSE
          AK(I)=CA(I)
@@ -197,7 +197,7 @@ C-----------------------------------------------
  20    CONTINUE
       ELSE
        DO I=LFT,LLT
-       IF(CN(I).EQ.UN) THEN
+       IF(CN(I).EQ.ONE) THEN
         AK(I)= CA(I)+CB(I)*EPXE(I)
        ELSE
         IF(EPXE(I).GT.ZERO) THEN
@@ -214,19 +214,19 @@ C-----------------------------------------------
       IF(IPLA.EQ.0)THEN
       DO I=LFT,LLT
        AK(I) = MIN(AK(I),SIGMX(I))
-       HL    = TROIS*G0(I)*QL(I)/(TROIS*G0(I)+QL(I))
+       HL    = THREE*G0(I)*QL(I)/(THREE*G0(I)+QL(I))
        DEPSL = MAX(ZERO,EPXE(I)-EPSL(I))
        AK(I) = MIN(AK(I),YLDL(I)+HL*DEPSL)
        AK(I) = MAX(AK(I),ZERO)
-       ALPE  = MIN(UN,AK(I)/MAX(AK(I)+TROIS*G0(I)*DEPSL,EM15))
+       ALPE  = MIN(ONE,AK(I)/MAX(AK(I)+THREE*G0(I)*DEPSL,EM15))
        AK(I) = AK(I)*CE(I)
        IF(ICC(I).EQ.2) AK(I) = MIN(AK(I),SIGMX(I))
        G(I)  = ALPE*G0(I)
        C1(I) = PDAM*ALPE*C1(I) + (1.-PDAM)*C1(I)
        P(I)  =-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
        G1=DT1*G(I)
-       G2=DEUX*G1
-       SSP(I)=SQRT((UNP333*G(I)+C1(I))/RHO0(I))
+       G2=TWO*G1
+       SSP(I)=SQRT((ONEP333*G(I)+C1(I))/RHO0(I))
        !-------------------------------
        !     CONTRAINTES DEVIATORIQUES
        !-------------------------------
@@ -237,9 +237,9 @@ C-----------------------------------------------
        SIG(I,4)=SIG(I,4)+G1*D4(I)
        SIG(I,5)=SIG(I,5)+G1*D5(I)
        SIG(I,6)=SIG(I,6)+G1*D6(I)
-       AJ2(I)=UNDEMI*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)
+       AJ2(I)=HALF*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)
      1               +SIG(I,4)**2+SIG(I,5)**2+SIG(I,6)**2
-       AJ2(I)=SQRT(TROIS*AJ2(I))
+       AJ2(I)=SQRT(THREE*AJ2(I))
       ENDDO
       ELSEIF(IPLA.EQ.2)THEN
       DO I=LFT,LLT
@@ -247,19 +247,19 @@ C-----------------------------------------------
        DEPSL = MAX(ZERO,EPXE(I)-EPSL(I))
        AK(I) = MIN(AK(I),YLDL(I)+QL(I)*DEPSL)
        AK(I) = MAX(AK(I),ZERO)
-       ALPE  = MIN(UN,AK(I)/MAX(AK(I) + TROIS*G0(I)*DEPSL,EM15))
+       ALPE  = MIN(ONE,AK(I)/MAX(AK(I) + THREE*G0(I)*DEPSL,EM15))
        AK(I) = AK(I)*CE(I)
        IF(ICC(I).EQ.2) AK(I) = MIN(AK(I),SIGMX(I))
        G(I)  = ALPE*G0(I)
-       C1(I) = PDAM*ALPE*C1(I) + (UN - PDAM)*C1(I)
+       C1(I) = PDAM*ALPE*C1(I) + (ONE - PDAM)*C1(I)
        P(I)  =-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
        G1=DT1*G(I)
-       G2=DEUX*G1
-       SSP(I)=SQRT((UNP333*G(I)+C1(I))/RHO0(I))
+       G2=TWO*G1
+       SSP(I)=SQRT((ONEP333*G(I)+C1(I))/RHO0(I))
        !-------------------------------
        !     CONTRAINTES DEVIATORIQUES
        !-------------------------------
-       IF(EPXE(I).GT.EPSL(I).AND.TROIS*G(I).LT.EM15)THEN
+       IF(EPXE(I).GT.EPSL(I).AND.THREE*G(I).LT.EM15)THEN
         SIG(I,1)=ZERO
         SIG(I,2)=ZERO
         SIG(I,3)=ZERO
@@ -275,9 +275,9 @@ C-----------------------------------------------
         SIG(I,4)=SIG(I,4)+G1*D4(I)
         SIG(I,5)=SIG(I,5)+G1*D5(I)
         SIG(I,6)=SIG(I,6)+G1*D6(I)
-        AJ2(I)=UNDEMI*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)+
+        AJ2(I)=HALF*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)+
      .                 SIG(I,4)**2+SIG(I,5)**2+SIG(I,6)**2
-        AJ2(I)=SQRT(TROIS*AJ2(I))
+        AJ2(I)=SQRT(THREE*AJ2(I))
        ENDIF
       ENDDO
       ELSE
@@ -286,19 +286,19 @@ C-----------------------------------------------
        DEPSL = MAX(ZERO,EPXE(I)-EPSL(I))
        AK(I) = MIN(AK(I),YLDL(I)+QL(I)*DEPSL)
        AK(I) = MAX(AK(I),ZERO)
-       ALPE  = MIN(UN,AK(I)/MAX(AK(I) + TROIS*G0(I)*DEPSL,EM15))
+       ALPE  = MIN(ONE,AK(I)/MAX(AK(I) + THREE*G0(I)*DEPSL,EM15))
        AK(I) = AK(I)*CE(I)
        IF(ICC(I).EQ.2) AK(I) = MIN(AK(I),SIGMX(I))
        G(I)  = ALPE*G0(I)
-       C1(I) = PDAM*ALPE*C1(I) + (UN - PDAM)*C1(I)
+       C1(I) = PDAM*ALPE*C1(I) + (ONE - PDAM)*C1(I)
        P(I)  =-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
        G1=DT1*G(I)
-       G2=DEUX*G1
-       SSP(I)=SQRT((UNP333*G(I)+C1(I))/RHO0(I))
+       G2=TWO*G1
+       SSP(I)=SQRT((ONEP333*G(I)+C1(I))/RHO0(I))
        !-------------------------------
        !     CONTRAINTES DEVIATORIQUES
        !-------------------------------
-       IF(EPXE(I).GT.EPSL(I).AND.G(I)*(TROIS*G0(I)+QH(I)).LT.EM15)THEN
+       IF(EPXE(I).GT.EPSL(I).AND.G(I)*(THREE*G0(I)+QH(I)).LT.EM15)THEN
         SIG(I,1)=ZERO
         SIG(I,2)=ZERO
         SIG(I,3)=ZERO
@@ -314,43 +314,43 @@ C-----------------------------------------------
         SIG(I,4)=SIG(I,4)+G1*D4(I)
         SIG(I,5)=SIG(I,5)+G1*D5(I)
         SIG(I,6)=SIG(I,6)+G1*D6(I)
-        AJ2(I)=UNDEMI*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)+
+        AJ2(I)=HALF*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)+
      .                 SIG(I,4)**2+SIG(I,5)**2+SIG(I,6)**2
-        AJ2(I)=SQRT(TROIS*AJ2(I))
+        AJ2(I)=SQRT(THREE*AJ2(I))
        ENDIF
       ENDDO
       ENDIF
 
       IF(IPLA.EQ.0)THEN
         DO I=LFT,LLT
-         SCALE= MIN(UN,AK(I) / MAX(AJ2(I),EM15))
+         SCALE= MIN(ONE,AK(I) / MAX(AJ2(I),EM15))
          SIG(I,1)=SCALE*SIG(I,1)
          SIG(I,2)=SCALE*SIG(I,2)
          SIG(I,3)=SCALE*SIG(I,3)
          SIG(I,4)=SCALE*SIG(I,4)
          SIG(I,5)=SCALE*SIG(I,5)
          SIG(I,6)=SCALE*SIG(I,6)
-         EPXE(I)=EPXE(I)+(UN -SCALE)*AJ2(I)/MAX(TROIS*G(I)+QH(I),EM15)
-         DPLA(I) =  (UN -SCALE)*AJ2(I)/MAX(TROIS*G(I)+QH(I),EM15)      
+         EPXE(I)=EPXE(I)+(ONE -SCALE)*AJ2(I)/MAX(THREE*G(I)+QH(I),EM15)
+         DPLA(I) =  (ONE -SCALE)*AJ2(I)/MAX(THREE*G(I)+QH(I),EM15)      
         ENDDO
         ELSEIF(IPLA.EQ.2)THEN
         DO I=LFT,LLT
-         SCALE= MIN(UN,AK(I) / MAX(AJ2(I),EM15))
+         SCALE= MIN(ONE,AK(I) / MAX(AJ2(I),EM15))
          SIG(I,1)=SCALE*SIG(I,1)
          SIG(I,2)=SCALE*SIG(I,2)
          SIG(I,3)=SCALE*SIG(I,3)
          SIG(I,4)=SCALE*SIG(I,4)
          SIG(I,5)=SCALE*SIG(I,5)
          SIG(I,6)=SCALE*SIG(I,6)
-         EPXE(I)=EPXE(I)+(UN -SCALE)*AJ2(I)/MAX(TROIS*G(I),EM15)
-         DPLA(I) = (UN -SCALE)*AJ2(I)/MAX(TROIS*G(I),EM15)       
+         EPXE(I)=EPXE(I)+(ONE -SCALE)*AJ2(I)/MAX(THREE*G(I),EM15)
+         DPLA(I) = (ONE -SCALE)*AJ2(I)/MAX(THREE*G(I),EM15)       
         ENDDO
         ELSEIF(IPLA.EQ.1)THEN
         DO I=LFT,LLT
-         SCALE= MIN(UN,AK(I) / MAX(AJ2(I),EM15))
-         DPLA(I)=(UN -SCALE)*AJ2(I)*G0(I)/ MAX(G(I)*(TROIS*G0(I)+QH(I)),EM15)
+         SCALE= MIN(ONE,AK(I) / MAX(AJ2(I),EM15))
+         DPLA(I)=(ONE -SCALE)*AJ2(I)*G0(I)/ MAX(G(I)*(THREE*G0(I)+QH(I)),EM15)
          AK(I)=MAX(ZERO,AK(I)+DPLA(I)*QH(I))
-         SCALE= MIN(UN,AK(I)/ MAX(AJ2(I),EM15))
+         SCALE= MIN(ONE,AK(I)/ MAX(AJ2(I),EM15))
          SIG(I,1)=SCALE*SIG(I,1)
          SIG(I,2)=SCALE*SIG(I,2)
          SIG(I,3)=SCALE*SIG(I,3)
@@ -385,15 +385,15 @@ C-----------------------------------------------
 C----------------------------
 C     TEST DE RUPTURE DUCTILE
 C---------------------------
-      IF(PDAM.EQ.UN.AND.CODVERS.GE.42)THEN
+      IF(PDAM.EQ.ONE.AND.CODVERS.GE.42)THEN
         DO I=LFT,LLT
           IF(OFF(I).LT.EM01) OFF(I)=ZERO
-          IF(OFF(I).LT.UN) OFF(I)=OFF(I)*QCINQ
+          IF(OFF(I).LT.ONE) OFF(I)=OFF(I)*FOUR_OVER_5
         ENDDO
 C
         DO I=LFT,LLT
-          IF(EPMX(I).NE.ZERO.AND.OFF(I).GE.UN.AND. EPXE(I).GT.EPMX(I))THEN
-            OFF(I)=OFF(I)*QCINQ
+          IF(EPMX(I).NE.ZERO.AND.OFF(I).GE.ONE.AND. EPXE(I).GT.EPMX(I))THEN
+            OFF(I)=OFF(I)*FOUR_OVER_5
             II=I+NFT
 #include "lockon.inc"
               WRITE(IOUT,1000) NGL(I)
@@ -403,7 +403,7 @@ C
         ENDDO
       ENDIF
 
-      DTA = UNDEMI*DT1
+      DTA = HALF*DT1
 
       DO I=LFT,LLT
        SIG(I,1)=(SIG(I,1)-PNEW(I))*OFF(I)
@@ -418,7 +418,7 @@ C
        E4=D4(I)*(SOLD4(I)+SIG(I,4))
        E5=D5(I)*(SOLD5(I)+SIG(I,5))
        E6=D6(I)*(SOLD6(I)+SIG(I,6))
-       EINC= VOL_AVG(I)*(E1+E2+E3+E4+E5+E6)*DTA - UNDEMI*DVOL(I)*(QOLD(I)+QNEW(I))
+       EINC= VOL_AVG(I)*(E1+E2+E3+E4+E5+E6)*DTA - HALF*DVOL(I)*(QOLD(I)+QNEW(I))
        EINT(I)=(EINT(I)+EINC*OFF(I)) / MAX(EM15,VOL(I))
        QOLD(I)=QNEW(I)
       ENDDO

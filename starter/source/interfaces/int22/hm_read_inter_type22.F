@@ -199,8 +199,8 @@ C
         IPARI(46)=ISU2
 C
 
-        IF(JMULT22.EQ.ZERO)JMULT22=UN
-        IF(RATIO22_ .EQ. ZERO)RATIO22_ = UN + DIX/CENT
+        IF(JMULT22.EQ.ZERO)JMULT22=ONE
+        IF(RATIO22_ .EQ. ZERO)RATIO22_ = ONE + TEN/HUNDRED
         RATIO22    = MIN(RATIO22,RATIO22_)
         GAP        = ZERO
         IGSTI      = 0
@@ -215,16 +215,16 @@ C
         VISC       = ZERO
         VISCF      = ZERO
         BUMULT     = ZERO
-        STFAC      = UN
-        VISC       = CINQEM2
+        STFAC      = ONE
+        VISC       = FIVEEM2
         FRIGAP(14) = VISC
         FRIGAP(16) = EP30
-        FRIGAP(27) = UN
+        FRIGAP(27) = ONE
         FRIGAP(28) = ZERO
-        FRIGAP(24) = UN
-        FRIGAP(25) = UN
-        FRIGAP(20) = UN/EP30
-        FRIGAP(21) = UN
+        FRIGAP(24) = ONE
+        FRIGAP(25) = ONE
+        FRIGAP(20) = ONE/EP30
+        FRIGAP(21) = ONE
         FRIGAP(22) = RATIO22_
         IPARI(39)  = 0
         IPARI(40)  = 0
@@ -346,7 +346,7 @@ c          print *, "WARNING : INTER22, GRNOD ID NOT FOUND IN INPUT FILE"
         
         IF(IS1*IS2.NE.0)THEN
           INT22  = INT22 + 1                                   !number of int22 interfaces.
-          I22LEN1 = MAX(100     ,NINT(82*IGRBRIC(ISU1)%NENTITY**UNDEMI))
+          I22LEN1 = MAX(100     ,NINT(82*IGRBRIC(ISU1)%NENTITY**HALF))
           I22LEN1 = MIN(I22LEN1 ,IGRBRIC(ISU1)%NENTITY)
           I22LEN1 = NINT(JMULT22*I22LEN1)
           I22LEN  = MAX( I22LEN , I22LEN1 )                    !maximum nb of 3D elem.
@@ -373,9 +373,9 @@ C BUMULT is increased for big models
       IF(BUMULT.EQ.ZERO) THEN
         BUMULT = BMUL0
         IF(NUMNOD > 2500000) THEN
-          BUMULT = BMUL0*DEUX
+          BUMULT = BMUL0*TWO
         ELSEIF(NUMNOD > 1500000) THEN
-          BUMULT = BMUL0*TROIS/DEUX
+          BUMULT = BMUL0*THREE/TWO
         END IF
       END IF
       FRIGAP(4)=BUMULT

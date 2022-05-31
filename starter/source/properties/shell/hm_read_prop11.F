@@ -192,7 +192,7 @@ C
      .         CALL SUBROTVECT(VX,VY,VZ,RTRANS,SUB_ID,LSUBMODEL)
 C----------------------
 
-      PTHK = MIN(PTHK, UN-EM06)
+      PTHK = MIN(PTHK, ONE-EM06)
       GEO(42) = PTHK
 C
       IF(IHBE==0)IHBE=IHBE_D
@@ -217,7 +217,7 @@ C
       IF (GEO(16) == ZERO) IGEO(31) = 1
       
       IF (IHBE==24) THEN
-        IF (CVIS==ZERO) CVIS=UN
+        IF (CVIS==ZERO) CVIS=ONE
         IF (GEO(17)==ZERO) GEO(17)=ZEP015
       ENDIF
 C---
@@ -269,14 +269,14 @@ C
       ENDIF
 
 C
-      IF(GEO(38) == ZERO) GEO(38)=CSIX
+      IF(GEO(38) == ZERO) GEO(38)=FIVE_OVER_6
       IF(NLY == -1)NLY=NPTS_D
       IF(NLY == 0) NLY = 1
       IF(NLY == 1) GEO(38)= ZERO
       AN=SQRT(VX*VX+VY*VY+VZ*VZ)
 C---- error out w/ IRP=22,23      
       IF(AN .LT. EM10)THEN
-        VX=UN
+        VX=ONE
         VY=ZERO
         VZ=ZERO
         IF (IRP==23) THEN
@@ -418,7 +418,7 @@ C----------------------
            GEO(IPANG+K) = PHI_I
            GEO(IPTHK+K) = THK_I 
            GEO(IPPOS+K) = Z_I
-           IF (WEIGHT == ZERO) WEIGHT = UN
+           IF (WEIGHT == ZERO) WEIGHT = ONE
            GEO(IPWEIGHT+K)= WEIGHT
         ENDDO
 C---  calcul epaisseur & position des couches
@@ -428,7 +428,7 @@ C---  calcul epaisseur & position des couches
         TMAX = -EP20
 
         DO N=1,N1
-          DT = UNDEMI*GEO(IPTHK+N)
+          DT = HALF*GEO(IPTHK+N)
           TMIN = MIN(TMIN,GEO(IPPOS+N)-DT)
           TMAX = MAX(TMAX,GEO(IPPOS+N)+DT)
         ENDDO
@@ -447,10 +447,10 @@ C---  calcul epaisseur & position des couches
           GEO(IPTHK+N)=GEO(IPTHK+N) / MAX(THICKT,EM20)
         ENDDO
 C---      calcul automatique de position des couches
-        GEO(IPPOS+1) = -UNDEMI + UNDEMI*GEO(IPTHK+1)
+        GEO(IPPOS+1) = -HALF + HALF*GEO(IPTHK+1)
         DO N=2,N1
           GEO(IPPOS+N) = GEO(IPPOS+N-1)
-     .                 + UNDEMI*(GEO(IPTHK+N)+GEO(IPTHK+N-1))
+     .                 + HALF*(GEO(IPTHK+N)+GEO(IPTHK+N-1))
         ENDDO
         GEO(200)=THICKT
       ENDIF
@@ -539,7 +539,7 @@ C
           WRITE(IOUT,2121)N,GEO(M1),GEO(M2)*GEO(1),GEO(M3)*GEO(1),
      .     GEO(M4),NUML(N)
         ENDIF
-        GEO(M1)=GEO(M1)*PI/CENT80
+        GEO(M1)=GEO(M1)*PI/HUNDRED80
       ENDDO
 C-----------------------------
 C switch I8/I10 TO BE DELETED WHEN USING HM READER

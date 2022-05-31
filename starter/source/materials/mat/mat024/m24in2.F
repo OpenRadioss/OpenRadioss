@@ -52,16 +52,16 @@ C     REAL ou REAL*8
 C=======================================================================
 C
       DO I=LFT,LLT
-        ANG(I,1)=UN
+        ANG(I,1)=ONE
         ANG(I,2)=ZERO
         ANG(I,3)=ZERO
         ANG(I,4)=ZERO
-        ANG(I,5)=UN
+        ANG(I,5)=ONE
         ANG(I,6)=ZERO
       ENDDO
 C
       MX = IX(1,1+NFT)
-      SF (1:NEL,1:3) = -UN
+      SF (1:NEL,1:3) = -ONE
       VK0(1:NEL) = PM(46,MX)
       ROB(1:NEL) = PM(30,MX)
 c-----------

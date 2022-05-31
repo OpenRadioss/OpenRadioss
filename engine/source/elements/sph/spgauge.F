@@ -163,7 +163,7 @@ C------
      	    VJ=SPBUF(12,M)/MAX(EM20,RHOJ)
      	    CALL WEIGHT0(XI,YI,ZI,XJ,YJ,ZJ,DJ,WGHT)
             WCOMPI=VJ*WGHT
-            PP=-TIERS*(WA(1,M)+WA(2,M)+WA(3,M))
+            PP=-THIRD*(WA(1,M)+WA(2,M)+WA(3,M))
             FGAUGE1(J) = WCOMPI
             FGAUGE2(J) = VJ*WGHT*PP
             FGAUGE3(J) = VJ*WGHT*RHOJ
@@ -188,7 +188,7 @@ C       partie symetrique.
             VJ=SPBUF(12,SM)/MAX(EM20,RHOJ)
             CALL WEIGHT0(XI,YI,ZI,XJ,YJ,ZJ,DJ,WGHT)
             WCOMPI=VJ*WGHT
-            PP=-TIERS*(WASIGSM(1,JS)+WASIGSM(2,JS)+WASIGSM(3,JS))
+            PP=-THIRD*(WASIGSM(1,JS)+WASIGSM(2,JS)+WASIGSM(3,JS))
             K = K+1
             FGAUGE1(K) = WCOMPI
             FGAUGE2(K) = VJ*WGHT*PP
@@ -245,7 +245,7 @@ C
      +            SPHG_F6(2,4,IG)+SPHG_F6(2,5,IG)+SPHG_F6(2,6,IG)
         RHO  =    SPHG_F6(3,1,IG)+SPHG_F6(3,2,IG)+SPHG_F6(3,3,IG)+
      +            SPHG_F6(3,4,IG)+SPHG_F6(3,5,IG)+SPHG_F6(3,6,IG)      
-        ALPHAI=UN/MAX(EM20,WCOMPI)
+        ALPHAI=ONE/MAX(EM20,WCOMPI)
         PRESS=PRESS*ALPHAI
         RHO  =RHO*ALPHAI
         GAUGE(10,IG)=PRESS
@@ -300,34 +300,34 @@ C
 C-----------------------------------------------
 C INITIALIALISATION DES COEFFICIENTS DU FILTRE
 C-----------------------------------------------
-      PI1   = DEUX*ATAN2(UN,ZERO)
-      PI8  = PI1*UNHUIT
-      PI38 = TROIS*PI8
+      PI1   = TWO*ATAN2(ONE,ZERO)
+      PI8  = PI1*ONE_OVER_8
+      PI38 = THREE*PI8
       SPI8  = SIN(PI8)
       SPI38 = SIN(PI38)
 C
       D  = TAN(PI1*F*DT2)
       DD = D*D
-      D2 = DEUX*D
-      DP = UN + DD
+      D2 = TWO*D
+      DP = ONE + DD
       E  = D2*SPI8
       G  = E + DP
-      G  = UN/G
+      G  = ONE/G
 C
       C0 = DD * G
-      C1 = DEUX* C0
+      C1 = TWO* C0
       C2 = C0
-      C3 = DEUX * G - C1
+      C3 = TWO * G - C1
       C4 = (E - DP) * G
 C
       E  = D2*SPI38
       G  = E + DP
-      G  = UN/G
+      G  = ONE/G
 C
       C5 = DD * G
-      C6 = DEUX * C5
+      C6 = TWO * C5
       C7 = C5
-      C8 = DEUX * G - C6
+      C8 = TWO * G - C6
       C9 = (E - DP) * G
 C-----------------------------------------------
 C FILTRAGE

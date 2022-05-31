@@ -194,7 +194,7 @@ C
           IF(DIAG_RBE2(J,M)==ZERO)THEN
             PREC_SMS3(J,M)=ZERO
           ELSE
-            PREC_SMS3(J,M)=UN/DIAG_RBE2(J,M)
+            PREC_SMS3(J,M)=ONE/DIAG_RBE2(J,M)
           END IF
         END DO
       ENDDO

@@ -108,8 +108,8 @@ C
       CALL HM_GET_FLOATV         ('b_TBUTCHER_XFEMTBUTC'        ,BRIT_C   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV         ('Dadv'        ,DADV   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF (DADV == ZERO)DADV=ZEP85
-      IF (DADV > UN)THEN
-         DADV = UN
+      IF (DADV > ONE)THEN
+         DADV = ONE
          CALL ANCMSG(MSGID=1049,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO,

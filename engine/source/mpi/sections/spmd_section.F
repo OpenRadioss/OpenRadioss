@@ -90,11 +90,11 @@ C
           NELTG = NSTRF(K1+4+3*NELC)
           IF (WEIGHT(N1).EQ.1.OR.WEIGHT(N2).EQ.1.OR.WEIGHT(N3).EQ.1)
      +     THEN
-            WA(I) = UN
+            WA(I) = ONE
           ENDIF
           IF (NELC+NELTG.NE.0.AND.(WEIGHT(N1).EQ.0.OR.WEIGHT(N2).EQ.0
      +                         .OR.WEIGHT(N3).EQ.0.)) THEN
-            WA(I+NSECT) = UN
+            WA(I+NSECT) = ONE
           ENDIF
           K1=K1+4+3*NSTRF(K1)
           K1=K1+1+2*NSTRF(K1)
@@ -234,24 +234,24 @@ C
           IF (IFRAM.LE.10.OR.N1.NE.0) THEN
             IF (WEIGHT(N1).EQ.1.OR.WEIGHT(N2).EQ.1.OR.WEIGHT(N3).EQ.1)
      +        THEN
-              WA(I) = UN
+              WA(I) = ONE
             ENDIF
             IF (NELSEG.NE.0.AND.(WEIGHT(N1).EQ.0.OR.WEIGHT(N2).EQ.0
      +                         .OR.WEIGHT(N3).EQ.ZERO)) THEN
-             WA(I+NSECT) = UN
+             WA(I+NSECT) = ONE
             ENDIF
           ENDIF
           IF(MOD(IFRAM,10).EQ.1.OR.MOD(IFRAM,10).EQ.2) THEN
            IALL = 1
            DO NN = 1, NNOD
              IF (WEIGHT(NSTRF(K2+NN-1)).EQ.1) THEN
-               WA(I) = UN
+               WA(I) = ONE
              ELSE
                IALL = ZERO
              ENDIF
            ENDDO
            IF (NELSEG.NE.0.AND.IALL.EQ.0) THEN
-              WA(I+NSECT) = UN
+              WA(I+NSECT) = ONE
            ENDIF
           ENDIF
           K0=NSTRF(K0+24)

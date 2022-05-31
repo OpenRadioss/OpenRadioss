@@ -116,7 +116,7 @@ C initialization
        NC = 0
        NT = 0
        EPSP0 = EP20
-       CP = UN
+       CP = ONE
        VP = 0
        SIGY = ZERO
 C--------------------------------------------------
@@ -164,7 +164,7 @@ C
          CALL HM_GET_INTV  ('VP'           ,VP         ,IS_AVAILABLE,LSUBMODEL)
 C
          IF(EPSP0 == ZERO .AND. CP == ZERO)EPSP0 = EP20
-         IF(EPSP0 == ZERO) EPSP0 = UN !!!
+         IF(EPSP0 == ZERO) EPSP0 = ONE !!!
          
 C
        ELSEIF(IRATE == 3) THEN
@@ -198,7 +198,7 @@ C
              NC = NC +1
              IFUNC(2) = IFUNC(1)
              RATE(1) = ZERO
-             RATE(2) = UN
+             RATE(2) = ONE
              YFAC(2) = YFAC(1)
          ELSEIF(RATE(1) /= ZERO)THEN
              NC = NC + 1
@@ -220,7 +220,7 @@ C unity
             IF(NT == 1) THEN
              NT = NT +1
              IFUNC(NC + 2) = IFUNC(NC + 1)
-             RATE(NC + 2)  = UN
+             RATE(NC + 2)  = ONE
              RATE(NC + 1)  = ZERO
              YFAC(NC + 2)  = YFAC(NC + 1)
            ELSEIF(RATE(NC + 1) /= ZERO)THEN
@@ -277,14 +277,14 @@ C
           ENDIF
       ENDDO     
 C
-      IF(NU == UNDEMI)NU=ZEP499
-      IF(CP == ZERO .AND. IRATE == 1) CP = UN
-      IF(IRATE == 1 ) CP  = UN/CP
-      G = UNDEMI*E/( UN + NU)
+      IF(NU == HALF)NU=ZEP499
+      IF(CP == ZERO .AND. IRATE == 1) CP = ONE
+      IF(IRATE == 1 ) CP  = ONE/CP
+      G = HALF*E/( ONE + NU)
 C
       UPARAM(1)  = IRATE
       UPARAM(2)  = E
-      UPARAM(3)  = E/(UN - NU*NU)
+      UPARAM(3)  = E/(ONE - NU*NU)
       UPARAM(4)  = NU*UPARAM(3)
       UPARAM(5)  = G
       UPARAM(6)  = NU
@@ -305,7 +305,7 @@ C
       UPARAM(NUPARAM + 2) = VP
       NUPARAM = NUPARAM + 2      
 c     
-      C1=E/TROIS/(UN - DEUX*NU)
+      C1=E/THREE/(ONE - TWO*NU)
 C                      
       PARMAT(1) = C1
       PARMAT(2) = E

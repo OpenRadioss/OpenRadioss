@@ -124,7 +124,7 @@ C-----------------------------------------------
        ENDDO
        IF(EOSTYP==13 .OR. EOSTYP==16)THEN
          DO I = LFT, LLT
-           POLD(I)=-TIERS*(SIG(I,1)+SIG(I,2)+SIG(I,3))
+           POLD(I)=-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
          ENDDO
        ENDIF                
       ELSEIF (IFLAG == 2) THEN
@@ -137,7 +137,7 @@ C-----------------------------------------------
          ENDDO
          IF(EOSTYP==13 .OR. EOSTYP==16)THEN
            DO I = 1, NEL
-             POLD(I)=-TIERS*(SIG(I,1)+SIG(I,2)+SIG(I,3))
+             POLD(I)=-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
            ENDDO
          ENDIF         
       ENDIF    

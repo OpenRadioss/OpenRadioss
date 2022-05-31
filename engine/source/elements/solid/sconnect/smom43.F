@@ -101,11 +101,11 @@ c
         IF(TTHICK >ZERO)THEN
         MYZ = R1Y(I)*F1Z(I)+R2Y(I)*F2Z(I)+R3Y(I)*F3Z(I)+R4Y(I)*F4Z(I)
      .       +R5Y(I)*F5Z(I)+R6Y(I)*F6Z(I)+R7Y(I)*F7Z(I)+R8Y(I)*F8Z(I)
-        MZY = TTHICK*UNDEMI*(-F1Y(I)-F2Y(I)-F3Y(I)-F4Y(I) !car R1Z,R2Z,R3Z,R4Z <0 
+        MZY = TTHICK*HALF*(-F1Y(I)-F2Y(I)-F3Y(I)-F4Y(I) !car R1Z,R2Z,R3Z,R4Z <0 
      .                      +F5Y(I)+F6Y(I)+F7Y(I)+F8Y(I))
         MXX(I) = MYZ - MZY
 
-        MZX = TTHICK*UNDEMI*(-F1X(I)-F2X(I)-F3X(I)-F4X(I)!car R1Z,R2Z,R3Z,R4Z <0
+        MZX = TTHICK*HALF*(-F1X(I)-F2X(I)-F3X(I)-F4X(I)!car R1Z,R2Z,R3Z,R4Z <0
      .                       +F5X(I)+F6X(I)+F7X(I)+F8X(I))
         MXZ = R1X(I)*F1Z(I)+R2X(I)*F2Z(I)+R3X(I)*F3Z(I)+R4X(I)*F4Z(I)
      .       +R5X(I)*F5Z(I)+R6X(I)*F6Z(I)+R7X(I)*F7Z(I)+R8X(I)*F8Z(I)

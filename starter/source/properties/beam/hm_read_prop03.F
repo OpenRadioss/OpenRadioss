@@ -169,7 +169,7 @@ C
         GEO(10)=1.1-IR2Y
         GEO(11)=1.1-IR2Z
         IF(ISHEAR.NE.0) THEN
-          GEO(37)=UN
+          GEO(37)=ONE
         ELSE
           GEO(37)=ZERO
         ENDIF

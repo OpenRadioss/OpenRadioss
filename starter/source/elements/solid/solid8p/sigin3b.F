@@ -139,11 +139,11 @@ c
                 GAMA(5)=BUFGAMA(I + 4*NEL)		    
                 GAMA(6)=BUFGAMA(I + 5*NEL)		    
               ELSE                                          
-                GAMA(1)=UN                                  
+                GAMA(1)=ONE                                  
                 GAMA(2)=ZERO                                
                 GAMA(3)=ZERO                                
                 GAMA(4)=ZERO                                
-                GAMA(5)=UN                                  
+                GAMA(5)=ONE                                  
                 GAMA(6)=ZERO                                
               END IF                                        
             ENDIF                                           
@@ -184,12 +184,12 @@ c---
                    VOL(I) = SIGSP(4,JJ)*VOL(I) / RHO(I)                         
                    RHO(I) = SIGSP(4,JJ)                                         
                  ENDIF                                                          
-                 SIG(I,1) = SIG(I,1) + UNHUIT*LBUF%SIG(KK(1)+I) 		  
-                 SIG(I,2) = SIG(I,2) + UNHUIT*LBUF%SIG(KK(2)+I) 		  
-                 SIG(I,3) = SIG(I,3) + UNHUIT*LBUF%SIG(KK(3)+I) 		  
-                 SIG(I,4) = SIG(I,4) + UNHUIT*LBUF%SIG(KK(4)+I) 		  
-                 SIG(I,5) = SIG(I,5) + UNHUIT*LBUF%SIG(KK(5)+I) 		  
-                 SIG(I,6) = SIG(I,6) + UNHUIT*LBUF%SIG(KK(6)+I) 		  
+                 SIG(I,1) = SIG(I,1) + ONE_OVER_8*LBUF%SIG(KK(1)+I) 		  
+                 SIG(I,2) = SIG(I,2) + ONE_OVER_8*LBUF%SIG(KK(2)+I) 		  
+                 SIG(I,3) = SIG(I,3) + ONE_OVER_8*LBUF%SIG(KK(3)+I) 		  
+                 SIG(I,4) = SIG(I,4) + ONE_OVER_8*LBUF%SIG(KK(4)+I) 		  
+                 SIG(I,5) = SIG(I,5) + ONE_OVER_8*LBUF%SIG(KK(5)+I) 		  
+                 SIG(I,6) = SIG(I,6) + ONE_OVER_8*LBUF%SIG(KK(6)+I) 		  
               ELSE                                                             
                 LBUF%SIG(KK(1)+I)= SIG(I,1)					 
                 LBUF%SIG(KK(2)+I)= SIG(I,2)					 

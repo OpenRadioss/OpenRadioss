@@ -61,10 +61,10 @@ C-----------------------------------------------
 C
       DO I=LFT,LLT
         THK(I) = GAP
-        ALP(I) = ABS(DEUX*GAP/SQRT(AREA(I)))
-        VAR    = CINQEM2
+        ALP(I) = ABS(TWO*GAP/SQRT(AREA(I)))
+        VAR    = FIVEEM2
         ALP(I) = MAX(VAR,ALP(I))
-        VAR    = UNCINQ
+        VAR    = ONE_FIFTH
         ALP(I) = MIN(VAR,ALP(I))
       ENDDO
 C

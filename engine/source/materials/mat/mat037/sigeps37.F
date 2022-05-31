@@ -175,7 +175,7 @@ C-----------------------------------------------
       RHO20    = UPARAM(12)
       PSH      = UPARAM(16)
       ISOLVER  = NINT(UPARAM(17))
-      RHOSCALE = UN
+      RHOSCALE = ONE
       IF(IFUNC(1).GT.0)RHOSCALE=FINTER(IFUNC(1),TIME,NPF,TF,DYDX)
       DP0      = P0+PSH !default = P0-P0 = ZERO
 
@@ -186,8 +186,8 @@ C-----------------------------------------------
        DO I=1,NEL
          P = MAX(EM30,(-SIGOXX(I)-SIGOYY(I)-SIGOZZ(I))*THIRD)         
          IF(GAM*C1.GE.EM30)THEN !if Liquid and gas correctly defined
-          MU1P1     = (P/C1+UN)
-          MU2P1     =( UN+P/P0)**(UN/GAM)
+          MU1P1     = (P/C1+ONE)
+          MU2P1     =( ONE+P/P0)**(ONE/GAM)
           RHO1      = RHO10*MU1P1
           RHO2      = RHO20*MU2P1
           A         = (RHO(I)-RHO2)/(RHO1-RHO2)
@@ -196,7 +196,7 @@ C-----------------------------------------------
           UVAR(I,3) = RHO1
           UVAR(I,4) = A
           IF(UVAR(I,4).LT.EM20)UVAR(I,4)=ZERO
-          UVAR(I,5) = UN-UVAR(I,4)
+          UVAR(I,5) = ONE-UVAR(I,4)
          ELSE !boundary element
            UVAR(I,3)=RHO(I)
          ENDIF
@@ -213,17 +213,17 @@ C-----------------------------------------------
       !------------------------------------!
       IF(GAM*C1.LT.EM30)THEN
        DO I=1,NEL
-        IF(UVAR(I,3)/RHO10.LT.UNDEMI)THEN
+        IF(UVAR(I,3)/RHO10.LT.HALF)THEN
          UVAR(I,1) = ZERO !massic percentage of liquid
          RHO(I)    = UVAR(I,3)*RHOSCALE
          UVAR(I,2) = RHO(I)
          UVAR(I,4) = ZERO  ! no mass of liquid then no volume
-         UVAR(I,5) = UN
+         UVAR(I,5) = ONE
         ELSE
          UVAR(I,1) = UVAR(I,3)
          UVAR(I,2) = RHO20
          RHO(I)    = UVAR(I,3)
-         UVAR(I,4) = UN
+         UVAR(I,4) = ONE
          UVAR(I,5) = ZERO
         ENDIF                                   
         SOUNDSP(I) = EM30
@@ -272,7 +272,7 @@ C-----------------------------------------------
              !! Phase 2 seule presente
              UVAR(I, 1) = ZERO
              UVAR(I, 4) = ZERO
-             UVAR(I, 5) = UN
+             UVAR(I, 5) = ONE
              RHO2 = MAS / VOL
              UVAR(I, 2) = RHO2
              !!
@@ -285,7 +285,7 @@ C-----------------------------------------------
              RHO1 = MAS / VOL
              UVAR(I, 1) = RHO1
              UVAR(I, 3) = RHO1
-             UVAR(I, 4) = UN
+             UVAR(I, 4) = ONE
              UVAR(I, 5) = ZERO
              !!
              !!UVAR(I, 2) = RHO20
@@ -304,12 +304,12 @@ C-----------------------------------------------
                 DF11 = - MAS1 / (RHO1 * RHO1)
                 DF12 = - MAS2 / (RHO2 * RHO2)
                 DF21 = R1
-                DF22 = - GAM * P0 / (RHO20**GAM) * RHO2**(GAM - UN)
+                DF22 = - GAM * P0 / (RHO20**GAM) * RHO2**(GAM - ONE)
                 DET = DF11 * DF22 - DF12 * DF21
                 DRHO1 = (-DF22 * F1 + DF12 * F2) / DET
                 DRHO2 = (DF21 * F1 - DF11 * F2) / DET
-                DRHO1 = MIN(TROIS * RHO1, MAX(DRHO1, - UNDEMI * RHO1))
-                DRHO2 = MIN(TROIS * RHO2, MAX(DRHO2, - UNDEMI * RHO2))
+                DRHO1 = MIN(THREE * RHO1, MAX(DRHO1, - HALF * RHO1))
+                DRHO2 = MIN(THREE * RHO2, MAX(DRHO2, - HALF * RHO2))
                 RHO1 = RHO1 + DRHO1
                 RHO2 = RHO2 + DRHO2
                 ERROR = ABS(DRHO1 / RHO1) + ABS(DRHO2 / RHO2)
@@ -327,13 +327,13 @@ C-----------------------------------------------
           SSP2 = GAM * P0 * (RHO2/RHO20)**GAM 
           B1 = UVAR(I, 1)
           B2 = RHO(I) - B1
-          ! P2 = P0 * ((RHO2/RHO20)**GAM-UN)
+          ! P2 = P0 * ((RHO2/RHO20)**GAM-ONE)
           !---output
           UVAR(I,2)  = RHO2
           UVAR(I,3)  = RHO1
           UVAR(I,4)  = UVAR(I,1)/RHO1 
           IF(UVAR(I,4).LT.EM20)UVAR(I,4)=ZERO
-          UVAR(I,5)  = UN-UVAR(I,4)
+          UVAR(I,5)  = ONE-UVAR(I,4)
           IF (SSP1 .GT. ZERO) THEN
              SSP1 = UVAR(I,4) / SSP1
           ELSE
@@ -345,13 +345,13 @@ C-----------------------------------------------
              SSP2 = ZERO
           ENDIF
           SSP = SSP1 + SSP2
-          SSP = SQRT(UN / SSP / RHO(I))
+          SSP = SQRT(ONE / SSP / RHO(I))
           P          = MAX(PMIN, P) + PSH
           SIGNXX(I)  = -P
           SIGNYY(I)  = -P
           SIGNZZ(I)  = -P
           VIS        = (B1*RHO1*VISA1 + B2*RHO2*VISA2)/RHO(I)
-          VIS2       = DEUX*VIS
+          VIS2       = TWO*VIS
           VIS3       = (B1*RHO1*VISB1 + B2*RHO2*VISB2)/RHO(I)
           VV         = VIS3*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))
           SIGVXX(I)  = VIS2*EPSPXX(I)+VV
@@ -389,12 +389,12 @@ C-----------------------------------------------
           !---iter 0
           POLD       = P0 * (RHO2/RHO20)**GAM
           R2         = GAM * POLD / RHO2
-          C2         = - (UN-GAM)*POLD + P0
+          C2         = - (ONE-GAM)*POLD + P0
           C12        = C1 - C2
           B1         = UVAR(I,1)
           B2         = RHO(I) - B1
           A          = R1
-          B          = UNDEMI*(B1*R1+B2*R2+C12)
+          B          = HALF*(B1*R1+B2*R2+C12)
           C          = B1*C12
           RHO1       = ( B + SQRT(MAX(ZERO,B*B - A*C)) ) / A
           P          = R1*RHO1 - C1
@@ -402,7 +402,7 @@ C-----------------------------------------------
           !---iter 1
           PN2        = (POLD + P0 * (RHN2/RHO20)**GAM)
           R2         = GAM * PN2 / (RHO2+RHN2)
-          B          = UNDEMI*(B1*R1+B2*R2+C12)
+          B          = HALF*(B1*R1+B2*R2+C12)
           RHO1       = ( B + SQRT(MAX(ZERO,B*B - A*C)) ) / A
           P          = R1*RHO1 - C1
           RHO2 = MAX(EM30,(P + C2) / R2)         
@@ -411,13 +411,13 @@ C-----------------------------------------------
           UVAR(I,3)  = RHO1
           UVAR(I,4)  = UVAR(I,1)/RHO1 
           IF(UVAR(I,4).LT.EM20)UVAR(I,4)=ZERO
-          UVAR(I,5)  = UN-UVAR(I,4)
+          UVAR(I,5)  = ONE-UVAR(I,4)
           P          = MAX(PMIN, P) + DP0
           SIGNXX(I)  = -P
           SIGNYY(I)  = -P
           SIGNZZ(I)  = -P
           VIS        = (B1*RHO1*VISA1 + B2*RHO2*VISA2)/RHO(I)
-          VIS2       = DEUX*VIS
+          VIS2       = TWO*VIS
           VIS3       = (B1*RHO1*VISB1 + B2*RHO2*VISB2)/RHO(I)
           VV         = VIS3*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))
           SIGVXX(I)  = VIS2*EPSPXX(I)+VV

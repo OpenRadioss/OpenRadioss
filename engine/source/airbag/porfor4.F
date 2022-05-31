@@ -54,8 +54,8 @@ C-----------------------------------------------
 C=======================================================================
       EPSXX = STRAIN(IEL)
       EPSYY = STRAIN(IEL+NEL)
-      RS=UN+EPSXX+EPSYY+EPSXX*EPSYY
-      RP=MIN(PEXT/P,UN)
+      RS=ONE+EPSXX+EPSYY+EPSXX*EPSYY
+      RP=MIN(PEXT/P,ONE)
 C
       FLC=ZERO
       NFUNC=IPM(10,IM)+IPM(6,IM)
@@ -109,7 +109,7 @@ C-----------------------------------------------
       EXTERNAL GET_U_FUNC
 C=======================================================================
       RS=AREA/AREA0
-      RP=MIN(PEXT/P,UN)
+      RP=MIN(PEXT/P,ONE)
 C
       FLC=ZERO
       NFUNC=IPM(10,IM)+IPM(6,IM)

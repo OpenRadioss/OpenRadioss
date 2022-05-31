@@ -125,15 +125,15 @@ C
         IF(VIS(I).GT.ZERO)THEN
 C         FCQ(I)=FCL(I)
          FCQ(I)=ZERO
-         FCL(I)=VINGT*CAQ(I)*VIS(I)
+         FCL(I)=TWENTY*CAQ(I)*VIS(I)
         ELSE
-         FCQ(I)=FCL(I)*CAQ(I)*CENT
+         FCQ(I)=FCL(I)*CAQ(I)*HUNDRED
          FCL(I)=FCL(I)*CXX(I)
         ENDIF
   35   CONTINUE
       ELSE
        DO 40 I=LFT,LLT
-        FCQ(I)=FCL(I)*CAQ(I)*CENT
+        FCQ(I)=FCL(I)*CAQ(I)*HUNDRED
         FCL(I)=FCL(I)*CXX(I)
    40  CONTINUE
       ENDIF
@@ -144,7 +144,7 @@ C         FCQ(I)=FCL(I)
       ENDIF
 C
       DO45 I=LFT,LLT
-       IF(OFF(I).LT.UN)THEN
+       IF(OFF(I).LT.ONE)THEN
         FCL(I)=ZERO
         FCQ(I)=ZERO
        ENDIF
@@ -155,8 +155,8 @@ C
 C HOURGLASS HALLQUIST
 C
        DO 50 I=LFT,LLT
-        HGY(I)=UNDEMI*(VY1(I)-VY2(I)+VY3(I)-VY4(I))
-   50   HGZ(I)=UNDEMI*(VZ1(I)-VZ2(I)+VZ3(I)-VZ4(I))
+        HGY(I)=HALF*(VY1(I)-VY2(I)+VY3(I)-VY4(I))
+   50   HGZ(I)=HALF*(VZ1(I)-VZ2(I)+VZ3(I)-VZ4(I))
        DO 60 I=LFT,LLT
         T11(I)=HGY(I)*(FCL(I)+ABS(HGY(I))*FCQ(I))
         T12(I)=-T11(I)
@@ -166,7 +166,7 @@ C
         T22(I)=-T21(I)
         T23(I)= T21(I)
         T24(I)=-T21(I)
-        EHOU(I)=  DEUX*DT1*(T11(I)*HGY(I) + T21(I)*HGZ(I))
+        EHOU(I)=  TWO*DT1*(T11(I)*HGY(I) + T21(I)*HGZ(I))
    60  CONTINUE
       ELSE
 C
@@ -175,18 +175,18 @@ C
         DO200 I=LFT,LLT
          HY=Y1(I)-Y2(I)+Y3(I)-Y4(I)
          HZ=Z1(I)-Z2(I)+Z3(I)-Z4(I)
-         FAC=UN/MAX(EM20,AREA(I))
+         FAC=ONE/MAX(EM20,AREA(I))
          PX1H1=FAC*(PY1(I)*HY+PZ1(I)*HZ)
          PX2H1=FAC*(PY2(I)*HY+PZ2(I)*HZ)
-         G11(I)= UN -PX1H1
-         G21(I)=-UN -PX2H1
-         G31(I)= UN +PX1H1
-         G41(I)=-UN +PX2H1 
+         G11(I)= ONE -PX1H1
+         G21(I)=-ONE -PX2H1
+         G31(I)= ONE +PX1H1
+         G41(I)=-ONE +PX2H1 
   200   CONTINUE
         DO210 I=LFT,LLT
-         HGY(I)=UNDEMI*(
+         HGY(I)=HALF*(
      &    G11(I)*VY1(I)+G21(I)*VY2(I)+G31(I)*VY3(I)+G41(I)*VY4(I))
-         HGZ(I)=UNDEMI*(
+         HGZ(I)=HALF*(
      &    G11(I)*VZ1(I)+G21(I)*VZ2(I)+G31(I)*VZ3(I)+G41(I)*VZ4(I))
   210   CONTINUE
         DO220 I=LFT,LLT
@@ -200,7 +200,7 @@ C
          T22(I) =G21(I)*HZ
          T23(I) =G31(I)*HZ
          T24(I) =G41(I)*HZ
-         EHOU(I)=  DEUX*DT1*(HY*HGY(I) + HZ*HGZ(I)) 
+         EHOU(I)=  TWO*DT1*(HY*HGY(I) + HZ*HGZ(I)) 
   220   CONTINUE
       ENDIF
 C

@@ -45,7 +45,7 @@ C-----------------------------------------------
         my_real  THOFF 
 C=======================================================================
         DO I=JFT,JLT
-          THOFF = UNDEMI* OFF(I)*VOL(I)
+          THOFF = HALF* OFF(I)*VOL(I)
           EINT(I,1) = EINT(I,1) - FORPG(I,3)*EXY(I)*THOFF
        ENDDO
 c------------
@@ -81,7 +81,7 @@ C-----------------------------------------------
         my_real  THOFF 
 C
         DO I=JFT,JLT
-          THOFF = OFF(I)* AREA(I)*THK0(I)*DT*UNDEMI
+          THOFF = OFF(I)* AREA(I)*THK0(I)*DT*HALF
           EINT(I,1) = EINT(I,1) + FORPG(I,3)*DEF(I,3)*THOFF
        ENDDO
        RETURN

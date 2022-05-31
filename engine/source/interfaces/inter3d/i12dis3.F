@@ -57,11 +57,11 @@ C-----------------------------------------------
       
       DO I=LFT,LLT
         II=I+NFT
-        IF(ABS(SSC(I)).GT.UN+GAP .OR. ABS(TTC(I)).GT.UN+GAP)THEN
+        IF(ABS(SSC(I)).GT.ONE+GAP .OR. ABS(TTC(I)).GT.ONE+GAP)THEN
           IF(TAGKINE(II).GT.0)ITEST=ITEST+1
         ENDIF
-        IF(ABS(SSC(I)).GT.UN)SSC(I)=SSC(I)/ABS(SSC(I))
-        IF(ABS(TTC(I)).GT.UN)TTC(I)=TTC(I)/ABS(TTC(I))
+        IF(ABS(SSC(I)).GT.ONE)SSC(I)=SSC(I)/ABS(SSC(I))
+        IF(ABS(TTC(I)).GT.ONE)TTC(I)=TTC(I)/ABS(TTC(I))
         CRST(1,II)=SSC(I)
         CRST(2,II)=TTC(I)
       ENDDO

@@ -92,7 +92,7 @@ C=======================================================================
       DT3=THIRD*DT1
       IF (ICP == 1) THEN
         DO I=LFT,LLT
-          FAC(I)=UN
+          FAC(I)=ONE
         ENDDO
       ELSEIF (ICP == 2) THEN
         MX = MXT(LFT)
@@ -111,12 +111,12 @@ C
           DO I=LFT,LLT
             F = LBUF%OFF(I)*FAC(I)
             DVP  = DT3*F*(DVM(I)-DV(I,IP))
-            IF (DVP > UN) THEN
+            IF (DVP > ONE) THEN
               DVP =ZERO
               LBUF%OFF(I)=ZERO
             ENDIF
-            LBUF%VOL(I)  = LBUF%VOL(I) *(UN- DVP)
-            LBUF%EINT(I) = LBUF%EINT(I)*(UN- DVP)
+            LBUF%VOL(I)  = LBUF%VOL(I) *(ONE- DVP)
+            LBUF%EINT(I) = LBUF%EINT(I)*(ONE- DVP)
           ENDDO 
         ENDDO
        ENDDO

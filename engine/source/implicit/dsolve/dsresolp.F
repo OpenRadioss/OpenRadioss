@@ -387,7 +387,7 @@ C
 C
             DO I=1,NUV
                PULS=MAX(ZERO,FREQ(I,1))
-               FRQ=SQRT(PULS)/DEUX/PI
+               FRQ=SQRT(PULS)/TWO/PI
                IF (FRQ.LE.CUTFRQ.AND.NVD.LT.NSVMAXT.
      .             AND.NVD.LT.NVAL) THEN
                   NVD=NVD+1
@@ -442,7 +442,7 @@ C
      . '         NUMBER  EIGENVALUE   FREQUENCY'
                   DO I=NVD0+1,NVD
                      WRITE(IOUT,FMT='(5X,I10,1X,1PG11.4,1X,1PG11.4)')
-     .                        I,(DEUX*PI*FREQ2(I))**2,FREQ2(I)
+     .                        I,(TWO*PI*FREQ2(I))**2,FREQ2(I)
                   ENDDO
                ENDIF
             ENDIF

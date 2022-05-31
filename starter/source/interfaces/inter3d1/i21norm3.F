@@ -105,9 +105,9 @@ C
 C
       DO I=1,LAST-FIRST+1
         IF(IX3(I).NE.IX4(I))THEN
-         X0(I) = QUART*(X1(I)+X2(I)+X3(I)+X4(I))
-         Y0(I) = QUART*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-         Z0(I) = QUART*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
+         X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
+         Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
+         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
         ELSE
          X0(I) = X3(I)
          Y0(I) = Y3(I)
@@ -157,22 +157,22 @@ C
 C
       DO I=1,LAST-FIRST+1
 C
-        AAA=UN/MAX(EM30,SQRT(XN1(I)*XN1(I)+YN1(I)*YN1(I)+ZN1(I)*ZN1(I)))
+        AAA=ONE/MAX(EM30,SQRT(XN1(I)*XN1(I)+YN1(I)*YN1(I)+ZN1(I)*ZN1(I)))
         XN1(I) = XN1(I)*AAA
         YN1(I) = YN1(I)*AAA
         ZN1(I) = ZN1(I)*AAA
 C
-        AAA=UN/MAX(EM30,SQRT(XN2(I)*XN2(I)+YN2(I)*YN2(I)+ZN2(I)*ZN2(I)))
+        AAA=ONE/MAX(EM30,SQRT(XN2(I)*XN2(I)+YN2(I)*YN2(I)+ZN2(I)*ZN2(I)))
         XN2(I) = XN2(I)*AAA
         YN2(I) = YN2(I)*AAA
         ZN2(I) = ZN2(I)*AAA
 C
-        AAA=UN/MAX(EM30,SQRT(XN3(I)*XN3(I)+YN3(I)*YN3(I)+ZN3(I)*ZN3(I)))
+        AAA=ONE/MAX(EM30,SQRT(XN3(I)*XN3(I)+YN3(I)*YN3(I)+ZN3(I)*ZN3(I)))
         XN3(I) = XN3(I)*AAA
         YN3(I) = YN3(I)*AAA
         ZN3(I) = ZN3(I)*AAA
 C
-        AAA=UN/MAX(EM30,SQRT(XN4(I)*XN4(I)+YN4(I)*YN4(I)+ZN4(I)*ZN4(I)))
+        AAA=ONE/MAX(EM30,SQRT(XN4(I)*XN4(I)+YN4(I)*YN4(I)+ZN4(I)*ZN4(I)))
         XN4(I) = XN4(I)*AAA
         YN4(I) = YN4(I)*AAA
         ZN4(I) = ZN4(I)*AAA
@@ -234,7 +234,7 @@ C     normales aux noeuds.
 C------------------------------------
       DO I=1,NMN
 C
-        AAA=UN/MAX(EM30,SQRT(NOD_NORMAL(1,I)*NOD_NORMAL(1,I)+
+        AAA=ONE/MAX(EM30,SQRT(NOD_NORMAL(1,I)*NOD_NORMAL(1,I)+
      .                       NOD_NORMAL(2,I)*NOD_NORMAL(2,I)+
      .                       NOD_NORMAL(3,I)*NOD_NORMAL(3,I)))
         NOD_NORMAL(1,I)=NOD_NORMAL(1,I)*AAA
@@ -344,7 +344,7 @@ C-------
 
 C       Longueur vraie = LL/2
         LL  = SQRT(ERX*ERX+ERY*ERY+ERZ*ERZ)
-        AAA = UN / LL
+        AAA = ONE / LL
         ERX = ERX*AAA
         ERY = ERY*AAA
         ERZ = ERZ*AAA
@@ -365,7 +365,7 @@ C-------
 
 C       Longueur vraie = LL/2
         LL  = SQRT(ERX*ERX+ERY*ERY+ERZ*ERZ)
-        AAA = UN / LL
+        AAA = ONE / LL
         ERX = ERX*AAA
         ERY = ERY*AAA
         ERZ = ERZ*AAA
@@ -396,7 +396,7 @@ C-------
         SURFY = Z13*X24 - X13*Z24
         SURFZ = X13*Y24 - Y13*X24
 
-        AAA=UN/MAX(EM30,SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ))
+        AAA=ONE/MAX(EM30,SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ))
         SURFX = SURFX * AAA
         SURFY = SURFY * AAA
         SURFZ = SURFZ * AAA

@@ -584,7 +584,7 @@ c
        ELSE
          PNOR2=SQRT(N3)
          IF (PNOR2 > EM20) THEN
-           PNORM1=UN/(PNOR1*PNOR2)
+           PNORM1=ONE/(PNOR1*PNOR2)
            DET1=ABS((Y3*Z1-Z3*Y1)*PNORM1)
            DET2=ABS((Z3*X1-X3*Z1)*PNORM1)
            DET3=ABS((X3*Y1-Y3*X1)*PNORM1)

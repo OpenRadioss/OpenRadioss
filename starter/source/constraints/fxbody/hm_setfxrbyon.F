@@ -488,7 +488,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
            IF(IOK.EQ.1)THEN
              IGOF = 1
@@ -523,7 +523,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
            IF(IOK.EQ.1)THEN
              IGOF = 1
@@ -548,7 +548,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
 C Incompatible avec option de gap dans propriete de truss
 C        IGOF = 1
@@ -571,7 +571,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
            IF(IOK.EQ.1)THEN
              IGOF = 1
@@ -588,7 +588,7 @@ C-----------------------
            DO I=1,NEL
              II=I+NFT
              IF(IRESOFF(II)==3)THEN
-               IF(ELBUF(IAD+I).NE.-DIX)
+               IF(ELBUF(IAD+I).NE.-TEN)
      .         ELBUF(IAD+I)= -ABS(ELBUF(IAD+I))
 C             spring is active
                IF(IPRI.GE.5) WRITE(IOUT,*)' SPRING DEACTIVATION:',
@@ -597,7 +597,7 @@ C             spring is active
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
            IF(IOK.EQ.1)THEN
              IGOF = 1
@@ -622,7 +622,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'UN GROUPE
+C       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
            IF(IOK.EQ.1)THEN
              IGOF = 1

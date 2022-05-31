@@ -107,14 +107,14 @@ C     REAL ou REAL*8
      .   EHOURT     
 C-----------------------------------------------
        DO I=LFT,LLT
-          CAQ(I)=QUART*OFF(I)*GEO(13,PID(I))
+          CAQ(I)=FOURTH*OFF(I)*GEO(13,PID(I))
        ENDDO
 C        
        IF(UPWM > 1 .OR. JLAG == 1)THEN
          DO I=LFT,LLT
            IF(VIS(I).GT.ZERO)THEN
              FCQ(I)=ZERO
-             FCL(I)=DIX*CAQ(I)*VIS(I)*DELTAX(I)
+             FCL(I)=TEN*CAQ(I)*VIS(I)*DELTAX(I)
            ELSE
              FCQ(I)=ZERO
              FCL(I)=CAQ(I)*RHO(I)*CXX(I)*DELTAX(I)**2
@@ -122,14 +122,14 @@ C
          ENDDO
        ELSEIF(UPWM == 0)THEN
           DO I=LFT,LLT
-            FCL(I)=CAQ(I)*RHO(I)*CXX(I)*VOL(I)**DTHIRD
+            FCL(I)=CAQ(I)*RHO(I)*CXX(I)*VOL(I)**TWO_THIRD
             FCQ(I)=ZERO
           ENDDO
        ELSEIF(UPWM == 1)THEN
           DO I=LFT,LLT
             FCL(I)=CAQ(I)*RHO(I)*DELTAX(I)**2
             FCL(I)=MIN(FCL(I)*CXX(I),
-     .       MAX(DIX*CAQ(I)*VIS(I)*DELTAX(I),FCL(I)*SQRT(VD2(I))))
+     .       MAX(TEN*CAQ(I)*VIS(I)*DELTAX(I),FCL(I)*SQRT(VD2(I))))
             FCQ(I)=ZERO
          ENDDO
        ENDIF
@@ -217,14 +217,14 @@ C
       ELSEIF(JHBE >= 1) THEN
        DO I=LFT,LLT
 C 1 -1 1 -1 1 -1 1 -1
-        G11(I)= UN-PX1H1(I)
-        G21(I)=-UN-PX2H1(I)
-        G31(I)= UN-PX3H1(I)
-        G41(I)=-UN-PX4H1(I)
-        G51(I)= UN+PX3H1(I)
-        G61(I)=-UN+PX4H1(I)
-        G71(I)= UN+PX1H1(I)
-        G81(I)=-UN+PX2H1(I)
+        G11(I)= ONE-PX1H1(I)
+        G21(I)=-ONE-PX2H1(I)
+        G31(I)= ONE-PX3H1(I)
+        G41(I)=-ONE-PX4H1(I)
+        G51(I)= ONE+PX3H1(I)
+        G61(I)=-ONE+PX4H1(I)
+        G71(I)= ONE+PX1H1(I)
+        G81(I)=-ONE+PX2H1(I)
         HGX1(I)=
      &    G11(I)*VX1(I)+G21(I)*VX2(I)+G31(I)*VX3(I)+G41(I)*VX4(I)
      &   +G51(I)*VX5(I)+G61(I)*VX6(I)+G71(I)*VX7(I)+G81(I)*VX8(I)
@@ -238,14 +238,14 @@ C 1 -1 1 -1 1 -1 1 -1
 C
        DO I=LFT,LLT
 C 1 1 -1 -1 -1 -1 1 1
-        G12(I)= UN-PX1H2(I)
-        G22(I)= UN-PX2H2(I)
-        G32(I)=-UN-PX3H2(I)
-        G42(I)=-UN-PX4H2(I)
-        G52(I)=-UN+PX3H2(I)
-        G62(I)=-UN+PX4H2(I)
-        G72(I)= UN+PX1H2(I)
-        G82(I)= UN+PX2H2(I)
+        G12(I)= ONE-PX1H2(I)
+        G22(I)= ONE-PX2H2(I)
+        G32(I)=-ONE-PX3H2(I)
+        G42(I)=-ONE-PX4H2(I)
+        G52(I)=-ONE+PX3H2(I)
+        G62(I)=-ONE+PX4H2(I)
+        G72(I)= ONE+PX1H2(I)
+        G82(I)= ONE+PX2H2(I)
         HGX2(I)=
      &   G12(I)*VX1(I)+G22(I)*VX2(I)+G32(I)*VX3(I)+G42(I)*VX4(I)
      &  +G52(I)*VX5(I)+G62(I)*VX6(I)+G72(I)*VX7(I)+G82(I)*VX8(I)
@@ -258,14 +258,14 @@ C 1 1 -1 -1 -1 -1 1 1
        ENDDO
        DO I=LFT,LLT
 C 1 -1 -1 1 -1 1 1 -1
-        G13(I)= UN-PX1H3(I)
-        G23(I)=-UN-PX2H3(I)
-        G33(I)=-UN-PX3H3(I)
-        G43(I)= UN-PX4H3(I)
-        G53(I)=-UN+PX3H3(I)
-        G63(I)= UN+PX4H3(I)
-        G73(I)= UN+PX1H3(I)
-        G83(I)=-UN+PX2H3(I)
+        G13(I)= ONE-PX1H3(I)
+        G23(I)=-ONE-PX2H3(I)
+        G33(I)=-ONE-PX3H3(I)
+        G43(I)= ONE-PX4H3(I)
+        G53(I)=-ONE+PX3H3(I)
+        G63(I)= ONE+PX4H3(I)
+        G73(I)= ONE+PX1H3(I)
+        G83(I)=-ONE+PX2H3(I)
         HGX3(I)=
      &   G13(I)*VX1(I)+G23(I)*VX2(I)+G33(I)*VX3(I)+G43(I)*VX4(I)
      &  +G53(I)*VX5(I)+G63(I)*VX6(I)+G73(I)*VX7(I)+G83(I)*VX8(I)

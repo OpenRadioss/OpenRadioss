@@ -65,7 +65,7 @@ C=======================================================================
       MX = MAT(1)
       GS = PM(22,MX)
       NU = PM(21,MX)
-      C1 = THIRD*GS*(UN + NU)/(UN - DEUX*NU)
+      C1 = THIRD*GS*(ONE + NU)/(ONE - TWO*NU)
       DO I=LFT,LLT
         RHO0(I) = PM( 1,MX)
         VIS(I)  = ZERO
@@ -74,7 +74,7 @@ C-----------------------------
 C     CALCUL DE VITESSE DU SON
 C-----------------------------
       DO I=LFT,LLT
-        SSP(I)=SQRT((QTHIRD*GS+C1)/RHO0(I))
+        SSP(I)=SQRT((FOUR_OVER_3*GS+C1)/RHO0(I))
       END DO
 C----------------------------------
 C     CALCUL DES DT ELEMENTAIRES

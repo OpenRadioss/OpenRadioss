@@ -439,10 +439,10 @@ c     output curcves to .csv format to simplify visualization
       DO I=1,NPT
         CALL ARRUDA_BOYCE(STRETCH(I), A, YOGD,ITEST)
         WRITE(IOUT,'(F18.4,F20.4,F28.4)') 
-     *   STRETCH(I)-UN,Y0(I),YOGD
+     *   STRETCH(I)-ONE,Y0(I),YOGD
         IF (ICURV .GT. 0) THEN
            WRITE(ICURV, '(F18.4, A, F18.4, A, F18.4)') 
-     $            STRETCH(I)-UN,',',Y0(I),',',YOGD
+     $            STRETCH(I)-ONE,',',Y0(I),',',YOGD
         ENDIF
       ENDDO      
 
@@ -487,26 +487,26 @@ C----------------------------------------------------------------
 C======================================================================= 
        MU   = A(1)
        LAM  = A(2)
-       C(1) = UNDEMI
-       C(2) = UN/VINGT
-       C(3) = ONZE/1050.D00
+       C(1) = HALF
+       C(2) = ONE/TWENTY
+       C(3) = ELEVEN/1050.D00
        C(4) = 19.D00/7000.D00
        C(5) = 519.D00/673750.D00
        SIG =ZERO
 C       
        IF(ITEST == 1) THEN
-          EV2 = UN/STRETCH
-          TRACE = STRETCH **2 + DEUX*EV2
-          FAC = DEUX*MU*(STRETCH - EV2**2)
+          EV2 = ONE/STRETCH
+          TRACE = STRETCH **2 + TWO*EV2
+          FAC = TWO*MU*(STRETCH - EV2**2)
 ! tester          
-!!           A1 = UN/LAM**2
+!!           A1 = ONE/LAM**2
 !!           A2 = A1**2
 !!           A3 = A1*A2
 !!           A4 = A2**2
-!!           FLAM= (UN +  TROIS*A1/CINQ + QUATREVINGT19*A2/175.D00 
+!!           FLAM= (ONE +  THREE*A1/FIVE + EIGHTY19*A2/175.D00 
 !!     .                  + 513.D00*A3/875.D00 + 42039.D00*A4/67375.D00)  
            DO J=1,5
-              BB = UN/LAM**(2*J - 2)
+              BB = ONE/LAM**(2*J - 2)
               AA = J*C(J)
               CC = AA*BB*TRACE**(J-1)         
               SIG = SIG + CC
@@ -514,22 +514,22 @@ C
            SIG= SIG*FAC
 !!           SIG= SIG*FAC/FLAM
          ELSEIF(ITEST == 2) THEN
-           EV =  UN/STRETCH/STRETCH
-           TRACE = DEUX*STRETCH**2 + EV**2 
-           FAC = QUATRE*MU*(STRETCH - EV**2/STRETCH)
+           EV =  ONE/STRETCH/STRETCH
+           TRACE = TWO*STRETCH**2 + EV**2 
+           FAC = FOUR*MU*(STRETCH - EV**2/STRETCH)
            DO J=1,5
-              BB = UN/LAM**(2*J - 2)
+              BB = ONE/LAM**(2*J - 2)
               AA = J*C(J)
               CC = AA*BB*TRACE**(J-1)         
               SIG = SIG + CC
            ENDDO
            SIG= SIG*FAC
          ELSEIF(ITEST == 3) THEN
-           EV = UN/STRETCH
-           TRACE = STRETCH **2 + UN +  EV**2
-           FAC = DEUX*MU*(STRETCH - EV**2/STRETCH)
+           EV = ONE/STRETCH
+           TRACE = STRETCH **2 + ONE +  EV**2
+           FAC = TWO*MU*(STRETCH - EV**2/STRETCH)
            DO J=1,5
-              BB = UN/LAM**(2*J - 2)
+              BB = ONE/LAM**(2*J - 2)
               AA = J*C(J)
               CC = AA*BB*TRACE**(J-1)         
               SIG = SIG + CC
@@ -566,20 +566,20 @@ C----------------------------------------------------------------
 C======================================================================= 
       MU = A(1)
       LAM = A(2)
-      C(1) = UNDEMI
-      C(2) = UN/VINGT
-      C(3) = ONZE/1050.D00
+      C(1) = HALF
+      C(2) = ONE/TWENTY
+      C(3) = ELEVEN/1050.D00
       C(4) = 19.D00/7000.D00
       C(5) = 519.D00/673750.D00
 C      
        DYDA(1) = ZERO
        DYDA(2) = ZERO
       IF(ITEST == 1) THEN
-         EV2 = UN/STRETCH
-         TRACE = STRETCH**2 + DEUX*EV2
-         FAC = DEUX*(STRETCH - EV2**2)   
+         EV2 = ONE/STRETCH
+         TRACE = STRETCH**2 + TWO*EV2
+         FAC = TWO*(STRETCH - EV2**2)   
          DO J=1,5
-              BB = UN/LAM**(2*J - 2)
+              BB = ONE/LAM**(2*J - 2)
               AA = J*C(J)
               CC = AA*BB*TRACE**(J-1)
               DD = (2-2*J)*CC/LAM
@@ -589,11 +589,11 @@ C
          DYDA(1) = DYDA(1)*FAC
          DYDA(2) = DYDA(2)*FAC*MU
        ELSEIF(ITEST == 2) THEN
-         EV =  UN/STRETCH/STRETCH
-         TRACE = DEUX*STRETCH**2 + EV**2  
-         FAC = QUATRE*(STRETCH - EV**2/STRETCH)  
+         EV =  ONE/STRETCH/STRETCH
+         TRACE = TWO*STRETCH**2 + EV**2  
+         FAC = FOUR*(STRETCH - EV**2/STRETCH)  
          DO J=1,5
-              BB = UN/LAM**(2*J - 2)
+              BB = ONE/LAM**(2*J - 2)
               AA = J*C(J)
               CC = AA*BB*TRACE**(J-1)
               DD = (2-2*J)*CC/LAM
@@ -603,11 +603,11 @@ C
          DYDA(1) = DYDA(1)*FAC
          DYDA(2) = DYDA(2)*FAC*MU
        ELSEIF(ITEST == 3) THEn
-          EV = UN/STRETCH
-          TRACE = STRETCH **2 + UN +  EV**2
-          FAC = DEUX*(STRETCH - EV**2/STRETCH)  
+          EV = ONE/STRETCH
+          TRACE = STRETCH **2 + ONE +  EV**2
+          FAC = TWO*(STRETCH - EV**2/STRETCH)  
          DO J=1,5
-              BB = UN/LAM**(2*J - 2)
+              BB = ONE/LAM**(2*J - 2)
               AA = J*C(J)
               CC = AA*BB*TRACE**(J-1)
               DD = (2-2*J)*CC/LAM
@@ -690,7 +690,7 @@ C
         DO K=1,NCA   
           COVAR(J,K)=ALPHA(J,K)  
         ENDDO   
-!ok too           COVAR(J,J)=ALPHA(J,J)*(UN + GAMMA)  
+!ok too           COVAR(J,J)=ALPHA(J,J)*(ONE + GAMMA)  
          COVAR(J,J)=ALPHA(J,J) + GAMMA  
          DA(J)=BETA(J)  
       ENDDO 
@@ -732,7 +732,7 @@ C
      .                 ATRY,COVAR,DA,NCA,ERRNOW,ITEST)
 C
       IF (ERRNOW < ERRPRE) THEN 
-!!        GAMMA=GAMMA/NEUF 
+!!        GAMMA=GAMMA/NINE 
         GAMMA=GAMMA/10. 
         ERRPRE=ERRNOW  
         DO J=1,MFIT  
@@ -745,7 +745,7 @@ C
           A(L)=ATRY(L)  
         ENDDO  
       ELSE          
-!!        GAMMA=ONZE*GAMMA 
+!!        GAMMA=ELEVEN*GAMMA 
         GAMMA=10*GAMMA
         GAMMA = MIN(GAMMA, EP10)
         ERRNOW=ERRPRE  
@@ -857,19 +857,19 @@ C----------------------------------------------------------------
 C======================================================================= 
       MU = A(1)
       LAM = A(2)
-      C(1) = UNDEMI
-      C(2) = UN/VINGT
-      C(3) = ONZE/1050.D00
+      C(1) = HALF
+      C(2) = ONE/TWENTY
+      C(3) = ELEVEN/1050.D00
       C(4) = 19.D00/7050.D00
       C(5) = 519.D00/673750.D00
       DO K=1,NDATA
        DYDA(K) = ZERO
-       EV2 = UN/STRETCH(K)
-       TRACE = STRETCH(K)**2 + DEUX*EV2
-Ccauchy stress       FAC = DEUX*STRETCH(K)*(STRETCH(K) - EV2**2)
-         FAC = DEUX*(STRETCH(K) - EV2**2)
+       EV2 = ONE/STRETCH(K)
+       TRACE = STRETCH(K)**2 + TWO*EV2
+Ccauchy stress       FAC = TWO*STRETCH(K)*(STRETCH(K) - EV2**2)
+         FAC = TWO*(STRETCH(K) - EV2**2)
        DO J=1,5
-              BB = UN/LAM**(2*J - 2)
+              BB = ONE/LAM**(2*J - 2)
               AA = J*C(J)
               CC = AA*BB*TRACE**(J-1)
               DYDA(K) = DYDA(K) +  CC 

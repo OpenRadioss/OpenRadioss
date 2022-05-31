@@ -124,12 +124,12 @@ C
         ENDIF
 
         G(I)    = GG !* DT1
-        G2(I)   = DEUX * G(I)
-        G43(I)  = UNP333*GG     
+        G2(I)   = TWO * G(I)
+        G43(I)  = ONEP333*GG     
         MAS     = UVAR(I,9+KK)
         IF(MAS.GE.EM20)THEN
           DF(I)   = RHO_NEW(I)/RHO0
-          AMU(I)  = DF(I)-UN     
+          AMU(I)  = DF(I)-ONE     
           AMU2(I) = AMU(I) * MAX(ZERO,AMU(I))          
         ELSE
           AMU(I)  = ZERO
@@ -151,7 +151,7 @@ C
 
 !UNLOAD BEHAVIOR
 !        IF(AMU(I).LT.AMUMX) P(I) = MIN(P(I),PNE1(I))    
-        FAC2 = UN   
+        FAC2 = ONE   
         IF(P(I).LT.PFRAC)THEN
 !         !EPX(I) =EPX(I)+(PFRAC-POLD(I))/BULK2(I)
           P(I)  = PFRAC
@@ -170,7 +170,7 @@ C
         T5(I) = T5(I) + G(I) * DEPS(5,I)*FACT
         T6(I) = T6(I) + G(I) * DEPS(6,I)*FACT
 
-        AJ2(I)=UNDEMI
+        AJ2(I)=HALF
      .        *(T1(I)**2+T2(I)**2+T3(I)**2)+T4(I)**2+T5(I)**2+T6(I)**2
         PTOT = P(I)+PEXT     
         G0(I) =A0+A1*PTOT+A2*PTOT*PTOT
@@ -181,7 +181,7 @@ C
 
         RATIO(I)=ZERO
         IF(YIELD2(I).LE.ZERO .AND. G0(I).GT.ZERO)THEN
-          RATIO(I)=UN
+          RATIO(I)=ONE
         ELSE
           RATIO(I)=SQRT(G0(I)/(AJ2(I)+ EM14))
         ENDIF
@@ -195,11 +195,11 @@ C
         SIGD(6,I)=RATIO(I)*T6(I)*OFF(I)
 
         if(UVAR(I,1+KK)>EM02)then
-        EPSEQ(I)=EPSEQ(I)+(UN -RATIO(I))*SQRT(ABS(AJ2(I)))*DT1
-     .           / MAX(EM20,TROIS*TIMESTEP*G(I))
+        EPSEQ(I)=EPSEQ(I)+(ONE -RATIO(I))*SQRT(ABS(AJ2(I)))*DT1
+     .           / MAX(EM20,THREE*TIMESTEP*G(I))
         endif
 
-        EINT(I) = EINT(I) + UNDEMI*(VOL(I))*
+        EINT(I) = EINT(I) + HALF*(VOL(I))*
      .                    ( (SIGD(1,I)+SIGDO(1,I)) * DEPS(1,I)
      .                    + (SIGD(2,I)+SIGDO(2,I)) * DEPS(2,I)
      .                    + (SIGD(3,I)+SIGDO(3,I)) * DEPS(3,I)

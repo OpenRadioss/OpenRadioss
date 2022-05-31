@@ -126,7 +126,7 @@ C=======================================================================
         F12(I)   =F12_1
         SIGT1(I) =SIGT1_1
         SIGT2(I) =SIGT2_1
-        IF (IPT == 1) SIGY(I)=UN/SQRT(F33_1)
+        IF (IPT == 1) SIGY(I)=ONE/SQRT(F33_1)
       ENDDO
 !
       DO I=JFT,JLT
@@ -163,17 +163,17 @@ C     TEST DE RUPTURE DUCTILE
 C---------------------------
       DO I=JFT,JLT
 !!        IF (OFF(I) < EM01) OFF(I) = ZERO
-!!        IF (OFF(I) < UN)   OFF(I) = OFF(I)*QCINQ
+!!        IF (OFF(I) < ONE)   OFF(I) = OFF(I)*FOUR_OVER_5
           IF ( OFF(I) == OFF_OLD(I) .and. OFF_OLD(I) < EM01 ) OFF(I)=ZERO
-          IF ( OFF(I) == OFF_OLD(I) .and. OFF_OLD(I) < UN ) OFF(I)=OFF(I)*QCINQ
+          IF ( OFF(I) == OFF_OLD(I) .and. OFF_OLD(I) < ONE ) OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 !
       DO I=JFT,JLT
-        IF (OFF(I) == UN .AND. WPLAR(I) >= WPLAMX(I)) THEN
-          OFF(I)=QCINQ
-!!        OFF(I)=OFF(I)*QCINQ
+        IF (OFF(I) == ONE .AND. WPLAR(I) >= WPLAMX(I)) THEN
+          OFF(I)=FOUR_OVER_5
+!!        OFF(I)=OFF(I)*FOUR_OVER_5
           IOFF_DUCT(I) = 1
-        ENDIF ! IF (OFF(I) == UN .AND. WPLAR(I) >= WPLAMX(I))
+        ENDIF ! IF (OFF(I) == ONE .AND. WPLAR(I) >= WPLAMX(I))
       ENDDO
 !
       IF (NPT == 1) THEN

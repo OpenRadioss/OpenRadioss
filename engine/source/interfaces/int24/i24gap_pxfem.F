@@ -144,9 +144,9 @@ C
            ZZ0(I,4)=X(3,IX)
 C
            IF(IXX(I,3) /= IXX(I,4))THEN
-            XX0(I,5) = QUART*(XX0(I,1)+XX0(I,2)+XX0(I,3)+XX0(I,4))
-            YY0(I,5) = QUART*(YY0(I,1)+YY0(I,2)+YY0(I,3)+YY0(I,4))
-            ZZ0(I,5) = QUART*(ZZ0(I,1)+ZZ0(I,2)+ZZ0(I,3)+ZZ0(I,4))
+            XX0(I,5) = FOURTH*(XX0(I,1)+XX0(I,2)+XX0(I,3)+XX0(I,4))
+            YY0(I,5) = FOURTH*(YY0(I,1)+YY0(I,2)+YY0(I,3)+YY0(I,4))
+            ZZ0(I,5) = FOURTH*(ZZ0(I,1)+ZZ0(I,2)+ZZ0(I,3)+ZZ0(I,4))
            ELSE
             XX0(I,5) = XX0(I,3)
             YY0(I,5) = YY0(I,3)
@@ -253,36 +253,36 @@ C
               YY0(I,14) = YY0(I,6)
               ZZ0(I,14) = ZZ0(I,6)
            ELSE
-              XX0(I,14) = QUART*(XX0(I,2)+XX0(I,1)+XX0(I,6)+XX0(I,7))
-              YY0(I,14) = QUART*(YY0(I,2)+YY0(I,1)+YY0(I,6)+YY0(I,7))
-              ZZ0(I,14) = QUART*(ZZ0(I,2)+ZZ0(I,1)+ZZ0(I,6)+ZZ0(I,7))
+              XX0(I,14) = FOURTH*(XX0(I,2)+XX0(I,1)+XX0(I,6)+XX0(I,7))
+              YY0(I,14) = FOURTH*(YY0(I,2)+YY0(I,1)+YY0(I,6)+YY0(I,7))
+              ZZ0(I,14) = FOURTH*(ZZ0(I,2)+ZZ0(I,1)+ZZ0(I,6)+ZZ0(I,7))
            ENDIF
            IF(IXX(I, 8)==IXX(I, 9))THEN
               XX0(I,15) = XX0(I,8)
               YY0(I,15) = YY0(I,8)
               ZZ0(I,15) = ZZ0(I,8)
            ELSE
-              XX0(I,15) = QUART*(XX0(I,3)+XX0(I,2)+XX0(I,8)+XX0(I,9))
-              YY0(I,15) = QUART*(YY0(I,3)+YY0(I,2)+YY0(I,8)+YY0(I,9))
-              ZZ0(I,15) = QUART*(ZZ0(I,3)+ZZ0(I,2)+ZZ0(I,8)+ZZ0(I,9))
+              XX0(I,15) = FOURTH*(XX0(I,3)+XX0(I,2)+XX0(I,8)+XX0(I,9))
+              YY0(I,15) = FOURTH*(YY0(I,3)+YY0(I,2)+YY0(I,8)+YY0(I,9))
+              ZZ0(I,15) = FOURTH*(ZZ0(I,3)+ZZ0(I,2)+ZZ0(I,8)+ZZ0(I,9))
            ENDIF
            IF(IXX(I,10)==IXX(I,11))THEN
               XX0(I,16) = XX0(I,10)
               YY0(I,16) = YY0(I,10)
               ZZ0(I,16) = ZZ0(I,10)
            ELSE
-              XX0(I,16) = QUART*(XX0(I,4)+XX0(I,3)+XX0(I,10)+XX0(I,11))
-              YY0(I,16) = QUART*(YY0(I,4)+YY0(I,3)+YY0(I,10)+YY0(I,11))
-              ZZ0(I,16) = QUART*(ZZ0(I,4)+ZZ0(I,3)+ZZ0(I,10)+ZZ0(I,11))
+              XX0(I,16) = FOURTH*(XX0(I,4)+XX0(I,3)+XX0(I,10)+XX0(I,11))
+              YY0(I,16) = FOURTH*(YY0(I,4)+YY0(I,3)+YY0(I,10)+YY0(I,11))
+              ZZ0(I,16) = FOURTH*(ZZ0(I,4)+ZZ0(I,3)+ZZ0(I,10)+ZZ0(I,11))
            ENDIF
            IF(IXX(I,12)==IXX(I,13))THEN
               XX0(I,17) = XX0(I,12)
               YY0(I,17) = YY0(I,12)
               ZZ0(I,17) = ZZ0(I,12)
            ELSE
-              XX0(I,17) = QUART*(XX0(I,1)+XX0(I,4)+XX0(I,12)+XX0(I,13))
-              YY0(I,17) = QUART*(YY0(I,1)+YY0(I,4)+YY0(I,12)+YY0(I,13))
-              ZZ0(I,17) = QUART*(ZZ0(I,1)+ZZ0(I,4)+ZZ0(I,12)+ZZ0(I,13))
+              XX0(I,17) = FOURTH*(XX0(I,1)+XX0(I,4)+XX0(I,12)+XX0(I,13))
+              YY0(I,17) = FOURTH*(YY0(I,1)+YY0(I,4)+YY0(I,12)+YY0(I,13))
+              ZZ0(I,17) = FOURTH*(ZZ0(I,1)+ZZ0(I,4)+ZZ0(I,12)+ZZ0(I,13))
            ENDIF
       END DO     
 C---------------------------
@@ -420,21 +420,21 @@ c
 C
           IF(IXX(I,3) /= IXX(I,4))THEN
 
-            NXX(I,1) =SX4150(I)+SX1250(I)+DEUX*(SX14170(I)+SX21140(I))
-            NYY(I,1) =SY4150(I)+SY1250(I)+DEUX*(SY14170(I)+SY21140(I))
-            NZZ(I,1) =SZ4150(I)+SZ1250(I)+DEUX*(SZ14170(I)+SZ21140(I))
+            NXX(I,1) =SX4150(I)+SX1250(I)+TWO*(SX14170(I)+SX21140(I))
+            NYY(I,1) =SY4150(I)+SY1250(I)+TWO*(SY14170(I)+SY21140(I))
+            NZZ(I,1) =SZ4150(I)+SZ1250(I)+TWO*(SZ14170(I)+SZ21140(I))
 
-            NXX(I,2) =SX1250(I)+SX2350(I)+DEUX*(SX21140(I)+SX32150(I))
-            NYY(I,2) =SY1250(I)+SY2350(I)+DEUX*(SY21140(I)+SY32150(I))
-            NZZ(I,2) =SZ1250(I)+SZ2350(I)+DEUX*(SZ21140(I)+SZ32150(I))
+            NXX(I,2) =SX1250(I)+SX2350(I)+TWO*(SX21140(I)+SX32150(I))
+            NYY(I,2) =SY1250(I)+SY2350(I)+TWO*(SY21140(I)+SY32150(I))
+            NZZ(I,2) =SZ1250(I)+SZ2350(I)+TWO*(SZ21140(I)+SZ32150(I))
 
-            NXX(I,3) =SX2350(I)+SX3450(I)+DEUX*(SX32150(I)+SX43160(I))
-            NYY(I,3) =SY2350(I)+SY3450(I)+DEUX*(SY32150(I)+SY43160(I))
-            NZZ(I,3) =SZ2350(I)+SZ3450(I)+DEUX*(SZ32150(I)+SZ43160(I))
+            NXX(I,3) =SX2350(I)+SX3450(I)+TWO*(SX32150(I)+SX43160(I))
+            NYY(I,3) =SY2350(I)+SY3450(I)+TWO*(SY32150(I)+SY43160(I))
+            NZZ(I,3) =SZ2350(I)+SZ3450(I)+TWO*(SZ32150(I)+SZ43160(I))
 
-            NXX(I,4) =SX3450(I)+SX4150(I)+DEUX*(SX43160(I)+SX14170(I))
-            NYY(I,4) =SY3450(I)+SY4150(I)+DEUX*(SY43160(I)+SY14170(I))
-            NZZ(I,4) =SZ3450(I)+SZ4150(I)+DEUX*(SZ43160(I)+SZ14170(I))
+            NXX(I,4) =SX3450(I)+SX4150(I)+TWO*(SX43160(I)+SX14170(I))
+            NYY(I,4) =SY3450(I)+SY4150(I)+TWO*(SY43160(I)+SY14170(I))
+            NZZ(I,4) =SZ3450(I)+SZ4150(I)+TWO*(SZ43160(I)+SZ14170(I))
 
             NXX(I,5) =SX1250(I)+SX2350(I)+SX3450(I)+SX4150(I)
             NYY(I,5) =SY1250(I)+SY2350(I)+SY3450(I)+SY4150(I)
@@ -469,7 +469,7 @@ C
             NX1 = SX1250(I) + SX21140(I) + SX4150(I) + SX14170(I)
             NY1 = SY1250(I) + SY21140(I) + SY4150(I) + SY14170(I)
             NZ1 = SZ1250(I) + SZ21140(I) + SZ4150(I) + SZ14170(I)
-            AAA = UN/SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1)
+            AAA = ONE/SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1)
             NX1 = NX1 * AAA
             NY1 = NY1 * AAA
             NZ1 = NZ1 * AAA 
@@ -494,7 +494,7 @@ C
             NX2 = SX2350(I) + SX32150(I) + SX1250(I) + SX21140(I)
             NY2 = SY2350(I) + SY32150(I) + SY1250(I) + SY21140(I)
             NZ2 = SZ2350(I) + SZ32150(I) + SZ1250(I) + SZ21140(I)
-            AAA = UN/SQRT(NX2*NX2+NY2*NY2+NZ2*NZ2)
+            AAA = ONE/SQRT(NX2*NX2+NY2*NY2+NZ2*NZ2)
             NX2 = NX2 * AAA
             NY2 = NY2 * AAA
             NZ2 = NZ2 * AAA
@@ -518,7 +518,7 @@ C
               NX3 = SX3450(I) + SX43160(I) + SX2350(I) + SX32150(I)
               NY3 = SY3450(I) + SY43160(I) + SY2350(I) + SY32150(I)
               NZ3 = SZ3450(I) + SZ43160(I) + SZ2350(I) + SZ32150(I)
-              AAA = UN/SQRT(NX3*NX3+NY3*NY3+NZ3*NZ3)
+              AAA = ONE/SQRT(NX3*NX3+NY3*NY3+NZ3*NZ3)
               NX3 = NX3 * AAA
               NY3 = NY3 * AAA
               NZ3 = NZ3 * AAA
@@ -543,7 +543,7 @@ C
               NX4 = SX4150(I) + SX14170(I) + SX3450(I) + SX43160(I)
               NY4 = SY4150(I) + SY14170(I) + SY3450(I) + SY43160(I)
               NZ4 = SZ4150(I) + SZ14170(I) + SZ3450(I) + SZ43160(I)
-              AAA = UN/SQRT(NX4*NX4+NY4*NY4+NZ4*NZ4)
+              AAA = ONE/SQRT(NX4*NX4+NY4*NY4+NZ4*NZ4)
               NX4 = NX4 * AAA
               NY4 = NY4 * AAA
               NZ4 = NZ4 * AAA
@@ -567,7 +567,7 @@ C
               NX3 = SX1250(I) + SX32150(I) + SX14170(I)
               NY3 = SY1250(I) + SY32150(I) + SY14170(I)
               NZ3 = SZ1250(I) + SZ32150(I) + SZ14170(I)
-              AAA = UN/SQRT(NX3*NX3+NY3*NY3+NZ3*NZ3)
+              AAA = ONE/SQRT(NX3*NX3+NY3*NY3+NZ3*NZ3)
               NX3 = NX3 * AAA
               NY3 = NY3 * AAA
               NZ3 = NZ3 * AAA
@@ -596,7 +596,7 @@ C!!!
              BBB = SQRT(SX21140(I)*SX21140(I)
      +                 +SY21140(I)*SY21140(I)
      +                  +SZ21140(I)*SZ21140(I))
-             AAA = UN/BBB
+             AAA = ONE/BBB
              SX21140(I)=SX21140(I) * AAA
              SY21140(I)=SY21140(I) * AAA
              SZ21140(I)=SZ21140(I) * AAA
@@ -636,7 +636,7 @@ C
             BBB = SQRT(SX32150(I)*SX32150(I)
      +               +SY32150(I)*SY32150(I)
      +               +SZ32150(I)*SZ32150(I))
-            AAA = UN/BBB
+            AAA = ONE/BBB
             
             SX32150(I)=SX32150(I) * AAA
             SY32150(I)=SY32150(I) * AAA
@@ -679,7 +679,7 @@ C
      +                +SY43160(I)*SY43160(I)          
      +                +SZ43160(I)*SZ43160(I))         
 
-            AAA = UN/BBB
+            AAA = ONE/BBB
             SX43160(I)=SX43160(I) * AAA
             SY43160(I)=SY43160(I) * AAA
             SZ43160(I)=SZ43160(I) * AAA
@@ -720,7 +720,7 @@ C
      +              +SY14170(I)*SY14170(I)
      +              +SZ14170(I)*SZ14170(I))
                    
-          AAA = UN/BBB                             
+          AAA = ONE/BBB                             
           SX14170(I)=SX14170(I) * AAA
           SY14170(I)=SY14170(I) * AAA
           SZ14170(I)=SZ14170(I) * AAA

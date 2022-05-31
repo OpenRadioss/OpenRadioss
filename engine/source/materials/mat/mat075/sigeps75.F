@@ -186,7 +186,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       G     =UPARAM(10)
       ALPHAE=UPARAM(11)
       GS   = PM(22,MXS)
-      DGDALPHA= (G-GS)/(ALPHAE-UN)
+      DGDALPHA= (G-GS)/(ALPHAE-ONE)
       ALPHAP=UPARAM(12)
       AA    =UPARAM(13)
       UNSURN=UPARAM(14)
@@ -197,10 +197,10 @@ C
          ALPHAOLD(I)= UVAR(I,3)
          ALPHAYLD(I)= UVAR(I,4)
          POLD(I)=-(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*THIRD
-         PYLD(I)=PS-XI*(ALPHAYLD(I)-UN)**UNSURN
+         PYLD(I)=PS-XI*(ALPHAYLD(I)-ONE)**UNSURN
       ENDDO
       DO I=1,NEL
-         MU(I) =RHO(I)/RHO0(I)-UN
+         MU(I) =RHO(I)/RHO0(I)-ONE
       ENDDO
       DO I=1,NEL
         SIGOLD(I,1:3)=-POLD(I)
@@ -210,22 +210,22 @@ C----------------------------
 C FIRST GUESS LINEAR SOLUTION
 C----------------------------
       DO I=1,NEL
-        IF(ALPHAOLD(I) == UN) THEN
+        IF(ALPHAOLD(I) == ONE) THEN
 C COMPACT MATERIAL
-          ALPHA0(I)=UN
+          ALPHA0(I)=ONE
           IPLA(I)=2
         ELSE
 C POROUS MATERIAL
-          HH =AA*(ALPHAOLD(I)-UN)+UN
+          HH =AA*(ALPHAOLD(I)-ONE)+ONE
           HH2=HH*HH
-          DPDAEL(I)=BULK0/(ALPHAOLD(I)*(UN-ALPHAOLD(I)/HH2))
-          BULK1=BULK0*(UN+MU(I))/ALPHAE
+          DPDAEL(I)=BULK0/(ALPHAOLD(I)*(ONE-ALPHAOLD(I)/HH2))
+          BULK1=BULK0*(ONE+MU(I))/ALPHAE
           IF(IFLAG1 == 1) THEN
              ALPHA0(I)=(POLD(I)+BULK0-ALPHAOLD(I)*DPDAEL(I))/(BULK1-DPDAEL(I))
           ELSEIF(IFLAG1 == 2) THEN
              ALPHA0(I)= BULK0/(BULK1-POLD(I))
           ENDIF
-          ALPHA0(I)=MAX(ALPHA0(I),UN)
+          ALPHA0(I)=MAX(ALPHA0(I),ONE)
         ENDIF
       ENDDO
 C
@@ -242,7 +242,7 @@ C SOLID VARIABLES
 C----------------
       DO I=1,NEL
          RHOS(I) =RHO(I)*ALPHA(I)
-         DVOLS(I)=DVOL(I)-VNEW(I)*(UN-ALPHAOLD(I)/ALPHA(I))
+         DVOLS(I)=DVOL(I)-VNEW(I)*(ONE-ALPHAOLD(I)/ALPHA(I))
          DVOLS(I)=DVOLS(I)/ALPHAOLD(I)
          VNEWS(I)=VNEW(I)/ALPHA(I)
       ENDDO
@@ -250,9 +250,9 @@ C------------------
 C ENERGY ESTIMATION
 C------------------
       DO I=1,NEL
-         MUS(I) = (UN + MU(I))*ALPHA(I)/ALPHAE - UN
-         DFS(I) = UN/(UN+MUS(I))
-         EINTN(I)=EINT(I)-UNDEMI*POLD(I)*DVOLS(I)
+         MUS(I) = (ONE + MU(I))*ALPHA(I)/ALPHAE - ONE
+         DFS(I) = ONE/(ONE+MUS(I))
+         EINTN(I)=EINT(I)-HALF*POLD(I)*DVOLS(I)
       ENDDO
 C--------------
 C EOS FOR SOLID
@@ -283,7 +283,7 @@ C-----------------
         DO I=1,NEL
           IF(IPLA(I)==2)CYCLE
           IPLA(I)=0
-          DFDA=DPDM(I)*(UN+MU(I))/ALPHAE + DPDE(I)*EINT(I)/VOL0(I)
+          DFDA=DPDM(I)*(ONE+MU(I))/ALPHAE + DPDE(I)*EINT(I)/VOL0(I)
           DGDA=DPDAEL(I)
           PNEWG(I)=POLD(I)+DPDAEL(I)*(ALPHA(I)-ALPHAOLD(I))
 C
@@ -293,10 +293,10 @@ C
             DALPHA=(PNEW(I)-PNEWG(I))/((DFDA-PNEW(I))/ALPHA(I)-DGDA)
           ENDIF
           ALPHA1(I)=ALPHA(I)-DALPHA
-          ALPHA1(I)=MAX(ALPHA1(I),UN)
+          ALPHA1(I)=MAX(ALPHA1(I),ONE)
         ENDDO
 
-        CRIT=-UN
+        CRIT=-ONE
         DO I=1,NEL
           IF(IPLA(I)==2)CYCLE
           BETA=ABS(ALPHA(I)-ALPHA1(I))
@@ -344,7 +344,7 @@ C SOLID VARIABLES
 C----------------
       DO I=1,NEL
          RHOS(I) =RHO(I)*ALPHA(I)
-         DVOLS(I)=DVOL(I)-VNEW(I)*(UN-ALPHAOLD(I)/ALPHA(I))
+         DVOLS(I)=DVOL(I)-VNEW(I)*(ONE-ALPHAOLD(I)/ALPHA(I))
          DVOLS(I)=DVOLS(I)/ALPHAOLD(I)
          VNEWS(I)=VNEW(I)/ALPHA(I)
       ENDDO
@@ -352,9 +352,9 @@ C------------------
 C ENERGY ESTIMATION
 C------------------
       DO I=1,NEL
-         MUS(I) = (UN + MU(I))*ALPHA(I)/ALPHAE - UN
-         DFS(I) = UN/(UN+MUS(I))
-         EINTN(I)=EINT(I)-UNDEMI*POLD(I)*DVOLS(I)
+         MUS(I) = (ONE + MU(I))*ALPHA(I)/ALPHAE - ONE
+         DFS(I) = ONE/(ONE+MUS(I))
+         EINTN(I)=EINT(I)-HALF*POLD(I)*DVOLS(I)
       ENDDO
 C--------------
 C EOS FOR SOLID
@@ -384,9 +384,9 @@ C NEWTON ITERATION
 C-----------------
         DO I=1,NEL
             IF(IPLA(I).NE.1)CYCLE
-            DFDA=DPDM(I)*(UN+MU(I))/ALPHAE + DPDE(I)*EINT(I)/VOL0(I)
-            DGDA=-XI*UNSURN*(ALPHA(I)-UN)**(UNSURN-UN)
-            PNEWG(I)=PS-XI*(ALPHA(I)-UN)**UNSURN
+            DFDA=DPDM(I)*(ONE+MU(I))/ALPHAE + DPDE(I)*EINT(I)/VOL0(I)
+            DGDA=-XI*UNSURN*(ALPHA(I)-ONE)**(UNSURN-ONE)
+            PNEWG(I)=PS-XI*(ALPHA(I)-ONE)**UNSURN
 C
             IF(IFLAG1 == 1) THEN
               DALPHA=(PNEW(I)-PNEWG(I))/(DFDA-DGDA)
@@ -394,10 +394,10 @@ C
               DALPHA=(PNEW(I)-PNEWG(I))/((DFDA-PNEW(I))/ALPHA(I)-DGDA)
             ENDIF
             ALPHA1(I)=ALPHA(I)-DALPHA
-            ALPHA1(I)=MAX(ALPHA1(I),UN)
+            ALPHA1(I)=MAX(ALPHA1(I),ONE)
         ENDDO
 
-        CRIT=-UN
+        CRIT=-ONE
         DO I=1,NEL
           IF(IPLA(I).NE.1)CYCLE
           BETA=ABS(ALPHA(I)-ALPHA1(I))
@@ -425,12 +425,12 @@ C UPDATE YIELD
 C--------------------
   300 CONTINUE
       DO I=1,NEL
-      IF(ALPHA(I) > UN) THEN
+      IF(ALPHA(I) > ONE) THEN
          IF(IPLA(I) == 1) THEN
            IF(PNEW(I) < PS) THEN
-              ALPHAYLD(I)= UN+ ETA*(PS-PNEW(I))**EN
+              ALPHAYLD(I)= ONE+ ETA*(PS-PNEW(I))**EN
            ELSE
-              ALPHAYLD(I)=UN
+              ALPHAYLD(I)=ONE
            ENDIF
          ENDIF
       ENDIF
@@ -441,8 +441,8 @@ C--------------------
       IF(IFLAG2.EQ.2)THEN
         DO I=1,NEL
           DAV = (DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))*THIRD
-          G   = MAX(ZERO,GS+DGDALPHA*(ALPHA(I)-UN))
-          G2  = DEUX*G
+          G   = MAX(ZERO,GS+DGDALPHA*(ALPHA(I)-ONE))
+          G2  = TWO*G
           SIGNXX(I)=SIGOXX(I)+POLD(I)+G2*(DEPSXX(I)-DAV)
           SIGNYY(I)=SIGOYY(I)+POLD(I)+G2*(DEPSYY(I)-DAV)
           SIGNZZ(I)=SIGOZZ(I)+POLD(I)+G2*(DEPSZZ(I)-DAV)
@@ -466,8 +466,8 @@ C SET MAXIMUM VISCOSITY
       ENDDO
 C SET SOUND SPEED
       DO I=1,NEL
-        IF(ALPHA(I) > UN) THEN
-          SOUNDSP(I)=SQRT(BULK0/RHOS0(1))*(AA*(ALPHA(I)-UN)+UN)
+        IF(ALPHA(I) > ONE) THEN
+          SOUNDSP(I)=SQRT(BULK0/RHOS0(1))*(AA*(ALPHA(I)-ONE)+ONE)
         ELSE
           SOUNDSP(I)=SQRT(BULK0/RHOS0(1))
         ENDIF

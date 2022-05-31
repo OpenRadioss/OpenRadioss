@@ -91,10 +91,10 @@ C-----------------------------------------------
             CALL HM_GET_FLOATV('VEL_Y', VGY, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('VEL_Z', VGZ, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('MINI', VOLMIN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            IF (GAMMA == ZERO) GAMMA = CENT
-            IF (VGX == ZERO) VGX = UN
-            IF (VGY == ZERO) VGY = UN
-            IF (VGZ == ZERO) VGZ = UN
+            IF (GAMMA == ZERO) GAMMA = HUNDRED
+            IF (VGX == ZERO) VGX = ONE
+            IF (VGY == ZERO) VGY = ONE
+            IF (VGZ == ZERO) VGZ = ONE
          ELSEIF (KEY(1:4) == 'DISP') THEN
             NWALE = 1
             CALL HM_GET_FLOATV('MAT_EPS', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -103,9 +103,9 @@ C-----------------------------------------------
             CALL HM_GET_FLOATV('VEL_Z', VGZ, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('MAT_PC', VOLMIN, IS_AVAILABLE, LSUBMODEL, UNITAB)
             IF (ALPHA == ZERO) ALPHA = INFINITY
-            IF (VGX == ZERO) VGX = UN
-            IF (VGY == ZERO) VGY = UN
-            IF (VGZ == ZERO) VGZ = UN
+            IF (VGX == ZERO) VGX = ONE
+            IF (VGY == ZERO) VGY = ONE
+            IF (VGZ == ZERO) VGZ = ONE
          ELSEIF (KEY(1:6) == 'SPRING') THEN
             IF (N2D /= 0) THEN
                CALL ANCMSG(MSGID = 787, MSGTYPE=MSGERROR, ANMODE=ANINFO,
@@ -117,10 +117,10 @@ C-----------------------------------------------
             CALL HM_GET_FLOATV('MAT_GAMA0', GAMMA, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('DAMP1', VGX, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('Nu_l', VGY, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            IF (VGX == ZERO) VGX = UNDEMI
-            IF (VGY == ZERO) VGY = UN
+            IF (VGX == ZERO) VGX = HALF
+            IF (VGY == ZERO) VGY = ONE
             DT_INPUT = ALPHA
-            ALPHA = ALPHA / (-VGX + SQRT(VGX * VGX + UN))
+            ALPHA = ALPHA / (-VGX + SQRT(VGX * VGX + ONE))
          ELSEIF (KEY(1:8) == 'STANDARD') THEN
             NWALE = 4
             CALL HM_GET_FLOATV('deltaT_min', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -134,7 +134,7 @@ C-----------------------------------------------
                CALL ANCMSG(MSGID = 1119, MSGTYPE = MSGERROR, ANMODE = ANINFO,
      .              C1='** CRITICAL ELEMENT SIZE MUST BE DEFINED (4TH FIELD)')
             ENDIF
-            IF (GAMMA < ZERO .OR. GAMMA > UN) THEN
+            IF (GAMMA < ZERO .OR. GAMMA > ONE) THEN
                CALL ANCMSG(MSGID = 1119, MSGTYPE = MSGERROR, ANMODE = ANINFO,
      .              C1='** NON-LINEAR FACTOR MUST BE BETWEEN 0 AND 1 (2ND FIELD)')
             ENDIF
@@ -147,10 +147,10 @@ C-----------------------------------------------
             GAMMA = ZERO
             VGX = NITER
             ALPHA = MAX(ZERO, MIN(ALPHA, EP06))
-            IF (ALPHA == ZERO) ALPHA = UN
-            IF (GAMMA == ZERO) GAMMA = UN
-            IF (GAMMA /= UN .AND. GAMMA /= DEUX) GAMMA = UN
-            IF (VGX <= ZERO) VGX = UN
+            IF (ALPHA == ZERO) ALPHA = ONE
+            IF (GAMMA == ZERO) GAMMA = ONE
+            IF (GAMMA /= ONE .AND. GAMMA /= TWO) GAMMA = ONE
+            IF (VGX <= ZERO) VGX = ONE
          ELSEIF (KEY(1:6) == 'VOLUME') THEN
             NWALE = 6
          ENDIF
@@ -162,10 +162,10 @@ C-----------------------------------------------
          NWALE=0
          CALL HM_OPTION_COUNT('/TETRA4', NTETRA4)
          IF(NTETRA4 > 0) NALENOVS=12              
-         IF(GAMMA.EQ.ZERO) GAMMA=CENT
-         IF(VGX.EQ.ZERO)   VGX=UN
-         IF(VGY.EQ.ZERO)   VGY=UN
-         IF(VGZ.EQ.ZERO)   VGZ=UN
+         IF(GAMMA.EQ.ZERO) GAMMA=HUNDRED
+         IF(VGX.EQ.ZERO)   VGX=ONE
+         IF(VGY.EQ.ZERO)   VGY=ONE
+         IF(VGZ.EQ.ZERO)   VGZ=ONE
        ENDIF      
 
       END SUBROUTINE HM_READ_ALE_GRID

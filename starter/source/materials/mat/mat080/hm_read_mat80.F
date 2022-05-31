@@ -134,7 +134,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('SCALE'      , EFAC    , IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('time_inputunit_value' , UNITT, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-      IF(UNITT == ZERO) UNITT = TROIS*EP03+SIX*EP02
+      IF(UNITT == ZERO) UNITT = THREE*EP03+SIX*EP02
 
       CALL HM_GET_INTV  ('Fsmooth'    , ISRATE, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('Fcut'       , FCUT  , IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -324,21 +324,21 @@ C
       NUVAR = 44
       IF (ISRATE > 0 .AND. FCUT == ZERO)  FCUT = EP05*FAC_T_WORK  ! default : force filtering
       IF (FLAG_LOC == 0) FLAG_LOC = 2
-      IF (YSCALE1 == ZERO)YSCALE1 = UN
-      IF (YSCALE2 == ZERO)YSCALE2 = UN
-      IF (YSCALE3 == ZERO)YSCALE3 = UN
-      IF (YSCALE4 == ZERO)YSCALE4 = UN
-      IF (YSCALE5 == ZERO)YSCALE5 = UN
+      IF (YSCALE1 == ZERO)YSCALE1 = ONE
+      IF (YSCALE2 == ZERO)YSCALE2 = ONE
+      IF (YSCALE3 == ZERO)YSCALE3 = ONE
+      IF (YSCALE4 == ZERO)YSCALE4 = ONE
+      IF (YSCALE5 == ZERO)YSCALE5 = ONE
       DO I= 1,NUMTABL
-        IF (XSCALE(I) == ZERO)XSCALE(I) = UN
+        IF (XSCALE(I) == ZERO)XSCALE(I) = ONE
       ENDDO
-      BULK=E/TROIS/(UN-DEUX*NU)
+      BULK=E/THREE/(ONE-TWO*NU)
       CE=SQRT(BULK/RHO0)
 C            
       UPARAM(1) = E
       UPARAM(2) = NU
       UPARAM(3) = IFUNC(1)
-      IF (EFAC==ZERO)EFAC=UN
+      IF (EFAC==ZERO)EFAC=ONE
       UPARAM(4) = EFAC     
       UPARAM(10)= YSCALE1
       UPARAM(11)= YSCALE2
@@ -370,7 +370,7 @@ C
 
 c---- COMPOSITION FOR FERRITE PEARLITE BAINITE      
       FCFER =1/(59.6*MN+1.45*NI+67.7*CR+244.0*MO+KF*B)
-      FCPER =1/(1.79+5.42*(CR+MO+QUATRE*MO*NI)+KP*B)
+      FCPER =1/(1.79+5.42*(CR+MO+FOUR*MO*NI)+KP*B)
       FCBAI =1/((2.34+10.1*C+3.8*CR+19.0*MO)*EM04)
 
 
@@ -378,7 +378,7 @@ c---- COMPOSITION FOR FERRITE PEARLITE BAINITE
       IF(CP == ZERO) CP = FCPER
       IF(CB == ZERO) CB = FCBAI
 
-      FGRAIN=DEUX**((GSIZE-UN)*UNDEMI)
+      FGRAIN=TWO**((GSIZE-ONE)*HALF)
       UPARAM(33)= FCFER
       UPARAM(34)= FCPER  
       UPARAM(35)= FCBAI
@@ -426,7 +426,7 @@ C
       NUPARAM= NUPARAM +12 !58
 
       DO I= 1,NUMTABL
-      UPARAM(58 +I) = UN/XSCALE(I)
+      UPARAM(58 +I) = ONE/XSCALE(I)
       ENDDO
       UPARAM(58 + NUMTABL + 1) = HEATFLAG
 
@@ -491,9 +491,9 @@ C
       UPARAM(86) = N_M
 
 
-      FGFER = DEUX**(GSIZE*GFAC_F)
-      FGPER = DEUX**(GSIZE*GFAC_P)
-      FGBAI = DEUX**(GSIZE*GFAC_B)
+      FGFER = TWO**(GSIZE*GFAC_F)
+      FGPER = TWO**(GSIZE*GFAC_P)
+      FGBAI = TWO**(GSIZE*GFAC_B)
 
       UPARAM(87) = FGFER
       UPARAM(88) = FGPER
@@ -514,7 +514,7 @@ c----------------------------
       PARMAT(5) = FCUT
 CC     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) =  (UN - DEUX*NU)/(UN - NU) ! == DEUX*G/(C1+QTHIRD*G)
+      PARMAT(17) =  (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G)
 C------------------------------   
       WRITE(IOUT, 900) TRIM(TITR),MAT_ID,80
       WRITE(IOUT,1000)

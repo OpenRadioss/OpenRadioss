@@ -125,11 +125,11 @@ C
        ALM = (XA*XSM-XB*XS2) / DET
        XS2 = MAX(XS2,EM20)
        XM2 = MAX(XM2,EM20)
-       ALM=MIN(UN,MAX(ZERO,ALM))
+       ALM=MIN(ONE,MAX(ZERO,ALM))
        ALS = -(XA + ALM*XSM) / XS2
-       ALS=MIN(UN,MAX(ZERO,ALS))
+       ALS=MIN(ONE,MAX(ZERO,ALS))
        ALM = -(XB + ALS*XSM) / XM2
-       ALM=MIN(UN,MAX(ZERO,ALM))
+       ALM=MIN(ONE,MAX(ZERO,ALM))
 
 C !!!!!!!!!!!!!!!!!!!!!!!
 C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
@@ -239,11 +239,11 @@ C
        ALM = (XA*XSM-XB*XS2) / DET
        XS2 = MAX(XS2,EM20)
        XM2 = MAX(XM2,EM20)
-       ALM=MIN(UN,MAX(ZERO,ALM))
+       ALM=MIN(ONE,MAX(ZERO,ALM))
        ALS = -(XA + ALM*XSM) / XS2
-       ALS=MIN(UN,MAX(ZERO,ALS))
+       ALS=MIN(ONE,MAX(ZERO,ALS))
        ALM = -(XB + ALS*XSM) / XM2
-       ALM=MIN(UN,MAX(ZERO,ALM))
+       ALM=MIN(ONE,MAX(ZERO,ALM))
 
 C !!!!!!!!!!!!!!!!!!!!!!!
 C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL

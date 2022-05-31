@@ -103,7 +103,7 @@ C=======================================================================
       BETA  = UPARAM(25+2*NFUNC+2)
       KO    = UPARAM(25+2*NFUNC+3)
 
-      PLA = DEUX*EM03
+      PLA = TWO*EM03
       IF (IFLAG == 1) THEN 
 c-----    Yield                                                    
           PUIS  = EXP(NEXP*LOG((PLA + EPSO)))
@@ -111,8 +111,8 @@ c-----    Yield
           KSWIFT = ASWIFT*PUIS
 !         VOCE = K0 + Q *(1-EXP (-B*PLA))
           EXPV   = EXP(-BETA*PLA)
-          KVOCE  = KO + QVOCE*(UN - EXPV)                                       
-          YIELD  = ALPHA*KSWIFT + (UN-ALPHA)*KVOCE 
+          KVOCE  = KO + QVOCE*(ONE - EXPV)                                       
+          YIELD  = ALPHA*KSWIFT + (ONE-ALPHA)*KVOCE 
       ELSE !IF TABULATED
           YIELD = FINTER(IFUNC(1),PLA,NPC,PLD,DYDX)
           SCALE = UPARAM(25+1+NFUNC)
@@ -121,7 +121,7 @@ c-----    Yield
       ENDIF  
 
       !YIELD TO BE COMPUTED FROM VOCE OR TABULATED FOR 0.05 PLASTIC STRAIN
-      AL(1:8) = UN
+      AL(1:8) = ONE
 
 	!g1=2/3;
 	!d1=-1/3;
@@ -131,7 +131,7 @@ c-----    Yield
 
 	!g3=-1/3;
 	!d3=-1/3;
-      GAMMA = DTIERS
+      GAMMA = TWO_THIRD
       DELTA = -THIRD
 
 
@@ -143,84 +143,84 @@ c-----    Yield
 
        
       CALL CRITYLD2000(FCT,GAMMA, DELTA, EXPA, AL)      
-      F(1) = FCT - DEUX * (YIELD /S00 )**EXPA
+      F(1) = FCT - TWO * (YIELD /S00 )**EXPA
 
       CALL CRITYLD2000(FCT,DELTA,GAMMA,  EXPA, AL)
-      F(2) = FCT - DEUX * (YIELD /S90 )**EXPA
+      F(2) = FCT - TWO * (YIELD /S90 )**EXPA
 
       CALL CRITYLD2000(FCT,DELTA,DELTA,  EXPA, AL)
-      F(3) = FCT - DEUX * (YIELD /SB )**EXPA
+      F(3) = FCT - TWO * (YIELD /SB )**EXPA
 
       CALL R_YLD2000(DX,DY,GAMMA, DELTA, EXPA, AL)
-      F(4) = (UN-R00  )*DX - (DEUX + R00)*DY
+      F(4) = (ONE-R00  )*DX - (TWO + R00)*DY
 
       CALL R_YLD2000(DX,DY, DELTA,GAMMA, EXPA, AL)
-      F(5) = (DEUX+R90)*DX + (R90 -UN )*DY
+      F(5) = (TWO+R90)*DX + (R90 -ONE )*DY
 
       CALL R_YLD2000(DX,DY,DELTA, DELTA, EXPA, AL)
-      F(6) = (UN+DEUX *RB)*DX - (DEUX + RB )*DY
+      F(6) = (ONE+TWO *RB)*DX - (TWO + RB )*DY
  
       !JACOBIAN MATRIX
-      DF1 = (AL(1)*DTIERS + AL(2)*THIRD)*ABS(AL(1)*DTIERS + AL(2)*THIRD)**EXPAM2
-      DF(1,1) = DTIERS*EXPA*DF1
+      DF1 = (AL(1)*TWO_THIRD + AL(2)*THIRD)*ABS(AL(1)*TWO_THIRD + AL(2)*THIRD)**EXPAM2
+      DF(1,1) = TWO_THIRD*EXPA*DF1
       DF(1,2) = THIRD*EXPA *DF1
-      DF13 = (AL(3)*DTIERS - DEUX*AL(4)*THIRD)*ABS(AL(3)*DTIERS - DEUX*AL(4)*THIRD)**EXPAM2
-      DF(1,3) = DTIERS*EXPA*DF13
-      DF(1,4) = -DTIERS*EXPA*DF13
-      DF15 = (DEUX*AL(5)*DTIERS - AL(6)*THIRD)*ABS(DEUX*AL(5)*DTIERS - AL(6)*THIRD)**EXPAM2
-      DF(1,5) = DEUX*DTIERS*EXPA*DF15
+      DF13 = (AL(3)*TWO_THIRD - TWO*AL(4)*THIRD)*ABS(AL(3)*TWO_THIRD - TWO*AL(4)*THIRD)**EXPAM2
+      DF(1,3) = TWO_THIRD*EXPA*DF13
+      DF(1,4) = -TWO_THIRD*EXPA*DF13
+      DF15 = (TWO*AL(5)*TWO_THIRD - AL(6)*THIRD)*ABS(TWO*AL(5)*TWO_THIRD - AL(6)*THIRD)**EXPAM2
+      DF(1,5) = TWO*TWO_THIRD*EXPA*DF15
       DF(1,6) = -THIRD*EXPA*DF15
 
-      DF2 = (-AL(1)*THIRD - AL(2)*DTIERS)*ABS(-AL(1)*THIRD - AL(2)*DTIERS)**EXPAM2
+      DF2 = (-AL(1)*THIRD - AL(2)*TWO_THIRD)*ABS(-AL(1)*THIRD - AL(2)*TWO_THIRD)**EXPAM2
       DF(2,1) = -THIRD *EXPA *DF2
-      DF(2,2) = -DTIERS*EXPA *DF2
-      DF23 = (-AL(3)*THIRD + DEUX*AL(4)*DTIERS)*ABS(-AL(3)*THIRD + DEUX*AL(4)*DTIERS)**EXPAM2
+      DF(2,2) = -TWO_THIRD*EXPA *DF2
+      DF23 = (-AL(3)*THIRD + TWO*AL(4)*TWO_THIRD)*ABS(-AL(3)*THIRD + TWO*AL(4)*TWO_THIRD)**EXPAM2
       DF(2,3) = -THIRD      *EXPA*DF23
-      DF(2,4) = DEUX*DTIERS *EXPA*DF23
-      DF25 = (-DEUX*AL(5)*THIRD + AL(6)*DTIERS)*ABS(-DEUX*AL(5)*THIRD + AL(6)*DTIERS)**EXPAM2
-      DF(2,5) = -DTIERS*EXPA*DF25
-      DF(2,6) =  DTIERS*EXPA*DF25
+      DF(2,4) = TWO*TWO_THIRD *EXPA*DF23
+      DF25 = (-TWO*AL(5)*THIRD + AL(6)*TWO_THIRD)*ABS(-TWO*AL(5)*THIRD + AL(6)*TWO_THIRD)**EXPAM2
+      DF(2,5) = -TWO_THIRD*EXPA*DF25
+      DF(2,6) =  TWO_THIRD*EXPA*DF25
 
       DF3 = (-AL(1)*THIRD + AL(2)*THIRD)*ABS(-AL(1)*THIRD + AL(2)*THIRD)**EXPAM2
       DF(3,1) = -THIRD*EXPA*DF3
       DF(3,2) = THIRD*EXPA *DF3
-      DF33 = (-AL(3)*THIRD - DEUX*AL(4)*THIRD)*ABS(-AL(3)*THIRD - DEUX*AL(4)*THIRD)**EXPAM2
+      DF33 = (-AL(3)*THIRD - TWO*AL(4)*THIRD)*ABS(-AL(3)*THIRD - TWO*AL(4)*THIRD)**EXPAM2
       DF(3,3) = -THIRD  *EXPA*DF33
-      DF(3,4) = -DTIERS *EXPA*DF33
-      DF35 = (-DEUX*AL(5)*THIRD - AL(6)*THIRD)*ABS(-DEUX*AL(5)*THIRD - AL(6)*THIRD)**EXPAM2
-      DF(3,5) = -DEUX*THIRD*EXPA*DF35
+      DF(3,4) = -TWO_THIRD *EXPA*DF33
+      DF35 = (-TWO*AL(5)*THIRD - AL(6)*THIRD)*ABS(-TWO*AL(5)*THIRD - AL(6)*THIRD)**EXPAM2
+      DF(3,5) = -TWO*THIRD*EXPA*DF35
       DF(3,6) = -THIRD     *EXPA*DF35
 
-      G1 = AL(1)*DTIERS+AL(2)*THIRD
-      DF(4,1) = ( (UN-R00  )*G1 + DTIERS*(EXPA-UN)*( AL(1)*(UN-R00)+AL(2)*(DEUX+R00) )) *ABS(G1)**EXPAM2
-      DF(4,2) = ( (DEUX+R00)*G1 + THIRD *(EXPA-UN)*( AL(1)*(UN-R00)+AL(2)*(DEUX+R00) )) *ABS(G1)**EXPAM2
-      G13 = AL(3)*DTIERS-DEUX*AL(4)*THIRD
-      DF(4,3) = ( (UN-R00  )*G13      + DTIERS*(EXPA-UN)*( AL(3)*(UN-R00)-DEUX*AL(4)*(DEUX+R00) )) *ABS(G13)**EXPAM2
-      DF(4,4) = (-DEUX*(DEUX+R00)*G13 - THIRD *(EXPA-UN)*( AL(3)*(UN-R00)-DEUX*AL(4)*(DEUX+R00) )) *ABS(G13)**EXPAM2
-      G15 = DEUX*AL(5)*DTIERS-AL(6)*THIRD
-      DF(4,5) = ( DEUX*(UN-R00)*G15 + DEUX*DTIERS*(EXPA-UN)*( DEUX*AL(5)*(UN-R00)-AL(6)*(DEUX+R00) )) *ABS(G15)**EXPAM2
-      DF(4,6) = ( -(DEUX+R00)*G15   - THIRD*(EXPA-UN)      *( DEUX*AL(5)*(UN-R00)-AL(6)*(DEUX+R00) )) *ABS(G15)**EXPAM2
+      G1 = AL(1)*TWO_THIRD+AL(2)*THIRD
+      DF(4,1) = ( (ONE-R00  )*G1 + TWO_THIRD*(EXPA-ONE)*( AL(1)*(ONE-R00)+AL(2)*(TWO+R00) )) *ABS(G1)**EXPAM2
+      DF(4,2) = ( (TWO+R00)*G1 + THIRD *(EXPA-ONE)*( AL(1)*(ONE-R00)+AL(2)*(TWO+R00) )) *ABS(G1)**EXPAM2
+      G13 = AL(3)*TWO_THIRD-TWO*AL(4)*THIRD
+      DF(4,3) = ( (ONE-R00  )*G13      + TWO_THIRD*(EXPA-ONE)*( AL(3)*(ONE-R00)-TWO*AL(4)*(TWO+R00) )) *ABS(G13)**EXPAM2
+      DF(4,4) = (-TWO*(TWO+R00)*G13 - THIRD *(EXPA-ONE)*( AL(3)*(ONE-R00)-TWO*AL(4)*(TWO+R00) )) *ABS(G13)**EXPAM2
+      G15 = TWO*AL(5)*TWO_THIRD-AL(6)*THIRD
+      DF(4,5) = ( TWO*(ONE-R00)*G15 + TWO*TWO_THIRD*(EXPA-ONE)*( TWO*AL(5)*(ONE-R00)-AL(6)*(TWO+R00) )) *ABS(G15)**EXPAM2
+      DF(4,6) = ( -(TWO+R00)*G15   - THIRD*(EXPA-ONE)      *( TWO*AL(5)*(ONE-R00)-AL(6)*(TWO+R00) )) *ABS(G15)**EXPAM2
 C
-      G2 = -AL(1)*THIRD-AL(2)*DTIERS
-      DF(5,1) = ( (DEUX+R90)*G2 -THIRD  *(EXPA-UN)*( AL(1)*(DEUX+R90)+AL(2)*(UN-R90) )) *ABS(G2)**EXPAM2
-      DF(5,2) = ( (UN-R90  )*G2 -DTIERS *(EXPA-UN)*( AL(1)*(DEUX+R90)+AL(2)*(UN-R90) )) *ABS(G2)**EXPAM2
-      G23 = -AL(3)*THIRD+DEUX*AL(4)*DTIERS
-      DF(5,3) = ( (DEUX+R90)   *G23  -THIRD    *(EXPA-UN)*( AL(3)*(DEUX+R90)-DEUX*AL(4)*(UN-R90) )) *ABS(G23)**EXPAM2
-      DF(5,4) = (-DEUX*(UN-R90)*G23  + DTIERS  *(EXPA-UN)*( AL(3)*(DEUX+R90)-DEUX*AL(4)*(UN-R90) )) *ABS(G23)**EXPAM2
-      G25 = -DEUX*AL(5)*THIRD + AL(6)*DTIERS
-      DF(5,5) = ( DEUX*(DEUX+R90)*G25 - DEUX*THIRD*(EXPA-UN)*( DEUX*AL(5)*(DEUX+R90)-AL(6)*(UN-R90) )) *ABS(G25)**EXPAM2
-      DF(5,6) = ( -      (UN-R90)*G25 + DTIERS*(EXPA-UN)    *( DEUX*AL(5)*(DEUX+R90)-AL(6)*(UN-R90) )) *ABS(G25)**EXPAM2
+      G2 = -AL(1)*THIRD-AL(2)*TWO_THIRD
+      DF(5,1) = ( (TWO+R90)*G2 -THIRD  *(EXPA-ONE)*( AL(1)*(TWO+R90)+AL(2)*(ONE-R90) )) *ABS(G2)**EXPAM2
+      DF(5,2) = ( (ONE-R90  )*G2 -TWO_THIRD *(EXPA-ONE)*( AL(1)*(TWO+R90)+AL(2)*(ONE-R90) )) *ABS(G2)**EXPAM2
+      G23 = -AL(3)*THIRD+TWO*AL(4)*TWO_THIRD
+      DF(5,3) = ( (TWO+R90)   *G23  -THIRD    *(EXPA-ONE)*( AL(3)*(TWO+R90)-TWO*AL(4)*(ONE-R90) )) *ABS(G23)**EXPAM2
+      DF(5,4) = (-TWO*(ONE-R90)*G23  + TWO_THIRD  *(EXPA-ONE)*( AL(3)*(TWO+R90)-TWO*AL(4)*(ONE-R90) )) *ABS(G23)**EXPAM2
+      G25 = -TWO*AL(5)*THIRD + AL(6)*TWO_THIRD
+      DF(5,5) = ( TWO*(TWO+R90)*G25 - TWO*THIRD*(EXPA-ONE)*( TWO*AL(5)*(TWO+R90)-AL(6)*(ONE-R90) )) *ABS(G25)**EXPAM2
+      DF(5,6) = ( -      (ONE-R90)*G25 + TWO_THIRD*(EXPA-ONE)    *( TWO*AL(5)*(TWO+R90)-AL(6)*(ONE-R90) )) *ABS(G25)**EXPAM2
 
 C
       G3 = -AL(1)*THIRD + AL(2)*THIRD
-      DF(6,1) = ( (UN+DEUX*RB)*G3 -THIRD  *(EXPA-UN)*( AL(1)*(UN+DEUX*RB)+AL(2)*(DEUX+RB) )) *ABS(G3)**EXPAM2
-      DF(6,2) = ( (DEUX+RB   )*G3 +THIRD *(EXPA-UN)* ( AL(1)*(UN+DEUX*RB)+AL(2)*(DEUX+RB) )) *ABS(G3)**EXPAM2
-      G33 = -AL(3)*THIRD-DEUX*AL(4)*THIRD
-      DF(6,3) = ( (UN+DEUX*RB)   *G33  -THIRD    *(EXPA-UN)*( AL(3)*(UN+DEUX*RB)-DEUX*AL(4)*(DEUX+RB) )) *ABS(G33)**EXPAM2
-      DF(6,4) = (-DEUX*(DEUX+RB) *G33  -THIRD    *(EXPA-UN)*( AL(3)*(UN+DEUX*RB)-DEUX*AL(4)*(DEUX+RB) )) *ABS(G33)**EXPAM2
-      G35 = -DEUX*AL(5)*THIRD - AL(6)*THIRD
-      DF(6,5) = ( DEUX*(UN+DEUX*RB)*G35 - DEUX*THIRD*(EXPA-UN)*( DEUX*AL(5)*(UN+DEUX*RB)-AL(6)*(DEUX+RB) )) *ABS(G35)**EXPAM2
-      DF(6,6) = ( -      (DEUX+RB) *G35 - THIRD     *(EXPA-UN)*( DEUX*AL(5)*(UN+DEUX*RB)-AL(6)*(DEUX+RB) )) *ABS(G35)**EXPAM2
+      DF(6,1) = ( (ONE+TWO*RB)*G3 -THIRD  *(EXPA-ONE)*( AL(1)*(ONE+TWO*RB)+AL(2)*(TWO+RB) )) *ABS(G3)**EXPAM2
+      DF(6,2) = ( (TWO+RB   )*G3 +THIRD *(EXPA-ONE)* ( AL(1)*(ONE+TWO*RB)+AL(2)*(TWO+RB) )) *ABS(G3)**EXPAM2
+      G33 = -AL(3)*THIRD-TWO*AL(4)*THIRD
+      DF(6,3) = ( (ONE+TWO*RB)   *G33  -THIRD    *(EXPA-ONE)*( AL(3)*(ONE+TWO*RB)-TWO*AL(4)*(TWO+RB) )) *ABS(G33)**EXPAM2
+      DF(6,4) = (-TWO*(TWO+RB) *G33  -THIRD    *(EXPA-ONE)*( AL(3)*(ONE+TWO*RB)-TWO*AL(4)*(TWO+RB) )) *ABS(G33)**EXPAM2
+      G35 = -TWO*AL(5)*THIRD - AL(6)*THIRD
+      DF(6,5) = ( TWO*(ONE+TWO*RB)*G35 - TWO*THIRD*(EXPA-ONE)*( TWO*AL(5)*(ONE+TWO*RB)-AL(6)*(TWO+RB) )) *ABS(G35)**EXPAM2
+      DF(6,6) = ( -      (TWO+RB) *G35 - THIRD     *(EXPA-ONE)*( TWO*AL(5)*(ONE+TWO*RB)-AL(6)*(TWO+RB) )) *ABS(G35)**EXPAM2
 
       
       CALL INVERT (DF,DFINV,6,ERROR)
@@ -246,8 +246,8 @@ C
       !COMPUTE AL(7) AND AL(8)
 	 X1=(AL(1)+AL(2))/3;
 	 X2=(AL(1)-AL(2))/3;
-	 X11=(AL(3)     + DEUX*AL(4) + DEUX*AL(5)+AL(6)      ) /NEUF
-	 X22=(DEUX*AL(5)+      AL(6) - AL(3)     -DEUX *AL(4))/TROIS
+	 X11=(AL(3)     + TWO*AL(4) + TWO*AL(5)+AL(6)      ) /NINE
+	 X22=(TWO*AL(5)+      AL(6) - AL(3)     -TWO *AL(4))/THREE
 
 
       !BOUCLE
@@ -256,30 +256,30 @@ C
 
       DO WHILE (ABS(RESIDU) > EM06 .AND. NITER < 100 .AND. IOK == 0) 
 
-      TAL7 = SQRT(MAX(ZERO,X2**2  + QUATRE * AL(7)**2) )/DEUX
-      TAL8 = SQRT(MAX(ZERO,X22**2 + QUATRE * AL(8)**2) )
-      TF4A8=      (TROIS*X11 + TAL8 ) / QUATRE 
-      CONJTF4A8 = (TROIS*X11 - TAL8 ) / QUATRE 
+      TAL7 = SQRT(MAX(ZERO,X2**2  + FOUR * AL(7)**2) )/TWO
+      TAL8 = SQRT(MAX(ZERO,X22**2 + FOUR * AL(8)**2) )
+      TF4A8=      (THREE*X11 + TAL8 ) / FOUR 
+      CONJTF4A8 = (THREE*X11 - TAL8 ) / FOUR 
 	 V1 =EXPA*(TAL7)**(EXPA-1)
 	 V11=EXPA*(CONJTF4A8)*(ABS(CONJTF4A8))**(EXPA-2)
 	 W11=EXPA*(TF4A8)*(ABS(TF4A8))**(EXPA-2)
 
       F1= TAL7**EXPA + ABS(CONJTF4A8)**EXPA + ABS(TF4A8)**EXPA
-      F2 =v1* (X2**2/(DEUX*TAL7) )   +  TDEMI*X11*(v11+w11) + UNDEMI*(X22**2/TAL8) * (w11-v11)
+      F2 =v1* (X2**2/(TWO*TAL7) )   +  THREE_HALF*X11*(v11+w11) + HALF*(X22**2/TAL8) * (w11-v11)
 
             
-	 G(1) = F1 - DEUX*(YIELD/S45)**EXPA
-	 G(2) = F2 - (DEUX*EXPA/(UN+R45))*(YIELD/S45)**EXPA
+	 G(1) = F1 - TWO*(YIELD/S45)**EXPA
+	 G(2) = F2 - (TWO*EXPA/(ONE+R45))*(YIELD/S45)**EXPA
       !DF(4,7)
-      DG(1,1) = EXPA * (AL(7)/(DEUX*TAL7) )* ABS(TAL7)**(EXPA-1)
+      DG(1,1) = EXPA * (AL(7)/(TWO*TAL7) )* ABS(TAL7)**(EXPA-1)
       !DF(4,8)
       DG(1,2) = EXPA *( AL(8) /TAL8) * ( TF4A8 * ABS (TF4A8)**(EXPA-2) 
      .                                - CONJTF4A8 *ABS (CONJTF4A8)**(EXPA-2)  )
-      DG(2,1) = (AL(7) * X2**2)/(DEUX*TAL7) * (EXPA * (EXPA - UN) * TAL7**(EXPA-3)
+      DG(2,1) = (AL(7) * X2**2)/(TWO*TAL7) * (EXPA * (EXPA - ONE) * TAL7**(EXPA-3)
      .                                        - V1 /TAL7/TAL7 )
-      DG(2,2) = (EXPA*(EXPA-UN)*AL(8)/TAL8)
-     .         *(TDEMI*X11*(TF4A8-CONJTF4A8)+UNDEMI*(X22**2/TAL8)*(TF4A8+CONJTF4A8))
-     .         - DEUX*(W11-V11)*AL(8)*X22**2/TAL8**3
+      DG(2,2) = (EXPA*(EXPA-ONE)*AL(8)/TAL8)
+     .         *(THREE_HALF*X11*(TF4A8-CONJTF4A8)+HALF*(X22**2/TAL8)*(TF4A8+CONJTF4A8))
+     .         - TWO*(W11-V11)*AL(8)*X22**2/TAL8**3
 
       CALL INVERT (DG,DGINV,2,ERROR)
       CALL PRODMATVECT(DGINV, G, DAL78, 2)
@@ -301,7 +301,7 @@ C
 
       IF (IOK ==0) THEN
        DO K=1,8
-        IF (AL(K) <= ZERO .OR. AL(K) > DIX)THEN
+        IF (AL(K) <= ZERO .OR. AL(K) > TEN)THEN
 
             IOK = 1
             CALL ANCMSG(MSGID=1608 ,
@@ -398,8 +398,8 @@ C-----------------------------------------------
 
 C=======================================================================
       F =  ( ABS(G*AL(1)      - D*AL(2) ) ) **AA 
-     .   + ( ABS(G*AL(3)      + D*DEUX*AL(4)) )**AA 
-     .   + ( ABS(G*DEUX*AL(5)+ D*AL(6)))**AA
+     .   + ( ABS(G*AL(3)      + D*TWO*AL(4)) )**AA 
+     .   + ( ABS(G*TWO*AL(5)+ D*AL(6)))**AA
 	
       !PRINT*, ' FK ', F
       RETURN
@@ -449,8 +449,8 @@ C-----------------------------------------------
 C=======================================================================
        AA = A - 2 
        DX =   AL(1)*(GAMMA*AL(1)-DELTA*AL(2))     *(ABS(GAMMA*AL(1)     - DELTA*AL(2)     ))**AA 
-     . +      AL(3)*(GAMMA*AL(3)+DELTA*DEUX*AL(4))*(ABS(GAMMA*AL(3)     + DELTA*DEUX*AL(4)))**AA 
-     . + DEUX*AL(5)*(GAMMA*DEUX*AL(5)+DELTA*AL(6))*(ABS(GAMMA*DEUX*AL(5)+DELTA*AL(6)))**AA
+     . +      AL(3)*(GAMMA*AL(3)+DELTA*TWO*AL(4))*(ABS(GAMMA*AL(3)     + DELTA*TWO*AL(4)))**AA 
+     . + TWO*AL(5)*(GAMMA*TWO*AL(5)+DELTA*AL(6))*(ABS(GAMMA*TWO*AL(5)+DELTA*AL(6)))**AA
 
        DY = - AL(2)*(GAMMA*AL(1)-DELTA*AL(2))     *(ABS(GAMMA*AL(1)-DELTA*AL(2)  ))**AA
      .  +   2*AL(4)*(GAMMA*AL(3)+DELTA*2*AL(4))   *(ABS(GAMMA*AL(3)+DELTA*2*AL(4)))**AA 
@@ -496,15 +496,15 @@ C-----------------------------------------------
      .      T1,T2,T3,V1,V11,W11
 C-----------------------------------------------
 
-	 T1=SQRT(  MAX(ZERO, (X2**2  + QUATRE *AL(7)**2) ) )   /DEUX
-	 T2=(TROIS*X11 - SQRT( MAX( ZERO,(X22**2 + QUATRE*AL(8)**2 ) )   ) )/QUATRE
-	 T3=(TROIS*X11 + SQRT( MAX( ZERO,(X22**2 + QUATRE*AL(8)**2 ) )   ) )/QUATRE
+	 T1=SQRT(  MAX(ZERO, (X2**2  + FOUR *AL(7)**2) ) )   /TWO
+	 T2=(THREE*X11 - SQRT( MAX( ZERO,(X22**2 + FOUR*AL(8)**2 ) )   ) )/FOUR
+	 T3=(THREE*X11 + SQRT( MAX( ZERO,(X22**2 + FOUR*AL(8)**2 ) )   ) )/FOUR
       F1= T1**AA + ABS(T2)**AA + ABS(T3)**AA
 	
 	 v1 =AA*(T1)**(AA-1);
 	 v11=AA*(T2)*(ABS(T2))**(AA-2)
 	 w11=AA*(T3)*(ABS(T3))**(AA-2)
-	 F2 =v1* (X2**2/(DEUX*T1) )   +  TDEMI*X11*(v11+w11) + UNDEMI*(X22**2/ (SQRT(X22**2+QUATRE*AL(8)**2)  )) * (w11-v11)
+	 F2 =v1* (X2**2/(TWO*T1) )   +  THREE_HALF*X11*(v11+w11) + HALF*(X22**2/ (SQRT(X22**2+FOUR*AL(8)**2)  )) * (w11-v11)
       RETURN
       END
 C=======================================================================

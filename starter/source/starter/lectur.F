@@ -852,7 +852,7 @@ C-----------------------------------------------
       CHARACTER(LEN=ncharline) :: RLINE
       CHARACTER (LEN=4) :: CWIN
       LOGICAL :: IS_AVAILABLE
-      INTEGER NLINES,ONE,NUSERWI,USERWI_ID
+      INTEGER NLINES,NUSERWI,USERWI_ID
       INTEGER SCR_FILE_NAME_LEN
       CHARACTER(LEN=ncharkey) :: KEY
       CHARACTER TITLE*nchartitle
@@ -2505,7 +2505,7 @@ C--------------------------------------------
      .           ITAB    ,IPART   ,IPARTIG3D  ,IPM     ,IGEO    ,
      .           KXIG3D  ,IXIG3D  ,ITABM1     ,NCTRLMAX,TABCONPATCH)
 
-       SKNOTLOCPC = DEG_MAX*3*(NUMNOD+L_TAB_NEWFCT)*NUMGEO  ! IL FAUDRAIT AVOIR UN NOMBRE DE POINT IGE ET DES INDICES
+       SKNOTLOCPC = DEG_MAX*3*(NUMNOD+L_TAB_NEWFCT)*NUMGEO  ! IL FAUDRAIT AVOIR ONE NOMBRE DE POINT IGE ET DES INDICES
 cc Sknotlocpc est un peu surdimmensionne car il prend en compte les points de travail temporaire
        IF (SKNOTLOCPC > INTMAX .OR. SKNOTLOCPC < ZERO) THEN ! L_TAB_NEWFCT pour se laisser la taille de travail
          SKNOTLOCPC = INTMAX
@@ -7061,7 +7061,7 @@ C--------------------------------------------
       NINTSTAMP=0
       NMNT   = 0
 C PROBINT egalement initialisee dans ENGINE (rdresa)
-      PROBINT=UNDEMI
+      PROBINT=HALF
 
       IF(NINTER == 0.AND.NINTERFRIC > 0 )THEN
             CALL ANCMSG(MSGID=1593,
@@ -9041,7 +9041,7 @@ C-------------------------------------------------
       ENDIF
       CALL TRACE_OUT1()
 C-------------------------------------------------
-C     LISTE DES NOEUDS CORRESPONDANT A UN MILIEU POREUX
+C     LISTE DES NOEUDS CORRESPONDANT A ONE MILIEU POREUX
 C-------------------------------------------------
       ERR_MSG='POROUS NODES'
       ERR_CATEGORY='POROUS NODES'

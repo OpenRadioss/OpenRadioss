@@ -175,7 +175,7 @@ C-----------
                    S1 = GBUF%FOR(IJ(1)+I)                         
                    S2 = GBUF%FOR(IJ(2)+I)                         
                    S12= GBUF%FOR(IJ(3)+I)                         
-                   VONM2= S1*S1 + S2*S2 - S1*S2 + TROIS*S12*S12
+                   VONM2= S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12
                    WA(JJ) = SQRT(VONM2)
                   ELSE
                    WA(JJ) = ZERO
@@ -276,7 +276,7 @@ C-----------
                   IF (IHBE == 11) THEN   ! BATOZ
                     IF (ITY == 3) THEN
                       NPG =4
-                      FAC = QUART
+                      FAC = FOURTH
                     ELSEIF (ITY == 7) THEN          
                       NPG =3
                       FAC = THIRD
@@ -364,7 +364,7 @@ c----------
                   IF (IHBE == 11) THEN  ! BATOZ
                     IF (ITY == 3) THEN                                            
                       NPG = 4
-                      FAC = QUART
+                      FAC = FOURTH
                     ELSEIF(ITY == 7)THEN                                          
                       NPG = 3
                       FAC = THIRD
@@ -442,10 +442,10 @@ C  equivalent stress - other then VON MISES
                           LBUF2 => BUFLY%LBUF(2,1,IT)
                           LBUF3 => BUFLY%LBUF(1,2,IT)
                           LBUF4 => BUFLY%LBUF(2,2,IT)
-                          MEAN_GAUSS  = QUART*(LBUF1%SEQ(I) + LBUF2%SEQ(I) +
+                          MEAN_GAUSS  = FOURTH*(LBUF1%SEQ(I) + LBUF2%SEQ(I) +
      .                                         LBUF3%SEQ(I) + LBUF4%SEQ(I))
                           WA(JJ) = WA(JJ) + MEAN_GAUSS/NPTT
-cc                      WA(JJ) = QUART*(LBUF1%SEQ(I) + LBUF2%SEQ(I) +
+cc                      WA(JJ) = FOURTH*(LBUF1%SEQ(I) + LBUF2%SEQ(I) +
 cc     .                                LBUF3%SEQ(I) + LBUF4%SEQ(I))
                         ENDDO
                       ENDDO
@@ -469,7 +469,7 @@ cc                    IPT = IABS(NPT)/2 + 1
                       LBUF2 => BUFLY%LBUF(2,1,IPT)
                       LBUF3 => BUFLY%LBUF(1,2,IPT)
                       LBUF4 => BUFLY%LBUF(2,2,IPT)
-                      WA(JJ) = QUART*(LBUF1%SEQ(I) + LBUF2%SEQ(I) +
+                      WA(JJ) = FOURTH*(LBUF1%SEQ(I) + LBUF2%SEQ(I) +
      .                                LBUF3%SEQ(I) + LBUF4%SEQ(I))
                     ENDDO
                   ELSE  !  (NLAY = 1 .and. NPG = 1)
@@ -488,7 +488,7 @@ cc                    IPT = IABS(NPT)/2 + 1
                    S1 = GBUF%FOR(IJ(1)+I)
                    S2 = GBUF%FOR(IJ(2)+I)
                    S12= GBUF%FOR(IJ(3)+I)
-                   VONM2 = S1*S1 + S2*S2 - S1*S2 + TROIS*S12*S12
+                   VONM2 = S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12
                    WA(JJ) = SQRT(VONM2)
                   ENDDO
                  ENDIF  !  IF (GBUF%G_SEQ > 0) THEN

@@ -109,7 +109,7 @@ C
 C
 C     because 2*Mnodal = 2*Melement/8
       DO I=LFT,LLT
-        STI(I)=QUART*STI(I)
+        STI(I)=FOURTH*STI(I)
       END DO
 C
       IF(NVC1 == 0)THEN
@@ -326,7 +326,7 @@ C-----------------------------------------------
 C
 C     because 2*Mnodal = 2*Melement/8
       DO I=LFT,LLT
-        STI(I)=QUART*STI(I)
+        STI(I)=FOURTH*STI(I)
       END DO
 C
 cc       RETURN

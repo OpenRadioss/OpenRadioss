@@ -271,7 +271,7 @@ C
     	          MT=IXQ(1,N)
     	          MASS(I)=PM(89,MT)*GBUF%VOL(I)
     	        ELSE
-    	          OFF = MIN(GBUF%OFF(I),UN)
+    	          OFF = MIN(GBUF%OFF(I),ONE)
     	          MASS(I)=GBUF%RHO(I)*GBUF%VOL(I)*OFF
     	        ENDIF
     	      ENDDO
@@ -364,8 +364,8 @@ C--------------------------------------------------
                  S1 = GBUF%SIG(JJ(1) + I) + P
                  S2 = GBUF%SIG(JJ(2) + I) + P
                  S3 = GBUF%SIG(JJ(3) + I) + P
-                 VONM2 = TROIS*(GBUF%SIG(JJ(4) + I)**2
-     .                + UNDEMI*(S1**2+S2**2+S3**2) )
+                 VONM2 = THREE*(GBUF%SIG(JJ(4) + I)**2
+     .                + HALF*(S1**2+S2**2+S3**2) )
                  VALUE(I) = SQRT(VONM2)
                  IS_WRITTEN_VALUE(I) = 1
                ENDDO
@@ -425,9 +425,9 @@ C--------------------------------------------------
                       VY = MULTI_FVM%VEL(2, II)
                       VZ = MULTI_FVM%VEL(3, II)
                       IF(IV /=0)THEN                      
-                        VX = ZERO ! UNDEMI(VX + MULTI_FVM%VEL(1, IV))
-                        VY = UNDEMI*(VY + MULTI_FVM%VEL(2, IV))
-                        VZ = UNDEMI*(VZ + MULTI_FVM%VEL(3, IV))
+                        VX = ZERO ! HALF(VX + MULTI_FVM%VEL(1, IV))
+                        VY = HALF*(VY + MULTI_FVM%VEL(2, IV))
+                        VZ = HALF*(VZ + MULTI_FVM%VEL(3, IV))
                       ENDIF                        
                       CUMUL(1)=CUMUL(1)+SURF*(NY*VZ-NZ*VY)
                       !CUMUL(2)=CUMUL(2)+NZ*VX-NX*VZ
@@ -738,9 +738,9 @@ C--------------------------------------------------
                       CRIT = FF0*(S2 - S3)**2
      .                     + GG0*(S3 - S1)**2
      .                     + HH0*(S1 - S2)**2
-     .                     + DEUX*LL0*S5**2
-     .                     + DEUX*MM0*S6**2
-     .                     + DEUX*NN0*S4**2
+     .                     + TWO*LL0*S5**2
+     .                     + TWO*MM0*S6**2
+     .                     + TWO*NN0*S4**2
 !
                       VALUE(I) = SQRT(CRIT)
 		      IS_WRITTEN_VALUE(I) = 1
@@ -776,9 +776,9 @@ C--------------------------------------------------
                       CRIT = FF0*(S2 - S3)**2
      .                     + GG0*(S3 - S1)**2
      .                     + HH0*(S1 - S2)**2
-     .                     + DEUX*LL0*S5**2
-     .                     + DEUX*MM0*S6**2
-     .                     + DEUX*NN0*S4**2
+     .                     + TWO*LL0*S5**2
+     .                     + TWO*MM0*S6**2
+     .                     + TWO*NN0*S4**2
 !
                       VALUE(I) = SQRT(CRIT)
 		      IS_WRITTEN_VALUE(I) = 1
@@ -793,8 +793,8 @@ C--------------------------------------------------
                   S1 = GBUF%SIG(JJ(1) + I) + P
                   S2 = GBUF%SIG(JJ(2) + I) + P
                   S3 = GBUF%SIG(JJ(3) + I) + P
-                  VONM2 = TROIS*(GBUF%SIG(JJ(4) + I)**2
-     .                  + UNDEMI*(S1**2+S2**2+S3**2))
+                  VONM2 = THREE*(GBUF%SIG(JJ(4) + I)**2
+     .                  + HALF*(S1**2+S2**2+S3**2))
                   VALUE(I) = SQRT(VONM2)
 		  IS_WRITTEN_VALUE(I) = 1
                 ENDDO
@@ -971,13 +971,13 @@ C--------------------------------------------------
                 IF(IALEL ==0)THEN
                   MT = IXQ(1,NFT+1)
                   DO I=1,NEL
-                    VALUE(I) = PM(1,MT)*LBUF1%VOL(I)*DEUX*PI_
+                    VALUE(I) = PM(1,MT)*LBUF1%VOL(I)*TWO*PI_
                     IF(LBUF1%RHO(I).GT.ZERO)VALUE(I) = VALUE(I)/LBUF1%RHO(I)
 	            IS_WRITTEN_VALUE(I) = 1
                   ENDDO                
                 ELSE
                   DO I=1,NEL
-                    VALUE(I) = LBUF1%VOL(I)*DEUX*PI_
+                    VALUE(I) = LBUF1%VOL(I)*TWO*PI_
 	            IS_WRITTEN_VALUE(I) = 1
                   ENDDO  
                 ENDIF     
@@ -992,13 +992,13 @@ C--------------------------------------------------
                   IF(IALEL ==0)THEN
                     MT = IXQ(1,NFT+1)
                     DO I=1,NEL
-                      VALUE(I) = PM(1,MT)*LBUF2%VOL(I)*DEUX*PI_
+                      VALUE(I) = PM(1,MT)*LBUF2%VOL(I)*TWO*PI_
                       IF(LBUF2%RHO(I).GT.ZERO)VALUE(I) = VALUE(I)/LBUF2%RHO(I)
 	              IS_WRITTEN_VALUE(I) = 1
                     ENDDO                
                   ELSE
                     DO I=1,NEL
-                      VALUE(I) = LBUF2%VOL(I)*DEUX*PI_
+                      VALUE(I) = LBUF2%VOL(I)*TWO*PI_
 	              IS_WRITTEN_VALUE(I) = 1
                     ENDDO  
                   ENDIF     
@@ -1011,13 +1011,13 @@ C--------------------------------------------------
               IF(IALEL ==0)THEN                                           
                 MT = IXQ(1,NFT+1)                                         
                 DO I=1,NEL                                                
-                  VALUE(I) = PM(1,MT)*GBUF%VOL(I)*DEUX*PI_                
+                  VALUE(I) = PM(1,MT)*GBUF%VOL(I)*TWO*PI_                
                   IF(GBUF%RHO(I).GT.ZERO)VALUE(I) = VALUE(I)/GBUF%RHO(I)  
 	          IS_WRITTEN_VALUE(I) = 1                                 
                 ENDDO                                                     
               ELSE                                                        
                 DO I=1,NEL                                                
-                  VALUE(I) = GBUF%VOL(I)*DEUX*PI_                         
+                  VALUE(I) = GBUF%VOL(I)*TWO*PI_                         
 	          IS_WRITTEN_VALUE(I) = 1                                 
                 ENDDO                                                     
               ENDIF                                                       
@@ -1202,12 +1202,12 @@ C--------------------------------------------------
 C--------------------------------------------------                     
                 DO I=1,NEL
                   IF (GBUF%G_OFF > 0) THEN
-                    IF(GBUF%OFF(I) > UN) THEN
-                      VALUE(I) = GBUF%OFF(I) - UN
-                    ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= UN)) THEN
+                    IF(GBUF%OFF(I) > ONE) THEN
+                      VALUE(I) = GBUF%OFF(I) - ONE
+                    ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= ONE)) THEN
                       VALUE(I) = GBUF%OFF(I)
                     ELSE
-                      VALUE(I) = -UN
+                      VALUE(I) = -ONE
                     ENDIF
                   ENDIF
                   IS_WRITTEN_VALUE(I) = 1
@@ -1247,9 +1247,9 @@ C--------------------------------------------------
                         TMP(1,1:4)=V(1,IXQ(2:5,I+NFT))-W(1,IXQ(2:5,I+NFT))                                                     
                         TMP(2,1:4)=V(2,IXQ(2:5,I+NFT))-W(2,IXQ(2:5,I+NFT))                                                     
                         TMP(3,1:4)=V(3,IXQ(2:5,I+NFT))-W(3,IXQ(2:5,I+NFT))                                                     
-                        VEL(1) = SUM(TMP(1,1:4))*QUART                                                       
-                        VEL(2) = SUM(TMP(2,1:4))*QUART                                                       
-                        VEL(3) = SUM(TMP(3,1:4))*QUART                                                       
+                        VEL(1) = SUM(TMP(1,1:4))*FOURTH                                                       
+                        VEL(2) = SUM(TMP(2,1:4))*FOURTH                                                       
+                        VEL(3) = SUM(TMP(3,1:4))*FOURTH                                                       
                         VALUE(I) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)  
                         IS_WRITTEN_VALUE(I) = 1                                   
                       ENDDO
@@ -1259,9 +1259,9 @@ C--------------------------------------------------
                         TMP(1,1:4)=V(1,IXQ(2:5,I+NFT))                                                    
                         TMP(2,1:4)=V(2,IXQ(2:5,I+NFT))                                                    
                         TMP(3,1:4)=V(3,IXQ(2:5,I+NFT))                                                    
-                        VEL(1) = SUM(TMP(1,1:4))*QUART                                                       
-                        VEL(2) = SUM(TMP(2,1:4))*QUART                                                       
-                        VEL(3) = SUM(TMP(3,1:4))*QUART                                                       
+                        VEL(1) = SUM(TMP(1,1:4))*FOURTH                                                       
+                        VEL(2) = SUM(TMP(2,1:4))*FOURTH                                                       
+                        VEL(3) = SUM(TMP(3,1:4))*FOURTH                                                       
                         VALUE(I) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I) 
                         IS_WRITTEN_VALUE(I) = 1                                    
                       ENDDO

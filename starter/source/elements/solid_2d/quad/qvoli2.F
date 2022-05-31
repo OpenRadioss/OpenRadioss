@@ -77,7 +77,7 @@ C----------------------------------------------------------------------
      .         Y3(I)*(Z4(I)-Z2(I))+Y4(I)*(Z2(I)-Z3(I))
         A2(I) =Y2(I)*(Z4(I)-Z1(I))+
      .         Y4(I)*(Z1(I)-Z2(I))+Y1(I)*(Z2(I)-Z4(I))
-        AIRE(I)=(A1(I)+A2(I))* UNDEMI
+        AIRE(I)=(A1(I)+A2(I))* HALF
         IF (AIRE(I).EQ.ZERO) THEN
            CALL ANCMSG(MSGID=227,
      .                 MSGTYPE=MSGERROR,
@@ -96,7 +96,7 @@ C----------------------------------------------------------------------
       IF(N2D.EQ.1) THEN
         DO I=LFT,LLT
           VOLU(I)=((Y2(I)+Y3(I)+Y4(I))*A1(I)+
-     .             (Y1(I)+Y2(I)+Y4(I))*A2(I))* UNSIX
+     .             (Y1(I)+Y2(I)+Y4(I))*A2(I))* ONE_OVER_6
         END DO
       ELSE
         DO I=LFT,LLT

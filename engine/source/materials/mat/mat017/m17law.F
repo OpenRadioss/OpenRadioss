@@ -75,7 +75,7 @@ C
       ! SAUVEGARDE VORTICITE SI ANIM
       IF((ANIM_E(10).EQ.1 .OR. ANIM_SE(10).EQ.1).AND. DT1.NE.0.)THEN
 C      IF(ANIM_E(10).EQ.1.AND. DT1.NE.0.)THEN
-        FAC=QUATRE/DT1
+        FAC=FOUR/DT1
         IF(N2D.EQ.0)THEN
           DO 5 I=LFT,LLT
  5        VORTI(I)=FAC*SQRT(WXX(I)**2+WYY(I)**2+WZZ(I)**2)
@@ -137,7 +137,7 @@ C
       ENDIF
 C
       DO 30 I=LFT,LLT
-      VIS2(I)=DEUX*VIS(I)
+      VIS2(I)=TWO*VIS(I)
    30 DAV(I) =-(D1(I)+D2(I)+D3(I))*THIRD
 C------------------------------
 C     CONTRAINTES DEVIATORIQUES
@@ -152,12 +152,12 @@ C------------------------------
 C
       DO 50 I=LFT,LLT
       DF(I)  =RHO0(I)/RHO(I)
-      AMU(I) =UN/DF(I)-UN
+      AMU(I) =ONE/DF(I)-ONE
       AMU2(I)= MAX(ZERO,AMU(I))**2
    50 ESPE(I)=DF(I)*EINT(I)/VOLN(I)
 C
       DO 60 I=LFT,LLT
-      RK2T=DEUX*RK(I)/(TROIS*VOLN(I))
+      RK2T=TWO*RK(I)/(THREE*VOLN(I))
       DPDM(I) = DPDM(I)
      .     +(C5(I)+C6(I)*AMU(I))*DF(I)*DF(I)*RK2T + RK2T*DF(I)
    60 CONTINUE

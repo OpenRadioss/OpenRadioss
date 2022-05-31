@@ -226,13 +226,13 @@ C     Face normal
                ! ----------------------
 
                IF(ID_GLOBAL_VOIS_1<ID_GLOBAL_VOIS_2) THEN
-                    DIRECTION = UN
+                    DIRECTION = ONE
                     KFACE = KFACE_OLD
                     KFACE2 = KFACE2_OLD
                     I = I_OLD
                     JJ = J_OLD
                ELSE
-                    DIRECTION = -UN
+                    DIRECTION = -ONE
                     KFACE2 = KFACE_OLD
                     KFACE = KFACE2_OLD
                     I = J_OLD
@@ -463,9 +463,9 @@ C     Intermediate pressure
                IF (MIN(MACHII, MACHJJ) .LT. EM01) THEN
                   THETA = MIN(MACHII, MACHJJ)
                ELSE
-                  THETA = UN
+                  THETA = ONE
                ENDIF
-               PSTAR = (UN - THETA) * UNDEMI * (PII + PJJ) + THETA * PSTAR2
+               PSTAR = (ONE - THETA) * HALF * (PII + PJJ) + THETA * PSTAR2
                IF (MULTI_FVM%LOWMACH_OPT) THEN
                   PP(1) = ZERO
                   PP(2) = PSTAR * NX
@@ -485,7 +485,7 @@ C     Intermediate pressure
                   VII(2) = RHOII * VXII
                   VII(3) = RHOII * VYII
                   VII(4) = RHOII * VZII
-                  VII(5) = EINTII + UNDEMI * RHOII * VELII2
+                  VII(5) = EINTII + HALF * RHOII * VELII2
 !     Normal physical flux curent element
                   FII(1) = VII(1) * NORMAL_VELII
                   FII(2) = VII(2) * NORMAL_VELII + PII * NX
@@ -522,7 +522,7 @@ C
                   VII(2) = RHOII * VXII
                   VII(3) = RHOII * VYII
                   VII(4) = RHOII * VZII
-                  VII(5) = EINTII + UNDEMI * RHOII * VELII2
+                  VII(5) = EINTII + HALF * RHOII * VELII2
 !     Normal physical flux curent element
                   FII(1) = VII(1) * NORMAL_VELII
                   FII(2) = VII(2) * NORMAL_VELII + PII * NX
@@ -550,7 +550,7 @@ C     Submaterial fluxes
                            SUB_RHOEINTII = PHASE_EINTII(IMAT)
                            SUB_PII = PHASE_PRESII(IMAT)
                            SUB_ESTAR = PHASE_EINTII(IMAT) / PHASE_RHOII(IMAT) - 
-     .                          PHASE_PRESII(IMAT) * (UN / SUB_RHOSTAR - UN / PHASE_RHOII(IMAT)) 
+     .                          PHASE_PRESII(IMAT) * (ONE / SUB_RHOSTAR - ONE / PHASE_RHOII(IMAT)) 
 
                            IF (SUB_ESTAR .LT. ZERO) THEN
                               SUB_ESTAR = ZERO
@@ -577,7 +577,7 @@ C     Submaterial fluxes
                   VII(2) = RHOJJ * VXJJ
                   VII(3) = RHOJJ * VYJJ
                   VII(4) = RHOJJ * VZJJ
-                  VII(5) = EINTJJ + UNDEMI * RHOJJ * VELJJ2
+                  VII(5) = EINTJJ + HALF * RHOJJ * VELJJ2
 !     Normal physical flux curent element
                   FII(1) = VII(1) * NORMAL_VELJJ
                   FII(2) = VII(2) * NORMAL_VELJJ + PJJ * NX
@@ -605,7 +605,7 @@ C     Submaterial fluxes
                            SUB_RHOEINTII = PHASE_EINTJJ(IMAT)
                            SUB_PII = PHASE_PRESJJ(IMAT)
                            SUB_ESTAR = PHASE_EINTJJ(IMAT) / PHASE_RHOJJ(IMAT) - 
-     .                          PHASE_PRESJJ(IMAT) * (UN / SUB_RHOSTAR - UN / PHASE_RHOJJ(IMAT)) 
+     .                          PHASE_PRESJJ(IMAT) * (ONE / SUB_RHOSTAR - ONE / PHASE_RHOJJ(IMAT)) 
                            IF (SUB_ESTAR .LT. ZERO) THEN
                               SUB_ESTAR = ZERO
                            ENDIF
@@ -630,7 +630,7 @@ C     Submaterial fluxes
                   VII(2) = RHOJJ * VXJJ
                   VII(3) = RHOJJ * VYJJ
                   VII(4) = RHOJJ * VZJJ
-                  VII(5) = EINTJJ + UNDEMI * RHOJJ * VELJJ2
+                  VII(5) = EINTJJ + HALF * RHOJJ * VELJJ2
 !     Normal physical flux curent element
                   FII(1) = VII(1) * NORMAL_VELJJ
                   FII(2) = VII(2) * NORMAL_VELJJ + PJJ * NX
@@ -691,8 +691,8 @@ C
                SSP = MULTI_FVM%SOUND_SPEED(ELEMID)
                RHO = MULTI_FVM%RHO(ELEMID)
 C     HLL wave speed estimates
-               SL = MIN(NORMVEL - SSP, DEUX * NORMALW - NORMVEL - SSP)
-               SR = MAX(NORMVEL + SSP, DEUX * NORMALW - NORMVEL + SSP)
+               SL = MIN(NORMVEL - SSP, TWO * NORMALW - NORMVEL - SSP)
+               SR = MAX(NORMVEL + SSP, TWO * NORMALW - NORMVEL + SSP)
 
 C     Intermediate wave speed
                SSTAR = NORMALW
@@ -757,10 +757,10 @@ C-----------------------------------------------
       
       MAX_ITER = 50
       TOL = EM06
-      ERROR = UN
+      ERROR = ONE
       
 C     Dummy
-      VOL = UN
+      VOL = ONE
 
 C     Initialization
       TEMP = ZERO

@@ -61,10 +61,10 @@ C=======================================================================
 C
           SS=CRST(1,II)                           
           TT=CRST(2,II)
-          SP=UN + SS                              
-          SM=UN - SS                              
-          TP=QUART*(UN + TT)                      
-          TM=QUART*(UN - TT)                      
+          SP=ONE + SS                              
+          SM=ONE - SS                              
+          TP=FOURTH*(ONE + TT)                      
+          TM=FOURTH*(ONE - TT)                      
           H1=TM*SM                                
           H2=TM*SP                                
           H3=TP*SP                                
@@ -73,10 +73,10 @@ C
 C        Additional shape functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
           SS=CSTS_BIS(1,II)                           
           TT=CSTS_BIS(2,II)
-          SP=UN + SS                              
-          SM=UN - SS                              
-          TP=QUART*(UN + TT)                      
-          TM=QUART*(UN - TT)                      
+          SP=ONE + SS                              
+          SM=ONE - SS                              
+          TP=FOURTH*(ONE + TT)                      
+          TM=FOURTH*(ONE - TT)                      
           H21=TM*SM                                
           H22=TM*SP                                
           H23=TP*SP                                
@@ -274,10 +274,10 @@ C
 C
               SS=CRST(1,II)
               TT=CRST(2,II)
-              SP=UN + SS
-              SM=UN - SS
-              TP=QUART*(UN + TT)
-              TM=QUART*(UN - TT)
+              SP=ONE + SS
+              SM=ONE - SS
+              TP=FOURTH*(ONE + TT)
+              TM=FOURTH*(ONE - TT)
               H1=TM*SM
               H2=TM*SP
               H3=TP*SP
@@ -286,10 +286,10 @@ C
 C        Additional shape functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
               SS=CSTS_BIS(1,II)                           
               TT=CSTS_BIS(2,II)
-              SP=UN + SS                              
-              SM=UN - SS                              
-              TP=QUART*(UN + TT)                      
-              TM=QUART*(UN - TT)                      
+              SP=ONE + SS                              
+              SM=ONE - SS                              
+              TP=FOURTH*(ONE + TT)                      
+              TM=FOURTH*(ONE - TT)                      
               H21=TM*SM                                
               H22=TM*SP                                
               H23=TP*SP                                

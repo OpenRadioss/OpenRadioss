@@ -119,7 +119,7 @@ C-----------------------------------------------
       IF (DT1.EQ.ZERO) THEN
         DT1INV=ZERO
       ELSE
-        DT1INV=UN/DT1
+        DT1INV=ONE/DT1
       END IF
 C-----------------------------------------------
       IF (IPARIT.NE.0) THEN
@@ -166,7 +166,7 @@ C----------------------------------------------------------
         IL=KSC(I+NDEB)
         IN=KSI(IL)
         IF(IMPACT(IL).GT.0)THEN
-         ST(I)=STF+DEUX*WST(IN)*DT1INV
+         ST(I)=STF+TWO*WST(IN)*DT1INV
         ELSE
          ST(I)=ZERO
         ENDIF
@@ -425,14 +425,14 @@ C-------------------------------
 C     nouvelle normale.
 C-------------------------------
       XPVN1 =XQ(1,I)**(DGR-1)
-      SGNXN=-UN
-      IF (XPVN1*XQ(1,I).GE.ZERO) SGNXN=UN
+      SGNXN=-ONE
+      IF (XPVN1*XQ(1,I).GE.ZERO) SGNXN=ONE
       YPVN1 =XQ(2,I)**(DGR-1)
-      SGNYN=-UN
-      IF (YPVN1*XQ(2,I).GE.ZERO) SGNYN=UN
+      SGNYN=-ONE
+      IF (YPVN1*XQ(2,I).GE.ZERO) SGNYN=ONE
       ZPVN1 =XQ(3,I)**(DGR-1)
-      SGNZN=-UN
-      IF (ZPVN1*XQ(3,I).GE.ZERO) SGNZN=UN     
+      SGNZN=-ONE
+      IF (ZPVN1*XQ(3,I).GE.ZERO) SGNZN=ONE     
       N1 =SGNXN*XPVN1*AN
       N2 =SGNYN*YPVN1*BN
       N3 =SGNZN*ZPVN1*CN
@@ -513,7 +513,7 @@ C----------------------------------------------------------
        DO I=1,MIN(MVSIZ,NREST)
        IL=KSP(I+NDEB)
        IN=KSI(IL)
-       ST(I)=STF+DEUX*WST(IN)*DT1INV
+       ST(I)=STF+TWO*WST(IN)*DT1INV
        ENDDO
       ELSE
        DO I=1,MIN(MVSIZ,NREST)
@@ -641,11 +641,11 @@ C---------------------------------
 C---------------------------------
 C     Travail des forces d'interface avec Madymo.
 C---------------------------------
-      FS(7)=FS(7)+DE*DT1*UNDEMI
+      FS(7)=FS(7)+DE*DT1*HALF
       IF (IGRSURF(KSURF)%TYPE.EQ.100) THEN
 C     Sorties Ellipdoides Madymo.
 #include "atomic.inc"
-          TFEXT=TFEXT+DE*DT1*UNDEMI
+          TFEXT=TFEXT+DE*DT1*HALF
 #include "atomend.inc"
       ENDIF
 C------------------------------------------------------------

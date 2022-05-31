@@ -93,8 +93,8 @@ C-----------------------------------------------
        DO I=LFT,LLT
          CX(I)=SSP(I)+SQRT(VD2(I))
        ENDDO
-       VISI=UN
-       FACQ=UN
+       VISI=ONE
+       FACQ=ONE
       ELSE
        DO I=LFT,LLT
          CX(I)=SQRT(VD2(I))
@@ -119,7 +119,7 @@ C-----------------------------------------------
         CNS2=GEO(17,PID(I))*SSP(I)*AL(I)*RHO(I)
         PSH(I)=PM(88,MT)
         PNEW(I)=ZERO
-        QXMATER(I)=CNS1*SSP(I) + VISI*(DEUX*VIS(I)+CNS2) / MAX(EM20,RHO(I)*DELTAX(I))
+        QXMATER(I)=CNS1*SSP(I) + VISI*(TWO*VIS(I)+CNS2) / MAX(EM20,RHO(I)*DELTAX(I))
         QX(I)=QB*SSP(I) + QA*MUMAX(I) + QXMATER(I)
         QVIS(I)=ZERO
       ENDDO
@@ -149,16 +149,16 @@ C-----------------------------------------------
           TMU = PM(81,MT)
           RPR = PM(95,MT)
           ATU=RPR*TMU*RK(I)*RK(I)/(MAX(EM15,RE(I)*VOL(I))*XMU)
-          AKK=AKK*(UN + ATU)
+          AKK=AKK*(ONE + ATU)
          ENDIF
-         DTX(I) = MIN(DTX(I),UNDEMI*DELTAX(I)*DELTAX(I)*SPH/AKK)
+         DTX(I) = MIN(DTX(I),HALF*DELTAX(I)*DELTAX(I)*SPH/AKK)
         ENDDO       
       ENDIF
 
       DO I=LFT,LLT
         STI(I) = ZERO
         IF(OFF(I).EQ.ZERO) CYCLE
-        STI(I) = DEUX*RHO(I) * VOL(I) / (DTX(I)*DTX(I))
+        STI(I) = TWO*RHO(I) * VOL(I) / (DTX(I)*DTX(I))
         DTX(I)= DTFAC1(ITY)*DTX(I)
         !dt2 remplace par dt2t
         IF(NODADT.EQ.0)DT2T= MIN(DTX(I),DT2T)

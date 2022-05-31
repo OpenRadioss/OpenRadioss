@@ -112,10 +112,10 @@ C-----------------------------------------------
         IN(8)             = IXS(9,II)
 #include "lockon.inc"         
         DO K=1,8
-          VERTEX(1,IN(K)) = VERTEX(1,IN(K)) + MOM(I,1)/HUIT 
-          VERTEX(2,IN(K)) = VERTEX(2,IN(K)) + MOM(I,2)/HUIT
-          VERTEX(3,IN(K)) = VERTEX(3,IN(K)) + MOM(I,3)/HUIT		   
-          VERTEX(4,IN(K)) = VERTEX(4,IN(K)) + UN
+          VERTEX(1,IN(K)) = VERTEX(1,IN(K)) + MOM(I,1)/EIGHT 
+          VERTEX(2,IN(K)) = VERTEX(2,IN(K)) + MOM(I,2)/EIGHT
+          VERTEX(3,IN(K)) = VERTEX(3,IN(K)) + MOM(I,3)/EIGHT		   
+          VERTEX(4,IN(K)) = VERTEX(4,IN(K)) + ONE
         ENDDO
 #include "lockoff.inc"
       ENDDO        

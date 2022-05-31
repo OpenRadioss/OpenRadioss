@@ -87,7 +87,7 @@ C-----------------------------------------------
       NY = Z13*X24 - X13*Z24
       NZ = X13*Y24 - Y13*X24
 
-      AAA=UN/MAX(EM30,SQRT(NX*NX+NY*NY+NZ*NZ))
+      AAA=ONE/MAX(EM30,SQRT(NX*NX+NY*NY+NZ*NZ))
       NX = NX * AAA
       NY = NY * AAA
       NZ = NZ * AAA
@@ -176,7 +176,7 @@ C-----------------------------------------------
       NY = Z12*X13 - X12*Z13
       NZ = X12*Y13 - Y12*X13
 
-      AAA=UN/MAX(EM30,SQRT(NX*NX+NY*NY+NZ*NZ))
+      AAA=ONE/MAX(EM30,SQRT(NX*NX+NY*NY+NZ*NZ))
       NX = NX * AAA
       NY = NY * AAA
       NZ = NZ * AAA

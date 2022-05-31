@@ -67,7 +67,7 @@ c___________________________________________________
           I8F(2,I)   = R8_LOCAL
           AA         = I8F(2,I)
           R8_LOCAL   = (R8_LOCAL - AA) * R8_DEUXP43
-          I8F(3,I)   = R8_LOCAL + UNDEMI
+          I8F(3,I)   = R8_LOCAL + HALF
       ENDDO
 c___________________________________________________          
       RETURN
@@ -355,9 +355,9 @@ c--------------------------------------------
             THICKT = GEO(200,IPROP)
             THKLY  = GEO(I1,IPROP)*THICKT
             MATLY  = IGEO(I2,IPROP)
-            EMS(I) = EMS(I) + PM(89,MATLY)*THKLY*AREA(I)*QUART
+            EMS(I) = EMS(I) + PM(89,MATLY)*THKLY*AREA(I)*FOURTH
           ENDDO
-          MST = RHO(I)*THK(I)*AREA(I)*QUART
+          MST = RHO(I)*THK(I)*AREA(I)*FOURTH
           DMS = ABS(EMS(I)-MST)/MST
 C! for igty=11 ---> IGMAT=-1 (old G-mat), 1 for new g-mat
 C! for igtyp=16 --->IGMAT= 0
@@ -400,22 +400,22 @@ C
               THICKT = STACK%GEO(1 ,ISUBSTACK)
               THKLY  = STACK%GEO(I3 ,ISUBSTACK)*THICKT
               MATLY  = STACK%IGEO(I2,ISUBSTACK)
-              EMS(I) = EMS(I) + PM(89,MATLY)*THKLY*AREA(I)*QUART
-              EMS_LAYER(I,N) =  PM(89,MATLY)*THKLY*AREA(I)*QUART
+              EMS(I) = EMS(I) + PM(89,MATLY)*THKLY*AREA(I)*FOURTH
+              EMS_LAYER(I,N) =  PM(89,MATLY)*THKLY*AREA(I)*FOURTH
               MZI = MZI + EMS_LAYER(I,N)*STACK%GEO(I4 ,ISUBSTACK)
             ELSE
               IF ( DRAPE(I+NFT)%IDRAPE(N) == 0) THEN
                 THICKT = STACK%GEO(1 ,ISUBSTACK)
                 THKLY  = STACK%GEO(I3 ,ISUBSTACK)*THICKT
                 MATLY  = STACK%IGEO(I2,ISUBSTACK)
-                EMS(I) = EMS(I) + PM(89,MATLY)*THKLY*AREA(I)*QUART
-                EMS_LAYER(I,N) =  PM(89,MATLY)*THKLY*AREA(I)*QUART
+                EMS(I) = EMS(I) + PM(89,MATLY)*THKLY*AREA(I)*FOURTH
+                EMS_LAYER(I,N) =  PM(89,MATLY)*THKLY*AREA(I)*FOURTH
                 RATIO_THKLY(N,I) = THKLY/THK(I)
                 IF (N == 1) THEN
-                  LAYPOS(N,I) = -UNDEMI + UNDEMI*RATIO_THKLY(N,I)
+                  LAYPOS(N,I) = -HALF + HALF*RATIO_THKLY(N,I)
                 ELSE
                   LAYPOS(N,I) = LAYPOS(N-1,I)            
-     .              + UNDEMI*(RATIO_THKLY(N,I)+RATIO_THKLY(N-1,I))
+     .              + HALF*(RATIO_THKLY(N,I)+RATIO_THKLY(N-1,I))
                 ENDIF ! IF (N == 1)
                 MZI = MZI + EMS_LAYER(I,N)*LAYPOS(N,I)
               ELSEIF (DRAPE(I+NFT)%IDRAPE(N) > 0) THEN
@@ -424,14 +424,14 @@ C
                 THKLY  = STACK%GEO(I3 ,ISUBSTACK)*THICKT ! initial
                 THKLY  = THKLY*THINNING
                 MATLY  = STACK%IGEO(I2,ISUBSTACK)
-                EMS(I) = EMS(I) + PM(89,MATLY)*THKLY*AREA(I)*QUART
-                EMS_LAYER(I,N) =  PM(89,MATLY)*THKLY*AREA(I)*QUART
+                EMS(I) = EMS(I) + PM(89,MATLY)*THKLY*AREA(I)*FOURTH
+                EMS_LAYER(I,N) =  PM(89,MATLY)*THKLY*AREA(I)*FOURTH
                 RATIO_THKLY(N,I) = THKLY/THK(I)
                 IF (N == 1) THEN
-                  LAYPOS(N,I) = -UNDEMI + UNDEMI*RATIO_THKLY(N,I)
+                  LAYPOS(N,I) = -HALF + HALF*RATIO_THKLY(N,I)
                 ELSE
                   LAYPOS(N,I) = LAYPOS(N-1,I)            
-     .              + UNDEMI*(RATIO_THKLY(N,I)+RATIO_THKLY(N-1,I))
+     .              + HALF*(RATIO_THKLY(N,I)+RATIO_THKLY(N-1,I))
                 ENDIF ! IF (N == 1)
                 MZI = MZI + EMS_LAYER(I,N)*LAYPOS(N,I)
               ENDIF ! IF (IDRAPE(N,I) == 0)
@@ -439,7 +439,7 @@ C
             IPID   = STACK%IGEO(I1, ISUBSTACK)
             ISTACK(I,N) = IGEO(102,IPID)
           ENDDO
-          MST = RHO(I)*THK(I)*AREA(I)*QUART
+          MST = RHO(I)*THK(I)*AREA(I)*FOURTH
           DMS = ABS(EMS(I)-MST)/MST
            IF(DMS  > EM02) ERRM = 1
            IF(IGMAT <= 0) THEN  
@@ -504,10 +504,10 @@ C
                 MATLY   = STACK%IGEO(I2,ISUBSTACK)
                 RATIO_THKLY(ILAY,I) = THKLY/THK(I)
                 IF (ILAY == 1) THEN
-                  LAYPOS(ILAY,I) = -UNDEMI + UNDEMI*RATIO_THKLY(ILAY,I)
+                  LAYPOS(ILAY,I) = -HALF + HALF*RATIO_THKLY(ILAY,I)
                 ELSE
                   LAYPOS(ILAY,I) = LAYPOS(ILAY-1,I)            
-     .              + UNDEMI*(RATIO_THKLY(ILAY,I)+RATIO_THKLY(ILAY-1,I))
+     .              + HALF*(RATIO_THKLY(ILAY,I)+RATIO_THKLY(ILAY-1,I))
                 ENDIF ! IF (ILAY == 1)
                 POSLY   = LAYPOS(ILAY,I)*THK(I)
               ELSEIF (DRAPE(I+NFT)%IDRAPE(ILAY) > 0) THEN
@@ -519,10 +519,10 @@ C
                 MATLY   = STACK%IGEO(I2,ISUBSTACK)
                 RATIO_THKLY(ILAY,I) = THKLY/THK(I)
                 IF (ILAY == 1) THEN
-                  LAYPOS(ILAY,I) = -UNDEMI + UNDEMI*RATIO_THKLY(ILAY,I)
+                  LAYPOS(ILAY,I) = -HALF + HALF*RATIO_THKLY(ILAY,I)
                 ELSE
                   LAYPOS(ILAY,I) = LAYPOS(ILAY-1,I)            
-     .              + UNDEMI*(RATIO_THKLY(ILAY,I)+RATIO_THKLY(ILAY-1,I))
+     .              + HALF*(RATIO_THKLY(ILAY,I)+RATIO_THKLY(ILAY-1,I))
                 ENDIF ! IF (ILAY == 1)
                 POSLY   = LAYPOS(ILAY,I)*THK(I)
               ENDIF ! IF (IDRAPE(ILAY,I) == 0)
@@ -536,28 +536,28 @@ C----
                 THK_IT(IT) = THKLY/NPTT  ! equally distribution of NPTT through layer
               ENDDO 
 C 
-              POS_0 = POSLY - UNDEMI*THKLY
-              IF (NLAY == 1) POS_0 = - UNDEMI*THKLY !! special case
-              POS_IT(1) = POS_0 + UNDEMI*THK_IT(1)
-cc              POS_IT(1) = POSLY - UNDEMI*THKLY + UNDEMI*THK_IT(1)
+              POS_0 = POSLY - HALF*THKLY
+              IF (NLAY == 1) POS_0 = - HALF*THKLY !! special case
+              POS_IT(1) = POS_0 + HALF*THK_IT(1)
+cc              POS_IT(1) = POSLY - HALF*THKLY + HALF*THK_IT(1)
               DO IT=2,NPTT
-                POS_IT(IT) = POS_IT(IT-1) + UNDEMI*(THK_IT(IT) + THK_IT(IT-1))
+                POS_IT(IT) = POS_IT(IT-1) + HALF*(THK_IT(IT) + THK_IT(IT-1))
               ENDDO
             ELSEIF (IINT == 2) THEN  !  Gauss distribution
               DO IT=1,NPTT
-                THK_IT(IT) = UNDEMI*THKLY*W_GAUSS(IT,NPTT)
-                POS_IT(IT) = POSLY + UNDEMI*THKLY*A_GAUSS(IT,NPTT)
+                THK_IT(IT) = HALF*THKLY*W_GAUSS(IT,NPTT)
+                POS_IT(IT) = POSLY + HALF*THKLY*A_GAUSS(IT,NPTT)
               ENDDO
             ENDIF
 C
             DO IT=1,NPTT
-              EMS_NPTT = PM(89,MATLY)*THK_IT(IT)*AREA(I)*QUART
+              EMS_NPTT = PM(89,MATLY)*THK_IT(IT)*AREA(I)*FOURTH
               EMS(I) = EMS(I) + EMS_NPTT
               MZI = MZI + EMS_NPTT * POS_IT(IT)/THK(I)
             ENDDO
 C----  
           ENDDO
-          MST = RHO(I)*THK(I)*AREA(I)*QUART
+          MST = RHO(I)*THK(I)*AREA(I)*FOURTH
           DMS = ABS(EMS(I)-MST)/MST
           IF (DMS  > EM02) ERRM = 1
           IF(IGTYP == 51 .AND. IGMAT < 0) THEN 
@@ -590,19 +590,19 @@ C correction la position de la surface neutre au CDG
 C------
         IF( JTHE > 0 ) THEN
            DO I=LFT,LLT
-              EMSCP(I)=RHOCP(I)*THK(I)*AREA(I)*QUART  
+              EMSCP(I)=RHOCP(I)*THK(I)*AREA(I)*FOURTH  
            ENDDO
         ENDIF
 c--------------------------------------------
       ELSE  ! IGTYP
 c--------------------------------------------
         DO I=LFT,LLT
-          EMS(I)=RHO(I)*THK(I)*AREA(I)*QUART
+          EMS(I)=RHO(I)*THK(I)*AREA(I)*FOURTH
         ENDDO
 C
         IF( JTHE > 0 ) THEN
           DO I=LFT,LLT
-            EMSCP(I) = RHOCP(I)*THK(I)*AREA(I)*QUART
+            EMSCP(I) = RHOCP(I)*THK(I)*AREA(I)*FOURTH
           ENDDO
         ENDIF  
 C
@@ -673,9 +673,9 @@ C----------------------------------------------
       IF(INER_9_12 /= ZERO)THEN
         FAC=INER_9_12
       ELSEIF(IHBE.GE.11)THEN
-        FAC=DOUZE
+        FAC=TWELVE
       ELSE
-        FAC=NEUF
+        FAC=NINE
       ENDIF
       IF (IGTYP == 11 .OR. IGTYP == 16) THEN
         IPTHK = 300
@@ -690,8 +690,8 @@ C----------------------------------------------
             POSLY = GEO(I3,IPROP)*THICKT
             I2=IPMAT+N
             MATLY = IGEO(I2,IPROP)
-            MSL   = PM(89,MATLY)*THKLY*AREA(I)*QUART
-            XIL   = MSL*(AREA(I)/FAC+THKLY*THKLY*UNDOUZE+POSLY*POSLY)
+            MSL   = PM(89,MATLY)*THKLY*AREA(I)*FOURTH
+            XIL   = MSL*(AREA(I)/FAC+THKLY*THKLY*ONE_OVER_12+POSLY*POSLY)
             XI(I) = XI(I) + XIL
           ENDDO
         ENDDO
@@ -722,10 +722,10 @@ C
                 MATLY = STACK%IGEO(I2 ,ISUBSTACK)
                 RATIO_THKLY(N,I) = THKLY/THK(I)
                 IF (N == 1) THEN
-                  LAYPOS(N,I) = -UNDEMI + UNDEMI*RATIO_THKLY(N,I)
+                  LAYPOS(N,I) = -HALF + HALF*RATIO_THKLY(N,I)
                 ELSE
                   LAYPOS(N,I) = LAYPOS(N-1,I)            
-     .              + UNDEMI*(RATIO_THKLY(N,I)+RATIO_THKLY(N-1,I))
+     .              + HALF*(RATIO_THKLY(N,I)+RATIO_THKLY(N-1,I))
                 ENDIF ! IF (N == 1)
                 POSLY = LAYPOS(N,I)*THK(I)
               ELSEIF (DRAPE(I+NFT)%IDRAPE(N) > 0) THEN
@@ -736,16 +736,16 @@ C
                 MATLY  = STACK%IGEO(I2,ISUBSTACK)
                 RATIO_THKLY(N,I) = THKLY/THK(I)
                 IF (N == 1) THEN
-                  LAYPOS(N,I) = -UNDEMI + UNDEMI*RATIO_THKLY(N,I)
+                  LAYPOS(N,I) = -HALF + HALF*RATIO_THKLY(N,I)
                 ELSE
                   LAYPOS(N,I) = LAYPOS(N-1,I)            
-     .              + UNDEMI*(RATIO_THKLY(N,I)+RATIO_THKLY(N-1,I))
+     .              + HALF*(RATIO_THKLY(N,I)+RATIO_THKLY(N-1,I))
                 ENDIF ! IF (N == 1)
                 POSLY = LAYPOS(N,I)*THK(I)
               ENDIF ! IF (IDRAPE(N,I) == 0)
             ENDIF ! IF (NDRAPE == 0) THEN
-            MSL   = PM(89,MATLY)*THKLY*AREA(I)*QUART
-            XIL   = MSL*(AREA(I)/FAC+THKLY*THKLY*UNDOUZE+POSLY*POSLY)
+            MSL   = PM(89,MATLY)*THKLY*AREA(I)*FOURTH
+            XIL   = MSL*(AREA(I)/FAC+THKLY*THKLY*ONE_OVER_12+POSLY*POSLY)
             XI(I) = XI(I) + XIL
           ENDDO  
         ENDDO        
@@ -778,10 +778,10 @@ C
                 THKLY   = STACK%GEO(I3,ISUBSTACK)*THICKT
                 RATIO_THKLY(ILAY,I) = THKLY/THK(I)
                 IF (ILAY == 1) THEN
-                  LAYPOS(ILAY,I) = -UNDEMI + UNDEMI*RATIO_THKLY(ILAY,I)
+                  LAYPOS(ILAY,I) = -HALF + HALF*RATIO_THKLY(ILAY,I)
                 ELSE
                   LAYPOS(ILAY,I) = LAYPOS(ILAY-1,I)            
-     .              + UNDEMI*(RATIO_THKLY(ILAY,I) + RATIO_THKLY(ILAY-1,I))
+     .              + HALF*(RATIO_THKLY(ILAY,I) + RATIO_THKLY(ILAY-1,I))
                 ENDIF ! IF (N == 1)
                 POSLY = LAYPOS(ILAY,I)*THK(I)
               ELSEIF (DRAPE(I+NFT)%IDRAPE(ILAY) > 0) THEN
@@ -791,10 +791,10 @@ C
                 THKLY  = THKLY*THINNING ! reset layer thk by /DRAPE
                 RATIO_THKLY(ILAY,I) = THKLY/THK(I)
                 IF (ILAY == 1) THEN
-                  LAYPOS(ILAY,I) = -UNDEMI + UNDEMI*RATIO_THKLY(ILAY,I)
+                  LAYPOS(ILAY,I) = -HALF + HALF*RATIO_THKLY(ILAY,I)
                 ELSE
                   LAYPOS(ILAY,I) = LAYPOS(ILAY-1,I)            
-     .              + UNDEMI*(RATIO_THKLY(ILAY,I)+RATIO_THKLY(ILAY-1,I))
+     .              + HALF*(RATIO_THKLY(ILAY,I)+RATIO_THKLY(ILAY-1,I))
                 ENDIF ! IF (N == 1)
                 POSLY = LAYPOS(ILAY,I)*THK(I)
               ENDIF ! IF (IDRAPE(N,I) == 0)
@@ -808,23 +808,23 @@ C----
                 THK_IT(IT) = THKLY/NPTT  ! equally distribution of NPTT through layer
               ENDDO 
 C
-              POS_0 = POSLY - UNDEMI*THKLY
-              IF (NLAY == 1) POS_0 = - UNDEMI*THKLY !! special case
-              POS_IT(1) = POS_0 + UNDEMI*THK_IT(1)
-cc              POS_IT(1) = POSLY - UNDEMI*THKLY + UNDEMI*THK_IT(1)
+              POS_0 = POSLY - HALF*THKLY
+              IF (NLAY == 1) POS_0 = - HALF*THKLY !! special case
+              POS_IT(1) = POS_0 + HALF*THK_IT(1)
+cc              POS_IT(1) = POSLY - HALF*THKLY + HALF*THK_IT(1)
               DO IT=2,NPTT
-                POS_IT(IT) = POS_IT(IT-1) + UNDEMI*(THK_IT(IT) + THK_IT(IT-1))
+                POS_IT(IT) = POS_IT(IT-1) + HALF*(THK_IT(IT) + THK_IT(IT-1))
               ENDDO
             ELSEIF (IINT == 2) THEN !  Gauss distribution
               DO IT=1,NPTT
-                THK_IT(IT) = UNDEMI*THKLY*W_GAUSS(IT,NPTT)
-                POS_IT(IT) = POSLY + UNDEMI*THKLY*A_GAUSS(IT,NPTT)
+                THK_IT(IT) = HALF*THKLY*W_GAUSS(IT,NPTT)
+                POS_IT(IT) = POSLY + HALF*THKLY*A_GAUSS(IT,NPTT)
               ENDDO
             ENDIF
 C
             DO IT=1,NPTT
-              MS_NPTT = PM(89,MATLY)*THK_IT(IT)*AREA(I)*QUART
-              XIL = MS_NPTT*(AREA(I)/FAC+THK_IT(IT)*THK_IT(IT)*UNDOUZE+
+              MS_NPTT = PM(89,MATLY)*THK_IT(IT)*AREA(I)*FOURTH
+              XIL = MS_NPTT*(AREA(I)/FAC+THK_IT(IT)*THK_IT(IT)*ONE_OVER_12+
      .                       POS_IT(IT)*POS_IT(IT))
               XI(I) = XI(I) + XIL
             ENDDO
@@ -832,7 +832,7 @@ C
          ENDDO
       ELSE
         DO I=LFT,LLT
-          XI(I)=EMS(I)*(AREA(I)/FAC+THK(I)*THK(I)*UNDOUZE)
+          XI(I)=EMS(I)*(AREA(I)/FAC+THK(I)*THK(I)*ONE_OVER_12)
         ENDDO
       ENDIF
 C---  check stability condition
@@ -840,7 +840,7 @@ C---  check stability condition
      .                                 .OR. IGTYP == 51)THEN
        IF(IGMAT <= 0) THEN ! 
          DO I=LFT,LLT
-          INS = EMS(I)*(AREA(I)/FAC+THK(I)*THK(I)*UNDOUZE)
+          INS = EMS(I)*(AREA(I)/FAC+THK(I)*THK(I)*ONE_OVER_12)
           DMS = ABS(XI(I)-INS)/INS
           IF(DMS .GT. EM02) THEN
             IDPROP = IGEO(1,IPROP)
@@ -942,7 +942,7 @@ C-----------------------
           I4 = IX4(I)
           IP = IPART(I)
 C
-          PARTSAV(1,IP)=PARTSAV(1,IP) + QUATRE*EMS(I)
+          PARTSAV(1,IP)=PARTSAV(1,IP) + FOUR*EMS(I)
           PARTSAV(2,IP)=PARTSAV(2,IP) + EMS(I)*
      .         (X(1,I1)+X(1,I2)+X(1,I3)+X(1,I4))
           PARTSAV(3,IP)=PARTSAV(3,IP) + EMS(I)*
@@ -962,9 +962,9 @@ C
           ZX = (X(3,I1)*X(1,I1)+X(3,I2)*X(1,I2)
      .         +X(3,I3)*X(1,I3)+X(3,I4)*X(1,I4))
 C
-          PARTSAV(5,IP) =PARTSAV(5,IP) + QUATRE*XI(I) + EMS(I) * (YY+ZZ)
-          PARTSAV(6,IP) =PARTSAV(6,IP) + QUATRE*XI(I) + EMS(I) * (ZZ+XX)
-          PARTSAV(7,IP) =PARTSAV(7,IP) + QUATRE*XI(I) + EMS(I) * (XX+YY)
+          PARTSAV(5,IP) =PARTSAV(5,IP) + FOUR*XI(I) + EMS(I) * (YY+ZZ)
+          PARTSAV(6,IP) =PARTSAV(6,IP) + FOUR*XI(I) + EMS(I) * (ZZ+XX)
+          PARTSAV(7,IP) =PARTSAV(7,IP) + FOUR*XI(I) + EMS(I) * (XX+YY)
           PARTSAV(8,IP) =PARTSAV(8,IP)  - EMS(I) * XY
           PARTSAV(9,IP) =PARTSAV(9,IP)  - EMS(I) * YZ
           PARTSAV(10,IP)=PARTSAV(10,IP) - EMS(I) * ZX
@@ -976,7 +976,7 @@ C
           PARTSAV(13,IP)=PARTSAV(13,IP) + EMS(I)*
      .         (V(3,I1)+V(3,I2)+V(3,I3)+V(3,I4))
 C
-          PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * EMS(I) *
+          PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS(I) *
      .       (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
      .       +V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2)
      .       +V(1,I3)*V(1,I3)+V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3)
@@ -990,7 +990,7 @@ C
           I4 = IX4(I)
           IP = IPART(I)
 C
-          PARTSAV(1,IP)=PARTSAV(1,IP) + QUATRE*EMS(I)
+          PARTSAV(1,IP)=PARTSAV(1,IP) + FOUR*EMS(I)
           PARTSAV(2,IP)=PARTSAV(2,IP) + EMS(I)*
      .           (XREFC(1,1,I)+XREFC(2,1,I)+XREFC(3,1,I)+XREFC(4,1,I))
           PARTSAV(3,IP)=PARTSAV(3,IP) + EMS(I)*
@@ -1010,9 +1010,9 @@ C
           ZX = XREFC(1,3,I)*XREFC(1,1,I) + XREFC(2,3,I)*XREFC(2,1,I)
      .       + XREFC(3,3,I)*XREFC(3,1,I) + XREFC(4,3,I)*XREFC(4,1,I)
 C
-          PARTSAV(5,IP) =PARTSAV(5,IP) + QUATRE*XI(I) + EMS(I)*(YY+ZZ)
-          PARTSAV(6,IP) =PARTSAV(6,IP) + QUATRE*XI(I) + EMS(I)*(ZZ+XX)
-          PARTSAV(7,IP) =PARTSAV(7,IP) + QUATRE*XI(I) + EMS(I)*(XX+YY)
+          PARTSAV(5,IP) =PARTSAV(5,IP) + FOUR*XI(I) + EMS(I)*(YY+ZZ)
+          PARTSAV(6,IP) =PARTSAV(6,IP) + FOUR*XI(I) + EMS(I)*(ZZ+XX)
+          PARTSAV(7,IP) =PARTSAV(7,IP) + FOUR*XI(I) + EMS(I)*(XX+YY)
           PARTSAV(8,IP) =PARTSAV(8,IP)  - EMS(I) * XY
           PARTSAV(9,IP) =PARTSAV(9,IP)  - EMS(I) * YZ
           PARTSAV(10,IP)=PARTSAV(10,IP) - EMS(I) * ZX
@@ -1024,7 +1024,7 @@ C
           PARTSAV(13,IP)=PARTSAV(13,IP) + EMS(I)*
      .         (V(3,I1)+V(3,I2)+V(3,I3)+V(3,I4))
 C
-          PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * EMS(I) *
+          PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS(I) *
      .       (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
      .       +V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2)
      .       +V(1,I3)*V(1,I3)+V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3)
@@ -1042,7 +1042,7 @@ C
            I4 = IX4(I)
            IP = IPART(I)
 C
-           PARTSAV(1,IP)=PARTSAV(1,IP) + QUATRE*EMS(I)
+           PARTSAV(1,IP)=PARTSAV(1,IP) + FOUR*EMS(I)
            PARTSAV(2,IP)=PARTSAV(2,IP) + EMS(I)*
      .          (X(1,I1)+X(1,I2)+X(1,I3)+X(1,I4))
            PARTSAV(3,IP)=PARTSAV(3,IP) + EMS(I)*
@@ -1062,9 +1062,9 @@ C
            ZX = (X(3,I1)*X(1,I1)+X(3,I2)*X(1,I2)
      .          +X(3,I3)*X(1,I3)+X(3,I4)*X(1,I4))
 C
-           PARTSAV(5,IP) =PARTSAV(5,IP) + QUATRE*XI(I) + EMS(I)*(YY+ZZ)
-           PARTSAV(6,IP) =PARTSAV(6,IP) + QUATRE*XI(I) + EMS(I)*(ZZ+XX)
-           PARTSAV(7,IP) =PARTSAV(7,IP) + QUATRE*XI(I) + EMS(I)*(XX+YY)
+           PARTSAV(5,IP) =PARTSAV(5,IP) + FOUR*XI(I) + EMS(I)*(YY+ZZ)
+           PARTSAV(6,IP) =PARTSAV(6,IP) + FOUR*XI(I) + EMS(I)*(ZZ+XX)
+           PARTSAV(7,IP) =PARTSAV(7,IP) + FOUR*XI(I) + EMS(I)*(XX+YY)
            PARTSAV(8,IP) =PARTSAV(8,IP)  - EMS(I) * XY
            PARTSAV(9,IP) =PARTSAV(9,IP)  - EMS(I) * YZ
            PARTSAV(10,IP)=PARTSAV(10,IP) - EMS(I) * ZX
@@ -1076,7 +1076,7 @@ C
            PARTSAV(13,IP)=PARTSAV(13,IP) + EMS(I)*
      .          (V(3,I1)+V(3,I2)+V(3,I3)+V(3,I4))
 C
-           PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * EMS(I) *
+           PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS(I) *
      .        (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
      .        +V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2)
      .        +V(1,I3)*V(1,I3)+V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3)
@@ -1093,7 +1093,7 @@ C
            I4 = IX4(I)
            IP = IPART(I)
 C
-           PARTSAV(1,IP)=PARTSAV(1,IP) + QUATRE*EMS(I)
+           PARTSAV(1,IP)=PARTSAV(1,IP) + FOUR*EMS(I)
            PARTSAV(2,IP)=PARTSAV(2,IP) + EMS(I)*
      .           (XREFC(1,1,I)+XREFC(2,1,I)+XREFC(3,1,I)+XREFC(4,1,I))
            PARTSAV(3,IP)=PARTSAV(3,IP) + EMS(I)*                        
@@ -1113,9 +1113,9 @@ C
            ZX = XREFC(1,3,I)*XREFC(1,1,I) + XREFC(2,3,I)*XREFC(2,1,I)   
      .        + XREFC(3,3,I)*XREFC(3,1,I) + XREFC(4,3,I)*XREFC(4,1,I)   
 C
-           PARTSAV(5,IP) =PARTSAV(5,IP) + QUATRE*XI(I) + EMS(I)*(YY+ZZ)
-           PARTSAV(6,IP) =PARTSAV(6,IP) + QUATRE*XI(I) + EMS(I)*(ZZ+XX)
-           PARTSAV(7,IP) =PARTSAV(7,IP) + QUATRE*XI(I) + EMS(I)*(XX+YY)
+           PARTSAV(5,IP) =PARTSAV(5,IP) + FOUR*XI(I) + EMS(I)*(YY+ZZ)
+           PARTSAV(6,IP) =PARTSAV(6,IP) + FOUR*XI(I) + EMS(I)*(ZZ+XX)
+           PARTSAV(7,IP) =PARTSAV(7,IP) + FOUR*XI(I) + EMS(I)*(XX+YY)
            PARTSAV(8,IP) =PARTSAV(8,IP)  - EMS(I) * XY
            PARTSAV(9,IP) =PARTSAV(9,IP)  - EMS(I) * YZ
            PARTSAV(10,IP)=PARTSAV(10,IP) - EMS(I) * ZX
@@ -1127,7 +1127,7 @@ C
            PARTSAV(13,IP)=PARTSAV(13,IP) + EMS(I)*
      .          (V(3,I1)+V(3,I2)+V(3,I3)+V(3,I4))
 C
-           PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * EMS(I) *
+           PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS(I) *
      .        (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
      .        +V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2)
      .        +V(1,I3)*V(1,I3)+V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3)
@@ -1146,7 +1146,7 @@ C
            I4 = IX4(I)
            IP = IPART(I)
 C
-           PARTSAV(1,IP)=PARTSAV(1,IP) + QUATRE*EMS(I)
+           PARTSAV(1,IP)=PARTSAV(1,IP) + FOUR*EMS(I)
            PARTSAV(2,IP)=PARTSAV(2,IP) + EMS(I)*
      .          (X(1,I1)+X(1,I2)+X(1,I3)+X(1,I4))
            PARTSAV(3,IP)=PARTSAV(3,IP) + EMS(I)*
@@ -1166,9 +1166,9 @@ C
            ZX = (X(3,I1)*X(1,I1)+X(3,I2)*X(1,I2)
      .          +X(3,I3)*X(1,I3)+X(3,I4)*X(1,I4))
 C
-           PARTSAV(5,IP) =PARTSAV(5,IP) + QUATRE*XI(I) + EMS(I)*(YY+ZZ)
-           PARTSAV(6,IP) =PARTSAV(6,IP) + QUATRE*XI(I) + EMS(I)*(ZZ+XX)
-           PARTSAV(7,IP) =PARTSAV(7,IP) + QUATRE*XI(I) + EMS(I)*(XX+YY)
+           PARTSAV(5,IP) =PARTSAV(5,IP) + FOUR*XI(I) + EMS(I)*(YY+ZZ)
+           PARTSAV(6,IP) =PARTSAV(6,IP) + FOUR*XI(I) + EMS(I)*(ZZ+XX)
+           PARTSAV(7,IP) =PARTSAV(7,IP) + FOUR*XI(I) + EMS(I)*(XX+YY)
            PARTSAV(8,IP) =PARTSAV(8,IP)  - EMS(I) * XY
            PARTSAV(9,IP) =PARTSAV(9,IP)  - EMS(I) * YZ
            PARTSAV(10,IP)=PARTSAV(10,IP) - EMS(I) * ZX
@@ -1180,7 +1180,7 @@ C
            PARTSAV(13,IP)=PARTSAV(13,IP) + EMS(I)*
      .          (V(3,I1)+V(3,I2)+V(3,I3)+V(3,I4))
 C
-           PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * EMS(I) *
+           PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS(I) *
      .        (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
      .        +V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2)
      .        +V(1,I3)*V(1,I3)+V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3)
@@ -1197,7 +1197,7 @@ C
            I4 = IX4(I)
            IP = IPART(I)
 C
-           PARTSAV(1,IP)=PARTSAV(1,IP) + QUATRE*EMS(I)
+           PARTSAV(1,IP)=PARTSAV(1,IP) + FOUR*EMS(I)
            PARTSAV(2,IP)=PARTSAV(2,IP) + EMS(I)*
      .           (XREFC(1,1,I)+XREFC(2,1,I)+XREFC(3,1,I)+XREFC(4,1,I))
            PARTSAV(3,IP)=PARTSAV(3,IP) + EMS(I)*
@@ -1217,9 +1217,9 @@ C
            ZX = XREFC(1,3,I)*XREFC(1,1,I) + XREFC(2,3,I)*XREFC(2,1,I)
      .        + XREFC(3,3,I)*XREFC(3,1,I) + XREFC(4,3,I)*XREFC(4,1,I)
 C
-           PARTSAV(5,IP) =PARTSAV(5,IP) + QUATRE*XI(I) + EMS(I)*(YY+ZZ)
-           PARTSAV(6,IP) =PARTSAV(6,IP) + QUATRE*XI(I) + EMS(I)*(ZZ+XX)
-           PARTSAV(7,IP) =PARTSAV(7,IP) + QUATRE*XI(I) + EMS(I)*(XX+YY)
+           PARTSAV(5,IP) =PARTSAV(5,IP) + FOUR*XI(I) + EMS(I)*(YY+ZZ)
+           PARTSAV(6,IP) =PARTSAV(6,IP) + FOUR*XI(I) + EMS(I)*(ZZ+XX)
+           PARTSAV(7,IP) =PARTSAV(7,IP) + FOUR*XI(I) + EMS(I)*(XX+YY)
            PARTSAV(8,IP) =PARTSAV(8,IP)  - EMS(I) * XY
            PARTSAV(9,IP) =PARTSAV(9,IP)  - EMS(I) * YZ
            PARTSAV(10,IP)=PARTSAV(10,IP) - EMS(I) * ZX
@@ -1231,7 +1231,7 @@ C
            PARTSAV(13,IP)=PARTSAV(13,IP) + EMS(I)*
      .          (V(3,I1)+V(3,I2)+V(3,I3)+V(3,I4))
 C
-           PARTSAV(14,IP)=PARTSAV(14,IP) + UNDEMI * EMS(I) *
+           PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS(I) *
      .        (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
      .        +V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2)
      .        +V(1,I3)*V(1,I3)+V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3)

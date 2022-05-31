@@ -98,12 +98,12 @@ C
        D3(I) =  X42*Y41 - X41*Y42
        D4(I) =  -(D1(I) + D2(I) + D3(I))
 C
-       DET(I) = (X41*B1(I) + Y41*C1(I) + Z41*D1(I))*UNSIX
+       DET(I) = (X41*B1(I) + Y41*C1(I) + Z41*D1(I))*ONE_OVER_6
       ENDDO
 
 C---+----1
       DO I=1,NEL
-        D = UN/DET(I)/SIX
+        D = ONE/DET(I)/SIX
         PX1(I)=-B1(I)*D
         PY1(I)=-C1(I)*D
         PZ1(I)=-D1(I)*D
@@ -136,7 +136,7 @@ C
          PHIY =  TEMP1*PY1(I) + TEMP2*PY2(I) + TEMP3*PY3(I) + TEMP4*PY4(I)       
          PHIZ =  TEMP1*PZ1(I) + TEMP2*PZ2(I) + TEMP3*PZ3(I) + TEMP4*PZ4(I)        
 C
-         TEMPEL = QUART * (TEMP1 + TEMP2 + TEMP3 + TEMP4)
+         TEMPEL = FOURTH * (TEMP1 + TEMP2 + TEMP3 + TEMP4)
          KC = (CA + CB*TEMPEL)*DT1*DET(I)*THEACCFACT
          PHIX = KC*PHIX
          PHIY = KC*PHIY
@@ -144,7 +144,7 @@ C
 C
 C force thermique nodale
 C
-         A = QUART * DIE(I)
+         A = FOURTH * DIE(I)
          FPHI(I,1) = A - (PHIX*PX1(I) + PHIY*PY1(I) + PZ1(I)*PHIZ)
          FPHI(I,2) = A - (PHIX*PX2(I) + PHIY*PY2(I) + PZ2(I)*PHIZ)
          FPHI(I,3) = A - (PHIX*PX3(I) + PHIY*PY3(I) + PZ3(I)*PHIZ)

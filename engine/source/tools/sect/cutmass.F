@@ -51,7 +51,7 @@ C     REAL ou REAL*8
       INTEGER I,J,N1,N2,N3,N4
       REAL R4
 C-----------------------------------------------
-      UN6=UNSIX
+      UN6=ONE_OVER_6
 C
       DO 10 I=1,NODCUT
       N1=IVOIS(1,I)
@@ -78,7 +78,7 @@ C
         IF(N3.EQ.N4)THEN
            S= UN6
         ELSE
-           S=UNHUIT
+           S=ONE_OVER_8
         ENDIF
 C        S=S*SQRT(XX**2+YY**2+ZZ**2)
         AL(N1)=AL(N1)+S*(V(1,N1)*XX+V(2,N1)*YY+V(3,N1)*ZZ)

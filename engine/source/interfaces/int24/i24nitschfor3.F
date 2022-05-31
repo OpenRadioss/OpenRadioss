@@ -123,7 +123,7 @@ C-----------------------------------------------
                    SX3  = SY1*SZ2 - SZ1*SY2
                    SY3  = SZ1*SX2 - SX1*SZ2
                    SZ3  = SX1*SY2 - SY1*SX2
-c                  AREAS= UNDEMI*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+c                  AREAS= HALF*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 
 C
                    SIGNX  = STRESSMEAN(1,IE)*SX3 + STRESSMEAN(4,IE)*SY3 +STRESSMEAN(6,IE)*SZ3 
@@ -133,9 +133,9 @@ C
 
 C
                
-                   FORX = UNSEIZE*SIGNX
-                   FORY = UNSEIZE*SIGNY
-                   FORZ = UNSEIZE*SIGNZ
+                   FORX = ONE_OVER_16*SIGNX
+                   FORY = ONE_OVER_16*SIGNY
+                   FORZ = ONE_OVER_16*SIGNZ
 
 C
                    IF(ITAG(N1)==0.AND.ADS1 < 10) THEN
@@ -143,36 +143,36 @@ C
                      FORNEQS(2,N1) = FORNEQS(2,N1) + FORY
                      FORNEQS(3,N1) = FORNEQS(3,N1) + FORZ
                    ELSEIF(ITAG(N1)==0) THEN
-                     FORNEQS(1,N1) = FORNEQS(1,N1) + UNDEMI*FORX
-                     FORNEQS(2,N1) = FORNEQS(2,N1) + UNDEMI*FORY
-                     FORNEQS(3,N1) = FORNEQS(3,N1) + UNDEMI*FORZ
+                     FORNEQS(1,N1) = FORNEQS(1,N1) + HALF*FORX
+                     FORNEQS(2,N1) = FORNEQS(2,N1) + HALF*FORY
+                     FORNEQS(3,N1) = FORNEQS(3,N1) + HALF*FORZ
                    ENDIF
                    IF(ITAG(N2)==0.AND.ADS2 < 10) THEN  
                      FORNEQS(1,N2) = FORNEQS(1,N2) + FORX
                      FORNEQS(2,N2) = FORNEQS(2,N2) + FORY
                      FORNEQS(3,N2) = FORNEQS(3,N2) + FORZ
                    ELSEIF(ITAG(N2)==0) THEN
-                     FORNEQS(1,N2) = FORNEQS(1,N2) + UNDEMI*FORX
-                     FORNEQS(2,N2) = FORNEQS(2,N2) + UNDEMI*FORY
-                     FORNEQS(3,N2) = FORNEQS(3,N2) + UNDEMI*FORZ
+                     FORNEQS(1,N2) = FORNEQS(1,N2) + HALF*FORX
+                     FORNEQS(2,N2) = FORNEQS(2,N2) + HALF*FORY
+                     FORNEQS(3,N2) = FORNEQS(3,N2) + HALF*FORZ
                    ENDIF  
                    IF(ITAG(N3)==0.AND.ADS3 < 10) THEN  
                      FORNEQS(1,N3) = FORNEQS(1,N3) + FORX
                      FORNEQS(2,N3) = FORNEQS(2,N3) + FORY
                      FORNEQS(3,N3) = FORNEQS(3,N3) + FORZ
                    ELSEIF(ITAG(N3)==0) THEN
-                     FORNEQS(1,N3) = FORNEQS(1,N3) + UNDEMI*FORX
-                     FORNEQS(2,N3) = FORNEQS(2,N3) + UNDEMI*FORY
-                     FORNEQS(3,N3) = FORNEQS(3,N3) + UNDEMI*FORZ
+                     FORNEQS(1,N3) = FORNEQS(1,N3) + HALF*FORX
+                     FORNEQS(2,N3) = FORNEQS(2,N3) + HALF*FORY
+                     FORNEQS(3,N3) = FORNEQS(3,N3) + HALF*FORZ
                    ENDIF 
                    IF (ITAG(N4)==0.AND.ADS1 < 10) THEN
                      FORNEQS(1,N4) = FORNEQS(1,N4) + FORX
                      FORNEQS(2,N4) = FORNEQS(2,N4) + FORY
                      FORNEQS(3,N4) = FORNEQS(3,N4) + FORZ
                    ELSEIF(ITAG(N4)==0) THEN
-                     FORNEQS(1,N4) = FORNEQS(1,N4) + UNDEMI*FORX
-                     FORNEQS(2,N4) = FORNEQS(2,N4) + UNDEMI*FORY
-                     FORNEQS(3,N4) = FORNEQS(3,N4) + UNDEMI*FORZ
+                     FORNEQS(1,N4) = FORNEQS(1,N4) + HALF*FORX
+                     FORNEQS(2,N4) = FORNEQS(2,N4) + HALF*FORY
+                     FORNEQS(3,N4) = FORNEQS(3,N4) + HALF*FORZ
                    ENDIF 
 
                 ELSE
@@ -193,36 +193,36 @@ C
                    SIGNZ  = STRESSMEAN(6,IE)*SX3 + STRESSMEAN(5,IE)*SY3 +STRESSMEAN(3,IE)*SZ3 
 C
                
-                   FORX = UNHUIT*SIGNX
-                   FORY = UNHUIT*SIGNY
-                   FORZ = UNHUIT*SIGNZ
+                   FORX = ONE_OVER_8*SIGNX
+                   FORY = ONE_OVER_8*SIGNY
+                   FORZ = ONE_OVER_8*SIGNZ
 C
                    IF(ITAG(N1)==0.AND.ADS1 < 10) THEN
                       FORNEQS(1,N1) = FORNEQS(1,N1) + FORX
                       FORNEQS(2,N1) = FORNEQS(2,N1) + FORY
                       FORNEQS(3,N1) = FORNEQS(3,N1) + FORZ
                   ELSEIF(ITAG(N1)==0) THEN
-                      FORNEQS(1,N1) = FORNEQS(1,N1) + TIERS*FORX
-                      FORNEQS(2,N1) = FORNEQS(2,N1) + TIERS*FORY
-                      FORNEQS(3,N1) = FORNEQS(3,N1) + TIERS*FORZ
+                      FORNEQS(1,N1) = FORNEQS(1,N1) + THIRD*FORX
+                      FORNEQS(2,N1) = FORNEQS(2,N1) + THIRD*FORY
+                      FORNEQS(3,N1) = FORNEQS(3,N1) + THIRD*FORZ
                    ENDIF 
                    IF(ITAG(N2)==0.AND.ADS2 < 10) THEN  
                      FORNEQS(1,N2) = FORNEQS(1,N2) + FORX
                      FORNEQS(2,N2) = FORNEQS(2,N2) + FORY
                      FORNEQS(3,N2) = FORNEQS(3,N2) + FORZ
                    ELSEIF(ITAG(N2)==0) THEN
-                     FORNEQS(1,N2) = FORNEQS(1,N2) + TIERS*FORX
-                     FORNEQS(2,N2) = FORNEQS(2,N2) + TIERS*FORY
-                     FORNEQS(3,N2) = FORNEQS(3,N2) + TIERS*FORZ
+                     FORNEQS(1,N2) = FORNEQS(1,N2) + THIRD*FORX
+                     FORNEQS(2,N2) = FORNEQS(2,N2) + THIRD*FORY
+                     FORNEQS(3,N2) = FORNEQS(3,N2) + THIRD*FORZ
                    ENDIF 
                    IF(ITAG(N3)==0.AND.ADS3 < 10) THEN  
                      FORNEQS(1,N3) = FORNEQS(1,N3) + FORX
                      FORNEQS(2,N3) = FORNEQS(2,N3) + FORY
                      FORNEQS(3,N3) = FORNEQS(3,N3) + FORZ
                    ELSEIF(ITAG(N3)==0) THEN
-                     FORNEQS(1,N3) = FORNEQS(1,N3) + TIERS*FORX
-                     FORNEQS(2,N3) = FORNEQS(2,N3) + TIERS*FORY
-                     FORNEQS(3,N3) = FORNEQS(3,N3) + TIERS*FORZ
+                     FORNEQS(1,N3) = FORNEQS(1,N3) + THIRD*FORX
+                     FORNEQS(2,N3) = FORNEQS(2,N3) + THIRD*FORY
+                     FORNEQS(3,N3) = FORNEQS(3,N3) + THIRD*FORZ
                    ENDIF 
                ENDIF
 
@@ -283,9 +283,9 @@ C
                    SIGNZ  = STRESSMEAN(6,IE)*SX3 + STRESSMEAN(5,IE)*SY3 +STRESSMEAN(3,IE)*SZ3 
 C
                
-                   FORX = UNSEIZE*SIGNX
-                   FORY = UNSEIZE*SIGNY
-                   FORZ = UNSEIZE*SIGNZ
+                   FORX = ONE_OVER_16*SIGNX
+                   FORY = ONE_OVER_16*SIGNY
+                   FORZ = ONE_OVER_16*SIGNZ
 C
 
                    IF(ADS1 < 10) THEN
@@ -326,9 +326,9 @@ C
                      FORNEQSKY(3*(NF-1)+2,K1) = FORY
                      FORNEQSKY(3*(NF-1)+3,K1) = FORZ
                    ELSE
-                     FORNEQSKY(3*(NF-1)+1,K1) = UNDEMI*FORX
-                     FORNEQSKY(3*(NF-1)+2,K1) = UNDEMI*FORY
-                     FORNEQSKY(3*(NF-1)+3,K1) = UNDEMI*FORZ
+                     FORNEQSKY(3*(NF-1)+1,K1) = HALF*FORX
+                     FORNEQSKY(3*(NF-1)+2,K1) = HALF*FORY
+                     FORNEQSKY(3*(NF-1)+3,K1) = HALF*FORZ
                    ENDIF
 
                    IF(ADS2 < 10) THEN
@@ -336,9 +336,9 @@ C
                      FORNEQSKY(3*(NF-1)+2,K2) = FORY
                      FORNEQSKY(3*(NF-1)+3,K2) = FORZ
                    ELSE
-                     FORNEQSKY(3*(NF-1)+1,K2) = UNDEMI*FORX
-                     FORNEQSKY(3*(NF-1)+2,K2) = UNDEMI*FORY
-                     FORNEQSKY(3*(NF-1)+3,K2) = UNDEMI*FORZ
+                     FORNEQSKY(3*(NF-1)+1,K2) = HALF*FORX
+                     FORNEQSKY(3*(NF-1)+2,K2) = HALF*FORY
+                     FORNEQSKY(3*(NF-1)+3,K2) = HALF*FORZ
                    ENDIF
 
                    IF(ADS3 < 10) THEN
@@ -346,9 +346,9 @@ C
                      FORNEQSKY(3*(NF-1)+2,K3) = FORY
                      FORNEQSKY(3*(NF-1)+3,K3) = FORZ
                    ELSE
-                     FORNEQSKY(3*(NF-1)+1,K3) = UNDEMI*FORX
-                     FORNEQSKY(3*(NF-1)+2,K3) = UNDEMI*FORY
-                     FORNEQSKY(3*(NF-1)+3,K3) = UNDEMI*FORZ
+                     FORNEQSKY(3*(NF-1)+1,K3) = HALF*FORX
+                     FORNEQSKY(3*(NF-1)+2,K3) = HALF*FORY
+                     FORNEQSKY(3*(NF-1)+3,K3) = HALF*FORZ
                    ENDIF
  
                    IF(ADS4 < 10) THEN
@@ -356,9 +356,9 @@ C
                      FORNEQSKY(3*(NF-1)+2,K4) = FORY
                      FORNEQSKY(3*(NF-1)+3,K4) = FORZ
                    ELSE
-                     FORNEQSKY(3*(NF-1)+1,K4) = UNDEMI*FORX
-                     FORNEQSKY(3*(NF-1)+2,K4) = UNDEMI*FORY
-                     FORNEQSKY(3*(NF-1)+3,K4) = UNDEMI*FORZ
+                     FORNEQSKY(3*(NF-1)+1,K4) = HALF*FORX
+                     FORNEQSKY(3*(NF-1)+2,K4) = HALF*FORY
+                     FORNEQSKY(3*(NF-1)+3,K4) = HALF*FORZ
                    ENDIF
 
                 ELSE
@@ -379,9 +379,9 @@ C
                    SIGNZ  = STRESSMEAN(6,IE)*SX3 + STRESSMEAN(5,IE)*SY3 +STRESSMEAN(3,IE)*SZ3 
 C
                
-                   FORX = UNHUIT*SIGNX
-                   FORY = UNHUIT*SIGNY
-                   FORZ = UNHUIT*SIGNZ
+                   FORX = ONE_OVER_8*SIGNX
+                   FORY = ONE_OVER_8*SIGNY
+                   FORZ = ONE_OVER_8*SIGNZ
 C
                    IF(IE > NUMELS8)  IE10 = IE - NUMELS8
 
@@ -409,9 +409,9 @@ C
                      FORNEQSKY(3*(NF-1)+2,K1) = FORY
                      FORNEQSKY(3*(NF-1)+3,K1) = FORZ
                    ELSE
-                     FORNEQSKY(3*(NF-1)+1,K1) = TIERS*FORX
-                     FORNEQSKY(3*(NF-1)+2,K1) = TIERS*FORY
-                     FORNEQSKY(3*(NF-1)+3,K1) = TIERS*FORZ
+                     FORNEQSKY(3*(NF-1)+1,K1) = THIRD*FORX
+                     FORNEQSKY(3*(NF-1)+2,K1) = THIRD*FORY
+                     FORNEQSKY(3*(NF-1)+3,K1) = THIRD*FORZ
                    ENDIF
 
                    IF(ADS2 < 10) THEN
@@ -419,9 +419,9 @@ C
                      FORNEQSKY(3*(NF-1)+2,K2) = FORY
                      FORNEQSKY(3*(NF-1)+3,K2) = FORZ
                    ELSE
-                     FORNEQSKY(3*(NF-1)+1,K2) = TIERS*FORX
-                     FORNEQSKY(3*(NF-1)+2,K2) = TIERS*FORY
-                     FORNEQSKY(3*(NF-1)+3,K2) = TIERS*FORZ
+                     FORNEQSKY(3*(NF-1)+1,K2) = THIRD*FORX
+                     FORNEQSKY(3*(NF-1)+2,K2) = THIRD*FORY
+                     FORNEQSKY(3*(NF-1)+3,K2) = THIRD*FORZ
                    ENDIF
 
                    IF(ADS3 < 10) THEN
@@ -429,9 +429,9 @@ C
                      FORNEQSKY(3*(NF-1)+2,K3) = FORY
                      FORNEQSKY(3*(NF-1)+3,K3) = FORZ
                    ELSE
-                     FORNEQSKY(3*(NF-1)+1,K3) = TIERS*FORX
-                     FORNEQSKY(3*(NF-1)+2,K3) = TIERS*FORY
-                     FORNEQSKY(3*(NF-1)+3,K3) = TIERS*FORZ
+                     FORNEQSKY(3*(NF-1)+1,K3) = THIRD*FORX
+                     FORNEQSKY(3*(NF-1)+2,K3) = THIRD*FORY
+                     FORNEQSKY(3*(NF-1)+3,K3) = THIRD*FORZ
                    ENDIF
                 ENDIF
 C

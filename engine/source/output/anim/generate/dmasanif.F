@@ -128,7 +128,7 @@ C-----------------------------------------------
             XX1 = X(1,N2)-D(1,N2)-X(1,N1)+D(1,N1)
             YY1 = X(2,N2)-D(2,N2)-X(2,N1)+D(2,N1)
             ZZ1 = X(3,N2)-D(3,N2)-X(3,N1)+D(3,N1)
-            AL0  = UNDEMI*SQRT(XX1*XX1 + YY1*YY1 + ZZ1*ZZ1)
+            AL0  = HALF*SQRT(XX1*XX1 + YY1*YY1 + ZZ1*ZZ1)
             MAS(EL2FA(NN6+N_FA)) = RHO0*AL0*A0
           ENDDO
 C-----------------------------------------------
@@ -145,7 +145,7 @@ C-----------------------------------------------
             XX1 = X(1,N2)-D(1,N2)-X(1,N1)+D(1,N1)
             YY1 = X(2,N2)-D(2,N2)-X(2,N1)+D(2,N1)
             ZZ1 = X(3,N2)-D(3,N2)-X(3,N1)+D(3,N1)
-            AL0  = UNDEMI*SQRT(XX1*XX1 + YY1*YY1 + ZZ1*ZZ1)
+            AL0  = HALF*SQRT(XX1*XX1 + YY1*YY1 + ZZ1*ZZ1)
             MAS(EL2FA(NN7+N_FA)) = RHO0*AL0*A0
           ENDDO
 C-----------------------------------------------
@@ -156,8 +156,8 @@ C-----------------------------------------------
             DO I=LFT,LLT
               N = I + NFT
               N_FA = I + NFT_FA
-              MAS(EL2FA(NN8+N_FA))   = UNDEMI*GEO(1,IXR(1,N))
-              MAS(EL2FA(NN8+N_FA)+1) = UNDEMI*GEO(1,IXR(1,N))
+              MAS(EL2FA(NN8+N_FA))   = HALF*GEO(1,IXR(1,N))
+              MAS(EL2FA(NN8+N_FA)+1) = HALF*GEO(1,IXR(1,N))
             ENDDO
           ELSEIF (MLW == 5) THEN
 c           NB1 =IAD - 1

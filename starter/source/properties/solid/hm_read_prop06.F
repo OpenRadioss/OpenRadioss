@@ -350,8 +350,8 @@ C  viscosity / hourglass
 C
 C igeo(31)  flag for default qa qb for law 70 can be used for other law
       IF(QA == ZERO .AND. QB == ZERO) IGEO(31) = 1
-      IF (QA == ZERO) QA = UNP1
-      IF (QB == ZERO) QB = CINQEM2
+      IF (QA == ZERO) QA = ONEP1
+      IF (QB == ZERO) QB = FIVEEM2
       IF (QH == ZERO) QH = EM01
 C
 C  hourglass

@@ -65,9 +65,9 @@ C
          N4=N3+NRWALL                                                   
          ITYP= NPRW(N4)                                                 
          IF(IABS(ITYP).EQ.1.OR.ITYP.EQ.4)THEN                           
-           NXX = TROIS1000*RWBUF(1,N)                                   
-           NYY = TROIS1000*RWBUF(2,N)                                   
-           NZZ = TROIS1000*RWBUF(3,N)                                   
+           NXX = THREE1000*RWBUF(1,N)                                   
+           NYY = THREE1000*RWBUF(2,N)                                   
+           NZZ = THREE1000*RWBUF(3,N)                                   
            DO J=1,4                                                     
             CALL WRITE_S_C(NXX,1)                                       
             CALL WRITE_S_C(NYY,1)                                       

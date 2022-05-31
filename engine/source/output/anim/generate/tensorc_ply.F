@@ -204,20 +204,20 @@ C------------------------
              NS1 = 5
              NS2 = 3
              IADD = NB10 + NS1 * NEL * (ILAYER-1)
-             A1   = UN
+             A1   = ONE
              A2   = ZERO
            ELSEIF(ITENS.EQ.2)THEN
              NS1 = 5
              NS2 = 3
              IADD = NB10 + NS1 * NEL * (ILAYER-1)
              A1   = ZERO
-             A2   = UN
+             A2   = ONE
            ELSEIF(ITENS.EQ.3)THEN
              NS1 = 5
              NS2 = 3
              IF(MLW.EQ.1)THEN
                IADD = NB1
-               A1   = UN
+               A1   = ONE
                A2   = SIX
              ELSEIF(MLW.EQ.2.OR.MLW.EQ.19.OR.
      .            MLW.EQ.15.OR.
@@ -245,11 +245,11 @@ C------------------------
      .            MLW.EQ.27.OR.MLW.EQ.32.OR.
      .            MLW.GE.28)THEN 
                IADD = NB10
-               A1   = UN
+               A1   = ONE
                A2   = ZERO
              ELSEIF(MLW.EQ.3.OR.MLW.EQ.23)THEN
                IADD = NB1
-               A1   = UN
+               A1   = ONE
                A2   = ZERO
              ENDIF
            ELSEIF(ITENS.GE.101.AND.ITENS.LE.200)THEN
@@ -257,7 +257,7 @@ C------------------------
              NS2 = 3
              IF(MLW.EQ.1.OR.MLW.EQ.3.OR.MLW.EQ.23)THEN
                IADD = NB1
-               A1   = UN
+               A1   = ONE
                A2   = ZERO
              ELSEIF(MLW.EQ.2.OR.MLW.EQ.19.OR.
      .            MLW.EQ.15.OR.
@@ -266,7 +266,7 @@ C------------------------
      .            MLW.GE.28)THEN 
                IPT = MIN(NPT,ITENS-100)
                IADD = NB10 + NS1 * NEL * (ILAYER - 1)
-               A1   = UN
+               A1   = ONE
                A2   = ZERO
                IF(IPT == IPLY ) ION = 1
              ENDIF
@@ -343,8 +343,8 @@ C------------------------
 cc             IPT = ILAYER          
               IADD = NB8
               IAD2 = NB8 + 5
-              A1   = UN
-              A2   = UNDEMI*(((2*ILAYER-UN)/NPT)-UN)
+              A1   = ONE
+              A2   = HALF*(((2*ILAYER-ONE)/NPT)-ONE)
              ELSE
                IADD = NB1
                IAD2 = NB1
@@ -376,8 +376,8 @@ C------------------------
             IF(NPT.NE.0)THEN	
              ISTRE  = 2
 cc             IPT = ILAYER             
-             A1   = UN
-             A2   = UNDEMI*(((2*ILAYER-UN)/NPT)-UN)
+             A1   = ONE
+             A2   = HALF*(((2*ILAYER-ONE)/NPT)-ONE)
 	        ELSE
 	         ISTRE  = 2
 	         A1   = ZERO
@@ -547,7 +547,7 @@ C------------------------
                     ENDDO
                    ENDIF
                    IE = IE + 1
-cc                   R4(3) = R4(3) * INVERT(EL2FA(NEL_PLY + IE)) * UNDEMI
+cc                   R4(3) = R4(3) * INVERT(EL2FA(NEL_PLY + IE)) * HALF
                    TENS(1,EL2FA(NEL_PLY + IE)) = R4(1)
                    TENS(2,EL2FA(NEL_PLY + IE)) = R4(2)
                    TENS(3,EL2FA(NEL_PLY + IE)) = R4(3)
@@ -571,7 +571,7 @@ C------------------------
                      R4(J) = EPSDOT(J+3,N+N0)
                     ENDDO
                    ENDIF
-cc                   R4(3) = R4(3) * INVERT(EL2FA(NEL_PLY + IE)) * UNDEMI
+cc                   R4(3) = R4(3) * INVERT(EL2FA(NEL_PLY + IE)) * HALF
                    IE = IE + 1
                    TENS(1,EL2FA(NEL_PLY + IE)) = R4(1)
                    TENS(2,EL2FA(NEL_PLY + IE)) = R4(2)

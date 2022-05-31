@@ -124,21 +124,21 @@ C-----------------------------------------------
       PM(88)=PSH
       PM(23)=E0
       PM(35)=K1
-      IF(PM(79)==ZERO)PM(79)=TROIS100
+      IF(PM(79)==ZERO)PM(79)=THREE100
 
       !P0
-      MU     = RHOI/RHOR - UN
-      PM(31) =  K0/K1 * (EXP(K1*LOG(1+MU)) - UN )  + P0 - PSH
-      PM(104)=  K0/K1 * (EXP(K1*LOG(1+MU)) - UN )  + P0 - PSH
+      MU     = RHOI/RHOR - ONE
+      PM(31) =  K0/K1 * (EXP(K1*LOG(1+MU)) - ONE )  + P0 - PSH
+      PM(104)=  K0/K1 * (EXP(K1*LOG(1+MU)) - ONE )  + P0 - PSH
       !SSP0
-      MU0 = RHOI/RHOR-UN
+      MU0 = RHOI/RHOR-ONE
       DF = RHOR/RHOI     
       SSP0 = ZERO 
       G0 = PM(22)
       RHOI = PM(89)      
-        DPDMU = K0*EXP( K1*LOG(1+MU0) )/(UN+MU0)  
+        DPDMU = K0*EXP( K1*LOG(1+MU0) )/(ONE+MU0)  
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + DTIERS*G0)/RHOR) 
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0
       WRITE(IOUT,1000)
 

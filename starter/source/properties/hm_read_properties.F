@@ -281,9 +281,9 @@ C--------------------------------------------------
         ISORTH = 0
         IHGFLU = 0
 c
-        FAC_M = UN
-        FAC_L = UN
-        FAC_T = UN
+        FAC_M = ONE
+        FAC_L = ONE
+        FAC_T = ONE
         KEY = ''
         SOLVERKEYWORD = ''
         IDTITL = ''

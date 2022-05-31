@@ -73,9 +73,9 @@ C       SIG_HEPH(,6) -> hourglass stress component proportional to ZETA*KSI
 C       SIG_HEPH(,7) -> hourglass stress component proportional to ETA*KSI    
 C
         DO I=LFT,LLT
-           NU1=UN/(UN-PM(21,IXS(1,I)))
+           NU1=ONE/(ONE-PM(21,IXS(1,I)))
            NU2=PM(21,IXS(1,I))*NU1
-           NU3=UN+PM(21,IXS(1,I))
+           NU3=ONE+PM(21,IXS(1,I))
 C
            SIG_HEPH(I,1,1)=GSIG(II(1)+I)
            SIG_HEPH(I,2,1)=GSIG(II(2)+I)
@@ -84,18 +84,18 @@ C
            SIG_HEPH(I,5,1)=GSIG(II(5)+I)
            SIG_HEPH(I,6,1)=GSIG(II(6)+I)
 C
-           SIG_HEPH(I,1,2)=2*VINGT4*(NU1*FHOUR(I,1,2)+NU2*FHOUR(I,2,1))
-           SIG_HEPH(I,2,2)=2*VINGT4*(NU1*FHOUR(I,2,1)+NU2*FHOUR(I,1,2))
-           SIG_HEPH(I,4,2)=VINGT4*(JR0(I)*FHOUR(I,1,1)/JS0(I)+JS0(I)*FHOUR(I,2,2)/JR0(I))
-           SIG_HEPH(I,1,3)=2*VINGT4*(NU1*FHOUR(I,1,3)+NU2*FHOUR(I,3,1))
-           SIG_HEPH(I,3,3)=2*VINGT4*(NU1*FHOUR(I,3,1)+NU2*FHOUR(I,1,3))
-           SIG_HEPH(I,6,3)=VINGT4*(JR0(I)*FHOUR(I,1,1)/JT0(I)+JT0(I)*FHOUR(I,3,3)/JR0(I))
-           SIG_HEPH(I,2,4)=2*VINGT4*(NU1*FHOUR(I,2,3)+NU2*FHOUR(I,3,2))
-           SIG_HEPH(I,3,4)=2*VINGT4*(NU1*FHOUR(I,3,2)+NU2*FHOUR(I,2,3))
-           SIG_HEPH(I,5,4)=VINGT4*(JS0(I)*FHOUR(I,2,2)/JT0(I)+JT0(I)*FHOUR(I,3,3)/JS0(I))
-           SIG_HEPH(I,1,5)=2*VINGT4*NU3*FHOUR(I,1,4)        
-           SIG_HEPH(I,2,6)=2*VINGT4*NU3*FHOUR(I,2,4)
-           SIG_HEPH(I,3,7)=2*VINGT4*NU3*FHOUR(I,3,4)
+           SIG_HEPH(I,1,2)=2*TWENTY4*(NU1*FHOUR(I,1,2)+NU2*FHOUR(I,2,1))
+           SIG_HEPH(I,2,2)=2*TWENTY4*(NU1*FHOUR(I,2,1)+NU2*FHOUR(I,1,2))
+           SIG_HEPH(I,4,2)=TWENTY4*(JR0(I)*FHOUR(I,1,1)/JS0(I)+JS0(I)*FHOUR(I,2,2)/JR0(I))
+           SIG_HEPH(I,1,3)=2*TWENTY4*(NU1*FHOUR(I,1,3)+NU2*FHOUR(I,3,1))
+           SIG_HEPH(I,3,3)=2*TWENTY4*(NU1*FHOUR(I,3,1)+NU2*FHOUR(I,1,3))
+           SIG_HEPH(I,6,3)=TWENTY4*(JR0(I)*FHOUR(I,1,1)/JT0(I)+JT0(I)*FHOUR(I,3,3)/JR0(I))
+           SIG_HEPH(I,2,4)=2*TWENTY4*(NU1*FHOUR(I,2,3)+NU2*FHOUR(I,3,2))
+           SIG_HEPH(I,3,4)=2*TWENTY4*(NU1*FHOUR(I,3,2)+NU2*FHOUR(I,2,3))
+           SIG_HEPH(I,5,4)=TWENTY4*(JS0(I)*FHOUR(I,2,2)/JT0(I)+JT0(I)*FHOUR(I,3,3)/JS0(I))
+           SIG_HEPH(I,1,5)=2*TWENTY4*NU3*FHOUR(I,1,4)        
+           SIG_HEPH(I,2,6)=2*TWENTY4*NU3*FHOUR(I,2,4)
+           SIG_HEPH(I,3,7)=2*TWENTY4*NU3*FHOUR(I,3,4)
         END DO
 C
       RETURN

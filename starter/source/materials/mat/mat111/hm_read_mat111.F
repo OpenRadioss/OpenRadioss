@@ -118,7 +118,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_FScale'   ,SCALEFAC ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       IF(SCALEFAC == ZERO)THEN 
         CALL HM_GET_FLOATV_DIM('MAT_FScale' ,FAC_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        SCALEFAC = UN * FAC_UNIT
+        SCALEFAC = ONE * FAC_UNIT
       ENDIF       
 
       !========== DEFAULT VALUES=============!              

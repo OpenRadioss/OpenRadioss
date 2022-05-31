@@ -75,7 +75,7 @@ C----------------------------------------------------------------
      .   J2THIRD(NEL),I1(NEL),JTHIRD(NEL),WW (NEL),
      .   DPHIDI1(NEL) ,DPHIDJ(NEL) ,ETA(NEL)
 C----------------------------------------------------------------
-      ETA(1:NEL) = UN !MULLINS DAMAGE FACTOR
+      ETA(1:NEL) = ONE !MULLINS DAMAGE FACTOR
       DO I = 1,NEL
          JDET(I)=MATB(I,1,1)*MATB(I,2,2)*MATB(I,3,3) -MATB(I,1,1)*MATB(I,2,3)*MATB(I,3,2) -
      .       MATB(I,3,3)*MATB(I,1,2)*MATB(I,2,1) +MATB(I,1,2)*MATB(I,2,3)*MATB(I,3,1) +
@@ -98,10 +98,10 @@ C----------------------------------------------------------------
       !====================================
       IF(FLAG_MUL == 1)THEN
        DO I = 1,NEL
-         WW(I) =  MU *( C1 * (BI1(I)- TROIS)+C2 * BETA *   (BI1(I)**2- NEUF)
-     .   +                                   C3 * BETA**2 *(BI1(I)**3- TROIS**3)    
-     .   +                                   C4 * BETA**3 *(BI1(I)**4- TROIS**4)
-     .   +                                   C5 * BETA**4 *(BI1(I)**5- TROIS**5) )
+         WW(I) =  MU *( C1 * (BI1(I)- THREE)+C2 * BETA *   (BI1(I)**2- NINE)
+     .   +                                   C3 * BETA**2 *(BI1(I)**3- THREE**3)    
+     .   +                                   C4 * BETA**3 *(BI1(I)**4- THREE**4)
+     .   +                                   C5 * BETA**4 *(BI1(I)**5- THREE**5) )
 
        ENDDO
        CALL MULLINS_OR(
@@ -112,13 +112,13 @@ C----------------------------------------------------------------
       !====================================
 
       DO I = 1,NEL
-        ETA(I) = MAX(MIN(ETA(I),UN),EM20)
-        DPHIDI1(I) = ETA(I)* DEUX*MU *( C1 + DEUX * C2 * BETA * BI1(I)
-     .   +                           TROIS* C3 *(BETA *BI1(I))**2    
-     .   +                          QUATRE* C4 *(BETA *BI1(I))**3 
-     .   +                          CINQ  * C5 *(BETA *BI1(I))**4)/MAX(EM20,JDET(I))
+        ETA(I) = MAX(MIN(ETA(I),ONE),EM20)
+        DPHIDI1(I) = ETA(I)* TWO*MU *( C1 + TWO * C2 * BETA * BI1(I)
+     .   +                           THREE* C3 *(BETA *BI1(I))**2    
+     .   +                          FOUR* C4 *(BETA *BI1(I))**3 
+     .   +                          FIVE  * C5 *(BETA *BI1(I))**4)/MAX(EM20,JDET(I))
 
-        DPHIDJ(I)  = D * (  JDET(I) - UN /MAX(EM20,JDET(I)) ) !d=1/d
+        DPHIDJ(I)  = D * (  JDET(I) - ONE /MAX(EM20,JDET(I)) ) !d=1/d
       ENDDO
       DO I = 1,NEL
          SIG(I,1,1) =  DPHIDI1(I)* (MATB(I,1,1)-THIRD*BI1(I))

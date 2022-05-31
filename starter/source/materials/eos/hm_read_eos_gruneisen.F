@@ -114,34 +114,34 @@ C-----------------------------------------------
       PM(36)  = A
       PM(160) = S2
       PM(161) = S3
-      IF(PM(79)==ZERO)PM(79)=TROIS100
+      IF(PM(79)==ZERO)PM(79)=THREE100
 
       !COMPUTE INITIAL PRESSURE FOR PM(31)->SIG(1:3,*)
       !SSP0
-      MU0 = RHOI/RHOR-UN
+      MU0 = RHOI/RHOR-ONE
       MU2=MU0*MU0
       DF = RHOR/RHOI 
       PP=PM(31)    
       SSP0 = ZERO 
       G0 = PM(22)
       RHOI = PM(89) 
-        FAC=UN
-        FAC1=UN
+        FAC=ONE
+        FAC1=ONE
         IF(MU0>0)THEN
-         XX= MU0/(UN+MU0)
-         FF=UN+(UN-UNDEMI*GAMA0)*MU0-UNDEMI*A*MU2
-         FG=UN-(S1-UN+S2*XX+S3*XX*XX)*MU0
+         XX= MU0/(ONE+MU0)
+         FF=ONE+(ONE-HALF*GAMA0)*MU0-HALF*A*MU2
+         FG=ONE-(S1-ONE+S2*XX+S3*XX*XX)*MU0
          FAC=FF/(FG*FG)
-         DFF=UN-UNDEMI*GAMA0-A*MU0
-         DFG=UN-S1+XX*(-DEUX*S2+XX*(S2-TROIS*S3)+DEUX*S3*XX*XX)
-         FAC1=FAC*(UN+MU0*(DFF/FF-DEUX*DFG/FG))        
+         DFF=ONE-HALF*GAMA0-A*MU0
+         DFG=ONE-S1+XX*(-TWO*S2+XX*(S2-THREE*S3)+TWO*S3*XX*XX)
+         FAC1=FAC*(ONE+MU0*(DFF/FF-TWO*DFG/FG))        
         ENDIF       
         AA=FAC*RHOR*C*C*MU0
         BB=GAMA0+A*MU0
         PP=MAX(AA+BB*E0,PM(37))
         DPDMU=FAC1*RHOI*C*C+PP*DF*DF*BB+A*E0
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + DTIERS*G0)/RHOR) 
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0
       PM(31) = PP     
       PM(104) = PP       

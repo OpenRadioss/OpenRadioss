@@ -109,7 +109,7 @@ C
 C
       IF (ISMSTR == 11) THEN
         DO I=JFT,JLT
-          IF(ABS(OFFG(I)) == UN)OFFG(I)=SIGN(DEUX,OFFG(I))
+          IF(ABS(OFFG(I)) == ONE)OFFG(I)=SIGN(TWO,OFFG(I))
           UX1(I) = ZERO
           UY1(I) = ZERO
           UX2(I) = ZERO
@@ -118,7 +118,7 @@ C
           UY3(I) = ZERO
           UX4(I) = ZERO
           UY4(I) = ZERO
-          IF(ABS(OFFG(I)) == DEUX)THEN
+          IF(ABS(OFFG(I)) == TWO)THEN
             UX2(I) = X2(I)-SMSTR(II(1)+I)
             UY2(I) = Y2(I)-SMSTR(II(2)+I)
             UX3(I) = X3(I)-SMSTR(II(3)+I)
@@ -143,7 +143,7 @@ C
         ENDDO
       ELSEIF(ISMSTR == 1.OR.ISMSTR == 2)THEN
         DO I=JFT,JLT
-          IF(ABS(OFFG(I)) == DEUX)THEN
+          IF(ABS(OFFG(I)) == TWO)THEN
             X2(I)=SMSTR(II(1)+I)
             Y2(I)=SMSTR(II(2)+I)
             X3(I)=SMSTR(II(3)+I)
@@ -162,21 +162,21 @@ C
         ENDDO
         IF (ISMSTR == 1) THEN
           DO I=JFT,JLT
-            IF (OFFG(I) == UN) OFFG(I)=DEUX
+            IF (OFFG(I) == ONE) OFFG(I)=TWO
           ENDDO
         ENDIF
       ENDIF
 C
       DO 40 I=JFT,JLT
-      PX1(I)= UNDEMI*(Y2(I)-Y4(I))
-      PY1(I)= UNDEMI*(X4(I)-X2(I))
-      PX2(I)= UNDEMI* Y3(I)
-      PY2(I)=-UNDEMI* X3(I)     
+      PX1(I)= HALF*(Y2(I)-Y4(I))
+      PY1(I)= HALF*(X4(I)-X2(I))
+      PX2(I)= HALF* Y3(I)
+      PY2(I)=-HALF* X3(I)     
    40 CONTINUE
 C
       DO  I=JFT,JLT
-        AREA(I)= MAX(DEUX*(PY2(I)*PX1(I)-PY1(I)*PX2(I)),EM20)
-        A_I(I) = UN / AREA(I)
+        AREA(I)= MAX(TWO*(PY2(I)*PX1(I)-PY1(I)*PX2(I)),EM20)
+        A_I(I) = ONE / AREA(I)
       ENDDO
 C
 C     CALCUL POUR VECTEURS HOURGLASS

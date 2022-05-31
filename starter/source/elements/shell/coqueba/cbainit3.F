@@ -292,7 +292,7 @@ c---------------------------
      .                XFEM_STR(NG,IXEL)%GBUF%OFF,THKE,KSH4TREE,SH4TREE)
           DO I=LFT,LLT
             XFEM_STR(NG,IXEL)%GBUF%THK(I) = THKE(I)
-            XFEM_STR(NG,IXEL)%GBUF%OFF(I) = -UN
+            XFEM_STR(NG,IXEL)%GBUF%OFF(I) = -ONE
           END DO
         ENDDO
       ENDIF

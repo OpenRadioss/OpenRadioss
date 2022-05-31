@@ -272,8 +272,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       test si contact
 C-----------------------------------------------
-        IF(R(I).GE.-UN.AND.S(I).GE.-UN.AND.T(I).GE.-UN.AND.
-     .     R(I).LE. UN.AND.S(I).LE. UN.AND.T(I).LE. UN)THEN
+        IF(R(I).GE.-ONE.AND.S(I).GE.-ONE.AND.T(I).GE.-ONE.AND.
+     .     R(I).LE. ONE.AND.S(I).LE. ONE.AND.T(I).LE. ONE)THEN
 C
           NK = 21
           VX = ZERO
@@ -298,7 +298,7 @@ c      print *, "vitesse entrante",vn
       print *, "s = ",S(I)
 c
 c           AA = DT12/SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
-           AA = UN/SQRT(NSX(I)*NSX(I)+NSY(I)*NSY(I)+NSZ(I)*NSZ(I))
+           AA = ONE/SQRT(NSX(I)*NSX(I)+NSY(I)*NSY(I)+NSZ(I)*NSZ(I))
            NSX(I) = NSX(I)*AA
            NSY(I) = NSY(I)*AA
            NSZ(I) = NSZ(I)*AA
@@ -347,8 +347,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       test si contact
 C-----------------------------------------------
-        IF(R(I).GE.-UN.AND.S(I).GE.-UN.AND.T(I).GE.-UN.AND.
-     .     R(I).LE. UN.AND.S(I).LE. UN.AND.T(I).LE. UN)THEN
+        IF(R(I).GE.-ONE.AND.S(I).GE.-ONE.AND.T(I).GE.-ONE.AND.
+     .     R(I).LE. ONE.AND.S(I).LE. ONE.AND.T(I).LE. ONE)THEN
 C
           NK = 21
           VX = ZERO
@@ -434,8 +434,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       test si contact
 C-----------------------------------------------
-        IF(R(I).GE.-UN.AND.S(I).GE.-UN.AND.T(I).GE.-UN.AND.
-     .     R(I).LE. UN.AND.S(I).LE. UN.AND.T(I).LE. UN)THEN
+        IF(R(I).GE.-ONE.AND.S(I).GE.-ONE.AND.T(I).GE.-ONE.AND.
+     .     R(I).LE. ONE.AND.S(I).LE. ONE.AND.T(I).LE. ONE)THEN
 C
            NK = 21
 C-----------------------------------------------

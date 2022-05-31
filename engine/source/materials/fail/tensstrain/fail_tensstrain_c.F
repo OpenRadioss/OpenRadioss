@@ -127,7 +127,7 @@ c=======================================================================
       EPSF2        = UPARAM(2)
       EPSP1        = UPARAM(3)
       EPSP2        = UPARAM(4)
-      SCALE_TEMP   = UN
+      SCALE_TEMP   = ONE
 
       DAMAGE(1:NEL)=ZERO
 C-----------------------------------------------
@@ -152,7 +152,7 @@ c
               FAC = SC_EL * FINTER(IFUNC(2),LAMBDA,NPF,TF,DF) 
               UVAR(I,1) = FAC
             ELSE
-              UVAR(I,1) = UN
+              UVAR(I,1) = ONE
             ENDIF
           CASE (3)
             IF (IFUNC(2) .NE. 0)THEN
@@ -160,7 +160,7 @@ c
               FAC = SC_EL * FINTER(IFUNC(2),LAMBDA,NPF,TF,DF) 
               UVAR(I,1) = FAC
             ELSE
-              UVAR(I,1) = UN
+              UVAR(I,1) = ONE
             ENDIF
           CASE DEFAULT    ! old formulation, backward compatibility only
             UVAR(I,1) = EPSP1
@@ -189,14 +189,14 @@ c
         CASE (1,2)      ! equivalent strain criterion
           IF (STRFLAG == 1 .or. STRFLAG == 4) THEN
             DO I=1,NEL          
-              EPST_A = UNDEMI*(EPSXX(I)+EPSYY(I))
-              EPST_B = SQRT( (UNDEMI*(EPSXX(I)-EPSYY(I)))**2 + (EPSXY(I)**2) )
+              EPST_A = HALF*(EPSXX(I)+EPSYY(I))
+              EPST_B = SQRT( (HALF*(EPSXX(I)-EPSYY(I)))**2 + (EPSXY(I)**2) )
               EPST1(I)  = EPST_A + EPST_B
               EPST2(I)  = EPST_A - EPST_B
             ENDDO
           ELSE
             DO I=1,NEL
-              EPS_MAX(I) = UNDEMI*(EPSXX(I)+EPSYY(I)
+              EPS_MAX(I) = HALF*(EPSXX(I)+EPSYY(I)
      .                + SQRT( (EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
      .                + EPSXY(I)*EPSXY(I) ) )
             ENDDO
@@ -204,8 +204,8 @@ c
 c
         CASE (3)      ! max tensile principal strain criterion
           DO I=1,NEL          
-            EPST_A = UNDEMI*(EPSXX(I)+EPSYY(I))
-            EPST_B = SQRT( (UNDEMI*(EPSXX(I)-EPSYY(I)))**2 + (EPSXY(I)**2) )
+            EPST_A = HALF*(EPSXX(I)+EPSYY(I))
+            EPST_B = SQRT( (HALF*(EPSXX(I)-EPSYY(I)))**2 + (EPSXY(I)**2) )
             EPST1(I)  = EPST_A + EPST_B
             EPST2(I)  = EPST_A - EPST_B
             IF (EPST1(I) > -EPST2(I)) THEN
@@ -221,37 +221,37 @@ c--------------------------
       SELECT CASE (STRFLAG)
         CASE (1)  !  transform Cauchy-Green to engineering
           DO I=1,NEL
-            IF (OFF(I) == UN ) THEN
-              EPST1(I) = SQRT(EPST1(I) + UN) - UN
-              EPST2(I) = SQRT(EPST2(I) + UN) - UN
+            IF (OFF(I) == ONE ) THEN
+              EPST1(I) = SQRT(EPST1(I) + ONE) - ONE
+              EPST2(I) = SQRT(EPST2(I) + ONE) - ONE
               EPS_MAX(I) = SQRT(EPST1(I)**2 + EPST2(I)**2)
-              EPSRATE(I) = SQRT(EPSP(I) + UN) - UN
+              EPSRATE(I) = SQRT(EPSP(I) + ONE) - ONE
             END IF
           ENDDO
 c
         CASE (2)  !  transform true strain to engineering
           DO I=1,NEL
-            IF (OFF(I) == UN ) THEN
-              EPS_MAX(I) = EXP(EPS_MAX(I)) - UN
-              EPSRATE(I) = EXP(EPSP(I)) - UN
+            IF (OFF(I) == ONE ) THEN
+              EPS_MAX(I) = EXP(EPS_MAX(I)) - ONE
+              EPSRATE(I) = EXP(EPSP(I)) - ONE
             END IF
           ENDDO
 c
         CASE (3)  !  transform engineering to true strain
           DO I=1,NEL
-            IF (OFF(I) == UN ) THEN
-              EPS_MAX(I) = LOG(EPS_MAX(I) + UN)
-              EPSRATE(I) = LOG(EPSP(I) + UN)
+            IF (OFF(I) == ONE ) THEN
+              EPS_MAX(I) = LOG(EPS_MAX(I) + ONE)
+              EPSRATE(I) = LOG(EPSP(I) + ONE)
             END IF
           ENDDO
 c
         CASE (4)  !  transform Cauchy-Green to true strain
           DO I=1,NEL
-            IF (OFF(I) == UN ) THEN
-              EPST1(I) = LOG(SQRT(EPST1(I)+UN))
-              EPST2(I) = LOG(SQRT(EPST2(I)+UN))
+            IF (OFF(I) == ONE ) THEN
+              EPST1(I) = LOG(SQRT(EPST1(I)+ONE))
+              EPST2(I) = LOG(SQRT(EPST2(I)+ONE))
               EPS_MAX(I) = SQRT(EPST1(I)**2 + EPST2(I)**2)
-              EPSRATE(I) = LOG(SQRT(EPSP(I)+UN))
+              EPSRATE(I) = LOG(SQRT(EPSP(I)+ONE))
             END IF
           ENDDO
 c
@@ -274,19 +274,19 @@ C-------------------
 c     Equivalent strain. New format: Element length and temperature
 C-------------------
           DO I=1,NEL
-            IF (OFF(I) == UN .and. FOFF(I) == 1) THEN
+            IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
               IF (IFUNC(1) > 0) THEN   ! strain rate
                 EPSP_UNIT = EPSRATE(I) * UNIT_T
                 RFAC = FINTER(IFUNC(1),EPSP_UNIT,NPF,TF,DYDX)
                 RFAC = MAX(RFAC,EM20)
               ELSE
-                RFAC = UN
+                RFAC = ONE
               ENDIF  
               IF (IFUNC(3) > 0) THEN   ! temperatuer
                 RFAC2 = FINTER(IFUNC(3),TSTAR(I),NPF,TF,DYDX)
                 RFAC2 = MAX(RFAC2,EM20)
               ELSE
-                RFAC2 = UN
+                RFAC2 = ONE
               ENDIF  
               R1 = EPSF1*RFAC*RFAC2*UVAR(I,1)
               R2 = EPSF2*RFAC*RFAC2*UVAR(I,1)  
@@ -295,7 +295,7 @@ C-------------------
                   NINDXD = NINDXD + 1  
                   INDXD(NINDXD) = I
                 ENDIF   
-                DAMAGE(I) = MIN(UN, (EPS_MAX(I)-R1)/(R2-R1))
+                DAMAGE(I) = MIN(ONE, (EPS_MAX(I)-R1)/(R2-R1))
               ENDIF
               IF (EPS_MAX(I) >= R2) THEN
                 FOFF(I) = 0
@@ -311,19 +311,19 @@ C-------------------
 c     Principal strain.  New format: No failure in compression
 C-------------------
           DO I=1,NEL
-            IF (OFF(I) == UN .and. FOFF(I) == 1) THEN
+            IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
               IF (IFUNC(1) > 0) THEN   ! strain rate
                 EPSP_UNIT = EPSRATE(I) * UNIT_T
                 RFAC = FINTER(IFUNC(1),EPSP_UNIT,NPF,TF,DYDX)
                 RFAC = MAX(RFAC,EM20)
               ELSE
-                RFAC = UN
+                RFAC = ONE
               ENDIF  
               IF (IFUNC(3) > 0) THEN   ! temperatuer
                 RFAC2 = FINTER(IFUNC(3),TSTAR(I),NPF,TF,DYDX)
                 RFAC2 = MAX(RFAC2,EM20)
               ELSE
-                RFAC2 = UN
+                RFAC2 = ONE
               ENDIF  
               R1 = EPSF1*RFAC*RFAC2*UVAR(I,1)
               R2 = EPSF2*RFAC*RFAC2*UVAR(I,1)  
@@ -332,7 +332,7 @@ C-------------------
                   NINDXD = NINDXD + 1  
                   INDXD(NINDXD) = I
                 ENDIF   
-                DAMAGE(I) = MIN(UN, (EPS_MAX(I)-R1)/(R2-R1))
+                DAMAGE(I) = MIN(ONE, (EPS_MAX(I)-R1)/(R2-R1))
               ENDIF
               IF ( EPS_MAX(I) >= R2) THEN
                 FOFF(I) = 0
@@ -349,13 +349,13 @@ C-------------------
         CASE DEFAULT  
 
           DO I=1,NEL
-            IF (OFF(I) == UN .and. FOFF(I) == 1) THEN
+            IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
               IF (IFUNC(1) > 0) THEN
                 EPSP_UNIT = EPSRATE(I) * UNIT_T
                 RFAC = FINTER(IFUNC(1),EPSP_UNIT,NPF,TF,DYDX)
                 RFAC = MAX(RFAC,EM20)
               ELSE
-                RFAC = UN
+                RFAC = ONE
               ENDIF  
               R1 = EPSF1*RFAC
               R2 = EPSF2*RFAC      
@@ -364,7 +364,7 @@ C-------------------
                   NINDXD = NINDXD + 1  
                   INDXD(NINDXD) = I
                 ENDIF   
-                DAMAGE(I) = MIN(UN, (EPS_MAX(I)-R1)/(R2-R1))
+                DAMAGE(I) = MIN(ONE, (EPS_MAX(I)-R1)/(R2-R1))
               ENDIF
               IF (EPS_MAX(I) >= R2) THEN
                 FOFF(I) = 0
@@ -376,17 +376,17 @@ c
               E22 = ZERO
               IF (EPSP1 > ZERO .OR. EPSP2 > ZERO) THEN
                 IF (EPSP2 > ZERO) THEN
-                  E22 = UNDEMI*( EPSXX(I)+EPSYY(I)
+                  E22 = HALF*( EPSXX(I)+EPSYY(I)
      .                - SQRT( (EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
      .                + EPSXY(I)*EPSXY(I) ) )
                   IF (STRFLAG == 1) THEN
-                    E22 = SQRT(E22 + UN) - UN
+                    E22 = SQRT(E22 + ONE) - ONE
                   ELSE IF (STRFLAG == 2) THEN
-                    E22 = EXP(E22) - UN
+                    E22 = EXP(E22) - ONE
                   ELSE IF (STRFLAG == 3) THEN
-                    E22 = LOG(E22 + UN)
+                    E22 = LOG(E22 + ONE)
                   ELSE IF (STRFLAG == 4) THEN
-                    E22 = LOG(SQRT(E22+UN))
+                    E22 = LOG(SQRT(E22+ONE))
                   END IF
                 ENDIF
                 IF (EPS_MAX(I) > UVAR(I,1) .AND. UVAR(I,1) /= ZERO) THEN
@@ -401,7 +401,7 @@ c
                   INDX2(NINDX2) = I
                   EPS_MAX(I) = E22
                 ENDIF
-                DFMAX(I)  = MAX(DFMAX(I),MIN( UN, (EPS_MAX(I) / UVAR(I,1))))
+                DFMAX(I)  = MAX(DFMAX(I),MIN( ONE, (EPS_MAX(I) / UVAR(I,1))))
                 SCALE_FLAG = 0
               ENDIF
 c              
@@ -412,7 +412,7 @@ c-----------------------------------------------------------------------
 c---  Maximum Damage for output : 0 < DFMAX < 1
       DO I=1,NEL
         DFMAX(I)     = MAX(DFMAX(I), DAMAGE(I))
-        IF (SCALE_FLAG == 1) DMG_SCALE(I) = UN - DFMAX(I)
+        IF (SCALE_FLAG == 1) DMG_SCALE(I) = ONE - DFMAX(I)
       ENDDO           
 c------------------------
 c     print

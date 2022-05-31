@@ -145,21 +145,21 @@ C-----------------------------------------------
 C----------------------------------------------- 
 C     YIELD PARAMETERS   
 C-----------------------------------------------
-      G=E/DEUX/(UN+NU) 
+      G=E/TWO/(ONE+NU) 
       SELECT CASE(IFORM)
         CASE(1)
-          K     = SIX*C*COS(PHI)/SQRT(TROIS)/(TROIS-SIN(PHI))
-          ALPHA = DEUX*SIN(PHI)/SQRT(TROIS)/(TROIS-SIN(PHI))
+          K     = SIX*C*COS(PHI)/SQRT(THREE)/(THREE-SIN(PHI))
+          ALPHA = TWO*SIN(PHI)/SQRT(THREE)/(THREE-SIN(PHI))
         CASE(2)
-          K     = SIX*C*COS(PHI)/SQRT(TROIS)/(TROIS+SIN(PHI))
-          ALPHA = DEUX*SIN(PHI)/SQRT(TROIS)/(TROIS+SIN(PHI))
+          K     = SIX*C*COS(PHI)/SQRT(THREE)/(THREE+SIN(PHI))
+          ALPHA = TWO*SIN(PHI)/SQRT(THREE)/(THREE+SIN(PHI))
         CASE(3)
-          K     = TROIS*C*COS(PHI)/SQRT(NEUF+TROIS*SIN(PHI)*SIN(PHI))
-          ALPHA = SIN(PHI)/SQRT(NEUF+TROIS*SIN(PHI)*SIN(PHI))
+          K     = THREE*C*COS(PHI)/SQRT(NINE+THREE*SIN(PHI)*SIN(PHI))
+          ALPHA = SIN(PHI)/SQRT(NINE+THREE*SIN(PHI)*SIN(PHI))
       END SELECT
       A0 = K*K
       A1 = SIX*K*ALPHA
-      A2 = NEUF*ALPHA*ALPHA
+      A2 = NINE*ALPHA*ALPHA
 
       IF(E.LE.ZERO)THEN
         chain='YOUNG MODULUS MUST BE DEFINED                           '
@@ -189,14 +189,14 @@ C-----------------------------------------------
       IF(A2.EQ.ZERO .AND. A1/=ZERO)THEN 
         PSTAR=-A0/A1 
       ELSEIF(A2.NE.ZERO)THEN
-        DELTA = A1*A1-QUATRE*A0*A2
+        DELTA = A1*A1-FOUR*A0*A2
         !Si intersection avec l'axe
         IF(DELTA .GE. ZERO)THEN
           DELTA=SQRT(DELTA)
-          PSTAR = (-A1+DELTA)/DEUX/A2
+          PSTAR = (-A1+DELTA)/TWO/A2
         
         ELSE
-          PSTAR = -A1/DEUX/A2 ! extremum          
+          PSTAR = -A1/TWO/A2 ! extremum          
     !      chain='FITTED YIELD FUNCTION HAS NO ROOT. CHECK INPUT PARAMETER        '      
     !      CALL ANCMSG(  MSGID=829,
     ! .                  MSGTYPE=MSGWARNING,
@@ -240,7 +240,7 @@ C-----------------------------------------------
       NUVAR     = 1 
       NFUNC     = 0 
       STIFINT   = E
-      PARMAT(1) = STIFINT/TROIS !
+      PARMAT(1) = STIFINT/THREE !
       PARMAT(2) = STIFINT
       PARMAT(3) = NU
 

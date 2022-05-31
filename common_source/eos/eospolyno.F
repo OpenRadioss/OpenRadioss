@@ -91,13 +91,13 @@ C-----------------------------------------
 
        DO I=LFT,LLT
          PP      = C0 +(C1 +C3 *MU(I)*MU(I))*MU(I)+C2 *MU2(I) + (C4 +C5 *MU(I))*ESPE(I)
-         DPDM(I) = C1 + DEUX*C2 *MAX(ZERO,MU(I))+TROIS*C3 *MU(I)*MU(I) + C5 *ESPE(I)+(C4 +C5 *MU(I))*DF(I)*DF(I)*(PP+PSH(I) )
+         DPDM(I) = C1 + TWO*C2 *MAX(ZERO,MU(I))+THREE*C3 *MU(I)*MU(I) + C5 *ESPE(I)+(C4 +C5 *MU(I))*DF(I)*DF(I)*(PP+PSH(I) )
          DPDE(I) = C4 +C5 *MU(I)
        ENDDO
 
        DO I=LFT,LLT
-         ECOLD(I)=-TROIS100*SPH 
-         IF(MU(I).GT.ZERO) ECOLD(I)=ECOLD(I)*(UN+C4 *MU(I)*(UN-MU(I)))+UNDEMI*C1 *MU2(I)
+         ECOLD(I)=-THREE100*SPH 
+         IF(MU(I).GT.ZERO) ECOLD(I)=ECOLD(I)*(ONE+C4 *MU(I)*(ONE-MU(I)))+HALF*C1 *MU2(I)
        ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -119,10 +119,10 @@ C
        DO I=LFT,LLT
          AA      = C0 +MU(I)*(C1 +C3 *MU(I)*MU(I))+C2 *MU2(I)
          BB      = C4 +C5 *MU(I)
-         DVV     = UNDEMI*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-         PNEW(I) = PNEW(I) + (AA+BB*(ESPE(I)-PSH(I) *DVV))/(UN+BB*DVV)
+         DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
+         PNEW(I) = PNEW(I) + (AA+BB*(ESPE(I)-PSH(I) *DVV))/(ONE+BB*DVV)
          PNEW(I) = MAX(PNEW(I),PC )*OFF(I)
-         EINT(I) = EINT(I) - UNDEMI*DVOL(I)*(PNEW(I)+PSH(I) )
+         EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I) )
          TFEXTT  = TFEXTT-DVOL(I)*PSH(I) 
        ENDDO
        
@@ -156,7 +156,7 @@ C------------------------
           DO I=1, NEL
              IF (VNEW(I) .GT. ZERO) THEN
                 PNEW(I) = C0 +(C1 +C3 *MU(I)*MU(I))*MU(I)+C2 *MU2(I) + (C4 +C5 *MU(I))*ESPE(I)
-                DPDM(I) = C1 + DEUX*C2 *MAX(ZERO,MU(I))+TROIS*C3 *MU(I)*MU(I) + 
+                DPDM(I) = C1 + TWO*C2 *MAX(ZERO,MU(I))+THREE*C3 *MU(I)*MU(I) + 
      .               C5 *ESPE(I)+(C4 +C5 *MU(I))*DF(I)*DF(I)*(PNEW(I)+PSH(I) )
                 DPDE(I) = C4 +C5 *MU(I)
                 PNEW(I) = MAX(PNEW(I),PC )*OFF(I)

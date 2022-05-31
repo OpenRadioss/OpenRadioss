@@ -134,15 +134,15 @@ C
           IX4(K) = IRECT(4,L)  
 C
           NIR= 4                
-          SP = UN + S           
-          SM = UN - S           
-          TP = QUART*(UN + T)    
-          TM = QUART*(UN - T)
+          SP = ONE + S           
+          SM = ONE - S           
+          TP = FOURTH*(ONE + T)    
+          TM = FOURTH*(ONE - T)
 C    
-          H(1,K)=QUART          
-          H(2,K)=QUART           
-          H(3,K)=QUART           
-          H(4,K)=QUART
+          H(1,K)=FOURTH          
+          H(2,K)=FOURTH           
+          H(3,K)=FOURTH           
+          H(4,K)=FOURTH
 C    
           H2(1,K)=TM*SM           
           H2(2,K)=TM*SP           
@@ -400,15 +400,15 @@ C
      .                           MS_PENA(IX4(K))==ZERO)THEN
             MHARM = ZERO
           ELSEIF(NIR==4)THEN
-            MHARM = UN/MS_PENA(I) + 
-     .              UN/MS_PENA(IX1(K)) + UN/MS_PENA(IX2(K)) + UN/MS_PENA(IX3(K)) + UN/MS_PENA(IX4(K))
-            MHARM = UN/MHARM
+            MHARM = ONE/MS_PENA(I) + 
+     .              ONE/MS_PENA(IX1(K)) + ONE/MS_PENA(IX2(K)) + ONE/MS_PENA(IX3(K)) + ONE/MS_PENA(IX4(K))
+            MHARM = ONE/MHARM
           ELSE
-            MHARM = UN/MS_PENA(I) + 
-     .              UN/MS_PENA(IX1(K)) + UN/MS_PENA(IX2(K)) + UN/MS_PENA(IX3(K))
-            MHARM = UN/MHARM
+            MHARM = ONE/MS_PENA(I) + 
+     .              ONE/MS_PENA(IX1(K)) + ONE/MS_PENA(IX2(K)) + ONE/MS_PENA(IX3(K))
+            MHARM = ONE/MHARM
           END IF
-          DKM    = DEUX*STFN(II)*MHARM
+          DKM    = TWO*STFN(II)*MHARM
           VIS(K) = VISC*SQRT(DKM)
 C
           FXV = VIS(K) * VX
@@ -416,7 +416,7 @@ C
           FZV = VIS(K) * VZ
 c
           DXT = DX(1,II)**2 + DX(2,II)**2 + DX(3,II)**2
-          ECONTT = ECONTT + UNDEMI*STFN(II)*DXT
+          ECONTT = ECONTT + HALF*STFN(II)*DXT
 
           ECONVT = ECONVT + (FXV*VX + FYV*VY + FZV*VZ)*DT1
 c
@@ -442,16 +442,16 @@ C
      .                      MINER(IX4(K))==ZERO)THEN
             INHARM = ZERO
           ELSEIF(NIR==4)THEN
-            INHARM = UN/IN(I) + 
-     .              UN/MINER(IX1(K)) + UN/MINER(IX2(K)) + UN/MINER(IX3(K)) + UN/MINER(IX4(K))
-            INHARM = UN/INHARM
+            INHARM = ONE/IN(I) + 
+     .              ONE/MINER(IX1(K)) + ONE/MINER(IX2(K)) + ONE/MINER(IX3(K)) + ONE/MINER(IX4(K))
+            INHARM = ONE/INHARM
           ELSE
-            INHARM = UN/IN(I) + 
-     .              UN/MINER(IX1(K)) + UN/MINER(IX2(K)) + UN/MINER(IX3(K))
-            INHARM = UN/INHARM
+            INHARM = ONE/IN(I) + 
+     .              ONE/MINER(IX1(K)) + ONE/MINER(IX2(K)) + ONE/MINER(IX3(K))
+            INHARM = ONE/INHARM
           END IF
 C
-          DKI    = DEUX*STFR(II)*INHARM
+          DKI    = TWO*STFR(II)*INHARM
           VISR(K) = VISC*SQRT(DKI)
 C
           MLX = DR(1,II) * STFR(II)
@@ -463,7 +463,7 @@ C
           MVZ = VISR(K) * VRZ
 C
           DXT = DR(1,II)**2  + DR(2,II)**2 + DR(3,II)**2
-          ECONTT = ECONTT + UNDEMI*STFR(II)*DXT
+          ECONTT = ECONTT + HALF*STFR(II)*DXT
 
           ECONVT = ECONVT    + (MVX*VRX 
      .                       +  MVY*VRY 
@@ -477,9 +477,9 @@ C
           MGY = E1Y*MLX + E2Y*MLY + E3Y*MLZ 
           MGZ = E1Z*MLX + E2Z*MLY + E3Z*MLZ
 C
-          MRX = UNDEMI*(YSM*FTZ - ZSM*FTY)
-          MRY = UNDEMI*(ZSM*FTX - XSM*FTZ)
-          MRZ = UNDEMI*(XSM*FTY - YSM*FTX)
+          MRX = HALF*(YSM*FTZ - ZSM*FTY)
+          MRY = HALF*(ZSM*FTX - XSM*FTZ)
+          MRZ = HALF*(XSM*FTY - YSM*FTX)
 C
           ELSE
 C
@@ -499,10 +499,10 @@ C------------------------------------------------
 C         Compuation of stiffness for nodal time step
 C------------------------------------------------
 C
-          STF     = STFN(II)*(VISC + SQRT(VISC**2 + (UN+STBRK)))**2
+          STF     = STFN(II)*(VISC + SQRT(VISC**2 + (ONE+STBRK)))**2
 C
           LEN2 = XSM**2+YSM**2+ZSM**2  
-          STR     = (STFR(II)+STFN(II)*LEN2)*(VISC + SQRT(VISC**2 + UN))**2
+          STR     = (STFR(II)+STFN(II)*LEN2)*(VISC + SQRT(VISC**2 + ONE))**2
 C
 C----------------------------------------------------
 C         Secnd forces/moments -> global coordinates 
@@ -514,7 +514,7 @@ C
           SAV_FOR_PENA(4,I) = SAV_FOR_PENA(4,I) + STF
 C
 C         for SMS ::
-          STIF(K) = (UN+STBRK)*STFN(II)
+          STIF(K) = (ONE+STBRK)*STFN(II)
 C
           IF (IRODDL == 1) THEN
             IF (IN(I).GT.ZERO) THEN 

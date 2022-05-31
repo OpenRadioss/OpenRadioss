@@ -126,8 +126,8 @@ C
              RHOCPG = RHOCPG + PM(69,MATLY)*THKLY 
              A11   =  A11 + A1THK
              B1T2 = B1T2 + A1THK*POSLY
-             A11R   = A11R + A1THK*(THKLY*THKLY*UNDOUZE + POSLY*POSLY)
-             IZ = IZ + THKLY*(THKLY*THKLY*UNDOUZE + POSLY*POSLY) 
+             A11R   = A11R + A1THK*(THKLY*THKLY*ONE_OVER_12 + POSLY*POSLY)
+             IZ = IZ + THKLY*(THKLY*THKLY*ONE_OVER_12 + POSLY*POSLY) 
              C1 = C1 + C1THK
              G = G + GTHK
              NU = NU + NUTHK
@@ -139,9 +139,9 @@ C
           RHOCP = RHOCPG/MAX(EM20,THICKT)
           E = E/MAX(EM20,THICKT)
           A11 = A11/MAX(EM20,THICKT) 
-          IF(IPOS > 0)A11 = DEUX*A11
+          IF(IPOS > 0)A11 = TWO*A11
           A12 = A12/MAX(EM20,THICKT)
-          IZ = UNDOUZE*THICKT**3
+          IZ = ONE_OVER_12*THICKT**3
           A11R =A11R/MAX(EM20, IZ)
           C1 = C1 /MAX(EM20,THICKT)
           G = G /MAX(EM20,THICKT)
@@ -213,8 +213,8 @@ C
                RHOCPG = RHOCPG + PM(69,MATLY)*THKLY 
                A11   =  A11 + A1THK
                B1T2 = B1T2 + A1THK*POSLY
-               A11R   = A11R + A1THK*(THKLY*THKLY*UNDOUZE + POSLY*POSLY)
-               IZ = IZ + THKLY*(THKLY*THKLY*UNDOUZE + POSLY*POSLY) 
+               A11R   = A11R + A1THK*(THKLY*THKLY*ONE_OVER_12 + POSLY*POSLY)
+               IZ = IZ + THKLY*(THKLY*THKLY*ONE_OVER_12 + POSLY*POSLY) 
                C1 = C1 + C1THK
                G = G + GTHK
                NU = NU + NUTHK
@@ -226,9 +226,9 @@ C
               RHOCP = RHOCPG/MAX(EM20,THICKT)
               E = E/MAX(EM20,THICKT)
               A11 = A11/MAX(EM20,THICKT) 
-              IF(IPOS > 0)A11 = DEUX*A11
+              IF(IPOS > 0)A11 = TWO*A11
               A12 = A12/MAX(EM20,THICKT)
-              IZ = UNDOUZE*THICKT**3
+              IZ = ONE_OVER_12*THICKT**3
               A11R =A11R/MAX(EM20, IZ)
               C1 = C1 /MAX(EM20,THICKT)
               G = G /MAX(EM20,THICKT)

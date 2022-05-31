@@ -199,7 +199,7 @@ c-------------------------------------------------------------------------------
      .               I2=IECROU)
         IECROU = 2
       ENDIF
-      IF (IFUNC1 == 0 .AND. A /= ZERO .AND. A /= UN) THEN
+      IF (IFUNC1 == 0 .AND. A /= ZERO .AND. A /= ONE) THEN
         CALL ANCMSG(MSGID=663,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
@@ -212,30 +212,30 @@ C----
       IF (DX == ZERO) DX= INFINITY
       IF (A == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Acoeft1' ,A_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        A  = UN * A_UNIT
+        A  = ONE * A_UNIT
       ENDIF  
       IF (D == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Dcoeft1' ,D_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-        D  = UN * D_UNIT
+        D  = ONE * D_UNIT
       ENDIF
       IF (E == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Prop_X_E',E_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        E = UN * E_UNIT
+        E = ONE * E_UNIT
       ENDIF
       IF (F == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Prop_X_F',F_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        F = UN * F_UNIT
+        F = ONE * F_UNIT
       ENDIF
       IF (LSCALE == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('scale1',L_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        LSCALE = UN*L_UNIT
+        LSCALE = ONE*L_UNIT
       ENDIF
       IF (GF3 == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('ffac',GF_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        GF3 = UN*GF_UNIT
+        GF3 = ONE*GF_UNIT
       ENDIF
       IF (IFUNC1 == 0) THEN
-        A = UN
+        A = ONE
         B = ZERO
         E = ZERO
       ENDIF
@@ -261,8 +261,8 @@ C
       UPARAM(I3 + 1)   = D
       UPARAM(I4 + 1)   = E
       UPARAM(I5 + 1)   = GF3                       
-      UPARAM(I6 + 1)   = UN / F
-      UPARAM(I7 + 1)   = UN / LSCALE
+      UPARAM(I6 + 1)   = ONE / F
+      UPARAM(I7 + 1)   = ONE / LSCALE
       UPARAM(I8 + 1)   = DN
       UPARAM(I9 + 1)   = DX
       UPARAM(I10 + 1)  = ZERO ! not used
@@ -366,7 +366,7 @@ C
      .               I2=IECROU)
         IECROU = 2
       ENDIF
-      IF (IFUNC1 == 0 .AND. A /= ZERO .AND. A /= UN) THEN
+      IF (IFUNC1 == 0 .AND. A /= ZERO .AND. A /= ONE) THEN
         CALL ANCMSG(MSGID=663,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
@@ -378,30 +378,30 @@ C----
       IF (DX == ZERO) DX = INFINITY
       IF (A == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Acoeft2' ,A_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        A  = UN * A_UNIT
+        A  = ONE * A_UNIT
       ENDIF
       IF (D == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Dcoeft2' ,D_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-        D  = UN * D_UNIT
+        D  = ONE * D_UNIT
       ENDIF
       IF (E == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Prop_Y_E',E_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        E = UN * E_UNIT
+        E = ONE * E_UNIT
       ENDIF
       IF (F == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Prop_Y_F',F_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        F = UN * F_UNIT
+        F = ONE * F_UNIT
       ENDIF
       IF (LSCALE == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('scale2',L_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        LSCALE = UN*L_UNIT
+        LSCALE = ONE*L_UNIT
       ENDIF
       IF (GF3 == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('df',GF_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        GF3 = UN*GF_UNIT
+        GF3 = ONE*GF_UNIT
       ENDIF
       IF (IFUNC1 == 0) THEN
-        A = UN
+        A = ONE
         B = ZERO
         E = ZERO
       ENDIF
@@ -411,8 +411,8 @@ C----
       UPARAM(I3 + 2)   = D
       UPARAM(I4 + 2)   = E
       UPARAM(I5 + 2)   = GF3           
-      UPARAM(I6 + 2)   = UN / F
-      UPARAM(I7 + 2)   = UN / LSCALE
+      UPARAM(I6 + 2)   = ONE / F
+      UPARAM(I7 + 2)   = ONE / LSCALE
       UPARAM(I8 + 2)   = DN
       UPARAM(I9 + 2)   = DX
       UPARAM(I10 + 2)  = ZERO ! not used
@@ -510,7 +510,7 @@ C----
      .               I2=IECROU)
         IECROU = 2
       ENDIF
-      IF (IFUNC1 == 0 .AND. A /= ZERO .AND. A /= UN) THEN
+      IF (IFUNC1 == 0 .AND. A /= ZERO .AND. A /= ONE) THEN
         CALL ANCMSG(MSGID=663,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
@@ -522,30 +522,30 @@ C----
       IF (DX == ZERO) DX = INFINITY
       IF (A == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Acoeft3' ,A_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        A  = UN * A_UNIT
+        A  = ONE * A_UNIT
       ENDIF
       IF (D == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Dcoeft3' ,D_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-        D  = UN * D_UNIT
+        D  = ONE * D_UNIT
       ENDIF
       IF (E == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Prop_Z_E',E_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        E = UN * E_UNIT
+        E = ONE * E_UNIT
       ENDIF
       IF (F == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Prop_Z_F',F_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        F = UN * F_UNIT
+        F = ONE * F_UNIT
       ENDIF
       IF (LSCALE == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('scale3',L_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        LSCALE = UN*L_UNIT
+        LSCALE = ONE*L_UNIT
       ENDIF
       IF (GF3 == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('D2'  ,GF_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        GF3 = UN*GF_UNIT
+        GF3 = ONE*GF_UNIT
       ENDIF
       IF (IFUNC1 == 0) THEN
-        A = UN
+        A = ONE
         B = ZERO
         E = ZERO
       ENDIF
@@ -555,8 +555,8 @@ C----
       UPARAM(I3 + 3)   = D
       UPARAM(I4 + 3)   = E
       UPARAM(I5 + 3)   = GF3                       
-      UPARAM(I6 + 3)   = UN / F
-      UPARAM(I7 + 3)   = UN / LSCALE
+      UPARAM(I6 + 3)   = ONE / F
+      UPARAM(I7 + 3)   = ONE / LSCALE
       UPARAM(I8 + 3)   = DN
       UPARAM(I9 + 3)   = DX
       UPARAM(I10 + 3)  = ZERO ! not used
@@ -656,7 +656,7 @@ C----
      .               I2=IECROU)
         IECROU = 2
       ENDIF
-      IF (IFUNC1 == 0 .AND. A /= ZERO .AND. A /= UN) THEN
+      IF (IFUNC1 == 0 .AND. A /= ZERO .AND. A /= ONE) THEN
         CALL ANCMSG(MSGID=663,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
@@ -668,30 +668,30 @@ C----
       IF (DX == ZERO) DX = INFINITY
       IF (A == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Acoeft4' ,A_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        A  = UN * A_UNIT
+        A  = ONE * A_UNIT
       ENDIF
       IF (D == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Dcoeft4' ,D_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-        D  = UN * D_UNIT
+        D  = ONE * D_UNIT
       ENDIF
       IF (E == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Prop_Tor_E',E_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        E = UN * E_UNIT
+        E = ONE * E_UNIT
       ENDIF
       IF (F == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Prop_Tor_F',F_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        F = UN * F_UNIT
+        F = ONE * F_UNIT
       ENDIF
       IF (LSCALE == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('scale4',L_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        LSCALE = UN*L_UNIT
+        LSCALE = ONE*L_UNIT
       ENDIF
       IF (GF3 == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Y0',GF_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        GF3 = UN*GF_UNIT
+        GF3 = ONE*GF_UNIT
       ENDIF
       IF (IFUNC1 == 0) THEN
-        A = UN
+        A = ONE
         B = ZERO
         E = ZERO
       ENDIF
@@ -702,8 +702,8 @@ C
       UPARAM(I3 + 4)   = D
       UPARAM(I4 + 4)   = E
       UPARAM(I5 + 4)   = GF3           
-      UPARAM(I6 + 4)   = UN / F
-      UPARAM(I7 + 4)   = UN / LSCALE
+      UPARAM(I6 + 4)   = ONE / F
+      UPARAM(I7 + 4)   = ONE / LSCALE
       UPARAM(I8 + 4)   = DN
       UPARAM(I9 + 4)   = DX
       UPARAM(I10 + 4)  = ZERO ! not used
@@ -797,7 +797,7 @@ C----
      .               I2=IECROU)
         IECROU = 2
       ENDIF
-      IF (IFUNC1 == 0 .AND. A /= ZERO .AND. A /= UN) THEN
+      IF (IFUNC1 == 0 .AND. A /= ZERO .AND. A /= ONE) THEN
         CALL ANCMSG(MSGID=663,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
@@ -809,30 +809,30 @@ C----
       IF (DX == ZERO) DX = INFINITY
       IF (A == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Acoeft5' ,A_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        A  = UN * A_UNIT
+        A  = ONE * A_UNIT
       ENDIF
       IF (D == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Dcoeft5' ,D_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-        D  = UN * D_UNIT
+        D  = ONE * D_UNIT
       ENDIF
       IF (E == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Prop_FlxY_E',E_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        E = UN * E_UNIT
+        E = ONE * E_UNIT
       ENDIF
       IF (F == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Prop_FlxY_F',F_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        F = UN * F_UNIT
+        F = ONE * F_UNIT
       ENDIF
       IF (LSCALE == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('scale5',L_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        LSCALE = UN*L_UNIT
+        LSCALE = ONE*L_UNIT
       ENDIF
       IF (GF3 == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Z0',GF_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        GF3 = UN*GF_UNIT
+        GF3 = ONE*GF_UNIT
       ENDIF
       IF (IFUNC1 == 0) THEN
-        A = UN
+        A = ONE
         B = ZERO
         E = ZERO
       ENDIF
@@ -842,8 +842,8 @@ C----
       UPARAM(I3 + 5)   = D
       UPARAM(I4 + 5)   = E
       UPARAM(I5 + 5)   = GF3           
-      UPARAM(I6 + 5)   = UN / F
-      UPARAM(I7 + 5)   = UN / LSCALE
+      UPARAM(I6 + 5)   = ONE / F
+      UPARAM(I7 + 5)   = ONE / LSCALE
       UPARAM(I8 + 5)   = DN
       UPARAM(I9 + 5)   = DX
       UPARAM(I10 + 5)  = ZERO ! not used
@@ -937,7 +937,7 @@ C----
      .               I2=IECROU)
         IECROU = 2
       ENDIF
-      IF (IFUNC1 == 0 .AND. A /= ZERO .AND. A /= UN) THEN
+      IF (IFUNC1 == 0 .AND. A /= ZERO .AND. A /= ONE) THEN
         CALL ANCMSG(MSGID=663,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
@@ -949,30 +949,30 @@ C----
       IF (DX == ZERO) DX = INFINITY
       IF (A == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Acoeft6' ,A_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        A  = UN * A_UNIT
+        A  = ONE * A_UNIT
       ENDIF
       IF (D == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Dcoeft6' ,D_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-        D  = UN * D_UNIT
+        D  = ONE * D_UNIT
       ENDIF
       IF (E == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Prop_FlxZ_E',E_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        E = UN * E_UNIT
+        E = ONE * E_UNIT
       ENDIF
       IF (F == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Prop_FlxZ_F',F_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        F = UN * F_UNIT
+        F = ONE * F_UNIT
       ENDIF
       IF (LSCALE == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('scale6',L_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        LSCALE = UN*L_UNIT
+        LSCALE = ONE*L_UNIT
       ENDIF
       IF (GF3 == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Hscale6',GF_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        GF3 = UN*GF_UNIT
+        GF3 = ONE*GF_UNIT
       ENDIF
       IF (IFUNC1 == 0) THEN
-        A = UN
+        A = ONE
         B = ZERO
         E = ZERO
       ENDIF
@@ -982,8 +982,8 @@ C---
       UPARAM(I3 + 6)   = D
       UPARAM(I4 + 6)   = E
       UPARAM(I5 + 6)   = GF3           
-      UPARAM(I6 + 6)   = UN / F
-      UPARAM(I7 + 6)   = UN / LSCALE
+      UPARAM(I6 + 6)   = ONE / F
+      UPARAM(I7 + 6)   = ONE / LSCALE
       UPARAM(I8 + 6)   = DN
       UPARAM(I9 + 6)   = DX
       UPARAM(I10 + 6)  = ZERO ! not used
@@ -1092,7 +1092,7 @@ c-----------
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC 2:UNCOUPLED',/,
-     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,
@@ -1116,7 +1116,7 @@ c-----------
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC 2:UNCOUPLED',/,
-     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,
@@ -1141,7 +1141,7 @@ c-----------
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC 2:UNCOUPLED',/,
-     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,
@@ -1165,7 +1165,7 @@ c-----------
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC 2:UNCOUPLED',/,
-     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,

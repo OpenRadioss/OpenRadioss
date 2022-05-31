@@ -153,15 +153,15 @@ C     Deplacement des noeuds
 C     -------------------------  
       IF (IALE .NE. 0 .AND. .NOT. PRED) THEN     ! IF CORRECTION : maillage en configuration tn+1/2 pour les flux a tn+1/2
          DO NODE_ID = 1 + ITASK, NUMNOD, NTHREAD
-            VDT = UNDEMI * TIMESTEP * WGRID(1, NODE_ID)
+            VDT = HALF * TIMESTEP * WGRID(1, NODE_ID)
             DNOD(1, NODE_ID) = DNOD(1, NODE_ID) + VDT
             XGRID(1, NODE_ID) = XGRID(1, NODE_ID) + VDT
             
-            VDT = UNDEMI * TIMESTEP * WGRID(2,NODE_ID)
+            VDT = HALF * TIMESTEP * WGRID(2,NODE_ID)
             DNOD(2, NODE_ID) = DNOD(2, NODE_ID) + VDT
             XGRID(2, NODE_ID) = XGRID(2, NODE_ID) + VDT
 
-            VDT = UNDEMI * TIMESTEP * WGRID(3,NODE_ID)
+            VDT = HALF * TIMESTEP * WGRID(3,NODE_ID)
             DNOD(3, NODE_ID) = DNOD(3, NODE_ID) + VDT
             XGRID(3, NODE_ID) = XGRID(3, NODE_ID) + VDT
          ENDDO
@@ -310,15 +310,15 @@ C     Deplacement des noeuds
 C     -------------------------  
       IF (IALE .NE. 0 .AND. .NOT. PRED) THEN    ! IF CORRECTION : maillage en configuration tn+1 pour les volumes
          DO NODE_ID = 1 + ITASK, NUMNOD, NTHREAD
-            VDT = UNDEMI * TIMESTEP * WGRID(1, NODE_ID)
+            VDT = HALF * TIMESTEP * WGRID(1, NODE_ID)
             DNOD(1, NODE_ID) = DNOD(1, NODE_ID) + VDT
             XGRID(1, NODE_ID) = XGRID(1, NODE_ID) + VDT
             
-            VDT = UNDEMI * TIMESTEP * WGRID(2,NODE_ID)
+            VDT = HALF * TIMESTEP * WGRID(2,NODE_ID)
             DNOD(2, NODE_ID) = DNOD(2, NODE_ID) + VDT
             XGRID(2, NODE_ID) = XGRID(2, NODE_ID) + VDT
 
-            VDT = UNDEMI * TIMESTEP * WGRID(3,NODE_ID)
+            VDT = HALF * TIMESTEP * WGRID(3,NODE_ID)
             DNOD(3, NODE_ID) = DNOD(3, NODE_ID) + VDT
             XGRID(3, NODE_ID) = XGRID(3, NODE_ID) + VDT
          ENDDO

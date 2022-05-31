@@ -289,10 +289,10 @@ C================================================================
           NbSubTriangles(I)=4 ; 
         END IF       
         IF(.NOT.IsSH3N)THEN                                       !centre
-          !ptZ(I,1:3)=(/(QUART*SUM(  IRECT_L( 4*J+(/1:4/),NE) ),J=1,3)/)  ! Z = moyenne X(5:8), moyenne Y(9:12), moyenne Z(13:16)
-          ptZ(I,1)=QUART*SUM( IRECT_L( 05:08,NE) )
-          ptZ(I,2)=QUART*SUM( IRECT_L( 09:12,NE) )
-          ptZ(I,3)=QUART*SUM( IRECT_L( 13:16,NE) )
+          !ptZ(I,1:3)=(/(FOURTH*SUM(  IRECT_L( 4*J+(/1:4/),NE) ),J=1,3)/)  ! Z = moyenne X(5:8), moyenne Y(9:12), moyenne Z(13:16)
+          ptZ(I,1)=FOURTH*SUM( IRECT_L( 05:08,NE) )
+          ptZ(I,2)=FOURTH*SUM( IRECT_L( 09:12,NE) )
+          ptZ(I,3)=FOURTH*SUM( IRECT_L( 13:16,NE) )
         ELSE
           !ptZ(I,1:3)=IRECT_L((/8,12,16/),NE)  !M(4)
           ptZ(I,1)=IRECT_L(08,NE)  !M(4)
@@ -414,7 +414,7 @@ C          END IF
               !endif
               
               TOLCRIT = EM06
-              TOL = (UN+EM04)*TOLCRIT*diag22(I)  !EM04 in ISONSH3N
+              TOL = (ONE+EM04)*TOLCRIT*diag22(I)  !EM04 in ISONSH3N
               ! POWER is in mm corresponds to the shifted distance of the intercept (ordonnee a lorigine) it must be normalized
               IF((ABS(POW(1)).LE.TOL).AND.(ABS(POW(2)).LE.TOL))THEN         !l'arrete est sur la shell donc pas d'intersectiona avec la facette.
                 TANGENT(J) = 1
@@ -430,12 +430,12 @@ C          END IF
                 CUTCOOR = ( BasisCONST(IADE,TT) - SUM( vNE(IADE,1:3,TT) * ON1(1:3) )    ) / DENOM                     !N.N1 ne change que tous les 3 cycles (possible optimisation, cf definition iedge        
                 ELSE
                   !dans ce cas on intersecte l'arrete avec un plan quasi tangent. il peut y avoir une infinite de solution dans le cas critique. On choisi cutcoor=0.5, lerreur sur la description est negligeable.
-                  CUTCOOR = UNDEMI
+                  CUTCOOR = HALF
                   CALL ARRET(2)
                 ENDIF    
                 
-                IF((CUTCOOR.LE.UN+TOL).AND.(CUTCOOR.GE.-TOL))THEN           !verifier si le point d'intersection appartient a la coque
-                  CUTCOOR = MIN(UN-EM06,CUTCOOR)
+                IF((CUTCOOR.LE.ONE+TOL).AND.(CUTCOOR.GE.-TOL))THEN           !verifier si le point d'intersection appartient a la coque
+                  CUTCOOR = MIN(ONE-EM06,CUTCOOR)
                   CUTCOOR = MAX(EM06   ,CUTCOOR)
                   POINT(1:3)=ON1(1:3) + CUTCOOR * N1N2(1:3)
                 ELSE
@@ -450,14 +450,14 @@ C          END IF
                 !IF(J==1 .OR. J==5 .OR. J==8 .OR. J==12)THEN
                 !  ON1(1:3) = X(1:3,iN(1))
                 !  N1N2(1:3)= EDGE_LIST(NIN,K)%VECTOR(1:3)
-                !  CUTCOOR     = UN-EM06                                      !interection sur les noeuds de larrete 1,5,8 ou 12 (cas necessaires pour avoir une topologie correspondante sans risque de perdre la surface lagrangienne dans son evolution)
+                !  CUTCOOR     = ONE-EM06                                      !interection sur les noeuds de larrete 1,5,8 ou 12 (cas necessaires pour avoir une topologie correspondante sans risque de perdre la surface lagrangienne dans son evolution)
                 !  CUTCOOR2    = EM06
                 
                 
                 !ELSE
                   !-!ON1(1:3) = X(1:3,iN(1))
                   !-!N1N2(1:3)= EDGE_LIST(NIN,K)%VECTOR(1:3)
-                  !-!CUTCOOR     = UNDEMI                       
+                  !-!CUTCOOR     = HALF                       
                   !-!POINT(1:3)  = ON1(1:3) + CUTCOOR  * N1N2(1:3)
                   !-!NBCUT2 = 0                  
                 !ENDIF
@@ -483,12 +483,12 @@ C          END IF
 !                ENDIF
 !                NBCUT2 = 0                  
               ELSEIF (ABS(POW(2)).LE.TOL)THEN                               !intersection avec le 2nd sommet
-              !SET CUTCOOR = UN-EM06 TO HAVE A EPSILON CUT SURFACE. OTHERWISE CRITERIA FOR AMBIGUS COMBINATION WILL GET A DIVISION BY 0 (double penta check in i22subvol)
+              !SET CUTCOOR = ONE-EM06 TO HAVE A EPSILON CUT SURFACE. OTHERWISE CRITERIA FOR AMBIGUS COMBINATION WILL GET A DIVISION BY 0 (double penta check in i22subvol)
                 !IF(J==1 .OR. J==5 .OR. J==8 .OR. J==12)THEN
                   ON1(1:3) = X(1:3,iN(1))
                   N1N2(1:3)= EDGE_LIST(NIN,K)%VECTOR(1:3)
-                  CUTCOOR     = UN-EM06                                     !interection sur les noeuds de larrete 1,5,8 ou 12 (cas necessaires pour avoir une topologie correspondante sans risque de perdre la surface lagrangienne dans son evolution)
-                  POINT(1:3)  = ON1(1:3) + UN * N1N2(1:3)              
+                  CUTCOOR     = ONE-EM06                                     !interection sur les noeuds de larrete 1,5,8 ou 12 (cas necessaires pour avoir une topologie correspondante sans risque de perdre la surface lagrangienne dans son evolution)
+                  POINT(1:3)  = ON1(1:3) + ONE * N1N2(1:3)              
                   NBCUT2 = 0             
                 !ELSE
                 !  NBCUT  = 0
@@ -496,7 +496,7 @@ C          END IF
                 !ENDIF                  
 !                IF(TAGnode(iEDGE(2,J))==.FALSE.)THEN
 !                  POINT(1:3)=X(1:3,iN(2))
-!                  CUTCOOR=UN
+!                  CUTCOOR=ONE
 !                  TAGnode(iEDGE(2,J))=.TRUE.
 !                ELSE
 !                  NBCUT = 0               
@@ -555,7 +555,7 @@ C          END IF
                 ELSEIF(DEJA==2)THEN ! l'arrete a deja deux intersections on ne s'attend pas a avoir une autre.
                   if(itask==0 .AND. debug_outp)then
                     if(ibug22_intersect==-1 .or. ibug22_intersect==ixs(11,brick_list(nin,i)%id))then
-                      print *, "TROIS INTERSECTION SUR UNE ARRETE - STOP"
+                      print *, "THREE INTERSECTION SUR UNE ARRETE - STOP"
                       CALL ARRET(2)
                     endif
                   endif
@@ -567,7 +567,7 @@ C          END IF
               IF(NBCUT2.GT.0  .AND. DEJA.EQ.0)THEN !si deja intersecte inutile dajouter 2 points, on depasserait le maximum autoris 
                   NBCUT=2
                   EDGE_LIST(NIN,K)%CUTCOOR(1)=ZERO ! on stocke directement
-                  EDGE_LIST(NIN,K)%CUTCOOR(2)=UN   ! on stocke directement                  
+                  EDGE_LIST(NIN,K)%CUTCOOR(2)=ONE   ! on stocke directement                  
                   if(itask==0 .AND. debug_outp)then
                     if(ibug22_intersect==-1 .or. ibug22_intersect==ixs(11,brick_list(nin,i)%id))then
                       print *, "arrete entiere sur le plan dintersection",J
@@ -607,10 +607,10 @@ C          END IF
             !          o                                         
             !  face1 cuts edge within tolerance, intersection point must be doubled to get PENTA  HEXA, otherwise, max(secID) = HEXA
             ! 
-            !netoyage eventuel si cutcoor = EM06 ou CUTCOOR = UN-EM06   (cas facette lagrange == facette euler => decoupage HEXA)
+            !netoyage eventuel si cutcoor = EM06 ou CUTCOOR = ONE-EM06   (cas facette lagrange == facette euler => decoupage HEXA)
              IF(NBCUT.GE.1)THEN
               CUTCOOR = EDGE_LIST(NIN,K)%CUTCOOR(1)
-              IF(CUTCOOR==EM06 .OR. CUTCOOR==UN-EM06)THEN
+              IF(CUTCOOR==EM06 .OR. CUTCOOR==ONE-EM06)THEN
                 EDGE_LIST(NIN,K)%CUTSHELL(1)   = EDGE_LIST(NIN,K)%CUTSHELL(2)
                 EDGE_LIST(NIN,K)%NBCUT         = MAX(0,EDGE_LIST(NIN,K)%NBCUT-1)
                 EDGE_LIST(NIN,K)%CUTCOOR(1)    = EDGE_LIST(NIN,K)%CUTCOOR(2) 
@@ -624,7 +624,7 @@ C          END IF
              !duplication eventuelle pour noeud dble
              NBCUT                             = EDGE_LIST(NIN,K)%NBCUT 
              CUTCOOR                           =  EDGE_LIST(NIN,K)%CUTCOOR(1)
-             IF(NBCUT==1 .AND. CUTCOOR.GT.EM06 .AND. CUTCOOR.LT.UN-EM06)THEN
+             IF(NBCUT==1 .AND. CUTCOOR.GT.EM06 .AND. CUTCOOR.LT.ONE-EM06)THEN
                EDGE_LIST(NIN,K)%CUTSHELL(2) = EDGE_LIST(NIN,K)%CUTSHELL(1)
                EDGE_LIST(NIN,K)%NBCUT       = 2
                EDGE_LIST(NIN,K)%CUTCOOR(2)  = EDGE_LIST(NIN,K)%CUTCOOR(1)               
@@ -853,8 +853,8 @@ C-----------------------------------------------
 
       PS3 =  ZB(1)*ZA(1)+ZB(2)*ZA(2)+ZB(3)*ZA(3)
       
-      COEF = UN-PS3*PS3/NORM_ZA_2/NORM_ZB_2
-      COEF = UN / COEF
+      COEF = ONE-PS3*PS3/NORM_ZA_2/NORM_ZB_2
+      COEF = ONE / COEF
       
       t =  COEF * ( PS2/NORM_ZB_2 - PS3*PS1/NORM_ZA_2/NORM_ZB_2)
       s =  COEF * ( -PS3*PS2/NORM_ZA_2/NORM_ZB_2 + PS1/NORM_ZA_2)
@@ -869,7 +869,7 @@ C-----------------------------------------------
   
       IF(t.GE.-TOL)THEN
         IF(s.GE.-TOL )THEN
-          IF(s+t.LE.UN+TOL)THEN
+          IF(s+t.LE.ONE+TOL)THEN
             ISONSH3N = 1
           ENDIF
         ENDIF       

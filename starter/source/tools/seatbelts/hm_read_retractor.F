@@ -172,15 +172,15 @@ C
           RET_ID(I) = ID
 C
           IF (IFUNC(1) > 0) THEN
-            IF (XSCALE1== ZERO) XSCALE1 = UN*XSCALE1_UNIT
-            IF (YSCALE1== ZERO) YSCALE1 = UN*YSCALE1_UNIT    
+            IF (XSCALE1== ZERO) XSCALE1 = ONE*XSCALE1_UNIT
+            IF (YSCALE1== ZERO) YSCALE1 = ONE*YSCALE1_UNIT    
           ENDIF
 C
           IF (IFUNC(2) == 0) IFUNC(2) = IFUNC(1)
 C
           IF (IFUNC(3) > 0) THEN
-            IF (XSCALE2== ZERO) XSCALE2 = UN*XSCALE2_UNIT
-            IF (YSCALE2== ZERO) YSCALE2 = UN*YSCALE2_UNIT    
+            IF (XSCALE2== ZERO) XSCALE2 = ONE*XSCALE2_UNIT
+            IF (YSCALE2== ZERO) YSCALE2 = ONE*YSCALE2_UNIT    
           ENDIF
 C
           WRITE(IOUT,1100) ID,TRIM(TITR),EL_ID,NODE_ID,ELEM_SIZE,ISENS(1),PULL,IFUNC(1),IFUNC(2),
@@ -271,7 +271,7 @@ C--       compatibility with random noise
             DO J=1,NRAND
               ALEA_MAX = MAX(ALEA_MAX,ALEA(J))
             ENDDO 
-            TOLE_2 = MAX(TOLE_2,DIX*ALEA_MAX*ALEA_MAX)
+            TOLE_2 = MAX(TOLE_2,TEN*ALEA_MAX*ALEA_MAX)
           ENDIF
 C
 C--       tolerance if node is very close to anchorage node

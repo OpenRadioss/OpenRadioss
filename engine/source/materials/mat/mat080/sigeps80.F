@@ -371,15 +371,15 @@ C
         HEATFLAG = INT(HEATFLAG1)
       ENDIF
 c
-      HUITCENT= HUIT*EP02
-      QPTT=QUATRE+TROIS*(EM01+EM02)
+      HUITCENT= EIGHT*EP02
+      QPTT=FOUR+THREE*(EM01+EM02)
       NPFG(1)=1
       NPFG(2)=13                            
       ITERK  =5
       ITERK2 =5
-      CUN = THIRD/(UN-DEUX*NU)
-      CDEUX = UNDEMI/(UN+NU)
-      CTROIS = NU/(UN+NU)/(UN-DEUX*NU)     
+      CUN = THIRD/(ONE-TWO*NU)
+      CDEUX = HALF/(ONE+NU)
+      CTROIS = NU/(ONE+NU)/(ONE-TWO*NU)     
 
 
       IF (ISIGI == 0) THEN   
@@ -389,9 +389,9 @@ c
             UVAR(I,43)=RHO(I)
             IF(HEATFLAG == 1)THEN
                UVAR(I,2) = ZERO!  ! fraction of austenite
-               UVAR(I,3) = UN ! ! fraction of ferrite
+               UVAR(I,3) = ONE ! ! fraction of ferrite
             ELSE
-               UVAR(I,2) = UN! fraction of austenite
+               UVAR(I,2) = ONE! fraction of austenite
             ENDIF
             UVAR(I,8)   = UPARAM(45) !temperature 
             UVAR(I,1)   = UPARAM(45) !TINI
@@ -482,10 +482,10 @@ c-------------------------------------
          IF(TEMPEL(I)>= UVAR(I,8).AND.FRAC2(I)>ZERO)THEN
           ZEQ(I)   =  (TEMPEL(I)-AE1)/(AE3-AE1)
           TAU(I)   =  TAU1 + ZEQ(I) * ( TAU3 - TAU1)
-          ZEQ(I)   =  MIN ( UN  ,MAX ( ZERO, ZEQ(I)))
+          ZEQ(I)   =  MIN ( ONE  ,MAX ( ZERO, ZEQ(I)))
           TAU(I)   =  MAX ( TAU3,MIN ( TAU1, TAU(I)))
           FRAC1(I) = UVAR(I,2) + MAX(ZERO,(ZEQ(I) - UVAR(I,2)) ) * TIMESTEP*THEACCFACT / TAU(I)
-          FRAC2(I) = UN - FRAC1(I) - FRAC3(I)- FRAC4(I)- FRAC5(I)   
+          FRAC2(I) = ONE - FRAC1(I) - FRAC3(I)- FRAC4(I)- FRAC5(I)   
           TEMPMIN(I) = UVAR(I,8)! heating activated AE1<AE3
          ENDIF
         ENDDO  
@@ -520,10 +520,10 @@ c-------------------------------------
         IF(TEMPEL(I)>= UVAR(I,8).AND.FRAC2(I)>ZERO)THEN
           ZEQ(I)   =  (TEMPEL(I)-AE1)/(AE3-AE1)
           TAU(I)   =  TAU1 + ZEQ(I) * ( TAU3 - TAU1)
-          ZEQ(I)   =  MIN ( UN  ,MAX ( ZERO, ZEQ(I)))
+          ZEQ(I)   =  MIN ( ONE  ,MAX ( ZERO, ZEQ(I)))
           TAU(I)   =  MAX ( TAU3,MIN ( TAU1, TAU(I)))
           FRAC1(I) = UVAR(I,2) + MAX(ZERO,(ZEQ(I) - UVAR(I,2)) ) * TIMESTEP*THEACCFACT / TAU(I)
-          FRAC2(I) = UN - FRAC1(I) - FRAC3(I)- FRAC4(I)- FRAC5(I)   
+          FRAC2(I) = ONE - FRAC1(I) - FRAC3(I)- FRAC4(I)- FRAC5(I)   
           TEMPMIN(I) = UVAR(I,8)! heating activated AE1<AE3
         ELSE   !cooling    
           NICOOL = NICOOL+1
@@ -629,12 +629,12 @@ C
       DO I=1,NEL
         ! depsxy is the engineering strain component (gama)
         ! scale depsxy by 0.5 to get the tensor component 
-        DEPSXY(I) = DEPSXY(I)*UNDEMI
-        DEPSYZ(I) = DEPSYZ(I)*UNDEMI
-        DEPSZX(I) = DEPSZX(I)*UNDEMI
-        EPSXY(I)  = EPSXY(I) *UNDEMI
-        EPSYZ(I)  = EPSYZ(I) *UNDEMI
-        EPSZX(I)  = EPSZX(I) *UNDEMI
+        DEPSXY(I) = DEPSXY(I)*HALF
+        DEPSYZ(I) = DEPSYZ(I)*HALF
+        DEPSZX(I) = DEPSZX(I)*HALF
+        EPSXY(I)  = EPSXY(I) *HALF
+        EPSYZ(I)  = EPSYZ(I) *HALF
+        EPSZX(I)  = EPSZX(I) *HALF
 
 
         Y1(I)=Y1(I)*YSCALE(1)       
@@ -680,7 +680,7 @@ c---------------------------------------------- ------------------
       DO I=1,NEL
         TOTFRAC(I)  = FRAC2(I)+FRAC3(I)+FRAC4(I)+FRAC5(I)
         DEPSTH(I)   = (FRAC1(I)*ALFA1+TOTFRAC(I)*ALFA2)*(TEMPEL(I)-UVAR(I,8))                            
-        TRDEPSTH(I) = TROIS*DEPSTH(I) 
+        TRDEPSTH(I) = THREE*DEPSTH(I) 
       ENDDO 
 
       IF(FLAG_TR_STRAIN == 2) THEN
@@ -700,7 +700,7 @@ c---------------------------------------------- ------------------
      .              (FRAC5(I) - UVAR(I,6)) * RHO_M (I)  
          RHO_N(I)  = FRAC1(I)*RHO_A (I) +  FRAC2(I)*RHO_F(I) + FRAC3(I)*RHO_P(I) + FRAC4(I)*RHO_B(I) + FRAC5(I)*RHO_M(I)
          DEPSTR(I) = ZERO
-         IF(TOTFRAC(I) > ZERO.AND.TOTFRAC(I)< UN)
+         IF(TOTFRAC(I) > ZERO.AND.TOTFRAC(I)< ONE)
      .   DEPSTR(I) =  THIRD*DXRHO/(RHO0(I) + RHO_N(I)-UVAR(I,43))
          UVAR(I,43)= RHO_N(I)
         ENDDO 
@@ -709,8 +709,8 @@ c---------------------------------------------- ------------------
          DETH12(I)=QPTT*EM03
          IF (TEMPEL(I)<MS ) DETH12(I)=SIX*EM03
          DEPSTR(I) = ZERO
-         IF(TOTFRAC(I) > ZERO.AND.TOTFRAC(I)< UN)
-     .   DEPSTR(I) =  DETH12(I) * (TOTFRAC(I)-TOTFRACOLD(I))!*LOG(TOTFRAC(I))/ (UN - TOTFRAC(I))
+         IF(TOTFRAC(I) > ZERO.AND.TOTFRAC(I)< ONE)
+     .   DEPSTR(I) =  DETH12(I) * (TOTFRAC(I)-TOTFRACOLD(I))!*LOG(TOTFRAC(I))/ (ONE - TOTFRAC(I))
         ENDDO 
       ENDIF
       DO I=1,NEL
@@ -734,7 +734,7 @@ c----------------------------------------------
 
         IF (GOLD(I) == ZERO) GOLD(I) = SHEAR(I)
         LAMDA(I) = E(I)*CTROIS
-        G2(I)    = DEUX*SHEAR(I)           
+        G2(I)    = TWO*SHEAR(I)           
         GZ(I)    = FINTER(1, TOTFRAC(I),NPFG,TGZ,DYDXGZ(I))! used to compute plastic strain rate
         ! EO => deviator of epsilon elastic old  (e_el_n)
         !--------------- ----------- -----------   ------        
@@ -756,7 +756,7 @@ c----------------------------------------------
 c---------------------------------------------- 
 c---------------------------------------------- 
       DO I=1,NEL
-      IF (OFF(I)== UN )THEN 
+      IF (OFF(I)== ONE )THEN 
 c---------------------------------------------- 
 c---------------------------------------------- 
        LNF2 = ZERO 
@@ -788,17 +788,17 @@ c        STRIAL_ij deviator of sigma_n+1=sigm_n+ELa DEPS
         STRIALYZ(I) = G2(I)*DEPSYZ(I)+SHEAR(I)*SIGOYZ(I)/GOLD(I)
         STRIALZX(I) = G2(I)*DEPSZX(I)+SHEAR(I)*SIGOZX(I)/GOLD(I)
 
-        SVMO        = SQRT(TDEMI*(SOXX(I)*SOXX(I)
+        SVMO        = SQRT(THREE_HALF*(SOXX(I)*SOXX(I)
      .                +      SOYY(I)* SOYY(I)
      .                +      SOZZ(I)* SOZZ(I)
-     .                +DEUX*(SIGOXY(I)*SIGOXY(I)
+     .                +TWO*(SIGOXY(I)*SIGOXY(I)
      .                      +SIGOYZ(I)*SIGOYZ(I)
      .                      +SIGOZX(I)*SIGOZX(I)) ) ) 
 
-        SVMTR(I)    = SQRT(TDEMI*(STRIALXX(I)*STRIALXX(I)
+        SVMTR(I)    = SQRT(THREE_HALF*(STRIALXX(I)*STRIALXX(I)
      .                +     STRIALYY(I)* STRIALYY(I) 
      .                +     STRIALZZ(I)* STRIALZZ(I)
-     .               +DEUX*(STRIALXY(I)* STRIALXY(I)
+     .               +TWO*(STRIALXY(I)* STRIALXY(I)
      .                     +STRIALYZ(I)* STRIALYZ(I)
      .                     +STRIALZX(I)* STRIALZX(I) ) ) )
 
@@ -819,60 +819,60 @@ c        STRIAL_ij deviator of sigma_n+1=sigm_n+ELa DEPS
           ! LOCAL YIELD ALGORITHM
           !----------------------
           IF (TOTFRAC(I)==ZERO)THEN
-            LOGZ = UN
+            LOGZ = ONE
           ELSE
             LOGZ = LOG(TOTFRAC(I))
           ENDIF
           T2 = ZERO
           IF(TEMPEL(I)< UVAR(I,34).AND.NORMDEV(I)> EM15) ! cooling
-     .      T2 = DEUX*(ALFA1-ALFA2)*TOTFRAC(I)*LOGZ* ABS(TEMPEL(I)-TEMPO(I) ) 
+     .      T2 = TWO*(ALFA1-ALFA2)*TOTFRAC(I)*LOGZ* ABS(TEMPEL(I)-TEMPO(I) ) 
 !                             la valeur abs ce terme sera negatif forcement en cooling donc reduit la def plastic            
           IF (  TOTFRACOLD(I) ==ZERO)THEN !totfrac old
-            LOGZM1 = UN
+            LOGZM1 = ONE
           ELSE
             LOGZM1 = LOG( TOTFRACOLD(I))
           ENDIF       
           RH(I)= SVMO / YLDOLD(I)!compute ratio for h_trial
-          IF (RH(I)>UNDEMI)THEN 
-            HFCT(I)= UN+SEDEMI*(SVMO/YLDOLD(I)-UNDEMI) 
+          IF (RH(I)>HALF)THEN 
+            HFCT(I)= ONE+SEVEN_HALF*(SVMO/YLDOLD(I)-HALF) 
           ELSE
-            HFCT(I)= UN
+            HFCT(I)= ONE
           ENDIF
           T3 = ZERO
           IF(NORMDEV(I)> EM15)
-     .       T3 = DEUX*DETH12(I)*HFCT(I)*ABS((TOTFRAC(I)*(UN-LOGZ)- TOTFRACOLD(I)*(UN-LOGZM1)))
+     .       T3 = TWO*DETH12(I)*HFCT(I)*ABS((TOTFRAC(I)*(ONE-LOGZ)- TOTFRACOLD(I)*(ONE-LOGZM1)))
           IF (UVAR(I,3)==ZERO)THEN
             PHI2 = ZERO
             PSI2 = ZERO
           ELSE
-            PHI2 = (FRAC2(I)*DYDX2(I)*TETA2*LNF2)/(UN+LNF2) 
-            PSI2 = (LNF2*(TETA2*PLA1(I)-PLA2(I)))/(UN+LNF2) 
+            PHI2 = (FRAC2(I)*DYDX2(I)*TETA2*LNF2)/(ONE+LNF2) 
+            PSI2 = (LNF2*(TETA2*PLA1(I)-PLA2(I)))/(ONE+LNF2) 
           ENDIF
           IF (UVAR(I,4)==ZERO)THEN
             PHI3 = ZERO
             PSI3 = ZERO
           ELSE
-            PHI3 = (FRAC3(I)*DYDX3(I)*TETA3*LNF3)/(UN+LNF3)
-            PSI3 = (LNF3*(TETA3*PLA1(I)-PLA3(I)))/(UN+LNF3) 
+            PHI3 = (FRAC3(I)*DYDX3(I)*TETA3*LNF3)/(ONE+LNF3)
+            PSI3 = (LNF3*(TETA3*PLA1(I)-PLA3(I)))/(ONE+LNF3) 
           ENDIF
           IF (UVAR(I,5)==ZERO)THEN
             PHI4 = ZERO
             PSI4 = ZERO
           ELSE
-            PHI4 = (FRAC4(I)*DYDX4(I)*TETA4*LNF4)/(UN+LNF4)
-            PSI4 = (LNF4*(TETA4*PLA1(I)-PLA4(I)))/(UN+LNF4)
+            PHI4 = (FRAC4(I)*DYDX4(I)*TETA4*LNF4)/(ONE+LNF4)
+            PSI4 = (LNF4*(TETA4*PLA1(I)-PLA4(I)))/(ONE+LNF4)
           ENDIF
           IF (UVAR(I,6)==ZERO)THEN
             PHI5 = ZERO
             PSI5 = ZERO
           ELSE 
-            PHI5 = (FRAC5(I)*DYDX5(I)*TETA5*LNF5)/(UN+LNF5) 
-            PSI5 = (LNF5*(TETA5*PLA1(I)-PLA5(I)))/(UN+LNF5)
+            PHI5 = (FRAC5(I)*DYDX5(I)*TETA5*LNF5)/(ONE+LNF5) 
+            PSI5 = (LNF5*(TETA5*PLA1(I)-PLA5(I)))/(ONE+LNF5)
           ENDIF
           T4 = ZERO
           T5 = ZERO
-          IF(TOTFRAC(I) /= UN) THEN
-            T4 = DYDX1(I)+(PHI2+PHI3+PHI4+PHI5)/(UN-TOTFRAC(I))                      
+          IF(TOTFRAC(I) /= ONE) THEN
+            T4 = DYDX1(I)+(PHI2+PHI3+PHI4+PHI5)/(ONE-TOTFRAC(I))                      
             T5 = FRAC2(I)*DYDX2(I)*PSI2 +FRAC3(I)*DYDX3(I)*PSI3  
      .         + FRAC4(I)*DYDX4(I)*PSI4 + FRAC5(I)*DYDX5(I)*PSI5    
           ENDIF  
@@ -883,15 +883,15 @@ c        STRIAL_ij deviator of sigma_n+1=sigm_n+ELa DEPS
           !---------------------------------
            T1 = ZERO
            IF(SVM(I)>UVAR(I,15).AND.NORMDEV(I)> EM15) ! svm is not saved in uvar if it decreases
-     .     T1 = (UN-TOTFRAC(I))*GZ(I)*(SVM(I)-SVMO)/E(I) ! SVMI
+     .     T1 = (ONE-TOTFRAC(I))*GZ(I)*(SVM(I)-SVMO)/E(I) ! SVMI
            !compute dpla depending on the value of H
 
-           IF (HFCT(I)/= UN.AND. T4 /= ZERO.AND. TOTFRAC(I) /= UN)THEN           
-             A1   = (  YLDOLD(I) + T5 - T4 * (T1 + T2 - TQUART * T3 ))/ T4
-             A2   = (( T1 + T2 - TQUART*T3) * (T5+ YLDOLD(I))
-     .                + SEDEMI * T3 * SVM(I))/T4 
-             SOL1 = SQRT(MAX(ZERO,A1*A1/QUATRE+A2))-A1*UNDEMI
-             SOL2 =-SQRT(MAX(ZERO,A1*A1/QUATRE+A2))-A1*UNDEMI
+           IF (HFCT(I)/= ONE.AND. T4 /= ZERO.AND. TOTFRAC(I) /= ONE)THEN           
+             A1   = (  YLDOLD(I) + T5 - T4 * (T1 + T2 - THREE_OVER_4 * T3 ))/ T4
+             A2   = (( T1 + T2 - THREE_OVER_4*T3) * (T5+ YLDOLD(I))
+     .                + SEVEN_HALF * T3 * SVM(I))/T4 
+             SOL1 = SQRT(MAX(ZERO,A1*A1/FOUR+A2))-A1*HALF
+             SOL2 =-SQRT(MAX(ZERO,A1*A1/FOUR+A2))-A1*HALF
              DPLA(I) = MAX(SOL1,SOL2)    
              DPLA(I) = MAX(ZERO,DPLA(I))    
            ELSE
@@ -900,11 +900,11 @@ c        STRIAL_ij deviator of sigma_n+1=sigm_n+ELa DEPS
              !DPLA(I) =ZERO
            ! COMPUTE DEVIATORIC STRESS
            !Y1(I)=Y1INI(I)  
-           IF(TOTFRAC(I) /= UN) 
-!     .      Y1(I)=Y1INI(I)+DYDX1(I)*DPLA(I)/(UN-TOTFRAC(I))!NEW YIELD OF PHASE 1
-     .      Y1(I)=Y1(I)+DYDX1(I)*DPLA(I)/(UN-TOTFRAC(I))!NEW YIELD OF PHASE 1
+           IF(TOTFRAC(I) /= ONE) 
+!     .      Y1(I)=Y1INI(I)+DYDX1(I)*DPLA(I)/(ONE-TOTFRAC(I))!NEW YIELD OF PHASE 1
+     .      Y1(I)=Y1(I)+DYDX1(I)*DPLA(I)/(ONE-TOTFRAC(I))!NEW YIELD OF PHASE 1
            ! s_n+1
-           DENO=UN/G2(I)+(TDEMI*DPLA(I)/Y1(I) )
+           DENO=ONE/G2(I)+(THREE_HALF*DPLA(I)/Y1(I) )
            SXX(I)= EODEXX(I)/DENO
            SYY(I)= EODEYY(I)/DENO
            SZZ(I)= EODEZZ(I)/DENO
@@ -912,7 +912,7 @@ c        STRIAL_ij deviator of sigma_n+1=sigm_n+ELa DEPS
            SYZ(I)= EODEYZ(I)/DENO
            SZX(I)= EODEZX(I)/DENO
           ! NEW EFFECTIVE STRESS
-           DENO=TDEMI*DPLA(I)/Y1(I)         
+           DENO=THREE_HALF*DPLA(I)/Y1(I)         
            DEPLXX(I)=DENO*SXX(I)
            DEPLYY(I)=DENO*SYY(I) 
            DEPLZZ(I)=DENO*SZZ(I)
@@ -933,7 +933,7 @@ c        STRIAL_ij deviator of sigma_n+1=sigm_n+ELa DEPS
            PPXY=EODEXY(I)-DEPLXY(I)
            PPYZ=EODEYZ(I)-DEPLYZ(I)
            PPZX=EODEZX(I)-DEPLZX(I)
-           PP=PPXX*PPXX+PPYY*PPYY+PPZZ*PPZZ+DEUX*
+           PP=PPXX*PPXX+PPYY*PPYY+PPZZ*PPZZ+TWO*
      .       (PPXY*PPXY+PPYZ*PPYZ+PPZX*PPZX)
            ESF=ABS(SVM(I)*SVM(I)-SIX*SHEAR(I)*SHEAR(I)*PP) ! esfi
 
@@ -961,7 +961,7 @@ c        STRIAL_ij deviator of sigma_n+1=sigm_n+ELa DEPS
   
 
  400      CONTINUE !EPSZZ(I)=UVAR(I,13)+DEPSZZ(I)
-          SIGM(I)=RBULK(I)*(TROIS*TREO(I)+DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))
+          SIGM(I)=RBULK(I)*(THREE*TREO(I)+DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))
           SIGNXX(I)=SXX(I)+SIGM(I)                                                
           SIGNYY(I)=SYY(I)+SIGM(I)                                                
           SIGNZZ(I)=SZZ(I)+SIGM(I)                                                
@@ -970,46 +970,46 @@ c        STRIAL_ij deviator of sigma_n+1=sigm_n+ELa DEPS
           SIGNZX(I)=SZX(I)
           ! COMPUTE EFFECTIVE PLASTIC DEFORMATION FOR EACH PHASE 
           DPLA1(I)= ZERO                 
-          IF(TOTFRAC(I) /= UN) DPLA1(I)= DPLA(I)/(UN-TOTFRAC(I))    
+          IF(TOTFRAC(I) /= ONE) DPLA1(I)= DPLA(I)/(ONE-TOTFRAC(I))    
           IF (UVAR(I,3)==ZERO)THEN
             DPLA2(I) = ZERO 
           ELSE
-            DPLA2(I) = MAX(ZERO,LNF2*DPLA1(I)*TETA2/(UN+LNF2)+PSI2)                           
+            DPLA2(I) = MAX(ZERO,LNF2*DPLA1(I)*TETA2/(ONE+LNF2)+PSI2)                           
           ENDIF
           IF (UVAR(I,4)==ZERO)THEN
             DPLA3(I) = ZERO 
           ELSE
-            DPLA3(I) = MAX(ZERO,LNF3*DPLA1(I)*TETA3/(UN+LNF3)+PSI3 )                     
+            DPLA3(I) = MAX(ZERO,LNF3*DPLA1(I)*TETA3/(ONE+LNF3)+PSI3 )                     
           ENDIF
                                 
           IF (UVAR(I,5)==ZERO)THEN
             DPLA4(I) = ZERO 
           ELSE     
-            DPLA4(I)= MAX(ZERO,LNF4*DPLA1(I)*TETA4/(UN+LNF4)+PSI4)    
+            DPLA4(I)= MAX(ZERO,LNF4*DPLA1(I)*TETA4/(ONE+LNF4)+PSI4)    
           ENDIF  
           IF (UVAR(I,6)==ZERO)THEN   
             DPLA5(I) = ZERO 
           ELSE                        
-            DPLA5(I)= MAX(ZERO,LNF5*DPLA1(I)*TETA5/(UN+LNF5)+PSI5) 
+            DPLA5(I)= MAX(ZERO,LNF5*DPLA1(I)*TETA5/(ONE+LNF5)+PSI5) 
           ENDIF
           YIELD(I)= YLDOLD(I)+ FRAC2(I)*DYDX2(I)*DPLA2(I)+                 
      .     FRAC3(I)*DYDX3(I)*DPLA3(I)+FRAC4(I)*DYDX4(I)*DPLA4(I)+                  
      .     FRAC5(I)*DYDX5(I)*DPLA5(I)+FRAC1(I)*DYDX1(I)*DPLA1(I)
 
           RHNEW=SVM(I)/MAX(EM20,YIELD(I))                                                  
-          HFCTN=UN                                                                
-          IF (RHNEW > UNDEMI) HFCTN =UN+SEDEMI*(RHNEW-UNDEMI)                     
-          IF (HFCTN == UN)THEN                                                    
-            IF(HFCT(I) /= UN)THEN                                                 
-              HFCT(I) =UN                                                         
+          HFCTN=ONE                                                                
+          IF (RHNEW > HALF) HFCTN =ONE+SEVEN_HALF*(RHNEW-HALF)                     
+          IF (HFCTN == ONE)THEN                                                    
+            IF(HFCT(I) /= ONE)THEN                                                 
+              HFCT(I) =ONE                                                         
               IF (FLAG == 0) THEN
                 FLAG = 1
                 GOTO 300            
               ENDIF                                                                 
             ENDIF                                                                 
           ELSE                                                                    
-            IF (HFCT(I) == UN)THEN                                                
-              HFCT(I) =UN+SEDEMI*(RH(I)-UNDEMI)                                   
+            IF (HFCT(I) == ONE)THEN                                                
+              HFCT(I) =ONE+SEVEN_HALF*(RH(I)-HALF)                                   
               IF (FLAG == 0) THEN
                 FLAG = 1
                 GOTO 300           
@@ -1022,7 +1022,7 @@ c-------------------------------------
 c-------------------------------------
           ! COMPUTE DLAMBDA
           EODE = SQRT(EODEXX(I)*EODEXX(I)+       EODEYY(I)*EODEYY(I)
-     .              + EODEZZ(I)*EODEZZ(I)+DEUX*( EODEXY(I)*EODEXY(I)
+     .              + EODEZZ(I)*EODEZZ(I)+TWO*( EODEXY(I)*EODEXY(I)
      .                                           +EODEYZ(I)*EODEYZ(I)
      .                                           +EODEZX(I)*EODEZX(I) ) ) ! NORM OF g
 C
@@ -1030,43 +1030,43 @@ C
             PHI2 = ZERO
             PSI2 = ZERO
           ELSE
-            PSI2 = MAX(ZERO,(LNF2*(TETA2*PLA1(I)-PLA2(I)))/(UN+LNF2)  )
-            PHI2 =(UN+TETA2*LNF2)/(UN+LNF2) 
+            PSI2 = MAX(ZERO,(LNF2*(TETA2*PLA1(I)-PLA2(I)))/(ONE+LNF2)  )
+            PHI2 =(ONE+TETA2*LNF2)/(ONE+LNF2) 
           ENDIF
           IF (UVAR(I,4)==ZERO  )THEN
             PHI3 = ZERO
             PSI3 = ZERO
           ELSE
-            PSI3 = MAX(ZERO,(LNF3*(TETA3*PLA1(I)-PLA3(I))) /(UN+LNF3) )
-            PHI3 =(UN+TETA3*LNF3)/(UN+LNF3) 
+            PSI3 = MAX(ZERO,(LNF3*(TETA3*PLA1(I)-PLA3(I))) /(ONE+LNF3) )
+            PHI3 =(ONE+TETA3*LNF3)/(ONE+LNF3) 
           ENDIF
           IF (UVAR(I,5)==ZERO  )THEN
             PHI4 = ZERO
             PSI4 = ZERO
           ELSE
-            PSI4 = MAX(ZERO,(LNF4*(TETA4*PLA1(I)-PLA4(I)))/(UN+LNF4) )
-            PHI4 =(UN+TETA4*LNF4)/(UN+LNF4)
+            PSI4 = MAX(ZERO,(LNF4*(TETA4*PLA1(I)-PLA4(I)))/(ONE+LNF4) )
+            PHI4 =(ONE+TETA4*LNF4)/(ONE+LNF4)
           ENDIF      
           IF (UVAR(I,6)==ZERO  )THEN
             PHI5 = ZERO
             PSI5 = ZERO
           ELSE
-            PSI5 = MAX(ZERO,(LNF5*(TETA5*PLA1(I)-PLA5(I)))/(UN+LNF5) )
-            PHI5 = (UN+TETA5*LNF5)/(UN+LNF5)
+            PSI5 = MAX(ZERO,(LNF5*(TETA5*PLA1(I)-PLA5(I)))/(ONE+LNF5) )
+            PHI5 = (ONE+TETA5*LNF5)/(ONE+LNF5)
           ENDIF
-          ALAMBDA= SQRT(DTIERS)*(YLDOLD(I)+FRAC2(I)*DYDX2(I)*PSI2+ 
+          ALAMBDA= SQRT(TWO_THIRD)*(YLDOLD(I)+FRAC2(I)*DYDX2(I)*PSI2+ 
      .              FRAC3(I)*DYDX3(I)*PSI3+FRAC4(I)*DYDX4(I)*PSI4+
      .              FRAC5(I)*DYDX5(I)*PSI5)
 
-          BLAMBDA=SQRT(DTIERS)*(FRAC1(I)*DYDX1(I)+FRAC2(I)*DYDX2(I)*PHI2
+          BLAMBDA=SQRT(TWO_THIRD)*(FRAC1(I)*DYDX1(I)+FRAC2(I)*DYDX2(I)*PHI2
      .                    +FRAC3(I)*DYDX3(I)*PHI3+FRAC4(I)*DYDX4(I)*PHI4
      .                    +FRAC5(I)*DYDX5(I)*PHI5)
 
           DPLA(I)= MAX(ZERO, (G2(I)*EODE-ALAMBDA)/(SQRT(SIX)*SHEAR(I)+BLAMBDA))
           ! COMPUTE NORM OF s_n+1 THEN  EFFECTIVE STRESS 
-          SEFF(I)=SQRT(TDEMI)*(G2(I)*(EODE-SQRT(TDEMI)*DPLA(I)))
+          SEFF(I)=SQRT(THREE_HALF)*(G2(I)*(EODE-SQRT(THREE_HALF)*DPLA(I)))
           ! s_n+1
-          DENO = UN/G2(I)+(TROIS*DPLA(I)/(MAX(EM20,DEUX*SEFF(I))))
+          DENO = ONE/G2(I)+(THREE*DPLA(I)/(MAX(EM20,TWO*SEFF(I))))
           SXX(I)= EODEXX(I)/DENO
           SYY(I)= EODEYY(I)/DENO
           SZZ(I)= EODEZZ(I)/DENO
@@ -1074,7 +1074,7 @@ C
           SYZ(I)= EODEYZ(I)/DENO
           SZX(I)= EODEZX(I)/DENO
 
-          DENO=TDEMI*DPLA(I)/MAX(EM20,SEFF(I))
+          DENO=THREE_HALF*DPLA(I)/MAX(EM20,SEFF(I))
           DEPLXX(I)=DENO*SXX(I)
           DEPLYY(I)=DENO*SYY(I)
           DEPLZZ(I)=DENO*SZZ(I)
@@ -1092,7 +1092,7 @@ C
 
           !STRESS NEW 
 
-          SIGM(I)=RBULK(I)*(TROIS*TREO(I)+DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))
+          SIGM(I)=RBULK(I)*(THREE*TREO(I)+DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))
 c  
           SIGNXX(I)=SXX(I)+SIGM(I)                                                
           SIGNYY(I)=SYY(I)+SIGM(I)                                                
@@ -1131,7 +1131,7 @@ C ----------------------------------------------------------
 c---------------------------------------------- 
 
       DO I=1,NEL
-       IF (OFF(I) == UN )THEN 
+       IF (OFF(I) == ONE )THEN 
          PLA(I)  = PLA(I)+  DPLA(I)
          PLA1(I) = PLA1(I) +DPLA1(I) 
          PLA2(I) = PLA2(I) +DPLA2(I) 
@@ -1145,9 +1145,9 @@ c----------------------------------------------
          UVAR(I,38)=UVAR(I,38)+DEPSYZ(I)
          UVAR(I,39)=UVAR(I,39)+DEPSZX(I)
         
-         FACCS=UN 
+         FACCS=ONE 
          IF(CEPS/=ZERO.AND.PEPS/=ZERO.AND.EPSP(I)>CEPS)
-     .      FACCS=UN+ (EPSP(I)/CEPS)**(UN/PEPS)                                                     
+     .      FACCS=ONE+ (EPSP(I)/CEPS)**(ONE/PEPS)                                                     
          YIELD(I)= YIELD(I)*FACCS
          UVAR(I,17)= PLA1(I) 
          UVAR(I,18)= PLA2(I)
@@ -1161,8 +1161,8 @@ c----------------------------------------------
          IF(UVAR(I,34)>TEMPEL(I))UVAR(I,34)=TEMPEL(I)
                  
          UVAR(I,23)= FRAC2(I)/XEQ2       !X2(I)
-         UVAR(I,24)= FRAC3(I)/(UN-XEQ2)  !X3(I)
-         UVAR(I,25)= FRAC4(I)/MAX(EM20,UN- (FRAC2(I)/XEQ2))!X4(I)
+         UVAR(I,24)= FRAC3(I)/(ONE-XEQ2)  !X3(I)
+         UVAR(I,25)= FRAC4(I)/MAX(EM20,ONE- (FRAC2(I)/XEQ2))!X4(I)
          UVAR(I,44)= FRAC5(I)/MAX(EM20,XGAMA(I))
 
          UVAR(I,2)= FRAC1(I)
@@ -1185,28 +1185,28 @@ c----------------------------------------------
          HARD(I)= ZERO
 
         ENDIF ! off
-         SSPSOL = SQRT((RBULK(I)+QTHIRD*SHEAR(I))/RHO0(I))
+         SSPSOL = SQRT((RBULK(I)+FOUR_OVER_3*SHEAR(I))/RHO0(I))
          SOUNDSP(I) =SSPSOL
          YLD(I)=YIELD(I)
          UVAR(I,9)=YIELD(I)
         
-         DEPSXY(I) = DEPSXY(I)*DEUX
-         DEPSYZ(I) = DEPSYZ(I)*DEUX
-         DEPSZX(I) = DEPSZX(I)*DEUX
+         DEPSXY(I) = DEPSXY(I)*TWO
+         DEPSYZ(I) = DEPSYZ(I)*TWO
+         DEPSZX(I) = DEPSZX(I)*TWO
 
-         EPSXY(I)  = EPSXY(I) *DEUX 
-         EPSYZ(I)  = EPSYZ(I) *DEUX
-         EPSZX(I)  = EPSZX(I) *DEUX
+         EPSXY(I)  = EPSXY(I) *TWO 
+         EPSYZ(I)  = EPSYZ(I) *TWO
+         EPSZX(I)  = EPSZX(I) *TWO
       ENDDO
       IF (ALFA1/= ZERO .OR. ALFA2 /= ZERO) THEN !compute internal thermal energy
         DO I=1,NEL        
          SIGKK(I)  = SIGNXX(I)+SIGNYY(I)+SIGNZZ(I)+SIGOXX(I)+SIGOYY(I)+SIGOZZ(I)
-         EINTTH(I) = EINTTH(I)-UNDEMI*SIGKK(I)*DEPSTH(I)
+         EINTTH(I) = EINTTH(I)-HALF*SIGKK(I)*DEPSTH(I)
         ENDDO
       ENDIF    
       !IF(HEATFLAG == 0) THEN
        DO I=1,NEL
-        IF (OFF(I) == UN )THEN 
+        IF (OFF(I) == ONE )THEN 
           IF (TEMPEL(I)<MS.AND.TEMPEL(I)<= UVAR(I,8) .AND. TEMPEL(I)<=1073.0)THEN !
            VR(I)   =  ZERO
            HARD(I) =  UVAR(I,7)
@@ -1221,7 +1221,7 @@ c----------------------------------------------
      .             +            FRAC3(I)-UVAR(I,4)
      .             +            FRAC4(I)-UVAR(I,5) ) ) *VOL (I) 
    
-         ENDIF !(OFF(I) == UN ) 
+         ENDIF !(OFF(I) == ONE ) 
        ENDDO
       !ENDIF
       RETURN
@@ -1266,12 +1266,12 @@ C-----------------------------------------------
         INTEGER I,K,J
     
       ! SUM OF FRAC1+FRAC2+FRAC3+FRAC4+FRAC5=1--------
-      DTI= UN/MAX(TIMESTEP*THEACCFACT,EM10)
+      DTI= ONE/MAX(TIMESTEP*THEACCFACT,EM10)
       DO J=1,NICOOL ! NEL0
 
        I=INDEX(J)
        ! CHECK TEMPERATURE FOR CORRESPONDING PHASE CHANGE
-       IF(TOTFRAC(I)<UN.AND.TEMPEL(I)<TEMPMIN(I))THEN
+       IF(TOTFRAC(I)<ONE.AND.TEMPEL(I)<TEMPMIN(I))THEN
        IF (TEMPEL(I)<AE3)THEN 
         IF(TEMPEL(I)>AE1)THEN
           IF(X2(I)<0.999)THEN
@@ -1282,36 +1282,36 @@ C-----------------------------------------------
            FTEMP=EXP(-QR2/TEMPEL(I))*ABS(TEMPEL(I)-AE3)**3
            CONST=FTEMP*FGRAIN*FCFER
            DO K=1,3
-             YX= (UN-X2(I))/MAX(EM10,X2(I))
-             UX=X2(I)**(DTIERS*(UN-X2(I)))
-             VX=(UN-X2(I))**(DTIERS*X2(I))
+             YX= (ONE-X2(I))/MAX(EM10,X2(I))
+             UX=X2(I)**(TWO_THIRD*(ONE-X2(I)))
+             VX=(ONE-X2(I))**(TWO_THIRD*X2(I))
              F =(X2(I)-X2OLD(I))*DTI-CONST*UX*VX
-             FDOT=DTI-CONST*DTIERS*UX*VX*(YX-UN/YX+LOG(YX))
+             FDOT=DTI-CONST*TWO_THIRD*UX*VX*(YX-ONE/YX+LOG(YX))
              X2(I)=MAX(EM20,X2(I)-F/FDOT)
            ENDDO
            FRAC2(I)=X2(I)*XEQ2
-           FRAC1(I)=UN-FRAC2(I)-FRAC3(I)-FRAC4(I)-FRAC5(I)
+           FRAC1(I)=ONE-FRAC2(I)-FRAC3(I)-FRAC4(I)-FRAC5(I)
           ENDIF
 c---------------------------------          
         ELSEIF(TEMPEL(I)>BS)THEN 
           
          IF(X3(I)<0.999)THEN
             ! PEARLITE X3                                       
-            X3OLD(I)= X3(I)  !FRAC3(I)/(UN-XEQ2) !!
+            X3OLD(I)= X3(I)  !FRAC3(I)/(ONE-XEQ2) !!
             IF(X3(I)==ZERO)X3(I)=EM10
             FTEMP=6.17*EXP(-QR3/TEMPEL(I))*ABS(TEMPEL(I)-AE1)**3
             CONST=FTEMP*FGRAIN*FCPER !!! adjusted
             DO K=1,3
-              YX= (UN-X3(I))/MAX(EM10,X3(I))
-              UX=X3(I)**(DTIERS*(UN-X3(I)))
-              VX=(UN-X3(I))**(DTIERS*X3(I))
+              YX= (ONE-X3(I))/MAX(EM10,X3(I))
+              UX=X3(I)**(TWO_THIRD*(ONE-X3(I)))
+              VX=(ONE-X3(I))**(TWO_THIRD*X3(I))
               F =(X3(I)-X3OLD(I))*DTI-CONST*UX*VX
-              FDOT=DTI-CONST*DTIERS*UX*VX*(YX-UN/YX+LOG(YX))
+              FDOT=DTI-CONST*TWO_THIRD*UX*VX*(YX-ONE/YX+LOG(YX))
               X3(I)=MAX(EM20,X3(I)-F/FDOT)
             ENDDO       
-c            FRAC3(I)=X3(I)*(UN-X2(I))
-            FRAC3(I)=X3(I)*(UN-XEQ2)
-            FRAC1(I)=UN-FRAC2(I)-FRAC3(I)-FRAC4(I)-FRAC5(I)
+c            FRAC3(I)=X3(I)*(ONE-X2(I))
+            FRAC3(I)=X3(I)*(ONE-XEQ2)
+            FRAC1(I)=ONE-FRAC2(I)-FRAC3(I)-FRAC4(I)-FRAC5(I)
             ! CHECK IF FERRITE FORMATION
 c            IF (X2(I)<0.99)THEN !X3(I)<0.01 .AND.
 c              ! FERRITE EVOLUTION
@@ -1320,53 +1320,53 @@ c              IF(X2(I)==ZERO)X2(I)=EM10
 c              FTEMP=EXP(-QR2/TEMPEL(I)) *ABS(TEMPEL(I)-AE3)**3
 c              CONST=FTEMP*FGRAIN*FCFER
 c              DO K=1,3
-c                YX= (UN-X2(I))/MAX(EM10,X2(I))
-c                UX=X2(I)**(DTIERS*(UN-X2(I)))
-c                VX=(UN-X2(I))**(DTIERS*X2(I))
+c                YX= (ONE-X2(I))/MAX(EM10,X2(I))
+c                UX=X2(I)**(TWO_THIRD*(ONE-X2(I)))
+c                VX=(ONE-X2(I))**(TWO_THIRD*X2(I))
 c                F =(X2(I)-X2OLD(I))*DTI-CONST*UX*VX
-cc                UDOT=DTIERS*UX*((UN-X2(I))/MAX(EM10,X2(I))-
+cc                UDOT=TWO_THIRD*UX*((ONE-X2(I))/MAX(EM10,X2(I))-
 cc     .              LOG(MAX(EM10,X2(I))))
-cc                VDOT=DTIERS*VX*(LOG(UN-X2(I))-X2(I)/(UN-X2(I)))
+cc                VDOT=TWO_THIRD*VX*(LOG(ONE-X2(I))-X2(I)/(ONE-X2(I)))
 cc                FDOT=DTI-CONST*(UDOT*VX+VDOT*UX)
-c                FDOT=DTI-CONST*DTIERS*UX*VX*(YX-UN/YX+LOG(YX))
+c                FDOT=DTI-CONST*TWO_THIRD*UX*VX*(YX-ONE/YX+LOG(YX))
 c                X2(I)=MAX(EM20,X2(I)-F/FDOT)
 c              ENDDO           
 c              FRAC2(I)=X2(I)*XEQ2
-c              FRAC1(I)=UN-FRAC2(I)-FRAC3(I)
+c              FRAC1(I)=ONE-FRAC2(I)-FRAC3(I)
 c            ENDIF
           ENDIF
 c---------------------------------                    
         ELSEIF(TEMPEL(I)>MS)THEN
           IF(X4(I)<0.999)THEN
            ! BAINITE  FORMATION 
-            X4OLD(I) =  X4(I) !FRAC4(I)/MAX(EM20,UN- XEQ4 ) ! X4(I)
-            IF(X4(I) == ZERO) X4(I) = X3(I)  !FRAC3(I)/(UN-XEQ2) !X3(I)!EM10!X3(I)
+            X4OLD(I) =  X4(I) !FRAC4(I)/MAX(EM20,ONE- XEQ4 ) ! X4(I)
+            IF(X4(I) == ZERO) X4(I) = X3(I)  !FRAC3(I)/(ONE-XEQ2) !X3(I)!EM10!X3(I)
             ! INITIALISE AU TAUX DE PERLITE
             FTEMP=EXP(-QR4/TEMPEL(I)) *(TEMPEL(I)-BS)**2
             CONST=FTEMP*FGRAIN*FCBAI
             DO K=1,4
-              YX= (UN-X2(I))/MAX(EM10,X2(I))
-              UX=X4(I)**(DTIERS*(UN-X4(I)))
-              VX=(UN-X4(I))**(DTIERS*X4(I)) 
+              YX= (ONE-X2(I))/MAX(EM10,X2(I))
+              UX=X4(I)**(TWO_THIRD*(ONE-X4(I)))
+              VX=(ONE-X4(I))**(TWO_THIRD*X4(I)) 
               GX=EXP(KBAIN*X4(I)*X4(I))
-              IF (GX<ZERO)GX=UN
+              IF (GX<ZERO)GX=ONE
               F =(X4(I)-X4OLD(I))*DTI-CONST*UX*VX/GX
-              UDOT=DTIERS*UX*((UN-X4(I))/MAX(EM10,X4(I))-
+              UDOT=TWO_THIRD*UX*((ONE-X4(I))/MAX(EM10,X4(I))-
      .           LOG(MAX(EM10,X4(I))))
-              VDOT=DTIERS*VX*(LOG(UN-X4(I))-X4(I)/(UN-X4(I)))
-              GDOT=DEUX*KBAIN*X4(I)*GX
+              VDOT=TWO_THIRD*VX*(LOG(ONE-X4(I))-X4(I)/(ONE-X4(I)))
+              GDOT=TWO*KBAIN*X4(I)*GX
               FDOT=DTI-CONST*((UDOT*VX+VDOT*UX)*GX-UX*VX*GDOT)/GX/GX
               X4(I)=MAX(EM20,X4(I)-F/FDOT)
            ENDDO
-            FRAC4(I)=X4(I)*(UN-X2(I))
-            FRAC1(I)=UN-FRAC2(I)-FRAC3(I)-FRAC4(I)-FRAC5(I)
+            FRAC4(I)=X4(I)*(ONE-X2(I))
+            FRAC1(I)=ONE-FRAC2(I)-FRAC3(I)-FRAC4(I)-FRAC5(I)
           ENDIF
             
         ELSE           
           ! MARTENSITE  FORMATION X5
           IF (FRAC5(I)==ZERO)XGAMA(I)= FRAC1(I)
-          FRAC5(I)=XGAMA(I)*(UN-EXP(-ALPHA*(MS-TEMPEL(I))))
-          FRAC1(I)=UN-FRAC2(I)-FRAC3(I)-FRAC4(I)-FRAC5(I)
+          FRAC5(I)=XGAMA(I)*(ONE-EXP(-ALPHA*(MS-TEMPEL(I))))
+          FRAC1(I)=ONE-FRAC2(I)-FRAC3(I)-FRAC4(I)-FRAC5(I)
         ENDIF
        ENDIF   
        ENDIF   
@@ -1419,12 +1419,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C-----------------------------------------------
       ! SUM OF FRAC1+FRAC2+FRAC3+FRAC4+FRAC5=1--------
-       DTI= UN/MAX(TIMESTEP*THEACCFACT,EM10)
+       DTI= ONE/MAX(TIMESTEP*THEACCFACT,EM10)
       DO J=1,NICOOL ! NEL0
 
        I=INDEX(J)
        ! CHECK TEMPERATURE FOR CORRESPONDING PHASE CHANGE
-       IF(TOTFRAC(I)<UN.AND.TEMPEL(I)<TEMPMIN(I))THEN
+       IF(TOTFRAC(I)<ONE.AND.TEMPEL(I)<TEMPMIN(I))THEN
        IF (TEMPEL(I)<AE3)THEN 
         IF(TEMPEL(I)>AE1)THEN
           IF(X2(I)<0.999)THEN
@@ -1435,44 +1435,44 @@ C-----------------------------------------------
            FTEMP = EXP(-QR2/TEMPEL(I))*ABS(TEMPEL(I)-AE3)**3
            CONST = FTEMP * FGFER * CF
            DO K=1,4
-              UX = X2(I)     **(PHI_F*(UN-X2(I)))
-              VX = (UN-X2(I))**(PSI_F*X2(I)) 
+              UX = X2(I)     **(PHI_F*(ONE-X2(I)))
+              VX = (ONE-X2(I))**(PSI_F*X2(I)) 
               GX = EXP(CR_F *X2(I)*X2(I))
-              IF (GX<ZERO) GX=UN
+              IF (GX<ZERO) GX=ONE
               F =(X2(I)-X2OLD(I))*DTI - CONST * UX*VX /GX
-              UDOT = PHI_F* UX * ((UN-X2(I))/MAX(EM10,X2(I))-LOG(MAX(EM10,X2(I))))                        
-              VDOT = PSI_F* VX * (LOG(UN-X2(I))-X2(I)/(UN-X2(I)))
-              GDOT = DEUX * CR_F * X2(I) * GX
+              UDOT = PHI_F* UX * ((ONE-X2(I))/MAX(EM10,X2(I))-LOG(MAX(EM10,X2(I))))                        
+              VDOT = PSI_F* VX * (LOG(ONE-X2(I))-X2(I)/(ONE-X2(I)))
+              GDOT = TWO * CR_F * X2(I) * GX
               FDOT = DTI-CONST*((UDOT*VX+VDOT*UX)*GX-UX*VX*GDOT)/GX/GX
               X2(I)= MAX(EM20,X2(I)-F/FDOT)
            ENDDO
            FRAC2(I)=X2(I)*XEQ2
-           FRAC1(I)=UN-FRAC2(I)-FRAC3(I)-FRAC4(I)-FRAC5(I)
+           FRAC1(I)=ONE-FRAC2(I)-FRAC3(I)-FRAC4(I)-FRAC5(I)
           ENDIF
 c---------------------------------          
         ELSEIF(TEMPEL(I)>BS)THEN 
           
          IF(X3(I)<0.999)THEN
             ! PEARLITE X3                                       
-            X3OLD(I)= X3(I)  !FRAC3(I)/(UN-XEQ2) !!
+            X3OLD(I)= X3(I)  !FRAC3(I)/(ONE-XEQ2) !!
             IF(X3(I)==ZERO)X3(I)=EM10
             FTEMP=6.17*EXP(-QR3/TEMPEL(I))*ABS(TEMPEL(I)-AE1)**3
             CONST=FTEMP* FGPER *CP !!! adjusted
             DO K=1,4
-              UX = X3(I)     **(PHI_P*(UN-X3(I)))
-              VX = (UN-X3(I))**(PSI_P*X3(I)) 
+              UX = X3(I)     **(PHI_P*(ONE-X3(I)))
+              VX = (ONE-X3(I))**(PSI_P*X3(I)) 
               GX = EXP(CR_P *X3(I)*X3(I))
-              IF (GX<ZERO) GX=UN
+              IF (GX<ZERO) GX=ONE
               F =(X3(I)-X3OLD(I))*DTI - CONST * UX*VX /GX
-              UDOT = PHI_P* UX * ((UN-X3(I))/MAX(EM10,X3(I))-LOG(MAX(EM10,X3(I))))                        
-              VDOT = PSI_P* VX * (LOG(UN-X3(I))-X3(I)/(UN-X3(I)))
-              GDOT = DEUX * CR_P * X3(I) * GX
+              UDOT = PHI_P* UX * ((ONE-X3(I))/MAX(EM10,X3(I))-LOG(MAX(EM10,X3(I))))                        
+              VDOT = PSI_P* VX * (LOG(ONE-X3(I))-X3(I)/(ONE-X3(I)))
+              GDOT = TWO * CR_P * X3(I) * GX
               FDOT = DTI-CONST*((UDOT*VX+VDOT*UX)*GX-UX*VX*GDOT)/GX/GX
               X3(I)= MAX(EM20,X3(I)-F/FDOT)
             ENDDO       
-c            FRAC3(I)=X3(I)*(UN-X2(I))
-            FRAC3(I)=X3(I)*(UN-XEQ2)
-            FRAC1(I)=UN-FRAC2(I)-FRAC3(I)-FRAC4(I)-FRAC5(I)
+c            FRAC3(I)=X3(I)*(ONE-X2(I))
+            FRAC3(I)=X3(I)*(ONE-XEQ2)
+            FRAC1(I)=ONE-FRAC2(I)-FRAC3(I)-FRAC4(I)-FRAC5(I)
             ! CHECK IF FERRITE FORMATION
           ENDIF
 c---------------------------------                    
@@ -1485,19 +1485,19 @@ c---------------------------------
             FTEMP=EXP(-QR4/TEMPEL(I)) *(TEMPEL(I)-BS)**2
             CONST=FTEMP* FGBAI *CB
             DO K=1,4
-              UX = X4(I)     **(PHI_B*(UN-X4(I)))
-              VX = (UN-X4(I))**(PSI_B*X4(I)) 
+              UX = X4(I)     **(PHI_B*(ONE-X4(I)))
+              VX = (ONE-X4(I))**(PSI_B*X4(I)) 
               GX = EXP(CR_B *X4(I)*X4(I))
-              IF (GX<ZERO) GX=UN
+              IF (GX<ZERO) GX=ONE
               F =(X4(I)-X4OLD(I))*DTI - CONST * UX*VX /GX
-              UDOT = PHI_B* UX * ( (UN-X4(I))/MAX(EM10,X4(I))-LOG(MAX(EM10,X4(I))) )                        
-              VDOT = PSI_B* VX * (LOG(UN-X4(I))-X4(I)/(UN-X4(I)))
-              GDOT = DEUX * CR_B * X4(I) * GX
+              UDOT = PHI_B* UX * ( (ONE-X4(I))/MAX(EM10,X4(I))-LOG(MAX(EM10,X4(I))) )                        
+              VDOT = PSI_B* VX * (LOG(ONE-X4(I))-X4(I)/(ONE-X4(I)))
+              GDOT = TWO * CR_B * X4(I) * GX
               FDOT = DTI-CONST*((UDOT*VX+VDOT*UX)*GX-UX*VX*GDOT)/GX/GX
               X4(I)= MAX(EM20,X4(I)-F/FDOT)
            ENDDO
-            FRAC4(I)=X4(I)*(UN-X2(I))
-            FRAC1(I)=UN-FRAC2(I)-FRAC3(I)-FRAC4(I)-FRAC5(I)
+            FRAC4(I)=X4(I)*(ONE-X2(I))
+            FRAC1(I)=ONE-FRAC2(I)-FRAC3(I)-FRAC4(I)-FRAC5(I)
           ENDIF
             
         ELSE           
@@ -1507,13 +1507,13 @@ c---------------------------------
           TERM1 = ALPHA*(MS-TEMPEL(I))**N_M
           TERM2 = MAX(EM20,X5(I))     ** PHI_M
           IF(PSI_M >=ZERO) THEN
-             TERM3 = (UN - X5(I)) ** PSI_M
+             TERM3 = (ONE - X5(I)) ** PSI_M
           ELSE
-             TERM3 = (UN - X5(I)) ** (PSI_M*DEUX -XGAMA(I) )
+             TERM3 = (ONE - X5(I)) ** (PSI_M*TWO -XGAMA(I) )
           ENDIF
           X5(I) = X5OLD(I) + (TERM1 * TERM2 *TERM3)*(TEMPO(I)-TEMPEL(I))
           FRAC5(I)=X5(I)*XGAMA(I)
-          FRAC1(I)=UN-FRAC2(I)-FRAC3(I)-FRAC4(I)-FRAC5(I)
+          FRAC1(I)=ONE-FRAC2(I)-FRAC3(I)-FRAC4(I)-FRAC5(I)
          ENDIF
 
 

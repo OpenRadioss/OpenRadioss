@@ -146,15 +146,15 @@ C
          SYY = SIGNYY(I) - P
          SZZ = SIGNZZ(I) - P
 C  Vmises stress
-         SVM =UNDEMI*(SXX**2 + SYY**2 + SZZ**2)
+         SVM =HALF*(SXX**2 + SYY**2 + SZZ**2)
      .          +SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
-         SVM=SQRT(TROIS*SVM)
+         SVM=SQRT(THREE*SVM)
 C third invariant
-         J3 = SXX*SYY*SZZ + DEUX*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I) 
+         J3 = SXX*SYY*SZZ + TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I) 
      .                    -  SYY*SIGNZX(I)**2  - SXX*SIGNYZ(I)**2
      .                    -  SZZ*SIGNXY(I)**2
           ETA = P / MAX(EM20,SVM)
-          XI  = UNDEMI*(VINGT + SEPT)*J3/MAX(EM20,SVM**3)
+          XI  = HALF*(TWENTY + SEVEN)*J3/MAX(EM20,SVM**3)
 c
           IF(IMOY.EQ.1)THEN 
            UVAR(I,1) = UVAR(I,1) + ETA*DPLA(I)
@@ -165,12 +165,12 @@ c
 c  
           EPSF = (C1*EXP(-C2*ETA))**CN
      .        - (C3*EXP(-C4*ETA))**CN
-           EPSF = EPSF * MAX(ZERO,(UN - XI**CM))**(UN/CM)
-          EPSF = ((C1*EXP(-C2*ETA))**CN - EPSF)**(UN/CN)
+           EPSF = EPSF * MAX(ZERO,(ONE - XI**CM))**(ONE/CM)
+          EPSF = ((C1*EXP(-C2*ETA))**CN - EPSF)**(ONE/CN)
          IF(EPSF.GT.ZERO)
-     .     DFMAX(I) = DFMAX(I) + DPLA(I)*(UN/EPSF)
-         IF(DFMAX(I).GE.UN.AND.OFF(I).EQ.UN) THEN
-          OFF(I)=QCINQ
+     .     DFMAX(I) = DFMAX(I) + DPLA(I)*(ONE/EPSF)
+         IF(DFMAX(I).GE.ONE.AND.OFF(I).EQ.ONE) THEN
+          OFF(I)=FOUR_OVER_5
           NINDX=NINDX+1
           INDX(NINDX)=I
           IDEL7NOK = 1 
@@ -192,22 +192,22 @@ Cc deviatoric will vanish
        NINDX=0 
        NINDEX = 0 
        DO I=1,NEL
-        IF(IFLAG.EQ.2.AND.OFF(I).EQ.UN)THEN 
-         IF(DFMAX(I).LT.UN)THEN
+        IF(IFLAG.EQ.2.AND.OFF(I).EQ.ONE)THEN 
+         IF(DFMAX(I).LT.ONE)THEN
          P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
          SXX = SIGNXX(I) - P
          SYY = SIGNYY(I) - P
          SZZ = SIGNZZ(I) - P
 C  Vmises stress
-         SVM =UNDEMI*(SXX**2 + SYY**2 + SZZ**2)
+         SVM =HALF*(SXX**2 + SYY**2 + SZZ**2)
      .          +SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
-         SVM=SQRT(TROIS*SVM)
+         SVM=SQRT(THREE*SVM)
 C third invariant
-         J3 = SXX*SYY*SZZ + DEUX*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I) 
+         J3 = SXX*SYY*SZZ + TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I) 
      .                    -  SYY*SIGNZX(I)**2  - SXX*SIGNYZ(I)**2
      .                    -  SZZ*SIGNXY(I)**2
          ETA = P / MAX(EM20,SVM)
-         XI  = UNDEMI*(VINGT + SEPT)*J3/MAX(EM20,SVM**3)
+         XI  = HALF*(TWENTY + SEVEN)*J3/MAX(EM20,SVM**3)
 C average valeur
           IF(IMOY.EQ.1)THEN
            UVAR(I,1) = UVAR(I,1) + ETA*DPLA(I)
@@ -218,10 +218,10 @@ C average valeur
 CC                    
          EPSF = (C1*EXP(-C2*ETA))**CN
      .        - (C3*EXP(-C4*ETA))**CN
-         EPSF = EPSF * MAX(ZERO,(UN - XI**CM))**(UN/CM)
-         EPSF = ((C1*EXP(-C2*ETA))**CN - EPSF)**(UN/CN)
+         EPSF = EPSF * MAX(ZERO,(ONE - XI**CM))**(ONE/CM)
+         EPSF = ((C1*EXP(-C2*ETA))**CN - EPSF)**(ONE/CN)
           IF(EPSF.GT.ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
-          IF(DFMAX(I).GE.UN.AND.OFF(I).EQ.UN) THEN
+          IF(DFMAX(I).GE.ONE.AND.OFF(I).EQ.ONE) THEN
            NINDX=NINDX+1
            INDX(NINDX)=I
            SIGNXX(I) =   P
@@ -255,7 +255,7 @@ c UVAR> 1
       ENDIF      
 C-------------Maximum Damage storing for output : 0 < DFMAX < 1--------------
        DO I=1,NEL
-          DFMAX(I)= MIN(UN,DFMAX(I))
+          DFMAX(I)= MIN(ONE,DFMAX(I))
        ENDDO
 C-----------------------------------------------
  1000 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER ',I10)

@@ -136,14 +136,14 @@ C-----------------------------------------------
 C    RATE FUNCTIONS INERPOLATION
 C-----------------------------------------------
       IF (IFUN2N == 0) THEN
-        FUN2N(1:NEL) = UN
+        FUN2N(1:NEL) = ONE
       ELSE
         DO I=1,NEL
           FUN2N(I) = FINTER(IFUN2N,EPSD(I)*XSCALE2,NPF,TF,DYDX2N)
         ENDDO
       ENDIF
       IF (IFUN2T == 0) THEN
-        FUN2T(1:NEL) = UN
+        FUN2T(1:NEL) = ONE
       ELSE
         DO I=1,NEL
           FUN2T(I) = FINTER(IFUN2T,EPSD(I)*XSCALE2,NPF,TF,DYDX2T)
@@ -151,7 +151,7 @@ C-----------------------------------------------
       ENDIF
       IF (IFUN3N == 0) THEN
         DO I=1,NEL
-          FUN3N(I) = UN
+          FUN3N(I) = ONE
         ENDDO
       ELSE
         DO I=1,NEL
@@ -160,7 +160,7 @@ C-----------------------------------------------
       ENDIF
       IF (IFUN3T == 0) THEN
         DO I=1,NEL
-          FUN3T(I) = UN
+          FUN3T(I) = ONE
         ENDDO
       ELSE
         DO I=1,NEL
@@ -186,28 +186,28 @@ c
           IF (ISYM == 1 .AND. SIGNZZ(I)<= ZERO) THEN
             T1 = ZERO
           ELSE
-            T1  = SPHI/(UN-A2*SSYM)/FUN2N(I)
+            T1  = SPHI/(ONE-A2*SSYM)/FUN2N(I)
           ENDIF
           T2  = CPHI/FUN2T(I)
           TTN = T1*PLA(I)
           TTS = T2*PLA(I)
-          FCT = (TTN**B2 + TTS**B2)**(UN/B2)
-          DAMT(I,2) = MIN(FCT, UN)
-          IF (FCT > UN ) THEN 
-            PLA1(I) = (T1**B2 + T2**B2)**(-UN/B2)
+          FCT = (TTN**B2 + TTS**B2)**(ONE/B2)
+          DAMT(I,2) = MIN(FCT, ONE)
+          IF (FCT > ONE ) THEN 
+            PLA1(I) = (T1**B2 + T2**B2)**(-ONE/B2)
             IF (ISYM == 1 .AND. SIGNZZ(I) <= ZERO)THEN
               T1 = ZERO
             ELSE
-              T1  = SPHI/(UN-A3*SSYM)/FUN3N(I)
+              T1  = SPHI/(ONE-A3*SSYM)/FUN3N(I)
             ENDIF
             T2  = CPHI/FUN3T(I)
             TTN = T1*PLA(I)
             TTS = T2*PLA(I)
-            FCT = (TTN**B3 + TTS**B3) **(UN / B3)
-            PLA2(I)   = (T1**B3 + T2**B3)**(-UN/B3)
+            FCT = (TTN**B3 + TTS**B3) **(ONE / B3)
+            PLA2(I)   = (T1**B3 + T2**B3)**(-ONE/B3)
             DAMT(I,1) = (PLA(I)-PLA1(I))/MAX(EM20,(PLA2(I) - PLA1(I)))
-            DAMT(I,1) = MIN(DAMT(I,1), UN)
-            DAMT(I,3) = MIN(FCT, UN)
+            DAMT(I,1) = MIN(DAMT(I,1), ONE)
+            DAMT(I,3) = MIN(FCT, ONE)
             DAMA = DAMT(I,1)
             NINDXD = NINDXD+1
             INDXD(NINDXD) = I
@@ -217,27 +217,27 @@ c
           IF (ISYM == 1 .AND. SIGNZZ(I) <= ZERO) THEN
             T1 = ZERO
           ELSE
-            T1  = SPHI/(UN-A3*SSYM)/FUN3N(I)
+            T1  = SPHI/(ONE-A3*SSYM)/FUN3N(I)
           ENDIF
           T2  = CPHI/FUN3T(I)
           TTN = T1*PLA(I)                        
           TTS = T2*PLA(I)      
-          FCT = (TTN**B3 + TTS**B3) **(UN / B3)  
-          PLA2(I)   = (T1**B3 + T2**B3)**(-UN/B3)
+          FCT = (TTN**B3 + TTS**B3) **(ONE / B3)  
+          PLA2(I)   = (T1**B3 + T2**B3)**(-ONE/B3)
           DAMT(I,1) = (PLA(I)-PLA1(I))/MAX(EM20,(PLA2(I) - PLA1(I)))
-          DAMT(I,1) = MIN(DAMT(I,1), UN)
-          DAMT(I,3) = MIN(FCT, UN)
+          DAMT(I,1) = MIN(DAMT(I,1), ONE)
+          DAMT(I,3) = MIN(FCT, ONE)
           DAMA = DAMT(I,1)
 c-----    check if rupture ...
-          IF (FCT > UN) THEN
+          IF (FCT > ONE) THEN
             IDEL =1
-            DAMA = UN
+            DAMA = ONE
           ENDIF
         ENDIF
         DMG(I) = MAX(DMG(I),DAMA)
-        DMG(I) = MIN(DMG(I),UN)   
+        DMG(I) = MIN(DMG(I),ONE)   
 c-----------------------------
-        IF (IDEL == 1 .AND. OFFL(I) == UN) THEN
+        IF (IDEL == 1 .AND. OFFL(I) == ONE) THEN
           OFFL(I) = ZERO       ! local integ point rupture    
           NINDX = NINDX+1
           INDX(NINDX) = I
@@ -247,12 +247,12 @@ C
         UVAR(I,1) = PLA1(I)
         UVAR(I,2) = PLA2(I)
 C-------------  Maximum Damage storing for output : 0 < DFMAX < 1 
-        DFMAX(I) = MIN(UN,MAX(DFMAX(I),DAMT(I,1)))
+        DFMAX(I) = MIN(ONE,MAX(DFMAX(I),DAMT(I,1)))
 c        
 c---    deformed elements check
         IF (AREASCALE > ZERO ) THEN
           DEFO = UVAR(I,3) * AREASCALE
-          IF (AREA(I) > DEFO .AND. OFFG(I) == UN) THEN
+          IF (AREA(I) > DEFO .AND. OFFG(I) == ONE) THEN
             OFFL(I) = ZERO
             NINDXA = NINDXA+1
             INDXA(NINDXA) = I

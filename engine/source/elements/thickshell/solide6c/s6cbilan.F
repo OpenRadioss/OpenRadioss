@@ -81,23 +81,23 @@ C-----------------------------------------------
 C     CALCUL BILAN SORTIES DEF 
 C-----------------------------------------------
       DO I=LFT,LLT
-        VXA(I) = VXA(I)*UNSIX
-        VYA(I) = VYA(I)*UNSIX
-        VZA(I) = VZA(I)*UNSIX
-        VA2(I) = VA2(I)*UNSIX
+        VXA(I) = VXA(I)*ONE_OVER_6
+        VYA(I) = VYA(I)*ONE_OVER_6
+        VZA(I) = VZA(I)*ONE_OVER_6
+        VA2(I) = VA2(I)*ONE_OVER_6
       ENDDO
 C
       DO I=LFT,LLT
         XMAS(I)=FILL(I)*RHO(I)*VNEW(I)
         EI(I)  = FILL(I)*EINT(I)*VOL(I)
-        EK(I)  = XMAS(I)*VA2(I)*UNDEMI
+        EK(I)  = XMAS(I)*VA2(I)*HALF
         XM(I)  = XMAS(I)*VXA(I)
         YM(I)  = XMAS(I)*VYA(I)
         ZM(I)  = XMAS(I)*VZA(I)
       ENDDO
 C
       DO I=LFT,LLT
-        IF(OFF(I) < UN) CYCLE
+        IF(OFF(I) < ONE) CYCLE
         M=IPARTS(I)
         PARTSAV(1,M)=PARTSAV(1,M) + EI(I)
         PARTSAV(2,M)=PARTSAV(2,M) + EK(I)
@@ -112,15 +112,15 @@ C     CALCUL BILAN SORTIES ADDITIONNELLES
 C-----------------------------------------------
       IF(FLAG.EQ.1) THEN
         DO I=LFT,LLT
-          XX(I) = XX(I)*UNSIX
-          YY(I) = YY(I)*UNSIX
-          ZZ(I) = ZZ(I)*UNSIX
-          XY(I) = XY(I)*UNSIX
-          YZ(I) = YZ(I)*UNSIX
-          ZX(I) = ZX(I)*UNSIX
-          XX2(I)= XX2(I)*UNSIX
-          YY2(I)= YY2(I)*UNSIX
-          ZZ2(I)= ZZ2(I)*UNSIX
+          XX(I) = XX(I)*ONE_OVER_6
+          YY(I) = YY(I)*ONE_OVER_6
+          ZZ(I) = ZZ(I)*ONE_OVER_6
+          XY(I) = XY(I)*ONE_OVER_6
+          YZ(I) = YZ(I)*ONE_OVER_6
+          ZX(I) = ZX(I)*ONE_OVER_6
+          XX2(I)= XX2(I)*ONE_OVER_6
+          YY2(I)= YY2(I)*ONE_OVER_6
+          ZZ2(I)= ZZ2(I)*ONE_OVER_6
         ENDDO
 C
         DO I=LFT,LLT
@@ -141,7 +141,7 @@ C
         ENDDO
 C
         DO I=LFT,LLT
-          IF(OFF(I) < UN) CYCLE
+          IF(OFF(I) < ONE) CYCLE
           M=IPARTS(I)
           PARTSAV(9,M) =PARTSAV(9,M)  + XCG(I)
           PARTSAV(10,M)=PARTSAV(10,M) + YCG(I)
@@ -187,10 +187,10 @@ C
       ENDIF
 C
       DO I=LFT,LLT
-          IF(OFF(I) < UN) THEN
+          IF(OFF(I) < ONE) THEN
             OFF_L(I) = ZERO
           ELSE
-            OFF_L(I) = UN
+            OFF_L(I) = ONE
           ENDIF
       ENDDO
       CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK) 

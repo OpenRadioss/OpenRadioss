@@ -108,8 +108,8 @@ C
        IF(ITYP.EQ.0)THEN
          N1 = LAS(K1+1)
          N2 = LAS(K1+2)
-         WA(1,N1) = UN
-         WA(1,N2) = UN
+         WA(1,N1) = ONE
+         WA(1,N2) = ONE
        ENDIF
        K1 = K1 + 6 + 2*(NL+1)
       ENDDO
@@ -123,12 +123,12 @@ C
        IF(ITYP.EQ.0)THEN
          N1 = LAS(K1+1)
          N2 = LAS(K1+2)
-         IF(WA(1,N1) .EQ. UN)THEN
+         IF(WA(1,N1) .EQ. ONE)THEN
           W(3,N1) = V(3,N1) - WA(3,N1) / MS(N1)
           WA(1,N1) = ZERO
           WA(3,N1) = ZERO
          ENDIF
-         IF(WA(1,N2) .EQ. UN)THEN
+         IF(WA(1,N2) .EQ. ONE)THEN
           W(3,N2) = V(3,N2) - WA(3,N2) / MS(N2)
           WA(1,N2) = ZERO
           WA(3,N2) = ZERO

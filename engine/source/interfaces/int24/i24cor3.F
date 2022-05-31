@@ -209,12 +209,12 @@ C
            VZ(I,4)=V(3,IX)  
 C
            IF(IXX(I,3) /= IXX(I,4))THEN
-            XX0(I,5) = QUART*(XX0(I,1)+XX0(I,2)+XX0(I,3)+XX0(I,4))
-            YY0(I,5) = QUART*(YY0(I,1)+YY0(I,2)+YY0(I,3)+YY0(I,4))
-            ZZ0(I,5) = QUART*(ZZ0(I,1)+ZZ0(I,2)+ZZ0(I,3)+ZZ0(I,4)) 
-            VX(I,5) = QUART*(VX(I,1)+VX(I,2)+VX(I,3)+VX(I,4))
-            VY(I,5) = QUART*(VY(I,1)+VY(I,2)+VY(I,3)+VY(I,4))
-            VZ(I,5) = QUART*(VZ(I,1)+VZ(I,2)+VZ(I,3)+VZ(I,4)) 
+            XX0(I,5) = FOURTH*(XX0(I,1)+XX0(I,2)+XX0(I,3)+XX0(I,4))
+            YY0(I,5) = FOURTH*(YY0(I,1)+YY0(I,2)+YY0(I,3)+YY0(I,4))
+            ZZ0(I,5) = FOURTH*(ZZ0(I,1)+ZZ0(I,2)+ZZ0(I,3)+ZZ0(I,4)) 
+            VX(I,5) = FOURTH*(VX(I,1)+VX(I,2)+VX(I,3)+VX(I,4))
+            VY(I,5) = FOURTH*(VY(I,1)+VY(I,2)+VY(I,3)+VY(I,4))
+            VZ(I,5) = FOURTH*(VZ(I,1)+VZ(I,2)+VZ(I,3)+VZ(I,4)) 
            ELSE
             XX0(I,5) = XX0(I,3)
             YY0(I,5) = YY0(I,3)
@@ -426,12 +426,12 @@ C
               VY(I,14) = VY(I,6)
               VZ(I,14) = VZ(I,6)
            ELSE
-              XX0(I,14) = QUART*(XX0(I,2)+XX0(I,1)+XX0(I,6)+XX0(I,7))
-              YY0(I,14) = QUART*(YY0(I,2)+YY0(I,1)+YY0(I,6)+YY0(I,7))
-              ZZ0(I,14) = QUART*(ZZ0(I,2)+ZZ0(I,1)+ZZ0(I,6)+ZZ0(I,7))
-              VX(I,14) = QUART*(VX(I,2)+VX(I,1)+VX(I,6)+VX(I,7))
-              VY(I,14) = QUART*(VY(I,2)+VY(I,1)+VY(I,6)+VY(I,7))
-              VZ(I,14) = QUART*(VZ(I,2)+VZ(I,1)+VZ(I,6)+VZ(I,7))
+              XX0(I,14) = FOURTH*(XX0(I,2)+XX0(I,1)+XX0(I,6)+XX0(I,7))
+              YY0(I,14) = FOURTH*(YY0(I,2)+YY0(I,1)+YY0(I,6)+YY0(I,7))
+              ZZ0(I,14) = FOURTH*(ZZ0(I,2)+ZZ0(I,1)+ZZ0(I,6)+ZZ0(I,7))
+              VX(I,14) = FOURTH*(VX(I,2)+VX(I,1)+VX(I,6)+VX(I,7))
+              VY(I,14) = FOURTH*(VY(I,2)+VY(I,1)+VY(I,6)+VY(I,7))
+              VZ(I,14) = FOURTH*(VZ(I,2)+VZ(I,1)+VZ(I,6)+VZ(I,7))
            ENDIF
            IF(IXX(I, 8)==IXX(I, 9))THEN
               XX0(I,15) = XX0(I,8)
@@ -441,12 +441,12 @@ C
               VY(I,15) = VY(I,8)
               VZ(I,15) = VZ(I,8)
            ELSE
-              XX0(I,15) = QUART*(XX0(I,3)+XX0(I,2)+XX0(I,8)+XX0(I,9))
-              YY0(I,15) = QUART*(YY0(I,3)+YY0(I,2)+YY0(I,8)+YY0(I,9))
-              ZZ0(I,15) = QUART*(ZZ0(I,3)+ZZ0(I,2)+ZZ0(I,8)+ZZ0(I,9))
-              VX(I,15) = QUART*(VX(I,3)+VX(I,2)+VX(I,8)+VX(I,9))
-              VY(I,15) = QUART*(VY(I,3)+VY(I,2)+VY(I,8)+VY(I,9))
-              VZ(I,15) = QUART*(VZ(I,3)+VZ(I,2)+VZ(I,8)+VZ(I,9))
+              XX0(I,15) = FOURTH*(XX0(I,3)+XX0(I,2)+XX0(I,8)+XX0(I,9))
+              YY0(I,15) = FOURTH*(YY0(I,3)+YY0(I,2)+YY0(I,8)+YY0(I,9))
+              ZZ0(I,15) = FOURTH*(ZZ0(I,3)+ZZ0(I,2)+ZZ0(I,8)+ZZ0(I,9))
+              VX(I,15) = FOURTH*(VX(I,3)+VX(I,2)+VX(I,8)+VX(I,9))
+              VY(I,15) = FOURTH*(VY(I,3)+VY(I,2)+VY(I,8)+VY(I,9))
+              VZ(I,15) = FOURTH*(VZ(I,3)+VZ(I,2)+VZ(I,8)+VZ(I,9))
            ENDIF
            IF(IXX(I,10)==IXX(I,11))THEN
               XX0(I,16) = XX0(I,10)
@@ -456,12 +456,12 @@ C
               VY(I,16) = VY(I,10)
               VZ(I,16) = VZ(I,10)
            ELSE
-              XX0(I,16) = QUART*(XX0(I,4)+XX0(I,3)+XX0(I,10)+XX0(I,11))
-              YY0(I,16) = QUART*(YY0(I,4)+YY0(I,3)+YY0(I,10)+YY0(I,11))
-              ZZ0(I,16) = QUART*(ZZ0(I,4)+ZZ0(I,3)+ZZ0(I,10)+ZZ0(I,11))
-              VX(I,16) = QUART*(VX(I,4)+VX(I,3)+VX(I,10)+VX(I,11))
-              VY(I,16) = QUART*(VY(I,4)+VY(I,3)+VY(I,10)+VY(I,11))
-              VZ(I,16) = QUART*(VZ(I,4)+VZ(I,3)+VZ(I,10)+VZ(I,11))
+              XX0(I,16) = FOURTH*(XX0(I,4)+XX0(I,3)+XX0(I,10)+XX0(I,11))
+              YY0(I,16) = FOURTH*(YY0(I,4)+YY0(I,3)+YY0(I,10)+YY0(I,11))
+              ZZ0(I,16) = FOURTH*(ZZ0(I,4)+ZZ0(I,3)+ZZ0(I,10)+ZZ0(I,11))
+              VX(I,16) = FOURTH*(VX(I,4)+VX(I,3)+VX(I,10)+VX(I,11))
+              VY(I,16) = FOURTH*(VY(I,4)+VY(I,3)+VY(I,10)+VY(I,11))
+              VZ(I,16) = FOURTH*(VZ(I,4)+VZ(I,3)+VZ(I,10)+VZ(I,11))
            ENDIF
            IF(IXX(I,12)==IXX(I,13))THEN
               XX0(I,17) = XX0(I,12)
@@ -471,12 +471,12 @@ C
               VY(I,17) = VY(I,12)
               VZ(I,17) = VZ(I,12)
            ELSE
-              XX0(I,17) = QUART*(XX0(I,1)+XX0(I,4)+XX0(I,12)+XX0(I,13))
-              YY0(I,17) = QUART*(YY0(I,1)+YY0(I,4)+YY0(I,12)+YY0(I,13))
-              ZZ0(I,17) = QUART*(ZZ0(I,1)+ZZ0(I,4)+ZZ0(I,12)+ZZ0(I,13))
-              VX(I,17) = QUART*(VX(I,1)+VX(I,4)+VX(I,12)+VX(I,13))
-              VY(I,17) = QUART*(VY(I,1)+VY(I,4)+VY(I,12)+VY(I,13))
-              VZ(I,17) = QUART*(VZ(I,1)+VZ(I,4)+VZ(I,12)+VZ(I,13))
+              XX0(I,17) = FOURTH*(XX0(I,1)+XX0(I,4)+XX0(I,12)+XX0(I,13))
+              YY0(I,17) = FOURTH*(YY0(I,1)+YY0(I,4)+YY0(I,12)+YY0(I,13))
+              ZZ0(I,17) = FOURTH*(ZZ0(I,1)+ZZ0(I,4)+ZZ0(I,12)+ZZ0(I,13))
+              VX(I,17) = FOURTH*(VX(I,1)+VX(I,4)+VX(I,12)+VX(I,13))
+              VY(I,17) = FOURTH*(VY(I,1)+VY(I,4)+VY(I,12)+VY(I,13))
+              VZ(I,17) = FOURTH*(VZ(I,1)+VZ(I,4)+VZ(I,12)+VZ(I,13))
            ENDIF
 
       END DO
@@ -502,7 +502,7 @@ C
             NN = NI - NSN
             STIF(I)=ABS(STIFI(NIN)%P(NN))
           END IF
-          STIF(I)=UNDEMI*(STF(L)+STIF(I))
+          STIF(I)=HALF*(STF(L)+STIF(I))
           STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
          ENDDO
       ELSEIF(IGSTI.EQ.3)THEN
@@ -550,7 +550,7 @@ c      DO I=1,JLT
 c        IF(NSVG(I)>NUMNOD)THEN
 c          NI = CAND_N(I)
 c          IF (ISEGPT(NI)>0) THEN
-c           STIF(I) = (UN/NPT)*STIF(I)
+c           STIF(I) = (ONE/NPT)*STIF(I)
 c          ELSE
 c           STIF(I) = ZEP3*STIF(I)
 c          END IF
@@ -951,9 +951,9 @@ c		  STIF_R(I) = MIN(STIF_S,STF(L))/MAX(EM20,STIF(I))
          ENDDO
       END IF
       IF(NCFIT>0)THEN
-         FA = MIN(UN,TROIS*TNCY)
-         FAB= MAX(ZERO,TROIS*TNCY-UN)
-         FB = MAX(ZERO,TROIS*TNCY-DEUX)
+         FA = MIN(ONE,THREE*TNCY)
+         FAB= MAX(ZERO,THREE*TNCY-ONE)
+         FB = MAX(ZERO,THREE*TNCY-TWO)
          F_PFIT = EM04*(FA+FAB)+FB
          STIF(1:JLT)=F_PFIT*STIF(1:JLT)
       END IF
@@ -1021,9 +1021,9 @@ c		  STIF_R(I) = MIN(STIF_S,STFE(EM))/MAX(EM20,STIF(I))
          ENDDO
       END IF
       IF(NCFIT>0)THEN
-         FA = MIN(UN,TROIS*TNCY)
-         FAB= MAX(ZERO,TROIS*TNCY-UN)
-         FB = MAX(ZERO,TROIS*TNCY-DEUX)
+         FA = MIN(ONE,THREE*TNCY)
+         FAB= MAX(ZERO,THREE*TNCY-ONE)
+         FB = MAX(ZERO,THREE*TNCY-TWO)
          F_PFIT = EM04*(FA+FAB)+FB
          STIF(1:JLT)=F_PFIT*STIF(1:JLT)
       END IF

@@ -83,7 +83,7 @@ C----------------------------
        R21(I)=Y2(I)-Y1(I)
        R31(I)=Z2(I)-Z1(I)
        AL(I)=SQRT(R11(I)*R11(I)+R21(I)*R21(I)+R31(I)*R31(I))
-       NORM=UN/AL(I)
+       NORM=ONE/AL(I)
        R11(I)=R11(I)*NORM
        R21(I)=R21(I)*NORM
        R31(I)=R31(I)*NORM

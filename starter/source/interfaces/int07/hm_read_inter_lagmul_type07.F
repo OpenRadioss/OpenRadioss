@@ -155,7 +155,7 @@ C
         FRIGAP(11)=STOPT
 C
         IF(STFAC.EQ.ZERO) THEN
-           STFAC=UN
+           STFAC=ONE
         ENDIF 
 C
 C------------------------------------------------------------
@@ -168,9 +168,9 @@ C------------------------------------------------------------
 C bmult augmente pour les tres gros modeles et interface 7 ou 20
            IF(NTYP.EQ.7)THEN
              IF(NUMNOD > 2500000) THEN
-               BUMULT = BMUL0*DEUX
+               BUMULT = BMUL0*TWO
              ELSEIF(NUMNOD > 1500000) THEN
-               BUMULT = BMUL0*TROIS/DEUX
+               BUMULT = BMUL0*THREE/TWO
              END IF
            END IF
         END IF

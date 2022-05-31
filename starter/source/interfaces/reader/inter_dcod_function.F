@@ -164,15 +164,15 @@ C
               CMAX =  PLD(PN1+1)
               CMIN =  PLD(PN1+1)
               DO JJ = PN1+2,PN2-2,2
-               IF(PLD(JJ+1) > CMAX.AND.PLD(JJ)<=UN.AND.PLD(JJ)>=ZERO) THEN
+               IF(PLD(JJ+1) > CMAX.AND.PLD(JJ)<=ONE.AND.PLD(JJ)>=ZERO) THEN
                    CMAX=PLD(JJ+1)
                ENDIF
-               IF(PLD(JJ+1) < CMIN.AND.PLD(JJ)<=UN.AND.PLD(JJ)>=ZERO) THEN
+               IF(PLD(JJ+1) < CMIN.AND.PLD(JJ)<=ONE.AND.PLD(JJ)>=ZERO) THEN
                   CMIN=PLD(JJ+1)
                ENDIF
 
               ENDDO
-               IF(CMIN < ZERO.OR.CMAX > UN) THEN
+               IF(CMIN < ZERO.OR.CMAX > ONE) THEN
                 CALL ANCMSG(MSGID=1811,            
      .                  MSGTYPE=MSGERROR,        
      .                  ANMODE=ANINFO_BLIND_1,   
@@ -261,15 +261,15 @@ C
               CMAX =  PLD(PN1+1)
               CMIN =  PLD(PN1+1)
               DO JJ = PN1+2,PN2-2,2
-               IF(PLD(JJ+1) > CMAX.AND.PLD(JJ)<=UN.AND.PLD(JJ)>=ZERO) THEN
+               IF(PLD(JJ+1) > CMAX.AND.PLD(JJ)<=ONE.AND.PLD(JJ)>=ZERO) THEN
                    CMAX=PLD(JJ+1)
                ENDIF
-               IF(PLD(JJ+1) < CMIN.AND.PLD(JJ)<=UN.AND.PLD(JJ)>=ZERO) THEN
+               IF(PLD(JJ+1) < CMIN.AND.PLD(JJ)<=ONE.AND.PLD(JJ)>=ZERO) THEN
                   CMIN=PLD(JJ+1)
                ENDIF
 
               ENDDO
-               IF(CMIN < ZERO.OR.CMAX > UN) THEN
+               IF(CMIN < ZERO.OR.CMAX > ONE) THEN
                 CALL ANCMSG(MSGID=1811,            
      .                  MSGTYPE=MSGERROR,        
      .                  ANMODE=ANINFO_BLIND_1,   

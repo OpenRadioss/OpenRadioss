@@ -112,14 +112,14 @@ c
       IF (IFAIL_SH == 1) THEN
         PTHKF = EM06
       ELSEIF (IFAIL_SH == 2) THEN
-        PTHKF = UN
+        PTHKF = ONE
       ENDIF
 c
       DMG_FLAG = 1               
       NINDX    = 0 
 c-------------------------------
       DO I=1,NEL
-        IF (OFF(I) == UN .and. FOFF(I) == 1) THEN
+        IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
           F1 = ZERO
           FA = ZERO
           FB = ZERO
@@ -138,12 +138,12 @@ c
 c           matrix criteria                                      
 c                                                                
             IF (SIGNYY(I) >= ZERO) THEN
-              FAC = UN - PP12*SIGT2/FSIG12
+              FAC = ONE - PP12*SIGT2/FSIG12
               FAC = FAC*SIGNYY(I)/SIGT2
               FA  = SQRT((SIGNXY(I)/FSIG12)**2 + FAC*FAC) 
      .            + PP12*SIGNYY(I)/FSIG12
              ELSE
-              FAC = UNDEMI/(UN + PN22)/FSIG12
+              FAC = HALF/(ONE + PN22)/FSIG12
               FC  = (SIGNXY(I)*FAC)**2 + (SIGNYY(I)/SIGC2)**2
               FC  =-FC*SIGC2/SIGNYY(I)
             ENDIF
@@ -151,9 +151,9 @@ c
      .                             + PN12*SIGNYY(I)
             FB = FB/FSIG12
 C
-            DAMMX    = MIN(UN,MAX(F1,FA,FB,FC))
-            DFMAX(I) = MIN(UN,DAMMX)
-            IF (DAMMX >= UN) THEN
+            DAMMX    = MIN(ONE,MAX(F1,FA,FB,FC))
+            DFMAX(I) = MIN(ONE,DAMMX)
+            IF (DAMMX >= ONE) THEN
               NINDX = NINDX+1                                    
               INDX(NINDX) = I                                    
               UVAR(I,1) = TIME                                   

@@ -153,11 +153,11 @@ C----------------------------
 C--
            DO I=LFT,LLT
             NN = NC(I,N)
-            IF(ABS(OFFG(I)).GT.UN)THEN
+            IF(ABS(OFFG(I)).GT.ONE)THEN
               XX(I,N)=SAV(I,N)
               YY(I,N)=SAV(I,N+10)
               ZZ(I,N)=SAV(I,N+20)
-              OFF(I) = ABS(OFFG(I))-UN
+              OFF(I) = ABS(OFFG(I))-ONE
               OFF_L  = MIN(OFF_L,OFFG(I))
             ELSE
               NN = NC(I,N)
@@ -190,7 +190,7 @@ C--
               YY(I,N)=X(2,NN)
               ZZ(I,N)=X(3,NN)			 
             ENDIF	    
-            OFF(I) = MIN(UN,ABS(OFFG(I)))
+            OFF(I) = MIN(ONE,ABS(OFFG(I)))
             OFF_L  = MIN(OFF_L,OFFG(I))
           ENDDO
         ENDIF
@@ -202,11 +202,11 @@ C
           IF(ISROT==0.OR.ISROT==2)THEN
 C--
            DO I=LFT,LLT
-            IF(ABS(OFFG(I)).GT.UN)THEN
+            IF(ABS(OFFG(I)).GT.ONE)THEN
               XX(I,N)=SAV(I,N)
               YY(I,N)=SAV(I,N+10)
               ZZ(I,N)=SAV(I,N+20)
-              OFF(I) = ABS(OFFG(I))-UN
+              OFF(I) = ABS(OFFG(I))-ONE
               OFF_L  = MIN(OFF_L,OFFG(I))
             ELSE
               NN = NC(I,N)
@@ -223,9 +223,9 @@ C--
               ELSE
                 N1=IPERM1(N)
                 N2=IPERM2(N)
-                XX(I,N) = UNDEMI*(XX(I,N1)+XX(I,N2))
-                YY(I,N) = UNDEMI*(YY(I,N1)+YY(I,N2))
-                ZZ(I,N) = UNDEMI*(ZZ(I,N1)+ZZ(I,N2))
+                XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
+                YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
+                ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
               END IF
 C             SAV(I,N)=XX(I,N)
 C             SAV(I,N+10)=YY(I,N)
@@ -238,18 +238,18 @@ C             SAV(I,N+20)=ZZ(I,N)
 c
 C--        
            DO I=LFT,LLT
-            IF(ABS(OFFG(I)).GT.UN)THEN
+            IF(ABS(OFFG(I)).GT.ONE)THEN
               XX(I,N)=SAV(I,N)
               YY(I,N)=SAV(I,N+10)
               ZZ(I,N)=SAV(I,N+20)
-              OFF(I) = ABS(OFFG(I))-UN
+              OFF(I) = ABS(OFFG(I))-ONE
               OFF_L  = MIN(OFF_L,OFFG(I))
             ELSE
               N1=IPERM1(N)
               N2=IPERM2(N)
-c                XX(I,N) = UNDEMI*(XX(I,N1)+XX(I,N2))
-c                YY(I,N) = UNDEMI*(YY(I,N1)+YY(I,N2))
-c                ZZ(I,N) = UNDEMI*(ZZ(I,N1)+ZZ(I,N2))
+c                XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
+c                YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
+c                ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
               DX = (YY(I,N2)-YY(I,N1))*(DR(3,NC(I,N2))-DR(3,NC(I,N1)))
      .           - (ZZ(I,N2)-ZZ(I,N1))*(DR(2,NC(I,N2))-DR(2,NC(I,N1)))
               DY = (ZZ(I,N2)-ZZ(I,N1))*(DR(1,NC(I,N2))-DR(1,NC(I,N1)))
@@ -257,15 +257,15 @@ c                ZZ(I,N) = UNDEMI*(ZZ(I,N1)+ZZ(I,N2))
               DZ = (XX(I,N2)-XX(I,N1))*(DR(2,NC(I,N2))-DR(2,NC(I,N1)))
      .           - (YY(I,N2)-YY(I,N1))*(DR(1,NC(I,N2))-DR(1,NC(I,N1)))
 
-              XX(I,N) = UNDEMI*(XX(I,N1)+XX(I,N2)) + UNHUIT * DX
-              YY(I,N) = UNDEMI*(YY(I,N1)+YY(I,N2)) + UNHUIT * DY
-              ZZ(I,N) = UNDEMI*(ZZ(I,N1)+ZZ(I,N2)) + UNHUIT * DZ
+              XX(I,N) = HALF*(XX(I,N1)+XX(I,N2)) + ONE_OVER_8 * DX
+              YY(I,N) = HALF*(YY(I,N1)+YY(I,N2)) + ONE_OVER_8 * DY
+              ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2)) + ONE_OVER_8 * DZ
 C             SAV(I,N)=XX(I,N)
 C             SAV(I,N+10)=YY(I,N)
 C             SAV(I,N+20)=ZZ(I,N)
-c              SAV(I,N)= UNDEMI*(XX(I,N1)+XX(I,N2))
-c              SAV(I,N+10)= UNDEMI*(YY(I,N1)+YY(I,N2))
-c              SAV(I,N+20)= UNDEMI*(ZZ(I,N1)+ZZ(I,N2))
+c              SAV(I,N)= HALF*(XX(I,N1)+XX(I,N2))
+c              SAV(I,N+10)= HALF*(YY(I,N1)+YY(I,N2))
+c              SAV(I,N+20)= HALF*(ZZ(I,N1)+ZZ(I,N2))
               OFF(I) = ABS(OFFG(I))
               OFF_L  = MIN(OFF_L,OFFG(I))
             ENDIF
@@ -289,11 +289,11 @@ C
             ELSE
               N1=IPERM1(N)
               N2=IPERM2(N)
-              XX(I,N) = UNDEMI*(XX(I,N1)+XX(I,N2))
-              YY(I,N) = UNDEMI*(YY(I,N1)+YY(I,N2))
-              ZZ(I,N) = UNDEMI*(ZZ(I,N1)+ZZ(I,N2))
+              XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
+              YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
+              ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
             END IF
-            OFF(I) = MIN(UN,ABS(OFFG(I)))
+            OFF(I) = MIN(ONE,ABS(OFFG(I)))
             OFF_L  = MIN(OFF_L,OFFG(I))
           ENDDO
 C
@@ -308,10 +308,10 @@ C
      .         - (XX(I,N2)-XX(I,N1))*(DR(3,NC(I,N2))-DR(3,NC(I,N1)))
             DZ = (XX(I,N2)-XX(I,N1))*(DR(2,NC(I,N2))-DR(2,NC(I,N1)))
      .         - (YY(I,N2)-YY(I,N1))*(DR(1,NC(I,N2))-DR(1,NC(I,N1)))
-            XX(I,N) = UNDEMI*(XX(I,N1)+XX(I,N2)) + UNHUIT * DX
-            YY(I,N) = UNDEMI*(YY(I,N1)+YY(I,N2)) + UNHUIT * DY
-            ZZ(I,N) = UNDEMI*(ZZ(I,N1)+ZZ(I,N2)) + UNHUIT * DZ
-            OFF(I) = MIN(UN,ABS(OFFG(I)))
+            XX(I,N) = HALF*(XX(I,N1)+XX(I,N2)) + ONE_OVER_8 * DX
+            YY(I,N) = HALF*(YY(I,N1)+YY(I,N2)) + ONE_OVER_8 * DY
+            ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2)) + ONE_OVER_8 * DZ
+            OFF(I) = MIN(ONE,ABS(OFFG(I)))
             OFF_L  = MIN(OFF_L,OFFG(I))
           ENDDO
 C
@@ -322,14 +322,14 @@ c            NN = NC(I,N)
 c            N1=IPERM1(N)
 c            N2=IPERM2(N)
 c            IF(NN==0)THEN
-c              XX(I,N) = UNDEMI*(XX(I,N1)+XX(I,N2))
-c              YY(I,N) = UNDEMI*(YY(I,N1)+YY(I,N2))
-c              ZZ(I,N) = UNDEMI*(ZZ(I,N1)+ZZ(I,N2))
+c              XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
+c              YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
+c              ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
 c            ELSE
 c --------------will be done in resol	    
-c              XX(I,N) = D(1,NC(I,N)) + UNDEMI*(XX(I,N1)+XX(I,N2))
-c              YY(I,N) = D(2,NC(I,N)) + UNDEMI*(YY(I,N1)+YY(I,N2))
-c              ZZ(I,N) = D(3,NC(I,N)) + UNDEMI*(ZZ(I,N1)+ZZ(I,N2))
+c              XX(I,N) = D(1,NC(I,N)) + HALF*(XX(I,N1)+XX(I,N2))
+c              YY(I,N) = D(2,NC(I,N)) + HALF*(YY(I,N1)+YY(I,N2))
+c              ZZ(I,N) = D(3,NC(I,N)) + HALF*(ZZ(I,N1)+ZZ(I,N2))
 c             en entr   X est faux, il manque 1/2(V1+V2)*dt
 c              X(1,NC(I,N)) = XX(I,N)
 c              X(2,NC(I,N)) = YY(I,N)
@@ -340,7 +340,7 @@ c                XDP(2,NC(I,N)) = YY(I,N)
 c                XDP(3,NC(I,N)) = ZZ(I,N)	        
 c              ENDIF
 c            END IF
-c            OFF(I) = MIN(UN,ABS(OFFG(I)))
+c            OFF(I) = MIN(ONE,ABS(OFFG(I)))
 c            OFF_L  = MIN(OFF_L,OFFG(I))
 c          ENDDO
 C
@@ -425,9 +425,9 @@ C
 C
       IF (JLAG.EQ.0)THEN
         DO I=LFT,LLT
-          VDX(I)=QUART*VDX(I)
-          VDY(I)=QUART*VDY(I)
-          VDZ(I)=QUART*VDZ(I)  
+          VDX(I)=FOURTH*VDX(I)
+          VDY(I)=FOURTH*VDY(I)
+          VDZ(I)=FOURTH*VDZ(I)  
           VD2(I)=(VDX(I)**2+VDY(I)**2+VDZ(I)**2)  
         ENDDO
       ENDIF
@@ -438,9 +438,9 @@ C
           N2=IPERM2(N)
           DO I=LFT,LLT
             IF(NC(I,N).EQ.0)THEN
-              VX(I,N) = UNDEMI*(VX(I,N1)+VX(I,N2))
-              VY(I,N) = UNDEMI*(VY(I,N1)+VY(I,N2))
-              VZ(I,N) = UNDEMI*(VZ(I,N1)+VZ(I,N2))    
+              VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
+              VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
+              VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))    
             ENDIF
           ENDDO
         ENDDO
@@ -455,9 +455,9 @@ C
      .         	- (XX(I,N2)-XX(I,N1))*(VR(3,NC(I,N2))-VR(3,NC(I,N1)))
 	           DVZ = (XX(I,N2)-XX(I,N1))*(VR(2,NC(I,N2))-VR(2,NC(I,N1)))
      .         	- (YY(I,N2)-YY(I,N1))*(VR(1,NC(I,N2))-VR(1,NC(I,N1)))
-            VX(I,N) = UNDEMI*(VX(I,N1)+VX(I,N2)) + UNHUIT * DVX
-            VY(I,N) = UNDEMI*(VY(I,N1)+VY(I,N2)) + UNHUIT * DVY
-            VZ(I,N) = UNDEMI*(VZ(I,N1)+VZ(I,N2)) + UNHUIT * DVZ   
+            VX(I,N) = HALF*(VX(I,N1)+VX(I,N2)) + ONE_OVER_8 * DVX
+            VY(I,N) = HALF*(VY(I,N1)+VY(I,N2)) + ONE_OVER_8 * DVY
+            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2)) + ONE_OVER_8 * DVZ   
           ENDDO
         ENDDO
 c      ELSE IF(ISROT == 2)THEN
@@ -466,13 +466,13 @@ c          N1=IPERM1(N)
 c          N2=IPERM2(N)
 c          DO I=LFT,LLT
 c            IF(NC(I,N) == 0)THEN
-c              VX(I,N) = UNDEMI*(VX(I,N1)+VX(I,N2))
-c              VY(I,N) = UNDEMI*(VY(I,N1)+VY(I,N2))
-c              VZ(I,N) = UNDEMI*(VZ(I,N1)+VZ(I,N2)) 
+c              VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
+c              VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
+c              VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2)) 
 c            ELSE
-c              VX(I,N) = VX(I,N) + UNDEMI*(VX(I,N1)+VX(I,N2))
-c              VY(I,N) = VY(I,N) + UNDEMI*(VY(I,N1)+VY(I,N2))
-c              VZ(I,N) = VZ(I,N) + UNDEMI*(VZ(I,N1)+VZ(I,N2))
+c              VX(I,N) = VX(I,N) + HALF*(VX(I,N1)+VX(I,N2))
+c              VY(I,N) = VY(I,N) + HALF*(VY(I,N1)+VY(I,N2))
+c              VZ(I,N) = VZ(I,N) + HALF*(VZ(I,N1)+VZ(I,N2))
 c            ENDIF
 c          ENDDO
 c        ENDDO
@@ -519,7 +519,7 @@ C-----------------------------------------------
        DO N=1,10
            DO I=LFT,LLT
             NN = NC(I,N)
-            IF(ABS(OFFG(I))<=UN)THEN
+            IF(ABS(OFFG(I))<=ONE)THEN
               SAV(I,N)   =XX(I,N)
               SAV(I,N+10)=YY(I,N)
               SAV(I,N+20)=ZZ(I,N)
@@ -605,7 +605,7 @@ C---   w/ /DT/BRICK/CST
        IF (MTN==1) THEN
          IF(IRESP==1)THEN
           DO I=LFT,LLT
-            IF (OFF(I) <= UN ) CYCLE 
+            IF (OFF(I) <= ONE ) CYCLE 
             N3 = NC(I,NPE)
             VX0(I,NPE)=XDP(1,N3)-X0(I,NPE)
             VY0(I,NPE)=XDP(2,N3)-Y0(I,NPE)
@@ -613,7 +613,7 @@ C---   w/ /DT/BRICK/CST
           ENDDO 
           DO N=1,NPE
            DO I=LFT,LLT
-            IF (OFF(I) <= UN ) CYCLE 
+            IF (OFF(I) <= ONE ) CYCLE 
             N2 = NC(I,N)
             VX0(I,N) =XDP(1,N2)-X0(I,N)-VX0(I,NPE)
             VY0(I,N) =XDP(2,N2)-Y0(I,N)-VY0(I,NPE)
@@ -622,7 +622,7 @@ C---   w/ /DT/BRICK/CST
           ENDDO 
          ELSE      
           DO I=LFT,LLT
-            IF (OFF(I) <= UN ) CYCLE 
+            IF (OFF(I) <= ONE ) CYCLE 
             N3 = NC(I,NPE)
             VX0(I,NPE)=X(1,N3)-X0(I,NPE)
             VY0(I,NPE)=X(2,N3)-Y0(I,NPE)
@@ -630,7 +630,7 @@ C---   w/ /DT/BRICK/CST
           ENDDO 
           DO N=1,NPE
            DO I=LFT,LLT
-            IF (OFF(I) <= UN ) CYCLE 
+            IF (OFF(I) <= ONE ) CYCLE 
             N2 = NC(I,N)
             VX0(I,N) =X(1,N2)-X0(I,N)-VX0(I,NPE)
             VY0(I,N) =X(2,N2)-Y0(I,N)-VY0(I,NPE)
@@ -641,7 +641,7 @@ C---   w/ /DT/BRICK/CST
        ELSE
          DO N=1,NPE
           DO I=LFT,LLT
-           IF (OFF(I) <= UN ) CYCLE 
+           IF (OFF(I) <= ONE ) CYCLE 
             VX0(I,N)=D(1,NC(I,N))-D(1,NC(I,NPE))  
             VY0(I,N)=D(2,NC(I,N))-D(2,NC(I,NPE))
             VZ0(I,N)=D(3,NC(I,N))-D(3,NC(I,NPE))
@@ -720,7 +720,7 @@ C-----------
 C     REPERE CONVECTE (ITERATIONS).
 C-----------
       DO I=LFT,LLT
-        IF (OFF(I) <= UN ) CYCLE 
+        IF (OFF(I) <= ONE ) CYCLE 
         RX(I) = XX(I,1) - XX(I,4)
         RY(I) = YY(I,1) - YY(I,4)
         RZ(I) = ZZ(I,1) - ZZ(I,4)
@@ -778,7 +778,7 @@ C   X=RX' <=> X'=t(R)X chgt de base.
 C-  to do X'=RtX, just input Rt instead of R
       DO I=LFT,LLT
        DO N =1,10
-       IF (OFF(I) <= UN) CYCLE
+       IF (OFF(I) <= ONE) CYCLE
        X=R11(I)*XX(I,N)+R21(I)*YY(I,N)+R31(I)*ZZ(I,N)
        Y=R12(I)*XX(I,N)+R22(I)*YY(I,N)+R32(I)*ZZ(I,N)
        Z=R13(I)*XX(I,N)+R23(I)*YY(I,N)+R33(I)*ZZ(I,N)
@@ -1007,7 +1007,7 @@ C
         SIGG(I,5)=ZERO
         SIGG(I,6)=ZERO
         STIG(I)=ZERO
-        OFF(I) = MIN(UN,ABS(OFFG(I)))
+        OFF(I) = MIN(ONE,ABS(OFFG(I)))
         OFF_L  = MIN(OFF_L,OFFG(I))
       ENDDO
       
@@ -1090,9 +1090,9 @@ C
             ELSE
               N1=IPERM1(N)
               N2=IPERM2(N)
-              XX(I,N) = UNDEMI*(XX(I,N1)+XX(I,N2))
-              YY(I,N) = UNDEMI*(YY(I,N1)+YY(I,N2))
-              ZZ(I,N) = UNDEMI*(ZZ(I,N1)+ZZ(I,N2))
+              XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
+              YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
+              ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
             END IF
           ENDDO
 C
@@ -1107,9 +1107,9 @@ C
      .         - (XX(I,N2)-XX(I,N1))*(DR(3,NC(I,N2))-DR(3,NC(I,N1)))
             DZ = (XX(I,N2)-XX(I,N1))*(DR(2,NC(I,N2))-DR(2,NC(I,N1)))
      .         - (YY(I,N2)-YY(I,N1))*(DR(1,NC(I,N2))-DR(1,NC(I,N1)))
-            XX(I,N) = UNDEMI*(XX(I,N1)+XX(I,N2)) + UNHUIT * DX
-            YY(I,N) = UNDEMI*(YY(I,N1)+YY(I,N2)) + UNHUIT * DY
-            ZZ(I,N) = UNDEMI*(ZZ(I,N1)+ZZ(I,N2)) + UNHUIT * DZ
+            XX(I,N) = HALF*(XX(I,N1)+XX(I,N2)) + ONE_OVER_8 * DX
+            YY(I,N) = HALF*(YY(I,N1)+YY(I,N2)) + ONE_OVER_8 * DY
+            ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2)) + ONE_OVER_8 * DZ
           ENDDO
 C
         ENDIF
@@ -1136,11 +1136,11 @@ C----------------------------
         IF((ISMSTR<=4.AND.JLAG>0).OR.(ISMSTR==12.AND.IDTMIN(1)==3)) THEN
 C--
            DO I=LFT,LLT
-            IF(ABS(OFFG(I)).GT.UN)THEN
+            IF(ABS(OFFG(I)).GT.ONE)THEN
               XX(I,N)=SAV(I,N)
               YY(I,N)=SAV(I,N+10)
               ZZ(I,N)=SAV(I,N+20)
-              OFF(I) = ABS(OFFG(I))-UN
+              OFF(I) = ABS(OFFG(I))-ONE
             ELSE
              XDL=R11(I)*XX(I,N)+R21(I)*YY(I,N)+R31(I)*ZZ(I,N)
              YDL=R12(I)*XX(I,N)+R22(I)*YY(I,N)+R32(I)*ZZ(I,N)
@@ -1169,11 +1169,11 @@ C
           IF(ISROT==0.OR.ISROT==2)THEN
 C--
            DO I=LFT,LLT
-            IF(ABS(OFFG(I)).GT.UN)THEN
+            IF(ABS(OFFG(I)).GT.ONE)THEN
               XX(I,N)=SAV(I,N)
               YY(I,N)=SAV(I,N+10)
               ZZ(I,N)=SAV(I,N+20)
-              OFF(I) = ABS(OFFG(I))-UN
+              OFF(I) = ABS(OFFG(I))-ONE
             ELSE
               IF(NN/=0)THEN
                XDL=R11(I)*XX(I,N)+R21(I)*YY(I,N)+R31(I)*ZZ(I,N)
@@ -1185,9 +1185,9 @@ C--
               ELSE
                 N1=IPERM1(N)
                 N2=IPERM2(N)
-                XX(I,N) = UNDEMI*(XX(I,N1)+XX(I,N2))
-                YY(I,N) = UNDEMI*(YY(I,N1)+YY(I,N2))
-                ZZ(I,N) = UNDEMI*(ZZ(I,N1)+ZZ(I,N2))
+                XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
+                YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
+                ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
               END IF
             ENDIF
            ENDDO
@@ -1195,10 +1195,10 @@ C--
 c
 C--        
            DO I=LFT,LLT
-            IF(ABS(OFFG(I)).GT.UN)THEN
+            IF(ABS(OFFG(I)).GT.ONE)THEN
               XX(I,N)=SAV(I,N)
               YY(I,N)=SAV(I,N+10)
-              OFF(I) = ABS(OFFG(I))-UN
+              OFF(I) = ABS(OFFG(I))-ONE
               ZZ(I,N)=SAV(I,N+20)
             ELSE
               N1=IPERM1(N)
@@ -1210,9 +1210,9 @@ C-------------DR-> local first
      .           - (XX(I,N2)-XX(I,N1))*(DR(3,NC(I,N2))-DR(3,NC(I,N1)))
               DZ = (XX(I,N2)-XX(I,N1))*(DR(2,NC(I,N2))-DR(2,NC(I,N1)))
      .           - (YY(I,N2)-YY(I,N1))*(DR(1,NC(I,N2))-DR(1,NC(I,N1)))
-              XX(I,N) = UNDEMI*(XX(I,N1)+XX(I,N2)) + UNHUIT * DX
-              YY(I,N) = UNDEMI*(YY(I,N1)+YY(I,N2)) + UNHUIT * DY
-              ZZ(I,N) = UNDEMI*(ZZ(I,N1)+ZZ(I,N2)) + UNHUIT * DZ
+              XX(I,N) = HALF*(XX(I,N1)+XX(I,N2)) + ONE_OVER_8 * DX
+              YY(I,N) = HALF*(YY(I,N1)+YY(I,N2)) + ONE_OVER_8 * DY
+              ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2)) + ONE_OVER_8 * DZ
             ENDIF
            ENDDO
           END IF
@@ -1231,9 +1231,9 @@ C
             ELSE
               N1=IPERM1(N)
               N2=IPERM2(N)
-              XX(I,N) = UNDEMI*(XX(I,N1)+XX(I,N2))
-              YY(I,N) = UNDEMI*(YY(I,N1)+YY(I,N2))
-              ZZ(I,N) = UNDEMI*(ZZ(I,N1)+ZZ(I,N2))
+              XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
+              YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
+              ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
             END IF
           ENDDO
 C
@@ -1248,9 +1248,9 @@ C
      .         - (XX(I,N2)-XX(I,N1))*(DR(3,NC(I,N2))-DR(3,NC(I,N1)))
             DZ = (XX(I,N2)-XX(I,N1))*(DR(2,NC(I,N2))-DR(2,NC(I,N1)))
      .         - (YY(I,N2)-YY(I,N1))*(DR(1,NC(I,N2))-DR(1,NC(I,N1)))
-            XX(I,N) = UNDEMI*(XX(I,N1)+XX(I,N2)) + UNHUIT * DX
-            YY(I,N) = UNDEMI*(YY(I,N1)+YY(I,N2)) + UNHUIT * DY
-            ZZ(I,N) = UNDEMI*(ZZ(I,N1)+ZZ(I,N2)) + UNHUIT * DZ
+            XX(I,N) = HALF*(XX(I,N1)+XX(I,N2)) + ONE_OVER_8 * DX
+            YY(I,N) = HALF*(YY(I,N1)+YY(I,N2)) + ONE_OVER_8 * DY
+            ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2)) + ONE_OVER_8 * DZ
           ENDDO
 C
         ENDIF
@@ -1308,9 +1308,9 @@ C
 C
       IF (JLAG.EQ.0)THEN
         DO I=LFT,LLT
-          VDX(I)=QUART*VDX(I)
-          VDY(I)=QUART*VDY(I)
-          VDZ(I)=QUART*VDZ(I)  
+          VDX(I)=FOURTH*VDX(I)
+          VDY(I)=FOURTH*VDY(I)
+          VDZ(I)=FOURTH*VDZ(I)  
           VD2(I)=(VDX(I)**2+VDY(I)**2+VDZ(I)**2)  
         ENDDO
       ENDIF
@@ -1321,9 +1321,9 @@ C
           N2=IPERM2(N)
           DO I=LFT,LLT
             IF(NC(I,N).EQ.0)THEN
-              VX(I,N) = UNDEMI*(VX(I,N1)+VX(I,N2))
-              VY(I,N) = UNDEMI*(VY(I,N1)+VY(I,N2))
-              VZ(I,N) = UNDEMI*(VZ(I,N1)+VZ(I,N2))    
+              VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
+              VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
+              VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))    
             ENDIF
           ENDDO
         ENDDO
@@ -1338,9 +1338,9 @@ C
      .         	- (XX(I,N2)-XX(I,N1))*(VR(3,NC(I,N2))-VR(3,NC(I,N1)))
 	           DVZ = (XX(I,N2)-XX(I,N1))*(VR(2,NC(I,N2))-VR(2,NC(I,N1)))
      .         	- (YY(I,N2)-YY(I,N1))*(VR(1,NC(I,N2))-VR(1,NC(I,N1)))
-            VX(I,N) = UNDEMI*(VX(I,N1)+VX(I,N2)) + UNHUIT * DVX
-            VY(I,N) = UNDEMI*(VY(I,N1)+VY(I,N2)) + UNHUIT * DVY
-            VZ(I,N) = UNDEMI*(VZ(I,N1)+VZ(I,N2)) + UNHUIT * DVZ   
+            VX(I,N) = HALF*(VX(I,N1)+VX(I,N2)) + ONE_OVER_8 * DVX
+            VY(I,N) = HALF*(VY(I,N1)+VY(I,N2)) + ONE_OVER_8 * DVY
+            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2)) + ONE_OVER_8 * DVZ   
           ENDDO
         ENDDO
       ENDIF
@@ -1460,7 +1460,7 @@ C-----------------------------------------------
        DO N=1,10
            DO I=LFT,LLT
             NN = NC(I,N)
-            IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I))>UN)THEN
+            IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I))>ONE)THEN
               SAV(I,N)   =XX(I,N)
               SAV(I,N+10)=YY(I,N)
               SAV(I,N+20)=ZZ(I,N)

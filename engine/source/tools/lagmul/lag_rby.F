@@ -89,9 +89,9 @@ C         no condensation
             R1 = X(1,NN) - X(1,M)
             R2 = X(2,NN) - X(2,M)
             R3 = X(3,NN) - X(3,M)
-            RX = R1 + UNDEMI*DT2*(VG(2)*R3 - VG(3)*R2)
-            RY = R2 + UNDEMI*DT2*(VG(3)*R1 - VG(1)*R3)
-            RZ = R3 + UNDEMI*DT2*(VG(1)*R2 - VG(2)*R1)
+            RX = R1 + HALF*DT2*(VG(2)*R3 - VG(3)*R2)
+            RY = R2 + HALF*DT2*(VG(3)*R1 - VG(1)*R3)
+            RZ = R3 + HALF*DT2*(VG(1)*R2 - VG(2)*R1)
 C---        ROTATIONS
             DO J=4,6
               NC = NC + 1
@@ -100,12 +100,12 @@ C---        ROTATIONS
               LLL(IK) = M
               JLL(IK) = J
               SLL(IK) = 0
-              XLL(IK) = UN
+              XLL(IK) = ONE
               IK = IK+1
               LLL(IK) = NN
               JLL(IK) = J
               SLL(IK) = 0
-              XLL(IK) =-UN
+              XLL(IK) =-ONE
             ENDDO
 C---        Trans x
             NC = NC + 1
@@ -114,12 +114,12 @@ C---        Trans x
             LLL(IK) = NN
             JLL(IK) = 1
             SLL(IK) = 0
-            XLL(IK) =-UN
+            XLL(IK) =-ONE
             IK = IK+1
             LLL(IK) = M
             JLL(IK) = 1
             SLL(IK) = 0
-            XLL(IK) = UN
+            XLL(IK) = ONE
             IK = IK+1
             LLL(IK) = M
             JLL(IK) = 5
@@ -137,12 +137,12 @@ C---        Trans y
             LLL(IK) = NN
             JLL(IK) = 2
             SLL(IK) = 0
-            XLL(IK) =-UN
+            XLL(IK) =-ONE
             IK = IK+1
             LLL(IK) = M
             JLL(IK) = 2
             SLL(IK) = 0
-            XLL(IK) = UN
+            XLL(IK) = ONE
             IK = IK+1
             LLL(IK) = M
             JLL(IK) = 4
@@ -160,12 +160,12 @@ C---        Trans z
             LLL(IK) = NN
             JLL(IK) = 3
             SLL(IK) = 0
-            XLL(IK) =-UN
+            XLL(IK) =-ONE
             IK = IK+1
             LLL(IK) = M
             JLL(IK) = 3
             SLL(IK) = 0
-            XLL(IK) = UN
+            XLL(IK) = ONE
             IK = IK+1
             LLL(IK) = M
             JLL(IK) = 4
@@ -190,9 +190,9 @@ C         partial condensation: secnds = free nodes -1
             R1 = X(1,NN) - X(1,IFR)
             R2 = X(2,NN) - X(2,IFR)
             R3 = X(3,NN) - X(3,IFR)
-            RX = R1 + UNDEMI*DT2*(VG(2)*R3 - VG(3)*R2)
-            RY = R2 + UNDEMI*DT2*(VG(3)*R1 - VG(1)*R3)
-            RZ = R3 + UNDEMI*DT2*(VG(1)*R2 - VG(2)*R1)
+            RX = R1 + HALF*DT2*(VG(2)*R3 - VG(3)*R2)
+            RY = R2 + HALF*DT2*(VG(3)*R1 - VG(1)*R3)
+            RZ = R3 + HALF*DT2*(VG(1)*R2 - VG(2)*R1)
 C---        Rot x,y,z
             DO J=4,6
               NC = NC + 1
@@ -201,12 +201,12 @@ C---        Rot x,y,z
               LLL(IK) = IFR
               JLL(IK) = J
               SLL(IK) = 0
-              XLL(IK) = UN
+              XLL(IK) = ONE
               IK = IK+1
               LLL(IK) = NN
               JLL(IK) = J
               SLL(IK) = 0
-              XLL(IK) =-UN
+              XLL(IK) =-ONE
             ENDDO
 C---        Trans x
             NC = NC + 1
@@ -215,12 +215,12 @@ C---        Trans x
             LLL(IK) = NN
             JLL(IK) = 1
             SLL(IK) = 0
-            XLL(IK) =-UN
+            XLL(IK) =-ONE
             IK = IK+1
             LLL(IK) = IFR
             JLL(IK) = 1
             SLL(IK) = 0
-            XLL(IK) = UN
+            XLL(IK) = ONE
             IK = IK+1
             LLL(IK) = IFR
             JLL(IK) = 5
@@ -238,12 +238,12 @@ C---        Trans y
             LLL(IK) = NN
             JLL(IK) = 2
             SLL(IK) = 0
-            XLL(IK) =-UN
+            XLL(IK) =-ONE
             IK = IK+1
             LLL(IK) = IFR
             JLL(IK) = 2
             SLL(IK) = 0
-            XLL(IK) = UN
+            XLL(IK) = ONE
             IK = IK+1
             LLL(IK) = IFR
             JLL(IK) = 4
@@ -261,12 +261,12 @@ C---        Trans z
             LLL(IK) = NN
             JLL(IK) = 3
             SLL(IK) = 0
-            XLL(IK) =-UN
+            XLL(IK) =-ONE
             IK = IK+1
             LLL(IK) = IFR
             JLL(IK) = 3
             SLL(IK) = 0
-            XLL(IK) = UN
+            XLL(IK) = ONE
             IK = IK+1
             LLL(IK) = IFR
             JLL(IK) = 4
@@ -282,9 +282,9 @@ C         secnd = condensed node
           R1 = RBYL(11,N) - X(1,IFR)
           R2 = RBYL(12,N) - X(2,IFR)
           R3 = RBYL(13,N) - X(3,IFR)
-          RX = R1 - UNDEMI*DT2*(VG(2)*R3 - VG(3)*R2)
-          RY = R2 - UNDEMI*DT2*(VG(3)*R1 - VG(1)*R3)
-          RZ = R3 - UNDEMI*DT2*(VG(1)*R2 - VG(2)*R1)
+          RX = R1 - HALF*DT2*(VG(2)*R3 - VG(3)*R2)
+          RY = R2 - HALF*DT2*(VG(3)*R1 - VG(1)*R3)
+          RZ = R3 - HALF*DT2*(VG(1)*R2 - VG(2)*R1)
 C---      Trans x
           NC = NC + 1
           IADLL(NC+1)=IADLL(NC) + 4
@@ -292,12 +292,12 @@ C---      Trans x
           LLL(IK) = IFX
           JLL(IK) = 1
           SLL(IK) = 0
-          XLL(IK) =-UN
+          XLL(IK) =-ONE
           IK = IK+1
           LLL(IK) = IFR
           JLL(IK) = 1
           SLL(IK) = 0
-          XLL(IK) = UN
+          XLL(IK) = ONE
           IK = IK+1
           LLL(IK) = IFR
           JLL(IK) = 5
@@ -315,12 +315,12 @@ C---      Trans y
           LLL(IK) = IFX
           JLL(IK) = 2
           SLL(IK) = 0
-          XLL(IK) =-UN
+          XLL(IK) =-ONE
           IK = IK+1
           LLL(IK) = IFR
           JLL(IK) = 2
           SLL(IK) = 0
-          XLL(IK) = UN
+          XLL(IK) = ONE
           IK = IK+1
           LLL(IK) = IFR
           JLL(IK) = 4
@@ -338,12 +338,12 @@ C---      Trans z
           LLL(IK) = IFX
           JLL(IK) = 3
           SLL(IK) = 0
-          XLL(IK) =-UN
+          XLL(IK) =-ONE
           IK = IK+1
           LLL(IK) = IFR
           JLL(IK) = 3
           SLL(IK) = 0
-          XLL(IK) = UN
+          XLL(IK) = ONE
           IK = IK+1
           LLL(IK) = IFR
           JLL(IK) = 4
@@ -373,12 +373,12 @@ C---      Rot x
           LLL(IK) = IFR
           JLL(IK) = 4
           SLL(IK) = 0
-          XLL(IK) =-UN
+          XLL(IK) =-ONE
           IK = IK+1
           LLL(IK) = IFX
           JLL(IK) = 4
           SLL(IK) = 0
-          XLL(IK) = UN
+          XLL(IK) = ONE
           IK = IK+1
           LLL(IK) = IFX
           JLL(IK) = 5
@@ -396,7 +396,7 @@ C---      Rot y
           LLL(IK) = IFR
           JLL(IK) = 5
           SLL(IK) = 0
-          XLL(IK) =-UN
+          XLL(IK) =-ONE
           IK = IK+1
           LLL(IK) = IFX
           JLL(IK) = 4
@@ -406,7 +406,7 @@ C---      Rot y
           LLL(IK) = IFX
           JLL(IK) = 5
           SLL(IK) = 0
-          XLL(IK) = UN
+          XLL(IK) = ONE
           IK = IK+1
           LLL(IK) = IFX
           JLL(IK) = 6
@@ -419,7 +419,7 @@ C---      Rot z
           LLL(IK) = IFR
           JLL(IK) = 6
           SLL(IK) = 0
-          XLL(IK) =-UN
+          XLL(IK) =-ONE
           IK = IK+1
           LLL(IK) = IFX
           JLL(IK) = 4
@@ -434,7 +434,7 @@ C---      Rot z
           LLL(IK) = IFX
           JLL(IK) = 6
           SLL(IK) = 0
-          XLL(IK) = UN
+          XLL(IK) = ONE
         ENDIF
       ENDDO
 C---

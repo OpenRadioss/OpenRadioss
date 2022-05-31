@@ -104,7 +104,7 @@ C---    Frame estimation at the middle of the step
         VL(1)=P(1)*DVR(1)+P(2)*DVR(2)+P(3)*DVR(3)
         VL(2)=P(4)*DVR(1)+P(5)*DVR(2)+P(6)*DVR(3)
         VL(3)=P(7)*DVR(1)+P(8)*DVR(2)+P(9)*DVR(3)
-        DTD = UNDEMI*DT2
+        DTD = HALF*DT2
         CALL ROTBMR (VL ,P ,DTD)
 C
         ALPHA = GJBUFR( 1,I)

@@ -88,7 +88,7 @@ C     REAL ou REAL*8
      .   PHIM,AREA,CONDS,CONDM
 C-----------------------------------------------
       IF(IFUNCTK==0)THEN
-        RSTIF = UN/MAX(EM30,KTHE)
+        RSTIF = ONE/MAX(EM30,KTHE)
         DO I=1,JLT
           TS = TEMPI(I)   
           IF(IFORM ==0) THEN
@@ -112,9 +112,9 @@ C--------+---------+---------+---------+---------+---------+---------+--
 C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE 
 C-------------------------------------------------------------
          IF(IX3(I)/=IX4(I))THEN
-           SX2 = QUART*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)    
-           SY2 = QUART*(Y1(I) + Y2(I) + Y3(I) + Y4(I)) - YI(I)    
-           SZ2 = QUART*(Z1(I) + Z2(I) + Z3(I) + Z4(I)) - ZI(I)  
+           SX2 = FOURTH*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)    
+           SY2 = FOURTH*(Y1(I) + Y2(I) + Y3(I) + Y4(I)) - YI(I)    
+           SZ2 = FOURTH*(Z1(I) + Z2(I) + Z3(I) + Z4(I)) - ZI(I)  
          ELSE
            SX2 = THIRD*(X1(I) + X2(I) + X3(I)) - XI(I)    
            SY2 = THIRD*(Y1(I) + Y2(I) + Y3(I)) - YI(I)    
@@ -131,7 +131,7 @@ C-----------------------------------------------
 C
           IF(AREAS(I) == ZERO )THEN 
 C            
-            AREAC =UNDEMI*NORM
+            AREAC =HALF*NORM
 C
           ELSE
 C
@@ -171,7 +171,7 @@ C---------------------------------
                ELSEIF(CONDS == ZERO) THEN
                   COND = CONDM
                ELSE
-                  COND = DEUX*CONDS*CONDM/(CONDM + CONDS)! harmonic mean
+                  COND = TWO*CONDS*CONDM/(CONDM + CONDS)! harmonic mean
                ENDIF
             ELSE
                COND = CONDS
@@ -207,7 +207,7 @@ C---------------------------------
                ELSEIF(CONDS == ZERO) THEN
                   COND = CONDM
                ELSE
-                  COND = DEUX*CONDS*CONDM/(CONDM + CONDS)! harmonic mean
+                  COND = TWO*CONDS*CONDM/(CONDM + CONDS)! harmonic mean
                ENDIF
             ELSE
                COND = CONDS
@@ -278,9 +278,9 @@ C--------+---------+---------+---------+---------+---------+---------+--
 C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE 
 C-------------------------------------------------------------
          IF(IX3(I)/=IX4(I))THEN
-           SX2 = QUART*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)    
-           SY2 = QUART*(Y1(I) + Y2(I) + Y3(I) + Y4(I)) - YI(I)    
-           SZ2 = QUART*(Z1(I) + Z2(I) + Z3(I) + Z4(I)) - ZI(I)  
+           SX2 = FOURTH*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)    
+           SY2 = FOURTH*(Y1(I) + Y2(I) + Y3(I) + Y4(I)) - YI(I)    
+           SZ2 = FOURTH*(Z1(I) + Z2(I) + Z3(I) + Z4(I)) - ZI(I)  
          ELSE
            SX2 = THIRD*(X1(I) + X2(I) + X3(I)) - XI(I)    
            SY2 = THIRD*(Y1(I) + Y2(I) + Y3(I)) - YI(I)    
@@ -296,7 +296,7 @@ C-----------------------------------------------
 C
           IF(AREAS(I) == ZERO )THEN 
 C            
-            AREAC =UNDEMI*NORM
+            AREAC =HALF*NORM
 C
           ELSE
 C
@@ -315,7 +315,7 @@ C---------------------------------
 C           CALCUL DE LA CONDUCTIBILITE
 C---------------------------------
             P      = XTHE * ABS(FNI(I)) / AREAS(I)
-            RSTIF  = UN / MAX(EM30,KTHE * FINTER(IFUNCTK,P,NPC,TF,DYDX))
+            RSTIF  = ONE / MAX(EM30,KTHE * FINTER(IFUNCTK,P,NPC,TF,DYDX))
             MATS = IELESI(I)
             IF(MATS > 0) THEN
               CONDS=PM(75,MATS)+PM(76,MATS)*TS
@@ -335,7 +335,7 @@ C---------------------------------
                ELSEIF(CONDS == ZERO) THEN
                   COND = CONDM
                ELSE
-                  COND = DEUX*CONDS*CONDM/(CONDM + CONDS)! harmonic mean
+                  COND = TWO*CONDS*CONDM/(CONDM + CONDS)! harmonic mean
                ENDIF
             ELSE
                COND = CONDS
@@ -372,13 +372,13 @@ C---------------------------------
                ELSEIF(CONDS == ZERO) THEN
                   COND = CONDM
                ELSE
-                  COND = DEUX*CONDS*CONDM/(CONDM + CONDS)! harmonic mean
+                  COND = TWO*CONDS*CONDM/(CONDM + CONDS)! harmonic mean
                ENDIF
             ELSE
                COND = CONDS
             ENDIF
             P      = ZERO
-            RSTIF  = UN / MAX(EM30,KTHE * FINTER(IFUNCTK,P,NPC,TF,DYDX))
+            RSTIF  = ONE / MAX(EM30,KTHE * FINTER(IFUNCTK,P,NPC,TF,DYDX))
 
             IF(COND /= ZERO)TSTIFM =   MAX(DIST,ZERO) / COND
             TSTIFT = TSTIFM  + RSTIF

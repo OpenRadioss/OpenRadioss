@@ -101,8 +101,8 @@ C-----------------------------------------------
       BETA = DT1/MAX(DT1,TCAR_VF)
       IF(TCAR_VF>=EP20)BETA=ZERO
       IF(DT1 == ZERO)THEN
-        ALPHA = UN !zero
-        BETA = UN
+        ALPHA = ONE !zero
+        BETA = ONE
       ENDIF
       
       IF(IALE == 1)THEN 
@@ -149,14 +149,14 @@ C-----------------------------------------------
             XN=Y13*Z24-Z13*Y24             
             YN=Z13*X24-X13*Z24             
             ZN=X13*Y24-Y13*X24             
-            FAC2=UN/SQRT(XN**2+YN**2+ZN**2)  
+            FAC2=ONE/SQRT(XN**2+YN**2+ZN**2)  
             XN = XN*FAC2                     
             YN = YN*FAC2                     
             ZN = ZN*FAC2                               
-            SURF = UNDEMI/FAC2 
-            IF(IX(4) == IX(3))THEN ; NPT=3;FAC1=TIERS; ELSE; NPT=4;FAC1=QUART; ENDIF
+            SURF = HALF/FAC2 
+            IF(IX(4) == IX(3))THEN ; NPT=3;FAC1=THIRD; ELSE; NPT=4;FAC1=FOURTH; ENDIF
           ELSE
-            FAC1=UNDEMI
+            FAC1=HALF
             NPT=2
             JJ = IFACE(IS)
             IF(NUMELTG>0)THEN
@@ -169,10 +169,10 @@ C-----------------------------------------------
             XN = ZERO
             YN = -(-X(3,IX(2))+X(3,IX(1)))
             ZN =  (-X(2,IX(2))+X(2,IX(1)))                     
-            FAC2 = UN/SQRT(YN*YN+ZN*ZN) 
+            FAC2 = ONE/SQRT(YN*YN+ZN*ZN) 
             YN=YN*FAC2
             ZN=ZN*FAC2                          
-            SURF = UN/FAC2               
+            SURF = ONE/FAC2               
           ENDIF
 
           !-- VELOCITY
@@ -226,7 +226,7 @@ C-----------------------------------------------
           DO KK=1,6                                          
             IDX(KK) = KLT*(KK-1)                               
           ENDDO                                             
-          Pvois = -TIERS*(GBUF%SIG(IDX(1)+ILOC+1) + GBUF%SIG(IDX(2)+ILOC+1) + GBUF%SIG(IDX(3)+ILOC+1))           
+          Pvois = -THIRD*(GBUF%SIG(IDX(1)+ILOC+1) + GBUF%SIG(IDX(2)+ILOC+1) + GBUF%SIG(IDX(3)+ILOC+1))           
           Pold = EBCS%pold(IS)
           IF(TIME == ZERO)Pold=Pvois+DP0 
           
@@ -280,16 +280,16 @@ C-----------------------------------------------
           IF(SEGVAR%has_phase_eint)SEGVAR%PHASE_EINT(1:4,KSEG)=PHASE_EINT(1:4)          
 
           !-- FORMULATION  
-            MACH = UN
+            MACH = ONE
             IF(SSP /= ZERO)MACH = ABS(Vnew / SSP)
           
-            IF(MACH >= UN .AND. Vnew > ZERO)THEN
+            IF(MACH >= ONE .AND. Vnew > ZERO)THEN
               !vitesse sortante supersonique : etat = etat voisin
               PP          = Pvois
             ELSE
               RHOC2 = RHO*SSP*SSP 
               ROC   =SQRT(RHO*RHOC2)
-              PP    = UN/(UN+ALPHA)*(Pold+ROC*(Vnew-Vold))+ALPHA*(Pvois+DP0)/(ALPHA + UN)
+              PP    = ONE/(ONE+ALPHA)*(Pold+ROC*(Vnew-Vold))+ALPHA*(Pvois+DP0)/(ALPHA + ONE)
             ENDIF
             EBCS%pold(IS) = PP   
             
@@ -299,7 +299,7 @@ C-----------------------------------------------
                 IF(MTN == 51)THEN            
                   DO ISUBMAT=1,4 
                     ! (1-beta) VF_current + BETA VF_0
-                    PHASE_ALPHA(ISUBMAT)=(UN-BETA)*PHASE_ALPHA(ISUBMAT) 
+                    PHASE_ALPHA(ISUBMAT)=(ONE-BETA)*PHASE_ALPHA(ISUBMAT) 
      .                                  + BETA*MBUF%VAR((N0PHAS+(ISUBMAT-1)*NVPHAS +23-1)* KLT+ILOC+1)
                   ENDDO
                 ELSEIF(MTN == 151)THEN
@@ -328,7 +328,7 @@ C-----------------------------------------------
          !DO II=1,NOD
          !  NUM=LISTE(II)
          !   FAC2 = SURF*ROC
-         !   STIFN(NUM)=STIFN(NUM)+(DEUX*FAC2*FAC2)/MS(NUM) 
+         !   STIFN(NUM)=STIFN(NUM)+(TWO*FAC2*FAC2)/MS(NUM) 
          !ENDDO                           
 
       RETURN

@@ -101,7 +101,7 @@ c
 c
       DO N=1,NUMFAKENODIGEO
         BNIGE(N)=BNIGE(N)/MAX(EM30,VNIGE(N))
-        STIFINT(NUMNOD+N)=STIFINT(NUMNOD+N)+BNIGE(N)*(2.*VNIGE(N))**TIERS
+        STIFINT(NUMNOD+N)=STIFINT(NUMNOD+N)+BNIGE(N)*(2.*VNIGE(N))**THIRD
       ENDDO
 
 CC NB : on peut repartir le volume differemment selon si les points sont dans les coins, au milieu

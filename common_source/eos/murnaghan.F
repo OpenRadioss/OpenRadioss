@@ -84,12 +84,12 @@ C-----------------------------------------
          SPH          = PM(69,MX)
          
        DO I=LFT,LLT
-         DPDM(I) = K0*EXP( K1*LOG(1+MU(I)) )/(UN+MU(I))     !total derivative
+         DPDM(I) = K0*EXP( K1*LOG(1+MU(I)) )/(ONE+MU(I))     !total derivative
          DPDE(I) = ZERO                                       !partial derivative
        ENDDO
 
        DO I=LFT,LLT
-         ECOLD(I)=-TROIS100*SPH
+         ECOLD(I)=-THREE100*SPH
          !IF(MU(I).GT.ZERO) ECOLD(I)=
        ENDDO
 
@@ -108,9 +108,9 @@ C----------------------------------------
          SPH          = PM(69,MX)
 
        DO I=LFT,LLT
-         PNEW(I) = K0/K1 * (EXP(K1*LOG(1+MU(I))) - UN )  + P0        
+         PNEW(I) = K0/K1 * (EXP(K1*LOG(1+MU(I))) - ONE )  + P0        
          PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
-         EINT(I) = EINT(I) - UNDEMI*DVOL(I)*(PNEW(I)+PSH(I))
+         EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
          TFEXTT  = TFEXTT-DVOL(I)*PSH(I)
          PNEW(I) = PNEW(I)-PSH(I)
        ENDDO
@@ -143,8 +143,8 @@ C------------------------
           
           DO I=1,NEL
              IF (VNEW(I) .GT. ZERO) THEN
-                PNEW(I) = K0/K1 * (EXP(K1*LOG(1+MU(I))) - UN )  + P0 
-                DPDM(I) = K0*EXP( K1*LOG(1+MU(I)) )/(UN+MU(I)) !total derivative
+                PNEW(I) = K0/K1 * (EXP(K1*LOG(1+MU(I))) - ONE )  + P0 
+                DPDM(I) = K0*EXP( K1*LOG(1+MU(I)) )/(ONE+MU(I)) !total derivative
                 DPDE(I) = ZERO  
                 PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
                 PNEW(I) = PNEW(I)-PSH(I)

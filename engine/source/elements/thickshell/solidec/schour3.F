@@ -119,60 +119,60 @@ Cqz----: r->ksi; s->eta; t->zeta------------
 C
       IF(INVSTR.GE.35)THEN
         DO I=LFT,LLT
-          CAQ(I)=QUART*OFF(I)*GEO(13,PID(I))
+          CAQ(I)=FOURTH*OFF(I)*GEO(13,PID(I))
         ENDDO
       ELSE
         DO I=LFT,LLT
-          CAQ(I)=QUART*OFF(I)*PM(4,MAT(I))
+          CAQ(I)=FOURTH*OFF(I)*PM(4,MAT(I))
         ENDDO
       ENDIF
       DO I=LFT,LLT
-        THK(I) =UNHUIT*AJ5(I)
-        THK_1(I) =UN/THK(I)
-        E0(I)=TROIS*(UN-DEUX*NU(I))*PM(32,MAT(I))
-        G_3DT(I)=UNSIX*E0(I)*OFF(I)*DT1/(UN+NU(I))
+        THK(I) =ONE_OVER_8*AJ5(I)
+        THK_1(I) =ONE/THK(I)
+        E0(I)=THREE*(ONE-TWO*NU(I))*PM(32,MAT(I))
+        G_3DT(I)=ONE_OVER_6*E0(I)*OFF(I)*DT1/(ONE+NU(I))
       ENDDO
 C
        DO I=LFT,LLT
-         FCL(I)=CAQ(I)*RHO(I)*VOL(I)**QTHIRD
+         FCL(I)=CAQ(I)*RHO(I)*VOL(I)**FOUR_OVER_3
          FCL(I)=ZEP01666666667*FCL(I)*CXX(I)
        ENDDO
 C
       DO I=LFT,LLT
 Cqz alpha =1 
 C 1 1 -1 -1 -1 -1 1 1
-        G11(I)= UNHUIT-PX1H1(I)
-        G21(I)= UNHUIT-PX2H1(I)
-        G31(I)=-UNHUIT-PX3H1(I)
-        G41(I)=-UNHUIT-PX4H1(I)
-        G51(I)=-UNHUIT+PX3H1(I)
-        G61(I)=-UNHUIT+PX4H1(I)
-        G71(I)= UNHUIT+PX1H1(I)
-        G81(I)= UNHUIT+PX2H1(I)	
+        G11(I)= ONE_OVER_8-PX1H1(I)
+        G21(I)= ONE_OVER_8-PX2H1(I)
+        G31(I)=-ONE_OVER_8-PX3H1(I)
+        G41(I)=-ONE_OVER_8-PX4H1(I)
+        G51(I)=-ONE_OVER_8+PX3H1(I)
+        G61(I)=-ONE_OVER_8+PX4H1(I)
+        G71(I)= ONE_OVER_8+PX1H1(I)
+        G81(I)= ONE_OVER_8+PX2H1(I)	
       ENDDO
       DO I=LFT,LLT
 Cqz alpha =2 
 C 1 -1 -1 1 -1 1 1 -1
-        G12(I)= UNHUIT-PX1H2(I)
-        G22(I)=-UNHUIT-PX2H2(I)
-        G32(I)=-UNHUIT-PX3H2(I)
-        G42(I)= UNHUIT-PX4H2(I)
-        G52(I)=-UNHUIT+PX3H2(I)
-        G62(I)= UNHUIT+PX4H2(I)
-        G72(I)= UNHUIT+PX1H2(I)
-        G82(I)=-UNHUIT+PX2H2(I)	
+        G12(I)= ONE_OVER_8-PX1H2(I)
+        G22(I)=-ONE_OVER_8-PX2H2(I)
+        G32(I)=-ONE_OVER_8-PX3H2(I)
+        G42(I)= ONE_OVER_8-PX4H2(I)
+        G52(I)=-ONE_OVER_8+PX3H2(I)
+        G62(I)= ONE_OVER_8+PX4H2(I)
+        G72(I)= ONE_OVER_8+PX1H2(I)
+        G82(I)=-ONE_OVER_8+PX2H2(I)	
       ENDDO
       DO I=LFT,LLT
 Cqz alpha =3 
 C 1 -1 1 -1 1 -1 1 -1
-        G13(I)= UNHUIT -PX1H3(I)
-        G23(I)=-UNHUIT -PX2H3(I)
-        G33(I)= UNHUIT -PX3H3(I)
-        G43(I)=-UNHUIT -PX4H3(I)
-        G53(I)= UNHUIT +PX3H3(I)
-        G63(I)=-UNHUIT +PX4H3(I)
-        G73(I)= UNHUIT +PX1H3(I)
-        G83(I)=-UNHUIT +PX2H3(I)	
+        G13(I)= ONE_OVER_8 -PX1H3(I)
+        G23(I)=-ONE_OVER_8 -PX2H3(I)
+        G33(I)= ONE_OVER_8 -PX3H3(I)
+        G43(I)=-ONE_OVER_8 -PX4H3(I)
+        G53(I)= ONE_OVER_8 +PX3H3(I)
+        G63(I)=-ONE_OVER_8 +PX4H3(I)
+        G73(I)= ONE_OVER_8 +PX1H3(I)
+        G83(I)=-ONE_OVER_8 +PX2H3(I)	
         HGX3(I)=
      &   G13(I)*VX1(I)+G23(I)*VX2(I)+G33(I)*VX3(I)+G43(I)*VX4(I)
      &  +G53(I)*VX5(I)+G63(I)*VX6(I)+G73(I)*VX7(I)+G83(I)*VX8(I)
@@ -188,14 +188,14 @@ C 1 -1 1 -1 -1 1 -1 1
 Cqz alpha =4 
 C -1 1 -1 1 1 -1 1 -1
       DO I=LFT,LLT
-        G14(I)=-UNHUIT-PX1H4(I)
-        G24(I)= UNHUIT-PX2H4(I)
-        G34(I)=-UNHUIT-PX3H4(I)
-        G44(I)= UNHUIT-PX4H4(I)
-        G54(I)= UNHUIT+PX3H4(I)
-        G64(I)=-UNHUIT+PX4H4(I)
-        G74(I)= UNHUIT+PX1H4(I)
-        G84(I)=-UNHUIT+PX2H4(I)	
+        G14(I)=-ONE_OVER_8-PX1H4(I)
+        G24(I)= ONE_OVER_8-PX2H4(I)
+        G34(I)=-ONE_OVER_8-PX3H4(I)
+        G44(I)= ONE_OVER_8-PX4H4(I)
+        G54(I)= ONE_OVER_8+PX3H4(I)
+        G64(I)=-ONE_OVER_8+PX4H4(I)
+        G74(I)= ONE_OVER_8+PX1H4(I)
+        G84(I)=-ONE_OVER_8+PX2H4(I)	
         HGX4(I)=
      &    G14(I)*VX1(I)+G24(I)*VX2(I)+G34(I)*VX3(I)+G44(I)*VX4(I)
      &   +G54(I)*VX5(I)+G64(I)*VX6(I)+G74(I)*VX7(I)+G84(I)*VX8(I)
@@ -208,33 +208,33 @@ C -1 1 -1 1 1 -1 1 -1
       ENDDO
       IF (ICP.EQ.1) THEN
        DO I=LFT,LLT
-        A1(I) =UNDEMI*(UN-NU(I))
-        A2(I) =UNDEMI*(NU(I)-UN) 
+        A1(I) =HALF*(ONE-NU(I))
+        A2(I) =HALF*(NU(I)-ONE) 
         A3(I) = ZERO
        ENDDO 
       ELSEIF (ICP.EQ.2) THEN
        DO I=LFT,LLT
-        FACP=UN-DEFP(I)/(SIGY(I)/E0(I)+DEFP(I))
-        CC = FACP*(UN+NU(I))
-        A1(I) =UNDEMI*(UN-NU(I)+CC)
-        A2(I) =UNDEMI*(NU(I)-UN+CC) 
+        FACP=ONE-DEFP(I)/(SIGY(I)/E0(I)+DEFP(I))
+        CC = FACP*(ONE+NU(I))
+        A1(I) =HALF*(ONE-NU(I)+CC)
+        A2(I) =HALF*(NU(I)-ONE+CC) 
         A3(I) = ZERO
        ENDDO 
       ELSE
        DO I=LFT,LLT
-        A1(I) =UN
+        A1(I) =ONE
         A2(I) =NU(I)
-        A3(I) = UN
+        A3(I) = ONE
        ENDDO 
       ENDIF
       !-------elstic increament, attention il y a un fac=3----
       DO I=LFT,LLT
-       C11 = DEUX*G_3DT(I)/(UN-NU(I))
+       C11 = TWO*G_3DT(I)/(ONE-NU(I))
        CC = G_3DT(I)*THK_1(I)
        DH_XE1 =  CC*HGX1(I)
        DH_YK2 =  CC*HGY2(I)
        !-------reduit 0.1->0.2---------
-       E = ZEP4*G_3DT(I)*(UN +NU(I))
+       E = ZEP4*G_3DT(I)*(ONE +NU(I))
        CC =E*THK_1(I)
        DH_ZE1 =  CC*HGZ1(I)
        DH_ZK2 =  CC*HGZ2(I)
@@ -264,12 +264,12 @@ Cqz -----------FHOUR(1-11,I):XE1,ZE1,YK2,ZK2,XE3,YK3,ZK3,ZE3,XE4,YK4,Z4-------
        IF (SIGY(I).LT.ZEP9EP30) THEN
         SE  =FHOUR(I,9)*FHOUR(I,9)
         SK  =FHOUR(I,10)*FHOUR(I,10)
-        SR1 = (UN +NU(I)*NU(I))*(SE+SK)
-        SR2 = SR1 - DEUX*NU(I)*(SE+SK)
-        SR3 = ABS((SIX*NU(I)-DEUX)*FHOUR(I,9)*FHOUR(I,10))
+        SR1 = (ONE +NU(I)*NU(I))*(SE+SK)
+        SR2 = SR1 - TWO*NU(I)*(SE+SK)
+        SR3 = ABS((SIX*NU(I)-TWO)*FHOUR(I,9)*FHOUR(I,10))
         SVMM = F_Z*(SR1+SR2+SR3)
-        SE  =(UN-NU(I))*FHOUR(I,5)
-        SK  =(UN-NU(I))*FHOUR(I,6)
+        SE  =(ONE-NU(I))*FHOUR(I,5)
+        SK  =(ONE-NU(I))*FHOUR(I,6)
         SR1 =SE*SE+SK*SK
         SVM =-SE*SK
         SE  =NU(I)*FHOUR(I,5)-FHOUR(I,2)
@@ -293,18 +293,18 @@ Cqz -----------FHOUR(1-11,I):XE1,ZE1,YK2,ZK2,XE3,YK3,ZK3,ZE3,XE4,YK4,Z4-------
          IF (FAC2.LE.EM20) THEN
            FAC=ZERO
          ELSE
-           FAC = UN -MAX(EM20,FAC1/FAC2)
+           FAC = ONE -MAX(EM20,FAC1/FAC2)
          ENDIF
          IF (SVM2.LT.SIGY(I)) THEN
            FAC1 =(SVM1-SIGY(I))/MAX((SVM1-SVM2),EM20)
-           FAC1 =UNDEMI +SQRT(FAC1)
-           FAC = MIN(FAC1,UN)*FAC
+           FAC1 =HALF +SQRT(FAC1)
+           FAC = MIN(FAC1,ONE)*FAC
          ENDIF       
          FHOUR(I,9) = FHOUR(I,9) - FAC*DH_XE4
          FHOUR(I,10) = FHOUR(I,10) - FAC*DH_YK4
          SVM = SVM1-SQRT(COEF*SVMM)
          FAC1 =SVM/MAX(SIGY(I),EM20)
-         FAC = MIN(SQRT(FAC1),UN)*FAC
+         FAC = MIN(SQRT(FAC1),ONE)*FAC
          !-----------Membrane terms-----------
           FHOUR(I,1) = FHOUR(I,1) - FAC*DH_XE1*A3(I)
           FHOUR(I,2) = FHOUR(I,2) - FAC*DH_ZE1
@@ -352,7 +352,7 @@ C
        NFHY2(I) = NFHY2(I)+CC*(THK_1(I)*HGY2(I)+RX0(I)*HGZ3(I))
        NFHZ3(I) = NFHZ3(I)+CC*(THK(I)*(HHX3(I)+HHY3(I))*HGZ3(I)
      .                         +SY0(I)*HGX1(I)+RX0(I)*HGY2(I))
-       CC = QUINZE*FCL(I)*THK_1(I)*THK_1(I)
+       CC = FIFTEEN*FCL(I)*THK_1(I)*THK_1(I)
        NFHZ1(I) = NFHZ1(I)+CC*HGZ1(I)
        NFHZ2(I) = NFHZ2(I)+CC*HGZ2(I)
        NFHZ4(I) = NFHZ4(I)+CC*HGZ4(I)
@@ -530,60 +530,60 @@ Cqz----: r->ksi; s->eta; t->zeta------------
 C
       IF(INVSTR.GE.35)THEN
         DO I=LFT,LLT
-          CAQ(I)=QUART*OFF(I)*GEO(13,PID(I))
+          CAQ(I)=FOURTH*OFF(I)*GEO(13,PID(I))
         ENDDO
       ELSE
         DO I=LFT,LLT
-          CAQ(I)=QUART*OFF(I)*PM(4,MAT(I))
+          CAQ(I)=FOURTH*OFF(I)*PM(4,MAT(I))
         ENDDO
       ENDIF
       DO I=LFT,LLT
-        THK(I) =UNHUIT*AJ5(I)
-        THK_1(I) =UN/THK(I)
-        E0(I)=TROIS*(UN-DEUX*NU(I))*PM(32,MAT(I))
-        G_3DT(I)=UNSIX*E0(I)*OFF(I)*DT1/(UN+NU(I))
+        THK(I) =ONE_OVER_8*AJ5(I)
+        THK_1(I) =ONE/THK(I)
+        E0(I)=THREE*(ONE-TWO*NU(I))*PM(32,MAT(I))
+        G_3DT(I)=ONE_OVER_6*E0(I)*OFF(I)*DT1/(ONE+NU(I))
       ENDDO
 C
        DO I=LFT,LLT
-         FCL(I)=CAQ(I)*RHO(I)*VOL(I)**QTHIRD
+         FCL(I)=CAQ(I)*RHO(I)*VOL(I)**FOUR_OVER_3
          FCL(I)=ZEP01666666667*FCL(I)*CXX(I)
        ENDDO
 C
       DO I=LFT,LLT
 Cqz alpha =1 
 C 1 1 -1 -1 -1 -1 1 1
-        G11(I)= UNHUIT-PX1H1(I)
-        G21(I)= UNHUIT-PX2H1(I)
-        G31(I)=-UNHUIT-PX3H1(I)
-        G41(I)=-UNHUIT-PX4H1(I)
-        G51(I)=-UNHUIT+PX3H1(I)
-        G61(I)=-UNHUIT+PX4H1(I)
-        G71(I)= UNHUIT+PX1H1(I)
-        G81(I)= UNHUIT+PX2H1(I)	
+        G11(I)= ONE_OVER_8-PX1H1(I)
+        G21(I)= ONE_OVER_8-PX2H1(I)
+        G31(I)=-ONE_OVER_8-PX3H1(I)
+        G41(I)=-ONE_OVER_8-PX4H1(I)
+        G51(I)=-ONE_OVER_8+PX3H1(I)
+        G61(I)=-ONE_OVER_8+PX4H1(I)
+        G71(I)= ONE_OVER_8+PX1H1(I)
+        G81(I)= ONE_OVER_8+PX2H1(I)	
       ENDDO
       DO I=LFT,LLT
 Cqz alpha =2 
 C 1 -1 -1 1 -1 1 1 -1
-        G12(I)= UNHUIT-PX1H2(I)
-        G22(I)=-UNHUIT-PX2H2(I)
-        G32(I)=-UNHUIT-PX3H2(I)
-        G42(I)= UNHUIT-PX4H2(I)
-        G52(I)=-UNHUIT+PX3H2(I)
-        G62(I)= UNHUIT+PX4H2(I)
-        G72(I)= UNHUIT+PX1H2(I)
-        G82(I)=-UNHUIT+PX2H2(I)	
+        G12(I)= ONE_OVER_8-PX1H2(I)
+        G22(I)=-ONE_OVER_8-PX2H2(I)
+        G32(I)=-ONE_OVER_8-PX3H2(I)
+        G42(I)= ONE_OVER_8-PX4H2(I)
+        G52(I)=-ONE_OVER_8+PX3H2(I)
+        G62(I)= ONE_OVER_8+PX4H2(I)
+        G72(I)= ONE_OVER_8+PX1H2(I)
+        G82(I)=-ONE_OVER_8+PX2H2(I)	
       ENDDO
       DO I=LFT,LLT
 Cqz alpha =3 
 C 1 -1 1 -1 1 -1 1 -1
-        G13(I)= UNHUIT -PX1H3(I)
-        G23(I)=-UNHUIT -PX2H3(I)
-        G33(I)= UNHUIT -PX3H3(I)
-        G43(I)=-UNHUIT -PX4H3(I)
-        G53(I)= UNHUIT +PX3H3(I)
-        G63(I)=-UNHUIT +PX4H3(I)
-        G73(I)= UNHUIT +PX1H3(I)
-        G83(I)=-UNHUIT +PX2H3(I)	
+        G13(I)= ONE_OVER_8 -PX1H3(I)
+        G23(I)=-ONE_OVER_8 -PX2H3(I)
+        G33(I)= ONE_OVER_8 -PX3H3(I)
+        G43(I)=-ONE_OVER_8 -PX4H3(I)
+        G53(I)= ONE_OVER_8 +PX3H3(I)
+        G63(I)=-ONE_OVER_8 +PX4H3(I)
+        G73(I)= ONE_OVER_8 +PX1H3(I)
+        G83(I)=-ONE_OVER_8 +PX2H3(I)	
         HGX3(I)=
      &   G13(I)*VX1(I)+G23(I)*VX2(I)+G33(I)*VX3(I)+G43(I)*VX4(I)
      &  +G53(I)*VX5(I)+G63(I)*VX6(I)+G73(I)*VX7(I)+G83(I)*VX8(I)
@@ -599,14 +599,14 @@ C 1 -1 1 -1 -1 1 -1 1
 Cqz alpha =4 
 C -1 1 -1 1 1 -1 1 -1
       DO I=LFT,LLT
-        G14(I)=-UNHUIT-PX1H4(I)
-        G24(I)= UNHUIT-PX2H4(I)
-        G34(I)=-UNHUIT-PX3H4(I)
-        G44(I)= UNHUIT-PX4H4(I)
-        G54(I)= UNHUIT+PX3H4(I)
-        G64(I)=-UNHUIT+PX4H4(I)
-        G74(I)= UNHUIT+PX1H4(I)
-        G84(I)=-UNHUIT+PX2H4(I)	
+        G14(I)=-ONE_OVER_8-PX1H4(I)
+        G24(I)= ONE_OVER_8-PX2H4(I)
+        G34(I)=-ONE_OVER_8-PX3H4(I)
+        G44(I)= ONE_OVER_8-PX4H4(I)
+        G54(I)= ONE_OVER_8+PX3H4(I)
+        G64(I)=-ONE_OVER_8+PX4H4(I)
+        G74(I)= ONE_OVER_8+PX1H4(I)
+        G84(I)=-ONE_OVER_8+PX2H4(I)	
         HGX4(I)=
      &    G14(I)*VX1(I)+G24(I)*VX2(I)+G34(I)*VX3(I)+G44(I)*VX4(I)
      &   +G54(I)*VX5(I)+G64(I)*VX6(I)+G74(I)*VX7(I)+G84(I)*VX8(I)
@@ -619,38 +619,38 @@ C -1 1 -1 1 1 -1 1 -1
       ENDDO
 c      IF (ICP.EQ.1) THEN
 c       DO I=LFT,LLT
-c        A1(I) =UNDEMI*(UN-NU(I))
-c        A2(I) =UNDEMI*(NU(I)-UN) 
+c        A1(I) =HALF*(ONE-NU(I))
+c        A2(I) =HALF*(NU(I)-ONE) 
 c        A3(I) = ZERO
 c       ENDDO 
 c      ELSEIF (ICP.EQ.2) THEN
 c       DO I=LFT,LLT
-c        FACP=UN-DEFP(I)/(SIGY(I)/E0(I)+DEFP(I))
-c        CC = FACP*(UN+NU(I))
-c        A1(I) =UNDEMI*(UN-NU(I)+CC)
-c        A2(I) =UNDEMI*(NU(I)-UN+CC) 
+c        FACP=ONE-DEFP(I)/(SIGY(I)/E0(I)+DEFP(I))
+c        CC = FACP*(ONE+NU(I))
+c        A1(I) =HALF*(ONE-NU(I)+CC)
+c        A2(I) =HALF*(NU(I)-ONE+CC) 
 c        A3(I) = ZERO
 c       ENDDO 
 c      ELSE
 c       DO I=LFT,LLT
-c        A1(I) =UN
+c        A1(I) =ONE
 c        A2(I) =NU(I)
-c        A3(I) = UN
+c        A3(I) = ONE
 c       ENDDO 
 c      ENDIF
        DO I=LFT,LLT
-        A1(I) =UN
+        A1(I) =ONE
         A2(I) =NU(I)
-        A3(I) = UN
+        A3(I) = ONE
        ENDDO 
       !-------elstic increament, attention il y a un fac=1/3----
       DO I=LFT,LLT
-       C11 = DEUX*G_3DT(I)/(UN-NU(I))
+       C11 = TWO*G_3DT(I)/(ONE-NU(I))
        CC = G_3DT(I)*THK_1(I)
        DH_XE1 =  CC*HGX1(I)
        DH_YK2 =  CC*HGY2(I)
        !-------reduit 0.1->0.2---------
-       E = ZEP4*G_3DT(I)*(UN +NU(I))
+       E = ZEP4*G_3DT(I)*(ONE +NU(I))
        CC =E*THK_1(I)
        DH_ZE1 =  CC*HGZ1(I)
        DH_ZK2 =  CC*HGZ2(I)
@@ -680,8 +680,8 @@ Cqz -----------FHOUR(1-11,I):XE1,ZE1,YK2,ZK2,XE3,YK3,ZK3,ZE3,XE4,YK4,Z4-------
        FHOUR(I,11) = OFF(I)*FHOUR(I,11) +  DH_Z4
 C------   SIGY(I) : now min(sigy(ip)) and =sigy(e_plas=0) at begining in law2   
        IF (SIGY(I).LT.ZEP9EP30) THEN
-        SE  =(UN-NU(I))*FHOUR(I,5)
-        SK  =(UN-NU(I))*FHOUR(I,6)
+        SE  =(ONE-NU(I))*FHOUR(I,5)
+        SK  =(ONE-NU(I))*FHOUR(I,6)
         SR1 =SE*SE+SK*SK
         SVM =-SE*SK
         SE  =NU(I)*FHOUR(I,5)
@@ -698,7 +698,7 @@ c        SK  =NU(I)*FHOUR(I,6)-FHOUR(I,4)
         SVM = SVM+SE*SK
         SR4 =(FHOUR(I,8)+FHOUR(I,1))*A3(I)
         SR5 =(FHOUR(I,7)+FHOUR(I,3))*A3(I)
-        SVMR = UNDEMI*(SR1+SR2+SR3)+3*(SR4*SR4+SR5*SR5)
+        SVMR = HALF*(SR1+SR2+SR3)+3*(SR4*SR4+SR5*SR5)
         SVM0 =MM(I,2)
         SVMR = SVMR + MAX(SVM,-SVM)
         SVM2 = SQRT(SVM0+COEF*SVMR)
@@ -711,7 +711,7 @@ c        SVM2 = SQRT(MM(I,2)+COEF*(SVMR+MIN(SVM,-SVM)))
           ELSE
             FAC = (SVM2-SIGY(I))/SVM2
           END IF
-          FACM = MIN(F_MAX,UN-FAC)
+          FACM = MIN(F_MAX,ONE-FAC)
           FHOUR(I,12) = FHOUR(I,12)+FACM*(SVM2-FHOUR(I,12))
         ELSE
           FACM = ZERO
@@ -720,15 +720,15 @@ c        SVM2 = SQRT(MM(I,2)+COEF*(SVMR+MIN(SVM,-SVM)))
 C------bending behavious : 
          SE  =FHOUR(I,9)*FHOUR(I,9)
          SK  =FHOUR(I,10)*FHOUR(I,10)
-         SR1 = (UN +NU(I)*NU(I))*(SE+SK)
-         SR2 = SR1 - DEUX*NU(I)*(SE+SK)
-         SR3 = ABS((SIX*NU(I)-DEUX)*FHOUR(I,9)*FHOUR(I,10))
+         SR1 = (ONE +NU(I)*NU(I))*(SE+SK)
+         SR2 = SR1 - TWO*NU(I)*(SE+SK)
+         SR3 = ABS((SIX*NU(I)-TWO)*FHOUR(I,9)*FHOUR(I,10))
          SVMM = F_Z*(SR1+SR2+SR3)
          FACZM = SVMR/MAX(EM20,(SVMM+SVMR))        
          IF (MM(I,1)>SIGY(I)*SIGY(I)) THEN
            IF (SVMM>EM20) THEN
             FAC = SVMR/(SVMM+SVMR)
-            FACB =UN-MIN(SQRT(FAC),UN-FACM)        
+            FACB =ONE-MIN(SQRT(FAC),ONE-FACM)        
            ELSE
             FACB = FACM
            END IF
@@ -738,7 +738,7 @@ C------bending behavious :
          ENDIF 
          FHOUR(I,9) = FHOUR(I,9) - FACB*DH_XE4
          FHOUR(I,10) = FHOUR(I,10) - FACB*DH_YK4
-c         DP = THIRD*(UN+NU(I))*(DH_XE3+DH_YK3)
+c         DP = THIRD*(ONE+NU(I))*(DH_XE3+DH_YK3)
          DP = ZERO
          IF (FACM>ZERO) THEN
          !-----------Membrane terms-----------
@@ -789,7 +789,7 @@ C
        NFHY2(I) = NFHY2(I)+CC*(THK_1(I)*HGY2(I)+RX0(I)*HGZ3(I))
        NFHZ3(I) = NFHZ3(I)+CC*(THK(I)*(HHX3(I)+HHY3(I))*HGZ3(I)
      .                         +SY0(I)*HGX1(I)+RX0(I)*HGY2(I))
-       CC = QUINZE*FCL(I)*THK_1(I)*THK_1(I)
+       CC = FIFTEEN*FCL(I)*THK_1(I)*THK_1(I)
        NFHZ1(I) = NFHZ1(I)+CC*HGZ1(I)
        NFHZ2(I) = NFHZ2(I)+CC*HGZ2(I)
        NFHZ4(I) = NFHZ4(I)+CC*HGZ4(I)

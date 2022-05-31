@@ -688,7 +688,7 @@ C--------------copy la partie utile------
         DO J=1,NC-1
          MJ(J)=ZERO
         ENDDO
-        MJ(NC)=UN
+        MJ(NC)=ONE
         IF (NC.GT.10000) THEN
           MAX_L=MAX_A
           CALL IMP_PCG1( 
@@ -782,7 +782,7 @@ C-------------IT=0--------
 C------X(I)=ZERO--------
        DO I=1,NDDL
         X(I) = ZERO
-        DIAG_M(I)=UN/MAX(EM20,DIAG_K(I))
+        DIAG_M(I)=ONE/MAX(EM20,DIAG_K(I))
        ENDDO 
        CALL MAV_LT(
      1            NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K,   
@@ -810,7 +810,7 @@ C------X(I)=ZERO--------
 C------ R2<TOL*TOL*ANORM2*XNORM2------
         R02=ABS(G0)
         R2 =R02
-        L_A=UN/ALPHA
+        L_A=ONE/ALPHA
 C        L_B2=R02
         TNORM2=L_A*L_A
         ANORM2=ZERO
@@ -888,7 +888,7 @@ C*     INITIALIZE OTHER QUANTITIES.
          CALL PRODUT_V0(NDDL,R,R,R2)
         ELSEIF (ITOL.EQ.3) THEN
          R2 =ABS(G1)
-         S=UN/ALPHA
+         S=ONE/ALPHA
          L_A=S+B_OLD*A_OLD
 C----------L_B2 : beta(j-1)^2-A_OLD :1/alpha(j-1)-------
          L_B2=ABS(BETA)*S*S
@@ -1023,7 +1023,7 @@ C-----------------------------
         DO J=1,NC-1
          MJ(J)=ZERO
         ENDDO
-        MJ(NC)=UN
+        MJ(NC)=ONE
         IF (NC.GT.10000) THEN
           MAX_L=MAX_A
           CALL IMP_PCG1( 
@@ -1136,7 +1136,7 @@ C--------------copy la partie utile------
         DO J=1,NC-1
          MJ(J)=ZERO
         ENDDO
-        MJ(NC)=UN
+        MJ(NC)=ONE
         IF (NC.GT.10000) THEN
           MAX_L=MAX_A
           CALL IMP_PCG1( 
@@ -1262,7 +1262,7 @@ C------post-filtration------
        ENDDO
        DEALLOCATE(IADL,JDIL)
        DEALLOCATE(LT_L)
-       TAUX = UN*MNZ/NZ
+       TAUX = ONE*MNZ/NZ
 c	print *,'mnz,nz=',mnz,nz,mtol
         print *,'filtrage factor=',TAUX
 C------retrun from M normalized------
@@ -1323,7 +1323,7 @@ C--------------------------------------------
       IADA(1)=1
       DO I=1,NC
        J=JM(I)
-        DIAG_A(I)=UN
+        DIAG_A(I)=ONE
         DO K=IADK(J),IADK(J+1)-1
          JJ=JDIK(K)
          N=INTAB0(NC,JM,JJ)
@@ -1499,7 +1499,7 @@ C
         DO J=1,NC-1
          MJ(J)=ZERO
         ENDDO
-        MJ(NC)=UN
+        MJ(NC)=ONE
 C
         IF (NC.GT.10000) THEN
           MAX_L=MAX_A
@@ -1626,7 +1626,7 @@ C
         DO J=1,NC-1
          MJ(J)=ZERO
         ENDDO
-        MJ(NC)=UN
+        MJ(NC)=ONE
         IF (NC.GT.10000) THEN
           MAX_L=MAX_A
           CALL IMP_PCG1( 
@@ -1772,7 +1772,7 @@ C
         DO J=1,NC-1
          MJ(J)=ZERO
         ENDDO
-        MJ(NC)=UN
+        MJ(NC)=ONE
 C
         IF (NC > 10000) THEN
           MAX_L=MAX_A

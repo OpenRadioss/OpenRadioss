@@ -151,7 +151,7 @@ C---------------------------------------------------------------
      .               I2=NTYP)
       ENDIF
 C
-      IF (STFAC == ZERO ) STFAC = UNCINQ
+      IF (STFAC == ZERO ) STFAC = ONE_FIFTH
 C  
 C--------------------------------------------------------------
  1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)

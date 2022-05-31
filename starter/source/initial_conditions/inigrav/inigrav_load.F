@@ -206,13 +206,13 @@ C-----------------------------------------------
             N_SURF(3,ISEG)=N_SURF(3,ISEG)/NORM  
             !face centroid
             IF(lTRIA)THEN
-              ZF(1,ISEG)=TIERS*SUM(P(1,1:3))
-              ZF(2,ISEG)=TIERS*SUM(P(2,1:3))
-              ZF(3,ISEG)=TIERS*SUM(P(3,1:3))
+              ZF(1,ISEG)=THIRD*SUM(P(1,1:3))
+              ZF(2,ISEG)=THIRD*SUM(P(2,1:3))
+              ZF(3,ISEG)=THIRD*SUM(P(3,1:3))
             ELSE
-              ZF(1,ISEG)=QUART*SUM(P(1,1:4))
-              ZF(2,ISEG)=QUART*SUM(P(2,1:4))
-              ZF(3,ISEG)=QUART*SUM(P(3,1:4))                    
+              ZF(1,ISEG)=FOURTH*SUM(P(1,1:4))
+              ZF(2,ISEG)=FOURTH*SUM(P(2,1:4))
+              ZF(3,ISEG)=FOURTH*SUM(P(3,1:4))                    
             ENDIF                         
           ENDDO 
           !define a tolerance to check if cell centroid too far from face (box)
@@ -287,27 +287,27 @@ C-----------------------------------------------
                 N(1:3,6)            = X(1:3,IXS(7,IE))
                 N(1:3,7)            = X(1:3,IXS(8,IE))
                 N(1:3,8)            = X(1:3,IXS(9,IE))
-                Z(1)                = UNHUIT*(SUM(N(1,1:8)))
-                Z(2)                = UNHUIT*(SUM(N(2,1:8)))
-                Z(3)                = UNHUIT*(SUM(N(3,1:8)))
+                Z(1)                = ONE_OVER_8*(SUM(N(1,1:8)))
+                Z(2)                = ONE_OVER_8*(SUM(N(2,1:8)))
+                Z(3)                = ONE_OVER_8*(SUM(N(3,1:8)))
                 USERID              = IXS(NIXS,IE)
               ELSEIF(ITY==2)THEN  
                 N(1:3,1)            = X(1:3,IXQ(2,IE))
                 N(1:3,2)            = X(1:3,IXQ(3,IE))
                 N(1:3,3)            = X(1:3,IXQ(4,IE))
                 N(1:3,4)            = X(1:3,IXQ(5,IE))
-                Z(1)                = QUART*(SUM(N(1,1:4)))
-                Z(2)                = QUART*(SUM(N(2,1:4)))
-                Z(3)                = QUART*(SUM(N(3,1:4))) 
+                Z(1)                = FOURTH*(SUM(N(1,1:4)))
+                Z(2)                = FOURTH*(SUM(N(2,1:4)))
+                Z(3)                = FOURTH*(SUM(N(3,1:4))) 
                 USERID              = IXQ(NIXQ,IE)                 
               ELSEIF(ITY==7)THEN  
                 N(1:3,1)            = X(1:3,IXTG(2,IE))
                 N(1:3,2)            = X(1:3,IXTG(3,IE))
                 N(1:3,3)            = X(1:3,IXTG(4,IE))
                 N(1:3,4)            = ZERO
-                Z(1)                = TIERS*(SUM(N(1,1:3)))
-                Z(2)                = TIERS*(SUM(N(2,1:3)))
-                Z(3)                = TIERS*(SUM(N(3,1:3))) 
+                Z(1)                = THIRD*(SUM(N(1,1:3)))
+                Z(2)                = THIRD*(SUM(N(2,1:3)))
+                Z(3)                = THIRD*(SUM(N(3,1:3))) 
                 USERID              = IXTG(NIXTG,IE)                         
               ENDIF            
               !===================================================================! 
@@ -662,8 +662,8 @@ C-----------------------------------------------
 
         PS3 =  ZB(1)*ZH(1)+ZB(2)*ZA(2)+ZB(3)*ZA(3)
       
-        COEF = UN-PS3*PS3/NORM_ZA_2/NORM_ZB_2
-        COEF = UN / COEF
+        COEF = ONE-PS3*PS3/NORM_ZA_2/NORM_ZB_2
+        COEF = ONE / COEF
       
         t =  COEF * ( PS2/NORM_ZB_2 - PS3*PS1/NORM_ZA_2/NORM_ZB_2)
         s =  COEF * ( -PS3*PS2/NORM_ZA_2/NORM_ZB_2 + PS1/NORM_ZA_2)
@@ -676,7 +676,7 @@ C-----------------------------------------------
   
         IF(t.GE.-TOL)THEN
           IF(s.GE.-TOL )THEN
-            IF(s+t.LE.UN+TOL)THEN
+            IF(s+t.LE.ONE+TOL)THEN
               ISONTRIA(I) = 1
             ENDIF
           ENDIF       

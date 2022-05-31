@@ -235,17 +235,17 @@ C-----------------------------------------------
 
       IF(MFLAG == 0) THEN
           IF(IFLAG == 0) THEN
-            IF(CN == ZERO)   CN    = UN
+            IF(CN == ZERO)   CN    = ONE
            ELSE
             CB0= CB
-            RM = CB *(UN+CN)
-            AG = LOG(UN+CN)
+            RM = CB *(ONE+CN)
+            AG = LOG(ONE+CN)
             CN0= CN
             CN = RM*AG / (RM-CA)
-            CB = RM/(CN*AG**(CN-UN))
-            IF (CN .GT. UN) THEN
-              CN = UN
-              CB = (CB0*(UN+CN0)-CA)/(LOG(1+CN0)-CB0*(1+CN0)/YOUNG-CA/YOUNG)
+            CB = RM/(CN*AG**(CN-ONE))
+            IF (CN .GT. ONE) THEN
+              CN = ONE
+              CB = (CB0*(ONE+CN0)-CA)/(LOG(1+CN0)-CB0*(1+CN0)/YOUNG-CA/YOUNG)
               CALL ANCMSG(MSGID=277,
      .                    MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_1,
@@ -359,27 +359,27 @@ C-----
       IF (FCUT == ZERO) FCUT=EP20
       IF(RHOR.EQ.ZERO) RHOR=RHO0
 C-----
-      IF (ANU == UNDEMI) ANU=ZEP499
+      IF (ANU == HALF) ANU=ZEP499
 C
       IF(ICC == 0) ICC=1
 C
       IF(EPSM == ZERO) EPSM  = EP20
       IF(SIGM == ZERO) SIGM  = EP20
       IF (CC == ZERO)   THEN
-        EPS0   = UN
+        EPS0   = ONE
         ISRATE = 0
       ELSE
         ISRATE = 1
       END IF
-      IF(ANU.LE.-UN)  THEN       
+      IF(ANU.LE.-ONE)  THEN       
         CALL ANCMSG(MSGID=300,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=2,I2=ID,C1=TITR)
       ENDIF
 C-----
-      G=YOUNG/(DEUX*(UN + ANU))
+      G=YOUNG/(TWO*(ONE + ANU))
       E0=ZERO
       C0=ZERO
-      C1=YOUNG/(TROIS*(UN - DEUX*ANU))
-      E1MN2=YOUNG/(UN - ANU**2)
+      C1=YOUNG/(THREE*(ONE - TWO*ANU))
+      E1MN2=YOUNG/(ONE - ANU**2)
       EN1N2=ANU*E1MN2
       SDSP =SQRT(YOUNG/MAX(RHOR,EM20))       
 
@@ -395,12 +395,12 @@ C-----
       PM(23)=E0
       PM(24)=E1MN2
       PM(25)=EN1N2
-      PM(26)=CINQ
-      PM(26)=PM(26)*UNSIX
+      PM(26)=FIVE
+      PM(26)=PM(26)*ONE_OVER_6
       PM(27)=SDSP
-      PM(28)=UN/YOUNG
+      PM(28)=ONE/YOUNG
       PM(29)=-ANU*PM(28)
-      PM(30)=UN/G
+      PM(30)=ONE/G
       PM(31)=C0
       PM(32)=C1
       PM(38)=CA
@@ -411,10 +411,10 @@ C-----
       PM(43)=CC
       PM(44)=EPS0
       PM(49)=ICC
-      PM(9)=FCUT*DEUX*PI   
+      PM(9)=FCUT*TWO*PI   
             
 C
-      IF(TI.LE.ZERO) TI=DEUXCENT98
+      IF(TI.LE.ZERO) TI=TWOHUNDRED98
 c
 C---- Definition des variables internes (stockage elementaire)
 c
@@ -493,7 +493,7 @@ C--------------------------------
           ENDIF
         ENDIF  
         MT=C3
-        IF(MT == ZERO)MT=UN
+        IF(MT == ZERO)MT=ONE
         TM=C4
         IF(TM == ZERO)TM=EP20
         IF(.NOT.IS_CRYPTED .AND. IFORM /= 2)THEN
@@ -509,20 +509,20 @@ C--------------------------------
          ISRAT1 = 1
          WRITE(IOUT,1610)ICC,ISRAT1,FCUT,EPS0,CC,C3,C4,CP,TI
         ENDIF
-        PM(50)=UN
+        PM(50)=ONE
         PM(51)=C3
         PM(52)=C4
       ENDIF
       IF(CP.LE.ZERO) THEN
           PM(53)=ZERO
       ELSE
-          PM(53)=UN/CP
+          PM(53)=ONE/CP
       ENDIF
       PM(54)=TI
 C -----------------     
       PM(55)=FISOKIN
 C      
-      IF (FISOKIN>UN.OR.FISOKIN<ZERO) THEN
+      IF (FISOKIN>ONE.OR.FISOKIN<ZERO) THEN
         CALL ANCMSG(MSGID=912,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_1,
@@ -557,7 +557,7 @@ C
 C-----------
 C     Formulation for solid elements time step computation.
       IPM(252)= 2
-      PM(105) = DEUX*G/(C1+QTHIRD*G)
+      PM(105) = TWO*G/(C1+FOUR_OVER_3*G)
 C-----------
       RETURN
 C-----------

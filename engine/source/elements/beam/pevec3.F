@@ -114,7 +114,7 @@ C--------------------------------------------
       DO I=LFT,LLT
         RX1(I)=E1X(I)*RX1G(I)+E1Y(I)*RY1G(I)+E1Z(I)*RZ1G(I)
         RX2(I)=E1X(I)*RX2G(I)+E1Y(I)*RY2G(I)+E1Z(I)*RZ2G(I)
-        THETA=(RX1(I)+RX2(I))/DEUX*DT1
+        THETA=(RX1(I)+RX2(I))/TWO*DT1
         SUM2(I)=SQRT(E2X(I)**2+E2Y(I)**2+E2Z(I)**2)
         SUM3(I)=SQRT(E3X(I)**2+E3Y(I)**2+E3Z(I)**2)
         COST(I)=COS(THETA)/SUM2(I)

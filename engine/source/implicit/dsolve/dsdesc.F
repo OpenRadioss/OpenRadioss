@@ -176,7 +176,7 @@ C
                ENDDO
                IF (NDF.GT.0)
      .            CALL DGEMM('N',  'N', NSCM, NDI+NDM, NDF,
-     .                       UN,   DB,  NSCM, VS,      NDF,
+     .                       ONE,   DB,  NSCM, VS,      NDF,
      .                       ZERO, DI,  NSCM)
                DO L=1,NDI+NDM
                   DO K=1,NSCM
@@ -209,7 +209,7 @@ C Chargement des modes dynamiques
                   ENDDO
                   IF (NMDYN.GT.0)
      .               CALL DGEMM('N',  'N', NSCM, NDI+NDM, NMDYN,
-     .                          UN,   DB,  NSCM, VD,      NMDYN, 
+     .                          ONE,   DB,  NSCM, VD,      NMDYN, 
      .                          ZERO, DI,  NSCM)
                   DO L=1,NDI+NDM
                      DO K=1,NSCM

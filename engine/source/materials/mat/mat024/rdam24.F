@@ -63,9 +63,9 @@ C     DANS LE REPERE DES DIRECTIONS DE DOMMAGE
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
       DO 200 K=1,NBDAMA
       I= DAMAI(K)
-      DEPS4(I)=UNDEMI*DEPS4(I)
-      DEPS5(I)=UNDEMI*DEPS5(I)
-      DEPS6(I)=UNDEMI*DEPS6(I)      
+      DEPS4(I)=HALF*DEPS4(I)
+      DEPS5(I)=HALF*DEPS5(I)
+      DEPS6(I)=HALF*DEPS6(I)      
       A11(I)=DEPS1(I)*S11(I)+DEPS4(I)*S21(I)+DEPS6(I)*S31(I)
       A12(I)=DEPS1(I)*S12(I)+DEPS4(I)*S22(I)+DEPS6(I)*S32(I)
       A13(I)=DEPS1(I)*S13(I)+DEPS4(I)*S23(I)+DEPS6(I)*S33(I)
@@ -84,8 +84,8 @@ C . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
       DEPS4(I) = S11(I)*A12(I)+S21(I)*A22(I)+S31(I)*A32(I)
       DEPS5(I) = S12(I)*A13(I)+S22(I)*A23(I)+S32(I)*A33(I)
       DEPS6(I) = S11(I)*A13(I)+S21(I)*A23(I)+S31(I)*A33(I)
-      DEPS4(I) = DEUX*DEPS4(I)
-      DEPS5(I) = DEUX*DEPS5(I)
- 201  DEPS6(I) = DEUX*DEPS6(I) 
+      DEPS4(I) = TWO*DEPS4(I)
+      DEPS5(I) = TWO*DEPS5(I)
+ 201  DEPS6(I) = TWO*DEPS6(I) 
       RETURN
       END

@@ -115,7 +115,7 @@ c
         TAN_PHI(I) = TANA                                                  
         UVAR(I,10) = TANA*G0                                               
         UVAR(I,14) = ALDT(I)                                               
-        UVAR(I,40) = UN                                               
+        UVAR(I,40) = ONE                                               
       ENDDO                                                                
 C----
       RETURN

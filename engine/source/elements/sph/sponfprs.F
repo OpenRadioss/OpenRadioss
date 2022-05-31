@@ -210,13 +210,13 @@ C
 !
             PN=-( GBUF%SIG(KK(1)+K)
      .           +GBUF%SIG(KK(2)+K)
-     .           +GBUF%SIG(KK(3)+K))*TIERS
+     .           +GBUF%SIG(KK(3)+K))*THIRD
 
           ELSEIF(IPPV.LT.0)THEN !cas IPPV negatif on se sert des infos recuperes ds la routine de com
 
             PN=-( WAR(1,-IPPV)
      .           +WAR(2,-IPPV)
-     .           +WAR(3,-IPPV))*TIERS
+     .           +WAR(3,-IPPV))*THIRD
           ENDIF
          ENDIF
 C
@@ -238,7 +238,7 @@ C
 !
          PX=-( GBUF%SIG(KK(1)+K)          
      .        +GBUF%SIG(KK(2)+K)	  
-     .        +GBUF%SIG(KK(3)+K))*TIERS   
+     .        +GBUF%SIG(KK(3)+K))*THIRD   
          GBUF%SIG(KK(1)+K)=GBUF%SIG(KK(1)+K)+PX-PN
          GBUF%SIG(KK(2)+K)=GBUF%SIG(KK(2)+K)+PX-PN
          GBUF%SIG(KK(3)+K)=GBUF%SIG(KK(3)+K)+PX-PN
@@ -357,10 +357,10 @@ C
 C
           VO=SPHVELN(1,N)
           PO=SPHVELN(2,N)
-          PINFINI=PINFINI-UNDEMI*RHOI*VN*VN
+          PINFINI=PINFINI-HALF*RHOI*VN*VN
           LC     =VSPHIO(IVAD+2)
-          ALP    =UNDEMI*SSPI/MAX(EM30,LC)*DT1
-          PN=PO+(UN - ALP)*RHOI*SSPI*(VN-VO)+ALP*(PINFINI-PO)
+          ALP    =HALF*SSPI/MAX(EM30,LC)*DT1
+          PN=PO+(ONE - ALP)*RHOI*SSPI*(VN-VO)+ALP*(PINFINI-PO)
           PN=MAX(PN,PMIN)
 C
           NG=MOD(KXSP(2,N),NGROUP+1)
@@ -381,7 +381,7 @@ C
 !
           PX=-( GBUF%SIG(KK(1)+K)
      .         +GBUF%SIG(KK(2)+K)
-     .         +GBUF%SIG(KK(3)+K))*TIERS
+     .         +GBUF%SIG(KK(3)+K))*THIRD
 
           GBUF%SIG(KK(1)+K)=GBUF%SIG(KK(1)+K)+PX-PN
           GBUF%SIG(KK(2)+K)=GBUF%SIG(KK(2)+K)+PX-PN
@@ -412,7 +412,7 @@ C
 !
           PN=-( GBUF%SIG(KK(1)+K)
      .         +GBUF%SIG(KK(2)+K)
-     .         +GBUF%SIG(KK(3)+K))*TIERS
+     .         +GBUF%SIG(KK(3)+K))*THIRD
          ENDIF
          SPHVELN(1,N)= VN
          SPHVELN(2,N)= PN

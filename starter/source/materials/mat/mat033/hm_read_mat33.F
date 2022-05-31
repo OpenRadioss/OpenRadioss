@@ -145,9 +145,9 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_PHI'      ,PHI      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_GAMA0'    ,GAMA0    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
   
-      IF (FAC == ZERO) FAC = UN * FAC_UNIT
+      IF (FAC == ZERO) FAC = ONE * FAC_UNIT
       !hiddent no longer supported 
-      !FAC1 = UN / FAC_UNIT
+      !FAC1 = ONE / FAC_UNIT
       PARMAT(1)=E
       
       IF(RHOR==ZERO)RHOR=RHO0
@@ -230,7 +230,7 @@ C-------------
 C
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) =  UN 
+      PARMAT(17) =  ONE 
 c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
 c-----------------

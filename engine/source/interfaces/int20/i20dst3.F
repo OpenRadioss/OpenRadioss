@@ -133,7 +133,7 @@ C--------------------------------------------------------
 C  SHIFT DU GAP POUR SOLIDES AVEC GAP NUL
 C--------------------------------------------------------
        IF(IGAP /= 0)THEN 
-         UNSSQR3 = UN/SQR3
+         UNSSQR3 = ONE/SQR3
          DO I=1,JLT 
            M = CAND_E(I)                     
            IG = NSVG(I)
@@ -152,7 +152,7 @@ c norme des normales elementaires
              SX0=(Y3(I)-Y1(I))*(Z4(I)-Z2(I))-(Z3(I)-Z1(I))*(Y4(I)-Y2(I))
              SY0=(Z3(I)-Z1(I))*(X4(I)-X2(I))-(X3(I)-X1(I))*(Z4(I)-Z2(I))
              SZ0=(X3(I)-X1(I))*(Y4(I)-Y2(I))-(Y3(I)-Y1(I))*(X4(I)-X2(I))
-             AAA = UN / SQRT(MAX(EM20,SX0*SX0+SY0*SY0+SZ0*SZ0))
+             AAA = ONE / SQRT(MAX(EM20,SX0*SX0+SY0*SY0+SZ0*SZ0))
              SX0=SX0*AAA
              SY0=SY0*AAA
              SZ0=SZ0*AAA
@@ -181,28 +181,28 @@ c norme des normales nodales
              SX1 = SOLIDN_NORMAL(1,I1)-SXI
              SY1 = SOLIDN_NORMAL(2,I1)-SYI
              SZ1 = SOLIDN_NORMAL(3,I1)-SZI
-             AAA = UN / SQRT(MAX(EM20,SX1*SX1+SY1*SY1+SZ1*SZ1))
+             AAA = ONE / SQRT(MAX(EM20,SX1*SX1+SY1*SY1+SZ1*SZ1))
              SX1 = SX1*AAA
              SY1 = SY1*AAA
              SZ1 = SZ1*AAA
              SX2 = SOLIDN_NORMAL(1,I2)-SXI
              SY2 = SOLIDN_NORMAL(2,I2)-SYI
              SZ2 = SOLIDN_NORMAL(3,I2)-SZI
-             AAA = UN / SQRT(MAX(EM20,SX2*SX2+SY2*SY2+SZ2*SZ2))
+             AAA = ONE / SQRT(MAX(EM20,SX2*SX2+SY2*SY2+SZ2*SZ2))
              SX2 = SX2*AAA
              SY2 = SY2*AAA
              SZ2 = SZ2*AAA
              SX3 = SOLIDN_NORMAL(1,I3)-SXI
              SY3 = SOLIDN_NORMAL(2,I3)-SYI
              SZ3 = SOLIDN_NORMAL(3,I3)-SZI
-             AAA = UN / SQRT(MAX(EM20,SX3*SX3+SY3*SY3+SZ3*SZ3))
+             AAA = ONE / SQRT(MAX(EM20,SX3*SX3+SY3*SY3+SZ3*SZ3))
              SX3 = SX3*AAA
              SY3 = SY3*AAA
              SZ3 = SZ3*AAA
              SX4 = SOLIDN_NORMAL(1,I4)-SXI
              SY4 = SOLIDN_NORMAL(2,I4)-SYI
              SZ4 = SOLIDN_NORMAL(3,I4)-SZI
-             AAA = UN / SQRT(MAX(EM20,SX4*SX4+SY4*SY4+SZ4*SZ4))
+             AAA = ONE / SQRT(MAX(EM20,SX4*SX4+SY4*SY4+SZ4*SZ4))
              SX4 = SX4*AAA
              SY4 = SY4*AAA
              SZ4 = SZ4*AAA
@@ -400,9 +400,9 @@ C  CAS DES PAQUETS MIXTES
 C--------------------------------------------------------
        DO I=1,JLT
         IF(IX3(I).NE.IX4(I))THEN
-         X0(I) = QUART*(X1(I)+X2(I)+X3(I)+X4(I))
-         Y0(I) = QUART*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-         Z0(I) = QUART*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
+         X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
+         Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
+         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
         ELSE
          X0(I) = X3(I)
          Y0(I) = Y3(I)
@@ -490,7 +490,7 @@ C
         SX0 = Y03(I)*Z04(I) - Z03(I)*Y04(I)
         SY0 = Z03(I)*X04(I) - X03(I)*Z04(I)
         SZ0 = X03(I)*Y04(I) - Y03(I)*X04(I)
-        S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+        S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
 C
         LB3(I) = -(SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
         LC3(I) =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
@@ -498,33 +498,33 @@ C
         SX0 = Y04(I)*Z01(I) - Z04(I)*Y01(I)
         SY0 = Z04(I)*X01(I) - X04(I)*Z01(I)
         SZ0 = X04(I)*Y01(I) - Y04(I)*X01(I)
-        S2 = UN/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
+        S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
 C
         LB4(I) = -(SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
         LC4(I) =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
 C
        ENDDO
        DO I=1,JLT
-        AAA    = UN/MAX(EM30,X01(I)*X01(I)+Y01(I)*Y01(I)+Z01(I)*Z01(I))
+        AAA    = ONE/MAX(EM30,X01(I)*X01(I)+Y01(I)*Y01(I)+Z01(I)*Z01(I))
         HLC1(I)= LC1(I)*ABS(LC1(I))*AAA
         HLB4(I)= LB4(I)*ABS(LB4(I))*AAA
         AL1(I) = -(XI0V(I)*X01(I)+YI0V(I)*Y01(I)+ZI0V(I)*Z01(I))*AAA
-        AL1(I) = MAX(ZERO,MIN(UN,AL1(I)))
-        AAA    = UN/MAX(EM30,X02(I)*X02(I)+Y02(I)*Y02(I)+Z02(I)*Z02(I))
+        AL1(I) = MAX(ZERO,MIN(ONE,AL1(I)))
+        AAA    = ONE/MAX(EM30,X02(I)*X02(I)+Y02(I)*Y02(I)+Z02(I)*Z02(I))
         HLC2(I)= LC2(I)*ABS(LC2(I))*AAA
         HLB1(I)= LB1(I)*ABS(LB1(I))*AAA
         AL2(I) = -(XI0V(I)*X02(I)+YI0V(I)*Y02(I)+ZI0V(I)*Z02(I))*AAA
-        AL2(I) = MAX(ZERO,MIN(UN,AL2(I)))
-        AAA    = UN/MAX(EM30,X03(I)*X03(I)+Y03(I)*Y03(I)+Z03(I)*Z03(I))
+        AL2(I) = MAX(ZERO,MIN(ONE,AL2(I)))
+        AAA    = ONE/MAX(EM30,X03(I)*X03(I)+Y03(I)*Y03(I)+Z03(I)*Z03(I))
         HLC3(I)= LC3(I)*ABS(LC3(I))*AAA
         HLB2(I)= LB2(I)*ABS(LB2(I))*AAA
         AL3(I) = -(XI0V(I)*X03(I)+YI0V(I)*Y03(I)+ZI0V(I)*Z03(I))*AAA
-        AL3(I) = MAX(ZERO,MIN(UN,AL3(I)))
-        AAA    = UN/MAX(EM30,X04(I)*X04(I)+Y04(I)*Y04(I)+Z04(I)*Z04(I))
+        AL3(I) = MAX(ZERO,MIN(ONE,AL3(I)))
+        AAA    = ONE/MAX(EM30,X04(I)*X04(I)+Y04(I)*Y04(I)+Z04(I)*Z04(I))
         HLC4(I)= LC4(I)*ABS(LC4(I))*AAA
         HLB3(I)= LB3(I)*ABS(LB3(I))*AAA
         AL4(I) = -(XI0V(I)*X04(I)+YI0V(I)*Y04(I)+ZI0V(I)*Z04(I))*AAA
-        AL4(I) = MAX(ZERO,MIN(UN,AL4(I)))
+        AL4(I) = MAX(ZERO,MIN(ONE,AL4(I)))
 C
        ENDDO
 C
@@ -533,15 +533,15 @@ C
         X12 = X2(I) - X1(I)
         Y12 = Y2(I) - Y1(I)
         Z12 = Z2(I) - Z1(I)
-        LA = UN - LB1(I) - LC1(I)
+        LA = ONE - LB1(I) - LC1(I)
 Cel     HLA, HLB1, HLC1 necessaires pour triangle angle obtu
-        AAA = UN / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
+        AAA = ONE / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
         HLA= LA*ABS(LA) * AAA
         IF(LA.LT.ZERO.AND.
      +     HLA.LE.HLB1(I).AND.HLA.LE.HLC1(I))THEN
          LB1(I) = (XI2(I)*X12+YI2(I)*Y12+ZI2(I)*Z12) * AAA
-         LB1(I) = MAX(ZERO,MIN(UN,LB1(I)))
-         LC1(I) = UN - LB1(I)
+         LB1(I) = MAX(ZERO,MIN(ONE,LB1(I)))
+         LC1(I) = ONE - LB1(I)
         ELSEIF(LB1(I).LT.ZERO.AND.
      +         HLB1(I).LE.HLC1(I).AND.HLB1(I).LE.HLA)THEN
          LB1(I) = ZERO
@@ -557,15 +557,15 @@ C
         X23 = X3(I) - X2(I)
         Y23 = Y3(I) - Y2(I)
         Z23 = Z3(I) - Z2(I)
-        LA = UN - LB2(I) - LC2(I)
+        LA = ONE - LB2(I) - LC2(I)
 Cel     HLA, HLB1, HLC1 necessaires pour triangle angle obtu
-        AAA = UN / MAX(EM20,X23*X23+Y23*Y23+Z23*Z23)
+        AAA = ONE / MAX(EM20,X23*X23+Y23*Y23+Z23*Z23)
         HLA= LA*ABS(LA) * AAA
         IF(LA.LT.ZERO.AND.
      +     HLA.LE.HLB2(I).AND.HLA.LE.HLC2(I))THEN
          LB2(I) = (XI3(I)*X23+YI3(I)*Y23+ZI3(I)*Z23)*AAA
-         LB2(I) = MAX(ZERO,MIN(UN,LB2(I)))
-         LC2(I) = UN - LB2(I)
+         LB2(I) = MAX(ZERO,MIN(ONE,LB2(I)))
+         LC2(I) = ONE - LB2(I)
         ELSEIF(LB2(I).LT.ZERO.AND.
      +         HLB2(I).LE.HLC2(I).AND.HLB2(I).LE.HLA)THEN
          LB2(I) = ZERO
@@ -581,15 +581,15 @@ C
         X34 = X4(I) - X3(I)
         Y34 = Y4(I) - Y3(I)
         Z34 = Z4(I) - Z3(I)
-        LA = UN - LB3(I) - LC3(I)
+        LA = ONE - LB3(I) - LC3(I)
 Cel     HLA, HLB1, HLC1 necessaires pour triangle angle obtu
-        AAA = UN / MAX(EM20,X34*X34+Y34*Y34+Z34*Z34)
+        AAA = ONE / MAX(EM20,X34*X34+Y34*Y34+Z34*Z34)
         HLA= LA*ABS(LA) * AAA
         IF(LA.LT.ZERO.AND.
      +     HLA.LE.HLB3(I).AND.HLA.LE.HLC3(I))THEN
          LB3(I) = (XI4(I)*X34+YI4(I)*Y34+ZI4(I)*Z34)*AAA
-         LB3(I) = MAX(ZERO,MIN(UN,LB3(I)))
-         LC3(I) = UN - LB3(I)
+         LB3(I) = MAX(ZERO,MIN(ONE,LB3(I)))
+         LC3(I) = ONE - LB3(I)
         ELSEIF(LB3(I).LT.ZERO.AND.
      +         HLB3(I).LE.HLC3(I).AND.HLB3(I).LE.HLA)THEN
          LB3(I) = ZERO
@@ -605,15 +605,15 @@ C
         X41 = X1(I) - X4(I)
         Y41 = Y1(I) - Y4(I)
         Z41 = Z1(I) - Z4(I)
-        LA = UN - LB4(I) - LC4(I)
+        LA = ONE - LB4(I) - LC4(I)
 Cel     HLA, HLB1, HLC1 necessaires pour triangle angle obtu
-        AAA = UN / MAX(EM20,X41*X41+Y41*Y41+Z41*Z41)
+        AAA = ONE / MAX(EM20,X41*X41+Y41*Y41+Z41*Z41)
         HLA= LA*ABS(LA) * AAA
         IF(LA.LT.ZERO.AND.
      +     HLA.LE.HLB4(I).AND.HLA.LE.HLC4(I))THEN
          LB4(I) = (XI1(I)*X41+YI1(I)*Y41+ZI1(I)*Z41)*AAA
-         LB4(I) = MAX(ZERO,MIN(UN,LB4(I)))
-         LC4(I) = UN - LB4(I)
+         LB4(I) = MAX(ZERO,MIN(ONE,LB4(I)))
+         LC4(I) = ONE - LB4(I)
         ELSEIF(LB4(I).LT.ZERO.AND.
      +         HLB4(I).LE.HLC4(I).AND.HLB4(I).LE.HLA)THEN
          LB4(I) = ZERO
@@ -643,7 +643,7 @@ c---------------------------------------------------------
      .       -MIN(Y1(I),Y2(I),Y3(I),Y4(I))
           ZZZ=MAX(Z1(I),Z2(I),Z3(I),Z4(I))
      .       -MIN(Z1(I),Z2(I),Z3(I),Z4(I))
-          CMAJ(I) = UNDEMI * MAX(XXX,YYY,ZZZ)
+          CMAJ(I) = HALF * MAX(XXX,YYY,ZZZ)
         ENDDO
        ENDIF
 c
@@ -1256,7 +1256,7 @@ c=====================================================================
       L12Y = Y20-Y10
       L12Z = Z20-Z10
       L12 = SQRT(L12X*L12X+L12Y*L12Y+L12Z*L12Z)
-      AAA = UN/MAX(L12,EM30)
+      AAA = ONE/MAX(L12,EM30)
       L12X = L12X*AAA
       L12Y = L12Y*AAA
       L12Z = L12Z*AAA
@@ -1265,7 +1265,7 @@ c=====================================================================
       L14Y = Y40-Y10
       L14Z = Z40-Z10
       L14 = SQRT(L14X*L14X+L14Y*L14Y+L14Z*L14Z)
-      AAA = UN/MAX(L14,EM30)
+      AAA = ONE/MAX(L14,EM30)
       L14X = L14X*AAA
       L14Y = L14Y*AAA
       L14Z = L14Z*AAA
@@ -1274,15 +1274,15 @@ c=====================================================================
       L23Y = Y30-Y20
       L23Z = Z30-Z20
       L23 = SQRT(L23X*L23X+L23Y*L23Y+L23Z*L23Z)
-      AAA = UN/MAX(L23,EM30)
+      AAA = ONE/MAX(L23,EM30)
       L23X = L23X*AAA
       L23Y = L23Y*AAA
       L23Z = L23Z*AAA
 
       L1214 = L12X*L14X+L12Y*L14Y+L12Z*L14Z
 
-      BBB = GAP_M*(UN+EM5)/MAX(SQRT(UN-L1214*L1214),EM30)
-      AAA = MIN(L12/TROIS,BBB)
+      BBB = GAP_M*(ONE+EM5)/MAX(SQRT(ONE-L1214*L1214),EM30)
+      AAA = MIN(L12/THREE,BBB)
 
       X1 = X1 + L14X*AAA
       Y1 = Y1 + L14Y*AAA
@@ -1290,8 +1290,8 @@ c=====================================================================
 
       L1223 = L12X*L23X+L12Y*L23Y+L12Z*L23Z
 
-      BBB = GAP_M*(UN+EM5)/MAX(SQRT(UN-L1223*L1223),EM30)
-      AAA = MIN(L14/TROIS,BBB)
+      BBB = GAP_M*(ONE+EM5)/MAX(SQRT(ONE-L1223*L1223),EM30)
+      AAA = MIN(L14/THREE,BBB)
 
       X2 = X2 + L23X*AAA
       Y2 = Y2 + L23Y*AAA
@@ -1335,7 +1335,7 @@ c=====================================================================
       L12Y = Y20-Y10
       L12Z = Z20-Z10
       L12 = SQRT(L12X*L12X+L12Y*L12Y+L12Z*L12Z)
-      AAA = UN/MAX(L12,EM30)
+      AAA = ONE/MAX(L12,EM30)
       L12X = L12X*AAA
       L12Y = L12Y*AAA
       L12Z = L12Z*AAA
@@ -1344,21 +1344,21 @@ c=====================================================================
       L14Y = Y40-Y10
       L14Z = Z40-Z10
       L14 = SQRT(L14X*L14X+L14Y*L14Y+L14Z*L14Z)
-      AAA = UN/MAX(L14,EM30)
+      AAA = ONE/MAX(L14,EM30)
       L14X = L14X*AAA
       L14Y = L14Y*AAA
       L14Z = L14Z*AAA
 
       L1214 = L12X*L14X+L12Y*L14Y+L12Z*L14Z
 
-      BBB = GAP_M*(UN+EM5)/MAX(SQRT(UN-L1214*L1214),EM30)
-      AAA = MIN(L12/TROIS,BBB)
+      BBB = GAP_M*(ONE+EM5)/MAX(SQRT(ONE-L1214*L1214),EM30)
+      AAA = MIN(L12/THREE,BBB)
 
       X1 = X1 + L12X*AAA
       Y1 = Y1 + L12Y*AAA
       Z1 = Z1 + L12Z*AAA
 
-      AAA = MIN(L14/TROIS,BBB)
+      AAA = MIN(L14/THREE,BBB)
 
       X1 = X1 + L14X*AAA
       Y1 = Y1 + L14Y*AAA

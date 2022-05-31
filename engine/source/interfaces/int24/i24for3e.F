@@ -107,7 +107,7 @@ C-------seg center-------
         IF (IRTSE(3,IE)/=IRTSE(4,IE)) THEN
          DO J =1,4
           DO K = 1,NFIC    
-           FICS(J,K) = QUART*FICT(K)
+           FICS(J,K) = FOURTH*FICT(K)
           END DO    
          END DO        
         ELSE
@@ -122,21 +122,21 @@ C-------NPT should be unpair: 3,5,7....
         NP0 = (NPT-1)/2
         IF (IP > NP0) THEN
 C---------right side        
-         S = (IP+1)*UN/(NPT+1)
+         S = (IP+1)*ONE/(NPT+1)
          DO K = 1,NFIC    
           FICS(NS2,K) = FICS(NS2,K) + S*FICT(K)
          END DO    
-         S = (NPT-IP)*UN/(NPT+1)
+         S = (NPT-IP)*ONE/(NPT+1)
          DO K = 1,NFIC    
           FICS(NS1,K) = FICS(NS1,K) + S*FICT(K)
          END DO    
         ELSE
 C---------left side        
-         S = (NPT-IP+1)*UN/(NPT+1)
+         S = (NPT-IP+1)*ONE/(NPT+1)
          DO K = 1,NFIC    
           FICS(NS1,K) = FICS(NS1,K) + S*FICT(K)
          END DO    
-         S = IP*UN/(NPT+1)
+         S = IP*ONE/(NPT+1)
          DO K = 1,NFIC    
           FICS(NS2,K) = FICS(NS2,K) + S*FICT(K)
          END DO    
@@ -227,9 +227,9 @@ c         FY = THIRD*FYI
 c         FZ = THIRD*FZI         
 C-------seg center------- 
         IF (IRTSE(3,IE)/=IRTSE(4,IE)) THEN
-          FXS(1) = QUART*FX
-          FYS(1) = QUART*FY
-          FZS(1) = QUART*FZ
+          FXS(1) = FOURTH*FX
+          FYS(1) = FOURTH*FY
+          FZS(1) = FOURTH*FZ
          DO J =2,4
           FXS(J) = FXS(1)
           FYS(J) = FYS(1)
@@ -250,21 +250,21 @@ C-------NPT should be unpair: 3,5,7....
         NP0 = (NPT-1)/2
         IF (IP > NP0) THEN
 C---------right side        
-         S = (IP+1)*UN/(NPT+1)
+         S = (IP+1)*ONE/(NPT+1)
          FXS(NS2) = FXS(NS2)+S*FXI
          FYS(NS2) = FYS(NS2)+S*FYI
          FZS(NS2) = FZS(NS2)+S*FZI
-         S = (NPT-IP)*UN/(NPT+1)
+         S = (NPT-IP)*ONE/(NPT+1)
          FXS(NS1) = FXS(NS1)+S*FXI
          FYS(NS1) = FYS(NS1)+S*FYI
          FZS(NS1) = FZS(NS1)+S*FZI
         ELSE
 C---------left side        
-         S = (NPT-IP+1)*UN/(NPT+1)
+         S = (NPT-IP+1)*ONE/(NPT+1)
          FXS(NS1) = FXS(NS1)+S*FXI
          FYS(NS1) = FYS(NS1)+S*FYI
          FZS(NS1) = FZS(NS1)+S*FZI
-         S = IP*UN/(NPT+1)
+         S = IP*ONE/(NPT+1)
          FXS(NS2) = FXS(NS2)+S*FXI
          FYS(NS2) = FYS(NS2)+S*FYI
          FZS(NS2) = FZS(NS2)+S*FZI
@@ -372,9 +372,9 @@ c         FY = THIRD*FYI
 c         FZ = THIRD*FZI         
 C-------seg center------- 
         IF (IRTSE(3,IE)/=IRTSE(4,IE)) THEN
-          FXS(1) = QUART*FX
-          FYS(1) = QUART*FY
-          FZS(1) = QUART*FZ
+          FXS(1) = FOURTH*FX
+          FYS(1) = FOURTH*FY
+          FZS(1) = FOURTH*FZ
          DO J =2,4
           FXS(J) = FXS(1)
           FYS(J) = FYS(1)
@@ -395,21 +395,21 @@ C-------NPT should be unpair: 3,5,7....
         NP0 = (NPT-1)/2
         IF (IP > NP0) THEN
 C---------right side        
-         S = (IP+1)*UN/(NPT+1)
+         S = (IP+1)*ONE/(NPT+1)
          FXS(NS2) = FXS(NS2)+S*FXI
          FYS(NS2) = FYS(NS2)+S*FYI
          FZS(NS2) = FZS(NS2)+S*FZI
-         S = (NPT-IP)*UN/(NPT+1)
+         S = (NPT-IP)*ONE/(NPT+1)
          FXS(NS1) = FXS(NS1)+S*FXI
          FYS(NS1) = FYS(NS1)+S*FYI
          FZS(NS1) = FZS(NS1)+S*FZI
         ELSE
 C---------left side        
-         S = (NPT-IP+1)*UN/(NPT+1)
+         S = (NPT-IP+1)*ONE/(NPT+1)
          FXS(NS1) = FXS(NS1)+S*FXI
          FYS(NS1) = FYS(NS1)+S*FYI
          FZS(NS1) = FZS(NS1)+S*FZI
-         S = IP*UN/(NPT+1)
+         S = IP*ONE/(NPT+1)
          FXS(NS2) = FXS(NS2)+S*FXI
          FYS(NS2) = FYS(NS2)+S*FYI
          FZS(NS2) = FZS(NS2)+S*FZI
@@ -552,17 +552,17 @@ C-------seg center-------
          Y0=THIRD*(X(2,IRTSE(1,IE))+X(2,IRTSE(2,IE))+X(2,IRTSE(3,IE)))
          Z0=THIRD*(X(3,IRTSE(1,IE))+X(3,IRTSE(2,IE))+X(3,IRTSE(3,IE)))
         ELSE
-         X0=QUART*(X(1,IRTSE(1,IE))+X(1,IRTSE(2,IE))+X(1,IRTSE(3,IE))+
+         X0=FOURTH*(X(1,IRTSE(1,IE))+X(1,IRTSE(2,IE))+X(1,IRTSE(3,IE))+
      +             X(1,IRTSE(4,IE)))
-         Y0=QUART*(X(2,IRTSE(1,IE))+X(2,IRTSE(2,IE))+X(2,IRTSE(3,IE))+
+         Y0=FOURTH*(X(2,IRTSE(1,IE))+X(2,IRTSE(2,IE))+X(2,IRTSE(3,IE))+
      +             X(2,IRTSE(4,IE)))
-         Z0=QUART*(X(3,IRTSE(1,IE))+X(3,IRTSE(2,IE))+X(3,IRTSE(3,IE))+
+         Z0=FOURTH*(X(3,IRTSE(1,IE))+X(3,IRTSE(2,IE))+X(3,IRTSE(3,IE))+
      +             X(3,IRTSE(4,IE)))
         END IF
 C-------edge center-------        
-c         XE0=UNDEMI*(X(1,NS1)+X(1,NS2))
-c         YE0=UNDEMI*(X(2,NS1)+X(2,NS2))
-c         ZE0=UNDEMI*(X(3,NS1)+X(3,NS2))
+c         XE0=HALF*(X(1,NS1)+X(1,NS2))
+c         YE0=HALF*(X(2,NS1)+X(2,NS2))
+c         ZE0=HALF*(X(3,NS1)+X(3,NS2))
 C         
          XFIC(1,NS) = THIRD*(X0+X(1,NS1)+X(1,NS2))
          XFIC(2,NS) = THIRD*(Y0+X(2,NS1)+X(2,NS2))
@@ -579,19 +579,19 @@ c         end if
 C-------NPT should be unpair: 3,5,7         
        ELSEIF (IP > 0 ) THEN
 C-------edge center-------        
-         XE0=UNDEMI*(X(1,NS1)+X(1,NS2))
-         YE0=UNDEMI*(X(2,NS1)+X(2,NS2))
-         ZE0=UNDEMI*(X(3,NS1)+X(3,NS2))
+         XE0=HALF*(X(1,NS1)+X(1,NS2))
+         YE0=HALF*(X(2,NS1)+X(2,NS2))
+         ZE0=HALF*(X(3,NS1)+X(3,NS2))
          NP0 = (NPT-1)/2
         IF (IP > NP0) THEN
 C---------right side        
-         S = (IP-NP0)*UN/(NPT-1)
+         S = (IP-NP0)*ONE/(NPT-1)
          XFIC(1,NS) = XE0 +S*(X(1,NS2)-XE0)
          XFIC(2,NS) = YE0 +S*(X(2,NS2)-YE0)
          XFIC(3,NS) = ZE0 +S*(X(3,NS2)-ZE0)         
         ELSE
 C---------left side        
-         S = IP*UN/(NPT-1)
+         S = IP*ONE/(NPT-1)
          XFIC(1,NS) = X(1,NS1) +S*(XE0 -X(1,NS1))
          XFIC(2,NS) = X(2,NS1) +S*(YE0 -X(2,NS1))
          XFIC(3,NS) = X(3,NS1) +S*(ZE0 -X(3,NS1))         
@@ -659,7 +659,7 @@ C-------seg center-------
         IF (IRTSE(3,IE)==IRTSE(4,IE)) THEN
          S0=THIRD*(S(IRTSE(1,IE))+S(IRTSE(2,IE))+S(IRTSE(3,IE)))
         ELSE
-         S0=QUART*(S(IRTSE(1,IE))+S(IRTSE(2,IE))+S(IRTSE(3,IE))+
+         S0=FOURTH*(S(IRTSE(1,IE))+S(IRTSE(2,IE))+S(IRTSE(3,IE))+
      +             S(IRTSE(4,IE)))
         END IF
 C-------edge center-------        
@@ -668,7 +668,7 @@ C
 C-------NPT should be unpair: 3,5,7         
        ELSEIF (IP > 0 ) THEN
 C-------edge center-------        
-         SE0=UNDEMI*(S(NS1)+S(NS2))
+         SE0=HALF*(S(NS1)+S(NS2))
         NP0 = (NPT-1)/2
         IF (IP > NP0) THEN
 C---------right side        

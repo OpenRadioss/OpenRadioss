@@ -93,9 +93,9 @@ C Collocation BEM - Elements lineaires en potentiel, constants en flux
                Z1=X(3,NN1)
                Z2=X(3,NN2)
                Z3=X(3,NN3)
-               X0=TIERS*(X1+X2+X3)
-               Y0=TIERS*(Y1+Y2+Y3)    
-               Z0=TIERS*(Z1+Z2+Z3)
+               X0=THIRD*(X1+X2+X3)
+               Y0=THIRD*(Y1+Y2+Y3)    
+               Z0=THIRD*(Z1+Z2+Z3)
                D2=MIN((X0-X1)**2+(Y0-Y1)**2+(Z0-Z1)**2,
      .                (X0-X2)**2+(Y0-Y2)**2+(Z0-Z2)**2,
      .                (X0-X3)**2+(Y0-Y3)**2+(Z0-Z3)**2)
@@ -157,9 +157,9 @@ C Galerkin BEM - Elements lineaires en potentiel, constants en flux
                Z1=X(3,NN1)
                Z2=X(3,NN2)
                Z3=X(3,NN3)
-               X0=TIERS*(X1+X2+X3)
-               Y0=TIERS*(Y1+Y2+Y3)    
-               Z0=TIERS*(Z1+Z2+Z3)
+               X0=THIRD*(X1+X2+X3)
+               Y0=THIRD*(Y1+Y2+Y3)    
+               Z0=THIRD*(Z1+Z2+Z3)
                NRX=TELNOR(1,IEL)
                NRY=TELNOR(2,IEL)
                NRZ=TELNOR(3,IEL)
@@ -184,7 +184,7 @@ C 2- Resolution
 C---------------------------------------------------
       IF (ILVOUT.GE.1) WRITE(ISTDO,'(A)') 
      .' ** BEMSOLV : LINEAR SYSTEM SOLUTION'
-      CALL DGEMV('N',   NN, NEL+1, UN,   GBEM, 
+      CALL DGEMV('N',   NN, NEL+1, ONE,   GBEM, 
      .           NN,    Q,  1,     ZERO, S,
      .           1    )
 C
@@ -296,7 +296,7 @@ C
          ETAP=PG(IAD2+1)
          IAD=IAD+1
          IAD2=IAD2+2
-         VAL1=UN-KSIP-ETAP
+         VAL1=ONE-KSIP-ETAP
          VAL2=KSIP
          VAL3=ETAP
          PHI_INFP=PHI_INF(N1)*VAL1+PHI_INF(N2)*VAL2+PHI_INF(N3)*VAL3
@@ -388,13 +388,13 @@ C DISTANCE A LA SOURCE
       ZS=X(3,NNJ)
       R2=(X0-XS)**2+(Y0-YS)**2+(Z0-ZS)**2
 C NOMBRE DE POINTS DE GAUSS
-      IF (R2.GT.CENT*D2) THEN
+      IF (R2.GT.HUNDRED*D2) THEN
          NPG=1
          IAD=1
-      ELSEIF (R2.GT.VINGT5*D2) THEN
+      ELSEIF (R2.GT.TWENTY5*D2) THEN
          NPG=4
          IAD=2
-      ELSEIF (R2.GT.QUATRE*D2) THEN
+      ELSEIF (R2.GT.FOUR*D2) THEN
          NPG=7
          IAD=6
       ELSE
@@ -416,7 +416,7 @@ C INTEGRATION
          ETA2=PG(IAD2+1)
          IAD=IAD+1
          IAD2=IAD2+2
-         VAL1=UN-ETA1-ETA2
+         VAL1=ONE-ETA1-ETA2
          VAL2=ETA1         
          VAL3=ETA2          
          XG=VAL1*X1+VAL2*X2+VAL3*X3
@@ -424,11 +424,11 @@ C INTEGRATION
          ZG=VAL1*Z1+VAL2*Z2+VAL3*Z3
          R2=(XG-XS)**2+(YG-YS)**2+(ZG-ZS)**2
          IF(R2.GT.EM20)THEN
-           VALPHI=-QUART/PI/(R2**TDEMI)
+           VALPHI=-FOURTH/PI/(R2**THREE_HALF)
      .            *(NRX*(XG-XS)+NRY*(YG-YS)+NRZ*(ZG-ZS))
-           RVAL(1)=RVAL(1)+UNDEMI*W*VAL1*VALPHI
-           RVAL(2)=RVAL(2)+UNDEMI*W*VAL2*VALPHI
-           RVAL(3)=RVAL(3)+UNDEMI*W*VAL3*VALPHI
+           RVAL(1)=RVAL(1)+HALF*W*VAL1*VALPHI
+           RVAL(2)=RVAL(2)+HALF*W*VAL2*VALPHI
+           RVAL(3)=RVAL(3)+HALF*W*VAL3*VALPHI
          ENDIF
 C Remarque : la normale (NRX,NRY,NRZ) n'est pas normalisee
 C         il faudrait la diviser par JAC et comme on doit multiplier
@@ -551,13 +551,13 @@ C DISTANCE A LA SOURCE
       ZS=X(3,NNJ)
       R2=(X0-XS)**2+(Y0-YS)**2+(Z0-ZS)**2
 C NOMBRE DE POINTS DE GAUSS
-      IF (R2.GT.CENT*D2) THEN
+      IF (R2.GT.HUNDRED*D2) THEN
          NPG=1
          IAD=1
-      ELSEIF (R2.GT.VINGT5*D2) THEN
+      ELSEIF (R2.GT.TWENTY5*D2) THEN
          NPG=4
          IAD=2
-      ELSEIF (R2.GT.QUATRE*D2) THEN
+      ELSEIF (R2.GT.FOUR*D2) THEN
          NPG=7
          IAD=6
       ELSE
@@ -573,7 +573,7 @@ C INTEGRATION
          ETA2=PG(IAD2+1)
          IAD=IAD+1
          IAD2=IAD2+2
-         VAL1=UN-ETA1-ETA2
+         VAL1=ONE-ETA1-ETA2
          VAL2=ETA1        
          VAL3=ETA2        
          XG=VAL1*X1+VAL2*X2+VAL3*X3
@@ -581,8 +581,8 @@ C INTEGRATION
          ZG=VAL1*Z1+VAL2*Z2+VAL3*Z3
          R2=(XG-XS)**2+(YG-YS)**2+(ZG-ZS)**2
          IF(R2.GT.EM20)THEN
-           VALPHI=QUART/PI/SQRT(R2)
-           RVAL(1)=RVAL(1)+UNDEMI*W*VALPHI*JAC
+           VALPHI=FOURTH/PI/SQRT(R2)
+           RVAL(1)=RVAL(1)+HALF*W*VALPHI*JAC
          ENDIF
       ENDDO
 C
@@ -676,7 +676,7 @@ C
          ETAP=PG(IAD2+1)
          IAD=IAD+1
          IAD2=IAD2+2
-         VAL1=UN-KSIP-ETAP
+         VAL1=ONE-KSIP-ETAP
          VAL2=KSIP
          VAL3=ETAP
          XP=VAL1*X1+VAL2*X2+VAL3*X3
@@ -776,9 +776,9 @@ C
       NY=NRY/AREA2
       NZ=NRZ/AREA2
 C
-      X0=TIERS*(X1+X2+X3)
-      Y0=TIERS*(Y1+Y2+Y3)
-      Z0=TIERS*(Z1+Z2+Z3)
+      X0=THIRD*(X1+X2+X3)
+      Y0=THIRD*(Y1+Y2+Y3)
+      Z0=THIRD*(Z1+Z2+Z3)
 C
 C SIMPLIFICATION SI SOURCE LOIN DE L'ELEMENT
       D2=(X0-XS)**2+(Y0-YS)**2+(Z0-ZS)**2
@@ -864,7 +864,7 @@ C INTEGRALE SIMPLE COUCHE
          ENDIF
       ENDDO
       RVLG=RVLG-ZLS*I1
-      RVLG=-QUART/PI*RVLG
+      RVLG=-FOURTH/PI*RVLG
 C
 C MOMENTS D'ORDRE 1 POUR DOUBLE COUCHE
       I2=XLS*I1
@@ -901,9 +901,9 @@ C
      .       -(BETA1+BETA2)*I3
       RVLH(2)=ALPHA1*I2+BETA1*I3+GAMA1*I1
       RVLH(3)=ALPHA2*I2+BETA2*I3+GAMA2*I1
-      RVLH(1)=-RVLH(1)*QUART/PI
-      RVLH(2)=-RVLH(2)*QUART/PI
-      RVLH(3)=-RVLH(3)*QUART/PI
+      RVLH(1)=-RVLH(1)*FOURTH/PI
+      RVLH(2)=-RVLH(2)*FOURTH/PI
+      RVLH(3)=-RVLH(3)*FOURTH/PI
 C
       RETURN
       END

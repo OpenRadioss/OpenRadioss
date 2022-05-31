@@ -76,8 +76,7 @@ C-----------------------------------------------
      .   AJ1(MVSIZ), AJ2(MVSIZ) ,AJ3(MVSIZ), 
      .   AJ4(MVSIZ), AJ5(MVSIZ) ,AJ6(MVSIZ), 
      .   AJ7(MVSIZ), AJ8(MVSIZ) ,AJ9(MVSIZ), 
-     .   AJ5968(MVSIZ), AJ6749(MVSIZ), AJ4857(MVSIZ),
-     .   O3TH,O8TH
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ)
 
       my_real
      .   XIOFF(MVSIZ), AREAM(MVSIZ),
@@ -85,8 +84,6 @@ C-----------------------------------------------
  
 C=======================================================================
 
-      O8TH = UNHUIT
-      O3TH = THIRD
       DO I=LFT,LLT
         X21(I)=X2(I)-X1(I)
         X31(I)=X3(I)-X1(I)
@@ -106,33 +103,31 @@ C=======================================================================
       ENDDO
 
       DO I=LFT,LLT
-Cqz-------ri.xi---->ksi--------
+C-------ri.xi---->ksi--------
         AJ1(I)=X21(I)+X54(I)
         AJ2(I)=Y21(I)+Y54(I)
         AJ3(I)=Z21(I)+Z54(I)
       ENDDO
 
       DO I=LFT,LLT
-Cqz-------si.xi--->eta--------
+C-------si.xi--->eta--------
         AJ4(I)=X31(I)+X64(I)
         AJ5(I)=Y31(I)+Y64(I)
         AJ6(I)=Z31(I)+Z64(I)
-Cqz-------ti.xi----zeta-------
-        AJ7(I)=O3TH*(X41(I)+X5(I)-X2(I)+X6(I)-X3(I))
-        AJ8(I)=O3TH*(Y41(I)+Y5(I)-Y2(I)+Y6(I)-Y3(I))
-        AJ9(I)=O3TH*(Z41(I)+Z5(I)-Z2(I)+Z6(I)-Z3(I))
+C-------ti.xi----zeta-------
+        AJ7(I)=THIRD*(X41(I)+X5(I)-X2(I)+X6(I)-X3(I))
+        AJ8(I)=THIRD*(Y41(I)+Y5(I)-Y2(I)+Y6(I)-Y3(I))
+        AJ9(I)=THIRD*(Z41(I)+Z5(I)-Z2(I)+Z6(I)-Z3(I))
       ENDDO
-C
-C     JACOBIAN
-C
+
       DO I=LFT,LLT
-        AJ5968(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-        AJ6749(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-        AJ4857(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+        JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+        JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+        JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
       ENDDO
 C
       DO I=LFT,LLT
-        DET(I)=O8TH*(AJ1(I)*AJ5968(I)+AJ2(I)*AJ6749(I)+AJ3(I)*AJ4857(I))
+        DET(I)=ONE_OVER_8*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
         VOL(I)=DET(I)
       ENDDO
 C
@@ -145,12 +140,12 @@ C
       ENDDO
 
       DO I=LFT,LLT
-         VZL(I) = QUART*(AJ9(I)*(X54(I)*Y64(I)-X21(I)*Y31(I)-X64(I)*Y54(I)+X31(I)*Y21(I))
+         VZL(I) = FOURTH*(AJ9(I)*(X54(I)*Y64(I)-X21(I)*Y31(I)-X64(I)*Y54(I)+X31(I)*Y21(I))
      .                  -AJ8(I)*(X54(I)*Z64(I)+X31(I)*Z21(I)-X21(I)*Z31(I)-X64(I)*Z54(I))
      .                  +AJ7(I)*(Y54(I)*Z64(I)+Y31(I)*Z21(I)-Y21(I)*Z31(I)-Y64(I)*Z54(I)))
       ENDDO
       DO I=LFT,LLT
-        XIOFF(I)=UN
+        XIOFF(I)=ONE
         AREAM(I)=ZERO
       ENDDO
 C
@@ -171,7 +166,7 @@ C
         IF(NFAC.GE.2) XIOFF(I)=EP03
       ENDDO
       DO I=LFT,LLT
-         DELTAX(I)=QUATRE*DET(I)*XIOFF(I)/SQRT(AREAM(I))
+         DELTAX(I)=FOUR*DET(I)*XIOFF(I)/SQRT(AREAM(I))
       ENDDO
 C---
       RETURN

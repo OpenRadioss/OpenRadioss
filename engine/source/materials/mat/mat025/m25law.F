@@ -110,18 +110,18 @@ C-----------------------------------------------------------
        MX = MAT(LFT)
        ISRATE = IPM(3,MX)
        ASRATE = PM(9,MX)*DT1     
-       ASRATE = ASRATE / (ASRATE + UN)   
+       ASRATE = ASRATE / (ASRATE + ONE)   
        DO I=LFT,LLT                                                                                                    
          IF(ISRATE >= 1)THEN                                     
            DAV = -THIRD*(D1(I)+D2(I)+D3(I))                         
-           EPD = UNDEMI*((D1(I)+DAV )**2+(D2(I)+DAV)**2          
+           EPD = HALF*((D1(I)+DAV )**2+(D2(I)+DAV)**2          
      .                                   +(D3(I)+DAV)**2)           
-     .            + QUART*(D4(I)**2+D5(I)**2+D6(I)**2)              
-           EPD = SQRT(TROIS*EPD)/TDEMI                        
-           EPSP(I) = ASRATE*EPD + (UN - ASRATE)*EPSP(I)     
+     .            + FOURTH*(D4(I)**2+D5(I)**2+D6(I)**2)              
+           EPD = SQRT(THREE*EPD)/THREE_HALF                        
+           EPSP(I) = ASRATE*EPD + (ONE - ASRATE)*EPSP(I)     
          ELSE                                                       
            EPSP(I)=OFF(I)* MAX( ABS(D1(I)), ABS(D2(I)), ABS(D3(I)), 
-     .     UNDEMI*ABS(D4(I)),UNDEMI*ABS(D5(I)),UNDEMI*ABS(D6(I)))   
+     .     HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))   
          ENDIF                                         
        ENDDO                                                        
 C--------------------------------------------
@@ -147,18 +147,18 @@ C--------------------------------------------
      2                 R23,R31,R32 ,R33,RX ,RY  ,RZ, SX    ,
      3                 SY ,SZ , TX  ,TY ,TZ )
         DO I=LFT,LLT
-         EP4(I) = UNDEMI*EP4(I)
-         EP5(I) = UNDEMI*EP5(I)
-         EP6(I) = UNDEMI*EP6(I)
+         EP4(I) = HALF*EP4(I)
+         EP5(I) = HALF*EP5(I)
+         EP6(I) = HALF*EP6(I)
         ENDDO
         CALL MROTENS(LFT,LLT,EP1,EP2,EP3,EP4,EP5,EP6,
      .               R11,R12,R13,
      .               R21,R22,R23,
      .               R31,R32,R33)
         DO I=LFT,LLT
-         EP4(I) = DEUX*EP4(I)
-         EP5(I) = DEUX*EP5(I)
-         EP6(I) = DEUX*EP6(I)
+         EP4(I) = TWO*EP4(I)
+         EP5(I) = TWO*EP5(I)
+         EP6(I) = TWO*EP6(I)
         ENDDO
 C stress
         CALL MROTENS(LFT,LLT,S1,S2,S3,S4,S5,S6,
@@ -220,7 +220,7 @@ C.....GATHER DIRECTION 1
       NINDX=0
       DO  I=LFT,LLT
         IF(EPST(I,1) >= EPST1(I)
-     +    .AND. DAMT(I,1) == ZERO .AND. OFF(I) == UN)THEN
+     +    .AND. DAMT(I,1) == ZERO .AND. OFF(I) == ONE)THEN
           NINDX=NINDX+1
           INDX(NINDX)=I
         ENDIF  
@@ -247,7 +247,7 @@ C.....GATHER DIRECTION 2
        NINDX=0
       DO  I=LFT,LLT
         IF(EPST(I,2) >= EPST2(I)
-     +         .AND. DAMT(I,2) == ZERO .AND. OFF(I) == UN) THEN
+     +         .AND. DAMT(I,2) == ZERO .AND. OFF(I) == ONE) THEN
           NINDX=NINDX+1
           INDX(NINDX)=I
         ENDIF  
@@ -281,17 +281,17 @@ C     TEST DE RUPTURE
 C----------------------------
       DO  I=LFT,LLT
         IF(OFF(I) < EM01) OFF(I)=ZERO
-        IF(OFF(I) < UN  ) OFF(I)=OFF(I)*QCINQ
+        IF(OFF(I) < ONE  ) OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 
       NINDX=0
       MX = MAT(LFT)
        DO  I=LFT,LLT
-           IF(OFF(I).EQ.UN) THEN
+           IF(OFF(I).EQ.ONE) THEN
              IOFF=NINT(PM(42,MX))
              IF(IOFF < 0) IOFF=-(IOFF+1)
              JOFF=0
-c             IF(IOFF == 0 .AND. WPLAR(I) >= UN) JOFF=1
+c             IF(IOFF == 0 .AND. WPLAR(I) >= ONE) JOFF=1
 c             IF(IOFF == 1 .AND. NINT(WPLAR(I)) >= NPT) JOFF=1
 c             IF(IOFF == 2 .AND. NFIS1(I) == NPT) JOFF=1
 c             IF(IOFF == 3 .AND. NFIS2(I) == NPT) JOFF=1
@@ -300,8 +300,8 @@ c     .                     .AND. NFIS2(I) == NPT) JOFF=1
 c             IF(IOFF == 5 .AND. NFIS1(I) == NPT) JOFF=1
 c             IF(IOFF == 5 .AND. NFIS2(I) == NPT) JOFF=1
 c             IF(IOFF == 6 .AND. NFIS3(I) == NPT) JOFF=1
-             IF(JOFF == UN) THEN
-                 OFF(I)=OFF(I)*QCINQ
+             IF(JOFF == ONE) THEN
+                 OFF(I)=OFF(I)*FOUR_OVER_5
                  II=I+NFT
                  NINDX=NINDX+1
                  INDX(NINDX)=I
@@ -315,7 +315,7 @@ c             IF(IOFF == 6 .AND. NFIS3(I) == NPT) JOFF=1
              ENDIF
           ENDIF
        ENDDO
-      DT5=UNDEMI*DT1
+      DT5=HALF*DT1
       DO I=LFT,LLT
         EINT(I)=EINT(I) + DT5*VNEW(I)*
      .           ( D1(I)*(S01(I)+SIG(I,1))

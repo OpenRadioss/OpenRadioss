@@ -151,7 +151,7 @@ c-------------------------------------------------
                 LBUF => ELBUF_TAB(NG)%BUFLY(I)%LBUF(IR,IS,IT) 
 c
               MY_ALLOCATE(LBUF%OFF,NEL*BUFLY%L_OFF)              
-                  LBUF%OFF = UN
+                  LBUF%OFF = ONE
               MY_ALLOCATE (LBUF%GAMA,NEL*BUFLY%L_GAMA)            
                   LBUF%GAMA = ZERO
               MY_ALLOCATE(LBUF%STRA,NEL*BUFLY%L_STRA)            
@@ -257,7 +257,7 @@ c
               MY_ALLOCATE(LBUF%JAC_I,NEL*BUFLY%L_JAC_I)              
                   LBUF%JAC_I = ZERO
               MY_ALLOCATE(LBUF%FAC_YLD,NEL*BUFLY%L_FAC_YLD)              
-                  LBUF%FAC_YLD = UN
+                  LBUF%FAC_YLD = ONE
               MY_ALLOCATE(LBUF%ABURN,NEL*BUFLY%L_ABURN)                   
                   LBUF%ABURN = ZERO
               MY_ALLOCATE(LBUF%MU,NEL*BUFLY%L_MU)                   
@@ -476,7 +476,7 @@ c
         MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%BFRAC,NEL*GBUF%G_BFRAC)                
               ELBUF_TAB(NG)%GBUF%BFRAC = ZERO 	  
         MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%OFF,NEL*GBUF%G_OFF) 
-              ELBUF_TAB(NG)%GBUF%OFF = UN               
+              ELBUF_TAB(NG)%GBUF%OFF = ONE               
         MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%EINT,NEL*GBUF%G_EINT)                      
               ELBUF_TAB(NG)%GBUF%EINT = ZERO               
         MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%EINS,NEL*GBUF%G_EINS)                      
@@ -518,7 +518,7 @@ c
       ENDIF  ! NPT
 c---
       ALLOCATE(ELBUF_TAB(NG)%GBUF%FILL(NEL*GBUF%G_FILL),STAT=Stat)
-        ELBUF_TAB(NG)%GBUF%FILL = UN    
+        ELBUF_TAB(NG)%GBUF%FILL = ONE    
                                                    
 c---
 c 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)

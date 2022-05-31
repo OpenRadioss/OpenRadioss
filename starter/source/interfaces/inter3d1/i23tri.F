@@ -120,7 +120,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   ROLE DE LA ROUTINE:
 C   ===================
-C   CLASSE LES ELETS DE BPE ET LES NOEUDS DE BPN EN DEUX ZONES
+C   CLASSE LES ELETS DE BPE ET LES NOEUDS DE BPN EN TWO ZONES
 C   > OU < A UNE FRONTIERE ICI DETERMINEE ET SORT LE TOUT
 C   DANS bpe,hpe, et bpn,hpn
 C-----------------------------------------------
@@ -171,7 +171,7 @@ C
 C
 C    1- TEST ARRET = BOITE VIDE
 C                    BOITE TROP PETITE 
-C                    BOITE NE CONTENANT QU'UN NOEUD
+C                    BOITE NE CONTENANT QU'ONE NOEUD
 C                    PLUS DE MEMOIRE DISPONIBLE
 C
 C-----------------------------------------------------------
@@ -321,7 +321,7 @@ C
       ENDIF
       SEUIL =(XYZM(DIR+3,I_ADD)+XYZM(DIR,I_ADD))/2
 C
-C    2- DIVISER LES NOEUDS EN DEUX ZONES 
+C    2- DIVISER LES NOEUDS EN TWO ZONES 
 C
       NB_NCN= 0
       ADDNN= ADD(1,1)
@@ -426,7 +426,7 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
        DO I=1,NB_EC
         XMN=MIN(X(DIR,IRECT(1,BPE(I))),X(DIR,IRECT(2,BPE(I))),
      .          X(DIR,IRECT(3,BPE(I))),X(DIR,IRECT(4,BPE(I))))
-     -      -SQRT(TROIS)*MIN(MAX(GAPSMX+GAP_M(BPE(I)),GAPMIN),GAPMAX)
+     -      -SQRT(THREE)*MIN(MAX(GAPSMX+GAP_M(BPE(I)),GAPMIN),GAPMAX)
      -      -MARGE
         IF(XMN.LT.SEUIL.AND.INF.EQ.1) THEN
 C         ON STOCKE DANS LE BAS DE LA PILE BP
@@ -435,7 +435,7 @@ C         ON STOCKE DANS LE BAS DE LA PILE BP
         ENDIF
         XMX=MAX(X(DIR,IRECT(1,BPE(I))),X(DIR,IRECT(2,BPE(I))),
      .          X(DIR,IRECT(3,BPE(I))),X(DIR,IRECT(4,BPE(I))))
-     +      +SQRT(TROIS)*MIN(MAX(BGAPSMX+GAP_M(BPE(I)),GAPMIN),GAPMAX)
+     +      +SQRT(THREE)*MIN(MAX(BGAPSMX+GAP_M(BPE(I)),GAPMIN),GAPMAX)
      +      +MARGE
         IF(XMX.GE.SEUIL.AND.SUP.EQ.1) THEN
 C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE

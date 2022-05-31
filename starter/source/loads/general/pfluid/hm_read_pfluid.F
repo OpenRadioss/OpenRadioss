@@ -129,11 +129,11 @@ C     LLOADP(4,K) :   NODE4                                           NODE4
 C----------------------------------------------------------------------------------        
 C     FACLOADP(LFACLOAD,*)
 C     FACLOADP( 1,K) = Fscaley_hsp                                    TDET                                      
-C     FACLOADP( 2,K) = UN/Ascalex_hsp                                 XDET     
+C     FACLOADP( 2,K) = ONE/Ascalex_hsp                                 XDET     
 C     FACLOADP( 3,K) = Fscaley_pc                                     YDET                                        
-C     FACLOADP( 4,K) = UN/Ascalex_pc                                  ZDET     
+C     FACLOADP( 4,K) = ONE/Ascalex_pc                                  ZDET     
 C     FACLOADP( 5,K) = Fscaley_vel                                    WTNT                                        
-C     FACLOADP( 6,K) = UN/Ascalex_vel                                 P0_REF   
+C     FACLOADP( 6,K) = ONE/Ascalex_vel                                 P0_REF   
 C     FACLOADP( 7,K) = UNUSED		                              ZERO ! TA_SHIFT 
 C----------------------------------------------------------------------------------        
 C   S o u r c e   L i n e s
@@ -371,15 +371,15 @@ C----------Multidomaines -> on elimine les seg communs, on ne les traite qu'une 
            ILOADP  ( 6,K) = ISENS  
            ILOADP  ( 7,K) = FUN_HSP                                                   
            FACLOADP( 1,K) = FCY                                          
-           FACLOADP( 2,K) = UN/FCX   
+           FACLOADP( 2,K) = ONE/FCX   
            ILOADP  ( 8,K) = ICFIELD8 
            ILOADP  ( 9,K) = ICFIELD9
            ILOADP  (10,K) = FUN_CX                                                   
            FACLOADP( 3,K) = FCY1                                          
-           FACLOADP( 4,K) = UN/FCX1   
+           FACLOADP( 4,K) = ONE/FCX1   
            ILOADP  (11,K) = FUN_VEL                                                  
            FACLOADP( 5,K) = FCY2                                          
-           FACLOADP( 6,K) = UN/FCX2 
+           FACLOADP( 6,K) = ONE/FCX2 
            ILOADP  (12,K) = ICFIELD12
            ILOADP  (13,K) = ICFIELD13
            !Multidomaines -> on decompte les seg communs, on ne les compte qu'une foi---        

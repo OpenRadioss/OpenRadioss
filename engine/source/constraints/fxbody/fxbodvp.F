@@ -97,7 +97,7 @@ C
   100 CONTINUE
 C
       ALPHA=FXBRPM(13)
-      FAC=UN+UNDEMI*DT2*ALPHA
+      FAC=ONE+HALF*DT2*ALPHA
       IF (NMOD.GT.0) THEN
          DO I=1,NMOD
             FXBACC(NME+I)=SV(I)/FXBLM(I)/FAC
@@ -112,7 +112,7 @@ C
          ENDIF
       ENDIF
 C         
-      DT05=UNDEMI*DT1
+      DT05=HALF*DT1
       DO I=1,NME+NMOD
          VITN(I)=FXBVIT(I)+DT05*FXBACC(I)
          FXBVIT(I)=FXBVIT(I)+DT12*FXBACC(I)
@@ -128,21 +128,21 @@ C
       ECIN=ZERO
       DO I=1,NME
          DO II=1,NME
-            ECIN=ECIN+UNDEMI*VITN(I)*GLM(I,II)*VITN(II)
+            ECIN=ECIN+HALF*VITN(I)*GLM(I,II)*VITN(II)
          ENDDO
          IAD=NMOD*(I-1)
          DO II=1,NMOD
-            ECIN=ECIN+UNDEMI*VITN(I)
+            ECIN=ECIN+HALF*VITN(I)
      .               *MVN(IAD+II)*FXBLM(II)*VITN(NME+II)
          ENDDO
       ENDDO
       DWDAMP=ZERO
       DO I=1,NMOD
          DO II=1,NME
-            ECIN=ECIN+UNDEMI*VITN(NME+I)
+            ECIN=ECIN+HALF*VITN(NME+I)
      .               *FXBLM(I)*MVN(NMOD*(II-1)+I)*VITN(II)
          ENDDO
-         ECIN=ECIN+UNDEMI*VITN(NME+I)*FXBLM(I)*VITN(NME+I)
+         ECIN=ECIN+HALF*VITN(NME+I)*FXBLM(I)*VITN(NME+I)
          DWDAMP=DWDAMP+VITN(NME+I)*
      .                 (FXBFC(I)+ALPHA*FXBLM(I)*VITN(NME+I))
       ENDDO
@@ -305,10 +305,10 @@ C
             ENDDO
          ENDDO
       ENDIF
-      USDT=UN/DT12
+      USDT=ONE/DT12
       ECBIDT=ZERO
       ECBIDR=ZERO
-      DT05 = UNDEMI*DT2
+      DT05 = HALF*DT2
 C
       DO I=1,NUMNOD
          IFAC(I)=1
@@ -336,8 +336,8 @@ C
          VRX=VR(1,N)+DT05*AR(1,N)
          VRY=VR(2,N)+DT05*AR(2,N)
          VRZ=VR(3,N)+DT05*AR(3,N)
-         ECBIDT=ECBIDT+UNDEMI*MS(N)*(VX*VX+VY*VY+VZ*VZ)/IFAC(N)
-         ECBIDR=ECBIDR+UNDEMI*IN(N)*(VRX*VRX+VRY*VRY+VRZ*VRZ)/IFAC(N)
+         ECBIDT=ECBIDT+HALF*MS(N)*(VX*VX+VY*VY+VZ*VZ)/IFAC(N)
+         ECBIDR=ECBIDR+HALF*IN(N)*(VRX*VRX+VRY*VRY+VRZ*VRZ)/IFAC(N)
       ENDDO
       DO I=NSN+1,NSNT
          N=FXBNOD(I)
@@ -353,8 +353,8 @@ C
          VRX=VR(1,N)
          VRY=VR(2,N)
          VRZ=VR(3,N)
-         ECBIDT=ECBIDT+UNDEMI*MS(N)*(VX*VX+VY*VY+VZ*VZ)/IFAC(N)
-         ECBIDR=ECBIDR+UNDEMI*IN(N)*(VRX*VRX+VRY*VRY+VRZ*VRZ)/IFAC(N)
+         ECBIDT=ECBIDT+HALF*MS(N)*(VX*VX+VY*VY+VZ*VZ)/IFAC(N)
+         ECBIDR=ECBIDR+HALF*IN(N)*(VRX*VRX+VRY*VRY+VRZ*VRZ)/IFAC(N)
       ENDDO
       IF (PMAIN.NE.ISPMD) FXBRPM(12)=ZERO  
       FXBRPM(12)=FXBRPM(12)-ECBIDT-ECBIDR

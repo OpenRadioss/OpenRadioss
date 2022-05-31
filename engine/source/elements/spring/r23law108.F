@@ -166,8 +166,8 @@ C=========================================================
      3              GBUF%TOTROT(II(1)) ,GBUF%TOTROT(II(2)) ,GBUF%TOTROT(II(3)),IGEO              ,PID                )
 C
         DO I=JFT,JLT
-          IF (GBUF%OFF(I) /= -DIX) THEN
-            OFF(I)=MIN(UN,ABS(GBUF%OFF(I)))
+          IF (GBUF%OFF(I) /= -TEN) THEN
+            OFF(I)=MIN(ONE,ABS(GBUF%OFF(I)))
           ELSE
 C        spring may be activated by sensor and is actually inactive.
             OFF(I)=ZERO
@@ -205,7 +205,7 @@ C
      K  GBUF%SKEW_ID    )
 C
         DO I=JFT,JLT
-          IF (GBUF%OFF(I) /= -DIX .AND. OFF(I) < UN) GBUF%OFF(I) = OFF(I)
+          IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
 C
         CALL R2LEN3(JFT     ,JLT    ,GBUF%OFF  ,DT2T   ,NELTST ,

@@ -135,8 +135,8 @@ c
       IF (IDEL10 > 2.OR. N2D == 1) IDEL10 = 0
 c
       FRIC = ITIED
-      IF (STFAC == ZERO) STFAC = UNCINQ
-      IF (VISC == ZERO)  VISC  = CINQEM2
+      IF (STFAC == ZERO) STFAC = ONE_FIFTH
+      IF (VISC == ZERO)  VISC  = FIVEEM2
       IF (BUMULT == ZERO) BUMULT = BMUL0
       IF (STOPT == ZERO) STOPT = INFINITY
 c--------------------------------------------------------

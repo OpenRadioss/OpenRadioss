@@ -192,7 +192,7 @@ c
             UVAR(I,1)   = FAC*Fscale_el
           ENDDO
         ELSE
-          UVAR(1:NEL,1) = UN
+          UVAR(1:NEL,1) = ONE
         ENDIF  
         UVAR(1:NEL,6) = THK0(1:NEL)
         UVAR(1:NEL,7) = THKLYL(1:NEL)
@@ -201,9 +201,9 @@ c
       ! Checking element failure and recovering user variable
       DO I=1,NEL
        ! Integration point failure
-       IF (TIME == ZERO) UVAR(I,5) = UN
-       IF (UVAR(I,5) < UN .AND. UVAR(I,5) >= EM08) THEN 
-         UVAR(I,5) = UVAR(I,5) - UN/NSTEP
+       IF (TIME == ZERO) UVAR(I,5) = ONE
+       IF (UVAR(I,5) < ONE .AND. UVAR(I,5) >= EM08) THEN 
+         UVAR(I,5) = UVAR(I,5) - ONE/NSTEP
        ENDIF
        IF (UVAR(I,5) <= EM08) UVAR(I,5) = ZERO
        SIGNXX(I) = SIGNXX(I)*UVAR(I,5)
@@ -231,9 +231,9 @@ c
         ! Computation of volumetric strain, effective strain, shear strain and principal strains
         ! ----------------------------------------------------------------------------------------
         !  -> computation of principal strains
-        E12 = UNDEMI*EPSXY(I)
-        S1  = UNDEMI*(EPSXX(I) + EPSYY(I))
-        S2  = UNDEMI*(EPSXX(I) - EPSYY(I))
+        E12 = HALF*EPSXY(I)
+        S1  = HALF*(EPSXX(I) + EPSYY(I))
+        S2  = HALF*(EPSXX(I) - EPSYY(I))
         Q   = SQRT(S2**2 + E12**2)
         E11(I) = S1 + Q
         E22(I) = S1 - Q
@@ -249,9 +249,9 @@ c
         E1D = EPSXX(I) - DAV
         E2D = EPSYY(I) - DAV
         E3D = - DAV
-        E4D = UNDEMI*EPSXY(I)
-        EFF_STRAIN(I) = E1D**2 + E2D**2 + E3D**3 + DEUX*(E4D**2)
-        EFF_STRAIN(I) = SQRT(DTIERS*EFF_STRAIN(I))
+        E4D = HALF*EPSXY(I)
+        EFF_STRAIN(I) = E1D**2 + E2D**2 + E3D**3 + TWO*(E4D**2)
+        EFF_STRAIN(I) = SQRT(TWO_THIRD*EFF_STRAIN(I))
 c
         ! --------------------------------------------------------------------------
         ! Computation of hydrostatic stress, Von Mises stress and principal stresses
@@ -263,10 +263,10 @@ c
         SYY    = SIGNYY(I) + P(I)
         SZZ    = P(I)
         SVM(I) = SQRT(SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)
-     .           - SIGNXX(I)*SIGNYY(I) + TROIS*SIGNXY(I)*SIGNXY(I))
+     .           - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))
         !  -> computing the principal stresses
-        S1     = UNDEMI*(SIGNXX(I) + SIGNYY(I))
-        S2     = UNDEMI*(SIGNXX(I) - SIGNYY(I))
+        S1     = HALF*(SIGNXX(I) + SIGNYY(I))
+        S2     = HALF*(SIGNXX(I) - SIGNYY(I))
         Q      = SQRT(S2**2 + SIGNXY(I)**2)
         S11(I) = S1 + Q
         S22(I) = S1 - Q 
@@ -292,12 +292,12 @@ c
           ! Diagram using engineering strain
           ELSE
             ! In-plane tabulation with strain-rate
-            XVEC(1:NEL,1) = EXP(E22(1:NEL))-UN
+            XVEC(1:NEL,1) = EXP(E22(1:NEL))-ONE
             XVEC(1:NEL,2) = EPSP(1:NEL)/EPSDOT_FLD
             !   -> Tensile yield stress in direction 1 (MD)
             IPOS(1:NEL,1:2) = 1
             CALL TABLE2D_VINTERP_LOG(TABLE(tab_IDfld),Ismooth,NEL,IPOS,XVEC,E1FLD,DFLD,HARDR)
-            E1FLD = LOG(UN + E1FLD)
+            E1FLD = LOG(ONE + E1FLD)
           ENDIF
         ELSE
           ! Diagram using true strains
@@ -311,12 +311,12 @@ c
           ! Diagram using engineering strains
           ELSE
             ! In-plane tabulation with strain-rate
-            XVEC(1:NEL,1) = EXP(E22(1:NEL))-UN
+            XVEC(1:NEL,1) = EXP(E22(1:NEL))-ONE
             XVEC(1:NEL,2) = ALDT(1:NEL)/El_ref
             !   -> Tensile yield stress in direction 1 (MD)
             IPOS(1:NEL,1:2) = 1
             CALL TABLE_VINTERP(TABLE(tab_IDfld),NEL,IPOS,XVEC,E1FLD,DFLD)
-            E1FLD = LOG(UN + E1FLD)
+            E1FLD = LOG(ONE + E1FLD)
           ENDIF
         ENDIF
       ENDIF 
@@ -325,7 +325,7 @@ c
       ! - LOOP OVER THE ELEMENT TO CHECK THE EROSION CRITERIA
       !====================================================================    
       DO I = 1,NEL
-        IF ((UVAR(I,5) == UN).AND.(OFF(I)==UN)) THEN
+        IF ((UVAR(I,5) == ONE).AND.(OFF(I)==ONE)) THEN
           NCRIT = 0
           !  -> maximum pressure
           IF (P(I) >= MAXPRES*FACS(I)) NCRIT = NCRIT + 1
@@ -367,21 +367,21 @@ c
           !  -> minimum principal strain
           IF (E22(I) < MINEPS*FACL(I)) NCRIT = NCRIT + 1
           !  -> maximum tensorial shear strain
-          IF ((E11(I) - E22(I))/DEUX >= EPSSH*FACL(I)) NCRIT = NCRIT + 1
+          IF ((E11(I) - E22(I))/TWO >= EPSSH*FACL(I)) NCRIT = NCRIT + 1
           !  -> mixed mode 
           IF (fct_IDg12 > 0) THEN 
             LAMBDA = ALDT(I)/El_ref
             SH12   = FINTER(KFUNC(IG12),LAMBDA,NPF,TF,DF) 
             DENOM  = SIGN(MAX(ABS(E22(I)),EM20),E22(I))   
-            IF (((E11(I)/DENOM)<=-UNDEMI).AND.((E11(I)/DENOM)>=-DEUX)) THEN
-              IF ((E11(I) - E22(I))/DEUX >= SH12) NCRIT = NCRIT + 1
+            IF (((E11(I)/DENOM)<=-HALF).AND.((E11(I)/DENOM)>=-TWO)) THEN
+              IF ((E11(I) - E22(I))/TWO >= SH12) NCRIT = NCRIT + 1
             ENDIF
           ENDIF
           IF (fct_IDe1c > 0) THEN 
             LAMBDA = ALDT(I)/El_ref
             E1C    = FINTER(KFUNC(IE1C),LAMBDA,NPF,TF,DF) 
             DENOM  = SIGN(MAX(ABS(E22(I)),EM20),E22(I))
-            IF (((E11(I)/DENOM)<=UN).AND.((E11(I)/DENOM)>=-UNDEMI)) THEN
+            IF (((E11(I)/DENOM)<=ONE).AND.((E11(I)/DENOM)>=-HALF)) THEN
               IF (E11(I) >= E1C) NCRIT = NCRIT + 1
             ENDIF
           ENDIF
@@ -405,7 +405,7 @@ c
           !  -> Checking failure
           DFMAX(I) = REAL(NCRIT)/REAL(NCS)
           IF (NCRIT >= NCS) THEN 
-            UVAR(I,5) = UVAR(I,5) - UN/NSTEP
+            UVAR(I,5) = UVAR(I,5) - ONE/NSTEP
           ENDIF
         ENDIF
 c
@@ -428,7 +428,7 @@ c
             FOFF(I)       = 0
             NINDX1        = NINDX1 + 1
             INDX1(NINDX1) = I  
-            DFMAX(I)      = UN
+            DFMAX(I)      = ONE
           ENDIF
         ENDDO
       ELSE
@@ -437,8 +437,8 @@ c
           IF ((UVAR(I,5) == ZERO).AND.(LOFF(I) /= ZERO)) THEN
             NINDX1        = NINDX1 + 1
             INDX1(NINDX1) = I  
-            IF (LOFF(I) == UN) LOFF(I) = ZERO
-            DFMAX(I)      = UN
+            IF (LOFF(I) == ONE) LOFF(I) = ZERO
+            DFMAX(I)      = ONE
           ENDIF
           IF ((IPG == NPG).AND.(IPT == ELBUF_TAB%NPTT)
      .         .AND.(OFF(I) /= ZERO).AND.(ILAY1 == ELBUF_TAB%NLAY)) THEN  

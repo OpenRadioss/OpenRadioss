@@ -166,8 +166,8 @@ C-----------------------------------------------
      .        DYDX2(MVSIZ),FAIL(MVSIZ),EPSR1,
      .        EPSR2,P0(MVSIZ),PFAC(MVSIZ),
      .        DFDP(MVSIZ)
-c     .        UN,ZERO,EM20
-c      DATA ZERO/0.0/,UN/1.0/,EM20/1.E-20/
+c     .        ONE,ZERO,EM20
+c      DATA ZERO/0.0/,ONE/1.0/,EM20/1.E-20/
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
@@ -196,10 +196,10 @@ C
       IADBUFV = IPM(7,MX)-1
       E   = UPARAM(IADBUFV+2)
       G   = UPARAM(IADBUFV+5)
-      G2  = DEUX*G
-      G3  = TROIS*G
+      G2  = TWO*G
+      G3  = THREE*G
       NU  = UPARAM(IADBUFV+6)
-      C1  = E/TROIS/(UN - DEUX*NU)
+      C1  = E/THREE/(ONE - TWO*NU)
 C
       NRATE = NINT(UPARAM(IADBUFV+1))
       NRATEM = MAX(NRATEM,NRATE)
@@ -214,13 +214,13 @@ C
       EPSR1 =UPARAM(IADBUFV+6+2*NRATE+2)
       IF(EPSR1.EQ.ZERO)EPSR1=EP30
       EPSR2 =UPARAM(IADBUFV+6+2*NRATE+3)
-      IF(EPSR2.EQ.ZERO)EPSR2=DEUXEP30
+      IF(EPSR2.EQ.ZERO)EPSR2=TWOEP30
       IPFLAG = 0
       MX = MAT(1)
       NPAR   = IPM(9,MX)
       IPARAM = 15 + 2*NRATE
       DO I=1,NEL
-        PFAC(I) = UN
+        PFAC(I) = ONE
         PFUN = 0
         IF (NPAR.GE.IPARAM) THEN
           J = NRATE+1
@@ -256,7 +256,7 @@ C
         SIGNYZ(I)=SIGOYZ(I)+G *DEPSYZ(I)
         SIGNZX(I)=SIGOZX(I)+G *DEPSZX(I)
 C
-        SOUNDSP(I) = SQRT((C1+QUATRE*G/TROIS)/RHO0(I))
+        SOUNDSP(I) = SQRT((C1+FOUR*G/THREE)/RHO0(I))
         VISCMAX(I) = ZERO
         DPLA(I) = ZERO       
       ENDDO
@@ -280,9 +280,9 @@ C-------------------
         E1 = EPSXX(I) - DAV
         E2 = EPSYY(I) - DAV
         E3 = EPSZZ(I) - DAV
-        E4 = UNDEMI*EPSXY(I)
-        E5 = UNDEMI*EPSYZ(I)
-        E6 = UNDEMI*EPSZX(I)
+        E4 = HALF*EPSXY(I)
+        E5 = HALF*EPSYZ(I)
+        E6 = HALF*EPSZX(I)
 C        -y = (e1-x)(e2-x)(e3-x)
 C           - e5^2(e1-x) - e6^2(e2-x) - e4^2(e3-x)
 C           + 2e4 e5 e6
@@ -294,35 +294,35 @@ c         yp= 3 x^2 + c
         E62 = E6*E6
         C = - E1*E1 - E2*E2 - E3*E3 - E42 - E52 - E62
         D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
-     &      - DEUX*E4*E5*E6 
+     &      - TWO*E4*E5*E6 
         CC = C*THIRD
         EPST = SQRT(-CC)
         EPST2 = EPST * EPST
         Y = (EPST2 + C)* EPST + D
         IF(ABS(Y).GT.EM8)THEN
-          EPST = UNP75 * EPST
+          EPST = ONEP75 * EPST
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)EPST = EPST - Y/YP
           EPST = EPST + DAV
         ENDIF
 C-------------------
 C     tension failure 
 C-------------------
-        FAIL(I) = MAX(ZERO,MIN(UN,
+        FAIL(I) = MAX(ZERO,MIN(ONE,
      .            (EPSR2-EPST)/(EPSR2-EPSR1) ))
 C
 c jbm023
@@ -423,11 +423,11 @@ C     PROJECTION
 C-------------------
       IF(IPLA.EQ.0)THEN
        DO I=1,NEL
-        VM =UNDEMI*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
+        VM =HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      1          +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
-        VM =SQRT(TROIS*VM)
-        R = MIN(UN,YLD(I)/ MAX(VM,EM20))
-c        P = C1 * (RHO(I)/RHO0(I)- UN)
+        VM =SQRT(THREE*VM)
+        R = MIN(ONE,YLD(I)/ MAX(VM,EM20))
+c        P = C1 * (RHO(I)/RHO0(I)- ONE)
         P = C1 * AMU(I)
         SIGNXX(I)=SIGNXX(I)*R-P
         SIGNYY(I)=SIGNYY(I)*R-P
@@ -435,17 +435,17 @@ c        P = C1 * (RHO(I)/RHO0(I)- UN)
         SIGNXY(I)=SIGNXY(I)*R
         SIGNYZ(I)=SIGNYZ(I)*R
         SIGNZX(I)=SIGNZX(I)*R
-        PLA(I)=PLA(I) + (UN - R)*VM/MAX(G3+H(I),EM20)
+        PLA(I)=PLA(I) + (ONE - R)*VM/MAX(G3+H(I),EM20)
         UVAR(I,1)=PLA(I)
-        DPLA(I) = (UN - R)*VM/MAX(G3+H(I),EM20)        
+        DPLA(I) = (ONE - R)*VM/MAX(G3+H(I),EM20)        
        ENDDO
       ELSEIF(IPLA.EQ.2)THEN
        DO I=1,NEL
-        VM =UNDEMI*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
+        VM =HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      1          +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
-        VM =SQRT(TROIS*VM)
-        R = MIN(UN,YLD(I)/ MAX(VM,EM20))
-c        P = C1 * (RHO(I)/RHO0(I)-UN)
+        VM =SQRT(THREE*VM)
+        R = MIN(ONE,YLD(I)/ MAX(VM,EM20))
+c        P = C1 * (RHO(I)/RHO0(I)-ONE)
         P = C1 * AMU(I)
         SIGNXX(I)=SIGNXX(I)*R-P
         SIGNYY(I)=SIGNYY(I)*R-P
@@ -453,23 +453,23 @@ c        P = C1 * (RHO(I)/RHO0(I)-UN)
         SIGNXY(I)=SIGNXY(I)*R
         SIGNYZ(I)=SIGNYZ(I)*R
         SIGNZX(I)=SIGNZX(I)*R
-        PLA(I)=PLA(I) + (UN-R)*VM/MAX(G3,EM20)
+        PLA(I)=PLA(I) + (ONE-R)*VM/MAX(G3,EM20)
         UVAR(I,1)=PLA(I)
-        DPLA(I) = (UN-R)*VM/MAX(G3,EM20)        
+        DPLA(I) = (ONE-R)*VM/MAX(G3,EM20)        
        ENDDO
       ELSEIF(IPLA.EQ.1)THEN
        DO I=1,NEL
-        VM =UNDEMI*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
+        VM =HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      1          +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
-        VM =SQRT(TROIS*VM)
-        R = MIN(UN,YLD(I)/ MAX(VM,EM20))
+        VM =SQRT(THREE*VM)
+        R = MIN(ONE,YLD(I)/ MAX(VM,EM20))
 Clm     plastic strain increment.
-        DPLA(I)=(UN - R)*VM/MAX(G3+H(I),EM20)
+        DPLA(I)=(ONE - R)*VM/MAX(G3+H(I),EM20)
 Clm     actual yeld stress.
         YLD(I)=MAX(YLD(I)+DPLA(I)*H(I),ZERO)
-        R = MIN(UN,YLD(I)/ MAX(VM,EM20))
+        R = MIN(ONE,YLD(I)/ MAX(VM,EM20))
 C
-c        P = C1 * (RHO(I)/RHO0(I)-UN)
+c        P = C1 * (RHO(I)/RHO0(I)-ONE)
         P = C1 * AMU(I)
         SIGNXX(I)=SIGNXX(I)*R-P
         SIGNYY(I)=SIGNYY(I)*R-P
@@ -484,13 +484,13 @@ c        P = C1 * (RHO(I)/RHO0(I)-UN)
 C-------------------
       DO I=1,NEL
         IF(OFF(I).LT.EM01) OFF(I)=ZERO
-        IF(OFF(I).LT.UN) OFF(I)=OFF(I)*QCINQ
+        IF(OFF(I).LT.ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 C
       NINDX=0
       DO I=1,NEL
-        IF(PLA(I).GT.EPSMAX.AND.OFF(I).EQ.UN) THEN
-          OFF(I)=QCINQ
+        IF(PLA(I).GT.EPSMAX.AND.OFF(I).EQ.ONE) THEN
+          OFF(I)=FOUR_OVER_5
           NINDX=NINDX+1
           INDX(NINDX)=I
           IDEL7NOK = 1

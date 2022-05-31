@@ -70,7 +70,7 @@ C
       N1=N1/AREA
       N2=N2/AREA
       N3=N3/AREA
-      AREA=UNDEMI*AREA
+      AREA=HALF*AREA
       RETURN
       END
 
@@ -123,7 +123,7 @@ C
       N2=N2/AREA
       N3=N3/AREA
 C
-      AREA=UNDEMI*AREA
+      AREA=HALF*AREA
       RETURN
       END
 
@@ -189,7 +189,7 @@ C
       N2=N2/AREA
       N3=N3/AREA
 C
-      AREA=UNDEMI*AREA
+      AREA=HALF*AREA
 C      
       RETURN
       END
@@ -257,7 +257,7 @@ C
       N2=N2/AREA
       N3=N3/AREA
 C
-      AREA=UNDEMI*AREA
+      AREA=HALF*AREA
 C      
       RETURN
       END

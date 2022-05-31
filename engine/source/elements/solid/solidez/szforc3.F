@@ -529,7 +529,7 @@ C    COMPUTE TEMPERATURE IN ELEMENT
 C---------------------------------------------------          
       IF(JTHE < 0) THEN       
         DO I=LFT,LLT
-          TEMPEL(I) = UNHUIT *(  TEMP(NC1(I)) + TEMP(NC2(I))  
+          TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
      .                         + TEMP(NC3(I)) + TEMP(NC4(I)) 
      .                         + TEMP(NC5(I)) + TEMP(NC6(I)) 
      .                         + TEMP(NC7(I)) + TEMP(NC8(I))) 
@@ -565,7 +565,7 @@ c-------------------------------------------
           ENDDO
           VAR_REG(I) = DNL(IPOS(1)) + DNL(IPOS(2)) + DNL(IPOS(3)) + DNL(IPOS(4)) 
      .               + DNL(IPOS(5)) + DNL(IPOS(6)) + DNL(IPOS(7)) + DNL(IPOS(8))
-          VAR_REG(I) = VAR_REG(I)*UNHUIT
+          VAR_REG(I) = VAR_REG(I)*ONE_OVER_8
         ENDDO
       ENDIF
 c-------------------------------------------
@@ -936,15 +936,15 @@ C=======================================================================
        ENDDO
         ELSE
        DO I=JFT,JLT
-         G1X(I)=UN
+         G1X(I)=ONE
          G1Y(I)=ZERO
          G1Z(I)=ZERO
          G2X(I)=ZERO
-         G2Y(I)=UN
+         G2Y(I)=ONE
          G2Z(I)=ZERO
          G3X(I)=ZERO
          G3Y(I)=ZERO
-         G3Z(I)=UN       
+         G3Z(I)=ONE       
        ENDDO
         ENDIF 
 C-----------
@@ -993,9 +993,9 @@ C=======================================================================
         DEF(I,1) = DXX(I)
         DEF(I,2) = DYY(I)
         DEF(I,3) = DZZ(I)
-        DEF(I,4) = UNDEMI*D4(I)
-        DEF(I,5) = UNDEMI*D5(I)
-        DEF(I,6) = UNDEMI*D6(I)
+        DEF(I,4) = HALF*D4(I)
+        DEF(I,5) = HALF*D5(I)
+        DEF(I,6) = HALF*D6(I)
       ENDDO
       CALL SROTO3V(JFT,JLT,DEF,DEFN,
      .                 G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)
@@ -1003,9 +1003,9 @@ C=======================================================================
         DXX(I) = DEFN(I,1)
         DYY(I) = DEFN(I,2)
         DZZ(I) = DEFN(I,3)
-        D4(I) = DEUX*DEFN(I,4)
-        D5(I) = DEUX*DEFN(I,5)
-        D6(I) = DEUX*DEFN(I,6)
+        D4(I) = TWO*DEFN(I,4)
+        D5(I) = TWO*DEFN(I,5)
+        D6(I) = TWO*DEFN(I,6)
       ENDDO
 C-----------
       RETURN
@@ -1374,7 +1374,7 @@ C volume / 8
                                 VMIN = MIN(VLINC(I,1),VLINC(I,2),VLINC(I,3),VLINC(I,4),
      .                                     VLINC(I,5),VLINC(I,6),VLINC(I,7),VLINC(I,8))
 C
-                                DELTAX(I)=CENT28*VMIN/SQRT(SMAX(I))
+                                DELTAX(I)=HUNDRED28*VMIN/SQRT(SMAX(I))
                         ENDIF
                 ENDDO
       ELSE
@@ -1382,7 +1382,7 @@ C
                         VMIN = MIN(VLINC(I,1),VLINC(I,2),VLINC(I,3),VLINC(I,4),
      .                             VLINC(I,5),VLINC(I,6),VLINC(I,7),VLINC(I,8))
 C
-                        DELTAX(I)=CENT28*VMIN/SQRT(SMAX(I))
+                        DELTAX(I)=HUNDRED28*VMIN/SQRT(SMAX(I))
                 ENDDO
       ENDIF
                         
@@ -1532,11 +1532,11 @@ C----tetra 4  ,pyrami
        IF(IDEGE(I) > 0)THEN
 C----tetra 4  ,pyrami     
          IF (IDEGE(I) > 2) THEN
-           FAC=UNNEUF
+           FAC=ONE_OVER_9
          ELSEIF (IDEGE(I) > 1) THEN
-           FAC=QUART
+           FAC=FOURTH
          ELSE
-           FAC=UN
+           FAC=ONE
          END IF
 C--------suposse here V=0.5*A_max*L for penta	=0.333A_max*L for Pyram 
          IF (IT ==0  ) AREAM(I)=FAC*AREAM(I) 
@@ -1552,7 +1552,7 @@ C--------add special treat for tetra4, as V is not right values
 	 END IF
        ENDIF
 C------
-       DELTAX(I)=QUATRE*VOLG(I)/SQRT(AREAM(I))
+       DELTAX(I)=FOUR*VOLG(I)/SQRT(AREAM(I))
       END DO
 C-----------------------------------------------------------
 C     AMS elements ~ sdlen8
@@ -1564,11 +1564,11 @@ C------- due to the fact that AREA_Max*L is far from V for Dege---
          AREAM(I) =EM20
 C----tetra 4  ,pyrami     
          IF (IDEGE(I) > 2) THEN
-           FAC=UNNEUF
+           FAC=ONE_OVER_9
          ELSEIF (IDEGE(I) > 1) THEN
-           FAC=QUART
+           FAC=FOURTH
          ELSE
-           FAC=UN
+           FAC=ONE
          END IF
 	 IT = 0
          CALL IDEGE8(X1(I),X2(I),X3(I),X4(I),Y1(I),Y2(I),Y3(I),Y4(I),
@@ -1594,7 +1594,7 @@ C----tetra 4
 	 ELSE
 	   V_G=VOLG(I)
 	 END IF
-         DELTAX(I) = QUATRE*V_G/SQRT(AREAM(I))
+         DELTAX(I) = FOUR*V_G/SQRT(AREAM(I))
        END IF
       END DO
 
@@ -1695,14 +1695,14 @@ C volume / 8
                         IF(IDEGE(I)==0)THEN
                                 VMIN = MIN(VLINC(I,1),VLINC(I,2),VLINC(I,3),VLINC(I,4),
      .                                     VLINC(I,5),VLINC(I,6),VLINC(I,7),VLINC(I,8))
-                                DELTAX(I)=CENT28*VMIN/SQRT(SMAX(I))
+                                DELTAX(I)=HUNDRED28*VMIN/SQRT(SMAX(I))
                         ENDIF
                 ENDDO
       ELSE
                 DO I=LFT,LLT
         VMIN = MIN(VLINC(I,1),VLINC(I,2),VLINC(I,3),VLINC(I,4),
      .             VLINC(I,5),VLINC(I,6),VLINC(I,7),VLINC(I,8))
-                        DELTAX(I)=CENT28*VMIN/SQRT(SMAX(I))
+                        DELTAX(I)=HUNDRED28*VMIN/SQRT(SMAX(I))
       ENDDO
       ENDIF
 C-----------
@@ -1894,7 +1894,7 @@ C     REAL ou REAL*8
      .   SX,SY,SZ,FXX,FXY,FXZ,FYX,FYY,FYZ,FZX,FZY,FZZ
 C-----------------------------------------------
       DO I=JFT,JLT
-       IF (OFF(I) <=UN) CYCLE
+       IF (OFF(I) <=ONE) CYCLE
          SX = MXX(I)*G1X(I)+MYX(I)*G1Y(I)+MZX(I)*G1Z(I)
          SY = MXY(I)*G1X(I)+MYY(I)*G1Y(I)+MZY(I)*G1Z(I)
          SZ = MXZ(I)*G1X(I)+MYZ(I)*G1Y(I)+MZZ(I)*G1Z(I)
@@ -1962,7 +1962,7 @@ C     REAL ou REAL*8
      .   SX,SY,SZ,SIGN(MVSIZ,6)
 C-----------------------------------------------
       DO I=JFT,JLT
-       IF (OFF(I) <=UN) CYCLE
+       IF (OFF(I) <=ONE) CYCLE
          SX = SIG(I,1)*G1X(I)+SIG(I,4)*G1Y(I)+SIG(I,6)*G1Z(I)
          SY = SIG(I,4)*G1X(I)+SIG(I,2)*G1Y(I)+SIG(I,5)*G1Z(I)
          SZ = SIG(I,6)*G1X(I)+SIG(I,5)*G1Y(I)+SIG(I,3)*G1Z(I)
@@ -2028,24 +2028,24 @@ C     REAL ou REAL*8
      .   DEF(MVSIZ,6)
 C=======================================================================
       DO I=JFT,JLT
-       IF (OFF(I) <=UN) CYCLE
+       IF (OFF(I) <=ONE) CYCLE
         DEF(I,1) = DXX(I)
         DEF(I,2) = DYY(I)
         DEF(I,3) = DZZ(I)
-        DEF(I,4) = UNDEMI*D4(I)
-        DEF(I,5) = UNDEMI*D5(I)
-        DEF(I,6) = UNDEMI*D6(I)
+        DEF(I,4) = HALF*D4(I)
+        DEF(I,5) = HALF*D5(I)
+        DEF(I,6) = HALF*D6(I)
       ENDDO
       CALL SROTO12(JFT,JLT,DEF,
      .                 G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,OFF)
       DO I=JFT,JLT
-       IF (OFF(I) <=UN) CYCLE
+       IF (OFF(I) <=ONE) CYCLE
         DXX(I) = DEF(I,1)
         DYY(I) = DEF(I,2)
         DZZ(I) = DEF(I,3)
-        D4(I) = DEUX*DEF(I,4)
-        D5(I) = DEUX*DEF(I,5)
-        D6(I) = DEUX*DEF(I,6)
+        D4(I) = TWO*DEF(I,4)
+        D5(I) = TWO*DEF(I,5)
+        D6(I) = TWO*DEF(I,6)
       ENDDO
 C-----------
       RETURN
@@ -2089,7 +2089,7 @@ C     REAL ou REAL*8
      .   SX,SY,SZ,SIGN(NEL,6)
 C-----------------------------------------------
       DO I=JFT,JLT
-       IF (OFF(I) <=UN) CYCLE
+       IF (OFF(I) <=ONE) CYCLE
          SX = SIG(I,1)*G1X(I)+SIG(I,4)*G1Y(I)+SIG(I,6)*G1Z(I)
          SY = SIG(I,4)*G1X(I)+SIG(I,2)*G1Y(I)+SIG(I,5)*G1Z(I)
          SZ = SIG(I,6)*G1X(I)+SIG(I,5)*G1Y(I)+SIG(I,3)*G1Z(I)
@@ -2154,9 +2154,9 @@ C=======================================================================
         DEF(I,1) = STRAIN(I,1)
         DEF(I,2) = STRAIN(I,2)
         DEF(I,3) = STRAIN(I,3)
-        DEF(I,4) = UNDEMI*STRAIN(I,4)
-        DEF(I,5) = UNDEMI*STRAIN(I,5)
-        DEF(I,6) = UNDEMI*STRAIN(I,6)
+        DEF(I,4) = HALF*STRAIN(I,4)
+        DEF(I,5) = HALF*STRAIN(I,5)
+        DEF(I,6) = HALF*STRAIN(I,6)
       ENDDO
       CALL SROTO3V(JFT,JLT,DEF,DEFN,
      .                 G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)
@@ -2164,9 +2164,9 @@ C=======================================================================
         STRAIN(I,1) = DEFN(I,1)
         STRAIN(I,2) = DEFN(I,2)
         STRAIN(I,3) = DEFN(I,3)
-        STRAIN(I,4) = DEUX*DEFN(I,4)
-        STRAIN(I,5) = DEUX*DEFN(I,5)
-        STRAIN(I,6) = DEUX*DEFN(I,6)
+        STRAIN(I,4) = TWO*DEFN(I,4)
+        STRAIN(I,5) = TWO*DEFN(I,5)
+        STRAIN(I,6) = TWO*DEFN(I,6)
       ENDDO
 C-----------
       RETURN
@@ -2216,8 +2216,8 @@ c
        ENDDO
       RHO0=PM(1,IMAT)
       NU=PM(21,IMAT)
-      GV_MAX = THIRD*(UN+NU)/(UN -DEUX*NU)
-      NU1= RHO0*(UN -DEUX*NU)/(UN-NU)
+      GV_MAX = THIRD*(ONE+NU)/(ONE -TWO*NU)
+      NU1= RHO0*(ONE -TWO*NU)/(ONE-NU)
       DO I=LFT,LLT
        GG = CXX(I)*CXX(I)*NU1    
        ET(I)= ET(I) + MIN(GV_MAX,GV/GG)

@@ -61,8 +61,8 @@ C-----------------------------------------------
          TYP = EBCS%type
          NOD = EBCS%nb_node
          IF(TYP == 2 .OR. TYP == 3)THEN
-            IF(TYP == 2) CALL EBCCLAP1(V, A, EBCS%node_list, NOD, EBCS%la, -UN)
-            IF(TYP == 3) CALL EBCCLAP1(V, A, EBCS%node_list, NOD, EBCS%la, UN)
+            IF(TYP == 2) CALL EBCCLAP1(V, A, EBCS%node_list, NOD, EBCS%la, -ONE)
+            IF(TYP == 3) CALL EBCCLAP1(V, A, EBCS%node_list, NOD, EBCS%la, ONE)
          ELSE IF(TYP == 4)THEN
             CALL EBCVIT4(V, A, EBCS%node_list, NOD, FV, EBCS%reso, EBCS%la, EBCS)
          ELSE IF (TYP == 5)THEN

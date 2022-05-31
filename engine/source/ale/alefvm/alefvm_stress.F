@@ -129,7 +129,7 @@ C-----------------------------------------------
       ENDDO 
       
       DO I=LFT,LLT
-        P(I)      = -TIERS*(S1(I)+S2(I)+S3(I))        
+        P(I)      = -THIRD*(S1(I)+S2(I)+S3(I))        
       ENDDO
       
       
@@ -231,12 +231,12 @@ C-----------------------------------------------
         U_N(4)              = (MOM(I,1)*N4X(I) + MOM(I,2)*N4Y(I) + MOM(I,3)*N4Z(I)) / (MASS*NORM(4))
         U_N(5)              = (MOM(I,1)*N5X(I) + MOM(I,2)*N5Y(I) + MOM(I,3)*N5Z(I)) / (MASS*NORM(5))
         U_N(6)              = (MOM(I,1)*N6X(I) + MOM(I,2)*N6Y(I) + MOM(I,3)*N6Z(I)) / (MASS*NORM(6))
-        SURF(1)             = UNDEMI*NORM(1)
-        SURF(2)             = UNDEMI*NORM(2)
-        SURF(3)             = UNDEMI*NORM(3)
-        SURF(4)             = UNDEMI*NORM(4)
-        SURF(5)             = UNDEMI*NORM(5)
-        SURF(6)             = UNDEMI*NORM(6)
+        SURF(1)             = HALF*NORM(1)
+        SURF(2)             = HALF*NORM(2)
+        SURF(3)             = HALF*NORM(3)
+        SURF(4)             = HALF*NORM(4)
+        SURF(5)             = HALF*NORM(5)
+        SURF(6)             = HALF*NORM(6)
         !---storage
         !   index1=1 centroid data
         F_FACE(1  ,1  ,II)  = RHO(I)
@@ -290,7 +290,7 @@ C-----------------------------------------------
             write (*,FMT='(A,3E26.14,A)')  "                            | ", S1(I),S4(I),S6(I)," |"
             write (*,FMT='(A,3E26.14,A)')  "           SIGMA = P+VIS+Q =| ", S4(I),S2(I),S5(I)," |"  
             write (*,FMT='(A,3E26.14,A)')  "                            |_", S6(I),S5(I),S3(I),"_|" 
-            write (*,FMT='(A,2E26.14)')    "           p               =  ",-TIERS*SUM(SIG(I,1:3)),P(I)
+            write (*,FMT='(A,2E26.14)')    "           p               =  ",-THIRD*SUM(SIG(I,1:3)),P(I)
             write (*,FMT='(A,1E26.14)')    "           q               =  ",QVIS(I)           
             write (*,FMT='(A,1E26.14)')    "           M               =  ",F_FACE(1  ,5  ,II)  
             write (*,FMT='(A,1E26.14)')    "         rho               =  ",F_FACE(1  ,1  ,II)

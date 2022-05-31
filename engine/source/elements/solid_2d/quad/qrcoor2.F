@@ -104,10 +104,10 @@ C---------------------------------------
 C     REPERE LOCAL
 C---------------------------------------
       DO I=LFT,LLT
-        SY(I)=UNDEMI*(Y2(I)+Y3(I)-Y1(I)-Y4(I))
-        SZ(I)=UNDEMI*(Z2(I)+Z3(I)-Z1(I)-Z4(I))
-        TY(I)=UNDEMI*(Y3(I)+Y4(I)-Y1(I)-Y2(I))
-        TZ(I)=UNDEMI*(Z3(I)+Z4(I)-Z1(I)-Z2(I))
+        SY(I)=HALF*(Y2(I)+Y3(I)-Y1(I)-Y4(I))
+        SZ(I)=HALF*(Z2(I)+Z3(I)-Z1(I)-Z4(I))
+        TY(I)=HALF*(Y3(I)+Y4(I)-Y1(I)-Y2(I))
+        TZ(I)=HALF*(Z3(I)+Z4(I)-Z1(I)-Z2(I))
       END DO
 C-----------
 C     REPERE CONVECTE : Same than the shell
@@ -127,13 +127,13 @@ C-----------
       ENDDO
 
       DO I=LFT,LLT
-        SUMA=UN/MAX(SQRT(SY(I)*SY(I)+SZ(I)*SZ(I)),EM20)
+        SUMA=ONE/MAX(SQRT(SY(I)*SY(I)+SZ(I)*SZ(I)),EM20)
         SY(I)=SY(I)*SUMA
         SZ(I)=SZ(I)*SUMA
       ENDDO
 
       DO I=LFT,LLT
-        R11(I)= UN
+        R11(I)= ONE
         R21(I)= ZERO
         R31(I)= ZERO
         R12(I)= ZERO

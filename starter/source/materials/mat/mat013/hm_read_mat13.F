@@ -103,11 +103,11 @@ C     Get input values
      .        I1=MAT_ID,
      .        C1=TITR)
       ENDIF
-      IF(ANU.EQ.UNDEMI)ANU=ZEP499
+      IF(ANU.EQ.HALF)ANU=ZEP499
       
-      G=YOUNG/(DEUX*(UN+ANU))
-      C1=YOUNG/(TROIS*(UN-DEUX*ANU))
-      E1MN2=YOUNG/(UN-ANU**2)
+      G=YOUNG/(TWO*(ONE+ANU))
+      C1=YOUNG/(THREE*(ONE-TWO*ANU))
+      E1MN2=YOUNG/(ONE-ANU**2)
       EN1N2=ANU*E1MN2
       SDSP =SQRT(YOUNG/MAX(PM(1),EM20))
 C

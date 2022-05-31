@@ -76,7 +76,7 @@ C-----------------------------------------------
           N4=IXC(5,N)
 C
           MC=IXC(4,SON)
-          AC= QUART*DIAG_SMS(MC)
+          AC= FOURTH*DIAG_SMS(MC)
           DIAG_SMS(N1)=DIAG_SMS(N1)+AC
           DIAG_SMS(N2)=DIAG_SMS(N2)+AC
           DIAG_SMS(N3)=DIAG_SMS(N3)+AC
@@ -88,7 +88,7 @@ C
           M1=IXC(3,SON  )
           IF(LKINNOD(M1)==0)THEN
             LKINNOD(M1)=1
-            A1=UNDEMI*DIAG_SMS(M1)
+            A1=HALF*DIAG_SMS(M1)
             DIAG_SMS(N1)=DIAG_SMS(N1)+A1
             DIAG_SMS(N2)=DIAG_SMS(N2)+A1
             DIAG_SMS(M1)=ZERO
@@ -97,7 +97,7 @@ C
           M2=IXC(4,SON+1)
           IF(LKINNOD(M2)==0)THEN
             LKINNOD(M2)=1
-            A2=UNDEMI*DIAG_SMS(M2)
+            A2=HALF*DIAG_SMS(M2)
             DIAG_SMS(N2)=DIAG_SMS(N2)+A2
             DIAG_SMS(N3)=DIAG_SMS(N3)+A2
             DIAG_SMS(M2)=ZERO
@@ -106,7 +106,7 @@ C
           M3=IXC(5,SON+2)
           IF(LKINNOD(M3)==0)THEN
             LKINNOD(M3)=1
-            A3=UNDEMI*DIAG_SMS(M3)
+            A3=HALF*DIAG_SMS(M3)
             DIAG_SMS(N3)=DIAG_SMS(N3)+A3
             DIAG_SMS(N4)=DIAG_SMS(N4)+A3
             DIAG_SMS(M3)=ZERO
@@ -115,7 +115,7 @@ C
           M4=IXC(2,SON+3)
           IF(LKINNOD(M4)==0)THEN
             LKINNOD(M4)=1
-            A4=UNDEMI*DIAG_SMS(M4)
+            A4=HALF*DIAG_SMS(M4)
             DIAG_SMS(N1)=DIAG_SMS(N1)+A4
             DIAG_SMS(N4)=DIAG_SMS(N4)+A4
             DIAG_SMS(M4)=ZERO
@@ -136,7 +136,7 @@ C
           M1=IXTG(4,SON+3)
           IF(LKINNOD(M1)==0)THEN
             LKINNOD(M1)=1
-            A1=UNDEMI*DIAG_SMS(M1)
+            A1=HALF*DIAG_SMS(M1)
             DIAG_SMS(N1)=DIAG_SMS(N1)+A1
             DIAG_SMS(N2)=DIAG_SMS(N2)+A1
             DIAG_SMS(M1)=ZERO
@@ -145,7 +145,7 @@ C
           M2=IXTG(2,SON+3)
           IF(LKINNOD(M2)==0)THEN
             LKINNOD(M2)=1
-            A2=UNDEMI*DIAG_SMS(M2)
+            A2=HALF*DIAG_SMS(M2)
             DIAG_SMS(N2)=DIAG_SMS(N2)+A2
             DIAG_SMS(N3)=DIAG_SMS(N3)+A2
             DIAG_SMS(M2)=ZERO
@@ -154,7 +154,7 @@ C
           M3=IXTG(3,SON+3)
           IF(LKINNOD(M3)==0)THEN
             LKINNOD(M3)=1
-            A3=UNDEMI*DIAG_SMS(M3)
+            A3=HALF*DIAG_SMS(M3)
             DIAG_SMS(N3)=DIAG_SMS(N3)+A3
             DIAG_SMS(N1)=DIAG_SMS(N1)+A3
             DIAG_SMS(M3)=ZERO
@@ -223,7 +223,7 @@ C-----------------------------------------------
 C
           MC=IXC(4,SON)
           DO J=1,3
-            AC= QUART*A(J,MC)
+            AC= FOURTH*A(J,MC)
             A(J,N1)=A(J,N1)+AC
             A(J,N2)=A(J,N2)+AC
             A(J,N3)=A(J,N3)+AC
@@ -236,7 +236,7 @@ C
           IF(LKINNOD(M1)==0)THEN
           LKINNOD(M1)=1
           DO J=1,3
-            A1=UNDEMI*A(J,M1)
+            A1=HALF*A(J,M1)
             A(J,N1)=A(J,N1)+A1
             A(J,N2)=A(J,N2)+A1
             A(J,M1)=ZERO
@@ -247,7 +247,7 @@ C
           IF(LKINNOD(M2)==0)THEN
           LKINNOD(M2)=1
           DO J=1,3
-            A2=UNDEMI*A(J,M2)
+            A2=HALF*A(J,M2)
             A(J,N2)=A(J,N2)+A2
             A(J,N3)=A(J,N3)+A2
             A(J,M2)=ZERO
@@ -258,7 +258,7 @@ C
           IF(LKINNOD(M3)==0)THEN
           LKINNOD(M3)=1
           DO J=1,3
-            A3=UNDEMI*A(J,M3)
+            A3=HALF*A(J,M3)
             A(J,N3)=A(J,N3)+A3
             A(J,N4)=A(J,N4)+A3
             A(J,M3)=ZERO
@@ -269,7 +269,7 @@ C
           IF(LKINNOD(M4)==0)THEN
           LKINNOD(M4)=1
           DO J=1,3
-            A4=UNDEMI*A(J,M4)
+            A4=HALF*A(J,M4)
             A(J,N1)=A(J,N1)+A4
             A(J,N4)=A(J,N4)+A4
             A(J,M4)=ZERO
@@ -292,7 +292,7 @@ C
           IF(LKINNOD(M1)==0)THEN
           LKINNOD(M1)=1
           DO J=1,3
-            A1=UNDEMI*A(J,M1)
+            A1=HALF*A(J,M1)
             A(J,N1)=A(J,N1)+A1
             A(J,N2)=A(J,N2)+A1
             A(J,M1)=ZERO
@@ -303,7 +303,7 @@ C
           IF(LKINNOD(M2)==0)THEN
           LKINNOD(M2)=1
           DO J=1,3
-            A2=UNDEMI*A(J,M2)
+            A2=HALF*A(J,M2)
             A(J,N2)=A(J,N2)+A2
             A(J,N3)=A(J,N3)+A2
             A(J,M2)=ZERO
@@ -314,7 +314,7 @@ C
           IF(LKINNOD(M3)==0)THEN
           LKINNOD(M3)=1
           DO J=1,3
-            A3=UNDEMI*A(J,M3)
+            A3=HALF*A(J,M3)
             A(J,N3)=A(J,N3)+A3
             A(J,N1)=A(J,N1)+A3
             A(J,M3)=ZERO
@@ -396,7 +396,7 @@ C
           IF(TAGNOD(MC).EQ.0)THEN
             TAGNOD(MC)=1
             DO J=1,3
-              A(J,MC)= QUART*(A(J,N1)+A(J,N2)+A(J,N3)+A(J,N4))
+              A(J,MC)= FOURTH*(A(J,N1)+A(J,N2)+A(J,N3)+A(J,N4))
             END DO
           END IF
 C
@@ -406,7 +406,7 @@ C
             NA=MIN(N1,N2)
             NB=MAX(N1,N2)
             DO J=1,3
-              A(J,M1)=UNDEMI*(A(J,NA)+A(J,NB))
+              A(J,M1)=HALF*(A(J,NA)+A(J,NB))
             END DO
           END IF
 C
@@ -416,7 +416,7 @@ C
             NA=MIN(N2,N3)
             NB=MAX(N2,N3)
             DO J=1,3
-              A(J,M2)=UNDEMI*(A(J,NA)+A(J,NB))
+              A(J,M2)=HALF*(A(J,NA)+A(J,NB))
             END DO
           END IF
 
@@ -426,7 +426,7 @@ C
             NA=MIN(N3,N4)
             NB=MAX(N3,N4)
             DO J=1,3
-              A(J,M3)=UNDEMI*(A(J,NA)+A(J,NB))
+              A(J,M3)=HALF*(A(J,NA)+A(J,NB))
             END DO
           END IF
 C
@@ -436,7 +436,7 @@ C
             NA=MIN(N4,N1)
             NB=MAX(N4,N1)
             DO J=1,3
-              A(J,M4)=UNDEMI*(A(J,NA)+A(J,NB))
+              A(J,M4)=HALF*(A(J,NA)+A(J,NB))
             END DO
           END IF
 
@@ -462,7 +462,7 @@ C
             NA=MIN(N1,N2)
             NB=MAX(N1,N2)
             DO J=1,3
-              A(J,M1)=UNDEMI*(A(J,NA)+A(J,NB))
+              A(J,M1)=HALF*(A(J,NA)+A(J,NB))
             END DO
           END IF
 C
@@ -472,7 +472,7 @@ C
             NA=MIN(N2,N3)
             NB=MAX(N2,N3)
             DO J=1,3
-              A(J,M2)=UNDEMI*(A(J,NA)+A(J,NB))
+              A(J,M2)=HALF*(A(J,NA)+A(J,NB))
             END DO
           END IF
 
@@ -482,7 +482,7 @@ C
             NA=MIN(N3,N1)
             NB=MAX(N3,N1)
             DO J=1,3
-              A(J,M3)=UNDEMI*(A(J,NA)+A(J,NB))
+              A(J,M3)=HALF*(A(J,NA)+A(J,NB))
             END DO
           END IF
 

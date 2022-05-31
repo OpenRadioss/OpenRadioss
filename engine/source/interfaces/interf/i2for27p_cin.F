@@ -106,21 +106,21 @@ C--        Shape functions of triangles
            NIRL = 3
            H(1) = CRST(1,II)
            H(2) = CRST(2,II)
-           H(3) = UN-CRST(1,II)-CRST(2,II)
+           H(3) = ONE-CRST(1,II)-CRST(2,II)
            H(4) = ZERO
            H2(1) = CSTS_BIS(1,II)
            H2(2) = CSTS_BIS(2,II)
-           H2(3) = UN-CSTS_BIS(1,II)-CSTS_BIS(2,II)
+           H2(3) = ONE-CSTS_BIS(1,II)-CSTS_BIS(2,II)
            H2(4) = ZERO
          ELSE
 C--        Shape functions of quadrangles
            NIRL = 4
            SS=CRST(1,II)                                    
            ST=CRST(2,II)
-           SP=UN + SS                                       
-           SM=UN - SS                                       
-           TP=QUART*(UN + ST)                               
-           TM=QUART*(UN - ST)                               
+           SP=ONE + SS                                       
+           SM=ONE - SS                                       
+           TP=FOURTH*(ONE + ST)                               
+           TM=FOURTH*(ONE - ST)                               
            H(1)=TM*SM                                       
            H(2)=TM*SP                                       
            H(3)=TP*SP                                       
@@ -129,10 +129,10 @@ C--        Shape functions of quadrangles
 C          Additional form functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
            SS=CSTS_BIS(1,II)                                    
            ST=CSTS_BIS(2,II)
-           SP=UN + SS                                       
-           SM=UN - SS                                       
-           TP=QUART*(UN + ST)                               
-           TM=QUART*(UN - ST)                               
+           SP=ONE + SS                                       
+           SM=ONE - SS                                       
+           TP=FOURTH*(ONE + ST)                               
+           TM=FOURTH*(ONE - ST)                               
            H2(1)=TM*SM                                       
            H2(2)=TM*SP                                       
            H2(3)=TP*SP                                       
@@ -173,10 +173,10 @@ C
      .               E3X    ,E3Y    ,E3Z    ,NIRL)
 C                 
             IF (NIRL == 4) THEN
-              FAC_TRIANG = UN
-              X0  = QUART*(X1 + X2 + X3 + X4)
-              Y0  = QUART*(Y1 + Y2 + Y3 + Y4)
-              Z0  = QUART*(Z1 + Z2 + Z3 + Z4)
+              FAC_TRIANG = ONE
+              X0  = FOURTH*(X1 + X2 + X3 + X4)
+              Y0  = FOURTH*(Y1 + Y2 + Y3 + Y4)
+              Z0  = FOURTH*(Z1 + Z2 + Z3 + Z4)
             ELSE
               FAC_TRIANG = ZERO                                       
               X0  = THIRD*(X1 + X2 + X3)
@@ -291,7 +291,7 @@ C----------------------------------------------------C
 C--- shell / shell or shell / solide connection  ----C
 C----------------------------------------------------C
 C
-            FAC_TRIANG=UN
+            FAC_TRIANG=ONE
             STIFM=ZERO
             STIFMR = ZERO
             STBRK=ZERO
@@ -320,32 +320,32 @@ C
            FSKYI2(2,NN) = FY(1)                          
            FSKYI2(3,NN) = FZ(1)                         
            FSKYI2(4,NN) = XMSI*H2(1)                         
-           FSKYI2(5,NN) = STIFN(I)*(UN+STBRK)*(ABS(H(1))+STIFM)+STIFR(I)*STIFMR*DWDU               
+           FSKYI2(5,NN) = STIFN(I)*(ONE+STBRK)*(ABS(H(1))+STIFM)+STIFR(I)*STIFMR*DWDU               
 C
            NN = IADI2(2,I0)                                 
            FSKYI2(1,NN) = FX(2)                          
            FSKYI2(2,NN) = FY(2)                          
            FSKYI2(3,NN) = FZ(2)                         
            FSKYI2(4,NN) = XMSI*H2(2)                         
-           FSKYI2(5,NN) = STIFN(I)*(UN+STBRK)*(ABS(H(2))+STIFM)+STIFR(I)*STIFMR*DWDU                     
+           FSKYI2(5,NN) = STIFN(I)*(ONE+STBRK)*(ABS(H(2))+STIFM)+STIFR(I)*STIFMR*DWDU                     
 C
            NN = IADI2(3,I0)                                 
            FSKYI2(1,NN) = FX(3)                         
            FSKYI2(2,NN) = FY(3)                         
            FSKYI2(3,NN) = FZ(3)                         
            FSKYI2(4,NN) = XMSI*H2(3)                         
-           FSKYI2(5,NN) = STIFN(I)*(UN+STBRK)*(ABS(H(3))+STIFM)+STIFR(I)*STIFMR*DWDU
+           FSKYI2(5,NN) = STIFN(I)*(ONE+STBRK)*(ABS(H(3))+STIFM)+STIFR(I)*STIFMR*DWDU
 C
            NN = IADI2(4,I0)                                 
            FSKYI2(1,NN) = FX(4)                          
            FSKYI2(2,NN) = FY(4)                          
            FSKYI2(3,NN) = FZ(4)                          
            FSKYI2(4,NN) = XMSI*H2(4)                         
-           FSKYI2(5,NN) = STIFN(I)*(UN+STBRK)*(ABS(H(4))+STIFM*FAC_TRIANG)+STIFR(I)*STIFMR*DWDU*FAC_TRIANG
+           FSKYI2(5,NN) = STIFN(I)*(ONE+STBRK)*(ABS(H(4))+STIFM*FAC_TRIANG)+STIFR(I)*STIFMR*DWDU*FAC_TRIANG
 C
            IF(IDTMINS==2.OR.IDTMINS_INT/=0) THEN
 C---- For AMS scaling factor on stiffness is stored - only used for solid main surface
-             T2FAC_SMS(I) = (UN+STBRK)*(UN+STIFM)
+             T2FAC_SMS(I) = (ONE+STBRK)*(ONE+STIFM)
            ENDIF     
 C                   
          ENDIF

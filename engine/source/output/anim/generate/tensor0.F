@@ -193,9 +193,9 @@ C-----------------------------------------------
                TENS(1,EL2FA(NN1+N)) =  LBUF%STRA(JJ(1) + I)
                TENS(2,EL2FA(NN1+N)) =  LBUF%STRA(JJ(2) + I)
                TENS(3,EL2FA(NN1+N)) =  LBUF%STRA(JJ(3) + I)
-               TENS(4,EL2FA(NN1+N)) =  LBUF%STRA(JJ(4) + I)*UNDEMI
-               TENS(5,EL2FA(NN1+N)) =  LBUF%STRA(JJ(5) + I)*UNDEMI
-               TENS(6,EL2FA(NN1+N)) =  LBUF%STRA(JJ(6) + I)*UNDEMI
+               TENS(4,EL2FA(NN1+N)) =  LBUF%STRA(JJ(4) + I)*HALF
+               TENS(5,EL2FA(NN1+N)) =  LBUF%STRA(JJ(5) + I)*HALF
+               TENS(6,EL2FA(NN1+N)) =  LBUF%STRA(JJ(6) + I)*HALF
               ENDDO   
             ELSEIF(MLW == 14)THEN
               DO I=LFT,LLT
@@ -213,9 +213,9 @@ C-----------------------------------------------
                TENS(1,EL2FA(NN1+N)) = LBUF%STRA(JJ(1) + I)
                TENS(2,EL2FA(NN1+N)) = LBUF%STRA(JJ(2) + I)
                TENS(3,EL2FA(NN1+N)) = LBUF%STRA(JJ(3) + I)			
-               TENS(4,EL2FA(NN1+N)) = LBUF%STRA(JJ(4) + I)*UNDEMI
-               TENS(5,EL2FA(NN1+N)) = LBUF%STRA(JJ(5) + I)*UNDEMI
-               TENS(6,EL2FA(NN1+N)) = LBUF%STRA(JJ(6) + I)*UNDEMI   
+               TENS(4,EL2FA(NN1+N)) = LBUF%STRA(JJ(4) + I)*HALF
+               TENS(5,EL2FA(NN1+N)) = LBUF%STRA(JJ(5) + I)*HALF
+               TENS(6,EL2FA(NN1+N)) = LBUF%STRA(JJ(6) + I)*HALF   
               ENDDO
             ELSEIF(ISTRAIN == 1)THEN
               IF(MLW.NE.14.AND.MLW.NE.24.AND.MLW.LT.28.OR.
@@ -225,9 +225,9 @@ C-----------------------------------------------
                   TENS(1,EL2FA(NN1+N)) = LBUF%STRA(JJ(1) + I)
                   TENS(2,EL2FA(NN1+N)) = LBUF%STRA(JJ(2) + I)	       
                   TENS(3,EL2FA(NN1+N)) = LBUF%STRA(JJ(3) + I)			  
-                  TENS(4,EL2FA(NN1+N)) = LBUF%STRA(JJ(4) + I)*UNDEMI   
-                  TENS(5,EL2FA(NN1+N)) = LBUF%STRA(JJ(5) + I)*UNDEMI   
-                  TENS(6,EL2FA(NN1+N)) = LBUF%STRA(JJ(6) + I)*UNDEMI   
+                  TENS(4,EL2FA(NN1+N)) = LBUF%STRA(JJ(4) + I)*HALF   
+                  TENS(5,EL2FA(NN1+N)) = LBUF%STRA(JJ(5) + I)*HALF   
+                  TENS(6,EL2FA(NN1+N)) = LBUF%STRA(JJ(6) + I)*HALF   
                 ENDDO
              ELSE
                DO I=LFT,LLT
@@ -250,9 +250,9 @@ C-----------------------------------------------
                TENS(1,EL2FA(NN1+N)) = LBUF%PLA(JJ(1) + I + NEL)
                TENS(2,EL2FA(NN1+N)) = LBUF%PLA(JJ(2) + I + NEL)
                TENS(3,EL2FA(NN1+N)) = LBUF%PLA(JJ(3) + I + NEL)			
-               TENS(4,EL2FA(NN1+N)) = LBUF%PLA(JJ(4) + I + NEL)*UNDEMI
-               TENS(5,EL2FA(NN1+N)) = LBUF%PLA(JJ(5) + I + NEL)*UNDEMI
-               TENS(6,EL2FA(NN1+N)) = LBUF%PLA(JJ(6) + I + NEL)*UNDEMI   
+               TENS(4,EL2FA(NN1+N)) = LBUF%PLA(JJ(4) + I + NEL)*HALF
+               TENS(5,EL2FA(NN1+N)) = LBUF%PLA(JJ(5) + I + NEL)*HALF
+               TENS(6,EL2FA(NN1+N)) = LBUF%PLA(JJ(6) + I + NEL)*HALF   
               ENDDO
             ENDIF ! IF (MLW == 24)
 c-----------

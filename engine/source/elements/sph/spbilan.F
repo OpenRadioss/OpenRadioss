@@ -99,8 +99,8 @@ C
       DO I=LFT,LLT
         XMAS(I)=RHO(I)*VNEW(I)
         EI(I)  = EINT(I)*VOL(I)
-        EK(I)  = XMAS(I)*VA2(I)*UNDEMI
-        OFF(I) = UN
+        EK(I)  = XMAS(I)*VA2(I)*HALF
+        OFF(I) = ONE
         XM(I)  = XMAS(I)*VXA(I)
         YM(I)  = XMAS(I)*VYA(I)
         ZM(I)  = XMAS(I)*VZA(I)
@@ -136,7 +136,7 @@ C
       DO I=LFT,LLT
         M=IPARTSP(I)
         PARTSAV(1,M)=PARTSAV(1,M) + EINT(I)*VOL(I)
-        PARTSAV(2,M)=PARTSAV(2,M) + XMAS(I)*VA2(I)*UNDEMI
+        PARTSAV(2,M)=PARTSAV(2,M) + XMAS(I)*VA2(I)*HALF
         PARTSAV(6,M)=PARTSAV(6,M) + XMAS(I)
         PARTSAV(3,M)=PARTSAV(3,M) + XMAS(I)*VXA(I)
         PARTSAV(4,M)=PARTSAV(4,M) + XMAS(I)*VYA(I)

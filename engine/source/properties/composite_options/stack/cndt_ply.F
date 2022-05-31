@@ -76,7 +76,7 @@ C-----------------------------------------------
          DIVM= MAX(DIVM*DIVM, EM20)
          DO J=1,NPT
            VOL = AREA(I)*THK(I,J)
-           STI(I,J) = UNDEMI*VOL * A1(I,J)* OFF(I) / DIVM
+           STI(I,J) = HALF*VOL * A1(I,J)* OFF(I) / DIVM
          ENDDO
        ENDDO
 C       
@@ -89,10 +89,10 @@ C    sti = vol*E/lc*lc
 C    lc = (vol)**0.3333
 C    here we take lc = hi 
 C  la rigidit  est surestim , dans le cas ou hi<lc 
-cc           FAC = OFF(I)*UNHUIT*AREA(I)/THK_IPLY(I,J)
+cc           FAC = OFF(I)*ONE_OVER_8*AREA(I)/THK_IPLY(I,J)
 cc           FAC = OFFI(I,J)*AREA(I)/THK_IPLY(I,J)
            IF(OFF(I)/=ZERO)THEN
-             FAC = AREA(I)*QUATRE
+             FAC = AREA(I)*FOUR
              STI(I,JINF) = STI(I,JINF) + FAC * A1_IPLY(I,J)  
              STI(I,JSUP) = STI(I,JSUP) + FAC * A1_IPLY(I,J) 
            END IF

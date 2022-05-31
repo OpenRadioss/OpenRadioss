@@ -59,11 +59,11 @@ C
         IF (NPT .EQ. 1.AND.MTN .NE. 1) THEN
           FAC =ZERO
         ELSE
-          FAC =UN
+          FAC =ONE
         ENDIF
         DO I=JFT,JLT
-          VISC(I) =UNP414*OFF(I)*AMU(I)*RHO(I)*SSP(I)*SQRT(AREA(I))
-          GG =UNDEMI/(UN+NU(I))
+          VISC(I) =ONEP414*OFF(I)*AMU(I)*RHO(I)*SSP(I)*SQRT(AREA(I))
+          GG =HALF/(ONE+NU(I))
           FX =VISC(I)*(VDEF(I,1)+NU(I)*VDEF(I,2))
           FY =VISC(I)*(VDEF(I,2)+NU(I)*VDEF(I,1))
           FXY =VISC(I)*VDEF(I,3) *GG
@@ -77,7 +77,7 @@ C
         IF (NPT .NE. 1) THEN
          DO I=JFT,JLT
           VISC(I)    =ZEP3*THK(I)*VISC(I)
-          GG =UNDEMI/(UN+NU(I))
+          GG =HALF/(ONE+NU(I))
           FX =VISC(I)*(VDEF(I,6)+NU(I)*VDEF(I,7))
           FY =VISC(I)*(VDEF(I,7)+NU(I)*VDEF(I,6))
           FXY =VISC(I)* VDEF(I,8) *GG
@@ -144,9 +144,9 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
         MY13R=VCORE(I,3,4)*RXSOM
         MX13R=VCORE(I,2,4)*RYSOM
         VHXZ(I)=VXYZ(I,3,3)-(MY13R-VCORE(I,2,3)*(RX13+RX24)
-     1                     -MX13R+VCORE(I,1,3)*(RY13+RY24))*QUART
+     1                     -MX13R+VCORE(I,1,3)*(RY13+RY24))*FOURTH
         VHYZ(I)=VXYZ(I,3,3)-(MY13R-VCORE(I,1,4)*(RX13-RX24)
-     1                     -MX13R+VCORE(I,3,3)*(RY13-RY24))*QUART
+     1                     -MX13R+VCORE(I,3,3)*(RY13-RY24))*FOURTH
        ENDDO
 C
        DO I=JFT,JLT
@@ -154,7 +154,7 @@ C
          MX34=VCORE(I,3,3)
          MY23=VCORE(I,2,3)
          MY34=VCORE(I,1,4)
-         C2 =UNDOUZE*G(I)*RHO(I)*AREA(I)
+         C2 =ONE_OVER_12*G(I)*RHO(I)*AREA(I)
          HVL = DEUX1000*AMU(I)*SQRT(C2)*OFF(I)
          CXZ_V=(MY34*MY34+MX34*MX34)*HVL
          CYZ_V=(MY23*MY23+MX23*MX23)*HVL

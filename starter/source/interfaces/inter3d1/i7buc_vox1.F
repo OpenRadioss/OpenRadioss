@@ -174,7 +174,7 @@ C-----------------------------------------------
      .            X(3,IRECT(3,I)),X(3,IRECT(4,I)))
      .       -MIN(X(3,IRECT(1,I)),X(3,IRECT(2,I)),
      .            X(3,IRECT(3,I)),X(3,IRECT(4,I)))
-          CURV_MAX(I) = UNDEMI * MAX(XXX,YYY,ZZZ)
+          CURV_MAX(I) = HALF * MAX(XXX,YYY,ZZZ)
           C_MAX = MAX(C_MAX,CURV_MAX(I))
         ENDDO
       ELSE
@@ -212,10 +212,10 @@ C      LONGUEUR COTE 4
        DD4=SQRT(DX6**2+DY6**2+DZ6**2)
        DD=DD+ (DD1+DD2+DD3+DD4)
   10  CONTINUE
-      DD0=DD/NRTM/QUATRE
+      DD0=DD/NRTM/FOUR
       DD =DD0
-C      DD = MAX(DD0,UNP251*GAP)
-C      DD = MAX(DD ,UNP251*DRAD)
+C      DD = MAX(DD0,ONEP251*GAP)
+C      DD = MAX(DD ,ONEP251*DRAD)
 C remove this additional test which breaks igap performance
 C in case this factor is needed, then needs to compute mean gap instead
 C 
@@ -552,7 +552,7 @@ C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
           I_MEM = 0
           GO TO 100
         ELSE IF(I_MEM.EQ.2) THEN
-          MARGE_ST = TQUART*MARGE_ST
+          MARGE_ST = THREE_OVER_4*MARGE_ST
           TZINF_ST = MARGE_ST + MAX(GAP,DRAD)
           I_MEM = 0
           IF(MARGE_ST.LT.EM03) THEN
@@ -605,7 +605,7 @@ C---------------------------------
             I_STOK = 0
             J_STOK = 0
             RETURN
-            MARGE_ST = TQUART*MARGE_ST
+            MARGE_ST = THREE_OVER_4*MARGE_ST
             TZINF_ST = MARGE_ST + MAX(GAP,DRAD)
             I_MEM = 0
 C ne pas dimunuer la taille des boite

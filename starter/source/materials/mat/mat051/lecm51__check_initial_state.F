@@ -114,8 +114,8 @@ C===============================================|
           RHO0=SUM
           RHOR=RHO0
         ELSE
-          RHO0=UN !will be computed in engine, not need for sound speed. This formulation has SSP=EM20
-          RHOR=UN
+          RHO0=ONE !will be computed in engine, not need for sound speed. This formulation has SSP=EM20
+          RHOR=ONE
         ENDIF        
         RETURN
       ENDIF
@@ -123,7 +123,7 @@ C===============================================|
       ! Initial Volume fraction checked : must be between 0 and 1
       ! Otherwise : error
       DO I=1,IMAX
-        IF ((AV(I).LT.ZERO).OR.(AV(I).GT.UN)) THEN
+        IF ((AV(I).LT.ZERO).OR.(AV(I).GT.ONE)) THEN
          chain='SUBMAT-0'
          write(chain(8:8),'(i1.1)')I
          chain1='INITIAL VOLUMETRIC FRACTION MUST BE BETWEEN 0 AND 1 FOR '//chain

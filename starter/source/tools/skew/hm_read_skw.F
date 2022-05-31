@@ -116,9 +116,9 @@ C
       DO I=1,LSKEW
         SKEW(I,1)=ZERO
       ENDDO
-      SKEW(1,1)=UN
-      SKEW(5,1)=UN
-      SKEW(9,1)=UN
+      SKEW(1,1)=ONE
+      SKEW(5,1)=ONE
+      SKEW(9,1)=ONE
       NOM_OPT(1,1)=0
       READPT=0
       CALL FRETITL(NOMSG,NOM_OPT(LNOPT1-LTITR+1,1),LTITR)
@@ -261,7 +261,7 @@ C----------------
 C       CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
         PNOR2=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
         IF (PNOR2 > EM20) THEN
-          PNORM1=UN/(PNOR1*PNOR2)
+          PNORM1=ONE/(PNOR1*PNOR2)
           DET1=ABS((P(8)*P(3)-P(9)*P(2))*PNORM1)
           DET2=ABS((P(9)*P(1)-P(7)*P(3))*PNORM1)
           DET3=ABS((P(7)*P(2)-P(8)*P(1))*PNORM1)
@@ -275,9 +275,9 @@ C       CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=ID,C1=TITR)
           IF(ABS(P(2)) < EM5) THEN
-            P(4)=ABS(P(1))+DIX
+            P(4)=ABS(P(1))+TEN
           ELSE
-            P(5)=DIX
+            P(5)=TEN
           ENDIF
         ENDIF
 C----------------
@@ -329,7 +329,7 @@ C
         ENDIF
 c
        ELSE
-        P(1)=UN
+        P(1)=ONE
         P(2)=ZERO
         P(3)=ZERO
 C
@@ -385,21 +385,21 @@ C     CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
      .               I1=ID,C1=TITR)
          IF (IDIR == 1) THEN
            IF(ABS(P(2)).GT.EM5) THEN
-             P(4)=ABS(P(1))+DIX
+             P(4)=ABS(P(1))+TEN
            ELSE
-             P(5)=DIX
+             P(5)=TEN
            ENDIF
          ELSEIF (IDIR == 2) THEN
            IF(ABS(P(5)).GT.EM5) THEN
-             P(7)=ABS(P(4))+DIX
+             P(7)=ABS(P(4))+TEN
            ELSE
-             P(8)=DIX
+             P(8)=TEN
            ENDIF
          ELSEIF (IDIR == 3) THEN
            IF(ABS(P(8)).GT.EM5) THEN
-             P(1)=ABS(P(7))+DIX
+             P(1)=ABS(P(7))+TEN
            ELSE
-             P(2)=DIX
+             P(2)=TEN
            ENDIF
          ENDIF
        ENDIF
@@ -445,8 +445,8 @@ C
        ISKN(3,I+1)=0
        ISKN(5,I+1)=0
 C
-       IF(P(4).EQ.ZERO.AND.P(6).EQ.ZERO) P(5)=SIGN(UN,P(5))
-       IF(P(7).EQ.ZERO.AND.P(8).EQ.ZERO) P(9)=SIGN(UN,P(9))
+       IF(P(4).EQ.ZERO.AND.P(6).EQ.ZERO) P(5)=SIGN(ONE,P(5))
+       IF(P(7).EQ.ZERO.AND.P(8).EQ.ZERO) P(9)=SIGN(ONE,P(9))
 C-----------------
 C     CALCUL DE X'
 C-----------------
@@ -540,9 +540,9 @@ C-------------------------------------------------------------
              DO K=1,LSKEW
               SKEW(K,J)=ZERO
              ENDDO
-             SKEW(1,J)=UN
-             SKEW(5,J)=UN
-             SKEW(9,J)=UN
+             SKEW(1,J)=ONE
+             SKEW(5,J)=ONE
+             SKEW(9,J)=ONE
              ISKN(1,J)=0
              ISKN(2,J)=0
              ISKN(3,J)=0
@@ -570,9 +570,9 @@ C-------------------------------------------------------------
           DO K=1,LSKEW
            SKEW(K,J)=ZERO
           ENDDO
-          SKEW(1,J)=UN
-          SKEW(5,J)=UN
-          SKEW(9,J)=UN
+          SKEW(1,J)=ONE
+          SKEW(5,J)=ONE
+          SKEW(9,J)=ONE
           ISKN(1,J)=0
           ISKN(2,J)=0
           ISKN(3,J)=0

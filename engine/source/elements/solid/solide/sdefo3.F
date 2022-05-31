@@ -154,7 +154,7 @@ C=======================================================================
        ENDDO
       ENDIF
 
-      DT1D2=UNDEMI*DT1
+      DT1D2=HALF*DT1
       IF (ISCAU.GT.0.OR.IMP_LR.GT.0)DT1D2=DT1
 
       IF (JCVT /= 0) THEN
@@ -210,7 +210,7 @@ C---------implicit static---------
              D6(I)   = DXZ(I)+DZX(I)
             ENDDO
           ELSE
-            DT1D=DEUX*DT1D2
+            DT1D=TWO*DT1D2
             DO I=LFT,LLT
              D4(I)   = DXY(I)+DYX(I)
      .  	      -DT1D*(DXX(I)*DXY(I)+DYX(I)*DYY(I)+DZX(I)*DZY(I))
@@ -303,7 +303,7 @@ C
       
       !VORTICITY OUTPUT /ANIM/ELEM/VORTX VORTY VORTZ
       IF(DT1.NE.ZERO)THEN
-        FAC = QUATRE/DT1
+        FAC = FOUR/DT1
         IF(ANIM_SE(10).EQ.1)THEN
           DO I=LFT,LLT
             FANI_CELL(I+NFT) = FAC*WXX(I)

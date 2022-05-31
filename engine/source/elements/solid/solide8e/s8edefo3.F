@@ -129,7 +129,7 @@ C     REAL ou REAL*8
      .   DVP,DV,DV1
 C                                                                     12
 C-----------------------------------------------
-      TOL = UN-EM20
+      TOL = ONE-EM20
       IF (I_SH==0) THEN
       DO I=LFT,LLT
        DXY(I) =PY1(I)*VX1(I)+PY2(I)*VX2(I)+PY3(I)*VX3(I)+PY4(I)*VX4(I)
@@ -256,7 +256,7 @@ C------force ICP>0 -->I_sh=0 or check   !!!!
       IF (ISMSTR==12.AND.I_SH>0) THEN
 #include   "nofusion.inc"
        DO I=LFT,LLT
-        IF(OFFS(I)<=UN) CYCLE
+        IF(OFFS(I)<=ONE) CYCLE
         DYY(I) =DYY(I)+BXY1(I)*VX1(I)+BXY2(I)*VX2(I)
      +        +BXY3(I)*VX3(I)+BXY4(I)*VX4(I)
      +        +BXY5(I)*VX5(I)+BXY6(I)*VX6(I)
@@ -302,8 +302,8 @@ C-------------Volume traitement------
         IF (DV.GT.TOL) THEN
           DV =ZERO
         ENDIF
-        IF(OFFS(I)==DEUX.OR.ISMSTR==11) CYCLE
-         DV1 = UN- DV
+        IF(OFFS(I)==TWO.OR.ISMSTR==11) CYCLE
+         DV1 = ONE- DV
          VOLO(I) = VOLO(I)*DV1
          IF (IRESP==1) VOL0DP(I) = VOL0DP(I)*DV1
          EINT(I) = EINT(I)/DV1
@@ -315,9 +315,9 @@ c        ENDIF
        ENDDO
       ENDIF 
 C
-      DT1D2=UNDEMI*DT1
+      DT1D2=HALF*DT1
       IF (ISCAU.GT.0)DT1D2=DT1
-      DT1D=DEUX*DT1D2
+      DT1D=TWO*DT1D2
       IF (JCVT.NE.0) THEN
 C      
        IF (ISMDISP.GT.0.AND.ISCAU.EQ.0) THEN
@@ -491,7 +491,7 @@ C---- this sub_routine has been called 2 times, one for Ismstr=10,12 another for
        ENDDO
       ELSE
        DO I=LFT,LLT
-	    IF (ISMSTR==12.AND.OFFG(I)>UN) CYCLE
+	    IF (ISMSTR==12.AND.OFFG(I)>ONE) CYCLE
        DXY(I) =PY1(I)*VX1(I)+PY2(I)*VX2(I)+PY3(I)*VX3(I)+PY4(I)*VX4(I)
      +        +PY5(I)*VX5(I)+PY6(I)*VX6(I)+PY7(I)*VX7(I)+PY8(I)*VX8(I)
        DXZ(I) =PZ1(I)*VX1(I)+PZ2(I)*VX2(I)+PZ3(I)*VX3(I)+PZ4(I)*VX4(I)
@@ -546,7 +546,7 @@ C
        ENDDO
       ELSE
        DO I=LFT,LLT
-	    IF (ISMSTR==12.AND.OFFG(I)>UN) CYCLE
+	    IF (ISMSTR==12.AND.OFFG(I)>ONE) CYCLE
        DXX(I) =PX1(I)*VX1(I)+PX2(I)*VX2(I)+PX3(I)*VX3(I)+PX4(I)*VX4(I)
      .        +PX5(I)*VX5(I)+PX6(I)*VX6(I)+PX7(I)*VX7(I)+PX8(I)*VX8(I)
        DYY(I) =PY1(I)*VY1(I)+PY2(I)*VY2(I)+PY3(I)*VY3(I)+PY4(I)*VY4(I)
@@ -620,19 +620,19 @@ C
      .                DXX, DXY, DXZ,
      .                DYX, DYY, DYZ,
      .                DZX, DZY, DZZ)
-C-----F'=FAC*F=MF'+[1]-->MF'=FAC*MF+(FAC-UN)*[1]
+C-----F'=FAC*F=MF'+[1]-->MF'=FAC*MF+(FAC-ONE)*[1]
         DO I=LFT,LLT
-         FAC=DTIERS*NU(I)
+         FAC=TWO_THIRD*NU(I)
          BASE = DET0(I)/MAX(EM20,DET(I))
-         IF(ISMSTR==12.AND.OFFG(I)>UN) BASE=UN
+         IF(ISMSTR==12.AND.OFFG(I)>ONE) BASE=ONE
          JFAC(I)=EXP(FAC*LOG(MAX(EM20,BASE)))
 c         JFAC(I)=(DET0(I)/MAX(EM20,DET(I)))**FAC
         ENDDO
        DO I=LFT,LLT
-        IF(IDEGE(I)>10.OR.(ISMSTR==12.AND.OFFG(I)>UN)) CYCLE
-        DXX(I) = JFAC(I)*DXX(I)+JFAC(I)-UN
-        DYY(I) = JFAC(I)*DYY(I)+JFAC(I)-UN
-        DZZ(I) = JFAC(I)*DZZ(I)+JFAC(I)-UN
+        IF(IDEGE(I)>10.OR.(ISMSTR==12.AND.OFFG(I)>ONE)) CYCLE
+        DXX(I) = JFAC(I)*DXX(I)+JFAC(I)-ONE
+        DYY(I) = JFAC(I)*DYY(I)+JFAC(I)-ONE
+        DZZ(I) = JFAC(I)*DZZ(I)+JFAC(I)-ONE
         DXY(I) = JFAC(I)*DXY(I)
         DYX(I) = JFAC(I)*DYX(I)
         DZX(I) = JFAC(I)*DZX(I)
@@ -740,20 +740,20 @@ C-----------------------------------------------
 C     REAL ou REAL*8
 C                                                                     12
       my_real
-     .   AJ5968, AJ6749, AJ4857,
+     .   JAC_59_68, JAC_67_49, JAC_48_57,
      .   AJ11, AJ22, AJ33
 C-----------------------------------------------
 C     JACOBIAN of [AJ]+[1]
 C
       DO I=LFT,LLT
-       AJ11=AJ1(I)+UN
-       AJ22=AJ5(I)+UN
-       AJ33=AJ9(I)+UN
-       AJ5968=AJ22*AJ33-AJ6(I)*AJ8(I)
-       AJ6749=AJ6(I)*AJ7(I)-AJ4(I)*AJ33
-       AJ4857=AJ4(I)*AJ8(I)-AJ22*AJ7(I)
+       AJ11=AJ1(I)+ONE
+       AJ22=AJ5(I)+ONE
+       AJ33=AJ9(I)+ONE
+       JAC_59_68=AJ22*AJ33-AJ6(I)*AJ8(I)
+       JAC_67_49=AJ6(I)*AJ7(I)-AJ4(I)*AJ33
+       JAC_48_57=AJ4(I)*AJ8(I)-AJ22*AJ7(I)
 C
-       DET(I)=AJ11*AJ5968+AJ2(I)*AJ6749+AJ3(I)*AJ4857
+       DET(I)=AJ11*JAC_59_68+AJ2(I)*JAC_67_49+AJ3(I)*JAC_48_57
       ENDDO
 C
       RETURN
@@ -880,7 +880,7 @@ C     REAL ou REAL*8
      .   VX35, VY35, VZ35,
      .   VX46, VY46, VZ46, DT1D2, DT1D
 C-----------------------------------------------
-      DT1D2=UNDEMI*DT1
+      DT1D2=HALF*DT1
        DO I=LFT,LLT
          VX17=VX1(I)-VX7(I)
          VX28=VX2(I)-VX8(I)
@@ -963,12 +963,12 @@ C------------
          DO IP = 1,NNPT
            DO I=LFT,LLT
 C ----[B]=[MF+1][MF+1]^t -1 
-            IF (ISMSTR==12.AND.OFFG(I) >UN) CYCLE 
-            BXX(I,IP)=MFXX(I,IP)*(DEUX+MFXX(I,IP))+
+            IF (ISMSTR==12.AND.OFFG(I) >ONE) CYCLE 
+            BXX(I,IP)=MFXX(I,IP)*(TWO+MFXX(I,IP))+
      .                MFXY(I,IP)*MFXY(I,IP)+MFXZ(I,IP)*MFXZ(I,IP) 
-            BYY(I,IP)=MFYY(I,IP)*(DEUX+MFYY(I,IP))+
+            BYY(I,IP)=MFYY(I,IP)*(TWO+MFYY(I,IP))+
      .                MFYX(I,IP)*MFYX(I,IP)+MFYZ(I,IP)*MFYZ(I,IP)
-            BZZ(I,IP)=MFZZ(I,IP)*(DEUX+MFZZ(I,IP))+
+            BZZ(I,IP)=MFZZ(I,IP)*(TWO+MFZZ(I,IP))+
      .                MFZX(I,IP)*MFZX(I,IP)+MFZY(I,IP)*MFZY(I,IP)
             BXY(I,IP)=MFXY(I,IP)+MFYX(I,IP)+MFXX(I,IP)*MFYX(I,IP)+
      .                MFXY(I,IP)*MFYY(I,IP)+MFXZ(I,IP)*MFYZ(I,IP)
@@ -1013,12 +1013,12 @@ C------ moyen in 3 directions
 C       
        DO IR = 1,2
          DO I=LFT,LLT
-           B0XY(I,IR) = B0XY(I,IR)*QUART
-           B0XZ(I,IR) = B0XZ(I,IR)*QUART
-           B0YZ(I,IR) = B0YZ(I,IR)*QUART
-           B0YX(I,IR) = B0YX(I,IR)*QUART
-           B0ZX(I,IR) = B0ZX(I,IR)*QUART
-           B0ZY(I,IR) = B0ZY(I,IR)*QUART
+           B0XY(I,IR) = B0XY(I,IR)*FOURTH
+           B0XZ(I,IR) = B0XZ(I,IR)*FOURTH
+           B0YZ(I,IR) = B0YZ(I,IR)*FOURTH
+           B0YX(I,IR) = B0YX(I,IR)*FOURTH
+           B0ZX(I,IR) = B0ZX(I,IR)*FOURTH
+           B0ZY(I,IR) = B0ZY(I,IR)*FOURTH
          END DO
        END DO !IR = 1,2
 C---------takes the selective mean values-----
@@ -1048,7 +1048,7 @@ C-----------
 C
 C------ moyen in 3 directions
          DO I=LFT,LLT
-           IF (ISMSTR==12.AND.OFFG(I) >UN) CYCLE 
+           IF (ISMSTR==12.AND.OFFG(I) >ONE) CYCLE 
            B0XY(I,IR) = B0XY(I,IR)+BXY(I,IP)
            B0XZ(I,IT) = B0XZ(I,IT)+BXZ(I,IP)
            B0YZ(I,IS) = B0YZ(I,IS)+BYZ(I,IP)
@@ -1059,10 +1059,10 @@ C------ moyen in 3 directions
 C       
        DO IR = 1,2
          DO I=LFT,LLT
-           IF (ISMSTR==12.AND.OFFG(I) >UN) CYCLE 
-           B0XY(I,IR) = B0XY(I,IR)*QUART
-           B0XZ(I,IR) = B0XZ(I,IR)*QUART
-           B0YZ(I,IR) = B0YZ(I,IR)*QUART
+           IF (ISMSTR==12.AND.OFFG(I) >ONE) CYCLE 
+           B0XY(I,IR) = B0XY(I,IR)*FOURTH
+           B0XZ(I,IR) = B0XZ(I,IR)*FOURTH
+           B0YZ(I,IR) = B0YZ(I,IR)*FOURTH
          END DO
        END DO !IR = 1,2
 C---------takes the selective mean values-----
@@ -1073,7 +1073,7 @@ C-----------
          IP = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR
 C
          DO I=LFT,LLT
-           IF (ISMSTR==12.AND.OFFG(I) >UN) CYCLE 
+           IF (ISMSTR==12.AND.OFFG(I) >ONE) CYCLE 
            BXY(I,IP) = B0XY(I,IR)
            BXZ(I,IP) = B0XZ(I,IT)
            BYZ(I,IP) = B0YZ(I,IS)
@@ -1238,12 +1238,12 @@ C     REAL ou REAL*8
      .   VLZ1(MVSIZ), VLZ2(MVSIZ), VLZ3(MVSIZ), VLZ4(MVSIZ),
      .   VLZ5(MVSIZ), VLZ6(MVSIZ), VLZ7(MVSIZ), VLZ8(MVSIZ)
       my_real
-     .   AJ5968, AJ6749, AJ4857,
+     .   JAC_59_68, JAC_67_49, JAC_48_57,
      .   AJ11, AJ22, AJ33,DET(MVSIZ),FAC,BASE
 C-----------------------------------------------
       IF (JCVT > 0 ) THEN
         DO I=LFT,LLT
-	     IF(OFFG(I)<=UN) CYCLE
+	     IF(OFFG(I)<=ONE) CYCLE
          VLX1(I)=R11(I)*VX1(I)+R21(I)*VY1(I)+R31(I)*VZ1(I)
          VLY1(I)=R12(I)*VX1(I)+R22(I)*VY1(I)+R32(I)*VZ1(I)
          VLZ1(I)=R13(I)*VX1(I)+R23(I)*VY1(I)+R33(I)*VZ1(I)
@@ -1298,7 +1298,7 @@ C-----------------------------------------------
 C   
       IF (I_SH>0) THEN
        DO I=LFT,LLT
-	    IF(OFFG(I)<=UN) CYCLE
+	    IF(OFFG(I)<=ONE) CYCLE
         DXY(I) =PXY1(I)*VLX1(I)+PXY2(I)*VLX2(I)
      +         +PXY3(I)*VLX3(I)+PXY4(I)*VLX4(I)
      +         +PXY5(I)*VLX5(I)+PXY6(I)*VLX6(I)
@@ -1326,7 +1326,7 @@ C
        ENDDO
       ELSE
        DO I=LFT,LLT
-	    IF(OFFG(I)<=UN) CYCLE
+	    IF(OFFG(I)<=ONE) CYCLE
         DXY(I) =PY1(I)*VLX1(I)+PY2(I)*VLX2(I)+PY3(I)*VLX3(I)+PY4(I)*VLX4(I)
      +         +PY5(I)*VLX5(I)+PY6(I)*VLX6(I)+PY7(I)*VLX7(I)+PY8(I)*VLX8(I)
         DXZ(I) =PZ1(I)*VLX1(I)+PZ2(I)*VLX2(I)+PZ3(I)*VLX3(I)+PZ4(I)*VLX4(I)
@@ -1343,7 +1343,7 @@ C
       END IF !(ISMSTR==11) THEN
 C	   
        DO I=LFT,LLT
-	    IF(OFFG(I)<=UN) CYCLE
+	    IF(OFFG(I)<=ONE) CYCLE
         DXX(I) =PX1(I)*VLX1(I)+PX2(I)*VLX2(I)+PX3(I)*VLX3(I)+PX4(I)*VLX4(I)
      .         +PX5(I)*VLX5(I)+PX6(I)*VLX6(I)+PX7(I)*VLX7(I)+PX8(I)*VLX8(I)
         DYY(I) =PY1(I)*VLY1(I)+PY2(I)*VLY2(I)+PY3(I)*VLY3(I)+PY4(I)*VLY4(I)
@@ -1354,7 +1354,7 @@ C
 	   IF (ISEL_V>0) THEN
 #include   "nofusion.inc"
        DO I=LFT,LLT
-	    IF(OFFG(I)<=UN) CYCLE
+	    IF(OFFG(I)<=ONE) CYCLE
         DYY(I) =DYY(I)+BXY1(I)*VLX1(I)+BXY2(I)*VLX2(I)
      +                +BXY3(I)*VLX3(I)+BXY4(I)*VLX4(I)
      +                +BXY5(I)*VLX5(I)+BXY6(I)*VLX6(I)
@@ -1383,25 +1383,25 @@ C
 	   END IF !(ISEL_V>0) THEN
       IF (ICP==1) THEN
         DO I=LFT,LLT
-	     IF(OFFG(I)<=UN) CYCLE
-         AJ11=DXX(I)+UN
-         AJ22=DYY(I)+UN
-         AJ33=DZZ(I)+UN
-         AJ5968=AJ22*AJ33-DYZ(I)*DZY(I)
-         AJ6749=DYZ(I)*DZX(I)-DYX(I)*AJ33
-         AJ4857=DYX(I)*DZY(I)-AJ22*DZX(I)
+	     IF(OFFG(I)<=ONE) CYCLE
+         AJ11=DXX(I)+ONE
+         AJ22=DYY(I)+ONE
+         AJ33=DZZ(I)+ONE
+         JAC_59_68=AJ22*AJ33-DYZ(I)*DZY(I)
+         JAC_67_49=DYZ(I)*DZX(I)-DYX(I)*AJ33
+         JAC_48_57=DYX(I)*DZY(I)-AJ22*DZX(I)
 C       
-         DET(I)=AJ11*AJ5968+DXY(I)*AJ6749+DXZ(I)*AJ4857
-C-----F'=FAC*F=MF'+[1]-->MF'=FAC*MF+(FAC-UN)*[1]
-         FAC=DTIERS*NU(I)
+         DET(I)=AJ11*JAC_59_68+DXY(I)*JAC_67_49+DXZ(I)*JAC_48_57
+C-----F'=FAC*F=MF'+[1]-->MF'=FAC*MF+(FAC-ONE)*[1]
+         FAC=TWO_THIRD*NU(I)
          BASE = DET0(I)/MAX(EM20,DET(I))
          JFAC(I)=EXP(FAC*LOG(MAX(EM20,BASE)))
         ENDDO
        DO I=LFT,LLT
-        IF(IDEGE(I)>10.OR.OFFG(I)<=UN) CYCLE
-        DXX(I) = JFAC(I)*DXX(I)+JFAC(I)-UN
-        DYY(I) = JFAC(I)*DYY(I)+JFAC(I)-UN
-        DZZ(I) = JFAC(I)*DZZ(I)+JFAC(I)-UN
+        IF(IDEGE(I)>10.OR.OFFG(I)<=ONE) CYCLE
+        DXX(I) = JFAC(I)*DXX(I)+JFAC(I)-ONE
+        DYY(I) = JFAC(I)*DYY(I)+JFAC(I)-ONE
+        DZZ(I) = JFAC(I)*DZZ(I)+JFAC(I)-ONE
         DXY(I) = JFAC(I)*DXY(I)
         DYX(I) = JFAC(I)*DYX(I)
         DZX(I) = JFAC(I)*DZX(I)

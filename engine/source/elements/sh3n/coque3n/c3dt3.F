@@ -78,7 +78,7 @@ C-----------------------------------------------
       my_real ATHK, MMIN,FAC
 C=======================================================================       
       DO I=JFT,JLT
-        VISCMX(I) = SQRT(UN + VISCMX(I)*VISCMX(I)) - VISCMX(I)
+        VISCMX(I) = SQRT(ONE + VISCMX(I)*VISCMX(I)) - VISCMX(I)
         ALDT(I)   = ALDT(I)*VISCMX(I) / SQRT(ALPE(I))
       ENDDO
 c---------------------------------------------------
@@ -95,8 +95,8 @@ C
                  ATHK   = AREA(I) * THK0(I)
                  STI(I) = ATHK * A1(I) / ALDT(I)**2
                  FAC =A11R(I)*AREA(I)/ ALDT(I)**2
-                 STIR(I) = FAC*(UNDOUZE* THK0(I)**3
-     .                 + THK0(I)*UNDEMI * SHF(I) * AREA(I) * G(I)/A1(I))
+                 STIR(I) = FAC*(ONE_OVER_12* THK0(I)**3
+     .                 + THK0(I)*HALF * SHF(I) * AREA(I) * G(I)/A1(I))
                 ENDIF
           ENDDO       
         ELSE
@@ -111,8 +111,8 @@ C
                ELSE
                  ATHK   = AREA(I) * THK0(I)
                  STI(I) = ATHK * A1(I) / ALDT(I)**2
-                 STIR(I) = STI(I) * (THK0(I) * THK0(I) * UNDOUZE 
-     .                   + UNDEMI * SHF(I) * AREA(I) * G(I)/A1(I))
+                 STIR(I) = STI(I) * (THK0(I) * THK0(I) * ONE_OVER_12 
+     .                   + HALF * SHF(I) * AREA(I) * G(I)/A1(I))
 c                 STI(I) = 0.5 * ATHK * A1(I) / ALDT(I)**2
 c                 STIR(I) = STI(I) * (THK0(I) * THK0(I) / 12. 
 c     .                   + AREA(I) /9.) 
@@ -134,8 +134,8 @@ C
                 ATHK   = AREA(I) * THK0(I)
                 STI(I) = ATHK * A1(I) / ALDT(I)**2
                 FAC = A11R(I)*AREA(I)/ ALDT(I)**2 
-                STIR(I) = FAC * (UNDOUZE*THK0(I)**3+
-     .                 + UNDEMI * THK0(I)*SHF(I) * AREA(I) * G(I)/A1(I))
+                STIR(I) = FAC * (ONE_OVER_12*THK0(I)**3+
+     .                 + HALF * THK0(I)*SHF(I) * AREA(I) * G(I)/A1(I))
               ENDIF
            END DO 
         ELSE
@@ -150,8 +150,8 @@ C
               ELSE
                 ATHK   = AREA(I) * THK0(I)
                 STI(I) = ATHK * A1(I) / ALDT(I)**2
-                STIR(I) = STI(I) * (THK0(I) * THK0(I) * UNDOUZE 
-     .                 + UNDEMI * SHF(I) * AREA(I) * G(I)/A1(I))
+                STIR(I) = STI(I) * (THK0(I) * THK0(I) * ONE_OVER_12 
+     .                 + HALF * SHF(I) * AREA(I) * G(I)/A1(I))
               ENDIF
            END DO
         ENDIF  
@@ -166,9 +166,9 @@ c dmelc = 2*dmelc !!
 c w^2 < 2k / (m+dmelc+dmelc/2) < 2k / (m+dmelc)
 c dt = 2/w = sqrt( 2*(m+dmelc)/k)
           DMELTG(I)=MAX(DMELTG(I),
-     .             (DTMINS/DTFACS)**2 * STI(I) - DEUX*MMIN)
+     .             (DTMINS/DTFACS)**2 * STI(I) - TWO*MMIN)
           DT(I)  = DTFACS*
-     .              SQRT((DEUX*MMIN+DMELTG(I))/MAX(EM20,STI(I)))
+     .              SQRT((TWO*MMIN+DMELTG(I))/MAX(EM20,STI(I)))
           IF(DT(I).LT.DT2T)THEN
             DT2T    = DT(I)
             NELTST  = NGL(I)
@@ -195,8 +195,8 @@ C
       NINDX=IOFC
       IF(IDTMIN(7).EQ.1)THEN
         DO 100 I=JFT,JLT
-        IF(DT(I).GT.DTMIN1(7).OR.OFF(I).LT.UN
-     .       .OR.OFFG(I).EQ.DEUX.OR.OFFG(I).LT.ZERO) GO TO 100
+        IF(DT(I).GT.DTMIN1(7).OR.OFF(I).LT.ONE
+     .       .OR.OFFG(I).EQ.TWO.OR.OFFG(I).LT.ZERO) GO TO 100
          TSTOP = TT
 C
 #include "lockon.inc"
@@ -206,7 +206,7 @@ C
   100   CONTINUE
       ELSEIF(IDTMIN(7).EQ.2)THEN
         DO 120 I=JFT,JLT
-        IF(DT(I).GT.DTMIN1(7).OR.OFF(I).LT.UN
+        IF(DT(I).GT.DTMIN1(7).OR.OFF(I).LT.ONE
      .       .OR.OFFG(I).LT.ZERO) GO TO 120
          OFF(I)=ZERO
 
@@ -224,8 +224,8 @@ C
       ELSEIF(ISMSTR.EQ.2.AND.IDTMIN(7).EQ.3)THEN
         DO 140 I=JFT,JLT
         IF(DT(I).GT.DTMIN1(7).OR.
-     .   OFF(I).LT.UN.OR.OFFG(I).EQ.DEUX.OR.OFFG(I).LT.ZERO) GO TO 140
-         OFFG(I)=DEUX
+     .   OFF(I).LT.ONE.OR.OFFG(I).EQ.TWO.OR.OFFG(I).LT.ZERO) GO TO 140
+         OFFG(I)=TWO
 C
 #include "lockon.inc"
          WRITE(IOUT,1400)  NGL(I)
@@ -234,8 +234,8 @@ C
   140   CONTINUE
       ELSEIF(IDTMIN(7).EQ.5)THEN
         DO 150 I=JFT,JLT
-        IF(DT(I).GT.DTMIN1(7).OR.OFF(I).LT.UN.
-     .     OR.OFFG(I).EQ.DEUX.OR.OFFG(I).LT.ZERO) GO TO 150
+        IF(DT(I).GT.DTMIN1(7).OR.OFF(I).LT.ONE.
+     .     OR.OFFG(I).EQ.TWO.OR.OFFG(I).LT.ZERO) GO TO 150
          MSTOP = 2
 C
 #include "lockon.inc"

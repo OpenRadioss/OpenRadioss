@@ -64,9 +64,9 @@ C-----------------------------------------------
          S5=SIG(I,5)
          S6=SIG(I,6)
 C
-         Q1=DEUX*S4*WZZ(I)
-         Q2=DEUX*S6*WYY(I)
-         Q3=DEUX*S5*WXX(I) 
+         Q1=TWO*S4*WZZ(I)
+         Q2=TWO*S6*WYY(I)
+         Q3=TWO*S5*WXX(I) 
 C
 
          SIG(I,1)=S1-Q1+Q2

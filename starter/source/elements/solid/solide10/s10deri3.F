@@ -86,16 +86,16 @@ C-----------------------------------------------
       IF(NPT.EQ.4)THEN
         ALPH = ZEP5854102
         BETA  = ZEP1381966
-        W = QUART
+        W = FOURTH
       ELSEIF(NPT.EQ.5)THEN
-        ALPH = UNDEMI
-        BETA  = UNSIX
-        W = NVINGT
+        ALPH = HALF
+        BETA  = ONE_OVER_6
+        W = NINE_OVER_20
       ENDIF
-      A4 = QUATRE * ALPH
-      B4 = QUATRE * BETA
-      A4M1  = A4- UN
-      B4M1  = B4- UN
+      A4 = FOUR * ALPH
+      B4 = FOUR * BETA
+      A4M1  = A4- ONE
+      B4M1  = B4- ONE
 C
       DO I=LFT,LLT
         RX(I) = XX(I,1) - XX(I,4)
@@ -170,13 +170,13 @@ c
 C
 C
       IF(NPT.EQ.5)THEN
-        ALPH = QUART
-        BETA  = QUART
-        A4 = UN
-        B4 = UN
+        ALPH = FOURTH
+        BETA  = FOURTH
+        A4 = ONE
+        B4 = ONE
         A4M1  = ZERO
         B4M1  = ZERO
-        W = - QCINQ
+        W = - FOUR_OVER_5
         IP = 5
 C
         DO N=1,4
@@ -321,14 +321,14 @@ c      my_real
      .   DRDZ(MVSIZ), DSDZ(MVSIZ), DTDZ(MVSIZ),
      .   DET(MVSIZ)
 C-----------------------------------------------
-      A4 = QUATRE * ALPH
-      B4 = QUATRE * BETA
-      A4M1  = A4 - UN
-      B4M1  = B4 - UN
-      AA = (DEUX*ALPH - UN)*ALPH
-      BB = (DEUX*BETA - UN)*BETA
-      B2 = QUATRE*BETA*BETA
-      AB = QUATRE*ALPH*BETA      
+      A4 = FOUR * ALPH
+      B4 = FOUR * BETA
+      A4M1  = A4 - ONE
+      B4M1  = B4 - ONE
+      AA = (TWO*ALPH - ONE)*ALPH
+      BB = (TWO*BETA - ONE)*BETA
+      B2 = FOUR*BETA*BETA
+      AB = FOUR*ALPH*BETA      
 C-----------------------------------------------
       DO I=LFT,LLT
         NX1(I) = BB
@@ -377,7 +377,7 @@ C
        DET(I) = DXDR * DRDX(I)
      .        + DYDR * DRDY(I)
      .        + DZDR * DRDZ(I)
-       VOLDP(I) = W * DET(I) * UNSIX
+       VOLDP(I) = W * DET(I) * ONE_OVER_6
        VOL(I) = VOLDP(I)
 C
       ENDDO
@@ -413,11 +413,11 @@ C        ENDDO
 C      ENDIF
 CC
       DO I=LFT,LLT
-        A4 = QUATRE * ALPH
-        B4 = QUATRE * BETA
-        A4M1  = A4 - UN
-        B4M1  = B4 - UN
-        D = UN/MAX(EM30,DET(I))
+        A4 = FOUR * ALPH
+        B4 = FOUR * BETA
+        A4M1  = A4 - ONE
+        B4M1  = B4 - ONE
+        D = ONE/MAX(EM30,DET(I))
 C
         B4M1 = D * B4M1
         A4M1 = D * A4M1

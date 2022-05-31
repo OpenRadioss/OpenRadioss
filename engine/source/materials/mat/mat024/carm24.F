@@ -57,9 +57,9 @@ c
             S01(I) = Y0S+HS*ABS(EPXA(I,1))
             S02(I) = Y0S+HS*ABS(EPXA(I,2))
             S03(I) = Y0S+HS*ABS(EPXA(I,3))
-            SCLE1(I) = UNDEMI+SIGN(UNDEMI,ABS(S1(I))-S01(I) )
-            SCLE2(I) = UNDEMI+SIGN(UNDEMI,ABS(S2(I))-S02(I) )
-            SCLE3(I) = UNDEMI+SIGN(UNDEMI,ABS(S3(I))-S03(I) )
+            SCLE1(I) = HALF+SIGN(HALF,ABS(S1(I))-S01(I) )
+            SCLE2(I) = HALF+SIGN(HALF,ABS(S2(I))-S02(I) )
+            SCLE3(I) = HALF+SIGN(HALF,ABS(S3(I))-S03(I) )
          ENDDO
          DO I = 1,NEL
             S01(I) = SIGN(S01(I),S1(I))
@@ -68,9 +68,9 @@ c
             SCAL1(I) = ABS(S1(I)-S01(I))/MAX(ABS(YMS*DEPS1(I)),EM20)
             SCAL2(I) = ABS(S2(I)-S02(I))/MAX(ABS(YMS*DEPS2(I)),EM20)
             SCAL3(I) = ABS(S3(I)-S03(I))/MAX(ABS(YMS*DEPS3(I)),EM20)
-            DE1(I) = SCLE1(I)*SCAL1(I)*(UN-ETS/(YMS+EM10))*DEPS1(I)
-            DE2(I) = SCLE2(I)*SCAL2(I)*(UN-ETS/(YMS+EM10))*DEPS2(I)
-            DE3(I) = SCLE3(I)*SCAL3(I)*(UN-ETS/(YMS+EM10))*DEPS3(I)
+            DE1(I) = SCLE1(I)*SCAL1(I)*(ONE-ETS/(YMS+EM10))*DEPS1(I)
+            DE2(I) = SCLE2(I)*SCAL2(I)*(ONE-ETS/(YMS+EM10))*DEPS2(I)
+            DE3(I) = SCLE3(I)*SCAL3(I)*(ONE-ETS/(YMS+EM10))*DEPS3(I)
             EPXA(I,1) = EPXA(I,1)+DE1(I)
             EPXA(I,2) = EPXA(I,2)+DE2(I)
             EPXA(I,3) = EPXA(I,3)+DE3(I)
@@ -79,9 +79,9 @@ c
             S01(I) = S01(I)+HS*DE1(I)
             S02(I) = S02(I)+HS*DE2(I)
             S03(I) = S03(I)+HS*DE3(I)
-            SIGA(I,1) = (UN-SCLE1(I))*S1(I)+SCLE1(I)*S01(I)
-            SIGA(I,2) = (UN-SCLE2(I))*S2(I)+SCLE2(I)*S02(I)
-            SIGA(I,3) = (UN-SCLE3(I))*S3(I)+SCLE3(I)*S03(I) 
+            SIGA(I,1) = (ONE-SCLE1(I))*S1(I)+SCLE1(I)*S01(I)
+            SIGA(I,2) = (ONE-SCLE2(I))*S2(I)+SCLE2(I)*S02(I)
+            SIGA(I,3) = (ONE-SCLE3(I))*S3(I)+SCLE3(I)*S03(I) 
          ENDDO
 c--------------
          RETURN

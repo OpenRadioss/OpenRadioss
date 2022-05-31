@@ -228,20 +228,20 @@ C First test vs CRVOXEL
         IF(.NOT.(BTEST(CRVOXEL(IY,IZ),IX))) CYCLE
 
 C Second test vs reduced Box
-        IF( (X(1,J)-XMINB)/(XMAXB-XMINB) > UN ) THEN
+        IF( (X(1,J)-XMINB)/(XMAXB-XMINB) > ONE ) THEN
           IIX(I) = NBX  
         ELSE
-          IIX(I)=INT(MAX(NBX*(X(1,J)-XMINB)/(XMAXB-XMINB),-UN))
+          IIX(I)=INT(MAX(NBX*(X(1,J)-XMINB)/(XMAXB-XMINB),-ONE))
         ENDIF
-        IF( (X(2,J)-YMINB)/(YMAXB-YMINB) > UN ) THEN
+        IF( (X(2,J)-YMINB)/(YMAXB-YMINB) > ONE ) THEN
           IIY(I) = NBY  
         ELSE
-          IIY(I)=INT(MAX(NBY*(X(2,J)-YMINB)/(YMAXB-YMINB),-UN))
+          IIY(I)=INT(MAX(NBY*(X(2,J)-YMINB)/(YMAXB-YMINB),-ONE))
         ENDIF
-        IF( (X(3,J)-ZMINB)/(ZMAXB-ZMINB) > UN ) THEN
+        IF( (X(3,J)-ZMINB)/(ZMAXB-ZMINB) > ONE ) THEN
           IIZ(I) = NBZ  
         ELSE
-          IIZ(I)=INT(MAX(NBZ*(X(3,J)-ZMINB)/(ZMAXB-ZMINB),-UN))
+          IIZ(I)=INT(MAX(NBZ*(X(3,J)-ZMINB)/(ZMAXB-ZMINB),-ONE))
         ENDIF
 
 
@@ -347,20 +347,20 @@ c        calcul de la surface (pour elimination future de candidats)
          S2 = SX*SX + SY*SY + SZ*SZ
 
 c        indice des voxels occupes par la facette
-         IF( (XMINE - AAA - XMINB)/(XMAXB-XMINB) > UN ) THEN
+         IF( (XMINE - AAA - XMINB)/(XMAXB-XMINB) > ONE ) THEN
            IX1 = NBX  
          ELSE
-           IX1=INT(MAX(NBX*(XMINE-AAA-XMINB)/(XMAXB-XMINB),-UN))
+           IX1=INT(MAX(NBX*(XMINE-AAA-XMINB)/(XMAXB-XMINB),-ONE))
          ENDIF
-         IF( (YMINE - AAA - YMINB)/(YMAXB-YMINB) > UN ) THEN
+         IF( (YMINE - AAA - YMINB)/(YMAXB-YMINB) > ONE ) THEN
            IY1 = NBY  
          ELSE
-           IY1=INT(MAX(NBY*(YMINE-AAA-YMINB)/(YMAXB-YMINB),-UN))
+           IY1=INT(MAX(NBY*(YMINE-AAA-YMINB)/(YMAXB-YMINB),-ONE))
          ENDIF
-         IF( (ZMINE - AAA - ZMINB)/(ZMAXB-ZMINB) > UN ) THEN
+         IF( (ZMINE - AAA - ZMINB)/(ZMAXB-ZMINB) > ONE ) THEN
            IZ1 = NBZ  
          ELSE
-           IZ1=INT(MAX(NBZ*(ZMINE-AAA-ZMINB)/(ZMAXB-ZMINB),-UN))
+           IZ1=INT(MAX(NBZ*(ZMINE-AAA-ZMINB)/(ZMAXB-ZMINB),-ONE))
          ENDIF
 
          
@@ -370,20 +370,20 @@ c        indice des voxels occupes par la facette
          IZ1=MAX(1,2+IZ1)
 
          
-         IF( (XMAXE + AAA - XMINB)/(XMAXB-XMINB) > UN ) THEN
+         IF( (XMAXE + AAA - XMINB)/(XMAXB-XMINB) > ONE ) THEN
            IX2 = NBX  
          ELSE
-           IX2=INT(MAX(NBX*(XMAXE+AAA-XMINB)/(XMAXB-XMINB),-UN))
+           IX2=INT(MAX(NBX*(XMAXE+AAA-XMINB)/(XMAXB-XMINB),-ONE))
          ENDIF
-         IF( (YMAXE + AAA - YMINB)/(YMAXB-YMINB) > UN ) THEN
+         IF( (YMAXE + AAA - YMINB)/(YMAXB-YMINB) > ONE ) THEN
            IY2 = NBY  
          ELSE
-           IY2=INT(MAX(NBY*(YMAXE+AAA-YMINB)/(YMAXB-YMINB),-UN))
+           IY2=INT(MAX(NBY*(YMAXE+AAA-YMINB)/(YMAXB-YMINB),-ONE))
          ENDIF
-         IF( (ZMAXE + AAA - ZMINB)/(ZMAXB-ZMINB) > UN ) THEN
+         IF( (ZMAXE + AAA - ZMINB)/(ZMAXB-ZMINB) > ONE ) THEN
            IZ2 = NBZ  
          ELSE
-           IZ2=INT(MAX(NBZ*(ZMAXE+AAA-ZMINB)/(ZMAXB-ZMINB),-UN))
+           IZ2=INT(MAX(NBZ*(ZMAXE+AAA-ZMINB)/(ZMAXB-ZMINB),-ONE))
          ENDIF
 
          IX2=MAX(1,2+IX2)

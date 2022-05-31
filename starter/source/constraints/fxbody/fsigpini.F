@@ -268,7 +268,7 @@ C--------------------------------------------
       DO I=LFT,LLT
          RX1(I)=E1X(I)*RX1G(I)+E1Y(I)*RY1G(I)+E1Z(I)*RZ1G(I)
          RX2(I)=E1X(I)*RX2G(I)+E1Y(I)*RY2G(I)+E1Z(I)*RZ2G(I)
-         THETA=UNDEMI*(RX1(I)+RX2(I))
+         THETA=HALF*(RX1(I)+RX2(I))
          SUM2(I)=SQRT(E2X(I)**2+E2Y(I)**2+E2Z(I)**2)
          SUM3(I)=SQRT(E3X(I)**2+E3Y(I)**2+E3Z(I)**2)
          COST(I)=COS(THETA)/SUM2(I)
@@ -453,13 +453,13 @@ C---------------------------------------------------
          EXZ(I)=EXZ(I)*IRY
          EXY(I)=EXY(I)*IRZ
          RY1(I)=IR1Y*RY1(I)
-     +          -(UN -IR1Y)*(TDEMI*EXZ(I)+UNDEMI*RY2(I))
+     +          -(ONE -IR1Y)*(THREE_HALF*EXZ(I)+HALF*RY2(I))
          RY2(I)=IR2Y*RY2(I)
-     +          -(UN -IR2Y)*(TDEMI*EXZ(I)+UNDEMI*RY1(I))
+     +          -(ONE -IR2Y)*(THREE_HALF*EXZ(I)+HALF*RY1(I))
          RZ1(I)=IR1Z*RZ1(I)
-     +          +(UN-IR1Z)*(TDEMI*EXY(I)-UNDEMI*RZ2(I))
+     +          +(ONE-IR1Z)*(THREE_HALF*EXY(I)-HALF*RZ2(I))
          RZ2(I)=IR2Z*RZ2(I)
-     +          +(UN -IR2Z)*(TDEMI*EXY(I)-UNDEMI*RZ1(I))
+     +          +(ONE -IR2Z)*(THREE_HALF*EXY(I)-HALF*RZ1(I))
       ENDDO
 C
       DO I=LFT,LLT
@@ -475,8 +475,8 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-         EXZ(I)=EXZ(I) + UNDEMI*RYAV(I)
-         EXY(I)=EXY(I) - UNDEMI*RZAV(I)
+         EXZ(I)=EXZ(I) + HALF*RYAV(I)
+         EXY(I)=EXY(I) - HALF*RZAV(I)
       ENDDO
 C
       RETURN
@@ -535,11 +535,11 @@ C
 C     CISSAILLEMENT TRANSVERSAL CALCULE AVEC K1=12EI/L**2 K2=5/6GA
 C
       DO I=LFT,LLT
-         SH(I)=CSIX*G(I)*A1(I)
-         YMA2(I)=DOUZE*YM(I)/AL(I)**2
+         SH(I)=FIVE_OVER_6*G(I)*A1(I)
+         YMA2(I)=TWELVE*YM(I)/AL(I)**2
          SH10(I)=YMA2(I)*B1(I)
          SH20(I)=YMA2(I)*B2(I)
-         SH0(I)=(UN-SHF(I))*SH(I)
+         SH0(I)=(ONE-SHF(I))*SH(I)
          SH1(I)=SH0(I)*SH10(I)/(SH(I)+SH10(I)) + SHF(I)*SH10(I)
          SH2(I)=SH0(I)*SH20(I)/(SH(I)+SH20(I)) + SHF(I)*SH20(I)
 C
@@ -557,8 +557,8 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-         EINT(1,I) = DEGMB(I)*AL(I)*UNDEMI
-         EINT(2,I) = DEGFX(I)*AL(I)*UNDEMI
+         EINT(1,I) = DEGMB(I)*AL(I)*HALF
+         EINT(2,I) = DEGFX(I)*AL(I)*HALF
       ENDDO
 C
       RETURN

@@ -84,9 +84,9 @@ C --- A CORRIGER : VOL00(I) = THK0(I)*AREA0(I)
       ENDDO
 C
       IF (MTN == 19) THEN
-        VISCDEF=QUART
+        VISCDEF=FOURTH
       ELSEIF (MTN == 25.OR.MTN == 27) THEN
-        VISCDEF=CINQEM2
+        VISCDEF=FIVEEM2
       ELSE
         VISCDEF=ZERO
       ENDIF
@@ -137,10 +137,10 @@ C
         ENDDO
       ELSE
         DO I=JFT,JLT
-          FAC1 = DEUX*(UN+NU(I))*THK02(I)
+          FAC1 = TWO*(ONE+NU(I))*THK02(I)
           ISH  = NINT(GEO(37,PID(I)))
           FSH  = GEO(38,PID(I))
-          SHF(I)=FSH*(UN - ISH + ISH*FAC1 / (FSH*AREA(I)+FAC1) )
+          SHF(I)=FSH*(ONE - ISH + ISH*FAC1 / (FSH*AREA(I)+FAC1) )
         ENDDO
       ENDIF
       DO I=JFT,JLT

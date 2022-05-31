@@ -157,7 +157,7 @@ c-----------------------------------------------------------------------
 c-----------------------------------------------------------------------
 c     Set default parameter values
 c-----------------------------------------------------------------------
-      IF (DCRIT  == ZERO) DCRIT = UN
+      IF (DCRIT  == ZERO) DCRIT = ONE
       IF (DADV   == ZERO) DADV  = DCRIT
       IF (DADV > DCRIT) THEN
          DADV = DCRIT
@@ -166,23 +166,23 @@ c-----------------------------------------------------------------------
      .               ANMODE=ANINFO,
      .               I1=ID)
       ENDIF
-      IF (DD == UN  ) DD = 0.999
+      IF (DD == ONE  ) DD = 0.999
       IF (IFUN_STAB > 0) THEN
         ECRIT = ZERO
       ELSEIF (ECRIT == ZERO) THEN
         ECRIT = DD
       ENDIF
-      IF (DN == ZERO) DN = UN
+      IF (DN == ZERO) DN = ONE
       IF (ISHELL == 0) ISHELL = 1
       IF (ISOLID == 0) ISOLID = 1
       IF (IXFEM /= 1 .AND. IXFEM /= 2) IXFEM = 0
       IF (IXFEM > 0) ISOLID = 0
-      IF (Y1SCALE == ZERO)    Y1SCALE    = UN
-      IF (Y2SCALE == ZERO)    Y2SCALE    = UN
-      IF (SCALE_EL   == ZERO) SCALE_EL   = UN
-      IF (SCALE_TEMP == ZERO) SCALE_TEMP = UN
-      IF (SHRF  == ZERO) SHRF  =-UN
-      IF (BIAXF == ZERO) BIAXF = UN
+      IF (Y1SCALE == ZERO)    Y1SCALE    = ONE
+      IF (Y2SCALE == ZERO)    Y2SCALE    = ONE
+      IF (SCALE_EL   == ZERO) SCALE_EL   = ONE
+      IF (SCALE_TEMP == ZERO) SCALE_TEMP = ONE
+      IF (SHRF  == ZERO) SHRF  =-ONE
+      IF (BIAXF == ZERO) BIAXF = ONE
 c
       IF (FADE_EXPO > ZERO .or. ECRIT /= ZERO) THEN
         DMG_FLAG = 1
@@ -190,16 +190,16 @@ c
         DMG_FLAG = 0
       ENDIF
       IF (INST_FLAG == 0 .OR. INST_FLAG > 3) INST_FLAG = 1
-      IF (P_THICKFAIL == UN  ) P_THICKFAIL = P_THICKFAIL - EM06
+      IF (P_THICKFAIL == ONE  ) P_THICKFAIL = P_THICKFAIL - EM06
 c-----------------------------------------------------------------------
       CALL HM_GET_FLOATV_DIM('Xscale2' ,FSCAL_UNIT ,IS_AVAILABLE ,LSUBMODEL ,UNITAB)
-      IF (X1SCALE == ZERO) X1SCALE = UN*FSCAL_UNIT
+      IF (X1SCALE == ZERO) X1SCALE = ONE*FSCAL_UNIT
 c
       CALL HM_GET_FLOATV_DIM('Xscale4' ,FSCAL_UNIT ,IS_AVAILABLE ,LSUBMODEL ,UNITAB)
-      IF (X2SCALE == ZERO) X2SCALE = UN*FSCAL_UNIT
+      IF (X2SCALE == ZERO) X2SCALE = ONE*FSCAL_UNIT
 c
       CALL HM_GET_FLOATV_DIM('EI_ref'  ,FSCAL_UNIT ,IS_AVAILABLE ,LSUBMODEL ,UNITAB)
-      IF (EL_REF == ZERO) EL_REF = UN*FSCAL_UNIT
+      IF (EL_REF == ZERO) EL_REF = ONE*FSCAL_UNIT
 c-----------------------------------------------------------------------
       UPARAM(1) = ISOLID
       UPARAM(2) = ISHELL
@@ -213,9 +213,9 @@ c-----------------------------------------------------------------------
       UPARAM(10)= IXFEM
       UPARAM(11)= DADV
       UPARAM(12)= Y1SCALE
-      UPARAM(13)= UN / X1SCALE
+      UPARAM(13)= ONE / X1SCALE
       UPARAM(14)= Y2SCALE
-      UPARAM(15)= UN / X2SCALE
+      UPARAM(15)= ONE / X2SCALE
       UPARAM(16)= P_THINNFAIL
       UPARAM(17)= ECRIT
       UPARAM(18)= FADE_EXPO
@@ -293,7 +293,7 @@ c-----------------------------------------------------------------------
      & 5X,'FLAG XFEM. . . . . . . .. . . . . . . . . . . . . . .=',I10/
      & 5X,'     XFEM ADVANCEMENT SOFTENING FACTOR. . . . . . . .=',E12.4)
  1004 FORMAT(    
-     & 5X,'PER CENT OF SHELL THICKNESS FAILURE . . . . . . . . .=',E12.4/
+     & 5X,'PER HUNDRED OF SHELL THICKNESS FAILURE . . . . . . . . .=',E12.4/
      & 5X,'SHELL FAILURE DUE TO THINNING . . . . . . . . . . . .=',E12.4)
  1005 FORMAT(
      & 5X,'CRITICAL DAMAGE VALUE . . . . . . . . . . . . . . . .=',E12.4/

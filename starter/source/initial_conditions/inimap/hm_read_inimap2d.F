@@ -208,7 +208,7 @@ C     ==============
             CALL HM_GET_INTV('FUN_IDV', IFUNC3, IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_FLOATV('FSCALEV', FAC_VEL, IS_AVAILABLE, LSUBMODEL, UNITAB)
            MSG_DESCRIPTION = 'CANNOT READ VELOCITY FUNCTION ID'           
-           IF (FAC_VEL == ZERO) FAC_VEL = UN
+           IF (FAC_VEL == ZERO) FAC_VEL = ONE
            WRITE(IOUT, 2040) IFUNC3, FAC_VEL
            IF (IFUNC3 > 0) THEN
               FOUND = .FALSE.
@@ -226,7 +226,7 @@ C     ==============
            ELSE
               INIMAP2D(KK)%FUNC_VEL = 0
            ENDIF
-           IF (FAC_VEL == ZERO) FAC_VEL = UN
+           IF (FAC_VEL == ZERO) FAC_VEL = ONE
            INIMAP2D(KK)%FAC_VEL = FAC_VEL
 
            CALL HM_GET_INTV('Nb_integr', SIZE, IS_AVAILABLE, LSUBMODEL)
@@ -298,8 +298,8 @@ C     ==============
                  INIMAP2D(KK)%FUNC_PRES(LL) = 0
                  INIMAP2D(KK)%FUNC_ENER(LL) = 0
               ENDIF
-              IF (FAC1 == ZERO) FAC1 = UN
-              IF (FAC2 == ZERO) FAC2 = UN
+              IF (FAC1 == ZERO) FAC1 = ONE
+              IF (FAC2 == ZERO) FAC2 = ONE
               INIMAP2D(KK)%FAC_RHO(LL) = FAC1
               INIMAP2D(KK)%FAC_PRES_ENER(LL) = FAC2
               IF (INIMAP2D(KK)%FORMULATION == 1) THEN

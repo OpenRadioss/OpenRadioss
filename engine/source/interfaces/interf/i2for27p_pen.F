@@ -141,7 +141,7 @@ C
 C
           IF ((MSEGTYP2(L)==1).AND.(IN(I)>EM20)) THEN
 C-- shell main segment --
-            IROT = UN
+            IROT = ONE
           ELSE
 C-- solid main segment --
             IROT = ZERO
@@ -152,15 +152,15 @@ C--        Shape functions of triangles
             NIR = 3
             H(1,K) = S
             H(2,K) = T
-            H(3,K) = UN-S-T
+            H(3,K) = ONE-S-T
             H(4,K) = ZERO
           ELSE
 C--         Shape functions of quadrangles
             NIR = 4           
-            SP = UN + S           
-            SM = UN - S           
-            TP = QUART*(UN + T)    
-            TM = QUART*(UN - T)
+            SP = ONE + S           
+            SM = ONE - S           
+            TP = FOURTH*(ONE + T)    
+            TM = FOURTH*(ONE - T)
 C       
             H(1,K)=TM*SM           
             H(2,K)=TM*SP           
@@ -227,7 +227,7 @@ C---------------------
      .               E3X    ,E3Y    ,E3Z    ,NIR    )
 C------------------------------------------------                  
         IF (NIR == 4) THEN
-          FAC_TRIANG = UN
+          FAC_TRIANG = ONE
 C
           XM = X1*H(1,K) + X2*H(2,K) + X3*H(3,K) + X4*H(4,K)
           YM = Y1*H(1,K) + Y2*H(2,K) + Y3*H(3,K) + Y4*H(4,K)
@@ -422,15 +422,15 @@ C
      .                      MS(IX4(K))==ZERO)THEN
             MHARM = ZERO
           ELSEIF(NIR==4)THEN
-            MHARM = UN/MS(I) + 
-     .              UN/MS(IX1(K)) + UN/MS(IX2(K)) + UN/MS(IX3(K)) + UN/MS(IX4(K))
-            MHARM = UN/MHARM
+            MHARM = ONE/MS(I) + 
+     .              ONE/MS(IX1(K)) + ONE/MS(IX2(K)) + ONE/MS(IX3(K)) + ONE/MS(IX4(K))
+            MHARM = ONE/MHARM
           ELSE
-            MHARM = UN/MS(I) + 
-     .              UN/MS(IX1(K)) + UN/MS(IX2(K)) + UN/MS(IX3(K))
-            MHARM = UN/MHARM
+            MHARM = ONE/MS(I) + 
+     .              ONE/MS(IX1(K)) + ONE/MS(IX2(K)) + ONE/MS(IX3(K))
+            MHARM = ONE/MHARM
           END IF
-          DKM    = DEUX*STFN(II)*MHARM
+          DKM    = TWO*STFN(II)*MHARM
           VIS(K) = VISC*SQRT(DKM)
 C
           FXV = VIS(K) * VX
@@ -438,7 +438,7 @@ C
           FZV = VIS(K) * VZ
 c
           DXT = DX(1,II)**2 + DX(2,II)**2 + DX(3,II)**2
-          ECONTT = ECONTT + UNDEMI*STFN(II)*DXT
+          ECONTT = ECONTT + HALF*STFN(II)*DXT
 
           ECONVT = ECONVT + (FXV*VX + FYV*VY + FZV*VZ)*DT1
 c
@@ -456,7 +456,7 @@ C
           FTY = E1Y*FLX + E2Y*FLY + E3Y*FLZ
           FTZ = E1Z*FLX + E2Z*FLY + E3Z*FLZ
 C
-          STF     = STFN(II)*(VISC + SQRT(VISC**2 + (UN+STBRK)))**2
+          STF     = STFN(II)*(VISC + SQRT(VISC**2 + (ONE+STBRK)))**2
           STIFM(K)=ZERO
 C
 C------------------------------------------------                  
@@ -473,16 +473,16 @@ C
      .                      IN(IX4(K))==ZERO)THEN
             INHARM = ZERO
           ELSEIF(NIR==4)THEN
-            INHARM = UN/IN(I) + 
-     .              UN/IN(IX1(K)) + UN/IN(IX2(K)) + UN/IN(IX3(K)) + UN/IN(IX4(K))
-            INHARM = UN/INHARM
+            INHARM = ONE/IN(I) + 
+     .              ONE/IN(IX1(K)) + ONE/IN(IX2(K)) + ONE/IN(IX3(K)) + ONE/IN(IX4(K))
+            INHARM = ONE/INHARM
           ELSE
-            INHARM = UN/IN(I) + 
-     .              UN/IN(IX1(K)) + UN/IN(IX2(K)) + UN/IN(IX3(K))
-            INHARM = UN/INHARM
+            INHARM = ONE/IN(I) + 
+     .              ONE/IN(IX1(K)) + ONE/IN(IX2(K)) + ONE/IN(IX3(K))
+            INHARM = ONE/INHARM
           END IF
 C
-          DKI    = DEUX*STFR(II)*INHARM
+          DKI    = TWO*STFR(II)*INHARM
           VISR(K) = VISC*SQRT(DKI)
 C
           MLX = DR(1,II) * STFR(II)
@@ -494,7 +494,7 @@ C
           MVZ = VISR(K) * VRZ
 C
           DXT = DR(1,II)**2  + DR(2,II)**2 + DR(3,II)**2
-          ECONTT = ECONTT + UNDEMI*STFR(II)*DXT
+          ECONTT = ECONTT + HALF*STFR(II)*DXT
 
           ECONVT = ECONVT    + (MVX*VRX 
      .                       +  MVY*VRY 
@@ -508,9 +508,9 @@ C
           MGY = E1Y*MLX + E2Y*MLY + E3Y*MLZ 
           MGZ = E1Z*MLX + E2Z*MLY + E3Z*MLZ
 C
-          MRX = UNDEMI*(YSM*FTZ - ZSM*FTY)
-          MRY = UNDEMI*(ZSM*FTX - XSM*FTZ)
-          MRZ = UNDEMI*(XSM*FTY - YSM*FTX)
+          MRX = HALF*(YSM*FTZ - ZSM*FTY)
+          MRY = HALF*(ZSM*FTX - XSM*FTZ)
+          MRZ = HALF*(XSM*FTY - YSM*FTX)
 C
           DO J=1,4
             MX(J) = H(J,K)*(MGX+MRX)
@@ -519,7 +519,7 @@ C
           ENDDO
 C
           LEN2 = XSM**2+YSM**2+ZSM**2  
-          STR = (STFR(II)+STFN(II)*LEN2)*(VISC + SQRT(VISC**2 + UN))**2
+          STR = (STFR(II)+STFN(II)*LEN2)*(VISC + SQRT(VISC**2 + ONE))**2
 C
           ELSE
 C
@@ -561,7 +561,7 @@ C
           STIFN(I) = STIFN(I) + STF
 C
 C         for SMS ::
-          STIF(K) = (UN+STBRK)*STFN(II)
+          STIF(K) = (ONE+STBRK)*STFN(II)
 C
           IF (IRODDL == 1) THEN
             IF (IROT > ZERO) THEN 

@@ -208,8 +208,8 @@ C
 C
        IF(VP /=0 .AND .IFLAG(1) /= 1) VP = 0
 C       
-       NNU11 = NUX / (UN - NUX)
-       G31  = TROIS*G1
+       NNU11 = NUX / (ONE - NUX)
+       G31  = THREE*G1
 C       
        IF (ISIGI.EQ.0) THEN
         IF(TIME.EQ.ZERO)THEN
@@ -246,12 +246,12 @@ C
 C
          SOUNDSP(I) = SQRT(A11/RHO0(I))
          VISCMAX(I) = ZERO
-         ETSE(I) = UN
+         ETSE(I) = ONE
 C-------------------
 C     STRAIN RATE
 C-------------------
         IF (ISRATE == 0) EPSP(I) = 
-     .     UNDEMI*( ABS(EPSPXX(I)+EPSPYY(I))
+     .     HALF*( ABS(EPSPXX(I)+EPSPYY(I))
      .   + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .                 + EPSPXY(I)*EPSPXY(I) ) )
           JJC(I) = 1
@@ -283,7 +283,7 @@ C
              HC(I)=DYDX1(I)*YFAC(1)
              HT(I)=DYDX2(I)*YFAC(2)
            ENDDO  
-          ELSEIF(FISOKIN == UN ) THEN
+          ELSEIF(FISOKIN == ONE ) THEN
             DO I=1,NEL 
               HC(I)=DYDX1(I)*YFAC(1)
               HT(I)=DYDX2(I)*YFAC(2)
@@ -305,8 +305,8 @@ C
 C    ECROUISSAGE CINEMATIQUE
                 Y1(I)=YFAC(1)*TF(NPF(IFUNC(1))+1)
                 Y2(I)=YFAC(2)*TF(NPF(IFUNC(2))+1)
-                YC(I) = (UN - FISOKIN) * YC(I) + FISOKIN * Y1(I)
-                YT(I) = (UN - FISOKIN) * YT(I) + FISOKIN * Y2(I)
+                YC(I) = (ONE - FISOKIN) * YC(I) + FISOKIN * Y1(I)
+                YT(I) = (ONE - FISOKIN) * YT(I) + FISOKIN * Y2(I)
              ENDDO
           ENDIF
       ELSE
@@ -352,7 +352,7 @@ C
                  DYDX2(I)=DYDX2(I)*YFAC(J2)
                  HC(I)   = (DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
                ENDDO
-             ELSEIF (FISOKIN == UN ) THEN
+             ELSEIF (FISOKIN == ONE ) THEN
                 DO I=1,NEL
                  J1 = JJC(I)
                  J2 = J1+1
@@ -385,7 +385,7 @@ C                ECROUISSAGE CINEMATIQUE
                  Y2(I)=TF(NPF(IFUNC(J2))+1)
                  Y1(I)=Y1(I)*YFAC(J1)
                  Y2(I)=Y2(I)*YFAC(J2)
-                 YC(I) = (UN - FISOKIN) * YC(I) + 
+                 YC(I) = (ONE - FISOKIN) * YC(I) + 
      .             FISOKIN * ((Y1(I)    + FAC*(Y2(I)-Y1(I))))
                 ENDDO
                ENDIF
@@ -430,7 +430,7 @@ C
                  DYDX2(I)=DYDX2(I)*YFAC(J2)
                  HT(I)   = (DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
                ENDDO
-             ELSEIF (FISOKIN == UN ) THEN
+             ELSEIF (FISOKIN == ONE ) THEN
                 DO I=1,NEL
                  J1 = JJT(I)
                  J2 = J1+1
@@ -459,7 +459,7 @@ C               ECROUISSAGE CINEMATIQUE
 C                ECROUISSAGE CINEMATIQUE
                  Y1(I)=YFAC(J1)*TF(NPF(IFUNC(J1))+1)
                  Y2(I)=YFAC(J2)*TF(NPF(IFUNC(J2))+1)
-                 YT(I) = (UN - FISOKIN) * YT(I) + 
+                 YT(I) = (ONE - FISOKIN) * YT(I) + 
      .               FISOKIN * ((Y1(I)    + FAC*(Y2(I)-Y1(I))))
                 ENDDO
               ENDIF               
@@ -489,9 +489,9 @@ C interpolation entre (tracation & compression
           ELSE
             FAC = PC + PT
             FAC = (PC - P(I))/FAC
-            YLD(I) = FAC*YT(I) + (UN -FAC)*YC(I)
+            YLD(I) = FAC*YT(I) + (ONE -FAC)*YC(I)
             YLD(I) = MAX(EM20,YLD(I))
-            H(I) = FAC*HT(I) + (UN -FAC)*HC(I)
+            H(I) = FAC*HT(I) + (ONE -FAC)*HC(I)
           ENDIF    
         ENDDO
 C
@@ -501,7 +501,7 @@ c (1 + (epsp/epsp0)**(1/cp)
        IF(IRATE == 1) THEN      
          DO I=1,NEL
           EPD = MAX(EM20,EPSP(I)/EPSP0)
-          YRATE  = UN + EXP(CP*LOG(EPD))
+          YRATE  = ONE + EXP(CP*LOG(EPD))
           YLD(I) = YLD(I)*YRATE
           H(I) = H(I)*YRATE
          ENDDO     
@@ -509,7 +509,7 @@ C 1 + cp*ln(epep/epsp0)
        ELSEIF(IRATE == 2) THEN
          DO I=1,NEL
             EPD = MAX(EM20,EPSP(I)/EPSP0)
-            YRATE = UN + CP*LOG(EPD)
+            YRATE = ONE + CP*LOG(EPD)
             YLD(I) = YLD(I)*YRATE
             H(I) = H(I)*YRATE
          ENDDO  
@@ -522,27 +522,27 @@ C-------------------
 C     PROJECTION
 C-------------------
        IF(IFLAG(1) == 0)THEN
-         NU31 = UN-NNU11
+         NU31 = ONE-NNU11
 C projection radiale 
          DO I=1,NEL
            SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
      .             +SIGNYY(I)*SIGNYY(I)
      .             -SIGNXX(I)*SIGNYY(I)
-     .          +TROIS*SIGNXY(I)*SIGNXY(I))
-           R  = MIN(UN,YLD(I)/MAX(EM20,SVM(I)))
+     .          +THREE*SIGNXY(I)*SIGNXY(I))
+           R  = MIN(ONE,YLD(I)/MAX(EM20,SVM(I)))
            SIGNXX(I)=SIGNXX(I)*R
            SIGNYY(I)=SIGNYY(I)*R
            SIGNXY(I)=SIGNXY(I)*R
-           UMR = UN - R
+           UMR = ONE - R
            DPLA_I(I) = OFF(I)*SVM(I)*UMR/(G31+H(I))
            PLA(I) = PLA(I) + DPLA_I(I)
-           S1=UNDEMI*(SIGNXX(I)+SIGNYY(I))
+           S1=HALF*(SIGNXX(I)+SIGNYY(I))
            IF (INLOC ==0) THEN
-             DEZZ = DPLA_I(I) * UNDEMI*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
+             DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
              DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU11-NU31*DEZZ
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
            ENDIF
-           IF(R.LT.UN) ETSE(I)= H(I)/(H(I)+E1)
+           IF(R.LT.ONE) ETSE(I)= H(I)/(H(I)+E1)
          ENDDO
 C
        ELSEIF(IFLAG(1).EQ.1)THEN
@@ -554,8 +554,8 @@ C-------------------------
            S1=SIGNXX(I)+SIGNYY(I)
            S2=SIGNXX(I)-SIGNYY(I)
            S3=SIGNXY(I)
-           AA(I)=QUART*S1*S1
-           BB(I)=TQUART*S2*S2+3.*S3*S3
+           AA(I)=FOURTH*S1*S1
+           BB(I)=THREE_OVER_4*S2*S2+3.*S3*S3
            SVM(I)=SQRT(AA(I)+BB(I))  
            IF (INLOC == 0) THEN 
              DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU11
@@ -567,7 +567,7 @@ C     GATHER PLASTIC FLOW
 C-------------------------
          NINDX=0
          DO I=1,NEL
-           IF(SVM(I).GT.YLD(I).AND.OFF(I).EQ.UN) THEN
+           IF(SVM(I).GT.YLD(I).AND.OFF(I).EQ.ONE) THEN
              NINDX=NINDX+1
              INDEX(NINDX)=I
            ENDIF
@@ -581,8 +581,8 @@ C---------------------------
            I=INDEX(J)
            DPLA_J(I)=(SVM(I)-YLD(I))/(G31+H(I))
            ETSE(I)= H(I)/(H(I)+E1)
-           HI(I) = H(I)*(UN-FISOKIN)
-           HK(I) = DTIERS*H(I)*FISOKIN
+           HI(I) = H(I)*(ONE-FISOKIN)
+           HK(I) = TWO_THIRD*H(I)*FISOKIN
           ENDDO
 C
           IF(VP  == 1) THEN
@@ -591,37 +591,37 @@ C
                 DTINV = TIMESTEP(I)/MAX(EM20, TIMESTEP(I)**2)
                 EPD = DPLA_J(I)*DTINV
                 EPD = MAX(EM20,EPD/EPSP0)
-                YRATE  = UN + EXP(CP*LOG(EPD))
+                YRATE  = ONE + EXP(CP*LOG(EPD))
                 IF(SIGY == ZERO) THEN
                   YLD(I) = YLD(I)*YRATE
                   HI(I) = HI(I)*YRATE
                   HK(I) = HK(I)*YRATE
                 ELSE
-                   YLD(I) = YLD(I) + SIGY*(YRATE - UN)
+                   YLD(I) = YLD(I) + SIGY*(YRATE - ONE)
                 ENDIF
             ENDDO 
           ENDIF
 C          
-          NU11 = UN/(UN-NUX)
-          NU21 = UN/(UN+NUX)
-          NU31 = UN-NNU11
+          NU11 = ONE/(ONE-NUX)
+          NU21 = ONE/(ONE+NUX)
+          NU31 = ONE-NNU11
           DO N=1,NMAX
 #include "vectorize.inc"
            DO J=1,NINDX
              I=INDEX(J)
              DPLA_I(I)=DPLA_J(I)
              YLD_I =YLD(I)+HI(I)*DPLA_I(I)
-             DR(I) =UNDEMI*E1*DPLA_I(I)/YLD_I
-             NU110 = NU11+TROIS*HK(I)/E1
+             DR(I) =HALF*E1*DPLA_I(I)/YLD_I
+             NU110 = NU11+THREE*HK(I)/E1
              NU210 = NU21+HK(I)/E1
-             PP(I)  =UN/(UN+DR(I)*NU110)
-             QQ(I)  =UN/(UN+TROIS*DR(I)*NU210)     
+             PP(I)  =ONE/(ONE+DR(I)*NU110)
+             QQ(I)  =ONE/(ONE+THREE*DR(I)*NU210)     
              P2    =PP(I)*PP(I)
              Q2    =QQ(I)*QQ(I)
              F     =AA(I)*P2+BB(I)*Q2-YLD_I*YLD_I
-             DF    =-(AA(I)*NU110*P2*PP(I)+TROIS*BB(I)*NU210*Q2*QQ(I))
-     .         *(E1-DEUX*DR(I)*HI(I))/YLD_I
-     .         -DEUX*HI(I)*YLD_I
+             DF    =-(AA(I)*NU110*P2*PP(I)+THREE*BB(I)*NU210*Q2*QQ(I))
+     .         *(E1-TWO*DR(I)*HI(I))/YLD_I
+     .         -TWO*HI(I)*YLD_I
              DF = SIGN(MAX(ABS(DF),EM20),DF)
              IF(DPLA_I(I).GT.ZERO) THEN
                DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F/DF)
@@ -639,8 +639,8 @@ C------------------------------------------
            PLA(I) = PLA(I) + DPLA_I(I)
            S1=(SIGNXX(I)+SIGNYY(I))*PP(I)
            S2=(SIGNXX(I)-SIGNYY(I))*QQ(I)
-           SIGNXX(I)=UNDEMI*(S1+S2)
-           SIGNYY(I)=UNDEMI*(S1-S2) 
+           SIGNXX(I)=HALF*(S1+S2)
+           SIGNYY(I)=HALF*(S1-S2) 
            SIGNXY(I)=SIGNXY(I)*QQ(I)
            IF (INLOC == 0) THEN
              DEZZ = - NU31*DR(I)*S1/E1
@@ -658,7 +658,7 @@ C-------------------------
            SVM2(I)=SIGNXX(I)*SIGNXX(I)
      .             +SIGNYY(I)*SIGNYY(I)
      .             -SIGNXX(I)*SIGNYY(I)
-     .             +TROIS*SIGNXY(I)*SIGNXY(I)
+     .             +THREE*SIGNXY(I)*SIGNXY(I)
            SVM(I)=SQRT(SVM2(I))
            IF (INLOC == 0) THEN   
              DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU11
@@ -671,7 +671,7 @@ C-------------------------
          NINDX=0
          DO I=1,NEL
            YLD2(I)=YLD(I)*YLD(I)
-           IF(SVM2(I).GT.YLD2(I).AND.OFF(I).EQ.UN) THEN
+           IF(SVM2(I).GT.YLD2(I).AND.OFF(I).EQ.ONE) THEN
              NINDX=NINDX+1
              INDEX(NINDX)=I
            ENDIF
@@ -681,27 +681,27 @@ C
 C-------------
 C   PROJ NORMALE AU CRITERE AVEC CALCUL APPROCHE DE LA NORMALE + RETOUR RADIAL
 C-------------
-          NU31 = UN-NNU11
+          NU31 = ONE-NNU11
           DO J=1,NINDX
            I=INDEX(J)
            A=(SVM2(I)-YLD2(I))
-     .      /(CINQ*SVM2(I)+TROIS*(-SIGNXX(I)*SIGNYY(I)+SIGNXY(I)*SIGNXY(I)))
-           S1=(UN-DEUX*A)*SIGNXX(I)+          A*SIGNYY(I)
-           S2=          A*SIGNXX(I)+(UN-DEUX*A)*SIGNYY(I)
-           S3=(UN-TROIS*A)*SIGNXY(I)
+     .      /(FIVE*SVM2(I)+THREE*(-SIGNXX(I)*SIGNYY(I)+SIGNXY(I)*SIGNXY(I)))
+           S1=(ONE-TWO*A)*SIGNXX(I)+          A*SIGNYY(I)
+           S2=          A*SIGNXX(I)+(ONE-TWO*A)*SIGNYY(I)
+           S3=(ONE-THREE*A)*SIGNXY(I)
            SIGNXX(I)=S1
            SIGNYY(I)=S2
            SIGNXY(I)=S3
            DPLA_I(I) = OFF(I)*(SVM(I)-YLD(I))/(G31+H(I))
 C
-           HK(I) = H(I)*(UN-FISOKIN)
+           HK(I) = H(I)*(ONE-FISOKIN)
            YLD(I)= YLD(I)+HK(I)*DPLA_I(I)
           END DO
 C
           DO J=1,NINDX
             I=INDEX(J)
             SVM(I)= SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)
-     .            - SIGNXX(I)*SIGNYY(I) + TROIS*SIGNXY(I)*SIGNXY(I)
+     .            - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I)
             IF (SVM(I) > YLD(I)*YLD(I)) THEN
               SVM(I) = SQRT(SVM(I))
               R  = YLD(I) / SVM(I)
@@ -710,7 +710,7 @@ C
               SIGNXY(I) = SIGNXY(I)*R
               PLA(I) = PLA(I) + DPLA_I(I)
               IF (INLOC == 0) THEN
-                DEZZ = DPLA_I(I) * UNDEMI*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
+                DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
                 DEZZ = -NU31*DEZZ
                 THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
               ENDIF
@@ -732,12 +732,12 @@ C------------------------------------------
           DEXX = (DSXX - NUX*DSYY) 
           DEYY = (DSYY - NUX*DSXX)
 C
-          DEXY = DEUX*(UN+NUX)*DSXY
-	         HKIN = DTIERS*FISOKIN*H(I)
+          DEXY = TWO*(ONE+NUX)*DSXY
+	         HKIN = TWO_THIRD*FISOKIN*H(I)
           ALPHA = HKIN/(E1+HKIN)
-          SIGPXX = ALPHA*(DEUX*DEXX+DEYY)
-          SIGPYY = ALPHA*(DEUX*DEYY+DEXX)
-          SIGPXY = ALPHA*DEXY*UNDEMI
+          SIGPXX = ALPHA*(TWO*DEXX+DEYY)
+          SIGPYY = ALPHA*(TWO*DEYY+DEXX)
+          SIGPXY = ALPHA*DEXY*HALF
           UVAR(I,2) = UVAR(I,2) + SIGPXX
           UVAR(I,3) = UVAR(I,3) + SIGPYY
           UVAR(I,4) = UVAR(I,4) + SIGPXY
@@ -777,8 +777,8 @@ C--------------------------------
       IF (INLOC > 0) THEN
         DO I = 1,NEL
           SVM(I) = SQRT(SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)
-     .           - SIGNXX(I)*SIGNYY(I) + TROIS*SIGNXY(I)*SIGNXY(I))
-          DEZZ   = MAX(DPLANL(I),ZERO)*UNDEMI*(SIGNXX(I)+SIGNYY(I))/MAX(SVM(I),EM20)
+     .           - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))
+          DEZZ   = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(SVM(I),EM20)
           DEZZ   = -NUX*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E1) - DEZZ
           THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)     
         ENDDO  

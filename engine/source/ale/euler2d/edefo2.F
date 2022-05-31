@@ -73,10 +73,10 @@ C     REAL ou REAL*8
 C-----------------------------------------------
       DO 10 I=LFT,LLT
       II=I+NFT
-      PY1(I)=UNDEMI*(Z2(I)-Z4(I))
-      PY2(I)=UNDEMI*(Z3(I)-Z1(I))
-      PZ1(I)=UNDEMI*(Y4(I)-Y2(I))
-      PZ2(I)=UNDEMI*(Y1(I)-Y3(I))      
+      PY1(I)=HALF*(Z2(I)-Z4(I))
+      PY2(I)=HALF*(Z3(I)-Z1(I))
+      PZ1(I)=HALF*(Y4(I)-Y2(I))
+      PZ2(I)=HALF*(Y1(I)-Y3(I))      
       AIRE(I)=VEUL(1,II)
   10  DELTAX(I)=VEUL(2,II)
 C
@@ -106,8 +106,8 @@ C
         VY24(I)=VY2(I)-VY4(I)
         VZ13(I)=VZ1(I)-VZ3(I)
         VZ24(I)=VZ2(I)-VZ4(I)
-        VDY(I)=QUART*(VY1(I)+VY2(I)+VY3(I)+VY4(I))
-        VDZ(I)=QUART*(VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I))
+        VDY(I)=FOURTH*(VY1(I)+VY2(I)+VY3(I)+VY4(I))
+        VDZ(I)=FOURTH*(VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I))
         VD2(I)=VDY(I)**2+VDZ(I)**2
    50  CONTINUE
 C
@@ -129,7 +129,7 @@ C
 C
        DO 70 I=LFT,LLT
         EYZ(I)= DZY(I)+DYZ(I)
-   70   WYZ(I)=UNDEMI*DT1*(DZY(I)-DYZ(I))
+   70   WYZ(I)=HALF*DT1*(DZY(I)-DYZ(I))
       ENDIF
 C
       RETURN

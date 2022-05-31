@@ -4090,7 +4090,7 @@ C-----------------------------------------------
                A(K,II) = A(K,II) + AA
                IF(WEIGHT(II).EQ.1) THEN
                 DV = DT12*A(K,II)
-                DW = DW + UNDEMI*(V(K,II)+UNDEMI*DV)*MS(II)*AA
+                DW = DW + HALF*(V(K,II)+HALF*DV)*MS(II)*AA
                 ERR(K)=ERR(K)+WEIGHT_MD(II)*MS(II)*(VI-V(K,II)-DV)
                 ERR(4)=ERR(4)
      .               + WEIGHT_MD(II)*MS(II)*(VI**2-(V(K,II)+DV)**2)
@@ -4107,7 +4107,7 @@ C-----------------------------------------------
                  AR(K,II) = AR(K,II) + AA
                  IF(WEIGHT(II).EQ.1) THEN
                   DV = DT12*AR(K,II)
-                  DW = DW + UNDEMI*(VR(K,II)+UNDEMI*DV)*IN(II)*AA
+                  DW = DW + HALF*(VR(K,II)+HALF*DV)*IN(II)*AA
                   ERR(K+4)=ERR(K+4)
      .                   + WEIGHT_MD(II)*IN(II)*(VI-VR(K,II) - DV)
                   ERR(8)=ERR(8)
@@ -4148,11 +4148,11 @@ C-----------------------------------------------
             FSAV(22,N) = ERR(1)
             FSAV(23,N) = ERR(2)
             FSAV(24,N) = ERR(3)
-            FSAV(25,N) = UNDEMI*ERR(4)
+            FSAV(25,N) = HALF*ERR(4)
             FSAV(26,N) = ERR(5)
             FSAV(27,N) = ERR(6)
             FSAV(28,N) = ERR(7)
-            FSAV(29,N) = UNDEMI*ERR(8)
+            FSAV(29,N) = HALF*ERR(8)
             FSAV(30,N) = FSAV(30,N) + TFEXTL + SECBUF(KR0+4)
             ISECT=0
             IF(STABSEN/=0) ISECT=TABS(N+1)-TABS(N)
@@ -4263,7 +4263,7 @@ C-----------------------------------------------
        TT2 = SECBUF(3)
        TT3 = SECBUF(4)
        DTINV=ZERO
-       IF(DT1.GT.ZERO)DTINV=UN/DT1
+       IF(DT1.GT.ZERO)DTINV=ONE/DT1
        IF(NSTRF(2).GE.1)THEN
         IFRL1=NSTRF(7)
         IFRL2=MOD(IFRL1+1,2)
@@ -4303,7 +4303,7 @@ C-----------------------------------------------
                 AA = DD*DTINV + AA
                 A(K,II) = A(K,II) + AA
                 IF(WEIGHT(II).EQ.1) THEN
-                  DW = DW + UNDEMI*V(K,II)*AA
+                  DW = DW + HALF*V(K,II)*AA
                 ENDIF
               ENDDO            
               IF(IRODDL.NE.0)THEN
@@ -4318,7 +4318,7 @@ C-----------------------------------------------
                   AA = DD*DTINV + AA
                   AR(K,II) = AR(K,II) + AA
                   IF(WEIGHT(II).EQ.1) THEN
-                    DW = DW + UNDEMI*VR(K,II)*AA
+                    DW = DW + HALF*VR(K,II)*AA
                   ENDIF
                 ENDDO
               ENDIF            
@@ -4548,8 +4548,8 @@ C
               FSAV(9)=FSAV(9)+DT12*FST(9)
               FSAV(10)=FSAV(10)+DT12*(FST(10)+FST(15))
               FSAV(15)=FSAV(15)+DT12*FST(15)
-              FSAV(20)=UNDEMI*FST(20)
-              FSAV(21)=UNDEMI*FST(21)      
+              FSAV(20)=HALF*FST(20)
+              FSAV(21)=HALF*FST(21)      
               FSAV(31)=FSAV(31)+DT12*FST(33) 
               FSAV(32)=FSAV(32)+DT12*FST(34)
               FSAV(33)=FSAV(33)+DT12*FST(35)
@@ -5833,28 +5833,28 @@ C      CALCUL DES MOMEMTS/REPERE GLOBAL
        YYN=YYN/MAX(AL6,EM20)
        ZZN=ZZN/MAX(AL6,EM20)
 C
-       XX4=UN
+       XX4=ONE
        YY4=ZERO
        ZZ4=ZERO
        XX5=ZERO
-       YY5=UN
+       YY5=ONE
        ZZ5=ZERO
        XX6=ZERO
        YY6=ZERO
-       ZZ6=UN     
+       ZZ6=ONE     
        ELSE
        XXN=ZERO
        YYN=ZERO
-       ZZN=UN
-       XX4=UN
+       ZZN=ONE
+       XX4=ONE
        YY4=ZERO
        ZZ4=ZERO
        XX5=ZERO
-       YY5=UN
+       YY5=ONE
        ZZ5=ZERO
        XX6=ZERO
        YY6=ZERO
-       ZZ6=UN    
+       ZZ6=ONE    
 C
       ENDIF
 C
@@ -6014,28 +6014,28 @@ C      CALCUL DES MOMEMTS/REPERE GLOBAL
        YYN=YYN/MAX(AL6,EM20)
        ZZN=ZZN/MAX(AL6,EM20)
 C
-       XX4=UN
+       XX4=ONE
        YY4=ZERO
        ZZ4=ZERO
        XX5=ZERO
-       YY5=UN
+       YY5=ONE
        ZZ5=ZERO
        XX6=ZERO
        YY6=ZERO
-       ZZ6=UN     
+       ZZ6=ONE     
        ELSE
        XXN=ZERO
        YYN=ZERO
-       ZZN=UN
-       XX4=UN
+       ZZN=ONE
+       XX4=ONE
        YY4=ZERO
        ZZ4=ZERO
        XX5=ZERO
-       YY5=UN
+       YY5=ONE
        ZZ5=ZERO
        XX6=ZERO
        YY6=ZERO
-       ZZ6=UN    
+       ZZ6=ONE    
 C
       ENDIF
 C

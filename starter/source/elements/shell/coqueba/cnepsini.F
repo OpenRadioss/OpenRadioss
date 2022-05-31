@@ -164,7 +164,7 @@ c-----------------
         NITRS0 = NITRS
         NITRS = MAX(IPLA_D*100,NITRS0)
       END IF
-      FAC = UN / FLOAT(NITRS)
+      FAC = ONE / FLOAT(NITRS)
       DO I=JFT,JLT
         VL(1,2,I) = (VL(1,2,I) - X2(I)) * FAC
         VL(2,2,I) = (VL(2,2,I) - Y2(I)) * FAC
@@ -183,7 +183,7 @@ c--------------------------------------------------------
 c
         DO NT=1,NITRS
 c          FAC =  FLOAT(NT) / FLOAT(NITRS)
-          FAC = FLOAT(NT) - UN
+          FAC = FLOAT(NT) - ONE
 C
           DO I=JFT,JLT
             X1(I) = XREFC(1,1,I) + FAC*VL(1,1,I)

@@ -75,8 +75,8 @@ C
       CMU=PM(81,MAT(I))
       AX =PM(47,MAT(I))
       A  =PM(49,MAT(I))
-      GM =UN -GF+GF*ALOGEY(I)
-      PNEW(I)=DEUX*RK(I)/(VOLN(I)*TROIS)
+      GM =ONE -GF+GF*ALOGEY(I)
+      PNEW(I)=TWO*RK(I)/(VOLN(I)*THREE)
       EI(I)  =GM*EINC(I)/ALOGEY(I)-DVOL(I)*PNEW(I)
       EI(I)  =MAX(ZERO,EI(I))
       RK(I)  =RK(I)+(EI(I)-RE(I)*DT1)*OFF(I)
@@ -90,7 +90,7 @@ C
        DO 100 I=LFT,LLT
 C W VITESSE DE GRILLE EST SUPOSEE FAIBLE DEVANT V (QUASI EULERIEN)
         RK(I)=RHO(I)*GEO(22,NGEO(I))**2*VD2(I)
-        RE(I)=(RK(I)**3/RHO(I))**UNDEMI/GEO(23,NGEO(I))
+        RE(I)=(RK(I)**3/RHO(I))**HALF/GEO(23,NGEO(I))
   100  CONTINUE
       ENDIF
       RETURN

@@ -198,7 +198,7 @@ C------------------------------------------------
             IF (ICUT == 1) THEN
               BETA = CRKEDGE(ILAY)%RATIO(IEDGE)
 C
-              IF (BETA > UN .or. BETA == ZERO) THEN
+              IF (BETA > ONE .or. BETA == ZERO) THEN
                 WRITE(*,*) 'ERROR NEGATIV BETA, NO INTERSECTION!'
                 CALL ARRET(2)
               ENDIF

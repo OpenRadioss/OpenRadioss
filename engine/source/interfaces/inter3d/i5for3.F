@@ -122,7 +122,7 @@ C
       DO 140 I=LFT,LLT
       IL=I+NFT
       L=IRTL(IL)
-      STIF(I)=UNDEMI*STF(L)
+      STIF(I)=HALF*STF(L)
  140  CONTINUE
 C
       DO 150 I=LFT,LLT

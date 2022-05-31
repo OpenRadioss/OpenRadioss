@@ -105,7 +105,7 @@ C     ADD VISCOUS STRESSES "SVIS" & "QVIS" INTO THE TOTAL ONES
 C     REMOVE PRESSURE FROM STRESSES FOR THE CONSTANT PRESSURE CASE
       IF(ICP.EQ.1) THEN
         DO I=LFT,LLT
-          P(I)=TIERS*(SIG(I,1)+SIG(I,2)+SIG(I,3)+
+          P(I)=THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3)+
      .                SVIS(I,1)+SVIS(I,2)+SVIS(I,3))
           S1(I)=(SIG(I,1)+SVIS(I,1)-P(I))*FAC(I)
           S2(I)=(SIG(I,2)+SVIS(I,2)-P(I))*FAC(I)

@@ -154,7 +154,7 @@ C  +++ MAT Hyper-elas----Et>1
           GG(LFT:LLT)=G0    
         CASE DEFAULT
           DO I=LFT,LLT
-           GG(I)=UNDEMI*RHO0*CXX(I)*CXX(I)*(UN -DEUX*NU)/(UN-NU)     
+           GG(I)=HALF*RHO0*CXX(I)*CXX(I)*(ONE -TWO*NU)/(ONE-NU)     
           ENDDO
       END SELECT
 C        
@@ -165,7 +165,7 @@ C
        DO I=LFT,LLT
         FF=THIRD*(DXX(I)+DYY(I)+DZZ(I))
         DE =(DXX(I)-FF)*(DXX(I)-FF)+(DYY(I)-FF)*(DYY(I)-FF)+
-     .      (DZZ(I)-FF)*(DZZ(I)-FF) + QUART*(D4(I)*D4(I)+
+     .      (DZZ(I)-FF)*(DZZ(I)-FF) + FOURTH*(D4(I)*D4(I)+
      .                               D5(I)*D5(I)+D6(I)*D6(I))
          DE = DE*DT1
          DSIG(1)=SIG0(I,1)-SIGOLD(I,1)
@@ -180,31 +180,31 @@ C
          DSIG(3)=DSIG(3)-FF
          DS =DSIG(1)*DSIG(1)+DSIG(2)*DSIG(2)+DSIG(3)*DSIG(3)+
      .       DSIG(4)*DSIG(4)+DSIG(5)*DSIG(5)+DSIG(6)*DSIG(6) 
-         GG(I)=MAX(CINQEM2*GG(I),SQRT(DS/MAX(DE,EM30)))
+         GG(I)=MAX(FIVEEM2*GG(I),SQRT(DS/MAX(DE,EM30)))
        ENDDO
       ENDIF
 C
       IF(INVSTR.GE.35)THEN
         MT = PID(LFT)
         DO I=LFT,LLT
-          CAQ(I)=QUART*OFF(I)*GEO(13,MT)
+          CAQ(I)=FOURTH*OFF(I)*GEO(13,MT)
         ENDDO
       ELSE
         MX = MAT(LFT)
         DO I=LFT,LLT
-          CAQ(I)=QUART*OFF(I)*PM(4,MX)
+          CAQ(I)=FOURTH*OFF(I)*PM(4,MX)
         ENDDO
       ENDIF
       DO I=LFT,LLT
         G_3DT(I)=THIRD*OFF(I)*GG(I)*DT1
-        E0(I)=DEUX*(UN+NU)*GG(I)
+        E0(I)=TWO*(ONE+NU)*GG(I)
       ENDDO
 C
 C MATERIAUX NON FLUIDES CXX->SPP
       IF (IET > 1 ) THEN
 C------now when IHKT=2, w.r.t. Isolid=1, fac=0.2*0.006666 ~0.001     
        DO I=LFT,LLT
-         FCL(I)=UNP1*CAQ(I)*RHO(I)*VOL(I)**THIRD
+         FCL(I)=ONEP1*CAQ(I)*RHO(I)*VOL(I)**THIRD
          FCL(I)=ZEP00666666667*FCL(I)*CXX(I)
        ENDDO
       ELSE
@@ -217,37 +217,37 @@ C
 C------ w/ Prony, use Icpre=0 anyway
       IF (MATVIS>2) THEN
        DO I=LFT,LLT
-        NU1(I) =DEUX/(UN-NU)
+        NU1(I) =TWO/(ONE-NU)
         NU2(I) =NU*NU1(I)
-        NU3(I) =DTHIRD*(UN + NU)
+        NU3(I) =TWO_THIRD*(ONE + NU)
         NU4(I) =NU
        ENDDO
       ELSEIF(ICP.EQ.1)THEN
        DO I=LFT,LLT
-        NU1(I) =QTHIRD
-        NU2(I) =-DTHIRD
+        NU1(I) =FOUR_OVER_3
+        NU2(I) =-TWO_THIRD
         NU3(I) =ZEP444
         NU4(I) =ZERO
        ENDDO
       ELSEIF(ICP.EQ.2)THEN
        DO I=LFT,LLT
         FAC1 = SIGY(I)/E0(I)+DEFP(I)
-        FAC2=UN-DEFP(I)/FAC1
-        FF =(UN +NU)/(UN -DEUX*NU)*FAC2
-        NU1(I) =DTHIRD*(DEUX+FF)
-        NU2(I) =DTHIRD*(FF-UN)
-        NU3(I) =ZEP222*(DEUX+FF)
+        FAC2=ONE-DEFP(I)/FAC1
+        FF =(ONE +NU)/(ONE -TWO*NU)*FAC2
+        NU1(I) =TWO_THIRD*(TWO+FF)
+        NU2(I) =TWO_THIRD*(FF-ONE)
+        NU3(I) =ZEP222*(TWO+FF)
         NU4(I) =ZERO
        ENDDO
       ELSE
        DO I=LFT,LLT
-        NU1(I) =DEUX/(UN-NU)
+        NU1(I) =TWO/(ONE-NU)
         NU2(I) =NU*NU1(I)
-        NU3(I) =DTHIRD*(UN + NU)
+        NU3(I) =TWO_THIRD*(ONE + NU)
         NU4(I) =NU
        ENDDO
       ENDIF
-      DT05 =UNDEMI*DT1
+      DT05 =HALF*DT1
       DO I=LFT,LLT
        VX3478=VX3(I)-VX4(I)-VX7(I)+VX8(I)
        VX2358=VX2(I)-VX3(I)-VX5(I)+VX8(I)
@@ -264,20 +264,20 @@ C
        VZ1467=VZ1(I)-VZ4(I)-VZ6(I)+VZ7(I)
        VZ1256=VZ1(I)-VZ2(I)-VZ5(I)+VZ6(I)
 !
-       HGX3(I)=(VX1467-VX2358)*UNHUIT
-       HGX1(I)=(VX1467+VX2358)*UNHUIT
-       HGX2(I)=(VX1256-VX3478)*UNHUIT
-       HGX4(I)=-(VX1256+VX3478)*UNHUIT       
+       HGX3(I)=(VX1467-VX2358)*ONE_OVER_8
+       HGX1(I)=(VX1467+VX2358)*ONE_OVER_8
+       HGX2(I)=(VX1256-VX3478)*ONE_OVER_8
+       HGX4(I)=-(VX1256+VX3478)*ONE_OVER_8       
 C
-       HGY3(I)=(VY1467-VY2358)*UNHUIT
-       HGY1(I)=(VY1467+VY2358)*UNHUIT
-       HGY2(I)=(VY1256-VY3478)*UNHUIT
-       HGY4(I)=-(VY1256+VY3478)*UNHUIT       
+       HGY3(I)=(VY1467-VY2358)*ONE_OVER_8
+       HGY1(I)=(VY1467+VY2358)*ONE_OVER_8
+       HGY2(I)=(VY1256-VY3478)*ONE_OVER_8
+       HGY4(I)=-(VY1256+VY3478)*ONE_OVER_8       
 C
-       HGZ3(I)=(VZ1467-VZ2358)*UNHUIT
-       HGZ1(I)=(VZ1467+VZ2358)*UNHUIT
-       HGZ2(I)=(VZ1256-VZ3478)*UNHUIT
-       HGZ4(I)=-(VZ1256+VZ3478)*UNHUIT       
+       HGZ3(I)=(VZ1467-VZ2358)*ONE_OVER_8
+       HGZ1(I)=(VZ1467+VZ2358)*ONE_OVER_8
+       HGZ2(I)=(VZ1256-VZ3478)*ONE_OVER_8
+       HGZ4(I)=-(VZ1256+VZ3478)*ONE_OVER_8       
       ENDDO
       DO I=LFT,LLT
         VX17=VX1(I)-VX7(I)
@@ -341,9 +341,9 @@ C -1 1 -1 1 1 -1 1 -1
       ENDDO
 !
       DO I=LFT,LLT
-       JR_1(I) = UN/MAX(EM20,JR0(I))
-       JS_1(I) = UN/MAX(EM20,JS0(I))
-       JT_1(I) = UN/MAX(EM20,JT0(I))
+       JR_1(I) = ONE/MAX(EM20,JR0(I))
+       JS_1(I) = ONE/MAX(EM20,JS0(I))
+       JT_1(I) = ONE/MAX(EM20,JT0(I))
        H11(I) = JS0(I)*JT0(I)*JR_1(I)
        H22(I) = JR0(I)*JT0(I)*JS_1(I)
        H33(I) = JR0(I)*JS0(I)*JT_1(I)
@@ -424,8 +424,8 @@ C
        CALL MDAMA24(ELBUF_STR,LFT,LLT ,PM    ,MAT    ,DAMA_G )
        DO J=1,3
         DO I=LFT,LLT
-         FAC1=UN- DAMA_G(I,J)
-c        FAC1=UN - MAX(ZERO,MIN(UN,D_MAX(I)))        !in [0 1]
+         FAC1=ONE- DAMA_G(I,J)
+c        FAC1=ONE - MAX(ZERO,MIN(ONE,D_MAX(I)))        !in [0 1]
          FHOUR(I,J,1:4) = FHOUR(I,J,1:4)*FAC1
         ENDDO
        ENDDO
@@ -473,12 +473,12 @@ C
          IF (FAC2.LE.EM20) THEN
            FAC=ZERO
          ELSE
-           FAC = UN - MAX(EM20,FAC1/FAC2)
+           FAC = ONE - MAX(EM20,FAC1/FAC2)
          ENDIF
          IF (SM2(I).LT.SIGY(I)) THEN
            FAC1 =(SM1(I)-SIGY(I))/MAX((SM1(I)-SM2(I)),EM20)
-           FAC1 =UNDEMI + SQRT(FAC1)
-           FAC = MIN(FAC1,UN)*FAC
+           FAC1 =HALF + SQRT(FAC1)
+           FAC = MIN(FAC1,ONE)*FAC
          ENDIF  
          FHOUR(I,1,1) = FHOUR(I,1,1) - FAC*DFHOUR(I,1,1)
          FHOUR(I,1,2) = FHOUR(I,1,2) - FAC*DFHOUR(I,1,2)
@@ -532,10 +532,10 @@ C
         NFHOUR(I,3,4) = NU3(I)*H33(I)*FHOURT(3,4)
       ENDDO
       DO I=LFT,LLT
-        HQ13P = (NFHOUR(I,1,1)+NFHOUR(I,1,3))*UNHUIT
-        HQ13N = (NFHOUR(I,1,1)-NFHOUR(I,1,3))*UNHUIT
-        HQ24P = (NFHOUR(I,1,2)+NFHOUR(I,1,4))*UNHUIT
-        HQ24N = (NFHOUR(I,1,2)-NFHOUR(I,1,4))*UNHUIT
+        HQ13P = (NFHOUR(I,1,1)+NFHOUR(I,1,3))*ONE_OVER_8
+        HQ13N = (NFHOUR(I,1,1)-NFHOUR(I,1,3))*ONE_OVER_8
+        HQ24P = (NFHOUR(I,1,2)+NFHOUR(I,1,4))*ONE_OVER_8
+        HQ24N = (NFHOUR(I,1,2)-NFHOUR(I,1,4))*ONE_OVER_8
         FF =-PX1H1(I)*NFHOUR(I,1,1)-PX1H2(I)*NFHOUR(I,1,2)
      .      -PX1H3(I)*NFHOUR(I,1,3)-PX1H4(I)*NFHOUR(I,1,4)
         F11(I) =-(HQ13P+HQ24N+FF)
@@ -554,10 +554,10 @@ C
         F16(I) =-(-HQ13P+HQ24N-FF)
       ENDDO
       DO I=LFT,LLT
-        HQ13P = (NFHOUR(I,2,1)+NFHOUR(I,2,3))*UNHUIT
-        HQ13N = (NFHOUR(I,2,1)-NFHOUR(I,2,3))*UNHUIT
-        HQ24P = (NFHOUR(I,2,2)+NFHOUR(I,2,4))*UNHUIT
-        HQ24N = (NFHOUR(I,2,2)-NFHOUR(I,2,4))*UNHUIT
+        HQ13P = (NFHOUR(I,2,1)+NFHOUR(I,2,3))*ONE_OVER_8
+        HQ13N = (NFHOUR(I,2,1)-NFHOUR(I,2,3))*ONE_OVER_8
+        HQ24P = (NFHOUR(I,2,2)+NFHOUR(I,2,4))*ONE_OVER_8
+        HQ24N = (NFHOUR(I,2,2)-NFHOUR(I,2,4))*ONE_OVER_8
         FF =-PX1H1(I)*NFHOUR(I,2,1)-PX1H2(I)*NFHOUR(I,2,2)
      .      -PX1H3(I)*NFHOUR(I,2,3)-PX1H4(I)*NFHOUR(I,2,4)
         F21(I) =-(HQ13P+HQ24N+FF)
@@ -576,10 +576,10 @@ C
         F26(I) =-(-HQ13P+HQ24N-FF)
       ENDDO
       DO I=LFT,LLT
-        HQ13P = (NFHOUR(I,3,1)+NFHOUR(I,3,3))*UNHUIT
-        HQ13N = (NFHOUR(I,3,1)-NFHOUR(I,3,3))*UNHUIT
-        HQ24P = (NFHOUR(I,3,2)+NFHOUR(I,3,4))*UNHUIT
-        HQ24N = (NFHOUR(I,3,2)-NFHOUR(I,3,4))*UNHUIT
+        HQ13P = (NFHOUR(I,3,1)+NFHOUR(I,3,3))*ONE_OVER_8
+        HQ13N = (NFHOUR(I,3,1)-NFHOUR(I,3,3))*ONE_OVER_8
+        HQ24P = (NFHOUR(I,3,2)+NFHOUR(I,3,4))*ONE_OVER_8
+        HQ24N = (NFHOUR(I,3,2)-NFHOUR(I,3,4))*ONE_OVER_8
         FF =-PX1H1(I)*NFHOUR(I,3,1)-PX1H2(I)*NFHOUR(I,3,2)
      .      -PX1H3(I)*NFHOUR(I,3,3)-PX1H4(I)*NFHOUR(I,3,4)
         F31(I) =-(HQ13P+HQ24N+FF)
@@ -615,7 +615,7 @@ C
      .   (ANIM_N(IAD_GPS+400+3) == 1) .OR. (ANIM_N(IAD_GPS+400+4) == 1) .OR. 
      .   (ANIM_N(IAD_GPS+400+5) == 1) .OR. (ANIM_N(IAD_GPS+400+6) == 1)) )THEN
        DO I=LFT,LLT
-        NU2(I) =UNDEMI*NU2(I)
+        NU2(I) =HALF*NU2(I)
        ENDDO
        CALL SZSTRAINHG(JR_1,JS_1,JT_1,STRHG,NEL  ,
      .                      HGX1, HGX2, HGX3, HGX4,
@@ -662,15 +662,15 @@ C-----------------------------------------------
      .   SVM,SVMRST,COEF,COEF1, JR_1,JS_1,JT_1,NU1,NU2,
      .   RS,ST,RT,VT1(4),VT2(4),MAX1,MIN1,MAX2,MIN2,MAX0,MIN0    
 Cqz       coef= (3*8*0.75)^2 coef1 =1/0.75
-          COEF= TROISCENT24
-          COEF1= UNP333
+          COEF= THREEHUNDRED24
+          COEF1= ONEP333
 C-----------------------------------------------
       IKT = IINT
       IF (IKT ==2) THEN
-        COEF1= COEF/(DIX*IKT)
+        COEF1= COEF/(TEN*IKT)
         COEF= MAX(COEF1,EM01)
       ELSEIF (IKT > 2) THEN
-        COEF1= COEF/(DIX*IKT)
+        COEF1= COEF/(TEN*IKT)
         COEF= MAX(COEF1,EM01)
       ENDIF
       DO I=LFT,LLT
@@ -680,28 +680,28 @@ C-----------------------------------------------
         S1 =SIG0(I,1)-SIG0(I,2)
         S2 =SIG0(I,2)-SIG0(I,3)
         S3 =SIG0(I,1)-SIG0(I,3)
-        SVM0 = (S1*S1+S2*S2+S3*S3)*UNDEMI + TROIS*(SIG0(I,4)*SIG0(I,4)
+        SVM0 = (S1*S1+S2*S2+S3*S3)*HALF + THREE*(SIG0(I,4)*SIG0(I,4)
      .                +SIG0(I,5)*SIG0(I,5)+SIG0(I,6)*SIG0(I,6))
-        NU1 =UN/(UN - NU(I))
+        NU1 =ONE/(ONE - NU(I))
         NU2 =NU(I)*NU1
-        JR_1 = UN/MAX(EM20,JR0(I))
-        JS_1 = UN/MAX(EM20,JS0(I))
-        JT_1 = UN/MAX(EM20,JT0(I))
+        JR_1 = ONE/MAX(EM20,JR0(I))
+        JS_1 = ONE/MAX(EM20,JS0(I))
+        JT_1 = ONE/MAX(EM20,JT0(I))
         SR1 =NU1*FHOUR(I,1,3)+NU2*FHOUR(I,3,1)
         SR2 =NU1*FHOUR(I,3,1)+NU2*FHOUR(I,1,3)
         SR3 =FHOUR(I,1,3)-FHOUR(I,3,1)
         SR4 =JT0(I)*JR_1*FHOUR(I,3,3)+JR0(I)*JT_1*FHOUR(I,1,1)
-        SVMR = DEUX*(SR1*SR1+SR2*SR2+SR3*SR3)+3*SR4*SR4
+        SVMR = TWO*(SR1*SR1+SR2*SR2+SR3*SR3)+3*SR4*SR4
         SS1 =FHOUR(I,1,2)-FHOUR(I,2,1)
         SS2 =NU1*FHOUR(I,2,1)+NU2*FHOUR(I,1,2)
         SS3 =NU1*FHOUR(I,1,2)+NU2*FHOUR(I,2,1)
         SS4 =JS0(I)*JR_1*FHOUR(I,2,2)+JR0(I)*JS_1*FHOUR(I,1,1)
-        SVMS = DEUX*(SS1*SS1+SS2*SS2+SS3*SS3) + TROIS*SS4*SS4
+        SVMS = TWO*(SS1*SS1+SS2*SS2+SS3*SS3) + THREE*SS4*SS4
         ST1 =NU1*FHOUR(I,2,3)+NU2*FHOUR(I,3,2)
         ST2 =FHOUR(I,2,3)-FHOUR(I,3,2)
         ST3 =NU1*FHOUR(I,3,2)+NU2*FHOUR(I,2,3)
         ST4 =JS0(I)*JT_1*FHOUR(I,2,2)+JT0(I)*JS_1*FHOUR(I,3,3)
-        SVMT = DEUX*(ST1*ST1+ST2*ST2+ST3*ST3) + TROIS*ST4*ST4
+        SVMT = TWO*(ST1*ST1+ST2*ST2+ST3*ST3) + THREE*ST4*ST4
 C
         RS =SR1*SS1
         RT =SR1*ST1
@@ -774,9 +774,9 @@ C-----------------------------------------------
       my_real
      .   FAC_L,FAC_U,FAC(MVSIZ),ETE,FAC_MIN,FAC_MAX
 C-------IKT=2 for the moment----------
-      FAC_L=CINQEM2
+      FAC_L=FIVEEM2
       DO I=LFT,LLT
-        FAC(I) = UN
+        FAC(I) = ONE
       END DO
 
       IF (IKT == 2 ) THEN
@@ -787,7 +787,7 @@ C-------IKT=2 for the moment----------
 c          FAC_MIN=EP10
 c          FAC_MAX=ZERO
          DO I=LFT,LLT
-          IF (ET(I)<=UN) THEN
+          IF (ET(I)<=ONE) THEN
            FAC(I)=MAX(FAC_L,ET(I))
           ELSE
 C
@@ -801,11 +801,11 @@ c           IF (FAC_MAX<FAC(I)) FAC_MAX=FAC(I)
 c          FAC_MIN=EP10
 c          FAC_MAX=ZERO
          DO I=LFT,LLT
-          IF (ET(I) <= UN) THEN
+          IF (ET(I) <= ONE) THEN
            FAC(I)=MAX(FAC_L,ET(I))
           ELSE
 C-----    -G(i) is already calculated with EMAX          
-           FAC(I)=UN
+           FAC(I)=ONE
           END IF         
 c           IF (FAC_MIN>FAC(I)) FAC_MIN=FAC(I)
 c           IF (FAC_MAX<FAC(I)) FAC_MAX=FAC(I)
@@ -814,7 +814,7 @@ c          write(iout,*),'FAC_L,FAC(1),ET(1)=',FAC_L,FAC(1),ET(1)
         CASE (71) 
          FAC_L=EM02
          DO I=LFT,LLT
-          IF (ET(I)<=UN) THEN
+          IF (ET(I)<=ONE) THEN
            FAC(I)=MAX(FAC_L,ET(I))
           END IF
          END DO 
@@ -822,13 +822,13 @@ c          write(iout,*),'FAC_L,FAC(1),ET(1)=',FAC_L,FAC(1),ET(1)
 C-------IKT>2 hide option :limited by IKT ----------
       ELSE
 C---------    
-        FAC_U=UN*IKT
+        FAC_U=ONE*IKT
         SELECT CASE (MTN)
          CASE (2,36) 
         
          CASE (42,62,69,82,88,92,94,111)                                          
           DO I=LFT,LLT
-           IF (ET(I)<=UN) THEN
+           IF (ET(I)<=ONE) THEN
             FAC(I)=MAX(FAC_L,ET(I))
            ELSE
             FAC(I)=MIN(FAC_U,ET(I))
@@ -837,7 +837,7 @@ C---------
         CASE(38,70,90)  
           FAC_L=FAC_L/IKT
           DO I=LFT,LLT
-           IF (ET(I)<=UN) THEN
+           IF (ET(I)<=ONE) THEN
             FAC(I)=MAX(FAC_L,ET(I))
            ELSE
             FAC(I)=MIN(FAC_U,ET(I))
@@ -893,11 +893,11 @@ C---JS0=-Y1-Y2+Y3+Y4-Y5-Y6+Y7+Y8
 C---JT0=-Z1-Z2-Z3-Z4+Z5+Z6+Z7+Z8
 C---NU : Poisson's Coef     
 C-----------------------------------------------
-        COEF=VINGT4
+        COEF=TWENTY4
 c        DO I=LFT,LLT
-         NU1=UN/(UN-NU(I))
+         NU1=ONE/(ONE-NU(I))
          NU2=NU(I)*NU1
-         NU3=UN+NU(I)
+         NU3=ONE+NU(I)
          SXX=NU1*(FHOUR(I,1,2)*ZETA+FHOUR(I,1,3)*ETA)+
      .       NU2*(FHOUR(I,2,1)*ZETA+FHOUR(I,3,1)*ETA)+         
      .       NU3*FHOUR(I,1,4)*ZETA*ETA         
@@ -907,9 +907,9 @@ c        DO I=LFT,LLT
          SZZ=NU1*(FHOUR(I,3,1)*ETA+FHOUR(I,3,2)*KSI)+
      .       NU2*(FHOUR(I,1,3)*ETA+FHOUR(I,2,3)*KSI)+         
      .       NU3*FHOUR(I,3,4)*ETA*KSI         
-         SIG(I,1)=SIG0(I,1)+DEUX*SXX*VINGT4
-         SIG(I,2)=SIG0(I,2)+DEUX*SYY*VINGT4
-         SIG(I,3)=SIG0(I,3)+DEUX*SZZ*VINGT4
+         SIG(I,1)=SIG0(I,1)+TWO*SXX*TWENTY4
+         SIG(I,2)=SIG0(I,2)+TWO*SYY*TWENTY4
+         SIG(I,3)=SIG0(I,3)+TWO*SZZ*TWENTY4
 c        ENDDO
 C        
 c        DO I=LFT,LLT
@@ -919,9 +919,9 @@ c        DO I=LFT,LLT
      .            JT0(I)*FHOUR(I,3,3)/JR0(I))
          SYZ=KSI*(JS0(I)*FHOUR(I,2,2)/JT0(I)+
      .            JT0(I)*FHOUR(I,3,3)/JS0(I))
-         SIG(I,4)=SIG0(I,4)+SXY*VINGT4         
-         SIG(I,5)=SIG0(I,5)+SYZ*VINGT4
-         SIG(I,6)=SIG0(I,6)+SXZ*VINGT4
+         SIG(I,4)=SIG0(I,4)+SXY*TWENTY4         
+         SIG(I,5)=SIG0(I,5)+SYZ*TWENTY4
+         SIG(I,6)=SIG0(I,6)+SXZ*TWENTY4
 c        ENDDO
 C
       RETURN
@@ -1053,12 +1053,12 @@ C +++ MAT Visco-----
      .            GAMA    ,UPARAM  ,CC    ,CG     ,G33    )
       DO I=LFT,LLT
        GM = THIRD*(G33(I,1,1)+G33(I,2,2)+G33(I,3,3))
-       GG(I)=UNDEMI*RHO0*CXX(I)*CXX(I)*(UN -DEUX*NU)/(UN-NU)
+       GG(I)=HALF*RHO0*CXX(I)*CXX(I)*(ONE -TWO*NU)/(ONE-NU)
 C----- sometimes GM is too small       
        GMIN = GG(I)*EM04
        GG(I)=MIN(GG(I),GM)       
        GG(I)=MAX(GG(I),GMIN)   
-       E0(I)=DEUX*(UN+NU)*GG(I)
+       E0(I)=TWO*(ONE+NU)*GG(I)
       ENDDO
 C  +++ MAT Hydro---
 c      IF (MTN.EQ.3 .OR.MTN.EQ.4 .OR.MTN.EQ.6) THEN
@@ -1075,7 +1075,7 @@ C
        DO I=LFT,LLT
         FF=THIRD*(DXX(I)+DYY(I)+DZZ(I))
         DE =(DXX(I)-FF)*(DXX(I)-FF)+(DYY(I)-FF)*(DYY(I)-FF)+
-     .      (DZZ(I)-FF)*(DZZ(I)-FF) + QUART*(D4(I)*D4(I)+
+     .      (DZZ(I)-FF)*(DZZ(I)-FF) + FOURTH*(D4(I)*D4(I)+
      .                               D5(I)*D5(I)+D6(I)*D6(I))
          DE = DE*DT1
          DSIG(1)=SIG0(I,1)-SIGOLD(I,1)
@@ -1090,19 +1090,19 @@ C
          DSIG(3)=DSIG(3)-FF
          DS =DSIG(1)*DSIG(1)+DSIG(2)*DSIG(2)+DSIG(3)*DSIG(3)+
      .       DSIG(4)*DSIG(4)+DSIG(5)*DSIG(5)+DSIG(6)*DSIG(6) 
-         GG(I)=MAX(CINQEM2*GG(I),SQRT(DS/MAX(DE,EM30)))
+         GG(I)=MAX(FIVEEM2*GG(I),SQRT(DS/MAX(DE,EM30)))
        ENDDO
       ENDIF
 C
       IF(INVSTR.GE.35)THEN
         MT = PID(LFT)
         DO I=LFT,LLT
-          CAQ(I)=QUART*OFF(I)*GEO(13,MT)
+          CAQ(I)=FOURTH*OFF(I)*GEO(13,MT)
         ENDDO
       ELSE
         MX = MAT(LFT)
         DO I=LFT,LLT
-          CAQ(I)=QUART*OFF(I)*PM(4,MX)
+          CAQ(I)=FOURTH*OFF(I)*PM(4,MX)
         ENDDO
       ENDIF
       DO I=LFT,LLT
@@ -1115,7 +1115,7 @@ C MATERIAUX NON FLUIDES CXX->SPP
       IF (IET > 1 ) THEN
 C------now when IHKT=2, w.r.t. Isolid=1, fac=0.2*0.006666 ~0.001     
        DO I=LFT,LLT
-         FCL(I)=UNP1*CAQ(I)*RHO(I)*VOL(I)**THIRD
+         FCL(I)=ONEP1*CAQ(I)*RHO(I)*VOL(I)**THIRD
          FCL(I)=ZEP00666666667*FCL(I)*CXX(I)
        ENDDO
       ELSE
@@ -1128,26 +1128,26 @@ C
 c      IF(ICP.EQ.1)THEN
 C-------!!!curieux!!!!!!!!
 c       DO I=LFT,LLT
-c        NU1(I) =QTHIRD
-c        NU2(I) =-DTHIRD
+c        NU1(I) =FOUR_OVER_3
+c        NU2(I) =-TWO_THIRD
 c        NU3(I) =ZEP444
 c        NU4(I) =ZERO
 c       ENDDO
 c      ELSEIF(ICP.EQ.2)THEN
 c       DO I=LFT,LLT
 c        FAC1 = SIGY(I)/E0(I)+DEFP(I)
-c        FAC2=UN-DEFP(I)/FAC1
-c        FF =(UN +NU)/(UN -DEUX*NU)*FAC2
-c        NU1(I) =DTHIRD*(DEUX+FF)
-c        NU2(I) =DTHIRD*(FF-UN)
-c        NU3(I) =ZEP222*(DEUX+FF)
+c        FAC2=ONE-DEFP(I)/FAC1
+c        FF =(ONE +NU)/(ONE -TWO*NU)*FAC2
+c        NU1(I) =TWO_THIRD*(TWO+FF)
+c        NU2(I) =TWO_THIRD*(FF-ONE)
+c        NU3(I) =ZEP222*(TWO+FF)
 c        NU4(I) =ZERO
 c       ENDDO
 c      ELSE
 c       DO I=LFT,LLT
-c        NU1(I) =DEUX/(UN-NU)
+c        NU1(I) =TWO/(ONE-NU)
 c        NU2(I) =NU*NU1(I)
-c        NU3(I) =DTHIRD*(UN + NU)
+c        NU3(I) =TWO_THIRD*(ONE + NU)
 c        NU4(I) =NU
 c       ENDDO
 c      ENDIF
@@ -1159,7 +1159,7 @@ c      ENDIF
        DO I=LFT,LLT
         FAC1 = SIGY(I)/E0(I)+DEFP(I)
         FAC2 = DEFP(I)/FAC1
-        NUS(I)=NU+(UNDEMI-NU)*FAC2
+        NUS(I)=NU+(HALF-NU)*FAC2
        ENDDO
       ELSE
        DO I=LFT,LLT
@@ -1167,10 +1167,10 @@ c      ENDIF
        ENDDO
       ENDIF
       DO I=LFT,LLT
-       NU2(I) =NUS(I)/(UN-NUS(I))
+       NU2(I) =NUS(I)/(ONE-NUS(I))
        NU4(I) =NUS(I)
       ENDDO
-      DT05 =UNDEMI*DT1
+      DT05 =HALF*DT1
       DO I=LFT,LLT
        VX3478=VX3(I)-VX4(I)-VX7(I)+VX8(I)
        VX2358=VX2(I)-VX3(I)-VX5(I)+VX8(I)
@@ -1187,20 +1187,20 @@ C
        VZ1467=VZ1(I)-VZ4(I)-VZ6(I)+VZ7(I)
        VZ1256=VZ1(I)-VZ2(I)-VZ5(I)+VZ6(I)
 !
-       HGX3(I)=(VX1467-VX2358)*UNHUIT
-       HGX1(I)=(VX1467+VX2358)*UNHUIT
-       HGX2(I)=(VX1256-VX3478)*UNHUIT
-       HGX4(I)=-(VX1256+VX3478)*UNHUIT       
+       HGX3(I)=(VX1467-VX2358)*ONE_OVER_8
+       HGX1(I)=(VX1467+VX2358)*ONE_OVER_8
+       HGX2(I)=(VX1256-VX3478)*ONE_OVER_8
+       HGX4(I)=-(VX1256+VX3478)*ONE_OVER_8       
 C
-       HGY3(I)=(VY1467-VY2358)*UNHUIT
-       HGY1(I)=(VY1467+VY2358)*UNHUIT
-       HGY2(I)=(VY1256-VY3478)*UNHUIT
-       HGY4(I)=-(VY1256+VY3478)*UNHUIT       
+       HGY3(I)=(VY1467-VY2358)*ONE_OVER_8
+       HGY1(I)=(VY1467+VY2358)*ONE_OVER_8
+       HGY2(I)=(VY1256-VY3478)*ONE_OVER_8
+       HGY4(I)=-(VY1256+VY3478)*ONE_OVER_8       
 C
-       HGZ3(I)=(VZ1467-VZ2358)*UNHUIT
-       HGZ1(I)=(VZ1467+VZ2358)*UNHUIT
-       HGZ2(I)=(VZ1256-VZ3478)*UNHUIT
-       HGZ4(I)=-(VZ1256+VZ3478)*UNHUIT       
+       HGZ3(I)=(VZ1467-VZ2358)*ONE_OVER_8
+       HGZ1(I)=(VZ1467+VZ2358)*ONE_OVER_8
+       HGZ2(I)=(VZ1256-VZ3478)*ONE_OVER_8
+       HGZ4(I)=-(VZ1256+VZ3478)*ONE_OVER_8       
       ENDDO
       DO I=LFT,LLT
         VX17=VX1(I)-VX7(I)
@@ -1264,9 +1264,9 @@ C -1 1 -1 1 1 -1 1 -1
       ENDDO
 !
       DO I=LFT,LLT
-       JR_1(I) = UN/MAX(EM20,JR0(I))
-       JS_1(I) = UN/MAX(EM20,JS0(I))
-       JT_1(I) = UN/MAX(EM20,JT0(I))
+       JR_1(I) = ONE/MAX(EM20,JR0(I))
+       JS_1(I) = ONE/MAX(EM20,JS0(I))
+       JT_1(I) = ONE/MAX(EM20,JT0(I))
        H11(I) = JS0(I)*JT0(I)*JR_1(I)
        H22(I) = JR0(I)*JT0(I)*JS_1(I)
        H33(I) = JR0(I)*JS0(I)*JT_1(I)
@@ -1319,7 +1319,7 @@ C
        CALL MDAMA24(ELBUF_STR,LFT,LLT ,PM    ,MAT    ,DAMA_G )
        DO J=1,3
         DO I=LFT,LLT
-         FAC1=UN- DAMA_G(I,J)
+         FAC1=ONE- DAMA_G(I,J)
          FHOUR(I,J,1:4) = FHOUR(I,J,1:4)*FAC1
         ENDDO
        ENDDO
@@ -1367,12 +1367,12 @@ C
          IF (FAC2.LE.EM20) THEN
            FAC=ZERO
          ELSE
-           FAC = UN - MAX(EM20,FAC1/FAC2)
+           FAC = ONE - MAX(EM20,FAC1/FAC2)
          ENDIF
          IF (SM2(I).LT.SIGY(I)) THEN
            FAC1 =(SM1(I)-SIGY(I))/MAX((SM1(I)-SM2(I)),EM20)
-           FAC1 =UNDEMI + SQRT(FAC1)
-           FAC = MIN(FAC1,UN)*FAC
+           FAC1 =HALF + SQRT(FAC1)
+           FAC = MIN(FAC1,ONE)*FAC
          ENDIF  
          FHOUR(I,1,1) = FHOUR(I,1,1) - FAC*DFHOUR(I,1,1)
          FHOUR(I,1,2) = FHOUR(I,1,2) - FAC*DFHOUR(I,1,2)
@@ -1399,10 +1399,10 @@ C
      .   JR_1,JS_1 , JT_1, NU4,NU2 ,
      .   CC  ,CG   ,G33  ,NFHOUR,NEL)
       DO I=LFT,LLT
-        HQ13P = (NFHOUR(I,1,1)+NFHOUR(I,1,3))*UNHUIT
-        HQ13N = (NFHOUR(I,1,1)-NFHOUR(I,1,3))*UNHUIT
-        HQ24P = (NFHOUR(I,1,2)+NFHOUR(I,1,4))*UNHUIT
-        HQ24N = (NFHOUR(I,1,2)-NFHOUR(I,1,4))*UNHUIT
+        HQ13P = (NFHOUR(I,1,1)+NFHOUR(I,1,3))*ONE_OVER_8
+        HQ13N = (NFHOUR(I,1,1)-NFHOUR(I,1,3))*ONE_OVER_8
+        HQ24P = (NFHOUR(I,1,2)+NFHOUR(I,1,4))*ONE_OVER_8
+        HQ24N = (NFHOUR(I,1,2)-NFHOUR(I,1,4))*ONE_OVER_8
         FF =-PX1H1(I)*NFHOUR(I,1,1)-PX1H2(I)*NFHOUR(I,1,2)
      .      -PX1H3(I)*NFHOUR(I,1,3)-PX1H4(I)*NFHOUR(I,1,4)
         F11(I) =-(HQ13P+HQ24N+FF)
@@ -1421,10 +1421,10 @@ C
         F16(I) =-(-HQ13P+HQ24N-FF)
       ENDDO
       DO I=LFT,LLT
-        HQ13P = (NFHOUR(I,2,1)+NFHOUR(I,2,3))*UNHUIT
-        HQ13N = (NFHOUR(I,2,1)-NFHOUR(I,2,3))*UNHUIT
-        HQ24P = (NFHOUR(I,2,2)+NFHOUR(I,2,4))*UNHUIT
-        HQ24N = (NFHOUR(I,2,2)-NFHOUR(I,2,4))*UNHUIT
+        HQ13P = (NFHOUR(I,2,1)+NFHOUR(I,2,3))*ONE_OVER_8
+        HQ13N = (NFHOUR(I,2,1)-NFHOUR(I,2,3))*ONE_OVER_8
+        HQ24P = (NFHOUR(I,2,2)+NFHOUR(I,2,4))*ONE_OVER_8
+        HQ24N = (NFHOUR(I,2,2)-NFHOUR(I,2,4))*ONE_OVER_8
         FF =-PX1H1(I)*NFHOUR(I,2,1)-PX1H2(I)*NFHOUR(I,2,2)
      .      -PX1H3(I)*NFHOUR(I,2,3)-PX1H4(I)*NFHOUR(I,2,4)
         F21(I) =-(HQ13P+HQ24N+FF)
@@ -1443,10 +1443,10 @@ C
         F26(I) =-(-HQ13P+HQ24N-FF)
       ENDDO
       DO I=LFT,LLT
-        HQ13P = (NFHOUR(I,3,1)+NFHOUR(I,3,3))*UNHUIT
-        HQ13N = (NFHOUR(I,3,1)-NFHOUR(I,3,3))*UNHUIT
-        HQ24P = (NFHOUR(I,3,2)+NFHOUR(I,3,4))*UNHUIT
-        HQ24N = (NFHOUR(I,3,2)-NFHOUR(I,3,4))*UNHUIT
+        HQ13P = (NFHOUR(I,3,1)+NFHOUR(I,3,3))*ONE_OVER_8
+        HQ13N = (NFHOUR(I,3,1)-NFHOUR(I,3,3))*ONE_OVER_8
+        HQ24P = (NFHOUR(I,3,2)+NFHOUR(I,3,4))*ONE_OVER_8
+        HQ24N = (NFHOUR(I,3,2)-NFHOUR(I,3,4))*ONE_OVER_8
         FF =-PX1H1(I)*NFHOUR(I,3,1)-PX1H2(I)*NFHOUR(I,3,2)
      .      -PX1H3(I)*NFHOUR(I,3,3)-PX1H4(I)*NFHOUR(I,3,4)
         F31(I) =-(HQ13P+HQ24N+FF)
@@ -1581,9 +1581,9 @@ c
         IF (ARMA>ZERO) THEN
 C--------assemble the two parts in reinforced system   
          DO I=JFT,JLT
-          C3(I,1) =(UN-ARM1)*CC(I,1,1)+ET24*ARM1
-          C3(I,2) =(UN-ARM2)*CC(I,2,2)+ET24*ARM2
-          C3(I,3) =(UN-ARM3)*CC(I,3,3)+ET24*ARM3
+          C3(I,1) =(ONE-ARM1)*CC(I,1,1)+ET24*ARM1
+          C3(I,2) =(ONE-ARM2)*CC(I,2,2)+ET24*ARM2
+          C3(I,3) =(ONE-ARM3)*CC(I,3,3)+ET24*ARM3
          ENDDO
 C--------translate C3 to elem sys--(CC24,G33   ,CG)
         CALL C33STIF2EL(JLT   ,QC   ,QCG   ,QGC    ,QG     ,
@@ -1623,11 +1623,11 @@ C----- w/o armature :--> isotropic
          MX  =MAT(I)
          NU12 =PM(35,MX)
          NU21 =PM(36,MX)
-         S1 = UN-NU12*NU21
+         S1 = ONE-NU12*NU21
          CC(I,1,1) =PM(33,MX)/MAX(EM20,S1)
          CC(I,2,2) =PM(34,MX)/MAX(EM20,S1)
          CC(I,3,3) =PM(186,MX)
-         CC(I,1,2) =UNDEMI*(NU21*CC(I,1,1)+NU12*CC(I,2,2))
+         CC(I,1,2) =HALF*(NU21*CC(I,1,1)+NU12*CC(I,2,2))
          CC(I,2,3) =ZERO
          CC(I,1,3) =ZERO
          G3(I,1) =PM(37,MX)
@@ -1686,11 +1686,11 @@ C----- w/o armature :--> isotropic
           MX = MAT(I)
           NU12 = UPARAM(4)
           NU21 = UPARAM(5)
-          S1 = UN-NU12*NU21
+          S1 = ONE-NU12*NU21
           CC(I,1,1) =UPARAM(1)/MAX(EM20,S1)
           CC(I,2,2) =UPARAM(2)/MAX(EM20,S1)
           CC(I,3,3) =UPARAM(3)
-          CC(I,1,2) =UNDEMI*(NU21*CC(I,1,1)+NU12*CC(I,2,2))
+          CC(I,1,2) =HALF*(NU21*CC(I,1,1)+NU12*CC(I,2,2))
           CC(I,2,3) =ZERO
           CC(I,1,3) =ZERO
           G3(I,1)   = UPARAM(10)
@@ -1704,11 +1704,11 @@ C----- w/o armature :--> isotropic
           MX = MAT(I)
           NU12 = UPARAM(4)
           NU21 = UPARAM(5)
-          S1 = UN-NU12*NU21
+          S1 = ONE-NU12*NU21
           CC(I,1,1) =UPARAM(1)/MAX(EM20,S1)
           CC(I,2,2) =UPARAM(2)/MAX(EM20,S1)
           CC(I,3,3) =UPARAM(3)
-          CC(I,1,2) =UNDEMI*(NU21*CC(I,1,1)+NU12*CC(I,2,2))
+          CC(I,1,2) =HALF*(NU21*CC(I,1,1)+NU12*CC(I,2,2))
           CC(I,2,3) =ZERO
           CC(I,1,3) =ZERO
           G3(I,1)   = UPARAM(10)
@@ -1722,10 +1722,10 @@ C----------warring out isotrope effective
         DO I=JFT,JLT
          MX  =MAT(I)
          NU =PM(21,MX)
-         C1 =TROIS*PM(32,MX)/(UN+NU)
+         C1 =THREE*PM(32,MX)/(ONE+NU)
          LAMDA=C1*NU
 C-------GG:2G---HH(2,I):G-------
-         GG =C1*(UN-DEUX*NU)
+         GG =C1*(ONE-TWO*NU)
          CC(I,1,1) = LAMDA+GG
          CC(I,2,2) = CC(I,1,1)
          CC(I,3,3) = CC(I,1,1)
@@ -1736,7 +1736,7 @@ C-------GG:2G---HH(2,I):G-------
          CC(I,3,2) = LAMDA
          CC(I,3,1) = LAMDA
 c
-         G33(I,1,1) = GG*UNDEMI
+         G33(I,1,1) = GG*HALF
          G33(I,2,2) = G33(I,1,1)
          G33(I,3,3) = G33(I,1,1)
          G33(I,1,2) = ZERO
@@ -1821,9 +1821,9 @@ C
          QG(I,2,J)=E2(I,J)*E3(I,K)+E3(I,J)*E2(I,K)
          QG(I,3,J)=E3(I,J)*E1(I,K)+E1(I,J)*E3(I,K)
 C
-         QCG(I,1,J)=DEUX*E1(I,J)*E1(I,K)
-         QCG(I,2,J)=DEUX*E2(I,J)*E2(I,K)
-         QCG(I,3,J)=DEUX*E3(I,J)*E3(I,K)
+         QCG(I,1,J)=TWO*E1(I,J)*E1(I,K)
+         QCG(I,2,J)=TWO*E2(I,J)*E2(I,K)
+         QCG(I,3,J)=TWO*E3(I,J)*E3(I,K)
         ENDDO
        ENDDO
 C      
@@ -1896,7 +1896,7 @@ C
        DO J= 1,3
        DO K= 1,3
         DO I=JFT,JLT
-          CG(I,J,K)=UNDEMI*A(I,J,K)+DEUX*B(I,J,K)
+          CG(I,J,K)=HALF*A(I,J,K)+TWO*B(I,J,K)
         ENDDO
        ENDDO
        ENDDO
@@ -1922,7 +1922,7 @@ C
        DO J= 1,3
        DO K= J,3
         DO I=JFT,JLT
-          G33(I,J,K)=QUART*A(I,J,K)+B(I,J,K)
+          G33(I,J,K)=FOURTH*A(I,J,K)+B(I,J,K)
         ENDDO
        ENDDO
        ENDDO
@@ -1947,7 +1947,7 @@ C
        DO J= 1,3
        DO K= J,3
         DO I=JFT,JLT
-          CC(I,J,K)=A(I,J,K)+QUATRE*B(I,J,K)
+          CC(I,J,K)=A(I,J,K)+FOUR*B(I,J,K)
         ENDDO
        ENDDO
        ENDDO
@@ -2071,7 +2071,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C-------Normalized by GG------
         DO I=JFT,JLT
-         G_1(I) =UN/GG(I)
+         G_1(I) =ONE/GG(I)
         END DO
 C       
          DO J=1,3
@@ -2134,17 +2134,17 @@ C-----------------------------------------------
      .   SR5,SR6,SS5,SS6, ST5,ST6
 C-----------------------------------------------
 Cqz       coef= (3*8*0.75)^2 coef1 =1/0.75
-          COEF= TROISCENT24
-          COEF1= UNP333
+          COEF= THREEHUNDRED24
+          COEF1= ONEP333
       IKT = IINT
       IF (IKT ==2) THEN
-        COEF1= COEF/(DIX*IKT)
+        COEF1= COEF/(TEN*IKT)
         COEF= MAX(COEF1,EM01)
       ELSEIF (IKT > 2) THEN
-        COEF1= COEF/(DIX*IKT)
+        COEF1= COEF/(TEN*IKT)
         COEF= MAX(COEF1,EM01)
       ENDIF
-        NU1 =UN/(UN - NU)
+        NU1 =ONE/(ONE - NU)
         NU2 =NU*NU1
       DO I=LFT,LLT
        SVM1(I) = ZERO
@@ -2153,11 +2153,11 @@ Cqz       coef= (3*8*0.75)^2 coef1 =1/0.75
         S1 =SIG0(I,1)-SIG0(I,2)
         S2 =SIG0(I,2)-SIG0(I,3)
         S3 =SIG0(I,1)-SIG0(I,3)
-        SVM0 = (S1*S1+S2*S2+S3*S3)*UNDEMI + TROIS*(SIG0(I,4)*SIG0(I,4)
+        SVM0 = (S1*S1+S2*S2+S3*S3)*HALF + THREE*(SIG0(I,4)*SIG0(I,4)
      .                +SIG0(I,5)*SIG0(I,5)+SIG0(I,6)*SIG0(I,6))
-        JR_1 = UN/MAX(EM20,JR0(I))
-        JS_1 = UN/MAX(EM20,JS0(I))
-        JT_1 = UN/MAX(EM20,JT0(I))
+        JR_1 = ONE/MAX(EM20,JR0(I))
+        JS_1 = ONE/MAX(EM20,JS0(I))
+        JT_1 = ONE/MAX(EM20,JT0(I))
         J=2
         K=1
         T1 = NU2*(CC(I,J,2)-CC(I,K,2))
@@ -2189,7 +2189,7 @@ Cqz       coef= (3*8*0.75)^2 coef1 =1/0.75
         T1 = NU2*CG(I,2,J)
         SR6 =(CG(I,1,J)-T1)*FHOUR(I,1,3)+(CG(I,3,J)-T1)*FHOUR(I,3,1)+
      .        G33(I,J,2)*T2
-        SVMR =UNDEMI*(SR1*SR1+SR2*SR2+SR3*SR3)+TROIS*(SR4*SR4+SR5*SR5+SR6*SR6)
+        SVMR =HALF*(SR1*SR1+SR2*SR2+SR3*SR3)+THREE*(SR4*SR4+SR5*SR5+SR6*SR6)
         J=2
         K=1
         T1 = NU2*(CC(I,J,3)-CC(I,K,3))
@@ -2221,7 +2221,7 @@ Cqz       coef= (3*8*0.75)^2 coef1 =1/0.75
         T1 = NU2*CG(I,3,J)
         SS6 =(CG(I,1,J)-T1)*FHOUR(I,1,2)+(CG(I,2,J)-T1)*FHOUR(I,2,1)+
      .        G33(I,J,1)*T2
-        SVMS =UNDEMI*(SS1*SS1+SS2*SS2+SS3*SS3)+TROIS*(SS4*SS4+SS5*SS5+SS6*SS6)
+        SVMS =HALF*(SS1*SS1+SS2*SS2+SS3*SS3)+THREE*(SS4*SS4+SS5*SS5+SS6*SS6)
         J=2
         K=1
         T1 = NU2*(CC(I,J,1)-CC(I,K,1))
@@ -2253,29 +2253,29 @@ Cqz       coef= (3*8*0.75)^2 coef1 =1/0.75
         T1 = NU2*CG(I,1,J)
         ST6 =(CG(I,2,J)-T1)*FHOUR(I,2,3)+(CG(I,3,J)-T1)*FHOUR(I,3,2)+
      .        G33(I,J,3)*T2
-        SVMT =UNDEMI*(ST1*ST1+ST2*ST2+ST3*ST3)+TROIS*(ST4*ST4+ST5*ST5+ST6*ST6)
+        SVMT =HALF*(ST1*ST1+ST2*ST2+ST3*ST3)+THREE*(ST4*ST4+ST5*ST5+ST6*ST6)
 C
-        RS =UNDEMI*SR1*SS1
-        RT =UNDEMI*SR1*ST1
-        ST =UNDEMI*SS1*ST1
+        RS =HALF*SR1*SS1
+        RT =HALF*SR1*ST1
+        ST =HALF*SS1*ST1
         VT2(1) = RS+RT+ST
         VT2(2) = RS-RT-ST
         VT2(3) = -RS+RT-ST
         VT2(4) = -RS-RT+ST
         MAX0 =MAX(VT2(1),VT2(2),VT2(3),VT2(4))
         MIN0 =MIN(VT2(1),VT2(2),VT2(3),VT2(4))
-        RS =UNDEMI*SR2*SS2
-        RT =UNDEMI*SR2*ST2
-        ST =UNDEMI*SS2*ST2
+        RS =HALF*SR2*SS2
+        RT =HALF*SR2*ST2
+        ST =HALF*SS2*ST2
         VT2(1) = RS+RT+ST
         VT2(2) = RS-RT-ST
         VT2(3) = -RS+RT-ST
         VT2(4) = -RS-RT+ST
         MAX0 =MAX0+MAX(VT2(1),VT2(2),VT2(3),VT2(4))
         MIN0 =MIN0+MIN(VT2(1),VT2(2),VT2(3),VT2(4))
-        RS =UNDEMI*SR3*SS3
-        RT =UNDEMI*SR3*ST3
-        ST =UNDEMI*SS3*ST3
+        RS =HALF*SR3*SS3
+        RT =HALF*SR3*ST3
+        ST =HALF*SS3*ST3
         VT2(1) = RS+RT+ST
         VT2(2) = RS-RT-ST
         VT2(3) = -RS+RT-ST
@@ -2406,7 +2406,7 @@ c
      .   (CC(I,1,3)-NUCC(I,1,2)-NU2(I)*(CC(I,2,3)-NUCC(I,2,2))))+
      .   (CG(I,1,3)-T23)*(H11(I)*S1311+H13(I)*S1333)
         NFHOUR(I,1,4) = THIRD*H11(I)*FHOURT(1,4)*(
-     .       (CC(I,1,1)-NU(I)*(DEUX*(CC(I,1,2)+CC(I,1,3)-NU(I)*CC(I,2,3))-
+     .       (CC(I,1,1)-NU(I)*(TWO*(CC(I,1,2)+CC(I,1,3)-NU(I)*CC(I,2,3))-
      .                         NU(I)*(CC(I,2,2)+CC(I,3,3)))))
 C     
         NFHOUR(I,2,1) = H12(I)*FHOURT(1,2)*(
@@ -2420,7 +2420,7 @@ C
      .   (CC(I,2,3)-NUCC(I,2,1)-NU2(I)*(CC(I,1,3)-NUCC(I,1,1))))+
      .   (CG(I,2,2)-T12)*(H22(I)*S2322+H23(I)*S2333)
         NFHOUR(I,2,4) = THIRD*H22(I)*FHOURT(2,4)*(
-     .       (CC(I,2,2)-NU(I)*(DEUX*(CC(I,1,2)+CC(I,2,3)-NU(I)*CC(I,1,3))-
+     .       (CC(I,2,2)-NU(I)*(TWO*(CC(I,1,2)+CC(I,2,3)-NU(I)*CC(I,1,3))-
      .                         NU(I)*(CC(I,1,1)+CC(I,3,3)))))
 c
         NFHOUR(I,3,1) = H13(I)*FHOURT(1,3)*(
@@ -2434,7 +2434,7 @@ c
      .   (CC(I,3,3)-NUCC(I,3,1)-NU2(I)*(CC(I,1,3)-NUCC(I,1,1))))+
      .   (CG(I,3,2)-T12)*(H23(I)*S2322+H33(I)*S2333)
         NFHOUR(I,3,4) = THIRD*H33(I)*FHOURT(3,4)*(
-     .       (CC(I,3,3)-NU(I)*(DEUX*(CC(I,1,3)+CC(I,2,3)-NU(I)*CC(I,1,2))-
+     .       (CC(I,3,3)-NU(I)*(TWO*(CC(I,1,3)+CC(I,2,3)-NU(I)*CC(I,1,2))-
      .                         NU(I)*(CC(I,1,1)+CC(I,2,2)))))
        ENDDO
 C
@@ -2476,15 +2476,15 @@ C-----------------------------------------------
      .   TXX,TYY,TZZ,TXY,TYZ,TXZ,QXX,QYY,QZZ,QXY,QYZ,QXZ,
      .   RS1,ST1,RT1,JR_1,JS_1,JT_1
 C----------RXX,SXX,TXX:ETA,ZETA,KSI-------------------------------------
-        NU1 =UN/(UN - NU)
+        NU1 =ONE/(ONE - NU)
         NU2 =NU*NU1
         RS = ETA*ZETA
         ST = ZETA*KSI
         RT = ETA*KSI
       DO I=LFT,LLT
-        JR_1 = UN/MAX(EM20,JR0(I))
-        JS_1 = UN/MAX(EM20,JS0(I))
-        JT_1 = UN/MAX(EM20,JT0(I))
+        JR_1 = ONE/MAX(EM20,JR0(I))
+        JS_1 = ONE/MAX(EM20,JS0(I))
+        JT_1 = ONE/MAX(EM20,JT0(I))
         K=1
         T1 = NU2*CC(I,K,2)
         T2 = JR0(I)*JT_1*FHOUR(I,1,1)+JT0(I)*JR_1*FHOUR(I,3,3)
@@ -2716,27 +2716,27 @@ c-----------------------------------------------------------
       DO K=1,NBDAMA
         I = DAMAI(K)
 c
-        DE1  = UN - MAX( ZERO , SIGN(DAM(I,1),CRAK(I,1)) )
-        DE2  = UN - MAX( ZERO , SIGN(DAM(I,2),CRAK(I,2)) )
-        DE3  = UN - MAX( ZERO , SIGN(DAM(I,3),CRAK(I,3)) )
-        SCAL1= UNDEMI + SIGN(UNDEMI,DE1-UN)
-        SCAL2= UNDEMI + SIGN(UNDEMI,DE2-UN)
-        SCAL3= UNDEMI + SIGN(UNDEMI,DE3-UN)    
+        DE1  = ONE - MAX( ZERO , SIGN(DAM(I,1),CRAK(I,1)) )
+        DE2  = ONE - MAX( ZERO , SIGN(DAM(I,2),CRAK(I,2)) )
+        DE3  = ONE - MAX( ZERO , SIGN(DAM(I,3),CRAK(I,3)) )
+        SCAL1= HALF + SIGN(HALF,DE1-ONE)
+        SCAL2= HALF + SIGN(HALF,DE2-ONE)
+        SCAL3= HALF + SIGN(HALF,DE3-ONE)    
         DE4  = SCAL1*SCAL2
         DE5  = SCAL2*SCAL3
         DE6  = SCAL3*SCAL1
 c
 c       NOUVELLE MATRICE ELASTIQUE DE HOOKE ENDOMMAGEE
 c
-        DEN = UN - NU**2 *(DE4 + DE5 + DE6
-     .      + DEUX*NU*SCAL1*SCAL2*SCAL3)
+        DEN = ONE - NU**2 *(DE4 + DE5 + DE6
+     .      + TWO*NU*SCAL1*SCAL2*SCAL3)
 C
-        CDAM(I,1,1) = YOUNG*DE1*(UN - NU**2*DE5)/DEN
-        CDAM(I,2,2) = YOUNG*DE2*(UN - NU**2*DE6)/DEN
-        CDAM(I,3,3) = YOUNG*DE3*(UN - NU**2*DE4)/DEN
-        CDAM(I,1,2) = NU*YOUNG*DE4 *(UN + NU*SCAL3)/DEN
-        CDAM(I,1,3) = NU*YOUNG*DE6 *(UN + NU*SCAL2)/DEN
-        CDAM(I,2,3) = NU*YOUNG*DE5 *(UN + NU*SCAL1)/DEN
+        CDAM(I,1,1) = YOUNG*DE1*(ONE - NU**2*DE5)/DEN
+        CDAM(I,2,2) = YOUNG*DE2*(ONE - NU**2*DE6)/DEN
+        CDAM(I,3,3) = YOUNG*DE3*(ONE - NU**2*DE4)/DEN
+        CDAM(I,1,2) = NU*YOUNG*DE4 *(ONE + NU*SCAL3)/DEN
+        CDAM(I,1,3) = NU*YOUNG*DE6 *(ONE + NU*SCAL2)/DEN
+        CDAM(I,2,3) = NU*YOUNG*DE5 *(ONE + NU*SCAL1)/DEN
         CDAM(I,2,1) = CDAM(I,1,2)
         CDAM(I,3,1) = CDAM(I,1,3)
         CDAM(I,3,2) = CDAM(I,2,3)
@@ -2761,11 +2761,11 @@ c------------------------------------------------------------------------
         CDAM(I,2,3) = A12
         CDAM(I,3,2) = A12
         G3(I,1:3) = G
-        DAMANG(I,1) = UN
+        DAMANG(I,1) = ONE
         DAMANG(I,2) = ZERO
         DAMANG(I,3) = ZERO
         DAMANG(I,4) = ZERO
-        DAMANG(I,5) = UN
+        DAMANG(I,5) = ONE
         DAMANG(I,6) = ZERO
       ENDDO
 c-----------
@@ -2901,7 +2901,7 @@ C
        DO J= 1,3
        DO K= 1,3
         DO I=1,NEL
-          CG(I,J,K)=UNDEMI*B(I,J,K)
+          CG(I,J,K)=HALF*B(I,J,K)
         ENDDO
        ENDDO
        ENDDO
@@ -2920,7 +2920,7 @@ C
        DO J= 1,3
        DO K= J,3
         DO I=1,NEL
-          G33(I,J,K)=QUART*B(I,J,K)
+          G33(I,J,K)=FOURTH*B(I,J,K)
         ENDDO
        ENDDO
        ENDDO
@@ -2999,7 +2999,7 @@ C-----------------------------------------------
      .   JSR_1(MVSIZ),JRS_1(MVSIZ),JTR_1(MVSIZ),JRT_1(MVSIZ),JTS_1(MVSIZ),
      .   JST_1(MVSIZ),F1,F2,F3,F1X,F2Y,F3Z
 C-----------------------------------------------
-      COEF = HUIT
+      COEF = EIGHT
       DO I=LFT,LLT
        NJR_1(I) = COEF*JR_1(I)*DT1
        NJS_1(I) = COEF*JS_1(I)*DT1

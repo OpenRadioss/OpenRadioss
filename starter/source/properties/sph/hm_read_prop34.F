@@ -162,8 +162,8 @@ C----------------------
 C
       WRITE(IOUT,1100) IG
 
-      IF(QA.EQ.ZERO)QA=DEUX
-      IF(QB.EQ.ZERO)QB=UN
+      IF(QA.EQ.ZERO)QA=TWO
+      IF(QB.EQ.ZERO)QB=ONE
       IF (ZSTAB.GT.0) NSPBUF=13
 C
       IF(ISK .NE. 0)THEN
@@ -193,7 +193,7 @@ C
       IF (IFLG_H_1D.EQ.0) THEN
         RFLG_H_1D = THIRD
       ELSEIF (IFLG_H_1D.EQ.1) THEN
-        RFLG_H_1D = UN
+        RFLG_H_1D = ONE
       ELSE
         RFLG_H_1D = ZERO
       ENDIF
@@ -216,7 +216,7 @@ C
       IF(MP.LE.ZERO)THEN
         CALL ANCMSG(MSGID=138,ANMODE=ANINFO,MSGTYPE=MSGWARNING,
      .              C1=TITR,I1=IG)
-        MP=UN
+        MP=ONE
       ENDIF                      
         
       IERROR = SET_U_GEO(1,MP)

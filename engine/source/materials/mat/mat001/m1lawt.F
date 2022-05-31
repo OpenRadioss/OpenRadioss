@@ -64,15 +64,15 @@ C-----------------------------------------------
       ENDDO
 c
       DO I=LFT,LLT
-        IF(GAP(I) > ZERO .AND. AL(I) <= (AL0(I)-GAP(I))) OFF(I)=UN
+        IF(GAP(I) > ZERO .AND. AL(I) <= (AL0(I)-GAP(I))) OFF(I)=ONE
       ENDDO
 c
       DO I=LFT,LLT
-        EINT(I)=EINT(I)+FOR(I)*EPS(I)*AL(I)*DT1*UNDEMI
+        EINT(I)=EINT(I)+FOR(I)*EPS(I)*AL(I)*DT1*HALF
       ENDDO
 c
       DO I=LFT,LLT
-        AREA(I)=AREA(I)*(UN - DEUX*PR(I)*EPS(I)*DT1*OFF(I))
+        AREA(I)=AREA(I)*(ONE - TWO*PR(I)*EPS(I)*DT1*OFF(I))
       ENDDO
 c
       DO I=LFT,LLT
@@ -86,7 +86,7 @@ c
       ENDDO
 c
       DO I=LFT,LLT
-        EINT(I)=EINT(I)+FOR(I)*EPS(I)*AL(I)*DT1*UNDEMI
+        EINT(I)=EINT(I)+FOR(I)*EPS(I)*AL(I)*DT1*HALF
       ENDDO
 C-----------------------------------------------
       RETURN

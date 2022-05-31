@@ -157,9 +157,9 @@ c
                 DIR11 = COSX*COSY - SINX*SINY
                 DIR22 = COSX*SINY + SINX*COSY
               ENDIF
-              XM = (XL2(I) + XL3(I) + XL4(I)) * QUART
-              YM = (YL2(I) + YL3(I) + YL4(I)) * QUART
-              LMAX = SQRT(XM**2 + YM**2)*CINQ
+              XM = (XL2(I) + XL3(I) + XL4(I)) * FOURTH
+              YM = (YL2(I) + YL3(I) + YL4(I)) * FOURTH
+              LMAX = SQRT(XM**2 + YM**2)*FIVE
 
               DX1 = XM - DIR11 * LMAX
               DY1 = YM - DIR22 * LMAX
@@ -276,9 +276,9 @@ c
                 DIR22 = COSX*SINY + SINX*COSY
               ENDIF
 c
-              XM = (XL2(I) + XL3(I) + XL4(I)) * QUART
-              YM = (YL2(I) + YL3(I) + YL4(I)) * QUART
-              LMAX = SQRT(XM**2 + YM**2)*CINQ
+              XM = (XL2(I) + XL3(I) + XL4(I)) * FOURTH
+              YM = (YL2(I) + YL3(I) + YL4(I)) * FOURTH
+              LMAX = SQRT(XM**2 + YM**2)*FIVE
 
               DX1  = XM - DIR11 * LMAX
               DY1  = YM - DIR22 * LMAX
@@ -388,8 +388,8 @@ c
 c
           IF (NEWCRK1 + NEWCRK2 > 0) THEN
 c   
-            RAT1 = UNDEMI * TAN(PI/HUIT)
-            RAT2 = UN - RAT1
+            RAT1 = HALF * TAN(PI/EIGHT)
+            RAT2 = ONE - RAT1
 c------------------------------------------------
 c             Propagation in first direction    
 c------------------------------------------------
@@ -424,9 +424,9 @@ c
                 DIR22 = COSX*SINY + SINX*COSY
               ENDIF   
 c------------------------
-              XM = (XL2(I) + XL3(I) + XL4(I)) * QUART
-              YM = (YL2(I) + YL3(I) + YL4(I)) * QUART
-              LMAX = SQRT(XM**2 + YM**2)*CINQ
+              XM = (XL2(I) + XL3(I) + XL4(I)) * FOURTH
+              YM = (YL2(I) + YL3(I) + YL4(I)) * FOURTH
+              LMAX = SQRT(XM**2 + YM**2)*FIVE
 c
               DX1 = XM - DIR11 * LMAX
               DY1 = YM - DIR22 * LMAX
@@ -596,9 +596,9 @@ c
                 DIR22 = COSX*SINY + SINX*COSY
               ENDIF   
 c------------------------------------------------
-              XM = (XL2(I) + XL3(I) + XL4(I)) * QUART
-              YM = (YL2(I) + YL3(I) + YL4(I)) * QUART
-              LMAX = SQRT(XM**2 + YM**2)*CINQ
+              XM = (XL2(I) + XL3(I) + XL4(I)) * FOURTH
+              YM = (YL2(I) + YL3(I) + YL4(I)) * FOURTH
+              LMAX = SQRT(XM**2 + YM**2)*FIVE
 
               DX1 = XM - DIR11 * LMAX
               DY1 = YM - DIR22 * LMAX

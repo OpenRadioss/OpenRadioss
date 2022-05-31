@@ -105,7 +105,7 @@ C
         ENDDO
       ENDDO
 C
-      FAC = TROIS/QUATORZE
+      FAC = THREE/FOURTEEN
       DO I=LFT,LLT
         VXA(I)=VXA(I)*FAC
         VYA(I)=VYA(I)*FAC
@@ -125,7 +125,7 @@ C
         ENDDO
       ENDDO
 C
-      FAC = SEPT/QUATREVINGT16
+      FAC = SEVEN/EIGHTY16
       DO I=LFT,LLT
         VXA(I)=VXA(I)*FAC
         VYA(I)=VYA(I)*FAC
@@ -136,7 +136,7 @@ C
       DO I=LFT,LLT
         XMAS(I)= FILL(I)*RHOG(I)*VOLG(I)
         EI(I)  = FILL(I)*EINTG(I)*VOL0G(I)
-        EK(I)  = XMAS(I)*VA2(I)*UNDEMI
+        EK(I)  = XMAS(I)*VA2(I)*HALF
         XM(I)  = XMAS(I)*VXA(I)
         YM(I)  = XMAS(I)*VYA(I)
         ZM(I)  = XMAS(I)*VZA(I)
@@ -145,7 +145,7 @@ C
       DO I=LFT,LLT
         M=IPARTS(I)
         PARTSAV(1,M)=PARTSAV(1,M) + FILL(I)*EINTG(I)*VOL0G(I)
-        PARTSAV(2,M)=PARTSAV(2,M) + XMAS(I)*VA2(I)*UNDEMI
+        PARTSAV(2,M)=PARTSAV(2,M) + XMAS(I)*VA2(I)*HALF
         PARTSAV(3,M)=PARTSAV(3,M) + XMAS(I)*VXA(I)
         PARTSAV(4,M)=PARTSAV(4,M) + XMAS(I)*VYA(I)
         PARTSAV(5,M)=PARTSAV(5,M) + XMAS(I)*VZA(I)
@@ -195,7 +195,7 @@ C-----------------------------------------------
           ENDDO
         ENDDO
 C
-        FAC = TROIS/QUATORZE
+        FAC = THREE/FOURTEEN
         DO I=LFT,LLT
           XX(I)=XX(I)*FAC
           YY(I)=YY(I)*FAC
@@ -225,7 +225,7 @@ C
           ENDDO
         ENDDO
 C
-        FAC = SEPT/QUATREVINGT16
+        FAC = SEVEN/EIGHTY16
         DO I=LFT,LLT
           XX(I)=XX(I)*FAC
           YY(I)=YY(I)*FAC
@@ -277,7 +277,7 @@ C
 C-----------------------------------------------
       IF (IGRE /= 0) THEN
           DO I=LFT,LLT
-            OFF(I)     = UN
+            OFF(I)     = ONE
           ENDDO
           CALL GRELEM_SAV(LFT   ,LLT   ,GRESAV,IGRTH ,GRTH  ,
      2                    OFF   ,EI    ,EK    ,XM    ,YM    ,
@@ -288,7 +288,7 @@ C-----------------------------------------------
       ENDIF
 C-----------------------------------------------
 C
-      OFF_L(LFT:LLT) = UN
+      OFF_L(LFT:LLT) = ONE
       CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK) 
 C
       RETURN

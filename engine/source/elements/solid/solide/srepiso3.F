@@ -231,7 +231,7 @@ C     REAL ou REAL*8
      .   C17 , C28 
 C=======================================================================
       DO I=LFT,LLT
-        IF (OFF(I) <= UN ) CYCLE 
+        IF (OFF(I) <= ONE ) CYCLE 
         X17 = X7(I) - X1(I)
         X28 = X8(I) - X2(I)
         X35 = X5(I) - X3(I)

@@ -93,14 +93,14 @@ C=======================================================================
 c
       DO I=1,NEL
         MA = MAT(I)
-        OFFG(I)  = UN
+        OFFG(I)  = ONE
         EINTG(I) = PM(23,MA)
         RHOG(I)  = PM(89,MA)
       ENDDO
 c
       IF (MFLAG == 1) THEN   ! surface density
         DO I=1,NEL
-          MASS = RHOG(I)*AREA(I)*UNHUIT
+          MASS = RHOG(I)*AREA(I)*ONE_OVER_8
           MAS1(I) = MASS
           MAS2(I) = MASS
           MAS3(I) = MASS
@@ -112,7 +112,7 @@ c
         ENDDO
       ELSE                    ! volume density
         DO I=1,NEL
-          MASS = RHOG(I)*VOLG(I)*UNHUIT
+          MASS = RHOG(I)*VOLG(I)*ONE_OVER_8
           MAS1(I) = MASS
           MAS2(I) = MASS
           MAS3(I) = MASS
@@ -142,11 +142,11 @@ c
 c---------------------------
       IF (ISIGI /= 0) THEN     ! CONTRAINTES INITIALES
         L_PLA = ELBUF_STR%BUFLY(1)%L_PLA
-c        GAMA(1)=UN        
+c        GAMA(1)=ONE        
 c        GAMA(2)=ZERO      
 c        GAMA(3)=ZERO      
 c        GAMA(4)=ZERO      
-c        GAMA(5)=UN        
+c        GAMA(5)=ONE        
 c        GAMA(6)=ZERO      
 c       Initialize variables per integration point  
         DO IP=1,4

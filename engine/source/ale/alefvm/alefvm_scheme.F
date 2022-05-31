@@ -99,7 +99,7 @@ C-----------------------------------------------
           II          = I + NFT
           DMOM(1:3,I) = FCELL(1:3,II)
           IF(DT1.EQ.ZERO)THEN
-            DMOM(1:3,I) = UNDEMI*DT2 * DMOM(1:3,I)          
+            DMOM(1:3,I) = HALF*DT2 * DMOM(1:3,I)          
           ELSE
             DMOM(1:3,I) =        DT2 * DMOM(1:3,I)                    
           ENDIF
@@ -208,7 +208,7 @@ C-----------------------------------------------
         FCELL(3,II) = MOM(I,3)
         FCELL(4,II) = RHO(I)
         FCELL(5,II) = SSP(I)
-        FCELL(6,II) = -TIERS*(SIG(I,1)+SIG(I,2)+SIG(I,3))        
+        FCELL(6,II) = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))        
       ENDDO!next I 
       
       

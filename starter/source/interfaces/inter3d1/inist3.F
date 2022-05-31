@@ -77,9 +77,9 @@ C-----------------------------------------------
       Z3 = XX3(3)
       Z4 = XX3(4)
       !MAIN segment centroid
-      X0 = QUART*(X1+X2+X3+X4)
-      Y0 = QUART*(Y1+Y2+Y3+Y4)
-      Z0 = QUART*(Z1+Z2+Z3+Z4)
+      X0 = FOURTH*(X1+X2+X3+X4)
+      Y0 = FOURTH*(Y1+Y2+Y3+Y4)
+      Z0 = FOURTH*(Z1+Z2+Z3+Z4)
       !length from centroid
       XL1 = X1-X0
       XL2 = X2-X0
@@ -145,7 +145,7 @@ C-----------------------------------------------
         IER=-1
         RETURN
       ENDIF
-      AREA=UNDEMI*AN
+      AREA=HALF*AN
       A12 = (N1*XN1+N2*YN1+N3*ZN1)
       A23 = (N1*XN2+N2*YN2+N3*ZN2)
       A34 = (N1*XN3+N2*YN3+N3*ZN3)
@@ -189,25 +189,25 @@ C-----------------------------------------------
        IF(B23.LE.ZERO .AND. B41.LE.ZERO)THEN
          IF(-B23/A12.LE.ALP.AND.-B41/A12.LE.ALP)SSC=ZERO
        ELSEIF(B23.LE.ZERO)THEN
-         IF(-B23/A12.LE.ALP)SSC=UN
+         IF(-B23/A12.LE.ALP)SSC=ONE
        ELSEIF(B41.LE.ZERO)THEN
-         IF(-B41/A12.LE.ALP)SSC=-UN
+         IF(-B41/A12.LE.ALP)SSC=-ONE
        ENDIF
       ENDIF
-      !lecipari : GAP=DEUX*EM02 GAP->FRIGAP(2)->ALP (hardcoded tolerance)
+      !lecipari : GAP=TWO*EM02 GAP->FRIGAP(2)->ALP (hardcoded tolerance)
 
-      IF(ABS(SSC).GT.UN+ALP.OR.ABS(TTC).GT.UN+ALP) THEN
+      IF(ABS(SSC).GT.ONE+ALP.OR.ABS(TTC).GT.ONE+ALP) THEN
         IER = 1  !SECONDARY node not on MAIN segment
       ELSE
         IER = 0
-        IF(ABS(SSC).GT.UN)SSC=SSC/ABS(SSC)
-        IF(ABS(TTC).GT.UN)TTC=TTC/ABS(TTC)
+        IF(ABS(SSC).GT.ONE)SSC=SSC/ABS(SSC)
+        IF(ABS(TTC).GT.ONE)TTC=TTC/ABS(TTC)
       ENDIF
 
-      TP   = QUART*(UN+TTC)
-      TM   = QUART*(UN-TTC)
-      SP   = UN+SSC
-      SM   = UN-SSC
+      TP   = FOURTH*(ONE+TTC)
+      TM   = FOURTH*(ONE-TTC)
+      SP   = ONE+SSC
+      SM   = ONE-SSC
       H(1) = TM*SM
       H(2) = TM*SP
       H(3) = TP*SP

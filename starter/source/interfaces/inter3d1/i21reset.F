@@ -47,8 +47,8 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       DO N=1,NSN
         IRTLM(1,N)=0
-        CSTS(1,N)  =-UN
-        CSTS(2,N)  =-UN
+        CSTS(1,N)  =-ONE
+        CSTS(2,N)  =-ONE
       END DO
 C
       RETURN

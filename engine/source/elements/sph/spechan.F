@@ -137,18 +137,18 @@ C-----------------------------------------------
           IF(DD.LT.-EM20*DI)THEN
 C--------------------------------
 C          Echange les positions et les vitesses
-           XS=XI-DEUX*DD*UX
-           YS=YI-DEUX*DD*UY
-           ZS=ZI-DEUX*DD*UZ
+           XS=XI-TWO*DD*UX
+           YS=YI-TWO*DD*UY
+           ZS=ZI-TWO*DD*UZ
            IF(ISLIDE.EQ.0)THEN
             VXS=-VXI
             VYS=-VYI
             VZS=-VZI
            ELSE
             VN=VXI*UX+VYI*UY+VZI*UZ
-            VXS=VXI-DEUX*VN*UX
-            VYS=VYI-DEUX*VN*UY
-            VZS=VZI-DEUX*VN*UZ	    
+            VXS=VXI-TWO*VN*UX
+            VYS=VYI-TWO*VN*UY
+            VZS=VZI-TWO*VN*UZ	    
            ENDIF
            X(1,INOD)=XS
            X(2,INOD)=YS

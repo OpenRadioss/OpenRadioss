@@ -135,7 +135,7 @@ C-----------------------------------------------
              II(3) = IXQ(4,N)
              II(4) = IXQ(5,N)
 
-             XNORM(1,II(1)) = UN
+             XNORM(1,II(1)) = ONE
              XNORM(2,II(1)) = ZERO
              XNORM(3,II(1)) = ZERO             
              IF (NSPMD == 1) THEN

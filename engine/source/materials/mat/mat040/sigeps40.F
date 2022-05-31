@@ -165,12 +165,12 @@ C     VISCO-ELASTIC LAW
 C
 C======================================
         AK = UPARAM(1)
-        G0   =  DEUX*UPARAM(2)
-        G(1) =  DEUX*UPARAM(3)
-        G(2) =  DEUX*UPARAM(4)
-        G(3) =  DEUX*UPARAM(5)
-        G(4) =  DEUX*UPARAM(6)
-        G(5) =  DEUX*UPARAM(7)	
+        G0   =  TWO*UPARAM(2)
+        G(1) =  TWO*UPARAM(3)
+        G(2) =  TWO*UPARAM(4)
+        G(3) =  TWO*UPARAM(5)
+        G(4) =  TWO*UPARAM(6)
+        G(5) =  TWO*UPARAM(7)	
 	
         BETA(1) =  UPARAM(8) 
         BETA(2) =  UPARAM(9) 
@@ -238,9 +238,9 @@ C
        EDXX = EPXX - EV 
        EDYY = EPYY - EV 
        EDZZ = EPZZ - EV 
-       EDXY = EPXY * UNDEMI  
-       EDYZ = EPYZ * UNDEMI   
-       EDZX = EPZX * UNDEMI        
+       EDXY = EPXY * HALF  
+       EDYZ = EPYZ * HALF   
+       EDZX = EPZX * HALF        
 C
        EPRNXX = EPSPXX(I)
        EPRNYY = EPSPYY(I)
@@ -253,9 +253,9 @@ C
        EDRNXX = EPRNXX - EVR
        EDRNYY = EPRNYY - EVR
        EDRNZZ = EPRNZZ - EVR
-       EDRNXY = EPRNXY * UNDEMI
-       EDRNYZ = EPRNYZ * UNDEMI
-       EDRNZX = EPRNZX * UNDEMI       
+       EDRNXY = EPRNXY * HALF
+       EDRNYZ = EPRNYZ * HALF
+       EDRNZX = EPRNZX * HALF       
 C
        EDRVXX = UVAR(I,5) 
        EDRVYY = UVAR(I,6) 
@@ -266,17 +266,17 @@ C
 C
        AXX = EDRVXX
 c jbm037
-       BXX = DEUX * (EDRNXX - EDRVXX) / MAX(DT,EM20)
+       BXX = TWO * (EDRNXX - EDRVXX) / MAX(DT,EM20)
        AYY = EDRVYY
-       BYY = DEUX * (EDRNYY - EDRVYY) / MAX(DT,EM20)
+       BYY = TWO * (EDRNYY - EDRVYY) / MAX(DT,EM20)
        AZZ = EDRVZZ
-       BZZ = DEUX * (EDRNZZ - EDRVZZ) / MAX(DT,EM20)
+       BZZ = TWO * (EDRNZZ - EDRVZZ) / MAX(DT,EM20)
        AXY = EDRVXY
-       BXY = DEUX * (EDRNXY - EDRVXY) / MAX(DT,EM20)
+       BXY = TWO * (EDRNXY - EDRVXY) / MAX(DT,EM20)
        AYZ = EDRVYZ
-       BYZ = DEUX * (EDRNYZ - EDRVYZ) / MAX(DT,EM20)
+       BYZ = TWO * (EDRNYZ - EDRVYZ) / MAX(DT,EM20)
        AZX = EDRVZX
-       BZX = DEUX * (EDRNZX - EDRVZX) / MAX(DT,EM20)
+       BZX = TWO * (EDRNZX - EDRVZX) / MAX(DT,EM20)
 c jbm037 (fin)
 C       WRITE (11,*)AXX,EDRNXX,EDRVXX,DT,BXX
 C
@@ -492,12 +492,12 @@ C
        SYZ = SYZ + UVAR(I,39)
        SZX = SZX + UVAR(I,40)
 C
-       UVAR(I,5)  = DEUX * EDRNXX - EDRVXX
-       UVAR(I,6)  = DEUX * EDRNYY - EDRVYY
-       UVAR(I,7)  = DEUX * EDRNZZ - EDRVZZ
-       UVAR(I,8)  = DEUX * EDRNXY - EDRVXY
-       UVAR(I,9)  = DEUX * EDRNYZ - EDRVYZ
-       UVAR(I,10) = DEUX * EDRNZX - EDRVZX       
+       UVAR(I,5)  = TWO * EDRNXX - EDRVXX
+       UVAR(I,6)  = TWO * EDRNYY - EDRVYY
+       UVAR(I,7)  = TWO * EDRNZZ - EDRVZZ
+       UVAR(I,8)  = TWO * EDRNXY - EDRVXY
+       UVAR(I,9)  = TWO * EDRNYZ - EDRVYZ
+       UVAR(I,10) = TWO * EDRNZX - EDRVZX       
 C
        SIGNXX(I) = SXX + SIGV  
        SIGNYY(I) = SYY + SIGV
@@ -507,7 +507,7 @@ C
        SIGNZX(I) = SZX 
 C   
         SOUNDSP(I) = SQRT((AK/RHO(I)) + 
-     .                ((DEUX*DEUX*GT)/(RHO(I)*TROIS)))
+     .                ((TWO*TWO*GT)/(RHO(I)*THREE)))
         VISCMAX(I) = ZERO
 C
 C       WRITE (6,*) SIGNXX(I),SIGNYY(I),SIGNZZ(I),SIGNXY(I)
@@ -515,17 +515,17 @@ c       WRITE (6,*) SOUNDSP(I),AK,RHO0(I),GT
 C CRITERES DE STASSI ET DE TYPE VON MISES
 C
       SSIG1=SIGNXX(I)+SIGNYY(I)+SIGNZZ(I)
-      SSIG2=UNDEMI*(SXX**2+SYY**2+SZZ**2)+SXY**2+SYZ**2+SZX**2
-      SSIG2=TROIS*SSIG2
-!      UVAR(I,1)=SSIG2**UNDEMI/VMISK
+      SSIG2=HALF*(SXX**2+SYY**2+SZZ**2)+SXY**2+SYZ**2+SZX**2
+      SSIG2=THREE*SSIG2
+!      UVAR(I,1)=SSIG2**HALF/VMISK
       IF(SSIG2>ZERO) THEN
-       UVAR(I,1)=EXP( UNDEMI*LOG(SSIG2) )/VMISK
+       UVAR(I,1)=EXP( HALF*LOG(SSIG2) )/VMISK
       ELSE
        UVAR(I,1) = ZERO
       ENDIF
-!      UVAR(I,2)=(SSIG1+(SSIG1**2.+ASTAS*2.*SSIG2)**UNDEMI)/BSTAS
+!      UVAR(I,2)=(SSIG1+(SSIG1**2.+ASTAS*2.*SSIG2)**HALF)/BSTAS
       IF( (SSIG1**2.+ASTAS*2.*SSIG2)>ZERO ) THEN
-       UVAR(I,2)=( SSIG1+EXP( UNDEMI*LOG(SSIG1**2+ASTAS*2*SSIG2) ) )/BSTAS
+       UVAR(I,2)=( SSIG1+EXP( HALF*LOG(SSIG1**2+ASTAS*2*SSIG2) ) )/BSTAS
       ELSE
        UVAR(I,2) = SSIG1/BSTAS
       ENDIF

@@ -138,7 +138,7 @@ C     ISRATE
 C----------
 C DEFAULT
 C----------
-      IF(CC.EQ.ZERO)   EPS0 = UN
+      IF(CC.EQ.ZERO)   EPS0 = ONE
       IF(SIGFMAX.EQ.ZERO) SIGFMAX=INFINITY
 C--------
 C ERRORS
@@ -171,7 +171,7 @@ C--------
      .               I1=MAT_ID,
      .               C1=TITR)
       ENDIF
-      IF(BETA < ZERO .OR. BETA > UN)THEN
+      IF(BETA < ZERO .OR. BETA > ONE)THEN
          CALL ANCMSG(MSGID=911,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -182,7 +182,7 @@ C
       
 C           
       UPARAM(1) = SHEAR
-      UPARAM(2) = DEUX*SHEAR
+      UPARAM(2) = TWO*SHEAR
       UPARAM(3) = AA
       UPARAM(4) = BB
       UPARAM(5) = MM
@@ -192,7 +192,7 @@ C
       UPARAM(9) = SIGFMAX
       UPARAM(10)= TMAX/PHEL
       UPARAM(11)= PHEL
-      UPARAM(12)= TDEMI*(HEL-PHEL)
+      UPARAM(12)= THREE_HALF*(HEL-PHEL)
       UPARAM(13)= D1
       UPARAM(14)= D2
       UPARAM(15)= K1
@@ -201,8 +201,8 @@ C
       UPARAM(18)= BETA
       NUPARAM= 18
 C
-      NU=(TROIS*K1-DEUX*SHEAR)/(SIX*K1+DEUX*SHEAR)
-      YOUNG=NEUF*K1*SHEAR/(TROIS*K1+SHEAR)
+      NU=(THREE*K1-TWO*SHEAR)/(SIX*K1+TWO*SHEAR)
+      YOUNG=NINE*K1*SHEAR/(THREE*K1+SHEAR)
       PARMAT(1) = K1
       PARMAT(2) = YOUNG
       PARMAT(3) = NU

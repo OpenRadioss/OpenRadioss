@@ -125,7 +125,7 @@ C SET INITIAL MATERIAL CONSTANTS
       GAMAINF = UPARAM(4)
       RBULK   = UPARAM(5)
       DVISC   = UPARAM(6)
-      BETA = NU/(UN - DEUX*NU)
+      BETA = NU/(ONE - TWO*NU)
       DO I= 1,NORDRE
        MU(I) = UPARAM(6 + I)
        AL(I) = UPARAM(6 + NORDRE + I)
@@ -142,7 +142,7 @@ C       GMAX = GMAX + AL(I)*MU(I)
       ENDIF 
 !!      IF(IVISC == 1 .AND.  ITYPE >= 2 ) IVISC = 2 
 Csm +1
-       GMAX = DEUX*GMAX      
+       GMAX = TWO*GMAX      
 C iniialisation des variabesl users 
       IF(TIME.EQ.ZERO)THEN
        DO J = 1,NUVAR
@@ -179,22 +179,22 @@ C ---- (STRAIN IS LOGARITHMIC)
         ENDDO 
       ELSEIF(ISMSTR==10.OR.ISMSTR==12) THEN
         DO I =1,NEL
-        IF(OFFG(I)<=UN) THEN
-         EV(I,1)=SQRT(EVV(I,1)+ UN)
-         EV(I,2)=SQRT(EVV(I,2)+ UN)
-         EV(I,3)=SQRT(EVV(I,3)+ UN)
+        IF(OFFG(I)<=ONE) THEN
+         EV(I,1)=SQRT(EVV(I,1)+ ONE)
+         EV(I,2)=SQRT(EVV(I,2)+ ONE)
+         EV(I,3)=SQRT(EVV(I,3)+ ONE)
 	ELSE
-         EV(I,1)=EVV(I,1)+ UN
-         EV(I,2)=EVV(I,2)+ UN
-         EV(I,3)=EVV(I,3)+ UN
+         EV(I,1)=EVV(I,1)+ ONE
+         EV(I,2)=EVV(I,2)+ ONE
+         EV(I,3)=EVV(I,3)+ ONE
         END IF
         ENDDO 
       ELSE
 C ----  STRAIN IS ENGINEERING)
         DO I=1,NEL
-         EV(I,1)=EVV(I,1)+ UN
-         EV(I,2)=EVV(I,2)+ UN
-         EV(I,3)=EVV(I,3)+ UN
+         EV(I,1)=EVV(I,1)+ ONE
+         EV(I,2)=EVV(I,2)+ ONE
+         EV(I,3)=EVV(I,3)+ ONE
         ENDDO 
       ENDIF
 C----------------
@@ -202,13 +202,13 @@ C----------------
        DO J =1,3
          ETI(1:NEL)=ZERO
          DO K= 1,NORDRE
-!         ETI  = ETI + MU(K)*AMAX**(AL(K)-UN)
+!         ETI  = ETI + MU(K)*AMAX**(AL(K)-ONE)
           DO I=1,NEL
 	   AMAX = EV(I,J)
            IF(AMAX>ZERO) THEN
             IF(MU(K)/=ZERO) THEN
-             IF((AL(K)-UN)/=ZERO) THEN
-              ETI(I)  = ETI(I) + MU(K)*EXP((AL(K)-UN)*LOG(AMAX))
+             IF((AL(K)-ONE)/=ZERO) THEN
+              ETI(I)  = ETI(I) + MU(K)*EXP((AL(K)-ONE)*LOG(AMAX))
              ELSE
               ETI(I)  = ETI(I) + MU(K)
              ENDIF
@@ -222,9 +222,9 @@ C----------------
         ENDDO   ! NORDRE
         ET(1:NEL)= MAX(ETI(1:NEL),ET(1:NEL))
        ENDDO    ! 1,3
-       EFAC=DEUX
+       EFAC=TWO
        DO I=1,NEL
-         ET(I)= MAX(UN,EFAC*ET(I)/GMAX)
+         ET(I)= MAX(ONE,EFAC*ET(I)/GMAX)
        ENDDO
       ENDIF
 C 
@@ -238,7 +238,7 @@ C
 C calcul de la pression
       P(1:NEL) = ZERO     
       DO II = 1,NORDRE
-        FAC = DEUX*MU(II)/(AL(II))
+        FAC = TWO*MU(II)/(AL(II))
         IF(FAC/=ZERO) THEN
          IF(AL(II)/=ZERO) THEN
           DO I=1,NEL
@@ -270,7 +270,7 @@ C compute de piola kirchoff stress 2emme espece---
       DO J=1,3
       S(1:NEL,J)= ZERO 
        DO II= 1, NORDRE
-         FAC = DEUX*MU(II)/(AL(II))
+         FAC = TWO*MU(II)/(AL(II))
          IF(FAC/=ZERO) THEN
           DO I=1,NEL
           FAC1 = FAC/(EV(I,J)**2)
@@ -293,7 +293,7 @@ CCC devaitoric piola kirchoff stress 2nd espece SD
        ! if rv > 0 --> pui = exp(dtier * ln(rv))
        ! else pui = 0
          IF(RV(I)>ZERO) THEN
-            RV_PUI_TAB(I) =  EXP( DTIERS*LOG(RV(I)) )
+            RV_PUI_TAB(I) =  EXP( TWO_THIRD*LOG(RV(I)) )
          ELSE
              RV_PUI_TAB(I) = ZERO
          ENDIF
@@ -310,7 +310,7 @@ C we consider spherical and deviatoric viscosity compared to ivisc =1
 C Calcul de H^i_n+1 
       IF(IVISC > 0)THEN
         GVIS = GMAX
-c        GMAX = DEUX*GMAX
+c        GMAX = TWO*GMAX
         SDG0(1:NEL,1:6) = UVAR(1:NEL,1:6)
         DO I=1,NEL 
 C 
@@ -350,7 +350,7 @@ C
           DO J= 1,6
             DO I=1,NEL 
               HG0(J) = UVAR(I, 6 + (II - 1)*6 + J)
-              HG(I,J) = EXP(FAC)*HG0(J) + EXP(UNDEMI*FAC)*(SDG(I,J)-SDG0(I,J))
+              HG(I,J) = EXP(FAC)*HG0(J) + EXP(HALF*FAC)*(SDG(I,J)-SDG0(I,J))
               UVAR(I, 6 + (II - 1)*6 + J)=  HG(I,J)
             ENDDO
           ENDDO
@@ -400,11 +400,11 @@ C calcul de la partie deviatorique
 C calcul du tenseur de piola kirchoff   
       IF(IVISC == 1) THEN ! viscosity is deviatoric
          DO I =1,NEL                                               
-            ! FAC= GAMAINF*RV(I)**(-DTIERS) = GAMAINF * PUI        
+            ! FAC= GAMAINF*RV(I)**(-TWO_THIRD) = GAMAINF * PUI        
             ! if rv > 0 --> pui = exp(-dtier * ln(rv))             
             ! else pui = 0                                         
             IF(RV(I)>ZERO) THEN                                    
-               RV_PUI_TAB(I) = EXP( (-DTIERS)*LOG(RV(I)) )                 
+               RV_PUI_TAB(I) = EXP( (-TWO_THIRD)*LOG(RV(I)) )                 
             ELSE                                                   
                RV_PUI_TAB(I) = ZERO                                       
             ENDIF
@@ -449,15 +449,15 @@ C cauchy stress    from PK2
         ENDDO
       ENDIF
 C----- 
-      CMAX0 = DTHIRD*GMAX+ RBULK
+      CMAX0 = TWO_THIRD*GMAX+ RBULK
        AI(1:NEL,1:3) = ZERO
        BI(1:NEL,1:3) = ZERO
        CJ(1:NEL) = ZERO
        DO II = 1,NORDRE
         IF(AL(II)/=ZERO) THEN
-         FAC = UN/AL(II)
+         FAC = ONE/AL(II)
          FAC1 = BETA+FAC
-         MU2 = DEUX*MU(II)
+         MU2 = TWO*MU(II)
            DO I=1,NEL
             LAM_AL(1:3) = EXP(AL(II)*LOG(EV(I,1:3)))
             RVL = FAC1*EXP(-BETA*AL(II)*LOG(RV(I)))
@@ -473,10 +473,10 @@ C------max of Cii
          D22 = AI(I,2)-BI(I,2)+CJ(I)
          D33 = AI(I,3)-BI(I,3)+CJ(I)
 C     
-         FAC = UN/RV(I)
+         FAC = ONE/RV(I)
          CMAX = FAC*MAX(D11,D22,D33)
-         CIMAX(I) = DTHIRD*GVIS + MAX(CMAX,CMAX0)
-         ET(I)= UN
+         CIMAX(I) = TWO_THIRD*GVIS + MAX(CMAX,CMAX0)
+         ET(I)= ONE
        ENDDO
 C TRANSFORM PRINCIPAL PIOLA KIRCHOFF STRESSES TO GLOBAL DIRECTIONS
       DO I=1,NEL 

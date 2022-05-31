@@ -101,7 +101,7 @@ C
 C
 C force thermique nodale
 C
-              A = DIE(I)*UNHUIT
+              A = DIE(I)*ONE_OVER_8
           FPHI(I,1) = FPHI(I,1) +
      .        A - (PHIX*PX1(I) + PHIY*PY1(I) + PHIZ*PZ1(I))
           FPHI(I,2) = FPHI(I,2) +

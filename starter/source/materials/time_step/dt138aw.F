@@ -67,14 +67,14 @@ C=======================================================================
       G(I)    =PM(22,MX)
       NU      =PM(21,MX)
       E       =PM(20,MX)
-      C1(I)   =E/(TROIS*(UN-DEUX*NU))
+      C1(I)   =E/(THREE*(ONE-TWO*NU))
       END DO
       
 C-----------------------------
 C     CALCUL DE VITESSE DU SON
 C-----------------------------
       DO I=LFT,LLT
-         SSP(I)=SQRT((QTHIRD*G(I)+C1(I))/RHO0(I))
+         SSP(I)=SQRT((FOUR_OVER_3*G(I)+C1(I))/RHO0(I))
       END DO
       
 C----------------------------------

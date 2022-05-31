@@ -81,11 +81,11 @@ C-----------------------------------------------
 C
       DO I=LFT,LLT
         IF (AL(I) <= EM15) THEN
-          EXX(I)= UN
+          EXX(I)= ONE
           EYX(I)= ZERO
           EZX(I)= ZERO
           EXY(I)= ZERO
-          EYY(I)= UN
+          EYY(I)= ONE
           EZY(I)= ZERO	  
         ELSE
           EXX(I)=EXX(I)/AL(I) 
@@ -117,7 +117,7 @@ C--------------------------------------------
       DO I=LFT,LLT
         RXX1   = EXX(I)*RX1(I)+EYX(I)*RY1(I)+EZX(I)*RZ1(I)
         RXX2   = EXX(I)*RX2(I)+EYX(I)*RY2(I)+EZX(I)*RZ2(I)
-        THETA(I) = (RXX1+RXX2)/DEUX*DT1
+        THETA(I) = (RXX1+RXX2)/TWO*DT1
         SUM2(I)  = MAX(EM15,SQRT(EXY(I)**2+EYY(I)**2+EZY(I)**2))
         SUM3(I)  = MAX(EM15,SQRT(EXZ(I)**2+EYZ(I)**2+EZZ(I)**2))
         COST(I)  = COS(THETA(I))/SUM2(I)

@@ -191,7 +191,7 @@ C
       PENMIN = ZERO
       ETEN_M = ZERO
       RSTH = EP30
-      FHEAT= UN
+      FHEAT= ONE
       TINT = ZERO
 C
       IASSIGN = 1
@@ -410,9 +410,9 @@ c          IEDGE=MIN(4,IEDGE)
 
 C--------change default EDG_ANGL=135         
         IF((IEDGE>=3).AND. EDG_ANGL==ZERO) 
-C     +            EDG_ANGL=QUATREVINGTDIX+UN
-     +            EDG_ANGL=CENT+TRENTE+CINQ
-        FRIGAP(26)  = COS((CENT80-EDG_ANGL)*PI/CENT80)
+C     +            EDG_ANGL=NINTY+ONE
+     +            EDG_ANGL=HUNDRED+THIRTY+FIVE
+        FRIGAP(26)  = COS((HUNDRED80-EDG_ANGL)*PI/HUNDRED80)
 
 
 C---------Default Istif for implicit
@@ -477,7 +477,7 @@ C
 
 c          IF(IGAP.EQ.3)THEN
 c            GAPMAX = GAPMAX * FAC_L
-c            IF(GAPSCALE.EQ.ZERO)GAPSCALE=UN
+c            IF(GAPSCALE.EQ.ZERO)GAPSCALE=ONE
 c            FRIGAP(13) = GAPSCALE
 c            FRIGAP(16) = GAPMAX
 c            IF(PERCENT_SIZE==ZERO) PERCENT_SIZE = 0.4
@@ -499,7 +499,7 @@ c       FRIGAP(28) = PERCENT_SIZE
 
 C       IF(PENMAX.EQ.ZERO)PENMAX=EP30
         IF(PENMIN.EQ.ZERO)PENMIN=EM8
-        IF(ETEN_M == ZERO)ETEN_M =VINGT5*EM03 
+        IF(ETEN_M == ZERO)ETEN_M =TWENTY5*EM03 
         FRIGAP(35) = GAPMAX_S
         FRIGAP(36) = GAPMAX_M
         FRIGAP(37) = PENMAX
@@ -577,7 +577,7 @@ c        IF (BCFLAGM(LFIELD  :LFIELD  ).EQ. '1') IBC3M = 1
         IPARI(22)=INACTI
 
         IF(STFAC.EQ.ZERO) THEN
-            STFAC=UN
+            STFAC=ONE
         ENDIF
         IF(IGSTI.EQ.1)STFAC=-STFAC
 
@@ -594,9 +594,9 @@ C         default 1: harmonic mass, IVIS2=-1 old: SECONDARY node mass
         END IF
         IF(VISC.EQ.ZERO)THEN
             IF(IVIS2.EQ.5)THEN
-              VISC=UN
+              VISC=ONE
             ELSE
-              VISC=CINQEM2
+              VISC=FIVEEM2
             ENDIF
         ENDIF
         FRIGAP(14)=VISC
@@ -619,9 +619,9 @@ C------------remove BUMULT
 C bmult augmente pour les tres gros modeles et interface 7 ou 20
 
             IF(NUMNOD > 2500000) THEN
-              BUMULT = BMUL0*DEUX
+              BUMULT = BMUL0*TWO
             ELSEIF(NUMNOD > 1500000) THEN
-              BUMULT = BMUL0*TROIS/DEUX
+              BUMULT = BMUL0*THREE/TWO
             END IF
         END IF
         FRIGAP(4)=BUMULT
@@ -632,17 +632,17 @@ C
 
 C......* CHECKS *.....
 C
-C           IF (MFROT.NE.0.AND.VISCF.EQ.0.0) VISCF=UN
+C           IF (MFROT.NE.0.AND.VISCF.EQ.0.0) VISCF=ONE
         MODFR = 2
           IF (ALPHA.EQ.0.) IFQ = 0
           IF (MODFR.EQ.0) MODFR = 1
           IF (MODFR.EQ.2.AND.IFQ.LT.10) IFQ = IFQ + 10
 C           IF(MODFR.EQ.2)VISCF=ZERO
           IF (IFQ.GT.0) THEN
-             IF (IFQ.EQ.10) XFILTR = UN
+             IF (IFQ.EQ.10) XFILTR = ONE
              IF (MOD(IFQ,10).EQ.1) XFILTR = ALPHA
-             IF (MOD(IFQ,10).EQ.2) XFILTR=QUATRE*ATAN2(UN,ZERO) / ALPHA
-             IF (MOD(IFQ,10).EQ.3) XFILTR=QUATRE*ATAN2(UN,ZERO) * ALPHA
+             IF (MOD(IFQ,10).EQ.2) XFILTR=FOUR*ATAN2(ONE,ZERO) / ALPHA
+             IF (MOD(IFQ,10).EQ.3) XFILTR=FOUR*ATAN2(ONE,ZERO) * ALPHA
              IF (XFILTR.LT.ZERO) THEN
                CALL ANCMSG(MSGID=554,
      .                     MSGTYPE=MSGERROR,
@@ -719,13 +719,13 @@ C
             READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
             READ(LINE,ERR=999,FMT=FMT_I_2F) NRADM,PADM,ANGLADM
             IF(NRADM==0)   NRADM  =3
-            IF(PADM==ZERO) PADM   =UN
+            IF(PADM==ZERO) PADM   =ONE
         ELSE
             NRADM  =1
-            PADM   =UN
+            PADM   =ONE
             ANGLADM=ZERO
         END IF
-        CADM      =COS(ANGLADM*PI/CENT80)
+        CADM      =COS(ANGLADM*PI/HUNDRED80)
         IPARI(49) =NRADM
         FRIGAP(24)=PADM
         FRIGAP(25)=CADM
@@ -745,7 +745,7 @@ C
            ENDIF
 C
            IF(RSTH == ZERO)RSTH = EP30
-           FRIGAP(20)  = UN/RSTH
+           FRIGAP(20)  = ONE/RSTH
            FRIGAP(21 ) = FHEAT
            FRIGAP(22 ) = TINT
            IPARI(48)   = IFORM

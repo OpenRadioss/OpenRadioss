@@ -177,11 +177,11 @@ c
 c
             DO I=1,NEL 
               IF (ISORTH == 0) THEN
-                GAMA(1,I)=UN
+                GAMA(1,I)=ONE
                 GAMA(2,I)=ZERO
                 GAMA(3,I)=ZERO
                 GAMA(4,I)=ZERO
-                GAMA(5,I)=UN
+                GAMA(5,I)=ONE
                 GAMA(6,I)=ZERO
               ELSE
                 GAMA(1,I)=GBUF%GAMA(JJ(1) + I)
@@ -282,7 +282,7 @@ c
                      LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)        
                      EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)/NPT
                      EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)/NPT
-                     EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*UNDEMI/NPT
+                     EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*HALF/NPT
                      IS_WRITTEN_TENSOR(I) = 1
                     ENDDO
                    ENDDO
@@ -359,7 +359,7 @@ c
                      LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)        
                      EVAR(1,I) = EVAR(1,I) + LBUF%PLA(JJ(1) + I + NEL)/NPT
                      EVAR(2,I) = EVAR(2,I) + LBUF%PLA(JJ(2) + I + NEL)/NPT
-                     EVAR(4,I) = EVAR(4,I) + LBUF%PLA(JJ(4) + I + NEL)*UNDEMI/NPT
+                     EVAR(4,I) = EVAR(4,I) + LBUF%PLA(JJ(4) + I + NEL)*HALF/NPT
                      IS_WRITTEN_TENSOR(I) = 1
                     ENDDO
                    ENDDO

@@ -376,9 +376,9 @@ c
 c
         ! Plot the normal distribution
         IF(I_METHOD == 2) THEN
-          MAX_DISTRIB = UN /(SD*SQRT(DEUX * pi))
+          MAX_DISTRIB = ONE /(SD*SQRT(TWO * pi))
         ELSEIF(I_METHOD == 1) THEN
-          MAX_DISTRIB = UN /(MAX_VALUE-MIN_VALUE)
+          MAX_DISTRIB = ONE /(MAX_VALUE-MIN_VALUE)
         ENDIF
         WRITE (IOUT,3000)
         WRITE(IOUT,*) ' '

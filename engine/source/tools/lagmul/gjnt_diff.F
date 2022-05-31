@@ -64,12 +64,12 @@ C        LLL(LAG_NKF)  : I = LLL(IK)
 C        JLL(LAG_NKF)  : J = JLL(IK)
 C======================================================================|
       UNT = THIRD
-      DEUT= DTHIRD
+      DEUT= TWO_THIRD
 C---  Node 1 skew
       UX(1) = SK(1)*L1(1)+SK(4)*L1(2)+SK(7)*L1(3)
       UY(1) = SK(2)*L1(1)+SK(5)*L1(2)+SK(8)*L1(3)
       UZ(1) = SK(3)*L1(1)+SK(6)*L1(2)+SK(9)*L1(3)
-      NORM = UN/SQRT(UX(1)*UX(1)+UY(1)*UY(1)+UZ(1)*UZ(1))
+      NORM = ONE/SQRT(UX(1)*UX(1)+UY(1)*UY(1)+UZ(1)*UZ(1))
       UX(1) = UX(1)*NORM
       UY(1) = UY(1)*NORM
       UZ(1) = UZ(1)*NORM
@@ -82,7 +82,7 @@ C---  Node 1 skew
         WY(1) =-UZ(1)
         WZ(1) = UY(1)
       ENDIF
-      NORM = UN/SQRT(WX(1)*WX(1)+WY(1)*WY(1)+WZ(1)*WZ(1))
+      NORM = ONE/SQRT(WX(1)*WX(1)+WY(1)*WY(1)+WZ(1)*WZ(1))
       WX(1) = WX(1)*NORM
       WY(1) = WY(1)*NORM
       WZ(1) = WZ(1)*NORM
@@ -93,7 +93,7 @@ C---  Node 2 skew
       UX(2) = SK(1)*L2(1)+SK(4)*L2(2)+SK(7)*L2(3)
       UY(2) = SK(2)*L2(1)+SK(5)*L2(2)+SK(8)*L2(3)
       UZ(2) = SK(3)*L2(1)+SK(6)*L2(2)+SK(9)*L2(3)
-      NORM = UN/SQRT(UX(2)*UX(2)+UY(2)*UY(2)+UZ(2)*UZ(2))
+      NORM = ONE/SQRT(UX(2)*UX(2)+UY(2)*UY(2)+UZ(2)*UZ(2))
       UX(2) = UX(2)*NORM
       UY(2) = UY(2)*NORM
       UZ(2) = UZ(2)*NORM
@@ -106,7 +106,7 @@ C---  Node 2 skew
         WY(2) =-UZ(2)
         WZ(2) = UY(2)
       ENDIF
-      NORM = UN/SQRT(WX(1)*WX(1)+WY(1)*WY(1)+WZ(1)*WZ(1))
+      NORM = ONE/SQRT(WX(1)*WX(1)+WY(1)*WY(1)+WZ(1)*WZ(1))
       WX(1) = WX(1)*NORM
       WY(1) = WY(1)*NORM
       WZ(1) = WZ(1)*NORM
@@ -117,7 +117,7 @@ C---  Node 3 skew
       UX(3) = SK(1)*L3(1)+SK(4)*L3(2)+SK(7)*L3(3)
       UY(3) = SK(2)*L3(1)+SK(5)*L3(2)+SK(8)*L3(3)
       UZ(3) = SK(3)*L3(1)+SK(6)*L3(2)+SK(9)*L3(3)
-      NORM = UN/SQRT(UX(3)*UX(3)+UY(3)*UY(3)+UZ(3)*UZ(3))
+      NORM = ONE/SQRT(UX(3)*UX(3)+UY(3)*UY(3)+UZ(3)*UZ(3))
       UX(3) = UX(3)*NORM
       UY(3) = UY(3)*NORM
       UZ(3) = UZ(3)*NORM
@@ -130,7 +130,7 @@ C---  Node 3 skew
         WY(3) =-UZ(3)
         WZ(3) = UY(3)
       ENDIF
-      NORM = UN/SQRT(WX(1)*WX(1)+WY(1)*WY(1)+WZ(1)*WZ(1))
+      NORM = ONE/SQRT(WX(1)*WX(1)+WY(1)*WY(1)+WZ(1)*WZ(1))
       WX(1) = WX(1)*NORM
       WY(1) = WY(1)*NORM
       WZ(1) = WZ(1)*NORM
@@ -200,7 +200,7 @@ C---------------------------
       YZ2=YZ*YZ
       ZX2=ZX*ZX
       DET=XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 - 2.*XY*YZ*ZX
-      DET=UN/DET
+      DET=ONE/DET
       B1=ZZZ*YYY-YZ2
       B2=XXX*ZZZ-ZX2
       B3=YYY*XXX-XY2
@@ -217,7 +217,7 @@ C --- (vx)
         LLL(IK) = INOD(JJ)
         JLL(IK) = 1
         SLL(IK) = 0
-        XLL(IK) = QUART
+        XLL(IK) = FOURTH
      .          + DET*ZS*(B2*RZ(JJ) - C1*RY(JJ))
      .          - DET*YS*(C1*RZ(JJ) - B3*RY(JJ))
       ENDDO
@@ -262,7 +262,7 @@ C --- (vy)
         LLL(IK) = INOD(JJ)
         JLL(IK) = 2
         SLL(IK) = 0
-        XLL(IK) = QUART
+        XLL(IK) = FOURTH
      .          + DET*XS*(B3*RX(JJ) - C2*RZ(JJ))
      .          - DET*ZS*(C2*RX(JJ) - B1*RZ(JJ))
       ENDDO
@@ -279,7 +279,7 @@ C --- (vy)
       LLL(IK) = INOD(4)
       JLL(IK) = 2
       SLL(IK) = 0
-      XLL(IK) = -UN
+      XLL(IK) = -ONE
 C --- (vz)
       NC = NC + 1
       IADLL(NC+1) = IADLL(NC) + 10
@@ -307,7 +307,7 @@ C --- (vz)
         LLL(IK) = INOD(JJ)
         JLL(IK) = 3
         SLL(IK) = 0
-        XLL(IK) = QUART
+        XLL(IK) = FOURTH
      .          + DET*YS*(B1*RY(JJ) - C3*RX(JJ))
      .          - DET*XS*(C3*RY(JJ) - B2*RX(JJ))
       ENDDO
@@ -315,7 +315,7 @@ C --- (vz)
       LLL(IK) = INOD(4)
       JLL(IK) = 3
       SLL(IK) = 0
-2      XLL(IK) = -UN
+2      XLL(IK) = -ONE
 C
 c      rotational dof of secnd
 C ---  (wx)
@@ -413,7 +413,7 @@ C --- (wz)
       LLL(IK) = INOD(4)
       JLL(IK) = 6
       SLL(IK) = 0
-      XLL(IK) = -UN
+      XLL(IK) = -ONE
 C
 C --- Constraints
 C     X local

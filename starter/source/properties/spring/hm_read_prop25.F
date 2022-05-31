@@ -245,7 +245,7 @@ C----
 !     .               I1=IG,
 !     .               C1=IDTITL)
 !      ENDIF
-      IF (IFUNC == 0 .AND. A /= ZERO .AND. A /= UN) THEN
+      IF (IFUNC == 0 .AND. A /= ZERO .AND. A /= ONE) THEN
         CALL ANCMSG(MSGID=663,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
@@ -253,14 +253,14 @@ C----
      .              C1=IDTITL)
       ENDIF
 C----
-      IF (A == ZERO) A = UN * A_UNIT
-      IF (D == ZERO) D = UN * D_UNIT
-      IF (E == ZERO) E = UN * E_UNIT
-      IF (F == ZERO) F = UN * F_UNIT
-      IF (LSCALE == ZERO) LSCALE = UN * LSCALE_UNIT
-      IF (GF3 == ZERO) GF3 = UN * GF3_UNIT
+      IF (A == ZERO) A = ONE * A_UNIT
+      IF (D == ZERO) D = ONE * D_UNIT
+      IF (E == ZERO) E = ONE * E_UNIT
+      IF (F == ZERO) F = ONE * F_UNIT
+      IF (LSCALE == ZERO) LSCALE = ONE * LSCALE_UNIT
+      IF (GF3 == ZERO) GF3 = ONE * GF3_UNIT
       IF (IFUNC == 0) THEN
-        A = UN
+        A = ONE
         B = ZERO
         E = ZERO
       ENDIF
@@ -280,8 +280,8 @@ C----
       GEO(43)=D
       GEO(40)=E
       GEO(132)= GF3                       
-      GEO(44)=UN/F
-      GEO(39)=UN/LSCALE
+      GEO(44)=ONE/F
+      GEO(39)=ONE/LSCALE
       GEO(65)=DN
       GEO(66)=DX
 C--   If H=6 - addditional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
@@ -394,7 +394,7 @@ C----
      .                I2=IECROU)
          IECROU = 2
        ENDIF
-      IF (IFUNC == 0 .AND. A /= ZERO .AND. A /= UN) THEN
+      IF (IFUNC == 0 .AND. A /= ZERO .AND. A /= ONE) THEN
         CALL ANCMSG(MSGID=663,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
@@ -402,14 +402,14 @@ C----
      .              C1=IDTITL)
       ENDIF
 C----
-      IF (A == ZERO) A = UN * A_UNIT
-      IF (D == ZERO) D = UN * D_UNIT
-      IF (E == ZERO) E = UN * E_UNIT
-      IF (F == ZERO) F = UN * F_UNIT
-      IF (LSCALE == ZERO) LSCALE = UN * LSCALE_UNIT
-      IF (GF3 == ZERO) GF3 = UN * GF3_UNIT
+      IF (A == ZERO) A = ONE * A_UNIT
+      IF (D == ZERO) D = ONE * D_UNIT
+      IF (E == ZERO) E = ONE * E_UNIT
+      IF (F == ZERO) F = ONE * F_UNIT
+      IF (LSCALE == ZERO) LSCALE = ONE * LSCALE_UNIT
+      IF (GF3 == ZERO) GF3 = ONE * GF3_UNIT
       IF (IFUNC == 0) THEN
-        A = UN
+        A = ONE
         B = ZERO
         E = ZERO
       ENDIF
@@ -429,8 +429,8 @@ C----
       GEO(47) =D
       GEO(180)=E
       GEO(133)= GF3                       
-      GEO(48) =UN/F
-      GEO(174)=UN/LSCALE
+      GEO(48) =ONE/F
+      GEO(174)=ONE/LSCALE
       GEO(67) =DN
       GEO(68) =DX
 C--   If H=6 - addditional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
@@ -560,7 +560,7 @@ C----
      .                I2=IECROU)
          IECROU = 2
        ENDIF
-      IF (IFUNC == 0 .AND. A /= ZERO .AND. A /= UN) THEN
+      IF (IFUNC == 0 .AND. A /= ZERO .AND. A /= ONE) THEN
         CALL ANCMSG(MSGID=663,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
@@ -568,14 +568,14 @@ C----
      .              C1=IDTITL)
       ENDIF
 C----
-      IF (A == ZERO) A = UN * A_UNIT
-      IF (D == ZERO) D = UN * D_UNIT
-      IF (E == ZERO) E = UN * E_UNIT
-      IF (F == ZERO) F = UN * F_UNIT
-      IF (LSCALE == ZERO) LSCALE = UN * LSCALE_UNIT
-      IF (GF3 == ZERO) GF3 = UN * GF3_UNIT
+      IF (A == ZERO) A = ONE * A_UNIT
+      IF (D == ZERO) D = ONE * D_UNIT
+      IF (E == ZERO) E = ONE * E_UNIT
+      IF (F == ZERO) F = ONE * F_UNIT
+      IF (LSCALE == ZERO) LSCALE = ONE * LSCALE_UNIT
+      IF (GF3 == ZERO) GF3 = ONE * GF3_UNIT
       IF (IFUNC == 0) THEN
-        A = UN
+        A = ONE
         B = ZERO
         E = ZERO
       ENDIF
@@ -595,8 +595,8 @@ C----
       GEO(55) =D
       GEO(182)=E
       GEO(135)= GF3                       
-      GEO(56) =UN/F
-      GEO(176)=UN/LSCALE
+      GEO(56) =ONE/F
+      GEO(176)=ONE/LSCALE
       GEO(71) =DN
       GEO(72) =DX
 C--   If H=6 - addditional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
@@ -708,7 +708,7 @@ C----
      .                I2=IECROU)
          IECROU = 2
        ENDIF
-      IF (IFUNC == 0 .AND. A /= ZERO .AND. A /= UN) THEN
+      IF (IFUNC == 0 .AND. A /= ZERO .AND. A /= ONE) THEN
         CALL ANCMSG(MSGID=663,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
@@ -716,14 +716,14 @@ C----
      .              C1=IDTITL)
       ENDIF
 C----
-      IF (A == ZERO) A = UN * A_UNIT
-      IF (D == ZERO) D = UN * D_UNIT
-      IF (E == ZERO) E = UN * E_UNIT
-      IF (F == ZERO) F = UN * F_UNIT
-      IF (LSCALE == ZERO) LSCALE = UN * LSCALE_UNIT
-      IF (GF3 == ZERO) GF3 = UN * GF3_UNIT
+      IF (A == ZERO) A = ONE * A_UNIT
+      IF (D == ZERO) D = ONE * D_UNIT
+      IF (E == ZERO) E = ONE * E_UNIT
+      IF (F == ZERO) F = ONE * F_UNIT
+      IF (LSCALE == ZERO) LSCALE = ONE * LSCALE_UNIT
+      IF (GF3 == ZERO) GF3 = ONE * GF3_UNIT
       IF (IFUNC == 0) THEN
-        A = UN
+        A = ONE
         B = ZERO
         E = ZERO
       ENDIF
@@ -743,8 +743,8 @@ C----
       GEO(59) =D
       GEO(183)=E
       GEO(136)= GF3                       
-      GEO(60) =UN/F
-      GEO(177)=UN/LSCALE
+      GEO(60) =ONE/F
+      GEO(177)=ONE/LSCALE
       GEO(73)=DN
       GEO(74)=DX
 C--   If H=6 - addditional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
@@ -820,9 +820,9 @@ C
       IF (IFAIL2 > 0) THEN
 C
         DO J = 1,4
-          IF (CN(J) == ZERO) CN(J) = UN
-          IF (XA(J) == ZERO) XA(J) = UN
-          IF (XB(J) == ZERO) XB(J) = DEUX
+          IF (CN(J) == ZERO) CN(J) = ONE
+          IF (XA(J) == ZERO) XA(J) = ONE
+          IF (XB(J) == ZERO) XB(J) = TWO
         ENDDO
 C----
         IF ((IFAIL2 == 0).OR.(IFAIL2 == 1)) THEN
@@ -835,14 +835,14 @@ C
 C
         DO J = 1,4
           CC(J) = ZERO
-          CN(J) = UN
-          XA(J) = UN
-          XB(J) = DEUX
+          CN(J) = ONE
+          XA(J) = ONE
+          XB(J) = TWO
         ENDDO
       ENDIF
 C
-      IF (VT0 == ZERO) VT0 = UN * VT0_UNIT
-      IF (VR0 == ZERO) VR0 = UN * VR0_UNIT
+      IF (VT0 == ZERO) VT0 = ONE * VT0_UNIT
+      IF (VR0 == ZERO) VR0 = ONE * VR0_UNIT
 C-----
       IF (.NOT.IS_CRYPTED)THEN
         WRITE(IOUT,1849) 'RUPTURE',IFAIL,IFAIL2,VT0,VR0
@@ -928,7 +928,7 @@ C----
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC 2:UNCOUPLED',/,
-     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,
@@ -953,7 +953,7 @@ C----
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC 2:UNCOUPLED',/,
-     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,
@@ -978,7 +978,7 @@ C----
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC 2:UNCOUPLED',/,
-     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,
@@ -1001,7 +1001,7 @@ C----
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC 2:UNCOUPLED',/,
-     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,
@@ -1025,7 +1025,7 @@ C----
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC 2:UNCOUPLED',/,
-     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,
@@ -1049,7 +1049,7 @@ C----
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC 2:UNCOUPLED',/,
-     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'4:KINEMATIC 5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,
@@ -1074,7 +1074,7 @@ C----
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC',/,
-     & 5X,'5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,
@@ -1099,7 +1099,7 @@ C----
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC',/,
-     & 5X,'5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,
@@ -1124,7 +1124,7 @@ C----
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC',/,
-     & 5X,'5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,
@@ -1147,7 +1147,7 @@ C----
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC',/,
-     & 5X,'5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,
@@ -1171,7 +1171,7 @@ C----
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC',/,
-     & 5X,'5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,
@@ -1195,7 +1195,7 @@ C----
      & 5X,'ABSCISSA SCALE FACTOR ON CURVE . . . . =',1PG20.13/,
      & 5X,'HARDENING FLAG H. . . . . . . . . . . .=',I10/,
      & 5X,'0:ELASTIC   1:ISOTROPIC',/,
-     & 5X,'5:UNCOUPLED NL (UN/RE)LOADING',/,
+     & 5X,'5:UNCOUPLED NL (ONE/RE)LOADING',/,
      & 5X,'6:ELASTO PLASTIC WITH HARDENING 7: ELASTIC HYSTERESIS',/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR A. . . . .=',1PG20.13/,
      & 5X,'DYNAMIC AMPLIFICATION FACTOR B. . . . .=',1PG20.13/,

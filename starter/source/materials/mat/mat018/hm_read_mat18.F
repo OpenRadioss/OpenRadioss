@@ -113,20 +113,20 @@ c     DEFAULT VALUES
 c--------------------------------------------------
 c
       IF (TIMESCAL == ZERO) THEN
-        TIMESCAL = UN
+        TIMESCAL = ONE
       ENDIF
       IF (TSCAL == ZERO) THEN
-        TSCAL = UN
+        TSCAL = ONE
       ENDIF
       IF (ESCAL == ZERO) THEN
-        ESCAL = UN
+        ESCAL = ONE
       ENDIF
       IF (KSCAL == ZERO) THEN
-        KSCAL = UN
+        KSCAL = ONE
       ENDIF
-      TIMESCAL = UN / TIMESCAL
-      ESCAL    = UN / ESCAL
-      IF (T0 == ZERO) T0 = TROIS100
+      TIMESCAL = ONE / TIMESCAL
+      ESCAL    = ONE / ESCAL
+      IF (T0 == ZERO) T0 = THREE100
       E0 = T0*SPH
 c
 c------------------

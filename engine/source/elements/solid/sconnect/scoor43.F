@@ -97,25 +97,25 @@ C     REAL ou REAL*8
      .   N1x(NEL), N1y(NEL), N1z(NEL), N2x(NEL), N2y(NEL), N2z(NEL)
 C=======================================================================
       OFF_L = ZERO
-      DTI = UN/MAX(DT,EM20)
+      DTI = ONE/MAX(DT,EM20)
       MTN = IPM(2,IMAT)   
 C----------------------------
 C     REPERE ISO
 C----------------------------
       DO I=1,NEL 
         ! P milieu des aretes
-        P1X(I)=(X1(I)+X5(I))*UNDEMI
-        P1Y(I)=(Y1(I)+Y5(I))*UNDEMI
-        P1Z(I)=(Z1(I)+Z5(I))*UNDEMI
-        P2X(I)=(X2(I)+X6(I))*UNDEMI
-        P2Y(I)=(Y2(I)+Y6(I))*UNDEMI
-        P2Z(I)=(Z2(I)+Z6(I))*UNDEMI
-        P3X(I)=(X3(I)+X7(I))*UNDEMI
-        P3Y(I)=(Y3(I)+Y7(I))*UNDEMI
-        P3Z(I)=(Z3(I)+Z7(I))*UNDEMI
-        P4X(I)=(X4(I)+X8(I))*UNDEMI
-        P4Y(I)=(Y4(I)+Y8(I))*UNDEMI
-        P4Z(I)=(Z4(I)+Z8(I))*UNDEMI
+        P1X(I)=(X1(I)+X5(I))*HALF
+        P1Y(I)=(Y1(I)+Y5(I))*HALF
+        P1Z(I)=(Z1(I)+Z5(I))*HALF
+        P2X(I)=(X2(I)+X6(I))*HALF
+        P2Y(I)=(Y2(I)+Y6(I))*HALF
+        P2Z(I)=(Z2(I)+Z6(I))*HALF
+        P3X(I)=(X3(I)+X7(I))*HALF
+        P3Y(I)=(Y3(I)+Y7(I))*HALF
+        P3Z(I)=(Z3(I)+Z7(I))*HALF
+        P4X(I)=(X4(I)+X8(I))*HALF
+        P4Y(I)=(Y4(I)+Y8(I))*HALF
+        P4Z(I)=(Z4(I)+Z8(I))*HALF
         RX(I) = P2X(I) + P3X(I) - P1X(I) - P4X(I)
         RY(I) = P2Y(I) + P3Y(I) - P1Y(I) - P4Y(I)
         RZ(I) = P2Z(I) + P3Z(I) - P1Z(I) - P4Z(I)
@@ -139,7 +139,7 @@ C----------------------------
         N1Z(I) = a1X(I) * b1Y(I) - a1Y(I) * b1X(I) 
         NORME(I) = SQRT(N1X(I)*N1X(I) + N1Y(I)*N1Y(I) + N1Z(I)*N1Z(I))
         NORME(I)=MAX(EM20,NORME(I))
-        CC = UN / NORME(I)
+        CC = ONE / NORME(I)
         N1X(I) = N1X(I) * CC 
         N1Y(I) = N1Y(I) * CC 
         N1Z(I) = N1Z(I) * CC 
@@ -156,13 +156,13 @@ C----------------------------
         N2Z(I) = a2X(I) * b2Y(I) - a2Y(I) * b2X(I) 
         NORME(I) = SQRT(N2X(I)*N2X(I) + N2Y(I)*N2Y(I) + N2Z(I)*N2Z(I))
         NORME(I)=MAX(EM20,NORME(I))
-        CC = UN / NORME(I)
+        CC = ONE / NORME(I)
         N2X(I) = N2X(I) * CC 
         N2Y(I) = N2Y(I) * CC 
         N2Z(I) = N2Z(I) * CC 
         ! TETA = ARCOS( N1.N2 ) CAR NORME =1 PAS BESOIN DE DIVISER
         COSIN =   N1X(I)*N2X(I) + N1Y(I)*N2Y(I) + N1Z(I)*N2Z(I)
-        COSIN = MAX (-UN,MIN (UN, COSIN))
+        COSIN = MAX (-ONE,MIN (ONE, COSIN))
         SYM(I)= ACOS (COSIN)
        ENDDO
       ENDIF
@@ -174,7 +174,7 @@ C----------------------------
      .             RX, RY, RZ,SX, SY, SZ, 
      .             E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,DET,OFFG)
       DO I=1,NEL
-        AREA(I) = QUART*DET(I)
+        AREA(I) = FOURTH*DET(I)
       ENDDO
 C-----------
 C     Prepare les sorties par part.
@@ -222,11 +222,11 @@ C-----------
         ZLOC(I,8) = E3X(I)*X8(I)+E3Y(I)*Y8(I)+E3Z(I)*Z8(I)               
 C
         X0 = (XLOC(I,1)+XLOC(I,2)+XLOC(I,3)+XLOC(I,4)+
-     .        XLOC(I,5)+XLOC(I,6)+XLOC(I,7)+XLOC(I,8))*UNHUIT
+     .        XLOC(I,5)+XLOC(I,6)+XLOC(I,7)+XLOC(I,8))*ONE_OVER_8
         Y0 = (YLOC(I,1)+YLOC(I,2)+YLOC(I,3)+YLOC(I,4)+
-     .        YLOC(I,5)+YLOC(I,6)+YLOC(I,7)+YLOC(I,8))*UNHUIT
+     .        YLOC(I,5)+YLOC(I,6)+YLOC(I,7)+YLOC(I,8))*ONE_OVER_8
         Z0 = (ZLOC(I,1)+ZLOC(I,2)+ZLOC(I,3)+ZLOC(I,4)+ 
-     .        ZLOC(I,5)+ZLOC(I,6)+ZLOC(I,7)+ZLOC(I,8))*UNHUIT
+     .        ZLOC(I,5)+ZLOC(I,6)+ZLOC(I,7)+ZLOC(I,8))*ONE_OVER_8
 C
         XLOC(I,1) = XLOC(I,1) - X0
         XLOC(I,2) = XLOC(I,2) - X0
@@ -282,11 +282,11 @@ C-----------
         VYLOC(I,8) = E2X(I)*VX8(I)+E2Y(I)*VY8(I)+E2Z(I)*VZ8(I)               
         VZLOC(I,8) = E3X(I)*VX8(I)+E3Y(I)*VY8(I)+E3Z(I)*VZ8(I)               
         VX0 = (VXLOC(I,1)+VXLOC(I,2)+VXLOC(I,3)+VXLOC(I,4)+ 
-     .         VXLOC(I,5)+VXLOC(I,6)+VXLOC(I,7)+VXLOC(I,8))*UNHUIT
+     .         VXLOC(I,5)+VXLOC(I,6)+VXLOC(I,7)+VXLOC(I,8))*ONE_OVER_8
         VY0 = (VYLOC(I,1)+VYLOC(I,2)+VYLOC(I,3)+VYLOC(I,4)+ 
-     .         VYLOC(I,5)+VYLOC(I,6)+VYLOC(I,7)+VYLOC(I,8))*UNHUIT
+     .         VYLOC(I,5)+VYLOC(I,6)+VYLOC(I,7)+VYLOC(I,8))*ONE_OVER_8
         VZ0 = (VZLOC(I,1)+VZLOC(I,2)+VZLOC(I,3)+VZLOC(I,4)+ 
-     .         VZLOC(I,5)+VZLOC(I,6)+VZLOC(I,7)+VZLOC(I,8))*UNHUIT
+     .         VZLOC(I,5)+VZLOC(I,6)+VZLOC(I,7)+VZLOC(I,8))*ONE_OVER_8
         VXLOC(I,1) = VXLOC(I,1) - VX0 
         VYLOC(I,1) = VYLOC(I,1) - VY0 
         VZLOC(I,1) = VZLOC(I,1) - VZ0 
@@ -385,15 +385,15 @@ C
 C--------------------   
 C       Vecteur de la  rotation instantanee
 C
-        CS = UNDEMI * (MROT(1)+MROT(5)+MROT(9)-UN)
-        IF (CS >= UN) THEN
-          RV(1) = (MROT(6) - MROT(8)) * UNDEMI
-          RV(2) = (MROT(7) - MROT(3)) * UNDEMI
-          RV(3) = (MROT(2) - MROT(4)) * UNDEMI
-        ELSEIF (CS <= -UN) THEN
-          RV(1) = PI*SQRT((MROT(1)+UN)*UNDEMI)
-          RV(2) = PI*SQRT((MROT(5)+UN)*UNDEMI)
-          RV(3) = PI*SQRT((MROT(9)+UN)*UNDEMI)
+        CS = HALF * (MROT(1)+MROT(5)+MROT(9)-ONE)
+        IF (CS >= ONE) THEN
+          RV(1) = (MROT(6) - MROT(8)) * HALF
+          RV(2) = (MROT(7) - MROT(3)) * HALF
+          RV(3) = (MROT(2) - MROT(4)) * HALF
+        ELSEIF (CS <= -ONE) THEN
+          RV(1) = PI*SQRT((MROT(1)+ONE)*HALF)
+          RV(2) = PI*SQRT((MROT(5)+ONE)*HALF)
+          RV(3) = PI*SQRT((MROT(9)+ONE)*HALF)
           IF (MROT(2) < ZERO .AND. MROT(6) < ZERO) THEN
             RV(2) = -RV(2)
           ELSEIF (MROT(6) < ZERO .AND. MROT(7) < ZERO) THEN
@@ -409,7 +409,7 @@ C
           ENDIF
         ELSE
           KSI   = ACOS(CS)
-          SN    = UNDEMI*KSI/SIN(KSI)
+          SN    = HALF*KSI/SIN(KSI)
           RV(1) = (MROT(6) - MROT(8)) * SN
           RV(2) = (MROT(7) - MROT(3)) * SN
           RV(3) = (MROT(2) - MROT(4)) * SN

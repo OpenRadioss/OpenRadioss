@@ -131,14 +131,14 @@ C     REAL ou REAL*8
       DATA JPERM/2,3,4,1/
 C--------------------------------------------------------------
 C     CALCUL DES RIGIDITES DES SEGMENTS 
-C     V16 : DANS LE CAS OU UN SEGMENT APPARTIENT A LA FOIS
+C     V16 : DANS LE CAS OU ONE SEGMENT APPARTIENT A LA FOIS
 C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
 C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
 C---------------------------------------------------------------
       ALLOCATE( GAP_S_L_TMP(NUMNOD) )
       IPGMAT = 700
       IF(NTY==20)THEN
-        SLSFAC = UN
+        SLSFAC = ONE
       ELSE
         SLSFAC = STFAC
       ENDIF
@@ -170,7 +170,7 @@ C
         GAPSCALE=GAPMIN
         GAPMIN=ZERO
       ELSE
-        GAPSCALE = UN
+        GAPSCALE = ONE
       ENDIF
 C
       IF(IGAP==3)THEN
@@ -236,13 +236,13 @@ C------------------------------------
         IGTYP = IGEO(11,MG)
 	IP = IPARTC(I)
 	IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-	  DX=UNDEMI*THK_PART(IP)
+	  DX=HALF*THK_PART(IP)
 	ELSEIF ( THK(I) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-	  DX=UNDEMI*THK(I)
+	  DX=HALF*THK(I)
 	ELSEIF(IGTYP == 17 .OR. IGTYP ==51 .OR. IGTYP == 52) THEN
-	  DX=UNDEMI*THK(I)
+	  DX=HALF*THK(I)
         ELSE
-          DX=UNDEMI*GEO(1,MG)
+          DX=HALF*GEO(1,MG)
 	ENDIF
         WA(IXC(2,I))=MAX(WA(IXC(2,I)),DX)
         WA(IXC(3,I))=MAX(WA(IXC(3,I)),DX)
@@ -254,13 +254,13 @@ C------------------------------------
         IGTYP = IGEO(11,MG)
 	IP = IPARTTG(I)
 	IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-	  DX=UNDEMI*THK_PART(IP)
+	  DX=HALF*THK_PART(IP)
 	ELSEIF ( THK(NUMELC+I) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-	  DX=UNDEMI*THK(NUMELC+I)
+	  DX=HALF*THK(NUMELC+I)
 	ELSEIF(IGTYP == 17 .OR. IGTYP ==51 .OR. IGTYP == 52 ) THEN
-	  DX=UNDEMI*THK(NUMELC+I)
+	  DX=HALF*THK(NUMELC+I)
         ELSE
-          DX=UNDEMI*GEO(1,MG)
+          DX=HALF*GEO(1,MG)
 	ENDIF
         WA(IXTG(2,I))=MAX(WA(IXTG(2,I)),DX)
         WA(IXTG(3,I))=MAX(WA(IXTG(3,I)),DX)
@@ -268,7 +268,7 @@ C------------------------------------
        ENDDO
        DO I=1,NUMELT
         MG=IXT(4,I)
-        DX=UNDEMI*SQRT(GEO(1,MG))
+        DX=HALF*SQRT(GEO(1,MG))
         WA(IXT(2,I))=MAX(WA(IXT(2,I)),DX)
         WA(IXT(3,I))=MAX(WA(IXT(3,I)),DX)
        ENDDO
@@ -308,7 +308,7 @@ C calcul du surface second. ---
                SY3  = SZ1*SX2 - SX1*SZ2
                SZ3  = SX1*SY2 - SY1*SX2
                AREAS(I) = AREAS(I) 
-     .                    + UNHUIT*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+     .                    + ONE_OVER_8*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 C overwrite
                IELEC(I) = IXC(1,IE)
              END DO
@@ -325,7 +325,7 @@ C
                SY3  = SZ1*SX2 - SX1*SZ2
                SZ3  = SX1*SY2 - SY1*SX2
                AREAS(I) = AREAS(I) 
-     .                    + UNSIX*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+     .                    + ONE_OVER_6*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 C overwrite
                IELEC(I) = IXTG(1,IE)
              END DO
@@ -352,7 +352,7 @@ C overwrite
                  SY3  = SZ1*SX2 - SX1*SZ2
                  SZ3  = SX1*SY2 - SY1*SX2
                  AREAS(I) = AREAS(I) 
-     .                      + UNHUIT*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+     .                      + ONE_OVER_8*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 C overwrite
                  IELEC(I) = IXC(1,IE)
                END IF
@@ -378,7 +378,7 @@ C
                  SY3  = SZ1*SX2 - SX1*SZ2
                  SZ3  = SX1*SY2 - SY1*SX2
                  AREAS(I) = AREAS(I) 
-     .                      + UNSIX*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+     .                      + ONE_OVER_6*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 C overwrite
                  IELEC(I) = IXTG(1,IE)
                END IF
@@ -467,7 +467,7 @@ C------------------------------------
 	  ELSE
             DX=GEO(1,MG)*GAPSCALE
 	  ENDIF
-          GAPM=UNDEMI*DX
+          GAPM=HALF*DX
           GAPM_MX=MAX(GAPM_MX,GAPM)
           GAPMN = MIN(GAPMN,DX)
           DXM=DXM+DX
@@ -552,7 +552,7 @@ C------------------------------------
           ELSE
             DX=GEO(1,MG)*GAPSCALE
 	  ENDIF
-          GAPM=UNDEMI*DX
+          GAPM=HALF*DX
           GAPM_MX=MAX(GAPM_MX,GAPM)
           GAPMN = MIN(GAPMN,DX)
           DXM=DXM+DX
@@ -699,7 +699,7 @@ C
 	ELSE
           DX=GEO(1,MG)*GAPSCALE
 	ENDIF
-        GAPM=UNDEMI*DX
+        GAPM=HALF*DX
         GAPM_MX=MAX(GAPM_MX,GAPM)
         GAPMN = MIN(GAPMN,DX)
         DXM=DXM+DX
@@ -782,7 +782,7 @@ C----------------------------------
 	ELSE
           DX=GEO(1,MG)*GAPSCALE
 	ENDIF
-        GAPM=UNDEMI*DX
+        GAPM=HALF*DX
         GAPM_MX=MAX(GAPM_MX,GAPM)
         GAPMN = MIN(GAPMN,DX)
         DXM=DXM+DX
@@ -1007,7 +1007,7 @@ C GAP FIXE
          IF(GAP.LE.ZERO)THEN
            IF(NDX.NE.0)THEN
              GAP = DXM/NDX
-             GAP = MIN(UNDEMI*GAPMX,GAP)
+             GAP = MIN(HALF*GAPMX,GAP)
            ELSE
              GAP = EM01 * GAPMX
            ENDIF
@@ -1023,7 +1023,7 @@ C GAP FIXE
      .                 C1=TITR)
          ENDIF
          IF ((INACTI.NE.7).AND.(GAP.GT.0.5*GAPMX).AND.(IREM_GAP /= 2)) THEN
-          GAPTMP = UNDEMI*GAPMX
+          GAPTMP = HALF*GAPMX
           CALL ANCMSG(MSGID=94,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_2,
@@ -1034,12 +1034,12 @@ C GAP FIXE
        ENDIF
        ELSE
 C GAP VARIABLE :
-C    - GAPMIN CONTIENT UN GAP MINIMUM UTILISE SI GAP_S(I)+GAP_M(J) < GAPMIN
+C    - GAPMIN CONTIENT ONE GAP MINIMUM UTILISE SI GAP_S(I)+GAP_M(J) < GAPMIN
 C    - GAP CONTIENT LE SUP DE (GAP_S(I)+GAP_M(J),GAPMIN) 
          IF(GAP.LE.ZERO)THEN
            IF(NDX.NE.0)THEN
              GAPMIN = GAPMN
-             GAPMIN = MIN(UNDEMI*GAPMX,GAPMIN)
+             GAPMIN = MIN(HALF*GAPMX,GAPMIN)
            ELSE
              GAPMIN = EM01 * GAPMX
            ENDIF
@@ -1062,7 +1062,7 @@ C SUP DES GAPS VARIABLES
          ENDIF
          GAP=MIN(GAP,GAPMAX)
          IF ((IGAP .NE.3).AND.(IREM_GAP /= 2)) THEN
-           IF(INACTI.NE.7.AND.GAP.GT.UNDEMI*GAPMX
+           IF(INACTI.NE.7.AND.GAP.GT.HALF*GAPMX
      .        .AND.  IDDLEVEL == 1)THEN
             GAPTMP = 0.5*GAPMX
             CALL ANCMSG(MSGID=477,
@@ -1172,7 +1172,7 @@ C
 C----------------------------------
 C
 C---------------------------------------------
-C     MISE A UN DU MULTIPLICATEUR NODALE DES RIGIDITES 
+C     MISE A ONE DU MULTIPLICATEUR NODALE DES RIGIDITES 
 C---------------------------------------------
       DO 610 L=1,NSN
          STFN(L) = 1.
@@ -1259,7 +1259,7 @@ C-----------------------------------------------
          IPI = 1
          IPF = NPARTSFRIC 
           DO WHILE ((IPF-IPI) >= 1)
-             IPLMID = IPI + NINT((IPF-IPI)*UNDEMI)
+             IPLMID = IPI + NINT((IPF-IPI)*HALF)
              IPMID = PARTSFRIC(IPLMID)
              IF(IPMID == IP) THEN
                 IPL = IPLMID

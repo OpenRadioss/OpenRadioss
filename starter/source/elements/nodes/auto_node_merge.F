@@ -116,7 +116,7 @@ C     Possibly Merge Nodes
         DX  = XMAX-XMIN
         DY  = YMAX-YMIN
         DZ  = ZMAX-ZMIN
-        TOL = EM05*(DX+DY+DZ)/(TROIS*EXP(TIERS*LOG(XODUSR)))
+        TOL = EM05*(DX+DY+DZ)/(THREE*EXP(THIRD*LOG(XODUSR)))
 
         I = 2
         DO WHILE(I <= NUMNUSR)

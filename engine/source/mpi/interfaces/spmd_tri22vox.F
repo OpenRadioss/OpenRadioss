@@ -264,9 +264,9 @@ C================================================================
               BUF(P)%p(L+17:L+19)= (/XMINE(I),YMINE(I),ZMINE(I)/)
               BUF(P)%p(L+20:L+22)= (/XMAXE(I),YMAXE(I),ZMAXE(I)/)
               BUF(P)%p(L+23)       = STIFE(I)
-              BUF(P)%p(L+24)       = SUM(V(1,IRECTM(1:4,I)))/QUATRE
-              BUF(P)%p(L+25)       = SUM(V(2,IRECTM(1:4,I)))/QUATRE
-              BUF(P)%p(L+26)       = SUM(V(3,IRECTM(1:4,I)))/QUATRE
+              BUF(P)%p(L+24)       = SUM(V(1,IRECTM(1:4,I)))/FOUR
+              BUF(P)%p(L+25)       = SUM(V(2,IRECTM(1:4,I)))/FOUR
+              BUF(P)%p(L+26)       = SUM(V(3,IRECTM(1:4,I)))/FOUR
               L = L + SIZ_XREM ! attention SIZ_XREM a mettre a jour dans tri22_mod si modif
             END DO
             MSGTYP = MSGOFF4

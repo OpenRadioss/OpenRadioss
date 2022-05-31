@@ -158,9 +158,9 @@ C     NVENT dependant number of lines
          CALL HM_GET_FLOAT_ARRAY_INDEX('FscaleP', FPORP, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOAT_ARRAY_INDEX('FscaleA', FPORA, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-         IF (FPORT == ZERO) FPORT = UN
-         IF (FPORP == ZERO) FPORP = UN
-         IF (FPORA == ZERO) FPORA = UN
+         IF (FPORT == ZERO) FPORT = ONE
+         IF (FPORP == ZERO) FPORP = ONE
+         IF (FPORA == ZERO) FPORA = ONE
          IF(IPVENT == 0 .OR. IDEF == 0)THEN
             IDEF = -1
          ELSE
@@ -174,7 +174,7 @@ C     NVENT dependant number of lines
             DO J = 1, NSURF
                IF (IPVENT == IGRSURF(J)%ID) T_MONVOLN%IBAGHOL(2, II) = J
             ENDDO
-            IF(AVENT == ZERO) AVENT = UN
+            IF(AVENT == ZERO) AVENT = ONE
          ENDIF
          IF(AVENT == ZERO) DPDEF = INFINITY
          IF(AVENT == ZERO) TVENT = INFINITY
@@ -256,7 +256,7 @@ C     Reverse all normals to ensure positive volume
      .     IGRSURF(T_MONVOLN%EXT_SURFID),IXC,IXTG,VOL, X, 3)
 
 C     Parameter checks
-      IF (GAMMA == UN) THEN
+      IF (GAMMA == ONE) THEN
          CALL ANCMSG(MSGID = 641, MSGTYPE = MSGERROR, ANMODE = ANINFO_BLIND_1,
      .              I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE)
       ENDIF
@@ -270,30 +270,30 @@ C     =====
 C     Default value for time scale factor
       IF (SCAL_T == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('Ascalet', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_T = UN * FAC_GEN
+         SCAL_T = ONE * FAC_GEN
       ENDIF
       IF (SCAL_P == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleP', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_P = UN * FAC_GEN
+         SCAL_P = ONE * FAC_GEN
       ENDIF
       IF (SCAL_S == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleS', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_S = UN * FAC_GEN
+         SCAL_S = ONE * FAC_GEN
       ENDIF
       IF (SCAL_A == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleA', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_A = UN * FAC_GEN
+         SCAL_A = ONE * FAC_GEN
       ENDIF
       IF (SCAL_D == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleD', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_D = UN * FAC_GEN
+         SCAL_D = ONE * FAC_GEN
       ENDIF
       IF (PMAX == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('Pmax', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
          PMAX = INFINITY * FAC_GEN
       ENDIF
 !     Initial temperature 
-      IF (TI == ZERO) TI = DEUXCENT95
+      IF (TI == ZERO) TI = TWOHUNDRED95
       IF (IEQUI > 0) THEN
          IF (RHOI /= ZERO .AND. MI /= ZERO) THEN
             MI = RHOI / VOL
@@ -318,7 +318,7 @@ C
 !     Store CV
       T_MONVOLN%RVOLU(19) = ZERO
       IF (RHOI /= ZERO) THEN
-         T_MONVOLN%RVOLU(19) = PEXT / ((GAMMA - UN) * RHOI * TI)
+         T_MONVOLN%RVOLU(19) = PEXT / ((GAMMA - ONE) * RHOI * TI)
       ENDIF
       T_MONVOLN%IVOLU(15) = IEQUI
       T_MONVOLN%IVOLU(11) = NVENT
@@ -330,11 +330,11 @@ C
       T_MONVOLN%RVOLU(6) = PMAX
       T_MONVOLN%RVOLU(17) = VEPS
       IF (T_RELAX > ZERO) THEN
-         EI = PEXT * (VOL + VEPS - VINC) / (GAMMA - UN)
+         EI = PEXT * (VOL + VEPS - VINC) / (GAMMA - ONE)
          T_MONVOLN%RVOLU(12) = PEXT
-         T_MONVOLN%RVOLU(52) = (PINI - PEXT) * (VOL + VEPS - VINC) / T_RELAX / (GAMMA-UN)
+         T_MONVOLN%RVOLU(52) = (PINI - PEXT) * (VOL + VEPS - VINC) / T_RELAX / (GAMMA-ONE)
       ELSE
-          EI = PINI * (VOL + VEPS - VINC) / (GAMMA - UN)
+          EI = PINI * (VOL + VEPS - VINC) / (GAMMA - ONE)
           T_MONVOLN%RVOLU(12) = PINI
           T_MONVOLN%RVOLU(52) = ZERO
       ENDIF
@@ -346,11 +346,11 @@ C
       T_MONVOLN%RVOLU(48) = T_RELAX
 
 C     Store in data structure
-      T_MONVOLN%RVOLU(26) = UN / SCAL_T
-      T_MONVOLN%RVOLU(27) = UN / SCAL_P
-      T_MONVOLN%RVOLU(28) = UN / SCAL_S
-      T_MONVOLN%RVOLU(29) = UN / SCAL_A
-      T_MONVOLN%RVOLU(30) = UN / SCAL_D   
+      T_MONVOLN%RVOLU(26) = ONE / SCAL_T
+      T_MONVOLN%RVOLU(27) = ONE / SCAL_P
+      T_MONVOLN%RVOLU(28) = ONE / SCAL_S
+      T_MONVOLN%RVOLU(29) = ONE / SCAL_A
+      T_MONVOLN%RVOLU(30) = ONE / SCAL_D   
 C
       
 C

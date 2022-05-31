@@ -186,7 +186,7 @@ c-----------------------------------------------------------------------
 
 c
       DO I = 1, NRATEP
-        IF (SLOAD(I) == ZERO) SLOAD(I) = UN*FSCAL_UNIT
+        IF (SLOAD(I) == ZERO) SLOAD(I) = ONE*FSCAL_UNIT
         IFUNC(I) = FLOAD(I)
         RATE(I)  = RLOAD(I)
         YFAC(I)  = SLOAD(I)
@@ -194,7 +194,7 @@ c
       NFUNC = NRATEP + NRATEN 
       DO I  = 1, NRATEN
          J  = NRATEP + I
-        IF (SUNLOAD(I) == ZERO) SUNLOAD(I) = UN*FSCAL_UNIT
+        IF (SUNLOAD(I) == ZERO) SUNLOAD(I) = ONE*FSCAL_UNIT
         IFUNC(J) = FUNLOAD(I)
         RATE(J)  = RUNLOAD(I)
         YFAC(J)  = SUNLOAD(I)
@@ -218,22 +218,22 @@ c-----------------------------------------------------------------------
 c     Default values
 c-----------------------------------------------------------------------
       IF (EMAX == ZERO)   EMAX    = E0
-      IF (EPSMAX == ZERO) EPSMAX  = UN
-      IF (GAMMA == ZERO)  GAMMA   = UNP4
+      IF (EPSMAX == ZERO) EPSMAX  = ONE
+      IF (GAMMA == ZERO)  GAMMA   = ONEP4
       IF (RHOEXT == 0)    RHOEXT  = RHOA
-      IF (EXPO == ZERO)   EXPO    = UN
-      IF (HYS  == ZERO)   HYS     = UN
+      IF (EXPO == ZERO)   EXPO    = ONE
+      IF (HYS  == ZERO)   HYS     = ONE
       IF (IUNLOAD == 0)   IUNLOAD = 1
       ISRATE  = 1    ! force strain rate computation
       IF (FCUT == ZERO)   FCUT    = INFINITY
 c-----------------------------------------------------------------------
-      EINT0    = P0/(GAMMA - UN)
-      EINT_EXT = PEXT/(GAMMA - UN)
+      EINT0    = P0/(GAMMA - ONE)
+      EINT_EXT = PEXT/(GAMMA - ONE)
       A1       = (EMAX-E0) / EPSMAX
-      G        = UNDEMI*E0 / (UN + NU)
-      BULK     = E0/TROIS / (UN - DEUX*NU)
-      EINT0    = P0/(GAMMA - UN)
-      EINT_EXT = PEXT/(GAMMA - UN)
+      G        = HALF*E0 / (ONE + NU)
+      BULK     = E0/THREE / (ONE - TWO*NU)
+      EINT0    = P0/(GAMMA - ONE)
+      EINT_EXT = PEXT/(GAMMA - ONE)
 c-----------------------------------------------------------------------
       UPARAM(2) = E0
       UPARAM(3) = A1
@@ -270,7 +270,7 @@ c-----------------------------------------------------------------------
       PARMAT(4)  = ISRATE
       PARMAT(5)  = FCUT
       PARMAT(16) = 2  !  Formulation for solid elements time step computation
-      PARMAT(17) = (UN - DEUX*NU)/(UN - NU)       
+      PARMAT(17) = (ONE - TWO*NU)/(ONE - NU)       
 c
       PM(192) = RHOA     
       PM(193) = FRAC     

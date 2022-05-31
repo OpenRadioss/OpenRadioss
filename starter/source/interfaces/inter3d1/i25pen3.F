@@ -141,7 +141,7 @@ C         Computing initial penetrations vs shells except opposite segments to t
         END IF
       END DO
 C-----------------------------------------------
-      IF (IRESP==1.AND.PENMIN<=EM06) PENMIN = DEUX*EM06
+      IF (IRESP==1.AND.PENMIN<=EM06) PENMIN = TWO*EM06
 C--------
       FAR(1:JLT,1:4)    = 0
       DD  (1:JLT,1:4)   = EP20
@@ -195,7 +195,7 @@ C
         Z0N(I,4) = ZZ(I,4) - ZZ(I,5)
 C    
         IF(IX3(I)/=IX4(I))THEN
-          GAP_MM(I)=QUART*(GAP_NM(1,I)+GAP_NM(2,I)+GAP_NM(3,I)+GAP_NM(4,I))
+          GAP_MM(I)=FOURTH*(GAP_NM(1,I)+GAP_NM(2,I)+GAP_NM(3,I)+GAP_NM(4,I))
         ELSE
           GAP_MM(I)=GAP_NM(3,I)
         END IF
@@ -236,7 +236,7 @@ C
         XN(I,1) = Y0N(I,1)*Z0N(I,2) - Z0N(I,1)*Y0N(I,2)
         YN(I,1) = Z0N(I,1)*X0N(I,2) - X0N(I,1)*Z0N(I,2)
         ZN(I,1) = X0N(I,1)*Y0N(I,2) - Y0N(I,1)*X0N(I,2)
-        NN = UN/
+        NN = ONE/
      .       MAX(EM30,SQRT(XN(I,1)*XN(I,1)+ YN(I,1)*YN(I,1)+ ZN(I,1)*ZN(I,1)))
         XN(I,1)=XN(I,1)*NN
         YN(I,1)=YN(I,1)*NN
@@ -251,7 +251,7 @@ C
         XN(I,2) = Y0N(I,2)*Z0N(I,3) - Z0N(I,2)*Y0N(I,3)
         YN(I,2) = Z0N(I,2)*X0N(I,3) - X0N(I,2)*Z0N(I,3)
         ZN(I,2) = X0N(I,2)*Y0N(I,3) - Y0N(I,2)*X0N(I,3)
-        NN = UN/
+        NN = ONE/
      .       MAX(EM30,SQRT(XN(I,2)*XN(I,2)+ YN(I,2)*YN(I,2)+ ZN(I,2)*ZN(I,2)))
         XN(I,2)=XN(I,2)*NN
         YN(I,2)=YN(I,2)*NN
@@ -266,7 +266,7 @@ C
         XN(I,3) = Y0N(I,3)*Z0N(I,4) - Z0N(I,3)*Y0N(I,4)
         YN(I,3) = Z0N(I,3)*X0N(I,4) - X0N(I,3)*Z0N(I,4)
         ZN(I,3) = X0N(I,3)*Y0N(I,4) - Y0N(I,3)*X0N(I,4)
-        NN = UN/
+        NN = ONE/
      .       MAX(EM30,SQRT(XN(I,3)*XN(I,3)+ YN(I,3)*YN(I,3)+ ZN(I,3)*ZN(I,3)))
         XN(I,3)=XN(I,3)*NN
         YN(I,3)=YN(I,3)*NN
@@ -277,7 +277,7 @@ C
         XN(I,4) = Y0N(I,4)*Z0N(I,1) - Z0N(I,4)*Y0N(I,1)
         YN(I,4) = Z0N(I,4)*X0N(I,1) - X0N(I,4)*Z0N(I,1)
         ZN(I,4) = X0N(I,4)*Y0N(I,1) - Y0N(I,4)*X0N(I,1)
-        NN = UN/
+        NN = ONE/
      .       MAX(EM30,SQRT(XN(I,4)*XN(I,4)+ YN(I,4)*YN(I,4)+ ZN(I,4)*ZN(I,4)))
         XN(I,4)=XN(I,4)*NN
         YN(I,4)=YN(I,4)*NN
@@ -290,26 +290,26 @@ C--------------------------------------------------------
       DO K=1,NINDX
         I=INDX(K)
 C
-        AAA      = UN/MAX(EM30,X0N(I,1)*X0N(I,1)+Y0N(I,1)*Y0N(I,1)+Z0N(I,1)*Z0N(I,1))
+        AAA      = ONE/MAX(EM30,X0N(I,1)*X0N(I,1)+Y0N(I,1)*Y0N(I,1)+Z0N(I,1)*Z0N(I,1))
         HLC(I,1) = LC(I,1)*ABS(LC(I,1))*AAA
         HLB(I,4) = LB(I,4)*ABS(LB(I,4))*AAA
         AL(I,1)  = -(XI0V(I)*X0N(I,1)+YI0V(I)*Y0N(I,1)+ZI0V(I)*Z0N(I,1))*AAA
-        AL(I,1)  = MAX(ZERO,MIN(UN,AL(I,1)))
-        AAA      = UN/MAX(EM30,X0N(I,2)*X0N(I,2)+Y0N(I,2)*Y0N(I,2)+Z0N(I,2)*Z0N(I,2))
+        AL(I,1)  = MAX(ZERO,MIN(ONE,AL(I,1)))
+        AAA      = ONE/MAX(EM30,X0N(I,2)*X0N(I,2)+Y0N(I,2)*Y0N(I,2)+Z0N(I,2)*Z0N(I,2))
         HLC(I,2) = LC(I,2)*ABS(LC(I,2))*AAA
         HLB(I,1) = LB(I,1)*ABS(LB(I,1))*AAA
         AL(I,2)  = -(XI0V(I)*X0N(I,2)+YI0V(I)*Y0N(I,2)+ZI0V(I)*Z0N(I,2))*AAA
-        AL(I,2)  = MAX(ZERO,MIN(UN,AL(I,2)))
-        AAA      = UN/MAX(EM30,X0N(I,3)*X0N(I,3)+Y0N(I,3)*Y0N(I,3)+Z0N(I,3)*Z0N(I,3))
+        AL(I,2)  = MAX(ZERO,MIN(ONE,AL(I,2)))
+        AAA      = ONE/MAX(EM30,X0N(I,3)*X0N(I,3)+Y0N(I,3)*Y0N(I,3)+Z0N(I,3)*Z0N(I,3))
         HLC(I,3) = LC(I,3)*ABS(LC(I,3))*AAA
         HLB(I,2) = LB(I,2)*ABS(LB(I,2))*AAA
         AL(I,3)  = -(XI0V(I)*X0N(I,3)+YI0V(I)*Y0N(I,3)+ZI0V(I)*Z0N(I,3))*AAA
-        AL(I,3)  = MAX(ZERO,MIN(UN,AL(I,3)))
-        AAA      = UN/MAX(EM30,X0N(I,4)*X0N(I,4)+Y0N(I,4)*Y0N(I,4)+Z0N(I,4)*Z0N(I,4))
+        AL(I,3)  = MAX(ZERO,MIN(ONE,AL(I,3)))
+        AAA      = ONE/MAX(EM30,X0N(I,4)*X0N(I,4)+Y0N(I,4)*Y0N(I,4)+Z0N(I,4)*Z0N(I,4))
         HLC(I,4) = LC(I,4)*ABS(LC(I,4))*AAA
         HLB(I,3) = LB(I,3)*ABS(LB(I,3))*AAA
         AL(I,4)  = -(XI0V(I)*X0N(I,4)+YI0V(I)*Y0N(I,4)+ZI0V(I)*Z0N(I,4))*AAA
-        AL(I,4)  = MAX(ZERO,MIN(UN,AL(I,4)))
+        AL(I,4)  = MAX(ZERO,MIN(ONE,AL(I,4)))
 C
       END DO
 C--------------------------------------------------------
@@ -325,15 +325,15 @@ C
 C
         LBP(I,IT) = LB(I,IT)
         LCP(I,IT) = LC(I,IT)
-        LAP       = UN-LBP(I,IT)-LCP(I,IT)
+        LAP       = ONE-LBP(I,IT)-LCP(I,IT)
 C       HLA, HLB, HLC necessaires pour triangle angle obtu
-        AAA = UN / MAX(EM20,X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I))
+        AAA = ONE / MAX(EM20,X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I))
         HLA= LAP*ABS(LAP) * AAA
         IF(LAP.LT.ZERO.AND.
      +     HLA.LE.HLB(I,IT).AND.HLA.LE.HLC(I,IT))THEN
          LBP(I,IT) = (XIJ(I,I2)*X12(I)+YIJ(I,I2)*Y12(I)+ZIJ(I,I2)*Z12(I)) * AAA
-         LBP(I,IT) = MAX(ZERO,MIN(UN,LBP(I,IT)))
-         LCP(I,IT) = UN - LBP(I,IT)
+         LBP(I,IT) = MAX(ZERO,MIN(ONE,LBP(I,IT)))
+         LCP(I,IT) = ONE - LBP(I,IT)
         ELSEIF(LBP(I,IT).LT.ZERO.AND.
      +         HLB(I,IT).LE.HLC(I,IT).AND.HLB(I,IT).LE.HLA)THEN
          LBP(I,IT) = ZERO
@@ -344,7 +344,7 @@ C       HLA, HLB, HLC necessaires pour triangle angle obtu
          LBP(I,IT) = AL(I,I1)
         ENDIF
 
-        LAP = UN-LBP(I,IT)-LCP(I,IT)
+        LAP = ONE-LBP(I,IT)-LCP(I,IT)
         XP  =LAP*XX(I,5)+LBP(I,IT)*XX(I,I1) + LCP(I,IT)*XX(I,I2)
         YP  =LAP*YY(I,5)+LBP(I,IT)*YY(I,I1) + LCP(I,IT)*YY(I,I2)
         ZP  =LAP*ZZ(I,5)+LBP(I,IT)*ZZ(I,I1) + LCP(I,IT)*ZZ(I,I2)
@@ -358,7 +358,7 @@ C--------------------------------------------------------
       DO K=1,NINDX
         I=INDX(K)
 C          
-        LAP  = UN-LBP(I,IT)-LCP(I,IT)
+        LAP  = ONE-LBP(I,IT)-LCP(I,IT)
 C
         GAPV(I,IT)  = MIN(GAPS(I)+LAP*GAP_MM(I)+LBP(I,IT)*GAP_NM(I1,I)+LCP(I,IT)*GAP_NM(I2,I),GAPMXL(I))
         GAP2 = GAPV(I,IT)**2
@@ -409,15 +409,15 @@ C
 C
           LBP(I,IT) = LB(I,IT)
           LCP(I,IT) = LC(I,IT)
-          LAP       = UN-LBP(I,IT)-LCP(I,IT)
+          LAP       = ONE-LBP(I,IT)-LCP(I,IT)
 C         HLA, HLB, HLC necessaires pour triangle angle obtu
-          AAA = UN / MAX(EM20,X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I))
+          AAA = ONE / MAX(EM20,X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I))
           HLA= LAP*ABS(LAP) * AAA
           IF(LAP.LT.ZERO.AND.
      +       HLA.LE.HLB(I,IT).AND.HLA.LE.HLC(I,IT))THEN
            LBP(I,IT) = (XIJ(I,I2)*X12(I)+YIJ(I,I2)*Y12(I)+ZIJ(I,I2)*Z12(I)) * AAA
-           LBP(I,IT) = MAX(ZERO,MIN(UN,LBP(I,IT)))
-           LCP(I,IT) = UN - LBP(I,IT)
+           LBP(I,IT) = MAX(ZERO,MIN(ONE,LBP(I,IT)))
+           LCP(I,IT) = ONE - LBP(I,IT)
           ELSEIF(LBP(I,IT).LT.ZERO.AND.
      +           HLB(I,IT).LE.HLC(I,IT).AND.HLB(I,IT).LE.HLA)THEN
            LBP(I,IT) = ZERO
@@ -428,7 +428,7 @@ C         HLA, HLB, HLC necessaires pour triangle angle obtu
            LBP(I,IT) = AL(I,I1)
           ENDIF
 
-          LAP = UN-LBP(I,IT)-LCP(I,IT)
+          LAP = ONE-LBP(I,IT)-LCP(I,IT)
           XP  =LAP*XX(I,5)+LBP(I,IT)*XX(I,I1) + LCP(I,IT)*XX(I,I2)
           YP  =LAP*YY(I,5)+LBP(I,IT)*YY(I,I1) + LCP(I,IT)*YY(I,I2)
           ZP  =LAP*ZZ(I,5)+LBP(I,IT)*ZZ(I,I1) + LCP(I,IT)*ZZ(I,I2)
@@ -442,7 +442,7 @@ C         HLA, HLB, HLC necessaires pour triangle angle obtu
          DO K=1,N4N
           I=I4N(K)
 C
-          LAP  = UN-LBP(I,IT)-LCP(I,IT)
+          LAP  = ONE-LBP(I,IT)-LCP(I,IT)
 C
           GAPV(I,IT) = MIN(GAPS(I)+LAP*GAP_MM(I)+LBP(I,IT)*GAP_NM(I1,I)+LCP(I,IT)*GAP_NM(I2,I),GAPMXL(I))
           GAP2 = GAPV(I,IT)**2
@@ -480,10 +480,10 @@ C
          IF(IX3(I)/=IX4(I))THEN
            DMIN=MIN(DD(I,1),DD(I,2),DD(I,3),DD(I,4))
            DO JJ=1,4
-             IF(DD(I,JJ) <= UNP03*DMIN)THEN
+             IF(DD(I,JJ) <= ONEP03*DMIN)THEN
                LBX = LB(I,JJ)
                LCX = LC(I,JJ)
-               LAX = UN-LB(I,JJ)-LC(I,JJ)
+               LAX = ONE-LB(I,JJ)-LC(I,JJ)
 C
 C              Privilegier secteur dans lequel on se trouve.
                IF(LBX >= ZERO .AND. LCX >= ZERO)THEN
@@ -531,7 +531,7 @@ C
 C
 C       Projection en dehors du triangle
         IF(LB(I,IT) < -EM03 .OR. LC(I,IT) < -EM03 .OR.
-     .      LB(I,IT)+LC(I,IT) > UN+EM03) FAR(I,IT)=1
+     .      LB(I,IT)+LC(I,IT) > ONE+EM03) FAR(I,IT)=1
 C
         IF(IX3(I) /= IX4(I))THEN
 C
@@ -570,7 +570,7 @@ C
               VX = X0N(I,IX) ! fake bisector of angle at vertex IX
               VY = Y0N(I,IX)
               VZ = Z0N(I,IX)
-              NN = UN/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
+              NN = ONE/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
               PN = ((XH(I)-XX(I,IX))*VX+(YH(I)-YY(I,IX))*VY+(ZH(I)-ZZ(I,IX))*VZ)*NN
               IF(PN >= GAPS(I)) FAR(I,IT) =2
             END IF
@@ -591,7 +591,7 @@ C           normal to the bisecting plane (pointing toward the inside)
 C
             LL  = XIJ(I,I1)*XIJ(I,I1)+YIJ(I,I1)*YIJ(I,I1)+ZIJ(I,I1)*ZIJ(I,I1)
 C
-            SIDE(I,IT)=-(XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(UN/MAX(EM30,LL*PP))
+            SIDE(I,IT)=-(XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))
 C
 C           Projette a l'exterieur et Hors secteur angulaire (cf bissectrices) <=> Glissement
             IF(SIDE(I,IT) < -ZEP01) FAR(I,IT) =2
@@ -653,10 +653,10 @@ C
      .             (ZH(I)-ZZ(I,IX))* VTX_BISECTOR(3,2,IBX)
               IF(P1 >= GAPS(I) .AND. P2 >= GAPS(I)) FAR(I,IT) =2
             ELSE
-              VX = DEUX*XX(I,IX)-(XX(I,IY)+XX(I,IZ)) ! fake bisector of angle 2,1,3
-              VY = DEUX*YY(I,IX)-(YY(I,IY)+YY(I,IZ))
-              VZ = DEUX*ZZ(I,IX)-(ZZ(I,IY)+ZZ(I,IZ))
-              NN = UN/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
+              VX = TWO*XX(I,IX)-(XX(I,IY)+XX(I,IZ)) ! fake bisector of angle 2,1,3
+              VY = TWO*YY(I,IX)-(YY(I,IY)+YY(I,IZ))
+              VZ = TWO*ZZ(I,IX)-(ZZ(I,IY)+ZZ(I,IZ))
+              NN = ONE/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
               PN = ((XH(I)-XX(I,IX))*VX+(YH(I)-YY(I,IX))*VY+(ZH(I)-ZZ(I,IX))*VZ)*NN
               IF(PN >= GAPS(I)) FAR(I,IT) =2
             END IF
@@ -684,7 +684,7 @@ C             normal to the bisecting plane (pointing toward the inside)
 C
               LL  = XIJ(I,1)*XIJ(I,1)+YIJ(I,1)*YIJ(I,1)+ZIJ(I,1)*ZIJ(I,1)
 C
-              SIDE(I,1)=-(XIJ(I,1)*PX+YIJ(I,1)*PY+ZIJ(I,1)*PZ)*SQRT(UN/MAX(EM30,LL*PP))             
+              SIDE(I,1)=-(XIJ(I,1)*PX+YIJ(I,1)*PY+ZIJ(I,1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
               IF(SIDE(I,1) < -ZEP01) FAR(I,IT) =2
 C
             END IF
@@ -708,7 +708,7 @@ C             normal to the bisecting plane (pointing toward the inside)
 C
               LL  = XIJ(I,2)*XIJ(I,2)+YIJ(I,2)*YIJ(I,2)+ZIJ(I,2)*ZIJ(I,2)
 C
-              SIDE(I,2)=-(XIJ(I,2)*PX+YIJ(I,2)*PY+ZIJ(I,2)*PZ)*SQRT(UN/MAX(EM30,LL*PP))             
+              SIDE(I,2)=-(XIJ(I,2)*PX+YIJ(I,2)*PY+ZIJ(I,2)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
               IF(SIDE(I,2) < -ZEP01) FAR(I,IT) =2
 C
             END IF
@@ -732,7 +732,7 @@ C             normal to the bisecting plane (pointing toward the inside)
 C
               LL  =  XIJ(I,3)*XIJ(I,3)+YIJ(I,3)*YIJ(I,3)+ZIJ(I,3)*ZIJ(I,3)
 C
-              SIDE(I,4)=-(XIJ(I,3)*PX+YIJ(I,3)*PY+ZIJ(I,3)*PZ)*SQRT(UN/MAX(EM30,LL*PP))             
+              SIDE(I,4)=-(XIJ(I,3)*PX+YIJ(I,3)*PY+ZIJ(I,3)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
               IF(SIDE(I,4) < -ZEP01) FAR(I,IT) =2
 C
             END IF
@@ -814,7 +814,7 @@ C
               NN3(I)=VTX_BISECTOR(3,1,IBX)+VTX_BISECTOR(3,2,IBX)
 C
               NN=SQRT(NN1(I)*NN1(I)+NN2(I)*NN2(I)+NN3(I)*NN3(I))
-              NN = UN/MAX(EM30,NN)
+              NN = ONE/MAX(EM30,NN)
               NN1(I)=NN1(I)*NN
               NN2(I)=NN2(I)*NN
               NN3(I)=NN3(I)*NN
@@ -949,7 +949,7 @@ C
               NN3(I)=VTX_BISECTOR(3,1,IBX)+VTX_BISECTOR(3,2,IBX)
 C
               NN=SQRT(NN1(I)*NN1(I)+NN2(I)*NN2(I)+NN3(I)*NN3(I))
-              NN = UN/MAX(EM30,NN)
+              NN = ONE/MAX(EM30,NN)
               NN1(I)=NN1(I)*NN
               NN2(I)=NN2(I)*NN
               NN3(I)=NN3(I)*NN
@@ -1014,7 +1014,7 @@ C                                         GapS
 C
 
 C
-            LAP  = UN-LBP(I,IT)-LCP(I,IT)
+            LAP  = ONE-LBP(I,IT)-LCP(I,IT)
             XP=LAP*XX(I,5)+LBP(I,IT)*XX(I,I1) + LCP(I,IT)*XX(I,I2)
             YP=LAP*YY(I,5)+LBP(I,IT)*YY(I,I1) + LCP(I,IT)*YY(I,I2)
             ZP=LAP*ZZ(I,5)+LBP(I,IT)*ZZ(I,I1) + LCP(I,IT)*ZZ(I,I2)
@@ -1027,7 +1027,7 @@ C
             DC = SQRT(NN1(I)*NN1(I)+ NN2(I)*NN2(I)+ NN3(I)*NN3(I))
 
             IF(DC > EM04) THEN
-C             NN = UN/DC
+C             NN = ONE/DC
 C             N1(I) = N1(I)*NN
 C             N2(I) = N2(I)*NN
 C             N3(I) = N3(I)*NN
@@ -1137,7 +1137,7 @@ C           Normale radiale shiftee
             NN3(I) =ZI(I)-ZC
             DC = SQRT(NN1(I)*NN1(I)+ NN2(I)*NN2(I)+ NN3(I)*NN3(I))
             IF(DC > EM04) THEN
-C             NN = UN/DC
+C             NN = ONE/DC
 C             N1(I) = NN1(I)*NN
 C             N2(I) = NN2(I)*NN
 C             N3(I) = NN3(I)*NN
@@ -1226,7 +1226,7 @@ C         Looking for penetration vs closest segment (cf initial penetrations vs
             IF(PENT(I,IT)==ZERO) CYCLE
           END IF
 
-          PENE=MAX(ZERO,PENT(I,IT)-UNDEMI*GAPV(I,IT)) ! PENE /= ZERO .OR. DIST(I) < PENMIN**2
+          PENE=MAX(ZERO,PENT(I,IT)-HALF*GAPV(I,IT)) ! PENE /= ZERO .OR. DIST(I) < PENMIN**2
 C 
 C         Looking for penetration vs closest segment (cf initial penetrations vs solids)
           IF(DIST(I) < TIME_S(N) .OR.

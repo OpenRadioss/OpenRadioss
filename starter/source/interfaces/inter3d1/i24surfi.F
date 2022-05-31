@@ -544,7 +544,7 @@ C initialize IXWORK to zero
           NX = D1Y * D2Z - D1Z * D2Y
           NY = D1Z * D2X - D1X * D2Z
           NZ = D1X * D2Y - D1Y * D2X
-          AAA = UN/MAX(SQRT(NX*NX+NY*NY+NZ*NZ),EM20)
+          AAA = ONE/MAX(SQRT(NX*NX+NY*NY+NZ*NZ),EM20)
           NX = NX * AAA
           NY = NY * AAA
           NZ = NZ * AAA
@@ -1315,7 +1315,7 @@ C initialize IXWORK to zero
           NX = D1Y * D2Z - D1Z * D2Y
           NY = D1Z * D2X - D1X * D2Z
           NZ = D1X * D2Y - D1Y * D2X
-          AAA = UN/MAX(SQRT(NX*NX+NY*NY+NZ*NZ),EM20)
+          AAA = ONE/MAX(SQRT(NX*NX+NY*NY+NZ*NZ),EM20)
           NX = NX * AAA
           NY = NY * AAA
           NZ = NZ * AAA
@@ -1699,37 +1699,37 @@ C-------seg center-------
          Y0=THIRD*(X(2,IRTSE(1,IE))+X(2,IRTSE(2,IE))+X(2,IRTSE(3,IE)))
          Z0=THIRD*(X(3,IRTSE(1,IE))+X(3,IRTSE(2,IE))+X(3,IRTSE(3,IE)))
         ELSE
-         X0=QUART*(X(1,IRTSE(1,IE))+X(1,IRTSE(2,IE))+X(1,IRTSE(3,IE))+
+         X0=FOURTH*(X(1,IRTSE(1,IE))+X(1,IRTSE(2,IE))+X(1,IRTSE(3,IE))+
      +             X(1,IRTSE(4,IE)))
-         Y0=QUART*(X(2,IRTSE(1,IE))+X(2,IRTSE(2,IE))+X(2,IRTSE(3,IE))+
+         Y0=FOURTH*(X(2,IRTSE(1,IE))+X(2,IRTSE(2,IE))+X(2,IRTSE(3,IE))+
      +             X(2,IRTSE(4,IE)))
-         Z0=QUART*(X(3,IRTSE(1,IE))+X(3,IRTSE(2,IE))+X(3,IRTSE(3,IE))+
+         Z0=FOURTH*(X(3,IRTSE(1,IE))+X(3,IRTSE(2,IE))+X(3,IRTSE(3,IE))+
      +             X(3,IRTSE(4,IE)))
         END IF
 C-------edge center-------        
-         XE0=UNDEMI*(X(1,NS1)+X(1,NS2))
-         YE0=UNDEMI*(X(2,NS1)+X(2,NS2))
-         ZE0=UNDEMI*(X(3,NS1)+X(3,NS2))
+         XE0=HALF*(X(1,NS1)+X(1,NS2))
+         YE0=HALF*(X(2,NS1)+X(2,NS2))
+         ZE0=HALF*(X(3,NS1)+X(3,NS2))
 C         
-         XFIC(1,NS) = THIRD*(X0+DEUX*XE0)
-         XFIC(2,NS) = THIRD*(Y0+DEUX*YE0)
-         XFIC(3,NS) = THIRD*(Z0+DEUX*ZE0)
+         XFIC(1,NS) = THIRD*(X0+TWO*XE0)
+         XFIC(2,NS) = THIRD*(Y0+TWO*YE0)
+         XFIC(3,NS) = THIRD*(Z0+TWO*ZE0)
 C-------NPT should be unpair: 3,5,7         
        ELSEIF (IP > 0 ) THEN
 C-------edge center-------        
-         XE0=UNDEMI*(X(1,NS1)+X(1,NS2))
-         YE0=UNDEMI*(X(2,NS1)+X(2,NS2))
-         ZE0=UNDEMI*(X(3,NS1)+X(3,NS2))
+         XE0=HALF*(X(1,NS1)+X(1,NS2))
+         YE0=HALF*(X(2,NS1)+X(2,NS2))
+         ZE0=HALF*(X(3,NS1)+X(3,NS2))
         NP0 = (NPT-1)/2
         IF (IP > NP0) THEN
 C---------right side        
-         S = (IP-NP0)*UN/(NPT-1)
+         S = (IP-NP0)*ONE/(NPT-1)
          XFIC(1,NS) = XE0 +S*(X(1,NS2)-XE0)
          XFIC(2,NS) = YE0 +S*(X(2,NS2)-YE0)
          XFIC(3,NS) = ZE0 +S*(X(3,NS2)-ZE0)         
         ELSE
 C---------left side        
-         S = IP*UN/(NPT-1)
+         S = IP*ONE/(NPT-1)
          XFIC(1,NS) = X(1,NS1) +S*(XE0 -X(1,NS1))
          XFIC(2,NS) = X(2,NS1) +S*(YE0 -X(2,NS1))
          XFIC(3,NS) = X(3,NS1) +S*(ZE0 -X(3,NS1))         
@@ -2164,7 +2164,7 @@ C------mean value of NS1,NS2
           NY = NY + FIC_V(2,N)
           NZ = NZ + FIC_V(3,N)
         END IF
-         DET = UN/MAX(EM20,SQRT(NX*NX+ NY*NY+ NZ*NZ))
+         DET = ONE/MAX(EM20,SQRT(NX*NX+ NY*NY+ NZ*NZ))
          N = I + NSN0
          FIC_V(1,N) = DET*NX         
          FIC_V(2,N) = DET*NY         

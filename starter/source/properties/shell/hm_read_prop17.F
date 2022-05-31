@@ -121,7 +121,7 @@ C======================================================================|
 c
       IGTYP   = 17
       IGMAT   = 1
-      CVIS    = UN  
+      CVIS    = ONE  
       ISTRAIN  = 1
       IRP = 0
       IDSK = 0
@@ -276,7 +276,7 @@ C
          IF (DM == ZERO) IGEO(31) = 1
          
          IF (IHBE==24) THEN
-           IF (CVIS==ZERO) CVIS = UN
+           IF (CVIS==ZERO) CVIS = ONE
            IF (DN == ZERO) DN = ZEP015
            IF (DM == ZERO) THEN
 C-------------remove in cgrtails            
@@ -295,7 +295,7 @@ C---
            IF(HR == ZERO)HR = EM02
          ENDIF
          
-         IF(ASHEAR == ZERO) ASHEAR=CSIX
+         IF(ASHEAR == ZERO) ASHEAR=FIVE_OVER_6
 C
          IF (IHBE.GT.11.AND.IHBE.LT.29) THEN
 C---------GEO(13,I) est utilise pour porte dn;GEO(17,I),CVIS se change ----
@@ -330,13 +330,13 @@ C
 C---
       GEO(1) = THK
       IGEO(32) =  0  ! ISLV not used (may be needed for plyxfem)
-      IF(GEO(38) == ZERO) GEO(38) = CSIX
+      IF(GEO(38) == ZERO) GEO(38) = FIVE_OVER_6
        !! IF(NLY == 1) GEO(38)= ZERO
       GEO(42) = EM03 ! default value  ! not used 
       FAIL_SHELL = 0
       AN=SQRT(VX*VX+VY*VY+VZ*VZ)
       IF(AN .LT. EM10)THEN
-        VX=UN
+        VX=ONE
         VY=ZERO
         VZ=ZERO
         IF (IRP==23) THEN
@@ -599,7 +599,7 @@ C
      .                                                  STACK_INFO%POS(M1)
                    IF(ISHXFEM > 0) WRITE(IOUT,2122)IDMAT_INTP(M1),GEO(20)
                ENDIF  
-               STACK_INFO%ANG(M1)=STACK_INFO%ANG(M1)*PI/CENT80                              
+               STACK_INFO%ANG(M1)=STACK_INFO%ANG(M1)*PI/HUNDRED80                              
              ENDDO
              KK = KK + NPT_SUB
          ENDDO
@@ -624,7 +624,7 @@ C
      .                            STACK_INFO%POS(N)
                 IF(N < N1 .AND. ISHXFEM > 0) WRITE(IOUT,2122)IDMAT_INTP(N),GEO(20)
               ENDIF
-              STACK_INFO%ANG(N)=STACK_INFO%ANG(N)*PI/CENT80
+              STACK_INFO%ANG(N)=STACK_INFO%ANG(N)*PI/HUNDRED80
            ENDDO
       ENDIF     
 C      

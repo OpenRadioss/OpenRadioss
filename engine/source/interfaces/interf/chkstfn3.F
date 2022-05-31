@@ -735,8 +735,8 @@ C
 #include "vectorize.inc"
             DO I = LFT,LLT
               IE = NFT+I
-              IF (ABS(GBUF%OFF(I)) == UN .OR.
-     .            ABS(GBUF%OFF(I)) == DEUX) THEN
+              IF (ABS(GBUF%OFF(I)) == ONE .OR.
+     .            ABS(GBUF%OFF(I)) == TWO) THEN
                 TAGEL(IE)=1
                 DO K=2,9
                   N = IXS(K,NFT+I)
@@ -772,8 +772,8 @@ C
 #include "vectorize.inc"
               DO I = LFT,LLT
                 IE = NFT+I
-                IF(ABS(GBUF%OFF(I)) == UN.OR.
-     .             ABS(GBUF%OFF(I)) == DEUX) THEN
+                IF(ABS(GBUF%OFF(I)) == ONE.OR.
+     .             ABS(GBUF%OFF(I)) == TWO) THEN
                   DO K=1,6
                     N = IXS10(K,NFT+I-NUMELS8)
                     ITAG(N) = 1
@@ -801,8 +801,8 @@ C Void elements never break and doesn't have ELBUF
 #include "vectorize.inc"
               DO I = LFT,LLT
                 IE = NFT+I
-                IF(ABS(GBUF%OFF(I)) == UN.OR.
-     .             ABS(GBUF%OFF(I)) == DEUX) THEN
+                IF(ABS(GBUF%OFF(I)) == ONE.OR.
+     .             ABS(GBUF%OFF(I)) == TWO) THEN
                   DO K=1,12
                     N = IXS20(K,NFT+I-NUMELS8-NUMELS10)
                     ITAG(N) = 1
@@ -830,8 +830,8 @@ C Void elements never break and doesn't have ELBUF
 #include "vectorize.inc"
               DO I = LFT,LLT
                 IE = NFT+I
-                IF(ABS(GBUF%OFF(I)) == UN.OR.
-     .             ABS(GBUF%OFF(I)) == DEUX) THEN
+                IF(ABS(GBUF%OFF(I)) == ONE.OR.
+     .             ABS(GBUF%OFF(I)) == TWO) THEN
                   DO K=1,8
                     N = IXS16(K,NFT+I-NUMELS8-NUMELS10-NUMELS20)
                     ITAG(N) = 1
@@ -860,7 +860,7 @@ C
 #include "vectorize.inc"
             DO I = LFT,LLT
               IE = NFT+I+OFQ
-              IF(ABS(GBUF%OFF(I)).GE.UN) THEN
+              IF(ABS(GBUF%OFF(I)).GE.ONE) THEN
                TAGEL(IE)=1
                 DO K=2,5
                   N = IXQ(K,NFT+I)
@@ -885,14 +885,14 @@ C
             DO I = LFT,LLT 
               IE = NFT+I+OFC
               IF(NADMESH.NE.0) THEN
-                IF(ABS(GBUF%OFF(I)).GE.UN.AND.TAGTRIMC(IE)==0)THEN  
+                IF(ABS(GBUF%OFF(I)).GE.ONE.AND.TAGTRIMC(IE)==0)THEN  
                   TAGEL(IE)=1
                   DO K=2,5
                      N = IXC(K,NFT+I)
                      ITAG(N) = 1   
                  ENDDO   
                 ENDIF               
-              ELSEIF(ABS(GBUF%OFF(I)).GE.UN) THEN
+              ELSEIF(ABS(GBUF%OFF(I)).GE.ONE) THEN
                 TAGEL(IE)=1
                 DO K=2,5
                   N = IXC(K,NFT+I)
@@ -929,7 +929,7 @@ C
 #include "vectorize.inc"
             DO I = LFT,LLT
               IE = NFT+I+OFT
-              IF (ABS(GBUF%OFF(I)) >= UN) THEN
+              IF (ABS(GBUF%OFF(I)) >= ONE) THEN
                 TAGEL(IE)=1
                 DO K=2,3
                   N = IXT(K,NFT+I)
@@ -955,7 +955,7 @@ C
 #include "vectorize.inc"
             DO I = LFT,LLT
               IE = NFT+I+OFP
-              IF (ABS(GBUF%OFF(I)) >= UN) THEN
+              IF (ABS(GBUF%OFF(I)) >= ONE) THEN
                 TAGEL(IE)=1
                 DO K=2,3
                   N = IXP(K,NFT+I)
@@ -981,7 +981,7 @@ C
 #include "vectorize.inc"
             DO I = LFT,LLT
               IE = NFT+I+OFR
-              IF (ABS(GBUF%OFF(I)) >= UN) THEN
+              IF (ABS(GBUF%OFF(I)) >= ONE) THEN
                 TAGEL(IE)=1
                 DO K=2,3
                   N = IXR(K,NFT+I)
@@ -1016,14 +1016,14 @@ C
               IE = NFT+I+OFTG
 
               IF(NADMESH.NE.0) THEN
-                IF(ABS(GBUF%OFF(I)).GE.UN.AND.TAGTRIMTG(IE)==0)THEN            
+                IF(ABS(GBUF%OFF(I)).GE.ONE.AND.TAGTRIMTG(IE)==0)THEN            
                   TAGEL(IE)=1
                   DO K=2,4
                      N = IXTG(K,NFT+I)
                      ITAG(N) = 1   
                   ENDDO
                 ENDIF                  
-              ELSEIF(ABS(GBUF%OFF(I)).GE.UN) THEN
+              ELSEIF(ABS(GBUF%OFF(I)).GE.ONE) THEN
                 TAGEL(IE)=1
                 DO K=2,4
                   N = IXTG(K,NFT+I)
@@ -1059,7 +1059,7 @@ C
 #include "vectorize.inc"
               DO I = LFT,LLT
                 IE = NFT+I+OFTG
-                IF(ABS(GBUF%OFF(I)).GE.UN) THEN
+                IF(ABS(GBUF%OFF(I)).GE.ONE) THEN
                   DO K=1,3
                     N = IXTG1(K,NFT+I-NUMELTG+NUMELTG6)
                     ITAG(N) = 1
@@ -1089,7 +1089,7 @@ C
 #include "vectorize.inc"
             DO I = LFT,LLT
               IE = NFT+I+OFUR
-              IF(ABS(EV(NB1+I-1)).GE.UN) THEN 
+              IF(ABS(EV(NB1+I-1)).GE.ONE) THEN 
                 TAGEL(IE)=1
                 DO K=2,5
                   N = IXUR(K,NFT+I)
@@ -1112,7 +1112,7 @@ C
  	      NB1 = KAD
 #include "vectorize.inc"
  	      DO I = LFT,LLT
- 	        IF(ABS(GBUF%OFF(I)).GE.UN) THEN
+ 	        IF(ABS(GBUF%OFF(I)).GE.ONE) THEN
  		         N = KXSP(3,NFT+I)
  		         ITAG(N) = 1
  	        ELSE

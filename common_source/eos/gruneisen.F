@@ -90,17 +90,17 @@ C-----------------------------------------
        ENDDO
 C
        DO I=LFT,LLT
-        FAC=UN
-        FAC1=UN
+        FAC=ONE
+        FAC1=ONE
         IF(MU(I) > ZERO) THEN
-         XX= MU(I)/(UN+MU(I))
-         FF=UN+(UN-UNDEMI*G0(I))*MU(I)-UNDEMI*GA(I)*MU2(I)
-         FG=UN-(S1(I)-UN+S2(I)*XX+S3(I)*XX*XX)*MU(I)
+         XX= MU(I)/(ONE+MU(I))
+         FF=ONE+(ONE-HALF*G0(I))*MU(I)-HALF*GA(I)*MU2(I)
+         FG=ONE-(S1(I)-ONE+S2(I)*XX+S3(I)*XX*XX)*MU(I)
          FAC=FF/(FG*FG)
-         DFF=UN-UNDEMI*G0(I)-GA(I)*MU(I)
-         DFG=UN-S1(I)+XX*(-DEUX*S2(I)+XX*(S2(I)-TROIS*S3(I))
-     .      +DEUX*S3(I)*XX*XX)
-         FAC1=FAC*(UN+MU(I)*(DFF/FF-DEUX*DFG/FG))
+         DFF=ONE-HALF*G0(I)-GA(I)*MU(I)
+         DFG=ONE-S1(I)+XX*(-TWO*S2(I)+XX*(S2(I)-THREE*S3(I))
+     .      +TWO*S3(I)*XX*XX)
+         FAC1=FAC*(ONE+MU(I)*(DFF/FF-TWO*DFG/FG))
         ENDIF
 C
         AA=FAC*RHO0(I)*CC(I)*CC(I)*MU(I)
@@ -111,12 +111,12 @@ C
        ENDDO
 C
        DO I=LFT,LLT
-        ECOLD(I)=-TROIS100*SPH(I)
+        ECOLD(I)=-THREE100*SPH(I)
         IF(MU(I).GT.ZERO) THEN
-          XX  = MU(I)/(UN+MU(I))
-          ETA=UN+MU(I)
+          XX  = MU(I)/(ONE+MU(I))
+          ETA=ONE+MU(I)
           ECOLD(I)=ECOLD(I)*EXP((G0(I)-GA(I))*XX)*ETA**GA(I)+
-     .             UNDEMI*RHO0(I)*CC(I)*CC(I)*MU2(I)
+     .             HALF*RHO0(I)*CC(I)*CC(I)*MU2(I)
         ENDIF
        ENDDO
 C
@@ -136,19 +136,19 @@ C----------------------------------------
        ENDDO
 C
        DO I=LFT,LLT
-        FAC=UN
+        FAC=ONE
         IF(MU(I) > ZERO) THEN
-         XX= MU(I)/(UN+MU(I))
-         FF=UN+(UN-UNDEMI*G0(I))*MU(I)-UNDEMI*GA(I)*MU2(I)
-         FG=UN-(S1(I)-UN+S2(I)*XX+S3(I)*XX*XX)*MU(I)
+         XX= MU(I)/(ONE+MU(I))
+         FF=ONE+(ONE-HALF*G0(I))*MU(I)-HALF*GA(I)*MU2(I)
+         FG=ONE-(S1(I)-ONE+S2(I)*XX+S3(I)*XX*XX)*MU(I)
          FAC=FF/(FG*FG)
         ENDIF
         AA=FAC*RHO0(I)*CC(I)*CC(I)*MU(I)
         BB=G0(I)+GA(I)*MU(I)
-        DVV=UNDEMI*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-        PNEW(I)=(AA+BB*ESPE(I))/(UN+BB*DVV)
+        DVV=HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
+        PNEW(I)=(AA+BB*ESPE(I))/(ONE+BB*DVV)
         PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)
-        EINT(I)=EINT(I) - UNDEMI*DVOL(I)*PNEW(I)
+        EINT(I)=EINT(I) - HALF*DVOL(I)*PNEW(I)
        ENDDO
 C------------------------
 C     COMPUTE TEMPERATURE
@@ -160,7 +160,7 @@ C------------------------
        DO I=LFT,LLT
         XX=-ECOLD(I)
         IF(VNEW(I).GT.EM15)XX=DF(I)*EINT(I)/VNEW(I)-ECOLD(I)
-        IF(OFF(I).LT.UN.OR.SPH(I).LE.ZERO.OR.XX.LT.ZERO) CYCLE
+        IF(OFF(I).LT.ONE.OR.SPH(I).LE.ZERO.OR.XX.LT.ZERO) CYCLE
         THETA(I)=XX/SPH(I)
        ENDDO
        ELSEIF(IFLAG == 2) THEN
@@ -178,17 +178,17 @@ C------------------------
 C     
           DO I=1, NEL
              IF (VNEW(I) .GT. ZERO) THEN
-                FAC=UN
-                FAC1=UN
+                FAC=ONE
+                FAC1=ONE
                 IF(MU(I) > ZERO) THEN
-                   XX= MU(I)/(UN+MU(I))
-                   FF=UN+(UN-UNDEMI*G0(I))*MU(I)-UNDEMI*GA(I)*MU2(I)
-                   FG=UN-(S1(I)-UN+S2(I)*XX+S3(I)*XX*XX)*MU(I)
+                   XX= MU(I)/(ONE+MU(I))
+                   FF=ONE+(ONE-HALF*G0(I))*MU(I)-HALF*GA(I)*MU2(I)
+                   FG=ONE-(S1(I)-ONE+S2(I)*XX+S3(I)*XX*XX)*MU(I)
                    FAC=FF/(FG*FG)
-                   DFF=UN-UNDEMI*G0(I)-GA(I)*MU(I)
-                   DFG=UN-S1(I)+XX*(-DEUX*S2(I)+XX*(S2(I)-TROIS*S3(I))
-     .                  +DEUX*S3(I)*XX*XX)
-                   FAC1=FAC*(UN+MU(I)*(DFF/FF-DEUX*DFG/FG))
+                   DFF=ONE-HALF*G0(I)-GA(I)*MU(I)
+                   DFG=ONE-S1(I)+XX*(-TWO*S2(I)+XX*(S2(I)-THREE*S3(I))
+     .                  +TWO*S3(I)*XX*XX)
+                   FAC1=FAC*(ONE+MU(I)*(DFF/FF-TWO*DFG/FG))
                 ENDIF
 C     
                 AA=FAC*RHO0(I)*CC(I)*CC(I)*MU(I)

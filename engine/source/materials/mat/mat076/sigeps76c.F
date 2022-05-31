@@ -144,10 +144,10 @@ c-----------------------------------------
       IQUAD  = NINT(UPARAM(14))
       YFAC2  = UPARAM(29)
       DPLA(1:NEL) = ZERO ! Initialization of the plastic strain increment
-      ETSE(1:NEL) = UN
+      ETSE(1:NEL) = ONE
       DO I = 1,NEL
         IF(OFF(I) < EM01) OFF(I)=ZERO
-        IF(OFF(I) < UN)   OFF(I)=OFF(I)*QCINQ  
+        IF(OFF(I) < ONE)   OFF(I)=OFF(I)*FOUR_OVER_5  
       ENDDO
 c
       NUMTABL =  MATPARAM%NTABLE
@@ -199,15 +199,15 @@ c--------------------------------------------------------------
       IF (IFUNC(2) > 0) THEN
         DO I=1,NEL
           UVAR(I,7) = ABS(YFAC2)* FINTER(IFUNC(2),PLA_DAM(I),NPF,TF,DF)
-          UVAR(I,7) = MIN(UVAR(I,7),UN)
-          IF (UVAR(I,7) >= UN) THEN 
-            IF (OFF(I) == UN) THEN 
-              OFF(I) = QCINQ
+          UVAR(I,7) = MIN(UVAR(I,7),ONE)
+          IF (UVAR(I,7) >= ONE) THEN 
+            IF (OFF(I) == ONE) THEN 
+              OFF(I) = FOUR_OVER_5
               IDEL7NOK    = 1
               NINDX       = NINDX+1
               INDX(NINDX) = I
             ENDIF
-            UVAR(I,7) = UN
+            UVAR(I,7) = ONE
             SIGNXX(I) = ZERO
             SIGNYY(I) = ZERO
             SIGNXY(I) = ZERO
@@ -218,13 +218,13 @@ c--------------------------------------------------------------
       ELSE
         DO I=1,NEL
           IF (PLA_DAM(I) >= EPSPR) THEN
-            IF (OFF(I) == UN) THEN 
-              OFF(I)      = QCINQ
+            IF (OFF(I) == ONE) THEN 
+              OFF(I)      = FOUR_OVER_5
               IDEL7NOK    = 1
               NINDX       = NINDX+1
               INDX(NINDX) = I
             ENDIF
-            UVAR(I,7)   = UN
+            UVAR(I,7)   = ONE
             SIGNXX(I)   = ZERO
             SIGNYY(I)   = ZERO
             SIGNXY(I)   = ZERO
@@ -239,7 +239,7 @@ C-------------------------------------------------------------------------------
       DO I=1,NEL
 c       IF(DPLA(I) > ZERO) ETSE(I)= AA1(1) / (AA1(I) + E)
         IF (DPLA(I) > ZERO) THEN 
-          ETSE(I) = UNDEMI   !H(I) / (H(I)+E)!UNDEMI   ! ?????
+          ETSE(I) = HALF   !H(I) / (H(I)+E)!HALF   ! ?????
         ENDIF
         THK(I) = THK(I) + DEZZ(I)*THKLY(I)*OFF(I) 
       ENDDO  

@@ -111,7 +111,7 @@ C----------------------------
       IF((ISMSTR<=4.AND.JLAG>0).OR.(ISMSTR==12.AND.IDTMIN(1)==3)) THEN
 C
        DO I=LFT,LLT
-       IF(ABS(OFFG(I)).GT.UN)THEN
+       IF(ABS(OFFG(I)).GT.ONE)THEN
         XD1(I)=SAV(I,1)
         YD1(I)=SAV(I,2)
         ZD1(I)=SAV(I,3)
@@ -124,7 +124,7 @@ C
         XD4(I)=ZERO
         YD4(I)=ZERO
         ZD4(I)=ZERO
-        OFF(I) = ABS(OFFG(I))-UN
+        OFF(I) = ABS(OFFG(I))-ONE
         OFF_L  = MIN(OFF_L,OFFG(I))
        ELSE
         IF(IRESP==1)THEN
@@ -306,10 +306,10 @@ C
       ENDIF
 C
       DO I=LFT,LLT
-       VDX(I)=QUART*(VDX1(I)+VDX2(I)+VDX3(I)+VDX4(I))
-       VDY(I)=QUART*(VDY1(I)+VDY2(I)+VDY3(I)+VDY4(I))
-       VDZ(I)=QUART*(VDZ1(I)+VDZ2(I)+VDZ3(I)+VDZ4(I))
-       VD2(I)=NEUF*(VDX(I)**2+VDY(I)**2+VDZ(I)**2)
+       VDX(I)=FOURTH*(VDX1(I)+VDX2(I)+VDX3(I)+VDX4(I))
+       VDY(I)=FOURTH*(VDY1(I)+VDY2(I)+VDY3(I)+VDY4(I))
+       VDZ(I)=FOURTH*(VDZ1(I)+VDZ2(I)+VDZ3(I)+VDZ4(I))
+       VD2(I)=NINE*(VDX(I)**2+VDY(I)**2+VDZ(I)**2)
       ENDDO
 C
       RETURN
@@ -355,7 +355,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C
        DO I=LFT,LLT
-       IF(ABS(OFFG(I)) <= UN)THEN
+       IF(ABS(OFFG(I)) <= ONE)THEN
         SAV(I,1)=XD1(I)-XD4(I)
         SAV(I,2)=YD1(I)-YD4(I)
         SAV(I,3)=ZD1(I)-ZD4(I)
@@ -432,7 +432,7 @@ C-      return to global system for stress
 C ---------local system compute----------     
       IF(IRESP==1)THEN 
         DO I=LFT,LLT
-         IF (OFF(I) <= UN ) CYCLE 
+         IF (OFF(I) <= ONE ) CYCLE 
           X1(I)=XDP(1,NC1(I))  
           Y1(I)=XDP(2,NC1(I))  
           Z1(I)=XDP(3,NC1(I))  
@@ -448,7 +448,7 @@ C ---------local system compute----------
         ENDDO
       ELSE	
         DO I=LFT,LLT
-         IF (OFF(I) <= UN ) CYCLE 
+         IF (OFF(I) <= ONE ) CYCLE 
           X1(I)=X(1,NC1(I))  
           Y1(I)=X(2,NC1(I))  
           Z1(I)=X(3,NC1(I))  
@@ -467,7 +467,7 @@ C-----------
 C     REPERE CONVECTE (ITERATIONS).
 C-----------
       DO I=LFT,LLT
-       IF (OFF(I) <= UN ) CYCLE 
+       IF (OFF(I) <= ONE ) CYCLE 
        X43 = X4(I) - X3(I)
        Y43 = Y4(I) - Y3(I)
        Z43 = Z4(I) - Z3(I)
@@ -554,19 +554,19 @@ C=======================================================================
 c     norme r s t
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO I=LFT,LLT
-       IF (OFF(I) <= UN ) CYCLE 
+       IF (OFF(I) <= ONE ) CYCLE 
        aa = sqrt(rx(I)*rx(I) + ry(I)*ry(I) + rz(I)*rz(I))
-       if ( aa.ne.ZERO) aa = UN / aa
+       if ( aa.ne.ZERO) aa = ONE / aa
        Ux(I) = rx(I) * aa
        Uy(I) = ry(I) * aa
        Uz(I) = rz(I) * aa
        aa = sqrt(sx(I)*sx(I) + sy(I)*sy(I) + sz(I)*sz(I))
-       if ( aa.ne.ZERO) aa = UN / aa
+       if ( aa.ne.ZERO) aa = ONE / aa
        Vx(I) = sx(I) * aa
        Vy(I) = sy(I) * aa
        Vz(I) = sz(I) * aa
        aa = sqrt(tx(I)*tx(I) + ty(I)*ty(I) + tz(I)*tz(I))
-       if ( aa.ne.ZERO) aa = UN / aa
+       if ( aa.ne.ZERO) aa = ONE / aa
        Wx(I) = tx(I) * aa
        Wy(I) = ty(I) * aa
        Wz(I) = tz(I) * aa
@@ -579,7 +579,7 @@ c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       N=N+1
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO I=LFT,LLT
-       IF (OFF(I) <= UN ) CYCLE 
+       IF (OFF(I) <= ONE ) CYCLE 
        e1x(I) = Vy(I) * Wz(I) - Vz(I) * Wy(I) + Ux(I)
        e1y(I) = Vz(I) * Wx(I) - Vx(I) * Wz(I) + Uy(I)
        e1z(I) = Vx(I) * Wy(I) - Vy(I) * Wx(I) + Uz(I)
@@ -593,19 +593,19 @@ c
        e3z(I) = Ux(I) * Vy(I) - Uy(I) * Vx(I) + Wz(I)
 c
        bb = sqrt(e1x(I)*e1x(I) + e1y(I)*e1y(I) + e1z(I)*e1z(I))
-       if ( bb.ne.ZERO) bb = UN / bb
+       if ( bb.ne.ZERO) bb = ONE / bb
        Ux(I) = e1x(I) * bb
        Uy(I) = e1y(I) * bb
        Uz(I) = e1z(I) * bb
 c
        bb = sqrt(e2x(I)*e2x(I) + e2y(I)*e2y(I) + e2z(I)*e2z(I))
-       if ( bb.ne.ZERO) bb = UN / bb
+       if ( bb.ne.ZERO) bb = ONE / bb
        Vx(I) = e2x(I) * bb
        Vy(I) = e2y(I) * bb
        Vz(I) = e2z(I) * bb
 c
        bb = sqrt(e3x(I)*e3x(I) + e3y(I)*e3y(I) + e3z(I)*e3z(I))
-       if ( bb.ne.ZERO) bb = UN / bb
+       if ( bb.ne.ZERO) bb = ONE / bb
        Wx(I) = e3x(I) * bb
        Wy(I) = e3y(I) * bb
        Wz(I) = e3z(I) * bb
@@ -615,7 +615,7 @@ c
 c     norme et orthogonalisation
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO I=LFT,LLT
-      IF (OFF(I) <= UN ) CYCLE 
+      IF (OFF(I) <= ONE ) CYCLE 
       e1x(I) = Ux(I)
       e1y(I) = Uy(I)
       e1z(I) = Uz(I)
@@ -625,7 +625,7 @@ c
       e3z(I) = e1x(I) * Vy(I) - e1y(I) * Vx(I)
 c
       aa = sqrt(e3x(I)*e3x(I) + e3y(I)*e3y(I) + e3z(I)*e3z(I))
-      if ( aa.ne.ZERO) aa = UN / aa
+      if ( aa.ne.ZERO) aa = ONE / aa
       e3x(I) = e3x(I) * aa
       e3y(I) = e3y(I) * aa
       e3z(I) = e3z(I) * aa
@@ -681,7 +681,7 @@ C-----------------------------------------------
 C   X=RX' <=> X'=t(R)X chgt de base.
 C-  to do X'=RtX, just input Rt instead of R
       DO I=LFT,LLT
-       IF (OFF(I) <= UN) CYCLE
+       IF (OFF(I) <= ONE) CYCLE
        X=R11(I)*X1(I)+R21(I)*Y1(I)+R31(I)*Z1(I)
        Y=R12(I)*X1(I)+R22(I)*Y1(I)+R32(I)*Z1(I)
        Z=R13(I)*X1(I)+R23(I)*Y1(I)+R33(I)*Z1(I)
@@ -751,7 +751,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C
        DO I=LFT,LLT
-       IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > UN)THEN
+       IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > ONE)THEN
         SAV(I,1)=XD1(I)-XD4(I)
         SAV(I,2)=YD1(I)-YD4(I)
         SAV(I,3)=ZD1(I)-ZD4(I)

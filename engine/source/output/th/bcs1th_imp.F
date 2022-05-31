@@ -56,14 +56,14 @@ C
       DO K = 1, NINDX
         L = INDX(K)
         FTHREAC(N+1,NODREAC(L)) = FTHREAC(N+1,NODREAC(L))
-     &                           - A(1,L)*DT3/DEUX
-     &                           - FTHDTM(N+1,NODREAC(L))*DT3/DEUX
+     &                           - A(1,L)*DT3/TWO
+     &                           - FTHDTM(N+1,NODREAC(L))*DT3/TWO
         FTHREAC(N+2,NODREAC(L)) = FTHREAC(N+2,NODREAC(L))
-     &                           - A(2,L)*DT3/DEUX
-     &                           - FTHDTM(N+2,NODREAC(L))*DT3/DEUX
+     &                           - A(2,L)*DT3/TWO
+     &                           - FTHDTM(N+2,NODREAC(L))*DT3/TWO
         FTHREAC(N+3,NODREAC(L)) = FTHREAC(N+3,NODREAC(L))
-     &                           - A(3,L)*DT3/DEUX
-     &                           - FTHDTM(N+3,NODREAC(L))*DT3/DEUX
+     &                           - A(3,L)*DT3/TWO
+     &                           - FTHDTM(N+3,NODREAC(L))*DT3/TWO
         FTHDTM(N+1,NODREAC(L)) = A(1,L)
         FTHDTM(N+2,NODREAC(L)) = A(2,L)
         FTHDTM(N+3,NODREAC(L)) = A(3,L)

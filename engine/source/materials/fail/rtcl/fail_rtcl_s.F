@@ -67,7 +67,7 @@ c
       ! Checking element failure and recovering user variable
       DO I=1,NEL
        IF (OFF(I) < EM01) OFF(I) = ZERO
-       IF (OFF(I) < UN .AND. OFF(I) > ZERO) OFF(I) = OFF(I)*QCINQ
+       IF (OFF(I) < ONE .AND. OFF(I) > ZERO) OFF(I) = OFF(I)*FOUR_OVER_5
       END DO
 C
       ! Initialization of variable
@@ -79,37 +79,37 @@ c
       DO I=1,NEL
 c
         ! If the element is not broken
-        IF (OFF(I) ==  UN .AND. DPLA(I) /= ZERO) THEN
+        IF (OFF(I) ==  ONE .AND. DPLA(I) /= ZERO) THEN
 c        
           ! Computation of hydrostatic stress, Von Mises stress, and stress triaxiality
           P   = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
           SXX = SIGNXX(I) - P
           SYY = SIGNYY(I) - P
           SZZ = SIGNZZ(I) - P
-          SVM = UNDEMI*(SXX**2 + SYY**2 + SZZ**2)
+          SVM = HALF*(SXX**2 + SYY**2 + SZZ**2)
      .          + SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
-          SVM = SQRT(TROIS*SVM)
+          SVM = SQRT(THREE*SVM)
           triaxs = P/MAX(EM20,SVM)
-          IF (triaxs > UN)  triaxs = UN
-          IF (triaxs < -UN) triaxs = -UN
+          IF (triaxs > ONE)  triaxs = ONE
+          IF (triaxs < -ONE) triaxs = -ONE
 c
           ! Computing the plastic strain at failure according to stress triaxiality
-          IF (triaxs < -TIERS) THEN 
+          IF (triaxs < -THIRD) THEN 
             F_RTCL = ZERO
-          ELSEIF ((triaxs >= -TIERS).AND.(triaxs < TIERS)) THEN
-            F_RTCL = DEUX*((UN+triaxs*SQRT(DOUZE-VINGT7*(triaxs**2)))/
-     .                  (TROIS*triaxs+SQRT(DOUZE-VINGT7*(triaxs**2))))
+          ELSEIF ((triaxs >= -THIRD).AND.(triaxs < THIRD)) THEN
+            F_RTCL = TWO*((ONE+triaxs*SQRT(TWELVE-TWENTY7*(triaxs**2)))/
+     .                  (THREE*triaxs+SQRT(TWELVE-TWENTY7*(triaxs**2))))
           ELSE
-            F_RTCL = EXP(-UNDEMI)*EXP(TDEMI*triaxs)
+            F_RTCL = EXP(-HALF)*EXP(THREE_HALF*triaxs)
           ENDIF
 c
           ! Computation of damage variables
           DFMAX(I) = DFMAX(I) + F_RTCL*DPLA(I)/MAX(EPS_CR,EM6)
-          DFMAX(I) = MIN(UN,DFMAX(I))
+          DFMAX(I) = MIN(ONE,DFMAX(I))
 c
           ! Checking element failure using global damage
-          IF (DFMAX(I) >= UN .AND. OFF(I) == UN) THEN
-            OFF(I)      = QCINQ
+          IF (DFMAX(I) >= ONE .AND. OFF(I) == ONE) THEN
+            OFF(I)      = FOUR_OVER_5
             NINDX       = NINDX + 1
             INDX(NINDX) = I
             IDEL7NOK    = 1   

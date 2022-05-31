@@ -352,7 +352,7 @@ C
       ENDIF        
 C tangent module ratio (often w.r.t. G )
       DO I=LFT,LLT
-        ET(I)=UN
+        ET(I)=ONE
       ENDDO
 C----   ISELECT>0 : modified LEFT CAUCHY-GREEN  STRAIN  saved in ETOTSH 
        ISELECT=0
@@ -369,7 +369,7 @@ C------For hyper-elastic laws, due to ET=MAX(ET, initialise to zero
          END IF
       END IF
 C needed in mqviscb
-      FACQ0 =  UN
+      FACQ0 =  ONE
       ISVIS = IGEO(35,PID(1))
       IF((IMPL_S > 0 .AND. IDYNA == 0).OR. MTN == 24) ISVIS = 0
 C                  
@@ -382,11 +382,11 @@ C
       SVIS(LFT:LLT,6)= ZERO 
 C
       IF(IPARG(64,NG).NE.0)THEN
-        DF(LFT:LLT)      = UN
+        DF(LFT:LLT)      = ONE
         VOL_AVG(LFT:LLT) = VOLN(LFT:LLT)
       ELSE
           DF(LFT:LLT)  =  RHO0(LFT:LLT)/LBUF%RHO(LFT:LLT)
-          VOL_AVG(LFT:LLT) = VOLN(LFT:LLT) - UNDEMI*DVOL(LFT:LLT)
+          VOL_AVG(LFT:LLT) = VOLN(LFT:LLT) - HALF*DVOL(LFT:LLT)
       ENDIF
 C-----due to too much returns of QA, temporaly add IRESP here   
       IF((INCOMP/=1.OR.(JEUL+JALE)/=1).AND.JLAG/=0.AND.N2D==0.AND.JSPH==0.AND.IRESP==1
@@ -396,13 +396,13 @@ C--    R4_AMU =VOL0DP/VOLDP -1   because RHO*VOLDP=RHO0*VOL0DP
           AMU(LFT:LLT) =  R4_AMU(LFT:LLT)
       ELSE
        IF(MTN == 1 .OR. MTN == 2 .OR. MTN == 22.OR.(MTN >=28.AND.MTN /=45)) THEN     ! for compatibility with QA tests
-          AMU(LFT:LLT) =  LBUF%RHO(LFT:LLT)/RHO0(LFT:LLT)-UN
+          AMU(LFT:LLT) =  LBUF%RHO(LFT:LLT)/RHO0(LFT:LLT)-ONE
        ELSE
-          AMU(LFT:LLT) =  UN/DF(LFT:LLT)-UN
+          AMU(LFT:LLT) =  ONE/DF(LFT:LLT)-ONE
        END IF 
        IF(ISMSTR==12)THEN
         DO I=LFT,LLT
-          IF(ABS(LBUF%OFF(I))>UN) AMU(I) =  R4_AMU(I)
+          IF(ABS(LBUF%OFF(I))>ONE) AMU(I) =  R4_AMU(I)
         END DO
        END IF
       ENDIF
@@ -439,7 +439,7 @@ C --------------------------------------------------------
         RHOREF(LFT:LLT)=RHO0(LFT:LLT)
       ELSEIF(ISMSTR==2 .OR. ISMSTR==12)THEN
         DO I=LFT,LLT
-          IF(ABS(LBUF%OFF(I))<=UN)THEN
+          IF(ABS(LBUF%OFF(I))<=ONE)THEN
             RHOREF(I)=LBUF%RHO(I)
           ELSE
             RHOREF(I)=RHO0(I)*LBUF%VOL(I)/MAX(EM20,VOLN(I))
@@ -463,14 +463,14 @@ C --------------------------------------------------------
            ALPHA = ALPHA * FSCAL_ALPHA
            ETH(I)= ALPHA *(TEMPEL(I)-TEMPEL0(I))*OFF(I) 
            LBUF%FORTH(I) = LBUF%FORTH(I) + ETH(I)  ! LBUF%FORTH contient la deformation thermique totale
-           EPSTH(I)= TROIS*LBUF%FORTH(I)
+           EPSTH(I)= THREE*LBUF%FORTH(I)
            DXX(I)  = DXX(I)-ETH(I)/DT1
            DYY(I)  = DYY(I)-ETH(I)/DT1
            DZZ(I)  = DZZ(I)-ETH(I)/DT1
-           DVOL(I) = DVOL(I)-TROIS*ETH(I)*VOL_AVG(I)
+           DVOL(I) = DVOL(I)-THREE*ETH(I)*VOL_AVG(I)
            AMU(I)  = AMU(I) + EPSTH(I)
            SIGKK(I)= LBUF%SIG(II(1)+I)+LBUF%SIG(II(2)+I)+LBUF%SIG(II(3)+I)
-           LBUF%EINTTH(I) = LBUF%EINTTH(I)-UNDEMI*SIGKK(I)*ETH(I)
+           LBUF%EINTTH(I) = LBUF%EINTTH(I)-HALF*SIGKK(I)*ETH(I)
         ENDDO
       ELSE
         DO I=LFT,LLT
@@ -503,7 +503,7 @@ C-----------------------------------
       IBPRELD = 0
       IF(IBOLTP /= 0)THEN
         !two conditions checks, otherwise BPRELD has size 0 if IBOLTP==0 and debuger stops as it detects an index out of bounds.
-        IF(BPRELD(2*NEL+1) <= UN .AND.BPRELD(2*NEL+1) > ZERO)IBPRELD = 1
+        IF(BPRELD(2*NEL+1) <= ONE .AND.BPRELD(2*NEL+1) > ZERO)IBPRELD = 1
       ENDIF
 
       IF(IBOLTP /= 0 .AND. IBPRELD == 1)THEN       
@@ -929,7 +929,7 @@ c
      D             NEL    ,IPM     ,RHOREF  ,RHOSP   )
       ELSEIF (MTN == 23) THEN
         CALL M22LAW(PM      ,OFF      ,LBUF%SIG ,LBUF%EINT,LBUF%RHO  ,
-     2             LBUF%QVIS,LBUF%PLA ,LBUF%EPSD,LBUF%VOL ,UN        , 
+     2             LBUF%QVIS,LBUF%PLA ,LBUF%EPSD,LBUF%VOL ,ONE        , 
      3             STIFN    ,DT2T     ,NELTST   ,ITYPTST  ,LBUF%OFF  ,
      4             GEO      ,PID      ,AMU      ,VOL_AVG   ,
      6             MUMAX  ,MAT      ,NGL     ,CXX        ,DVOL    ,
@@ -1175,7 +1175,7 @@ C
       IF((IEXPAN > 0).AND.(JTHE < 0).AND.(TT.NE.0)) THEN
         DO I=LFT,LLT
           SIGKK(I) = LBUF%SIG(II(1)+I)+LBUF%SIG(II(2)+I)+LBUF%SIG(II(3)+I)
-          LBUF%EINTTH(I) = LBUF%EINTTH(I)-UNDEMI*SIGKK(I)*ETH(I)
+          LBUF%EINTTH(I) = LBUF%EINTTH(I)-HALF*SIGKK(I)*ETH(I)
         ENDDO
       ENDIF
 
@@ -1198,7 +1198,7 @@ C---------------------------------------------------------------------
             E5=D5(I)*SVIS(I,5)                                          
             E6=D6(I)*SVIS(I,6)                                          
             EINT(I)=EINT(I)*VOL(I)                                      
-     .       +(E1+E2+E3+E4+E5+E6)*(VOLN(I)-UNDEMI*DVOL(I))*DT1*UNDEMI  
+     .       +(E1+E2+E3+E4+E5+E6)*(VOLN(I)-HALF*DVOL(I))*DT1*HALF  
             EINT(I)=EINT(I)/MAX(EM20,VOL(I))                            
             LBUF%EINT(I) = EINT(I)     
           ENDDO     
@@ -1222,16 +1222,16 @@ C-----------------------------------------------------------------------
      .                 RX  ,RY ,RZ ,SX ,SY ,SZ     ,
      .                 TX  ,TY ,TZ )
           DO I=LFT,LLT
-            EP4(I) = UNDEMI*EP4(I)
-            EP5(I) = UNDEMI*EP5(I)
-            EP6(I) = UNDEMI*EP6(I)
+            EP4(I) = HALF*EP4(I)
+            EP5(I) = HALF*EP5(I)
+            EP6(I) = HALF*EP6(I)
           ENDDO
           CALL MROTENS(LFT,LLT,EP1,EP2,EP3,EP4,EP5,EP6,
      .         R11,R21,R31,R12,R22,R32,R13,R23,R33)        
           DO I=LFT,LLT
-            EP4(I) = DEUX*EP4(I)
-            EP5(I) = DEUX*EP5(I)
-            EP6(I) = DEUX*EP6(I)
+            EP4(I) = TWO*EP4(I)
+            EP5(I) = TWO*EP5(I)
+            EP6(I) = TWO*EP6(I)
           ENDDO
         ENDIF
 c---        
@@ -1347,7 +1347,7 @@ c
             IF (MTN.NE.4.AND.MTN.NE.2) THEN
               EPSP(I)=OFF(I)*                                        
      .        MAX( ABS(DXX(I)),ABS(DYY(I)),ABS(DZZ(I)),              
-     .       UNDEMI*ABS(D4(I)),UNDEMI*ABS(D5(I)),UNDEMI*ABS(D6(I)))
+     .       HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))
             ENDIF         
           ENDDO
 C
@@ -1373,45 +1373,45 @@ C
      .              R31,R32,R33)
 C strain        
             DO I=LFT,LLT
-              ES4(I) = UNDEMI*ES4(I)
-              ES5(I) = UNDEMI*ES5(I)
-              ES6(I) = UNDEMI*ES6(I)
+              ES4(I) = HALF*ES4(I)
+              ES5(I) = HALF*ES5(I)
+              ES6(I) = HALF*ES6(I)
             ENDDO              
             CALL MROTENS(LFT,LLT,ES1,ES2,ES3,ES4,ES5,ES6,
      .              R11,R12,R13,
      .              R21,R22,R23,
      .              R31,R32,R33)
             DO I=LFT,LLT
-              ES4(I) = DEUX*ES4(I)
-              ES5(I) = DEUX*ES5(I)
-              ES6(I) = DEUX*ES6(I)
+              ES4(I) = TWO*ES4(I)
+              ES5(I) = TWO*ES5(I)
+              ES6(I) = TWO*ES6(I)
             ENDDO 
 C strain rate
             DO I=LFT,LLT
               EP1(I) = DXX(I)
               EP2(I) = DYY(I)
               EP3(I) = DZZ(I)
-              EP4(I) = UNDEMI*D4(I)
-              EP5(I) = UNDEMI*D5(I)
-              EP6(I) = UNDEMI*D6(I)
+              EP4(I) = HALF*D4(I)
+              EP5(I) = HALF*D5(I)
+              EP6(I) = HALF*D6(I)
             ENDDO              
             CALL MROTENS(LFT,LLT,EP1,EP2,EP3,EP4,EP5,EP6,
      .              R11,R12,R13,
      .              R21,R22,R23,
      .              R31,R32,R33)
             DO I=LFT,LLT
-              EP4(I) = DEUX*EP4(I)
-              EP5(I) = DEUX*EP5(I)
-              EP6(I) = DEUX*EP6(I)
+              EP4(I) = TWO*EP4(I)
+              EP5(I) = TWO*EP5(I)
+              EP6(I) = TWO*EP6(I)
             ENDDO
           ELSE          !  strain rate
             DO I=LFT,LLT
               EP1(I) = DXX(I)
               EP2(I) = DYY(I)
               EP3(I) = DZZ(I)
-              EP4(I) = UNDEMI*D4(I)
-              EP5(I) = UNDEMI*D5(I)
-              EP6(I) = UNDEMI*D6(I)
+              EP4(I) = HALF*D4(I)
+              EP5(I) = HALF*D5(I)
+              EP6(I) = HALF*D6(I)
             ENDDO              
           ENDIF  
 c
@@ -1738,7 +1738,7 @@ C
             E5=D5(I) *(-STOR5+SS5(I))  
             E6=D6(I) *(-STOR6+SS6(I))  
             EINT(I)=LBUF%EINT(I)*LBUF%VOL(I)
-     .      +(E1+E2+E3+E4+E5+E6)*(VOLN(I)- UNDEMI*DVOL(I))*DT1*UNDEMI
+     .      +(E1+E2+E3+E4+E5+E6)*(VOLN(I)- HALF*DVOL(I))*DT1*HALF
             LBUF%EINT(I)=EINT(I)/MAX(LBUF%VOL(I),EM30)
           END DO
 C
@@ -1768,7 +1768,7 @@ C------------------------------------------------------------
 C-----------------------------------------------------------------  
       IF(IPARTSPH/=0)THEN
        DO I=LFT,LLT
-        IF(OFF(I) > ZERO .AND. OFF(I) < UN)THEN
+        IF(OFF(I) > ZERO .AND. OFF(I) < ONE)THEN
 C replace Solid w/SPH within the same cycle.
           OFF(I)=ZERO
           LBUF%SIG(II(1) + I)  = ZERO

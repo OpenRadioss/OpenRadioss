@@ -94,14 +94,14 @@ C     EOS parameters mat2:
       DO K = 1, NEL
          I = LIST(K)
          ALPHA1 = MBUF%VAR(I + (4 - 1) * NELG)
-         ALPHA2 = UN - ALPHA1
+         ALPHA2 = ONE - ALPHA1
          RHO0 = ALPHA1 * RHO10 + ALPHA2 * RHO20
          PGRAV = PSURF - RHO0  * GRAV0 * DEPTH(K)
          RHO1 = (PGRAV-P0)/R1 + RHO10
-         RHO2 = RHO20 * (PGRAV/P0) ** (UN / GAM)
+         RHO2 = RHO20 * (PGRAV/P0) ** (ONE / GAM)
          GBUF%RHO(I) = ALPHA1 * RHO1 + ALPHA2 * RHO2
          MBUF%VAR(I + (4 - 1) * NELG) = ALPHA1
-         MBUF%VAR(I + (5 - 1) * NELG) = UN - ALPHA1
+         MBUF%VAR(I + (5 - 1) * NELG) = ONE - ALPHA1
          MBUF%VAR(I + (2 - 1) * NELG) = RHO2
          MBUF%VAR(I + (3 - 1) * NELG) = RHO1
          MBUF%VAR(I + (1 - 1) * NELG) = ALPHA1 * RHO1

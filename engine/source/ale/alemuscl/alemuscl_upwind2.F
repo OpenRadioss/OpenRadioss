@@ -132,8 +132,8 @@ C-----------------------------------------------
                NODEID1 = IXQ(1 + FACE_TO_NODE_LOCAL_ID(KK, 1), II)
                NODEID2 = IXQ(1 + FACE_TO_NODE_LOCAL_ID(KK, 2), II)
 
-               YF = UNDEMI * (X(2, NODEID1) + X(2, NODEID2))
-               ZF = UNDEMI * (X(3, NODEID1) + X(3, NODEID2))
+               YF = HALF * (X(2, NODEID1) + X(2, NODEID2))
+               ZF = HALF * (X(3, NODEID1) + X(3, NODEID2))
 
                !!! Reconstruct second order value for ALPHA(II) on the face
                ALPHAK = VOLUME_FRACTION(ITRIMAT, II) 

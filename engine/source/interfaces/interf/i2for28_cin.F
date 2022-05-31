@@ -117,15 +117,15 @@ C
 C
         S = CRST(1,II)  
         T = CRST(2,II)  
-        SP=UN + S          
-        SM=UN - S          
-        TP=QUART*(UN + T)  
-        TM=QUART*(UN - T)  
+        SP=ONE + S          
+        SM=ONE - S          
+        TP=FOURTH*(ONE + T)  
+        TM=FOURTH*(ONE - T)  
 C    
-        H(1)=UN/NIR                                         
-        H(2)=UN/NIR                                          
-        H(3)=UN/NIR                                          
-        H(4)=UN/NIR                                         
+        H(1)=ONE/NIR                                         
+        H(2)=ONE/NIR                                          
+        H(3)=ONE/NIR                                          
+        H(4)=ONE/NIR                                         
 C
         NIR=4
         DO JJ=1,NIR
@@ -140,7 +140,7 @@ C
          YM(4)=ZERO
          ZM(4)=ZERO
         ENDIF
-        FACM = UN / NIR
+        FACM = ONE / NIR
 C----------------------------------------------------
 C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
 C----------------------------------------------------
@@ -175,8 +175,8 @@ C----------------------------------------------------
         XY2=XY*XY
         YZ2=YZ*YZ
         ZX2=ZX*ZX
-        DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 - DEUX*XY*YZ*ZX
-        DET=UN/DET
+        DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 - TWO*XY*YZ*ZX
+        DET=ONE/DET
         B1=ZZZ*YYY-YZ2
         B2=XXX*ZZZ-ZX2
         B3=YYY*XXX-XY2
@@ -294,15 +294,15 @@ C
 C
         S = CRST(1,II)  
         T = CRST(2,II)  
-        SP=UN + S          
-        SM=UN - S          
-        TP=QUART*(UN + T)  
-        TM=QUART*(UN - T)  
+        SP=ONE + S          
+        SM=ONE - S          
+        TP=FOURTH*(ONE + T)  
+        TM=FOURTH*(ONE - T)  
 C
-        H(1)=UN/NIR                                         
-        H(2)=UN/NIR                                          
-        H(3)=UN/NIR                                          
-        H(4)=UN/NIR                                           
+        H(1)=ONE/NIR                                         
+        H(2)=ONE/NIR                                          
+        H(3)=ONE/NIR                                          
+        H(4)=ONE/NIR                                           
 C
         J1=IRECT(1,L)
         J2=IRECT(2,L)
@@ -320,9 +320,9 @@ C
         X4=X(1,J4)
         Y4=X(2,J4)
         Z4=X(3,J4)
-        X0=QUART*(X1+X2+X3+X4)
-        Y0=QUART*(Y1+Y2+Y3+Y4)
-        Z0=QUART*(Z1+Z2+Z3+Z4)
+        X0=FOURTH*(X1+X2+X3+X4)
+        Y0=FOURTH*(Y1+Y2+Y3+Y4)
+        Z0=FOURTH*(Z1+Z2+Z3+Z4)
         X1=X1-X0
         Y1=Y1-Y0
         Z1=Z1-Z0
@@ -363,8 +363,8 @@ C
         XY2=XY*XY
         YZ2=YZ*YZ
         ZX2=ZX*ZX
-        DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 - DEUX*XY*YZ*ZX
-        DET=UN/DET
+        DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 - TWO*XY*YZ*ZX
+        DET=ONE/DET
         B1=ZZZ*YYY-YZ2
         B2=XXX*ZZZ-ZX2
         B3=YYY*XXX-XY2
@@ -400,9 +400,9 @@ C
         A2=DET*(MY*B2+MZ*C1+MX*C3)
         A3=DET*(MZ*B3+MX*C2+MY*C1)
 C
-        FX0=FXS*QUART
-        FY0=FYS*QUART
-        FZ0=FZS*QUART
+        FX0=FXS*FOURTH
+        FY0=FYS*FOURTH
+        FZ0=FZS*FOURTH
 C------------------------------------------------------
 C     FORCES TRANSMISES AUX NOEUDS MAINS
 C------------------------------------------------------
@@ -432,7 +432,7 @@ C------------------------------------------------------
 C     MASSES TRANSMISES AUX NOEUDS MAINS
 C------------------------------------------------------
 C
-        FACT = UN
+        FACT = ONE
         IF (IRODDL.EQ.1) THEN
         IF (MINER(J1).GT.ZERO.AND.MINER(J2).GT.ZERO.AND.MINER(J3).GT.ZERO.AND.MINER(J4).GT.ZERO) THEN
 C--       Inertie transmise sous forme d'inertie
@@ -440,14 +440,14 @@ C--       Inertie transmise sous forme d'inertie
         ENDIF
         ENDIF
 C
-        XMSI=QUART*XMSI+MR*FACT
+        XMSI=FOURTH*XMSI+MR*FACT
 C
-        DMAST = DMAST + QUATRE*XMSI - MS(I)
+        DMAST = DMAST + FOUR*XMSI - MS(I)
         IF (ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS .GT.0) THEN
-         ADM(J1) = ADM(J1) + XMSI - QUART*MS(I)
-         ADM(J2) = ADM(J2) + XMSI - QUART*MS(I)
-         ADM(J3) = ADM(J3) + XMSI - QUART*MS(I)
-         ADM(J4) = ADM(J4) + XMSI - QUART*MS(I)
+         ADM(J1) = ADM(J1) + XMSI - FOURTH*MS(I)
+         ADM(J2) = ADM(J2) + XMSI - FOURTH*MS(I)
+         ADM(J3) = ADM(J3) + XMSI - FOURTH*MS(I)
+         ADM(J4) = ADM(J4) + XMSI - FOURTH*MS(I)
         ENDIF
 C
         MS(J1)=MS(J1)+XMSI
@@ -456,10 +456,10 @@ C
         MS(J4)=MS(J4)+XMSI
 C
         IF (IRODDL == 1) THEN
-          STF = (QUART*STIFN(I)
+          STF = (FOURTH*STIFN(I)
      .         + DET*MAX(MRX,MRY,MRZ)*(STIFR(I)+STIFN(I)*(XS*XS+YS*YS+ZS*ZS)))*WEIGHT(I)
         ELSE
-          STF = (QUART*STIFN(I)
+          STF = (FOURTH*STIFN(I)
      .         + DET*MAX(MRX,MRY,MRZ)*(STIFN(I)*(XS*XS+YS*YS+ZS*ZS)))*WEIGHT(I)
         ENDIF
 C
@@ -469,10 +469,10 @@ C
         STIFN(J4)=STIFN(J4) + STF
 C
         IF (IRODDL.EQ.1) THEN
-          IN(J1)=IN(J1)+INX*QUART*(UN-FACT)
-          IN(J2)=IN(J2)+INX*QUART*(UN-FACT)
-          IN(J3)=IN(J3)+INX*QUART*(UN-FACT)
-          IN(J4)=IN(J4)+INX*QUART*(UN-FACT)
+          IN(J1)=IN(J1)+INX*FOURTH*(ONE-FACT)
+          IN(J2)=IN(J2)+INX*FOURTH*(ONE-FACT)
+          IN(J3)=IN(J3)+INX*FOURTH*(ONE-FACT)
+          IN(J4)=IN(J4)+INX*FOURTH*(ONE-FACT)
         ENDIF
 C
         IF(IDEL2.NE.0.AND.MS(I).NE.0.)SMASS(II)=MS(I)

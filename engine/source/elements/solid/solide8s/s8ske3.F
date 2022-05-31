@@ -242,11 +242,11 @@ C      IGTYP=NINT(GEO(12,PID))
 C      CALL GET_GAMA(MTN,NEL,NBGAMA,JCVT,PM,IXS(1,NF1),IGTYP)
       DO I=LFT,LLT
         NU =PM(21,MXT(I))
-        C1 =TROIS*PM(32,MXT(I))/(UN+NU)
+        C1 =THREE*PM(32,MXT(I))/(ONE+NU)
         LAMDA=C1*NU
-        GG =C1*(UN-DEUX*NU)
+        GG =C1*(ONE-TWO*NU)
         HH(1,I)=LAMDA
-        HH(2,I)=GG*UNDEMI
+        HH(2,I)=GG*HALF
       ENDDO
       ICPG = ICP
       IF (JHBE.NE.14.AND.JHBE.NE.17.AND.JHBE.NE.24) THEN
@@ -397,7 +397,7 @@ C-----------------------------------------------
       INTEGER I,L,M,N,NEL
 
       DO I=LFT,LLT
-        !CALL DGEMM('N','N',24,24,24,UN,KL(1,1,I),24,TRM(I,1,1),24,ZERO,
+        !CALL DGEMM('N','N',24,24,24,ONE,KL(1,1,I),24,TRM(I,1,1),24,ZERO,
         KTEMP(1:24,1:24) = ZERO
         DO L=1,24
          DO M=1,24

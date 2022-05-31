@@ -77,7 +77,7 @@ C
       ELSEIF(JCVT.EQ.0)THEN
        IF (N2D.EQ.0) THEN
         DO I=LFT,LLT
-          RR=UN/SQRT(RX(I)**2+RY(I)**2+RZ(I)**2)
+          RR=ONE/SQRT(RX(I)**2+RY(I)**2+RZ(I)**2)
           RX(I)=RX(I)*RR
           RY(I)=RY(I)*RR
           RZ(I)=RZ(I)*RR
@@ -85,7 +85,7 @@ C
           TX(I)=RY(I)*SZ(I)-RZ(I)*SY(I)
           TY(I)=RZ(I)*SX(I)-RX(I)*SZ(I)
           TZ(I)=RX(I)*SY(I)-RY(I)*SX(I)
-          RR=UN/SQRT(TX(I)**2+TY(I)**2+TZ(I)**2)
+          RR=ONE/SQRT(TX(I)**2+TY(I)**2+TZ(I)**2)
           TX(I)=TX(I)*RR
           TY(I)=TY(I)*RR
           TZ(I)=TZ(I)*RR
@@ -100,13 +100,13 @@ C
         ENDDO
        ELSE
         DO I=LFT,LLT
-          RR=UN/SQRT(SY(I)**2+SZ(I)**2)
+          RR=ONE/SQRT(SY(I)**2+SZ(I)**2)
           SY(I)=SY(I)*RR
           SZ(I)=SZ(I)*RR
 C
           TY(I)=-RX(I)*SZ(I)
           TZ(I)=RX(I)*SY(I)
-          RR=UN/SQRT(TY(I)**2+TZ(I)**2)
+          RR=ONE/SQRT(TY(I)**2+TZ(I)**2)
           TY(I)=TY(I)*RR
           TZ(I)=TZ(I)*RR
         ENDDO
@@ -134,15 +134,15 @@ C-------------------------------
 C     CO-ROTATIONAL FORMULATION IN  ORTHOTROPIC CO-ROTATIONAL SYSTEM.
       ELSE
         DO 500 I=LFT,LLT
-         AX(I)=UN
+         AX(I)=ONE
          BX(I)=ZERO
          CX(I)=ZERO
          AY(I)=ZERO
-         BY(I)=UN
+         BY(I)=ONE
          CY(I)=ZERO
          AZ(I)=ZERO
          BZ(I)=ZERO
-         CZ(I)=UN 
+         CZ(I)=ONE 
   500   CONTINUE
       ENDIF
 C

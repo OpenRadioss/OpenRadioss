@@ -94,23 +94,23 @@ C-----------------------------------------------
               B1  =GEO(2,PID(I))
               B2  =GEO(18,PID(I))
               B3  =GEO(4,PID(I))
-              DMP(I)=DMP(I)*SQRT(DEUX)
-              AA    =(SQRT(UN +DMP(I)*DMP(I))-DMP(I))
+              DMP(I)=DMP(I)*SQRT(TWO)
+              AA    =(SQRT(ONE +DMP(I)*DMP(I))-DMP(I))
               AA  = AL(I) * AA * AA
               BB  = MAX(B1,B2)
-              STIR(I) = MAX(G*B3,QUATRE*YOUNG*BB) / AA
+              STIR(I) = MAX(G*B3,FOUR*YOUNG*BB) / AA
               STI(I) = A1 * YOUNG / AA
 !             calcul du pourcentage d'amortissement en cisaillement
               SL2I(I)= A1*AL(I)**2 / MAX(B1,B2,EM30)
-              SHF    = UN-GEO(37,PID(I))
-              PHI    = DOUZE*YOUNG/(CINQ/SIX*G)/MAX(EM30,SL2I(I))
+              SHF    = ONE-GEO(37,PID(I))
+              PHI    = TWELVE*YOUNG/(FIVE/SIX*G)/MAX(EM30,SL2I(I))
 ! ---  lm(41u)  DSH > DMP : ne change pas ce qui marche, meme si trop severe
               DSH(I) = DMP(I)
-     .                *MAX(UN,
-     .                 SQRT(DOUZE/MAX(EM30,SL2I(I)))*SQRT(UN+PHI*SHF))
-              AA     = SQRT(UN+DSH(I)*DSH(I))-DSH(I)
+     .                *MAX(ONE,
+     .                 SQRT(TWELVE/MAX(EM30,SL2I(I)))*SQRT(ONE+PHI*SHF))
+              AA     = SQRT(ONE+DSH(I)*DSH(I))-DSH(I)
               AA     = AL(I) * AA * AA
-              STI(I) = MAX(STI(I),DOUZE*BB*YOUNG/AL(I)/AL(I) / AA)
+              STI(I) = MAX(STI(I),TWELVE*BB*YOUNG/AL(I)/AL(I) / AA)
             ENDIF ! IF (OFFG(I) /= ZERO)
           ENDDO
           IF (IDTMIN(5) == 0) RETURN
@@ -124,14 +124,14 @@ C-----------------------------------------------
             B1  =GEO(2,PID(I))
             B2  =GEO(18,PID(I))
             SL2I(I)=A1*AL(I)**2 / MAX(B1,B2,EM30)
-            DMP(I)=DMP(I)*SQRT(DEUX)
+            DMP(I)=DMP(I)*SQRT(TWO)
 !           calcul du pourcentage d'amortissement en cisaillement
             G      = PM(22,MAT(I))
-            SHF    = UN-GEO(37,PID(I))
-            PHI    = DOUZE*YOUNG/(CINQ/SIX*G)/MAX(EM30,SL2I(I))
+            SHF    = ONE-GEO(37,PID(I))
+            PHI    = TWELVE*YOUNG/(FIVE/SIX*G)/MAX(EM30,SL2I(I))
             DSH(I) = DMP(I)
-     .         * MAX(UN,
-     .           SQRT(DOUZE/MAX(EM30,SL2I(I)))*SQRT(UN+PHI*SHF))
+     .         * MAX(ONE,
+     .           SQRT(TWELVE/MAX(EM30,SL2I(I)))*SQRT(ONE+PHI*SHF))
             IF (OFFG(I) > ZERO) STI(I) = A1 * YOUNG / AL(I)
           ENDDO
         ENDIF ! IF (NODADT /= 0 .OR. IDTMINS == 2)
@@ -149,31 +149,31 @@ C-----------------------------------------------
             B1  =GEO(2,PID(I))
             B2  =GEO(18,PID(I))
             B3  =GEO(4,PID(I))
-            DMP(I)=DMP(I)*SQRT(DEUX)
-            AA    =(SQRT(UN +DMP(I)*DMP(I))-DMP(I))
+            DMP(I)=DMP(I)*SQRT(TWO)
+            AA    =(SQRT(ONE +DMP(I)*DMP(I))-DMP(I))
             AA  = AL(I) * AA * AA
             BB  = MAX(B1,B2)
-            STIR(I) = MAX(G*B3,QUATRE*YOUNG*BB) / AA
+            STIR(I) = MAX(G*B3,FOUR*YOUNG*BB) / AA
             STI(I) = A1 * YOUNG / AA
 !           calcul du pourcentage d'amortissement en cisaillement
             SL2I(I)= A1*AL(I)**2 / MAX(B1,B2,EM30)
-            SHF    = UN-GEO(37,PID(I))
-            PHI    = DOUZE*YOUNG/(CINQ/SIX*G)/MAX(EM30,SL2I(I))
+            SHF    = ONE-GEO(37,PID(I))
+            PHI    = TWELVE*YOUNG/(FIVE/SIX*G)/MAX(EM30,SL2I(I))
             DSH(I) = DMP(I)
-     .              *MAX(UN,
-     .               SQRT(DOUZE/MAX(EM30,SL2I(I)))*SQRT(UN+PHI*SHF))
-            AA     = SQRT(UN+DSH(I)*DSH(I))-DSH(I)
+     .              *MAX(ONE,
+     .               SQRT(TWELVE/MAX(EM30,SL2I(I)))*SQRT(ONE+PHI*SHF))
+            AA     = SQRT(ONE+DSH(I)*DSH(I))-DSH(I)
             AA     = AL(I) * AA * AA
-            STI(I) = MAX(STI(I),DOUZE*BB*YOUNG/AL(I)/AL(I) / AA)
+            STI(I) = MAX(STI(I),TWELVE*BB*YOUNG/AL(I)/AL(I) / AA)
           ENDIF ! IF (OFFG(I) /= ZERO)
         ENDDO
 
         DO I=JFT,JLT
           IF (OFFG(I) /= ZERO) THEN
 !         DT(I)  = DTFACS*
-!      .           SQRT(DEUX*(MSP(I)+DMELP(I))/MAX(EM20,STI(I)))
+!      .           SQRT(TWO*(MSP(I)+DMELP(I))/MAX(EM20,STI(I)))
             DMELP(I)=MAX(DMELP(I),
-     .             UNDEMI*(DTMINS/DTFACS)**2 * STI(I) - MSP(I))
+     .             HALF*(DTMINS/DTFACS)**2 * STI(I) - MSP(I))
             DT(I)=DTMINS
             IF (DT(I) < DT2T) THEN
               DT2T    = DT(I)
@@ -187,15 +187,15 @@ C-----------------------------------------------
       ENDIF
 !
       DO I=JFT,JLT
-        F1    =SQRT(UN+DMP(I)*DMP(I))-DMP(I)
-        F2    =MIN(F1,SQRT(UN+DSH(I)*DSH(I))-DSH(I))
-        FAC(I)=UNDEMI*MIN(SQRT(MIN(QUATRE,UN+SL2I(I)/DOUZE))*F1,
-     .                    SQRT(SL2I(I)/TROIS)*F2)
+        F1    =SQRT(ONE+DMP(I)*DMP(I))-DMP(I)
+        F2    =MIN(F1,SQRT(ONE+DSH(I)*DSH(I))-DSH(I))
+        FAC(I)=HALF*MIN(SQRT(MIN(FOUR,ONE+SL2I(I)/TWELVE))*F1,
+     .                    SQRT(SL2I(I)/THREE)*F2)
         DT(I)=DTFAC1(5)*FAC(I)*AL(I)/SSP(I)
       ENDDO ! DO I=JFT,JLT
 C
       DO I=JFT,JLT
-        IF (DT(I) < DTMIN1(5) .AND. OFFG(I) == UN) THEN
+        IF (DT(I) < DTMIN1(5) .AND. OFFG(I) == ONE) THEN
           IF (IDTMIN(5) == 1 ) THEN
             TSTOP = TT
 #include "lockon.inc"
@@ -219,7 +219,7 @@ C
      . ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR BEAM ELEMENT'
 #include "lockoff.inc"
           ENDIF ! IF (IDTMIN(5) == 1 )
-        ENDIF ! IF (DT(I) < DTMIN1(5) .AND. OFFG(I) == UN)
+        ENDIF ! IF (DT(I) < DTMIN1(5) .AND. OFFG(I) == ONE)
       ENDDO ! DO I=JFT,JLT
 !
       IF (NODADT /= 0) RETURN

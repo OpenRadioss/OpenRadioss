@@ -136,7 +136,7 @@ C
        D3(I) =  X42*Y41 - X41*Y42
        D4(I) =  -(D1(I) + D2(I) + D3(I))
 C
-       VOLDP(I) = (X41*B1DP + Y41*C1DP + Z41*D1DP)*UNSIX
+       VOLDP(I) = (X41*B1DP + Y41*C1DP + Z41*D1DP)*ONE_OVER_6
        DET(I) = VOLDP(I)
        VOL(I) = DET(I)
       ENDDO
@@ -160,7 +160,7 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-        D = UN/DET(I)/SIX
+        D = ONE/DET(I)/SIX
         PX1(I)=-B1(I)*D
         PY1(I)=-C1(I)*D
         PZ1(I)=-D1(I)*D
@@ -183,7 +183,7 @@ C
      .    	   PX2(I)*PX2(I)+PY2(I)*PY2(I)+PZ2(I)*PZ2(I),
      .  	   PX3(I)*PX3(I)+PY3(I)*PY3(I)+PZ3(I)*PZ3(I),
      .  	   PX4(I)*PX4(I)+PY4(I)*PY4(I)+PZ4(I)*PZ4(I))
-           DELTAX(I) = UN / SQRT(D)
+           DELTAX(I) = ONE / SQRT(D)
          END DO
 
        ELSEIF(IFORMDT==0)THEN
@@ -192,13 +192,13 @@ C
      .       + PX2(I)*PX2(I)+PY2(I)*PY2(I)+PZ2(I)*PZ2(I)
      .       + PX3(I)*PX3(I)+PY3(I)*PY3(I)+PZ3(I)*PZ3(I)
      .       + PX4(I)*PX4(I)+PY4(I)*PY4(I)+PZ4(I)*PZ4(I)
-           DELTAX(I) = UN / SQRT(D)
+           DELTAX(I) = ONE / SQRT(D)
          END DO
 
        ELSEIF(IFORMDT==1)THEN
 
          GFAC=PM(105,MXT(1))
-         LD  =DEUX*SQRT(MAX(UN-GFAC,ZERO))+UN
+         LD  =TWO*SQRT(MAX(ONE-GFAC,ZERO))+ONE
          DO I=LFT,LLT
            PXX=PX1(I)*PX1(I)+PX2(I)*PX2(I)+PX3(I)*PX3(I)+PX4(I)*PX4(I)
            PYY=PY1(I)*PY1(I)+PY2(I)*PY2(I)+PY3(I)*PY3(I)+PY4(I)*PY4(I)
@@ -210,11 +210,11 @@ C
            AA = -(PXX+PYY+PZZ)
            BB =  (PXX*PYY+PXX*PZZ+PYY*PZZ-PXY**2-PXZ**2-PYZ**2) 
            P  = BB-THIRD*AA*AA
-           D  = DEUX*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
+           D  = TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
 C
            D = LD*D
 C
-           DELTAX(I) = UN / SQRT(D)
+           DELTAX(I) = ONE / SQRT(D)
          END DO
 
        ELSEIF(IFORMDT==2)THEN
@@ -231,9 +231,9 @@ C
            AA = -(PXX+PYY+PZZ)
            BB =  GFAC*(PXX*PYY+PXX*PZZ+PYY*PZZ-PXY**2-PXZ**2-PYZ**2) 
            P  = BB-THIRD*AA*AA
-           D  = DEUX*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
+           D  = TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
 C
-           DELTAX(I) = UN / SQRT(D)
+           DELTAX(I) = ONE / SQRT(D)
          END DO
 
        END IF
@@ -272,25 +272,25 @@ C------------------------------------------
 C     CALCUL DE LA NORMALE A CHAQUE FACE
 C------------------------------------------
           VEUL(14,I) = ZERO
-          VEUL(15,I) = UNDEMI*B1(I)
+          VEUL(15,I) = HALF*B1(I)
           VEUL(16,I) = ZERO
-          VEUL(17,I) = UNDEMI*B2(I)
-          VEUL(18,I) = UNDEMI*B3(I)
-          VEUL(19,I) = UNDEMI*B4(I)
+          VEUL(17,I) = HALF*B2(I)
+          VEUL(18,I) = HALF*B3(I)
+          VEUL(19,I) = HALF*B4(I)
 C
           VEUL(20,I) = ZERO
-          VEUL(21,I) = UNDEMI*C1(I)
+          VEUL(21,I) = HALF*C1(I)
           VEUL(22,I) = ZERO
-          VEUL(23,I) = UNDEMI*C2(I)
-          VEUL(24,I) = UNDEMI*C3(I)
-          VEUL(25,I) = UNDEMI*C4(I)
+          VEUL(23,I) = HALF*C2(I)
+          VEUL(24,I) = HALF*C3(I)
+          VEUL(25,I) = HALF*C4(I)
 C
           VEUL(26,I) = ZERO
-          VEUL(27,I) = UNDEMI*D1(I)
+          VEUL(27,I) = HALF*D1(I)
           VEUL(28,I) = ZERO
-          VEUL(29,I) = UNDEMI*D2(I)
-          VEUL(30,I) = UNDEMI*D3(I)
-          VEUL(31,I) = UNDEMI*D4(I)
+          VEUL(29,I) = HALF*D2(I)
+          VEUL(30,I) = HALF*D3(I)
+          VEUL(31,I) = HALF*D4(I)
         ENDDO
 C
         IF (IGEO(11,NGEO(LFT)) == 15) THEN

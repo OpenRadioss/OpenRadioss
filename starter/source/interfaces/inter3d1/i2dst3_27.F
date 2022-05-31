@@ -103,9 +103,9 @@ C     DERVIED FROM I2DST3 - improved projection on triagnles
 C-----------------------------------------------
 C
       DO I=LFT,LLT
-       X0(I) = QUART*(X1(I)+X2(I)+X3(I)+X4(I))
-       Y0(I) = QUART*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-       Z0(I) = QUART*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
+       X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
+       Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
+       Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
       ENDDO
 C
       DO I=LFT,LLT
@@ -168,10 +168,10 @@ C
       IF(IGNORE==2 .OR. IGNORE == 3)THEN
         DO I=LFT,LLT
           IF(PENE(I).GT.ZERO  .AND.
-     .          (S(I) < UNP5 .AND. 
-     .           T(I) < UNP5 .AND.
-     .           S(I) >-UNP5 .AND.
-     .           T(I) >-UNP5))THEN
+     .          (S(I) < ONEP5 .AND. 
+     .           T(I) < ONEP5 .AND.
+     .           S(I) >-ONEP5 .AND.
+     .           T(I) >-ONEP5))THEN
             II=CAND_N(I)
             IF(GAPV(I) - PENE(I).LT.DMIN(II))THEN
               DMIN(II)=GAPV(I)-PENE(I)
@@ -187,10 +187,10 @@ C
         DO I=LFT,LLT
 C
         IF(PENE(I).GT.ZERO  .AND.
-     .          (S(I) < UNP5 .AND. 
-     .           T(I) < UNP5 .AND.
-     .           S(I) >-UNP5 .AND.
-     .           T(I) >-UNP5))  THEN
+     .          (S(I) < ONEP5 .AND. 
+     .           T(I) < ONEP5 .AND.
+     .           S(I) >-ONEP5 .AND.
+     .           T(I) >-ONEP5))  THEN
           II=CAND_N(I)
           
           IF(TZINF - PENE(I).LT.DMIN(II))THEN
@@ -257,14 +257,14 @@ C-----------------------------------------------
 C
       IF (IRECT(3,M_OLD)==IRECT(4,M_OLD)) THEN
         TFLAG_OLD = 1
-        IF ((S.GE.ZERO).AND.(T.GE.ZERO).AND.(UN-S-T.GE.ZERO)) THEN
+        IF ((S.GE.ZERO).AND.(T.GE.ZERO).AND.(ONE-S-T.GE.ZERO)) THEN
           INTERIOR_OLD = 1
         ELSE
           INTERIOR_OLD = 0
         ENDIF        
       ELSE
         TFLAG_OLD = 0
-        IF ((ABS(S).LE.UN).AND.(ABS(T).LE.UN)) THEN
+        IF ((ABS(S).LE.ONE).AND.(ABS(T).LE.ONE)) THEN
           INTERIOR_OLD = 1
         ELSE
           INTERIOR_OLD = 0
@@ -272,13 +272,13 @@ C
       ENDIF
 C
       IF (TFLAG==1) THEN
-        IF ((S_NEW.GE.ZERO).AND.(T_NEW.GE.ZERO).AND.(UN-S_NEW-T_NEW.GE.ZERO)) THEN
+        IF ((S_NEW.GE.ZERO).AND.(T_NEW.GE.ZERO).AND.(ONE-S_NEW-T_NEW.GE.ZERO)) THEN
           INTERIOR = 1
         ELSE
           INTERIOR = 0
         ENDIF        
       ELSE
-        IF ((ABS(S_NEW).LE.UN).AND.(ABS(T_NEW).LE.UN)) THEN
+        IF ((ABS(S_NEW).LE.ONE).AND.(ABS(T_NEW).LE.ONE)) THEN
           INTERIOR = 1
         ELSE
           INTERIOR = 0
@@ -296,8 +296,8 @@ C--     At least on segment is a triangle
           SWITCH = 1
         ELSEIF (INTERIOR_OLD == INTERIOR) THEN
 C--     The segment with projection clostet to center is retained ((1/3,1/3) for triangles and (0,0) for quadrangles)
-          IF (((S_NEW-TIERS*TFLAG)**2+(T_NEW-TIERS*TFLAG)**2).LT.
-     .        ((S-TIERS*TFLAG_OLD)**2+(T-TIERS*TFLAG_OLD)**2)) SWITCH = 1
+          IF (((S_NEW-THIRD*TFLAG)**2+(T_NEW-THIRD*TFLAG)**2).LT.
+     .        ((S-THIRD*TFLAG_OLD)**2+(T-THIRD*TFLAG_OLD)**2)) SWITCH = 1
         ENDIF
       ENDIF
 C

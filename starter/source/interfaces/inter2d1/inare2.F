@@ -57,6 +57,6 @@ C
       E=FS2*FS2+FS3*FS3
       F=FS2*FT2+FS3*FT3
       G=FT2*FT2+FT3*FT3
-      AREA=SQRT((E*G-F*F)/SEIZE)
+      AREA=SQRT((E*G-F*F)/SIXTEEN)
       RETURN
       END

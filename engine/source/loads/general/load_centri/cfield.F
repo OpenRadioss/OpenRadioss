@@ -161,9 +161,9 @@ C
            A(2,N1)=A(2,N1)+AREL(2)
            A(3,N1)=A(3,N1)+AREL(3)
            IF(IB(J).GT.0)THEN
-             VMX=V(1,N1)+UNDEMI*DT2*A(1,N1) ! Supposing A will be no more modified...
-             VMY=V(2,N1)+UNDEMI*DT2*A(2,N1)
-             VMZ=V(3,N1)+UNDEMI*DT2*A(3,N1) 
+             VMX=V(1,N1)+HALF*DT2*A(1,N1) ! Supposing A will be no more modified...
+             VMY=V(2,N1)+HALF*DT2*A(2,N1)
+             VMZ=V(3,N1)+HALF*DT2*A(3,N1) 
              TFEXTT=TFEXTT 
      .         +MS(N1)*(AREL(1)*VMX+AREL(2)*VMY+AREL(3)*VMZ)*DT12*WEIGHT(N1)
            END IF
@@ -192,9 +192,9 @@ C
            A(2,N1)=A(2,N1)+AREL(2)
            A(3,N1)=A(3,N1)+AREL(3)
            IF(IB(J).GT.0)THEN
-             VMX=V(1,N1)+UNDEMI*DT2*A(1,N1) ! Supposing A will be no more modified...
-             VMY=V(2,N1)+UNDEMI*DT2*A(2,N1)
-             VMZ=V(3,N1)+UNDEMI*DT2*A(3,N1) 
+             VMX=V(1,N1)+HALF*DT2*A(1,N1) ! Supposing A will be no more modified...
+             VMY=V(2,N1)+HALF*DT2*A(2,N1)
+             VMZ=V(3,N1)+HALF*DT2*A(3,N1) 
              TFEXTT=TFEXTT 
      .         +MS(N1)*(AREL(1)*VMX+AREL(2)*VMY+AREL(3)*VMZ)*DT12*WEIGHT(N1)
            END IF
@@ -218,9 +218,9 @@ C
            A(2,N1)=A(2,N1)+AREL(2)
            A(3,N1)=A(3,N1)+AREL(3)
            IF(IB(J).GT.0)THEN
-             VMX=V(1,N1)+UNDEMI*DT2*A(1,N1) ! Supposing A will be no more modified...
-             VMY=V(2,N1)+UNDEMI*DT2*A(2,N1)
-             VMZ=V(3,N1)+UNDEMI*DT2*A(3,N1) 
+             VMX=V(1,N1)+HALF*DT2*A(1,N1) ! Supposing A will be no more modified...
+             VMY=V(2,N1)+HALF*DT2*A(2,N1)
+             VMZ=V(3,N1)+HALF*DT2*A(3,N1) 
              TFEXTT=TFEXTT 
      .         +MS(N1)*(AREL(1)*VMX+AREL(2)*VMY+AREL(3)*VMZ)*DT12*WEIGHT(N1)
            END IF
@@ -242,9 +242,9 @@ C
            A(2,N1)=A(2,N1)+AREL(2)
            A(3,N1)=A(3,N1)+AREL(3)
            IF(IB(J).GT.0)THEN
-             VMX=V(1,N1)+UNDEMI*DT2*A(1,N1) ! Supposing A will be no more modified...
-             VMY=V(2,N1)+UNDEMI*DT2*A(2,N1)
-             VMZ=V(3,N1)+UNDEMI*DT2*A(3,N1) 
+             VMX=V(1,N1)+HALF*DT2*A(1,N1) ! Supposing A will be no more modified...
+             VMY=V(2,N1)+HALF*DT2*A(2,N1)
+             VMZ=V(3,N1)+HALF*DT2*A(3,N1) 
              TFEXTT=TFEXTT 
      .         +MS(N1)*(AREL(1)*VMX+AREL(2)*VMY+AREL(3)*VMZ)*DT12*WEIGHT(N1)
            END IF

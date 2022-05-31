@@ -140,7 +140,7 @@ C----------------------------------------------------------
 C
       DO I=LFT,LLT
 C
-        IF (OFF(I) == UN) THEN
+        IF (OFF(I) == ONE) THEN
 C
         IF (SLIPRING_STRAND(I) == 1) THEN
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
@@ -223,7 +223,7 @@ C----     Effect of orientation angle --
 C
           IF (SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%ORIENTATION_NODE > 0) THEN
             ANGLE = SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%ORIENTATION_ANGLE
-            FRIC = FRIC*(UN + SLIPRING(SLIPRING_ID(I))%A*ANGLE*ANGLE)
+            FRIC = FRIC*(ONE + SLIPRING(SLIPRING_ID(I))%A*ANGLE*ANGLE)
           ENDIF
 C
 C----------------------------------------------------------------------------------
@@ -232,7 +232,7 @@ C
           DDFS = DDX*DT1*XK(I)/AL0(I) + DDX2*DT1*XK(I)/AL02(I)
 C
           COS_BETA = EXDP(I)*EX2DP(I)+EYDP(I)*EY2DP(I)+ EZDP(I)*EZ2DP(I)
-          COS_BETA = SIGN(MIN(UN,ABS(COS_BETA)),COS_BETA)
+          COS_BETA = SIGN(MIN(ONE,ABS(COS_BETA)),COS_BETA)
           BETA  = PI - ACOS(COS_BETA)
 C
           IF (DFS(I) == ZERO) THEN
@@ -261,7 +261,7 @@ C
           ENDIF
 C
           DFS(I) = DFS(I) + DDFS
-          DELTAF = FB*(UN-UN/MAX(EM15,HH))
+          DELTAF = FB*(ONE-ONE/MAX(EM15,HH))
 C
           IF ((ABS(DELTAF) >= ABS(DFS(I))).OR.
      .        ((SLIPRING(SLIPRING_ID(I))%FL_FLAG==1).AND.(DELTA_LO > 0)).OR.
@@ -412,7 +412,7 @@ C----     Effect of orientation angle --
 C
           IF (SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%ORIENTATION_NODE > 0) THEN
             ANGLE = SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%ORIENTATION_ANGLE
-            FRIC = FRIC*(UN + SLIPRING(SLIPRING_ID(I))%A*ANGLE*ANGLE)
+            FRIC = FRIC*(ONE + SLIPRING(SLIPRING_ID(I))%A*ANGLE*ANGLE)
           ENDIF
 C
 C----------------------------------------------------------------------------------
@@ -421,7 +421,7 @@ C
           DDFS = DDX*DT1*XK(I)/AL0(I) + DDX2*DT1*XK(I)/AL02(I)
 C
           COS_BETA = EXDP(I)*EX2DP(I)+EYDP(I)*EY2DP(I)+ EZDP(I)*EZ2DP(I)
-          COS_BETA = SIGN(MIN(UN,ABS(COS_BETA)),COS_BETA)
+          COS_BETA = SIGN(MIN(ONE,ABS(COS_BETA)),COS_BETA)
           BETA  = PI - ACOS(COS_BETA)
 C
           IF (DFS(I) == ZERO) THEN
@@ -450,7 +450,7 @@ C
           ENDIF
 C
           DFS(I) = DFS(I) + DDFS
-          DELTAF = FB*(HH-UN)
+          DELTAF = FB*(HH-ONE)
 C
           IF ((ABS(DELTAF) >= ABS(DFS(I))).OR.
      .        ((SLIPRING(SLIPRING_ID(I))%FL_FLAG==1).AND.(DELTA_LO > 0)).OR.
@@ -642,9 +642,9 @@ C--------------------Retractor is Unlocked ---------------------------------
      .          (FL_IMPOSED_FORCE == 1)) THEN
               TENS = F_UNLOCK / XK(I)
               IF (TT > ZERO) THEN
-                 DELTA_LO = (ALDP(I)-AL0DP(I)*(TENS + UN))/(TENS + UN)
+                 DELTA_LO = (ALDP(I)-AL0DP(I)*(TENS + ONE))/(TENS + ONE)
               ELSE
-                 DELTA_LO = (ALDP(I)-AL0DP(I)*(TENS + UN))/(TENS + UN)
+                 DELTA_LO = (ALDP(I)-AL0DP(I)*(TENS + ONE))/(TENS + ONE)
               ENDIF
 C
               IF (AL0DP(I) +  DELTA_LO < LMIN(I)) THEN
@@ -826,12 +826,12 @@ C
 C      DELTA_LO = -(HH*(ALDP2(I)-AL0DP2(I))*AL0DP(I)-(ALDP(I)-AL0DP(I))*AL0DP2(I))
 C     .              /(HH*(ALDP2(I)-AL0DP2(I)+AL0DP(I))+ALDP(I)-AL0DP(I)+AL0DP2(I))
 C
-      IF ((HH == UN).AND.(FLAG == 0)) THEN
+      IF ((HH == ONE).AND.(FLAG == 0)) THEN
 C--   equation 1 -> no friction and l2 > lmin - order 1
         DELTA_LO = (L1*L02-L2*L01)/MAX(EM15,L1+L2)
       ELSEIF (FLAG == 0) THEN
 C--   equation 2 -> friction and l2 and l1 > lmin - order 2
-        AA = UN -HH
+        AA = ONE -HH
         BB = -L1+L01-L02-HH*(L2-L02+L01)
         CC = (L1-L01)*L02-HH*(L2-L02)*L01
         DD = BB*BB-4*AA*CC

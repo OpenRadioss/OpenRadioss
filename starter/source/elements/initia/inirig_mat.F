@@ -171,7 +171,7 @@ c--------------------------------------
         DO I=LFT,LLT
           RHO(I) = PM(89,MXT(I))
           DTELEM(NFT+I) = 1.E30
-          FILL(I) = UN
+          FILL(I) = ONE
           RHOCP(I) =  PM(69,MXT(I))
           TEMP0(I) =  PM(79,MXT(I))
         ENDDO
@@ -216,7 +216,7 @@ c
 c
         DO  I=LFT,LLT
          DTELEM(NFT+I)=DTX(I)
-         STIE = QUART * RHO(I) * VOL(I) / 
+         STIE = FOURTH * RHO(I) * VOL(I) / 
      .        MAX(EM20,DTX(I)*DTX(I))
          STIFN(IXS(2,I+NFT))=STIFN(IXS(2,I+NFT)) + STIE
          STIFN(IXS(4,I+NFT))=STIFN(IXS(4,I+NFT)) + STIE
@@ -247,7 +247,7 @@ C
           MASSCP(I) = ZERO 
           MASS(I) = ZERO
           RHO(I) = PM(89,MXT(I))
-          FILL(I) = UN
+          FILL(I) = ONE
           DTELEM(NFT+I) = 1.E30
           RHOCP(I) =  PM(69,MXT(I))
           TEMP0(I) =  PM(79,MXT(I))
@@ -338,7 +338,7 @@ C
           DO I=LFT,LLT
             RHO(I) = PM(89,MXT(I))
             DTELEM(NFT+I) = EP30                                         
-            FILL(I) = UN
+            FILL(I) = ONE
           ENDDO
           CALL SDERI3(VOL,VEUL(1,NFT+1),GEO,IGEO,
      .           XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
@@ -368,7 +368,7 @@ C
         DO  I=LFT,LLT
           N = I + NFT
           DTELEM(N)= EP30
-          STIE = QUART * RHO(I) * VOL(I) /
+          STIE = FOURTH * RHO(I) * VOL(I) /
      .          MAX(EM20,DTX(I)*DTX(I))
           STIFN(IXS(2,N))=STIFN(IXS(2,N))+STIE
           STIFN(IXS(3,N))=STIFN(IXS(3,N))+STIE
@@ -423,7 +423,7 @@ c
           B2 = PX2(I)*PX2(I)+PY2(I)*PY2(I)
           STIE =  MAX(B1,B2)
      .         * THKC(I) * A11 / (AREA(I) )
-          STIR = UNDOUZE*STIE * (THKC(I)*THKC(I) + AREA(I)) 
+          STIR = ONE_OVER_12*STIE * (THKC(I)*THKC(I) + AREA(I)) 
           STIFN(IXC(2,N))=STIFN(IXC(2,N))+STIE
           STIFN(IXC(3,N))=STIFN(IXC(3,N))+STIE
           STIFN(IXC(4,N))=STIFN(IXC(4,N))+STIE
@@ -443,7 +443,7 @@ c
            B2 = PX2(I)*PX2(I)+PY2(I)*PY2(I)
            STIE =  MAX(B1,B2)
      .          * THKC(I) * A11 / AREA(I)
-           STIR = UNDOUZE*STIE * (THKC(I)*THKC(I) + AREA(I))  
+           STIR = ONE_OVER_12*STIE * (THKC(I)*THKC(I) + AREA(I))  
            STIFN(IXC(2,N))=STIFN(IXC(2,N))+STIE
            STIFN(IXC(3,N))=STIFN(IXC(3,N))+STIE
            STIFN(IXC(4,N))=STIFN(IXC(4,N))+STIE

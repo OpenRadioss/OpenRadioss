@@ -109,7 +109,7 @@ c test pour ne prendre en compte que les solides
           SURFZ = X41*Y12 - Y41*X12
           CO = X41*X12 + Y41*Y12 + Z41*Z12
           SI = SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ)
-c          AAA = ATAN2(SI,-CO)*DEUX/PI/MAX(EM30,SI)
+c          AAA = ATAN2(SI,-CO)*TWO/PI/MAX(EM30,SI)
           AAA = EP07*ATAN2(SI,-CO)/MAX(EM30,SI)
           NOD_NORMAL(1,N1) = NOD_NORMAL(1,N1) + NINT(SURFX*AAA)
           NOD_NORMAL(2,N1) = NOD_NORMAL(2,N1) + NINT(SURFY*AAA)
@@ -120,7 +120,7 @@ c          AAA = ATAN2(SI,-CO)*DEUX/PI/MAX(EM30,SI)
           SURFZ = X12*Y23 - Y12*X23
           CO = X12*X23 + Y12*Y23 + Z12*Z23
           SI = SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ)
-c          AAA = ATAN2(SI,-CO)*DEUX/PI/MAX(EM30,SI)
+c          AAA = ATAN2(SI,-CO)*TWO/PI/MAX(EM30,SI)
           AAA = EP07*ATAN2(SI,-CO)/MAX(EM30,SI)
           NOD_NORMAL(1,N2) = NOD_NORMAL(1,N2) + NINT(SURFX*AAA)
           NOD_NORMAL(2,N2) = NOD_NORMAL(2,N2) + NINT(SURFY*AAA)
@@ -135,7 +135,7 @@ c          AAA = ATAN2(SI,-CO)*DEUX/PI/MAX(EM30,SI)
             SURFZ = X23*Y34 - Y23*X34
             CO = X23*X34 + Y23*Y34 + Z23*Z34
             SI = SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ)
-c            AAA = ATAN2(SI,-CO)*DEUX/PI/MAX(EM30,SI)
+c            AAA = ATAN2(SI,-CO)*TWO/PI/MAX(EM30,SI)
             AAA = EP07*ATAN2(SI,-CO)/MAX(EM30,SI)
             NOD_NORMAL(1,N3) = NOD_NORMAL(1,N3) + NINT(SURFX*AAA)
             NOD_NORMAL(2,N3) = NOD_NORMAL(2,N3) + NINT(SURFY*AAA)
@@ -146,7 +146,7 @@ c            AAA = ATAN2(SI,-CO)*DEUX/PI/MAX(EM30,SI)
             SURFZ = X34*Y41 - Y34*X41
             CO = X34*X41 + Y34*Y41 + Z34*Z41
             SI = SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ)
-c            AAA = ATAN2(SI,-CO)*DEUX/PI/MAX(EM30,SI)
+c            AAA = ATAN2(SI,-CO)*TWO/PI/MAX(EM30,SI)
             AAA = EP07*ATAN2(SI,-CO)/MAX(EM30,SI)
             NOD_NORMAL(1,N4) = NOD_NORMAL(1,N4) + NINT(SURFX*AAA)
             NOD_NORMAL(2,N4) = NOD_NORMAL(2,N4) + NINT(SURFY*AAA)
@@ -157,7 +157,7 @@ c            AAA = ATAN2(SI,-CO)*DEUX/PI/MAX(EM30,SI)
             SURFZ = X23*Y41 - Y23*X41
             CO = X41*X23 + Y41*Y23 + Z41*Z23
             SI = SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ)
-c            AAA = ATAN2(SI,-CO)*DEUX/PI/MAX(EM30,SI)
+c            AAA = ATAN2(SI,-CO)*TWO/PI/MAX(EM30,SI)
             AAA = EP07*ATAN2(SI,-CO)/MAX(EM30,SI)
             NOD_NORMAL(1,N3) = NOD_NORMAL(1,N3) + NINT(SURFX*AAA)
             NOD_NORMAL(2,N3) = NOD_NORMAL(2,N3) + NINT(SURFY*AAA)
@@ -261,7 +261,7 @@ c          SURFZ = X13*Y24 - Y13*X24
           SURFZ = X41*Y12 - Y41*X12
           CO = X41*X12 + Y41*Y12 + Z41*Z12
           SI = SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ)
-          AAA = ATAN2(SI,-CO)*DEUX/PI/MAX(EM30,SI)
+          AAA = ATAN2(SI,-CO)*TWO/PI/MAX(EM30,SI)
 
           IAD = ADSKYT(N1)
           ADSKYT(N1) = ADSKYT(N1)+1
@@ -274,7 +274,7 @@ c          SURFZ = X13*Y24 - Y13*X24
           SURFZ = X12*Y23 - Y12*X23
           CO = X12*X23 + Y12*Y23 + Z12*Z23
           SI = SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ)
-          AAA = ATAN2(SI,-CO)*DEUX/PI/MAX(EM30,SI)
+          AAA = ATAN2(SI,-CO)*TWO/PI/MAX(EM30,SI)
 
           IAD = ADSKYT(N2)
           ADSKYT(N2) = ADSKYT(N2)+1
@@ -292,7 +292,7 @@ c          SURFZ = X13*Y24 - Y13*X24
             SURFZ = X23*Y34 - Y23*X34
             CO = X23*X34 + Y23*Y34 + Z23*Z34
             SI = SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ)
-            AAA = ATAN2(SI,-CO)*DEUX/PI/MAX(EM30,SI)
+            AAA = ATAN2(SI,-CO)*TWO/PI/MAX(EM30,SI)
 
             IAD = ADSKYT(N3)
             ADSKYT(N3) = ADSKYT(N3)+1
@@ -305,7 +305,7 @@ c          SURFZ = X13*Y24 - Y13*X24
             SURFZ = X34*Y41 - Y34*X41
             CO = X34*X41 + Y34*Y41 + Z34*Z41
             SI = SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ)
-            AAA = ATAN2(SI,-CO)*DEUX/PI/MAX(EM30,SI)
+            AAA = ATAN2(SI,-CO)*TWO/PI/MAX(EM30,SI)
 
             IAD = ADSKYT(N4)
             ADSKYT(N4) = ADSKYT(N4)+1
@@ -320,7 +320,7 @@ c          SURFZ = X13*Y24 - Y13*X24
             SURFZ = X23*Y41 - Y23*X41
             CO = X41*X23 + Y41*Y23 + Z41*Z23
             SI = SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ)
-            AAA = ATAN2(SI,-CO)*DEUX/PI/MAX(EM30,SI)
+            AAA = ATAN2(SI,-CO)*TWO/PI/MAX(EM30,SI)
 
             IAD = ADSKYT(N3)
             ADSKYT(N3) = ADSKYT(N3)+1
@@ -471,7 +471,7 @@ C optimisable en spmd si ajout flag pour routine de comm, spmd_exchange_n
         SURFY = Z13*X24 - X13*Z24
         SURFZ = X13*Y24 - Y13*X24
 
-        AAA=UN/MAX(EM30,SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ))
+        AAA=ONE/MAX(EM30,SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ))
         SURFX = SURFX * AAA
         SURFY = SURFY * AAA
         SURFZ = SURFZ * AAA
@@ -572,7 +572,7 @@ C-----------------------------------------------
         SURFY = Z13*X24 - X13*Z24
         SURFZ = X13*Y24 - Y13*X24
 
-        AAA=UN/MAX(EM30,SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ))
+        AAA=ONE/MAX(EM30,SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ))
 
         IAD = ADSKYT(N1)
         ADSKYT(N1) = ADSKYT(N1)+1
@@ -797,7 +797,7 @@ c            Z^2 = (L.N)^2 L^2 / 4(N^2 L^2 - (L.N)^2)
      .            N4L34N4L34*L34L34 / (N4N4*L34L34 - N4L34N4L34),
      .            N4L41N4L41*L41L41 / (N4N4*L41L41 - N4L41N4L41),
      .            N1L41N1L41*L41L41 / (N1N1*L41L41 - N1L41N1L41))
-        CMAJ(I) = UNDEMI*SQRT(AAA)
+        CMAJ(I) = HALF*SQRT(AAA)
 
       ENDDO
 

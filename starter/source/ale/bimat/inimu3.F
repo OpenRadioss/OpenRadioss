@@ -62,7 +62,7 @@ C-----------------------------------------------
           DO J=2,9
             N=IX(J,I)
             F(N,M)=F(N,M)+ALPH
-            DF(N,M)=DF(N,M) + UN
+            DF(N,M)=DF(N,M) + ONE
           END DO !J=2,9
         END DO !M=1,NMULT
       END DO !I=1,NUMELS

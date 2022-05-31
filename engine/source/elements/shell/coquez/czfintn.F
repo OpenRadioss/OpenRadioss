@@ -84,25 +84,25 @@ C-----------------------------------------------
      .  C6(MVSIZ),DGLAS(MVSIZ,12),
      .  ESX(MVSIZ),TESY(MVSIZ),EMX(MVSIZ),DHG(MVSIZ,6),ETMP(MVSIZ,2)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-      C7=QTHIRD
+      C7=FOUR_OVER_3
       COEFH= ZEP999
       COEF= ZEP85
-      STIER  = CINQP333  
+      STIER  = FIVEP333  
       TOL= EM18 
-      FBEND_V =TROISP464
+      FBEND_V =THREEP464
 C
       IF (NPT.EQ.0) THEN
-       COEF1=SEIZE
+       COEF1=SIXTEEN
       ELSE
-       COEF1=VINGT5
+       COEF1=TWENTY5
       ENDIF
       IF (NPT.EQ.1) THEN
        FBEND =ZERO
        FBEND_V =ZERO
       ELSE
-       FBEND =UNDOUZE
+       FBEND =ONE_OVER_12
       ENDIF
-      UNDOUZSR=SQRT(UNDOUZE)
+      UNDOUZSR=SQRT(ONE_OVER_12)
 
       DO I=JFT,JLT
         DHG(I,1)=VHG(I,1)*DT1
@@ -115,7 +115,7 @@ C
       IF(MTN==58) THEN
         IF (NPT==1) THEN
          DO I=JFT,JLT
-          C3=QUATRE*AA(I)
+          C3=FOUR*AA(I)
           HXX=C3*MY34(I)
           HYY=C3*MX34(I)
           HXX_K=C3*MY23(I)
@@ -136,7 +136,7 @@ C
 c       if (mod(ncycle,10)==0) print *,'FAC58(I,1-2)=',FAC58(nel,1),FAC58(nel,2)	   
 		ELSE
          DO I=JFT,JLT
-          C3=QUATRE*AA(I)
+          C3=FOUR*AA(I)
           HXX=C3*MY34(I)
           HYY=C3*MX34(I)
           HXX_K=C3*MY23(I)
@@ -161,10 +161,10 @@ Cqz    -----------for energy calculation-Mean_value--------
           SF2= -MX23(I)*VGLAS(I,10)-MX34(I)*VGLAS(I,4)
           SC5= MY34(I)*VGLAS(I,5) +MX34(I)*VGLAS(I,6) 
           SC6= MY23(I)*VGLAS(I,11)+MX23(I)*VGLAS(I,12)
-          C5=UNDEMI*OFF(I)*THK(I)*C7
+          C5=HALF*OFF(I)*THK(I)*C7
           ESX(I)= SS1*DHG(I,1)+SS2*DHG(I,2)
           ETMP(I,1) = C5*(ESX(I) +
-     .                    QUART*(SC5*DHG(I,5)+SC6*DHG(I,6)))
+     .                    FOURTH*(SC5*DHG(I,5)+SC6*DHG(I,6)))
           EMX(I)= (SF1*DHG(I,3)-SF2*DHG(I,4))*C6(I)
           ETMP(I,2) = C5*EMX(I)
           DGLAS(I,1) =C1M*CXX-C12*CYY
@@ -175,7 +175,7 @@ Cqz    -----------for energy calculation-Mean_value--------
           DGLAS(I,8) =C2M*CYY_K-C12*CXX_K
           DGLAS(I,9) =C1M*BXX_K-C12*BYY_K
           DGLAS(I,10)=C2M*BYY_K-C12*BXX_K
-          C2=FAC1(I)*G(I)*SHF(I)*O64TH
+          C2=FAC1(I)*G(I)*SHF(I)*ONE_OVER_64
           DGLAS(I,5) =C2*HXX*DHG(I,5)
           DGLAS(I,6) =C2*HYY*DHG(I,5)
           DGLAS(I,11)=C2*HXX_K*DHG(I,6)
@@ -184,7 +184,7 @@ Cqz    -----------for energy calculation-Mean_value--------
         END IF !(NPT==1) THEN
       ELSE
       DO I=JFT,JLT
-        C3=QUATRE*AA(I)
+        C3=FOUR*AA(I)
         HXX=C3*MY34(I)
         HYY=C3*MX34(I)
         HXX_K=C3*MY23(I)
@@ -207,10 +207,10 @@ Cqz    -----------for energy calculation-Mean_value--------
         SF2= -MX23(I)*VGLAS(I,10)-MX34(I)*VGLAS(I,4)
         SC5= MY34(I)*VGLAS(I,5) +MX34(I)*VGLAS(I,6) 
         SC6= MY23(I)*VGLAS(I,11)+MX23(I)*VGLAS(I,12)
-        C5=UNDEMI*OFF(I)*THK(I)*C7
+        C5=HALF*OFF(I)*THK(I)*C7
         ESX(I)= SS1*DHG(I,1)+SS2*DHG(I,2)
         ETMP(I,1) = C5*(ESX(I) +
-     .              QUART*(SC5*DHG(I,5)+SC6*DHG(I,6)))
+     .              FOURTH*(SC5*DHG(I,5)+SC6*DHG(I,6)))
         EMX(I)= (SF1*DHG(I,3)-SF2*DHG(I,4))*C6(I)
         ETMP(I,2) = C5*EMX(I)
         DGLAS(I,1) =C1M*CXX-C2M*CYY
@@ -221,7 +221,7 @@ Cqz    -----------for energy calculation-Mean_value--------
         DGLAS(I,8) =C1M*CYY_K-C2M*CXX_K
         DGLAS(I,9) =C1M*BXX_K-C2M*BYY_K
         DGLAS(I,10)=C1M*BYY_K-C2M*BXX_K
-        C2=FAC1(I)*G(I)*SHF(I)*O64TH
+        C2=FAC1(I)*G(I)*SHF(I)*ONE_OVER_64
         DGLAS(I,5) =C2*HXX*DHG(I,5)
         DGLAS(I,6) =C2*HYY*DHG(I,5)
         DGLAS(I,11)=C2*HXX_K*DHG(I,6)
@@ -255,7 +255,7 @@ Cqz    -----------for energy calculation-Mean_value--------
 C--------------------------------------------------
         SS1=SS1+SS1_V
         SS2=SS2+SS2_V
-        C2=QUART*THK(I)
+        C2=FOURTH*THK(I)
 C--------NOEUDS 1,3-------
         B13=(MY13(I)*X24(I)-MX13(I)*Y24(I))*HSURA
         VF(I,1,1)=VF(I,1,1)+B13*SS1
@@ -302,17 +302,17 @@ C-------------enint------------------
 C
       DO I=JFT,JLT
         IF (SIGY(I).LT.ZEP9EP30) THEN
-          UFAC=ABS(MIN(FAC(I,1),FAC(I,2))-UN)
+          UFAC=ABS(MIN(FAC(I,1),FAC(I,2))-ONE)
           SIGY2 = SIGY(I)*SIGY(I)
           SVM =ZERO
           SXY0=ZERO   
           IF (UFAC.LT.TOL) THEN
             SXY0= VSTRE(I,1)*VSTRE(I,1)+VSTRE(I,2)*VSTRE(I,2)
-     .           -VSTRE(I,1)*VSTRE(I,2)+TROIS*VSTRE(I,3)*VSTRE(I,3)
+     .           -VSTRE(I,1)*VSTRE(I,2)+THREE*VSTRE(I,3)*VSTRE(I,3)
             MXY0= MSTRE(I,1)*MSTRE(I,1)+MSTRE(I,2)*MSTRE(I,2)
-     .           -MSTRE(I,1)*MSTRE(I,2)+TROIS*MSTRE(I,3)*MSTRE(I,3)
+     .           -MSTRE(I,1)*MSTRE(I,2)+THREE*MSTRE(I,3)*MSTRE(I,3)
             CNN=COEF
-            CMM=COEF*THK(I)*UNSEIZE
+            CMM=COEF*THK(I)*ONE_OVER_16
             CNNX=CNN*VGLAS(I,1)
             CNNY=CNN*VGLAS(I,2)
             CNNX_K=CNN*VGLAS(I,7)
@@ -325,17 +325,17 @@ C
             MXY0= MXY0+CMMX*CMMX+CMMY*CMMY-CMMX*CMMY
             SXY0= SXY0+CNNX_K*CNNX_K+CNNY_K*CNNY_K-CNNX_K*CNNY_K
             MXY0= MXY0+CMMX_K*CMMX_K+CMMY_K*CMMY_K-CMMX_K*CMMY_K
-            SXY0= SXY0+ABS(CNNX*(DEUX*CNNX_K-CNNY_K)
-     1                    +CNNY*(DEUX*CNNY_K-CNNX_K))
-            MXY0= MXY0+ABS(CMMX*(DEUX*CMMX_K-CMMY_K)
-     1                    +CMMY*(DEUX*CMMY_K-CMMX_K))     
+            SXY0= SXY0+ABS(CNNX*(TWO*CNNX_K-CNNY_K)
+     1                    +CNNY*(TWO*CNNY_K-CNNX_K))
+            MXY0= MXY0+ABS(CMMX*(TWO*CMMX_K-CMMY_K)
+     1                    +CMMY*(TWO*CMMY_K-CMMX_K))     
             SVM =  SXY0+COEF1*MXY0
           ENDIF 
 C-----------ELASTIC-PLASTIC global yield criterion------------
           IF (UFAC.GE.TOL.OR.SVM.GT.SIGY2) THEN
-            EH1=MIN(SXY0/MAX(SIGY2,TOL),UN)
-            EH1=MAX(COEFH*EH1,(UN-FAC(I,1)))
-            EH2=MAX(COEFH,(UN-FAC(I,2)))
+            EH1=MIN(SXY0/MAX(SIGY2,TOL),ONE)
+            EH1=MAX(COEFH*EH1,(ONE-FAC(I,1)))
+            EH2=MAX(COEFH,(ONE-FAC(I,2)))
             IF (ESX(I).LT.ZERO) EH1=ZERO
             IF (EMX(I).LT.ZERO) EH2=ZERO
 C-------------MEMBRANE------------------------
@@ -402,7 +402,7 @@ C--------------------------------------------------
         Y23S5=MY23(I)*SC5
         X23S5=MX23(I)*SC5
         X34S6=MX34(I)*SC6
-        C2=QUART*THK(I)
+        C2=FOURTH*THK(I)
 C--------NOEUDS 1,3-------
         B13=(MY13(I)*X24(I)-MX13(I)*Y24(I))*HSURA
         VF(I,1,1)=VF(I,1,1)+B13*SS1
@@ -437,14 +437,14 @@ C
 C
 Cqz    -----------for energy calculation-Mean_value--------
         ESY= ((SS1-SS1_V)*DHG(I,1)+(SS2-SS2_V)*DHG(I,2))*THK(I)+
-     .         QUART*((SC5-SC5_V)*DHG(I,5)+(SC6-SC6_V)*DHG(I,6))
-        ETMP(I,1) = UNDEMI*ESY
+     .         FOURTH*((SC5-SC5_V)*DHG(I,5)+(SC6-SC6_V)*DHG(I,6))
+        ETMP(I,1) = HALF*ESY
         EMY= (SF1-SF1_V)*DHG(I,3)-(SF2-SF2_V)*DHG(I,4)
-        ETMP(I,2) = UNDEMI*C6(I)*EMY*THK(I)
+        ETMP(I,2) = HALF*C6(I)*EMY*THK(I)
 Cqz     ----viscous energy is removed to hourglass energy----
         TESY(I)= (SS1_V*DHG(I,1)+SS2_V*DHG(I,2))*THK(I)+
      .         (SF1_V*DHG(I,3)-SF2_V*DHG(I,4))*THK(I)*C6(I)+
-     .         QUART*(SC5_V*DHG(I,5)+SC6_V*DHG(I,6))
+     .         FOURTH*(SC5_V*DHG(I,5)+SC6_V*DHG(I,6))
       ENDDO 
       END IF!(MTN==58 .AND.NPT==1) THEN
 C
@@ -539,12 +539,12 @@ C-----------------------------------------------
      .  TESY(MVSIZ)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
        DO I=JFT,JLT
-         MX23=UNDEMI*(X13(I)-X24(I))
-         MX34=UNDEMI*(X13(I)+X24(I))
-         MY23=UNDEMI*(Y13(I)-Y24(I))
-         MY34=UNDEMI*(Y13(I)+Y24(I))
-         C2 =UNDOUZE*G(I)*RHO(I)*AREA(I)
-         HVL = VINGT5*AMU(I)*SQRT(C2)*OFF(I)
+         MX23=HALF*(X13(I)-X24(I))
+         MX34=HALF*(X13(I)+X24(I))
+         MY23=HALF*(Y13(I)-Y24(I))
+         MY34=HALF*(Y13(I)+Y24(I))
+         C2 =ONE_OVER_12*G(I)*RHO(I)*AREA(I)
+         HVL = TWENTY5*AMU(I)*SQRT(C2)*OFF(I)
          CXZ_V=(MY34*MY34+MX34*MX34)*HVL
          CYZ_V=(MY23*MY23+MX23*MX23)*HVL
          HSURA=THK(I)*AA(I)
@@ -636,24 +636,24 @@ C-----------------------------------------------
      .  DGLAS(MVSIZ,18),
      .  DHG(MVSIZ,6), DHGZK(MVSIZ,5),DHGZE(MVSIZ,5), ETMP(MVSIZ,2)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-      C7=QTHIRD
+      C7=FOUR_OVER_3
       COEFH= ZEP999
       COEF= ZEP85
-      STIER  = CINQP333  
+      STIER  = FIVEP333  
       TOL= EM18 
-      FBEND_V =TROISP464
+      FBEND_V =THREEP464
       IF (NPT.EQ.0) THEN
-       COEF1=SEIZE
+       COEF1=SIXTEEN
       ELSE
-       COEF1=VINGT5
+       COEF1=TWENTY5
       ENDIF
       IF (NPT.EQ.1) THEN
        FBEND =ZERO
        FBEND_V =ZERO
       ELSE
-       FBEND =UNDOUZE
+       FBEND =ONE_OVER_12
       ENDIF
-      UNDOUZSR=SQRT(UNDOUZE)
+      UNDOUZSR=SQRT(ONE_OVER_12)
 C
       DO I=JFT,JLT
          DHG(I,1)=VHG(I,1)*DT1
@@ -672,7 +672,7 @@ C
          DHGZE(I,3)=VHGZE(I,3)*DT1
          DHGZE(I,4)=VHGZE(I,4)*DT1
          DHGZE(I,5)=VHGZE(I,5)*DT1
-         C3=QUATRE*AA(I)
+         C3=FOUR*AA(I)
          HXX=C3*MY34(I)
          HYY=C3*MX34(I)
          HXX_K=C3*MY23(I)
@@ -688,18 +688,18 @@ C
          C1M=A11(I)*FAC1(I)
          C2M=A12(I)*FAC1(I)
          C3M=G(I)*FAC1(I)
-         CRZ=UNDEMI*KRZ(I)*FAC1(I)
+         CRZ=HALF*KRZ(I)*FAC1(I)
 Cqz    -----------for energy calculation-Mean_value--------
          C6(I)=C1(I)*FBEND
          SS1= MY34(I)*VGLAS(I,1) +MY23(I)*VGLAS(I,7)
          SS2= MX23(I)*VGLAS(I,8) +MX34(I)*VGLAS(I,2)
          SS1 = SS1 - MX34(I)*VGLAS(I,13)+MX23(I)*VGLAS(I,15)
-     .       +UNDEMI*(MX34(I)*VGLAS(I,17)-MX23(I)*VGLAS(I,18))
+     .       +HALF*(MX34(I)*VGLAS(I,17)-MX23(I)*VGLAS(I,18))
          SS2 = SS2 + MY34(I)*VGLAS(I,13) -MY23(I)*VGLAS(I,15)
-     .       +UNDEMI*(MY34(I)*VGLAS(I,17)-MY23(I)*VGLAS(I,18))
+     .       +HALF*(MY34(I)*VGLAS(I,17)-MY23(I)*VGLAS(I,18))
 C-------add Srz---------
          C8 = C7*OFF(I)
-         C3= UNDEMI*C8
+         C3= HALF*C8
          SS1= SS1 + C3*(MX34(I)*VGLAS(I,17)-MX23(I)*VGLAS(I,18))    
          SS2= SS2 + C3*(MY34(I)*VGLAS(I,17)-MY23(I)*VGLAS(I,18))    
          SF1= MY34(I)*VGLAS(I,3) +MY23(I)*VGLAS(I,9)
@@ -711,11 +711,11 @@ C-------add Srz---------
          ERZ = VGLAS(I,1)*DHGZE(I,1)-VGLAS(I,2)*DHGZE(I,2)-
      .         VGLAS(I,7)*DHGZK(I,1)+VGLAS(I,8)*DHGZK(I,2)+
      .         VGLAS(I,13)*DHGZE(I,3)+VGLAS(I,15)*DHGZK(I,3)+
-     .   UNDEMI*(VGLAS(I,17)*DHGZE(I,4)+VGLAS(I,18)*DHGZK(I,4))
-         C5=UNDEMI*OFF(I)*THK(I)*C7
-         ESX(I)= SS1*DHG(I,1)+SS2*DHG(I,2)+ERZ*AREA(I)*QUART
+     .   HALF*(VGLAS(I,17)*DHGZE(I,4)+VGLAS(I,18)*DHGZK(I,4))
+         C5=HALF*OFF(I)*THK(I)*C7
+         ESX(I)= SS1*DHG(I,1)+SS2*DHG(I,2)+ERZ*AREA(I)*FOURTH
          ETMP(I,1) = C5*(ESX(I) +
-     .               QUART*(SC5*DHG(I,5)+SC6*DHG(I,6)))
+     .               FOURTH*(SC5*DHG(I,5)+SC6*DHG(I,6)))
          EMX(I)= (SF1*DHG(I,3)-SF2*DHG(I,4))*C6(I)
          ETMP(I,2) = C5*EMX(I)
 C
@@ -727,7 +727,7 @@ C
          DGLAS(I,8) =C1M*CYY_K-C2M*CXX_K+C1M*DHGZK(I,2)+C2M*DHGZK(I,1)
          DGLAS(I,9) =C1M*BXX_K-C2M*BYY_K
          DGLAS(I,10)=C1M*BYY_K-C2M*BXX_K
-         C2=FAC1(I)*G(I)*SHF(I)*O64TH
+         C2=FAC1(I)*G(I)*SHF(I)*ONE_OVER_64
          DGLAS(I,5) =C2*HXX*DHG(I,5)
          DGLAS(I,6) =C2*HYY*DHG(I,5)
          DGLAS(I,11)=C2*HXX_K*DHG(I,6)
@@ -769,17 +769,17 @@ Cqz    ---------enint----------
 C
       DO I=JFT,JLT
         IF (SIGY(I).LT.ZEP9EP30) THEN
-           UFAC=ABS(MIN(FAC(I,1),FAC(I,2))-UN)
+           UFAC=ABS(MIN(FAC(I,1),FAC(I,2))-ONE)
            SIGY2 = SIGY(I)*SIGY(I)
            SVM =ZERO
            SXY0=ZERO   
            IF (UFAC.LT.TOL) THEN
             SXY0= VSTRE(I,1)*VSTRE(I,1)+VSTRE(I,2)*VSTRE(I,2)
-     .           -VSTRE(I,1)*VSTRE(I,2)+TROIS*VSTRE(I,3)*VSTRE(I,3)
+     .           -VSTRE(I,1)*VSTRE(I,2)+THREE*VSTRE(I,3)*VSTRE(I,3)
             MXY0= MSTRE(I,1)*MSTRE(I,1)+MSTRE(I,2)*MSTRE(I,2)
-     .           -MSTRE(I,1)*MSTRE(I,2)+TROIS*MSTRE(I,3)*MSTRE(I,3)
+     .           -MSTRE(I,1)*MSTRE(I,2)+THREE*MSTRE(I,3)*MSTRE(I,3)
             CNN=COEF
-            CMM=COEF*THK(I)*UNSEIZE
+            CMM=COEF*THK(I)*ONE_OVER_16
             CNNX=CNN*VGLAS(I,1)
             CNNY=CNN*VGLAS(I,2)
             CNNXY=CNN*VGLAS(I,13)
@@ -793,22 +793,22 @@ C
             CMMY_K=CMM*VGLAS(I,10)
             CMMXY_K=CMM*VGLAS(I,16)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-            SXY0= SXY0+CNNX*CNNX+CNNY*CNNY-CNNX*CNNY+TROIS*CNNXY*CNNXY
-            MXY0= MXY0+CMMX*CMMX+CMMY*CMMY-CMMX*CMMY+TROIS*CMMXY*CMMXY
+            SXY0= SXY0+CNNX*CNNX+CNNY*CNNY-CNNX*CNNY+THREE*CNNXY*CNNXY
+            MXY0= MXY0+CMMX*CMMX+CMMY*CMMY-CMMX*CMMY+THREE*CMMXY*CMMXY
             SXY0= SXY0+CNNX_K*CNNX_K+CNNY_K*CNNY_K-CNNX_K*CNNY_K+
-     1            TROIS*CNNXY_K*CNNXY_K
+     1            THREE*CNNXY_K*CNNXY_K
             MXY0= MXY0+CMMX_K*CMMX_K+CMMY_K*CMMY_K-CMMX_K*CMMY_K+
-     1            TROIS*CMMXY_K*CMMXY_K
-            SXY0= SXY0+ABS(CNNX*(DEUX*CNNX_K-CNNY_K)
-     1                    +CNNY*(DEUX*CNNY_K-CNNX_K))
-            MXY0= MXY0+ABS(CMMX*(DEUX*CMMX_K-CMMY_K)
-     1                    +CMMY*(DEUX*CMMY_K-CMMX_K))     
+     1            THREE*CMMXY_K*CMMXY_K
+            SXY0= SXY0+ABS(CNNX*(TWO*CNNX_K-CNNY_K)
+     1                    +CNNY*(TWO*CNNY_K-CNNX_K))
+            MXY0= MXY0+ABS(CMMX*(TWO*CMMX_K-CMMY_K)
+     1                    +CMMY*(TWO*CMMY_K-CMMX_K))     
             SVM =  SXY0+COEF1*MXY0
            ENDIF 
            IF (UFAC.GE.TOL.OR.SVM.GT.SIGY2) THEN
-              EH1=MIN(SXY0/MAX(SIGY2,TOL),UN)
-              EH1=MAX(COEFH*EH1,(UN-FAC(I,1)))
-              EH2=MAX(COEFH,(UN-FAC(I,2)))
+              EH1=MIN(SXY0/MAX(SIGY2,TOL),ONE)
+              EH1=MAX(COEFH*EH1,(ONE-FAC(I,1)))
+              EH2=MAX(COEFH,(ONE-FAC(I,2)))
               IF (ESX(I).LT.ZERO) EH1=ZERO
               IF (EMX(I).LT.ZERO) EH2=ZERO
 C-------------MEMBRANE------------------------
@@ -837,7 +837,7 @@ C-------add shear
         SS1 = SS1 + C8*(-MX34(I)*VGLAS(I,13)+MX23(I)*VGLAS(I,15))
         SS2 = SS2 + C8*( MY34(I)*VGLAS(I,13) -MY23(I)*VGLAS(I,15))
 C-------add Srz---------
-        C3= UNDEMI*C8
+        C3= HALF*C8
         SS1= SS1 + C3*(MX34(I)*VGLAS(I,17)-MX23(I)*VGLAS(I,18))    
         SS2= SS2 + C3*(MY34(I)*VGLAS(I,17)-MY23(I)*VGLAS(I,18))    
 C-------save for Fz--and add coupling terms(warped)------
@@ -891,7 +891,7 @@ C--------------------------------------------------
         Y23S5=MY23(I)*SC5
         X23S5=MX23(I)*SC5
         X34S6=MX34(I)*SC6
-        C2=QUART*THK(I)
+        C2=FOURTH*THK(I)
 C--------NOEUDS 1,3-------
         B13=(MY13(I)*X24(I)-MX13(I)*Y24(I))*HSURA
         VF(I,1,1)=VF(I,1,1)+B13*SS1
@@ -924,7 +924,7 @@ C
         VF(I,3,1)=VF(I,3,1)+C2*(SSZ1*Y24(I)-SSZ2*X24(I))
         VF(I,3,2)=VF(I,3,2)+C2*(-SSZ1*Y13(I)+SSZ2*X13(I))
 C-----------non const mz----17,18--
-        C2=THK(I)*UNSIX*OFF(I)
+        C2=THK(I)*ONE_OVER_6*OFF(I)
         C3=THK(I)*THIRD*OFF(I)
 C
         J=1
@@ -955,14 +955,14 @@ C
         ERZ = VGLAS(I,1)*DHGZE(I,1)-VGLAS(I,2)*DHGZE(I,2)-
      .        VGLAS(I,7)*DHGZK(I,1)+VGLAS(I,8)*DHGZK(I,2)+
      .        VGLAS(I,13)*DHGZE(I,3)+VGLAS(I,15)*DHGZK(I,3)+
-     .        UNDEMI*(VGLAS(I,17)*DHGZE(I,4)+VGLAS(I,18)*DHGZK(I,4))
+     .        HALF*(VGLAS(I,17)*DHGZE(I,4)+VGLAS(I,18)*DHGZK(I,4))
         C3 = THIRD*AREA(I)
 Cqz    -----------for energy calculation-Mean_value--------
         ESY= ((SS1-SS1_V)*DHG(I,1)+(SS2-SS2_V)*DHG(I,2)+C3*ERZ)*THK(I)+
-     .        QUART*((SC5-SC5_V)*DHG(I,5)+(SC6-SC6_V)*DHG(I,6))
-        ETMP(I,1) = UNDEMI*ESY*OFF(I)
+     .        FOURTH*((SC5-SC5_V)*DHG(I,5)+(SC6-SC6_V)*DHG(I,6))
+        ETMP(I,1) = HALF*ESY*OFF(I)
         EMY= (SF1-SF1_V)*DHG(I,3)-(SF2-SF2_V)*DHG(I,4)
-        ETMP(I,2) = UNDEMI*C6(I)*EMY*THK(I)*OFF(I)
+        ETMP(I,2) = HALF*C6(I)*EMY*THK(I)*OFF(I)
 Cqz     ----viscous energy is removed to hourglass energy----
         TESY(I)= (SS1_V*DHG(I,1)+SS2_V*DHG(I,2))*THK(I)+
      .           (SF1_V*DHG(I,3)-SF2_V*DHG(I,4))*THK(I)*C6(I)+
@@ -1089,19 +1089,19 @@ C-----------------------------------------------
      .  SSZ2(MVSIZ),ESX(MVSIZ),EMX(MVSIZ),CM(MVSIZ,3,3),CF(MVSIZ,3,3),
      .  CMF(MVSIZ,3,3),CMH(MVSIZ),CFH(MVSIZ),CMH_K(MVSIZ),CFH_K(MVSIZ)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-       C7=QTHIRD
-       STIER  = CINQP333  
+       C7=FOUR_OVER_3
+       STIER  = FIVEP333  
       IF (NPT.EQ.1) THEN
        FBEND =ZERO
        FBEND_V =ZERO
       ELSE
-       FBEND =UNDOUZE
-       FBEND_V =TROISP464
+       FBEND =ONE_OVER_12
+       FBEND_V =THREEP464
       ENDIF
-      UNDOUZSR=SQRT(UNDOUZE)
+      UNDOUZSR=SQRT(ONE_OVER_12)
 C------HXX: ETA_i*Y_i,HYY: ETA_i*X_i; HXX_K: Ksi_i*Y_i,HYY_K: Ksi_i*X_i;
        DO I=JFT,JLT
-         C3=QUATRE*AA(I)
+         C3=FOUR*AA(I)
          HXX(I)=C3*MY34(I)
          HYY(I)=C3*MX34(I)
          HXX_K(I)=C3*MY23(I)
@@ -1114,7 +1114,7 @@ C------HXX: ETA_i*Y_i,HYY: ETA_i*X_i; HXX_K: Ksi_i*Y_i,HYY_K: Ksi_i*X_i;
          BYY(I)=HYY(I)*VHG(I,4)
          BXX_K(I)=HXX_K(I)*VHG(I,3)
          BYY_K(I)=HYY_K(I)*VHG(I,4)
-         C5(I)=UNDEMI*OFF(I)*THK(I)*C7*DT1
+         C5(I)=HALF*OFF(I)*THK(I)*C7*DT1
          C6(I)=C1(I)*FBEND
          HSURA(I)=THK(I)*AA(I)
        END DO
@@ -1128,7 +1128,7 @@ C    -----------for energy calculation-Mean_value--------
          SC6(I)= MY23(I)*VGLAS(I,11)+MX23(I)*VGLAS(I,12)
          ESX0(I)= SS1(I)*VHG(I,1)+SS2(I)*VHG(I,2)
          ESX(I)= ESX0(I)+
-     .           QUART*(SC5(I)*VHG(I,5)+SC6(I)*VHG(I,6))
+     .           FOURTH*(SC5(I)*VHG(I,5)+SC6(I)*VHG(I,6))
          EMX(I)= (SF1(I)*VHG(I,3)-SF2(I)*VHG(I,4))*C6(I)
        END DO 
 Cqz    -----------for energy calculation-Mean_value--VGLAS(t)------
@@ -1150,13 +1150,13 @@ C---------have to be done here for VGLAS
         DO I=JFT,JLT
          C2=FAC1(I)*DT1
          FACM(I)=C2
-         FACF(I)=C2*DOUZE
+         FACF(I)=C2*TWELVE
         END DO
        END IF !(MTN==19) THEN
 C-------Modified modulas for damping---    
         DO I=JFT,JLT
          GSR(I) =SQRT(HM(I,4))
-         A11SR(I)=SQRT(UNDEMI*(HM(I,1)+HM(I,2)))
+         A11SR(I)=SQRT(HALF*(HM(I,1)+HM(I,2)))
          A12SR(I)=SQRT(MAX(EM20,HM(I,3)))
 cc         A12SR(I)=SQRT(HM(3,I))
         END DO
@@ -1194,7 +1194,7 @@ C----- x_Ksi, signe - bending
 C----- y_Ksi, signe + bending    
           DGLAS(I,10)=CF(I,2,2)*BYY_K(I)-CF(I,1,2)*BXX_K(I)
 C------------         
-          C4=FAC1(I)*O64TH*DT1
+          C4=FAC1(I)*ONE_OVER_64*DT1
           C2=C4*HC(I,1)
           C3=C4*HC(I,2)
           DGLAS(I,5) =C2*HXX(I)*VHG(I,5)
@@ -1255,7 +1255,7 @@ C
           DGLAS(I,9) =C1M(I)*BXX_K(I)-C2M(I)*BYY_K(I)
           DGLAS(I,10)=C1M(I)*BYY_K(I)-C2M(I)*BXX_K(I)
 C------------          
-          C2=FAC1(I)*GS(I)*O64TH*DT1
+          C2=FAC1(I)*GS(I)*ONE_OVER_64*DT1
           DGLAS(I,5) =C2*HXX(I)*VHG(I,5)
           DGLAS(I,6) =C2*HYY(I)*VHG(I,5)
           DGLAS(I,11)=C2*HXX_K(I)*VHG(I,6)
@@ -1283,7 +1283,7 @@ C-----------to use the same coef C5
 C    -------for energy calculation-Mean_value-VGLAS(t+dt)-------
       DO I=JFT,JLT
          ESX(I)= SS1(I)*VHG(I,1)+SS2(I)*VHG(I,2)+
-     .           QUART*(SC5(I)*VHG(I,5)+SC6(I)*VHG(I,6))
+     .           FOURTH*(SC5(I)*VHG(I,5)+SC6(I)*VHG(I,6))
          EMX(I)= (SF1(I)*VHG(I,3)-SF2(I)*VHG(I,4))*C6(I)
       END DO
       DO I=JFT,JLT
@@ -1342,7 +1342,7 @@ C--------------------------------------------------
          SF2(I)=SF2(I)+SF2_V
          TESY(I)= ((SS1_V*VHG(I,1)+SS2_V*VHG(I,2))*THK(I)+
      .            (SF1_V*VHG(I,3)-SF2_V*VHG(I,4))*THK(I)*C6(I) +
-     .            (SC5_V*VHG(I,5)+SC6_V*VHG(I,6))*QUART)*DT1
+     .            (SC5_V*VHG(I,5)+SC6_V*VHG(I,6))*FOURTH)*DT1
       END DO !I=JFT,JLT
 C--------Fint      
       DO I=JFT,JLT
@@ -1352,7 +1352,7 @@ C--------Fint
          Y23S5=MY23(I)*SC5(I)
          X23S5=MX23(I)*SC5(I)
          X34S6=MX34(I)*SC6(I)
-         C2=QUART*THK(I)
+         C2=FOURTH*THK(I)
 C--------NOEUDS 1,3-------
         B13=(MY13(I)*X24(I)-MX13(I)*Y24(I))*HSURA(I)
         VF(I,1,1)=VF(I,1,1)+B13*SS1(I)
@@ -1540,19 +1540,19 @@ C-----------------------------------------------
      .  SSZ2(MVSIZ),ESX(MVSIZ),EMX(MVSIZ),CM(MVSIZ,3,3),CF(MVSIZ,3,3),
      .  CMF(MVSIZ,3,3),CMH(MVSIZ),CFH(MVSIZ),CMH_K(MVSIZ),CFH_K(MVSIZ)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-       C7=QTHIRD
-       STIER  = CINQP333  
+       C7=FOUR_OVER_3
+       STIER  = FIVEP333  
       IF (NPT.EQ.1) THEN
        FBEND =ZERO
        FBEND_V =ZERO
       ELSE
-       FBEND =UNDOUZE
-       FBEND_V =TROISP464
+       FBEND =ONE_OVER_12
+       FBEND_V =THREEP464
       ENDIF
-      UNDOUZSR=SQRT(UNDOUZE)
+      UNDOUZSR=SQRT(ONE_OVER_12)
 C
        DO I=JFT,JLT
-         C3=QUATRE*AA(I)
+         C3=FOUR*AA(I)
          HXX(I)=C3*MY34(I)
          HYY(I)=C3*MX34(I)
          HXX_K(I)=C3*MY23(I)
@@ -1565,7 +1565,7 @@ C
          BYY(I)=HYY(I)*VHG(I,4)
          BXX_K(I)=HXX_K(I)*VHG(I,3)
          BYY_K(I)=HYY_K(I)*VHG(I,4)
-         C5(I)=UNDEMI*OFF(I)*THK(I)*C7*DT1
+         C5(I)=HALF*OFF(I)*THK(I)*C7*DT1
          C6(I)=C1(I)*FBEND
          HSURA(I)=THK(I)*AA(I)
        END DO
@@ -1579,24 +1579,24 @@ C    -----------for energy calculation-Mean_value--------
          SC6(I)= MY23(I)*VGLAS(I,11)+MX23(I)*VGLAS(I,12)
          ESX0(I)= SS1(I)*VHG(I,1)+SS2(I)*VHG(I,2)
          ESX(I)= ESX0(I)+
-     .           QUART*(SC5(I)*VHG(I,5)+SC6(I)*VHG(I,6))
+     .           FOURTH*(SC5(I)*VHG(I,5)+SC6(I)*VHG(I,6))
          EMX(I)= (SF1(I)*VHG(I,3)-SF2(I)*VHG(I,4))*C6(I)
        END DO 
 C      
        DO I=JFT,JLT
          SS1(I)=-MX34(I)*VGLAS(I,13)+MX23(I)*VGLAS(I,15)+
-     +          UNDEMI*(MX34(I)*VGLAS(I,17)-MX23(I)*VGLAS(I,18))    
+     +          HALF*(MX34(I)*VGLAS(I,17)-MX23(I)*VGLAS(I,18))    
          SS2(I)=MY34(I)*VGLAS(I,13) -MY23(I)*VGLAS(I,15)+
-     +          UNDEMI*(MY34(I)*VGLAS(I,17)-MY23(I)*VGLAS(I,18))    
+     +          HALF*(MY34(I)*VGLAS(I,17)-MY23(I)*VGLAS(I,18))    
          SF1(I)=(-MX34(I)*VGLAS(I,14)+MX23(I)*VGLAS(I,16))
          SF2(I)=-(MY34(I)*VGLAS(I,14)-MY23(I)*VGLAS(I,16))
          ERZ = VGLAS(I,1)*VHGZE(I,1)-VGLAS(I,2)*VHGZE(I,2)-
      .        VGLAS(I,7)*VHGZK(I,1)+VGLAS(I,8)*VHGZK(I,2)+
      .        VGLAS(I,13)*VHGZE(I,3)+VGLAS(I,15)*VHGZK(I,3)+
-     .        UNDEMI*(VGLAS(I,17)*VHGZE(I,4)+VGLAS(I,18)*VHGZK(I,4))
+     .        HALF*(VGLAS(I,17)*VHGZE(I,4)+VGLAS(I,18)*VHGZK(I,4))
 C--------     
          ESX(I)=ESX(I)+
-     +          SS1(I)*VHG(I,1)+SS2(I)*VHG(I,2)+ERZ*AREA(I)*QUART
+     +          SS1(I)*VHG(I,1)+SS2(I)*VHG(I,2)+ERZ*AREA(I)*FOURTH
          EMX(I)=EMX(I)+(SF1(I)*VHG(I,3)-SF2(I)*VHG(I,4))*C6(I)
        END DO 
 Cqz    -----------for energy calculation-Mean_value--VGLAS(t)------
@@ -1616,13 +1616,13 @@ C -----------elastic increment
         DO I=JFT,JLT
          C2=FAC1(I)*DT1
          FACM(I)=C2
-         FACF(I)=C2*DOUZE
+         FACF(I)=C2*TWELVE
         END DO
        END IF !(MTN==19) THEN
 C-------Modified modulas for damping---       
         DO I=JFT,JLT
          GSR(I) =SQRT(HM(I,4))
-         A11SR(I)=SQRT(UNDEMI*(HM(I,1)+HM(I,2)))
+         A11SR(I)=SQRT(HALF*(HM(I,1)+HM(I,2)))
          A12SR(I)=SQRT(HM(I,3))
         END DO
         DO I=JFT,JLT
@@ -1665,7 +1665,7 @@ C----- x_Ksi, signe - bending
 C----- y_Ksi, signe + bending    
           DGLAS(I,10)=CF(I,2,2)*BYY_K(I)-CF(I,1,2)*BXX_K(I)
 C------------         
-          C4=FAC1(I)*O64TH*DT1
+          C4=FAC1(I)*ONE_OVER_64*DT1
           C2=C4*HC(I,1)
           C3=C4*HC(I,2)
           DGLAS(I,5) =C2*HXX(I)*VHG(I,5)
@@ -1673,7 +1673,7 @@ C------------
           DGLAS(I,11)=C3*HXX_K(I)*VHG(I,6)
           DGLAS(I,12)=C3*HYY_K(I)*VHG(I,6)
           C3M=CM(I,3,3)
-          CRZ=UNDEMI*KRZ(I)*FAC1(I)*DT1
+          CRZ=HALF*KRZ(I)*FAC1(I)*DT1
 C    --------add shear due to rz dof--no sign change-------
 C----- xy_ETA, signe +     
           DGLAS(I,13)=C3M*(-CMH(I)+VHGZE(I,3))
@@ -1764,14 +1764,14 @@ C
           DGLAS(I,9) =C1M(I)*BXX_K(I)-C2M(I)*BYY_K(I)
           DGLAS(I,10)=C1M(I)*BYY_K(I)-C2M(I)*BXX_K(I)
 C------------          
-          C2=FAC1(I)*GS(I)*O64TH*DT1
+          C2=FAC1(I)*GS(I)*ONE_OVER_64*DT1
           DGLAS(I,5) =C2*HXX(I)*VHG(I,5)
           DGLAS(I,6) =C2*HYY(I)*VHG(I,5)
           DGLAS(I,11)=C2*HXX_K(I)*VHG(I,6)
           DGLAS(I,12)=C2*HYY_K(I)*VHG(I,6)
 C
          C3M=G(I)*FAC1(I)*DT1
-         CRZ=UNDEMI*KRZ(I)*FAC1(I)*DT1
+         CRZ=HALF*KRZ(I)*FAC1(I)*DT1
 Cqz    --------add shear due to rz dof--no sign change like 2,4,7,9-------
           DGLAS(I,13)=C3M*(HXX(I)*VHG(I,2)-HYY(I)*VHG(I,1)+VHGZE(I,3))
           DGLAS(I,14)=C3M*(HXX(I)*VHG(I,4)-HYY(I)*VHG(I,3))
@@ -1805,18 +1805,18 @@ C-----------to use the same coef: C5
 C      
        DO I=JFT,JLT
          SS1(I)= SS1(I) -MX34(I)*VGLAS(I,13)+MX23(I)*VGLAS(I,15)+
-     +           UNDEMI*(MX34(I)*VGLAS(I,17)-MX23(I)*VGLAS(I,18))    
+     +           HALF*(MX34(I)*VGLAS(I,17)-MX23(I)*VGLAS(I,18))    
          SS2(I)= SS2(I) +MY34(I)*VGLAS(I,13) -MY23(I)*VGLAS(I,15)+
-     +           UNDEMI*(MY34(I)*VGLAS(I,17)-MY23(I)*VGLAS(I,18))    
+     +           HALF*(MY34(I)*VGLAS(I,17)-MY23(I)*VGLAS(I,18))    
          SF1(I)=SF1(I)-MX34(I)*VGLAS(I,14)+MX23(I)*VGLAS(I,16)
          SF2(I)=SF2(I)-MY34(I)*VGLAS(I,14)+MY23(I)*VGLAS(I,16)
          ERZ = VGLAS(I,1)*VHGZE(I,1)-VGLAS(I,2)*VHGZE(I,2)-
      .        VGLAS(I,7)*VHGZK(I,1)+VGLAS(I,8)*VHGZK(I,2)+
      .        VGLAS(I,13)*VHGZE(I,3)+VGLAS(I,15)*VHGZK(I,3)+
-     .        UNDEMI*(VGLAS(I,17)*VHGZE(I,4)+VGLAS(I,18)*VHGZK(I,4))
+     .        HALF*(VGLAS(I,17)*VHGZE(I,4)+VGLAS(I,18)*VHGZK(I,4))
 C--------     
-         ESX(I)=SS1(I)*VHG(I,1)+SS2(I)*VHG(I,2)+ERZ*AREA(I)*QUART
-     +           + QUART*(SC5(I)*VHG(I,5)+SC6(I)*VHG(I,6))
+         ESX(I)=SS1(I)*VHG(I,1)+SS2(I)*VHG(I,2)+ERZ*AREA(I)*FOURTH
+     +           + FOURTH*(SC5(I)*VHG(I,5)+SC6(I)*VHG(I,6))
          EMX(I)=(SF1(I)*VHG(I,3)-SF2(I)*VHG(I,4))*C6(I)
        END DO 
       DO I=JFT,JLT
@@ -1836,7 +1836,7 @@ C--------
       END DO !I=JFT,JLT
 C-----------non const mz----17,18--
        DO I=JFT,JLT
-        C2=THK(I)*UNSIX*OFF(I)
+        C2=THK(I)*ONE_OVER_6*OFF(I)
         C3=THK(I)*THIRD*OFF(I)
         DO J=1,4
          VMZ(I,J)= VMZ(I,J)
@@ -1897,7 +1897,7 @@ C--------Fint
          Y23S5=MY23(I)*SC5(I)
          X23S5=MX23(I)*SC5(I)
          X34S6=MX34(I)*SC6(I)
-         C2=QUART*THK(I)
+         C2=FOURTH*THK(I)
 C--------NOEUDS 1,3-------
         B13=(MY13(I)*X24(I)-MX13(I)*Y24(I))*HSURA(I)
         VF(I,1,1)=VF(I,1,1)+B13*SS1(I)
@@ -1968,28 +1968,28 @@ C-----------------------------------------------
        COEF= ZEP85
        TOL= EM18 
       IF (NPT.EQ.0) THEN
-       COEF1=SEIZE
+       COEF1=SIXTEEN
       ELSE
-       COEF1=VINGT5
+       COEF1=TWENTY5
       ENDIF
 C---- FAC(1,I)= mean value of Et/G; FAC(2,I)= min(Et_ip/G ), negative value when failure
 C---- en Elastic FAC(1,I)=0;FAC(2,I)= 1   
       DO I=JFT,JLT
           IF (ESX(I)<ZERO.AND.EMX(I)<ZERO) CYCLE
           IF (SIGY(I).LT.ZEP9EP30) THEN
-           UFAC=ABS(MIN(FAC(I,1),ABS(FAC(I,2)))-UN)
+           UFAC=ABS(MIN(FAC(I,1),ABS(FAC(I,2)))-ONE)
 C---------elastic inc on quadrature-----------           
            IF (UFAC.LT.TOL) THEN
             SIGY2 = SIGY(I)*SIGY(I)
             SXY0= VSTRE(I,1)*VSTRE(I,1)+VSTRE(I,2)*VSTRE(I,2)
-     .           -VSTRE(I,1)*VSTRE(I,2)+TROIS*VSTRE(I,3)*VSTRE(I,3)
+     .           -VSTRE(I,1)*VSTRE(I,2)+THREE*VSTRE(I,3)*VSTRE(I,3)
             MXY0= MSTRE(I,1)*MSTRE(I,1)+MSTRE(I,2)*MSTRE(I,2)
-     .           -MSTRE(I,1)*MSTRE(I,2)+TROIS*MSTRE(I,3)*MSTRE(I,3)
+     .           -MSTRE(I,1)*MSTRE(I,2)+THREE*MSTRE(I,3)*MSTRE(I,3)
             SIGY0 =  SXY0+COEF1*MXY0
 C------------due to different criteria, SIGY0: Von misese
             SIGY2 = MAX(SIGY2,SIGY0)
             CNN=COEF
-            CMM=COEF*THK(I)*UNSEIZE
+            CMM=COEF*THK(I)*ONE_OVER_16
             CNNX=CNN*VGLAS(I,1)
             CNNY=CNN*VGLAS(I,2)
             CNNX_K=CNN*VGLAS(I,7)
@@ -2002,10 +2002,10 @@ C------------due to different criteria, SIGY0: Von misese
             MXYH= CMMX*CMMX+CMMY*CMMY-CMMX*CMMY
             SXYH= SXYH+CNNX_K*CNNX_K+CNNY_K*CNNY_K-CNNX_K*CNNY_K
             MXYH= MXYH+CMMX_K*CMMX_K+CMMY_K*CMMY_K-CMMX_K*CMMY_K
-            SXYH= SXYH+ABS(CNNX*(DEUX*CNNX_K-CNNY_K)
-     1                    +CNNY*(DEUX*CNNY_K-CNNX_K))
-            MXYH= MXYH+ABS(CMMX*(DEUX*CMMX_K-CMMY_K)
-     1                    +CMMY*(DEUX*CMMY_K-CMMX_K))     
+            SXYH= SXYH+ABS(CNNX*(TWO*CNNX_K-CNNY_K)
+     1                    +CNNY*(TWO*CNNY_K-CNNX_K))
+            MXYH= MXYH+ABS(CMMX*(TWO*CMMX_K-CMMY_K)
+     1                    +CMMY*(TWO*CMMY_K-CMMX_K))     
             SIGYH =  SXYH+COEF1*MXYH
 C            
             SVM=SIGY0+SIGYH
@@ -2013,13 +2013,13 @@ C
             EH2=ZERO
 C            
             IF (SVM > SIGY2) THEN
-             FACT = SVM/MAX(SIGY2,TOL) -UN
+             FACT = SVM/MAX(SIGY2,TOL) -ONE
              EH1 = MIN(FACT,COEFH)
              EH2 = EH1
             ENDIF
            ELSE
-            EH1=UN-FAC(I,1)
-            EH2=UN-ABS(FAC(I,2))
+            EH1=ONE-FAC(I,1)
+            EH2=ONE-ABS(FAC(I,2))
            END IF
            IF (ESX(I).LT.ZERO) EH1=ZERO
            IF (EMX(I).LT.ZERO) EH2=ZERO
@@ -2092,27 +2092,27 @@ C-----------------------------------------------
        COEF= ZEP85
        TOL= EM18 
       IF (NPT.EQ.0) THEN
-       COEF1=SEIZE
+       COEF1=SIXTEEN
       ELSE
-       COEF1=VINGT5
+       COEF1=TWENTY5
       ENDIF
       DO I=JFT,JLT
           IF (ESX(I)<ZERO.AND.EMX(I)<ZERO) CYCLE
           IF (SIGY(I).LT.ZEP9EP30) THEN
-           UFAC=ABS(MIN(FAC(I,1),ABS(FAC(I,2)))-UN)
+           UFAC=ABS(MIN(FAC(I,1),ABS(FAC(I,2)))-ONE)
            SIGY2 = SIGY(I)*SIGY(I)
            SVM =ZERO
            SXY0=ZERO   
            IF (UFAC.LT.TOL) THEN
 c            CYCLE
             SXY0= VSTRE(I,1)*VSTRE(I,1)+VSTRE(I,2)*VSTRE(I,2)
-     .           -VSTRE(I,1)*VSTRE(I,2)+TROIS*VSTRE(I,3)*VSTRE(I,3)
+     .           -VSTRE(I,1)*VSTRE(I,2)+THREE*VSTRE(I,3)*VSTRE(I,3)
             MXY0= MSTRE(I,1)*MSTRE(I,1)+MSTRE(I,2)*MSTRE(I,2)
-     .           -MSTRE(I,1)*MSTRE(I,2)+TROIS*MSTRE(I,3)*MSTRE(I,3)
+     .           -MSTRE(I,1)*MSTRE(I,2)+THREE*MSTRE(I,3)*MSTRE(I,3)
             SIGY0 =  SXY0+COEF1*MXY0
             SIGY2 = MAX(SIGY2,SIGY0)
             CNN=COEF
-            CMM=COEF*THK(I)*UNSEIZE
+            CMM=COEF*THK(I)*ONE_OVER_16
             CNNX=CNN*VGLAS(I,1)
             CNNY=CNN*VGLAS(I,2)
             CNNXY=CNN*VGLAS(I,13)
@@ -2126,27 +2126,27 @@ c            CYCLE
             CMMY_K=CMM*VGLAS(I,10)
             CMMXY_K=CMM*VGLAS(I,16)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-            SXY0= SXY0+CNNX*CNNX+CNNY*CNNY-CNNX*CNNY+TROIS*CNNXY*CNNXY
-            MXY0= MXY0+CMMX*CMMX+CMMY*CMMY-CMMX*CMMY+TROIS*CMMXY*CMMXY
+            SXY0= SXY0+CNNX*CNNX+CNNY*CNNY-CNNX*CNNY+THREE*CNNXY*CNNXY
+            MXY0= MXY0+CMMX*CMMX+CMMY*CMMY-CMMX*CMMY+THREE*CMMXY*CMMXY
             SXY0= SXY0+CNNX_K*CNNX_K+CNNY_K*CNNY_K-CNNX_K*CNNY_K+
-     1            TROIS*CNNXY_K*CNNXY_K
+     1            THREE*CNNXY_K*CNNXY_K
             MXY0= MXY0+CMMX_K*CMMX_K+CMMY_K*CMMY_K-CMMX_K*CMMY_K+
-     1            TROIS*CMMXY_K*CMMXY_K
-            SXY0= SXY0+ABS(CNNX*(DEUX*CNNX_K-CNNY_K)
-     1                    +CNNY*(DEUX*CNNY_K-CNNX_K))
-            MXY0= MXY0+ABS(CMMX*(DEUX*CMMX_K-CMMY_K)
-     1                    +CMMY*(DEUX*CMMY_K-CMMX_K))     
+     1            THREE*CMMXY_K*CMMXY_K
+            SXY0= SXY0+ABS(CNNX*(TWO*CNNX_K-CNNY_K)
+     1                    +CNNY*(TWO*CNNY_K-CNNX_K))
+            MXY0= MXY0+ABS(CMMX*(TWO*CMMX_K-CMMY_K)
+     1                    +CMMY*(TWO*CMMY_K-CMMX_K))     
             SVM =  SXY0+COEF1*MXY0
              EH1 = ZERO
              EH2 = ZERO
             IF (SVM > SIGY2) THEN
-             FACT = SVM/MAX(SIGY2,TOL) -UN
+             FACT = SVM/MAX(SIGY2,TOL) -ONE
              EH1 = MIN(FACT,COEFH)
              EH2 = EH1
             ENDIF
            ELSE
-            EH1=UN-FAC(I,1)
-            EH2=UN-ABS(FAC(I,2))
+            EH1=ONE-FAC(I,1)
+            EH2=ONE-ABS(FAC(I,2))
            END IF
               IF (ESX(I).LT.ZERO) EH1=ZERO
               IF (EMX(I).LT.ZERO) EH2=ZERO
@@ -2246,8 +2246,8 @@ c gama_i=1/4(h_i-hx*bx_i-hy*byi); bx_i=(y24 -y13 -y24 y13)/A;by_i=(-x24 x13 x24 
         PY1(I)  = -X24(I)
         PY2(I)  =  X13(I)
 C----1/4*hx		
-	    HX(I) = UNDEMI*(-X13(I)+X24(I))+(MX13(I)-MX23(I))
-	    HY(I) = UNDEMI*(-Y13(I)+Y24(I))+(MY13(I)-MY23(I))
+	    HX(I) = HALF*(-X13(I)+X24(I))+(MX13(I)-MX23(I))
+	    HY(I) = HALF*(-Y13(I)+Y24(I))+(MY13(I)-MY23(I))
       ENDDO
 c gama_i*vz_i = vhi-hx*(y24*v13-y13*v24)-hy*(-x24*v13+x13*v24)
       DO I=JFT,JLT
@@ -2264,9 +2264,9 @@ c gama_i*vz_i = vhi-hx*(y24*v13-y13*v24)-hy*(-x24*v13+x13*v24)
 C        J=1,2 STOCK LA PARTIE ANTISYM (F(1)=-F(3),F(2)=-F(4))                                  
 C        J=3,4 STOCK LA PARTIE SYM (F(1)=F(3),F(2)=F(4))
         GAMA1(I)= - PX1V-PY1V
-        GAMA3(I)= QUART
+        GAMA3(I)= FOURTH
         GAMA2(I)= - PX2V-PY2V
-        GAMA4(I)= -QUART
+        GAMA4(I)= -FOURTH
       ENDDO
 C----fixing fac as Q4, can be changed w/ G(i) 	  
 	  FAC = 0.83*EM02
@@ -2274,7 +2274,7 @@ C--- same as Q4, no more daming but elatic w/ FAC*G
       DO I=JFT,JLT
         HVL=FAC*G(I)*THK(I)*OFF(I)*DT1
         VGLAS(I,10)=VGLAS(I,10)+HVL*GAMAVZ(I)
-		C2 = QUATRE*VGLAS(I,10)
+		C2 = FOUR*VGLAS(I,10)
         VF(I,3,1)=VF(I,3,1)+C2*GAMA1(I)
         VF(I,3,2)=VF(I,3,2)+C2*GAMA2(I)
         VF(I,3,3)=VF(I,3,3)+C2*GAMA3(I)
@@ -2292,7 +2292,7 @@ C---- damping
 c      FAC=0.01	  
 cc      FAC=0.5	  
 c      DO I=JFT,JLT
-c        HVZ(I)=QUART*FAC*RHO(I)*THK(I)*SQRT(AREA(I))
+c        HVZ(I)=FOURTH*FAC*RHO(I)*THK(I)*SQRT(AREA(I))
 c	  ENDDO       
 cC---- mode Z1+Z2-(Z3+Z4) 	  
 c      DO I=JFT,JLT

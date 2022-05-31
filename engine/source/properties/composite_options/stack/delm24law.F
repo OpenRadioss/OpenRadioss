@@ -184,41 +184,41 @@ C
          DAM3 = ZERO 
          IMOD = 0 
          MODE(I)  = 0      
-         IF(OFF(I) == UN )THEN
+         IF(OFF(I) == ONE )THEN
 C------------------------------- 
 C direction 33                
-           IF(UVAR(I,1) < UN )THEN 
+           IF(UVAR(I,1) < ONE )THEN 
 C direction 23
                IF(EPSYZ(I) >= EPST23(I) ) THEN
                    DAM2 = (EPSYZ(I) - EPST23(I))/(EPSF23(I) - EPST23(I))
-                   DAM2 = MIN(UN, DAM2) 
-                   IF(DAM2 >= UN) IMOD = 3
+                   DAM2 = MIN(ONE, DAM2) 
+                   IF(DAM2 >= ONE) IMOD = 3
                ENDIF         
 C direction 13
                IF(EPSXZ(I) >= EPST13(I) ) THEN
                    DAM3 = (EPSXZ(I) - EPST13(I))/(EPSF13(I) - EPST13(I))
-                   DAM3 = MIN(UN, DAM3)
-                  IF(DAM3 >= UN) IMOD = 2
+                   DAM3 = MIN(ONE, DAM3)
+                  IF(DAM3 >= ONE) IMOD = 2
                ENDIF     
                                  
                IF(EPSZZ(I) >= EPST3(I) ) THEN
                    DAM1= (EPSZZ(I) - EPST3(I))/(EPSF3(I) - EPST3(I))
-                   DAM1 = MIN(UN, DAM1)  
-                   IF(DAM1 >= UN) IMOD = 1
+                   DAM1 = MIN(ONE, DAM1)  
+                   IF(DAM1 >= ONE) IMOD = 1
                ENDIF
 C
                DAM = MAX (UVAR(I,1),DAM1, DAM2, DAM3) 
                UVAR(I,1) = DAM
-               SIGNXZ(I) = SIGNXZ(I)*MAX(UN  - DAM,REDUC(I))
-               SIGNYZ(I) = SIGNYZ(I)*MAX(UN  - DAM,REDUC(I))
-               SIGNZZ(I) = SIGNZZ(I)*MAX(UN  - DAM,REDUC(I))
+               SIGNXZ(I) = SIGNXZ(I)*MAX(ONE  - DAM,REDUC(I))
+               SIGNYZ(I) = SIGNYZ(I)*MAX(ONE  - DAM,REDUC(I))
+               SIGNZZ(I) = SIGNZZ(I)*MAX(ONE  - DAM,REDUC(I))
 C                        
-               IF(DAM == UN) THEN
+               IF(DAM == ONE) THEN
                   NINDX=NINDX+1
                   INDX(NINDX)=I
 !!               OFFI(I) = REDUC(I)
                   MODE(I) = IMOD
-                  COUNT(I) = COUNT(I) + UN
+                  COUNT(I) = COUNT(I) + ONE
                   IF(INT(COUNT(I)) == 4)THEN
                     WRITE(IOUT, 1300) NGL(I),IPLY,MODE(I),TIME
                     WRITE(ISTDO,1300) NGL(I),IPLY,MODE(I), TIME

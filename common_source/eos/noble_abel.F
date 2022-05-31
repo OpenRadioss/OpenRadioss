@@ -74,7 +74,7 @@ C-----------------------------------------
 
       ! PM(23) =  E0
       ! PM(32) =  BB
-      ! PM(33) =  GAMMA-UN     
+      ! PM(33) =  GAMMA-ONE     
       ! PM(34) =  RHO0         
       ! PM(88) =  PSH
 
@@ -88,16 +88,16 @@ C-----------------------------------------
        ENDDO
     
        DO I=LFT,LLT
-        DENOM   = UN-BB_(I)*RHO0(I)*(UN+MU(I))
-        PP      = ESPE(I)*GM1(I)*(MU(I)+UN)/DENOM 
-        DPDE(I) = GM1(I)*(UN+MU(I))/DENOM
+        DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
+        PP      = ESPE(I)*GM1(I)*(MU(I)+ONE)/DENOM 
+        DPDE(I) = GM1(I)*(ONE+MU(I))/DENOM
         DPDM(I) = GM1(I)*ESPE(I)/DENOM + PP/DENOM*BB_(I)*RHO0(I) + PP*DF(I)*DF(I)*DPDE(I)      
        ENDDO
 C
        DO I=LFT,LLT
-        ECOLD(I)=-TROIS100*SPH(I)
+        ECOLD(I)=-THREE100*SPH(I)
         IF(MU(I).GT.ZERO) THEN
-          ECOLD(I)=ECOLD(I)*(UN+GM1(I)*MU(I)*(UN-MU(I))) 
+          ECOLD(I)=ECOLD(I)*(ONE+GM1(I)*MU(I)*(ONE-MU(I))) 
         ENDIF
        ENDDO
 C
@@ -117,12 +117,12 @@ C----------------------------------------
 C
        DO I=LFT,LLT
 
-        DENOM   = UN-BB_(I)*RHO0(I)*(UN+MU(I))
-        BB      = GM1(I)*(UN+MU(I))/DENOM
-        DVV     = UNDEMI*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-        PNEW(I) = (BB*ESPE(I))/(UN+BB*DVV)
+        DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
+        BB      = GM1(I)*(ONE+MU(I))/DENOM
+        DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
+        PNEW(I) = (BB*ESPE(I))/(ONE+BB*DVV)
         PNEW(I) = PNEW(I)*OFF(I)
-        EINT(I) = EINT(I) - UNDEMI*DVOL(I)*PNEW(I)
+        EINT(I) = EINT(I) - HALF*DVOL(I)*PNEW(I)
         TFEXTT  = TFEXTT-DVOL(I)*PSH(I)
         PNEW(I) = PNEW(I)-PSH(I)
        ENDDO
@@ -154,9 +154,9 @@ C------------------------
          
          DO I=1, NEL
             IF (VNEW(I) .GT. ZERO) THEN
-               DENOM   = UN-BB_(I)*RHO0(I)*(UN+MU(I))
-               PP      = ESPE(I)*GM1(I)*(MU(I)+UN)/DENOM 
-               DPDE(I) = GM1(I)*(UN+MU(I))/DENOM
+               DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
+               PP      = ESPE(I)*GM1(I)*(MU(I)+ONE)/DENOM 
+               DPDE(I) = GM1(I)*(ONE+MU(I))/DENOM
                DPDM(I) = GM1(I)*ESPE(I)/DENOM + PP/DENOM*BB_(I)*RHO0(I) + PP*DF(I)*DF(I)*DPDE(I) 
                PNEW(I) = PP-PSH(I)
             ENDIF

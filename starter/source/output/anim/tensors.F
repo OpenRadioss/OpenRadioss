@@ -137,11 +137,11 @@ C                 pour JHBE=14, valeurs moyennes est dans rep. corota.
                     GAMA(5)=GBUF%GAMA(JJ(5) + I)
                     GAMA(6)=GBUF%GAMA(JJ(6) + I)
                   ELSE                                                   
-                    GAMA(1)=UN                                           
+                    GAMA(1)=ONE                                           
                     GAMA(2)=ZERO                                         
                     GAMA(3)=ZERO                                         
                     GAMA(4)=ZERO                                         
-                    GAMA(5)=UN                                           
+                    GAMA(5)=ONE                                           
                     GAMA(6)=ZERO                                         
                   END IF                                                 
                   CALL SROTA6(X,IXS(1,N),KCVT,EVAR(1,I),GAMA)                                    
@@ -165,12 +165,12 @@ c
                   N  = I + NFT                                                
                   DO J=1,8                                                  
                     LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,J)                                        
-                    EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1)+I)*UNHUIT
-                    EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2)+I)*UNHUIT
-                    EVAR(3,I) = EVAR(3,I) + LBUF%STRA(JJ(3)+I)*UNHUIT
-                    EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4)+I)*UNHUIT
-                    EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5)+I)*UNHUIT
-                    EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6)+I)*UNHUIT
+                    EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1)+I)*ONE_OVER_8
+                    EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2)+I)*ONE_OVER_8
+                    EVAR(3,I) = EVAR(3,I) + LBUF%STRA(JJ(3)+I)*ONE_OVER_8
+                    EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4)+I)*ONE_OVER_8
+                    EVAR(5,I) = EVAR(5,I) + LBUF%STRA(JJ(5)+I)*ONE_OVER_8
+                    EVAR(6,I) = EVAR(6,I) + LBUF%STRA(JJ(6)+I)*ONE_OVER_8
                   ENDDO                                                     
                 ENDDO                                                      
               ENDIF                                                        
@@ -181,12 +181,12 @@ c
                  LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)                                        
                  DO I=LFT,LLT                                            
                    N  = I + NFT                                           
-                   EVAR(1,I) = LBUF%STRA(JJ(1)+I)*UNHUIT		
-                   EVAR(2,I) = LBUF%STRA(JJ(2)+I)*UNHUIT		
-                   EVAR(3,I) = LBUF%STRA(JJ(3)+I)*UNHUIT		
-                   EVAR(4,I) = LBUF%STRA(JJ(4)+I)*UNHUIT		
-                   EVAR(5,I) = LBUF%STRA(JJ(5)+I)*UNHUIT		
-                   EVAR(6,I) = LBUF%STRA(JJ(6)+I)*UNHUIT		
+                   EVAR(1,I) = LBUF%STRA(JJ(1)+I)*ONE_OVER_8		
+                   EVAR(2,I) = LBUF%STRA(JJ(2)+I)*ONE_OVER_8		
+                   EVAR(3,I) = LBUF%STRA(JJ(3)+I)*ONE_OVER_8		
+                   EVAR(4,I) = LBUF%STRA(JJ(4)+I)*ONE_OVER_8		
+                   EVAR(5,I) = LBUF%STRA(JJ(5)+I)*ONE_OVER_8		
+                   EVAR(6,I) = LBUF%STRA(JJ(6)+I)*ONE_OVER_8		
                  ENDDO                                                    
               ELSEIF(MLW == 14)THEN                                      
                  DO I=LFT,LLT                                             
@@ -201,9 +201,9 @@ c
                   EVAR(1,I) = LBUF%STRA(JJ(1)+I)
                   EVAR(2,I) = LBUF%STRA(JJ(2)+I)
                   EVAR(3,I) = LBUF%STRA(JJ(3)+I)		     
-                  EVAR(4,I) = LBUF%STRA(JJ(4)+I)*UNDEMI
-                  EVAR(5,I) = LBUF%STRA(JJ(5)+I)*UNDEMI
-                  EVAR(6,I) = LBUF%STRA(JJ(6)+I)*UNDEMI   
+                  EVAR(4,I) = LBUF%STRA(JJ(4)+I)*HALF
+                  EVAR(5,I) = LBUF%STRA(JJ(5)+I)*HALF
+                  EVAR(6,I) = LBUF%STRA(JJ(6)+I)*HALF   
                 ENDDO                                                    
               ENDIF                                                     
 c
@@ -376,11 +376,11 @@ C             DAMAGE IN GLOBAL SYSTEM
                     GAMA(5)= GAMA(1)          
                     GAMA(6)= ZERO             
                   ELSE                                                   
-                    GAMA(1)=UN                                           
+                    GAMA(1)=ONE                                           
                     GAMA(2)=ZERO                                         
                     GAMA(3)=ZERO                                         
                     GAMA(4)=ZERO                                         
-                    GAMA(5)=UN                                           
+                    GAMA(5)=ONE                                           
                     GAMA(6)=ZERO                                         
                   END IF                                                 
                   CALL SROTA6(X,IXS(1,N),KCVT,EVAR(1,I),GAMA)                                    

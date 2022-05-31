@@ -144,10 +144,10 @@ C
            NZ= (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2))
      +        -(X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
 C
-           AREA = UNDEMI*SQRT(NX*NX + NY*NY + NZ*NZ)
+           AREA = HALF*SQRT(NX*NX + NY*NY + NZ*NZ)
            FLUX = AREA*FLUX_DENS*DT1N 
            HEAT_FFLUX = HEAT_FFLUX + FLUX
-           FLUX = QUART*FLUX
+           FLUX = FOURTH*FLUX
 C
            FTHE(N1) = FTHE(N1) + FLUX
            FTHE(N2) = FTHE(N2) + FLUX
@@ -162,7 +162,7 @@ C
            NZ= (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2))
      +        -(X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
 C
-           AREA = UNDEMI*SQRT( NX*NX + NY*NY + NZ*NZ)
+           AREA = HALF*SQRT( NX*NX + NY*NY + NZ*NZ)
            FLUX = AREA*FLUX_DENS*DT1N
            HEAT_FFLUX = HEAT_FFLUX + FLUX
            FLUX = THIRD*FLUX
@@ -178,7 +178,7 @@ C
            AREA = SQRT(NY*NY + NZ*NZ)
            FLUX = AREA*FLUX_DENS*DT1N
            HEAT_FFLUX = HEAT_FFLUX + FLUX
-           FLUX = UNDEMI*FLUX
+           FLUX = HALF*FLUX
 C
            FTHE(N1) = FTHE(N1) + FLUX
            FTHE(N2) = FTHE(N2) + FLUX
@@ -210,7 +210,7 @@ C----------------------------
 
            FLUX = VOLG*FLUX_DENS*DT1N 
            HEAT_FFLUX = HEAT_FFLUX + FLUX
-           FLUX = UNHUIT*FLUX
+           FLUX = ONE_OVER_8*FLUX
 C
            FTHE(N1) = FTHE(N1) + FLUX
            FTHE(N2) = FTHE(N2) + FLUX
@@ -273,10 +273,10 @@ C            ANALYSE 3D
                NZ= (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2))
      +            -(X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
 C
-               AREA = UNDEMI*SQRT(NX*NX + NY*NY + NZ*NZ)
+               AREA = HALF*SQRT(NX*NX + NY*NY + NZ*NZ)
                FLUX = AREA*FLUX_DENS*FCY*DT1A
                HEAT_FFLUX = HEAT_FFLUX + FLUX
-               FLUX = QUART*FLUX
+               FLUX = FOURTH*FLUX
 C
                IAD1 = IAD(1,NL)
                FTHESKY(IAD1) = FLUX
@@ -295,7 +295,7 @@ C
                NZ= (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2))
      +            -(X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
 C
-               AREA = UNDEMI*SQRT(NX*NX + NY*NY + NZ*NZ)
+               AREA = HALF*SQRT(NX*NX + NY*NY + NZ*NZ)
                FLUX = AREA*FLUX_DENS*FCY*DT1A 
                HEAT_FFLUX = HEAT_FFLUX + FLUX
                FLUX = THIRD*FLUX
@@ -314,7 +314,7 @@ C
                AREA = SQRT(NY*NY + NZ*NZ)
                FLUX = AREA*FLUX_DENS*FCY*DT1A
                HEAT_FFLUX = HEAT_FFLUX + FLUX
-               FLUX = UNDEMI*FLUX
+               FLUX = HALF*FLUX
 C
                IAD1 = IAD(1,NL)
                FTHESKY(IAD1) = FLUX

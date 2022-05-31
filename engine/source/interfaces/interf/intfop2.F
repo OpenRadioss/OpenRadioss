@@ -630,11 +630,11 @@ C
       IF (DEBUG(3).GE.1) THEN
         IF(MOD(NCYCLE+1,DEBUG(3)).EQ.0)THEN
           IF (NB_JLT(JTASK).EQ.0) THEN
-            PCT = CENT
+            PCT = HUNDRED
             PCT1= ZERO
           ELSE
-            PCT = CENT*NB_JLT_NEW(JTASK)/NB_JLT(JTASK)
-            PCT1 = CENT - CENT*NB_STOK_N(JTASK)/NB_JLT(JTASK)
+            PCT = HUNDRED*NB_JLT_NEW(JTASK)/NB_JLT(JTASK)
+            PCT1 = HUNDRED - HUNDRED*NB_STOK_N(JTASK)/NB_JLT(JTASK)
           ENDIF
 #include "lockon.inc"
           WRITE(ISTDO,
@@ -656,9 +656,9 @@ C       INTERFACE TYPE25
         IF(NINTER25 /= 0)THEN
           IF(MOD(NCYCLE+1,DEBUG(3)).EQ.0)THEN
             IF(NB25_CANDT(1).EQ.0)THEN
-              PCT2 = CENT
+              PCT2 = HUNDRED
             ELSE
-              PCT2 = CENT * NB25_DST2(JTASK) / NB25_CANDT(1)
+              PCT2 = HUNDRED * NB25_DST2(JTASK) / NB25_CANDT(1)
             END IF
 #include "lockon.inc"
             WRITE(ISTDO,

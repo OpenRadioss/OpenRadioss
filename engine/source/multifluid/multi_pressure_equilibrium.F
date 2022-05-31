@@ -221,7 +221,7 @@ C     Specific volume
 C     Specific internal energy
                      SPEEINTWT(II, IMAT) = ZERO
                      IF (RHOWT(II, IMAT) .GT. ZERO) THEN
-                        TAUWT(II, IMAT) = UN / RHOWT(II, IMAT)
+                        TAUWT(II, IMAT) = ONE / RHOWT(II, IMAT)
                         SPEEINTWT(II, IMAT) = EINTWT(II, IMAT) / RHOWT(II, IMAT)
                      ENDIF
                      TAU0WT(II, IMAT) = TAUWT(II, IMAT)
@@ -315,7 +315,7 @@ C     Parameters
                               DPDE = GRUN(II, IMAT) / TAU(II)
                               DPDTAU = - (SSP(II) - GRUN(II, IMAT) * (PRES(II) + PSHIFT) * TAU(II)) / TAU(II) / TAU(II)
                               COEF1 =  MASSWT(II, IMAT) / (DPDTAU - (RELAXED_PRESSURE(II) + PSHIFT) * DPDE)
-                              COEF(II) = COEF(II) + COEF1 * (UN + GRUN(II, IMAT))
+                              COEF(II) = COEF(II) + COEF1 * (ONE + GRUN(II, IMAT))
                               PRES_INCR(II) = PRES_INCR(II) - FP(II) * COEF1
                            ENDIF
                         ENDIF
@@ -330,7 +330,7 @@ C     Parameters
                         ERROR(II) = ABS(PRES_INCR(II))
                      ENDIF
                   ENDDO
-                  LIM_TAU(1:NEL, 1:NBMAT) = UN
+                  LIM_TAU(1:NEL, 1:NBMAT) = ONE
                   DO IMAT = 1, NBMAT
                      FP => FPWT(1:NEL, IMAT)
                      SSP => SSPWT(1:NEL, IMAT)
@@ -344,12 +344,12 @@ C     Parameters
      .                          MFRACWT(II, IMAT) .GT. EM14) THEN
                               DPDTAU = - (SSP(II) - GRUN(II, IMAT) * (PRES(II) + PSHIFT) * TAU(II)) / TAU(II) / TAU(II)
                               DPDE = GRUN(II, IMAT) / TAU(II)
-                              COEF1 = UN / (DPDTAU - (RELAXED_PRESSURE(II) + PSHIFT) * DPDE)
-                              TAU_INCR(II, IMAT) = COEF1 * (PRES_INCR(II) * (UN + GRUN(II, IMAT)) + FP(II))
-                              LIM = UN
+                              COEF1 = ONE / (DPDTAU - (RELAXED_PRESSURE(II) + PSHIFT) * DPDE)
+                              TAU_INCR(II, IMAT) = COEF1 * (PRES_INCR(II) * (ONE + GRUN(II, IMAT)) + FP(II))
+                              LIM = ONE
                               IF (TAU(II) - TAU_INCR(II, IMAT) .LT. ZERO 
      .                             .AND. TAU_INCR(II, IMAT) .GT. ZERO) THEN
-                                 LIM = MIN(UN, UNDEMI * TAU(II) / TAU_INCR(II, IMAT))
+                                 LIM = MIN(ONE, HALF * TAU(II) / TAU_INCR(II, IMAT))
                               ENDIF
                               LIM_TAU(II, IMAT) = LIM
                            ENDIF
@@ -372,7 +372,7 @@ C     Parameters
                               LIM = MINVAL(LIM_TAU(II, 1:NBMAT))
                               TAU(II) = TAU(II) - LIM * TAU_INCR(II, IMAT)
                               
-                              RHO(II) = UN / TAU(II)
+                              RHO(II) = ONE / TAU(II)
                               ALPHAWT(II, IMAT) = MASSWT(II, IMAT) * TAU(II)
                               VOL(II) = ALPHAWT(II, IMAT) * GBUF%VOL(II)
                            ENDIF
@@ -403,7 +403,7 @@ C                           IF (ALPHAWT(II, IMAT) .NE. ZERO .AND. GRUN(II, IMAT)
                   ENDDO
                   DO II = 1, NEL
                      IF (CV_INDICATOR(II) .NE. 1) THEN
-                        IF (ERROR(II) .LT. TOL * (UN + ABS(RELAXED_PRESSURE(II)))) THEN
+                        IF (ERROR(II) .LT. TOL * (ONE + ABS(RELAXED_PRESSURE(II)))) THEN
                            CV_INDICATOR(II) = 1
                            REMAINING_ELTS = REMAINING_ELTS - 1
                         ENDIF
@@ -498,7 +498,7 @@ C     Number of elements that have not converged
                DO II = 1, NEL
                   I = II + NFT
                   CV_INDICATOR(II) = 1
-                  ONE_OVER_GRUN = UN
+                  ONE_OVER_GRUN = ONE
                   DO IMAT = 1, NBMAT
                      IF (MULTI_FVM%PHASE_ALPHA(IMAT, I) .GT. ZERO .AND.
      .                    MFRACWT(II, IMAT) .GT. EM14) THEN
@@ -536,7 +536,7 @@ C     Compute new pressure
                            IF (CV_INDICATOR(II) .NE. 1) THEN
                               ONE_OVER_GRUN = ZERO
                               IF (GRUN(II, IMAT) .GT. ZERO) THEN
-                                 ONE_OVER_GRUN = UN / GRUN(II, IMAT)
+                                 ONE_OVER_GRUN = ONE / GRUN(II, IMAT)
                               ENDIF
                               VOL_FRAC = ALPHAWT(II, IMAT) 
 
@@ -574,9 +574,9 @@ C     Compute New energies
                         IF (CV_INDICATOR(II) .NE. 1) THEN
                            IF (VOL(II) .GT. ZERO .AND. GRUN(II, IMAT) .GT. ZERO .AND.
      .                          MFRACWT(II, IMAT) .GT. EM14) THEN
-                              LIM = UN
+                              LIM = ONE
                               IF ((FP(II) + PRES_INCR(II)) .GT. ZERO) THEN
-                                 LIM = MAX(ZERO, MIN (UN, UNDEMI * EINT(II) * GRUN(II, IMAT) 
+                                 LIM = MAX(ZERO, MIN (ONE, HALF * EINT(II) * GRUN(II, IMAT) 
      .                                / (FP(II) + PRES_INCR(II))))
                               ENDIF
                               EINT(II) = EINT(II) - LIM * (FP(II) + PRES_INCR(II)) / GRUN(II, IMAT)
@@ -595,7 +595,7 @@ C     Call equation of state for the submaterial
                   ENDDO  ! IMAT = 1, NBMAT
                   DO II = 1, NEL
                      IF (CV_INDICATOR(II) .NE. 1) THEN
-                        IF (ERROR(II) .LT. TOL * (UN + ABS(RELAXED_PRESSURE(II)))) THEN
+                        IF (ERROR(II) .LT. TOL * (ONE + ABS(RELAXED_PRESSURE(II)))) THEN
                            CV_INDICATOR(II) = 1
                            REMAINING_ELTS = REMAINING_ELTS - 1
                         ENDIF

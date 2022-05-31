@@ -122,7 +122,7 @@ C
      .                RHO(I),THETA(I),PNEW(I),DPDR)
 
         PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)
-        EINT(I)= EINT(I) - UNDEMI*DVOL(I)*PNEW(I)
+        EINT(I)= EINT(I) - HALF*DVOL(I)*PNEW(I)
        ENDDO
 C
       ELSEIF(IFLAG == 2) THEN

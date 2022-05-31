@@ -315,7 +315,7 @@ C----------------------------
       ENDDO
 C
       DO I=JFT,JLT
-       OFF(I) = MIN(UN,OFFG(I))
+       OFF(I) = MIN(ONE,OFFG(I))
        OFF(I) = MAX(ZERO,OFF(I))
        SIGY(I) = EP30
       ENDDO
@@ -359,7 +359,7 @@ C-------------------------------
 C       DT PAR GROUPE D'ELEMENT
 C-------------------------------
         DT1C(1) = TT-T0(1)
-        DT2C(1) = UNP1*DTC(1)
+        DT2C(1) = ONEP1*DTC(1)
         NDT(1)  = NINT(DT1C(1) / DT1)
         T0(1)   = TT
         IF(NDT(1).EQ.1)THEN
@@ -419,7 +419,7 @@ C-------------------------------
           DR0(I,3,4) =  DR(3,IXCTMP5)
          ENDDO
         ELSE
-         FAC   = UN/DT1C(1)
+         FAC   = ONE/DT1C(1)
          DO I=JFT,JLT
           IXCTMP2=IXC(2,I)
           IXCTMP3=IXC(3,I)
@@ -480,7 +480,7 @@ C-------------------------------
 C-------------------------
 C       DT PAR ELEMENT
 C-------------------------
-        TTN = TT + SICINQ*DT1
+        TTN = TT + SIX_OVER_5*DT1
         DO I=JFT,JLT
          IF(T0(I)+DTC(I).LE.TTN)THEN
           IXCTMP2=IXC(2,I)
@@ -488,10 +488,10 @@ C-------------------------
           IXCTMP4=IXC(4,I)
           IXCTMP5=IXC(5,I)
           DT1C(I) = TT-T0(I)
-          DT2C(I) = UNP1*DTC(I)
+          DT2C(I) = ONEP1*DTC(I)
           NDT(I)  = NINT(DT1C(I) / DT1)
           T0(I)   = TT
-          FAC = UN/DT1C(I)
+          FAC = ONE/DT1C(I)
           VL1(I,1)  = (D(1,IXCTMP2) -D0(I,1,1) )*FAC
           D0(I,1,1)  =  D(1,IXCTMP2)
           VL1(I,2)  = (D(2,IXCTMP2) -D0(I,2,1) )*FAC

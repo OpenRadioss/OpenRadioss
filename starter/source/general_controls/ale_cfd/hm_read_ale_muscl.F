@@ -74,7 +74,7 @@ C-----------------------------------------------
          
          !---default I_BETA
          IF (I_BETA == ZERO) THEN
-            I_BETA = DEUX
+            I_BETA = TWO
          ENDIF
 
          !---default IALEMUSCL

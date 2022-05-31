@@ -82,12 +82,12 @@ C=======================================================================
 
  
         IF (XFACE(I) == ZERO) CYCLE
-        IF (ABS(SSC(I))>UN+ALP(I) .OR. ABS(TTC(I))>UN+ALP(I)) THEN
+        IF (ABS(SSC(I))>ONE+ALP(I) .OR. ABS(TTC(I))>ONE+ALP(I)) THEN
          !WRITE(6,*) "XFACE(",I,")=0",SSC(I),TTC(I),ALP(I)
           XFACE(I)=ZERO
         ELSE
-          IF(ABS(SSC(I)) > UN) SSC(I)=SSC(I)/ABS(SSC(I))
-          IF(ABS(TTC(I)) > UN) TTC(I)=TTC(I)/ABS(TTC(I))
+          IF(ABS(SSC(I)) > ONE) SSC(I)=SSC(I)/ABS(SSC(I))
+          IF(ABS(TTC(I)) > ONE) TTC(I)=TTC(I)/ABS(TTC(I))
         ENDIF
       END DO
 C
@@ -99,10 +99,10 @@ c     WRITE(6,*) "IGIMP=",IGIMP
 c     IF (IGIMP == 0) RETURN
 C
       DO I=LFT,LLT
-        H1(I) = QUART*(UN-TTC(I))*(UN-SSC(I))
-        H2(I) = QUART*(UN-TTC(I))*(UN+SSC(I))
-        H3(I) = QUART*(UN+TTC(I))*(UN+SSC(I))
-        H4(I) = QUART*(UN+TTC(I))*(UN-SSC(I))
+        H1(I) = FOURTH*(ONE-TTC(I))*(ONE-SSC(I))
+        H2(I) = FOURTH*(ONE-TTC(I))*(ONE+SSC(I))
+        H3(I) = FOURTH*(ONE+TTC(I))*(ONE+SSC(I))
+        H4(I) = FOURTH*(ONE+TTC(I))*(ONE-SSC(I))
 c       IF(H3(I) .NE. H3(I) .OR. H1(I) .NE. H1(I) .OR. 
 c    .  H4(I) .NE. H4(I)  ) THEN 
 c       WRITE(6,*) "BUG! :",TTC(I),SSC(I)

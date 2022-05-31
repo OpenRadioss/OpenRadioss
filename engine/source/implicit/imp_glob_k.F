@@ -1788,20 +1788,20 @@ C
       ENDDO
       DO N= 1,NEL
        CALL JACOBIEN(KE(1,1,N),24,EW(1,N),EV,TOL,LAMDA(N))
-       A=UNDEMI*(KE11(1,1,N)+KE11(2,2,N))
-       B=UNDEMI*(KE11(1,1,N)-KE11(2,2,N))
+       A=HALF*(KE11(1,1,N)+KE11(2,2,N))
+       B=HALF*(KE11(1,1,N)-KE11(2,2,N))
        C=A+SQRT(B*B+KE11(1,2,N)*KE11(1,2,N))
        LAMDAS(N)=C
-       A=UNDEMI*(KE22(1,1,N)+KE22(2,2,N))
-       B=UNDEMI*(KE22(1,1,N)-KE22(2,2,N))
+       A=HALF*(KE22(1,1,N)+KE22(2,2,N))
+       B=HALF*(KE22(1,1,N)-KE22(2,2,N))
        C=A+SQRT(B*B+KE22(1,2,N)*KE22(1,2,N))
        IF(C.GT.LAMDAS(N))LAMDAS(N)=C
-       A=UNDEMI*(KE33(1,1,N)+KE33(2,2,N))
-       B=UNDEMI*(KE33(1,1,N)-KE33(2,2,N))
+       A=HALF*(KE33(1,1,N)+KE33(2,2,N))
+       B=HALF*(KE33(1,1,N)-KE33(2,2,N))
        C=A+SQRT(B*B+KE33(1,2,N)*KE33(1,2,N))
        IF(C.GT.LAMDAS(N))LAMDAS(N)=C
-       A=UNDEMI*(KE44(1,1,N)+KE44(2,2,N))
-       B=UNDEMI*(KE44(1,1,N)-KE44(2,2,N))
+       A=HALF*(KE44(1,1,N)+KE44(2,2,N))
+       B=HALF*(KE44(1,1,N)-KE44(2,2,N))
        C=A+SQRT(B*B+KE44(1,2,N)*KE44(1,2,N))
        IF(C.GT.LAMDAS(N))LAMDAS(N)=C
       ENDDO
@@ -1858,7 +1858,7 @@ C----------------------------------------------------------------
         B(IZ)=A(IZ,IZ)
         EW(IZ)=B(IZ)
         Z(IZ)=0.
-        EV(IZ,IZ)=UN
+        EV(IZ,IZ)=ONE
 c        EV(IZ,IZ)=ZERO
   130 CONTINUE
 
@@ -1881,7 +1881,7 @@ C SUM OF THE OFF DIAGONALS
         IF (ITER .GT. 4)   THEN
           EPS = ZERO
         ELSE
-          EPS = UNCINQ*SUMRS/N**2
+          EPS = ONE_FIFTH*SUMRS/N**2
         ENDIF
 C START ITERATION
 
@@ -1900,13 +1900,13 @@ c      DO 240 ITER = 1,50
               IF (ABS(H)+G.EQ.ABS(H)) THEN
                 T = A(IZ,IS)/H
               ELSE
-                THETA = UNDEMI*H/A(IZ,IS)
-                T=UN/(ABS(THETA)+SQRT(UN+THETA**2))
+                THETA = HALF*H/A(IZ,IS)
+                T=ONE/(ABS(THETA)+SQRT(ONE+THETA**2))
                 IF (THETA .LT. ZERO) T=-T
               ENDIF
-              C=UN/SQRT(UN+T**2)
+              C=ONE/SQRT(ONE+T**2)
               S=T*C
-              TAU=S/(UN+C)
+              TAU=S/(ONE+C)
               H=T*A(IZ,IS)
               Z(IZ)=Z(IZ)-H
               Z(IS)=Z(IS)+H
@@ -1948,7 +1948,7 @@ c      DO 240 ITER = 1,50
           Z(IZ)=ZERO
   230   CONTINUE
 c        R=ABS(LAMDA-LAMDA0)
-        R=ABS(LAMDA/MAX(EM20,LAMDA0)-UN)
+        R=ABS(LAMDA/MAX(EM20,LAMDA0)-ONE)
         LAMDA0=LAMDA
 c      write(*,*)'iter,lamda,R=',iter,lamda,R
         LAMDA=ZERO
@@ -2073,13 +2073,13 @@ C=======================================================================
 C-------IPRES4=0:no pressure,1:pressure with 3n; 2: with 4N
        IPRES4=0
        ND =3
-       SCALN=UNDEMI
-C       IF (ILINE.EQ.0) SCALN=UNP1
-C       IF (NBUCK.GT.0) SCALN=-UN
+       SCALN=HALF
+C       IF (ILINE.EQ.0) SCALN=ONEP1
+C       IF (NBUCK.GT.0) SCALN=-ONE
        DO NL=1,NCONLD
         N4=IB(4,NL)
         ISENS=0
-        XSENS = UN
+        XSENS = ONE
         DO K=1,NSENSOR
          IF(IB(6,NL).EQ.LSENSOR(1,K))ISENS=K
         ENDDO
@@ -2130,7 +2130,7 @@ C
        FCY = FAC(1,NL)
        FCX = FAC(2,NL)
        ISENS=0
-       XSENS = UN
+       XSENS = ONE
        DO K=1,NSENSOR
          IF(IB(6,NL).EQ.LSENSOR(1,K))ISENS=K
        ENDDO
@@ -2240,17 +2240,17 @@ C-----------------------------------------------
      .    G1X(4),G1Y(4),G1Z(4),G2X(4),G2Y(4),G2Z(4)
         DATA   PG/.577350269189626/
 C
-       KSIX=(-X(1,N1)+X(1,N2)+X(1,N3)-X(1,N4))*QUART
-       KSIY=(-X(2,N1)+X(2,N2)+X(2,N3)-X(2,N4))*QUART
-       KSIZ=(-X(3,N1)+X(3,N2)+X(3,N3)-X(3,N4))*QUART
+       KSIX=(-X(1,N1)+X(1,N2)+X(1,N3)-X(1,N4))*FOURTH
+       KSIY=(-X(2,N1)+X(2,N2)+X(2,N3)-X(2,N4))*FOURTH
+       KSIZ=(-X(3,N1)+X(3,N2)+X(3,N3)-X(3,N4))*FOURTH
 C
-       ETAX=(-X(1,N1)-X(1,N2)+X(1,N3)+X(1,N4))*QUART
-       ETAY=(-X(2,N1)-X(2,N2)+X(2,N3)+X(2,N4))*QUART
-       ETAZ=(-X(3,N1)-X(3,N2)+X(3,N3)+X(3,N4))*QUART
+       ETAX=(-X(1,N1)-X(1,N2)+X(1,N3)+X(1,N4))*FOURTH
+       ETAY=(-X(2,N1)-X(2,N2)+X(2,N3)+X(2,N4))*FOURTH
+       ETAZ=(-X(3,N1)-X(3,N2)+X(3,N3)+X(3,N4))*FOURTH
 C
-       HX=(X(1,N1)-X(1,N2)+X(1,N3)-X(1,N4))*QUART
-       HY=(X(2,N1)-X(2,N2)+X(2,N3)-X(2,N4))*QUART
-       HZ=(X(3,N1)-X(3,N2)+X(3,N3)-X(3,N4))*QUART
+       HX=(X(1,N1)-X(1,N2)+X(1,N3)-X(1,N4))*FOURTH
+       HY=(X(2,N1)-X(2,N2)+X(2,N3)-X(2,N4))*FOURTH
+       HZ=(X(3,N1)-X(3,N2)+X(3,N3)-X(3,N4))*FOURTH
 C
        G1X(1)=KSIX-PG*HX
        G1Y(1)=KSIY-PG*HY
@@ -2302,7 +2302,7 @@ C
        END DO
        END DO
 C
-       S1=UNDEMI*P
+       S1=HALF*P
        DO NP =1,4
 c        K11(1,2)=K11(1,2) + S1*VF4(1,NP)*
 c     .           (VETA(1,NP)*G2Z(NP)-VKSI(1,NP)*G1Z(NP))
@@ -2490,12 +2490,12 @@ C-----------------------------------------------
      .    PG,PG2
         DATA   PG/.577350269189626/
 C------------NI,ksi=VKSI,NI,eta=VETA--------------------------------
-	VKSI(1,1)=-QUART*(UN+PG)
+	VKSI(1,1)=-FOURTH*(ONE+PG)
 	VKSI(2,1)=-VKSI(1,1)
-	VKSI(3,1)= QUART*(UN-PG)
+	VKSI(3,1)= FOURTH*(ONE-PG)
 	VKSI(4,1)=-VKSI(3,1)
-	VETA(1,1)=-QUART*(UN+PG)
-	VETA(2,1)=-QUART*(UN-PG)
+	VETA(1,1)=-FOURTH*(ONE+PG)
+	VETA(2,1)=-FOURTH*(ONE-PG)
 	VETA(3,1)=-VETA(2,1)
 	VETA(4,1)=-VETA(1,1)
 	VKSI(1,2)= VKSI(1,1)
@@ -2523,12 +2523,12 @@ C------------NI,ksi=VKSI,NI,eta=VETA--------------------------------
 	VETA(3,4)=-VETA(2,4)
 	VETA(4,4)=-VETA(1,4)
 C
-        PG2=QUART*PG*PG
+        PG2=FOURTH*PG*PG
         DO I =1,4
-	 VF4(I,1)=QUART+(-VKSI(I,1)-VETA(I,1))*PG
-	 VF4(I,2)=QUART+(VKSI(I,2)-VETA(I,2))*PG
-	 VF4(I,3)=QUART+(VKSI(I,3)+VETA(I,3))*PG
-	 VF4(I,4)=QUART+(-VKSI(I,4)+VETA(I,4))*PG
+	 VF4(I,1)=FOURTH+(-VKSI(I,1)-VETA(I,1))*PG
+	 VF4(I,2)=FOURTH+(VKSI(I,2)-VETA(I,2))*PG
+	 VF4(I,3)=FOURTH+(VKSI(I,3)+VETA(I,3))*PG
+	 VF4(I,4)=FOURTH+(-VKSI(I,4)+VETA(I,4))*PG
         END DO
 	VF4(1,1)=VF4(1,1)-PG2
 	VF4(2,1)=VF4(2,1)+PG2
@@ -2602,7 +2602,7 @@ C       CALL PRODUITV(G1X,G1Y,G1Z,G2X,G2Y,G2Z,DETA2)
         K23(K,K)=ZERO
        END DO
 C
-        S1 = UNSIX*P*UNDEMI
+        S1 = ONE_OVER_6*P*HALF
 C        K11(1,2)=-S1*(G2Z-G1Z)
 C        K11(1,3)=S1*(G2Y-G1Y)
 C        K11(2,3)=-S1*(G2X-G1X)

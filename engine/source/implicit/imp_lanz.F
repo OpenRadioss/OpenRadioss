@@ -208,7 +208,7 @@ C*     HERE AND LATER, V IS REALLY P * (THE LANCZOS V).
 
       IF (ITOL.EQ.2)  R02 = BETA1
       BETA1  = SQRT( BETA1 )
-      S      = UN / BETA1
+      S      = ONE / BETA1
 C
       IF (ITOL.EQ.1) THEN
         CALL PRODUT_W(N,R,R,W_DDL,R02)
@@ -289,7 +289,7 @@ C*     CAUSE TERMINATION (LATER) IF BETA IS ESSENTIALLY ZERO.
 C*     SEE IF THE LOCAL REORTHOGONALIZATION ACHIEVED ANYTHING.
 
 C      CALL PRODUT_V( N  ,R2   ,R2  ,T)
-C      DENOM  = UN/(SQRT( S*T )  +  FLM)
+C      DENOM  = ONE/(SQRT( S*T )  +  FLM)
 C      S      = Z * DENOM
 C      CALL PRODUT_V( N  ,V   ,R2  ,T)
 C      T      = T * DENOM
@@ -302,7 +302,7 @@ C*     INITIALIZE OTHER QUANTITIES.
       RHS1   = BETA1
       RHS2   = ZERO
       BSTEP  = ZERO
-      SNPROD = UN
+      SNPROD = ONE
       TNORM  = ALFA*ALFA + BETA*BETA
       YNORM2 = ZERO
       GMAX   = ABS( ALFA ) + FLM
@@ -369,8 +369,8 @@ C*      IF (N    .LE. 40)          GO TO 400
 C*      IF (ITN  .LE. 10)          GO TO 400
 C*      IF (ITN  .GE. ITNLIM - 10) GO TO 400
 C*      IF (MOD(ITN,10)  .EQ.   0) GO TO 400
-C*      IF (CGNORM .LE. DIX*EPSX) GO TO 400
-C*      IF (CGNORM .LE. DIX*EPSR) GO TO 400
+C*      IF (CGNORM .LE. TEN*EPSX) GO TO 400
+C*      IF (CGNORM .LE. TEN*EPSR) GO TO 400
 C*      IF (KCOND  .GE. EM2/FLM ) GO TO 400
 C*      IF (ISTOP  .NE. 0)        GO TO 400
 C*      GOTO 600
@@ -400,7 +400,7 @@ C*     AND SET UP  Y  FOR THE NEXT ITERATION.
 
       IF (ISTOP .NE. 0) GO TO 800
 C------place CRIT_STOP ICI-----
-      S      = UN / BETA
+      S      = ONE / BETA
 
       DO I = 1, N
         V(I)  = S * Y(I)

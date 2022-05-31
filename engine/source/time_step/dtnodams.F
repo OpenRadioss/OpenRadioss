@@ -162,7 +162,7 @@ C----------------------------------------------------------
            IF(MS(N).GT.ZERO)THEN
              K1 = K1 + 1
 C MS si non compense
-             DTN1(K1) = DTFAC1(11)*SQRT(DEUX * MS(N) / STIFN(N))
+             DTN1(K1) = DTFAC1(11)*SQRT(TWO * MS(N) / STIFN(N))
              DTNOD1 = MIN(DTNOD1,DTN1(K1))
              INDTN1(K1) = N
            ENDIF
@@ -187,11 +187,11 @@ C----------------------------------------------------------
                 IF(DTN1(K1).LT.DTMIN1(11))THEN
                   N = INDTN1(K1) 
                   DT2P = DTMIN1(11)/DTFAC1(11)
-                  MAS = UNDEMI * STIFN(N) * DT2P * DT2P * UNP00001
+                  MAS = HALF * STIFN(N) * DT2P * DT2P * ONEP00001
                   IF(TAG(N).EQ.1)THEN
                     IF(WEIGHT(N).EQ.1) THEN
                       DMAST =  DMAST + MAS - MS(N)
-                      ADM(N) = MAS*(UN+ADM(N))/MS(N)  - UN
+                      ADM(N) = MAS*(ONE+ADM(N))/MS(N)  - ONE
                     ENDIF
                     MS(N) = MAS
                     IMSCH = 1
@@ -205,7 +205,7 @@ C----------------------------------------------------------
                 IF(DTN1(K1).LT.DTMIN1(11))THEN
                   N = INDTN1(K1) 
                   DT2P = DTMIN1(11)/DTFAC1(11)
-                  MAS = UNDEMI * STIFN(N) * DT2P * DT2P * UNP00001
+                  MAS = HALF * STIFN(N) * DT2P * DT2P * ONEP00001
                   IF(TAG(N).EQ.1)THEN
                     DMAST =  DMAST + (MAS - MS(N))*WEIGHT(N)
                     MS(N) = MAS
@@ -221,7 +221,7 @@ C----------------------------------------------------------
               IF(DTN1(K1).LT.DTMIN1(11))THEN
                   N = INDTN1(K1) 
                   DT2P = DTMIN1(11)/DTFAC1(11)
-                  MAS = UNDEMI * STIFN(N) * DT2P * DT2P 
+                  MAS = HALF * STIFN(N) * DT2P * DT2P 
                   MAS=MS(N)/MAS
                   DTN1(K1)=DTMIN1(11)
                   A(1,N)=A(1,N)*MAS
@@ -274,14 +274,14 @@ C----------------------------------------------------------
               IF(IN(N).GT.ZERO)THEN
                K1 = K1 + 1
                INDTN1(K1) = N
-               DTN1(K1) = DTFAC1(11)*SQRT(DEUX * IN(N) / STIFR(N))
+               DTN1(K1) = DTFAC1(11)*SQRT(TWO * IN(N) / STIFR(N))
                DTNOD1 = MIN(DTNOD1,DTN1(K1))
               ENDIF
              ELSEIF(NODNX_SMS(N)/=0)THEN
                IF(IN(N).GT.ZERO)THEN
                  K2 = K2 + 1
                  INDTN2(K2) = N
-                 DTN2(K2) = DTFACS*SQRT(DEUX * IN(N) / STIFR(N))
+                 DTN2(K2) = DTFACS*SQRT(TWO * IN(N) / STIFR(N))
                  DTNOD2 = MIN(DTNOD2,DTN2(K2))
                ENDIF
              ENDIF
@@ -305,11 +305,11 @@ C                ENDIF
                     N = INDTN1(K1) 
                     INER = IN(N)
                     DT2P = DTMIN1(11)/DTFAC1(11)
-                    INER = UNDEMI * STIFR(N) * DT2P * DT2P * UNP00001
+                    INER = HALF * STIFR(N) * DT2P * DT2P * ONEP00001
                     IF(TAGR(N).EQ.1)THEN
                       IF(WEIGHT(N).EQ.1)THEN
                        DINERT = DINERT + ( INER - IN(N))
-                       ADI(N) = INER*(UN+ADI(N))/IN(N)  - UN
+                       ADI(N) = INER*(ONE+ADI(N))/IN(N)  - ONE
                       END IF
                       IN(N) = MAX(INER,IN(N))
                       IMSCH = 1
@@ -325,7 +325,7 @@ C
                     N = INDTN1(K1) 
                     INER = IN(N)
                     DT2P = DTMIN1(11)/DTFAC1(11)
-                    INER = UNDEMI * STIFR(N) * DT2P * DT2P * UNP00001
+                    INER = HALF * STIFR(N) * DT2P * DT2P * ONEP00001
                     IF(TAGR(N).EQ.1)THEN
                       DINERT = DINERT + ( INER - IN(N))*WEIGHT(N)
                       IN(N) = MAX(INER,IN(N))
@@ -341,7 +341,7 @@ C
               IF(DTN1(K1).LT.DTMIN1(11))THEN
                   N = INDTN1(K1) 
                   DT2P = DTMIN1(11)/DTFAC1(11)
-                  MAS = UNDEMI * STIFR(N) * DT2P * DT2P 
+                  MAS = HALF * STIFR(N) * DT2P * DT2P 
                   MAS=IN(N)/MAS
                   DTN1(K1)=DTMIN1(11)
                   AR(1,N)=AR(1,N)*MAS
@@ -371,11 +371,11 @@ C-----------
                   N = INDTN2(K2) 
                   INER = IN(N)
                   DT2P = DTMINS/DTFACS
-                  INER = UNDEMI * STIFR(N) * DT2P * DT2P * UNP00001
+                  INER = HALF * STIFR(N) * DT2P * DT2P * ONEP00001
                   IF(NODNX_SMS(N)/=0)THEN
                     IF(WEIGHT(N).EQ.1)THEN
                      DINERT = DINERT + ( INER - IN(N))
-                     ADI(N) = INER*(UN+ADI(N))/IN(N)  - UN
+                     ADI(N) = INER*(ONE+ADI(N))/IN(N)  - ONE
                     END IF
                     IN(N) = MAX(INER,IN(N))
                     IMSCH = 1
@@ -391,7 +391,7 @@ C
                   N = INDTN2(K2) 
                   INER = IN(N)
                   DT2P = DTMINS/DTFACS
-                  INER = UNDEMI * STIFR(N) * DT2P * DT2P * UNP00001
+                  INER = HALF * STIFR(N) * DT2P * DT2P * ONEP00001
                   IF(NODNX_SMS(N)/=0)THEN
                     DINERT = DINERT + ( INER - IN(N))*WEIGHT(N)
                     IN(N) = MAX(INER,IN(N))

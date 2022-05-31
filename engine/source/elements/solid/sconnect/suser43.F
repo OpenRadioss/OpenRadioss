@@ -306,14 +306,14 @@ C-------------------
           ENDDO                                               
         ENDDO                                                 
         DO I=1,NEL                                            
-          EP1(I) = EP1(I)*QUART                               
-          EP2(I) = EP2(I)*QUART                               
-          EP3(I) = EP3(I)*QUART                               
+          EP1(I) = EP1(I)*FOURTH                               
+          EP2(I) = EP2(I)*FOURTH                               
+          EP3(I) = EP3(I)*FOURTH                               
           EPSP   = SQRT(EP1(I)**2 + EP2(I)**2 + EP3(I)**2)    
                                                               
           IF (ISRATE > 0) THEN                                
-            ASRATE = MIN(UN,ALPHA*TIMESTEP)                    
-            EPSP = ASRATE*EPSP + (UN - ASRATE)*GBUF%EPSD(I)    
+            ASRATE = MIN(ONE,ALPHA*TIMESTEP)                    
+            EPSP = ASRATE*EPSP + (ONE - ASRATE)*GBUF%EPSD(I)    
           ENDIF                                               
           GBUF%EPSD(I)=EPSP                                   
         ENDDO
@@ -391,8 +391,8 @@ c
      6         LBUF%DMG ,ASRATE   ,ISRATE   )                                                      
 c           mean Gauss point values for element output                                                     
             DO IEL=1,NEL
-              GBUF%PLA(IEL)  = GBUF%PLA(IEL)  + QUART*LBUF%PLA(IEL)
-              GBUF%EPSD(IEL) = GBUF%EPSD(IEL) + QUART*LBUF%EPSD(IEL)
+              GBUF%PLA(IEL)  = GBUF%PLA(IEL)  + FOURTH*LBUF%PLA(IEL)
+              GBUF%EPSD(IEL) = GBUF%EPSD(IEL) + FOURTH*LBUF%EPSD(IEL)
             ENDDO
 c-------
           CASE (116)
@@ -407,7 +407,7 @@ c
      4        SIGNZZ   ,SIGNYZ   ,SIGNZX   ,STIFM    ,DMELS    ,LBUF%DMG ,
      5        EPLASN   ,EPLAST   ,IPG      ,ISOLIDF  ,NGL      )
 
-            GBUF%EPSD(1:NEL) = GBUF%EPSD(1:NEL) + QUART*LBUF%EPSD(1:NEL)
+            GBUF%EPSD(1:NEL) = GBUF%EPSD(1:NEL) + FOURTH*LBUF%EPSD(1:NEL)
 c
           CASE (117)
 c
@@ -479,9 +479,9 @@ c-------
         END SELECT     !  MTN
 c--------------------------------------------------
         DO IEL=1,NEL
-          DEIN(IEL) = LBUF%OFF(IEL)*UNDEMI*                     
+          DEIN(IEL) = LBUF%OFF(IEL)*HALF*                     
      .                DEPSZZ(IEL)*(SIG0ZZ(IEL) + SIGNZZ(IEL))   
-          DEIT(IEL) = LBUF%OFF(IEL)*UNDEMI*(                    
+          DEIT(IEL) = LBUF%OFF(IEL)*HALF*(                    
      .                DEPSYZ(IEL)*(SIG0YZ(IEL) + SIGNYZ(IEL))+  
      .                DEPSZX(IEL)*(SIG0ZX(IEL) + SIGNZX(IEL)) ) 
         ENDDO
@@ -492,7 +492,7 @@ c       Failure Models
 c--------------------------------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1))CALL STARTIME(121,1)
 c--------------------------------------------------
-        SOFT(1:NEL) = UN
+        SOFT(1:NEL) = ONE
 c
         IF (IFAILURE == 1) THEN                                                
           NFAILS = IPM(220, IMAT)       
@@ -545,9 +545,9 @@ c       global element constraints in local frame (for output)
 c
         DO IEL=1,NEL
           SOFT(IEL) = SOFT(IEL)*GBUF%OFF(IEL)
-          GBUF%SIG(JJ(3)+IEL) = GBUF%SIG(JJ(3)+IEL) + SIGNZZ(IEL)*QUART*SOFT(IEL)
-          GBUF%SIG(JJ(5)+IEL) = GBUF%SIG(JJ(5)+IEL) + SIGNYZ(IEL)*QUART*SOFT(IEL)
-          GBUF%SIG(JJ(6)+IEL) = GBUF%SIG(JJ(6)+IEL) + SIGNZX(IEL)*QUART*SOFT(IEL)
+          GBUF%SIG(JJ(3)+IEL) = GBUF%SIG(JJ(3)+IEL) + SIGNZZ(IEL)*FOURTH*SOFT(IEL)
+          GBUF%SIG(JJ(5)+IEL) = GBUF%SIG(JJ(5)+IEL) + SIGNYZ(IEL)*FOURTH*SOFT(IEL)
+          GBUF%SIG(JJ(6)+IEL) = GBUF%SIG(JJ(6)+IEL) + SIGNZX(IEL)*FOURTH*SOFT(IEL)
         ENDDO
 c
 c       internal forces

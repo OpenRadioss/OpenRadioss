@@ -198,10 +198,10 @@ C     Initialize material parameters
 C     --------------
       YOUNG = UPARAM(1)
 	 NU    = UPARAM(2)
-      SHEAR = YOUNG*UNDEMI/(UN+NU)
-      G2    = DEUX*SHEAR   
-      LAMDA = YOUNG*NU/(UN+NU)/(UN-DEUX*NU)  
-      BULK  = YOUNG*THIRD/(UN-DEUX*NU)
+      SHEAR = YOUNG*HALF/(ONE+NU)
+      G2    = TWO*SHEAR   
+      LAMDA = YOUNG*NU/(ONE+NU)/(ONE-TWO*NU)  
+      BULK  = YOUNG*THIRD/(ONE-TWO*NU)
 
       P12    = UPARAM(3) 
       P22    = UPARAM(4) 
@@ -233,9 +233,9 @@ c     Initialize state variables
 C     ------------------------
       IF (ISIGI == 0 .and. TIME == ZERO) THEN
         DO I=1,NEL
-          F_TEMP(I)= MIN(UN,MAX(ZERO,((TINI-TREF)/(TMELT-TREF))**MTEMP))
-          F_TEMP(I)= UN - F_TEMP(I)
-          F_EPS    = ALPHA*(AN*EPS0**NN) + (UN-ALPHA)*K0
+          F_TEMP(I)= MIN(ONE,MAX(ZERO,((TINI-TREF)/(TMELT-TREF))**MTEMP))
+          F_TEMP(I)= ONE - F_TEMP(I)
+          F_EPS    = ALPHA*(AN*EPS0**NN) + (ONE-ALPHA)*K0
           YLD(I)   = F_EPS * F_TEMP(I)
 c
           UVAR(I,2) = YLD(I)
@@ -280,13 +280,13 @@ C     ------------
 
         SVM(I) = SQRT(SIGNXX(I)*SIGNXX(I)                   
      .              + SIGNYY(I)*SIGNYY(I)*P22                 
-     .              + SIGNZZ(I)*SIGNZZ(I)*(UN+DEUX*P12+P22)   
+     .              + SIGNZZ(I)*SIGNZZ(I)*(ONE+TWO*P12+P22)   
      .              + SIGNXY(I)*SIGNXY(I)*P33                 
-     .              + SIGNYZ(I)*SIGNYZ(I)*TROIS               
-     .              + SIGNZX(I)*SIGNZX(I)*TROIS               
-     .              + SIGNXX(I)*SIGNYY(I)*DEUX*P12            
-     .              - SIGNZZ(I)*SIGNYY(I)*DEUX*(P12+P22)      
-     .              - SIGNXX(I)*SIGNZZ(I)*DEUX*(UN+P12))      
+     .              + SIGNYZ(I)*SIGNYZ(I)*THREE               
+     .              + SIGNZX(I)*SIGNZX(I)*THREE               
+     .              + SIGNXX(I)*SIGNYY(I)*TWO*P12            
+     .              - SIGNZZ(I)*SIGNYY(I)*TWO*(P12+P22)      
+     .              - SIGNXX(I)*SIGNZZ(I)*TWO*(ONE+P12))      
       ENDDO
 c
 C     Check Yield Condition  
@@ -307,34 +307,34 @@ C     ----------------------------------------------------
 C-----  Initialisation ----------------------------------------
 C                                                               
         TOL     = 0.00001
-        SQR2INV = UN/SQR2
+        SQR2INV = ONE/SQR2
         NITER   = 5
         CEPSPN    = CEPSP     
         IF( CEPSPN   == ZERO )THEN
            DLAMIN(I) = UVAR(I,4) + EM10
         ELSE
-           DLAMIN(I) = CINQ*EM4*TIMESTEP*EXP((EM4)/CEPSPN)  
+           DLAMIN(I) = FIVE*EM4*TIMESTEP*EXP((EM4)/CEPSPN)  
         ENDIF 
-        !DLAM(I) = (SVM(I) - YLD(I)) / (SHEAR*TROIS + UVAR(I,6))
+        !DLAM(I) = (SVM(I) - YLD(I)) / (SHEAR*THREE + UVAR(I,6))
         DLAM(I)   = UVAR(I,4) + EM9                              
         DLAM(I)   = MAX(DLAM(I), DLAMIN(I))   
 c                   
         PLAP(I)   = DLAM(I) / TIMESTEP    
         F_TEMP(I) = ((TEMP(I)-TREF)/(TMELT-TREF))**MTEMP         
-        F_TEMP(I) = MIN(UN,MAX(ZERO, F_TEMP(I)))                 
-        F_TEMP(I) = UN - F_TEMP(I)
+        F_TEMP(I) = MIN(ONE,MAX(ZERO, F_TEMP(I)))                 
+        F_TEMP(I) = ONE - F_TEMP(I)
 C------------------------------------------------------------
 C------------------------------------------------------------
-        PSIG(1) = SIGNXX(I)         + SIGNYY(I)*P12-SIGNZZ(I)*(UN+P12)     
+        PSIG(1) = SIGNXX(I)         + SIGNYY(I)*P12-SIGNZZ(I)*(ONE+P12)     
         PSIG(2) = SIGNXX(I)*P12     + SIGNYY(I)*P22-SIGNZZ(I)*(P12+P22)    
-        PSIG(3) =-SIGNXX(I)*(UN+P12)- SIGNYY(I)*(P12+P22)                    
-     .                               + SIGNZZ(I)*(UN+DEUX*P12+P22)
+        PSIG(3) =-SIGNXX(I)*(ONE+P12)- SIGNYY(I)*(P12+P22)                    
+     .                               + SIGNZZ(I)*(ONE+TWO*P12+P22)
         PSIG(4) = SIGNXY(I)*P33                                               
-        PSIG(5) = SIGNYZ(I)*TROIS                                             
-        PSIG(6) = SIGNZX(I)*TROIS     
+        PSIG(5) = SIGNYZ(I)*THREE                                             
+        PSIG(6) = SIGNZX(I)*THREE     
                                          
         GGSIG   = DLAM(I)*SHEAR/SVM(I)                                     
-        G2GSIG  = GGSIG*DEUX                                             
+        G2GSIG  = GGSIG*TWO                                             
         SIGNXX(I) = SIGTRXX(I) - PSIG(1)*G2GSIG                          
         SIGNYY(I) = SIGTRYY(I) - PSIG(2)*G2GSIG                          
         SIGNZZ(I) = SIGTRZZ(I) - PSIG(3)*G2GSIG                          
@@ -348,57 +348,57 @@ C------------------------------------------------------------
           !HILL                                                   
           SEFF = SQRT(SIGNXX(I)*SIGNXX(I)                         
      .            + SIGNYY(I)*SIGNYY(I)*P22                       
-     .            + SIGNZZ(I)*SIGNZZ(I)*(UN+DEUX*P12+P22)         
+     .            + SIGNZZ(I)*SIGNZZ(I)*(ONE+TWO*P12+P22)         
      .            + SIGNXY(I)*SIGNXY(I)*P33                       
-     .            + SIGNYZ(I)*SIGNYZ(I)*TROIS                     
-     .            + SIGNZX(I)*SIGNZX(I)*TROIS                     
-     .            + SIGNXX(I)*SIGNYY(I)*DEUX*P12                  
-     .            - SIGNZZ(I)*SIGNYY(I)*DEUX*(P12+P22)            
-     .            - SIGNXX(I)*SIGNZZ(I)*DEUX*(UN+P12))            
+     .            + SIGNYZ(I)*SIGNYZ(I)*THREE                     
+     .            + SIGNZX(I)*SIGNZX(I)*THREE                     
+     .            + SIGNXX(I)*SIGNYY(I)*TWO*P12                  
+     .            - SIGNZZ(I)*SIGNYY(I)*TWO*(P12+P22)            
+     .            - SIGNXX(I)*SIGNZZ(I)*TWO*(ONE+P12))            
           SEFF = MAX(EM20,SEFF)                                   
           !FLOW FUNCTION G                                        
           GEFF   = SQRT(SIGNXX(I)*SIGNXX(I)                       
      .            + SIGNYY(I)*SIGNYY(I)*G22                       
-     .            + SIGNZZ(I)*SIGNZZ(I)*(UN+DEUX*G12+G22)         
+     .            + SIGNZZ(I)*SIGNZZ(I)*(ONE+TWO*G12+G22)         
      .            + SIGNXY(I)*SIGNXY(I)*G33                       
-     .            + SIGNYZ(I)*SIGNYZ(I)*TROIS                     
-     .            + SIGNZX(I)*SIGNZX(I)*TROIS                     
-     .            + SIGNXX(I)*SIGNYY(I)*DEUX*G12                  
-     .            - SIGNZZ(I)*SIGNYY(I)*DEUX*(G12+G22)            
-     .            - SIGNXX(I)*SIGNZZ(I)*DEUX*(UN+G12))            
+     .            + SIGNYZ(I)*SIGNYZ(I)*THREE                     
+     .            + SIGNZX(I)*SIGNZX(I)*THREE                     
+     .            + SIGNXX(I)*SIGNYY(I)*TWO*G12                  
+     .            - SIGNZZ(I)*SIGNYY(I)*TWO*(G12+G22)            
+     .            - SIGNXX(I)*SIGNZZ(I)*TWO*(ONE+G12))            
           GEFF = MAX(EM20,GEFF)                                     
 c
           GSS = GEFF/SEFF
 c
           ! P * SIGMA                                                           
-          PSIG(1) = SIGNXX(I)          + SIGNYY(I)*P12 - SIGNZZ(I)*(UN+P12)     
+          PSIG(1) = SIGNXX(I)          + SIGNYY(I)*P12 - SIGNZZ(I)*(ONE+P12)     
           PSIG(2) = SIGNXX(I)*P12      + SIGNYY(I)*P22 - SIGNZZ(I)*(P12+P22)    
-          PSIG(3) =-SIGNXX(I)*(UN+P12) - SIGNYY(I)*(P12+P22)                    
-     .                                 + SIGNZZ(I)*(UN+DEUX*P12+P22)
+          PSIG(3) =-SIGNXX(I)*(ONE+P12) - SIGNYY(I)*(P12+P22)                    
+     .                                 + SIGNZZ(I)*(ONE+TWO*P12+P22)
           PSIG(4) = SIGNXY(I)*P33                                               
-          PSIG(5) = SIGNYZ(I)*TROIS                                             
-          PSIG(6) = SIGNZX(I)*TROIS                                             
+          PSIG(5) = SIGNYZ(I)*THREE                                             
+          PSIG(6) = SIGNZX(I)*THREE                                             
           ! G * SIGMA                                                           
-          GSIG(1) = SIGNXX(I)          + SIGNYY(I)*G12 - SIGNZZ(I)*(UN+G12)     
+          GSIG(1) = SIGNXX(I)          + SIGNYY(I)*G12 - SIGNZZ(I)*(ONE+G12)     
           GSIG(2) = SIGNXX(I)*G12      + SIGNYY(I)*G22 - SIGNZZ(I)*(G12+G22)    
-          GSIG(3) =-SIGNXX(I)*(UN+G12) - SIGNYY(I)*(G12+G22)                    
-     .                                 + SIGNZZ(I)*(UN+DEUX*G12+G22)            
+          GSIG(3) =-SIGNXX(I)*(ONE+G12) - SIGNYY(I)*(G12+G22)                    
+     .                                 + SIGNZZ(I)*(ONE+TWO*G12+G22)            
           GSIG(4) = SIGNXY(I)*G33                                               
-          GSIG(5) = SIGNYZ(I)*TROIS                                             
-          GSIG(6) = SIGNZX(I)*TROIS                                             
+          GSIG(5) = SIGNYZ(I)*THREE                                             
+          GSIG(6) = SIGNZX(I)*THREE                                             
 c
 c-----    Yield, Yield prime                                                    
           EXPV   = EXP(-BVOCE*PLA(I))                                           
           KSWIFT = AN*(PLA(I) + EPS0)**NN                                       
-          KVOCE  = K0 + QVOCE*(UN - EXPV)                                       
-          F_EPS  = ALPHA*KSWIFT + (UN-ALPHA)*KVOCE                              
+          KVOCE  = K0 + QVOCE*(ONE - EXPV)                                       
+          F_EPS  = ALPHA*KSWIFT + (ONE-ALPHA)*KVOCE                              
           UVAR(I,2) = F_EPS*F_TEMP(I)                                           
           YLD(I)    = UVAR(I,2)                                                 
 c-----                                                                          
-          F_EPSP(I) = UN + CEPSPN*LOG(PLAP(I)/DEPS0)                            
+          F_EPSP(I) = ONE + CEPSPN*LOG(PLAP(I)/DEPS0)                            
           KSWIFTP = KSWIFT*NN / (PLA(I) + EPS0)                                 
           KVOCEP  = QVOCE*BVOCE*EXPV                                            
-          YLDP    = ALPHA*KSWIFTP + (UN - ALPHA)*KVOCEP                         
+          YLDP    = ALPHA*KSWIFTP + (ONE - ALPHA)*KVOCEP                         
           YLDP    = YLDP * F_TEMP(I) * F_EPSP(I)                                
           YLDP    = YLDP + YLD(I) * CEPSPN / DLAM(I) 
           !UVAR(I,6)=  YLDP                         
@@ -408,7 +408,7 @@ c         f(sig)-yield
 c
           ! Check for convergence                                               
           IF ( (ABS(RES) < TOL*UVAR(I,2))     .and.                             
-     +         (YLD(I) > UVAR(I,2)*(UN-TOL))  .and.                             
+     +         (YLD(I) > UVAR(I,2)*(ONE-TOL))  .and.                             
      +         ( PLAP(I) > DEPS0  )           .and. 
      +         (ABS(PLAP(I)-PLAP0) <  PLAP0 *TOL)                                                          
      +     ) EXIT                                                               
@@ -416,7 +416,7 @@ c
           ! Update d_lambda & plastic strain                                 
 c
           DRES = PSIG(1)*GSIG(1) + PSIG(2)*GSIG(2) + PSIG(3)*GSIG(3)         
-     .     + UNDEMI*(PSIG(4)*GSIG(4)+PSIG(5)*GSIG(5)+PSIG(6)*GSIG(6))        
+     .     + HALF*(PSIG(4)*GSIG(4)+PSIG(5)*GSIG(5)+PSIG(6)*GSIG(6))        
           DRES = DRES / (SEFF*GEFF)                                          
           DRES = -G2 * DRES  - YLDP  * GSS                                   
           DLAM(I)   = DLAM(I) - RES / DRES                                   
@@ -437,7 +437,7 @@ c
           UVAR(I,4) = DLAM(I)    
 C 
           GGSIG   = DLAM(I)*SHEAR/GEFF                                     
-          G2GSIG  = GGSIG*DEUX                                             
+          G2GSIG  = GGSIG*TWO                                             
           SIGNXX(I) = SIGTRXX(I) - GSIG(1)*G2GSIG                          
           SIGNYY(I) = SIGTRYY(I) - GSIG(2)*G2GSIG                          
           SIGNZZ(I) = SIGTRZZ(I) - GSIG(3)*G2GSIG                          
@@ -461,10 +461,10 @@ C     ---------------------------------
           IF (PLAP(I) <= DEPS0)THEN
             OMEGA = ZERO
           ELSEIF (PLAP(I) > DEPSAD) THEN
-            OMEGA = UN
+            OMEGA = ONE
           ELSE
             OMEGA = ((PLAP(I)-DEPS0)**2 )*
-     .              (TROIS*DEPSAD - DEUX*PLAP(I) - DEPS0)
+     .              (THREE*DEPSAD - TWO*PLAP(I) - DEPS0)
      .             /((DEPSAD-DEPS0)**3)
           ENDIF
           TEMP(I) = UVAR(I,5) + OMEGA*YLD(I)*DEP(I)*ETA/(RHO0(I)*CP)
@@ -477,8 +477,8 @@ C-----------
         UVAR(I,3) = PLAP(I)
         UVAR(I,4) = DLAM(I)
         UVAR(I,5) = TEMP(I)
-        ETSE(I)   = UN
-        SOUNDSP(I)= SQRT((BULK+QTHIRD*SHEAR)/RHO0(I))
+        ETSE(I)   = ONE
+        SOUNDSP(I)= SQRT((BULK+FOUR_OVER_3*SHEAR)/RHO0(I))
         VISCMAX(I)= ZERO
       ENDDO
 c-----------

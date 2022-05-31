@@ -150,7 +150,7 @@ C-----------------------------------------------
         !IF(I==1)CALL HM_GET_INT_ARRAY_INDEX('I2017_2'        ,I2017_2     ,IS_AVAILABLE, LSUBMODEL)
         !units
         CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_LOAD'  ,YFAC_UNIT(I) ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)         
-        IF(YFAC(I) .EQ. ZERO) YFAC(I) = UN * YFAC_UNIT(I)         
+        IF(YFAC(I) .EQ. ZERO) YFAC(I) = ONE * YFAC_UNIT(I)         
       ENDDO  
                          
       !--unloading function
@@ -161,7 +161,7 @@ C-----------------------------------------------
           CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_UNLOAD'        ,YFAC(I)     ,I-NRATEP,IS_AVAILABLE, LSUBMODEL, UNITAB)   
           !units
           CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_UNLOAD'    ,YFAC_UNIT(I),I-NRATEP,IS_AVAILABLE, LSUBMODEL, UNITAB)         
-          IF(YFAC(I) .EQ. ZERO) YFAC(I) = UN * YFAC_UNIT(I)         
+          IF(YFAC(I) .EQ. ZERO) YFAC(I) = ONE * YFAC_UNIT(I)         
         ENDDO 
       ELSE 
         IF(NRATEN == 0 .AND. IUNLOAD <= 2 ) THEN
@@ -226,7 +226,7 @@ C
          CALL HM_GET_INT_ARRAY_INDEX('FUN_A1'        ,IFUNC(NL)    ,NL,IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_FLOAT_ARRAY_INDEX('FScale11'    ,YFAC(NL)     ,NL,IS_AVAILABLE, LSUBMODEL, UNITAB)   
          !units
-         IF (YFAC(NL) == ZERO) YFAC(NL) = UN
+         IF (YFAC(NL) == ZERO) YFAC(NL) = ONE
       ENDIF 
       
       DO I=1,NL
@@ -240,13 +240,13 @@ C
         ENDIF
       ENDDO
 C      
-      IF(EPSMAX == ZERO) EPSMAX = UN
+      IF(EPSMAX == ZERO) EPSMAX = ONE
       UPARAM(1)=NL
       UPARAM(2)=E0
       AA = (EMAX-E0)/EPSMAX
       UPARAM(3)=AA
       UPARAM(4)=EPSMAX
-      G = UNDEMI*E0/(UN + NU)
+      G = HALF*E0/(ONE + NU)
       UPARAM(5)=G
       UPARAM(6)=NU       
       UPARAM(7)= NRATEP
@@ -257,15 +257,15 @@ C
       END DO
 
       UPARAM(2*NL + 9)= IUNLOAD
-      IF(EXPO == ZERO) EXPO = UN
-      IF(HYS  == ZERO) HYS = UN
+      IF(EXPO == ZERO) EXPO = ONE
+      IF(HYS  == ZERO) HYS = ONE
       UPARAM(2*NL + 10)= EXPO
       UPARAM(2*NL + 11) = HYS
       UPARAM(2*NL + 12) = EMAX
       UPARAM(2*NL + 13) = IFLAG
       UPARAM(2*NL + 14) = I2017_2
 C
-      C1=E0/TROIS/(UN - DEUX*NU)
+      C1=E0/THREE/(ONE - TWO*NU)
       NFUNC = NL 
       NUPARAM =15 + 2*NL  
       UPARAM(NUPARAM) = NFUNC
@@ -275,7 +275,7 @@ C
       PARMAT(3) = NU
 C      
       IF(ISTIF > 0) THEN
-        C1=EMAX/TROIS/(UN - DEUX*NU)
+        C1=EMAX/THREE/(ONE - TWO*NU)
         PARMAT(1) = C1
         PARMAT(2) = EMAX 
       ENDIF
@@ -284,7 +284,7 @@ C
       PARMAT(5) = FCUT
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) = (UN-DEUX*NU)/(UN-NU)
+      PARMAT(17) = (ONE-TWO*NU)/(ONE-NU)
 C
       NUVAR = 10 + 6
       ISRATE = 1

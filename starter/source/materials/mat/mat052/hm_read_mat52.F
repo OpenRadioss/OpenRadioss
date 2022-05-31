@@ -143,8 +143,8 @@ C=======================================================================
       PM(1) = RHOR
       PM(89)= RHO0
       
-      G = UNDEMI*E/(1.+NU)
-      C1 = E / TROIS / (UN - DEUX*NU)
+      G = HALF*E/(1.+NU)
+      C1 = E / THREE / (ONE - TWO*NU)
       IF( CSD > ZERO .AND. VISP > ZERO  .AND. FCUT == ZERO) THEN
            CALL ANCMSG(MSGID=1220,
      .                MSGTYPE=MSGWARNING,
@@ -155,8 +155,8 @@ C=======================================================================
       IF (FCUT == ZERO) FCUT = INFINITY
       ISRATE = 1  
       IF(ITABLE(1) /= 0) NTABLE = 1     
-      IF(XFAC == ZERO) XFAC = UN
-      IF(YFAC == ZERO) YFAC  = UN          
+      IF(XFAC == ZERO) XFAC = ONE
+      IF(YFAC == ZERO) YFAC  = ONE          
 C.....
 Ccheck of the parameters compatibily FI<Fc<FF
 C
@@ -177,7 +177,7 @@ C
       UPARAM(5)= N
       IF(CSD == ZERO) CSD = INFINITY
       UPARAM(6)= CSD
-      IF(VISP == ZERO)VISP=UN          
+      IF(VISP == ZERO)VISP=ONE          
       VISP=1/VISP
       UPARAM(7)=VISP
       UPARAM(8)=Q1
@@ -190,7 +190,7 @@ C
       UPARAM(15)=FC
       UPARAM(16)=FF
       IF(Q1 == ZERO)Q1=EM20
-      FU=UN/Q1
+      FU=ONE/Q1
       UPARAM(17)=FU
       UPARAM(18)=IFLAG
       UPARAM(19) = ISRATE 
@@ -210,7 +210,7 @@ C
        NUVAR = 6
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) = (UN - DEUX*NU)/(UN + NU)
+      PARMAT(17) = (ONE - TWO*NU)/(ONE + NU)
       
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1

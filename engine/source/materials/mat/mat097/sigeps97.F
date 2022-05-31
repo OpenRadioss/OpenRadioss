@@ -198,15 +198,15 @@ c        !--------------------------------!
 c        ! Calculation of BFRAC in [0,1]  !
 c        !--------------------------------!
 c        XL = DELTAX(I)  !VOLN(I)**THIRD
-c        IF(BFRAC(I) < UN) THEN
+c        IF(BFRAC(I) < ONE) THEN
 c         TB = - TBURN(I)
 c         BFRAC(I) = ZERO
-c         IF(IBFRAC/=1 .AND. TIME > TB) BFRAC(I) = D*(TIME-TB)*DTIERS/XL 
-c         IF(IBFRAC/=2) BFRAC(I)  = MAX( BFRAC(I) , BHE * (UN - RHO0(I)/RHO(I)) )
+c         IF(IBFRAC/=1 .AND. TIME > TB) BFRAC(I) = D*(TIME-TB)*TWO_THIRD/XL 
+c         IF(IBFRAC/=2) BFRAC(I)  = MAX( BFRAC(I) , BHE * (ONE - RHO0(I)/RHO(I)) )
 c         IF(BFRAC(I) < EM04) THEN
 c           BFRAC(I) = ZERO
-c         ELSEIF(BFRAC(I) > UN) THEN
-c           BFRAC(I) = UN
+c         ELSEIF(BFRAC(I) > ONE) THEN
+c           BFRAC(I) = ONE
 c         ENDIF
 c        ENDIF
 c        !--------------------------------!
@@ -227,7 +227,7 @@ c     .                + B2*ER2V*( (-W1/DF/R2) + R2*DF - W1)
 c     .                + DR1V  +   (P + PSH)*W1
 c        SSP           = SSP * DF 
 c        SSP           = SQRT(ABS(SSP)/RHO0(I))
-c        SSP           = MAX(SSP,D*(UN-BFRAC(I)))
+c        SSP           = MAX(SSP,D*(ONE-BFRAC(I)))
 c        QA            = GEO(14,PID(I))
 c        QB            = GEO(15,PID(I))
 c        DD            = -EPSPXX(I)-EPSPYY(I)-EPSPZZ(I)
@@ -240,7 +240,7 @@ c        viscmax(I) = zero
 c        !QNEW(I) = zero !QOLD(I)
 c        VOLD          = UVAR(I,4)
 c        POLD          = -UVAR(I,5)
-c        DVOL          = UNDEMI*(VOLN(I)-VOLD)        
+c        DVOL          = HALF*(VOLN(I)-VOLD)        
 c        EINC          = DVOL*(POLD-PSH-QOLD(I)-QNEW(I))
 c        !EINT(I)       = EINT(I)+EINC      
 c        QOLD(I)       = QNEW(I)
@@ -248,7 +248,7 @@ c        VOLO          = VOLN(I)/DF
 c        ESPE          = (EINT(I)+EINC)/MAX(EM20,VOLO)
 c        W1DF          = BFRAC(I)*W1/DF
 c        FACM          = BFRAC(I)*(WDR1V*ER1V+WDR2V*ER2V) 
-c        PNEW          = P0 - PSH + (FACM+ESPE*W1DF)/(UN +W1DF*DVOL/MAX(EM20,VOLO))
+c        PNEW          = P0 - PSH + (FACM+ESPE*W1DF)/(ONE +W1DF*DVOL/MAX(EM20,VOLO))
 c        PNEW          = MAX(ZERO - PSH, PNEW)*OFF(I)
 c        EINC          = EINC-(PNEW + PSH)*DVOL
 c       ! EINT(I)       = (EINT(I)-(PNEW + PSH)*DVOL)!/MAX(EM20,VOLN(I))
@@ -308,15 +308,15 @@ C-----------------------------------------------
         ! Calculation of BFRAC in [0,1]  !
         !--------------------------------!
         XL = DELTAX(I)  !VOLN(I)**THIRD
-        IF(BFRAC(I) < UN) THEN
+        IF(BFRAC(I) < ONE) THEN
          TB = - TBURN(I)
          BFRAC(I) = ZERO
-         IF(IBFRAC/=1 .AND. TIME > TB) BFRAC(I) = D*(TIME-TB)*DTIERS/XL 
-         IF(IBFRAC/=2) BFRAC(I)  = MAX( BFRAC(I) , BHE * (UN - RHO0(I)/RHO(I)) )
+         IF(IBFRAC/=1 .AND. TIME > TB) BFRAC(I) = D*(TIME-TB)*TWO_THIRD/XL 
+         IF(IBFRAC/=2) BFRAC(I)  = MAX( BFRAC(I) , BHE * (ONE - RHO0(I)/RHO(I)) )
          IF(BFRAC(I) < EM04) THEN
            BFRAC(I) = ZERO
-         ELSEIF(BFRAC(I) > UN) THEN
-           BFRAC(I) = UN
+         ELSEIF(BFRAC(I) > ONE) THEN
+           BFRAC(I) = ONE
          ENDIF
         ENDIF
         !--------------------------------!
@@ -363,13 +363,13 @@ C-----------------------------------------------
         RV4           = R(4)*vv
         RV5           = R(5)*vv
 
-        P1            = A(1)*(UN-LAMBDA/RV1)*EXP(-RV1)
-        P2            = A(2)*(UN-LAMBDA/RV2)*EXP(-RV2)
-        P3            = A(3)*(UN-LAMBDA/RV3)*EXP(-RV3)
-        P4            = A(4)*(UN-LAMBDA/RV4)*EXP(-RV4)
-        P5            = A(5)*(UN-LAMBDA/RV5)*EXP(-RV5)
+        P1            = A(1)*(ONE-LAMBDA/RV1)*EXP(-RV1)
+        P2            = A(2)*(ONE-LAMBDA/RV2)*EXP(-RV2)
+        P3            = A(3)*(ONE-LAMBDA/RV3)*EXP(-RV3)
+        P4            = A(4)*(ONE-LAMBDA/RV4)*EXP(-RV4)
+        P5            = A(5)*(ONE-LAMBDA/RV5)*EXP(-RV5)
         
-        P             = P1+P2+P3+P4+P5 + LAMBDA*ESPE/vv + C*(UN-LAMBDA/WW)*EXP((-WW-UN)*LOG(vv))
+        P             = P1+P2+P3+P4+P5 + LAMBDA*ESPE/vv + C*(ONE-LAMBDA/WW)*EXP((-WW-ONE)*LOG(vv))
          
         RHOC2_1       = A(1)*( (vv*DLDV-LAMBDA)/R(1) + R(1)*vv*vv - LAMBDA*vv )*EXP(-RV1)
         RHOC2_2       = A(2)*( (vv*DLDV-LAMBDA)/R(2) + R(2)*vv*vv - LAMBDA*vv )*EXP(-RV2)
@@ -377,10 +377,10 @@ C-----------------------------------------------
         RHOC2_4       = A(4)*( (vv*DLDV-LAMBDA)/R(4) + R(4)*vv*vv - LAMBDA*vv )*EXP(-RV4)
         RHOC2_5       = A(5)*( (vv*DLDV-LAMBDA)/R(5) + R(5)*vv*vv - LAMBDA*vv )*EXP(-RV5)
         
-        !EINC          = -UNDEMI*(UVAR(I,5)+P+PSH+PSH)*Dv
+        !EINC          = -HALF*(UVAR(I,5)+P+PSH+PSH)*Dv
         
         RHOC2         = RHOC2_1 + RHOC2_2 + RHOC2_3 + RHOC2_4 + RHOC2_5 
-        RHOC2         = RHOC2 + C*((WW+UN)*(UN-LAMBDA/WW)+vv*DLDV/WW)*EXP(-WW*LOG(vv)) 
+        RHOC2         = RHOC2 + C*((WW+ONE)*(ONE-LAMBDA/WW)+vv*DLDV/WW)*EXP(-WW*LOG(vv)) 
         !RHOC2         = RHOC2 + (ESPE+EINC)*LAMBDA + LAMBDA*vv*P - (ESPE+EINC)*vv*DLDV
         RHOC2         = RHOC2 + (ESPE)*LAMBDA + LAMBDA*vv*(P+PSH) - (ESPE)*vv*DLDV         
 
@@ -395,18 +395,18 @@ C-----------------------------------------------
         QNEW(I)       = VISCMAX(I)*MAX(ZERO,DD)
         !viscmax(I)    = zero
         
-        DENOM         = (UN+UNDEMI*Dv*LAMBDA/vv) 
-        DENOM         = UN/DENOM
+        DENOM         = (ONE+HALF*Dv*LAMBDA/vv) 
+        DENOM         = ONE/DENOM
         
         !CURRENT PRESSURE
-        PNEW          = P - LAMBDA/vv*UNDEMI*(UVAR(I,5)+PSH)*Dv
+        PNEW          = P - LAMBDA/vv*HALF*(UVAR(I,5)+PSH)*Dv
         PNEW          = DENOM * PNEW
-        PNEW          = (UN-BFRAC(I))*P0 + BFRAC(I)*PNEW      
+        PNEW          = (ONE-BFRAC(I))*P0 + BFRAC(I)*PNEW      
         PNEW          = MAX(-PSH, PNEW-PSH)*OFF(I)
         
         !CURRENT ENERGY
         !POLD          = UVAR(I,5)
-        DVOL          = UNDEMI*(VOLN(I)-UVAR(I,4))        
+        DVOL          = HALF*(VOLN(I)-UVAR(I,4))        
         !EINC          = DVOL*(-PNEW-PSH-POLD-PSH-QOLD(I)-QNEW(I))
         EINT(I)        = EINT(I) - (PSH+PSH)*DVOL
         

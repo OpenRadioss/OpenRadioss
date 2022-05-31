@@ -88,7 +88,7 @@ C---------------------------------------------
        N1=NSEG(J)
        DO 250 JJ=N1,N2
         LL=LNSV(JJ)
-        STFN(J)=STFN(J)+QUART*STF(LL)
+        STFN(J)=STFN(J)+FOURTH*STF(LL)
   250  CONTINUE
   300  CONTINUE
        IER=0

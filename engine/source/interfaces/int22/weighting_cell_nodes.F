@@ -88,7 +88,7 @@ C-----------------------------------------------
         DO J=1,3
          IFAC      = iFacesFromNode(I,J)      
          !IF(RATIO(IFAC)==ZERO)CYCLE
-         NFAC(I)   = NFAC(I) + UN
+         NFAC(I)   = NFAC(I) + ONE
          ALPHA(I)  = ALPHA(I) + RATIO(IFAC)
         ENDDO!next J
         IF(NFAC(I).GT.ZERO)ALPHA(I) = ALPHA(I) / NFAC(I)

@@ -104,11 +104,11 @@ C-----------------------------------------------
 C--------------------------------------------------
       IF (RHOR == ZERO ) RHOR=RHO0
 
-      G=YOUNG/(DEUX*(UN+ANU))
+      G=YOUNG/(TWO*(ONE+ANU))
       C0=ZERO
-      C1=YOUNG/(TROIS*(UN-DEUX*ANU))
+      C1=YOUNG/(THREE*(ONE-TWO*ANU))
       E0=ZERO
-      E1MN2=YOUNG/(UN-ANU**2)
+      E1MN2=YOUNG/(ONE-ANU**2)
       EN1N2=ANU*E1MN2
       SDSP =SQRT(YOUNG/MAX(RHOR,EM20))
       ISRATE = 0

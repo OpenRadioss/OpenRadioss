@@ -275,7 +275,7 @@ C
          STIF=STIF*G
         ELSE
          FX= F+XC*DEPS
-         G = UN
+         G = ONE
         ENDIF
 C-------
         STIF=STIF*L/L0
@@ -331,7 +331,7 @@ C-------
      .       + VPREV(3) * (VEL(3,K+1) - VEL(3,K))
          UVARN(MB2+K-1)=UVARN(MB2+K-1)
 C tous les brins ont la meme longueur correspond a :
-     .       +STIF*(DT*DDX*(XN-UN)/MAX(EM15,L)-EPSMOY)
+     .       +STIF*(DT*DDX*(XN-ONE)/MAX(EM15,L)-EPSMOY)
         ENDDO
 C-------
 C
@@ -351,15 +351,15 @@ C          default pulley friction.
            IF (MU.GE.ZERO) FRIC=MU
            MU  = GET_U_GEO(525+K-1,IPROP)
            IF (MU.GE.ZERO) THEN 
-             FRIC=FRIC + UNDEMI*MU
+             FRIC=FRIC + HALF*MU
            ELSE
-             FRIC=FRIC + UNDEMI*MU2
+             FRIC=FRIC + HALF*MU2
            ENDIF
            MU  = GET_U_GEO(525+K,IPROP)
            IF (MU.GE.ZERO) THEN 
-             FRIC=FRIC+UNDEMI*MU
+             FRIC=FRIC+HALF*MU
            ELSE
-             FRIC=FRIC + UNDEMI*MU2
+             FRIC=FRIC + HALF*MU2
            ENDIF
 C
            VPREV(1)=TORQ(1,K-1)
@@ -369,18 +369,18 @@ C
            VNEXT(2)=-TORQ(2,K)
            VNEXT(3)=-TORQ(3,K)
            ALPHA=VPREV(1)*VNEXT(1)+VPREV(2)*VNEXT(2)+VPREV(3)*VNEXT(3)
-           ALPHA = MIN(ALPHA,UN)
-           ALPHA = MAX(ALPHA,-UN)
+           ALPHA = MIN(ALPHA,ONE)
+           ALPHA = MAX(ALPHA,-ONE)
            BETA  = PI-ACOS(ALPHA)
 C
-           FF   = DEUX*FX+STIFR(K-1)+STIFR(K)
-           FMAX = MAX(ZERO,FF*TANH(UNDEMI*FRIC*BETA))
+           FF   = TWO*FX+STIFR(K-1)+STIFR(K)
+           FMAX = MAX(ZERO,FF*TANH(HALF*FRIC*BETA))
            DFS  = STIFR(K-1)-STIFR(K)
            IF(ABS(DFS).GT.FMAX)THEN
              DF =SIGN(ABS(DFS)-FMAX,DFS)
 C            tous les brins ont la meme longueur correspond a :
-             UVARN(MB2+K-2)=UVARN(MB2+K-2)-UNDEMI*DF
-             UVARN(MB2+K-1)=UVARN(MB2+K-1)+UNDEMI*DF
+             UVARN(MB2+K-2)=UVARN(MB2+K-2)-HALF*DF
+             UVARN(MB2+K-1)=UVARN(MB2+K-1)+HALF*DF
              ECHANGE=1
            END IF
        END DO
@@ -435,7 +435,7 @@ C-----------------------------------------------
         DO K=1,NX-1
          UVARN(MB4+K-1)=MASS(K)-UVARN(MB3+K-1)
          UVARN(MB5+K-1)=UVARN(MB5+K-1)
-     .    + UNDEMI*(UVARN(MB4+K-1)-XINER(K))
+     .    + HALF*(UVARN(MB4+K-1)-XINER(K))
      .        *(FX+FXOLD+UVARN(MB2+K-1)+VISCR(K))
         ENDDO
 C       return internal energy of element.
@@ -516,7 +516,7 @@ C
          VISCM(1) =(F*DGDX+XC)*L/(MAX(EM15,MASS(1))*L0)
          STIFM(1) =STIF*(NX-1)/MAX(EM15,L)
          DO K=2,NX-1
-          FACT     =UN/MAX(EM15,MASS(K-1))+UN/MAX(EM15,MASS(K))
+          FACT     =ONE/MAX(EM15,MASS(K-1))+ONE/MAX(EM15,MASS(K))
           VISCM(K) =FACT*(F*DGDX+XC)*L/L0
           STIFM(K) =2.*STIF*(NX-1)/MAX(EM15,L)
          ENDDO

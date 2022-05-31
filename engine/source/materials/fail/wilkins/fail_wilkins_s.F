@@ -171,9 +171,9 @@ c         yp= 3 x^2 + c
          E42 = E4*E4
          E52 = E5*E5
          E62 = E6*E6
-         C = - UNDEMI * (E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
+         C = - HALF * (E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
          D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
-     &       - DEUX*E4*E5*E6 
+     &       - TWO*E4*E5*E6 
          CC1 = C*THIRD
          S1 = SQRT(-CC1)
          EPST2 = S1 * S1
@@ -182,41 +182,41 @@ c         yp= 3 x^2 + c
           S1 = 1.75 * S1
           EPST2 = S1 * S1
           Y = (EPST2 + C)* S1 + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)S1 = S1 - Y/YP
           EPST2 = S1 * S1
           Y = (EPST2 + C)* S1 + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)S1 = S1 - Y/YP
           EPST2 = S1 * S1
           Y = (EPST2 + C)* S1 + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)S1 = S1 - Y/YP
           EPST2 = S1 * S1
           Y = (EPST2 + C)* S1 + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)S1 = S1 - Y/YP
          ENDIF
           B = S1
           C = C + S1**2 
-          S2 = UNDEMI*(-S1 + SQRT(MAX(ZERO,(S1**2 - QUATRE*C))))
-          SS = UNDEMI*(-S1 - SQRT(MAX(ZERO,(S1**2 - QUATRE*C))))
+          S2 = HALF*(-S1 + SQRT(MAX(ZERO,(S1**2 - FOUR*C))))
+          SS = HALF*(-S1 - SQRT(MAX(ZERO,(S1**2 - FOUR*C))))
           S3 = SS
           IF(SS.GT.S2)THEN
            S3 = S2
            S2 = SS
           ENDIF 
-          A=UN
+          A=ONE
           IF(S1.NE.ZERO.AND.S3.EQ.ZERO) A =  S2/S1
           IF(S1.EQ.ZERO.AND.S3.NE.ZERO) A =  S2/S3
           IF(S1.NE.ZERO.AND.S3.NE.ZERO)
      .      A = MAX(S2/S3, S2/S1) 
-          W2 = MAX(EM20,(DEUX - A))**BE
-          W1 =  UN - P/PC
-          W1 = (MAX(EM20,UN/W1))**AL
+          W2 = MAX(EM20,(TWO - A))**BE
+          W1 =  ONE - P/PC
+          W1 = (MAX(EM20,ONE/W1))**AL
           UVAR(I,1) = UVAR(I,1) + W1*W2*DPLA(I)
           IF(UVAR(I,1).GE.DC) THEN	  
-           OFF(I) = QCINQ
+           OFF(I) = FOUR_OVER_5
            IDEL7NOK = 1
            NINDX=NINDX+1
            INDX(NINDX)=I
@@ -241,7 +241,7 @@ Cc deviatoric will be vanished
        NINDX=0 
        NINDEX = 0 
        DO I=1,NEL
-        IF(IFLAG.EQ.2.AND.OFF(I).EQ.UN)THEN
+        IF(IFLAG.EQ.2.AND.OFF(I).EQ.ONE)THEN
          IF(UVAR(I,1).LT.DC)THEN
          P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
          E1 = SIGNXX(I) - P
@@ -259,9 +259,9 @@ c         yp= 3 x^2 + c
          E42 = E4*E4
          E52 = E5*E5
          E62 = E6*E6
-         C = - UNDEMI * (E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
+         C = - HALF * (E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
          D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
-     &       - DEUX*E4*E5*E6 
+     &       - TWO*E4*E5*E6 
          CC1 = C*THIRD
          S1 = SQRT(-CC1)
          EPST2 = S1 * S1
@@ -270,38 +270,38 @@ c         yp= 3 x^2 + c
           S1 = 1.75 * S1
           EPST2 = S1 * S1
           Y = (EPST2 + C)* S1 + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)S1 = S1 - Y/YP
           EPST2 = S1 * S1
           Y = (EPST2 + C)* S1 + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)S1 = S1 - Y/YP
           EPST2 = S1 * S1
           Y = (EPST2 + C)* S1 + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)S1 = S1 - Y/YP
           EPST2 = S1 * S1
           Y = (EPST2 + C)* S1 + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)S1 = S1 - Y/YP
          ENDIF 
           B = S1
           C = C + S1**2 
-          S2 = UNDEMI*(-S1 + SQRT(MAX(ZERO,(S1**2 - QUATRE*C))))
-          SS = UNDEMI*(-S1 - SQRT(MAX(ZERO,(S1**2 - QUATRE*C))))
+          S2 = HALF*(-S1 + SQRT(MAX(ZERO,(S1**2 - FOUR*C))))
+          SS = HALF*(-S1 - SQRT(MAX(ZERO,(S1**2 - FOUR*C))))
           S3 = SS
           IF(SS.GT.S2)THEN
            S3 = S2
            S2 = SS
           ENDIF 
-          A = UN
+          A = ONE
           IF(S1.NE.ZERO.AND.S3.EQ.ZERO) A =  S2/S1
           IF(S1.EQ.ZERO.AND.S3.NE.ZERO) A =  S2/S3
           IF(S1.NE.ZERO.AND.S3.NE.ZERO)
      .      A = MAX(S2/S3, S2/S1) 
-          W2 = MAX(EM20,(DEUX - A))**BE
-          W1 = UN - UN*P/PC
-          W1 = (MAX(EM20,UN/W1))**AL
+          W2 = MAX(EM20,(TWO - A))**BE
+          W1 = ONE - ONE*P/PC
+          W1 = (MAX(EM20,ONE/W1))**AL
           UVAR(I,1) = UVAR(I,1) + W1*W2*DPLA(I)      
           IF(UVAR(I,1).GE.DC) THEN	   
            NINDX=NINDX+1
@@ -337,7 +337,7 @@ C uvar> DC
       ENDIF       
 C-------------Maximum Damage storing for output : 0 < DFMAX < 1--------------
        DO I=1,NEL
-          DFMAX(I)= MIN(UN,MAX(DFMAX(I),UVAR(I,1)/DC))
+          DFMAX(I)= MIN(ONE,MAX(DFMAX(I),UVAR(I,1)/DC))
        ENDDO      
 C-----------------------------------------------
  1000 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER ',I10)

@@ -468,7 +468,7 @@ c                     REPERE ORTHOTROPE.
                        G23=ZERO
                        G31=ZERO
                        G32=ZERO
-                       G33=UN
+                       G33=ONE
                      END IF
 C                    MATRICE DE PASSAGE GLOBAL -> ORTHOTROPE.
                      T11=R11*G11+R12*G21+R13*G31
@@ -837,9 +837,9 @@ C SSP
 C SSP
                 WWA(239550)= LBUF%SSP(I)                                                      
                 IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP .NE. 0)THEN 
-                   VEL(1) = TMP_2(I,1)*UNHUIT!SUM(TMP(1,1:8))*UNHUIT              
-                   VEL(2) = TMP_2(I,2)*UNHUIT!SUM(TMP(2,1:8))*UNHUIT              
-                   VEL(3) = TMP_2(I,3)*UNHUIT!SUM(TMP(3,1:8))*UNHUIT   
+                   VEL(1) = TMP_2(I,1)*ONE_OVER_8!SUM(TMP(1,1:8))*ONE_OVER_8              
+                   VEL(2) = TMP_2(I,2)*ONE_OVER_8!SUM(TMP(2,1:8))*ONE_OVER_8              
+                   VEL(3) = TMP_2(I,3)*ONE_OVER_8!SUM(TMP(3,1:8))*ONE_OVER_8   
                    WWA(239547)= VEL(1)
                    WWA(239548)= VEL(2)
                    WWA(239549)= VEL(3)            
@@ -881,11 +881,11 @@ C---------------------------------------------------------------------------
                   WWA(239030 + 2) = STRAIN(2)
                   WWA(239030 + 1) = STRAIN(1)    
 c---------------------Rotation to the global system for EPSXX.. ------
-                  GAMA(1)=UN
+                  GAMA(1)=ONE
                   GAMA(2)=ZERO
                   GAMA(3)=ZERO
                   GAMA(4)=ZERO
-                  GAMA(5)=UN
+                  GAMA(5)=ONE
                   GAMA(6)=ZERO
 
                   CALL SROTA6(X,IXS(1,N),KCVT,
@@ -971,24 +971,24 @@ C-----------------------------------
                       DO IPT=1,NPT                                    
                         LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,IPT)  
                         IF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0) THEN
-                          STRAIN(1) = STRAIN(1) + LBUF%STRA(KK(1)+I)*UNHUIT
-                          STRAIN(2) = STRAIN(2) + LBUF%STRA(KK(2)+I)*UNHUIT
-                          STRAIN(3) = STRAIN(3) + LBUF%STRA(KK(3)+I)*UNHUIT
-                          STRAIN(4) = STRAIN(4) + LBUF%STRA(KK(4)+I)*UNHUIT
-                          STRAIN(5) = STRAIN(5) + LBUF%STRA(KK(5)+I)*UNHUIT
-                          STRAIN(6) = STRAIN(6) + LBUF%STRA(KK(6)+I)*UNHUIT
+                          STRAIN(1) = STRAIN(1) + LBUF%STRA(KK(1)+I)*ONE_OVER_8
+                          STRAIN(2) = STRAIN(2) + LBUF%STRA(KK(2)+I)*ONE_OVER_8
+                          STRAIN(3) = STRAIN(3) + LBUF%STRA(KK(3)+I)*ONE_OVER_8
+                          STRAIN(4) = STRAIN(4) + LBUF%STRA(KK(4)+I)*ONE_OVER_8
+                          STRAIN(5) = STRAIN(5) + LBUF%STRA(KK(5)+I)*ONE_OVER_8
+                          STRAIN(6) = STRAIN(6) + LBUF%STRA(KK(6)+I)*ONE_OVER_8
                         ENDIF
                       ENDDO
                     ELSE
                       DO IPT=1,NPT                                    
                         LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IPT,1,1)  
                         IF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0) THEN
-                          STRAIN(1) = STRAIN(1) + LBUF%STRA(KK(1)+I)*UNHUIT
-                          STRAIN(2) = STRAIN(2) + LBUF%STRA(KK(2)+I)*UNHUIT
-                          STRAIN(3) = STRAIN(3) + LBUF%STRA(KK(3)+I)*UNHUIT
-                          STRAIN(4) = STRAIN(4) + LBUF%STRA(KK(4)+I)*UNHUIT
-                          STRAIN(5) = STRAIN(5) + LBUF%STRA(KK(5)+I)*UNHUIT
-                          STRAIN(6) = STRAIN(6) + LBUF%STRA(KK(6)+I)*UNHUIT
+                          STRAIN(1) = STRAIN(1) + LBUF%STRA(KK(1)+I)*ONE_OVER_8
+                          STRAIN(2) = STRAIN(2) + LBUF%STRA(KK(2)+I)*ONE_OVER_8
+                          STRAIN(3) = STRAIN(3) + LBUF%STRA(KK(3)+I)*ONE_OVER_8
+                          STRAIN(4) = STRAIN(4) + LBUF%STRA(KK(4)+I)*ONE_OVER_8
+                          STRAIN(5) = STRAIN(5) + LBUF%STRA(KK(5)+I)*ONE_OVER_8
+                          STRAIN(6) = STRAIN(6) + LBUF%STRA(KK(6)+I)*ONE_OVER_8
                         ENDIF
                       ENDDO
                     ENDIF
@@ -1005,11 +1005,11 @@ C-----------------in global ref : EPSX............-----------
                         GAMA(5)=GBUF%GAMA(KK(5) + I)
                         GAMA(6)=GBUF%GAMA(KK(6) + I)
                      ELSE
-                        GAMA(1)=UN
+                        GAMA(1)=ONE
                         GAMA(2)=ZERO
                         GAMA(3)=ZERO
                         GAMA(4)=ZERO
-                        GAMA(5)=UN
+                        GAMA(5)=ONE
                         GAMA(6)=ZERO
                      END IF
 
@@ -1042,8 +1042,8 @@ c--------
                         STRAIN(J) = LBUF%STRA(KK(J)+I)
                       ENDDO
                       DO J= 4,6
-                        WWA(239030 + J) = LBUF%STRA(KK(J)+I)*UNDEMI
-                        STRAIN(J) = LBUF%STRA(KK(J)+I)*UNDEMI
+                        WWA(239030 + J) = LBUF%STRA(KK(J)+I)*HALF
+                        STRAIN(J) = LBUF%STRA(KK(J)+I)*HALF
                       ENDDO
 
                     ENDIF 
@@ -1061,11 +1061,11 @@ C-----------------in global ref : EPSX............-----------
                         GAMA(5)=GBUF%GAMA(KK(5) + I)
                         GAMA(6)=GBUF%GAMA(KK(6) + I)
                     ELSE
-                        GAMA(1)=UN
+                        GAMA(1)=ONE
                         GAMA(2)=ZERO
                         GAMA(3)=ZERO
                         GAMA(4)=ZERO
-                        GAMA(5)=UN
+                        GAMA(5)=ONE
                         GAMA(6)=ZERO
                     END IF
 
@@ -1113,9 +1113,9 @@ C---------------------------------------------------------------------------
                        EVAR_TMP(1) = LBUF%STRA(KK(1)+I)
                        EVAR_TMP(2) = LBUF%STRA(KK(2)+I)
                        EVAR_TMP(3) = LBUF%STRA(KK(3)+I)
-                       EVAR_TMP(4) = LBUF%STRA(KK(4)+I)*UNDEMI
-                       EVAR_TMP(5) = LBUF%STRA(KK(5)+I)*UNDEMI
-                       EVAR_TMP(6) = LBUF%STRA(KK(6)+I)*UNDEMI
+                       EVAR_TMP(4) = LBUF%STRA(KK(4)+I)*HALF
+                       EVAR_TMP(5) = LBUF%STRA(KK(5)+I)*HALF
+                       EVAR_TMP(6) = LBUF%STRA(KK(6)+I)*HALF
                       ENDIF
 
                       DO J = 1, 6                    
@@ -1135,11 +1135,11 @@ C                        STRAIN TENSOR IN GLOBAL SYSTEM
                                    GAMA(5)=-GAMA(2)
                                    GAMA(6)= GAMA(1)
                                  ELSE
-                                   GAMA(1)=UN
+                                   GAMA(1)=ONE
                                    GAMA(2)=ZERO
                                    GAMA(3)=ZERO
                                    GAMA(4)=ZERO
-                                   GAMA(5)=UN
+                                   GAMA(5)=ONE
                                    GAMA(6)=ZERO
                                  END IF
                            CASE (10)           
@@ -1151,11 +1151,11 @@ C                        STRAIN TENSOR IN GLOBAL SYSTEM
                                    GAMA(5)= GAMA(1)
                                    GAMA(6)= ZERO
                                  ELSE
-                                   GAMA(1)=UN
+                                   GAMA(1)=ONE
                                    GAMA(2)=ZERO
                                    GAMA(3)=ZERO
                                    GAMA(4)=ZERO
-                                   GAMA(5)=UN
+                                   GAMA(5)=ONE
                                    GAMA(6)=ZERO
                                  END IF
                            CASE (100)          
@@ -1167,11 +1167,11 @@ C                        STRAIN TENSOR IN GLOBAL SYSTEM
                                    GAMA(5)= ZERO
                                    GAMA(6)=-GAMA(1)
                                  ELSE
-                                   GAMA(1)=UN
+                                   GAMA(1)=ONE
                                    GAMA(2)=ZERO
                                    GAMA(3)=ZERO
                                    GAMA(4)=ZERO
-                                   GAMA(5)=UN
+                                   GAMA(5)=ONE
                                    GAMA(6)=ZERO
                                  END IF
                            END SELECT     
@@ -1185,11 +1185,11 @@ C                        STRAIN TENSOR IN GLOBAL SYSTEM
                              GAMA(5)=GBUF%GAMA(KK(5) + I)			
                              GAMA(6)=GBUF%GAMA(KK(6) + I)			
                            ELSE					   
-                             GAMA(1)=UN				   
+                             GAMA(1)=ONE				   
                              GAMA(2)=ZERO				   
                              GAMA(3)=ZERO				   
                              GAMA(4)=ZERO				   
-                             GAMA(5)=UN				   
+                             GAMA(5)=ONE				   
                              GAMA(6)=ZERO				   
                           END IF
 
@@ -1234,9 +1234,9 @@ c S33
                             WWA(1646+CPT+1) = LBUF%STRA(KK(1)+I)  ! NB13
                             WWA(1646+CPT+2) = LBUF%STRA(KK(2)+I)
                             WWA(1646+CPT+3) = LBUF%STRA(KK(3)+I)
-                            WWA(1646+CPT+4) = LBUF%STRA(KK(4)+I)*UNDEMI
-                            WWA(1646+CPT+5) = LBUF%STRA(KK(5)+I)*UNDEMI
-                            WWA(1646+CPT+6) = LBUF%STRA(KK(6)+I)*UNDEMI
+                            WWA(1646+CPT+4) = LBUF%STRA(KK(4)+I)*HALF
+                            WWA(1646+CPT+5) = LBUF%STRA(KK(5)+I)*HALF
+                            WWA(1646+CPT+6) = LBUF%STRA(KK(6)+I)*HALF
                          ELSE
                             WWA(1646+CPT+1)  =  ZERO
                             WWA(1646+CPT+2)  =  ZERO
@@ -1392,9 +1392,9 @@ C                         we can get just 60 average user variables
                              EVAR_TMP(1) = LBUF%STRA(KK(1)+I)
                              EVAR_TMP(2) = LBUF%STRA(KK(2)+I)
                              EVAR_TMP(3) = LBUF%STRA(KK(3)+I)
-                             EVAR_TMP(4) = LBUF%STRA(KK(4)+I)*UNDEMI
-                             EVAR_TMP(5) = LBUF%STRA(KK(5)+I)*UNDEMI
-                             EVAR_TMP(6) = LBUF%STRA(KK(6)+I)*UNDEMI                             
+                             EVAR_TMP(4) = LBUF%STRA(KK(4)+I)*HALF
+                             EVAR_TMP(5) = LBUF%STRA(KK(5)+I)*HALF
+                             EVAR_TMP(6) = LBUF%STRA(KK(6)+I)*HALF                             
                           ENDIF
                         ELSE
                           IF (ELBUF_TAB(NG)%BUFLY(1)%L_PLA > 0) THEN
@@ -1411,9 +1411,9 @@ C                         we can get just 60 average user variables
                              EVAR_TMP(1) = LBUF%STRA(KK(1)+I)
                              EVAR_TMP(2) = LBUF%STRA(KK(2)+I)
                              EVAR_TMP(3) = LBUF%STRA(KK(3)+I)
-                             EVAR_TMP(4) = LBUF%STRA(KK(4)+I)*UNDEMI
-                             EVAR_TMP(5) = LBUF%STRA(KK(5)+I)*UNDEMI
-                             EVAR_TMP(6) = LBUF%STRA(KK(6)+I)*UNDEMI                                                              
+                             EVAR_TMP(4) = LBUF%STRA(KK(4)+I)*HALF
+                             EVAR_TMP(5) = LBUF%STRA(KK(5)+I)*HALF
+                             EVAR_TMP(6) = LBUF%STRA(KK(6)+I)*HALF                                                              
                           ENDIF
                         ENDIF
                         ISPAU=ISPAU+1
@@ -1435,11 +1435,11 @@ C-----------------in global ref : SXIJK EPIJK............-----------
                                    GAMA(5)=-GAMA(2)
                                    GAMA(6)= GAMA(1)
                                  ELSE
-                                   GAMA(1)=UN
+                                   GAMA(1)=ONE
                                    GAMA(2)=ZERO
                                    GAMA(3)=ZERO
                                    GAMA(4)=ZERO
-                                   GAMA(5)=UN
+                                   GAMA(5)=ONE
                                    GAMA(6)=ZERO
                                  END IF
                            CASE (10)           
@@ -1451,11 +1451,11 @@ C-----------------in global ref : SXIJK EPIJK............-----------
                                    GAMA(5)= GAMA(1)
                                    GAMA(6)= ZERO
                                  ELSE
-                                   GAMA(1)=UN
+                                   GAMA(1)=ONE
                                    GAMA(2)=ZERO
                                    GAMA(3)=ZERO
                                    GAMA(4)=ZERO
-                                   GAMA(5)=UN
+                                   GAMA(5)=ONE
                                    GAMA(6)=ZERO
                                  END IF
                            CASE (100)          
@@ -1467,11 +1467,11 @@ C-----------------in global ref : SXIJK EPIJK............-----------
                                    GAMA(5)= ZERO
                                    GAMA(6)=-GAMA(1)
                                  ELSE
-                                   GAMA(1)=UN
+                                   GAMA(1)=ONE
                                    GAMA(2)=ZERO
                                    GAMA(3)=ZERO
                                    GAMA(4)=ZERO
-                                   GAMA(5)=UN
+                                   GAMA(5)=ONE
                                    GAMA(6)=ZERO
                                  END IF
                            END SELECT   
@@ -1486,11 +1486,11 @@ C-----------------in global ref : SXIJK EPIJK............-----------
                              GAMA(5)=GBUF%GAMA(KK(5) + I)			
                              GAMA(6)=GBUF%GAMA(KK(6) + I)			
                            ELSE					   
-                             GAMA(1)=UN				   
+                             GAMA(1)=ONE				   
                              GAMA(2)=ZERO				   
                              GAMA(3)=ZERO				   
                              GAMA(4)=ZERO				   
-                             GAMA(5)=UN				   
+                             GAMA(5)=ONE				   
                              GAMA(6)=ZERO				   
                            END IF
 
@@ -1595,9 +1595,9 @@ C-----------------in global ref : EPSXI............-----------
                           WWA(239036+IPT)=LBUF%STRA(KK(1)+I) 
                           WWA(239040+IPT)=LBUF%STRA(KK(2)+I)              
                           WWA(239044+IPT)=LBUF%STRA(KK(3)+I)    
-                          WWA(239048+IPT)=LBUF%STRA(KK(4)+I) *UNDEMI                           
-                          WWA(239052+IPT)=LBUF%STRA(KK(5)+I) *UNDEMI                            
-                          WWA(239056+IPT)=LBUF%STRA(KK(6)+I) *UNDEMI                                
+                          WWA(239048+IPT)=LBUF%STRA(KK(4)+I) *HALF                           
+                          WWA(239052+IPT)=LBUF%STRA(KK(5)+I) *HALF                            
+                          WWA(239056+IPT)=LBUF%STRA(KK(6)+I) *HALF                                
                       ENDIF  ! MTN
                     ENDDO    ! LOOP OVER NPT, ISOLNOD = 4 and Isrot =
 c     
@@ -1683,9 +1683,9 @@ C---------------------------------------------------------------------------
                         WWA(239036+IPT)=LBUF%STRA(KK(1)+I) 
                         WWA(239040+IPT)=LBUF%STRA(KK(2)+I)              
                         WWA(239044+IPT)=LBUF%STRA(KK(3)+I)    
-                        WWA(239048+IPT)=LBUF%STRA(KK(4)+I) *UNDEMI                           
-                        WWA(239052+IPT)=LBUF%STRA(KK(5)+I) *UNDEMI                           
-                        WWA(239056+IPT)=LBUF%STRA(KK(6)+I) *UNDEMI                                                  
+                        WWA(239048+IPT)=LBUF%STRA(KK(4)+I) *HALF                           
+                        WWA(239052+IPT)=LBUF%STRA(KK(5)+I) *HALF                           
+                        WWA(239056+IPT)=LBUF%STRA(KK(6)+I) *HALF                                                  
                       ENDIF                                
                     ELSEIF(MTE == 12 .OR. MTE == 14) THEN                                  
                       DO J = 1, 3                                          
@@ -1702,9 +1702,9 @@ C---------------------------------------------------------------------------
                         WWA(239036+IPT)=LBUF%STRA(KK(1)+I) 
                         WWA(239040+IPT)=LBUF%STRA(KK(2)+I)              
                         WWA(239044+IPT)=LBUF%STRA(KK(3)+I)    
-                        WWA(239048+IPT)=LBUF%STRA(KK(4)+I) *UNDEMI                            
-                        WWA(239052+IPT)=LBUF%STRA(KK(5)+I) *UNDEMI                           
-                        WWA(239056+IPT)=LBUF%STRA(KK(6)+I) *UNDEMI                                 
+                        WWA(239048+IPT)=LBUF%STRA(KK(4)+I) *HALF                            
+                        WWA(239052+IPT)=LBUF%STRA(KK(5)+I) *HALF                           
+                        WWA(239056+IPT)=LBUF%STRA(KK(6)+I) *HALF                                 
                     ENDIF  ! MTN
                   ENDDO    ! LOOP OVER NPT, ISOLNOD = 10
 c
@@ -1795,8 +1795,8 @@ C                         60 average user variable
                               WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)              
                             ENDDO
                             DO J = 4, 6                     
-                              STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)*UNDEMI/NPTG 
-                              WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)  *UNDEMI            
+                              STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)*HALF/NPTG 
+                              WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)  *HALF            
                             ENDDO
                           ENDIF
 c                          
@@ -1817,8 +1817,8 @@ c
                               WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)              
                             ENDDO
                             DO J = 4, 6                     
-                              STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)*UNDEMI/NPTG 
-                              WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)  *UNDEMI            
+                              STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)*HALF/NPTG 
+                              WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)  *HALF            
                             ENDDO
                           ENDIF
                         ENDIF
@@ -1857,11 +1857,11 @@ C-----------------in local ref : L_EPSX............-----------
                         GAMA(5)=GBUF%GAMA(KK(5) + I)
                         GAMA(6)=GBUF%GAMA(KK(6) + I)
                       ELSE
-                        GAMA(1)=UN
+                        GAMA(1)=ONE
                         GAMA(2)=ZERO
                         GAMA(3)=ZERO
                         GAMA(4)=ZERO
-                        GAMA(5)=UN
+                        GAMA(5)=ONE
                         GAMA(6)=ZERO
                       ENDIF
 
@@ -2005,8 +2005,8 @@ C                      just 60 average user variables
                           WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)                                 
                         ENDDO  
                         DO J= 4,6                             
-                          STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)*UNDEMI/NPT    
-                          WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)*UNDEMI                                 
+                          STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)*HALF/NPT    
+                          WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)*HALF                                 
                         ENDDO  
                       ENDIF                          
                     ELSE  ! mte < 28                                                  
@@ -2025,8 +2025,8 @@ C                      just 60 average user variables
                           WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)                                 
                         ENDDO  
                         DO J= 4,6                             
-                          STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)*UNDEMI/NPT    
-                          WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)*UNDEMI                                 
+                          STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)*HALF/NPT    
+                          WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)*HALF                                 
                         ENDDO                                 
                      ENDIF
                     ENDIF  ! mte < 28
@@ -2134,12 +2134,12 @@ C we can get just 9 user variables by integration point
                             WWA(889 + IUWWA + J) = MBUF%VAR(I+(J-1)*NEL)                       
                           ENDDO
                           IF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0) THEN
-                            STRAIN(1)=STRAIN(1) + LBUF%STRA(KK(1)+I)*UNHUIT
-                            STRAIN(2)=STRAIN(2) + LBUF%STRA(KK(2)+I)*UNHUIT
-                            STRAIN(3)=STRAIN(3) + LBUF%STRA(KK(3)+I)*UNHUIT
-                            STRAIN(4)=STRAIN(4) + LBUF%STRA(KK(4)+I)*UNHUIT
-                            STRAIN(5)=STRAIN(5) + LBUF%STRA(KK(5)+I)*UNHUIT
-                            STRAIN(6)=STRAIN(6) + LBUF%STRA(KK(6)+I)*UNHUIT                                  
+                            STRAIN(1)=STRAIN(1) + LBUF%STRA(KK(1)+I)*ONE_OVER_8
+                            STRAIN(2)=STRAIN(2) + LBUF%STRA(KK(2)+I)*ONE_OVER_8
+                            STRAIN(3)=STRAIN(3) + LBUF%STRA(KK(3)+I)*ONE_OVER_8
+                            STRAIN(4)=STRAIN(4) + LBUF%STRA(KK(4)+I)*ONE_OVER_8
+                            STRAIN(5)=STRAIN(5) + LBUF%STRA(KK(5)+I)*ONE_OVER_8
+                            STRAIN(6)=STRAIN(6) + LBUF%STRA(KK(6)+I)*ONE_OVER_8                                  
                           ENDIF
                         ENDIF
                       ENDDO
@@ -2159,7 +2159,7 @@ c
                         STRAIN(J) = LBUF%STRA(KK(J)+I)                  
                       ENDDO  
                       DO J= 4,6                     
-                        STRAIN(J) = LBUF%STRA(KK(J)+I) *UNDEMI                
+                        STRAIN(J) = LBUF%STRA(KK(J)+I) *HALF                
                       ENDDO  
                    ENDIF
                   ENDIF   ! NPT 
@@ -2183,11 +2183,11 @@ C-----------------in local ref : L_EPSX............-----------
                       GAMA(5)=GBUF%GAMA(KK(5) + I)
                       GAMA(6)=GBUF%GAMA(KK(6) + I)
                     ELSE
-                      GAMA(1)=UN
+                      GAMA(1)=ONE
                       GAMA(2)=ZERO
                       GAMA(3)=ZERO
                       GAMA(4)=ZERO
-                      GAMA(5)=UN
+                      GAMA(5)=ONE
                       GAMA(6)=ZERO
                     END IF
 

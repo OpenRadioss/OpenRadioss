@@ -98,7 +98,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), POINTER  :: LSN, LSN_XTRA
       my_real, DIMENSION(:), ALLOCATABLE :: MS_LOC,IN_LOC 
 C
-      TOL=UN+EM04
+      TOL=ONE+EM04
 C
       NSL = NPBY(2,NRB) ! Nombre total de noeuds SECONDARY 
       LSN => LPBY(NPBY(11,NRB)+1:NPBY(11,NRB)+NSL) ! Liste des noeuds SECONDARY
@@ -724,9 +724,9 @@ C----------------------------------------------------------------
           RBY(10,NRB) = RBY(1,NRB)
           RBY(11,NRB) = RBY(5,NRB)
           RBY(12,NRB) = RBY(9,NRB)
-          RBY(1,NRB) = UN
-          RBY(5,NRB) = UN
-          RBY(9,NRB) = UN
+          RBY(1,NRB) = ONE
+          RBY(5,NRB) = ONE
+          RBY(9,NRB) = ONE
         ELSE
           CALL INEPRI(RBY(10,NRB),RBY(1,NRB))
         ENDIF
@@ -1610,9 +1610,9 @@ C
         IF(N2D == 1) THEN
           RBY(11,NRB) = RBY(5,NRB)
           RBY(12,NRB) = RBY(9,NRB)
-          RBY(1,NRB) = UN
-          RBY(5,NRB) = UN
-          RBY(9,NRB) = UN
+          RBY(1,NRB) = ONE
+          RBY(5,NRB) = ONE
+          RBY(9,NRB) = ONE
         ELSE
           CALL INEPRI(RBY(10,NRB),RBY(1,NRB))
         ENDIF

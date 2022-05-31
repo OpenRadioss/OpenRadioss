@@ -72,7 +72,7 @@ C-----------------------------------------------
        E3X = RY * SZ - RZ * SY 
        E3Y = RZ * SX - RX * SZ 
        E3Z = RX * SY - RY * SX 
-       AREA(I) =QUART*SQRT(E3X*E3X + E3Y*E3Y + E3Z*E3Z)
+       AREA(I) =FOURTH*SQRT(E3X*E3X + E3Y*E3Y + E3Z*E3Z)
       END DO
       DO I=JFT,JLT
        MAT = IXC(1,I)
@@ -85,7 +85,7 @@ C
          XX= X(1,IXC(2,I))+X(1,IXC(3,I))+X(1,IXC(4,I))+X(1,IXC(5,I))
          YY= X(2,IXC(2,I))+X(2,IXC(3,I))+X(2,IXC(4,I))+X(2,IXC(5,I))
          ZZ= X(3,IXC(2,I))+X(3,IXC(3,I))+X(3,IXC(4,I))+X(3,IXC(5,I))
-         XMAS25 = QUART*XMAS(I)
+         XMAS25 = FOURTH*XMAS(I)
          MAS = MAS+XMAS(I)
          XC = XC + XMAS25*XX
          YC = YC + XMAS25*YY
@@ -146,7 +146,7 @@ C-----------------------------------------------
        E3X = RY * SZ - RZ * SY 
        E3Y = RZ * SX - RX * SZ 
        E3Z = RX * SY - RY * SX 
-       AREA(I) =UNDEMI*SQRT(E3X*E3X + E3Y*E3Y + E3Z*E3Z)
+       AREA(I) =HALF*SQRT(E3X*E3X + E3Y*E3Y + E3Z*E3Z)
       END DO
       DO I=JFT,JLT
        MAT = IXTG(1,I)

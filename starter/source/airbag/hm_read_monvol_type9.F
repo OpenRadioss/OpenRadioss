@@ -366,7 +366,7 @@ C     Reverse all normals to ensure positive volume
      .        I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE)
       END IF
       IF (TI == ZERO) THEN
-         TI = DEUXCENT95
+         TI = TWOHUNDRED95
       ENDIF
 !     Find material 
       T_MONVOLN%IVOLU(66) = 0
@@ -427,23 +427,23 @@ C     Default values
 C     ==============
       IF (SCAL_T == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('Ascalet', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_T = UN * FAC_GEN
+         SCAL_T = ONE * FAC_GEN
       ENDIF
       IF (SCAL_P == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleP', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_P = UN * FAC_GEN
+         SCAL_P = ONE * FAC_GEN
       ENDIF
       IF (SCAL_S == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleS', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_S = UN * FAC_GEN
+         SCAL_S = ONE * FAC_GEN
       ENDIF
       IF (SCAL_A == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleA', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_A = UN * FAC_GEN
+         SCAL_A = ONE * FAC_GEN
       ENDIF
       IF (SCAL_D == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleD', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         SCAL_D = UN * FAC_GEN
+         SCAL_D = ONE * FAC_GEN
       ENDIF
 
       IF (AMU == ZERO) AMU = EM02
@@ -456,13 +456,13 @@ C     ==============
       IF (NJET > 0) THEN
          DO II = 1, NJET
             IF (IJET(II) > 0) THEN
-               IF (FPT(II) == ZERO) FPT(II) = UN
-               IF (FPA(II) == ZERO) FPA(II) = UN
-               IF (FPZ(II) == ZERO) FPZ(II) = UN
+               IF (FPT(II) == ZERO) FPT(II) = ONE
+               IF (FPA(II) == ZERO) FPA(II) = ONE
+               IF (FPZ(II) == ZERO) FPZ(II) = ONE
             ELSE
-               FPT(II) = UN
-               FPA(II) = UN
-               FPZ(II) = UN
+               FPT(II) = ONE
+               FPA(II) = ONE
+               FPZ(II) = ONE
             ENDIF
          ENDDO
       ENDIF
@@ -473,19 +473,19 @@ C     ==============
             IF (IPVENT(II) == 0) THEN
                BVENT(II) = ZERO
             ENDIF
-            IF (FPORT(II)  == ZERO) FPORT(II) = UN
-            IF (FPORP(II)  == ZERO) FPORP(II) = UN
-            IF (FPORA(II)  == ZERO) FPORA(II) = UN
-            IF (FPORT1(II) == ZERO) FPORT1(II) = UN
-            IF (FPORP1(II) == ZERO) FPORP1(II) = UN
-            IF (FPORA1(II) == ZERO) FPORA1(II) = UN
+            IF (FPORT(II)  == ZERO) FPORT(II) = ONE
+            IF (FPORP(II)  == ZERO) FPORP(II) = ONE
+            IF (FPORA(II)  == ZERO) FPORA(II) = ONE
+            IF (FPORT1(II) == ZERO) FPORT1(II) = ONE
+            IF (FPORP1(II) == ZERO) FPORP1(II) = ONE
+            IF (FPORA1(II) == ZERO) FPORA1(II) = ONE
          ENDDO
       ENDIF
 !
       IF (NCA > 0) THEN
          DO II = 1, NCA
-            IF (COMM_FPORT(II) == ZERO) COMM_FPORT(II) = UN
-            IF (COMM_FPORP(II) == ZERO) COMM_FPORP(II) = UN
+            IF (COMM_FPORT(II) == ZERO) COMM_FPORT(II) = ONE
+            IF (COMM_FPORP(II) == ZERO) COMM_FPORP(II) = ONE
          ENDDO
       ENDIF
 C     =====
@@ -497,11 +497,11 @@ C     =====
       T_MONVOLN%IVOLU(17) = ITTF
 
       T_MONVOLN%RVOLU(19) = HCONV
-      T_MONVOLN%RVOLU(26) = UN / SCAL_T
-      T_MONVOLN%RVOLU(27) = UN / SCAL_P
-      T_MONVOLN%RVOLU(28) = UN / SCAL_S
-      T_MONVOLN%RVOLU(29) = UN / SCAL_A
-      T_MONVOLN%RVOLU(30) = UN / SCAL_D
+      T_MONVOLN%RVOLU(26) = ONE / SCAL_T
+      T_MONVOLN%RVOLU(27) = ONE / SCAL_P
+      T_MONVOLN%RVOLU(28) = ONE / SCAL_S
+      T_MONVOLN%RVOLU(29) = ONE / SCAL_A
+      T_MONVOLN%RVOLU(30) = ONE / SCAL_D
 
       T_MONVOLN%RVOLU(31) = PINI
       
@@ -559,8 +559,8 @@ C     =====
       T_MONVOLN%RVOLU(62) = RHOI
       T_MONVOLN%RVOLU(10) = RMWI
       TI2=TI*TI
-      ESPECI=TI*(CPAI+UNDEMI*CPBI*TI+THIRD*CPCI*TI2-RMWI)
-      ESPECI=ESPECI+QUART*CPDI*TI2*TI2-CPEI/TI+UNCINQ*CPFI*TI2*TI2*TI
+      ESPECI=TI*(CPAI+HALF*CPBI*TI+THIRD*CPCI*TI2-RMWI)
+      ESPECI=ESPECI+FOURTH*CPDI*TI2*TI2-CPEI/TI+ONE_FIFTH*CPFI*TI2*TI2*TI
       T_MONVOLN%RVOLU(63)= ESPECI+RMWI*TI
       T_MONVOLN%RVOLU(64)= ZERO
       T_MONVOLN%RVOLU(65)= ZERO
@@ -694,7 +694,7 @@ C     =====
                CALL ANCMSG(MSGID = 330, ANMODE = ANINFO, MSGTYPE = MSGERROR,
      .              I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE)
             ENDIF
-            IF (AVENT(II) == ZERO) AVENT(II) = UN
+            IF (AVENT(II) == ZERO) AVENT(II) = ONE
          ENDIF
          IF (AVENT(II) == ZERO) DPDEF(II) = INFINITY
          IF (AVENT(II) == ZERO) TVENT(II) = INFINITY
@@ -706,7 +706,7 @@ C     =====
          T_MONVOLN%RBAGHOL(3, II) = TVENT(II)
          T_MONVOLN%RBAGHOL(4, II) = DTPDEF(II)
          T_MONVOLN%RBAGHOL(6, II) = BVENT(II)
-         IF (IVDP(II) /= 0 .AND. FVDP(II) == ZERO) FVDP(II) = UN
+         IF (IVDP(II) /= 0 .AND. FVDP(II) == ZERO) FVDP(II) = ONE
          T_MONVOLN%RBAGHOL(13, II) = FVDP(II)
          IF (TSTOPE(II) == ZERO) TSTOPE(II) = INFINITY
          T_MONVOLN%RBAGHOL(14, II) = TSTOPE(II)
@@ -779,8 +779,8 @@ C
             IPVENT(NVENTHOLES + II) = 0
             IBLOCKAGE(NVENTHOLES + II) = 0
          ENDIF
-         IF (FPORT(NVENTHOLES + II)  == ZERO) FPORT(NVENTHOLES + II) = UN
-         IF (FPORA(NVENTHOLES + II)  == ZERO) FPORA(NVENTHOLES + II) = UN
+         IF (FPORT(NVENTHOLES + II)  == ZERO) FPORT(NVENTHOLES + II) = ONE
+         IF (FPORA(NVENTHOLES + II)  == ZERO) FPORA(NVENTHOLES + II) = ONE
          T_MONVOLN%RBAGHOL(7, NVENTHOLES + II) = FPORT(NVENTHOLES + II)
          T_MONVOLN%RBAGHOL(9, NVENTHOLES + II) = FPORA(NVENTHOLES + II)
 C     
@@ -817,7 +817,7 @@ C
          T_MONVOLN%RBAGHOL(3, NVENTHOLES + II) = TVENT(NVENTHOLES + II)
          T_MONVOLN%RBAGHOL(4, NVENTHOLES + II) = DTPDEF(NVENTHOLES + II)
          T_MONVOLN%RBAGHOL(6, NVENTHOLES + II) = CLEAK(NVENTHOLES + II)
-         IF (IVDP(NVENTHOLES + II) /= 0 .AND. FVDP(NVENTHOLES + II) == ZERO) FVDP=UN
+         IF (IVDP(NVENTHOLES + II) /= 0 .AND. FVDP(NVENTHOLES + II) == ZERO) FVDP=ONE
          T_MONVOLN%RBAGHOL(13, NVENTHOLES + II)=FVDP(NVENTHOLES + II)
          IF (TSTOPE(NVENTHOLES + II) == ZERO) TSTOPE(NVENTHOLES + II) = INFINITY
          T_MONVOLN%RBAGHOL(14, NVENTHOLES + II) = TSTOPE(NVENTHOLES + II)
@@ -890,7 +890,7 @@ C
      .              I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE, I2 = COMM_IPORP(II))
             ENDIF
             IF (COMM_IPVENT(II) /= 0) THEN
-               IF (COMM_AVENT(II) == ZERO) COMM_AVENT(II) = UN
+               IF (COMM_AVENT(II) == ZERO) COMM_AVENT(II) = ONE
                DO JJ = 1, NSURF
                   IF (COMM_IPVENT(II) == IGRSURF(JJ)%ID) THEN
                      T_MONVOL_METADATA%ICBAG(2, II + LCA) = JJ

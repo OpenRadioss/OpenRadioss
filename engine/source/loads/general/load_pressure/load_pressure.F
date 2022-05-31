@@ -173,36 +173,36 @@ C----------------
                   NY = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
                   NZ = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
                   IF(INORM == 1) THEN
-                     FX = AA*NX*UNHUIT
-                     FY = AA*NY*UNHUIT
-                     FZ = AA*NZ*UNHUIT
+                     FX = AA*NX*ONE_OVER_8
+                     FY = AA*NY*ONE_OVER_8
+                     FZ = AA*NZ*ONE_OVER_8
                   ELSEIF(INORM==2) THEN
                      NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
                      IF(ISK == 0) THEN
                         IF(IDIR == 1 ) THEN
-                           FX = AA*UNHUIT*NORM
+                           FX = AA*ONE_OVER_8*NORM
                            FY = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==2) THEN
-                           FY = AA*UNHUIT*NORM
+                           FY = AA*ONE_OVER_8*NORM
                            FX = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==3) THEN
-                           FZ = AA*UNHUIT*NORM
+                           FZ = AA*ONE_OVER_8*NORM
                            FX = ZERO
                            FY = ZERO
                         ENDIF
                      ELSE 
                         IF(IDIR == 1 ) THEN
-                           FX = AA*UNHUIT*NORM*SKEW(1,ISK)
+                           FX = AA*ONE_OVER_8*NORM*SKEW(1,ISK)
                            FY = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==2) THEN
-                           FY = AA*UNHUIT*NORM*SKEW(2,ISK)
+                           FY = AA*ONE_OVER_8*NORM*SKEW(2,ISK)
                            FX = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==3) THEN
-                           FZ = AA*UNHUIT*NORM*SKEW(3,ISK)
+                           FZ = AA*ONE_OVER_8*NORM*SKEW(3,ISK)
                            FX = ZERO
                            FY = ZERO
                         ENDIF
@@ -211,29 +211,29 @@ C----------------
    
                      IF(ISK == 0) THEN
                         IF(IDIR == 1 ) THEN
-                           FX = AA*UNHUIT*NX
+                           FX = AA*ONE_OVER_8*NX
                            FY = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==2) THEN
-                           FY = AA*UNHUIT*NY
+                           FY = AA*ONE_OVER_8*NY
                            FX = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==3) THEN
-                           FZ = AA*UNHUIT*NZ
+                           FZ = AA*ONE_OVER_8*NZ
                            FX = ZERO
                            FY = ZERO
                         ENDIF
                      ELSE 
                         IF(IDIR == 1 ) THEN
-                           FX = AA*UNHUIT*SKEW(1,ISK)*NX
+                           FX = AA*ONE_OVER_8*SKEW(1,ISK)*NX
                            FY = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==2) THEN
-                           FY = AA*UNHUIT*SKEW(2,ISK)*NY
+                           FY = AA*ONE_OVER_8*SKEW(2,ISK)*NY
                            FX = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==3) THEN
-                           FZ = AA*UNHUIT*SKEW(3,ISK)*NZ
+                           FZ = AA*ONE_OVER_8*SKEW(3,ISK)*NZ
                            FX = ZERO
                            FY = ZERO
                         ENDIF
@@ -295,36 +295,36 @@ C
                   NZ = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
 
                   IF(INORM == 1) THEN
-                     FX = AA*NX*UNSIX
-                     FY = AA*NY*UNSIX
-                     FZ = AA*NZ*UNSIX
+                     FX = AA*NX*ONE_OVER_6
+                     FY = AA*NY*ONE_OVER_6
+                     FZ = AA*NZ*ONE_OVER_6
                   ELSEIF(INORM==2) THEN
                      NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
                      IF(ISK == 0) THEN
                         IF(IDIR == 1 ) THEN
-                           FX = AA*UNSIX*NORM
+                           FX = AA*ONE_OVER_6*NORM
                            FY = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==2) THEN
-                           FY = AA*UNSIX*NORM
+                           FY = AA*ONE_OVER_6*NORM
                            FX = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==3) THEN
-                           FZ = AA*UNSIX*NORM
+                           FZ = AA*ONE_OVER_6*NORM
                            FX = ZERO
                            FY = ZERO
                         ENDIF
                      ELSE 
                         IF(IDIR == 1 ) THEN
-                           FX = AA*UNSIX*NORM*SKEW(1,ISK)
+                           FX = AA*ONE_OVER_6*NORM*SKEW(1,ISK)
                            FY = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==2) THEN
-                           FY = AA*UNSIX*NORM*SKEW(2,ISK)
+                           FY = AA*ONE_OVER_6*NORM*SKEW(2,ISK)
                            FX = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==3) THEN
-                           FZ = AA*UNSIX*NORM*SKEW(3,ISK)
+                           FZ = AA*ONE_OVER_6*NORM*SKEW(3,ISK)
                            FX = ZERO
                            FY = ZERO
                         ENDIF
@@ -333,29 +333,29 @@ C
    
                      IF(ISK == 0) THEN
                         IF(IDIR == 1 ) THEN
-                           IF(NX /= ZERO) FX = AA*UNSIX*NX
+                           IF(NX /= ZERO) FX = AA*ONE_OVER_6*NX
                            FY = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==2) THEN
-                           IF(NY /= ZERO) FY = AA*UNSIX*NY
+                           IF(NY /= ZERO) FY = AA*ONE_OVER_6*NY
                            FX = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==3) THEN
-                           IF(NZ /= ZERO) FZ = AA*UNSIX*NZ
+                           IF(NZ /= ZERO) FZ = AA*ONE_OVER_6*NZ
                            FX = ZERO
                            FY = ZERO
                         ENDIF
                      ELSE 
                         IF(IDIR == 1 ) THEN
-                           FX = AA*UNSIX*SKEW(1,ISK)*NX
+                           FX = AA*ONE_OVER_6*SKEW(1,ISK)*NX
                            FY = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==2) THEN
-                           FY = AA*UNSIX*SKEW(2,ISK)*NY
+                           FY = AA*ONE_OVER_6*SKEW(2,ISK)*NY
                            FX = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==3) THEN
-                           FZ = AA*UNSIX*SKEW(3,ISK)*NZ
+                           FZ = AA*ONE_OVER_6*SKEW(3,ISK)*NZ
                            FX = ZERO
                            FY = ZERO
                         ENDIF
@@ -508,36 +508,36 @@ C----------------
                   NY = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
                   NZ = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
                   IF(INORM == 1) THEN
-                     FX = AA*NX*UNHUIT
-                     FY = AA*NY*UNHUIT
-                     FZ = AA*NZ*UNHUIT
+                     FX = AA*NX*ONE_OVER_8
+                     FY = AA*NY*ONE_OVER_8
+                     FZ = AA*NZ*ONE_OVER_8
                   ELSEIF(INORM==2) THEN
                      NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
                      IF(ISK == 0) THEN
                         IF(IDIR == 1 ) THEN
-                           FX = AA*UNHUIT*NORM
+                           FX = AA*ONE_OVER_8*NORM
                            FY = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==2) THEN
-                           FY = AA*UNHUIT*NORM
+                           FY = AA*ONE_OVER_8*NORM
                            FX = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==3) THEN
-                           FZ = AA*UNHUIT*NORM
+                           FZ = AA*ONE_OVER_8*NORM
                            FX = ZERO
                            FY = ZERO
                         ENDIF
                      ELSE 
                         IF(IDIR == 1 ) THEN
-                           FX = AA*UNHUIT*NORM*SKEW(1,ISK)
+                           FX = AA*ONE_OVER_8*NORM*SKEW(1,ISK)
                            FY = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==2) THEN
-                           FY = AA*UNHUIT*NORM*SKEW(2,ISK)
+                           FY = AA*ONE_OVER_8*NORM*SKEW(2,ISK)
                            FX = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==3) THEN
-                           FZ = AA*UNHUIT*NORM*SKEW(3,ISK)
+                           FZ = AA*ONE_OVER_8*NORM*SKEW(3,ISK)
                            FX = ZERO
                            FY = ZERO
                         ENDIF
@@ -546,29 +546,29 @@ C----------------
    
                      IF(ISK == 0) THEN
                         IF(IDIR == 1 ) THEN
-                           FX = AA*UNHUIT*NX
+                           FX = AA*ONE_OVER_8*NX
                            FY = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==2) THEN
-                           FY = AA*UNHUIT*NY
+                           FY = AA*ONE_OVER_8*NY
                            FX = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==3) THEN
-                           FZ = AA*UNHUIT*NZ
+                           FZ = AA*ONE_OVER_8*NZ
                            FX = ZERO
                            FY = ZERO
                         ENDIF
                      ELSE 
                         IF(IDIR == 1 ) THEN
-                           FX = AA*UNHUIT*SKEW(1,ISK)*NX
+                           FX = AA*ONE_OVER_8*SKEW(1,ISK)*NX
                            FY = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==2) THEN
-                           FY = AA*UNHUIT*SKEW(2,ISK)*NY
+                           FY = AA*ONE_OVER_8*SKEW(2,ISK)*NY
                            FX = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==3) THEN
-                           FZ = AA*UNHUIT*SKEW(3,ISK)*NZ
+                           FZ = AA*ONE_OVER_8*SKEW(3,ISK)*NZ
                            FX = ZERO
                            FY = ZERO
                         ENDIF
@@ -635,36 +635,36 @@ C
                   NZ = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
 
                   IF(INORM == 1) THEN
-                     FX = AA*NX*UNSIX
-                     FY = AA*NY*UNSIX
-                     FZ = AA*NZ*UNSIX
+                     FX = AA*NX*ONE_OVER_6
+                     FY = AA*NY*ONE_OVER_6
+                     FZ = AA*NZ*ONE_OVER_6
                   ELSEIF(INORM==2) THEN
                      NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
                      IF(ISK == 0) THEN
                         IF(IDIR == 1 ) THEN
-                           FX = AA*UNSIX*NORM
+                           FX = AA*ONE_OVER_6*NORM
                            FY = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==2) THEN
-                           FY = AA*UNSIX*NORM
+                           FY = AA*ONE_OVER_6*NORM
                            FX = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==3) THEN
-                           FZ = AA*UNSIX*NORM
+                           FZ = AA*ONE_OVER_6*NORM
                            FX = ZERO
                            FY = ZERO
                         ENDIF
                      ELSE 
                         IF(IDIR == 1 ) THEN
-                           FX = AA*UNSIX*NORM*SKEW(1,ISK)
+                           FX = AA*ONE_OVER_6*NORM*SKEW(1,ISK)
                            FY = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==2) THEN
-                           FY = AA*UNSIX*NORM*SKEW(2,ISK)
+                           FY = AA*ONE_OVER_6*NORM*SKEW(2,ISK)
                            FX = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==3) THEN
-                           FZ = AA*UNSIX*NORM*SKEW(3,ISK)
+                           FZ = AA*ONE_OVER_6*NORM*SKEW(3,ISK)
                            FX = ZERO
                            FY = ZERO
                         ENDIF
@@ -673,29 +673,29 @@ C
    
                      IF(ISK == 0) THEN
                         IF(IDIR == 1 ) THEN
-                           IF(NX /= ZERO) FX = AA*UNSIX*NX
+                           IF(NX /= ZERO) FX = AA*ONE_OVER_6*NX
                            FY = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==2) THEN
-                           IF(NY /= ZERO) FY = AA*UNSIX*NY
+                           IF(NY /= ZERO) FY = AA*ONE_OVER_6*NY
                            FX = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==3) THEN
-                           IF(NZ /= ZERO) FZ = AA*UNSIX*NZ
+                           IF(NZ /= ZERO) FZ = AA*ONE_OVER_6*NZ
                            FX = ZERO
                            FY = ZERO
                         ENDIF
                      ELSE 
                         IF(IDIR == 1 ) THEN
-                           FX = AA*UNSIX*SKEW(1,ISK)*NX
+                           FX = AA*ONE_OVER_6*SKEW(1,ISK)*NX
                            FY = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==2) THEN
-                           FY = AA*UNSIX*SKEW(2,ISK)*NY
+                           FY = AA*ONE_OVER_6*SKEW(2,ISK)*NY
                            FX = ZERO
                            FZ = ZERO
                         ELSEIF(IDIR==3) THEN
-                           FZ = AA*UNSIX*SKEW(3,ISK)*NZ
+                           FZ = AA*ONE_OVER_6*SKEW(3,ISK)*NZ
                            FX = ZERO
                            FY = ZERO
                         ENDIF

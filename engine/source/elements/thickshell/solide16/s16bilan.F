@@ -103,10 +103,10 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-        VXA(I)=VXA(I)/TROIS
-        VYA(I)=VYA(I)/TROIS
-        VZA(I)=VZA(I)/TROIS
-        VA2(I)=VA2(I)/TROIS
+        VXA(I)=VXA(I)/THREE
+        VYA(I)=VYA(I)/THREE
+        VZA(I)=VZA(I)/THREE
+        VA2(I)=VA2(I)/THREE
       ENDDO
 C
       DO N=9,16
@@ -121,7 +121,7 @@ C
         ENDDO
       ENDDO
 C
-      FAC = TROIS/TRENTE2
+      FAC = THREE/THIRTY2
       DO I=LFT,LLT
         VXA(I)=VXA(I)*FAC
         VYA(I)=VYA(I)*FAC
@@ -132,7 +132,7 @@ C
       DO I=LFT,LLT
         XMAS(I)= FILL(I)*RHOG(I)*VOLG(I)
         EI(I)  = FILL(I)*EINTG(I)*VOL0G(I)
-        EK(I)  = XMAS(I)*VA2(I)*UNDEMI
+        EK(I)  = XMAS(I)*VA2(I)*HALF
         XM(I)  = XMAS(I)*VXA(I)
         YM(I)  = XMAS(I)*VYA(I)
         ZM(I)  = XMAS(I)*VZA(I)
@@ -141,7 +141,7 @@ C
       DO I=LFT,LLT
         M=IPARTS(I)
         PARTSAV(1,M)=PARTSAV(1,M) + FILL(I)*EINTG(I)*VOL0G(I)
-        PARTSAV(2,M)=PARTSAV(2,M) + XMAS(I)*VA2(I)*UNDEMI
+        PARTSAV(2,M)=PARTSAV(2,M) + XMAS(I)*VA2(I)*HALF
         PARTSAV(3,M)=PARTSAV(3,M) + XMAS(I)*VXA(I)
         PARTSAV(4,M)=PARTSAV(4,M) + XMAS(I)*VYA(I)
         PARTSAV(5,M)=PARTSAV(5,M) + XMAS(I)*VZA(I)
@@ -186,15 +186,15 @@ C
         ENDDO
 C
         DO I=LFT,LLT
-          XX(I)=XX(I)/TROIS
-          YY(I)=YY(I)/TROIS
-          ZZ(I)=ZZ(I)/TROIS
-          XY(I)=XY(I)/TROIS
-          YZ(I)=YZ(I)/TROIS
-          ZX(I)=ZX(I)/TROIS
-          XX2(I)=XX2(I)/TROIS
-          YY2(I)=YY2(I)/TROIS
-          ZZ2(I)=ZZ2(I)/TROIS
+          XX(I)=XX(I)/THREE
+          YY(I)=YY(I)/THREE
+          ZZ(I)=ZZ(I)/THREE
+          XY(I)=XY(I)/THREE
+          YZ(I)=YZ(I)/THREE
+          ZX(I)=ZX(I)/THREE
+          XX2(I)=XX2(I)/THREE
+          YY2(I)=YY2(I)/THREE
+          ZZ2(I)=ZZ2(I)/THREE
         ENDDO
 C
         DO N=9,16
@@ -214,7 +214,7 @@ C
           ENDDO
         ENDDO
 C
-        FAC = TROIS/TRENTE2
+        FAC = THREE/THIRTY2
         DO I=LFT,LLT
           XX(I)=XX(I)*FAC
           YY(I)=YY(I)*FAC
@@ -266,7 +266,7 @@ C
 C-----------------------------------------------
       IF (IGRE /= 0) THEN
           DO I=LFT,LLT
-            OFF(I)     = UN
+            OFF(I)     = ONE
           ENDDO
           CALL GRELEM_SAV(LFT   ,LLT   ,GRESAV,IGRTH ,GRTH  ,
      2                    OFF   ,EI    ,EK    ,XM    ,YM    ,
@@ -284,7 +284,7 @@ C
         ENDDO
       ENDIF
 
-      OFF_L(LFT:LLT) = UN
+      OFF_L(LFT:LLT) = ONE
       CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK) 
 C-----------
       RETURN

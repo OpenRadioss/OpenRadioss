@@ -131,22 +131,22 @@ C retrieve material parameters from the buffer
         NU  = UPARAM(IADBUF+1)
         SIGY0    = UPARAM(IADBUF+2)
         HM      = UPARAM(IADBUF+3)
-        G    = UNDEMI*E/(UN+NU)
+        G    = HALF*E/(ONE+NU)
         GS   = 5.D0/6.D0*G
-        BULK = E/(TROIS*(UN-DEUX*NU))
+        BULK = E/(THREE*(ONE-TWO*NU))
 C other derived material parameters
-        PA1  = E*(UN-NU)/(UN+NU)/(UN-DEUX*NU)
-        PA2  = E*NU/(UN+NU)/(UN-DEUX*NU)
+        PA1  = E*(ONE-NU)/(ONE+NU)/(ONE-TWO*NU)
+        PA2  = E*NU/(ONE+NU)/(ONE-TWO*NU)
         PA3  = G
-        PA4  = (UN+NU)*(UN-DEUX*NU)/(UN-NU**2)/(UN-NU)*PA1
-        PA5  = (UN+NU)*(UN-DEUX*NU)/(UN-NU**2)*PA2 
+        PA4  = (ONE+NU)*(ONE-TWO*NU)/(ONE-NU**2)/(ONE-NU)*PA1
+        PA5  = (ONE+NU)*(ONE-TWO*NU)/(ONE-NU**2)*PA2 
 C C1/C2/C3 are PM(28:30) [ref:sigeps02g]
-        C1 = UN/E
+        C1 = ONE/E
         C2 = -NU*C1
-        C3 = UN/G
+        C3 = ONE/G
 C
       DO I=1,NEL
-        THK08(I)= THK0(I)*UNDOUZE
+        THK08(I)= THK0(I)*ONE_OVER_12
         B1(I)   = PA1*THK08(I)
         B2(I)   = PA2*THK08(I)
         B3(I)   = PA3*THK08(I)
@@ -155,13 +155,13 @@ C
       ENDDO
 C
       DO I=1,NEL
-C        THKX(I) = UVAR(I,2)*(1+UNDEMI*DEPSZZ(I))/(1-UNDEMI*DEPSZZ(I))
-         THKX(I) = UVAR(I,2)*(1+UNDEMI*EZZAVG(I))/(1-UNDEMI*EZZAVG(I))
+C        THKX(I) = UVAR(I,2)*(1+HALF*DEPSZZ(I))/(1-HALF*DEPSZZ(I))
+         THKX(I) = UVAR(I,2)*(1+HALF*EZZAVG(I))/(1-HALF*EZZAVG(I))
 
         UVAR(I,2) = THKX(I)
         VOL(I) = AREAPINCH(I)*THKX(I)
         RHO(I) = UVAR(I,1)*RHO0(I)/VOL(I)
-        MU(I) = RHO(I)/RHO0(I)-UN
+        MU(I) = RHO(I)/RHO0(I)-ONE
         PNEW(I) = BULK*MU(I)
 C        print*, NGL(I),PNEW(I)
       ENDDO
@@ -182,9 +182,9 @@ C       calculate old pressure and old derivatoric stress
 C       calculate change in spherical strain = DD
         DD(I) = THIRD*(DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))
 C       update trial deviatoric stress to calculate trial deviatoric stress
-        SIGNDEVXX(I)=SIGODEVXX(I)+DEUX*G*(DEPSXX(I)-DD(I))
-        SIGNDEVYY(I)=SIGODEVYY(I)+DEUX*G*(DEPSYY(I)-DD(I))
-        SIGNDEVZZ(I)=SIGODEVZZ(I)+DEUX*G*(DEPSZZ(I)-DD(I))
+        SIGNDEVXX(I)=SIGODEVXX(I)+TWO*G*(DEPSXX(I)-DD(I))
+        SIGNDEVYY(I)=SIGODEVYY(I)+TWO*G*(DEPSYY(I)-DD(I))
+        SIGNDEVZZ(I)=SIGODEVZZ(I)+TWO*G*(DEPSZZ(I)-DD(I))
 C       shear stresses
         SIGNXY(I)=SIGOXY(I)+G*DEPSXY(I)
         SIGNYZ(I)=SIGOYZ(I)+GS*(DEPSYZ(I)+ZERO*DEPPYZ(I))
@@ -208,15 +208,15 @@ C     calculate equivalent stress 2D
       DO I=JFT,JLT
         MS = MOMNXX(I)+MOMNYY(I)
 C     theory manual (global plasticity algorithm)
-        UNSYEQ(I) = UN/
-     .    SQRT(MAX(SEIZE*(MS*MS + TROIS*(MOMNXY(I)*MOMNXY(I) - MOMNXX(I)*MOMNYY(I)))
-     .         +TROIS*UNDEMI*(SIGNDEVXX(I)**2+SIGNDEVYY(I)**2+SIGNDEVZZ(I)**2+DEUX*SIGNXY(I)**2),EM20))
+        UNSYEQ(I) = ONE/
+     .    SQRT(MAX(SIXTEEN*(MS*MS + THREE*(MOMNXY(I)*MOMNXY(I) - MOMNXX(I)*MOMNYY(I)))
+     .         +THREE*HALF*(SIGNDEVXX(I)**2+SIGNDEVYY(I)**2+SIGNDEVZZ(I)**2+TWO*SIGNXY(I)**2),EM20))
         SIGY = SIGY0 + HM*PLA(I)
-        RR(I)  = MIN(UN,SIGY*UNSYEQ(I))
+        RR(I)  = MIN(ONE,SIGY*UNSYEQ(I))
       ENDDO
 C
       DO I=JFT,JLT
-        IF (RR(I) < UN) THEN
+        IF (RR(I) < ONE) THEN
           HH(I) = ZERO
           ETSE(I) = ZERO
         ENDIF
@@ -246,7 +246,7 @@ C
           MOMNXY(I) = MOMNXY(I)*RR(I)
           D1 = MOMNXX(I)-MOMOXX(I)
           D2 = MOMNYY(I)-MOMOYY(I)
-          DWELF(I) = DOUZE*(
+          DWELF(I) = TWELVE*(
      .              (MOMNXX(I)+MOMOXX(I))*(C1*D1+C2*D2)
      .             +(MOMNYY(I)+MOMOYY(I))*(C2*D1+C1*D2)
      .             +(MOMNXY(I)+MOMOXY(I))*(C3*(MOMNXY(I)-MOMOXY(I))) )
@@ -260,7 +260,7 @@ C     delta of plastic work
       ENDDO
 C     equivalent plastic strain 
       DO I=JFT,JLT
-          DPLA(I) = MAX(ZERO,UNDEMI*DWPLA(I)/SIGY)
+          DPLA(I) = MAX(ZERO,HALF*DWPLA(I)/SIGY)
           PLA(I) = PLA(I) + DPLA(I)
       ENDDO  
       RETURN

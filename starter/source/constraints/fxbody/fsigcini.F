@@ -266,10 +266,10 @@ c=======================================================================
          A2(I)=PM(25,IM)
          IF (NPT > 1) THEN
             THK02=THK(I)*THK(I)
-            FAC1=DEUX*(UN+NU(I))*THK02
+            FAC1=TWO*(ONE+NU(I))*THK02
             ISH=NINT(GEO(37,IP))
             FSH=GEO(38,IP)
-            SHF=FSH*(UN-ISH+ISH*FAC1/(FSH*AREA(I)+FAC1))
+            SHF=FSH*(ONE-ISH+ISH*FAC1/(FSH*AREA(I)+FAC1))
          ELSE
             SHF=ZERO
          ENDIF
@@ -354,7 +354,7 @@ C
       ENDDO
 C
       DO I=JFT,JLT
-        FAC1  = UN/AREA(I)
+        FAC1  = ONE/AREA(I)
         EXX(I)=EXX(I)*FAC1
         EYY(I)=EYY(I)*FAC1
         EXY(I)=EXY(I)*FAC1
@@ -431,12 +431,12 @@ C
         KXY(I)= PY1(I)*RY13TA+PY2(I)*RY24TA
      +       -KXY(I)
 C
-        EZX(I)=EZX(I)+RYAVTA*(QUART*AREA(I))
-        EYZ(I)=EYZ(I)-RXAVTA*(QUART*AREA(I))
+        EZX(I)=EZX(I)+RYAVTA*(FOURTH*AREA(I))
+        EYZ(I)=EYZ(I)-RXAVTA*(FOURTH*AREA(I))
       ENDDO
 C
       DO I=JFT,JLT
-        FAC1  = UN/AREA(I)
+        FAC1  = ONE/AREA(I)
         EZX(I)=EZX(I)*FAC1
         EYZ(I)=EYZ(I)*FAC1
         KXX(I)=KXX(I)*FAC1

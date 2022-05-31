@@ -117,8 +117,8 @@ C=======================================================================
         CC(I)     =PM(50,IMATLY)
         EPDR(I)   =PM(51,IMATLY)
         ICC(I)    =NINT(PM(53,IMATLY))
-        IF (TT == ZERO) DAMT(I,1)=UN
-        IF (TT == ZERO) DAMT(I,2)=UN
+        IF (TT == ZERO) DAMT(I,1)=ONE
+        IF (TT == ZERO) DAMT(I,2)=ONE
       ENDDO
 C-------------------------------------------------------------------
 C     REDUCTION DE SIG SUR CRITERE WPLA_OLD >= WPLAMX
@@ -127,10 +127,10 @@ C-------------------------------------------------------------------
 C     DEFORMATIONS ELASTIQUES
 C-----------------------------
       DO I=JFT,JLT
-        DE1(I)=UN
-        DE2(I)=UN
-        SCALE =UN         
-        IF (DAMT(I,2) < UN) THEN
+        DE1(I)=ONE
+        DE2(I)=ONE
+        SCALE =ONE         
+        IF (DAMT(I,2) < ONE) THEN
            NU12(I)=EM20
            NU21(I)=EM20 
         ENDIF
@@ -152,11 +152,11 @@ C
       ENDDO
 C
       DO I=JFT,JLT
-        DE1(I)=UN
-        DE2(I)=UN
-        SCALE1=UN
-        SCALE2 = UN-NU12(I)*NU21(I)*SCALE1
-        IF (DAMT(I,2) < UN) THEN
+        DE1(I)=ONE
+        DE2(I)=ONE
+        SCALE1=ONE
+        SCALE2 = ONE-NU12(I)*NU21(I)*SCALE1
+        IF (DAMT(I,2) < ONE) THEN
            E22(I)=EM20
            NU12(I)=EM20
            NU21(I)=EM20           
@@ -191,8 +191,8 @@ C-------------------------------------------------------------------
       ENDDO
 C
       DO I=JFT,JLT
-        EPSP(I) = UN + CC(I) * EPSP(I)
-        FYLD(I) = (UN+CB(I)*WPLA(I)**CN(I))*EPSP(I)
+        EPSP(I) = ONE + CC(I) * EPSP(I)
+        FYLD(I) = (ONE+CB(I)*WPLA(I)**CN(I))*EPSP(I)
         IF (ICC(I) == 1 .OR. ICC(I) == 3) THEN
           FMAX(I) = FMAX(I)*EPSP(I)
         ENDIF
@@ -207,18 +207,18 @@ C-------------------------------------------------------------------
       DO I=JFT,JLT
         WVEC(I)=F1(I) *T1(I)       + F2(I) *T2(I) +
      .          F11(I)*T1(I)*T1(I) + F22(I)*T2(I)*T2(I) +
-     .          F33(I)*T3(I)*T3(I) + DEUX*F12(I)*T1(I)*T2(I)
+     .          F33(I)*T3(I)*T3(I) + TWO*F12(I)*T1(I)*T2(I)
       ENDDO
 C
       DO I=JFT,JLT
-        CNN=CN(I)-UN
+        CNN=CN(I)-ONE
         WVEC(I)=ZERO
         IF (WPLA(I) > ZERO .AND. FYLD(I) < FMAX(I)) 
      .      WVEC(I)=EPSP(I)*WPLA(I)**CNN
       ENDDO
 C
       DO I=JFT,JLT
-        BETA(I) = UN
+        BETA(I) = ONE
         SO1(I)=BETA(I)*SIGOXX(I)
         SO2(I)=BETA(I)*SIGOYY(I)
         SO3(I)=BETA(I)*SIGOXY(I)
@@ -242,7 +242,7 @@ C
         LAMDA(I)=LAMDA(I)*COEF(I)/
      .          (DP1(I)*(A11(I)*DP1(I)+A12(I)*DP2(I))+
      .           DP2(I)*(A12(I)*DP1(I)+A22(I)*DP2(I))+
-     .       DEUX*DP3(I)*G12(I)*DE1(I)*DE2(I)*DP3(I) +
+     .       TWO*DP3(I)*G12(I)*DE1(I)*DE2(I)*DP3(I) +
      .      (SO1(I)*DP1(I)+SO2(I)*DP2(I)+2.*SO3(I)*DP3(I))
      .       *CN(I)*CB(I)*WVEC(I))
       ENDDO
@@ -256,13 +256,13 @@ C
       DO I=JFT,JLT
         T1(I)=T1(I)-A11(I)*DP1(I)-A12(I)*DP2(I)
         T2(I)=T2(I)-A12(I)*DP1(I)-A22(I)*DP2(I)
-        T3(I)=T3(I)-G12(I)*DE1(I)*DE2(I)*DP3(I)*DEUX
+        T3(I)=T3(I)-G12(I)*DE1(I)*DE2(I)*DP3(I)*TWO
       ENDDO
 C
       DO I=JFT,JLT
-        WPLA(I)=WPLA(I)+UNDEMI*(DP1(I)*(T1(I)+SO1(I))+
+        WPLA(I)=WPLA(I)+HALF*(DP1(I)*(T1(I)+SO1(I))+
      .                          DP2(I)*(T2(I)+SO2(I))+
-     .                     DEUX*DP3(I)*(T3(I)+SO3(I)))
+     .                     TWO*DP3(I)*(T3(I)+SO3(I)))
         WPLA(I)= MAX(WPLA(I),ZERO) / WPLAREF(I)
       ENDDO
 C

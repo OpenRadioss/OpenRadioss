@@ -76,7 +76,7 @@ C---------------------------------------------------------------------
         IFQ=NINT(PM(44,MAT))
         IF(IFQ.NE.0)THEN
          TFLU(I)=PM(60,MAT)*FV(IFQ)
-         XF(I)=UN
+         XF(I)=ONE
          IFIMP=1
         ELSE
          TFLU(I)=ZERO
@@ -134,9 +134,9 @@ C------------------------------------------
         N1X=(Y3(I)-Y1(I))*(Z2(I)-Z4(I)) - (Z3(I)-Z1(I))*(Y2(I)-Y4(I))
         N1Y=(Z3(I)-Z1(I))*(X2(I)-X4(I)) - (X3(I)-X1(I))*(Z2(I)-Z4(I))
         N1Z=(X3(I)-X1(I))*(Y2(I)-Y4(I)) - (Y3(I)-Y1(I))*(X2(I)-X4(I))
-        AREA  = UNDEMI * SQRT(N1X**2+N1Y**2+N1Z**2)
-        T(II) = (UN-XF(I))*T(II) + XF(I)*T(JVOIS(I))
-     1  - AREA*TFLU(I)*UNDEMI*(COEF(II)+COEF(JVOIS(I))) /
+        AREA  = HALF * SQRT(N1X**2+N1Y**2+N1Z**2)
+        T(II) = (ONE-XF(I))*T(II) + XF(I)*T(JVOIS(I))
+     1  - AREA*TFLU(I)*HALF*(COEF(II)+COEF(JVOIS(I))) /
      2   MAX(EM20,COEF(II)*COEF(JVOIS(I))*GRAD(JFACE(I),I))
       ENDDO
 

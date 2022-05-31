@@ -80,7 +80,7 @@ C
         PER_ADM = (DT(I)*SUMK_OLD - SUMM_OLD)/(MAX(EM20,TOTMAS))
         IF (I>1) THEN
           DO WHILE ((PER_ADM > SEUIL).AND.(COMPT<=NVAL))
-            TARGET_DT_TAB(COMPT) = DTSCA*SQRT(DEUX*(TOTMAS*SEUIL+SUMM_OLD)/MAX(EM20,SUMK_OLD))
+            TARGET_DT_TAB(COMPT) = DTSCA*SQRT(TWO*(TOTMAS*SEUIL+SUMM_OLD)/MAX(EM20,SUMK_OLD))
             COMPT = COMPT+1
             IF(COMPT<=NVAL) SEUIL = PER_ADM_TAB(COMPT)
           ENDDO
@@ -91,7 +91,7 @@ C
 C-- If thresold are not crossed target dt values must be computed for the last node
         IF (I==NNOD) THEN
           DO K=COMPT,NVAL
-            TARGET_DT_TAB(COMPT) = DTSCA*SQRT(DEUX*(TOTMAS*SEUIL+SUMM)/MAX(EM20,SUMK))
+            TARGET_DT_TAB(COMPT) = DTSCA*SQRT(TWO*(TOTMAS*SEUIL+SUMM)/MAX(EM20,SUMK))
             COMPT = COMPT+1
             SEUIL = PER_ADM_TAB(COMPT)
           ENDDO

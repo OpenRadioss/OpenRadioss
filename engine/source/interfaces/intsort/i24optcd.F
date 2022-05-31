@@ -101,7 +101,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       IG(1:MVSIZ) = 0
       IF (IRESP.EQ.1) THEN
-         PREC = (SEPT+UNDEMI)*EM06
+         PREC = (SEVEN+HALF)*EM06
       ELSE
          PREC = EM8
       ENDIF
@@ -240,13 +240,13 @@ C
            Z2=X(3,IX2(IS))
            Z3=X(3,IX3(IS))
            Z4=X(3,IX4(IS))
-           X0 = QUART*(X1+X2+X3+X4)
-           Y0 = QUART*(Y1+Y2+Y3+Y4)
-           Z0 = QUART*(Z1+Z2+Z3+Z4)
+           X0 = FOURTH*(X1+X2+X3+X4)
+           Y0 = FOURTH*(Y1+Y2+Y3+Y4)
+           Z0 = FOURTH*(Z1+Z2+Z3+Z4)
            XXX=MAX(X1,X2,X3,X4)-MIN(X1,X2,X3,X4)
            YYY=MAX(Y1,Y2,Y3,Y4)-MIN(Y1,Y2,Y3,Y4)
            ZZZ=MAX(Z1,Z2,Z3,Z4)-MIN(Z1,Z2,Z3,Z4)
-           CURV_MAX = UNDEMI * MAX(XXX,YYY,ZZZ)
+           CURV_MAX = HALF * MAX(XXX,YYY,ZZZ)
            VXI = V(1,IG(IS))
            VYI = V(2,IG(IS))
            VZI = V(3,IG(IS))
@@ -265,7 +265,7 @@ C
            VX=MAX(MAX(VX1,VX2,VX3,VX4)-VXI,VXI-MIN(VX1,VX2,VX3,VX4))
            VY=MAX(MAX(VY1,VY2,VY3,VY4)-VYI,VYI-MIN(VY1,VY2,VY3,VY4))
            VZ=MAX(MAX(VZ1,VZ2,VZ3,VZ4)-VZI,VZI-MIN(VZ1,VZ2,VZ3,VZ4))
-           VV = UNP01*MAX(VX,VY,VZ)
+           VV = ONEP01*MAX(VX,VY,VZ)
 c PMAX_GAP is not used here (node not in contact)
            TZINF = MAX(CURV_MAX+GAPV(IS),VV*DT1,EDGE_L(IS))
            TZINF = MAX(PREC,TZINF)
@@ -343,7 +343,7 @@ c secnd not in contact
              VZ4=V(3,IX4(IS))
              VZ=MAX(MAX(VZ1,VZ2,VZ3,VZ4)-VZI,VZI-MIN(VZ1,VZ2,VZ3,VZ4))
 c PMAX_GAP is not used here (node not in contact)
-             TZINF = MAX(GAPV(IS),UNP01*VZ*DT1,EDGE_L(IS))
+             TZINF = MAX(GAPV(IS),ONEP01*VZ*DT1,EDGE_L(IS))
              TZINF = MAX(PREC,TZINF)
              ZMIN = MIN(Z1,Z2,Z3,Z4)-TZINF
              ZMAX = MAX(Z1,Z2,Z3,Z4)+TZINF
@@ -397,7 +397,7 @@ c secnd not in contact
             VY4=V(2,IX4(IS))
             VY=MAX(MAX(VY1,VY2,VY3,VY4)-VYI,VYI-MIN(VY1,VY2,VY3,VY4))
 c PMAX_GAP is not used here (node not in contact)
-            TZINF = MAX(GAPV(IS),UNP01*VY*DT1,EDGE_L(IS))
+            TZINF = MAX(GAPV(IS),ONEP01*VY*DT1,EDGE_L(IS))
             TZINF = MAX(PREC,TZINF)
             YMIN = MIN(Y1,Y2,Y3,Y4)-TZINF
             YMAX = MAX(Y1,Y2,Y3,Y4)+TZINF
@@ -463,7 +463,7 @@ c secnd not in contact
             VX4=V(1,IX4(IS))
             VX=MAX(MAX(VX1,VX2,VX3,VX4)-VXI,VXI-MIN(VX1,VX2,VX3,VX4))
 c PMAX_GAP is not used here (node not in contact)
-            TZINF = MAX(GAPV(IS),UNP01*VX*DT1,EDGE_L(IS))
+            TZINF = MAX(GAPV(IS),ONEP01*VX*DT1,EDGE_L(IS))
             TZINF = MAX(PREC,TZINF)
             XMIN = MIN(X1,X2,X3,X4)-TZINF
             XMAX = MAX(X1,X2,X3,X4)+TZINF
@@ -545,13 +545,13 @@ c a faire     EDGE_L(IS)=EDGE_L2FI(NIN)%P(CAND_N(I)-NSN)
              Z2=X(3,IX2(IS))
              Z3=X(3,IX3(IS))
              Z4=X(3,IX4(IS))
-             X0 = QUART*(X1+X2+X3+X4)
-             Y0 = QUART*(Y1+Y2+Y3+Y4)
-             Z0 = QUART*(Z1+Z2+Z3+Z4)
+             X0 = FOURTH*(X1+X2+X3+X4)
+             Y0 = FOURTH*(Y1+Y2+Y3+Y4)
+             Z0 = FOURTH*(Z1+Z2+Z3+Z4)
              XXX=MAX(X1,X2,X3,X4)-MIN(X1,X2,X3,X4)
              YYY=MAX(Y1,Y2,Y3,Y4)-MIN(Y1,Y2,Y3,Y4)
              ZZZ=MAX(Z1,Z2,Z3,Z4)-MIN(Z1,Z2,Z3,Z4)
-             CURV_MAX = UNDEMI * MAX(XXX,YYY,ZZZ)
+             CURV_MAX = HALF * MAX(XXX,YYY,ZZZ)
              VXI = VFI(NIN)%P(1,II)
              VYI = VFI(NIN)%P(2,II)
              VZI = VFI(NIN)%P(3,II)
@@ -572,7 +572,7 @@ c a faire     EDGE_L(IS)=EDGE_L2FI(NIN)%P(CAND_N(I)-NSN)
              VZ=MAX(MAX(VZ1,VZ2,VZ3,VZ4)-VZI,VZI-MIN(VZ1,VZ2,VZ3,VZ4))
              VV = MAX(VX,VY,VZ)
 c PMAX_GAP is not used here (node not in contact)
-             TZINF = MAX(CURV_MAX+GAPV(IS),UNP01*VV*DT1,EDGE_L(IS))
+             TZINF = MAX(CURV_MAX+GAPV(IS),ONEP01*VV*DT1,EDGE_L(IS))
              TZINF = MAX(PREC,TZINF)
              XMIN = X0-TZINF
              YMIN = Y0-TZINF
@@ -648,7 +648,7 @@ c secnd not in contact
                VZ4=V(3,IX4(IS))                                          
                VZ=MAX(MAX(VZ1,VZ2,VZ3,VZ4)-VZI,VZI-MIN(VZ1,VZ2,VZ3,VZ4)) 
 c PMAX_GAP is not used here (node not in contact)
-               TZINF = MAX(GAPV(IS),UNP01*VZ*DT1,EDGE_L(IS))                         
+               TZINF = MAX(GAPV(IS),ONEP01*VZ*DT1,EDGE_L(IS))                         
                TZINF = MAX(PREC,TZINF)
                ZMIN = MIN(Z1,Z2,Z3,Z4)-TZINF                             
                ZMAX = MAX(Z1,Z2,Z3,Z4)+TZINF                             
@@ -702,7 +702,7 @@ c secnd not in contact
              VY4=V(2,IX4(IS))
              VY=MAX(MAX(VY1,VY2,VY3,VY4)-VYI,VYI-MIN(VY1,VY2,VY3,VY4))
 c PMAX_GAP is not used here (node not in contact)
-             TZINF = MAX(GAPV(IS),UNP01*VY*DT1,EDGE_L(IS))
+             TZINF = MAX(GAPV(IS),ONEP01*VY*DT1,EDGE_L(IS))
              TZINF = MAX(PREC,TZINF)
              YMIN = MIN(Y1,Y2,Y3,Y4)-TZINF
              YMAX = MAX(Y1,Y2,Y3,Y4)+TZINF
@@ -767,7 +767,7 @@ c secnd not in contact
              VX4=V(1,IX4(IS))
              VX=MAX(MAX(VX1,VX2,VX3,VX4)-VXI,VXI-MIN(VX1,VX2,VX3,VX4))
 c PMAX_GAP is not used here (node not in contact)
-             TZINF = MAX(GAPV(IS),UNP01*VX*DT1,EDGE_L(IS))
+             TZINF = MAX(GAPV(IS),ONEP01*VX*DT1,EDGE_L(IS))
              TZINF = MAX(PREC,TZINF)
              XMIN = MIN(X1,X2,X3,X4)-TZINF
              XMAX = MAX(X1,X2,X3,X4)+TZINF

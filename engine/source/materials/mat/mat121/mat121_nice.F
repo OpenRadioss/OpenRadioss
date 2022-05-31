@@ -99,7 +99,7 @@ c
       ! Flags for computation
       Ivisc        = NINT(UPARAM(12)) ! Viscosity formulation      
       ! Strain-rate filtering (if Ivisc = 0)
-      AFILTR       = MIN(UN, UPARAM(14)*TIMESTEP)
+      AFILTR       = MIN(ONE, UPARAM(14)*TIMESTEP)
       ! Initial yield stress vs strain-rate curve
       Xscale_SIG0  = UPARAM(16) ! Strain-rate scale factor
       Yscale_SIG0  = UPARAM(17) ! Initial yield stress scale factor
@@ -114,17 +114,17 @@ c
       ELSE
         TANG(1:NEL)  = UPARAM(21) ! Constant tangent modulus
       ENDIF
-      DTINV          = UN/MAX(TIMESTEP,EM20) ! Inverse of timestep
+      DTINV          = ONE/MAX(TIMESTEP,EM20) ! Inverse of timestep
 c      
       ! Recovering internal variables
       DO I=1,NEL
         IF (OFF(I) < EM01) OFF(I) = ZERO
-        IF (OFF(I) < UN)   OFF(I) = OFF(I)*QCINQ
+        IF (OFF(I) < ONE)   OFF(I) = OFF(I)*FOUR_OVER_5
         ! User inputs
         PHI0(I)       = UVAR(I,1) ! Previous yield function value
         ! Standard inputs
         DPLA(I)       = ZERO ! Initialization of the plastic strain increment
-        ET(I)         = UN   ! Initialization of hourglass coefficient
+        ET(I)         = ONE   ! Initialization of hourglass coefficient
         HARDP(I)      = ZERO ! Initialization of hourglass coefficient
         DPXX(I)       = ZERO ! Initialization of the XX plastic strain increment
         DPYY(I)       = ZERO ! Initialization of the YY plastic strain increment
@@ -141,15 +141,15 @@ c
       IF (Ivisc == 0) THEN 
         ! Compute effective strain-rate
         DO I = 1,NEL
-          TREPSP    = TIERS*(EPSPXX(I) + EPSPYY(I) + EPSPZZ(I))
+          TREPSP    = THIRD*(EPSPXX(I) + EPSPYY(I) + EPSPZZ(I))
           DEVEPSPXX = EPSPXX(I) - TREPSP
           DEVEPSPYY = EPSPYY(I) - TREPSP
           DEVEPSPZZ = EPSPZZ(I) - TREPSP
-          DEPSDT    = DTIERS*(DEVEPSPXX**2 + DEVEPSPYY**2 + DEVEPSPZZ**2 +
-     .                        DEUX*(EPSPXY(I)**2) + DEUX*(EPSPYZ(I)**2) + 
-     .                        DEUX*(EPSPZX(I)**2))
+          DEPSDT    = TWO_THIRD*(DEVEPSPXX**2 + DEVEPSPYY**2 + DEVEPSPZZ**2 +
+     .                        TWO*(EPSPXY(I)**2) + TWO*(EPSPYZ(I)**2) + 
+     .                        TWO*(EPSPZX(I)**2))
           DEPSDT    = SQRT(MAX(DEPSDT,ZERO))
-          EPSD(I)   = AFILTR * DEPSDT + (UN - AFILTR) * EPSD(I)
+          EPSD(I)   = AFILTR * DEPSDT + (ONE - AFILTR) * EPSD(I)
         ENDDO
       ELSE
         ! Reset plastic strain-rate
@@ -176,10 +176,10 @@ c
         ILEN(1:NEL)    = NPF(IFUNC(2)+1) / 2 - IAD(1:NEL) - IPOS(1:NEL)
         CALL VINTER2(TF,IAD,IPOS,ILEN,NEL,EPSD/Xscale_YOUN,DYOUNDEPSD,YOUNG) 
         YOUNG(1:NEL)   = Yscale_YOUN*YOUNG(1:NEL)
-        G(1:NEL)       = UNDEMI * YOUNG(1:NEL) / (UN + NU)
-        G2(1:NEL)      = YOUNG(1:NEL) / (UN + NU)
-        BULK(1:NEL)    = TIERS * YOUNG(1:NEL) / (UN - NU*DEUX)
-        LAM(1:NEL)     = G2(1:NEL) * NU /(UN - DEUX*NU)  
+        G(1:NEL)       = HALF * YOUNG(1:NEL) / (ONE + NU)
+        G2(1:NEL)      = YOUNG(1:NEL) / (ONE + NU)
+        BULK(1:NEL)    = THIRD * YOUNG(1:NEL) / (ONE - NU*TWO)
+        LAM(1:NEL)     = G2(1:NEL) * NU /(ONE - TWO*NU)  
       ENDIF
       ! Compute the Tangent modulus
       IF (IFUNC(3) > 0) THEN 
@@ -226,8 +226,8 @@ c
         SYZ(I)    = SIGNYZ(I)
         SZX(I)    = SIGNZX(I)
         ! Von Mises equivalent stress
-        SIGVM(I)  = TDEMI*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2) + TROIS*SXY(I)**2
-     .              + TROIS*SYZ(I)**2 + TROIS*SZX(I)**2
+        SIGVM(I)  = THREE_HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2) + THREE*SXY(I)**2
+     .              + THREE*SYZ(I)**2 + THREE*SZX(I)**2
         SIGVM(I)  = SQRT(SIGVM(I))
       ENDDO
 c      
@@ -239,7 +239,7 @@ c
       ! Checking plastic behavior for all elements
       NINDX = 0
       DO I=1,NEL         
-        IF (PHI(I) > ZERO .AND. OFF(I) == UN) THEN
+        IF (PHI(I) > ZERO .AND. OFF(I) == ONE) THEN
           NINDX=NINDX+1
           INDEX(NINDX)=I
         ENDIF
@@ -273,8 +273,8 @@ c
           SXY(I)    = SIGOXY(I)
           SYZ(I)    = SIGOYZ(I)
           SZX(I)    = SIGOZX(I) 
-          SIGVM(I)  = TDEMI*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2) + TROIS*SXY(I)**2
-     .                + TROIS*SYZ(I)**2 + TROIS*SZX(I)**2
+          SIGVM(I)  = THREE_HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2) + THREE*SXY(I)**2
+     .                + THREE*SYZ(I)**2 + THREE*SZX(I)**2
           SIGVM(I)  = SQRT(SIGVM(I))
 c        
           ! Note     : in this part, the purpose is to compute for each iteration
@@ -289,12 +289,12 @@ c
 c        
           ! 1 - Computation of DPHI_DSIG the normal to the yield surface
           !-------------------------------------------------------------
-          NORMXX = TDEMI*SXX(I)/SIGVM(I)
-          NORMYY = TDEMI*SYY(I)/SIGVM(I)
-          NORMZZ = TDEMI*SZZ(I)/SIGVM(I)
-          NORMXY = TROIS*SXY(I)/SIGVM(I)
-          NORMYZ = TROIS*SYZ(I)/SIGVM(I)
-          NORMZX = TROIS*SZX(I)/SIGVM(I)
+          NORMXX = THREE_HALF*SXX(I)/SIGVM(I)
+          NORMYY = THREE_HALF*SYY(I)/SIGVM(I)
+          NORMZZ = THREE_HALF*SZZ(I)/SIGVM(I)
+          NORMXY = THREE*SXY(I)/SIGVM(I)
+          NORMYZ = THREE*SYZ(I)/SIGVM(I)
+          NORMZX = THREE*SZX(I)/SIGVM(I)
 c        
           ! Restoring previous value of the yield function
           PHI(I) = PHI0(I)
@@ -373,8 +373,8 @@ c
           ENDIF
 c          
           ! Von Mises equivalent stress update
-          SIGVM(I)  = TDEMI*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2) + TROIS*SXY(I)**2
-     .                + TROIS*SYZ(I)**2 + TROIS*SZX(I)**2
+          SIGVM(I)  = THREE_HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2) + THREE*SXY(I)**2
+     .                + THREE*SYZ(I)**2 + THREE*SZX(I)**2
           SIGVM(I)  = SQRT(SIGVM(I))
 c
           IF (Ivisc == 0) THEN 
@@ -442,7 +442,7 @@ c
         ! Coefficient for hourglass
         ET(I) = HARDP(I) / (HARDP(I) + YOUNG(I)) 
         ! Computation of the sound speed   
-        SOUNDSP(I) = SQRT((BULK(I) + QTIERS*G(I))/RHO(I))
+        SOUNDSP(I) = SQRT((BULK(I) + FOUR_OVER_3*G(I))/RHO(I))
         ! Storing the yield stress
         SIGY(I) = YLD(I)  
       ENDDO

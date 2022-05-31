@@ -153,14 +153,14 @@ C-----------------------------------------------
      .               I1=MAT_ID,C1=TITR)
       END IF
       IF(PMIN == ZERO) PMIN  =-INFINITY
-C      IF(CN == ZERO.OR.CN == UN)   CN = UNP0001
+C      IF(CN == ZERO.OR.CN == ONE)   CN = ONEP0001
       IF(EPSM == ZERO) EPSM  = INFINITY
       IF(SIGM == ZERO) SIGM  = INFINITY
-!!      IF(CC == ZERO)   EPS0  = UN
-      IF(CM == ZERO)   CM    = UN
+!!      IF(CC == ZERO)   EPS0  = ONE
+      IF(CM == ZERO)   CM    = ONE
       IF(TMELT <= ZERO)TMELT = INFINITY
       IF(TMAX <= ZERO) TMAX  = INFINITY
-      IF(TREF <= ZERO) TREF  = TROIS100
+      IF(TREF <= ZERO) TREF  = THREE100
       IF(NMAX == 0)    NMAX  = 1
       IF(TOL <= ZERO)  TOL   = EM7
       IF(RHOR == ZERO)RHOR=RHO0
@@ -172,7 +172,7 @@ C-----------------------------------------------
       IF(E <= ZERO)THEN
         CALL ANCMSG(MSGID=276,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=106,I2=MAT_ID,C1=TITR)   
       ENDIF 
-      IF(NU <= -UN)  THEN       
+      IF(NU <= -ONE)  THEN       
         CALL ANCMSG(MSGID=300,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=106,I2=MAT_ID,C1=TITR)
       ENDIF 
 
@@ -198,8 +198,8 @@ C-----------------------------------------------
 
       NUVAR = 14
       NFUNC = 3  
-C     STIFINT   = E/TROIS/(UN-DEUX*NU)
-      STIFINT   = E*(UN-NU)/(UN+NU)/(UN-DEUX*NU)
+C     STIFINT   = E/THREE/(ONE-TWO*NU)
+      STIFINT   = E*(ONE-NU)/(ONE+NU)/(ONE-TWO*NU)
       PARMAT(1) = STIFINT 
       PARMAT(2) = E
       PARMAT(3) = NU

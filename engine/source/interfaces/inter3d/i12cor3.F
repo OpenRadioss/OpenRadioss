@@ -71,10 +71,10 @@ C-----------------------------------------------
 !      EQUIVALENCE (XI,BV(1,13)),(YI,BV(1,14)),(ZI,BV(1,15))
 !      EQUIVALENCE (XFACE,BV(1,29))
 
-      DEUPI=DEUX*PI
+      DEUPI=TWO*PI
 
       DO I=LFT,LLT
-        XFACE(I)=UN
+        XFACE(I)=ONE
         IL=I+NFT
         L=IRTL(IL)
 

@@ -114,7 +114,7 @@ C
       IF(NODADT_THERM == 1) THEN
         DO N=1,NPE
            DO I=LFT,LLT
-              CONDE(I) = CONDE(I)*DELTAX(I)*DELTAX(I)/QUATRE
+              CONDE(I) = CONDE(I)*DELTAX(I)*DELTAX(I)/FOUR
               CONDEG(I,N)= CONDEG(I,N)+ CONDE(I)*
      .     (PX(I,N)*PX(I,N) + PY(I,N)*PY(I,N) + PZ(I,N)*PZ(I,N))
            ENDDO

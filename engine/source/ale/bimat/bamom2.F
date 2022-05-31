@@ -69,7 +69,7 @@ C-----------------------------------------------
      .   A1(MVSIZ), A2(MVSIZ), G1(MVSIZ), G2(MVSIZ), FF1, FF2, FF3, FF4, DVY, DVZ
 C-------------------------------
       DO I=LFT,LLT
-        XMS(I)  =QUART*RHO(I)*ALPH(I)
+        XMS(I)  =FOURTH*RHO(I)*ALPH(I)
         GAMMA(I)= PM(15,MAT(I))
       ENDDO
 C-------------------------------
@@ -117,8 +117,8 @@ C-----------------------------------------------
 C     CALCUL DE (V MATIERE - V MAILLAGE) MOYEN
 C-----------------------------------------------
       DO I=LFT,LLT
-        VDY(I)=QUART*(VDY1(I)+VDY2(I)+VDY3(I)+VDY4(I))
-        VDZ(I)=QUART*(VDZ1(I)+VDZ2(I)+VDZ3(I)+VDZ4(I))
+        VDY(I)=FOURTH*(VDY1(I)+VDY2(I)+VDY3(I)+VDY4(I))
+        VDZ(I)=FOURTH*(VDZ1(I)+VDZ2(I)+VDZ3(I)+VDZ4(I))
       ENDDO
 
       DO I=LFT,LLT
@@ -137,23 +137,23 @@ C-----------------------------------------------
       ENDDO
 
       DO I=LFT,LLT
-        B11(I) =  (UN  + G1(I))*F1(I)
-        B12(I) =  (UN  + G2(I))*F1(I)
-        B13(I) =  (UN  - G1(I))*F1(I)
-        B14(I) =  (UN  - G2(I))*F1(I)
+        B11(I) =  (ONE  + G1(I))*F1(I)
+        B12(I) =  (ONE  + G2(I))*F1(I)
+        B13(I) =  (ONE  - G1(I))*F1(I)
+        B14(I) =  (ONE  - G2(I))*F1(I)
 
-        B21(I) =  (UN+G1(I))*F2(I)
-        B22(I) =  (UN+G2(I))*F2(I)
-        B23(I) =  (UN-G1(I))*F2(I)
-        B24(I) =  (UN-G2(I))*F2(I)
+        B21(I) =  (ONE+G1(I))*F2(I)
+        B22(I) =  (ONE+G2(I))*F2(I)
+        B23(I) =  (ONE-G1(I))*F2(I)
+        B24(I) =  (ONE-G2(I))*F2(I)
       ENDDO
 
       DO I=LFT,LLT
-        XMS(I)  =QUART*RHO(I)*AIRE(I)*(UN-ALPH(I)) / MAX(EM15,DT1)
+        XMS(I)  =FOURTH*RHO(I)*AIRE(I)*(ONE-ALPH(I)) / MAX(EM15,DT1)
       ENDDO
 
        DO I=LFT,LLT
-       IF(ALPH(I).LT.UN
+       IF(ALPH(I).LT.ONE
      .   .AND.ALPH(I).GT.ZERO
      .   .AND.ALPHC(I).EQ.ZERO
      .   .AND.DT1.GT.ZERO)THEN

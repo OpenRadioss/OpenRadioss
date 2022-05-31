@@ -332,21 +332,21 @@ C
       DO I=LFT,LLT
         SIGZM(I) = ZERO
         VOLM(I) = ZERO
-        NU(I)=MIN(UNDEMI,PM(21,MX))
-        E0(I) =TROIS*(UN-DEUX*NU(I))*C1
+        NU(I)=MIN(HALF,PM(21,MX))
+        E0(I) =THREE*(ONE-TWO*NU(I))*C1
         USB(I)=EM01/C1
         STIN(I)=ZERO
       ENDDO
 C
       IF (ICP.EQ.1) THEN                                
         DO I=LFT,LLT                                    
-         NU1(I)=UNDEMI                                  
+         NU1(I)=HALF                                  
         ENDDO                                           
       ELSEIF (ICP.EQ.2) THEN                            
         CALL S8ZSIGP3(LFT  ,LLT       ,GBUF%SIG,E0  ,GBUF%PLA,
      2                FAC  ,GBUF%G_PLA,NEL     )
         DO I=LFT,LLT                                    
-          NU1(I)=NU(I)+(UNDEMI-NU(I))*FAC(I)             
+          NU1(I)=NU(I)+(HALF-NU(I))*FAC(I)             
         ENDDO                                           
       ELSE                                             
          DO I=LFT,LLT                                    
@@ -381,7 +381,7 @@ C
      .                  X1, X2, X3, X4, X5, X6,
      .                  Y1, Y2, Y3, Y4, Y5, Y6,
      .                  Z1, Z2, Z3, Z4, Z5, Z6)
-        ALPHA_E(LFT:LLT) = UN  
+        ALPHA_E(LFT:LLT) = ONE  
         DO I=LFT,LLT
           IF (GBUF%IDT_TSH(I)<=0) CYCLE
           FACDP = 1.343*LLSH(I)/DELTAX(I)
@@ -460,7 +460,7 @@ C-----------------------------
       IF (DT1 == ZERO) THEN
         DTI =ZERO
       ELSE
-        DTI = UN/DT1
+        DTI = ONE/DT1
       ENDIF 
 C-----------------------------
 C     POINTS D' INTEGRATION DANS EPAISSEUR
@@ -596,7 +596,7 @@ C----------------------------
         IOFFS=0
         DO I=LFT,LLT                                        
           OFFG(I)=MIN(OFFG(I),OFF(I))                        
-         IF (LBUF%OFF(I) > UN .AND. GBUF%OFF(I) == UN) THEN
+         IF (LBUF%OFF(I) > ONE .AND. GBUF%OFF(I) == ONE) THEN
            OFFS(I) = MIN(LBUF%OFF(I),OFFS(I))
            IOFFS   = 1                                         
           END IF                                             
@@ -606,7 +606,7 @@ C-----------------------------
 C-----------------------------
       IF (IOFFS == 1) THEN
        DO I=LFT,LLT
-         IF (OFFS(I).LE.DEUX)GBUF%OFF(I) = OFFS(I)
+         IF (OFFS(I).LE.TWO)GBUF%OFF(I) = OFFS(I)
        END DO
        DO ILAY=1,NLAY
          LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
@@ -615,7 +615,7 @@ C-----------------------------
            MTN=NINT(PM(19,MID))
          ENDIF
          DO I=LFT,LLT
-           IF (GBUF%OFF(I) > UN) LBUF%OFF(I)=GBUF%OFF(I)
+           IF (GBUF%OFF(I) > ONE) LBUF%OFF(I)=GBUF%OFF(I)
          END DO
        END DO
       END IF

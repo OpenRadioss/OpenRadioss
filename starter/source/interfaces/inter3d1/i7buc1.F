@@ -166,9 +166,9 @@ C      LONGUEUR COTE 4
   10  CONTINUE
 C     TAILLE ZINF = .1*TAILLE MOYENNE ELEMENT DE CHAQUE COTE
 C     TAILLE BUCKET MIN = TZINF  * BUMULT
-      DD0=DD/NRTM/QUATRE
+      DD0=DD/NRTM/FOUR
       DD = DD0
-C      DD = MAX(DD0,UNP251*GAP)
+C      DD = MAX(DD0,ONEP251*GAP)
 C remove this additional test which breaks igap performance
 C in case this factor is needed, then needs to compute mean gap instead
 C     TZINF = BUMULT*DD
@@ -182,10 +182,10 @@ C Si IMACH = 3 et IDDLEVEL = 0, alors 1er passage ici, avec la MARGE de l'ENGINE
       TZINF_ST = MARGE_ST + GAP
 C      MAXBOX= ZEP9*(DD - TZINF)
 C DD + 2*TZINF : taille element augmentee de zone influence
-      MAXBOX= UNDEMI*(DD + 2*TZINF)
-      MINBOX= UNDEMI*MAXBOX
-      MAXBOX_ST= UNDEMI*(DD + 2*TZINF_ST)
-      MINBOX_ST= UNDEMI*MAXBOX_ST
+      MAXBOX= HALF*(DD + 2*TZINF)
+      MINBOX= HALF*MAXBOX
+      MAXBOX_ST= HALF*(DD + 2*TZINF_ST)
+      MINBOX_ST= HALF*MAXBOX_ST
 C     MIS A ZERO POUR FAIRE SEARCH COMPLET CYCLE 0 ENGINE
       DIST = ZERO     
 C--------------------------------
@@ -247,7 +247,7 @@ C     P21.......BPN                 NSN
 C     P22.......PN                  NSN
 C     P31.......ADDI                2000
 C
-C  POUR UN MAILLAGE DE TOPOLOGIE CARRE LA TAILLE DE P2 PEUT ETRE ESTIMEE A:
+C  POUR ONE MAILLAGE DE TOPOLOGIE CARRE LA TAILLE DE P2 PEUT ETRE ESTIMEE A:
 C 4n:     NUMELC + 6*SQRT(NUMELC) + 8*LOG2(NUMELC) 
 C 3n:     NUMELTG + 6*SQRT(2*NUMELTG) + 8*LOG2(NUMELTG)
 C 
@@ -256,7 +256,7 @@ C 3n:     NUMELTG + 6*SQRT(2*NUMELTG) + 12*LOG(NUMELTG)
 C 
 C NUMELC + NUMELTG + 6*SQRT(NUMELC+2*NUMELTG) + 12*LOG(NUMELC+NUMELTG)
 C 
-C  POUR UN MAILLAGE DE TOPOLOGIE LINEAIRE LA TAILLE DE P2 PEUT ETRE ESTIMEE A:
+C  POUR ONE MAILLAGE DE TOPOLOGIE LINEAIRE LA TAILLE DE P2 PEUT ETRE ESTIMEE A:
 C NUMELC + NUMELTG + (NUMELC+NUMELTG)*(1 + 1/2 + 1/4 +...) + LOG2(NUMELC+NUMELTG)
 C 3*(NUMELC+NUMELTG) + LOG2(NUMELC+NUMELTG)
 C 3*(NUMELC+NUMELTG) + 300
@@ -310,7 +310,7 @@ C     TANT QUE IL RESTE UNE ADRESSE A TRIER
 C------------------
   200 CONTINUE
 C------------------
-C       SEPARER B ET N EN DEUX
+C       SEPARER B ET N EN TWO
         CALL I7TRI(
      1   MWA(IP1) ,MWA(IP2) ,MWA(IP21),MWA(IP22),MWA(IP31+2*(I_ADD-2)),
      2   IRECT    ,X        ,NB_NC    ,NB_EC    ,XYZM     ,
@@ -343,7 +343,7 @@ C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
         I_MEM = 0
         GO TO 100
       ELSE IF(I_MEM.EQ.2) THEN
-        MARGE_ST = TQUART*MARGE_ST
+        MARGE_ST = THREE_OVER_4*MARGE_ST
         TZINF_ST = MARGE_ST + GAP
         I_MEM = 0
         IF(MARGE_ST.LT.EM03) THEN
@@ -399,12 +399,12 @@ C---------------------------------
           ELSE
             I_MEM = 2
             RETURN
-            MARGE_ST = TQUART*MARGE_ST
+            MARGE_ST = THREE_OVER_4*MARGE_ST
             TZINF_ST = MARGE_ST + GAP
 	    I_MEM = 0
 C ne pas dimunuer la taille des boite
-C            MINBOX= TQUART*MINBOX
-C            MAXBOX= TQUART*MAXBOX
+C            MINBOX= THREE_OVER_4*MINBOX
+C            MAXBOX= THREE_OVER_4*MAXBOX
             IF(MARGE_ST.LT.EM03) THEN
 C             WRITE(ISTDO,*)' ***ERROR INFINITE LOOP DETECTED(I7BUC)'
 C             WRITE(IOUT,*)' **ERROR INFINITE LOOP DETECTED(I7BUC)'

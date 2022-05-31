@@ -82,11 +82,11 @@ C-----------------------------------------------
 C---------------------------------
 C     SECOND ORDRE TRANSLATIONS ROTATIONS
 C---------------------------------
-      DT05=UNDEMI*DT1
+      DT05=HALF*DT1
       IF (IMPL_S > 0 .AND. ISMDISP > 0) DT05=ZERO
 C
       DO I=LFT,LLT
-        RXAV(I)= UNDEMI*DT05*(RX1(I)+RX2(I))
+        RXAV(I)= HALF*DT05*(RX1(I)+RX2(I))
         EXX00(I)=EXX(I)
         EXY00(I)=EXY(I)
         EXZ00(I)=EXZ(I)
@@ -130,13 +130,13 @@ C---------------------------------------------------
         EXY(I)=EXY(I)*IRZ
 C ... !!!!!!!
         RY1(I)=IR1Y*RY1(I)
-     +         -(UN -IR1Y)*(TDEMI*EXZ(I)+UNDEMI*RY2(I))
+     +         -(ONE -IR1Y)*(THREE_HALF*EXZ(I)+HALF*RY2(I))
         RY2(I)=IR2Y*RY2(I)
-     +         -(UN -IR2Y)*(TDEMI*EXZ(I)+UNDEMI*RY1(I))
+     +         -(ONE -IR2Y)*(THREE_HALF*EXZ(I)+HALF*RY1(I))
         RZ1(I)=IR1Z*RZ1(I)
-     +         +(UN-IR1Z)*(TDEMI*EXY(I)-UNDEMI*RZ2(I))
+     +         +(ONE-IR1Z)*(THREE_HALF*EXY(I)-HALF*RZ2(I))
         RZ2(I)=IR2Z*RZ2(I)
-     +         +(UN -IR2Z)*(TDEMI*EXY(I)-UNDEMI*RZ1(I))
+     +         +(ONE -IR2Z)*(THREE_HALF*EXY(I)-HALF*RZ1(I))
       ENDDO
 C
       DO I=LFT,LLT
@@ -152,15 +152,15 @@ C
       ENDDO
 C---------------------------------
       DO I=LFT,LLT
-        EXZ(I)=EXZ(I) + UNDEMI*RYAV(I)
-        EXY(I)=EXY(I) - UNDEMI*RZAV(I)
+        EXZ(I)=EXZ(I) + HALF*RYAV(I)
+        EXY(I)=EXY(I) - HALF*RZAV(I)
       ENDDO
 C----------------------------
 C     OFF
 C----------------------------
       OFF_L = ZERO
       DO I=LFT,LLT
-        OFF(I) = MIN(UN,ABS(OFFG(I)))
+        OFF(I) = MIN(ONE,ABS(OFFG(I)))
         OFF(I) = MAX(ZERO,OFF(I))
         OFF_L  = MIN(OFF_L,OFFG(I))
       ENDDO

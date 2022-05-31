@@ -107,7 +107,7 @@ C-----------------------------------------------
       DATA IK5 /3,1,0,2/ ! triangle only
       DATA IK14 /14,15,16,17/
 
-      UNP   = UN + EM4
+      UNP   = ONE + EM4
       ZEROM = ZERO - EM4
       EPS = EM3
 c      write(iout,*)'t=',tt,'i24dst3e 1'
@@ -190,7 +190,7 @@ c check if convex
           SZM = SZM1 + SZM2
 
           XM2 = X12*X12+Y12*Y12+Z12*Z12
-          AAA = UN/SQRT(XM2)
+          AAA = ONE/SQRT(XM2)
           TX12 = X12*AAA             
           TY12 = Y12*AAA             
           TZ12 = Z12*AAA             
@@ -274,7 +274,7 @@ c           vecteur SECONDARY MAIN
             IF(AAA >= ZERO)CYCLE ! no intersection
             IF(BBB == ZERO)CYCLE ! // edges
 
-            BBB = UN/SQRT(BBB)
+            BBB = ONE/SQRT(BBB)
             DIST = AAA*BBB
 
             NXSM = SXSM*BBB
@@ -283,7 +283,7 @@ c           vecteur SECONDARY MAIN
 
             XS2 = XIJ*XIJ+YIJ*YIJ+ZIJ*ZIJ
 
-            AAA = UN/SQRT(NXSM*NXSM+NYSM*NYSM+NZSM*NZSM)
+            AAA = ONE/SQRT(NXSM*NXSM+NYSM*NYSM+NZSM*NZSM)
             NXSM = NXSM*AAA
             NYSM = NYSM*AAA
             NZSM = NZSM*AAA
@@ -335,7 +335,7 @@ c project on SM2
 
 c check if normal is inside SECONDARY dihedra
 
-            AAA = UN/SQRT(XS2)
+            AAA = ONE/SQRT(XS2)
             TXIJ = XIJ*AAA             
             TYIJ = YIJ*AAA             
             TZIJ = ZIJ*AAA             
@@ -401,39 +401,39 @@ C
             H1M = (XA*XSM-XB*XS2) / DET
 
             IF(H1M < -EM3)CYCLE   ! no contact
-            IF(H1M > UN+EM3)CYCLE ! no contact
+            IF(H1M > ONE+EM3)CYCLE ! no contact
 C
             XS2 = MAX(XS2,EM20)
             XM2 = MAX(XM2,EM20)
-            H1M = MIN(UN,MAX(ZERO,H1M ))
+            H1M = MIN(ONE,MAX(ZERO,H1M ))
             H1S = -(XA + H1M *XSM) / XS2
 
-            IF(H1S > UN+EM3)CYCLE        ! no contact
-            IF(H1S < UNDEMI-EM3)CYCLE ! edge IJ will be solved as JI
+            IF(H1S > ONE+EM3)CYCLE        ! no contact
+            IF(H1S < HALF-EM3)CYCLE ! edge IJ will be solved as JI
 
-            H1S = MIN(UN,MAX(ZERO,H1S))
+            H1S = MIN(ONE,MAX(ZERO,H1S))
 
             H1M = -(XB + H1S *XSM) / XM2
-            H1M = MIN(UN,MAX(ZERO,H1M ))
+            H1M = MIN(ONE,MAX(ZERO,H1M ))
 C
-            H2S  = UN -H1S 
-            H2M  = UN -H1M 
+            H2S  = ONE -H1S 
+            H2M  = ONE -H1M 
 
             ICONT=1
 c compute forces
             F = DIST*STIF(I)
-            IF(H1S < UNDEMI+EM3)THEN
-              AAA=(H1S-UNDEMI+EM3)/(DEUX*EM3)
+            IF(H1S < HALF+EM3)THEN
+              AAA=(H1S-HALF+EM3)/(TWO*EM3)
               F = F*AAA
-            ELSEIF(H1S > UN-EM3)THEN
-              AAA=-(H1S-UN-EM3)/(DEUX*EM3)
+            ELSEIF(H1S > ONE-EM3)THEN
+              AAA=-(H1S-ONE-EM3)/(TWO*EM3)
               F = F*AAA
             ENDIF
             IF(H1M < EM3)THEN
-              AAA=(H1M+EM3)/(DEUX*EM3)
+              AAA=(H1M+EM3)/(TWO*EM3)
               F = F*AAA
-            ELSEIF(H1M > UN-EM3)THEN
-              AAA=-(H1M-UN-EM3)/(DEUX*EM3)
+            ELSEIF(H1M > ONE-EM3)THEN
+              AAA=-(H1M-ONE-EM3)/(TWO*EM3)
               F = F*AAA
             ENDIF
             F1=-H1M*F

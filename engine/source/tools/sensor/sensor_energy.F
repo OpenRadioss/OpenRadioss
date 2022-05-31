@@ -202,8 +202,8 @@ c---------------------------------------------------------
         IF (TT == ZERO) THEN
           NI = NINT(IETIME / DT2) + 1
           NK = NINT(KETIME / DT2) + 1
-          SENSOR%VAR(5) = DEUX / NI   ! ALPHAI
-          SENSOR%VAR(8) = DEUX / NK   ! ALPHAK
+          SENSOR%VAR(5) = TWO / NI   ! ALPHAI
+          SENSOR%VAR(8) = TWO / NK   ! ALPHAK
           SENSOR%VAR(1) = EP20        ! TACT1
           SENSOR%VAR(3) = EP20        ! TACT2
         END IF
@@ -217,7 +217,7 @@ c
             ALPHAI   = SENSOR%VAR(5)
             EMA_INT  = SENSOR%VAR(6)
             EVAR_INT = SENSOR%VAR(7)
-            BETAI  = (UN - ALPHAI)
+            BETAI  = (ONE - ALPHAI)
             DIFF = EINT - EMA_INT
 c          
             EMA_INT  = ALPHAI*EINT + BETAI*EMA_INT
@@ -267,7 +267,7 @@ c---------------------------------------------------------
             ALPHAK   = SENSOR%VAR(8)
             EMA_KIN  = SENSOR%VAR(9)
             EVAR_KIN = SENSOR%VAR(10)
-            BETAK  = (UN - ALPHAK)
+            BETAK  = (ONE - ALPHAK)
             DIFF = EKIN - EMA_KIN
 c       
             EMA_KIN  = ALPHAK*EKIN + BETAK*EMA_KIN

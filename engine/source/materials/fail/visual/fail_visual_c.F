@@ -127,70 +127,70 @@ c!  ***********************
 c!  *** NEW ... 03.07.2019  
 c!  ***********************      
         DO I=1,NEL
-         IF (UVAR(I,1) .LT. 1.0d0 .AND. OFF(I) .EQ. UN)THEN
+         IF (UVAR(I,1) .LT. 1.0d0 .AND. OFF(I) .EQ. ONE)THEN
            
            IF (TYPE_MAX == 1) THEN  
 
 c! stress         
-             SIG_A      = (SIGNXX(I) + SIGNYY(I))/DEUX
-             SIG_B      = SQRT(((SIGNXX(I)-SIGNYY(I))/DEUX)**2+SIGNXY(I)**2)
+             SIG_A      = (SIGNXX(I) + SIGNYY(I))/TWO
+             SIG_B      = SQRT(((SIGNXX(I)-SIGNYY(I))/TWO)**2+SIGNXY(I)**2)
              SIG_11     = SIG_A + SIG_B
              E11        = SIG_11
              
            ELSE 
            
 c! strains EPSXX  ,EPSYY  ,EPSXY
-             EPS_A      = (EPSXX(I) + EPSYY(I)) * UNDEMI
-             EPS_B      = SQRT(((EPSXX(I)-EPSYY(I))/DEUX)**2+(UNDEMI*EPSXY(I))**2)
+             EPS_A      = (EPSXX(I) + EPSYY(I)) * HALF
+             EPS_B      = SQRT(((EPSXX(I)-EPSYY(I))/TWO)**2+(HALF*EPSXY(I))**2)
              E11        = EPS_A + EPS_B
              IF (STRFLAG == 1) THEN
-               E11 = SQRT(E11 + UN) - UN
+               E11 = SQRT(E11 + ONE) - ONE
              ELSE IF (STRFLAG == 2) THEN
-               E11 = EXP(E11) - UN
+               E11 = EXP(E11) - ONE
              ELSE IF (STRFLAG == 3) THEN
-               E11 = LOG(E11 + UN)
+               E11 = LOG(E11 + ONE)
              ELSE IF (STRFLAG == 4) THEN
-               E11 = LOG(SQRT(E11+UN))
+               E11 = LOG(SQRT(E11+ONE))
              END IF
            ENDIF    
 c!  ***********************       
 c!  *** NEW ... 23.02.2020  
 c!  ***********************      
 c! --- EMA or Butterworth filtering
-        IF (EMA == UN .and. FF /= ZERO .and. F_FLAG > 1) THEN
+        IF (EMA == ONE .and. FF /= ZERO .and. F_FLAG > 1) THEN
 C-----------------------------------------------
 C INITIALIALISATION OF THE FILTER-COEFFICIENTS 
 C-----------------------------------------------
           F       = MIN(FF,ZEP4 / MAX(TIMESTEP,EM20))
-          PI1     = DEUX*ATAN2(UN,ZERO)
-          PI8     = PI1*UNHUIT
-          PI38    = TROIS*PI8
+          PI1     = TWO*ATAN2(ONE,ZERO)
+          PI8     = PI1*ONE_OVER_8
+          PI38    = THREE*PI8
           SPI8    = SIN(PI8)
           SPI38   = SIN(PI38)
 C         
           D  = TAN(PI1*F*MAX(TIMESTEP,EM20))
           
           DD = D*D
-          D2 = DEUX*D
-          DP = UN + DD
+          D2 = TWO*D
+          DP = ONE + DD
           E  = D2*SPI8
           G  = E + DP
-          G  = UN/G
+          G  = ONE/G
 C         
           C0 = DD * G
-          C1 = DEUX* C0
+          C1 = TWO* C0
           C2 = C0
-          C3 = DEUX * G - C1
+          C3 = TWO * G - C1
           C4 = (E - DP) * G
 C         
           E  = D2*SPI38
           G  = E + DP
-          G  = UN/G
+          G  = ONE/G
 C         
           C5 = DD * G
-          C6 = DEUX * C5
+          C6 = TWO * C5
           C7 = C5
-          C8 = DEUX * G - C6
+          C8 = TWO * G - C6
           C9 = (E - DP) * G
           
 C-----------------------------------------------
@@ -237,8 +237,8 @@ C
 
 c! EMA = 0 ==> 1 ==> no filtering  ;  EMA = 1e+20 extreme filtering
            
-c!           E11        = E11*(DEUX/(UN+EMA)) + UVAR(I,2)*(UN-(DEUX/(UN+EMA)))
-          E11        = EMA * E11 + ( UN - EMA ) * UVAR(I,2)
+c!           E11        = E11*(TWO/(ONE+EMA)) + UVAR(I,2)*(ONE-(TWO/(ONE+EMA)))
+          E11        = EMA * E11 + ( ONE - EMA ) * UVAR(I,2)
           UVAR(I,2)  = E11       
         ENDIF
 c!      
@@ -248,15 +248,15 @@ c! Value = USER_INPUT * 2 * Pi * DT
 c! Alpha = Value / (Value + 1)
 c! Actual_filtered_stress = Alpha * actual_Stress + (1-Alpha) * previous_filtered_stress
 c!
-c!           ALPHA      = EMA / ( EMA + UN)
-c!           E11        = ALPHA * E11 + ( UN - ALPHA ) * UVAR(I,2)
+c!           ALPHA      = EMA / ( EMA + ONE)
+c!           E11        = ALPHA * E11 + ( ONE - ALPHA ) * UVAR(I,2)
 c!           UVAR(I,2)  = E11
     
-           DAMAGE       =  MAX(ZERO , MIN(UN ,(E11-C_MIN)/MAX(EM6,(C_MAX-C_MIN)) ))
+           DAMAGE       =  MAX(ZERO , MIN(ONE ,(E11-C_MIN)/MAX(EM6,(C_MAX-C_MIN)) ))
            UVAR(I,1)    =  MAX(UVAR(I,1),DAMAGE)
            DFMAX(I)     =  UVAR(I,1)
 
-           IF (UVAR(I,1) .GE. UN) THEN
+           IF (UVAR(I,1) .GE. ONE) THEN
              NINDX       = NINDX+1
              INDX(NINDX) = I              
            ENDIF

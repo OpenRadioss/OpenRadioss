@@ -56,7 +56,7 @@ c=======================================================================
       DO I=LFT,LLT
          AREA(I)=GEO(1,MXG(I))
          GAP(I) =GEO(2,MXG(I))
-         OFF(I)= UN
+         OFF(I)= ONE
       END DO
 C
       DO I=LFT,LLT

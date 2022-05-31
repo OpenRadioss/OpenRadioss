@@ -91,7 +91,7 @@ c
         ALPHA(I)=GEO(4,PID)
         DMN(I)  =GEO(15,PID)
         DMX(I)  =GEO(16,PID)
-        AK(I) = UN
+        AK(I) = ONE
       ENDDO
 C
       DO I=LFT,LLT
@@ -133,7 +133,7 @@ C
         IF (ILENG /= 0) THEN
           XL0(I)= AL0DP(I)
         ELSE
-          XL0(I)=UN
+          XL0(I)=ONE
         ENDIF
       ENDDO
 C
@@ -145,7 +145,7 @@ C-----
 C-----
       NINDX = 0
       DO I=LFT,LLT
-        IF (OFF(I) == UN .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
+        IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
           IF (DL(I) > DMX(I) .OR. DL(I) < DMN(I)) THEN
             OFF(I)=ZERO
             NINDX = NINDX + 1

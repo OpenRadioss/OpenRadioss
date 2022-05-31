@@ -277,7 +277,7 @@ C
 !     ZCFAC computation is only usefull for CZFORC3 and CZFORC3_CRK routines
       FLAG_ZCFAC=.FALSE.
       IF( (JHBE>=21.AND.JHBE<=29).OR.(IMPL_S>0)) FLAG_ZCFAC=.TRUE.
-      SCALE1(1:NEL) = UN
+      SCALE1(1:NEL) = ONE
       IFLAG(1) = IPLA
       BIDON1 = ZERO
       BIDON2 = ZERO
@@ -316,13 +316,13 @@ c
       MOM(JFT:JLT,3)  = ZERO
       YLD(JFT:JLT)    = ZERO
       IF(FLAG_ZCFAC .AND. MTN /= 22) ZCFAC(JFT:JLT,1)= ZERO
-      IF(FLAG_ZCFAC) ZCFAC(JFT:JLT,2)= UN
-      ETSE(JFT:JLT)   = UN
-      COEF(JFT:JLT)   = UN 
+      IF(FLAG_ZCFAC) ZCFAC(JFT:JLT,2)= ONE
+      ETSE(JFT:JLT)   = ONE
+      COEF(JFT:JLT)   = ONE 
       OFF_OLD(JFT:JLT) = OFF(JFT:JLT)
       IOFF_DUCT(JFT:JLT) = 0
-      DMG_GLOB_SCALE(JFT:JLT) = UN
-      SIGOFF(1:NEL) = UN
+      DMG_GLOB_SCALE(JFT:JLT) = ONE
+      SIGOFF(1:NEL) = ONE
       EPCHK(1:MVSIZ)  = ZERO
       VISCMX(1:MVSIZ) = ZERO
 !
@@ -348,24 +348,24 @@ c
 #include "vectorize.inc" 
         DO I=JFT,JLT
           EPS_K2 = (KXX(I)*KXX(I)+KYY(I)*KYY(I)+KXX(I)*KYY(I)
-     .           + QUART*KXY(I)*KXY(I)) *THK(I)*THK(I)*UNNEUF
-          EPS_M2 = QTHIRD*(EXX(I)*EXX(I)+EYY(I)*EYY(I)+EXX(I)*EYY(I)
-     .           + QUART*EXY(I)*EXY(I))
+     .           + FOURTH*KXY(I)*KXY(I)) *THK(I)*THK(I)*ONE_OVER_9
+          EPS_M2 = FOUR_OVER_3*(EXX(I)*EXX(I)+EYY(I)*EYY(I)+EXX(I)*EYY(I)
+     .           + FOURTH*EXY(I)*EXY(I))
           EPSP_LOC(I) = SQRT(EPS_K2 + EPS_M2)*DT_INV(I)
         END DO
       ELSE IF (ISRATE > 1) THEN
 #include "vectorize.inc" 
         DO I=JFT,JLT
-          EPS_M2  = QTHIRD*(EXX(I)*EXX(I)+EYY(I)*EYY(I)+EXX(I)*EYY(I)
-     .            + QUART*EXY(I)*EXY(I))
+          EPS_M2  = FOUR_OVER_3*(EXX(I)*EXX(I)+EYY(I)*EYY(I)+EXX(I)*EYY(I)
+     .            + FOURTH*EXY(I)*EXY(I))
           EPSP_LOC(I) = SQRT(EPS_M2)*DT_INV(I)
         END DO
       ENDIF
 c
       IF (ISRATE > 0) THEN    ! strain rate filtering with exponential average
         DO I=JFT,JLT
-          ASRATE = MIN(UN, PM(9,MX)*DT1C(I))
-          EPSP(I) = ASRATE*EPSP_LOC(I) + (UN-ASRATE)*EPSP(I)
+          ASRATE = MIN(ONE, PM(9,MX)*DT1C(I))
+          EPSP(I) = ASRATE*EPSP_LOC(I) + (ONE-ASRATE)*EPSP(I)
           EPSPL(I) = EPSP(I)
           EPSPDT(I) = EPSP(I)*DT1C(I)
         END DO
@@ -554,10 +554,10 @@ c               total strain in element coord sys
                 ZT = ZZ(I)*THK0(I)
                 T1 = GSTR(I,1) + ZT*GSTR(I,6)
                 T2 = GSTR(I,2) + ZT*GSTR(I,7)
-                T3 = UNDEMI*(GSTR(I,3) + ZT*GSTR(I,8))
+                T3 = HALF*(GSTR(I,3) + ZT*GSTR(I,8))
                 DEPSXY(I) = (R1*R2 + S1*S2) / (R1*S2 - R2*S1)    ! Tan(alpha_totale)
-                DEPSXX(I) = R1*R1*T1 + S1*S1*T2 + DEUX*R1*S1*T3  ! eps_x dir1
-                DEPSYY(I) = R2*R2*T1 + S2*S2*T2 + DEUX*R2*S2*T3  ! eps_y dir2           
+                DEPSXX(I) = R1*R1*T1 + S1*S1*T2 + TWO*R1*S1*T3  ! eps_x dir1
+                DEPSYY(I) = R2*R2*T1 + S2*S2*T2 + TWO*R2*S2*T3  ! eps_y dir2           
                 EPSXX(I) = T1     
                 EPSYY(I) = T2   
               ENDDO
@@ -571,10 +571,10 @@ c               total strain in element coord sys
                 ZT = ZZ(I)*THK0(I)
                 T1 = EXX(I) + ZT*KXX(I)
                 T2 = EYY(I) + ZT*KYY(I)
-                T3 = UNDEMI*(EXY(I) + ZT*KXY(I))                
+                T3 = HALF*(EXY(I) + ZT*KXY(I))                
                 DEPSXY(I) = (R1*R2 + S1*S2) / (R1*S2 - R2*S1)   ! Tan(alpha_totale)
-                DEPSXX(I) = R1*R1*T1 + S1*S1*T2 + DEUX*R1*S1*T3 ! delta_eps_x dir1
-                DEPSYY(I) = R2*R2*T1 + S2*S2*T2 + DEUX*R2*S2*T3 ! delta_eps_y dir2
+                DEPSXX(I) = R1*R1*T1 + S1*S1*T2 + TWO*R1*S1*T3 ! delta_eps_x dir1
+                DEPSYY(I) = R2*R2*T1 + S2*S2*T2 + TWO*R2*S2*T3 ! delta_eps_y dir2
 c
               ENDDO
             ENDIF
@@ -593,9 +593,9 @@ c------
               ZT       = ZZ(I)*THK0(I)                   
               TENS(I,1)=EXX(I)+ZT*KXX(I)                 
               TENS(I,2)=EYY(I)+ZT*KYY(I)                 
-              TENS(I,3)=UNDEMI*(EXY(I)+ZT*KXY(I))        
-              TENS(I,4)=UNDEMI*EYZ(I)                    
-              TENS(I,5)=UNDEMI*EXZ(I)                    
+              TENS(I,3)=HALF*(EXY(I)+ZT*KXY(I))        
+              TENS(I,4)=HALF*EYZ(I)                    
+              TENS(I,5)=HALF*EXZ(I)                    
             ENDDO                                        
 C
             CALL ROTOV(JFT,JLT,TENS,DIR_A(JDIR),NEL)   
@@ -603,18 +603,18 @@ C
             DO I=JFT,JLT                                 
               DEPSXX(I)=TENS(I,1)                        
               DEPSYY(I)=TENS(I,2)                        
-              DEPSXY(I)=DEUX*TENS(I,3)                   
-              DEPSYZ(I)=DEUX*TENS(I,4)                   
-              DEPSZX(I)=DEUX*TENS(I,5)                   
+              DEPSXY(I)=TWO*TENS(I,3)                   
+              DEPSYZ(I)=TWO*TENS(I,4)                   
+              DEPSZX(I)=TWO*TENS(I,5)                   
             ENDDO                                        
 !
             DO I=JFT,JLT
               ZT=ZZ(I)*THK0(I)
               TENS(I,1)= GSTR(I,1)+ZT*GSTR(I,6)
               TENS(I,2)= GSTR(I,2)+ZT*GSTR(I,7)
-              TENS(I,3)= UNDEMI*(GSTR(I,3)+ZT*GSTR(I,8))
-              TENS(I,4)= UNDEMI*GSTR(I,4)
-              TENS(I,5)= UNDEMI*GSTR(I,5)          
+              TENS(I,3)= HALF*(GSTR(I,3)+ZT*GSTR(I,8))
+              TENS(I,4)= HALF*GSTR(I,4)
+              TENS(I,5)= HALF*GSTR(I,5)          
             ENDDO
 C
             CALL ROTOV(JFT,JLT,TENS,DIR_A(JDIR),NEL)
@@ -623,9 +623,9 @@ C
               DO I=JFT,JLT
                 EPSXX(I) = TENS(I,1)
                 EPSYY(I) = TENS(I,2)
-                EPSXY(I) = DEUX*TENS(I,3)
-                EPSYZ(I) = DEUX*TENS(I,4)
-                EPSZX(I) = DEUX*TENS(I,5)         
+                EPSXY(I) = TWO*TENS(I,3)
+                EPSYZ(I) = TWO*TENS(I,4)
+                EPSZX(I) = TWO*TENS(I,5)         
               ENDDO
             ENDIF
 
@@ -720,7 +720,7 @@ C------------------------------------------
                 ETSE(I)=U_ETSE(I)
               ELSE
                 SIGY(I)=EP30
-                ETSE(I)=UN
+                ETSE(I)=ONE
               END IF
             END DO
           ELSEIF (ILAW == 30) THEN
@@ -786,7 +786,7 @@ C------------------------------------------
                 ETSE(I)=U_ETSE(I)
               ELSE
                 SIGY(I)=EP30
-                ETSE(I)=UN
+                ETSE(I)=ONE
               END IF
             END DO
           ELSEIF (ILAW == 31) THEN
@@ -852,7 +852,7 @@ C------------------------------------------
                 ETSE(I)=U_ETSE(I)
               ELSE
                 SIGY(I)=EP30
-                ETSE(I)=UN
+                ETSE(I)=ONE
               END IF
             END DO
 c---------------------------------
@@ -874,8 +874,8 @@ C
 C         
                DO I=JFT,JLT 
                 ZT=ZZ(I)*THK0(I)
-                FPSXX(I) = F_DEF(I,1)+ZT*F_DEF(I,6) + UN
-                FPSYY(I) = F_DEF(I,2)+ZT*F_DEF(I,7) + UN
+                FPSXX(I) = F_DEF(I,1)+ZT*F_DEF(I,6) + ONE
+                FPSYY(I) = F_DEF(I,2)+ZT*F_DEF(I,7) + ONE
                 FPSXY(I) = F_DEF(I,3)+ZT*F_DEF(I,8) 
                 FPSYX(I) = F_DEF(I,4)+ZT*F_DEF(I,5) 
                 FPSZZ(I) = THKN(I)/GBUF%THK_I(I)
@@ -1019,8 +1019,8 @@ C
 C
                 DO I=JFT,JLT 
                  ZT=ZZ(I)*THK0(I)
-                 USERBUF%FPSXX(I) = F_DEF(I,1)+ZT*F_DEF(I,6) + UN
-                 USERBUF%FPSYY(I) = F_DEF(I,2)+ZT*F_DEF(I,7) + UN
+                 USERBUF%FPSXX(I) = F_DEF(I,1)+ZT*F_DEF(I,6) + ONE
+                 USERBUF%FPSYY(I) = F_DEF(I,2)+ZT*F_DEF(I,7) + ONE
                  USERBUF%FPSXY(I) = F_DEF(I,3)+ZT*F_DEF(I,8) 
                  USERBUF%FPSYX(I) = F_DEF(I,4)+ZT*F_DEF(I,5) 
                  USERBUF%FPSZZ(I) = THKN(I)/GBUF%THK_I(I)
@@ -1116,8 +1116,8 @@ c--------------------------------
 C         
                DO I=JFT,JLT 
                 ZT=ZZ(I)*THK0(I)
-                FPSXX(I) = F_DEF(I,1)+ZT*F_DEF(I,6) + UN
-                FPSYY(I) = F_DEF(I,2)+ZT*F_DEF(I,7) + UN
+                FPSXX(I) = F_DEF(I,1)+ZT*F_DEF(I,6) + ONE
+                FPSYY(I) = F_DEF(I,2)+ZT*F_DEF(I,7) + ONE
                 FPSXY(I) = F_DEF(I,3)+ZT*F_DEF(I,8) 
                 FPSYX(I) = F_DEF(I,4)+ZT*F_DEF(I,5) 
                 FPSZZ(I) = THKN(I)/GBUF%THK_I(I)
@@ -1188,8 +1188,8 @@ c
               ENDDO                                                           
             ENDIF                                                             
 C
-            SIGOFF(1:NEL) = UN
-            DMG_LOC_SCALE(1:NEL) = UN
+            SIGOFF(1:NEL) = ONE
+            DMG_LOC_SCALE(1:NEL) = ONE
 c                                        
             MPT  = NPTTOT * MAX(1,NPG)
             FBUF => BUFLY%FAIL(IR,IS,IT)                   
@@ -1731,10 +1731,10 @@ c
                 S22B = S2*S2                                                       
 
                 RS3 = S1*S2-R1*R2                                                  
-                R3R3= UN+S1*R2+R1*S2                                               
-                R3R3= UNDEMI*R3R3                                                  
-                S3S3= UN-S1*R2-R1*S2                                               
-                S3S3= UNDEMI*S3S3                                                  
+                R3R3= ONE+S1*R2+R1*S2                                               
+                R3R3= HALF*R3R3                                                  
+                S3S3= ONE-S1*R2-R1*S2                                               
+                S3S3= HALF*S3S3                                                  
                 T1 = TENS(I,1)                                                     
                 T2 = TENS(I,2)                                                     
                 T3 = TENS(I,3)                                                     
@@ -1861,9 +1861,9 @@ c---
       NINDX = 0
       IF (IXFEM == 0) THEN
         DO I=JFT,JLT
-          IF (OFF(I) == QCINQ .and. IOFF_DUCT(I) == 0 .or.   ! rupture /fail
+          IF (OFF(I) == FOUR_OVER_5 .and. IOFF_DUCT(I) == 0 .or.   ! rupture /fail
      .        OFF(I) > ZERO   .and. OFF_OLD(I) < EM01 .or.   ! rupture progressive law 2,22,25
-     .        OFF(I) > ZERO   .and. OFF(I) < UN .and. DMG_FLAG == 1 .and. 
+     .        OFF(I) > ZERO   .and. OFF(I) < ONE .and. DMG_FLAG == 1 .and. 
      .        DMG_GLOB_SCALE(I) < EM02) THEN  
             OFF(I) = ZERO
             NINDX  = NINDX + 1
@@ -1903,8 +1903,8 @@ C-----------------------------------------------------------
         IF (ISMSTR == 3) THEN
           DO I=JFT,JLT
             IF (AREAMIN(I) > ZERO) THEN
-              AA = (UN+GSTR(I,1)+GSTR(I,2) - AREAMIN(I)) * DAREAMIN(I)
-              AA = MIN(MAX(AA,ZERO),UN)
+              AA = (ONE+GSTR(I,1)+GSTR(I,2) - AREAMIN(I)) * DAREAMIN(I)
+              AA = MIN(MAX(AA,ZERO),ONE)
               FOR(I,1)=FOR(I,1)*AA
               FOR(I,2)=FOR(I,2)*AA
               FOR(I,3)=FOR(I,3)*AA
@@ -1914,9 +1914,9 @@ C-----------------------------------------------------------
           DO I=JFT,JLT
            IF(AREAMIN(I) > ZERO)THEN
              VV = GSTR(I,1)+GSTR(I,2)
-             VV = UN + (UN + (UNDEMI + UNSIX*VV)*VV)*VV
+             VV = ONE + (ONE + (HALF + ONE_OVER_6*VV)*VV)*VV
              AA = (VV - AREAMIN(I)) * DAREAMIN(I)
-             AA = MIN(MAX(AA,ZERO),UN)
+             AA = MIN(MAX(AA,ZERO),ONE)
              FOR(I,1)=FOR(I,1)*AA
              FOR(I,2)=FOR(I,2)*AA
              FOR(I,3)=FOR(I,3)*AA
@@ -1928,11 +1928,11 @@ C-----------------------------------------------------------
 c
       THK(JFT:JLT) = MAX(THKN(JFT:JLT),EM30)
 c
-      FACT = UNP414*DM
+      FACT = ONEP414*DM
       VISC(JFT:JLT) = FACT*SSP(JFT:JLT)*SQRT(AREA(JFT:JLT))*DT_INV(JFT:JLT)*RHO(JFT:JLT)
 c
-        FOR(JFT:JLT,1)=FOR(JFT:JLT,1)+VISC(JFT:JLT)*(EXX(JFT:JLT)+UNDEMI*EYY(JFT:JLT))
-        FOR(JFT:JLT,2)=FOR(JFT:JLT,2)+VISC(JFT:JLT)*(EYY(JFT:JLT)+UNDEMI*EXX(JFT:JLT))
+        FOR(JFT:JLT,1)=FOR(JFT:JLT,1)+VISC(JFT:JLT)*(EXX(JFT:JLT)+HALF*EYY(JFT:JLT))
+        FOR(JFT:JLT,2)=FOR(JFT:JLT,2)+VISC(JFT:JLT)*(EYY(JFT:JLT)+HALF*EXX(JFT:JLT))
         FOR(JFT:JLT,3)=FOR(JFT:JLT,3)+VISC(JFT:JLT)* EXY(JFT:JLT) *THIRD   
 c
         FOR(JFT:JLT,1)=FOR(JFT:JLT,1)*OFF(JFT:JLT)*DMG_GLOB_SCALE(JFT:JLT)
@@ -1970,8 +1970,8 @@ C  cas xfem multilayer
               IPT = IPT_ALL + IT        ! count all NPTT through all layers
               DO I=JFT,JLT
 !
-                PLY_F(I,1,IPT) = PLY_F(I,1,IPT) + VISC(I)*(PLY_EXX(I,IPT)+UNDEMI*PLY_EYY(I,IPT))
-                PLY_F(I,2,IPT) = PLY_F(I,2,IPT) + VISC(I)*(PLY_EYY(I,IPT)+UNDEMI*PLY_EXX(I,IPT))
+                PLY_F(I,1,IPT) = PLY_F(I,1,IPT) + VISC(I)*(PLY_EXX(I,IPT)+HALF*PLY_EYY(I,IPT))
+                PLY_F(I,2,IPT) = PLY_F(I,2,IPT) + VISC(I)*(PLY_EYY(I,IPT)+HALF*PLY_EXX(I,IPT))
                 PLY_F(I,3,IPT) = PLY_F(I,3,IPT) + VISC(I)* PLY_EXY(I,IPT)*THIRD
               ENDDO
 !
@@ -1989,20 +1989,20 @@ C  cas xfem multilayer
       ENDIF ! IF (MTN == 25)
 !---
       DO I=JFT,JLT
-        VOL2 = UNDEMI*VOL0(I)
+        VOL2 = HALF*VOL0(I)
         IF (MTN == 22) VOL2 = VOL2*OFF(I)
         EINT(I,1) = EINT(I,1) + DEGMB(I)*VOL2
         EINT(I,2) = EINT(I,2) + DEGFX(I)*THK0(I)*VOL2
       ENDDO
 !
       IF (JTHE > 0 .AND. MTN /= 2) DIE(JFT:JLT) = DIE(JFT:JLT) + 
-     .             COEF(JFT:JLT)*( DEGMB(JFT:JLT)*UNDEMI*VOL0(JFT:JLT) + 
-     .                             DEGFX(JFT:JLT)*THK0(JFT:JLT)*UNDEMI*VOL0(JFT:JLT) )
+     .             COEF(JFT:JLT)*( DEGMB(JFT:JLT)*HALF*VOL0(JFT:JLT) + 
+     .                             DEGFX(JFT:JLT)*THK0(JFT:JLT)*HALF*VOL0(JFT:JLT) )
 c---------------------------------------------------
 c      check element failure with xfem
        IF (IXFEM > 0) THEN
         DO I=JFT,JLT
-          IF (OFF(I) == QCINQ) THEN
+          IF (OFF(I) == FOUR_OVER_5) THEN
             OFF(I) = ZERO
             NINDX  = NINDX + 1
             INDX(NINDX) = I

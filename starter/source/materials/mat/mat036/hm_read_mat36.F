@@ -159,9 +159,9 @@ c
       ELSEIF (PSCALE == ZERO) THEN
         !units
         CALL HM_GET_FLOATV_DIM('MAT_FScale' ,PSCAL_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        PSCALE = UN * PSCAL_UNIT
+        PSCALE = ONE * PSCAL_UNIT
       ELSE
-        PSCALE = UN /PSCALE
+        PSCALE = ONE /PSCALE
       ENDIF
 c------------------------
       IF (NRATE > 0) THEN
@@ -173,7 +173,7 @@ c
           CALL HM_GET_FLOAT_ARRAY_INDEX    ('SCALE_LOAD',YFAC(J)     ,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
           IF(YFAC(J) == ZERO) THEN
             CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_LOAD',YFAC_UNIT(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB) 
-            YFAC(J)=UN * YFAC_UNIT(J)
+            YFAC(J)=ONE * YFAC_UNIT(J)
           ENDIF
         ENDDO
 c
@@ -224,11 +224,11 @@ c
       ENDIF
       ISRATE = MAX(ISRATE,ISRAT) 
 c
-      IF (NU == UNDEMI) NU = ZEP499
+      IF (NU == HALF) NU = ZEP499
       MFUNC = NFUNC + 1
       IFUNC(MFUNC) = IPFUN
 c-----------------------------------------------
-      IF (FISOKIN > UN .OR. FISOKIN < ZERO) THEN
+      IF (FISOKIN > ONE .OR. FISOKIN < ZERO) THEN
         CALL ANCMSG(MSGID=912, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,
      .              I1=ID,C1='36',
      .              C2=TITR)
@@ -249,13 +249,13 @@ c     IFAIL = 2 => failure + damage vs principal tensile strain
 c
       IF (EPSMAX== ZERO) EPSMAX= INFINITY
       IF (EPSR1 == ZERO) EPSR1 = INFINITY
-      IF (EPSR2 == ZERO) EPSR2 = DEUX*INFINITY
-      IF (EPSF  == ZERO) EPSF  = TROIS*INFINITY       
+      IF (EPSR2 == ZERO) EPSR2 = TWO*INFINITY
+      IF (EPSF  == ZERO) EPSF  = THREE*INFINITY       
 c     Limit max failure values
       EPSMAX = MIN(EPSMAX  ,INFINITY)
       EPSR1  = MIN(EPSR1   ,INFINITY)
-      EPSR2  = MIN(EPSR2   ,DEUX*INFINITY)
-      EPSF   = MIN(EPSF    ,TROIS*INFINITY)
+      EPSR2  = MIN(EPSR2   ,TWO*INFINITY)
+      EPSF   = MIN(EPSF    ,THREE*INFINITY)
 c      
       IF (EPSR1 /= ZERO .AND. EPSR2 /= ZERO) THEN 
         IF (EPSR1 >= EPSR2) THEN
@@ -265,9 +265,9 @@ c
         ENDIF
       ENDIF
 C------------------------------
-      G = UNDEMI*E/(UN+NU)
-      C1= E/TROIS/(UN - DEUX*NU)
-      SOUNDSP  = SQRT((C1 + QTHIRD*G)/RHO0)
+      G = HALF*E/(ONE+NU)
+      C1= E/THREE/(ONE - TWO*NU)
+      SOUNDSP  = SQRT((C1 + FOUR_OVER_3*G)/RHO0)
       YLDCHECK = 0           ! check if yld function decreases to zero (set in law36_upd.F)
       OPTE = 0
 C------------------------------
@@ -275,7 +275,7 @@ C------UPARAM STORAGE----------
 C------------------------------
       UPARAM(1)= NFUNC
       UPARAM(2)= E
-      UPARAM(3)= E/(UN - NU*NU)
+      UPARAM(3)= E/(ONE - NU*NU)
       UPARAM(4)= NU*UPARAM(3)
 C---
       UPARAM(5)= G
@@ -290,8 +290,8 @@ C---
       UPARAM(2*NFUNC + 7) = EPSMAX
       UPARAM(2*NFUNC + 8) = EPSR1
       UPARAM(2*NFUNC + 9) = EPSR2
-      UPARAM(2*NFUNC + 10)= DEUX*G
-      UPARAM(2*NFUNC + 11)= TROIS*G
+      UPARAM(2*NFUNC + 10)= TWO*G
+      UPARAM(2*NFUNC + 11)= THREE*G
       UPARAM(2*NFUNC + 12)= C1
       UPARAM(2*NFUNC + 13)= SOUNDSP  ! soundspeed solids
       UPARAM(2*NFUNC + 14)= FISOKIN
@@ -303,10 +303,10 @@ C---
       ENDIF
       UPARAM(2*NFUNC + 17) = PSCALE 
 c sound speed coque
-      UPARAM(2*NFUNC + 18) = SQRT(E/(UN - NU*NU)/RHO0)  ! soundspeed shells
-      UPARAM(2*NFUNC + 19) = NU / (UN-NU)
-      UPARAM(2*NFUNC + 20) = TROIS / (UN+NU)
-      UPARAM(2*NFUNC + 21) = UN / (UN-NU)
+      UPARAM(2*NFUNC + 18) = SQRT(E/(ONE - NU*NU)/RHO0)  ! soundspeed shells
+      UPARAM(2*NFUNC + 19) = NU / (ONE-NU)
+      UPARAM(2*NFUNC + 20) = THREE / (ONE+NU)
+      UPARAM(2*NFUNC + 21) = ONE / (ONE-NU)
 c -----------------------
       IF (IFUNCE > 0 ) OPTE = 1
       MFUNC = MFUNC + 1 
@@ -337,7 +337,7 @@ c--------------------------------
       PARMAT(9) = EPSF 
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) = DEUX*G/(C1+QTHIRD*G) ! == (1-2*nu)/(1-nu)
+      PARMAT(17) = TWO*G/(C1+FOUR_OVER_3*G) ! == (1-2*nu)/(1-nu)
 C----------------
       NUVAR = 0
       IF (VP == 1) THEN

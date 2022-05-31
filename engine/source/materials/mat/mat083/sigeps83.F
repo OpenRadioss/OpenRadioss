@@ -178,7 +178,7 @@ c omega = sqrt(2k/2*dmels), dt=2/omega, 2*dmels=dt**2 * 2k / 4
       IF (IDTMINS==2 .AND. JSMS/=0) THEN
         DTB = (DTMINS/DTFACS)**2
         DO IEL=1,NEL                                                 
-          DMELS(IEL)=MAX(DMELS(IEL),UNDEMI*DTB*STF(IEL)*OFF(IEL))
+          DMELS(IEL)=MAX(DMELS(IEL),HALF*DTB*STF(IEL)*OFF(IEL))
         ENDDO                                                        
       END IF
 c          
@@ -205,18 +205,18 @@ c
       ENDIF
       DO IEL=1,NEL          
         FYIELD(IEL) = MAX(ZERO, FINTER(IDYIELD,PLA(IEL)*XFAC,NPF,TF,DYDX1))
-        FYIELD(IEL) = FYIELD(IEL)*(UN-DMG(IEL))*YFAC
+        FYIELD(IEL) = FYIELD(IEL)*(ONE-DMG(IEL))*YFAC
         HYIELD(IEL) = DYDX1*YFAC
       ENDDO
 c-----------------------------------------------------------------------------
 c     Plasticity projection (radial return from sigma trial) 
 c-----------------------------------------------------------------------------
-      IF (BETA == DEUX) THEN
+      IF (BETA == TWO) THEN
         IF (ICOMP == 0) THEN    ! elasto-plastic in tension and compression
           DO IEL = 1,NEL
-            AA = RN(IEL)*(UN-ALPHA*SIN(SYM(IEL)))
-            AN = UN/MAX(EM20,AA)
-            AS = UN/MAX(EM20,RS(IEL))
+            AA = RN(IEL)*(ONE-ALPHA*SIN(SYM(IEL)))
+            AN = ONE/MAX(EM20,AA)
+            AS = ONE/MAX(EM20,RS(IEL))
             SVMN  = ABS(SIGTRZZ(IEL))                        ! normal stress    
             SVMT  = SQRT(SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)  ! shear stress      
             
@@ -281,9 +281,9 @@ c--------------
 c--------------
           DO II = 1,NTRAC                                                    
             IEL= ELTRAC(II)                                                   
-            AA = RN(IEL)*(UN-ALPHA*SIN(SYM(IEL)))
-            AN = UN/MAX(EM20,AA)
-            AS = UN/MAX(EM20,RS(IEL))
+            AA = RN(IEL)*(ONE-ALPHA*SIN(SYM(IEL)))
+            AN = ONE/MAX(EM20,AA)
+            AS = ONE/MAX(EM20,RS(IEL))
             SVMN  = ABS(SIGTRZZ(IEL))                        ! normal stress    
             SVMT  = SQRT(SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)  ! shear stress      
             
@@ -347,9 +347,9 @@ c
           DO II = 1,NCOMP                                                  
             IEL= ELCOMP(II)                                                   
             SVMT = SQRT(SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)  ! trial shear stresss                    
-            AA = RN(IEL)*(UN-ALPHA*SIN(SYM(IEL)))
-            AN = UN/MAX(EM20,AA)
-            AS   = UN /  MAX(EM20,RS(IEL))
+            AA = RN(IEL)*(ONE-ALPHA*SIN(SYM(IEL)))
+            AN = ONE/MAX(EM20,AA)
+            AS   = ONE /  MAX(EM20,RS(IEL))
             TN   = SIGTRZZ(IEL) * AN
             TS   = SVMT * AS
             DSIG = TS - FYIELD(IEL)
@@ -389,9 +389,9 @@ c------------------------
 c------------------------
         IF (ICOMP == 0) THEN    ! elasto-plastic in tension and compression
           DO IEL=1,NEL                                                      
-            AA = RN(IEL)*(UN-ALPHA*SIN(SYM(IEL)))
-            AN = UN/MAX(EM20,AA)
-            AS = UN/MAX(EM20,RS(IEL))
+            AA = RN(IEL)*(ONE-ALPHA*SIN(SYM(IEL)))
+            AN = ONE/MAX(EM20,AA)
+            AS = ONE/MAX(EM20,RS(IEL))
             SVMN  = ABS(SIGTRZZ(IEL))                        ! normal stress    
             SVMT  = SQRT(SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)  ! shear stress      
             
@@ -428,8 +428,8 @@ c------------------------
      .          DTN  = SIGTRZZ(IEL) * SIGNZZ(IEL)/ ABS(SIGNZZ(IEL))
                 IF (SVMT  /= ZERO)
      .          DTS  = (SIGNZX(IEL)*SIGTRZX(IEL)+SIGNYZ(IEL)*SIGTRYZ(IEL))/SVMT     
-                FPN  = PUI_2 *MAX(EM20,SVMN)**(BETA-UN)
-                FPS  = PUI_3 *MAX(EM20,SVMT)**(BETA-UN)
+                FPN  = PUI_2 *MAX(EM20,SVMN)**(BETA-ONE)
+                FPS  = PUI_3 *MAX(EM20,SVMT)**(BETA-ONE)
                 FPRIM = FAC * (FPN * DTN + FPS * DTS)
 
                 DEP(IEL) = DEP(IEL) - DSIG/FPRIM
@@ -449,16 +449,16 @@ c------------------------
               UVAR(IEL,1) = DEP(IEL)
               PLA(IEL) = PLA(IEL) + DEP(IEL)
             ENDIF 
-            UVAR(IEL,2) = SVM**(UN / BETA)  ! equivalent stress for output
+            UVAR(IEL,2) = SVM**(ONE / BETA)  ! equivalent stress for output
           ENDDO
 c
         ELSE   ! ICOMP = 1   ! elastic in compression
 c
           DO II = 1,NTRAC                                                    
             IEL= ELTRAC(II)                                                   
-            AA = RN(IEL)*(UN-ALPHA*SIN(SYM(IEL)))
-            AN = UN/MAX(EM20,AA)
-            AS = UN/MAX(EM20,RS(IEL))
+            AA = RN(IEL)*(ONE-ALPHA*SIN(SYM(IEL)))
+            AN = ONE/MAX(EM20,AA)
+            AS = ONE/MAX(EM20,RS(IEL))
             SVMN  = ABS(SIGTRZZ(IEL))                        ! normal stress    
             SVMT  = SQRT(SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)  ! shear stress      
             
@@ -495,8 +495,8 @@ c
      .          DTN  = SIGTRZZ(IEL) * SIGNZZ(IEL)/ ABS(SIGNZZ(IEL))
                 IF (SVMT  /= ZERO)
      .          DTS  = (SIGNZX(IEL)*SIGTRZX(IEL)+SIGNYZ(IEL)*SIGTRYZ(IEL))/SVMT     
-                FPN  = PUI_2 *MAX(EM20,SVMN)**(BETA-UN)
-                FPS  = PUI_3 *MAX(EM20,SVMT)**(BETA-UN)
+                FPN  = PUI_2 *MAX(EM20,SVMN)**(BETA-ONE)
+                FPS  = PUI_3 *MAX(EM20,SVMT)**(BETA-ONE)
                 FPRIM = FAC * (FPN * DTN + FPS * DTS)
 
                 DEP(IEL) = DEP(IEL) - DSIG/FPRIM
@@ -516,15 +516,15 @@ c
               UVAR(IEL,1) = DEP(IEL)
               PLA(IEL) = PLA(IEL) + DEP(IEL)
             ENDIF 
-            UVAR(IEL,2) = SVM**(UN / BETA)  ! equivalent stress for output
+            UVAR(IEL,2) = SVM**(ONE / BETA)  ! equivalent stress for output
           ENDDO
 c
           DO II = 1,NCOMP                                                  
             IEL= ELCOMP(II)                                                   
             SVMT = SQRT(SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)  ! trial shear stresss                    
-            AA = RN(IEL)*(UN-ALPHA*SIN(SYM(IEL)))
-            AN = UN/MAX(EM20,AA)
-            AS   = UN /  MAX(EM20,RS(IEL))
+            AA = RN(IEL)*(ONE-ALPHA*SIN(SYM(IEL)))
+            AN = ONE/MAX(EM20,AA)
+            AS   = ONE /  MAX(EM20,RS(IEL))
             TN   = SIGTRZZ(IEL) * AN
             TS   = SVMT * AS
             DSIG = TS - FYIELD(IEL)
@@ -555,7 +555,7 @@ c
               PLA(IEL) = PLA(IEL) + DEP(IEL)
             ENDIF 
             SVM = TN**BETA + TS**BETA       ! effective stress svm
-            UVAR(IEL,2) = SVM**(UN / BETA)  ! equivalent stress for output
+            UVAR(IEL,2) = SVM**(ONE / BETA)  ! equivalent stress for output
           ENDDO
 c
         END IF    ! ICOMP
@@ -567,7 +567,7 @@ c------------------
       IF (ISRATE > 0) THEN
         DO IEL=1,NEL
           EPSP(IEL)   = DEP(IEL) / MAX(EM20,TIMESTEP)  ! plastic strain rate
-          UVAR(IEL,3) = ASRATE*EPSP(IEL) + (UN - ASRATE)*UVAR(IEL,3)
+          UVAR(IEL,3) = ASRATE*EPSP(IEL) + (ONE - ASRATE)*UVAR(IEL,3)
         ENDDO
       ENDIF
 C-----------

@@ -144,7 +144,7 @@ C-----------------------------------------------
      .   S
 C-----
        NORM = SQRT(V(1)*V(1)+V(2)*V(2)+V(3)*V(3))
-       S=UN/MAX(EM20,NORM)
+       S=ONE/MAX(EM20,NORM)
        V(1)=V(1)*S
        V(2)=V(2)*S
        V(3)=V(3)*S
@@ -453,9 +453,9 @@ C-----------------------------------------------
      .   S,YJ(3,N),YI(3),Y0(3),YJNI(N),ANGLE(N),SMIN,NORM,
      .   NXI,NYI,NZI
 C----build ksi vectors for EI(-ksi) and EJ()
-        Y0(1) = UNDEMI*(X(1,I1)+X(1,I2))
-        Y0(2) = UNDEMI*(X(2,I1)+X(2,I2))
-        Y0(3) = UNDEMI*(X(3,I1)+X(3,I2))
+        Y0(1) = HALF*(X(1,I1)+X(1,I2))
+        Y0(2) = HALF*(X(2,I1)+X(2,I2))
+        Y0(3) = HALF*(X(3,I1)+X(3,I2))
         DO J=1,3
          YI(J)=-Y0(J)
          DO I=1,N
@@ -606,17 +606,17 @@ C----YJ =  N_ie ^ 21
          ANGLE(I)=YI(1)*YJ(1,I)+YI(2)*YJ(2,I)+YI(3)*YJ(3,I)
         END DO
 C        
-        SMAX=-UNP01
+        SMAX=-ONEP01
         J1=0
 C--------groupe YJ*Ni>=0 :concave keep angle (max_cos) only
         DO I=1,N
          IF (ANGLE(I)==EP10.OR.YJNI(I)<ZERO) CYCLE
-          IF (ANGLE(I)>=-UN) THEN
+          IF (ANGLE(I)>=-ONE) THEN
            IF(SMAX < ANGLE(I)) THEN
             SMAX=ANGLE(I)
             J1=I
            END IF
-          END IF !(ANGLE(I)>=-UN) THEN
+          END IF !(ANGLE(I)>=-ONE) THEN
         END DO
 C------angle >180------        
         IF(J1==0.AND.J >0) THEN
@@ -634,10 +634,10 @@ C--------same side
 C--------only groupe YJ*Ni<0(convex)  and no valid one before    
         ELSEIF(J==0.OR.J1==0) THEN
 C------angle >180- first-----        
-          SMAX=-UNP01
+          SMAX=-ONEP01
           DO I=1,N
            IF (ANGLE(I)==EP10.OR.YJNI(I)>=ZERO) CYCLE
-           IF(ANGLE(I)< -UN .AND.SMAX < ANGLE(I)) THEN
+           IF(ANGLE(I)< -ONE .AND.SMAX < ANGLE(I)) THEN
             SMAX=ANGLE(I)
             J1=I
            END IF
@@ -648,7 +648,7 @@ C ------------------
           DO I=1,N
            IF (ANGLE(I)==EP10.OR.YJNI(I)>=ZERO) CYCLE
 C--------groupe YJ*Ni<0 :convex keep angle (min_cos) only
-           IF(ANGLE(I)>= -UN .AND. SMIN > ANGLE(I)) THEN
+           IF(ANGLE(I)>= -ONE .AND. SMIN > ANGLE(I)) THEN
             SMIN=ANGLE(I)
             J1=I
            END IF

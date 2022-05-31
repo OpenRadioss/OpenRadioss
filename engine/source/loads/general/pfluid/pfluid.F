@@ -94,7 +94,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
 
       ! init.
-      SIXTH  = UNSIX  
+      SIXTH  = ONE_OVER_6  
       TFEXC  = ZERO
       TFEXTT = ZERO
       N_OLD  = 0
@@ -125,7 +125,7 @@ C code SPMD Parith/OFF ou SMP NE PAS OUBLIER LE CODE P/ON !
        DIR_VEL=MAX(ILOADP(12,NL),1)
        IFRA2=ILOADP(13,NL)
        ISENS=0
-       XSENS = UN
+       XSENS = ONE
        DO K=1,NSENSOR
          IF(ILOADP(6,NL).EQ.LSENSOR(1,K))ISENS=K
        ENDDO
@@ -157,16 +157,16 @@ C
            K3=3*DIR_HSP
            ! hydrostatic pressure
            IF(FUN_HSP .NE.0)THEN
-              COORMEAN = (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))/QUATRE)+
-     .                   (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))/QUATRE)+
-     .                   (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))/QUATRE)
+              COORMEAN = (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))/FOUR)+
+     .                   (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))/FOUR)+
+     .                   (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))/FOUR)
               AA       = FCY*FINTER(FUN_HSP,(COORMEAN-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
            ENDIF
            NX= (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
            NY= (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
            NZ= (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
            NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
-           AREA = UNDEMI * NORM
+           AREA = HALF * NORM
            AA = AA * AREA
 C vel pressure
            K1=3*DIR_VEL-2
@@ -176,14 +176,14 @@ c
            NSIGN = (NX * XFRAME(K1,IFRA2) + 
      .             NY * XFRAME(K2,IFRA2) + 
      .             NZ * XFRAME(K3,IFRA2)) 
-           IF(NSIGN.NE.ZERO) NSIGN = SIGN(UN,NSIGN)
+           IF(NSIGN.NE.ZERO) NSIGN = SIGN(ONE,NSIGN)
 C
            VSEG= (XFRAME(K1,IFRA2)*
-     .             (V(1,N1) + V(1,N2) + V(1,N3) + V(1,N4)) /QUATRE)+
+     .             (V(1,N1) + V(1,N2) + V(1,N3) + V(1,N4)) /FOUR)+
      .            (XFRAME(K2,IFRA2)*
-     .             (V(2,N1) + V(2,N2) + V(2,N3) + V(2,N4)) /QUATRE)+
+     .             (V(2,N1) + V(2,N2) + V(2,N3) + V(2,N4)) /FOUR)+
      .            (XFRAME(K3,IFRA2)*
-     .             (V(3,N1) + V(3,N2) + V(3,N3) + V(3,N4)) /QUATRE)
+     .             (V(3,N1) + V(3,N2) + V(3,N3) + V(3,N4)) /FOUR)
            
            IF(FUN_VEL .NE.0)THEN
               VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX)- VSEG
@@ -194,12 +194,12 @@ C
      .       PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2)-
      .               (NY/NORM)*VEL*XFRAME(K2,IFRA2)-
      .               (NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )* FCY1*
-     .            FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/DEUX
+     .            FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
 C
-c           FX=(-AA*(NX/NORM)+PVEL*UNDEMI*NORM*(NX/NORM))*QUART
-           FX=(-AA*(NX/NORM)+PVEL*UNDEMI*NX*NSIGN)*QUART
-           FY=(-AA*(NY/NORM)+PVEL*UNDEMI*NY*NSIGN)*QUART
-           FZ=(-AA*(NZ/NORM)+PVEL*UNDEMI*NZ*NSIGN)*QUART
+c           FX=(-AA*(NX/NORM)+PVEL*HALF*NORM*(NX/NORM))*FOURTH
+           FX=(-AA*(NX/NORM)+PVEL*HALF*NX*NSIGN)*FOURTH
+           FY=(-AA*(NY/NORM)+PVEL*HALF*NY*NSIGN)*FOURTH
+           FZ=(-AA*(NZ/NORM)+PVEL*HALF*NZ*NSIGN)*FOURTH
 C
            A(1,N1)=A(1,N1)+FX
            A(2,N1)=A(2,N1)+FY
@@ -266,16 +266,16 @@ Csv       true triangles.
              K2=3*DIR_HSP-1
              K3=3*DIR_HSP
              ! hydrostatic pressure
-             COORMEAN = (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3))/TROIS)+
-     .                  (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3))/TROIS)+
-     .                  (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3))/TROIS)
+             COORMEAN = (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3))/THREE)+
+     .                  (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3))/THREE)+
+     .                  (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3))/THREE)
              AA       =  FCY*FINTER(FUN_HSP,(COORMEAN-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
            ENDIF
            NX   = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))
            NY   = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))
            NZ   = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
            NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
-           AREA = UNDEMI * NORM
+           AREA = HALF * NORM
            AA = AA * AREA
 C vel pressure
            K1=3*DIR_VEL-2
@@ -285,14 +285,14 @@ c
            NSIGN = (NX * XFRAME(K1,IFRA2) + 
      .             NY * XFRAME(K2,IFRA2) + 
      .             NZ * XFRAME(K3,IFRA2)) 
-           IF(NSIGN.NE.ZERO) NSIGN = SIGN(UN,NSIGN)
+           IF(NSIGN.NE.ZERO) NSIGN = SIGN(ONE,NSIGN)
 C
            VSEG= (XFRAME(K1,IFRA2)*
-     .             (V(1,N1) + V(1,N2) + V(1,N3)) /TROIS)+
+     .             (V(1,N1) + V(1,N2) + V(1,N3)) /THREE)+
      .            (XFRAME(K2,IFRA2)*
-     .             (V(2,N1) + V(2,N2) + V(2,N3)) /TROIS)+
+     .             (V(2,N1) + V(2,N2) + V(2,N3)) /THREE)+
      .            (XFRAME(K3,IFRA2)*
-     .             (V(3,N1) + V(3,N2) + V(3,N3)) /TROIS)
+     .             (V(3,N1) + V(3,N2) + V(3,N3)) /THREE)
            
            IF(FUN_VEL .NE.0)THEN
               VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX)- VSEG
@@ -303,12 +303,12 @@ C
      .       PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2)-
      .               (NY/NORM)*VEL*XFRAME(K2,IFRA2)-
      .               (NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )* FCY1*
-     .            FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/DEUX
+     .            FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
 C
-c           FX=(-AA*(NX/NORM)+PVEL*UNDEMI*NORM*(NX/NORM))*TIERS
-           FX=(-AA*(NX/NORM)+PVEL*UNDEMI*NX*NSIGN)*TIERS
-           FY=(-AA*(NY/NORM)+PVEL*UNDEMI*NY*NSIGN)*TIERS
-           FZ=(-AA*(NZ/NORM)+PVEL*UNDEMI*NZ*NSIGN)*TIERS
+c           FX=(-AA*(NX/NORM)+PVEL*HALF*NORM*(NX/NORM))*THIRD
+           FX=(-AA*(NX/NORM)+PVEL*HALF*NX*NSIGN)*THIRD
+           FY=(-AA*(NY/NORM)+PVEL*HALF*NY*NSIGN)*THIRD
+           FZ=(-AA*(NZ/NORM)+PVEL*HALF*NZ*NSIGN)*THIRD
 C
            A(1,N1)=A(1,N1)+FX
            A(2,N1)=A(2,N1)+FY
@@ -375,7 +375,7 @@ C
          DIR_VEL=MAX(ILOADP(12,NL),1)
          IFRA2=ILOADP(13,NL)
          ISENS=0
-         XSENS = UN
+         XSENS = ONE
          ! -------------
          ! flush fsky array to 0.
          DO I = 1,ILOADP(1,NL)/4
@@ -427,16 +427,16 @@ C
              K3=3*DIR_HSP
              IF(FUN_HSP .NE.0) THEN
                ! hydrostatic pressure
-               COORMEAN = (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))/QUATRE)+
-     .                    (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))/QUATRE)+
-     .                    (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))/QUATRE)
+               COORMEAN = (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))/FOUR)+
+     .                    (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))/FOUR)+
+     .                    (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))/FOUR)
                AA       = FCY*FINTER(FUN_HSP,(COORMEAN-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
              ENDIF
              NX   = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2))-(X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
              NY   = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2))-(X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
              NZ   = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2))-(X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
              NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
-             AREA = UNDEMI * NORM
+             AREA = HALF * NORM
              AA = AA * AREA
 C vel p  ressure
              K1=3*DIR_VEL-2
@@ -452,14 +452,14 @@ c
      .                  NY * XFRAME(K2,1) + 
      .                  NZ * XFRAME(K3,1)) 
              ENDIF
-             IF(NSIGN.NE.ZERO) NSIGN = SIGN(UN,NSIGN)
+             IF(NSIGN.NE.ZERO) NSIGN = SIGN(ONE,NSIGN)
 C
              VSEG= (XFRAME(K1,IFRA2)*
-     .               (V(1,N1) + V(1,N2) + V(1,N3) + V(1,N4)) /QUATRE)+
+     .               (V(1,N1) + V(1,N2) + V(1,N3) + V(1,N4)) /FOUR)+
      .              (XFRAME(K2,IFRA2)*
-     .               (V(2,N1) + V(2,N2) + V(2,N3) + V(2,N4)) /QUATRE)+
+     .               (V(2,N1) + V(2,N2) + V(2,N3) + V(2,N4)) /FOUR)+
      .              (XFRAME(K3,IFRA2)*
-     .               (V(3,N1) + V(3,N2) + V(3,N3) + V(3,N4)) /QUATRE)
+     .               (V(3,N1) + V(3,N2) + V(3,N3) + V(3,N4)) /FOUR)
              IF(FUN_VEL .NE.0)THEN
                 VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX)- VSEG
              ELSE
@@ -469,11 +469,11 @@ C
      .          PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2)
      .                     -(NY/NORM)*VEL*XFRAME(K2,IFRA2)
      .                     -(NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )* FCY1*
-     .              FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/DEUX
+     .              FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
 C
-             FX=(-AA*(NX/NORM)+PVEL*UNDEMI*NX*NSIGN)*QUART
-             FY=(-AA*(NY/NORM)+PVEL*UNDEMI*NY*NSIGN)*QUART
-             FZ=(-AA*(NZ/NORM)+PVEL*UNDEMI*NZ*NSIGN)*QUART
+             FX=(-AA*(NX/NORM)+PVEL*HALF*NX*NSIGN)*FOURTH
+             FY=(-AA*(NY/NORM)+PVEL*HALF*NY*NSIGN)*FOURTH
+             FZ=(-AA*(NZ/NORM)+PVEL*HALF*NZ*NSIGN)*FOURTH
 C
              IAD = IADC(ILOADP(4,NL)+4*(I-1))
              FSKY(1,IAD) = FX
@@ -544,9 +544,9 @@ C
                K2=3*DIR_HSP-1
                K3=3*DIR_HSP
                ! hydrostatic pressure
-               COORMEAN = (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3))/TROIS)+
-     .                    (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3))/TROIS)+
-     .                    (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3))/TROIS)
+               COORMEAN = (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3))/THREE)+
+     .                    (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3))/THREE)+
+     .                    (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3))/THREE)
                AA       = FCY*FINTER(FUN_HSP,(COORMEAN-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
              ENDIF
 C
@@ -554,7 +554,7 @@ C
              NY   = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2))-(X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))
              NZ   = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2))-(X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
              NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
-             AREA = UNDEMI * NORM
+             AREA = HALF * NORM
              AA = AA * AREA
 C vel p  ressure
              K1=3*DIR_VEL-2
@@ -564,14 +564,14 @@ c
              NSIGN = (NX * XFRAME(K1,IFRA2) + 
      .               NY * XFRAME(K2,IFRA2) + 
      .               NZ * XFRAME(K3,IFRA2))
-             IF(NSIGN.NE.ZERO) NSIGN = SIGN(UN,NSIGN)
+             IF(NSIGN.NE.ZERO) NSIGN = SIGN(ONE,NSIGN)
 C
              VSEG= (XFRAME(K1,IFRA2)*
-     .               (V(1,N1) + V(1,N2) + V(1,N3)) /TROIS)+
+     .               (V(1,N1) + V(1,N2) + V(1,N3)) /THREE)+
      .              (XFRAME(K2,IFRA2)*
-     .               (V(2,N1) + V(2,N2) + V(2,N3)) /TROIS)+
+     .               (V(2,N1) + V(2,N2) + V(2,N3)) /THREE)+
      .              (XFRAME(K3,IFRA2)*
-     .               (V(3,N1) + V(3,N2) + V(3,N3)) /TROIS)
+     .               (V(3,N1) + V(3,N2) + V(3,N3)) /THREE)
              IF(FUN_VEL .NE.0)THEN
                 VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX)- VSEG
              ELSE
@@ -581,11 +581,11 @@ C
      .         PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2)-
      .                 (NY/NORM)*VEL*XFRAME(K2,IFRA2)-
      .                 (NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )* FCY1*
-     .              FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/DEUX
+     .              FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
 C
-             FX=(-AA*(NX/NORM)+PVEL*UNDEMI*NX*NSIGN)*TIERS
-             FY=(-AA*(NY/NORM)+PVEL*UNDEMI*NY*NSIGN)*TIERS
-             FZ=(-AA*(NZ/NORM)+PVEL*UNDEMI*NZ*NSIGN)*TIERS
+             FX=(-AA*(NX/NORM)+PVEL*HALF*NX*NSIGN)*THIRD
+             FY=(-AA*(NY/NORM)+PVEL*HALF*NY*NSIGN)*THIRD
+             FZ=(-AA*(NZ/NORM)+PVEL*HALF*NZ*NSIGN)*THIRD
 C
              IAD = IADC(ILOADP(4,NL)+4*(I-1))
              FSKY(1,IAD) = FX
@@ -649,7 +649,7 @@ C------  ---------------
          DIR_VEL=MAX(ILOADP(12,NL),1)
          IFRA2=ILOADP(13,NL)
          ISENS=0
-         XSENS = UN
+         XSENS = ONE
 
          DO K=1,NSENSOR
            IF(ILOADP(6,NL).EQ.LSENSOR(1,K))ISENS=K
@@ -682,16 +682,16 @@ C
              K3=3*DIR_HSP
              IF(FUN_HSP .NE.0) THEN
                ! hydrostatic pressure
-               COORMEAN = (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))/QUATRE)+
-     .                    (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))/QUATRE)+
-     .                    (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))/QUATRE)
+               COORMEAN = (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))/FOUR)+
+     .                    (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))/FOUR)+
+     .                    (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))/FOUR)
                AA       = FCY*FINTER(FUN_HSP,(COORMEAN-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
              ENDIF
              NX   = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
              NY   = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
              NZ   = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
              NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
-             AREA = UNDEMI * NORM
+             AREA = HALF * NORM
              AA = AA * AREA
 C vel p  ressure
              K1=3*DIR_VEL-2
@@ -701,14 +701,14 @@ c
              NSIGN = (NX * XFRAME(K1,IFRA2) + 
      .               NY * XFRAME(K2,IFRA2) + 
      .               NZ * XFRAME(K3,IFRA2))
-             IF(NSIGN.NE.ZERO) NSIGN = SIGN(UN,NSIGN)
+             IF(NSIGN.NE.ZERO) NSIGN = SIGN(ONE,NSIGN)
 C
              VSEG= (XFRAME(K1,IFRA2)*
-     .               (V(1,N1) + V(1,N2) + V(1,N3) + V(1,N4)) /QUATRE)+
+     .               (V(1,N1) + V(1,N2) + V(1,N3) + V(1,N4)) /FOUR)+
      .              (XFRAME(K2,IFRA2)*
-     .               (V(2,N1) + V(2,N2) + V(2,N3) + V(2,N4)) /QUATRE)+
+     .               (V(2,N1) + V(2,N2) + V(2,N3) + V(2,N4)) /FOUR)+
      .              (XFRAME(K3,IFRA2)*
-     .               (V(3,N1) + V(3,N2) + V(3,N3) + V(3,N4)) /QUATRE)
+     .               (V(3,N1) + V(3,N2) + V(3,N3) + V(3,N4)) /FOUR)
                 
              IF(FUN_VEL .NE.0)THEN
                 VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX)- VSEG
@@ -719,12 +719,12 @@ C
      .         PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2)-
      .                 (NY/NORM)*VEL*XFRAME(K2,IFRA2)-
      .                 (NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )* FCY1*
-     .              FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/DEUX
+     .              FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
 C
-c             FX=(-AA*(NX/NORM)+PVEL*UNDEMI*NORM*(NX/NORM))*QUART
-             FX=(-AA*(NX/NORM)+PVEL*UNDEMI*NX*NSIGN)*QUART
-             FY=(-AA*(NY/NORM)+PVEL*UNDEMI*NY*NSIGN)*QUART
-             FZ=(-AA*(NZ/NORM)+PVEL*UNDEMI*NZ*NSIGN)*QUART
+c             FX=(-AA*(NX/NORM)+PVEL*HALF*NORM*(NX/NORM))*FOURTH
+             FX=(-AA*(NX/NORM)+PVEL*HALF*NX*NSIGN)*FOURTH
+             FY=(-AA*(NY/NORM)+PVEL*HALF*NY*NSIGN)*FOURTH
+             FZ=(-AA*(NZ/NORM)+PVEL*HALF*NZ*NSIGN)*FOURTH
 C
              IAD = IADC(ILOADP(4,NL)+4*(I-1))
              FSKYV(IAD,1) = FX
@@ -795,16 +795,16 @@ Csv         true triangles.
              K3=3*DIR_HSP
              IF(FUN_HSP .NE.0)THEN
                ! hydrostatic pressure
-               COORMEAN = (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3))/TROIS)+
-     .                    (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3))/TROIS)+
-     .                    (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3))/TROIS)
+               COORMEAN = (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3))/THREE)+
+     .                    (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3))/THREE)+
+     .                    (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3))/THREE)
                AA       =  FCY*FINTER(FUN_HSP,(COORMEAN-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
              ENDIF
              NX   = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))
              NY   = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))
              NZ   = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
              NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
-             AREA = UNDEMI * NORM
+             AREA = HALF * NORM
              AA = AA * AREA
 C vel p  ressure
              K1=3*DIR_VEL-2
@@ -814,14 +814,14 @@ c
              NSIGN = (NX * XFRAME(K1,IFRA2) + 
      .               NY * XFRAME(K2,IFRA2) + 
      .               NZ * XFRAME(K3,IFRA2))
-             IF(NSIGN.NE.ZERO) NSIGN = SIGN(UN,NSIGN)
+             IF(NSIGN.NE.ZERO) NSIGN = SIGN(ONE,NSIGN)
 C
              VSEG= (XFRAME(K1,IFRA2)*
-     .               (V(1,N1) + V(1,N2) + V(1,N3)) /TROIS)+
+     .               (V(1,N1) + V(1,N2) + V(1,N3)) /THREE)+
      .              (XFRAME(K2,IFRA2)*
-     .               (V(2,N1) + V(2,N2) + V(2,N3)) /TROIS)+
+     .               (V(2,N1) + V(2,N2) + V(2,N3)) /THREE)+
      .              (XFRAME(K3,IFRA2)*
-     .               (V(3,N1) + V(3,N2) + V(3,N3)) /TROIS)
+     .               (V(3,N1) + V(3,N2) + V(3,N3)) /THREE)
              
              IF(FUN_VEL .NE.0)THEN
                 VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX)- VSEG
@@ -832,12 +832,12 @@ C
      .         PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2)-
      .                 (NY/NORM)*VEL*XFRAME(K2,IFRA2)-
      .                 (NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )* FCY1*
-     .              FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/DEUX
+     .              FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
 C
-c             FX=(-AA*(NX/NORM)+PVEL*UNDEMI*NORM*(NX/NORM))*TIERS
-             FX=(-AA*(NX/NORM)+PVEL*UNDEMI*NX*NSIGN)*TIERS
-             FY=(-AA*(NY/NORM)+PVEL*UNDEMI*NY*NSIGN)*TIERS
-             FZ=(-AA*(NZ/NORM)+PVEL*UNDEMI*NZ*NSIGN)*TIERS
+c             FX=(-AA*(NX/NORM)+PVEL*HALF*NORM*(NX/NORM))*THIRD
+             FX=(-AA*(NX/NORM)+PVEL*HALF*NX*NSIGN)*THIRD
+             FY=(-AA*(NY/NORM)+PVEL*HALF*NY*NSIGN)*THIRD
+             FZ=(-AA*(NZ/NORM)+PVEL*HALF*NZ*NSIGN)*THIRD
 C
              IAD = IADC(ILOADP(4,NL)+4*(I-1))
              FSKYV(IAD,1) = FX

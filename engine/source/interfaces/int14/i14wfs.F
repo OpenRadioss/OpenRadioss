@@ -70,7 +70,7 @@ C-----------------------------------------------
 C        Interface Stifnesses at nodes ...
 C        J11+8 : Sauve DE pour calcul Travail des Forces Secnds.
          DE=INTBUF_TAB(N)%VARIABLES(9)
-         FSAV(7,N)=FSAV(7,N)+DE*DT2*UNDEMI
+         FSAV(7,N)=FSAV(7,N)+DE*DT2*HALF
 C
          NRTM=IPARI(4,N)
 Clm      Warning : DE doit etre stocke Surface / Surface, dans l'Interface
@@ -78,7 +78,7 @@ C                  actuellement, NRTM == 1.
          KSURF=INTBUF_TAB(N)%KSURF(1)
          IF (IGRSURF(KSURF)%TYPE.EQ.100) THEN
 C          Travail des interfaces avec Madymo.
-           TFEXT=TFEXT+DE*DT2*UNDEMI
+           TFEXT=TFEXT+DE*DT2*HALF
          ENDIF
 C-----------------------------------------------
  100  CONTINUE

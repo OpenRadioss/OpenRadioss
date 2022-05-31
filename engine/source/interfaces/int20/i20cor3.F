@@ -104,7 +104,7 @@ C
             GAPV(I)=GAPFI(NIN)%P(CAND_N(I)-NSN)+GAP_M(CAND_E(I))
           ENDIF
           GAPV(I)=MIN(GAPV(I),GAPMAX)
-          GAPV(I)=GAPV(I)+GAP_SH(CAND_E(I))*(UN-EM5)
+          GAPV(I)=GAPV(I)+GAP_SH(CAND_E(I))*(ONE-EM5)
           GAPR(I)=GAPV(I)
           GAPV(I)=MAX(GAPMIN,GAPV(I))
         ENDDO
@@ -252,7 +252,7 @@ C
             NN = NI - NSN
             STIF(I)=ABS(STIFI(NIN)%P(NN))
           END IF
-          STIF(I)=UNDEMI*(STF(L)+STIF(I))
+          STIF(I)=HALF*(STF(L)+STIF(I))
           STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
          ENDDO
       ELSEIF(IGSTI.EQ.3)THEN
@@ -298,7 +298,7 @@ C
       ENDIF
 
       DO I=1,JLT
-        STIF(I)=MAX(STFAC,UN)*STIF(I)
+        STIF(I)=MAX(STFAC,ONE)*STIF(I)
       ENDDO
 
       IF(IADM.NE.0)THEN
@@ -557,7 +557,7 @@ C
       END IF
 
       DO I=1,JLT
-        STIF(I)=MAX(STFAC,UN)*STIF(I)
+        STIF(I)=MAX(STFAC,ONE)*STIF(I)
       ENDDO
 C
       IF(IDTMINS==2)THEN
@@ -754,14 +754,14 @@ C
 C
        XS2 = MAX(XS2,EM20)
        XM2 = MAX(XM2,EM20)
-       H1M(I)=MIN(UN,MAX(ZERO,H1M(I)))
+       H1M(I)=MIN(ONE,MAX(ZERO,H1M(I)))
        H1S(I) = -(XA + H1M(I)*XSM) / XS2
-       H1S(I)=MIN(UN,MAX(ZERO,H1S(I)))
+       H1S(I)=MIN(ONE,MAX(ZERO,H1S(I)))
        H1M(I) = -(XB + H1S(I)*XSM) / XM2
-       H1M(I)=MIN(UN,MAX(ZERO,H1M(I)))
+       H1M(I)=MIN(ONE,MAX(ZERO,H1M(I)))
 
-       H2S(I) = UN -H1S(I)
-       H2M(I) = UN -H1M(I)
+       H2S(I) = ONE -H1S(I)
+       H2M(I) = ONE -H1M(I)
 C !!!!!!!!!!!!!!!!!!!!!!!
 C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
 C!!!!!!!!!!!!!!!!!!!!!!!!

@@ -619,7 +619,7 @@ C to be  clarified later IPOS > 0
              TMIN = EP20                                                    
              TMAX = -EP20                                                   
              DO J=1,NPT                                                     
-              DT = UNDEMI*IWORKS%GEO(IPTHK   + J     ,IS)                    
+              DT = HALF*IWORKS%GEO(IPTHK   + J     ,IS)                    
               TMIN = MIN(TMIN,IWORKS%GEO(IPPOS   + J     ,IS)-DT)            
               TMAX = MAX(TMAX,IWORKS%GEO(IPPOS   + J     ,IS)+DT)            
              ENDDO                                                           
@@ -640,19 +640,19 @@ C to be  clarified later IPOS > 0
                ENDDO
 C                
                IF(IPOS == 0 )THEN
-                 ZSHIFT = - UNDEMI
+                 ZSHIFT = - HALF
                ELSEIF(IPOS == 2 )THEN
                  ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)
                ELSEIF(IPOS == 3) THEN
-                 ZSHIFT = -UN
+                 ZSHIFT = -ONE
                ELSEIF(IPOS == 4) THEN
                  ZSHIFT = ZERO
                ENDIF                   
 C---             calcul automatique de position des couches             
-                 IWORKS%GEO(IPPOS+1,IS) = ZSHIFT + UNDEMI*IWORKS%GEO(IPTHK+1,IS)
+                 IWORKS%GEO(IPPOS+1,IS) = ZSHIFT + HALF*IWORKS%GEO(IPTHK+1,IS)
                  DO J=2,NPT                                               
                    IWORKS%GEO(IPPOS+J,IS) = IWORKS%GEO(IPPOS+J-1,IS)            
-     .               + UNDEMI*(IWORKS%GEO(IPTHK+J,IS)+IWORKS%GEO(IPTHK+J-1,IS))   
+     .               + HALF*(IWORKS%GEO(IPTHK+J,IS)+IWORKS%GEO(IPTHK+J-1,IS))   
                  ENDDO
 C               
             ENDIF ! IPOS =0,1,2,3,4                                            
@@ -691,17 +691,17 @@ cc              IF (IINT == 1) THEN  !  uniform distribution - by default
 cc                DO IT=1,NPTT
 cc                  THK_IT(IT) = THK_LY/NPTT  ! equally distribution of NPTT through layer
 cc                ENDDO 
-cc                POS_0 = POS_LY - UNDEMI*THK_LY
-cc                IF (NLAY == 1) POS_0 = - UNDEMI !! special case
-cc                POS_IT(1) = POS_0 + UNDEMI*THK_IT(1)
-cccc                POS_IT(1) = POS_LY - UNDEMI*THK_LY + UNDEMI*THK_IT(1)
+cc                POS_0 = POS_LY - HALF*THK_LY
+cc                IF (NLAY == 1) POS_0 = - HALF !! special case
+cc                POS_IT(1) = POS_0 + HALF*THK_IT(1)
+cccc                POS_IT(1) = POS_LY - HALF*THK_LY + HALF*THK_IT(1)
 cc                DO IT=2,NPTT
-cc                  POS_IT(IT) = POS_IT(IT-1) + UNDEMI*(THK_IT(IT) + THK_IT(IT-1))
+cc                  POS_IT(IT) = POS_IT(IT-1) + HALF*(THK_IT(IT) + THK_IT(IT-1))
 cc                ENDDO
 cc              ELSEIF (IINT == 2) THEN  !  Gauss distribution
 cc                DO IT=1,NPTT
-cc                  THK_IT(IT) = UNDEMI*THK_LY*W_GAUSS(IT,NPTT)
-cc                  POS_IT(IT) = POS_LY + UNDEMI*THK_LY*A_GAUSS(IT,NPTT)
+cc                  THK_IT(IT) = HALF*THK_LY*W_GAUSS(IT,NPTT)
+cc                  POS_IT(IT) = POS_LY + HALF*THK_LY*A_GAUSS(IT,NPTT)
 cc                ENDDO
 cc              ENDIF
 cc            ENDDO  !  DO ILAY=1,NLAY
@@ -1121,7 +1121,7 @@ C to be  clarified later IPOS > 0
             TMIN = EP20                                                     
             TMAX = -EP20                                                    
             DO J=1,NPT                                                      
-             DT = UNDEMI*STACK%GEO(IPTHK   + J  ,IIS)                     
+             DT = HALF*STACK%GEO(IPTHK   + J  ,IIS)                     
              TMIN = MIN(TMIN,STACK%GEO(IPPOS   + J ,IIS)-DT)             
              TMAX = MAX(TMAX,STACK%GEO(IPPOS   + J ,IIS)+DT)             
             ENDDO                                                            
@@ -1144,21 +1144,21 @@ C to be  clarified later IPOS > 0
                ENDDO
 C                
                IF(IPOS == 0 )THEN
-                 ZSHIFT = - UNDEMI
+                 ZSHIFT = - HALF
                ELSEIF(IPOS == 2 )THEN
                  ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)
                ELSEIF(IPOS == 3) THEN
-                 ZSHIFT = -UN
+                 ZSHIFT = -ONE
                ELSEIF(IPOS == 4) THEN
                  ZSHIFT = ZERO
                ENDIF                   
 C---             calcul automatique de position des couches             
                  STACK%GEO(IPPOS+1,IIS) = ZSHIFT +
-     .                          UNDEMI*STACK%GEO(IPTHK+1,IIS)
+     .                          HALF*STACK%GEO(IPTHK+1,IIS)
                  DO J=2,NPT                                               
                   STACK%GEO(IPPOS+J,IIS) =   
      .                    STACK%GEO(IPPOS+J-1,IIS)      +
-     .                    UNDEMI*(STACK%GEO(IPTHK+J,IIS)+
+     .                    HALF*(STACK%GEO(IPTHK+J,IIS)+
      .                            STACK%GEO(IPTHK+J-1,IIS))   
                  ENDDO
 C               
@@ -1199,17 +1199,17 @@ cc              IF (IINT == 1) THEN  !  uniform distribution - by default
 cc                DO IT=1,NPTT
 cc                  THK_IT(IT) = THK_LY/NPTT  ! equally distribution of NPTT through layer
 cc                ENDDO 
-cc                POS_0 = POS_LY - UNDEMI*THK_LY
-cc                IF (NLAY == 1) POS_0 = - UNDEMI !! special case
-cc                POS_IT(1) = POS_0 + UNDEMI*THK_IT(1)
-cccc                POS_IT(1) = POS_LY - UNDEMI*THK_LY + UNDEMI*THK_IT(1)
+cc                POS_0 = POS_LY - HALF*THK_LY
+cc                IF (NLAY == 1) POS_0 = - HALF !! special case
+cc                POS_IT(1) = POS_0 + HALF*THK_IT(1)
+cccc                POS_IT(1) = POS_LY - HALF*THK_LY + HALF*THK_IT(1)
 cc                DO IT=2,NPTT
-cc                  POS_IT(IT) = POS_IT(IT-1) + UNDEMI*(THK_IT(IT) + THK_IT(IT-1))
+cc                  POS_IT(IT) = POS_IT(IT-1) + HALF*(THK_IT(IT) + THK_IT(IT-1))
 cc                ENDDO
 cc              ELSEIF (IINT == 2) THEN  !  Gauss distribution
 cc                DO IT=1,NPTT
-cc                  THK_IT(IT) = UNDEMI*THK_LY*W_GAUSS(IT,NPTT)
-cc                  POS_IT(IT) = POS_LY + UNDEMI*THK_LY*A_GAUSS(IT,NPTT)
+cc                  THK_IT(IT) = HALF*THK_LY*W_GAUSS(IT,NPTT)
+cc                  POS_IT(IT) = POS_LY + HALF*THK_LY*A_GAUSS(IT,NPTT)
 cc                ENDDO
 cc              ENDIF
 cc            ENDDO  !  DO ILAY=1,NLAY

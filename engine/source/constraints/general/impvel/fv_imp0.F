@@ -315,8 +315,8 @@ C
           L = IBFV(3,N)
           LC(II) = IBFV(7,N)
           IPOSC(II) = 0
-          IADC(II) = UNDEMI * NPC(L) + 1
-          ILENC(II) = UNDEMI * NPC(L+1) - IADC(II) - IPOSC(II)
+          IADC(II) = HALF * NPC(L) + 1
+          ILENC(II) = HALF * NPC(L+1) - IADC(II) - IPOSC(II)
          ENDDO
         ELSE
          DO II=1,IC
@@ -324,8 +324,8 @@ C
           L = IBFV(3,N)
           LC(II) = IBFV(7,N)
           IPOSC(II) = IBFV(5,N)
-          IADC(II) = UNDEMI * NPC(L) + 1
-          ILENC(II) = UNDEMI * NPC(L+1) - IADC(II) - IPOSC(II)
+          IADC(II) = HALF * NPC(L) + 1
+          ILENC(II) = HALF * NPC(L+1) - IADC(II) - IPOSC(II)
          ENDDO
         ENDIF
         CALL DINTERI(TF,IADC,IPOSC,ILENC,IC,TSC1,TSC,YC,LC)
@@ -727,13 +727,13 @@ C
           J1 = IAD(I)-1+JJ
           IF (ITY(I).EQ.0) THEN
             IF (X1(I).GT.TF(1,J1+1)) THEN
-              V(I) = V(I) + UNDEMI*(TF(2,J1)+TF(2,J1+1))*
+              V(I) = V(I) + HALF*(TF(2,J1)+TF(2,J1+1))*
      .                             (TF(1,J1+1)-TF(1,J1))
               ICONT = 1
             ELSE
               DYDX = (TF(2,J1+1)-TF(2,J1))/(TF(1,J1+1)-TF(1,J1))
               Y2(I) = TF(2,J1) + DYDX*(X2(I)-TF(1,J1))
-              V(I) = V(I) + UNDEMI*(TF(2,J1)+Y1(I))*
+              V(I) = V(I) + HALF*(TF(2,J1)+Y1(I))*
      .                             (X1(I)-TF(1,J1))
             END IF
           ELSE
@@ -752,14 +752,14 @@ C
            IPOS(I)=IPOS(I)+1
            ICONT = 1
           IF (ITY(I).EQ.1) THEN
-           DY(I) = DY(I) + UNDEMI*(TF(2,J1)+Y(I))*
+           DY(I) = DY(I) + HALF*(TF(2,J1)+Y(I))*
      .                            (TF(1,J1)-X(I))
            X(I) = TF(1,J1)
            Y(I) = TF(2,J1)
           ELSEIF (ITY(I).EQ.0) THEN
            DY(I) = DY(I) + V(I)*(TF(1,J1)-X(I)) +
-     .     UNSIX*(DEUX*Y(I)+TF(2,J1))*(TF(1,J1)-X(I))*(TF(1,J1)-X(I))
-           V(I) = V(I) + UNDEMI*(Y(I)+TF(2,J1))*(TF(1,J1)-X(I))
+     .     ONE_OVER_6*(TWO*Y(I)+TF(2,J1))*(TF(1,J1)-X(I))*(TF(1,J1)-X(I))
+           V(I) = V(I) + HALF*(Y(I)+TF(2,J1))*(TF(1,J1)-X(I))
            X(I) = TF(1,J1)
            Y(I) = TF(2,J1)
           ENDIF
@@ -776,10 +776,10 @@ C------interpelation pour (d,v,a)--------
           IF (ITY(I).EQ.2) THEN
            DY(I) = Y2(I) - Y1(I)
           ELSEIF (ITY(I).EQ.1) THEN
-           DY(I) = DY(I) + UNDEMI*(Y(I)+Y2(I))*(X2(I)-X(I))
+           DY(I) = DY(I) + HALF*(Y(I)+Y2(I))*(X2(I)-X(I))
           ELSEIF (ITY(I).EQ.0) THEN
            DY(I) = DY(I) + V(I)*(X2(I)-X(I)) +
-     .     UNSIX*(DEUX*Y(I)+Y2(I))*(X2(I)-X(I))*(X2(I)-X(I))
+     .     ONE_OVER_6*(TWO*Y(I)+Y2(I))*(X2(I)-X(I))*(X2(I)-X(I))
           ENDIF
       ENDDO
 C
@@ -846,7 +846,7 @@ C--------
             ENDIF
          IF (J1.LE.3) THEN
           IR =0
-          S = UN/EJ(J1)
+          S = ONE/EJ(J1)
           DO NN =1,3
            EJ(NN) = EJ(NN)*S
           ENDDO
@@ -855,7 +855,7 @@ C--------
          ELSE
           IR =1
           J1 = J1 -3
-          S = UN/EJ(J1)
+          S = ONE/EJ(J1)
           DO NN =1,3
            EJ(NN) = EJ(NN)*S
           ENDDO
@@ -1012,7 +1012,7 @@ C
               EJ(3)=XFRAME(K3,IFM)
             ENDIF
             J1 = LJ(N)
-            S = UN/EJ(J1)
+            S = ONE/EJ(J1)
             DO NN =1,3
              EJ(NN) = EJ(NN)*S
             ENDDO
@@ -1050,7 +1050,7 @@ C-------traite le cas ou il y a deux directions sont imposees-----
               EJ(3)=XFRAME(K3,IFM)
             ENDIF
             J1 = LJ(N)
-            S1 = UN/EJ(J1)
+            S1 = ONE/EJ(J1)
             DO NN =1,3
              EJ(NN) = EJ(NN)*S1
             ENDDO
@@ -1073,7 +1073,7 @@ C
               EJ1(3)=XFRAME(K3,IFM)
             ENDIF
             J2 = LJ(N1)
-            S2 = UN/EJ1(J2)
+            S2 = ONE/EJ1(J2)
             DO NN =1,3
              EJ1(NN) = EJ1(NN)*S2
             ENDDO
@@ -1476,7 +1476,7 @@ C-----------------------------------------------
               EJ(3)=XFRAME(K3,IFM)
             ENDIF
           J1 = IFX(2,II)
-          S = UN/EJ(J1)
+          S = ONE/EJ(J1)
           DO NN =1,3
            EJ(NN) = EJ(NN)*S
           ENDDO
@@ -1556,8 +1556,8 @@ C-----------------------------------------------
       L = J + 2
       IF (K.GT.3) K = K - 3
       IF (L.GT.3) L = L - 3
-      DIAG_K(K)=DIAG_K(K)-(DEUX*KDD(K,J)-KDD(J,J)*EJ(K))*EJ(K)
-      DIAG_K(L)=DIAG_K(L)-(DEUX*KDD(L,J)-KDD(J,J)*EJ(L))*EJ(L)
+      DIAG_K(K)=DIAG_K(K)-(TWO*KDD(K,J)-KDD(J,J)*EJ(K))*EJ(K)
+      DIAG_K(L)=DIAG_K(L)-(TWO*KDD(L,J)-KDD(J,J)*EJ(L))*EJ(L)
 C
       RETURN
       END
@@ -1619,7 +1619,7 @@ C--------
             ENDIF
          IF (J1.LE.3) THEN
           IR =0
-          S = UN/EJ(J1)
+          S = ONE/EJ(J1)
           DO NN =1,3
            EJ(NN) = EJ(NN)*S
           ENDDO
@@ -1627,7 +1627,7 @@ C--------
          ELSE
           IR =1
           J1 = J1 -3
-          S = UN/EJ(J1)
+          S = ONE/EJ(J1)
           DO NN =1,3
            EJ(NN) = EJ(NN)*S
           ENDDO
@@ -1695,7 +1695,7 @@ C--------
               EJ(2)=XFRAME(K2,IFM)
               EJ(3)=XFRAME(K3,IFM)
             ENDIF
-          S = UN/EJ(J1)
+          S = ONE/EJ(J1)
           DO NN =1,3
            EJ(NN) = EJ(NN)*S
           ENDDO
@@ -1887,8 +1887,8 @@ C
           LC(II) = IBFV(7,N)
 C
           IPOSC(II) = IBFV(5,N)
-          IADC(II) = UNDEMI * NPC(L) + 1
-          ILENC(II) = UNDEMI * NPC(L+1) - IADC(II) - IPOSC(II)
+          IADC(II) = HALF * NPC(L) + 1
+          ILENC(II) = HALF * NPC(L+1) - IADC(II) - IPOSC(II)
          ENDDO
 C
         CALL DINTERA(TF,IADC,IPOSC,ILENC,IC,TSC1,TSC,YC,LC)
@@ -1912,12 +1912,12 @@ C
             ENDIF
 C---Correction for DY_V,DY_D
             DY_V(J,I) = DY_V(J,I)+(YC(II)-A(J,I))*DT2
-            DY_D(J,I) =DT2*(DY_V(J,I)+(DY_G-DY_B-UNDEMI)*YC(II)*DT2)
+            DY_D(J,I) =DT2*(DY_V(J,I)+(DY_G-DY_B-HALF)*YC(II)*DT2)
 	        A(J,I) = YC(II)
             IF (TT.LE.DT2) THEN
              DY_V(J,I) = UD(J,I)/DT2
              DY_D(J,I) = UD(J,I)
-             YC(II) = UNDEMI*DY_V(J,I)/DT2
+             YC(II) = HALF*DY_V(J,I)/DT2
 	        END IF
             DW   = DW + UD(J,I)*(MS(I)*WEIGHT(I)*YC(II)-FINT)
           ELSEIF(J.LE.6)THEN
@@ -1973,12 +1973,12 @@ c
             ENDIF
 C---Correction for DY_VR,DY_DR, DY_AR
             DY_VR(J,I) = DY_VR(J,I)+(YC(II)-AR(J,I))*DT2
-            DY_DR(J,I) =DT2*(DY_VR(J,I)+(DY_G-DY_B-UNDEMI)*YC(II)*DT2)
+            DY_DR(J,I) =DT2*(DY_VR(J,I)+(DY_G-DY_B-HALF)*YC(II)*DT2)
 	    AR(J,I) = YC(II)
             IF (TT.LE.DT2) THEN
              DY_VR(J,I) = RD(J,I)/DT2
              DY_DR(J,I) = RD(J,I)
-             YC(II) = UNDEMI*DY_VR(J,I)/DT2
+             YC(II) = HALF*DY_VR(J,I)/DT2
 	    END IF
             DW   = DW + RD(J,I)*(IN0*YC(II)-FINT)
           ENDIF
@@ -2143,7 +2143,7 @@ C------interpelation in function of (d,v,a)--------
            AY(I) = (Y2(I)-Y1(I))/(X2(I)-X1(I))
           ELSEIF (ITY(I).EQ.0) THEN
 C----------------takes average value since it's used only for energy compute
-           AY(I) = (Y2(I)+Y1(I))*UNDEMI
+           AY(I) = (Y2(I)+Y1(I))*HALF
           ENDIF
       ENDDO
       I=1
@@ -2304,7 +2304,7 @@ C
      .             XFRAME(K3,IFM)*(AR(3,I)+IN0*DY_AR(3,I))
             ENDIF
           ENDIF
-          VEL(4,N) = UNDEMI*(VEL(4,N)+A0)
+          VEL(4,N) = HALF*(VEL(4,N)+A0)
          ENDDO
  100    CONTINUE
       ENDDO
@@ -3952,7 +3952,7 @@ C
 	  IF (J >3) J= J-3
       J2  = J1_1
 	  IF (J2 >3) J2= J2-3
-      DET = UN/(EJ(J)*EJ1(J2)-EJ(J2)*EJ1(J))
+      DET = ONE/(EJ(J)*EJ1(J2)-EJ(J2)*EJ1(J))
 	  EA = -DET*(EJ1(J2)*EJ(K)-EJ(J2)*EJ1(K))
 	  EB = -DET*(EJ(J)*EJ1(K)-EJ1(J)*EJ(K))
 C	  

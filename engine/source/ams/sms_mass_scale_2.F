@@ -430,7 +430,7 @@ C----- Damping sur dof rotation et seulement -----
              DAMPA = DAMPR(3,ND)
              DAMPB = DAMPR(4,ND)
              BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-             OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+             OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
              DO N=1,IGRNOD(IGR)%NENTITY
                I=IGRNOD(IGR)%ENTITY(N)
                IF(TAGSLV_RBY(I)/=0) CYCLE
@@ -438,14 +438,14 @@ C----- Damping sur dof rotation et seulement -----
                DA = DA * OMEGA - A(1,I)
                DAMP(1,I) = A(1,I)
                A(1,I)    = A(1,I) + DA
-C              DW =DW+DA*(V(1,I)+UNDEMI*ACC(1,I)*DT1)*DT12*WEIGHT(I)
+C              DW =DW+DA*(V(1,I)+HALF*ACC(1,I)*DT1)*DT12*WEIGHT(I)
 C              2nd order error
                DW =DW+DA*V(1,I)*DT12*WEIGHT(I)
              END DO
              DAMPA = DAMPR(5,ND)
              DAMPB = DAMPR(6,ND)
              BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-             OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+             OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
              DO N=1,IGRNOD(IGR)%NENTITY
                I=IGRNOD(IGR)%ENTITY(N)
                IF(TAGSLV_RBY(I)/=0) CYCLE
@@ -459,7 +459,7 @@ C              2nd order error
              DAMPA = DAMPR(7,ND)
              DAMPB = DAMPR(8,ND)
              BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-             OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+             OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
              DO N=1,IGRNOD(IGR)%NENTITY
                I=IGRNOD(IGR)%ENTITY(N)
                IF(TAGSLV_RBY(I)/=0) CYCLE
@@ -515,7 +515,7 @@ C              2nd order error
              DAMPA = DAMPR(3,ND)
              DAMPB = DAMPR(4,ND)
              BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-             OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+             OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
              DO N=1,IGRNOD(IGR)%NENTITY
               I=IGRNOD(IGR)%ENTITY(N)
@@ -531,7 +531,7 @@ C             2nd order error
              DAMPA = DAMPR(5,ND)
              DAMPB = DAMPR(6,ND)
              BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-             OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+             OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
              DO N=1,IGRNOD(IGR)%NENTITY
               I=IGRNOD(IGR)%ENTITY(N)
@@ -547,7 +547,7 @@ C             2nd order error
              DAMPA = DAMPR(7,ND)
              DAMPB = DAMPR(8,ND)
              BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
-             OMEGA  = UN/ (UN + UNDEMI * DAMPA * DT1)
+             OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 #include "vectorize.inc"
              DO N=1,IGRNOD(IGR)%NENTITY
               I=IGRNOD(IGR)%ENTITY(N)
@@ -597,8 +597,8 @@ C-----------------------------------
        IF (ISTAT==1.OR.ISTAT==3) THEN
 !$OMP SINGLE
          OMEGA  = BETATE * DT12
-         UOMEGA = UN - OMEGA
-         DOMEGA = DEUX*BETATE
+         UOMEGA = ONE - OMEGA
+         DOMEGA = TWO*BETATE
          DW = ZERO
         IF(ISTATG==0)THEN
           DO J= 1,3
@@ -818,8 +818,8 @@ C-----------------------------------
 C
       CALL MY_BARRIER
 C
-c      DT15=UNDEMI*DT1
-c      DT25=UNDEMI*DT2
+c      DT15=HALF*DT1
+c      DT25=HALF*DT2
 c      TFEXTT=ERRTE_SMS
 c      ERRTET =ZERO
 c      DO N=NODFT1_SMS,NODLT1_SMS

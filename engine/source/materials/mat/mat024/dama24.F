@@ -123,7 +123,7 @@ c
 c       SAUVE LA DEFORMATION A RUPTURE
 c
         SFTRY = MIN(EPSTOT(IDIR),EPSTOT(IDIR)-SCLE2(I)*EPS(IDIR),EPST)
-        SFTRY = MAX(SFTRY,QUART*EPST)
+        SFTRY = MAX(SFTRY,FOURTH*EPST)
 c
         IF (EPSTOT(IDIR) < SFTRY) THEN
            IF (IDEB==1) THEN
@@ -175,33 +175,33 @@ c
             ENDIF
 
             EPS_F(I,K) = SFTRY
-            DAM(I,K) = QQ * (UN - EPS_F(I,K) / MAX(EPSTOT(K),EM20) )
+            DAM(I,K) = QQ * (ONE - EPS_F(I,K) / MAX(EPSTOT(K),EM20) )
             DAM(I,K) = MAX(DAM(I,K),EM20)
             DAM(I,K) = MIN(DAM(I,K),DSUP)
-            DE(K)    = UN - DAM(I,K)
+            DE(K)    = ONE - DAM(I,K)
             SCAL(K)  = ZERO
 c
 c
 c            EPS_F(I,K) = SFTRY
 c            DAM(I,K) = QQ * DEPSF / EPSTOT(K)
 c            DAM(I,K) = MIN(DAM(I,K),DSUP)
-c            DE(K)  = UN - DAM(I,K)
+c            DE(K)  = ONE - DAM(I,K)
 c            SCAL(K)= ZERO
           ENDIF
         ENDDO   ! next K
 c
 c       CALCULE LA MATRICE DE HOOKE ET LES CONTRAINTES (rotation repere !)
 c
-        DEN = UN - NU**2
+        DEN = ONE - NU**2
      .      * (SCAL(1)*SCAL(2) + SCAL(2)*SCAL(3) + SCAL(3)*SCAL(1)
-     .      + DEUX*NU*SCAL(1)*SCAL(2)*SCAL(3))
+     .      + TWO*NU*SCAL(1)*SCAL(2)*SCAL(3))
 C
-        CDAM(I,1,1) = YOUNG*DE(1)*(UN-NU**2*SCAL(2)*SCAL(3))/DEN
-        CDAM(I,2,2) = YOUNG*DE(2)*(UN-NU**2*SCAL(1)*SCAL(3))/DEN
-        CDAM(I,3,3) = YOUNG*DE(3)*(UN-NU**2*SCAL(2)*SCAL(1))/DEN
-        CDAM(I,1,2) = NU*YOUNG*SCAL(1)*SCAL(2)*(UN+NU*SCAL(3))/DEN
-        CDAM(I,2,3) = NU*YOUNG*SCAL(2)*SCAL(3)*(UN+NU*SCAL(1))/DEN
-        CDAM(I,1,3) = NU*YOUNG*SCAL(1)*SCAL(3)*(UN+NU*SCAL(2))/DEN
+        CDAM(I,1,1) = YOUNG*DE(1)*(ONE-NU**2*SCAL(2)*SCAL(3))/DEN
+        CDAM(I,2,2) = YOUNG*DE(2)*(ONE-NU**2*SCAL(1)*SCAL(3))/DEN
+        CDAM(I,3,3) = YOUNG*DE(3)*(ONE-NU**2*SCAL(2)*SCAL(1))/DEN
+        CDAM(I,1,2) = NU*YOUNG*SCAL(1)*SCAL(2)*(ONE+NU*SCAL(3))/DEN
+        CDAM(I,2,3) = NU*YOUNG*SCAL(2)*SCAL(3)*(ONE+NU*SCAL(1))/DEN
+        CDAM(I,1,3) = NU*YOUNG*SCAL(1)*SCAL(3)*(ONE+NU*SCAL(2))/DEN
         CDAM(I,2,1) = CDAM(I,1,2)
         CDAM(I,3,1) = CDAM(I,1,3)
         CDAM(I,3,2) = CDAM(I,2,3)

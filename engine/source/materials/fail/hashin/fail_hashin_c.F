@@ -102,8 +102,8 @@ C-----------------------------------------------
      .   TSIG12,XSIG12,XSIG23,DAMMX, TELEM,K2M,INSTF,K0,K1,K2,K3,
      .   ZEP669741,DTINV,KM,EPSPREF,FILT,ALPHA
 c=======================================================================C
-      ZEP669741 = SIX*EM01 + SIX*EM02 + NEUF*EM3 + SEPT*EM04 +
-     .            QUATRE*EM05 + EM06
+      ZEP669741 = SIX*EM01 + SIX*EM02 + NINE*EM3 + SEVEN*EM04 +
+     .            FOUR*EM05 + EM06
 C      
       IMODEL   = INT(UPARAM(1))                  
       SIGT1    = UPARAM(2)                       
@@ -132,7 +132,7 @@ c
       ELSEIF (IFAIL_SH == 2) THEN
         PTHKF = RATIO
       ELSE   !  IFAIL_SH = 3
-        PTHKF = UN - EM06
+        PTHKF = ONE - EM06
       ENDIF
 c-------------------------------
       MODE(1,1:NEL) = 0
@@ -145,7 +145,7 @@ c-------------------------------
       NINDX  = 0  
 c
       IF (TIME == ZERO) then
-        DADV(:) = UN
+        DADV(:) = ONE
       ENDIF
 c
       IF (IFRWAVE > 1) THEN   ! front wave propagation
@@ -159,7 +159,7 @@ c-------------------------------
       CASE (1)   !    Matrix or fiber failure mode
 c-------------------------------
         DO I=1,NEL
-          IF (OFF(I) == UN .and. FOFF(I) == 1) THEN
+          IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
             F1 = ZERO
             F2 = ZERO
             F3 = ZERO
@@ -167,23 +167,23 @@ c-------------------------------
             F5 = ZERO
 C alpha = number of cycles                                 
             DTINV = TIMESTEP(I)/MAX(TIMESTEP(I)**2,EM20) 
-            ALPHA = INT(MAX(UN,FILT*DTINV))
+            ALPHA = INT(MAX(ONE,FILT*DTINV))
 c alpha coef de moyenne mobile exponentielle
-            ALPHA = DEUX/(ALPHA + UN)
+            ALPHA = TWO/(ALPHA + ONE)
             FS(I)=UVAR(I,10) 
 c smoothed strain rate 
-            EPSP(I)=(UN - ALPHA)*UVAR(I,11)  +  ALPHA*EPSP(I) 
+            EPSP(I)=(ONE - ALPHA)*UVAR(I,11)  +  ALPHA*EPSP(I) 
             UVAR(I,11)=EPSP(I)
             IF (UVAR(I,6) == ZERO) THEN                  
 c
 c             fiber criteria
 c
-              SIG = UNDEMI*(SIGNXX(I) + ABS(SIGNXX(I)))
+              SIG = HALF*(SIGNXX(I) + ABS(SIGNXX(I)))
               F1  = (SIG/SIGT1)**2 
      .            + (SIGNXY(I)**2 + SIGNZX(I)**2)/FSIG12**2
-              SIG = -UNDEMI*SIGNYY(I)
-              SIG = -SIGNXX(I) + UNDEMI*(SIG + ABS(SIG))
-              SIG = UNDEMI*(SIG + ABS(SIG))
+              SIG = -HALF*SIGNYY(I)
+              SIG = -SIGNXX(I) + HALF*(SIG + ABS(SIG))
+              SIG = HALF*(SIG + ABS(SIG))
               F2  = (SIG /SIGC1)**2 
               P   = -THIRD*(SIGNXX(I) + SIGNYY(I))
               IF (P > 0) F3 = (P/CSIG)**2
@@ -200,18 +200,18 @@ c
                 XSIG23 = MSIG23                                    
               ENDIF                                                
 c                                                                  
-              SIG = UNDEMI*(SIGNYY(I) + ABS(SIGNYY(I)))            
+              SIG = HALF*(SIGNYY(I) + ABS(SIGNYY(I)))            
               F4  = (SIG/SIGT2)**2                                 
      .            + (SIGNYZ(I)/XSIG23)**2 + (SIGNXY(I)/XSIG12)**2  
 c
-              DAMMX    = MIN(UN,MAX(F1,F2,F3,F4,F5))
-              DFMAX(I) = MIN(UN,DAMMX)
+              DAMMX    = MIN(ONE,MAX(F1,F2,F3,F4,F5))
+              DFMAX(I) = MIN(ONE,DAMMX)
               IF (DAMMX >= DADV(I)) THEN
                 NINDX = NINDX+1                                    
                 INDX(NINDX) = I                                    
                 UVAR(I,6) = TIME 
 C
-                FAC =  CENT*MAX(ABS(SIGNXX(I)),ABS(SIGNYY(I)),
+                FAC =  HUNDRED*MAX(ABS(SIGNXX(I)),ABS(SIGNYY(I)),
      .                  ABS(SIGNXY(I)),ABS(SIGNYZ(I)),ABS(SIGNZX(I)))
                 K0 =  FAC*EPSPREF**2*ZEP669741*TMAX**2 + ZEP9*EPSPREF*TMAX
                 K1 =  ZEP9*EPSP(I)
@@ -264,7 +264,7 @@ c ----------------------------------------------
       CASE (2)   !    Fabric failure mode 
 c------------------------------- 
         DO I=1,NEL
-          IF (OFF(I) == UN .and. FOFF(I) == 1) THEN
+          IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
             F1 = ZERO
             F2 = ZERO
             F3 = ZERO
@@ -275,19 +275,19 @@ c-------------------------------
 c
 C alpha = number of cycles                                 
             DTINV = TIMESTEP(I)/MAX(TIMESTEP(I)**2,EM20) 
-            ALPHA = INT(MAX(UN,FILT*DTINV))
+            ALPHA = INT(MAX(ONE,FILT*DTINV))
 c alpha coef de moyenne mobile exponentielle
-            ALPHA = DEUX/(ALPHA + UN)
+            ALPHA = TWO/(ALPHA + ONE)
             FS(I)=UVAR(I,10) 
 c smoothed strain rate 
-            EPSP(I)=(UN - ALPHA)*UVAR(I,11)  +  ALPHA*EPSP(I) 
+            EPSP(I)=(ONE - ALPHA)*UVAR(I,11)  +  ALPHA*EPSP(I) 
             UVAR(I,11)=EPSP(I)
             IF (UVAR(I,6) == ZERO) THEN                  
 c
-              SIG = UNDEMI*(SIGNXX(I) + ABS(SIGNXX(I)))
+              SIG = HALF*(SIGNXX(I) + ABS(SIGNXX(I)))
               F1  = (SIG/SIGT1)**2 
      .            + (SIGNXY(I)**2 + SIGNZX(I)**2)/FSIG12**2
-              SIG = UNDEMI*(SIGNYY(I) + ABS(SIGNYY(I)))
+              SIG = HALF*(SIGNYY(I) + ABS(SIGNYY(I)))
               TSIG12 = FSIG12*SIGT2/SIGT1
               F2 = (SIG/SIGT2)**2 
      .           + (SIGNXY(I)**2 + SIGNYZ(I)**2)/TSIG12**2          
@@ -300,14 +300,14 @@ c
               F7 = (SIGNYZ(I)/MSIG23)**2 + (SIGNZX(I)/MSIG13)**2
               F7 = SDEL*SDEL*F6
 c
-              DAMMX    = MIN(UN,MAX(F1,F2,F3,F4,F5,F6,F7))
-              DFMAX(I) = MIN(UN,DAMMX)
+              DAMMX    = MIN(ONE,MAX(F1,F2,F3,F4,F5,F6,F7))
+              DFMAX(I) = MIN(ONE,DAMMX)
               IF (DAMMX >= DADV(I)) THEN
                 NINDX = NINDX+1                                  
                 INDX(NINDX) = I                                  
                 UVAR(I,6) = TIME 
 C
-                FAC =  CENT*MAX(ABS(SIGNXX(I)),ABS(SIGNYY(I)),
+                FAC =  HUNDRED*MAX(ABS(SIGNXX(I)),ABS(SIGNYY(I)),
      .                  ABS(SIGNXY(I)),ABS(SIGNYZ(I)),ABS(SIGNZX(I)))
                 K0 =  FAC*EPSPREF**2*ZEP669741*TMAX**2 + ZEP9*EPSPREF*TMAX
                 K1 =  ZEP9*EPSP(I)
@@ -335,7 +335,7 @@ C
             ENDIF
 c
             IF (UVAR(I,6) > ZERO .AND. TIME > UVAR(I,6) ) THEN 
-              DFMAX(I) = UN
+              DFMAX(I) = ONE
               IF(TMOD == 1) THEN
                   TELEM = MAX((TIMESTEP(I)*1.0),TMAX*(EPSPREF/EPSP(I))**2)
                   DMG_SCALE(I)=DMG_SCALE(I)*EXP(-TIMESTEP(I)/TELEM)
@@ -382,7 +382,7 @@ c--------------------------------------------
               WRITE(ISTDO ,2000) IMODE,TIME                                 
               WRITE(IOUT  ,3000) SIGNXX(I),SIGNYY(I),SIGNXY(I),
      .                           SIGNYZ(I),SIGNZX(I)              
-              IF (DADV(I) < UN) WRITE(IOUT,4000) DADV(I)
+              IF (DADV(I) < ONE) WRITE(IOUT,4000) DADV(I)
 #include      "lockoff.inc"                                                 
             ENDIF                                                           
           ENDDO                                                             

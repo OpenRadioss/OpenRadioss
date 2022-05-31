@@ -100,7 +100,7 @@ C
 C
 C force thermique nodale
 C
-          A = UNHUIT* DIE(I)
+          A = ONE_OVER_8* DIE(I)
           B = PHIX*PX1(I) + PHIY*PY1(I) + PZ1(I)*PHIZ        
           FPHI(I,1) = A - B
           FPHI(I,7) = A + B

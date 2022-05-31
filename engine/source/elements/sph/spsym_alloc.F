@@ -80,7 +80,7 @@ C-----------------------------------------------
      .       DD,DM,DK,DL,SPALINR
 C-----------------------------------------------
 C new construction of ghost particles is necessary.
-       SPALINR=SQRT(UN + MYSPATRUE)
+       SPALINR=SQRT(ONE + MYSPATRUE)
 
 C      NSPHSYM=0 initialise dans sphprep
        NSPHSYMR=0

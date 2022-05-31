@@ -56,7 +56,7 @@ C  ds007  18/2/00  +1
 C-----------------------------------------------
 C--px2=-px1;px3=0;py3=-py1-py2---
       DO I=JFT,JLT
-       AI = UNDEMI/MAX(AREA(I),EM20)
+       AI = HALF/MAX(AREA(I),EM20)
        PX1(I)=-AI*Y3(I)
        PY1(I)= AI*(X3(I)-X2(I))
        PY2(I)=-AI*X3(I)      

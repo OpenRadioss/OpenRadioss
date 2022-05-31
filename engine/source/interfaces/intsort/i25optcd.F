@@ -93,7 +93,7 @@ C-----------------------------------------------
 
 C-----------------------------------------------
       IF (IRESP.EQ.1) THEN
-         PREC = DEUX*EM06
+         PREC = TWO*EM06
       ELSE
          PREC = EM20
       ENDIF
@@ -176,7 +176,7 @@ c else, keep only candidates wrt non impacted nodes
             VZ4=V(3,IX4(IS))
             VZ=MAX(MAX(VZ1,VZ2,VZ3,VZ4)-VZI,VZI-MIN(VZ1,VZ2,VZ3,VZ4))
 C
-            TZINF = MAX(MAX(GAPV(IS),DRAD),UNP01*VZ*DT1)
+            TZINF = MAX(MAX(GAPV(IS),DRAD),ONEP01*VZ*DT1)
             TZINF = MAX(PREC,TZINF)
             ZMIN = MIN(Z1,Z2,Z3,Z4)-TZINF
             ZMAX = MAX(Z1,Z2,Z3,Z4)+TZINF
@@ -205,7 +205,7 @@ C
           VY4=V(2,IX4(IS))
           VY=MAX(MAX(VY1,VY2,VY3,VY4)-VYI,VYI-MIN(VY1,VY2,VY3,VY4))
 C
-          TZINF = MAX(MAX(GAPV(IS),DRAD),UNP01*VY*DT1)
+          TZINF = MAX(MAX(GAPV(IS),DRAD),ONEP01*VY*DT1)
           TZINF = MAX(PREC,TZINF)
           YMIN = MIN(Y1,Y2,Y3,Y4)-TZINF
           YMAX = MAX(Y1,Y2,Y3,Y4)+TZINF
@@ -231,7 +231,7 @@ C
           VX4=V(1,IX4(IS))
           VX=MAX(MAX(VX1,VX2,VX3,VX4)-VXI,VXI-MIN(VX1,VX2,VX3,VX4))
 C
-          TZINF = MAX(MAX(GAPV(IS),DRAD),UNP01*VX*DT1)
+          TZINF = MAX(MAX(GAPV(IS),DRAD),ONEP01*VX*DT1)
           TZINF = MAX(PREC,TZINF)
           XMIN = MIN(X1,X2,X3,X4)-TZINF
           XMAX = MAX(X1,X2,X3,X4)+TZINF
@@ -279,7 +279,7 @@ C---------
               VZ4=V(3,IX4(IS))                                          
               VZ=MAX(MAX(VZ1,VZ2,VZ3,VZ4)-VZI,VZI-MIN(VZ1,VZ2,VZ3,VZ4)) 
 C
-              TZINF = MAX(MAX(GAPV(IS),DRAD),UNP01*VZ*DT1)
+              TZINF = MAX(MAX(GAPV(IS),DRAD),ONEP01*VZ*DT1)
               TZINF = MAX(PREC,TZINF)
               ZMIN = MIN(Z1,Z2,Z3,Z4)-TZINF                             
               ZMAX = MAX(Z1,Z2,Z3,Z4)+TZINF                             
@@ -310,7 +310,7 @@ C
             VY4=V(2,IX4(IS))
             VY=MAX(MAX(VY1,VY2,VY3,VY4)-VYI,VYI-MIN(VY1,VY2,VY3,VY4))
 C
-            TZINF = MAX(MAX(GAPV(IS),DRAD),UNP01*VY*DT1)
+            TZINF = MAX(MAX(GAPV(IS),DRAD),ONEP01*VY*DT1)
             TZINF = MAX(PREC,TZINF)
             YMIN = MIN(Y1,Y2,Y3,Y4)-TZINF
             YMAX = MAX(Y1,Y2,Y3,Y4)+TZINF
@@ -337,7 +337,7 @@ C
             VX4=V(1,IX4(IS))
             VX=MAX(MAX(VX1,VX2,VX3,VX4)-VXI,VXI-MIN(VX1,VX2,VX3,VX4))
 C
-            TZINF = MAX(MAX(GAPV(IS),DRAD),UNP01*VX*DT1)
+            TZINF = MAX(MAX(GAPV(IS),DRAD),ONEP01*VX*DT1)
             TZINF = MAX(PREC,TZINF)
             XMIN = MIN(X1,X2,X3,X4)-TZINF
             XMAX = MAX(X1,X2,X3,X4)+TZINF

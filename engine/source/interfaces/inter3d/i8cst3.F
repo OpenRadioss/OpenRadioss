@@ -91,9 +91,9 @@ C-----------------------------------------------
       my_real AN     
 C=======================================================================
       DO 100 I=LFT,LLT
-      X0(I) = QUART*(X1(I)+X2(I)+X3(I)+X4(I))
-      Y0(I) = QUART*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-      Z0(I) = QUART*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
+      X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
+      Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
+      Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
 C
       XX1(I) = X1(I)-X0(I)
       XX2(I) = X2(I)-X0(I)
@@ -163,7 +163,7 @@ C
       N1(I)=N1(I)/AN
       N2(I)=N2(I)/AN
       N3(I)=N3(I)/AN
-      AREA(I)=UNDEMI*AN
+      AREA(I)=HALF*AN
  200  CONTINUE
 C
       DO 210 I=LFT,LLT

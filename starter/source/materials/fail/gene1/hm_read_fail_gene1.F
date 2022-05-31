@@ -215,11 +215,11 @@ C===============================================================================
       IF (fct_IDsm > 0) THEN
         IF (EPSDOT_SM == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_EPSDSM' ,FREQ_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          EPSDOT_SM = UN*FREQ_UNIT
+          EPSDOT_SM = ONE*FREQ_UNIT
         ENDIF
         IF (SIGVM == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_SIGVM' ,PRESSURE_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          SIGVM = UN*PRESSURE_UNIT
+          SIGVM = ONE*PRESSURE_UNIT
         ENDIF
       ELSE
         IF (SIGVM == ZERO) SIGVM = INFINITY
@@ -230,13 +230,13 @@ C===============================================================================
       IF (fct_IDps > 0) THEN
         IF (EPSDOT_PS == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_EPSDPS' ,FREQ_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          EPSDOT_PS = UN*FREQ_UNIT
+          EPSDOT_PS = ONE*FREQ_UNIT
         ENDIF        
         IF (MAXEPS == ZERO) THEN
-          MAXEPS = UN
+          MAXEPS = ONE
         ENDIF
       ELSE
-        IF (MAXEPS == ZERO) MAXEPS = DEUX*INFINITY
+        IF (MAXEPS == ZERO) MAXEPS = TWO*INFINITY
       ENDIF
       IF (EFFEPS == ZERO) EFFEPS = INFINITY
       IF (VOLEPS == ZERO) VOLEPS = INFINITY
@@ -248,18 +248,18 @@ C===============================================================================
       IF (tab_IDfld > 0) THEN 
         IF (EPSDOT_FLD == ZERO) THEN 
           CALL HM_GET_FLOATV_DIM('MAT_EPSDFLD' ,FREQ_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          EPSDOT_FLD = UN*FREQ_UNIT
+          EPSDOT_FLD = ONE*FREQ_UNIT
         ENDIF
       ENDIF
       IF (NSTEP   == 0)    NSTEP   = 10
       IF (Ismooth == 0)    Ismooth = 1
       IF (THIN    == ZERO) THIN    = -INFINITY
       ! Card 6 
-      IF (VOLFRAC == ZERO) VOLFRAC = UNDEMI
-      VOLFRAC = MIN(VOLFRAC,UN)
+      IF (VOLFRAC == ZERO) VOLFRAC = HALF
+      VOLFRAC = MIN(VOLFRAC,ONE)
       VOLFRAC = MAX(ZERO,VOLFRAC)
-      IF (PTHK    == ZERO) PTHK    = UN
-      PTHK = MIN(PTHK,UN)
+      IF (PTHK    == ZERO) PTHK    = ONE
+      PTHK = MIN(PTHK,ONE)
       PTHK = MAX(ZERO,PTHK)
       IF (NCS     == 0   ) NCS     = 1
       IF (NCS > NCRIT_MAX) THEN
@@ -273,7 +273,7 @@ C===============================================================================
       IF (((fct_IDel > 0).OR.(fct_IDg12 > 0).OR.(fct_IDg13 > 0).OR.(fct_IDe1c > 0)
      .    .OR.(tab_IDfld > 0.AND.Itab == 2)).AND.(El_ref == ZERO)) THEN
         CALL HM_GET_FLOATV_DIM('El_ref' ,LENGTH_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        El_ref = UN*LENGTH_UNIT
+        El_ref = ONE*LENGTH_UNIT
       ENDIF
 C======================================================================================
 c     Filling buffer tables

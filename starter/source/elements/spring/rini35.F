@@ -142,7 +142,7 @@ C--------------------------------------
           MASS(I)   = AMAS
           XINER(I)  = ZERO
           UVAR(1,I) = ZERO
-          UVAR(2,I) = UN
+          UVAR(2,I) = ONE
           UVAR(3,I) = ZERO  
 C         FOR NODAL AND ELEMENT TIME STEP COMPUTATION
           STIFM(I) = ELASTIF / XL(I)

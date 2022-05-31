@@ -145,7 +145,7 @@ C-----------------------------------------------
                 FAC       = SC_EL * FINTER(IFUNC(2),LAMBDA,NPF,TF,DF)
                 UVAR(I,1) = FAC 
               ELSE
-                UVAR(I,1) = UN
+                UVAR(I,1) = ONE
               ENDIF              
             CASE (3)
               IF (IFUNC(2) > 0)THEN
@@ -153,7 +153,7 @@ C-----------------------------------------------
                 FAC       = SC_EL * FINTER(IFUNC(2),LAMBDA,NPF,TF,DF)
                 UVAR(I,1) = FAC
               ELSE
-                UVAR(I,1) = UN
+                UVAR(I,1) = ONE
               ENDIF              
           END SELECT          
         ENDDO
@@ -161,7 +161,7 @@ C-----------------------------------------------
 c-----------------------------------------------
       DO I=1,NEL
         IF (OFF(I) < EM01) OFF(I)=ZERO
-        IF (OFF(I) < UN)   OFF(I)=OFF(I)*QCINQ
+        IF (OFF(I) < ONE)   OFF(I)=OFF(I)*FOUR_OVER_5
       END DO
 c----------------------------------------------
 c     Max strain transformation following input definition
@@ -200,32 +200,32 @@ c           transform total grad def strain to engineering
           ELSE IF (STRFLAG == 2) THEN     
 c           transform engineering strain to true
             DO I=1,NEL
-              EPS11(I)  = LOG(EPSXX(I) + UN)
-              EPS22(I)  = LOG(EPSYY(I) + UN)
-              EPS33(I)  = LOG(EPSZZ(I) + UN)
-              EPS12(I)  = LOG(EPSXY(I) + UN)
-              EPS23(I)  = LOG(EPSYZ(I) + UN)
-              EPS31(I)  = LOG(EPSZX(I) + UN)
+              EPS11(I)  = LOG(EPSXX(I) + ONE)
+              EPS22(I)  = LOG(EPSYY(I) + ONE)
+              EPS33(I)  = LOG(EPSZZ(I) + ONE)
+              EPS12(I)  = LOG(EPSXY(I) + ONE)
+              EPS23(I)  = LOG(EPSYZ(I) + ONE)
+              EPS31(I)  = LOG(EPSZX(I) + ONE)
             END DO
           ELSE IF (STRFLAG == 3) THEN     
 c           transform engineering strain to true
             DO I=1,NEL
-              EPS11(I)  = LOG(EPSXX(I) + UN)
-              EPS22(I)  = LOG(EPSYY(I) + UN)
-              EPS33(I)  = LOG(EPSZZ(I) + UN)
-              EPS12(I)  = LOG(EPSXY(I) + UN)
-              EPS23(I)  = LOG(EPSYZ(I) + UN)
-              EPS31(I)  = LOG(EPSZX(I) + UN)
+              EPS11(I)  = LOG(EPSXX(I) + ONE)
+              EPS22(I)  = LOG(EPSYY(I) + ONE)
+              EPS33(I)  = LOG(EPSZZ(I) + ONE)
+              EPS12(I)  = LOG(EPSXY(I) + ONE)
+              EPS23(I)  = LOG(EPSYZ(I) + ONE)
+              EPS31(I)  = LOG(EPSZX(I) + ONE)
             END DO
           ELSE IF (STRFLAG == 4) THEN      ! Radioss strain is Cauchy-Green
 c           transform total grad def strain to true
             DO I=1,NEL
-              EPS11(I)  = LOG(MFXX(I) + UN)
-              EPS22(I)  = LOG(MFYY(I) + UN)
-              EPS33(I)  = LOG(MFZZ(I) + UN)
-              EPS12(I)  = LOG(MFXY(I) + MFYX(I) + UN)
-              EPS23(I)  = LOG(MFXZ(I) + MFZX(I) + UN)
-              EPS31(I)  = LOG(MFZY(I) + MFYZ(I) + UN)
+              EPS11(I)  = LOG(MFXX(I) + ONE)
+              EPS22(I)  = LOG(MFYY(I) + ONE)
+              EPS33(I)  = LOG(MFZZ(I) + ONE)
+              EPS12(I)  = LOG(MFXY(I) + MFYX(I) + ONE)
+              EPS23(I)  = LOG(MFXZ(I) + MFZX(I) + ONE)
+              EPS31(I)  = LOG(MFZY(I) + MFYZ(I) + ONE)
             END DO
           ELSE
             EPS11(1:NEL)  = EPSXX(1:NEL)
@@ -237,19 +237,19 @@ c           transform total grad def strain to true
           END IF
 c         calculate max strain
           DO I=1,NEL
-            IF (OFF(I) == UN ) THEN
+            IF (OFF(I) == ONE ) THEN
               DAV = (EPS11(I)+EPS22(I)+EPS33(I))*THIRD
               E1 = EPS11(I) - DAV
               E2 = EPS22(I) - DAV
               E3 = EPS33(I) - DAV
-              E4 = UNDEMI*EPS12(I)
-              E5 = UNDEMI*EPS23(I)
-              E6 = UNDEMI*EPS31(I)
+              E4 = HALF*EPS12(I)
+              E5 = HALF*EPS23(I)
+              E6 = HALF*EPS31(I)
               E42 = E4*E4
               E52 = E5*E5
               E62 = E6*E6
               C =  (E1*E2 + E1*E3 + E2*E3) - E42 - E52 - E62
-              D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42 - DEUX*E4*E5*E6 
+              D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42 - TWO*E4*E5*E6 
               CC =  C*THIRD
               EPST = SQRT(-CC)
               EPST2 = EPST * EPST
@@ -259,20 +259,20 @@ c         calculate max strain
                 EPST = 1.75 * EPST
                 EPST2 = EPST * EPST
                 Y = (EPST2 + C)* EPST + D
-                YP = TROIS*EPST2 + C
+                YP = THREE*EPST2 + C
                 IF(YP /= ZERO)EPST = EPST - Y/YP
                 EPST2 = EPST * EPST
                 Y = (EPST2 + C)* EPST + D
-                YP = TROIS*EPST2 + C
+                YP = THREE*EPST2 + C
                 IF(YP /= ZERO)EPST = EPST - Y/YP
                 EPST2 = EPST * EPST
                 Y = (EPST2 + C)* EPST + D
-                YP = TROIS*EPST2 + C
+                YP = THREE*EPST2 + C
                 IF(YP /= ZERO)EPST = EPST - Y/YP
                 
                 EPST2 = EPST * EPST
                 Y = (EPST2 + C)* EPST + D
-                YP = TROIS*EPST2 + C
+                YP = THREE*EPST2 + C
                 IF(YP /= ZERO)EPST = EPST - Y/YP
 C                          
               ENDIF
@@ -284,8 +284,8 @@ c
 c         test failure crit          
 c
           DO I=1,NEL
-            IF (OFF(I) == UN)THEN
-              RFAC = UN
+            IF (OFF(I) == ONE)THEN
+              RFAC = ONE
               IF (IFUNC(1) > 0)THEN
                 EPSP_UNIT = EPSP(I) * UNIT_T
                 RFAC = FINTER(IFUNC(1),EPSP_UNIT,NPF,TF,DYDX)
@@ -304,11 +304,11 @@ c
 #include "lockoff.inc"
                 ENDIF   
                 DAMAGE(I)= (EPS_MAX(I)-R1)/(R2-R1)
-                DAMAGE(I)= MIN(UN,DAMAGE(I))
+                DAMAGE(I)= MIN(ONE,DAMAGE(I))
               ENDIF
               IF (EPS_MAX(I) >= R2) THEN
-                DAMAGE(I)= UN
-                OFF(I)=QCINQ
+                DAMAGE(I)= ONE
+                OFF(I)=FOUR_OVER_5
                 NINDXF=NINDXF+1
                 INDXF(NINDXF)=I
                 TDELE(I) = TIME               
@@ -323,26 +323,26 @@ c!              from: http://www.continuummechanics.org/principalstrain.html
                 E1  = EPS11(I)
                 E2  = EPS22(I)
                 E3  = EPS33(I)
-                E4  = UNDEMI*EPS12(I)
-                E5  = UNDEMI*EPS23(I)
-                E6  = UNDEMI*EPS31(I)
+                E4  = HALF*EPS12(I)
+                E5  = HALF*EPS23(I)
+                E6  = HALF*EPS31(I)
                 E42 = E4*E4
                 E52 = E5*E5
                 E62 = E6*E6
 
                 I1 = E1 + E2 + E3
                 I2 = E1*E2 + E2*E3 + E3*E1 - E4*E4 - E5*E5 - E6*E6
-                I3 = E1*E2*E3 - E1*E52 - E2*E62 - E3*E42 + DEUX*E4*E5*E6
+                I3 = E1*E2*E3 - E1*E52 - E2*E62 - E3*E42 + TWO*E4*E5*E6
 
-                Q  = (TROIS*I2 - I1*I1)/NEUF
-                R  = (DEUX*I1*I1*I1-NEUF*I1*I2+VINGT7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
+                Q  = (THREE*I2 - I1*I1)/NINE
+                R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
            
-                R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),UN)
-                PHI = ACOS(MAX(R_INTER,-UN))
+                R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
+                PHI = ACOS(MAX(R_INTER,-ONE))
            
-                E11 = DEUX*SQRT(-Q)*COS(PHI/TROIS)+THIRD*I1
-                E22 = DEUX*SQRT(-Q)*COS((PHI+DEUX*PI)/TROIS)+THIRD*I1
-                E33 = DEUX*SQRT(-Q)*COS((PHI+QUATRE*PI)/TROIS)+THIRD*I1
+                E11 = TWO*SQRT(-Q)*COS(PHI/THREE)+THIRD*I1
+                E22 = TWO*SQRT(-Q)*COS((PHI+TWO*PI)/THREE)+THIRD*I1
+                E33 = TWO*SQRT(-Q)*COS((PHI+FOUR*PI)/THREE)+THIRD*I1
 c
                 IF (E11 < E22) THEN 
                    R_INTER = E11
@@ -359,11 +359,11 @@ c
                    E11     = E22
                    E22     = R_INTER
                 ENDIF
-                DFMAX(I) = MIN(UN,(E11 / UVAR(I,1)))    
+                DFMAX(I) = MIN(ONE,(E11 / UVAR(I,1)))    
 c
                 IF(E11 >= UVAR(I,1)) THEN
-                  DAMAGE(I)= UN
-                  OFF(I)=QCINQ
+                  DAMAGE(I)= ONE
+                  OFF(I)=FOUR_OVER_5
                   NINDXF=NINDXF+1
                   INDXF(NINDXF)=I
                   TDELE(I) = TIME
@@ -374,8 +374,8 @@ c
                 ENDIF                                                         
 c
                 IF (UVAR(I,1) < ZERO .AND. ABS(E11) >= ABS(UVAR(I,1))) THEN   
-                  DAMAGE(I)= UN                                               
-                  OFF(I)=QCINQ                                                
+                  DAMAGE(I)= ONE                                               
+                  OFF(I)=FOUR_OVER_5                                                
                   NINDXF=NINDXF+1                                             
                   INDXF(NINDXF)=I                                             
                   TDELE(I) = TIME                                             
@@ -387,8 +387,8 @@ c
 
                 IF(EPSP2 > ZERO)THEN          
                   IF(ABS(E22) >= EPSP2) THEN  
-                    DAMAGE(I)= UN             
-                    OFF(I)=QCINQ              
+                    DAMAGE(I)= ONE             
+                    OFF(I)=FOUR_OVER_5              
                     NINDXF=NINDXF+1           
                     INDXF(NINDXF)=I           
                     TDELE(I) = TIME           
@@ -400,7 +400,7 @@ c
                 ENDIF
               ENDIF     ! EPSP1 > ZERO .OR. EPSP2 > ZERO                 
 c
-            ENDIF       ! OFF(I) == UN 
+            ENDIF       ! OFF(I) == ONE 
           ENDDO
 c
 c----------------------------------------------------
@@ -419,32 +419,32 @@ c           transform total grad def strain to engineering
           ELSE IF (STRFLAG == 2) THEN     
 c           transform engineering strain to true
             DO I=1,NEL
-              EPS11(I)  = LOG(EPSXX(I) + UN)
-              EPS22(I)  = LOG(EPSYY(I) + UN)
-              EPS33(I)  = LOG(EPSZZ(I) + UN)
-              EPS12(I)  = LOG(EPSXY(I) + UN)
-              EPS23(I)  = LOG(EPSYZ(I) + UN)
-              EPS31(I)  = LOG(EPSZX(I) + UN)
+              EPS11(I)  = LOG(EPSXX(I) + ONE)
+              EPS22(I)  = LOG(EPSYY(I) + ONE)
+              EPS33(I)  = LOG(EPSZZ(I) + ONE)
+              EPS12(I)  = LOG(EPSXY(I) + ONE)
+              EPS23(I)  = LOG(EPSYZ(I) + ONE)
+              EPS31(I)  = LOG(EPSZX(I) + ONE)
             END DO
           ELSE IF (STRFLAG == 3) THEN     
 c           transform engineering strain to true
             DO I=1,NEL
-              EPS11(I)  = LOG(EPSXX(I) + UN)
-              EPS22(I)  = LOG(EPSYY(I) + UN)
-              EPS33(I)  = LOG(EPSZZ(I) + UN)
-              EPS12(I)  = LOG(EPSXY(I) + UN)
-              EPS23(I)  = LOG(EPSYZ(I) + UN)
-              EPS31(I)  = LOG(EPSZX(I) + UN)
+              EPS11(I)  = LOG(EPSXX(I) + ONE)
+              EPS22(I)  = LOG(EPSYY(I) + ONE)
+              EPS33(I)  = LOG(EPSZZ(I) + ONE)
+              EPS12(I)  = LOG(EPSXY(I) + ONE)
+              EPS23(I)  = LOG(EPSYZ(I) + ONE)
+              EPS31(I)  = LOG(EPSZX(I) + ONE)
             END DO
           ELSE IF (STRFLAG == 4) THEN      ! Radioss strain is Cauchy-Green
 c           transform total grad def strain to true
             DO I=1,NEL
-              EPS11(I)  = LOG(MFXX(I) + UN)
-              EPS22(I)  = LOG(MFYY(I) + UN)
-              EPS33(I)  = LOG(MFZZ(I) + UN)
-              EPS12(I)  = LOG(MFXY(I) + MFYX(I) + UN)
-              EPS23(I)  = LOG(MFXZ(I) + MFZX(I) + UN)
-              EPS31(I)  = LOG(MFZY(I) + MFYZ(I) + UN)
+              EPS11(I)  = LOG(MFXX(I) + ONE)
+              EPS22(I)  = LOG(MFYY(I) + ONE)
+              EPS33(I)  = LOG(MFZZ(I) + ONE)
+              EPS12(I)  = LOG(MFXY(I) + MFYX(I) + ONE)
+              EPS23(I)  = LOG(MFXZ(I) + MFZX(I) + ONE)
+              EPS31(I)  = LOG(MFZY(I) + MFYZ(I) + ONE)
             END DO
           ELSE
             EPS11(1:NEL)  = EPSXX(1:NEL)
@@ -456,19 +456,19 @@ c           transform total grad def strain to true
           END IF
 c         calculate eps max      
           DO I=1,NEL
-            IF (OFF(I) == UN ) THEN
+            IF (OFF(I) == ONE ) THEN
               DAV = (EPS11(I)+EPS22(I)+EPS33(I))*THIRD
               E1 = EPS11(I) - DAV
               E2 = EPS22(I) - DAV
               E3 = EPS33(I) - DAV
-              E4 = UNDEMI*EPS12(I)
-              E5 = UNDEMI*EPS23(I)
-              E6 = UNDEMI*EPS31(I)
+              E4 = HALF*EPS12(I)
+              E5 = HALF*EPS23(I)
+              E6 = HALF*EPS31(I)
               E42 = E4*E4
               E52 = E5*E5
               E62 = E6*E6
               C =  (E1*E2 + E1*E3 + E2*E3) - E42 - E52 - E62
-              D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42 - DEUX*E4*E5*E6 
+              D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42 - TWO*E4*E5*E6 
               CC =  C*THIRD
               EPST = SQRT(-CC)
               EPST2 = EPST * EPST
@@ -478,20 +478,20 @@ c         calculate eps max
                 EPST = 1.75 * EPST
                 EPST2 = EPST * EPST
                 Y = (EPST2 + C)* EPST + D
-                YP = TROIS*EPST2 + C
+                YP = THREE*EPST2 + C
                 IF(YP /= ZERO)EPST = EPST - Y/YP
                 EPST2 = EPST * EPST
                 Y = (EPST2 + C)* EPST + D
-                YP = TROIS*EPST2 + C
+                YP = THREE*EPST2 + C
                 IF(YP /= ZERO)EPST = EPST - Y/YP
                 EPST2 = EPST * EPST
                 Y = (EPST2 + C)* EPST + D
-                YP = TROIS*EPST2 + C
+                YP = THREE*EPST2 + C
                 IF(YP /= ZERO)EPST = EPST - Y/YP
                 
                 EPST2 = EPST * EPST
                 Y = (EPST2 + C)* EPST + D
-                YP = TROIS*EPST2 + C
+                YP = THREE*EPST2 + C
                 IF(YP /= ZERO)EPST = EPST - Y/YP
               ENDIF
               EPST       = EPST + DAV
@@ -502,8 +502,8 @@ c
 c         test failure crit
 c
           DO I=1,NEL
-            IF (OFF(I) == UN)THEN
-              RFAC = UN
+            IF (OFF(I) == ONE)THEN
+              RFAC = ONE
               IF(IFUNC(1) > 0)THEN
                 EPSP_UNIT = EPSP(I) * UNIT_T
                 RFAC = FINTER(IFUNC(1),EPSP_UNIT,NPF,TF,DYDX)
@@ -513,19 +513,19 @@ c
                 RFAC2 = FINTER(IFUNC(3),TSTAR(I),NPF,TF,DYDX)
                 RFAC2 = MAX(RFAC2,EM20)
               ELSE
-                RFAC2 = UN
+                RFAC2 = ONE
               ENDIF      
               R1 = EPSF1*RFAC*RFAC2*UVAR(I,1)
               R2 = EPSF2*RFAC*RFAC2*UVAR(I,1)      
 c      
               IF (EPS_MAX(I) > R1 .AND. R1 < R2) THEN
                 DAMAGE(I)= (EPS_MAX(I)-R1)/(R2-R1)
-                DAMAGE(I)= MIN(UN,DAMAGE(I))
+                DAMAGE(I)= MIN(ONE,DAMAGE(I))
               ENDIF
      
               IF (EPS_MAX(I) >= R2) THEN
-                DAMAGE(I)= UN
-                OFF(I)=QCINQ
+                DAMAGE(I)= ONE
+                OFF(I)=FOUR_OVER_5
                 NINDXF=NINDXF+1
                 INDXF(NINDXF)=I
                 TDELE(I) = TIME               
@@ -540,47 +540,47 @@ c-------------------
         CASE (3)    !  Max principal tensile strain. No failure in compression
 c-------------------
           DO I=1,NEL
-            IF (OFF(I) == UN ) THEN
+            IF (OFF(I) == ONE ) THEN
 
               E1  = EPSXX(I)
               E2  = EPSYY(I)
               E3  = EPSZZ(I)
-              E4  = UNDEMI*EPSXY(I)
-              E5  = UNDEMI*EPSYZ(I)
-              E6  = UNDEMI*EPSZX(I)
+              E4  = HALF*EPSXY(I)
+              E5  = HALF*EPSYZ(I)
+              E6  = HALF*EPSZX(I)
               E42 = E4*E4
               E52 = E5*E5
               E62 = E6*E6
 
               I1 = E1 + E2 + E3
               I2 = E1*E2 + E2*E3 + E3*E1 - E4*E4 - E5*E5 - E6*E6
-              I3 = E1*E2*E3 - E1*E52 - E2*E62 - E3*E42 + DEUX*E4*E5*E6
-              Q  = (TROIS*I2 - I1*I1)/NEUF
-              R  = (DEUX*I1*I1*I1-NEUF*I1*I2+VINGT7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
+              I3 = E1*E2*E3 - E1*E52 - E2*E62 - E3*E42 + TWO*E4*E5*E6
+              Q  = (THREE*I2 - I1*I1)/NINE
+              R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
               
-              R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),UN)
-              PHI = ACOS(MAX(R_INTER,-UN))
+              R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
+              PHI = ACOS(MAX(R_INTER,-ONE))
               
-              E11 = DEUX*SQRT(-Q)*COS(PHI/TROIS)+THIRD*I1
-              E22 = DEUX*SQRT(-Q)*COS((PHI+DEUX*PI)/TROIS)+THIRD*I1
-              E33 = DEUX*SQRT(-Q)*COS((PHI+QUATRE*PI)/TROIS)+THIRD*I1
+              E11 = TWO*SQRT(-Q)*COS(PHI/THREE)+THIRD*I1
+              E22 = TWO*SQRT(-Q)*COS((PHI+TWO*PI)/THREE)+THIRD*I1
+              E33 = TWO*SQRT(-Q)*COS((PHI+FOUR*PI)/THREE)+THIRD*I1
 c
               IF (STRFLAG == 1) THEN
-                E11 = SQRT(E11 + UN) - UN
-                E22 = SQRT(E22 + UN) - UN
-                E33 = SQRT(E33 + UN) - UN
+                E11 = SQRT(E11 + ONE) - ONE
+                E22 = SQRT(E22 + ONE) - ONE
+                E33 = SQRT(E33 + ONE) - ONE
               ELSE IF (STRFLAG == 2) THEN
-                E11 = EXP(E11) - UN
-                E22 = EXP(E22) - UN
-                E33 = EXP(E33) - UN
+                E11 = EXP(E11) - ONE
+                E22 = EXP(E22) - ONE
+                E33 = EXP(E33) - ONE
               ELSE IF (STRFLAG == 3) THEN
-                E11 = LOG(E11 + UN)
-                E22 = LOG(E22 + UN)
-                E33 = LOG(E33 + UN)
+                E11 = LOG(E11 + ONE)
+                E22 = LOG(E22 + ONE)
+                E33 = LOG(E33 + ONE)
               ELSE IF (STRFLAG == 4) THEN
-                E11 = LOG(SQRT(E11+UN))
-                E22 = LOG(SQRT(E22+UN))
-                E33 = LOG(SQRT(E33+UN))
+                E11 = LOG(SQRT(E11+ONE))
+                E22 = LOG(SQRT(E22+ONE))
+                E33 = LOG(SQRT(E33+ONE))
               END IF
 c
               IF (E11 < E22) THEN 
@@ -603,7 +603,7 @@ c
           ENDDO
 c         test failure crit
           DO I=1,NEL
-            IF (OFF(I) == UN ) THEN
+            IF (OFF(I) == ONE ) THEN
               R1 = EPSF1*UVAR(I,1)
               R2 = EPSF2*UVAR(I,1)      
               IF (IFUNC(1) > 0) THEN    ! strain rate factor
@@ -630,11 +630,11 @@ c
 #include "lockoff.inc"
                 ENDIF   
                 DAMAGE(I) = (EPS_MAX(I)-R1)/(R2-R1)
-                DAMAGE(I) = MIN(UN,DAMAGE(I))
+                DAMAGE(I) = MIN(ONE,DAMAGE(I))
               ENDIF
               IF (EPS_MAX(I) >= R2 .AND. EPS_MAX(I) > ZERO) THEN
-               DAMAGE(I)= UN
-               OFF(I) = QCINQ
+               DAMAGE(I)= ONE
+               OFF(I) = FOUR_OVER_5
                NINDXF=NINDXF+1
                INDXF(NINDXF)=I
                TDELE(I) = TIME                
@@ -664,12 +664,12 @@ C ---
         R1 = EPSF1
         R2 = EPSF2
         IF (R1 < R2) THEN         
-          SIGNXX(I) = (UN - DAMAGE(I))*SIGNXX(I)
-          SIGNYY(I) = (UN - DAMAGE(I))*SIGNYY(I)
-          SIGNZZ(I) = (UN - DAMAGE(I))*SIGNZZ(I)
-          SIGNXY(I) = (UN - DAMAGE(I))*SIGNXY(I)
-          SIGNYZ(I) = (UN - DAMAGE(I))*SIGNYZ(I)
-          SIGNZX(I) = (UN - DAMAGE(I))*SIGNZX(I)
+          SIGNXX(I) = (ONE - DAMAGE(I))*SIGNXX(I)
+          SIGNYY(I) = (ONE - DAMAGE(I))*SIGNYY(I)
+          SIGNZZ(I) = (ONE - DAMAGE(I))*SIGNZZ(I)
+          SIGNXY(I) = (ONE - DAMAGE(I))*SIGNXY(I)
+          SIGNYZ(I) = (ONE - DAMAGE(I))*SIGNYZ(I)
+          SIGNZX(I) = (ONE - DAMAGE(I))*SIGNZX(I)
         END IF
         DFMAX(I) = MAX(DFMAX(I),DAMAGE(I))  ! Maximum Damage storing for output : 0 < DFMAX < 1
        ENDDO            

@@ -292,8 +292,8 @@ C--------------------------------------------------
         CALL HM_GET_FLOATV('MAT_MaxVisc',VISC,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C----------------------
 C
-        IF (STFAC == ZERO) STFAC=UN
-        IF (VISC  == ZERO) VISC=CINQEM2
+        IF (STFAC == ZERO) STFAC=ONE
+        IF (VISC  == ZERO) VISC=FIVEEM2
 C
 C.....* Default values definition *........
 C
@@ -345,9 +345,9 @@ C
 C.....* CHECK AND Storage IPARI FRIGAP *.........
 
         IF (IMOD == 0) IMOD = 2   ! default value
-        IF (SCAL_F  == ZERO) SCAL_F  = UN*F_UNIT
-        IF (SCAL_SR  == ZERO) SCAL_SR  = UN*SR_UNIT
-        IF (SCAL_D == ZERO) SCAL_D = UN*D_UNIT
+        IF (SCAL_F  == ZERO) SCAL_F  = ONE*F_UNIT
+        IF (SCAL_SR  == ZERO) SCAL_SR  = ONE*SR_UNIT
+        IF (SCAL_D == ZERO) SCAL_D = ONE*D_UNIT
 C
 C	DNMAX = DNMAX*L_UNIT
 C	DTMAX = DTMAX*L_UNIT
@@ -360,8 +360,8 @@ C
         IF (DTMAX   == ZERO) DTMAX = EP20
 C
         IF (IFILTR  == 1) THEN
-          IF (ALPHA  == ZERO) ALPHA  = UN
-          ALPHA = MIN(ALPHA,UN)
+          IF (ALPHA  == ZERO) ALPHA  = ONE
+          ALPHA = MIN(ALPHA,ONE)
           ALPHA = MAX(ALPHA,ZERO)
         ENDIF
         IF (IFUNN == 0) THEN
@@ -426,7 +426,7 @@ C
       FRIGAP(15)  = KTHE
       IPARI(57) = IPROJ
 C-----
-      IF (STFAC == ZERO )STFAC = UNCINQ
+      IF (STFAC == ZERO )STFAC = ONE_FIFTH
 
       FRIGAP(3)=STARTT
       IF (STOPT == ZERO) STOPT = EP30

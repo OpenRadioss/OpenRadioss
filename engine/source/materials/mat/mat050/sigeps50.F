@@ -189,7 +189,7 @@ C
       N12 = NINT(UPARAM(48))
       N23 = NINT(UPARAM(49))
       N31 = NINT(UPARAM(50))
-      ASRATE=MIN(UN,UPARAM(51)*TIMESTEP)
+      ASRATE=MIN(ONE,UPARAM(51)*TIMESTEP)
 C
       EMX11 = UPARAM(9)
       EMX22 = UPARAM(10)
@@ -212,15 +212,15 @@ C
           IF(EPSXX(I).GT.EMX11.OR.
      .       EPSYY(I).GT.EMX22.OR.
      .       EPSZZ(I).GT.EMX33.OR.
-     .       ABS(EPSXY(I)/DEUX).GT.EMX12.OR.
-     .       ABS(EPSYZ(I)/DEUX).GT.EMX23.OR.
-     .       ABS(EPSZX(I)/DEUX).GT.EMX31) OFF(I) = ZERO
+     .       ABS(EPSXY(I)/TWO).GT.EMX12.OR.
+     .       ABS(EPSYZ(I)/TWO).GT.EMX23.OR.
+     .       ABS(EPSZX(I)/TWO).GT.EMX31) OFF(I) = ZERO
       ENDDO
 c
       DO I=1,NEL
        MUOLD=UVAR(I,1)
        DMUDTF=UVAR(I,2)
-c       AMU = RHO(I)/RHO0(I) - UN
+c       AMU = RHO(I)/RHO0(I) - ONE
        DMUDT=(AMU(I)-MUOLD)/MAX(TIMESTEP,EM20)
        DMUDTF=ASRATE*DMUDT+(1.-ASRATE)*DMUDTF
        UVAR(I,1)=AMU(I)
@@ -261,27 +261,27 @@ c
        ENDDO
       ENDIF
       DO I=1,NEL
-           UVAR(I,5) = ASRATE*EPSPXX(I)+(UN -ASRATE)*UVAR(I,5)
+           UVAR(I,5) = ASRATE*EPSPXX(I)+(ONE -ASRATE)*UVAR(I,5)
            DEP1(I) = ABS(UVAR(I,5))
-           UVAR(I,6) = ASRATE*EPSPYY(I)+(UN -ASRATE)*UVAR(I,6)
+           UVAR(I,6) = ASRATE*EPSPYY(I)+(ONE -ASRATE)*UVAR(I,6)
            DEP2(I) = ABS(UVAR(I,6))
-           UVAR(I,7) = ASRATE*EPSPZZ(I)+(UN -ASRATE)*UVAR(I,7)
+           UVAR(I,7) = ASRATE*EPSPZZ(I)+(ONE -ASRATE)*UVAR(I,7)
            DEP3(I) = ABS(UVAR(I,7))
-           UVAR(I,8) = ASRATE*EPSPXY(I)+(UN -ASRATE)*UVAR(I,8)
+           UVAR(I,8) = ASRATE*EPSPXY(I)+(ONE -ASRATE)*UVAR(I,8)
            DEP4(I) = ABS( UVAR(I,8))
-           UVAR(I,9) = ASRATE*EPSPYZ(I)+(UN -ASRATE)*UVAR(I,9)
+           UVAR(I,9) = ASRATE*EPSPYZ(I)+(ONE -ASRATE)*UVAR(I,9)
            DEP5(I) = ABS(UVAR(I,9))
-           UVAR(I,10) = ASRATE*EPSPZX(I)+(UN -ASRATE)*UVAR(I,10)
+           UVAR(I,10) = ASRATE*EPSPZX(I)+(ONE -ASRATE)*UVAR(I,10)
            DEP6(I) = ABS(UVAR(I,10))
       ENDDO
 C
       DO I=1,NEL
-       UVAR(I,3) =UNDEMI*(EPSXX(I)**2+EPSYY(I)**2+EPSZZ(I)**2)
+       UVAR(I,3) =HALF*(EPSXX(I)**2+EPSYY(I)**2+EPSZZ(I)**2)
      .          +EPSXY(I)**2+EPSYZ(I)**2+EPSZX(I)**2
-       UVAR(I,3) =SQRT(TROIS*UVAR(I,3))
-       UVAR(I,4) = UNDEMI*(UVAR(I,5)**2+UVAR(I,6)**2+UVAR(I,7)**2) +
+       UVAR(I,3) =SQRT(THREE*UVAR(I,3))
+       UVAR(I,4) = HALF*(UVAR(I,5)**2+UVAR(I,6)**2+UVAR(I,7)**2) +
      .                 UVAR(I,8)**2+UVAR(I,9)**2+UVAR(I,10)**2
-       UVAR(I,4) = SQRT(TROIS*UVAR(I,4))/TDEMI
+       UVAR(I,4) = SQRT(THREE*UVAR(I,4))/THREE_HALF
       ENDDO
 C
        IF (I11(1).NE.0)THEN

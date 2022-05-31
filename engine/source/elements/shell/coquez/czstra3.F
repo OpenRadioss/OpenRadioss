@@ -108,8 +108,8 @@ C-----
         DO I=JFT,JLT 
           F_DEF(I,6) = GSTR(I,6)
           F_DEF(I,7) = GSTR(I,7)
-          F_DEF(I,8) = (GSTR(I,8)+GSTRW(I))*UNDEMI
-          F_DEF(I,5) = (GSTR(I,8)-GSTRW(I))*UNDEMI
+          F_DEF(I,8) = (GSTR(I,8)+GSTRW(I))*HALF
+          F_DEF(I,5) = (GSTR(I,8)-GSTRW(I))*HALF
         ENDDO
        ELSEIF(ISMSTR /= 11)THEN
         DO I=JFT,JLT
@@ -124,7 +124,7 @@ C-----
         ENDDO
        ELSE
         DO I=JFT,JLT
-         FAC1(I)  =UN/AREA(I)
+         FAC1(I)  =ONE/AREA(I)
          UX13=UX1(I)-UX3(I)
          UX24=UX2(I)-UX4(I)
          UY13=UY1(I)-UY3(I)

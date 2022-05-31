@@ -55,7 +55,7 @@ C
       DO N=NODFT,NODLT
         IF(NALE(N) == 3) THEN
          IF(MS(N).GT.ZERO) THEN
-           RTMP = UN / MS(N)
+           RTMP = ONE / MS(N)
            A(1,N) = A(1,N) * RTMP
            A(2,N) = A(2,N) * RTMP
            A(3,N) = A(3,N) * RTMP

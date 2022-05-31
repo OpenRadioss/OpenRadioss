@@ -104,7 +104,7 @@ C-----------------------------------------------
       !ERREURS :
       ! GAMMA <=0
       
-      IF(GAMMA.LE.UN)THEN
+      IF(GAMMA.LE.ONE)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -121,20 +121,20 @@ C-----------------------------------------------
       PM(35)=PSTAR
       
       !P0
-      MU0 = RHOI/RHOR-UN
+      MU0 = RHOI/RHOR-ONE
       DF = RHOR/RHOI
-      PP = -GAMMA*PSTAR-PSH + (GAMMA-UN)*(UN+MU0)*E0
+      PP = -GAMMA*PSTAR-PSH + (GAMMA-ONE)*(ONE+MU0)*E0
       PM(31)=P0-PSH
-      IF(PM(79)==ZERO)PM(79)=TROIS100
+      IF(PM(79)==ZERO)PM(79)=THREE100
       PM(104)=P0-PSH
       
       !SSP0
       SSP0 = ZERO 
       G0 = PM(22)
       RHOI = PM(89)
-      DPDMU =  (GAMMA-UN) *E0+(GAMMA-UN)*(UN+MU0)*DF*DF*(PP+PSH)
+      DPDMU =  (GAMMA-ONE) *E0+(GAMMA-ONE)*(ONE+MU0)*DF*DF*(PP+PSH)
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + DTIERS*G0)/RHOR) 
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0
       
       WRITE(IOUT,1000)

@@ -69,12 +69,12 @@ c
           ENDDO
           IF(MLW == 0 .OR. MLW == 13)THEN
             DO I=1,NEL
-              SPH_SCALAR(NFT+I) = UN
+              SPH_SCALAR(NFT+I) = ONE
             ENDDO
           ELSE
             GBUF => ELBUF_TAB(NG)%GBUF
             DO I=1,NEL
-              SPH_SCALAR(NFT+I) = NINT(MIN(GBUF%OFF(I),UN))
+              SPH_SCALAR(NFT+I) = NINT(MIN(GBUF%OFF(I),ONE))
             ENDDO
           ENDIF
         ENDIF

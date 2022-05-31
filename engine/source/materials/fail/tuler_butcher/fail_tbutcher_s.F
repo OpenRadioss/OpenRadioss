@@ -177,9 +177,9 @@ c         yp= 3 x^2 + c
          E42 = E4*E4
          E52 = E5*E5
          E62 = E6*E6
-         C = - UNDEMI * (E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
+         C = - HALF * (E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
          D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
-     &       - DEUX*E4*E5*E6 
+     &       - TWO*E4*E5*E6 
          CC1 = C*THIRD
          SIGMAX = SQRT(-CC1)
          EPST2 = SIGMAX * SIGMAX
@@ -188,19 +188,19 @@ c         yp= 3 x^2 + c
           SIGMAX = 1.75 * SIGMAX
           EPST2 = SIGMAX * SIGMAX
           Y = (EPST2 + C)* SIGMAX + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)SIGMAX = SIGMAX - Y/YP
           EPST2 = SIGMAX * SIGMAX
           Y = (EPST2 + C)* SIGMAX + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)SIGMAX = SIGMAX - Y/YP
           EPST2 = SIGMAX * SIGMAX
           Y = (EPST2 + C)* SIGMAX + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)SIGMAX = SIGMAX - Y/YP
           EPST2 = SIGMAX * SIGMAX
           Y = (EPST2 + C)* SIGMAX + D
-          YP = TROIS*EPST2 + C
+          YP = THREE*EPST2 + C
           IF(YP.NE.ZERO)SIGMAX = SIGMAX - Y/YP
          ENDIF 
          SIGMAX = SIGMAX + P  
@@ -208,7 +208,7 @@ c         yp= 3 x^2 + c
      .    UVAR(I,1)=UVAR(I,1) + TIMESTEP*(SIGMAX - SIGR)**TBA  
 cc          UVAR(I,2)=UVAR(I,2) + TIMESTEP  
          IF (UVAR(I,1).GT.TBK) THEN
-          OFF(I) = QCINQ
+          OFF(I) = FOUR_OVER_5
           IDEL7NOK = 1
           NINDX=NINDX+1
           INDX(NINDX)=I
@@ -250,9 +250,9 @@ c         yp= 3 x^2 + c
           E42 = E4*E4
           E52 = E5*E5
           E62 = E6*E6
-          C = - UNDEMI * (E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
+          C = - HALF * (E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
           D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
-     &       - DEUX*E4*E5*E6 
+     &       - TWO*E4*E5*E6 
           CC1 = C*THIRD
           SIGMAX = SQRT(-CC1)
           EPST2 = SIGMAX * SIGMAX
@@ -261,19 +261,19 @@ c         yp= 3 x^2 + c
            SIGMAX = 1.75 * SIGMAX
            EPST2 = SIGMAX * SIGMAX
            Y = (EPST2 + C)* SIGMAX + D
-           YP = TROIS*EPST2 + C
+           YP = THREE*EPST2 + C
            IF(YP.NE.ZERO)SIGMAX = SIGMAX - Y/YP
            EPST2 = SIGMAX * SIGMAX
            Y = (EPST2 + C)* SIGMAX + D
-           YP = TROIS*EPST2 + C
+           YP = THREE*EPST2 + C
            IF(YP.NE.ZERO)SIGMAX = SIGMAX - Y/YP
            EPST2 = SIGMAX * SIGMAX
            Y = (EPST2 + C)* SIGMAX + D
-           YP = TROIS*EPST2 + C
+           YP = THREE*EPST2 + C
            IF(YP.NE.ZERO)SIGMAX = SIGMAX - Y/YP
            EPST2 = SIGMAX * SIGMAX
            Y = (EPST2 + C)* SIGMAX + D
-           YP = TROIS*EPST2 + C
+           YP = THREE*EPST2 + C
            IF(YP.NE.ZERO)SIGMAX = SIGMAX - Y/YP
           ENDIF   
           SIGMAX = SIGMAX + P          
@@ -314,7 +314,7 @@ C uvar> tbk
       ENDIF   
 C-------------Maximum Damage storing for output : 0 < DFMAX < 1--------------
       DO I=1,NEL
-          DFMAX(I)= MIN(UN,MAX(DFMAX(I),UVAR(I,1)/TBK))
+          DFMAX(I)= MIN(ONE,MAX(DFMAX(I),UVAR(I,1)/TBK))
       ENDDO   
 C-----------------------------------------------
  1000 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER ',I10)

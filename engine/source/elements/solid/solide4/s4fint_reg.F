@@ -90,7 +90,7 @@ c=======================================================================
       ZETA   = NLOC_DMG%DENS(IMAT)
       SSPNL  = NLOC_DMG%SSPNL(IMAT)
       LE_MAX = NLOC_DMG%LE_MAX(IMAT) ! Maximal length of convergence
-      NTN    = QUATRE*QUATRE
+      NTN    = FOUR*FOUR
       ALLOCATE(BTB11(NEL),BTB12(NEL),BTB13(NEL),BTB14(NEL),BTB22(NEL),
      . BTB23(NEL),BTB24(NEL),BTB33(NEL),BTB34(NEL),BTB44(NEL),POS1(NEL),
      . POS2(NEL),POS3(NEL),POS4(NEL))
@@ -180,7 +180,7 @@ c
           NTN_VNL = NTN_VNL * XI * VOL(I)
 c
           ! Introducing the internal variable to be regularized
-          NTVAR   = VAR_REG(I)*QUART* VOL(I)
+          NTVAR   = VAR_REG(I)*FOURTH* VOL(I)
 c
           ! Computing the elementary non-local forces
           A = NTN_UNL + NTN_VNL - NTVAR
@@ -191,28 +191,28 @@ c
 c
           ! Computing nodal equivalent stiffness
           IF (NODADT > 0) THEN 
-            STI1(I) = (ABS(L2*BTB11(I)  + UN/NTN) + ABS(L2*BTB12(I)  + UN/NTN) + ABS(L2*BTB13(I)  + UN/NTN) +
-     .                 ABS(L2*BTB14(I)  + UN/NTN))* VOL(I)
-            STI2(I) = (ABS(L2*BTB12(I)  + UN/NTN) + ABS(L2*BTB22(I)  + UN/NTN) + ABS(L2*BTB23(I)  + UN/NTN) +
-     .                 ABS(L2*BTB24(I)  + UN/NTN))* VOL(I) 
-            STI3(I) = (ABS(L2*BTB13(I)  + UN/NTN) + ABS(L2*BTB23(I)  + UN/NTN) + ABS(L2*BTB33(I)  + UN/NTN) +
-     .                 ABS(L2*BTB34(I)  + UN/NTN))* VOL(I) 
-            STI4(I) = (ABS(L2*BTB14(I)  + UN/NTN) + ABS(L2*BTB24(I)  + UN/NTN) + ABS(L2*BTB34(I)  + UN/NTN) +
-     .                 ABS(L2*BTB44(I)  + UN/NTN))* VOL(I) 
+            STI1(I) = (ABS(L2*BTB11(I)  + ONE/NTN) + ABS(L2*BTB12(I)  + ONE/NTN) + ABS(L2*BTB13(I)  + ONE/NTN) +
+     .                 ABS(L2*BTB14(I)  + ONE/NTN))* VOL(I)
+            STI2(I) = (ABS(L2*BTB12(I)  + ONE/NTN) + ABS(L2*BTB22(I)  + ONE/NTN) + ABS(L2*BTB23(I)  + ONE/NTN) +
+     .                 ABS(L2*BTB24(I)  + ONE/NTN))* VOL(I) 
+            STI3(I) = (ABS(L2*BTB13(I)  + ONE/NTN) + ABS(L2*BTB23(I)  + ONE/NTN) + ABS(L2*BTB33(I)  + ONE/NTN) +
+     .                 ABS(L2*BTB34(I)  + ONE/NTN))* VOL(I) 
+            STI4(I) = (ABS(L2*BTB14(I)  + ONE/NTN) + ABS(L2*BTB24(I)  + ONE/NTN) + ABS(L2*BTB34(I)  + ONE/NTN) +
+     .                 ABS(L2*BTB44(I)  + ONE/NTN))* VOL(I) 
           ENDIF
 c
         ! If the element is broken, computation of absorbing forces
         ELSE
           IF (NODADT > 0) THEN     
             ! Non-local absorbing forces
-            F1(I) = SQRT(MASS(POS1(I))/MASS0(POS1(I)))*ZETA*SSPNL*UNDEMI*
-     .                          (VNL(POS1(I))+VNL0(POS1(I)))*(SQRT(TROIS)/QUATRE)*(LE_MAX**2)
-            F2(I) = SQRT(MASS(POS2(I))/MASS0(POS2(I)))*ZETA*SSPNL*UNDEMI*
-     .                          (VNL(POS2(I))+VNL0(POS2(I)))*(SQRT(TROIS)/QUATRE)*(LE_MAX**2)
-            F3(I) = SQRT(MASS(POS3(I))/MASS0(POS3(I)))*ZETA*SSPNL*UNDEMI*
-     .                          (VNL(POS3(I))+VNL0(POS3(I)))*(SQRT(TROIS)/QUATRE)*(LE_MAX**2)
-            F4(I) = SQRT(MASS(POS4(I))/MASS0(POS4(I)))*ZETA*SSPNL*UNDEMI*
-     .                          (VNL(POS4(I))+VNL0(POS4(I)))*(SQRT(TROIS)/QUATRE)*(LE_MAX**2) 
+            F1(I) = SQRT(MASS(POS1(I))/MASS0(POS1(I)))*ZETA*SSPNL*HALF*
+     .                          (VNL(POS1(I))+VNL0(POS1(I)))*(SQRT(THREE)/FOUR)*(LE_MAX**2)
+            F2(I) = SQRT(MASS(POS2(I))/MASS0(POS2(I)))*ZETA*SSPNL*HALF*
+     .                          (VNL(POS2(I))+VNL0(POS2(I)))*(SQRT(THREE)/FOUR)*(LE_MAX**2)
+            F3(I) = SQRT(MASS(POS3(I))/MASS0(POS3(I)))*ZETA*SSPNL*HALF*
+     .                          (VNL(POS3(I))+VNL0(POS3(I)))*(SQRT(THREE)/FOUR)*(LE_MAX**2)
+            F4(I) = SQRT(MASS(POS4(I))/MASS0(POS4(I)))*ZETA*SSPNL*HALF*
+     .                          (VNL(POS4(I))+VNL0(POS4(I)))*(SQRT(THREE)/FOUR)*(LE_MAX**2) 
             ! Computing nodal equivalent stiffness
             STI1(I) = EM20
             STI2(I) = EM20
@@ -220,10 +220,10 @@ c
             STI4(I) = EM20        
           ELSE
             ! Non-local absorbing forces
-            F1(I) = ZETA*SSPNL*UNDEMI*(VNL(POS1(I))+VNL0(POS1(I)))*(SQRT(TROIS)/QUATRE)*(LE_MAX**2)
-            F2(I) = ZETA*SSPNL*UNDEMI*(VNL(POS2(I))+VNL0(POS2(I)))*(SQRT(TROIS)/QUATRE)*(LE_MAX**2)
-            F3(I) = ZETA*SSPNL*UNDEMI*(VNL(POS3(I))+VNL0(POS3(I)))*(SQRT(TROIS)/QUATRE)*(LE_MAX**2)
-            F4(I) = ZETA*SSPNL*UNDEMI*(VNL(POS4(I))+VNL0(POS4(I)))*(SQRT(TROIS)/QUATRE)*(LE_MAX**2)          
+            F1(I) = ZETA*SSPNL*HALF*(VNL(POS1(I))+VNL0(POS1(I)))*(SQRT(THREE)/FOUR)*(LE_MAX**2)
+            F2(I) = ZETA*SSPNL*HALF*(VNL(POS2(I))+VNL0(POS2(I)))*(SQRT(THREE)/FOUR)*(LE_MAX**2)
+            F3(I) = ZETA*SSPNL*HALF*(VNL(POS3(I))+VNL0(POS3(I)))*(SQRT(THREE)/FOUR)*(LE_MAX**2)
+            F4(I) = ZETA*SSPNL*HALF*(VNL(POS4(I))+VNL0(POS4(I)))*(SQRT(THREE)/FOUR)*(LE_MAX**2)          
           ENDIF
         ENDIF
       ENDDO
@@ -289,8 +289,8 @@ c
           ! If the element is not broken, normal computation
           IF (OFF(I)/=ZERO) THEN
             ! Non-local critical time-step in the plane
-            DTNL = (DEUX*(MIN(VOL(I)**TIERS,LE_MAX))*SQRT(TROIS*ZETA))/
-     .                  SQRT(DOUZE*L2 + (MIN(VOL(I)**TIERS,LE_MAX))**2)
+            DTNL = (TWO*(MIN(VOL(I)**THIRD,LE_MAX))*SQRT(THREE*ZETA))/
+     .                  SQRT(TWELVE*L2 + (MIN(VOL(I)**THIRD,LE_MAX))**2)
             ! Retaining the minimal value
             DT2T = MIN(DT2T,DTFAC1(1)*CDAMP*DTNL)
           ENDIF

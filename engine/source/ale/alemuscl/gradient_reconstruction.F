@@ -140,10 +140,10 @@ C-----------------------------------------------
                NORM(2) = (B(3) - A(3)) * (C(1) - A(1)) - (B(1) - A(1)) * (C(3) - A(3))
                NORM(3) = (B(1) - A(1)) * (C(2) - A(2)) - (B(2) - A(2)) * (C(1) - A(1))
 
-               SURF1 = UNDEMI * ABS(SQRT(NORM(1) * NORM(1) + NORM(2) * NORM(2) + NORM(3) * NORM(3)))
-               XF = SURF1 * TIERS * (A(1) + B(1) + C(1))
-               YF = SURF1 * TIERS * (A(2) + B(2) + C(2))
-               ZF = SURF1 * TIERS * (A(3) + B(3) + C(3))
+               SURF1 = HALF * ABS(SQRT(NORM(1) * NORM(1) + NORM(2) * NORM(2) + NORM(3) * NORM(3)))
+               XF = SURF1 * THIRD * (A(1) + B(1) + C(1))
+               YF = SURF1 * THIRD * (A(2) + B(2) + C(2))
+               ZF = SURF1 * THIRD * (A(3) + B(3) + C(3))
 
                A(1:3) = X(1:3, IXS(FACE_TO_NODE_LOCAL_ID(KK, 1) + 1, II))
                B(1:3) = X(1:3, IXS(FACE_TO_NODE_LOCAL_ID(KK, 3) + 1, II))
@@ -153,10 +153,10 @@ C-----------------------------------------------
                NORM(2) = (B(3) - A(3)) * (C(1) - A(1)) - (B(1) - A(1)) * (C(3) - A(3))
                NORM(3) = (B(1) - A(1)) * (C(2) - A(2)) - (B(2) - A(2)) * (C(1) - A(1))
 
-               SURF2 = UNDEMI * ABS(SQRT(NORM(1) * NORM(1) + NORM(2) * NORM(2) + NORM(3) * NORM(3)))
-               XF = XF + SURF2 * TIERS * (A(1) + B(1) + C(1))
-               YF = YF + SURF2 * TIERS * (A(2) + B(2) + C(2))
-               ZF = ZF + SURF2 * TIERS * (A(3) + B(3) + C(3)) 
+               SURF2 = HALF * ABS(SQRT(NORM(1) * NORM(1) + NORM(2) * NORM(2) + NORM(3) * NORM(3)))
+               XF = XF + SURF2 * THIRD * (A(1) + B(1) + C(1))
+               YF = YF + SURF2 * THIRD * (A(2) + B(2) + C(2))
+               ZF = ZF + SURF2 * THIRD * (A(3) + B(3) + C(3)) 
                
                SURF = SURF1 + SURF2
                XF = XF / SURF
@@ -165,13 +165,13 @@ C-----------------------------------------------
                !!! Build face centroid
 c$$$               DO JJ = 1, 4
 c$$$                  NODE_ID = IXS(FACE_TO_NODE_LOCAL_ID(KK, JJ) + 1, II)
-c$$$                  XF = XF + QUART * X(1, NODE_ID)
-c$$$                  YF = YF + QUART * X(2, NODE_ID)
-c$$$                  ZF = ZF + QUART * X(3, NODE_ID)
+c$$$                  XF = XF + FOURTH * X(1, NODE_ID)
+c$$$                  YF = YF + FOURTH * X(2, NODE_ID)
+c$$$                  ZF = ZF + FOURTH * X(3, NODE_ID)
 c$$$               ENDDO
-               XL = DEUX * XF - ELCENTER(1, II)
-               YL = DEUX * YF - ELCENTER(2, II)
-               ZL = DEUX * ZF - ELCENTER(3, II)
+               XL = TWO * XF - ELCENTER(1, II)
+               YL = TWO * YF - ELCENTER(2, II)
+               ZL = TWO * ZF - ELCENTER(3, II)
             ENDIF
 
             !!! Incrementing mat and rhs

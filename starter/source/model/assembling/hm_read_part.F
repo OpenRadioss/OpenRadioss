@@ -137,7 +137,7 @@ C=======================================================================
       IS_AVAILABLE = .FALSE.
       SUB_INDEX = 0
       UID = 0
-      FAC_L = UN
+      FAC_L = ONE
       XFEMFLG = 0
       IXFEM   = 0
 

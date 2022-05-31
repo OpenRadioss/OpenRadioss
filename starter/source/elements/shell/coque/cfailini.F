@@ -83,9 +83,9 @@ c
               DO I = LFT,LLT                                
                 UVARF(LLT  +I) = THK(I)     ! UVAR(2)       
                 UVARF(LLT*4+I) = ALDT(I)    ! UVAR(5)       
-                UVARF(LLT*5+I) = UN         ! UVAR(6) = IPOS   
-                UVARF(LLT*6+I) = UN         ! UVAR(7) = IPOS          
-                UVARF(LLT*7+I) = UN         ! UVAR(8) = IPOS          
+                UVARF(LLT*5+I) = ONE         ! UVAR(6) = IPOS   
+                UVARF(LLT*6+I) = ONE         ! UVAR(7) = IPOS          
+                UVARF(LLT*7+I) = ONE         ! UVAR(8) = IPOS          
               ENDDO                                                            
             ENDDO                                                          
           END IF
@@ -236,9 +236,9 @@ c
                   DO I = LFT,LLT
                     UVARF(LLT  +I) = THK(I)     ! UVAR(2)
                     UVARF(LLT*4+I) = ALDT(I)    ! UVAR(5) 
-                    UVARF(LLT*5+I) = UN         ! UVAR(6) = IPOS   
-                    UVARF(LLT*6+I) = UN         ! UVAR(7) = IPOS      
-                    UVARF(LLT*7+I) = UN         ! UVAR(8) = IPOS      
+                    UVARF(LLT*5+I) = ONE         ! UVAR(6) = IPOS   
+                    UVARF(LLT*6+I) = ONE         ! UVAR(7) = IPOS      
+                    UVARF(LLT*7+I) = ONE         ! UVAR(8) = IPOS      
                   ENDDO                                                        
                 ENDDO                                                        
               ENDDO                                                         

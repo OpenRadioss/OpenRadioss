@@ -203,13 +203,13 @@ C-----------------------------------------------
       ENDIF
 C-----------------------------------------------
         BETA = TIMESTEP*2.*PI*CUTFRE
-        BETA = MIN(UN,BETA)
-        G3 = TROIS * G
-        GS = CSIX * G
-        NNU1 = ANU / (UN - ANU)
-        NU1 = UN/(UN-ANU)
-        NU2 = UN/(UN+ANU)
-        NU3 = UN - NNU1	
+        BETA = MIN(ONE,BETA)
+        G3 = THREE * G
+        GS = FIVE_OVER_6 * G
+        NNU1 = ANU / (ONE - ANU)
+        NU1 = ONE/(ONE-ANU)
+        NU2 = ONE/(ONE+ANU)
+        NU3 = ONE - NNU1	
 C        NNU2    = NNU1*NNU1
 C        NU4 = 1. + NNU2 + NNU1
 C        NU5 = 1. + NNU2 - 2.*NNU1
@@ -232,7 +232,7 @@ C-------------------
 C     STRAIN RATE
 C-------------------
 C
-         UVAR(I,2) = UNDEMI*( ABS(EPSPXX(I)+EPSPYY(I))
+         UVAR(I,2) = HALF*( ABS(EPSPXX(I)+EPSPYY(I))
      .   + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .                 + EPSPXY(I)*EPSPXY(I) ) )
          UVAR(I,2) = BETA*UVAR(I,2) + (1.-BETA)*UVAR(I,5)
@@ -244,7 +244,7 @@ C
 C         UVAR(I,1) = 0.5*( EPSXX(I)+EPSYY(I)
 C     .   + SQRT( (EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
 C     .                 + EPSXY(I)*EPSXY(I) ) )
-C         FAIL(I) = MAX(ZERO,MIN(UN,(EPSR2(I)-EPST)/(EPSR2(I)-EPSR1(I))))
+C         FAIL(I) = MAX(ZERO,MIN(ONE,(EPSR2(I)-EPST)/(EPSR2(I)-EPSR1(I))))
 C
        ENDDO
 C-------------------
@@ -277,19 +277,19 @@ C------------------------
 C     HARDENING MODULUS
 C------------------------
        DO I=1,NEL0
-        IF(UVAR(I,1).GT.ZERO. AND .CN.GE.UN) THEN
-         QH1= CB*CN*UVAR(I,1)**(CN-UN)
-        ELSEIF(UVAR(I,1).GT.ZERO. AND .CN.LT.UN)THEN
-         QH1= CB*CN*UVAR(I,1)**(UN - CN)
+        IF(UVAR(I,1).GT.ZERO. AND .CN.GE.ONE) THEN
+         QH1= CB*CN*UVAR(I,1)**(CN-ONE)
+        ELSEIF(UVAR(I,1).GT.ZERO. AND .CN.LT.ONE)THEN
+         QH1= CB*CN*UVAR(I,1)**(ONE - CN)
         ELSE
          QH1=ZERO
         ENDIF
         IF(UVAR(I,1).LE.ZERO. OR .UVAR(I,2).LE.EPS0) THEN
          QH2=ZERO
-        ELSEIF(CM.GE.UN) THEN
-         QH2=CD*CM*UVAR(I,1)**(CM- UN)*LOG(UVAR(I,2)/EPS0)
+        ELSEIF(CM.GE.ONE) THEN
+         QH2=CD*CM*UVAR(I,1)**(CM- ONE)*LOG(UVAR(I,2)/EPS0)
         ELSE
-         QH2=CD*CM*UVAR(I,1)**(UN -CM)*LOG(UVAR(I,2)/EPS0)
+         QH2=CD*CM*UVAR(I,1)**(ONE -CM)*LOG(UVAR(I,2)/EPS0)
         ENDIF
         UVAR(I,4)=QH1+QH2
        ENDDO
@@ -302,16 +302,16 @@ C radial return
            SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
      .             +SIGNYY(I)*SIGNYY(I)
      .             -SIGNXX(I)*SIGNYY(I)
-     .          +TROIS*SIGNXY(I)*SIGNXY(I))
-           R  = MIN(UN,UVAR(I,3)/MAX(EM20,SVM(I)))
+     .          +THREE*SIGNXY(I)*SIGNXY(I))
+           R  = MIN(ONE,UVAR(I,3)/MAX(EM20,SVM(I)))
            SIGNXX(I)=SIGNXX(I)*R
            SIGNYY(I)=SIGNYY(I)*R
            SIGNXY(I)=SIGNXY(I)*R
-           UMR = UN - R
+           UMR = ONE - R
            DPLA_I(I) = OFF(I)*SVM(I)*UMR/(G3+UVAR(I,4))
            UVAR(I,1) = UVAR(I,1) + DPLA_I(I)
-           S1=UNDEMI*(SIGNXX(I)+SIGNYY(I))
-           DEZZ = DPLA_I(I) * UNDEMI*(SIGNXX(I)+SIGNYY(I)) /UVAR(I,3)
+           S1=HALF*(SIGNXX(I)+SIGNYY(I))
+           DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) /UVAR(I,3)
            DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU1-NU3*DEZZ
            THK(I) = THK(I) + DEZZ*THKLY(I)
 C           IF(R.LT.1.) ETSE(I)= H(I)/(H(I)+E(I))
@@ -326,8 +326,8 @@ C-------------------------
            S1=SIGNXX(I)+SIGNYY(I)
            S2=SIGNXX(I)-SIGNYY(I)
            S3=SIGNXY(I)
-           AA(I)=QUART*S1*S1
-           BB(I)=TQUART*S2*S2+3.*S3*S3
+           AA(I)=FOURTH*S1*S1
+           BB(I)=THREE_OVER_4*S2*S2+3.*S3*S3
            SVM(I)=SQRT(AA(I)+BB(I))  
            DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU1
            THK(I) = THK(I) + DEZZ*THKLY(I)
@@ -337,7 +337,7 @@ C     GATHER PLASTIC FLOW
 C-------------------------
          NINDX=0
          DO I=1,NEL0
-           IF(SVM(I).GT.UVAR(I,3).AND.OFF(I).EQ.UN) THEN
+           IF(SVM(I).GT.UVAR(I,3).AND.OFF(I).EQ.ONE) THEN
              NINDX=NINDX+1
              INDEX(NINDX)=I
            ENDIF
@@ -358,15 +358,15 @@ C#include "vectorize.inc"
              I=INDEX(J)
              DPLA_I(I)=DPLA_J(I)
              YLD_I =UVAR(I,3)+UVAR(I,4)*DPLA_I(I)
-             DR(I) =UNDEMI*YOUNG*DPLA_I(I)/YLD_I
-             PP(I)  =UN/(UN+DR(I)*NU1)
-             QQ(I)  =UN/(UN + TROIS*DR(I)*NU2)	     
+             DR(I) =HALF*YOUNG*DPLA_I(I)/YLD_I
+             PP(I)  =ONE/(ONE+DR(I)*NU1)
+             QQ(I)  =ONE/(ONE + THREE*DR(I)*NU2)	     
              P2    =PP(I)*PP(I)
              Q2    =QQ(I)*QQ(I)
              F     =AA(I)*P2+BB(I)*Q2-YLD_I*YLD_I
-             DF    =-(AA(I)*NU1*P2*PP(I)+TROIS*BB(I)*NU2*Q2*QQ(I))
-     .         *(YOUNG-DEUX*DR(I)*UVAR(I,4))/YLD_I
-     .         -DEUX*UVAR(I,4)*YLD_I
+             DF    =-(AA(I)*NU1*P2*PP(I)+THREE*BB(I)*NU2*Q2*QQ(I))
+     .         *(YOUNG-TWO*DR(I)*UVAR(I,4))/YLD_I
+     .         -TWO*UVAR(I,4)*YLD_I
              IF(DPLA_I(I).GT.ZERO) THEN
                DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F/DF)
              ELSE
@@ -383,8 +383,8 @@ C#include "vectorize.inc"
            UVAR(I,1) = UVAR(I,1) + DPLA_I(I)
            S1=(SIGNXX(I)+SIGNYY(I))*PP(I)
            S2=(SIGNXX(I)-SIGNYY(I))*QQ(I)
-           SIGNXX(I)=UNDEMI*(S1+S2)
-           SIGNYY(I)=UNDEMI*(S1-S2)
+           SIGNXX(I)=HALF*(S1+S2)
+           SIGNYY(I)=HALF*(S1-S2)
            SIGNXY(I)=SIGNXY(I)*QQ(I)
            DEZZ = - NU3*DR(I)*S1/YOUNG
            THK(I) = THK(I) + DEZZ*THKLY(I)
@@ -393,7 +393,7 @@ C
        ENDIF
 C
        DO I=1,NEL0
-         IF(UVAR(I,1).GT.EPSM.AND.OFF(I).EQ.UN)OFF(I)=QCINQ
+         IF(UVAR(I,1).GT.EPSM.AND.OFF(I).EQ.ONE)OFF(I)=FOUR_OVER_5
        ENDDO
 C-------------------------
       RETURN

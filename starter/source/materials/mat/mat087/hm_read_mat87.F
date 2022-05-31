@@ -138,10 +138,10 @@ C----------------------------------------------------------------------
       UNSC  = ZERO
       UNSPT = ZERO
       UNSCT = ZERO
-      AL9   = UN
-      AL10  = UN
-      AL11  = UN
-      AL12  = UN
+      AL9   = ONE
+      AL10  = ONE
+      AL11  = ONE
+      AL12  = ONE
       NRATE = 0
       ISRATE= 0
       FCUT  = ZERO
@@ -203,7 +203,7 @@ Card5
           CALL HM_GET_FLOAT_ARRAY_INDEX      ('SCALE_LOAD'  ,YFAC(I)     ,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
           IF(YFAC(I) == ZERO) THEN
             CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_LOAD'  ,YFAC_UNIT(I),I,IS_AVAILABLE,LSUBMODEL,UNITAB) 
-            YFAC(I)=UN * YFAC_UNIT(I)
+            YFAC(I)=ONE * YFAC_UNIT(I)
           ENDIF
           CALL HM_GET_FLOAT_ARRAY_INDEX   ('STRAINRATE_LOAD',RATE(I)     ,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
           IF(I > 1 )THEN
@@ -286,7 +286,7 @@ c-------------------------------------------------------------
         NFUNC=2
         IFUNC(2)=IFUNC(1)
         RATE(1) = ZERO
-        RATE(2) = UN
+        RATE(2) = ONE
         YFAC(2) = YFAC(1)
        ELSEIF(RATE(1) == ZERO)THEN
         NFUNC=NRATE
@@ -307,15 +307,15 @@ c-------------------------------------------------------------
         UNSPT = ZERO
         UNSCT = ZERO
       ELSEIF(IFLAGSR == 0)THEN
-        UNSPT = UN/INVP
-        UNSCT = UN/INVC  
+        UNSPT = ONE/INVP
+        UNSCT = ONE/INVC  
       ELSEIF(IFLAGSR == 1)THEN
-        UNSP = UN/INVP
-        UNSC = UN/INVC  
+        UNSP = ONE/INVP
+        UNSC = ONE/INVC  
       ENDIF
 c-------------------------------------------------------------
       IF (EXPA == 0) EXPA = 2
-      BULK = E/TROIS/(UN-DEUX*NU)
+      BULK = E/THREE/(ONE-TWO*NU)
 c-------------------------------------------------------------
 c     strain rate filtering
       IF(IFLAGSR==1) THEN
@@ -327,7 +327,7 @@ c     strain rate filtering
 c-------------------------------------------------------------
       IF (IFLAG == 2 )THEN
         IF( K1==ZERO .OR. K2==ZERO)THEN
-         K1 = UN
+         K1 = ONE
          K2 = ZERO
         ENDIF
       ENDIF
@@ -360,9 +360,9 @@ C
        UPARAM(19)= ASWIFT
       ENDIF 
 
-      G  = UNDEMI*E/(UN+NU)
+      G  = HALF*E/(ONE+NU)
 
-      UPARAM(21) = UN/(UN - NU*NU)
+      UPARAM(21) = ONE/(ONE - NU*NU)
       UPARAM(22) = NU*UPARAM(21)
       UPARAM(23) = G 
 
@@ -452,7 +452,7 @@ C---------------------------------
       IF (RHOR == ZERO) RHOR=RHO0
       PM(1) = RHOR
       PM(89)= RHO0 
-      PM(9) = DEUX*PI *FCUT   
+      PM(9) = TWO*PI *FCUT   
 
       PARMAT(1) = BULK
       PARMAT(2) = E
@@ -461,7 +461,7 @@ C---------------------------------
       PARMAT(5) = FCUT
 CC     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) =  (UN - DEUX*NU)/(UN - NU) ! == DEUX*G/(C1+QTHIRD*G)
+      PARMAT(17) =  (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G)
 c-------------------------------------------------------------
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1

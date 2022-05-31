@@ -87,9 +87,9 @@ c dmelc = 2*dmelc !!
 c w^2 < 2k / (m+dmelc+dmelc/3) < 2k / (m+dmelc)
 c dt = 2/w = sqrt( 2*(m+dmelc)/k)
           DMELC(I)=MAX(DMELC(I),
-     .                (DTMINS/DTFACS)**2 * STI(I) - DEUX*MSC(I))
+     .                (DTMINS/DTFACS)**2 * STI(I) - TWO*MSC(I))
           DT(I)  = DTFACS*
-     .             SQRT((DEUX*MSC(I)+DMELC(I))/MAX(EM20,STI(I)))
+     .             SQRT((TWO*MSC(I)+DMELC(I))/MAX(EM20,STI(I)))
           IF(DT(I).LT.DT2T)THEN
             DT2T    = DT(I)
             NELTST  = NGL(I)
@@ -100,14 +100,14 @@ C
         IF(IDTMIN(3)/=0)THEN
           DO I=JFT,JLT
            MAS   = VOL00(I)*RHO(I)
-           DT(I) = DTFAC1(3)*SQRT(UNDEMI*MAS/MAX(EM20,STI(I)))
+           DT(I) = DTFAC1(3)*SQRT(HALF*MAS/MAX(EM20,STI(I)))
           ENDDO
         END IF
 C
       ELSEIF(IDT1SH.EQ.1.OR.IDTMINS==2)THEN
           DO I=JFT,JLT
            MAS   = VOL00(I)*RHO(I)
-           DT(I) = DTFAC1(3)*SQRT(UNDEMI*MAS/MAX(EM20,STI(I)))
+           DT(I) = DTFAC1(3)*SQRT(HALF*MAS/MAX(EM20,STI(I)))
           ENDDO
       ELSE
          DO I=JFT,JLT
@@ -125,7 +125,7 @@ C         DTC(1) = 1.E6
           DO I=JFT,JLT
            IF(IXC(4,I).EQ.IXC(5,I))THEN
 C             DTC(1)=MIN(DTC(1),0.5*DT(I),DT2C(1))
-             DTC(1)=MIN(DTC(1),UNDEMI*DT(I))
+             DTC(1)=MIN(DTC(1),HALF*DT(I))
            ELSE
 C             DTC(1)=MIN(DTC(1),DT(I),DT2C(1))
              DTC(1)=MIN(DTC(1),DT(I))
@@ -157,7 +157,7 @@ C------------------------------
         NINDX=IOFC
         DO 95 I=JFT,JLT
         IF(DT(I).GT.DTMIN1(3).OR.
-     .     OFF(I).LT.UN.OR.OFFG(I).EQ.DEUX.OR.OFFG(I).LT.ZERO) GO TO 95
+     .     OFF(I).LT.ONE.OR.OFFG(I).EQ.TWO.OR.OFFG(I).LT.ZERO) GO TO 95
          NINDX=NINDX+1
          INDXOF(NINDX)=I
   95    CONTINUE
@@ -174,7 +174,7 @@ C
       ELSEIF(IDTMIN(3).EQ.2)THEN
         NINDX=IOFC
         DO 120 I=JFT,JLT
-        IF(DT(I).GT.DTMIN1(3).OR.OFF(I).LT.UN
+        IF(DT(I).GT.DTMIN1(3).OR.OFF(I).LT.ONE
      .     .OR.OFFG(I).LT.ZERO) GO TO 120
          NINDX=NINDX+1
          INDXOF(NINDX)=I
@@ -194,7 +194,7 @@ C
         NINDX=IOFC
         DO 130 I=JFT,JLT
         IF(DT(I).GT.DTMIN1(3).OR.
-     .     OFF(I).LT.UN.OR.OFFG(I).EQ.DEUX.OR.OFFG(I).LT.ZERO)GO TO 130
+     .     OFF(I).LT.ONE.OR.OFFG(I).EQ.TWO.OR.OFFG(I).LT.ZERO)GO TO 130
          NINDX=NINDX+1
          INDXOF(NINDX)=I
   130   CONTINUE
@@ -212,7 +212,7 @@ C
         NINDX=IOFC
         DO 155 I=JFT,JLT
         IF(DT(I).GT.DTMIN1(3).OR.
-     .     OFF(I).LT.UN.OR.OFFG(I).EQ.DEUX.OR.OFFG(I).LT.ZERO)GO TO 155
+     .     OFF(I).LT.ONE.OR.OFFG(I).EQ.TWO.OR.OFFG(I).LT.ZERO)GO TO 155
          NINDX=NINDX+1
          INDXOF(NINDX)=I
  155    CONTINUE
@@ -256,7 +256,7 @@ C-------------------------------------------------------------------
       ELSE
        DO I=JFT,JLT
          DIVM=MAX(ALDT(I)*ALDT(I),EM20)
-         STI(I) = UNDEMI * VOL0(I) * YM(I) / DIVM
+         STI(I) = HALF * VOL0(I) * YM(I) / DIVM
          STI(I) = ZEP81 * STI(I) * OFF(I)
          STIR(I)= ZERO
        ENDDO

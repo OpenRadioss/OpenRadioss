@@ -157,11 +157,11 @@ C
           OMY = .25*(Y1 +Y2 +Y3 +Y4) - CRY
           OMZ = .25*(Z1 +Z2 +Z3 +Z4) - CRZ
 C
-          SFX = UNDEMI*((Y3-Y1)*(Z4-Z2)-
+          SFX = HALF*((Y3-Y1)*(Z4-Z2)-
      1                 (Z3-Z1)*(Y4-Y2))
-          SFY =UNDEMI*((Z3-Z1)*(X4-X2)-
+          SFY =HALF*((Z3-Z1)*(X4-X2)-
      1                 (X3-X1)*(Z4-Z2))
-                    SFZ = UNDEMI*((X3-X1)*(Y4-Y2)-
+                    SFZ = HALF*((X3-X1)*(Y4-Y2)-
      1                 (Y3-Y1)*(X4-X2))
 C
           VL2 = VMX*VMX+VMY*VMY+VMZ*VMZ

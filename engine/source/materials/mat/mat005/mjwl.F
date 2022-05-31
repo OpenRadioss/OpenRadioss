@@ -70,7 +70,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       DO I=LFT,LLT
-        DVOL(I)=UNDEMI*DVOL(I)
+        DVOL(I)=HALF*DVOL(I)
         POLD(I)=THIRD*(SOLD1(I)+SOLD2(I)+SOLD3(I))
         EINC(I)=DVOL(I)*(POLD(I)-PSH(I)-QOLD(I)-QNEW(I))
         EINT(I)=EINT(I)+EINC(I)
@@ -98,31 +98,31 @@ C-----------------------------------------------
       !=== instantaneous release
         DO I=LFT,LLT
           LAMBDA = ZERO
-          IF(TT > TEND .AND. ABURN(I).EQ.UN)THEN   
-            LAMBDA   = UN
-            ABURN(I) = UN
+          IF(TT > TEND .AND. ABURN(I).EQ.ONE)THEN   
+            LAMBDA   = ONE
+            ABURN(I) = ONE
           ELSEIF (TT <= TBEGIN)THEN
             LAMBDA   = ZERO
             ABURN(I) = ZERO
           ELSE
-            LAMBDA   = UN
+            LAMBDA   = ONE
             EINT(I)  = EINT(I)+(LAMBDA-ABURN(I))*EADD*MAX(EM20,VOLO(I))
-            ABURN(I) = UN
+            ABURN(I) = ONE
           ENDIF
         ENDDO   
       ELSEIF(QOPT==1)THEN
       !=== afterburning with constant rate from Tbegin to Tend
         DO I=LFT,LLT
           LAMBDA = ZERO
-          IF(TT > TEND .AND. ABURN(I).EQ.UN)THEN 
-            LAMBDA   = UN
-            ABURN(I) = UN
+          IF(TT > TEND .AND. ABURN(I).EQ.ONE)THEN 
+            LAMBDA   = ONE
+            ABURN(I) = ONE
           ELSEIF (TT <= TBEGIN)THEN
             LAMBDA   = ZERO
             ABURN(I) = ZERO
           ELSE
             LAMBDA   = (TT-TBEGIN)*RR
-            LAMBDA   = MIN(UN,LAMBDA)
+            LAMBDA   = MIN(ONE,LAMBDA)
             EINT(I)  = EINT(I)+(LAMBDA-ABURN(I))*EADD*MAX(EM20,VOLO(I))
             ABURN(I) = LAMBDA
           ENDIF          
@@ -131,15 +131,15 @@ C-----------------------------------------------
       !=== afterburning with linear rate from Tbegin to Tend
         DO I=LFT,LLT
           LAMBDA = ZERO
-          IF(TT > TEND .AND. ABURN(I).EQ.UN)THEN    ! .AND. ABURN(I).EQ.UN  needed to add last increment
-            LAMBDA   = UN
-            ABURN(I) = UN
+          IF(TT > TEND .AND. ABURN(I).EQ.ONE)THEN    ! .AND. ABURN(I).EQ.ONE  needed to add last increment
+            LAMBDA   = ONE
+            ABURN(I) = ONE
           ELSEIF (TT <= TBEGIN)THEN
             LAMBDA   = ZERO
             ABURN(I) = ZERO
           ELSE
-            LAMBDA   = UNDEMI*RR*TT**2 - RR*TBEGIN*TT + RR2
-            LAMBDA   = MAX(ZERO,MIN(UN,LAMBDA))
+            LAMBDA   = HALF*RR*TT**2 - RR*TBEGIN*TT + RR2
+            LAMBDA   = MAX(ZERO,MIN(ONE,LAMBDA))
             EINT(I)  = EINT(I)+(LAMBDA-ABURN(I))*EADD*MAX(EM20,VOLO(I))
             ABURN(I) = LAMBDA
           ENDIF
@@ -149,9 +149,9 @@ C-----------------------------------------------
         DO I=LFT,LLT
           LAMBDA = ZERO
           IF(-POLD(I)-PSH(I) > ZERO )THEN 
-            LAMBDA=ABURN(I)+ DT1*A*EXP( M*LOG(UN+ABURN(I)) )*EXP(N*LOG(ALPHA_UNIT*(-POLD(I)-PSH(I))))
+            LAMBDA=ABURN(I)+ DT1*A*EXP( M*LOG(ONE+ABURN(I)) )*EXP(N*LOG(ALPHA_UNIT*(-POLD(I)-PSH(I))))
             LAMBDA  = MAX(LAMBDA,ZERO)
-            LAMBDA  = MIN(LAMBDA,UN)
+            LAMBDA  = MIN(LAMBDA,ONE)
             EINT(I) = EINT(I)+(LAMBDA-ABURN(I))*EADD*MAX(EM20,VOLO(I))
             ABURN(I)= LAMBDA
           ENDIF
@@ -166,8 +166,8 @@ C-----------------------------------------------
       ENDDO
 
       DO I=LFT,LLT
-        PNEW(I)= - PSH(I) + (UN - BFRAC(I)) * (P0(I) + BULK * AMU(I)) + 
-     .        (FACM(I)+(ESPE(I))*W1DF(I))/(UN +W1DF(I)*DVOL(I)/MAX(EM20,VOLO(I)))
+        PNEW(I)= - PSH(I) + (ONE - BFRAC(I)) * (P0(I) + BULK * AMU(I)) + 
+     .        (FACM(I)+(ESPE(I))*W1DF(I))/(ONE +W1DF(I)*DVOL(I)/MAX(EM20,VOLO(I)))
       ENDDO
 
       DO I=LFT,LLT

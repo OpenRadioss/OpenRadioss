@@ -72,7 +72,7 @@ C-----------------------------------------------
          N3 = X13*Y24-X24*Y13
          AREA = AREA + SQRT(N1*N1+N2*N2+N3*N3)
       ENDDO
-      AREA = AREA * UNDEMI
+      AREA = AREA * HALF
 C
       RETURN
       END

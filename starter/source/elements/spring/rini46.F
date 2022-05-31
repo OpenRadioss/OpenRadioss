@@ -156,7 +156,7 @@ C
 C Initialization of UVAR(1,I) with the delta length of the spring
 C
           UVAR(1,I) = ZERO
-          UVAR(2,I) = UN
+          UVAR(2,I) = ONE
 C
 C Initialization of UVAR(3,I) with the initial length of the spring at time=0
 C

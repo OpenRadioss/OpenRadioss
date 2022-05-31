@@ -113,7 +113,7 @@ C SET INITIAL MATERIAL CONSTANTS
         RMW	= PM(189)
         T2=T0*T0
         T3=T0*T2
-        H0=CPA*T0+UNDEMI*CPB*T2+TIERS*CPC*T3
+        H0=CPA*T0+HALF*CPB*T2+THIRD*CPC*T3
         E0=H0-RMW*T0
         DO I=1,NEL
 C
@@ -131,7 +131,7 @@ C  pour rezonne ale
         END DO
       ELSE
         DO I=1,NEL
-          VOLINV=UN/MAX(EM30,VOLUME(I))
+          VOLINV=ONE/MAX(EM30,VOLUME(I))
           UVAR(I,3)=UVAR(I,3)*VOLINV
           UVAR(I,4)=UVAR(I,4)*VOLINV
           UVAR(I,5)=UVAR(I,5)*VOLINV
@@ -145,11 +145,11 @@ C        IF(CPB.GT.ZERO)THEN
 C         0 <= T1 <= T2 <= infinite
 C          CAS=0
 C        ELSE
-C         DELTA=CPB*CPB-QUATRE*(CPA-RMW)*CPC
+C         DELTA=CPB*CPB-FOUR*(CPA-RMW)*CPC
 C         IF(DELTA.GT.ZERO)THEN
 C           DELTA=SQRT(DELTA)
-C           T01  =(-CPB-DELTA)/(DEUX*CPC)
-C           T02  =(-CPB+DELTA)/(DEUX*CPC)
+C           T01  =(-CPB-DELTA)/(TWO*CPC)
+C           T02  =(-CPB+DELTA)/(TWO*CPC)
 C           CAS=2
 C           0 <= T1 <= T2 < T01
 C           or T02 < T1 <= T2 <= infinite
@@ -159,11 +159,11 @@ C           CAS=0
 C         END IF
 C        END IF
 C      ELSEIF(CPC.LT.ZERO)THEN
-C        DELTA=SQRT(CPB*CPB-QUATRE*(CPA-RMW)*CPC)
-C       T01  =(-CPB-DELTA)/(DEUX*CPC) is negative
-C       T02  =(-CPB+DELTA)/(DEUX*CPC) is positive
+C        DELTA=SQRT(CPB*CPB-FOUR*(CPA-RMW)*CPC)
+C       T01  =(-CPB-DELTA)/(TWO*CPC) is negative
+C       T02  =(-CPB+DELTA)/(TWO*CPC) is positive
 C        CAS=1
-C        T01  =(-CPB+DELTA)/(DEUX*CPC)
+C        T01  =(-CPB+DELTA)/(TWO*CPC)
 C       0 <= T1 <= T2 < T01
 C      ELSE
 C        IF(CPB.GT.ZERO)THEN
@@ -201,7 +201,7 @@ c      END DO
          T2=T1*T1
          T3=T1*T2
          TOLD(I)= MAX(ZERO,T1 +
-     .    (EINT(I)-(TIERS*CC(I)*T3+UNDEMI*BB(I)*T2+AA(I)*T1))
+     .    (EINT(I)-(THIRD*CC(I)*T3+HALF*BB(I)*T2+AA(I)*T1))
      .                 /MAX(EM30,CC(I)*T2+BB(I)*T1+AA(I))      )
        END DO
       END DO
@@ -214,8 +214,8 @@ C       Pold dV = MM R/Mw Told dV / Vold
 C               = rhoR/MW Told dV (1+dV/Vold)
         POLD=-(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*THIRD+PEXT
         FF(I)  =EINT(I)
-     .     -UNDEMI*POLD*DVOL(I)
-C    .     -UNDEMI*UVAR(I,6)*TOLD(I)*DVOL(I)*(UN+DVOL(I)/VOLD(I))
+     .     -HALF*POLD*DVOL(I)
+C    .     -HALF*UVAR(I,6)*TOLD(I)*DVOL(I)*(ONE+DVOL(I)/VOLD(I))
       END DO
       DO N=1,NIT
        DO I=1,NEL
@@ -227,9 +227,9 @@ C       rho V (cva T + 1/2 cpb T2 + 1/3 cpc T3) + 1/2 P dV
 C       = Eold - 1/2 Pold dV
 C       avec P = rho R/Mw T
         TNEW(I)= MAX(ZERO,T1+
-     .   (FF(I)-(TIERS*CC(I)*T3+UNDEMI*BB(I)*T2+AA(I)*T1
-     .                            +UNDEMI*UVAR(I,6)*T1*DVOL(I)))
-     .      /MAX(EM30,CC(I)*T2+BB(I)*T1+AA(I)+UNDEMI*UVAR(I,6)*DVOL(I)))
+     .   (FF(I)-(THIRD*CC(I)*T3+HALF*BB(I)*T2+AA(I)*T1
+     .                            +HALF*UVAR(I,6)*T1*DVOL(I)))
+     .      /MAX(EM30,CC(I)*T2+BB(I)*T1+AA(I)+HALF*UVAR(I,6)*DVOL(I)))
 C                                                                     12
        END DO
       END DO
@@ -248,11 +248,11 @@ C Energy
         T1=TNEW(I)
         T2=T1*T1
         T3=T1*T2
-        EINT(I)=TIERS*CC(I)*T3+UNDEMI*BB(I)*T2+AA(I)*T1
+        EINT(I)=THIRD*CC(I)*T3+HALF*BB(I)*T2+AA(I)*T1
 * SET SOUND SPEED
 C       RHOCV=(UVAR(I,3)-UVAR(I,6))+UVAR(I,4)*T1+UVAR(I,5)*T2
         RHOCV=UVAR(I,3)-UVAR(I,6)
-        SOUNDSP(I)=SQRT((UN+UVAR(I,6)/RHOCV)*(P(I)+PEXT)/RHO(I))
+        SOUNDSP(I)=SQRT((ONE+UVAR(I,6)/RHOCV)*(P(I)+PEXT)/RHO(I))
 * SET MAXIMUM VISCOSITY
         VISCMAX(I)=ZERO
       END DO

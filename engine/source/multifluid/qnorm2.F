@@ -96,7 +96,7 @@ C     Face 1
          NY = NY / SURF(KFACE, II)
          NZ = NZ / SURF(KFACE, II)
          IF (SYM .EQ. 1) THEN
-            SURF(KFACE, II) = SURF(KFACE, II) * UNDEMI * (X1(2) + X2(2))
+            SURF(KFACE, II) = SURF(KFACE, II) * HALF * (X1(2) + X2(2))
          ENDIF
 C     Face 2
          KFACE = 2
@@ -109,7 +109,7 @@ C     Face 2
          NY = NY / SURF(KFACE, II)
          NZ = NZ / SURF(KFACE, II)
          IF (SYM .EQ. 1) THEN
-            SURF(KFACE, II) = SURF(KFACE, II) * UNDEMI * (X2(2) + X3(2))
+            SURF(KFACE, II) = SURF(KFACE, II) * HALF * (X2(2) + X3(2))
          ENDIF
 C     Face 3
          KFACE = 3
@@ -122,7 +122,7 @@ C     Face 3
          NY = NY / SURF(KFACE, II)
          NZ = NZ / SURF(KFACE, II)
          IF (SYM .EQ. 1) THEN
-            SURF(KFACE, II) = SURF(KFACE, II) * UNDEMI * (X3(2) + X4(2))
+            SURF(KFACE, II) = SURF(KFACE, II) * HALF * (X3(2) + X4(2))
          ENDIF
 C     Face 4
          KFACE = 4
@@ -135,15 +135,15 @@ C     Face 4
          NY = NY / SURF(KFACE, II)
          NZ = NZ / SURF(KFACE, II)
          IF (SYM .EQ. 1) THEN
-            SURF(KFACE, II) = SURF(KFACE, II) * UNDEMI * (X4(2) + X1(2))
+            SURF(KFACE, II) = SURF(KFACE, II) * HALF * (X4(2) + X1(2))
          ENDIF
 C     Face grid velocity 1
-         WFAC(1:3, 1, II) = UNDEMI * (W1(1:3) + W2(1:3))
+         WFAC(1:3, 1, II) = HALF * (W1(1:3) + W2(1:3))
 C     Face grid velocity 2
-         WFAC(1:3, 2, II) = UNDEMI * (W2(1:3) + W3(1:3))
+         WFAC(1:3, 2, II) = HALF * (W2(1:3) + W3(1:3))
 C     Face grid velocity 3
-         WFAC(1:3, 3, II) = UNDEMI * (W3(1:3) + W4(1:3))
+         WFAC(1:3, 3, II) = HALF * (W3(1:3) + W4(1:3))
 C     Face grid velocity 4
-         WFAC(1:3, 4, II) = UNDEMI * (W4(1:3) + W1(1:3))
+         WFAC(1:3, 4, II) = HALF * (W4(1:3) + W1(1:3))
       ENDDO
       END SUBROUTINE QNORM2

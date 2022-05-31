@@ -80,19 +80,19 @@ C
 C         Assembling twice the force if the other segment supporting the main edge 
 C         lies onto the same domain
 
-          FX1(I)=DEUX*FX1(I)
-          FY1(I)=DEUX*FY1(I)
-          FZ1(I)=DEUX*FZ1(I)
-          FX2(I)=DEUX*FX2(I)
-          FY2(I)=DEUX*FY2(I)
-          FZ2(I)=DEUX*FZ2(I)
-          FX3(I)=DEUX*FX3(I)
-          FY3(I)=DEUX*FY3(I)
-          FZ3(I)=DEUX*FZ3(I)
-          FX4(I)=DEUX*FX4(I)
-          FY4(I)=DEUX*FY4(I)
-          FZ4(I)=DEUX*FZ4(I)
-          STIF(I)=DEUX*STIF(I)
+          FX1(I)=TWO*FX1(I)
+          FY1(I)=TWO*FY1(I)
+          FZ1(I)=TWO*FZ1(I)
+          FX2(I)=TWO*FX2(I)
+          FY2(I)=TWO*FY2(I)
+          FZ2(I)=TWO*FZ2(I)
+          FX3(I)=TWO*FX3(I)
+          FY3(I)=TWO*FY3(I)
+          FZ3(I)=TWO*FZ3(I)
+          FX4(I)=TWO*FX4(I)
+          FY4(I)=TWO*FY4(I)
+          FZ4(I)=TWO*FZ4(I)
+          STIF(I)=TWO*STIF(I)
         END IF
       END DO
 C
@@ -116,13 +116,13 @@ C
           AFIE(NIN)%P(1,J1+ISHIFT)=AFIE(NIN)%P(1,J1+ISHIFT)+FX1(I)
           AFIE(NIN)%P(2,J1+ISHIFT)=AFIE(NIN)%P(2,J1+ISHIFT)+FY1(I)
           AFIE(NIN)%P(3,J1+ISHIFT)=AFIE(NIN)%P(3,J1+ISHIFT)+FZ1(I)
-          STNFIE(NIN)%P(J1+ISHIFT) = DEUX*STNFIE(NIN)%P(J1+ISHIFT) + STIF(I)*ABS(HS1(I))
+          STNFIE(NIN)%P(J1+ISHIFT) = TWO*STNFIE(NIN)%P(J1+ISHIFT) + STIF(I)*ABS(HS1(I))
 C
           J1=N2(I)
           AFIE(NIN)%P(1,J1+ISHIFT)=AFIE(NIN)%P(1,J1+ISHIFT)+FX2(I)
           AFIE(NIN)%P(2,J1+ISHIFT)=AFIE(NIN)%P(2,J1+ISHIFT)+FY2(I)
           AFIE(NIN)%P(3,J1+ISHIFT)=AFIE(NIN)%P(3,J1+ISHIFT)+FZ2(I)
-          STNFIE(NIN)%P(J1+ISHIFT) = DEUX*STNFIE(NIN)%P(J1+ISHIFT) + STIF(I)*ABS(HS2(I))
+          STNFIE(NIN)%P(J1+ISHIFT) = TWO*STNFIE(NIN)%P(J1+ISHIFT) + STIF(I)*ABS(HS2(I))
         END IF
       END DO
 C
@@ -207,26 +207,26 @@ C
         IF(IBM(I)>=0)THEN
 C         Assembling twice the force if the other segment supporting the main edge 
 C         lies onto the same domain
-          FX1(I)=DEUX*FX1(I)
-          FY1(I)=DEUX*FY1(I)
-          FZ1(I)=DEUX*FZ1(I)
-          FX2(I)=DEUX*FX2(I)
-          FY2(I)=DEUX*FY2(I)
-          FZ2(I)=DEUX*FZ2(I)
-          FX3(I)=DEUX*FX3(I)
-          FY3(I)=DEUX*FY3(I)
-          FZ3(I)=DEUX*FZ3(I)
-          FX4(I)=DEUX*FX4(I)
-          FY4(I)=DEUX*FY4(I)
-          FZ4(I)=DEUX*FZ4(I)
-          K1(I) =DEUX*K1(I)
-          K2(I) =DEUX*K2(I)
-          K3(I) =DEUX*K3(I)
-          K4(I) =DEUX*K4(I)
-          C1(I) =DEUX*C1(I)
-          C2(I) =DEUX*C2(I)
-          C3(I) =DEUX*C3(I)
-          C4(I) =DEUX*C4(I)
+          FX1(I)=TWO*FX1(I)
+          FY1(I)=TWO*FY1(I)
+          FZ1(I)=TWO*FZ1(I)
+          FX2(I)=TWO*FX2(I)
+          FY2(I)=TWO*FY2(I)
+          FZ2(I)=TWO*FZ2(I)
+          FX3(I)=TWO*FX3(I)
+          FY3(I)=TWO*FY3(I)
+          FZ3(I)=TWO*FZ3(I)
+          FX4(I)=TWO*FX4(I)
+          FY4(I)=TWO*FY4(I)
+          FZ4(I)=TWO*FZ4(I)
+          K1(I) =TWO*K1(I)
+          K2(I) =TWO*K2(I)
+          K3(I) =TWO*K3(I)
+          K4(I) =TWO*K4(I)
+          C1(I) =TWO*C1(I)
+          C2(I) =TWO*C2(I)
+          C3(I) =TWO*C3(I)
+          C4(I) =TWO*C4(I)
         END IF
       END DO
 C

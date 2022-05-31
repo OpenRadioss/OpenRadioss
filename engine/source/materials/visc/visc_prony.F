@@ -110,10 +110,10 @@ C
           G = G + GV(J)     
           RBULK = RBULK + KV(J)
           AA(J) = EXP(-BETA(J)*TIMESTEP)
-          BB(J) = TIMESTEP*GV(J)*EXP(-UNDEMI*BETA(J)*TIMESTEP)
+          BB(J) = TIMESTEP*GV(J)*EXP(-HALF*BETA(J)*TIMESTEP)
 C          
           AAK(J) = EXP(-BETAK(J)*TIMESTEP)
-          BBK(J) = TIMESTEP*KV(J)*EXP(-UNDEMI*BETAK(J)*TIMESTEP)     
+          BBK(J) = TIMESTEP*KV(J)*EXP(-HALF*BETAK(J)*TIMESTEP)     
         ENDDO
       ELSE
         DO J=1,NPRONY                                  
@@ -124,10 +124,10 @@ C
           G = G + GV(J)   
           RBULK = RBULK + KV(J)
           AA(J) = EXP(-BETA(J)*TIMESTEP)
-          BB(J) = DEUX*TIMESTEP*GV(J)*EXP(-UNDEMI*BETA(J)*TIMESTEP) 
+          BB(J) = TWO*TIMESTEP*GV(J)*EXP(-HALF*BETA(J)*TIMESTEP) 
 C          
           AAK(J) = EXP(-BETAK(J)*TIMESTEP)
-          BBK(J) = TIMESTEP*KV(J)*EXP(-UNDEMI*BETAK(J)*TIMESTEP)   
+          BBK(J) = TIMESTEP*KV(J)*EXP(-HALF*BETAK(J)*TIMESTEP)   
         ENDDO 
       ENDIF 
 C     
@@ -164,9 +164,9 @@ C
              H(1) = AA(J)*H0(1) + BB(J)*EPXX                     
              H(2) = AA(J)*H0(2) + BB(J)*EPYY                     
              H(3) = AA(J)*H0(3) + BB(J)*EPZZ                     
-             H(4) = AA(J)*H0(4) + UNDEMI*BB(J)*EPSPXY(I)         
-             H(5) = AA(J)*H0(5) + UNDEMI*BB(J)*EPSPYZ(I)         
-             H(6) = AA(J)*H0(6) + UNDEMI*BB(J)*EPSPZX(I)                    
+             H(4) = AA(J)*H0(4) + HALF*BB(J)*EPSPXY(I)         
+             H(5) = AA(J)*H0(5) + HALF*BB(J)*EPSPYZ(I)         
+             H(6) = AA(J)*H0(6) + HALF*BB(J)*EPSPZX(I)                    
              HP = AAK(J)*HP0 + BBK(J)*TRACE           
 C
              UVAR(I,II + 1) = H(1)                        
@@ -191,7 +191,7 @@ c
            SV3(I) = SV3(I) - P                                       
 C                                                                       
            VISCMAX(I) = ZERO                                            
-           SOUNDSP(I) = SQRT(SOUNDSP(I)**2 + (QTHIRD*G + RBULK)/RHO(I)) 
+           SOUNDSP(I) = SQRT(SOUNDSP(I)**2 + (FOUR_OVER_3*G + RBULK)/RHO(I)) 
           ENDDO  !   I=1,NEL
        ELSE
          DO I=1,NEL                                                     
@@ -225,9 +225,9 @@ C
              H(1) = AA(J)*H0(1) + BB(J)*EPXX                     
              H(2) = AA(J)*H0(2) + BB(J)*EPYY                     
              H(3) = AA(J)*H0(3) + BB(J)*EPZZ                     
-             H(4) = AA(J)*H0(4) + UNDEMI*BB(J)*EPSPXY(I)         
-             H(5) = AA(J)*H0(5) + UNDEMI*BB(J)*EPSPYZ(I)         
-             H(6) = AA(J)*H0(6) + UNDEMI*BB(J)*EPSPZX(I)
+             H(4) = AA(J)*H0(4) + HALF*BB(J)*EPSPXY(I)         
+             H(5) = AA(J)*H0(5) + HALF*BB(J)*EPSPYZ(I)         
+             H(6) = AA(J)*H0(6) + HALF*BB(J)*EPSPZX(I)
 C
              UVAR(I,II + 1) = H(1)                        
              UVAR(I,II + 2) = H(2)                        
@@ -249,7 +249,7 @@ c
            SV3(I) = SV3(I) - P                                       
 C                                                                       
            VISCMAX(I) = ZERO                                            
-           SOUNDSP(I) = SQRT(SOUNDSP(I)**2 + (QTHIRD*G + RBULK)/RHO(I)) 
+           SOUNDSP(I) = SQRT(SOUNDSP(I)**2 + (FOUR_OVER_3*G + RBULK)/RHO(I)) 
           ENDDO  !   I=1,NEL 
        ENDIF                                                         
 c------------

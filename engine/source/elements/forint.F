@@ -1318,11 +1318,11 @@ C             ROTATION IF COROTA SYSTEM
                 GAMA(5)=GBUF%GAMA(4*NEL + I)
                 GAMA(6)=GBUF%GAMA(5*NEL + I)
               ELSE
-                GAMA(1)=UN
+                GAMA(1)=ONE
                 GAMA(2)=ZERO
                 GAMA(3)=ZERO
                 GAMA(4)=ZERO
-                GAMA(5)=UN
+                GAMA(5)=ONE
                 GAMA(6)=ZERO
               END IF
               CALL SROTA6(X,IXS(1,NN),JCVT,STRESSMEAN(1,NN),GAMA,JHBE,IGTYP)

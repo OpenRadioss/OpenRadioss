@@ -48,7 +48,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 C-----------------------------------------------
-        S3000 = TROIS1000
+        S3000 = THREE1000
 C
       DO 100 I=1,NUMNOD
        S = SQRT(XNORM(1,I)**2 + XNORM(2,I)**2 + XNORM(3,I)**2)

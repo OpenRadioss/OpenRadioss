@@ -142,19 +142,19 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV_DIM('MAT_dS'   ,DS_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 !-----------------------
       IF (PMIN == ZERO) PMIN = -INFINITY
-      IF (CN == ZERO .OR. CN == UN) CN = UNP0001
+      IF (CN == ZERO .OR. CN == ONE) CN = ONEP0001
       IF (EPSM == ZERO) EPSM  = INFINITY
       IF (SIGM == ZERO) SIGM  = INFINITY
-      IF (CC == ZERO) EPS0 = UN*EPS0_UNIT
-      IF (CM == ZERO) CM   = UN  ! dimensionless
+      IF (CC == ZERO) EPS0 = ONE*EPS0_UNIT
+      IF (CM == ZERO) CM   = ONE  ! dimensionless
       IF (TMELT == ZERO) THEN
          TMELT = INFINITY
       ELSEIF (TM0 == ZERO) THEN
-         TM0 = UNP3*TMELT
+         TM0 = ONEP3*TMELT
       ENDIF
       IF (TMAX == ZERO) TMAX = INFINITY
 C
-      G=YOUNG/(DEUX*(UN+ANU))
+      G=YOUNG/(TWO*(ONE+ANU))
 C
       IF (RHOR == ZERO) RHOR=RHO0
       PM(1) = RHOR
@@ -187,66 +187,66 @@ C--------------------------------------
       FAC_L_bb = FAC_LENGTH*EP02 
       FAC_T_bb = FAC_TIME*EP06
 !
-      IF (A == ZERO)    A = GAM0-UNDEMI
+      IF (A == ZERO)    A = GAM0-HALF
       IF (GAM0M == ZERO) GAM0M = GAM0
       IF (AM == ZERO)   AM = A
-      IF (GAME == ZERO) GAME = DTHIRD
-      IF (THET == ZERO) THET = UN
+      IF (GAME == ZERO) GAME = TWO_THIRD
+      IF (THET == ZERO) THET = ONE
 !
-!!!      UNIT = UN * EP05 * ENER_UNIT  !    (1.0 * Mbar * cm**3 en SI)
-      UNIT = UN * (FAC_T_bb * FAC_T_bb)/(FAC_M_bb*FAC_L_bb**2)
-      IF (DS == ZERO)   DS = NEUFP637EM5 * (FAC_T_bb * FAC_T_bb)/(FAC_L_bb * FAC_L_bb)
-      IF (VB == ZERO)   VB=UNDEMI/RHOR
-      ALPHA=UNIT*UNP3EM5
-      R=UNIT*HUITP314EM5
-      XM=NEUFP38
+!!!      UNIT = ONE * EP05 * ENER_UNIT  !    (1.0 * Mbar * cm**3 en SI)
+      UNIT = ONE * (FAC_T_bb * FAC_T_bb)/(FAC_M_bb*FAC_L_bb**2)
+      IF (DS == ZERO)   DS = NINEP637EM5 * (FAC_T_bb * FAC_T_bb)/(FAC_L_bb * FAC_L_bb)
+      IF (VB == ZERO)   VB=HALF/RHOR
+      ALPHA=UNIT*ONEP3EM5
+      R=UNIT*EIGHTP314EM5
+      XM=NINEP38
 C
-      RP3=TROIS*R/AW
+      RP3=THREE*R/AW
       GP=GE/AW
       DSP=DS/AW
       ALPHAP=ALPHA/AW
       RP=R/AW
-      PCC=TROIS100**2*GP*(GAM0-GAME)*RHOR*UNDEMI
-      E00=-TROIS100*(TROIS*R + CENT50*GE)/AW
+      PCC=THREE100**2*GP*(GAM0-GAME)*RHOR*HALF
+      E00=-THREE100*(THREE*R + HUNDRED50*GE)/AW
       APY=AY/AW/AW
-      XJ=UN-RHOR*VJ
+      XJ=ONE-RHOR*VJ
       X=XJ
       ZJ=VB/VJ
-      E0J=(C**2*X**2/(2*(UN-S*X)))*
-     .    (UN
+      E0J=(C**2*X**2/(2*(ONE-S*X)))*
+     .    (ONE
      .     +S*X*THIRD
-     .     +S**2*(UN-GAM0/S)*X**2/SIX)
-     .     +E00*(UN+GAM0*X)+E0H
+     .     +S**2*(ONE-GAM0/S)*X**2/SIX)
+     .     +E00*(ONE+GAM0*X)+E0H
 C
       XP=ZERO
-      IF (X >= ZERO) XP=UN
-      TMJ=TM0*((UN-XP)*(
-     .     UN
-     .    +DEUX*(GAM0M-QTHIRD)*X
-     .    +((DEUX*GAM0M-CTHIRD)*(GAM0M-QTHIRD)-AM)*X**2
-     .                         )/(UN-X)**2
+      IF (X >= ZERO) XP=ONE
+      TMJ=TM0*((ONE-XP)*(
+     .     ONE
+     .    +TWO*(GAM0M-FOUR_OVER_3)*X
+     .    +((TWO*GAM0M-FIVE_OVER_3)*(GAM0M-FOUR_OVER_3)-AM)*X**2
+     .                         )/(ONE-X)**2
      .             +XP*(
-     .     UN
-     .    +(DEUX*GAM0M-DTHIRD)*X
-     .    +((GAM0M-THIRD)*(DEUX*GAM0M+THIRD)-AM)*X**2))
-      XLAMJ=DTHIRD-DEUX*GAM0M+DEUX*AM*X
+     .     ONE
+     .    +(TWO*GAM0M-TWO_THIRD)*X
+     .    +((GAM0M-THIRD)*(TWO*GAM0M+THIRD)-AM)*X**2))
+      XLAMJ=TWO_THIRD-TWO*GAM0M+TWO*AM*X
 
 C
-      D1=E0J+TMJ*(DSP-UNDEMI*ALPHAP*(UN-XM**2))+APY*RHOR/(UN-X)
-      D2=TDEMI*RP-XM*ALPHAP
-      D3=UNDEMI*GP
+      D1=E0J+TMJ*(DSP-HALF*ALPHAP*(ONE-XM**2))+APY*RHOR/(ONE-X)
+      D2=THREE_HALF*RP-XM*ALPHAP
+      D3=HALF*GP
       E=D1-APY/VJ
       G0AX=GAM0-A*X
       P1J  =PCC+C**2*X
-     .     *(UN-(UN+UNDEMI*GAM0)*X+UNDEMI*A*X**2)*RHOR
-     .     /((UN-X)*(UN-S*X)**2)
-     .     +G0AX*(E-E0H)*RHOR/(UN-X)
-      C1=P1J-TMJ*(XLAMJ+G0AX)*(DSP-UNDEMI*ALPHAP*(UN-XM**2))*RHOR/(UN-X)
-     .      +APY*(RHOR/(UN-X))**2
-      C2=G0AX*(D2+TDEMI*RP)*RHOR/(UN-X)
-     .   +ALPHAP*XM*(XLAMJ+G0AX)*RHOR/(UN-X)
-     .   -RP*RHOR*((UN+ZJ+ZJ**2-ZJ**3)/(UN-ZJ)**3)/(UN-X)
-      C3=GAME*GP*RHOR*UNDEMI/(UN-X)      
+     .     *(ONE-(ONE+HALF*GAM0)*X+HALF*A*X**2)*RHOR
+     .     /((ONE-X)*(ONE-S*X)**2)
+     .     +G0AX*(E-E0H)*RHOR/(ONE-X)
+      C1=P1J-TMJ*(XLAMJ+G0AX)*(DSP-HALF*ALPHAP*(ONE-XM**2))*RHOR/(ONE-X)
+     .      +APY*(RHOR/(ONE-X))**2
+      C2=G0AX*(D2+THREE_HALF*RP)*RHOR/(ONE-X)
+     .   +ALPHAP*XM*(XLAMJ+G0AX)*RHOR/(ONE-X)
+     .   -RP*RHOR*((ONE+ZJ+ZJ**2-ZJ**3)/(ONE-ZJ)**3)/(ONE-X)
+      C3=GAME*GP*RHOR*HALF/(ONE-X)      
 C
       PM(24)=D2
       PM(25)=D3
@@ -276,7 +276,7 @@ C
 C--------------------
 C     Formulation for solid elements time step computation.
       IPM(252)= 2
-      PM(105) =  (UN -DEUX*ANU)/(UN - ANU)      
+      PM(105) =  (ONE -TWO*ANU)/(ONE - ANU)      
 c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
       IF (ANU >= 0.49) THEN

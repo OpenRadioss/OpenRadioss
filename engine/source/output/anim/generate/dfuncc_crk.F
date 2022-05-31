@@ -289,7 +289,7 @@ cc                    IPT = INT((1+NPT)/2)  ! NPT = 1
                         S2 = XLBUF%FOR(JJ(2)+I)
                         S12= XLBUF%FOR(JJ(3)+I)
                       ENDIF
-                      VONM2= S1*S1 + S2*S2 - S1*S2 + TROIS*S12*S12
+                      VONM2= S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12
                       EVAR(I) = SQRT(VONM2)
                     ENDDO
                   ELSE  !  mono
@@ -306,7 +306,7 @@ cc                    IPT = INT((1+NPT)/2)  ! NPT = 1
                         S2 = XGBUF%FOR(JJ(2)+I)
                         S12= XGBUF%FOR(JJ(3)+I)
                       ENDIF
-                      VONM2= S1*S1 + S2*S2 - S1*S2 + TROIS*S12*S12
+                      VONM2= S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12
                       EVAR(I) = SQRT(VONM2)
                     ENDDO
                   ENDIF !  IF (NLAY > 1)
@@ -414,10 +414,10 @@ C
                       ILAYCRK = CRKEDGE(ILAY)%LAYCUT(ELCRK)
                       THK0 = THKE0(I)
                       IF (ILAYCRK == 0 .OR. ABS(ILAYCRK) == 1) THEN  !  uncracked layer
-C                        EVAR(I) = CENT *(THKE(N) - GBUF%THK(I))/THKE(N)
-                        EVAR(I) = CENT *(THK0 - XLBUF%THK(I))/THK0
+C                        EVAR(I) = HUNDRED *(THKE(N) - GBUF%THK(I))/THKE(N)
+                        EVAR(I) = HUNDRED *(THK0 - XLBUF%THK(I))/THK0
                       ELSE  !  cracked layer
-                        EVAR(I) = CENT *(THK0 - XLBUF%THK(I))/THK0
+                        EVAR(I) = HUNDRED *(THK0 - XLBUF%THK(I))/THK0
                       ENDIF
                     ENDDO
                   ELSE  !  mono
@@ -427,9 +427,9 @@ C                        EVAR(I) = CENT *(THKE(N) - GBUF%THK(I))/THKE(N)
                       ILAYCRK = CRKEDGE(ILAY)%LAYCUT(ELCRK)
                       THK0 = THKE(N)
                       IF (ILAYCRK == 0 .OR. ABS(ILAYCRK) == 1) THEN  !  uncracked layer
-                        EVAR(I) = CENT *(THK0 - GBUF%THK(I))/THK0
+                        EVAR(I) = HUNDRED *(THK0 - GBUF%THK(I))/THK0
                       ELSE  !  cracked layer
-                        EVAR(I) = CENT *(THK0 - XGBUF%THK(I))/THK0
+                        EVAR(I) = HUNDRED *(THK0 - XGBUF%THK(I))/THK0
                       ENDIF
                     ENDDO
                   ENDIF !  IF (NLAY > 1)

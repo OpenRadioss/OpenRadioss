@@ -132,8 +132,8 @@ c
         YYL(3,I) = YL3(I)
         XXL(4,I) = XL4(I)
         YYL(4,I) = YL4(I)
-        XM(I) = QUART*(XL2(I)+XL3(I)+XL4(I))
-        YM(I) = QUART*(YL2(I)+YL3(I)+YL4(I))
+        XM(I) = FOURTH*(XL2(I)+XL3(I)+XL4(I))
+        YM(I) = FOURTH*(YL2(I)+YL3(I)+YL4(I))
 c
         LEN(1,I) = XL2(I)*XL2(I) + YL2(I)*YL2(I)
         LEN(2,I) = (XL3(I)-XL2(I))*(XL3(I)-XL2(I))+
@@ -389,8 +389,8 @@ C----------------------------------------------------------------------
           p2 = dd(K)
           IED = EDGEL(K,I)
           IF (IED > 0) THEN
-            XMI(IED) = UNDEMI*(XXL(p1,I)+XXL(p2,I))
-            YMI(IED) = UNDEMI*(YYL(p1,I)+YYL(p2,I))
+            XMI(IED) = HALF*(XXL(p1,I)+XXL(p2,I))
+            YMI(IED) = HALF*(YYL(p1,I)+YYL(p2,I))
           ENDIF
         ENDDO
 C
@@ -439,10 +439,10 @@ C
         NN(3) = INOD_CRK(N(3))
         NN(4) = INOD_CRK(N(4))
 C
-        ISIGN(1) = INT(SIGN(UN,FIT(1,I)))
-        ISIGN(2) = INT(SIGN(UN,FIT(2,I)))
-        ISIGN(3) = INT(SIGN(UN,FIT(3,I)))
-        ISIGN(4) = INT(SIGN(UN,FIT(4,I)))
+        ISIGN(1) = INT(SIGN(ONE,FIT(1,I)))
+        ISIGN(2) = INT(SIGN(ONE,FIT(2,I)))
+        ISIGN(3) = INT(SIGN(ONE,FIT(3,I)))
+        ISIGN(4) = INT(SIGN(ONE,FIT(4,I)))
 C
         IF (FIT(1,I) == ZERO) ISIGN(1) = 0
         IF (FIT(2,I) == ZERO) ISIGN(2) = 0
@@ -531,9 +531,9 @@ c       calculate first phantom area
         ELSE                                                          
            print*,' ERROR: K,IED=',K,IED                             
         ENDIF                                                         
-        AREA1 = UNDEMI*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))            
+        AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))            
         AREA1 = AREA1 * A_I(I)                                       
-        AREA2 = UN - AREA1                                            
+        AREA2 = ONE - AREA1                                            
         CRKLVSET(PP1)%AREA(ELCRK) = AREA1                             
         CRKLVSET(PP2)%AREA(ELCRK) = AREA2                             
         CRKLVSET(PP3)%AREA(ELCRK) = ZERO                         

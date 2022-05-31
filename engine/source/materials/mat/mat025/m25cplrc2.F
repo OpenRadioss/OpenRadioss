@@ -94,26 +94,26 @@ C
 !      CALL ROTO_SIG(JFT,JLT,SIG,DIR,NEL)
 !!      CALL ROTO(JFT,JLT,SIG,DIR)
 !      DO I=JFT,JLT
-!        EPS(I,3)=UNDEMI*EPS(I,3)
-!        EPS(I,4)=UNDEMI*EPS(I,4)
-!        EPS(I,5)=UNDEMI*EPS(I,5)   
+!        EPS(I,3)=HALF*EPS(I,3)
+!        EPS(I,4)=HALF*EPS(I,4)
+!        EPS(I,5)=HALF*EPS(I,5)   
 !      ENDDO
 C
 !      CALL ROTOV(JFT,JLT,EPS,DIR,NEL)
 C
 !      DO I=JFT,JLT
-!        EPS(I,3)=DEUX*EPS(I,3)
-!        EPS(I,4)=DEUX*EPS(I,4)
-!        EPS(I,5)=DEUX*EPS(I,5)   
+!        EPS(I,3)=TWO*EPS(I,3)
+!        EPS(I,4)=TWO*EPS(I,4)
+!        EPS(I,5)=TWO*EPS(I,5)   
 !      ENDDO
 C-----------------------------
 C     DEFORMATIONS ELASTIQUES
 C-----------------------------
       DO I=JFT,JLT
-         DE1(I)= MAX(DE(I),SIGN(UN,SIG(I,1)))
-         DE2(I)= MAX(DE(I),SIGN(UN,SIG(I,2)))
-         SCALE = (UNDEMI+SIGN(UNDEMI,DE1(I)-UN))
-     *          *(UNDEMI+SIGN(UNDEMI,DE2(I)-UN))
+         DE1(I)= MAX(DE(I),SIGN(ONE,SIG(I,1)))
+         DE2(I)= MAX(DE(I),SIGN(ONE,SIG(I,2)))
+         SCALE = (HALF+SIGN(HALF,DE1(I)-ONE))
+     *          *(HALF+SIGN(HALF,DE2(I)-ONE))
 C
          S1(I) = SIG(I,1)/DE1(I)-NU12(I)*SIG(I,2)*SCALE
          S2(I) = SIG(I,2)/DE2(I)-NU21(I)*SIG(I,1)*SCALE
@@ -138,12 +138,12 @@ C
          S4(I)=S4(I)+DEPSYZ(I)
          S5(I)=S5(I)+DEPSZX(I)
 C
-         DE1(I)= MAX(DE(I),SIGN(UN,S1(I)))
-         DE2(I)= MAX(DE(I),SIGN(UN,S2(I)))
-         SCALE = (UNDEMI+SIGN(UNDEMI,DE1(I)-UN))
-     *          *(UNDEMI+SIGN(UNDEMI,DE2(I)-UN))
+         DE1(I)= MAX(DE(I),SIGN(ONE,S1(I)))
+         DE2(I)= MAX(DE(I),SIGN(ONE,S2(I)))
+         SCALE = (HALF+SIGN(HALF,DE1(I)-ONE))
+     *          *(HALF+SIGN(HALF,DE2(I)-ONE))
 C
-         A12(I)=UN -NU12(I)*NU21(I)*SCALE
+         A12(I)=ONE -NU12(I)*NU21(I)*SCALE
          A11(I)=E11(I)*DE1(I)/A12(I)
          A22(I)=E22(I)*DE2(I)/A12(I)
          A12(I) = NU21(I)*A11(I)*SCALE
@@ -177,7 +177,7 @@ C
             WVEC(I)=F1(I) *T1(I)      +F2(I) *T2(I) +
      .        F11(I)*T1(I)*T1(I)+F22(I)*T2(I)*T2(I) +
      .        F33(I)*T3(I)*T3(I)+
-     .       DEUX*F12(I)*T1(I)*T2(I)
+     .       TWO*F12(I)*T1(I)*T2(I)
 !!c    equiv crit for output
 !!           SEQ_OUTPUT(I) = WVEC(I)
       ENDDO
@@ -187,24 +187,24 @@ C
      .                MAX(ABS(DEPSXX(I)),ABS(DEPSYY(I)),ABS(DEPSXY(I)),
      .                ABS(DEPSYZ(I)),ABS(DEPSZX(I)))/MAX(DT1,EM30)
         IF (EPSP(I) > EPDR(I) .AND. CC(I) /= ZERO) THEN
-        EPSP(I)=UN + CC(I) * LOG(EPSP(I)/EPDR(I))
+        EPSP(I)=ONE + CC(I) * LOG(EPSP(I)/EPDR(I))
        ELSE
-        EPSP(I)=UN
+        EPSP(I)=ONE
        ENDIF
        COEF(I)=ZERO
-       FYLD= (UN +CB(I)*WPLA(I)**CN(I))*EPSP(I)
+       FYLD= (ONE +CB(I)*WPLA(I)**CN(I))*EPSP(I)
         IF(ICC(I) == 1 .OR. ICC(I) == 3) THEN
         FMAX(I) = FMAX(I)*EPSP(I)
        ENDIF
         IF (ICC(I) == 2 .OR. ICC(I) == 4) THEN
         WWPLA(I) = EPSP(I)
        ELSE
-        WWPLA(I) = UN
+        WWPLA(I) = ONE
        ENDIF
        FYLD= MIN(FMAX(I),FYLD)
-        IF (WVEC(I) > FYLD .AND. OFF(I) == UN) COEF(I) = UN
-       WVEC(I)=UN
-       CNN=CN(I)-UN
+        IF (WVEC(I) > FYLD .AND. OFF(I) == ONE) COEF(I) = ONE
+       WVEC(I)=ONE
+       CNN=CN(I)-ONE
        IF(WPLA(I).GT.ZERO) WVEC(I)=EPSP(I)*WPLA(I)**CNN
        YLD(I) = FYLD
       ENDDO
@@ -212,7 +212,7 @@ C
       DO I=JFT,JLT
       DP1(I)=F1(I)+2*F11(I)*SO1(I)+2*F12(I)*SO2(I)
       DP2(I)=F2(I)+2*F22(I)*SO2(I)+2*F12(I)*SO1(I)
-      DP3(I)=DEUX*F33(I)*SO3(I)
+      DP3(I)=TWO*F33(I)*SO3(I)
       ENDDO
 C
       DO I=JFT,JLT
@@ -230,8 +230,8 @@ C
       LAMDA(I)=LAMDA(I)*COEF(I)/
      .        (DP1(I)*(A11(I)*DP1(I)+A12(I)*DP2(I))+
      .         DP2(I)*(A12(I)*DP1(I)+A22(I)*DP2(I))+
-     .      DEUX*DP3(I)*G12(I)*DP3(I)+
-     .              (SO1(I)*DP1(I)+SO2(I)*DP2(I)+DEUX*SO3(I)*DP3(I))
+     .      TWO*DP3(I)*G12(I)*DP3(I)+
+     .              (SO1(I)*DP1(I)+SO2(I)*DP2(I)+TWO*SO3(I)*DP3(I))
      .         *CN(I)*CB(I)*WVEC(I) )
       ENDDO
 C
@@ -244,14 +244,14 @@ C
       DO I=JFT,JLT
       T1(I)=T1(I)-A11(I)*DP1(I)-A12(I)*DP2(I)
       T2(I)=T2(I)-A12(I)*DP1(I)-A22(I)*DP2(I)
-      T3(I)=T3(I)-G12(I)*DP3(I)*DEUX
+      T3(I)=T3(I)-G12(I)*DP3(I)*TWO
       ENDDO
 C
       DO I=JFT,JLT
-      WPLA(I)=WPLA(I)+UNDEMI*
+      WPLA(I)=WPLA(I)+HALF*
      .      (DP1(I)*(T1(I)+SO1(I))+
      .       DP2(I)*(T2(I)+SO2(I))+
-     .      DEUX*DP3(I)*(T3(I)+SO3(I))) / WPLAREF(I)
+     .      TWO*DP3(I)*(T3(I)+SO3(I))) / WPLAREF(I)
       WPLA(I)= MAX(WPLA(I),ZERO)
       WWPLA(I)= WPLA(I)/WWPLA(I)  
       ENDDO
@@ -267,12 +267,12 @@ C-------------------
 C------for QEPH      
       DO I=JFT,JLT
           SIGY(I)=YLD(I)*SIGY(I)
-          IF (COEF(I) == UN) THEN
-           HT=CN(I)*CB(I)*EXP((CN(I)-UN)*LOG(MAX(WPLA(I),EM20)))
+          IF (COEF(I) == ONE) THEN
+           HT=CN(I)*CB(I)*EXP((CN(I)-ONE)*LOG(MAX(WPLA(I),EM20)))
            IF(YLD(I)>=FMAX(I)) HT=EM10
            ETSE(I)= HT/(HT+E11(I))
           ELSE
-           ETSE(I) = UN ! ETSE is used whatever the value of COEF
+           ETSE(I) = ONE ! ETSE is used whatever the value of COEF
           END IF
       END DO 
 C-------------------------------------------------------------------

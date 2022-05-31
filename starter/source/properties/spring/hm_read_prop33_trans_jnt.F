@@ -90,7 +90,7 @@ C=================================================================
       FAC_M = UNITAB%FAC_M(IUNIT)
       FAC_L = UNITAB%FAC_L(IUNIT)
       FAC_T = UNITAB%FAC_T(IUNIT)
-      FAC_MM = UN / FAC_T
+      FAC_MM = ONE / FAC_T
       FAC_CT = FAC_M / FAC_T
       FAC_CR = FAC_M * FAC_L**2 / FAC_T
       FAC_KT = FAC_CT / FAC_T
@@ -146,7 +146,7 @@ C-----------------------
      .  	     I1=ID,
      .  	     C1=TITR)
       ENDIF
-      IF (CR.EQ.ZERO) CR = CINQEM2
+      IF (CR.EQ.ZERO) CR = FIVEEM2
 C
       XTYP = ITYP
       XFLG = SKFLAG
@@ -155,8 +155,8 @@ C
       MASS = ZERO
       INER = ZERO
 C
-      IF(CXX.EQ.ZERO.AND.IFUN_CXX.NE.0)CXX = UN
-      IF(KXX.EQ.ZERO.AND.IFUN_XX.NE.0) KXX = UN
+      IF(CXX.EQ.ZERO.AND.IFUN_CXX.NE.0)CXX = ONE
+      IF(KXX.EQ.ZERO.AND.IFUN_XX.NE.0) KXX = ONE
 C-----------------------
       IF (IFUN_XX  /= 0) KXX = KXX * FAC_FF 
       IF (IFUN_CXX /= 0) CXX = CXX * FAC_FF 

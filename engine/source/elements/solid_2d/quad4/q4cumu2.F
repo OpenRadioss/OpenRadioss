@@ -61,7 +61,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
       DO I=LFT,LLT
-        STIM(I)=QUART*STIM(I)
+        STIM(I)=FOURTH*STIM(I)
       END DO
 C
       DO I=LFT,LLT
@@ -128,7 +128,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
       DO I=LFT,LLT
-        STIM(I)=QUART*STIM(I)
+        STIM(I)=FOURTH*STIM(I)
       END DO
 C
       IF(IVECTOR.EQ.1) THEN

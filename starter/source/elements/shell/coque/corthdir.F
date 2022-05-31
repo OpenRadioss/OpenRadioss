@@ -95,7 +95,7 @@ C       non orthotropic property
           IF( ELBUF_STR%BUFLY(1)%LY_DIRA  .NE. 0) THEN
             DIR1 => ELBUF_STR%BUFLY(1)%DIRA 
             DO I=LFT,LLT
-              DIR1(I) = UN
+              DIR1(I) = ONE
               DIR1(I+NEL) = ZERO
             ENDDO
           ENDIF 
@@ -164,7 +164,7 @@ C-------
             I2=IPTHK+IL                  
             I3=IPMAT+IL                  
             DO I=LFT,LLT                
-              GEO (I2,IPROP) = UN/NLAY   
+              GEO (I2,IPROP) = ONE/NLAY   
               IGEO(I3,IPROP) = IMAT
             ENDDO                       
           ENDDO                       
@@ -207,7 +207,7 @@ C
             DO IL=1,NLAY
               LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,1)
               DIR_DMG => LBUF%DMG(1:L_DMG*LLT)
-              DIR_DMG(LFT:LLT) = UN
+              DIR_DMG(LFT:LLT) = ONE
               IF(L_DMG > 1) DIR_DMG(LLT+1:L_DMG*LLT) = ZERO
             ENDDO
           ENDIF  

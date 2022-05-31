@@ -429,7 +429,7 @@ c---------------------------------------
           NX = D1Y * D2Z - D1Z * D2Y
           NY = D1Z * D2X - D1X * D2Z
           NZ = D1X * D2Y - D1Y * D2X
-          AAA = UN/MAX(SQRT(NX*NX+NY*NY+NZ*NZ),EM20)
+          AAA = ONE/MAX(SQRT(NX*NX+NY*NY+NZ*NZ),EM20)
           NX = NX * AAA
           NY = NY * AAA
           NZ = NZ * AAA

@@ -125,7 +125,7 @@ C-----------------------------------------------
 #include "weights_p4linux964_spmd.inc"
 #endif
       ENDIF
-      INVTREF = UN/TPSREF
+      INVTREF = ONE/TPSREF
       INDI3 = 1
       DO I = 1, NUMELC
         MID= IXC(1,I)

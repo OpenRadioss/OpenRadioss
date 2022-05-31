@@ -619,9 +619,9 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 
       IF(STFAC > ZERO)THEN
-        AMASS = MAX(DEUX,STFAC+SQRT(DEUX*STFAC))
+        AMASS = MAX(TWO,STFAC+SQRT(TWO*STFAC))
       ELSE
-        AMASS = DEUX
+        AMASS = TWO
       ENDIF
 
       IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
@@ -702,7 +702,7 @@ C
         VFI(NIN)%P(3,I) = VFI(NIN)%P(3,I)+DVANCFI(NIN)%P(3,I)
         
 C ALPHAK(2) remote
-        ALPHAKFI(NIN)%P(I) = UN
+        ALPHAKFI(NIN)%P(I) = ONE
 
        END DO
 C
@@ -782,7 +782,7 @@ C
         VFIE(NIN)%P(3,I1) = VFIE(NIN)%P(3,I1)+DVANCFIE(NIN)%P(3,I1)
 
 C ALPHAK(2) remote
-        ALPHAKFIE(NIN)%P(I1) = UN
+        ALPHAKFIE(NIN)%P(I1) = ONE
 
 
         IF(MSFIE(NIN)%P(I2) > ZERO)THEN
@@ -853,7 +853,7 @@ C ALPHAK(2) remote
         
         
 C ALPHAK(2) remote
-        ALPHAKFIE(NIN)%P(I2) = UN
+        ALPHAKFIE(NIN)%P(I2) = ONE
 
        END DO
 
@@ -936,7 +936,7 @@ C
         
 
 C ALPHAK(2) remote
-        ALPHAKFI(NIN)%P(I) = UN
+        ALPHAKFI(NIN)%P(I) = ONE
 
        END DO
 C
@@ -1018,7 +1018,7 @@ C
 
 
 C ALPHAK(2) remote
-        ALPHAKFIE(NIN)%P(I1) = UN
+        ALPHAKFIE(NIN)%P(I1) = ONE
 
 
         IF(DIAG_SMSFIE(NIN)%P(I2) > ZERO)THEN
@@ -1089,7 +1089,7 @@ C ALPHAK(2) remote
         
         
 C ALPHAK(2) remote
-        ALPHAKFIE(NIN)%P(I2) = UN
+        ALPHAKFIE(NIN)%P(I2) = ONE
 
        END DO
       END IF

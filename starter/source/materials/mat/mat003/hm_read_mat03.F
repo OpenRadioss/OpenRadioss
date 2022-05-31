@@ -164,11 +164,11 @@ C-----------------------------------------------
       IF (RHOR.EQ.ZERO) RHOR=RHO0
       PM(1) = RHOR
       PM(89)= RHO0      
-      IF(CN.EQ.ZERO.OR.CN.EQ.UN)   CN = UNP0001
+      IF(CN.EQ.ZERO.OR.CN.EQ.ONE)   CN = ONEP0001
       IF(EPSM.EQ.ZERO) EPSM  = EP20
       IF(SIGM.EQ.ZERO) SIGM  = EP20
-      G    = YOUNG/(DEUX*(UN +ANU))
-      IF(.NOT.EOS_EMBEDDED)BULK = YOUNG/(TROIS*(UN - DEUX*ANU))
+      G    = YOUNG/(TWO*(ONE +ANU))
+      IF(.NOT.EOS_EMBEDDED)BULK = YOUNG/(THREE*(ONE - TWO*ANU))
       IF(.NOT.EOS_EMBEDDED)E0   = ZERO
 
       PM(20)=YOUNG
@@ -182,10 +182,10 @@ C-----------------------------------------------
       PM(40)=CN
       PM(41)=EPSM
       PM(42)=SIGM
-      PM(79)=TROIS100
+      PM(79)=THREE100
       !Formulation for solid elements time step computation.
       IPM(252)= 2
-      PM(105) =  (UN -DEUX*ANU)/(UN - ANU) ! DEUX*G/(BULK + QTHIRD*G)
+      PM(105) =  (ONE -TWO*ANU)/(ONE - ANU) ! TWO*G/(BULK + FOUR_OVER_3*G)
 
       MTAG%G_PLA   = 1   
       MTAG%L_PLA   = 1   

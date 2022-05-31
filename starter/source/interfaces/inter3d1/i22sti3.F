@@ -108,7 +108,7 @@ C     REAL ou REAL*8
       DATA JPERM/2,3,4,1/
 C--------------------------------------------------------------
 C     CALCUL DES RIGIDITES DES SEGMENTS 
-C     V16 : DANS LE CAS OU UN SEGMENT APPARTIENT A LA FOIS
+C     V16 : DANS LE CAS OU ONE SEGMENT APPARTIENT A LA FOIS
 C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
 C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
 C---------------------------------------------------------------
@@ -119,13 +119,13 @@ C---------------------------------------------------------------
       GAPMN=EP30
       GAPS1=ZERO
       GAPS2=ZERO
-      GAPSCALE = UN
+      GAPSCALE = ONE
       IPGMAT = 700
 C------------------------------------
 C     GAP STIF FACES MAIN
 C------------------------------------
       
-      STF(1:NRT)=UN
+      STF(1:NRT)=ONE
       
       RETURN
       END

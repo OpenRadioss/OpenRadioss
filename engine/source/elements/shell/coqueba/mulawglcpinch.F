@@ -127,9 +127,9 @@ C
       DO I=JFT,JLT
         DEGMB(I) = FOR(I,1)*EXX(I)+FOR(I,2)*EYY(I)+FOR(I,3)*EXY(I)
      .           + FOR(I,4)*EYZ(I)+FOR(I,5)*EXZ(I)
-     .           + UNDEMI*FORP(I)*EPINCHZZ(I)
+     .           + HALF*FORP(I)*EPINCHZZ(I)
         DEGFX(I) = MOM(I,1)*KXX(I)+MOM(I,2)*KYY(I)+MOM(I,3)*KXY(I)
-     .           + UNDEMI*MOMP(I,1)*EPINCHXZ(I)+UNDEMI*MOMP(I,2)*EPINCHYZ(I)
+     .           + HALF*MOMP(I,1)*EPINCHXZ(I)+HALF*MOMP(I,2)*EPINCHYZ(I)
       ENDDO
 C
       DO I=JFT,JLT
@@ -152,24 +152,24 @@ C     eps_eq = sqrt[ eps_m^2 + 1/12 k^2t^2 ]
 !#include "vectorize.inc" 
         DO I=JFT,JLT
           EPS_K2 = (KXX(I)*KXX(I)+KYY(I)*KYY(I)+KXX(I)*KYY(I)
-     .           + QUART*KXY(I)*KXY(I)) *THK(I)*THK(I)*UNNEUF
-          EPS_M2 = QTHIRD*(EXX(I)*EXX(I)+EYY(I)*EYY(I)+EXX(I)*EYY(I)
-     .           + QUART*EXY(I)*EXY(I))
+     .           + FOURTH*KXY(I)*KXY(I)) *THK(I)*THK(I)*ONE_OVER_9
+          EPS_M2 = FOUR_OVER_3*(EXX(I)*EXX(I)+EYY(I)*EYY(I)+EXX(I)*EYY(I)
+     .           + FOURTH*EXY(I)*EXY(I))
           EPSP_LOC(I) = SQRT(EPS_K2 + EPS_M2)*DT_INV(I)
         END DO
       ELSE IF (ISRATE > 1) THEN
 !#include "vectorize.inc" 
         DO I=JFT,JLT
-          EPS_M2  = QTHIRD*(EXX(I)*EXX(I)+EYY(I)*EYY(I)+EXX(I)*EYY(I)
-     .            + QUART*EXY(I)*EXY(I))
+          EPS_M2  = FOUR_OVER_3*(EXX(I)*EXX(I)+EYY(I)*EYY(I)+EXX(I)*EYY(I)
+     .            + FOURTH*EXY(I)*EXY(I))
           EPSP_LOC(I) = SQRT(EPS_M2)*DT_INV(I)
         END DO
       ENDIF
 !
       IF (ISRATE > 0) THEN    ! strain rate filtering with exponential average
         DO I=JFT,JLT
-          ASRATE = MIN(UN,PM(9,MX)*DT1C(I))
-          EPSP(I) = ASRATE*EPSP_LOC(I) + (UN-ASRATE)*EPSP(I)
+          ASRATE = MIN(ONE,PM(9,MX)*DT1C(I))
+          EPSP(I) = ASRATE*EPSP_LOC(I) + (ONE-ASRATE)*EPSP(I)
           EPSPL(I) = EPSP(I)
         END DO
       ENDIF
@@ -291,10 +291,10 @@ C
       DO I=JFT,JLT
         DEGMB(I) = DEGMB(I)+FOR(I,1)*EXX(I)+FOR(I,2)*EYY(I)+FOR(I,3)*EXY(I)
      .           + FOR(I,4)*EYZ(I)+FOR(I,5)*EXZ(I)
-     .           + UNDEMI*FORP(I)*EPINCHZZ(I)
+     .           + HALF*FORP(I)*EPINCHZZ(I)
         DEGFX(I) = DEGFX(I)+MOM(I,1)*KXX(I)+MOM(I,2)*KYY(I)+MOM(I,3)*KXY(I)
-     .           + UNDEMI*MOMP(I,1)*EPINCHXZ(I)+UNDEMI*MOMP(I,2)*EPINCHYZ(I)
-        VOL2 = UNDEMI*THK0(I)*AREA(I)*OFF(I)
+     .           + HALF*MOMP(I,1)*EPINCHXZ(I)+HALF*MOMP(I,2)*EPINCHYZ(I)
+        VOL2 = HALF*THK0(I)*AREA(I)*OFF(I)
         EINT(I,1) = EINT(I,1) + DEGMB(I)*VOL2
         EINT(I,2) = EINT(I,2) + DEGFX(I)*THK0(I)*VOL2
       ENDDO
@@ -304,7 +304,7 @@ C     INDX utilise dans IELOF
 C----------------------------
       NINDX=0
       DO I=JFT,JLT
-        IF (OFF(I) == QCINQ . AND. IOFF_DUCT(I) == 0) THEN
+        IF (OFF(I) == FOUR_OVER_5 . AND. IOFF_DUCT(I) == 0) THEN
           OFF(I)= ZERO
           NINDX=NINDX+1
           INDX(NINDX)=I

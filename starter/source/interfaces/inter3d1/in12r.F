@@ -75,35 +75,35 @@ C
        IF(FLAG.EQ.1)THEN
        BN=SQRT(YR**2+ZR**2)
         IF(BN.LT.EM3)THEN
-         S11=UN
+         S11=ONE
          S21=ZERO
          S31=ZERO
          S12=ZERO
          S22=CS
          S32=SN
         ELSE
-         AX=UN-XR*XR
+         AX=ONE-XR*XR
          AY=  -XR*YR
          AZ=  -XR*ZR
          BX=YR*AZ-ZR*AY
          BY=ZR*AX-XR*AZ
          BZ=XR*AY-YR*AX
-         S11=(CS-UN)*AX+SN*BX+UN
-         S21=(CS-UN)*AY+SN*BY
-         S31=(CS-UN)*AZ+SN*BZ
+         S11=(CS-ONE)*AX+SN*BX+ONE
+         S21=(CS-ONE)*AY+SN*BY
+         S31=(CS-ONE)*AZ+SN*BZ
          BN=SQRT(S11**2+S21**2+S31**2)
          S11=S11/BN
          S21=S21/BN
          S31=S31/BN
          AX=  -XR*XR
-         AY=UN-XR*YR
+         AY=ONE-XR*YR
          AZ=  -XR*ZR
          BX=YR*AZ-ZR*AY
          BY=ZR*AX-XR*AZ
          BZ=XR*AY-YR*AX
-         S12=(CS-UN)*AX+SN*BX
-         S22=(CS-UN)*AY+SN*BY+UN
-         S32=(CS-UN)*AZ+SN*BZ
+         S12=(CS-ONE)*AX+SN*BX
+         S22=(CS-ONE)*AY+SN*BY+ONE
+         S32=(CS-ONE)*AZ+SN*BZ
          BN=SQRT(S12**2+S22**2+S32**2)
          S12=S12/BN
          S22=S22/BN

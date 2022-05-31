@@ -156,7 +156,7 @@ C--------------Pene computation----
            END DO 
         ELSE
             DO I=LFT,LLT
-               PEN(I) = UN
+               PEN(I) = ONE
             ENDDO
         END IF 
 
@@ -168,7 +168,7 @@ C-------Output Skid line for type 8 ----
             IF(L > 0.AND.PEN(I)>ZERO) THEN
               DO J=1,4
                  NN=MSR(IRECT(J,L))
-                 PSKIDS(NINSKID,NN) = UN
+                 PSKIDS(NINSKID,NN) = ONE
               ENDDO
             ENDIF
          ENDDO
@@ -216,9 +216,9 @@ C-------------------
           I1 = NSVGLO(MAX(1,NSV2(IL)-1))
           I2 = NSVGLO(MIN(NSN,NSV2(IL)+1))
 c
-          LX = UNDEMI*(X(1,I2)-X(1,I1))
-          LY = UNDEMI*(X(2,I2)-X(2,I1))
-          LZ = UNDEMI*(X(3,I2)-X(3,I1))
+          LX = HALF*(X(1,I2)-X(1,I1))
+          LY = HALF*(X(2,I2)-X(2,I1))
+          LZ = HALF*(X(3,I2)-X(3,I1))
 c
           NX = N2(I)*LZ - N3(I)*LY
           NY = N3(I)*LX - N1(I)*LZ
@@ -251,7 +251,7 @@ C
           IG=NSV(IL)
           L=IRTL(IL)
           CC2 = STF(L)
-     .  *QUART*( MS(IX1(I))+MS(IX2(I))+MS(IX3(I))+MS(IX4(I)) )
+     .  *FOURTH*( MS(IX1(I))+MS(IX2(I))+MS(IX3(I))+MS(IX4(I)) )
           NX2 = MAX(EM20,N1(I)*N1(I)+N2(I)*N2(I)+N3(I)*N3(I))
           LI2(I)=NX2
           FNI(I)= VV(I)*SQRT(CC2/NX2)*ABS(XFACE(I))
@@ -280,9 +280,9 @@ C-------------------
         I1 = NSVGLO(MAX(1,NSV2(IL)-1))
         I2 = NSVGLO(MIN(NSN,NSV2(IL)+1))
 c
-        LX = UNDEMI*(X(1,I2)-X(1,I1))
-        LY = UNDEMI*(X(2,I2)-X(2,I1))
-        LZ = UNDEMI*(X(3,I2)-X(3,I1))
+        LX = HALF*(X(1,I2)-X(1,I1))
+        LY = HALF*(X(2,I2)-X(2,I1))
+        LZ = HALF*(X(3,I2)-X(3,I1))
 c
         NX = N2(I)*LZ - N3(I)*LY
         NY = N3(I)*LX - N1(I)*LZ
@@ -311,7 +311,7 @@ C
       ENDDO
 C
       IF(DT1.GT.ZERO)THEN
-        DT1INV = UN/DT1
+        DT1INV = ONE/DT1
       ELSE
         DT1INV =ZERO
       ENDIF
@@ -326,7 +326,7 @@ C
         IF(PEN(I)>ZERO) THEN    
           ST  = STF(L)
           CC2 = VIS2*STF(L)
-     .    * QUART*( MS(IX1(I))+MS(IX2(I))+MS(IX3(I))+MS(IX4(I)) )
+     .    * FOURTH*( MS(IX1(I))+MS(IX2(I))+MS(IX3(I))+MS(IX4(I)) )
 C         
           FXI(I)=(FTSAVX(IG)+ST*VX(I)*DT1)*ABS(XFACE(I))
           FYI(I)=(FTSAVY(IG)+ST*VY(I)*DT1)*ABS(XFACE(I))
@@ -334,7 +334,7 @@ C
 C         
           NX2    =MAX(EM20,N1(I)*N1(I)+N2(I)*N2(I)+N3(I)*N3(I))
           LI2(I)=NX2
-          NX2    =UN/NX2
+          NX2    =ONE/NX2
           FELAST =(FXI(I)*N1(I)+FYI(I)*N2(I)+FZI(I)*N3(I))*NX2
 C         
           FTRY   =FELAST+SQRT(CC2*NX2)*VV(I)*ABS(XFACE(I))

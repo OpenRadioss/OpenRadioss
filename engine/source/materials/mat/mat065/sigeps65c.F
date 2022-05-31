@@ -201,8 +201,8 @@ C======================================================================|
         A1(I)  = UPARAM(IADBUF+5)                     
         A2(I)  = UPARAM(IADBUF+6)                     
         G3(I)  = UPARAM(IADBUF+8)                  
-        NNU1(I)= NU(I) / (UN - NU(I))                 
-        NU3(I) = UN - NNU1(I)                   
+        NNU1(I)= NU(I) / (ONE - NU(I))                 
+        NU3(I) = ONE - NNU1(I)                   
         EPSMAX(I)= UPARAM(IADBUF+11)      
       ENDDO
       NRATE = NINT(UPARAM(IADBUF+1))
@@ -218,7 +218,7 @@ C------------------------------------------
               UVAR(I,J)=ZERO 
             ENDDO            
             UVAR(I,3) = SQRT(SIGOXX(I)*SIGOXX(I) + SIGOYY(I)*SIGOYY(I)       
-     .                 -SIGOXX(I)*SIGOYY(I) + SIGOXY(I)*SIGOXY(I)*TROIS)
+     .                 -SIGOXX(I)*SIGOYY(I) + SIGOXY(I)*SIGOXY(I)*THREE)
           ENDDO              
         ENDIF
 c----  find yield values
@@ -226,8 +226,8 @@ c----  find yield values
         DO I1=1,NRATE
           FUNC = IFUNC(I,I1)
           FUND = IFUNC(I,I1+NRATE)
-          NP1  = (NPF(FUNC+1)-NPF(FUNC))*UNDEMI
-          NP2  = (NPF(FUND+1)-NPF(FUND))*UNDEMI
+          NP1  = (NPF(FUNC+1)-NPF(FUNC))*HALF
+          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF
 c---
           DO J=3,NP1
             J1=2*(J-2)
@@ -266,7 +266,7 @@ C     STRAIN RATE - NON FILTERED
 C-------------------
       DO I=1,NEL
         IF (ISRATE == 0)
-     .  EPSP(I) = UNDEMI*(ABS(EPSPXX(I)+EPSPYY(I))
+     .  EPSP(I) = HALF*(ABS(EPSPXX(I)+EPSPYY(I))
      .          + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .          + EPSPXY(I)*EPSPXY(I) ) )
       ENDDO                                                           
@@ -295,17 +295,17 @@ C
        SIGNZX(I) = SIGOZX(I) + GS(I)*DEPSZX(I)                   
 C-------------------
        CRIT(I)   = SIGOXX(I)*DEPSXX(I) + SIGOYY(I)*DEPSYY(I)         
-     .           + UNDEMI*(SIGOXY(I)*DEPSXY(I))                      
+     .           + HALF*(SIGOXY(I)*DEPSXY(I))                      
        DSVM(I)   = DSIGXX(I)*DSIGXX(I) + DSIGYY(I)*DSIGYY(I)         
-     .            -DSIGXX(I)*DSIGYY(I) + DSIGXY(I)*DSIGXY(I)*TROIS   
+     .            -DSIGXX(I)*DSIGYY(I) + DSIGXY(I)*DSIGXY(I)*THREE   
        SIGO(I)   = UVAR(I,3)                                         
        SV2(I)    = SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)         
-     .            -SIGNXX(I)*SIGNYY(I) + SIGNXY(I)*SIGNXY(I)*TROIS   
+     .            -SIGNXX(I)*SIGNYY(I) + SIGNXY(I)*SIGNXY(I)*THREE   
        SVM(I)    = SQRT(SV2(I))                                      
        DSIG2(I)  = DSIGXX(I)*DSIGXX(I) + DSIGYY(I)*DSIGYY(I)        
-     .            -DSIGXX(I)*DSIGYY(I) + DSIGXY(I)*DSIGXY(I)*TROIS  
+     .            -DSIGXX(I)*DSIGYY(I) + DSIGXY(I)*DSIGXY(I)*THREE  
        SDS(I)    = (SIGOXX(I)*DSIGXX(I) + SIGOYY(I)*DSIGYY(I)        
-     .            +SIGOXY(I)*DSIGXY(I)*TROIS)*DEUX                  
+     .            +SIGOXY(I)*DSIGXY(I)*THREE)*TWO                  
      .            -SIGOXX(I)*DSIGYY(I) - SIGOYY(I)*DSIGXX(I)        
 C-------------------
 C        SOUND SPEED, TANGENT MODULUS
@@ -313,7 +313,7 @@ C-------------------
 c         SOUNDSP(I) = SQRT(A11/RHO0(I))
         SOUNDSP(I) = SQRT(E(I)/RHO0(I)) 
         VISCMAX(I) = ZERO               
-        ETSE(I) = UN 
+        ETSE(I) = ONE 
       ENDDO
 C-------------------
 C     Interpolation
@@ -345,20 +345,20 @@ c         loading curves
           IPOSC2(I) = NINT(UVAR(I,N0+J2))
           EPSC1(I)  = UVAR(I,N1+J1)
           EPSC2(I)  = UVAR(I,N1+J2)
-          IADC1(I)  = UNDEMI*NPF(IPM(10+J1,MAT(I))) + 1
-          IADC2(I)  = UNDEMI*NPF(IPM(10+J2,MAT(I))) + 1
-          ILENC1(I) = UNDEMI*NPF(IPM(10+J1,MAT(I))+1)-IADC1(I)-IPOSC1(I)
-          ILENC2(I) = UNDEMI*NPF(IPM(10+J2,MAT(I))+1)-IADC2(I)-IPOSC2(I)
+          IADC1(I)  = HALF*NPF(IPM(10+J1,MAT(I))) + 1
+          IADC2(I)  = HALF*NPF(IPM(10+J2,MAT(I))) + 1
+          ILENC1(I) = HALF*NPF(IPM(10+J1,MAT(I))+1)-IADC1(I)-IPOSC1(I)
+          ILENC2(I) = HALF*NPF(IPM(10+J2,MAT(I))+1)-IADC2(I)-IPOSC2(I)
 c         unloading curves
           IPOSD1(I) = NINT(UVAR(I,N2+J1))          
           IPOSD2(I) = NINT(UVAR(I,N2+J2))
           EPSD1(I)  = UVAR(I,N3+J1)
           EPSD2(I)  = UVAR(I,N3+J2)
-          IADD1(I)  = UNDEMI*NPF(IPM(10+NRATE+J1,MAT(I))) + 1
-          IADD2(I)  = UNDEMI*NPF(IPM(10+NRATE+J2,MAT(I))) + 1
-          ILEND1(I) = UNDEMI*NPF(IPM(10+NRATE+J1,MAT(I))+1)
+          IADD1(I)  = HALF*NPF(IPM(10+NRATE+J1,MAT(I))) + 1
+          IADD2(I)  = HALF*NPF(IPM(10+NRATE+J2,MAT(I))) + 1
+          ILEND1(I) = HALF*NPF(IPM(10+NRATE+J1,MAT(I))+1)
      .              - IADD1(I) - IPOSD1(I)
-          ILEND2(I) = UNDEMI*NPF(IPM(10+NRATE+J2,MAT(I))+1)
+          ILEND2(I) = HALF*NPF(IPM(10+NRATE+J2,MAT(I))+1)
      .              - IADD2(I) - IPOSD2(I)
         ELSE
           SIGYLD(I) = SIGY1
@@ -367,10 +367,10 @@ c         unloading curves
           EPSC1(I)  = UVAR(I,N1+J1)
           EPSD1(I)  = UVAR(I,N3+J1)
 
-          IADC1(I)  = UNDEMI*NPF(IPM(10+J1,MAT(I))) + 1
-          IADD1(I)  = UNDEMI*NPF(IPM(10+NRATE+J1,MAT(I))) + 1
-          ILENC1(I) = UNDEMI*NPF(IPM(10+J1,MAT(I))+1)-IADC1(I)-IPOSC1(I)
-          ILEND1(I) = UNDEMI*NPF(IPM(10+NRATE+J1,MAT(I))+1)
+          IADC1(I)  = HALF*NPF(IPM(10+J1,MAT(I))) + 1
+          IADD1(I)  = HALF*NPF(IPM(10+NRATE+J1,MAT(I))) + 1
+          ILENC1(I) = HALF*NPF(IPM(10+J1,MAT(I))+1)-IADC1(I)-IPOSC1(I)
+          ILEND1(I) = HALF*NPF(IPM(10+NRATE+J1,MAT(I))+1)
      .              - IADD1(I) - IPOSD1(I)
         ENDIF
       ENDDO                                         
@@ -475,7 +475,7 @@ c
 c                                                                     
             DPLA_I(I) = DEPSS(I)
             PLA(I) = PLA(I) + OFF(I)*DPLA_I(I)                     
-            DEPLZZ(I) = DPLA_I(I)*(SIGNXX(I)+SIGNYY(I))*UNDEMI*NU3(I)
+            DEPLZZ(I) = DPLA_I(I)*(SIGNXX(I)+SIGNYY(I))*HALF*NU3(I)
      .                / MAX(EM20,SIGFC(I))
             ETSE(I)= HC(I)/(HC(I)+E(I))                              
           ELSE                                                       
@@ -511,7 +511,7 @@ c----------------------------------------------
         THK(I)= THK(I) - DEZZ*THKLY(I)*OFF(I)
 c
         SVM(I)  = SQRT(SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)         
-     .           -SIGNXX(I)*SIGNYY(I) + TROIS*SIGNXY(I)*SIGNXY(I))
+     .           -SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))
         EPSS(I) = EPSS(I) + DEPSS(I)                             
         EPSE(I) = EPSS(I) - PLA(I)   
 c
@@ -520,7 +520,7 @@ c
         UVAR(I,3) = SVM(I)
         UVAR(I,4) = PLA(I)
         UVAR(I,5) = EPSP(I)
-        IF (PLA(I) > EPSMAX(I) .and. OFF(I) == UN) OFF(I)=QCINQ         
+        IF (PLA(I) > EPSMAX(I) .and. OFF(I) == ONE) OFF(I)=FOUR_OVER_5         
 c        EPSEFF=sqrt((EPSXX(I)*EPSXX(I)+EPSYY(I) *EPSYY(I)+EPSXY(I)
 c     .        *EPSXY(I))/(un+deux*NU(I)*NU(I)))         
 C
@@ -555,13 +555,13 @@ C-----------------------------------------------
       X1  = ZERO
       X2  = ZERO
       IF (A /= ZERO) THEN
-        DELTA = B*B - QUATRE*A*C
+        DELTA = B*B - FOUR*A*C
         IF (DELTA > ZERO) THEN
           DELTA = SQRT(DELTA)
-          X2 = (-B - DELTA)*UNDEMI/A
+          X2 = (-B - DELTA)*HALF/A
           X1 = -B/A - X2
         ELSEIF (DELTA == ZERO) THEN
-          X1  = -B*UNDEMI/A
+          X1  = -B*HALF/A
           X2  = X1
         ENDIF
       ENDIF 

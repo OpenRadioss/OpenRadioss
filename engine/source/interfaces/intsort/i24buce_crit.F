@@ -157,7 +157,7 @@ c             compute secnd edge half size
      .                + (X(3,JG)-X(3,J))*(X(3,JG)-X(3,J)) 
                   EDGE_L2_NEW = MAX(EDGE_L2_NEW, AAA )
                 ENDDO
-                EDGE_L2_NEW = (UNDEMI+EM3)*SQRT(EDGE_L2_NEW)
+                EDGE_L2_NEW = (HALF+EM3)*SQRT(EDGE_L2_NEW)
                 EDGE_L2_OLD = EDGE_L2(I)
               ENDIF
               EDGE_L2(I)  = EDGE_L2_NEW
@@ -256,7 +256,7 @@ c             compute secnd edge half size
      .                + (X(3,JG)-X(3,J))*(X(3,JG)-X(3,J))
                   EDGE_L2_NEW = MAX(EDGE_L2_NEW, AAA )
                 ENDDO
-                EDGE_L2_NEW = (UNDEMI+EM3)*SQRT(EDGE_L2_NEW)
+                EDGE_L2_NEW = (HALF+EM3)*SQRT(EDGE_L2_NEW)
                 EDGE_L2_OLD = EDGE_L2(I)
               ENDIF
               EDGE_L2(I)  = EDGE_L2_NEW

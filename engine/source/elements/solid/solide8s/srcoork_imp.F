@@ -194,8 +194,8 @@ C-----------
         DETJ0 =(DX_DR*(DY_DS*DZ_DT-DZ_DS*DY_DT)
      .         -DX_DS*(DY_DR*DZ_DT-DY_DT*DZ_DR)
      .         +DX_DT*(DY_DR*DZ_DS-DY_DS*DZ_DR))
-        DETM1 = UN/DETJ0
-        DETM1 = HUIT*DETM1
+        DETM1 = ONE/DETJ0
+        DETM1 = EIGHT*DETM1
         INVJ(I,1,1) = (DY_DS*DZ_DT-DZ_DS*DY_DT)*DETM1
         INVJ(I,2,1) = (DZ_DR*DY_DT-DY_DR*DZ_DT)*DETM1
         INVJ(I,3,1) = (DY_DR*DZ_DS-DY_DS*DZ_DR)*DETM1
@@ -245,12 +245,12 @@ C-----------
       ENDDO
 !sb revoir cela avec qqun je ne comprends pas cette partie
         DO I=LFT,LLT
-        IF(OFFG(I).GT.UN)THEN
-         OFF(I) = OFFG(I)-UN
+        IF(OFFG(I).GT.ONE)THEN
+         OFF(I) = OFFG(I)-ONE
         ENDIF
         ENDDO
        DO I=LFT,LLT
-        OFF(I) = MIN(UN,OFFG(I))
+        OFF(I) = MIN(ONE,OFFG(I))
        ENDDO
 !C
 !       ENDIF

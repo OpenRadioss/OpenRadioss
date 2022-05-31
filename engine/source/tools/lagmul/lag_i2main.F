@@ -155,7 +155,7 @@ C-----------------------------------------------
           INOD(JJ) = IRECT(JJ,L)
         ENDDO
         IF(INOD(4).EQ.INOD(3)) NIR=3
-        FACT = UN / NIR
+        FACT = ONE / NIR
         INOD(NIR+1) = NSV(II)
         NDL = 3*NIR+1
         NC_INI  = NC
@@ -177,9 +177,9 @@ C------------------------------
           X4=X(1,INOD(4))
           Y4=X(2,INOD(4))
           Z4=X(3,INOD(4))
-          X0=QUART*(X1+X2+X3+X4)
-          Y0=QUART*(Y1+Y2+Y3+Y4)
-          Z0=QUART*(Z1+Z2+Z3+Z4)
+          X0=FOURTH*(X1+X2+X3+X4)
+          Y0=FOURTH*(Y1+Y2+Y3+Y4)
+          Z0=FOURTH*(Z1+Z2+Z3+Z4)
           X1=X1-X0
           Y1=Y1-Y0
           Z1=Z1-Z0
@@ -282,8 +282,8 @@ C------------------------------
         XY2=XY*XY
         YZ2=YZ*YZ
         ZX2=ZX*ZX
-        DET=XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 - DEUX*XY*YZ*ZX
-        DET=UN/DET
+        DET=XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 - TWO*XY*YZ*ZX
+        DET=ONE/DET
         B1=ZZZ*YYY-YZ2
         B2=XXX*ZZZ-ZX2
         B3=YYY*XXX-XY2
@@ -327,7 +327,7 @@ C ---   ic = 1 (vx)
         LLL(IK) = INOD(NIR + 1)
         JLL(IK) = 1
         SLL(IK) = NINT
-        XLL(IK) = -UN
+        XLL(IK) = -ONE
 C ---  ic = 2 (vy)
         NC = NC + 1
         IADLL(NC+1) = IADLL(NC) + NDL
@@ -363,7 +363,7 @@ C ---  ic = 2 (vy)
         LLL(IK) = INOD(NIR + 1)
         JLL(IK) = 2
         SLL(IK) = NINT
-        XLL(IK) = -UN
+        XLL(IK) = -ONE
 C ---  ic = 3 (vz)
         NC = NC + 1
         IADLL(NC+1) = IADLL(NC) + NDL
@@ -399,7 +399,7 @@ C ---  ic = 3 (vz)
         LLL(IK) = INOD(NIR+1)
         JLL(IK) = 3
         SLL(IK) = NINT
-        XLL(IK) = -UN
+        XLL(IK) = -ONE
 C
 c       begin rotational dof of secnd
 C ---   ic = 4 (wx)
@@ -433,7 +433,7 @@ C ---   ic = 4 (wx)
         LLL(IK) = INOD(NIR+1)
         JLL(IK) = 4
         SLL(IK) = NINT
-        XLL(IK) = -UN
+        XLL(IK) = -ONE
 C ---  ic = 5 (wy)
         NC = NC + 1
         IADLL(NC+1) = IADLL(NC) + NDL
@@ -465,7 +465,7 @@ C ---  ic = 5 (wy)
         LLL(IK) = INOD(NIR+1)
         JLL(IK) = 5
         SLL(IK) = NINT
-        XLL(IK) = -UN
+        XLL(IK) = -ONE
 C ---   ic = 6 (wz)
         NC = NC + 1
         IADLL(NC+1) = IADLL(NC) + NDL
@@ -497,7 +497,7 @@ C ---   ic = 6 (wz)
         LLL(IK) = INOD(NIR+1)
         JLL(IK) = 6
         SLL(IK) = NINT
-        XLL(IK) = -UN
+        XLL(IK) = -ONE
 C---    Solving local Lagrange multipliers
         CALL LAG_DIRECT(
      1           IADLL    ,LLL      ,JLL      ,XLL      ,LTSM     ,

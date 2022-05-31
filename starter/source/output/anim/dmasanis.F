@@ -109,11 +109,11 @@ C-----------------------------------------------
                  MT=IXS(1,N)                                            
                  VALUE=PM(89,MT)*GBUF%VOL(I)                          
                ELSE                                                     
-                 OFF = MIN(GBUF%OFF(I),UN)                             
+                 OFF = MIN(GBUF%OFF(I),ONE)                             
                  VALUE=GBUF%RHO(I)*GBUF%VOL(I)*OFF                    
                ENDIF                                                    
                IF(ISOLNOD.EQ.16)THEN                                    
-                 VALUE = QUART*VALUE                                    
+                 VALUE = FOURTH*VALUE                                    
                  MAS(EL2FA(NN2+N_FA)) = VALUE                           
                  MAS(EL2FA(NN2+N_FA)+1) = VALUE                         
                  MAS(EL2FA(NN2+N_FA)+2) = VALUE                         
@@ -139,7 +139,7 @@ C-----------------------------------------------
                  MT  =IPART(1,IPRT)                                     
                  VALUE=PM(89,MT)*GBUF%VOL(I)                       
                ELSE                                                     
-                 OFF = MIN(GBUF%OFF(I),UN)                             
+                 OFF = MIN(GBUF%OFF(I),ONE)                             
                  VALUE=GBUF%RHO(I)*GBUF%VOL(I)*OFF                    
                ENDIF                                                    
                MAS(EL2FA(NN3+N_FA)) = VALUE                             

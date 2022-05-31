@@ -66,14 +66,14 @@ C=======================================================================
         RHO0(I) =PM( 1,MX)
         E(I)    =PM(20,MX)
         G(I)    =PM(22,MX)     
-        B(I)    =E(I)*G(I)/(NEUF*G(I)-TROIS*E(I))
+        B(I)    =E(I)*G(I)/(NINE*G(I)-THREE*E(I))
         VIS(I) =  ZERO
       END DO
 C-----------------------------
 C     CALCUL DE VITESSE DU SON
 C-----------------------------
       DO I=LFT,LLT
-        SSP(I)=SQRT((QTHIRD*G(I)+B(I))/RHO0(I))
+        SSP(I)=SQRT((FOUR_OVER_3*G(I)+B(I))/RHO0(I))
       END DO
 C----------------------------------
 C     CALCUL DES DT ELEMENTAIRES

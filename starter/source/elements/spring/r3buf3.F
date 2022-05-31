@@ -70,15 +70,15 @@ C     REAL ou REAL*8
        my_real
      .     NOISE
 C-----------------------------------------------
-      NOISE = DEUX*SQRT(TROIS)*XALEA
+      NOISE = TWO*SQRT(THREE)*XALEA
       DO I=LFT,LLT
         J=I+NFT
         USENS=IGEO(3,IX(1,J))
         IF (USENS <= 0) THEN
 C         no sensor or Isflag=1
-          OFF(I)=UN
+          OFF(I)=ONE
         ELSE
-          OFF(I)=-DIX
+          OFF(I)=-TEN
         ENDIF
       ENDDO
 C

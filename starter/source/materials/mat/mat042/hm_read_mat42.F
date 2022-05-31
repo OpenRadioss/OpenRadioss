@@ -102,7 +102,7 @@ C=======================================================================
       IVISC   = 0  
       IMATVIS = 1
       ILAW    = 42
-      ZEP495  = ZEP4 + NEUF*EM02 + CINQ*EM03
+      ZEP495  = ZEP4 + NINE*EM02 + FIVE*EM03
 
       CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
 
@@ -142,7 +142,7 @@ c--------------------------------------------------
       IF (SMAX <= ZERO)  SMAX  = EP20
 c
       CALL HM_GET_FLOATV_DIM('MAT_FScale',FSCAL_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      IF (FSCAL == ZERO) FSCAL = UN*FSCAL_UNIT
+      IF (FSCAL == ZERO) FSCAL = ONE*FSCAL_UNIT
 c
       GVMAX = ZERO
       DO K=1,NPRONY
@@ -157,8 +157,8 @@ c
      .              C1=TITR)
       END IF
       IF (NU == ZERO ) NU = ZEP495
-      MU   = GS/DEUX
-      BULK = GS*(UN+NU)/MAX(EM20,TROIS*(UN-DEUX*NU))
+      MU   = GS/TWO
+      BULK = GS*(ONE+NU)/MAX(EM20,THREE*(ONE-TWO*NU))
       IF (NPRONY > 0 ) THEN
         IVISC   = 1
         IMATVIS = 3
@@ -204,13 +204,13 @@ C
       IFUNC(1) = IFUNC_BLK
       IFUNC(2) = 0
       PARMAT(1)= GS
-      PARMAT(2)= GS*(UN+NU)
+      PARMAT(2)= GS*(ONE+NU)
       PARMAT(3)= NU
       PARMAT(6)= BULK
 C     Formulation for solid elements time step computation.
-      C1 = THIRD*GS*(UN + NU)/(UN - DEUX*NU)
+      C1 = THIRD*GS*(ONE + NU)/(ONE - TWO*NU)
       PARMAT(16) = 2
-      PARMAT(17) = GS/(C1 + DTHIRD*GS)
+      PARMAT(17) = GS/(C1 + TWO_THIRD*GS)
 c-----------------
       PM(1)  = RHOR
       PM(2)  = GS

@@ -100,11 +100,11 @@ C  Normale
          NORMAL(1,IEL)=NRX/AREA2
          NORMAL(2,IEL)=NRY/AREA2
          NORMAL(3,IEL)=NRZ/AREA2
-         AF(IEL)=UNDEMI*AREA2
+         AF(IEL)=HALF*AREA2
 C Centroid
-         XP=TIERS*(X1+X2+X3)
-         YP=TIERS*(Y1+Y2+Y3)    
-         ZP=TIERS*(Z1+Z2+Z3)
+         XP=THIRD*(X1+X2+X3)
+         YP=THIRD*(Y1+Y2+Y3)    
+         ZP=THIRD*(Z1+Z2+Z3)
 C  Arrival time
          IF(IWAVE==1) THEN
             DCP(IEL) = SQRT((XP-XC)**2+(YP-YC)**2+(ZP-ZC)**2)

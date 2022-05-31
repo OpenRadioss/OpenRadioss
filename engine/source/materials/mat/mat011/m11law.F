@@ -197,7 +197,7 @@ C=======================================================================
      5             SSP_EQ,VxV   ,VyV   ,VzV         ,IALEFVM_FLG ,
      6             VxN   ,VyN   ,VzN   ,MOM         ,RHO         ,VOL,
      7             XmomV ,YmomV ,ZmomV ,BUFVOIS     ,NEL         )
-       FAC=HUIT
+       FAC=EIGHT
       ELSE
        CALL M11VS2(PM    ,IPARG ,IX    ,ALE_CONNECT       ,ELBUF_TAB   ,V     ,
      2             X     ,DVP   ,VN    ,W           ,VEL         ,VD2   ,
@@ -206,7 +206,7 @@ C=======================================================================
      5             SSP_EQ,VxV   ,VyV   ,VzV         ,IALEFVM_FLG ,
      6             VxN   ,VyN   ,VzN   ,MOM         ,RHO         ,VOL   ,
      7             XmomV ,YmomV ,ZmomV ,BUFVOIS     ,NEL         )     
-       FAC=QUATRE
+       FAC=FOUR
       ENDIF
 
       MX          = MAT(LFT)
@@ -335,26 +335,26 @@ C        GAZ
          DC=PM(99,MX)
          GV  = DC*GAMRP(I)*RHON*VEL(I)/(PN+PSH)
          IF(GV.GT.EM4)THEN
-          RSR    = (UN - GV)**GAM1(I)
+          RSR    = (ONE - GV)**GAM1(I)
           P(I)   = (PN+PSH)*RSR**GAM(I)-PSH
          ELSE
-          RV     = UNDEMI*RHON*VEL(I)*DC
-          RSR    = UN - RV/((PN+PSH)*GAM(I))
+          RV     = HALF*RHON*VEL(I)*DC
+          RSR    = ONE - RV/((PN+PSH)*GAM(I))
           P(I)   = PN - RV
          ENDIF
          RHO(I) = RSR*RHON
-         P(I)   = P(I) + DTHIRD*RK(I)
+         P(I)   = P(I) + TWO_THIRD*RK(I)
          EINT(I)= GAM1(I)*(P(I)+PSH)
          SSP_EQ(I) = SQRT(GAM1(I)*(PN+PSH)/RHON)
         ELSEIF(ITYP.EQ.1)THEN
 C        LIQUIDE
          DC        = PM(99,MX)
          C1        = PM(32,MX)
-         RHO(I)    = C1*RHON/(C1+UNDEMI*DC*RHON*VEL(I))
-         P(I)      = PN-UNDEMI*DC*RHO(I)*VEL(I)
-         EINT(I)   = (UN - RHO(I)/RHON)*(P(I)+PSH)+EN
+         RHO(I)    = C1*RHON/(C1+HALF*DC*RHON*VEL(I))
+         P(I)      = PN-HALF*DC*RHO(I)*VEL(I)
+         EINT(I)   = (ONE - RHO(I)/RHON)*(P(I)+PSH)+EN
          SSP_EQ(I) = SQRT(C1/RHON)
-         IF(IPFUN.NE.0.AND.JTUR.NE.0)P(I)=P(I)+ DTHIRD*RK(I)
+         IF(IPFUN.NE.0.AND.JTUR.NE.0)P(I)=P(I)+ TWO_THIRD*RK(I)
          
         !-------------------------------------------!
         ! CAS   2    IMPOSED STATE                  !
@@ -364,7 +364,7 @@ C        LIQUIDE
          P(I)       = PN
          EINT(I)    = EN
          SSP_EQ(I)  = EP20
-         IF(IPFUN.NE.0.AND.JTUR.NE.0)P(I)=P(I)+DTHIRD*RK(I)
+         IF(IPFUN.NE.0.AND.JTUR.NE.0)P(I)=P(I)+TWO_THIRD*RK(I)
          IF(IALEFVM==1)THEN
            MOM(I,1)   = XmomN
            MOM(I,2)   = YmomN
@@ -379,8 +379,8 @@ C        LIQUIDE
          EINT(I)   = EN
          RHOC      = PM(97,MX)
          ALP       = PM(98,MX)*DT1
-         IF(IPFUN.NE.0.AND.JTUR.NE.0)PN=PN + DTHIRD*RK(I)
-         IF(IPFUN.NE.0 .AND. VN(I).LE.0)PN=PN - UNDEMI*RHON*VN(I)**2
+         IF(IPFUN.NE.0.AND.JTUR.NE.0)PN=PN + TWO_THIRD*RK(I)
+         IF(IPFUN.NE.0 .AND. VN(I).LE.0)PN=PN - HALF*RHON*VN(I)**2
          IF(IALEFVM==1)THEN
            MOM(I,1) = XmomN
            MOM(I,2) = YmomN
@@ -389,9 +389,9 @@ C        LIQUIDE
 C
          IF(TT.GT.ZERO)THEN
           IF(IPFUN.EQ.0 .OR. VN(I).LE.ZERO .OR. ITYP.EQ.3)THEN
-            DU     = (UN-ALP)*RHOC*(VN(I)-VO(I))
+            DU     = (ONE-ALP)*RHOC*(VN(I)-VO(I))
            ELSE
-            DU     = (UN - ALP)*RHOC*((VN(I)-VO(I))-VN(I)*DVP(I))
+            DU     = (ONE - ALP)*RHOC*((VN(I)-VO(I))-VN(I)*DVP(I))
           ENDIF 
          ELSE
           DU       = ZERO
@@ -412,10 +412,10 @@ C
          RHOC=PM(97,MX)
          RHOC2=RHON*(RHOC/RHO0(I))**2
          ALP=PM(98,MX)*DT1
-         IF(IPFUN.NE.0.AND.JTUR.NE.0)PN=PN + DTHIRD*RK(I)
-         IF(IPFUN.NE.0 .AND. VN(I).LE.ZERO)PN=PN - UNDEMI*RHON*VN(i)**2
+         IF(IPFUN.NE.0.AND.JTUR.NE.0)PN=PN + TWO_THIRD*RK(I)
+         IF(IPFUN.NE.0 .AND. VN(I).LE.ZERO)PN=PN - HALF*RHON*VN(i)**2
          IF(TT.GT.ZERO)THEN
-          DU=(UN - ALP)*(RHOC*(VN(I)-VO(I))-RHOC2*DVP(I))
+          DU=(ONE - ALP)*(RHOC*(VN(I)-VO(I))-RHOC2*DVP(I))
          ELSE
           DU=ZERO
           SIG(I,1)=-PN

@@ -144,9 +144,9 @@ C
 c --- Minor and major (true) strain deformation.
 C
       DO I = 1,NEL
-        E12= UNDEMI*EPSXY(I)
-        S1 = UNDEMI*(EPSXX(I) + EPSYY(I))
-        S2 = UNDEMI*(EPSXX(I) - EPSYY(I))
+        E12= HALF*EPSXY(I)
+        S1 = HALF*(EPSXX(I) + EPSYY(I))
+        S2 = HALF*(EPSXX(I) - EPSYY(I))
         Q  = SQRT(S2**2 + E12**2)
         EMAJ(I) = S1 + Q
         EMIN(I) = S1 - Q
@@ -164,26 +164,26 @@ c-----
         LENF = NPF(IFUNC(1)+ 1) - NPF(IFUNC(1))
         ALLOCATE(XF(LENF))
         DO I = 1,LENF
-          XF(I) = LOG(TF(II + I-1) + UN)
+          XF(I) = LOG(TF(II + I-1) + ONE)
         ENDDO
 c
         DO I = 1,NEL
           EM(I)    = FINTERFLD(EMIN(I),IFUNC(1),LENF,XF)
           DAM(I)   = EMAJ(I) / EM(I)
-          DFMAX(I) = MIN(UN, DAM(I))
+          DFMAX(I) = MIN(ONE, DAM(I))
         ENDDO
       ELSE
         DO I = 1,NEL
           EM(I)    = FINTER(IFUNC(1),EMIN(I),NPF,TF,DYDX)
           DAM(I)   = EMAJ(I) / EM(I)
-          DFMAX(I) = MIN(UN, DAM(I))
+          DFMAX(I) = MIN(ONE, DAM(I))
         ENDDO
       ENDIF 
 c--------------------------------------------------------------------
 c     FLD zone index calculation for ANIM output
 c
-      R1 = DEUX*EM02
-      R2 = RANI/(RANI+UN)
+      R1 = TWO*EM02
+      R2 = RANI/(RANI+ONE)
       DO I = 1,NEL
         IF (EMAJ(I) >= EM(I)) THEN
           FLD_IDX(I) = 6      ! zone 6 = failure
@@ -231,16 +231,16 @@ c---------------
         CASE (1)    ! multilayer XFEM                                    
 c---------------
             DO I = 1,NEL                                                          
-              IF (OFF(I) == UN) THEN                                              
+              IF (OFF(I) == ONE) THEN                                              
                 IF (UVAR(I,1) == ZERO) THEN                                       
                   IF (IXEL == 0) THEN                                             
                     IF (ELCRKINI(ILAY,I)==0 .and. EMAJ(I)>=EM_DCRIT(I)) THEN                                
                       NINDXP = NINDXP+1
                       INDXP(NINDXP) = I
-                      UVAR(I,1) = UN                                              
+                      UVAR(I,1) = ONE                                              
                       OFFL(I)   = ZERO                                            
                       NOFF(I)   = NOFF(I) + 1                                        
-                      NPTTF(I)  = NPTTF(I) + UN
+                      NPTTF(I)  = NPTTF(I) + ONE
                       RFLAGP(I) = 1
                       IF (INT(NPTTF(I)) == NPTT) THEN
                         NINDX = NINDX+1
@@ -249,16 +249,16 @@ c---------------
                         RFLAG(I) = 1                                               
                       ENDIF
                       IF (NOFF(I) == NPTOT) THEN   
-                        OFF(I) = QCINQ                                           
+                        OFF(I) = FOUR_OVER_5                                           
                         TDEL(I)= TIME                                             
                       ENDIF                                                       
                     ELSEIF (ELCRKINI(ILAY,I)==2 .and. EMAJ(I)>=EM_DADV(I)) THEN                             
                       NINDXP   = NINDXP + 1
                       INDXP(NINDXP) = I
-                      UVAR(I,1) = UN                                              
+                      UVAR(I,1) = ONE                                              
                       OFFL(I)   = ZERO                                            
                       NOFF(I)   = NOFF(I) + 1                                        
-                      NPTTF(I)  = NPTTF(I)+ UN
+                      NPTTF(I)  = NPTTF(I)+ ONE
                       RFLAGP(I) = 1
                       IF (INT(NPTTF(I)) == NPTT) THEN
                         NINDX = NINDX+1
@@ -267,33 +267,33 @@ c---------------
                         RFLAG(I) = -1
                       ENDIF
                       IF (NOFF(I) == NPTOT) THEN
-                        OFF(I) = QCINQ                                           
+                        OFF(I) = FOUR_OVER_5                                           
                         TDEL(I)= TIME
                       ENDIF
                     ENDIF                                                         
                   ELSEIF (EMAJ(I) >= EM_DCRIT(I)) THEN  ! IXEL > 0                  
                     NINDXP    = NINDXP + 1
                     INDXP(NINDXP) = I
-                    UVAR(I,1) = UN                                                
+                    UVAR(I,1) = ONE                                                
                     OFFL(I)   = ZERO                                            
-                    NPTTF(I)  = NPTTF(I) + UN
+                    NPTTF(I)  = NPTTF(I) + ONE
                     RFLAGP(I) = 1
                     IF (INT(NPTTF(I)) == NPTT) THEN
                       NINDX = NINDX+1
                       INDX(NINDX) = I
-                      OFF(I) = QCINQ                                           
+                      OFF(I) = FOUR_OVER_5                                           
                       TDEL(I)  = TIME
                       RFLAG(I) = 3
                     ENDIF
                   ENDIF ! IXEL == 0                                                   
-                ELSEIF (UVAR(I,1) == UN) THEN                                     
+                ELSEIF (UVAR(I,1) == ONE) THEN                                     
                   SIGNXX(I) = ZERO                                                
                   SIGNYY(I) = ZERO                                                
                   SIGNXY(I) = ZERO                                                
                   SIGNYZ(I) = ZERO                                                
                   SIGNZX(I) = ZERO                                                
                 ENDIF ! UVAR                                                      
-              ENDIF   ! IF (OFF(I) == UN)                                                                  
+              ENDIF   ! IF (OFF(I) == ONE)                                                                  
             ENDDO     ! DO I=1,NEL                                                                        
             IF (NINDXP > 0) THEN    
               DO J=1,NINDXP        
@@ -332,12 +332,12 @@ c---------------
 c
               IF (LAYXFEM > 0) THEN
                 DO I = 1,NEL
-                  IF (OFF(I) == UN) THEN
+                  IF (OFF(I) == ONE) THEN
                     IF (IXEL == 0) THEN    ! not cut yet
                       IF (ELCRKINI(ILAY,I) == 0 .and. 
      .                    EMAJ(I) >= EM_DCRIT(I)) THEN
                         ELCRKINI(ILAY,I) = -1 ! ready to start       
-                        OFF(I) = QCINQ                                           
+                        OFF(I) = FOUR_OVER_5                                           
                         NINDX=NINDX+1
                         INDX(NINDX)=I
                         RFLAG(I) = 1
@@ -345,14 +345,14 @@ c
                       ELSEIF (ELCRKINI(ILAY,I) == 2 .and. 
      .                        EMAJ(I) >= EM_DADV(I)) THEN  
                         ELCRKINI(ILAY,I) = 1  ! ready to advance
-                        OFF(I) = QCINQ                                           
+                        OFF(I) = FOUR_OVER_5                                           
                         NINDX=NINDX+1
                         INDX(NINDX)=I
                         RFLAG(I) = -1
                         TDEL(I)= TIME
                       ENDIF
                     ELSE IF (EMAJ(I) >= EM_DCRIT(I)) THEN! IXEL > 0 
-                      OFF(I) = QCINQ                                           
+                      OFF(I) = FOUR_OVER_5                                           
                       NINDX=NINDX+1
                       INDX(NINDX)=I
                       RFLAG(I) = 3
@@ -383,11 +383,11 @@ c
             ELSEIF (ISHELL == 2)THEN
 c
               DO I = 1,NEL
-                IF (OFF(I) == UN) THEN
+                IF (OFF(I) == ONE) THEN
                   IF (UVAR(I,1) == ZERO) THEN
                     IF (IXEL == 0) THEN    ! testing standard element
                       IF (ELCRKINI(ILAY,I) == 0 .and. EMAJ(I) >= EM_DCRIT(I)) THEN
-                        UVAR(I,1) = UN
+                        UVAR(I,1) = ONE
                         NINDX=NINDX+1
                         INDX(NINDX)=I
                         NINDXP = NINDXP + 1                                                 
@@ -396,12 +396,12 @@ c
                         NOFF(I) = NOFF(I) + 1
                         IF (NOFF(I) == NPTOT) THEN
                           ELCRKINI(ILAY,I) = -1 ! one layer failed (by initiation)
-                          OFF(I) = QCINQ                                           
+                          OFF(I) = FOUR_OVER_5                                           
                           RFLAG(I) = 1
                           TDEL(I)= TIME 
                         ENDIF
                       ELSEIF (ELCRKINI(ILAY,I) == 2 .and. EMAJ(I) >= EM_DADV(I)) THEN
-                        UVAR(I,1) = UN
+                        UVAR(I,1) = ONE
                         NINDX=NINDX+1
                         INDX(NINDX)=I
                         NINDXP = NINDXP + 1                                                 
@@ -409,14 +409,14 @@ c
                         RFLAGP(I) = 1
                         NOFF(I) = NOFF(I) + 1
                         IF (NOFF(I) == NPTOT) THEN
-                          OFF(I) = QCINQ                                           
+                          OFF(I) = FOUR_OVER_5                                           
                           ELCRKINI(ILAY,I) = 1 !  one layer failed (by advancing)
                           RFLAG(I) = -1
                           TDEL(I)= TIME
                         ENDIF
                       ENDIF
                     ELSEIF (EMAJ(I) >= EM_DCRIT(I)) THEN  ! IXEL > 0
-                      UVAR(I,1) = UN
+                      UVAR(I,1) = ONE
                       NINDX = NINDX+1
                       INDX(NINDX) = I
                       NINDXP = NINDXP + 1                                                 
@@ -424,11 +424,11 @@ c
                       RFLAGP(I) = 1
                       NOFF(I) = NOFF(I) + 1
                       IF (NOFF(I) == NPTOT) THEN
-                        OFF(I) = QCINQ                                           
+                        OFF(I) = FOUR_OVER_5                                           
                         RFLAG(I) = 3
                       ENDIF
                     ENDIF ! IXEL 
-                  ELSEIF (UVAR(I,1) == UN) THEN
+                  ELSEIF (UVAR(I,1) == ONE) THEN
                     SIGNXX(I) = ZERO
                     SIGNYY(I) = ZERO
                     SIGNXY(I) = ZERO

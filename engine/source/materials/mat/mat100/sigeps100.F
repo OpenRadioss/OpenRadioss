@@ -147,9 +147,9 @@ C
      .    COEFR,BETAF ,COEFM
 C----------------------------------------------------------------
 C----------------------------------------------------------------
-      COEFR = UN
+      COEFR = ONE
       BETAF = ZERO
-      COEFM = UN
+      COEFM = ONE
       N_NETWORK  =  UPARAM(1)  
       FLAG_HE    =  UPARAM(2)  
       IF ( FLAG_HE == 3 .OR.FLAG_HE == 4 .OR.FLAG_HE == 5 )FLAG_HE = 1
@@ -264,15 +264,15 @@ C----------------------------------------------------------------
         G    =  UPARAM(TAB + 1 ) !idem starter stockage at the end
         RBULK=  UPARAM(TAB + 2 ) 
       ENDIF
-      STIFF0 = QTHIRD*G + RBULK
+      STIFF0 = FOUR_OVER_3*G + RBULK
 
       IF(TIME == ZERO)THEN
        IF (FLAG_PL == 1) THEN
         DO  I = 1, NEL   
          UVAR(I,TABN+1) = TAUY0
-         UVAR(I,TABN+5) = UN  
-         UVAR(I,TABN+6) = UN  
-         UVAR(I,TABN+7) = UN  
+         UVAR(I,TABN+5) = ONE  
+         UVAR(I,TABN+6) = ONE  
+         UVAR(I,TABN+7) = ONE  
         ENDDO      
         TABN = TABN+ 4 + 9    
        ENDIF      
@@ -281,9 +281,9 @@ C----------------------------------------------------------------
        !------------------------       
         IF (FLAG_VISC(N) == 1 ) THEN !BB
          DO  I = 1, NEL
-         UVAR(I,TABN+1) = UN
-         UVAR(I,TABN+2) = UN
-         UVAR(I,TABN+3) = UN
+         UVAR(I,TABN+1) = ONE
+         UVAR(I,TABN+2) = ONE
+         UVAR(I,TABN+3) = ONE
          ENDDO
          SHIFT = 9 +1  +1
          ! 9 = nombre de termes dans matrices FP
@@ -291,9 +291,9 @@ C----------------------------------------------------------------
          !+1 = TBNORM
         ELSEIF (FLAG_VISC(N) == 2 ) THEN !SINH
          DO  I = 1, NEL
-         UVAR(I,TABN+1) = UN
-         UVAR(I,TABN+2) = UN
-         UVAR(I,TABN+3) = UN
+         UVAR(I,TABN+1) = ONE
+         UVAR(I,TABN+2) = ONE
+         UVAR(I,TABN+3) = ONE
          ENDDO
          SHIFT = 9 +1  +1 
          ! 9 = nombre de termes dans matrices FP
@@ -301,9 +301,9 @@ C----------------------------------------------------------------
          !+1 = TBNORM
         ELSEIF (FLAG_VISC(N) == 3 ) THEN !POWER
          DO  I = 1, NEL
-         UVAR(I,TABN+1) = UN
-         UVAR(I,TABN+2) = UN
-         UVAR(I,TABN+3) = UN
+         UVAR(I,TABN+1) = ONE
+         UVAR(I,TABN+2) = ONE
+         UVAR(I,TABN+3) = ONE
          UVAR(I,TABN+10)= EM20 !EQUIVALENT STRAIN OLD
          ENDDO
          SHIFT = 10 +1 +1
@@ -348,18 +348,18 @@ C----------------------------------------------------------------
       !FTH = I + ALPHA DT
       IF(IEXPAN > 0)THEN
        DO I=1,NEL       
-         FTH(I,1,1)  = UN + EPSTH(I) 
-         FTH(I,2,2)  = UN + EPSTH(I)
-         FTH(I,3,3)  = UN + EPSTH(I) 
+         FTH(I,1,1)  = ONE + EPSTH(I) 
+         FTH(I,2,2)  = ONE + EPSTH(I)
+         FTH(I,3,3)  = ONE + EPSTH(I) 
          FTH(I,1,2)  = ZERO 
          FTH(I,2,3)  = ZERO 
          FTH(I,3,1)  = ZERO   
          FTH(I,2,1)  = ZERO 
          FTH(I,3,2)  = ZERO 
          FTH(I,1,3)  = ZERO 
-         FTOT(I,1,1)  = UN+MFXX(I)
-         FTOT(I,2,2)  = UN+MFYY(I)
-         FTOT(I,3,3)  = UN+MFZZ(I)
+         FTOT(I,1,1)  = ONE+MFXX(I)
+         FTOT(I,2,2)  = ONE+MFYY(I)
+         FTOT(I,3,3)  = ONE+MFZZ(I)
          FTOT(I,1,2)  = MFXY(I)
          FTOT(I,2,3)  = MFYZ(I)
          FTOT(I,3,1)  = MFZX(I)      
@@ -383,9 +383,9 @@ C----------------------------------------------------------------
        ENDDO 
       ELSE    
        DO I=1,NEL       
-         F(I,1,1)  = UN+MFXX(I) !FMEC
-         F(I,2,2)  = UN+MFYY(I)
-         F(I,3,3)  = UN+MFZZ(I)
+         F(I,1,1)  = ONE+MFXX(I) !FMEC
+         F(I,2,2)  = ONE+MFYY(I)
+         F(I,3,3)  = ONE+MFZZ(I)
          F(I,1,2)  = MFXY(I)
          F(I,2,3)  = MFYZ(I)
          F(I,3,1)  = MFZX(I)      
@@ -462,14 +462,14 @@ C
           SA5(I) =  SIGA(I,2,3) 
           SA6(I) =  SIGA(I,3,1) 
           TANORM(I)   = SQRT( (MAX(EM20,SA1(I)**2+SA2(I)**2+SA3(I)**2  
-     .                 +     DEUX*(SA4(I)**2+SA5(I)**2+SA6(I)**2 )) ) ) ! NORM!
+     .                 +     TWO*(SA4(I)**2+SA5(I)**2+SA6(I)**2 )) ) ) ! NORM!
         ENDDO
 C
         DO I=1,NEL
          PLA (I)   = UVAR(I,TABN+4)
-         S(I,1,1) = UN         
-         S(I,2,2) = UN         
-         S(I,3,3) = UN         
+         S(I,1,1) = ONE         
+         S(I,2,2) = ONE         
+         S(I,3,3) = ONE         
          S(I,1,2) = ZERO       
          S(I,2,3) = ZERO          
          S(I,3,1) = ZERO                
@@ -484,9 +484,9 @@ C
           DPLA(I) = PLAP(I)*TIMESTEP
           PLA(I)  =    UVAR(I,TABN+4) + DPLA(I)
           FACTOR    = PLAP(I)*TIMESTEP/TANORM(I)
-          S(I,1,1) = UN+FACTOR *SA1(I) !gamma_dot*N  
-          S(I,2,2) = UN+FACTOR *SA2(I)               
-          S(I,3,3) = UN+FACTOR *SA3(I)               
+          S(I,1,1) = ONE+FACTOR *SA1(I) !gamma_dot*N  
+          S(I,2,2) = ONE+FACTOR *SA2(I)               
+          S(I,3,3) = ONE+FACTOR *SA3(I)               
           S(I,1,2) = FACTOR *SA4(I)  !gamma_dot*N     
           S(I,2,3) = FACTOR *SA5(I)                   
           S(I,3,1) = FACTOR *SA6(I)                   
@@ -523,8 +523,8 @@ C
 
         ENDIF
         DO I=1,NEL
-          TAUY(I)  = TAUY0 * (FF +(UN - FF)*EXP(-PLA(I)/EPSHAT))
-          !TAUY(I)  = HH *(UN - UVAR(I,1)/TAUY0)*PLAP(I)*TIMESTEP + UVAR(I,1)
+          TAUY(I)  = TAUY0 * (FF +(ONE - FF)*EXP(-PLA(I)/EPSHAT))
+          !TAUY(I)  = HH *(ONE - UVAR(I,1)/TAUY0)*PLAP(I)*TIMESTEP + UVAR(I,1)
           UVAR(I,TABN +1) = TAUY(I) 
           UVAR(I,TABN +4) = PLA(I)           
           UVAR(I,TABN +5)    =   FPEQ(I,1,1) ! stored in global frame always
@@ -637,7 +637,7 @@ c
           SB6(I) =  SIGB(I,3,1) 
           !Nomr of stress secondary network N
           TBNORM(I)   = SQRT (MAX(EM20,SB1(I)**2+SB2(I)**2+SB3(I)**2  
-     .                 +     DEUX*(SB4(I)**2+SB5(I)**2+SB6(I)**2 ))  ) ! NORM!
+     .                 +     TWO*(SB4(I)**2+SB5(I)**2+SB6(I)**2 ))  ) ! NORM!
         ENDDO
 
         !------------------------------------        
@@ -696,15 +696,15 @@ c
         !CALL PRODMAT(DFP ,DFP, DFP2 , NEL) ! if order 2
         DO I=1,NEL               
          ! Fp_n+1 = exp(DFP) * Fp_old = (I+DFP) * Fp_old
-          SN(I,1,1) = UN + DFP(I,1,1) !+ UNDEMI * DFP2(I,1,1)
-          SN(I,2,2) = UN + DFP(I,2,2) !+ UNDEMI * DFP2(I,2,2)             
-          SN(I,3,3) = UN + DFP(I,3,3) !+ UNDEMI * DFP2(I,3,3)               
-          SN(I,1,2) = DFP(I,1,2)!+ UNDEMI * DFP2(I,1,2)    
-          SN(I,2,3) = DFP(I,2,3)!+ UNDEMI * DFP2(I,2,3)                 
-          SN(I,3,1) = DFP(I,3,1)!+ UNDEMI * DFP2(I,3,1)                 
-          SN(I,2,1) = DFP(I,2,1)!+ UNDEMI * DFP2(I,2,1)                                          
-          SN(I,3,2) = DFP(I,3,2)!+ UNDEMI * DFP2(I,3,2)                                           
-          SN(I,1,3) = DFP(I,1,3)!+ UNDEMI * DFP2(I,1,3)     
+          SN(I,1,1) = ONE + DFP(I,1,1) !+ HALF * DFP2(I,1,1)
+          SN(I,2,2) = ONE + DFP(I,2,2) !+ HALF * DFP2(I,2,2)             
+          SN(I,3,3) = ONE + DFP(I,3,3) !+ HALF * DFP2(I,3,3)               
+          SN(I,1,2) = DFP(I,1,2)!+ HALF * DFP2(I,1,2)    
+          SN(I,2,3) = DFP(I,2,3)!+ HALF * DFP2(I,2,3)                 
+          SN(I,3,1) = DFP(I,3,1)!+ HALF * DFP2(I,3,1)                 
+          SN(I,2,1) = DFP(I,2,1)!+ HALF * DFP2(I,2,1)                                          
+          SN(I,3,2) = DFP(I,3,2)!+ HALF * DFP2(I,3,2)                                           
+          SN(I,1,3) = DFP(I,1,3)!+ HALF * DFP2(I,1,3)     
         ENDDO
 
         CALL PRODMAT(SN ,FPO,  FP, NEL)  !Fp_N+1 = (I + dT *DFP)* Fp_N 
@@ -780,9 +780,9 @@ C cauchy to glabale
 C-------------------------------
       DO I=1,NEL
         DSIG = SQRT((SIGNXX(I)-SIGOXX(I))**2+(SIGNYY(I)-SIGOYY(I))**2+(SIGNZZ(I)-SIGOZZ(I))**2
-     .         + DEUX*((SIGNXY(I)-SIGOXY(I))**2+(SIGNYZ(I)-SIGOYZ(I))**2+(SIGNZX(I)-SIGOZX(I))**2))
+     .         + TWO*((SIGNXY(I)-SIGOXY(I))**2+(SIGNYZ(I)-SIGOYZ(I))**2+(SIGNZX(I)-SIGOZX(I))**2))
         DEPS = SQRT   (DEPSXX(I)**2 + DEPSYY(I)**2 + DEPSZZ(I)**2
-     .         + DEUX*(DEPSXY(I)**2 + DEPSYZ(I)**2 + DEPSZX(I)**2))
+     .         + TWO*(DEPSXY(I)**2 + DEPSYZ(I)**2 + DEPSZX(I)**2))
         IF(DEPS == ZERO)THEN
           STIFF(I)= STIFF0
         ELSE
@@ -795,7 +795,7 @@ C
        ENDDO
       IF (IMPL_S > 0 .OR. IHET > 1) THEN
        DO I=1,NEL
-         ET(I)= MAX(UN,STIFF(I))
+         ET(I)= MAX(ONE,STIFF(I))
        ENDDO
       ENDIF
 C   

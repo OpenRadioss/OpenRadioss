@@ -160,7 +160,7 @@ C
                   ENDIF                
                ELSE
                   DO WHILE ((ADRF-ADRI) >= 1)
-                    ADR = (ADRF-ADRI)*UNDEMI
+                    ADR = (ADRF-ADRI)*HALF
                     K = ADRI + NINT(ADR)
                     IPMID = TABCOUPLEPARTS_FRIC(K) 
                     IPF = TABCOUPLEPARTS_FRIC(ADRF) 
@@ -280,7 +280,7 @@ c
                E3Z = E1X*E2Y-E1Y*E2X  
   
                SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z  
-               SUMA   = UN/MAX(SQRT(SUMA),EM20)                    
+               SUMA   = ONE/MAX(SQRT(SUMA),EM20)                    
                E3X = E3X*SUMA                              
                E3Y = E3Y*SUMA                              
                E3Z = E3Z*SUMA                              
@@ -293,7 +293,7 @@ C
                E1Z    = E1Z  + (E2X *E3Y-E2Y*E3X)*SUMA
 C
                SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z  
-               SUMA   = UN/MAX(SQRT(SUMA),EM20)                    
+               SUMA   = ONE/MAX(SQRT(SUMA),EM20)                    
                E1X    = E1X*SUMA                              
                E1Y    = E1Y*SUMA                              
                E1Z    = E1Z*SUMA                              
@@ -488,7 +488,7 @@ C
                   ENDIF                   
                ELSE
                   DO WHILE ((ADRF-ADRI) >= 1)
-                    ADR = (ADRF-ADRI)*UNDEMI
+                    ADR = (ADRF-ADRI)*HALF
                     K = ADRI + NINT(ADR)
                     IPMID = TABCOUPLEPARTS_FRIC(K) 
                     IPF = TABCOUPLEPARTS_FRIC(ADRF) 

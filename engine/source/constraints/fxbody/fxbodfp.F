@@ -325,9 +325,9 @@ C   TRAVAIL FORCES EXTERNES
 C-----------------------------------------------
       TFGRAV=ZERO
       DO I=1,NME+NMOD
-         TFGRAV=TFGRAV+UNDEMI*(FXBGRP(I)+MFGRAV(I))*FXBVIT(I)*DT1
+         TFGRAV=TFGRAV+HALF*(FXBGRP(I)+MFGRAV(I))*FXBVIT(I)*DT1
          MFEXT(I)=MFEXT(I)+MFGRAV(I)
-         TFEXT=TFEXT+UNDEMI*(FXBFP(I)+MFEXT(I))*FXBVIT(I)*DT1
+         TFEXT=TFEXT+HALF*(FXBFP(I)+MFEXT(I))*FXBVIT(I)*DT1
          FXBGRP(I)=MFGRAV(I)
          FXBFP(I)=MFEXT(I)
       ENDDO
@@ -388,7 +388,7 @@ C-----------------------------------------------
       ENINT=ZERO
       IF (NMOD.GT.0) THEN
          DO I=1,NMOD
-            ENINT=ENINT+UNDEMI*FXBDEP(NME+I)*MFINT(NME+I)
+            ENINT=ENINT+HALF*FXBDEP(NME+I)*MFINT(NME+I)
          ENDDO
       ENDIF
       FXBRPM(11)=ENINT
@@ -535,7 +535,7 @@ C
       END DO
 C
       ALPHA=FXBRPM(13)
-      FAC=UN+UNDEMI*DT1*ALPHA
+      FAC=ONE+HALF*DT1*ALPHA
       DO I=1,NME
          DO J=1,NMOD
             II=NMOD*(I-1)+J

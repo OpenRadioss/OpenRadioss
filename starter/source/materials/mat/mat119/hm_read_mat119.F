@@ -122,7 +122,7 @@ C
 C
       IF (E22 == ZERO) E22 = EM01*E11
       IF (N12 == ZERO) N12 = 0.2
-      IF (G12 == ZERO) G12 = EM02*E11/(DEUX*(UN+N12))
+      IF (G12 == ZERO) G12 = EM02*E11/(TWO*(ONE+N12))
       E11 = E11 * EM02
 C   
       G23 = G12
@@ -169,23 +169,23 @@ C-----------------------------------------------------
 C-------------------------------------
       AN=SQRT(VX*VX+VY*VY+VZ*VZ)
        IF(AN .LT. EM10)THEN 
-       VX=UN
+       VX=ONE
       ELSE
        VX=VX/AN
        VY=VY/AN
        VZ=VZ/AN
       ENDIF
-        PHI=PHI/(CENT80)*PI
+        PHI=PHI/(HUNDRED80)*PI
 C-------------------------------------
       IF(CA.EQ.ZERO)   CA    = EP14
-      IF(CN.EQ.ZERO)   CN    = UN
+      IF(CN.EQ.ZERO)   CN    = ONE
       IF(EPSM.EQ.ZERO) EPSM  = INFINITY
       IF(SIGM.EQ.ZERO) SIGM  = INFINITY
-      IF(CC.EQ.ZERO)   EPS0  = UN
+      IF(CC.EQ.ZERO)   EPS0  = ONE
 C--------------------------------------------------------
       N21=N12*E22/E11
 C      N21=N12
-      DETC=UN -N12*N21
+      DETC=ONE -N12*N21
       IF(DETC.LE.ZERO) THEN
          CALL ANCMSG(MSGID=307,
      .               MSGTYPE=MSGERROR,
@@ -194,7 +194,7 @@ C      N21=N12
      .               C1=TITR)
       ENDIF
 C--------------------------------------------------------
-       IF(CN.GT.UN) THEN
+       IF(CN.GT.ONE) THEN
          CALL ANCMSG(MSGID=213,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -212,9 +212,9 @@ C--------------------------------------------------------
       ENDIF
 C-----------------------------------------
       AMU=PM(17)
-      IF(AMU.EQ.ZERO)AMU=QUART
+      IF(AMU.EQ.ZERO)AMU=FOURTH
 C-----------------------------------------
-      IF(DE.EQ.ZERO)DE=UN
+      IF(DE.EQ.ZERO)DE=ONE
        IF(DE<EM03) THEN
          CALL ANCMSG(MSGID=1572,
      .               MSGTYPE=MSGWARNING,
@@ -224,7 +224,7 @@ C-----------------------------------------
         DE = EM03
        ENDIF
 C-------------------------------------
-      IF(POROSITY.LT.ZERO.OR.POROSITY.GT.UN) THEN
+      IF(POROSITY.LT.ZERO.OR.POROSITY.GT.ONE) THEN
          CALL ANCMSG(MSGID=775,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -253,7 +253,7 @@ C-----------------------------------------
       PM(22)=MAX(G12,G23,G31)      
       PM(24)= PM(20)
       PM(25)=PM(21)*PM(24)
-      PM(26)=CSIX
+      PM(26)=FIVE_OVER_6
       PM(27)= SSP
       PM(32)= C1
       PM(33)=E11
@@ -278,11 +278,11 @@ C-----------------------------------------
 C
       IPM(5) = ISENS
 C-----------------------------------------
-      PM(52)= UNP414*AMU*PM(1)*SSP
+      PM(52)= ONEP414*AMU*PM(1)*SSP
       PM(53)= AREAMIN1
-      AREAMIN2 = UN + UNDEMI*(AREAMIN1-UN)
+      AREAMIN2 = ONE + HALF*(AREAMIN1-ONE)
       IF(AREAMIN2 > AREAMIN1)THEN
-        PM(54)= UN / (AREAMIN2-AREAMIN1)
+        PM(54)= ONE / (AREAMIN2-AREAMIN1)
       ELSE
         PM(54)= ZERO
       ENDIF

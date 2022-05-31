@@ -631,9 +631,9 @@ C---------
                           EPSP = TMPVAL9(K)
                           SIGSP(IIS+7,I) = EPSP
                           DO L=1,6
-                            SIGI(L,I) = SIGI(L,I) + QUART*SIGSP(IIS+L,I)
+                            SIGI(L,I) = SIGI(L,I) + FOURTH*SIGSP(IIS+L,I)
                           ENDDO
-                          SIGI(10,I)= SIGI(10,I) + QUART*SIGSP(IIS+7,I)
+                          SIGI(10,I)= SIGI(10,I) + FOURTH*SIGSP(IIS+7,I)
                         ENDDO ! DO K=1,NPT
                       ENDIF ! NPT
                     ENDIF ! IF(ISOLNOD == 8 .AND. JJHBE == 12)
@@ -1018,9 +1018,9 @@ C---------
                           EPSP = TMPVAL9(K)
                           SIGSP(IIS+7,I) = EPSP
                           DO L=1,6
-                            SIGI(L,I) = SIGI(L,I) + QUART*SIGSP(IIS+L,I)
+                            SIGI(L,I) = SIGI(L,I) + FOURTH*SIGSP(IIS+L,I)
                           ENDDO
-                          SIGI(10,I)= SIGI(10,I) + QUART*SIGSP(IIS+7,I)
+                          SIGI(10,I)= SIGI(10,I) + FOURTH*SIGSP(IIS+7,I)
                         ENDDO ! DO K=1,NPT
                       ENDIF ! NPT
                     ENDIF ! IF(ISOLNOD == 8 .AND. JJHBE == 12)
@@ -2150,7 +2150,7 @@ C------------------------------------
                     SIGSH(3,I) = THK
                     SIGSH(4,I) = EM
                     SIGSH(5,I) = EB
-                    SIGSH(17,I) = UN
+                    SIGSH(17,I) = ONE
 !----
                     IF (NPG == 0 .OR. NPG == 1) THEN
 !----
@@ -2498,7 +2498,7 @@ C-------global sys with diff format
                     ID_SIGSH(I) = ID_ELEM
                     SIGSH(2,I) = NIP
                     SIGSH(3,I) = THK
-                    SIGSH(17,I) = UN
+                    SIGSH(17,I) = ONE
 C----
                     IF (NPG == 0 .OR. NPG == 1) THEN
                       IG   = IXC(6,IE)
@@ -2778,8 +2778,8 @@ c---
                     IF ( IGTYP == 9 ) THEN
                       CALL HM_GET_FLOAT_ARRAY_INDEX('phi_1',PHI1,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                       CALL HM_GET_FLOAT_ARRAY_INDEX('phi_2',PHI2,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
-                      SIGSH(PT+1,I) = PHI1*PI/CENT80
-                      SIGSH(PT+2,I) = PHI2*PI/CENT80
+                      SIGSH(PT+1,I) = PHI1*PI/HUNDRED80
+                      SIGSH(PT+2,I) = PHI2*PI/HUNDRED80
                       PT = PT + 2
                     ELSEIF (IGTYP == 1 ) THEN
                       CALL ANCMSG(MSGID=761,
@@ -2793,8 +2793,8 @@ c---
                       CALL HM_GET_FLOAT_ARRAY('phi_1_array',TMPVAL1,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                       CALL HM_GET_FLOAT_ARRAY('phi_2_array',TMPVAL2,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                       DO JJ = 1,NIP
-                        SIGSH(PT+1,I) = TMPVAL1(JJ)*PI/CENT80
-                        SIGSH(PT+2,I) = TMPVAL2(JJ)*PI/CENT80
+                        SIGSH(PT+1,I) = TMPVAL1(JJ)*PI/HUNDRED80
+                        SIGSH(PT+2,I) = TMPVAL2(JJ)*PI/HUNDRED80
                         PT = PT + 2
                       ENDDO ! DO JJ = 1,NIP
                     ENDIF ! IF ( IGTYP == 9)
@@ -2884,7 +2884,7 @@ c---
 !
                     IF (IGTYP == 9) THEN
                       ANGLE1 = TMPVAL1(1) ! one integration point
-                      IF(FLAGDEG == 1) ANGLE1 = ANGLE1*PI/CENT80
+                      IF(FLAGDEG == 1) ANGLE1 = ANGLE1*PI/HUNDRED80
                       SIGSH(PT+1,I) = COS(ANGLE1)
                       SIGSH(PT+2,I) = SIN(ANGLE1)
                       PT = PT + 2
@@ -2893,8 +2893,8 @@ c---
                       DO JJ = 1,NIP
                         ANGLE1 = TMPVAL1(JJ)
                         ANGLE2 = TMPVAL2(JJ)
-                        IF(FLAGDEG == 1) ANGLE1 = ANGLE1*PI/CENT80
-                        IF(FLAGDEG == 1) ANGLE2 = ANGLE2*PI/CENT80
+                        IF(FLAGDEG == 1) ANGLE1 = ANGLE1*PI/HUNDRED80
+                        IF(FLAGDEG == 1) ANGLE2 = ANGLE2*PI/HUNDRED80
 !
                         MLAWLY = 0
                         IPMAT = 300
@@ -3375,7 +3375,7 @@ C------------------------------------
                     SIGSH(14,I) = ZERO
                     SIGSH(15,I) = ZERO
                     SIGSH(16,I) = ZERO
-                    SIGSH(17,I) = UN
+                    SIGSH(17,I) = ONE
 !----
                     IF (NPG == 0 .OR. NPG == 1) THEN
 !----
@@ -3707,7 +3707,7 @@ C-------global sys with diff format
                     ID_SIGSH(I) = ID_ELEM
                     SIGSH(2,I) = NIP
                     SIGSH(3,I) = THK
-                    SIGSH(17,I) = UN
+                    SIGSH(17,I) = ONE
                     SIGSH(NVSHELL,I) = MAX(1,NPG)
 C----
                     PT = INISHVAR1
@@ -3972,8 +3972,8 @@ c---
                     IF ( IGTYP == 9 ) THEN
                       CALL HM_GET_FLOAT_ARRAY_INDEX('phi_1',PHI1,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                       CALL HM_GET_FLOAT_ARRAY_INDEX('phi_2',PHI2,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
-                      SIGSH(PT+1,I) = PHI1*PI/CENT80
-                      SIGSH(PT+2,I) = PHI2*PI/CENT80
+                      SIGSH(PT+1,I) = PHI1*PI/HUNDRED80
+                      SIGSH(PT+2,I) = PHI2*PI/HUNDRED80
                       PT = PT + 2
                     ELSEIF (IGTYP == 1 ) THEN
                       CALL ANCMSG(MSGID=761,
@@ -3987,8 +3987,8 @@ c---
                       CALL HM_GET_FLOAT_ARRAY('phi_1_array',TMPVAL1,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                       CALL HM_GET_FLOAT_ARRAY('phi_2_array',TMPVAL2,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                       DO JJ = 1,NIP
-                        SIGSH(PT+1,I) = TMPVAL1(JJ)*PI/CENT80
-                        SIGSH(PT+2,I) = TMPVAL2(JJ)*PI/CENT80
+                        SIGSH(PT+1,I) = TMPVAL1(JJ)*PI/HUNDRED80
+                        SIGSH(PT+2,I) = TMPVAL2(JJ)*PI/HUNDRED80
                         PT = PT + 2
                       ENDDO ! DO JJ = 1,NIP
                     ENDIF ! IF ( IGTYP == 9)
@@ -4078,7 +4078,7 @@ c---
 !
                     IF (IGTYP == 9) THEN
                       ANGLE1 = TMPVAL1(1) ! one integration point
-                      IF(FLAGDEG == 1) ANGLE1 = ANGLE1*PI/CENT80
+                      IF(FLAGDEG == 1) ANGLE1 = ANGLE1*PI/HUNDRED80
                       SIGSH(PT+1,I) = COS(ANGLE1)
                       SIGSH(PT+2,I) = SIN(ANGLE1)
                       PT = PT + 2
@@ -4087,8 +4087,8 @@ c---
                       DO JJ = 1,NIP
                         ANGLE1 = TMPVAL1(JJ)
                         ANGLE2 = TMPVAL2(JJ)
-                        IF(FLAGDEG == 1) ANGLE1 = ANGLE1*PI/CENT80
-                        IF(FLAGDEG == 1) ANGLE2 = ANGLE2*PI/CENT80
+                        IF(FLAGDEG == 1) ANGLE1 = ANGLE1*PI/HUNDRED80
+                        IF(FLAGDEG == 1) ANGLE2 = ANGLE2*PI/HUNDRED80
 !
                         MLAWLY = 0
                         IPMAT = 300
@@ -4106,7 +4106,7 @@ c---
                           PT = PT + 4
                         ELSE
                           ANGLE1 = TMPVAL1(JJ)
-                          ANGLE1 = ANGLE1*PI/CENT80
+                          ANGLE1 = ANGLE1*PI/HUNDRED80
                           SIGSH(PT+1,I) = COS(ANGLE1)
                           SIGSH(PT+2,I) = SIN(ANGLE1)
                           PT = PT + 2

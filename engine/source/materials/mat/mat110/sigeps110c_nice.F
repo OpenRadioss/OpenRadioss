@@ -218,12 +218,12 @@ c
       ! Recovering internal variables
       DO I=1,NEL
         IF (OFF(I) < 0.1) OFF(I) = ZERO
-        IF (OFF(I) < UN)  OFF(I) = OFF(I)*QCINQ
+        IF (OFF(I) < ONE)  OFF(I) = OFF(I)*FOUR_OVER_5
         ! User inputs
         PHI0(I)  = UVAR(I,2) ! Previous yield function value
         ! Standard inputs
         DPLA(I)  = ZERO      ! Initialization of the plastic strain increment
-        ET(I)    = UN        ! Initialization of hourglass coefficient
+        ET(I)    = ONE        ! Initialization of hourglass coefficient
         HARDP(I) = ZERO      ! Initialization of hourglass coefficient
         SIGN_CHANGED(I) = .FALSE.
         DEZZ(I)  = ZERO
@@ -244,10 +244,10 @@ c
             DEVE1     = EPSPXX(I) - DAV
             DEVE2     = EPSPYY(I) - DAV
             DEVE3     = - DAV
-            DEVE4     = UNDEMI*EPSPXY(I)
-            EPSP(I)   = UNDEMI*(DEVE1**2 + DEVE2**2 + DEVE3**2) + DEVE4**2
-            EPSP(I)   = SQRT(TROIS*EPSP(I))/TDEMI             
-            EPSP(I)   = ASRATE*EPSP(I) + (UN - ASRATE)*UVAR(I,1)
+            DEVE4     = HALF*EPSPXY(I)
+            EPSP(I)   = HALF*(DEVE1**2 + DEVE2**2 + DEVE3**2) + DEVE4**2
+            EPSP(I)   = SQRT(THREE*EPSP(I))/THREE_HALF             
+            EPSP(I)   = ASRATE*EPSP(I) + (ONE - ASRATE)*UVAR(I,1)
             UVAR(I,1) = EPSP(I)
           ENDIF        
         ENDDO
@@ -309,24 +309,24 @@ c
           YLD(1:NEL)   = YLD(1:NEL)   * TFAC(1:NEL)      
           HARDP(1:NEL) = HARDP(1:NEL) * TFAC(1:NEL) 
         ELSE
-          TFAC(1:NEL) = UN
+          TFAC(1:NEL) = ONE
         ENDIF
         ! Including kinematic hardening effect
-        YLD(1:NEL)   = (UN-FISOKIN)*YLD(1:NEL)+FISOKIN*YL0(1:NEL)
+        YLD(1:NEL)   = (ONE-FISOKIN)*YLD(1:NEL)+FISOKIN*YL0(1:NEL)
       ELSE
         DO I = 1,NEL
           ! a) - Hardening law
           !   Continuous law   
-          SIGHARD(I) = YLD0 + DSIGM*(BETA*(PLA(I))+(UN-EXP(-OMEGA*(PLA(I))))**NEXP) 
+          SIGHARD(I) = YLD0 + DSIGM*(BETA*(PLA(I))+(ONE-EXP(-OMEGA*(PLA(I))))**NEXP) 
           ! b) - Strain-rate dependent hardening stress
-          SIGRATE(I) = SIGST*(UN + (KBOLTZ*TEMP(I)/DG0)*LOG(UN + (EPSP(I)/DEPS0)))**MEXP 
+          SIGRATE(I) = SIGST*(ONE + (KBOLTZ*TEMP(I)/DG0)*LOG(ONE + (EPSP(I)/DEPS0)))**MEXP 
           ! c) - Computation of the yield function and value check
           YLD(I) = SIGHARD(I) + SIGRATE(I)
           ! d) - Including kinematic hardening
           IF (FISOKIN > ZERO) THEN
             YL0(I) = YL0(I) + SIGRATE(I)
           ENDIF
-          YLD(I) = (UN-FISOKIN)*YLD(I)+FISOKIN*YL0(I)
+          YLD(I) = (ONE-FISOKIN)*YLD(I)+FISOKIN*YL0(I)
           ! d) - Checking values
           YLD(I) = MAX(EM10, YLD(I))
         ENDDO
@@ -356,21 +356,21 @@ c
         ! Computation of the equivalent stress
         NORMSIG = SQRT(SIGNXX(I)*SIGNXX(I)
      .               + SIGNYY(I)*SIGNYY(I)
-     .               + DEUX*SIGNXY(I)*SIGNXY(I))   
+     .               + TWO*SIGNXY(I)*SIGNXY(I))   
         IF (NORMSIG < EM20) THEN 
           SIGVG(I) = ZERO
         ELSE 
 c
           ! Computation of the principal stresses
-          MOHR_RADIUS = SQRT(((SIGNXX(I)-SIGNYY(I))/DEUX)**2 + SIGNXY(I)**2)
-          MOHR_CENTER = (SIGNXX(I)+SIGNYY(I))/DEUX
+          MOHR_RADIUS = SQRT(((SIGNXX(I)-SIGNYY(I))/TWO)**2 + SIGNXY(I)**2)
+          MOHR_CENTER = (SIGNXX(I)+SIGNYY(I))/TWO
           SIG1(I)     = MOHR_CENTER + MOHR_RADIUS
           SIG2(I)     = MOHR_CENTER - MOHR_RADIUS
           IF (MOHR_RADIUS>EM20) THEN
-            COS2THETA(I) = ((SIGNXX(I)-SIGNYY(I))/DEUX)/MOHR_RADIUS
+            COS2THETA(I) = ((SIGNXX(I)-SIGNYY(I))/TWO)/MOHR_RADIUS
             SIN2THETA(I) = SIGNXY(I)/MOHR_RADIUS
           ELSE
-            COS2THETA(I) = UN
+            COS2THETA(I) = ONE
             SIN2THETA(I) = ZERO
           ENDIF
 c
@@ -454,15 +454,15 @@ c
             SIGVG(I) = ZERO
           ELSE          
             SIG_RATIO = SIG2(I)/SIG1(I)
-            VAR_A = (C(2)+A(2)-DEUX*B(2)) - SIG_RATIO*(C(1)+A(1)-DEUX*B(1))
-            VAR_B = DEUX*((B(2)-A(2)) - SIG_RATIO*(B(1)-A(1)))
+            VAR_A = (C(2)+A(2)-TWO*B(2)) - SIG_RATIO*(C(1)+A(1)-TWO*B(1))
+            VAR_B = TWO*((B(2)-A(2)) - SIG_RATIO*(B(1)-A(1)))
             VAR_C = A(2) - SIG_RATIO*A(1)
             IF (ABS(VAR_A)<EM08) THEN 
               MU(I) = -VAR_C/VAR_B
             ELSE
-              MU(I) = (-VAR_B+SQRT(VAR_B*VAR_B - QUATRE*VAR_A*VAR_C))/(DEUX*VAR_A)
+              MU(I) = (-VAR_B+SQRT(VAR_B*VAR_B - FOUR*VAR_A*VAR_C))/(TWO*VAR_A)
             ENDIF
-            SIGVG(I) = SIG1(I)/(A(1)+DEUX*MU(I)*(B(1)-A(1))+MU(I)*MU(I)*(C(1)+A(1)-DEUX*B(1)))
+            SIGVG(I) = SIG1(I)/(A(1)+TWO*MU(I)*(B(1)-A(1))+MU(I)*MU(I)*(C(1)+A(1)-TWO*B(1)))
           END IF
         ENDIF
 c
@@ -476,7 +476,7 @@ c
       ! Checking plastic behavior for all elements
       NINDX = 0
       DO I=1,NEL         
-        IF (PHI(I) > ZERO .AND. OFF(I) == UN) THEN
+        IF (PHI(I) > ZERO .AND. OFF(I) == ONE) THEN
           NINDX=NINDX+1
           INDEX(NINDX)=I
         ENDIF
@@ -502,15 +502,15 @@ c
         DLAM      = ZERO 
 c
         ! Computation of the old principal stresses
-        MOHR_RADIUS = SQRT(((SIGOXX(I)-SIGOYY(I))/DEUX)**2 + SIGOXY(I)**2)
-        MOHR_CENTER = (SIGOXX(I)+SIGOYY(I))/DEUX
+        MOHR_RADIUS = SQRT(((SIGOXX(I)-SIGOYY(I))/TWO)**2 + SIGOXY(I)**2)
+        MOHR_CENTER = (SIGOXX(I)+SIGOYY(I))/TWO
         SIG1(I)     = MOHR_CENTER + MOHR_RADIUS
         SIG2(I)     = MOHR_CENTER - MOHR_RADIUS
         IF (MOHR_RADIUS>EM20) THEN
-          COS2THETA(I) = ((SIGOXX(I)-SIGOYY(I))/DEUX)/MOHR_RADIUS
+          COS2THETA(I) = ((SIGOXX(I)-SIGOYY(I))/TWO)/MOHR_RADIUS
           SIN2THETA(I) = SIGOXY(I)/MOHR_RADIUS
         ELSE
-          COS2THETA(I) = UN
+          COS2THETA(I) = ONE
           SIN2THETA(I) = ZERO
         ENDIF
 c
@@ -638,15 +638,15 @@ c
           SIGVG(I) = ZERO
         ELSE          
           SIG_RATIO = SIG2(I)/SIG1(I)
-          VAR_A = (C(2)+A(2)-DEUX*B(2)) - SIG_RATIO*(C(1)+A(1)-DEUX*B(1))
-          VAR_B = DEUX*((B(2)-A(2)) - SIG_RATIO*(B(1)-A(1)))
+          VAR_A = (C(2)+A(2)-TWO*B(2)) - SIG_RATIO*(C(1)+A(1)-TWO*B(1))
+          VAR_B = TWO*((B(2)-A(2)) - SIG_RATIO*(B(1)-A(1)))
           VAR_C = A(2) - SIG_RATIO*A(1)
           IF (ABS(VAR_A)<EM08) THEN 
             MU(I) = -VAR_C/VAR_B
           ELSE
-            MU(I) = (-VAR_B+SQRT(VAR_B*VAR_B - QUATRE*VAR_A*VAR_C))/(DEUX*VAR_A)
+            MU(I) = (-VAR_B+SQRT(VAR_B*VAR_B - FOUR*VAR_A*VAR_C))/(TWO*VAR_A)
           ENDIF 
-          SIGVG(I) = SIG1(I)/(A(1)+DEUX*MU(I)*(B(1)-A(1))+MU(I)*MU(I)*(C(1)+A(1)-DEUX*B(1)))
+          SIGVG(I) = SIG1(I)/(A(1)+TWO*MU(I)*(B(1)-A(1))+MU(I)*MU(I)*(C(1)+A(1)-TWO*B(1)))
         END IF
 c        
         ! Note     : in this part, the purpose is to compute for each iteration
@@ -663,18 +663,18 @@ c
         !-------------------------------------------------------------
 c
         !   Derivatives of PHI with respect to COS2THETA
-        DF1_DCOS2 = DA_DCOS2(1) + DEUX*MU(I)*(DB_DCOS2(1)-DA_DCOS2(1)) + 
-     .              MU(I)*MU(I)*(DA_DCOS2(1)+DC_DCOS2(1)-DEUX*DB_DCOS2(1))
-        DF2_DCOS2 = DA_DCOS2(2) + DEUX*MU(I)*(DB_DCOS2(2)-DA_DCOS2(2)) + 
-     .              MU(I)*MU(I)*(DA_DCOS2(2)+DC_DCOS2(2)-DEUX*DB_DCOS2(2))
+        DF1_DCOS2 = DA_DCOS2(1) + TWO*MU(I)*(DB_DCOS2(1)-DA_DCOS2(1)) + 
+     .              MU(I)*MU(I)*(DA_DCOS2(1)+DC_DCOS2(1)-TWO*DB_DCOS2(1))
+        DF2_DCOS2 = DA_DCOS2(2) + TWO*MU(I)*(DB_DCOS2(2)-DA_DCOS2(2)) + 
+     .              MU(I)*MU(I)*(DA_DCOS2(2)+DC_DCOS2(2)-TWO*DB_DCOS2(2))
 c
         ! Computation of the derivatives
-        F1 = MU(I)*MU(I)*(A(1)+C(1)-DEUX*B(1))+DEUX*MU(I)*(B(1)-A(1))+A(1)
-        F2 = MU(I)*MU(I)*(A(2)+C(2)-DEUX*B(2))+DEUX*MU(I)*(B(2)-A(2))+A(2)
+        F1 = MU(I)*MU(I)*(A(1)+C(1)-TWO*B(1))+TWO*MU(I)*(B(1)-A(1))+A(1)
+        F2 = MU(I)*MU(I)*(A(2)+C(2)-TWO*B(2))+TWO*MU(I)*(B(2)-A(2))+A(2)
 c          
         !   Derivatives of Phi with respect to MU
-        DF1_DMU = DEUX*(B(1)-A(1)) + DEUX*MU(I)*(A(1)+C(1)-DEUX*B(1))
-        DF2_DMU = DEUX*(B(2)-A(2)) + DEUX*MU(I)*(A(2)+C(2)-DEUX*B(2)) 
+        DF1_DMU = TWO*(B(1)-A(1)) + TWO*MU(I)*(A(1)+C(1)-TWO*B(1))
+        DF2_DMU = TWO*(B(2)-A(2)) + TWO*MU(I)*(A(2)+C(2)-TWO*B(2)) 
 c         
         !   Derivatives of PHI with respect to SIG1, SIG2 and MU
         IF ((F1*DF2_DMU - F2*DF1_DMU)/=ZERO) THEN
@@ -684,21 +684,21 @@ c
             DPHI_DCOS2 = (SIGVG(I)/(SIG1(I) - SIG2(I)))*(DF2_DCOS2*DF1_DMU - 
      .                              DF1_DCOS2*DF2_DMU)/(F1*DF2_DMU - F2*DF1_DMU)
           ELSE
-            DPHI_DCOS2 = (DEUX*((UN-MU(I))*DA_DCOS2(2)+DEUX*MU(I)*DB_DCOS2(2))*DF1_DMU -
-     .                    DEUX*((UN-MU(I))*DA_DCOS2(1)+DEUX*MU(I)*DB_DCOS2(1))*DF2_DMU)/
-     .                   ((UN-MU(I))*(A(1)-A(2)) + DEUX*MU(I)*(B(1)-B(2)))
+            DPHI_DCOS2 = (TWO*((ONE-MU(I))*DA_DCOS2(2)+TWO*MU(I)*DB_DCOS2(2))*DF1_DMU -
+     .                    TWO*((ONE-MU(I))*DA_DCOS2(1)+TWO*MU(I)*DB_DCOS2(1))*DF2_DMU)/
+     .                   ((ONE-MU(I))*(A(1)-A(2)) + TWO*MU(I)*(B(1)-B(2)))
           ENDIF
         ELSE
           DPHI_DSIG1 =  ZERO
           DPHI_DSIG2 =  ZERO
           DPHI_DCOS2 =  ZERO
         ENDIF
-        NORMXX = UNDEMI*(UN + COS2THETA(I))*DPHI_DSIG1 + UNDEMI*(UN-COS2THETA(I))*DPHI_DSIG2 +
+        NORMXX = HALF*(ONE + COS2THETA(I))*DPHI_DSIG1 + HALF*(ONE-COS2THETA(I))*DPHI_DSIG2 +
      .           (SIN2THETA(I)**2)*DPHI_DCOS2         
-        NORMYY = UNDEMI*(UN - COS2THETA(I))*DPHI_DSIG1 + UNDEMI*(UN+COS2THETA(I))*DPHI_DSIG2 -
+        NORMYY = HALF*(ONE - COS2THETA(I))*DPHI_DSIG1 + HALF*(ONE+COS2THETA(I))*DPHI_DSIG2 -
      .           (SIN2THETA(I)**2)*DPHI_DCOS2    
         NORMXY = SIN2THETA(I)*DPHI_DSIG1 - SIN2THETA(I)*DPHI_DSIG2 - 
-     .           (DEUX*SIN2THETA(I)*COS2THETA(I))*DPHI_DCOS2
+     .           (TWO*SIN2THETA(I)*COS2THETA(I))*DPHI_DCOS2
         IF (SIGN_CHANGED(I)) THEN
           NORMXX = -NORMXX
           NORMYY = -NORMYY
@@ -731,12 +731,12 @@ c
           ! Continuous hardening law
           HARDP(I)     = DSIGM*BETA
           IF (PLA(I)>ZERO) THEN
-            HARDP(I)   = HARDP(I) + DSIGM*(NEXP*(UN-EXP(-OMEGA*(PLA(I))))**(NEXP-UN))*
+            HARDP(I)   = HARDP(I) + DSIGM*(NEXP*(ONE-EXP(-OMEGA*(PLA(I))))**(NEXP-ONE))*
      .                         (OMEGA*EXP(-OMEGA*(PLA(I))))
           ENDIF
         ENDIF
         ! Accounting for kinematic hardening
-        DYLD_DPLA(I) = (UN-FISOKIN)*HARDP(I)
+        DYLD_DPLA(I) = (ONE-FISOKIN)*HARDP(I)
 c          
         !     ii) Derivative of dPLA with respect to DLAM
         !     -------------------------------------------   
@@ -779,15 +779,15 @@ c
           SIGVG(I) = ZERO
         ELSE 
           ! Computation of the principal stresses
-          MOHR_RADIUS = SQRT(((SIGNXX(I)-SIGNYY(I))/DEUX)**2 + SIGNXY(I)**2)
-          MOHR_CENTER = (SIGNXX(I)+SIGNYY(I))/DEUX
+          MOHR_RADIUS = SQRT(((SIGNXX(I)-SIGNYY(I))/TWO)**2 + SIGNXY(I)**2)
+          MOHR_CENTER = (SIGNXX(I)+SIGNYY(I))/TWO
           SIG1(I)     = MOHR_CENTER + MOHR_RADIUS
           SIG2(I)     = MOHR_CENTER - MOHR_RADIUS
           IF (MOHR_RADIUS>EM20) THEN
-            COS2THETA(I) = ((SIGNXX(I)-SIGNYY(I))/DEUX)/MOHR_RADIUS
+            COS2THETA(I) = ((SIGNXX(I)-SIGNYY(I))/TWO)/MOHR_RADIUS
             SIN2THETA(I) = SIGNXY(I)/MOHR_RADIUS
           ELSE
-            COS2THETA(I) = UN
+            COS2THETA(I) = ONE
             SIN2THETA(I) = ZERO
           ENDIF
           ! Computation of scale factors
@@ -868,24 +868,24 @@ c
             SIGVG(I) = ZERO
           ELSE          
             SIG_RATIO = SIG2(I)/SIG1(I)
-            VAR_A = (C(2)+A(2)-DEUX*B(2)) - SIG_RATIO*(C(1)+A(1)-DEUX*B(1))
-            VAR_B = DEUX*((B(2)-A(2)) - SIG_RATIO*(B(1)-A(1)))
+            VAR_A = (C(2)+A(2)-TWO*B(2)) - SIG_RATIO*(C(1)+A(1)-TWO*B(1))
+            VAR_B = TWO*((B(2)-A(2)) - SIG_RATIO*(B(1)-A(1)))
             VAR_C = A(2) - SIG_RATIO*A(1)
             IF (ABS(VAR_A)<EM08) THEN 
               MU(I) = -VAR_C/VAR_B
             ELSE
-              MU(I) = (-VAR_B+SQRT(VAR_B*VAR_B - QUATRE*VAR_A*VAR_C))/(DEUX*VAR_A)
+              MU(I) = (-VAR_B+SQRT(VAR_B*VAR_B - FOUR*VAR_A*VAR_C))/(TWO*VAR_A)
             ENDIF
-            SIGVG(I) = SIG1(I)/(A(1)+DEUX*MU(I)*(B(1)-A(1))+MU(I)*MU(I)*(C(1)+A(1)-DEUX*B(1)))
+            SIGVG(I) = SIG1(I)/(A(1)+TWO*MU(I)*(B(1)-A(1))+MU(I)*MU(I)*(C(1)+A(1)-TWO*B(1)))
           END IF
         ENDIF
 c          
         IF (NUMTABL == 0) THEN 
           ! Continuous hardening law update
-          SIGHARD(I) = YLD0 + DSIGM*(BETA*(PLA(I))+(UN-EXP(-OMEGA*(PLA(I))))**NEXP)
+          SIGHARD(I) = YLD0 + DSIGM*(BETA*(PLA(I))+(ONE-EXP(-OMEGA*(PLA(I))))**NEXP)
           ! Yield stress update
           YLD(I) = SIGHARD(I) + SIGRATE(I)
-          YLD(I) = (UN-FISOKIN)*YLD(I)+FISOKIN*YL0(I)
+          YLD(I) = (ONE-FISOKIN)*YLD(I)+FISOKIN*YL0(I)
           YLD(I) = MAX(YLD(I), EM10)
           ! Yield function value update
           PHI(I) = SIGVG(I) - YLD(I) 
@@ -926,10 +926,10 @@ c
           YLD(1:NEL)   = YLD(1:NEL)   * TFAC(1:NEL)      
           HARDP(1:NEL) = HARDP(1:NEL) * TFAC(1:NEL) 
         ELSE
-          TFAC(1:NEL) = UN
+          TFAC(1:NEL) = ONE
         ENDIF          
         ! Including kinematic hardening effect
-        YLD(1:NEL) = (UN-FISOKIN)*YLD(1:NEL)+FISOKIN*YL0(1:NEL)
+        YLD(1:NEL) = (ONE-FISOKIN)*YLD(1:NEL)+FISOKIN*YL0(1:NEL)
         ! Yield function value update
         PHI(1:NEL) = SIGVG(1:NEL) - YLD(1:NEL)
       ENDIF
@@ -942,13 +942,13 @@ c
           DSXY  = SIGEXY(I) - SIGNXY(I)
           DEXX  = (DSXX - NU*DSYY) 
           DEYY  = (DSYY - NU*DSXX)
-          DEXY  = DEUX*(UN+NU)*DSXY
+          DEXY  = TWO*(ONE+NU)*DSXY
           ALPHA = FISOKIN*HARDP(I)/(YOUNG+HARDP(I))*THIRD
           SIGNXX(I) = SIGNXX(I) + SIGA(I,1)
           SIGNYY(I) = SIGNYY(I) + SIGA(I,2)
           SIGNXY(I) = SIGNXY(I) + SIGA(I,3)
-          SIGA(I,1) = SIGA(I,1) + ALPHA*(QUATRE*DEXX+DEUX*DEYY)
-          SIGA(I,2) = SIGA(I,2) + ALPHA*(QUATRE*DEYY+DEUX*DEXX)
+          SIGA(I,1) = SIGA(I,1) + ALPHA*(FOUR*DEXX+TWO*DEYY)
+          SIGA(I,2) = SIGA(I,2) + ALPHA*(FOUR*DEYY+TWO*DEXX)
           SIGA(I,3) = SIGA(I,3) + ALPHA*DEXY
         ENDDO
       ENDIF
@@ -958,7 +958,7 @@ c
         ! Computation of the plastic strain rate
         IF (VFLAG == 1) THEN 
           DPDT      = DPLA(I)/MAX(EM20,TIMESTEP)
-          UVAR(I,1) = ASRATE * DPDT + (UN - ASRATE) * UVAR(I,1)
+          UVAR(I,1) = ASRATE * DPDT + (ONE - ASRATE) * UVAR(I,1)
           EPSP(I)   = UVAR(I,1)
         ENDIF
         ! USR Outputs
@@ -975,15 +975,15 @@ c
         ! Computation of the non-local thickness variation
         IF (INLOC > 0) THEN 
           ! Computation of the principal stresses
-          MOHR_RADIUS = SQRT(((SIGNXX(I)-SIGNYY(I))/DEUX)**2 + SIGNXY(I)**2)
-          MOHR_CENTER = (SIGNXX(I)+SIGNYY(I))/DEUX
+          MOHR_RADIUS = SQRT(((SIGNXX(I)-SIGNYY(I))/TWO)**2 + SIGNXY(I)**2)
+          MOHR_CENTER = (SIGNXX(I)+SIGNYY(I))/TWO
           SIG1(I)     = MOHR_CENTER + MOHR_RADIUS
           SIG2(I)     = MOHR_CENTER - MOHR_RADIUS
           IF (MOHR_RADIUS>EM20) THEN
-            COS2THETA(I) = ((SIGNXX(I)-SIGNYY(I))/DEUX)/MOHR_RADIUS
+            COS2THETA(I) = ((SIGNXX(I)-SIGNYY(I))/TWO)/MOHR_RADIUS
             SIN2THETA(I) = SIGNXY(I)/MOHR_RADIUS
           ELSE
-            COS2THETA(I) = UN
+            COS2THETA(I) = ONE
             SIN2THETA(I) = ZERO
           ENDIF
           ! Computation of scale factors for shear
@@ -1109,27 +1109,27 @@ c
             SIGVG(I) = ZERO
           ELSE          
             SIG_RATIO = SIG2(I)/SIG1(I)
-            VAR_A = (C(2)+A(2)-DEUX*B(2)) - SIG_RATIO*(C(1)+A(1)-DEUX*B(1))
-            VAR_B = DEUX*((B(2)-A(2)) - SIG_RATIO*(B(1)-A(1)))
+            VAR_A = (C(2)+A(2)-TWO*B(2)) - SIG_RATIO*(C(1)+A(1)-TWO*B(1))
+            VAR_B = TWO*((B(2)-A(2)) - SIG_RATIO*(B(1)-A(1)))
             VAR_C = A(2) - SIG_RATIO*A(1)
             IF (ABS(VAR_A)<EM08) THEN 
               MU(I) = -VAR_C/VAR_B
             ELSE
-              MU(I) = (-VAR_B+SQRT(VAR_B*VAR_B - QUATRE*VAR_A*VAR_C))/(DEUX*VAR_A)
+              MU(I) = (-VAR_B+SQRT(VAR_B*VAR_B - FOUR*VAR_A*VAR_C))/(TWO*VAR_A)
             ENDIF 
-            SIGVG(I) = SIG1(I)/(A(1)+DEUX*MU(I)*(B(1)-A(1))+MU(I)*MU(I)*(C(1)+A(1)-DEUX*B(1)))
+            SIGVG(I) = SIG1(I)/(A(1)+TWO*MU(I)*(B(1)-A(1))+MU(I)*MU(I)*(C(1)+A(1)-TWO*B(1)))
           END IF
           !   Derivatives of PHI with respect to COS2THETA
-          DF1_DCOS2 = DA_DCOS2(1) + DEUX*MU(I)*(DB_DCOS2(1)-DA_DCOS2(1)) + 
-     .                MU(I)*MU(I)*(DA_DCOS2(1)+DC_DCOS2(1)-DEUX*DB_DCOS2(1))
-          DF2_DCOS2 = DA_DCOS2(2) + DEUX*MU(I)*(DB_DCOS2(2)-DA_DCOS2(2)) + 
-     .                MU(I)*MU(I)*(DA_DCOS2(2)+DC_DCOS2(2)-DEUX*DB_DCOS2(2))
+          DF1_DCOS2 = DA_DCOS2(1) + TWO*MU(I)*(DB_DCOS2(1)-DA_DCOS2(1)) + 
+     .                MU(I)*MU(I)*(DA_DCOS2(1)+DC_DCOS2(1)-TWO*DB_DCOS2(1))
+          DF2_DCOS2 = DA_DCOS2(2) + TWO*MU(I)*(DB_DCOS2(2)-DA_DCOS2(2)) + 
+     .                MU(I)*MU(I)*(DA_DCOS2(2)+DC_DCOS2(2)-TWO*DB_DCOS2(2))
           ! Computation of the derivatives
-          F1 = MU(I)*MU(I)*(A(1)+C(1)-DEUX*B(1))+DEUX*MU(I)*(B(1)-A(1))+A(1)
-          F2 = MU(I)*MU(I)*(A(2)+C(2)-DEUX*B(2))+DEUX*MU(I)*(B(2)-A(2))+A(2)
+          F1 = MU(I)*MU(I)*(A(1)+C(1)-TWO*B(1))+TWO*MU(I)*(B(1)-A(1))+A(1)
+          F2 = MU(I)*MU(I)*(A(2)+C(2)-TWO*B(2))+TWO*MU(I)*(B(2)-A(2))+A(2)
           !   Derivatives of Phi with respect to MU
-          DF1_DMU = DEUX*(B(1)-A(1)) + DEUX*MU(I)*(A(1)+C(1)-DEUX*B(1))
-          DF2_DMU = DEUX*(B(2)-A(2)) + DEUX*MU(I)*(A(2)+C(2)-DEUX*B(2)) 
+          DF1_DMU = TWO*(B(1)-A(1)) + TWO*MU(I)*(A(1)+C(1)-TWO*B(1))
+          DF2_DMU = TWO*(B(2)-A(2)) + TWO*MU(I)*(A(2)+C(2)-TWO*B(2)) 
           !   Derivatives of PHI with respect to SIG1, SIG2 and MU
           IF ((F1*DF2_DMU - F2*DF1_DMU)/=ZERO) THEN
             DPHI_DSIG1 =  DF2_DMU/(F1*DF2_DMU - F2*DF1_DMU)
@@ -1138,21 +1138,21 @@ c
               DPHI_DCOS2 = (SIGVG(I)/(SIG1(I) - SIG2(I)))*(DF2_DCOS2*DF1_DMU - 
      .                                DF1_DCOS2*DF2_DMU)/(F1*DF2_DMU - F2*DF1_DMU)
             ELSE
-              DPHI_DCOS2 = (DEUX*((UN-MU(I))*DA_DCOS2(2)+DEUX*MU(I)*DB_DCOS2(2))*DF1_DMU -
-     .                      DEUX*((UN-MU(I))*DA_DCOS2(1)+DEUX*MU(I)*DB_DCOS2(1))*DF2_DMU)/
-     .                     ((UN-MU(I))*(A(1)-A(2)) + DEUX*MU(I)*(B(1)-B(2)))
+              DPHI_DCOS2 = (TWO*((ONE-MU(I))*DA_DCOS2(2)+TWO*MU(I)*DB_DCOS2(2))*DF1_DMU -
+     .                      TWO*((ONE-MU(I))*DA_DCOS2(1)+TWO*MU(I)*DB_DCOS2(1))*DF2_DMU)/
+     .                     ((ONE-MU(I))*(A(1)-A(2)) + TWO*MU(I)*(B(1)-B(2)))
             ENDIF
           ELSE
             DPHI_DSIG1 =  ZERO
             DPHI_DSIG2 =  ZERO
             DPHI_DCOS2 =  ZERO
           ENDIF
-          NORMXX = UNDEMI*(UN + COS2THETA(I))*DPHI_DSIG1 + UNDEMI*(UN-COS2THETA(I))*DPHI_DSIG2 +
+          NORMXX = HALF*(ONE + COS2THETA(I))*DPHI_DSIG1 + HALF*(ONE-COS2THETA(I))*DPHI_DSIG2 +
      .             (SIN2THETA(I)**2)*DPHI_DCOS2         
-          NORMYY = UNDEMI*(UN - COS2THETA(I))*DPHI_DSIG1 + UNDEMI*(UN+COS2THETA(I))*DPHI_DSIG2 -
+          NORMYY = HALF*(ONE - COS2THETA(I))*DPHI_DSIG1 + HALF*(ONE+COS2THETA(I))*DPHI_DSIG2 -
      .             (SIN2THETA(I)**2)*DPHI_DCOS2    
           NORMXY = SIN2THETA(I)*DPHI_DSIG1 - SIN2THETA(I)*DPHI_DSIG2 - 
-     .             (DEUX*SIN2THETA(I)*COS2THETA(I))*DPHI_DCOS2
+     .             (TWO*SIN2THETA(I)*COS2THETA(I))*DPHI_DCOS2
           IF (SIGN_CHANGED(I)) THEN
             NORMXX = -NORMXX
             NORMYY = -NORMYY

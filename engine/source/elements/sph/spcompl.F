@@ -140,7 +140,7 @@ C     No kernel correction.
 C-----------------------------------------------
       DO I=1,NMUN
        N=MWAMUN(I)
-       WACOMP(1,N)=UN
+       WACOMP(1,N)=ONE
        WACOMP(2,N)=ZERO
        WACOMP(3,N)=ZERO
        WACOMP(4,N)=ZERO
@@ -216,7 +216,7 @@ C      partie symetrique.
            ZJ =XSPSYM(3,JS)
            DJ  =SPBUF(1,SM)
            RHOJ=SPBUF(2,SM)
-           DIJ =UNDEMI*(DI+DJ)
+           DIJ =HALF*(DI+DJ)
            CALL WEIGHT1(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
            JNOD=KXSP(3,SM)
            VJ=SPBUF(12,SM)/MAX(EM20,RHOJ)
@@ -229,7 +229,7 @@ C      partie symetrique.
            ZJ =XSPSYM(3,JS)
            DJ =XSPHR(2,SM)
            RHOJ=XSPHR(7,SM)
-           DIJ =UNDEMI*(DI+DJ)
+           DIJ =HALF*(DI+DJ)
            CALL WEIGHT1(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
            VJ=XSPHR(8,SM)/MAX(EM20,RHOJ)
          END IF
@@ -240,7 +240,7 @@ C      partie symetrique.
        ENDDO
 C------
 C      AlphaI
-       ALPHAI=UN/MAX(EM20,WCOMPI)
+       ALPHAI=ONE/MAX(EM20,WCOMPI)
        WACOMP(1,N)=ALPHAI
 C------
        ALPHAI2=ALPHAI*ALPHAI
@@ -268,7 +268,7 @@ C------
 C------
 C-----------------------------------------------
 C     Kernel correction up to order 1
-C     NON COMPATIBLE SPMD SUR PLUS D UN DOMAINE
+C     NON COMPATIBLE SPMD SUR PLUS D ONE DOMAINE
 C-----------------------------------------------
       DO I=1,NUN
        N=MWAUN(I)
@@ -317,7 +317,7 @@ C------
            RHOJ=XSPHR(7,NN)
            VJ=XSPHR(8,NN)/MAX(EM20,RHOJ)
          END IF
-         DIJ=UNDEMI*(DI+DJ)
+         DIJ=HALF*(DI+DJ)
          CALL WEIGHT1(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
          WCOMPI=WCOMPI+VJ*WGHT
          WCOMPXI=WCOMPXI+VJ*WGHT*(XI-XJ)
@@ -350,7 +350,7 @@ C      partie symetrique.
            ZJ =XSPSYM(3,JS)
            DJ  =SPBUF(1,SM)
            RHOJ=SPBUF(2,SM)
-           DIJ =UNDEMI*(DI+DJ)
+           DIJ =HALF*(DI+DJ)
            CALL WEIGHT1(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
            JNOD=KXSP(3,SM)
            VJ=SPBUF(12,SM)/MAX(EM20,RHOJ)
@@ -363,7 +363,7 @@ C      partie symetrique.
            ZJ =XSPSYM(3,JS)
            DJ  =XSPHR(2,SM)
            RHOJ=XSPHR(7,SM)
-           DIJ =UNDEMI*(DI+DJ)
+           DIJ =HALF*(DI+DJ)
            CALL WEIGHT1(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
            VJ=XSPHR(8,SM)/MAX(EM20,RHOJ)
          END IF
@@ -435,7 +435,7 @@ C------
            ZJ=X(3,JNOD)
            DJ  =SPBUF(1,M)
            RHOJ=SPBUF(2,M)
-           DIJ=UNDEMI*(DI+DJ)
+           DIJ=HALF*(DI+DJ)
            CALL WEIGHT1(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
 C------
            VJ=SPBUF(12,M)/MAX(EM20,RHOJ)*WGHT
@@ -522,7 +522,7 @@ C          LZI32=LZI32+VJZ*(YI-YJ)
            ZJ=XSPHR(5,NN)
            DJ  =XSPHR(2,NN)
            RHOJ=XSPHR(7,NN)
-           DIJ=UNDEMI*(DI+DJ)
+           DIJ=HALF*(DI+DJ)
            CALL WEIGHT1(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
            VJ=XSPHR(8,NN)/MAX(EM20,RHOJ)*WGHT
 C------
@@ -619,7 +619,7 @@ C      partie symetrique.
            ZJ =XSPSYM(3,JS)
            DJ  =SPBUF(1,SM)
            RHOJ=SPBUF(2,SM)
-           DIJ =UNDEMI*(DI+DJ)
+           DIJ =HALF*(DI+DJ)
            CALL WEIGHT1(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
            JNOD=KXSP(3,SM)
 C------
@@ -709,7 +709,7 @@ C          LZI32=LZI32+VJZ*(YI-YJ)
            ZJ =XSPSYM(3,JS)
            DJ  =XSPHR(2,SM)
            RHOJ=XSPHR(7,SM)
-           DIJ =UNDEMI*(DI+DJ)
+           DIJ =HALF*(DI+DJ)
            CALL WEIGHT1(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
 C------
            VJ=XSPHR(8,SM)/MAX(EM20,RHOJ)*WGHT
@@ -876,7 +876,7 @@ C      BETAZI=-(LI31*WCOMPXI+LI32*WCOMPYI+LI33*WCOMPZI)
 C------
 C      AlphaI
        ALPHAI=WCOMPI+BETAXI*WCOMPXI+BETAYI*WCOMPYI+BETAZI*WCOMPZI
-       ALPHAI=UN/MAX(EM20,ALPHAI)
+       ALPHAI=ONE/MAX(EM20,ALPHAI)
        WACOMP(1,N)=ALPHAI
 C------
 C      DBetaI(3)/dx (MXI=Inverse(LI)*LXI)
@@ -1207,7 +1207,7 @@ C           WACOMP(16,JS)=0.
           ENDDO
 C-----------------------------------------------
 C     Kernel correction up to order 1
-C     NON COMPATIBLE SPMD SUR PLUS D UN DOMAINE
+C     NON COMPATIBLE SPMD SUR PLUS D ONE DOMAINE
 C-----------------------------------------------
      	  DO I=1,NUN
      	   SM=MWAUN(I)

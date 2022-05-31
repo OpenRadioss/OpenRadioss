@@ -64,7 +64,7 @@ C---------NORMAL------------
        NZ = RX * SY - RY * SX 
        SUM = SQRT(NX*NX + NY*NY + NZ*NZ)
 C
-       SUM = UN/MAX(SUM,EM30)
+       SUM = ONE/MAX(SUM,EM30)
        NX = NX * SUM 
        NY = NY * SUM 
        NZ = NZ * SUM 

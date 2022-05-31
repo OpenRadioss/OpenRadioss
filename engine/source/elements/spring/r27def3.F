@@ -163,7 +163,7 @@ C
           XL0(I) = AL0DP(I)
         ! Classical units
         ELSE
-          XL0(I) = UN
+          XL0(I) = ONE
         ENDIF
       ENDDO
 C     ==================================================================
@@ -197,7 +197,7 @@ C     ------------------------------------------------------------------
       DO I=LFT,LLT
 c
         ! Computation if the element is not broken only
-        IF ((OFF(I) == UN).AND.(DL(I) < GAP(I) .OR. ITENS(I) > 0)) THEN 
+        IF ((OFF(I) == ONE).AND.(DL(I) < GAP(I) .OR. ITENS(I) > 0)) THEN 
           ! Stiffness part
           !   Computation of the tabulated stiffness force
           IF (IFUNC(I) > 0) THEN
@@ -205,15 +205,15 @@ c
           !   Computation of linear elastic stiffness force (non-linear if NEXP > 1)
           ELSE
             IF (ABS(DL(I)-GAP(I)) > ZERO) THEN 
-              FK(I) = SIGN(UN,(DL(I)-GAP(I)))*XK(I)*EXP(NEXP(I)*LOG(ABS(DL(I)-GAP(I))))
+              FK(I) = SIGN(ONE,(DL(I)-GAP(I)))*XK(I)*EXP(NEXP(I)*LOG(ABS(DL(I)-GAP(I))))
             ELSE
               FK(I) = ZERO
             ENDIF
             ! If non-linear, the stiffness must be re-evaluated for the critical timestep
-            IF (NEXP(I) > UN) THEN
+            IF (NEXP(I) > ONE) THEN
               ! Old stiffness force
               IF (ABS(DLOLD(I)-GAP(I)) > ZERO) THEN
-                FKOLD(I) = SIGN(UN,(DLOLD(I)-GAP(I)))*XK(I)*EXP(NEXP(I)*LOG(ABS(DLOLD(I)-GAP(I))))
+                FKOLD(I) = SIGN(ONE,(DLOLD(I)-GAP(I)))*XK(I)*EXP(NEXP(I)*LOG(ABS(DLOLD(I)-GAP(I))))
               ELSE
                 FKOLD(I) = ZERO
               ENDIF
@@ -235,8 +235,8 @@ c
           IF (ABS(FK(I)) > ABS(FD(I))) THEN
             F(I)  = FK(I) + FD(I)
           ELSE
-            F(I)  = DEUX*FK(I)
-            XK(I) = DEUX*XK(I)
+            F(I)  = TWO*FK(I)
+            XK(I) = TWO*XK(I)
             XC(I) = ZERO 
           ENDIF
         ELSE
@@ -246,8 +246,8 @@ c
 c
         ! Spring force filtering
         IF (FSMOOTH(I) > 0) THEN
-          ALPHA(I) = (DEUX*PI*DT11*FCUT(I))/(DEUX*PI*DT11*FCUT(I) + UN)
-          F(I)     = ALPHA(I)*F(I) + (UN - ALPHA(I))*FOLD(I)
+          ALPHA(I) = (TWO*PI*DT11*FCUT(I))/(TWO*PI*DT11*FCUT(I) + ONE)
+          F(I)     = ALPHA(I)*F(I) + (ONE - ALPHA(I))*FOLD(I)
         ENDIF
 c
       ENDDO
@@ -275,13 +275,13 @@ C
             DAMM = ZERO
           ENDIF
           ANIM(J) = MAX(ANIM(J),DAMP,DAMM)
-          ANIM(J) = MIN(ANIM(J),UN)
+          ANIM(J) = MIN(ANIM(J),ONE)
         ENDDO
       ENDIF
 c
       ! Computation of the Spring energy + Unit conversion if needed (ILENG)
       DO I=LFT,LLT
-        E(I)     = E(I) + (DL(I)-DLOLD(I))*(F(I)+FOLD(I)) * UNDEMI
+        E(I)     = E(I) + (DL(I)-DLOLD(I))*(F(I)+FOLD(I)) * HALF
         E(I)     = E(I)*XL0(I)
         DL(I)    = DL(I)*XL0(I)
         DLOLD(I) = DLOLD(I)*XL0(I)
@@ -296,7 +296,7 @@ C     CHECKING BROKEN SPRINGS
 C     ==================================================================
       NINDX = 0
       DO I=LFT,LLT
-        IF (OFF(I) == UN .AND. IFAIL(I) /= 0) THEN
+        IF (OFF(I) == ONE .AND. IFAIL(I) /= 0) THEN
           IF (IFAIL(I) == 1) THEN
             IF (ITENS(I) > 0) THEN
               IF (DL(I) > DMX(I)*XL0(I) .OR. DL(I) < DMN(I)*XL0(I)) THEN

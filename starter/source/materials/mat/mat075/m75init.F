@@ -120,11 +120,11 @@ C
         BULKS= PM(32,IMAT)
         C0   = SQRT(BULKS/RHO0S)
         BETA=CE/C0
-        AA=(BETA-UN)/(ALPHAE-UN)
-        DALPDPE=(UN/BULKS-UN/BULK)*ALPHAE
+        AA=(BETA-ONE)/(ALPHAE-ONE)
+        DALPDPE=(ONE/BULKS-ONE/BULK)*ALPHAE
         ALPHAP=ALPHAE+PE*DALPDPE
 C
-        IF (ALPHAE < UN) THEN
+        IF (ALPHAE < ONE) THEN
            CALL ANCMSG(MSGID=898,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
@@ -145,9 +145,9 @@ C-----------
       UPARAM(11)=ALPHAE
       UPARAM(12)=ALPHAP
       UPARAM(13)=AA
-      UPARAM(14)=UN/EN
-      UPARAM(15)=(PS-PE)/(ALPHAP-UN)**(UN/EN)
-      UPARAM(16)=(ALPHAP-UN)/(PS-PE)**EN
+      UPARAM(14)=ONE/EN
+      UPARAM(15)=(PS-PE)/(ALPHAP-ONE)**(ONE/EN)
+      UPARAM(16)=(ALPHAP-ONE)/(PS-PE)**EN
 C
       DO I=1,NEL                    
         UVAR(I,1)=ZERO

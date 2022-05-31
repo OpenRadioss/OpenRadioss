@@ -288,8 +288,8 @@ C
       DATA ICF3D/1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/
       DATA ICF2D/1,2,2,3,3,4,4,1/
 C
-      IF(TIMESTEP > ZERO)THEN
-        UNDT = UN/TIMESTEP
+      IF(TIMESTEP.GT.ZERO)THEN
+        UNDT = ONE/TIMESTEP
       ELSE
         UNDT = ZERO
       ENDIF
@@ -304,12 +304,12 @@ C
       TOL51 = EM10
 C
       TFEXTT=ZERO
-      MU1P1  = UN
-      MU2P1  = UN
-      MU3P1  = UN
-      MU4P1  = UN
-
-      GBUF   => ELBUF_TAB(NG)%GBUF
+      MU1P1  = ONE
+      MU2P1  = ONE
+      MU3P1  = ONE
+      MU4P1  = ONE   
+      
+      GBUF   => ELBUF_TAB(NG)%GBUF           
       LBUF   => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
       BUFLY  => ELBUF_TAB(NG)%BUFLY(ILAY)
 C
@@ -439,9 +439,9 @@ C     |===========================================!
       T30    = UPARAM(213)
       T40    = UPARAM(263)
 
-      TC31   = TROIS*C31
-      TC32   = TROIS*C32
-      TC33   = TROIS*C33
+      TC31   = THREE*C31
+      TC32   = THREE*C32
+      TC33   = THREE*C33
 
       VEL_IN = UPARAM(75)
 
@@ -484,21 +484,21 @@ C===========================================================================C
         !rho0,E0,P0,SSP0 in UVAR(20,21,22,24)
 
         !scale factors
-        RHO1 = UN
-        RHO2 = UN
-        RHO3 = UN
-        RHO4 = UN
-        E01  = UN
-        E02  = UN
-        E03  = UN
-        E04  = UN
-        IF(IRHO1 /= 0)RHO1 = FINTER(IRHO1,ABCS,NPF,TF,DYDX)
-        IF(IRHO2 /= 0)RHO2 = FINTER(IRHO2,ABCS,NPF,TF,DYDX)
-        IF(IRHO3 /= 0)RHO3 = FINTER(IRHO3,ABCS,NPF,TF,DYDX)
-        IF(IE1 /= 0)E01 = FINTER(IE1,ABCS,NPF,TF,DYDX)
-        IF(IE2 /= 0)E02 = FINTER(IE2,ABCS,NPF,TF,DYDX)
-        IF(IE3 /= 0)E03 = FINTER(IE3,ABCS,NPF,TF,DYDX)
-        IF(IVEL /= 0)VEL_IN = VEL_IN*FINTER(IVEL,ABCS,NPF,TF,DYDX)
+        RHO1 = ONE
+        RHO2 = ONE
+        RHO3 = ONE
+        RHO4 = ONE
+        E01  = ONE
+        E02  = ONE
+        E03  = ONE
+        E04  = ONE
+        IF(IRHO1.NE.0)RHO1 = FINTER(IRHO1,ABCS,NPF,TF,DYDX)
+        IF(IRHO2.NE.0)RHO2 = FINTER(IRHO2,ABCS,NPF,TF,DYDX)
+        IF(IRHO3.NE.0)RHO3 = FINTER(IRHO3,ABCS,NPF,TF,DYDX)
+        IF(IE1.NE.0)E01 = FINTER(IE1,ABCS,NPF,TF,DYDX)
+        IF(IE2.NE.0)E02 = FINTER(IE2,ABCS,NPF,TF,DYDX)
+        IF(IE3.NE.0)E03 = FINTER(IE3,ABCS,NPF,TF,DYDX)
+        IF(IVEL.NE.0)VEL_IN = VEL_IN*FINTER(IVEL,ABCS,NPF,TF,DYDX)
 
 
         K1 = N0PHAS
@@ -510,22 +510,22 @@ C===========================================================================C
           P1=UVAR(I,4)
           P2=UVAR(I,4)
           P3=UVAR(I,4)
-          MU1=UVAR(I,K1+20)*RHO1/RHO10 - UN
-          IF(UVAR(I,K1+20) /= ZERO)THEN
+          MU1=UVAR(I,K1+20)*RHO1/RHO10 - ONE
+          IF(UVAR(I,K1+20).NE.ZERO)THEN
             P1 = ( C01 + C11*MU1
      .      	   + MAX(MU1,ZERO)*(C21*MU1 + C31*MU1*MU1)
      .      	   + (C41 + C51*MU1)*E01*UVAR(I,K1+21)*RHO10/RHO1/UVAR(I,K1+20) )
           ENDIF
           P1 = MAX(P1,PM1)
-          MU2=UVAR(I,K2+20)*RHO2/RHO20 - UN
-          IF(UVAR(I,K2+20) /= ZERO)THEN
+          MU2=UVAR(I,K2+20)*RHO2/RHO20 - ONE
+          IF(UVAR(I,K2+20).NE.ZERO)THEN
             P2 = ( C02 + C12*MU2
      .    	   + MAX(MU2,ZERO)*(C22*MU2 + C32*MU2*MU2)
      .    	   + (C42 + C52*MU2)*E02*UVAR(I,K2+21)*RHO20/RHO2/UVAR(I,K2+20) )
           ENDIF
           P2 = MAX(P2,PM2)
-          MU3=UVAR(I,K3+20)*RHO3/RHO30 - UN
-          IF(UVAR(I,K3+20) /= ZERO)THEN
+          MU3=UVAR(I,K3+20)*RHO3/RHO30 - ONE
+          IF(UVAR(I,K3+20).NE.ZERO)THEN
             P3 = ( C03 + C13*MU3
      .    	   + MAX(MU3,ZERO)*(C23*MU3 + C33*MU3*MU3)
      .    	   + (C43 + C53*MU3)*E03*UVAR(I,K3+21)*RHO30/RHO3/UVAR(I,K3+20) )
@@ -687,7 +687,7 @@ C         |==================================!
                 XN  = -Y13*Z24+Z13*Y24
                 YN  = -Z13*X24+X13*Z24
                 ZN  = -X13*Y24+Y13*X24
-                FAC = UN/SQRT(XN**2+YN**2+ZN**2)
+                FAC = ONE/SQRT(XN**2+YN**2+ZN**2)
                 XN  = XN*FAC
                 YN  = YN*FAC
                 ZN  = ZN*FAC
@@ -713,7 +713,7 @@ C         |==================================!
                 XN   = ZERO
                 YN   = (X(2,IX2)-X(2,IX1))
                 ZN   = (X(3,IX2)-X(3,IX1))
-                FAC  = UN/SQRT(YN**2+ZN**2)
+                FAC  = ONE/SQRT(YN**2+ZN**2)
                 YN  = YN*FAC
                 ZN  = ZN*FAC
               ENDIF
@@ -740,22 +740,6 @@ C         |==================================!
           VDX(I) = ZERO
           VDY(I) = ZERO
           VDZ(I) = ZERO
-C
-c             TFEXTT      = TFEXTT - P * DD * VOLUME(I) * TIMESTEP
-cc            energie entrante
-cc             SIGNXX(I) = -P * UNDEMI
-cc             SIGNYY(I) = -P * UNDEMI
-cc             SIGNZZ(I) = -P * UNDEMI
-cc             TFEXTT      = TFEXTT - P * UNDEMI * DD * VOLUME(I) * TIMESTEP
-cd            enthalpie entrante
-cd             TFEXTT      = TFEXTT + P * DD * VOLUME(I) * TIMESTEP
-cd             EINT(I)    = EEE + P * DD * VOLUME(I) * TIMESTEP
-ce            enthalpie entrante
-ce             SIGNXX(I) = -P
-ce             SIGNYY(I) = -P
-ce             SIGNZZ(I) = -P
-ce             EINT(I)    = EEE + P * DD * VOLUME(I) * TIMESTEP
-c3---
 C
         ENDDO
 C
@@ -795,7 +779,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
         DO I=1,NEL
           DD = -EPSPXX(I)-EPSPYY(I)-EPSPZZ(I)
-          BBB = UN - ALPHA
+          BBB = ONE - ALPHA          
           IF(DD > ZERO)THEN
             SIGNXX(I) = SIGOXX(I)
             SIGNYY(I) = SIGOYY(I)
@@ -963,32 +947,32 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
         K2 = N0PHAS+NVPHAS
         K3 = N0PHAS+2*NVPHAS
         K4 = N0PHAS+3*NVPHAS
-        RHO1f = UN
-        RHO2f = UN
-        RHO3f = UN
-	E01f  = UN
-	E02f  = UN
-	E03f  = UN
-        IF(IRHO1 /= 0)RHO1f = FINTER(IRHO1,ABCS,NPF,TF,DYDX)
-        IF(IRHO2 /= 0)RHO2f = FINTER(IRHO2,ABCS,NPF,TF,DYDX)
-        IF(IRHO3 /= 0)RHO3f = FINTER(IRHO3,ABCS,NPF,TF,DYDX)
-        IF(IE1 /= 0)E01f = FINTER(IE1,ABCS,NPF,TF,DYDX)
-        IF(IE2 /= 0)E02f = FINTER(IE2,ABCS,NPF,TF,DYDX)
-        IF(IE3 /= 0)E03f = FINTER(IE3,ABCS,NPF,TF,DYDX)
+        RHO1f = ONE
+        RHO2f = ONE
+        RHO3f = ONE
+	E01f  = ONE
+	E02f  = ONE
+	E03f  = ONE
+        IF(IRHO1.NE.0)RHO1f = FINTER(IRHO1,ABCS,NPF,TF,DYDX)
+        IF(IRHO2.NE.0)RHO2f = FINTER(IRHO2,ABCS,NPF,TF,DYDX)
+        IF(IRHO3.NE.0)RHO3f = FINTER(IRHO3,ABCS,NPF,TF,DYDX)
+        IF(IE1.NE.0)E01f = FINTER(IE1,ABCS,NPF,TF,DYDX)
+        IF(IE2.NE.0)E02f = FINTER(IE2,ABCS,NPF,TF,DYDX)
+        IF(IE3.NE.0)E03f = FINTER(IE3,ABCS,NPF,TF,DYDX)
         DO I=1,NEL
           E01=E01f
           E02=E02f
           E03=E03f
           RHO1=RHO1f
           RHO2=RHO2f
-          RHO3=RHO3f
-          MU1=RHO1*UVAR(I,20+K1)/RHO10 - UN
+          RHO3=RHO3f                    
+          MU1=RHO1*UVAR(I,20+K1)/RHO10 - ONE
           P1 = ( C01 + C11*MU1+ MAX(MU1,ZERO)*(C21*MU1 + C31*MU1*MU1) + (C41 + C51*MU1)*E01*UVAR(I,21+K1)*RHO10/RHO1/UVAR(I,20+K1) )
           P1 = MAX(P1,PM1)
-          MU2=RHO2*UVAR(I,20+K2)/RHO20 - UN
+          MU2=RHO2*UVAR(I,20+K2)/RHO20 - ONE
           P2 = ( C02 + C12*MU2+ MAX(MU2,ZERO)*(C22*MU2 + C32*MU2*MU2) + (C42 + C52*MU2)*E02*UVAR(I,21+K2)*RHO20/RHO2/UVAR(I,20+K2) )
           P2 = MAX(P2,PM2)
-          MU3=RHO3*UVAR(I,20+K3)/RHO30 - UN
+          MU3=RHO3*UVAR(I,20+K3)/RHO30 - ONE
           P3 = ( C03 + C13*MU3 + MAX(MU3,ZERO)*(C23*MU3 + C33*MU3*MU3)+ (C43 + C53*MU3)*E03*UVAR(I,21+K3)*RHO30/RHO3/UVAR(I,20+K3) )
           P3 = MAX(P3,PM3)
           !switching to total pressure formulation since following lines are based on it.
@@ -1005,12 +989,12 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
           RHO3A = RHO3*UVAR(I,20+K3)
           P3A = P3
           E03A = E03*UVAR(I,21+K3)
-          CC1 = (C41+UN)*P1/RHO1/UVAR(I,20+K1)
-          CC2 = (C42+UN)*P2/RHO2/UVAR(I,20+K2)
-          CC3 = (C43+UN)*P3/RHO3/UVAR(I,20+K3)
-          AA1 = DEUX / (C41+DEUX)
-          AA2 = DEUX / (C42+DEUX)
-          AA3 = DEUX / (C43+DEUX)
+          CC1 = (C41+ONE)*P1/RHO1/UVAR(I,20+K1)
+          CC2 = (C42+ONE)*P2/RHO2/UVAR(I,20+K2)
+          CC3 = (C43+ONE)*P3/RHO3/UVAR(I,20+K3)
+          AA1 = TWO / (C41+TWO)
+          AA2 = TWO / (C42+TWO)
+          AA3 = TWO / (C43+TWO)
           ! vitesse critique calculee dans LECM11, ce qui est discutable (yann)
           VCRT1 = AA1*CC1
           VCRT2 = AA2*CC2
@@ -1055,25 +1039,25 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
               U21 = MIN(U2,VCRT1)
               GV1 = C41/2/(C41+1)*RHO1A*U21/P1A
               IF(GV1 > EM4)THEN
-                AAA  = UN - GV1
-                RHO1 = RHO1A * AAA**(UN/C41)
-                BBB  = AAA**((C41+UN)/C41)
+                AAA  = ONE - GV1
+                RHO1 = RHO1A * AAA**(ONE/C41)
+                BBB  = AAA**((C41+ONE)/C41)
                 E01  = E01A * BBB
                 P1   = P1A * BBB
                 !yann     test sur 0.0001 pour cas incompressible (Bernouilli classique)
               ELSE
-                RV1  = UNDEMI*RHO1A*U21
-                RHO1 = RHO1A *(UN- RV1/(C41+UN)/P1A)
+                RV1  = HALF*RHO1A*U21
+                RHO1 = RHO1A *(ONE- RV1/(C41+ONE)/P1A)
                 P1   = P1A - RV1
                 E01  = P1/C41
               ENDIF
             !---LIQUID
             ELSE
-              FAC = (C11 + UNDEMI*RHO10*U2)
-              IF(FAC /= ZERO)THEN
+              FAC = (C11 + HALF*RHO10*U2)
+              IF(FAC.NE.ZERO)THEN
                 RHO1 = RHO1A*C11/FAC
-                P1   = P1A - UNDEMI*RHO1*U2
-                E01  = E01A + (UN - RHO1/RHO1A)*P1
+                P1   = P1A - HALF*RHO1*U2
+                E01  = E01A + (ONE - RHO1/RHO1A)*P1
               ENDIF
             ENDIF
           ELSE
@@ -1113,23 +1097,23 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
               U22 = MIN(U2,VCRT2)
               GV2 = C42/2/(C42+1)*RHO2A*U22/P2A
               IF(GV2 > EM4)THEN
-                AAA  = UN - GV2
-                RHO2 = RHO2A * AAA**(UN/C42)
-                BBB  = AAA**((C42+UN)/C42)
+                AAA  = ONE - GV2
+                RHO2 = RHO2A * AAA**(ONE/C42)
+                BBB  = AAA**((C42+ONE)/C42)
                 E02  = E02A * BBB
                 P2   = P2A * BBB
               ELSE
-                RV2  = UNDEMI*RHO2A*U22
-                RHO2 = RHO2A *(UN- RV2/(C42+UN)/P2A)
+                RV2  = HALF*RHO2A*U22
+                RHO2 = RHO2A *(ONE- RV2/(C42+ONE)/P2A)
                 P2   = P2A - RV2
                 E02  = P2/C42
               ENDIF
             ELSE
-              FAC = (C12 + UNDEMI*RHO20*U2)
-              IF(FAC /= ZERO)THEN
+              FAC = (C12 + HALF*RHO20*U2)
+              IF(FAC.NE.ZERO)THEN
                 RHO2 = RHO2A*C12/FAC
-                P2   = P2A - UNDEMI*RHO2*U2
-                E02  = E02A + (UN - RHO2/RHO2A)*P2
+                P2   = P2A - HALF*RHO2*U2
+                E02  = E02A + (ONE - RHO2/RHO2A)*P2
               ENDIF
             ENDIF
           ELSE
@@ -1169,23 +1153,23 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
               U23 = MIN(U2,VCRT3)
               GV3 = C43/2/(C43+1)*RHO3A*U23/P3A
               IF(GV3 > EM4)THEN
-                AAA  = UN - GV3
-                RHO3 = RHO3A * AAA**(UN/C43)
-                BBB  = AAA**((C43+UN)/C43)
+                AAA  = ONE - GV3
+                RHO3 = RHO3A * AAA**(ONE/C43)
+                BBB  = AAA**((C43+ONE)/C43)
                 E03  = E03A * BBB
                 P3   = P3A * BBB
               ELSE
-                RV3  = UNDEMI*RHO3A*U23
-                RHO3 = RHO3A *(UN- RV3/(C43+UN)/P3A)
+                RV3  = HALF*RHO3A*U23
+                RHO3 = RHO3A *(ONE- RV3/(C43+ONE)/P3A)
                 P3   = P3A - RV3
                 E03  = P3/C43
               ENDIF
             ELSE
-              FAC = (C13 + UNDEMI*RHO30*U2)
-              IF(FAC /= ZERO)THEN
+              FAC = (C13 + HALF*RHO30*U2)
+              IF(FAC.NE.ZERO)THEN
                 RHO3 = RHO3A*C13/FAC
-                P3   = P3A - UNDEMI*RHO3*U2
-                E03  = E03A + (UN - RHO3/RHO3A)*P3
+                P3   = P3A - HALF*RHO3*U2
+                E03  = E03A + (ONE - RHO3/RHO3A)*P3
               ENDIF
             ENDIF
           ELSE
@@ -1395,10 +1379,10 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
           IF(UPARAM(71)>=EP20)BETA=ZERO  ! default : Tcalpha=EP20 => BETA = 0
           ALPHA  = TIMESTEP/UPARAM(70)
         ELSE
-          BETA   = UN
-          ALPHA  = UN
-        ENDIF
-
+          BETA   = ONE
+          ALPHA  = ONE
+        ENDIF  
+       
         !RHOC2(1)  = MAX(RHO1*SSP1*SSP1,EM20)
         !RHOC2(2)  = MAX(RHO2*SSP2*SSP2,EM20)
         !RHOC2(3)  = MAX(RHO3*SSP3*SSP3,EM20)
@@ -1484,48 +1468,48 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
             RHOC2(3)  = MAX(EM20,RHOV(3,I)*SSPV(3,I)*SSPV(3,I))
             RHOC2(4)  = MAX(EM20,RHOV(4,I)*SSPV(4,I)*SSPV(4,I))
             RHOC20    = ZERO
-            IF(AVV(1,I) > EM06)RHOC20=RHOC20 + AVV(1,I)/RHOC2(1)
-            IF(AVV(2,I) > EM06)RHOC20=RHOC20 + AVV(2,I)/RHOC2(2)
-            IF(AVV(3,I) > EM06)RHOC20=RHOC20 + AVV(3,I)/RHOC2(3)
-            IF(AVV(4,I) > EM06)RHOC20=RHOC20 + AVV(4,I)/RHOC2(4)
-            RHOC20=UN/RHOC20 !average stiffness
-            RHO(I) = AVV(1,I)*RHOV(1,I)+ AVV(2,I)*RHOV(2,I)+ AVV(3,I)*RHOV(3,I) + AVV(4,I)*RHOV(4,I)
+            IF(AVV(1,I).GT.EM06)RHOC20=RHOC20 + AVV(1,I)/RHOC2(1)
+            IF(AVV(2,I).GT.EM06)RHOC20=RHOC20 + AVV(2,I)/RHOC2(2)
+            IF(AVV(3,I).GT.EM06)RHOC20=RHOC20 + AVV(3,I)/RHOC2(3)
+            IF(AVV(4,I).GT.EM06)RHOC20=RHOC20 + AVV(4,I)/RHOC2(4)
+            RHOC20=ONE/RHOC20 !average stiffness
+            RHO(I) = AVV(1,I)*RHOV(1,I)+ AVV(2,I)*RHOV(2,I)+ AVV(3,I)*RHOV(3,I) + AVV(4,I)*RHOV(4,I)  
             !RHOC2(1)  = MAX(EM20,RHOV(1,I)*SSPV(1,I)*SSPV(1,I))
             !RHOC2(2)  = MAX(EM20,RHOV(2,I)*SSPV(2,I)*SSPV(2,I))
             !RHOC2(3)  = MAX(EM20,RHOV(3,I)*SSPV(3,I)*SSPV(3,I))
-            !RHOC2(4)  = MAX(EM20,RHOV(4,I)*SSPV(4,I)*SSPV(4,I))
-            !RHOC2_    = UN/(AVV(1,I)/RHOC2(1)+AVV(2,I)/RHOC2(2)+AVV(3,I)/RHOC2(3)  + AVV(4,I)/RHOC2(4))
-            !SOUNDSP(I) = RHOC2_/RHO(I)
+            !RHOC2(4)  = MAX(EM20,RHOV(4,I)*SSPV(4,I)*SSPV(4,I)) 
+            !RHOC2_    = ONE/(AVV(1,I)/RHOC2(1)+AVV(2,I)/RHOC2(2)+AVV(3,I)/RHOC2(3)  + AVV(4,I)/RHOC2(4))
+            !SOUNDSP(I) = RHOC2_/RHO(I)                                                                                     
             SOUNDSP(I)  = SSPV(0,I)
             MACH        = VEL_N(I) / SOUNDSP(I)
             ISUPERSONIC = 0
-            IF(MACH >= UN .AND. VEL_N(I) > ZERO)THEN
+            IF(MACH.GE.ONE .AND. VEL_N(I).GT.ZERO)THEN
              !vitesse sortante supersonique : etat = etat voisin
               ISUPERSONIC = 1
               P           = PV(0,I)
               EINT(I)     = EIV(0,I)
               RHO(I)      = RHOV(0,I)
             ELSE
-              !IF(VEL_N(I).LE.ZERO)P=P0_NRF-UNDEMI*RHO(I)*VEL_N(I)**2 !Bernouilli
+              !IF(VEL_N(I).LE.ZERO)P=P0_NRF-HALF*RHO(I)*VEL_N(I)**2 !Bernouilli
               ROC   =SQRT(RHO(I)*RHOC20)
-              POLD  = -TIERS*(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))
+              POLD  = -THIRD*(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))
               DP0   = (P0_NRF-P0_NRFv(I)) ! assuming rho0*g(t)*(z-zvois) = cst ; otherwise complicated: get g(t) and compute z-zvois
-              P     = UN/(UN+ALPHA)*(POLD+ROC*(VEL_N(I)-VEL_O(I)))+ALPHA*(PV(0,I)+DP0)/(ALPHA + UN)
+              P     = ONE/(ONE+ALPHA)*(POLD+ROC*(VEL_N(I)-VEL_O(I)))+ALPHA*(PV(0,I)+DP0)/(ALPHA + ONE)
             ENDIF
-
-            IF(VEL_N(I) < ZERO)THEN     !flux rentrant relaxation du pourcentage volumique
-               KK = N0PHAS
-               AVV(1,I)  = (UN-BETA)*UVAR(I,1+KK) + BETA* AV1(I)
+            
+            IF(VEL_N(I).LT.ZERO)THEN     !flux rentrant relaxation du pourcentage volumique  
+               KK = N0PHAS 
+               AVV(1,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV1(I)                                                                        
                KK = N0PHAS + NVPHAS
-               AVV(2,I)  = (UN-BETA)*UVAR(I,1+KK) + BETA* AV2(I)
+               AVV(2,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV2(I)                                                                        
                KK = N0PHAS + 2*NVPHAS
-               AVV(3,I)  = (UN-BETA)*UVAR(I,1+KK) + BETA* AV3(I)
+               AVV(3,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV3(I)                                                                        
                KK = N0PHAS + 3*NVPHAS
-               AVV(4,I)  = (UN-BETA)*UVAR(I,1+KK) + BETA* AV4(I)
-            ELSE
-
-            ENDIF
-          ENDIF
+               AVV(4,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV4(I)
+            ELSE  
+                        
+            ENDIF   
+          ENDIF 
           EEE       = EIV(0,I) * VOLUME(I)
           RHO(I)    = RHOV(0,I)
           SIGNXX(I) = -P
@@ -1692,10 +1676,10 @@ C==========================================
            V1OLD   = UVAR(I,11+KK)
            RHO1OLD = UVAR(I,12+KK)
            ECOLD = -T10 * SPH1
-           MU1 = (RHO1OLD/RHO10 - UN)
-           H1 = SPH1*V1OLD*(UN+MU1)
-           IF(MU1 > ZERO) ECOLD = ECOLD * (UN+C51*MU1*(UN-MU1)) + UNDEMI*C21*MU1*MU1
-           ECOLD1 = ECOLD*V1OLD*(UN+MU1)
+           MU1 = (RHO1OLD/RHO10 - ONE)
+           H1 = SPH1*V1OLD*(ONE+MU1)
+           IF(MU1 > ZERO) ECOLD = ECOLD * (ONE+C51*MU1*(ONE-MU1)) + HALF*C21*MU1*MU1
+           ECOLD1 = ECOLD*V1OLD*(ONE+MU1)
            TEMP1 = (EINT1 - ECOLD1)/MAX(EM20,H1)
            UVAR(I,16+KK) = TEMP1
            P1OLD(I) = UVAR(I,18+KK)
@@ -1706,10 +1690,10 @@ C==========================================
            V2OLD   = UVAR(I,11+KK)
            RHO2OLD = UVAR(I,12+KK)
            ECOLD = -T20 * SPH2
-           MU2 = (RHO2OLD/RHO20 - UN)
-           H2 = SPH2*V2OLD*(UN+MU2)
-           IF(MU2 > ZERO) ECOLD = ECOLD * (UN+C52*MU2*(UN-MU2)) + UNDEMI*C22*MU2*MU2
-           ECOLD2 = ECOLD*V2OLD*(UN+MU2)
+           MU2 = (RHO2OLD/RHO20 - ONE)
+           H2 = SPH2*V2OLD*(ONE+MU2)
+           IF(MU2 > ZERO) ECOLD = ECOLD * (ONE+C52*MU2*(ONE-MU2)) + HALF*C22*MU2*MU2
+           ECOLD2 = ECOLD*V2OLD*(ONE+MU2)
            TEMP2 = (EINT2 - ECOLD2)/MAX(EM20,H2)
            UVAR(I,16+KK) = TEMP2
            P2OLD(I) = UVAR(I,18+KK)
@@ -1720,10 +1704,10 @@ C==========================================
            V3OLD   = UVAR(I,11+KK)
            RHO3OLD = UVAR(I,12+KK)
            ECOLD = -T30 * SPH3
-           MU3 = (RHO3OLD/RHO30 - UN)
-           H3 = SPH3*V3OLD*(UN+MU3)
-           IF(MU3 > ZERO) ECOLD = ECOLD * (UN+C53*MU3*(UN-MU3)) + UNDEMI*C23*MU3*MU3
-           ECOLD3 = ECOLD*V3OLD*(UN+MU3)
+           MU3 = (RHO3OLD/RHO30 - ONE)
+           H3 = SPH3*V3OLD*(ONE+MU3)
+           IF(MU3 > ZERO) ECOLD = ECOLD * (ONE+C53*MU3*(ONE-MU3)) + HALF*C23*MU3*MU3
+           ECOLD3 = ECOLD*V3OLD*(ONE+MU3)
            TEMP3 = (EINT3 - ECOLD3)/MAX(EM20,H3)
            UVAR(I,16+KK) = TEMP3
            P3OLD(I) = UVAR(I,18+KK)
@@ -1735,9 +1719,9 @@ C==========================================
              V4OLD   = UVAR(I,11+KK)
              RHO4OLD = UVAR(I,12+KK)
              ECOLD = -T40 * SPH4
-             MU4 = (RHO4OLD/RHO40 - UN)
-             H4 = SPH4*V4OLD*(UN+MU4)
-             ECOLD4 = ECOLD*V4OLD*(UN+MU4)
+             MU4 = (RHO4OLD/RHO40 - ONE)
+             H4 = SPH4*V4OLD*(ONE+MU4)
+             ECOLD4 = ECOLD*V4OLD*(ONE+MU4)
              TEMP4 = (EINT4 - ECOLD4)/MAX(EM20,H4)
              P4OLD(I) = UVAR(I,18+KK)
            ELSE
@@ -1770,7 +1754,7 @@ C==========================================
           DEPS(5,I) = DEPSYZ(I)
           DEPS(6,I) = DEPSZX(I)
           EPD(I)=OFF(I)*MAX(   ABS(EPSPXX(I)),   ABS(EPSPYY(I)),   ABS(EPSPZZ(I)),
-     .         UNDEMI*ABS(EPSPXY(I)),UNDEMI*ABS(EPSPYZ(I)),UNDEMI*ABS(EPSPZX(I)))
+     .         HALF*ABS(EPSPXY(I)),HALF*ABS(EPSPYZ(I)),HALF*ABS(EPSPZX(I))) 
         ENDDO
         IF(BUFLY%L_EPSD > 0)THEN
           DO I=1,NEL
@@ -1977,11 +1961,11 @@ C==========================================
         P1OLD(I)= UVAR(I,18+KK)   ! Pressure
 !        EPSEQ1(I)= UVAR(I,19+KK)   ! Dprag
         ECOLD = -T10 * SPH1
-        MU1 = (RHO1OLD/RHO10 - UN)
-        H1 = SPH1*V1OLD*(UN+MU1)
+        MU1 = (RHO1OLD/RHO10 - ONE)
+        H1 = SPH1*V1OLD*(ONE+MU1)
           IF(MU1 > ZERO) ECOLD = ECOLD *
-     1       (UN+C51*MU1*(UN-MU1)) + UNDEMI*C21*MU1*MU1
-        ECOLD1 = ECOLD*V1OLD*(UN+MU1)
+     1       (ONE+C51*MU1*(ONE-MU1)) + HALF*C21*MU1*MU1
+        ECOLD1 = ECOLD*V1OLD*(ONE+MU1)
         TEMP1 = (EINT1 - ECOLD1)/MAX(EM20,H1)
 
 
@@ -2002,11 +1986,11 @@ C==========================================
         P2OLD(I)= UVAR(I,18+KK)   ! Pressure
 !        EPSEQ2(I)= UVAR(I,19+KK)   ! Dprag
         ECOLD = -T20 * SPH2
-        MU2 = (RHO2OLD/RHO20 - UN)
-        H2 = SPH2*V2OLD*(UN+MU2)
+        MU2 = (RHO2OLD/RHO20 - ONE)
+        H2 = SPH2*V2OLD*(ONE+MU2)
            IF(MU2 > ZERO) ECOLD = ECOLD *
-     1        (UN+C52*MU2*(UN-MU2)) + UNDEMI*C22*MU2*MU2
-        ECOLD2 = ECOLD*V2OLD*(UN+MU2)
+     1        (ONE+C52*MU2*(ONE-MU2)) + HALF*C22*MU2*MU2
+        ECOLD2 = ECOLD*V2OLD*(ONE+MU2)
         TEMP2 = (EINT2 - ECOLD2)/MAX(H2,EM20)
 
 
@@ -2027,11 +2011,11 @@ C==========================================
         P3OLD(I)= UVAR(I,18+KK)   ! Pressure
 !        EPSEQ3(I)= UVAR(I,19+KK)   ! Dprag
         ECOLD   = -T30 * SPH3
-        MU3     = (RHO3OLD/RHO30 - UN)
-        H3      = SPH3*V3OLD*(UN+MU3)
+        MU3     = (RHO3OLD/RHO30 - ONE)
+        H3      = SPH3*V3OLD*(ONE+MU3)
           IF(MU3 > ZERO) ECOLD = ECOLD *
-     1       (UN+C53*MU3*(UN-MU3)) + UNDEMI*C23*MU3*MU3
-        ECOLD3  = ECOLD*V3OLD*(UN+MU3)
+     1       (ONE+C53*MU3*(ONE-MU3)) + HALF*C23*MU3*MU3
+        ECOLD3  = ECOLD*V3OLD*(ONE+MU3)
         TEMP3   = (EINT3 - ECOLD3)/MAX(H3,EM20)
 
 
@@ -2067,9 +2051,9 @@ C==========================================
           EDIF4   = UVAR(I,17+KK)   ! chaleur diffusee
           P4OLD(I)= UVAR(I,KK + 18) ! Pressure
           ECOLD = -T40 * SPH4
-          MU4 = (RHO4OLD/RHO40 - UN)
-          H4 = SPH4*V4OLD*(UN+MU4)
-          ECOLD4 = ECOLD*V4OLD*(UN+MU4)
+          MU4 = (RHO4OLD/RHO40 - ONE)
+          H4 = SPH4*V4OLD*(ONE+MU4)
+          ECOLD4 = ECOLD*V4OLD*(ONE+MU4)
           TEMP4 = (EINT4 - ECOLD4)/MAX(H4,EM20)
           BFRAC(I) = GBUF%BFRAC(I)
 
@@ -2167,7 +2151,7 @@ C============================================
 !            VOLD = SUM(dbVOLD(:))
 !            DD   = VOLUME(I)**THIRD
 !            DD   = (DD - VOLD**THIRD) / DD
-!            DD   = -TROIS*DD*UNDT
+!            DD   = -THREE*DD*UNDT
 !          ENDIF
 !        ENDIF
 
@@ -2275,7 +2259,6 @@ C============================================
            V10 = MAS1 / RHO10
            RHO0E1 = EINT1/V10
            ALPHA1OLD = V1OLD / VOLD
-           !IF (ALPHA1OLD  >  UN + EM14) THEN
            !   PRINT*, "ALPHA1OLD",ALPHA1OLD
            !ENDIF
            V1 = V1OLD - TIMESTEP*DDVOL1 + ALPHA1OLD * DDVOL(I)
@@ -2291,7 +2274,6 @@ C============================================
            V20 = MAS2 / RHO20
            RHO0E2 = EINT2/V20
            ALPHA2OLD = V2OLD / VOLD
-           !IF (ALPHA2OLD  >  UN + EM14) THEN
            !   PRINT*, "ALPHA2OLD",ALPHA2OLD
            !ENDIF
            V2 = V2OLD - TIMESTEP*DDVOL2 + ALPHA2OLD * DDVOL(I)
@@ -2308,7 +2290,6 @@ C============================================
            V30 = MAS3 / RHO30
            RHO0E3 = EINT3/V30
            ALPHA3OLD = V3OLD / VOLD
-           !IF (ALPHA3OLD  >  UN + EM14) THEN
            !   PRINT*, "ALPHA3OLD",ALPHA3OLD
            !ENDIF
            V3 = V3OLD - TIMESTEP*DDVOL3 + ALPHA3OLD * DDVOL(I)
@@ -2324,7 +2305,6 @@ C============================================
            UNEPHASE=UNEPHASE + 8
            V40 = MAS4 / RHO40
            ALPHA4OLD = V4OLD / VOLD
-           !IF (ALPHA4OLD  >  UN + EM14) THEN
            !   PRINT*, "ALPHA4OLD",ALPHA4OLD
            !ENDIF
            V4 = V4OLD - TIMESTEP*DDVOL4 + ALPHA4OLD * DDVOL(I)
@@ -2580,7 +2560,7 @@ C---------------------------------------------------
           TOL2 = EM12
           ERROR = EP10
           ERROR2 = ERROR
-          STEP = UN
+          STEP = ONE
           CONT = 1
           DO WHILE(ITER <= NITER .AND. CONT  ==  1)
              ITER = ITER + 1
@@ -2615,32 +2595,19 @@ C---------------------------------------------------
              !!! that volume does not decrease of more than half
              !!! of its previous value
 
-             STEP = UN
-             IF (DV1  <  ZERO) THEN
-                STEP = MIN(STEP, -UNDEMI * V1 / DV1)
+             STEP = ONE
+             IF (DV1 .LT. ZERO) THEN
+                STEP = MIN(STEP, -HALF * V1 / DV1)
              ENDIF
-             IF (DV2  <  ZERO) THEN
-                STEP = MIN(STEP, -UNDEMI * V2 / DV2)
+             IF (DV2 .LT. ZERO) THEN
+                STEP = MIN(STEP, -HALF * V2 / DV2)
              ENDIF
-             IF (DV3  <  ZERO) THEN
-                STEP = MIN(STEP, -UNDEMI * V3 / DV3)
+             IF (DV3 .LT. ZERO) THEN
+                STEP = MIN(STEP, -HALF * V3 / DV3)
              ENDIF
-             IF (DV4  <  ZERO) THEN
-                STEP = MIN(STEP, -UNDEMI * V4 / DV4)
+             IF (DV4 .LT. ZERO) THEN
+                STEP = MIN(STEP, -HALF * V4 / DV4)
              ENDIF
-             !!! Also ensure energy positivity
-c$$$             IF (P * DV1  >  ZERO) THEN
-c$$$                STEP = MIN(STEP, UNDEMI * EINT1 / (P * DV1))
-c$$$             ENDIF
-c$$$             IF (P * DV2  >  ZERO) THEN
-c$$$                STEP = MIN(STEP, UNDEMI * EINT2 / (P * DV2))
-c$$$             ENDIF
-c$$$             IF (P * DV3  >  ZERO) THEN
-c$$$                STEP = MIN(STEP, UNDEMI * EINT3 / (P * DV3))
-c$$$             ENDIF
-c$$$             IF (P * DV4  >  ZERO) THEN
-c$$$                STEP = MIN(STEP, UNDEMI * EINT4 / (P * DV4))
-c$$$             ENDIF
 
              DV1 = STEP * DV1
              DV2 = STEP * DV2
@@ -2770,13 +2737,12 @@ c$$$             P = V1 * P1 + V2 * P2 + V3 * P3 + V4 * P4
 c$$$             P = P / VOLUME(I)
           ENDIF
           AA = (V1 + V2 + V3 + V4) / VOLUME(I)
-
-          IF (IDBG == 1 .AND. ABS(AA - UN)  >  EM14) THEN
+          IF (IDBG.EQ.1 .AND. ABS(AA - ONE) .GT. EM14) THEN
              PRINT*, "**WARNING : CONVERGENCE ISSUE", AA
           ENDIF
 C     Sanity check
           ERROR2 = ABS(EINT(I) - EINT1 - EINT2 - EINT3 - EINT4)
-          IF (IDBG == 1 .AND. ERROR2  >  EM13 * (UN + ABS(EINT(I)))) THEN
+          IF (IDBG.EQ.1 .AND. ERROR2 .GT. EM13 * (ONE + ABS(EINT(I)))) THEN
              PRINT*, "**Warning : Conversgence Issue", ERROR2
           ENDIF
           Q1 = Q1OLD
@@ -2823,9 +2789,10 @@ C===================================================
         VISA1 = VISA1 / VOLUME(I) / RHO(I)
 
         SOUNDSP(I) = SQRT(SOUNDSP(I))
-        VISCMAX(I) = VQ0
-        VISCMAX(I) = VISCMAX(I)/DEUX
-        VISCMAX(I) = VISCMAX(I) + RHO(I)*(DEUX*VISA1 + VISB1)/TROIS
+        VISCMAX(I)=VQ0
+        VISCMAX(I) = VISCMAX(I)/TWO
+        VISCMAX(I) = VISCMAX(I) + RHO(I)*(TWO*VISA1 + VISB1)/THREE
+
 !
 C===================================================
 C CALCULTATION OF CONSISTENT DENSITY WITH PRESSURE
@@ -2878,7 +2845,7 @@ C===================================================
         !SUBATERIAL INTERNAL ENERGY HAS TO BE BOUNDED : EINT1+EINT2+EINT3+EINT4 = EINT(new)
         ! THIS IS NOT ENSURED AT THE END OF NEWTON ITERATIONS
         !----------------------------------------------------------------------------------!
-        !EINT_NEW = EINT(I) -(POLD+P+PEXT+PEXT+QOLD+Q)*DVOL*UNDEMI
+        !EINT_NEW = EINT(I) -(POLD+P+PEXT+PEXT+QOLD+Q)*DVOL*HALF
         !EINT_k10 = EINT1+EINT2+EINT3+EINT4
         !IF(ABS(EINT_k10) >= EM06)THEN
         !  ALP   = EINT_NEW / EINT_k10
@@ -2890,9 +2857,9 @@ C===================================================
 
         !---------------------------------------------------------------------------------------------!
         !ENERGY INTEGRATION WITH PRESSURE CONTRIBUTION IS DONE AT ENT OF MULAW SUBROUTINE             !
-        !---------------------------------------------------------------------------------------------!
-        !EINT(I) = EINT(I) - (PEXT+PEXT+QOLD+Q)*DVOL*UNDEMI !Attention : Q est retranche ici car stocke dans Svis pour mulaw et sfint
-
+        !---------------------------------------------------------------------------------------------!        
+        !EINT(I) = EINT(I) - (PEXT+PEXT+QOLD+Q)*DVOL*HALF !Attention : Q est retranche ici car stocke dans Svis pour mulaw et sfint
+     
         !---------------------------!
         !   TOTAL STRESS TENSOR     !
         !---------------------------!
@@ -2930,9 +2897,9 @@ C===================================================
         !---------------------------!
         !   VISCOUS STRESS TENSOR   !
         !---------------------------!
-        SIGVXX(I) = DEUX*RHO(I)*VISA1*EPSPXX(I) + RHO(I)*VISB1*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))
-        SIGVYY(I) = DEUX*RHO(I)*VISA1*EPSPYY(I) + RHO(I)*VISB1*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))
-        SIGVZZ(I) = DEUX*RHO(I)*VISA1*EPSPZZ(I) + RHO(I)*VISB1*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))
+        SIGVXX(I) = TWO*RHO(I)*VISA1*EPSPXX(I) + RHO(I)*VISB1*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))      
+        SIGVYY(I) = TWO*RHO(I)*VISA1*EPSPYY(I) + RHO(I)*VISB1*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))              
+        SIGVZZ(I) = TWO*RHO(I)*VISA1*EPSPZZ(I) + RHO(I)*VISB1*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))              
         SIGVXY(I) = RHO(I)* VISA1 * EPSPXY(I)
         SIGVYZ(I) = RHO(I)* VISA1 * EPSPYZ(I)
         SIGVZX(I) = RHO(I)* VISA1 * EPSPZX(I)
@@ -2963,7 +2930,7 @@ C     DC : same comment
             UVAR(I,14+KK) = SSP1
             UVAR(I,15+KK) = PLAS1(I)     ! Eps plastique
             ECOLD         = -T10 * SPH1
-            IF(MU1 > ZERO) ECOLD = ECOLD * (UN+C51*MU1*(UN-MU1)) + UNDEMI*C21*MU1*MU1
+            IF(MU1 > ZERO) ECOLD = ECOLD * (ONE+C51*MU1*(ONE-MU1)) + HALF*C21*MU1*MU1
             TEMP1         = (EINT1/V1/MU1P1 - ECOLD) / SPH1
             UVAR(I,16+KK) = TEMP1
             UVAR(I,8+KK)  = EINT1 / V1 ! energie IN rho e OUT
@@ -3008,7 +2975,7 @@ C        IF(V1/VOLUME(I)  <  EM03)UVAR(I,14+KK)=ZERO
             UVAR(I,14+KK) = SSP2
             UVAR(I,15+KK) = PLAS2(I)   ! Eps plastique
             ECOLD         = -T20 * SPH2
-            IF(MU2 > ZERO) ECOLD = ECOLD * (UN+C52*MU2*(UN-MU2)) + UNDEMI*C22*MU2*MU2
+            IF(MU2 > ZERO) ECOLD = ECOLD * (ONE+C52*MU2*(ONE-MU2)) + HALF*C22*MU2*MU2
             TEMP2         = (EINT2/V2/(MU2P1) - ECOLD) / SPH2
             UVAR(I,16+KK) = TEMP2
             UVAR(I,8+KK)  = EINT2 / V2
@@ -3053,7 +3020,7 @@ C        IF(V2/VOLUME(I)  <  EM03)UVAR(I,14+KK)=ZERO
             UVAR(I,14+KK) = SSP3
             UVAR(I,15+KK) = PLAS3(I)   ! Eps plastique
             ECOLD         = -T30 * SPH3
-            IF(MU3 > ZERO) ECOLD = ECOLD * (UN+C53*MU3*(UN-MU3)) + UNDEMI*C23*MU3*MU3
+            IF(MU3 > ZERO) ECOLD = ECOLD * (ONE+C53*MU3*(ONE-MU3)) + HALF*C23*MU3*MU3
             TEMP3         = (EINT3/V3/MU3P1 - ECOLD) / SPH3
             UVAR(I,16+KK) = TEMP3
             UVAR(I,8+KK)  = EINT3 / V3
@@ -3168,7 +3135,7 @@ C         IF(V4/VOLUME(I)  <  EM03)UVAR(I,14+KK)=ZERO
         ENDIF
 
        IF(JTHE == 1 ) THEN
-         GBUF%TEMP(I) = TROIS100 + EM03
+         GBUF%TEMP(I) = THREE100 + EM03
        ELSE
          GBUF%TEMP(I) = UVAR(I,2)
        ENDIF

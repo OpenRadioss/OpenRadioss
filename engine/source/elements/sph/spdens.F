@@ -177,7 +177,7 @@ C------
           RHOJ=XSPHR(7,NN)
           VJ=XSPHR(8,NN)/MAX(EM20,RHOJ)
         END IF
-        BETAX=UN +BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
+        BETAX=ONE +BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
         WGRDX=
      .   WGRAD(1)*ALPHAI*BETAX
      .   +WGHT*
@@ -273,7 +273,7 @@ C      partie symetrique.
           VYJ=VSPSYM(2,JS)
           VZJ=VSPSYM(3,JS)
           DJ  =SPBUF(1,SM)
-          DIJ =UNDEMI*(DI+DJ)
+          DIJ =HALF*(DI+DJ)
           RHOJ=WA(10,SM)
           CALL WEIGHT1(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
           VJ=SPBUF(12,SM)/MAX(EM20,RHOJ)
@@ -288,12 +288,12 @@ C      partie symetrique.
           VYJ=VSPSYM(2,JS)
           VZJ=VSPSYM(3,JS)
           DJ  =XSPHR(2,SM)
-          DIJ =UNDEMI*(DI+DJ)
+          DIJ =HALF*(DI+DJ)
           RHOJ=XSPHR(7,SM)
           CALL WEIGHT1(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT,WGRAD)
           VJ=XSPHR(8,SM)/MAX(EM20,RHOJ)
         END IF
-        BETAX=UN + BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
+        BETAX=ONE + BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
         WGRDX=
      .   WGRAD(1)*ALPHAI*BETAX
      .   +WGHT*

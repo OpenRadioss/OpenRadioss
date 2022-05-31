@@ -153,12 +153,12 @@ C-----------------------------------------------
 
 
 C     -------------------------
-      IF (FAC1 == ZERO) FAC1 = UN * FAC_UNIT  
-      IF (FAC2 == ZERO) FAC2 = UN * FAC_UNIT  
-      IF (FAC3 == ZERO) FAC3 = UN * FAC_UNIT  
-      IF (FAC4 == ZERO) FAC4 = UN * FAC_UNIT  
-      IF (FAC5 == ZERO) FAC5 = UN * FAC_UNIT  
-      IF (FAC6 == ZERO) FAC6 = UN * FAC_UNIT
+      IF (FAC1 == ZERO) FAC1 = ONE * FAC_UNIT  
+      IF (FAC2 == ZERO) FAC2 = ONE * FAC_UNIT  
+      IF (FAC3 == ZERO) FAC3 = ONE * FAC_UNIT  
+      IF (FAC4 == ZERO) FAC4 = ONE * FAC_UNIT  
+      IF (FAC5 == ZERO) FAC5 = ONE * FAC_UNIT  
+      IF (FAC6 == ZERO) FAC6 = ONE * FAC_UNIT
       UPARAM(1)=E11
       UPARAM(2)=E22
       UPARAM(3)=E33

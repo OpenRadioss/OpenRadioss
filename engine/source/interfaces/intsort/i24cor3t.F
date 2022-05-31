@@ -141,7 +141,7 @@ C
          VZ3 = V(3,IX3(I))
          VZ4 = V(3,IX4(I))
          VZ=MAX(MAX(VZ1,VZ2,VZ3,VZ4)-VZI,VZI-MIN(VZ1,VZ2,VZ3,VZ4))
-         VDT(I) = (VX+VY+VZ)*DT1/DEUX
+         VDT(I) = (VX+VY+VZ)*DT1/TWO
        END DO
       ELSE
        DO I=1,JLT
@@ -224,7 +224,7 @@ C
 
       DO I=1,JLT
         GAPV(I) = MAX(GAPV(I),PENE_L(I)) + CURV_MAX(CAND_E(I)) + VDT(I)
-        GAPV(I) = UNP01*GAPV(I)
+        GAPV(I) = ONEP01*GAPV(I)
 
       END DO
 C

@@ -1222,8 +1222,8 @@ C
           A(2,N) = MS(N)*BUFR(2,L)
           A(3,N) = MS(N)*BUFR(3,L)
 C calcul du travail localement
-          WF = WF + (DF1*V(1,N)+DF2*V(2,N)+DF3*V(3,N))/DEUX
-          WF2= WF2+ (DF1*A(1,N)+DF2*A(2,N)+DF3*A(3,N))/(DEUX*MS(N))	  	  
+          WF = WF + (DF1*V(1,N)+DF2*V(2,N)+DF3*V(3,N))/TWO
+          WF2= WF2+ (DF1*A(1,N)+DF2*A(2,N)+DF3*A(3,N))/(TWO*MS(N))	  	  
 	ELSE
           DBL = DBL + 1
           DF1 = MS(N)*BUFR(1,DBL)-A(1,N)
@@ -1618,13 +1618,13 @@ Cel test si msg necessaire a envoyer a completer par test interface
 C calcul du travail localement                
                 IF(WEIGHT(NOD).EQ.1)THEN
                   WF = WF + (DF1*V(1,NOD)+DF2*V(2,NOD)+
-     .                 DF3*V(3,NOD))/DEUX
+     .                 DF3*V(3,NOD))/TWO
                   WF2= WF2+ (DF1*A(1,NOD)+DF2*A(2,NOD)+
-     .                 DF3*A(3,NOD))/(DEUX*MS(NOD))
+     .                 DF3*A(3,NOD))/(TWO*MS(NOD))
                   WF = WF + (DF4*VR(1,NOD)+DF5*VR(2,NOD)+
-     .                 DF6*VR(3,NOD))/DEUX
+     .                 DF6*VR(3,NOD))/TWO
                   WF2= WF2+ (DF4*AR(1,NOD)+DF5*AR(2,NOD)+
-     .                 DF6*AR(3,NOD))/(DEUX*IN(NOD))                  
+     .                 DF6*AR(3,NOD))/(TWO*IN(NOD))                  
                 ENDIF                  
             END DO
           ELSE
@@ -1646,9 +1646,9 @@ C calcul du travail localement
 C calcul du travail localement                
                  IF(WEIGHT(NOD).EQ.1)THEN
                    WF = WF + (DF1*V(1,NOD)+DF2*V(2,NOD)+
-     .                 DF3*V(3,NOD))/DEUX
+     .                 DF3*V(3,NOD))/TWO
                    WF2= WF2+ (DF1*A(1,NOD)+DF2*A(2,NOD)+
-     .                 DF3*A(3,NOD))/(DEUX*MS(NOD))                
+     .                 DF3*A(3,NOD))/(TWO*MS(NOD))                
                  ENDIF  
              END DO
           ENDIF

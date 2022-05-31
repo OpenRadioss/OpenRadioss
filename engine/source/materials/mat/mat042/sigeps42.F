@@ -140,9 +140,9 @@ C
         AV(I,1)=EPSXX(I)
         AV(I,2)=EPSYY(I)
         AV(I,3)=EPSZZ(I)
-        AV(I,4)=EPSXY(I) * UNDEMI
-        AV(I,5)=EPSYZ(I) * UNDEMI
-        AV(I,6)=EPSZX(I) * UNDEMI
+        AV(I,4)=EPSXY(I) * HALF
+        AV(I,5)=EPSYZ(I) * HALF
+        AV(I,6)=EPSZX(I) * HALF
       ENDDO
 C         Eigenvalues needed to be calcultated in double precision
 C         for a simple precision executing
@@ -165,22 +165,22 @@ C ---- (STRAIN IS LOGARITHMIC)
         ENDDO 
       ELSEIF(ISMSTR==10.OR.ISMSTR==12) THEN
         DO I =1,NEL
-          IF(OFFG(I)<=UN) THEN
-            EV(I,1)=SQRT(EVV(I,1)+ UN)
-            EV(I,2)=SQRT(EVV(I,2)+ UN)
-            EV(I,3)=SQRT(EVV(I,3)+ UN)
+          IF(OFFG(I)<=ONE) THEN
+            EV(I,1)=SQRT(EVV(I,1)+ ONE)
+            EV(I,2)=SQRT(EVV(I,2)+ ONE)
+            EV(I,3)=SQRT(EVV(I,3)+ ONE)
      	  ELSE
-           EV(I,1)=EVV(I,1)+ UN
-           EV(I,2)=EVV(I,2)+ UN
-           EV(I,3)=EVV(I,3)+ UN
+           EV(I,1)=EVV(I,1)+ ONE
+           EV(I,2)=EVV(I,2)+ ONE
+           EV(I,3)=EVV(I,3)+ ONE
           END IF
         ENDDO 
       ELSE
 C ----  STRAIN IS ENGINEERING)
         DO I=1,NEL
-         EV(I,1) = EVV(I,1) + UN
-         EV(I,2) = EVV(I,2) + UN
-         EV(I,3) = EVV(I,3) + UN
+         EV(I,1) = EVV(I,1) + ONE
+         EV(I,2) = EVV(I,2) + ONE
+         EV(I,3) = EVV(I,3) + ONE
         ENDDO 
 
       ENDIF
@@ -196,9 +196,9 @@ C----------------
               DO I=1,NEL
                 AMAX = EV(I,J)                
                 IF(AMAX/=ZERO) THEN
-                  IF((AL_TAB(II)-UN)/=ZERO) THEN
+                  IF((AL_TAB(II)-ONE)/=ZERO) THEN
                     ETI(I) = ETI(I) + MU_TAB(II)*AL_TAB(II) * 
-     .                    EXP((AL_TAB(II)-UN)*LOG(AMAX))
+     .                    EXP((AL_TAB(II)-ONE)*LOG(AMAX))
                   ELSE
                     ETI(I) = ETI(I) + MU_TAB(II)*AL_TAB(II)
                   ENDIF
@@ -209,7 +209,7 @@ C----------------
           ET(1:NEL)= MAX(ETI(1:NEL),ET(1:NEL))
         ENDDO
         DO I=1,NEL
-          ET(I) = MAX(UN,ET(I)/GMAX)
+          ET(I) = MAX(ONE,ET(I)/GMAX)
           ET(I)= ET(I)+ETV
         ENDDO
       ENDIF
@@ -268,10 +268,10 @@ C------max of Cii : IOLDF <0 to deactivate
            ENDIF
           ENDDO
 C------2GT=3/2 Cii (factor 3 already inside CII)		  
-           AMAX1= 0.81*UNDEMI/GMAX
+           AMAX1= 0.81*HALF/GMAX
           DO I=1,NEL
            AMAX= AMAX1*MAX(CII(I,1),CII(I,2),CII(I,3))
-           ETI(I) = MAX(UN,AMAX) 
+           ETI(I) = MAX(ONE,AMAX) 
 C---------reduce old result change		   
            GTMAX(I) = GMAX*ETI(I) + GVMAX
 C---- see if many QA return for HEPH 		   
@@ -305,7 +305,7 @@ C---- see if many QA return for HEPH
 
       DO I=1,NEL
 * DW/RV
-        DWDRV(I)=P(I)*(RV(I)- UN)
+        DWDRV(I)=P(I)*(RV(I)- ONE)
 * (SUM(L(J)DW/DL(J))/3
         SUMDWDL(I)=(DWDL(I,1)+DWDL(I,2)+DWDL(I,3))* THIRD
         
@@ -314,7 +314,7 @@ C---- see if many QA return for HEPH
 * RV.T(J)=L(J).DW/DL(J)-(SUM_OF_1_TO_3(D(W)/D(LJ))-RV.DWDRV)
       DO J=1,3
         DO I=1,NEL
-            INVE = UN/RV(I)
+            INVE = ONE/RV(I)
             T(I,J)=(DWDL(I,J)-(SUMDWDL(I)-RV(I)*DWDRV(I)))*INVE
         ENDDO
       ENDDO
@@ -378,7 +378,7 @@ c
      .            + DIRPRV(I,3,1)*DIRPRV(I,1,1)*SIGPRV(I,1)
      .            + DIRPRV(I,3,2)*DIRPRV(I,1,2)*SIGPRV(I,2)
 * SET SOUND SPEED
-        SOUNDSP(I)=SQRT((DTHIRD*GTMAX(I)+P(I))/RHO(I))
+        SOUNDSP(I)=SQRT((TWO_THIRD*GTMAX(I)+P(I))/RHO(I))
 * SET VISCOSITY
         VISCMAX(I)=ZERO
       ENDDO
@@ -409,7 +409,7 @@ C
                 DO I=1,NEL 
                  H0(I,J,II) = UVAR(I, 6 + (II - 1)*3 + J)
                  H(I,J,II)  = EXP(FAC)*H0(I,J,II) +
-     .            EXP(UNDEMI*FAC)*(C1(I,J) - C0(I,J))
+     .            EXP(HALF*FAC)*(C1(I,J) - C0(I,J))
                  UVAR(I,  6 + (II - 1)*3 + J)=  H(I,J,II)
                 ENDDO
               ENDDO
@@ -425,7 +425,7 @@ C
        
 C       * TRANSFORM PRINCIPAL VISCO CAUCHY STRESSES TO GLOBAL DIRECTIONS
           DO I=1,NEL
-           INVE = UN/RV(I)
+           INVE = ONE/RV(I)
            SV(I,1) = SV(I,1)*INVE
            SV(I,2) = SV(I,2)*INVE
            SV(I,3) = SV(I,3)*INVE
@@ -467,16 +467,16 @@ c
              LL(I,1,1) = EPSP1(I)           ! EPSPXX
              LL(I,2,2) = EPSP2(I)           ! EPSPYY
              LL(I,3,3) = EPSP3(I)           ! EPSPZZ
-             LL(I,1,2) = EPSP4(I) * UNDEMI  !(EPSPXY(I) + EPSPYX(I))/2
-             LL(I,2,3) = EPSP5(I) * UNDEMI  !(EPSPYZ(I) + EPSPZY(I))/2
-             LL(I,1,3) = EPSP6(I) * UNDEMI  !(EPSPZX(I) + EPSPXZ(I))/2
+             LL(I,1,2) = EPSP4(I) * HALF  !(EPSPXY(I) + EPSPYX(I))/2
+             LL(I,2,3) = EPSP5(I) * HALF  !(EPSPYZ(I) + EPSPZY(I))/2
+             LL(I,1,3) = EPSP6(I) * HALF  !(EPSPZX(I) + EPSPXZ(I))/2
              LL(I,2,1) = LL(I,1,2)
              LL(I,3,1) = LL(I,1,3)
              LL(I,3,2) = LL(I,2,3)
 c
-             F(I,1,1)  = UN + MFXX(I)
-             F(I,2,2)  = UN + MFYY(I)
-             F(I,3,3)  = UN + MFZZ(I)
+             F(I,1,1)  = ONE + MFXX(I)
+             F(I,2,2)  = ONE + MFYY(I)
+             F(I,3,3)  = ONE + MFZZ(I)
              F(I,1,2)  = MFXY(I)
              F(I,2,3)  = MFYZ(I)
              F(I,3,1)  = MFZX(I)      
@@ -521,7 +521,7 @@ c
               DO I=1,NEL
                 H0(I,J,II) = UVAR(I, 6 + (II - 1)*6 + J)
                 H(I,J,II)  = EXP(FAC)*H0(I,J,II) +
-     .                       EXP(UNDEMI*FAC)*DOTB(I,J)*TIMESTEP
+     .                       EXP(HALF*FAC)*DOTB(I,J)*TIMESTEP
                 UVAR(I,  6 + (II - 1)*6 + J)=  H(I,J,II)
               ENDDO
             ENDDO
@@ -538,7 +538,7 @@ c
 c          Kirchoff -> Cauchy visc stress : sig = T / J
 c
           DO I=1,NEL
-            INVE = UN/RV(I)      
+            INVE = ONE/RV(I)      
             SV(I,1) = SV(I,1)*INVE
             SV(I,2) = SV(I,2)*INVE
             SV(I,3) = SV(I,3)*INVE       
@@ -546,7 +546,7 @@ c
             SV(I,5) = SV(I,5)*INVE
             SV(I,6) = SV(I,6)*INVE
 c           deviatoric part of visc stress
-            TRACE = (SV(I,1) + SV(I,2) + SV(I,3)) * TIERS
+            TRACE = (SV(I,1) + SV(I,2) + SV(I,3)) * THIRD
             SV(I,1) = SV(I,1) - TRACE
             SV(I,2) = SV(I,2) - TRACE
             SV(I,3) = SV(I,3) - TRACE      
@@ -614,7 +614,7 @@ C
                 DO I=1,NEL
                  H0(I,J,II) = UVAR(I, 12 + (II - 1)*6 + J)
                  H(I,J,II)  = EXP(FAC)*H0(I,J,II) +
-     .               EXP(UNDEMI*FAC)*(C1(I,J) - C0(I,J))
+     .               EXP(HALF*FAC)*(C1(I,J) - C0(I,J))
                  UVAR(I,  12 + (II - 1)*6 + J)=  H(I,J,II)
                 ENDDO
             ENDDO
@@ -627,7 +627,7 @@ C
           ENDDO     
 c
           DO I=1,NEL                        
-            INVE = UN/RV(I)                 
+            INVE = ONE/RV(I)                 
             SV(I,1) = SV(I,1)*INVE          
             SV(I,2) = SV(I,2)*INVE          
             SV(I,3) = SV(I,3)*INVE          
