@@ -658,13 +658,3 @@ You should also get your employer (if you work as a programmer) or
 school, if any, to sign a "copyright disclaimer" for the program, if
 necessary. For more information on this, and how to apply and follow
 the GNU AGPL, see <https://www.gnu.org/licenses/>.
-
-
-### Third Party Software Information
-
-OpenRadioss includes code created by other parties which is provided under
-the open source software license agreements chosen by the authors. All
-unmodified files from these and other sources retain their original
-copyright and license notices.
-* Lapack 3.10.0: See extlib/lapack-3.10.0/LICENSE.txt
-* Metis 5.1: See extlib/metis/LICENSE.txt
