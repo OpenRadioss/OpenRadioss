@@ -1903,9 +1903,14 @@ C---------!!!add check Ismstr
                     CALL HM_GET_FLOAT_ARRAY('Zref' ,TMPVAL3,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
 !
                     DO K=1,ISOLNOD
-                      SIGSP(IIS+(K-1)*3+1,I) =TMPVAL1(K)
-                      SIGSP(IIS+(K-1)*3+2,I) =TMPVAL2(K)
-                      SIGSP(IIS+(K-1)*3+3,I) =TMPVAL3(K)
+                      S(1) =TMPVAL1(K)
+                      S(2) =TMPVAL2(K)
+                      S(3) =TMPVAL3(K)
+                      IF(SUB_ID /= 0 .AND.(ISMSTR==1.OR.ISMSTR==11)) 
+     .                  CALL SUBROTVECT (S(1),S(2),S(3),RTRANS,SUB_ID,LSUBMODEL)
+                      SIGSP(IIS+(K-1)*3+1,I) =S(1)
+                      SIGSP(IIS+(K-1)*3+2,I) =S(2)
+                      SIGSP(IIS+(K-1)*3+3,I) =S(3)
                     ENDDO ! DO J=1,ISOLNOD
                     STRAGLOB(IE)=10
 !
