@@ -14,7 +14,7 @@
 //Copyright>    You should have received a copy of the GNU Affero General Public License
 //Copyright>    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //Copyright>
-//Copyright>
+//Copyright> 
 //Copyright>    Commercial Alternative: Altair Radioss Software 
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss 
@@ -34,7 +34,9 @@ extern "C"
   void intvector_push_back_(std::vector<int>**, const int*);
   void intvector_get_size_(std::vector<int>**, int*);
   void intvector_get_redundant_(std::vector<int>**, int*, int*, int*);
-  void intvector_copy_(const std::vector<int>**, int*);
+  void intvector_copy_to_(const std::vector<int>**, int*);
+  void intvector_copy_from_(std::vector<int>**, const int*, const int*);
+  void intvector_find_(const std::vector<int>**, const int*, int*);
 
   void _FCALL INTVECTOR_CREATE(std::vector<int>** vec_ptr)
   {
@@ -60,9 +62,17 @@ extern "C"
   {
     intvector_get_redundant_(vec_ptr, res, err, card);
   }
-  void _FCALL INTVECTOR_COPY(const std::vector<int>** vec_ptr, int* res)
+  void _FCALL INTVECTOR_COPY_TO(const std::vector<int>** vec_ptr, int* res)
   {
-    intvector_copy_(vec_ptr, res);
+    intvector_copy_to_(vec_ptr, res);
+  }
+  void _FCALL INTVECTOR_COPY_FROM(std::vector<int>** vec_ptr, const int* res, const int* size)
+  {
+    intvector_copy_from_(vec_ptr, res, size);
+  }
+  void _FCALL INTVECTOR_FIND(const std::vector<int>** vec_ptr, const int* what, int* where)
+  {
+    intvector_find_(vec_ptr, what, where);
   }
 }
 
@@ -106,10 +116,27 @@ void intvector_get_redundant_(std::vector<int>** vec_ptr, int* res, int* err, in
   }
 }
 // Copy the vector into the int*
-void intvector_copy_(const std::vector<int>** vec_ptr, int* res)
+void intvector_copy_to_(const std::vector<int>** vec_ptr, int* res)
 {
   auto iter = (*vec_ptr)->begin();
   for ( ; iter != (*vec_ptr)->end() ; ++iter) {
     (*res++) = *iter;
+  }
+}
+// Copy int array res into the vector
+void intvector_copy_from_(std::vector<int>** vec_ptr, const int* res, const int* size)
+{
+  (*vec_ptr)->resize(*size);
+  for (int i(0) ; i < *size ; ++i) {
+    (*vec_ptr)->at(i) = res[i];
+  }
+}
+// Finds value what in the int vector and returns where = position of what, or -1 if not found
+void intvector_find_(const std::vector<int>** vec_ptr, const int* what, int* where)
+{
+  *where = -1;
+  auto iter = std::find((*vec_ptr)->begin(), (*vec_ptr)->end(), *what);
+  if (iter != (*vec_ptr)->end()) {
+    *where = std::distance((*vec_ptr)->begin(), iter) + 1;
   }
 }

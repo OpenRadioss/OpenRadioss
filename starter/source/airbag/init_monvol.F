@@ -298,6 +298,7 @@ C
             
             IF (T_MONVOL(N)%INT_SURFID /= 0) THEN
                ALLOCATE(ITABINV1(NUMNOD))
+               ITABINV1(1:NUMNOD) = 0
                NP = IGRSURF(T_MONVOL(N)%INT_SURFID)%NSEG
                CALL FVNODI(NP ,IGRSURF(T_MONVOL(N)%INT_SURFID)%NODES, NNI,ITABINV1 ,
      .              T_MONVOL(N))
@@ -352,7 +353,8 @@ C
 
             IF (KMESH(N) >= 12) THEN
                CALL MONVOL_TRIANGULATE_SURFACE(T_MONVOL(N), IGRSURF, ITABINV, ITABINV2, TAGE, 
-     .              X, KMESH(N), NNS, NNI, NTG, NTGI, SIZE1, SIZE2, FVBAG_ELEMID)
+     .              X, KMESH(N), NNS, NNI, NTG, NTGI, SIZE1, SIZE2, FVBAG_ELEMID, 
+     .              IXC, IXTG)
 !     Get back to initial numbering for nodes of the internal surface once the 
 !     quad have been split
                DO II = NTG + 1, NTG + NTGI
@@ -360,8 +362,13 @@ C
                ENDDO
             ELSE
                CALL MONVOL_TRIANGULATE_SURFACE(T_MONVOL(N), IGRSURF, ITABINV, ITABINV1, TAGE, 
-     .              X, KMESH(N), NNS, NNI, NTG, NTGI, SIZE1, SIZE2, FVBAG_ELEMID)
+     .              X, KMESH(N), NNS, NNI, NTG, NTGI, SIZE1, SIZE2, FVBAG_ELEMID,
+     .              IXC, IXTG)
             ENDIF
+
+!     Check for duplicated triangles on internal + external surface of the airbag
+
+            CALL MONVOL_CHECK_DELETE_DUPLICATED(T_MONVOL(N), NTG, NTGI, ITAB)
 
             IF (ALLOCATED(ITABINV1)) DEALLOCATE(ITABINV1)
             IF (ALLOCATED(ITABINV)) DEALLOCATE(ITABINV)

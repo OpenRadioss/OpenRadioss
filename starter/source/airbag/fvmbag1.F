@@ -619,23 +619,39 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NN, NNB, ITABINV(*), SURF_NODES(NN,4)
+      INTEGER, INTENT(IN) :: NN
+      INTEGER, DIMENSION(NN, 4), INTENT(IN) :: SURF_NODES
+      INTEGER, INTENT(OUT) ::  NNB
+      INTEGER, DIMENSION(NUMNOD), INTENT(INOUT) :: ITABINV
       TYPE(MONVOL_STRUCT_), INTENT(INOUT) :: T_MONVOLN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ITAG(NUMNOD), I, I1, I2, I3, I4, IAD1, NNS
+      INTEGER I, I1, I2, I3, I4, IAD1, NNS
       INTEGER, DIMENSION(:), ALLOCATABLE :: BUFNODE
+      INTEGER :: IFOUND
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG, ITAG_SURFEXT, ITABINV_SURFEXT
+      INTEGER(8) :: VEC_PTR_SURFINT
+
+      ALLOCATE(ITAG(NUMNOD), ITAG_SURFEXT(NUMNOD), ITABINV_SURFEXT(NUMNOD))
+
+      DO I = 1, NUMNOD
+         ITAG(I) = 0
+         ITAG_SURFEXT(I) = 0
+         ITABINV_SURFEXT(I) = 0
+      ENDDO
+
       NNS = T_MONVOLN%NNS
       ALLOCATE(BUFNODE(NNS))
       DO I = 1, NNS
          BUFNODE(I) = T_MONVOLN%NODES(I)
+!     FLAG NODES OF EXTERNAL SURFACE
+         ITAG_SURFEXT(T_MONVOLN%NODES(I)) = 1
+!     KEEP INDEX IN ITABINV_SURFEXT TAB
+         ITABINV_SURFEXT(T_MONVOLN%NODES(I)) = I
       ENDDO
-C
-      DO I=1,NUMNOD
-         ITAG(I)=0
-      ENDDO
-C
+
+!     FLAG NODES OF INTERNAL SURFACE
       DO I=1,NN
         I1=SURF_NODES(I,1)
         I2=SURF_NODES(I,2)
@@ -646,30 +662,38 @@ C
         ITAG(I3)=1
         IF (I4 /= 0) ITAG(I4)=1
       ENDDO
-C
-      NNB=0
-      DO I=1,NUMNOD
-         IF (ITAG(I).EQ.1) THEN
-           NNB=NNB+1
-           ITABINV(I)=NNB+NNS
+
+!     COUNT AND BUILD INDIRECTION TAB OF INTERNAL SURFACE NODES
+!     THAT DO NOT ALREADY APPEAR IN EXTERNAL SURFACE
+      CALL INTVECTOR_CREATE(VEC_PTR_SURFINT)
+      NNB = 0
+      DO I = 1, NUMNOD
+         IF (ITAG(I) == 1) THEN
+            IF (ITAG_SURFEXT(I) /= 1) THEN
+!     Node that does not already appear in external surface
+               NNB = NNB + 1
+               ITABINV(I) = NNB + NNS
+               CALL INTVECTOR_PUSH_BACK(VEC_PTR_SURFINT, I)
+            ELSE
+               ITABINV(I) = ITABINV_SURFEXT(I)
+            ENDIF
          ENDIF
       END DO
       
       DEALLOCATE(T_MONVOLN%NODES)
       ALLOCATE(T_MONVOLN%NODES(NNB + NNS))
-      T_MONVOLN%NNI = NNB
       DO I = 1, NNS
          T_MONVOLN%NODES(I) = BUFNODE(I)
       ENDDO
+      T_MONVOLN%NNI = NNB
+      
+      CALL INTVECTOR_COPY_TO(VEC_PTR_SURFINT, T_MONVOLN%NODES(NNS + 1))
 
-      NNB=0
-      DO I=1,NUMNOD
-         IF (ITAG(I).EQ.1) THEN
-           NNB=NNB+1
-           T_MONVOLN%NODES(NNB+NNS)=I
-         ENDIF
-      END DO
+      CALL INTVECTOR_DELETE(VEC_PTR_SURFINT)
       DEALLOCATE(BUFNODE)
+      DEALLOCATE(ITAG)
+      DEALLOCATE(ITAG_SURFEXT)
+      DEALLOCATE(ITABINV_SURFEXT)
 C
       RETURN
       END
