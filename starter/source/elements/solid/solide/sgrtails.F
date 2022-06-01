@@ -683,7 +683,7 @@ c
           ENDIF
           IF (JHBE ==  2) JHBE=0     ! Hourglass Halquist
           IF (JHBE == 15) THEN
-            IF(MLN == 1 .AND. NPT /= 1) THEN
+            IF(MLN == 1 .AND. NPT /= 1.AND.IGT /= 22) THEN
               CALL ANCMSG(MSGID=791,
      .                    MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_1,
@@ -691,7 +691,7 @@ c
      .                    C1=TITR)
             ENDIF
             IF(NPT ==  0) NPT = 3
-            IF(MLN == 1 .AND. NPT /= 1) NPT = 2
+            IF(MLN == 1 .AND. NPT /= 1.AND.IGT /= 22) NPT = 2
           ENDIF
           IF(JHBE==14 .AND. MLN==1.AND.IGT /= 22) NPT = 222
 C
