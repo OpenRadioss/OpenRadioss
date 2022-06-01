@@ -1,5 +1,12 @@
-# How to contribute  
-## Settings
+# How to contribute
+Welcome! You can report issues [here](https://github.com/OpenRadioss/OpenRadioss/issues) or ask questions [there](https://github.com/OpenRadioss/OpenRadioss/discussions).
+If you have any questions, concerns, or input about OpenRadioss please feel free to contact <webmaster@openradioss.org>. 
+
+## Contributing code to OpenRadioss
+Please first discuss the changes you wish to make via the [issue](https://github.com/OpenRadioss/OpenRadioss/issues) or the [discussion](https://github.com/OpenRadioss/OpenRadioss/discussions) tabs.
+You must be aware of the [license](./LICENSE.md). We will ask you to sign a **Contributor License Agreement** (CLA).
+
+### Settings
 Windows users may want to use [git bash](https://gitforwindows.org/) or [WSL](https://docs.microsoft.com/en-us/windows/wsl/install)
 * Create and a github account
     * Add an [SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent). 
@@ -20,7 +27,7 @@ git remote add upstream git@github.com:OpenRadioss/OpenRadioss.git
 ```
 * Now `origin` points to your fork, and `upstream` points to the official OpenRadioss repository
 
-## Contribution workflow 
+### Contribution workflow 
 The typical workflow is described in this picture:
 ![image](/doc/workflow.png)
 It is not recommended to push commits directly into you `main` branch. This branch should be a copy of the official repository. 
@@ -47,8 +54,8 @@ It is not recommended to push commits directly into you `main` branch. This bran
 * Fill a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request). Note that new commits pushed on that branch will be automatically added to the pull request. 
 * Once the merge is accepted, it is recommended to delete the branch from your fork and your local repository  
 
-## Guidelines and coding style
-### Fortran coding style
+### Guidelines and coding style
+#### Fortran coding style
 
 | DOS                   | DONTS                       |
 |-----------------------|-----------------------------|
@@ -67,7 +74,7 @@ It is not recommended to push commits directly into you `main` branch. This bran
 | Deallocate arrays as soon as possible | use automatic deallocation |
 
 
-### Fortran Performance 
+#### Fortran Performance 
 * [vectorization](https://en.wikipedia.org/wiki/Automatic_vectorization)
     * Use `#include <vectorize.inc>` that contains the [IVDEP](https://www.intel.com/content/www/us/en/develop/documentation/fortran-compiler-oneapi-dev-guide-and-reference/top/language-reference/a-to-z-reference/h-to-i/ivdep.html) directive
     * When possible, work on arrays of size `MVSIZ` 
