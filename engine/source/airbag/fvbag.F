@@ -1538,12 +1538,10 @@ C
                   DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
                      KK  =IFVPOLY(K)
                      AREA=PAREA(KK)
-
                      IEL1=IFVTRI(5, KK)
                      IEL2=IFVTRI(6, KK)
                      IF(IEL2==0)IEL2=I !bounday surface
                      IF(IEL1==0)IEL1=I
-
                      VMAT(1) = UNDEMI*(PU(1,IEL1)+PU(1,IEL2))
                      VMAT(2) = UNDEMI*(PU(2,IEL1)+PU(2,IEL2))
                      VMAT(3) = UNDEMI*(PU(3,IEL1)+PU(3,IEL2))
@@ -1553,9 +1551,8 @@ C
                      TMP_VEC(1) = (VMAT(1)-VGRID(1,KK))*PNORM(1,KK)
                      TMP_VEC(2) = (VMAT(2)-VGRID(2,KK))*PNORM(2,KK)
                      TMP_VEC(3) = (VMAT(3)-VGRID(3,KK))*PNORM(3,KK)
-                     Denom = AREA*SQRT(TMP_VEC(1)*TMP_VEC(1)+TMP_VEC(2)*TMP_VEC(2)+TMP_VEC(3)*TMP_VEC(3)) + SSPt
+                     Denom = AREA*(SQRT(TMP_VEC(1)*TMP_VEC(1)+TMP_VEC(2)*TMP_VEC(2)+TMP_VEC(3)*TMP_VEC(3)) + SSPt)
                      Denom_max = MAX(Denom, Denom_max)
-
                   ENDDO! next K (triangle)
                ENDDO! next J (polygon)
                ! 2.artificial viscosity
@@ -1595,14 +1592,15 @@ C
                   !loop over triangles
                   DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
                      KK  =IFVPOLY(K)
-                     WSURF(1)=TIERS*VGRID(1,KK)
-                     WSURF(2)=TIERS*VGRID(2,KK)
-                     WSURF(3)=TIERS*VGRID(3,KK)
+                     WSURF(1)=WSURF(1)+VGRID(1,KK)
+                     WSURF(2)=WSURF(2)+VGRID(2,KK)
+                     WSURF(3)=WSURF(3)+VGRID(3,KK)
                   ENDDO! next K (triangle)
                   PW(1,I)=PW(1,I)+WSURF(1)
                   PW(2,I)=PW(2,I)+WSURF(2)
                   PW(3,I)=PW(3,I)+WSURF(3)
                ENDDO! next J (polygon)
+               !PW:polyhedron mean value over all triangles
                PW(1,I)=PW(1,I)/NTRIA_TOT
                PW(2,I)=PW(2,I)/NTRIA_TOT
                PW(3,I)=PW(3,I)/NTRIA_TOT
