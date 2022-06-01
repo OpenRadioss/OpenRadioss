@@ -90,24 +90,24 @@ C-----------------------------------------------
         ALLOCATE (ISUBDOM(8,NSUBDOM),STAT=stat)
 
 2000    CONTINUE
-	
+        
 C----------------------------------------------------------------------
 C----------------------------- WINDOWS --------------------------------
-C----------------------------------------------------------------------		
+C----------------------------------------------------------------------         
 #if CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
         IF (IPID.NE.0) CALL CREATE_CHILD(IPID_RET,FLG_SWALE)
-C----------------------------------------------------------------------		
+C----------------------------------------------------------------------         
 C-------------PGI -> LINUX / SUN -> SOLARISX64 / IBM -> AIX64----------
-C----------------------------------------------------------------------			
+C----------------------------------------------------------------------                 
 #elif CPP_mach == CPP_linux964 || CPP_mach == CPP_sun25 || CPP_mach == CPP_pwr4
         IPID = FORK()
 #if defined(_OPENMP)
         IF (IPID.EQ.0) CALL OMP_SET_NUM_THREADS(NTHREAD_R2R)
 #endif         
-C----------------------------------------------------------------------		
+C----------------------------------------------------------------------         
 C-------------------INTEL -> LINUX/LINUXIA64/MACOSX--------------------
-C----------------------------------------------------------------------		
-#else 1
+C----------------------------------------------------------------------         
+#else
 #if COMP_GFORTRAN==1 ||  COMP_ARMFLANG==1
         CALL MY_FORK(IPID)
         IPID_RET = GETPID()
@@ -119,35 +119,35 @@ C----------------------------------------------------------------------
         IF (IPID.EQ.0) CALL OMP_SET_NUM_THREADS(NTHREAD_R2R)
 #endif        
 #endif
-C----------------------------------------------------------------------		
+C----------------------------------------------------------------------         
 C----------------------------------------------------------------------    
-	KDOM = KDOM + 1
+        KDOM = KDOM + 1
         IPID_L = IPID
 C
-        IF (IPID.NE.0) THEN	
+        IF (IPID.NE.0) THEN     
 C----------------------------------------------------------------------
 C----------------------------- WINDOWS --------------------------------
-C----------------------------------------------------------------------		
+C----------------------------------------------------------------------         
 #if CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
-	    CALL WIN_WAITPID(IPID_RET)
+            CALL WIN_WAITPID(IPID_RET)
 C----------------------------------------------------------------------
 C-------------PGI -> LINUX / SUN -> SOLARISX64 / IBM -> AIX64----------
-C----------------------------------------------------------------------		
+C----------------------------------------------------------------------         
 #elif CPP_mach == CPP_linux964 || CPP_mach == CPP_sun25 || CPP_mach == CPP_pwr4
             IERROR = WAIT(ISTAT)
-C----------------------------------------------------------------------	    
+C----------------------------------------------------------------------     
 C-------------------INTEL -> LINUX/LINUXIA64/MACOSX--------------------
-C----------------------------------------------------------------------		    	    
-#else 1	   
+C----------------------------------------------------------------------                     
+#else
 #if COMP_GFORTRAN==1 ||  COMP_ARMFLANG==1
             CALL MY_WAITPID(IPID,ISTAT,0,IPID_RET)
 #else
-	    CALL PXFWAITPID(IPID,ISTAT,0,IPID_RET,IERROR)
+            CALL PXFWAITPID(IPID,ISTAT,0,IPID_RET,IERROR)
 #endif
 
 #endif
-	    CALL R2R_PRELEC_NAME(KDOM,LSUBMODEL)
-	    IDDOM = 0
+            CALL R2R_PRELEC_NAME(KDOM,LSUBMODEL)
+            IDDOM = 0
             IDDOM_L = IDDOM
             CALL READ_FLAG_ALE(CHRUN)
             IF (FLG_FSI.EQ.1) THEN
@@ -160,23 +160,23 @@ C----------------------------------------------------------------------
 #endif
                 GOTO 2000
               ELSE
-    	        CALL ANCMSG(MSGID=1103,
+                CALL ANCMSG(MSGID=1103,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO)
                 IERR=IERR+1    
               ENDIF
-	    ELSEIF (KDOM.LT.NSUBDOM) THEN
+            ELSEIF (KDOM.LT.NSUBDOM) THEN
               GOTO 2000
             ENDIF
             IF (FLG_SWALE.EQ.1) THEN
                IPID_L = 0
                IDDOM_L = 1
             ENDIF     
-C----------------------------------------------------------------------	
+C---------------------------------------------------------------------- 
 C----------------------------------------------------------------------
         ELSE
-	    CALL R2R_PRELEC_NAME(KDOM,LSUBMODEL)
-	    IDDOM = KDOM
+            CALL R2R_PRELEC_NAME(KDOM,LSUBMODEL)
+            IDDOM = KDOM
             IDDOM_L = IDDOM
             IF (FLG_SWALE.EQ.1) THEN
                IPID_L = 1
@@ -185,13 +185,13 @@ C----------------------------------------------------------------------
         ENDIF
 C
         IF (IPID_L.NE.0) THEN    
-	    WRITE(ISTDO,'(A)') '-----------------------------------' 
+            WRITE(ISTDO,'(A)') '-----------------------------------' 
             WRITE(ISTDO,'(A)')' .. TREATMENT OF THE FULL DOMAIN'
-	    WRITE(ISTDO,'(A)') '-----------------------------------'
-	    WRITE(ISTDO,'(A)') ''	   
-	ELSE
-	    ROOTNAM = DOM_NAME
-	    ROOTLEN = LEN_TRIM(ROOTNAM)		
+            WRITE(ISTDO,'(A)') '-----------------------------------'
+            WRITE(ISTDO,'(A)') ''          
+        ELSE
+            ROOTNAM = DOM_NAME
+            ROOTLEN = LEN_TRIM(ROOTNAM)         
 c-----------Initialisations pour les starters des subdomaines----
             FILNAM  =ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.out'
             R2R_FILNAM = FILNAM
@@ -205,16 +205,16 @@ c-----------On repointe les fichiers temporaires des messages d'erreur
             RES_TMP = 123459
             OPEN (UNIT=RES_MES,STATUS='SCRATCH',FORM='FORMATTED')
 c    
-	    WRITE(ISTDO,'(A)') ''      
-	    WRITE(ISTDO,'(A)') '-----------------------------------'     
+            WRITE(ISTDO,'(A)') ''      
+            WRITE(ISTDO,'(A)') '-----------------------------------'     
             WRITE(ISTDO,'(A)')' .. TREATMENT OF SUBDOMAIN '
      .       //ROOTNAM(1:ROOTLEN)
-	    WRITE(ISTDO,'(A)') '-----------------------------------'
-	    WRITE(ISTDO,'(A)') ''
+            WRITE(ISTDO,'(A)') '-----------------------------------'
+            WRITE(ISTDO,'(A)') ''
 C-----------printout only for main domain
             doqa = 0
 C
-	ENDIF
+        ENDIF
 
 C--------------------------------------------------------------------C                          
       RETURN
@@ -279,9 +279,9 @@ C-----------------------------------------------
       INTEGER ID,FLG_SWALE          
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
-C-----------------------------------------------	  
+C-----------------------------------------------          
       LOGICAL(4) SUCCESS
-      INTEGER PROCESS_ERROR,STATUS,LEN,I 	  
+      INTEGER PROCESS_ERROR,STATUS,LEN,I          
       INTEGER SIZEOFSTARTUPINFO,SIZESECURITYATTRIBUTES
       CHARACTER*2048 COMMAND,LAUNCH
       type(T_STARTUPINFO) si
@@ -295,7 +295,7 @@ C-----------------------------------------------
       
 C-------Incompatibilit    provisoire avec "<" remplac    par "-i" ----------------      
       IF (LEN_TRIM(INPUT).EQ.0) THEN
-    	CALL ANCMSG(MSGID=840,
+        CALL ANCMSG(MSGID=840,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO)
         IERR=IERR+1      
@@ -306,8 +306,8 @@ C-------Incompatibilit    provisoire avec "<" remplac    par "-i" --------------
       CALL RAD2RAD_CREATEPROCESS(COMMAND,LEN,ID,PROCESS_ERROR)
 
 
-      IF (PROCESS_ERROR==1) THEN	  
-         CALL MY_EXIT(2)		 
+      IF (PROCESS_ERROR==1) THEN          
+         CALL MY_EXIT(2)                 
       ENDIF
 
       END
@@ -343,7 +343,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER DOMLEN,REF,ERR
-      CHARACTER NAM*150	  
+      CHARACTER NAM*150   
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=4096) :: TMP_NAME
 C-----------------------------------------------

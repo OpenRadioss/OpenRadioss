@@ -41,7 +41,7 @@ C-----------------------------------------------
 #include      "com10_c.inc"
 #include      "param_c.inc"
 #include      "warn_c.inc"
-#include      "com01_c.inc":
+#include      "com01_c.inc"
 #include      "fluid_scr_c.inc"
 #include      "sysunit.inc"
 C-----------------------------------------------
