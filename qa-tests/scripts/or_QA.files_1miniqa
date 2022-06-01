@@ -831,10 +831,11 @@ input	../miniqa/LOIS/LEAK_MAT/run2_LAW19_quads/data/RBPLI_0000.rad
 execute -starter
 input	../miniqa/LOIS/LEAK_MAT/run2_LAW19_quads/data/RBPLI_0001.rad
 extract	../miniqa/LOIS/LEAK_MAT/run2_LAW19_quads/data/ref.extract
-local	ERROR	Diff_Tolerance	0.0416666666666667
-local	TIME	Diff_Tolerance	0.000299401197604731
-local	IENERGY	Diff_Tolerance	0.000832466181061303
-local	KENERGYT	Diff_Tolerance	0.000473148805299215
+local   TIME    Diff_Tolerance  0.00129240710823907
+local   ERROR   Diff_Tolerance  0.0909090909090908
+local   IENERGY Diff_Tolerance  0.00295234078447917
+local   KENERGYT        Diff_Tolerance  0.0026714158504007
+local   EXTWORK Diff_Tolerance  0.00253592561284879
 go -engine
 #--------------------------------------------------------------------------------
 #1.71
