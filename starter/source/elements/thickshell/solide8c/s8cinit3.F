@@ -131,7 +131,7 @@ C-----------------------------------------------
      .   AJC7(MVSIZ) , AJC8(MVSIZ) , AJC9(MVSIZ) ,
      .   HX(4,MVSIZ) , HY(4,MVSIZ), HZ(4,MVSIZ),GAMA(6,MVSIZ),
      .   SMAX(MVSIZ) , VOLU(MVSIZ), DTX(MVSIZ), DELTAX(MVSIZ),
-     .   RHOCP(MVSIZ),TEMP0(MVSIZ), AIRE(1)
+     .   RHOCP(MVSIZ),TEMP0(MVSIZ), AIRE(1),LLSH(MVSIZ)
       my_real
      .   BID, FV, STI, WI
       my_real
@@ -300,6 +300,12 @@ c
      .     XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
      .     YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
      .     ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   )
+      IF (IDTTSH > 0) THEN
+         CALL SDLENSH(VOLU,LLSH,
+     .   X1, X2, X3, X4, X5, X6, X7, X8,
+     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
+     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
+      END IF        
 C
       IP=0
       CALL MATINI(PM       ,IXS    ,NIXS       ,X         ,
@@ -381,6 +387,12 @@ C
      .        AJC1,AJC2,AJC3,
      .        AJC4,AJC5,AJC6,
      .        AJC7,AJC8,AJC9,SMAX, DELTAX, NGL,LBUF%VOL0DP)
+         IF (IDTTSH > 0) THEN
+           DO I=LFT,LLT
+             IF (GBUF%IDT_TSH(I)>0) 
+     .        DELTAX(I)=MAX(LLSH(I),DELTAX(I))
+           ENDDO
+         END IF
          IF (IGTYP == 22)
      .   CALL SCMORTH3(PID  ,GEO  ,IGEO ,SKEW ,IREP ,LBUF%GAMA,
      .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,

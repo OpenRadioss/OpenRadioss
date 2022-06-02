@@ -269,6 +269,8 @@ C seatbelts elements
       GBUF%G_FRAM_FACTOR = 0 
       IAD = IAD + 1
       GBUF%G_INTVAR = 0  
+      IAD = IAD + 1
+      GBUF%G_IDT_TSH = 0  
 c---
       IAD = IAD + 1
       GBUF%NVAR_GLOB = IAD

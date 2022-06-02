@@ -789,6 +789,8 @@ C    -  for seatbelt elements
 c---
         integer  G_DT_PITER
 c---
+        integer  G_IDT_TSH
+c---
         integer, DIMENSION(:) , POINTER ::   NOFF  
         integer, DIMENSION(:) , POINTER ::   IERR  
         my_real, DIMENSION(:) , POINTER ::   OFF   
@@ -902,6 +904,7 @@ C    -  for seatbelt elements
         my_real, DIMENSION(:) , POINTER ::   INTVAR
 c---
         my_real, DIMENSION(:) , POINTER ::   DT_PITER ! Tetra10 Iterative Power for Time Step Computation
+        integer, DIMENSION(:) , POINTER ::   IDT_TSH  
 c---
       END TYPE G_BUFEL_
 

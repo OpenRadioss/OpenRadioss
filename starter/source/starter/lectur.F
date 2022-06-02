@@ -8040,6 +8040,12 @@ c
       ELSE
         ALLOCATE (XFEM_TAB(0,0), STAT=Stat)
       ENDIF
+C--------------------------------------------
+C     CHECK COMPATIBILITY /DTTSH
+C--------------------------------------------
+      IF (NUMELS>0) THEN
+       CALL CHK_DTTSH(ELBUF_TAB,IXS ,IPARG ,D   )
+      END IF
 C
 C-----------------------------------------------------------
 C     ALLOCATION OF ARRAYS FOR INITIA - DEALLOCATED AFTER INTIA

@@ -590,6 +590,7 @@ C------for the future small strain option w/ Itetra=1
             ENDIF    
            ENDIF                                                  
           ENDIF 
+          IF (ITY == 1.AND.(IGTYP == 20.OR.IGTYP == 21.OR.IGTYP == 22)) GBUF%G_IDT_TSH=1      
 C------
           ! Variable for ITET4 = 3
           IF (ITY == 1 .AND. ISNOD == 4 .AND. ISROT == 3 ) THEN
@@ -793,6 +794,7 @@ C
           LGLOB = LGLOB + GBUF%G_INIFRIC
           LGLOB = LGLOB + GBUF%G_STRHG
           LGLOB = LGLOB + GBUF%G_DT_PITER
+          LGLOB = LGLOB + GBUF%G_IDT_TSH
 C
           LGLOB = LGLOB + GBUF%G_FILL
 C

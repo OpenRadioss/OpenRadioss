@@ -590,6 +590,8 @@ c---
 c---
       ALLOCATE (GBUF%DT_PITER(NEL*GBUF%G_DT_PITER)         ,STAT=Stat)
         GBUF%DT_PITER = ZERO
+      ALLOCATE (GBUF%IDT_TSH(NEL*GBUF%G_IDT_TSH)         ,STAT=Stat)
+        GBUF%IDT_TSH = 1
 C --- needed for batoz shell and /heat/mat 
       IF (NPG == 1) THEN
         ELBUF_TAB(NG)%GBUF%TEMPG => GBUF%TEMP

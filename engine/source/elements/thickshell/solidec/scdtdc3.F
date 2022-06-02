@@ -26,8 +26,9 @@ Chd|-- called by -----------
 Chd|        RESOL_INIT                    source/engine/resol_init.F    
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DIM_TSHEDG(NEDG, IXS ,IPARG )
+      SUBROUTINE DIM_TSHEDG(ELBUF_STR,NEDG, IXS ,IPARG )
 C===============================================
+      USE ELBUFDEF_MOD     
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,6 +42,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEDG
       INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP)
+      TYPE(ELBUF_STRUCT_),DIMENSION(NGROUP), TARGET :: ELBUF_STR
 C     REAL ou REAL*8
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -53,6 +55,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NG, NEL, NFT,N, ITY,JHBE,IGTYP,ICSTR,ISOLNOD
       INTEGER ITAG(NUMNOD),N1,N2,NC(8,MVSIZ)
+      TYPE(G_BUFEL_) ,POINTER :: GBUF     
 C     REAL ou REAL*8
 C-------
       ITAG(1:NUMNOD)=0
@@ -68,6 +71,7 @@ C-------
        IF (IPARG(8,NG)==1) CYCLE                                 
        IF (ITY /= 1) CYCLE
        IF (IGTYP == 20.OR.IGTYP == 21.OR.IGTYP == 22)THEN
+         GBUF => ELBUF_STR(NG)%GBUF
 C--------only linear for the moment       
         IF(ISOLNOD==6)THEN
           DO I=1,NEL
@@ -76,6 +80,7 @@ C--------only linear for the moment
             NC(4:6,I)=IXS(6:8,N)
           ENDDO
             DO I=1,NEL
+              IF (GBUF%IDT_TSH(I)<=0) CYCLE
  	          N1 = NC(1,I)
  	          N2 = NC(4,I)
 	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
@@ -107,6 +112,7 @@ C--------only linear for the moment
              SELECT CASE (ICSTR)
               CASE(100)                                             
                 DO I=1,NEL
+                  IF (GBUF%IDT_TSH(I)<=0) CYCLE
  	              N1 = NC(1,I)
  	              N2 = NC(4,I)
 	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
@@ -138,6 +144,7 @@ C--------only linear for the moment
                 ENDDO
               CASE(10)                                          
                 DO I=1,NEL
+                  IF (GBUF%IDT_TSH(I)<=0) CYCLE
  	              N1 = NC(1,I)
  	              N2 = NC(5,I)
 	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
@@ -169,6 +176,7 @@ C--------only linear for the moment
                 ENDDO
               CASE(1)                                          
                 DO I=1,NEL
+                  IF (GBUF%IDT_TSH(I)<=0) CYCLE
  	              N1 = NC(1,I)
  	              N2 = NC(2,I)
 	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
@@ -201,6 +209,7 @@ C--------only linear for the moment
              END SELECT 
           ELSEIF (JHBE==15) THEN
             DO I=1,NEL
+              IF (GBUF%IDT_TSH(I)<=0) CYCLE
  	          N1 = NC(1,I)
  	          N2 = NC(5,I)
 	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
@@ -243,8 +252,9 @@ Chd|-- called by -----------
 Chd|        RESOL_INIT                    source/engine/resol_init.F    
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE IND_TSHEDG(IENUNL,IXS ,IPARG )
+      SUBROUTINE IND_TSHEDG(ELBUF_STR,IENUNL,IXS ,IPARG )
 C===============================================
+      USE ELBUFDEF_MOD     
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -257,6 +267,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IENUNL(2,*),IXS(NIXS,*),IPARG(NPARG,NGROUP)
+      TYPE(ELBUF_STRUCT_),DIMENSION(NGROUP), TARGET :: ELBUF_STR
 C     REAL ou REAL*8
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -269,6 +280,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NG, NEL, NFT,N, ITY,JHBE,IGTYP,ICSTR,ISOLNOD
       INTEGER ITAG(NUMNOD),N1,N2,NC(8,MVSIZ),NEDG
+      TYPE(G_BUFEL_) ,POINTER :: GBUF     
 C     REAL ou REAL*8
 C------ -
       ITAG(1:NUMNOD)=0
@@ -284,6 +296,7 @@ C------ -
        IF (IPARG(8,NG)==1) CYCLE                                 
        IF (ITY /= 1) CYCLE
        IF (IGTYP == 20.OR.IGTYP == 21.OR.IGTYP == 22)THEN
+         GBUF => ELBUF_STR(NG)%GBUF
 C--------only linear for the moment       
         IF(ISOLNOD==6)THEN
           DO I=1,NEL
@@ -292,6 +305,7 @@ C--------only linear for the moment
             NC(4:6,I)=IXS(6:8,N)
           ENDDO
            DO I=1,NEL
+             IF (GBUF%IDT_TSH(I)<=0) CYCLE
  	         N1 = NC(1,I)
  	         N2 = NC(4,I)
 	         IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
@@ -329,6 +343,7 @@ C--------only linear for the moment
              SELECT CASE (ICSTR)
               CASE(100)                                             
                 DO I=1,NEL
+                  IF (GBUF%IDT_TSH(I)<=0) CYCLE
  	              N1 = NC(1,I)
  	              N2 = NC(4,I)
 	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
@@ -368,6 +383,7 @@ C--------only linear for the moment
                 ENDDO
               CASE(10)                                          
                 DO I=1,NEL
+                  IF (GBUF%IDT_TSH(I)<=0) CYCLE
  	              N1 = NC(1,I)
  	              N2 = NC(5,I)
 	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
@@ -407,6 +423,7 @@ C--------only linear for the moment
                 ENDDO
               CASE(1)                                          
                 DO I=1,NEL
+                  IF (GBUF%IDT_TSH(I)<=0) CYCLE
  	              N1 = NC(1,I)
  	              N2 = NC(2,I)
 	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
@@ -447,6 +464,7 @@ C--------only linear for the moment
              END SELECT 
           ELSEIF (JHBE==15) THEN
             DO I=1,NEL
+              IF (GBUF%IDT_TSH(I)<=0) CYCLE
  	          N1 = NC(1,I)
  	          N2 = NC(5,I)
 	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
