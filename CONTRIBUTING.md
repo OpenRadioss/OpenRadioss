@@ -1,23 +1,25 @@
 # How to contribute
+
 Welcome! You can report issues [here](https://github.com/OpenRadioss/OpenRadioss/issues) or ask questions [there](https://github.com/OpenRadioss/OpenRadioss/discussions).
-If you have any questions, concerns, or input about OpenRadioss please feel free to contact <webmaster@openradioss.org>. 
 
 ## Contributing code to OpenRadioss
+
 Please first discuss the changes you wish to make via the [issue](https://github.com/OpenRadioss/OpenRadioss/issues) or the [discussion](https://github.com/OpenRadioss/OpenRadioss/discussions) tabs.
 You must be aware of the [license](./LICENSE.md). We will ask you to sign a **Contributor License Agreement** (CLA).
 
 ### Settings
+
 Windows users may want to use [git bash](https://gitforwindows.org/) or [WSL](https://docs.microsoft.com/en-us/windows/wsl/install)
 * Create and a github account
     * Add an [SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent). 
     * Review your account setting, in particular: [email](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-user-account/managing-email-preferences/setting-your-commit-email-address), [2FA](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication)
 * [fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the OpenRadioss repository
-* Install [lfs](https://git-lfs.github.com/). On Linux, you may need to install some pacakge first: `sudo yum install git-lfs` or `sudo apt-get install git-lfs`. Then, activate LFS: `git lfs install`
+* Install [lfs](https://git-lfs.github.com/). On Linux, you may need to install some package first: `sudo yum install git-lfs` or `sudo apt-get install git-lfs`. Then, activate LFS: `git lfs install`
 * [clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) your fork.
 * From your local git directory, review your git user name and [email](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-user-account/managing-email-preferences/setting-your-commit-email-address). If you don't want to expose your email address: 
     * Check the boxes `Keep my email addresses private` and  `Block command line pushes that expose my email` [here](https://github.com/settings/emails)
     * Find your `ID+username` [here](https://github.com/settings/emails)
-    * Type the following :
+    * Type the following:
 ```bash
 git config --global user.email "<ID+username>@users.noreply.github.com"
 ```
@@ -28,9 +30,10 @@ git remote add upstream git@github.com:OpenRadioss/OpenRadioss.git
 * Now `origin` points to your fork, and `upstream` points to the official OpenRadioss repository
 
 ### Contribution workflow 
+
 The typical workflow is described in this picture:
 ![image](/doc/workflow.png)
-It is not recommended to push commits directly into you `main` branch. This branch should be a copy of the official repository. 
+It is not recommended to push commits directly into your `main` branch. This branch should be a copy of the official repository. 
 
 * `git checkout main` to go to the main branch of your local directory
 * `git pull upstream main` to get the latest revision of the official main branch
@@ -55,6 +58,7 @@ It is not recommended to push commits directly into you `main` branch. This bran
 * Once the merge is accepted, it is recommended to delete the branch from your fork and your local repository  
 
 ### Guidelines and coding style
+
 #### Fortran coding style
 
 | DOS                   | DONTS                       |
@@ -70,22 +74,23 @@ It is not recommended to push commits directly into you `main` branch. This bran
 | Use bounds for arrays operations | `A = B + C` when A,B,C are arrays     |
 | Use the `MY_REAL` type for real numbers  | use `DOUBLE PRECISION` systematically |
 | Use `ALLOCATABLE` arrays |use pointers when allocatable is possible |
-| use `MY_ALLOCATE` or check sucess of allocation | use large automatic arrays |
+| use `MY_ALLOCATE` or check the status of the allocation | use large automatic arrays |
 | Deallocate arrays as soon as possible | use automatic deallocation |
 
 
 #### Fortran Performance 
+
 * [vectorization](https://en.wikipedia.org/wiki/Automatic_vectorization)
     * Use `#include <vectorize.inc>` that contains the [IVDEP](https://www.intel.com/content/www/us/en/develop/documentation/fortran-compiler-oneapi-dev-guide-and-reference/top/language-reference/a-to-z-reference/h-to-i/ivdep.html) directive
     * When possible, work on arrays of size `MVSIZ` 
     * when possible, avoid using `IF / THEN / ELSE` inside `DO` loops
     * Avoid using `EXIT` and `CYCLE` inside computationally intensive loops
-    * Avoid calling function or subroutine inside coputationally intensive loops 
-* Rule of thumb for data locality of 2D arrays
+    * Avoid calling function or subroutine inside computationally intensive loops 
+* Rule of thumb for data locality of 2D arrays:
     * largest dimension should be last if it is >= MVSIZ, or 128 (`X(3,NUMNOD)`)
     * largest dimension should be first if it is <= MVSIZ or 128 (`C(MVSIZ,5)`)
-* Do not use aliasing of dummy arguments: Different arguments must point to different memory locations
+* Do not use aliasing of dummy arguments: different arguments must point to different memory locations
 * Avoid large arrays of small datatype: prefer `POINT%X(1:NBPOINT)` to `POINT(1:NBOINT)%X`
 * Initializing large array can be costly, avoid flushing to zeros entire arrays when it is not needed
-* Use integer exponent instead of real exponennt ( `A**2` instead of `A**2.0` )
+* Use integer exponent instead of real exponent ( `A**2` instead of `A**2.0` )
 
