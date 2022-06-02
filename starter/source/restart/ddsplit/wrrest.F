@@ -352,123 +352,6 @@ C
 
 
 Chd|====================================================================
-Chd|  FXBWREST                      source/restart/ddsplit/wrrest.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
-Chd|        WRITE_I_C                     source/output/tools/write_routines.c
-Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
-Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
-Chd|====================================================================
-      SUBROUTINE FXBWREST(FXBIPM , FXBRPM , FXBNOD, FXBMOD, FXBGLM,  
-     .                    FXBCPM , FXBCPS , FXBLM,  FXBFLS, FXBDLS, 
-     .                    FXBDEP , FXBVIT , FXBACC, FXBELM, FXBSIG,
-     .                    FXBGRVI, FXBGRVR)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com04_c.inc"
-#include      "scr05_c.inc"
-#include      "units_c.inc"
-#include      "fxbcom.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER FXBIPM(NBIPM,*), FXBNOD(*), FXBELM(*), FXBGRVI(*)
-      my_real 
-     .        FXBRPM(*), FXBMOD(*), FXBGLM(*), FXBCPM(*),
-     .        FXBCPS(*), FXBLM(*),  FXBFLS(*), FXBDLS(*),
-     .        FXBDEP(*), FXBVIT(*), FXBACC(*), FXBSIG(*),
-     .        FXBGRVR(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER LEN_IPM,LEN_MOD,NRECM, NRECS, IRCM, IRCM0, IRCM1,
-     .        IRCS, IRCS0, IRCS1, LREC, I, J
-      my_real
-     .        VV(6)
-C--------------------------------------
-C     ECRITURE DES ENTIERS
-C--------------------------------------
-      LEN_IPM=NBIPM*NFXBODY
-      IF (IRFORM/5.LE.1) THEN
-        CALL WRTSQI (FXBIPM,LEN_IPM,IRFORM)
-        CALL WRTSQI (FXBNOD,LENNOD,IRFORM)
-        IF (LENELM.GT.0) CALL WRTSQI (FXBELM,LENELM,IRFORM)
-        IF (LENGRVI.GT.0) CALL WRTSQI (FXBGRVI,LENGRVI,IRFORM)
-      ELSE
-        CALL WRITE_I_C(FXBIPM,LEN_IPM)
-        CALL WRITE_I_C(FXBNOD,LENNOD)
-        IF (LENELM.GT.0) CALL WRITE_I_C(FXBELM,LENELM)
-        IF (LENGRVI.GT.0) CALL WRITE_I_C(FXBGRVI,LENGRVI)
-      ENDIF
-C--------------------------------------
-C     ECRITURE DES REELS
-C--------------------------------------
-      LEN_MOD=LENMOD*6
-      IF (IRFORM/5.LE.1) THEN
-        CALL WRTSQR (FXBMOD,LEN_MOD,IRFORM)
-        CALL WRTSQR (FXBGLM,LENGLM,IRFORM)
-        IF (LENCP.GT.0) CALL WRTSQR (FXBCPM,LENCP ,IRFORM)
-        IF (LENCP.GT.0) CALL WRTSQR (FXBCPS,LENCP ,IRFORM)
-        IF (LENLM.GT.0) CALL WRTSQR (FXBLM, LENLM ,IRFORM)
-        IF (LENFLS.GT.0) CALL WRTSQR (FXBFLS,LENFLS,IRFORM)
-        IF (LENDLS.GT.0) CALL WRTSQR (FXBDLS,LENDLS,IRFORM)
-        CALL WRTSQR (FXBDEP,LENVAR,IRFORM)
-        CALL WRTSQR (FXBVIT,LENVAR,IRFORM)
-        CALL WRTSQR (FXBACC,LENVAR,IRFORM)
-        CALL WRTSQR (FXBRPM,LENRPM,IRFORM)
-        IF (LENSIG.GT.0) CALL WRTSQR (FXBSIG,LENSIG,IRFORM)
-        IF (LENGRVR.GT.0) CALL WRTSQR (FXBGRVR,LENGRVR,IRFORM)
-      ELSE
-        CALL WRITE_DB(FXBMOD,LEN_MOD)
-        CALL WRITE_DB(FXBGLM,LENGLM)
-        IF (LENCP.GT.0) CALL WRITE_DB(FXBCPM,LENCP )
-        IF (LENCP.GT.0) CALL WRITE_DB(FXBCPS,LENCP )
-        IF (LENLM.GT.0) CALL WRITE_DB(FXBLM, LENLM )
-        IF (LENFLS.GT.0) CALL WRITE_DB(FXBFLS,LENFLS)
-        IF (LENDLS.GT.0) CALL WRITE_DB(FXBDLS,LENDLS)
-        CALL WRITE_DB(FXBDEP,LENVAR)
-        CALL WRITE_DB(FXBVIT,LENVAR)
-        CALL WRITE_DB(FXBACC,LENVAR)
-        CALL WRITE_DB(FXBRPM,LENRPM)
-        IF (LENSIG.GT.0) CALL WRITE_DB(FXBSIG,LENSIG)
-        IF (LENGRVR.GT.0) CALL WRITE_DB(FXBGRVR,LENGRVR)
-      ENDIF
-C Ecriture des fichiers de modes et de contraintes
-      NRECM=0
-      NRECS=0
-      DO I=1,NFXBODY
-         IRCM0=FXBIPM(30,I)
-         IRCS0=FXBIPM(31,I)
-         IRCM1=FXBIPM(32,I)
-         IRCS1=FXBIPM(33,I)
-         NRECM=NRECM+IRCM1-IRCM0
-         NRECS=NRECS+IRCS1-IRCS0
-      ENDDO
-      IRCM=0
-      IRCS=0
-      LREC=6
-      DO I=1,NRECM
-         IRCM=IRCM+1
-         READ(IFXM,REC=IRCM) (VV(J),J=1,LREC)
-         CALL WRITE_DB(VV,LREC)
-      ENDDO
-      DO I=1,NRECS
-         IRCS=IRCS+1
-         READ(IFXS,REC=IRCS) (VV(J),J=1,LREC)
-         CALL WRITE_DB(VV,LREC)
-      ENDDO
-      CLOSE(IFXM)
-      CLOSE(IFXS)
-C
-      RETURN
-      END
-Chd|====================================================================
 Chd|  FXBWRESTP                     source/restart/ddsplit/wrrest.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
@@ -494,6 +377,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr05_c.inc"
+#include      "scr15_c.inc"
 #include      "units_c.inc"
 #include      "units_fxbody_c.inc"
 #include      "fxbcom.inc"
@@ -516,6 +400,9 @@ C-----------------------------------------------
 
       my_real
      .        VV(6)
+      INTEGER FILE_LEN
+      CHARACTER(LEN=256) :: SCR_FILE_NAME,SCR_FILE_NAME2
+      CHARACTER(LEN=4) :: CIT
 C--------------------------------------
 C     ECRITURE DES ENTIERS
 C--------------------------------------
@@ -622,8 +509,16 @@ C Ecriture des fichiers de modes et de contraintes
          CALL WRITE_DB(VV,LREC)
          LEN_AM = LEN_AM + LREC
       ENDDO
-      CLOSE(IFXM_L+ITASK)
-      CLOSE(IFXS_L+ITASK)
+      ! Delete scratch file IFXM_L+ITASK
+      WRITE(CIT,'(I4.4)')ITASK
+      SCR_FILE_NAME ='SCR_FXM_'//ROOTNAM(1:ROOTLEN)//'_'//CIT(1:4)//'.scr'
+      FILE_LEN=LEN_TRIM(SCR_FILE_NAME)
+      CALL DELETE_USER_FILE(SCR_FILE_NAME,FILE_LEN)
+
+      ! Delete scratch file IFXS_L+ITASK
+      SCR_FILE_NAME2='SCR_FXS_'//ROOTNAM(1:ROOTLEN)//'_'//CIT(1:4)//'.scr'
+      FILE_LEN=LEN_TRIM(SCR_FILE_NAME2)
+      CALL DELETE_USER_FILE(SCR_FILE_NAME2,FILE_LEN)
 C
       RETURN
       END
