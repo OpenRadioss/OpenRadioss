@@ -302,27 +302,6 @@ C
                NP = IGRSURF(T_MONVOL(N)%INT_SURFID)%NSEG
                CALL FVNODI(NP ,IGRSURF(T_MONVOL(N)%INT_SURFID)%NODES, NNI,ITABINV1 ,
      .              T_MONVOL(N))
-               IF (KMESH(N) >= 12) THEN
-!     Renumber nodes of internal surface.
-!     Needed for HM quad split algorithm
-                  ALLOCATE(ITABINV2(NUMNOD), INDEX(NUMNOD))
-                  ITABINV2(1:NUMNOD) = 0
-                  INDEX(1:NUMNOD) = 0
-                  DO II = 1, NNI
-                     FOUND = .FALSE.
-                     DO JJ = 1, NNS
-                        IF (T_MONVOL(N)%NODES(JJ) == T_MONVOL(N)%NODES(II + NNS)) THEN
-                           ITABINV2(T_MONVOL(N)%NODES(II + NNS)) = ITABINV(T_MONVOL(N)%NODES(JJ))
-                           FOUND = .TRUE.
-                           EXIT
-                        ENDIF
-                     ENDDO
-                     IF (.NOT. FOUND) THEN
-                        ITABINV2(T_MONVOL(N)%NODES(II + NNS)) = NNS + II
-                     ENDIF
-                     INDEX(T_MONVOL(N)%NODES(II + NNS)) = NNS + II
-                  ENDDO
-               ENDIF
             ENDIF
 !     Number of nodes on external surface
             T_MONVOL(N)%IVOLU(32)=NNS
@@ -351,20 +330,9 @@ C
 !     Keep track of original elements ids
             ALLOCATE(FVBAG_ELEMID(2 * (SIZE1 + SIZE2 + T_MONVOL(N)%NB_FILL_TRI)))
 
-            IF (KMESH(N) >= 12) THEN
-               CALL MONVOL_TRIANGULATE_SURFACE(T_MONVOL(N), IGRSURF, ITABINV, ITABINV2, TAGE, 
-     .              X, KMESH(N), NNS, NNI, NTG, NTGI, SIZE1, SIZE2, FVBAG_ELEMID, 
-     .              IXC, IXTG)
-!     Get back to initial numbering for nodes of the internal surface once the 
-!     quad have been split
-               DO II = NTG + 1, NTG + NTGI
-                  T_MONVOL(N)%ELEM(1:3, II) = INDEX(T_MONVOL(N)%NODES(T_MONVOL(N)%ELEM(1:3, II)))
-               ENDDO
-            ELSE
-               CALL MONVOL_TRIANGULATE_SURFACE(T_MONVOL(N), IGRSURF, ITABINV, ITABINV1, TAGE, 
-     .              X, KMESH(N), NNS, NNI, NTG, NTGI, SIZE1, SIZE2, FVBAG_ELEMID,
-     .              IXC, IXTG)
-            ENDIF
+            CALL MONVOL_TRIANGULATE_SURFACE(T_MONVOL(N), IGRSURF, ITABINV, ITABINV1, TAGE, 
+     .           X, KMESH(N), NNS, NNI, NTG, NTGI, SIZE1, SIZE2, FVBAG_ELEMID,
+     .           IXC, IXTG)
 
 !     Check for duplicated triangles on internal + external surface of the airbag
 
