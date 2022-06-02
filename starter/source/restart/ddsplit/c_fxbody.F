@@ -179,6 +179,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
+#include      "scr15_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "units_fxbody_c.inc"
@@ -212,6 +213,8 @@ C-----------------------------------------------
      .        FLREC6(6), VAR(6)
       my_real
      .       , DIMENSION(:), ALLOCATABLE :: VSIG, VSIG2
+      CHARACTER(LEN=4) :: CIT
+      CHARACTER(LEN=256) :: SCR_FILE_NAME,SCR_FILE_NAME2
 C
       INQUIRE(IOLENGTH=RCLEN) FLREC6
 
@@ -219,10 +222,12 @@ c initially was set in starter0, but re-set here for multi threading compatibili
       IFXM_L = 27000
       IFXS_L = 28000 
 
-      OPEN(UNIT=IFXM_L+ITASK,STATUS='SCRATCH',
-     .     ACCESS='DIRECT',RECL=RCLEN)
-      OPEN(UNIT=IFXS_L+ITASK,STATUS='SCRATCH',
-     .     ACCESS='DIRECT',RECL=RCLEN)
+      WRITE(CIT,'(I4.4)')ITASK
+      SCR_FILE_NAME ='SCR_FXM_'//ROOTNAM(1:ROOTLEN)//'_'//CIT(1:4)//'.scr'
+      SCR_FILE_NAME2='SCR_FXS_'//ROOTNAM(1:ROOTLEN)//'_'//CIT(1:4)//'.scr'
+
+      OPEN(UNIT=IFXM_L+ITASK,FILE=TRIM(SCR_FILE_NAME),ACCESS='DIRECT',RECL=RCLEN)
+      OPEN(UNIT=IFXS_L+ITASK,FILE=TRIM(SCR_FILE_NAME2),ACCESS='DIRECT',RECL=RCLEN)
 C
       LB_L=1
       II=0

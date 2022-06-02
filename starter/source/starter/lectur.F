@@ -10867,6 +10867,12 @@ C
       CALL INVERTED_GROUP_DEALLOC(INV_GROUP)
 
       CALL DEALLOCATE_JOINT( )
+
+      IF (NFXBODY.GT.0) THEN
+         CLOSE(IFXM)
+         CLOSE(IFXS) 
+      ENDIF
+
 C----------------------------------------------
 
       RETURN
