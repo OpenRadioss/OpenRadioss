@@ -950,6 +950,7 @@ C
 C        
         IF (NTSHEG > 0) THEN
           DO I=LFT,LLT
+            IF (GBUF%IDT_TSH(I)<=0) CYCLE
             LLSMIN(I) = MIN(LLSMIN(I),DELTAX(I))
             DELTAX(I) = MAX(LLSH(I),DELTAX(I))
           ENDDO
@@ -1208,7 +1209,9 @@ C----------------------------
      8   THEM, FTHESKY,CONDNSKY,CONDEN)
       ENDIF
       IF (NTSHEG > 0) THEN
+        ALPHA_E(LFT:LLT) = UN  
         DO I=LFT,LLT
+          IF (GBUF%IDT_TSH(I)<=0) CYCLE
           FACDP = 1.343*LLSH(I)/LLSMIN(I)
           ALPHA_E(I) = FACDP*FACDP  
         ENDDO

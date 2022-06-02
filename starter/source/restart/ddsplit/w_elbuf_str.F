@@ -68,7 +68,7 @@ C-----------------------------------------------
      .   G_DV,G_DFS,G_SKEW_ERR,G_E6,G_RUPTCRIT,G_MASS,G_V_REPCVT,
      .   G_VR_REPCVT,G_NUVAR,G_NUVARN,G_INIFRIC,G_DT,G_ISMS,G_STRHG,G_ETOTSH,
      .   G_BPRELD,G_ABURN,G_MU,G_MAXFRAC,G_MAXEPS,G_DT_PITER,G_TEMPG,G_COR_NF,G_COR_FR,
-     .   G_COR_XR,G_DEFINI,G_FORINI,
+     .   G_COR_XR,G_DEFINI,G_FORINI,G_IDT_TSH,
      .   G_FORPGPINCH,G_MOMPGPINCH,G_EPGPINCHXZ,G_EPGPINCHYZ,G_EPGPINCHZZ,
      .   G_SKEW_ID,G_GAMA_R,G_SLIPRING_ID,G_SLIPRING_STRAND,G_RETRACTOR_ID,G_RINGSLIP,
      .   G_ADD_NODE,G_UPDATE,G_INTVAR,G_BETAORTH,G_AMU,G_SLIPRING_FRAM_ID,G_FRAM_FACTOR
@@ -1058,6 +1058,7 @@ c---
           G_DT_PITER    = GBUF%G_DT_PITER
           G_TEMPG       = GBUF%G_TEMPG
           G_SKEW_ID     = GBUF%G_SKEW_ID
+          G_IDT_TSH     = GBUF%G_IDT_TSH
 c---
 c seatbelts elements
 c---
@@ -1302,6 +1303,8 @@ c---
            RBUF_L(L_REL+1) =  G_FRAM_FACTOR
              L_REL = L_REL + 1
            RBUF_L(L_REL+1) =  G_INTVAR
+             L_REL = L_REL + 1
+           RBUF_L(L_REL+1) =  G_IDT_TSH
              L_REL = L_REL + 1
 c---------------------------------
          IF (DEBUG_PRINT == 1) THEN
@@ -1555,6 +1558,8 @@ c---
           RBUF_L(L_REL+1:L_REL+NEL*G_INTVAR)  = GBUF%INTVAR(1:NEL*G_INTVAR)
             L_REL = L_REL +NEL*G_INTVAR
 C----         
+          RBUF_L(L_REL+1:L_REL+NEL*G_IDT_TSH)    = GBUF%IDT_TSH(1:NEL*G_IDT_TSH)
+            L_REL = L_REL +NEL*G_IDT_TSH
           IF (NPG > 1) THEN            
             RBUF_L(L_REL+1:L_REL + NEL*GBUF%G_TEMPG)= GBUF%TEMPG(1:NEL*GBUF%G_TEMPG) 
             L_REL = L_REL + NEL*GBUF%G_TEMPG

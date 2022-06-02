@@ -650,9 +650,9 @@ C
 C
       NUMELS  = NUMELS8+NUMELS10+NUMELS20+NUMELS16
 C
-C     Look for /DT1/BRICK & /DT1TET10 in RADIOSS Engine input deck
+C     Look for /DT1/BRICK & /DT1TET10 /DTTSH in RADIOSS Engine input deck
 C
-      IF(NUMTETRA4/=0.OR.NUMELS10/=0)THEN
+      IF(NUMELS>0)THEN
         CALL FIND_DT1BRICK_ENGINE()
       END IF
 C-----
@@ -1758,6 +1758,7 @@ C-----------------------------------------------
       CHARACTER(len=4096) :: TMP_NAME
 C-----------------------------------------------
       IO_ERR1=0
+      IDTTSH=0
 C-----------------------------------------------
 C     Lecture des donnees dans le fichier engine
 C-----------------------------------------------   
@@ -1788,6 +1789,8 @@ C
  30       CONTINUE
           IF(NITER == 0)NITER=1
           IDT1TET10=NITER+1
+        ELSEIF(KEYA(1:6).EQ.'/DTTSH') THEN
+          IDTTSH=1
         ENDIF
 C
         GOTO 10

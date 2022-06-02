@@ -1193,7 +1193,7 @@ C DT_DC OF TSH
 C-----------------------
        NTSHEG =0       
        NTSHEGG =0       
-       IF (IDTTSH>0) CALL DIM_TSHEDG(NTSHEG, IXS ,IPARG )
+       IF (IDTTSH>0) CALL DIM_TSHEDG(ELBUF_TAB  ,NTSHEG, IXS ,IPARG )
        IF(NSPMD>1) THEN
          NTSHEGG = NTSHEG
          CALL SPMD_MAX_I(NTSHEGG)
@@ -1202,7 +1202,7 @@ C-----------------------
          ALLOCATE (IENUNL(2*NTSHEG),ALPHA_DC(NUMNOD))
          IENUNL=0
          ALPHA_DC=UN
-         CALL IND_TSHEDG(IENUNL, IXS ,IPARG )
+         CALL IND_TSHEDG(ELBUF_TAB  ,IENUNL, IXS ,IPARG )
          IF(NSPMD>1) THEN
           NBS = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
           ALLOCATE (ISEND(NBS),IRECV(NBS))
