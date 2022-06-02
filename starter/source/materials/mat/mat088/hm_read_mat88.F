@@ -187,7 +187,7 @@ C
       RATE(NL  + 1 ) = ZERO
       YFAC(NL  + 1 ) = ZERO
       IF(YFAC_UNL == ZERO) YFAC_UNL = YFAC_UNL_UNIT
-      IF(ITENS == 0) THEN
+      IF(ITENS == 0 .OR .ITENS == 1 .OR. ITENS == -1) THEN
         IF(IFUNC_UNLOAD > 0 .AND. IFUNC_UNLOAD /= IFUNC(1)) THEN
           NFUNC = NFUNC + 1
           IFUNC(NFUNC) = IFUNC_UNLOAD
@@ -203,21 +203,13 @@ C
           ICASE = 2  ! with damage no need to unloading curve
           HYS = ABS(HYS)
         ENDIF 
-      ELSE
-       IF(NL == 1 .AND. ITENS /= -2)THEN
-           ICASE = 3 ! as ICASE = 1
-       ELSEIF(ITENS == 1)THEN
-           ICASE = 4 ! 
-       ELSEIF(ITENS == -1 )THEN
-           ICASE = 5 ! 
-       ELSEIF(ITENS == -2 .AND. IFUNC_UNLOAD > 0 ) THEN
-           ICASE = 6  !  follow unloading curve 
+      ELSEIF(ITENS == -2 .AND. IFUNC_UNLOAD > 0 ) THEN
+           ICASE = 3  !  follow unloading curve the curve shoudl form closed loop
            NFUNC = NFUNC + 1
           IFUNC(NFUNC) = IFUNC_UNLOAD
           YFAC(NFUNC) = YFAC_UNL
           RATE(NFUNC) = ZERO 
-       ENDIF 
-      ENDIF
+      ENDIF      
 C       
       IF(SHAPE == ZERO) SHAPE = ONE
       IF(HYS == ZERO) HYS = ONE
