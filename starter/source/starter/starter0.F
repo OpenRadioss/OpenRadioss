@@ -698,7 +698,7 @@ C------------------------------------------------
 C------------------------------------------------
 C WRITE PARAMETERS & LIST OF REPLACED PARAMETERS 
 C------------------------------------------------
-      IF(IPID .NE. 0)THEN 
+      IF(IPID .NE. 0 .AND. GOT_HSTP_READ == 0) THEN
         CLOSE(IOUT)
         CALL CPP_PRINT_PARAMETERS(FILNAM,ROOTLEN+9+OUTFILE_NAME_LEN)
         OPEN(UNIT=IOUT,FILE=FILNAM(1:ROOTLEN+9+OUTFILE_NAME_LEN),
@@ -776,6 +776,14 @@ C     VARIABLES DE CONTROLE
 C-------------------------------------------------------------------
       CALL CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS)
 C-------------------------------------------------------------------
+C     PARAMETERS MODIFICATION AND PARAMETERS WRITE (-HSTP_READ -HSTP_WRITE ARGUMENTS)
+C-------------------------------------------------------------------
+#ifdef DNC
+      IF (GOT_HSTP_READ == 1 .OR. GOT_HSTP_WRITE == 1) THEN
+        CALL HSTP(ROOTN,ROOTLEN,LSUBMODEL,STARTDATE,STARTTIME,FILNAM,OUTFILE_NAME_LEN)
+      ENDIF
+#endif
+C -----------------------------------------------------
       CALL TRACE_OUT1()
 C -----------------------------------------------------
 C
