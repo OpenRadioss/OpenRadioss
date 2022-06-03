@@ -62,6 +62,22 @@ Please check input format and its consistency with Invers value from /BEGIN opti
 -- LINE: %s
 PARAMETER spans over more than one cell and is not found.
 
+/MESSAGE/100106/TITLE
+** ERROR IN INPUT FORMAT
+/MESSAGE/100106/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+PARAMETER %s used in this card has to be defined before it is used.
+/MESSAGE/100106/SOLUTION
+Move PARAMETER definition before the option which uses it.
+
+/MESSAGE/100107/TITLE
+** WARNING IN INPUT FORMAT
+/MESSAGE/100107/DESCRIPTION
+-- BLOCK: %s
+-- LINE: %s
+PARAMETER in text field is not found. The parameter is not replaced.
+
 #------------------------------------------------------------------------------
 # 100201 - 100300: Global model problems:
    
