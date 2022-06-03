@@ -1287,10 +1287,14 @@ C
 C
        CALL MY_BARRIER
 C
+
+       if(ncpria > 0) then
        if(itask==0.and.ispmd==0
-     .    .and.(ncprisms < 0.and. mod(ncycle,ncpria)==0))then
+     .    .and.(ncprisms < 0 .and. 
+     .     mod(ncycle,ncpria)==0))then
           write(iout,1002) ncycle,totit,res1_sms,toln
        end if
+       endif
 C
        IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(61,1)
        IF(IT.GE.NLIM.OR.RES1_SMS.LE.TOLN) GO TO 200
@@ -1632,6 +1636,7 @@ C----------------------
         IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(70,1)
       END IF
 C
+      if(ncpria > 0) then
       if(itask==0.and.ispmd==0
      .   .and.(ncprisms/=0.and.mod(ncycle,ncpria)==0))then
         IF(TOTIT.EQ.0)THEN
@@ -1640,6 +1645,7 @@ C
           write(iout,1001) ncycle,totit,res1_sms,toln
         END IF
       end if
+      endif
 C--------------------------------------------
  1000 FORMAT(3X,'CYCLE NUMBER',I5,
      .          ' TOTAL C.G. ITERATION NUMBER=',I5)
