@@ -509,6 +509,10 @@ C Ecriture des fichiers de modes et de contraintes
          CALL WRITE_DB(VV,LREC)
          LEN_AM = LEN_AM + LREC
       ENDDO
+
+      CLOSE(IFXM_L+ITASK)
+      CLOSE(IFXS_L+ITASK)
+
       ! Delete scratch file IFXM_L+ITASK
       WRITE(CIT,'(I4.4)')ITASK
       SCR_FILE_NAME ='SCR_FXM_'//ROOTNAM(1:ROOTLEN)//'_'//CIT(1:4)//'.scr'
