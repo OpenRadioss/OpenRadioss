@@ -3554,7 +3554,7 @@ C------ 1er VP: for dt check
          IF (IMPDEB>0.AND.NDDL<1000) THEN
           CALL PVP_K(NDDL,IADK,JDIK,IDDL ,INLOC,
      .               NDOF,ITAB,DIAG_K,LT_K ,LAMDA, J , MS  )
-          tmp = deux*sqrt(ONE/LAMDA)
+          tmp = TWO*sqrt(ONE/LAMDA)
           write(iout,*) 'critical DT =',tmp
          END IF
           IF (IDYNA.GT.0.OR.IQSTAT.GT.0)
