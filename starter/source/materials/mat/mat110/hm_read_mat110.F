@@ -76,7 +76,7 @@ C-----------------------------------------------
       my_real, DIMENSION(100),INTENT(OUT) :: PARMAT
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(OUT) :: MTAG
-      TYPE(MATPARAM_STRUCT_) ,INTENT(OUT) :: MATPARAM
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MATPARAM
 C     
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -213,6 +213,7 @@ card7 - Yield criterion parameters
         IF (.NOT.ALLOCATED(fUN))   ALLOCATE(fUN(NANGLE,2))
         IF (.NOT.ALLOCATED(fSH))   ALLOCATE(fSH(NANGLE,2))
         IF (.NOT.ALLOCATED(fPS))   ALLOCATE(fPS(NANGLE,2))
+        fPS(1:NANGLE,1:2) = ZERO
         IF (.NOT.ALLOCATED(ALPS))  ALLOCATE(ALPS(NANGLE))
         IF (.NOT.ALLOCATED(rLank)) ALLOCATE(rLank(NANGLE))
         ! Loop over angles (must be equally distributed between 0 and pi/2)
