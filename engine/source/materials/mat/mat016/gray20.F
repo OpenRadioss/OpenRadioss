@@ -113,8 +113,9 @@ C-----------------------------------------------
       ENDDO
 
       DO I=LFT,LLT
-        TM(I)     = TM0(I)*((ONE-XP(I))*(ONE+TWO*(GAM0M(I)-FOUR_OVER_3)*X(I)+((TWO*GAM0M(I)-FIVE_OVER_3)*(GAM0M(I)-FOUR_OVER_3)-AM(I))*X(I)**2)
-     .              / (ONE-X(I))**2 + XP(I)*( ONE+(TWO*GAM0M(I)-TWO_THIRD)*X(I)+((GAM0M(I)-THIRD)*(TWO*GAM0M(I)+THIRD)-AM(I))*X(I)**2))
+        TM(I)     = TM0(I)*((ONE-XP(I))*(ONE+TWO*(GAM0M(I)-FOUR_OVER_3)*X(I)+
+     .             ((TWO*GAM0M(I)-FIVE_OVER_3)*(GAM0M(I)-FOUR_OVER_3)-AM(I))*X(I)**2)
+     .     / (ONE-X(I))**2 + XP(I)*( ONE+(TWO*GAM0M(I)-TWO_THIRD)*X(I)+((GAM0M(I)-THIRD)*(TWO*GAM0M(I)+THIRD)-AM(I))*X(I)**2))
         TG(I)     = TM(I)*XM
       ENDDO
 
