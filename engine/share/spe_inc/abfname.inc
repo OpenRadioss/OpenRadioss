@@ -4,7 +4,7 @@
 char * ABFPLATTTF = "macosx64";
 
 #elif CPP_mach==CPP_p4linux964
-#ifdef ARCH_CPU
+#ifdef __aarch64__
 char * ABFPLATTTF = "linuxa64";
 #elif 1
 char * ABFPLATTTF = "linux64";
