@@ -85,6 +85,7 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "sysunit.inc"
 #include      "r2r_c.inc"
+#include      "my_allocate.inc"
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -162,7 +163,6 @@ C
      .     TITR2*nchartitle,TITR3*nchartitle
       CHARACTER*10 MONVOLTYP(11)
       CHARACTER*20 VENTTITLE
-      INTEGER, DIMENSION(:), ALLOCATABLE :: FVBAG_ELEMID
       INTEGER :: NB_TETRA, NB_VERTICES, NB_EXTRA_VERTICES
       INTEGER :: EXT_SURFID, INT_SURFID
       LOGICAL :: FOUND, MGM_USED
@@ -328,11 +328,11 @@ C
                SIZE2 = IGRSURF(T_MONVOL(N)%INT_SURFID)%NSEG
             ENDIF
 !     Keep track of original elements ids
-            ALLOCATE(FVBAG_ELEMID(2 * (SIZE1 + SIZE2 + T_MONVOL(N)%NB_FILL_TRI)))
-
+            MY_ALLOCATE(T_MONVOL(N)%FVBAG_ELEMID,2 * (SIZE1 + SIZE2 + T_MONVOL(N)%NB_FILL_TRI))
+            MY_ALLOCATE(T_MONVOL(N)%ELTG, (2 * (SIZE1 + SIZE2)))
+            T_MONVOL(N)%ELTG(1:SIZE1 + SIZE2) = 0
             CALL MONVOL_TRIANGULATE_SURFACE(T_MONVOL(N), IGRSURF, ITABINV, ITABINV1, TAGE, 
-     .           X, KMESH(N), NNS, NNI, NTG, NTGI, SIZE1, SIZE2, FVBAG_ELEMID,
-     .           IXC, IXTG)
+     .           X, KMESH(N), NNS, NNI, NTG, NTGI, SIZE1, SIZE2, T_MONVOL(N)%FVBAG_ELEMID)
 
 !     Check for duplicated triangles on internal + external surface of the airbag
 
@@ -435,8 +435,6 @@ C--------------------------------------
             NJET=T_MONVOL(N)%IVOLU(8)
             ALLOCATE(T_MONVOL(N)%ITAGEL(T_MONVOL(N)%NTG +T_MONVOL(N)%NTGI))
             T_MONVOL(N)%ITAGEL(:) = 0
-            ALLOCATE(T_MONVOL(N)%ELTG(T_MONVOL(N)%NTG +T_MONVOL(N)%NTGI))
-            T_MONVOL(N)%ELTG(:) = 0
             ALLOCATE(T_MONVOL(N)%MATTG(T_MONVOL(N)%NTG +T_MONVOL(N)%NTGI))
             T_MONVOL(N)%MATTG(:) = 0
 
@@ -453,7 +451,7 @@ C--------------------------------------
             IADALE5=IADALE4+NTGT
             IF (TETRAMESHER_USED) THEN
                CALL FVELSURF(
-     .              T_MONVOL(N)%NODES,  T_MONVOL(N)%ELEM, FVBAG_ELEMID(1:NTGT), IXC, IXTG, NTGT,
+     .              T_MONVOL(N)%NODES,  T_MONVOL(N)%ELEM, T_MONVOL(N)%FVBAG_ELEMID(1:NTGT), IXC, IXTG, NTGT,
      .              T_MONVOL(N)%ELTG, T_MONVOL(N)%MATTG, NB_TOTAL_NODE, .TRUE.)
                CALL FVVENTHOLE(
      .              T_MONVOL(N)%NODES ,T_MONVOL(N)%ELEM,T_MONVOL(N)%IBAGHOL,
@@ -463,7 +461,7 @@ C--------------------------------------
      .              T_MONVOL(N)%ELTG, NB_TOTAL_NODE)
             ELSE
                CALL FVELSURF(
-     .              T_MONVOL(N)%NODES,  T_MONVOL(N)%ELEM, FVBAG_ELEMID(1:NTGT), IXC, IXTG, NTGT,
+     .              T_MONVOL(N)%NODES,  T_MONVOL(N)%ELEM, T_MONVOL(N)%FVBAG_ELEMID(1:NTGT), IXC, IXTG, NTGT,
      .              T_MONVOL(N)%ELTG, T_MONVOL(N)%MATTG, NUMNOD, .TRUE.)
                CALL FVVENTHOLE(
      .              T_MONVOL(N)%NODES ,T_MONVOL(N)%ELEM,T_MONVOL(N)%IBAGHOL,
@@ -473,7 +471,7 @@ C--------------------------------------
      .              T_MONVOL(N)%ELTG, NUMNOD)
             ENDIF
             DEALLOCATE(TAGVENT)
-            DEALLOCATE(FVBAG_ELEMID)
+            DEALLOCATE(T_MONVOL(N)%FVBAG_ELEMID)
         
 C     
             IF (TETRAMESHER_USED) THEN

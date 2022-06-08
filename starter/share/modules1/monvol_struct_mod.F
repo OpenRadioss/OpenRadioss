@@ -115,6 +115,7 @@ C-----------------------------------------------
       INTEGER :: NTG, NTGI
       INTEGER, DIMENSION(:, :), ALLOCATABLE :: ELEM
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGEL
+      INTEGER, DIMENSION(:), ALLOCATABLE :: FVBAG_ELEMID
 !     Adress of element inside IXC and IXTG
       INTEGER, DIMENSION(:), ALLOCATABLE :: ELTG
 !     Store mat number of triagnel surface

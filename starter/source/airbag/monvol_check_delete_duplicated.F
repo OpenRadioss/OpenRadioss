@@ -55,8 +55,18 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: FLAG_ELEM, PATHS
       INTEGER :: NTG_NEW, NTGI_NEW
       INTEGER, DIMENSION(:, :), ALLOCATABLE :: ELEM
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ISAVE
 
-
+      MY_ALLOCATE(ISAVE, (NTG + NTGI))
+!     Resize and copy ELTG
+      DO II = 1, NTG + NTGI
+         ISAVE(II) = T_MONVOLN%ELTG(II)
+      ENDDO
+      DEALLOCATE(T_MONVOLN%ELTG)
+      MY_ALLOCATE(T_MONVOLN%ELTG, (NTG + NTGI))
+      DO II = 1, NTG + NTGI
+         T_MONVOLN%ELTG(II) = ISAVE(II)
+      ENDDO
 !     Build edges of the elements
       MY_ALLOCATE(EDGE_ARRAY_N1, (3 * (NTG + NTGI)))
       MY_ALLOCATE(EDGE_ARRAY_N2, (3 * (NTG + NTGI)))
@@ -199,7 +209,7 @@ C-----------------------------------------------
       NTG_NEW = SUM(FLAG_ELEM(1:NTG))
       NTGI_NEW = SUM(FLAG_ELEM(NTG + 1:NTG + NTGI))
       
-      ALLOCATE(ELEM(3, NTG_NEW + NTGI_NEW))
+      MY_ALLOCATE2D(ELEM, 3, NTG_NEW + NTGI_NEW)
       IAD1 = 1
       DO II = 1, NTG + NTGI
          IF (FLAG_ELEM(II) == 1) THEN
@@ -208,11 +218,38 @@ C-----------------------------------------------
          ENDIF
       ENDDO
       DEALLOCATE(T_MONVOLN%ELEM)
+!     Resize and copy FVBAG_ELEMID
+      DO II = 1, NTG + NTGI
+         ISAVE(II) = T_MONVOLN%FVBAG_ELEMID(II)
+      ENDDO
+      DEALLOCATE(T_MONVOLN%FVBAG_ELEMID)
+      MY_ALLOCATE(T_MONVOLN%FVBAG_ELEMID, NTG_NEW + NTGI_NEW)
+      IAD1 = 1
+      DO II = 1, NTG + NTGI
+         IF (FLAG_ELEM(II) == 1) THEN
+            T_MONVOLN%FVBAG_ELEMID(IAD1) = ISAVE(II)
+            IAD1 = IAD1 + 1
+         ENDIF
+      ENDDO
+!     Resize and copy ELTG
+      DO II = 1, NTG + NTGI
+         ISAVE(II) = T_MONVOLN%ELTG(II)
+      ENDDO
+      DEALLOCATE(T_MONVOLN%ELTG)
+      MY_ALLOCATE(T_MONVOLN%ELTG, (NTG_NEW + NTGI_NEW))
+      IAD1 = 1
+      DO II = 1, NTG + NTGI
+         IF (FLAG_ELEM(II) == 1) THEN
+            T_MONVOLN%ELTG(IAD1) = ISAVE(II)
+            IAD1 = IAD1 + 1
+         ENDIF
+      ENDDO
+
       T_MONVOLN%NTG = NTG_NEW
       T_MONVOLN%NTGI = NTGI_NEW
       NTG = NTG_NEW
       NTGI = NTGI_NEW
-      ALLOCATE(T_MONVOLN%ELEM(3, NTG + NTGI))
+      MY_ALLOCATE2D(T_MONVOLN%ELEM, 3, NTG + NTGI)
       DO II = 1, NTG + NTGI
          T_MONVOLN%ELEM(1:3, II) = ELEM(1:3, II)
       ENDDO
@@ -223,6 +260,7 @@ C-----------------------------------------------
       CALL EDGE_FREE_MEMORY(EDGE_PTR)
       CALL INTVECTOR_DELETE(PAIR_VEC_PTR)
       CALL INTVECTOR_DELETE(LIST_PTR)
+      DEALLOCATE(ISAVE)
       DEALLOCATE(EDGE_ARRAY_N1)
       DEALLOCATE(EDGE_ARRAY_N2)
       DEALLOCATE(EDGE_ARRAY_ELEM)

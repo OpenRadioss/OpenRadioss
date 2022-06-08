@@ -138,26 +138,31 @@ C-----------------------------------------------
                   T_MONVOLN%ELEM(2, ITRI) = NODE2
                   T_MONVOLN%ELEM(3, ITRI) = NODE3
                   FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%EXT_SURFID)%ELEM(II)
+                  T_MONVOLN%ELTG(ITRI) = NUMELC + FVBAG_ELEMID(ITRI)
                CASE(1)
                   T_MONVOLN%ELEM(1, ITRI) = NODE1
                   T_MONVOLN%ELEM(2, ITRI) = NODE2
                   T_MONVOLN%ELEM(3, ITRI) = NODE4
                   FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%EXT_SURFID)%ELEM(II)
-               CASE(2)
+                  T_MONVOLN%ELTG(ITRI) = NUMELC + FVBAG_ELEMID(ITRI)
+              CASE(2)
                   T_MONVOLN%ELEM(1, ITRI) = NODE2
                   T_MONVOLN%ELEM(2, ITRI) = NODE3
                   T_MONVOLN%ELEM(3, ITRI) = NODE1
                   FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%EXT_SURFID)%ELEM(II)
-               CASE(3)
+                  T_MONVOLN%ELTG(ITRI) = NUMELC + FVBAG_ELEMID(ITRI)
+              CASE(3)
                   T_MONVOLN%ELEM(1, ITRI) = NODE3
                   T_MONVOLN%ELEM(2, ITRI) = NODE4
                   T_MONVOLN%ELEM(3, ITRI) = NODE2
                   FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%EXT_SURFID)%ELEM(II)
+                  T_MONVOLN%ELTG(ITRI) = NUMELC + FVBAG_ELEMID(ITRI)
                CASE(4)
                   T_MONVOLN%ELEM(1, ITRI) = NODE4
                   T_MONVOLN%ELEM(2, ITRI) = NODE1
                   T_MONVOLN%ELEM(3, ITRI) = NODE3
                   FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%EXT_SURFID)%ELEM(II)
+                  T_MONVOLN%ELTG(ITRI) = NUMELC + FVBAG_ELEMID(ITRI)
                END SELECT
                ITRI = ITRI + 1
             ENDDO
@@ -182,6 +187,7 @@ C-----------------------------------------------
                   T_MONVOLN%ELEM(2, ITRI) = NODE2
                   T_MONVOLN%ELEM(3, ITRI) = NODE3
                   FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%INT_SURFID)%ELEM(II)
+                  T_MONVOLN%ELTG(ITRI) = NUMELC + FVBAG_ELEMID(ITRI)
                   ITRI = ITRI + 1
                ENDDO
             ENDIF
@@ -334,42 +340,65 @@ C-----------------------------------------------
                      T_MONVOLN%ELEM(2, ITRI) = SPLITTED_QUAD(6 * (IQUAD - 1) + 2)
                      T_MONVOLN%ELEM(3, ITRI) = SPLITTED_QUAD(6 * (IQUAD - 1) + 3)
                      FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%EXT_SURFID)%ELEM(II)
+                     T_MONVOLN%ELTG(ITRI) = FVBAG_ELEMID(ITRI)
                      ITRI = ITRI + 1
                      T_MONVOLN%ELEM(1, ITRI) = SPLITTED_QUAD(6 * (IQUAD - 1) + 4)
                      T_MONVOLN%ELEM(2, ITRI) = SPLITTED_QUAD(6 * (IQUAD - 1) + 5)
                      T_MONVOLN%ELEM(3, ITRI) = SPLITTED_QUAD(6 * (IQUAD - 1) + 6)
                      FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%EXT_SURFID)%ELEM(II)
-                  ELSE
+                     T_MONVOLN%ELTG(ITRI) = FVBAG_ELEMID(ITRI)
+                 ELSE
                      ITRI = ITRI + 1
                      T_MONVOLN%ELEM(1, ITRI) = NODE1
                      T_MONVOLN%ELEM(2, ITRI) = NODE2
                      T_MONVOLN%ELEM(3, ITRI) = NODE3
                      FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%EXT_SURFID)%ELEM(II)
-                  ENDIF
+                     T_MONVOLN%ELTG(ITRI) = NUMELC + FVBAG_ELEMID(ITRI)
+                 ENDIF
                CASE(1)
                   ITRI = ITRI + 1
                   T_MONVOLN%ELEM(1, ITRI) = NODE1
                   T_MONVOLN%ELEM(2, ITRI) = NODE2
                   T_MONVOLN%ELEM(3, ITRI) = NODE4
                   FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%EXT_SURFID)%ELEM(II)
+                  IF (ITYPE == 7) THEN
+                     T_MONVOLN%ELTG(ITRI) = NUMELC + FVBAG_ELEMID(ITRI)
+                  ELSE
+                     T_MONVOLN%ELTG(ITRI) = FVBAG_ELEMID(ITRI)
+                  ENDIF
                CASE(2)
                   ITRI = ITRI + 1
                   T_MONVOLN%ELEM(1, ITRI) = NODE2
                   T_MONVOLN%ELEM(2, ITRI) = NODE3
                   T_MONVOLN%ELEM(3, ITRI) = NODE1
                   FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%EXT_SURFID)%ELEM(II)
+                  IF (ITYPE == 7) THEN
+                     T_MONVOLN%ELTG(ITRI) = NUMELC + FVBAG_ELEMID(ITRI)
+                  ELSE
+                     T_MONVOLN%ELTG(ITRI) = FVBAG_ELEMID(ITRI)
+                  ENDIF
                CASE(3)
                   ITRI = ITRI + 1
                   T_MONVOLN%ELEM(1, ITRI) = NODE3
                   T_MONVOLN%ELEM(2, ITRI) = NODE4
                   T_MONVOLN%ELEM(3, ITRI) = NODE2
                   FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%EXT_SURFID)%ELEM(II)
+                  IF (ITYPE == 7) THEN
+                     T_MONVOLN%ELTG(ITRI) = NUMELC + FVBAG_ELEMID(ITRI)
+                  ELSE
+                     T_MONVOLN%ELTG(ITRI) = FVBAG_ELEMID(ITRI)
+                  ENDIF
                CASE(4)
                   ITRI = ITRI + 1
                   T_MONVOLN%ELEM(1, ITRI) = NODE4
                   T_MONVOLN%ELEM(2, ITRI) = NODE1
                   T_MONVOLN%ELEM(3, ITRI) = NODE3
                   FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%EXT_SURFID)%ELEM(II)
+                  IF (ITYPE == 7) THEN
+                     T_MONVOLN%ELTG(ITRI) = NUMELC + FVBAG_ELEMID(ITRI)
+                  ELSE
+                     T_MONVOLN%ELTG(ITRI) = FVBAG_ELEMID(ITRI)
+                  ENDIF
                END SELECT
             ENDDO
             IF (NB_FILL_TRI > 0) THEN
@@ -398,17 +427,20 @@ C-----------------------------------------------
                      T_MONVOLN%ELEM(2, ITRI) = SPLITTED_QUAD(6 * (IQUAD - 1) + 2)
                      T_MONVOLN%ELEM(3, ITRI) = SPLITTED_QUAD(6 * (IQUAD - 1) + 3)
                      FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%INT_SURFID)%ELEM(II)
+                     T_MONVOLN%ELTG(ITRI) = FVBAG_ELEMID(ITRI)
                      ITRI = ITRI + 1
                      T_MONVOLN%ELEM(1, ITRI) = SPLITTED_QUAD(6 * (IQUAD - 1) + 4)
                      T_MONVOLN%ELEM(2, ITRI) = SPLITTED_QUAD(6 * (IQUAD - 1) + 5)
                      T_MONVOLN%ELEM(3, ITRI) = SPLITTED_QUAD(6 * (IQUAD - 1) + 6)
                      FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%INT_SURFID)%ELEM(II)
+                     T_MONVOLN%ELTG(ITRI) = FVBAG_ELEMID(ITRI)
                   ELSE
                      ITRI = ITRI + 1
                      T_MONVOLN%ELEM(1, ITRI) = NODE1
                      T_MONVOLN%ELEM(2, ITRI) = NODE2
                      T_MONVOLN%ELEM(3, ITRI) = NODE3
                      FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%INT_SURFID)%ELEM(II)
+                     T_MONVOLN%ELTG(ITRI) = NUMELC + FVBAG_ELEMID(ITRI)
                   ENDIF
                ENDDO
             ENDIF
@@ -485,37 +517,60 @@ C-----------------------------------------------
                   T_MONVOLN%ELEM(2, ITRI) = NODE2
                   T_MONVOLN%ELEM(3, ITRI) = NODE3
                   FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%EXT_SURFID)%ELEM(II)
+                  T_MONVOLN%ELTG(ITRI) = NUMELC + FVBAG_ELEMID(ITRI)
                ELSE
                   T_MONVOLN%ELEM(1, ITRI) = NODE1
                   T_MONVOLN%ELEM(2, ITRI) = NODE2
                   T_MONVOLN%ELEM(3, ITRI) = NODE4
                   FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%EXT_SURFID)%ELEM(II)
+                  T_MONVOLN%ELTG(ITRI) = FVBAG_ELEMID(ITRI)
                   ITRI = ITRI + 1
                   T_MONVOLN%ELEM(1, ITRI) = NODE2
                   T_MONVOLN%ELEM(2, ITRI) = NODE3
                   T_MONVOLN%ELEM(3, ITRI) = NODE4
                   FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%EXT_SURFID)%ELEM(II)
+                  T_MONVOLN%ELTG(ITRI) = FVBAG_ELEMID(ITRI)
                ENDIF
             CASE(1)
                T_MONVOLN%ELEM(1, ITRI) = NODE1
                T_MONVOLN%ELEM(2, ITRI) = NODE2
                T_MONVOLN%ELEM(3, ITRI) = NODE4
                FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%EXT_SURFID)%ELEM(II)
+               IF (ITYPE == 7) THEN
+                  T_MONVOLN%ELTG(ITRI) = NUMELC + FVBAG_ELEMID(ITRI)
+               ELSE
+                  T_MONVOLN%ELTG(ITRI) = FVBAG_ELEMID(ITRI)
+               ENDIF
             CASE(2)
                T_MONVOLN%ELEM(1, ITRI) = NODE2
                T_MONVOLN%ELEM(2, ITRI) = NODE3
                T_MONVOLN%ELEM(3, ITRI) = NODE1
                FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%EXT_SURFID)%ELEM(II)
+               IF (ITYPE == 7) THEN
+                  T_MONVOLN%ELTG(ITRI) = NUMELC + FVBAG_ELEMID(ITRI)
+               ELSE
+                  T_MONVOLN%ELTG(ITRI) = FVBAG_ELEMID(ITRI)
+               ENDIF
             CASE(3)
                T_MONVOLN%ELEM(1, ITRI) = NODE3
                T_MONVOLN%ELEM(2, ITRI) = NODE4
                T_MONVOLN%ELEM(3, ITRI) = NODE2
                FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%EXT_SURFID)%ELEM(II)
+               IF (ITYPE == 7) THEN
+                  T_MONVOLN%ELTG(ITRI) = NUMELC + FVBAG_ELEMID(ITRI)
+               ELSE
+                  T_MONVOLN%ELTG(ITRI) = FVBAG_ELEMID(ITRI)
+               ENDIF
             CASE(4)
                T_MONVOLN%ELEM(1, ITRI) = NODE4
                T_MONVOLN%ELEM(2, ITRI) = NODE1
                T_MONVOLN%ELEM(3, ITRI) = NODE3
                FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%EXT_SURFID)%ELEM(II)
+               IF (ITYPE == 7) THEN
+                  T_MONVOLN%ELTG(ITRI) = NUMELC + FVBAG_ELEMID(ITRI)
+               ELSE
+                  T_MONVOLN%ELTG(ITRI) = FVBAG_ELEMID(ITRI)
+               ENDIF
             END SELECT
             ITRI = ITRI + 1
          ENDDO
@@ -560,17 +615,20 @@ C-----------------------------------------------
                   T_MONVOLN%ELEM(2, ITRI) = NODE2
                   T_MONVOLN%ELEM(3, ITRI) = NODE3
                   FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%INT_SURFID)%ELEM(II)
+                  T_MONVOLN%ELTG(ITRI) = NUMELC + FVBAG_ELEMID(ITRI)
                   ITRI = ITRI + 1
                ELSE
                   T_MONVOLN%ELEM(1, ITRI) = NODE1
                   T_MONVOLN%ELEM(2, ITRI) = NODE2
                   T_MONVOLN%ELEM(3, ITRI) = NODE3
                   FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%INT_SURFID)%ELEM(II)
+                  T_MONVOLN%ELTG(ITRI) = FVBAG_ELEMID(ITRI)
                   ITRI = ITRI + 1
                   T_MONVOLN%ELEM(1, ITRI) = NODE1
                   T_MONVOLN%ELEM(2, ITRI) = NODE3
                   T_MONVOLN%ELEM(3, ITRI) = NODE4
                   FVBAG_ELEMID(ITRI) = IGRSURF(T_MONVOLN%INT_SURFID)%ELEM(II)
+                  T_MONVOLN%ELTG(ITRI) = FVBAG_ELEMID(ITRI)
                   ITRI = ITRI + 1
                ENDIF
             ENDDO
