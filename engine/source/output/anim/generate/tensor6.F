@@ -4615,7 +4615,8 @@ C
            ENDDO
           ENDIF
 c    
-         ELSEIF(ISOLNOD == 4 .AND. ISROT==0)THEN
+c----attention, ISROT=ITETRA4    
+         ELSEIF(ISOLNOD == 4 .AND. ISROT/=1)THEN
 c    
            DO I=LFT,LLT
              N = I + NFT
