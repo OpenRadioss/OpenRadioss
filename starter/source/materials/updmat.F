@@ -80,7 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPC(SNPC), FUNC_ID(NFUNC), IPM(NPROPMI,NUMMAT), LSENSOR(NSENSI,*)
+      INTEGER NPC(SNPC), FUNC_ID(*), IPM(NPROPMI,NUMMAT), LSENSOR(NSENSI,*)
       my_real PM(NPROPM,NUMMAT), PLD(STF),BUFMAT(SBUFMAT)
       TARGET IPM,BUFMAT
       TYPE(MLAW_TAG_), TARGET, DIMENSION(NUMMAT)  :: MLAW_TAG
