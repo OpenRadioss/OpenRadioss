@@ -271,7 +271,7 @@ Chd|====================================================================
 !     type = 10 /EBCS/NRF
 !     ----------------------
       type, public, extends(t_ebcs) :: t_ebcs_nrf
-      integer :: nbmat
+      integer :: nbmat=21
       my_real :: tcar_p = 0., tcar_vf = 1E20
       !my_real, dimension(:,:), allocatable :: phase_alpha      
       type(fvm_inlet_data_struct) :: fvm_inlet_data    
