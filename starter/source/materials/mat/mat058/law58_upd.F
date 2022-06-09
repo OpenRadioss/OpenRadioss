@@ -58,7 +58,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER*nchartitle  :: TITR
       INTEGER MAT_ID,IOUT,NFUNC,NFUNL,NUPARAM,NPTS
-      INTEGER NPC(SNPC), FUNC_ID(NFUNC),IFUNC(NFUNC+NFUNL), LSENSOR(NSENSI,*)
+      INTEGER NPC(SNPC), FUNC_ID(*),IFUNC(NFUNC+NFUNL), LSENSOR(NSENSI,*)
       my_real UPARAM(NUPARAM),PLD(STF),PM(NPROPM)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
