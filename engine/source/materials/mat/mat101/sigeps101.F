@@ -198,7 +198,7 @@ c
      . COEFF1, COEFF2, COEFF3, EXCHANGE, GAMV0, ROT, ps
      
       my_real
-     . TSEVEN,  SMALL, BIG, THO_THIRD, DS32, DS3, DS13, DKB, 
+     . TSEVEN,  SMALL, BIG,  DS32, DS3, DS13, DKB, 
      . DR
 
       my_real
@@ -705,7 +705,7 @@ C
         !CHECK PARAM
         !-----------------------------------------------------
         TWOMU0 = TWO*DMU
-        BULKA0 = DK - THO_THIRD*DMU
+        BULKA0 = DK - TWO_THIRD*DMU
         !-------------------------------------------------------------72
         !- AT THE BEGINNING OF THE STEP
         !-------------------------------------------------------------72

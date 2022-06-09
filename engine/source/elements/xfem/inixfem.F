@@ -81,21 +81,17 @@ C=======================================================================
       ITG1 = 1+NUMELC
       ITG2 = 1+4*ECRKXFEC
 C---
-!$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
-      ITSK = OMP_GET_THREAD_NUM()
-      NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
-      NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
+      NODFTSK   = 1
+      NODLTSK   = NUMNOD
       CALL CRK_COORD_INI(ADDCNE_CRK,INOD_CRK,NODFTSK,NODLTSK,X,NODLEVXF)
 c
       ! save nb elements connectes au noeud
-      
       DO I=NODFTSK,NODLTSK
          N = INOD_CRK(I)
          IF (N > 0) THEN
            KNOD2ELC(N) = ADDCNE_CRK(N+1)-ADDCNE_CRK(N)
          ENDIF
       ENDDO
-!$OMP END PARALLEL
 C---
       IF (NLEVSET == 0) RETURN   ! NUMCRACK = 0
 C---
@@ -104,8 +100,6 @@ C---
 c-----------------------------------------------------------------------------
 C     initialize element enrichments
 c-----------------------------------------------------------------------------
-C Boucle parallele dynamique SMP
-!$OMP DO SCHEDULE(DYNAMIC,1)
 c-----
         DO IG = 1, NGROUC
           NG = IGROUC(IG)
@@ -141,13 +135,9 @@ C---
 C---
           IF (IDDW > 0) CALL STOPTIMEG(NG)
         END DO
-c-----
-!$OMP END DO
 c-----------------------------------------------------------------------------
 C     Tag cut edges : CRKEDGE(ILAY)%ICUTEDGE(IEDGE)
 c-----------------------------------------------------------------------------
-C Boucle parallele dynamique SMP
-!$OMP DO SCHEDULE(DYNAMIC,1)
       DO IG = 1, NGROUC
         NG = IGROUC(IG)
         ITY   = IPARG(5,NG)
@@ -205,7 +195,6 @@ C---
         IF (IDDW.GT.0) CALL STOPTIMEG(NG)
  200  CONTINUE
       END DO
-!$OMP END DO
 c----------------------
       IF (NSPMD > 1) THEN
         FLAG = 2
