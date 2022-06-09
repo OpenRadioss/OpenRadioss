@@ -29,12 +29,7 @@ Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE FUNC_INTERS(TITR,MAT_ID  ,FUNC,FUND,FAC1,FAC2,NPC,PLD,XINT,YINT  )
-C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-      USE MESSAGE_MOD
-      USE TABLE_MOD
+      SUBROUTINE FUNC_INTERS(TITR,MAT_ID,FUNC1,FUNC2,FAC1,FAC2,NPC,PLD,XINT,YINT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,76 +39,84 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER*nchartitle :: TITR
-      !INTEGER  , DIMENSION(NFUNC)      :: IFUNC,FUNC_ID
-      INTEGER     FUNC,FUND,NPC(*) 
-      INTEGER  :: MAT_ID
-      my_real  
-     .            XINT,YINT,FAC1,FAC2,PLD(*)
-!      TYPE(TTABLE) TABLE(*)
+      INTEGER  :: MAT_ID,FUNC1,FUNC2
+      my_real  :: XINT,YINT,FAC1,FAC2
+      INTEGER  ,DIMENSION(SNPC) :: NPC 
+      my_real  ,DIMENSION(STF)  :: PLD
 C-----------------------------------------------
-      INTENT(IN)    :: TITR,FUNC,FUND,MAT_ID,NPC,PLD,FAC1,FAC2
+      INTENT(IN)    :: TITR,FUNC1,FUNC2,MAT_ID,NPC,PLD,FAC1,FAC2
       INTENT(INOUT) :: XINT,YINT 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,NP1,NP2,J1,K,K1
-      my_real 
-     .      S1,S2,T1,T2,X1,X2,Y1,Y2,SX,TY,DYDX,DTDS
+      INTEGER :: I,J,ID,NP1,NP2,J1,K,K1,FOUND
+      my_real :: S1,S2,T1,T2,X1,X2,Y1,Y2,AX,BX,AY,BY,CX,CY,DM,ALPHA,BETA
 C=======================================================================
-        !NFUNC =  IPM(10,IMAT)+IPM(6,IMAT)in updmat.f
-        !IFUNC => IPM(10+1:10+NFUNC,IMAT) in updmat.f
-! Calculation intersection
-          XINT = ZERO
-          YINT = ZERO
-          NP1  = (NPC(FUNC+1)-NPC(FUNC))*HALF  ! nb of points of the 1st curve
-          NP2  = (NPC(FUND+1)-NPC(FUND))*HALF  ! nb of points of the 2nd curve 
-          DO J=2,NP1+1
-            J1=2*(J-2)
-            S1=PLD(NPC(FUNC)+J1)
-            T1=PLD(NPC(FUNC)+J1+1)*FAC1
-            DO K=2,NP2+1
-              K1=2*(K-2)
-              X1=PLD(NPC(FUND)+K1)
-              Y1=PLD(NPC(FUND)+K1+1)*FAC2
-              IF (X1 == S1 .AND. Y1 == T1 .AND. X1> ZERO) THEN
-                XINT = X1
-                YINT = Y1
-                GOTO 350
+c     Check common points between 2 curves => intersection
+      XINT  = ZERO
+      YINT  = ZERO
+      FOUND = 0
+      NP1  = (NPC(FUNC1+1)-NPC(FUNC1))*HALF  ! nb of points of the 1st curve
+      NP2  = (NPC(FUNC2+1)-NPC(FUNC2))*HALF  ! nb of points of the 2nd curve 
+      DO J=2,NP1+1
+        J1=2*(J-2)
+        S1=PLD(NPC(FUNC1)+J1)
+        T1=PLD(NPC(FUNC1)+J1+1)*FAC1
+        DO K=2,NP2+1
+          K1=2*(K-2)
+          X1=PLD(NPC(FUNC2)+K1)
+          Y1=PLD(NPC(FUNC2)+K1+1)*FAC2
+          IF (X1 == S1 .AND. Y1 == T1 .AND. X1> ZERO) THEN
+            XINT  = X1
+            YINT  = Y1
+            FOUND = 1
+            EXIT
+          ENDIF
+        ENDDO
+        IF (FOUND == 1) EXIT
+      ENDDO
+c     Check intersection of curve segments
+      IF (FOUND == 0) THEN
+        DO J=2,NP1
+          J1=2*(J-2)
+          S1=PLD(NPC(FUNC1)+J1)
+          S2=PLD(NPC(FUNC1)+J1+2)
+          T1=PLD(NPC(FUNC1)+J1+1)*FAC1
+          T2=PLD(NPC(FUNC1)+J1+3)*FAC1
+          DO K=2,NP2
+            K1=2*(K-2)
+            X1=PLD(NPC(FUNC2)+K1)
+            X2=PLD(NPC(FUNC2)+K1+2)
+            Y1=PLD(NPC(FUNC2)+K1+1)*FAC2
+            Y2=PLD(NPC(FUNC2)+K1+3)*FAC2
+            IF (X2 < S1 .or. S2 < X1) CYCLE
+            AX = X2 - X1
+            AY = Y2 - Y1
+            BX = S1 - S2
+            BY = T1 - T2
+            DM = AY*BX - AX*BY
+            IF (DM /= ZERO) THEN  ! check if segments are not parallel
+              CX = S1 - X1
+              CY = T1 - Y1
+              ALPHA = (BX * CY - BY * CX) / DM
+              BETA  = (AX * CY - AY * CX) / DM
+              IF (ALPHA > ZERO .and. ALPHA < ONE .and.
+     .            BETA  < ZERO .and. BETA  >-ONE) THEN
+                XINT = X1 + ALPHA * AX
+                YINT = Y1 + ALPHA * AY
+                FOUND = 1
+                EXIT
               ENDIF
-            ENDDO
+            ENDIF
           ENDDO
-          DO J=2,NP1
-            J1=2*(J-2)
-            S1=PLD(NPC(FUNC)+J1)
-            S2=PLD(NPC(FUNC)+J1+2)
-            T1=PLD(NPC(FUNC)+J1+1)*FAC1
-            T2=PLD(NPC(FUNC)+J1+3)*FAC1
-            DO K=2,NP2
-              K1=2*(K-2)
-              X1=PLD(NPC(FUND)+K1)
-              X2=PLD(NPC(FUND)+K1+2)
-              Y1=PLD(NPC(FUND)+K1+1)*FAC2
-              Y2=PLD(NPC(FUND)+K1+3)*FAC2
-              IF(X1>=ZERO.AND.X2>=ZERO.AND.S1>=ZERO.AND.S2>=ZERO)THEN
-              IF (Y2>=T1 .AND. Y1<=T2 .AND. X2>=S1 .AND. X1<=S2) THEN
-                DYDX = (Y2-Y1) / (X2-X1)
-                DTDS = (T2-T1) / (S2-S1)
-                  SX = (T1-Y1-DTDS*S1+DYDX*X1) / (DYDX-DTDS)
-                  TY =  T1 + DTDS*(SX - S1)
-                  IF (TY>=Y1 .AND. TY<=Y2 .AND. SX>=X1 .AND. SX<=X2)THEN   
-                    XINT = SX
-                    YINT = TY
-                    GOTO 350
-                  ENDIF
-              ENDIF
-             ENDIF
-            ENDDO
-          ENDDO
- 350      CONTINUE
+          IF (FOUND == 1) EXIT
+        ENDDO
+      END IF
 c-----------
       RETURN
       END
