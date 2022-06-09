@@ -211,7 +211,9 @@ C     Getting rid of equivalences
             MT  =MTL
             IF(MT.EQ.0)MT=MAT(1)
             VDTO=PM(38,MT)
+            !---detonation time for screen points
             CALL ECRAN1(DETONATORS,N1,NP1,X)
+            !---detonation times for elements
             DO I=LFT,LLT
             IF(MTL.NE.MAT(I).AND.MTL.NE.0) CYCLE
               YD =DETONATORS%BURN(4,N)
