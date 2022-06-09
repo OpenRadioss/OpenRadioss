@@ -105,7 +105,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NSTEP,NCS,fct_IDsm,fct_IDps,fct_IDg12,fct_IDg13,
      .        fct_IDe1c,fct_IDel,Itab,tab_IDfld,int_tab_IDfld,Istrain,
-     .        Ismooth,NCRIT_MAX
+     .        Ismooth,NCRIT_MAX,IMINPRES,IMAXPRES,IMAXSIGP,IMAXTIME,
+     .        IMINDT,IMAXSIGVM,IMAXKF,IMAXEPS,IEFFEPS,IVOLEPS,IMINEPS,
+     .        IEPSSH,IMINTHIN,IMAXTEMP
       my_real 
      .        MINPRES,MAXPRES,SIGP1,TMAX,DTMIN,EPSDOT_SM,SIGVM,SIGTH,KF,
      .        EPSDOT_PS,MAXEPS,EFFEPS,VOLEPS,MINEPS,EPSSH,EPSDOT_FLD,
@@ -115,7 +117,23 @@ C-----------------------------------------------
 C=======================================================================
       IS_CRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
+      ! Initialization of the number of criteria
       NCRIT_MAX    = 0
+      ! Initialization of output flags
+      IMINPRES     = 0
+      IMAXPRES     = 0    
+      IMAXSIGP     = 0
+      IMAXTIME     = 0
+      IMINDT       = 0  
+      IMAXSIGVM    = 0
+      IMAXKF       = 0
+      IMAXEPS      = 0
+      IEFFEPS      = 0
+      IVOLEPS      = 0
+      IMINEPS      = 0
+      IEPSSH       = 0
+      IMINTHIN     = 0
+      IMAXTEMP     = 0
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
@@ -127,42 +145,74 @@ C===============================================================================
 ! -> Card1
 !---------------
       CALL HM_GET_FLOATV ('MAT_MINPRES'  ,MINPRES   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      IF (MINPRES /= ZERO) IMINPRES = 1
       CALL HM_GET_FLOATV ('MAT_MAXPRES'  ,MAXPRES   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      IF (MAXPRES /= ZERO) IMAXPRES = 1
       IF ((MINPRES /= ZERO).OR.(MAXPRES /= ZERO)) NCRIT_MAX = NCRIT_MAX + 1
       CALL HM_GET_FLOATV ('MAT_SIGP1'    ,SIGP1     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (SIGP1 /= ZERO) NCRIT_MAX = NCRIT_MAX + 1
+      IF (SIGP1 /= ZERO) THEN
+        NCRIT_MAX = NCRIT_MAX + 1
+        IMAXSIGP  = 1
+      ENDIF
       CALL HM_GET_FLOATV ('MAT_TMAX'     ,TMAX      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (TMAX  /= ZERO) NCRIT_MAX = NCRIT_MAX + 1
+      IF (TMAX  /= ZERO) THEN 
+        NCRIT_MAX = NCRIT_MAX + 1
+        IMAXTIME  = 1
+      ENDIF
       CALL HM_GET_FLOATV ('MAT_DTMIN'    ,DTMIN     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (DTMIN /= ZERO) NCRIT_MAX = NCRIT_MAX + 1
+      IF (DTMIN /= ZERO) THEN
+        NCRIT_MAX = NCRIT_MAX + 1
+        IMINDT    = 1
+      ENDIF
 !---------------
 ! -> Card2
 !---------------
       CALL HM_GET_INTV   ('fct_IDsm'     ,fct_IDsm  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('MAT_EPSDSM'   ,EPSDOT_SM ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('MAT_SIGVM'    ,SIGVM     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF ((SIGVM /= ZERO).OR.(fct_IDsm /= 0)) NCRIT_MAX = NCRIT_MAX + 1
+      IF ((SIGVM /= ZERO).OR.(fct_IDsm /= 0)) THEN 
+        NCRIT_MAX = NCRIT_MAX + 1
+        IMAXSIGVM = 1
+      ENDIF
       CALL HM_GET_FLOATV ('MAT_SIGTH'    ,SIGTH     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('MAT_KF'       ,KF        ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF ((SIGTH /= ZERO).OR.(KF /= ZERO)) NCRIT_MAX = NCRIT_MAX + 1
+      IF ((SIGTH /= ZERO).OR.(KF /= ZERO)) THEN 
+        NCRIT_MAX = NCRIT_MAX + 1
+        IMAXKF    = 1
+      ENDIF
 !---------------
 ! -> Card3
 !---------------
       CALL HM_GET_INTV   ('fct_IDps'     ,fct_IDps  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('MAT_EPSDPS'   ,EPSDOT_PS ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('MAT_MAXEPS'   ,MAXEPS    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF ((MAXEPS /= ZERO).OR.(fct_IDps /= 0)) NCRIT_MAX = NCRIT_MAX + 1
+      IF ((MAXEPS /= ZERO).OR.(fct_IDps /= 0)) THEN 
+        NCRIT_MAX = NCRIT_MAX + 1
+        IMAXEPS   = 1
+      ENDIF
       CALL HM_GET_FLOATV ('MAT_EFFEPS'   ,EFFEPS    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (EFFEPS /= ZERO) NCRIT_MAX = NCRIT_MAX + 1
+      IF (EFFEPS /= ZERO) THEN 
+        NCRIT_MAX = NCRIT_MAX + 1
+        IEFFEPS   = 1
+      ENDIF
       CALL HM_GET_FLOATV ('MAT_VOLEPS'   ,VOLEPS    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (VOLEPS /= ZERO) NCRIT_MAX = NCRIT_MAX + 1
+      IF (VOLEPS /= ZERO) THEN 
+        NCRIT_MAX = NCRIT_MAX + 1
+        IVOLEPS   = 1
+      ENDIF
 !---------------
 ! -> Card4
 !---------------
       CALL HM_GET_FLOATV ('MAT_MINEPS'   ,MINEPS    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (MINEPS /= ZERO) NCRIT_MAX = NCRIT_MAX + 1
+      IF (MINEPS /= ZERO) THEN 
+        NCRIT_MAX = NCRIT_MAX + 1
+        IMINEPS   = 1
+      ENDIF
       CALL HM_GET_FLOATV ('MAT_EPSSH'    ,EPSSH     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (EPSSH  /= ZERO) NCRIT_MAX = NCRIT_MAX + 1
+      IF (EPSSH  /= ZERO) THEN 
+        NCRIT_MAX = NCRIT_MAX + 1
+        IEPSSH    = 1
+      ENDIF
       CALL HM_GET_INTV   ('fct_IDg12'    ,fct_IDg12 ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV   ('fct_IDg13'    ,fct_IDg13 ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV   ('fct_IDe1c'    ,fct_IDe1c ,IS_AVAILABLE,LSUBMODEL)
@@ -185,7 +235,10 @@ C===============================================================================
       CALL HM_GET_INTV   ('Ismooth'      ,Ismooth   ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV   ('Istrain'      ,Istrain   ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('MAT_THIN'     ,THIN      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (THIN /= ZERO) NCRIT_MAX = NCRIT_MAX + 1
+      IF (THIN /= ZERO) THEN 
+        NCRIT_MAX = NCRIT_MAX + 1
+        IMINTHIN  = 1
+      ENDIF 
 !---------------
 ! -> Card6
 !---------------
@@ -193,7 +246,10 @@ C===============================================================================
       CALL HM_GET_FLOATV ('Pthk'         ,PTHK      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV   ('MAT_NCS'      ,NCS       ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('MAT_MAXTEMP'  ,MAXTEMP   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (MAXTEMP /= ZERO) NCRIT_MAX = NCRIT_MAX + 1      
+      IF (MAXTEMP /= ZERO) THEN 
+        NCRIT_MAX = NCRIT_MAX + 1      
+        IMAXTEMP  = 1
+      ENDIF
 !---------------
 ! -> Card7
 !---------------
@@ -352,107 +408,139 @@ c--------------------------
       IF (IS_CRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
+        ! Title of the failure criterion
         WRITE(IOUT,1000)
+        ! Number of criteria setup in the input
+        WRITE(IOUT,1001) NCRIT_MAX
+        ! Number of criteria to reach for element deletion
+        WRITE(IOUT,1002) NCS
+        ! Definition of the criteria
+        WRITE(IOUT,1003)
         ! Card 1
-        WRITE(IOUT,1100) MINPRES,MAXPRES,SIGP1,TMAX,DTMIN
+        IF (IMINPRES == 1) WRITE(IOUT,1100) MINPRES
+        IF (IMAXPRES == 1) WRITE(IOUT,1101) MAXPRES
+        IF (IMAXSIGP == 1) WRITE(IOUT,1102) SIGP1
+        IF (IMAXTIME == 1) WRITE(IOUT,1103) TMAX
+        IF (IMINDT   == 1) WRITE(IOUT,1104) DTMIN
         ! Card 2 
-        IF (fct_IDsm > 0) THEN 
-          WRITE(IOUT,2000) fct_IDsm,EPSDOT_SM,SIGVM,SIGTH,KF
-        ELSE
-          WRITE(IOUT,2100) SIGVM,SIGTH,KF
+        IF (IMAXSIGVM == 1) THEN 
+          IF (fct_IDsm > 0) THEN 
+            WRITE(IOUT,2000) fct_IDsm,EPSDOT_SM,SIGVM
+          ELSE
+            WRITE(IOUT,2100) SIGVM
+          ENDIF
         ENDIF
+        IF (IMAXKF == 1) WRITE(IOUT,2001) SIGTH,KF
         ! Card 3
-        IF (fct_IDps > 0) THEN 
-          WRITE(IOUT,3000) fct_IDps,EPSDOT_PS,MAXEPS,EFFEPS,VOLEPS
-        ELSE
-          WRITE(IOUT,3100) MAXEPS,EFFEPS,VOLEPS
+        IF (IMAXEPS == 1) THEN 
+          IF (fct_IDps > 0) THEN 
+            WRITE(IOUT,3000) fct_IDps,EPSDOT_PS,MAXEPS
+          ELSE
+            WRITE(IOUT,3100) MAXEPS
+          ENDIF
         ENDIF
+        IF (IEFFEPS == 1) WRITE(IOUT,3001) EFFEPS
+        IF (IVOLEPS == 1) WRITE(IOUT,3002) VOLEPS
         ! Card 4
-        WRITE(IOUT,4000) MINEPS,EPSSH
+        IF (IMINEPS == 1)  WRITE(IOUT,4000) MINEPS
+        IF (IEPSSH  == 1)  WRITE(IOUT,4001) EPSSH
         IF (fct_IDg12 > 0) WRITE(IOUT,4100) fct_IDg12
         IF (fct_IDg13 > 0) WRITE(IOUT,4200) fct_IDg13
         IF (fct_IDe1c > 0) WRITE(IOUT,4300) fct_IDe1c
         ! Card 5
         IF (tab_IDfld > 0) THEN 
-          WRITE(IOUT,5000) tab_IDfld,Itab,EPSDOT_FLD,NSTEP,
-     .                     Ismooth,Istrain,THIN 
-        ELSE
-          WRITE(IOUT,5100) NSTEP,Ismooth,Istrain,THIN
+          WRITE(IOUT,5000) tab_IDfld,Itab,EPSDOT_FLD,
+     .                     Ismooth,Istrain
         ENDIF
+        IF (IMINTHIN == 1) WRITE(IOUT,5002) THIN
         ! Card 6
-        WRITE(IOUT,6000) VOLFRAC,PTHK,NCRIT_MAX,NCS,MAXTEMP
+        IF (IMAXTEMP == 1) WRITE(IOUT,6001) MAXTEMP
         ! Card 7
         IF (fct_IDel > 0) WRITE(IOUT,7000) fct_IDel,Fscale_el
         IF (((fct_IDel > 0).OR.(fct_IDg12 > 0).OR.(fct_IDg13 > 0).OR.(fct_IDe1c > 0)
      .    .OR.(tab_IDfld > 0.AND.Itab == 2))) WRITE(IOUT,7100) El_ref
+        ! Element deletion properties
+        WRITE(IOUT,7101)
+        WRITE(IOUT,6000) VOLFRAC,PTHK
+        WRITE(IOUT,5001) NSTEP
         WRITE(IOUT,8000)
       ENDIF
 c-----------------------------------------------------
  1000 FORMAT(
-     & 5X,' ----------------------------------------------------',/
+     & 5X,' ----------------------------------------------------',/,
      & 5X,'              FAILURE CRITERION : GENE1              ',/,
      & 5X,' ----------------------------------------------------',/)
+ 1001 FORMAT(
+     & 5X,'NUMBER OF CRITERIA SPECIFIED IN THE INPUT. . . . . .=',I10,/)
+ 1002 FORMAT(
+     & 5X,'NUMBER OF CRITERIA TO REACH FOR ELEMENT DELETION . .=',I10,/)
+ 1003 FORMAT(
+     & 5X,'SPECIFIED ELEMENT DELETION CRITERIA:',/,
+     & 5X,'------------------------------------',/)
  1100 FORMAT(
-     & 5X,'Minimum pressure (positive in compression) . . . . .=',1PG20.13,/,
-     & 5X,'Maximum pressure (psotivie in compression) . . . . .=',1PG20.13,/,         
-     & 5X,'Maximum principal stress . . . . . . . . . . . . . .=',1PG20.13,/,
-     & 5X,'Failure time . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/,
-     & 5X,'Minimum time step  . . . . . . . . . . . . . . . . .=',1PG20.13,/)
+     & 5X,'MINIMUM PRESSURE (POSITIVE IN COMPRESSION) . . . . .=',1PG20.13,/)
+ 1101 FORMAT(
+     & 5X,'MAXIMUM PRESSURE (POSITIVE IN COMPRESSION) . . . . .=',1PG20.13,/) 
+ 1102 FORMAT(        
+     & 5X,'MAXIMUM PRINCIPAL STRESS . . . . . . . . . . . . . .=',1PG20.13,/)
+ 1103 FORMAT(
+     & 5X,'FAILURE TIME . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/)
+ 1104 FORMAT(
+     & 5X,'MINIMUM TIME STEP  . . . . . . . . . . . . . . . . .=',1PG20.13,/)
  2000 FORMAT(
-     & 5X,'Function ID for eq. stress VS strain-rate  . . . . .=',I10,/,
-     & 5X,'Reference strain-rate  . . . . . . . . . . . . . . .=',1PG20.13,/
-     & 5X,'Equivalent stress scale factor . . . . . . . . . . .=',1PG20.13,/
-     & 5X,'Initial stress for Tuler-Butcher criterion . . . . .=',1PG20.13,/
-     & 5X,'Critical Tuler-Butcher integral value  . . . . . . .=',1PG20.13,/)
+     & 5X,'FUNCTION ID FOR EQ. STRESS VS STRAIN-RATE  . . . . .=',I10,/,
+     & 5X,'REFERENCE STRAIN-RATE  . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'EQUIVALENT STRESS SCALE FACTOR . . . . . . . . . . .=',1PG20.13,/)
+ 2001 FORMAT(
+     & 5X,'INITIAL STRESS FOR TULER-BUTCHER CRITERION . . . . .=',1PG20.13,/
+     & 5X,'CRITICAL TULER-BUTCHER INTEGRAL VALUE  . . . . . . .=',1PG20.13,/)
  2100 FORMAT(
-     & 5X,'Maximum equivalent stress  . . . . . . . . . . . . .=',1PG20.13,/
-     & 5X,'Initial stress for Tuler-Butcher criterion . . . . .=',1PG20.13,/
-     & 5X,'Critical Tuler-Butcher integral value  . . . . . . .=',1PG20.13,/)
+     & 5X,'MAXIMUM EQUIVALENT STRESS  . . . . . . . . . . . . .=',1PG20.13,/)
  3000 FORMAT(
-     & 5X,'Function ID for princ. strain VS strain-rate . . . .=',I10,/,
-     & 5X,'Reference strain-rate  . . . . . . . . . . . . . . .=',1PG20.13,/
-     & 5X,'Principal strain scale factor  . . . . . . . . . . .=',1PG20.13,/
-     & 5X,'Maximum effective strain . . . . . . . . . . . . . .=',1PG20.13,/
-     & 5X,'Maximum volumetric strain  . . . . . . . . . . . . .=',1PG20.13,/)
+     & 5X,'FUNCTION ID FOR PRINC. STRAIN VS STRAIN-RATE . . . .=',I10,/,
+     & 5X,'REFERENCE STRAIN-RATE  . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'PRINCIPAL STRAIN SCALE FACTOR  . . . . . . . . . . .=',1PG20.13,/)
+ 3001 FORMAT(
+     & 5X,'MAXIMUM EFFECTIVE STRAIN . . . . . . . . . . . . . .=',1PG20.13,/)
+ 3002 FORMAT(
+     & 5X,'MAXIMUM VOLUMETRIC STRAIN  . . . . . . . . . . . . .=',1PG20.13,/)
  3100 FORMAT(
-     & 5X,'Maximum principal strain . . . . . . . . . . . . . .=',1PG20.13,/
-     & 5X,'Maximum effective strain . . . . . . . . . . . . . .=',1PG20.13,/
-     & 5X,'Maximum volumetric strain  . . . . . . . . . . . . .=',1PG20.13,/)
+     & 5X,'MAXIMUM PRINCIPAL STRAIN . . . . . . . . . . . . . .=',1PG20.13,/)
  4000 FORMAT(
-     & 5X,'Minimum principal strain . . . . . . . . . . . . . .=',1PG20.13,/
-     & 5X,'Tensorial shear strain at failure. . . . . . . . . .=',1PG20.13,/)
+     & 5X,'MINIMUM PRINCIPAL STRAIN . . . . . . . . . . . . . .=',1PG20.13,/)
+ 4001 FORMAT(
+     & 5X,'TENSORIAL SHEAR STRAIN AT FAILURE. . . . . . . . . .=',1PG20.13,/)
  4100 FORMAT(
-     & 5X,'Function ID for max.in-plane shear VS el.size  . . .=',I10,/)
+     & 5X,'FUNCTION ID FOR MAX.IN-PLANE SHEAR VS EL.SIZE  . . .=',I10,/)
  4200 FORMAT(
-     & 5X,'Function ID for max.transverse shear VS el.size  . .=',I10,/)
+     & 5X,'FUNCTION ID FOR MAX.TRANSVERSE SHEAR VS EL.SIZE  . .=',I10,/)
  4300 FORMAT(
-     & 5X,'Function ID for in-plane major strain VS el.size . .=',I10,/)
+     & 5X,'FUNCTION ID FOR IN-PLANE MAJOR STRAIN VS EL.SIZE . .=',I10,/)
  5000 FORMAT(
-     & 5X,'Table ID for Forming Limit Diagram . . . . . . . . .=',I10,/,
-     & 5X,'Flag for table dependency  . . . . . . . . . . . . .=',I10,/,
-     & 5X,'   = 1 : forming limit diagram VS strain-rate        ',/,
-     & 5X,'   = 2 : forming limit diagram VS element size       ',/,
-     & 5X,'Reference strain-rate  . . . . . . . . . . . . . . .=',1PG20.13,/,
-     & 5X,'Number of cycles before element deletion . . . . . .=',I10,/,
-     & 5X,'Tabulated function interpolation flag  . . . . . . .=',I10,/,
-     & 5X,'Engineering / True input strain flag . . . . . . . .=',I10,/,
-     & 5X,'Shell thinning at failure  . . . . . . . . . . . . .=',1PG20.13,/)
- 5100 FORMAT(
-     & 5X,'Number of cycles before element deletion . . . . . .=',I10,/,
-     & 5X,'Tabulated function interpolation flag  . . . . . . .=',I10,/,
-     & 5X,'Engineering / True input strain flag . . . . . . . .=',I10,/,
-     & 5X,'Shell thinning at failure  . . . . . . . . . . . . .=',1PG20.13,/)
+     & 5X,'TABLE ID FOR FORMING LIMIT DIAGRAM . . . . . . . . .=',I10,/,
+     & 5X,'FLAG FOR TABLE DEPENDENCY  . . . . . . . . . . . . .=',I10,/,
+     & 5X,'   = 1 : FORMING LIMIT DIAGRAM VS STRAIN-RATE        ',/,
+     & 5X,'   = 2 : FORMING LIMIT DIAGRAM VS ELEMENT SIZE       ',/,
+     & 5X,'REFERENCE STRAIN-RATE  . . . . . . . . . . . . . . .=',1PG20.13,/,
+     & 5X,'TABULATED FUNCTION INTERPOLATION FLAG  . . . . . . .=',I10,/,
+     & 5X,'ENGINEERING / TRUE INPUT STRAIN FLAG . . . . . . . .=',I10,/)
+ 5001 FORMAT(
+     & 5X,'NUMBER OF CYCLES BEFORE ELEMENT DELETION . . . . . .=',I10,/)
+ 5002 FORMAT(
+     & 5X,'SHELL THINNING AT FAILURE  . . . . . . . . . . . . .=',1PG20.13,/)
  6000 FORMAT(
-     & 5X,'Volume fraction for solid element deletion . . . . .=',1PG20.13,/,
-     & 5X,'Shell thickness percentage of failure  . . . . . . .=',1PG20.13,/,
-     & 5X,'Number of criteria setup in the input. . . . . . . .=',I10,/,
-     & 5X,'Number of criteria to reach for element deletion . .=',I10,/,
-     & 5X,'Maximum temperature  . . . . . . . . . . . . . . . .=',1PG20.13,/)
+     & 5X,'VOLUME FRACTION FOR SOLID ELEMENT DELETION . . . . .=',1PG20.13,/,
+     & 5X,'SHELL THICKNESS PERCENTAGE OF FAILURE  . . . . . . .=',1PG20.13,/)
+ 6001 FORMAT(
+     & 5X,'MAXIMUM TEMPERATURE  . . . . . . . . . . . . . . . .=',1PG20.13,/)
  7000 FORMAT(
-     & 5X,'Regularization function ID . . . . . . . . . . . . .=',I10,/,
-     & 5X,'Scale factor for regularization function . . . . . .=',1PG20.13,/)
+     & 5X,'REGULARIZATION FUNCTION ID . . . . . . . . . . . . .=',I10,/,
+     & 5X,'SCALE FACTOR FOR REGULARIZATION FUNCTION . . . . . .=',1PG20.13,/)
  7100 FORMAT(
-     & 5X,'Reference Element Length . . . . . . . . . . . . . .=',1PG20.13,/)
+     & 5X,'REFERENCE ELEMENT LENGTH . . . . . . . . . . . . . .=',1PG20.13,/)
+ 7101 FORMAT(
+     & 5X,'ELEMENT DELETION PROPERTIES:',/,
+     & 5X,'----------------------------',/)
  8000 FORMAT(
      & 5X,' ----------------------------------------------------',//)
 c----------- 
