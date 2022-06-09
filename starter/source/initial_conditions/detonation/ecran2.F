@@ -70,13 +70,13 @@ C     CALCUL DU TEMPS DE DETO D'1 ELEMENT
 C---------------------------------------
 C     1) PAR RAPPORT AU DETONATEUR
 C---------------------------------------
-      DDMX=1.E30
+      DDMX=EP20
       IF(IOMBR(DETONATORS,X,IECR,DDMX).EQ.0)RETURN
 
 C-----------------------------------------
 C     2) PAR RAPPORT AUX POINTS DE L'ECRAN
 C-----------------------------------------
-      DTOS=EP30
+      DTOS=EP20
       
       NPE=DETONATORS%NPE
       DO J=1,NPE

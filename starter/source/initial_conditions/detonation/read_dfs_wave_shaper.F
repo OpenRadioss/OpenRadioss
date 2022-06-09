@@ -166,7 +166,8 @@ C-----------------------------------------------
       !        LISTING PRINTOUT         !                                                    
       !---------------------------------!                                                    
         I3=I3+1                                                                              
-        NPE = NODGRNR5(IGU ,IGS,IECRAN(N1),IGRNOD ,ITABM1 ,MESS)     
+        NPE = NODGRNR5(IGU ,IGS,IECRAN(N1),IGRNOD ,ITABM1 ,MESS) 
+              !Nodes in group are ordered from 1 to NPE. last point is the nearest from the detonation origin. Points are composing the screen lines (guard lines). Screen lines is the boundary of the obstacle (shadow area)
         DETONATORS%NPE=NPE   
         IF(IS_ENCRYPTED) WRITE(IOUT,1001)                    
         IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,1550) DET_ID,XC1,YC1,ZC1,ALT,MDET,IGU,NPE                                     

@@ -73,27 +73,30 @@ C-----------------------------------------------
       IFLG => DETONATORS%IECRAN(NP1+NPE:) 
       DTIME => DETONATORS%DECRAN(1:)    
 C---------------------------------------
-C     CALCUL DU TEMPS DE DETO DE L'ECRAN
+C     COMPUTING DETONATION TIMES OF THE SCREEN POINTS
 C---------------------------------------
-C     1) PAR RAPPORT AU DETONATEUR
+C     1) LIGHTENING FROM DETONATION ORIGIN
+C         check if the target can be directly lightened from detonation origin.
+C            yes if no crossing with the screen (IOMBR returns 0)
+C             no otherwise (IOMBR return 1)
 C---------------------------------------
-      DTOMIN=EP30
+      DTOMIN=EP20
       IORDR(1)=0
       
       DO I=1,NPE
-        DDMX  =EP30
+        DDMX  =EP20
         IFLG(I)=0
         II=IECR(I)
         YL=X(2,II)
         ZL=X(3,II)
         IF(IOMBR(DETONATORS,X,IECR,DDMX).EQ.0)THEN
-          DTIME(I)=DTO
+          DTIME(I)=DTO !DT0 is lightening time from function IOMBR
           IF(DTIME(I).LE.DTOMIN)THEN
             IORDR(1)=I
             DTOMIN=DTIME(I)
           ENDIF
         ELSE
-          DTIME(I)=EP30
+          DTIME(I)=EP20
         ENDIF
       END DO !I=1,NPE
       
@@ -104,19 +107,21 @@ C---------------------------------------
       ENDIF
       
 C-----------------------------------------
-C     2) PAR RAPPORT AUX POINTS DE L'ECRAN
+C     2) LIGHTENING SCREEN POINTS FROM SCREEN POINTS THEMSELVES
 C-----------------------------------------
       DO J=1,NPE-1
         JJ=IORDR(J)
         JJJ=IECR(JJ)
+        !define J as a new source. (J from N-1, N-2, ..., 1 ; first point is the nearest one from detonation origin)
         YD=X(2,JJJ)
         ZD=X(3,JJJ)
         DTO0=DTIME(JJ)
         IFLG(JJ)=1
-        DTOMIN=1.E30
+        DTOMIN=EP20
         DO I=1,NPE
+          ! check if I can be lightened from J (I from 1,2,...,N ; first node is the farthest one from detonation origin)
           IF(IFLG(I).EQ.1)CYCLE !I
-          DDMX  =1.E30
+          DDMX  =EP20
           II=IECR(I)
           YL=X(2,II)
           ZL=X(3,II)
