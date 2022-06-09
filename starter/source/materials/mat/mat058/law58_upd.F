@@ -238,6 +238,8 @@ c
           IF (XINT1 == ZERO .or. YINT1 == ZERO) THEN
             CALL ANCMSG(MSGID=1716 ,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_2,
      .                  I1 = MAT_ID,
+     .                  I2 = FUNC_ID(FUNC),                                               
+     .                  I3 = FUNC_ID(FUND),                                               
      .                  C1 = TITR  )
           ENDIF 
           UPARAM(36) = XINT1    
@@ -264,6 +266,8 @@ c
           IF (XINT1 == ZERO .or. YINT1 == ZERO) THEN
             CALL ANCMSG(MSGID=1716 ,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_2,
      .                  I1 = MAT_ID,
+     .                  I2 = FUNC_ID(FUNC),                                               
+     .                  I3 = FUNC_ID(FUND),                                               
      .                  C1 = TITR  )
           ENDIF 
           UPARAM(38) = XINT2    
@@ -283,10 +287,12 @@ c
      .         NPC    ,PLD    ,XINT1  ,YINT1  ,XINT2  ,YINT2  )
 c
           IF ((XINT1 == ZERO .or. YINT1 == ZERO .or. 
-     .        XINT2 == ZERO .or. YINT2 == ZERO) .or. 
-     .        XINT1 * XINT2 > 0) THEN
+     .         XINT2 == ZERO .or. YINT2 == ZERO) .or. 
+     .         XINT1 * XINT2 > 0) THEN
             CALL ANCMSG(MSGID=1716 ,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_2,
      .                  I1 = MAT_ID,
+     .                  I2 = FUNC_ID(FUNC),                                               
+     .                  I3 = FUNC_ID(FUND),                                               
      .                  C1 = TITR  )
           ENDIF 
 c          
