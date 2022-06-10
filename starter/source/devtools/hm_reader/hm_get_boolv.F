@@ -48,6 +48,7 @@ C     IS_AVAILABLE VALUE AVAILABLE IN MODEL OR NOT
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
+      USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_BOOL
       USE MESSAGE_MOD   
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -71,16 +72,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      LOGICAL(KIND=C_BOOL) :: C_BVAL
+      LOGICAL(KIND=C_BOOL) :: C_IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 C=======================================================================
 C--------------------------------------------------
-      BVAL = .FALSE.
+      C_BVAL = .FALSE.
+      C_IS_AVAILABLE = .FALSE.  
 C--------------------------------------------------
-      CALL CPP_GET_BOOLV(NAME(1:LEN_TRIM(NAME)),LEN_TRIM(NAME),BVAL,IS_AVAILABLE)
-c      print *,'bool value=',NAME(1:LEN_TRIM(NAME)),BVAL,IS_AVAILABLE
+      CALL CPP_GET_BOOLV(NAME(1:LEN_TRIM(NAME)),LEN_TRIM(NAME),C_BVAL,C_IS_AVAILABLE)
 C--------------------------------------------------
+      BVAL = C_BVAL
+      IS_AVAILABLE = C_IS_AVAILABLE
       RETURN
 C
       END

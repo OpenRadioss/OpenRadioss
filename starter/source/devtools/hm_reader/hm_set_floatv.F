@@ -47,6 +47,8 @@ C-----------------------------------------------
       USE MESSAGE_MOD       
       USE SUBMODEL_MOD
       USE UNITAB_MOD
+      USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_BOOL
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,13 +72,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      LOGICAL IS_AVAILABLE
+      LOGICAL(KIND=C_BOOL) :: C_IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 C=======================================================================
 C--------------------------------------------------
-        CALL CPP_SET_FLOATV(NAME(1:LEN_TRIM(NAME)),LEN_TRIM(NAME),RVAL,IS_AVAILABLE)
+        CALL CPP_SET_FLOATV(NAME(1:LEN_TRIM(NAME)),LEN_TRIM(NAME),RVAL,C_IS_AVAILABLE)
 C--------------------------------------------------                             
       RETURN
 C

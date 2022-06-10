@@ -493,6 +493,7 @@ C     UNITAB       UNIT ARRAY
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
+      USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_BOOL
       USE MESSAGE_MOD       
       USE SUBMODEL_MOD
 C-----------------------------------------------
@@ -520,6 +521,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,VALUE_TYPE,SUB_ID
+      LOGICAL(KIND=C_BOOL) C_IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -529,7 +531,8 @@ C--------------------------------------------------
       SUB_ID = 0
       IVAL = 0
 C--------------------------------------------------
-      CALL CPP_GET_INTV(NAME(1:LEN_TRIM(NAME)),LEN_TRIM(NAME),IVAL,SUB_ID,IS_AVAILABLE,VALUE_TYPE)
+      CALL CPP_GET_INTV(NAME(1:LEN_TRIM(NAME)),LEN_TRIM(NAME),IVAL,SUB_ID,C_IS_AVAILABLE,VALUE_TYPE)
+      IS_AVAILABLE = C_IS_AVAILABLE
 C--------------------------------------------------
 C      ID OFFSETS FOR //SUBMODEL 
 C--------------------------------------------------
