@@ -37,7 +37,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_INTER_TYPE18(
      1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
      3          IGRNOD     ,IGRSURF    ,IGRBRIC    ,XFILTR    ,FRIC_P   ,
-     3          IDDLEVEL   ,TITR, UNITAB, LSUBMODEL)
+     3          IDDLEVEL   ,TITR, UNITAB, LSUBMODEL,MULTI_FVM)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE UNITAB_MOD
+      USE MULTI_FVM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,6 +69,7 @@ C-----------------------------------------------
       my_real
      .   FRIGAP(*),FRIC_P(*),STFAC,XFILTR
       CHARACTER,INTENT(IN) :: TITR*nchartitle
+      TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM      
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
@@ -189,7 +191,7 @@ C------------------------------------------------------------
       IF(ISTIFF == 2) INTER18_AUTOPARAM = 1
       
 !===CHECK STRUCTURE:ISU2=SURF_ID                                                                                                      
-       IF(ISU2.EQ.0) THEN 
+       IF(ISU2 == 0) THEN 
              MSGTITL='LAGRANGIAN SURFACE IS EMPTY (SURF_ID)'
              !IF(IDDLEVEL==1)CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO, I1=NOINT,C1=TITR,C2=MSGTITL)
              CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO, I1=NOINT,C1=TITR,C2=MSGTITL)                
@@ -199,13 +201,19 @@ C------------------------------------------------------------
             INGR2USR => IGRSURF(1:NSURF)%ID  
             ISU2=NGR2USR(ISU2,INGR2USR,NSURF) 
             MSGTITL='SURFACE CANNOT BE FOUND (SURF_ID)' 
-            !IF(ISU2.EQ.0 .AND. IDDLEVEL==1)CALL ANCMSG(MSGID=1115, MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL) 
-            IF(ISU2.EQ.0)CALL ANCMSG(MSGID=1115, MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)             
+            !IF(ISU2 == 0 .AND. IDDLEVEL==1)CALL ANCMSG(MSGID=1115, MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL) 
+             IF(ISU1 == 0)THEN
+               MSGTITL='GROUP OF NODES CANNOT BE FOUND (GRNOD_ID)'
+               CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)
+             ELSEIF(MULTI_FVM%IS_USED)THEN            
+               MSGTITL='GRBRIC_id (COLUMN 3) MUST BE PROVIDED INSTEAD OF GRNOD_id (COLUMN 1)' 
+               CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)
+             ENDIF            
        ENDIF       
 !===CHECK ALE CELLS:ISU1=GRNOD_ID (old format) otherwise use Group of solids (GRBRIC_ID,GRQUAD_ID,GRTRIA_ID                           
           
-       IF(ISU1.NE.0 .AND. GRBRIC_ID.NE.0)GRBRIC_ID=0 ! Possible Istf flag defined in input (was removed from manuabecause Istf is always 1) 
-c          IF(ISU1.NE.0 .AND. GRBRIC_ID.NE.0)THEN                                                                          
+       IF(ISU1 /= 0 .AND. GRBRIC_ID /= 0)GRBRIC_ID=0 ! Possible Istf flag defined in input (was removed from manuabecause Istf is always 1) 
+c          IF(ISU1 /= 0 .AND. GRBRIC_ID /= 0)THEN                                                                          
 c             MSGTITL='YOU CANNOT DEFINE BOTH GRNOD_ID and GRBRIC_ID'                                                                       
 c             CALL ANCMSG(MSGID=1115,                                                                                                    
 c     .                   MSGTYPE=MSGERROR,  
@@ -214,21 +222,21 @@ c     .                   I1=NOINT,
 c     .                   C1=TITR,                                         
 c     .                   C2=MSGTITL)                                      
 c          ENDIF                                                           
-        IF(ISU1.NE.0)THEN                                                  
+        IF(ISU1 /= 0)THEN                                                  
             INGR2USR => IGRNOD(1:NGRNOD)%ID                                
             ISU1=NGR2USR(ISU1,INGR2USR,NGRNOD)                             
             IS1 =2  
              MSGTITL='GROUP OF NODES CANNOT BE FOUND (GRNOD_ID)' 
-             !IF(ISU1.EQ.0 .AND. IDDLEVEL==1)CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)
-             IF(ISU1.EQ.0)CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)             
+             !IF(ISU1 == 0 .AND. IDDLEVEL==1)CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)
+             IF(ISU1 == 0)CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)             
         ELSE                                                               
             !GRBRIC_ID,GRQUAD_ID,GRTRIA_ID                                 
-            IF(GRBRIC_ID.NE.0)THEN                                         
+            IF(GRBRIC_ID /= 0)THEN                                         
               INGR2USR => IGRBRIC(1:NGRBRIC)%ID                            
               GRBRIC_ID = NGR2USR(GRBRIC_ID,INGR2USR,NGRBRIC)              
               IS1 = 5                                                      
             ENDIF                                                          
-            IF(GRBRIC_ID.EQ.0) THEN                                        
+            IF(GRBRIC_ID == 0) THEN                                        
              MSGTITL='GROUP OF ALE CELLS IS EMPTY (GRBRIC_ID)'             
              !IF(IDDLEVEL==1)CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)
              CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)             
@@ -237,7 +245,7 @@ c          ENDIF
             ENDIF                                              
         ENDIF                                                  
 !===CHECK STFAC                                                
-        IF(STFAC.LE.ZERO .AND. ISTIFF==1)THEN                                  
+        IF(STFAC <= ZERO .AND. ISTIFF==1)THEN                                  
              MSGTITL='STIFFNESS VALUE MUST BE DEFINED (STFVAL)'
              !IF(IDDLEVEL==1)CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR, ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)  
              CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR, ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)                          
@@ -253,9 +261,9 @@ c          ENDIF
       ENDIF
       
 !===DEFAULT
-        IF(IBAG.LE.-1 .OR. IBAG.GE.4)IBAG=1
-        IF(IDEL7N.LE.-1 .OR. IDEL7N.GE.3)IDEL7N=0
-        IF(STFAC.EQ.ZERO)STFAC=ONE
+        IF(IBAG <= -1 .OR. IBAG >= 4)IBAG=1
+        IF(IDEL7N <= -1 .OR. IDEL7N >= 3)IDEL7N=0
+        IF(STFAC == ZERO)STFAC=ONE
         STFAC=-STFAC 
           
 !===STORAGE  
@@ -302,7 +310,7 @@ C------------------------------------------------------------
         FRIGAP(3)=STARTT
         FRIGAP(11)=STOPT
 
-        IF(BUMULT.EQ.ZERO)  BUMULT = BMUL0
+        IF(BUMULT == ZERO)  BUMULT = BMUL0
         FRIGAP(4)=BUMULT
 
 C FRIGAP(10) is initialized but used only in engine for storing number of couples candidates  
@@ -330,7 +338,7 @@ C
 
         !==OUTPUTS USER IDS FOR MAIN/SECONDARY DEFINITION
         WRITE(IOUT,3017)  
-        IF(GRBRIC_ID.GT.0)THEN
+        IF(GRBRIC_ID > 0)THEN
             WRITE(IOUT,6002)ISU3_user  !SECONDARY side from grbrick_id
         ELSE
             WRITE(IOUT,6001)ISU1_user  !SECONDARY side from grnod_id
@@ -347,7 +355,7 @@ C
           IF(STFAC > ZERO)WRITE(IOUT,3020)GAP                                                    
         ENDIF
         
-        IF(IDEL7N.NE.0) THEN
+        IF(IDEL7N /= 0) THEN
            WRITE(IOUT,'(A,A,I5/)')'    DELETION FLAG ON FAILURE OF MAIN ELEMENT','  (1:YES-ALL/2:YES-ANY) : ',IDEL7N
            IF(IDELKEEP == 1)THEN
              WRITE(IOUT,'(A)')    '    IDEL: DO NOT REMOVE NON-CONNECTED NODES FROM SECONDARY SURFACE'

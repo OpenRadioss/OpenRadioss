@@ -157,7 +157,7 @@ C--------------------------------------------------
 
          NB = NB+1
 C----------Multidomaines --> on ignore les interfaces et sous-interfaces non tagees--- 
-         IF (NSUBDOM.GT.0) THEN
+         IF (NSUBDOM > 0) THEN
            IF(TAGINT(NB)==0) CALL HM_SZ_R2R(TAGINT,NB,LSUBMODEL)
          ENDIF
 c
@@ -177,7 +177,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C CHECK IF READ OPTION IS /INTER/SUB
 C--------------------------------------------------
-        IF(KEY(1:LEN_TRIM(KEY)).EQ.'SUB') CYCLE 
+        IF(KEY(1:LEN_TRIM(KEY)) == 'SUB') CYCLE 
 C--------------------------------------------------
          NI=NI+1
 C                                      
@@ -195,7 +195,7 @@ C--------------------------------------------------
             EXIT
           ENDIF
       ENDDO
-      IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
+      IF (UID /= 0.AND.IFLAGUNIT == 0) THEN
            CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .  	       I2=UID,I1=NOINT,C1='INTERFACE',
      .  	       C2='INTERFACE',
@@ -218,7 +218,7 @@ C--------------------------------------------------
      2          IGRNOD      ,IGRSURF   ,ILAGM        ,UNITAB    ,NI          ,
      3          NOM_OPT     ,TITR      ,IGRBRIC      ,IGRSH3N   ,IGRTRUSS    ,       
      4          IDDLEVEL    ,NOINT     ,KEY          ,LSUBMODEL ,ITAB        ,
-     5          ITABM1      ,ISKN)
+     5          ITABM1      ,ISKN      ,MULTI_FVM)
 
         CASE ('LAGMUL')
 C---------------------------------------------------------------
@@ -254,7 +254,7 @@ C---------------------------------------------------------------
         END SELECT
 
          NOINT  = IPARI(15,NI)
-         IF (IPARI(71,NI).LE.0) THEN
+         IF (IPARI(71,NI) <= 0) THEN
            DO K=1,NI-1
              IF (NOINT == IPARI(15,K)) THEN
                  CALL ANCMSG(MSGID=117,
